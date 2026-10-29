@@ -2,7 +2,7 @@ name: CP7 S05 accessory category report Native10 and complete restore
 'on':
   push:
     branches:
-    - astra-a/s05-native10-qualification-20261029
+    - astra-a/s05-native10-import-argv-20261029
     paths:
     - .github/workflows/cp7-current-s05-native10.yml
     - scripts/current-s05-native10-qualification/**

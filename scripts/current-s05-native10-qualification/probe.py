@@ -40,7 +40,9 @@ def runtime():
 
 
 def check():
-    return runtime().admitted()
+    boundary = load('s05_source_import_arguments', HERE/'import_argv.py')
+    with boundary.source_import_arguments():
+        return runtime().admitted()
 
 
 def execute():

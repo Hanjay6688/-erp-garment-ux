@@ -47,7 +47,7 @@
   },
   "workflow_derivation": {
     "original_sha256": "e013bfb64da3dc55299c7273cdf1de0ee5d75dfd4df3be3a2e8fabae5d6ecca1",
-    "generated_sha256": "8efa3f01aabd93c1362020cab013a0959db0e255c968b87c23027de42ec0ce91",
+    "generated_sha256": "b4753798b87343817d0a63af1f51acf7d9d80f39098f95a8fbc61b11c002a986",
     "parent_step_count": 65,
     "child_step_count": 64,
     "replacements": [
@@ -84,7 +84,7 @@
       "push",
       "workflow_dispatch"
     ],
-    "root_publish_branch": "astra-a/s05-native10-qualification-20261029",
+    "root_publish_branch": "astra-a/s05-native10-import-argv-20261029",
     "automatic_on_default_or_other_branches": false,
     "unchanged_runtime_setup_clone_cleanup_and_package_gates": true
   },
@@ -110,5 +110,16 @@
     "validator": "scripts/current-s05-native10-qualification/owner_transfer/transition.py",
     "report_SQL_case_callbacks_UI_unchanged": true,
     "Native_executions": 0
+  },
+  "cli_import_successor": {
+    "local_base_head": "2834c9ada13a1f70f79bf67c62f5c7d3554e2cb5",
+    "failed_public_head": "b874783f57be809a867ce4d0806553a17c03243e",
+    "base_tree": "7f78cf2488afeca9d90a0d281a873c556dee082e",
+    "failure_run": 40928511140,
+    "failure_job": 123640384388,
+    "failure_stage": "SOURCE_ADMISSION_BEFORE_DATABASE",
+    "scope": "own probe.check argument context + source tests/evidence and fresh workflow leaf; no product/engine/oracle changes",
+    "root_publish_branch": "astra-a/s05-native10-import-argv-20261029",
+    "actual_Native_cases": 0
   }
 }

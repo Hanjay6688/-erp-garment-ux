@@ -31,6 +31,7 @@ def offline(repo=ROOT, here=HERE):
     if sha256((component/'SOURCE.json').read_bytes()).hexdigest() != config['S05_manifest_sha256']:
         raise ValueError('S05_BOUNDED_COMPONENT_DECLARATION_CHANGED')
     installer_transition = load('s05_offline_bounded_installer', here/'owner_transfer/transition.py').check(repo, here/'owner_transfer')
+    import_transition = load('s05_offline_import_arguments', here/'cli_import/transition.py').checked(repo, here/'cli_import')
     for path, digest in old['files'].items():
         if sha256((repo/path).read_bytes()).hexdigest() != digest:
             raise ValueError('S05_FROZEN_COMPONENT_OR_FIXTURE_CHANGED: '+path)
@@ -49,6 +50,7 @@ def offline(repo=ROOT, here=HERE):
                 frozen_component_and_fixture_files=len(old['files']), Native_case_ids=list(ids),
                 prerequisite=prerequisite, engine_derivation=derivation, Native_executions=0, database_calls=0,
                 installer_transition=installer_transition,
+                import_transition=import_transition,
                 production_go=False, independent_acceptance=False)
 
 

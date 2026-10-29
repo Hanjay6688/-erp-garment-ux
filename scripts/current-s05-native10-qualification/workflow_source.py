@@ -13,7 +13,7 @@ HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
 PATH = '.github/workflows/cp7-current-s05-native10.yml'
 PARENT_SHA256 = 'e013bfb64da3dc55299c7273cdf1de0ee5d75dfd4df3be3a2e8fabae5d6ecca1'
-ROOT_PUBLISH_BRANCH = 'astra-a/s05-native10-qualification-20261029'
+ROOT_PUBLISH_BRANCH = 'astra-a/s05-native10-import-argv-20261029'
 OLD_RUNTIME = 'Run fresh Native7 then actual race3 AuthHTTP1 and complete restoration'
 NEW_RUNTIME = 'Run unchanged S05 Native10, separate committed Native witness and complete restore'
 

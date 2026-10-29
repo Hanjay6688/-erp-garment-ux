@@ -1,0 +1,31 @@
+{
+  "contract": "cp7.s05-local-import-argv-controls.v1",
+  "status": "PASS_SOURCE_IMPORT_DOUBLES_ONLY",
+  "tests": 8,
+  "first_run": "PASS8/8",
+  "command": "PYTHONDONTWRITEBYTECODE=1 GIT_NO_LAZY_FETCH=1 python -m unittest discover -s scripts/current-s05-native10-qualification -p 'test_import_argv.py' -v",
+  "actual_own_CLI_parsers": [
+    "check.py --runtime",
+    "probe.py --check"
+  ],
+  "faithful_inherited_guard_path": "scripts/ow04-payment-used-restore-qualification/probe.py",
+  "faithful_inherited_guard_source_sha256": "f3c3e1be7ff9230a516427e97073199ed9fbf6220bcc8880f1d6a8c8483f181b",
+  "engine_and_lazy_admission": "EXPLICIT_NO_RUNTIME_IMPORT_DOUBLES",
+  "controls": [
+    "exact old failure reproduced for both flags",
+    "actual accepted CLI paths: immediate and lazy imports see argv0 only",
+    "caller object and contents restored",
+    "nested contexts restore",
+    "RuntimeError/SystemExit/KeyboardInterrupt restore",
+    "actual unknown flags rejected before runtime",
+    "lazy-import SystemExit restores through both actual parsers",
+    "runtime/execute/outer parsers AST unchanged"
+  ],
+  "full_inherited_runtime_source_admission": "NOT_RUN_BY_HELPER",
+  "Native_executions": 0,
+  "database_calls": 0,
+  "remote_calls": 0,
+  "CI_dispatch": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

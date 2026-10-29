@@ -21,7 +21,7 @@ Frozen snapshots were matched to `source_declaration.qualification.files` in the
 
 ## Actual path prepared for root
 
-1. New workflow runs only on root's deliberate publication to **`astra-a/s05-native10-qualification-20261029`** (this namespace/workflow paths only), or workflow_dispatch. It has no default-branch/other-branch trigger. The leaf push supports a new workflow path without changing main. Helper does not publish or dispatch. It inherits the exact historical workflow's runtime setup, pinned frozen materializations, prerequisite downloads, AB rebuild/alignment, isolated maintenance authority, clone and cleanup. Its65 parent steps become64: this child's mandatory complete vendor11 gate replaces the older vendor-specific backend/Native7 admission. Setup/clone/cleanup and every unaffected step are structurally equal and keep their order.
+1. New workflow runs only on root's deliberate publication to **`astra-a/s05-native10-import-argv-20261029`** (this namespace/workflow paths only), or workflow_dispatch. It has no default-branch/other-branch trigger. The leaf push supports a new workflow path without changing main. Helper does not publish or dispatch. It inherits the exact historical workflow's runtime setup, pinned frozen materializations, prerequisite downloads, AB rebuild/alignment, isolated maintenance authority, clone and cleanup. Its65 parent steps become64: this child's mandatory complete vendor11 gate replaces the older vendor-specific backend/Native7 admission. Setup/clone/cleanup and every unaffected step are structurally equal and keep their order.
 2. The exact package engine installs the whole vendor parent, proves preuse inverse and reinstalls. No unqualified SKU parent is selected.
 3. `component.py` proves S05 reader install/preuse inverse/reinstall/inverse, with full catalog/data/sequence equality. It then calls the retained Native `strict_group` on the **unchanged ten case closures and labels**; full actual responses/refusals remain in `actual_raw_reads`. Strict-group Original bytes, including any first business-day attempt, are copied unchanged with byte/hash receipts.
 4. The existing Native harness grants ERP USAGE. The sole API adaptation wraps the same `stage.reader_only` API inside existing `control.product_catalog`: it checks the actual schema ACL and temporarily removes exactly that one declared grant, runs the bounded install/inverse and unchanged reader verification/read, then restores the grant. Every other ACL change fails. Native fixture inputs, oracles and SQL are unchanged. This is actual ACL transition, not projected catalog verification.
@@ -61,7 +61,7 @@ Free note **selling price/receivable0** and BOM **per-GOOD reimbursement0** are 
 
 Still outside fresh claims: real HTTP/permission-race/browser, runtime source-hole/unallocated/UOM-loss counterfixtures, Afui normal free-category positive-cost path, S03 carry/period-expense implementation, menu wiring and independent acceptance. No production or full-audit claim is made. `production_go=false`, `independent_acceptance=false`.
 
-Local verification:19 offline controls PASS (derivation, retained-byte/semantic negatives, ACL ordering, strict-group completeness, target refusal, workflow structure, failed-Original preservation). File/source admission and Python AST/compile checks PASS. `--runtime`, Native10, real database, CI and hosted execution remain NOT RUN by the helper. The separately authorized local in-memory PGlite role/DDL suite passed8/8 with body checks disabled only in that fixture; it supplies no Native or report-runtime credit. The prior component's29 local contract/DOM tests are retained by unchanged source pins, not relabelled as a new run.
+Local verification:27 offline controls PASS (derivation, retained-byte/semantic negatives, ACL ordering, strict-group completeness, target refusal, workflow structure, failed-Original preservation). File/source admission and Python AST/compile checks PASS. `--runtime`, Native10, real database, CI and hosted execution remain NOT RUN by the helper. The separately authorized local in-memory PGlite role/DDL suite passed8/8 with body checks disabled only in that fixture; it supplies no Native or report-runtime credit. The prior component's29 local contract/DOM tests are retained by unchanged source pins, not relabelled as a new run.
 
 
 ## Installer successor from frozen200922
@@ -80,3 +80,21 @@ controls are distinct from the19 offline controls and Native10 (still0). The
 qualified vendor11 prerequisite, engine, workflow and all five package gates
 remain exact. The non-superuser CP7C/hosted installer profile remains
 unqualified. No production/full-audit acceptance is implied.
+
+
+## Import-argument successor after actual b874 source-admission failure
+
+Actual run40928511140/job123640384388 failed before database start because
+`check.py --runtime` reached an inherited module's no-arguments import guard.
+`probe.py --check` shared that boundary. Own `probe.check` now removes accepted
+outer flags only while importing the inherited runtime and its lazy admission,
+then restores the exact caller argv object/content for every exit. Unknown CLI
+flags remain rejected by unchanged outer parsers. Product/engine/cases/role
+installer and the original module guard remain exact. The new execution leaf
+is `astra-a/s05-native10-import-argv-20261029`; old public b874 stays frozen.
+
+See [cli_import/README.md](cli_import/README.md) for exact first-failure receipt,
+ZIP identity, scope and commands. The8 new tests use actual own parsers plus
+faithful old-guard import doubles, earning zero Native/database/runtime-import
+credit. Combined offline controls are27; full inherited runtime admission and
+Native10 remain for root's freshly selected run.

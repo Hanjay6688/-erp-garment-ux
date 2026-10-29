@@ -1,0 +1,416 @@
+{
+  "head": "b874783f57be809a867ce4d0806553a17c03243e",
+  "tree": "7f78cf2488afeca9d90a0d281a873c556dee082e",
+  "run_id": 40928511140,
+  "job_id": 123640384388,
+  "artifact_id": 12921067795,
+  "zip_bytes": 52724,
+  "zip_sha256": "390e35d82df83fcce83752f2b38305b24ec4c9adfd23afeb4a2905583e74c401",
+  "status": "FAILED_SOURCE_ADMISSION_BEFORE_DATABASE",
+  "Native_cases": 0,
+  "database_started": false,
+  "package_run": false,
+  "full_restore": "NOT_APPLICABLE_NO_DATABASE",
+  "terminal_excerpt": [
+    "2026-10-29T18:14:40.7334944Z         \"replacement\": \"Admit exact vendor41c backend3194 and frozen S05 component before database\"",
+    "2026-10-29T18:14:41.9565987Z ##[group]Run python '../auditor/scripts/current-s05-native10-qualification/check.py' --runtime",
+    "2026-10-29T18:14:42.1479742Z Current used-state restore accepts no arguments",
+    "2026-10-29T18:14:42.1603549Z ##[error]Process completed with exit code 1."
+  ],
+  "files": [
+    {
+      "path": "ARTIFACT_FETCH/0bdcc983ca1b45ecbbe35315403e88f8-1.json",
+      "bytes": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/0cdd9419592e498fafdc7ffad2d78799-1.json",
+      "bytes": 538
+    },
+    {
+      "path": "ARTIFACT_FETCH/0a0a053a516246bcbc3d2304d677e85a-1.json",
+      "bytes": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/0e84d7833f2742e4a8dc225c05e9dd12-1.json",
+      "bytes": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/10e757c043b8452faf25542faec314d8-1.json",
+      "bytes": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/14156fdbddc14bf699f8d7d2b1b4e679-1.json",
+      "bytes": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/15bec399944247488ba833e8171d0ae4-1.json",
+      "bytes": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/177f3020b36c4405bb7257b667a9d6de-1.json",
+      "bytes": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/1aea718fb6934d828f4d2a2715360183-1.json",
+      "bytes": 538
+    },
+    {
+      "path": "ARTIFACT_FETCH/1c53769b3cd9497fb4bbde6909e02734-1.json",
+      "bytes": 538
+    },
+    {
+      "path": "ARTIFACT_FETCH/1d08faa3e3c146f2a5e88f4964774d2b-1.json",
+      "bytes": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/1fba309054d24354b0ae0646566391e3-1.json",
+      "bytes": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/20af229d556846108e629440c56c15ec-1.json",
+      "bytes": 537
+    },
+    {
+      "path": "ARTIFACT_FETCH/2375deb8cd874132b33967d062f541cf-1.json",
+      "bytes": 537
+    },
+    {
+      "path": "ARTIFACT_FETCH/2867d62230d941c6b445c5ef4db4c791-1.json",
+      "bytes": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/2aa739bc2ef5412b84c1af6455322d93-1.json",
+      "bytes": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/2bafb1dfaa554a91a379678f2496f3d5-1.json",
+      "bytes": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/36584146e17e4a77941df5280a59155e-1.json",
+      "bytes": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/35864bf207d6465c8432542d629b25d1-1.json",
+      "bytes": 538
+    },
+    {
+      "path": "ARTIFACT_FETCH/36aae932c9b94c409c66363302fe95c8-1.json",
+      "bytes": 538
+    },
+    {
+      "path": "ARTIFACT_FETCH/37bb8dc8cc3c481eb06be468c8e69643-1.json",
+      "bytes": 537
+    },
+    {
+      "path": "ARTIFACT_FETCH/3d21d064b9274aaba3f5f850ab9e29b3-1.json",
+      "bytes": 538
+    },
+    {
+      "path": "ARTIFACT_FETCH/49e6ebc821be4d5f91c35a70a0129216-1.json",
+      "bytes": 538
+    },
+    {
+      "path": "ARTIFACT_FETCH/58348d90d5be407cb4c6f9c9b165ae55-1.json",
+      "bytes": 538
+    },
+    {
+      "path": "ARTIFACT_FETCH/585b3e4ed39446759720d020fc427e89-1.json",
+      "bytes": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/5aa656078f4d4dfda9bf9a4bd20602be-1.json",
+      "bytes": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/61ab6ee91d634b99934e9c4669c05213-1.json",
+      "bytes": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/690d79d3cca24e9c9d0a2584726de01e-1.json",
+      "bytes": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/6a154deeaf2b47a1a6388bc0707968c0-1.json",
+      "bytes": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/6a1f18c3fd774f5d863ed6e766bdccc7-1.json",
+      "bytes": 537
+    },
+    {
+      "path": "ARTIFACT_FETCH/6cd0fe92de314fc495d8d304dad34f53-1.json",
+      "bytes": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/6de46144fba041d49f66cefe7faad1f8-1.json",
+      "bytes": 536
+    },
+    {
+      "path": "ARTIFACT_FETCH/6e01c589a40c4e3a80eaa05105182ba6-1.json",
+      "bytes": 537
+    },
+    {
+      "path": "ARTIFACT_FETCH/6e16eb84bc7345b89eb78c7ed54811b2-1.json",
+      "bytes": 538
+    },
+    {
+      "path": "ARTIFACT_FETCH/6f75eae732a948b9a87f3baf964b1096-1.json",
+      "bytes": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/701d4e54d0ad4b0db2e5255ef05e8224-1.json",
+      "bytes": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/704d5c15c19a4a8795140c024361b8ee-1.json",
+      "bytes": 538
+    },
+    {
+      "path": "ARTIFACT_FETCH/706f2020759e492b9e45ea755a01a74a-1.json",
+      "bytes": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/7befef64926b4c90b69ef2de3845558e-1.json",
+      "bytes": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/74fefec7c1314f218f8c3348c93bd99e-1.json",
+      "bytes": 537
+    },
+    {
+      "path": "ARTIFACT_FETCH/82db385f73ed4720879218092736d66c-1.json",
+      "bytes": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/842de44798c14bac9cdcbfa81a54d4d4-1.json",
+      "bytes": 538
+    },
+    {
+      "path": "ARTIFACT_FETCH/87a72a4ec89e4dbaa0d16257b1e95b7f-1.json",
+      "bytes": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/892b012ab59c4ec4be7febbc910d4c5d-1.json",
+      "bytes": 537
+    },
+    {
+      "path": "ARTIFACT_FETCH/8d6d01ae72e246d685fb4cdc007bffa3-1.json",
+      "bytes": 537
+    },
+    {
+      "path": "ARTIFACT_FETCH/91d141f3893848aab95f250b680e2622-1.json",
+      "bytes": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/94247dfd416447bd851892297a4990cd-1.json",
+      "bytes": 538
+    },
+    {
+      "path": "ARTIFACT_FETCH/97ce559a21364fc9a68d354b271251bf-1.json",
+      "bytes": 537
+    },
+    {
+      "path": "ARTIFACT_FETCH/a3b122ab0b4342b4a075fcbe6802e811-1.json",
+      "bytes": 538
+    },
+    {
+      "path": "ARTIFACT_FETCH/a5c3ddc3314d4f12bff4a0af8cb8af00-1.json",
+      "bytes": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/a9078c40a9c6470f89c625a45f22868a-1.json",
+      "bytes": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/a9bac7896c9f4312861466767d28861e-1.json",
+      "bytes": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/ac23c9cb18be4a279f7c316f3414f782-1.json",
+      "bytes": 538
+    },
+    {
+      "path": "ARTIFACT_FETCH/ac8e0ec1843d4bc594b87e483354a472-1.json",
+      "bytes": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/ad88e204feeb4bc09077b915e506f871-1.json",
+      "bytes": 540
+    },
+    {
+      "path": "ARTIFACT_FETCH/adb16a5b47594ce49a117b7e152dcef7-1.json",
+      "bytes": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/ae04b63635fa4cf5a5913b44f82381d5-1.json",
+      "bytes": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/b0cb276ce5d849479f8a5d0bea5fabae-1.json",
+      "bytes": 538
+    },
+    {
+      "path": "ARTIFACT_FETCH/b1436b500eb84d6697189efe9f821ab7-1.json",
+      "bytes": 538
+    },
+    {
+      "path": "ARTIFACT_FETCH/b25ef699edd84735a24a069e58bd00dc-1.json",
+      "bytes": 538
+    },
+    {
+      "path": "ARTIFACT_FETCH/b5c2845e4d7c4781987309d9abe96740-1.json",
+      "bytes": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/b7610aaa6f704df4b1c57dd99990592d-1.json",
+      "bytes": 540
+    },
+    {
+      "path": "ARTIFACT_FETCH/b632f16404ad493e964355e3be7b5b2e-1.json",
+      "bytes": 537
+    },
+    {
+      "path": "ARTIFACT_FETCH/baef338e9af346a2b0ec9af52268b504-1.json",
+      "bytes": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/bb7a5f59ae7e4ef9962f5e23caca3fb8-1.json",
+      "bytes": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/bbc127d2819747cc8d1d7c95e3b880b4-1.json",
+      "bytes": 538
+    },
+    {
+      "path": "ARTIFACT_FETCH/bbc3dd9d6dd14b3b969d0bfb20875de5-1.json",
+      "bytes": 537
+    },
+    {
+      "path": "ARTIFACT_FETCH/bc96ea92732f4d3cab5f2b3d32b5c1ee-1.json",
+      "bytes": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/bcf3471893054d819fb2915d7faca3e9-1.json",
+      "bytes": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/bcfeeaf238b7499fbdf8b0c9fdd18c6f-1.json",
+      "bytes": 538
+    },
+    {
+      "path": "ARTIFACT_FETCH/bef4b8dd268f4559ab0c6f5185e9433c-1.json",
+      "bytes": 538
+    },
+    {
+      "path": "ARTIFACT_FETCH/c14042673cca4648a85145082c038182-1.json",
+      "bytes": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/c19bdbf1035c4cd8912dc7bdcdcb3957-1.json",
+      "bytes": 537
+    },
+    {
+      "path": "ARTIFACT_FETCH/c4692d2bc2a24327841f12dd80808b19-1.json",
+      "bytes": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/c9a1d326d8844cdfa6366ac671fc4353-1.json",
+      "bytes": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/d0d71743f22e4e9da036ab53d2f40bca-1.json",
+      "bytes": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/d7e1b0e034aa485f8327e9f47b98a463-1.json",
+      "bytes": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/d3935b44bef140eaa86df75ee259a241-1.json",
+      "bytes": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/db86a27fa1224046bc9b2bfde6f34fee-1.json",
+      "bytes": 537
+    },
+    {
+      "path": "ARTIFACT_FETCH/df9e99b7d7a14fee8b979537fc263c11-1.json",
+      "bytes": 540
+    },
+    {
+      "path": "ARTIFACT_FETCH/e0323fcd2d1b46e8a581c251c3d55fde-1.json",
+      "bytes": 537
+    },
+    {
+      "path": "ARTIFACT_FETCH/e08b6bb0ff5d407b8f9a9f63ade93cb9-1.json",
+      "bytes": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/e0b3722deb8e4c16a42feb3b5271aec9-1.json",
+      "bytes": 540
+    },
+    {
+      "path": "ARTIFACT_FETCH/e0ec4d42042d4119b334721f2b5359a1-1.json",
+      "bytes": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/e10d789434834ac88608bfeb426f2a8f-1.json",
+      "bytes": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/e1d6720a38c244c1a0bfea9610e3c49a-1.json",
+      "bytes": 538
+    },
+    {
+      "path": "ARTIFACT_FETCH/e35ed717b66048cca2ede40f1bf0afaa-1.json",
+      "bytes": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/eb1463f7934e4133a1135ee8aa0869a6-1.json",
+      "bytes": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/ec2264c8211a44a0ae75d041e75cae66-1.json",
+      "bytes": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/eb418453338a486d976701a80c8dc793-1.json",
+      "bytes": 537
+    },
+    {
+      "path": "ARTIFACT_FETCH/eca2b7fbba0c489690078021ed937d12-1.json",
+      "bytes": 538
+    },
+    {
+      "path": "ARTIFACT_FETCH/ed724b54cd114f8ca4e01702a068fae2-1.json",
+      "bytes": 536
+    },
+    {
+      "path": "ARTIFACT_FETCH/f171b994d72943e7b17a0c16f5f08d07-1.json",
+      "bytes": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/f37b2c92f15e471ea749f24c1155c1b2-1.json",
+      "bytes": 538
+    },
+    {
+      "path": "ARTIFACT_FETCH/f435a5854655424b9b1b39d291cac8d6-1.json",
+      "bytes": 538
+    },
+    {
+      "path": "ARTIFACT_FETCH/f4642408a1914c2d9f66912841ebc77e-1.json",
+      "bytes": 538
+    },
+    {
+      "path": "ARTIFACT_FETCH/fd2fa092335d418d92b8c519f3da7e8a-1.json",
+      "bytes": 539
+    },
+    {
+      "path": "FROZEN_SOURCE_WORKTREES.json",
+      "bytes": 2291
+    }
+  ],
+  "production_go": false,
+  "independent_acceptance": false
+}
