@@ -5946,3 +5946,43 @@ expected tidak dilonggarkan, tidak diulang tanpa perubahan hanya demi hijau.
 Offline547pin/3negativecontrol PASS,0DB. Admission/maintenance/rollback,
 AP HTTP/browser, AM/AN dan keputusan auditor punya penutup berbeda.
 Formal5/16, independent_acceptance=false, production_go=false.
+
+
+## A — Native961 6/7 dan installer D1 077: penerus konkret berjalan
+
+Native961/run40876528064 terminal INCOMPLETE: 6 PASS, 1 INCOMPLETE, missing0.
+Hapus padanan, FIFO/nonpadanan, perubahan stok/reservasi, inverse utuh dan
+aksesori legacy lulus. Mixed PO/nonPO ditolak STALE tepat sesudah preview.
+Reproduksi lokal membuktikan JSON timestamp dipengaruhi timezone pemanggil,
+sedangkan POST memakai UTC. Hanya dua SET UTC baru pada revision/preview dan
+comment; seluruh field, costing dan penjaga stale tetap. Mixed case asli
+diperkuat lima zona/all fields/caller setting dengan oracle jumlah, nilai,
+detektor dan inverse utuh. SQL15 lokal PASS; default10s setup Wasm pernah
+timeout, final setup30s hanya CLI, batas assertion/RPC tidak diubah. Lima
+Original961 byte persis tetap di retained961. Full22/data/sequence/roles/CP6/
+advisors pulih; writer_runtime=false, used guard belum teramati. Penerus
+21c69cf25/treea0d2c0da/run40906383684/job123562172212 sedang aktual Native7.
+
+D1 077/run40878236198 terminal INCOMPLETE sebelum kasus/preuse: parent vendor
+terpasang, public RPC dimiliki cp7_sales_write/read sehingga postgres tidak
+boleh menggantinya. Seluruh pemulihan lulus,0 Native case, writer_runtime=false.
+Empat Original persis disimpan di retained077. Perbaikan fd1c hanya mengubah
+composition.py (runtime tetap9 leaves); pemilik fungsi/ACL asli, role dan raw
+schema ACL dipulihkan. CREATE sementara hanya dalam transaksi pemasangan;
+NULL yang tidak didukung ditolak dahulu. Tujuh SQL bisnis, native_delta dan
+13 oracle byte identik. Kontrol metadata11/PGlite DDL10 PASS, adapter6 tetap.
+Penerus a99463ca/tree6ee5f681/run40910406598/job123576520573 menjalankan13 Native
+aktual. D/E lengkap serta Auth/browser tetap membutuhkan bukti tersendiri.
+
+Paket SKU23 tersedia PREPARED di cb75f0b0/tree630bd75b, cabang terpisah
+astra-a/sku-utc-combined-prepared-20261029:780 pins/53 paths/74 berkas Native21
+byte identik,20 kontrol gabungan PASS. Gate accepted_native7/pending_run_id=null;
+Native961 6/7 nyata ditolak. Setelah Native21 PASS, root mengikat Original dan
+package sebelum menjalankan Native7+cost3+race3+Native izin6+real Auth browser4.
+Kasus recovery membuktikan safety refusal, dengan group_recovery_supported=false.
+
+S05 kandidat e290 mempunyai13 berkas baru,29 kontrol lokal dan10 Native
+prepared; UI standalone belum dipasang. Helper menyiapkan qualifier atas vendor.
+E/Q3 berlanjut terpisah dan lifecycle pilihan per periode S03 D17-19C sedang
+diinventaris dari Native nyata. S06 tetap belum diputuskan. Formal5/16,
+independent_acceptance=false, production_go=false.

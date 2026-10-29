@@ -1,5 +1,5 @@
 {
-  "recorded_at_utc": "2026-10-29T13:04:42.797626+00:00",
+  "recorded_at_utc": "2026-10-29T16:25:45.515803+00:00",
   "role": "A finance writer/integrator replacing Claude; B remains separate production/planning writer",
   "slogan": [
     "VENI. VIDI. VICI. ERP. — I CONQUERED ERP.",
@@ -10,21 +10,20 @@
   "independent_acceptance": false,
   "running": [
     {
-      "scope": "SKU_PAIR_CONVERSION_NATIVE7_SUCCESSOR",
-      "head": "961c22f8d3fa6fd2c16a8932a23b6d3a347d0c98",
-      "tree": "63b22c8b764ec02f3aa4842b2309338e32e306b5",
-      "run_id": 40876528064,
-      "job_id": 123456663484,
-      "status": "IN_PROGRESS_NOT_PASS",
-      "branch": "astra-a/sku-pair-native-successor-20261029"
+      "scope": "SKU_NATIVE7_CANONICAL_UTC_SUCCESSOR",
+      "head": "21c69cf25defcee854beb08e998062d7e883d968",
+      "tree": "a0d2c0da83bf5dc29f2c6b2e02abe6d7ed68f89e",
+      "run_id": 40906383684,
+      "job_id": 123562172212,
+      "status": "IN_PROGRESS_NOT_PASS"
     },
     {
-      "scope": "CREDIT_D1_NATIVE13",
-      "head": "0770541c94937ee5013c8ea9ae607c99260d2993",
-      "tree": "b0f5a4d1ff6541874a09881519baacb86b91fa1f",
-      "run_id": 40878236198,
-      "status": "IN_PROGRESS_NOT_PASS",
-      "branch": "astra-a/credit-de-native13-20261029"
+      "scope": "D1_NATIVE13_EXACT_PUBLIC_OWNER_SUCCESSOR",
+      "head": "a99463ca3ea2f1a71b22f0354df83f1b5a42b71b",
+      "tree": "6ee5f681a9266aa851b9638beec6d586ddae0937",
+      "run_id": 40910406598,
+      "job_id": 123576520573,
+      "status": "IN_PROGRESS_NOT_PASS"
     }
   ],
   "actual_new_component": {
@@ -20079,7 +20078,7 @@
     "full_data_and_Auth_restored": true,
     "writer_runtime": false
   },
-  "active_priority": "Monitor two actual qualifiers to terminal and inspect Originals; only then combine SKU race3, Native permission waits6, real Auth browser4 and group cost followups. Continue E/Q3 and S05 report in isolated helpers; S03 financial choice lifecycle still open. No unchanged rerun for green.",
+  "active_priority": "Monitor UTC Native7 and D1 owner Native13 to terminal, verify exact Originals/full restoration/package, then open exact bound followups. New S05 qualifier and E/S03 lifecycle remain isolated; no same-failure rerun for green.",
   "actual_source6_20261029": {
     "status": "EXACT_ACTUAL_OW08_SOURCE6_ACCEPTABLE_TO_INTEGRATOR",
     "head": "42760534906c330353f9bb0f53d27db65b134626",
@@ -20288,5 +20287,96 @@
     "day5_prepared_only": true,
     "offline_source_pins": 547,
     "auditor_retirements_not_accepted_by_writer": true
+  },
+  "previous_running_snapshot_before_UTC_and_owner_repair": [
+    {
+      "scope": "SKU_PAIR_CONVERSION_NATIVE7_SUCCESSOR",
+      "head": "961c22f8d3fa6fd2c16a8932a23b6d3a347d0c98",
+      "tree": "63b22c8b764ec02f3aa4842b2309338e32e306b5",
+      "run_id": 40876528064,
+      "job_id": 123456663484,
+      "status": "IN_PROGRESS_NOT_PASS",
+      "branch": "astra-a/sku-pair-native-successor-20261029"
+    },
+    {
+      "scope": "CREDIT_D1_NATIVE13",
+      "head": "0770541c94937ee5013c8ea9ae607c99260d2993",
+      "tree": "b0f5a4d1ff6541874a09881519baacb86b91fa1f",
+      "run_id": 40878236198,
+      "status": "IN_PROGRESS_NOT_PASS",
+      "branch": "astra-a/credit-de-native13-20261029"
+    }
+  ],
+  "actual_sku961_six_pass_failure": {
+    "head": "961c22f8d3fa6fd2c16a8932a23b6d3a347d0c98",
+    "run_id": 40876528064,
+    "job_id": 123456663484,
+    "artifact_id": 12900878682,
+    "status": "INCOMPLETE",
+    "counts": {
+      "PASS": 6,
+      "INCOMPLETE": 1
+    },
+    "missing": [],
+    "group_raw_bytes": 22108,
+    "group_raw_sha256": "4316b706648de6af8953d170bbc61013d17ea9a25154294ad5c8a577514a30c1",
+    "outer_raw_bytes": 2995509,
+    "outer_raw_sha256": "8fee22b067735577eb0f5699838d0f2db8f0bfe83628b616f513dba0244d497b",
+    "full22_data_sequences_roles_CP6_advisors_restored": true,
+    "writer_runtime": false,
+    "used_guard_not_observed": true,
+    "root_cause": "Timestamp-bearing revision JSON inherited caller timezone; action runs UTC. Mixed PO/nonPO falsely stale.",
+    "retained_branch": "astra-a/sku-utc-fingerprint-native7-20261029",
+    "retained_path": "scripts/current-sku-pair-native-adapter/retained961",
+    "local_repair_proof": "SQL15, five caller zones, same fields and real stale guard; only local Wasm setup budget30s, assertion/RPC limits unchanged"
+  },
+  "actual_D1_077_installer_failure": {
+    "head": "0770541c94937ee5013c8ea9ae607c99260d2993",
+    "run_id": 40878236198,
+    "job_id": 123462513384,
+    "artifact_id": 12901290869,
+    "status": "INCOMPLETE",
+    "actual_Native_cases": 0,
+    "phase": "FIRST_FINANCE_DELTA_BEFORE_PREUSE_OR_CASES",
+    "raw_bytes": 545407,
+    "raw_sha256": "85eab800445af5297824a707429be75603c00aa616d7680df168304494620b55",
+    "error": "must be owner of function erp_cp7_correct_sales_return_v1",
+    "full22_data_sequences_roles_CP6_advisors_restored": true,
+    "writer_runtime": false,
+    "retained_branch": "astra-a/credit-d1-owner-native13-20261029",
+    "retained_path": "scripts/current-credit-de-native-qualification/retained077",
+    "repair": "Exact captured public cp7_sales_write/read owners, statement-scoped CREATE removed and raw schema ACL/prior role restored before census",
+    "business_SQL_native_delta_and_13_oracles_unchanged": true,
+    "local_metadata_controls": 11,
+    "local_Postgres_DDL_controls": 10
+  },
+  "prepared_SKU_UTC_combined23": {
+    "head": "cb75f0b0f249c041944b7d5f8422a472873745c5",
+    "tree": "630bd75bdbcba528bddbef519a7cf45dc56fe230",
+    "branch": "astra-a/sku-utc-combined-prepared-20261029",
+    "status": "PREPARED_CLOSED_NOT_RUNTIME_PASS",
+    "accepted_native7": null,
+    "pending_run_id": null,
+    "source_files": 780,
+    "declared_child_paths": 53,
+    "Native21_files_byte_identical": 74,
+    "local_combined_controls": 20,
+    "scope": {
+      "baseNative": 7,
+      "costNative": 3,
+      "conversion_races": 3,
+      "Native_administrative_permission_waits": 6,
+      "real_Auth_browser": 4
+    },
+    "group_recovery_supported": false
+  },
+  "S05_prepared_readonly_report": {
+    "local_commit": "e290de8b400151412d54f207fdafbbd881f25a9f",
+    "tests_local": 29,
+    "Native_cases_prepared": 10,
+    "actual_Native_cases": 0,
+    "UI_unmounted": true,
+    "scope": "Posted issues versus retained GOOD snapshots; missing historical unit/source is UNKNOWN, current BOM never substituted",
+    "source_accrual_zero_reimbursement_scope_requires_honest_Afui_coverage": true
   }
 }
