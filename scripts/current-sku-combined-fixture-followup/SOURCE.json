@@ -1,0 +1,347 @@
+{
+  "status": "PREPARED_UNIQUE_MASTER_FIXTURE_LOCAL_ONLY_NOT_NATIVE_PASS",
+  "base_head": "c163c1e9ff8f00b8dd8859c32aee0c2069766ad6",
+  "base_tree": "c986f32ad995d69ff1d0a5fba63689b543172f77",
+  "execution_branch": "astra-a/sku-combined-unique-fixture-20261029",
+  "unchanged_parent_files": 13569,
+  "files": {
+    ".github/workflows/cp7-sku-combined-unique-fixture.yml": {
+      "bytes": 32166,
+      "sha256": "812a4ac31cbd6f241a3ada25991dfc893aee8b751ef108a1beae3166ec93c37e"
+    },
+    "scripts/current-sku-combined-fixture-followup/.gitignore": {
+      "bytes": 19,
+      "sha256": "862263fa1f46c20f0d1e4dac5ffcc75abd55c08211b2c3864c5f8764b9d87793"
+    },
+    "scripts/current-sku-combined-fixture-followup/LOCAL_CHECKS.json": {
+      "bytes": 2347,
+      "sha256": "bca2955295697f0aff3842a5b2ef2f5ee1afe324520098073f89308105fd9e9d"
+    },
+    "scripts/current-sku-combined-fixture-followup/LOCAL_DIRECTED_PASS10.log": {
+      "bytes": 1799,
+      "sha256": "fc568bca77fc99a41db38f1e2132176b9a147ce9b62378fbaaad8af5d5baba58"
+    },
+    "scripts/current-sku-combined-fixture-followup/LOCAL_FIRST_FAILURE.txt": {
+      "bytes": 975,
+      "sha256": "d2a658c481597e960bbac28aaaec6ec8f595ad43fa79b0ebdd9d490ff5deae8e"
+    },
+    "scripts/current-sku-combined-fixture-followup/LOCAL_FOLLOWUP_PASS13.log": {
+      "bytes": 2279,
+      "sha256": "64a60518976568a1005d076791f0b65ddbe7930b693b0475fa22aa55d3477135"
+    },
+    "scripts/current-sku-combined-fixture-followup/LOCAL_FROZEN_AI.log": {
+      "bytes": 102,
+      "sha256": "56e03afda220e7ba78bbcecf9a2e53a0149cfc3e311fa10bbd01b25e8e5ba671"
+    },
+    "scripts/current-sku-combined-fixture-followup/LOCAL_FROZEN_BROWSER.log": {
+      "bytes": 101,
+      "sha256": "9e3618c465353a9e4a6828d5e621fa61c3754bf90d19d768cd975a69fc4289e2"
+    },
+    "scripts/current-sku-combined-fixture-followup/LOCAL_FROZEN_COMBINED.log": {
+      "bytes": 3573,
+      "sha256": "035a3c0ff24c84df6bfe369899f79fa75c68a3db5a4be3744a1e8e300589f64d"
+    },
+    "scripts/current-sku-combined-fixture-followup/LOCAL_FROZEN_CONCURRENCY.log": {
+      "bytes": 2041,
+      "sha256": "44c538dc4bf76294628d26e1977083c832b735869cf9ad96f4a129e49dff5f50"
+    },
+    "scripts/current-sku-combined-fixture-followup/LOCAL_FROZEN_COST.log": {
+      "bytes": 103,
+      "sha256": "4c979c0d06f0e9e2109df48cae7f69ac5d403754045b4cfe404fe744e7390b47"
+    },
+    "scripts/current-sku-combined-fixture-followup/LOCAL_FROZEN_NODE.log": {
+      "bytes": 1574,
+      "sha256": "cbb126336b5d6f4cd963059b98a9a2b252732b1e3d9edb698bba9656c8c3f086"
+    },
+    "scripts/current-sku-combined-fixture-followup/LOCAL_TEST_FIRST.log": {
+      "bytes": 4485,
+      "sha256": "a01353f37c549089eee580f45eea2d729768e6521f296631a5260368083fbadb"
+    },
+    "scripts/current-sku-combined-fixture-followup/PARENT_SOURCE.json": {
+      "bytes": 3621649,
+      "sha256": "2a9c9f943cfd96721165d9bcccf850bda63863ad815d0280e17ddf240b0d9413"
+    },
+    "scripts/current-sku-combined-fixture-followup/README.md": {
+      "bytes": 6833,
+      "sha256": "c073997c0f18c702c5852bef255c6de85afd8d1c0efca4bffd3c99793f15bd0c"
+    },
+    "scripts/current-sku-combined-fixture-followup/admission.py": {
+      "bytes": 1516,
+      "sha256": "49404842880c4f1994ea873f57a8c428b9fc6aae13dbd41ad2a026fd9bbd5c97"
+    },
+    "scripts/current-sku-combined-fixture-followup/auth_waits.py": {
+      "bytes": 410,
+      "sha256": "acd2d9e764e70297ad9e78fe689eec723d391b6e97879b6b26f1fc712dea230a"
+    },
+    "scripts/current-sku-combined-fixture-followup/bind.py": {
+      "bytes": 2622,
+      "sha256": "783afb504c5b4f51dc696eb2254d38f0e2313075b5c32afb8ced0f8e37805d9a"
+    },
+    "scripts/current-sku-combined-fixture-followup/browser.mjs": {
+      "bytes": 20444,
+      "sha256": "e4f49b2c58b62170f603a40fb211a8a7e64fe15661aa479c1ce11724e9c471f8"
+    },
+    "scripts/current-sku-combined-fixture-followup/browser_fixture.py": {
+      "bytes": 415,
+      "sha256": "876ee6d8bf579d6460f670b0ab34f5ae48b7c5e56f757c2736403ce0d284101e"
+    },
+    "scripts/current-sku-combined-fixture-followup/cases.mjs": {
+      "bytes": 566,
+      "sha256": "e9835a0fb9064b4816ab2cf7275fde9b1e71842f41227e45452abff80d13dcfd"
+    },
+    "scripts/current-sku-combined-fixture-followup/check.py": {
+      "bytes": 1045,
+      "sha256": "f1c8dc92052e4c72fe98eddb781bf35d315c4ad1ab2d981b3588ed0eb4af6734"
+    },
+    "scripts/current-sku-combined-fixture-followup/closure.py": {
+      "bytes": 2970,
+      "sha256": "89c1344d1e5221d6f7d586e2780c973c1323f3ba30f46b740e2b01c706122251"
+    },
+    "scripts/current-sku-combined-fixture-followup/concurrency.py": {
+      "bytes": 411,
+      "sha256": "e404c37a49b6d4430d961cc77fb5e4a754fc635fffaef21c75473ee4e69c5b19"
+    },
+    "scripts/current-sku-combined-fixture-followup/cost_cases.py": {
+      "bytes": 410,
+      "sha256": "f1f153133c910ba93cc4bbe6b3e2b8e5b280d44f0c8e4f74299be9dd31273fc0"
+    },
+    "scripts/current-sku-combined-fixture-followup/cost_native.py": {
+      "bytes": 411,
+      "sha256": "d4821c8bdd632bae3dfa80b090025c6c0786320e5efc0b94409d72edb2f0fd92"
+    },
+    "scripts/current-sku-combined-fixture-followup/derive.py": {
+      "bytes": 6796,
+      "sha256": "98fb38d279cbaef7778d86ce1aafe4a0d4bf48f7153cf174fe8886ba715922fc"
+    },
+    "scripts/current-sku-combined-fixture-followup/fixture.py": {
+      "bytes": 407,
+      "sha256": "e662bf6703a8794e084999a1613971566cfd7d64336ec21d992f1ba420e628e3"
+    },
+    "scripts/current-sku-combined-fixture-followup/probe.py": {
+      "bytes": 405,
+      "sha256": "030a7148393ac216b44007ddeecaa30ef5e733a8c15f1d4e55916c681cdbd197"
+    },
+    "scripts/current-sku-combined-fixture-followup/races.py": {
+      "bytes": 405,
+      "sha256": "728c2a110f8c7479bc319bceed1f526fb7eab23ed56eb66877e43b55e430f3f6"
+    },
+    "scripts/current-sku-combined-fixture-followup/recovery.py": {
+      "bytes": 5492,
+      "sha256": "7e8edbe030e0082bfaa824d7bf4487e9c85fc429c1b964bdf56a80d0c5afcba0"
+    },
+    "scripts/current-sku-combined-fixture-followup/retainedc163/CP7_SKU_COMBINED_FOLLOWUP23.json.gz": {
+      "bytes": 493184,
+      "sha256": "51c53486a1c24511f06a6023dba64183a7d898f2cdf2c1c672c60f7084740d32"
+    },
+    "scripts/current-sku-combined-fixture-followup/retainedc163/CP7_SKU_GROUP_COST_NATIVE3.json.gz": {
+      "bytes": 1922,
+      "sha256": "42abd335e7378bc5b14777dd7c1b18b76fff8e9367276f51de53f7c9754f0c9c"
+    },
+    "scripts/current-sku-combined-fixture-followup/retainedc163/CP7_SKU_PAIR_CONVERSION_NATIVE7.json.gz": {
+      "bytes": 4197,
+      "sha256": "a46a2fb40067786a6586fcfefb01f62603ac64e879fb39f1f8908e5156787aff"
+    },
+    "scripts/current-sku-combined-fixture-followup/retainedc163/RECEIPT.json": {
+      "bytes": 2298,
+      "sha256": "beb09b960c9f2298972dc6fcc51aa1bad3e5fc07fa3344386e7e4e085ba36abc"
+    },
+    "scripts/current-sku-combined-fixture-followup/retainedc163/T3_BACKUP_RESTORE_DRILL.json.gz": {
+      "bytes": 646,
+      "sha256": "96d3e567e10b788517f821d2098c151303f1d9c8dd6fdb4a78b1b67a749ae01d"
+    },
+    "scripts/current-sku-combined-fixture-followup/retainedc163/T3_PACKAGE_FILES_INSTALL.json.gz": {
+      "bytes": 255,
+      "sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7"
+    },
+    "scripts/current-sku-combined-fixture-followup/retainedc163/T3_PACKAGE_INSTALL.json.gz": {
+      "bytes": 11409,
+      "sha256": "88e132854efcd5c6052f96fb8d3e96016e5847f8cfdb390cab5a4e6f785aa49d"
+    },
+    "scripts/current-sku-combined-fixture-followup/runner.py": {
+      "bytes": 406,
+      "sha256": "bd21459f682b1caf6b1003b6095c071a6cd4614b17f5790c3cefdcfcbef02834"
+    },
+    "scripts/current-sku-combined-fixture-followup/test_followup.py": {
+      "bytes": 14263,
+      "sha256": "42ca1487a68a5c769a68d494096e7b0a880653645af88ce125e7f3f44a0cdb37"
+    },
+    "scripts/current-sku-combined-fixture-followup/workflow.py": {
+      "bytes": 1906,
+      "sha256": "a25c27e6dc786602ca9293dd56c991546ff77ac100fd9946ab215557d01c3dd6"
+    }
+  },
+  "allowed_changes": [
+    ".github/workflows/cp7-sku-combined-unique-fixture.yml",
+    "scripts/current-sku-combined-fixture-followup/.gitignore",
+    "scripts/current-sku-combined-fixture-followup/LOCAL_CHECKS.json",
+    "scripts/current-sku-combined-fixture-followup/LOCAL_DIRECTED_PASS10.log",
+    "scripts/current-sku-combined-fixture-followup/LOCAL_FIRST_FAILURE.txt",
+    "scripts/current-sku-combined-fixture-followup/LOCAL_FOLLOWUP_PASS13.log",
+    "scripts/current-sku-combined-fixture-followup/LOCAL_FROZEN_AI.log",
+    "scripts/current-sku-combined-fixture-followup/LOCAL_FROZEN_BROWSER.log",
+    "scripts/current-sku-combined-fixture-followup/LOCAL_FROZEN_COMBINED.log",
+    "scripts/current-sku-combined-fixture-followup/LOCAL_FROZEN_CONCURRENCY.log",
+    "scripts/current-sku-combined-fixture-followup/LOCAL_FROZEN_COST.log",
+    "scripts/current-sku-combined-fixture-followup/LOCAL_FROZEN_NODE.log",
+    "scripts/current-sku-combined-fixture-followup/LOCAL_TEST_FIRST.log",
+    "scripts/current-sku-combined-fixture-followup/PARENT_SOURCE.json",
+    "scripts/current-sku-combined-fixture-followup/README.md",
+    "scripts/current-sku-combined-fixture-followup/SOURCE.json",
+    "scripts/current-sku-combined-fixture-followup/admission.py",
+    "scripts/current-sku-combined-fixture-followup/auth_waits.py",
+    "scripts/current-sku-combined-fixture-followup/bind.py",
+    "scripts/current-sku-combined-fixture-followup/browser.mjs",
+    "scripts/current-sku-combined-fixture-followup/browser_fixture.py",
+    "scripts/current-sku-combined-fixture-followup/cases.mjs",
+    "scripts/current-sku-combined-fixture-followup/check.py",
+    "scripts/current-sku-combined-fixture-followup/closure.py",
+    "scripts/current-sku-combined-fixture-followup/concurrency.py",
+    "scripts/current-sku-combined-fixture-followup/cost_cases.py",
+    "scripts/current-sku-combined-fixture-followup/cost_native.py",
+    "scripts/current-sku-combined-fixture-followup/derive.py",
+    "scripts/current-sku-combined-fixture-followup/fixture.py",
+    "scripts/current-sku-combined-fixture-followup/probe.py",
+    "scripts/current-sku-combined-fixture-followup/races.py",
+    "scripts/current-sku-combined-fixture-followup/recovery.py",
+    "scripts/current-sku-combined-fixture-followup/retainedc163/CP7_SKU_COMBINED_FOLLOWUP23.json.gz",
+    "scripts/current-sku-combined-fixture-followup/retainedc163/CP7_SKU_GROUP_COST_NATIVE3.json.gz",
+    "scripts/current-sku-combined-fixture-followup/retainedc163/CP7_SKU_PAIR_CONVERSION_NATIVE7.json.gz",
+    "scripts/current-sku-combined-fixture-followup/retainedc163/RECEIPT.json",
+    "scripts/current-sku-combined-fixture-followup/retainedc163/T3_BACKUP_RESTORE_DRILL.json.gz",
+    "scripts/current-sku-combined-fixture-followup/retainedc163/T3_PACKAGE_FILES_INSTALL.json.gz",
+    "scripts/current-sku-combined-fixture-followup/retainedc163/T3_PACKAGE_INSTALL.json.gz",
+    "scripts/current-sku-combined-fixture-followup/runner.py",
+    "scripts/current-sku-combined-fixture-followup/test_followup.py",
+    "scripts/current-sku-combined-fixture-followup/workflow.py"
+  ],
+  "derivations": {
+    "fixture": {
+      "key": "fixture",
+      "source": "scripts/current-sku-pair-conversion-qualification/fixture.py",
+      "original_sha256": "707c579a2bd923466fd0badb2bd09897634501d18b42f8b87c553ba19559ad8e",
+      "derived_sha256": "9d7cfae86d679c7803514db886fc69c8cdc1c8eac2fcda5a3a298927227803b7",
+      "counted_changes": 1,
+      "byte_exact_reversible": true,
+      "assertions_removed": 0,
+      "administrative_name_changes": 1
+    },
+    "cost_native": {
+      "key": "cost_native",
+      "source": "scripts/current-sku-group-cost-qualification/native_fixture.py",
+      "original_sha256": "12871fbcf27caa62042c0bcd5b8c80ed81ae84ff014af64fdd26703853d51891",
+      "derived_sha256": "1e53418aa277f65c3b9a09f9cebbf1943ab6bc41e45d3c100ec891eaaec15447",
+      "counted_changes": 1,
+      "byte_exact_reversible": true,
+      "assertions_removed": 0,
+      "administrative_name_changes": 0
+    },
+    "cost_cases": {
+      "key": "cost_cases",
+      "source": "scripts/current-sku-group-cost-qualification/cases.py",
+      "original_sha256": "0536eda078071b8b9e87604ee1c722f34157c2b1d34adac8e6a483e5470a9e0c",
+      "derived_sha256": "98557973b2cdb06d3c25f951bae9810ffec2416dd2a75219a31ad1d500c8e580",
+      "counted_changes": 1,
+      "byte_exact_reversible": true,
+      "assertions_removed": 0,
+      "administrative_name_changes": 0
+    },
+    "races": {
+      "key": "races",
+      "source": "scripts/current-sku-pair-conversion-qualification/races.py",
+      "original_sha256": "10361a994d0d26357399f9f7625e5b1828bc8d02a796609b12ff7567e7a034e8",
+      "derived_sha256": "7854b15e736b268a4743f5374732475d734a6a35f05f504954c86b51ffb77d97",
+      "counted_changes": 1,
+      "byte_exact_reversible": true,
+      "assertions_removed": 0,
+      "administrative_name_changes": 0
+    },
+    "auth_waits": {
+      "key": "auth_waits",
+      "source": "scripts/current-sku-pair-conversion-qualification/auth_waits.py",
+      "original_sha256": "5e4e7d4d6f0e71da0817dec670d9e31b8bef9987f683eaf35c7ef198dbfec351",
+      "derived_sha256": "de8d896d8a179c10e0b1438d2f37d308b8e25d24a422e6524f4c7d1bd0e4a2e4",
+      "counted_changes": 1,
+      "byte_exact_reversible": true,
+      "assertions_removed": 0,
+      "administrative_name_changes": 0
+    },
+    "concurrency": {
+      "key": "concurrency",
+      "source": "scripts/current-sku-pair-concurrency-qualification/runner.py",
+      "original_sha256": "bae687cb3faffc08cfed294b0106b134d8ad3de11d36612a05212644eb3cad8c",
+      "derived_sha256": "8e944f2c7315c88ad16dd4b925c46a23f139ca2bd2388f5c039a74270d7f8deb",
+      "counted_changes": 2,
+      "byte_exact_reversible": true,
+      "assertions_removed": 0,
+      "administrative_name_changes": 0
+    },
+    "browser_fixture": {
+      "key": "browser_fixture",
+      "source": "scripts/current-sku-pair-browser-qualification/fixture.py",
+      "original_sha256": "4474517f582381deaffda79fb3a9bc187e55dc32e4b213e15ed372930cd91450",
+      "derived_sha256": "c0d7c52948e92ee55ab324844d2b71a5d0f32b605665837665dfa17c56ba3022",
+      "counted_changes": 1,
+      "byte_exact_reversible": true,
+      "assertions_removed": 0,
+      "administrative_name_changes": 0
+    },
+    "runner": {
+      "key": "runner",
+      "source": "scripts/current-sku-combined-followup-qualification/runner.py",
+      "original_sha256": "56da9dc93e51050e83fc2e8267f213a3c5ee3f506f92f8ec3ba471996b0fa8a2",
+      "derived_sha256": "6c2bfaf224f5b1b794e49eca020acee3701213734dc49120d2f52612779e4466",
+      "counted_changes": 3,
+      "byte_exact_reversible": true,
+      "assertions_removed": 0,
+      "administrative_name_changes": 0
+    },
+    "probe": {
+      "key": "probe",
+      "source": "scripts/current-sku-combined-followup-qualification/probe.py",
+      "original_sha256": "14556c5249689336eaa6bbb29302558238559a4f7274a32129f5bc615e824fae",
+      "derived_sha256": "0563561d21ddc635a1a6c839dcc506d33e2d4551e26cb4d56207a8b87165a0c5",
+      "counted_changes": 2,
+      "byte_exact_reversible": true,
+      "assertions_removed": 0,
+      "administrative_name_changes": 0
+    },
+    "historical_admission": {
+      "key": "historical_admission",
+      "source": "scripts/current-sku-combined-followup-qualification/admission.py",
+      "original_sha256": "f040f7a7020e0a3d5f811ca5f4508641c84dfa6eda34fd94fa4d74edee80af55",
+      "derived_sha256": "28a69a652c3274d4f0ac93602815cd964831d96f4fbc1240fc7c174841a44c09",
+      "counted_changes": 1,
+      "byte_exact_reversible": true,
+      "assertions_removed": 0,
+      "administrative_name_changes": 0
+    },
+    "browser": {
+      "key": "browser",
+      "source": "scripts/current-sku-pair-browser-qualification/browser.mjs",
+      "original_sha256": "436a3eb2ac8a75c1e6e6eeac1e9c3e49f9cb8b15d8cee833f8df9bfdf7ce313e",
+      "derived_sha256": "e4f49b2c58b62170f603a40fb211a8a7e64fe15661aa479c1ce11724e9c471f8",
+      "counted_changes": 2,
+      "byte_exact_reversible": true,
+      "assertions_removed": 0,
+      "administrative_name_changes": 0
+    },
+    "cases": {
+      "key": "cases",
+      "source": "scripts/current-sku-combined-followup-qualification/cases.mjs",
+      "original_sha256": "f7c8d60d65de3a543530e6c2039280b43a0c8c676725a21ca3fd8aa11d38ca57",
+      "derived_sha256": "e9835a0fb9064b4816ab2cf7275fde9b1e71842f41227e45452abff80d13dcfd",
+      "counted_changes": 1,
+      "byte_exact_reversible": true,
+      "assertions_removed": 0,
+      "administrative_name_changes": 0
+    }
+  },
+  "original_case_ids_and_financial_assertions_unchanged": true,
+  "original_full_package_engine_counted_changes": 5,
+  "additional_fixture_derivation_changes": 17,
+  "administrative_master_name_changes": 1,
+  "actual_successor_execution": false,
+  "group_recovery_supported": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

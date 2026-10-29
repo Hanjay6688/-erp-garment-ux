@@ -1,0 +1,14 @@
+First local preparation failure, before any database or business callback.
+The strict one-anchor derivation correctly rejected an ambiguous path anchor.
+The path occurs in both the unchanged ID plan and the runtime loader. The
+successor narrows the anchor to the exact runtime load expression; ID parsing
+stays on the frozen original. No fixture amount or assertion was changed.
+
+Traceback (most recent call last):
+  File "<stdin>", line 5, in <module>
+  File "/workspace/scratch/ef468a447ac6/erp-sku-combined-fixture-successor/scripts/current-sku-combined-fixture-followup/derive.py", line 104, in inventory
+    result = {key: derive(key)[1] for key in SOURCES}
+                   ^^^^^^^^^^^
+  File "/workspace/scratch/ef468a447ac6/erp-sku-combined-fixture-successor/scripts/current-sku-combined-fixture-followup/derive.py", line 78, in derive
+    raise ValueError('SKU_UNIQUE_EXACT_ONE_ANCHOR_REQUIRED:' + key)
+ValueError: SKU_UNIQUE_EXACT_ONE_ANCHOR_REQUIRED:concurrency

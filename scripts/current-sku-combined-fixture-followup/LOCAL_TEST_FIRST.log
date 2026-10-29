@@ -1,0 +1,44 @@
+test_complete_parent_inventory_and_current_bytes_not_selected_products (test_followup.ClosureAndWorkflow.test_complete_parent_inventory_and_current_bytes_not_selected_products) ... ok
+test_modified_frozen_file_cannot_be_accepted (test_followup.ClosureAndWorkflow.test_modified_frozen_file_cannot_be_accepted) ... ok
+test_workflow_keeps_every_install_auth_restore_artifact_step (test_followup.ClosureAndWorkflow.test_workflow_keeps_every_install_auth_restore_artifact_step) ... ok
+test_complete_twelve_module_sources_are_reversible_one_name_sixteen_routes (test_followup.Derivation.test_complete_twelve_module_sources_are_reversible_one_name_sixteen_routes) ... ok
+test_dispatch_graph_routes_every_downstream_chain_and_keeps_base_seven (test_followup.Derivation.test_dispatch_graph_routes_every_downstream_chain_and_keeps_base_seven) ... ok
+test_original_collision_and_derived_two_calls_coexist_with_committed_original (test_followup.Derivation.test_original_collision_and_derived_two_calls_coexist_with_committed_original) ... ok
+test_private_cost_race_wait_browser_modules_all_use_unique_fixture (test_followup.Derivation.test_private_cost_race_wait_browser_modules_all_use_unique_fixture) ... ERROR
+test_unchanged_five_change_package_engine_and_historical_endpoint (test_followup.Derivation.test_unchanged_five_change_package_engine_and_historical_endpoint) ... ok
+test_unknown_byte_and_ambiguous_anchor_refuse_without_rebinding (test_followup.Derivation.test_unknown_byte_and_ambiguous_anchor_refuse_without_rebinding) ... ok
+test_actual_first_failure_is_lossless_and_recovered_but_never_full_pass (test_followup.Evidence.test_actual_first_failure_is_lossless_and_recovered_but_never_full_pass) ... FAIL
+test_c163_outer_and_fresh_seven_cannot_replace_terminal_prerequisite (test_followup.Evidence.test_c163_outer_and_fresh_seven_cannot_replace_terminal_prerequisite) ... ok
+test_exact_terminal21c_prerequisite_still_admits_zero_fresh_credit (test_followup.Evidence.test_exact_terminal21c_prerequisite_still_admits_zero_fresh_credit) ... ok
+test_partial_restore_or_relabelled_failure_is_detected (test_followup.Evidence.test_partial_restore_or_relabelled_failure_is_detected) ... ok
+
+======================================================================
+ERROR: test_private_cost_race_wait_browser_modules_all_use_unique_fixture (test_followup.Derivation.test_private_cost_race_wait_browser_modules_all_use_unique_fixture)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/ef468a447ac6/erp-sku-combined-fixture-successor/scripts/current-sku-combined-fixture-followup/test_followup.py", line 143, in test_private_cost_race_wait_browser_modules_all_use_unique_fixture
+    module.custom_group_products(cur)
+  File "/workspace/scratch/ef468a447ac6/erp-sku-combined-fixture-successor/scripts/current-sku-pair-conversion-qualification/fixture.py", line 69, in custom_group_products
+    admin(cur);model,brand=str(uuid.uuid4()),str(uuid.uuid4());tag=uuid.uuid4().hex[:10]
+    ^^^^^^^^^^
+  File "/workspace/scratch/ef468a447ac6/erp-sku-combined-fixture-successor/scripts/current-sku-pair-conversion-qualification/fixture.py", line 18, in admin
+    def admin(cur):b.api.admin(cur)
+                   ^^^^^
+AttributeError: 'types.SimpleNamespace' object has no attribute 'api'
+
+======================================================================
+FAIL: test_actual_first_failure_is_lossless_and_recovered_but_never_full_pass (test_followup.Evidence.test_actual_first_failure_is_lossless_and_recovered_but_never_full_pass)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/ef468a447ac6/erp-sku-combined-fixture-successor/scripts/current-sku-combined-fixture-followup/test_followup.py", line 188, in test_actual_first_failure_is_lossless_and_recovered_but_never_full_pass
+    result = recovery.observe(self.values)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/ef468a447ac6/erp-sku-combined-fixture-successor/scripts/current-sku-combined-fixture-followup/recovery.py", line 59, in observe
+    assert all(outer['restore_components'].values()) and outer['advisor_delta'] == {}
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError
+
+----------------------------------------------------------------------
+Ran 13 tests in 16.810s
+
+FAILED (failures=1, errors=1)

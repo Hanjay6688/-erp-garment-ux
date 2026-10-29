@@ -1,0 +1,71 @@
+{
+  "status": "LOCAL70_PASS_PREPARED_NOT_NATIVE_AUTH_BROWSER_PASS",
+  "directed_new_checks": {
+    "PASS": 10
+  },
+  "frozen_local_checks": {
+    "combined": 20,
+    "concurrency": 12,
+    "cost_oracle": 5,
+    "browser_plan": 3,
+    "node_evidence_and_AI_plan": 13,
+    "AI_fixture_plan": 4
+  },
+  "syntax": {
+    "derived_Python_complete_modules": 10,
+    "derived_JavaScript": 2
+  },
+  "first_preparation_refusal": "LOCAL_FIRST_FAILURE.txt",
+  "first_local13_result": "LOCAL_TEST_FIRST.log",
+  "actual_database_opened": false,
+  "actual_successor_Native_cases": 0,
+  "actual_successor_race_cases": 0,
+  "actual_successor_Auth_browser_cases": 0,
+  "actual_successor_execution": false,
+  "group_recovery_supported": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "new_followup_local_checks": {
+    "PASS": 13
+  },
+  "total_unique_final_local_checks": 70,
+  "logs": {
+    "LOCAL_DIRECTED_PASS10.log": {
+      "bytes": 1799,
+      "sha256": "fc568bca77fc99a41db38f1e2132176b9a147ce9b62378fbaaad8af5d5baba58"
+    },
+    "LOCAL_FOLLOWUP_PASS13.log": {
+      "bytes": 2279,
+      "sha256": "64a60518976568a1005d076791f0b65ddbe7930b693b0475fa22aa55d3477135"
+    },
+    "LOCAL_FROZEN_AI.log": {
+      "bytes": 102,
+      "sha256": "56e03afda220e7ba78bbcecf9a2e53a0149cfc3e311fa10bbd01b25e8e5ba671"
+    },
+    "LOCAL_FROZEN_BROWSER.log": {
+      "bytes": 101,
+      "sha256": "9e3618c465353a9e4a6828d5e621fa61c3754bf90d19d768cd975a69fc4289e2"
+    },
+    "LOCAL_FROZEN_COMBINED.log": {
+      "bytes": 3573,
+      "sha256": "035a3c0ff24c84df6bfe369899f79fa75c68a3db5a4be3744a1e8e300589f64d"
+    },
+    "LOCAL_FROZEN_CONCURRENCY.log": {
+      "bytes": 2041,
+      "sha256": "44c538dc4bf76294628d26e1977083c832b735869cf9ad96f4a129e49dff5f50"
+    },
+    "LOCAL_FROZEN_COST.log": {
+      "bytes": 103,
+      "sha256": "4c979c0d06f0e9e2109df48cae7f69ac5d403754045b4cfe404fe744e7390b47"
+    },
+    "LOCAL_FROZEN_NODE.log": {
+      "bytes": 1574,
+      "sha256": "cbb126336b5d6f4cd963059b98a9a2b252732b1e3d9edb698bba9656c8c3f086"
+    },
+    "LOCAL_TEST_FIRST.log": {
+      "bytes": 4485,
+      "sha256": "a01353f37c549089eee580f45eea2d729768e6521f296631a5260368083fbadb"
+    }
+  },
+  "raw_failure_recovery_observation": "recovery.verified: Native7PASS/cost3INCOMPLETE; downstream13 not reached; outer complete restore, writer gate false"
+}

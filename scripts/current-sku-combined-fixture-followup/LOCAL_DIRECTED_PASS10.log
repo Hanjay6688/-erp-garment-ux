@@ -1,0 +1,15 @@
+test_complete_twelve_module_sources_are_reversible_one_name_sixteen_routes (test_followup.Derivation.test_complete_twelve_module_sources_are_reversible_one_name_sixteen_routes) ... ok
+test_dispatch_graph_routes_every_downstream_chain_and_keeps_base_seven (test_followup.Derivation.test_dispatch_graph_routes_every_downstream_chain_and_keeps_base_seven) ... ok
+test_original_collision_and_derived_two_calls_coexist_with_committed_original (test_followup.Derivation.test_original_collision_and_derived_two_calls_coexist_with_committed_original) ... ok
+test_private_cost_race_wait_browser_modules_all_use_unique_fixture (test_followup.Derivation.test_private_cost_race_wait_browser_modules_all_use_unique_fixture) ... ok
+test_unchanged_five_change_package_engine_and_historical_endpoint (test_followup.Derivation.test_unchanged_five_change_package_engine_and_historical_endpoint) ... ok
+test_unknown_byte_and_ambiguous_anchor_refuse_without_rebinding (test_followup.Derivation.test_unknown_byte_and_ambiguous_anchor_refuse_without_rebinding) ... ok
+test_actual_first_failure_is_lossless_and_recovered_but_never_full_pass (test_followup.Evidence.test_actual_first_failure_is_lossless_and_recovered_but_never_full_pass) ... ok
+test_c163_outer_and_fresh_seven_cannot_replace_terminal_prerequisite (test_followup.Evidence.test_c163_outer_and_fresh_seven_cannot_replace_terminal_prerequisite) ... ok
+test_exact_terminal21c_prerequisite_still_admits_zero_fresh_credit (test_followup.Evidence.test_exact_terminal21c_prerequisite_still_admits_zero_fresh_credit) ... ok
+test_partial_restore_or_relabelled_failure_is_detected (test_followup.Evidence.test_partial_restore_or_relabelled_failure_is_detected) ... ok
+
+----------------------------------------------------------------------
+Ran 10 tests in 0.560s
+
+OK
