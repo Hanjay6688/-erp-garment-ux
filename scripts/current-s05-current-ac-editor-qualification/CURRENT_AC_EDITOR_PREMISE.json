@@ -1,0 +1,12 @@
+{
+  "status": "EXACT_CURRENT_AC_SOURCE_PREMISE_NOT_RUNTIME_CAPTURE",
+  "migration": "supabase/release/cp6-t3/20260915031500_erp_v2_6_20ac_cp6_temporal_surface_closure.sql",
+  "migration_sha256": "871fb32b1d4a1e7f9aedfef684b0f2c766092732c38552620eb394061f6240d1",
+  "old_prosrc_sha256": "6c8c701395ab74874e7cb2f3e78f9912f7380a5a3199cba069b1aec6db09cd85",
+  "current_prosrc_sha256": "3f468d69475ebd199c7a0af7b4ee4486e6b71a5287a0ee63ac0e3dac24f15364",
+  "counted_WIB_label_expression_changes": 1,
+  "all_other_Native_editor_body_bytes_equal": true,
+  "Native_function_rewrites": 0,
+  "actual_current_catalog_capture": false,
+  "actual_Native_credit": 0
+}

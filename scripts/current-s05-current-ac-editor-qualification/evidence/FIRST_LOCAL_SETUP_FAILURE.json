@@ -1,0 +1,12 @@
+{
+  "classification": "LOCAL_MANIFEST_GENERATION_SETUP_ERROR_NOT_NATIVE",
+  "first_generation_error": "KeyError: Native_case_ids (oldSOURCE uses CONFIG for IDs)",
+  "first_local_tests": {
+    "PASS": 21,
+    "ERROR": 2,
+    "total": 23
+  },
+  "two_errors": "SOURCE.json missing after manifest generation aborted",
+  "tests_and_financial_oracles_changed": false,
+  "actual_Native_executions": 0
+}

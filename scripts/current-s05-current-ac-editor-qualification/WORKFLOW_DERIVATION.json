@@ -1,0 +1,17 @@
+{
+  "parent_sha256": "2d0d195946a431fbf582e7880fc68d2292a65645d09265082b4fa152cf816f23",
+  "generated_sha256": "e08a3a2cd84600214c41af8de1347ff7e12207eac9672f5213d4fc2f8c936a37",
+  "parent_steps": 64,
+  "child_steps": 64,
+  "adapted_steps": [
+    "Admit exact 911 failure, lawful master premise and retained vendor11 before database",
+    "Check unchanged ACL source and lawful master-date source controls",
+    "Admit exact vendor41c and lawful S05 fixture source before database",
+    "Run exact S05 Native10 with lawful master dates and complete restore",
+    "actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02"
+  ],
+  "frozen_vendor_files_and_six_existing_engine_bindings_unchanged": true,
+  "unchanged_full_install_reinstall_Original_readers_Auth_restore_CP6_advisors_package5": true,
+  "root_publish_branch": "astra-a/s05-current-ac-editor-20261030",
+  "automatic_on_other_branches": false
+}

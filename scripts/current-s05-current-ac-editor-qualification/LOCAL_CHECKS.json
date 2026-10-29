@@ -1,0 +1,31 @@
+{
+  "contract": "cp7.s05-current-ac-editor-local-controls.v1",
+  "status": "PASS_LOCAL_NOT_ACTUAL_NATIVE",
+  "python_controls": {
+    "PASS": 24,
+    "FAIL": 0,
+    "SKIP": 0
+  },
+  "historical_Python_fixture_controls_repeated_unchanged": 10,
+  "exact_current_AC_SQL_declared_model_controls": {
+    "PASS": 8,
+    "FAIL": 0
+  },
+  "all_eight_historical_SQL_assertions_unchanged": true,
+  "actual_source_CLI_import_with_all_real_Originals": "PASS",
+  "source_CLI_guard": "psycopg.connect/socket.create_connection/urllib.urlopen forbidden; only Git subprocesses allowed",
+  "original_Native10_case_body_sha256": "e025be1280630dfb89f62261163194ce072b6f6ad6d909b56ff6c82f75778e98",
+  "current_AC_prosrc_sha256": "3f468d69475ebd199c7a0af7b4ee4486e6b71a5287a0ee63ac0e3dac24f15364",
+  "old_CP45_AB_guard_retained_and_refuses_current_AC": true,
+  "wrong_owner_rogue_definition_old_AB_and_stale_parent_refuse_before_edit": true,
+  "actual_new_Native_Auth_browser_executions": 0,
+  "accepted_current_Native10_Original": null,
+  "first_local_setup_errors_and_missing_Original_env_preserved": true,
+  "production_go": false,
+  "independent_acceptance": false,
+  "actual_source_CLI_probe_check_with_all_real_Originals": "PASS",
+  "probe_check_before_final_evidence_seal_raw_bytes": 467017,
+  "probe_check_before_final_evidence_seal_raw_sha256": "22672778f82f12fe9e0f7c5109556e7eb5509ff99a43c5e8e8bc93131ce00f7c",
+  "frozen_vendor_file_count": 4,
+  "frozen_vendor_engine_existing_counted_bindings": 6
+}
