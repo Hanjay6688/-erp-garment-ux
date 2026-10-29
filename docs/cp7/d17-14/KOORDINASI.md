@@ -5907,3 +5907,42 @@ Jawaban owner melalui pilihan sesi ini: Q3 Benerin Nota = Pindah otomatis (Recom
 
 
 Owner sesudah penjelasan Q1/Q2 menjawab “oke ikuti rekomen lu”: Q1 tambahan ke kredit otomatis; Q2 batalkan pemakaian aktif dahulu, tanpa piutang otomatis. Q3 sebelumnya sudah pindah otomatis. D17-19A/B menutup pilihan bisnis S01-D/E; implementasi/Native/uji integrasi masih terbuka. Alokasi helper baru dibatasi delta D/E pada namespace baru, bukan perubahan bundle/SQL historis atau file B.
+
+
+Owner mengesahkan D17-19C: S03 pilihan per periode, S04 tanpa batas umur tambahan, S05 BOM kategori + laporan mandor ambil-versus-standar. Kebijakan ini mengalahkan baris lama yang menulis belum dijawab; implementasi/pembuktian S03 dan laporan S05 tetap terbuka. S06 tidak dianggap dijawab.
+
+
+## A takeover — keputusan D17-19C, kegagalan SKU805 dan dua qualifier aktual
+
+Source6 427605/run40835051931 sudah dibaca Original, seluruh5gate/full restore
+lulus dan13gambar fokus diperiksa. Dua suffix CSS masuk A ab506; kegagalan
+6c89/7042 tetap asli. Status “masih diperiksa” pada checkpoint lama historis.
+
+SKU805/run40868545238 terminal INCOMPLETE. Instal/inverse preuse/reinstall,
+full22/data/sequence/roles/CP6/advisor restore lulus; writer_runtime=false.
+Native nyata menolak JSONnull saat hapus pasangan karena required berarti
+nonnull, sedangkan helper lokal dahulu hanya memeriksa presence. Patch minimal
+memakai helper Native asli, tetap closed/explicitkey/UUID, SQL14/client25 lulus.
+Diagnostic logger juga bentrok field group; field hasil kini conversion_group_id,
+auditor runner tidak diubah. Empat Original dan empat baris log parsial disimpan
+persis di successor961/scripts/current-sku-pair-native-adapter/retained805.
+Tiga baris PASS itu bukan Native7 lengkap. Successor961/tree63b22c8b/
+run40876528064 sedang actualNative7, bukan PASS. Local metadata/derivation9
+kontrol dan seluruh63sourcehash/syntax lulus. SKU/AI baru belum masuk A.
+
+D1 kandidat897ed6de dibekukan terpisah. Qualifier0770541c/treeb0f5a4d1/
+run40878236198 menjalankan13Native + owning correction committed + usedguard,
+exact parent vendor dan seluruh package/restore lama. UI18/typecheck,
+6kontrol adapter,9runtimeleaves/9signeddeps/38sourcehash lulus lokal.
+Ini bukan E/Q3, realAuth/browser, atau D/E lengkap. Pembantu melanjutkan E/Q3,
+S05 read-only report, groupcost dan combined followup pada worktree masing-masing.
+A tetap satu integrator; B DONE/diterima dan tidak disentuh. S03 implementasi
+carry/expense masih terbuka; S04/S05 kebijakan D17-19C disahkan, S06 belum.
+
+Review CP6 236ad1cd diadopsi hanya dokumen dan prepared day5. Sembilan raw
+artifact diverifikasi; semua36perilaku race terpetakan, Crossflow137/142.
+Lima attendance asal tetap incomplete karena tuntutan READY tanpa payroll;
+expected tidak dilonggarkan, tidak diulang tanpa perubahan hanya demi hijau.
+Offline547pin/3negativecontrol PASS,0DB. Admission/maintenance/rollback,
+AP HTTP/browser, AM/AN dan keputusan auditor punya penutup berbeda.
+Formal5/16, independent_acceptance=false, production_go=false.

@@ -962,3 +962,14 @@ Berlaku untuk Q3 OW04b E. Ini belum jawaban Q1/Q2; untuk keduanya owner meminta 
 Sesudah dua contoh sederhana tentang kredit100.000→120.000 dan kredit100.000 yang sudah dipakai80.000 lalu dibetulkan menjadi70.000, rekomendasi writer adalah Q1 tambahan otomatis menjadi saldo kredit yang sama, dan Q2 menahan koreksi serta menampilkan pemakaian/refund terkait yang perlu dibatalkan dulu. Jawaban persis owner: “oke ikuti rekomen lu”.
 
 Keputusan: Q1 AUTO_CREDIT_INCREMENT dengan pratinjau nominal sebelum simpan; Q2 UNDO_ACTIVE_CONSUMERS_FIRST, tanpa piutang baru otomatis. Q3 D17-19A tetap AUTO_TRANSFER_TO_REPLACEMENT atomik dengan nominal/sisa ditinjau. Refusal memandu ke transaksi terkait; alur ledger/lineage dan seluruh penjaga tetap. Ini menyelesaikan pilihan bisnis S01-D/E, bukan bukti implementasi atau PASS dan tidak membuka produksi. S03–S06 tidak diputuskan oleh jawaban ini karena belum menjadi rekomendasi dalam percakapan.
+
+
+## D17-19C — 29 Oktober 2026 — absen tanpa hasil, umur koreksi, BOM kategori
+
+Setelah tiga pilihan terstruktur ditampilkan, jawaban persis owner: “oke ikuti rekomen lu”. Rekomendasi yang ditampilkan dan disahkan:
+
+1. S03 PILIH PER PERIODE: bila biaya absensi sudah disetujui tetapi hasil jahit belum tersedia untuk pembagian HPP, owner memilih biaya menunggu hasil berikutnya atau menjadi beban periode itu, dengan alasan dan jejak koreksi. Pengakuan biaya payroll tetap sekali saat APPROVED; PAID adalah pelunasan. Rincian alokasi/penutupan wajib dibuktikan, bukan memilih otomatis.
+2. S04 TANPA BATAS UMUR TAMBAHAN: koreksi HPP/harga terlambat tetap memakai jalur koreksi sah; penjaga periode tertutup, tanggal, dan transaksi terkait tetap berlaku. Tidak mengarang tiga bulan.
+3. S05 KATEGORI DULU: standar BOM tetap per kategori. Laporan mandor mengambil berapa versus standar tetap dikerjakan. Opsi BOM warna/ukuran spesifik tidak dipilih pada keputusan ini; stok fisik per varian yang ada tetap terlacak. Tidak menetapkan tahap masa depan sepihak.
+
+Keputusan ini bukan bukti implementasi/PASS. S06 penerima/pembagian pengingat pribadi staf belum diputuskan dan tidak tercakup persetujuan ini. production_go=false.

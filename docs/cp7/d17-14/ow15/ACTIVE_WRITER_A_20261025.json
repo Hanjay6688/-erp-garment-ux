@@ -1,5 +1,5 @@
 {
-  "recorded_at_utc": "2026-10-29T01:38:33.030096+00:00",
+  "recorded_at_utc": "2026-10-29T13:04:42.797626+00:00",
   "role": "A finance writer/integrator replacing Claude; B remains separate production/planning writer",
   "slogan": [
     "VENI. VIDI. VICI. ERP. — I CONQUERED ERP.",
@@ -8,7 +8,25 @@
   "formal_accepted": "5/16",
   "production_go": false,
   "independent_acceptance": false,
-  "running": null,
+  "running": [
+    {
+      "scope": "SKU_PAIR_CONVERSION_NATIVE7_SUCCESSOR",
+      "head": "961c22f8d3fa6fd2c16a8932a23b6d3a347d0c98",
+      "tree": "63b22c8b764ec02f3aa4842b2309338e32e306b5",
+      "run_id": 40876528064,
+      "job_id": 123456663484,
+      "status": "IN_PROGRESS_NOT_PASS",
+      "branch": "astra-a/sku-pair-native-successor-20261029"
+    },
+    {
+      "scope": "CREDIT_D1_NATIVE13",
+      "head": "0770541c94937ee5013c8ea9ae607c99260d2993",
+      "tree": "b0f5a4d1ff6541874a09881519baacb86b91fa1f",
+      "run_id": 40878236198,
+      "status": "IN_PROGRESS_NOT_PASS",
+      "branch": "astra-a/credit-de-native13-20261029"
+    }
+  ],
   "actual_new_component": {
     "name": "CP7_OW11_MODEL_TARGET_SOURCE_V2.json",
     "status": "PASS",
@@ -20061,7 +20079,7 @@
     "full_data_and_Auth_restored": true,
     "writer_runtime": false
   },
-  "active_priority": "Accept actual source6 successor and complete selective final integration; reuse qualified money/B/return and matched procurement evidence. No new framework or activation.",
+  "active_priority": "Monitor two actual qualifiers to terminal and inspect Originals; only then combine SKU race3, Native permission waits6, real Auth browser4 and group cost followups. Continue E/Q3 and S05 report in isolated helpers; S03 financial choice lifecycle still open. No unchanged rerun for green.",
   "actual_source6_20261029": {
     "status": "EXACT_ACTUAL_OW08_SOURCE6_ACCEPTABLE_TO_INTEGRATOR",
     "head": "42760534906c330353f9bb0f53d27db65b134626",
@@ -20233,5 +20251,42 @@
     "owner_Q1_Q2": "EXPLANATION_REQUESTED_NOT_DECIDED",
     "production_go": false,
     "independent_acceptance": false
+  },
+  "actual_sku805_first_failure": {
+    "head": "805922690d85818d3146966e6bcc9295d97b0f84",
+    "run_id": 40868545238,
+    "job_id": 123429380645,
+    "status": "INCOMPLETE",
+    "artifact_id": 12896664131,
+    "zip_sha256": "e6f8104cdf4f46e2ef80ffae6544160747f49df6c3565d3fb37d33a0087a4bb1",
+    "raw_sha256": "46aa5ca8031724899d757f8afdb86222a53c7c68a4c8320a97de44d26541db33",
+    "source_failure": "Pair delete JSON null rejected by real Native nonnull validator; local validator was too permissive",
+    "diagnostic_failure": "Case result group key collides with strict logger envelope",
+    "logged_case_counts": {
+      "PASS": 3,
+      "INCOMPLETE": 1
+    },
+    "complete_Native7_claim": false,
+    "full22_data_sequences_roles_CP6_advisors_restored": true,
+    "retained_originals_branch": "astra-a/sku-pair-native-successor-20261029",
+    "retained_originals_path": "scripts/current-sku-pair-native-adapter/retained805"
+  },
+  "owner_D17_19C": {
+    "S03": "OWNER_CHOICE_PER_PERIOD_CARRY_OR_PERIOD_EXPENSE_REASON_AUDIT",
+    "S04": "NO_ADDITIONAL_AGE_CAP_EXISTING_DATE_PERIOD_DEPENDENCY_GUARDS",
+    "S05": "CATEGORY_BOM_AND_CONTRACTOR_TAKEN_VS_STANDARD_REPORT",
+    "S06": "UNDECIDED_NOT_INCLUDED_IN_OWNER_APPROVAL",
+    "implementation_not_implied": true
+  },
+  "cp6_boundary_review_20261029": {
+    "path": "docs/cp7/d17-14/ow15/CP6_BOUNDARY_REVIEW_20261029.md",
+    "verified_Original_artifacts": 9,
+    "race36_behaviors_mapped": 36,
+    "crossflow142_behaviors_mapped": 137,
+    "remaining_exact_ids": "DAY:ATTENDANCE:DIRECT across five zones",
+    "original_statuses_unchanged": true,
+    "day5_prepared_only": true,
+    "offline_source_pins": 547,
+    "auditor_retirements_not_accepted_by_writer": true
   }
 }
