@@ -35,7 +35,7 @@ def check():
     for path,digest in declaration['files'].items():
         assert sha256(git('show',pin['head']+':'+path)).hexdigest()==digest,path
     new=admit(pin,raw(pin,'original'),raw(pin,'package'),declaration,runtime,
-        money_cfg['parent_backend_sha256'],money_pin['head'],cfg['scoped_paint_overlays'],money_cfg['current_installation_entrypoint'])
+        money_cfg['parent_backend_sha256'],native_pin['head'],money_pin['head'],cfg['scoped_paint_overlays'],money_cfg['current_installation_entrypoint'])
     return dict(status='PASS_QUALIFIED_OW08_SOURCE6_SELECTIVE_INTEGRATION',head=git('rev-parse','HEAD').decode().strip(),
         product_files=product_changes,retained_backend=retained_backend,retained_money_browser=retained_money,qualified_source6=new,
         original_B_graph_files=79,declared_changed_B_graph_files=changed_B,B_driver_unchanged=True,

@@ -8,7 +8,7 @@ IDS = tuple(f'OW08_{family}_{width}' for family in
     for width in ('DESKTOP', 'MOBILE'))
 GATES = ('installed', 'primary_unchanged', 'backup_restore_drill', 'security_advisors', 'writer_runtime')
 
-def admit(pin, original, package, expected_source, runtime_files, parent_digest, money_head, overlays, entrypoint):
+def admit(pin, original, package, expected_source, runtime_files, parent_digest, backend_head, money_head, overlays, entrypoint):
     if pin is None:
         raise ValueError('OW08_INTEGRATION_CLOSED_ACTUAL_SOURCE6_REQUIRED')
     for name, raw in (('original', original), ('package', package)):
@@ -28,7 +28,12 @@ def admit(pin, original, package, expected_source, runtime_files, parent_digest,
     assert sha256(json.dumps(source['current_installation']['predecessor'], sort_keys=True,
                             separators=(',', ':'), ensure_ascii=False).encode()).hexdigest() == parent_digest
     assert source['parent_backend_sha256'] == parent_digest
+    assert source['prerequisite']['head'] == backend_head
     assert source['retained_money_browser']['head'] == money_head
+    assert source['retained_money_browser']['backend_head'] == backend_head
+    assert actual['production_go'] is False and actual['independent_acceptance'] is False
+    assert actual['formal_CP7C_started'] is False and actual['actual_cron_claim'] is False
+    assert source['full_OW08_acceptance'] is False
     assert source['scoped_paint_overlays'] == overlays
     assert source['current_installation_entrypoint'] == entrypoint
     assert source['retained_money_browser_repeated'] is False and source['B_combined_browser_repeated'] is False

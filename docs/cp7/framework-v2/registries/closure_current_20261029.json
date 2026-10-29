@@ -201,11 +201,96 @@
       ],
       "retained_component_evidence_refs": [
         "docs/cp7/d17-14/ow15/owner62-28abdeef-pass.json",
-        "docs/cp7/d17-14/ow15/transfer-pages-535c97af-final-ui-pass.json"
+        "docs/cp7/d17-14/ow15/transfer-pages-535c97af-final-ui-pass.json",
+        "docs/cp7/evidence/finisher-regression/qualified-a306/full/p09/RECEIPT.json",
+        "docs/cp7/evidence/finisher-regression/qualified-a306/full/p09/CP7_F03_FULL_P09.json.gz"
       ],
-      "next_action": "Reconcile exact required behavior/case IDs, source hashes and final-candidate scope; use existing evidence when unchanged. No automatic PASS from this link.",
+      "next_action": "Reuse actual a306 receipt journeys, same-leaf b7 procurement DOM/parser controls and current OW06 transfer evidence. Bind the specific later procurement correction/stock-ledger changes to their Native/Auth successors and final dependency graph; do not rerun22 unchanged cases solely for totals.",
       "original_preparation_status": "PLANNED_NOT_STARTED",
-      "current_runtime_status": "NOT_INFERRED_FROM_SEPTEMBER_STATUS"
+      "current_runtime_status": "RETAINED_ACTUAL_CONNECTED_PROCUREMENT22_MATCHED_CURRENT_DELTA_BINDING_OPEN",
+      "retained_evidence_match": {
+        "checked_against_A": "39f8a0840d50fcd94d7301eaa2cebab23097b562",
+        "qualified_candidate": "a306938cd6bb33b2f231340d7e1b4a91397d1b9c",
+        "run_id": 37140634825,
+        "job_id": 111254174306,
+        "artifact_id": 11280636957,
+        "receipt_sha256": "4aec029844b39a40e741b3e6f27d85a806693ceee76a0c9902f1577311552143",
+        "actual_original": {
+          "bytes": 502035,
+          "sha256": "37b84e4a6ec0ed05feb815c01302850e7d0a534b49c9b398b852a24af79d1dbb"
+        },
+        "retained_browser_cases": 22,
+        "new_actual_case_credit": 0,
+        "receipt_creation_case_ids": [
+          "P09_BROWSER_RECEIPT_DESKTOP",
+          "P09_BROWSER_LOST_REPLY_MOBILE"
+        ],
+        "unchanged_leaf_sha256": {
+          "scripts/cp7_p09_browser.mjs": "399314455d5953b21aef8ba10a6890af018875d0db58505045d4b1f303e82385",
+          "scripts/cp7_p09_browser_fixture.py": "928c8a65541feb715b44cac761bc987146027670224f6d286fff5a8b8846919f",
+          "scripts/cp7-src/procurement/command.sql": "4842cb68a901dec90f57752dc5783fe70796f26e655c4228e3a2a959461c9833",
+          "scripts/cp7-src/procurement/read.sql": "14e1c636227c73f722c1be432c41f5eae7c96e36f0f8d98113155f805319aaf7",
+          "src/useProductionMutation.ts": "6d2fe37e9fc47c9dee67951165415230002341bbaa23b1cd5433401f7681e8ed"
+        },
+        "changed_leaf_sha256": {
+          "src/ConnectedProcurementPage.tsx": {
+            "retained_sha256": "8330191999a279930034322c97e5ee3707f1de54f0b91d2deff0cfabb5a6af3b",
+            "current_sha256": "cdc86d94895c10b7d153a8b0b77525dbcaa9e22e8c7a8579c0e6e6aef692b3e7"
+          },
+          "src/procurementContract.ts": {
+            "retained_sha256": "71220a5220a7ec9bcbe844a729a1666b9fd13b3c485df8ca4026ae8491847c2b",
+            "current_sha256": "9e2d22fafd6c4f93d975deb6c04e848af5e42608bacd9ca6da67ac5678669c2a"
+          },
+          "src/productionRecovery.ts": {
+            "retained_sha256": "c8e3b39d7c47293010f0c655ebcfd75dc5f7c7c94fdf85f69b5e275831a5865a",
+            "current_sha256": "468ade771b58b3b188a15a03f00c6625bbd1e5b6dd551d542cf424a7c2963b18"
+          },
+          "scripts/cp7-src/procurement/correction.sql": {
+            "retained_sha256": "939c6f13fdd0c6b276dbf2c6ab5168d7ab3a21c41fdda5929c3eb886468340a9",
+            "current_sha256": "0229d79209ae274724bbde3733d81bcdb9a59df2eb1179ad6247bcf88fa20400"
+          }
+        },
+        "proven_scope": "The retained actual desktop/mobile app creates and posts a receipt through Auth/public RPC; each witness has qty10, one stock movement and GRNI100; mobile replays the identical request after a lost response. The same retained group includes transfer/invoice/return/reversal/UOM/count journeys; its22 cases are not22 new tests today.",
+        "boundary": "Native fixture creates prerequisites, not the receipt being claimed. Current procurement screen/decimal parser/shared recovery/correction SQL have declared changes; unchanged case/fixture/hook/read/command leaves do not prove the whole transitive final runtime unchanged. Existing OW06 transfer evidence does not replace receipt creation. Archived source records no fresh visual review of PNGs; none is claimed here."
+      },
+      "current_local_delta_evidence": {
+        "receipt": "docs/cp7/d17-14/ow15/D17_18_SOURCE_B7_ACTUAL.json",
+        "head": "b7d6b75add6883b7cfc5b162c05531a8d0ac2f23",
+        "run_id": 40624362425,
+        "artifact_id": 12788939625,
+        "original_unit_json": {
+          "archive_member": "20261028_sourceB7_PASS_mainC3_closedUI8dd_shellB87/actualB7/unit.json",
+          "bytes": 1144777,
+          "sha256": "379cd86dabc974f06be56ed62a0fd68b0112461bafda1539dc886c49eb94ffc6"
+        },
+        "same_leaf_sha256": {
+          "src/ConnectedProcurementPage.tsx": "cdc86d94895c10b7d153a8b0b77525dbcaa9e22e8c7a8579c0e6e6aef692b3e7",
+          "src/procurementContract.ts": "9e2d22fafd6c4f93d975deb6c04e848af5e42608bacd9ca6da67ac5678669c2a",
+          "src/ConnectedProcurementPage.dom.test.tsx": "68ca6aa56c1fa68e57fbb2862c8846098013baec3611b94286869def8b5a1ef4"
+        },
+        "actual_file_test_count": 18,
+        "case_names": [
+          "connected procurement recovery and financial boundary edits an accessory receipt using entered quantity and price per purchase unit without client conversion",
+          "connected procurement recovery and financial boundary clears quantity and price when switching purchase unit so old values are not reinterpreted",
+          "connected procurement recovery and financial boundary blocks missing or mismatched unit masters and allows an explicit current read retry",
+          "connected procurement recovery and financial boundary rejects wrong dated unit rows, duplicate codes, or non-unit base factors",
+          "connected procurement recovery and financial boundary reverses the reviewed exact revision with explicit confirmation",
+          "connected procurement recovery and financial boundary reverses the reviewed exact revision with persisted recovery after lost reply",
+          "connected procurement recovery and financial boundary invalidates a reversal review after a fresh read and retires it before a failed committed reload",
+          "connected procurement recovery and financial boundary requires reversal identity and status and rejects unknown action outcomes",
+          "connected procurement recovery and financial boundary posts the exact reviewed revision then reloads the receipt rather than inventing stock",
+          "connected procurement recovery and financial boundary reuses the persisted UUID and exact payload after a lost reply and remount",
+          "connected procurement recovery and financial boundary retires the committed form when reload fails and refuses another post",
+          "connected procurement recovery and financial boundary retains an uncertain outcome when a success body lacks matching identity",
+          "connected procurement recovery and financial boundary never displays finance for operations and rejects unexpected money in its DTO",
+          "connected procurement recovery and financial boundary reads native PARTIAL invoice pricing without treating the receipt as malformed",
+          "connected procurement recovery and financial boundary keeps the receipt and partial invoice together after finalization",
+          "connected procurement recovery and financial boundary keeps the receipt and partial invoice together after lost reply recovery",
+          "connected procurement recovery and financial boundary rejects partial pagination and keeps exact decimal input without rounding",
+          "connected procurement recovery and financial boundary preserves invoice, line, roll and exact physical-time metadata when editing a draft"
+        ],
+        "boundary": "Retained local DOM/parser tests, including ambiguous currency input; not new actual receipt Auth/browser or full current supplier-credit correction qualification. Shared recovery vendor additions separately qualified on money2d4."
+      }
     },
     "P10": {
       "title": "FG stock, handoff dan adjustment",
@@ -1992,9 +2077,21 @@
         "E24"
       ],
       "unresolved_original_case_refs": [],
-      "disposition": "IMPLEMENTATION_LOCATED_EXACT_FINAL_EVIDENCE_MATCH_PENDING",
-      "next_action": "Map this exact requirement to retained Original case(s) and source; run only changed/unproven coverage. This row is not a runtime verdict.",
-      "original_preparation_status": "NOT_RUN"
+      "disposition": "RETAINED_CONNECTED_IMPLEMENTATION_PROVEN_OLD_FINDING_SUPERSEDED_CURRENT_DELTA_BINDING_OPEN",
+      "next_action": "Reuse actual a306 receipt journeys, same-leaf b7 procurement DOM/parser controls and current OW06 transfer evidence. Bind the specific later procurement correction/stock-ledger changes to their Native/Auth successors and final dependency graph; do not rerun22 unchanged cases solely for totals.",
+      "original_preparation_status": "NOT_RUN",
+      "closure_owner": "A",
+      "additional_evidence_matches": [
+        {
+          "receipt": "docs/cp7/evidence/finisher-regression/qualified-a306/full/p09/RECEIPT.json",
+          "same_source_leaf_binding": "packets.P09.retained_evidence_match",
+          "actual_case_ids": [
+            "P09_BROWSER_RECEIPT_DESKTOP",
+            "P09_BROWSER_LOST_REPLY_MOBILE"
+          ]
+        }
+      ],
+      "remaining_gap": "Reuse actual a306 receipt journeys, same-leaf b7 procurement DOM/parser controls and current OW06 transfer evidence. Bind the specific later procurement correction/stock-ledger changes to their Native/Auth successors and final dependency graph; do not rerun22 unchanged cases solely for totals."
     },
     {
       "id": "AUD-G02",
