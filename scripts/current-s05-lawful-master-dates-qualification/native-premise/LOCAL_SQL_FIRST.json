@@ -1,0 +1,81 @@
+{
+  "classification": "LOCAL_EXACT_SQL_SOURCE_ON_DECLARED_DOUBLES_NOT_NATIVE_QUALIFICATION",
+  "Native_executions": 0,
+  "financial_Native_cases": 0,
+  "real_Auth": 0,
+  "cases": [
+    {
+      "id": "RETAINED_BF_HISTORICAL_NEW_MASTER_REFUSES",
+      "status": "PASS",
+      "actual_SQL_refusal": {
+        "message": "BF_HISTORY: master baru hanya mulai sekarang atau mendatang",
+        "code": "P0001"
+      },
+      "all_declared_rows_and_sequence_unchanged": true
+    },
+    {
+      "id": "UNUSED_NATIVE_EDITOR_SAME_MASTER_WINDOW_EXACT_ITEMS",
+      "status": "PASS",
+      "Native_or_financial_qualification": false
+    },
+    {
+      "id": "USED_EDITOR_OLD_EFFECTIVE_DATE_REFUSED",
+      "status": "PASS",
+      "actual_SQL_refusal": {
+        "message": "Tanggal mulai BOM baru harus setelah penggunaan finansial terakhir dan setelah awal versi lama",
+        "code": "P0001"
+      },
+      "all_declared_rows_and_sequence_unchanged": true
+    },
+    {
+      "id": "USED_ITEM_DIRECT_MUTATION_REFUSED",
+      "status": "PASS",
+      "actual_SQL_refusal": {
+        "message": "Accessory BOM item is financially committed by a PO/SKU; create a new effective-dated BOM version instead",
+        "code": "P0001"
+      },
+      "all_declared_rows_and_sequence_unchanged": true
+    },
+    {
+      "id": "USED_VERSION_IDENTITY_MUTATION_REFUSED",
+      "status": "PASS",
+      "actual_SQL_refusal": {
+        "message": "Committed accessory BOM identity/start/active flag is immutable; close it after commitment and create a successor version",
+        "code": "P0001"
+      },
+      "all_declared_rows_and_sequence_unchanged": true
+    },
+    {
+      "id": "USED_VERSION_CLOSE_AT_COMMITMENT_REFUSED",
+      "status": "PASS",
+      "actual_SQL_refusal": {
+        "message": "Accessory BOM effective_to cannot precede/equal its financial commitment time",
+        "code": "P0001"
+      },
+      "all_declared_rows_and_sequence_unchanged": true
+    },
+    {
+      "id": "USED_NATIVE_EDITOR_CREATES_SUCCESSOR_PRESERVES_OLD_ITEM",
+      "status": "PASS",
+      "no_clock_override": true
+    },
+    {
+      "id": "SHARED_MASTER_NATIVE_EDITOR_STILL_REFUSED",
+      "status": "PASS",
+      "actual_SQL_refusal": {
+        "message": "BF_SHARED_MASTER: ubah harga/resep melalui master SKU bersama",
+        "code": "P0001"
+      },
+      "all_declared_rows_and_sequence_unchanged": true
+    }
+  ],
+  "source_hashes": {
+    "accessory_bom_last_committed_at": "ab66254e8ad0ade7faf6456751109f24cef6cf61d9483b6045add84abe364bc7",
+    "save_accessory_bom_edit": "c64ea9d49be0dd994a0a7bbadef142a3ad74f2e2aed6d924d1cbdf2d87ed5fd0",
+    "guard_used_accessory_bom_item": "aab98ce556644831e5f6cf98f075b1a9da951ae271c4b727041ed7d3bff752e0",
+    "guard_used_accessory_bom_version": "7ebac4ad75f23815deb6abfb46aa47a20f386fa829b1e0f5424d9ac8d43a0485",
+    "bf_guard_economic_v1": "86225fcdb9a14484905c798a8722bf9de212e3d215ad4c61b1ac1ab7eb33fe64",
+    "bf_save_groups_v1": "c85b5ed24a5980d20449fa21660ca35e9afe5149cd15f69c35dda9381ce9d42b"
+  },
+  "status": "PASS"
+}

@@ -1,0 +1,25 @@
+{
+  "contract": "cp7.s05-lawful-master-dates.v1",
+  "base_head": "911a08e04f741ead342d6436a2f4b003434c0070",
+  "base_tree": "2b002a04f7453b3366da426746988472b9faa2c9",
+  "inherited_qualifier": "scripts/current-s05-public-default-acl-qualification",
+  "inherited_manifest_sha256": "d667446ed3d7cbe49fb5a335a7118fbfbc4544954cd1f925a9da8a86ce50e1de",
+  "workflow": ".github/workflows/cp7-current-s05-lawful-master-dates.yml",
+  "root_publish_branch": "astra-a/s05-lawful-master-dates-20261030",
+  "Native_case_ids": [
+    "S05_NATIVE_CATEGORY_VARIANTS_PO",
+    "S05_NATIVE_HISTORICAL_BOM",
+    "S05_NATIVE_LATE_INVOICE_COST_REVISIONS",
+    "S05_NATIVE_ZERO_REIMBURSEMENT",
+    "S05_NATIVE_EMPTY_AND_NO_OUTPUT",
+    "S05_NATIVE_WIB_COHORTS",
+    "S05_NATIVE_NOTE_DRAFT_INVERSE",
+    "S05_NATIVE_QC_INVERSE",
+    "S05_NATIVE_REWORK_NONE_RECORDED_RECIPIENT",
+    "S05_NATIVE_CURRENT_ACCESS_PRIVATE_ACL"
+  ],
+  "fixture_classification": "ADMINISTRATIVE_EXISTING_LEGACY_MASTER_PLUS_NATIVE_UNUSED_EDITOR_THEN_NATIVE_GOOD_THEN_CURRENT_BF_SUCCESSOR",
+  "Native_executions": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

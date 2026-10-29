@@ -1,0 +1,77 @@
+{
+  "status": "PASS_SOURCE_ONLY",
+  "source_files": 198,
+  "Native_case_ids": [
+    "S05_NATIVE_CATEGORY_VARIANTS_PO",
+    "S05_NATIVE_HISTORICAL_BOM",
+    "S05_NATIVE_LATE_INVOICE_COST_REVISIONS",
+    "S05_NATIVE_ZERO_REIMBURSEMENT",
+    "S05_NATIVE_EMPTY_AND_NO_OUTPUT",
+    "S05_NATIVE_WIB_COHORTS",
+    "S05_NATIVE_NOTE_DRAFT_INVERSE",
+    "S05_NATIVE_QC_INVERSE",
+    "S05_NATIVE_REWORK_NONE_RECORDED_RECIPIENT",
+    "S05_NATIVE_CURRENT_ACCESS_PRIVATE_ACL"
+  ],
+  "original_vendor_prerequisite": {
+    "status": "EXACT_ACTUAL_COMBINED11_ACCEPTABLE_TO_INTEGRATOR",
+    "head": "41caaaed02c0d89b122ecf1ff221f6647141c335",
+    "retained_Native_cases": 7,
+    "retained_races": 3,
+    "retained_Auth_HTTP": 1,
+    "retained_browser": 0,
+    "retained_only": true,
+    "reexecuted": false,
+    "fresh_S05_runtime_credit": 0,
+    "original_sha256": "04e00f42862ddfec8346d41d4d6a2d6a285f041127cccf09d973ca929b307ea0",
+    "package_sha256": "48fc54072b4f3122d89f6a45faa93f0e8ebd05ecfde0b9370def8202755e0f43"
+  },
+  "exact_911_first_failure": {
+    "status": "EXACT_911_TEN_INCOMPLETE_RETAINED_NOT_ACCEPTED",
+    "raw": {
+      "CP7_S05_ACCESSORY_STANDARD_NATIVE10.json": {
+        "bytes": 3805611,
+        "sha256": "8985a5ee4b7c063bdf77a0817eea397302e597fe2f3a36f7f462e8bfce92e01f"
+      },
+      "CP7_S05_ACCESSORY_STANDARD_NATIVE10_CASES.json": {
+        "bytes": 42027,
+        "sha256": "cbeea59981ac17c5bc99121c226f1e46cee6cbfc265664bb65988f88a20ba2f1"
+      },
+      "T3_PACKAGE_INSTALL.json": {
+        "bytes": 360450,
+        "sha256": "176c2855f8f0075e91aabb0a7792ba07dc27991d78cb79850d5842ae14dfb590"
+      },
+      "T3_PACKAGE_FILES_INSTALL.json": {
+        "bytes": 1806,
+        "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+      },
+      "T3_BACKUP_RESTORE_DRILL.json": {
+        "bytes": 1470,
+        "sha256": "fc1c7ee2a26b5b04d1007b20b434ca35ce88c70ec7685524153279822422758a"
+      }
+    },
+    "observed_case_counts": {
+      "INCOMPLETE": 10
+    },
+    "Native_PASS": 0,
+    "complete_outer_restore": true,
+    "reader_preuse_reinstall": "PASS",
+    "outer_used_guard_field_present": false,
+    "separate_committed_witness_field_present": false,
+    "package_gates": {
+      "installed": true,
+      "primary_unchanged": true,
+      "backup_restore_drill": true,
+      "security_advisors": true,
+      "writer_runtime": false
+    },
+    "success_prerequisite": false,
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "runtime_source_imports_checked": true,
+  "Native_executions": 0,
+  "database_calls": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

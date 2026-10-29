@@ -1,0 +1,38 @@
+{
+  "classification": "RETAINED_FIRST_ACTUAL_RUNTIME_INCOMPLETE_NOT_PREREQUISITE",
+  "head": "911a08e04f741ead342d6436a2f4b003434c0070",
+  "tree": "2b002a04f7453b3366da426746988472b9faa2c9",
+  "run_id": 40946437335,
+  "job_id": 123702921140,
+  "artifact_id": 12932227136,
+  "zip_bytes": 2052468,
+  "zip_sha256": "88235e4cf5d9be8f2c7e1cb7e2bf331e8c9f367955a2236296ba558029c0a1ae",
+  "raw": {
+    "CP7_S05_ACCESSORY_STANDARD_NATIVE10.json": {
+      "bytes": 3805611,
+      "sha256": "8985a5ee4b7c063bdf77a0817eea397302e597fe2f3a36f7f462e8bfce92e01f"
+    },
+    "CP7_S05_ACCESSORY_STANDARD_NATIVE10_CASES.json": {
+      "bytes": 42027,
+      "sha256": "cbeea59981ac17c5bc99121c226f1e46cee6cbfc265664bb65988f88a20ba2f1"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360450,
+      "sha256": "176c2855f8f0075e91aabb0a7792ba07dc27991d78cb79850d5842ae14dfb590"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 1470,
+      "sha256": "fc1c7ee2a26b5b04d1007b20b434ca35ce88c70ec7685524153279822422758a"
+    }
+  },
+  "Native_counts": {
+    "INCOMPLETE": 10
+  },
+  "Native_PASS": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

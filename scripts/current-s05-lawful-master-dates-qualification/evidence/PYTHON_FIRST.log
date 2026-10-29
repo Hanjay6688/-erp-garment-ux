@@ -1,0 +1,22 @@
+...E......
+======================================================================
+ERROR: test_later_successor_actual_statement_time_retains_complete_membership_and_settings (test_fixture.RecipeControls.test_later_successor_actual_statement_time_retains_complete_membership_and_settings)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/ef468a447ac6/erp-cp6-review/scripts/current-s05-lawful-master-dates-qualification/test_fixture.py", line 144, in test_later_successor_actual_statement_time_retains_complete_membership_and_settings
+    value(cur, f, qty='3', rate='9')
+  File "/workspace/scratch/ef468a447ac6/erp-cp6-review/scripts/current-s05-lawful-master-dates-qualification/recipe.py", line 61, in __call__
+    return self.successor(cur, f, qty, rate, empty, method)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/ef468a447ac6/erp-cp6-review/scripts/current-s05-lawful-master-dates-qualification/recipe.py", line 110, in successor
+    result = namespace['recipe'](cur, f, qty=qty, rate=rate, empty=empty, method=method)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/ef468a447ac6/erp-cp6-review/scripts/cp7_accessory_standard_report/cases.py", line 9, in recipe
+    from copy import deepcopy
+                              
+TypeError: 'Cursor' object is not iterable
+
+----------------------------------------------------------------------
+Ran 10 tests in 0.201s
+
+FAILED (errors=1)

@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "<stdin>", line 8, in <module>
+  File "/workspace/scratch/ef468a447ac6/erp-cp6-review/scripts/current-s05-lawful-master-dates-qualification/check.py", line 18, in run
+    proof = load('s05_lawful_cli_offline', HERE/'admission.py').offline()
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/ef468a447ac6/erp-cp6-review/scripts/current-s05-lawful-master-dates-qualification/admission.py", line 86, in offline
+    raise ValueError('S05_LAWFUL_UNDECLARED_OWN_SOURCE')
+ValueError: S05_LAWFUL_UNDECLARED_OWN_SOURCE

@@ -1,0 +1,54 @@
+{
+  "fixture_path": "supabase/tests/fixtures/erp_enteng_cp45a_catalog_bootstrap.sql.gz",
+  "fixture_bytes": 308353,
+  "fixture_sha256": "7aa808a3060bb878fab6b311ba031b9d91d2f12f7268bcc67ea0b88e0974b7ae",
+  "exact_function_definitions": {
+    "save_accessory_bom_edit": {
+      "path": "native-premise/save_accessory_bom_edit.sql",
+      "bytes": 4222,
+      "sha256": "c64ea9d49be0dd994a0a7bbadef142a3ad74f2e2aed6d924d1cbdf2d87ed5fd0",
+      "prosrc_sha256": "6c8c701395ab74874e7cb2f3e78f9912f7380a5a3199cba069b1aec6db09cd85"
+    },
+    "guard_used_accessory_bom_item": {
+      "path": "native-premise/guard_used_accessory_bom_item.sql",
+      "bytes": 712,
+      "sha256": "aab98ce556644831e5f6cf98f075b1a9da951ae271c4b727041ed7d3bff752e0",
+      "prosrc_sha256": "6b4eb3aa01725ae7413d8d2b61bee2b114e803d546eea00cd09d80fc2d0578cf"
+    },
+    "guard_used_accessory_bom_version": {
+      "path": "native-premise/guard_used_accessory_bom_version.sql",
+      "bytes": 991,
+      "sha256": "7ebac4ad75f23815deb6abfb46aa47a20f386fa829b1e0f5424d9ac8d43a0485",
+      "prosrc_sha256": "5aaf879fc6ceec7b5c30354c5a2a1e4b301415e26cfb7d0ab627ba329e59769d"
+    },
+    "accessory_bom_last_committed_at": {
+      "path": "native-premise/accessory_bom_last_committed_at.sql",
+      "bytes": 442,
+      "sha256": "ab66254e8ad0ade7faf6456751109f24cef6cf61d9483b6045add84abe364bc7",
+      "prosrc_sha256": "a8df3b4e1bc3988c2e740465e84600b0f86a6c90494a6dc0701841b083e56e1f"
+    }
+  },
+  "actual_AB_editor_prosrc_also_equal": "6c8c701395ab74874e7cb2f3e78f9912f7380a5a3199cba069b1aec6db09cd85",
+  "AB_source_bytes": 5385616,
+  "AB_source_sha256": "0206ea49a972eca28b62be570266e2e53eb4fcc52f21a05d7094991879f1d3d3",
+  "runtime_credit": 0,
+  "BF_original_source": {
+    "path": "scripts/cp6_bf_objects_master.sql",
+    "bytes": 18339,
+    "sha256": "7fa3a2d19b5e6163135b9e950c7f4c0180aa3a6cfbec40202873547baa8a6e9a",
+    "functions": {
+      "bf_guard_economic_v1": {
+        "path": "native-premise/bf_guard_economic_v1.sql",
+        "bytes": 1740,
+        "sha256": "86225fcdb9a14484905c798a8722bf9de212e3d215ad4c61b1ac1ab7eb33fe64",
+        "prosrc_sha256": "dbdc556712a28e71598e466a55e2591dbd7c2d1c1fb5efd1cbf2bcb79d1040d0"
+      },
+      "bf_save_groups_v1": {
+        "path": "native-premise/bf_save_groups_v1.sql",
+        "bytes": 10623,
+        "sha256": "c85b5ed24a5980d20449fa21660ca35e9afe5149cd15f69c35dda9381ce9d42b",
+        "prosrc_sha256": "8217a7f7fa0e3c81778e3be504ab099ed993d329d4a0b9befc658b8d240e91ae"
+      }
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "classification": "SOURCE_DEPENDENCY_AND_EXACT_SQL_ON_DECLARED_DOUBLES_ONLY",
+  "python_controls": {
+    "PASS": 18,
+    "first_fixture_cursor_double_error_retained": true,
+    "first_error": "local Cursor double lacked iteration; corrected only test double"
+  },
+  "exact_SQL_source_doubles": {
+    "PASS": 8,
+    "runtime_package": "@electric-sql/pglite",
+    "version": "0.3.14",
+    "local_in_process_only": true,
+    "ERP_database_or_Native_financial_execution": false
+  },
+  "real_full_inherited_Original_source_admission": "PASS_WITH_PSYCOPG_CONNECT_FORBIDDEN",
+  "first_local_source_attempt": "REFUSED_GENERATED_OWN_BYTECODE_CACHE; cache removed, guard unchanged; not an actual product/Native error",
+  "archived_workflow_proofs": "24 exact materialized UNTRACKED inputs; excluded from publication",
+  "actual_Native_cases": 0,
+  "actual_Auth_HTTP_cases": 0,
+  "actual_browser_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false,
+  "real_private_factory_import": "PASS_REAL_RETAINED_MODULE_EXACT10_DECLARATIONS_NO_CALLBACK_EXECUTION",
+  "psycopg_connect_calls_in_actual_source_import": 0
+}

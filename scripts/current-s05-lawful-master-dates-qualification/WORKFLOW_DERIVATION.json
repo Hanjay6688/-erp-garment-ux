@@ -1,0 +1,16 @@
+{
+  "parent_sha256": "855e45c56e0ea225675a0eefee777905e2611bf6d58f617eec69553ec3c7615b",
+  "generated_sha256": "2d0d195946a431fbf582e7880fc68d2292a65645d09265082b4fa152cf816f23",
+  "parent_steps": 64,
+  "child_steps": 64,
+  "adapted_steps": [
+    "Admit retained b0 failure, vendor11 and bounded S05 ACL sources before database",
+    "Check exact public ACL source transition and successor wrapper controls",
+    "Admit exact vendor41c and bounded S05 public ACL successor before database",
+    "Run unchanged S05 Native10 with bounded public ACL repair and complete restore",
+    "actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02"
+  ],
+  "unchanged_setup_all_Original_readers_clone_cleanup_upload_and_full_restore": true,
+  "root_publish_branch": "astra-a/s05-lawful-master-dates-20261030",
+  "automatic_on_other_branches": false
+}
