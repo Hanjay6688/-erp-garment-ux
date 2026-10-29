@@ -1,0 +1,89 @@
+{
+  "head": "a99463ca3ea2f1a71b22f0354df83f1b5a42b71b",
+  "tree": "6ee5f681a9266aa851b9638beec6d586ddae0937",
+  "run_id": 40910406598,
+  "job_id": 123576520573,
+  "artifact_id": 12915829376,
+  "zip_bytes": 2137763,
+  "zip_sha256": "5f982d78bfabbeba1c4656cc10725038b7c52f076c28f1d4cb4046a707bf70ce",
+  "status": "INCOMPLETE",
+  "case_counts": {
+    "INCOMPLETE": 8,
+    "PASS": 5
+  },
+  "case_ids": [
+    "D_POSITIVE_CREDIT_INCREMENT",
+    "D_AFTER_ACTIVE_APPLY",
+    "D_AFTER_REFUND_EXTRA_STAYS_CREDIT",
+    "D_MULTIFAMILY_ORDINAL",
+    "D_REPLAY_EXACT_UUID",
+    "D_STALE_REVIEW_NO_EFFECT",
+    "D_ACCESS_REVOKED_NO_EFFECT",
+    "D_SHORTFALL_NAMES_UNDO",
+    "D_ROOT_BOOK_FLOOR_REFUSAL",
+    "D_ATOMIC_POST_FAILURE_RESTORE",
+    "D_SECOND_REVISION_ORDINAL_HISTORY",
+    "D_AFTER_NAMED_UNDO_NO_FALSE_BLOCKER",
+    "E_UNIMPLEMENTED_INCOMING_CORRECTION_STAYS_GUARDED"
+  ],
+  "failed_cases": {
+    "D_POSITIVE_CREDIT_INCREMENT": "Refund amount 250.00 exceeds original net sales value 200.00 for returned qty",
+    "D_AFTER_ACTIVE_APPLY": "Refund amount 250.00 exceeds original net sales value 200.00 for returned qty",
+    "D_AFTER_REFUND_EXTRA_STAYS_CREDIT": "Refund amount 250.00 exceeds original net sales value 200.00 for returned qty",
+    "D_MULTIFAMILY_ORDINAL": "Refund amount 250.00 exceeds original net sales value 200.00 for returned qty",
+    "D_REPLAY_EXACT_UUID": "Refund amount 250.00 exceeds original net sales value 200.00 for returned qty",
+    "D_ATOMIC_POST_FAILURE_RESTORE": "{'sqlstate': 'P0001', 'message': 'CP7_CREDIT_SOURCE_NATIVE_TRIGGER_CENSUS_CHANGED', 'detail': ''}",
+    "D_SECOND_REVISION_ORDINAL_HISTORY": "Refund amount 250.00 exceeds original net sales value 200.00 for returned qty",
+    "D_AFTER_NAMED_UNDO_NO_FALSE_BLOCKER": "Refund amount 250.00 exceeds original net sales value 200.00 for returned qty"
+  },
+  "all13_case_boundaries_restored": true,
+  "full22_data_sequences_roles_CP6_advisors_restored": true,
+  "preuse_inverse_and_reinstall_pass": true,
+  "used_inverse_guard_NOT_observed": true,
+  "five_package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "owner_repair_installation_pass_not_native13_qualification": true,
+  "usable_prerequisite": false,
+  "first_business_failure_preserved": true,
+  "positive_fixture_issue": "Old source return1PCS at200 already equals its per-return-quantity Native original net cap200; proposed250 refused lawfully. Investigate own lawful fixture without weakening cap.",
+  "atomic_injection_issue": "New test trigger on Native journal table is correctly blocked by exact trigger census before intended post failure; redesign private owned failure injection.",
+  "additional_product_review_gap": "Quote wrongly reports READY for amount later rejected by Native cap; add exact preflight refusal in reviewed successor while keeping Native guard.",
+  "actual_Auth_HTTP": 0,
+  "actual_browser": 0,
+  "production_go": false,
+  "independent_acceptance": false,
+  "files": {
+    "CP7_CREDIT_DE_NATIVE13.json": {
+      "raw_bytes": 4662808,
+      "raw_sha256": "7a9ebc7fcccd81e0496f15b2b86b53bae8743302159b4012431d2d789b805b24",
+      "gzip_sha256": "f5dcd4bd1078a8b0e0097827ec7969241444024db100842b8b86353ef062f9bf"
+    },
+    "CP7_CREDIT_DE_NATIVE13_CASES.json": {
+      "raw_bytes": 44099,
+      "raw_sha256": "3274ce4c5684b77a82a8761638e3f78406ea164c503047446452c8eb3ea43525",
+      "gzip_sha256": "27e7c7e46aaa24900931f936fc927dfc2c3794b7aaeb78487f9832d8b84cf707"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "raw_bytes": 360419,
+      "raw_sha256": "477a83e5d01e922b71eacbe3897c4be9d1d93e1daa8862029102387452bf2382",
+      "gzip_sha256": "84885dcbe5820686112778fc8c987a2de4596948126f4cabedec278d87620d21"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "raw_bytes": 1470,
+      "raw_sha256": "e4c8471e519dd03a0ae900383089450552a99b6c9594af9ba6e69b0e0e404e6f",
+      "gzip_sha256": "fa11d64b6ab5f241b94e2f17ecc53e3740bfbfd95d049ec5a40c2749874ca6c4"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "raw_bytes": 1806,
+      "raw_sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7"
+    }
+  }
+}

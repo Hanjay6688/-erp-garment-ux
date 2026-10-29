@@ -1,0 +1,68 @@
+{
+  "classification": "READ_ONLY_LAUNCH_REVIEW_NO_DATABASE_OR_RUNTIME_ACCEPTANCE",
+  "at": "2026-10-29T17:00:33.603427+00:00",
+  "head": "20092281416c5c9beffea53a10c02d72aeab7ae1",
+  "tree": "4c7df845bf2ec5b2ecf33925b106d4455c1e0860",
+  "source_files": {
+    "scripts/cp7_accessory_standard_report/report.sql": "44e26f9144cff011bf2fb9935d1a448955f8179a9ffaa6884557d8391651c5ab",
+    "scripts/cp7_accessory_standard_report/stage.py": "14d50554184423b1898bc4560506bfda4c91c3c5983501cd74321ffe6e51a22f",
+    "scripts/cp7_accessory_standard_report/SOURCE.json": "2f13ad4ddcd5a3213fe13d4059aa7ab1061b60416e7bbe58efe88164e8380058",
+    "scripts/cp7_accessory_standard_report/cases.py": "e025be1280630dfb89f62261163194ce072b6f6ad6d909b56ff6c82f75778e98",
+    "scripts/current-s05-native10-qualification/component.py": "8a3026602da3b58b680d2ee89aa1ecf9bf5e21ab52530efb98918359ee60b8d3",
+    "scripts/current-s05-native10-qualification/derive.py": "8c52a615b536b23c763a7036656dfa4695bc512356b9f591662adb6b8700d81e",
+    "scripts/current-s05-native10-qualification/gate.py": "729fe7f8f4c4fc4bc52ae865fa902b8ab2db4a713715c8141e4a2d5571b78b09",
+    "scripts/current-s05-native10-qualification/admission.py": "c3a740ee03d54f9bb7df2310c77918c1c00b549cfaf6fadd3b52e816d4f8b6d5",
+    "scripts/current-s05-native10-qualification/workflow_source.py": "6be4797e23547e9f5f5e666e91859f16463cbc3cd6e3dce7bca1adc73959a099",
+    ".github/workflows/cp7-current-s05-native10.yml": "8efa3f01aabd93c1362020cab013a0959db0e255c968b87c23027de42ec0ce91"
+  },
+  "frozen_product_files27_byte_equal_local_e290": true,
+  "local_history_read_not_CI_dependency": "e290de8b400151412d54f207fdafbbd881f25a9f",
+  "engine_exact_six_reversible_substitutions": {
+    "original_sha256": "c420d894f8d5f16bddefeae73addb621507170f372a28e7d6e33d88c7eeb0be9",
+    "derived_sha256": "a671b387eca972f3dab6af985973732b70aaf2779a763acf5df482850c184396",
+    "counted_changes": 6,
+    "unchanged_install_preuse_reinstall_and_full_restore": true,
+    "unchanged_all22_rows_sequences_roles_CP6_advisors_and_package_engine": true,
+    "fresh_Auth_HTTP_races_browser_claim": false
+  },
+  "offline_gate": {
+    "status": "PASS_SOURCE_ONLY",
+    "qualification_pins": 70,
+    "frozen_pins": 27,
+    "vendor11_original_sha256": "04e00f42862ddfec8346d41d4d6a2d6a285f041127cccf09d973ca929b307ea0",
+    "vendor11_package_sha256": "48fc54072b4f3122d89f6a45faa93f0e8ebd05ecfde0b9370def8202755e0f43",
+    "workflow_original_sha256": "e013bfb64da3dc55299c7273cdf1de0ee5d75dfd4df3be3a2e8fabae5d6ecca1"
+  },
+  "launch_blockers": [
+    {
+      "id": "S05_PUBLIC_FUNCTION_NEW_OWNER_REQUIRES_SCHEMA_CREATE",
+      "status": "SOURCE_PATH_BLOCKER_PENDING_LOCAL_PRIVILEGE_REPRO_AND_REPAIR",
+      "anchors": [
+        "report.sql5 creates fresh role",
+        "report.sql260 transfers public function to fresh role without CREATE public grant",
+        "stage.py125-127 runs SQL with parent.as_owner postgres",
+        "existing finance/read.sql67-69 and payroll/ownership.sql4-10 use exact temporary grant/revoke envelope"
+      ],
+      "root_action": "Root held unpublished200922; cp6_boundary_review independently reproduces and prepares narrow owning successor; old e290/200922 preserved",
+      "actual_SQL_failure_observed_by_this_review": false
+    }
+  ],
+  "remaining_checks": {
+    "Native_cases": "UNCHANGED10_WITH_LITERAL_SOURCE_DERIVED_NUMERIC_AND_HISTORY_ACCESS_EXPECTATIONS",
+    "reader_intervals": "existing exact ACL transition; real stage install/verify/uninstall; full _data/sequences and parent equality",
+    "committed_used_witness": "retained receipt30_at2 transfer10 note7_at3_25 total22_75 main20 other3; separate from read-only Native10 credit",
+    "outer_restore": "exact unchanged complete vendor engine keeps full install/preuse/reinstall/used refusal/full backup restore22/rows/sequences/roles/CP6/advisors/package",
+    "CI_private_source_heads": "e290/ab506/policy20e metadata only in called gate/stage; old preflight git-show policy not invoked; frozen vendor admit does not call Git-based check"
+  },
+  "retained_coverage_limits": [
+    "Afui positive_HPP zero_reimbursement path not qualified",
+    "source-hole/unallocated/UOM-loss runtime counterfixtures not qualified",
+    "Auth/HTTP/browser/permission races not fresh claims"
+  ],
+  "product_edits": false,
+  "DB_calls": 0,
+  "remote_CI_calls": 0,
+  "Native_runtime_PASS": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

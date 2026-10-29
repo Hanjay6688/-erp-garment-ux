@@ -1,0 +1,134 @@
+{
+  "classification": "READ_ONLY_SOURCE_PATH_DESIGN_QA_NOT_RUNTIME_ACCEPTANCE",
+  "at": "2026-10-29T16:49:06.963666+00:00",
+  "reviewed_head": "3c7034588971882b1f0c1724b39b4426da9c9deb",
+  "worktree": "/workspace/scratch/ef468a447ac6/erp-attendance-zero",
+  "files": {
+    "docs/cp7/evidence/p00/CP7_P00_CATALOGUE.json.gz": "274a0f8649ddb4d22887c65f7da1757a92e62e650fb572009af34194a960da2a",
+    "supabase/migrations/20260901023200_erp_v2_6_14c_attendance_hpp_uat_alignment.sql": "2c98802925ef45d173ca23e88cd43357479c783a9571b89d4614911bfb500967",
+    "supabase/migrations/20260901023400_erp_v2_6_14d_cp3_r4_race_and_reversal_hardening.sql": "51e2bad26fc55fbf267b7d0f275cbceacbd7dcb3514400b48cb5b31943458e69",
+    "supabase/migrations/20260902043000_erp_v2_6_16_cp4_hpp_route_auth_boundary.sql": "fcba665519b289fd8d0cca2a07d4207d6e959e4bd1c2c1b700e35c0334f0c9e2",
+    "supabase/migrations/20260901023000_erp_v2_6_14_attendance_hpp_sewing_terminal_foundation.sql": "68e5a8f81ac364be6a8ec01c5bffdfe4ec587f91d61a03dc9f44a4670cadb821",
+    "scripts/cp7-src/hpp-pool/pool.sql": "3d8cb15a19d7eb07f803517730f65e8d475d6168075db9fdf2de68f5d307bb61",
+    "scripts/cp7-src/payroll/settlement-write.sql": "9db8cabaaaf40c79398449f073d7dc9a27834abb09bf7f070181845773ad68d5",
+    "scripts/cp7-src/payroll/payment-date-guard.sql": "cf5bfa45b5297a0cd3e25215510f92362c1c67a2cb3fdb52f3052b0041bd288f",
+    "scripts/cp7_installment_bundle.py": "b3c96e3f19c7f941ae8689ad0bbb5294c54bee469ed8310a0696f11b029823cb",
+    "scripts/cp6_pocket_periods.py": "a1d77d17949378dbce06c8b3f75fad2a9267653ecaf120e4902adbff79091c44"
+  },
+  "accepted_P00_definitions": {
+    "_build_attendance_hpp_manifest_v1": {
+      "sha256": "08a6d5e9937e0b8bbb8fc06e6bc3f22f4fae1dd2704002f6301012007f6246f5",
+      "lines": 127
+    },
+    "_cp3_lock_business_period": {
+      "sha256": "8094917f40b53218281a986797d9c196f0469aea21d14fc51dc23119a5a90d6c",
+      "lines": 21
+    },
+    "_cp3_lock_manifest_contractors": {
+      "sha256": "94cf386a38a70ece6452bb1e5c60ca77e842b2c50f176eed8daffb2e220f1138",
+      "lines": 29
+    },
+    "_cp3_r4_reverse_journal_internal": {
+      "sha256": "2996d1c16396768097306556b5916ba93996d2ff451f3c5e7cd35deea7a3ac6f",
+      "lines": 6
+    },
+    "_idempotency_begin": {
+      "sha256": "3f7aeb311ca5d7ecf790ded90101fb520945e674b2d78dbe6164cd296b50e9bb",
+      "lines": 40
+    },
+    "activate_attendance_hpp_pool_v1": {
+      "sha256": "4b2317f74c8f5ed65c0fc08f875593f1612b9a653d3d6bbaaaf9f53ca79ea2b8",
+      "lines": 180
+    },
+    "approve_payroll": {
+      "sha256": "1f4f0fb34623517771f124470ed7dfe142364bfa5c21cbf2eb45e1d4a476d3ba",
+      "lines": 93
+    },
+    "cancel_attendance_hpp_pool_v1": {
+      "sha256": "03432af9796b47f4d585ac91acf3f83f2f138b857935b5c4475456a573809394",
+      "lines": 136
+    },
+    "cancel_unpaid_payroll": {
+      "sha256": "826ea6388f9346a990bbfa2946688ccd5850fd951aeea7455b02615d1825898f",
+      "lines": 55
+    },
+    "cp6_lot_attendance_cost_v2620c": {
+      "sha256": "d1abc679c1025fde73119f1929158ec9eb6edbd02539b6a76e6bdbd059d5f496",
+      "lines": 56
+    },
+    "create_attendance_hpp_pool_v1": {
+      "sha256": "08cc6fb45472f57879526d552592728edacc42a68bb32dd4f2dd791de85a6ec3",
+      "lines": 179
+    },
+    "post_journal": {
+      "sha256": "1f4b630c00147f88d195b3b365114eaecc60fdf3141859c384056423ae39f824",
+      "lines": 122
+    },
+    "post_payroll_payment": {
+      "sha256": "3ed74e090199067b4a1fd5c954f57abf9401dfdd48807437cc0aac1976a1b949",
+      "lines": 106
+    },
+    "rebuild_po_hpp": {
+      "sha256": "1dc35597a51fcd5133ec28523f0254c06ef19e61e0da603a478bb6297546e0d9",
+      "lines": 385
+    },
+    "record_sewing_terminal_v1": {
+      "sha256": "00e61679184b9bea77a173c731a2f058fb05e32ecd3a8928e0493911ffd5b401",
+      "lines": 141
+    },
+    "reverse_paid_payroll": {
+      "sha256": "62e5a76ec8075e94b838a83e92fc5fa9eb1b9151dd9370a0efd348c24625946b",
+      "lines": 76
+    },
+    "reverse_sewing_terminal_v1": {
+      "sha256": "21a29df3f7fefbbee2a6451b987231ae09fe481e34fe19711b1bd03e0c2a8bc3",
+      "lines": 88
+    },
+    "validate_attendance_hpp_pool_v1": {
+      "sha256": "c9bab26675c35c8660f6b68a594e038b0682a84690512e7ed26a8a77902d98ad",
+      "lines": 145
+    }
+  },
+  "findings": [
+    {
+      "id": "S03_NEW_LATER_OUTPUT_NOT_FENCED_BY_OLD_HEADER",
+      "anchor": "14c671-677 / P00 record_sewing_terminal_v1:56-62; lot attendance cost:24-44",
+      "path": "carried ACTIVE header P1; no normal P2 pool; new backdated P2 terminal passes old header-only guard, changes output manifest/ordered allocation intervals",
+      "status": "DESIGN_COUNTER_ACCEPTED_BY_WRITER_FIX_PENDING_VERIFICATION",
+      "planned": "exact carried ACTIVE output-period fence under original Native business-date lock"
+    },
+    {
+      "id": "S03_IRRELEVANT_LATER_PAYROLL_FALSE_STALE",
+      "anchor": "in-progress choice.sql175-181/191 + Native approve exact header period guard",
+      "path": "whole output_native_manifest includes P2 payroll sources; legitimate new P2 approval changes it despite unchanged P1 sources and P2 destinations",
+      "status": "DESIGN_COUNTER_ACCEPTED_BY_WRITER_FIX_PENDING_VERIFICATION",
+      "planned": "destination-only live P2 identity; full original later Native manifest immutable provenance"
+    },
+    {
+      "id": "S03_DIRECT_CARRIED_CANCEL_ROW_DATE_AND_METADATA",
+      "anchor": "14c1722-1736/1779; cp7 hpp-pool facade285-305; current_allocation lookup83-87",
+      "path": "direct Native cancel locks pool before period; outer cancel holds period before Native row; direct cancel also omits private allocation_reversals",
+      "status": "DESIGN_COUNTER_ACCEPTED_BY_WRITER_FIX_PENDING_VERIFICATION",
+      "planned": "exact actor/backend/tx/pool/request/reason/version owning context guard before Native cache and row wait; direct old route refuses; owning same-txn inverse evidence"
+    }
+  ],
+  "integration_facts": [
+    "Native source payroll period is exact; APPROVED/PAID plus POSTED original attendance WIP debit. Payment status/date are absent from source manifest.",
+    "Native ACTIVE unique index is exact pool header period; carried header P1 preserves source period while later normal P2 pool can coexist.",
+    "Native destination date validation must bind P2 separately; Native activation economic date must use P2.end; actual journal transaction_date drives retained rebuild/GL.",
+    "Real Native idempotency is INSERT then row FOR UPDATE before business locks, not another global envelope. Private CREATE needs distinct Native operation identity/inner UUID.",
+    "Retained rebuild takes try-lock pocket then FG global then PO. Busy pocket raises rather than waiting backward.",
+    "Retained post_journal takes accounting FOR SHARE; only extra advisory lock is vendor AP when vendor-tagged lines exist. S03 no-vendor WIP/expense legs do not use it.",
+    "Native payroll locks row before business period; S03 adding payroll row lock after period would invert. No extra payroll rowlock in declared design.",
+    "E05 reopen_settlement removes only payment/deduction effects, preserves attendance accrual and restores APPROVED; allow settled-state changes without treating them as source-cost reversal.",
+    "Waiting CARRY/EXPENSE has no Native ACTIVE header guard for late P1 output; new ALLOCATE/EXPENSE must refuse after output changes while source-only owning choice reversal remains available.",
+    "Native post_journal has one economic date argument plus resolved book date; reopening an old source period can remove a former closed-book shift. EXPENSE must explicitly respect retained source book floor or refuse."
+  ],
+  "code_changed": false,
+  "DB_calls": 0,
+  "tests_executed": 0,
+  "CI_remote_hosted_calls": 0,
+  "actual_runtime_claim": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

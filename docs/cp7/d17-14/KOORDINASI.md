@@ -5986,3 +5986,60 @@ prepared; UI standalone belum dipasang. Helper menyiapkan qualifier atas vendor.
 E/Q3 berlanjut terpisah dan lifecycle pilihan per periode S03 D17-19C sedang
 diinventaris dari Native nyata. S06 tetap belum diputuskan. Formal5/16,
 independent_acceptance=false, production_go=false.
+
+
+## A — SKU21 Native7 aktual lulus, gabungan23 berjalan; S05 ditahan sebelum pasang
+
+21c69cf2/run40906383684/job123562172212 selesai PASS7/7 aktual. Seluruh
+batas kasus, lima zona preview lengkap/UTC, inverse sebelum penggunaan,
+pemasangan ulang, used-inverse refusal dan lima gate paket lulus; seluruh22
+katalog/data/sequence/roles/CP6/advisors/Auth pulih. Lima Original sintetis
+byte persis dan receipt ada di ow08/sku21-native7-pass; dua kegagalan805/961
+tetap utuh. Ini Native saja: race/AuthHTTP/browser0, belum adopsi default.
+
+Original persis tersebut membuka c163c1e9/treec986f32a; actualrun40915783203/
+job123595497083 sedang menguji freshNative7+cost3+race3+Native izin6+real Auth
+browser4 pada satu pemasangan.20 kontrol dan786pin/59path lulus;74 berkas
+Native21 tetap byte identik.23kasus belum dikreditkan. Recovery biaya masih
+safety-refusal, group_recovery_supported=false. Full restore/gate tetap wajib.
+
+D1 a994/run40910406598/job123576520573 masih runtime13, bukan PASS. Tiga
+continuation serta17kasus E/Q3 disiapkan terpisah dan gate aktualD1 tertutup.
+109 kontrol client E lokal tidak diklaim Native. Owner D17-19A/B tetap sah.
+
+S05 qualifier200922:15kontrol/70pin lulus tetapi BELUM dipublikasikan. Review
+menemukan pengalihan fungsi publik ke role reader baru tanpa CREATE public
+sementara. Helper mereproduksi secara lokal dan menyiapkan successor izin
+sempit; SQL hitungan, sepuluh kasus, UI dan oracle dibekukan. Native guard nol
+penggantian membandingkan total production lot, bukan setiap kategori; kategori
+HPP positif/gratis tidak otomatis dilarang bila kategori lain berpenggantian.
+Jalur Afui ekonomis tetap belum dibuktikan, reader mempertahankan baris sumber.
+
+S03 carry/expense masih implementasi: carry P1 tidak boleh false-stale oleh
+payroll normalP2; output baru/backdatedP2 saat carry aktif harus ditahan;
+cancel pool carry hanya melalui konteks aksi pemilik yang membalik alokasi.
+Tiga counter review diterima untuk implementasi, belum hasil runtime. B tidak
+berubah; default cp7_vendor_receivable.composition; formal5/16,
+independent_acceptance=false, production_go=false, CP7C belum dimulai.
+
+
+## A — D1 a994 terminal5PASS/8INCOMPLETE, seluruh pemulihan utuh
+
+run40910406598/job123576520573 berakhir gagal dengan13ID lengkap:5PASS dan
+8INCOMPLETE. Owner adapter sudah melewati install/preuse/reinstall. Seluruh
+batas13kasus,22katalog/data/sequence/roles/CP6/advisors/backup/Auth pulih;
+writer_runtime=false dan committed used guard belum teramati. Lima Original
+persis disimpan di ow08/credit-a994-native13-first-incomplete (artifact12915829376).
+
+Tujuh kasus positif mencoba refund250 padahal1PCS yang diretur mempunyai
+nilai jual netto asli200. Native menolak dengan benar. Fixture positif harus
+memakai kapasitas yang sah sambil menjaga angka kredit dan semua oracle;
+batas Native tidak dihapus. Quote yang menyatakan READY untuk input itu juga
+memerlukan penolakan preview yang sama. Kasus atomic failure terhenti lebih
+awal oleh census trigger karena tes menambah trigger pada jurnal Native;
+injeksi kegagalan harus pindah ke jalur milik delta tanpa melonggarkan census.
+
+Kandidat a994 tetap INCOMPLETE dan tidak boleh membuka gate E17 atau
+continuation3. Helper menelusuri perbaikan terisolasi sebelum mengubah sumber;
+Original077 maupun a994 tetap utuh. Status checkpoint lama “D1 berjalan”
+bersifat historis. Formal5/16 dan seluruh batas produksi tetap.

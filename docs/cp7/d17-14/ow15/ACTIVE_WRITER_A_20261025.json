@@ -1,5 +1,5 @@
 {
-  "recorded_at_utc": "2026-10-29T16:25:45.515803+00:00",
+  "recorded_at_utc": "2026-10-29T17:06:37.510763+00:00",
   "role": "A finance writer/integrator replacing Claude; B remains separate production/planning writer",
   "slogan": [
     "VENI. VIDI. VICI. ERP. — I CONQUERED ERP.",
@@ -10,19 +10,11 @@
   "independent_acceptance": false,
   "running": [
     {
-      "scope": "SKU_NATIVE7_CANONICAL_UTC_SUCCESSOR",
-      "head": "21c69cf25defcee854beb08e998062d7e883d968",
-      "tree": "a0d2c0da83bf5dc29f2c6b2e02abe6d7ed68f89e",
-      "run_id": 40906383684,
-      "job_id": 123562172212,
-      "status": "IN_PROGRESS_NOT_PASS"
-    },
-    {
-      "scope": "D1_NATIVE13_EXACT_PUBLIC_OWNER_SUCCESSOR",
-      "head": "a99463ca3ea2f1a71b22f0354df83f1b5a42b71b",
-      "tree": "6ee5f681a9266aa851b9638beec6d586ddae0937",
-      "run_id": 40910406598,
-      "job_id": 123576520573,
+      "scope": "SKU_COMBINED23_EXACT_NATIVE21_PREREQUISITE_BOUND",
+      "head": "c163c1e9ff8f00b8dd8859c32aee0c2069766ad6",
+      "tree": "c986f32ad995d69ff1d0a5fba63689b543172f77",
+      "run_id": 40915783203,
+      "job_id": 123595497083,
       "status": "IN_PROGRESS_NOT_PASS"
     }
   ],
@@ -20078,7 +20070,7 @@
     "full_data_and_Auth_restored": true,
     "writer_runtime": false
   },
-  "active_priority": "Monitor UTC Native7 and D1 owner Native13 to terminal, verify exact Originals/full restoration/package, then open exact bound followups. New S05 qualifier and E/S03 lifecycle remain isolated; no same-failure rerun for green.",
+  "active_priority": "Preserve D1a994 actual5PASS/8INCOMPLETE and repair lawful fixture, exact Native-cap preview and private failure injection before successor Native13. Monitor SKUcombined23 actual to terminal. S05 new-role adapter repair before launch. E17/continuation3 remain CLOSED; S03 design counters before actual qualification.",
   "actual_source6_20261029": {
     "status": "EXACT_ACTUAL_OW08_SOURCE6_ACCEPTABLE_TO_INTEGRATOR",
     "head": "42760534906c330353f9bb0f53d27db65b134626",
@@ -20244,10 +20236,10 @@
   "active_takeover_scope": {
     "integrator": "A",
     "B": "DONE_ACCEPTED",
-    "SKU_features": "PREPARED_LOCAL_GREEN_ACTUAL_QUALIFICATION_PENDING",
-    "staged_AI_context_response": "FIRST_FAILURE_RETAINED_FIX_LOCAL_PROOF_PENDING_INTAKE",
+    "SKU_features": "ACTUAL_NATIVE7_PASS_FULL_COMBINED23_RUNNING_NOT_DEFAULT_ADOPTED",
+    "staged_AI_context_response": "FIX_PREPARED_REAL_AUTH_BROWSER2_IN_RUNNING_COMBINED23",
     "owner_Q3_replacement_credit": "AUTO_TRANSFER_APPROVED",
-    "owner_Q1_Q2": "EXPLANATION_REQUESTED_NOT_DECIDED",
+    "owner_Q1_Q2": "D17_19B_APPROVED_AUTOMATIC_EXTRA_CREDIT_AND_NAMED_ACTIVE_USE_UNDO_FIRST_NO_NEW_AR",
     "production_go": false,
     "independent_acceptance": false
   },
@@ -20368,7 +20360,8 @@
       "Native_administrative_permission_waits": 6,
       "real_Auth_browser": 4
     },
-    "group_recovery_supported": false
+    "group_recovery_supported": false,
+    "historical_preparation_only": true
   },
   "S05_prepared_readonly_report": {
     "local_commit": "e290de8b400151412d54f207fdafbbd881f25a9f",
@@ -20378,5 +20371,270 @@
     "UI_unmounted": true,
     "scope": "Posted issues versus retained GOOD snapshots; missing historical unit/source is UNKNOWN, current BOM never substituted",
     "source_accrual_zero_reimbursement_scope_requires_honest_Afui_coverage": true
+  },
+  "previous_running_before_SKU21_actual": [
+    {
+      "scope": "SKU_NATIVE7_CANONICAL_UTC_SUCCESSOR",
+      "head": "21c69cf25defcee854beb08e998062d7e883d968",
+      "tree": "a0d2c0da83bf5dc29f2c6b2e02abe6d7ed68f89e",
+      "run_id": 40906383684,
+      "job_id": 123562172212,
+      "status": "IN_PROGRESS_NOT_PASS"
+    },
+    {
+      "scope": "D1_NATIVE13_EXACT_PUBLIC_OWNER_SUCCESSOR",
+      "head": "a99463ca3ea2f1a71b22f0354df83f1b5a42b71b",
+      "tree": "6ee5f681a9266aa851b9638beec6d586ddae0937",
+      "run_id": 40910406598,
+      "job_id": 123576520573,
+      "status": "IN_PROGRESS_NOT_PASS"
+    }
+  ],
+  "actual_SKU21_Native7": {
+    "head": "21c69cf25defcee854beb08e998062d7e883d968",
+    "tree": "a0d2c0da83bf5dc29f2c6b2e02abe6d7ed68f89e",
+    "run_id": 40906383684,
+    "job_id": 123562172212,
+    "artifact_id": 12915361278,
+    "zip_bytes": 1975884,
+    "zip_sha256": "ffb82b8cf174cdb5848724c895559bbfcc0b57d7682f41e1bf38b1cea7fe6fab",
+    "status": "PASS",
+    "case_counts": {
+      "PASS": 7
+    },
+    "required_case_ids": [
+      "SKU29_PAIR_BIDIRECTIONAL_REPLACE_DELETE_NO_LEDGER",
+      "SKU29_NONPO_MULTILOT_FIFO_RESERVATION_VALUE_REPLAY",
+      "SKU29_ANY_ACTIVE_MODEL_SIZE_MANUAL_BACK_CURRENT_SOURCE_COST",
+      "SKU29_STALE_SOURCE_TARGET_RESERVATIONS_REFUSE_ZERO_EFFECT",
+      "SKU29_GROUP_REVERSE_ACTIVE_SALE_REFUSAL_THEN_RELEASE",
+      "SKU29_MIXED_PO_NONPO_NATIVE_LINEAGE_VALUE_CONSERVATION",
+      "SKU29_LEGACY_ACCESSORY_COST_AND_INVERSE_PRESERVED"
+    ],
+    "full22_data_sequences_roles_CP6_advisors_restored": true,
+    "five_package_gates": {
+      "installed": true,
+      "primary_unchanged": true,
+      "backup_restore_drill": true,
+      "security_advisors": true,
+      "writer_runtime": true
+    },
+    "auth_users_before": 0,
+    "auth_users_after": 0,
+    "used_inverse_guard_observed": true,
+    "Native": 7,
+    "actual_races": 0,
+    "real_Auth_browser": 0,
+    "new_combined23_cases": 0,
+    "group_recovery_supported": false,
+    "production_go": false,
+    "independent_acceptance": false,
+    "files": {
+      "CP7_SKU_PAIR_CONVERSION_NATIVE7.json": {
+        "raw_bytes": 20822,
+        "raw_sha256": "8c525a41aeed9cf7aa65fa25b6543c6dbfd6accb379961441470bf43f9e3afd7",
+        "gzip_sha256": "671d58936eb94011487e084dc3741fc3c197fa06d0221384ff4e03b53b9f51ba"
+      },
+      "CP7_SKU_PAIR_CONVERSION_NATIVE.json": {
+        "raw_bytes": 2963678,
+        "raw_sha256": "92822b4b0f7cf9a5f74a3110ce85f68a95da842b7fd2deba2cadcab1cce33347",
+        "gzip_sha256": "458e065e176431d8ee0fa1de289c3f4b384284163fb61ec297f41d4426d11232"
+      },
+      "T3_PACKAGE_INSTALL.json": {
+        "raw_bytes": 360413,
+        "raw_sha256": "35c53690fc8200ca873c8a85ecd51d7f547d230731e64480986a9fee7af8d72e",
+        "gzip_sha256": "cc27382caadf97c286ac0f80323f37db3d81db47263e7bca126fa0b81c88ab10"
+      },
+      "T3_BACKUP_RESTORE_DRILL.json": {
+        "raw_bytes": 1470,
+        "raw_sha256": "65478e1b2b967bf4fe1c62090fa553566df68360a445c81a3c4df1b28f4d2113",
+        "gzip_sha256": "e08d6e489023ba0a7fd016d4189bb8091c2548ffcab6f07e7e44c13f1ad277e3"
+      },
+      "T3_PACKAGE_FILES_INSTALL.json": {
+        "raw_bytes": 1806,
+        "raw_sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+        "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7"
+      }
+    },
+    "admission": {
+      "status": "EXACT_TERMINAL_21C_NATIVE7_AND_FIVE_PACKAGE_GATES_ADMITTED",
+      "head": "21c69cf25defcee854beb08e998062d7e883d968",
+      "original_sha256": "92822b4b0f7cf9a5f74a3110ce85f68a95da842b7fd2deba2cadcab1cce33347",
+      "package_sha256": "35c53690fc8200ca873c8a85ecd51d7f547d230731e64480986a9fee7af8d72e",
+      "retained_base_Native_cases": 7,
+      "fresh_cases_credited": 0
+    },
+    "receipt_path": "docs/cp7/d17-14/ow08/sku21-native7-pass/RECEIPT.json",
+    "default_product_adopted": false
+  },
+  "SKU_combined23_current": {
+    "head": "c163c1e9ff8f00b8dd8859c32aee0c2069766ad6",
+    "tree": "c986f32ad995d69ff1d0a5fba63689b543172f77",
+    "branch": "astra-a/sku-utc-combined-followup-20261029",
+    "run_id": 40915783203,
+    "job_id": 123595497083,
+    "status": "ACTUAL_RUNNING_NOT_PASS",
+    "prerequisite_head": "21c69cf25defcee854beb08e998062d7e883d968",
+    "prerequisite_run_id": 40906383684,
+    "source_files": 786,
+    "declared_child_paths": 59,
+    "frozen_Native21_files_unchanged": 74,
+    "local_controls": 20,
+    "fresh_cases_credited": 0,
+    "scope": {
+      "base_Native": 7,
+      "cost_Native": 3,
+      "conversion_races": 3,
+      "Native_administrative_permission_waits": 6,
+      "real_Auth_browser": 4,
+      "Auth_HTTP": 0
+    },
+    "group_recovery_supported": false,
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "S05_qualification_prelaunch": {
+    "local_head": "20092281416c5c9beffea53a10c02d72aeab7ae1",
+    "tree": "4c7df845bf2ec5b2ecf33925b106d4455c1e0860",
+    "status": "HOLD_SOURCE_FOUND_ROLE_OWNER_SCHEMA_CREATE_BLOCKER",
+    "published": false,
+    "actual_Native": 0,
+    "local_controls": 15,
+    "source_files": 70,
+    "frozen_component_files": 27,
+    "blocker": "New public wrapper transferred to new reader role without temporary public CREATE; helper confirming with local actual role DDL and preparing bounded successor, no calculation/case/UI change; concrete local role DDL also finds new-role SET/creator-membership handling and NULL ACL restoration require bounded explicit installer envelope",
+    "Afui_coverage": "Guard is aggregate production LOT; positive HPP/zero reimbursement category may coexist with another reimbursable category. Cost0/rate0 Native case does not qualify full Afui economic path.",
+    "coverage_gaps": [
+      "actual Native10 and complete package",
+      "Afui positive economic HPP free categories",
+      "source-hole/unallocated/UOM-loss actual cases",
+      "real Auth/browser/menu wiring"
+    ]
+  },
+  "E1_correction_prepared": {
+    "local_head": "a202a5baa",
+    "status": "CLOSED_A994_ACTUAL_NATIVE13_INCOMPLETE_REPAIRED_SUCCESSOR_REQUIRED",
+    "client_tests": 109,
+    "Native_cases_prepared": 17,
+    "actual_Native": 0,
+    "root_wrapper": "CLOSED_PREPARATION_IN_SEPARATE_WORKTREE",
+    "D_complete": false,
+    "E_complete": false,
+    "production_go": false
+  },
+  "D1_continuation_owner_prepared": {
+    "local_head": "f6715e9c20afbfa395040de95cd3c3192c5dd0d4",
+    "exact_parent": "a99463ca3ea2f1a71b22f0354df83f1b5a42b71b",
+    "status": "CLOSED_A994_ACTUAL_NATIVE13_INCOMPLETE_REPAIRED_SUCCESSOR_REQUIRED",
+    "Native_cases_prepared": 3,
+    "actual_Native": 0
+  },
+  "previous_running_before_D1_a994_actual": [
+    {
+      "scope": "SKU_COMBINED23_EXACT_NATIVE21_PREREQUISITE_BOUND",
+      "head": "c163c1e9ff8f00b8dd8859c32aee0c2069766ad6",
+      "tree": "c986f32ad995d69ff1d0a5fba63689b543172f77",
+      "run_id": 40915783203,
+      "job_id": 123595497083,
+      "status": "IN_PROGRESS_NOT_PASS"
+    },
+    {
+      "scope": "D1_NATIVE13_EXACT_PUBLIC_OWNER_SUCCESSOR",
+      "head": "a99463ca3ea2f1a71b22f0354df83f1b5a42b71b",
+      "tree": "6ee5f681a9266aa851b9638beec6d586ddae0937",
+      "run_id": 40910406598,
+      "job_id": 123576520573,
+      "status": "IN_PROGRESS_NOT_PASS"
+    }
+  ],
+  "actual_D1_a994_native13_failure": {
+    "head": "a99463ca3ea2f1a71b22f0354df83f1b5a42b71b",
+    "tree": "6ee5f681a9266aa851b9638beec6d586ddae0937",
+    "run_id": 40910406598,
+    "job_id": 123576520573,
+    "artifact_id": 12915829376,
+    "zip_bytes": 2137763,
+    "zip_sha256": "5f982d78bfabbeba1c4656cc10725038b7c52f076c28f1d4cb4046a707bf70ce",
+    "status": "INCOMPLETE",
+    "case_counts": {
+      "INCOMPLETE": 8,
+      "PASS": 5
+    },
+    "case_ids": [
+      "D_POSITIVE_CREDIT_INCREMENT",
+      "D_AFTER_ACTIVE_APPLY",
+      "D_AFTER_REFUND_EXTRA_STAYS_CREDIT",
+      "D_MULTIFAMILY_ORDINAL",
+      "D_REPLAY_EXACT_UUID",
+      "D_STALE_REVIEW_NO_EFFECT",
+      "D_ACCESS_REVOKED_NO_EFFECT",
+      "D_SHORTFALL_NAMES_UNDO",
+      "D_ROOT_BOOK_FLOOR_REFUSAL",
+      "D_ATOMIC_POST_FAILURE_RESTORE",
+      "D_SECOND_REVISION_ORDINAL_HISTORY",
+      "D_AFTER_NAMED_UNDO_NO_FALSE_BLOCKER",
+      "E_UNIMPLEMENTED_INCOMING_CORRECTION_STAYS_GUARDED"
+    ],
+    "failed_cases": {
+      "D_POSITIVE_CREDIT_INCREMENT": "Refund amount 250.00 exceeds original net sales value 200.00 for returned qty",
+      "D_AFTER_ACTIVE_APPLY": "Refund amount 250.00 exceeds original net sales value 200.00 for returned qty",
+      "D_AFTER_REFUND_EXTRA_STAYS_CREDIT": "Refund amount 250.00 exceeds original net sales value 200.00 for returned qty",
+      "D_MULTIFAMILY_ORDINAL": "Refund amount 250.00 exceeds original net sales value 200.00 for returned qty",
+      "D_REPLAY_EXACT_UUID": "Refund amount 250.00 exceeds original net sales value 200.00 for returned qty",
+      "D_ATOMIC_POST_FAILURE_RESTORE": "{'sqlstate': 'P0001', 'message': 'CP7_CREDIT_SOURCE_NATIVE_TRIGGER_CENSUS_CHANGED', 'detail': ''}",
+      "D_SECOND_REVISION_ORDINAL_HISTORY": "Refund amount 250.00 exceeds original net sales value 200.00 for returned qty",
+      "D_AFTER_NAMED_UNDO_NO_FALSE_BLOCKER": "Refund amount 250.00 exceeds original net sales value 200.00 for returned qty"
+    },
+    "all13_case_boundaries_restored": true,
+    "full22_data_sequences_roles_CP6_advisors_restored": true,
+    "preuse_inverse_and_reinstall_pass": true,
+    "used_inverse_guard_NOT_observed": true,
+    "five_package_gates": {
+      "installed": true,
+      "primary_unchanged": true,
+      "backup_restore_drill": true,
+      "security_advisors": true,
+      "writer_runtime": false
+    },
+    "auth_users_before": 0,
+    "auth_users_after": 0,
+    "owner_repair_installation_pass_not_native13_qualification": true,
+    "usable_prerequisite": false,
+    "first_business_failure_preserved": true,
+    "positive_fixture_issue": "Old source return1PCS at200 already equals its per-return-quantity Native original net cap200; proposed250 refused lawfully. Investigate own lawful fixture without weakening cap.",
+    "atomic_injection_issue": "New test trigger on Native journal table is correctly blocked by exact trigger census before intended post failure; redesign private owned failure injection.",
+    "additional_product_review_gap": "Quote wrongly reports READY for amount later rejected by Native cap; add exact preflight refusal in reviewed successor while keeping Native guard.",
+    "actual_Auth_HTTP": 0,
+    "actual_browser": 0,
+    "production_go": false,
+    "independent_acceptance": false,
+    "files": {
+      "CP7_CREDIT_DE_NATIVE13.json": {
+        "raw_bytes": 4662808,
+        "raw_sha256": "7a9ebc7fcccd81e0496f15b2b86b53bae8743302159b4012431d2d789b805b24",
+        "gzip_sha256": "f5dcd4bd1078a8b0e0097827ec7969241444024db100842b8b86353ef062f9bf"
+      },
+      "CP7_CREDIT_DE_NATIVE13_CASES.json": {
+        "raw_bytes": 44099,
+        "raw_sha256": "3274ce4c5684b77a82a8761638e3f78406ea164c503047446452c8eb3ea43525",
+        "gzip_sha256": "27e7c7e46aaa24900931f936fc927dfc2c3794b7aaeb78487f9832d8b84cf707"
+      },
+      "T3_PACKAGE_INSTALL.json": {
+        "raw_bytes": 360419,
+        "raw_sha256": "477a83e5d01e922b71eacbe3897c4be9d1d93e1daa8862029102387452bf2382",
+        "gzip_sha256": "84885dcbe5820686112778fc8c987a2de4596948126f4cabedec278d87620d21"
+      },
+      "T3_BACKUP_RESTORE_DRILL.json": {
+        "raw_bytes": 1470,
+        "raw_sha256": "e4c8471e519dd03a0ae900383089450552a99b6c9594af9ba6e69b0e0e404e6f",
+        "gzip_sha256": "fa11d64b6ab5f241b94e2f17ecc53e3740bfbfd95d049ec5a40c2749874ca6c4"
+      },
+      "T3_PACKAGE_FILES_INSTALL.json": {
+        "raw_bytes": 1806,
+        "raw_sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+        "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7"
+      }
+    },
+    "receipt_path": "docs/cp7/d17-14/ow08/credit-a994-native13-first-incomplete/RECEIPT.json"
   }
 }
