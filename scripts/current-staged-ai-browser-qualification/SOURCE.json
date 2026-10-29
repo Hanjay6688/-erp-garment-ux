@@ -1,0 +1,140 @@
+{
+  "status": "PREPARED",
+  "actual_native_auth_browser_executed": false,
+  "ai_source_commit": "4827530938a9cba85cbde8bff896acab6713c72e",
+  "namespace": "scripts/current-staged-ai-browser-qualification",
+  "runtime": "existing cp6_auditor_modes.run_browser + cp6_auditor_browser_host.mjs normal DISPOSABLE full App",
+  "new_auth_server": false,
+  "new_runner": false,
+  "excluded_catalog_keys": [],
+  "production_go": false,
+  "independent_acceptance": false,
+  "transitive_install_and_complete_restore": "integrator responsibility; this explicit input list is not the complete source graph",
+  "files": [
+    {
+      "path": "src/NativeStagedAiPanel.tsx",
+      "bytes": 5960,
+      "sha256": "2d9927ce77fea8f886da1106f0cb1629eeb4b60579bdd3d624765d9b9ca8ebde"
+    },
+    {
+      "path": "src/nativeStagedAi.ts",
+      "bytes": 10899,
+      "sha256": "e439525ec3e4b3039aa7c4a52c8a8a0839f2fda0c2faa3fc7e988c3f2df477ba"
+    },
+    {
+      "path": "src/NativeAnalysisPanel.tsx",
+      "bytes": 70603,
+      "sha256": "ed1babe4025c6f62935f965f7b75b2d12958fffdd3d5d9a4f03ba810808faffe"
+    },
+    {
+      "path": "src/NativeStagedAnalysisView.tsx",
+      "bytes": 11246,
+      "sha256": "5518ee241507e1b198d3fd010f1ab08615410d4b6d6843d9ede30f58fc516e43"
+    },
+    {
+      "path": "src/NativeDemandHistoryPanel.tsx",
+      "bytes": 13242,
+      "sha256": "13e1dba2a83088d5764f3a4d626bbb1aa9528671ba23c3bf46962d8f8bf07f1c"
+    },
+    {
+      "path": "src/nativeAnalysisPages.ts",
+      "bytes": 24985,
+      "sha256": "5a409a8e54948cb2b5d8740722db99488a311149777d0753e203d9e028e1fa17"
+    },
+    {
+      "path": "src/nativeStagedJob.ts",
+      "bytes": 17518,
+      "sha256": "369bf0b398ac6c43de47016f56ea9645a1908252a59ca106c2c21392ad88ecb2"
+    },
+    {
+      "path": "scripts/cp6_auditor_browser_host.mjs",
+      "bytes": 21213,
+      "sha256": "09fa7d7a5fb7d7cb00eb73e1d4354842730c6ae3dd77dbf9b299539ca7de9557"
+    },
+    {
+      "path": "scripts/cp6_auditor_modes.py",
+      "bytes": 23276,
+      "sha256": "d927c7491c72fe1eecfd1b4b8b4faf7e1710d6943fda601ede6a599fbc99209f"
+    },
+    {
+      "path": "scripts/cp6_auditor_business_day.mjs",
+      "bytes": 948,
+      "sha256": "83b385bef6bbed333d56967ddb3d22f427e9a3d164bc5985b4b98bf730767b62"
+    },
+    {
+      "path": "scripts/cp6_auditor_business_day.py",
+      "bytes": 6023,
+      "sha256": "ec12307a50b0333abd1911f48cdd4ee24c31c432c28f2901d0df5a317d2341f8"
+    },
+    {
+      "path": "scripts/cp7_ow04_restore_bundle.py",
+      "bytes": 19828,
+      "sha256": "a1605193347cf5b3321a7bdbf8ff6c634df4f4c0a5113eb295e8c3ce44428e00"
+    },
+    {
+      "path": "scripts/current-finance-combined-browser-qualification/browser_fixture.py",
+      "bytes": 6707,
+      "sha256": "3acd9ba7b5a6df6e3ca5cfc3ecc39f09950dbee3b937edd4c00d1d12f4c5b70c"
+    },
+    {
+      "path": "scripts/current-finance-combined-browser-qualification/console_evidence.mjs",
+      "bytes": 1000,
+      "sha256": "83009dcba01aabb4e9bcf6eb5c4672924d1f288cfe3ff6fbbdbe123f19d67c73"
+    },
+    {
+      "path": "scripts/current-frozen-public-native-qualification/public_finance_cases.py",
+      "bytes": 12128,
+      "sha256": "93ceccd87ab65dfc260b8634e0665c24504781254433242620d2ec0f4f9f26de"
+    },
+    {
+      "path": "scripts/cp7_p19_staged_cases.py",
+      "bytes": 61000,
+      "sha256": "41d60aa1a8034a393dc27626cfcd013090c0144f16e53e2de3df746c4b794ecb"
+    },
+    {
+      "path": "scripts/cp7_analysis_cases.py",
+      "bytes": 17580,
+      "sha256": "2df0e458f8108ce80d6d16c90cd6f7a33c9bb59794c3e92e9012b7ad077c0262"
+    },
+    {
+      "path": "scripts/cp7_finance_capture/cases.py",
+      "bytes": 20230,
+      "sha256": "cdb9e0abd345a5247fb47413101d76fc037a64db926b413d31c1f9208be42840"
+    },
+    {
+      "path": "scripts/cp7-src/planning/ai-staged.sql",
+      "bytes": 6512,
+      "sha256": "1571b328f3205a8f3470510c47053a94f2480ad0b84c1d6661c92f25e4e049b9"
+    },
+    {
+      "path": "scripts/cp7-src/planning/analysis-stage-snapshot.sql",
+      "bytes": 16768,
+      "sha256": "083925b7d5a7dd2d62c24e0a218690a3eae054a7a59333e1974d93016958cbfb"
+    },
+    {
+      "path": "scripts/current-staged-ai-browser-qualification/README.md",
+      "bytes": 9135,
+      "sha256": "9d43518fcc39f46e2a8824825475dfa05d656b317bb398479e3a912e7fd9c539"
+    },
+    {
+      "path": "scripts/current-staged-ai-browser-qualification/cases.mjs",
+      "bytes": 20508,
+      "sha256": "6d28e7da173c4170f9441f55c9f39b56b34779dc17ba930abee4fb680ba2b5d7"
+    },
+    {
+      "path": "scripts/current-staged-ai-browser-qualification/fixture.py",
+      "bytes": 6675,
+      "sha256": "06ca4d87cad916c7af3663e3239beca7761ed3588abd28b1fc6b2e12ba8136b9"
+    },
+    {
+      "path": "scripts/current-staged-ai-browser-qualification/fixture_plan_test.py",
+      "bytes": 3609,
+      "sha256": "dac5969645590aacaf813ec052336e7d55a5f9c09ca09b12dd4f4c663cad2ef4"
+    },
+    {
+      "path": "scripts/current-staged-ai-browser-qualification/plan.test.mjs",
+      "bytes": 8196,
+      "sha256": "893bb2286290fe77f31b86db3ea64041bbfcfdc686fa6ac3e4c7a6ffef42f1a0"
+    }
+  ]
+}

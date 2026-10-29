@@ -1,0 +1,69 @@
+{
+  "status": "LOCAL_PREPARATION_GREEN_ACTUAL_BROWSER_NOT_EXECUTED",
+  "backend_candidate": {
+    "commit": "805922690d85818d3146966e6bcc9295d97b0f84",
+    "tree": "3852ce116724162fd6cc1034d50981943f79b5bc"
+  },
+  "case_ids": [
+    "SKU29_BROWSER_DESKTOP_REAL_AUTH_PAIR_FIFO_RECOVERY_INVERSE",
+    "SKU29_BROWSER_MOBILE390_REAL_AUTH_PAIR_FIFO_GUARDS_INVERSE"
+  ],
+  "source_file_count": 654,
+  "controls": {
+    "exact_value_census_console": 6,
+    "source_plan": 3,
+    "actual_fixture_import": "PASS_NO_DATABASE_OPENED",
+    "JS_syntax": "PASS",
+    "Python_compile": "PASS",
+    "git_diff_check": "PASS"
+  },
+  "first_preparation_failure": {
+    "status": "2_PLAN_PASS_1_ERROR",
+    "cause": "Preparation generator listed nonexistent tsconfig.node.json, so SOURCE was absent. Corrected generator to bind actual root tsconfig files; no money, ledger, UI or source oracle relaxed."
+  },
+  "actual_Native_new_claim": false,
+  "actual_Auth_browser": false,
+  "actual_screenshots": false,
+  "full_backup_restore": false,
+  "limitations": [
+    "Requires outer actual Native admission and complete current install/copy authority/backup/all22/data/sequences/roles/Auth/advisors/package gates",
+    "Normal text contrast limited to recorded focused opaque feature panels; disabled controls explicitly exempt",
+    "Console listener begins after real ui.login; host separately observes page errors from context creation",
+    "Native prerequisites and sale draft block/cancel are fixture actions, not screen creation",
+    "Full multi-child accessory/recovery/recost and expected_returns first-child limitation remain open"
+  ],
+  "logs": [
+    {
+      "name": "sku-browser-evidence-first.log",
+      "bytes": 772,
+      "sha256": "ce59a990f542b5ca7cecc108a12db3211b79c12ecf98738af656bfb4e38168e7"
+    },
+    {
+      "name": "sku-browser-plan-first.log",
+      "bytes": 1723,
+      "sha256": "219d4b4ef0639e3eabc20fc361f0240e60fc0d90627b8b050e2893fe70c972e4"
+    },
+    {
+      "name": "sku-browser-import-first.log",
+      "bytes": 109,
+      "sha256": "b52c72620f0cfff4cb99d44df74a7edc1546e0aa9c90660a7f7c1d370d205b5f"
+    },
+    {
+      "name": "sku-browser-evidence-final.log",
+      "bytes": 773,
+      "sha256": "4b334b1ccdd93a1a47536870b4580348ca06ff5ccb5d7ac41472a818325b4803"
+    },
+    {
+      "name": "sku-browser-plan-final.log",
+      "bytes": 101,
+      "sha256": "946acfd74cc11aff8da84cf35f68137c7af2d277f03e4bec7c5baf2f80df4833"
+    },
+    {
+      "name": "sku-browser-import-final.log",
+      "bytes": 109,
+      "sha256": "b52c72620f0cfff4cb99d44df74a7edc1546e0aa9c90660a7f7c1d370d205b5f"
+    }
+  ],
+  "production_go": false,
+  "independent_acceptance": false
+}

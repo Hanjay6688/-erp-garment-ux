@@ -1,0 +1,57 @@
+{
+  "status": "PREPARED_SOURCE_AND_MOCK_CONTROLS_ONLY",
+  "base_head": "21c69cf25defcee854beb08e998062d7e883d968",
+  "base_tree": "a0d2c0da83bf5dc29f2c6b2e02abe6d7ed68f89e",
+  "local_counts": {
+    "combined": {
+      "PASS": 20
+    },
+    "concurrency": {
+      "PASS": 12
+    },
+    "SKU_browser_plan": {
+      "PASS": 3
+    },
+    "cost_oracle": {
+      "PASS": 5
+    },
+    "AI_fixture": {
+      "PASS": 4
+    },
+    "Node_evidence_plan": {
+      "PASS": 13
+    }
+  },
+  "dependency_imports_no_database": {
+    "cost": true,
+    "SKU_browser_fixture": true
+  },
+  "normal_browser_cases_planned": 4,
+  "first_ad_hoc_planning_attempt": {
+    "status": "COMMAND_SYNTAX_ERROR_BEFORE_CASE_LOADING",
+    "cause": "Requested default instead of existing named cases export",
+    "original_error": "SyntaxError: The requested module './scripts/current-sku-combined-followup-qualification/cases.mjs' does not provide an export named 'default'",
+    "runtime_opened": false,
+    "product_or_oracle_changes_to_accommodate_error": false
+  },
+  "corrected_planning_attempt": {
+    "named_export": "cases",
+    "status": "PASS_FOUR_CLOSURES_NO_UI_ACCESS"
+  },
+  "retained961_status": "INCOMPLETE",
+  "retained961_counts": {
+    "PASS": 6,
+    "INCOMPLETE": 1
+  },
+  "accepted_native7": null,
+  "pending_run_id": null,
+  "python": "3.12.14",
+  "node": "v24.22.1",
+  "actual_Native_execution": false,
+  "actual_Auth_execution": false,
+  "actual_browser_execution": false,
+  "CI_triggered": false,
+  "hosted_operations": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

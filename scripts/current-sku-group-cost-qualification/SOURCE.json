@@ -1,0 +1,69 @@
+{
+  "status": "PREPARED_NOT_EXECUTED",
+  "backend_candidate": {
+    "commit": "21c69cf25defcee854beb08e998062d7e883d968",
+    "tree": "a0d2c0da83bf5dc29f2c6b2e02abe6d7ed68f89e"
+  },
+  "case_ids": [
+    "SKU29_COST_GROUP_RETURN_OVER_FIRST_PART_SAFETY_REFUSAL_ONLY",
+    "SKU29_COST_BOTH_PARTS_USAGE_LATE_INVOICE_SOLD_AND_DESCENDANT",
+    "SKU29_COST_FIRST_PART_ACTIVE_USAGE_ATOMIC_GROUP_INVERSE"
+  ],
+  "Native7_PASS_required_before_callbacks": true,
+  "first_case_scope": "NATIVE_SAFETY_REFUSAL_ONLY",
+  "whole_group_recovery_capability": false,
+  "actual_execution": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "complete_outer_restore_required": true,
+  "files": {
+    "scripts/cp6_auditor_runner.py": "2c74439f7e919e2adb2484bc774bef4881e71237124f2e6b6dabdab141348ea7",
+    "scripts/cp6_bc_probe.py": "147de7092ba2284312ba376f8cae82bf05c0fbb77e28956f45966cdfa6c8adb1",
+    "scripts/cp6_bd_probe.py": "c3add21e66d4d5544bf4e4d046a9fa8d64dbcb0cb285551a92c2d7405156b31b",
+    "scripts/cp6_be_cost_probe.py": "baa42aee49af39bb8daf09b83bfc5abc48ab8b8bc4e2a38093f1f18bb1947a80",
+    "scripts/cp6_be_objects_conversion.sql": "d1f50e29639b473bd988c4f791aaec126796fec4bec76fe5ac219fa49f7c7438",
+    "scripts/cp6_be_probe.py": "2705c93e815793c17ed63d4499b9d22434b1c10ebba3487cef83f3ef315f74db",
+    "scripts/cp6_be_revision_probe.py": "ee743fabb1329bc17c1c5b5d1d0861ce3c1c35ff4a7899149057aa438e145ca1",
+    "scripts/cp6_bf_probe.py": "966ab01ad809f53ca895eadfe9394e51737a7b85944a5a5b1752220bb0b57bd7",
+    "scripts/cp6_initial_import_receipt_trial.py": "04e87f0c71a9894c537bfe42e49078247826a7c25d82ff96168e611142e45afe",
+    "scripts/cp7_ow04_restore_bundle.py": "a1605193347cf5b3321a7bdbf8ff6c634df4f4c0a5113eb295e8c3ce44428e00",
+    "scripts/cp7_p21_current_chain_rehearsal_probe.py": "113bda42019a4617dd904e37af86ba7bc3cd6577baeefa741c51867bf7af24f0",
+    "scripts/cp7_sku_pair_conversion/composition.py": "dbc2f01afd97ef2b9a231611d4510da623cb1cebf5455da67c52dd3df7130849",
+    "scripts/cp7_sku_pair_conversion/conversion.sql": "4b26a65beae5defc877589dae756ce2adc9ecb19b3b9a3b68c86765a4c434961",
+    "scripts/cp7_sku_pair_conversion/native_delta.py": "ff479d17a8f039693723307088551a0eb6876e2bdd772da2b6dc6f60c55d82f8",
+    "scripts/cp7_sku_pair_conversion/pairs.sql": "05c7b67222b2a003ee4180872216a0837c747fcb145db88157317bad25b281c2",
+    "scripts/cp7_sku_pair_conversion/ri_catalog.py": "aa30eff7c258de3ced78067ed7fbe660bef4570c291946f9291d6363881a4f3e",
+    "scripts/current-sku-group-cost-qualification/.gitignore": "32dae3052f331ee34d628ef535709b301259a45df7c7522c4d35dcf49873f00b",
+    "scripts/current-sku-group-cost-qualification/README.md": "a5f684c16fa7289561f1b8add3b59af0c550a53a27e463fe943b906097538b3f",
+    "scripts/current-sku-group-cost-qualification/cases.py": "0536eda078071b8b9e87604ee1c722f34157c2b1d34adac8e6a483e5470a9e0c",
+    "scripts/current-sku-group-cost-qualification/check_import.py": "e279c0b13ced1fce1b13d9bd6d2b98a056638026117e151d96a55a37fe90b69e",
+    "scripts/current-sku-group-cost-qualification/native_fixture.py": "12871fbcf27caa62042c0bcd5b8c80ed81ae84ff014af64fdd26703853d51891",
+    "scripts/current-sku-group-cost-qualification/oracle.py": "b719fe60d2503e44c09a812296fe1820b137b3d9c23d78c2aa830264d5e96578",
+    "scripts/current-sku-group-cost-qualification/source_guard.py": "147f8cae3795a171615bb9c536c4354dac655d235acff50bcd6595c37f51a883",
+    "scripts/current-sku-group-cost-qualification/test_oracle.py": "bbcf91520cc0281feff88abdc6b6a3d35946c1d0280a3319448cbfa65fe03554",
+    "scripts/current-sku-pair-conversion-qualification/auth_waits.py": "5e4e7d4d6f0e71da0817dec670d9e31b8bef9987f683eaf35c7ef198dbfec351",
+    "scripts/current-sku-pair-conversion-qualification/cases.py": "5a2e70eb96edc54318cf331c4583af48abdf63f783da19a1974725be0414f4e9",
+    "scripts/current-sku-pair-conversion-qualification/fixture.py": "707c579a2bd923466fd0badb2bd09897634501d18b42f8b87c553ba19559ad8e",
+    "scripts/current-sku-pair-conversion-qualification/races.py": "10361a994d0d26357399f9f7625e5b1828bc8d02a796609b12ff7567e7a034e8",
+    "scripts/current-sku-pair-conversion-qualification/runner.py": "86f03376ebe0838da52cb612a92178628b70121631f18978b11314690963ab58",
+    "scripts/current-sku-pair-conversion-qualification/test_plan.py": "7aaad3dd87825c328c7139440221bd56a8c72422db6f3369107b0917001e6515",
+    "supabase/release/cp6-t3-src/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql": "5f267c2184a8acf191914698b22d835b62e8ddfb36b017de36802684d6863b80"
+  },
+  "UTC_successor_derivation": {
+    "prior_manifest_sha256": "d7968a38f3ea7b7a829732208ec4d39fa1cafbbf1f92ce7b8c81c54a1e034249",
+    "prior_head": "961c22f8d3fa6fd2c16a8932a23b6d3a347d0c98",
+    "permitted_changed_inputs": [
+      "scripts/cp7_sku_pair_conversion/conversion.sql",
+      "scripts/current-sku-group-cost-qualification/README.md",
+      "scripts/current-sku-group-cost-qualification/cases.py",
+      "scripts/current-sku-group-cost-qualification/source_guard.py",
+      "scripts/current-sku-pair-conversion-qualification/cases.py"
+    ],
+    "product_change": "ONLY_TWO_UTC_FUNCTION_ATTRIBUTES_AND_EXPLANATORY_COMMENT",
+    "Native_case_change": "SAME_MIXED_CASE_FIVE_CALLER_ZONES_ALL_FIELDS_EQUAL",
+    "callback_financial_assertion_bodies_changed": false,
+    "fixture_browser_oracles_changed": false,
+    "retained961_usable_prerequisite": false,
+    "actual_execution": false
+  }
+}

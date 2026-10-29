@@ -1,0 +1,77 @@
+{
+  "status": "LOCAL_PREPARED_GREEN_ACTUAL_NATIVE_NOT_EXECUTED",
+  "backend_candidate": {
+    "commit": "961c22f8d3fa6fd2c16a8932a23b6d3a347d0c98",
+    "tree": "63b22c8b764ec02f3aa4842b2309338e32e306b5"
+  },
+  "case_ids": [
+    "SKU29_COST_GROUP_RETURN_OVER_FIRST_PART_SAFETY_REFUSAL_ONLY",
+    "SKU29_COST_BOTH_PARTS_USAGE_LATE_INVOICE_SOLD_AND_DESCENDANT",
+    "SKU29_COST_FIRST_PART_ACTIVE_USAGE_ATOMIC_GROUP_INVERSE"
+  ],
+  "source_files": 31,
+  "source_manifest_sha256": "d7968a38f3ea7b7a829732208ec4d39fa1cafbbf1f92ce7b8c81c54a1e034249",
+  "local_controls": {
+    "independent_decimal_gold_gate_sensitivity_and_source": 5,
+    "actual_dependency_import": "PASS_NO_DB_OPENED",
+    "unadmitted_runtime_callbacks": "REFUSED_BEFORE_CURSOR",
+    "Python_compile": "PASS",
+    "git_diff_check": "PASS"
+  },
+  "first_local_controls": "5_PASS_NO_FAILURE",
+  "actual_Native_cases_executed": 0,
+  "Native7_original_admitted": false,
+  "actual_Auth_browser": false,
+  "first_case_is_safety_refusal_only": true,
+  "whole_group_recovery_capability": false,
+  "source_facts_immutability": [
+    "complete product_conversions",
+    "complete product_conversion_allocations",
+    "complete be_conversion_sources_v1",
+    "complete sale_stock_allocations",
+    "complete original source hpp_versions"
+  ],
+  "zero_effect_comparisons": "All original22 catalog groups plus full current catalog._data row and sequence map, no field/key removal",
+  "no_frozen_native7_or_product_or_cost_engine_changes": true,
+  "limitations": [
+    "Prior actual Native7 exact Original/package/restoration admission mandatory before callbacks",
+    "Actual groupcost3 not run; no Native, Auth, browser or restoration credit from local controls",
+    "First recovery case confirms capacity guard and first-child limitation; it is not full-group recovery support",
+    "Second-part DML before first-part refusal is a labeled inference from exact source/member order/initial statuses/error, not an external per-child audit witness",
+    "Full outer install/source bindings/catalog/data/sequence/role/backup/advisor/package gates still required"
+  ],
+  "logs": [
+    {
+      "name": "sku-group-cost-local-first.log",
+      "bytes": 103,
+      "sha256": "464e0ee629edf74de09ef21e4232fbcedc26588ff7cc23c470f47fe2da88c255"
+    },
+    {
+      "name": "sku-group-cost-import-first.log",
+      "bytes": 335,
+      "sha256": "4fc8b399adc32e63409d0aa5f0128776f69c3afafaa89421a9b623547a1e9f7b"
+    },
+    {
+      "name": "sku-group-cost-source-first.log",
+      "bytes": 718,
+      "sha256": "6d43bab14064e0157b4e334fb90d1b808b1604db6cca9a4879fa782058d211e8"
+    },
+    {
+      "name": "sku-group-cost-local-final.log",
+      "bytes": 103,
+      "sha256": "3872f5a85da677f909ec5c55a5821758c34e2394460567a29f8043b480cc1105"
+    },
+    {
+      "name": "sku-group-cost-import-final.log",
+      "bytes": 335,
+      "sha256": "4fc8b399adc32e63409d0aa5f0128776f69c3afafaa89421a9b623547a1e9f7b"
+    },
+    {
+      "name": "sku-group-cost-source-final.log",
+      "bytes": 718,
+      "sha256": "e06eab14e3e759515741abbd1f9839bdbd68beb1fe8a0b7712647a740543c9f4"
+    }
+  ],
+  "production_go": false,
+  "independent_acceptance": false
+}
