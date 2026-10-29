@@ -1,0 +1,25 @@
+.asr-report .asr-filters { display: flex; flex-wrap: wrap; gap: 12px; align-items: end; margin: 16px 0; }
+.asr-report label { display: grid; gap: 5px; font-weight: 600; }
+.asr-report input, .asr-report select { max-width: 100%; padding: 8px; font: inherit; }
+.asr-report button { min-height: 40px; padding: 8px 12px; }
+.asr-report .asr-contractors ul { display: flex; flex-wrap: wrap; gap: 8px; padding: 0; list-style: none; }
+.asr-report button[aria-pressed="true"] { outline: 2px solid currentColor; outline-offset: 2px; font-weight: 700; }
+.asr-report .asr-po { max-width: 38rem; margin: 16px 0; }
+.asr-report .asr-scroll { max-width: 100%; overflow-x: auto; }
+.asr-report table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+.asr-report caption { text-align: left; padding: 8px 0; font-weight: 600; }
+.asr-report th, .asr-report td { text-align: left; padding: 10px; border-bottom: 1px solid #d1d5db; vertical-align: top; min-width: 120px; }
+.asr-report th small { display: block; max-width: 260px; font-weight: 400; }
+.asr-report .asr-source { margin-top: 16px; padding: 12px; border: 1px solid #d1d5db; border-radius: 8px; }
+.asr-report summary { cursor: pointer; font-weight: 600; min-height: 32px; }
+.asr-report article { padding: 12px 0; border-top: 1px solid #d1d5db; }
+.asr-report dl { display: grid; grid-template-columns: minmax(130px, 1fr) minmax(0, 3fr); gap: 5px 12px; font-size: .9rem; }
+.asr-report dt { font-weight: 600; }
+.asr-report dd { margin: 0; overflow-wrap: anywhere; }
+.asr-report .asr-snapshot { border-inline-start: 3px solid #64748b; padding-inline-start: 12px; }
+.asr-report .asr-captured { font-size: .9rem; }
+@media (max-width: 640px) {
+  .asr-report .asr-filters { display: grid; grid-template-columns: minmax(0, 1fr); }
+  .asr-report .asr-filters input { width: 100%; box-sizing: border-box; }
+  .asr-report dl { grid-template-columns: minmax(0, 1fr); }
+}

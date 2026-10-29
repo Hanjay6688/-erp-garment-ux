@@ -1,0 +1,82 @@
+{
+  "contract": "cp7.accessory-standard-report.stage.v1",
+  "status": "PREPARED_LOCAL_CONTROLS_ONLY_NATIVE_NOT_RUN",
+  "base_head": "ab50668b848a49e5544aed7f1b8ce981395175d8",
+  "qualified_vendor_head": "41caaaed02c0d89b122ecf1ff221f6647141c335",
+  "policy": {
+    "commit": "20e0a8677b738cd934e47ef1dd113cd168635581",
+    "path": "docs/cp7/OWNER_DECISIONS_20261008.md",
+    "section": "D17-19C",
+    "section_sha256": "2d69db0ceb85079efdb8428ccaeb09afe4308c65b51fc3e8525a124a6aa8191d"
+  },
+  "Original_schema": {
+    "entry": "CLONE_install.source-erp.sql",
+    "bytes": 5385616,
+    "sha256": "0206ea49a972eca28b62be570266e2e53eb4fcc52f21a05d7094991879f1d3d3",
+    "role": "READ_ONLY_SCHEMA_AND_NATIVE_SOURCE_INSPECTION_NOT_RUNTIME_RERUN"
+  },
+  "Native_case_ids": [
+    "S05_NATIVE_CATEGORY_VARIANTS_PO",
+    "S05_NATIVE_HISTORICAL_BOM",
+    "S05_NATIVE_LATE_INVOICE_COST_REVISIONS",
+    "S05_NATIVE_ZERO_REIMBURSEMENT",
+    "S05_NATIVE_EMPTY_AND_NO_OUTPUT",
+    "S05_NATIVE_WIB_COHORTS",
+    "S05_NATIVE_NOTE_DRAFT_INVERSE",
+    "S05_NATIVE_QC_INVERSE",
+    "S05_NATIVE_REWORK_NONE_RECORDED_RECIPIENT",
+    "S05_NATIVE_CURRENT_ACCESS_PRIVATE_ACL"
+  ],
+  "files": {
+    "scripts/cp6_bc_probe.py": "147de7092ba2284312ba376f8cae82bf05c0fbb77e28956f45966cdfa6c8adb1",
+    "scripts/cp6_bd_probe.py": "c3add21e66d4d5544bf4e4d046a9fa8d64dbcb0cb285551a92c2d7405156b31b",
+    "scripts/cp6_bf_probe.py": "966ab01ad809f53ca895eadfe9394e51737a7b85944a5a5b1752220bb0b57bd7",
+    "scripts/cp7_accessory_standard_report/README.md": "0603134bc85ad0c4f60d8e7db35e447b89ddb0a6177784f9cb82932423862137",
+    "scripts/cp7_accessory_standard_report/__init__.py": "e1635547d97e5ffa944392fccbce74ec1eb88160d552d84b26781cdae531194a",
+    "scripts/cp7_accessory_standard_report/cases.py": "e025be1280630dfb89f62261163194ce072b6f6ad6d909b56ff6c82f75778e98",
+    "scripts/cp7_accessory_standard_report/preflight.py": "986f077c9430713c7735e4d63f8ffac22973aaadf8fd963a3d8dfaf1401833fd",
+    "scripts/cp7_accessory_standard_report/report.sql": "44e26f9144cff011bf2fb9935d1a448955f8179a9ffaa6884557d8391651c5ab",
+    "scripts/cp7_accessory_standard_report/stage.py": "14d50554184423b1898bc4560506bfda4c91c3c5983501cd74321ffe6e51a22f",
+    "scripts/cp7_f03_e24_issue_cases.py": "055fc9ef15b3389a13256df15bb1110632ad3cb504f788f431b389da826211aa",
+    "scripts/cp7_ow04_restore_bundle.py": "a1605193347cf5b3321a7bdbf8ff6c634df4f4c0a5113eb295e8c3ce44428e00",
+    "scripts/cp7_qc_source_cases.py": "67fe6812924583a7789377f6a01525614d9d0fb2665a8d59ee113a794d076ed5",
+    "scripts/cp7_snapshot_cases.py": "b0f96102c7c508984d830028bbd191804703b7844d8963817ce2917b2050f9f4",
+    "scripts/cp7_vendor_receivable/composition.py": "b0bc106121932deb18a342299ec7ffb1a314abaca9d77879df29784261821df2",
+    "scripts/cp7_vendor_receivable/native_delta.py": "bd0f41be50fea0ab64b19c15d8a09fc7940782507c35482911dd86c36403a52b",
+    "scripts/cp7_vendor_receivable/receivable.sql": "3b24728512e8be6af697f3234e591f7fe6b46331c68e3497ab71aedbcc9aa2ba",
+    "scripts/cp7_wip_source_cases.py": "4ba09e6aa0e30df94bff740dc1c5b08d2eb8ec0738a5cd70da0f43e172ff1b3a",
+    "scripts/current-vendor-integration-source/CONFIG.json": "5580b0c2a88cf25a5e4cbf7db70e356394d5a690d192249483a7358a7ecb96d7",
+    "src/AccessoryStandardReport.dom.test.tsx": "83746323aa3142f24a89619cd19bb74fcd2638517358b9b62366643ede7b891e",
+    "src/ConnectedAccessoryStandardReportPage.tsx": "7ea45bfe0276eca864e67ae0dc0cacd3d9a114436533e6df5923d68cf63d4fab",
+    "src/accessory-standard-report.css": "a9d62618178521d25fa392e6497e24ebc1e8146277b9cda33a9d76e7ea76d16a",
+    "src/accessoryStandardReport.test.ts": "e4de6205b8e023ffc5a46135a98397e3c5859dd19812712458f9339670f8d36b",
+    "src/accessoryStandardReport.ts": "982988ce7a48c624294bcb22a6663ae8bd842825ecfa74c72b8f1fa697a6f1a1",
+    "src/auth/AuthProvider.tsx": "d1ee2b58fb8ba4f9d416c84b5f461b28141fc123c6efc6ee89604160b79b2736",
+    "src/cp6BusinessTime.ts": "d1681a2c28898c2bd772581bb4436cd1ca34bfa32e41af4b9096f2aaa0b834b7",
+    "src/lib/supabase.ts": "51dc62a3f5d85fd0aa618a6cbb78bbbd20b063aad4ef64e84da933c3c21bfc28",
+    "tests/fixtures/accessoryStandardReport.ts": "2013b59a6a93c9b5855f5ca54374f05bc0810c927dc64fc09512fd5af8ccc2b8"
+  },
+  "business_DML": false,
+  "Native_executions": 0,
+  "independent_acceptance": false,
+  "production_go": false,
+  "local_validation": {
+    "status": "PASS_OFFLINE_ONLY",
+    "vitest": {
+      "files": 2,
+      "contract_cases": 21,
+      "DOM_cases": 8,
+      "total": 29
+    },
+    "typescript": "PASS_NO_EMIT",
+    "python": "PASS_COMPILE",
+    "source_negative_controls": {
+      "mutation": 4,
+      "catalog_delta": 4
+    },
+    "Native_SQL_compile": "NOT_RUN",
+    "Native": "NOT_RUN",
+    "HTTP": "NOT_RUN",
+    "browser": "NOT_RUN"
+  }
+}

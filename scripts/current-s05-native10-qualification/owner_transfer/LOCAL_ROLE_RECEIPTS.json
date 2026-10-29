@@ -1,0 +1,417 @@
+{
+  "contract": "cp7.s05-local-role-controls.v1",
+  "classification": "LOCAL_PGLITE_NOT_NATIVE",
+  "final_actual_role_DDL_tests": 8,
+  "Native_executions": 0,
+  "ERP_function_calls": 0,
+  "entries": [
+    {
+      "path": "scripts/current-s05-native10-qualification/owner_transfer/OUTER_SU_FIFTH.json.gz",
+      "original_name": "OUTER_SU_FIFTH.json",
+      "original_bytes": 3440988,
+      "original_sha256": "c402b8c055200b6611959a36074a37c2b211b89e963e9b08fb906f8e481b92d4",
+      "gzip_bytes": 519529,
+      "gzip_sha256": "db9fae47faae7c9f6059049154b6e21decfb00c1253e3ec8396319300ccdca7f",
+      "status": "FAIL_LOCAL_ONLY",
+      "tests_run": 8,
+      "failures": 0,
+      "errors": 1,
+      "source_closure": {
+        "scripts/cp7_accessory_standard_report/stage.py": {
+          "sha256": "a30e254ddf5cba7f3f74524b2be98ce4a34c5008b4e775c25d79849f5eaa7d87",
+          "retained_matching_paths": [
+            "scripts/cp7_accessory_standard_report/stage.py"
+          ]
+        },
+        "scripts/cp7_accessory_standard_report/report.sql": {
+          "sha256": "44e26f9144cff011bf2fb9935d1a448955f8179a9ffaa6884557d8391651c5ab",
+          "retained_matching_paths": [
+            "scripts/cp7_accessory_standard_report/report.sql",
+            "scripts/current-s05-native10-qualification/owner_transfer/retained/report.sql"
+          ]
+        },
+        "scripts/current-s05-native10-qualification/owner_transfer/pglite_bridge.mjs": {
+          "sha256": "41ed372d49fe9f7269d174902da4335062f2c42a952d8b886db90f84ad337e62",
+          "retained_matching_paths": [
+            "scripts/current-s05-native10-qualification/owner_transfer/pglite_bridge.mjs"
+          ]
+        },
+        "scripts/current-s05-native10-qualification/owner_transfer/test_outer_superuser.py": {
+          "sha256": "a2facae97eb7c610b455d7fc86b9579a6ffafdee8b59ec4bd943aa859abd7469",
+          "retained_matching_paths": [
+            "scripts/current-s05-native10-qualification/owner_transfer/retained/test_outer_superuser_FIFTH.py"
+          ]
+        },
+        "scripts/cp7_ow04_restore_bundle.py": {
+          "sha256": "a1605193347cf5b3321a7bdbf8ff6c634df4f4c0a5113eb295e8c3ce44428e00",
+          "retained_matching_paths": [
+            "scripts/cp7_ow04_restore_bundle.py"
+          ]
+        },
+        "scripts/cp7_consumer_owning_install.py": {
+          "sha256": "74c9209b9cd32e4c583c2e25b66076ada972fa1dcce39f0ea4fa7669f150e5e9",
+          "retained_matching_paths": [
+            "scripts/cp7_consumer_owning_install.py"
+          ]
+        }
+      }
+    },
+    {
+      "path": "scripts/current-s05-native10-qualification/owner_transfer/OUTER_SU_FIRST.json.gz",
+      "original_name": "OUTER_SU_FIRST.json",
+      "original_bytes": 11082,
+      "original_sha256": "0a33080b6d5fd8b9741dc88a9aacea0b77bb27f493423aa20c54b465d15fc5c1",
+      "gzip_bytes": 1907,
+      "gzip_sha256": "e50549485cf20a65182066b0a1d63b94efddb561073ab4927182383bbc601295",
+      "status": "FAIL_LOCAL_ONLY",
+      "tests_run": 8,
+      "failures": 0,
+      "errors": 9,
+      "source_closure": {
+        "scripts/cp7_accessory_standard_report/stage.py": {
+          "sha256": "a30e254ddf5cba7f3f74524b2be98ce4a34c5008b4e775c25d79849f5eaa7d87",
+          "retained_matching_paths": [
+            "scripts/cp7_accessory_standard_report/stage.py"
+          ]
+        },
+        "scripts/cp7_accessory_standard_report/report.sql": {
+          "sha256": "44e26f9144cff011bf2fb9935d1a448955f8179a9ffaa6884557d8391651c5ab",
+          "retained_matching_paths": [
+            "scripts/cp7_accessory_standard_report/report.sql",
+            "scripts/current-s05-native10-qualification/owner_transfer/retained/report.sql"
+          ]
+        },
+        "scripts/current-s05-native10-qualification/owner_transfer/pglite_bridge.mjs": {
+          "sha256": "abc947d4049aa7dd161599b83da320fa6b4b2d862d1ff030df9914f1d13e40b4",
+          "retained_matching_paths": [
+            "scripts/current-s05-native10-qualification/owner_transfer/retained/pglite_bridge_FIRST.mjs"
+          ]
+        },
+        "scripts/current-s05-native10-qualification/owner_transfer/test_outer_superuser.py": {
+          "sha256": "07b627c871578abb62311d9f9abdca2e8e6538f7ca2b8cd2fb8d97e1e3e874ac",
+          "retained_matching_paths": [
+            "scripts/current-s05-native10-qualification/owner_transfer/retained/test_outer_superuser_FIRST.py"
+          ]
+        },
+        "scripts/cp7_ow04_restore_bundle.py": {
+          "sha256": "a1605193347cf5b3321a7bdbf8ff6c634df4f4c0a5113eb295e8c3ce44428e00",
+          "retained_matching_paths": [
+            "scripts/cp7_ow04_restore_bundle.py"
+          ]
+        },
+        "scripts/cp7_consumer_owning_install.py": {
+          "sha256": "74c9209b9cd32e4c583c2e25b66076ada972fa1dcce39f0ea4fa7669f150e5e9",
+          "retained_matching_paths": [
+            "scripts/cp7_consumer_owning_install.py"
+          ]
+        }
+      }
+    },
+    {
+      "path": "scripts/current-s05-native10-qualification/owner_transfer/OUTER_SU_FOURTH.json.gz",
+      "original_name": "OUTER_SU_FOURTH.json",
+      "original_bytes": 3440586,
+      "original_sha256": "5c24d090f2a0bdd952b9b95ed10ab8adedcab643e326189690c0a9b6ed89f004",
+      "gzip_bytes": 519609,
+      "gzip_sha256": "906989e042f40699ca32d8385d2f1401eb7aa83964122f0f7ff9dc9030ccd78f",
+      "status": "FAIL_LOCAL_ONLY",
+      "tests_run": 8,
+      "failures": 0,
+      "errors": 1,
+      "source_closure": {
+        "scripts/cp7_accessory_standard_report/stage.py": {
+          "sha256": "a30e254ddf5cba7f3f74524b2be98ce4a34c5008b4e775c25d79849f5eaa7d87",
+          "retained_matching_paths": [
+            "scripts/cp7_accessory_standard_report/stage.py"
+          ]
+        },
+        "scripts/cp7_accessory_standard_report/report.sql": {
+          "sha256": "44e26f9144cff011bf2fb9935d1a448955f8179a9ffaa6884557d8391651c5ab",
+          "retained_matching_paths": [
+            "scripts/cp7_accessory_standard_report/report.sql",
+            "scripts/current-s05-native10-qualification/owner_transfer/retained/report.sql"
+          ]
+        },
+        "scripts/current-s05-native10-qualification/owner_transfer/pglite_bridge.mjs": {
+          "sha256": "41ed372d49fe9f7269d174902da4335062f2c42a952d8b886db90f84ad337e62",
+          "retained_matching_paths": [
+            "scripts/current-s05-native10-qualification/owner_transfer/pglite_bridge.mjs"
+          ]
+        },
+        "scripts/current-s05-native10-qualification/owner_transfer/test_outer_superuser.py": {
+          "sha256": "fd1c8106d8a6f82e27de25dd118755c1f078bf6e0146928dbbdf34e0ed1b9e44",
+          "retained_matching_paths": [
+            "scripts/current-s05-native10-qualification/owner_transfer/retained/test_outer_superuser_FOURTH.py"
+          ]
+        },
+        "scripts/cp7_ow04_restore_bundle.py": {
+          "sha256": "a1605193347cf5b3321a7bdbf8ff6c634df4f4c0a5113eb295e8c3ce44428e00",
+          "retained_matching_paths": [
+            "scripts/cp7_ow04_restore_bundle.py"
+          ]
+        },
+        "scripts/cp7_consumer_owning_install.py": {
+          "sha256": "74c9209b9cd32e4c583c2e25b66076ada972fa1dcce39f0ea4fa7669f150e5e9",
+          "retained_matching_paths": [
+            "scripts/cp7_consumer_owning_install.py"
+          ]
+        }
+      }
+    },
+    {
+      "path": "scripts/current-s05-native10-qualification/owner_transfer/OUTER_SU_SECOND.json.gz",
+      "original_name": "OUTER_SU_SECOND.json",
+      "original_bytes": 277765,
+      "original_sha256": "4a9a853803978fca700f5471fd3a831609756ce35a78f09b1bb7479c230582c6",
+      "gzip_bytes": 33108,
+      "gzip_sha256": "b2f3252c2f54b913b82c0fe01ca5ca9aa42c01f413363f06898fb1893d6941f0",
+      "status": "FAIL_LOCAL_ONLY",
+      "tests_run": 8,
+      "failures": 0,
+      "errors": 7,
+      "source_closure": {
+        "scripts/cp7_accessory_standard_report/stage.py": {
+          "sha256": "a30e254ddf5cba7f3f74524b2be98ce4a34c5008b4e775c25d79849f5eaa7d87",
+          "retained_matching_paths": [
+            "scripts/cp7_accessory_standard_report/stage.py"
+          ]
+        },
+        "scripts/cp7_accessory_standard_report/report.sql": {
+          "sha256": "44e26f9144cff011bf2fb9935d1a448955f8179a9ffaa6884557d8391651c5ab",
+          "retained_matching_paths": [
+            "scripts/cp7_accessory_standard_report/report.sql",
+            "scripts/current-s05-native10-qualification/owner_transfer/retained/report.sql"
+          ]
+        },
+        "scripts/current-s05-native10-qualification/owner_transfer/pglite_bridge.mjs": {
+          "sha256": "abc947d4049aa7dd161599b83da320fa6b4b2d862d1ff030df9914f1d13e40b4",
+          "retained_matching_paths": [
+            "scripts/current-s05-native10-qualification/owner_transfer/retained/pglite_bridge_FIRST.mjs"
+          ]
+        },
+        "scripts/current-s05-native10-qualification/owner_transfer/test_outer_superuser.py": {
+          "sha256": "b74894e97d48e6e43e6439be3d5542b0e067fa404c7263f7d10759304fbacfdd",
+          "retained_matching_paths": [
+            "scripts/current-s05-native10-qualification/owner_transfer/retained/test_outer_superuser_SECOND.py"
+          ]
+        },
+        "scripts/cp7_ow04_restore_bundle.py": {
+          "sha256": "a1605193347cf5b3321a7bdbf8ff6c634df4f4c0a5113eb295e8c3ce44428e00",
+          "retained_matching_paths": [
+            "scripts/cp7_ow04_restore_bundle.py"
+          ]
+        },
+        "scripts/cp7_consumer_owning_install.py": {
+          "sha256": "74c9209b9cd32e4c583c2e25b66076ada972fa1dcce39f0ea4fa7669f150e5e9",
+          "retained_matching_paths": [
+            "scripts/cp7_consumer_owning_install.py"
+          ]
+        }
+      }
+    },
+    {
+      "path": "scripts/current-s05-native10-qualification/owner_transfer/OUTER_SU_SEVENTH.json.gz",
+      "original_name": "OUTER_SU_SEVENTH.json",
+      "original_bytes": 3495943,
+      "original_sha256": "3be5d5a4e2d575dbcecc9ade4e84c243c634effb3010831901cab0d5678479d3",
+      "gzip_bytes": 526363,
+      "gzip_sha256": "0641e2af23e6f1705160dd6e952c9d11df48e586f19f4dd22c3ed13658a3627a",
+      "status": "PASS_LOCAL_ONLY",
+      "tests_run": 8,
+      "failures": 0,
+      "errors": 0,
+      "source_closure": {
+        "scripts/cp7_accessory_standard_report/stage.py": {
+          "sha256": "a30e254ddf5cba7f3f74524b2be98ce4a34c5008b4e775c25d79849f5eaa7d87",
+          "retained_matching_paths": [
+            "scripts/cp7_accessory_standard_report/stage.py"
+          ]
+        },
+        "scripts/cp7_accessory_standard_report/report.sql": {
+          "sha256": "44e26f9144cff011bf2fb9935d1a448955f8179a9ffaa6884557d8391651c5ab",
+          "retained_matching_paths": [
+            "scripts/cp7_accessory_standard_report/report.sql",
+            "scripts/current-s05-native10-qualification/owner_transfer/retained/report.sql"
+          ]
+        },
+        "scripts/current-s05-native10-qualification/owner_transfer/pglite_bridge.mjs": {
+          "sha256": "41ed372d49fe9f7269d174902da4335062f2c42a952d8b886db90f84ad337e62",
+          "retained_matching_paths": [
+            "scripts/current-s05-native10-qualification/owner_transfer/pglite_bridge.mjs"
+          ]
+        },
+        "scripts/current-s05-native10-qualification/owner_transfer/test_outer_superuser.py": {
+          "sha256": "dfd1522ae16397c69423a2242d7f59860170ee7e7cc46fed98d8f81b2914d2df",
+          "retained_matching_paths": [
+            "scripts/current-s05-native10-qualification/owner_transfer/test_outer_superuser.py"
+          ]
+        },
+        "scripts/cp7_ow04_restore_bundle.py": {
+          "sha256": "a1605193347cf5b3321a7bdbf8ff6c634df4f4c0a5113eb295e8c3ce44428e00",
+          "retained_matching_paths": [
+            "scripts/cp7_ow04_restore_bundle.py"
+          ]
+        },
+        "scripts/cp7_consumer_owning_install.py": {
+          "sha256": "74c9209b9cd32e4c583c2e25b66076ada972fa1dcce39f0ea4fa7669f150e5e9",
+          "retained_matching_paths": [
+            "scripts/cp7_consumer_owning_install.py"
+          ]
+        }
+      }
+    },
+    {
+      "path": "scripts/current-s05-native10-qualification/owner_transfer/OUTER_SU_SIXTH.json.gz",
+      "original_name": "OUTER_SU_SIXTH.json",
+      "original_bytes": 3497265,
+      "original_sha256": "95f8db031d7c65aa2820754c5253ae4eaeeae3b67f25ca64ed4626c93045a1d6",
+      "gzip_bytes": 526583,
+      "gzip_sha256": "a56c4ffe97696b7151c00dbf1e519811b9daa5a46e81a435a98a7639f1094f73",
+      "status": "FAIL_LOCAL_ONLY",
+      "tests_run": 8,
+      "failures": 1,
+      "errors": 0,
+      "source_closure": {
+        "scripts/cp7_accessory_standard_report/stage.py": {
+          "sha256": "a30e254ddf5cba7f3f74524b2be98ce4a34c5008b4e775c25d79849f5eaa7d87",
+          "retained_matching_paths": [
+            "scripts/cp7_accessory_standard_report/stage.py"
+          ]
+        },
+        "scripts/cp7_accessory_standard_report/report.sql": {
+          "sha256": "44e26f9144cff011bf2fb9935d1a448955f8179a9ffaa6884557d8391651c5ab",
+          "retained_matching_paths": [
+            "scripts/cp7_accessory_standard_report/report.sql",
+            "scripts/current-s05-native10-qualification/owner_transfer/retained/report.sql"
+          ]
+        },
+        "scripts/current-s05-native10-qualification/owner_transfer/pglite_bridge.mjs": {
+          "sha256": "41ed372d49fe9f7269d174902da4335062f2c42a952d8b886db90f84ad337e62",
+          "retained_matching_paths": [
+            "scripts/current-s05-native10-qualification/owner_transfer/pglite_bridge.mjs"
+          ]
+        },
+        "scripts/current-s05-native10-qualification/owner_transfer/test_outer_superuser.py": {
+          "sha256": "623157144604717e2d7b4212a11f1955a243be198ade5f8c218c0fd710ffc1b9",
+          "retained_matching_paths": [
+            "scripts/current-s05-native10-qualification/owner_transfer/retained/test_outer_superuser_SIXTH.py"
+          ]
+        },
+        "scripts/cp7_ow04_restore_bundle.py": {
+          "sha256": "a1605193347cf5b3321a7bdbf8ff6c634df4f4c0a5113eb295e8c3ce44428e00",
+          "retained_matching_paths": [
+            "scripts/cp7_ow04_restore_bundle.py"
+          ]
+        },
+        "scripts/cp7_consumer_owning_install.py": {
+          "sha256": "74c9209b9cd32e4c583c2e25b66076ada972fa1dcce39f0ea4fa7669f150e5e9",
+          "retained_matching_paths": [
+            "scripts/cp7_consumer_owning_install.py"
+          ]
+        }
+      }
+    },
+    {
+      "path": "scripts/current-s05-native10-qualification/owner_transfer/OUTER_SU_THIRD.json.gz",
+      "original_name": "OUTER_SU_THIRD.json",
+      "original_bytes": 1115701,
+      "original_sha256": "fa815a5d3c504716eb059326122d4ecab7132c12c5ed99e709b09fc29d0ddbbc",
+      "gzip_bytes": 151562,
+      "gzip_sha256": "981170606b3baddb2d807b4cfd02ff157000ea82db43394cddbed74f1e243238",
+      "status": "FAIL_LOCAL_ONLY",
+      "tests_run": 8,
+      "failures": 1,
+      "errors": 5,
+      "source_closure": {
+        "scripts/cp7_accessory_standard_report/stage.py": {
+          "sha256": "a30e254ddf5cba7f3f74524b2be98ce4a34c5008b4e775c25d79849f5eaa7d87",
+          "retained_matching_paths": [
+            "scripts/cp7_accessory_standard_report/stage.py"
+          ]
+        },
+        "scripts/cp7_accessory_standard_report/report.sql": {
+          "sha256": "44e26f9144cff011bf2fb9935d1a448955f8179a9ffaa6884557d8391651c5ab",
+          "retained_matching_paths": [
+            "scripts/cp7_accessory_standard_report/report.sql",
+            "scripts/current-s05-native10-qualification/owner_transfer/retained/report.sql"
+          ]
+        },
+        "scripts/current-s05-native10-qualification/owner_transfer/pglite_bridge.mjs": {
+          "sha256": "abc947d4049aa7dd161599b83da320fa6b4b2d862d1ff030df9914f1d13e40b4",
+          "retained_matching_paths": [
+            "scripts/current-s05-native10-qualification/owner_transfer/retained/pglite_bridge_FIRST.mjs"
+          ]
+        },
+        "scripts/current-s05-native10-qualification/owner_transfer/test_outer_superuser.py": {
+          "sha256": "912e31cf0690976f6b3df77668fc19543a54fc5392cb804838eb9f60a6d1ce92",
+          "retained_matching_paths": [
+            "scripts/current-s05-native10-qualification/owner_transfer/retained/test_outer_superuser_THIRD.py"
+          ]
+        },
+        "scripts/cp7_ow04_restore_bundle.py": {
+          "sha256": "a1605193347cf5b3321a7bdbf8ff6c634df4f4c0a5113eb295e8c3ce44428e00",
+          "retained_matching_paths": [
+            "scripts/cp7_ow04_restore_bundle.py"
+          ]
+        },
+        "scripts/cp7_consumer_owning_install.py": {
+          "sha256": "74c9209b9cd32e4c583c2e25b66076ada972fa1dcce39f0ea4fa7669f150e5e9",
+          "retained_matching_paths": [
+            "scripts/cp7_consumer_owning_install.py"
+          ]
+        }
+      }
+    },
+    {
+      "path": "scripts/current-s05-native10-qualification/owner_transfer/FIRST_REPRO.json",
+      "original_bytes": 4593,
+      "original_sha256": "1d744a4d381f925f56fdda303badee4901959f14962c597cda04abed923a0844",
+      "classification": "LOCAL_PGLITE_ROLE_DDL_REPRO_NOT_NATIVE",
+      "Native_executions": 0
+    },
+    {
+      "path": "scripts/current-s05-native10-qualification/owner_transfer/ROLE_PROBE.json",
+      "original_bytes": 2413,
+      "original_sha256": "d3213259a273a11256b24a7e62c0b3ec9ef27f23e9a5bad2bf36331f35aef79a",
+      "classification": "LOCAL_PGLITE_ROLE_DDL_ONLY_NOT_NATIVE",
+      "Native_executions": 0
+    },
+    {
+      "path": "scripts/current-s05-native10-qualification/owner_transfer/ROLE_PROBE_V2.json",
+      "original_bytes": 369,
+      "original_sha256": "9d090ec3614d8c72282907cb810527013e9660d82ddf97e5f1cf03d54c08cac5",
+      "classification": "LOCAL_PGLITE_ROLE_DDL_ONLY_NOT_NATIVE",
+      "Native_executions": 0
+    },
+    {
+      "path": "scripts/current-s05-native10-qualification/owner_transfer/ROLE_PROBE_V3.json",
+      "original_bytes": 465,
+      "original_sha256": "0324a094be3e53b9f5232a3c237e4bf830e3047b12c283fc09fe97ff5b3b71d7",
+      "classification": "LOCAL_PGLITE_ROLE_DDL_ONLY_NOT_NATIVE",
+      "Native_executions": 0
+    },
+    {
+      "path": "scripts/current-s05-native10-qualification/owner_transfer/ROLE_PROBE_V4.json",
+      "original_bytes": 8448,
+      "original_sha256": "23c78c3494e1d9f524fbe1e0d15dd0be00e56c467d95bb61744bc3c025004888",
+      "classification": "LOCAL_PGLITE_ROLE_DDL_ONLY_NOT_NATIVE",
+      "Native_executions": 0
+    },
+    {
+      "path": "scripts/current-s05-native10-qualification/owner_transfer/ROLE_PROBE_V5.json",
+      "original_bytes": 7370,
+      "original_sha256": "9bfdf1909123d28b6561060c1e00471d79c63be7103efda2d757d85c3ad96f73",
+      "classification": "LOCAL_PGLITE_ROLE_DDL_ONLY_NOT_NATIVE",
+      "Native_executions": 0
+    },
+    {
+      "path": "scripts/current-s05-native10-qualification/owner_transfer/ROLE_PROBE_V6.json",
+      "original_bytes": 5974,
+      "original_sha256": "2126c576b8191af3cb76de09abc5c242a3b00b15c5512608797b91b36dc0b058",
+      "classification": "LOCAL_PGLITE_ROLE_DDL_ONLY_NOT_NATIVE",
+      "Native_executions": 0
+    }
+  ],
+  "production_go": false,
+  "independent_acceptance": false
+}

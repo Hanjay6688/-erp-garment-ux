@@ -1,0 +1,127 @@
+{
+  "classification": "LOCAL_PGLITE_ROLE_DDL_REPRO_NOT_NATIVE",
+  "Native_executions": 0,
+  "production_go": false,
+  "independent_acceptance": false,
+  "steps": [
+    {
+      "label": "SESSION_SUPERUSER_CURRENT_ROLE_NONSUPER",
+      "sql": "set role s05_installer",
+      "rows": [],
+      "status": "EXECUTED"
+    },
+    {
+      "label": "IDENTITY",
+      "sql": "select current_user,session_user,(select rolsuper from pg_roles where rolname=current_user) current_super,(select rolsuper from pg_roles where rolname=session_user) session_super,current_setting('createrole_self_grant')",
+      "rows": [
+        {
+          "current_user": "s05_installer",
+          "session_user": "postgres",
+          "current_super": false,
+          "session_super": true,
+          "current_setting": ""
+        }
+      ],
+      "status": "EXECUTED"
+    },
+    {
+      "label": "CREATE_READER_AS_INSTALLER",
+      "sql": "create role cp7_accessory_standard_read nologin noinherit nosuperuser nocreatedb nocreaterole noreplication nobypassrls",
+      "rows": [],
+      "status": "EXECUTED"
+    },
+    {
+      "label": "CREATOR_MEMBERSHIP",
+      "sql": "select pg_get_userbyid(roleid) role,pg_get_userbyid(member) member,admin_option,inherit_option,set_option from pg_auth_members where roleid='cp7_accessory_standard_read'::regrole",
+      "rows": [
+        {
+          "role": "cp7_accessory_standard_read",
+          "member": "s05_installer",
+          "admin_option": true,
+          "inherit_option": false,
+          "set_option": false
+        }
+      ],
+      "status": "EXECUTED"
+    },
+    {
+      "label": "CREATE_STUB_WITH_SAME_PUBLIC_IDENTITY",
+      "sql": "create function public.erp_cp7_get_accessory_standard_report_v1(date,date,uuid,uuid,text,integer,integer)returns jsonb language sql as $$select '{}'::jsonb$$",
+      "rows": [],
+      "status": "EXECUTED"
+    },
+    {
+      "label": "READER_LACKS_CREATE",
+      "sql": "select has_schema_privilege('cp7_accessory_standard_read','public','CREATE') allowed,nspacl::text raw_acl from pg_namespace where nspname='public'",
+      "rows": [
+        {
+          "allowed": false,
+          "raw_acl": "{pg_database_owner=UC/pg_database_owner,=U/pg_database_owner,s05_installer=UC/pg_database_owner}"
+        }
+      ],
+      "status": "EXECUTED"
+    },
+    {
+      "label": "ORIGINAL_OWNER_TRANSFER",
+      "sql": "alter function public.erp_cp7_get_accessory_standard_report_v1(date,date,uuid,uuid,text,integer,integer) owner to cp7_accessory_standard_read",
+      "status": "REJECTED",
+      "error": {
+        "code": "42501",
+        "message": "must be able to SET ROLE \"cp7_accessory_standard_read\""
+      }
+    },
+    {
+      "label": "TEMPORARY_CREATE",
+      "sql": "grant create on schema public to cp7_accessory_standard_read",
+      "rows": [],
+      "status": "EXECUTED"
+    },
+    {
+      "label": "TRANSFER_WITH_CREATE",
+      "sql": "alter function public.erp_cp7_get_accessory_standard_report_v1(date,date,uuid,uuid,text,integer,integer) owner to cp7_accessory_standard_read",
+      "status": "REJECTED",
+      "error": {
+        "code": "42501",
+        "message": "must be able to SET ROLE \"cp7_accessory_standard_read\""
+      }
+    },
+    {
+      "label": "REVOKE_TEMPORARY_CREATE",
+      "sql": "revoke create on schema public from cp7_accessory_standard_read",
+      "rows": [],
+      "status": "EXECUTED"
+    },
+    {
+      "label": "IDENTITY_OWNER_AND_ACL_AFTER",
+      "sql": "select pg_get_userbyid(proowner) owner,(select nspacl::text from pg_namespace where nspname='public') raw_acl,has_schema_privilege('cp7_accessory_standard_read','public','CREATE') reader_create from pg_proc where oid='public.erp_cp7_get_accessory_standard_report_v1(date,date,uuid,uuid,text,integer,integer)'::regprocedure",
+      "rows": [
+        {
+          "owner": "s05_installer",
+          "raw_acl": "{pg_database_owner=UC/pg_database_owner,=U/pg_database_owner,s05_installer=UC/pg_database_owner}",
+          "reader_create": false
+        }
+      ],
+      "status": "EXECUTED"
+    }
+  ],
+  "version": [
+    {
+      "version": "PostgreSQL 17.5 on aarch64-unknown-linux-gnu, compiled by emcc (Emscripten gcc/clang-like replacement + linker emulating GNU ld) 3.1.74 (1092ec30a3fb1d46b1782ff1b4db5094d3d06ae5), 32-bit"
+    }
+  ],
+  "dependency": "0.3.14",
+  "report_before": {
+    "bytes": 23015,
+    "sha256": "44e26f9144cff011bf2fb9935d1a448955f8179a9ffaa6884557d8391651c5ab"
+  },
+  "null_acl_before": [
+    {
+      "raw_acl": null
+    }
+  ],
+  "null_acl_after": [
+    {
+      "raw_acl": "{postgres=UC/postgres}"
+    }
+  ]
+}

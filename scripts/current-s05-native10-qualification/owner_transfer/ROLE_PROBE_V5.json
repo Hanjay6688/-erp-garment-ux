@@ -1,0 +1,247 @@
+{
+  "classification": "LOCAL_PGLITE_ROLE_DDL_ONLY_NOT_NATIVE",
+  "Native_executions": 0,
+  "steps": [
+    {
+      "label": "VERSION",
+      "sql": "select version(),current_database()",
+      "rows": [
+        {
+          "version": "PostgreSQL 17.5 on aarch64-unknown-linux-gnu, compiled by emcc (Emscripten gcc/clang-like replacement + linker emulating GNU ld) 3.1.74 (1092ec30a3fb1d46b1782ff1b4db5094d3d06ae5), 32-bit",
+          "current_database": "template1"
+        }
+      ],
+      "status": "EXECUTED"
+    },
+    {
+      "label": "CREATOR",
+      "sql": "create role s05_installer nologin nosuperuser createrole noinherit",
+      "rows": [],
+      "status": "EXECUTED"
+    },
+    {
+      "label": "PUBLIC_CREATE",
+      "sql": "grant usage,create on schema public to s05_installer",
+      "rows": [],
+      "status": "EXECUTED"
+    },
+    {
+      "label": "SET_CURRENT",
+      "sql": "set role s05_installer",
+      "rows": [],
+      "status": "EXECUTED"
+    },
+    {
+      "label": "BEGIN",
+      "sql": "begin",
+      "rows": [],
+      "status": "EXECUTED"
+    },
+    {
+      "label": "GUC",
+      "sql": "select set_config('createrole_self_grant','set, inherit',true)",
+      "rows": [
+        {
+          "set_config": "set, inherit"
+        }
+      ],
+      "status": "EXECUTED"
+    },
+    {
+      "label": "CREATE_READER",
+      "sql": "create role cp7_accessory_standard_read nologin noinherit nosuperuser nocreatedb nocreaterole noreplication nobypassrls",
+      "rows": [],
+      "status": "EXECUTED"
+    },
+    {
+      "label": "RESTORE_GUC",
+      "sql": "select set_config('createrole_self_grant','',true)",
+      "rows": [
+        {
+          "set_config": ""
+        }
+      ],
+      "status": "EXECUTED"
+    },
+    {
+      "label": "MEMBERS",
+      "sql": "select pg_get_userbyid(roleid) role,pg_get_userbyid(member) member,pg_get_userbyid(grantor) grantor,admin_option,inherit_option,set_option from pg_auth_members where roleid='cp7_accessory_standard_read'::regrole order by grantor",
+      "rows": [
+        {
+          "role": "cp7_accessory_standard_read",
+          "member": "s05_installer",
+          "grantor": "postgres",
+          "admin_option": true,
+          "inherit_option": false,
+          "set_option": false
+        },
+        {
+          "role": "cp7_accessory_standard_read",
+          "member": "s05_installer",
+          "grantor": "s05_installer",
+          "admin_option": false,
+          "inherit_option": true,
+          "set_option": true
+        }
+      ],
+      "status": "EXECUTED"
+    },
+    {
+      "label": "STUB",
+      "sql": "create function public.s05_role_probe()returns integer language sql as $$select 1$$",
+      "rows": [],
+      "status": "EXECUTED"
+    },
+    {
+      "label": "SAVEPOINT",
+      "sql": "savepoint deny",
+      "rows": [],
+      "status": "EXECUTED"
+    },
+    {
+      "label": "DENIED_NO_CREATE",
+      "sql": "alter function public.s05_role_probe()owner to cp7_accessory_standard_read",
+      "status": "REJECTED",
+      "error": {
+        "code": "42501",
+        "message": "permission denied for schema public"
+      }
+    },
+    {
+      "label": "RECOVER_DENY",
+      "sql": "rollback to savepoint deny",
+      "rows": [],
+      "status": "EXECUTED"
+    },
+    {
+      "label": "ACL_BEFORE",
+      "sql": "select nspacl::text from pg_namespace where nspname='public'",
+      "rows": [
+        {
+          "nspacl": "{pg_database_owner=UC/pg_database_owner,=U/pg_database_owner,s05_installer=UC/pg_database_owner}"
+        }
+      ],
+      "status": "EXECUTED"
+    },
+    {
+      "label": "TEMP_CREATE",
+      "sql": "grant create on schema public to cp7_accessory_standard_read",
+      "rows": [],
+      "status": "EXECUTED"
+    },
+    {
+      "label": "ALLOWED_WITH_CREATE",
+      "sql": "alter function public.s05_role_probe()owner to cp7_accessory_standard_read",
+      "status": "REJECTED",
+      "error": {
+        "code": "42501",
+        "message": "permission denied for schema public"
+      }
+    },
+    {
+      "label": "REVOKE_CREATE",
+      "sql": "revoke create on schema public from cp7_accessory_standard_read",
+      "status": "REJECTED",
+      "error": {
+        "code": "25P02",
+        "message": "current transaction is aborted, commands ignored until end of transaction block"
+      }
+    },
+    {
+      "label": "ACL_AFTER",
+      "sql": "select nspacl::text from pg_namespace where nspname='public'",
+      "status": "REJECTED",
+      "error": {
+        "code": "25P02",
+        "message": "current transaction is aborted, commands ignored until end of transaction block"
+      }
+    },
+    {
+      "label": "OUTER",
+      "sql": "reset role",
+      "status": "REJECTED",
+      "error": {
+        "code": "25P02",
+        "message": "current transaction is aborted, commands ignored until end of transaction block"
+      }
+    },
+    {
+      "label": "REVOKE_CREATOR",
+      "sql": "revoke cp7_accessory_standard_read from s05_installer granted by s05_installer",
+      "status": "REJECTED",
+      "error": {
+        "code": "25P02",
+        "message": "current transaction is aborted, commands ignored until end of transaction block"
+      }
+    },
+    {
+      "label": "REVOKE_BOOTSTRAP",
+      "sql": "revoke cp7_accessory_standard_read from s05_installer granted by postgres",
+      "status": "REJECTED",
+      "error": {
+        "code": "25P02",
+        "message": "current transaction is aborted, commands ignored until end of transaction block"
+      }
+    },
+    {
+      "label": "MEMBERS_AFTER",
+      "sql": "select * from pg_auth_members where roleid='cp7_accessory_standard_read'::regrole or member='cp7_accessory_standard_read'::regrole",
+      "status": "REJECTED",
+      "error": {
+        "code": "25P02",
+        "message": "current transaction is aborted, commands ignored until end of transaction block"
+      }
+    },
+    {
+      "label": "UNINSTALL_TEMP",
+      "sql": "grant cp7_accessory_standard_read to s05_installer with inherit true,set true",
+      "status": "REJECTED",
+      "error": {
+        "code": "25P02",
+        "message": "current transaction is aborted, commands ignored until end of transaction block"
+      }
+    },
+    {
+      "label": "UNINSTALL_AS",
+      "sql": "set local role s05_installer",
+      "status": "REJECTED",
+      "error": {
+        "code": "25P02",
+        "message": "current transaction is aborted, commands ignored until end of transaction block"
+      }
+    },
+    {
+      "label": "DROP_OWNED",
+      "sql": "drop owned by cp7_accessory_standard_read cascade",
+      "status": "REJECTED",
+      "error": {
+        "code": "25P02",
+        "message": "current transaction is aborted, commands ignored until end of transaction block"
+      }
+    },
+    {
+      "label": "RESTORE_OUTER",
+      "sql": "reset role",
+      "status": "REJECTED",
+      "error": {
+        "code": "25P02",
+        "message": "current transaction is aborted, commands ignored until end of transaction block"
+      }
+    },
+    {
+      "label": "DROP_ROLE",
+      "sql": "drop role cp7_accessory_standard_read",
+      "status": "REJECTED",
+      "error": {
+        "code": "25P02",
+        "message": "current transaction is aborted, commands ignored until end of transaction block"
+      }
+    },
+    {
+      "label": "ROLLBACK",
+      "sql": "rollback",
+      "rows": [],
+      "status": "EXECUTED"
+    }
+  ]
+}

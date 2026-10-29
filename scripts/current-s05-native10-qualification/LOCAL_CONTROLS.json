@@ -1,0 +1,37 @@
+{
+  "contract": "cp7.s05-native10-local-controls.v1",
+  "status": "PASS_OFFLINE_ONLY",
+  "unittest_cases": 19,
+  "source_admission": "PASS_RETAINED_VENDOR11_AND_BOUNDED_INSTALLER",
+  "engine_derivation": "EXACT_SIX_DECLARED_SUBSTITUTIONS",
+  "historical_workflow_binding": "EXACT_VENDOR41C_RAW_DECLARATION",
+  "control_scope": [
+    "ENGINE_BYTE_IDENTITY_AND_RESTORE_BODY_PRESERVATION",
+    "RETAINED_ORIGINAL_BYTE_AND_SEMANTIC_COUNTERFIXTURES",
+    "ACL_TRANSITION_ORDER_AND_UNDECLARED_ACL_REFUSAL",
+    "EXACT_TEN_CASES_AND_BOUNDARY_COMPLETENESS",
+    "NON_DISPOSABLE_TARGET_REFUSAL",
+    "ROOT_LEAF_WORKFLOW_STRUCTURE",
+    "FAILED_ORIGINAL_BYTE_PRESERVATION",
+    "ORIGINAL_SQL_CASES_UI_AND_VERIFICATION_IMMUTABILITY",
+    "INHERITED_ATOMIC_BOUNDARY_PRESERVATION"
+  ],
+  "Native_executions": 0,
+  "database_calls": 0,
+  "actual_Auth_HTTP": 0,
+  "actual_browser": 0,
+  "runtime_import_source_check": "NOT_RUN",
+  "independent_acceptance": false,
+  "production_go": false,
+  "local_PGlite_role_DDL": {
+    "status": "PASS_LOCAL_ONLY",
+    "tests": 8,
+    "receipt_index": "owner_transfer/LOCAL_ROLE_RECEIPTS.json",
+    "Native_executions": 0,
+    "ERP_function_calls": 0,
+    "check_function_bodies": "off_LOCAL_ONLY_ERP_ABSENT",
+    "parent_verification": "LOCAL_ORCHESTRATION_STUB",
+    "source_catalog_groups": 22
+  },
+  "database_calls_scope": "database_calls=0 applies to offline source controls; explicit local PGlite controls separate from real Native DB"
+}

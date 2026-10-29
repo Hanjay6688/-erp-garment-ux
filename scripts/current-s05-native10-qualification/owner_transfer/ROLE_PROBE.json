@@ -1,0 +1,80 @@
+{
+  "classification": "LOCAL_PGLITE_ROLE_DDL_ONLY_NOT_NATIVE",
+  "Native_executions": 0,
+  "steps": [
+    {
+      "label": "BOUNDED_SELF_GRANT",
+      "sql": "select set_config('createrole_self_grant','set, inherit',true)",
+      "rows": [
+        {
+          "set_config": "set, inherit"
+        }
+      ],
+      "status": "EXECUTED"
+    },
+    {
+      "label": "BOUNDED_SELF_GRANT_IN_TRANSACTION",
+      "sql": "select set_config('createrole_self_grant','set, inherit',true)",
+      "rows": [
+        {
+          "set_config": "set, inherit"
+        }
+      ],
+      "status": "EXECUTED"
+    },
+    {
+      "label": "CREATE_NEW_READER",
+      "sql": "create role cp7_accessory_standard_read nologin noinherit nosuperuser nocreatedb nocreaterole noreplication nobypassrls",
+      "rows": [],
+      "status": "EXECUTED"
+    },
+    {
+      "label": "RESTORE_SELF_GRANT_BEFORE_OTHER_DDL",
+      "sql": "select set_config('createrole_self_grant','',true)",
+      "rows": [
+        {
+          "set_config": ""
+        }
+      ],
+      "status": "EXECUTED"
+    },
+    {
+      "label": "EXACT_AUTO_EDGE",
+      "sql": "select pg_get_userbyid(roleid) role,pg_get_userbyid(member) member,pg_get_userbyid(grantor) grantor,admin_option,inherit_option,set_option from pg_auth_members where roleid='cp7_accessory_standard_read'::regrole",
+      "rows": [
+        {
+          "role": "cp7_accessory_standard_read",
+          "member": "s05_installer",
+          "grantor": "postgres",
+          "admin_option": true,
+          "inherit_option": false,
+          "set_option": false
+        },
+        {
+          "role": "cp7_accessory_standard_read",
+          "member": "s05_installer",
+          "grantor": "s05_installer",
+          "admin_option": false,
+          "inherit_option": true,
+          "set_option": true
+        }
+      ],
+      "status": "EXECUTED"
+    },
+    {
+      "label": "SCHEMA_AUTHORIZATION",
+      "sql": "create schema s05_reader_test authorization cp7_accessory_standard_read",
+      "status": "REJECTED",
+      "error": {
+        "code": "42501",
+        "message": "permission denied for database template1"
+      }
+    }
+  ],
+  "version": [
+    {
+      "version": "PostgreSQL 17.5 on aarch64-unknown-linux-gnu, compiled by emcc (Emscripten gcc/clang-like replacement + linker emulating GNU ld) 3.1.74 (1092ec30a3fb1d46b1782ff1b4db5094d3d06ae5), 32-bit"
+    }
+  ],
+  "dependency": "0.3.14"
+}
