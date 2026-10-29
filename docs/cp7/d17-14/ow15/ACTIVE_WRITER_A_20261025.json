@@ -8,20 +8,7 @@
   "formal_accepted": "5/16",
   "production_go": false,
   "independent_acceptance": false,
-  "running": {
-    "status": "RUNNING_MOBILE_TEST_REPAIR_SOURCE6_NOT_ACCEPTED",
-    "head": "7042fbfd3082b5887ac71332b85e564c39bdd3b1",
-    "tree": "cc580bfe41f7563b6cfdb27974dbfbc252db64fa",
-    "branch": "astra-a/ow08-source6-mobile-repair-qualified-20261029",
-    "run_id": 40800438909,
-    "job_id": 123206984684,
-    "backend": "41caaaed02c0d89b122ecf1ff221f6647141c335",
-    "accepted_money": "2d4ed56eb20187c00e63cd0a0774385d320f53be",
-    "case_count": 6,
-    "product_changes_from_failed6c89": false,
-    "production_go": false,
-    "independent_acceptance": false
-  },
+  "running": null,
   "actual_new_component": {
     "name": "CP7_OW11_MODEL_TARGET_SOURCE_V2.json",
     "status": "PASS",
@@ -20074,5 +20061,177 @@
     "full_data_and_Auth_restored": true,
     "writer_runtime": false
   },
-  "active_priority": "Accept actual source6 successor and complete selective final integration; reuse qualified money/B/return and matched procurement evidence. No new framework or activation."
+  "active_priority": "Accept actual source6 successor and complete selective final integration; reuse qualified money/B/return and matched procurement evidence. No new framework or activation.",
+  "actual_source6_20261029": {
+    "status": "EXACT_ACTUAL_OW08_SOURCE6_ACCEPTABLE_TO_INTEGRATOR",
+    "head": "42760534906c330353f9bb0f53d27db65b134626",
+    "fresh_browser": 6,
+    "fresh_money_browser": 0,
+    "retained_backend_cases": 11,
+    "observations": {
+      "OW08_KASBON_JOURNAL_SOURCE_DESKTOP": {
+        "minimum_contrast": 8.521687470010587,
+        "measurements": 9,
+        "width": {
+          "viewport": 1440,
+          "page": 1440
+        },
+        "screenshots": 4
+      },
+      "OW08_KASBON_JOURNAL_SOURCE_MOBILE": {
+        "minimum_contrast": 8.521687470010587,
+        "measurements": 8,
+        "width": {
+          "viewport": 390,
+          "page": 390
+        },
+        "screenshots": 4
+      },
+      "OW08_UNKNOWN_WASH_SCREEN_PRICE_DESKTOP": {
+        "minimum_contrast": 11.024551861224253,
+        "measurements": 28,
+        "width": {
+          "viewport": 1440,
+          "page": 1440
+        },
+        "screenshots": 4
+      },
+      "OW08_UNKNOWN_WASH_SCREEN_PRICE_MOBILE": {
+        "minimum_contrast": 11.024551861224253,
+        "measurements": 28,
+        "width": {
+          "viewport": 390,
+          "page": 390
+        },
+        "screenshots": 4
+      },
+      "OW08_FG_INVERSE_QC_BLOCKERS_DESKTOP": {
+        "minimum_contrast": 5.790796821874239,
+        "measurements": 16,
+        "width": {
+          "viewport": 1440,
+          "page": 1440
+        },
+        "screenshots": 4
+      },
+      "OW08_FG_INVERSE_QC_BLOCKERS_MOBILE": {
+        "minimum_contrast": 5.790796821874239,
+        "measurements": 16,
+        "width": {
+          "viewport": 390,
+          "page": 390
+        },
+        "screenshots": 5
+      }
+    },
+    "full_OW08_acceptance": false,
+    "production_go": false,
+    "independent_acceptance": false,
+    "pin": {
+      "head": "42760534906c330353f9bb0f53d27db65b134626",
+      "tree": "e64aed9273ab41231e4411dcfffbb9e2cc60a873",
+      "run_id": 40835051931,
+      "job_id": 123317772819,
+      "artifact_id": 12882516057,
+      "zip_bytes": 10190192,
+      "zip_sha256": "98c3d9e52feb71c6f994d136018005ab7652c88e89392df1b838880d6e451f5b",
+      "original": {
+        "name": "CP7_OW08_SOURCE_BROWSER6.json",
+        "path": "docs/cp7/d17-14/ow08/source6-427605-pass/CP7_OW08_SOURCE_BROWSER6.json.gz",
+        "bytes": 1348380,
+        "sha256": "55a00c6b458649079a24109f3164536acc45820eb912fe92b77f24e6d2c8934e"
+      },
+      "package": {
+        "name": "T3_PACKAGE_INSTALL.json",
+        "path": "docs/cp7/d17-14/ow08/source6-427605-pass/T3_PACKAGE_INSTALL.json.gz",
+        "bytes": 360403,
+        "sha256": "f9efe77d49100123eecd6106aab8736e58f29b2a83c21e9fc3409ce900ff4dd3"
+      }
+    },
+    "raw_files": [
+      {
+        "name": "CP7_OW08_SOURCE_BROWSER6.json",
+        "path": "docs/cp7/d17-14/ow08/source6-427605-pass/CP7_OW08_SOURCE_BROWSER6.json.gz",
+        "bytes": 1348380,
+        "sha256": "55a00c6b458649079a24109f3164536acc45820eb912fe92b77f24e6d2c8934e"
+      },
+      {
+        "name": "T3_PACKAGE_INSTALL.json",
+        "path": "docs/cp7/d17-14/ow08/source6-427605-pass/T3_PACKAGE_INSTALL.json.gz",
+        "bytes": 360403,
+        "sha256": "f9efe77d49100123eecd6106aab8736e58f29b2a83c21e9fc3409ce900ff4dd3"
+      },
+      {
+        "name": "T3_BACKUP_RESTORE_DRILL.json",
+        "path": "docs/cp7/d17-14/ow08/source6-427605-pass/T3_BACKUP_RESTORE_DRILL.json.gz",
+        "bytes": 1470,
+        "sha256": "7b009f549d48bdf40b8f095e9110b78cfc6dfa9362abc344800fd46422b123fb"
+      },
+      {
+        "name": "T3_PACKAGE_FILES_INSTALL.json",
+        "path": "docs/cp7/d17-14/ow08/source6-427605-pass/T3_PACKAGE_FILES_INSTALL.json.gz",
+        "bytes": 1806,
+        "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+      }
+    ],
+    "first_incomplete_preserved": [
+      {
+        "head": "6c89ddb46b471b8b5235913666b1410ad3f26c6a",
+        "run_id": 40794662199,
+        "counts": {
+          "PASS": 4,
+          "INCOMPLETE": 2
+        }
+      },
+      {
+        "head": "7042fbfd3082b5887ac71332b85e564c39bdd3b1",
+        "run_id": 40800438909,
+        "counts": {
+          "PASS": 5,
+          "INCOMPLETE": 1
+        },
+        "receipt_head": "42760534906c330353f9bb0f53d27db65b134626",
+        "receipt_path": "scripts/current-ow08-source-browser/SOURCE6_7042_FIRST_INCOMPLETE.json"
+      }
+    ],
+    "visual_review": {
+      "focused_images_reviewed": 13,
+      "total_original_images": 25,
+      "source": "actual original artifact inspected privately",
+      "notes": "Given/cancelled kasbon, unknown/priced wash, named QC blockers, inverse FG and real ADMIN denial readable. Mobile wash uses contained horizontal table scrolling; actual controls were filled/clicked and read back by both real-Auth journeys. No screenshot bytes retained in this receipt."
+    },
+    "new_product_files": [
+      "src/initial-import.css",
+      "src/connected-laundry-qc.css"
+    ],
+    "new_money_browser_credit": 0
+  },
+  "previous_source6_running_now_terminal": {
+    "previous": {
+      "status": "RUNNING_MOBILE_TEST_REPAIR_SOURCE6_NOT_ACCEPTED",
+      "head": "7042fbfd3082b5887ac71332b85e564c39bdd3b1",
+      "tree": "cc580bfe41f7563b6cfdb27974dbfbc252db64fa",
+      "branch": "astra-a/ow08-source6-mobile-repair-qualified-20261029",
+      "run_id": 40800438909,
+      "job_id": 123206984684,
+      "backend": "41caaaed02c0d89b122ecf1ff221f6647141c335",
+      "accepted_money": "2d4ed56eb20187c00e63cd0a0774385d320f53be",
+      "case_count": 6,
+      "product_changes_from_failed6c89": false,
+      "production_go": false,
+      "independent_acceptance": false
+    },
+    "status": "TERMINAL_INCOMPLETE5_PASS1_TEST_MESSAGE",
+    "successor": "42760534906c330353f9bb0f53d27db65b134626"
+  },
+  "active_takeover_scope": {
+    "integrator": "A",
+    "B": "DONE_ACCEPTED",
+    "SKU_features": "PREPARED_LOCAL_GREEN_ACTUAL_QUALIFICATION_PENDING",
+    "staged_AI_context_response": "FIRST_FAILURE_RETAINED_FIX_LOCAL_PROOF_PENDING_INTAKE",
+    "owner_Q3_replacement_credit": "AUTO_TRANSFER_APPROVED",
+    "owner_Q1_Q2": "EXPLANATION_REQUESTED_NOT_DECIDED",
+    "production_go": false,
+    "independent_acceptance": false
+  }
 }

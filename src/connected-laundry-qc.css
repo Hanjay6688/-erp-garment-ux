@@ -1015,3 +1015,6 @@
 .clq-dependencies ul { display:grid; gap:8px; margin:0; padding-left:20px; }
 .clq-dependencies li { overflow-wrap:anywhere; }
 .clq-dependency-pages { display:flex; flex-wrap:wrap; align-items:center; gap:8px; }
+
+/* A blocked QC inverse remains readable without enabling the authoritative action. */
+.clq-history [data-qc-inspection-id] .clq-reversal button:disabled { opacity: 1; border-style: dashed; }

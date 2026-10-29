@@ -93,6 +93,7 @@ def admit(pin, original, package, expected_source, runtime_files, parent_digest,
                 assert denied['role'] == 'ADMIN' and denied['http_status'] == 403
                 assert denied['body']['code'] == '42501'
                 assert denied['body']['message'] == 'CP7_TRANSACTION_SOURCE_ACCESS_DENIED'
+                assert denied['display_message'] == 'Akun tidak memiliki izin untuk operasi ini.'
                 assert 'document' not in denied['body'] and denied['business_unchanged'] is True
                 assert denied['console_evidence']['unexpected_errors'] == []
         observations[name] = dict(minimum_contrast=min(ratios), measurements=len(ratios), width=row['width'], screenshots=len(row['shots']))

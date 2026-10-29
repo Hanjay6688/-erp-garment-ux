@@ -24,3 +24,11 @@ restored; its receipt is docs/cp7/d17-14/ow08/source6-6c89-first-incomplete.json
 Current component7042 is a test-only successor (authorized-shell readiness,
 ADMIN denial retained, positive owning-document access as OWNER). The pin stays
 null until six actual cases and complete package pass; no CSS is adopted here.
+
+
+427605/run40835051931 now has exact Original PASS6 and all five package gates,
+full22/data/sequence/roles/Auth/advisor restoration, real ADMIN403 with the
+established localized UI sentence, and OWNER positive navigation. Thirteen
+focused PNGs were inspected privately. The two exact CSS suffixes are now
+selectively adopted; backend, B driver and frozen manifests remain unchanged.
+The exact first7042 fivePASS/oneINCOMPLETE remains historical.

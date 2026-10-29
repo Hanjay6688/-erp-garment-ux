@@ -1,9 +1,29 @@
 {
   "contract": "cp7.ow08-source-selective-integration.v1",
   "base_head": "39f8a0840d50fcd94d7301eaa2cebab23097b562",
-  "component_head": "7042fbfd3082b5887ac71332b85e564c39bdd3b1",
-  "component_tree": "cc580bfe41f7563b6cfdb27974dbfbc252db64fa",
-  "qualified_source6": null,
+  "component_head": "42760534906c330353f9bb0f53d27db65b134626",
+  "component_tree": "e64aed9273ab41231e4411dcfffbb9e2cc60a873",
+  "qualified_source6": {
+    "head": "42760534906c330353f9bb0f53d27db65b134626",
+    "tree": "e64aed9273ab41231e4411dcfffbb9e2cc60a873",
+    "run_id": 40835051931,
+    "job_id": 123317772819,
+    "artifact_id": 12882516057,
+    "zip_bytes": 10190192,
+    "zip_sha256": "98c3d9e52feb71c6f994d136018005ab7652c88e89392df1b838880d6e451f5b",
+    "original": {
+      "name": "CP7_OW08_SOURCE_BROWSER6.json",
+      "path": "docs/cp7/d17-14/ow08/source6-427605-pass/CP7_OW08_SOURCE_BROWSER6.json.gz",
+      "bytes": 1348380,
+      "sha256": "55a00c6b458649079a24109f3164536acc45820eb912fe92b77f24e6d2c8934e"
+    },
+    "package": {
+      "name": "T3_PACKAGE_INSTALL.json",
+      "path": "docs/cp7/d17-14/ow08/source6-427605-pass/T3_PACKAGE_INSTALL.json.gz",
+      "bytes": 360403,
+      "sha256": "f9efe77d49100123eecd6106aab8736e58f29b2a83c21e9fc3409ce900ff4dd3"
+    }
+  },
   "scoped_paint_overlays": [
     {
       "path": "src/initial-import.css",

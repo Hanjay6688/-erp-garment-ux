@@ -946,3 +946,19 @@ kegagalan lama dipertahankan sesuai kebijakan saat diuji; penerimaan dengan
 kebijakan baru diberi identitas kebijakan baru. Penyebab gagal yang belum
 diketahui tetap diselidiki. Tidak mengubah saldo, stok, HPP, hak, idempotensi,
 pemulihan, larangan WIP ganda, status scope/audit atau `production_go=false`.
+
+
+## D17-19A — 29 Oktober 2026 — kredit pada nota pengganti
+
+Pertanyaan konkret: “Saat Benerin Nota mengganti invoice yang sudah dibayar sebagian dengan kredit, pemakaian kreditnya mau bagaimana?”
+
+Jawaban persis owner: “Pindah otomatis (Recommended)”. Deskripsi pilihan saat dijawab: “Pemakaian kredit dipindahkan ke nota pengganti secara atomik, dengan nominal dan sisa yang ditinjau.”
+
+Berlaku untuk Q3 OW04b E. Ini belum jawaban Q1/Q2; untuk keduanya owner meminta penjelasan bahasa sederhana. Tidak mengubah nominal, kewajiban audit, atau production_go.
+
+
+## D17-19B — 29 Oktober 2026 — koreksi nilai retur/kredit Q1 dan Q2
+
+Sesudah dua contoh sederhana tentang kredit100.000→120.000 dan kredit100.000 yang sudah dipakai80.000 lalu dibetulkan menjadi70.000, rekomendasi writer adalah Q1 tambahan otomatis menjadi saldo kredit yang sama, dan Q2 menahan koreksi serta menampilkan pemakaian/refund terkait yang perlu dibatalkan dulu. Jawaban persis owner: “oke ikuti rekomen lu”.
+
+Keputusan: Q1 AUTO_CREDIT_INCREMENT dengan pratinjau nominal sebelum simpan; Q2 UNDO_ACTIVE_CONSUMERS_FIRST, tanpa piutang baru otomatis. Q3 D17-19A tetap AUTO_TRANSFER_TO_REPLACEMENT atomik dengan nominal/sisa ditinjau. Refusal memandu ke transaksi terkait; alur ledger/lineage dan seluruh penjaga tetap. Ini menyelesaikan pilihan bisnis S01-D/E, bukan bukti implementasi atau PASS dan tidak membuka produksi. S03–S06 tidak diputuskan oleh jawaban ini karena belum menjadi rekomendasi dalam percakapan.
