@@ -87,6 +87,14 @@ def admit(pin, original, package, expected_source, runtime_files, parent_digest,
             answer = row['source_response']
             assert answer['status'] == 'AVAILABLE' and answer['business_DML'] is False
             assert answer['document']['domain'] == 'FG_ADJUSTMENT' and answer['document']['status'] == 'REVERSED'
+            assert row['positive_actor_role'] == 'OWNER'
+            if name.endswith('MOBILE'):
+                denied = row['admin_denial']
+                assert denied['role'] == 'ADMIN' and denied['http_status'] == 403
+                assert denied['body']['code'] == '42501'
+                assert denied['body']['message'] == 'CP7_TRANSACTION_SOURCE_ACCESS_DENIED'
+                assert 'document' not in denied['body'] and denied['business_unchanged'] is True
+                assert denied['console_evidence']['unexpected_errors'] == []
         observations[name] = dict(minimum_contrast=min(ratios), measurements=len(ratios), width=row['width'], screenshots=len(row['shots']))
     assert pkg['gate'] == {k: True for k in GATES}
     assert pkg['run_identity']['tool_head'] == pin['head'] and pkg['writer_runtime']['status'] == 'PASS'

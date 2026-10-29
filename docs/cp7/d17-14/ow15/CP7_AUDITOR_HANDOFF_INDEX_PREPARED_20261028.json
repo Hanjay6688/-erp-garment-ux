@@ -458,7 +458,21 @@
     },
     "waiting_for_B": false,
     "ow08_source_browser": {
-      "status": "RUNNING_ACTUAL_OW08_SOURCE6_NOT_ACCEPTED",
+      "status": "RUNNING_MOBILE_TEST_REPAIR_SOURCE6_NOT_ACCEPTED",
+      "head": "7042fbfd3082b5887ac71332b85e564c39bdd3b1",
+      "tree": "cc580bfe41f7563b6cfdb27974dbfbc252db64fa",
+      "branch": "astra-a/ow08-source6-mobile-repair-qualified-20261029",
+      "run_id": 40800438909,
+      "job_id": 123206984684,
+      "backend": "41caaaed02c0d89b122ecf1ff221f6647141c335",
+      "accepted_money": "2d4ed56eb20187c00e63cd0a0774385d320f53be",
+      "case_count": 6,
+      "product_changes_from_failed6c89": false,
+      "production_go": false,
+      "independent_acceptance": false
+    },
+    "ow08_source_browser_first_failure": {
+      "status": "FAILURE_ACTUAL_4_PASS_2_INCOMPLETE_NOT_ACCEPTED",
       "head": "6c89ddb46b471b8b5235913666b1410ad3f26c6a",
       "tree": "78143b260e9e0191f73bd6fada2c8c72b83736a2",
       "branch": "astra-a/ow08b-source-browser-qualified-20261029",
@@ -469,7 +483,10 @@
       "case_count": 6,
       "paint4": "PASS_DIAGNOSTIC_ONLY_64353F4",
       "production_go": false,
-      "independent_acceptance": false
+      "independent_acceptance": false,
+      "receipt": "docs/cp7/d17-14/ow08/source6-6c89-first-incomplete.json",
+      "full_data_and_Auth_restored": true,
+      "writer_runtime": false
     }
   },
   "vendor_receivable_20261029": {

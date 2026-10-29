@@ -1,0 +1,72 @@
+{
+  "pin": {
+    "head": "6c89ddb46b471b8b5235913666b1410ad3f26c6a",
+    "tree": "78143b260e9e0191f73bd6fada2c8c72b83736a2",
+    "run_id": 40794662199,
+    "job_id": 123188077475,
+    "artifact_id": 12864474429,
+    "zip_bytes": 9518198,
+    "zip_sha256": "900d02a6ba0165ac0a53ef56550c731ec532c01ee9274b0735cb115b7b9855bf",
+    "original": {
+      "name": "CP7_OW08_SOURCE_BROWSER6.json",
+      "bytes": 1293367,
+      "sha256": "9145fcd84a5c86bb80e44f2066aa12084368b66bdd58bb03971ceb3173e7e1c0"
+    },
+    "package": {
+      "name": "T3_PACKAGE_INSTALL.json",
+      "bytes": 360410,
+      "sha256": "dcb40c03fd185b13b1f75ad4b83b55b296f0cc6defa4ac9371b4d6d806285b8d"
+    }
+  },
+  "status": "INCOMPLETE",
+  "job_conclusions": {
+    "123188077475": "failure"
+  },
+  "browser_counts": {
+    "PASS": 4,
+    "INCOMPLETE": 2
+  },
+  "host_status": "RUN_COMPLETE",
+  "restoration": {
+    "cp6_restored": true,
+    "advisor_gate": true,
+    "baseline_full22_all_rows_all_sequences_equal": true,
+    "baseline_advisors_equal": true,
+    "used_guard_refused_before_DDL": null
+  },
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "first_failures": [
+    {
+      "id": "OW08_UNKNOWN_WASH_SCREEN_PRICE_MOBILE",
+      "status": "INCOMPLETE",
+      "error": "locator.click: Timeout 20000ms exceeded.\nCall log:\n  - waiting for locator('.sidebar .nav-main').filter({ hasText: 'Produksi' })\n    - locator resolved to <button class=\"nav-main \">\u2026</button>\n  - attempting click action\n    2 \u00d7 waiting for element to be visible, enabled and stable\n      - element is visible, enabled and stable\n      - scrolling into view if needed\n      - done scrolling\n      - element is outside of the viewport\n    - retrying click action\n    - waiting 20ms\n    2 \u00d7 waiting for element to be visible, enabled and stable\n      - element is visible, enabled and stable\n      - scrolling into view if needed\n      - done scrolling\n      - element is outside of the viewport\n    - retrying click action\n      - waiting 100ms\n    38 \u00d7 waiting for element to be visible, enabled and stable\n       - element is visible, enabled and stable\n       - scrolling into view if needed\n       - done scrolling\n       - element is outside of the viewport\n     - retrying click action\n       - waiting 500ms\n\n    at laundry (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-ow08-source-browser/wash.mjs:16:99)\n    at async journey (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-ow08-source-browser/wash.mjs:67:23)\n    at async main (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:243:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:259:3"
+    },
+    {
+      "id": "OW08_FG_INVERSE_QC_BLOCKERS_MOBILE",
+      "status": "INCOMPLETE",
+      "error": "AssertionError [ERR_ASSERTION]: {\"code\":\"42501\",\"details\":null,\"hint\":null,\"message\":\"CP7_TRANSACTION_SOURCE_ACCESS_DENIED\"}\n\n403 !== 200\n\n    at journey (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-ow08-source-browser/fg.mjs:42:41)\n    at async main (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:243:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:259:3"
+    }
+  ],
+  "host_error": "None",
+  "classification": {
+    "wash_mobile": "TEST_NAVIGATION_TIMING_AFTER_RELOAD: wait for authorized shell before menu visibility sample",
+    "fg_mobile": "TEST_ACTOR_MISMATCH: ADMIN template excludes warehouse.stock.adjust; resolver and stock-adjustment route require it"
+  },
+  "source_references": [
+    "supabase/migrations/20260902104937_erp_v2_6_17_access_pattern_wip_control.sql:330",
+    "scripts/cp7-src/transactions/source.sql:146",
+    "scripts/cp7_fg_correction_source/native_delta.py:SOURCE_STEPS",
+    "src/auth/accessCatalog.ts:75",
+    "src/App.tsx:618",
+    "scripts/cp6_auditor_browser_host.mjs:217"
+  ],
+  "successor_scope": "Test scripts only: preserve real ADMIN denial, positive OWNER source journey, wait for authorized shell after reload. No product or permission changes.",
+  "production_go": false,
+  "independent_acceptance": false
+}

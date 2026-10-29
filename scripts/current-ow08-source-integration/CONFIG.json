@@ -1,8 +1,8 @@
 {
   "contract": "cp7.ow08-source-selective-integration.v1",
   "base_head": "39f8a0840d50fcd94d7301eaa2cebab23097b562",
-  "component_head": "6c89ddb46b471b8b5235913666b1410ad3f26c6a",
-  "component_tree": "78143b260e9e0191f73bd6fada2c8c72b83736a2",
+  "component_head": "7042fbfd3082b5887ac71332b85e564c39bdd3b1",
+  "component_tree": "cc580bfe41f7563b6cfdb27974dbfbc252db64fa",
   "qualified_source6": null,
   "scoped_paint_overlays": [
     {

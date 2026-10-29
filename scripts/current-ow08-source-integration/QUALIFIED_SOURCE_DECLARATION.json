@@ -1,5 +1,5 @@
 {
-  "contract": "cp7.ow08-source-browser.v2-scoped-paint",
+  "contract": "cp7.ow08-source-browser.v3-mobile-test-repair",
   "workflow": ".github/workflows/cp7-ow08-source-browser.yml",
   "browser_case_ids": [
     "OW08_KASBON_JOURNAL_SOURCE_DESKTOP",
@@ -32,30 +32,38 @@
     "scripts/current-ow08-source-browser/paint_binding.py",
     "scripts/current-ow08-source-browser/test_paint_binding.py",
     "scripts/current-ow08-source-browser/FIRST_PAINT4C8.json",
-    "scripts/current-ow08-source-browser/FIRST_PAINT_RECEIPT.json"
+    "scripts/current-ow08-source-browser/FIRST_PAINT_RECEIPT.json",
+    "scripts/current-ow08-source-browser/FIRST_SOURCE6_RECEIPT.json",
+    "scripts/current-ow08-source-browser/FIRST_SOURCE6_DECLARATION.json",
+    "scripts/current-ow08-source-browser/OW08_FG_MOBILE_FIRST_FAILURE.json",
+    "scripts/current-ow08-source-browser/OW08_WASH_MOBILE_FIRST_FAILURE.json"
   ],
   "files": {
     "scripts/current-ow08-source-browser/CONFIG.json": "acc5832baa2f23b210ec761cdd9239b0f5610f59b87dcfb05ce9d84eedfd450d",
-    "scripts/current-ow08-source-browser/README.md": "eb65cd74f33929cb3d2126ad97050acdac556da99f3c8b7b95ed719624b2768f",
+    "scripts/current-ow08-source-browser/README.md": "ebc1ea4fde84b701b9ef6ed702ff5f412b9f5ad060b69068b7fa53cfc11ac76c",
     "scripts/current-ow08-source-browser/admission.py": "0c2b61871d83f86b56242c2611ee1f71d2963d59c42968cd95ebfc1f12efe568",
     "scripts/current-ow08-source-browser/cases.mjs": "7fc01bd287bdf30f4278aab1ae35c280f5322f01e690517a6e329964505595d3",
     "scripts/current-ow08-source-browser/check_source.py": "353268c9ad1b2ae9a5ea75aa580d281d3949572f6dd2958e713b7330c6102310",
     "scripts/current-ow08-source-browser/fetch_money.py": "50e9ca9f6ae7dc0cca739e94f7c3d40af90fe200788d028b8167424e99c7659c",
-    "scripts/current-ow08-source-browser/fg.mjs": "c9ba22562b8880b617e654cdad5d668fb081310722cbd352ec026b99dd85dd98",
+    "scripts/current-ow08-source-browser/fg.mjs": "913d12a1467a9c11b369aa73b1f9e27282055f3b57e2190912deae930429ceb5",
     "scripts/current-ow08-source-browser/fg_fixture.py": "06ceaad6b1453769679c00411253fbb200727409b1586a9812e9772e76d514ca",
     "scripts/current-ow08-source-browser/fixture.py": "2e958136b4e67c73c23b4e0fdc0a91d1ae95512d596d72cd898af9ce5e235851",
     "scripts/current-ow08-source-browser/probe.py": "b06b5f226225408b53be2777a6cbcdec47b349198009400a0105a468ded0befd",
-    "scripts/current-ow08-source-browser/wash.mjs": "f1e6b4f85a3840281075e7f06ad879bf1ba201daa953be0e386e6c0694579b5e",
+    "scripts/current-ow08-source-browser/wash.mjs": "b0e4a0ae393d24a874bcf1340aa8324dc8a07d27264b648e3bd7552e59cdb91c",
     "scripts/current-ow08-source-browser/wash_fixture.py": "67fbf1390af34b5f099379a159ae6740b00110074627d90b6b5e789c7614bb30",
     "scripts/current-vendor-money-browser/probe.py": "c6f83b0c6bfe20df65fcddb2bd3b414db8c9306d0d508a0ad4c857898d98546b",
     "scripts/current-vendor-money-browser/runner.py": "471e5b9e62755fe6bd96d3c28f44254ecd83a6ba9b8324ea54469a7555cc9fd3",
-    ".github/workflows/cp7-ow08-source-browser.yml": "454820f621d186ea1ccffebb5cc4b00bc2406ebad3643c47c603f9afeb9676b5",
+    ".github/workflows/cp7-ow08-source-browser.yml": "2ba90412d16a06a30f561bd46b2f43ec724b5b9afab3a48ec55e1d6b1f8eb832",
     "scripts/current-ow08-source-browser/paint-preflight.mjs": "d65ce797e2676bbcb89da1c915129d7c2655b9b7c20dbc3e55d3b7d01289127c",
     "src/initial-import.css": "21acc1b66a62137b307b9eed4871cd3ceac540ecc12fd96be7e58e13677bb65d",
     "src/connected-laundry-qc.css": "6490b285c59a93c5c6a2ca583a73e4610d25ce8f5c2ce1f35b8ca0a7a172517b",
     "scripts/current-ow08-source-browser/paint_binding.py": "32a50343b593cfa52130977f2ea2af8c680ab7e31944ea2db4d363021cc280c5",
     "scripts/current-ow08-source-browser/test_paint_binding.py": "b36d3844a80f7c36d9b4de16e2abfff3ab6cb6163ac4e630ee7d4c98508e9b19",
     "scripts/current-ow08-source-browser/FIRST_PAINT4C8.json": "6b68b362a768b4f41c9959b8d7dc2788a0fa86c4544200976ea3b5e43abe779f",
-    "scripts/current-ow08-source-browser/FIRST_PAINT_RECEIPT.json": "7ae5af81e898e2fad69164afc1ad0a351aeb2f6cc140eb6cacf9cbddf6e4b1e3"
+    "scripts/current-ow08-source-browser/FIRST_PAINT_RECEIPT.json": "7ae5af81e898e2fad69164afc1ad0a351aeb2f6cc140eb6cacf9cbddf6e4b1e3",
+    "scripts/current-ow08-source-browser/FIRST_SOURCE6_RECEIPT.json": "a20b5964abb53c7501e8f4a3e54c0855c300c10ff2cd7fcc38598cce971ad293",
+    "scripts/current-ow08-source-browser/FIRST_SOURCE6_DECLARATION.json": "b340d723ee84a641e4bc92334d89be76054054932e3fcb59c192936444e73ff2",
+    "scripts/current-ow08-source-browser/OW08_FG_MOBILE_FIRST_FAILURE.json": "7206d86f96dbc7a5508cd4620ccf66ba21adf8c7e627bcd32ed71174382d66d7",
+    "scripts/current-ow08-source-browser/OW08_WASH_MOBILE_FIRST_FAILURE.json": "6602f3b4d9dbbc64297f79c40084d8e02731f3572871fb65b1ca2825bb14623b"
   }
 }
