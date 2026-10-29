@@ -1,0 +1,57 @@
+name: CP7 Read-only D1 continuation3 original archive split
+'on':
+  push:
+    branches:
+      - astra-a/continuation3-originals-split-20261030
+    paths:
+      - scripts/current-continuation3-originals-split/**
+      - .github/workflows/cp7-continuation3-originals-split.yml
+  workflow_dispatch: {}
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: cp7-continuation3-originals-split-${{ github.run_id }}
+  cancel-in-progress: false
+jobs:
+  split:
+    name: Read-only immutable ZIP to two separate transport artifacts; zero new cases
+    if: github.ref == 'refs/heads/astra-a/continuation3-originals-split-20261030'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12'
+      - name: Test closed metadata and bounded streaming without network
+        run: python -B -m unittest discover -s scripts/current-continuation3-originals-split -p test_split.py -v
+      - name: Verify exact existing success and stream original into two consecutive parts
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python -B scripts/current-continuation3-originals-split/split.py "$RUNNER_TEMP/continuation3-originals-parts"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: cp7-d1-continuation3-original-12937065328-part-001
+          path: ${{ runner.temp }}/continuation3-originals-parts/original-artifact.zip.part-001
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 30
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: cp7-d1-continuation3-original-12937065328-part-002
+          path: ${{ runner.temp }}/continuation3-originals-parts/original-artifact.zip.part-002
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 30
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: cp7-d1-continuation3-original-12937065328-manifest
+          path: ${{ runner.temp }}/continuation3-originals-parts/CONTINUATION3_ORIGINALS_SPLIT.json
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 30

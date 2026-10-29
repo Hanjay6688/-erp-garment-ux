@@ -1,0 +1,31 @@
+{
+  "contract": "cp7.readonly-originals-split-local-controls.v1",
+  "status": "PASS",
+  "scope": "LOCAL_MOCK_STREAM_AND_METADATA_ONLY_NO_NETWORK_OR_ORIGINAL_DOWNLOAD",
+  "local_tests": {
+    "PASS": 11,
+    "FAIL": 0,
+    "SKIP": 0
+  },
+  "source_manifest_sha256": "af4ce5956e44ba073a8c25090a58eb383c164d3443cd545aa4e4eaa63dbc202e",
+  "workflow_sha256": "e77cdd3cecbb72203b2cbd16e631f8b48f65a7e7a31c048636653d37ede18bc1",
+  "python_compile": true,
+  "parsed_workflow_readonly_permissions_three_separate_compression0_uploads": true,
+  "original_zip_bytes": 671127620,
+  "original_zip_sha256": "609ebff9739f359d39239d0e502aad20d4613f5a037a4e0e83f31b04b4b7652e",
+  "planned_part_bytes": [
+    335563810,
+    335563810
+  ],
+  "actual_part_sha256": [
+    null,
+    null
+  ],
+  "actual_archive_recovery": false,
+  "actual_ERP_DB_Native_Auth_browser_executions": 0,
+  "new_financial_execution_credit": 0,
+  "financial_acceptance": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "command": "PYTHONDONTWRITEBYTECODE=1 python -B -m unittest discover -s scripts/current-continuation3-originals-split -p test_split.py -v"
+}
