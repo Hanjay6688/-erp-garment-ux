@@ -1,0 +1,512 @@
+{
+  "status": "CLOSED_INDEPENDENT_SKU602_FIRST_FAILURE_NOT_23_ACCEPTED",
+  "identity": {
+    "head": "602b4e642a0afbb1acdcfd858b9f403dc14ec336",
+    "tree": "2b86a81b9f3b14ff1ca775825ac01bb96afaa50d",
+    "run_id": 40961419818,
+    "job_id": 123754856235,
+    "artifact_id": 12937998996,
+    "archive_bytes": 27564211,
+    "archive_sha256": "698b90b0bc3dfa52a8339d0b30464c2d98721594e56abdd53b07c959223f2bcc",
+    "Library_original": "libfile_d2e388bf3f1081919710f344d8c2ecfb"
+  },
+  "Original_inventory": {
+    "members": 132,
+    "all_CRC_path_size_SHA_verified": true,
+    "uncompressed_bytes_streamed": 280080386,
+    "full_extraction_by_reviewer": false
+  },
+  "core_raw_pins": {
+    "CP7_SKU_ALL_MEMBER_NATIVE23.json": {
+      "bytes": 5143295,
+      "sha256": "8564282e94e04aa9eb522b2c1657722e66eb1cdcdcc82be1a5f3648827e15ec7"
+    },
+    "CP7_SKU_PAIR_CONVERSION_NATIVE7.json": {
+      "bytes": 20819,
+      "sha256": "4c3ff3f49908863eb4c959fd7a8c37d9d73e1b17f78ba73502b094b258a21166"
+    },
+    "CP7_SKU_GROUP_COST_NATIVE3.json": {
+      "bytes": 13716,
+      "sha256": "f7310091e6962f9e6e61c37179d7a7c5e3f5cdf0598085555345d8fbb732f87e"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360429,
+      "sha256": "aa926c698576fd1a66ef818739f50c87517386a0be13580d2069c5a3a0730add"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 1470,
+      "sha256": "fd8f87f122905eadd900cded6f867d1104380a0c7edf4fa77251ff950db0daab"
+    }
+  },
+  "fresh_groups": {
+    "base7": {
+      "counts": {
+        "PASS": 7
+      },
+      "exact_IDs": [
+        "SKU29_PAIR_BIDIRECTIONAL_REPLACE_DELETE_NO_LEDGER",
+        "SKU29_NONPO_MULTILOT_FIFO_RESERVATION_VALUE_REPLAY",
+        "SKU29_ANY_ACTIVE_MODEL_SIZE_MANUAL_BACK_CURRENT_SOURCE_COST",
+        "SKU29_STALE_SOURCE_TARGET_RESERVATIONS_REFUSE_ZERO_EFFECT",
+        "SKU29_GROUP_REVERSE_ACTIVE_SALE_REFUSAL_THEN_RELEASE",
+        "SKU29_MIXED_PO_NONPO_NATIVE_LINEAGE_VALUE_CONSERVATION",
+        "SKU29_LEGACY_ACCESSORY_COST_AND_INVERSE_PRESERVED"
+      ],
+      "used_guard_inner_only": true,
+      "committed_conversion_group_id": "adac3c57-da49-4f69-83c7-4563a00563bd"
+    },
+    "cost3": {
+      "counts": {
+        "INCOMPLETE": 1,
+        "PASS": 2
+      },
+      "exact_IDs": [
+        "SKU29_COST_GROUP_RETURN_OVER_FIRST_PART_SAFETY_REFUSAL_ONLY",
+        "SKU29_COST_BOTH_PARTS_USAGE_LATE_INVOICE_SOLD_AND_DESCENDANT",
+        "SKU29_COST_FIRST_PART_ACTIVE_USAGE_ATOMIC_GROUP_INVERSE"
+      ],
+      "failure_ID": "SKU29_COST_GROUP_RETURN_OVER_FIRST_PART_SAFETY_REFUSAL_ONLY"
+    },
+    "observed_total": {
+      "PASS": 9,
+      "INCOMPLETE": 1
+    },
+    "downstream_not_reached": {
+      "race": 3,
+      "wait": 6,
+      "Auth_browser": 4,
+      "total": 13
+    },
+    "outer_actual_case_totals": "ABSENT_NOT_INFERRED",
+    "outer_used_guard": "ABSENT_NOT_QUALIFIED_NOT_FALSE",
+    "inner7_used_guard_does_not_qualify_whole23": true
+  },
+  "failure": {
+    "outer_error": "SKU_COMBINED_FRESH_NATIVE_GROUP_OR_BOUNDARY_FAILED",
+    "strict_error": "{'error': 'SKU_COST_CURRENT_CENSUS_CHANGED', 'label': 'RECOVERY_OVER_FIRST_PART_REFUSAL', 'catalog_groups': [], 'data_or_sequences': ['sequence:erp.audit_logs_id_seq'], 'raw': 'cp6-proof/t3/SKU_COST_RECOVERY_OVER_FIRST_PART_REFUSAL_37fb87d4a2e1_FULL_CURRENT_CENSUS.json'}",
+    "strict_traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py\", line 165, in _strict_group_once\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-sku-group-cost-qualification/cases.py\", line 163, in <lambda>\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-sku-group-cost-qualification/cases.py\", line 61, in recovery_safety\n    assert n.values(cur,parts)==o.BASE_VALUES and n.statuses(cur,parts)==['POSTED','POSTED']\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-sku-group-cost-qualification/native_fixture.py\", line 40, in unchanged\n    raise AssertionError(dict(error='SKU_COST_CURRENT_CENSUS_CHANGED',label=label,catalog_groups=catalog_changes,data_or_sequences=sorted(data_changes),raw=str(path)))\nAssertionError: {'error': 'SKU_COST_CURRENT_CENSUS_CHANGED', 'label': 'RECOVERY_OVER_FIRST_PART_REFUSAL', 'catalog_groups': [], 'data_or_sequences': ['sequence:erp.audit_logs_id_seq'], 'raw': 'cp6-proof/t3/SKU_COST_RECOVERY_OVER_FIRST_PART_REFUSAL_37fb87d4a2e1_FULL_CURRENT_CENSUS.json'}\n",
+    "native_error_code_control_flow": "P0001 with BE_RECOVERY_EXCEEDS_VALUE substring asserted by frozen refused() before unchanged() reached",
+    "native_exact_message_original": "ABSENT_NOT_RECONSTRUCTED_FROM_SOURCE",
+    "first_error_members_in_original": [],
+    "catalogue_changes": [],
+    "row_hash_changes": [],
+    "sequence": {
+      "name": "erp.audit_logs_id_seq",
+      "before": [
+        "1317",
+        true
+      ],
+      "after": [
+        "1322",
+        true
+      ],
+      "allocated": 5
+    },
+    "all_six_full_censuses": [
+      {
+        "path": "SKU_COST_DIRECT_PARTIAL_INVERSE_REFUSAL_8deb1f71c5b2_FULL_CURRENT_CENSUS.json",
+        "bytes": 43056002,
+        "sha256": "b559695cc9769d326d6b61c977f0934fca6b0e256c46bd0fd95fb414d7184683",
+        "full22_catalogue_equal": true,
+        "data_tables": 685,
+        "sequences": 15,
+        "data_or_sequence_changes": {},
+        "before_native_digest": "aa7110c02a2dadbc96d8830d1976f62813f6362a35d3d23aa3765a1adcc14c21",
+        "after_native_digest": "aa7110c02a2dadbc96d8830d1976f62813f6362a35d3d23aa3765a1adcc14c21",
+        "exact_no_effect": true,
+        "raw_table_JSON_exports_present": false,
+        "all_table_row_count_hashes_present": true
+      },
+      {
+        "path": "SKU_COST_GROUP_INVERSE_FIRST_PART_ACTIVE_USAGE_75da1839f6ed_FULL_CURRENT_CENSUS.json",
+        "bytes": 43056002,
+        "sha256": "b559695cc9769d326d6b61c977f0934fca6b0e256c46bd0fd95fb414d7184683",
+        "full22_catalogue_equal": true,
+        "data_tables": 685,
+        "sequences": 15,
+        "data_or_sequence_changes": {},
+        "before_native_digest": "aa7110c02a2dadbc96d8830d1976f62813f6362a35d3d23aa3765a1adcc14c21",
+        "after_native_digest": "aa7110c02a2dadbc96d8830d1976f62813f6362a35d3d23aa3765a1adcc14c21",
+        "exact_no_effect": true,
+        "raw_table_JSON_exports_present": false,
+        "all_table_row_count_hashes_present": true
+      },
+      {
+        "path": "SKU_COST_LATE_INVOICE_SAME_UUID_REPLAY_0fac73825f2b_FULL_CURRENT_CENSUS.json",
+        "bytes": 43056004,
+        "sha256": "80d3e9f37c4c26be13f6418ded756a0d669bb50e78f291789ed794400489330a",
+        "full22_catalogue_equal": true,
+        "data_tables": 685,
+        "sequences": 15,
+        "data_or_sequence_changes": {},
+        "before_native_digest": "80bf53ffe2974428e59ff3d381d4682f00d8aab280c0a20ec7a60d83031bd423",
+        "after_native_digest": "80bf53ffe2974428e59ff3d381d4682f00d8aab280c0a20ec7a60d83031bd423",
+        "exact_no_effect": true,
+        "raw_table_JSON_exports_present": false,
+        "all_table_row_count_hashes_present": true
+      },
+      {
+        "path": "SKU_COST_PART_1_USAGE_SAME_UUID_REPLAY_6340d3f23de2_FULL_CURRENT_CENSUS.json",
+        "bytes": 43056002,
+        "sha256": "0677a07af36975d982a8cd7a1e9d1a0c7e19a0d86bd214a00ccd46cb24e01bea",
+        "full22_catalogue_equal": true,
+        "data_tables": 685,
+        "sequences": 15,
+        "data_or_sequence_changes": {},
+        "before_native_digest": "f4f4208e11333b5336fc32025472fe253e996e05754dcdbdfd505f6ae8908e19",
+        "after_native_digest": "f4f4208e11333b5336fc32025472fe253e996e05754dcdbdfd505f6ae8908e19",
+        "exact_no_effect": true,
+        "raw_table_JSON_exports_present": false,
+        "all_table_row_count_hashes_present": true
+      },
+      {
+        "path": "SKU_COST_PART_2_USAGE_SAME_UUID_REPLAY_9a566d134162_FULL_CURRENT_CENSUS.json",
+        "bytes": 43056002,
+        "sha256": "1ee0837a6c8a06a21e14db4b708f56e7fb9b62b656304789083f9e266343e4a3",
+        "full22_catalogue_equal": true,
+        "data_tables": 685,
+        "sequences": 15,
+        "data_or_sequence_changes": {},
+        "before_native_digest": "6625b85a99343807809b9fa0e39ef7f1f51646d6527b93a2bf189b62f88ec070",
+        "after_native_digest": "6625b85a99343807809b9fa0e39ef7f1f51646d6527b93a2bf189b62f88ec070",
+        "exact_no_effect": true,
+        "raw_table_JSON_exports_present": false,
+        "all_table_row_count_hashes_present": true
+      },
+      {
+        "path": "SKU_COST_RECOVERY_OVER_FIRST_PART_REFUSAL_37fb87d4a2e1_FULL_CURRENT_CENSUS.json",
+        "bytes": 43056004,
+        "sha256": "1081c288694965278468de28ef65831909bf52dd5461e6d682a00a6ff0418fa0",
+        "full22_catalogue_equal": true,
+        "data_tables": 685,
+        "sequences": 15,
+        "data_or_sequence_changes": {
+          "sequence:erp.audit_logs_id_seq": {
+            "before": [
+              "1317",
+              true
+            ],
+            "after": [
+              "1322",
+              true
+            ]
+          }
+        },
+        "before_native_digest": "61abd7f0aa1d77776caa3ea7b684a71f422dab4de8d65d2792d09a5ffb08c260",
+        "after_native_digest": "00b7d628eb4642e6f2216396276f3c2289b4a196c6358f50da341b884a8c0b4f",
+        "exact_no_effect": false,
+        "raw_table_JSON_exports_present": false,
+        "all_table_row_count_hashes_present": true
+      }
+    ]
+  },
+  "actual_source": {
+    "current_five_backend_file_pins": {
+      "scripts/cp7_sku_pair_conversion/pairs.sql": "05c7b67222b2a003ee4180872216a0837c747fcb145db88157317bad25b281c2",
+      "scripts/cp7_sku_pair_conversion/conversion.sql": "eece6fbed8cb13b73a49ec2e051478d6ba2a8b1002f6745b8c682db318595d72",
+      "scripts/cp7_sku_pair_conversion/native_delta.py": "ff479d17a8f039693723307088551a0eb6876e2bdd772da2b6dc6f60c55d82f8",
+      "scripts/cp7_sku_pair_conversion/composition.py": "dbc2f01afd97ef2b9a231611d4510da623cb1cebf5455da67c52dd3df7130849",
+      "scripts/cp7_sku_pair_conversion/ri_catalog.py": "aa30eff7c258de3ced78067ed7fbe660bef4570c291946f9291d6363881a4f3e"
+    },
+    "source_transition": {
+      "product_source_commit": "c05e3d689e0e4b770af40b6a6b7d7e5cd659a12b",
+      "product_source_tree": "77d50d4b34287d5d17180b96a5506af379ddafa9",
+      "changed_functions": [
+        "cp7_sku_conversion.action_v1(text,jsonb,uuid)"
+      ],
+      "old_conversion": {
+        "bytes": 20061,
+        "sha256": "4b26a65beae5defc877589dae756ce2adc9ecb19b3b9a3b68c86765a4c434961"
+      },
+      "current_conversion": {
+        "bytes": 22975,
+        "sha256": "eece6fbed8cb13b73a49ec2e051478d6ba2a8b1002f6745b8c682db318595d72"
+      },
+      "current_sources_are_actual": true,
+      "source_predicates_explicitly_rebound": true,
+      "actual_successor_cases": 0
+    },
+    "all_eight_root_transition_files_exact_to_product_source_commit": {
+      "scripts/cp7_sku_pair_conversion/conversion.sql": "eece6fbed8cb13b73a49ec2e051478d6ba2a8b1002f6745b8c682db318595d72",
+      "scripts/current-sku-all-member-preflight/README.md": "88bab459f6b43badcd0bb50523b3be4afdd46773e4b196d5184a0fe77e374917",
+      "scripts/current-sku-all-member-preflight/SOURCE.json": "30c307146424d2cb4b0174cd205473f4c47a6b48edbbf4a8ae93938f8e057c28",
+      "scripts/current-sku-all-member-preflight/evidence/BEFORE_conversion.sql": "4b26a65beae5defc877589dae756ce2adc9ecb19b3b9a3b68c86765a4c434961",
+      "scripts/current-sku-all-member-preflight/evidence/FIRST_LOCAL_CENSUS_SETUP_ERROR.log.gz": "eb0b67c0543dfdaaccdeaa0d157f610f610922e31133d043b48f4b56f7bbe004",
+      "scripts/current-sku-all-member-preflight/evidence/LOCAL_GUARD.json": "9eefe36d98570151f3f1a8df3f41ecf82333c2c9b693ae5f416faa1bac2e02af",
+      "scripts/current-sku-all-member-preflight/local_check.mjs": "a894ae6e86ee55af91a7e62391f4311a74f5144b1749f2bd9d6e57d116d1c5fe",
+      "scripts/current-sku-all-member-preflight/source_check.py": "2bab93361f71cfb6b106e0e1e12838faec8be647ae3bd1244acb4d3fcf87a108"
+    },
+    "captured_Native_functions": {
+      "path": "ACTUAL_NATIVE_RCA_FUNCTIONS.json",
+      "bytes": 208216,
+      "sha256": "734abf6a13e0f5ac8ab21b5325366df1485cc0b960b951443ef937f7ae977b3e",
+      "functions": 30,
+      "before_after_function_rows_equal": true
+    }
+  },
+  "partial_positive_financial_proof": {
+    "recost": {
+      "status": "PASS",
+      "coverage": "NATIVE_BOTH_PARTS_USAGE_AND_LATE_INVOICE_PROPAGATION",
+      "conversion_group_id": "0b035b62-a1b7-4c93-8d8c-805cae35bf13",
+      "initial_values": [
+        "20.02",
+        "40.04"
+      ],
+      "usage_values": [
+        "22.02",
+        "44.04"
+      ],
+      "invoiced_values": [
+        "23.02",
+        "46.04"
+      ],
+      "group_initial": "60.06",
+      "group_usage": "66.06",
+      "group_invoiced": "69.06",
+      "material_physical_before": 100,
+      "material_physical_after": 97,
+      "predicted_before_sale_part_number": 1,
+      "actual_sale_allocations": [
+        [
+          "17f9048f-57a4-4824-9625-51f191ed52af",
+          4
+        ],
+        [
+          "775e880b-4f0e-4a1d-acd1-2d48a5486e03",
+          1
+        ]
+      ],
+      "invoice_FG_delta": "2.50",
+      "invoice_COGS_delta": "0.50",
+      "descendant_conversion_id": "c81ee7cd-24d8-4a9c-8f4c-1b9819d94a7b",
+      "descendant_before": "22.02",
+      "descendant_after": "23.02",
+      "old_complete_conversion_allocation_and_sale_snapshots_immutable": true,
+      "original_source_HPP_rows_unchanged": true,
+      "Native_product_targets_books": {
+        "ed338e51-b409-4576-bf9c-d020b6068ac1": [
+          "110.11",
+          "110.11",
+          "0.00",
+          "0.00"
+        ],
+        "06762528-30a4-492b-a781-e89c7136d3d1": [
+          "166.16",
+          "34.53",
+          "131.63",
+          "0.00"
+        ],
+        "4ce5035d-b87e-4986-8869-2c388789a4d5": [
+          "23.02",
+          "23.02",
+          "0.00",
+          "0.00"
+        ]
+      },
+      "usage_replay_complete_evidence": [
+        {
+          "all22_and_all_current_rows_sequences_unchanged": true,
+          "raw_path": "cp6-proof/t3/SKU_COST_PART_1_USAGE_SAME_UUID_REPLAY_6340d3f23de2_FULL_CURRENT_CENSUS.json",
+          "bytes": 43056002,
+          "sha256": "0677a07af36975d982a8cd7a1e9d1a0c7e19a0d86bd214a00ccd46cb24e01bea",
+          "before_sha256": "f4f4208e11333b5336fc32025472fe253e996e05754dcdbdfd505f6ae8908e19",
+          "after_sha256": "f4f4208e11333b5336fc32025472fe253e996e05754dcdbdfd505f6ae8908e19",
+          "dropped_fields": []
+        },
+        {
+          "all22_and_all_current_rows_sequences_unchanged": true,
+          "raw_path": "cp6-proof/t3/SKU_COST_PART_2_USAGE_SAME_UUID_REPLAY_9a566d134162_FULL_CURRENT_CENSUS.json",
+          "bytes": 43056002,
+          "sha256": "1ee0837a6c8a06a21e14db4b708f56e7fb9b62b656304789083f9e266343e4a3",
+          "before_sha256": "6625b85a99343807809b9fa0e39ef7f1f51646d6527b93a2bf189b62f88ec070",
+          "after_sha256": "6625b85a99343807809b9fa0e39ef7f1f51646d6527b93a2bf189b62f88ec070",
+          "dropped_fields": []
+        }
+      ],
+      "replay_complete_evidence": {
+        "all22_and_all_current_rows_sequences_unchanged": true,
+        "raw_path": "cp6-proof/t3/SKU_COST_LATE_INVOICE_SAME_UUID_REPLAY_0fac73825f2b_FULL_CURRENT_CENSUS.json",
+        "bytes": 43056004,
+        "sha256": "80d3e9f37c4c26be13f6418ded756a0d669bb50e78f291789ed794400489330a",
+        "before_sha256": "80bf53ffe2974428e59ff3d381d4682f00d8aab280c0a20ec7a60d83031bd423",
+        "after_sha256": "80bf53ffe2974428e59ff3d381d4682f00d8aab280c0a20ec7a60d83031bd423",
+        "dropped_fields": []
+      },
+      "legitimate_invoice_inverse_restores_costs_and_accounts": true,
+      "whole_group_recovery_capability": false,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-30",
+        "before": "2026-10-30",
+        "after": "2026-10-30"
+      }
+    },
+    "all_member_atomic_inverse": {
+      "status": "PASS",
+      "coverage": "NATIVE_GROUP_ALL_MEMBER_PREFLIGHT_BEFORE_ANY_NATIVE_INVERSE",
+      "conversion_group_id": "1f5c72d9-d5cc-46bb-855d-f12e602f9dc1",
+      "Native_inverse_order": [
+        "e226deaf-82c4-48d9-acb2-3fe76e80a8bd",
+        "1f5c72d9-d5cc-46bb-855d-f12e602f9dc1"
+      ],
+      "active_cost_part": 1,
+      "unblocked_inverse_attempt_part": null,
+      "retained_first_inverse_member": 2,
+      "all_member_preflight_before_any_child_write": true,
+      "Native_cost_dependant_refusal": {
+        "sqlstate": "P0001",
+        "message": "BE_REVERSE_DEPENDANTS: batalkan dahulu sumber biaya/pemulihan"
+      },
+      "complete_atomic_refusal_evidence": {
+        "all22_and_all_current_rows_sequences_unchanged": true,
+        "raw_path": "cp6-proof/t3/SKU_COST_GROUP_INVERSE_FIRST_PART_ACTIVE_USAGE_75da1839f6ed_FULL_CURRENT_CENSUS.json",
+        "bytes": 43056002,
+        "sha256": "b559695cc9769d326d6b61c977f0934fca6b0e256c46bd0fd95fb414d7184683",
+        "before_sha256": "aa7110c02a2dadbc96d8830d1976f62813f6362a35d3d23aa3765a1adcc14c21",
+        "after_sha256": "aa7110c02a2dadbc96d8830d1976f62813f6362a35d3d23aa3765a1adcc14c21",
+        "dropped_fields": []
+      },
+      "direct_partial_refusal": {
+        "sqlstate": "P0001",
+        "message": "CP7_SKU_GROUP_REVERSE_REQUIRED: batalkan seluruh konversi dari riwayat Ganti Merek / SKU"
+      },
+      "complete_direct_refusal_evidence": {
+        "all22_and_all_current_rows_sequences_unchanged": true,
+        "raw_path": "cp6-proof/t3/SKU_COST_DIRECT_PARTIAL_INVERSE_REFUSAL_8deb1f71c5b2_FULL_CURRENT_CENSUS.json",
+        "bytes": 43056002,
+        "sha256": "b559695cc9769d326d6b61c977f0934fca6b0e256c46bd0fd95fb414d7184683",
+        "before_sha256": "aa7110c02a2dadbc96d8830d1976f62813f6362a35d3d23aa3765a1adcc14c21",
+        "after_sha256": "aa7110c02a2dadbc96d8830d1976f62813f6362a35d3d23aa3765a1adcc14c21",
+        "dropped_fields": []
+      },
+      "legitimate_usage_inverse_then_whole_inverse": true,
+      "source_physical": 10,
+      "source_reserved": 1,
+      "source_available": 9,
+      "target_physical": 4,
+      "material_physical": 100,
+      "all_account_balances_restored": true,
+      "whole_group_recovery_capability": false,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-30",
+        "before": "2026-10-30",
+        "after": "2026-10-30"
+      }
+    },
+    "no_whole_group_recovery_claim": true
+  },
+  "outer_restore": {
+    "baseline_restore": {
+      "exit": 1,
+      "error_count": 19,
+      "unexplained": [],
+      "only_pg_cron_errors": true,
+      "database_owner_acl_and_settings_preserved": true,
+      "platform_schema_authority_restored": [
+        "graphql",
+        "graphql_public"
+      ]
+    },
+    "full22_all_rows_all_sequences": true,
+    "roles_exact": true,
+    "raw_public_equal": true,
+    "CP6_equal": true,
+    "advisors_equal": true,
+    "Auth": {
+      "before": 0,
+      "after": 0
+    },
+    "package_gates": {
+      "installed": true,
+      "primary_unchanged": true,
+      "backup_restore_drill": true,
+      "security_advisors": true,
+      "writer_runtime": false
+    },
+    "writer_runtime": {
+      "status": "INCOMPLETE",
+      "full_OW11_acceptance": false,
+      "production_go": false,
+      "independent_acceptance": false,
+      "schema_profile": "HOSTED_USAGE_UNCHANGED"
+    },
+    "backup_drill_status": "RESTORED_IDENTICAL",
+    "backup_drill_error_count": 0,
+    "strict_case_savepoint_does_not_restore_sequences": true,
+    "complete_sequence_restore_only_full_outer_backup": true
+  },
+  "causal_source": {
+    "chain": [
+      "public.erp_save_accessory_service_action_v1",
+      "erp.save_accessory_service_action_v1",
+      "erp.bc_value_custody_v1",
+      "erp.bc_post_adjustment_v1",
+      "erp.be_link_recovery_v1",
+      "erp.be_reconcile_cost_document_v1",
+      "erp.be_propagate_nonpo_v1"
+    ],
+    "bc_value_first_document_line": 32,
+    "bc_value_post_adjustment_lines": [
+      35,
+      36
+    ],
+    "bc_value_late_BE_link_line": 37,
+    "native_negative_guard": "v_source_hpp + (erp.be_allocation_extra_v1(allocation_id)/qty_pcs) < 0",
+    "Native_error_source_text_not_observed_diag": "BE_RECOVERY_EXCEEDS_VALUE: nilai pemulihan melebihi nilai sumber dan biaya sah",
+    "five_audits_source_consistent_with_actual_delta": [
+      "material_adjustments INSERT audited trigger",
+      "material_adjustment_items INSERT audited trigger",
+      "MATERIAL_ADJUSTMENT journal audit",
+      "material_adjustments status UPDATE audited trigger",
+      "BE_CONVERSION_SOURCED_COST journal audit"
+    ],
+    "fixture_math_source_and_executed_prior_assertions": {
+      "first_child": "20.02",
+      "second_child": "40.04",
+      "whole": "60.06",
+      "proposed_recovery": "30.03",
+      "first_child_qty": "2",
+      "first_child_source_HPP": "10.01",
+      "negative_desired_HPP": "-5.005"
+    },
+    "no_sequence_reset_or_oracle_relaxation_allowed": true
+  },
+  "bounded_next_plan_prepared_not_implemented": {
+    "scope": "Only VALUE_CUSTODY for recovery linked to a managed multi-member SKU conversion; no whole-group recovery capability",
+    "Native_body": "Exact captured current definitions, counted reversible guard prelude(s), original financial statements and nonmanaged route unchanged",
+    "must_not_use_naive_blocking_reordered_FG_BCLOT_material_locks": true,
+    "candidate_safe_profile": "After existing Native validations/BCLOT/material waits, fresh authority checks; try-only FG advisory and NOWAIT period/member/source-fact locks, recompute same Native negative predicate before firstdocument/audit; refuse busy without writes. Final lock allocation awaits integrator review.",
+    "cached_UUID_authority": "Auth-only managed recovery checks before/after existing _idempotency_begin; cap check cachemiss only, preserving exact successful replay.",
+    "additional_actual_cases": "Separate under-budget and exact-budget positive cases if approved; honest25 if added to23. Preserve23 existing IDs/oracles; new race/permission-wait proofs still required.",
+    "first_Native_error_retention": "New private qualifier wrapper should retain primary/detail/hint/context before census/assertion, keeping frozen old callbacks/source exact.",
+    "Source_or_product_edits": 0,
+    "approval": "AWAITING_ROOT_BOUNDED_ALLOCATION"
+  },
+  "scope": {
+    "Native23_qualified": false,
+    "default_adopted": false,
+    "production_go": false,
+    "independent_acceptance": false,
+    "reviewer_DB_connections": 0,
+    "reviewer_Native_executions": 0,
+    "reviewer_source_ref_changes": 0
+  }
+}

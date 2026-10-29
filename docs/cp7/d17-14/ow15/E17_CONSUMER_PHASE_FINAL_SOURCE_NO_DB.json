@@ -1,0 +1,56 @@
+{
+  "contract": "cp7.e1-phase-full-public-source-no-db-readonly-proof.v1",
+  "status": "PASS_CLOSED_SOURCE_ONLY",
+  "at_UTC": "2026-10-29T23:13:40.886865+00:00",
+  "source": {
+    "pins": 319,
+    "bytes": 62189,
+    "sha256": "c1899ebed78fd3cd94a6e8e2d148fc6fe34911b48951aa1756e9e46dbef38ce3"
+  },
+  "result": {
+    "status": "CLOSED_EXACT_PUBLIC_SOURCE_TRANSITION_ONLY",
+    "source_pins": 319,
+    "whole_public_base_files": 13696,
+    "historical_untracked_proofs": 24,
+    "derivation": {
+      "graph_ABI_substitutions": 3,
+      "existing_profile_function_changes": 1,
+      "new_private_functions": 1,
+      "all_other_profile_bodies_exact": true,
+      "helper_direct_full_profile_recursion": false
+    },
+    "retained_actual_E_counts": {
+      "PASS": 15,
+      "INCOMPLETE": 2
+    },
+    "fresh_actual_Native": 0,
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "closed_runtime_error": "E_PHASE_FRESH_NATIVE17_NOT_QUALIFIED",
+  "only_public_git_reads": [
+    [
+      "ls-tree",
+      "-r",
+      "-z",
+      "8be4c15a37dcfc6186e32f396df78291ff1b957c"
+    ],
+    [
+      "ls-files",
+      "-z"
+    ],
+    [
+      "ls-files",
+      "--others",
+      "--exclude-standard",
+      "-z"
+    ]
+  ],
+  "forbidden_attempts": [],
+  "sys_argv_object_unchanged": true,
+  "actual_new_Native_DB_Auth_browser_races": 0,
+  "source_control_tests12_run_on_prior_functionally_identical317pin_snapshot": "86314aa159c682757b3973a2ec1ab67c2cd4bbdf8a19969b1eada2553249d9ea",
+  "final_metadata_addition": "DERIVATION.json/LOCAL_CONTROLS.json and README documentation only; final319 guard checks all current bytes.",
+  "production_go": false,
+  "independent_acceptance": false
+}

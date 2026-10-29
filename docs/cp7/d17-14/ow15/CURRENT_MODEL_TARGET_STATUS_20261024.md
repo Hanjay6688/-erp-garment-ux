@@ -7,6 +7,12 @@ ke pembaca kehilangan current leaf. Seluruh oracle tetap, witness terpisah
 belum tercapai. Kelima raw asli, Source282 dan seluruh pemulihan diperiksa;
 empat gate true, writer_runtime=false. Bukti ada di `e17-8be4-first-failure/`.
 Perbaikan dibatasi ke bukti transisi milik operasi dan ABI graph yang lengkap.
+Backend prepared publikfe2ae370/tree600d4575 kini disegel: dua SQL E dan37
+path namespace bukti baru saja yang berubah. Source319, seluruh13696 file+mode
+parent,6 model SQL dan19 vektor negatif fase lulus; counter internal tidak
+menemukan penghalang sumber. Ini Native0, bukan17 PASS. Qualifier Native17
+baru sedang dibangun dari alias publik ini dengan callback asli dan witness
+terpisah tetap wajib.
 
 S03 publik9a0/run40954866687 berhenti pada pemasangan facade payroll:
 izin CREATE schema kurang, Native0. Raw tidak merekam identitas actor/ACL;
@@ -18,9 +24,18 @@ dan dipulihkan persis, termasuk ACL/peran.15 capture fungsi mencakup dua
 pembaca HPP baru, bukan15 kasus Native. Framework berikut mempertahankan
 strict11 asli lalu strict3 pembaca terpisah; aggregate14 hanya metadata.
 Alias ini sendiri Native/Auth/browser0 dan belum diadopsi pemasang bawaan.
-Qualifier publik9ac9c8bd/run40967080539 kini menjalankan strict11 lalu Reader3
-dan pemulihan penuh, sesudah49 kontrol dan425 pin sumber lulus serta counter
-internal tidak menemukan penghalang sumber. Hasil runtime masih pending.
+Qualifier publik9ac9c8bd/run40967080539 selesai INCOMPLETE: strict11 mencapai
+8 PASS dan3 INCOMPLETE. Reader3 dan committed witness14 belum tercapai.
+Semua11 batas kasus dan pemulihan penuh22/row/semua sequence/peran/CP6/advisor/
+Auth0→0 lulus; writer_runtime=false. Original118 anggota tersimpan lengkap.
+Tiga cacat fixture/oracle terikat sumber: worker P1 tertinggal UNKNOWN pada P2,
+REVERSE diminta setelah fixture menutup P1, serta full-row FG membandingkan
+cache unit_hpp_snapshot yang sah berubah karena recost Native. Pengganti
+kualifikasi memakai worker yang sama melalui Native rate bertanggal, penolakan
+periode tertutup lalu alur Owner reopen, dan oracle fisik16 field noncost
+dengan cache Native serta pemulihan seluruh row persis. Produk7 runtime,
+15 capture dan2 clone tidak diubah. Bukti di `../ow08/s03-9ac-native14-first-failure/`.
+Backend14 tetap belum diterima; browser4 masih menunggu bukti aktual14 penuh.
 
 S05 publikcdbdea/run40959735086: seluruh10 INCOMPLETE sebelum Native editor
 karena guard fixture masih mengunci body CP45/AB. Sumber AC yang diwajibkan
@@ -46,7 +61,11 @@ census. Native13 D1 sebelumnya tetap terverifikasi pada sumbernya sendiri.
 SKU23 publik602b4e64/run40961419818 selesai INCOMPLETE:7 Native inti dan2
 biaya PASS, satu biaya gagal karena penolakan recovery di atas bagian pertama
 masih menaikkan sequence audit.3 race/6 tunggu izin/4 browser belum tercapai.
-Raw Original27MB dan census lengkap tersimpan; penelusuran sebab berjalan.
+Raw Original27MB dan census lengkap tersimpan. Fungsi Native aktual menunjukkan
+penolakan terlambat setelah lima audit nextval; baris rollback tetapi sequence
+naik. Pengganti managed SKU menaruh pemeriksaan read-only sebelum efek pertama,
+dengan lock nonblocking dan izin terkini; hitungan Native/FIFO tetap utuh.
+Kasus positif recovery di bawah dan tepat pada kapasitas wajib ikut diuji.
 Perbaikan inverse semua anggota sebelumnya lulus skenario biayanya. Kelima
 gate belum lulus karena writer_runtime=false.
 

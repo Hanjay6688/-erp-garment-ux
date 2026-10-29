@@ -1,0 +1,316 @@
+{
+  "contract": "hansen-erp.e17-consumer-phase.internal-counter.v1",
+  "classification": "INTERNAL_READONLY_SOURCE_COUNTER_NOT_NATIVE_OR_EXTERNAL_AUDIT",
+  "state": "FINAL_FROZEN_COMMIT_MATCH_SOURCE_ONLY_CLOSED",
+  "candidate": {
+    "worktree": "/workspace/scratch/ef468a447ac6/erp-credit-e1-qualification",
+    "branch": "qualification/a-credit-e1-consumer-phase-20261030",
+    "initial_head": "8be4c15a37dcfc6186e32f396df78291ff1b957c",
+    "initial_tree": "b48fb750bd6d0eeba8a2207665c6a0ba22f2780c",
+    "public_base": "8be4c15a37dcfc6186e32f396df78291ff1b957c",
+    "tracked_changes_at_initial_lock": [
+      "scripts/cp7_credit_correction_de/note_carry/06_owning.sql",
+      "scripts/cp7_credit_correction_de/note_carry/07_profile_closure.sql"
+    ],
+    "initial_and_last_read_product_pins": {
+      "scripts/cp7_credit_correction_de/note_carry/06_owning.sql": {
+        "bytes": 13433,
+        "sha256": "0c00bb08274827e6295ada3ed4e4b8e7d917ed1bc1a996aaa0685d0fd1772c94",
+        "public8be4_sha256": "8864996e824655766022bafa277ac046beba35794b678eedc388b1093fb38575",
+        "diff_sha256": "d9b118bfc38abb2188e534e784c6f405a9d6cd76e986c7f9c30e3814f9270fce",
+        "diff_bytes": 6137,
+        "retained_before_byteequal_public8be4": true
+      },
+      "scripts/cp7_credit_correction_de/note_carry/07_profile_closure.sql": {
+        "bytes": 16068,
+        "sha256": "8e82c257ca20a4dcac5cf0dad2f1e487c2e202caea7fa466503019003d3f75ac",
+        "public8be4_sha256": "7b7c1467176fefb0f564169ab0903c3d93defc88cce97a16a7ad37629ad84ac3",
+        "diff_sha256": "8ebce935d98104a1713ff6b5548b8e7aff4d63364a3837ad8d49194c51200833",
+        "diff_bytes": 11328,
+        "retained_before_byteequal_public8be4": true
+      }
+    },
+    "source_bodies_stable_during_review": true
+  },
+  "initial_assessment": {
+    "locked_before_author_conclusions": true,
+    "status": "TRACE_PENDING_NO_VERDICT",
+    "scenarios": [
+      {
+        "scenario": "UNDO80 of immutable original APPLY after first E correction",
+        "expected": "Apply signed consumer event to current leaf; original APPLY row/journal stay exact. Permit only old-status header during owned MATERIALIZED phase; preserve every other profile/protocol assertion.",
+        "initial_observed": "New private helper and status-only condition introduced; transitive recursion/current-access/manifest proof tracing pending.",
+        "source": "07_profile_closure.sql:30-112"
+      },
+      {
+        "scenario": "Second note revision",
+        "expected": "Original CP7_CREDIT_NOTE_CARRY_REVIEW_REFUSED with historical sale_ids still locked.",
+        "initial_observed": "Exactly initial/recheck joined_graph(sale,NULL) and capture_sources(graph) changed; sale_ids lock array unchanged.",
+        "source": "06_owning.sql:33-65"
+      },
+      {
+        "scenario": "Wrong context or financial/native tampering",
+        "expected": "Refuse; no generic current_effective_paid or full-profile bypass.",
+        "initial_observed": "Explicit ownership/phase, pending receipt/completion/scope, old status/version, operation/actual/journal/current-source checks visible; models not yet inspected.",
+        "source": "07_profile_closure.sql:35-80"
+      }
+    ]
+  },
+  "final_source_assessment": {
+    "blocking_findings": [],
+    "status": "NO_BLOCKING_SOURCE_DEFECT_FOUND_AT_PINNED_PRECOMMIT_BODIES",
+    "scenarios": [
+      {
+        "scenario": "Owned STATUS-only mismatch",
+        "expected": "Only same backend/tx/actor/request MATERIALIZED operation; pending response, no completion, posting scope clear; exact old header status/version and current delta.",
+        "observed": "07:35-51 binds context, request/operation hashes, APPLY-kind action APPLY/UNDO, target current leaf and absent completion/scopes;52-58 proves current rights, ambient contexts, period, exact input, actual materialization and posted journal;59-80 proves owned current root, old captured profile/header/version/native invariants, recomputed actual profile and exact signed U delta with old/new status transition.",
+        "source": "scripts/cp7_credit_correction_de/note_carry/07_profile_closure.sql:30-81"
+      },
+      {
+        "scenario": "Full money/history/profile remains mandatory",
+        "expected": "Raw AR, gross/net/customer/account, I=0/range, immutable history, ordinal prefixes, actual objects, upstream profiles and provenance cannot be skipped.",
+        "observed": "Original checks remain82-108; explicit provenance109 precedes STATUS-only exception110-112. No change to generic current_effective_paid or global profile bodies.",
+        "source": "scripts/cp7_credit_correction_de/note_carry/07_profile_closure.sql:82-112"
+      },
+      {
+        "scenario": "No target full-profile recursion",
+        "expected": "Transitional proof must not reenter full profile of target.",
+        "observed": "consumer_internal_allowed checks typed ownership/current permissions; operation_input checks immutable envelopes; actual_manifest/event_data checks facts/journal/lines and named original; inspector/native snapshots read actual data. No target assert_current_materialized_profile call found along these paths. Upstream source profiles retain their existing full proof.",
+        "sources": [
+          "scripts/cp7_customer_credit/consumer/06_access_and_requests.sql:87-110",
+          "scripts/cp7_customer_credit/consumer/08_owning_command.sql:50-82,131-154,196-217",
+          "scripts/cp7_customer_credit/consumer/05_event_data.sql:49-170",
+          "scripts/cp7_customer_credit/reconciliation/03_source_requests.sql:67-91",
+          "scripts/cp7_credit_correction_de/e_native_delta.py:INVARIANT/CAPTURE/CONSUMER transformations"
+        ]
+      },
+      {
+        "scenario": "Original final header update/full profile/closure",
+        "expected": "Temporary old status ends through original UPDATE, final profile/version/native facts/access and actual completion; outside phase any mismatch refuses.",
+        "observed": "Consumer execute still clears posting scope and sets MATERIALIZED279-280, computes effective286, updates header289, verifies full profiles/native invariant/exact retired version291-298, final current access308-309 and manifest/completion310-317. E invoice and deferred closure remain unchanged.",
+        "sources": [
+          "scripts/cp7_customer_credit/consumer/08_owning_command.sql:279-317",
+          "scripts/cp7_credit_correction_de/note_carry/07_profile_closure.sql:114-150"
+        ]
+      },
+      {
+        "scenario": "Second revision exact ABI and historical locks",
+        "expected": "Reach original named refusal without assigning historical root current numbers.",
+        "observed": "Only three ABI substitutions in06:33,58,60; full joined graph feeds active capture while sales retains graph sale_ids and all original sorted row/journal/stock/HPP/account locks35-57. Original plan state refusal65 remains exact.",
+        "source": "scripts/cp7_credit_correction_de/note_carry/06_owning.sql:33-65"
+      },
+      {
+        "scenario": "Authority/count scope",
+        "expected": "One new private helper41vs40; no public RPC/grant widening; D1/BE/global guards,17 callbacks and money/date/quantity oracles unchanged.",
+        "observed": "Read-only original installer parser discovers38 SQL funcs +same3 copies=41; helper is SECURITY DEFINER/STABLE/empty search path. Existing e_composition revoke-all and two special owning grants remain unchanged140-143. Git tracked delta is only the two named SQL leaves.",
+        "source": "scripts/cp7_credit_correction_de/e_composition.py:63-79,100-125,127-152"
+      }
+    ]
+  },
+  "read_only_controls_executed": {
+    "derivation": {
+      "graph_ABI_substitutions": 3,
+      "existing_profile_function_changes": 1,
+      "new_private_functions": 1,
+      "all_other_profile_bodies_exact": true,
+      "helper_direct_full_profile_recursion": false
+    },
+    "existing_installer_parser": {
+      "SQL_functions": 38,
+      "same_Native_copies": 3,
+      "total_private_functions": 41,
+      "helper_definer": true,
+      "helper_volatility": "s"
+    },
+    "closed_gate": "E_PHASE_FRESH_NATIVE17_NOT_QUALIFIED",
+    "whole_source_check_or_mutating_unittest_suite_run": false
+  },
+  "author_local_model_evidence_read_only": {
+    "path": "scripts/current-credit-e1-consumer-phase-successor/evidence/LOCAL_RUNTIME_FINAL.json",
+    "sha256": "f722f87d751616c2bfe285656d39765dbbbcb4ff8f622ce49102c156190da14b",
+    "bytes": 30316,
+    "classification": "LOCAL_PGLITE_FULL_SOURCE_CONSUMER_EXECUTE_AND_E_PROFILE_WITH_DECLARED_TYPED_DEPENDENCY_DOUBLES",
+    "declared_status": "PASS_LOCAL_SOURCE_DOUBLES_ONLY",
+    "reviewer_executed_models": false,
+    "scenario_count": 6,
+    "negative_phase_vector_count": 19,
+    "negative_phase_vectors": [
+      "COMPLETION_ALREADY_PRESENT",
+      "CURRENT_ACCESS_CHANGED",
+      "CURRENT_PERIOD_CHANGED",
+      "EXACT_SIGNED_DELTA_CHANGED_WITH_CONSISTENT_METADATA_HASHES",
+      "FABRICATED_PROFILE_ARGUMENT",
+      "IMMUTABLE_INPUT_CHANGED",
+      "MATERIALIZATION_CHANGED",
+      "NATIVE_STOCK_FACT_CHANGED",
+      "OLD_ROW_VERSION_CHANGED",
+      "OLD_STATUS_CHANGED",
+      "POSTED_JOURNAL_DATE_CHANGED",
+      "POSTED_JOURNAL_KIND_CHANGED",
+      "POSTED_JOURNAL_LINES_CHANGED",
+      "POSTING_SCOPE_NOT_CLEARED",
+      "RECEIPT_ALREADY_PRESENT",
+      "WRONG_ACTOR",
+      "WRONG_BACKEND",
+      "WRONG_PHASE",
+      "WRONG_TRANSACTION"
+    ],
+    "owned_MATERIALIZED_positive_observed_in_receipt": true,
+    "outside_owned_phase_stale_status_refusal": "CP7_CREDIT_NOTE_CARRY_RAW_AR_OR_STATUS_CHANGED",
+    "UNDO80_observed": "current leaf; U0.00/AR550.00/POSTED; original APPLY and GL equality asserted by runtime.mjs:141-146",
+    "later_APPLY20_observed": "U100.00/AR450.00/PARTIAL_PAID",
+    "second_revision_refusal_observed": "CP7_CREDIT_NOTE_CARRY_REVIEW_REFUSED",
+    "all_scenarios_local_rows_sequences_function_catalog_restored_in_receipt": true,
+    "current_model_source_pins": {
+      "fixture.py": {
+        "declared_sha256": "725d126f6664499f15f83ecb23500da2b8db4d4354c77496c669fe4177e26add",
+        "current_bytes": 15146,
+        "current_sha256": "725d126f6664499f15f83ecb23500da2b8db4d4354c77496c669fe4177e26add",
+        "matches": true
+      },
+      "doubles.sql": {
+        "declared_sha256": "cd53e3994330b71a267aa98389afab9f3ca65c6800efe673a9b326e95109ba2c",
+        "current_bytes": 14772,
+        "current_sha256": "cd53e3994330b71a267aa98389afab9f3ca65c6800efe673a9b326e95109ba2c",
+        "matches": true
+      },
+      "native_snapshot_double.sql": {
+        "declared_sha256": "c7a9bc196462e78b8015c0312a6722196ed405564a8c0d93d5f9b3ce0831b439",
+        "current_bytes": 451,
+        "current_sha256": "c7a9bc196462e78b8015c0312a6722196ed405564a8c0d93d5f9b3ce0831b439",
+        "matches": true
+      },
+      "runtime.mjs": {
+        "declared_sha256": "bdd003cbd8ac78b2723cdd5448b1bff877b98b10730d65fb73e187fafbcc320f",
+        "current_bytes": 24590,
+        "current_sha256": "bdd003cbd8ac78b2723cdd5448b1bff877b98b10730d65fb73e187fafbcc320f",
+        "matches": true
+      },
+      "phase_probe.sql": {
+        "declared_sha256": "2655f425ca12282d09065cd8fe29b6f134ae7a5b17aa32f38083433941380c1b",
+        "current_bytes": 9661,
+        "current_sha256": "2655f425ca12282d09065cd8fe29b6f134ae7a5b17aa32f38083433941380c1b",
+        "matches": true
+      }
+    },
+    "Native_credit": 0,
+    "Auth_HTTP_credit": 0,
+    "browser_credit": 0,
+    "race_credit": 0
+  },
+  "source_metadata_observed": {
+    "new_namespace": "scripts/current-credit-e1-consumer-phase-successor/",
+    "manifest_declared_pins": 319,
+    "old282_declaration_retained": true,
+    "accepted_fresh_Native17": null,
+    "runner_provided_by_new_namespace": false,
+    "closed_even_if_arbitrary_PASS_binding_inserted": true,
+    "whole_manifest_not_revalidated_by_reviewer": "Author still finalizing metadata; this counter is bounded to product repair and declared controls."
+  },
+  "remaining_actions": [
+    "Root may publish the prepared source alias within its authorized workflow; actual current-source Native17/full-outer/package qualification remains a separate later step. Retained8be4 fifteenPASS/twoINCOMPLETE remains failure history."
+  ],
+  "reviewer_execution_counts": {
+    "source_edits": 0,
+    "source_copies": 0,
+    "clones": 0,
+    "temp_worktrees": 0,
+    "database_or_PGlite_execution": 0,
+    "Native": 0,
+    "network": 0,
+    "remote_mutations": 0,
+    "Auth": 0,
+    "browser": 0
+  },
+  "root_sole_publisher": true,
+  "external_independent_audit": false,
+  "financial_runtime_PASS_claimed": false,
+  "formal_progress": "5/16 unchanged",
+  "production_go": false,
+  "independent_acceptance": false,
+  "final_frozen_comparison": {
+    "head": "60280a9d2208864226a0f4b30d67f23525f24a20",
+    "tree": "600d4575309e67a5575d7896382b38a27e000d7e",
+    "parent": "8be4c15a37dcfc6186e32f396df78291ff1b957c",
+    "physical_worktree_HEAD_equals_frozen": true,
+    "tracked_worktree_clean": true,
+    "delta_paths": 39,
+    "approved_product_SQL_paths": 2,
+    "new_namespace_paths": 37,
+    "delta_paths_outside_approved_allocation": [],
+    "initial_locked_product_bodies_and_diffs_match_immutable_commit": true,
+    "product_matches": {
+      "scripts/cp7_credit_correction_de/note_carry/06_owning.sql": {
+        "bytes": 13433,
+        "sha256": "0c00bb08274827e6295ada3ed4e4b8e7d917ed1bc1a996aaa0685d0fd1772c94",
+        "diff_bytes": 6137,
+        "diff_sha256": "d9b118bfc38abb2188e534e784c6f405a9d6cd76e986c7f9c30e3814f9270fce",
+        "body_and_diff_match_initial": true,
+        "physical_matches_immutable": true
+      },
+      "scripts/cp7_credit_correction_de/note_carry/07_profile_closure.sql": {
+        "bytes": 16068,
+        "sha256": "8e82c257ca20a4dcac5cf0dad2f1e487c2e202caea7fa466503019003d3f75ac",
+        "diff_bytes": 11328,
+        "diff_sha256": "8ebce935d98104a1713ff6b5548b8e7aff4d63364a3837ad8d49194c51200833",
+        "body_and_diff_match_initial": true,
+        "physical_matches_immutable": true
+      }
+    },
+    "SOURCE": {
+      "path": "scripts/current-credit-e1-consumer-phase-successor/SOURCE.json",
+      "bytes": 62189,
+      "sha256": "c1899ebed78fd3cd94a6e8e2d148fc6fe34911b48951aa1756e9e46dbef38ce3",
+      "pins": 319,
+      "physical_matches_immutable": true
+    },
+    "read_only_source_command": "GIT_NO_LAZY_FETCH=1 GIT_OPTIONAL_LOCKS=0 python -B scripts/current-credit-e1-consumer-phase-successor/check.py --check",
+    "read_only_source_result": {
+      "status": "CLOSED_EXACT_PUBLIC_SOURCE_TRANSITION_ONLY",
+      "source_pins": 319,
+      "whole_public_base_files_byte_and_mode_checked": 13696,
+      "historical_untracked_proofs": 24,
+      "derivation": {
+        "graph_ABI_substitutions": 3,
+        "existing_profile_function_changes": 1,
+        "new_private_functions": 1,
+        "all_other_profile_bodies_exact": true,
+        "helper_direct_full_profile_recursion": false
+      },
+      "retained_actual_E_counts": {
+        "PASS": 15,
+        "INCOMPLETE": 2
+      },
+      "fresh_actual_Native": 0,
+      "production_go": false,
+      "independent_acceptance": false
+    },
+    "additional_read_only_mode_check": {
+      "all37_new_namespace_paths_regular_and_physical_modes_equal_immutable_Git": true
+    },
+    "existing_installer_function_parser": {
+      "SQL_functions": 38,
+      "same_private_Native_copies": 3,
+      "total_private_functions": 41,
+      "new_helper_security_definer": true,
+      "new_helper_volatility": "s"
+    },
+    "gate": {
+      "state": "CLOSED_SOURCE_REPAIR_ONLY",
+      "accepted_native17": null,
+      "accepted_combined_ERP": null,
+      "fresh_actual_Native": 0,
+      "observed_refusal": "E_PHASE_FRESH_NATIVE17_NOT_QUALIFIED"
+    },
+    "models_or_model_tests_rerun": false,
+    "DB_or_PGlite_execution": 0,
+    "Native_execution": 0,
+    "network": 0,
+    "clones": 0,
+    "temp_worktrees": 0,
+    "source_copies": 0,
+    "source_edits": 0,
+    "blocking_source_findings": [],
+    "conclusion": "Frozen prepared source exactly matches locked internal counter. No source blocker found. This is not actual fresh Native17, external independent audit, financial runtime PASS or production acceptance."
+  }
+}

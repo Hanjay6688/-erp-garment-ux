@@ -1,0 +1,102 @@
+{
+  "contract": "cp7.s03.native14.first-failure.root-retention.v1",
+  "recorded_at_utc": "2026-10-29T23:44:16Z",
+  "public_head": "9ac9c8bd1bfb7d64a1e735067083c68acbff02ef",
+  "public_tree": "49591433899ef13c70e3cd94fc0c43894ea182df",
+  "run_id": 40967080539,
+  "job_id": 123774181466,
+  "artifact_id": 12940861511,
+  "archive": {
+    "bytes": 4176290,
+    "sha256": "90e6cc9eed6f5c33bb5902df2dc2ba43a0f4f408b9e3ddcf9d2fd7ad633b9a05",
+    "members": 118,
+    "library_file_id": "libfile_a529639caf488191bff1b748eee38aa2",
+    "version": 0
+  },
+  "raw_files": [
+    {
+      "path": "CP7_S03_ATTENDANCE_CHOICE_NATIVE11_CASES.json.gz",
+      "compressed_bytes": 4349,
+      "compressed_sha256": "6a9582d756f48a8edea14f88b0853279ebcfd96fef5b43e77bcc010d8b13cb73",
+      "original_bytes": 23409,
+      "original_sha256": "f53ebbecc4a49780ef3800b884937c91ff1fb9d2825b99cb7830e6e4a9723c40"
+    },
+    {
+      "path": "CP7_S03_ATTENDANCE_CHOICE_NATIVE14.json.gz",
+      "compressed_bytes": 2429899,
+      "compressed_sha256": "1091a80909e3f15fe77e398af3a2f26733392884f75c9d6cf58e947e8d93262f",
+      "original_bytes": 28415697,
+      "original_sha256": "0716f7cf16c2c02b5487f3c18469bb8b37b9e710b70bfbf07512b0cd5913c55e"
+    },
+    {
+      "path": "T3_PACKAGE_INSTALL.json.gz",
+      "compressed_bytes": 11406,
+      "compressed_sha256": "d3f589865481658c91a789f2401979c11d58e086cfb515b0bef1e8a69916d13a",
+      "original_bytes": 360440,
+      "original_sha256": "d0915aa21ac1c6868fc1a47dcb86520bce3450ed69581a46792bce7e30bdf76c"
+    },
+    {
+      "path": "T3_PACKAGE_FILES_INSTALL.json.gz",
+      "compressed_bytes": 255,
+      "compressed_sha256": "b9fd494bbe31db0edab544a1de88db0fcbca0d8341db7e0c180613ad90e53ac6",
+      "original_bytes": 1806,
+      "original_sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    {
+      "path": "T3_BACKUP_RESTORE_DRILL.json.gz",
+      "compressed_bytes": 646,
+      "compressed_sha256": "b62985ef634aafd92950af98781d7d877f449f3edc36cbd015da2dce7c4b52e8",
+      "original_bytes": 1470,
+      "original_sha256": "d65203c8eac1ae3235323cb3f095baea7c9c0b59e1b9b3177e5362e6ad0d2c71"
+    },
+    {
+      "path": "S03_NATIVE14_FINAL_GATE.json.gz",
+      "compressed_bytes": 247,
+      "compressed_sha256": "18f9b29741818f595e23110906c8e9f3e2c934d213c70e0604b78e7435a4db54",
+      "original_bytes": 294,
+      "original_sha256": "fd07e63e843c19965fdb53c2e89be45089b25989cf676ba37e1bb0ae07b79c49"
+    }
+  ],
+  "strict11": {
+    "PASS": 8,
+    "INCOMPLETE": 3,
+    "all11_attempted": true,
+    "all11_boundary_restored": true
+  },
+  "reader3_reached": false,
+  "whole14_committed_used_witness_reached": false,
+  "whole14_accepted_case_credit": 0,
+  "outer": {
+    "full22_all_rows_all_sequences": true,
+    "raw_public_and_roles": true,
+    "CP6_and_advisors": true,
+    "auth_before_after": [
+      0,
+      0
+    ],
+    "backup_restore_drill": "RESTORED_IDENTICAL",
+    "all5": false,
+    "writer_runtime": false
+  },
+  "source_supported_qualification_defects": [
+    "P2 helper creates an additional eligible worker then leaves prior worker UNKNOWN; preserve UNKNOWN refusal and reuse known worker through real Native dated rate update",
+    "Correction final REVERSE occurs after fixture closes P1; retain closed-period full-noeffect refusal then real Owner reopen before fresh preview/save",
+    "Full FG-row equality includes legitimate Native QC_GOOD/REWORK_IN unit_hpp_snapshot recost; retain all16 noncost fields and SALE full-row equality, current Native HPP values and full exact cancel restore"
+  ],
+  "numeric_raw_FG_cost_before_after_values_retained": false,
+  "new_Native_Auth_browser_execution": 0,
+  "qualification_only_successor_authorized": true,
+  "product_financial_bug_demonstrated": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "formal_accepted": "5/16",
+  "root_all425_immutable_Git_blobs_match_Source": true,
+  "source_pins": 425,
+  "source_sha256": "a6efa90aa23107a2facdd55d285677bbf60731432543455dcd844b3d2a0a56c1",
+  "internal_counter": {
+    "file": "INTERNAL_COUNTER_NATIVE14_FIRST_FAILURE.json",
+    "bytes": 53610,
+    "sha256": "114472a7101e283ab7950f5861127ac95fdfd2048787526288f4ddcec539b278",
+    "classification": "INTERNAL_HELPER_NOT_EXTERNAL_ACCEPTANCE"
+  }
+}

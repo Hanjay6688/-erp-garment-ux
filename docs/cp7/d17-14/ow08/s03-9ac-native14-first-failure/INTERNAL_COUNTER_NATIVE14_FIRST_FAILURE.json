@@ -1,0 +1,1273 @@
+{
+  "contract": "hansen-erp.s03-native14.first-failure.internal-counter.v1",
+  "classification": "INTERNAL_ORIGINAL_AND_IMMUTABLE_SOURCE_COUNTER_NOT_EXTERNAL_ACCEPTANCE",
+  "identity": {
+    "head": "9ac9c8bd1bfb7d64a1e735067083c68acbff02ef",
+    "tree": "49591433899ef13c70e3cd94fc0c43894ea182df",
+    "run_id": 40967080539,
+    "job_id": 123774181466,
+    "artifact_id": 12940861511,
+    "archive_bytes": 4176290,
+    "archive_sha256": "90e6cc9eed6f5c33bb5902df2dc2ba43a0f4f408b9e3ddcf9d2fd7ad633b9a05"
+  },
+  "integrity": {
+    "ZIP_members": 118,
+    "all_CRC_paths_lengths_unique_and_safe": true,
+    "all_member_SHA256_computed": true,
+    "all_index_paths_sizes_match": true,
+    "six_selected_expected_SHA_and_extracted_bytes_match": true,
+    "total_uncompressed_bytes": 39670747,
+    "members": [
+      {
+        "path": "ALIGNED_CHAIN.json",
+        "bytes": 17536,
+        "sha256": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b",
+        "CRC32": "e25e7c42",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/086690d30fc548f0ab1364069cde3ed0-1.json",
+        "bytes": 540,
+        "sha256": "205d2f02a1894e76f46ce3b0372ef0963351c5f9b9e0e6f0bf11111bc8a228a3",
+        "CRC32": "f9302182",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/0880eb98682b48e6bfb4bc61952632f3-1.json",
+        "bytes": 539,
+        "sha256": "1cc993ac255b6ae41c3e40408f8e867d2996b332783da6573a30d60c51025d52",
+        "CRC32": "59a46b97",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/0b69a8ddc4344c8faec910496e1974a7-1.json",
+        "bytes": 537,
+        "sha256": "29da4c722026163913cae03660063dc0f475911742a6d2c479387e1b41e8a7ae",
+        "CRC32": "ad5a4359",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/0fae48e248674054861911004bd37dd5-1.json",
+        "bytes": 537,
+        "sha256": "dd94717021439e6f4e6ce3b8158e17326c34c88ef86a1b1a166fb0cedfc51632",
+        "CRC32": "2ac78cc8",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/0fb0991a5473432a8d55adf2840882ea-1.json",
+        "bytes": 537,
+        "sha256": "c942b774566b08b4ce54cc2a59ef3b58e84f0a9fa8057e75a086f5e8766e58bc",
+        "CRC32": "726846e2",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/120ce0ed11da4bf4a6521a4ec8239196-1.json",
+        "bytes": 538,
+        "sha256": "22b9f8558fd6358f7642ba59e298a808690f1073967ebdb59f924d21287211c8",
+        "CRC32": "b993d5f0",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/13245c9615e64e79a534f5350b331243-1.json",
+        "bytes": 539,
+        "sha256": "64c0b794103d39525ab6963c0b17fbec9e901cac4583bab5794f58f90c344e79",
+        "CRC32": "83fad51f",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/1629e250736a4c5992d7e82d4868416c-1.json",
+        "bytes": 539,
+        "sha256": "d8065e53c5ca89fc37ba2b3569e48cf4493eeb938ece9a25c3156a01a1fc1602",
+        "CRC32": "323b991b",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/1683982736a44bc5999a10403b2538fc-1.json",
+        "bytes": 537,
+        "sha256": "dba94c9cef89eef3feeabbf1976be67001bc8e2b7a557f3cc4d555cae610f885",
+        "CRC32": "b5f3a594",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/16b52bb886864ea3b5c391dfcdb2cfe6-1.json",
+        "bytes": 539,
+        "sha256": "d24b740749bb1768d109d15b88d27a33e139c6f10a3034307f40933e0f57eb1d",
+        "CRC32": "39fc0ea5",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/1c9d6aff51c64ce1b6f81c11e1c010e3-1.json",
+        "bytes": 537,
+        "sha256": "706c0ebc5a3efb53769ed21f92da332bac3baf18e92422a36970da4bcc56ad26",
+        "CRC32": "a2dbc1cd",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/1e05bce768264bb8b90400995d56053f-1.json",
+        "bytes": 539,
+        "sha256": "c74a8b2460b873a5d1379624c095195694de7d9db055505ce317e815791ae9a6",
+        "CRC32": "8ecf1550",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/1eb96f4c9c2647d18f790344cccc9387-1.json",
+        "bytes": 539,
+        "sha256": "3edc9b249674c39da3fdebbbbc40af2d4d74243f3ef67459128ef65c09b5c7f2",
+        "CRC32": "553f80bc",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/1f36aa6bf91d4f37917443dd5aa89269-1.json",
+        "bytes": 538,
+        "sha256": "f50a0886827e06e9d842d361ab64496259771d50074a9b3a920a342be06856a7",
+        "CRC32": "b209779f",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/22a07166240f4fbc87041219e5a66b43-1.json",
+        "bytes": 539,
+        "sha256": "418060b2c66fe2848949937ea427f7f7ea7fa9de7c43977820a14af6407cc8a1",
+        "CRC32": "3682311f",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/2690506c96434af68d193bb9e1056613-1.json",
+        "bytes": 539,
+        "sha256": "481616d9aeac445fbe69fd0b1af0d19131b6472fbf3e0209900edf9b3d881a0f",
+        "CRC32": "8923a1de",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/2c678be90cb84691a20683832679ac64-1.json",
+        "bytes": 539,
+        "sha256": "e09381f81c773ee17a0e09b35225c0ce8b4b1981de0f707a5117b93ef479cee8",
+        "CRC32": "23633456",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/333ffe4fde304d02b381bfa5ea1bde9c-1.json",
+        "bytes": 538,
+        "sha256": "1fdab6dc110147fd2e0e88ace29cee2561489a66a41eb6a9d71331646bc2009d",
+        "CRC32": "79b423bc",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/30cbed23118b421182d3bb5b76ed676a-1.json",
+        "bytes": 539,
+        "sha256": "bde8aa2006365d001bfc043789da0f425569a46f2196ae870e5db7bb1caaf7f3",
+        "CRC32": "ca67a9f9",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/38af90e556384241a235b9e2874768f1-1.json",
+        "bytes": 539,
+        "sha256": "4a68795cb3e7c8fb23a75ab3d523189fe29f4f1ea7e4a511ab1ec3843a9766b6",
+        "CRC32": "4bfcef27",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/39ce9487bdae4c03b4fcd5bade14c275-1.json",
+        "bytes": 539,
+        "sha256": "377e86911f35282e2c8a56bbfc5899edeebe794e297d4c57b99d454758242897",
+        "CRC32": "c639becf",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/3ad80f340f5f468da1fdeab2d487ea90-1.json",
+        "bytes": 538,
+        "sha256": "483a4ca2b8aec4f1d06233fbb5a7c0723ad1c25b53a10b017e129e8d06e1c795",
+        "CRC32": "d7bb5920",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/3ce2f8aba5f841a08c4176db018b7f6f-1.json",
+        "bytes": 538,
+        "sha256": "5a77e8457cf8f770221ba90996cdc0ae6681bde03e922f6e084624a530480db6",
+        "CRC32": "6c64da99",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/3fb68bfd9adf4f49bf2a4c5a14a6fd29-1.json",
+        "bytes": 539,
+        "sha256": "c850c23f54d92cabef992725af0db54bcb03b318c024ce75a7a3e505c8dd7630",
+        "CRC32": "d917e81e",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/428efa80211344fc97d8cb4135750298-1.json",
+        "bytes": 537,
+        "sha256": "8bd50983736541b19dea31d8536302caa86a35f998e0c008b443273702803677",
+        "CRC32": "e3063079",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/44115b21b18c48b4a124dae04b3d3d4f-1.json",
+        "bytes": 537,
+        "sha256": "17186f8822f290437a718bac2e8f7bda4aa37981f85a3b2251e772dcc1b3d79e",
+        "CRC32": "60641829",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/449d86b88fcf4452a9931494bdf3575f-1.json",
+        "bytes": 539,
+        "sha256": "25616889c90aa093d70c93adbc72070b843a56e199cb02aeaaf4780e6db01382",
+        "CRC32": "2f53ad8c",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/45b2bebf28544c468b2955b36eff374a-1.json",
+        "bytes": 538,
+        "sha256": "55a47b2e0326127f9a74a2ba399ecf7dd3288fc15a3e99ffc2ac133af0acbdb4",
+        "CRC32": "3482089d",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/45dd7bf6090a49e882c6d9aab4c17158-1.json",
+        "bytes": 539,
+        "sha256": "c519a1e03116751ff5e09e1f21038495caafff3f8d96ab3eb39b518226d27959",
+        "CRC32": "43c3107f",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/51b26462543640e38941e189545ace99-1.json",
+        "bytes": 540,
+        "sha256": "5c05ec7bfa0f5bcacfabf5f1e76e42612f9f15a9ffe4b7d83cefd6c2fbbde1e1",
+        "CRC32": "56e5ed98",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/55eeb05d95024065a8317cd3162b99e3-1.json",
+        "bytes": 539,
+        "sha256": "d4bf6ea3c3c280406f25a30f69c8ded97c6d5f89cd53b5992db042fff706d92b",
+        "CRC32": "6311b0d1",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/5646fe94acbb4fc59690b1c629aa9565-1.json",
+        "bytes": 539,
+        "sha256": "a1c8acd495506969feab4810f5c4d5808d3faefdcb2d4b6e40aa1d176b1c9214",
+        "CRC32": "3c746967",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/57b5dba52ba94818b19bddcee46efec2-1.json",
+        "bytes": 539,
+        "sha256": "fbf5ab2641732afdc4a44626a15ed0f52be1714df77d7ad43b73ca97e2c0727b",
+        "CRC32": "f125ea5f",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/5853a2c97edd4080bab75381436c22ad-1.json",
+        "bytes": 538,
+        "sha256": "0d225211f7380cbd0973c2c8c08f5a600bdf0d2fb52fa5cb82796a8e101f10e4",
+        "CRC32": "99a4cd27",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/5a5eef5c4e2c47c3989059b12c73e1fc-1.json",
+        "bytes": 538,
+        "sha256": "6ab0d2802f6f1f0a7637a4c71e0b63a2ec17968ff640b6e2262848ded515f9a9",
+        "CRC32": "89a235d0",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/5b2100e5731f48ffa8a5d77e53ad3b34-1.json",
+        "bytes": 538,
+        "sha256": "a56e67d9e45e589f67b923f610b74a8e68b00cdc3f4c72a7d33fe64c3902d5ab",
+        "CRC32": "406afd4e",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/5ca56870ece54459a576e6f9dedde64a-1.json",
+        "bytes": 538,
+        "sha256": "708767e3da6a47bc738904678ce1fac11114f1c06aa8610e143082ea579d6d96",
+        "CRC32": "86def9dd",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/5ecb749bac1240b0a1254d925ca81900-1.json",
+        "bytes": 538,
+        "sha256": "8a04be5145504a6a312ee3c24a14ec1d86283468ce767cf0cc56b0ed19dfb22f",
+        "CRC32": "a30f2ad7",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/60dbd4028a3f4e0f813c63a2b781df5c-1.json",
+        "bytes": 539,
+        "sha256": "ed2fa390bbdbafe64333f6385fedfc671dc658e1d564cc50b3a13ca891e7ccb5",
+        "CRC32": "5db75340",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/61cdfb1d624c4d28b33edaa56127ec72-1.json",
+        "bytes": 539,
+        "sha256": "3ebb02b023ff60c7076d38fa24532e13e841ecf16bd014a6e67115a53960ad5b",
+        "CRC32": "ff406110",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/6698dcf8e08746c3b0cc15790a8fe2ae-1.json",
+        "bytes": 539,
+        "sha256": "e62d2bb89b2a214474db4758dc6a16f51e6f04e5916525ad9d46a73a6b996f7e",
+        "CRC32": "d30a998b",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/6a3363b1c4b24b2d95926e454ca4af0a-1.json",
+        "bytes": 539,
+        "sha256": "b338e03b8fb15098ca99c55be4841798441e270768034d8a81ac72d3531745ca",
+        "CRC32": "c79cd815",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/6acaef0e10134db2acc3044a902ffef2-1.json",
+        "bytes": 538,
+        "sha256": "85196090cb152e75b286ffe60b7ba43adbda1fc1b09200b042f30096a979740f",
+        "CRC32": "02f5b12c",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/6d3e9406515c4c6ba85f507bcb2186d5-1.json",
+        "bytes": 538,
+        "sha256": "ea283ae7037b2e268dc38c123ec94901ad1d2a30708de7040ccc48aa4232e449",
+        "CRC32": "359f5b98",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/71fe3b75cf994e3995da8b91c9298e16-1.json",
+        "bytes": 538,
+        "sha256": "bc8aed956bd61facd19cd5404e7db04d73b47eb4ca0fbc09030495e4d40a41a7",
+        "CRC32": "e82d5872",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/79f7c9c53fc6404d857e3e3a08359cd6-1.json",
+        "bytes": 539,
+        "sha256": "8ce4892ef35034e2f7f78dfaf0387a205515bcc171f56905a9ef82a0f1217231",
+        "CRC32": "57ed43f9",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/7b14866d309b4b0d80cf0a09e3060534-1.json",
+        "bytes": 539,
+        "sha256": "dea5323c6128ee5552710aaa77cfa9f57ca577d8a8f20f63fbd95c753e875dd7",
+        "CRC32": "6d101321",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/7ad909695c924820ad0e669814f28efa-1.json",
+        "bytes": 539,
+        "sha256": "3848cd2136cceda444cce6cac014709a5fd3e4389cd4b7453423c317c50e1594",
+        "CRC32": "dacc4916",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/7af92b9a49b04924a8450bdc5652d02e-1.json",
+        "bytes": 539,
+        "sha256": "47ae8139ee8c903667cdad42cf53b8510367744a0bd5e2a1faf195154276b46f",
+        "CRC32": "536383c4",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/7d9b8cf514bd4beabd7d8261b3a99a0d-1.json",
+        "bytes": 539,
+        "sha256": "ba7434d17b27de1132d50b3cfd7c87e7731043bc2423ccd7e6f8354d8d4e9007",
+        "CRC32": "58654bf6",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/7facb3bbacc04b45b058c057c29ad09d-1.json",
+        "bytes": 538,
+        "sha256": "176bece2b580728910c2cc80d44884d8e6982b7e43d96f85d9c33714978c79a8",
+        "CRC32": "f3453bc2",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/7e1db7771f964d57b93ba79e45faf661-1.json",
+        "bytes": 540,
+        "sha256": "25d7afa57fc48dd14db83bae6e6cf552c1ec926610a8f5e1e3904901078843c4",
+        "CRC32": "c0e667f5",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/7fb4b4c40a404d649ad397b77dcf300d-1.json",
+        "bytes": 539,
+        "sha256": "d9955dabfcb85abdb6c7777644852b75d2f3f364ecab180111fe17a0c71cbeeb",
+        "CRC32": "1ce20ce3",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/81c44f3e550e4836a644c58d3c0c23c6-1.json",
+        "bytes": 538,
+        "sha256": "4047d9fdd37799f9e21a4faa9bd3d819ca3d91aa8d26b0e10d7b9f556c055858",
+        "CRC32": "2e61e163",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/82d255996d7b4e809706a6fae193cde0-1.json",
+        "bytes": 539,
+        "sha256": "c6649cc7425836b8ea7369fbee4b72dbd2545bb9115cb14e5d73f28505607dde",
+        "CRC32": "8b8402ac",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/83e5b18e797e4a15adf1a8cae936b1b3-1.json",
+        "bytes": 539,
+        "sha256": "9b65722c00a2bf4ba8d327a74af2887bf09086b15dd9fa677b7cc38333a450be",
+        "CRC32": "7ba9599c",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/86ae23bc8d174f5a8acca575e9e1e669-1.json",
+        "bytes": 539,
+        "sha256": "fed1d035320a65bb100e0bc955107f7ffb65efc7375176042ca63476712cee8b",
+        "CRC32": "6eab9587",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/87978b37717546c48703e6ef305aa8c8-1.json",
+        "bytes": 537,
+        "sha256": "f4ef28e217ff64cc152043b0c13d96e8cab76b69c5967b0f36a0d27e29f0cabb",
+        "CRC32": "ffb1157c",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/8863427ba0c04a7e80a56526b22342ad-1.json",
+        "bytes": 539,
+        "sha256": "55abbfbc64b1ea109f0e3d49f8cfde2d2f31818f640bb948eb9039e573311a0a",
+        "CRC32": "c1270a14",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/8cbf21c4e4a74fbca594301250772da9-1.json",
+        "bytes": 539,
+        "sha256": "6148c0e0e6ddaad8920747114acfe0401fb965b1fa1682509915e39b07527274",
+        "CRC32": "e4cfcab3",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/8cd9af7b9caa42ab8f02a8843394920d-1.json",
+        "bytes": 539,
+        "sha256": "a82cbc38bdf06108abb0097d22dc6d84b7f92763fd9f1dc4ea35ff67f4a5ec2c",
+        "CRC32": "86f4c164",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/93886d0161c1456ba2263e0962b12cfd-1.json",
+        "bytes": 539,
+        "sha256": "12416e86ee4b377728f435bf6891a313cc1bad258a6601f534b5d64cd277b128",
+        "CRC32": "7112425c",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/9414a9b089294b1c9ec4a31b89a1057a-1.json",
+        "bytes": 538,
+        "sha256": "394946e6b874900db1b5e61ffc6992e6af2285d635f7598e5e8061186420545e",
+        "CRC32": "c34745ec",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/9c9f6d4e0c6f471689249af3ccc111aa-1.json",
+        "bytes": 536,
+        "sha256": "03a081a9dfaeef16e8f8ad07f683a6fe04e0f9c4e353a553109f6661d442886a",
+        "CRC32": "780c4446",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/a73c2e5559044cbb9e8c2d6e5fa271a0-1.json",
+        "bytes": 539,
+        "sha256": "e1d7482cd7c957aec32abb4002cd018e3f00205c8a451491db1138deb6b55f8f",
+        "CRC32": "0483f13d",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/aa41bd9ec28e4c2789bc26eae32207ee-1.json",
+        "bytes": 539,
+        "sha256": "0c12ff9aeb97c7e9781ee8b56f0c0ccac4138de3dfd928adb35d45ab16077d95",
+        "CRC32": "70562e77",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/ad44c8c8c31d4ff98484be0c950e9d43-1.json",
+        "bytes": 539,
+        "sha256": "e924591ebc4ef4e4e57bdc1798559dfcae6015deeed06d6a21c8ce52573edf3e",
+        "CRC32": "029aae1f",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/add83ea0468f488abe564329843439b3-1.json",
+        "bytes": 538,
+        "sha256": "c60656faff9014063b9845876061c5fe9393ad95d8e4ab166c1f5de54fc3d758",
+        "CRC32": "b17daa17",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/b06d8a7c4c5845968f45f6f2a1500237-1.json",
+        "bytes": 539,
+        "sha256": "d7818f6a1d5ccbd5d2426e8f89ff2c5263a018bb161900c2b3112bdf9617a589",
+        "CRC32": "fbd2a757",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/b7c1d2ff18aa4541be3c0738e6dcedc2-1.json",
+        "bytes": 538,
+        "sha256": "519e65532a4e6bd15342dfaa9648021b1f0d74ff3597f6ec9efa27ac250bd501",
+        "CRC32": "60b5f961",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/bd59583d394346d19666024d9a4ceb83-1.json",
+        "bytes": 538,
+        "sha256": "508f3d15aa6d968db8fc30b48dec704faaa4583298b07aa81d498b2ae5117371",
+        "CRC32": "fb302178",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/bda6545f2d884750bd09c0fb7824ac4b-1.json",
+        "bytes": 536,
+        "sha256": "1d85de4daaac0eb1bf99d36b648256bf63202a765deac5ab8a4ea2110c5d3a66",
+        "CRC32": "1933e114",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/bda6545f2d884750bd09c0fb7824ac4b-1.stderr.txt",
+        "bytes": 36,
+        "sha256": "7a17de998793f933f41f520a646b2388f70a705c6b12287b69a90f36fb7ba33f",
+        "CRC32": "21e3c8ae",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/bda6545f2d884750bd09c0fb7824ac4b-1.stdout.txt",
+        "bytes": 139,
+        "sha256": "3e2733c709f586f8124ba4eb545a3cb65221dec818acc5b6942738a4aa70d7c6",
+        "CRC32": "64f85f47",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/bfaf12ac22cf41c381fe739f02ec6db2-1.json",
+        "bytes": 538,
+        "sha256": "121177d16bae35d30f2a7b270a96ee3ec540f9e95f55d046b816c5f5a7a08990",
+        "CRC32": "677efaf3",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/c02cb8c42d5c4790a413c4e102f82732-1.json",
+        "bytes": 537,
+        "sha256": "4886e5450e2f8aec73ac3919df23b20334c341e7387e8eba149beac43a6af8e4",
+        "CRC32": "cccddc57",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/c22057acd7c54db5adb4a210cc75ffcd-1.json",
+        "bytes": 538,
+        "sha256": "8fb76b7b609889946b81c02a563977e799aa30f819c931f9a9c1374cf8c9e80f",
+        "CRC32": "6ebddb13",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/c1741fe5c8b749c38743e558d33fefb5-1.json",
+        "bytes": 536,
+        "sha256": "f2ba8de31041c9beda66f2d3de21178baaf54b22d87e2ab080fddebf1cdbe997",
+        "CRC32": "1e526256",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/c301b6d09e324b65b3372b8839e28e08-1.json",
+        "bytes": 538,
+        "sha256": "fb8776b9e462fc593b330376f2c1b3580712ffe9030abdfde6b36d6c4e2b1699",
+        "CRC32": "ef6849c1",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/c77bde1c503a48a08114764e4ad85621-1.json",
+        "bytes": 537,
+        "sha256": "0e6e9f4efce4e8c7d3d26ae84d0ed022c2010663f68253b54b6face5bb230aa1",
+        "CRC32": "19ce0f00",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/c7d5a7408ac54792abca74b71405cb3b-1.json",
+        "bytes": 537,
+        "sha256": "fe7705cc650dff8839922cd2eaf24531d1515f8ccbcae10ad3d444648d965d6f",
+        "CRC32": "d4a395da",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/cf6e6ea126ab40b5b130e258643a1875-1.json",
+        "bytes": 538,
+        "sha256": "7b22db338d068aa750d9e64fe18d92fb54db802641cd6042e8c53b96225980d1",
+        "CRC32": "8be13929",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/cfd006ce28d84428933d0365826fb15a-1.json",
+        "bytes": 539,
+        "sha256": "c4b4a58d97e8f30f7a87005468c597b4d6eeb44663538b117547ead30e892137",
+        "CRC32": "82decfe4",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/d12ac59774c244aca982dd3c561f4e65-1.json",
+        "bytes": 539,
+        "sha256": "87f16ec59c24089bd83d7f5b9e508dbd4a98f42ed54c6ae1f96ca2eaf2100c07",
+        "CRC32": "64270af1",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/d17b7c6731784d51af2d4797c8d0644a-1.json",
+        "bytes": 537,
+        "sha256": "9db8a40e6a5a43f6371a73827da29431d0164c56ece918f4b7a3e6919c418115",
+        "CRC32": "a6eb6cc4",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/d31822c55ff74dc7b585182f1567dfc9-1.json",
+        "bytes": 536,
+        "sha256": "f71fdd12ad2f16ef7e7a82a774b4d5954f4c90d755d030c358df313e61453128",
+        "CRC32": "67b97280",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/d3f36619d665459b8c9d72f6b7bb8c6b-1.json",
+        "bytes": 538,
+        "sha256": "ffeda0ca5e560fe3b945a6a497daca648d4f10a1953ac5a55aef11c5d34bdb92",
+        "CRC32": "64c1c5ec",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/d7a13da74a2c401a94d040c84c13866a-1.json",
+        "bytes": 538,
+        "sha256": "9736d72ab0ad645bc1fedcbe753b2cca3397c7664226eb159eb4973e41b1446a",
+        "CRC32": "bf45914d",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/d94346f7c4734f919515a33a99da2bd2-1.json",
+        "bytes": 539,
+        "sha256": "8c95cdc9bd195eb3b4b97789c52f2d8975bedd5fdd247f5cf11f3ba7b89e9d6a",
+        "CRC32": "8a207f36",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/dbc0d21365a040b295e98672efcd1356-1.json",
+        "bytes": 539,
+        "sha256": "9c0e3d439d782d503264a8cda3d064ef1f241377954f22870ab01ca373463270",
+        "CRC32": "5d98d23f",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/e02234c6fe574465b37ccf32ff2ec732-1.json",
+        "bytes": 539,
+        "sha256": "1411a06751c6b57ecfbf868cc4a27374b940dafeab6da6380a6f37c9d8c66c3d",
+        "CRC32": "2ffb6bc9",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/e0701a037d214b2e8dda7bfb135d48ad-1.json",
+        "bytes": 539,
+        "sha256": "b4adcd9313618cee405755c5c6701f1d86a4cca840f434db1aab8011fe488b8b",
+        "CRC32": "ec7c5463",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/e6f009964ad54c6eb6160968b2703b1c-1.json",
+        "bytes": 538,
+        "sha256": "78541493869e968f9092f5f191031f9af5d11317fce972f6c6616f1882b865f5",
+        "CRC32": "c674ab57",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/e8b6d38cecb84305ba4ceb9fbca9e48a-1.json",
+        "bytes": 539,
+        "sha256": "bec5a3a6796e525ac351761fad601b92b6f9957d0b67bc4f3c54bc981f92127a",
+        "CRC32": "4b98b3ed",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/eaf24e465cb4449ab060343a53c1555c-1.json",
+        "bytes": 540,
+        "sha256": "1245d343e84e22dc358fb4b0b4eabb69c21ede51173fbd2a378a4305723679b5",
+        "CRC32": "73cf5482",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/ec12955c65dd4f2dafa7345f6079e0c2-1.json",
+        "bytes": 538,
+        "sha256": "54f54a3980baf823b02dbe78f9dcf4c235203fc527a33d2b6d703012f1cc4d6d",
+        "CRC32": "357f9896",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/f24171b84bf941408eb55c058ae004fd-1.json",
+        "bytes": 538,
+        "sha256": "dfbbba0565ca3735cd08a990b36a05b9e9ba9888d6217b4eedf8670d77c9bfe6",
+        "CRC32": "f2fb4729",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/f2ba63a873be4cab81a1503ec751986f-1.json",
+        "bytes": 539,
+        "sha256": "ed97d40e082bf1d49863fb99859f0d857a4c88185ce7dbf5b60938ed743b94a9",
+        "CRC32": "682b1a0e",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/f45c74fa83e24a6abbe1ce9760c67691-1.json",
+        "bytes": 537,
+        "sha256": "14caf85211bfe11d6a7070c7c9afca9005d791f8c3649d5d6154f9da3143dc17",
+        "CRC32": "9caff7ad",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/f4a31ae86ada4831b89d0e94c3edb7ae-1.json",
+        "bytes": 539,
+        "sha256": "d0ccc125b236c198b2efc864684db4d602112b02647fb5c0f4ded7e9b51e316e",
+        "CRC32": "83ddebdc",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/f8a62ff99ff34be18b19609af12bb57d-1.json",
+        "bytes": 539,
+        "sha256": "181820f29625c53ee877eb90832c14d05cee4e07701c08f1f366c19e9fd5ace7",
+        "CRC32": "de5dec98",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/faf40d8a9358449da8a8b01051020aeb-1.json",
+        "bytes": 539,
+        "sha256": "9e1281fe495a0f97a1412ab4d52fd9d3912796bba7267d13df4bc9f0a984eb9c",
+        "CRC32": "4d38e0ab",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "ARTIFACT_FETCH/fd2bc5c3c36641818eb224805df5b5cc-1.json",
+        "bytes": 539,
+        "sha256": "ef036843358f66e3507cff6565b97cb4e3914c733002e9c4456ffd5b20c1ab30",
+        "CRC32": "cce28ea0",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "CLONE_install.clone-erp.sql",
+        "bytes": 5385622,
+        "sha256": "c9c6023b6461d0bcfc7c9d90c129f8e4e6b2cdceb965ead83aec4987eef10911",
+        "CRC32": "69ab5596",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "CLONE_install.connection-fence.txt",
+        "bytes": 494,
+        "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981",
+        "CRC32": "046ee9c1",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "CLONE_install.database-identity.txt",
+        "bytes": 3074,
+        "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2",
+        "CRC32": "3c2aa92b",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "CLONE_install.source-erp.sql",
+        "bytes": 5385622,
+        "sha256": "c9c6023b6461d0bcfc7c9d90c129f8e4e6b2cdceb965ead83aec4987eef10911",
+        "CRC32": "69ab5596",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "CLONE_install.txt",
+        "bytes": 291,
+        "sha256": "274847b9c903840ecc4e02554bd33126e054f93b52cd8243713868d6869b0482",
+        "CRC32": "e62eb078",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "CP7_S03_ATTENDANCE_CHOICE_NATIVE11_CASES.json",
+        "bytes": 23409,
+        "sha256": "f53ebbecc4a49780ef3800b884937c91ff1fb9d2825b99cb7830e6e4a9723c40",
+        "CRC32": "38b14b02",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true,
+        "selected_expected_SHA_and_extracted_bytes_match": true
+      },
+      {
+        "path": "CP7_S03_ATTENDANCE_CHOICE_NATIVE14.json",
+        "bytes": 28415697,
+        "sha256": "0716f7cf16c2c02b5487f3c18469bb8b37b9e710b70bfbf07512b0cd5913c55e",
+        "CRC32": "a86e5c14",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true,
+        "selected_expected_SHA_and_extracted_bytes_match": true
+      },
+      {
+        "path": "FROZEN_SOURCE_WORKTREES.json",
+        "bytes": 2291,
+        "sha256": "fcfd46f56915951f56384722477fef48967e1239cf63293d285fe12182cd4a78",
+        "CRC32": "00676d8b",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "S03_NATIVE14_FINAL_GATE.json",
+        "bytes": 294,
+        "sha256": "fd07e63e843c19965fdb53c2e89be45089b25989cf676ba37e1bb0ae07b79c49",
+        "CRC32": "90a8233e",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true,
+        "selected_expected_SHA_and_extracted_bytes_match": true
+      },
+      {
+        "path": "T3_BACKUP_RESTORE_DRILL.json",
+        "bytes": 1470,
+        "sha256": "d65203c8eac1ae3235323cb3f095baea7c9c0b59e1b9b3177e5362e6ad0d2c71",
+        "CRC32": "a680df0f",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true,
+        "selected_expected_SHA_and_extracted_bytes_match": true
+      },
+      {
+        "path": "T3_PACKAGE_FILES_INSTALL.json",
+        "bytes": 1806,
+        "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+        "CRC32": "cfb01269",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true,
+        "selected_expected_SHA_and_extracted_bytes_match": true
+      },
+      {
+        "path": "T3_PACKAGE_INSTALL.json",
+        "bytes": 360440,
+        "sha256": "d0915aa21ac1c6868fc1a47dcb86520bce3450ed69581a46792bce7e30bdf76c",
+        "CRC32": "eb8b322e",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true,
+        "selected_expected_SHA_and_extracted_bytes_match": true
+      },
+      {
+        "path": "disposable-startup-attempts/STARTUP_ATTEMPTS.json",
+        "bytes": 525,
+        "sha256": "b1029c124ae59729e7715977cca1d623385d96342d0f8b7d1b9c2e4bcaf9b960",
+        "CRC32": "9a6704e6",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      },
+      {
+        "path": "disposable-startup-attempts/attempt-1-start.log",
+        "bytes": 17625,
+        "sha256": "57b243b08e596a106a9d408cfb0d68f82a0302814cf281fad8590a8a9c1c79f7",
+        "CRC32": "bb5881fc",
+        "CRC_valid": true,
+        "safe_unique_regular_path": true
+      }
+    ]
+  },
+  "initial_causal_assessment": {
+    "locked_to_root_before_reading_existing_first_assessment_content": true,
+    "source_pin": "9ac9c8bd1bfb7d64a1e735067083c68acbff02ef",
+    "expected_scope": "Qualification only; do not weaken Native/product or monetary/date/qty guards.",
+    "findings": [
+      {
+        "case": "S03_NATIVE_P2_PAYROLL_POOL_COEXIST_AND_POLICY_FENCES",
+        "classification": "QUALIFICATION_FIXTURE_COMPLETENESS",
+        "expected": "Record every eligible P2 worker/day without changing20.02 P2 or1000.03 source money.",
+        "observed": "Actual Native post rejects one blank eligible worker/day at cases.py171 -> fixtures.py71. earned creates an additional active DAILY worker but attendance payload records only the new worker; earlier sameCID worker remains eligible.",
+        "sources": [
+          "scripts/current-attendance-period-choice-qualification/cases.py:166-174",
+          "scripts/current-attendance-period-choice-qualification/fixtures.py:60-83",
+          "captured erp.post_attendance_period_v1:64-77"
+        ]
+      },
+      {
+        "case": "S03_NATIVE_BOTH_CORRECTIONS_LINKED_INVERSES_NO_RECOGNITION",
+        "classification": "QUALIFICATION_PERIOD_CONTEXT",
+        "expected": "Old-source positive REVERSE needs lawful source period open; preserve closed-period negative guard.",
+        "observed": "Actual REVERSE204 fails CP7_S03_PERIOD_CLOSED after f.sewn(today). Its two_size_fixture(today+2) invokes estimated_receipt, which sets a newer accounting cutoff. The source fixture did not restore its prior lawful period before positive REVERSE.",
+        "sources": [
+          "scripts/current-attendance-period-choice-qualification/cases.py:192-205",
+          "scripts/current-attendance-period-choice-qualification/fixtures.py:85-102",
+          "scripts/cp6_aa_invoice_partial_audit.py:71-76",
+          "scripts/cp7_attendance_period_choice/choice.sql:210"
+        ]
+      },
+      {
+        "case": "S03_NATIVE_FINISHED_PO_FG_COGS_COST_AND_CANCEL_EXACT",
+        "classification": "QUALIFICATION_OVERBROAD_FULL_ROW_ORACLE",
+        "expected": "Preserve physical IDs/qty/lineage and exact HPP/FG/COGS/WIP/cancel checks while allowing Native recost valuation changes.",
+        "observed": "Actual compound assertion269 checks full to_jsonb(FG movements) equality AND WIP0. Captured Native rebuild_po_hpp352-353 legitimately updates QC_GOOD/REWORK_IN.unit_hpp_snapshot during recost. Sale4 is256, before physical baseline259-260, so sale4 is already included in baseline. Source supports an overbroad raw-row oracle, not a demonstrated product financial defect.",
+        "sources": [
+          "scripts/current-attendance-period-choice-qualification/cases.py:250-272",
+          "captured erp.rebuild_po_hpp(uuid,text):352-353"
+        ],
+        "raw_before_after_FG_snapshots_present": false,
+        "numerical_raw_snapshot_values_claimed": false,
+        "compound_assertion_conjuncts_isolated_from_raw": false
+      }
+    ]
+  },
+  "strict11_actual": {
+    "status": "INCOMPLETE",
+    "counts": {
+      "PASS": 8,
+      "INCOMPLETE": 3
+    },
+    "planned_case_ids": [
+      "S03_NATIVE_OWNER_FIELDS_READ_FULL_NO_EFFECT",
+      "S03_NATIVE_EXPENSE_APPROVAL_ONCE_PAID_E05_REOPEN",
+      "S03_NATIVE_TWO_EXACT_PERIODS_CENTS_AND_NATIVE_HPP",
+      "S03_NATIVE_P2_PAYROLL_POOL_COEXIST_AND_POLICY_FENCES",
+      "S03_NATIVE_OWNING_CANCEL_LATE_OUTPUT_AND_RESTORATION_FLOOR",
+      "S03_NATIVE_BOTH_CORRECTIONS_LINKED_INVERSES_NO_RECOGNITION",
+      "S03_NATIVE_STALE_REVIEW_UUID_RECOVERY_AND_APPEND_ONLY",
+      "S03_NATIVE_CLOSED_SOURCE_OPEN_OUTPUT_AND_CLOSED_CORRECTION",
+      "S03_NATIVE_ZERO_OUTPUT_SUCCESSOR_POLICY_RETAINS_OLD_INFO",
+      "S03_NATIVE_FINISHED_PO_FG_COGS_COST_AND_CANCEL_EXACT",
+      "S03_NATIVE_OLD_ACCRUAL_LATER_BOOK_REOPEN_DATE_FLOOR"
+    ],
+    "all11_callbacks_attempted": true,
+    "missing": [],
+    "all11_boundaries_restored": true,
+    "all11_public_schema_unchanged": true,
+    "complete_boundary_restored": true,
+    "raw_equals_embedded": true,
+    "session_leaks_absent_all11": true,
+    "stable_WIB_day_all11": true,
+    "first_nonPASS_rows_with_verbatim_errors_and_tracebacks": {
+      "S03_NATIVE_P2_PAYROLL_POOL_COEXIST_AND_POLICY_FENCES": {
+        "status": "INCOMPLETE",
+        "error": "Attendance period has 1 unrecorded eligible worker/day cells; blanks are not ABSENT or OFF\nCONTEXT:  PL/pgSQL function post_attendance_period_v1(uuid,text,uuid,bigint) line 71 at RAISE\nSQL function \"erp_post_attendance_period_v1\" statement 2",
+        "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py\", line 165, in _strict_group_once\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-attendance-period-choice-qualification/cases.py\", line 171, in coexist\n    f.earned(cur,s['contractor'],out,D('20.02'))\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-attendance-period-choice-qualification/fixtures.py\", line 71, in earned\n    c.s.native(cur,'select public.erp_post_attendance_period_v1(%s,%s,%s,%s)',(c.bc.awp.find(ap,'period_id'),REASON,uuid.uuid4(),c.bc.awp.find(ap,'row_version')))\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_settlement_cases.py\", line 33, in native\n    b.chain.production.owner(cur);r=cur.execute(sql,values).fetchone()[0];b.api.admin(cur);return r\n                                    ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.RaiseException: Attendance period has 1 unrecorded eligible worker/day cells; blanks are not ABSENT or OFF\nCONTEXT:  PL/pgSQL function post_attendance_period_v1(uuid,text,uuid,bigint) line 71 at RAISE\nSQL function \"erp_post_attendance_period_v1\" statement 2\n",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-30",
+          "before": "2026-10-30",
+          "after": "2026-10-30"
+        }
+      },
+      "S03_NATIVE_BOTH_CORRECTIONS_LINKED_INVERSES_NO_RECOGNITION": {
+        "status": "INCOMPLETE",
+        "error": "CP7_S03_PERIOD_CLOSED: buka kembali periode terkait melalui alur tutup buku sebelum membetulkannya.\nCONTEXT:  PL/pgSQL function cp7_attendance_choice.review_v1(text,jsonb) line 32 at RAISE\nSQL function \"erp_cp7_preview_attendance_choice_v1\" statement 1",
+        "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py\", line 165, in _strict_group_once\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-attendance-period-choice-qualification/cases.py\", line 204, in corrections\n    reversed=f.save(cur,s['owner'],'REVERSE',f.body(s['day']));choice_audit(cur,s,reversed);f.admin(cur)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-attendance-period-choice-qualification/fixtures.py\", line 35, in save\n    r=review(cur,subject,action,payload);return command(cur,subject,action,dict(payload,review_token=r['review_token']),key)\n      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-attendance-period-choice-qualification/fixtures.py\", line 32, in review\n    def review(cur,subject,action,payload):return call(cur,subject,'erp_cp7_preview_attendance_choice_v1',(action,json.dumps(payload)))\n                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-attendance-period-choice-qualification/fixtures.py\", line 29, in call\n    try:return one(cur,'select public.'+rpc+'('+placeholders[rpc]+')',args)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-attendance-period-choice-qualification/fixtures.py\", line 17, in one\n    def one(cur,sql,args=()):return cur.execute(sql,args).fetchone()[0]\n                                    ^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.RaiseException: CP7_S03_PERIOD_CLOSED: buka kembali periode terkait melalui alur tutup buku sebelum membetulkannya.\nCONTEXT:  PL/pgSQL function cp7_attendance_choice.review_v1(text,jsonb) line 32 at RAISE\nSQL function \"erp_cp7_preview_attendance_choice_v1\" statement 1\n",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-30",
+          "before": "2026-10-30",
+          "after": "2026-10-30"
+        }
+      },
+      "S03_NATIVE_FINISHED_PO_FG_COGS_COST_AND_CANCEL_EXACT": {
+        "status": "INCOMPLETE",
+        "error": "",
+        "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py\", line 165, in _strict_group_once\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-attendance-period-choice-qualification/cases.py\", line 269, in finished\n    assert physical()==original_physical and c.po_wip_balance(cur,g['po'])==0\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-30",
+          "before": "2026-10-30",
+          "after": "2026-10-30"
+        }
+      }
+    }
+  },
+  "unreached": {
+    "Reader3_reached": false,
+    "Reader3_actual_cases": 0,
+    "Reader3_raw_absent": true,
+    "whole14_committed_ALLOCATE_used_witness_reached": false,
+    "used_refusal_snapshots_absent": true,
+    "component_actual_Native_cases_field": 0,
+    "aggregate14_accepted_credit": 0,
+    "outer_status": "INCOMPLETE",
+    "outer_error": "S03_NATIVE11_COMPLETE_ELEVEN_PASS_REQUIRED",
+    "required_case_ids_pass": false,
+    "final_gate": {
+      "status": "INCOMPLETE",
+      "error": "[Errno 2] No such file or directory: '/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/cp6-proof/t3/CP7_S03_ATTENDANCE_CHOICE_READER_NATIVE3_CASES.json'",
+      "actual_Native_cases": 0,
+      "production_go": false,
+      "independent_acceptance": false
+    },
+    "focused_preuse_removal_is_separate_from_afteruse_witness": "CP7_S03_EXACT_PREUSE_DELTA_RESTORE"
+  },
+  "actual_capture_source": {
+    "SOURCE_path": "scripts/current-attendance-choice-reader-native14-qualification/SOURCE.json",
+    "SOURCE_bytes": 130653,
+    "SOURCE_sha256": "a6efa90aa23107a2facdd55d285677bbf60731432543455dcd844b3d2a0a56c1",
+    "SOURCE_pins": 425,
+    "all425_pins_independently_compared_with_immutable_public_Git": true,
+    "all425_missing": [],
+    "all425_mismatches": [],
+    "originals": 15,
+    "definitions": 15,
+    "private_clones": 2,
+    "actual_all22": 22,
+    "actual15_signature_set_and_derivation_exact": true,
+    "both_clones_from_actual_originals_exact": true,
+    "all15_and2_installed_all22_definitions_equal": true,
+    "source_derived_local_ABI_used": false,
+    "actual_runtime7_matches_CFG_and_public_source": true,
+    "runtime7": {
+      "scripts/cp7_attendance_period_choice/choice.sql": "44499c6d6a06d1effc2be4f066168f5fa2fe9608b2ccb80d1d2d0b1dac0a8212",
+      "scripts/cp7_attendance_period_choice/readers.sql": "4ab82ff58033f4357251930504e6e9e75ecce9d8f1cc5b4e10f689940ce749e2",
+      "scripts/cp7_attendance_period_choice/native_delta.py": "a49242327798a59407739c2999fcf92408aeef9d88a1ae94fccc82bd189ac9ce",
+      "scripts/cp7_attendance_period_choice/catalog_contract.py": "f312de61b3c75087a51d7df712896627c02bb5d6473803bf6d2c90ad506d7c64",
+      "scripts/cp7_attendance_period_choice/NEW_CATALOG_IDENTITIES.json": "e49e4cb9c794d6ed98b831ae318e6d3c401a110d420cf932ee7011f7c971a578",
+      "scripts/cp7_attendance_period_choice/composition.py": "51b3d53dccd69688438287bee338e7a86a37afe57aa963cc2dee24b2e43470f1",
+      "scripts/cp7_attendance_period_choice/installer_ddl.py": "e002ea2dd938fef5913c76974909f70de8bcb47874b7fd958c0aeef0e2993514"
+    },
+    "original11_cases_sha256": "15fe990cccb82ff4c1dcd9ca40dc17fe93ac26a3a359a37361e6d8780b1f16e2",
+    "capture15_counts_functions_not_cases": true
+  },
+  "captured_native_causal_definitions": {
+    "rebuild_po_hpp": {
+      "signature": "erp.rebuild_po_hpp(uuid,text)",
+      "sha256": "bf8efc539e1f3ee7cb9c7b6278d827ce9f95b1fb5f8a626202576f7b1aab033e",
+      "lines": "352-353",
+      "statement": "update erp.fg_stock_movements set unit_hpp_snapshot=(select hpp_per_pcs from erp.hpp_versions where id=v_new_id) where lot_id=r.id and movement_type in ('QC_GOOD','REWORK_IN');"
+    },
+    "post_attendance": {
+      "signature": "erp.post_attendance_period_v1(uuid,text,uuid,bigint)",
+      "sha256": "1fd30916d3e20ef6188defa8278f5d6f0816773d5168b9433bc922fdfd5eaab0",
+      "lines": "64-77",
+      "finding": "Employed eligible DAILY/HYBRID cells must have actual DRAFT attendance rows; blanks explicitly refuse."
+    }
+  },
+  "outer_restore": {
+    "baseline_full22_all_rows_all_sequences_equal": true,
+    "restore_components": {
+      "erp_platform_auth_schema_acl": true,
+      "all_public_catalog_members_and_row_hashes": true,
+      "erp_public_auth_function_definitions_owners_acls": true
+    },
+    "restore_raw_public_equal": true,
+    "cp6_restored": true,
+    "baseline_advisors_equal": true,
+    "advisor_gate": true,
+    "baseline_restore": {
+      "exit": 1,
+      "error_count": 19,
+      "unexplained": [],
+      "only_pg_cron_errors": true,
+      "database_owner_acl_and_settings_preserved": true,
+      "platform_schema_authority_restored": [
+        "graphql",
+        "graphql_public"
+      ]
+    },
+    "baseline_roles_exact": true
+  },
+  "package": {
+    "identity_matches_head_run_workflow": true,
+    "run_identity": {
+      "label": "T3_PREP",
+      "tool_head": "9ac9c8bd1bfb7d64a1e735067083c68acbff02ef",
+      "product_ref": "d902e4d2e65cf5b382af1ab041120611f9a61078",
+      "product_paths": [
+        "supabase/migrations",
+        "supabase/dev",
+        "supabase/release",
+        "supabase/rollbacks",
+        "src"
+      ],
+      "run_id": "40967080539",
+      "run_attempt": "1",
+      "workflow": "CP7 A S03 attendance choice plus owning readers Native14",
+      "job": "p21",
+      "event": "push",
+      "github_sha": "9ac9c8bd1bfb7d64a1e735067083c68acbff02ef",
+      "release_evidence": false,
+      "production_go": false,
+      "mode": "install"
+    },
+    "status": "ALL_STAGES_INSTALLED",
+    "all5_gate_keys_present": true,
+    "gates": {
+      "installed": true,
+      "primary_unchanged": true,
+      "backup_restore_drill": true,
+      "security_advisors": true,
+      "writer_runtime": false
+    },
+    "all5_PASS": false,
+    "writer_runtime": {
+      "status": "INCOMPLETE",
+      "full_OW11_acceptance": false,
+      "production_go": false,
+      "independent_acceptance": false,
+      "schema_profile": "HOSTED_USAGE_UNCHANGED"
+    },
+    "primary_unchanged": true,
+    "Auth_users_before": 0,
+    "Auth_users_after": 0,
+    "files_status": "ALL_FILES_INSTALLED",
+    "file_count": 30,
+    "all30_files_PASS": true,
+    "drill_status": "RESTORED_IDENTICAL",
+    "drill_checks": {
+      "restore_errors_only_pg_cron": true,
+      "catalog_explained": true,
+      "data_identical": true,
+      "engine_answer_present": true,
+      "engine_equal": true
+    },
+    "drill_catalog_differ": {},
+    "drill_data_differ": {},
+    "drill_engine_equal": true
+  },
+  "conclusion": {
+    "qualification_defects_supported": 3,
+    "product_financial_defect_demonstrated": false,
+    "first_failure_reclassified_PASS": false,
+    "raw_FG_before_after_numeric_values_available": false,
+    "qualification_only_repair_scope": true,
+    "all14_or_future_native1_prerequisite_accepted": false,
+    "formal_progress": "5/16 unchanged"
+  },
+  "preserved_existing_first_assessment": {
+    "path": "/workspace/scratch/ef468a447ac6/evidence-private/s03-9ac-native14-first-failure/FIRST_LOCKED_CAUSAL_ASSESSMENT.json",
+    "bytes": 15111,
+    "sha256_before": "10672b74af6aded38278f4193a846011296c9b7eec6e5a6d8985b6cbf6c911e1",
+    "sha256_after": "10672b74af6aded38278f4193a846011296c9b7eec6e5a6d8985b6cbf6c911e1",
+    "unchanged": true
+  },
+  "reviewer_operations": {
+    "Original_readonly": true,
+    "immutable_Git_readonly": true,
+    "new_product_or_qualification_edits": 0,
+    "staging": 0,
+    "DB_or_Native_execution": 0,
+    "new_Auth_browser_races": 0,
+    "remote_or_network": 0,
+    "artifact_downloads": 0,
+    "new_raw_Original_copies": 0,
+    "only_new_write": "This internal counter receipt."
+  },
+  "production_go": false,
+  "independent_acceptance": false,
+  "external_independent_audit": false
+}
