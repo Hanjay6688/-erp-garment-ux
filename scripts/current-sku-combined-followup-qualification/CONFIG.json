@@ -1,16 +1,37 @@
 {
   "contract": "cp7.sku-combined-followup-prepared.v1",
-  "status": "PREPARED_CLOSED_PENDING_TERMINAL_NATIVE7_ORIGINAL",
+  "status": "EXACT_TERMINAL_NATIVE7_PIN_BOUND_FULL_FOLLOWUP_NOT_EXECUTED",
   "base_head": "21c69cf25defcee854beb08e998062d7e883d968",
   "base_tree": "a0d2c0da83bf5dc29f2c6b2e02abe6d7ed68f89e",
   "branch": "astra-a/sku-utc-combined-followup-20261029",
-  "pending_run_id": null,
-  "accepted_native7": null,
+  "pending_run_id": 40906383684,
+  "accepted_native7": {
+    "head": "21c69cf25defcee854beb08e998062d7e883d968",
+    "tree": "a0d2c0da83bf5dc29f2c6b2e02abe6d7ed68f89e",
+    "run_id": 40906383684,
+    "job_id": 123562172212,
+    "artifact_id": 12915361278,
+    "zip_bytes": 1975884,
+    "zip_sha256": "ffb82b8cf174cdb5848724c895559bbfcc0b57d7682f41e1bf38b1cea7fe6fab",
+    "original": {
+      "name": "CP7_SKU_PAIR_CONVERSION_NATIVE.json",
+      "bytes": 2963678,
+      "sha256": "92822b4b0f7cf9a5f74a3110ce85f68a95da842b7fd2deba2cadcab1cce33347"
+    },
+    "package": {
+      "name": "T3_PACKAGE_INSTALL.json",
+      "bytes": 360413,
+      "sha256": "35c53690fc8200ca873c8a85ecd51d7f547d230731e64480986a9fee7af8d72e"
+    }
+  },
   "retained_failed_native961": {
     "head": "961c22f8d3fa6fd2c16a8932a23b6d3a347d0c98",
     "run_id": 40876528064,
     "status": "INCOMPLETE",
-    "counts": { "PASS": 6, "INCOMPLETE": 1 },
+    "counts": {
+      "PASS": 6,
+      "INCOMPLETE": 1
+    },
     "usable_prerequisite": false
   },
   "expected_counts": {

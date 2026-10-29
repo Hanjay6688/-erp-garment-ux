@@ -1,9 +1,14 @@
-# SKU combined followup — prepared and deliberately closed
+# SKU combined followup — exact terminal prerequisite bound
 
-Base: published21c69cf2/treea0d2c0da. **No runtime is executed by this
-preparation.** `CONFIG.accepted_native7` and `CONFIG.pending_run_id` stay
-**null** until the integrator verifies a terminal PASS on that exact head/tree
-and pins its exact Original/package and artifact bytes. Native961's actual
+Base: published21c69cf2/treea0d2c0da. Root verified terminal run40906383684 /
+job123562172212: actual Native7/7 PASS, used inverse refused before DDL,
+all five package gates true and full catalog/data/sequences/roles/CP6/advisors
+and Auth restoration passed. `CONFIG.accepted_native7` now pins artifact12915361278
+and the exact original ZIP/report/package bytes. Five unchanged synthetic JSON
+Originals are retained losslessly under `retained21/` with raw/gzip digests.
+This prerequisite credits **zero** fresh combined23 cases. All combined runtime
+checks and restoration gates remain mandatory; formal status stays5/16,
+production_go=false and independent_acceptance=false. Native961's actual
 run40876528064 ended **6 PASS / 1 INCOMPLETE**, writer_runtime=false, used
 inverse unobserved. Its Original/package remain intact under the unchanged
 Native adapter's `retained961/`; they cannot unlock this qualifier. A running
@@ -108,9 +113,10 @@ python -B -m unittest discover -s scripts/current-sku-pair-concurrency-qualifica
 node --test scripts/current-sku-pair-browser-qualification/evidence.test.mjs scripts/current-staged-ai-browser-qualification/plan.test.mjs
 ```
 
-Remaining: root must pin the actual terminal Native21c raw/package; admit and
-review this complete child; publish/dispatch if appropriate; inspect actual
-23 case results and all restoration/package gates. Local mock/plan green
+Remaining: root must admit and review this complete child, publish the exact
+execution leaf, then inspect actual23 case results and every restoration/package
+gate. The terminal21 prerequisite is bound; the fresh combined run is not yet
+executed. Local mock/plan green
 does not give Native, concurrency, browser, CP7 completion, independent
 acceptance or production go.
 

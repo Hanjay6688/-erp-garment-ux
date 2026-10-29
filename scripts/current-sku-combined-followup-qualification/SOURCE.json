@@ -1,7 +1,7 @@
 {
-  "status": "PREPARED_PENDING_TERMINAL_NATIVE21C_PIN",
+  "status": "PREPARED_RETAINED_NATIVE21C_PINNED_NOT_EXECUTED",
   "base_head": "21c69cf25defcee854beb08e998062d7e883d968",
-  "accepted_native21c_proof_is_placeholder": true,
+  "accepted_native21c_proof_is_placeholder": false,
   "reviewed_base_transition": {
     "prior_head": "961c22f8d3fa6fd2c16a8932a23b6d3a347d0c98",
     "head": "21c69cf25defcee854beb08e998062d7e883d968",
@@ -147,6 +147,12 @@
     "scripts/current-sku-combined-followup-qualification/gate.py",
     "scripts/current-sku-combined-followup-qualification/plan.py",
     "scripts/current-sku-combined-followup-qualification/probe.py",
+    "scripts/current-sku-combined-followup-qualification/retained21/CP7_SKU_PAIR_CONVERSION_NATIVE.json.gz",
+    "scripts/current-sku-combined-followup-qualification/retained21/CP7_SKU_PAIR_CONVERSION_NATIVE7.json.gz",
+    "scripts/current-sku-combined-followup-qualification/retained21/RECEIPT.json",
+    "scripts/current-sku-combined-followup-qualification/retained21/T3_BACKUP_RESTORE_DRILL.json.gz",
+    "scripts/current-sku-combined-followup-qualification/retained21/T3_PACKAGE_FILES_INSTALL.json.gz",
+    "scripts/current-sku-combined-followup-qualification/retained21/T3_PACKAGE_INSTALL.json.gz",
     "scripts/current-sku-combined-followup-qualification/runner.py",
     "scripts/current-sku-combined-followup-qualification/successor.py",
     "scripts/current-sku-combined-followup-qualification/test_orchestration.py",
@@ -521,16 +527,16 @@
       "sha256": "93ceccd87ab65dfc260b8634e0665c24504781254433242620d2ec0f4f9f26de"
     },
     "scripts/current-sku-combined-followup-qualification/CONFIG.json": {
-      "bytes": 874,
-      "sha256": "609c70062eb66878d121e3b4b80f62d3b7c9676a296171a16efe37111c75d1d8"
+      "bytes": 1574,
+      "sha256": "6b4fd189b7323e78c1ca6dce7d48ef100d468c0f2050495dc40349856e9c3bf8"
     },
     "scripts/current-sku-combined-followup-qualification/LOCAL_SUCCESSOR_PREPARATION.json": {
       "bytes": 1576,
       "sha256": "a4f4a38e255e6d9816a7bc67a0cf7c20be12ea63ecafa69f922a67b04963cc51"
     },
     "scripts/current-sku-combined-followup-qualification/README.md": {
-      "bytes": 8572,
-      "sha256": "47a2f9c99b815daa5953b94edf98ea1fe57fe815108b36a6ae0b9fe17ce49dfb"
+      "bytes": 9010,
+      "sha256": "2cc29d4676b754438f9b353d825bd59b13a3042b6eb9a94d1011c4186d2c04bf"
     },
     "scripts/current-sku-combined-followup-qualification/admission.py": {
       "bytes": 3885,
@@ -567,6 +573,30 @@
     "scripts/current-sku-combined-followup-qualification/probe.py": {
       "bytes": 1652,
       "sha256": "14556c5249689336eaa6bbb29302558238559a4f7274a32129f5bc615e824fae"
+    },
+    "scripts/current-sku-combined-followup-qualification/retained21/CP7_SKU_PAIR_CONVERSION_NATIVE.json.gz": {
+      "bytes": 284784,
+      "sha256": "458e065e176431d8ee0fa1de289c3f4b384284163fb61ec297f41d4426d11232"
+    },
+    "scripts/current-sku-combined-followup-qualification/retained21/CP7_SKU_PAIR_CONVERSION_NATIVE7.json.gz": {
+      "bytes": 4188,
+      "sha256": "671d58936eb94011487e084dc3741fc3c197fa06d0221384ff4e03b53b9f51ba"
+    },
+    "scripts/current-sku-combined-followup-qualification/retained21/RECEIPT.json": {
+      "bytes": 2996,
+      "sha256": "8c62f624e7dbab06596383151a1dffea2240d6541a1ca8fa6618d6490cdf90d3"
+    },
+    "scripts/current-sku-combined-followup-qualification/retained21/T3_BACKUP_RESTORE_DRILL.json.gz": {
+      "bytes": 646,
+      "sha256": "e08d6e489023ba0a7fd016d4189bb8091c2548ffcab6f07e7e44c13f1ad277e3"
+    },
+    "scripts/current-sku-combined-followup-qualification/retained21/T3_PACKAGE_FILES_INSTALL.json.gz": {
+      "bytes": 255,
+      "sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7"
+    },
+    "scripts/current-sku-combined-followup-qualification/retained21/T3_PACKAGE_INSTALL.json.gz": {
+      "bytes": 11388,
+      "sha256": "cc27382caadf97c286ac0f80323f37db3d81db47263e7bca126fa0b81c88ab10"
     },
     "scripts/current-sku-combined-followup-qualification/runner.py": {
       "bytes": 8763,
