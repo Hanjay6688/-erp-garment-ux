@@ -45,3 +45,5 @@ Source successor2d4ed56 changes only the paint instrument and its evidence.
 Its real Chromium preflight passed before DB; full money2 remains pending.
 This preparation now uses its exact measurement source, with unchanged
 client6/backend and a new explicit base. It cannot qualify from partial9fde.
+
+The existing actual-Chromium instrument preflight is also run before the source6 database starts. This only qualifies the paint tool, not these six Auth journeys. Case syntax is checked at the same cheap boundary.

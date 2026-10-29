@@ -410,6 +410,32 @@ jobs:
     - name: Admit exact backend and money browser before separate OW08 source6
       working-directory: writer
       run: python '../auditor/scripts/current-ow08-source-browser/check_source.py'
+    - name: Validate actual Chromium CSS instrument before any database installation
+      working-directory: auditor
+      run: 'set -euo pipefail
+
+        npm ci --no-audit --no-fund
+
+        npx playwright install --with-deps chromium
+
+        npx tsc --noEmit --project tsconfig.app.json
+
+        node --check scripts/current-vendor-money-browser/cases.mjs
+
+        node --test scripts/current-vendor-money-browser/visual.test.mjs scripts/current-vendor-money-browser/gradient.test.mjs
+        scripts/current-vendor-money-browser/surface.chromium.test.mjs
+
+
+        python -B -m unittest discover -s scripts/current-vendor-money-browser -p ''test_admission.py''
+
+
+        node --check scripts/current-ow08-source-browser/cases.mjs
+
+        node --check scripts/current-ow08-source-browser/wash.mjs
+
+        node --check scripts/current-ow08-source-browser/fg.mjs
+
+        '
     - name: Start disposable database
       working-directory: base
       shell: bash
