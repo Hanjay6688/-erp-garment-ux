@@ -1,0 +1,198 @@
+{
+  "contract": "cp7.s05-public-default-acl-qualification.v1",
+  "base_head": "b0e5ac05e2024d5673126b6fe7759591293b9b96",
+  "base_tree": "3820c7348167fc750cc3f3f36645f14f76286e44",
+  "product_repair_commit": "d49461d35d3c59c855bcce293d7da96fe54eeb11",
+  "inherited_qualifier_manifest_sha256": "2c37637f62c3a0a1386099241d8b5f823e67328e3821268b3c351788006b7752",
+  "inherited_configuration": {
+    "contract": "cp7.s05-native10-qualification.v1",
+    "base_head": "e290de8b400151412d54f207fdafbbd881f25a9f",
+    "base_tree": "7c526c66515a0f24d1bc3f6da0571dc593f6c9c3",
+    "workflow": ".github/workflows/cp7-current-s05-native10.yml",
+    "qualified_vendor11": {
+      "head": "41caaaed02c0d89b122ecf1ff221f6647141c335",
+      "tree": "b8831a52531598c514f8199016dea6194d783833",
+      "run_id": 40769840440,
+      "job_id": 123103756460,
+      "artifact_id": 12854543326,
+      "zip_bytes": 2031933,
+      "zip_sha256": "9432cdd8bcea2df52ad8fb631122ce963b91bee32dea849a4337e4ec2c020eb0",
+      "original": {
+        "name": "CP7_VENDOR_RECEIVABLE_COMBINED11.json",
+        "bytes": 3485711,
+        "sha256": "04e00f42862ddfec8346d41d4d6a2d6a285f041127cccf09d973ca929b307ea0",
+        "path": "docs/cp7/d17-14/ow08/vendor-combined41c-pass/CP7_VENDOR_RECEIVABLE_COMBINED11.json.gz"
+      },
+      "package": {
+        "name": "T3_PACKAGE_INSTALL.json",
+        "bytes": 360420,
+        "sha256": "48fc54072b4f3122d89f6a45faa93f0e8ebd05ecfde0b9370def8202755e0f43",
+        "path": "docs/cp7/d17-14/ow08/vendor-combined41c-pass/T3_PACKAGE_INSTALL.json.gz"
+      }
+    },
+    "backend3194_sha256": "193f4c18476a1e1abd5e05231d8d7755864b61e2998c4456f5a87459b17da59d",
+    "Native_case_ids": [
+      "S05_NATIVE_CATEGORY_VARIANTS_PO",
+      "S05_NATIVE_HISTORICAL_BOM",
+      "S05_NATIVE_LATE_INVOICE_COST_REVISIONS",
+      "S05_NATIVE_ZERO_REIMBURSEMENT",
+      "S05_NATIVE_EMPTY_AND_NO_OUTPUT",
+      "S05_NATIVE_WIB_COHORTS",
+      "S05_NATIVE_NOTE_DRAFT_INVERSE",
+      "S05_NATIVE_QC_INVERSE",
+      "S05_NATIVE_REWORK_NONE_RECORDED_RECIPIENT",
+      "S05_NATIVE_CURRENT_ACCESS_PRIVATE_ACL"
+    ],
+    "engine_derivation": {
+      "original_sha256": "c420d894f8d5f16bddefeae73addb621507170f372a28e7d6e33d88c7eeb0be9",
+      "derived_sha256": "a671b387eca972f3dab6af985973732b70aaf2779a763acf5df482850c184396",
+      "counted_changes": 6,
+      "unchanged_install_preuse_reinstall_and_full_restore": true,
+      "unchanged_all22_rows_sequences_roles_CP6_advisors_and_package_engine": true,
+      "fresh_Auth_HTTP_races_browser_claim": false
+    },
+    "workflow_derivation": {
+      "original_sha256": "e013bfb64da3dc55299c7273cdf1de0ee5d75dfd4df3be3a2e8fabae5d6ecca1",
+      "generated_sha256": "b4753798b87343817d0a63af1f51acf7d9d80f39098f95a8fbc61b11c002a986",
+      "parent_step_count": 65,
+      "child_step_count": 64,
+      "replacements": [
+        {
+          "parent_step": "Bind exact qualified backend3194 Original",
+          "replacement": "Admit mandatory retained vendor11 Original and all five package gates before database"
+        },
+        {
+          "parent_step": "Bind complete actual observer Native7 and all five package gates before database",
+          "replacement": "EXACT_VENDOR11_RAW_AND_PACKAGE_GATE_ABOVE"
+        },
+        {
+          "parent_step": "Check vendor qualification syntax",
+          "replacement": "Check unchanged S05 source and wrapper controls"
+        },
+        {
+          "parent_step": "Admit exact backend3194 parent and declared vendor delta before database",
+          "replacement": "Admit exact vendor41c backend3194 and frozen S05 component before database"
+        },
+        {
+          "parent_step": "Run fresh Native7 then actual race3 AuthHTTP1 and complete restoration",
+          "replacement": "Run unchanged S05 Native10, separate committed Native witness and complete restore"
+        },
+        {
+          "parent_step": "Preserve exact original JSON report bytes in a bounded compressed log receipt",
+          "replacement": "Preserve exact original JSON report bytes in a bounded compressed log receipt"
+        },
+        {
+          "parent_step": "actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+          "replacement": "actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02"
+        }
+      ],
+      "triggers": [
+        "push",
+        "workflow_dispatch"
+      ],
+      "root_publish_branch": "astra-a/s05-native10-import-argv-20261029",
+      "automatic_on_default_or_other_branches": false,
+      "unchanged_runtime_setup_clone_cleanup_and_package_gates": true
+    },
+    "frozen_vendor_files": {
+      "scripts/current-s05-native10-qualification/frozen_vendor/probe.py": "scripts/current-vendor-receivable-qualification/probe.py",
+      "scripts/current-s05-native10-qualification/frozen_vendor/runner.py": "scripts/current-vendor-receivable-qualification/runner.py",
+      "scripts/current-s05-native10-qualification/frozen_vendor/native_runner.py": "scripts/current-vendor-receivable-qualification/native_runner.py",
+      "scripts/current-s05-native10-qualification/frozen_vendor/workflow.yml": ".github/workflows/cp7-current-vendor-receivable-native.yml"
+    },
+    "coverage_limits": {
+      "Afui_positive_HPP_zero_reimbursement_actual_coverage": false,
+      "source_holes_actual_coverage": false,
+      "unallocated_actual_coverage": false,
+      "real_Auth_HTTP": false,
+      "real_browser": false
+    },
+    "production_go": false,
+    "independent_acceptance": false,
+    "S05_manifest_sha256": "1a2e3a0e72de364afb472b86a59907465d224a750889292f5095014619dd86dd",
+    "bounded_installer_transition": {
+      "base_head": "20092281416c5c9beffea53a10c02d72aeab7ae1",
+      "original_manifest_sha256": "2f13ad4ddcd5a3213fe13d4059aa7ab1061b60416e7bbe58efe88164e8380058",
+      "validator": "scripts/current-s05-native10-qualification/owner_transfer/transition.py",
+      "report_SQL_case_callbacks_UI_unchanged": true,
+      "Native_executions": 0
+    },
+    "cli_import_successor": {
+      "local_base_head": "2834c9ada13a1f70f79bf67c62f5c7d3554e2cb5",
+      "failed_public_head": "b874783f57be809a867ce4d0806553a17c03243e",
+      "base_tree": "7f78cf2488afeca9d90a0d281a873c556dee082e",
+      "failure_run": 40928511140,
+      "failure_job": 123640384388,
+      "failure_stage": "SOURCE_ADMISSION_BEFORE_DATABASE",
+      "scope": "own probe.check argument context + source tests/evidence and fresh workflow leaf; no product/engine/oracle changes",
+      "root_publish_branch": "astra-a/s05-native10-import-argv-20261029",
+      "actual_Native_cases": 0
+    }
+  },
+  "workflow": ".github/workflows/cp7-current-s05-public-default-acl.yml",
+  "root_publish_branch": "astra-a/s05-native10-public-default-acl-20261029",
+  "workflow_derivation": {
+    "original_b0_workflow_sha256": "b4753798b87343817d0a63af1f51acf7d9d80f39098f95a8fbc61b11c002a986",
+    "generated_sha256": "855e45c56e0ea225675a0eefee777905e2611bf6d58f617eec69553ec3c7615b",
+    "parent_step_count": 64,
+    "child_step_count": 64,
+    "adapted_steps": [
+      "Admit mandatory retained vendor11 Original and all five package gates before database",
+      "Check unchanged S05 source and wrapper controls",
+      "Admit exact vendor41c backend3194 and frozen S05 component before database",
+      "Run unchanged S05 Native10, separate committed Native witness and complete restore",
+      "actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02"
+    ],
+    "root_publish_branch": "astra-a/s05-native10-public-default-acl-20261029",
+    "automatic_on_default_or_other_branches": false,
+    "inherited_setup_source_prerequisites_clone_cleanup_package_and_full_restore_unchanged": true,
+    "inherited_vendor_workflow_derivation": {
+      "original_sha256": "e013bfb64da3dc55299c7273cdf1de0ee5d75dfd4df3be3a2e8fabae5d6ecca1",
+      "generated_sha256": "b4753798b87343817d0a63af1f51acf7d9d80f39098f95a8fbc61b11c002a986",
+      "parent_step_count": 65,
+      "child_step_count": 64,
+      "replacements": [
+        {
+          "parent_step": "Bind exact qualified backend3194 Original",
+          "replacement": "Admit mandatory retained vendor11 Original and all five package gates before database"
+        },
+        {
+          "parent_step": "Bind complete actual observer Native7 and all five package gates before database",
+          "replacement": "EXACT_VENDOR11_RAW_AND_PACKAGE_GATE_ABOVE"
+        },
+        {
+          "parent_step": "Check vendor qualification syntax",
+          "replacement": "Check unchanged S05 source and wrapper controls"
+        },
+        {
+          "parent_step": "Admit exact backend3194 parent and declared vendor delta before database",
+          "replacement": "Admit exact vendor41c backend3194 and frozen S05 component before database"
+        },
+        {
+          "parent_step": "Run fresh Native7 then actual race3 AuthHTTP1 and complete restoration",
+          "replacement": "Run unchanged S05 Native10, separate committed Native witness and complete restore"
+        },
+        {
+          "parent_step": "Preserve exact original JSON report bytes in a bounded compressed log receipt",
+          "replacement": "Preserve exact original JSON report bytes in a bounded compressed log receipt"
+        },
+        {
+          "parent_step": "actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+          "replacement": "actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02"
+        }
+      ],
+      "triggers": [
+        "push",
+        "workflow_dispatch"
+      ],
+      "root_publish_branch": "astra-a/s05-native10-import-argv-20261029",
+      "automatic_on_default_or_other_branches": false,
+      "unchanged_runtime_setup_clone_cleanup_and_package_gates": true
+    }
+  },
+  "S05_manifest_sha256": "63530f5c713a121f2bde3f63380113bc38e7e1e0fc148727e12ef9d0fea20e33",
+  "Native_executions": 0,
+  "database_calls": 0,
+  "independent_acceptance": false,
+  "production_go": false
+}

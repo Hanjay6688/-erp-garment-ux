@@ -1,0 +1,19 @@
+{
+  "command": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "scripts/current-s05-public-default-acl-repair",
+    "-p",
+    "test_transition.py",
+    "-v"
+  ],
+  "returncode": 0,
+  "stdout": "",
+  "stderr": "test_actual_exact_transition_and_zero_fresh_credit (test_transition.SourceTransition.test_actual_exact_transition_and_zero_fresh_credit) ... ok\ntest_diagnostic_bound_change_refused_despite_repin (test_transition.SourceTransition.test_diagnostic_bound_change_refused_despite_repin) ... ok\ntest_dynamic_privilege_cleanup_refused_despite_repin (test_transition.SourceTransition.test_dynamic_privilege_cleanup_refused_despite_repin) ... ok\ntest_extra_sql_edit_rejected_despite_repin (test_transition.SourceTransition.test_extra_sql_edit_rejected_despite_repin) ... ok\ntest_new_file_scope_refused (test_transition.SourceTransition.test_new_file_scope_refused) ... ok\ntest_policy_or_case_id_metadata_change_refused (test_transition.SourceTransition.test_policy_or_case_id_metadata_change_refused) ... ok\ntest_removing_new_revoke_refused_despite_repin (test_transition.SourceTransition.test_removing_new_revoke_refused_despite_repin) ... ok\ntest_unrelated_component_pin_change_refused (test_transition.SourceTransition.test_unrelated_component_pin_change_refused) ... ok\ntest_verifier_change_refused_despite_repin (test_transition.SourceTransition.test_verifier_change_refused_despite_repin) ... ok\n\n----------------------------------------------------------------------\nRan 9 tests in 0.112s\n\nOK\n",
+  "Native_executions": 0,
+  "database_calls": 0,
+  "production_go": false
+}

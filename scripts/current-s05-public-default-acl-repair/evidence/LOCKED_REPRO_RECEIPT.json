@@ -1,0 +1,36 @@
+{
+  "status": "LOCKED_LOCAL_REPRO_BEFORE_PRODUCT_CHANGE",
+  "base_head": "23c7a0a4c760ddd6b9671697caa4615e3a8a25e5",
+  "base_tree": "3820c7348167fc750cc3f3f36645f14f76286e44",
+  "public_failed_head": "b0e5ac05e2024d5673126b6fe7759591293b9b96",
+  "public_failed_run": 40931612668,
+  "public_failed_job": 123651202210,
+  "actual_original_raw": {
+    "bytes": 805672,
+    "sha256": "56408d4a2708c9fc66689ae660df6594c961774d101dc70f95801aaeb21bc728",
+    "observed_outer_wrapper": 1,
+    "actual_S05_Native_business_cases": 0
+  },
+  "command": "S05_PGLITE_MODULE=/workspace/scratch/ef468a447ac6/test-runtime/node_modules/@electric-sql/pglite S05_PUBLIC_DEFAULT_ACL_REPRO_RECEIPT=/workspace/scratch/ef468a447ac6/erp-s05-import-argv-successor/scripts/current-s05-public-default-acl-repair/evidence/FROZEN_B0_LOCAL_DEFAULT_FIRST_REPRO.json PYTHONDONTWRITEBYTECODE=1 GIT_NO_LAZY_FETCH=1 python scripts/current-s05-public-default-acl-repair/repro.py --repro",
+  "raw_pins": {
+    "scripts/current-s05-public-default-acl-repair/evidence/FROZEN_B0_LOCAL_DEFAULT_FIRST_REPRO.json": {
+      "bytes": 494804,
+      "sha256": "632567a50a4fcb3ba22d7786a35fac2b2f6f4d893baded7932310bd76fb53e2d"
+    },
+    "scripts/current-s05-public-default-acl-repair/repro.py": {
+      "bytes": 7228,
+      "sha256": "e19b7724e02d926ff12b5452ed7156ba92654c754a8db6c3cc379d3636e6cc46"
+    },
+    "scripts/current-s05-public-default-acl-repair/REVIEW_PLAN.md": {
+      "bytes": 4610,
+      "sha256": "06b36926d9cecf3bb7a2505ba4df7b12e5b1cc7965e4b4c8fb44464f97b9510e"
+    }
+  },
+  "local_tests": 2,
+  "local_result": "PASS_EXPECTED_FROZEN_INSTALLER_REFUSALS_ONLY",
+  "product_changes": 0,
+  "actual_CI_extra_tuple_identity_proven": false,
+  "Native_executions": 0,
+  "independent_acceptance": false,
+  "production_go": false
+}

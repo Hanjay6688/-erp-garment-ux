@@ -1,0 +1,19 @@
+{
+  "classification": "LOCAL_METADATA_READER_ASSERTION_ERROR_NOT_TEST_OR_NATIVE_FAILURE",
+  "original_reader_assertion": "d['tests_run']==8 and d['failures']==d['errors']==0",
+  "first_exit_code": 1,
+  "observed_shape": {
+    "status": "PASS_LOCAL_ONLY",
+    "tests_run": 8,
+    "failures": [],
+    "errors": []
+  },
+  "cause": "Retained harness emits failure/error lists, whereas the ad-hoc reader compared them to scalar zero. Actual retained eight-control runner exited zero and recorded empty lists.",
+  "corrected_reader_assertion": "d['tests_run']==8 and not d['failures'] and not d['errors'] and d['status']=='PASS_LOCAL_ONLY'",
+  "corrected_reader": "PASS",
+  "original_raw_bytes": 3497547,
+  "original_raw_sha256": "ad9949a9d59b533d4427d8f2c7d5e41870505f49dd599dcaeb9c2e0f96ae7608",
+  "original_raw_unchanged": true,
+  "product_changes": 0,
+  "Native_executions": 0
+}

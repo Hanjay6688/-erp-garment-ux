@@ -35,8 +35,8 @@
     "scripts/cp7_accessory_standard_report/__init__.py": "e1635547d97e5ffa944392fccbce74ec1eb88160d552d84b26781cdae531194a",
     "scripts/cp7_accessory_standard_report/cases.py": "e025be1280630dfb89f62261163194ce072b6f6ad6d909b56ff6c82f75778e98",
     "scripts/cp7_accessory_standard_report/preflight.py": "986f077c9430713c7735e4d63f8ffac22973aaadf8fd963a3d8dfaf1401833fd",
-    "scripts/cp7_accessory_standard_report/report.sql": "44e26f9144cff011bf2fb9935d1a448955f8179a9ffaa6884557d8391651c5ab",
-    "scripts/cp7_accessory_standard_report/stage.py": "a30e254ddf5cba7f3f74524b2be98ce4a34c5008b4e775c25d79849f5eaa7d87",
+    "scripts/cp7_accessory_standard_report/report.sql": "216f34d1225171543a743d272a2a9a15aeeda50658a32b53b0ea7ccc64b3702a",
+    "scripts/cp7_accessory_standard_report/stage.py": "c8ef2b9f092eca295f4dff1c9691173d9171ca485b6c8179f67700d98260095a",
     "scripts/cp7_f03_e24_issue_cases.py": "055fc9ef15b3389a13256df15bb1110632ad3cb504f788f431b389da826211aa",
     "scripts/cp7_ow04_restore_bundle.py": "a1605193347cf5b3321a7bdbf8ff6c634df4f4c0a5113eb295e8c3ce44428e00",
     "scripts/cp7_qc_source_cases.py": "67fe6812924583a7789377f6a01525614d9d0fb2665a8d59ee113a794d076ed5",
@@ -79,7 +79,7 @@
     "HTTP": "NOT_RUN",
     "browser": "NOT_RUN"
   },
-  "installer_transition": {
+  "historical_installer_transition": {
     "base_head": "20092281416c5c9beffea53a10c02d72aeab7ae1",
     "original_component_head": "e290de8b400151412d54f207fdafbbd881f25a9f",
     "original_manifest_sha256": "2f13ad4ddcd5a3213fe13d4059aa7ab1061b60416e7bbe58efe88164e8380058",
@@ -92,6 +92,28 @@
     "existing_function_changes": 0,
     "supported_profile": "existing administrative current-user superuser, postgres or supabase_admin; no elevation",
     "non_superuser_CP7C_or_hosted_installation": "NOT_QUALIFIED",
+    "Native_executions": 0,
+    "independent_acceptance": false,
+    "production_go": false
+  },
+  "installer_transition": {
+    "base_head": "b0e5ac05e2024d5673126b6fe7759591293b9b96",
+    "base_local_head": "23c7a0a4c760ddd6b9671697caa4615e3a8a25e5",
+    "base_tree": "3820c7348167fc750cc3f3f36645f14f76286e44",
+    "original_manifest_sha256": "1a2e3a0e72de364afb472b86a59907465d224a750889292f5095014619dd86dd",
+    "original_stage_sha256": "a30e254ddf5cba7f3f74524b2be98ce4a34c5008b4e775c25d79849f5eaa7d87",
+    "original_report_sql_sha256": "44e26f9144cff011bf2fb9935d1a448955f8179a9ffaa6884557d8391651c5ab",
+    "successor_stage_sha256": "c8ef2b9f092eca295f4dff1c9691173d9171ca485b6c8179f67700d98260095a",
+    "successor_report_sql_sha256": "216f34d1225171543a743d272a2a9a15aeeda50658a32b53b0ea7ccc64b3702a",
+    "changed": "one final new public RPC REVOKE adds postgres after owner transfer; existing strict ACL checker adds bounded failure diagnostics only",
+    "SQL_edits": 1,
+    "function_bodies_changed": 0,
+    "Native_case_callbacks_changed": 0,
+    "verifier_changed": false,
+    "default_privileges_changed": false,
+    "schema_ACL_changed": false,
+    "role_or_membership_changes": 0,
+    "unknown_default_grants": "REFUSE_ATOMICALLY",
     "Native_executions": 0,
     "independent_acceptance": false,
     "production_go": false

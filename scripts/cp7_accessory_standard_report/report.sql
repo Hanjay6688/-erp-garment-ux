@@ -258,5 +258,5 @@ create function public.erp_cp7_get_accessory_standard_report_v1(p_start date,p_e
 language sql volatile security definer set search_path=''as $$
  select cp7_accessory_standard_report.workspace(p_start,p_end,p_contractor,p_po,p_query,p_offset,p_limit)$$;
 alter function public.erp_cp7_get_accessory_standard_report_v1(date,date,uuid,uuid,text,integer,integer)owner to cp7_accessory_standard_read;
-revoke all on function public.erp_cp7_get_accessory_standard_report_v1(date,date,uuid,uuid,text,integer,integer)from public,anon,service_role,cp7_capture;
+revoke all on function public.erp_cp7_get_accessory_standard_report_v1(date,date,uuid,uuid,text,integer,integer)from public,anon,service_role,cp7_capture,postgres;
 grant execute on function public.erp_cp7_get_accessory_standard_report_v1(date,date,uuid,uuid,text,integer,integer)to authenticated;

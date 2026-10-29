@@ -1,0 +1,8 @@
+{
+  "classification": "LOCAL_METADATA_INSPECTION_SYNTAX_ERROR_NOT_PRODUCT_OR_TEST_FAILURE",
+  "first_exit_code": 1,
+  "cause": "Missing whitespace before for in an ad-hoc Python dict comprehension. Corrected without any source or database change.",
+  "corrected_read": "PASS",
+  "Native_executions": 0,
+  "database_calls": 0
+}

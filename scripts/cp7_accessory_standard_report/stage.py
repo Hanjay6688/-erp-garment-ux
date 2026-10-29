@@ -147,7 +147,30 @@ def installer_function_grants(cur):
         elif signature == SCHEMA+'.workspace(date,date,uuid,uuid,text,integer,integer)':
             expected.add((owner, ROLE, 'EXECUTE', False))
         if len(rows) != len(expected) or set(rows) != expected:
-            raise ValueError('S05_UNEXPECTED_INSTALLER_FUNCTION_GRANT: '+signature)
+            # Retain a bounded explanation before the inherited atomic wrapper
+            # rolls this DDL back. Never normalize an unexpected default grant.
+            limit = 16
+            defaults = [tuple(row) for row in cur.execute(
+                "select pg_get_userbyid(d.defaclrole)::text,coalesce(n.nspname::text,'GLOBAL'),"
+                "d.defaclobjtype::text,pg_get_userbyid(a.grantor)::text,"
+                "case when a.grantee=0 then 'PUBLIC'else pg_get_userbyid(a.grantee)::text end,"
+                "a.privilege_type,a.is_grantable,count(*)over() "
+                "from pg_default_acl d left join pg_namespace n on n.oid=d.defaclnamespace "
+                "cross join lateral aclexplode(d.defaclacl) a "
+                "where d.defaclrole=(select oid from pg_roles where rolname=current_user) "
+                "and d.defaclobjtype='f'and(d.defaclnamespace=0 or d.defaclnamespace="
+                "(select pronamespace from pg_proc where oid=%s::regprocedure)) "
+                "order by 1,2,3,4,5,6,7 limit 17", (signature,))]
+            total = int(defaults[0][7]) if defaults else 0
+            diagnostic = dict(installer=cur.execute('select current_user::text').fetchone()[0],
+                row_limit=limit, actual_acl_rows=[list(row) for row in sorted(rows)[:limit]],
+                actual_acl_total=len(rows), actual_acl_omitted=max(0, len(rows)-limit),
+                expected_acl_rows=[list(row) for row in sorted(expected)],
+                installer_function_default_acl_rows=[list(row[:7]) for row in defaults[:limit]],
+                installer_function_default_acl_total=total,
+                installer_function_default_acl_omitted=max(0, total-limit))
+            raise ValueError('S05_UNEXPECTED_INSTALLER_FUNCTION_GRANT: '+signature+'; '+
+                             json.dumps(diagnostic, sort_keys=True, separators=(',', ':')))
         actual[signature] = [list(row) for row in sorted(rows)]
     return actual
 

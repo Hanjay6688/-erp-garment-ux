@@ -1,0 +1,18 @@
+{
+  "command": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "scripts/current-s05-public-default-acl-qualification",
+    "-p",
+    "test_*.py",
+    "-v"
+  ],
+  "returncode": 0,
+  "stdout": "",
+  "stderr": "test_actual_exact_workflow_uses_narrow_leaf_and_full_restore (test_wrapper.SourceAndWorkflowControls.test_actual_exact_workflow_uses_narrow_leaf_and_full_restore) ... ok\ntest_actual_offline_closure_real_vendor_prerequisite_zero_credit (test_wrapper.SourceAndWorkflowControls.test_actual_offline_closure_real_vendor_prerequisite_zero_credit) ... ok\ntest_missing_pinned_file_fails_before_runtime (test_wrapper.SourceAndWorkflowControls.test_missing_pinned_file_fails_before_runtime) ... ok\ntest_mutated_b0_report_refused (test_wrapper.SourceAndWorkflowControls.test_mutated_b0_report_refused) ... ok\ntest_no_confirm_refuses_before_runtime_import (test_wrapper.SourceAndWorkflowControls.test_no_confirm_refuses_before_runtime_import) ... ok\ntest_repinning_old_component_oracle_refused (test_wrapper.SourceAndWorkflowControls.test_repinning_old_component_oracle_refused) ... ok\ntest_repinning_old_qualifier_file_refused (test_wrapper.SourceAndWorkflowControls.test_repinning_old_qualifier_file_refused) ... ok\ntest_retained_b0_is_zero_native_failure_and_exact_four_originals (test_wrapper.SourceAndWorkflowControls.test_retained_b0_is_zero_native_failure_and_exact_four_originals) ... ok\ntest_retained_cli_argument_context_restores_exact_argv_on_error (test_wrapper.SourceAndWorkflowControls.test_retained_cli_argument_context_restores_exact_argv_on_error) ... ok\ntest_workflow_cleanup_or_clone_change_refused (test_wrapper.SourceAndWorkflowControls.test_workflow_cleanup_or_clone_change_refused) ... ok\ntest_workflow_other_branch_refused (test_wrapper.SourceAndWorkflowControls.test_workflow_other_branch_refused) ... ok\n\n----------------------------------------------------------------------\nRan 11 tests in 1.723s\n\nOK\n",
+  "Native_executions": 0,
+  "database_calls": 0
+}
