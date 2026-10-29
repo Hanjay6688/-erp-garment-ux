@@ -30,7 +30,7 @@ language plpgsql volatile security definer set search_path=''set timezone='UTC'a
 declare basis jsonb;plan jsonb;net numeric;graph jsonb;sources jsonb;sales uuid[];lots uuid[];journal_ids uuid[];source_doc jsonb;begin
  -- Called after retained Native FG/FGBOOK, invoice CAS and original eligibility.
  if exists(select 1 from cp7_credit_note_carry_de.work_v1 where backend_pid=pg_backend_pid()and transaction_id=txid_current())then raise exception 'CP7_CREDIT_NOTE_CARRY_NESTED_OPERATION';end if;
- graph:=cp7_credit.consumer_dependency_graph_v1((p->>'sale_id')::uuid);
+ graph:=cp7_credit.consumer_joined_graph_v1((p->>'sale_id')::uuid,null);
  select array_agg(value::uuid order by value)into sales from jsonb_array_elements_text(graph->'sale_ids');
  perform 1 from erp.sales_headers where id=any(sales)order by id for update;
  perform 1 from erp.sales_items where sale_id=any(sales)order by id for share;
@@ -55,9 +55,9 @@ declare basis jsonb;plan jsonb;net numeric;graph jsonb;sources jsonb;sales uuid[
  lock table erp.accounting_account_mappings in share mode;
  perform 1 from erp.chart_accounts where id in(select account_id from erp.accounting_account_mappings
   union select credit_account_id from cp7_credit.cohorts where source_sale_id=any(sales))order by id for share;
- if graph is distinct from cp7_credit.consumer_dependency_graph_v1((p->>'sale_id')::uuid)or journal_ids is distinct from cp7_credit.consumer_journal_ids_v1(sales)then
+ if graph is distinct from cp7_credit.consumer_joined_graph_v1((p->>'sale_id')::uuid,null)or journal_ids is distinct from cp7_credit.consumer_journal_ids_v1(sales)then
   raise exception 'CP7_CREDIT_NOTE_CARRY_LOCK_GRAPH_CHANGED';end if;
- sources:=cp7_credit.consumer_capture_sources_v1(jsonb_build_object('sale_ids',sales));
+ sources:=cp7_credit.consumer_capture_sources_v1(graph);
  perform 1 from erp.accounting_period_control where singleton_id=1 for share;
  basis:=cp7_credit_note_carry_de.basis_v1((p->>'sale_id')::uuid);net:=cp7_credit_note_carry_de.assert_price_only_v1(p);
  if basis is null then raise exception 'CP7_CREDIT_NOTE_CARRY_INCOMING_REQUIRED';end if;

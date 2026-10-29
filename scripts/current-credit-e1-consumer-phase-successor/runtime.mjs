@@ -1,0 +1,196 @@
+// Full source consumer_execute/profile with declared typed dependency doubles.
+// No DB server/network, actual Native/Auth/browser/race credit is zero.
+import {createRequire} from 'node:module'
+import {readFile,writeFile,access} from 'node:fs/promises'
+import {execFileSync} from 'node:child_process'
+import {createHash} from 'node:crypto'
+import {dirname,resolve} from 'node:path'
+import {fileURLToPath} from 'node:url'
+import assert from 'node:assert/strict'
+const here=dirname(fileURLToPath(import.meta.url)),root=resolve(here,'../..')
+const modulePath=process.env.CP7_PGLITE_MODULE,dump=process.env.E_PHASE_RETAINED_ERP_DUMP,destination=process.env.E_PHASE_LOCAL_RECEIPT
+if(!modulePath||!destination)throw Error('Explicit installed PGlite/new receipt required; no download/server fallback')
+try{await access(destination);throw Error('Refusing overwrite of local first receipt')}catch(e){if(e.code!=='ENOENT')throw e}
+const {PGlite}=createRequire(import.meta.url)(modulePath),db=new PGlite()
+const fixture=JSON.parse(await readFile(resolve(here,'LOCAL_TYPED_INPUTS.json'),'utf8'))
+if(dump)assert.deepEqual(JSON.parse(execFileSync('python3',[resolve(here,'fixture.py'),dump],{encoding:'utf8',maxBuffer:2e6,env:{...process.env,PYTHONDONTWRITEBYTECODE:'1'}})),fixture,'Stored typed source derivation differs from exact retained input')
+const report={classification:'LOCAL_PGLITE_FULL_SOURCE_CONSUMER_EXECUTE_AND_E_PROFILE_WITH_DECLARED_TYPED_DEPENDENCY_DOUBLES',Native_executions:0,actual_Auth_HTTP:0,actual_browser:0,actual_races:0,DB_server:false,remote_calls:0,production_go:false,independent_acceptance:false,cases:[]}
+const sha=b=>createHash('sha256').update(b).digest('hex'),id=n=>'00000000-0000-4000-8000-'+BigInt(n).toString(16).padStart(12,'0')
+const ids=Object.fromEntries(['actor','app_user','customer','source','original','target','ar','credit','revenue','cash','bank','family','cohort','plan','component','part','recognition_journal','source_journal','payment','payment_journal','returned','return_journal','original_journal','original_inverse','target_journal','original_apply','original_request','original_apply_journal','e_operation','e_request','revision','request'].map((k,i)=>[k,id(i+1)]))
+const q=async(sql,params=[])=>{try{return(await db.query(sql,params,{rowMode:'array'})).rows}catch(e){report.last_SQL={sql,params,error:{code:e.code,message:e.message,detail:e.detail,where:e.where}};throw e}}
+const exec=async sql=>{try{return await db.exec(sql,{rowMode:'array'})}catch(e){report.last_SQL={sql,error:{code:e.code,message:e.message,detail:e.detail,where:e.where}};throw e}}
+const scalar=async(sql,p=[])=>(await q(sql,p))[0][0]
+const put=async(table,o)=>{const keys=Object.keys(o);await q('insert into '+table+'('+keys.join(',')+')values('+keys.map((_,i)=>'$'+(i+1)).join(',')+')',Object.values(o))}
+const digest=async value=>scalar('select cp7_credit.pg_jsonb_sha256($1::jsonb)',[value])
+async function functions(text){
+ return JSON.parse(execFileSync('python3',['-B','-c',`import importlib.util,json,re,sys;spec=importlib.util.spec_from_file_location('f',sys.argv[1]);m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m);s=sys.stdin.read();print(json.dumps({n:m.function(s,n)for n in re.findall(r'create function ([a-z0-9_.]+)\\(',s)}))`,resolve(here,'fixture.py')],{input:text,encoding:'utf8',maxBuffer:1e6,env:{...process.env,PYTHONDONTWRITEBYTECODE:'1'}}))
+}
+async function install(mode){
+ const profile=await readFile(resolve(mode==='BEFORE'?here:root,mode==='BEFORE'?'evidence/BEFORE_07_profile_closure.sql':'scripts/cp7_credit_correction_de/note_carry/07_profile_closure.sql'),'utf8')
+ const owning=await readFile(resolve(mode==='BEFORE'?here:root,mode==='BEFORE'?'evidence/BEFORE_06_owning.sql':'scripts/cp7_credit_correction_de/note_carry/06_owning.sql'),'utf8')
+ for(const body of Object.values(await functions(profile)))await exec(body.replace(/^create function /,'create or replace function '))
+ const ownFunctions=await functions(owning)
+ await exec(ownFunctions['cp7_credit_note_carry_de.prepare_v1'].replace(/^create function /,'create or replace function '))
+ return {profile_sha256:sha(profile),owning_sha256:sha(owning)}
+}
+async function census(){
+ const tables=await q("select n.nspname,c.relname from pg_class c join pg_namespace n on n.oid=c.relnamespace where c.relkind in('r','p')and n.nspname not in('pg_catalog','information_schema')and n.nspname!~'^pg_'order by 1,2")
+ const rows={};for(const [schema,name]of tables)rows[schema+'.'+name]=await scalar('select coalesce(jsonb_agg(to_jsonb(t)order by to_jsonb(t)::text),\'[]\')from "'+schema+'"."'+name+'" t')
+ const sequences={};for(const[schema,name]of await q("select n.nspname,c.relname from pg_class c join pg_namespace n on n.oid=c.relnamespace where c.relkind='S'and n.nspname!~'^pg_'order by 1,2"))sequences[schema+'.'+name]=(await q('select last_value::text,is_called from "'+schema+'"."'+name+'"'))[0]
+ const catalog=await q("select n.nspname,p.proname,pg_get_functiondef(p.oid),p.proowner::regrole::text,p.provolatile::text,p.prosecdef,p.proacl::text from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname not in('pg_catalog','information_schema')order by 1,2,p.oid")
+ return {rows,sequences,catalog}
+}
+async function nativeJournal(journal,type,source,amount,{status='POSTED',reverse=null,account=ids.ar,contra=ids.revenue}={}){
+ await put('erp.journal_entries',{id:journal,source_type:type,source_id:source,status,reversal_of_id:reverse,economic_date:'2026-10-01',transaction_date:'2026-10-01',posting_at:'2026-10-01T05:00:00Z'})
+ for(const[k,a,d,c]of [[0,account,Math.max(amount,0),Math.max(-amount,0)],[1,contra,Math.max(-amount,0),Math.max(amount,0)]])await put('erp.journal_lines',{id:id(BigInt('0x'+journal.slice(-12))+1000n+BigInt(k)*100n),journal_entry_id:journal,account_id:a,customer_id:a===ids.ar?ids.customer:null,description:'LOCAL declared Native-shaped '+type,debit:d,credit:c})
+}
+async function materializeOld(){
+ const o=await scalar('select to_jsonb(o)from cp7_credit.consumer_operations_v1 o where id=$1',[ids.original_apply])
+ await q('update cp7_credit.consumption_events set source_sha256=cp7_credit.pg_jsonb_sha256($1::jsonb)where id=$2',[o,ids.original_apply])
+ const object=await scalar("select cp7_credit.materialized_fact('CONSUMPTION',e.id,jsonb_build_object('event',to_jsonb(e),'actual',cp7_credit.materialized_journal_payload(e.journal_id)))from cp7_credit.consumption_events e where id=$1",[ids.original_apply])
+ await put('cp7_credit.financial_materializations',{id:ids.original_apply,root_sale_id:ids.source,actor:ids.actor,request_id:ids.original_request,request_ordinal:1,owning_action:'CREDIT_APPLY',payload_sha256:o.payload_sha256,source_plan_sha256:o.projection_sha256,actual_objects:[object],actual_objects_sha256:await digest([object])})
+ await put('cp7_credit.financial_materialization_objects',{object_kind:'CONSUMPTION',object_id:ids.original_apply,materialization_id:ids.original_apply,fact_sha256:object.fact_sha256})
+ return object
+}
+async function seed(action='UNDO'){
+ await put('local_e_phase.settings',{value:{...ids,jwt_role:'authenticated',authority:{actor:ids.actor,scope:'DECLARED_CURRENT_AUTHORITY_DOUBLE'}}})
+ for(const sale of [ids.source,ids.original,ids.target])await put('erp.sales_headers',{id:sale,sale_number:'LOCAL-'+sale.slice(-4),customer_id:ids.customer,status:sale===ids.original?'REVERSED':sale===ids.target?'PARTIAL_PAID':'PAID',sale_date:'2026-10-01T05:00:00Z',row_version:3,created_at:'2026-10-01T05:00:00Z',updated_at:'2026-10-01T05:00:00Z'})
+ await put('erp.customers',{id:ids.customer})
+ for(const[a,type,normal]of [[ids.ar,'ASSET','DEBIT'],[ids.credit,'LIABILITY','CREDIT'],[ids.revenue,'REVENUE','CREDIT'],[ids.cash,'ASSET','DEBIT']])await put('erp.chart_accounts',{id:a,account_type:type,normal_balance:normal})
+ await put('erp.cash_accounts',{id:ids.bank,coa_account_id:ids.cash})
+ await put('erp.accounting_account_mappings',{mapping_key:'AR_CUSTOMER',account_id:ids.ar})
+ await put('erp.accounting_period_control',{singleton_id:1,closed_through:null,change_reason:'LOCAL OPEN'})
+ for(const[sale,amount]of [[ids.source,1000],[ids.original,500],[ids.target,550]])await put('erp.sales_items',{id:id(BigInt('0x'+sale.slice(-12))+5000n),sale_id:sale,qty_pcs:5,unit_price_snapshot:amount/5,discount_amount:0,line_total:amount})
+ await put('erp.sales_payments',{id:ids.payment,sale_id:ids.source,amount:1000,status:'POSTED',payment_date:'2026-10-01T05:00:00Z'})
+ await put('erp.sales_returns',{id:ids.returned,sale_id:ids.source,status:'POSTED',customer_id:ids.customer,physical_at:'2026-10-01T05:00:00Z'})
+ await put('erp.sales_return_items',{id:id(900),return_id:ids.returned,refund_amount:200,qty_pcs:1})
+ await nativeJournal(ids.source_journal,'SALE',ids.source,1000)
+ await nativeJournal(ids.payment_journal,'SALES_PAYMENT',ids.payment,-1000,{contra:ids.cash})
+ await nativeJournal(ids.return_journal,'SALES_RETURN',ids.returned,-200)
+ await nativeJournal(ids.recognition_journal,'CP7_CUSTOMER_CREDIT_RECOGNITION',ids.part,200,{contra:ids.credit})
+ await nativeJournal(ids.original_journal,'SALE',ids.original,500,{status:'REVERSED'})
+ await nativeJournal(ids.original_inverse,'JOURNAL_REVERSAL',ids.original_journal,-500,{reverse:ids.original_journal})
+ await nativeJournal(ids.target_journal,'SALE',ids.target,550)
+ await put('cp7_note.revisions',{id:ids.revision,root_sale_id:ids.original,previous_sale_id:ids.original,replacement_sale_id:ids.target,revision:1,actor:ids.actor,request_id:ids.e_request,effective_at:'2026-10-01T05:00:00Z'})
+ await put('cp7_credit.return_families',{id:ids.family,family_root_sale_id:ids.source,family_ordinal:1,first_return_id:ids.returned})
+ await put('cp7_credit.cohorts',{id:ids.cohort,family_id:ids.family,source_sale_id:ids.source,source_return_id:ids.returned,customer_id:ids.customer,ar_account_id:ids.ar,credit_account_id:ids.credit,initial_net_amount:200})
+ await put('cp7_credit.recognition_plans',{id:ids.plan,cohort_id:ids.cohort})
+ await put('cp7_credit.recognition_components',{id:ids.component,plan_id:ids.plan,ordinal:1,amount:200})
+ await put('cp7_credit.component_parts',{id:ids.part,component_id:ids.component,ordinal:1,amount:200})
+ await put('cp7_credit.component_journals',{part_id:ids.part,journal_id:ids.recognition_journal,economic_date:'2026-10-01',transaction_date:'2026-10-01'})
+ const oldAr=await scalar('select cp7_credit.consumer_invoice_ar_source_v1($1)',[ids.original])
+ const oldOp={id:ids.original_apply,actor:ids.actor,actor_app_user_id:ids.app_user,request_id:ids.original_request,action:'APPLY',event_kind:'APPLY',cohort_id:ids.cohort,customer_id:ids.customer,source_sale_id:ids.source,source_root_sale_id:ids.source,source_current_leaf_id:ids.source,target_sale_id:ids.original,target_root_sale_id:ids.original,target_current_leaf_id:ids.original,credit_account_id:ids.credit,target_ar_account_id:ids.ar,target_ar_snapshot:oldAr,amount:80,physical_at:'2026-10-01T06:00:00Z',economic_date:'2026-10-01',transaction_date:'2026-10-01',reason:'LOCAL retained original APPLY',payload_sha256:'a'.repeat(64),quote_sha256:'b'.repeat(64),source_graph:{LOCAL_HISTORICAL_RECEIPT:true},locked_sources:{LOCAL_HISTORICAL_RECEIPT:true},projection:{LOCAL_HISTORICAL_RECEIPT:true},credit_account_snapshot:{account:{id:ids.credit}}}
+ for(const k of ['source_graph','locked_sources','projection'])oldOp[k+'_sha256']=await digest(oldOp[k])
+ await put('cp7_credit.consumer_operations_v1',oldOp)
+ const oldLines=await scalar('select cp7_credit.consumer_operation_lines_v1($1)',[ids.original_apply])
+ await put('erp.journal_entries',{id:ids.original_apply_journal,source_type:'CP7_CUSTOMER_CREDIT_APPLY',source_id:ids.original_apply,status:'POSTED',economic_date:'2026-10-01',transaction_date:'2026-10-01',posting_at:'2026-10-01T06:00:00Z'})
+ for(const[k,line]of oldLines.entries())await put('erp.journal_lines',{id:id(7000+k),journal_entry_id:ids.original_apply_journal,...line})
+ const lineHash=await scalar('select cp7_credit.native_lines_sha256($1::jsonb)',[[...oldLines].sort((a,b)=>a.account_id.localeCompare(b.account_id))])
+ await put('cp7_credit.consumption_events',{id:ids.original_apply,cohort_id:ids.cohort,event_kind:'APPLY',amount:80,target_sale_id:ids.original,economic_date:'2026-10-01',transaction_date:'2026-10-01',journal_id:ids.original_apply_journal,source_sha256:'c'.repeat(64),lines_sha256_pg:lineHash,actor:ids.actor,request_id:ids.original_request,reason:oldOp.reason})
+ const retained=await materializeOld(),event=await scalar('select to_jsonb(e)from cp7_credit.consumption_events e where id=$1',[ids.original_apply]),journal=await scalar('select cp7_credit.materialized_journal_payload($1)',[ids.original_apply_journal])
+ const proof={operation_id:ids.e_operation,actor:ids.actor,request_id:ids.e_request,source_sale_id:ids.original,replacement_sale_id:ids.target,revision_id:ids.revision,
+  basis:{ar_source:{account_id:ids.ar},customer_id:ids.customer,incoming_facts:[{event,journal}]},review:{replacement_net:'550.00'},before_materialized:{actual_objects:[retained]},
+  actual_proof:{original_document:await scalar('select cp7_credit_note_carry_de.raw_document_v1($1)',[ids.original]),replacement_document:await scalar('select cp7_credit_note_carry_de.raw_document_v1($1)',[ids.target])}}
+ await put('cp7_credit_note_carry_de.operations_v1',{operation_id:ids.e_operation,actor:ids.actor,request_id:ids.e_request,source_sale_id:ids.original,replacement_sale_id:ids.target,revision_id:ids.revision,payload:{LOCAL_E_RECEIPT_NOT_CLOSURE_PROOF:true},expected_version:'3',proof,response:{LOCAL_E_RECEIPT_NOT_CLOSURE_PROOF:true}})
+ // Preserve PostgreSQL's raw numeric display in the immutable digest. JSON
+ // round trips through JavaScript would turn journal 80.00 into 80.
+ rowCodecDiagnostic: {
+  const exact=await scalar('select cp7_credit.pg_jsonb_sha256(cp7_credit.materialized_journal_payload($1))',[ids.original_apply_journal])
+  report.raw_journal_codec_counter={javascript_roundtrip_sha256:await digest(journal),postgres_raw_sha256:exact,different:(await digest(journal))!==exact}
+ }
+ await q("insert into cp7_credit_note_carry_de.assignments_v1 select $1,e.id,'APPLY',$2,$2,$3,to_jsonb(e),cp7_credit.materialized_journal_payload(e.journal_id),cp7_credit.pg_jsonb_sha256(to_jsonb(e)),cp7_credit.pg_jsonb_sha256(cp7_credit.materialized_journal_payload(e.journal_id))from cp7_credit.consumption_events e where e.id=$4",[ids.e_operation,ids.original,ids.target,ids.original_apply])
+ await q('select cp7_credit.assert_current_materialized_profile($1,$2,$1)',[ids.target,ids.original])
+ const amount=action==='UNDO'?'-80.00':'20.00'
+ const payload={action,cohort_id:action==='UNDO'?null:ids.cohort,target_sale_id:action==='UNDO'?null:ids.target,cash_account_id:null,restores_event_id:action==='UNDO'?ids.original_apply:null,amount:action==='UNDO'?null:amount,physical_at:'2026-10-02T05:00:00Z',reason:'LOCAL exact signed consumer phase counter',reference:null}
+ const selection={action,event_kind:'APPLY',cohort_id:ids.cohort,customer_id:ids.customer,source_sale_id:ids.source,source_root_sale_id:ids.source,source_current_leaf_id:ids.source,target_sale_id:ids.target,target_root_sale_id:ids.original,target_current_leaf_id:ids.target,cash_account_id:null,restores_event_id:action==='UNDO'?ids.original_apply:null,amount}
+ const graph=await scalar('select cp7_credit.consumer_joined_graph_v1($1,$2)',[ids.source,ids.target]),sources=await scalar('select cp7_credit.consumer_capture_sources_v1($1::jsonb)',[graph])
+ const authority=await scalar('select cp7_note.access_now()'),period=await scalar('select to_jsonb(p)from erp.accounting_period_control p where singleton_id=1'),beforeNative={}
+ for(const sale of [ids.source,ids.target])beforeNative[sale]=await scalar('select cp7_credit.consumer_native_invariant_v1($1)',[sale])
+ const locked={selection,graph,sources,authority,period}
+ const projection={physical_at:payload.physical_at,economic_date:'2026-10-02',transaction_date:'2026-10-03',expected_versions:{[ids.source]:'3',[ids.target]:'3'},credit_account:{account:{id:ids.credit}},target_ar_source:await scalar('select cp7_credit.consumer_invoice_ar_source_v1($1)',[ids.target]),cash_account:null,book_manifest:{LOCAL_BOTH_DATES:true},before_native:beforeNative,cash_balance_before:null}
+ const vectors=await scalar('select cp7_credit.consumer_source_vectors_v1($1)',[ids.cohort])
+ const pending={id:'LOCAL_PENDING:'+ids.request,amount,economic_date:projection.economic_date,transaction_date:projection.transaction_date,source_sha256:await digest(selection)}
+ projection.source_capacity_after=await scalar('select ow04_pure_kernel.credit_capacity_v1($1::jsonb,$2::jsonb,$3,$4)',[vectors.recognition,[...vectors.consumptions,pending],projection.economic_date,projection.transaction_date])
+ payload.quote_sha256=await scalar('select cp7_credit.consumer_quote_binding_v1($1::jsonb,$2::jsonb,$3::jsonb)',[payload,locked,projection])
+ await q("update local_e_phase.settings set value=value||$1::jsonb",[{selection,locked,projection,payload}])
+ await put('cp7_credit.consumer_requests_v1',{actor:ids.actor,request_id:ids.request,action,payload,expected_versions:projection.expected_versions})
+ const[pid,tx]=(await q('select pg_backend_pid(),txid_current()'))[0]
+ await put('cp7_credit.consumer_execution_context',{backend_pid:pid,transaction_id:tx,actor:ids.actor,request_id:ids.request,action,phase:'CLAIMED',operation_id:null,payload_sha256:await digest(payload),quote_sha256:payload.quote_sha256,authority_snapshot:authority})
+ return {payload,graph,locked,projection,event,journal,retained}
+}
+async function scenario(name,{mode='AFTER',action='UNDO',expectedError=null,probe=false,prepare=false}={}){
+ const pins=await install(mode),global=await census();await exec('begin')
+ const row={name,mode,action,classification:report.classification,product_source:pins,expected_error:expectedError}
+ try{
+  const state=await seed(action)
+  if(probe)await exec(await readFile(resolve(here,'phase_probe.sql'),'utf8'))
+  const before=await census();row.before_sha256=sha(JSON.stringify(before))
+  await exec('savepoint actual_source_call')
+  try{
+   if(prepare){
+    const basis=await scalar('select cp7_credit_note_carry_de.basis_v1($1)',[ids.target]);assert.ok(basis.issues.includes('NEXT_NOTE_REVISION_ADAPTER_REQUIRED'))
+    const item=await scalar('select to_jsonb(i)from erp.sales_items i where sale_id=$1',[ids.target])
+    const p={sale_id:ids.target,customer_id:ids.customer,items:[{product_id:item.product_id,qty_pcs:String(item.qty_pcs),unit_price_snapshot:'110.00',discount_amount:'0.00'}],item_lineage:[item.id],credit_carry_review:{}}
+    await q('select cp7_credit_note_carry_de.prepare_v1($1::jsonb,$2,\'3\',$3,$4::jsonb)',[p,ids.e_request,id(999),await scalar('select cp7_note.access_now()')])
+   }else{
+    const outcome=await scalar('select cp7_credit.consumer_execute_v1($1)',[ids.request]);row.outcome=outcome
+    assert.equal(outcome.amount,action==='UNDO'?'-80.00':'20.00');assert.equal(outcome.target_sale_id,ids.target)
+    assert.equal(outcome.economic_date,'2026-10-02');assert.equal(outcome.transaction_date,'2026-10-03')
+    const target=await scalar('select to_jsonb(h)from erp.sales_headers h where id=$1',[ids.target]);assert.equal(target.row_version,4);assert.equal(target.status,action==='UNDO'?'POSTED':'PARTIAL_PAID')
+    const current=await scalar('select cp7_credit.consumer_invoice_profile_v1($1)',[ids.target]);row.current_profile=current
+    assert.equal(current.U,action==='UNDO'?'0.00':'100.00');assert.equal(current.AR,action==='UNDO'?'550.00':'450.00')
+    assert.deepEqual(await scalar('select to_jsonb(e)from cp7_credit.consumption_events e where id=$1',[ids.original_apply]),state.event)
+    assert.deepEqual(await scalar('select cp7_credit.materialized_journal_payload($1)',[ids.original_apply_journal]),state.journal)
+    await q('update cp7_credit.consumer_requests_v1 set response=$1::jsonb where actor=$2 and request_id=$3',[outcome,ids.actor,ids.request])
+    await exec('delete from cp7_credit.consumer_execution_context')
+    await q('select cp7_credit.assert_consumer_closed_v1($1)',[outcome.operation_id])
+    row.full_actual_consumer_closure_returned=true
+    if(probe)row.phase_probe=await q('select label,value from local_e_phase.observations order by label')
+    if(action==='UNDO'){
+     const outside=await census();await exec('savepoint outside_owned_phase')
+     try{
+      await q("update erp.sales_headers set status='PARTIAL_PAID'where id=$1",[ids.target])
+      try{await q('select cp7_credit.assert_current_materialized_profile($1,$2,$1)',[ids.target,ids.original]);throw Error('Outside-phase stale status was accepted')}
+      catch(e){assert.equal(e.message,'CP7_CREDIT_NOTE_CARRY_RAW_AR_OR_STATUS_CHANGED');row.outside_owned_phase_status_refusal={code:e.code,message:e.message}}
+     }finally{await exec('rollback to savepoint outside_owned_phase');await exec('release savepoint outside_owned_phase');assert.deepEqual(await census(),outside)}
+    }
+   }
+   if(expectedError)throw Error('Expected refusal did not happen:'+expectedError)
+   row.status='PASS_LOCAL_SOURCE_DOUBLE'
+  }catch(error){
+   row.error={code:error.code,message:error.message,detail:error.detail,where:error.where}
+   if(!expectedError||error.message!==expectedError)throw Object.assign(error,{local_case:name})
+   row.status='PASS_EXPECTED_ORIGINAL_REFUSAL_LOCAL_DOUBLE'
+  }finally{
+   await exec('rollback to savepoint actual_source_call');await exec('release savepoint actual_source_call')
+   const restored=await census();assert.deepEqual(restored,before)
+   row.all_local_rows_sequences_and_function_catalog_restored=true
+  }
+ }finally{await exec('rollback');assert.deepEqual(await census(),global);report.cases.push(row)}
+}
+try{
+ report.fixture={...fixture};delete report.fixture.ddl;delete report.fixture.actual_functions;delete report.fixture.native_callbacks
+ report.PGlite_version=JSON.parse(await readFile(resolve(modulePath,'package.json'),'utf8')).version
+ await exec(fixture.ddl)
+ const first=['cp7_credit.pg_jsonb_sha256','cp7_credit.native_cent_lines','cp7_credit.native_lines_sha256','ow04_source_proposal.canonical_json_v1','ow04_source_proposal.sha','ow04_source_proposal.cents','ow04_source_proposal.financial_journal_payload','cp7_credit.refund_physical_text','cp7_credit.materialized_fact','cp7_credit.materialized_journal_payload']
+ for(const name of first)await exec(fixture.actual_functions[name])
+ for(const rel of ['kernel/kernel.sql','ordinal-wrapper/wrapper.sql'])await exec(await readFile(resolve(root,'scripts/cp7_customer_credit/'+rel),'utf8'))
+ await exec(await readFile(resolve(here,'doubles.sql'),'utf8'))
+ for(const[name,body]of Object.entries(fixture.actual_functions))if(!first.includes(name))await exec(body)
+ await exec(await readFile(resolve(root,'scripts/cp7_credit_correction_de/note_carry/01_facts.sql'),'utf8'))
+ for(const name of ['03_readers.sql','02_plan.sql','04_basis.sql'])await exec(await readFile(resolve(root,'scripts/cp7_credit_correction_de/note_carry/'+name),'utf8'))
+ await exec(await readFile(resolve(here,'native_snapshot_double.sql'),'utf8'))
+ await scenario('BEFORE_FULL_EXECUTE_UNDO_STATUS_EDGE',{mode:'BEFORE',expectedError:'CP7_CREDIT_NOTE_CARRY_RAW_AR_OR_STATUS_CHANGED'})
+ await scenario('BEFORE_SECOND_REVISION_CAPTURED_GRAPH_ABI',{mode:'BEFORE',prepare:true,expectedError:'CP7_CREDIT_CURRENT_ASSIGNMENT_CHANGED'})
+ await scenario('AFTER_FULL_EXECUTE_UNDO80_CURRENT_LEAF')
+ await scenario('AFTER_FULL_EXECUTE_LATER_APPLY20_CURRENT_LEAF',{action:'APPLY'})
+ await scenario('AFTER_SECOND_REVISION_ORIGINAL_NAMED_EARLY_REFUSAL',{prepare:true,expectedError:'CP7_CREDIT_NOTE_CARRY_REVIEW_REFUSED'})
+ await scenario('AFTER_FULL_EXECUTE_OWN_MATERIALIZED_PHASE_COUNTERS',{probe:true})
+ report.status='PASS_LOCAL_SOURCE_DOUBLES_ONLY'
+}catch(error){report.status='FAIL_LOCAL_SOURCE_DOUBLES_ONLY';report.error={code:error.code,message:error.message,detail:error.detail,where:error.where,case:error.local_case};process.exitCode=1}
+finally{
+ await db.close();report.sources={}
+ for(const rel of ['fixture.py','doubles.sql','native_snapshot_double.sql','runtime.mjs','phase_probe.sql']){try{const b=await readFile(resolve(here,rel));report.sources[rel]={bytes:b.length,sha256:sha(b)}}catch(e){if(e.code!=='ENOENT')throw e}}
+ await writeFile(destination,JSON.stringify(report,null,2)+'\n',{flag:'wx'})
+ process.stdout.write(JSON.stringify({status:report.status,cases:report.cases.map(({name,status,error})=>({name,status,error})),error:report.error,receipt:destination,Native_executions:0})+'\n')
+}

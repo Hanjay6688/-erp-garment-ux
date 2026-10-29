@@ -1,0 +1,730 @@
+{
+  "classification": "LOCAL_PGLITE_FULL_SOURCE_CONSUMER_EXECUTE_AND_E_PROFILE_WITH_DECLARED_TYPED_DEPENDENCY_DOUBLES",
+  "Native_executions": 0,
+  "actual_Auth_HTTP": 0,
+  "actual_browser": 0,
+  "actual_races": 0,
+  "DB_server": false,
+  "remote_calls": 0,
+  "production_go": false,
+  "independent_acceptance": false,
+  "cases": [
+    {
+      "name": "BEFORE_FULL_EXECUTE_UNDO_STATUS_EDGE",
+      "mode": "BEFORE",
+      "action": "UNDO",
+      "classification": "LOCAL_PGLITE_FULL_SOURCE_CONSUMER_EXECUTE_AND_E_PROFILE_WITH_DECLARED_TYPED_DEPENDENCY_DOUBLES",
+      "product_source": {
+        "profile_sha256": "7b7c1467176fefb0f564169ab0903c3d93defc88cce97a16a7ad37629ad84ac3",
+        "owning_sha256": "8864996e824655766022bafa277ac046beba35794b678eedc388b1093fb38575"
+      },
+      "expected_error": "CP7_CREDIT_NOTE_CARRY_RAW_AR_OR_STATUS_CHANGED",
+      "before_sha256": "f3673a136e6df951ffb8e5d864fe3f8667ea2853dc1757471a22b260480bed75",
+      "error": {
+        "code": "P0001",
+        "message": "CP7_CREDIT_NOTE_CARRY_RAW_AR_OR_STATUS_CHANGED",
+        "where": "PL/pgSQL function cp7_credit_note_carry_de.assert_profile_v1(uuid,uuid,uuid,jsonb) line 20 at RAISE\nSQL statement \"SELECT cp7_credit_note_carry_de.assert_profile_v1(p_sale,p_root,p_leaf,actual)\"\nPL/pgSQL function cp7_credit.assert_current_materialized_profile(uuid,uuid,uuid) line 5 at PERFORM\nSQL statement \"SELECT cp7_credit.assert_current_materialized_profile(p_sale,m.root_sale_id,m.current_leaf_id)\"\nPL/pgSQL function erp._cp7_current_credit_adjustment(uuid) line 37 at PERFORM\nPL/pgSQL function cp7_credit.current_effective_paid(uuid) line 5 at assignment\nPL/pgSQL function cp7_credit.consumer_execute_v1(uuid) line 67 at assignment"
+      },
+      "status": "PASS_EXPECTED_ORIGINAL_REFUSAL_LOCAL_DOUBLE",
+      "all_local_rows_sequences_and_function_catalog_restored": true
+    },
+    {
+      "name": "BEFORE_SECOND_REVISION_CAPTURED_GRAPH_ABI",
+      "mode": "BEFORE",
+      "action": "UNDO",
+      "classification": "LOCAL_PGLITE_FULL_SOURCE_CONSUMER_EXECUTE_AND_E_PROFILE_WITH_DECLARED_TYPED_DEPENDENCY_DOUBLES",
+      "product_source": {
+        "profile_sha256": "7b7c1467176fefb0f564169ab0903c3d93defc88cce97a16a7ad37629ad84ac3",
+        "owning_sha256": "8864996e824655766022bafa277ac046beba35794b678eedc388b1093fb38575"
+      },
+      "expected_error": "CP7_CREDIT_CURRENT_ASSIGNMENT_CHANGED",
+      "before_sha256": "55e7b0ca702d3ef4533da67cd6d23ce1732c26e1e5af8d0bcf98b88dd80db8a7",
+      "error": {
+        "code": "P0001",
+        "message": "CP7_CREDIT_CURRENT_ASSIGNMENT_CHANGED",
+        "where": "PL/pgSQL function cp7_credit.current_materialized_objects(uuid,uuid,uuid) line 6 at RAISE\nPL/pgSQL function cp7_credit.inspect_current_materialized_profile(uuid,uuid,uuid) line 3 at assignment\nPL/pgSQL function cp7_credit.assert_current_materialized_profile(uuid,uuid,uuid) line 3 at assignment\nSQL statement \"SELECT cp7_credit.assert_current_materialized_profile(sale,cp7_credit_note_carry_de.root_v1(sale),sale)\"\nPL/pgSQL function cp7_credit.consumer_capture_sources_v1(jsonb) line 5 at PERFORM\nPL/pgSQL function cp7_credit_note_carry_de.prepare_v1(jsonb,uuid,text,uuid,jsonb) line 32 at assignment"
+      },
+      "status": "PASS_EXPECTED_ORIGINAL_REFUSAL_LOCAL_DOUBLE",
+      "all_local_rows_sequences_and_function_catalog_restored": true
+    },
+    {
+      "name": "AFTER_FULL_EXECUTE_UNDO80_CURRENT_LEAF",
+      "mode": "AFTER",
+      "action": "UNDO",
+      "classification": "LOCAL_PGLITE_FULL_SOURCE_CONSUMER_EXECUTE_AND_E_PROFILE_WITH_DECLARED_TYPED_DEPENDENCY_DOUBLES",
+      "product_source": {
+        "profile_sha256": "8e82c257ca20a4dcac5cf0dad2f1e487c2e202caea7fa466503019003d3f75ac",
+        "owning_sha256": "0c00bb08274827e6295ada3ed4e4b8e7d917ed1bc1a996aaa0685d0fd1772c94"
+      },
+      "expected_error": null,
+      "before_sha256": "b31ca590d75b8d50417a6ce4054034804d11bb97394d97692bf8d04407b71bee",
+      "outcome": {
+        "kind": "COMMITTED_OUTCOME",
+        "action": "UNDO",
+        "amount": "-80.00",
+        "cohort_id": "00000000-0000-4000-8000-00000000000d",
+        "event_kind": "APPLY",
+        "journal_id": "5c99eead-4af1-458d-7c33-d3594a035436",
+        "request_id": "00000000-0000-4000-8000-000000000020",
+        "physical_at": "2026-10-02T05:00:00.000000Z",
+        "operation_id": "1e945e4c-102d-4a8d-8b40-6fe84af0409b",
+        "economic_date": "2026-10-02",
+        "source_sale_id": "00000000-0000-4000-8000-000000000004",
+        "target_sale_id": "00000000-0000-4000-8000-000000000006",
+        "cash_account_id": null,
+        "available_credit": "200.00",
+        "contract_version": "cp7.customer-credit-outcome.v1",
+        "invoice_versions": {
+          "00000000-0000-4000-8000-000000000004": "4",
+          "00000000-0000-4000-8000-000000000006": "4"
+        },
+        "transaction_date": "2026-10-03",
+        "restores_event_id": "00000000-0000-4000-8000-00000000001a",
+        "consumption_event_id": "1e945e4c-102d-4a8d-8b40-6fe84af0409b"
+      },
+      "current_profile": {
+        "E": "0.00",
+        "I": "0.00",
+        "P": "0.00",
+        "U": "0.00",
+        "AR": "550.00",
+        "net": "550.00",
+        "gross": "550.00",
+        "status": "POSTED",
+        "sale_id": "00000000-0000-4000-8000-000000000006",
+        "row_version": "4",
+        "materialized": {
+          "I": "0.00",
+          "U": "0.00",
+          "sale_id": "00000000-0000-4000-8000-000000000006",
+          "adjustment": "0.00",
+          "root_sale_id": "00000000-0000-4000-8000-000000000005",
+          "actual_objects": [
+            {
+              "object_id": "00000000-0000-4000-8000-00000000001a",
+              "fact_sha256": "ac9138629a12b51dc451735f006e9f707a8e306bb3274ab045606fe162474447",
+              "object_kind": "CONSUMPTION"
+            },
+            {
+              "object_id": "1e945e4c-102d-4a8d-8b40-6fe84af0409b",
+              "fact_sha256": "6f55bc879dc650db9a13226f7acebdacede44f47d6e32dc00879a15b820eddc1",
+              "object_kind": "CONSUMPTION"
+            }
+          ],
+          "current_leaf_id": "00000000-0000-4000-8000-000000000006",
+          "contract_version": "ow04.actual-materialized-objects.v1",
+          "upstream_root_ids": [
+            "00000000-0000-4000-8000-000000000004",
+            "00000000-0000-4000-8000-000000000005"
+          ],
+          "actual_objects_sha256": "7689b56a4e6af84d5bfe595957335f11f71d059cc66d4ad16de379d3afaf4eaa",
+          "financial_data_complete": true,
+          "financial_marker_verified": true,
+          "LOCAL_BOUNDED_MATERIALIZED_MODEL": true
+        }
+      },
+      "full_actual_consumer_closure_returned": true,
+      "status": "PASS_LOCAL_SOURCE_DOUBLE",
+      "all_local_rows_sequences_and_function_catalog_restored": true
+    },
+    {
+      "name": "AFTER_FULL_EXECUTE_LATER_APPLY20_CURRENT_LEAF",
+      "mode": "AFTER",
+      "action": "APPLY",
+      "classification": "LOCAL_PGLITE_FULL_SOURCE_CONSUMER_EXECUTE_AND_E_PROFILE_WITH_DECLARED_TYPED_DEPENDENCY_DOUBLES",
+      "product_source": {
+        "profile_sha256": "8e82c257ca20a4dcac5cf0dad2f1e487c2e202caea7fa466503019003d3f75ac",
+        "owning_sha256": "0c00bb08274827e6295ada3ed4e4b8e7d917ed1bc1a996aaa0685d0fd1772c94"
+      },
+      "expected_error": null,
+      "before_sha256": "8c877d3f5e836542be204251844cd45284760f2c57714b19ef315ab60daa3262",
+      "outcome": {
+        "kind": "COMMITTED_OUTCOME",
+        "action": "APPLY",
+        "amount": "20.00",
+        "cohort_id": "00000000-0000-4000-8000-00000000000d",
+        "event_kind": "APPLY",
+        "journal_id": "c6b63233-5467-5005-748e-1dd28185c4e8",
+        "request_id": "00000000-0000-4000-8000-000000000020",
+        "physical_at": "2026-10-02T05:00:00.000000Z",
+        "operation_id": "e8490f43-af06-4389-9012-5b0e679f0d7d",
+        "economic_date": "2026-10-02",
+        "source_sale_id": "00000000-0000-4000-8000-000000000004",
+        "target_sale_id": "00000000-0000-4000-8000-000000000006",
+        "cash_account_id": null,
+        "available_credit": "100.00",
+        "contract_version": "cp7.customer-credit-outcome.v1",
+        "invoice_versions": {
+          "00000000-0000-4000-8000-000000000004": "4",
+          "00000000-0000-4000-8000-000000000006": "4"
+        },
+        "transaction_date": "2026-10-03",
+        "restores_event_id": null,
+        "consumption_event_id": "e8490f43-af06-4389-9012-5b0e679f0d7d"
+      },
+      "current_profile": {
+        "E": "100.00",
+        "I": "0.00",
+        "P": "0.00",
+        "U": "100.00",
+        "AR": "450.00",
+        "net": "550.00",
+        "gross": "550.00",
+        "status": "PARTIAL_PAID",
+        "sale_id": "00000000-0000-4000-8000-000000000006",
+        "row_version": "4",
+        "materialized": {
+          "I": "0.00",
+          "U": "100.00",
+          "sale_id": "00000000-0000-4000-8000-000000000006",
+          "adjustment": "100.00",
+          "root_sale_id": "00000000-0000-4000-8000-000000000005",
+          "actual_objects": [
+            {
+              "object_id": "00000000-0000-4000-8000-00000000001a",
+              "fact_sha256": "ac9138629a12b51dc451735f006e9f707a8e306bb3274ab045606fe162474447",
+              "object_kind": "CONSUMPTION"
+            },
+            {
+              "object_id": "e8490f43-af06-4389-9012-5b0e679f0d7d",
+              "fact_sha256": "4bc99585fad9cbf7c9052ad31f619bcf8f33ea2022815befe302ca9d2951f0e7",
+              "object_kind": "CONSUMPTION"
+            }
+          ],
+          "current_leaf_id": "00000000-0000-4000-8000-000000000006",
+          "contract_version": "ow04.actual-materialized-objects.v1",
+          "upstream_root_ids": [
+            "00000000-0000-4000-8000-000000000004",
+            "00000000-0000-4000-8000-000000000005"
+          ],
+          "actual_objects_sha256": "562e1f56bb35b813fbd0ad9e5968239010bb98bfde178d3ea30247e15d88fd84",
+          "financial_data_complete": true,
+          "financial_marker_verified": true,
+          "LOCAL_BOUNDED_MATERIALIZED_MODEL": true
+        }
+      },
+      "full_actual_consumer_closure_returned": true,
+      "status": "PASS_LOCAL_SOURCE_DOUBLE",
+      "all_local_rows_sequences_and_function_catalog_restored": true
+    },
+    {
+      "name": "AFTER_SECOND_REVISION_ORIGINAL_NAMED_EARLY_REFUSAL",
+      "mode": "AFTER",
+      "action": "UNDO",
+      "classification": "LOCAL_PGLITE_FULL_SOURCE_CONSUMER_EXECUTE_AND_E_PROFILE_WITH_DECLARED_TYPED_DEPENDENCY_DOUBLES",
+      "product_source": {
+        "profile_sha256": "8e82c257ca20a4dcac5cf0dad2f1e487c2e202caea7fa466503019003d3f75ac",
+        "owning_sha256": "0c00bb08274827e6295ada3ed4e4b8e7d917ed1bc1a996aaa0685d0fd1772c94"
+      },
+      "expected_error": "CP7_CREDIT_NOTE_CARRY_REVIEW_REFUSED",
+      "before_sha256": "aa15e22cff29821cf218cad5cded7631ab30e23d6907daf2427df11ef94bcdc0",
+      "error": {
+        "code": "P0001",
+        "message": "CP7_CREDIT_NOTE_CARRY_REVIEW_REFUSED",
+        "detail": "{\"issues\": [\"NEXT_NOTE_REVISION_ADAPTER_REQUIRED\"], \"policy\": \"AUTO_TRANSFER_TO_REPLACEMENT\", \"sale_id\": \"00000000-0000-4000-8000-000000000006\", \"consumers\": [{\"amount\": \"80.00\", \"event_id\": \"00000000-0000-4000-8000-00000000001a\", \"cohort_id\": \"00000000-0000-4000-8000-00000000000d\", \"journal_id\": \"00000000-0000-4000-8000-00000000001c\", \"economic_date\": \"2026-10-01\", \"transaction_date\": \"2026-10-01\", \"historical_target_id\": \"00000000-0000-4000-8000-000000000005\"}], \"row_version\": \"3\", \"basis_sha256\": \"e365b20f90ac6fec3d7e798afa23e75447498f29fb592a71f631116a5d246a85\", \"original_net\": \"550.00\", \"review_token\": \"40ba8439058116820bf7ff8fd791167c\", \"root_sale_id\": \"00000000-0000-4000-8000-000000000005\", \"transfer_amount\": \"80.00\", \"contract_version\": \"cp7.note-credit-carry-basis.v1\", \"minimum_replacement_net\": \"80.00\"}",
+        "where": "PL/pgSQL function cp7_credit_note_carry_de.prepare_v1(jsonb,uuid,text,uuid,jsonb) line 37 at RAISE"
+      },
+      "status": "PASS_EXPECTED_ORIGINAL_REFUSAL_LOCAL_DOUBLE",
+      "all_local_rows_sequences_and_function_catalog_restored": true
+    },
+    {
+      "name": "AFTER_FULL_EXECUTE_OWN_MATERIALIZED_PHASE_COUNTERS",
+      "mode": "AFTER",
+      "action": "UNDO",
+      "classification": "LOCAL_PGLITE_FULL_SOURCE_CONSUMER_EXECUTE_AND_E_PROFILE_WITH_DECLARED_TYPED_DEPENDENCY_DOUBLES",
+      "product_source": {
+        "profile_sha256": "8e82c257ca20a4dcac5cf0dad2f1e487c2e202caea7fa466503019003d3f75ac",
+        "owning_sha256": "0c00bb08274827e6295ada3ed4e4b8e7d917ed1bc1a996aaa0685d0fd1772c94"
+      },
+      "expected_error": null,
+      "before_sha256": "151ede6358e7e6b71a7cbf6b49eab289b1f1f0baf7abccf8dff8defd8edb6fe3",
+      "outcome": {
+        "kind": "COMMITTED_OUTCOME",
+        "action": "UNDO",
+        "amount": "-80.00",
+        "cohort_id": "00000000-0000-4000-8000-00000000000d",
+        "event_kind": "APPLY",
+        "journal_id": "e469734b-042b-1185-732d-6b469db4ea27",
+        "request_id": "00000000-0000-4000-8000-000000000020",
+        "physical_at": "2026-10-02T05:00:00.000000Z",
+        "operation_id": "1125e1ab-28b0-47c3-9023-7782400c44d9",
+        "economic_date": "2026-10-02",
+        "source_sale_id": "00000000-0000-4000-8000-000000000004",
+        "target_sale_id": "00000000-0000-4000-8000-000000000006",
+        "cash_account_id": null,
+        "available_credit": "200.00",
+        "contract_version": "cp7.customer-credit-outcome.v1",
+        "invoice_versions": {
+          "00000000-0000-4000-8000-000000000004": "4",
+          "00000000-0000-4000-8000-000000000006": "4"
+        },
+        "transaction_date": "2026-10-03",
+        "restores_event_id": "00000000-0000-4000-8000-00000000001a",
+        "consumption_event_id": "1125e1ab-28b0-47c3-9023-7782400c44d9"
+      },
+      "current_profile": {
+        "E": "0.00",
+        "I": "0.00",
+        "P": "0.00",
+        "U": "0.00",
+        "AR": "550.00",
+        "net": "550.00",
+        "gross": "550.00",
+        "status": "POSTED",
+        "sale_id": "00000000-0000-4000-8000-000000000006",
+        "row_version": "4",
+        "materialized": {
+          "I": "0.00",
+          "U": "0.00",
+          "sale_id": "00000000-0000-4000-8000-000000000006",
+          "adjustment": "0.00",
+          "root_sale_id": "00000000-0000-4000-8000-000000000005",
+          "actual_objects": [
+            {
+              "object_id": "00000000-0000-4000-8000-00000000001a",
+              "fact_sha256": "ac9138629a12b51dc451735f006e9f707a8e306bb3274ab045606fe162474447",
+              "object_kind": "CONSUMPTION"
+            },
+            {
+              "object_id": "1125e1ab-28b0-47c3-9023-7782400c44d9",
+              "fact_sha256": "e075149a784f56d87a2367ad8a77c99babf2333a33ce866cffd8e0c6f586409f",
+              "object_kind": "CONSUMPTION"
+            }
+          ],
+          "current_leaf_id": "00000000-0000-4000-8000-000000000006",
+          "contract_version": "ow04.actual-materialized-objects.v1",
+          "upstream_root_ids": [
+            "00000000-0000-4000-8000-000000000004",
+            "00000000-0000-4000-8000-000000000005"
+          ],
+          "actual_objects_sha256": "df69b97b414a1d17cc4cc3382cfdd6b31e7191c7384bcc1a3c2a70eff42336b2",
+          "financial_data_complete": true,
+          "financial_marker_verified": true,
+          "LOCAL_BOUNDED_MATERIALIZED_MODEL": true
+        }
+      },
+      "full_actual_consumer_closure_returned": true,
+      "phase_probe": [
+        [
+          "COMPLETION_ALREADY_PRESENT",
+          {
+            "detail": "",
+            "refusal": "CP7_CREDIT_NOTE_CARRY_RAW_AR_OR_STATUS_CHANGED",
+            "sqlstate": "P0001",
+            "Native_credit": 0,
+            "all_local_rows_and_sequences_restored": true
+          }
+        ],
+        [
+          "CURRENT_ACCESS_CHANGED",
+          {
+            "detail": "",
+            "refusal": "CP7_CREDIT_CONSUMER_OWN_CURRENT_SCOPE_REQUIRED",
+            "sqlstate": "42501",
+            "Native_credit": 0,
+            "all_local_rows_and_sequences_restored": true
+          }
+        ],
+        [
+          "CURRENT_PERIOD_CHANGED",
+          {
+            "detail": "",
+            "refusal": "CP7_CREDIT_NOTE_CARRY_RAW_AR_OR_STATUS_CHANGED",
+            "sqlstate": "P0001",
+            "Native_credit": 0,
+            "all_local_rows_and_sequences_restored": true
+          }
+        ],
+        [
+          "EXACT_SIGNED_DELTA_CHANGED_WITH_CONSISTENT_METADATA_HASHES",
+          {
+            "detail": "",
+            "refusal": "CP7_CREDIT_NOTE_CARRY_RAW_AR_OR_STATUS_CHANGED",
+            "sqlstate": "P0001",
+            "Native_credit": 0,
+            "all_local_rows_and_sequences_restored": true
+          }
+        ],
+        [
+          "FABRICATED_PROFILE_ARGUMENT",
+          {
+            "detail": "",
+            "refusal": "CP7_CREDIT_NOTE_CARRY_RAW_AR_OR_STATUS_CHANGED",
+            "sqlstate": "P0001",
+            "Native_credit": 0,
+            "all_local_rows_and_sequences_restored": true
+          }
+        ],
+        [
+          "IMMUTABLE_INPUT_CHANGED",
+          {
+            "detail": "",
+            "refusal": "CP7_CREDIT_CONSUMER_OWN_CURRENT_SCOPE_REQUIRED",
+            "sqlstate": "42501",
+            "Native_credit": 0,
+            "all_local_rows_and_sequences_restored": true
+          }
+        ],
+        [
+          "MATERIALIZATION_CHANGED",
+          {
+            "detail": "",
+            "refusal": "LOCAL_MATERIALIZATION_FACT_CHANGED",
+            "sqlstate": "P0001",
+            "Native_credit": 0,
+            "all_local_rows_and_sequences_restored": true
+          }
+        ],
+        [
+          "NATIVE_STOCK_FACT_CHANGED",
+          {
+            "detail": "",
+            "refusal": "CP7_CREDIT_NOTE_CARRY_RAW_AR_OR_STATUS_CHANGED",
+            "sqlstate": "P0001",
+            "Native_credit": 0,
+            "all_local_rows_and_sequences_restored": true
+          }
+        ],
+        [
+          "OLD_ROW_VERSION_CHANGED",
+          {
+            "detail": "",
+            "refusal": "CP7_CREDIT_NOTE_CARRY_RAW_AR_OR_STATUS_CHANGED",
+            "sqlstate": "P0001",
+            "Native_credit": 0,
+            "all_local_rows_and_sequences_restored": true
+          }
+        ],
+        [
+          "OLD_STATUS_CHANGED",
+          {
+            "detail": "",
+            "refusal": "CP7_CREDIT_NOTE_CARRY_RAW_AR_OR_STATUS_CHANGED",
+            "sqlstate": "P0001",
+            "Native_credit": 0,
+            "all_local_rows_and_sequences_restored": true
+          }
+        ],
+        [
+          "OWNED_MATERIALIZED_POSITIVE",
+          {
+            "U": "0.00",
+            "raw_AR": 550,
+            "operation_id": "1125e1ab-28b0-47c3-9023-7782400c44d9",
+            "context_phase": "MATERIALIZED",
+            "actual_Native_credit": 0,
+            "full_profile_returned": true,
+            "expected_after_original_update": "POSTED",
+            "header_status_still_before_original_update": "PARTIAL_PAID"
+          }
+        ],
+        [
+          "POSTED_JOURNAL_DATE_CHANGED",
+          {
+            "detail": "",
+            "refusal": "LOCAL_MATERIALIZATION_FACT_CHANGED",
+            "sqlstate": "P0001",
+            "Native_credit": 0,
+            "all_local_rows_and_sequences_restored": true
+          }
+        ],
+        [
+          "POSTED_JOURNAL_KIND_CHANGED",
+          {
+            "detail": "",
+            "refusal": "LOCAL_MATERIALIZATION_FACT_CHANGED",
+            "sqlstate": "P0001",
+            "Native_credit": 0,
+            "all_local_rows_and_sequences_restored": true
+          }
+        ],
+        [
+          "POSTED_JOURNAL_LINES_CHANGED",
+          {
+            "detail": "",
+            "refusal": "LOCAL_MATERIALIZATION_FACT_CHANGED",
+            "sqlstate": "P0001",
+            "Native_credit": 0,
+            "all_local_rows_and_sequences_restored": true
+          }
+        ],
+        [
+          "POSTING_SCOPE_NOT_CLEARED",
+          {
+            "detail": "",
+            "refusal": "CP7_CREDIT_NOTE_CARRY_RAW_AR_OR_STATUS_CHANGED",
+            "sqlstate": "P0001",
+            "Native_credit": 0,
+            "all_local_rows_and_sequences_restored": true
+          }
+        ],
+        [
+          "RECEIPT_ALREADY_PRESENT",
+          {
+            "detail": "",
+            "refusal": "CP7_CREDIT_NOTE_CARRY_RAW_AR_OR_STATUS_CHANGED",
+            "sqlstate": "P0001",
+            "Native_credit": 0,
+            "all_local_rows_and_sequences_restored": true
+          }
+        ],
+        [
+          "WRONG_ACTOR",
+          {
+            "detail": "",
+            "refusal": "CP7_CREDIT_NOTE_CARRY_RAW_AR_OR_STATUS_CHANGED",
+            "sqlstate": "P0001",
+            "Native_credit": 0,
+            "all_local_rows_and_sequences_restored": true
+          }
+        ],
+        [
+          "WRONG_BACKEND",
+          {
+            "detail": "",
+            "refusal": "CP7_CREDIT_NOTE_CARRY_RAW_AR_OR_STATUS_CHANGED",
+            "sqlstate": "P0001",
+            "Native_credit": 0,
+            "all_local_rows_and_sequences_restored": true
+          }
+        ],
+        [
+          "WRONG_PHASE",
+          {
+            "detail": "",
+            "refusal": "CP7_CREDIT_NOTE_CARRY_RAW_AR_OR_STATUS_CHANGED",
+            "sqlstate": "P0001",
+            "Native_credit": 0,
+            "all_local_rows_and_sequences_restored": true
+          }
+        ],
+        [
+          "WRONG_TRANSACTION",
+          {
+            "detail": "",
+            "refusal": "CP7_CREDIT_NOTE_CARRY_RAW_AR_OR_STATUS_CHANGED",
+            "sqlstate": "P0001",
+            "Native_credit": 0,
+            "all_local_rows_and_sequences_restored": true
+          }
+        ]
+      ],
+      "status": "PASS_LOCAL_SOURCE_DOUBLE",
+      "all_local_rows_sequences_and_function_catalog_restored": true
+    }
+  ],
+  "fixture": {
+    "classification": "LOCAL_TYPED_SQL_DOUBLES_ONLY_NOT_NATIVE",
+    "Native_executions": 0,
+    "typed_tables": [
+      "erp.sales_headers",
+      "erp.sales_items",
+      "erp.sales_payments",
+      "erp.sales_returns",
+      "erp.sales_return_items",
+      "erp.sale_stock_allocations",
+      "erp.customers",
+      "erp.journal_entries",
+      "erp.journal_lines",
+      "erp.chart_accounts",
+      "erp.cash_accounts",
+      "erp.accounting_period_control",
+      "erp.accounting_account_mappings",
+      "erp.fg_stock_movements",
+      "erp.fg_inventory_balances",
+      "erp.fg_lots",
+      "erp.hpp_versions",
+      "erp.opening_lot_hpp_gl_state",
+      "erp.opening_hpp_corrections",
+      "erp.po_hpp_gl_state",
+      "erp.be_conversion_sources_v1",
+      "cp7_credit.return_families",
+      "cp7_credit.return_family_members",
+      "cp7_credit.cohorts",
+      "cp7_credit.recognition_plans",
+      "cp7_credit.recognition_components",
+      "cp7_credit.component_parts",
+      "cp7_credit.component_journals",
+      "cp7_credit.consumption_events",
+      "cp7_credit.initial_refund_operations",
+      "cp7_credit.initial_return_materializations",
+      "cp7_credit.financial_materializations",
+      "cp7_credit.financial_materialization_objects",
+      "cp7_credit.consumer_requests_v1",
+      "cp7_credit.consumer_execution_context",
+      "cp7_credit.consumer_operations_v1",
+      "cp7_credit.consumer_completions_v1",
+      "cp7_credit.consumer_posting_scope_v1",
+      "cp7_note.requests",
+      "cp7_note.context",
+      "cp7_note.revisions",
+      "cp7_note.journal_restatements",
+      "cp7_sales.command_context"
+    ],
+    "stripped": "ERP/credit/note stand-in defaults/constraints only; actual E own DDL loaded separately",
+    "sources": {
+      "scripts/cp7_customer_credit/ledger/01_immutable_facts.proposal.sql": {
+        "bytes": 17049,
+        "sha256": "62383030bf27b70c5c07f948c69329be6f8229c314097e7d3c02293cc8c929c6"
+      },
+      "scripts/cp7_customer_credit/readers/02_materialized_profile.proposal.sql": {
+        "bytes": 26900,
+        "sha256": "317e689b3b2e738889e86a62dc130fa3ee2f128750f95d5264cd56084fce8575"
+      },
+      "scripts/cp7_customer_credit/coordinator/01_coordinator_facts.sql": {
+        "bytes": 14844,
+        "sha256": "4741483e2a61056a6e2365cfcc43e65d83c4ab9d1c8fd6fa77d33eda26b7af99"
+      },
+      "scripts/cp7_customer_credit/consumer/02_operation_facts.sql": {
+        "bytes": 10632,
+        "sha256": "832c79e3d46aeb12d8ddacd20b368864836f2675811ea369ff4c7e14177efee7"
+      },
+      "scripts/cp7_customer_credit/refund/01_initial_refund.proposal.sql": {
+        "bytes": 41089,
+        "sha256": "d273107f12f1d063005ed0a250d55dde529b725bdf41e8091193046aa0b27410"
+      },
+      "scripts/cp7_credit_correction_de/local_compile_fixture.py": {
+        "bytes": 4015,
+        "sha256": "11c75be1b404d141d884db90a5942141111ea7ae5add7b6c6c76912c1217d6fd"
+      },
+      "/workspace/scratch/ef468a447ac6/evidence-private/d1-d902-native13-ambiguous-phase/CLONE_install.source-erp.sql": {
+        "bytes": 5385622,
+        "sha256": "2b5eed32d5d2da81c99b57fbd5c27621affe686de427095176f746ccadcb39c7"
+      },
+      "supabase/release/cp6-t3/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql": {
+        "bytes": 551875,
+        "sha256": "fbc6e068b9b397149c9ed26d449515a4158e96a5c37221fda26a3870a7c639ea"
+      },
+      "scripts/cp7-src/sales/correction.sql": {
+        "bytes": 31724,
+        "sha256": "e76810c17c1f6e7f03539dcf6d6897965672d1f666bfcc2207f2ebe8739268a4"
+      },
+      "scripts/cp7-src/sales/commands.sql": {
+        "bytes": 19234,
+        "sha256": "3b2e59b36ad86cd55a239ffd539fb71aaf90621661c083104108dcd6d8f93d97"
+      },
+      "scripts/cp7_customer_credit/readers/01_current_reader_capability.proposal.sql": {
+        "bytes": 12021,
+        "sha256": "104853e41bd3cfa79af47d09c7f6ad9d45ff10fb00756b5b57ea71d137d94773"
+      },
+      "scripts/cp7_customer_credit/consumer/08_owning_command.sql": {
+        "bytes": 28347,
+        "sha256": "62d5f5ee48770edee38ac7149c8396748f9e185fb7a457f8c3fd83ddffdeccab"
+      },
+      "scripts/cp7_customer_credit/consumer/05_event_data.sql": {
+        "bytes": 15216,
+        "sha256": "5ce9cdd9df6da8ec0f140ba86e99f927bf2e1bfa95ca5df4a4f621e423356536"
+      },
+      "scripts/cp7_customer_credit/consumer/06_access_and_requests.sql": {
+        "bytes": 15880,
+        "sha256": "9ce2c69378fb032a650a7d6c63e6ee43bf3a59713256e80724673276764def1f"
+      },
+      "scripts/cp7_customer_credit/consumer/01_dependency_graph.sql": {
+        "bytes": 4342,
+        "sha256": "d243b7911700f4077d8c1a8ebd71f861762a5ab9c07e068031c63d2a872e78da"
+      },
+      "scripts/cp7_customer_credit/consumer/09_deferred_closure.sql": {
+        "bytes": 12195,
+        "sha256": "186d1d15fab55f8e52e06b36af9d8eb31e710c60b1320e4e06a0655b4ad7b61f"
+      },
+      "scripts/cp7_customer_credit/consumer/07_locked_projection.sql": {
+        "bytes": 23460,
+        "sha256": "87e2860a3d332ab101c2ca49e0bb5a4ebd984de004672d85885ad13ef21ce919"
+      },
+      "scripts/cp7_customer_credit/coordinator/05_factual_profile.sql": {
+        "bytes": 22669,
+        "sha256": "a11a072b8e0fffbea380063787e752814893089ef9066bcc541b5984221bb16d"
+      },
+      "scripts/cp7_customer_credit/consumer/composition.py": {
+        "bytes": 26338,
+        "sha256": "224a3435afc299b57ee9f8a2170131d0913224aa30c04338c2898a1f046dfe21"
+      },
+      "scripts/cp7_customer_credit/payment_correction/transform.py": {
+        "bytes": 26977,
+        "sha256": "fe87209309dc38bf62cc9cf01fc9de62751f8fadbdd52b31bdb1b0b5e45d6b76"
+      },
+      "scripts/cp7_credit_correction_de/e_native_delta.py": {
+        "bytes": 11997,
+        "sha256": "314742c922fc82145f7caa8d4217296bf3f2408ceacbc4738d50d3b866d2bfe0"
+      },
+      "scripts/cp7_customer_credit/ledger/02_uuid_poster.proposal.sql": {
+        "bytes": 22942,
+        "sha256": "7ab2fc6f5cb700c2284e58921bd6e59fbe731a0064457f5031116d61aa30baf8"
+      },
+      "scripts/cp7_customer_credit/source/source.sql": {
+        "bytes": 53005,
+        "sha256": "dd091f3896929d46587634f70545eea26ffd0ac9a516ffac79d90d4e5b80a729"
+      },
+      "scripts/cp7_customer_credit/kernel/kernel.sql": {
+        "bytes": 17566,
+        "sha256": "f531f50d5a1c7ddc0a2f22f607be5ba0625a2e0388af3e7a4c6d129bf82e15fc"
+      },
+      "scripts/cp7_customer_credit/ordinal-wrapper/wrapper.sql": {
+        "bytes": 21084,
+        "sha256": "ed66c7f09433956d18368b7a804b1b04f0dcb7f9e0457686400421a849d671d1"
+      }
+    }
+  },
+  "PGlite_version": "0.3.14",
+  "raw_journal_codec_counter": {
+    "javascript_roundtrip_sha256": "fae719800237e5eb58ef7d507e230b36fc9caef080eec66166e151ccded615a7",
+    "postgres_raw_sha256": "869acfd2fd1c5929424f3f8a2b7fdb1936fa5af3fefbd56d8d3f945bfa6ea0d4",
+    "different": true
+  },
+  "last_SQL": {
+    "sql": "select cp7_credit_note_carry_de.prepare_v1($1::jsonb,$2,'3',$3,$4::jsonb)",
+    "params": [
+      {
+        "sale_id": "00000000-0000-4000-8000-000000000006",
+        "customer_id": "00000000-0000-4000-8000-000000000003",
+        "items": [
+          {
+            "product_id": null,
+            "qty_pcs": "5",
+            "unit_price_snapshot": "110.00",
+            "discount_amount": "0.00"
+          }
+        ],
+        "item_lineage": [
+          "00000000-0000-4000-8000-00000000138e"
+        ],
+        "credit_carry_review": {}
+      },
+      "00000000-0000-4000-8000-00000000001e",
+      "00000000-0000-4000-8000-0000000003e7",
+      {
+        "actor": "00000000-0000-4000-8000-000000000001",
+        "scope": "DECLARED_CURRENT_AUTHORITY_DOUBLE"
+      }
+    ],
+    "error": {
+      "code": "P0001",
+      "message": "CP7_CREDIT_NOTE_CARRY_REVIEW_REFUSED",
+      "detail": "{\"issues\": [\"NEXT_NOTE_REVISION_ADAPTER_REQUIRED\"], \"policy\": \"AUTO_TRANSFER_TO_REPLACEMENT\", \"sale_id\": \"00000000-0000-4000-8000-000000000006\", \"consumers\": [{\"amount\": \"80.00\", \"event_id\": \"00000000-0000-4000-8000-00000000001a\", \"cohort_id\": \"00000000-0000-4000-8000-00000000000d\", \"journal_id\": \"00000000-0000-4000-8000-00000000001c\", \"economic_date\": \"2026-10-01\", \"transaction_date\": \"2026-10-01\", \"historical_target_id\": \"00000000-0000-4000-8000-000000000005\"}], \"row_version\": \"3\", \"basis_sha256\": \"e365b20f90ac6fec3d7e798afa23e75447498f29fb592a71f631116a5d246a85\", \"original_net\": \"550.00\", \"review_token\": \"40ba8439058116820bf7ff8fd791167c\", \"root_sale_id\": \"00000000-0000-4000-8000-000000000005\", \"transfer_amount\": \"80.00\", \"contract_version\": \"cp7.note-credit-carry-basis.v1\", \"minimum_replacement_net\": \"80.00\"}",
+      "where": "PL/pgSQL function cp7_credit_note_carry_de.prepare_v1(jsonb,uuid,text,uuid,jsonb) line 37 at RAISE"
+    }
+  },
+  "status": "PASS_LOCAL_SOURCE_DOUBLES_ONLY",
+  "sources": {
+    "fixture.py": {
+      "bytes": 15146,
+      "sha256": "725d126f6664499f15f83ecb23500da2b8db4d4354c77496c669fe4177e26add"
+    },
+    "doubles.sql": {
+      "bytes": 14772,
+      "sha256": "cd53e3994330b71a267aa98389afab9f3ca65c6800efe673a9b326e95109ba2c"
+    },
+    "native_snapshot_double.sql": {
+      "bytes": 451,
+      "sha256": "c7a9bc196462e78b8015c0312a6722196ed405564a8c0d93d5f9b3ce0831b439"
+    },
+    "runtime.mjs": {
+      "bytes": 23733,
+      "sha256": "b7f557e10b3cce4aafdade35e062f0d29cd941983a258d278d00a45ddf526a8c"
+    },
+    "phase_probe.sql": {
+      "bytes": 9661,
+      "sha256": "2655f425ca12282d09065cd8fe29b6f134ae7a5b17aa32f38083433941380c1b"
+    }
+  }
+}

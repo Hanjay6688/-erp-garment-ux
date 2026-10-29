@@ -1,0 +1,32 @@
+{
+  "contract": "cp7.e1-phase-local-source-proof.v1",
+  "classification": "LOCAL_PGLITE_FULL_SOURCE_CONSUMER_EXECUTE_AND_E_PROFILE_WITH_DECLARED_TYPED_DEPENDENCY_DOUBLES",
+  "actual_new_Native_Auth_browser_races": 0,
+  "source_control_tests": 12,
+  "source_scenarios": 6,
+  "owned_phase_negative_controls": 19,
+  "owned_phase_positive_observations": 1,
+  "outside_phase_stale_status_refusal": true,
+  "actual_pure_kernel_ordinal_used": true,
+  "whole_local_rows_sequences_function_catalog_restored": true,
+  "runtime_private_dump_dependency": false,
+  "typed_ERP_and_credit_tables": 43,
+  "retained_actual_function_bodies_in_local_inputs": 34,
+  "final_runtime": {
+    "path": "evidence/LOCAL_RUNTIME_FINAL.json",
+    "bytes": 30316,
+    "sha256": "f722f87d751616c2bfe285656d39765dbbbcb4ff8f622ce49102c156190da14b"
+  },
+  "limits": [
+    "Native posting/access/HPP/source/materialized collection are declared models; defaults/constraints stripped in typed stand-ins.",
+    "No actual E17 requalification, old E full receipt closure/Native FK+RLS/global ERP side effects, real Auth/browser/races.",
+    "Full fresh actual17 plus committed usedinverse witness/complete original outer/all5 remains root requirement."
+  ],
+  "retained_8be4_actual_counts": {
+    "PASS": 15,
+    "INCOMPLETE": 2
+  },
+  "accepted_native17": null,
+  "production_go": false,
+  "independent_acceptance": false
+}

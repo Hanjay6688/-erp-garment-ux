@@ -1,0 +1,11 @@
+{
+  "contract": "cp7.e1-consumer-phase-successor-gate.v1",
+  "state": "CLOSED_SOURCE_REPAIR_ONLY",
+  "accepted_native17": null,
+  "accepted_combined_ERP": null,
+  "historical_failed_E_head": "8be4c15a37dcfc6186e32f396df78291ff1b957c",
+  "retained_qualified_D1_head": "17ac1eeb5833cbf2a786194fe3bfbba6628a1ff8",
+  "fresh_actual_Native": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

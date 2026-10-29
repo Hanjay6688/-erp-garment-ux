@@ -1,0 +1,201 @@
+{
+  "classification": "LOCAL_PGLITE_FULL_SOURCE_CONSUMER_EXECUTE_AND_E_PROFILE_WITH_DECLARED_TYPED_DEPENDENCY_DOUBLES",
+  "Native_executions": 0,
+  "actual_Auth_HTTP": 0,
+  "actual_browser": 0,
+  "actual_races": 0,
+  "DB_server": false,
+  "remote_calls": 0,
+  "production_go": false,
+  "independent_acceptance": false,
+  "cases": [
+    {
+      "name": "BEFORE_FULL_EXECUTE_UNDO_STATUS_EDGE",
+      "mode": "BEFORE",
+      "action": "UNDO",
+      "classification": "LOCAL_PGLITE_FULL_SOURCE_CONSUMER_EXECUTE_AND_E_PROFILE_WITH_DECLARED_TYPED_DEPENDENCY_DOUBLES",
+      "product_source": {
+        "profile_sha256": "7b7c1467176fefb0f564169ab0903c3d93defc88cce97a16a7ad37629ad84ac3",
+        "owning_sha256": "8864996e824655766022bafa277ac046beba35794b678eedc388b1093fb38575"
+      },
+      "expected_error": "CP7_CREDIT_NOTE_CARRY_RAW_AR_OR_STATUS_CHANGED"
+    }
+  ],
+  "fixture": {
+    "classification": "LOCAL_TYPED_SQL_DOUBLES_ONLY_NOT_NATIVE",
+    "Native_executions": 0,
+    "typed_tables": [
+      "erp.sales_headers",
+      "erp.sales_items",
+      "erp.sales_payments",
+      "erp.sales_returns",
+      "erp.sales_return_items",
+      "erp.sale_stock_allocations",
+      "erp.customers",
+      "erp.journal_entries",
+      "erp.journal_lines",
+      "erp.chart_accounts",
+      "erp.cash_accounts",
+      "erp.accounting_period_control",
+      "erp.accounting_account_mappings",
+      "erp.fg_stock_movements",
+      "erp.fg_inventory_balances",
+      "erp.fg_lots",
+      "erp.hpp_versions",
+      "erp.opening_lot_hpp_gl_state",
+      "erp.opening_hpp_corrections",
+      "erp.po_hpp_gl_state",
+      "erp.be_conversion_sources_v1",
+      "cp7_credit.return_families",
+      "cp7_credit.return_family_members",
+      "cp7_credit.cohorts",
+      "cp7_credit.recognition_plans",
+      "cp7_credit.recognition_components",
+      "cp7_credit.component_parts",
+      "cp7_credit.component_journals",
+      "cp7_credit.consumption_events",
+      "cp7_credit.initial_refund_operations",
+      "cp7_credit.initial_return_materializations",
+      "cp7_credit.financial_materializations",
+      "cp7_credit.financial_materialization_objects",
+      "cp7_credit.consumer_requests_v1",
+      "cp7_credit.consumer_execution_context",
+      "cp7_credit.consumer_operations_v1",
+      "cp7_credit.consumer_completions_v1",
+      "cp7_credit.consumer_posting_scope_v1",
+      "cp7_note.requests",
+      "cp7_note.context",
+      "cp7_note.revisions",
+      "cp7_note.journal_restatements",
+      "cp7_sales.command_context"
+    ],
+    "stripped": "ERP/credit/note stand-in defaults/constraints only; actual E own DDL loaded separately",
+    "sources": {
+      "scripts/cp7_customer_credit/ledger/01_immutable_facts.proposal.sql": {
+        "bytes": 17049,
+        "sha256": "62383030bf27b70c5c07f948c69329be6f8229c314097e7d3c02293cc8c929c6"
+      },
+      "scripts/cp7_customer_credit/readers/02_materialized_profile.proposal.sql": {
+        "bytes": 26900,
+        "sha256": "317e689b3b2e738889e86a62dc130fa3ee2f128750f95d5264cd56084fce8575"
+      },
+      "scripts/cp7_customer_credit/coordinator/01_coordinator_facts.sql": {
+        "bytes": 14844,
+        "sha256": "4741483e2a61056a6e2365cfcc43e65d83c4ab9d1c8fd6fa77d33eda26b7af99"
+      },
+      "scripts/cp7_customer_credit/consumer/02_operation_facts.sql": {
+        "bytes": 10632,
+        "sha256": "832c79e3d46aeb12d8ddacd20b368864836f2675811ea369ff4c7e14177efee7"
+      },
+      "scripts/cp7_customer_credit/refund/01_initial_refund.proposal.sql": {
+        "bytes": 41089,
+        "sha256": "d273107f12f1d063005ed0a250d55dde529b725bdf41e8091193046aa0b27410"
+      },
+      "scripts/cp7_credit_correction_de/local_compile_fixture.py": {
+        "bytes": 4015,
+        "sha256": "11c75be1b404d141d884db90a5942141111ea7ae5add7b6c6c76912c1217d6fd"
+      },
+      "/workspace/scratch/ef468a447ac6/evidence-private/d1-d902-native13-ambiguous-phase/CLONE_install.source-erp.sql": {
+        "bytes": 5385622,
+        "sha256": "2b5eed32d5d2da81c99b57fbd5c27621affe686de427095176f746ccadcb39c7"
+      },
+      "supabase/release/cp6-t3/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql": {
+        "bytes": 551875,
+        "sha256": "fbc6e068b9b397149c9ed26d449515a4158e96a5c37221fda26a3870a7c639ea"
+      },
+      "scripts/cp7-src/sales/correction.sql": {
+        "bytes": 31724,
+        "sha256": "e76810c17c1f6e7f03539dcf6d6897965672d1f666bfcc2207f2ebe8739268a4"
+      },
+      "scripts/cp7-src/sales/commands.sql": {
+        "bytes": 19234,
+        "sha256": "3b2e59b36ad86cd55a239ffd539fb71aaf90621661c083104108dcd6d8f93d97"
+      },
+      "scripts/cp7_customer_credit/readers/01_current_reader_capability.proposal.sql": {
+        "bytes": 12021,
+        "sha256": "104853e41bd3cfa79af47d09c7f6ad9d45ff10fb00756b5b57ea71d137d94773"
+      },
+      "scripts/cp7_customer_credit/consumer/08_owning_command.sql": {
+        "bytes": 28347,
+        "sha256": "62d5f5ee48770edee38ac7149c8396748f9e185fb7a457f8c3fd83ddffdeccab"
+      },
+      "scripts/cp7_customer_credit/consumer/05_event_data.sql": {
+        "bytes": 15216,
+        "sha256": "5ce9cdd9df6da8ec0f140ba86e99f927bf2e1bfa95ca5df4a4f621e423356536"
+      },
+      "scripts/cp7_customer_credit/consumer/06_access_and_requests.sql": {
+        "bytes": 15880,
+        "sha256": "9ce2c69378fb032a650a7d6c63e6ee43bf3a59713256e80724673276764def1f"
+      },
+      "scripts/cp7_customer_credit/consumer/01_dependency_graph.sql": {
+        "bytes": 4342,
+        "sha256": "d243b7911700f4077d8c1a8ebd71f861762a5ab9c07e068031c63d2a872e78da"
+      },
+      "scripts/cp7_customer_credit/consumer/09_deferred_closure.sql": {
+        "bytes": 12195,
+        "sha256": "186d1d15fab55f8e52e06b36af9d8eb31e710c60b1320e4e06a0655b4ad7b61f"
+      },
+      "scripts/cp7_customer_credit/consumer/07_locked_projection.sql": {
+        "bytes": 23460,
+        "sha256": "87e2860a3d332ab101c2ca49e0bb5a4ebd984de004672d85885ad13ef21ce919"
+      },
+      "scripts/cp7_customer_credit/coordinator/05_factual_profile.sql": {
+        "bytes": 22669,
+        "sha256": "a11a072b8e0fffbea380063787e752814893089ef9066bcc541b5984221bb16d"
+      },
+      "scripts/cp7_customer_credit/consumer/composition.py": {
+        "bytes": 26338,
+        "sha256": "224a3435afc299b57ee9f8a2170131d0913224aa30c04338c2898a1f046dfe21"
+      },
+      "scripts/cp7_customer_credit/payment_correction/transform.py": {
+        "bytes": 26977,
+        "sha256": "fe87209309dc38bf62cc9cf01fc9de62751f8fadbdd52b31bdb1b0b5e45d6b76"
+      },
+      "scripts/cp7_credit_correction_de/e_native_delta.py": {
+        "bytes": 11997,
+        "sha256": "314742c922fc82145f7caa8d4217296bf3f2408ceacbc4738d50d3b866d2bfe0"
+      },
+      "scripts/cp7_customer_credit/ledger/02_uuid_poster.proposal.sql": {
+        "bytes": 22942,
+        "sha256": "7ab2fc6f5cb700c2284e58921bd6e59fbe731a0064457f5031116d61aa30baf8"
+      },
+      "scripts/cp7_customer_credit/source/source.sql": {
+        "bytes": 53005,
+        "sha256": "dd091f3896929d46587634f70545eea26ffd0ac9a516ffac79d90d4e5b80a729"
+      }
+    }
+  },
+  "PGlite_version": "0.3.14",
+  "last_SQL": {
+    "sql": "select cp7_credit.assert_current_materialized_profile($1,$2,$1)",
+    "params": [
+      "00000000-0000-4000-8000-000000000006",
+      "00000000-0000-4000-8000-000000000005"
+    ],
+    "error": {
+      "code": "P0001",
+      "message": "CP7_CREDIT_NOTE_CARRY_EVENT_ASSIGNMENT_CHANGED",
+      "where": "PL/pgSQL function cp7_credit_note_carry_de.effective_target_v1(uuid) line 17 at RAISE\nSQL statement \"select coalesce(sum(e.amount),0)              from cp7_credit.consumption_events e where e.event_kind='APPLY'\n  and cp7_credit_note_carry_de.effective_target_v1(e.id)=p_sale\"\nPL/pgSQL function cp7_credit.current_materialized_objects(uuid,uuid,uuid) line 9 at SQL statement\nPL/pgSQL function cp7_credit.inspect_current_materialized_profile(uuid,uuid,uuid) line 3 at assignment\nPL/pgSQL function cp7_credit.assert_current_materialized_profile(uuid,uuid,uuid) line 3 at assignment"
+    }
+  },
+  "status": "FAIL_LOCAL_SOURCE_DOUBLES_ONLY",
+  "error": {
+    "code": "P0001",
+    "message": "CP7_CREDIT_NOTE_CARRY_EVENT_ASSIGNMENT_CHANGED",
+    "where": "PL/pgSQL function cp7_credit_note_carry_de.effective_target_v1(uuid) line 17 at RAISE\nSQL statement \"select coalesce(sum(e.amount),0)              from cp7_credit.consumption_events e where e.event_kind='APPLY'\n  and cp7_credit_note_carry_de.effective_target_v1(e.id)=p_sale\"\nPL/pgSQL function cp7_credit.current_materialized_objects(uuid,uuid,uuid) line 9 at SQL statement\nPL/pgSQL function cp7_credit.inspect_current_materialized_profile(uuid,uuid,uuid) line 3 at assignment\nPL/pgSQL function cp7_credit.assert_current_materialized_profile(uuid,uuid,uuid) line 3 at assignment"
+  },
+  "sources": {
+    "fixture.py": {
+      "bytes": 15080,
+      "sha256": "53a04ddf7da0babe7a6ba3668321311259048e1da8cda31cc13d0edfbfea877d"
+    },
+    "doubles.sql": {
+      "bytes": 16280,
+      "sha256": "3c823b090e8ea7e487fb7664631b8af209ef23bdd68180a700fa5263e6b4727c"
+    },
+    "runtime.mjs": {
+      "bytes": 22717,
+      "sha256": "50da3771815b68500c1103e4bd045b08e8cc01b2d164028cf6da1af565ddd7c2"
+    }
+  }
+}

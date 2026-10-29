@@ -1,0 +1,1313 @@
+{
+  "contract": "cp7.e1-consumer-phase-successor-source.v1",
+  "state": "CLOSED_SOURCE_REPAIR_ONLY_NOT_ACTUAL_NATIVE_QUALIFICATION",
+  "base_public_head": "8be4c15a37dcfc6186e32f396df78291ff1b957c",
+  "base_public_tree": "b48fb750bd6d0eeba8a2207665c6a0ba22f2780c",
+  "retained_frozen_source282_sha256": "7a92b13976bd8cc24d19bc9f3ccb379f8a582bf7370ded4b23739296603d14fc",
+  "product_exceptions": [
+    "scripts/cp7_credit_correction_de/note_carry/06_owning.sql",
+    "scripts/cp7_credit_correction_de/note_carry/07_profile_closure.sql"
+  ],
+  "counted_derivation": {
+    "graph_ABI_substitutions": 3,
+    "existing_profile_function_changes": 1,
+    "new_private_functions": 1,
+    "all_other_profile_bodies_exact": true,
+    "helper_direct_full_profile_recursion": false
+  },
+  "product_runtime_leaves": 9,
+  "private_functions_including_same_three_Native_copies": {
+    "before": 40,
+    "after": 41
+  },
+  "existing_changed_function_set": 19,
+  "callbacks_changed": 0,
+  "Native_engine_D1_global_BE_guards_UI_money_qty_date_oracle_changes": 0,
+  "new_public_RPCS_roles_tables_triggers_grants": 0,
+  "retained_actual_E17": {
+    "PASS": 15,
+    "INCOMPLETE": 2
+  },
+  "accepted_fresh_Native17": null,
+  "actual_Native_Auth_browser_races_by_this_helper": 0,
+  "production_go": false,
+  "independent_acceptance": false,
+  "files": {
+    ".github/workflows/cp7-credit-d1-product-phase-native13.yml": {
+      "bytes": 30467,
+      "sha256": "cda5788102bc7dc2de51ebc0646d9cc392bbca2d05c335f8e319ea23ebb07622"
+    },
+    ".github/workflows/cp7-credit-de-native.yml": {
+      "bytes": 29704,
+      "sha256": "62c8bf85d7f7235faaf5db2cae37abda421c540d1ea74652168b78601cdc5bfe"
+    },
+    ".github/workflows/cp7-credit-e1-current-d1-native17.yml": {
+      "bytes": 31231,
+      "sha256": "6771fa52702491f6939dd4c0b1c745e6aa198f50fbb9c577a20380cce8de31ad"
+    },
+    ".github/workflows/cp7-credit-e1-native17.yml": {
+      "bytes": 30547,
+      "sha256": "4a2891c37b75674acc8a928c12a0b67a4d09f704f6419ca0f590f873f8eef496"
+    },
+    "scripts/cp6_bd_probe.py": {
+      "bytes": 142782,
+      "sha256": "c3add21e66d4d5544bf4e4d046a9fa8d64dbcb0cb285551a92c2d7405156b31b"
+    },
+    "scripts/cp7_credit_correction_de/.gitignore": {
+      "bytes": 13,
+      "sha256": "32dae3052f331ee34d628ef535709b301259a45df7c7522c4d35dcf49873f00b"
+    },
+    "scripts/cp7_credit_correction_de/CAP_SUCCESSOR.md": {
+      "bytes": 4728,
+      "sha256": "cfc77e6b2baee167b08c7a4d8d990b3065a31695669aed3f8d19448be27aceee"
+    },
+    "scripts/cp7_credit_correction_de/DEPENDENCIES.json": {
+      "bytes": 2088,
+      "sha256": "fc8f4153e03ab9d4440aa5d4cc6bac558bfe15a2275608fe8c06065d38f607f2"
+    },
+    "scripts/cp7_credit_correction_de/E_DEPENDENCIES.json": {
+      "bytes": 10719,
+      "sha256": "002134b3b496b3ab46571b0500fd3c873377c877b8b407f62ad4f6caa8eb68d6"
+    },
+    "scripts/cp7_credit_correction_de/E_QUALIFICATION.md": {
+      "bytes": 4036,
+      "sha256": "a91bb3a781cb78d25da9519e6a18632dd891f00c7e15fd501c22cb8af88916e1"
+    },
+    "scripts/cp7_credit_correction_de/QUALIFICATION.md": {
+      "bytes": 4831,
+      "sha256": "4d22b2ffab57b48bddff2ef36edabb611867f8ab870fe890e5758e67611ce160"
+    },
+    "scripts/cp7_credit_correction_de/__init__.py": {
+      "bytes": 91,
+      "sha256": "5cea80d360a7ce7a86d3adc85cc60f84de2fe2eb7e000db4dff1880b8b6eeeb5"
+    },
+    "scripts/cp7_credit_correction_de/cases.py": {
+      "bytes": 21156,
+      "sha256": "c530bb87f72ee6091e032d15efdb2b2e55cf9c9632b64c9e781665b70325bbdb"
+    },
+    "scripts/cp7_credit_correction_de/closure.sql": {
+      "bytes": 6259,
+      "sha256": "e21744ba0d98e963ccba9ca916247b797cb2c930b889e2eb41288a12f1888972"
+    },
+    "scripts/cp7_credit_correction_de/composition.py": {
+      "bytes": 12384,
+      "sha256": "4f7086c157e977cacf5f4281d6a2748113029fd7c2c441837e254c9fca9422af"
+    },
+    "scripts/cp7_credit_correction_de/e_binding_check.mjs": {
+      "bytes": 9521,
+      "sha256": "2d1cf879971f8a01e6b646e57c8aae915e81a6ede15cbe75659cc562ef8888ae"
+    },
+    "scripts/cp7_credit_correction_de/e_cases.py": {
+      "bytes": 25058,
+      "sha256": "058a9c29b991b30ca4da6467cfeb2629179d3ce8f25b8dba09d6ea45f419e2ad"
+    },
+    "scripts/cp7_credit_correction_de/e_compile_check.mjs": {
+      "bytes": 1416,
+      "sha256": "a15c9e8e59825959b07f9ce20ec9910f8b1d029d194b64da281750765de4970d"
+    },
+    "scripts/cp7_credit_correction_de/e_compile_fixture.py": {
+      "bytes": 1239,
+      "sha256": "3a3d7339c28671e46fdad80f434cd479cf87700b8606237532b69c5e0b7984e7"
+    },
+    "scripts/cp7_credit_correction_de/e_composition.py": {
+      "bytes": 12376,
+      "sha256": "6e690d12e30cb3a6463283dc62f269f5e3e77e2e59f37e45cdd0b5ec1f6a46d6"
+    },
+    "scripts/cp7_credit_correction_de/e_delta_check.py": {
+      "bytes": 4064,
+      "sha256": "7140d39d32d2334af5a645e92ee0c95febcf348ac341bd5d85e6f48ab8d9455e"
+    },
+    "scripts/cp7_credit_correction_de/e_native_delta.py": {
+      "bytes": 11997,
+      "sha256": "314742c922fc82145f7caa8d4217296bf3f2408ceacbc4738d50d3b866d2bfe0"
+    },
+    "scripts/cp7_credit_correction_de/e_owner_check.py": {
+      "bytes": 2209,
+      "sha256": "153c616f1714e4d91362b3488301d8ae16cb8d298d2cffe0b235cdead368e3a4"
+    },
+    "scripts/cp7_credit_correction_de/e_plan_check.mjs": {
+      "bytes": 3605,
+      "sha256": "5eacdfbec76609b5c68a4276abb6c51c2141c51513ab0215ed085df80a380e4c"
+    },
+    "scripts/cp7_credit_correction_de/evidence/E_CLIENT_STATUS.json": {
+      "bytes": 671,
+      "sha256": "5a5e52cba69b7b623ad82c710a413ceeaf0eef7613e12e8e603b8383455ce09b"
+    },
+    "scripts/cp7_credit_correction_de/evidence/E_FIRST_FAILURES.json": {
+      "bytes": 625,
+      "sha256": "e373228d80fe07ea59fae50eda136edc8998a12555d1afa008a6b80da9014e91"
+    },
+    "scripts/cp7_credit_correction_de/evidence/E_FOLLOWUP_FAILURES.json": {
+      "bytes": 3101,
+      "sha256": "7069480412e5e3f01ff1b56839b4d7ffa16b41d150aadccc92b8bc31bf5b7f77"
+    },
+    "scripts/cp7_credit_correction_de/evidence/E_LOCAL_STATUS.json": {
+      "bytes": 1710,
+      "sha256": "b776cf83d3ba45fc8bd8aa37cd5a1f03d760c933d704d9e59524886dc53f731a"
+    },
+    "scripts/cp7_credit_correction_de/evidence/FIRST_FAILURES.json": {
+      "bytes": 708,
+      "sha256": "a483856d9f188380c3be4f0f7fecda8fa09f1100f289f71c47966a1a3c86ee68"
+    },
+    "scripts/cp7_credit_correction_de/evidence/FOLLOWUP_FAILURES.json": {
+      "bytes": 647,
+      "sha256": "d080d8a0ec594afe9a307bfa371613c4a8cdaee3474229200e4ebcf77d48445a"
+    },
+    "scripts/cp7_credit_correction_de/evidence/LOCAL_STATUS.json": {
+      "bytes": 633,
+      "sha256": "ccaf715313f6d7f69c41c6cd8a3a99f7e654ca06ab043c9612df07ca54822270"
+    },
+    "scripts/cp7_credit_correction_de/evidence/OWNER_INSTALL_FIRST_FAILURE.json": {
+      "bytes": 871,
+      "sha256": "28e2a8b8bd7d0467170d61fd6961cd0ffaf2f91a9e0a46b761033708fe5bc3c3"
+    },
+    "scripts/cp7_credit_correction_de/evidence/OWNER_LOCAL_FIRST_FAILURES.json": {
+      "bytes": 488,
+      "sha256": "c9d9a25480dbb3fcd27b0fed259602a19bfa55472d40c8ffd0195594f0613597"
+    },
+    "scripts/cp7_credit_correction_de/evidence/OWNER_LOCAL_STATUS.json": {
+      "bytes": 1816,
+      "sha256": "d4dadb1a44efe768f5abe9f0713fbdb88cdbe1dfc7d053fdcbdab96c8eee8bd9"
+    },
+    "scripts/cp7_credit_correction_de/evidence/native_cap_successor/A994_FIRST_FAILURE.json": {
+      "bytes": 10391,
+      "sha256": "7a7c0440da9aa2e9f38b831932579be6fa567b5d7da34160bde215231d2fdcbe"
+    },
+    "scripts/cp7_credit_correction_de/evidence/native_cap_successor/CAP_SQL_STATUS.json": {
+      "bytes": 3894,
+      "sha256": "68fb6f0d5bb2e4c5120abd30a4dc8fa08f9f44c87dabf371fcc1897c5a4e141a"
+    },
+    "scripts/cp7_credit_correction_de/evidence/native_cap_successor/CP7_CREDIT_DE_NATIVE13.json.gz": {
+      "bytes": 446673,
+      "sha256": "f5dcd4bd1078a8b0e0097827ec7969241444024db100842b8b86353ef062f9bf"
+    },
+    "scripts/cp7_credit_correction_de/evidence/native_cap_successor/CP7_CREDIT_DE_NATIVE13_CASES.json.gz": {
+      "bytes": 4994,
+      "sha256": "27e7c7e46aaa24900931f936fc927dfc2c3794b7aaeb78487f9832d8b84cf707"
+    },
+    "scripts/cp7_credit_correction_de/evidence/native_cap_successor/FIXTURE_DERIVATION.json": {
+      "bytes": 2515,
+      "sha256": "2662c791b4bea9642822c38348dbff7925d9eb86299343d343bfb6136226d5ad"
+    },
+    "scripts/cp7_credit_correction_de/evidence/native_cap_successor/LEGACY_QUOTE_FIRST_FAILURE.json": {
+      "bytes": 582,
+      "sha256": "bb87be4a599fbd02f2c54c4af82a4652b7ae8a29f33a34cb66a5c87dd58436bd"
+    },
+    "scripts/cp7_credit_correction_de/evidence/native_cap_successor/LEGACY_QUOTE_STATUS.json": {
+      "bytes": 404,
+      "sha256": "451667ff90890be5477de4e1de2edecbb637f803cee23e448ec1a0e87abb375c"
+    },
+    "scripts/cp7_credit_correction_de/evidence/native_cap_successor/LOCAL_FIRST_FAILURE.json": {
+      "bytes": 745,
+      "sha256": "7c4e15b1f73688793c8cb79e8bab987405ea7be08b5316097877d38bad80555a"
+    },
+    "scripts/cp7_credit_correction_de/evidence/native_cap_successor/LOCAL_STATUS.json": {
+      "bytes": 1812,
+      "sha256": "ffb435b01a94d1945229645c7ac651ecd690c3308ce35721d7c8516b6aa7ad07"
+    },
+    "scripts/cp7_credit_correction_de/evidence/native_cap_successor/SOURCE_ASSERTION_SELECTOR_FIRST_FAILURE.json": {
+      "bytes": 3019,
+      "sha256": "be914e9025da60db16bc389b8b8934aa77167a56539b2f3b71b01b23cb9e48d8"
+    },
+    "scripts/cp7_credit_correction_de/evidence/native_cap_successor/SOURCE_STATUS.json": {
+      "bytes": 2759,
+      "sha256": "762046a54afc59b3539f9bd13a789914c405704fcaf80ee3f8a48b80aded9aaf"
+    },
+    "scripts/cp7_credit_correction_de/evidence/native_cap_successor/SUCCESSOR_SOURCE_HANDOFF.json": {
+      "bytes": 4180,
+      "sha256": "d8ce7359098c7fd8766ea3064b0f4852e490f68c8f1d351cfc7017005c6061f1"
+    },
+    "scripts/cp7_credit_correction_de/evidence/native_cap_successor/T3_BACKUP_RESTORE_DRILL.json.gz": {
+      "bytes": 645,
+      "sha256": "fa11d64b6ab5f241b94e2f17ecc53e3740bfbfd95d049ec5a40c2749874ca6c4"
+    },
+    "scripts/cp7_credit_correction_de/evidence/native_cap_successor/T3_PACKAGE_FILES_INSTALL.json.gz": {
+      "bytes": 255,
+      "sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7"
+    },
+    "scripts/cp7_credit_correction_de/evidence/native_cap_successor/T3_PACKAGE_INSTALL.json.gz": {
+      "bytes": 11389,
+      "sha256": "84885dcbe5820686112778fc8c987a2de4596948126f4cabedec278d87620d21"
+    },
+    "scripts/cp7_credit_correction_de/evidence/native_cap_successor/UI_FIRST_FAILURE.json": {
+      "bytes": 10352,
+      "sha256": "e0e966769a592093a297516a60dd18a448a853faf7c3dfb469fddeb8a5be17d9"
+    },
+    "scripts/cp7_credit_correction_de/evidence/native_cap_successor/UI_STATUS.json": {
+      "bytes": 8951,
+      "sha256": "966c8e1b2b101b1398309e1cc05dbbcb26b3840f8f122d806e25af1e17ecb510"
+    },
+    "scripts/cp7_credit_correction_de/facts.sql": {
+      "bytes": 5073,
+      "sha256": "ddfcf8583cf86a916e04aa5630d6262a32e48919dbd0a4c913a09166ca2f8334"
+    },
+    "scripts/cp7_credit_correction_de/local_cap_check.mjs": {
+      "bytes": 16552,
+      "sha256": "641d8f48e93d14b36fc744183822d46e10b73a7c0f33825ee1f230f5ee8879fb"
+    },
+    "scripts/cp7_credit_correction_de/local_cap_source_check.py": {
+      "bytes": 7712,
+      "sha256": "4d71cb625cd921fae34301e836637d0938c4b4174feaddb7fec9c069292ad91f"
+    },
+    "scripts/cp7_credit_correction_de/local_compile_check.mjs": {
+      "bytes": 1111,
+      "sha256": "7da6e5873808bc526caa860795997c05b9cd473a414cf1e72c89013890db3988"
+    },
+    "scripts/cp7_credit_correction_de/local_compile_fixture.py": {
+      "bytes": 4015,
+      "sha256": "11c75be1b404d141d884db90a5942141111ea7ae5add7b6c6c76912c1217d6fd"
+    },
+    "scripts/cp7_credit_correction_de/local_delta_check.py": {
+      "bytes": 4834,
+      "sha256": "b6b7995ab245b4aba69bb9940db0f32830a5fade5cbdf6d332f9974818bd5be6"
+    },
+    "scripts/cp7_credit_correction_de/local_owner_check.mjs": {
+      "bytes": 4977,
+      "sha256": "456450bf73b335a44a15e53c86111df58bf330ee437d53d516fcb2c19ccbdeab"
+    },
+    "scripts/cp7_credit_correction_de/local_owner_check.py": {
+      "bytes": 3895,
+      "sha256": "7db16896d73bea8ae26d632fadac506e351f4ea3f38f8a1af07881b69330622a"
+    },
+    "scripts/cp7_credit_correction_de/local_quote_check.mjs": {
+      "bytes": 16566,
+      "sha256": "126e15cc7a48a485333fd4d5a9c61c410b99df5b6096cc9e2e3220b43a3aee36"
+    },
+    "scripts/cp7_credit_correction_de/local_review_check.mjs": {
+      "bytes": 3775,
+      "sha256": "353053beea24a7e300dd428fe50073de8b9f4dfca776d4a6f4d5df95804becd9"
+    },
+    "scripts/cp7_credit_correction_de/materialize.sql": {
+      "bytes": 15010,
+      "sha256": "206c18b517aef54ddc5757fd156a6c7d8d4a2c3240f62779773a4fff74fe6154"
+    },
+    "scripts/cp7_credit_correction_de/native_delta.py": {
+      "bytes": 7494,
+      "sha256": "d6157ad24dd22ca4810df12668090eb74a3382e6ceb3e4c0954a037a7016c664"
+    },
+    "scripts/cp7_credit_correction_de/native_fixture.py": {
+      "bytes": 7703,
+      "sha256": "4fbe56583ffc63473c12195ddaae6ff3e0cd0ad46b358bf7eef7b5175c67e829"
+    },
+    "scripts/cp7_credit_correction_de/note_carry/01_facts.sql": {
+      "bytes": 3885,
+      "sha256": "ebf128127e6bcab8fe1c52b98f46ede1492356386312fe2f744e3e65ddb1d415"
+    },
+    "scripts/cp7_credit_correction_de/note_carry/02_plan.sql": {
+      "bytes": 2297,
+      "sha256": "17c9028606298e7d66681deb3c0a1f3260a1ec829d9ba501a647231b358981f3"
+    },
+    "scripts/cp7_credit_correction_de/note_carry/03_readers.sql": {
+      "bytes": 9250,
+      "sha256": "940200b5320189bd424a99ccef9cc92846dd576a6c6d4bd2e8f1e25afd3325d8"
+    },
+    "scripts/cp7_credit_correction_de/note_carry/04_basis.sql": {
+      "bytes": 7444,
+      "sha256": "cdd49e1c5f9a78f4c2c27ce0ae055907a485475c0020720c9e18a0f80e68c222"
+    },
+    "scripts/cp7_credit_correction_de/note_carry/05_effect.sql": {
+      "bytes": 9816,
+      "sha256": "cd77c5ab9427223e1c67b93d8631a1808b8ddc593fc0c97d12e9c069a2950710"
+    },
+    "scripts/cp7_credit_correction_de/note_carry/06_owning.sql": {
+      "bytes": 13433,
+      "sha256": "0c00bb08274827e6295ada3ed4e4b8e7d917ed1bc1a996aaa0685d0fd1772c94"
+    },
+    "scripts/cp7_credit_correction_de/note_carry/07_profile_closure.sql": {
+      "bytes": 16068,
+      "sha256": "8e82c257ca20a4dcac5cf0dad2f1e487c2e202caea7fa466503019003d3f75ac"
+    },
+    "scripts/cp7_credit_correction_de/owning.sql": {
+      "bytes": 25957,
+      "sha256": "410afb540f455ce6781d8bf09ee6bd6f66420a2f17d3c5474720a642fdcc9cae"
+    },
+    "scripts/cp7_credit_correction_de/posting.sql": {
+      "bytes": 13878,
+      "sha256": "e200a62d91c7975e67a88eb37c47d89dd739eb8f63fc0a1ee7063aaec0f9ce5b"
+    },
+    "scripts/cp7_credit_correction_de/proof.sql": {
+      "bytes": 15975,
+      "sha256": "8d81f2d8d9384c08eda28eb0b86a6c96b97f2ef8178adbe4b7d1dab01b8cf7ef"
+    },
+    "scripts/cp7_credit_correction_de/review.sql": {
+      "bytes": 3722,
+      "sha256": "88681bf674a6b6e8aeda46830a4a27b18bdda84cfcba6868bbb08e3f84fdc382"
+    },
+    "scripts/cp7_credit_followups/cases.py": {
+      "bytes": 19943,
+      "sha256": "3c73087668a61004b8607f4102b0cc9cbb7162a1f4fd0845450713d8e9f93726"
+    },
+    "scripts/cp7_credit_multi/cases.py": {
+      "bytes": 14284,
+      "sha256": "85be87db91bd302fa01d759941389a8302c7928e2a2bdedebc8982872c4f0857"
+    },
+    "scripts/cp7_customer_credit/consumer/cp7_ow04_consumer_fixture.py": {
+      "bytes": 9005,
+      "sha256": "75a6d5d573de0827a2efa712d49059a14e1ee83e3ee2635598e005b4bc1afeed"
+    },
+    "scripts/cp7_customer_credit/consumer/native_basic_cases.py": {
+      "bytes": 13216,
+      "sha256": "24ba3f79cc01905d1289b0db08552ed2c0593138e3c83f4551b88a025ae6a567"
+    },
+    "scripts/cp7_customer_credit/initial-settlement/cp7_ow04_initial_settlement_cases.py": {
+      "bytes": 25791,
+      "sha256": "6d4e2389e0090333ae076fc3091ec4333492e886e08fc1a96c4eea9282f93602"
+    },
+    "scripts/cp7_customer_credit/native/cp7_ow04_native_source_fixture.py": {
+      "bytes": 25693,
+      "sha256": "4984926b221df459e6e88c2f282da3e553d4810d177208ea489c9c3b1d264497"
+    },
+    "scripts/cp7_customer_credit/readers/02_materialized_profile.proposal.sql": {
+      "bytes": 26900,
+      "sha256": "317e689b3b2e738889e86a62dc130fa3ee2f128750f95d5264cd56084fce8575"
+    },
+    "scripts/cp7_customer_credit/reconciliation/native/cp7_ow04_signed_source_cases.py": {
+      "bytes": 28027,
+      "sha256": "82831d767c85199ab182c21aa5a56fe46e7cba0c7e70ccba6c89477b755de640"
+    },
+    "scripts/cp7_note_correction_cases.py": {
+      "bytes": 65138,
+      "sha256": "1f6bfff2974b865d54600dec4fd515bd8b931efdd737c19e50eb8b1a094f604c"
+    },
+    "scripts/cp7_ow04_restore_bundle.py": {
+      "bytes": 19828,
+      "sha256": "a1605193347cf5b3321a7bdbf8ff6c634df4f4c0a5113eb295e8c3ce44428e00"
+    },
+    "scripts/cp7_sales_command_cases.py": {
+      "bytes": 10159,
+      "sha256": "b6d6e0b6995e3dee2ae7f0e69ab6b48c6c965ee31f15cca4027c47b5159885df"
+    },
+    "scripts/cp7_sales_draft_cases.py": {
+      "bytes": 11278,
+      "sha256": "9795a983aaeeae20793b6b7741d18a4486ac05193af97776882ce8014c2a84f4"
+    },
+    "scripts/cp7_sales_payment_cases.py": {
+      "bytes": 15600,
+      "sha256": "a28bdaa916775ccfe14e5eb1bb492ec94d0b2b614169141d60f73e06cd575786"
+    },
+    "scripts/cp7_sales_return_cases.py": {
+      "bytes": 19067,
+      "sha256": "abe194d5e2fbc3f425a9ae4b2deda19acf26519f758c099764dec07e8cb5f360"
+    },
+    "scripts/cp7_sales_return_correction_cases.py": {
+      "bytes": 33173,
+      "sha256": "26fe2e420af55ee213a629db4f7a9929a5e9155374682ddcb1f1f2b855bb6c1c"
+    },
+    "scripts/current-credit-d1-materialize-phase-successor/README.md": {
+      "bytes": 5865,
+      "sha256": "ad12e340fbe1e08a091a9d7e1a03bbb02ecca90cbeb841ab4cff724d8e47d78f"
+    },
+    "scripts/current-credit-d1-materialize-phase-successor/SOURCE.json": {
+      "bytes": 5594,
+      "sha256": "1ca46cfda44492ea3cdd532e2d48bd4fd4089d962f4a41af505df5bcef455ef5"
+    },
+    "scripts/current-credit-d1-materialize-phase-successor/check.py": {
+      "bytes": 5898,
+      "sha256": "76a2b6185fd9342e91c62e69c78f376ad326afd80df81abeba56c36d55fbb301"
+    },
+    "scripts/current-credit-d1-materialize-phase-successor/doubles.sql": {
+      "bytes": 11895,
+      "sha256": "e9ad4c3fb4700345783396ffa872afdd799e84a393b9ba6e26282d09ef3495e4"
+    },
+    "scripts/current-credit-d1-materialize-phase-successor/evidence/BEFORE_materialize.sql": {
+      "bytes": 14978,
+      "sha256": "f0bd81d3a80ad1f465ee5cc424b63009776fb65b9f6a23cbaae80ea331a8e4a4"
+    },
+    "scripts/current-credit-d1-materialize-phase-successor/evidence/D902_FIRST_FAILURE_RECEIPT.json": {
+      "bytes": 4237,
+      "sha256": "3071d81f576cec3d9f999e6ca129d4f07d1fbf995484493c131f0777de688c49"
+    },
+    "scripts/current-credit-d1-materialize-phase-successor/evidence/D902_NATIVE13_CASES.json.gz": {
+      "bytes": 4974,
+      "sha256": "f6a1ea57cec33e9a70a73749bf333545083819e72cb2183c0f23f080161e31ef"
+    },
+    "scripts/current-credit-d1-materialize-phase-successor/evidence/DERIVATION.json": {
+      "bytes": 775,
+      "sha256": "390f4845776a0a250b67aac9c0cb9d8a114f95f68a48f0c32a1b076d2ce23163"
+    },
+    "scripts/current-credit-d1-materialize-phase-successor/evidence/LOCAL_RECEIPTS.json": {
+      "bytes": 6119,
+      "sha256": "145b76af1df780f6c78257e1f4cc50c2c4df2177d7b6e263020e56d8b5c9049a"
+    },
+    "scripts/current-credit-d1-materialize-phase-successor/evidence/LOCAL_RUNTIME_FIRST.json.gz": {
+      "bytes": 2912,
+      "sha256": "a83af5ca506e73184461dfa31fe58f7712ad1aee8b6f787cf2dc87815963cbbd"
+    },
+    "scripts/current-credit-d1-materialize-phase-successor/evidence/LOCAL_RUNTIME_SECOND.json.gz": {
+      "bytes": 1619,
+      "sha256": "28b42213b818810ba5f0c2b0e219d4ca602b490300cb6a786f91d8ad5adca907"
+    },
+    "scripts/current-credit-d1-materialize-phase-successor/evidence/LOCAL_RUNTIME_THIRD.json.gz": {
+      "bytes": 203936,
+      "sha256": "98869da0562c9b123569684a510eb6d4f71794fa697e5e0101f99d1c8627f6f5"
+    },
+    "scripts/current-credit-d1-materialize-phase-successor/evidence/retained/FIRST_doubles.sql": {
+      "bytes": 11884,
+      "sha256": "8465ff89835d1f3dfcfe5695e667d40d35d50690116003e52080f0ba557d4e7d"
+    },
+    "scripts/current-credit-d1-materialize-phase-successor/evidence/retained/FIRST_fixture.py": {
+      "bytes": 3228,
+      "sha256": "acc29e19a5aeef04a2d7669aa71ce03446f800553532c68cd3ce75c16e8c4934"
+    },
+    "scripts/current-credit-d1-materialize-phase-successor/evidence/retained/FIRST_runtime.mjs": {
+      "bytes": 14837,
+      "sha256": "9b982ab2403f2fb9d99909d7dce1363049ae61f96d985b2320feeee2da5cbc4b"
+    },
+    "scripts/current-credit-d1-materialize-phase-successor/evidence/retained/SECOND_doubles.sql": {
+      "bytes": 11895,
+      "sha256": "e9ad4c3fb4700345783396ffa872afdd799e84a393b9ba6e26282d09ef3495e4"
+    },
+    "scripts/current-credit-d1-materialize-phase-successor/evidence/retained/SECOND_fixture.py": {
+      "bytes": 3324,
+      "sha256": "94d1bfb924ddf9feea4863cc19488fb7a50017b9f50ad27443a36af91d14b40f"
+    },
+    "scripts/current-credit-d1-materialize-phase-successor/fixture.py": {
+      "bytes": 4053,
+      "sha256": "ace004c396ead0291553383757ddf9ea4d753d89ffb415f03d5e3626e64e764c"
+    },
+    "scripts/current-credit-d1-materialize-phase-successor/runtime.mjs": {
+      "bytes": 14837,
+      "sha256": "9b982ab2403f2fb9d99909d7dce1363049ae61f96d985b2320feeee2da5cbc4b"
+    },
+    "scripts/current-credit-d1-materialize-phase-successor/test_source.py": {
+      "bytes": 1507,
+      "sha256": "b5538ad43fbc92db38ebdcbc0d43f73447dcc21a43d9544e4e2cf2ab4e05e712"
+    },
+    "scripts/current-credit-d1-product-cap-native-augmentation/.gitignore": {
+      "bytes": 19,
+      "sha256": "862263fa1f46c20f0d1e4dac5ffcc75abd55c08211b2c3864c5f8764b9d87793"
+    },
+    "scripts/current-credit-d1-product-cap-native-augmentation/API.json": {
+      "bytes": 11669,
+      "sha256": "afca7b9a6ef6a58dca3c86364a7b7aeee6817f4314ae959e076ca997abf2a40e"
+    },
+    "scripts/current-credit-d1-product-cap-native-augmentation/LOCAL_CHECKS.json": {
+      "bytes": 1593,
+      "sha256": "3762fbbb4f60313729523151da5640586f22662d831d1774102b0d4b69800d9a"
+    },
+    "scripts/current-credit-d1-product-cap-native-augmentation/README.md": {
+      "bytes": 5233,
+      "sha256": "561c7536c3deb5f76e90d625b361458242d98677fa7d88958ba2ab3e971226c2"
+    },
+    "scripts/current-credit-d1-product-cap-native-augmentation/SOURCE.json": {
+      "bytes": 6997,
+      "sha256": "79cf8ca8ca72de93fba2c2da29e3777bc64ee0cf84bd1bdf71256d203589790d"
+    },
+    "scripts/current-credit-d1-product-cap-native-augmentation/bind.py": {
+      "bytes": 2688,
+      "sha256": "ce05f569fdfd149f46140952d714843fa671a813e43cb8bd5df0217a928cb887"
+    },
+    "scripts/current-credit-d1-product-cap-native-augmentation/evidence/LOCAL_CORRECTED10_PASS.log": {
+      "bytes": 1649,
+      "sha256": "93059913805771a2227bf329bd9133c5b37da7df69bfbc790f507ae88b8b81cc"
+    },
+    "scripts/current-credit-d1-product-cap-native-augmentation/evidence/LOCAL_CORRECTED_REAL_IMPORT13_NO_DB.json": {
+      "bytes": 713,
+      "sha256": "42991b932153f548068dc76c9b9ab9c99f6d9f767d1868b35a2ede21d0f8544b"
+    },
+    "scripts/current-credit-d1-product-cap-native-augmentation/evidence/LOCAL_FIRST10_PASS.log": {
+      "bytes": 1649,
+      "sha256": "23903b21bc6121f5f823df1625664ca8744c30b47601986ff91781184b032c3e"
+    },
+    "scripts/current-credit-d1-product-cap-native-augmentation/evidence/LOCAL_FIRST_REAL_IMPORT13_NO_DB.json": {
+      "bytes": 713,
+      "sha256": "d8eaa32ae39fb7af42348707c48b84486034ed17c9f6afedc60f44d70594ce5d"
+    },
+    "scripts/current-credit-d1-product-cap-native-augmentation/evidence/SEQUENCE_REPORT_SCOPE_COUNTER.json": {
+      "bytes": 805,
+      "sha256": "43201ab109f810d08d38b6139942d1adfb3ab55448a12b3b8fcd4f4e76c8fedd"
+    },
+    "scripts/current-credit-d1-product-cap-native-augmentation/factory.py": {
+      "bytes": 2117,
+      "sha256": "2922e10ada0c38879e84fb6e16419a0056e90c61f4625fe1c94043f824fafacf"
+    },
+    "scripts/current-credit-d1-product-cap-native-augmentation/guard.py": {
+      "bytes": 1979,
+      "sha256": "ee419f1c63b0b172e3db8dc25b0a3b96bbf540d7b45d3126c7f4528f14844738"
+    },
+    "scripts/current-credit-d1-product-cap-native-augmentation/import_check.py": {
+      "bytes": 1997,
+      "sha256": "baa1ba79eef34c3649ccb41b64c6a77152a3bb16b3ebd3acdebebb2543051654"
+    },
+    "scripts/current-credit-d1-product-cap-native-augmentation/prelude.py": {
+      "bytes": 18701,
+      "sha256": "072bf448301089b9046658c209b05973777de91e71bec2ac26f06a068a7ec631"
+    },
+    "scripts/current-credit-d1-product-cap-native-augmentation/test_contract.py": {
+      "bytes": 7073,
+      "sha256": "bbe0999dafbe988e695fea465e67c1d9d6ede21692bd307b78b27e4077817c2e"
+    },
+    "scripts/current-credit-d1-product-cap-qualification/.gitignore": {
+      "bytes": 19,
+      "sha256": "862263fa1f46c20f0d1e4dac5ffcc75abd55c08211b2c3864c5f8764b9d87793"
+    },
+    "scripts/current-credit-d1-product-cap-qualification/LOCAL_CHECKS.json": {
+      "bytes": 2190,
+      "sha256": "827a302a45e43423636268bc27d250b12cf3400e6495f1d2f7e38dab1fc838aa"
+    },
+    "scripts/current-credit-d1-product-cap-qualification/NATIVE_AUGMENTATION.md": {
+      "bytes": 3994,
+      "sha256": "77aa3ceaf683a5b13c0a2cd478ca9936ad3b736307ba122d50565848c60d1981"
+    },
+    "scripts/current-credit-d1-product-cap-qualification/PARENT.json": {
+      "bytes": 4687,
+      "sha256": "dcd70a246c725c0fe9d4b0adbb6a8999d29975ddd17092b375d427a7d7dd058e"
+    },
+    "scripts/current-credit-d1-product-cap-qualification/PROVENANCE.json": {
+      "bytes": 1118,
+      "sha256": "16326dda0c19c358e23b5ebfb4d0bf0d5f8efcdb1ef244d9279e09c49e664752"
+    },
+    "scripts/current-credit-d1-product-cap-qualification/README.md": {
+      "bytes": 5593,
+      "sha256": "2a8a332c6a97624701a4d6d06e17ed0bfdc6c1702cc46098528773d2ddc373d9"
+    },
+    "scripts/current-credit-d1-product-cap-qualification/SOURCE.json": {
+      "bytes": 14754,
+      "sha256": "946876de031ad7d96954f8169ba24bd84942842016b2cd4a0baedcb86a1850f5"
+    },
+    "scripts/current-credit-d1-product-cap-qualification/bind.py": {
+      "bytes": 3808,
+      "sha256": "7294bdd7f405c6a5846ebac93e71c81edf7cb7658e49f6be35725bd9dc30d159"
+    },
+    "scripts/current-credit-d1-product-cap-qualification/directed-tail.mjs.txt": {
+      "bytes": 11655,
+      "sha256": "6d2aa91b15ea601fca34ed031dbaf0ed7be5df92ac62f73f978766fa38ac2ffe"
+    },
+    "scripts/current-credit-d1-product-cap-qualification/directed.mjs": {
+      "bytes": 24696,
+      "sha256": "b72e874ea97e7ed62589f9c5db679039c0d29210ae164eeaaa3a1154362d12f4"
+    },
+    "scripts/current-credit-d1-product-cap-qualification/evidence/DIRECTED_FINAL34_PASS.json": {
+      "bytes": 64237,
+      "sha256": "e4fdb5b7e562750e36ace58c203ccde9b8fe1f69fd184f9d85706fc50f735c2d"
+    },
+    "scripts/current-credit-d1-product-cap-qualification/evidence/DIRECTED_FIRST30_PASS.json": {
+      "bytes": 57059,
+      "sha256": "e962069fdda73412282e76a45e6e36971aad5d6ac9f9bdab16606f8dbc428ab8"
+    },
+    "scripts/current-credit-d1-product-cap-qualification/evidence/FIRST_METADATA_PATH_ERROR.txt": {
+      "bytes": 313,
+      "sha256": "d1d80c9f7bd2a039ec148a6af7aa601fd6012f70f9341ee34a9ce79aab138a4d"
+    },
+    "scripts/current-credit-d1-product-cap-qualification/evidence/FIRST_QUOTE_READY_NATIVE_REFUSAL.json": {
+      "bytes": 2202,
+      "sha256": "6f49246390309527fae1acf462db5577d37cbe5aa01ce6ab7e8138edd230a8e8"
+    },
+    "scripts/current-credit-d1-product-cap-qualification/evidence/FIRST_REPRO_SOURCE.mjs": {
+      "bytes": 14850,
+      "sha256": "580e95e0977f5f588622766c6d4b1c207184b0ef6aac7b3dcf517701512183e7"
+    },
+    "scripts/current-credit-d1-product-cap-qualification/evidence/HISTORICAL_REPRO_REPLAY.json": {
+      "bytes": 2202,
+      "sha256": "6f49246390309527fae1acf462db5577d37cbe5aa01ce6ab7e8138edd230a8e8"
+    },
+    "scripts/current-credit-d1-product-cap-qualification/evidence/RETAINED_SOURCE9_PASS.log": {
+      "bytes": 4246,
+      "sha256": "24b5f3bff05763d3688d8e29f29ba44812c8087cd547f67869f39b2f54bcc98c"
+    },
+    "scripts/current-credit-d1-product-cap-qualification/evidence/SOURCE7_PASS.log": {
+      "bytes": 1336,
+      "sha256": "da2fbe2424299d62ac3d0462af7126ea8923ad01075fcd61237c2ff561f1fc88"
+    },
+    "scripts/current-credit-d1-product-cap-qualification/fixture-prefix.mjs.txt": {
+      "bytes": 8678,
+      "sha256": "e4ab5e75f12d505d3bd0515b8dcf3db03f05f84f3fd01bc4d03b0a72ef514d61"
+    },
+    "scripts/current-credit-d1-product-cap-qualification/fixture-setup.mjs.txt": {
+      "bytes": 4363,
+      "sha256": "981309a53542114ed70edf4b2d229edbb226c07d30028863983f514923e77886"
+    },
+    "scripts/current-credit-d1-product-cap-qualification/repro-tail.mjs.txt": {
+      "bytes": 6517,
+      "sha256": "b9679db8bef98d67649519ef7bc68e356b8259bfa6cb71a165951a5be3a5d67b"
+    },
+    "scripts/current-credit-d1-product-cap-qualification/reproduce.mjs": {
+      "bytes": 15195,
+      "sha256": "615199d3595fa119a2a9ce72552ef710c6edb940ec479bcd6370b6263b567739"
+    },
+    "scripts/current-credit-d1-product-cap-qualification/retained/normalizer.sql": {
+      "bytes": 2346,
+      "sha256": "1ca83d0e1728833c1fff2d3a285b142f8b1064e85afd3560573f885fedfd92bc"
+    },
+    "scripts/current-credit-d1-product-cap-qualification/retained/owning.before.sql": {
+      "bytes": 21503,
+      "sha256": "76eb5d7ff2ff14c6bae829ae53ce06abb5c7bc661aa25916afaec565df3da405"
+    },
+    "scripts/current-credit-d1-product-cap-qualification/retained/post_sales_return.sql": {
+      "bytes": 12167,
+      "sha256": "5f974ad9b9fff9ec9fef3018153683d35b79a9a5e8bd4c60e9a4a17b97622cdc"
+    },
+    "scripts/current-credit-d1-product-cap-qualification/schema-double.sql": {
+      "bytes": 71651,
+      "sha256": "c132c7c3097a968e1fdbb29cd9d2837028e8ff82ccb042c5441947904348be82"
+    },
+    "scripts/current-credit-d1-product-cap-qualification/source_check.py": {
+      "bytes": 2291,
+      "sha256": "b0ab3ba0c5cba4a08ab43789d0b1fa61f2b0282fdbb58b7c89d67598574a9842"
+    },
+    "scripts/current-credit-d1-product-cap-qualification/test_source.py": {
+      "bytes": 5709,
+      "sha256": "eb31ccdd13f5186de57e00ccd76f6dee954d9b90ace5351c3336769120669601"
+    },
+    "scripts/current-credit-d1-product-phase-native13-qualification/.gitignore": {
+      "bytes": 13,
+      "sha256": "32dae3052f331ee34d628ef535709b301259a45df7c7522c4d35dcf49873f00b"
+    },
+    "scripts/current-credit-d1-product-phase-native13-qualification/AUGMENTATION_BINDING.json": {
+      "bytes": 3823,
+      "sha256": "719af6d0477148a68146ced3efc052436e0605e59bbf8fbb4549e496fbadb123"
+    },
+    "scripts/current-credit-d1-product-phase-native13-qualification/BOUND_LOCAL_CONTROLS.json": {
+      "bytes": 1264,
+      "sha256": "56c15a243a1ce33090d17871882f9c086c07078f334125a768c91ba9d59039b9"
+    },
+    "scripts/current-credit-d1-product-phase-native13-qualification/CLI_FIRST_CLOSED.json": {
+      "bytes": 1625,
+      "sha256": "bd2245f441cce52596895031088d068d6b2d2c99c68755e50b4d221037bd3388"
+    },
+    "scripts/current-credit-d1-product-phase-native13-qualification/CONFIG.json": {
+      "bytes": 14621,
+      "sha256": "c47adfcbdf6af447df4cbc2af20db2b4a97d31504dcb126fa7b5b1c8ac855473"
+    },
+    "scripts/current-credit-d1-product-phase-native13-qualification/LOCAL_CONTROLS.json": {
+      "bytes": 1228,
+      "sha256": "d353af0737bf2096625a0326c2eb6ccdf9967eb3716be46346790236126d42a8"
+    },
+    "scripts/current-credit-d1-product-phase-native13-qualification/NATIVE_RUNNER_DERIVATION.json": {
+      "bytes": 339,
+      "sha256": "ad8aa8c11ee44c142e1624599effa5904aa075babe2ce5dbe69766ee927a0b11"
+    },
+    "scripts/current-credit-d1-product-phase-native13-qualification/PARENT.json": {
+      "bytes": 16462,
+      "sha256": "5d6af1c032e8a15d0382de5afcd2fb65ca2db4896d8781b22537bc3539d50c2d"
+    },
+    "scripts/current-credit-d1-product-phase-native13-qualification/README.md": {
+      "bytes": 5744,
+      "sha256": "fe061ec4b01312dd675f21747264cea769c24affdad37b292a7ebeef62f0fe66"
+    },
+    "scripts/current-credit-d1-product-phase-native13-qualification/SOURCE.json": {
+      "bytes": 39279,
+      "sha256": "eeb47a301fd3241677bbae8c2a6189179cf8b5c82d6114561b2b47d52031a3e5"
+    },
+    "scripts/current-credit-d1-product-phase-native13-qualification/WORKFLOW_DERIVATION.json": {
+      "bytes": 572,
+      "sha256": "ff60e110341c972ad9b8f0d96429ecfd49cd23742214e4164314c7bff03f3dec"
+    },
+    "scripts/current-credit-d1-product-phase-native13-qualification/admission.py": {
+      "bytes": 990,
+      "sha256": "7a31a4bba7917a0f43544de26ccbe3c6c554efc58a0653879ee287b84129861d"
+    },
+    "scripts/current-credit-d1-product-phase-native13-qualification/argv_boundary.py": {
+      "bytes": 338,
+      "sha256": "0af0270849e213c373897a6b3748731e683411b64ff6ed379ce1f785ada24169"
+    },
+    "scripts/current-credit-d1-product-phase-native13-qualification/check.py": {
+      "bytes": 1244,
+      "sha256": "f988033790f7b6fac5a6ebc91000d36ce646f5ebe15032ec66e740d27eeb385b"
+    },
+    "scripts/current-credit-d1-product-phase-native13-qualification/derive.py": {
+      "bytes": 867,
+      "sha256": "d327d789c642a9147bd4372ae307d8dbe4e3a715f46b973fcb12f7250bbb121a"
+    },
+    "scripts/current-credit-d1-product-phase-native13-qualification/import_check.py": {
+      "bytes": 1487,
+      "sha256": "2a6c49bf8700517a45aa69c440087d422420050866d13642087b1764a88da000"
+    },
+    "scripts/current-credit-d1-product-phase-native13-qualification/probe.py": {
+      "bytes": 4007,
+      "sha256": "512dd5d6261b4b29cdf3f9c14e1bbe1b234303e3e25eb02406854941b7bf44ff"
+    },
+    "scripts/current-credit-d1-product-phase-native13-qualification/retained_d902/CP7_CREDIT_DE_NATIVE13.json.gz": {
+      "bytes": 447973,
+      "sha256": "5e2bbbd7bf8bb8f9390b5bab0a0fe8e65d011992496b789a9d091809189b00ca"
+    },
+    "scripts/current-credit-d1-product-phase-native13-qualification/retained_d902/CP7_CREDIT_DE_NATIVE13_CASES.json.gz": {
+      "bytes": 4974,
+      "sha256": "f6a1ea57cec33e9a70a73749bf333545083819e72cb2183c0f23f080161e31ef"
+    },
+    "scripts/current-credit-d1-product-phase-native13-qualification/retained_d902/RECEIPT.json": {
+      "bytes": 4237,
+      "sha256": "3071d81f576cec3d9f999e6ca129d4f07d1fbf995484493c131f0777de688c49"
+    },
+    "scripts/current-credit-d1-product-phase-native13-qualification/retained_d902/T3_BACKUP_RESTORE_DRILL.json.gz": {
+      "bytes": 646,
+      "sha256": "dfafcbc8d4dc3e36157141d75781228386ec0ef0cd19c1438402c1efefe4aad5"
+    },
+    "scripts/current-credit-d1-product-phase-native13-qualification/retained_d902/T3_PACKAGE_FILES_INSTALL.json.gz": {
+      "bytes": 255,
+      "sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7"
+    },
+    "scripts/current-credit-d1-product-phase-native13-qualification/retained_d902/T3_PACKAGE_INSTALL.json.gz": {
+      "bytes": 11366,
+      "sha256": "9d560aaae38b33860a82a4d791ad7da2140f244733d3ed62a71f64cbcda8be49"
+    },
+    "scripts/current-credit-d1-product-phase-native13-qualification/source_check.py": {
+      "bytes": 11687,
+      "sha256": "0db08364a7de7dd3ef9fbdbf8c5f94b717f80123849227c530f8ec46a66957d3"
+    },
+    "scripts/current-credit-d1-product-phase-native13-qualification/test_wrapper.py": {
+      "bytes": 14549,
+      "sha256": "1a66a2a108b7121603a573d1ec20bc06cc6e198ef907a18f458f330029eaf61d"
+    },
+    "scripts/current-credit-d1-product-phase-native13-qualification/workflow.py": {
+      "bytes": 2991,
+      "sha256": "446894d784bfa27a1527f95ce6c7cf61d4bad5aa79ec8a351eb40c4a022ae2ca"
+    },
+    "scripts/current-credit-de-native-qualification/.gitignore": {
+      "bytes": 13,
+      "sha256": "32dae3052f331ee34d628ef535709b301259a45df7c7522c4d35dcf49873f00b"
+    },
+    "scripts/current-credit-de-native-qualification/CAP_SUCCESSOR_TRANSITION.json": {
+      "bytes": 8167,
+      "sha256": "e14f39981abdb13f41f0d7577ab7200ae661a9141c7d05ff45b77b8c5b3ccc54"
+    },
+    "scripts/current-credit-de-native-qualification/CONFIG.json": {
+      "bytes": 5694,
+      "sha256": "6d3a0ff0d5bd232ec84348eaa2e03001e7ffaedc5c91be10f43b0f863c50c927"
+    },
+    "scripts/current-credit-de-native-qualification/README.md": {
+      "bytes": 4141,
+      "sha256": "26f717ae94dd85ddfdbfbab806239c07f71e0193cd99ce38f942a56832d846ec"
+    },
+    "scripts/current-credit-de-native-qualification/SOURCE.json": {
+      "bytes": 15711,
+      "sha256": "aa0c6328a26a6df808282b574264c52283f471b98b6dbcaaf4bdc18bc7193558"
+    },
+    "scripts/current-credit-de-native-qualification/admission.py": {
+      "bytes": 4610,
+      "sha256": "8b564832f4b1ab6d8b52888e4ed2a1ac425b8d88c14866afa3916622afb7698c"
+    },
+    "scripts/current-credit-de-native-qualification/bind.py": {
+      "bytes": 2646,
+      "sha256": "c2dea28e226fa1f6429fe4c152f04339a914dc661addf32fd06d255628a07f9c"
+    },
+    "scripts/current-credit-de-native-qualification/check.py": {
+      "bytes": 531,
+      "sha256": "1bd8f46fac1f73a74371b02be62520f12e6f33280b969f5345c92a4ff18a1ed1"
+    },
+    "scripts/current-credit-de-native-qualification/derive.py": {
+      "bytes": 1727,
+      "sha256": "1e23428afdbd3e00691fbf4430bf7a6d7c4b1c11c183d779dea2f1f837ea6497"
+    },
+    "scripts/current-credit-de-native-qualification/native_runner.py": {
+      "bytes": 7729,
+      "sha256": "42acf33e4c7b896a28ef7d9795c6e3243262521f5e2647d33ced1f72452c1ba0"
+    },
+    "scripts/current-credit-de-native-qualification/probe.py": {
+      "bytes": 1897,
+      "sha256": "8cbcf5180c0a10eb537357bdd5abe23d1426ed5760badf360c19e79a51931417"
+    },
+    "scripts/current-credit-de-native-qualification/retained077/CP7_CREDIT_DE_NATIVE13.json.gz": {
+      "bytes": 65984,
+      "sha256": "8239560b90f181500179a25786a71bb66deecf7c46bbe4c687a6be027232d05f"
+    },
+    "scripts/current-credit-de-native-qualification/retained077/RECEIPT.json": {
+      "bytes": 1715,
+      "sha256": "4ddebb262590c9304b2ff4f204e8dfb9e28f893221c0131591efbe5f61974f70"
+    },
+    "scripts/current-credit-de-native-qualification/retained077/T3_BACKUP_RESTORE_DRILL.json.gz": {
+      "bytes": 646,
+      "sha256": "c3edb6ae8f858791f06bbfd2003b818181458daee6e11d027a1c950950ffdfab"
+    },
+    "scripts/current-credit-de-native-qualification/retained077/T3_PACKAGE_FILES_INSTALL.json.gz": {
+      "bytes": 255,
+      "sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7"
+    },
+    "scripts/current-credit-de-native-qualification/retained077/T3_PACKAGE_INSTALL.json.gz": {
+      "bytes": 11358,
+      "sha256": "b572bf8ad6f64cc8f5a2ac269ee81c9c4cd692b41cfcf0c42c05fd4edc946f36"
+    },
+    "scripts/current-credit-de-native-qualification/test_derive.py": {
+      "bytes": 1177,
+      "sha256": "945d90bdaea5b20def1b84b938f272cdaeac2d109667780cb11f40a7cf7fae0a"
+    },
+    "scripts/current-credit-de-native-qualification/test_plan.py": {
+      "bytes": 2439,
+      "sha256": "b954f27829fa96f47caf15a7bbee636679ab6f975cc79895f8933ed362ec95ad"
+    },
+    "scripts/current-credit-de-native-qualification/test_workflow.py": {
+      "bytes": 2216,
+      "sha256": "53e511320b98a50fdb32480e2d280047336556be351149bc427db51bfa07bdca"
+    },
+    "scripts/current-credit-e1-consumer-phase-successor/CONFIG.json": {
+      "bytes": 401,
+      "sha256": "cb8364209ac1d083bb330df10a54ab4aae204c2a1fc10ebb118df6cb2ed4bb71"
+    },
+    "scripts/current-credit-e1-consumer-phase-successor/DERIVATION.json": {
+      "bytes": 4313,
+      "sha256": "470014181c7f1a61833e37859b346a8b620f81318cee05c3ddd2f0f668b19f38"
+    },
+    "scripts/current-credit-e1-consumer-phase-successor/LOCAL_CONTROLS.json": {
+      "bytes": 1386,
+      "sha256": "536e3daddf0506a549f4cf268a44674801fb48281ac6327bb819b352f9dfe5b0"
+    },
+    "scripts/current-credit-e1-consumer-phase-successor/LOCAL_TYPED_INPUTS.json": {
+      "bytes": 89227,
+      "sha256": "cbd53415bc929b39b2c244f1d64d58c6174a3ffe5ca5995bbba4333cc8d4c07e"
+    },
+    "scripts/current-credit-e1-consumer-phase-successor/README.md": {
+      "bytes": 6102,
+      "sha256": "1af0f1acd8d109187cdf0572428f16030fe91f08b82b78cc246286264a7ca3f0"
+    },
+    "scripts/current-credit-e1-consumer-phase-successor/check.py": {
+      "bytes": 10834,
+      "sha256": "1b91dc1557139a39b9591d6594b013867e5b346cd1e601921ac3b809eebdadc9"
+    },
+    "scripts/current-credit-e1-consumer-phase-successor/doubles.sql": {
+      "bytes": 14772,
+      "sha256": "cd53e3994330b71a267aa98389afab9f3ca65c6800efe673a9b326e95109ba2c"
+    },
+    "scripts/current-credit-e1-consumer-phase-successor/evidence/BEFORE_06_owning.sql": {
+      "bytes": 13462,
+      "sha256": "8864996e824655766022bafa277ac046beba35794b678eedc388b1093fb38575"
+    },
+    "scripts/current-credit-e1-consumer-phase-successor/evidence/BEFORE_07_profile_closure.sql": {
+      "bytes": 10706,
+      "sha256": "7b7c1467176fefb0f564169ab0903c3d93defc88cce97a16a7ad37629ad84ac3"
+    },
+    "scripts/current-credit-e1-consumer-phase-successor/evidence/CAUSAL_REPAIR_PLAN.json": {
+      "bytes": 14292,
+      "sha256": "eb56c1c40a2179ad4c8e4eab919d64a554641ad2453539c9245ae8163eb2fe11"
+    },
+    "scripts/current-credit-e1-consumer-phase-successor/evidence/FIRST_FAILURE_REVIEW.json": {
+      "bytes": 21187,
+      "sha256": "4da2539ce35b8a3be48d591980b71c6ac765a18c6e811903725b6f5142959d40"
+    },
+    "scripts/current-credit-e1-consumer-phase-successor/evidence/HARNESS_FIRST_runtime.mjs.txt": {
+      "bytes": 22717,
+      "sha256": "50da3771815b68500c1103e4bd045b08e8cc01b2d164028cf6da1af565ddd7c2"
+    },
+    "scripts/current-credit-e1-consumer-phase-successor/evidence/HARNESS_FOURTH_runtime.mjs.txt": {
+      "bytes": 23999,
+      "sha256": "b0b0cb36f5765b71d0f07c4df458fd8cc83bf585d14e56c69f5f2650aa2e4edf"
+    },
+    "scripts/current-credit-e1-consumer-phase-successor/evidence/HYDRATION_RECEIPT.json": {
+      "bytes": 4131,
+      "sha256": "ccd3b01946b99ae9ff8a4273092f520ad5a446eef90885f66d048b73de5205e6"
+    },
+    "scripts/current-credit-e1-consumer-phase-successor/evidence/LOCAL_HARNESS_FAILURES.json": {
+      "bytes": 1571,
+      "sha256": "14c95ff3ad77683752c80647701f5008fa9fc03da363d6581ad9e7a65c6eb7f9"
+    },
+    "scripts/current-credit-e1-consumer-phase-successor/evidence/LOCAL_RUNTIME_FIFTH.json": {
+      "bytes": 31322,
+      "sha256": "fa327fafed53c206f20528accf45d1ed51c8eeec88a707fd7811fc0dfbc6cbcb"
+    },
+    "scripts/current-credit-e1-consumer-phase-successor/evidence/LOCAL_RUNTIME_FINAL.json": {
+      "bytes": 30316,
+      "sha256": "f722f87d751616c2bfe285656d39765dbbbcb4ff8f622ce49102c156190da14b"
+    },
+    "scripts/current-credit-e1-consumer-phase-successor/evidence/LOCAL_RUNTIME_FIRST.json": {
+      "bytes": 9183,
+      "sha256": "7fdea0dc5e37d6b4afa626e7ef6e5bd3dea75052da10feed26b4b06beb49a6e9"
+    },
+    "scripts/current-credit-e1-consumer-phase-successor/evidence/LOCAL_RUNTIME_FOURTH.json": {
+      "bytes": 31464,
+      "sha256": "b4b005d79a5b1241a54e2015f1bbc4ca86ea49cbee4357ecfdb42e6b503a6c9f"
+    },
+    "scripts/current-credit-e1-consumer-phase-successor/evidence/LOCAL_RUNTIME_SECOND.json": {
+      "bytes": 10569,
+      "sha256": "aea8781b829c1a79ec2624c86fb77698aa0cbc5c748fdbb962373068a11f2b59"
+    },
+    "scripts/current-credit-e1-consumer-phase-successor/evidence/LOCAL_RUNTIME_THIRD.json": {
+      "bytes": 14753,
+      "sha256": "ae12ba28d5fd78e3902fe4de20abc1a1b5711d51c186b1d08c0943af2bbe4269"
+    },
+    "scripts/current-credit-e1-consumer-phase-successor/evidence/LOCAL_SETUP_FIRST.json": {
+      "bytes": 519,
+      "sha256": "5f3c243f7f5a457278e6e09fa0bbc3e93387985060c3e8bab04029c2a7c5c3ab"
+    },
+    "scripts/current-credit-e1-consumer-phase-successor/evidence/SOURCE_CLOSURE_FIRST.json": {
+      "bytes": 1263,
+      "sha256": "a502b644fab7f22c27e13278b68f4eb04a65d4b71146fb3932b90673c730ffb7"
+    },
+    "scripts/current-credit-e1-consumer-phase-successor/evidence/SOURCE_SNAPSHOT_FIRST.json.gz": {
+      "bytes": 17326,
+      "sha256": "cabe3d793d962a4aac31063eafcab04ac8850867e096958923d5491a94f3e836"
+    },
+    "scripts/current-credit-e1-consumer-phase-successor/evidence/retained_8be4/CP7_CREDIT_E1_NATIVE17.json.gz": {
+      "bytes": 631305,
+      "sha256": "dab3a085474d2194e497acf3e67913f25268922b4d28c95453c1f1dd8481ae6c"
+    },
+    "scripts/current-credit-e1-consumer-phase-successor/evidence/retained_8be4/CP7_CREDIT_E1_NATIVE17_CASES.json.gz": {
+      "bytes": 6034,
+      "sha256": "68000833d0ca812365931fcb1b415f6b49c58189aa02caf5412d3cc3ea681844"
+    },
+    "scripts/current-credit-e1-consumer-phase-successor/evidence/retained_8be4/SOURCE.json.gz": {
+      "bytes": 26154,
+      "sha256": "49fcadea4f2cd361d68bdbe0231df37e250b38c2981730038058efb779844b0e"
+    },
+    "scripts/current-credit-e1-consumer-phase-successor/evidence/retained_8be4/T3_BACKUP_RESTORE_DRILL.json.gz": {
+      "bytes": 646,
+      "sha256": "6aa2a7f6e9ce3ec325d2ca35da85630abc039fcba2ae4c4711c5a1a7bcbf3592"
+    },
+    "scripts/current-credit-e1-consumer-phase-successor/evidence/retained_8be4/T3_PACKAGE_FILES_INSTALL.json.gz": {
+      "bytes": 255,
+      "sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7"
+    },
+    "scripts/current-credit-e1-consumer-phase-successor/evidence/retained_8be4/T3_PACKAGE_INSTALL.json.gz": {
+      "bytes": 11385,
+      "sha256": "03324904d2365dcbc2f9c68a734814f49909d55e5ad41fc1211fe4ae5a06931f"
+    },
+    "scripts/current-credit-e1-consumer-phase-successor/fixture.py": {
+      "bytes": 15146,
+      "sha256": "725d126f6664499f15f83ecb23500da2b8db4d4354c77496c669fe4177e26add"
+    },
+    "scripts/current-credit-e1-consumer-phase-successor/freeze.py": {
+      "bytes": 2677,
+      "sha256": "5b9786dcde9b2ca6922cf556125f39954a0d1bdbe3d707a053b58a3770d1988f"
+    },
+    "scripts/current-credit-e1-consumer-phase-successor/native_snapshot_double.sql": {
+      "bytes": 451,
+      "sha256": "c7a9bc196462e78b8015c0312a6722196ed405564a8c0d93d5f9b3ce0831b439"
+    },
+    "scripts/current-credit-e1-consumer-phase-successor/phase_probe.sql": {
+      "bytes": 9661,
+      "sha256": "2655f425ca12282d09065cd8fe29b6f134ae7a5b17aa32f38083433941380c1b"
+    },
+    "scripts/current-credit-e1-consumer-phase-successor/runtime.mjs": {
+      "bytes": 24590,
+      "sha256": "bdd003cbd8ac78b2723cdd5448b1bff877b98b10730d65fb73e187fafbcc320f"
+    },
+    "scripts/current-credit-e1-consumer-phase-successor/test_source.py": {
+      "bytes": 6786,
+      "sha256": "b67903fb4113fc36ccad1add11c9fa490e02e6ce065841195c31ba8b3cd4bd70"
+    },
+    "scripts/current-credit-e1-current-d1-native17-qualification/.gitignore": {
+      "bytes": 13,
+      "sha256": "32dae3052f331ee34d628ef535709b301259a45df7c7522c4d35dcf49873f00b"
+    },
+    "scripts/current-credit-e1-current-d1-native17-qualification/ADMISSION_DERIVATION.json": {
+      "bytes": 381,
+      "sha256": "ce1011d248f08e6e93edc975f4511134cab737afbcf689c75bb6e2adb1841f6b"
+    },
+    "scripts/current-credit-e1-current-d1-native17-qualification/API.json": {
+      "bytes": 6922,
+      "sha256": "c772dd0ac7d88d0b4baf349d8dee3ce2283c379e6c346b236fa514bce13a7fc4"
+    },
+    "scripts/current-credit-e1-current-d1-native17-qualification/CONFIG.json": {
+      "bytes": 4887,
+      "sha256": "ceb3b75d7f46d7c7f5d758523114b2b3c21fde8f8ae7efd25e617f9f61aeb011"
+    },
+    "scripts/current-credit-e1-current-d1-native17-qualification/E_IMPORT.json": {
+      "bytes": 4866,
+      "sha256": "0e1be888f6190c77b6d1b019ddc998aee9bc2831f9f5fe4aeb0d604864c8fabc"
+    },
+    "scripts/current-credit-e1-current-d1-native17-qualification/LOCAL_CONTROL_RECEIPT.json": {
+      "bytes": 1173,
+      "sha256": "f4ed2099897d4c0e581f81caf75366d11352b470afc784dcce5cad30f52e636b"
+    },
+    "scripts/current-credit-e1-current-d1-native17-qualification/ORIGIN.json": {
+      "bytes": 13310,
+      "sha256": "3995430fd3c389d28b8fc8a869846d609ebde6ed04e407438fddf86222715383"
+    },
+    "scripts/current-credit-e1-current-d1-native17-qualification/README.md": {
+      "bytes": 6444,
+      "sha256": "bd16cf363fdccef9db6c20b3a2c352f54bc53d364288ba41fa80867d2bcb8bba"
+    },
+    "scripts/current-credit-e1-current-d1-native17-qualification/SOURCE.json": {
+      "bytes": 127251,
+      "sha256": "7a92b13976bd8cc24d19bc9f3ccb379f8a582bf7370ded4b23739296603d14fc"
+    },
+    "scripts/current-credit-e1-current-d1-native17-qualification/TERMINAL_PARENT_BINDING.json": {
+      "bytes": 3102,
+      "sha256": "c9961c1c575f8438903a3b3c4f0a67145c0a0e144ec577bb801930cd396ff030"
+    },
+    "scripts/current-credit-e1-current-d1-native17-qualification/TRANSITION.json": {
+      "bytes": 3802,
+      "sha256": "98c41482260d3da1aec0bcf9f8ea8cf4204194cc32496b45bc8f1df130341a0e"
+    },
+    "scripts/current-credit-e1-current-d1-native17-qualification/WORKFLOW_DERIVATION.json": {
+      "bytes": 537,
+      "sha256": "899e77c178783ab048f331dc19297f4381ef000df5726ea585e07bd70ba2295f"
+    },
+    "scripts/current-credit-e1-current-d1-native17-qualification/admission.py": {
+      "bytes": 5777,
+      "sha256": "7832f0f83516959b5a0bbc96e22b964de2fa1a4e18d2ab30582483c834942270"
+    },
+    "scripts/current-credit-e1-current-d1-native17-qualification/api_check.py": {
+      "bytes": 1296,
+      "sha256": "8f7f027b458e43de9c1bace4d8863e8ade2d2a8c15c9c36443e77b2181f35d69"
+    },
+    "scripts/current-credit-e1-current-d1-native17-qualification/argv_boundary.py": {
+      "bytes": 338,
+      "sha256": "029059217e0ffccc8b2ecbf1947c1d87e0b2e1c32db8c2587c654dc5f09c22b5"
+    },
+    "scripts/current-credit-e1-current-d1-native17-qualification/check.py": {
+      "bytes": 1202,
+      "sha256": "aa03659397cdfd70e3fa870bc2554f244abfecedf90bd9450e9658cc9bb7db1a"
+    },
+    "scripts/current-credit-e1-current-d1-native17-qualification/derive.py": {
+      "bytes": 1178,
+      "sha256": "e175a3115835812e6efb49e491af4be89557057f608c5290e86df496a66db286"
+    },
+    "scripts/current-credit-e1-current-d1-native17-qualification/evidence/BOUND_FULL_SOURCE_NO_DB.json": {
+      "bytes": 369,
+      "sha256": "0a18971870b439b5913c9aadba24b4eb4f67d9e0b4aadf6d39040549c6d056db"
+    },
+    "scripts/current-credit-e1-current-d1-native17-qualification/evidence/BOUND_LOCAL13_PASS.log": {
+      "bytes": 2325,
+      "sha256": "3d051db12712c9c7ae42b141ca6bf48140be9f755640e08954be07c4f82179e2"
+    },
+    "scripts/current-credit-e1-current-d1-native17-qualification/evidence/DIRECT_CLOSED_CLI.json": {
+      "bytes": 2114,
+      "sha256": "aa7599ae1b8213ed1aabe71a1ad18596dc590b9bcd567fcbb2dc25df753b9b44"
+    },
+    "scripts/current-credit-e1-current-d1-native17-qualification/evidence/LOCAL_FIRST_FAILURE.json": {
+      "bytes": 973,
+      "sha256": "c3222a0ac89a1ceea2f016d3b256436a2e0d45002123cfb4f1f90db3dd283019"
+    },
+    "scripts/current-credit-e1-current-d1-native17-qualification/evidence/LOCAL_FIRST_TARGETED_ENGINE_ABI_ERROR.log": {
+      "bytes": 1081,
+      "sha256": "f826a5930010299a025c4e37f8853a94ba180a1c69a94382c7e00c2803064fa5"
+    },
+    "scripts/current-credit-e1-current-d1-native17-qualification/evidence/e_cases.before_feba.py.txt": {
+      "bytes": 16359,
+      "sha256": "68b29fd16cf4f832e96ee14ea6befda904015bc706847a293bb72cf9d2af56a3"
+    },
+    "scripts/current-credit-e1-current-d1-native17-qualification/fetch_prerequisite.py": {
+      "bytes": 843,
+      "sha256": "c7343fce35feccfc4549f9876741fdc2ad92438df8b12493c936c8b05b2a49eb"
+    },
+    "scripts/current-credit-e1-current-d1-native17-qualification/gate.py": {
+      "bytes": 1465,
+      "sha256": "b918fad11590f68665ee63d875799531d7c9a4c0c8a5a7f1831af4feb2e13a9e"
+    },
+    "scripts/current-credit-e1-current-d1-native17-qualification/plan.py": {
+      "bytes": 433,
+      "sha256": "5c55fc32086cdabc28d3337ae380f87e6ea3f5f67a05284121d573c9bea34a15"
+    },
+    "scripts/current-credit-e1-current-d1-native17-qualification/probe.py": {
+      "bytes": 3379,
+      "sha256": "180c35b7a9b08d43829d069a79382dd4462898470da0df40f9dbfbe9468897ce"
+    },
+    "scripts/current-credit-e1-current-d1-native17-qualification/retain_reports.py": {
+      "bytes": 488,
+      "sha256": "9339b6c79384df6b204394282be6fcc08be9593cfd2143ee50ef62bb7b3d5c34"
+    },
+    "scripts/current-credit-e1-current-d1-native17-qualification/retained-17ac/CP7_CREDIT_DE_NATIVE13.json.gz": {
+      "bytes": 469678,
+      "sha256": "1585dd808fdaef0a8c2d216035718cb30a3a5e5bab9f0e26d4fbac733518d5d3"
+    },
+    "scripts/current-credit-e1-current-d1-native17-qualification/retained-17ac/CP7_CREDIT_DE_NATIVE13_CASES.json.gz": {
+      "bytes": 26382,
+      "sha256": "aff166c8513ee0940ca049fbe61752751014dae9d1ecf92da712a4946538f932"
+    },
+    "scripts/current-credit-e1-current-d1-native17-qualification/retained-17ac/INTERNAL_RAW_REVIEW.json": {
+      "bytes": 43985,
+      "sha256": "d6f8a1c86591b9e4b11dad76e5d433a75c1baf1141ad3de88cebcf10831133cd"
+    },
+    "scripts/current-credit-e1-current-d1-native17-qualification/retained-17ac/PRE_BINDING_CONFIG.json.gz": {
+      "bytes": 1518,
+      "sha256": "cd4a49189aeee5e9da148db85ed528e8a961e2a87b11bd689979f380765e7020"
+    },
+    "scripts/current-credit-e1-current-d1-native17-qualification/retained-17ac/PRE_BINDING_SOURCE.json.gz": {
+      "bytes": 25392,
+      "sha256": "192d1b5b47d45db705d7207efbd07d99bf5c926ce194a5db80f4eef522936d34"
+    },
+    "scripts/current-credit-e1-current-d1-native17-qualification/retained-17ac/T3_BACKUP_RESTORE_DRILL.json.gz": {
+      "bytes": 645,
+      "sha256": "0eefd1839797b085edab2c3d6e9d82fb32274a9bc67157e3bf46d26a26894f88"
+    },
+    "scripts/current-credit-e1-current-d1-native17-qualification/retained-17ac/T3_PACKAGE_FILES_INSTALL.json.gz": {
+      "bytes": 255,
+      "sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7"
+    },
+    "scripts/current-credit-e1-current-d1-native17-qualification/retained-17ac/T3_PACKAGE_INSTALL.json.gz": {
+      "bytes": 11400,
+      "sha256": "5e0cab1b48ad8ce179229f469e9ca32ebf1cbff8d511dd477ab914d8ef0afd3f"
+    },
+    "scripts/current-credit-e1-current-d1-native17-qualification/test_closed.py": {
+      "bytes": 11514,
+      "sha256": "43b93aa587bc37db52fb10bf9a5e79da89ac85eb1a56e345037d70344354d886"
+    },
+    "scripts/current-credit-e1-current-d1-native17-qualification/workflow.py": {
+      "bytes": 1493,
+      "sha256": "db6a64c8ccd9949e19359d0a74a73a4c6f9046ceb56b1e01f16418d06fcf0b83"
+    },
+    "scripts/current-credit-e1-late-failure-successor/README.md": {
+      "bytes": 3787,
+      "sha256": "fc3575de3aa5e8a12a7849d70463c82e80fc93d4abe59f512c6ec676cd0ec6ed"
+    },
+    "scripts/current-credit-e1-late-failure-successor/SOURCE.json": {
+      "bytes": 11426,
+      "sha256": "e001a3da598cc7a702dd8cbe0dc2bb92f6139ac871307151835c809ec1b1623e"
+    },
+    "scripts/current-credit-e1-late-failure-successor/evidence/BEFORE_late_failure.py.txt": {
+      "bytes": 879,
+      "sha256": "6028479019edbaea8c0793c99cc3099c338ed621d355437a99530b3f3b0b46da"
+    },
+    "scripts/current-credit-e1-late-failure-successor/evidence/DERIVATION.json": {
+      "bytes": 1666,
+      "sha256": "e0e43d3d2e454a5f16fb7be4227b7b289430c7c13d3bd08afae83eeec2042c66"
+    },
+    "scripts/current-credit-e1-late-failure-successor/evidence/LOCAL_SOURCE_BOUNDARY.json": {
+      "bytes": 1167,
+      "sha256": "c63a372599fec5edcf14b1abcaf861c62afa4ccc9d666707093bcc397715b6e1"
+    },
+    "scripts/current-credit-e1-late-failure-successor/evidence/LOCAL_TRIGGER_FIRST.json": {
+      "bytes": 5974,
+      "sha256": "edc7ab866945d58bc8af47360671ea24fe89c9306f51e5ad9af737b325809d92"
+    },
+    "scripts/current-credit-e1-late-failure-successor/evidence/LOCAL_TRIGGER_SECOND.json": {
+      "bytes": 6556,
+      "sha256": "08b45d2b1ade79ace8f7d6d1de6ad80ede817f102bb194d36149a1c705ad9f73"
+    },
+    "scripts/current-credit-e1-late-failure-successor/evidence/SOURCE_FINDING.json": {
+      "bytes": 4845,
+      "sha256": "26684b03133eacf48b0dfdd5836ebbe7e2f76e2a3e4d91a7745bee1d5d1a5cb1"
+    },
+    "scripts/current-credit-e1-late-failure-successor/local_trigger_check.mjs": {
+      "bytes": 14745,
+      "sha256": "19acb671ab70b45efb09066d4f92bab724c494cc872b9044c4e31984dd43ee17"
+    },
+    "scripts/current-credit-e1-late-failure-successor/source_check.py": {
+      "bytes": 7471,
+      "sha256": "d83e13476fec389f230c50a3ded86cbb6ff18a2c0b9430c7ea341e6956f4c0c3"
+    },
+    "scripts/current-credit-e1-late-failure-successor/test_source_boundary.py": {
+      "bytes": 3538,
+      "sha256": "c95517f592d5add7c165206e16e214b586c42b1bf871c656c6a1fc1ec052bb70"
+    },
+    "scripts/current-credit-e1-native-qualification/CONFIG.json": {
+      "bytes": 2649,
+      "sha256": "bc3cafaaee0e942c1e5f0efe6b60a32a85fa02c3c9e70a1a70bae95260f6c9c2"
+    },
+    "scripts/current-credit-e1-native-qualification/E_IMPORT.json": {
+      "bytes": 4586,
+      "sha256": "3423833c759edfb2b68ba78e381482e41c664395315c99f9d802fb9a86710331"
+    },
+    "scripts/current-credit-e1-native-qualification/README.md": {
+      "bytes": 7237,
+      "sha256": "35721306e93922dacc6ea7206e695614edd6bdbcd0f95f51eb1f8a22167685e4"
+    },
+    "scripts/current-credit-e1-native-qualification/SOURCE.json": {
+      "bytes": 43322,
+      "sha256": "14e384b5c17f72997247257c58fac3540924f63bc9dbd65875b2d2ee589960ed"
+    },
+    "scripts/current-credit-e1-native-qualification/admission.py": {
+      "bytes": 5572,
+      "sha256": "e27064d57660c3704db1d93bb3dec562d89551a9c613586447ce011676e3e256"
+    },
+    "scripts/current-credit-e1-native-qualification/bind.py": {
+      "bytes": 4703,
+      "sha256": "b19b90b1c32ebfbd40bffc480af1a7dc0fc0d2822789f410cabe77052476847b"
+    },
+    "scripts/current-credit-e1-native-qualification/check.py": {
+      "bytes": 1435,
+      "sha256": "35962e8f1caaf6c8b3fee4bd977c9b0d25c9e25f05f67538808aea766f0e3af7"
+    },
+    "scripts/current-credit-e1-native-qualification/component.py": {
+      "bytes": 8409,
+      "sha256": "f8a1864d9e7687d20913c149b4c78be6ee17bb8c2163af621be9e9397351f4d1"
+    },
+    "scripts/current-credit-e1-native-qualification/derive.py": {
+      "bytes": 961,
+      "sha256": "968f7170bdca60d640a9459d2a66d9ed2a181237a33c01d84486a0ab93fde291"
+    },
+    "scripts/current-credit-e1-native-qualification/fetch_prerequisite.py": {
+      "bytes": 3158,
+      "sha256": "17b077c04f0235d55c6311a0483daca535bbcef75b9e5cfe1547e21b2e8a2684"
+    },
+    "scripts/current-credit-e1-native-qualification/gate.py": {
+      "bytes": 7487,
+      "sha256": "618a1ae1a873f83ec51c91a11f63363441f10f9fb09784b89870859dcc1140eb"
+    },
+    "scripts/current-credit-e1-native-qualification/plan.py": {
+      "bytes": 1180,
+      "sha256": "69366400f974dbce5459919e5296809ff92b60ceceacc5cb7a8275e62bc007ab"
+    },
+    "scripts/current-credit-e1-native-qualification/probe.py": {
+      "bytes": 2463,
+      "sha256": "f16d71b962933821771e3cd46b6a9e67de1a9e790382c601ecc8f44037b6e21e"
+    },
+    "scripts/current-credit-e1-native-qualification/retain_reports.py": {
+      "bytes": 991,
+      "sha256": "254e62dc6ac5d92f47d3d14c307d74321d5c82b1c471a8c6707b5c305d96327e"
+    },
+    "scripts/current-credit-e1-native-qualification/retained_a994/CP7_CREDIT_DE_NATIVE13_CASES.json.gz": {
+      "bytes": 4994,
+      "sha256": "27e7c7e46aaa24900931f936fc927dfc2c3794b7aaeb78487f9832d8b84cf707"
+    },
+    "scripts/current-credit-e1-native-qualification/retained_a994/RECEIPT.json": {
+      "bytes": 762,
+      "sha256": "cf0656f422b752495a2218103528f93e744549ee2abfd74708c7c94ed8cdbd48"
+    },
+    "scripts/current-credit-e1-native-qualification/test_preparation.py": {
+      "bytes": 15547,
+      "sha256": "1b9385458a57934d515407af8f92a34725ef6efd1d9430b143d172efe0ce034d"
+    },
+    "scripts/current-credit-e1-native-qualification/workflow.py": {
+      "bytes": 3631,
+      "sha256": "73554289071ebd7e633fb7a79ec9b492a9a102a58bac2fbced705da2bf858048"
+    },
+    "src/ConnectedCustomerCredit.dom.test.tsx": {
+      "bytes": 16010,
+      "sha256": "a332ab0ffb8149c01569fcaddf4dfcc2743762f804f3b23757914f1e35fe3910"
+    },
+    "src/ConnectedSalesPage.dom.test.tsx": {
+      "bytes": 35904,
+      "sha256": "5cfd2a26cc5889e83600e811e4f0ee3ffcc3e76dea277e716a00fef49e87c8ee"
+    },
+    "src/ConnectedSalesPage.tsx": {
+      "bytes": 26889,
+      "sha256": "872decb1462738c8482aa34d7054ba6b2894218a17a36c8a63293559b4a2d49f"
+    },
+    "src/CustomerCreditPanel.tsx": {
+      "bytes": 18346,
+      "sha256": "1c316df4c06fdf80b467beb4934a23850f2873f8c8625980605fd614b3250311"
+    },
+    "src/NoteCreditCarrySection.dom.test.tsx": {
+      "bytes": 9716,
+      "sha256": "2f99042607ee2223cdd9fe716a08f00246f0dab923acb600be4444f7251c04f9"
+    },
+    "src/NoteCreditCarrySection.tsx": {
+      "bytes": 5610,
+      "sha256": "566516b042ce9198f4cf45334b2b045a97b4019fdece1724e9b766f2856bf271"
+    },
+    "src/SalesDraftPanel.tsx": {
+      "bytes": 20240,
+      "sha256": "13b72ff3ffe473e1ba81d9cc8861dab381167632d242aaf3d2ba6d9451a4f4a5"
+    },
+    "src/SalesReturnCorrectionPanel.dom.test.tsx": {
+      "bytes": 21219,
+      "sha256": "62ff4479728754b9f91721569da14ab0169d7d8d43e114d605931bea9841666e"
+    },
+    "src/SalesReturnCorrectionPanel.tsx": {
+      "bytes": 19812,
+      "sha256": "8d12c23adecea2618e47a7768047cbc20a3415bd96915b81b1df75995fbf8509"
+    },
+    "src/customerCreditContract.test.ts": {
+      "bytes": 7110,
+      "sha256": "383dbc49dd3bf7e4757178a3c33f6c9a8d8b873e8759efff64f541c853701663"
+    },
+    "src/customerCreditContract.ts": {
+      "bytes": 18991,
+      "sha256": "117d2135a8cb9f14d69e9755db32ebce5d5e75396d1d384626d0650e2d2d9064"
+    },
+    "src/lib/clientError.test.ts": {
+      "bytes": 7766,
+      "sha256": "212ecc4e40b4cffc69e1989ff68922009b31b2f4090b7be5fc1cbc2fa5d8d787"
+    },
+    "src/lib/clientError.ts": {
+      "bytes": 16720,
+      "sha256": "d88cc317f169abb74d48ec96b4de89a71ce409a463e8978ccf7b2921a9bd2e89"
+    },
+    "src/noteCorrectionContract.ts": {
+      "bytes": 4025,
+      "sha256": "c568adf589b52fe7aa61920ea3914eb9d7e10dbac618bf4c645663af5700b58f"
+    },
+    "src/noteCreditCarryContract.test.ts": {
+      "bytes": 2762,
+      "sha256": "e259287079834abf99493694db4d8a5235c04e5ed125de262dce0f488c9a0e59"
+    },
+    "src/noteCreditCarryContract.ts": {
+      "bytes": 4366,
+      "sha256": "d9fb1e33756ef668304b3d3e3769eb0ba94d3cc3751fb251a78a01f81cbc265e"
+    },
+    "src/salesReturnCorrectionContract.ts": {
+      "bytes": 16356,
+      "sha256": "30b8bc2669b52df7016c61cc742e02015d5b6711c04a0664d7a1e110ead6d814"
+    }
+  }
+}

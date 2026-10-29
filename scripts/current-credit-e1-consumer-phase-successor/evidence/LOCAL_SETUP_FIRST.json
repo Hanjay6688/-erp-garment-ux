@@ -1,0 +1,8 @@
+{
+  "classification": "LOCAL_FIXTURE_GENERATOR_SETUP_FAILURE_NOT_PRODUCT_OR_NATIVE",
+  "Native_executions": 0,
+  "error": "FileNotFoundError: scripts/cp7-src/sales/write.sql",
+  "cause": "Retained structural helper treats that historical filename as optional; the new local generator initially read it unconditionally.",
+  "correction": "Use the actual frozen scripts/cp7-src/sales/commands.sql declaration of cp7_sales.command_context; preserve this first setup failure.",
+  "product_change_for_this_failure": false
+}

@@ -1,0 +1,412 @@
+{
+  "contract": "cp7.e17-8be4-first-actual-failure-readonly-review.v1",
+  "sealed_at_UTC": "2026-10-29T22:25:34.508921+00:00",
+  "actual_run": {
+    "head": "8be4c15a37dcfc6186e32f396df78291ff1b957c",
+    "tree": "b48fb750bd6d0eeba8a2207665c6a0ba22f2780c",
+    "run": 40955967062,
+    "job": 123736034880,
+    "artifact": 12934894175,
+    "terminal": "FAIL",
+    "artifact_name": "cp7-a-credit-e1-native17-1"
+  },
+  "ZIP": {
+    "path": "/workspace/scratch/ef468a447ac6/evidence-private/e17-8be4-first-failure/ORIGINAL.zip",
+    "bytes": 155710097,
+    "sha256": "c28e446d3775cbbe583fc05d7a78e5b021157d540736a8e9b0eff03eac5f2be6",
+    "root_download_and_child_stream_hash_verified": true,
+    "members": 126,
+    "selected_root_raw_match_ZIP_bytes": true,
+    "duplicate_parent_package_not_selected": true,
+    "nested_parent_original_extracted": false,
+    "parent_members_left_in_ZIP": [
+      "RETAINED_E1_D1/CP7_CREDIT_DE_NATIVE13.json",
+      "RETAINED_E1_D1/CP7_CREDIT_DE_NATIVE13_CASES.json",
+      "RETAINED_E1_D1/FETCH_RECEIPT.json",
+      "RETAINED_E1_D1/ORIGINAL.zip",
+      "RETAINED_E1_D1/T3_PACKAGE_INSTALL.json"
+    ],
+    "other_Original_members_left_in_ZIP": [
+      "RETAINED_E1_D1/ORIGINAL.zip"
+    ]
+  },
+  "selected_unchanged_raw": [
+    {
+      "name": "CP7_CREDIT_E1_NATIVE17.json",
+      "bytes": 6193192,
+      "sha256": "3272cd56303e4c265dd93ebf0dde9bb444083a0aa18a774de8831c664c689891",
+      "ZIP_member": "CP7_CREDIT_E1_NATIVE17.json"
+    },
+    {
+      "name": "CP7_CREDIT_E1_NATIVE17_CASES.json",
+      "bytes": 34500,
+      "sha256": "ed8459e9d694394f5fe8777b324b4bd0afafd74b9eb139465499e7ce56d32818",
+      "ZIP_member": "CP7_CREDIT_E1_NATIVE17_CASES.json"
+    },
+    {
+      "name": "T3_PACKAGE_INSTALL.json",
+      "bytes": 360446,
+      "sha256": "67d0e04ecf832606c60aaf7d8f7252a9f7bf2d1f6ec1fb029d262ddc21990432",
+      "ZIP_member": "T3_PACKAGE_INSTALL.json"
+    },
+    {
+      "name": "T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "ZIP_member": "T3_PACKAGE_FILES_INSTALL.json"
+    },
+    {
+      "name": "T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 1470,
+      "sha256": "4802bff8204aa8ece0af4e8c59725221a1a246232cb047382cbe6dae041b0eb5",
+      "ZIP_member": "T3_BACKUP_RESTORE_DRILL.json"
+    }
+  ],
+  "qualification_source": {
+    "path": "/workspace/scratch/ef468a447ac6/erp-credit-e1-qualification/scripts/current-credit-e1-current-d1-native17-qualification/SOURCE.json",
+    "bytes": 127251,
+    "sha256": "7a92b13976bd8cc24d19bc9f3ccb379f8a582bf7370ded4b23739296603d14fc",
+    "pins": 282,
+    "actual_report_object_equals_exact_local_frozen_source": true,
+    "current_product_files": 9
+  },
+  "strict_actual": {
+    "status": "INCOMPLETE",
+    "case_ids": [
+      "E_PRICE_INCREASE_80_NET550_AR470",
+      "E_PRICE_DECREASE_80_NET100_AR20",
+      "E_EXACT_FUNDED_80_PAID",
+      "E_BELOW_CARRIED_80_REFUSES_ATOMIC",
+      "E_SAME_UUID_AND_CHANGED_INTENT",
+      "E_SOURCE_D1_CHANGE_RETIRES_REVIEW",
+      "E_LATER_APPLY_20_CURRENT_LEAF",
+      "E_UNDO_ORIGINAL_80_AND_OLD_RECEIPT",
+      "E_NATIVE_POST_FAILURE_FULL_RESTORE",
+      "E_QUANTITY_CHANGE_REFUSES",
+      "E_ORIGINAL_DATE_CHANGE_REFUSES",
+      "E_CLOSED_ORIGINAL_BOOK_PAIR_REFUSES",
+      "E_SECOND_NOTE_REVISION_GUARDED",
+      "E_CURRENT_ACCESS_REVOKED_REFUSES",
+      "E_JOINT_PREFIX_AFTER_UNDO_120_MIN200_NOT150",
+      "E_LATER_NATIVE_REVERSE_REFUSES_ATOMIC",
+      "E_LATER_NATIVE_SALE_SAME_LOT_RECONCILES"
+    ],
+    "counts": {
+      "PASS": 15,
+      "INCOMPLETE": 2
+    },
+    "missing": [],
+    "strict_nested_in_outer_equals_original": true,
+    "exact_all17_reached": true,
+    "all17_full_boundary_restored": true,
+    "all17_public_schema_unchanged": true,
+    "all17_advisory_sessions_leaks_zero": true,
+    "all17_business_day_constant": true,
+    "group_complete_boundary_restored": true,
+    "raw_runtime_before_after_equal": true,
+    "failed_rows_exact": {
+      "E_UNDO_ORIGINAL_80_AND_OLD_RECEIPT": {
+        "status": "INCOMPLETE",
+        "error": "CP7_CREDIT_NOTE_CARRY_RAW_AR_OR_STATUS_CHANGED\nCONTEXT:  PL/pgSQL function cp7_credit_note_carry_de.assert_profile_v1(uuid,uuid,uuid,jsonb) line 20 at RAISE\nSQL statement \"SELECT cp7_credit_note_carry_de.assert_profile_v1(p_sale,p_root,p_leaf,actual)\"\nPL/pgSQL function cp7_credit.assert_current_source_plan_profile(uuid,uuid,uuid,jsonb) line 15 at PERFORM\nSQL statement \"select cp7_credit.assert_current_source_plan_profile($1,$2,$3,$4)\"\nPL/pgSQL function cp7_credit.assert_current_materialized_profile(uuid,uuid,uuid) line 18 at EXECUTE\nSQL statement \"SELECT cp7_credit.assert_current_materialized_profile(p_sale,m.root_sale_id,m.current_leaf_id)\"\nPL/pgSQL function erp._cp7_current_credit_adjustment(uuid) line 37 at PERFORM\nPL/pgSQL function cp7_credit.current_effective_paid(uuid) line 5 at assignment\nPL/pgSQL function cp7_credit.consumer_execute_v1(uuid) line 67 at assignment\nPL/pgSQL function cp7_credit.consumer_command_v1(jsonb,uuid,jsonb) line 40 at assignment\nSQL function \"erp_cp7_customer_credit_command_v1\" statement 1",
+        "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py\", line 165, in _strict_group_once\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_credit_correction_de/e_cases.py\", line 268, in <lambda>\n    lambda:later(False),lambda:later(True),late_failure,lambda:altered(False),lambda:altered(True),closed,second,revoked,prefix,reverse,later_sale)\n                               ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_credit_correction_de/e_cases.py\", line 135, in later\n    p=basic.payload(current,'UNDO',original=first['consumption_event_id']);envelope=basic.review(cur,p);made=basic.command(cur,envelope,uuid.uuid4())\n                                                                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_customer_credit/consumer/native_basic_cases.py\", line 42, in command\n    result=cur.execute('select public.erp_cp7_customer_credit_command_v1(%s::jsonb,%s::uuid,%s::jsonb)',\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.RaiseException: CP7_CREDIT_NOTE_CARRY_RAW_AR_OR_STATUS_CHANGED\nCONTEXT:  PL/pgSQL function cp7_credit_note_carry_de.assert_profile_v1(uuid,uuid,uuid,jsonb) line 20 at RAISE\nSQL statement \"SELECT cp7_credit_note_carry_de.assert_profile_v1(p_sale,p_root,p_leaf,actual)\"\nPL/pgSQL function cp7_credit.assert_current_source_plan_profile(uuid,uuid,uuid,jsonb) line 15 at PERFORM\nSQL statement \"select cp7_credit.assert_current_source_plan_profile($1,$2,$3,$4)\"\nPL/pgSQL function cp7_credit.assert_current_materialized_profile(uuid,uuid,uuid) line 18 at EXECUTE\nSQL statement \"SELECT cp7_credit.assert_current_materialized_profile(p_sale,m.root_sale_id,m.current_leaf_id)\"\nPL/pgSQL function erp._cp7_current_credit_adjustment(uuid) line 37 at PERFORM\nPL/pgSQL function cp7_credit.current_effective_paid(uuid) line 5 at assignment\nPL/pgSQL function cp7_credit.consumer_execute_v1(uuid) line 67 at assignment\nPL/pgSQL function cp7_credit.consumer_command_v1(jsonb,uuid,jsonb) line 40 at assignment\nSQL function \"erp_cp7_customer_credit_command_v1\" statement 1\n",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-30",
+          "before": "2026-10-30",
+          "after": "2026-10-30"
+        }
+      },
+      "E_SECOND_NOTE_REVISION_GUARDED": {
+        "status": "INCOMPLETE",
+        "error": "{'message': 'CP7_CREDIT_CURRENT_ASSIGNMENT_CHANGED', 'sqlstate': 'P0001', 'detail': ''}",
+        "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_credit_correction_de/e_cases.py\", line 37, in refusal\n    try:fn()\n        ^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_credit_correction_de/e_cases.py\", line 239, in <lambda>\n    return dict(status='PASS',actual_refusal=refusal(cur,pair,lambda:note.correct(cur,p,v),'CP7_CREDIT_NOTE_CARRY_REVIEW_REFUSED'))\n                                                                     ^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_note_correction_cases.py\", line 27, in correct\n    out=cur.execute('select public.erp_cp7_correct_note_v1(%s,%s,%s)',(json.dumps(p),key or uuid.uuid4(),version)).fetchone()[0]\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.RaiseException: CP7_CREDIT_CURRENT_ASSIGNMENT_CHANGED\nCONTEXT:  PL/pgSQL function cp7_credit.current_materialized_objects(uuid,uuid,uuid) line 10 at RAISE\nPL/pgSQL function cp7_credit.inspect_current_materialized_profile(uuid,uuid,uuid) line 4 at assignment\nPL/pgSQL function cp7_credit.assert_current_materialized_profile(uuid,uuid,uuid) line 4 at assignment\nSQL statement \"SELECT cp7_credit.assert_current_materialized_profile(sale,cp7_credit_note_carry_de.root_v1(sale),sale)\"\nPL/pgSQL function cp7_credit.consumer_capture_sources_v1(jsonb) line 5 at PERFORM\nPL/pgSQL function cp7_credit_note_carry_de.prepare_v1(jsonb,uuid,text,uuid,jsonb) line 32 at assignment\nSQL statement \"SELECT cp7_credit_note_carry_de.prepare_v1(p_payload,p_request,p_expected,correction_id,a)\"\nPL/pgSQL function cp7_credit_note_carry_de.command_v1(jsonb,uuid,text) line 53 at PERFORM\nSQL expression \"cp7_credit_note_carry_de.command_v1(p,p_request,p_expected)\"\nPL/pgSQL function cp7_credit_note_carry_de.dispatch_v1(jsonb,uuid,text) line 5 at RETURN\nSQL function \"erp_cp7_correct_note_v1\" statement 1\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py\", line 165, in _strict_group_once\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_credit_correction_de/e_cases.py\", line 239, in second\n    return dict(status='PASS',actual_refusal=refusal(cur,pair,lambda:note.correct(cur,p,v),'CP7_CREDIT_NOTE_CARRY_REVIEW_REFUSED'))\n                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_credit_correction_de/e_cases.py\", line 41, in refusal\n    assert result['message']==message,result\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: {'message': 'CP7_CREDIT_CURRENT_ASSIGNMENT_CHANGED', 'sqlstate': 'P0001', 'detail': ''}\n",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-30",
+          "before": "2026-10-30",
+          "after": "2026-10-30"
+        }
+      }
+    }
+  },
+  "outer": {
+    "status": "INCOMPLETE",
+    "error": "E1_COMPLETE_EXACT_NATIVE_GROUP_REQUIRED",
+    "qualification_commit": "8be4c15a37dcfc6186e32f396df78291ff1b957c",
+    "focused_preuse_removal": {
+      "status": "CREDIT_E1_EXACT_PREUSE_DELTA_RESTORE",
+      "parent_verified": {
+        "status": "CREDIT_DE_EXACT_SOURCE_AND_ALL22",
+        "actual_parent_verified_before_delta": true,
+        "projected_catalog": false,
+        "changed_functions": [
+          "cp7_credit.initial_base_events_v1(uuid,uuid)",
+          "cp7_credit.initial_ordinal_input_v1(uuid,uuid)",
+          "cp7_credit._consumer_root_source_profile_v1(uuid,uuid,uuid,jsonb)",
+          "cp7_credit.assert_financial_materialization_provenance(jsonb)",
+          "cp7_credit.enforce_initial_return_closure_v1()",
+          "public.erp_cp7_correct_sales_return_v1(jsonb,uuid,text)",
+          "public.erp_cp7_get_sales_return_correction_v1(jsonb)"
+        ],
+        "private_Native_copies": {
+          "cp7_sales_return_correction.command(jsonb,uuid,text)": "cp7_credit_correction_de.command_v1(jsonb,uuid,text)",
+          "cp7_sales_return_correction.reverse_sales_return(uuid,text)": "cp7_credit_correction_de.reverse_return_v1(uuid,text)",
+          "erp.post_sales_return(uuid)": "cp7_credit_correction_de.post_return_v1(uuid)",
+          "cp7_credit._post_journal_bound(text,uuid,date,text,jsonb)": "cp7_credit_correction_de._post_journal_v1(text,uuid,date,text,jsonb)",
+          "cp7_credit.assert_simple_native_base_v1(uuid)": "cp7_credit_correction_de.assert_native_base_v1(uuid)"
+        },
+        "Native_money_HPP_engine_unchanged": true,
+        "formal_acceptance_unchanged": true,
+        "D_complete": false,
+        "E_complete": false,
+        "production_go": false,
+        "independent_acceptance": false
+      },
+      "used_guard_before_DDL": true
+    },
+    "complete_installed_verification": {
+      "status": "CREDIT_E1_EXACT_SOURCE_AND_ALL22",
+      "actual_parent_verified_before_delta": true,
+      "projected_catalog": false,
+      "changed_functions": [
+        "public.erp_cp7_correct_note_v1(jsonb,uuid,text)",
+        "public.erp_cp7_get_note_correction_v2(uuid)",
+        "erp._cp7_current_credit_adjustment(uuid)",
+        "cp7_credit.current_materialized_objects(uuid,uuid,uuid)",
+        "cp7_credit.assert_current_source_plan_profile(uuid,uuid,uuid,jsonb)",
+        "cp7_credit.initial_base_events_v1(uuid,uuid)",
+        "cp7_credit.initial_ordinal_input_v1(uuid,uuid)",
+        "cp7_credit.consumer_incoming_funding_v1(uuid)",
+        "cp7_credit_incoming.incoming_applied_v1(uuid)",
+        "cp7_credit.consumer_selection_v1(jsonb)",
+        "cp7_credit.consumer_capture_sources_v1(jsonb)",
+        "cp7_credit.consumer_projection_v1(jsonb,jsonb)",
+        "cp7_credit.consumer_execute_v1(uuid)",
+        "cp7_credit.assert_consumer_closed_v1(uuid)",
+        "cp7_credit.consumer_native_invariant_v1(uuid)",
+        "cp7_credit.consumer_invoice_profile_v1(uuid)",
+        "cp7_credit.consumer_event_data_v1(uuid)",
+        "cp7_credit.consumer_quote_v1(jsonb)",
+        "cp7_credit.native_source_enter(text,uuid)"
+      ],
+      "private_Native_copies": {
+        "cp7_note.command(jsonb,uuid,text)": "cp7_credit_note_carry_de.command_v1(jsonb,uuid,text)",
+        "cp7_note.reverse_sale(uuid,text)": "cp7_credit_note_carry_de.reverse_sale_v1(uuid,text)",
+        "cp7_credit.source_native_snapshot_v1(uuid)": "cp7_credit_note_carry_de.raw_native_snapshot_v1(uuid)"
+      },
+      "Native_money_HPP_engine_unchanged": true,
+      "formal_acceptance_unchanged": true,
+      "D_complete": false,
+      "E_complete": false,
+      "production_go": false,
+      "independent_acceptance": false
+    },
+    "baseline_restore": {
+      "exit": 1,
+      "error_count": 19,
+      "unexplained": [],
+      "only_pg_cron_errors": true,
+      "database_owner_acl_and_settings_preserved": true,
+      "platform_schema_authority_restored": [
+        "graphql",
+        "graphql_public"
+      ]
+    },
+    "baseline_role_cleanup": {
+      "already_removed_by_preuse": [],
+      "removed_remaining": [
+        "cp7_alert",
+        "cp7_attendance_read",
+        "cp7_attendance_write",
+        "cp7_audit_read",
+        "cp7_capture",
+        "cp7_credit_visible_read",
+        "cp7_credit_write",
+        "cp7_customer_history_read",
+        "cp7_cutover_read",
+        "cp7_cutover_write",
+        "cp7_cutting_read",
+        "cp7_cutting_write",
+        "cp7_erp_settings_read",
+        "cp7_fg_read",
+        "cp7_fg_write",
+        "cp7_finance_read",
+        "cp7_guard",
+        "cp7_hpp_pool_read",
+        "cp7_hpp_pool_write",
+        "cp7_installment_read",
+        "cp7_installment_write",
+        "cp7_invoice_read",
+        "cp7_invoice_write",
+        "cp7_journal_read",
+        "cp7_kasbon_read",
+        "cp7_kasbon_write",
+        "cp7_master_read",
+        "cp7_master_write",
+        "cp7_material_read",
+        "cp7_material_write",
+        "cp7_misc_read",
+        "cp7_misc_write",
+        "cp7_nota_write",
+        "cp7_obligation_read",
+        "cp7_payable_read",
+        "cp7_payroll_header",
+        "cp7_payroll_read",
+        "cp7_payroll_write",
+        "cp7_period_read",
+        "cp7_period_write",
+        "cp7_plan_writer",
+        "cp7_policy",
+        "cp7_procure_read",
+        "cp7_procure_write",
+        "cp7_public_routes",
+        "cp7_recost_read",
+        "cp7_recost_write",
+        "cp7_reminder",
+        "cp7_reminders_read",
+        "cp7_reminders_write",
+        "cp7_return_read",
+        "cp7_return_write",
+        "cp7_roster_write",
+        "cp7_sales_read",
+        "cp7_sales_write",
+        "cp7_transaction_source_read",
+        "cp7_warehouse_summary_read"
+      ],
+      "baseline_roles_exact": true
+    },
+    "baseline_full22_all_rows_all_sequences_equal": true,
+    "restore_components": {
+      "erp_platform_auth_schema_acl": true,
+      "all_public_catalog_members_and_row_hashes": true,
+      "erp_public_auth_function_definitions_owners_acls": true
+    },
+    "restore_raw_public_equal": true,
+    "cp6_restored": true,
+    "baseline_advisors_equal": true,
+    "advisor_gate": true,
+    "observed_case_count": 1,
+    "required_case_ids_pass": false
+  },
+  "current_package": {
+    "status": "ALL_STAGES_INSTALLED",
+    "gate": {
+      "installed": true,
+      "primary_unchanged": true,
+      "backup_restore_drill": true,
+      "security_advisors": true,
+      "writer_runtime": false
+    },
+    "auth_users_before": 0,
+    "auth_users_after": 0,
+    "files_status": "ALL_FILES_INSTALLED",
+    "backup": {
+      "label": "T3_PREP_BACKUP_RESTORE_DRILL",
+      "status": "RESTORED_IDENTICAL",
+      "source": "cp6_rollback",
+      "target": "cp6_restore_drill",
+      "installed_stages": [
+        "PACKAGE",
+        "AW_AX_AY_AZ_VERIFY"
+      ],
+      "production_go": false,
+      "release_evidence": false,
+      "dump": {
+        "exit": 0,
+        "stderr": "",
+        "seconds": 1.1,
+        "bytes": 10625679
+      },
+      "restore": {
+        "exit": 0,
+        "seconds": 3.9,
+        "error_count": 0,
+        "ignored_reported": 0,
+        "unexplained": [],
+        "errors": []
+      },
+      "catalog": {
+        "match": [
+          "app_ledger",
+          "config_hash",
+          "constraint",
+          "default_acl",
+          "extension",
+          "function",
+          "function_owner_acl",
+          "index",
+          "platform_ledger",
+          "policy",
+          "relation",
+          "relation_owner_acl",
+          "schema",
+          "sequence",
+          "trigger",
+          "view"
+        ],
+        "differ": {},
+        "objects": {}
+      },
+      "data": {
+        "tables": 407,
+        "rows": 1860,
+        "schemas": [
+          "_realtime",
+          "auth",
+          "erp",
+          "realtime",
+          "storage",
+          "supabase_functions",
+          "supabase_migrations",
+          "vault"
+        ],
+        "differ": {}
+      },
+      "engine": {
+        "day": "2026-10-29",
+        "equal": true,
+        "source_status": "READY",
+        "restored_status": "READY"
+      },
+      "source_cron_jobs": null,
+      "checks": {
+        "restore_errors_only_pg_cron": true,
+        "catalog_explained": true,
+        "data_identical": true,
+        "engine_answer_present": true,
+        "engine_equal": true
+      }
+    }
+  },
+  "credit_accounting": {
+    "actual_cases_reached_in_original": 17,
+    "actual_pass": 15,
+    "actual_incomplete": 2,
+    "wrapper_actual_Native_cases_after_failed_group": 0,
+    "wrapper_value_is_not_a_claim_no_Native_callbacks_executed": true,
+    "separate_committed_used_inverse_witness": "NOT_REACHED_GATE_REQUIRES_EXACT17_PASS_BEFORE_WITNESS",
+    "fresh_D1_reexecution": false,
+    "child_new_actual_DB_Native_Auth_browser_races": 0,
+    "real_Auth_browser": false,
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "causal_source_only_next": "Analyze transient owned MATERIALIZED consumer phase before status update and bare dependencygraph vs joined captured-leaf ABI before second-revision review refusal. No source edits/guard relaxation approved yet.",
+  "source_edits": 0,
+  "Gitref_edits": 0,
+  "child_remote_calls": 0,
+  "child_actual_DB_calls": 0,
+  "original_raw_rewritten": false
+}

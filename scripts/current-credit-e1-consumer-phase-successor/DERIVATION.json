@@ -1,0 +1,108 @@
+{
+  "contract": "cp7.e1-phase-status-and-captured-graph-exact-transition.v1",
+  "base_public_head": "8be4c15a37dcfc6186e32f396df78291ff1b957c",
+  "product_paths": {
+    "scripts/cp7_credit_correction_de/note_carry/06_owning.sql": {
+      "before": {
+        "bytes": 13462,
+        "sha256": "8864996e824655766022bafa277ac046beba35794b678eedc388b1093fb38575"
+      },
+      "after": {
+        "bytes": 13433,
+        "sha256": "0c00bb08274827e6295ada3ed4e4b8e7d917ed1bc1a996aaa0685d0fd1772c94"
+      }
+    },
+    "scripts/cp7_credit_correction_de/note_carry/07_profile_closure.sql": {
+      "before": {
+        "bytes": 10706,
+        "sha256": "7b7c1467176fefb0f564169ab0903c3d93defc88cce97a16a7ad37629ad84ac3"
+      },
+      "after": {
+        "bytes": 16068,
+        "sha256": "8e82c257ca20a4dcac5cf0dad2f1e487c2e202caea7fa466503019003d3f75ac"
+      }
+    }
+  },
+  "counted_changes": {
+    "graph_ABI_substitutions": 3,
+    "existing_profile_function_changes": 1,
+    "new_private_functions": 1,
+    "all_other_profile_bodies_exact": true,
+    "helper_direct_full_profile_recursion": false
+  },
+  "runtime_leaves": 9,
+  "SQL_private_declarations": {
+    "before": 37,
+    "after": 38
+  },
+  "same_private_Native_copies": 3,
+  "total_private_functions": {
+    "before": 40,
+    "after": 41
+  },
+  "same_existing_changed_function_set": 19,
+  "same_captured_function_set": 22,
+  "unchanged_17_callback_ids": [
+    "E_PRICE_INCREASE_80_NET550_AR470",
+    "E_PRICE_DECREASE_80_NET100_AR20",
+    "E_EXACT_FUNDED_80_PAID",
+    "E_BELOW_CARRIED_80_REFUSES_ATOMIC",
+    "E_SAME_UUID_AND_CHANGED_INTENT",
+    "E_SOURCE_D1_CHANGE_RETIRES_REVIEW",
+    "E_LATER_APPLY_20_CURRENT_LEAF",
+    "E_UNDO_ORIGINAL_80_AND_OLD_RECEIPT",
+    "E_NATIVE_POST_FAILURE_FULL_RESTORE",
+    "E_QUANTITY_CHANGE_REFUSES",
+    "E_ORIGINAL_DATE_CHANGE_REFUSES",
+    "E_CLOSED_ORIGINAL_BOOK_PAIR_REFUSES",
+    "E_SECOND_NOTE_REVISION_GUARDED",
+    "E_CURRENT_ACCESS_REVOKED_REFUSES",
+    "E_JOINT_PREFIX_AFTER_UNDO_120_MIN200_NOT150",
+    "E_LATER_NATIVE_REVERSE_REFUSES_ATOMIC",
+    "E_LATER_NATIVE_SALE_SAME_LOT_RECONCILES"
+  ],
+  "callback_fullfile_unchanged": true,
+  "old_callbacks_assert_statements": 30,
+  "unchanged_source_receipts": {
+    "scripts/cp7_credit_correction_de/e_cases.py": {
+      "bytes": 25058,
+      "sha256": "058a9c29b991b30ca4da6467cfeb2629179d3ce8f25b8dba09d6ea45f419e2ad"
+    },
+    "scripts/cp7_credit_correction_de/e_native_delta.py": {
+      "bytes": 11997,
+      "sha256": "314742c922fc82145f7caa8d4217296bf3f2408ceacbc4738d50d3b866d2bfe0"
+    },
+    "scripts/cp7_credit_correction_de/e_composition.py": {
+      "bytes": 12376,
+      "sha256": "6e690d12e30cb3a6463283dc62f269f5e3e77e2e59f37e45cdd0b5ec1f6a46d6"
+    },
+    "scripts/cp7_credit_correction_de/E_DEPENDENCIES.json": {
+      "bytes": 10719,
+      "sha256": "002134b3b496b3ab46571b0500fd3c873377c877b8b407f62ad4f6caa8eb68d6"
+    },
+    "scripts/cp7_credit_correction_de/note_carry/04_basis.sql": {
+      "bytes": 7444,
+      "sha256": "cdd49e1c5f9a78f4c2c27ce0ae055907a485475c0020720c9e18a0f80e68c222"
+    },
+    "scripts/cp7_credit_correction_de/owning.sql": {
+      "bytes": 25957,
+      "sha256": "410afb540f455ce6781d8bf09ee6bd6f66420a2f17d3c5474720a642fdcc9cae"
+    },
+    "scripts/cp7_customer_credit/reconciliation/03_source_requests.sql": {
+      "bytes": 21078,
+      "sha256": "9cea83e59f7dd923ae4f182b8126615bad7a274a31765ce4dbff19b41f16a116"
+    }
+  },
+  "no_new_RPC_role_table_trigger_grant": true,
+  "source_binding_rule": "Frozen282 and old dependencies stay historical exact; new explicit root qualifier must bind actual new E9 product sources. No invented sources()/catalog projection/reseal/Original rehash.",
+  "helper_no_direct_full_profile_recursion": true,
+  "source_primary_nonrecursive_dependencies": [
+    "consumer_actual_manifest_v1 -> consumer_event_data_v1 (bounded named original; no full profile)",
+    "consumer_verify_posted_journal_v1 -> exact operation lines/native cent codec",
+    "inspect_current_materialized_profile -> actual objects+protected markers; no full profile",
+    "consumer_native_invariant_v1 -> source_native_snapshot/document/initial events/HPP source facts, not source_request_enter_v1 or full profile"
+  ],
+  "actual_new_Native": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

@@ -1,0 +1,23 @@
+{
+  "classification": "FIRST_FULL_PUBLIC_SOURCE_CLOSURE_FAILURE_PRESERVED",
+  "source_snapshot_sha256": "1ce941eee60f3bbc8f1d9694da44cbbb560ea428f8756b67db74e0807046a5c0",
+  "source_snapshot_pins": 313,
+  "error": "E_PHASE_REGULAR_SOURCE_REQUIRED:contracts/cp7/README.md",
+  "cause": "13 exact public baseline entries absent under sparse index S flags; no new source exception or ignore permitted",
+  "missing": [
+    "contracts/cp7/README.md",
+    "contracts/cp7/production-policy.ts",
+    "ops/backup-repo/README.md",
+    "ops/backup-repo/proof.sh",
+    "ops/backup-repo/proof_seed.sql",
+    "ops/backup-repo/workflows/drive-proof.yml",
+    "ops/backup-repo/workflows/nightly-backup.yml",
+    "ops/supabase/uat/acceptance/20260831031520_manual_reminders_v1_acl_hardening_rollback.sql",
+    "ops/supabase/uat/acceptance/20260831032949_erp_v2_6_13b_auth_profile_facade_tracking_rollback.sql",
+    "ops/supabase/uat/applied/20260831031520_manual_reminders_v1_acl_hardening.sql",
+    "ops/supabase/uat/applied/20260831032949_erp_v2_6_13b_auth_profile_facade_tracking.sql",
+    "ops/supabase/uat/manual_uat_only__erp_enteng__v2_6_11a_preconnect.acceptance.sql",
+    "ops/supabase/uat/manual_uat_only__erp_enteng__v2_6_11a_preconnect.sql"
+  ],
+  "actual_Native": 0
+}

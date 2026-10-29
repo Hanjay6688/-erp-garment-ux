@@ -1,0 +1,36 @@
+{
+  "contract": "e-phase.local-harness-first-failures.v1",
+  "actual_Native": 0,
+  "product_changes_for_harness_failures": 0,
+  "failures": [
+    {
+      "raw": "LOCAL_SETUP_FIRST.json",
+      "cause": "Optional historical write.sql assumed present; exact currentcommands.sql used."
+    },
+    {
+      "raw": "tool_trace_fixture_setup",
+      "errors": [
+        "LOCAL_TYPED_TABLES_MISSING:{'cp7_credit.initial_refund_operations'}",
+        "LOCAL_TYPED_TABLES_MISSING:{'erp.be_conversion_sources_v1'}"
+      ],
+      "cause": "Selected typed DDL source inventory incomplete; added exact retained refund and BE source declarations, no relaxed guards."
+    },
+    {
+      "raw": "LOCAL_RUNTIME_FIRST.json",
+      "cause": "JavaScript roundtrip journal80.00 became80 for raw hash. Direct PostgreSQL assignment snapshot/hash INSERT SELECT restored exact codec."
+    },
+    {
+      "raw": "LOCAL_RUNTIME_SECOND.json",
+      "cause": "Declared snapshot double missing, not product function absence."
+    },
+    {
+      "raw": "LOCAL_RUNTIME_THIRD.json",
+      "cause": "Full unchanged closure refused incomplete capacity model. Use exact pure kernel/ordinal source and actual pending source_capacity_after."
+    },
+    {
+      "raw": "LOCAL_RUNTIME_FOURTH.json",
+      "cause": "Six source scenarios and19negatives passed but whole harness comparison failed because its census preceded probe DDL adding sentinel sequence. Fixed boundary starts after probe DDL; full comparison retained with no projection/special-case."
+    }
+  ],
+  "final_raw": "LOCAL_RUNTIME_FINAL.json"
+}

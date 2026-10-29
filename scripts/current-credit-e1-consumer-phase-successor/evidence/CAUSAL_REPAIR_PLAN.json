@@ -1,0 +1,191 @@
+{
+  "contract": "cp7.e17-8be4-source-primary-causal-repair-plan.v1",
+  "locked_at_UTC": "2026-10-29T22:29:42.953013+00:00",
+  "status": "PROPOSED_TO_ROOT_NO_PRODUCT_OR_QUALIFIER_EDITS",
+  "head": "8be4c15a37dcfc6186e32f396df78291ff1b957c",
+  "tree": "b48fb750bd6d0eeba8a2207665c6a0ba22f2780c",
+  "first_actual_failure_receipt": {
+    "path": "/workspace/scratch/ef468a447ac6/evidence-private/e17-8be4-first-failure/FIRST_FAILURE_REVIEW.json",
+    "bytes": 21187,
+    "sha256": "4da2539ce35b8a3be48d591980b71c6ac765a18c6e811903725b6f5142959d40"
+  },
+  "actual_vs_inference": {
+    "actual": "Exact strict17 Original15PASS2INCOMPLETE, no missing, full boundary restored. Raw combined UNDO error does not report separate rawAR/status values. Second error stack names current_materialized_objects -> capture_sources -> prepare before Native inverse.",
+    "source_inference": "Signed UNDO -80 is already journaled/event/materialization bound in MATERIALIZED while target header still captured PARTIAL_PAID; new U0 expects POSTED. Full profile is called before original status update. Must reproduce exact status phase with declared SQL double before asserting this is sole numeric cause."
+  },
+  "failure1": {
+    "case": "E_UNDO_ORIGINAL_80_AND_OLD_RECEIPT",
+    "actual_error": "CP7_CREDIT_NOTE_CARRY_RAW_AR_OR_STATUS_CHANGED",
+    "sequence": [
+      {
+        "stage": "Before consumer command",
+        "target": "current E receiving leaf",
+        "net": "550.00",
+        "U": "80.00",
+        "AR": "470.00",
+        "header_status": "PARTIAL_PAID",
+        "old_APPLY_event": "immutable target original header"
+      },
+      {
+        "stage": "consumer_execute after original Native posted signed inverse journal + new event + financial materialization",
+        "context": "MATERIALIZED",
+        "U_derived_from_immutable_signed_events": "0.00",
+        "expected_AR": "550.00",
+        "header_status_still_before_update": "PARTIAL_PAID",
+        "source_anchor": "consumer/08_owning_command.sql265-280"
+      },
+      {
+        "stage": "Original changed-header loop before its UPDATE",
+        "call_chain": "current_effective_paid -> erp._cp7_current_credit_adjustment -> full assert_current_materialized_profile -> E assert_profile",
+        "assertion": "New U0 implies POSTED; actual header still PARTIAL_PAID",
+        "source_anchor": "consumer/08_owning_command.sql281-289; note_carry/07_profile_closure.sql34-45"
+      },
+      {
+        "stage": "Original status UPDATE + full current profile/invariant/row_version/closure",
+        "required": "Retained exact; not reached for failing target before proposed adapter."
+      }
+    ],
+    "recommended_bounded_repair": {
+      "path": "scripts/cp7_credit_correction_de/note_carry/07_profile_closure.sql",
+      "existing_function": "cp7_credit_note_carry_de.assert_profile_v1(uuid,uuid,uuid,jsonb)",
+      "new_private_function": "cp7_credit_note_carry_de.consumer_status_refresh_allowed_v1(uuid,jsonb,text) RETURNS boolean STABLE SECURITY DEFINER search_path empty TimeZone UTC",
+      "changes": "Keep raw_AR equals gross-incoming mandatory and unchanged. Split combined raw_AR/status IF: only an actual header status mismatch may use the new exact owned MATERIALIZED status-refresh predicate; otherwise retain original CP7_CREDIT_NOTE_CARRY_RAW_AR_OR_STATUS_CHANGED. All preceding/following assignment/chain/history/child/money/account/customer/prefix/retained-fact/upstream guards stay exact. No generic reader or current_effective_paid edit.",
+      "minimum_closed_owning_predicate": [
+        "Current authenticated auth.uid/app-user, READ COMMITTED, exact backend_pid+txid+actor execution context and unique operation_id/request_id. Existing consumer_internal_allowed_v1 current authority guard plus explicit phase=MATERIALIZED only.",
+        "Exact pending request q.response NULL; no completion for operation; no consumer posting scope for backend/tx. No ambient Native/sales/note context.",
+        "Exact operation immutable input agreement via retained assert_consumer_operation_input_v1; current command access and accounting period equal protected authority/period snapshots after waits.",
+        "Operation event_kind APPLY, action APPLY or UNDO, current target leaf equals p_sale and E owned root/assignment; original UNDO exact named signed amount/cohort/account/dates remain verified by original consumer_event_data and posted-journal verifier.",
+        "Actual new event id=operation and journal/lines/source_kind/amount/customer/account/date + financial materialization/full actual manifest verified by original consumer_actual_manifest_v1 and consumer_verify_posted_journal_v1. No optimistic receipt as authority.",
+        "p_actual must equal freshly inspected complete materialized profile for exact current E leaf/root. U after equals captured prior U + exact signed operation.amount; I remains0. No native payment/return history allowed by unchanged outer E profile.",
+        "Actual target header status AND row_version equal the exact prior full source/native capture and expected_versions. Captured prior status equals status derived from captured U/net; current candidate status differs only because new signed U boundary changed.",
+        "Actual Native money/stock/HPP/payment invariant equals original o.before_native[target]; all E immutable old document/APPLY assignment/journal and retained facts/upstream profile tests still run through full profile.",
+        "No DML, audit/stock/GL sequence, scope insertion or role/GUC bypass in predicate. The only original status UPDATE remains consumer_execute; immediately afterward its full invoice/current-profile/raw_AR/status/native invariant/row_version checks and deferred closure remain mandatory."
+      ],
+      "fail_closed_controls": [
+        "No/wrong actor/backend/tx/request/operation/phase, stale permission/period, response already present, posting scope present, completion present, wrong target/action/kind -> refuse mismatch.",
+        "Missing/changed journal lines, amount/date/customer/account; wrong materialization/hash/input/payload; U delta mismatch; Native/stock/HPP/cash drift or original APPLY mutation -> refusal before accepting status transition.",
+        "Header status tampered vs captured prior, wrong row_version, fabricated profile, ordinary legacy target, correct current status outside phase -> never grant transition authority.",
+        "After original update, normal full profile must pass; forcing stale status after scopes cleared must still raise original named refusal."
+      ]
+    }
+  },
+  "failure2": {
+    "case": "E_SECOND_NOTE_REVISION_GUARDED",
+    "expected_unchanged_error": "CP7_CREDIT_NOTE_CARRY_REVIEW_REFUSED",
+    "expected_basis_issue": "NEXT_NOTE_REVISION_ADAPTER_REQUIRED",
+    "actual_error": "CP7_CREDIT_CURRENT_ASSIGNMENT_CHANGED",
+    "actual_stack": "prepare_v1 -> consumer_capture_sources_v1 -> full current_materialized_objects at historical original header",
+    "source_abi_mismatch": "prepare stores a bare consumer_dependency_graph document but capture call further throws away its captured current_leaf_ids by constructing sale_ids-only JSON. active_sales_v1 expects joined graph source.current_leaf_ids; fallback includes REVERSED historical root; original materialized current assignment guard correctly refuses before intended plan refusal.",
+    "correction_to_first_parent_message": "Two initial/recheck dependencygraph substitutions alone are insufficient. Exact third source-capture argument replacement is required; this correction is locked before any code edits.",
+    "recommended_bounded_repair": {
+      "path": "scripts/cp7_credit_correction_de/note_carry/06_owning.sql",
+      "function": "cp7_credit_note_carry_de.prepare_v1(jsonb,uuid,text,uuid,jsonb)",
+      "exact_changes": [
+        {
+          "old": "cp7_credit.consumer_dependency_graph_v1((p->>'sale_id')::uuid)",
+          "new": "cp7_credit.consumer_joined_graph_v1((p->>'sale_id')::uuid,null)",
+          "count": 2,
+          "meaning": "Initial actual captured graph and fresh lockset recheck use canonical joined ABI."
+        },
+        {
+          "old": "sources:=cp7_credit.consumer_capture_sources_v1(jsonb_build_object('sale_ids',sales));",
+          "new": "sources:=cp7_credit.consumer_capture_sources_v1(graph);",
+          "count": 1,
+          "meaning": "Pass full actual captured joined graph, retaining all historical sale_ids locks but source.current_leaf_ids for current monetary capture. No live remapping/historical receipt rewrite."
+        }
+      ],
+      "unchanged": "All sorted historical graph/row/journal/stock/HPP/period locks, fresh graph comparison, current full profile/source/basis/review hash, price-only eligibility and unchanged plan refusal before private work INSERT/Native inverse; ALL original named no-effect financial/qty/date tests stay exact. No second revision implemented."
+    },
+    "controls": [
+      "Pure captured shape/sample graph: joined.source equals original dependencygraph, joined sale_ids exact identical, active leaves subset true; no original historical IDs removed from lockset.",
+      "Exact before source reproduces inactive original current-assignment error; exact source-adapted prepare must reach unchanged plan NONREADY+NEXT_REVISION named refusal before inverse/work effects.",
+      "Malformed captured leaf not in full graph refuses; captured historical completions never recomputed against live current mapping."
+    ]
+  },
+  "scope": {
+    "product_paths_allowed_if_root_approves": [
+      "scripts/cp7_credit_correction_de/note_carry/06_owning.sql",
+      "scripts/cp7_credit_correction_de/note_carry/07_profile_closure.sql"
+    ],
+    "new_metadata_controls_namespace_proposed": "scripts/current-credit-e1-consumer-phase-successor/",
+    "existing_qualification_SOURCE_workflows": "FROZEN_UNCHANGED; explicit successor transition and retained8be4 failed original provenance required",
+    "runtime_file_count": 9,
+    "new_private_function_count_before": 40,
+    "proposed_after": 41,
+    "captured_existing_set": 22,
+    "existing_functions_changed_set": 19,
+    "private_Native_copies": 3,
+    "new_tables_roles_public_RPCS_ERP_triggers": 0,
+    "E_callbacks_changed": 0,
+    "D1_product_or_cases_changed": 0,
+    "global_BE_guard_changes": 0,
+    "UI_or_money_qty_dates_Oracle_changes": 0
+  },
+  "execution_plan_after_approval": [
+    "Create own NEW branch from exact public8be4 in current E qualification worktree; preserve all current files and Original Source282.",
+    "Retain exact current5 first failure raw losslessly and bounded provenance in new namespace. New declared local SQL/PGlite doubles only; no actual Native credit.",
+    "Reproduce source-before causal failures with exact old functions and source-derived declared ledger/context/authority/Native doubles; keep raw first outputs.",
+    "Implement exactly approved private phase/status predicate and canonical joined graph3 substitutions. Count every derivation and all unchanged17 callback/Native/D1/UI/oracle hashes.",
+    "Local source/ACL/functionset/derivation/import-noDB/countercontrols and meaningful declared SQL doubles; preserve malformed/unauthorized/financial/profile/refusal negatives.",
+    "Freeze explicit SOURCE and successor provenance/current product transition; report commit/tree/pins/tests/gaps to root. Root alone decides new actual E17 full package/source binding/run after review."
+  ],
+  "acceptance": "Fresh actual E17 ALL17 plus separate committed immutable money/stock/HPP/cash/fullfinancial usedinverse witness and original fullouter all22/data/seq/roles/CP6/Auth/advisors/fullrestore/all5gates. Existing15PASShistory not recredited to new product without new actual run.",
+  "source_evidence": {
+    "scripts/cp7_credit_correction_de/e_native_delta.py": {
+      "bytes": 11997,
+      "sha256": "314742c922fc82145f7caa8d4217296bf3f2408ceacbc4738d50d3b866d2bfe0"
+    },
+    "scripts/cp7_credit_correction_de/e_composition.py": {
+      "bytes": 12376,
+      "sha256": "6e690d12e30cb3a6463283dc62f269f5e3e77e2e59f37e45cdd0b5ec1f6a46d6"
+    },
+    "scripts/cp7_credit_correction_de/e_cases.py": {
+      "bytes": 25058,
+      "sha256": "058a9c29b991b30ca4da6467cfeb2629179d3ce8f25b8dba09d6ea45f419e2ad"
+    },
+    "scripts/cp7_credit_correction_de/note_carry/06_owning.sql": {
+      "bytes": 13462,
+      "sha256": "8864996e824655766022bafa277ac046beba35794b678eedc388b1093fb38575"
+    },
+    "scripts/cp7_credit_correction_de/note_carry/07_profile_closure.sql": {
+      "bytes": 10706,
+      "sha256": "7b7c1467176fefb0f564169ab0903c3d93defc88cce97a16a7ad37629ad84ac3"
+    },
+    "scripts/cp7_credit_correction_de/note_carry/03_readers.sql": {
+      "bytes": 9250,
+      "sha256": "940200b5320189bd424a99ccef9cc92846dd576a6c6d4bd2e8f1e25afd3325d8"
+    },
+    "scripts/cp7_customer_credit/consumer/08_owning_command.sql": {
+      "bytes": 28347,
+      "sha256": "62d5f5ee48770edee38ac7149c8396748f9e185fb7a457f8c3fd83ddffdeccab"
+    },
+    "scripts/cp7_customer_credit/consumer/07_locked_projection.sql": {
+      "bytes": 23460,
+      "sha256": "87e2860a3d332ab101c2ca49e0bb5a4ebd984de004672d85885ad13ef21ce919"
+    },
+    "scripts/cp7_customer_credit/consumer/06_access_and_requests.sql": {
+      "bytes": 15880,
+      "sha256": "9ce2c69378fb032a650a7d6c63e6ee43bf3a59713256e80724673276764def1f"
+    },
+    "scripts/cp7_customer_credit/consumer/01_dependency_graph.sql": {
+      "bytes": 4342,
+      "sha256": "d243b7911700f4077d8c1a8ebd71f861762a5ab9c07e068031c63d2a872e78da"
+    },
+    "scripts/cp7_customer_credit/coordinator/05_factual_profile.sql": {
+      "bytes": 22669,
+      "sha256": "a11a072b8e0fffbea380063787e752814893089ef9066bcc541b5984221bb16d"
+    },
+    "scripts/cp7_customer_credit/readers/01_current_reader_capability.proposal.sql": {
+      "bytes": 12021,
+      "sha256": "104853e41bd3cfa79af47d09c7f6ad9d45ff10fb00756b5b57ea71d137d94773"
+    },
+    "scripts/cp7_customer_credit/readers/02_materialized_profile.proposal.sql": {
+      "bytes": 26900,
+      "sha256": "317e689b3b2e738889e86a62dc130fa3ee2f128750f95d5264cd56084fce8575"
+    }
+  },
+  "product_or_qualifier_edits_so_far": 0,
+  "new_actual_DB_Native_remote": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}
