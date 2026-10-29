@@ -1,0 +1,18 @@
+{
+  "name": "UI",
+  "command": [
+    "node_modules/.bin/vitest",
+    "run",
+    "src/AttendanceHppPoolPanel.dom.test.tsx",
+    "src/AttendancePeriodChoicePanel.dom.test.tsx",
+    "src/attendancePeriodChoiceContract.test.ts",
+    "src/productionRecovery.test.ts",
+    "src/useProductionMutation.dom.test.tsx",
+    "src/ConnectedSkuHppPage.attendance.dom.test.tsx",
+    "src/ConnectedSkuHppPage.attendance.integration.dom.test.tsx",
+    "--reporter=verbose"
+  ],
+  "exit_code": 0,
+  "bytes": 32757,
+  "sha256": "73f2e6cf11f676e9d92e46e6dc360b0486d11e98fd356a3162aa8c742ab1bbcb"
+}

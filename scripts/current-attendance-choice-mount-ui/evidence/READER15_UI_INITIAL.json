@@ -1,0 +1,14 @@
+{
+  "command": [
+    "node_modules/.bin/vitest",
+    "run",
+    "src/AttendanceHppPoolPanel.dom.test.tsx",
+    "src/AttendancePeriodChoicePanel.dom.test.tsx",
+    "src/attendancePeriodChoiceContract.test.ts",
+    "src/productionRecovery.test.ts",
+    "--reporter=verbose"
+  ],
+  "exit_code": 0,
+  "bytes": 29139,
+  "sha256": "8967dce340a4138a1c7fbe876550d1ebbb9a792981d55b67648e0a588c381aa2"
+}

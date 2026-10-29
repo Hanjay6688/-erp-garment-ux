@@ -1,0 +1,21 @@
+{
+  "skill": "vercel:react-best-practices",
+  "classification": "LOCAL_SOURCE_REVIEW_NOT_BROWSER_VERIFICATION",
+  "files": [
+    "src/ConnectedSkuHppPage.tsx",
+    "src/AttendanceHppPoolPanel.tsx",
+    "src/AttendancePeriodChoicePanel.tsx"
+  ],
+  "findings": [],
+  "reviewed": [
+    "No conditional new hooks or component definitions used as React elements inside render; the route helper returns JSX only.",
+    "Owner active/view and manage gates remain separate; Admin receives an explanatory path, no S03 access.",
+    "Each attendance writer excludes its own commit from refresh; actor/source/openEpoch key retires old context.",
+    "Source-only callbacks transfer dates, never old decision/pool token/request UUID.",
+    "Copied panel retains exact async context/read-generation guards and shared recovery hook; no generic hook edit.",
+    "Buttons use explicit type, route accessible names include pool identity, and source/output periods have distinct text.",
+    "Amounts remain exact strings or bigint parsing; no new client formula or date conversion.",
+    "Existing CSS supplies explicit foreground/background and wrapping; actual390 overflow/contrast remains a future browser gate."
+  ],
+  "actual_browser_or_Auth_claim": false
+}

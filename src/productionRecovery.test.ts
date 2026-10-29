@@ -81,3 +81,33 @@ describe('client action lists follow the server routers', () => {
       }
     })
 })
+
+// S03 UI-only recovery controls; server/Native execution is not claimed.
+describe('attendance period choice joins the shared recovery boundary',()=>{
+ const domain='ATTENDANCE_PERIOD_CHOICE' as const
+ const choicePayload={period_start:'2026-10-01',period_end:'2026-10-07',choice:'CARRY',output_start:null,output_end:null,reason:'Keputusan periode sudah diperiksa',review_token:'a'.repeat(64)}
+ const choiceEnvelope=(action='CHOOSE'):ProductionEnvelope=>({...envelope,action,payload:choicePayload,expectedVersion:null,fingerprint:JSON.stringify({action,payload:choicePayload,expectedVersion:null})})
+ it.each(['CHOOSE','CORRECT','REVERSE','ALLOCATE','CANCEL_ALLOCATION'])('accepts only the documented action %s without a fake version',action=>{
+  const e=choiceEnvelope(action);expect(parseProductionEnvelope(JSON.stringify(e),domain)).toEqual(e)
+ })
+ it.each(['CREATE','ACTIVATE','CANCEL','choose',' CHOOSE'])('refuses an unsupported attendance action %s',action=>{
+  expect(()=>parseProductionEnvelope(JSON.stringify(choiceEnvelope(action)),domain)).toThrow()
+ })
+ it('holds exact action/payload/token/UUID across an uncertain response and reparse',()=>{
+  const e=choiceEnvelope();expect(persistProductionEnvelope(scope,domain,e)).toBe(true)
+  expect(isDefiniteInitialRejection({status:503,code:'P0001'})).toBe(false)
+  const pending=readProductionRecovery(scope).pending[domain];expect(pending).toEqual(e);expect(parseProductionEnvelope(JSON.stringify(pending),domain)).toEqual(e)
+  const nextPayload={...choicePayload,reason:'Alasan lain'},changed={...e,payload:nextPayload,fingerprint:JSON.stringify({action:e.action,payload:nextPayload,expectedVersion:null})};expect(clearProductionEnvelope(scope,domain,changed)).toBe(false);expect(readProductionRecovery(scope).pending[domain]).toEqual(e);expect(clearProductionEnvelope(scope,domain,e)).toBe(true)
+ })
+ it('blocks other domains while attendance is pending and attendance while another domain is pending',()=>{
+  const e=choiceEnvelope();expect(persistProductionEnvelope(scope,domain,e)).toBe(true);expect(persistProductionEnvelope(scope,'BS',envelope)).toBe(false)
+  expect(clearProductionEnvelope(scope,domain,e)).toBe(true);expect(persistProductionEnvelope(scope,'BS',envelope)).toBe(true);expect(persistProductionEnvelope(scope,domain,e)).toBe(false)
+ })
+ it('quarantines corrupt attendance recovery without deleting its old record or permitting a foreign writer',()=>{
+  const k=productionKey(scope,domain);localStorage.setItem(k,'{');expect(readProductionRecovery(scope).corrupted).toBe(true);expect(persistProductionEnvelope(scope,'BS',envelope)).toBe(false);expect(localStorage.getItem(k)).toBe('{')
+ })
+ it('preserves legacy keys and rejects a new UUID clearing the pending choice',()=>{
+  expect(productionKey(scope,'BS')).toBe('erp.cp5.pending-mutation.v1:'+scope);expect(productionKey(scope,'LAUNDRY_QC')).toBe('erp.cp6.pending-mutation.v1:'+scope)
+  const e=choiceEnvelope();expect(persistProductionEnvelope(scope,domain,e)).toBe(true);expect(clearProductionEnvelope(scope,domain,{...e,id:'00000000-0000-4000-8000-000000000099'})).toBe(false);expect(readProductionRecovery(scope).pending[domain]).toEqual(e)
+ })
+})

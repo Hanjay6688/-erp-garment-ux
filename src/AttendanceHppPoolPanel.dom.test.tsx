@@ -3,7 +3,8 @@ import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import AttendanceHppPoolPanel from './AttendanceHppPoolPanel'
-import { hppPoolRupiah, parseHppPoolOutcome, parseHppPoolWorkspace } from './hppPoolContract'
+import { hppPoolRefusalText, hppPoolRupiah, parseHppPoolOutcome, parseHppPoolWorkspace } from './hppPoolContract'
+import { readProductionRecovery } from './productionRecovery'
 import type { ProductionEnvelope } from './productionRecovery'
 import { recoveryIdentity } from '../tests/fixtures/productionRecovery'
 const auth = vi.hoisted(() => ({ current: null as unknown }))
@@ -108,6 +109,19 @@ async function type(label: string, value: string) {
 async function tick(label: string) { await act(async () => el(label).click()); await settle() }
 async function previewDay() { await type('Mulai periode pool', day); await type('Akhir periode pool', day); await click('Pratinjau') }
 const region = (name: string) => container.querySelector(`[aria-label="${name}"]`)
+
+const ownership = (extra: Row = {}) => ({ domain: 'ATTENDANCE_PERIOD_CHOICE', decision_id: 'f3b101d0-158b-cc5c-fd15-058776bab27e',
+  allocation_id: poB, source_period_start: day, source_period_end: day, output_period_start: '2026-10-17', output_period_end: '2026-10-23', output_period_closed: false, ...extra })
+const hold = (extra: Row = {}) => ({ domain: 'ATTENDANCE_PERIOD_CHOICE', decision_id: poB, source_period_start: day, source_period_end: day, ...extra })
+function ownedPool(cancelled = false, extra: Row = {}) {
+  return poolRow({ status: cancelled ? 'CANCELLED' : 'ACTIVE', activated_at: '2026-10-17T03:00:00Z', journal_number: 'JRN-1',
+    cancelled_at: cancelled ? '2026-10-18T03:00:00Z' : null, reversal_journal_number: cancelled ? 'JRN-2' : null,
+    actions: [], attendance_choice: ownership(), ...extra })
+}
+const readFixture = (pools: Row[], preview: Row | null = null, closed: string | null = null) => ({
+  contract_version: 'cp7.hpp-pools.v1', business_DML: false, captured_at: '2026-10-24T03:00:00Z', offset: 0, limit: 20, total: pools.length,
+  next_offset: null, closed_through: closed, can_manage: true, pools, periods: [], preview,
+})
 
 describe('Pool HPP absensi di HPP & Rekalkulasi (R3-04, owner D16-1)', () => {
   it('lists the pools with plain status words and exact id-ID amounts, without a preview until one is asked for', async () => {
@@ -253,5 +267,88 @@ describe('Pool HPP absensi di HPP & Rekalkulasi (R3-04, owner D16-1)', () => {
     expect(() => parseHppPoolOutcome({ ...outcome, request_id: poB }, envelope)).toThrow()
     expect(() => parseHppPoolOutcome({ ...outcome, status: 'DRAFT' }, envelope)).toThrow()
     expect(() => parseHppPoolOutcome({ ...outcome, pool_id: poB }, envelope)).toThrow()
+  })
+  it('reads permanent owning metadata after cancellation while keeping source and output cutoffs distinct', () => {
+    const pools = [ownedPool(false, { period_closed: true }), ownedPool(true, { period_closed: true })]
+    const w = parseHppPoolWorkspace(readFixture(pools, null, day), { offset: 0, limit: 20, periodStart: null, periodEnd: null })
+    expect(w.pools.map(p => p.attendanceChoice?.decisionId)).toEqual([ownership().decision_id, ownership().decision_id])
+    expect(w.pools.map(p => p.attendanceChoice?.outputPeriodClosed)).toEqual([false, false])
+    expect(w.pools.every(p => p.periodClosed && p.actions.length === 0)).toBe(true)
+  })
+  it.each([
+    { attendance_choice: ownership({ unexpected: true }) }, { attendance_choice: null }, { attendance_choice: ownership({ domain: 'HPP_POOL' }) },
+    { attendance_choice: ownership({ source_period_start: '2026-10-15' }) }, { attendance_choice: ownership({ output_period_start: day }) },
+    { attendance_choice: ownership({ output_period_closed: true }) }, { attendance_choice: ownership(), actions: ['CANCEL'] },
+    { attendance_choice: ownership(), period_hold: hold() }, { attendance_choice: ownership({ allocation_id: 'wrong' }) },
+  ])('fails closed for malformed, mismatched or actionable ownership: %j', extra => {
+    expect(() => parseHppPoolWorkspace(readFixture([ownedPool(false, extra)]), { offset: 0, limit: 20, periodStart: null, periodEnd: null })).toThrow()
+  })
+  it('parses only exact source-period holds with the existing blocked/no-figures preview invariant', () => {
+    const q = { offset: 0, limit: 20, periodStart: day, periodEnd: day }
+    const p = blocked('CP7_S03_PERIOD_HELD', 'Periode asal memiliki pilihan biaya Owner.', { period_hold: hold() })
+    const w = parseHppPoolWorkspace(readFixture([], p), q)
+    expect(w.preview?.periodHold?.sourcePeriodStart).toBe(day)
+    expect(parseHppPoolWorkspace(readFixture([], { ...p, period_closed: true }, day), q).preview?.periodClosed).toBe(true)
+    for (const bad of [{ ...p, period_hold: hold({ source_period_end: '2026-10-23' }) }, { ...p, period_hold: { ...hold(), choice: 'CARRY' } },
+      { ...p, review_token: tok('c') }, { ...p, period_closed: true }, { ...p, blocker: { code: 'NO_SEWING_OUTPUT', message: 'wrong' } }, ready({ period_hold: hold() })]) {
+      expect(() => parseHppPoolWorkspace(readFixture([], bad), q)).toThrow()
+    }
+    const cancelled = ownedPool(true); delete cancelled.attendance_choice
+    expect(() => parseHppPoolWorkspace(readFixture([{ ...cancelled, period_hold: hold(), actions: ['REPLACE'] }]), { ...q, periodStart: null, periodEnd: null })).toThrow()
+    for (const bad of [{ ...cancelled, period_hold: null }, { ...cancelled, period_hold: hold({ decision_id: 'bad' }) },
+      { ...cancelled, period_hold: hold({ source_period_start: '2026-10-17' }) }, { ...ownedPool(), attendance_choice: undefined, period_hold: hold() }]) {
+      expect(() => parseHppPoolWorkspace(readFixture([bad]), { ...q, periodStart: null, periodEnd: null })).toThrow()
+    }
+  })
+  it('routes Owner to a fresh source-period choice without leaking the legacy pool token or an old decision intent', async () => {
+    const s = server(), open = vi.fn(); s.closed = day; s.pools = [ownedPool(false, { period_closed: true })]
+    await act(async () => root.render(<AttendanceHppPoolPanel onCommitted={onCommitted} onOpenAttendanceChoice={open}/>)); await settle()
+    const text = region('Pool AHPP-1')!.textContent ?? ''
+    expect(text).toContain('Periode asal 16 Okt 2026'); expect(text).toContain('hasil jahit 17 Okt 2026 – 23 Okt 2026')
+    expect(text).not.toContain('pool ini tidak bisa diaktifkan atau dibatalkan')
+    expect(hasButton('Batalkan pool AHPP-1') || hasButton('Buat pool pengganti untuk AHPP-1')).toBe(false)
+    await click('Buka pilihan biaya periode asal AHPP-1')
+    expect(open).toHaveBeenCalledExactlyOnceWith({ start: day, end: day }); expect(writes()).toHaveLength(0)
+  })
+  it('keeps owned cancellation history linked and explains the output-period cutoff', async () => {
+    const s = server(); s.closed = '2026-10-23'; s.pools = [ownedPool(true, { period_closed: true, attendance_choice: ownership({ output_period_closed: true }) })]
+    await mount(); expect(region('Pool AHPP-1')!.textContent).toContain('Pembukuan periode hasil jahit tujuan sudah ditutup')
+    expect(region('Pool AHPP-1')!.textContent).toContain('Pilihan biaya absensi Owner'); expect(hasButton('Buat pool pengganti untuk AHPP-1')).toBe(false)
+  })
+  it('shows Admin the Owner route explanation without widening access or hiding ordinary P2 actions', async () => {
+    auth.current = identity('ADMIN'); const s = server(), open = vi.fn()
+    s.pools = [ownedPool(), poolRow({ period_start: '2026-10-17', period_end: '2026-10-23', status: 'ACTIVE', activated_at: '2026-10-24T03:00:00Z', journal_number: 'JRN-P2', actions: ['CANCEL'] })]
+    await act(async () => root.render(<AttendanceHppPoolPanel onCommitted={onCommitted} onOpenAttendanceChoice={open}/>)); await settle()
+    expect(region('Pool AHPP-1')!.textContent).toContain('Owner membuka Pilihan biaya absensi per periode')
+    expect(hasButton('Buka pilihan biaya periode asal AHPP-1')).toBe(false); expect(hasButton('Batalkan pool AHPP-2')).toBe(true)
+    expect(open).not.toHaveBeenCalled(); expect(writes()).toHaveLength(0)
+  })
+  it('allows an Owner with view-only rights to open the source reader without offering a legacy write', async () => {
+    auth.current = identity('OWNER', ['finance.hpp.view']); const s = server(), open = vi.fn(); s.canManage = false; s.pools = [ownedPool(true)]
+    await act(async () => root.render(<AttendanceHppPoolPanel onCommitted={onCommitted} onOpenAttendanceChoice={open}/>)); await settle()
+    await click('Buka pilihan biaya periode asal AHPP-1'); expect(open).toHaveBeenCalledExactlyOnceWith({ start: day, end: day })
+    expect(hasButton('Buat pool pengganti untuk AHPP-1')).toBe(false); expect(writes()).toHaveLength(0)
+  })
+  it('retires an already open replacement form when a current exact-period hold is read', async () => {
+    const s = server(); const p = ownedPool(true); delete p.attendance_choice; p.actions = ['REPLACE']; s.pools = [p]
+    s.preview = () => ready({ cancelled_pools: [{ id: p.id, pool_number: p.pool_number }] })
+    await mount(); await click('Buat pool pengganti untuk AHPP-1'); await type('Alasan buat draf pool', 'Sumber sudah diperiksa'); await tick('Draf pool sudah diperiksa')
+    expect(button('Buat draf pool pengganti').disabled).toBe(false)
+    p.actions = []; p.period_hold = hold(); s.preview = () => blocked('CP7_S03_PERIOD_HELD', 'Periode asal memiliki pilihan biaya Owner.', { period_hold: hold(), existing_pool: { id: p.id, pool_number: 'AHPP-1', status: 'ACTIVE' } })
+    await click('Muat ulang daftar pool')
+    expect(region('Buat draf pool')).toBeNull(); expect(hasButton('Buat pool pengganti untuk AHPP-1')).toBe(false)
+    expect(region('Pratinjau pool')!.textContent).not.toContain('Aktifkan atau batalkan pool itu')
+    expect(container.textContent).not.toContain('CP7_S03'); expect(writes()).toHaveLength(0)
+  })
+  it.each(['CP7_S03_PERIOD_CLAIMED', 'CP7_S03_OWNING_CARRY_CANCEL_REQUIRED', 'CP7_S03_OWNER_REQUIRED', 'CP7_S03_HPP_READ_CHANGED'])('gives a named plain recovery path for stale legacy %s', code => {
+    expect(hppPoolRefusalText(code)).toBeTruthy(); expect(hppPoolRefusalText(code)).not.toContain('CP7_S03')
+  })
+  it('keeps a legacy uncertain UUID/envelope when an owning-domain permission refusal arrives on replay', async () => {
+    const s = server(); s.pools = [poolRow()]; await mount(); await click('Aktifkan pool AHPP-1'); await type('Alasan aktifkan pool AHPP-1', 'Sumber sudah diperiksa'); await tick('Aktifkan pool AHPP-1 sudah diperiksa')
+    s.lose = true; await click('Simpan: aktifkan pool'); const original = structuredClone(writes()[0])
+    s.refuse = { code: '42501', message: 'CP7_S03_OWNER_REQUIRED' }; await click('Periksa hasil pool')
+    expect(writes()[1]).toEqual(original); expect(s.effects).toBe(1)
+    expect(readProductionRecovery('disposable:' + recoveryIdentity.identity.profile.id).pending.HPP_POOL?.id).toBe(original.p_request)
+    expect(container.textContent).not.toContain('CP7_S03_OWNER_REQUIRED')
   })
 })

@@ -1,0 +1,7 @@
+{
+  "classification": "LOCAL_TEST_INFRA_ONLY",
+  "removed_link": "node_modules",
+  "exact_target": "/workspace/scratch/ef468a447ac6/erp/node_modules",
+  "root_dependency_directory_modified": false,
+  "product_oracle_changed": false
+}

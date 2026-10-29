@@ -1,0 +1,204 @@
+{
+  "contract_version": "cp7.s03-mounted-ui-handoff.v1",
+  "classification": "PREPARED_MOUNTED_UI_CANDIDATE_NOT_ADOPTED_BACKEND_OR_BROWSER_ACCEPTANCE",
+  "base_commit": "a5774f59ce67fd18427a9aa700ee5e34fdece5b3",
+  "frozen_standalone_UI_commit": "abdbc3060b02e69c0ed8476ec6a23f5cb98892ea",
+  "branch": "feature/a-attendance-choice-mount-reader15-20261029",
+  "frozen_S05_ref_retained": "911a08e04f741ead342d6436a2f4b003434c0070",
+  "source": {
+    "path": "SOURCE.json",
+    "entries": 38,
+    "bytes": 8997,
+    "sha256": "c2d38cd2b006f247bf3b7ab2257e1693de56715aa19b8f5815a635433e64ec60",
+    "scope": "UI_CANDIDATE_AND_CLOSED_BRIDGE_SOURCE_ONLY_NOT_FULL_RUNTIME_ADMISSION"
+  },
+  "copied_UI8_exact": {
+    "src/AttendancePeriodChoicePanel.tsx": "a13e248ce5a52795fa464bf82e9f220e355ebede97e6dcb0241d98db81270d8f",
+    "src/attendancePeriodChoiceContract.ts": "49154c93c7626e37bf8c13d8e49d6369d2f729ff393d080e4eaec32957f7a8ae",
+    "src/attendance-period-choice.css": "78a5ad2836cc0baf43c0e8777a5244520d1acf67aca695da5e3251d9a1b647cc",
+    "src/AttendancePeriodChoicePanel.dom.test.tsx": "ae7277377e930cf953baa8447ed8e42e227a2c9039b2b00bde0a52144e9651c6",
+    "src/attendancePeriodChoiceContract.test.ts": "987563bcb1245299d3a0a6479e268a63a7badb3a28507ba1d70026d7b4eef33e",
+    "tests/fixtures/attendancePeriodChoice.ts": "f3e8c2e92392948f63e7422e0fac6a527d1b13182ece874bef5e656a50c449e3",
+    "src/productionRecovery.ts": "29b741b1d337229ef63d8b9fb062164f50dd0129f965a8f53a4f2c9b1333ab7f",
+    "src/productionRecovery.test.ts": "a52108b4c46c928f222d03db1be41a63af40d484eecb827ebe4ed11bf4e1c208"
+  },
+  "interface": {
+    "wire7e91_sha256": "931e62848f6861e24190e76cb0efbd8aa032cb514bf0f0b5af362d62cbe12bbd",
+    "attendance_choice_exact_keys": [
+      "domain",
+      "decision_id",
+      "allocation_id",
+      "source_period_start",
+      "source_period_end",
+      "output_period_start",
+      "output_period_end",
+      "output_period_closed"
+    ],
+    "period_hold_exact_keys": [
+      "domain",
+      "decision_id",
+      "source_period_start",
+      "source_period_end"
+    ],
+    "domain": "ATTENDANCE_PERIOD_CHOICE",
+    "held_preview_blocker": "CP7_S03_PERIOD_HELD",
+    "read_changed_refusal": "CP7_S03_HPP_READ_CHANGED",
+    "ownership_lifetime": "ACTIVE_AND_CANCELLED_INCLUDING_OLD_REVERSED_OR_CORRECTED_DECISION",
+    "legacy_period_closed": "SOURCE_P1",
+    "output_period_closed": "OUTPUT_P2_END_LE_WORKSPACE_CLOSED_THROUGH",
+    "ordinary_P2_unchanged": true,
+    "backend_author_confirmation": "scope_reconciliation confirmed final DTO/cutoff/source/state consistency before freeze"
+  },
+  "shared_exact_delta": {
+    "src/productionRecovery.ts": {
+      "domain": "ATTENDANCE_PERIOD_CHOICE",
+      "label": "Pilihan biaya absensi per periode",
+      "actions": [
+        "CHOOSE",
+        "CORRECT",
+        "REVERSE",
+        "ALLOCATE",
+        "CANCEL_ALLOCATION"
+      ],
+      "old_keys_domains_actions_unchanged": true
+    },
+    "src/productionRecovery.test.ts": {
+      "copied_frozen_additions": true,
+      "old_assertions_unchanged": true
+    },
+    "scripts/check-source-ownership.mjs": {
+      "exact_added_literal_entries": [
+        "src/attendancePeriodChoiceContract.ts:erp_cp7_get_attendance_choice_v1",
+        "src/attendancePeriodChoiceContract.ts:erp_cp7_preview_attendance_choice_v1",
+        "src/attendancePeriodChoiceContract.ts:erp_cp7_save_attendance_choice_v1"
+      ],
+      "old_census_and_assertions_unchanged": true
+    },
+    "scripts/check-access-catalog.mjs": {
+      "new_named_array": "cp7AttendanceChoiceBoundaries",
+      "exact_member_count": 3,
+      "unique_and_actual_membership_assertions": true,
+      "old_full_total_plus_new_array_length": "326+3=329",
+      "old_lists_counts_permissions_assertions_unchanged": true
+    }
+  },
+  "immutable_scope": {
+    "App_menu_backend_SQL_native11_callbacks_default_installer_generated_types_dependencies_hook_unchanged": true,
+    "frozen_S05_branch_and_runtime_unchanged": true
+  },
+  "local_results": {
+    "UI": 153,
+    "preparation_source_orchestration": 16,
+    "tsc": "PASS",
+    "source_access_CSS_ownership": "PASS",
+    "source_runtime_files": 386,
+    "owned_browser_RPC_boundaries": 329,
+    "stylesheets": 65,
+    "source_only_probe": "SOURCE_PASS_EXECUTION_CLOSED",
+    "result_receipt": "evidence/FROZEN_LOCAL_CHECKS.json",
+    "runtime": {
+      "Python": "3.12.14",
+      "Node": "v24.22.1",
+      "vitest": "vitest/4.1.11 linux-x64 node-v24.22.1"
+    },
+    "classification": "LOCAL_UI_RPC_AND_ORCHESTRATION_DOUBLES_SOURCE_ONLY"
+  },
+  "first_failures_retained": [
+    {
+      "receipt": "evidence/FIRST_READER15_UI_FAILURE.json",
+      "classification": "LOCAL_DOM_RPC_DOUBLES_ONLY",
+      "actual_Native_cases": 0,
+      "actual_Auth_cases": 0,
+      "actual_browser_cases": 0,
+      "command": [
+        "node_modules/.bin/vitest",
+        "run",
+        "src/AttendanceHppPoolPanel.dom.test.tsx",
+        "--reporter=verbose"
+      ],
+      "exit_code": 1,
+      "raw_bytes": 16112,
+      "raw_sha256": "7166b7f6c9b7c1659bb32bc1dae95876888313b653f1d8dcaab406114d0b3686",
+      "base": "a5774f59ce67fd18427a9aa700ee5e34fdece5b3",
+      "ui_source": "abdbc3060b02e69c0ed8476ec6a23f5cb98892ea"
+    },
+    {
+      "receipt": "evidence/SOURCE_OWNERSHIP_FIRST.json",
+      "command": [
+        "node",
+        "scripts/check-source-ownership.mjs"
+      ],
+      "exit_code": 1,
+      "bytes": 15104,
+      "sha256": "2fb9909438abd8f5dfeeedb83ba6082c6701dc7641e4472a01e0b0b887190ddb"
+    },
+    {
+      "receipt": "evidence/ACCESS_CATALOG.json",
+      "command": [
+        "node",
+        "scripts/check-access-catalog.mjs"
+      ],
+      "exit_code": 1,
+      "bytes": 877,
+      "sha256": "7a7561001191de4d50210bd09f76fac1021e025ae4de60129af49d6d8b278634"
+    },
+    {
+      "receipt": "evidence/FINAL_PREPARATION_SOURCE.json",
+      "name": "FINAL_PREPARATION_SOURCE",
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/current-attendance-choice-mount-ui",
+        "-p",
+        "test*.py",
+        "-v"
+      ],
+      "exit_code": 1,
+      "bytes": 3383,
+      "sha256": "2d63306737b9fb21712afaa594eeeecbafe8641ba53842df68ebd33cdb14ce89"
+    }
+  ],
+  "test_fixture_correction": {
+    "initial_replacement_fixture_missing_cancelled_pool_list": "Added current cancelled pool ID before opening the replacement form; no old assertion or product guard relaxed.",
+    "initial_scope_failure_node_modules": "Removed only exact temporary local dependency symlink before strict source scope census; no product code or source oracle changed for cleanup.",
+    "old_intermediate_failed_summary": "evidence/FINAL_LOCAL_CHECKS.json preserved unchanged; latest complete success is FROZEN_LOCAL_CHECKS.json."
+  },
+  "reproduction": [
+    "Use the exact commands in FROZEN_LOCAL_CHECKS.json.",
+    "For Node UI/tsc/CSS runs create only the local node_modules symlink to the existing /workspace/scratch/ef468a447ac6/erp/node_modules runtime if absent; install no packages.",
+    "Remove only that exact temporary symlink after Node checks and before strict Python scope census. The root dependency directory must remain unchanged."
+  ],
+  "browser_preparation": {
+    "adapter": "browser_adapter.py",
+    "full_engine_probe": "probe.py",
+    "counted_vendor_child_selections": 6,
+    "original_install_preuse_reinstall_restore_engine_unchanged": true,
+    "normal_full_App_real_Auth_copy_authority_only": true,
+    "full22_no_projection_or_reseal": true,
+    "fresh_Native_race_Auth_HTTP": 0,
+    "prepared_browser_ids": 4,
+    "actual_browser_cases": 0,
+    "execution_gate": "CLOSED_BEFORE_ERP_DB_AUTH_BROWSER_IMPORT",
+    "actual_proof_binder_and_cases_mjs_and_fixture_callbacks": "NOT_IMPLEMENTED_ACCEPTANCE_GAP"
+  },
+  "gaps": [
+    "Exact successful backend original Native11 and new reader Native3 originals/package/full restoration/all5 gates must be reviewed and bound by root.",
+    "Backend reader15 source hashes are not accepted or projected from a577; explicit successor binding is required.",
+    "Prepared browser adapter has no cases.mjs or actual fixture callbacks/proof binder; actual full App/Auth browser4 and independent readback remain unexecuted.",
+    "Desktop1440/mobile390 overflow, contrast and actual current-right/replay behavior need real browser evidence before acceptance."
+  ],
+  "actual_Native_cases": 0,
+  "actual_Auth_cases": 0,
+  "actual_browser_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false,
+  "raw_log_retention": {
+    "index": "evidence/RAW_RETENTION.json",
+    "encoding": "gzip mtime=0",
+    "uncompressed_bytes_and_sha256_match_original_receipts": true,
+    "original_receipt_JSON_unchanged": true
+  }
+}

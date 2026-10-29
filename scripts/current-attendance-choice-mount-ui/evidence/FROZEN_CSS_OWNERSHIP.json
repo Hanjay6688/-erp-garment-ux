@@ -1,0 +1,10 @@
+{
+  "name": "CSS_OWNERSHIP",
+  "command": [
+    "node",
+    "scripts/check-css-ownership.mjs"
+  ],
+  "exit_code": 0,
+  "bytes": 72,
+  "sha256": "cdda7299f27298ecdd555eaa9370dfca4852a39e1348052e5cf88f7452718f71"
+}

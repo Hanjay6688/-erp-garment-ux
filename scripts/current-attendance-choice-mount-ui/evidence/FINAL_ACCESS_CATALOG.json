@@ -1,0 +1,10 @@
+{
+  "name": "FINAL_ACCESS_CATALOG",
+  "command": [
+    "node",
+    "scripts/check-access-catalog.mjs"
+  ],
+  "exit_code": 0,
+  "bytes": 433,
+  "sha256": "310accf3ae52f3a56ac81928751066f94bd6e799357c4b78f73c88fda832a11d"
+}

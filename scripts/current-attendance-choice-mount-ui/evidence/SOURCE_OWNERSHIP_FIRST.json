@@ -1,0 +1,9 @@
+{
+  "command": [
+    "node",
+    "scripts/check-source-ownership.mjs"
+  ],
+  "exit_code": 1,
+  "bytes": 15104,
+  "sha256": "2fb9909438abd8f5dfeeedb83ba6082c6701dc7641e4472a01e0b0b887190ddb"
+}

@@ -1,0 +1,18 @@
+{
+  "command": [
+    "python",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "scripts/current-attendance-choice-mount-ui",
+    "-p",
+    "test*.py",
+    "-v"
+  ],
+  "exit_code": 0,
+  "bytes": 2535,
+  "sha256": "d160fdf2533bcbd8f2a5d6d1acd101db2d611df9024655e4398e6285a3765282",
+  "first_failure_retained": "FINAL_PREPARATION_SOURCE.log",
+  "product_source_changed_since_failure": false
+}

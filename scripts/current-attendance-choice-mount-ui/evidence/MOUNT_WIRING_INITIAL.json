@@ -1,0 +1,11 @@
+{
+  "command": [
+    "node_modules/.bin/vitest",
+    "run",
+    "src/ConnectedSkuHppPage.attendance.dom.test.tsx",
+    "--reporter=verbose"
+  ],
+  "exit_code": 0,
+  "bytes": 1981,
+  "sha256": "6ef7f9322dc7494b2336a0b80bdfee8a3a6361ce397c6be128b503285931f96d"
+}

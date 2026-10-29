@@ -1,0 +1,103 @@
+{
+  "classification": "LOCAL_UI_RPC_AND_ORCHESTRATION_DOUBLES_SOURCE_ONLY",
+  "runtime": {
+    "Python": "3.12.14",
+    "Node": "v24.22.1",
+    "vitest": "vitest/4.1.11 linux-x64 node-v24.22.1"
+  },
+  "checks": [
+    {
+      "name": "FINAL_UI",
+      "command": [
+        "node_modules/.bin/vitest",
+        "run",
+        "src/AttendanceHppPoolPanel.dom.test.tsx",
+        "src/AttendancePeriodChoicePanel.dom.test.tsx",
+        "src/attendancePeriodChoiceContract.test.ts",
+        "src/productionRecovery.test.ts",
+        "src/useProductionMutation.dom.test.tsx",
+        "src/ConnectedSkuHppPage.attendance.dom.test.tsx",
+        "src/ConnectedSkuHppPage.attendance.integration.dom.test.tsx",
+        "--reporter=verbose"
+      ],
+      "exit_code": 0,
+      "bytes": 32763,
+      "sha256": "9d3efc36d284680cda2ca85db98c3d886171d965d3843dc255f7abf0662d98ae"
+    },
+    {
+      "name": "FINAL_TYPECHECK",
+      "command": [
+        "node_modules/.bin/tsc",
+        "--noEmit",
+        "-p",
+        "tsconfig.app.json"
+      ],
+      "exit_code": 0,
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "FINAL_SOURCE_OWNERSHIP",
+      "command": [
+        "node",
+        "scripts/check-source-ownership.mjs"
+      ],
+      "exit_code": 0,
+      "bytes": 104,
+      "sha256": "970d68b72f59cdb9f4c8f1c3ffb31fddb30e7af352cc56809d8bebe402459f5d"
+    },
+    {
+      "name": "FINAL_ACCESS_CATALOG",
+      "command": [
+        "node",
+        "scripts/check-access-catalog.mjs"
+      ],
+      "exit_code": 0,
+      "bytes": 433,
+      "sha256": "310accf3ae52f3a56ac81928751066f94bd6e799357c4b78f73c88fda832a11d"
+    },
+    {
+      "name": "FINAL_CSS_OWNERSHIP",
+      "command": [
+        "node",
+        "scripts/check-css-ownership.mjs"
+      ],
+      "exit_code": 0,
+      "bytes": 72,
+      "sha256": "cdda7299f27298ecdd555eaa9370dfca4852a39e1348052e5cf88f7452718f71"
+    },
+    {
+      "name": "FINAL_PREPARATION_SOURCE",
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/current-attendance-choice-mount-ui",
+        "-p",
+        "test*.py",
+        "-v"
+      ],
+      "exit_code": 1,
+      "bytes": 3383,
+      "sha256": "2d63306737b9fb21712afaa594eeeecbafe8641ba53842df68ebd33cdb14ce89"
+    },
+    {
+      "name": "FINAL_CLOSED_PROBE",
+      "command": [
+        "python",
+        "scripts/current-attendance-choice-mount-ui/probe.py",
+        "--check"
+      ],
+      "exit_code": 0,
+      "bytes": 381,
+      "sha256": "51b4987f1617f1932e913afea05d76c8a49e80dd0ac2085219801b0708675407"
+    }
+  ],
+  "all_pass": false,
+  "actual_Native_cases": 0,
+  "actual_Auth_cases": 0,
+  "actual_browser_cases": 0,
+  "production_go": false
+}

@@ -1,0 +1,54 @@
+{
+  "classification": "APPEND_ONLY_POST_FREEZE_LOCAL_OBSERVATION_AND_FRESH_SOURCE_CONTROL",
+  "source_commit": "913fd00437b9d965f34a1cc7005adfb07f631675",
+  "source_manifest_sha256": "c2d38cd2b006f247bf3b7ab2257e1693de56715aa19b8f5815a635433e64ec60",
+  "first_precheck": {
+    "status": "STOPPED_BEFORE_TESTS",
+    "reason": "Bytecode cache and raw duplicates reappeared before new namespace import. No causal attribution proven."
+  },
+  "observation": {
+    "raw_duplicates_verified_and_removed": [],
+    "bytecode_cache_seen": true,
+    "cause": "UNPROVEN",
+    "concurrent_actor_attribution": "WITHDRAWN_NO_CAUSAL_PROOF",
+    "root_reported_own_mutations": false,
+    "tracked_product_or_original_evidence_changed": false
+  },
+  "command": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "scripts/current-attendance-choice-mount-ui",
+    "-p",
+    "test*.py",
+    "-v"
+  ],
+  "env": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "GIT_NO_LAZY_FETCH": "1"
+  },
+  "sys_dont_write_bytecode": true,
+  "exit_code": 0,
+  "local_source_controls": 16,
+  "raw_bytes": 2535,
+  "raw_sha256": "617640a31bc39af301b6f4193a244680a5a8c423ada890fb232746fa26c94cec",
+  "gzip_file": "POST_FREEZE_FRESH_SCOPE.log.gz",
+  "gzip_sha256": "398e8019c03f2cae9e8e0d6bfb499f13b0ca2ba60628ab6559fe5de80748cbb3",
+  "status_before_receipt": "CLEAN",
+  "status_after_tests_before_receipt": "CLEAN",
+  "new_raw_duplicates_after_tests": 0,
+  "new_bytecode_cache_after_tests": false,
+  "frozen_UI_counts_by_file": {
+    "src/attendancePeriodChoiceContract.test.ts": 28,
+    "src/productionRecovery.test.ts": 44,
+    "src/useProductionMutation.dom.test.tsx": 8,
+    "src/ConnectedSkuHppPage.attendance.dom.test.tsx": 9,
+    "src/AttendanceHppPoolPanel.dom.test.tsx": 32,
+    "src/AttendancePeriodChoicePanel.dom.test.tsx": 30,
+    "src/ConnectedSkuHppPage.attendance.integration.dom.test.tsx": 2
+  },
+  "actual_Native_Auth_browser": 0
+}

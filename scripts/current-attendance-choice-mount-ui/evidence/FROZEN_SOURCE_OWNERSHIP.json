@@ -1,0 +1,10 @@
+{
+  "name": "SOURCE_OWNERSHIP",
+  "command": [
+    "node",
+    "scripts/check-source-ownership.mjs"
+  ],
+  "exit_code": 0,
+  "bytes": 104,
+  "sha256": "970d68b72f59cdb9f4c8f1c3ffb31fddb30e7af352cc56809d8bebe402459f5d"
+}

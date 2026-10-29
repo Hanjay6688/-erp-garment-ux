@@ -1,0 +1,9 @@
+{
+  "command": [
+    "node",
+    "scripts/check-access-catalog.mjs"
+  ],
+  "exit_code": 1,
+  "bytes": 877,
+  "sha256": "7a7561001191de4d50210bd09f76fac1021e025ae4de60129af49d6d8b278634"
+}

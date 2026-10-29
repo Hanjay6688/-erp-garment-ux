@@ -1,0 +1,17 @@
+{
+  "name": "PREPARATION_SOURCE",
+  "command": [
+    "python",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "scripts/current-attendance-choice-mount-ui",
+    "-p",
+    "test*.py",
+    "-v"
+  ],
+  "exit_code": 0,
+  "bytes": 2535,
+  "sha256": "a2486ff8546139b52dfc9c742d16b8553482b9dcdd694c9e73ebd5035910f458"
+}

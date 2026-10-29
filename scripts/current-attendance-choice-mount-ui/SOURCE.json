@@ -1,0 +1,222 @@
+{
+  "contract_version": "cp7.s03-mounted-ui-preparation.v1",
+  "classification": "UI_CANDIDATE_AND_CLOSED_BRIDGE_SOURCE_ONLY_NOT_FULL_RUNTIME_ADMISSION",
+  "base_commit": "a5774f59ce67fd18427a9aa700ee5e34fdece5b3",
+  "frozen_standalone_UI_commit": "abdbc3060b02e69c0ed8476ec6a23f5cb98892ea",
+  "copied_eight_exact_sha256": {
+    "src/AttendancePeriodChoicePanel.tsx": "a13e248ce5a52795fa464bf82e9f220e355ebede97e6dcb0241d98db81270d8f",
+    "src/attendancePeriodChoiceContract.ts": "49154c93c7626e37bf8c13d8e49d6369d2f729ff393d080e4eaec32957f7a8ae",
+    "src/attendance-period-choice.css": "78a5ad2836cc0baf43c0e8777a5244520d1acf67aca695da5e3251d9a1b647cc",
+    "src/AttendancePeriodChoicePanel.dom.test.tsx": "ae7277377e930cf953baa8447ed8e42e227a2c9039b2b00bde0a52144e9651c6",
+    "src/attendancePeriodChoiceContract.test.ts": "987563bcb1245299d3a0a6479e268a63a7badb3a28507ba1d70026d7b4eef33e",
+    "tests/fixtures/attendancePeriodChoice.ts": "f3e8c2e92392948f63e7422e0fac6a527d1b13182ece874bef5e656a50c449e3",
+    "src/productionRecovery.ts": "29b741b1d337229ef63d8b9fb062164f50dd0129f965a8f53a4f2c9b1333ab7f",
+    "src/productionRecovery.test.ts": "a52108b4c46c928f222d03db1be41a63af40d484eecb827ebe4ed11bf4e1c208"
+  },
+  "inherited_backend_parent_source_history_only": {
+    "scripts/cp7_attendance_period_choice/choice.sql": "44499c6d6a06d1effc2be4f066168f5fa2fe9608b2ccb80d1d2d0b1dac0a8212",
+    "scripts/cp7_attendance_period_choice/native_delta.py": "7a9576e136089b487920fe5c38088977491d342f87384c8e2e82ad128fcf6b90",
+    "scripts/cp7_attendance_period_choice/catalog_contract.py": "0f0c1266ddefc5133cd693ee208f61f8ea71e5a09ab1ba43b1b52afb910f6764",
+    "scripts/cp7_attendance_period_choice/NEW_CATALOG_IDENTITIES.json": "ef2f99de5ec4104b53f28121d923a44350e80354c67217b70d32231f955fce71",
+    "scripts/cp7_attendance_period_choice/composition.py": "1fd29c8c4cf736241347b6619242096edb409cb6a9d1dbb80533be5fdb45a49e"
+  },
+  "accepted_reader15_successor_source": null,
+  "gate": "scripts/current-attendance-choice-mount-ui/EXECUTION_GATE.json",
+  "sources": [
+    {
+      "path": "src/AttendancePeriodChoicePanel.tsx",
+      "bytes": 22270,
+      "sha256": "a13e248ce5a52795fa464bf82e9f220e355ebede97e6dcb0241d98db81270d8f"
+    },
+    {
+      "path": "src/attendancePeriodChoiceContract.ts",
+      "bytes": 20389,
+      "sha256": "49154c93c7626e37bf8c13d8e49d6369d2f729ff393d080e4eaec32957f7a8ae"
+    },
+    {
+      "path": "src/attendance-period-choice.css",
+      "bytes": 1617,
+      "sha256": "78a5ad2836cc0baf43c0e8777a5244520d1acf67aca695da5e3251d9a1b647cc"
+    },
+    {
+      "path": "src/AttendancePeriodChoicePanel.dom.test.tsx",
+      "bytes": 24187,
+      "sha256": "ae7277377e930cf953baa8447ed8e42e227a2c9039b2b00bde0a52144e9651c6"
+    },
+    {
+      "path": "src/attendancePeriodChoiceContract.test.ts",
+      "bytes": 10768,
+      "sha256": "987563bcb1245299d3a0a6479e268a63a7badb3a28507ba1d70026d7b4eef33e"
+    },
+    {
+      "path": "tests/fixtures/attendancePeriodChoice.ts",
+      "bytes": 6007,
+      "sha256": "f3e8c2e92392948f63e7422e0fac6a527d1b13182ece874bef5e656a50c449e3"
+    },
+    {
+      "path": "src/productionRecovery.ts",
+      "bytes": 13473,
+      "sha256": "29b741b1d337229ef63d8b9fb062164f50dd0129f965a8f53a4f2c9b1333ab7f"
+    },
+    {
+      "path": "src/productionRecovery.test.ts",
+      "bytes": 8312,
+      "sha256": "a52108b4c46c928f222d03db1be41a63af40d484eecb827ebe4ed11bf4e1c208"
+    },
+    {
+      "path": "src/hppPoolContract.ts",
+      "bytes": 24299,
+      "sha256": "27640380343a3f2eb8f2f203e2d8b0656438150445162d3b13d3cf3061e24514"
+    },
+    {
+      "path": "src/AttendanceHppPoolPanel.tsx",
+      "bytes": 23085,
+      "sha256": "e0e779798cb547d4c8db8cd4fc8f54a8479ad32f5c054ae40f532392245975a3"
+    },
+    {
+      "path": "src/AttendanceHppPoolPanel.dom.test.tsx",
+      "bytes": 32289,
+      "sha256": "4bfa4fd32fa1e717d0f654d998c038259840c83dd3c00733cd29526b15cade3d"
+    },
+    {
+      "path": "src/ConnectedSkuHppPage.tsx",
+      "bytes": 7798,
+      "sha256": "3e55bee6dc8b2a5fce70eefeaccafe75926429ac19dd52350cd1a855af591bcb"
+    },
+    {
+      "path": "src/ConnectedSkuHppPage.attendance.dom.test.tsx",
+      "bytes": 7257,
+      "sha256": "725420372302f9ea1e892e35e1e5e45e2ed3d48849fb4de294516efe33c293b1"
+    },
+    {
+      "path": "src/ConnectedSkuHppPage.attendance.integration.dom.test.tsx",
+      "bytes": 8915,
+      "sha256": "1cd27bc4b2009bd5195f2f4e4871fc4589d8dfc1878539c5c9213e2599b82273"
+    },
+    {
+      "path": "scripts/check-source-ownership.mjs",
+      "bytes": 25476,
+      "sha256": "ae606622d55d7d5ff86dd21d63d943fb358113553f3e94b381a9d0d744285c2e"
+    },
+    {
+      "path": "scripts/check-access-catalog.mjs",
+      "bytes": 45237,
+      "sha256": "1109bca1799c0fc6b597b8c0a5e6ebb0f25f5610a1a035faf0beb0a615b3300e"
+    },
+    {
+      "path": "scripts/current-attendance-choice-mount-ui/browser_adapter.py",
+      "bytes": 4206,
+      "sha256": "d5959879b2cfd3780e476f21ef7c428899acadd2382913dcc655e1cc8b1aecc7"
+    },
+    {
+      "path": "scripts/current-attendance-choice-mount-ui/derive.py",
+      "bytes": 1551,
+      "sha256": "0dce06752ec45f57c5b8ca8f2b581a313b8a66f15d7b2a20c463080e7c0da3f5"
+    },
+    {
+      "path": "scripts/current-attendance-choice-mount-ui/probe.py",
+      "bytes": 2806,
+      "sha256": "f9a03fed0fc04906254d86076fb5143604b7ebdce65902bc7f8c05a13b85e252"
+    },
+    {
+      "path": "scripts/current-attendance-choice-mount-ui/source_check.py",
+      "bytes": 2317,
+      "sha256": "e08199d3ea5726e2b2f77a401521fed71eb7acbc367e097cdf5f26739e943a5f"
+    },
+    {
+      "path": "scripts/current-attendance-choice-mount-ui/test_preparation.py",
+      "bytes": 8695,
+      "sha256": "1dce5f8b5fb226b3c1c35c9a74a1341459046540cd57d5e0f865e8b4c0fab786"
+    },
+    {
+      "path": "scripts/current-attendance-choice-mount-ui/test_ui_source.py",
+      "bytes": 4445,
+      "sha256": "523e04b75d18cff0309a7997923eebb74ddca8a7bf0db57bc660f97f230ec7b1"
+    },
+    {
+      "path": "scripts/current-attendance-choice-mount-ui/README.md",
+      "bytes": 7284,
+      "sha256": "6386430a753a80e0d9713a79418fd538e276bf1b6beca4f1840a93217f0d72c0"
+    },
+    {
+      "path": "scripts/current-attendance-choice-mount-ui/EXECUTION_GATE.json",
+      "bytes": 185,
+      "sha256": "490c0876bf31ddcc3ca0609f860a2e14b19935fdba23ea8f62f8dd2fba98ff71"
+    },
+    {
+      "path": "src/App.tsx",
+      "bytes": 221078,
+      "sha256": "3461670796d4e2dbbea44322a5b20356fa5c525452d56e6e4e9d10e65e8e5e42"
+    },
+    {
+      "path": "src/useProductionMutation.ts",
+      "bytes": 12605,
+      "sha256": "6d2fe37e9fc47c9dee67951165415230002341bbaa23b1cd5433401f7681e8ed"
+    },
+    {
+      "path": "src/auth/AuthProvider.tsx",
+      "bytes": 9894,
+      "sha256": "d1ee2b58fb8ba4f9d416c84b5f461b28141fc123c6efc6ee89604160b79b2736"
+    },
+    {
+      "path": "src/lib/supabase.ts",
+      "bytes": 2639,
+      "sha256": "51dc62a3f5d85fd0aa618a6cbb78bbbd20b063aad4ef64e84da933c3c21bfc28"
+    },
+    {
+      "path": "src/hpp-pool.css",
+      "bytes": 2686,
+      "sha256": "02d7d37f9bd492f33e24c3115801f24ff996c4044cbb91b0392207b332e567a4"
+    },
+    {
+      "path": "scripts/cp6_auditor_modes.py",
+      "bytes": 23276,
+      "sha256": "d927c7491c72fe1eecfd1b4b8b4faf7e1710d6943fda601ede6a599fbc99209f"
+    },
+    {
+      "path": "scripts/cp6_auditor_browser_host.mjs",
+      "bytes": 21213,
+      "sha256": "09fa7d7a5fb7d7cb00eb73e1d4354842730c6ae3dd77dbf9b299539ca7de9557"
+    },
+    {
+      "path": "scripts/cp6_auditor_business_day.py",
+      "bytes": 6023,
+      "sha256": "ec12307a50b0333abd1911f48cdd4ee24c31c432c28f2901d0df5a317d2341f8"
+    },
+    {
+      "path": "scripts/ow04-payment-current-qualification/copy_authority.py",
+      "bytes": 3895,
+      "sha256": "cfdc3b899e335dd13a9456242ed5158b718ac5c56d9b1ebf06c4571eda2cc7a2"
+    },
+    {
+      "path": "scripts/current-vendor-receivable-qualification/probe.py",
+      "bytes": 12667,
+      "sha256": "c420d894f8d5f16bddefeae73addb621507170f372a28e7d6e33d88c7eeb0be9"
+    },
+    {
+      "path": "scripts/current-vendor-receivable-qualification/native_runner.py",
+      "bytes": 2547,
+      "sha256": "debd69693dc444861aa193b644144eb3a6ee0e7eb0d279f671fcfad82aebdd0d"
+    },
+    {
+      "path": "scripts/current-attendance-period-choice-native11-qualification/proof_inputs.py",
+      "bytes": 2224,
+      "sha256": "c1496301182f50cbf050077f62620ac96330b5d93355e616823de4c4225f09af"
+    },
+    {
+      "path": "scripts/current-attendance-period-choice-native11-qualification/argv_boundary.py",
+      "bytes": 338,
+      "sha256": "34994ef5bd70ec495ba104be3c58a9143f8f1eaef64040cf024da01c7e165d46"
+    },
+    {
+      "path": "scripts/cp7_attendance_period_choice/WIRE_CONTRACT.md",
+      "bytes": 6821,
+      "sha256": "931e62848f6861e24190e76cb0efbd8aa032cb514bf0f0b5af362d62cbe12bbd"
+    }
+  ],
+  "new_shared_boundary_count": 3,
+  "new_public_RPC_count": 0,
+  "financial_SQL_changes": 0,
+  "actual_Native_Auth_browser_cases": 0,
+  "production_go": false
+}

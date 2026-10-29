@@ -1,0 +1,11 @@
+{
+  "name": "CLOSED_PROBE",
+  "command": [
+    "python",
+    "scripts/current-attendance-choice-mount-ui/probe.py",
+    "--check"
+  ],
+  "exit_code": 0,
+  "bytes": 381,
+  "sha256": "51b4987f1617f1932e913afea05d76c8a49e80dd0ac2085219801b0708675407"
+}

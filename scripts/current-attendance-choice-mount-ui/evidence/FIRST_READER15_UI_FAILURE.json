@@ -1,0 +1,17 @@
+{
+  "classification": "LOCAL_DOM_RPC_DOUBLES_ONLY",
+  "actual_Native_cases": 0,
+  "actual_Auth_cases": 0,
+  "actual_browser_cases": 0,
+  "command": [
+    "node_modules/.bin/vitest",
+    "run",
+    "src/AttendanceHppPoolPanel.dom.test.tsx",
+    "--reporter=verbose"
+  ],
+  "exit_code": 1,
+  "raw_bytes": 16112,
+  "raw_sha256": "7166b7f6c9b7c1659bb32bc1dae95876888313b653f1d8dcaab406114d0b3686",
+  "base": "a5774f59ce67fd18427a9aa700ee5e34fdece5b3",
+  "ui_source": "abdbc3060b02e69c0ed8476ec6a23f5cb98892ea"
+}
