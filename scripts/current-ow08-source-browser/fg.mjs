@@ -37,12 +37,16 @@ async function journey(ui,today,mobile){
    const response=await responseReady,body=await response.json()
    assert.equal(response.status(),403);assert.equal(body.code,'42501');assert.equal(body.message,'CP7_TRANSACTION_SOURCE_ACCESS_DENIED')
    assert.deepEqual(response.request().postDataJSON(),{p_source:{source_type:f.inverse.source_type,source_id:f.inverse.source_id}})
-   assert.equal(body.document,undefined);await ui.expect(movement.getByRole('alert')).toContainText(body.message)
+   assert.equal(body.document,undefined)
+   // The client normalizes 403/42501 to its established Indonesian message.
+   // Keep the exact server code/message assertions above and inspect the UI separately.
+   const deniedAlert=movement.getByRole('alert')
+   await ui.expect(deniedAlert).toHaveText('Akun tidak memiliki izin untuk operasi ini.')
    await ui.expect(deniedPage.locator('aside.cfga-detail')).toHaveCount(0)
    await ui.expect(deniedPage.getByRole('heading',{name:'Kartu stok barang jadi',exact:true})).toBeVisible()
    assert.deepEqual(fixture('state',{}),before,'Denied source navigation must not alter business rows or sequences')
    const path='cp6-proof/t3/OW08_FG_MOBILE_ADMIN_DENIED_FOCUS.png';await movement.screenshot({path});shots.push(path)
-   denial={role:'ADMIN',http_status:response.status(),body,business_unchanged:true,console_evidence:requireConsoleEvidence(adminObserved.errors,[{url:response.url(),text:'Failed to load resource: the server responded with a status of 403 (Forbidden)',reason:'Actual ADMIN source denial: unchanged warehouse.stock.adjust permission'}])}
+   denial={role:'ADMIN',http_status:response.status(),body,display_message:await deniedAlert.textContent(),business_unchanged:true,console_evidence:requireConsoleEvidence(adminObserved.errors,[{url:response.url(),text:'Failed to load resource: the server responded with a status of 403 (Forbidden)',reason:'Actual ADMIN source denial: unchanged warehouse.stock.adjust permission'}])}
   }
   await navigate(ui,page,'Produksi','QC & Final SKU','QC & Final SKU')
   await page.getByPlaceholder('Cari PO, Potongan, receipt, atau histori…',{exact:true}).fill(f.blocked.qc_number)

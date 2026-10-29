@@ -79,3 +79,16 @@ The same six cases are rerun through the existing isolated host and complete
 restoration: their enclosing source declaration changes and a new Auth actor
 participates in the shared browser database. The four old PASS remain attributed
 to 6c89. Backend11 and money2 remain reused, not rerun or credited anew.
+
+## Source6 7042 terminal and localized permission assertion
+
+Run40800438909/job123206984684 ended INCOMPLETE: five PASS, one mobile FG
+case incomplete. The exact JSON originals and first failure are retained in
+retained7042 and SOURCE6_7042_FIRST_INCOMPLETE.json; all business data, sequences,
+CP6, advisors and Auth were restored. HTTP403/42501 and the exact server access
+message were already observed correctly. The established client translator
+displays the Indonesian permission sentence, so the UI assertion now requires
+that exact sentence separately from the unchanged raw-response assertions.
+No product file, grant, cost, amount, fixture or semantic oracle changed.
+The new isolated run still requires all six Auth/browser cases and five package
+gates; no retained PASS is renamed or counted as a fresh case.

@@ -1,0 +1,85 @@
+{
+  "head": "7042fbfd3082b5887ac71332b85e564c39bdd3b1",
+  "tree": "cc580bfe41f7563b6cfdb27974dbfbc252db64fa",
+  "run_id": 40800438909,
+  "job_id": 123206984684,
+  "artifact_id": 12866459076,
+  "zip_bytes": 9698888,
+  "zip_sha256": "dcee635a1c5911487260ba71ceaade7a6006cdbe1f89e00e119e9ca9c2515cc8",
+  "status": "INCOMPLETE",
+  "case_counts": {
+    "PASS": 5,
+    "INCOMPLETE": 1
+  },
+  "cases": {
+    "OW08_KASBON_JOURNAL_SOURCE_DESKTOP": "PASS",
+    "OW08_KASBON_JOURNAL_SOURCE_MOBILE": "PASS",
+    "OW08_UNKNOWN_WASH_SCREEN_PRICE_DESKTOP": "PASS",
+    "OW08_UNKNOWN_WASH_SCREEN_PRICE_MOBILE": "PASS",
+    "OW08_FG_INVERSE_QC_BLOCKERS_DESKTOP": "PASS",
+    "OW08_FG_INVERSE_QC_BLOCKERS_MOBILE": "INCOMPLETE"
+  },
+  "gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "cp6_restored": true,
+  "advisors_equal": true,
+  "all22_rows_sequences_equal": true,
+  "auth_restored": {
+    "before": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "after": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "restored": true
+  },
+  "database_remaining": 0,
+  "outer_used_guard_present": false,
+  "diagnosis": "Real ADMIN public source request correctly returned HTTP403/code42501/exact CP7_TRANSACTION_SOURCE_ACCESS_DENIED; existing normalizeClientError displays the established Indonesian permission sentence. The old UI assertion wrongly expected the raw technical server token. No ERP code, access rule or financial oracle changes.",
+  "fix_scope": "Exact display text assertion only; raw HTTP/body code/message/no-document and full business-row/sequence zero-DML comparator retained. Fresh six cases still required; five old PASS remain attributed to7042.",
+  "raw_originals": [
+    {
+      "name": "CP7_OW08_SOURCE_BROWSER6.json",
+      "path": "scripts/current-ow08-source-browser/retained7042/CP7_OW08_SOURCE_BROWSER6.json.gz",
+      "bytes": 1543176,
+      "sha256": "c12c4b3e6cabe9420396aaf53410a60ccbe65611df4aa7f8df554e1f6f560b1e"
+    },
+    {
+      "name": "T3_PACKAGE_INSTALL.json",
+      "path": "scripts/current-ow08-source-browser/retained7042/T3_PACKAGE_INSTALL.json.gz",
+      "bytes": 360410,
+      "sha256": "6c30eeee8d79cbdf597e8019bc6567017b49a6642ffd91b9796201320492f8a2"
+    },
+    {
+      "name": "T3_BACKUP_RESTORE_DRILL.json",
+      "path": "scripts/current-ow08-source-browser/retained7042/T3_BACKUP_RESTORE_DRILL.json.gz",
+      "bytes": 1470,
+      "sha256": "d887291d20d340f953182d5845cae81ad2cea988e1ffa284945362772e2520f3"
+    },
+    {
+      "name": "T3_PACKAGE_FILES_INSTALL.json",
+      "path": "scripts/current-ow08-source-browser/retained7042/T3_PACKAGE_FILES_INSTALL.json.gz",
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    {
+      "name": "OW08_FG_MOBILE_FIRST_FAILURE.json",
+      "path": "scripts/current-ow08-source-browser/retained7042/OW08_FG_MOBILE_FIRST_FAILURE.json.gz",
+      "bytes": 2320,
+      "sha256": "618057368936a1341ebe6d0c8354a72365511a424cdb90220f343af83251c6fa"
+    }
+  ],
+  "production_go": false,
+  "independent_acceptance": false
+}

@@ -2,7 +2,7 @@ name: CP7 A OW08 source browser6
 'on':
   push:
     branches:
-    - astra-a/ow08-source6-mobile-repair-qualified-20261029
+    - astra-a/ow08-source6-permission-copy-20261029
     paths:
     - .github/workflows/cp7-ow08-source-browser.yml
     - scripts/current-ow08-source-browser/**
@@ -538,4 +538,4 @@ jobs:
         path: auditor/cp6-proof/t3
         retention-days: 30
         if-no-files-found: error
-    if: github.ref == 'refs/heads/astra-a/ow08-source6-mobile-repair-qualified-20261029'
+    if: github.ref == 'refs/heads/astra-a/ow08-source6-permission-copy-20261029'
