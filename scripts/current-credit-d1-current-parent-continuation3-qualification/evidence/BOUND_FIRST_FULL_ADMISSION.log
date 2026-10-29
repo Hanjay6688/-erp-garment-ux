@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "<stdin>", line 14, in <module>
+  File "/workspace/scratch/ef468a447ac6/erp-credit-d1-owner-followup/scripts/current-credit-d1-current-parent-continuation3-qualification/probe.py", line 37, in <lambda>
+    engine.admitted = lambda:load('continuation_complete_source_admission',HERE/'admission.py').admitted(product,derivation)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/ef468a447ac6/erp-credit-d1-owner-followup/scripts/current-credit-d1-current-parent-continuation3-qualification/admission.py", line 79, in admitted
+    source_only()
+  File "/workspace/scratch/ef468a447ac6/erp-credit-d1-owner-followup/scripts/current-credit-d1-current-parent-continuation3-qualification/admission.py", line 61, in source_only
+    raise ValueError('D1_CONT_CURRENT_EXACT_ALLOCATED_PATHS_REQUIRED')
+ValueError: D1_CONT_CURRENT_EXACT_ALLOCATED_PATHS_REQUIRED

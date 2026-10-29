@@ -1,0 +1,30 @@
+{
+  "status": "CLOSED_SOURCE_AND_IMPORT_CONTROLS_PASS_NOT_RUNTIME",
+  "commands": [
+    {
+      "command": "python -B -m unittest discover -s scripts/current-credit-d1-current-parent-continuation3-qualification -p 'test_*.py'",
+      "tests": 29,
+      "passed": 29,
+      "failures": 0,
+      "log": "CLOSED_LOCAL_TESTS.log"
+    },
+    {
+      "command": "python -B scripts/current-credit-d1-current-parent-continuation3-qualification/api_check.py",
+      "actual_signatures_bound": 9,
+      "SQL_statements": 0,
+      "DB_connections_forbidden": true
+    },
+    {
+      "command": "python -B scripts/current-credit-d1-current-parent-continuation3-qualification/check.py --source-only",
+      "status": "PASS_SOURCE_ONLY_NOT_NATIVE_CREDIT",
+      "source_files_at_check": 236,
+      "prerequisite_closed": true
+    }
+  ],
+  "closed_entrypoints": 3,
+  "fresh_Native_cases": 0,
+  "actual_Auth": 0,
+  "actual_browser": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

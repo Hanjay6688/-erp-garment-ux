@@ -1,0 +1,15 @@
+{
+  "contract": "cp7.d1-current-parent-continuation3-workflow-derivation.v1",
+  "original_path": ".github/workflows/cp7-credit-d1-product-phase-native13.yml",
+  "original_bytes": 30467,
+  "original_sha256": "cda5788102bc7dc2de51ebc0646d9cc392bbca2d05c335f8e319ea23ebb07622",
+  "derived_path": ".github/workflows/cp7-credit-d1-current-parent-continuation3.yml",
+  "derived_bytes": 31045,
+  "derived_sha256": "08aabce92b093f5aa8c418529dcf3dfd47d341d832ba200f472451f5f05ad75f",
+  "setup_download_alignment_clone_cleanup_upload_complete": true,
+  "existing20_client_tests_unchanged": true,
+  "Native13_parent_not_reexecuted": true,
+  "fresh_Native_case_count": 3,
+  "additional_committed_witness_credit": 0,
+  "production_go": false
+}

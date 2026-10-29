@@ -1,0 +1,31 @@
+{
+  "status": "THREE_REAL_CLOSED_ENTRYPOINTS_REFUSED",
+  "results": [
+    {
+      "path": "scripts/current-credit-d1-current-parent-continuation3-qualification/check.py",
+      "arguments": [],
+      "returncode": 1,
+      "stdout": "",
+      "stderr": "Traceback (most recent call last):\n  File \"/workspace/scratch/ef468a447ac6/erp-credit-d1-owner-followup/scripts/current-credit-d1-current-parent-continuation3-qualification/check.py\", line 29, in <module>\n    print(json.dumps(run(sys.argv[1:]==['--source-only'])))\n                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/ef468a447ac6/erp-credit-d1-owner-followup/scripts/current-credit-d1-current-parent-continuation3-qualification/check.py\", line 21, in run\n    load('continuation_default_closed_gate',HERE/'gate.py').selected(json.loads((HERE/'CONFIG.json').read_bytes()))\n  File \"/workspace/scratch/ef468a447ac6/erp-credit-d1-owner-followup/scripts/current-credit-d1-current-parent-continuation3-qualification/gate.py\", line 20, in selected\n    raise ValueError('D1_CONT_CLOSED_EXACT_SUCCESSFUL_NATIVE13_AND_COMPLETE_PACKAGE_REQUIRED')\nValueError: D1_CONT_CLOSED_EXACT_SUCCESSFUL_NATIVE13_AND_COMPLETE_PACKAGE_REQUIRED\n",
+      "SQL_Native_DB_remote_calls": 0
+    },
+    {
+      "path": "scripts/current-credit-d1-current-parent-continuation3-qualification/probe.py",
+      "arguments": [],
+      "returncode": 1,
+      "stdout": "",
+      "stderr": "Traceback (most recent call last):\n  File \"/workspace/scratch/ef468a447ac6/erp-credit-d1-owner-followup/scripts/current-credit-d1-current-parent-continuation3-qualification/probe.py\", line 53, in <module>\n    execute()\n  File \"/workspace/scratch/ef468a447ac6/erp-credit-d1-owner-followup/scripts/current-credit-d1-current-parent-continuation3-qualification/probe.py\", line 42, in execute\n    load('continuation_execute_closed_gate',HERE/'gate.py').selected(json.loads((HERE/'CONFIG.json').read_bytes()))\n  File \"/workspace/scratch/ef468a447ac6/erp-credit-d1-owner-followup/scripts/current-credit-d1-current-parent-continuation3-qualification/gate.py\", line 20, in selected\n    raise ValueError('D1_CONT_CLOSED_EXACT_SUCCESSFUL_NATIVE13_AND_COMPLETE_PACKAGE_REQUIRED')\nValueError: D1_CONT_CLOSED_EXACT_SUCCESSFUL_NATIVE13_AND_COMPLETE_PACKAGE_REQUIRED\n",
+      "SQL_Native_DB_remote_calls": 0
+    },
+    {
+      "path": "scripts/current-credit-d1-current-parent-continuation3-qualification/fetch_prerequisite.py",
+      "arguments": [],
+      "returncode": 1,
+      "stdout": "",
+      "stderr": "Traceback (most recent call last):\n  File \"/workspace/scratch/ef468a447ac6/erp-credit-d1-owner-followup/scripts/current-credit-d1-current-parent-continuation3-qualification/fetch_prerequisite.py\", line 59, in <module>\n    main()\n  File \"/workspace/scratch/ef468a447ac6/erp-credit-d1-owner-followup/scripts/current-credit-d1-current-parent-continuation3-qualification/fetch_prerequisite.py\", line 18, in main\n    config = json.loads((HERE/'CONFIG.json').read_bytes()); pin = gate.selected(config)\n                                                                  ^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/ef468a447ac6/erp-credit-d1-owner-followup/scripts/current-credit-d1-current-parent-continuation3-qualification/gate.py\", line 20, in selected\n    raise ValueError('D1_CONT_CLOSED_EXACT_SUCCESSFUL_NATIVE13_AND_COMPLETE_PACKAGE_REQUIRED')\nValueError: D1_CONT_CLOSED_EXACT_SUCCESSFUL_NATIVE13_AND_COMPLETE_PACKAGE_REQUIRED\n",
+      "SQL_Native_DB_remote_calls": 0
+    }
+  ],
+  "configuration": "evidence/CLOSED_CONFIG.json",
+  "actual_Native_cases": 0
+}

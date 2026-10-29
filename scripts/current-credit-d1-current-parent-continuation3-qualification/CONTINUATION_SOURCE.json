@@ -1,0 +1,115 @@
+{
+  "status": "PREPARED_NOT_ACTUAL_NATIVE_PASS",
+  "base_candidate": {
+    "published_commit": "0770541c94937ee5013c8ea9ae607c99260d2993",
+    "equivalent_local_commit": "8a8dcb8509f1d6b33600239521a9b157c81bf9bc",
+    "tree": "b0f5a4d1ff6541874a09881519baacb86b91fa1f"
+  },
+  "prerequisite": "EXACT_ACTUAL_NATIVE13_PASS_AND_OWNING_REPAIRED_INSTALLED_D1_STAGE",
+  "case_ids": [
+    "D1_CONT_ADDED_CAPACITY_APPLY220_NAMED_UNDO",
+    "D1_CONT_MANUAL_REFUND230_NAMED_UNDO",
+    "D1_CONT_SECOND_INCREASE275_AFTER_SIGNED_HISTORY"
+  ],
+  "D1_runtime_files": {
+    "review.sql": "88681bf674a6b6e8aeda46830a4a27b18bdda84cfcba6868bbb08e3f84fdc382",
+    "facts.sql": "ddfcf8583cf86a916e04aa5630d6262a32e48919dbd0a4c913a09166ca2f8334",
+    "owning.sql": "410afb540f455ce6781d8bf09ee6bd6f66420a2f17d3c5474720a642fdcc9cae",
+    "proof.sql": "8d81f2d8d9384c08eda28eb0b86a6c96b97f2ef8178adbe4b7d1dab01b8cf7ef",
+    "posting.sql": "e200a62d91c7975e67a88eb37c47d89dd739eb8f63fc0a1ee7063aaec0f9ce5b",
+    "materialize.sql": "206c18b517aef54ddc5757fd156a6c7d8d4a2c3240f62779773a4fff74fe6154",
+    "closure.sql": "e21744ba0d98e963ccba9ca916247b797cb2c930b889e2eb41288a12f1888972",
+    "native_delta.py": "d6157ad24dd22ca4810df12668090eb74a3382e6ceb3e4c0954a037a7016c664",
+    "composition.py": "4f7086c157e977cacf5f4281d6a2748113029fd7c2c441837e254c9fca9422af"
+  },
+  "files": {
+    "docs/cp7/d17-14/ow04/consumer-command/PREDECLARED_ARITHMETIC.json": "437c6b2f0fe338e96a4880b6acff01e6af2f79d4f9d8ef0de29c0b4676be22ac",
+    "docs/cp7/d17-14/ow04/consumer-command/PREDECLARED_REFUND_ARITHMETIC.json": "eed6e700cfabc301f76a74819fc5b614b6b20da16af6d8f97f05ee9d10d7b762",
+    "scripts/cp6_auditor_runner.py": "2c74439f7e919e2adb2484bc774bef4881e71237124f2e6b6dabdab141348ea7",
+    "scripts/cp7-src/sales/return-correction.sql": "d0c5cc17413b218a4947c8b6ce0d53b4368f8a0d17c597783af203c303669aad",
+    "scripts/cp7_credit_correction_de/cases.py": "c530bb87f72ee6091e032d15efdb2b2e55cf9c9632b64c9e781665b70325bbdb",
+    "scripts/cp7_credit_correction_de/closure.sql": "e21744ba0d98e963ccba9ca916247b797cb2c930b889e2eb41288a12f1888972",
+    "scripts/cp7_credit_correction_de/composition.py": "4f7086c157e977cacf5f4281d6a2748113029fd7c2c441837e254c9fca9422af",
+    "scripts/cp7_credit_correction_de/facts.sql": "ddfcf8583cf86a916e04aa5630d6262a32e48919dbd0a4c913a09166ca2f8334",
+    "scripts/cp7_credit_correction_de/materialize.sql": "206c18b517aef54ddc5757fd156a6c7d8d4a2c3240f62779773a4fff74fe6154",
+    "scripts/cp7_credit_correction_de/native_delta.py": "d6157ad24dd22ca4810df12668090eb74a3382e6ceb3e4c0954a037a7016c664",
+    "scripts/cp7_credit_correction_de/owning.sql": "410afb540f455ce6781d8bf09ee6bd6f66420a2f17d3c5474720a642fdcc9cae",
+    "scripts/cp7_credit_correction_de/posting.sql": "e200a62d91c7975e67a88eb37c47d89dd739eb8f63fc0a1ee7063aaec0f9ce5b",
+    "scripts/cp7_credit_correction_de/proof.sql": "8d81f2d8d9384c08eda28eb0b86a6c96b97f2ef8178adbe4b7d1dab01b8cf7ef",
+    "scripts/cp7_credit_correction_de/review.sql": "88681bf674a6b6e8aeda46830a4a27b18bdda84cfcba6868bbb08e3f84fdc382",
+    "scripts/cp7_credit_multi/cases.py": "85be87db91bd302fa01d759941389a8302c7928e2a2bdedebc8982872c4f0857",
+    "scripts/cp7_customer_credit/consumer/02_operation_facts.sql": "832c79e3d46aeb12d8ddacd20b368864836f2675811ea369ff4c7e14177efee7",
+    "scripts/cp7_customer_credit/consumer/05_event_data.sql": "5ce9cdd9df6da8ec0f140ba86e99f927bf2e1bfa95ca5df4a4f621e423356536",
+    "scripts/cp7_customer_credit/consumer/06_access_and_requests.sql": "9ce2c69378fb032a650a7d6c63e6ee43bf3a59713256e80724673276764def1f",
+    "scripts/cp7_customer_credit/consumer/07_locked_projection.sql": "87e2860a3d332ab101c2ca49e0bb5a4ebd984de004672d85885ad13ef21ce919",
+    "scripts/cp7_customer_credit/consumer/09_deferred_closure.sql": "186d1d15fab55f8e52e06b36af9d8eb31e710c60b1320e4e06a0655b4ad7b61f",
+    "scripts/cp7_customer_credit/consumer/cp7_ow04_consumer_fixture.py": "75a6d5d573de0827a2efa712d49059a14e1ee83e3ee2635598e005b4bc1afeed",
+    "scripts/cp7_customer_credit/consumer/native_basic_cases.py": "24ba3f79cc01905d1289b0db08552ed2c0593138e3c83f4551b88a025ae6a567",
+    "scripts/cp7_customer_credit/consumer/native_refund_cases.py": "3972a6da010cf2ed066db431252f548721e66ecf38c2dbc3b1fa42b86ed4d8ca",
+    "scripts/cp7_customer_credit/kernel/kernel.sql": "f531f50d5a1c7ddc0a2f22f607be5ba0625a2e0388af3e7a4c6d129bf82e15fc",
+    "scripts/cp7_customer_credit/native/cp7_ow04_native_source_fixture.py": "4984926b221df459e6e88c2f282da3e553d4810d177208ea489c9c3b1d264497",
+    "scripts/cp7_customer_credit/ordinal-wrapper/wrapper.sql": "ed66c7f09433956d18368b7a804b1b04f0dcb7f9e0457686400421a849d671d1",
+    "scripts/cp7_customer_credit/reconciliation/native/cp7_ow04_signed_source_cases.py": "82831d767c85199ab182c21aa5a56fe46e7cba0c7e70ccba6c89477b755de640",
+    "scripts/cp7_customer_credit/source/member-proof.sql": "565e4e8643323442eadad2d6d1e65fdf1750da1675a2c68cc28187add17c1205",
+    "scripts/cp7_note_correction_cases.py": "1f6bfff2974b865d54600dec4fd515bd8b931efdd737c19e50eb8b1a094f604c",
+    "scripts/cp7_ow04_restore_bundle.py": "a1605193347cf5b3321a7bdbf8ff6c634df4f4c0a5113eb295e8c3ce44428e00",
+    "scripts/cp7_p21_current_chain_rehearsal_probe.py": "113bda42019a4617dd904e37af86ba7bc3cd6577baeefa741c51867bf7af24f0",
+    "scripts/cp7_sales_return_correction_cases.py": "26fe2e420af55ee213a629db4f7a9929a5e9155374682ddcb1f1f2b855bb6c1c",
+    "scripts/current-credit-d1-continuation-qualification/README.md": "b8342a0c65c9875ebac40b34d6fa53594316d3d5ec386fe4b020090c09b9566e",
+    "scripts/current-credit-d1-continuation-qualification/cases.py": "edecfe35415b0f335d2b80d5ee3fea10ce150f17a8e113887a8855a216b4b732",
+    "scripts/current-credit-d1-continuation-qualification/native_fixture.py": "65609ee5025f8be4d214c2f0b3ab10a6f3ddd230329124bf9a32e1947cc2cf98",
+    "scripts/current-credit-d1-continuation-qualification/oracle.py": "5b67898ecd86eb470e1b54f4d69fa47c01352f0e798acbe863ee2629766137dc",
+    "scripts/current-credit-d1-continuation-qualification/source_guard.py": "fc6ae432ec58f0ed247f4b6236628188a162b594c1fcbdc7168d8f7d1ac5d4bb",
+    "scripts/current-credit-d1-continuation-qualification/test_local.py": "ab514ca863906b3e0139501628a3bdf6f3a774d5e180a343b54b5d9a50be2122",
+    "scripts/current-credit-de-native-qualification/CONFIG.json": "6d3a0ff0d5bd232ec84348eaa2e03001e7ffaedc5c91be10f43b0f863c50c927",
+    "scripts/current-credit-de-native-qualification/native_runner.py": "42acf33e4c7b896a28ef7d9795c6e3243262521f5e2647d33ced1f72452c1ba0",
+    "scripts/ow04-payment-used-restore-qualification/probe.py": "f3c3e1be7ff9230a516427e97073199ed9fbf6220bcc8880f1d6a8c8483f181b",
+    "scripts/cp7_credit_correction_de/native_fixture.py": "4fbe56583ffc63473c12195ddaae6ff3e0cd0ad46b358bf7eef7b5175c67e829",
+    "scripts/cp7_customer_credit/initial-settlement/cp7_ow04_initial_settlement_cases.py": "6d4e2389e0090333ae076fc3091ec4333492e886e08fc1a96c4eea9282f93602"
+  },
+  "actual_Auth_browser": false,
+  "D_complete": false,
+  "E_complete": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "source_transition": {
+    "contract": "cp7.d1-continuation-owned-two-piece-transition.v1",
+    "origin_head": "f6715e9c20afbfa395040de95cd3c3192c5dd0d4",
+    "public_parent_head": "d902e4d2e65cf5b382af1ab041120611f9a61078",
+    "external_dependency_changes": [
+      {
+        "path": "scripts/cp7_credit_correction_de/cases.py",
+        "before_sha256": "011b89a5b39aba71fb0164569d28758d7e2ca82a81a95ade5c7041830920857d",
+        "after_sha256": "c530bb87f72ee6091e032d15efdb2b2e55cf9c9632b64c9e781665b70325bbdb"
+      },
+      {
+        "path": "scripts/cp7_credit_correction_de/composition.py",
+        "before_sha256": "001b1fafe79a6252dcf58a206c148760867f03056bedfbb5523eb5be4277c218",
+        "after_sha256": "4f7086c157e977cacf5f4281d6a2748113029fd7c2c441837e254c9fca9422af"
+      },
+      {
+        "path": "scripts/cp7_credit_correction_de/owning.sql",
+        "before_sha256": "c33266e5b128eec47ae1f46e2b0f700a4980e0002fe03776cc2b671517ac33d5",
+        "after_sha256": "76eb5d7ff2ff14c6bae829ae53ce06abb5c7bc661aa25916afaec565df3da405"
+      },
+      {
+        "path": "scripts/current-credit-de-native-qualification/CONFIG.json",
+        "before_sha256": "2ead2cbbea26bc16213e40144979a0c94fb0fc517849ccc3c5170550cb2e7a48",
+        "after_sha256": "6d3a0ff0d5bd232ec84348eaa2e03001e7ffaedc5c91be10f43b0f863c50c927"
+      }
+    ],
+    "own_changed_files": [
+      "scripts/current-credit-d1-continuation-qualification/README.md",
+      "scripts/current-credit-d1-continuation-qualification/native_fixture.py",
+      "scripts/current-credit-d1-continuation-qualification/test_local.py"
+    ],
+    "added_dependency_paths": [
+      "scripts/cp7_credit_correction_de/native_fixture.py",
+      "scripts/cp7_customer_credit/initial-settlement/cp7_ow04_initial_settlement_cases.py"
+    ],
+    "exact_three_callback_bodies_and_oracle_preserved": true,
+    "fixture_prepare": "cp7_credit_correction_de.native_fixture.prepare",
+    "target_only_GL_oracle": "cp7_credit_correction_de.native_fixture.retained._document_ar",
+    "actual_Native_cases": 0
+  }
+}

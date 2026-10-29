@@ -1,0 +1,53 @@
+{
+  "contract": "cp7.credit-d1-continuation-local-controls.v1",
+  "status": "LOCAL_CONTROLS_PASS_NOT_ACTUAL_NATIVE_PASS",
+  "at": "2026-10-29T16:30:42.281570+00:00",
+  "base_local_commit": "8a8dcb8509f1d6b33600239521a9b157c81bf9bc",
+  "equivalent_published_commit": "0770541c94937ee5013c8ea9ae607c99260d2993",
+  "base_tree": "b0f5a4d1ff6541874a09881519baacb86b91fa1f",
+  "source_manifest_sha256": "5fac45db69a050be77c9aad8a1fe638fc6b6df6e192517ccd7f4655f628f7b53",
+  "controls": {
+    "local_tests": 10,
+    "result": "PASS",
+    "Python_compile": "PASS",
+    "exact_source_files": 41,
+    "retained_Native_dependency_import": "PASS_WITH_PSYCOPG_CONNECT_FORBIDDEN",
+    "gate_unit_current_sources": "EXPLICIT_SYNTHETIC_PREDECESSOR_ONLY_NOT_ACTUAL_PARENT_ADMISSION"
+  },
+  "original_logs": [
+    {
+      "path": "/workspace/scratch/ef468a447ac6/credit-d1-continuation-local-first.log",
+      "bytes": 262,
+      "sha256": "63f4b303047568be1e41a5d2edd39859ab970c7e333d928b60e946f029c70a3b",
+      "classification": "FIRST_FAILURE_LOCAL_TEST_ARGV_IMPORTED_NATIVE_HELPER_FLAGS"
+    },
+    {
+      "path": "/workspace/scratch/ef468a447ac6/credit-d1-continuation-local-second.log",
+      "bytes": 6349,
+      "sha256": "401fdcf69cdda1355cbc09efc1d947fbf1340c752d2e7282952a67dfd1fe7a63",
+      "classification": "SECOND_FAILURE_LOCAL_GATE_TEST_LACKED_RETAINED_PARENT_EVIDENCE_ENV"
+    },
+    {
+      "path": "/workspace/scratch/ef468a447ac6/credit-d1-continuation-local-third.log",
+      "bytes": 1319,
+      "sha256": "fe73f98258f58df5e5d28b6937bb5ede7e14c60a9ae5049aa3730f70c5770308",
+      "classification": "LOCAL9_PASS_AFTER_EXPLICIT_TEST_ONLY_PREDECESSOR_STANDIN"
+    },
+    {
+      "path": "/workspace/scratch/ef468a447ac6/credit-d1-continuation-local-final.log",
+      "bytes": 1450,
+      "sha256": "b3db5d95f76b7d6ead564d934c8d6390a615a7382b83b9782ab71889dde44960",
+      "classification": "LOCAL10_PASS_WITH_NATIVE_SIGNATURE_CONTROLS"
+    }
+  ],
+  "actual_database_execution": false,
+  "actual_Native_cases": 0,
+  "actual_Auth_browser": false,
+  "runtime_gate": "CLOSED_UNTIL_EXACT_ACTUAL_NATIVE13_PASS_ON_OWNING_REPAIRED_SUCCESSOR_AND_CURRENT_INSTALLED_STAGE_VERIFIED",
+  "old_D1_product_or_Native13_changed": false,
+  "remote_CI_hosted_execution": false,
+  "D_complete": false,
+  "E_complete": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

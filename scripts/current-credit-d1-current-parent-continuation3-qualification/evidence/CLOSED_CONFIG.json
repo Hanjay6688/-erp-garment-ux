@@ -1,0 +1,51 @@
+{
+  "contract": "cp7.credit-d1-owner-followup-native3.v1",
+  "source_base_head": "17ac1eeb5833cbf2a786194fe3bfbba6628a1ff8",
+  "frozen_parent_head": "17ac1eeb5833cbf2a786194fe3bfbba6628a1ff8",
+  "frozen_parent_tree": "52870c467cb37c328fd6ff73fe8484f8d6798953",
+  "parent_status": "CLOSED_ACTUAL_SUCCESSFUL_NATIVE13_AND_COMPLETE_PACKAGE_REQUIRED",
+  "accepted_native13": null,
+  "required_qualified_parent": null,
+  "rejected_heads": [
+    "0770541c94937ee5013c8ea9ae607c99260d2993",
+    "8a8dcb8509f1d6b33600239521a9b157c81bf9bc",
+    "a99463ca3ea2f1a71b22f0354df83f1b5a42b71b"
+  ],
+  "retained_failed_a994": {
+    "head": "a99463ca3ea2f1a71b22f0354df83f1b5a42b71b",
+    "counts": {
+      "PASS": 5,
+      "INCOMPLETE": 8
+    },
+    "raw_bytes": 44099,
+    "raw_sha256": "3274ce4c5684b77a82a8761638e3f78406ea164c503047446452c8eb3ea43525",
+    "path": "scripts/cp7_credit_correction_de/evidence/native_cap_successor/CP7_CREDIT_DE_NATIVE13_CASES.json.gz",
+    "usable_prerequisite": false
+  },
+  "required_parent_workflow": ".github/workflows/cp7-credit-d1-product-phase-native13.yml",
+  "root_execution_branch": "astra-a/credit-d1-current-parent-continuation3-20261030",
+  "fresh_native_case_ids": [
+    "D1_CONT_ADDED_CAPACITY_APPLY220_NAMED_UNDO",
+    "D1_CONT_MANUAL_REFUND230_NAMED_UNDO",
+    "D1_CONT_SECOND_INCREASE275_AFTER_SIGNED_HISTORY"
+  ],
+  "runner_derivation": {
+    "original_sha256": "c420d894f8d5f16bddefeae73addb621507170f372a28e7d6e33d88c7eeb0be9",
+    "derived_sha256": "18748a833cf9a0a37b575b7f436272d8c49bae046d1e48f6142c75d9956cc8bf",
+    "counted_changes": 6,
+    "unchanged_install_preuse_used_guard_backup_restore_roles_data_sequences_advisors": true,
+    "fresh_Auth_HTTP_races_browser_claim": false
+  },
+  "actual_Native_cases": 0,
+  "actual_Auth_HTTP": 0,
+  "actual_browser": 0,
+  "actual_two_session_races": 0,
+  "committed_witness_additional_cases": 0,
+  "D_complete": false,
+  "E_complete": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "current_D1_source_path": "scripts/current-credit-d1-product-phase-native13-qualification/SOURCE.json",
+  "current_D1_source_sha256": "eeb47a301fd3241677bbae8c2a6189179cf8b5c82d6114561b2b47d52031a3e5",
+  "current_parent_augmented_source_sha256": "79cf8ca8ca72de93fba2c2da29e3777bc64ee0cf84bd1bdf71256d203589790d"
+}

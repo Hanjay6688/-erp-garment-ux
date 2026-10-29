@@ -1,0 +1,70 @@
+{
+  "contract": "cp7.d1-cont-current-parent-explicit-two-source-transition.v1",
+  "public_parent_head": "17ac1eeb5833cbf2a786194fe3bfbba6628a1ff8",
+  "public_parent_tree": "52870c467cb37c328fd6ff73fe8484f8d6798953",
+  "current_physical_sources": {
+    "scripts/cp7_credit_correction_de/owning.sql": {
+      "before_sha256": "76eb5d7ff2ff14c6bae829ae53ce06abb5c7bc661aa25916afaec565df3da405",
+      "after_sha256": "410afb540f455ce6781d8bf09ee6bd6f66420a2f17d3c5474720a642fdcc9cae"
+    },
+    "scripts/cp7_credit_correction_de/materialize.sql": {
+      "before_sha256": "f0bd81d3a80ad1f465ee5cc424b63009776fb65b9f6a23cbaae80ea331a8e4a4",
+      "after_sha256": "206c18b517aef54ddc5757fd156a6c7d8d4a2c3240f62779773a4fff74fe6154"
+    }
+  },
+  "continuation_old_manifest_sha256": "c09c1ad50db693091617bdafc02dda166507852c14b62f1d14bb9c143b3e9087",
+  "continuation_current_manifest_sha256": "06f3b7da9c241047c1ac18e2d85f679343d8999a68e12ae64de0356bb1618f43",
+  "private_routing": {
+    "cases": {
+      "original_sha256": "edecfe35415b0f335d2b80d5ee3fea10ce150f17a8e113887a8855a216b4b732",
+      "derived_sha256": "1afd7eaccd60f7615d906685e06c29ffca82f38ec1b4e2b86893215f6c780e57",
+      "counted_routing_changes": 1,
+      "all_other_bytes_exact": true,
+      "unchanged_functions": 12,
+      "unchanged_Native_callbacks": 3
+    },
+    "source_guard": {
+      "original_sha256": "fc6ae432ec58f0ed247f4b6236628188a162b594c1fcbdc7168d8f7d1ac5d4bb",
+      "derived_sha256": "dd8f0159f0800778ba74053d82c737f311be61de1ab616c221b9093b3ae15a99",
+      "counted_routing_changes": 1,
+      "all_other_bytes_exact": true
+    },
+    "transition": {
+      "original_sha256": "56285fb243ab2502918ed9f46d850536030e1b75ca63d70fecb7a2640b58d0ae",
+      "derived_sha256": "2488246b064d43829609d7a387686afd0fd448c5ab33c4ea163b71a00a2c3611",
+      "counted_routing_changes": 1,
+      "all_other_bytes_exact": true
+    },
+    "admission": {
+      "original_sha256": "7b8ac6d526b6eac9d4462620f465e8215e7cea09125b112c604a3ee08e19d563",
+      "derived_sha256": "654b218238b8e400d348fe77a40879d51784a135d5f9e0af8df38129ea52bde7",
+      "counted_routing_changes": 2,
+      "all_other_bytes_exact": true
+    },
+    "component": {
+      "original_sha256": "2b644d6564d68c8bbfb5831f53b83b7001f8ec5e5e1748b23e3b827a76b32c05",
+      "derived_sha256": "af5a684501f07200779dc47d04d4d5312489bf9c795ada6a399c76c093ab66bd",
+      "counted_routing_changes": 1,
+      "all_other_bytes_exact": true
+    }
+  },
+  "total_private_routing_changes": 6,
+  "historical_D1_diff_endpoint": "17ac1eeb5833cbf2a786194fe3bfbba6628a1ff8",
+  "historical_D1_diff_endpoint_changes": 1,
+  "full_current175_closure_precedes_private_exceptions": true,
+  "current_product_sources_or_catalog_projected": false,
+  "old43_manifest_modified": false,
+  "old26_wrapper_modified": false,
+  "unchanged_Native_callbacks": 3,
+  "unchanged_all_financial_oracles": true,
+  "Native_executions": 0,
+  "independent_acceptance": false,
+  "production_go": false,
+  "local_control_routing": {
+    "original_sha256": "ab514ca863906b3e0139501628a3bdf6f3a774d5e180a343b54b5d9a50be2122",
+    "derived_sha256": "50f3e3a7cfd4f6a214818bb930775623711662b75eeb12184c17c193b9e00579",
+    "counted_routing_changes": 4,
+    "all_other_bytes_exact": true
+  },
+  "retained_local_control_assertions_unchanged": true
+}

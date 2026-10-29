@@ -1,0 +1,26 @@
+{
+  "contract": "cp7.d1-cont-current-parent-root-authorized-actual-binding.v1",
+  "closed_before_commit": "4b1d34774",
+  "root_binding_original": {
+    "path": "evidence/ROOT_VERIFIED_PARENT_BINDING.json",
+    "bytes": 1432,
+    "sha256": "4b6fd53875a08048c5e1dfd7bb6b1b5cb0e451bf169aa6dae7c0aced12fb646d"
+  },
+  "root_source_review_original": {
+    "path": "evidence/ROOT_PARENT_SOURCE_REVIEW.json",
+    "bytes": 1444,
+    "sha256": "dbcd6d2e66d8a953edf047f118c5be0fb16a62f6358858310c32c3f32cc24849"
+  },
+  "only_raw_pin_key_mapping": {
+    "native_group": "strict_native13"
+  },
+  "qualified_public_head": "17ac1eeb5833cbf2a786194fe3bfbba6628a1ff8",
+  "qualified_public_tree": "52870c467cb37c328fd6ff73fe8484f8d6798953",
+  "actual_parent_Native_cases_retained": 13,
+  "actual_parent_not_reexecuted": true,
+  "fresh_continuation_cases_executed": 0,
+  "current_Source174_sha256": "eeb47a301fd3241677bbae8c2a6189179cf8b5c82d6114561b2b47d52031a3e5",
+  "no_SQL_DB_GET_CI_remote_operation": true,
+  "independent_acceptance": false,
+  "production_go": false
+}
