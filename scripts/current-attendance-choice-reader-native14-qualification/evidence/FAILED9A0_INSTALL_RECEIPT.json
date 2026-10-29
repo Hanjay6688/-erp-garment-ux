@@ -1,0 +1,88 @@
+{
+  "classification": "EXACT_RETAINED_NEGATIVE_FAILED_INSTALL_NOT_NATIVE_PREREQUISITE",
+  "source_head": "9a0ca1de04723717c9d6635b8d3a6bd094233b97",
+  "source_tree": "9b13113d5ec63afb95874d41f06699e0016744b3",
+  "original_local_source": "/workspace/scratch/ef468a447ac6/evidence-private/s03-9a0-payroll-install-first",
+  "original_status": "INCOMPLETE",
+  "original_error": "permission denied for schema cp7_payroll",
+  "final_gate_status": "INCOMPLETE",
+  "final_gate_actual_Native_cases": 0,
+  "actual_group_raw_present": false,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "all_public_catalog_members_and_row_hashes": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "cp6_restored": true,
+  "baseline_full22_all_rows_all_sequences_equal": true,
+  "baseline_advisors_equal": true,
+  "package_run_identity": {
+    "label": "T3_PREP",
+    "tool_head": "9a0ca1de04723717c9d6635b8d3a6bd094233b97",
+    "product_ref": "d902e4d2e65cf5b382af1ab041120611f9a61078",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "run_id": "40954866687",
+    "run_attempt": "1",
+    "workflow": "CP7 A S03 attendance choice Native11",
+    "job": "p21",
+    "event": "push",
+    "github_sha": "9a0ca1de04723717c9d6635b8d3a6bd094233b97",
+    "release_evidence": false,
+    "production_go": false,
+    "mode": "install"
+  },
+  "exact_retained_originals": {
+    "CP7_S03_ATTENDANCE_CHOICE_NATIVE11.json": {
+      "path": "scripts/current-attendance-choice-reader-native14-qualification/retained-9a0-install-first/CP7_S03_ATTENDANCE_CHOICE_NATIVE11.json.gz",
+      "raw_bytes": 540064,
+      "raw_sha256": "da816a0bfa8c096fcb3780fcaf2d226a9bce183e100276e4ee932bbf365c915c",
+      "gzip_bytes": 64708,
+      "gzip_sha256": "e1c0193cce5d275c164e83efbc3419fb9581c7b7fe2ae9d0e4ee8731c44d89a6"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "path": "scripts/current-attendance-choice-reader-native14-qualification/retained-9a0-install-first/T3_PACKAGE_INSTALL.json.gz",
+      "raw_bytes": 360420,
+      "raw_sha256": "06890ef77cff3ca5af7743750f98cb941ccfe2107c82a6546c9459914e01a15b",
+      "gzip_bytes": 11390,
+      "gzip_sha256": "dbbf3eb8f65921d85788ef80f12356611dd31b3faf07a9908ab1578ae96f6c6a"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "path": "scripts/current-attendance-choice-reader-native14-qualification/retained-9a0-install-first/T3_PACKAGE_FILES_INSTALL.json.gz",
+      "raw_bytes": 1806,
+      "raw_sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "gzip_bytes": 255,
+      "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "path": "scripts/current-attendance-choice-reader-native14-qualification/retained-9a0-install-first/T3_BACKUP_RESTORE_DRILL.json.gz",
+      "raw_bytes": 1470,
+      "raw_sha256": "987c7087ba303ee3bf9f13f283d57f95a6e952b03ed9d2376e4320e0307d165f",
+      "gzip_bytes": 645,
+      "gzip_sha256": "5623a284f324ba37be26978675384d79364284f47a0cbb51ffca085a792923f5"
+    },
+    "S03_NATIVE11_FINAL_GATE.json": {
+      "path": "scripts/current-attendance-choice-reader-native14-qualification/retained-9a0-install-first/S03_NATIVE11_FINAL_GATE.json.gz",
+      "raw_bytes": 195,
+      "raw_sha256": "a1478f5e30247b199e2b2457d6ad212e26f7c5a3e9693b1cc6c68c82457175a1",
+      "gzip_bytes": 174,
+      "gzip_sha256": "161a318b8801c1eedbce7af04d611a78875b6c9811ca1caa482d9d14d784d0a0"
+    }
+  },
+  "used_as_successful_prerequisite": false,
+  "new_Native_qualification_credit": 0,
+  "independent_acceptance": false,
+  "production_go": false
+}

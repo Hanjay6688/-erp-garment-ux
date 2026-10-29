@@ -1,0 +1,15 @@
+{
+  "original_path": ".github/workflows/cp7-s03-attendance-native11.yml",
+  "original_sha256": "8359b8a5f05c4d8371429e71ba87ff36d2391d6f1108840a805bd8f81452c963",
+  "derived_path": ".github/workflows/cp7-s03-choice-reader-native14.yml",
+  "derived_sha256": "f17a754056a094f3e9e2425fd3a8cef228de04a7f270f56005830030fe10a59c",
+  "derived_bytes": 29722,
+  "same_full_setup_downloads_restore_clone_cleanup": true,
+  "exact_package_identity_product_ref_unchanged": "d902e4d2e65cf5b382af1ab041120611f9a61078",
+  "two_actual_groups": [
+    11,
+    3
+  ],
+  "fresh_Native_cases": 14,
+  "actual_Native_executed": 0
+}

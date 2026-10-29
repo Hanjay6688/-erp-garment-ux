@@ -1,0 +1,36 @@
+{
+  "classification": "LOCAL_SOURCE_DERIVED_NATIVE_RECALCULATE_BUMP_AUDIT_WITH_EXPLICIT_NONWORK_ACCESS_CONTEXT_DOUBLES_NOT_ACTUAL_NATIVE_AUTH",
+  "counts": {
+    "PASS": 21,
+    "FAIL": 1,
+    "SKIP": 0
+  },
+  "observed_public_APPROVE_refusal": "CP7_S03_PERIOD_CLAIMED",
+  "actual_local_census_difference": {
+    "only_changed": "erp.audit_logs_id_seq",
+    "before": [
+      "10",
+      true
+    ],
+    "after": [
+      "12",
+      true
+    ]
+  },
+  "all_other_user_schema_rows_and_sequences_equal": true,
+  "original_report": "LOCAL_FAITHFUL22_FIRST_21PASS_1CLAIM_ORDER_FAILURE.json",
+  "diagnostic_selection": "one failed new case selected unchanged,21 unselected; not a complete-suite result",
+  "real_full_nonwork_rebuild": "Actual full-parent rebuild also rewrites child snapshots; local dependency calls retained Native recalculate and therefore proves this first-audited-effect boundary without claiming full Native eligibility.",
+  "planned_repair": "13th existing postgres-owned facade captured; APPROVE-only early rawcontractor->period/claim/access fence before source child locks or rebuild, direct Native early row->period/access fence before retained recalculate; original later guards preserved",
+  "wire_7e91_unchanged": true,
+  "repair_applied": false,
+  "files": {
+    "choice.sql": "44499c6d6a06d1effc2be4f066168f5fa2fe9608b2ccb80d1d2d0b1dac0a8212",
+    "native_delta.py": "a46b7e89a8071d74258a3667e61783a8c3d03c9aff3c2e82c5a095e5abeb3251",
+    "composition.py": "d3b0c53ca10cd6427ce0348799256c5625f38d3a58767c75176ff265dc058180",
+    "catalog_contract.py": "50e91093e32a8f418a6eaf58566a51445e85b7760fc564d6562a443c2013ca6b",
+    "local_fixture.sql": "47c8718eac2633a4c0e4027ec9d91205c03dba2be5fa1d83c5c9a3f7bf370663",
+    "local.test.ts": "e5f2e6ac5c920be05601ae6616b4bc2d2fcd716892885ab9b1b5fa083af2ac73",
+    "SOURCE_DERIVED_NATIVE_ABI.json": "2b23efd7843b72e80136ed1ca4f4d805318d2ee974d6e202fef6f504232674dd"
+  }
+}

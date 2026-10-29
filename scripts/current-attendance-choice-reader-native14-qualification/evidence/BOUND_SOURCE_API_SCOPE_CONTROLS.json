@@ -1,0 +1,27 @@
+{
+  "classification": "REAL_CURRENT_PUBLIC_ALIAS_FILE_AND_API_CLOSURE_WITHOUT_ERP_OR_DB",
+  "status": "PASS",
+  "backend_head": "73ad6d323099e1d5384a94477043c01db8989106",
+  "backend_tree": "87c289b65362d1d29f7c44a620bd83220f6e7df5",
+  "actual_authored_files": 118,
+  "runtime_files": 7,
+  "old80_transitions": 14,
+  "original11_case_sha256": "15fe990cccb82ff4c1dcd9ca40dc17fe93ac26a3a359a37361e6d8780b1f16e2",
+  "same_original_read_original_and_admit_documents_AST": true,
+  "Reader3_factory_actual_ids_and_ABI": true,
+  "source": {
+    "path": "scripts/current-attendance-period-choice-readers-qualification/SOURCE.json",
+    "bytes": 4173,
+    "sha256": "85de4a6aaca8ad53e179ba4c398e55c554a67b6fe8f325cb9b5ae225c4697d9f"
+  },
+  "API": {
+    "path": "scripts/current-attendance-period-choice-readers-qualification/cases.py",
+    "bytes": 10121,
+    "sha256": "eebe27396c93d4b2b14062f778a4f6a4a9c9ae840bed164e11196d90bc603630"
+  },
+  "actual_Native_cases": 0,
+  "DB_calls": 0,
+  "GET_calls": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

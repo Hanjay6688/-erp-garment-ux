@@ -1,0 +1,9 @@
+
+ RUN  v4.1.11 /workspace/scratch/ef468a447ac6/erp-attendance-zero
+
+
+ Test Files  1 passed (1)
+      Tests  2 passed | 18 skipped (20)
+   Start at  03:19:47
+   Duration  3.72s (transform 119ms, setup 0ms, import 290ms, tests 3.17s, environment 1ms)
+

@@ -1,0 +1,13 @@
+{
+  "classification": "SOURCE_PRODUCER_AND_IN_MEMORY_RESULT_SCHEMA_CONTROLS_ONLY",
+  "tests": 47,
+  "passed": 47,
+  "failed": 0,
+  "first_log_sha256": "889bba855528895b1e3665e0e1987812965f9720aac89101eff5666b7b8aa654",
+  "original11_financial_cases_unchanged": true,
+  "reader_group_plan": 3,
+  "actual_Native14_executed": false,
+  "actual_Native_SQL_DB_GET_calls": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

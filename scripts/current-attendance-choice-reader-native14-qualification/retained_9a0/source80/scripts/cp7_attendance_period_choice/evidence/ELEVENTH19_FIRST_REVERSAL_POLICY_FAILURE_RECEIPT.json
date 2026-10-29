@@ -1,0 +1,24 @@
+{
+  "classification": "LOCAL_ONLY_NOT_ACTUAL_NATIVE_AUTH",
+  "counts": {
+    "PASS": 17,
+    "FAIL": 2,
+    "SKIP": 0
+  },
+  "product_findings": [
+    "REVERSE receipt event_id differs from immutable reversal row ID",
+    "new policy for previously excluded contractor with existing P2 output changes active carried denominator"
+  ],
+  "source_limit": "SET_POLICY local ABI still P00; source-path review confirms current HPP01 checks headerP1 dates and also misses new P2 eligibility. Exact HPP01 source transform must be applied and provenance rechecked. Earlier17 are local controls only.",
+  "files": {
+    "choice.sql": "c6045de2b56e0de47134cc3e444c1d17af52350abec4267866af463abb1432f7",
+    "native_delta.py": "3dcb72d1d6f4cd70ef509cb0563020dc7661043cdaa7ef5fd229ff9a7a4999c4",
+    "catalog_contract.py": "50e91093e32a8f418a6eaf58566a51445e85b7760fc564d6562a443c2013ca6b",
+    "composition.py": "995b36722c95f181fd4d0638c8e217e458a35ae72b0372bcc165390d3a8e6b14",
+    "SOURCE_DERIVED_NATIVE_ABI.json": "445fdd2310e2a3087c1eae558f9422b12b7515bc7506a327702b61b16ed676d2",
+    "NEW_CATALOG_IDENTITIES.json": "16ef3ffc96d10806a359744c5c2d00d64b4f269ad2e5ed3b953e877f953b8c37",
+    "local.test.ts": "ecc784b557d76475b9d58e29fcfea88cfd491e56e60b6dd8f167600164bdc3ff",
+    "test_source.py": "c5a6f19a2b5eb2d3d154016a01d97c12d6204c2122b50c8ca070e9a9d8a9d571"
+  },
+  "repair_applied": false
+}
