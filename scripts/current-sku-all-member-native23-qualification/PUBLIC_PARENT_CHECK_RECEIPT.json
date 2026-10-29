@@ -1,0 +1,26 @@
+{
+  "status": "PUBLIC_PARENT_SOURCE_CONTROLS_PASS_FULL_NO_DB_ADMISSION_PENDING",
+  "public_product_head": "c05e3d689e0e4b770af40b6a6b7d7e5cd659a12b",
+  "public_product_tree": "77d50d4b34287d5d17180b96a5506af379ddafa9",
+  "public_product_parent": "bd2cd02c0b724f87f6f1d8628f8227dd30c513a4",
+  "current_Python_tests_pass": 60,
+  "current_Python_suites": {
+    "test_qualification.py": 19,
+    "private_whole_unique_controls": 13,
+    "private_whole_combined_controls": 20,
+    "private_whole_cost_controls": 5,
+    "private_whole_browser_controls": 3
+  },
+  "unchanged_prior_controls_historical": {
+    "Python": 26,
+    "Node": 13
+  },
+  "old_receipts_rewritten": false,
+  "private_Git_refusal_control": true,
+  "original134asserts_retained": true,
+  "root_product8paths_changed": false,
+  "actual_Native": 0,
+  "actual_Auth": 0,
+  "actual_browser": 0,
+  "actual_remote": 0
+}

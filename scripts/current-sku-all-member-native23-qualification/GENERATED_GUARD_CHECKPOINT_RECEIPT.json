@@ -1,0 +1,41 @@
+{
+  "kind": "LOCAL_GENERATED_RECEIPT_GUARD_REPAIR_CHECKPOINT_NOT_NATIVE",
+  "status": "LOCAL_CONTROLS_PASS_POSTCOMMIT_COMPLETE_ADMISSION_REQUIRED",
+  "public_product_head": "c05e3d689e0e4b770af40b6a6b7d7e5cd659a12b",
+  "python_controls": {
+    "qualification_and_generated_outputs": 42,
+    "inherited_unique": 13,
+    "inherited_combined": 20,
+    "inherited_cost": 5,
+    "inherited_browser": 3,
+    "supplemental_fixture_source": 5
+  },
+  "python_controls_total": 88,
+  "actual_unchanged_main8src_client_tests": {
+    "passed": 72,
+    "failed": 0,
+    "pending": 0,
+    "report_sha256": "22694b93215f43d17a2427bea74be71234f4658fabedec81727034d9701da75a"
+  },
+  "supplemental_family15": {
+    "passed": 15,
+    "failed": 0,
+    "pending": 0,
+    "separate_from_main72": true,
+    "source_sha256": "e0f4f47beb48235d854b9d924cdf5faf568d75ebc82ef9b6252f42384315eb8d"
+  },
+  "actual_archived_generated_outputs_replayed": 127,
+  "old_untracked_guard_first_rejection_retained": true,
+  "original_and_first_derived_supplemental_failures_retained": true,
+  "original_complete_engine_substitutions": 5,
+  "original_Python_asserts_retained": 134,
+  "original_money_quantity_fullcensus_assertions_changed": false,
+  "root_product8paths_changed": false,
+  "original_main72_paths_and_workflow_command_changed": false,
+  "actual_Native": 0,
+  "actual_Auth": 0,
+  "actual_browser": 0,
+  "actual_remote": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

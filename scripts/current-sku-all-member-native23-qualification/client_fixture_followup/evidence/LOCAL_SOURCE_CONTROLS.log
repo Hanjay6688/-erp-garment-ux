@@ -1,0 +1,10 @@
+test_config_preserves_original_build_secret_preflight_and_only_adds_owned_testpath (test_derivation.FixtureSourceControls.test_config_preserves_original_build_secret_preflight_and_only_adds_owned_testpath) ... ok
+test_dependencies_are_typed_and_downstream_uses_real_movement_predicate (test_derivation.FixtureSourceControls.test_dependencies_are_typed_and_downstream_uses_real_movement_predicate) ... ok
+test_exact_native_downstream_definition_comes_from_retained_original_catalogue (test_derivation.FixtureSourceControls.test_exact_native_downstream_definition_comes_from_retained_original_catalogue) ... ok
+test_full_source_reconstructs_and_all_fifteen_IDs_and_money_assertions_remain (test_derivation.FixtureSourceControls.test_full_source_reconstructs_and_all_fifteen_IDs_and_money_assertions_remain) ... ok
+test_source_mutation_refuses_instead_of_resealing_expectations (test_derivation.FixtureSourceControls.test_source_mutation_refuses_instead_of_resealing_expectations) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.108s
+
+OK

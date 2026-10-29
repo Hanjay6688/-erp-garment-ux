@@ -1,0 +1,4 @@
+(!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+  - import "../../../vite.config" without a file extension (scripts/current-sku-all-member-native23-qualification/client_fixture_followup/vitest.config.ts:2:22). Add the file extension
+Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+JSON report written to /workspace/scratch/ef468a447ac6/erp-sku-combined-fixture-successor/scripts/current-sku-all-member-native23-qualification/client_fixture_followup/evidence/DERIVED_FIRST15.json

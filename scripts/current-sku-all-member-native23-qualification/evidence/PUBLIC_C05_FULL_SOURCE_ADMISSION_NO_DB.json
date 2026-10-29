@@ -1,0 +1,23 @@
+{
+  "kind": "ACTUAL_PUBLIC_PARENT_COMPLETE_MODULE_IMPORT_AND_SOURCE_ADMISSION_ONLY_DB_NETWORK_PRIVATE_GIT_REFUSED",
+  "actual_Native": 0,
+  "actual_Auth": 0,
+  "actual_browser": 0,
+  "actual_remote": 0,
+  "required_public_product_head": "c05e3d689e0e4b770af40b6a6b7d7e5cd659a12b",
+  "status": "PASS",
+  "historical_only_fresh_credit": 0,
+  "current_sources_actual": true,
+  "argv_original_object_and_content_restored": true,
+  "source_status": "SKU23_HISTORICAL21_AND_ACTUAL_ONE_FUNCTION_SUCCESSOR_ADMITTED",
+  "checked_head": "d8dbe0517042799982a66bad6a963d6f91a51512",
+  "forbidden_operation_attempts": [],
+  "explicit_Git_heads_observed": [
+    "1f8c75566d0eee90086b31ae7bb7921b05502bdc",
+    "21c69cf25defcee854beb08e998062d7e883d968",
+    "42760534906c330353f9bb0f53d27db65b134626",
+    "bd2cd02c0b724f87f6f1d8628f8227dd30c513a4",
+    "c05e3d689e0e4b770af40b6a6b7d7e5cd659a12b",
+    "c163c1e9ff8f00b8dd8859c32aee0c2069766ad6"
+  ]
+}

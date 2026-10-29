@@ -1,0 +1,14 @@
+{
+  "kind": "CURRENT_SKU42_WITH_ACTUALROOT_GENERATED_PYTHON_FILE_OPENS_FORBIDDEN",
+  "status": "PASS",
+  "tests": 42,
+  "failed": 0,
+  "errors": 0,
+  "actualroot_generated_open_attempts": [],
+  "dir_fd_relative_temporary_cleanup_resolved_correctly": true,
+  "self_contained_historical_fixture_roots": true,
+  "original_client_report_restored_exact": true,
+  "original_client_report_sha256": "22694b93215f43d17a2427bea74be71234f4658fabedec81727034d9701da75a",
+  "log_sha256": "fac7e8592e71f0735d665fc6391495de0d8abca410a57414b99fa578e742b5c1",
+  "Native_credit": 0
+}

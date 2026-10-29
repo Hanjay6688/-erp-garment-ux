@@ -1,0 +1,43 @@
+{
+  "kind": "FILESYSTEM_SYMLINK_RESTORE_PROBE_NO_SOURCE_GATE_OR_GIT_CALL",
+  "states": [
+    {
+      "phase": "baseline",
+      "path": "scripts/current-sku-all-member-native23-qualification/harness_symlink_probe/ordinary-leaf.tmp",
+      "symlink": false,
+      "inode": 838772
+    },
+    {
+      "phase": "symlink",
+      "path": "scripts/current-sku-all-member-native23-qualification/harness_symlink_probe/ordinary-leaf.tmp",
+      "symlink": true,
+      "inode": 838772
+    },
+    {
+      "phase": "restored",
+      "path": "scripts/current-sku-all-member-native23-qualification/harness_symlink_probe/ordinary-leaf.tmp",
+      "symlink": false,
+      "inode": 838772,
+      "sha256": "8d7fca7dd0556ad56dc2ad09871cb6ebd6bd740cc5c9ef4ca4661330a118d98d"
+    },
+    {
+      "phase": "baseline",
+      "path": "scripts/current-sku-all-member-native23-qualification/harness_symlink_probe/atomic-leaf.tmp",
+      "symlink": false,
+      "inode": 838788
+    },
+    {
+      "phase": "symlink",
+      "path": "scripts/current-sku-all-member-native23-qualification/harness_symlink_probe/atomic-leaf.tmp",
+      "symlink": true,
+      "inode": 838788
+    },
+    {
+      "phase": "restored",
+      "path": "scripts/current-sku-all-member-native23-qualification/harness_symlink_probe/atomic-leaf.tmp",
+      "symlink": false,
+      "inode": 838812,
+      "sha256": "8d7fca7dd0556ad56dc2ad09871cb6ebd6bd740cc5c9ef4ca4661330a118d98d"
+    }
+  ]
+}

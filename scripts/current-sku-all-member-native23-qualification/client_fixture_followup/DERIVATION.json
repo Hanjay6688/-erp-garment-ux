@@ -1,0 +1,32 @@
+{
+  "original_sha256": "c9e11478ecdd1669de2aec8df42c660807b566a29913da8278a0fe6cbfba4240",
+  "derived_sha256": "e8d8791a01d149592e89a1ddc076c04101951e23921243c6d81896869a29f139",
+  "counted_substitutions": 7,
+  "same15_test_IDs": [
+    "preview revision is canonical across caller timezones and the reviewed request posts under UTC",
+    "commercial groups have one bidirectional pair, reversed input is canonical, replacement removes both old partners and has no ledger effects",
+    "pair replay is exact, stale master state and crossing duplicate endpoints are refused, and authorization is checked before replay",
+    "explicit nullable target deletes from either endpoint with the original Native validators; missing, malformed, stale and reused requests refuse without effects",
+    "FIFO preview separates physical/available/reserved and carries each lot cost into a different model and size",
+    "only the exact private allocation permits cross-model/size; a direct legacy call cannot opt in using arbitrary data",
+    "changed reservations, target stock or source HPP invalidate the reviewed fingerprint before any write",
+    "one request replays without duplicate movements and manual conversion back uses its current source cost",
+    "a downstream use blocks the whole group inverse with zero partial reversal; after release all allocations reverse atomically",
+    "all active targets remain available beyond equivalents and sizes are explicit, with source and target latest stock",
+    "master partner search is group based, paged independently and does not require HPP access",
+    "authorization precedes private group dispatch and malformed UUID handling",
+    "NULL, blank or unknown commands cannot reverse an existing conversion group or change any ledger/status",
+    "a revoked grant after the idempotency boundary refuses even an already completed UUID reply",
+    "the original all22 catalog query exposes exactly six ERP parent RI triggers; narrow fix admits those and rejects a real rogue ERP trigger"
+  ],
+  "original_assertion_lines": 66,
+  "all_original_assertions_preserved": true,
+  "only_changed_expected_error": "Native downstream exact message replaces old model-only marker",
+  "production_SQL_changed": false,
+  "Native_executions": 0,
+  "retained_Native_downstream_definition_sha256": "f65dc3f4888809d0566095f7d5c7a59a6103cfa83f688aef679845d6fba85045",
+  "P00_catalogue_gzip_sha256": "274a0f8649ddb4d22887c65f7da1757a92e62e650fb572009af34194a960da2a",
+  "source_guard_SQL_sha256": "eece6fbed8cb13b73a49ec2e051478d6ba2a8b1002f6745b8c682db318595d72",
+  "scope": "SUPPLEMENTAL_LOCAL_MODEL_FAMILY15_SEPARATE_FROM_UNCHANGED_MAIN72",
+  "unchanged_other14_test_bodies": true
+}

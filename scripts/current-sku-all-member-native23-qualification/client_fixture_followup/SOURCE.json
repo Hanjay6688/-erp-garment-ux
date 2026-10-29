@@ -1,0 +1,237 @@
+{
+  "schema_version": 1,
+  "status": "PREPARED_SUPPLEMENTAL_LOCAL_MODEL15_NOT_NATIVE_QUALIFIED",
+  "scope": "SUPPLEMENTAL_LOCAL_MODEL_FAMILY15_SEPARATE_FROM_UNCHANGED_MAIN72",
+  "files": {
+    "docs/cp7/evidence/p00/CP7_P00_CATALOGUE.json.gz": {
+      "bytes": 736941,
+      "sha256": "274a0f8649ddb4d22887c65f7da1757a92e62e650fb572009af34194a960da2a"
+    },
+    "scripts/cp6_bc_objects_service.sql": {
+      "bytes": 61085,
+      "sha256": "c391e3decba059eb8d6ef22601f507358d56837adbd8e13c5928da3591f5853f"
+    },
+    "scripts/cp6_bd_objects_policy.sql": {
+      "bytes": 15855,
+      "sha256": "705638fda10c939e6a813958d87316c6b122b41902aa5acd54db1c5fee5898c3"
+    },
+    "scripts/cp6_be_objects_conversion.sql": {
+      "bytes": 17983,
+      "sha256": "d1f50e29639b473bd988c4f791aaec126796fec4bec76fe5ac219fa49f7c7438"
+    },
+    "scripts/cp6_be_objects_cost.sql": {
+      "bytes": 11206,
+      "sha256": "d922c11f6034df220361aba4f1e2a91e2151871857c44a4c56acf4e87df56979"
+    },
+    "scripts/cp6_be_objects_rework.sql": {
+      "bytes": 7553,
+      "sha256": "22a3c3d9d91c529f21513f61e486c3525d26688d2e700ee87c5c97289c9d8073"
+    },
+    "scripts/cp7_ow04_restore_bundle.py": {
+      "bytes": 19828,
+      "sha256": "a1605193347cf5b3321a7bdbf8ff6c634df4f4c0a5113eb295e8c3ce44428e00"
+    },
+    "scripts/cp7_sku_pair_conversion/conversion.sql": {
+      "bytes": 22975,
+      "sha256": "eece6fbed8cb13b73a49ec2e051478d6ba2a8b1002f6745b8c682db318595d72"
+    },
+    "scripts/cp7_sku_pair_conversion/pairs.sql": {
+      "bytes": 9421,
+      "sha256": "05c7b67222b2a003ee4180872216a0837c747fcb145db88157317bad25b281c2"
+    },
+    "scripts/current-sku-all-member-native23-qualification/client_fixture_followup/DERIVATION.json": {
+      "bytes": 2709,
+      "sha256": "ddc805a9128dfeb87d54cd2265b26954e6ebcc889e915b3103fe8ee04a2b50e1"
+    },
+    "scripts/current-sku-all-member-native23-qualification/client_fixture_followup/README.md": {
+      "bytes": 4575,
+      "sha256": "8b3f4900e560897fe2d5f3720f53191b3443901d5ba3c480288597738878d2dd"
+    },
+    "scripts/current-sku-all-member-native23-qualification/client_fixture_followup/check.py": {
+      "bytes": 3838,
+      "sha256": "b10e325e02d83da1bea497c7fd1ef9e7e384ab42a339a5a00280c208635c368f"
+    },
+    "scripts/current-sku-all-member-native23-qualification/client_fixture_followup/derive.py": {
+      "bytes": 5495,
+      "sha256": "29e22c408f346bbd85e4fcf3672d472c0a7f0491e67f18a28c43e50971928edb"
+    },
+    "scripts/current-sku-all-member-native23-qualification/client_fixture_followup/evidence/CONTROL_RECEIPT.json": {
+      "bytes": 2517,
+      "sha256": "8348008635aa2feaccd26460a32987a3f5703ffeaa0cc71103d4c84906b4785a"
+    },
+    "scripts/current-sku-all-member-native23-qualification/client_fixture_followup/evidence/DERIVED_FINAL15.json": {
+      "bytes": 6171,
+      "sha256": "53d80cab22351d0dd12fa2e9e954aab870e9145b4d7f39a373fd5b12e7d748cc"
+    },
+    "scripts/current-sku-all-member-native23-qualification/client_fixture_followup/evidence/DERIVED_FINAL15.log": {
+      "bytes": 198,
+      "sha256": "e23541e0515788eaebaf8f5ce7fa7f0585b3a26c6e7a3bf8048941bd3c3098ae"
+    },
+    "scripts/current-sku-all-member-native23-qualification/client_fixture_followup/evidence/DERIVED_FIRST15.json": {
+      "bytes": 12098,
+      "sha256": "e070d3543388c6720a091fd8a46863127461017ed3edb7beb2b5d43027ff2513"
+    },
+    "scripts/current-sku-all-member-native23-qualification/client_fixture_followup/evidence/DERIVED_FIRST15.log": {
+      "bytes": 613,
+      "sha256": "629e1d948fccfa5954bf6848c18321e95afbd3bbded9d8b2e07db944e1903404"
+    },
+    "scripts/current-sku-all-member-native23-qualification/client_fixture_followup/evidence/DERIVED_FIRST15_SOURCE.ts.txt": {
+      "bytes": 34828,
+      "sha256": "c1c552f2f969b05ecfa45d3c21d8f678ea48799a2ec9134408395cee5200a7f9"
+    },
+    "scripts/current-sku-all-member-native23-qualification/client_fixture_followup/evidence/LOCAL_SOURCE_CONTROLS.log": {
+      "bytes": 1083,
+      "sha256": "50d94af2e0f26d72ae0358d0e2a059b47926101150aa9b41c32767e634f51cbc"
+    },
+    "scripts/current-sku-all-member-native23-qualification/client_fixture_followup/evidence/ORIGINAL_FIRST15.log": {
+      "bytes": 812,
+      "sha256": "5ffb084e5c170e792985fcd0b83097ab1e6298b191c95dd72d878cd83960f055"
+    },
+    "scripts/current-sku-all-member-native23-qualification/client_fixture_followup/evidence/ORIGINAL_RESOLVED_RUNTIME15.json": {
+      "bytes": 6842,
+      "sha256": "cd290d84aca45d6bf2dcfe1140cd3a165da44a0ff58aec0e7d050f7b088edd43"
+    },
+    "scripts/current-sku-all-member-native23-qualification/client_fixture_followup/evidence/ORIGINAL_RESOLVED_RUNTIME15.log": {
+      "bytes": 210,
+      "sha256": "4e5c89e5ddb78637ef8c4698aee471c632d378a01df02bb74422443854736161"
+    },
+    "scripts/current-sku-all-member-native23-qualification/client_fixture_followup/fixture_dependencies.sql": {
+      "bytes": 2657,
+      "sha256": "1f6439aeb884f8d7221278200a3948d86cdd62cc79487300103f2becde5be004"
+    },
+    "scripts/current-sku-all-member-native23-qualification/client_fixture_followup/native_downstream.sql": {
+      "bytes": 674,
+      "sha256": "f65dc3f4888809d0566095f7d5c7a59a6103cfa83f688aef679845d6fba85045"
+    },
+    "scripts/current-sku-all-member-native23-qualification/client_fixture_followup/sku-pair-conversion.derived.test.ts": {
+      "bytes": 34834,
+      "sha256": "e8d8791a01d149592e89a1ddc076c04101951e23921243c6d81896869a29f139"
+    },
+    "scripts/current-sku-all-member-native23-qualification/client_fixture_followup/test_derivation.py": {
+      "bytes": 3579,
+      "sha256": "b3f9146133b73ea04fba56c21bd3becddb3e88417f0c814db40299fddd6d8980"
+    },
+    "scripts/current-sku-all-member-native23-qualification/client_fixture_followup/vitest.config.ts": {
+      "bytes": 476,
+      "sha256": "f48656ca25a4b0ecf774ec27faea609ad074677de26e51643878d8727c401c43"
+    },
+    "src/ConnectedSkuConversion.dom.test.tsx": {
+      "bytes": 13661,
+      "sha256": "1339d1c8e2a8b0ba43acb1dd9f21ba096a898a15cabb3555e333bbe63be7c271"
+    },
+    "src/NativeStagedAiPanel.dom.test.tsx": {
+      "bytes": 3257,
+      "sha256": "b751cd100de3c0a04be739c2d659ca8813248190f19c0b13cbc77440e2d36ebd"
+    },
+    "src/NativeStagedAiPanel.fallback.dom.test.tsx": {
+      "bytes": 14046,
+      "sha256": "19c3c30d781240752b9ab1ec4867a7beb89a7df47108ee8177bce9d6f4b98021"
+    },
+    "src/nativeStagedAi.test.ts": {
+      "bytes": 2629,
+      "sha256": "89871285588ca252ae0bd279e372d667925bf5fdcc4ceb71110cde618dc82420"
+    },
+    "src/productConversion.test.ts": {
+      "bytes": 2149,
+      "sha256": "a2868f9268bf5e1c30757a4c1c9d4400ea022e89e0cb64f014983bee22797d20"
+    },
+    "src/productionRecovery.test.ts": {
+      "bytes": 5125,
+      "sha256": "32b57320137b04105c500c0642957628c001a983a216ebf715cb780c842f3309"
+    },
+    "src/skuMaster.test.ts": {
+      "bytes": 3841,
+      "sha256": "ba43c6917e46873cd12b146447e91ebfcab45c364745167ce35cdca8c951e9a5"
+    },
+    "src/skuPairConversion.test.ts": {
+      "bytes": 5373,
+      "sha256": "ff0367b528dd095ae1c7d59cf0e6d67732830237682ae0a7edf38bde889a56eb"
+    },
+    "supabase/migrations/20260901023000_erp_v2_6_14_attendance_hpp_sewing_terminal_foundation.sql": {
+      "bytes": 67598,
+      "sha256": "68e5a8f81ac364be6a8ec01c5bffdfe4ec587f91d61a03dc9f44a4670cadb821"
+    },
+    "supabase/migrations/20260915031500_erp_v2_6_20ac_cp6_temporal_surface_closure.sql": {
+      "bytes": 685655,
+      "sha256": "7b5690a2eddf618833d352dc75eb95aa1ef4dbcfb25d39b30374b733d33dadbc"
+    },
+    "tests/cp7/families/f04/runtime.mjs": {
+      "bytes": 5776,
+      "sha256": "75a42071f6234ecb0a97b76ba3a6b4582610a628bcb9feea861cb5c94c21cc5d"
+    },
+    "tests/cp7/families/sku-pair-conversion.test.ts": {
+      "bytes": 32891,
+      "sha256": "c9e11478ecdd1669de2aec8df42c660807b566a29913da8278a0fe6cbfba4240"
+    },
+    "vite.config.ts": {
+      "bytes": 1032,
+      "sha256": "ccc90fa4b08f58f0658fb9acd4eb6f77abb3affdb4fc79e9bd170ffa8745f355"
+    }
+  },
+  "owned_namespace": "scripts/current-sku-all-member-native23-qualification/client_fixture_followup",
+  "owned_files": 19,
+  "exact_original_sha256": "c9e11478ecdd1669de2aec8df42c660807b566a29913da8278a0fe6cbfba4240",
+  "derived_sha256": "e8d8791a01d149592e89a1ddc076c04101951e23921243c6d81896869a29f139",
+  "main72_modified": false,
+  "main_suite_paths": [
+    "src/ConnectedSkuConversion.dom.test.tsx",
+    "src/NativeStagedAiPanel.dom.test.tsx",
+    "src/NativeStagedAiPanel.fallback.dom.test.tsx",
+    "src/nativeStagedAi.test.ts",
+    "src/productConversion.test.ts",
+    "src/productionRecovery.test.ts",
+    "src/skuMaster.test.ts",
+    "src/skuPairConversion.test.ts"
+  ],
+  "main_suite_case_counts": [
+    9,
+    2,
+    12,
+    3,
+    4,
+    30,
+    6,
+    6
+  ],
+  "supplemental15_IDs": [
+    "preview revision is canonical across caller timezones and the reviewed request posts under UTC",
+    "commercial groups have one bidirectional pair, reversed input is canonical, replacement removes both old partners and has no ledger effects",
+    "pair replay is exact, stale master state and crossing duplicate endpoints are refused, and authorization is checked before replay",
+    "explicit nullable target deletes from either endpoint with the original Native validators; missing, malformed, stale and reused requests refuse without effects",
+    "FIFO preview separates physical/available/reserved and carries each lot cost into a different model and size",
+    "only the exact private allocation permits cross-model/size; a direct legacy call cannot opt in using arbitrary data",
+    "changed reservations, target stock or source HPP invalidate the reviewed fingerprint before any write",
+    "one request replays without duplicate movements and manual conversion back uses its current source cost",
+    "a downstream use blocks the whole group inverse with zero partial reversal; after release all allocations reverse atomically",
+    "all active targets remain available beyond equivalents and sizes are explicit, with source and target latest stock",
+    "master partner search is group based, paged independently and does not require HPP access",
+    "authorization precedes private group dispatch and malformed UUID handling",
+    "NULL, blank or unknown commands cannot reverse an existing conversion group or change any ledger/status",
+    "a revoked grant after the idempotency boundary refuses even an already completed UUID reply",
+    "the original all22 catalog query exposes exactly six ERP parent RI triggers; narrow fix admits those and rejects a real rogue ERP trigger"
+  ],
+  "counted_substitutions": 7,
+  "original_assertion_lines": 66,
+  "Native_downstream_raw_sha256": "f65dc3f4888809d0566095f7d5c7a59a6103cfa83f688aef679845d6fba85045",
+  "local_runtime_module": {
+    "path": "/workspace/scratch/ef468a447ac6/test-runtime/node_modules/@electric-sql/pglite/dist/index.js",
+    "bytes": 356948,
+    "sha256": "03bce0708dbe57ab154c75089ded04c47d0a9e713fe397dee33cd3912101cab5"
+  },
+  "local_model_result": {
+    "tests": 15,
+    "passed": 15,
+    "failed": 0,
+    "pending": 0
+  },
+  "source_controls": {
+    "tests": 5,
+    "passed": 5
+  },
+  "Native_executions": 0,
+  "actual_Auth": 0,
+  "actual_browser": 0,
+  "independent_acceptance": false,
+  "production_go": false,
+  "owner": "Root/E1 stages and binds this separate supplemental leaf; author performs no shared commit or publication"
+}

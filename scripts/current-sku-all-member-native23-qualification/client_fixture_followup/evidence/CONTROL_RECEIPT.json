@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "scope": "SUPPLEMENTAL_LOCAL_PGLITE_FAMILY15_ONLY",
+  "runtime": "PGLITE_WASM_LOCAL_NOT_NATIVE_AUTH_PROOF",
+  "original_module_not_found": {
+    "classification": "SETUP_FAILURE_NO_SQL_CASES",
+    "file": "evidence/ORIGINAL_FIRST15.log"
+  },
+  "original_actual_before": {
+    "file": "evidence/ORIGINAL_RESOLVED_RUNTIME15.json",
+    "numTotalTests": 15,
+    "numPassedTests": 14,
+    "numFailedTests": 1,
+    "numPendingTests": 0,
+    "reason": "Missing erp.be_conversion_sources_v1 before real downstream refusal can be evaluated",
+    "raw_error_observation": "Vitest truncates the original actual error at relation \"erp.be_conversion_sources_v\u2026; full _v1 identity is source-resolved, not an untruncated raw string"
+  },
+  "first_derived_failure": {
+    "file": "evidence/DERIVED_FIRST15.json",
+    "numTotalTests": 15,
+    "numPassedTests": 9,
+    "numFailedTests": 6,
+    "numPendingTests": 0,
+    "reason": "Own added POST-model unqualified source_id collided with existing PL/pgSQL local variable",
+    "source_file": "evidence/DERIVED_FIRST15_SOURCE.ts.txt",
+    "source_sha256": "c1c552f2f969b05ecfa45d3c21d8f678ea48799a2ec9134408395cee5200a7f9"
+  },
+  "final_derived": {
+    "file": "evidence/DERIVED_FINAL15.json",
+    "numTotalTests": 15,
+    "numPassedTests": 15,
+    "numFailedTests": 0,
+    "numPendingTests": 0,
+    "source_sha256": "e8d8791a01d149592e89a1ddc076c04101951e23921243c6d81896869a29f139"
+  },
+  "source_controls": {
+    "tests": 5,
+    "passed": 5,
+    "failed": 0,
+    "file": "evidence/LOCAL_SOURCE_CONTROLS.log"
+  },
+  "seven_reversible_substitutions": true,
+  "same15_IDs": true,
+  "original_assertion_lines": 66,
+  "other14_test_bodies_byte_exact": true,
+  "main72_modified": false,
+  "production_SQL_modified": false,
+  "Native_executions": 0,
+  "actual_Auth": 0,
+  "actual_browser": 0,
+  "independent_acceptance": false,
+  "production_go": false,
+  "limitations": [
+    "Typed guarded-column relations only; no complete Native installation, FKs, RLS or BE immutable triggers",
+    "Original selected-lot POST, inverse, Auth, HPP, journal and workspace doubles remain declared models",
+    "Cost/return dependency relations are empty in this baseline; positive cost/return/header/permission/wait qualification remains Native23 scope",
+    "Original snapshots cover existing movement/HPP/test-journal assertions; no new full-data or sequence restoration claim",
+    "No network, CI, hosted service or database server was used; local PGlite only"
+  ]
+}

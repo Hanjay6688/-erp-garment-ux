@@ -1,0 +1,9 @@
+{
+  "kind": "READ_ONLY_DECLARED_WORKFLOW_TRIGGER_COUNTER_NO_NATIVE",
+  "author": "/root/sku_features",
+  "original_helper_sha256": "7605e03ad5404215aa312313bf97d8dfda588c48472fad48d14dbbe609a82706",
+  "finding": "Hardcoded push rejects workflow_dispatch already declared by frozen SKU and S03 workflows.",
+  "resolution": "Allowed events and exact workflow name are read from the source-pinned caller contract; only push/workflow_dispatch can be declared.",
+  "product_or_financial_change": false,
+  "Native_credit": 0
+}

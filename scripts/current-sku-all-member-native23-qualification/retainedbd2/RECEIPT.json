@@ -1,0 +1,53 @@
+{
+  "head": "bd2cd02c0b724f87f6f1d8628f8227dd30c513a4",
+  "tree": "cac694e11f5ab9f02476336b9ef42c20bd832894",
+  "run_id": 40928155690,
+  "artifact_id": 12924775397,
+  "zip_bytes": 4485191,
+  "zip_sha256": "014400fd25c7134055a73a761a5c7079f29d0eed686964d8fc077fc221b32196",
+  "zip_members": 131,
+  "archived_SKU_COST_full_census_members": [],
+  "full_cost_before_after_census_retained": false,
+  "first_sequence_mismatch_preserved_in_strict3_error": true,
+  "usable_prerequisite": false,
+  "provenance": "ROOT_RETAINED_ACTUAL_TERMINAL_FAILURE_ARTIFACT_NO_NEW_REMOTE_READ_BY_HELPER",
+  "files": {
+    "CP7_SKU_COMBINED_FOLLOWUP23.json": {
+      "raw_bytes": 5145083,
+      "raw_sha256": "cc03f9880bd03504464784c5589a6880ba99056df34a7532f2791cbe02a5e61d",
+      "gzip_bytes": 552196,
+      "gzip_sha256": "1a8a563d61bbe9f7fd035c3682cd439cd6934f739166cfe097c6cc5860e07efa"
+    },
+    "CP7_SKU_PAIR_CONVERSION_NATIVE7.json": {
+      "raw_bytes": 20827,
+      "raw_sha256": "74e51900e44b68207bc0ecc672a1f3bcc7f54d33e2fdc5300d44e61c691595e5",
+      "gzip_bytes": 4193,
+      "gzip_sha256": "2b6be2e954bfc81503bb498e4541a8fc26b79e2ecb963811127b9b1db1411f19"
+    },
+    "CP7_SKU_GROUP_COST_NATIVE3.json": {
+      "raw_bytes": 14373,
+      "raw_sha256": "37622713b3e75d8d61dd8d9cc3f29340bb3d947ef91244d0653337dd90d8c5c5",
+      "gzip_bytes": 3297,
+      "gzip_sha256": "e3a14da64c084e8999014853f52c040450fa110a687d243591c196fec3b7e633"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "raw_bytes": 360434,
+      "raw_sha256": "0a8b0cb64c9b05c8d9a5ae7662d1fc23b87f9456bec4fb57e32bf2482fee7038",
+      "gzip_bytes": 11403,
+      "gzip_sha256": "2f80e4122b7859d6db1616c9e3ffc78f25a02885afc9891f7598e177e859fc72"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "raw_bytes": 1470,
+      "raw_sha256": "d19c7e8e5f3ed29602f685754b88498fa3361137d3d7a065c19745eb6950badc",
+      "gzip_bytes": 646,
+      "gzip_sha256": "170be4dc4c716274314c57e7a761d99d060c9fcfea14c9d76fc0a9ffa24f11c1"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "raw_bytes": 1806,
+      "raw_sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "gzip_bytes": 255,
+      "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7"
+    }
+  },
+  "actual_successor_cases": 0
+}

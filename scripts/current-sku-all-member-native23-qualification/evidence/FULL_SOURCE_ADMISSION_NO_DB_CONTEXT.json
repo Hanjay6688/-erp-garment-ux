@@ -1,0 +1,84 @@
+{
+  "kind": "NO_DB_COMPLETE_SOURCE_ADMISSION_CONTEXT",
+  "checked_head": "824ada3f736875806f6401b150027843b1800cc4",
+  "checked_product_head": "e8a22138dd46d75339cd8a12bad423303e2d4a79",
+  "runtime_source_modules_unchanged_since_actual_import": {
+    "scripts/current-sku-all-member-native23-qualification/admission.py": {
+      "bytes": 1956,
+      "sha256": "4d121f4e9ef294709ed443184a654af23c09d7c43c6cd16790bf5800970b14a0",
+      "exact_checked_head_bytes": true
+    },
+    "scripts/current-sku-all-member-native23-qualification/derive.py": {
+      "bytes": 8272,
+      "sha256": "1976e7dab8e1239e2ed12be0ffca89e28809f5b7f82072678e63fab1f7daac4b",
+      "exact_checked_head_bytes": true
+    },
+    "scripts/current-sku-all-member-native23-qualification/transition.py": {
+      "bytes": 5076,
+      "sha256": "5d2c42072d9c872dae8adb1b8acf06022ed50912bd5e5d1f88067935c9022b42",
+      "exact_checked_head_bytes": true
+    },
+    "scripts/current-sku-all-member-native23-qualification/probe.py": {
+      "bytes": 1650,
+      "sha256": "165f27c840529b29019a2b42618e75e9ecf9c0865ccf50dcc3a552c9cc0e834e",
+      "exact_checked_head_bytes": true
+    },
+    "scripts/current-sku-all-member-native23-qualification/runner.py": {
+      "bytes": 398,
+      "sha256": "0e7c0783c7c884fcc85d4c694bab44798766d1ad5437d36d5bf761e5220ed7e2",
+      "exact_checked_head_bytes": true
+    },
+    "scripts/current-sku-all-member-native23-qualification/historical_admission.py": {
+      "bytes": 412,
+      "sha256": "26c14f77809171286f0364a9cf16a5fb6b64c838dbd81a3ad67c3927c9d31ebe",
+      "exact_checked_head_bytes": true
+    },
+    "scripts/current-sku-all-member-native23-qualification/cost_cases.py": {
+      "bytes": 402,
+      "sha256": "5ce56d02ec067ef4f41427cc0123436394b2888a7bd7090054e2f84be13a89ad",
+      "exact_checked_head_bytes": true
+    },
+    "scripts/current-sku-all-member-native23-qualification/cost_guard.py": {
+      "bytes": 402,
+      "sha256": "9380a6c3981ec6032c0f44fb1cb09669d86f3730e10b612492f3bfcf47d0edba",
+      "exact_checked_head_bytes": true
+    },
+    "scripts/current-sku-all-member-native23-qualification/browser_guard.py": {
+      "bytes": 405,
+      "sha256": "5066caa3417113198026b7c78be0d5dd40efeef235f1646d43fa95b7bde5e2f8",
+      "exact_checked_head_bytes": true
+    },
+    "scripts/current-sku-all-member-native23-qualification/recovery.py": {
+      "bytes": 5109,
+      "sha256": "b090060f8943d99545534a1d9036aec3adfd1cd11ad03893b689d32df758e547",
+      "exact_checked_head_bytes": true
+    }
+  },
+  "post_check_changes": [
+    "Additional explicit frozen product tree equality check",
+    "Additional actual private cost-module import double",
+    "Local receipt and lossless noDB output retention"
+  ],
+  "DB_connect_functions_blocked": [
+    "psycopg.connect",
+    "psycopg.Connection.connect",
+    "psycopg.AsyncConnection.connect"
+  ],
+  "network_socket_connections_blocked": true,
+  "subprocesses_allowed": "read-only git only; fetch/push/pull/ls-remote refused",
+  "forbidden_operation_attempts": [],
+  "environment_variable_names": [
+    "CP7_VENDOR_BACKEND11_ORIGINALS",
+    "CP7_SKU_NATIVE7_ORIGINALS",
+    "D17_18_ACCEPTED_CONSISTENCY_DIRECTORY",
+    "D17_18_ACCEPTED_CONSISTENCY_FOCUSED_DIRECTORY",
+    "D17_18_RETAINED_COMBINED_AF_DIRECTORY",
+    "D17_18_RETAINED_FOCUSED64_DIRECTORY"
+  ],
+  "retired_workflow_materialization": "EXACT24_ARCHIVE_INPUTS_UNTRACKED_NOT_COMMITTED",
+  "actual_Native": 0,
+  "actual_races": 0,
+  "actual_Auth_HTTP": 0,
+  "actual_Auth_browser": 0,
+  "actual_remote": 0
+}

@@ -1,0 +1,8 @@
+{
+  "kind": "LOCAL_SOURCE_PIN_ENTRY_ERROR_NO_RUNTIME_EXECUTION",
+  "observation": "Initial unbound draft copied an outdated cost source_guard digest; derive correctly refused SKU23_FROZEN_SOURCE_CHANGED:scripts/current-sku-group-cost-qualification/source_guard.py.",
+  "correction": "Pinned the unchanged bd2 source_guard exact SHA256 147f8cae3795a171615bb9c536c4354dac655d235acff50bcd6595c37f51a883. The old file and guard checks were not edited.",
+  "actual_Native_or_DB_credit": 0,
+  "financial_oracle_relaxed": false,
+  "source_failure_retained": true
+}

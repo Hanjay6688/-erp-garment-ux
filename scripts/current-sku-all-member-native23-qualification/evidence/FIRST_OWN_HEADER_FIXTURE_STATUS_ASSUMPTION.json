@@ -1,0 +1,19 @@
+{
+  "kind": "REAL_COMPLETE_SOURCE_RUNTIME_IMPORT_AND_ADMISSION_WITH_CLOSED_GENERATED_OUTPUT_FIXTURES",
+  "checked_head": "914b6701411e16ad242599bbfb4799ece4b46f1a",
+  "source_sha256": "9999b2d530a4a4fd6466455bf7831c7059c4d1582da766ce5700308140213ba3",
+  "public_product_head": "c05e3d689e0e4b770af40b6a6b7d7e5cd659a12b",
+  "actual_DB": 0,
+  "actual_Native": 0,
+  "actual_Auth": 0,
+  "actual_browser": 0,
+  "actual_remote": 0,
+  "production_go": false,
+  "independent_acceptance": false,
+  "status": "FAIL",
+  "error_type": "AssertionError",
+  "error": "",
+  "traceback": "Traceback (most recent call last):\n  File \"/tmp/sku23-final-admission-no-db.py\", line 130, in <module>\n    result['generated_output_fixture_provenance']=materialize_outputs()\n                                                  ^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/sku23-final-admission-no-db.py\", line 73, in materialize_outputs\n    assert header['status']=='INCOMPLETE'\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+  "forbidden_operation_attempts": [],
+  "explicit_Git_heads_observed": []
+}

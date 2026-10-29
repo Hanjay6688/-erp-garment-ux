@@ -1,0 +1,40 @@
+[
+  {
+    "phase": "next_tool_before_Git",
+    "leaves": [
+      {
+        "path": "scripts/current-sku-all-member-native23-qualification/harness_symlink_probe/ordinary-leaf.tmp",
+        "symlink": false,
+        "exists": true,
+        "inode": 838772,
+        "link": null
+      },
+      {
+        "path": "scripts/current-sku-all-member-native23-qualification/harness_symlink_probe/atomic-leaf.tmp",
+        "symlink": false,
+        "exists": true,
+        "inode": 838812,
+        "link": null
+      }
+    ]
+  },
+  {
+    "phase": "after_Git_readonly",
+    "leaves": [
+      {
+        "path": "scripts/current-sku-all-member-native23-qualification/harness_symlink_probe/ordinary-leaf.tmp",
+        "symlink": false,
+        "exists": true,
+        "inode": 838772,
+        "link": null
+      },
+      {
+        "path": "scripts/current-sku-all-member-native23-qualification/harness_symlink_probe/atomic-leaf.tmp",
+        "symlink": false,
+        "exists": true,
+        "inode": 838812,
+        "link": null
+      }
+    ]
+  }
+]

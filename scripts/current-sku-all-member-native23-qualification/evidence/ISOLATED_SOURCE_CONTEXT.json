@@ -1,0 +1,15 @@
+{
+  "kind": "AUTHORIZED_DETACHED_NO_CHECKOUT_HARDLINK_SOURCE_REVIEW_WORKTREE",
+  "source_root": "/workspace/scratch/ef468a447ac6/erp-sku-combined-fixture-successor",
+  "isolated_root": "/tmp/sku23-native23-admission-3a0e3e53c47a",
+  "head": "3a0e3e53c47a28d0d8aa848c4a5947112d52b87e",
+  "tree": "b800639be009427a248d3b76976608cf650eef5b",
+  "SOURCE_sha256": "e681f38c70f4c08d3146008a598e929cc76bd33382c7eb217224618656f95f1b",
+  "tracked_files": 13706,
+  "tracked_symbolic_links": 0,
+  "hardlinked_source_bytes_not_written_or_chmodded": true,
+  "separate_Git_index_and_metadata": true,
+  "untracked_exact_historical_workflows": 24,
+  "full_copy_fallback": false,
+  "Native_credit": 0
+}

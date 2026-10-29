@@ -1,0 +1,108 @@
+{
+  "kind": "LOCAL_SOURCE_QUALIFICATION_READY_FOR_ROOT_FRESH_NATIVE23_NOT_ACTUAL_NATIVE_PASS",
+  "status": "PASS_SOURCE_CONTROLS_AND_COMPLETE_RUNTIME_ADMISSION_ONLY",
+  "checked_frozen_head": "3a0e3e53c47a28d0d8aa848c4a5947112d52b87e",
+  "checked_frozen_tree": "b800639be009427a248d3b76976608cf650eef5b",
+  "checked_SOURCE95_sha256": "e681f38c70f4c08d3146008a598e929cc76bd33382c7eb217224618656f95f1b",
+  "checked_tracked_before_after": {
+    "tracked_files": 13706,
+    "total_raw_bytes": 1008415701,
+    "all_actual_Git_blobs_and_modes_exact": true,
+    "inventory_sha256": "2310337936062cae1879754ab3e259a2e8a37b41fef8bc2ef36cc7ab4ff8b575",
+    "SOURCE_sha256": "e681f38c70f4c08d3146008a598e929cc76bd33382c7eb217224618656f95f1b"
+  },
+  "retained95_snapshot": "evidence/SOURCE_3A0_CHECKED.json.gz",
+  "full_actual_source_admission": {
+    "file": "evidence/ISOLATED_FULL_SOURCE_ADMISSION_NO_DB.json.gz",
+    "raw_bytes": 402856,
+    "raw_sha256": "e6aef29235769200d6fe66124e319eef75e34e44a9943dd61daa44f0127e7038",
+    "status": "PASS",
+    "source_status": "SKU23_HISTORICAL21_AND_ACTUAL_ONE_FUNCTION_SUCCESSOR_ADMITTED",
+    "forbidden_operation_attempts": [],
+    "public_Git_heads_observed": [
+      "1f8c75566d0eee90086b31ae7bb7921b05502bdc",
+      "21c69cf25defcee854beb08e998062d7e883d968",
+      "42760534906c330353f9bb0f53d27db65b134626",
+      "bd2cd02c0b724f87f6f1d8628f8227dd30c513a4",
+      "c05e3d689e0e4b770af40b6a6b7d7e5cd659a12b",
+      "c163c1e9ff8f00b8dd8859c32aee0c2069766ad6"
+    ],
+    "argv_original_object_and_contents_restored": true,
+    "current_sources_actual": true,
+    "Original_environment_not_substituted": true,
+    "historical_prerequisite_fresh_credit": 0
+  },
+  "full_same_caller_negative_controls": {
+    "status": "PASS",
+    "complete_real_source_gate_controls": {
+      "unknown_source": "SKU23_UNDECLARED_UNTRACKED_SOURCE",
+      "unknown_output_JSON": "SKU23_UNDECLARED_UNTRACKED_SOURCE",
+      "known_output_symlink": "GENERATED_OUTPUT_SYMLINK:cp6-proof/t3/SKU_TARGETED_CLIENT.json",
+      "known_output_symlink_ancestor": "SKU23_UNDECLARED_UNTRACKED_SOURCE"
+    },
+    "source_and_output_restored_byte_exact": true,
+    "source_status": "SKU23_EXACT_BD2_AND_ONE_FUNCTION_TRANSITION_ADMITTED",
+    "client_report_sha256": "61cb061f1bb1f38857cab99f6cd40e5a3ab1447906822eb1f442727165215b43",
+    "actual_Native_credit": 0,
+    "actual_DB_calls": 0,
+    "actual_network_calls": 0
+  },
+  "python_controls": {
+    "own_qualification_and_generated": 42,
+    "inherited_unique": 13,
+    "inherited_combined": 20,
+    "inherited_cost": 5,
+    "inherited_browser": 3,
+    "supplemental_fixture_source": 5
+  },
+  "python_control_total": 88,
+  "main_client": {
+    "scope": "UNCHANGED_MAIN8_SRC_FILES",
+    "passed": 72,
+    "failed": 0,
+    "pending": 0,
+    "first_local_raw_sha256": "22694b93215f43d17a2427bea74be71234f4658fabedec81727034d9701da75a",
+    "first_local_raw_displaced_by_observed_file_replacement": true,
+    "repeated_actual_raw_sha256": "61cb061f1bb1f38857cab99f6cd40e5a3ab1447906822eb1f442727165215b43",
+    "repeated_raw": "evidence/MAIN72_REPEAT.json.gz"
+  },
+  "supplemental_client": {
+    "scope": "SEPARATE_DECLARED_LOCAL_PGLITE_FAMILY15",
+    "passed": 15,
+    "failed": 0,
+    "pending": 0,
+    "original15_IDs_retained": true,
+    "assertion_lines_retained": 66,
+    "other14_bodies_exact": true,
+    "Native_credit": 0
+  },
+  "unchanged_complete_engine_substitutions": 5,
+  "retained_original_Python_asserts": 134,
+  "actual_archived_generated_output_replay_files": 127,
+  "actual_positive_source_check_uses_copied_mutable_outputs_and_24_exact_historical_workflows": true,
+  "current_public_product_head": "c05e3d689e0e4b770af40b6a6b7d7e5cd659a12b",
+  "current_public_product_tree": "77d50d4b34287d5d17180b96a5506af379ddafa9",
+  "public_execution_parent_must_be": "c05e3d689e0e4b770af40b6a6b7d7e5cd659a12b",
+  "root_frozen_product8paths_changed": false,
+  "workflow_changed_by_final_metadata_freeze": false,
+  "Native_or_financial_oracle_changes_by_final_metadata_freeze": false,
+  "final_metadata_freeze_may_add_only_proof_and_manifest_pins": true,
+  "final_metadata_not_cyclic_fresh_case_credit": true,
+  "required_actual_fresh": {
+    "Native": 10,
+    "races": 3,
+    "Native_permission_waits": 6,
+    "real_Auth_full_App_browser": 4,
+    "Auth_HTTP": 0,
+    "total": 23,
+    "all_five_package_gates": true,
+    "complete_outer_restore": true
+  },
+  "actual_Native": 0,
+  "actual_Auth": 0,
+  "actual_browser": 0,
+  "actual_remote": 0,
+  "shared_filesystem_contradiction_limits": "First contradiction retained; later external report replacement directly observed. Same unchanged full caller passes leaf and ancestor refusals plus full actual admission outside synchronized workspace. No writer PID attribution or reconstruction of missing old raw is claimed.",
+  "production_go": false,
+  "independent_acceptance": false
+}
