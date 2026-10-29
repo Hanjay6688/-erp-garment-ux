@@ -1,0 +1,6 @@
+{
+  "local_control_double_first_failure": "public_function_ddl was absent before implementation",
+  "Postgres_control_first_failure": "The test revoked EXECUTE from the function owner while expecting CREATE OR REPLACE success with an explicit empty function ACL. Postgres correctly refused validator access. The corrected control now expects refusal and proves atomic rollback preserves that empty ACL.",
+  "actual_parent_or_financial_execution": false,
+  "Native_qualification": false
+}

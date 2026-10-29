@@ -1,0 +1,41 @@
+{
+  "head": "0770541c94937ee5013c8ea9ae607c99260d2993",
+  "tree": "b0f5a4d1ff6541874a09881519baacb86b91fa1f",
+  "run_id": 40878236198,
+  "job_id": 123462513384,
+  "artifact_id": 12901290869,
+  "zip_bytes": 1745924,
+  "zip_sha256": "3ac494320607cd9e22e057359ed95ef1f2a2db4645a3b2731b94f761348adf6e",
+  "status": "INCOMPLETE",
+  "actual_Native_cases": 0,
+  "phase": "FIRST_FINANCE_DELTA_BEFORE_ANY_CASE_OR_PREUSE",
+  "error": "must be owner of function erp_cp7_correct_sales_return_v1",
+  "qualified_vendor_parent_installed": true,
+  "full22_data_sequences_roles_CP6_advisors_restored": true,
+  "writer_runtime": false,
+  "first_failure_preserved": true,
+  "production_go": false,
+  "independent_acceptance": false,
+  "files": {
+    "CP7_CREDIT_DE_NATIVE13.json": {
+      "raw_bytes": 545407,
+      "raw_sha256": "85eab800445af5297824a707429be75603c00aa616d7680df168304494620b55",
+      "gzip_sha256": "8239560b90f181500179a25786a71bb66deecf7c46bbe4c687a6be027232d05f"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "raw_bytes": 360419,
+      "raw_sha256": "8fb706d779cd996f7a9a17a2c3aea2dff0c84be0ac0febf7a866052562520b35",
+      "gzip_sha256": "b572bf8ad6f64cc8f5a2ac269ee81c9c4cd692b41cfcf0c42c05fd4edc946f36"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "raw_bytes": 1470,
+      "raw_sha256": "9682e01a40e87bc649dc723cd75be449b7440ae49322b9d3bec312534b0449fe",
+      "gzip_sha256": "c3edb6ae8f858791f06bbfd2003b818181458daee6e11d027a1c950950ffdfab"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "raw_bytes": 1806,
+      "raw_sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7"
+    }
+  }
+}

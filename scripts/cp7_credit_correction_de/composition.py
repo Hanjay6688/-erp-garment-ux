@@ -6,6 +6,9 @@ actual Native/restore/oracle qualification. No database calls occur on import.
 from hashlib import sha256
 from pathlib import Path
 import re
+from contextlib import contextmanager
+from psycopg import sql
+from psycopg.pq import TransactionStatus
 from cp7_vendor_receivable import composition as predecessor
 from cp7_laundry_unknown_wash.composition import as_owner
 from . import native_delta
@@ -16,6 +19,43 @@ SQL=('review.sql','facts.sql','owning.sql','proof.sql','posting.sql','materializ
 TABLES=tuple(SCHEMA+'.'+n for n in ('work_v1','operations_v1','plans_v1','parts_v1','posting_v1'))
 USED_ERROR='CREDIT_DE_AFTER_USE_REQUIRES_FULL_BACKUP_RESTORE'
 CAPTURED={}
+PUBLIC_OWNERS={native_delta.PUBLIC_COMMAND:'cp7_sales_write',native_delta.PUBLIC_WORKSPACE:'cp7_sales_read'}
+
+@contextmanager
+def public_function_ddl(cur,signature,captured):
+    """Use the exact old public owner; retire statement-only CREATE exactly.
+
+    The verified installer remains the grantor. Unlike the private business
+    executor it can SET the existing CP7 owner roles; no role membership or
+    function ownership is changed. OW06/OW09 use this same transient schema
+    CREATE pattern, with the original raw ACL restored before catalog capture.
+    """
+    owner=PUBLIC_OWNERS.get(signature)
+    if owner is None or captured['functions'][signature][1]!=owner:
+        raise ValueError('CREDIT_DE_PUBLIC_OWNER_CHANGED:'+signature)
+    actual,namespace,schema_owner,acl,allowed=cur.execute("""select pg_get_userbyid(p.proowner),n.nspname,
+        pg_get_userbyid(n.nspowner),n.nspacl::text,has_schema_privilege(%s,n.oid,'CREATE')
+        from pg_proc p join pg_namespace n on n.oid=p.pronamespace where p.oid=%s::regprocedure""",(owner,signature)).fetchone()
+    if actual!=owner or namespace!='public' or schema_owner!=captured['schemas']['public'][0]:
+        raise ValueError('CREDIT_DE_PUBLIC_OWNER_CHANGED:'+signature)
+    # GRANT/REVOKE can materialize a formerly NULL ACL. The actual CP7 public
+    # schema is explicit after its initial grants; refuse any other shape
+    # before DDL rather than silently normalize NULL to an explicit default.
+    if acl is None and not allowed:
+        raise ValueError('CREDIT_DE_PUBLIC_NULL_SCHEMA_ACL_REQUIRES_EXACT_ADAPTER')
+    previous=cur.execute('show role').fetchone()[0]
+    if not allowed:
+        cur.execute(sql.SQL('grant create on schema {} to {}').format(sql.Identifier(namespace),sql.Identifier(owner)))
+    try:
+        cur.execute(sql.SQL('set local role {}').format(sql.Identifier(owner)))
+        yield
+    finally:
+        if cur.connection.info.transaction_status!=TransactionStatus.INERROR:
+            cur.execute("select set_config('role',%s,true)",(previous,))
+            if not allowed:
+                cur.execute(sql.SQL('revoke create on schema {} from {}').format(sql.Identifier(namespace),sql.Identifier(owner)))
+            if cur.execute('select nspacl::text from pg_namespace where nspname=%s',(namespace,)).fetchone()[0]!=acl:
+                raise ValueError('CREDIT_DE_PUBLIC_SCHEMA_ACL_NOT_EXACTLY_RESTORED:'+namespace)
 
 def runtime():return predecessor.runtime()
 
@@ -94,11 +134,14 @@ def install_delta(cur,prior):
         CAPTURED.clear();CAPTURED.update(originals);definitions=native_delta.derive(originals)
         with as_owner(cur,'postgres'):
             for file in SQL:cur.execute((HERE/file).read_text(),prepare=False)
-            for definition in definitions.values():cur.execute(definition,prepare=False)
+            for signature,definition in definitions.items():
+                if signature not in PUBLIC_OWNERS:cur.execute(definition,prepare=False)
             cur.execute('revoke all on all functions in schema '+SCHEMA+' from public,anon,authenticated,service_role,cp7_capture,cp7_sales_read,cp7_sales_write,cp7_credit_write')
             cur.execute('grant usage on schema '+SCHEMA+' to cp7_sales_read,cp7_sales_write')
             cur.execute('grant execute on function '+SCHEMA+'.workspace_v1(jsonb)to cp7_sales_read')
             cur.execute('grant execute on function '+SCHEMA+'.dispatch_v1(jsonb,uuid,text)to cp7_sales_write')
+        for signature in PUBLIC_OWNERS:
+            with public_function_ddl(cur,signature,before):cur.execute(definitions[signature],prepare=False)
         # pg_get_functiondef normalizes declarations. Verify normalized actuals,
         # while binding each derivation to the verified exact source above.
         installed={sig:cur.execute('select pg_get_functiondef(%s::regprocedure)',(sig,)).fetchone()[0]for sig in definitions}
@@ -117,7 +160,11 @@ def rollback_delta_preuse(cur,state):
         base.predecessor.predecessor._locks(cur);verify(cur,state);catalog._lock_tables(cur)
         if catalog._data(cur)!=state['preuse_data_and_sequences']:raise ValueError(USED_ERROR)
         with as_owner(cur,'postgres'):
-            for original in state['originals'].values():cur.execute(original,prepare=False)
+            for signature,original in state['originals'].items():
+                if signature not in PUBLIC_OWNERS:cur.execute(original,prepare=False)
+        for signature in PUBLIC_OWNERS:
+            with public_function_ddl(cur,signature,state['before']):cur.execute(state['originals'][signature],prepare=False)
+        with as_owner(cur,'postgres'):
             cur.execute('drop schema '+SCHEMA+' cascade')
         if catalog._catalog_rows(cur)!=state['before']or catalog._data(cur)!=state['before_data']:raise ValueError('CREDIT_DE_PREDECESSOR_NOT_EXACTLY_RESTORED')
         return dict(status='CREDIT_DE_EXACT_PREUSE_DELTA_RESTORE',parent_verified=predecessor.verify(cur,state['predecessor']),used_guard_before_DDL=True)

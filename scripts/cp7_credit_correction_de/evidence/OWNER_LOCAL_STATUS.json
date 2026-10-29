@@ -1,0 +1,37 @@
+{
+  "status": "PASS",
+  "scope": "REAL_LOCAL_POSTGRES_DDL_ON_ROLE_AND_FUNCTION_STANDINS",
+  "helper_controls": [
+    "cp7_sales_write_TEMPORARY_CREATE_RESTORED",
+    "cp7_sales_write_EXISTING_CREATE",
+    "WRONG_OWNER_postgres_REFUSED",
+    "WRONG_OWNER_cp7_invoice_write_REFUSED",
+    "cp7_sales_write_NULL_SCHEMA_ACL_REFUSED_BEFORE_DDL",
+    "cp7_sales_read_TEMPORARY_CREATE_RESTORED",
+    "cp7_sales_read_EXISTING_CREATE",
+    "WRONG_OWNER_postgres_REFUSED",
+    "WRONG_OWNER_cp7_invoice_write_REFUSED",
+    "cp7_sales_read_NULL_SCHEMA_ACL_REFUSED_BEFORE_DDL",
+    "INSTALL_AND_PREUSE_ROLLBACK_USE_SAME_EXACT_OWNER_ADAPTER"
+  ],
+  "checks": [
+    "cp7_sales_write_OLD_NONOWNER_DDL_REFUSED",
+    "cp7_sales_write_INSTALL_PRESERVES_OWNER_NULL_FUNCTION_ACL_ROLE_SCHEMA",
+    "cp7_sales_write_PREUSE_RESTORE_PRESERVES_OWNER_NULL_FUNCTION_ACL_ROLE_SCHEMA",
+    "cp7_sales_write_LATE_DDL_ERROR_ATOMIC_ROLLBACK_RESTORES_ROLE_SCHEMA_FUNCTION",
+    "cp7_sales_write_EMPTY_FUNCTION_ACL_REMAINS_EMPTY_AFTER_REFUSED_DDL",
+    "cp7_sales_read_OLD_NONOWNER_DDL_REFUSED",
+    "cp7_sales_read_INSTALL_PRESERVES_OWNER_NULL_FUNCTION_ACL_ROLE_SCHEMA",
+    "cp7_sales_read_PREUSE_RESTORE_PRESERVES_OWNER_NULL_FUNCTION_ACL_ROLE_SCHEMA",
+    "cp7_sales_read_LATE_DDL_ERROR_ATOMIC_ROLLBACK_RESTORES_ROLE_SCHEMA_FUNCTION",
+    "cp7_sales_read_EMPTY_FUNCTION_ACL_REMAINS_EMPTY_AFTER_REFUSED_DDL"
+  ],
+  "Native_execution": false,
+  "full_parent_restore": false,
+  "command": "CP7_PGLITE_MODULE=<declared PGlite 0.3.14> node scripts/cp7_credit_correction_de/local_owner_check.mjs",
+  "base_commit": "8a8dcb85",
+  "runtime_sources": 9,
+  "helper_inline_in_bound_composition": true,
+  "unchanged_business_SQL_derivations_and_13_case_oracle": true,
+  "composition_sha256": "4f7086c157e977cacf5f4281d6a2748113029fd7c2c441837e254c9fca9422af"
+}

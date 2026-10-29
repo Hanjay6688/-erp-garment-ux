@@ -1,0 +1,19 @@
+{
+  "source": "Root-reported first actual Native qualifier; original artifact retained by root",
+  "run_id": "40878236198",
+  "job_id": "123462513384",
+  "artifact_id": "12901290869",
+  "artifact_zip_sha256": "3ac494320607cd9e22e057359ed95ef1f2a2db4645a3b2731b94f761348adf6e",
+  "root_verified_raw_report_sha256": "85eab800445af5297824a707429be75603c00aa616d7680df168304494620b55",
+  "candidate_local_commit": "8a8dcb85",
+  "outcome": "INCOMPLETE before business cases",
+  "failure_boundary": "FIRST_FINANCE_DELTA",
+  "sqlstate": "42501",
+  "message": "must be owner of function erp_cp7_correct_sales_return_v1",
+  "qualified_vendor_parent_install": "PASS",
+  "actual_D1_business_cases": 0,
+  "writer_runtime": false,
+  "root_reported_all22_data_sequences_roles_CP6_advisors_restore": "PASS",
+  "business_SQL_or_13_case_oracle_changes": false,
+  "production_go": false
+}
