@@ -1,3 +1,36 @@
+## A / 30 Oktober 2026 — D1 dan S05 berjalan; S03 berhenti pada bukti sumber sebelum DB
+
+D1 publik17ac1eeb/run40942995096/job123690939357 menjalankan Native13+full restore.
+S05 publik911a08e0/run40946437335/job123702921140 menjalankan Native10+full restore.
+Sumber kedua kandidat terkunci dan lolos admission terhadap Original nyata;
+belum ada klaim PASS runtime atau adopsi pemasang bawaan.
+
+S03 publik a5774f59/run40945813546/job123700741604 gagal sebelum database:
+17/18 kontrol sumber lulus; satu menolak101 berkas keluaran CI yang belum
+dideklarasikan oleh guard untracked. Reproduksi memakai ZIP aktual102metadata
+menangkap penolakan yang sama. Native0, package tidak berjalan, pemulihan penuh
+tidak diperlukan karena database belum dibuat. Whole metadata ZIP, dua Original,
+trace pertama dan receipt ada di `s03-a577-admission-first-failure/`.
+
+Pengganti membedakan keluaran yang dihasilkan skrip kualifikasi dari kode sumber,
+dengan kelas berkas/produsen/pasangan hash yang eksplisit. Berkas asing, symlink
+atau metadata berubah tetap ditolak. Admission berulang sesudah clone/paket juga
+diperiksa.80file produk,11callback asli dan mesin pemulihan tidak dilonggarkan.
+SKU memakai pemeriksaan serupa; sumber produknya dipublikasikan sebagai c05e3d68
+agar CI tidak membutuhkan commit lokal e8a yang belum tersedia di server.
+
+Konteks UI S03 menemukan gap nyata: pembaca pool lama masih menawarkan CANCEL /
+REPLACE untuk pool carry milik S03, padahal guard server tepat menolaknya. Rute
+pemilik dan periode output perlu berasal dari backend; pemasangan panel belum
+selesai. Tambahan Native1 batas UTC17/WIB-midnight disiapkan terpisah15kontrol,
+tetap CLOSED sampai Native11/package nyata PASS. E17 terbaru juga CLOSED dengan
+sumber parent D1 sekarang, tanpa menganggap D1 telah lulus.
+
+Formal5/16; production_go=false; independent_acceptance=false. Semua kegagalan
+pertama tetap utuh. Tidak ada perubahan main, hosted, B diterima atau CP7C.
+
+Bagian berikut adalah riwayat checkpoint.
+
 ## A / 30 Oktober 2026 — kegagalan gabungan SKU dan pemasang S05 dipertahankan
 
 SKU bd2/run40928155690: tujuh Native inti dan satu biaya PASS; dua biaya

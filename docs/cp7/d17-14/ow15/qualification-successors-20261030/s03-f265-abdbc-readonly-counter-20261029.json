@@ -1,0 +1,99 @@
+{
+  "classification": "INTERNAL_READ_ONLY_SOURCE_COUNTER_NOT_INDEPENDENT_AUDIT",
+  "first_assessment_locked_before_peer_conclusions": true,
+  "backend_head": "f265ba2691ad03a2b7405806dc3aa4c5788b62fd",
+  "backend_tree": "34828b22af50c514248ffe26101289f9899ecb8e",
+  "stage_subtree": "c2b65b29f4a6dfd66a9cbe1fe54e8c2705f03888",
+  "prepared_subtree": "9712e37ff1322b86b827ae233702bb276f93ad4a",
+  "UI_head": "abdbc3060b02e69c0ed8476ec6a23f5cb98892ea",
+  "UI_tree": "99f4bfdeadcfc7f4a1aef69c5cbe83e0551ac255",
+  "source_pins": {
+    "scripts/cp7_attendance_period_choice/choice.sql": {
+      "bytes": 61490,
+      "sha256": "44499c6d6a06d1effc2be4f066168f5fa2fe9608b2ccb80d1d2d0b1dac0a8212"
+    },
+    "scripts/cp7_attendance_period_choice/native_delta.py": {
+      "bytes": 9804,
+      "sha256": "7a9576e136089b487920fe5c38088977491d342f87384c8e2e82ad128fcf6b90"
+    },
+    "scripts/cp7_attendance_period_choice/composition.py": {
+      "bytes": 7018,
+      "sha256": "1fd29c8c4cf736241347b6619242096edb409cb6a9d1dbb80533be5fdb45a49e"
+    },
+    "scripts/cp7_attendance_period_choice/catalog_contract.py": {
+      "bytes": 2436,
+      "sha256": "0f0c1266ddefc5133cd693ee208f61f8ea71e5a09ab1ba43b1b52afb910f6764"
+    },
+    "scripts/cp7_attendance_period_choice/SOURCE_DERIVED_NATIVE_ABI.json": {
+      "bytes": 228645,
+      "sha256": "fd401799313a1a8938d08e226f235461b4425992ffa0d8936327d39cf6571fb3"
+    },
+    "scripts/cp7_attendance_period_choice/WIRE_CONTRACT.md": {
+      "bytes": 6821,
+      "sha256": "931e62848f6861e24190e76cb0efbd8aa032cb514bf0f0b5af362d62cbe12bbd"
+    },
+    "scripts/current-attendance-period-choice-qualification/admission.py": {
+      "bytes": 7252,
+      "sha256": "06778d6d2f9c7077f05cf3728505c625c8519a809b107c8594bcd9524becb023"
+    },
+    "scripts/current-attendance-period-choice-qualification/cases.py": {
+      "bytes": 28885,
+      "sha256": "15fe990cccb82ff4c1dcd9ca40dc17fe93ac26a3a359a37361e6d8780b1f16e2"
+    },
+    "scripts/current-attendance-period-choice-qualification/fixtures.py": {
+      "bytes": 11212,
+      "sha256": "cdb482b56048200f13da5893e119b0b301f54a600888da5252cea2fceaee4258"
+    },
+    "scripts/current-attendance-period-choice-qualification/SOURCE.json": {
+      "bytes": 6868,
+      "sha256": "4b3ed812b18826d83086acfafb822321ea2c92a3d639678e9f8c04155de676b3"
+    }
+  },
+  "prepared_exact16_pins_and_four_vendor41c_raw_gzip_pairs_verified": true,
+  "concrete_launch_blockers_found": [],
+  "source_findings": [
+    "Public APPROVE: payroll row then raw contractor advisory then shared period; repeat settlement_access and claim before child locks/nonwork rebuild. Other public settlement actions unchanged.",
+    "Direct Native APPROVE: original OWNER/ADMIN requirement retained; payroll row and period then repeated OWNER/ADMIN and claim before original recalculate and its audit/row-version triggers.",
+    "Installer captures current actual12Native plus private settlement facade, derives2clones, and verifies all22 exact metadata; actual current capture is not replaced by local ABI.",
+    "Temporal WIP tracks each original payroll debit independently on economic and book axes, including expense/allocation/inverses; original accrual/source items+policy bind cost while PAID/E05 individual reopen remain settlement.",
+    "Generic expense inverse and E05 whole-payroll first cash inverse are held; owning release permits source inverse. Owning carried cancel requires exact backend/transaction/actor/pool/UUID/reason/version context.",
+    "Prepared11 callbacks admit exact source and installed state before fixtures; Native fact SQL/cumulative-floor cents/direct journal and audit linkage are independent of response totals. Refusals compare full_data rows+sequences; strict savepoint is not full sequence restore.",
+    "Used witness plan from qualifier writer: unchanged pair then ALLOCATE/audit/pool/original_accrual assertions, real commit, exactUSEDERROR beforeDDL with full22+full_data unchanged; full outer backup restore still mandatory.",
+    "UI sends exact3RPC/5actions/all6payload keys with null unused fields; seven-key save adds only review_token and stable clientUUID, expectedVersion=null. Native activation/cancel response keys match closed parser.",
+    "UI recovery/source-generation/permissions retire actionable previews, preserve uncertain UUID+payload, distinguish historical other-period receipts, and avoid automatic decision. App mount absent as declared."
+  ],
+  "UI_handoff_all_candidate_file_pins_match": true,
+  "UI_shared_recovery_only_three_exact_additions": true,
+  "UI_shared_original_sha256": "468ade771b58b3b188a15a03f00c6625bbd1e5b6dd551d542cf424a7c2963b18",
+  "wire_backend_UI_exact": {
+    "bytes": 6821,
+    "sha256": "931e62848f6861e24190e76cb0efbd8aa032cb514bf0f0b5af362d62cbe12bbd"
+  },
+  "retained_local_results_not_rerun": {
+    "SQL22": {
+      "PASS": 22,
+      "FAIL": 0
+    },
+    "prepared_source7": {
+      "PASS": 7,
+      "FAIL": 0
+    },
+    "UI_own54": {
+      "PASS": 54,
+      "FAIL": 0
+    }
+  },
+  "remaining_gaps": [
+    "Actual full-parent Native11 and actual current13 capture/2clone install/preuse/reinstall/committedused/fullbackup/all5package/advisor gates pending.",
+    "New S03 real Auth/HTTP/browser and permission waits/two-session races absent; historical vendor7+3+1 supplies zero newS03 credit.",
+    "Explicit UTC17:00/WIB-midnight fact pair unqualified; caller-timezone/current-day fixtures are not that proof.",
+    "Descendant conversion propagation not exercised by this prepared11 finished-PO FG/COGS slice.",
+    "Standalone UI requires root integration/mount/source registration and actual browser journeys after backend qualification."
+  ],
+  "DB_executions": 0,
+  "Native_executions": 0,
+  "remote_actions": 0,
+  "product_edits": 0,
+  "independent_acceptance": false,
+  "production_go": false
+}

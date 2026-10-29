@@ -1,0 +1,51 @@
+{
+  "head": "a5774f59ce67fd18427a9aa700ee5e34fdece5b3",
+  "tree": "364c43a1144138668243eaa5193ab87766206e90",
+  "run_id": 40945813546,
+  "job_id": 123700741604,
+  "artifact_id": 12929870525,
+  "zip_bytes": 54682,
+  "zip_sha256": "8e13006583fab982def0bfbf808d9dec11648c0e3b77f35d11d7ab47005315f0",
+  "zip_members": 102,
+  "status": "FAILED_PRE_DATABASE_SOURCE_ADMISSION",
+  "primary_step": 58,
+  "primary_error": "S03_NATIVE11_UNDECLARED_UNTRACKED_SOURCE",
+  "source_control_run": 18,
+  "source_control_pass": 17,
+  "source_control_errors": 1,
+  "first_console_excerpt": {
+    "path": "FIRST_ERROR.log",
+    "bytes": 1476,
+    "sha256": "7cea042f6658bde5f5051361d597bb3fddd80e96455caf5c4211aa82766ac90c"
+  },
+  "pre_DB_generated_evidence": {
+    "total": 101,
+    "frozen_source_worktree_receipt": 1,
+    "artifact_fetch_receipts": 100
+  },
+  "secondary_failure": "Always-run final gate refuses missing actual main report; Native0",
+  "database_started": false,
+  "actual_Native": 0,
+  "actual_Auth_HTTP": 0,
+  "actual_browser": 0,
+  "package_run": false,
+  "full_restore": "NOT_APPLICABLE_DATABASE_NOT_CREATED",
+  "cause": "Strict all-untracked-source guard did not distinguish exact generated qualification outputs from repository source. Actual101 pre-DB artifact inputs reproduce the same source refusal.",
+  "repair_scope": "Bounded producer-pinned generated-receipt validation, including repeated admissions after clone/package writes; no directory-wide ignore or old80 product/11callbacks/financialengine changes.",
+  "first_failure_preserved": true,
+  "usable_prerequisite": false,
+  "files": {
+    "FROZEN_SOURCE_WORKTREES.json": {
+      "raw_bytes": 2291,
+      "raw_sha256": "fcfd46f56915951f56384722477fef48967e1239cf63293d285fe12182cd4a78",
+      "gzip_sha256": "fa741a7ee9616605a1855d974bb218e0bd8cff6bc9ead6382030cee609e5acf3"
+    },
+    "S03_NATIVE11_FINAL_GATE.json": {
+      "raw_bytes": 282,
+      "raw_sha256": "682005b65b128ac3b28252e488ba97ec011e06f88d61a16c41340b9d17c1f25c",
+      "gzip_sha256": "7d1f9c38486e92c527c7338769df06d34e3dea0ceba29e92a8d9609dcab1de0d"
+    }
+  },
+  "production_go": false,
+  "independent_acceptance": false
+}

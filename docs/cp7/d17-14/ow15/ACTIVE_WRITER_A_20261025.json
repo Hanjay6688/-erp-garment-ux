@@ -1,5 +1,5 @@
 {
-  "recorded_at_utc": "2026-10-29T19:34:45.145718+00:00",
+  "recorded_at_utc": "2026-10-29T20:25:55.476037+00:00",
   "role": "A finance writer/integrator replacing Claude; B remains separate production/planning writer",
   "slogan": [
     "VENI. VIDI. VICI. ERP. — I CONQUERED ERP.",
@@ -8,7 +8,41 @@
   "formal_accepted": "5/16",
   "production_go": false,
   "independent_acceptance": false,
-  "running": [],
+  "running": [
+    {
+      "head": "17ac1eeb5833cbf2a786194fe3bfbba6628a1ff8",
+      "tree": "52870c467cb37c328fd6ff73fe8484f8d6798953",
+      "parent": "d902e4d2e65cf5b382af1ab041120611f9a61078",
+      "branch": "astra-a/credit-d1-product-phase-native13-20261030",
+      "local_head": "b5193f70ac0d7490f69570ce6838f454deb707e6",
+      "paths": 93,
+      "exact_API_local_tree": true,
+      "source_pins": 174,
+      "root_actual_vendor_AF_consistency_source_admission": true,
+      "status": "IN_PROGRESS_NOT_PASS",
+      "actual_new_Native": 0,
+      "production_go": false,
+      "independent_acceptance": false,
+      "run_id": 40942995096,
+      "job_id": 123690939357
+    },
+    {
+      "head": "911a08e04f741ead342d6436a2f4b003434c0070",
+      "tree": "2b002a04f7453b3366da426746988472b9faa2c9",
+      "parent": "b0e5ac05e2024d5673126b6fe7759591293b9b96",
+      "local_head": "aeb57cb9bfdcd3da894a3cdbba8665f994c258cd",
+      "branch": "astra-a/s05-native10-public-default-acl-20261029",
+      "run_id": 40946437335,
+      "job_id": 123702921140,
+      "status": "IN_PROGRESS_NOT_PASS",
+      "paths": 40,
+      "exact_API_local_tree": true,
+      "source_files": 162,
+      "actual_Native": 0,
+      "production_go": false,
+      "independent_acceptance": false
+    }
+  ],
   "actual_new_component": {
     "name": "CP7_OW11_MODEL_TARGET_SOURCE_V2.json",
     "status": "PASS",
@@ -20783,7 +20817,7 @@
     "Afui_positive_HPP_zero_reimbursement_actual_qualified": false
   },
   "S03_parallel_20261030": {
-    "backend_head": "3b3a93ed9",
+    "backend_head": "f265ba2691ad03a2b7405806dc3aa4c5788b62fd",
     "local19_pass": true,
     "source8_pass": true,
     "real_defects_repaired": [
@@ -20797,7 +20831,7 @@
     "local_faithful22_pass": true,
     "source_13_hooks_2_clones_controls": 10,
     "prepared_Native11_controls": 7,
-    "backend_final_freeze_pending": true
+    "backend_final_freeze_pending": false
   },
   "E1_fixture_successor_20261030": {
     "base": "f5b085a2bf3a34397616e9a9a3326af5119d19c4",
@@ -21172,7 +21206,12 @@
     "local_declared_double_checks": 10,
     "actual_successor_Native": 0,
     "group_recovery_supported": false,
-    "default_adopted": false
+    "default_adopted": false,
+    "public_head": "c05e3d689e0e4b770af40b6a6b7d7e5cd659a12b",
+    "public_tree": "77d50d4b34287d5d17180b96a5506af379ddafa9",
+    "status": "PUBLIC_SOURCE_ALIAS_CURRENT_QUALIFIER_REBIND_AND_CI_OUTPUT_GUARD_REPAIR",
+    "local_original_commit_retained": true,
+    "actual_Native23": 0
   },
   "D1_quote_product_cap_and_Native_augmentation_20261030": {
     "quote_head": "7df27c31ca2deefc4d0f18fc3f474d98c4846bb2",
@@ -21193,5 +21232,95 @@
     "refused_known_commands_and_exact_replay": "Immediate full22/all-row/all-sequence equality still required",
     "original_oracles_changed": false,
     "sequence_reseed": false
+  },
+  "actual_S03_a577_admission_first_failure": {
+    "head": "a5774f59ce67fd18427a9aa700ee5e34fdece5b3",
+    "tree": "364c43a1144138668243eaa5193ab87766206e90",
+    "run_id": 40945813546,
+    "job_id": 123700741604,
+    "artifact_id": 12929870525,
+    "zip_bytes": 54682,
+    "zip_sha256": "8e13006583fab982def0bfbf808d9dec11648c0e3b77f35d11d7ab47005315f0",
+    "zip_members": 102,
+    "status": "FAILED_PRE_DATABASE_SOURCE_ADMISSION",
+    "primary_step": 58,
+    "primary_error": "S03_NATIVE11_UNDECLARED_UNTRACKED_SOURCE",
+    "source_control_run": 18,
+    "source_control_pass": 17,
+    "source_control_errors": 1,
+    "first_console_excerpt": {
+      "path": "FIRST_ERROR.log",
+      "bytes": 1476,
+      "sha256": "7cea042f6658bde5f5051361d597bb3fddd80e96455caf5c4211aa82766ac90c"
+    },
+    "pre_DB_generated_evidence": {
+      "total": 101,
+      "frozen_source_worktree_receipt": 1,
+      "artifact_fetch_receipts": 100
+    },
+    "secondary_failure": "Always-run final gate refuses missing actual main report; Native0",
+    "database_started": false,
+    "actual_Native": 0,
+    "actual_Auth_HTTP": 0,
+    "actual_browser": 0,
+    "package_run": false,
+    "full_restore": "NOT_APPLICABLE_DATABASE_NOT_CREATED",
+    "cause": "Strict all-untracked-source guard did not distinguish exact generated qualification outputs from repository source. Actual101 pre-DB artifact inputs reproduce the same source refusal.",
+    "repair_scope": "Bounded producer-pinned generated-receipt validation, including repeated admissions after clone/package writes; no directory-wide ignore or old80 product/11callbacks/financialengine changes.",
+    "first_failure_preserved": true,
+    "usable_prerequisite": false,
+    "files": {
+      "FROZEN_SOURCE_WORKTREES.json": {
+        "raw_bytes": 2291,
+        "raw_sha256": "fcfd46f56915951f56384722477fef48967e1239cf63293d285fe12182cd4a78",
+        "gzip_sha256": "fa741a7ee9616605a1855d974bb218e0bd8cff6bc9ead6382030cee609e5acf3"
+      },
+      "S03_NATIVE11_FINAL_GATE.json": {
+        "raw_bytes": 282,
+        "raw_sha256": "682005b65b128ac3b28252e488ba97ec011e06f88d61a16c41340b9d17c1f25c",
+        "gzip_sha256": "7d1f9c38486e92c527c7338769df06d34e3dea0ceba29e92a8d9609dcab1de0d"
+      }
+    },
+    "production_go": false,
+    "independent_acceptance": false,
+    "receipt_path": "docs/cp7/d17-14/ow15/s03-a577-admission-first-failure/RECEIPT.json"
+  },
+  "S03_native11_generated_receipts_successor": {
+    "status": "PREPARING_BOUNDED_GENERATED_OUTPUT_VALIDATION",
+    "base": "a5774f59ce67fd18427a9aa700ee5e34fdece5b3",
+    "first101_reproduction": true,
+    "actual_Native": 0,
+    "old80_product_files_changed": false,
+    "original11_callbacks_changed": false,
+    "complete_engine_changed": false
+  },
+  "S03_old_pool_reader_UI_integration_gap": {
+    "status": "OPEN_CONCRETE_READER_ROUTING_GAP",
+    "source": "cp7_hpp_pool.pool_json",
+    "observed_contract": "Old reader still advertises CANCEL/REPLACE for S03-owned carry pools; correct owning guard refuses these commands.",
+    "required": "Authoritative owning-domain/source-output period route; ordinary Native pool behavior retained. No inference from number or reason.",
+    "product_fix_or_mount_done": false
+  },
+  "S03_midnight_additional_native1_preparation": {
+    "head": "c0e91078cb42b3523f2186cbd7972548aab71e15",
+    "source_sha256": "d7bb90974374feb0316dc5d465d21d39cdda42a7b103d04e4615d1d3d1fb23b2",
+    "local_controls": 15,
+    "actual_Native": 0,
+    "prerequisite_original11_and_package": null,
+    "cost_allocation_or_journal_claim": false
+  },
+  "E1_current_D1_closed_prepared": {
+    "head": "9711169ae22e15d2a69295f319db3cf2a5d71794",
+    "tree": "bd4b68b8c9882a87aef8feb360f833f6127fecf3",
+    "source_sha256": "cd53a3901643ad3f4a8d0815c1a92625001b4e76f419914414af8926167b99ec",
+    "source_pins": 271,
+    "exact_current_D1_parent_files": 175,
+    "local_controls": 13,
+    "accepted_D1": null,
+    "accepted_raw_parent": null,
+    "required_qualified_parent": null,
+    "actual_Native": 0,
+    "unchanged_E_financial_leaves": 9,
+    "original17_ids_retained": true
   }
 }

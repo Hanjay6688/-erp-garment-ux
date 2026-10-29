@@ -1,0 +1,20 @@
+{
+  "status": "EXACT_VENDOR_PARENT_AND_DECLARED_D1_CHILD_ADMITTED",
+  "qualified_parent": {
+    "status": "EXACT_ACTUAL_COMBINED11_ACCEPTABLE_TO_INTEGRATOR",
+    "head": "41caaaed02c0d89b122ecf1ff221f6647141c335",
+    "fresh_Native": 7,
+    "fresh_races": 3,
+    "fresh_Auth_HTTP": 1,
+    "fresh_browser": 0
+  },
+  "cases": 13,
+  "source_files": 174,
+  "changed_product_functions": [
+    "quote_v1",
+    "materialize_v1"
+  ],
+  "actual_vendor_AF_consistency_Originals_hash_checked": true,
+  "DB_connections_forbidden": true,
+  "Native_executed": false
+}

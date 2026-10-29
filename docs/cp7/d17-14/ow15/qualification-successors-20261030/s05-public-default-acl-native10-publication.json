@@ -1,0 +1,16 @@
+{
+  "head": "911a08e04f741ead342d6436a2f4b003434c0070",
+  "tree": "2b002a04f7453b3366da426746988472b9faa2c9",
+  "parent": "b0e5ac05e2024d5673126b6fe7759591293b9b96",
+  "local_head": "aeb57cb9bfdcd3da894a3cdbba8665f994c258cd",
+  "branch": "astra-a/s05-native10-public-default-acl-20261029",
+  "run_id": 40946437335,
+  "job_id": 123702921140,
+  "status": "in_progress",
+  "paths": 40,
+  "exact_API_local_tree": true,
+  "source_files": 162,
+  "actual_Native": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

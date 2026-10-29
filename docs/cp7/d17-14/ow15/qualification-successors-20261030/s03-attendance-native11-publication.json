@@ -1,0 +1,15 @@
+{
+  "head": "a5774f59ce67fd18427a9aa700ee5e34fdece5b3",
+  "tree": "364c43a1144138668243eaa5193ab87766206e90",
+  "parent": "d902e4d2e65cf5b382af1ab041120611f9a61078",
+  "local_head": "cbb9728472d0db23da36e9049327400091ef35be",
+  "branch": "astra-a/s03-attendance-native11-20261030",
+  "run_id": 40945813546,
+  "job_id": 123700741604,
+  "status": "TERMINAL_BEFORE_DB_SOURCE_ADMISSION_FAILURE",
+  "paths": 109,
+  "exact_API_local_tree": true,
+  "actual_Native": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

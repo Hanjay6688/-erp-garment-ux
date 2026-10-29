@@ -1,0 +1,17 @@
+{
+  "head": "17ac1eeb5833cbf2a786194fe3bfbba6628a1ff8",
+  "tree": "52870c467cb37c328fd6ff73fe8484f8d6798953",
+  "parent": "d902e4d2e65cf5b382af1ab041120611f9a61078",
+  "branch": "astra-a/credit-d1-product-phase-native13-20261030",
+  "local_head": "b5193f70ac0d7490f69570ce6838f454deb707e6",
+  "paths": 93,
+  "exact_API_local_tree": true,
+  "source_pins": 174,
+  "root_actual_vendor_AF_consistency_source_admission": true,
+  "status": "in_progress",
+  "actual_new_Native": 0,
+  "production_go": false,
+  "independent_acceptance": false,
+  "run_id": 40942995096,
+  "job_id": 123690939357
+}

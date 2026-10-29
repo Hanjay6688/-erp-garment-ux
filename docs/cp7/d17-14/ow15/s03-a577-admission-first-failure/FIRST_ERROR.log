@@ -1,0 +1,14 @@
+2026-10-29T20:07:06.7853558Z ERROR: test_full_source_and_exact80_frozen_component_admit_no_native_claim (test_contract.Contract.test_full_source_and_exact80_frozen_component_admit_no_native_claim)
+2026-10-29T20:07:06.7854726Z ----------------------------------------------------------------------
+2026-10-29T20:07:06.7855240Z Traceback (most recent call last):
+2026-10-29T20:07:06.7863527Z   File "/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-attendance-period-choice-native11-qualification/test_contract.py", line 45, in test_full_source_and_exact80_frozen_component_admit_no_native_claim
+2026-10-29T20:07:06.7865262Z     value = load('s03_test_source_admission', HERE / 'source_check.py').check()
+2026-10-29T20:07:06.7865901Z             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-29T20:07:06.7866920Z   File "/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-attendance-period-choice-native11-qualification/source_check.py", line 56, in check
+2026-10-29T20:07:06.7889172Z ##[error]    raise ValueError('S03_NATIVE11_UNDECLARED_UNTRACKED_SOURCE')
+2026-10-29T20:07:06.7897085Z ValueError: S03_NATIVE11_UNDECLARED_UNTRACKED_SOURCE
+2026-10-29T20:07:06.7897353Z 
+2026-10-29T20:07:06.7897504Z ----------------------------------------------------------------------
+2026-10-29T20:07:06.7897847Z Ran 18 tests in 0.408s
+2026-10-29T20:07:06.7897989Z 
+2026-10-29T20:07:06.7898084Z FAILED (errors=1)

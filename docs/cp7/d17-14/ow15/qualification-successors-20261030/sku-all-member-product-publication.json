@@ -1,0 +1,13 @@
+{
+  "head": "c05e3d689e0e4b770af40b6a6b7d7e5cd659a12b",
+  "tree": "77d50d4b34287d5d17180b96a5506af379ddafa9",
+  "parent": "bd2cd02c0b724f87f6f1d8628f8227dd30c513a4",
+  "local_head": "e8a22138dd46d75339cd8a12bad423303e2d4a79",
+  "branch": "astra-a/sku-all-member-product-prepared-20261030",
+  "status": "PREPARED_SOURCE_ONLY_NOT_NATIVE23",
+  "paths": 8,
+  "exact_API_local_tree": true,
+  "default_adopted": false,
+  "production_go": false,
+  "independent_acceptance": false
+}
