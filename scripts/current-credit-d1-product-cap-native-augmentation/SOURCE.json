@@ -1,0 +1,159 @@
+{
+  "status": "PREPARED_NATIVE_AUGMENTATION_NOT_EXECUTED",
+  "contract": "cp7.credit-d1-product-cap-native-augmentation.v1",
+  "original_Native13_ids": [
+    "D_POSITIVE_CREDIT_INCREMENT",
+    "D_AFTER_ACTIVE_APPLY",
+    "D_AFTER_REFUND_EXTRA_STAYS_CREDIT",
+    "D_MULTIFAMILY_ORDINAL",
+    "D_REPLAY_EXACT_UUID",
+    "D_STALE_REVIEW_NO_EFFECT",
+    "D_ACCESS_REVOKED_NO_EFFECT",
+    "D_SHORTFALL_NAMES_UNDO",
+    "D_ROOT_BOOK_FLOOR_REFUSAL",
+    "D_ATOMIC_POST_FAILURE_RESTORE",
+    "D_SECOND_REVISION_ORDINAL_HISTORY",
+    "D_AFTER_NAMED_UNDO_NO_FALSE_BLOCKER",
+    "E_UNIMPLEMENTED_INCOMING_CORRECTION_STAYS_GUARDED"
+  ],
+  "augmented_id": "D_MULTIFAMILY_ORDINAL",
+  "original_callback_sha256": "c530bb87f72ee6091e032d15efdb2b2e55cf9c9632b64c9e781665b70325bbdb",
+  "files": {
+    "scripts/cp6_bd_probe.py": {
+      "bytes": 142782,
+      "sha256": "c3add21e66d4d5544bf4e4d046a9fa8d64dbcb0cb285551a92c2d7405156b31b"
+    },
+    "scripts/cp7_credit_correction_de/cases.py": {
+      "bytes": 21156,
+      "sha256": "c530bb87f72ee6091e032d15efdb2b2e55cf9c9632b64c9e781665b70325bbdb"
+    },
+    "scripts/cp7_credit_correction_de/native_fixture.py": {
+      "bytes": 7703,
+      "sha256": "4fbe56583ffc63473c12195ddaae6ff3e0cd0ad46b358bf7eef7b5175c67e829"
+    },
+    "scripts/cp7_credit_correction_de/owning.sql": {
+      "bytes": 25957,
+      "sha256": "410afb540f455ce6781d8bf09ee6bd6f66420a2f17d3c5474720a642fdcc9cae"
+    },
+    "scripts/cp7_credit_followups/cases.py": {
+      "bytes": 19943,
+      "sha256": "3c73087668a61004b8607f4102b0cc9cbb7162a1f4fd0845450713d8e9f93726"
+    },
+    "scripts/cp7_credit_multi/cases.py": {
+      "bytes": 14284,
+      "sha256": "85be87db91bd302fa01d759941389a8302c7928e2a2bdedebc8982872c4f0857"
+    },
+    "scripts/cp7_customer_credit/initial-settlement/cp7_ow04_initial_settlement_cases.py": {
+      "bytes": 25791,
+      "sha256": "6d4e2389e0090333ae076fc3091ec4333492e886e08fc1a96c4eea9282f93602"
+    },
+    "scripts/cp7_customer_credit/native/cp7_ow04_native_source_fixture.py": {
+      "bytes": 25693,
+      "sha256": "4984926b221df459e6e88c2f282da3e553d4810d177208ea489c9c3b1d264497"
+    },
+    "scripts/cp7_customer_credit/readers/02_materialized_profile.proposal.sql": {
+      "bytes": 26900,
+      "sha256": "317e689b3b2e738889e86a62dc130fa3ee2f128750f95d5264cd56084fce8575"
+    },
+    "scripts/cp7_note_correction_cases.py": {
+      "bytes": 65138,
+      "sha256": "1f6bfff2974b865d54600dec4fd515bd8b931efdd737c19e50eb8b1a094f604c"
+    },
+    "scripts/cp7_ow04_restore_bundle.py": {
+      "bytes": 19828,
+      "sha256": "a1605193347cf5b3321a7bdbf8ff6c634df4f4c0a5113eb295e8c3ce44428e00"
+    },
+    "scripts/cp7_sales_command_cases.py": {
+      "bytes": 10159,
+      "sha256": "b6d6e0b6995e3dee2ae7f0e69ab6b48c6c965ee31f15cca4027c47b5159885df"
+    },
+    "scripts/cp7_sales_draft_cases.py": {
+      "bytes": 11278,
+      "sha256": "9795a983aaeeae20793b6b7741d18a4486ac05193af97776882ce8014c2a84f4"
+    },
+    "scripts/cp7_sales_payment_cases.py": {
+      "bytes": 15600,
+      "sha256": "a28bdaa916775ccfe14e5eb1bb492ec94d0b2b614169141d60f73e06cd575786"
+    },
+    "scripts/cp7_sales_return_cases.py": {
+      "bytes": 19067,
+      "sha256": "abe194d5e2fbc3f425a9ae4b2deda19acf26519f758c099764dec07e8cb5f360"
+    },
+    "scripts/cp7_sales_return_correction_cases.py": {
+      "bytes": 33173,
+      "sha256": "26fe2e420af55ee213a629db4f7a9929a5e9155374682ddcb1f1f2b855bb6c1c"
+    },
+    "scripts/current-credit-d1-product-cap-native-augmentation/.gitignore": {
+      "bytes": 19,
+      "sha256": "862263fa1f46c20f0d1e4dac5ffcc75abd55c08211b2c3864c5f8764b9d87793"
+    },
+    "scripts/current-credit-d1-product-cap-native-augmentation/API.json": {
+      "bytes": 11669,
+      "sha256": "afca7b9a6ef6a58dca3c86364a7b7aeee6817f4314ae959e076ca997abf2a40e"
+    },
+    "scripts/current-credit-d1-product-cap-native-augmentation/LOCAL_CHECKS.json": {
+      "bytes": 1593,
+      "sha256": "3762fbbb4f60313729523151da5640586f22662d831d1774102b0d4b69800d9a"
+    },
+    "scripts/current-credit-d1-product-cap-native-augmentation/README.md": {
+      "bytes": 5233,
+      "sha256": "561c7536c3deb5f76e90d625b361458242d98677fa7d88958ba2ab3e971226c2"
+    },
+    "scripts/current-credit-d1-product-cap-native-augmentation/bind.py": {
+      "bytes": 2688,
+      "sha256": "ce05f569fdfd149f46140952d714843fa671a813e43cb8bd5df0217a928cb887"
+    },
+    "scripts/current-credit-d1-product-cap-native-augmentation/evidence/LOCAL_CORRECTED10_PASS.log": {
+      "bytes": 1649,
+      "sha256": "93059913805771a2227bf329bd9133c5b37da7df69bfbc790f507ae88b8b81cc"
+    },
+    "scripts/current-credit-d1-product-cap-native-augmentation/evidence/LOCAL_CORRECTED_REAL_IMPORT13_NO_DB.json": {
+      "bytes": 713,
+      "sha256": "42991b932153f548068dc76c9b9ab9c99f6d9f767d1868b35a2ede21d0f8544b"
+    },
+    "scripts/current-credit-d1-product-cap-native-augmentation/evidence/LOCAL_FIRST10_PASS.log": {
+      "bytes": 1649,
+      "sha256": "23903b21bc6121f5f823df1625664ca8744c30b47601986ff91781184b032c3e"
+    },
+    "scripts/current-credit-d1-product-cap-native-augmentation/evidence/LOCAL_FIRST_REAL_IMPORT13_NO_DB.json": {
+      "bytes": 713,
+      "sha256": "d8eaa32ae39fb7af42348707c48b84486034ed17c9f6afedc60f44d70594ce5d"
+    },
+    "scripts/current-credit-d1-product-cap-native-augmentation/evidence/SEQUENCE_REPORT_SCOPE_COUNTER.json": {
+      "bytes": 805,
+      "sha256": "43201ab109f810d08d38b6139942d1adfb3ab55448a12b3b8fcd4f4e76c8fedd"
+    },
+    "scripts/current-credit-d1-product-cap-native-augmentation/factory.py": {
+      "bytes": 2117,
+      "sha256": "2922e10ada0c38879e84fb6e16419a0056e90c61f4625fe1c94043f824fafacf"
+    },
+    "scripts/current-credit-d1-product-cap-native-augmentation/guard.py": {
+      "bytes": 1979,
+      "sha256": "ee419f1c63b0b172e3db8dc25b0a3b96bbf540d7b45d3126c7f4528f14844738"
+    },
+    "scripts/current-credit-d1-product-cap-native-augmentation/import_check.py": {
+      "bytes": 1997,
+      "sha256": "baa1ba79eef34c3649ccb41b64c6a77152a3bb16b3ebd3acdebebb2543051654"
+    },
+    "scripts/current-credit-d1-product-cap-native-augmentation/prelude.py": {
+      "bytes": 18701,
+      "sha256": "072bf448301089b9046658c209b05973777de91e71bec2ac26f06a068a7ec631"
+    },
+    "scripts/current-credit-d1-product-cap-native-augmentation/test_contract.py": {
+      "bytes": 7073,
+      "sha256": "bbe0999dafbe988e695fea465e67c1d9d6ede21692bd307b78b27e4077817c2e"
+    }
+  },
+  "required_quote_body_sha256": "ff27a3f07a8718382ef91156b10b55a9302104e9b19ac24e7e2a7b710b23ccd3",
+  "entrypoint": "scripts/current-credit-d1-product-cap-native-augmentation/factory.py::business(retained_business_module)",
+  "private_proxy_overrides": [
+    "cases"
+  ],
+  "old_function_bodies_changed": 0,
+  "old_assertions_removed": 0,
+  "other12_callback_identities_preserved": true,
+  "Native_executed": false,
+  "outer_combined_product_source_and_full13_strict_group_and_package_gates_required": true,
+  "independent_acceptance": false,
+  "production_go": false
+}

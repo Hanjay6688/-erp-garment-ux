@@ -1,0 +1,105 @@
+{
+  "head": "d902e4d2e65cf5b382af1ab041120611f9a61078",
+  "tree": "6f931e639bd8996378ff65b8a7be2a1ed8590b45",
+  "run_id": 40926602777,
+  "job_id": 123633679142,
+  "artifact_id": 12921318924,
+  "zip_bytes": 2138485,
+  "zip_sha256": "ebc02a29c0c330045f9ba5363e4e1cae9439d3469a7079958b9e70d58e0c167c",
+  "status": "INCOMPLETE",
+  "case_counts": {
+    "INCOMPLETE": 9,
+    "PASS": 4
+  },
+  "case_ids": [
+    "D_POSITIVE_CREDIT_INCREMENT",
+    "D_AFTER_ACTIVE_APPLY",
+    "D_AFTER_REFUND_EXTRA_STAYS_CREDIT",
+    "D_MULTIFAMILY_ORDINAL",
+    "D_REPLAY_EXACT_UUID",
+    "D_STALE_REVIEW_NO_EFFECT",
+    "D_ACCESS_REVOKED_NO_EFFECT",
+    "D_SHORTFALL_NAMES_UNDO",
+    "D_ROOT_BOOK_FLOOR_REFUSAL",
+    "D_ATOMIC_POST_FAILURE_RESTORE",
+    "D_SECOND_REVISION_ORDINAL_HISTORY",
+    "D_AFTER_NAMED_UNDO_NO_FALSE_BLOCKER",
+    "E_UNIMPLEMENTED_INCOMING_CORRECTION_STAYS_GUARDED"
+  ],
+  "missing": [],
+  "all13_full_case_boundaries_restored": true,
+  "session_leaks": false,
+  "full22_rows_sequences_roles_CP6_advisors_and_backup_restored": true,
+  "Auth_before_after": [
+    0,
+    0
+  ],
+  "five_package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "preuse_delta_inverse": {
+    "status": "CREDIT_DE_EXACT_PREUSE_DELTA_RESTORE",
+    "parent_verified": {
+      "status": "VENDOR_RECEIVABLE_EXACT_SOURCE_AND_ALL22",
+      "contract": "cp7.vendor-receivable.v1",
+      "actual_parent_verified_before_delta": true,
+      "projected_catalog": false,
+      "Native_changed_functions": [
+        "erp.bd_post_invoice_v1(jsonb,uuid)",
+        "erp.bd_apply_vendor_credit_v1(text,uuid,text,uuid,numeric,date,text,uuid)",
+        "erp.bd_claim_credit_applied_v1(text,uuid)",
+        "erp.bd_claim_credit_opening_lines_v1(uuid)",
+        "erp.bd_vendor_payables_v1(uuid)",
+        "erp.save_laundry_bd_action_v1(text,jsonb,uuid)",
+        "erp.get_laundry_bd_workspace_v1(jsonb)"
+      ],
+      "new_private_functions": 12,
+      "new_public_rpcs": 0,
+      "Native_money_stock_HPP_engine_unchanged": true,
+      "formal_acceptance_unchanged": true,
+      "production_go": false,
+      "independent_acceptance": false
+    },
+    "used_guard_before_DDL": true
+  },
+  "used_inverse_guard_observed": false,
+  "actual_Auth_HTTP": 0,
+  "actual_browser": 0,
+  "usable_as_Native13_prerequisite": false,
+  "cause": "PL/pgSQL local variable phase conflicts work_v1.phase in materialize_v1 POSTED lookup, SQLSTATE42702; nine cases roll back atomically before materialization. The per-line Native cap is passed and preserved.",
+  "repair_scope": "Only four local-variable references rename phase to support_phase; columns, values, source guards, physical and financial algorithm unchanged. Separately reviewed quote product aggregate cap successor remains opt-in and requires explicit qualification.",
+  "first_failure_preserved": true,
+  "files": {
+    "CP7_CREDIT_DE_NATIVE13.json": {
+      "raw_bytes": 4682211,
+      "raw_sha256": "1d379d9db6352ba807d374ee4fd1d4ff8d9ac1bf2dfcca1f057b4cabe657252a",
+      "gzip_sha256": "5e2bbbd7bf8bb8f9390b5bab0a0fe8e65d011992496b789a9d091809189b00ca"
+    },
+    "CP7_CREDIT_DE_NATIVE13_CASES.json": {
+      "raw_bytes": 48745,
+      "raw_sha256": "42935b84f18e96b77fa796402d71a009af596718cedf69ec6950f3bf2a7b6678",
+      "gzip_sha256": "f6a1ea57cec33e9a70a73749bf333545083819e72cb2183c0f23f080161e31ef"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "raw_bytes": 360419,
+      "raw_sha256": "f257a3942a79fd72da3312989df5586b8789d56849ca831690e09579c3877d75",
+      "gzip_sha256": "9d560aaae38b33860a82a4d791ad7da2140f244733d3ed62a71f64cbcda8be49"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "raw_bytes": 1470,
+      "raw_sha256": "b1a43cfdf577e207773406acc19376ddc4a86f44584108a78c25af974e807a02",
+      "gzip_sha256": "dfafcbc8d4dc3e36157141d75781228386ec0ef0cd19c1438402c1efefe4aad5"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "raw_bytes": 1806,
+      "raw_sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7"
+    }
+  },
+  "production_go": false,
+  "independent_acceptance": false
+}

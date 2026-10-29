@@ -1,0 +1,79 @@
+{
+  "classification": "SOURCE_ONLY_FROZEN_AUGMENTATION_BINDING",
+  "prior_closed_commit": "f36a12af01e7ecc334d06dc244f74a076a573405",
+  "prior_closed_tree": "e5420c6c0dd3544e6540c39d3eef9f1d08e2e5b6",
+  "frozen_augmentation_commit": "0d59d96b4e72d233721c1f92c83c9774820ed91b",
+  "frozen_augmentation_tree": "b6c3ac704a73656c2336613688cacb02109f7ddf",
+  "copied_namespace_files": {
+    "scripts/current-credit-d1-product-cap-native-augmentation/.gitignore": {
+      "bytes": 19,
+      "sha256": "862263fa1f46c20f0d1e4dac5ffcc75abd55c08211b2c3864c5f8764b9d87793"
+    },
+    "scripts/current-credit-d1-product-cap-native-augmentation/API.json": {
+      "bytes": 11669,
+      "sha256": "afca7b9a6ef6a58dca3c86364a7b7aeee6817f4314ae959e076ca997abf2a40e"
+    },
+    "scripts/current-credit-d1-product-cap-native-augmentation/LOCAL_CHECKS.json": {
+      "bytes": 1593,
+      "sha256": "3762fbbb4f60313729523151da5640586f22662d831d1774102b0d4b69800d9a"
+    },
+    "scripts/current-credit-d1-product-cap-native-augmentation/README.md": {
+      "bytes": 5233,
+      "sha256": "561c7536c3deb5f76e90d625b361458242d98677fa7d88958ba2ab3e971226c2"
+    },
+    "scripts/current-credit-d1-product-cap-native-augmentation/SOURCE.json": {
+      "bytes": 6997,
+      "sha256": "79cf8ca8ca72de93fba2c2da29e3777bc64ee0cf84bd1bdf71256d203589790d"
+    },
+    "scripts/current-credit-d1-product-cap-native-augmentation/bind.py": {
+      "bytes": 2688,
+      "sha256": "ce05f569fdfd149f46140952d714843fa671a813e43cb8bd5df0217a928cb887"
+    },
+    "scripts/current-credit-d1-product-cap-native-augmentation/evidence/LOCAL_CORRECTED10_PASS.log": {
+      "bytes": 1649,
+      "sha256": "93059913805771a2227bf329bd9133c5b37da7df69bfbc790f507ae88b8b81cc"
+    },
+    "scripts/current-credit-d1-product-cap-native-augmentation/evidence/LOCAL_CORRECTED_REAL_IMPORT13_NO_DB.json": {
+      "bytes": 713,
+      "sha256": "42991b932153f548068dc76c9b9ab9c99f6d9f767d1868b35a2ede21d0f8544b"
+    },
+    "scripts/current-credit-d1-product-cap-native-augmentation/evidence/LOCAL_FIRST10_PASS.log": {
+      "bytes": 1649,
+      "sha256": "23903b21bc6121f5f823df1625664ca8744c30b47601986ff91781184b032c3e"
+    },
+    "scripts/current-credit-d1-product-cap-native-augmentation/evidence/LOCAL_FIRST_REAL_IMPORT13_NO_DB.json": {
+      "bytes": 713,
+      "sha256": "d8eaa32ae39fb7af42348707c48b84486034ed17c9f6afedc60f44d70594ce5d"
+    },
+    "scripts/current-credit-d1-product-cap-native-augmentation/evidence/SEQUENCE_REPORT_SCOPE_COUNTER.json": {
+      "bytes": 805,
+      "sha256": "43201ab109f810d08d38b6139942d1adfb3ab55448a12b3b8fcd4f4e76c8fedd"
+    },
+    "scripts/current-credit-d1-product-cap-native-augmentation/factory.py": {
+      "bytes": 2117,
+      "sha256": "2922e10ada0c38879e84fb6e16419a0056e90c61f4625fe1c94043f824fafacf"
+    },
+    "scripts/current-credit-d1-product-cap-native-augmentation/guard.py": {
+      "bytes": 1979,
+      "sha256": "ee419f1c63b0b172e3db8dc25b0a3b96bbf540d7b45d3126c7f4528f14844738"
+    },
+    "scripts/current-credit-d1-product-cap-native-augmentation/import_check.py": {
+      "bytes": 1997,
+      "sha256": "baa1ba79eef34c3649ccb41b64c6a77152a3bb16b3ebd3acdebebb2543051654"
+    },
+    "scripts/current-credit-d1-product-cap-native-augmentation/prelude.py": {
+      "bytes": 18701,
+      "sha256": "072bf448301089b9046658c209b05973777de91e71bec2ac26f06a068a7ec631"
+    },
+    "scripts/current-credit-d1-product-cap-native-augmentation/test_contract.py": {
+      "bytes": 7073,
+      "sha256": "bbe0999dafbe988e695fea465e67c1d9d6ede21692bd307b78b27e4077817c2e"
+    }
+  },
+  "source_required_sha256": "79cf8ca8ca72de93fba2c2da29e3777bc64ee0cf84bd1bdf71256d203589790d",
+  "source_file_pins": 31,
+  "SOURCE_and_API_regenerated": false,
+  "new_Native_executions": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

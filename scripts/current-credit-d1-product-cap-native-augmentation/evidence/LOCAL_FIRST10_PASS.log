@@ -1,0 +1,15 @@
+test_2000_financial_and_stale_boundary_math_are_independent (test_contract.Contract.test_2000_financial_and_stale_boundary_math_are_independent) ... ok
+test_changed_api_body_or_argument_refuses (test_contract.Contract.test_changed_api_body_or_argument_refuses) ... ok
+test_explicit_product_selection_is_not_uuid_order (test_contract.Contract.test_explicit_product_selection_is_not_uuid_order) ... ok
+test_incomplete_reordered_or_duplicate_ids_fail (test_contract.Contract.test_incomplete_reordered_or_duplicate_ids_fail) ... ok
+test_inner_positive_sequence_prefix_is_recorded_and_other_changes_fail (test_contract.Contract.test_inner_positive_sequence_prefix_is_recorded_and_other_changes_fail) ... ok
+test_native_writes_use_retained_apis_not_direct_business_dml_or_1000_prepared (test_contract.Contract.test_native_writes_use_retained_apis_not_direct_business_dml_or_1000_prepared) ... ok
+test_pins_and_exact_api_argument_bodies_admit_no_native_credit (test_contract.Contract.test_pins_and_exact_api_argument_bodies_admit_no_native_credit) ... ok
+test_prelude_failure_does_not_run_original_or_return_pass (test_contract.Contract.test_prelude_failure_does_not_run_original_or_return_pass) ... ok
+test_private_proxy_changes_only_cases_never_supplied_module_attributes (test_contract.Contract.test_private_proxy_changes_only_cases_never_supplied_module_attributes) ... ok
+test_wrapper_only_multi_changes_identity_and_original_runs_after_preludes (test_contract.Contract.test_wrapper_only_multi_changes_identity_and_original_runs_after_preludes) ... ok
+
+----------------------------------------------------------------------
+Ran 10 tests in 0.298s
+
+OK

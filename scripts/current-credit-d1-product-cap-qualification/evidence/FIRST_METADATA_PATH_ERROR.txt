@@ -1,0 +1,1 @@
+Writer attempted to update scripts/cp7_credit_correction_de/SOURCE.json, which does not exist in this product. No file was created or changed. The actual composition.sources() hashes its nine business leaves dynamically. New namespace SOURCE will bind this successor; frozen qualifier manifests remain unchanged.

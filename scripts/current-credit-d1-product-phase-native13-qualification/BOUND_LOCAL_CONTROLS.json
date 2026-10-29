@@ -1,0 +1,32 @@
+{
+  "status": "PASS_BOUND_LOCAL_SOURCE_AND_IMPORT_CONTROLS_ONLY",
+  "retained_qualifier_unit_controls": 6,
+  "new_wrapper_unit_controls": 13,
+  "frozen_augmentation_unit_controls": 10,
+  "actual_retained_no_SQL_callback_registration": 13,
+  "real_complete_engine_and_retained_runner_factory_import": "PASS_WITH_PSYCOPG_CONNECT_FORBIDDEN",
+  "real_runtime_import_caller_argument": "--runtime",
+  "caller_argv_identity_and_contents_restored": true,
+  "frozen_augmentation_commit": "0d59d96b4e72d233721c1f92c83c9774820ed91b",
+  "frozen_augmentation_SOURCE_sha256": "79cf8ca8ca72de93fba2c2da29e3777bc64ee0cf84bd1bdf71256d203589790d",
+  "old_qualifier_files_exact": 20,
+  "installed_runtime_transitions": [
+    "owning.sql",
+    "materialize.sql"
+  ],
+  "private_Native_runner_changes": 1,
+  "qualified_vendor_engine_changes": 6,
+  "new_actual_Native_cases": 0,
+  "actual_Auth_HTTP_cases": 0,
+  "actual_browser_cases": 0,
+  "actual_races": 0,
+  "SQL_statements": 0,
+  "DB_server_started": false,
+  "remote_publish": false,
+  "CI_dispatch": false,
+  "full_runtime_vendor_Original_admission_executed": false,
+  "actual_Native13_and_committed_used_witness_pending": true,
+  "five_package_gates_pending": true,
+  "production_go": false,
+  "independent_acceptance": false
+}

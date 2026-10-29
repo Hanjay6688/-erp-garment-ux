@@ -1,0 +1,121 @@
+{
+  "contract": "cp7.credit-d1-materialize-support-phase.v1",
+  "status": "LOCAL_TYPED_RUNTIME_PASS_NOT_NATIVE",
+  "base_head": "d902e4d2e65cf5b382af1ab041120611f9a61078",
+  "base_tree": "6f931e639bd8996378ff65b8a7be2a1ed8590b45",
+  "product_changes": [
+    "scripts/cp7_credit_correction_de/materialize.sql: four local variable identifier references only"
+  ],
+  "private_name_only": true,
+  "Native_guard_financial_algorithm_changed": false,
+  "old_case_fixture_qualifier_workflow_changed": false,
+  "local_typed_runtime_controls": 5,
+  "source_controls": 4,
+  "actual_financial_Native_cases": 0,
+  "database_server": false,
+  "remote_CI_hosted": false,
+  "files": {
+    "scripts/cp7_credit_correction_de/cases.py": {
+      "bytes": 21156,
+      "sha256": "c530bb87f72ee6091e032d15efdb2b2e55cf9c9632b64c9e781665b70325bbdb"
+    },
+    "scripts/cp7_credit_correction_de/facts.sql": {
+      "bytes": 5073,
+      "sha256": "ddfcf8583cf86a916e04aa5630d6262a32e48919dbd0a4c913a09166ca2f8334"
+    },
+    "scripts/cp7_credit_correction_de/local_compile_fixture.py": {
+      "bytes": 4015,
+      "sha256": "11c75be1b404d141d884db90a5942141111ea7ae5add7b6c6c76912c1217d6fd"
+    },
+    "scripts/cp7_credit_correction_de/materialize.sql": {
+      "bytes": 15010,
+      "sha256": "206c18b517aef54ddc5757fd156a6c7d8d4a2c3240f62779773a4fff74fe6154"
+    },
+    "scripts/cp7_customer_credit/source/NO_JOURNAL_SCHEMA_DIFF.proposal.sql": {
+      "bytes": 4673,
+      "sha256": "bed7aea0c7eab97c3917444aac5ea21e167b7ca0dfea4a92d4150124f21baa45"
+    },
+    "scripts/cp7_ow04_restore_bundle.py": {
+      "bytes": 19828,
+      "sha256": "a1605193347cf5b3321a7bdbf8ff6c634df4f4c0a5113eb295e8c3ce44428e00"
+    },
+    "scripts/current-credit-d1-materialize-phase-successor/README.md": {
+      "bytes": 5865,
+      "sha256": "ad12e340fbe1e08a091a9d7e1a03bbb02ecca90cbeb841ab4cff724d8e47d78f"
+    },
+    "scripts/current-credit-d1-materialize-phase-successor/check.py": {
+      "bytes": 5898,
+      "sha256": "76a2b6185fd9342e91c62e69c78f376ad326afd80df81abeba56c36d55fbb301"
+    },
+    "scripts/current-credit-d1-materialize-phase-successor/doubles.sql": {
+      "bytes": 11895,
+      "sha256": "e9ad4c3fb4700345783396ffa872afdd799e84a393b9ba6e26282d09ef3495e4"
+    },
+    "scripts/current-credit-d1-materialize-phase-successor/evidence/BEFORE_materialize.sql": {
+      "bytes": 14978,
+      "sha256": "f0bd81d3a80ad1f465ee5cc424b63009776fb65b9f6a23cbaae80ea331a8e4a4"
+    },
+    "scripts/current-credit-d1-materialize-phase-successor/evidence/D902_FIRST_FAILURE_RECEIPT.json": {
+      "bytes": 4237,
+      "sha256": "3071d81f576cec3d9f999e6ca129d4f07d1fbf995484493c131f0777de688c49"
+    },
+    "scripts/current-credit-d1-materialize-phase-successor/evidence/D902_NATIVE13_CASES.json.gz": {
+      "bytes": 4974,
+      "sha256": "f6a1ea57cec33e9a70a73749bf333545083819e72cb2183c0f23f080161e31ef"
+    },
+    "scripts/current-credit-d1-materialize-phase-successor/evidence/DERIVATION.json": {
+      "bytes": 775,
+      "sha256": "390f4845776a0a250b67aac9c0cb9d8a114f95f68a48f0c32a1b076d2ce23163"
+    },
+    "scripts/current-credit-d1-materialize-phase-successor/evidence/LOCAL_RECEIPTS.json": {
+      "bytes": 6119,
+      "sha256": "145b76af1df780f6c78257e1f4cc50c2c4df2177d7b6e263020e56d8b5c9049a"
+    },
+    "scripts/current-credit-d1-materialize-phase-successor/evidence/LOCAL_RUNTIME_FIRST.json.gz": {
+      "bytes": 2912,
+      "sha256": "a83af5ca506e73184461dfa31fe58f7712ad1aee8b6f787cf2dc87815963cbbd"
+    },
+    "scripts/current-credit-d1-materialize-phase-successor/evidence/LOCAL_RUNTIME_SECOND.json.gz": {
+      "bytes": 1619,
+      "sha256": "28b42213b818810ba5f0c2b0e219d4ca602b490300cb6a786f91d8ad5adca907"
+    },
+    "scripts/current-credit-d1-materialize-phase-successor/evidence/LOCAL_RUNTIME_THIRD.json.gz": {
+      "bytes": 203936,
+      "sha256": "98869da0562c9b123569684a510eb6d4f71794fa697e5e0101f99d1c8627f6f5"
+    },
+    "scripts/current-credit-d1-materialize-phase-successor/evidence/retained/FIRST_doubles.sql": {
+      "bytes": 11884,
+      "sha256": "8465ff89835d1f3dfcfe5695e667d40d35d50690116003e52080f0ba557d4e7d"
+    },
+    "scripts/current-credit-d1-materialize-phase-successor/evidence/retained/FIRST_fixture.py": {
+      "bytes": 3228,
+      "sha256": "acc29e19a5aeef04a2d7669aa71ce03446f800553532c68cd3ce75c16e8c4934"
+    },
+    "scripts/current-credit-d1-materialize-phase-successor/evidence/retained/FIRST_runtime.mjs": {
+      "bytes": 14837,
+      "sha256": "9b982ab2403f2fb9d99909d7dce1363049ae61f96d985b2320feeee2da5cbc4b"
+    },
+    "scripts/current-credit-d1-materialize-phase-successor/evidence/retained/SECOND_doubles.sql": {
+      "bytes": 11895,
+      "sha256": "e9ad4c3fb4700345783396ffa872afdd799e84a393b9ba6e26282d09ef3495e4"
+    },
+    "scripts/current-credit-d1-materialize-phase-successor/evidence/retained/SECOND_fixture.py": {
+      "bytes": 3324,
+      "sha256": "94d1bfb924ddf9feea4863cc19488fb7a50017b9f50ad27443a36af91d14b40f"
+    },
+    "scripts/current-credit-d1-materialize-phase-successor/fixture.py": {
+      "bytes": 4053,
+      "sha256": "ace004c396ead0291553383757ddf9ea4d753d89ffb415f03d5e3626e64e764c"
+    },
+    "scripts/current-credit-d1-materialize-phase-successor/runtime.mjs": {
+      "bytes": 14837,
+      "sha256": "9b982ab2403f2fb9d99909d7dce1363049ae61f96d985b2320feeee2da5cbc4b"
+    },
+    "scripts/current-credit-d1-materialize-phase-successor/test_source.py": {
+      "bytes": 1507,
+      "sha256": "b5538ad43fbc92db38ebdcbc0d43f73447dcc21a43d9544e4e2cf2ab4e05e712"
+    }
+  },
+  "production_go": false,
+  "independent_acceptance": false
+}

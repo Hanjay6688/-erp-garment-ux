@@ -1,0 +1,54 @@
+{
+  "status": "LOCAL50_PASS_PREPARED_NOT_NATIVE_FINANCIAL_PASS",
+  "checks": {
+    "actual_quote_and_unchanged_Native_predicate_SQL_with_declared_doubles": 34,
+    "new_readonly_source_controls": 7,
+    "retained_source_fixture_controls": 9
+  },
+  "historical_repro": "CONFIRMED_READY_THEN_NATIVE_AGGREGATE_REFUSAL_AND_REPLAYED",
+  "actual_Native_financial_cases": 0,
+  "actual_Auth_browser_cases": 0,
+  "remote_CI_hosted_calls": 0,
+  "only_product_change": "cp7_credit_correction_de.quote_v1(jsonb)",
+  "other_owning_function_bodies_exact": 13,
+  "other_business_leaves_exact": 8,
+  "original_Native13_callback_and_qualifier_files_unchanged": true,
+  "Native_actual_augmentation": "PROPOSED_ONLY_NESTED_PRELUDE_THEN_UNCHANGED_ORIGINAL_CALLBACK",
+  "root_materialize_repair": "SEPARATE_ROOT_SCOPE_NOT_INCLUDED; requires explicit combined source admission",
+  "production_go": false,
+  "independent_acceptance": false,
+  "evidence": {
+    "evidence/DIRECTED_FINAL34_PASS.json": {
+      "bytes": 64237,
+      "sha256": "e4fdb5b7e562750e36ace58c203ccde9b8fe1f69fd184f9d85706fc50f735c2d"
+    },
+    "evidence/DIRECTED_FIRST30_PASS.json": {
+      "bytes": 57059,
+      "sha256": "e962069fdda73412282e76a45e6e36971aad5d6ac9f9bdab16606f8dbc428ab8"
+    },
+    "evidence/FIRST_METADATA_PATH_ERROR.txt": {
+      "bytes": 313,
+      "sha256": "d1d80c9f7bd2a039ec148a6af7aa601fd6012f70f9341ee34a9ce79aab138a4d"
+    },
+    "evidence/FIRST_QUOTE_READY_NATIVE_REFUSAL.json": {
+      "bytes": 2202,
+      "sha256": "6f49246390309527fae1acf462db5577d37cbe5aa01ce6ab7e8138edd230a8e8"
+    },
+    "evidence/FIRST_REPRO_SOURCE.mjs": {
+      "bytes": 14850,
+      "sha256": "580e95e0977f5f588622766c6d4b1c207184b0ef6aac7b3dcf517701512183e7"
+    },
+    "evidence/HISTORICAL_REPRO_REPLAY.json": {
+      "bytes": 2202,
+      "sha256": "6f49246390309527fae1acf462db5577d37cbe5aa01ce6ab7e8138edd230a8e8"
+    },
+    "evidence/RETAINED_SOURCE9_PASS.log": {
+      "bytes": 4246,
+      "sha256": "24b5f3bff05763d3688d8e29f29ba44812c8087cd547f67869f39b2f54bcc98c"
+    },
+    "evidence/SOURCE7_PASS.log": {
+      "bytes": 1336,
+      "sha256": "da2fbe2424299d62ac3d0462af7126ea8923ad01075fcd61237c2ff561f1fc88"
+    }
+  }
+}

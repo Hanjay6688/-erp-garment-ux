@@ -1,0 +1,11 @@
+{
+  "status": "PRE_FREEZE_REPORT_SCOPE_COUNTER_ACCEPTED",
+  "Native_executed": false,
+  "previous_report_field": "complete_sequence_restore_owned_by_outer_strict_group",
+  "exact_source_finding": "Frozen strict_group uses savepoint rollback and final connection rollback; neither resets nontransactional PostgreSQL sequences.",
+  "correction": "Positive prefix deltas retained without reseed. Complete sequence restoration requires root outer FULL DATABASE BACKUP RESTORE and package gates; original strict-group row/catalog/session checks remain separate.",
+  "refused_commands_and_exact_replay": "Still require immediate full22/allrows/_data/allsequence/session equality; no exception.",
+  "business_or_financial_assertions_changed": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

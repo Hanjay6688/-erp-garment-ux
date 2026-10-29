@@ -1,0 +1,28 @@
+{
+  "status": "PREPARED_LOCAL_SOURCE_IMPORT_CLI_CONTROLS_ONLY",
+  "retained_qualifier_tests": 6,
+  "new_wrapper_tests": 13,
+  "controls": [
+    "exact old20 bytes",
+    "two reviewed runtime pins and counterpart source exceptions",
+    "all old Native runner function bodies unchanged",
+    "one private import binding",
+    "workflow exact routing derivation and cleanup",
+    "null/half/corrupt augmentation source rejection",
+    "actual parsers reject unknown flags before imports",
+    "actual parsers plus faithful old guard doubles cover runtime and lazy admission",
+    "BaseException/SystemExit/KeyboardInterrupt caller argv object+content restoration"
+  ],
+  "commands": [
+    "python -B -m unittest discover -s scripts/current-credit-de-native-qualification -p test_*.py",
+    "python -B -m unittest discover -s scripts/current-credit-d1-product-phase-native13-qualification -p test_*.py",
+    "python -B scripts/current-credit-d1-product-phase-native13-qualification/check.py --offline"
+  ],
+  "new_actual_Native_cases": 0,
+  "DB_server_started": false,
+  "local_PGlite_used_for_this_qualifier": false,
+  "remote_publish": false,
+  "CI_dispatch": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

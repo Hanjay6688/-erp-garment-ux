@@ -1,0 +1,8 @@
+{
+  "original_sha256": "42acf33e4c7b896a28ef7d9795c6e3243262521f5e2647d33ced1f72452c1ba0",
+  "derived_sha256": "7f46f044880ae629ee5b4c1aa74041e2f17d34d46f027989457a4dbe9981caad",
+  "counted_changes": 1,
+  "private_module_globals": true,
+  "original_file_preserved": true,
+  "all_original_function_bodies_and_assertions_byte_exact": true
+}

@@ -1,0 +1,20 @@
+{
+  "original_path": ".github/workflows/cp7-credit-de-native.yml",
+  "original_sha256": "62c8bf85d7f7235faaf5db2cae37abda421c540d1ea74652168b78601cdc5bfe",
+  "derived_path": ".github/workflows/cp7-credit-d1-product-phase-native13.yml",
+  "derived_sha256": "cda5788102bc7dc2de51ebc0646d9cc392bbca2d05c335f8e319ea23ebb07622",
+  "routing_anchor_counts": [
+    1,
+    2,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+  ],
+  "added_source_control_steps": 1,
+  "old_steps_other_than_declared_routing_byte_exact": true,
+  "all_five_package_gates_and_cleanup_unchanged": true
+}

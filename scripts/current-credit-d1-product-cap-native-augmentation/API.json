@@ -1,0 +1,187 @@
+{
+  "modules": {
+    "native": {
+      "path": "scripts/cp7_customer_credit/native/cp7_ow04_native_source_fixture.py",
+      "sha256": "4984926b221df459e6e88c2f282da3e553d4810d177208ea489c9c3b1d264497"
+    },
+    "initial": {
+      "path": "scripts/cp7_customer_credit/initial-settlement/cp7_ow04_initial_settlement_cases.py",
+      "sha256": "6d4e2389e0090333ae076fc3091ec4333492e886e08fc1a96c4eea9282f93602"
+    },
+    "retained": {
+      "path": "scripts/cp7_credit_correction_de/cases.py",
+      "sha256": "c530bb87f72ee6091e032d15efdb2b2e55cf9c9632b64c9e781665b70325bbdb"
+    },
+    "fixture": {
+      "path": "scripts/cp7_credit_correction_de/native_fixture.py",
+      "sha256": "4fbe56583ffc63473c12195ddaae6ff3e0cd0ad46b358bf7eef7b5175c67e829"
+    },
+    "note": {
+      "path": "scripts/cp7_note_correction_cases.py",
+      "sha256": "1f6bfff2974b865d54600dec4fd515bd8b931efdd737c19e50eb8b1a094f604c"
+    },
+    "drafts": {
+      "path": "scripts/cp7_sales_draft_cases.py",
+      "sha256": "9795a983aaeeae20793b6b7741d18a4486ac05193af97776882ce8014c2a84f4"
+    },
+    "command": {
+      "path": "scripts/cp7_sales_command_cases.py",
+      "sha256": "b6d6e0b6995e3dee2ae7f0e69ab6b48c6c965ee31f15cca4027c47b5159885df"
+    },
+    "payments": {
+      "path": "scripts/cp7_sales_payment_cases.py",
+      "sha256": "a28bdaa916775ccfe14e5eb1bb492ec94d0b2b614169141d60f73e06cd575786"
+    },
+    "returns": {
+      "path": "scripts/cp7_sales_return_cases.py",
+      "sha256": "abe194d5e2fbc3f425a9ae4b2deda19acf26519f758c099764dec07e8cb5f360"
+    },
+    "correction": {
+      "path": "scripts/cp7_sales_return_correction_cases.py",
+      "sha256": "26fe2e420af55ee213a629db4f7a9929a5e9155374682ddcb1f1f2b855bb6c1c"
+    },
+    "catalog": {
+      "path": "scripts/cp7_ow04_restore_bundle.py",
+      "sha256": "a1605193347cf5b3321a7bdbf8ff6c634df4f4c0a5113eb295e8c3ce44428e00"
+    },
+    "followups": {
+      "path": "scripts/cp7_credit_followups/cases.py",
+      "sha256": "3c73087668a61004b8607f4102b0cc9cbb7162a1f4fd0845450713d8e9f93726"
+    },
+    "multi": {
+      "path": "scripts/cp7_credit_multi/cases.py",
+      "sha256": "85be87db91bd302fa01d759941389a8302c7928e2a2bdedebc8982872c4f0857"
+    },
+    "financial_truth": {
+      "path": "scripts/cp6_bd_probe.py",
+      "sha256": "c3add21e66d4d5544bf4e4d046a9fa8d64dbcb0cb285551a92c2d7405156b31b"
+    }
+  },
+  "functions": {
+    "native.isolated": {
+      "parameters": "arguments(posonlyargs=[], args=[arg(arg='cur')], kwonlyargs=[], kw_defaults=[], defaults=[])",
+      "function_sha256": "e5250252f46ff73ed70696c84f4ef1d97adc574a6e0b7f8ed5f6caad649890e7"
+    },
+    "native._calendar": {
+      "parameters": "arguments(posonlyargs=[], args=[arg(arg='cur')], kwonlyargs=[], kw_defaults=[], defaults=[])",
+      "function_sha256": "8e951e0552e7844d2c0418aac1075642fa4555ee899ba5940a96ff44a68f24ed"
+    },
+    "native._raw": {
+      "parameters": "arguments(posonlyargs=[], args=[arg(arg='cur'), arg(arg='query'), arg(arg='args')], kwonlyargs=[], kw_defaults=[], defaults=[Tuple(elts=[], ctx=Load())])",
+      "function_sha256": "0e4f671249a4857c8eafffd979e5f30c82defcf2676126dd29a4006a590e4f5a"
+    },
+    "native._array": {
+      "parameters": "arguments(posonlyargs=[], args=[arg(arg='cur'), arg(arg='table'), arg(arg='predicate'), arg(arg='args')], kwonlyargs=[], kw_defaults=[], defaults=[])",
+      "function_sha256": "d428c7d47f6966cb9fc7023e4a57f7e55ef536177ebcb7c80bd41cdde1e5d100"
+    },
+    "native.call_quote": {
+      "parameters": "arguments(posonlyargs=[], args=[arg(arg='cur'), arg(arg='quote_payload'), arg(arg='subject')], kwonlyargs=[], kw_defaults=[], defaults=[Constant(value=None)])",
+      "function_sha256": "1566a0cf7e9f84d73f3906683f9545e0f008bbf00cf74bfdedf395a7698798eb"
+    },
+    "initial._credit_master": {
+      "parameters": "arguments(posonlyargs=[], args=[arg(arg='cur')], kwonlyargs=[], kw_defaults=[], defaults=[])",
+      "function_sha256": "e97836843bfc44e01a23ea610d88e354e6379b80a3dc73704e4bdcbfe75d5c1a"
+    },
+    "initial._envelope": {
+      "parameters": "arguments(posonlyargs=[], args=[arg(arg='query'), arg(arg='quote')], kwonlyargs=[], kw_defaults=[], defaults=[])",
+      "function_sha256": "6a743fddd3a3ef0686c37fe23358cd5cb8f9c596a4307879c4206c3a6a1e2035"
+    },
+    "initial._settle": {
+      "parameters": "arguments(posonlyargs=[], args=[arg(arg='cur'), arg(arg='envelope'), arg(arg='request')], kwonlyargs=[], kw_defaults=[], defaults=[])",
+      "function_sha256": "264d051c16cb432df9fb96e5ae7b41071c734181ec8d8d38c616c2e0225ee6d6"
+    },
+    "initial._require_installed": {
+      "parameters": "arguments(posonlyargs=[], args=[arg(arg='cur')], kwonlyargs=[], kw_defaults=[], defaults=[])",
+      "function_sha256": "b9ee71a50fd89f972454d06148964fcada4428007b3c1c8c881b0cbdb59c97f8"
+    },
+    "retained.cases": {
+      "parameters": "arguments(posonlyargs=[], args=[arg(arg='cur'), arg(arg='today')], kwonlyargs=[], kw_defaults=[], defaults=[])",
+      "function_sha256": "2d2ef173bb5e6340a9bfc859d56b72a1ed1c4bfe42d701cae0a9db66a42b3dec"
+    },
+    "retained.profile": {
+      "parameters": "arguments(posonlyargs=[], args=[arg(arg='cur'), arg(arg='pair'), arg(arg='expected_i'), arg(arg='expected_available')], kwonlyargs=[], kw_defaults=[], defaults=[])",
+      "function_sha256": "f174e28e2c01bd2f0406d05868352e4ac013b4cc7e5dcbe1ba7c8db13cd5fef1"
+    },
+    "note.stock": {
+      "parameters": "arguments(posonlyargs=[], args=[arg(arg='cur'), arg(arg='today'), arg(arg='qty'), arg(arg='at')], kwonlyargs=[], kw_defaults=[], defaults=[Constant(value=1200), Constant(value=None)])",
+      "function_sha256": "5eb9db5d4756e57dd9389401b246696cdd21c5b4416f36cf828cf72b0b45326b"
+    },
+    "note.unchanged_facts": {
+      "parameters": "arguments(posonlyargs=[], args=[arg(arg='cur'), arg(arg='sale')], kwonlyargs=[], kw_defaults=[], defaults=[])",
+      "function_sha256": "442c4516a5043aeabf7d897b01c8cbe38643d1860256b55da497d35a879918d5"
+    },
+    "drafts.payload": {
+      "parameters": "arguments(posonlyargs=[], args=[arg(arg='f'), arg(arg='qty'), arg(arg='price'), arg(arg='discount')], kwonlyargs=[], kw_defaults=[], defaults=[Constant(value='4'), Constant(value='20'), Constant(value='0')])",
+      "function_sha256": "f2b0590cd641a52f2b27298cfa2d35ff63b9eec6d03994e88c77e87a49789dcc"
+    },
+    "drafts.create": {
+      "parameters": "arguments(posonlyargs=[], args=[arg(arg='cur'), arg(arg='f'), arg(arg='p'), arg(arg='key'), arg(arg='subject')], kwonlyargs=[], kw_defaults=[], defaults=[Constant(value=None), Constant(value=None), Constant(value=None)])",
+      "function_sha256": "55384b1c75d11be19a03c4548eed977f586d35b6131aa68de1707303e3f14904"
+    },
+    "command.command": {
+      "parameters": "arguments(posonlyargs=[], args=[arg(arg='cur'), arg(arg='action'), arg(arg='payload'), arg(arg='version'), arg(arg='key'), arg(arg='subject')], kwonlyargs=[], kw_defaults=[], defaults=[Constant(value=None), Constant(value=None)])",
+      "function_sha256": "093f74b260e3ae7dde23f7f34523211421a727e61e70d72c13ca4e1998c324e5"
+    },
+    "command.review": {
+      "parameters": "arguments(posonlyargs=[], args=[arg(arg='cur'), arg(arg='f')], kwonlyargs=[], kw_defaults=[], defaults=[])",
+      "function_sha256": "a3a3e14bdd1226c245f132c1888dd4c604475be07e99040c93f9697040c7a3d9"
+    },
+    "command.mapping": {
+      "parameters": "arguments(posonlyargs=[], args=[arg(arg='cur'), arg(arg='key')], kwonlyargs=[], kw_defaults=[], defaults=[])",
+      "function_sha256": "153905b18cc84580746c2d621d073e18404f0df6aa1f6e69c239176088db4380"
+    },
+    "payments.payment_payload": {
+      "parameters": "arguments(posonlyargs=[], args=[arg(arg='cur'), arg(arg='f'), arg(arg='amount')], kwonlyargs=[], kw_defaults=[], defaults=[Constant(value='30')])",
+      "function_sha256": "c3eb56a75ea162c567d7e63e78bf8aa8142291b80092f9efd6b769625ab1dc1a"
+    },
+    "returns.payload": {
+      "parameters": "arguments(posonlyargs=[], args=[arg(arg='cur'), arg(arg='f'), arg(arg='qty'), arg(arg='refund'), arg(arg='grade'), arg(arg='allocation'), arg(arg='destination')], kwonlyargs=[], kw_defaults=[], defaults=[Constant(value='1'), Constant(value='20'), Constant(value='GRADE_A'), Constant(value=None), Constant(value=None)])",
+      "function_sha256": "2ae9d31e6147c2b4a71c8fbaf9d408cd69c545b8c06e0ee5e1bf1a0c5529c0d5"
+    },
+    "returns.read": {
+      "parameters": "arguments(posonlyargs=[], args=[arg(arg='cur'), arg(arg='f'), arg(arg='kind'), arg(arg='subject')], kwonlyargs=[], kw_defaults=[], kwarg=arg(arg='q'), defaults=[Constant(value='ALLOCATIONS'), Constant(value=None)])",
+      "function_sha256": "0c8867af075a0c0c3d4aa8b717e5f3f0c97ff1694b338cf5d95aa779c245ce1b"
+    },
+    "returns.location": {
+      "parameters": "arguments(posonlyargs=[], args=[arg(arg='cur'), arg(arg='label')], kwonlyargs=[], kw_defaults=[], defaults=[Constant(value='P11 return destination')])",
+      "function_sha256": "4ac982d456fbca07932834f862b8a30a2b67f16d9c098da987c5ae257f37a282"
+    },
+    "correction.workspace": {
+      "parameters": "arguments(posonlyargs=[], args=[arg(arg='cur'), arg(arg='f'), arg(arg='return_id'), arg(arg='subject')], kwonlyargs=[], kw_defaults=[], kwarg=arg(arg='query'), defaults=[Constant(value=None), Constant(value=None)])",
+      "function_sha256": "ba569b18a6eb83698d6d5ed8d1390f2e78be1937fbc94ea02579ef42342c3b9a"
+    },
+    "correction.correct": {
+      "parameters": "arguments(posonlyargs=[], args=[arg(arg='cur'), arg(arg='p'), arg(arg='version'), arg(arg='key'), arg(arg='subject')], kwonlyargs=[], kw_defaults=[], defaults=[Constant(value=None), Constant(value=None)])",
+      "function_sha256": "d29b5af5b2a305b69886ed61e943737a1f5db47cde430a0a873a57dcf4d3781f"
+    },
+    "correction.original_fact": {
+      "parameters": "arguments(posonlyargs=[], args=[arg(arg='cur'), arg(arg='ident')], kwonlyargs=[], kw_defaults=[], defaults=[])",
+      "function_sha256": "91b0e7a309cf8d7884d64d46352f610be80ed666fe081b87052339d2f22470d5"
+    },
+    "catalog._catalog_rows": {
+      "parameters": "arguments(posonlyargs=[], args=[arg(arg='cur')], kwonlyargs=[], kw_defaults=[], defaults=[])",
+      "function_sha256": "609224d2c1853cea40a5600663bd826697764b226383af36a6e94aa98798a093"
+    },
+    "catalog._data": {
+      "parameters": "arguments(posonlyargs=[], args=[arg(arg='cur')], kwonlyargs=[], kw_defaults=[], defaults=[])",
+      "function_sha256": "d77c0c5a4bf660320ecd2847c1bd642b419e2a87c6b4747d2da46510976440b1"
+    },
+    "followups.draft_query": {
+      "parameters": "arguments(posonlyargs=[], args=[arg(arg='cur'), arg(arg='f'), arg(arg='qty'), arg(arg='refund')], kwonlyargs=[], kw_defaults=[], defaults=[])",
+      "function_sha256": "06da1d1677b9382dcca5e4d938fc957032fd46071c356e9efa18f15e43c7f3ed"
+    },
+    "multi.later_return": {
+      "parameters": "arguments(posonlyargs=[], args=[arg(arg='cur'), arg(arg='pair'), arg(arg='qty'), arg(arg='refund'), arg(arg='mode'), arg(arg='expected_k'), arg(arg='ordinal')], kwonlyargs=[], kw_defaults=[], defaults=[])",
+      "function_sha256": "1ccc04738cc520fad5b8018d489d4f56bf0b1742953905fd47af74e26283aee9"
+    },
+    "financial_truth.all_truth": {
+      "parameters": "arguments(posonlyargs=[], args=[arg(arg='cur')], kwonlyargs=[], kw_defaults=[], defaults=[])",
+      "function_sha256": "6d88d5876b806738e6c51ebcec1496a6b2a48241be97fda154148aa3cb5ffae6"
+    },
+    "financial_truth.truth_quiet": {
+      "parameters": "arguments(posonlyargs=[], args=[arg(arg='before'), arg(arg='after')], kwonlyargs=[], kw_defaults=[], defaults=[])",
+      "function_sha256": "abfb983449fe83bbe4fcff976f5518fb6026da14fe32f311f95a1d7cf29e9b9b"
+    }
+  },
+  "Native_execution": false
+}

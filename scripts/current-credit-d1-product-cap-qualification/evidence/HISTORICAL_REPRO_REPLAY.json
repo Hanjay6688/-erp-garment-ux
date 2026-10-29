@@ -1,0 +1,66 @@
+{
+  "status": "CONFIRMED_LOCAL_QUOTE_READY_NATIVE_AGGREGATE_REFUSAL",
+  "classification": "LOCAL_SQL_ACTUAL_QUOTE_KERNEL_AND_UNCHANGED_NATIVE_PREDICATE_WITH_STRUCTURAL_SOURCE_AUTH_HPP_DOUBLES",
+  "reviewed": {
+    "state": "READY",
+    "issues": [],
+    "families": [
+      {
+        "delta": "200.01",
+        "vector": [
+          {
+            "amount": "200.01",
+            "economic_date": "2026-10-02",
+            "transaction_date": "2026-10-02"
+          }
+        ],
+        "ordinal": "1",
+        "family_id": "00000000-0000-4000-8000-000000000006",
+        "capacity_ok": true,
+        "after_credit": "400.01",
+        "before_credit": "200.00",
+        "needs_cohort_configuration": false
+      },
+      {
+        "delta": "0.00",
+        "vector": [],
+        "ordinal": "2",
+        "family_id": "00000000-0000-4000-8000-000000000201",
+        "capacity_ok": true,
+        "after_credit": "600.00",
+        "before_credit": "600.00",
+        "needs_cohort_configuration": false
+      }
+    ],
+    "credit_delta": "200.01",
+    "review_token": "668cead81f9337c61b350170979c1f70a82a8dc87ab04b10588e41477917a05f",
+    "after_available": "1000.01",
+    "increase_policy": "AUTO_CREDIT_INCREMENT",
+    "active_consumers": [],
+    "before_available": "800.00",
+    "contract_version": "cp7.credit-correction-de.v1",
+    "shortfall_policy": "UNDO_ACTIVE_CONSUMERS_FIRST",
+    "source_authority_proven": true,
+    "replacement_invoice_policy": "AUTO_TRANSFER_TO_REPLACEMENT"
+  },
+  "refusal": {
+    "sqlstate": "P0001",
+    "message": "Refund exceeds original net sale value for product. Sold value 1000.000000, prior refund 600.000000, current refund 400.010000",
+    "where": "PL/pgSQL function post_sales_return(uuid) line 89 at RAISE"
+  },
+  "math": {
+    "productA_sale": "1000.00",
+    "peerPOSTED": "600.00",
+    "replacement": "400.01",
+    "perLineMax": "400.00",
+    "lineTolerance": "0.01",
+    "aggregate": "1000.01",
+    "productAggregateTolerance": "0.00",
+    "invoiceSale": "2000.00",
+    "payment": "2000.00",
+    "physicalA": "2 replacement +3 peer =5 sold"
+  },
+  "Native_financial_execution": false,
+  "actual_Native_cases": 0,
+  "stock_or_journal_writer_called": false
+}

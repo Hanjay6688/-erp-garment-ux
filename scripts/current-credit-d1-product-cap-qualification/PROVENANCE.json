@@ -1,0 +1,25 @@
+{
+  "base_local_head": "568e57d5bdd1452ed7d62392879f6d5b738dfadd",
+  "base_tree": "6f931e639bd8996378ff65b8a7be2a1ed8590b45",
+  "public_equivalent": "d902 (root supplied same tree)",
+  "Native_Original": {
+    "path": "/workspace/scratch/ef468a447ac6/evidence-private/ow08-source6-427605/CLONE_install.source-erp.sql",
+    "bytes": 5385616,
+    "sha256": "0206ea49a972eca28b62be570266e2e53eb4fcc52f21a05d7094991879f1d3d3"
+  },
+  "old_local_cap_harness": {
+    "path": "scripts/cp7_credit_correction_de/local_cap_check.mjs",
+    "sha256": "641d8f48e93d14b36fc744183822d46e10b73a7c0f33825ee1f230f5ee8879fb"
+  },
+  "prefix_derivation": {
+    "cut_before": " let inserted=1000;const checks=[]",
+    "replacements": 3,
+    "only_structural_setup_and_exact_quote_collectors_kernel": true
+  },
+  "schema_double": {
+    "builder_sha256": "11c75be1b404d141d884db90a5942141111ea7ae5add7b6c6c76912c1217d6fd",
+    "sha256": "c132c7c3097a968e1fdbb29cd9d2837028e8ff82ccb042c5441947904348be82",
+    "constraints_defaults_removed": true
+  },
+  "classification": "LOCAL_SQL_QUOTE_AND_NATIVE_PREDICATE_ONLY_NOT_NATIVE_FINANCIAL_FLOW"
+}

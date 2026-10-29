@@ -1,0 +1,285 @@
+{
+  "contract": "cp7.credit-de-native.v1",
+  "base_head": "42760534906c330353f9bb0f53d27db65b134626",
+  "qualified_parent": {
+    "head": "41caaaed02c0d89b122ecf1ff221f6647141c335",
+    "tree": "b8831a52531598c514f8199016dea6194d783833",
+    "run_id": 40769840440,
+    "job_id": 123103756460,
+    "artifact_id": 12854543326,
+    "zip_bytes": 2031933,
+    "zip_sha256": "9432cdd8bcea2df52ad8fb631122ce963b91bee32dea849a4337e4ec2c020eb0",
+    "original": {
+      "name": "CP7_VENDOR_RECEIVABLE_COMBINED11.json",
+      "bytes": 3485711,
+      "sha256": "04e00f42862ddfec8346d41d4d6a2d6a285f041127cccf09d973ca929b307ea0"
+    },
+    "package": {
+      "name": "T3_PACKAGE_INSTALL.json",
+      "bytes": 360420,
+      "sha256": "48fc54072b4f3122d89f6a45faa93f0e8ebd05ecfde0b9370def8202755e0f43"
+    }
+  },
+  "parent_backend_sha256": "193f4c18476a1e1abd5e05231d8d7755864b61e2998c4456f5a87459b17da59d",
+  "frozen_parent_verifier": {
+    "head": "1f8c75566d0eee90086b31ae7bb7921b05502bdc",
+    "path": "scripts/current-vendor-integration-source/check.py",
+    "sha256": "78ad89e2a0e9433c3acedd5ad0d081799ef3b3fb8fdd7cc5a38f64877591d65a"
+  },
+  "runtime_files": {
+    "review.sql": "88681bf674a6b6e8aeda46830a4a27b18bdda84cfcba6868bbb08e3f84fdc382",
+    "facts.sql": "ddfcf8583cf86a916e04aa5630d6262a32e48919dbd0a4c913a09166ca2f8334",
+    "owning.sql": "410afb540f455ce6781d8bf09ee6bd6f66420a2f17d3c5474720a642fdcc9cae",
+    "proof.sql": "8d81f2d8d9384c08eda28eb0b86a6c96b97f2ef8178adbe4b7d1dab01b8cf7ef",
+    "posting.sql": "e200a62d91c7975e67a88eb37c47d89dd739eb8f63fc0a1ee7063aaec0f9ce5b",
+    "materialize.sql": "206c18b517aef54ddc5757fd156a6c7d8d4a2c3240f62779773a4fff74fe6154",
+    "closure.sql": "e21744ba0d98e963ccba9ca916247b797cb2c930b889e2eb41288a12f1888972",
+    "native_delta.py": "d6157ad24dd22ca4810df12668090eb74a3382e6ceb3e4c0954a037a7016c664",
+    "composition.py": "4f7086c157e977cacf5f4281d6a2748113029fd7c2c441837e254c9fca9422af"
+  },
+  "native_case_ids": [
+    "D_POSITIVE_CREDIT_INCREMENT",
+    "D_AFTER_ACTIVE_APPLY",
+    "D_AFTER_REFUND_EXTRA_STAYS_CREDIT",
+    "D_MULTIFAMILY_ORDINAL",
+    "D_REPLAY_EXACT_UUID",
+    "D_STALE_REVIEW_NO_EFFECT",
+    "D_ACCESS_REVOKED_NO_EFFECT",
+    "D_SHORTFALL_NAMES_UNDO",
+    "D_ROOT_BOOK_FLOOR_REFUSAL",
+    "D_ATOMIC_POST_FAILURE_RESTORE",
+    "D_SECOND_REVISION_ORDINAL_HISTORY",
+    "D_AFTER_NAMED_UNDO_NO_FALSE_BLOCKER",
+    "E_UNIMPLEMENTED_INCOMING_CORRECTION_STAYS_GUARDED"
+  ],
+  "unchanged_parent_files": [
+    "scripts/current-vendor-receivable-qualification/probe.py",
+    "scripts/cp7_vendor_receivable/receivable.sql",
+    "scripts/cp7_vendor_receivable/native_delta.py",
+    "scripts/cp7_vendor_receivable/composition.py"
+  ],
+  "runner_derivation": {
+    "original_sha256": "c420d894f8d5f16bddefeae73addb621507170f372a28e7d6e33d88c7eeb0be9",
+    "derived_sha256": "18748a833cf9a0a37b575b7f436272d8c49bae046d1e48f6142c75d9956cc8bf",
+    "counted_changes": 6,
+    "unchanged_install_preuse_used_guard_backup_restore_roles_data_sequences_advisors": true,
+    "fresh_Auth_HTTP_races_browser_claim": false
+  },
+  "production_go": false,
+  "independent_acceptance": false,
+  "targeted_client_tests": 20,
+  "client_proof_scope": "JSDOM_AND_PARSER_NOT_AUTH_BROWSER",
+  "signed_dependencies": {
+    "scripts/cp7_customer_credit/kernel/kernel.sql": "f531f50d5a1c7ddc0a2f22f607be5ba0625a2e0388af3e7a4c6d129bf82e15fc",
+    "scripts/cp7_customer_credit/ordinal-wrapper/wrapper.sql": "ed66c7f09433956d18368b7a804b1b04f0dcb7f9e0457686400421a849d671d1",
+    "scripts/cp7_customer_credit/source/member-proof.sql": "565e4e8643323442eadad2d6d1e65fdf1750da1675a2c68cc28187add17c1205",
+    "scripts/cp7_customer_credit/consumer/cp7_ow04_consumer_fixture.py": "75a6d5d573de0827a2efa712d49059a14e1ee83e3ee2635598e005b4bc1afeed",
+    "scripts/cp7_customer_credit/reconciliation/native/cp7_ow04_signed_source_cases.py": "82831d767c85199ab182c21aa5a56fe46e7cba0c7e70ccba6c89477b755de640",
+    "scripts/cp7_customer_credit/native/cp7_ow04_native_source_fixture.py": "4984926b221df459e6e88c2f282da3e553d4810d177208ea489c9c3b1d264497",
+    "scripts/cp7_sales_return_correction_cases.py": "26fe2e420af55ee213a629db4f7a9929a5e9155374682ddcb1f1f2b855bb6c1c",
+    "scripts/cp7_credit_multi/cases.py": "85be87db91bd302fa01d759941389a8302c7928e2a2bdedebc8982872c4f0857",
+    "scripts/cp7-src/sales/return-correction.sql": "d0c5cc17413b218a4947c8b6ce0d53b4368f8a0d17c597783af203c303669aad"
+  },
+  "root_execution_branch": "astra-a/credit-d1-product-phase-native13-20261030",
+  "cap_successor_transition": {
+    "path": "scripts/current-credit-de-native-qualification/CAP_SUCCESSOR_TRANSITION.json",
+    "sha256": "e14f39981abdb13f41f0d7577ab7200ae661a9141c7d05ff45b77b8c5b3ccc54",
+    "base_head": "a99463ca3ea2f1a71b22f0354df83f1b5a42b71b",
+    "base_is_failed_not_prerequisite": true
+  },
+  "cap_fixture_dependencies": {
+    "scripts/cp7_credit_correction_de/cases.py": "c530bb87f72ee6091e032d15efdb2b2e55cf9c9632b64c9e781665b70325bbdb",
+    "scripts/cp7_credit_correction_de/native_fixture.py": "4fbe56583ffc63473c12195ddaae6ff3e0cd0ad46b358bf7eef7b5175c67e829",
+    "scripts/cp7_customer_credit/native/cp7_ow04_native_source_fixture.py": "4984926b221df459e6e88c2f282da3e553d4810d177208ea489c9c3b1d264497",
+    "scripts/cp7_customer_credit/initial-settlement/cp7_ow04_initial_settlement_cases.py": "6d4e2389e0090333ae076fc3091ec4333492e886e08fc1a96c4eea9282f93602",
+    "scripts/cp7_customer_credit/reconciliation/native/cp7_ow04_signed_source_cases.py": "82831d767c85199ab182c21aa5a56fe46e7cba0c7e70ccba6c89477b755de640",
+    "scripts/cp7_customer_credit/consumer/cp7_ow04_consumer_fixture.py": "75a6d5d573de0827a2efa712d49059a14e1ee83e3ee2635598e005b4bc1afeed"
+  },
+  "native_augmentation": {
+    "source_path": "scripts/current-credit-d1-product-cap-native-augmentation/SOURCE.json",
+    "factory_path": "scripts/current-credit-d1-product-cap-native-augmentation/factory.py",
+    "api": "business(retained_business_module)",
+    "SOURCE": {
+      "status": "PREPARED_NATIVE_AUGMENTATION_NOT_EXECUTED",
+      "contract": "cp7.credit-d1-product-cap-native-augmentation.v1",
+      "original_Native13_ids": [
+        "D_POSITIVE_CREDIT_INCREMENT",
+        "D_AFTER_ACTIVE_APPLY",
+        "D_AFTER_REFUND_EXTRA_STAYS_CREDIT",
+        "D_MULTIFAMILY_ORDINAL",
+        "D_REPLAY_EXACT_UUID",
+        "D_STALE_REVIEW_NO_EFFECT",
+        "D_ACCESS_REVOKED_NO_EFFECT",
+        "D_SHORTFALL_NAMES_UNDO",
+        "D_ROOT_BOOK_FLOOR_REFUSAL",
+        "D_ATOMIC_POST_FAILURE_RESTORE",
+        "D_SECOND_REVISION_ORDINAL_HISTORY",
+        "D_AFTER_NAMED_UNDO_NO_FALSE_BLOCKER",
+        "E_UNIMPLEMENTED_INCOMING_CORRECTION_STAYS_GUARDED"
+      ],
+      "augmented_id": "D_MULTIFAMILY_ORDINAL",
+      "original_callback_sha256": "c530bb87f72ee6091e032d15efdb2b2e55cf9c9632b64c9e781665b70325bbdb",
+      "files": {
+        "scripts/cp6_bd_probe.py": {
+          "bytes": 142782,
+          "sha256": "c3add21e66d4d5544bf4e4d046a9fa8d64dbcb0cb285551a92c2d7405156b31b"
+        },
+        "scripts/cp7_credit_correction_de/cases.py": {
+          "bytes": 21156,
+          "sha256": "c530bb87f72ee6091e032d15efdb2b2e55cf9c9632b64c9e781665b70325bbdb"
+        },
+        "scripts/cp7_credit_correction_de/native_fixture.py": {
+          "bytes": 7703,
+          "sha256": "4fbe56583ffc63473c12195ddaae6ff3e0cd0ad46b358bf7eef7b5175c67e829"
+        },
+        "scripts/cp7_credit_correction_de/owning.sql": {
+          "bytes": 25957,
+          "sha256": "410afb540f455ce6781d8bf09ee6bd6f66420a2f17d3c5474720a642fdcc9cae"
+        },
+        "scripts/cp7_credit_followups/cases.py": {
+          "bytes": 19943,
+          "sha256": "3c73087668a61004b8607f4102b0cc9cbb7162a1f4fd0845450713d8e9f93726"
+        },
+        "scripts/cp7_credit_multi/cases.py": {
+          "bytes": 14284,
+          "sha256": "85be87db91bd302fa01d759941389a8302c7928e2a2bdedebc8982872c4f0857"
+        },
+        "scripts/cp7_customer_credit/initial-settlement/cp7_ow04_initial_settlement_cases.py": {
+          "bytes": 25791,
+          "sha256": "6d4e2389e0090333ae076fc3091ec4333492e886e08fc1a96c4eea9282f93602"
+        },
+        "scripts/cp7_customer_credit/native/cp7_ow04_native_source_fixture.py": {
+          "bytes": 25693,
+          "sha256": "4984926b221df459e6e88c2f282da3e553d4810d177208ea489c9c3b1d264497"
+        },
+        "scripts/cp7_customer_credit/readers/02_materialized_profile.proposal.sql": {
+          "bytes": 26900,
+          "sha256": "317e689b3b2e738889e86a62dc130fa3ee2f128750f95d5264cd56084fce8575"
+        },
+        "scripts/cp7_note_correction_cases.py": {
+          "bytes": 65138,
+          "sha256": "1f6bfff2974b865d54600dec4fd515bd8b931efdd737c19e50eb8b1a094f604c"
+        },
+        "scripts/cp7_ow04_restore_bundle.py": {
+          "bytes": 19828,
+          "sha256": "a1605193347cf5b3321a7bdbf8ff6c634df4f4c0a5113eb295e8c3ce44428e00"
+        },
+        "scripts/cp7_sales_command_cases.py": {
+          "bytes": 10159,
+          "sha256": "b6d6e0b6995e3dee2ae7f0e69ab6b48c6c965ee31f15cca4027c47b5159885df"
+        },
+        "scripts/cp7_sales_draft_cases.py": {
+          "bytes": 11278,
+          "sha256": "9795a983aaeeae20793b6b7741d18a4486ac05193af97776882ce8014c2a84f4"
+        },
+        "scripts/cp7_sales_payment_cases.py": {
+          "bytes": 15600,
+          "sha256": "a28bdaa916775ccfe14e5eb1bb492ec94d0b2b614169141d60f73e06cd575786"
+        },
+        "scripts/cp7_sales_return_cases.py": {
+          "bytes": 19067,
+          "sha256": "abe194d5e2fbc3f425a9ae4b2deda19acf26519f758c099764dec07e8cb5f360"
+        },
+        "scripts/cp7_sales_return_correction_cases.py": {
+          "bytes": 33173,
+          "sha256": "26fe2e420af55ee213a629db4f7a9929a5e9155374682ddcb1f1f2b855bb6c1c"
+        },
+        "scripts/current-credit-d1-product-cap-native-augmentation/.gitignore": {
+          "bytes": 19,
+          "sha256": "862263fa1f46c20f0d1e4dac5ffcc75abd55c08211b2c3864c5f8764b9d87793"
+        },
+        "scripts/current-credit-d1-product-cap-native-augmentation/API.json": {
+          "bytes": 11669,
+          "sha256": "afca7b9a6ef6a58dca3c86364a7b7aeee6817f4314ae959e076ca997abf2a40e"
+        },
+        "scripts/current-credit-d1-product-cap-native-augmentation/LOCAL_CHECKS.json": {
+          "bytes": 1593,
+          "sha256": "3762fbbb4f60313729523151da5640586f22662d831d1774102b0d4b69800d9a"
+        },
+        "scripts/current-credit-d1-product-cap-native-augmentation/README.md": {
+          "bytes": 5233,
+          "sha256": "561c7536c3deb5f76e90d625b361458242d98677fa7d88958ba2ab3e971226c2"
+        },
+        "scripts/current-credit-d1-product-cap-native-augmentation/bind.py": {
+          "bytes": 2688,
+          "sha256": "ce05f569fdfd149f46140952d714843fa671a813e43cb8bd5df0217a928cb887"
+        },
+        "scripts/current-credit-d1-product-cap-native-augmentation/evidence/LOCAL_CORRECTED10_PASS.log": {
+          "bytes": 1649,
+          "sha256": "93059913805771a2227bf329bd9133c5b37da7df69bfbc790f507ae88b8b81cc"
+        },
+        "scripts/current-credit-d1-product-cap-native-augmentation/evidence/LOCAL_CORRECTED_REAL_IMPORT13_NO_DB.json": {
+          "bytes": 713,
+          "sha256": "42991b932153f548068dc76c9b9ab9c99f6d9f767d1868b35a2ede21d0f8544b"
+        },
+        "scripts/current-credit-d1-product-cap-native-augmentation/evidence/LOCAL_FIRST10_PASS.log": {
+          "bytes": 1649,
+          "sha256": "23903b21bc6121f5f823df1625664ca8744c30b47601986ff91781184b032c3e"
+        },
+        "scripts/current-credit-d1-product-cap-native-augmentation/evidence/LOCAL_FIRST_REAL_IMPORT13_NO_DB.json": {
+          "bytes": 713,
+          "sha256": "d8eaa32ae39fb7af42348707c48b84486034ed17c9f6afedc60f44d70594ce5d"
+        },
+        "scripts/current-credit-d1-product-cap-native-augmentation/evidence/SEQUENCE_REPORT_SCOPE_COUNTER.json": {
+          "bytes": 805,
+          "sha256": "43201ab109f810d08d38b6139942d1adfb3ab55448a12b3b8fcd4f4e76c8fedd"
+        },
+        "scripts/current-credit-d1-product-cap-native-augmentation/factory.py": {
+          "bytes": 2117,
+          "sha256": "2922e10ada0c38879e84fb6e16419a0056e90c61f4625fe1c94043f824fafacf"
+        },
+        "scripts/current-credit-d1-product-cap-native-augmentation/guard.py": {
+          "bytes": 1979,
+          "sha256": "ee419f1c63b0b172e3db8dc25b0a3b96bbf540d7b45d3126c7f4528f14844738"
+        },
+        "scripts/current-credit-d1-product-cap-native-augmentation/import_check.py": {
+          "bytes": 1997,
+          "sha256": "baa1ba79eef34c3649ccb41b64c6a77152a3bb16b3ebd3acdebebb2543051654"
+        },
+        "scripts/current-credit-d1-product-cap-native-augmentation/prelude.py": {
+          "bytes": 18701,
+          "sha256": "072bf448301089b9046658c209b05973777de91e71bec2ac26f06a068a7ec631"
+        },
+        "scripts/current-credit-d1-product-cap-native-augmentation/test_contract.py": {
+          "bytes": 7073,
+          "sha256": "bbe0999dafbe988e695fea465e67c1d9d6ede21692bd307b78b27e4077817c2e"
+        }
+      },
+      "required_quote_body_sha256": "ff27a3f07a8718382ef91156b10b55a9302104e9b19ac24e7e2a7b710b23ccd3",
+      "entrypoint": "scripts/current-credit-d1-product-cap-native-augmentation/factory.py::business(retained_business_module)",
+      "private_proxy_overrides": [
+        "cases"
+      ],
+      "old_function_bodies_changed": 0,
+      "old_assertions_removed": 0,
+      "other12_callback_identities_preserved": true,
+      "Native_executed": false,
+      "outer_combined_product_source_and_full13_strict_group_and_package_gates_required": true,
+      "independent_acceptance": false,
+      "production_go": false
+    },
+    "required_source": "79cf8ca8ca72de93fba2c2da29e3777bc64ee0cf84bd1bdf71256d203589790d",
+    "status": "EXACT_FROZEN_AUGMENTATION_BOUND_PENDING_ROOT_REVIEW_AND_NATIVE13",
+    "same_Native_ids": [
+      "D_POSITIVE_CREDIT_INCREMENT",
+      "D_AFTER_ACTIVE_APPLY",
+      "D_AFTER_REFUND_EXTRA_STAYS_CREDIT",
+      "D_MULTIFAMILY_ORDINAL",
+      "D_REPLAY_EXACT_UUID",
+      "D_STALE_REVIEW_NO_EFFECT",
+      "D_ACCESS_REVOKED_NO_EFFECT",
+      "D_SHORTFALL_NAMES_UNDO",
+      "D_ROOT_BOOK_FLOOR_REFUSAL",
+      "D_ATOMIC_POST_FAILURE_RESTORE",
+      "D_SECOND_REVISION_ORDINAL_HISTORY",
+      "D_AFTER_NAMED_UNDO_NO_FALSE_BLOCKER",
+      "E_UNIMPLEMENTED_INCOMING_CORRECTION_STAYS_GUARDED"
+    ],
+    "single_augmented_case": "D_MULTIFAMILY_ORDINAL",
+    "independent_acceptance": false,
+    "frozen_commit": "0d59d96b4e72d233721c1f92c83c9774820ed91b",
+    "frozen_tree": "b6c3ac704a73656c2336613688cacb02109f7ddf"
+  },
+  "joined_product_transition": "PARENT.json",
+  "qualified_D1_prerequisite_required": false
+}

@@ -1,0 +1,35 @@
+ // Additional rows are LOCAL structural/source doubles, not posted documents.
+ const productA=id(82),productB=id(96),peer=id(200),draft=id(300)
+ await db.query('update erp.sales_return_items set product_id=$1,lot_id=$2 where return_id=$3',[productA,id(81),ret])
+ await db.query('update erp.sale_stock_allocations set location_id=$1 where id=$2',[location,allocation])
+ await db.query('insert into erp.fg_lots(id,product_id)values($1,$2)',[id(81),productA])
+ await db.query('insert into erp.sales_items(id,sale_id,product_id,qty_pcs,line_total)values($1,$2,$3,1,1000)',[id(95),sale,productB])
+ await db.query('update erp.journal_lines set debit=2000 where journal_entry_id=$1',[id(21)])
+ await db.query('update erp.journal_lines set credit=2000 where journal_entry_id=$1',[id(22)])
+ await db.query('update erp.sales_payments set amount=2000 where sale_id=$1',[sale])
+ await db.query("insert into erp.sales_returns(id,sale_id,customer_id,status,physical_at)values($1,$2,$3,'POSTED','2026-10-02T05:01:00Z')",[peer,sale,customer])
+ await db.query("insert into erp.sales_return_items(id,return_id,sale_stock_allocation_id,location_id,qty_pcs,quality_grade,refund_amount)values($1,$2,$3,$4,3,'GRADE_A',600)",[id(210),peer,allocation,location])
+ await db.query("insert into erp.journal_entries(id,source_type,source_id,status,economic_date,transaction_date)values($1,'SALES_RETURN',$2,'POSTED','2026-10-02','2026-10-02')",[id(205),peer])
+ await db.query('insert into erp.journal_lines(id,journal_entry_id,account_id,debit,credit)values($1,$2,$3,0,600)',[id(207),id(205),ar])
+ await db.query("insert into cp7_credit.return_families(id,family_root_sale_id,family_ordinal,first_return_id,source_sha256)values($1,$2,2,$3,repeat('b',64))",[id(201),sale,peer])
+ await db.query('insert into cp7_credit.return_family_members(family_id,return_id)values($1,$2)',[id(201),peer])
+ await db.query('insert into cp7_credit.cohorts(id,family_id,source_sale_id,source_return_id)values($1,$2,$3,$4)',[id(202),id(201),sale,peer])
+ await db.query('insert into cp7_credit.recognition_plans(id,cohort_id)values($1,$2)',[id(203),id(202)])
+ await db.query('insert into cp7_credit.recognition_components(id,plan_id)values($1,$2)',[id(204),id(203)])
+ await db.query('insert into cp7_credit.component_parts(id,component_id,amount)values($1,$2,600)',[id(208),id(204)])
+ await db.query("insert into cp7_credit.component_journals(part_id,journal_id,economic_date,transaction_date)values($1,$2,'2026-10-02','2026-10-02')",[id(208),id(206)])
+ await db.exec(`create or replace function cp7_credit.source_native_snapshot_v1(p_sale uuid)returns jsonb language sql stable as $$
+ select coalesce((select snapshot from public.cap_source_override),jsonb_build_object('declared_cap_source_double',true,
+ 'sale',(select to_jsonb(h)from erp.sales_headers h where h.id=p_sale),
+ 'items',(select coalesce(jsonb_agg(to_jsonb(i)order by i.id),'[]')from erp.sales_items i where i.sale_id=p_sale),
+ 'allocations',(select coalesce(jsonb_agg(to_jsonb(a)order by a.id),'[]')from erp.sale_stock_allocations a join erp.sales_items i on i.id=a.sale_item_id where i.sale_id=p_sale),
+ 'returns',(select coalesce(jsonb_agg(to_jsonb(h)order by h.id),'[]')from erp.sales_returns h where h.sale_id=p_sale),
+ 'return_items',(select coalesce(jsonb_agg(to_jsonb(i)order by i.id),'[]')from erp.sales_return_items i join erp.sales_returns h on h.id=i.return_id where h.sale_id=p_sale)))$$;
+ create function erp.require_internal()returns void language plpgsql as $$begin null;end$$;
+ create function erp.assert_non_po_product_hpp_target_book_v2620f(uuid)returns void language plpgsql as $$begin null;end$$;
+ create function erp.lock_current_hpp_per_pcs(uuid)returns numeric language sql as $$select 10::numeric$$;
+ create function erp.post_fg_movement(uuid,uuid,uuid,text,text,integer,numeric,uuid,text,uuid,timestamptz,text,boolean)returns void language plpgsql as $$begin raise exception 'LOCAL_NATIVE_AGGREGATE_PASSED_STOP_BEFORE_STOCK_WRITE';end$$;
+ create unique index local_only_native_probe_balance on erp.fg_inventory_balances(product_id,location_id,quality_grade);`)
+ const nativeSQL=await readFile(new URL('retained/post_sales_return.sql',import.meta.url),'utf8')
+ assert.equal(createHash('sha256').update(nativeSQL).digest('hex'),'5f974ad9b9fff9ec9fef3018153683d35b79a9a5e8bd4c60e9a4a17b97622cdc')
+ await db.exec(nativeSQL)

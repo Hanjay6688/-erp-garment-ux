@@ -27,6 +27,7 @@ declare sale uuid:=(p->>'sale_id')::uuid;ret uuid:=(p->>'return_id')::uuid;r erp
  inp jsonb;after_inp jsonb;families jsonb:='[]';f jsonb;events jsonb;review jsonb;active jsonb;issues jsonb:='[]';old_total numeric;new_total numeric;
  j erp.journal_entries;family uuid;delta numeric;source jsonb;authority jsonb;profile jsonb;binding jsonb;physical jsonb;proposed jsonb;
  cap_inputs jsonb:='[]';cap_line jsonb;cap_allocation jsonb;cap_item jsonb;cap_count int;max_refund numeric(24,6);
+ cap_products jsonb:='[]';cap_product text;product_sale_value numeric(24,6);prior_product_refund numeric(24,6);current_product_refund numeric(24,6);
  cap_source_unavailable boolean:=false;cap_exceeded boolean:=false;
 begin
  authority:=cp7_sales_return_correction.access_now();perform cp7_sales_return_correction.validate(p-'credit_review_token');
@@ -50,9 +51,36 @@ begin
  source:=cp7_credit.source_native_snapshot_v1(sale);
  if jsonb_typeof(source->'sale')is distinct from'object'or source#>>'{sale,id}'is distinct from sale::text
   or source#>>'{sale,customer_id}'is distinct from r.customer_id::text
-  or jsonb_typeof(source->'allocations')is distinct from'array'or jsonb_typeof(source->'items')is distinct from'array'then
+  or jsonb_typeof(source->'allocations')is distinct from'array'or jsonb_typeof(source->'items')is distinct from'array'
+  or jsonb_typeof(source->'returns')is distinct from'array'or jsonb_typeof(source->'return_items')is distinct from'array'then
   cap_source_unavailable:=true;
  else
+  -- The snapshot contains every status, including the old current return.
+  -- Reject incomplete/ambiguous facts before any join can omit a peer or
+  -- duplicate an item's capacity. Native owns these identities and fields.
+  if exists(select 1 from jsonb_array_elements(source->'items')i where jsonb_typeof(i)is distinct from'object'
+    or i->>'id'is null or i->>'product_id'is null or i->>'sale_id'is distinct from sale::text
+    or coalesce(i->>'line_total','')!~'^-?[0-9]+([.][0-9]{1,2})?$')
+   or exists(select 1 from jsonb_array_elements(source->'items')i group by i->>'id'having count(*)<>1)
+   or exists(select 1 from jsonb_array_elements(source->'allocations')a where jsonb_typeof(a)is distinct from'object'
+    or a->>'id'is null or(select count(*)from jsonb_array_elements(source->'items')i where i->>'id'=a->>'sale_item_id')<>1)
+   or exists(select 1 from jsonb_array_elements(source->'allocations')a group by a->>'id'having count(*)<>1)
+   or exists(select 1 from jsonb_array_elements(source->'returns')h where jsonb_typeof(h)is distinct from'object'
+    or h->>'id'is null or h->>'sale_id'is distinct from sale::text or h->>'customer_id'is distinct from r.customer_id::text
+    or coalesce(h->>'status','')not in('DRAFT','POSTED','REVERSED'))
+   or exists(select 1 from jsonb_array_elements(source->'returns')h group by h->>'id'having count(*)<>1)
+   or exists(select 1 from jsonb_array_elements(source->'returns')h where h->>'status'<>'DRAFT'
+    and not exists(select 1 from jsonb_array_elements(source->'return_items')i where i->>'return_id'=h->>'id'))
+   or(select count(*)from jsonb_array_elements(source->'returns')h where h->>'id'=ret::text and h=to_jsonb(r))<>1
+   or exists(select 1 from jsonb_array_elements(source->'return_items')i where jsonb_typeof(i)is distinct from'object'
+    or i->>'id'is null or i->>'product_id'is null or coalesce(i->>'refund_amount','')!~'^[0-9]+([.][0-9]{1,2})?$'
+    or(select count(*)from jsonb_array_elements(source->'returns')h where h->>'id'=i->>'return_id')<>1
+    or(select count(*)from jsonb_array_elements(source->'allocations')a join jsonb_array_elements(source->'items')s
+     on s->>'id'=a->>'sale_item_id'where a->>'id'=i->>'sale_stock_allocation_id'and s->>'product_id'=i->>'product_id')<>1)
+   or exists(select 1 from jsonb_array_elements(source->'return_items')i group by i->>'id'having count(*)<>1)then
+   cap_source_unavailable:=true;
+  end if;
+  if not cap_source_unavailable then
   for cap_line in select value from jsonb_array_elements(p#>'{replacement,items}')loop
    select count(*)into cap_count from jsonb_array_elements(source->'allocations')a where a->>'id'=cap_line->>'allocation_id';
    if cap_count<>1 then cap_source_unavailable:=true;continue;end if;
@@ -69,8 +97,28 @@ begin
     ((cap_item->>'line_total')::numeric(24,6)/(cap_item->>'qty_pcs')::integer)*(cap_line->>'qty_pcs')::integer else 0 end;
    cap_exceeded:=cap_exceeded or (cap_line->>'refund_amount')::numeric>max_refund+0.01;
    cap_inputs:=cap_inputs||jsonb_build_array(jsonb_build_object('allocation',cap_allocation,'sale_item',cap_item,
-    'qty_pcs',cap_line->'qty_pcs','max_refund_native_numeric24_6',max_refund::text));
+    'qty_pcs',cap_line->'qty_pcs','refund_amount',cap_line->'refund_amount','max_refund_native_numeric24_6',max_refund::text));
   end loop;
+  end if;
+  if not cap_source_unavailable then
+   -- Exact erp.post_sales_return product cap: all sale items for the product,
+   -- only peer POSTED returns, numeric(24,6) sums, strict > with no tolerance.
+   -- Native reverses the old current return before posting its replacement;
+   -- exclude exactly that old id here, never its whole family or other peers.
+   for cap_product in select distinct i#>>'{sale_item,product_id}'from jsonb_array_elements(cap_inputs)i order by 1 loop
+    select coalesce(sum((i->>'line_total')::numeric),0)into product_sale_value
+     from jsonb_array_elements(source->'items')i where i->>'sale_id'=sale::text and i->>'product_id'=cap_product;
+    select coalesce(sum((i->>'refund_amount')::numeric),0)into prior_product_refund
+     from jsonb_array_elements(source->'return_items')i join jsonb_array_elements(source->'returns')h on h->>'id'=i->>'return_id'
+     where h->>'sale_id'=sale::text and h->>'id'<>ret::text and h->>'status'='POSTED'and i->>'product_id'=cap_product;
+    select coalesce(sum((i->>'refund_amount')::numeric),0)into current_product_refund
+     from jsonb_array_elements(cap_inputs)i where i#>>'{sale_item,product_id}'=cap_product;
+    cap_exceeded:=cap_exceeded or prior_product_refund+current_product_refund>product_sale_value;
+    cap_products:=cap_products||jsonb_build_array(jsonb_build_object('product_id',cap_product,
+     'sold_value_native_numeric24_6',product_sale_value::text,'peer_POSTED_refund_native_numeric24_6',prior_product_refund::text,
+     'replacement_refund_native_numeric24_6',current_product_refund::text,'excluded_current_return_id',ret));
+   end loop;
+  end if;
  end if;
  if cap_source_unavailable then issues:=issues||'"REFUND_CAP_SOURCE_UNAVAILABLE"'::jsonb;end if;
  if cap_exceeded then issues:=issues||'"REFUND_EXCEEDS_ORIGINAL_NET_SALES_CAP"'::jsonb;end if;
@@ -104,7 +152,8 @@ begin
  if exists(select 1 from jsonb_array_elements(review->'families')ff where(ff->>'needs_cohort_configuration')::boolean
   or exists(select 1 from jsonb_array_elements(ff->'vector')v where(v->>'amount')::numeric<0))then
   issues:=issues||'"SIGNED_COMPONENT_ADAPTER_REQUIRED"'::jsonb;end if;
- binding:=jsonb_build_object('payload',p-'credit_review_token','authority',authority,'source',source,'refund_cap_basis',cap_inputs,'profile',profile,'input',inp,'review',review);
+ binding:=jsonb_build_object('payload',p-'credit_review_token','authority',authority,'source',source,'refund_cap_basis',cap_inputs,
+  'refund_product_cap_basis',cap_products,'profile',profile,'input',inp,'review',review);
  return jsonb_build_object('contract_version','cp7.credit-correction-de.v1','state',case when issues='[]'::jsonb then'READY'else'REFUSE'end,
   'review_token',ow04_source_proposal.sha(binding),'credit_delta',review->'credit_delta','before_available',review->'before_available',
   'after_available',review->'after_available','issues',issues,'active_consumers',active,

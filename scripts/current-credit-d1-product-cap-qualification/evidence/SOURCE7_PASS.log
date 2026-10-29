@@ -1,0 +1,12 @@
+test_final_directed_sql_evidence_and_exact_decimal_boundary (test_source.SourceControls.test_final_directed_sql_evidence_and_exact_decimal_boundary) ... ok
+test_first_actual_sql_reproduction_retained_as_ready_plus_strict_native_refusal (test_source.SourceControls.test_first_actual_sql_reproduction_retained_as_ready_plus_strict_native_refusal) ... ok
+test_native_post_and_normalizer_sources_are_exact_and_their_caps_differ (test_source.SourceControls.test_native_post_and_normalizer_sources_are_exact_and_their_caps_differ) ... ok
+test_only_quote_changed_other_thirteen_bodies_eight_leaves_and_original_qualifier_exact (test_source.SourceControls.test_only_quote_changed_other_thirteen_bodies_eight_leaves_and_original_qualifier_exact) ... ok
+test_original_thirteen_ids_and_all_financial_callback_bytes_survive (test_source.SourceControls.test_original_thirteen_ids_and_all_financial_callback_bytes_survive) ... ok
+test_other_owning_body_change_fails_scope_even_with_valid_quote (test_source.SourceControls.test_other_owning_body_change_fails_scope_even_with_valid_quote) ... ok
+test_peer_stale_token_and_malformed_inputs_never_claim_ready (test_source.SourceControls.test_peer_stale_token_and_malformed_inputs_never_claim_ready) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.013s
+
+OK

@@ -1,0 +1,38 @@
+{
+  "status": "LOCAL_SOURCE_IMPORT_SYNTHETIC_CONTROLS_PASS_NATIVE0",
+  "unit_tests": 10,
+  "unit_scope": "source/API/adapter identities, decimal oracles, synthetic sequence-prefix and forbidden direct business DML controls",
+  "retained_real_module_import_and_registration": {
+    "ids": 13,
+    "DB_connections_forbidden": true,
+    "SQL_during_registration_forbidden": true,
+    "supplied_module_attributes_unmodified": true,
+    "only_private_proxy_attribute_changed": "cases"
+  },
+  "corrected_sequence_report": {
+    "positive_savepoint_rollback_restores_rows_catalog_session": true,
+    "positive_sequence_allocations_may_persist": true,
+    "strict_group_not_complete_sequence_restore": true,
+    "complete_sequence_restore_requires": "ROOT outer full database backup restore and package gates",
+    "refusal_and_exact_replay_require_immediate_all_sequence_equality": true,
+    "reseed": false
+  },
+  "observed_source_files_at_corrected_rerun": 28,
+  "final_source_envelope_must_be_rebound_and_admitted_after_this_receipt": true,
+  "retained_evidence": {
+    "evidence/LOCAL_CORRECTED10_PASS.log": {
+      "bytes": 1649,
+      "sha256": "93059913805771a2227bf329bd9133c5b37da7df69bfbc790f507ae88b8b81cc"
+    },
+    "evidence/LOCAL_CORRECTED_REAL_IMPORT13_NO_DB.json": {
+      "bytes": 713,
+      "sha256": "42991b932153f548068dc76c9b9ab9c99f6d9f767d1868b35a2ede21d0f8544b"
+    }
+  },
+  "Native_executed": false,
+  "realAuth_HTTP_browser_executed": false,
+  "DB_server_executed": false,
+  "remote_CI_hosted_executed": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

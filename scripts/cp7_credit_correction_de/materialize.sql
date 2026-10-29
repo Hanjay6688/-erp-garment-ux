@@ -2,7 +2,7 @@ create function cp7_credit_correction_de.materialize_v1(p_replacement uuid)retur
 language plpgsql volatile security definer set search_path=''set timezone='UTC'as $$
 declare w cp7_credit_correction_de.work_v1;link cp7_sales_return_correction.links;member jsonb;fact jsonb;family uuid;
  inp jsonb;result jsonb;review jsonb;f jsonb;oldf jsonb;k jsonb;c cp7_credit.cohorts;planned_manifest jsonb:='[]';components jsonb;parts jsonb;entry jsonb;
- plan uuid;component uuid;part uuid;request_ordinal int:=0;component_ordinal int;part_ordinal bigint;amount numeric;piece numeric;x jsonb;y jsonb;phase text;
+ plan uuid;component uuid;part uuid;request_ordinal int:=0;component_ordinal int;part_ordinal bigint;amount numeric;piece numeric;x jsonb;y jsonb;support_phase text;
  actual_items jsonb;expected_items jsonb;replacement_header erp.sales_returns;
  q cp7_credit.component_parts;cc cp7_credit.recognition_components;lines jsonb;j uuid;jlink cp7_credit.component_journals;actual jsonb;objects jsonb;new_objects jsonb;
 begin
@@ -74,10 +74,10 @@ begin
   end loop;
   for x in select value from jsonb_array_elements(entry->'parts')loop insert into cp7_credit.component_parts values((x->>'id')::uuid,(x->>'component_id')::uuid,(x->>'ordinal')::bigint,(x->>'amount')::numeric);end loop;
   select *into strict c from cp7_credit.cohorts where id=(entry->>'cohort_id')::uuid;
-  foreach phase in array array['BEFORE','ADDED']loop
-   for x in select value from jsonb_array_elements(case when phase='BEFORE'then k->'before_events'else k->'added_events'end)loop
+  foreach support_phase in array array['BEFORE','ADDED']loop
+   for x in select value from jsonb_array_elements(case when support_phase='BEFORE'then k->'before_events'else k->'added_events'end)loop
     insert into cp7_credit.plan_support_events(plan_id,event_id,phase,kind,amount,economic_date,transaction_date,source_sha256,journal_id,source_fact_snapshot)
-    values(plan,x->>'id',phase,x->>'kind',(x->>'amount')::numeric,(x->>'economic_date')::date,(x->>'transaction_date')::date,x->>'source_sha256',
+    values(plan,x->>'id',support_phase,x->>'kind',(x->>'amount')::numeric,(x->>'economic_date')::date,(x->>'transaction_date')::date,x->>'source_sha256',
      substring(x->>'id'from 9)::uuid,ow04_source_proposal.financial_journal_payload(substring(x->>'id'from 9)::uuid,c.ar_account_id));
    end loop;
   end loop;

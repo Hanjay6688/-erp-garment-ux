@@ -1,0 +1,1757 @@
+{
+  "status": "PASS_LOCAL_SQL_ONLY",
+  "tests": 34,
+  "checks": [
+    {
+      "name": "posted peer + replacement exceeds product by .01",
+      "quote": {
+        "state": "REFUSE",
+        "issues": [
+          "REFUND_EXCEEDS_ORIGINAL_NET_SALES_CAP"
+        ],
+        "families": [
+          {
+            "delta": "200.01",
+            "vector": [
+              {
+                "amount": "200.01",
+                "economic_date": "2026-10-02",
+                "transaction_date": "2026-10-02"
+              }
+            ],
+            "ordinal": "1",
+            "family_id": "00000000-0000-4000-8000-000000000006",
+            "capacity_ok": true,
+            "after_credit": "400.01",
+            "before_credit": "200.00",
+            "needs_cohort_configuration": false
+          },
+          {
+            "delta": "0.00",
+            "vector": [],
+            "ordinal": "2",
+            "family_id": "00000000-0000-4000-8000-000000000201",
+            "capacity_ok": true,
+            "after_credit": "600.00",
+            "before_credit": "600.00",
+            "needs_cohort_configuration": false
+          }
+        ],
+        "credit_delta": "200.01",
+        "review_token": "ce471572309adf86f41b35ffb0041f4cdbf4ae62a675acfa694e98e05658116d",
+        "after_available": "1000.01",
+        "increase_policy": "AUTO_CREDIT_INCREMENT",
+        "active_consumers": [],
+        "before_available": "800.00",
+        "contract_version": "cp7.credit-correction-de.v1",
+        "shortfall_policy": "UNDO_ACTIVE_CONSUMERS_FIRST",
+        "source_authority_proven": true,
+        "replacement_invoice_policy": "AUTO_TRANSFER_TO_REPLACEMENT"
+      },
+      "unchanged_Native_predicate": {
+        "sqlstate": "P0001",
+        "message": "Refund exceeds original net sale value for product. Sold value 1000.000000, prior refund 600.000000, current refund 400.010000",
+        "where": "PL/pgSQL function post_sales_return(uuid) line 89 at RAISE",
+        "aggregate_refused": true,
+        "passed_guard_stopped_before_stock": false,
+        "all_local_rows_sequences_restored": true
+      }
+    },
+    {
+      "name": "posted peer exact product equality400 allowed; excludes old200",
+      "quote": {
+        "state": "READY",
+        "issues": [],
+        "families": [
+          {
+            "delta": "200.00",
+            "vector": [
+              {
+                "amount": "200.00",
+                "economic_date": "2026-10-02",
+                "transaction_date": "2026-10-02"
+              }
+            ],
+            "ordinal": "1",
+            "family_id": "00000000-0000-4000-8000-000000000006",
+            "capacity_ok": true,
+            "after_credit": "400.00",
+            "before_credit": "200.00",
+            "needs_cohort_configuration": false
+          },
+          {
+            "delta": "0.00",
+            "vector": [],
+            "ordinal": "2",
+            "family_id": "00000000-0000-4000-8000-000000000201",
+            "capacity_ok": true,
+            "after_credit": "600.00",
+            "before_credit": "600.00",
+            "needs_cohort_configuration": false
+          }
+        ],
+        "credit_delta": "200.00",
+        "review_token": "12c0f48aea05f81e052dabccf421ad231d6e769a6c3dc9e66ae8bd0d7609fb63",
+        "after_available": "1000.00",
+        "increase_policy": "AUTO_CREDIT_INCREMENT",
+        "active_consumers": [],
+        "before_available": "800.00",
+        "contract_version": "cp7.credit-correction-de.v1",
+        "shortfall_policy": "UNDO_ACTIVE_CONSUMERS_FIRST",
+        "source_authority_proven": true,
+        "replacement_invoice_policy": "AUTO_TRANSFER_TO_REPLACEMENT"
+      },
+      "unchanged_Native_predicate": {
+        "sqlstate": "P0001",
+        "message": "LOCAL_NATIVE_AGGREGATE_PASSED_STOP_BEFORE_STOCK_WRITE",
+        "where": "PL/pgSQL function post_fg_movement(uuid,uuid,uuid,text,text,integer,numeric,uuid,text,uuid,timestamp with time zone,text,boolean) line 1 at RAISE\nSQL statement \"SELECT erp.post_fg_movement(r.product_id,r.lot_id,r.location_id,r.quality_grade,\n      'SALE_RETURN',r.qty_pcs,v_unit_hpp,h.customer_id,'SALES_RETURN_ITEM',r.id,\n      h.physical_at,'Customer sales return',false)\"\nPL/pgSQL function post_sales_return(uuid) line 93 at PERFORM",
+        "aggregate_refused": false,
+        "passed_guard_stopped_before_stock": true,
+        "all_local_rows_sequences_restored": true
+      }
+    },
+    {
+      "name": "posted peer below boundary399.99 allowed",
+      "quote": {
+        "state": "READY",
+        "issues": [],
+        "families": [
+          {
+            "delta": "199.99",
+            "vector": [
+              {
+                "amount": "199.99",
+                "economic_date": "2026-10-02",
+                "transaction_date": "2026-10-02"
+              }
+            ],
+            "ordinal": "1",
+            "family_id": "00000000-0000-4000-8000-000000000006",
+            "capacity_ok": true,
+            "after_credit": "399.99",
+            "before_credit": "200.00",
+            "needs_cohort_configuration": false
+          },
+          {
+            "delta": "0.00",
+            "vector": [],
+            "ordinal": "2",
+            "family_id": "00000000-0000-4000-8000-000000000201",
+            "capacity_ok": true,
+            "after_credit": "600.00",
+            "before_credit": "600.00",
+            "needs_cohort_configuration": false
+          }
+        ],
+        "credit_delta": "199.99",
+        "review_token": "504c471b2be1c69bb91455bfc77587fb2ff54db0d335d1aa06063ac9557ca630",
+        "after_available": "999.99",
+        "increase_policy": "AUTO_CREDIT_INCREMENT",
+        "active_consumers": [],
+        "before_available": "800.00",
+        "contract_version": "cp7.credit-correction-de.v1",
+        "shortfall_policy": "UNDO_ACTIVE_CONSUMERS_FIRST",
+        "source_authority_proven": true,
+        "replacement_invoice_policy": "AUTO_TRANSFER_TO_REPLACEMENT"
+      },
+      "unchanged_Native_predicate": {
+        "sqlstate": "P0001",
+        "message": "LOCAL_NATIVE_AGGREGATE_PASSED_STOP_BEFORE_STOCK_WRITE",
+        "where": "PL/pgSQL function post_fg_movement(uuid,uuid,uuid,text,text,integer,numeric,uuid,text,uuid,timestamp with time zone,text,boolean) line 1 at RAISE\nSQL statement \"SELECT erp.post_fg_movement(r.product_id,r.lot_id,r.location_id,r.quality_grade,\n      'SALE_RETURN',r.qty_pcs,v_unit_hpp,h.customer_id,'SALES_RETURN_ITEM',r.id,\n      h.physical_at,'Customer sales return',false)\"\nPL/pgSQL function post_sales_return(uuid) line 93 at PERFORM",
+        "aggregate_refused": false,
+        "passed_guard_stopped_before_stock": true,
+        "all_local_rows_sequences_restored": true
+      }
+    },
+    {
+      "name": "another sale item of same product contributes exact net capacity",
+      "quote": {
+        "state": "READY",
+        "issues": [],
+        "families": [
+          {
+            "delta": "200.01",
+            "vector": [
+              {
+                "amount": "200.01",
+                "economic_date": "2026-10-02",
+                "transaction_date": "2026-10-02"
+              }
+            ],
+            "ordinal": "1",
+            "family_id": "00000000-0000-4000-8000-000000000006",
+            "capacity_ok": true,
+            "after_credit": "400.01",
+            "before_credit": "200.00",
+            "needs_cohort_configuration": false
+          },
+          {
+            "delta": "0.00",
+            "vector": [],
+            "ordinal": "2",
+            "family_id": "00000000-0000-4000-8000-000000000201",
+            "capacity_ok": true,
+            "after_credit": "600.00",
+            "before_credit": "600.00",
+            "needs_cohort_configuration": false
+          }
+        ],
+        "credit_delta": "200.01",
+        "review_token": "0ffc22cca599a16df5ea8396c676dcde57ce0d3954054151f281f4f8d503de82",
+        "after_available": "1000.01",
+        "increase_policy": "AUTO_CREDIT_INCREMENT",
+        "active_consumers": [],
+        "before_available": "800.00",
+        "contract_version": "cp7.credit-correction-de.v1",
+        "shortfall_policy": "UNDO_ACTIVE_CONSUMERS_FIRST",
+        "source_authority_proven": true,
+        "replacement_invoice_policy": "AUTO_TRANSFER_TO_REPLACEMENT"
+      },
+      "unchanged_Native_predicate": {
+        "sqlstate": "P0001",
+        "message": "LOCAL_NATIVE_AGGREGATE_PASSED_STOP_BEFORE_STOCK_WRITE",
+        "where": "PL/pgSQL function post_fg_movement(uuid,uuid,uuid,text,text,integer,numeric,uuid,text,uuid,timestamp with time zone,text,boolean) line 1 at RAISE\nSQL statement \"SELECT erp.post_fg_movement(r.product_id,r.lot_id,r.location_id,r.quality_grade,\n      'SALE_RETURN',r.qty_pcs,v_unit_hpp,h.customer_id,'SALES_RETURN_ITEM',r.id,\n      h.physical_at,'Customer sales return',false)\"\nPL/pgSQL function post_sales_return(uuid) line 93 at PERFORM",
+        "aggregate_refused": false,
+        "passed_guard_stopped_before_stock": true,
+        "all_local_rows_sequences_restored": true
+      }
+    },
+    {
+      "name": "another product high net cannot fund this product over-cap",
+      "quote": {
+        "state": "REFUSE",
+        "issues": [
+          "REFUND_EXCEEDS_ORIGINAL_NET_SALES_CAP"
+        ],
+        "families": [
+          {
+            "delta": "200.01",
+            "vector": [
+              {
+                "amount": "200.01",
+                "economic_date": "2026-10-02",
+                "transaction_date": "2026-10-02"
+              }
+            ],
+            "ordinal": "1",
+            "family_id": "00000000-0000-4000-8000-000000000006",
+            "capacity_ok": true,
+            "after_credit": "400.01",
+            "before_credit": "200.00",
+            "needs_cohort_configuration": false
+          },
+          {
+            "delta": "0.00",
+            "vector": [],
+            "ordinal": "2",
+            "family_id": "00000000-0000-4000-8000-000000000201",
+            "capacity_ok": true,
+            "after_credit": "600.00",
+            "before_credit": "600.00",
+            "needs_cohort_configuration": false
+          }
+        ],
+        "credit_delta": "200.01",
+        "review_token": "37fe4bf05c25ff3dc871b09132f5fca2869010306af7730de90838251ade18b8",
+        "after_available": "1000.01",
+        "increase_policy": "AUTO_CREDIT_INCREMENT",
+        "active_consumers": [],
+        "before_available": "800.00",
+        "contract_version": "cp7.credit-correction-de.v1",
+        "shortfall_policy": "UNDO_ACTIVE_CONSUMERS_FIRST",
+        "source_authority_proven": true,
+        "replacement_invoice_policy": "AUTO_TRANSFER_TO_REPLACEMENT"
+      },
+      "unchanged_Native_predicate": {
+        "sqlstate": "P0001",
+        "message": "Refund exceeds original net sale value for product. Sold value 1000.000000, prior refund 600.000000, current refund 400.010000",
+        "where": "PL/pgSQL function post_sales_return(uuid) line 89 at RAISE",
+        "aggregate_refused": true,
+        "passed_guard_stopped_before_stock": false,
+        "all_local_rows_sequences_restored": true
+      }
+    },
+    {
+      "name": "DRAFT peer ignored by product cap",
+      "quote": {
+        "state": "READY",
+        "issues": [],
+        "families": [
+          {
+            "delta": "200.01",
+            "vector": [
+              {
+                "amount": "200.01",
+                "economic_date": "2026-10-02",
+                "transaction_date": "2026-10-02"
+              }
+            ],
+            "ordinal": "1",
+            "family_id": "00000000-0000-4000-8000-000000000006",
+            "capacity_ok": true,
+            "after_credit": "400.01",
+            "before_credit": "200.00",
+            "needs_cohort_configuration": false
+          },
+          {
+            "delta": "0.00",
+            "vector": [],
+            "ordinal": "2",
+            "family_id": "00000000-0000-4000-8000-000000000201",
+            "capacity_ok": true,
+            "after_credit": "600.00",
+            "before_credit": "600.00",
+            "needs_cohort_configuration": false
+          }
+        ],
+        "credit_delta": "200.01",
+        "review_token": "1e24b19f408660772a619d6efc59e57bd9e25cf5c2f6195f199e016d6ce4d679",
+        "after_available": "1000.01",
+        "increase_policy": "AUTO_CREDIT_INCREMENT",
+        "active_consumers": [],
+        "before_available": "800.00",
+        "contract_version": "cp7.credit-correction-de.v1",
+        "shortfall_policy": "UNDO_ACTIVE_CONSUMERS_FIRST",
+        "source_authority_proven": true,
+        "replacement_invoice_policy": "AUTO_TRANSFER_TO_REPLACEMENT"
+      },
+      "unchanged_Native_predicate": {
+        "sqlstate": "P0001",
+        "message": "LOCAL_NATIVE_AGGREGATE_PASSED_STOP_BEFORE_STOCK_WRITE",
+        "where": "PL/pgSQL function post_fg_movement(uuid,uuid,uuid,text,text,integer,numeric,uuid,text,uuid,timestamp with time zone,text,boolean) line 1 at RAISE\nSQL statement \"SELECT erp.post_fg_movement(r.product_id,r.lot_id,r.location_id,r.quality_grade,\n      'SALE_RETURN',r.qty_pcs,v_unit_hpp,h.customer_id,'SALES_RETURN_ITEM',r.id,\n      h.physical_at,'Customer sales return',false)\"\nPL/pgSQL function post_sales_return(uuid) line 93 at PERFORM",
+        "aggregate_refused": false,
+        "passed_guard_stopped_before_stock": true,
+        "all_local_rows_sequences_restored": true
+      }
+    },
+    {
+      "name": "REVERSED peer ignored by product cap",
+      "quote": {
+        "state": "READY",
+        "issues": [],
+        "families": [
+          {
+            "delta": "200.01",
+            "vector": [
+              {
+                "amount": "200.01",
+                "economic_date": "2026-10-02",
+                "transaction_date": "2026-10-02"
+              }
+            ],
+            "ordinal": "1",
+            "family_id": "00000000-0000-4000-8000-000000000006",
+            "capacity_ok": true,
+            "after_credit": "400.01",
+            "before_credit": "200.00",
+            "needs_cohort_configuration": false
+          },
+          {
+            "delta": "0.00",
+            "vector": [],
+            "ordinal": "2",
+            "family_id": "00000000-0000-4000-8000-000000000201",
+            "capacity_ok": true,
+            "after_credit": "600.00",
+            "before_credit": "600.00",
+            "needs_cohort_configuration": false
+          }
+        ],
+        "credit_delta": "200.01",
+        "review_token": "0ff1bd0d05328d9181b6c161d2a6085343af2115126b1ea1638347abea6cd1a3",
+        "after_available": "1000.01",
+        "increase_policy": "AUTO_CREDIT_INCREMENT",
+        "active_consumers": [],
+        "before_available": "800.00",
+        "contract_version": "cp7.credit-correction-de.v1",
+        "shortfall_policy": "UNDO_ACTIVE_CONSUMERS_FIRST",
+        "source_authority_proven": true,
+        "replacement_invoice_policy": "AUTO_TRANSFER_TO_REPLACEMENT"
+      },
+      "unchanged_Native_predicate": {
+        "sqlstate": "P0001",
+        "message": "LOCAL_NATIVE_AGGREGATE_PASSED_STOP_BEFORE_STOCK_WRITE",
+        "where": "PL/pgSQL function post_fg_movement(uuid,uuid,uuid,text,text,integer,numeric,uuid,text,uuid,timestamp with time zone,text,boolean) line 1 at RAISE\nSQL statement \"SELECT erp.post_fg_movement(r.product_id,r.lot_id,r.location_id,r.quality_grade,\n      'SALE_RETURN',r.qty_pcs,v_unit_hpp,h.customer_id,'SALES_RETURN_ITEM',r.id,\n      h.physical_at,'Customer sales return',false)\"\nPL/pgSQL function post_sales_return(uuid) line 93 at PERFORM",
+        "aggregate_refused": false,
+        "passed_guard_stopped_before_stock": true,
+        "all_local_rows_sequences_restored": true
+      }
+    },
+    {
+      "name": "other product POSTED peer does not consume current product cap",
+      "quote": {
+        "state": "READY",
+        "issues": [],
+        "families": [
+          {
+            "delta": "200.01",
+            "vector": [
+              {
+                "amount": "200.01",
+                "economic_date": "2026-10-02",
+                "transaction_date": "2026-10-02"
+              }
+            ],
+            "ordinal": "1",
+            "family_id": "00000000-0000-4000-8000-000000000006",
+            "capacity_ok": true,
+            "after_credit": "400.01",
+            "before_credit": "200.00",
+            "needs_cohort_configuration": false
+          },
+          {
+            "delta": "0.00",
+            "vector": [],
+            "ordinal": "2",
+            "family_id": "00000000-0000-4000-8000-000000000201",
+            "capacity_ok": true,
+            "after_credit": "600.00",
+            "before_credit": "600.00",
+            "needs_cohort_configuration": false
+          }
+        ],
+        "credit_delta": "200.01",
+        "review_token": "4a63e5172272a5b323620ac6e9fa6270bf4063bf00a077a6de4e3a56544f1e02",
+        "after_available": "1000.01",
+        "increase_policy": "AUTO_CREDIT_INCREMENT",
+        "active_consumers": [],
+        "before_available": "800.00",
+        "contract_version": "cp7.credit-correction-de.v1",
+        "shortfall_policy": "UNDO_ACTIVE_CONSUMERS_FIRST",
+        "source_authority_proven": true,
+        "replacement_invoice_policy": "AUTO_TRANSFER_TO_REPLACEMENT"
+      },
+      "unchanged_Native_predicate": {
+        "sqlstate": "P0001",
+        "message": "LOCAL_NATIVE_AGGREGATE_PASSED_STOP_BEFORE_STOCK_WRITE",
+        "where": "PL/pgSQL function post_fg_movement(uuid,uuid,uuid,text,text,integer,numeric,uuid,text,uuid,timestamp with time zone,text,boolean) line 1 at RAISE\nSQL statement \"SELECT erp.post_fg_movement(r.product_id,r.lot_id,r.location_id,r.quality_grade,\n      'SALE_RETURN',r.qty_pcs,v_unit_hpp,h.customer_id,'SALES_RETURN_ITEM',r.id,\n      h.physical_at,'Customer sales return',false)\"\nPL/pgSQL function post_sales_return(uuid) line 93 at PERFORM",
+        "aggregate_refused": false,
+        "passed_guard_stopped_before_stock": true,
+        "all_local_rows_sequences_restored": true
+      }
+    },
+    {
+      "name": "no peer full product plus .01 refuses",
+      "quote": {
+        "state": "REFUSE",
+        "issues": [
+          "REFUND_EXCEEDS_ORIGINAL_NET_SALES_CAP"
+        ],
+        "families": [
+          {
+            "delta": "800.01",
+            "vector": [
+              {
+                "amount": "800.01",
+                "economic_date": "2026-10-02",
+                "transaction_date": "2026-10-02"
+              }
+            ],
+            "ordinal": "1",
+            "family_id": "00000000-0000-4000-8000-000000000006",
+            "capacity_ok": true,
+            "after_credit": "1000.01",
+            "before_credit": "200.00",
+            "needs_cohort_configuration": false
+          },
+          {
+            "delta": "0.00",
+            "vector": [],
+            "ordinal": "2",
+            "family_id": "00000000-0000-4000-8000-000000000201",
+            "capacity_ok": true,
+            "after_credit": "600.00",
+            "before_credit": "600.00",
+            "needs_cohort_configuration": false
+          }
+        ],
+        "credit_delta": "800.01",
+        "review_token": "8985019c06bf00208483ee6fb62a9e8cc616c25dddb62f205b062b4e3cef8344",
+        "after_available": "1600.01",
+        "increase_policy": "AUTO_CREDIT_INCREMENT",
+        "active_consumers": [],
+        "before_available": "800.00",
+        "contract_version": "cp7.credit-correction-de.v1",
+        "shortfall_policy": "UNDO_ACTIVE_CONSUMERS_FIRST",
+        "source_authority_proven": true,
+        "replacement_invoice_policy": "AUTO_TRANSFER_TO_REPLACEMENT"
+      },
+      "unchanged_Native_predicate": {
+        "sqlstate": "P0001",
+        "message": "Refund exceeds original net sale value for product. Sold value 1000.000000, prior refund 0.000000, current refund 1000.010000",
+        "where": "PL/pgSQL function post_sales_return(uuid) line 89 at RAISE",
+        "aggregate_refused": true,
+        "passed_guard_stopped_before_stock": false,
+        "all_local_rows_sequences_restored": true
+      }
+    },
+    {
+      "name": "no peer full product equality1000 allowed",
+      "quote": {
+        "state": "READY",
+        "issues": [],
+        "families": [
+          {
+            "delta": "800.00",
+            "vector": [
+              {
+                "amount": "800.00",
+                "economic_date": "2026-10-02",
+                "transaction_date": "2026-10-02"
+              }
+            ],
+            "ordinal": "1",
+            "family_id": "00000000-0000-4000-8000-000000000006",
+            "capacity_ok": true,
+            "after_credit": "1000.00",
+            "before_credit": "200.00",
+            "needs_cohort_configuration": false
+          },
+          {
+            "delta": "0.00",
+            "vector": [],
+            "ordinal": "2",
+            "family_id": "00000000-0000-4000-8000-000000000201",
+            "capacity_ok": true,
+            "after_credit": "600.00",
+            "before_credit": "600.00",
+            "needs_cohort_configuration": false
+          }
+        ],
+        "credit_delta": "800.00",
+        "review_token": "b89613fa36deac6215521fd561bb419f4f447aff72642a4cf4247dcf900a07a4",
+        "after_available": "1600.00",
+        "increase_policy": "AUTO_CREDIT_INCREMENT",
+        "active_consumers": [],
+        "before_available": "800.00",
+        "contract_version": "cp7.credit-correction-de.v1",
+        "shortfall_policy": "UNDO_ACTIVE_CONSUMERS_FIRST",
+        "source_authority_proven": true,
+        "replacement_invoice_policy": "AUTO_TRANSFER_TO_REPLACEMENT"
+      },
+      "unchanged_Native_predicate": {
+        "sqlstate": "P0001",
+        "message": "LOCAL_NATIVE_AGGREGATE_PASSED_STOP_BEFORE_STOCK_WRITE",
+        "where": "PL/pgSQL function post_fg_movement(uuid,uuid,uuid,text,text,integer,numeric,uuid,text,uuid,timestamp with time zone,text,boolean) line 1 at RAISE\nSQL statement \"SELECT erp.post_fg_movement(r.product_id,r.lot_id,r.location_id,r.quality_grade,\n      'SALE_RETURN',r.qty_pcs,v_unit_hpp,h.customer_id,'SALES_RETURN_ITEM',r.id,\n      h.physical_at,'Customer sales return',false)\"\nPL/pgSQL function post_sales_return(uuid) line 93 at PERFORM",
+        "aggregate_refused": false,
+        "passed_guard_stopped_before_stock": true,
+        "all_local_rows_sequences_restored": true
+      }
+    },
+    {
+      "name": "same-product lines are pooled across allocations; .01 refuses",
+      "quote": {
+        "state": "REFUSE",
+        "issues": [
+          "REFUND_EXCEEDS_ORIGINAL_NET_SALES_CAP"
+        ],
+        "families": [
+          {
+            "delta": "200.01",
+            "vector": [
+              {
+                "amount": "200.01",
+                "economic_date": "2026-10-02",
+                "transaction_date": "2026-10-02"
+              }
+            ],
+            "ordinal": "1",
+            "family_id": "00000000-0000-4000-8000-000000000006",
+            "capacity_ok": true,
+            "after_credit": "400.01",
+            "before_credit": "200.00",
+            "needs_cohort_configuration": false
+          },
+          {
+            "delta": "0.00",
+            "vector": [],
+            "ordinal": "2",
+            "family_id": "00000000-0000-4000-8000-000000000201",
+            "capacity_ok": true,
+            "after_credit": "600.00",
+            "before_credit": "600.00",
+            "needs_cohort_configuration": false
+          }
+        ],
+        "credit_delta": "200.01",
+        "review_token": "19b0e6da67abe3e5d5c571e1a2c9176ca8a872087111d3db9308f8daf256897f",
+        "after_available": "1000.01",
+        "increase_policy": "AUTO_CREDIT_INCREMENT",
+        "active_consumers": [],
+        "before_available": "800.00",
+        "contract_version": "cp7.credit-correction-de.v1",
+        "shortfall_policy": "UNDO_ACTIVE_CONSUMERS_FIRST",
+        "source_authority_proven": true,
+        "replacement_invoice_policy": "AUTO_TRANSFER_TO_REPLACEMENT"
+      },
+      "unchanged_Native_predicate": {
+        "sqlstate": "P0001",
+        "message": "Refund exceeds original net sale value for product. Sold value 1000.000000, prior refund 600.000000, current refund 400.010000",
+        "where": "PL/pgSQL function post_sales_return(uuid) line 89 at RAISE",
+        "aggregate_refused": true,
+        "passed_guard_stopped_before_stock": false,
+        "all_local_rows_sequences_restored": true
+      }
+    },
+    {
+      "name": "same-product multiline equality allowed",
+      "quote": {
+        "state": "READY",
+        "issues": [],
+        "families": [
+          {
+            "delta": "200.00",
+            "vector": [
+              {
+                "amount": "200.00",
+                "economic_date": "2026-10-02",
+                "transaction_date": "2026-10-02"
+              }
+            ],
+            "ordinal": "1",
+            "family_id": "00000000-0000-4000-8000-000000000006",
+            "capacity_ok": true,
+            "after_credit": "400.00",
+            "before_credit": "200.00",
+            "needs_cohort_configuration": false
+          },
+          {
+            "delta": "0.00",
+            "vector": [],
+            "ordinal": "2",
+            "family_id": "00000000-0000-4000-8000-000000000201",
+            "capacity_ok": true,
+            "after_credit": "600.00",
+            "before_credit": "600.00",
+            "needs_cohort_configuration": false
+          }
+        ],
+        "credit_delta": "200.00",
+        "review_token": "f93cebc7981e7c30ccc2787be92e1e9b5b3f36fcc52e4e50d4d67afc78a00a7d",
+        "after_available": "1000.00",
+        "increase_policy": "AUTO_CREDIT_INCREMENT",
+        "active_consumers": [],
+        "before_available": "800.00",
+        "contract_version": "cp7.credit-correction-de.v1",
+        "shortfall_policy": "UNDO_ACTIVE_CONSUMERS_FIRST",
+        "source_authority_proven": true,
+        "replacement_invoice_policy": "AUTO_TRANSFER_TO_REPLACEMENT"
+      },
+      "unchanged_Native_predicate": {
+        "sqlstate": "P0001",
+        "message": "LOCAL_NATIVE_AGGREGATE_PASSED_STOP_BEFORE_STOCK_WRITE",
+        "where": "PL/pgSQL function post_fg_movement(uuid,uuid,uuid,text,text,integer,numeric,uuid,text,uuid,timestamp with time zone,text,boolean) line 1 at RAISE\nSQL statement \"SELECT erp.post_fg_movement(r.product_id,r.lot_id,r.location_id,r.quality_grade,\n      'SALE_RETURN',r.qty_pcs,v_unit_hpp,h.customer_id,'SALES_RETURN_ITEM',r.id,\n      h.physical_at,'Customer sales return',false)\"\nPL/pgSQL function post_sales_return(uuid) line 93 at PERFORM",
+        "aggregate_refused": false,
+        "passed_guard_stopped_before_stock": true,
+        "all_local_rows_sequences_restored": true
+      }
+    },
+    {
+      "name": "local peer change retires old READY token and now refuses",
+      "before": {
+        "state": "READY",
+        "issues": [],
+        "families": [
+          {
+            "delta": "200.00",
+            "vector": [
+              {
+                "amount": "200.00",
+                "economic_date": "2026-10-02",
+                "transaction_date": "2026-10-02"
+              }
+            ],
+            "ordinal": "1",
+            "family_id": "00000000-0000-4000-8000-000000000006",
+            "capacity_ok": true,
+            "after_credit": "400.00",
+            "before_credit": "200.00",
+            "needs_cohort_configuration": false
+          },
+          {
+            "delta": "0.00",
+            "vector": [],
+            "ordinal": "2",
+            "family_id": "00000000-0000-4000-8000-000000000201",
+            "capacity_ok": true,
+            "after_credit": "600.00",
+            "before_credit": "600.00",
+            "needs_cohort_configuration": false
+          }
+        ],
+        "credit_delta": "200.00",
+        "review_token": "f93cebc7981e7c30ccc2787be92e1e9b5b3f36fcc52e4e50d4d67afc78a00a7d",
+        "after_available": "1000.00",
+        "increase_policy": "AUTO_CREDIT_INCREMENT",
+        "active_consumers": [],
+        "before_available": "800.00",
+        "contract_version": "cp7.credit-correction-de.v1",
+        "shortfall_policy": "UNDO_ACTIVE_CONSUMERS_FIRST",
+        "source_authority_proven": true,
+        "replacement_invoice_policy": "AUTO_TRANSFER_TO_REPLACEMENT"
+      },
+      "after": {
+        "state": "REFUSE",
+        "issues": [
+          "REFUND_EXCEEDS_ORIGINAL_NET_SALES_CAP"
+        ],
+        "families": [
+          {
+            "delta": "200.00",
+            "vector": [
+              {
+                "amount": "200.00",
+                "economic_date": "2026-10-02",
+                "transaction_date": "2026-10-02"
+              }
+            ],
+            "ordinal": "1",
+            "family_id": "00000000-0000-4000-8000-000000000006",
+            "capacity_ok": true,
+            "after_credit": "400.00",
+            "before_credit": "200.00",
+            "needs_cohort_configuration": false
+          },
+          {
+            "delta": "0.00",
+            "vector": [],
+            "ordinal": "2",
+            "family_id": "00000000-0000-4000-8000-000000000201",
+            "capacity_ok": true,
+            "after_credit": "600.00",
+            "before_credit": "600.00",
+            "needs_cohort_configuration": false
+          }
+        ],
+        "credit_delta": "200.00",
+        "review_token": "0f0079a975caa9f082484fbda657d744982c2d5620e5995373d1447efbcbb46e",
+        "after_available": "1000.00",
+        "increase_policy": "AUTO_CREDIT_INCREMENT",
+        "active_consumers": [],
+        "before_available": "800.00",
+        "contract_version": "cp7.credit-correction-de.v1",
+        "shortfall_policy": "UNDO_ACTIVE_CONSUMERS_FIRST",
+        "source_authority_proven": true,
+        "replacement_invoice_policy": "AUTO_TRANSFER_TO_REPLACEMENT"
+      },
+      "mutation_class": "LOCAL_SOURCE_DOUBLE_ONLY_NOT_POSTED_NATIVE_EDIT"
+    },
+    {
+      "name": "missing returns array refuses",
+      "quote": {
+        "state": "REFUSE",
+        "issues": [
+          "REFUND_CAP_SOURCE_UNAVAILABLE"
+        ],
+        "families": [
+          {
+            "delta": "200.00",
+            "vector": [
+              {
+                "amount": "200.00",
+                "economic_date": "2026-10-02",
+                "transaction_date": "2026-10-02"
+              }
+            ],
+            "ordinal": "1",
+            "family_id": "00000000-0000-4000-8000-000000000006",
+            "capacity_ok": true,
+            "after_credit": "400.00",
+            "before_credit": "200.00",
+            "needs_cohort_configuration": false
+          },
+          {
+            "delta": "0.00",
+            "vector": [],
+            "ordinal": "2",
+            "family_id": "00000000-0000-4000-8000-000000000201",
+            "capacity_ok": true,
+            "after_credit": "600.00",
+            "before_credit": "600.00",
+            "needs_cohort_configuration": false
+          }
+        ],
+        "credit_delta": "200.00",
+        "review_token": "af9187f399f1cd6b17195f67884ef49043804c504c1ff762610c92a2b36f65e7",
+        "after_available": "1000.00",
+        "increase_policy": "AUTO_CREDIT_INCREMENT",
+        "active_consumers": [],
+        "before_available": "800.00",
+        "contract_version": "cp7.credit-correction-de.v1",
+        "shortfall_policy": "UNDO_ACTIVE_CONSUMERS_FIRST",
+        "source_authority_proven": true,
+        "replacement_invoice_policy": "AUTO_TRANSFER_TO_REPLACEMENT"
+      },
+      "malformed_source_double": true
+    },
+    {
+      "name": "missing return_items array refuses",
+      "quote": {
+        "state": "REFUSE",
+        "issues": [
+          "REFUND_CAP_SOURCE_UNAVAILABLE"
+        ],
+        "families": [
+          {
+            "delta": "200.00",
+            "vector": [
+              {
+                "amount": "200.00",
+                "economic_date": "2026-10-02",
+                "transaction_date": "2026-10-02"
+              }
+            ],
+            "ordinal": "1",
+            "family_id": "00000000-0000-4000-8000-000000000006",
+            "capacity_ok": true,
+            "after_credit": "400.00",
+            "before_credit": "200.00",
+            "needs_cohort_configuration": false
+          },
+          {
+            "delta": "0.00",
+            "vector": [],
+            "ordinal": "2",
+            "family_id": "00000000-0000-4000-8000-000000000201",
+            "capacity_ok": true,
+            "after_credit": "600.00",
+            "before_credit": "600.00",
+            "needs_cohort_configuration": false
+          }
+        ],
+        "credit_delta": "200.00",
+        "review_token": "c2d056092a58bd54d68b6cd0544ca96f268e70ca5f71629957c78abc52893245",
+        "after_available": "1000.00",
+        "increase_policy": "AUTO_CREDIT_INCREMENT",
+        "active_consumers": [],
+        "before_available": "800.00",
+        "contract_version": "cp7.credit-correction-de.v1",
+        "shortfall_policy": "UNDO_ACTIVE_CONSUMERS_FIRST",
+        "source_authority_proven": true,
+        "replacement_invoice_policy": "AUTO_TRANSFER_TO_REPLACEMENT"
+      },
+      "malformed_source_double": true
+    },
+    {
+      "name": "unknown peer status refuses rather than vanishing",
+      "quote": {
+        "state": "REFUSE",
+        "issues": [
+          "REFUND_CAP_SOURCE_UNAVAILABLE"
+        ],
+        "families": [
+          {
+            "delta": "200.00",
+            "vector": [
+              {
+                "amount": "200.00",
+                "economic_date": "2026-10-02",
+                "transaction_date": "2026-10-02"
+              }
+            ],
+            "ordinal": "1",
+            "family_id": "00000000-0000-4000-8000-000000000006",
+            "capacity_ok": true,
+            "after_credit": "400.00",
+            "before_credit": "200.00",
+            "needs_cohort_configuration": false
+          },
+          {
+            "delta": "0.00",
+            "vector": [],
+            "ordinal": "2",
+            "family_id": "00000000-0000-4000-8000-000000000201",
+            "capacity_ok": true,
+            "after_credit": "600.00",
+            "before_credit": "600.00",
+            "needs_cohort_configuration": false
+          }
+        ],
+        "credit_delta": "200.00",
+        "review_token": "4eca775c040c03bc61087a1b192928c577ba605d0b80684acecf2ad58a6ba88d",
+        "after_available": "1000.00",
+        "increase_policy": "AUTO_CREDIT_INCREMENT",
+        "active_consumers": [],
+        "before_available": "800.00",
+        "contract_version": "cp7.credit-correction-de.v1",
+        "shortfall_policy": "UNDO_ACTIVE_CONSUMERS_FIRST",
+        "source_authority_proven": true,
+        "replacement_invoice_policy": "AUTO_TRANSFER_TO_REPLACEMENT"
+      },
+      "malformed_source_double": true
+    },
+    {
+      "name": "duplicate peer header refuses",
+      "quote": {
+        "state": "REFUSE",
+        "issues": [
+          "REFUND_CAP_SOURCE_UNAVAILABLE"
+        ],
+        "families": [
+          {
+            "delta": "200.00",
+            "vector": [
+              {
+                "amount": "200.00",
+                "economic_date": "2026-10-02",
+                "transaction_date": "2026-10-02"
+              }
+            ],
+            "ordinal": "1",
+            "family_id": "00000000-0000-4000-8000-000000000006",
+            "capacity_ok": true,
+            "after_credit": "400.00",
+            "before_credit": "200.00",
+            "needs_cohort_configuration": false
+          },
+          {
+            "delta": "0.00",
+            "vector": [],
+            "ordinal": "2",
+            "family_id": "00000000-0000-4000-8000-000000000201",
+            "capacity_ok": true,
+            "after_credit": "600.00",
+            "before_credit": "600.00",
+            "needs_cohort_configuration": false
+          }
+        ],
+        "credit_delta": "200.00",
+        "review_token": "b50df5d0aad7d02e3eeaefa2eceb40a5a66fffc43c7059789bd8b11b67753ac4",
+        "after_available": "1000.00",
+        "increase_policy": "AUTO_CREDIT_INCREMENT",
+        "active_consumers": [],
+        "before_available": "800.00",
+        "contract_version": "cp7.credit-correction-de.v1",
+        "shortfall_policy": "UNDO_ACTIVE_CONSUMERS_FIRST",
+        "source_authority_proven": true,
+        "replacement_invoice_policy": "AUTO_TRANSFER_TO_REPLACEMENT"
+      },
+      "malformed_source_double": true
+    },
+    {
+      "name": "duplicate peer item refuses",
+      "quote": {
+        "state": "REFUSE",
+        "issues": [
+          "REFUND_CAP_SOURCE_UNAVAILABLE"
+        ],
+        "families": [
+          {
+            "delta": "200.00",
+            "vector": [
+              {
+                "amount": "200.00",
+                "economic_date": "2026-10-02",
+                "transaction_date": "2026-10-02"
+              }
+            ],
+            "ordinal": "1",
+            "family_id": "00000000-0000-4000-8000-000000000006",
+            "capacity_ok": true,
+            "after_credit": "400.00",
+            "before_credit": "200.00",
+            "needs_cohort_configuration": false
+          },
+          {
+            "delta": "0.00",
+            "vector": [],
+            "ordinal": "2",
+            "family_id": "00000000-0000-4000-8000-000000000201",
+            "capacity_ok": true,
+            "after_credit": "600.00",
+            "before_credit": "600.00",
+            "needs_cohort_configuration": false
+          }
+        ],
+        "credit_delta": "200.00",
+        "review_token": "cde791ec100ecdf9bb59c36ca5f9adf8951fa76cc7a5e0708beeb464def5c2c3",
+        "after_available": "1000.00",
+        "increase_policy": "AUTO_CREDIT_INCREMENT",
+        "active_consumers": [],
+        "before_available": "800.00",
+        "contract_version": "cp7.credit-correction-de.v1",
+        "shortfall_policy": "UNDO_ACTIVE_CONSUMERS_FIRST",
+        "source_authority_proven": true,
+        "replacement_invoice_policy": "AUTO_TRANSFER_TO_REPLACEMENT"
+      },
+      "malformed_source_double": true
+    },
+    {
+      "name": "peer item without header refuses",
+      "quote": {
+        "state": "REFUSE",
+        "issues": [
+          "REFUND_CAP_SOURCE_UNAVAILABLE"
+        ],
+        "families": [
+          {
+            "delta": "200.00",
+            "vector": [
+              {
+                "amount": "200.00",
+                "economic_date": "2026-10-02",
+                "transaction_date": "2026-10-02"
+              }
+            ],
+            "ordinal": "1",
+            "family_id": "00000000-0000-4000-8000-000000000006",
+            "capacity_ok": true,
+            "after_credit": "400.00",
+            "before_credit": "200.00",
+            "needs_cohort_configuration": false
+          },
+          {
+            "delta": "0.00",
+            "vector": [],
+            "ordinal": "2",
+            "family_id": "00000000-0000-4000-8000-000000000201",
+            "capacity_ok": true,
+            "after_credit": "600.00",
+            "before_credit": "600.00",
+            "needs_cohort_configuration": false
+          }
+        ],
+        "credit_delta": "200.00",
+        "review_token": "25f257a64dfec6d4f651f98dde2d056bbb9ee833f7956e2a045be01b84a8896a",
+        "after_available": "1000.00",
+        "increase_policy": "AUTO_CREDIT_INCREMENT",
+        "active_consumers": [],
+        "before_available": "800.00",
+        "contract_version": "cp7.credit-correction-de.v1",
+        "shortfall_policy": "UNDO_ACTIVE_CONSUMERS_FIRST",
+        "source_authority_proven": true,
+        "replacement_invoice_policy": "AUTO_TRANSFER_TO_REPLACEMENT"
+      },
+      "malformed_source_double": true
+    },
+    {
+      "name": "POSTED peer with missing item refuses",
+      "quote": {
+        "state": "REFUSE",
+        "issues": [
+          "REFUND_CAP_SOURCE_UNAVAILABLE"
+        ],
+        "families": [
+          {
+            "delta": "200.00",
+            "vector": [
+              {
+                "amount": "200.00",
+                "economic_date": "2026-10-02",
+                "transaction_date": "2026-10-02"
+              }
+            ],
+            "ordinal": "1",
+            "family_id": "00000000-0000-4000-8000-000000000006",
+            "capacity_ok": true,
+            "after_credit": "400.00",
+            "before_credit": "200.00",
+            "needs_cohort_configuration": false
+          },
+          {
+            "delta": "0.00",
+            "vector": [],
+            "ordinal": "2",
+            "family_id": "00000000-0000-4000-8000-000000000201",
+            "capacity_ok": true,
+            "after_credit": "600.00",
+            "before_credit": "600.00",
+            "needs_cohort_configuration": false
+          }
+        ],
+        "credit_delta": "200.00",
+        "review_token": "9a331b537bc44b42b4be825a836c30e3e761caacf56a2641a39ba1c9b81f1aa3",
+        "after_available": "1000.00",
+        "increase_policy": "AUTO_CREDIT_INCREMENT",
+        "active_consumers": [],
+        "before_available": "800.00",
+        "contract_version": "cp7.credit-correction-de.v1",
+        "shortfall_policy": "UNDO_ACTIVE_CONSUMERS_FIRST",
+        "source_authority_proven": true,
+        "replacement_invoice_policy": "AUTO_TRANSFER_TO_REPLACEMENT"
+      },
+      "malformed_source_double": true
+    },
+    {
+      "name": "foreign-sale peer header refuses",
+      "quote": {
+        "state": "REFUSE",
+        "issues": [
+          "REFUND_CAP_SOURCE_UNAVAILABLE"
+        ],
+        "families": [
+          {
+            "delta": "200.00",
+            "vector": [
+              {
+                "amount": "200.00",
+                "economic_date": "2026-10-02",
+                "transaction_date": "2026-10-02"
+              }
+            ],
+            "ordinal": "1",
+            "family_id": "00000000-0000-4000-8000-000000000006",
+            "capacity_ok": true,
+            "after_credit": "400.00",
+            "before_credit": "200.00",
+            "needs_cohort_configuration": false
+          },
+          {
+            "delta": "0.00",
+            "vector": [],
+            "ordinal": "2",
+            "family_id": "00000000-0000-4000-8000-000000000201",
+            "capacity_ok": true,
+            "after_credit": "600.00",
+            "before_credit": "600.00",
+            "needs_cohort_configuration": false
+          }
+        ],
+        "credit_delta": "200.00",
+        "review_token": "0160cd6c20f3ab882e67aa238fc8c43d8ec564e6ed2b09cfc0eb0e1a408dc6f7",
+        "after_available": "1000.00",
+        "increase_policy": "AUTO_CREDIT_INCREMENT",
+        "active_consumers": [],
+        "before_available": "800.00",
+        "contract_version": "cp7.credit-correction-de.v1",
+        "shortfall_policy": "UNDO_ACTIVE_CONSUMERS_FIRST",
+        "source_authority_proven": true,
+        "replacement_invoice_policy": "AUTO_TRANSFER_TO_REPLACEMENT"
+      },
+      "malformed_source_double": true
+    },
+    {
+      "name": "foreign-customer peer header refuses",
+      "quote": {
+        "state": "REFUSE",
+        "issues": [
+          "REFUND_CAP_SOURCE_UNAVAILABLE"
+        ],
+        "families": [
+          {
+            "delta": "200.00",
+            "vector": [
+              {
+                "amount": "200.00",
+                "economic_date": "2026-10-02",
+                "transaction_date": "2026-10-02"
+              }
+            ],
+            "ordinal": "1",
+            "family_id": "00000000-0000-4000-8000-000000000006",
+            "capacity_ok": true,
+            "after_credit": "400.00",
+            "before_credit": "200.00",
+            "needs_cohort_configuration": false
+          },
+          {
+            "delta": "0.00",
+            "vector": [],
+            "ordinal": "2",
+            "family_id": "00000000-0000-4000-8000-000000000201",
+            "capacity_ok": true,
+            "after_credit": "600.00",
+            "before_credit": "600.00",
+            "needs_cohort_configuration": false
+          }
+        ],
+        "credit_delta": "200.00",
+        "review_token": "e648d1da362a0c6380f9174698dedbe777ee76e2074b61cc7394a15a521ca0fb",
+        "after_available": "1000.00",
+        "increase_policy": "AUTO_CREDIT_INCREMENT",
+        "active_consumers": [],
+        "before_available": "800.00",
+        "contract_version": "cp7.credit-correction-de.v1",
+        "shortfall_policy": "UNDO_ACTIVE_CONSUMERS_FIRST",
+        "source_authority_proven": true,
+        "replacement_invoice_policy": "AUTO_TRANSFER_TO_REPLACEMENT"
+      },
+      "malformed_source_double": true
+    },
+    {
+      "name": "unknown peer product refuses",
+      "quote": {
+        "state": "REFUSE",
+        "issues": [
+          "REFUND_CAP_SOURCE_UNAVAILABLE"
+        ],
+        "families": [
+          {
+            "delta": "200.00",
+            "vector": [
+              {
+                "amount": "200.00",
+                "economic_date": "2026-10-02",
+                "transaction_date": "2026-10-02"
+              }
+            ],
+            "ordinal": "1",
+            "family_id": "00000000-0000-4000-8000-000000000006",
+            "capacity_ok": true,
+            "after_credit": "400.00",
+            "before_credit": "200.00",
+            "needs_cohort_configuration": false
+          },
+          {
+            "delta": "0.00",
+            "vector": [],
+            "ordinal": "2",
+            "family_id": "00000000-0000-4000-8000-000000000201",
+            "capacity_ok": true,
+            "after_credit": "600.00",
+            "before_credit": "600.00",
+            "needs_cohort_configuration": false
+          }
+        ],
+        "credit_delta": "200.00",
+        "review_token": "3ef3c1bdf3e2e86a13e904548f566d1cb05a1a82f9ecb1137c19b73811623ed7",
+        "after_available": "1000.00",
+        "increase_policy": "AUTO_CREDIT_INCREMENT",
+        "active_consumers": [],
+        "before_available": "800.00",
+        "contract_version": "cp7.credit-correction-de.v1",
+        "shortfall_policy": "UNDO_ACTIVE_CONSUMERS_FIRST",
+        "source_authority_proven": true,
+        "replacement_invoice_policy": "AUTO_TRANSFER_TO_REPLACEMENT"
+      },
+      "malformed_source_double": true
+    },
+    {
+      "name": "peer product mismatching allocation refuses",
+      "quote": {
+        "state": "REFUSE",
+        "issues": [
+          "REFUND_CAP_SOURCE_UNAVAILABLE"
+        ],
+        "families": [
+          {
+            "delta": "200.00",
+            "vector": [
+              {
+                "amount": "200.00",
+                "economic_date": "2026-10-02",
+                "transaction_date": "2026-10-02"
+              }
+            ],
+            "ordinal": "1",
+            "family_id": "00000000-0000-4000-8000-000000000006",
+            "capacity_ok": true,
+            "after_credit": "400.00",
+            "before_credit": "200.00",
+            "needs_cohort_configuration": false
+          },
+          {
+            "delta": "0.00",
+            "vector": [],
+            "ordinal": "2",
+            "family_id": "00000000-0000-4000-8000-000000000201",
+            "capacity_ok": true,
+            "after_credit": "600.00",
+            "before_credit": "600.00",
+            "needs_cohort_configuration": false
+          }
+        ],
+        "credit_delta": "200.00",
+        "review_token": "f187e38b6141718e1ce87d5c1e45281488a8c6ac676f5ff4063826a466ead429",
+        "after_available": "1000.00",
+        "increase_policy": "AUTO_CREDIT_INCREMENT",
+        "active_consumers": [],
+        "before_available": "800.00",
+        "contract_version": "cp7.credit-correction-de.v1",
+        "shortfall_policy": "UNDO_ACTIVE_CONSUMERS_FIRST",
+        "source_authority_proven": true,
+        "replacement_invoice_policy": "AUTO_TRANSFER_TO_REPLACEMENT"
+      },
+      "malformed_source_double": true
+    },
+    {
+      "name": "peer missing allocation refuses",
+      "quote": {
+        "state": "REFUSE",
+        "issues": [
+          "REFUND_CAP_SOURCE_UNAVAILABLE"
+        ],
+        "families": [
+          {
+            "delta": "200.00",
+            "vector": [
+              {
+                "amount": "200.00",
+                "economic_date": "2026-10-02",
+                "transaction_date": "2026-10-02"
+              }
+            ],
+            "ordinal": "1",
+            "family_id": "00000000-0000-4000-8000-000000000006",
+            "capacity_ok": true,
+            "after_credit": "400.00",
+            "before_credit": "200.00",
+            "needs_cohort_configuration": false
+          },
+          {
+            "delta": "0.00",
+            "vector": [],
+            "ordinal": "2",
+            "family_id": "00000000-0000-4000-8000-000000000201",
+            "capacity_ok": true,
+            "after_credit": "600.00",
+            "before_credit": "600.00",
+            "needs_cohort_configuration": false
+          }
+        ],
+        "credit_delta": "200.00",
+        "review_token": "4aea3aed69edd22e7a3954360326adb80e4039fdf1581ba896fb00b751b936bf",
+        "after_available": "1000.00",
+        "increase_policy": "AUTO_CREDIT_INCREMENT",
+        "active_consumers": [],
+        "before_available": "800.00",
+        "contract_version": "cp7.credit-correction-de.v1",
+        "shortfall_policy": "UNDO_ACTIVE_CONSUMERS_FIRST",
+        "source_authority_proven": true,
+        "replacement_invoice_policy": "AUTO_TRANSFER_TO_REPLACEMENT"
+      },
+      "malformed_source_double": true
+    },
+    {
+      "name": "duplicate unused sale item cannot inflate product cap",
+      "quote": {
+        "state": "REFUSE",
+        "issues": [
+          "REFUND_CAP_SOURCE_UNAVAILABLE"
+        ],
+        "families": [
+          {
+            "delta": "200.00",
+            "vector": [
+              {
+                "amount": "200.00",
+                "economic_date": "2026-10-02",
+                "transaction_date": "2026-10-02"
+              }
+            ],
+            "ordinal": "1",
+            "family_id": "00000000-0000-4000-8000-000000000006",
+            "capacity_ok": true,
+            "after_credit": "400.00",
+            "before_credit": "200.00",
+            "needs_cohort_configuration": false
+          },
+          {
+            "delta": "0.00",
+            "vector": [],
+            "ordinal": "2",
+            "family_id": "00000000-0000-4000-8000-000000000201",
+            "capacity_ok": true,
+            "after_credit": "600.00",
+            "before_credit": "600.00",
+            "needs_cohort_configuration": false
+          }
+        ],
+        "credit_delta": "200.00",
+        "review_token": "bb01de778f070bc4dc5d08308913102d0b8d54240dc0f6b31e57720674750a4e",
+        "after_available": "1000.00",
+        "increase_policy": "AUTO_CREDIT_INCREMENT",
+        "active_consumers": [],
+        "before_available": "800.00",
+        "contract_version": "cp7.credit-correction-de.v1",
+        "shortfall_policy": "UNDO_ACTIVE_CONSUMERS_FIRST",
+        "source_authority_proven": true,
+        "replacement_invoice_policy": "AUTO_TRANSFER_TO_REPLACEMENT"
+      },
+      "malformed_source_double": true
+    },
+    {
+      "name": "foreign unused sale item refuses",
+      "quote": {
+        "state": "REFUSE",
+        "issues": [
+          "REFUND_CAP_SOURCE_UNAVAILABLE"
+        ],
+        "families": [
+          {
+            "delta": "200.00",
+            "vector": [
+              {
+                "amount": "200.00",
+                "economic_date": "2026-10-02",
+                "transaction_date": "2026-10-02"
+              }
+            ],
+            "ordinal": "1",
+            "family_id": "00000000-0000-4000-8000-000000000006",
+            "capacity_ok": true,
+            "after_credit": "400.00",
+            "before_credit": "200.00",
+            "needs_cohort_configuration": false
+          },
+          {
+            "delta": "0.00",
+            "vector": [],
+            "ordinal": "2",
+            "family_id": "00000000-0000-4000-8000-000000000201",
+            "capacity_ok": true,
+            "after_credit": "600.00",
+            "before_credit": "600.00",
+            "needs_cohort_configuration": false
+          }
+        ],
+        "credit_delta": "200.00",
+        "review_token": "fd65c1ef658f5c8cd31a6768ae0f7ad2920c0dcbb66002563e19fce1ed627a0b",
+        "after_available": "1000.00",
+        "increase_policy": "AUTO_CREDIT_INCREMENT",
+        "active_consumers": [],
+        "before_available": "800.00",
+        "contract_version": "cp7.credit-correction-de.v1",
+        "shortfall_policy": "UNDO_ACTIVE_CONSUMERS_FIRST",
+        "source_authority_proven": true,
+        "replacement_invoice_policy": "AUTO_TRANSFER_TO_REPLACEMENT"
+      },
+      "malformed_source_double": true
+    },
+    {
+      "name": "missing unused sale net basis refuses",
+      "quote": {
+        "state": "REFUSE",
+        "issues": [
+          "REFUND_CAP_SOURCE_UNAVAILABLE"
+        ],
+        "families": [
+          {
+            "delta": "200.00",
+            "vector": [
+              {
+                "amount": "200.00",
+                "economic_date": "2026-10-02",
+                "transaction_date": "2026-10-02"
+              }
+            ],
+            "ordinal": "1",
+            "family_id": "00000000-0000-4000-8000-000000000006",
+            "capacity_ok": true,
+            "after_credit": "400.00",
+            "before_credit": "200.00",
+            "needs_cohort_configuration": false
+          },
+          {
+            "delta": "0.00",
+            "vector": [],
+            "ordinal": "2",
+            "family_id": "00000000-0000-4000-8000-000000000201",
+            "capacity_ok": true,
+            "after_credit": "600.00",
+            "before_credit": "600.00",
+            "needs_cohort_configuration": false
+          }
+        ],
+        "credit_delta": "200.00",
+        "review_token": "879882275029a71456535bd6709804570b2eae4b992be8ea88431e241e40fd0d",
+        "after_available": "1000.00",
+        "increase_policy": "AUTO_CREDIT_INCREMENT",
+        "active_consumers": [],
+        "before_available": "800.00",
+        "contract_version": "cp7.credit-correction-de.v1",
+        "shortfall_policy": "UNDO_ACTIVE_CONSUMERS_FIRST",
+        "source_authority_proven": true,
+        "replacement_invoice_policy": "AUTO_TRANSFER_TO_REPLACEMENT"
+      },
+      "malformed_source_double": true
+    },
+    {
+      "name": "duplicate allocation refuses",
+      "quote": {
+        "state": "REFUSE",
+        "issues": [
+          "REFUND_CAP_SOURCE_UNAVAILABLE"
+        ],
+        "families": [
+          {
+            "delta": "200.00",
+            "vector": [
+              {
+                "amount": "200.00",
+                "economic_date": "2026-10-02",
+                "transaction_date": "2026-10-02"
+              }
+            ],
+            "ordinal": "1",
+            "family_id": "00000000-0000-4000-8000-000000000006",
+            "capacity_ok": true,
+            "after_credit": "400.00",
+            "before_credit": "200.00",
+            "needs_cohort_configuration": false
+          },
+          {
+            "delta": "0.00",
+            "vector": [],
+            "ordinal": "2",
+            "family_id": "00000000-0000-4000-8000-000000000201",
+            "capacity_ok": true,
+            "after_credit": "600.00",
+            "before_credit": "600.00",
+            "needs_cohort_configuration": false
+          }
+        ],
+        "credit_delta": "200.00",
+        "review_token": "0ce198e5a437edd73188e1cac6630e0e16ee796fb8a84d810033b6b6c592eb4a",
+        "after_available": "1000.00",
+        "increase_policy": "AUTO_CREDIT_INCREMENT",
+        "active_consumers": [],
+        "before_available": "800.00",
+        "contract_version": "cp7.credit-correction-de.v1",
+        "shortfall_policy": "UNDO_ACTIVE_CONSUMERS_FIRST",
+        "source_authority_proven": true,
+        "replacement_invoice_policy": "AUTO_TRANSFER_TO_REPLACEMENT"
+      },
+      "malformed_source_double": true
+    },
+    {
+      "name": "unknown allocation record refuses",
+      "quote": {
+        "state": "REFUSE",
+        "issues": [
+          "REFUND_CAP_SOURCE_UNAVAILABLE"
+        ],
+        "families": [
+          {
+            "delta": "200.00",
+            "vector": [
+              {
+                "amount": "200.00",
+                "economic_date": "2026-10-02",
+                "transaction_date": "2026-10-02"
+              }
+            ],
+            "ordinal": "1",
+            "family_id": "00000000-0000-4000-8000-000000000006",
+            "capacity_ok": true,
+            "after_credit": "400.00",
+            "before_credit": "200.00",
+            "needs_cohort_configuration": false
+          },
+          {
+            "delta": "0.00",
+            "vector": [],
+            "ordinal": "2",
+            "family_id": "00000000-0000-4000-8000-000000000201",
+            "capacity_ok": true,
+            "after_credit": "600.00",
+            "before_credit": "600.00",
+            "needs_cohort_configuration": false
+          }
+        ],
+        "credit_delta": "200.00",
+        "review_token": "30dfd6223b4df32dae5f2b16012611d45c9df4026e0cc46ee12c1da362980534",
+        "after_available": "1000.00",
+        "increase_policy": "AUTO_CREDIT_INCREMENT",
+        "active_consumers": [],
+        "before_available": "800.00",
+        "contract_version": "cp7.credit-correction-de.v1",
+        "shortfall_policy": "UNDO_ACTIVE_CONSUMERS_FIRST",
+        "source_authority_proven": true,
+        "replacement_invoice_policy": "AUTO_TRANSFER_TO_REPLACEMENT"
+      },
+      "malformed_source_double": true
+    },
+    {
+      "name": "old current return omitted refuses",
+      "quote": {
+        "state": "REFUSE",
+        "issues": [
+          "REFUND_CAP_SOURCE_UNAVAILABLE"
+        ],
+        "families": [
+          {
+            "delta": "200.00",
+            "vector": [
+              {
+                "amount": "200.00",
+                "economic_date": "2026-10-02",
+                "transaction_date": "2026-10-02"
+              }
+            ],
+            "ordinal": "1",
+            "family_id": "00000000-0000-4000-8000-000000000006",
+            "capacity_ok": true,
+            "after_credit": "400.00",
+            "before_credit": "200.00",
+            "needs_cohort_configuration": false
+          },
+          {
+            "delta": "0.00",
+            "vector": [],
+            "ordinal": "2",
+            "family_id": "00000000-0000-4000-8000-000000000201",
+            "capacity_ok": true,
+            "after_credit": "600.00",
+            "before_credit": "600.00",
+            "needs_cohort_configuration": false
+          }
+        ],
+        "credit_delta": "200.00",
+        "review_token": "a928dcc6b9b769045d84223402fbb1c1bced26a19446dfc2ad404204d6325e01",
+        "after_available": "1000.00",
+        "increase_policy": "AUTO_CREDIT_INCREMENT",
+        "active_consumers": [],
+        "before_available": "800.00",
+        "contract_version": "cp7.credit-correction-de.v1",
+        "shortfall_policy": "UNDO_ACTIVE_CONSUMERS_FIRST",
+        "source_authority_proven": true,
+        "replacement_invoice_policy": "AUTO_TRANSFER_TO_REPLACEMENT"
+      },
+      "malformed_source_double": true
+    },
+    {
+      "name": "unknown peer refund numeric refuses",
+      "quote": {
+        "state": "REFUSE",
+        "issues": [
+          "REFUND_CAP_SOURCE_UNAVAILABLE"
+        ],
+        "families": [
+          {
+            "delta": "200.00",
+            "vector": [
+              {
+                "amount": "200.00",
+                "economic_date": "2026-10-02",
+                "transaction_date": "2026-10-02"
+              }
+            ],
+            "ordinal": "1",
+            "family_id": "00000000-0000-4000-8000-000000000006",
+            "capacity_ok": true,
+            "after_credit": "400.00",
+            "before_credit": "200.00",
+            "needs_cohort_configuration": false
+          },
+          {
+            "delta": "0.00",
+            "vector": [],
+            "ordinal": "2",
+            "family_id": "00000000-0000-4000-8000-000000000201",
+            "capacity_ok": true,
+            "after_credit": "600.00",
+            "before_credit": "600.00",
+            "needs_cohort_configuration": false
+          }
+        ],
+        "credit_delta": "200.00",
+        "review_token": "5c9889e1f54a62ba8e1b6a7c3c79818681bad1a587f07a0a9fdf704c04a71426",
+        "after_available": "1000.00",
+        "increase_policy": "AUTO_CREDIT_INCREMENT",
+        "active_consumers": [],
+        "before_available": "800.00",
+        "contract_version": "cp7.credit-correction-de.v1",
+        "shortfall_policy": "UNDO_ACTIVE_CONSUMERS_FIRST",
+        "source_authority_proven": true,
+        "replacement_invoice_policy": "AUTO_TRANSFER_TO_REPLACEMENT"
+      },
+      "malformed_source_double": true
+    },
+    {
+      "name": "negative peer refund cannot manufacture capacity",
+      "quote": {
+        "state": "REFUSE",
+        "issues": [
+          "REFUND_CAP_SOURCE_UNAVAILABLE"
+        ],
+        "families": [
+          {
+            "delta": "200.00",
+            "vector": [
+              {
+                "amount": "200.00",
+                "economic_date": "2026-10-02",
+                "transaction_date": "2026-10-02"
+              }
+            ],
+            "ordinal": "1",
+            "family_id": "00000000-0000-4000-8000-000000000006",
+            "capacity_ok": true,
+            "after_credit": "400.00",
+            "before_credit": "200.00",
+            "needs_cohort_configuration": false
+          },
+          {
+            "delta": "0.00",
+            "vector": [],
+            "ordinal": "2",
+            "family_id": "00000000-0000-4000-8000-000000000201",
+            "capacity_ok": true,
+            "after_credit": "600.00",
+            "before_credit": "600.00",
+            "needs_cohort_configuration": false
+          }
+        ],
+        "credit_delta": "200.00",
+        "review_token": "afc0230badf6fad3caa5550fb92ea12e4c426e1283bbb3c3e3047d7c305608c1",
+        "after_available": "1000.00",
+        "increase_policy": "AUTO_CREDIT_INCREMENT",
+        "active_consumers": [],
+        "before_available": "800.00",
+        "contract_version": "cp7.credit-correction-de.v1",
+        "shortfall_policy": "UNDO_ACTIVE_CONSUMERS_FIRST",
+        "source_authority_proven": true,
+        "replacement_invoice_policy": "AUTO_TRANSFER_TO_REPLACEMENT"
+      },
+      "malformed_source_double": true
+    },
+    {
+      "name": "missing product on unused sale item refuses",
+      "quote": {
+        "state": "REFUSE",
+        "issues": [
+          "REFUND_CAP_SOURCE_UNAVAILABLE"
+        ],
+        "families": [
+          {
+            "delta": "200.00",
+            "vector": [
+              {
+                "amount": "200.00",
+                "economic_date": "2026-10-02",
+                "transaction_date": "2026-10-02"
+              }
+            ],
+            "ordinal": "1",
+            "family_id": "00000000-0000-4000-8000-000000000006",
+            "capacity_ok": true,
+            "after_credit": "400.00",
+            "before_credit": "200.00",
+            "needs_cohort_configuration": false
+          },
+          {
+            "delta": "0.00",
+            "vector": [],
+            "ordinal": "2",
+            "family_id": "00000000-0000-4000-8000-000000000201",
+            "capacity_ok": true,
+            "after_credit": "600.00",
+            "before_credit": "600.00",
+            "needs_cohort_configuration": false
+          }
+        ],
+        "credit_delta": "200.00",
+        "review_token": "5fa0e4ebcce1f82ba66a3fdd0de9f369801ae13aa75bbb25f5a8ccf25304a300",
+        "after_available": "1000.00",
+        "increase_policy": "AUTO_CREDIT_INCREMENT",
+        "active_consumers": [],
+        "before_available": "800.00",
+        "contract_version": "cp7.credit-correction-de.v1",
+        "shortfall_policy": "UNDO_ACTIVE_CONSUMERS_FIRST",
+        "source_authority_proven": true,
+        "replacement_invoice_policy": "AUTO_TRANSFER_TO_REPLACEMENT"
+      },
+      "malformed_source_double": true
+    }
+  ],
+  "actual_quote_SQL": true,
+  "actual_retained_collectors_and_kernel_SQL": true,
+  "unchanged_full_Native_post_SQL_predicate": true,
+  "normalizer_sha256": "1ca83d0e1728833c1fff2d3a285b142f8b1064e85afd3560573f885fedfd92bc",
+  "post_sales_return_sha256": "5f974ad9b9fff9ec9fef3018153683d35b79a9a5e8bd4c60e9a4a17b97622cdc",
+  "Native_financial_execution": false,
+  "actual_Native_cases": 0,
+  "stock_or_journal_writer_called": false,
+  "classification": "STRUCTURAL_SOURCE_AUTH_PROFILE_HPP_DOUBLES; ACTUAL_QUOTE_AND_NATIVE_CAP_PREDICATE_ONLY; NO_NATIVE_ACCEPTANCE"
+}

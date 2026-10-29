@@ -1,0 +1,260 @@
+{
+  "public_base": "d902e4d2e65cf5b382af1ab041120611f9a61078",
+  "public_tree": "6f931e639bd8996378ff65b8a7be2a1ed8590b45",
+  "joined_quote_original_commit": "7df27c31ca2deefc4d0f18fc3f474d98c4846bb2",
+  "joined_phase_original_commit": "77b72c6044133ad5ffd298b61343503af34f7c75",
+  "joined_local_head": "bcb7eed29d125e2c0dff049561da14dfbad27108",
+  "joined_tree": "b8f5a2603d2dcb5787990b69e7df230c826b465d",
+  "old_qualifier_files": {
+    "scripts/current-credit-de-native-qualification/SOURCE.json": {
+      "bytes": 15711,
+      "sha256": "aa0c6328a26a6df808282b574264c52283f471b98b6dbcaaf4bdc18bc7193558"
+    },
+    "scripts/current-credit-de-native-qualification/admission.py": {
+      "bytes": 4610,
+      "sha256": "8b564832f4b1ab6d8b52888e4ed2a1ac425b8d88c14866afa3916622afb7698c"
+    },
+    "scripts/current-credit-de-native-qualification/.gitignore": {
+      "bytes": 13,
+      "sha256": "32dae3052f331ee34d628ef535709b301259a45df7c7522c4d35dcf49873f00b"
+    },
+    "scripts/current-credit-de-native-qualification/CAP_SUCCESSOR_TRANSITION.json": {
+      "bytes": 8167,
+      "sha256": "e14f39981abdb13f41f0d7577ab7200ae661a9141c7d05ff45b77b8c5b3ccc54"
+    },
+    "scripts/current-credit-de-native-qualification/probe.py": {
+      "bytes": 1897,
+      "sha256": "8cbcf5180c0a10eb537357bdd5abe23d1426ed5760badf360c19e79a51931417"
+    },
+    "scripts/current-credit-de-native-qualification/CONFIG.json": {
+      "bytes": 5694,
+      "sha256": "6d3a0ff0d5bd232ec84348eaa2e03001e7ffaedc5c91be10f43b0f863c50c927"
+    },
+    "scripts/current-credit-de-native-qualification/native_runner.py": {
+      "bytes": 7729,
+      "sha256": "42acf33e4c7b896a28ef7d9795c6e3243262521f5e2647d33ced1f72452c1ba0"
+    },
+    "scripts/current-credit-de-native-qualification/bind.py": {
+      "bytes": 2646,
+      "sha256": "c2dea28e226fa1f6429fe4c152f04339a914dc661addf32fd06d255628a07f9c"
+    },
+    "scripts/current-credit-de-native-qualification/test_derive.py": {
+      "bytes": 1177,
+      "sha256": "945d90bdaea5b20def1b84b938f272cdaeac2d109667780cb11f40a7cf7fae0a"
+    },
+    "scripts/current-credit-de-native-qualification/derive.py": {
+      "bytes": 1727,
+      "sha256": "1e23428afdbd3e00691fbf4430bf7a6d7c4b1c11c183d779dea2f1f837ea6497"
+    },
+    "scripts/current-credit-de-native-qualification/test_plan.py": {
+      "bytes": 2439,
+      "sha256": "b954f27829fa96f47caf15a7bbee636679ab6f975cc79895f8933ed362ec95ad"
+    },
+    "scripts/current-credit-de-native-qualification/README.md": {
+      "bytes": 4141,
+      "sha256": "26f717ae94dd85ddfdbfbab806239c07f71e0193cd99ce38f942a56832d846ec"
+    },
+    "scripts/current-credit-de-native-qualification/test_workflow.py": {
+      "bytes": 2216,
+      "sha256": "53e511320b98a50fdb32480e2d280047336556be351149bc427db51bfa07bdca"
+    },
+    "scripts/current-credit-de-native-qualification/check.py": {
+      "bytes": 531,
+      "sha256": "1bd8f46fac1f73a74371b02be62520f12e6f33280b969f5345c92a4ff18a1ed1"
+    },
+    "scripts/current-credit-de-native-qualification/retained077/CP7_CREDIT_DE_NATIVE13.json.gz": {
+      "bytes": 65984,
+      "sha256": "8239560b90f181500179a25786a71bb66deecf7c46bbe4c687a6be027232d05f"
+    },
+    "scripts/current-credit-de-native-qualification/retained077/T3_PACKAGE_INSTALL.json.gz": {
+      "bytes": 11358,
+      "sha256": "b572bf8ad6f64cc8f5a2ac269ee81c9c4cd692b41cfcf0c42c05fd4edc946f36"
+    },
+    "scripts/current-credit-de-native-qualification/retained077/RECEIPT.json": {
+      "bytes": 1715,
+      "sha256": "4ddebb262590c9304b2ff4f204e8dfb9e28f893221c0131591efbe5f61974f70"
+    },
+    "scripts/current-credit-de-native-qualification/retained077/T3_BACKUP_RESTORE_DRILL.json.gz": {
+      "bytes": 646,
+      "sha256": "c3edb6ae8f858791f06bbfd2003b818181458daee6e11d027a1c950950ffdfab"
+    },
+    "scripts/current-credit-de-native-qualification/retained077/T3_PACKAGE_FILES_INSTALL.json.gz": {
+      "bytes": 255,
+      "sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7"
+    },
+    ".github/workflows/cp7-credit-de-native.yml": {
+      "bytes": 29704,
+      "sha256": "62c8bf85d7f7235faaf5db2cae37abda421c540d1ea74652168b78601cdc5bfe"
+    }
+  },
+  "old_source_sha256": "aa0c6328a26a6df808282b574264c52283f471b98b6dbcaaf4bdc18bc7193558",
+  "old_config_sha256": "6d3a0ff0d5bd232ec84348eaa2e03001e7ffaedc5c91be10f43b0f863c50c927",
+  "runtime_before": {
+    "review.sql": "88681bf674a6b6e8aeda46830a4a27b18bdda84cfcba6868bbb08e3f84fdc382",
+    "facts.sql": "ddfcf8583cf86a916e04aa5630d6262a32e48919dbd0a4c913a09166ca2f8334",
+    "owning.sql": "76eb5d7ff2ff14c6bae829ae53ce06abb5c7bc661aa25916afaec565df3da405",
+    "proof.sql": "8d81f2d8d9384c08eda28eb0b86a6c96b97f2ef8178adbe4b7d1dab01b8cf7ef",
+    "posting.sql": "e200a62d91c7975e67a88eb37c47d89dd739eb8f63fc0a1ee7063aaec0f9ce5b",
+    "materialize.sql": "f0bd81d3a80ad1f465ee5cc424b63009776fb65b9f6a23cbaae80ea331a8e4a4",
+    "closure.sql": "e21744ba0d98e963ccba9ca916247b797cb2c930b889e2eb41288a12f1888972",
+    "native_delta.py": "d6157ad24dd22ca4810df12668090eb74a3382e6ceb3e4c0954a037a7016c664",
+    "composition.py": "4f7086c157e977cacf5f4281d6a2748113029fd7c2c441837e254c9fca9422af"
+  },
+  "runtime_after": {
+    "review.sql": "88681bf674a6b6e8aeda46830a4a27b18bdda84cfcba6868bbb08e3f84fdc382",
+    "facts.sql": "ddfcf8583cf86a916e04aa5630d6262a32e48919dbd0a4c913a09166ca2f8334",
+    "owning.sql": "410afb540f455ce6781d8bf09ee6bd6f66420a2f17d3c5474720a642fdcc9cae",
+    "proof.sql": "8d81f2d8d9384c08eda28eb0b86a6c96b97f2ef8178adbe4b7d1dab01b8cf7ef",
+    "posting.sql": "e200a62d91c7975e67a88eb37c47d89dd739eb8f63fc0a1ee7063aaec0f9ce5b",
+    "materialize.sql": "206c18b517aef54ddc5757fd156a6c7d8d4a2c3240f62779773a4fff74fe6154",
+    "closure.sql": "e21744ba0d98e963ccba9ca916247b797cb2c930b889e2eb41288a12f1888972",
+    "native_delta.py": "d6157ad24dd22ca4810df12668090eb74a3382e6ceb3e4c0954a037a7016c664",
+    "composition.py": "4f7086c157e977cacf5f4281d6a2748113029fd7c2c441837e254c9fca9422af"
+  },
+  "joined_added_or_changed_paths": [
+    "scripts/cp7_credit_correction_de/materialize.sql",
+    "scripts/cp7_credit_correction_de/owning.sql",
+    "scripts/current-credit-d1-materialize-phase-successor/README.md",
+    "scripts/current-credit-d1-materialize-phase-successor/SOURCE.json",
+    "scripts/current-credit-d1-materialize-phase-successor/check.py",
+    "scripts/current-credit-d1-materialize-phase-successor/doubles.sql",
+    "scripts/current-credit-d1-materialize-phase-successor/evidence/BEFORE_materialize.sql",
+    "scripts/current-credit-d1-materialize-phase-successor/evidence/D902_FIRST_FAILURE_RECEIPT.json",
+    "scripts/current-credit-d1-materialize-phase-successor/evidence/D902_NATIVE13_CASES.json.gz",
+    "scripts/current-credit-d1-materialize-phase-successor/evidence/DERIVATION.json",
+    "scripts/current-credit-d1-materialize-phase-successor/evidence/LOCAL_RECEIPTS.json",
+    "scripts/current-credit-d1-materialize-phase-successor/evidence/LOCAL_RUNTIME_FIRST.json.gz",
+    "scripts/current-credit-d1-materialize-phase-successor/evidence/LOCAL_RUNTIME_SECOND.json.gz",
+    "scripts/current-credit-d1-materialize-phase-successor/evidence/LOCAL_RUNTIME_THIRD.json.gz",
+    "scripts/current-credit-d1-materialize-phase-successor/evidence/retained/FIRST_doubles.sql",
+    "scripts/current-credit-d1-materialize-phase-successor/evidence/retained/FIRST_fixture.py",
+    "scripts/current-credit-d1-materialize-phase-successor/evidence/retained/FIRST_runtime.mjs",
+    "scripts/current-credit-d1-materialize-phase-successor/evidence/retained/SECOND_doubles.sql",
+    "scripts/current-credit-d1-materialize-phase-successor/evidence/retained/SECOND_fixture.py",
+    "scripts/current-credit-d1-materialize-phase-successor/fixture.py",
+    "scripts/current-credit-d1-materialize-phase-successor/runtime.mjs",
+    "scripts/current-credit-d1-materialize-phase-successor/test_source.py",
+    "scripts/current-credit-d1-product-cap-qualification/.gitignore",
+    "scripts/current-credit-d1-product-cap-qualification/LOCAL_CHECKS.json",
+    "scripts/current-credit-d1-product-cap-qualification/NATIVE_AUGMENTATION.md",
+    "scripts/current-credit-d1-product-cap-qualification/PARENT.json",
+    "scripts/current-credit-d1-product-cap-qualification/PROVENANCE.json",
+    "scripts/current-credit-d1-product-cap-qualification/README.md",
+    "scripts/current-credit-d1-product-cap-qualification/SOURCE.json",
+    "scripts/current-credit-d1-product-cap-qualification/bind.py",
+    "scripts/current-credit-d1-product-cap-qualification/directed-tail.mjs.txt",
+    "scripts/current-credit-d1-product-cap-qualification/directed.mjs",
+    "scripts/current-credit-d1-product-cap-qualification/evidence/DIRECTED_FINAL34_PASS.json",
+    "scripts/current-credit-d1-product-cap-qualification/evidence/DIRECTED_FIRST30_PASS.json",
+    "scripts/current-credit-d1-product-cap-qualification/evidence/FIRST_METADATA_PATH_ERROR.txt",
+    "scripts/current-credit-d1-product-cap-qualification/evidence/FIRST_QUOTE_READY_NATIVE_REFUSAL.json",
+    "scripts/current-credit-d1-product-cap-qualification/evidence/FIRST_REPRO_SOURCE.mjs",
+    "scripts/current-credit-d1-product-cap-qualification/evidence/HISTORICAL_REPRO_REPLAY.json",
+    "scripts/current-credit-d1-product-cap-qualification/evidence/RETAINED_SOURCE9_PASS.log",
+    "scripts/current-credit-d1-product-cap-qualification/evidence/SOURCE7_PASS.log",
+    "scripts/current-credit-d1-product-cap-qualification/fixture-prefix.mjs.txt",
+    "scripts/current-credit-d1-product-cap-qualification/fixture-setup.mjs.txt",
+    "scripts/current-credit-d1-product-cap-qualification/repro-tail.mjs.txt",
+    "scripts/current-credit-d1-product-cap-qualification/reproduce.mjs",
+    "scripts/current-credit-d1-product-cap-qualification/retained/normalizer.sql",
+    "scripts/current-credit-d1-product-cap-qualification/retained/owning.before.sql",
+    "scripts/current-credit-d1-product-cap-qualification/retained/post_sales_return.sql",
+    "scripts/current-credit-d1-product-cap-qualification/schema-double.sql",
+    "scripts/current-credit-d1-product-cap-qualification/source_check.py",
+    "scripts/current-credit-d1-product-cap-qualification/test_source.py"
+  ],
+  "inherited_allowed_changes": [
+    ".github/workflows/cp7-credit-de-native.yml",
+    "scripts/cp7_credit_correction_de/.gitignore",
+    "scripts/cp7_credit_correction_de/CAP_SUCCESSOR.md",
+    "scripts/cp7_credit_correction_de/DEPENDENCIES.json",
+    "scripts/cp7_credit_correction_de/QUALIFICATION.md",
+    "scripts/cp7_credit_correction_de/__init__.py",
+    "scripts/cp7_credit_correction_de/cases.py",
+    "scripts/cp7_credit_correction_de/closure.sql",
+    "scripts/cp7_credit_correction_de/composition.py",
+    "scripts/cp7_credit_correction_de/evidence/FIRST_FAILURES.json",
+    "scripts/cp7_credit_correction_de/evidence/FOLLOWUP_FAILURES.json",
+    "scripts/cp7_credit_correction_de/evidence/LOCAL_STATUS.json",
+    "scripts/cp7_credit_correction_de/evidence/OWNER_INSTALL_FIRST_FAILURE.json",
+    "scripts/cp7_credit_correction_de/evidence/OWNER_LOCAL_FIRST_FAILURES.json",
+    "scripts/cp7_credit_correction_de/evidence/OWNER_LOCAL_STATUS.json",
+    "scripts/cp7_credit_correction_de/evidence/native_cap_successor/A994_FIRST_FAILURE.json",
+    "scripts/cp7_credit_correction_de/evidence/native_cap_successor/CAP_SQL_STATUS.json",
+    "scripts/cp7_credit_correction_de/evidence/native_cap_successor/CP7_CREDIT_DE_NATIVE13.json.gz",
+    "scripts/cp7_credit_correction_de/evidence/native_cap_successor/CP7_CREDIT_DE_NATIVE13_CASES.json.gz",
+    "scripts/cp7_credit_correction_de/evidence/native_cap_successor/FIXTURE_DERIVATION.json",
+    "scripts/cp7_credit_correction_de/evidence/native_cap_successor/LEGACY_QUOTE_FIRST_FAILURE.json",
+    "scripts/cp7_credit_correction_de/evidence/native_cap_successor/LEGACY_QUOTE_STATUS.json",
+    "scripts/cp7_credit_correction_de/evidence/native_cap_successor/LOCAL_FIRST_FAILURE.json",
+    "scripts/cp7_credit_correction_de/evidence/native_cap_successor/LOCAL_STATUS.json",
+    "scripts/cp7_credit_correction_de/evidence/native_cap_successor/SOURCE_ASSERTION_SELECTOR_FIRST_FAILURE.json",
+    "scripts/cp7_credit_correction_de/evidence/native_cap_successor/SOURCE_STATUS.json",
+    "scripts/cp7_credit_correction_de/evidence/native_cap_successor/SUCCESSOR_SOURCE_HANDOFF.json",
+    "scripts/cp7_credit_correction_de/evidence/native_cap_successor/T3_BACKUP_RESTORE_DRILL.json.gz",
+    "scripts/cp7_credit_correction_de/evidence/native_cap_successor/T3_PACKAGE_FILES_INSTALL.json.gz",
+    "scripts/cp7_credit_correction_de/evidence/native_cap_successor/T3_PACKAGE_INSTALL.json.gz",
+    "scripts/cp7_credit_correction_de/evidence/native_cap_successor/UI_FIRST_FAILURE.json",
+    "scripts/cp7_credit_correction_de/evidence/native_cap_successor/UI_STATUS.json",
+    "scripts/cp7_credit_correction_de/facts.sql",
+    "scripts/cp7_credit_correction_de/local_cap_check.mjs",
+    "scripts/cp7_credit_correction_de/local_cap_source_check.py",
+    "scripts/cp7_credit_correction_de/local_compile_check.mjs",
+    "scripts/cp7_credit_correction_de/local_compile_fixture.py",
+    "scripts/cp7_credit_correction_de/local_delta_check.py",
+    "scripts/cp7_credit_correction_de/local_owner_check.mjs",
+    "scripts/cp7_credit_correction_de/local_owner_check.py",
+    "scripts/cp7_credit_correction_de/local_quote_check.mjs",
+    "scripts/cp7_credit_correction_de/local_review_check.mjs",
+    "scripts/cp7_credit_correction_de/materialize.sql",
+    "scripts/cp7_credit_correction_de/native_delta.py",
+    "scripts/cp7_credit_correction_de/native_fixture.py",
+    "scripts/cp7_credit_correction_de/owning.sql",
+    "scripts/cp7_credit_correction_de/posting.sql",
+    "scripts/cp7_credit_correction_de/proof.sql",
+    "scripts/cp7_credit_correction_de/review.sql",
+    "scripts/current-credit-de-native-qualification/.gitignore",
+    "scripts/current-credit-de-native-qualification/CAP_SUCCESSOR_TRANSITION.json",
+    "scripts/current-credit-de-native-qualification/CONFIG.json",
+    "scripts/current-credit-de-native-qualification/README.md",
+    "scripts/current-credit-de-native-qualification/SOURCE.json",
+    "scripts/current-credit-de-native-qualification/admission.py",
+    "scripts/current-credit-de-native-qualification/bind.py",
+    "scripts/current-credit-de-native-qualification/check.py",
+    "scripts/current-credit-de-native-qualification/derive.py",
+    "scripts/current-credit-de-native-qualification/native_runner.py",
+    "scripts/current-credit-de-native-qualification/probe.py",
+    "scripts/current-credit-de-native-qualification/retained077/CP7_CREDIT_DE_NATIVE13.json.gz",
+    "scripts/current-credit-de-native-qualification/retained077/RECEIPT.json",
+    "scripts/current-credit-de-native-qualification/retained077/T3_BACKUP_RESTORE_DRILL.json.gz",
+    "scripts/current-credit-de-native-qualification/retained077/T3_PACKAGE_FILES_INSTALL.json.gz",
+    "scripts/current-credit-de-native-qualification/retained077/T3_PACKAGE_INSTALL.json.gz",
+    "scripts/current-credit-de-native-qualification/test_derive.py",
+    "scripts/current-credit-de-native-qualification/test_plan.py",
+    "scripts/current-credit-de-native-qualification/test_workflow.py",
+    "src/SalesReturnCorrectionPanel.dom.test.tsx",
+    "src/SalesReturnCorrectionPanel.tsx",
+    "src/salesReturnCorrectionContract.ts"
+  ],
+  "reviewed_counterparts": {
+    "quote": {
+      "path": "scripts/current-credit-d1-product-cap-qualification/SOURCE.json",
+      "sha256": "946876de031ad7d96954f8169ba24bd84942842016b2cd4a0baedcb86a1850f5",
+      "only_file_exception": {
+        "path": "scripts/cp7_credit_correction_de/materialize.sql",
+        "before": "f0bd81d3a80ad1f465ee5cc424b63009776fb65b9f6a23cbaae80ea331a8e4a4",
+        "after": "206c18b517aef54ddc5757fd156a6c7d8d4a2c3240f62779773a4fff74fe6154"
+      },
+      "original_owning": "scripts/current-credit-d1-product-cap-qualification/retained/owning.before.sql"
+    },
+    "phase": {
+      "path": "scripts/current-credit-d1-materialize-phase-successor/SOURCE.json",
+      "sha256": "1ca46cfda44492ea3cdd532e2d48bd4fd4089d962f4a41af505df5bcef455ef5",
+      "only_standalone_scope_exception": "owning.sql is independently admitted by the reviewed quote transition; no file pin in phase SOURCE is skipped",
+      "original_materialize": "scripts/current-credit-d1-materialize-phase-successor/evidence/BEFORE_materialize.sql"
+    }
+  },
+  "Native_executions": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

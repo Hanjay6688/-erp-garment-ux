@@ -1,0 +1,109 @@
+ const checks=[]
+ const issue='REFUND_EXCEEDS_ORIGINAL_NET_SALES_CAP',unavailable='REFUND_CAP_SOURCE_UNAVAILABLE'
+ const payload=(amount='400.00')=>{const q=structuredClone(p);q.replacement.items[0].refund_amount=amount;return q}
+ const saved=async()=>{
+  const tables=(await db.query("select schemaname,tablename from pg_tables where schemaname not in('pg_catalog','information_schema')and schemaname not like 'pg_%'order by schemaname,tablename")).rows
+  const result={};for(const row of tables){const table='"'+row.schemaname+'"."'+row.tablename+'"';result[table]=(await db.query('select coalesce(jsonb_agg(to_jsonb(t)order by to_jsonb(t)::text),\'[]\'::jsonb)v from '+table+' t')).rows[0].v}
+  for(const row of(await db.query("select schemaname,sequencename from pg_sequences where schemaname not like 'pg_%'order by 1,2")).rows){const name='"'+row.schemaname+'"."'+row.sequencename+'"';result['sequence:'+name]=(await db.query('select last_value::text,is_called from '+name)).rows}
+  return result
+ }
+ async function nativeProbe(proposed){
+  const before=await saved();let evidence
+  await db.exec('begin')
+  try{
+   await db.query("update erp.sales_returns set status='REVERSED'where id=$1",[ret])
+   await db.query("insert into erp.sales_returns(id,sale_id,customer_id,status,physical_at)values($1,$2,$3,'DRAFT','2026-10-02T05:00:00Z')",[draft,sale,customer])
+   let serial=301
+   for(const line of proposed.replacement.items)await db.query("insert into erp.sales_return_items(id,return_id,sale_stock_allocation_id,location_id,qty_pcs,quality_grade,refund_amount)values($1,$2,$3,$4,$5,$6,$7)",[id(serial++),draft,line.allocation_id,line.location_id,line.qty_pcs,line.quality_grade,line.refund_amount])
+   await db.query('select erp.post_sales_return($1)',[draft])
+  }catch(error){evidence={sqlstate:error.code,message:error.message,where:error.where}}
+  finally{await db.exec('rollback')}
+  assert.deepEqual(await saved(),before,'every local table row and sequence restored after Native predicate probe')
+  assert.equal(evidence?.sqlstate,'P0001')
+  const rejected=evidence.message.startsWith('Refund exceeds original net sale value for product.')
+  const stopped=evidence.message==='LOCAL_NATIVE_AGGREGATE_PASSED_STOP_BEFORE_STOCK_WRITE'
+  assert(rejected||stopped,'probe must reach exact Native product guard or explicit stop before stock: '+JSON.stringify(evidence))
+  return{...evidence,aggregate_refused:rejected,passed_guard_stopped_before_stock:stopped,all_local_rows_sequences_restored:true}
+ }
+ async function parity(name,proposed,exceeded,{ready=true}={}){
+  const q=await quote(proposed);assert.equal(q.issues.includes(issue),exceeded,name);assert(!q.issues.includes(unavailable),name)
+  if(exceeded)assert.equal(q.state,'REFUSE',name)
+  else if(ready)assert.equal(q.state,'READY',name)
+  const native=await nativeProbe(proposed);assert.equal(native.aggregate_refused,exceeded,name)
+  checks.push({name,quote:q,unchanged_Native_predicate:native})
+ }
+ await parity('posted peer + replacement exceeds product by .01',payload('400.01'),true)
+ await parity('posted peer exact product equality400 allowed; excludes old200',payload('400.00'),false)
+ await parity('posted peer below boundary399.99 allowed',payload('399.99'),false)
+ // Native sums every sale item of the same product, not only the allocation's item.
+ await db.query('insert into erp.sales_items(id,sale_id,product_id,qty_pcs,line_total)values($1,$2,$3,1,100)',[id(120),sale,productA])
+ await parity('another sale item of same product contributes exact net capacity',payload('400.01'),false)
+ await db.query('delete from erp.sales_items where id=$1',[id(120)])
+ // Distinct product capacity cannot be borrowed even though the invoice is2000.
+ await db.query('update erp.sales_items set line_total=5000 where id=$1',[id(95)])
+ await parity('another product high net cannot fund this product over-cap',payload('400.01'),true)
+ await db.query('update erp.sales_items set line_total=1000 where id=$1',[id(95)])
+ // Exact status predicate: DRAFT and REVERSED are not peer POSTED refunds.
+ for(const status of['DRAFT','REVERSED']){
+  await db.query('update erp.sales_returns set status=$1 where id=$2',[status,peer])
+  await parity(status+' peer ignored by product cap',payload('400.01'),false,{ready:false})
+ }
+ await db.query("update erp.sales_returns set status='POSTED'where id=$1",[peer])
+ // Other-product POSTED peer is retained in the snapshot but not this sum.
+ await db.query('insert into erp.fg_lots(id,product_id)values($1,$2)',[id(98),productB])
+ await db.query('insert into erp.sale_stock_allocations(id,sale_item_id,qty_pcs,lot_id,location_id,unit_hpp_snapshot)values($1,$2,1,$3,$4,10)',[id(97),id(95),id(98),location])
+ await db.query('update erp.sales_return_items set sale_stock_allocation_id=$1,product_id=$2,lot_id=$3,qty_pcs=1 where return_id=$4',[id(97),productB,id(98),peer])
+ await parity('other product POSTED peer does not consume current product cap',payload('400.01'),false,{ready:false})
+ await db.query('update erp.sales_return_items set sale_stock_allocation_id=$1,product_id=$2,lot_id=$3,qty_pcs=3 where return_id=$4',[allocation,productA,id(81),peer])
+ // No-peer full quantity: normalizer+.01 still does not amend product cap.
+ await db.query("update erp.sales_returns set status='DRAFT'where id=$1",[peer])
+ await db.query('update erp.sales_return_items set qty_pcs=5 where return_id=$1',[ret])
+ let full=payload('1000.01');full.replacement.items[0].qty_pcs='5'
+ await parity('no peer full product plus .01 refuses',full,true)
+ full.replacement.items[0].refund_amount='1000.00';await parity('no peer full product equality1000 allowed',full,false,{ready:false})
+ await db.query('update erp.sales_return_items set qty_pcs=2 where return_id=$1',[ret])
+ await db.query("update erp.sales_returns set status='POSTED'where id=$1",[peer])
+ // Every proposal line of the same product contributes, across two real-shaped
+ // allocations/lots. Their per-line limits are200+.01, product limit1000.
+ await db.query('update erp.sale_stock_allocations set qty_pcs=1 where id=$1',[allocation])
+ await db.query('insert into erp.fg_lots(id,product_id)values($1,$2)',[id(114),productA])
+ await db.query('insert into erp.sale_stock_allocations(id,sale_item_id,qty_pcs,lot_id,location_id,unit_hpp_snapshot)values($1,$2,4,$3,$4,10)',[id(112),id(80),id(114),location])
+ await db.query('update erp.sales_return_items set qty_pcs=1,refund_amount=100 where id=$1',[id(41)])
+ await db.query('update erp.sales_return_items set sale_stock_allocation_id=$1,lot_id=$2 where return_id=$3',[id(112),id(114),peer])
+ await db.query("insert into erp.sales_return_items(id,return_id,sale_stock_allocation_id,location_id,qty_pcs,quality_grade,refund_amount)values($1,$2,$3,$4,1,'GRADE_A',100)",[id(113),ret,id(112),location])
+ const multi=payload('200.01');multi.replacement.items[0].qty_pcs='1';multi.replacement.items.push({...multi.replacement.items[0],allocation_id:id(112),refund_amount:'200.00'})
+ await parity('same-product lines are pooled across allocations; .01 refuses',multi,true)
+ multi.replacement.items[0].refund_amount='200.00';await parity('same-product multiline equality allowed',multi,false)
+ // Peer membership includes other family ordinal2; exclude no whole family.
+ assert.equal((await db.query('select family_ordinal from cp7_credit.return_families where first_return_id=$1',[peer])).rows[0].family_ordinal,2)
+ // Fresh peer change binds both the full snapshot and derived cap basis.
+ const fresh=await quote(multi);assert.equal(fresh.state,'READY')
+ await db.query('update erp.sales_return_items set refund_amount=600.01 where return_id=$1',[peer])
+ const stale=await quote({...multi,credit_review_token:fresh.review_token});assert.equal(stale.state,'REFUSE');assert(stale.issues.includes(issue));assert.notEqual(stale.review_token,fresh.review_token)
+ checks.push({name:'local peer change retires old READY token and now refuses',before:fresh,after:stale,mutation_class:'LOCAL_SOURCE_DOUBLE_ONLY_NOT_POSTED_NATIVE_EDIT'})
+ await db.query('update erp.sales_return_items set refund_amount=600 where return_id=$1',[peer])
+ const snapshot=(await db.query('select cp7_credit.source_native_snapshot_v1($1)s',[sale])).rows[0].s
+ async function missing(name,mutate){const copy=structuredClone(snapshot);mutate(copy);await db.query('insert into cap_source_override values($1::jsonb)',[copy]);try{const q=await quote(multi);assert.equal(q.state,'REFUSE',name);assert(q.issues.includes(unavailable),name);checks.push({name,quote:q,malformed_source_double:true})}finally{await db.exec('delete from cap_source_override')}}
+ await missing('missing returns array refuses',s=>delete s.returns)
+ await missing('missing return_items array refuses',s=>delete s.return_items)
+ await missing('unknown peer status refuses rather than vanishing',s=>s.returns.find(h=>h.id===peer).status='UNKNOWN')
+ await missing('duplicate peer header refuses',s=>s.returns.push({...s.returns.find(h=>h.id===peer)}))
+ await missing('duplicate peer item refuses',s=>s.return_items.push({...s.return_items.find(i=>i.return_id===peer)}))
+ await missing('peer item without header refuses',s=>s.returns=s.returns.filter(h=>h.id!==peer))
+ await missing('POSTED peer with missing item refuses',s=>s.return_items=s.return_items.filter(i=>i.return_id!==peer))
+ await missing('foreign-sale peer header refuses',s=>s.returns.find(h=>h.id===peer).sale_id=id(999))
+ await missing('foreign-customer peer header refuses',s=>s.returns.find(h=>h.id===peer).customer_id=id(999))
+ await missing('unknown peer product refuses',s=>s.return_items.find(i=>i.return_id===peer).product_id=id(999))
+ await missing('peer product mismatching allocation refuses',s=>s.return_items.find(i=>i.return_id===peer).product_id=productB)
+ await missing('peer missing allocation refuses',s=>s.return_items.find(i=>i.return_id===peer).sale_stock_allocation_id=id(999))
+ await missing('duplicate unused sale item cannot inflate product cap',s=>s.items.push({...s.items.find(i=>i.id===id(80))}))
+ await missing('foreign unused sale item refuses',s=>s.items.find(i=>i.id===id(95)).sale_id=id(999))
+ await missing('missing unused sale net basis refuses',s=>delete s.items.find(i=>i.id===id(95)).line_total)
+ await missing('duplicate allocation refuses',s=>s.allocations.push({...s.allocations.find(a=>a.id===allocation)}))
+ await missing('unknown allocation record refuses',s=>s.allocations.push(null))
+ await missing('old current return omitted refuses',s=>s.returns=s.returns.filter(h=>h.id!==ret))
+ await missing('unknown peer refund numeric refuses',s=>s.return_items.find(i=>i.return_id===peer).refund_amount='NaN')
+ await missing('negative peer refund cannot manufacture capacity',s=>s.return_items.find(i=>i.return_id===peer).refund_amount=-1)
+ await missing('missing product on unused sale item refuses',s=>delete s.items.find(i=>i.id===id(95)).product_id)
+ console.log(JSON.stringify({status:'PASS_LOCAL_SQL_ONLY',tests:checks.length,checks,actual_quote_SQL:true,actual_retained_collectors_and_kernel_SQL:true,unchanged_full_Native_post_SQL_predicate:true,normalizer_sha256:normalizerSHA,post_sales_return_sha256:createHash('sha256').update(nativeSQL).digest('hex'),Native_financial_execution:false,actual_Native_cases:0,stock_or_journal_writer_called:false,classification:'STRUCTURAL_SOURCE_AUTH_PROFILE_HPP_DOUBLES; ACTUAL_QUOTE_AND_NATIVE_CAP_PREDICATE_ONLY; NO_NATIVE_ACCEPTANCE'},null,2))
+}catch(error){console.error(JSON.stringify({status:'FAIL_LOCAL_DIRECTED',message:error.message,sqlstate:error.code,where:error.where,stack:error.stack,Native_financial_execution:false},null,2));process.exitCode=1}finally{await db.close()}

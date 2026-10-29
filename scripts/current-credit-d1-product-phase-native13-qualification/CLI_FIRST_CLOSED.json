@@ -1,0 +1,49 @@
+{
+  "status": "PASS_FIRST_DIRECT_CLI_CLOSED_AND_UNKNOWN_FLAGS",
+  "classification": "LOCAL_SOURCE_IMPORT_ONLY_NO_DB",
+  "commands": [
+    {
+      "entrypoint": "check.py",
+      "flag": "--runtime",
+      "exit_code": 1,
+      "terminal": "ValueError: D1_PRODUCT_PHASE_CLOSED_REVIEWED_NATIVE_AUGMENTATION_REQUIRED",
+      "stderr_bytes": 1677,
+      "stderr_sha256": "0a75a90e8516a389cb4955dc8524449b1092e0968663e3442a536602e03d1749",
+      "stdout_bytes": 0,
+      "new_Native_cases": 0
+    },
+    {
+      "entrypoint": "probe.py",
+      "flag": "--check",
+      "exit_code": 1,
+      "terminal": "ValueError: D1_PRODUCT_PHASE_CLOSED_REVIEWED_NATIVE_AUGMENTATION_REQUIRED",
+      "stderr_bytes": 1557,
+      "stderr_sha256": "2b9a368248452f4da40897e1dfd1e13032bff5d73a0f2ccf02a43cb3495fd5b0",
+      "stdout_bytes": 0,
+      "new_Native_cases": 0
+    },
+    {
+      "entrypoint": "check.py",
+      "flag": "--unknown",
+      "exit_code": 2,
+      "terminal": "check.py: error: unrecognized arguments: --unknown",
+      "stderr_bytes": 96,
+      "stderr_sha256": "2bd2d784deb67a6945f34ee7bdf43f4086f0bd150c04e456a8f7fc42a04603c7",
+      "stdout_bytes": 0,
+      "new_Native_cases": 0
+    },
+    {
+      "entrypoint": "probe.py",
+      "flag": "--unknown",
+      "exit_code": 2,
+      "terminal": "probe.py: error: unrecognized arguments: --unknown",
+      "stderr_bytes": 82,
+      "stderr_sha256": "e9e7f3e250fe0b805163f12313c995bf28f83b26fc0f099956f60114fb9f2d72",
+      "stdout_bytes": 0,
+      "new_Native_cases": 0
+    }
+  ],
+  "ERP_runtime_imported": false,
+  "production_go": false,
+  "independent_acceptance": false
+}
