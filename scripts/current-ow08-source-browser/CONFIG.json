@@ -21,7 +21,25 @@
       "sha256": "48fc54072b4f3122d89f6a45faa93f0e8ebd05ecfde0b9370def8202755e0f43"
     }
   },
-  "accepted_money_browser2": null,
+  "accepted_money_browser2": {
+    "head": "2d4ed56eb20187c00e63cd0a0774385d320f53be",
+    "tree": "173e0429c0220805cbee980579137c988c5d030d",
+    "run_id": 40789668297,
+    "job_id": 123171442637,
+    "artifact_id": 12863121496,
+    "zip_bytes": 4258622,
+    "zip_sha256": "81f17358ca56f92c8bec4610e2b6d3978667624970e892d2c2c0c5728196f58d",
+    "original": {
+      "name": "CP7_VENDOR_MONEY_BROWSER2.json",
+      "bytes": 2621520,
+      "sha256": "7439d670aab99bdf2fa59f82f1b91cb16bca4fbbb10ccba3baa94af805f5d47c"
+    },
+    "package": {
+      "name": "T3_PACKAGE_INSTALL.json",
+      "bytes": 360404,
+      "sha256": "b7614b84e89537a6913b64a141e51f5396e61e3123197ce0212698baa822a30a"
+    }
+  },
   "parent_backend_sha256": "193f4c18476a1e1abd5e05231d8d7755864b61e2998c4456f5a87459b17da59d",
   "current_installation_entrypoint": {
     "module": "cp7_vendor_receivable.composition",
@@ -65,5 +83,44 @@
       "exact_append": "\n/* A blocked QC inverse remains readable without enabling the authoritative action. */\n.clq-history [data-qc-inspection-id] .clq-reversal button:disabled { opacity: 1; border-style: dashed; }\n"
     }
   ],
-  "retained_money_browser_client_binding": "BASE_SOURCE_BEFORE_TWO_DECLARED_CSS_APPEND_ONLY_OVERLAYS_NO_FRESH_MONEY_CREDIT"
+  "retained_money_browser_client_binding": "BASE_SOURCE_BEFORE_TWO_DECLARED_CSS_APPEND_ONLY_OVERLAYS_NO_FRESH_MONEY_CREDIT",
+  "accepted_paint_preflight": {
+    "head": "64353f4f04313d22bdba6a6d8cfd3f5d61ca4d3a",
+    "tree": "f714fd5b51a853a65fc4286ffd1e0aa581e69b45",
+    "run_id": 40793063143,
+    "job_id": 123182739924,
+    "artifact_id": 12862029057,
+    "artifact_sha256": "233e220dc2f8bf05d4253a5263792b280a9b52f8938427917399bb20162f6951",
+    "raw_bytes": 32753,
+    "raw_sha256": "e3c354d2b87fc9e2dd7a380069d850ef2b7e42e08564511c550d29f5b3ad65f9",
+    "kind": "ACTUAL_CHROMIUM_COMPILED_CSS_PAINT_ONLY",
+    "status": "PASS_PAINT4_NOT_AUTH_JOURNEYS",
+    "cases": [
+      {
+        "scope": "QC_DISABLED_REVERSAL",
+        "width": 1440,
+        "minimum_ratio": 5.790796821874239,
+        "button_disabled": true
+      },
+      {
+        "scope": "WASH_DISABLED_PRICING",
+        "width": 1440,
+        "minimum_ratio": 11.024551861224253,
+        "button_disabled": true
+      },
+      {
+        "scope": "QC_DISABLED_REVERSAL",
+        "width": 390,
+        "minimum_ratio": 5.790796821874239,
+        "button_disabled": true
+      },
+      {
+        "scope": "WASH_DISABLED_PRICING",
+        "width": 390,
+        "minimum_ratio": 11.024551861224253,
+        "button_disabled": true
+      }
+    ],
+    "backend_or_business_journey_credit": 0
+  }
 }

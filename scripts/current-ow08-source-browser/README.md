@@ -59,3 +59,5 @@ rules, preserving native disabled state and every handler/financial rule.
 file. Retained money2 remains attributed to exact base2d4 client bytes before
 these declared appends; the new CSS receives only paint-fixture evidence until
 the six actual Auth journeys pass. No historical source manifest is changed.
+
+Money2d4/run40789668297 now PASS2 with full restoration/five gates, exact Original and five PNGs inspected. The six distinct source journeys bind those bytes. Paint643/run40793063143 PASS4 remains paint-only; financial handlers/backend are unchanged.

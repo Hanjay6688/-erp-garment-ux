@@ -3,7 +3,6 @@ name: CP7 A OW08 source browser6
   push:
     branches:
     - astra-a/ow08b-source-browser-qualified-20261029
-    - astra-a/ow08b-source-journeys-prepared-20261029
     paths:
     - .github/workflows/cp7-ow08-source-browser.yml
     - scripts/current-ow08-source-browser/**
@@ -427,7 +426,9 @@ jobs:
         scripts/current-vendor-money-browser/surface.chromium.test.mjs
 
 
-        python -B -m unittest discover -s scripts/current-vendor-money-browser -p ''test_admission.py''
+        # Historical money admission controls stay on exact base2d4.
+
+        # This successor uses its stricter exact-append controls below.
 
 
         node --check scripts/current-ow08-source-browser/cases.mjs
@@ -538,36 +539,3 @@ jobs:
         retention-days: 30
         if-no-files-found: error
     if: github.ref == 'refs/heads/astra-a/ow08b-source-browser-qualified-20261029'
-  paint_preflight:
-    name: "OW08 paint preflight only \u2014 no database"
-    if: github.ref == 'refs/heads/astra-a/ow08b-source-journeys-prepared-20261029'
-    runs-on: ubuntu-24.04
-    timeout-minutes: 12
-    steps:
-    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-      with:
-        persist-credentials: 'false'
-    - name: Compile unchanged application CSS and inspect real Chromium paint
-      run: 'set -euo pipefail
-
-        npm ci --no-audit --no-fund
-
-        npx playwright install --with-deps chromium
-
-        python -B -m unittest discover -s scripts/current-ow08-source-browser -p test_paint_binding.py
-
-        node scripts/check-css-ownership.mjs
-
-        npx vite build --outDir cp7-paint-preflight-build
-
-        node scripts/current-ow08-source-browser/paint-preflight.mjs
-
-        '
-    - name: Preserve first actual paint diagnostic
-      if: always()
-      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
-      with:
-        name: cp7-ow08-paint-preflight-${{ github.sha }}
-        path: CP7_OW08_PAINT_PREFLIGHT.json
-        if-no-files-found: warn
-        retention-days: 30

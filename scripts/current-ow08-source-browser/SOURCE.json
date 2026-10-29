@@ -35,8 +35,8 @@
     "scripts/current-ow08-source-browser/FIRST_PAINT_RECEIPT.json"
   ],
   "files": {
-    "scripts/current-ow08-source-browser/CONFIG.json": "b47dbd169d25e74bde40af2f997b5f561d420617c1dc070974b1e644b9b25a0b",
-    "scripts/current-ow08-source-browser/README.md": "baf09294d9b259d695feb9e1e9e500fdaca5b2a3de0168b74736e7f1b82a4040",
+    "scripts/current-ow08-source-browser/CONFIG.json": "acc5832baa2f23b210ec761cdd9239b0f5610f59b87dcfb05ce9d84eedfd450d",
+    "scripts/current-ow08-source-browser/README.md": "eb65cd74f33929cb3d2126ad97050acdac556da99f3c8b7b95ed719624b2768f",
     "scripts/current-ow08-source-browser/admission.py": "0c2b61871d83f86b56242c2611ee1f71d2963d59c42968cd95ebfc1f12efe568",
     "scripts/current-ow08-source-browser/cases.mjs": "7fc01bd287bdf30f4278aab1ae35c280f5322f01e690517a6e329964505595d3",
     "scripts/current-ow08-source-browser/check_source.py": "353268c9ad1b2ae9a5ea75aa580d281d3949572f6dd2958e713b7330c6102310",
@@ -49,7 +49,7 @@
     "scripts/current-ow08-source-browser/wash_fixture.py": "67fbf1390af34b5f099379a159ae6740b00110074627d90b6b5e789c7614bb30",
     "scripts/current-vendor-money-browser/probe.py": "c6f83b0c6bfe20df65fcddb2bd3b414db8c9306d0d508a0ad4c857898d98546b",
     "scripts/current-vendor-money-browser/runner.py": "471e5b9e62755fe6bd96d3c28f44254ecd83a6ba9b8324ea54469a7555cc9fd3",
-    ".github/workflows/cp7-ow08-source-browser.yml": "5b17b188d461f2b3e4ad53424a8e8758931fca29aa40354bfa1b05fd84772d66",
+    ".github/workflows/cp7-ow08-source-browser.yml": "454820f621d186ea1ccffebb5cc4b00bc2406ebad3643c47c603f9afeb9676b5",
     "scripts/current-ow08-source-browser/paint-preflight.mjs": "d65ce797e2676bbcb89da1c915129d7c2655b9b7c20dbc3e55d3b7d01289127c",
     "src/initial-import.css": "21acc1b66a62137b307b9eed4871cd3ceac540ecc12fd96be7e58e13677bb65d",
     "src/connected-laundry-qc.css": "6490b285c59a93c5c6a2ca583a73e4610d25ce8f5c2ce1f35b8ca0a7a172517b",
