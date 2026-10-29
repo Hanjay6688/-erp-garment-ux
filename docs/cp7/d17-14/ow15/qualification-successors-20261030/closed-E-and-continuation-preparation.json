@@ -1,0 +1,27 @@
+{
+  "E_late_failure": {
+    "local_head": "feba8a245aa13d91a86809328acf89d31641cc89",
+    "tree": "9bd34bb0b62b922bfe65b0f7b9ce84ad8e1db7ae",
+    "scope": "single late_failure callback and explicit dependency provenance; E9runtime and other16callbacks exact",
+    "root_source_controls": 8,
+    "root_source_files": 12,
+    "root_frozen_inputs": 53,
+    "status": "ROOT_SOURCE_REVIEW_PASS_ACTUAL_E0_GATE_CLOSED"
+  },
+  "D1_continuation3": {
+    "local_head": "7e020327a2ca2a8183a67f83ac8c6c6c0bc416b3",
+    "tree": "bd587e72310b114a76e6b1f0e10d6d99c2a28fa1",
+    "public_source_parent": "d902e4d2e65cf5b382af1ab041120611f9a61078",
+    "fresh_expected_cases": 3,
+    "source_files": 137,
+    "frozen_parent_inputs": 88,
+    "old_controls": 10,
+    "new_controls": 18,
+    "status": "PREPARED_ONLY_UNREVIEWED_BY_ROOT_NO_PUBLICATION",
+    "accepted_native13": null,
+    "known_source_parent_actual_failure": "4PASS9INCOMPLETE; cannot qualify/unlock",
+    "helper_qualification_only_transition": "explicit four external pins/three own pins/two additions; D1 owned two-piece prepare plus retained._document_ar target helper; cases/oracle exact"
+  },
+  "production_go": false,
+  "independent_acceptance": false
+}

@@ -1,0 +1,28 @@
+{
+  "public_head": "b0e5ac05e2024d5673126b6fe7759591293b9b96",
+  "public_branch": "astra-a/s05-native10-import-argv-20261029",
+  "public_parent": "b874783f57be809a867ce4d0806553a17c03243e",
+  "local_head": "23c7a0a4c760ddd6b9671697caa4615e3a8a25e5",
+  "tree": "3820c7348167fc750cc3f3f36645f14f76286e44",
+  "tree_exactly_matches_local": true,
+  "status": "IN_PROGRESS_NOT_PASS",
+  "expected_actual_Native": 10,
+  "product_runtime_unchanged": true,
+  "old10_case_callbacks_unchanged": true,
+  "old_engine_and_full_restore_unchanged": true,
+  "retained_first_failure": {
+    "head": "b874783f57be809a867ce4d0806553a17c03243e",
+    "run_id": 40928511140,
+    "job_id": 123640384388,
+    "artifact_id": 12921067795,
+    "status": "BEFORE_DATABASE_SOURCE_ADMISSION_FAILED",
+    "actual_Native": 0
+  },
+  "local_controls": 27,
+  "source_files": 125,
+  "component_files": 27,
+  "production_go": false,
+  "independent_acceptance": false,
+  "run_id": 40931612668,
+  "job_id": 123651202210
+}

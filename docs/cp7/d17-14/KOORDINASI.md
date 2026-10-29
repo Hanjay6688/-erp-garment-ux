@@ -6109,3 +6109,35 @@ Peta vendor→D1→E→SKU→S03→S05 hanya rencana reparent terukur, belum gab
 qualified. Default vendor dan B tetap; formal5/16, production_go=false,
 independent_acceptance=false. Tiga job server benar-benar berjalan pada
 checkpoint ini; teruskan intake terminal dan pekerjaan sah setelah simpan.
+
+
+## A — D1 d902 terminal4PASS/9INCOMPLETE; S05 berhenti sebelum DB lalu penerus berjalan
+
+D1 run40926602777/job123633679142 mengamati seluruh13kasus:4PASS,9INCOMPLETE,
+missing0. Batas cap Native sudah terlewati; materialize_v1 berhenti dengan
+SQLSTATE42702 karena variabel lokal phase bertabrakan dengan kolom work_v1.phase.
+Seluruh13batas kasus/locks/sesi dan22katalog/rows/sequence/roles/CP6/advisors/
+backup/Auth0→0 pulih; empat gate benar, writer_runtime=false, used guard belum
+teramati. Lima Original byte persis+receipt disimpan di
+ow08/d1-d902-materialize-first-incomplete. D902 tidak menjadi prasyarat.
+Root membatasi perbaikan pada empat referensi variabel phase→support_phase;
+column/status/algoritme/Native guard tidak berubah. Pembuktian runtime lokal
+materialisasi disiapkan terpisah dari quote cap agregat yang juga perlu uji.
+
+S05 b874/run40928511140/job123640384388 gagal saat pemeriksaan sumber sebelum
+DB: flag --runtime terbaca alat Native lama yang hanya menerima tanpa argumen.
+0Native, DB tidak dimulai, tidak ada T3/native report. Artifact12921067795
+berisi98metadata saja, ZIP52724byte/SHA390e35d82df83fcce83752f2b38305b24ec4c9adfd23afeb4a2905583e74c401.
+Receipt kegagalan persis dipertahankan; tidak diklaim restore DB yang tak dibuat.
+
+Penerus b0e5ac05/tree3820c734 run40931612668/job123651202210 sekarang berjalan.
+Hanya wrapper pemeriksaan mengisolasi argumen setelah parser menerima flag,
+meliputi lazy import lalu memulihkan list pemanggil di finally/SystemExit.
+Flag tak dikenal tetap ditolak. SQL produk/stage/10kasus/UI/engine/pemulihan
+persis;27offline/125pin/27komponen root PASS. Belum ada kredit Native baru.
+
+SKU bd2/run40928155690/job123639136778 tetap aktual berjalan23kasus. E
+late_failure feba dan continuation3 7e020 tetap gate null/tertutup;8kontrol
+source E telah root periksa, continuation137pin/10lama+18baru baru prepared.
+Keduanya tidak mengambil d902 gagal sebagai parent qualified. S03 backend/UI
+lanjut pemeriksaan terpisah. Default vendor/B/formal5/16/produksi tetap.
