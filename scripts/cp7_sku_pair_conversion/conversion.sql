@@ -154,6 +154,35 @@ begin
   perform erp._cp3_assert_closed_json_object(p_payload,array['conversion_id','reason'],array['conversion_id','reason'],'pembatalan konversi');
   perform erp.bc_text_v1(p_payload,'reason',true,1000);
   select m.group_id into strict v_group_id from cp7_sku_conversion.members_v1 m where m.conversion_id=(p_payload->>'conversion_id')::uuid;
+  -- Validate every member before invoking any Native inverse. A rollback of
+  -- an earlier member cannot undo Native audit or stock-book nextval calls.
+  -- Keep the original BE and Native guards below as the posting authority.
+  perform 1 from erp.product_conversions c join cp7_sku_conversion.members_v1 m on m.conversion_id=c.id
+   where m.group_id=v_group_id order by c.id for update of c;
+  perform erp.require_permission('warehouse.brand_conversion.view');perform erp.require_permission('warehouse.brand_conversion.reverse');
+  perform erp.require_owner_admin();perform erp.require_internal();
+  if exists(select 1 from cp7_sku_conversion.members_v1 m where m.group_id=v_group_id
+   and not exists(select 1 from erp.be_conversion_sources_v1 s where s.conversion_id=m.conversion_id))then
+   raise exception 'BE_DOCUMENT_NOT_FOUND';end if;
+  if exists(select 1 from cp7_sku_conversion.members_v1 m join erp.be_conversion_cost_sources_v1 s on s.conversion_id=m.conversion_id
+   join erp.bc_documents_v1 d on d.id=s.document_id where m.group_id=v_group_id and d.status='POSTED')then
+   raise exception 'BE_REVERSE_DEPENDANTS: batalkan dahulu sumber biaya/pemulihan';end if;
+  if exists(select 1 from cp7_sku_conversion.members_v1 m join erp.be_conversion_returns_v1 s on s.conversion_id=m.conversion_id
+   join erp.bc_return_lots_v1 l on l.outstanding_id=s.outstanding_id join erp.bc_documents_v1 d on d.id=l.document_id
+   where m.group_id=v_group_id and d.status='POSTED')then
+   raise exception 'BE_REVERSE_DEPENDANTS: batalkan dahulu penerimaan bongkaran';end if;
+  if exists(select 1 from cp7_sku_conversion.members_v1 m join erp.product_conversions c on c.id=m.conversion_id
+   where m.group_id=v_group_id and c.status not in('POSTED','REVERSED'))then
+   raise exception 'Hanya conversion/rebrand POSTED yang dapat direverse';end if;
+  if exists(select 1 from cp7_sku_conversion.members_v1 m join erp.product_conversions c on c.id=m.conversion_id
+   join erp.product_conversion_allocations a on a.conversion_id=c.id where m.group_id=v_group_id and c.status='POSTED'
+   and erp.fg_lot_has_active_downstream(a.destination_lot_id,'REBRAND_IN','PRODUCT_CONVERSION',c.id))then
+   raise exception 'Hasil conversion/rebrand masih dipakai transaksi downstream aktif. Reverse transaksi downstream terlebih dahulu.';end if;
+  if exists(select 1 from cp7_sku_conversion.members_v1 m join erp.product_conversions c on c.id=m.conversion_id
+   where m.group_id=v_group_id and c.status='POSTED'
+   and (select coalesce(sum(a.qty_pcs*a.original_hpp_per_pcs),0)::numeric(24,6)from erp.product_conversion_allocations a where a.conversion_id=c.id)>0.005
+   and not exists(select 1 from erp.journal_entries j where j.source_type='PRODUCT_CONVERSION'and j.source_id=c.id and j.status='POSTED'))then
+   raise exception 'Jurnal conversion/rebrand tidak ditemukan; reversal dibatalkan agar nilai persediaan tidak rusak';end if;
   insert into cp7_sku_conversion.execution_v1(backend_pid,transaction_id,group_id,mode)values(pg_backend_pid(),txid_current(),v_group_id,'REVERSE');
   for r in select m.conversion_id from cp7_sku_conversion.members_v1 m where m.group_id=v_group_id order by line_no desc loop
    child:=erp.save_product_conversion_action_v1('REVERSE',jsonb_build_object('conversion_id',r.conversion_id,'reason',p_payload->'reason'),
