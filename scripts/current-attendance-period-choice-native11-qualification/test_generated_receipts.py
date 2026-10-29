@@ -67,11 +67,44 @@ class ReceiptControls(unittest.TestCase):
 
     def test_real_first101_metadata_passes_real_frozen_producer_pins_without_original_substitution(self):
         names = actual()
-        accepted, receipt = helper.admit(ROOT, HERE, names)
+        with TemporaryDirectory() as directory:
+            root = Path(directory)
+            here = root / HERE.relative_to(ROOT)
+            for name in CFG['producer_files']:
+                self.write(root, name, (ROOT / name).read_bytes())
+            self.write(root, str((HERE / helper.CONTRACT).relative_to(ROOT)),
+                       (HERE / helper.CONTRACT).read_bytes())
+            for name, raw in names.items():
+                self.write(root, name, raw)
+            accepted, receipt = helper.admit(root, here, names)
         self.assertEqual(set(accepted), set(names))
         self.assertEqual((receipt['files'], receipt['artifact_requests'], receipt['artifact_attempts']), (101, 100, 100))
         self.assertIsNone(receipt['expected_total_request_count'])
         self.assertTrue(receipt['authoritative_Original_readers_unchanged'])
+
+    def test_second_actual_ci_uuid_set_replays_without_first_run_files(self):
+        archive = HERE / 'retained-e74/PREDB_SECOND_ARTIFACT.zip'
+        with zipfile.ZipFile(archive) as source:
+            names = {('cp6-proof/t3/' + name): source.read(name)
+                     for name in source.namelist()
+                     if not name.endswith('/') and name != 'S03_NATIVE11_FINAL_GATE.json'}
+        self.assertEqual(len(names), 101)
+        self.assertTrue(set(names) - set(actual()))
+        with TemporaryDirectory() as directory:
+            root = Path(directory)
+            here = root / HERE.relative_to(ROOT)
+            for name in CFG['producer_files']:
+                self.write(root, name, (ROOT / name).read_bytes())
+            self.write(root, str((HERE / helper.CONTRACT).relative_to(ROOT)),
+                       (HERE / helper.CONTRACT).read_bytes())
+            for name, raw in names.items():
+                self.write(root, name, raw)
+            self.assertTrue(all(not (root / name).exists()
+                                for name in set(actual()) - set(names)))
+            accepted, receipt = helper.admit(root, here, names)
+        self.assertEqual(set(accepted), set(names))
+        self.assertEqual(receipt['artifact_requests'], 100)
+        self.assertEqual(receipt['Native_qualification_credit'], 0)
 
     def test_changed_producer_bytes_are_refused(self):
         original = helper.pin

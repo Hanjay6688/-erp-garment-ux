@@ -109,3 +109,13 @@ bindings remain required. Both push and workflow_dispatch are accepted only
 because this unchanged workflow declares them. Reference metadata is historical
 and provides no new S03 execution or prerequisite credit. Unknown outputs stay
 refused; no output directory is globally ignored.
+
+The second actual e74 run stopped before database startup with46 PASS and one
+test error. Its historical replay test supplied old archive UUID filenames to
+the current workspace without materializing those files. The earlier local47
+PASS depended on ambient outputs. retained-e74 preserves the exact second
+artifact and failure, plus a local reproduction with the output folder absent.
+Both actual archived101-file sets now replay in isolated temporary directories
+using their original bytes and exact pinned producer files; the real contract
+and admission helpers remain unchanged. The new13 direct controls pass with
+the ambient output folder absent. This is source/test evidence, Native0.

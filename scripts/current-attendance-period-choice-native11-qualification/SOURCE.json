@@ -459,8 +459,8 @@
       "sha256": "f4cd92dc52e95cb564b61ff6ea536b0658976314cc7b4b21b6ba651fcc0c06ec"
     },
     "scripts/current-attendance-period-choice-native11-qualification/README.md": {
-      "bytes": 7355,
-      "sha256": "d8ddb65c069a35f85699bf6847ca9a82964029813e916d3076b7c383dc61865d"
+      "bytes": 8048,
+      "sha256": "b3c515b383abe9fbfc686ad576432256e4bf2e3897ebf00e76fec8975a1f77ea"
     },
     "scripts/current-attendance-period-choice-native11-qualification/SUCCESSOR_LOCAL_RECEIPT.json": {
       "bytes": 3142,
@@ -582,6 +582,38 @@
       "bytes": 282,
       "sha256": "682005b65b128ac3b28252e488ba97ec011e06f88d61a16c41340b9d17c1f25c"
     },
+    "scripts/current-attendance-period-choice-native11-qualification/retained-e74/FIRST_FAILURE.json": {
+      "bytes": 803,
+      "sha256": "1218dc032a59c2421fb9775ed0aee7ec7f194c6e1afd492b99002a05df332e0b"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/retained-e74/FIRST_FAILURE.log": {
+      "bytes": 2905,
+      "sha256": "17ff2fa8276ff8e7b53f1bbe27ba4fe2469e41b565d98f30b6c99507a9b53435"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/retained-e74/LOCAL_FIRST_ISOLATED_REPRO.log": {
+      "bytes": 2402,
+      "sha256": "f3c3435063c75b01b9ac0fe48f183501d8a65d390667f5f2a2f05acd20cc586e"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/retained-e74/LOCAL_FRESH_ACTUAL_E74_OUTPUTS48_PASS.log": {
+      "bytes": 8115,
+      "sha256": "38bf8526bf0e9cc559c128971298532c4bd0f91be93c1fea5ae86c261801b972"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/retained-e74/LOCAL_NO_AMBIENT_RECEIPTS13_PASS.log": {
+      "bytes": 2387,
+      "sha256": "4a8a1a5bd815d19cf02ea933e75d35a265d79413777a3c4f4f0c6aef41022238"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/retained-e74/LOCAL_STALE_PACKAGE_FIXTURE_FIRST48.log": {
+      "bytes": 11605,
+      "sha256": "24f28f48c4d77cbe79bb3a84186d58f98f281401a85e2556dae7afc71959f86c"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/retained-e74/LOCAL_SUCCESSOR_RECEIPT.json": {
+      "bytes": 950,
+      "sha256": "292fe679338c8f8cbe21f3a3745b3dbb588411c3c69339691318d1bb2a1b3ab9"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/retained-e74/PREDB_SECOND_ARTIFACT.zip": {
+      "bytes": 54688,
+      "sha256": "6bc5213ec3ed8e9b6079c8e26da508bc193c1d863b34620e6121130c199088f1"
+    },
     "scripts/current-attendance-period-choice-native11-qualification/retained41c/CP7_VENDOR_RECEIVABLE_COMBINED11.json.gz": {
       "bytes": 347533,
       "sha256": "91bab345d1b41ca7fa8f57fab97a407377a2588b0d7298f57bb47ee01d3daade"
@@ -615,8 +647,8 @@
       "sha256": "c8b826affc64b971151a348673919a29aa3111fd4febc7a4a91189b53abdd779"
     },
     "scripts/current-attendance-period-choice-native11-qualification/test_generated_receipts.py": {
-      "bytes": 9877,
-      "sha256": "632017de958bcea5354c4bbd3ef6ec74ecd0871b62542888ccf0482633f4119d"
+      "bytes": 11700,
+      "sha256": "f7300c78bc11fb404b1f68570ab35427d115fb411eb380052b64c009ed9e6430"
     },
     "scripts/current-attendance-period-choice-native11-qualification/workflow.py": {
       "bytes": 3039,
@@ -1089,6 +1121,14 @@
     "scripts/current-attendance-period-choice-native11-qualification/retained-a577/LOCAL_REAL_ALL_PHASE_SOURCE_ADMISSION_SUMMARY.json",
     "scripts/current-attendance-period-choice-native11-qualification/retained-a577/PREDB_FIRST_ARTIFACT.zip",
     "scripts/current-attendance-period-choice-native11-qualification/retained-a577/S03_NATIVE11_FINAL_GATE.json",
+    "scripts/current-attendance-period-choice-native11-qualification/retained-e74/FIRST_FAILURE.json",
+    "scripts/current-attendance-period-choice-native11-qualification/retained-e74/FIRST_FAILURE.log",
+    "scripts/current-attendance-period-choice-native11-qualification/retained-e74/LOCAL_FIRST_ISOLATED_REPRO.log",
+    "scripts/current-attendance-period-choice-native11-qualification/retained-e74/LOCAL_FRESH_ACTUAL_E74_OUTPUTS48_PASS.log",
+    "scripts/current-attendance-period-choice-native11-qualification/retained-e74/LOCAL_NO_AMBIENT_RECEIPTS13_PASS.log",
+    "scripts/current-attendance-period-choice-native11-qualification/retained-e74/LOCAL_STALE_PACKAGE_FIXTURE_FIRST48.log",
+    "scripts/current-attendance-period-choice-native11-qualification/retained-e74/LOCAL_SUCCESSOR_RECEIPT.json",
+    "scripts/current-attendance-period-choice-native11-qualification/retained-e74/PREDB_SECOND_ARTIFACT.zip",
     "scripts/current-attendance-period-choice-native11-qualification/retained41c/CP7_VENDOR_RECEIVABLE_COMBINED11.json.gz",
     "scripts/current-attendance-period-choice-native11-qualification/retained41c/T3_BACKUP_RESTORE_DRILL.json.gz",
     "scripts/current-attendance-period-choice-native11-qualification/retained41c/T3_PACKAGE_FILES_INSTALL.json.gz",

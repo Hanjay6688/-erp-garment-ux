@@ -1,0 +1,28 @@
+test_real_first101_metadata_passes_real_frozen_producer_pins_without_original_substitution (historical_test_isolation_repro.ReceiptControls.test_real_first101_metadata_passes_real_frozen_producer_pins_without_original_substitution) ... ERROR
+
+======================================================================
+ERROR: test_real_first101_metadata_passes_real_frozen_producer_pins_without_original_substitution (historical_test_isolation_repro.ReceiptControls.test_real_first101_metadata_passes_real_frozen_producer_pins_without_original_substitution)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/ef468a447ac6/erp-credit-d1-product-cap/scripts/current-attendance-period-choice-native11-qualification/test_generated_receipts.py", line 70, in test_real_first101_metadata_passes_real_frozen_producer_pins_without_original_substitution
+    with TemporaryDirectory() as directory:
+                        ^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/ef468a447ac6/erp-credit-d1-product-cap/scripts/current-attendance-period-choice-native11-qualification/generated_receipts.py", line 177, in admit
+    accepted = frozen(root, names, cfg)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/ef468a447ac6/erp-credit-d1-product-cap/scripts/current-attendance-period-choice-native11-qualification/generated_receipts.py", line 95, in frozen
+    value = document(root, FROZEN)
+            ^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/ef468a447ac6/erp-credit-d1-product-cap/scripts/current-attendance-period-choice-native11-qualification/generated_receipts.py", line 71, in document
+    target = path(root, relative)
+             ^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/ef468a447ac6/erp-credit-d1-product-cap/scripts/current-attendance-period-choice-native11-qualification/generated_receipts.py", line 45, in path
+    fail('REGULAR_FILE_REQUIRED:' + relative)
+  File "/workspace/scratch/ef468a447ac6/erp-credit-d1-product-cap/scripts/current-attendance-period-choice-native11-qualification/generated_receipts.py", line 30, in fail
+    raise ValueError('S03_GENERATED_RECEIPT_' + label)
+ValueError: S03_GENERATED_RECEIPT_REGULAR_FILE_REQUIRED:cp6-proof/t3/FROZEN_SOURCE_WORKTREES.json
+
+----------------------------------------------------------------------
+Ran 1 test in 0.022s
+
+FAILED (errors=1)

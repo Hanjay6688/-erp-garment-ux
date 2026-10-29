@@ -1,0 +1,27 @@
+{
+  "status": "LOCAL48_PASS_ON_FRESH_ACTUAL_E74_METADATA_NOT_NATIVE",
+  "historical_test_isolation": "old e74 test reproduced one REGULAR_FILE_REQUIRED error with cp6-proof absent; revised13 controls PASS without ambient outputs",
+  "first_local48": {
+    "PASS": 46,
+    "FAIL": 2,
+    "cause": "Existing derived in-progress package fixture identified old b066 HEAD after new source commit; unchanged guard correctly refused stale tool_head. Original kept; no guard relaxation."
+  },
+  "final_local48": {
+    "PASS": 48,
+    "FAIL": 0,
+    "actual_e74_generated_P0_outputs": 101,
+    "old_ambient_output_folder_absent": true
+  },
+  "unchanged": {
+    "original_S03_files": 80,
+    "financial_callbacks": 11,
+    "captured_functions": 13,
+    "private_clones": 2,
+    "workflow": true,
+    "both_generated_admission_helpers": true,
+    "financial_oracles": true
+  },
+  "Native_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

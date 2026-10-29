@@ -1,0 +1,18 @@
+test_arbitrary_source_or_unknown_receipt_name_has_no_allowance (s03_new_self_contained_replays.ReceiptControls.test_arbitrary_source_or_unknown_receipt_name_has_no_allowance) ... ok
+test_changed_producer_bytes_are_refused (s03_new_self_contained_replays.ReceiptControls.test_changed_producer_bytes_are_refused) ... ok
+test_duplicate_json_key_refuses (s03_new_self_contained_replays.ReceiptControls.test_duplicate_json_key_refuses) ... ok
+test_failed_stream_tamper_or_missing_retry_completion_refuses (s03_new_self_contained_replays.ReceiptControls.test_failed_stream_tamper_or_missing_retry_completion_refuses) ... ok
+test_frozen_worktree_changed_head_or_extra_metadata_or_false_integer_refuses (s03_new_self_contained_replays.ReceiptControls.test_frozen_worktree_changed_head_or_extra_metadata_or_false_integer_refuses) ... ok
+test_leaf_and_ancestor_symlinks_refuse (s03_new_self_contained_replays.ReceiptControls.test_leaf_and_ancestor_symlinks_refuse) ... ok
+test_optional_frozen_AC_bootstrap_terminal_failure_only (s03_new_self_contained_replays.ReceiptControls.test_optional_frozen_AC_bootstrap_terminal_failure_only) ... ok
+test_real_first101_metadata_passes_real_frozen_producer_pins_without_original_substitution (s03_new_self_contained_replays.ReceiptControls.test_real_first101_metadata_passes_real_frozen_producer_pins_without_original_substitution) ... ok
+test_second_actual_ci_uuid_set_replays_without_first_run_files (s03_new_self_contained_replays.ReceiptControls.test_second_actual_ci_uuid_set_replays_without_first_run_files) ... ok
+test_success_cannot_keep_unaccounted_stream_or_unbounded_duplicate_requests (s03_new_self_contained_replays.ReceiptControls.test_success_cannot_keep_unaccounted_stream_or_unbounded_duplicate_requests) ... ok
+test_two_transient_failures_then_third_success_preserves_failed_streams (s03_new_self_contained_replays.ReceiptControls.test_two_transient_failures_then_third_success_preserves_failed_streams) ... ok
+test_unknown_artifact_extra_field_and_wrong_zip_hash_refuse (s03_new_self_contained_replays.ReceiptControls.test_unknown_artifact_extra_field_and_wrong_zip_hash_refuse) ... ok
+test_zero_receipts_is_not_a_fixed100_requirement (s03_new_self_contained_replays.ReceiptControls.test_zero_receipts_is_not_a_fixed100_requirement) ... ok
+
+----------------------------------------------------------------------
+Ran 13 tests in 0.358s
+
+OK
