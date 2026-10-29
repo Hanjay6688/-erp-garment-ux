@@ -203,11 +203,14 @@
         "docs/cp7/d17-14/ow15/owner62-28abdeef-pass.json",
         "docs/cp7/d17-14/ow15/transfer-pages-535c97af-final-ui-pass.json",
         "docs/cp7/evidence/finisher-regression/qualified-a306/full/p09/RECEIPT.json",
-        "docs/cp7/evidence/finisher-regression/qualified-a306/full/p09/CP7_F03_FULL_P09.json.gz"
+        "docs/cp7/evidence/finisher-regression/qualified-a306/full/p09/CP7_F03_FULL_P09.json.gz",
+        "docs/cp7/evidence/gpt-staged-5000-20261008/59d63e46-cp7-receipt-correction-retained/RECEIPT.json",
+        "docs/cp7/evidence/gpt-staged-5000-20261008/59d63e46-cp7-receipt-correction-retained/ORIGINAL_REPORTS.json.gz",
+        "docs/cp7/d17-14/ow15/retained-cp17-17fa-stk01-match.json"
       ],
-      "next_action": "Reuse actual a306 receipt journeys, same-leaf b7 procurement DOM/parser controls and current OW06 transfer evidence. Bind the specific later procurement correction/stock-ledger changes to their Native/Auth successors and final dependency graph; do not rerun22 unchanged cases solely for totals.",
+      "next_action": "Reuse actual receipt22, same-leaf DOM18, credit-restoration/date-preservation2 and STK01 source-matched evidence. Bind final transitive dependency graph and changed shared recovery at integration; no missing test is inferred from the old PLANNED label, no whole-current-P09 acceptance claimed.",
       "original_preparation_status": "PLANNED_NOT_STARTED",
-      "current_runtime_status": "RETAINED_ACTUAL_CONNECTED_PROCUREMENT22_MATCHED_CURRENT_DELTA_BINDING_OPEN",
+      "current_runtime_status": "RETAINED_RECEIPT22_DOM18_AND_CORRECTION3_MATCHED_FINAL_TRANSITIVE_BINDING_OPEN",
       "retained_evidence_match": {
         "checked_against_A": "39f8a0840d50fcd94d7301eaa2cebab23097b562",
         "qualified_candidate": "a306938cd6bb33b2f231340d7e1b4a91397d1b9c",
@@ -290,6 +293,65 @@
           "connected procurement recovery and financial boundary preserves invoice, line, roll and exact physical-time metadata when editing a draft"
         ],
         "boundary": "Retained local DOM/parser tests, including ambiguous currency input; not new actual receipt Auth/browser or full current supplier-credit correction qualification. Shared recovery vendor additions separately qualified on money2d4."
+      },
+      "later_correction_source_evidence": {
+        "receipt_correction": {
+          "head": "59d63e46ea5b109101a4e0a2eff7d27a8f3541f8",
+          "run_id": 37681765938,
+          "artifact_id": 11510017007,
+          "original": {
+            "bytes": 2031866,
+            "sha256": "60ff32007fb89327a481fc0db90443c93c259038c27a673cae8f86835677db76"
+          },
+          "source_range": "All original correction.sql bytes before create function cp7_receipt_fix.ledger(",
+          "unchanged_prefix_bytes": 96532,
+          "unchanged_prefix_sha256": "d20c52016d7f94362631d3a4b0041e24061bc76641a218c4de74b9255a39c1a2",
+          "cases": {
+            "RF_CREDIT_RESTORED_UNBLOCKS": {
+              "status": "PASS",
+              "moved_credit_blocks": true,
+              "restored_credit_net_zero_unblocks": true,
+              "append_only_history_kept": true,
+              "full_boundary_restored": true,
+              "public_schema_unchanged": true,
+              "session_leaks": {
+                "advisory_locks": 0,
+                "advisory_lock_keys": [],
+                "other_sessions": []
+              }
+            },
+            "RF_OVERPAID_CREDIT_TO_NEXT_NOTA": {
+              "status": "PASS",
+              "paid_1000_corrected_800": true,
+              "earlier_cancellation_keeps_its_own_date": true,
+              "credit_200_cut_from_next_nota": true,
+              "next_nota_received_later_paid_200_partial": true,
+              "same_cash_account_and_original_date": true,
+              "note_retur_bayangan_barang_tidak_pernah_diterima": true,
+              "cash_unchanged": true,
+              "effects_on_receipt_date_only": true,
+              "all_integrity_checks_unchanged": true,
+              "full_boundary_restored": true,
+              "public_schema_unchanged": true,
+              "session_leaks": {
+                "advisory_locks": 0,
+                "advisory_lock_keys": [],
+                "other_sessions": []
+              }
+            }
+          }
+        },
+        "stock_card": {
+          "head": "17fa25075ba77f0853c3c16f504288ace03eec35",
+          "receipt": "docs/cp7/d17-14/ow15/retained-cp17-17fa-stk01-match.json",
+          "case_id": "CP17_STK01_REOPEN_REPOST_CARD_NOT_NEGATIVE",
+          "same_leaf_sha256": {
+            "scripts/cp7-src/procurement/correction.sql": "0229d79209ae274724bbde3733d81bcdb9a59df2eb1179ad6247bcf88fa20400",
+            "scripts/cp7_cp17_fix_cases.py": "3d387cbca883e8f69c3b8cfd88cbcd1c9a2e54bcf6ed0143a3c69bc928d458ef"
+          }
+        },
+        "new_actual_case_credit": 0,
+        "boundary": "The three declared correction SQL deltas now have actual retained case witnesses and exact current leaf/range matches. Full final transitive source graph remains a separate integration gate; no fresh whole-P09/CP17 acceptance."
       }
     },
     "P10": {
@@ -2078,7 +2140,7 @@
       ],
       "unresolved_original_case_refs": [],
       "disposition": "RETAINED_CONNECTED_IMPLEMENTATION_PROVEN_OLD_FINDING_SUPERSEDED_CURRENT_DELTA_BINDING_OPEN",
-      "next_action": "Reuse actual a306 receipt journeys, same-leaf b7 procurement DOM/parser controls and current OW06 transfer evidence. Bind the specific later procurement correction/stock-ledger changes to their Native/Auth successors and final dependency graph; do not rerun22 unchanged cases solely for totals.",
+      "next_action": "Reuse actual receipt22, same-leaf DOM18, credit-restoration/date-preservation2 and STK01 source-matched evidence. Bind final transitive dependency graph and changed shared recovery at integration; no missing test is inferred from the old PLANNED label, no whole-current-P09 acceptance claimed.",
       "original_preparation_status": "NOT_RUN",
       "closure_owner": "A",
       "additional_evidence_matches": [
