@@ -1,0 +1,17 @@
+{
+  "classification": "LOCAL_ONLY_D1_CANDIDATE",
+  "DOM_pass": 18,
+  "TypeScript_app": "PASS",
+  "unchanged_SQL_kernel_supplied_vectors_pass": 8,
+  "focused_D_quote_plan_SQL_bindings_with_declared_standins_pass": 10,
+  "new_SQL_body_declaration_compile": "PASS_WITH_STRUCTURAL_STANDINS",
+  "static_counted_derivations": 12,
+  "duplicate_predecessor_refused": 12,
+  "actual_Native_executed": 0,
+  "actual_Auth_browser_executed": 0,
+  "financial_writer_qualification": "PENDING_ROOT_ACTUAL_NATIVE_RESTORE_ORACLES",
+  "ESLint": "UNAVAILABLE_NO_REPO_LINT_SCRIPT",
+  "D_complete": false,
+  "E_complete": false,
+  "production_go": false
+}

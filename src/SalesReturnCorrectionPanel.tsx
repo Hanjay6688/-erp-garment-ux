@@ -8,7 +8,7 @@ import {formatReceiptDecimal} from './procurementContract'
 import {salesCashAmount,salesCashCents} from './salesCashContract'
 import {salesQtyInput,type SalesRead} from './salesReadContract'
 import {salesReturnTotal,type SalesReturnLocation,type SalesReturnRead} from './salesReturnContract'
-import {parseReturnCorrectionWorkspace,returnCorrectionCents,type ReturnCorrectionWorkspace,type ReturnCorrectionAllocation,type ReturnCorrectionDocument} from './salesReturnCorrectionContract'
+import {parseReturnCorrectionWorkspace,returnCorrectionCents,type ReturnCorrectionWorkspace,type ReturnCorrectionAllocation,type ReturnCorrectionDocument,type ReturnCreditReview} from './salesReturnCorrectionContract'
 import {useRetainedInput,type RetainedFormInput} from './useRetainedFormInput'
 import type {useProductionMutation} from './useProductionMutation'
 import TransactionSourceLink from './TransactionSourceNavigation'
@@ -24,12 +24,13 @@ export default function SalesReturnCorrectionPanel({source,returnId,number,initi
  const {currentReadTicket,isReadCurrent}=readFence,key=`return.${source.id}.${returnId}.`,parentKey=JSON.stringify([source.id,source.row_version,source.review_token,returnId]),parent=useRef(parentKey);parent.current=parentKey
  const [data,setData]=useState<ReturnCorrectionWorkspace|null>(null),[busy,setBusy]=useState(false),[error,setError]=useState(''),[edit,setEdit]=useState(initialEdit),[review,setReview]=useState(false)
  const [lines,setLines]=useRetainedInput<OwnLine[]>(inputs,key+'lines',[]),[at,setAt]=useRetainedInput(inputs,key+'at',''),[timeEdited,setTimeEdited]=useRetainedInput(inputs,key+'timeEdited',false),[restoredAt,setRestoredAt]=useRetainedInput<string|null>(inputs,key+'restoredAt',null),[notes,setNotes]=useRetainedInput(inputs,key+'notes',''),[reason,setReason]=useRetainedInput(inputs,key+'reason','')
+ const [creditQuote,setCreditQuote]=useState<{value:ReturnCreditReview;proposal:string}|null>(null),[creditBusy,setCreditBusy]=useState(false),[creditError,setCreditError]=useState(''),creditSequence=useRef(0),currentProposal=useRef('')
  const [search,setSearch]=useState(''),[locationSearch,setLocationSearch]=useState(''),[destination,setDestination]=useState<string|null>(null)
  const facts=useRef({token:'',allocations:new Map<string,ReturnCorrectionAllocation>()})
  const ownInitialized=useRef(Object.hasOwn(inputs,key+'lines'))
  const prefill=useCallback((d:ReturnCorrectionDocument)=>{setLines(d.items.map(i=>({key:crypto.randomUUID(),allocation_id:i.allocation_id,location_id:i.location_id,qty:i.qty_pcs,grade:i.quality_grade,refund:i.refund_amount,notes:i.notes??''})));setAt(cp6WibDateTimeInput(d.physical_at));setTimeEdited(false);setRestoredAt(null);setNotes(d.notes??'');setReason('');setReview(false)},[setLines,setAt,setTimeEdited,setRestoredAt,setNotes,setReason])
  const load=useCallback(async()=>{
-  const n=++seq.current,ticket=currentReadTicket(),capture=parentKey,requested={...query.current};dataTicket.current=null;setData(null);setBusy(false);setError('');setReview(false)
+  const n=++seq.current,ticket=currentReadTicket(),capture=parentKey,requested={...query.current};dataTicket.current=null;setData(null);setBusy(false);setError('');setReview(false);setCreditQuote(null);setCreditError('');++creditSequence.current;setCreditBusy(false)
   if(!ticket){setError('Muat ulang invoice sebelum membuka pembetulan retur.');return}setBusy(true)
   try{const r=await client.rpc('erp_cp7_get_sales_return_correction_v1',{p_query:{sale_id:source.id,return_id:returnId,...requested,limit:25}})
    if(n!==seq.current||parent.current!==capture||!isReadCurrent(ticket))return;if(r.error)throw r.error
@@ -40,20 +41,35 @@ export default function SalesReturnCorrectionPanel({source,returnId,number,initi
    dataTicket.current=ticket;setData(next);if(!loaded.current){if(!ownInitialized.current)prefill(next.document);loaded.current=true}
   }catch(e){if(n===seq.current&&isReadCurrent(ticket)&&parent.current===capture){const message=normalizeClientError(e).message;setData(null);setReview(false);setError(message);onInvalid(message)}}finally{if(n===seq.current)setBusy(false)}
  },[client,currentReadTicket,isReadCurrent,onInvalid,parentKey,source,returnId,prefill])
- useEffect(()=>{void load();return()=>{++seq.current}},[load])
+ useEffect(()=>{void load();return()=>{++seq.current;++creditSequence.current}},[load])
  const factsCurrent=dataTicket.current!==null&&isReadCurrent(dataTicket.current)
  const disabled=locked||stale||busy||!data||!locations||!factsCurrent,canCorrect=!!data?.can_correct&&['OWNER','ADMIN'].includes(identity.profile.role)&&['sales.return.create','sales.return.post','sales.return.reverse','finance.hpp.view'].every(p=>identity.permissions.includes(p))
  const original=data?.document,physical=timeEdited?cp6WibPhysicalTimeToIso(at):restoredAt??original?.physical_at??null
  const total=salesReturnTotal(lines.map(l=>l.refund)),originalTotal=original?salesReturnTotal(original.items.map(i=>i.refund_amount)):null
- const maxRefund=data?.financial.open_balance!==null&&data?.financial.open_balance!==undefined&&originalTotal!==null?returnCorrectionCents(data.financial.open_balance)+returnCorrectionCents(originalTotal):null
+ const creditRequired=!!data?.credit_correction
+ const maxRefund=data?.financial.open_balance!==null&&data?.financial.open_balance!==undefined&&originalTotal!==null?returnCorrectionCents(creditRequired?data.financial.net_total:data.financial.open_balance)+returnCorrectionCents(originalTotal):null
  const unique=new Set(lines.map(l=>l.allocation_id)).size===lines.length
  const validLines=lines.length>0&&lines.length<=100&&unique&&lines.every(l=>{const a=facts.current.allocations.get(l.allocation_id),q=salesQtyInput(l.qty);return a&&q!==null&&BigInt(q)<=BigInt(a.replacement_capacity)&&salesCashAmount(l.refund)!==null&&l.location_id!==''&&l.notes.length<=2000})
  const replacementLines=lines.map(l=>({allocation_id:l.allocation_id,location_id:l.location_id,qty_pcs:salesQtyInput(l.qty)??l.qty,quality_grade:l.grade,refund_amount:salesCashAmount(l.refund)??l.refund,notes:l.notes||null}))
  const normalized=(v:{allocation_id:string;location_id:string;qty_pcs:string;quality_grade:string;refund_amount:string;notes:string|null}[])=>JSON.stringify([...v].sort((a,b)=>a.allocation_id.localeCompare(b.allocation_id)).map(i=>({...i,refund_amount:salesCashAmount(i.refund_amount)===null?i.refund_amount:salesCashCents(i.refund_amount).toString()})))
  const changed=!!original&&(physical!==original.physical_at||(notes||null)!==original.notes||normalized(replacementLines)!==normalized(original.items.map(i=>({allocation_id:i.allocation_id,location_id:i.location_id,qty_pcs:i.qty_pcs,quality_grade:i.quality_grade,refund_amount:i.refund_amount,notes:i.notes}))))
- const valid=!disabled&&canCorrect&&changed&&validLines&&physical!==null&&total!==null&&maxRefund!==null&&returnCorrectionCents(total)<=maxRefund&&reason.trim().length>=5&&review
+ const proposal={replacement:{physical_at:physical,notes:notes||null,items:replacementLines},change_reason:reason.trim()},proposalKey=JSON.stringify(proposal);currentProposal.current=proposalKey
+ useEffect(()=>{setCreditQuote(null);setCreditError('');setReview(false)},[proposalKey])
+ const currentCredit=creditQuote?.proposal===proposalKey?creditQuote.value:null,creditDisplay=currentCredit??data?.credit_correction
+ const previewValid=!disabled&&canCorrect&&changed&&validLines&&physical!==null&&total!==null&&maxRefund!==null&&returnCorrectionCents(total)<=maxRefund&&reason.trim().length>=5
+ const valid=previewValid&&review&&!creditBusy&&(!creditRequired||currentCredit?.state==='READY')
+ const previewCredit=async()=>{
+  if(!previewValid||!creditRequired||!dataTicket.current)return
+  const ticket=dataTicket.current,n=++creditSequence.current,capture=proposalKey,parentCapture=parentKey;setCreditBusy(true);setCreditError('');setCreditQuote(null);setReview(false)
+  try{const r=await client.rpc('erp_cp7_get_sales_return_correction_v1',{p_query:{sale_id:source.id,return_id:returnId,...query.current,limit:25,proposed:proposal}})
+   if(n!==creditSequence.current||parent.current!==parentCapture||currentProposal.current!==capture||!isReadCurrent(ticket))return
+   if(r.error)throw r.error;const next=parseReturnCorrectionWorkspace(r.data,source,returnId,query.current.offset)
+   if(!next.credit_correction||next.credit_correction.state==='REVIEW_REQUIRED')throw Error('Perubahan kredit belum diperiksa. Periksa ulang sebelum menyimpan.')
+   if(!isReadCurrent(ticket)||currentProposal.current!==capture)return;setCreditQuote({value:next.credit_correction,proposal:capture})
+  }catch(e){if(n===creditSequence.current&&parent.current===parentCapture&&currentProposal.current===capture&&isReadCurrent(ticket))setCreditError(normalizeClientError(e).message)}finally{if(n===creditSequence.current)setCreditBusy(false)}
+ }
  const save=()=>{if(!valid||!data||!source.review_token||!dataTicket.current||!isReadCurrent(dataTicket.current))return;const ticket=currentReadTicket();if(!ticket||!isReadCurrent(ticket))return
-  onSave('RETURN_CORRECT',{sale_id:source.id,return_id:returnId,review_token:source.review_token,return_review_token:data.return_review_token,change_reason:reason.trim(),replacement:{physical_at:physical!,notes:notes||null,items:replacementLines}},source.row_version)
+  onSave('RETURN_CORRECT',{sale_id:source.id,return_id:returnId,review_token:source.review_token,return_review_token:data.return_review_token,change_reason:reason.trim(),...(creditRequired?{credit_review_token:currentCredit!.review_token!}:{}),replacement:{physical_at:physical!,notes:notes||null,items:replacementLines}},source.row_version)
  }
  const update=(id:string,change:Partial<OwnLine>)=>{setLines(old=>old.map(l=>l.key===id?{...l,...change}:l));setReview(false)}
  const restore=()=>{if(disabled||!canCorrect||!data?.previous)return;prefill(data.previous.document);setRestoredAt(data.previous.document.physical_at);setEdit(true)}
@@ -80,6 +96,11 @@ export default function SalesReturnCorrectionPanel({source,returnId,number,initi
    })}
    <div className="cproc-search"><label>Cari SKU atau lot asal<input aria-label="Cari alokasi pembetulan retur" maxLength={120} value={search} onChange={e=>setSearch(e.target.value)}/></label><button type="button" onClick={()=>{query.current={q:search.trim(),offset:0};void load()}}>Cari alokasi pembetulan retur</button></div>
    <section aria-label="Alokasi pengganti retur">{data.allocations.rows.map(a=><button type="button" key={a.allocation_id} disabled={lines.length>=100||lines.some(l=>l.allocation_id===a.allocation_id)||!destination} onClick={()=>{setLines(old=>[...old,{key:crypto.randomUUID(),allocation_id:a.allocation_id,location_id:destination!,qty:'',grade:'GRADE_A',refund:'',notes:''}]);setReview(false)}}>Tambah {a.product_sku} · lot {a.lot_number}</button>)}<div className="cproc-pagination"><span>Total {data.allocations.total} alokasi</span><button type="button" disabled={data.allocations.offset===0} onClick={()=>{query.current.offset=Math.max(0,data.allocations.offset-25);void load()}}>Alokasi pembetulan sebelumnya</button><button type="button" disabled={data.allocations.next_offset===null} onClick={()=>{query.current.offset=data.allocations.next_offset??0;void load()}}>Alokasi pembetulan berikutnya</button></div></section>
+   {creditRequired?<section aria-label="Perubahan kredit pelanggan"><p>Tambahan nilai retur otomatis menjadi kredit pelanggan yang sama. Periksa nominal sebelum menyimpan.</p><button type="button" disabled={!previewValid||creditBusy} onClick={()=>void previewCredit()}>Periksa perubahan kredit</button>{creditBusy?<p role="status">Memeriksa nominal kredit dan riwayat pemakaiannya…</p>:null}{creditError?<p role="alert">{creditError}</p>:null}
+    {currentCredit?.credit_delta?<><p>Tambahan kredit pelanggan: {money(currentCredit.credit_delta)}</p><p>Kredit bebas setelah pembetulan: {money(currentCredit.after_available!)}</p></>:null}
+    {currentCredit?.state==='REFUSE'?<p role="alert">Pembetulan ini belum dapat disimpan. {currentCredit.issues.includes('UNDO_ACTIVE_CONSUMERS_FIRST')?'Kredit sudah digunakan atau dikembalikan. Batalkan pemakaian atau pengembalian uang yang tercantum, lalu periksa lagi.':'Perubahan jumlah, waktu, atau riwayat ini masih memerlukan pemeriksaan alur pembetulan.'}</p>:null}
+    {creditDisplay?.active_consumers.map(e=><article key={e.event_id}><p>{e.undo_action} · {money(e.amount)} · keluarga retur {e.family_ordinal}</p><TransactionSourceLink sourceType="SALE" sourceId={e.target_sale_id??source.id} disabled={disabled} label={e.event_kind==='APPLY'?'Buka invoice tujuan untuk membatalkan penggunaan kredit':'Buka invoice asal untuk membatalkan pengembalian uang kredit'}/></article>)}
+   </section>:null}
    <p>Total retur pengganti: {total===null?'periksa nilai baris':money(total)}</p><label>Alasan pembetulan<input aria-label="Alasan pembetulan retur" maxLength={1000} value={reason} onChange={e=>setReason(e.target.value)}/></label><label><input type="checkbox" aria-label="Pembetulan retur sudah diperiksa" checked={review} onChange={e=>{e.stopPropagation();setReview(e.target.checked)}}/>Jumlah, gudang, grade, tanggal, dan nilai retur sudah diperiksa.</label><button className="primary-btn" disabled={!valid}>Simpan pembetulan retur</button>
   </fieldset></form>:null}
  </section>

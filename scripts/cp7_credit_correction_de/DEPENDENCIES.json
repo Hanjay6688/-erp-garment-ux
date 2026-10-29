@@ -1,0 +1,37 @@
+{
+  "classification": "D1_CANDIDATE_NATIVE_NOT_EXECUTED",
+  "base_commit": "7c1d2111",
+  "parent_composition": "cp7_vendor_receivable.composition",
+  "signed_source_dependencies": {
+    "scripts/cp7_customer_credit/kernel/kernel.sql": "f531f50d5a1c7ddc0a2f22f607be5ba0625a2e0388af3e7a4c6d129bf82e15fc",
+    "scripts/cp7_customer_credit/ordinal-wrapper/wrapper.sql": "ed66c7f09433956d18368b7a804b1b04f0dcb7f9e0457686400421a849d671d1",
+    "scripts/cp7_customer_credit/source/member-proof.sql": "565e4e8643323442eadad2d6d1e65fdf1750da1675a2c68cc28187add17c1205",
+    "scripts/cp7_customer_credit/consumer/cp7_ow04_consumer_fixture.py": "75a6d5d573de0827a2efa712d49059a14e1ee83e3ee2635598e005b4bc1afeed",
+    "scripts/cp7_customer_credit/reconciliation/native/cp7_ow04_signed_source_cases.py": "82831d767c85199ab182c21aa5a56fe46e7cba0c7e70ccba6c89477b755de640",
+    "scripts/cp7_customer_credit/native/cp7_ow04_native_source_fixture.py": "4984926b221df459e6e88c2f282da3e553d4810d177208ea489c9c3b1d264497",
+    "scripts/cp7_sales_return_correction_cases.py": "26fe2e420af55ee213a629db4f7a9929a5e9155374682ddcb1f1f2b855bb6c1c",
+    "scripts/cp7_credit_multi/cases.py": "85be87db91bd302fa01d759941389a8302c7928e2a2bdedebc8982872c4f0857",
+    "scripts/cp7-src/sales/return-correction.sql": "d0c5cc17413b218a4947c8b6ce0d53b4368f8a0d17c597783af203c303669aad"
+  },
+  "required_actual_Native_cases": 13,
+  "actual_Native_passes": 0,
+  "D_complete": false,
+  "E_complete": false,
+  "production_go": false,
+  "required_case_ids": [
+    "D_POSITIVE_CREDIT_INCREMENT",
+    "D_AFTER_ACTIVE_APPLY",
+    "D_AFTER_REFUND_EXTRA_STAYS_CREDIT",
+    "D_MULTIFAMILY_ORDINAL",
+    "D_REPLAY_EXACT_UUID",
+    "D_STALE_REVIEW_NO_EFFECT",
+    "D_ACCESS_REVOKED_NO_EFFECT",
+    "D_SHORTFALL_NAMES_UNDO",
+    "D_ROOT_BOOK_FLOOR_REFUSAL",
+    "D_ATOMIC_POST_FAILURE_RESTORE",
+    "D_SECOND_REVISION_ORDINAL_HISTORY",
+    "D_AFTER_NAMED_UNDO_NO_FALSE_BLOCKER",
+    "E_UNIMPLEMENTED_INCOMING_CORRECTION_STAYS_GUARDED"
+  ],
+  "qualifier_source_sha256": "011b89a5b39aba71fb0164569d28758d7e2ca82a81a95ade5c7041830920857d"
+}

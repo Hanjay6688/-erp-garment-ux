@@ -1,0 +1,13 @@
+{
+  "scope": "local structural SQL execution only; no Native money flow",
+  "first_structural_compile_failure": "journal_restatements uses original_return_id, not return_id; adapter corrected",
+  "review_found_before_actual_execution": [
+    "PL/pgSQL row aliases p/s/cc shared names with row variables",
+    "support phase variable and table column collided",
+    "UPDATE manifest=manifest required a distinct local variable"
+  ],
+  "focused_execution_failure": "support phase rename also touched w.phase; corrected to real work phase field",
+  "latest_focused_checks": "9 PASS",
+  "Native_execution": false,
+  "financial_writer_tested": false
+}

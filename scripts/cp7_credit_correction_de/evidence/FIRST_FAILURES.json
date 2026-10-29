@@ -1,0 +1,8 @@
+{
+  "scope": "D1 local development, no Native/Auth or full money-flow proof",
+  "baseline": "7c1d2111",
+  "ui": {"command": "vitest run src/SalesReturnCorrectionPanel.dom.test.tsx", "passed": 15, "failed": 2,
+    "failures": ["paid source credit metadata rejected by closed workspace parser; form unavailable", "named active use/refund undo routes absent"]},
+  "arithmetic": {"command": "node scripts/cp7_credit_correction_de/local_review_check.mjs", "failure": "new local test expected CP7_CREDIT_DE_BEFORE_UNRECONCILED; unchanged kernel correctly emitted BASE_OVERFLOW_NONZERO", "fix_required": "correct the newly written local assertion, preserve the existing kernel refusal"},
+  "production_go": false
+}
