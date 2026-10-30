@@ -164,4 +164,27 @@ class Qualification(unittest.TestCase):
         self.assertEqual(result['busy_subattempts'],['FG','MATERIAL_NONE'])
         self.assertEqual(result['actual_Native_cases'],0)
 
+    def test_session_entry_checks_every_declared_id_including_busy(self):
+        tree=ast.parse(d.derive('concurrency')[0])
+        exercise=next(n for n in tree.body if isinstance(n,ast.FunctionDef)and n.name=='exercise')
+        guard=next(n for n in exercise.body if isinstance(n,ast.Assert)
+            and 'prepared_plan' in ast.unparse(n.test))
+        races=ids(ROOT/'scripts/current-sku-pair-conversion-qualification/races.py')
+        waits=ids(ROOT/'scripts/current-sku-pair-conversion-qualification/auth_waits.py')
+        extra=ids(HERE/'recovery_sessions.py')
+        expected=tuple(races)+tuple(waits)+tuple(extra)
+        plan=dict(race_ids=list(races),permission_wait_ids=list(waits)+[extra[0]],
+            nonblocking_busy_ids=[extra[1]])
+        code=compile(ast.Module(body=[guard],type_ignores=[]),'<actual derived session-entry guard>','exec')
+        exec(code,dict(expected=expected,report=dict(prepared_plan=plan)))
+        self.assertEqual(len(expected),11)
+        for field in ('race_ids','permission_wait_ids','nonblocking_busy_ids'):
+            for change in ('missing','duplicate','foreign'):
+                broken=deepcopy(plan)
+                if change=='missing':broken[field].pop()
+                elif change=='duplicate':broken[field].append(broken[field][0])
+                else:broken[field][-1]='UNKNOWN_SESSION'
+                with self.subTest(field=field,change=change),self.assertRaises(AssertionError):
+                    exec(code,dict(expected=expected,report=dict(prepared_plan=broken)))
+
 if __name__=='__main__':unittest.main()

@@ -85,8 +85,8 @@
       "sha256": "929ea1834693204d278a1879192973055a27338c9a3947836da16753be0aaba4"
     },
     "scripts/current-sku-managed-recovery-native27-qualification/derive.py": {
-      "bytes": 9748,
-      "sha256": "b168f2b819e18df4cd0501e6632de78c457e581510f70f65e872b12dde45415e"
+      "bytes": 10031,
+      "sha256": "b32d602039c6affe0e170e9c9a34d611e8831e1063ed83ea65fb3e98fcc977b9"
     },
     "scripts/current-sku-managed-recovery-native27-qualification/engine_delta.py": {
       "bytes": 1615,
@@ -277,8 +277,8 @@
       "sha256": "86648f031c3bd46466119ee4694bb533981b0ded51de2919823f005477305755"
     },
     "scripts/current-sku-managed-recovery-native27-qualification/test_qualification.py": {
-      "bytes": 11568,
-      "sha256": "3ee42a2d4a8452c314eb1c2538caaf1f65df736fbcc84d0f8fea94450beb851e"
+      "bytes": 13112,
+      "sha256": "1ae7e165d54da5925228ef73c2331249f107114d201d7f2030514534394d99db"
     },
     "scripts/current-sku-managed-recovery-native27-qualification/transition.py": {
       "bytes": 4896,
@@ -546,9 +546,9 @@
         "original_files_modified": false
       },
       "retained602_derived_sha256": "8e944f2c7315c88ad16dd4b925c46a23f139ca2bd2388f5c039a74270d7f8deb",
-      "derived_sha256": "88aebf44d6885e108b45d6abce5529b03a6025dc593ac1f93aaf1fb608e3ab82",
+      "derived_sha256": "9da51648bd11901c5c09b5050675da379828de5e5b685755841021bbac26fa22",
       "namespace_occurrences": 0,
-      "extra_counted_changes": 6,
+      "extra_counted_changes": 7,
       "byte_exact_reversible": true,
       "original23_financial_callback_bodies_unchanged": true
     },

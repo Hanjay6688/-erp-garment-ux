@@ -57,6 +57,8 @@ EXTRA={
   ("controls = load('sku_concurrency_controls', HERE / 'controls.py')","controls = load('sku_concurrency_controls', ROOT / '"+NS+"/session_controls.py')"),
   ("return dict(status='PREPARED', case_id=CASE, race_ids=list(races), permission_wait_ids=list(permissions),","extra = load('sku27_extra_session_plan', ROOT / '"+NS+"/recovery_sessions.py')\n    return dict(status='PREPARED', case_id=CASE, race_ids=list(races), permission_wait_ids=list(permissions) + [extra.IDS[0]], nonblocking_busy_ids=[extra.IDS[1]], busy_subattempts=['FG','MATERIAL_NONE'],"),
   ("expected = tuple(business.IDS) + tuple(permissions.IDS)","extra = load('sku27_real_recovery_sessions', ROOT / '"+NS+"/recovery_sessions.py')\n    cost = load('sku27_existing_derived_cost_fixture', ROOT / '"+NS+"/cost_cases.py')\n    expected = tuple(business.IDS) + tuple(permissions.IDS) + tuple(extra.IDS)"),
+  ("assert list(expected) == report['prepared_plan']['race_ids'] + report['prepared_plan']['permission_wait_ids']",
+   "assert list(expected) == report['prepared_plan']['race_ids'] + report['prepared_plan']['permission_wait_ids'] + report['prepared_plan']['nonblocking_busy_ids']"),
   ("list(permissions.cases(tools, today))","list(permissions.cases(tools, today)) + list(extra.cases(tools, today, native_fixture=cost.n))"),
   ("len(copy_adapter.COPY_ADMISSIONS) == 9","len(copy_adapter.COPY_ADMISSIONS) == 11"),
   ("full_installed_copy_restores=9","full_installed_copy_restores=11"),
