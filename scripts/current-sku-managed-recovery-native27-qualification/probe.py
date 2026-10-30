@@ -38,9 +38,13 @@ def main(argv=None):
         context=load('sku27_probe_source_DB_guard',HERE/'source_context.py')
         with context.fenced_source_read()as guard:proof=runtime().admitted()
         print(json.dumps(dict(status='SOURCE_ONLY_ACTUAL_ORIGINALS_NO_NATIVE',proof=proof,source_DB_guard=guard,actual_successor_cases=0),sort_keys=True,default=str));return
+    attempts=load('sku27_single_attempt_policy',HERE/'attempt_policy.py')
+    print(json.dumps(dict(attempt_policy=attempts.require_window()),sort_keys=True))
     module=runtime();transition=load('sku27_execute_argv',HERE/'transition.py')
     with transition.scoped_argv():
         module.admitted();module.engine.package._writer_runtime=lambda browser_mode=False:module.engine.run()
-        module.engine.package.run('install')
+        import cp6_auditor_business_day as business_day
+        with attempts.single_attempt(business_day):
+            module.engine.package.run('install')
 
 if __name__=='__main__':main()

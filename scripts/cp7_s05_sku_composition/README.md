@@ -1,12 +1,19 @@
-Current Writer A candidate update, 2026-10-30:
-Import all19 exact namespace paths from SKU successor58c8e1535c6b5296f07ca41d5eb90cb28ed2872c.
-The failed0938 full27 run is retained as23 PASS/4 INCOMPLETE, with no full27 credit.
-Current harness checks pending recovery lock/reconcile states, exact commercial
-SKU history labels, and READ COMMITTED for independent staged-AI access/readback.
-New full27 run41086555559 is pending. S03 run41080255432 is also still pending.
-S05 source/UI and all20 composition pins are unchanged. Existing61 UI controls
-and typecheck remain reusable for those identical sources. This candidate is
-source-only and still needs full combined SKU/S05 actual qualification.
+Current Writer A candidate update, 31 October 2026:
+Import all20 exact paths from SKU e9256772579f387df77dde949f8ea619cbd86856.
+Actual58c8 failed before browser4: a midnight automatic group retry created22
+copies where the strict caller required11. All20 raw no-effect censuses, five
+complete cost sequence prefixes and source-bound outer restoration were checked.
+The successor retains the first attempt, disables automatic group retries in
+its own runtime, and checks a full210-minute WIB window before expensive work.
+58 local Python controls and committed no-DB source admission passed. The earlier
+seven Node controls remain valid for unchanged browser/product sources.
+Fresh SKU27 run41109346033 is IN_PROGRESS; complete27 is not yet qualified.
+S0389ab run41080255432 failed: desktopPASS, mobile45-minute timeout, later cases
+not reached. Its complete Original and primary-restoration diagnosis remain open.
+All20 S05 composition pins and product/UI sources remain identical. Existing61
+UI controls and typecheck are reused. Current combined SKU/S05 runtime and normal
+App desktop/mobile acceptance remain open. Historical checkpoints below retain
+their original identifiers; this paragraph governs current status.
 
 # Current SKU + S05 application candidate
 

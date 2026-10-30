@@ -47,6 +47,9 @@ def bind():
       cost_census_producer=dict(path='scripts/current-sku-group-cost-qualification/native_fixture.py',all22=True,all_current_tables=True,all_sequences=True,original_code_unchanged=True),
       Node_source_reader=dict(path=t.NS+'/browser_source.py',actual_current_product_sources=True,authentic_Original21_reader=True,projected_sources=False),
       explicit_a18_browser_successor=browser_delta.verify(),
+      execution_attempt_policy=dict(path=t.NS+'/attempt_policy.py',automatic_group_retry=False,
+        pre_database_and_runtime_WIB_window_seconds=12600,unchanged_business_day_guard=True,
+        first_attempt_failures_preserved=True,unchanged_copy_count=11),
       actual_successor_cases=0,actual_Auth_HTTP_cases=0,actual_real_browser_cases=0,
       group_recovery_supported=False,production_go=False,independent_acceptance=False,default_adoption=False)
     (HERE/'SOURCE.json').write_text(json.dumps(value,indent=2)+'\n')

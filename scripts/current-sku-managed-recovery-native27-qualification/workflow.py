@@ -24,6 +24,7 @@ def derive(original):
     upload['with']['name']='cp7-a-sku-managed-recovery-native27-${{ github.run_attempt }}'
     upload['with']['path']+='\nauditor/cp6-proof/t3/SKU27_SEQUENCE_PREFIX_*.json'
     delta=next(s for s in job['steps']if s.get('name')=='Check SKU delta and unchanged runner derivation before database')
+    delta['run']='python -B '+NS+'/attempt_policy.py --require-window\n'+delta['run']
     delta['run']+="\npython -B -m unittest discover -s scripts/cp7_sku_pair_conversion -p test_recovery.py\n"
     delta['run']+="node --test "+NS+"/test_node_source.mjs\n"
     return value
