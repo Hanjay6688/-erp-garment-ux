@@ -1,3 +1,33 @@
+## A / 30 Oktober 2026 — aturan Afui dipulihkan; hubungan SQL dinamis diperjelas
+
+Owner menegaskan langsung handoff penjualan FG mandor/potong payroll minggu
+pilihan pada turn ini. Paket tetap ditempatkan setelah integrasi aktif stabil,
+A integrator tunggal. Draft mengalokasikan, PAID melunasi piutang invoice sama;
+netcash2.000.000−300.000=1.700.000. Tidak ada implementasi atau kredit uji baru.
+
+Koreksi atas kesimpulan pencarian sebelumnya: USER29Agustus menyatakan komponen
+BOM gratis tidak direimburse saat penggajian. MasterM dan MasterPulih kini telah
+dipulihkan serta hash diverifikasi. Aturan tersebut berlaku untuk kategori gratis
+yang memang dikonfigurasi; bukan seluruh aksesori Afui. Rework/seleksi bukan
+pencabutan aturan Special. Kategori dan rate tidak ditebak. Sumber Native masih
+memerlukan jalur biaya nonpayable yang mempertahankan stok, HPP, jurnal, recost,
+inverse dan payroll. Kelulusan S05 Native10 lama tetap terbatas cakupannya.
+
+Review35 kandidat SQL dinamis menemukan dua token GRANT EXECUTE, serta dua
+edge verifier literal yang sebelumnya terlewat. Penelusuran kandidat bertambah
+187→218fungsi dan dua relasi baca;464anchor dan seluruh hash fungsi diperiksa
+ulang root. Ini bukti sumber, bukan graph/permission/phantom closure.580tabel
+bukan lockset produksi yang disetujui; runtime/hook global tetap tertutup.
+
+Run aktual a18/ee145/ae837 masih berjalan pada pemeriksaan terakhir. Penerus
+S03 publik30ee9874/run41049049321 kini menjalankan empat kasus baru sesudah
+menutup dua snapshot baca ordinary yang memerlukan serialisasi UTC;75Python,
+12Node serta source2.362pin lulus. Native activation, seluruh empat callback
+terkini dan oracle keuangan dipertahankan. Run ae837 tidak dibatalkan.
+Formal5/16, production_go=false dan independent_acceptance=false tetap.
+
+--- Catatan sebelumnya dipertahankan; pernyataan otoritas Afui yang lama dikoreksi di atas ---
+
 ## A / 30 Oktober 2026 — kegagalan S03/SKU terpelihara; jalur pemanggil SKU diperbaiki
 
 SKU c397 selesai7 Native+5 biaya, lalu9/11 race dan berhenti sebelum browser.

@@ -1,5 +1,5 @@
 {
-  "recorded_at_utc": "2026-10-30T11:00:00.136696+00:00",
+  "recorded_at_utc": "2026-10-30T11:37:09.160300+00:00",
   "role": "A finance writer/integrator replacing Claude; B remains separate production/planning writer",
   "slogan": [
     "VENI. VIDI. VICI. ERP. — I CONQUERED ERP.",
@@ -30,6 +30,14 @@
       "head": "ae83782c5dc0701f3b5325375a743b2a08e4ce3d",
       "run_id": 41044533553,
       "job_id": 124025266832,
+      "status": "IN_PROGRESS_AT_LAST_API_OBSERVATION",
+      "qualified_new_case_credit": 0
+    },
+    {
+      "domain": "S03_BROWSER4_ORDINARY_SNAPSHOT_UTC_SUCCESSOR",
+      "head": "30ee9874d049632050faf53b299a0cd8a11fe9f6",
+      "run_id": 41049049321,
+      "job_id": 124040265150,
       "status": "IN_PROGRESS_AT_LAST_API_OBSERVATION",
       "qualified_new_case_credit": 0
     }
@@ -22721,8 +22729,8 @@
   ],
   "writer_A_takeover_20261030": {
     "classification": "WRITER_A_TAKEOVER_ACTIVE_CONTINUATION_NOT_COMPLETION",
-    "recorded_at_utc": "2026-10-30T11:00:00.136696+00:00",
-    "root_parent": "cfabb5ec2bf5075c45d9283dd0beeb6d2131614d",
+    "recorded_at_utc": "2026-10-30T11:37:09.160300+00:00",
+    "root_parent": "390e3a65c2ef700a6a2167f3cfed2bd8c5edcff9",
     "prior_chat_execution_observable": false,
     "current_work_is_isolated": true,
     "midnight_root_intake_receipt": "MIDNIGHT_NATIVE1_E787_ROOT_INTAKE_20261030.json",
@@ -22802,6 +22810,14 @@
         "head": "ae83782c5dc0701f3b5325375a743b2a08e4ce3d",
         "run_id": 41044533553,
         "job_id": 124025266832,
+        "status": "IN_PROGRESS_AT_LAST_API_OBSERVATION",
+        "qualified_new_case_credit": 0
+      },
+      {
+        "domain": "S03_BROWSER4_ORDINARY_SNAPSHOT_UTC_SUCCESSOR",
+        "head": "30ee9874d049632050faf53b299a0cd8a11fe9f6",
+        "run_id": 41049049321,
+        "job_id": 124040265150,
         "status": "IN_PROGRESS_AT_LAST_API_OBSERVATION",
         "qualified_new_case_credit": 0
       }
@@ -23653,7 +23669,7 @@
       "source_mounted": false
     },
     "Afui_source_review": {
-      "status": "COMPLETE_READONLY_SOURCE_EVIDENCE_INVESTIGATION",
+      "status": "COMPLETE_SOURCE_REVIEW_WITH_RECOVERED_OWNER_AUTHORITY_AND_OPEN_ENGINEERING_GAP",
       "findings_bytes": 19442,
       "findings_sha256": "581ec74fb32d400a1b6ef4125023ad74d017d0c4b6e4d5ad821852910f66fc4c",
       "actual_guard": "Initial PRODUCTION lot: sum(total_hpp_cost)>0 and sum(total_reimbursement)=0 refuses",
@@ -23663,7 +23679,7 @@
         "catalogs": 6,
         "matching_definitions": 168
       },
-      "owner_authority": "ERP-DEC02 governs FREE pickup lines; D17-19C category BOM/report. No explicit zero-GOOD-reimbursement owner semantics located in docs or supplied primary context",
+      "owner_authority": "Recovered USER U@2026-08-29T21:18:07Z: configured free BOM components are not reimbursed at payroll. Does not make all Afui accessories free or all reimbursement zero.",
       "lawful_positive_HPP_zero_total_reimbursement_path_proved": false,
       "ordinary_FREE_pickup_path_source_supported": true,
       "Afui_positive_HPP_zero_reimbursement_actual_coverage": false,
@@ -23699,14 +23715,268 @@
       "classification": "INTERNAL_SOURCE_REVIEW_NOT_NEW_OWNER_POLICY_OR_ACTUAL_RUNTIME_ACCEPTANCE",
       "normal_FREE_pickup_actual_coverage": "PENDING_FRESH_LAWFUL_CASE",
       "wider_Afui_business_defect_proved": false,
-      "original_master_contract_M_available": false,
-      "forbid_invented_paid_companion_or_direct_posted_row_fixture": true
+      "original_master_contract_M_available": true,
+      "forbid_invented_paid_companion_or_direct_posted_row_fixture": true,
+      "prior_search_scope_findings_superseded": {
+        "owner_authority": "ERP-DEC02 governs FREE pickup lines; D17-19C category BOM/report. No explicit zero-GOOD-reimbursement owner semantics located in docs or supplied primary context",
+        "original_master_contract_M_available": false,
+        "historical_findings_sha256": "581ec74fb32d400a1b6ef4125023ad74d017d0c4b6e4d5ad821852910f66fc4c",
+        "reason": "Recovered USER constraint and actual master Originals were not available to the earlier scoped search; original report remains preserved."
+      },
+      "authority_addendum": {
+        "classification": "RECOVERED_OWNER_CONSTRAINT_AND_READ_ONLY_ENGINEERING_GAP_ADDENDUM",
+        "recovered_owner_constraint": {
+          "role": "USER",
+          "timestamp": "2026-08-29T21:18:07Z",
+          "quote": "tidak kita rembers saat penggajian",
+          "scope": "configured free BOM components, not all Afui accessories",
+          "provenance": "root-preserved second retrieval excerpt, not separately retrieved full original chat"
+        },
+        "master_M": {
+          "bytes": 202165,
+          "sha256": "9d06294fca945f004494fc2790d52f371b9e44d7ece3134d5145da546d4cedec"
+        },
+        "master_Pulih": {
+          "bytes": 681195,
+          "sha256": "f21ac70360915a1f1021b42a3918e862ca7d11cf88c1b90c5627b4490c69af07"
+        },
+        "master_M_Library_file_id": "libfile_ac4b6ce4c064819185539d5cb67a6286",
+        "master_Pulih_Library_file_id": "libfile_2ea9c9938f2881918efa1804de7b3bd6",
+        "findings": {
+          "bytes": 12437,
+          "sha256": "13a10a5f1200bffa4a5237b432c4d6c88e11afcdb05f76db39d24ac82064e6b7"
+        },
+        "private_original_evidence": {
+          "name": "ERP_Afui_Recovered_Owner_Authority_20261030.zip",
+          "bytes": 334943,
+          "sha256": "a74dfc080b52d5be4af600ad0d7f97b3d64246b71f538b880bcff362df450cf4",
+          "members": 11,
+          "CRC_ok": true,
+          "library_file_id": "libfile_3692d1332f608191a7652ab1401d75ff"
+        },
+        "no_specific_supersession_found": {
+          "master_M_rework": "657-668",
+          "master_Pulih_service_limit": "4767,5058-5064",
+          "D17_19C": "967-975"
+        },
+        "full_original_chat_transcript_retrieved": false,
+        "assistant_recommendation_is_owner_approval": false,
+        "payroll_definitions_compared": 3,
+        "payroll_catalogues_compared": 6,
+        "matching_payroll_function19_rows": 18,
+        "payroll_builders_filter_FREE_or_Special": false,
+        "categories_and_rates_invented": false,
+        "new_owner_question_needed_for_FREE_semantics": false
+      },
+      "engineering_gap": "generic effective-dated version-bound Special/category nonpayable cost basis and lawful Native accounting path",
+      "financial_counterpart": "UNDER_SOURCE_CONSERVATION_REVIEW_NOT_SELECTED_BY_RECOVERED_QUOTE",
+      "recorded_at_utc": "2026-10-30T11:23:38.831973+00:00"
     },
     "next_FG_Mandor_payroll_backlog": {
-      "receipt": "FG_MANDOR_PAYROLL_NEXT_BACKLOG_20261030.json",
+      "classification": "OWNER_HANDOFF_BACKLOG_AFTER_ACTIVE_INTEGRATION_STABLE",
+      "source": {
+        "file": "HANDOFF_FG_MANDOR_POTONG_PAYROLL_20261030.txt",
+        "library_file_id": "libfile_e56a5df5c9bc81919ea979cd447cb93a",
+        "read_all_lines": 58,
+        "instruction": "Tambahkan kebutuhan ini sebagai scope tersendiri di backlog. Kerjakan sebagai paket berikutnya setelah blok integrasi aktif stabil; pertahankan kandidat dan pengujian yang sedang berjalan. A tetap integrator tunggal."
+      },
+      "scope": "Use normal sales with customer type Toko or Mandor; attach posted FG invoice receivable to the identified mandor and manually selected payroll week.",
+      "UI": "Existing source-card pattern with invoice, date, value, outstanding, allocations, free balance and assigned payroll/week; amount selection and net-pay preview; desktop and mobile.",
+      "manual_week_selection": true,
+      "automatic_week_or_installment_schedule": false,
+      "identity": "Use master mandor ID, never name matching.",
+      "draft_payroll": "Reserve available invoice amount; do not settle receivable yet.",
+      "paid_payroll": "Atomically settle that same invoice receivable through payroll deduction; pay only net cash/bank; preserve existing wage expense recognition.",
+      "owner_example_rupiah": {
+        "payroll": 2000000,
+        "invoice_deduction": 300000,
+        "net_cash_payment": 1700000
+      },
+      "limits": [
+        "Invoice free outstanding after all active payroll reservations, payments and returns",
+        "Payroll capacity after other deductions",
+        "Server concurrency, current permissions, request idempotency and source-version review"
+      ],
+      "history": [
+        "Unassigning or cancelling unpaid payroll releases its reservation",
+        "Reversing paid payroll restores linked settlement through lawful reversal",
+        "Invoice return/cancel follows existing rules and requires refreshed deduction review or named blocking transactions",
+        "Preserve stock, HPP/COGS, posting, physical/system dates and append-only source history"
+      ],
+      "no_duplicate_cash_kasbon_or_receivable": true,
+      "clear_invalid_selection_on_mandor_or_week_change": true,
+      "future_evidence_scope": [
+        "Owner2m/300k example and manually selected other week",
+        "Partial payment, remaining balance and allocations across two payrolls",
+        "Double-click and concurrent tabs",
+        "Balance change through payment or return",
+        "Unassign, cancel, linked reversal and downstream blockers",
+        "Ordinary customer sale regression; stock/HPP recorded once; expense/settlement not duplicated",
+        "Actual Auth and normal App source-card journeys on desktop and mobile"
+      ],
+      "start_paths": [
+        "scripts/cp7-src/sales/form.sql",
+        "src/ConnectedSalesPage.tsx",
+        "src/ConnectedPayrollPage.tsx",
+        "src/PayrollKasbonPanel.tsx",
+        "src/payrollContract.ts",
+        "scripts/cp7-src/payroll/settlement-read.sql",
+        "scripts/cp7-src/payroll/settlement-write.sql",
+        "scripts/cp7-src/payroll/kasbon.sql"
+      ],
+      "source_auditor_observation_head": "8df440c123d88c8f3b71145f3e25b23584c4cd45",
+      "recheck_latest_HEAD_before_implementation": true,
       "implementation_started": false,
-      "starts_after": "ACTIVE_INTEGRATION_STABLE",
-      "owner_handoff": "libfile_e56a5df5c9bc81919ea979cd447cb93a"
+      "actual_tests": 0,
+      "one_hour_completion_promised": false,
+      "formal_total_unchanged": "5/16",
+      "production_go": false,
+      "independent_acceptance": false,
+      "owner_direct_reaffirmation": {
+        "date": "2026-10-30",
+        "source": "USER message in active Writer A conversation",
+        "title": "HANDOFF WRITER A — PENJUALAN FG KE MANDOR, POTONG PAYROLL MINGGU PILIHAN",
+        "exact_scope_instruction": "Catat sebagai scope tambahan. Kerjakan setelah blok integrasi aktif stabil, dengan A tetap integrator tunggal.",
+        "exact_timing_discretion": "scope tambahan, lu kira kira aja saat paling tepat masukin ini kpan, klo mau selesain yg lama dulu silahkan. gas lanjut",
+        "accepted": true,
+        "recorded_at_utc": "2026-10-30T11:29:27.210069+00:00"
+      },
+      "sequencing_decision": {
+        "next_implementation_package_after_active_integration_stable": true,
+        "reason": "Current SKU, S03 and composite source/census candidates are still under actual qualification. Reuse stable sales/payroll source and current integration head after those blockers are resolved.",
+        "current_package_scope_not_replaced": true,
+        "reader_preparation_permitted_without_mutating_active_candidate": true,
+        "actual_business_evidence_required_before_delivery": true
+      },
+      "UI_button_label": "Pasang tagihan belanja",
+      "owner_invariants_reconfirmed": [
+        "posted credit invoice only",
+        "same invoice receivable settled once at payroll PAID",
+        "draft allocation is not settlement",
+        "manual payroll week selection",
+        "remaining receivable may be reserved for subsequent payroll",
+        "stock/COGS/posting/returns use existing sales engine",
+        "no cash advance or fictitious cash flow",
+        "current rights/idempotency/source dates and posted history preserved"
+      ]
+    },
+    "global_dynamic_sql_review": {
+      "classification": "EXACT_ACTUAL_DEFINITION_REVIEW_ONLY",
+      "actual_source_head": "bce07059f7a351372e40bb7c2e4453876320a2e8",
+      "actual_run_id": "41032035497",
+      "counts": {
+        "candidates": 35,
+        "actual_dynamic_statement_candidates": 33,
+        "grant_execute_token_false_positives": 2,
+        "original_outward_functions": 187,
+        "literal_edge_expanded_positive_functions": 218,
+        "added_positive_functions": 31,
+        "added_positive_relations": 2,
+        "original_outward_dynamic_functions": 3,
+        "expanded_outward_dynamic_functions": 3,
+        "trigger_attachments": 21,
+        "trigger_attachments_on_outward_reference_relations": 3,
+        "trigger_attachments_on14_positive_outward_write_targets": 0,
+        "product_nonself_FK_candidates": 32,
+        "product_FK_source_relations": 30,
+        "prior_maximal_review_tables": 580,
+        "prior_maximal_tables_approved": false
+      },
+      "resolution_counts": {
+        "FINITE_LITERAL_ENUMERATION": 11,
+        "FIXED_NAMES_SOURCE_REVIEWED": 12,
+        "CATALOGUE_OR_TRIGGER_ENUMERATION": 4,
+        "PARTIAL_IDENTIFIER_ENUMERATION": 1,
+        "EXECUTE_PRIVILEGE_TOKEN_NOT_DYNAMIC_SQL": 2,
+        "INPUT_DEPENDENT_PROVIDER_SCOPE": 5
+      },
+      "runtime_entry": null,
+      "global_hooks_opened": false,
+      "graph_closed": false,
+      "permission_closure": "UNKNOWN",
+      "writer_or_phantom_lock_closed": false,
+      "production_go": false,
+      "independent_acceptance": false,
+      "recorded_at_utc": "2026-10-30T11:23:38.831973+00:00",
+      "root_source_verification": {
+        "full19_function_rows": 35,
+        "definition_hashes": 35,
+        "exact_line_anchors": 464,
+        "additional_function_rows": 31,
+        "status": "PASS_BYTES_AND_ANCHORS_ONLY"
+      },
+      "review_json": {
+        "bytes": 302694,
+        "sha256": "30c448baaba7e0b7727a0422678e7ff7051648de0e37e2b1e0601fc1fabc916b"
+      },
+      "review_md": {
+        "bytes": 28458,
+        "sha256": "6a9539704e978a40eeda2db4f55197548a4bc698f324b9bf3991a7573cffc972"
+      },
+      "private_original_evidence": {
+        "name": "ERP_Global_Dynamic_SQL_Source_Review_20261030.zip",
+        "bytes": 53641,
+        "sha256": "3c9b38a28bfd6d3848ac9629a156a2f0bf1fcd0b1a22a89541c9503ce033903d",
+        "members": 3,
+        "CRC_ok": true,
+        "library_file_id": "libfile_9ffeb79de64481919d587b9f911fc842"
+      },
+      "new_actual_Native_credit": 0,
+      "approved_production_lockset": false
+    },
+    "S03_ordinary_snapshot_successor": {
+      "status": "PUBLISHED_TWO_READ_SCOPE_SUCCESSOR_ACTUAL_BROWSER4_IN_PROGRESS",
+      "classification": "SOURCE_QUALIFIED_PREPARATION_NOT_ACTUAL_BROWSER_ACCEPTANCE",
+      "head": "30ee9874d049632050faf53b299a0cd8a11fe9f6",
+      "tree": "5266a98d94353ce33a598b86c3ac17449112cc12",
+      "parent": "ae83782c5dc0701f3b5325375a743b2a08e4ce3d",
+      "local_reviewed_head": "87b287250411fedfa4205c526816f20dd80d1a50",
+      "branch": "astra-a/s03-browser4-lawful-qualification-20261030",
+      "run_id": 41049049321,
+      "job_id": 124040265150,
+      "recorded_at_utc": "2026-10-30T11:36:16.353984+00:00",
+      "changed_paths_only_own_namespace": 22,
+      "source_pins": 2362,
+      "source_sha256": "20972f29cabe53280c9eff31d18653e9bd6f034c4c0abe0e21e45feea81bdde9",
+      "Python_controls": 75,
+      "Node_controls": 12,
+      "root_source_guard": "SOURCE_PASS",
+      "root_initial_review": {
+        "bytes": 3245,
+        "sha256": "0b1acf7b8fb418063fbecab9d3da517896f62d9673df8de78cf880262ebc7bb7",
+        "classification": "INTERNAL_SOURCE_REVIEW_FROZEN_BEFORE_PEER_CONCLUSION"
+      },
+      "peer_source_review": "IN_PROGRESS_NOT_A_LAUNCH_ACCEPTANCE_CLAIM",
+      "local_full_actual_Original_admission": "CLOSED_SIX_ACTUAL_ORIGINALS_NOT_MATERIALIZED",
+      "workflow_provisions_Originals": true,
+      "fixture_read_scopes": [
+        "ordinary_before_native",
+        "ordinary_pool_journal"
+      ],
+      "counted_reversible_change_groups": 7,
+      "all_four_callbacks_exact_vs_ae837": true,
+      "frozen_financial_helper_and_oracles_exact": true,
+      "prior_current_rights_manifest_exact": true,
+      "Native_activation_and_business_timezone_unchanged": true,
+      "runtime_row_value_normalization_added": false,
+      "actual4d_scan": {
+        "time_representation_differences_same_instant_excluding_current_HPP_repeat": 34,
+        "original_journal_lines_with_all_values_equal": 10,
+        "equal_numeric_value_representation_differences": 20,
+        "whole_FG_HPP_equality_claim_across_activation": false,
+        "real_financial_history_changes_retained": true,
+        "bytes": 34397,
+        "sha256": "0f3c3a760f719cf7ce81350993a2720ab36a70681fbae1d9bef6a88ffd507cd4"
+      },
+      "prior_ae837_run": {
+        "run_id": 41044533553,
+        "status": "IN_PROGRESS_AT_LAST_READ",
+        "cancelled_by_successor": false
+      },
+      "new_UI_SQL_product_changes": 0,
+      "new_actual_browser_qualified_credit": 0,
+      "production_go": false,
+      "independent_acceptance": false
     }
   },
   "actual_midnight_e787_root_qualified_20261030": {
@@ -24389,7 +24659,7 @@
     "source_mounted": false
   },
   "Afui_FREE_pickup_vs_reimbursement_source_review_20261030": {
-    "status": "COMPLETE_READONLY_SOURCE_EVIDENCE_INVESTIGATION",
+    "status": "COMPLETE_SOURCE_REVIEW_WITH_RECOVERED_OWNER_AUTHORITY_AND_OPEN_ENGINEERING_GAP",
     "findings_bytes": 19442,
     "findings_sha256": "581ec74fb32d400a1b6ef4125023ad74d017d0c4b6e4d5ad821852910f66fc4c",
     "actual_guard": "Initial PRODUCTION lot: sum(total_hpp_cost)>0 and sum(total_reimbursement)=0 refuses",
@@ -24399,7 +24669,7 @@
       "catalogs": 6,
       "matching_definitions": 168
     },
-    "owner_authority": "ERP-DEC02 governs FREE pickup lines; D17-19C category BOM/report. No explicit zero-GOOD-reimbursement owner semantics located in docs or supplied primary context",
+    "owner_authority": "Recovered USER U@2026-08-29T21:18:07Z: configured free BOM components are not reimbursed at payroll. Does not make all Afui accessories free or all reimbursement zero.",
     "lawful_positive_HPP_zero_total_reimbursement_path_proved": false,
     "ordinary_FREE_pickup_path_source_supported": true,
     "Afui_positive_HPP_zero_reimbursement_actual_coverage": false,
@@ -24435,14 +24705,150 @@
     "classification": "INTERNAL_SOURCE_REVIEW_NOT_NEW_OWNER_POLICY_OR_ACTUAL_RUNTIME_ACCEPTANCE",
     "normal_FREE_pickup_actual_coverage": "PENDING_FRESH_LAWFUL_CASE",
     "wider_Afui_business_defect_proved": false,
-    "original_master_contract_M_available": false,
-    "forbid_invented_paid_companion_or_direct_posted_row_fixture": true
+    "original_master_contract_M_available": true,
+    "forbid_invented_paid_companion_or_direct_posted_row_fixture": true,
+    "prior_search_scope_findings_superseded": {
+      "owner_authority": "ERP-DEC02 governs FREE pickup lines; D17-19C category BOM/report. No explicit zero-GOOD-reimbursement owner semantics located in docs or supplied primary context",
+      "original_master_contract_M_available": false,
+      "historical_findings_sha256": "581ec74fb32d400a1b6ef4125023ad74d017d0c4b6e4d5ad821852910f66fc4c",
+      "reason": "Recovered USER constraint and actual master Originals were not available to the earlier scoped search; original report remains preserved."
+    },
+    "authority_addendum": {
+      "classification": "RECOVERED_OWNER_CONSTRAINT_AND_READ_ONLY_ENGINEERING_GAP_ADDENDUM",
+      "recovered_owner_constraint": {
+        "role": "USER",
+        "timestamp": "2026-08-29T21:18:07Z",
+        "quote": "tidak kita rembers saat penggajian",
+        "scope": "configured free BOM components, not all Afui accessories",
+        "provenance": "root-preserved second retrieval excerpt, not separately retrieved full original chat"
+      },
+      "master_M": {
+        "bytes": 202165,
+        "sha256": "9d06294fca945f004494fc2790d52f371b9e44d7ece3134d5145da546d4cedec"
+      },
+      "master_Pulih": {
+        "bytes": 681195,
+        "sha256": "f21ac70360915a1f1021b42a3918e862ca7d11cf88c1b90c5627b4490c69af07"
+      },
+      "master_M_Library_file_id": "libfile_ac4b6ce4c064819185539d5cb67a6286",
+      "master_Pulih_Library_file_id": "libfile_2ea9c9938f2881918efa1804de7b3bd6",
+      "findings": {
+        "bytes": 12437,
+        "sha256": "13a10a5f1200bffa4a5237b432c4d6c88e11afcdb05f76db39d24ac82064e6b7"
+      },
+      "private_original_evidence": {
+        "name": "ERP_Afui_Recovered_Owner_Authority_20261030.zip",
+        "bytes": 334943,
+        "sha256": "a74dfc080b52d5be4af600ad0d7f97b3d64246b71f538b880bcff362df450cf4",
+        "members": 11,
+        "CRC_ok": true,
+        "library_file_id": "libfile_3692d1332f608191a7652ab1401d75ff"
+      },
+      "no_specific_supersession_found": {
+        "master_M_rework": "657-668",
+        "master_Pulih_service_limit": "4767,5058-5064",
+        "D17_19C": "967-975"
+      },
+      "full_original_chat_transcript_retrieved": false,
+      "assistant_recommendation_is_owner_approval": false,
+      "payroll_definitions_compared": 3,
+      "payroll_catalogues_compared": 6,
+      "matching_payroll_function19_rows": 18,
+      "payroll_builders_filter_FREE_or_Special": false,
+      "categories_and_rates_invented": false,
+      "new_owner_question_needed_for_FREE_semantics": false
+    },
+    "engineering_gap": "generic effective-dated version-bound Special/category nonpayable cost basis and lawful Native accounting path",
+    "financial_counterpart": "UNDER_SOURCE_CONSERVATION_REVIEW_NOT_SELECTED_BY_RECOVERED_QUOTE",
+    "recorded_at_utc": "2026-10-30T11:23:38.831973+00:00"
   },
   "FG_Mandor_payroll_next_backlog_20261030": {
-    "receipt": "FG_MANDOR_PAYROLL_NEXT_BACKLOG_20261030.json",
+    "classification": "OWNER_HANDOFF_BACKLOG_AFTER_ACTIVE_INTEGRATION_STABLE",
+    "source": {
+      "file": "HANDOFF_FG_MANDOR_POTONG_PAYROLL_20261030.txt",
+      "library_file_id": "libfile_e56a5df5c9bc81919ea979cd447cb93a",
+      "read_all_lines": 58,
+      "instruction": "Tambahkan kebutuhan ini sebagai scope tersendiri di backlog. Kerjakan sebagai paket berikutnya setelah blok integrasi aktif stabil; pertahankan kandidat dan pengujian yang sedang berjalan. A tetap integrator tunggal."
+    },
+    "scope": "Use normal sales with customer type Toko or Mandor; attach posted FG invoice receivable to the identified mandor and manually selected payroll week.",
+    "UI": "Existing source-card pattern with invoice, date, value, outstanding, allocations, free balance and assigned payroll/week; amount selection and net-pay preview; desktop and mobile.",
+    "manual_week_selection": true,
+    "automatic_week_or_installment_schedule": false,
+    "identity": "Use master mandor ID, never name matching.",
+    "draft_payroll": "Reserve available invoice amount; do not settle receivable yet.",
+    "paid_payroll": "Atomically settle that same invoice receivable through payroll deduction; pay only net cash/bank; preserve existing wage expense recognition.",
+    "owner_example_rupiah": {
+      "payroll": 2000000,
+      "invoice_deduction": 300000,
+      "net_cash_payment": 1700000
+    },
+    "limits": [
+      "Invoice free outstanding after all active payroll reservations, payments and returns",
+      "Payroll capacity after other deductions",
+      "Server concurrency, current permissions, request idempotency and source-version review"
+    ],
+    "history": [
+      "Unassigning or cancelling unpaid payroll releases its reservation",
+      "Reversing paid payroll restores linked settlement through lawful reversal",
+      "Invoice return/cancel follows existing rules and requires refreshed deduction review or named blocking transactions",
+      "Preserve stock, HPP/COGS, posting, physical/system dates and append-only source history"
+    ],
+    "no_duplicate_cash_kasbon_or_receivable": true,
+    "clear_invalid_selection_on_mandor_or_week_change": true,
+    "future_evidence_scope": [
+      "Owner2m/300k example and manually selected other week",
+      "Partial payment, remaining balance and allocations across two payrolls",
+      "Double-click and concurrent tabs",
+      "Balance change through payment or return",
+      "Unassign, cancel, linked reversal and downstream blockers",
+      "Ordinary customer sale regression; stock/HPP recorded once; expense/settlement not duplicated",
+      "Actual Auth and normal App source-card journeys on desktop and mobile"
+    ],
+    "start_paths": [
+      "scripts/cp7-src/sales/form.sql",
+      "src/ConnectedSalesPage.tsx",
+      "src/ConnectedPayrollPage.tsx",
+      "src/PayrollKasbonPanel.tsx",
+      "src/payrollContract.ts",
+      "scripts/cp7-src/payroll/settlement-read.sql",
+      "scripts/cp7-src/payroll/settlement-write.sql",
+      "scripts/cp7-src/payroll/kasbon.sql"
+    ],
+    "source_auditor_observation_head": "8df440c123d88c8f3b71145f3e25b23584c4cd45",
+    "recheck_latest_HEAD_before_implementation": true,
     "implementation_started": false,
-    "starts_after": "ACTIVE_INTEGRATION_STABLE",
-    "owner_handoff": "libfile_e56a5df5c9bc81919ea979cd447cb93a"
+    "actual_tests": 0,
+    "one_hour_completion_promised": false,
+    "formal_total_unchanged": "5/16",
+    "production_go": false,
+    "independent_acceptance": false,
+    "owner_direct_reaffirmation": {
+      "date": "2026-10-30",
+      "source": "USER message in active Writer A conversation",
+      "title": "HANDOFF WRITER A — PENJUALAN FG KE MANDOR, POTONG PAYROLL MINGGU PILIHAN",
+      "exact_scope_instruction": "Catat sebagai scope tambahan. Kerjakan setelah blok integrasi aktif stabil, dengan A tetap integrator tunggal.",
+      "exact_timing_discretion": "scope tambahan, lu kira kira aja saat paling tepat masukin ini kpan, klo mau selesain yg lama dulu silahkan. gas lanjut",
+      "accepted": true,
+      "recorded_at_utc": "2026-10-30T11:29:27.210069+00:00"
+    },
+    "sequencing_decision": {
+      "next_implementation_package_after_active_integration_stable": true,
+      "reason": "Current SKU, S03 and composite source/census candidates are still under actual qualification. Reuse stable sales/payroll source and current integration head after those blockers are resolved.",
+      "current_package_scope_not_replaced": true,
+      "reader_preparation_permitted_without_mutating_active_candidate": true,
+      "actual_business_evidence_required_before_delivery": true
+    },
+    "UI_button_label": "Pasang tagihan belanja",
+    "owner_invariants_reconfirmed": [
+      "posted credit invoice only",
+      "same invoice receivable settled once at payroll PAID",
+      "draft allocation is not settlement",
+      "manual payroll week selection",
+      "remaining receivable may be reserved for subsequent payroll",
+      "stock/COGS/posting/returns use existing sales engine",
+      "no cash advance or fictitious cash flow",
+      "current rights/idempotency/source dates and posted history preserved"
+    ]
   },
   "actual_D1_E_SKU_parent_bce_root_intake_20261030": {
     "status": "ROOT_VERIFIED_ACTUAL_D1_E_SKU_PARENT_CATALOGUE_PREUSE_RESTORE_ALL5",
@@ -24740,5 +25146,149 @@
     "actual_browser_qualified": 0,
     "production_go": false,
     "independent_acceptance": false
-  }
+  },
+  "global_dynamic_sql_source_review_20261030": {
+    "classification": "EXACT_ACTUAL_DEFINITION_REVIEW_ONLY",
+    "actual_source_head": "bce07059f7a351372e40bb7c2e4453876320a2e8",
+    "actual_run_id": "41032035497",
+    "counts": {
+      "candidates": 35,
+      "actual_dynamic_statement_candidates": 33,
+      "grant_execute_token_false_positives": 2,
+      "original_outward_functions": 187,
+      "literal_edge_expanded_positive_functions": 218,
+      "added_positive_functions": 31,
+      "added_positive_relations": 2,
+      "original_outward_dynamic_functions": 3,
+      "expanded_outward_dynamic_functions": 3,
+      "trigger_attachments": 21,
+      "trigger_attachments_on_outward_reference_relations": 3,
+      "trigger_attachments_on14_positive_outward_write_targets": 0,
+      "product_nonself_FK_candidates": 32,
+      "product_FK_source_relations": 30,
+      "prior_maximal_review_tables": 580,
+      "prior_maximal_tables_approved": false
+    },
+    "resolution_counts": {
+      "FINITE_LITERAL_ENUMERATION": 11,
+      "FIXED_NAMES_SOURCE_REVIEWED": 12,
+      "CATALOGUE_OR_TRIGGER_ENUMERATION": 4,
+      "PARTIAL_IDENTIFIER_ENUMERATION": 1,
+      "EXECUTE_PRIVILEGE_TOKEN_NOT_DYNAMIC_SQL": 2,
+      "INPUT_DEPENDENT_PROVIDER_SCOPE": 5
+    },
+    "runtime_entry": null,
+    "global_hooks_opened": false,
+    "graph_closed": false,
+    "permission_closure": "UNKNOWN",
+    "writer_or_phantom_lock_closed": false,
+    "production_go": false,
+    "independent_acceptance": false,
+    "recorded_at_utc": "2026-10-30T11:23:38.831973+00:00",
+    "root_source_verification": {
+      "full19_function_rows": 35,
+      "definition_hashes": 35,
+      "exact_line_anchors": 464,
+      "additional_function_rows": 31,
+      "status": "PASS_BYTES_AND_ANCHORS_ONLY"
+    },
+    "review_json": {
+      "bytes": 302694,
+      "sha256": "30c448baaba7e0b7727a0422678e7ff7051648de0e37e2b1e0601fc1fabc916b"
+    },
+    "review_md": {
+      "bytes": 28458,
+      "sha256": "6a9539704e978a40eeda2db4f55197548a4bc698f324b9bf3991a7573cffc972"
+    },
+    "private_original_evidence": {
+      "name": "ERP_Global_Dynamic_SQL_Source_Review_20261030.zip",
+      "bytes": 53641,
+      "sha256": "3c9b38a28bfd6d3848ac9629a156a2f0bf1fcd0b1a22a89541c9503ce033903d",
+      "members": 3,
+      "CRC_ok": true,
+      "library_file_id": "libfile_9ffeb79de64481919d587b9f911fc842"
+    },
+    "new_actual_Native_credit": 0,
+    "approved_production_lockset": false
+  },
+  "S03_ordinary_snapshot_UTC_successor_20261030": {
+    "status": "PUBLISHED_TWO_READ_SCOPE_SUCCESSOR_ACTUAL_BROWSER4_IN_PROGRESS",
+    "classification": "SOURCE_QUALIFIED_PREPARATION_NOT_ACTUAL_BROWSER_ACCEPTANCE",
+    "head": "30ee9874d049632050faf53b299a0cd8a11fe9f6",
+    "tree": "5266a98d94353ce33a598b86c3ac17449112cc12",
+    "parent": "ae83782c5dc0701f3b5325375a743b2a08e4ce3d",
+    "local_reviewed_head": "87b287250411fedfa4205c526816f20dd80d1a50",
+    "branch": "astra-a/s03-browser4-lawful-qualification-20261030",
+    "run_id": 41049049321,
+    "job_id": 124040265150,
+    "recorded_at_utc": "2026-10-30T11:36:16.353984+00:00",
+    "changed_paths_only_own_namespace": 22,
+    "source_pins": 2362,
+    "source_sha256": "20972f29cabe53280c9eff31d18653e9bd6f034c4c0abe0e21e45feea81bdde9",
+    "Python_controls": 75,
+    "Node_controls": 12,
+    "root_source_guard": "SOURCE_PASS",
+    "root_initial_review": {
+      "bytes": 3245,
+      "sha256": "0b1acf7b8fb418063fbecab9d3da517896f62d9673df8de78cf880262ebc7bb7",
+      "classification": "INTERNAL_SOURCE_REVIEW_FROZEN_BEFORE_PEER_CONCLUSION"
+    },
+    "peer_source_review": "IN_PROGRESS_NOT_A_LAUNCH_ACCEPTANCE_CLAIM",
+    "local_full_actual_Original_admission": "CLOSED_SIX_ACTUAL_ORIGINALS_NOT_MATERIALIZED",
+    "workflow_provisions_Originals": true,
+    "fixture_read_scopes": [
+      "ordinary_before_native",
+      "ordinary_pool_journal"
+    ],
+    "counted_reversible_change_groups": 7,
+    "all_four_callbacks_exact_vs_ae837": true,
+    "frozen_financial_helper_and_oracles_exact": true,
+    "prior_current_rights_manifest_exact": true,
+    "Native_activation_and_business_timezone_unchanged": true,
+    "runtime_row_value_normalization_added": false,
+    "actual4d_scan": {
+      "time_representation_differences_same_instant_excluding_current_HPP_repeat": 34,
+      "original_journal_lines_with_all_values_equal": 10,
+      "equal_numeric_value_representation_differences": 20,
+      "whole_FG_HPP_equality_claim_across_activation": false,
+      "real_financial_history_changes_retained": true,
+      "bytes": 34397,
+      "sha256": "0f3c3a760f719cf7ce81350993a2720ab36a70681fbae1d9bef6a88ffd507cd4"
+    },
+    "prior_ae837_run": {
+      "run_id": 41044533553,
+      "status": "IN_PROGRESS_AT_LAST_READ",
+      "cancelled_by_successor": false
+    },
+    "new_UI_SQL_product_changes": 0,
+    "new_actual_browser_qualified_credit": 0,
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "previous_running_before_30ee_launch_20261030": [
+    {
+      "domain": "SKU_NATIVE27",
+      "head": "a18ceb797840934f2cc45222b704b581a00cecf0",
+      "run_id": 41039546903,
+      "job_id": 124008666380,
+      "status": "IN_PROGRESS_AT_LAST_API_OBSERVATION",
+      "qualified_new_case_credit": 0
+    },
+    {
+      "domain": "GLOBAL_WRITER_METADATA_ONLY",
+      "head": "ee14592920c331d84d354a24b4b6b4a9f49f91d1",
+      "run_id": 41044419248,
+      "job_id": 124024866394,
+      "status": "IN_PROGRESS_AT_LAST_API_OBSERVATION",
+      "qualified_new_case_credit": 0
+    },
+    {
+      "domain": "S03_BROWSER4",
+      "head": "ae83782c5dc0701f3b5325375a743b2a08e4ce3d",
+      "run_id": 41044533553,
+      "job_id": 124025266832,
+      "status": "IN_PROGRESS_AT_LAST_API_OBSERVATION",
+      "qualified_new_case_credit": 0
+    }
+  ]
 }

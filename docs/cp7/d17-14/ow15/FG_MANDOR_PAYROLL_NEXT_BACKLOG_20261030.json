@@ -57,5 +57,32 @@
   "one_hour_completion_promised": false,
   "formal_total_unchanged": "5/16",
   "production_go": false,
-  "independent_acceptance": false
+  "independent_acceptance": false,
+  "owner_direct_reaffirmation": {
+    "date": "2026-10-30",
+    "source": "USER message in active Writer A conversation",
+    "title": "HANDOFF WRITER A — PENJUALAN FG KE MANDOR, POTONG PAYROLL MINGGU PILIHAN",
+    "exact_scope_instruction": "Catat sebagai scope tambahan. Kerjakan setelah blok integrasi aktif stabil, dengan A tetap integrator tunggal.",
+    "exact_timing_discretion": "scope tambahan, lu kira kira aja saat paling tepat masukin ini kpan, klo mau selesain yg lama dulu silahkan. gas lanjut",
+    "accepted": true,
+    "recorded_at_utc": "2026-10-30T11:29:27.210069+00:00"
+  },
+  "sequencing_decision": {
+    "next_implementation_package_after_active_integration_stable": true,
+    "reason": "Current SKU, S03 and composite source/census candidates are still under actual qualification. Reuse stable sales/payroll source and current integration head after those blockers are resolved.",
+    "current_package_scope_not_replaced": true,
+    "reader_preparation_permitted_without_mutating_active_candidate": true,
+    "actual_business_evidence_required_before_delivery": true
+  },
+  "UI_button_label": "Pasang tagihan belanja",
+  "owner_invariants_reconfirmed": [
+    "posted credit invoice only",
+    "same invoice receivable settled once at payroll PAID",
+    "draft allocation is not settlement",
+    "manual payroll week selection",
+    "remaining receivable may be reserved for subsequent payroll",
+    "stock/COGS/posting/returns use existing sales engine",
+    "no cash advance or fictitious cash flow",
+    "current rights/idempotency/source dates and posted history preserved"
+  ]
 }

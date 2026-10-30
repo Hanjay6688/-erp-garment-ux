@@ -1,0 +1,64 @@
+{
+  "classification": "EXACT_ACTUAL_DEFINITION_REVIEW_ONLY",
+  "actual_source_head": "bce07059f7a351372e40bb7c2e4453876320a2e8",
+  "actual_run_id": "41032035497",
+  "counts": {
+    "candidates": 35,
+    "actual_dynamic_statement_candidates": 33,
+    "grant_execute_token_false_positives": 2,
+    "original_outward_functions": 187,
+    "literal_edge_expanded_positive_functions": 218,
+    "added_positive_functions": 31,
+    "added_positive_relations": 2,
+    "original_outward_dynamic_functions": 3,
+    "expanded_outward_dynamic_functions": 3,
+    "trigger_attachments": 21,
+    "trigger_attachments_on_outward_reference_relations": 3,
+    "trigger_attachments_on14_positive_outward_write_targets": 0,
+    "product_nonself_FK_candidates": 32,
+    "product_FK_source_relations": 30,
+    "prior_maximal_review_tables": 580,
+    "prior_maximal_tables_approved": false
+  },
+  "resolution_counts": {
+    "FINITE_LITERAL_ENUMERATION": 11,
+    "FIXED_NAMES_SOURCE_REVIEWED": 12,
+    "CATALOGUE_OR_TRIGGER_ENUMERATION": 4,
+    "PARTIAL_IDENTIFIER_ENUMERATION": 1,
+    "EXECUTE_PRIVILEGE_TOKEN_NOT_DYNAMIC_SQL": 2,
+    "INPUT_DEPENDENT_PROVIDER_SCOPE": 5
+  },
+  "runtime_entry": null,
+  "global_hooks_opened": false,
+  "graph_closed": false,
+  "permission_closure": "UNKNOWN",
+  "writer_or_phantom_lock_closed": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "recorded_at_utc": "2026-10-30T11:23:38.831973+00:00",
+  "root_source_verification": {
+    "full19_function_rows": 35,
+    "definition_hashes": 35,
+    "exact_line_anchors": 464,
+    "additional_function_rows": 31,
+    "status": "PASS_BYTES_AND_ANCHORS_ONLY"
+  },
+  "review_json": {
+    "bytes": 302694,
+    "sha256": "30c448baaba7e0b7727a0422678e7ff7051648de0e37e2b1e0601fc1fabc916b"
+  },
+  "review_md": {
+    "bytes": 28458,
+    "sha256": "6a9539704e978a40eeda2db4f55197548a4bc698f324b9bf3991a7573cffc972"
+  },
+  "private_original_evidence": {
+    "name": "ERP_Global_Dynamic_SQL_Source_Review_20261030.zip",
+    "bytes": 53641,
+    "sha256": "3c9b38a28bfd6d3848ac9629a156a2f0bf1fcd0b1a22a89541c9503ce033903d",
+    "members": 3,
+    "CRC_ok": true,
+    "library_file_id": "libfile_9ffeb79de64481919d587b9f911fc842"
+  },
+  "new_actual_Native_credit": 0,
+  "approved_production_lockset": false
+}

@@ -1,5 +1,5 @@
 {
-  "status": "COMPLETE_READONLY_SOURCE_EVIDENCE_INVESTIGATION",
+  "status": "COMPLETE_SOURCE_REVIEW_WITH_RECOVERED_OWNER_AUTHORITY_AND_OPEN_ENGINEERING_GAP",
   "findings_bytes": 19442,
   "findings_sha256": "581ec74fb32d400a1b6ef4125023ad74d017d0c4b6e4d5ad821852910f66fc4c",
   "actual_guard": "Initial PRODUCTION lot: sum(total_hpp_cost)>0 and sum(total_reimbursement)=0 refuses",
@@ -9,7 +9,7 @@
     "catalogs": 6,
     "matching_definitions": 168
   },
-  "owner_authority": "ERP-DEC02 governs FREE pickup lines; D17-19C category BOM/report. No explicit zero-GOOD-reimbursement owner semantics located in docs or supplied primary context",
+  "owner_authority": "Recovered USER U@2026-08-29T21:18:07Z: configured free BOM components are not reimbursed at payroll. Does not make all Afui accessories free or all reimbursement zero.",
   "lawful_positive_HPP_zero_total_reimbursement_path_proved": false,
   "ordinary_FREE_pickup_path_source_supported": true,
   "Afui_positive_HPP_zero_reimbursement_actual_coverage": false,
@@ -45,6 +45,60 @@
   "classification": "INTERNAL_SOURCE_REVIEW_NOT_NEW_OWNER_POLICY_OR_ACTUAL_RUNTIME_ACCEPTANCE",
   "normal_FREE_pickup_actual_coverage": "PENDING_FRESH_LAWFUL_CASE",
   "wider_Afui_business_defect_proved": false,
-  "original_master_contract_M_available": false,
-  "forbid_invented_paid_companion_or_direct_posted_row_fixture": true
+  "original_master_contract_M_available": true,
+  "forbid_invented_paid_companion_or_direct_posted_row_fixture": true,
+  "prior_search_scope_findings_superseded": {
+    "owner_authority": "ERP-DEC02 governs FREE pickup lines; D17-19C category BOM/report. No explicit zero-GOOD-reimbursement owner semantics located in docs or supplied primary context",
+    "original_master_contract_M_available": false,
+    "historical_findings_sha256": "581ec74fb32d400a1b6ef4125023ad74d017d0c4b6e4d5ad821852910f66fc4c",
+    "reason": "Recovered USER constraint and actual master Originals were not available to the earlier scoped search; original report remains preserved."
+  },
+  "authority_addendum": {
+    "classification": "RECOVERED_OWNER_CONSTRAINT_AND_READ_ONLY_ENGINEERING_GAP_ADDENDUM",
+    "recovered_owner_constraint": {
+      "role": "USER",
+      "timestamp": "2026-08-29T21:18:07Z",
+      "quote": "tidak kita rembers saat penggajian",
+      "scope": "configured free BOM components, not all Afui accessories",
+      "provenance": "root-preserved second retrieval excerpt, not separately retrieved full original chat"
+    },
+    "master_M": {
+      "bytes": 202165,
+      "sha256": "9d06294fca945f004494fc2790d52f371b9e44d7ece3134d5145da546d4cedec"
+    },
+    "master_Pulih": {
+      "bytes": 681195,
+      "sha256": "f21ac70360915a1f1021b42a3918e862ca7d11cf88c1b90c5627b4490c69af07"
+    },
+    "master_M_Library_file_id": "libfile_ac4b6ce4c064819185539d5cb67a6286",
+    "master_Pulih_Library_file_id": "libfile_2ea9c9938f2881918efa1804de7b3bd6",
+    "findings": {
+      "bytes": 12437,
+      "sha256": "13a10a5f1200bffa4a5237b432c4d6c88e11afcdb05f76db39d24ac82064e6b7"
+    },
+    "private_original_evidence": {
+      "name": "ERP_Afui_Recovered_Owner_Authority_20261030.zip",
+      "bytes": 334943,
+      "sha256": "a74dfc080b52d5be4af600ad0d7f97b3d64246b71f538b880bcff362df450cf4",
+      "members": 11,
+      "CRC_ok": true,
+      "library_file_id": "libfile_3692d1332f608191a7652ab1401d75ff"
+    },
+    "no_specific_supersession_found": {
+      "master_M_rework": "657-668",
+      "master_Pulih_service_limit": "4767,5058-5064",
+      "D17_19C": "967-975"
+    },
+    "full_original_chat_transcript_retrieved": false,
+    "assistant_recommendation_is_owner_approval": false,
+    "payroll_definitions_compared": 3,
+    "payroll_catalogues_compared": 6,
+    "matching_payroll_function19_rows": 18,
+    "payroll_builders_filter_FREE_or_Special": false,
+    "categories_and_rates_invented": false,
+    "new_owner_question_needed_for_FREE_semantics": false
+  },
+  "engineering_gap": "generic effective-dated version-bound Special/category nonpayable cost basis and lawful Native accounting path",
+  "financial_counterpart": "UNDER_SOURCE_CONSERVATION_REVIEW_NOT_SELECTED_BY_RECOVERED_QUOTE",
+  "recorded_at_utc": "2026-10-30T11:23:38.831973+00:00"
 }

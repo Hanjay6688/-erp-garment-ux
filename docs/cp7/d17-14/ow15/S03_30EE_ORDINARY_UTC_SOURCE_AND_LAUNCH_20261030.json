@@ -1,0 +1,54 @@
+{
+  "status": "PUBLISHED_TWO_READ_SCOPE_SUCCESSOR_ACTUAL_BROWSER4_IN_PROGRESS",
+  "classification": "SOURCE_QUALIFIED_PREPARATION_NOT_ACTUAL_BROWSER_ACCEPTANCE",
+  "head": "30ee9874d049632050faf53b299a0cd8a11fe9f6",
+  "tree": "5266a98d94353ce33a598b86c3ac17449112cc12",
+  "parent": "ae83782c5dc0701f3b5325375a743b2a08e4ce3d",
+  "local_reviewed_head": "87b287250411fedfa4205c526816f20dd80d1a50",
+  "branch": "astra-a/s03-browser4-lawful-qualification-20261030",
+  "run_id": 41049049321,
+  "job_id": 124040265150,
+  "recorded_at_utc": "2026-10-30T11:36:16.353984+00:00",
+  "changed_paths_only_own_namespace": 22,
+  "source_pins": 2362,
+  "source_sha256": "20972f29cabe53280c9eff31d18653e9bd6f034c4c0abe0e21e45feea81bdde9",
+  "Python_controls": 75,
+  "Node_controls": 12,
+  "root_source_guard": "SOURCE_PASS",
+  "root_initial_review": {
+    "bytes": 3245,
+    "sha256": "0b1acf7b8fb418063fbecab9d3da517896f62d9673df8de78cf880262ebc7bb7",
+    "classification": "INTERNAL_SOURCE_REVIEW_FROZEN_BEFORE_PEER_CONCLUSION"
+  },
+  "peer_source_review": "IN_PROGRESS_NOT_A_LAUNCH_ACCEPTANCE_CLAIM",
+  "local_full_actual_Original_admission": "CLOSED_SIX_ACTUAL_ORIGINALS_NOT_MATERIALIZED",
+  "workflow_provisions_Originals": true,
+  "fixture_read_scopes": [
+    "ordinary_before_native",
+    "ordinary_pool_journal"
+  ],
+  "counted_reversible_change_groups": 7,
+  "all_four_callbacks_exact_vs_ae837": true,
+  "frozen_financial_helper_and_oracles_exact": true,
+  "prior_current_rights_manifest_exact": true,
+  "Native_activation_and_business_timezone_unchanged": true,
+  "runtime_row_value_normalization_added": false,
+  "actual4d_scan": {
+    "time_representation_differences_same_instant_excluding_current_HPP_repeat": 34,
+    "original_journal_lines_with_all_values_equal": 10,
+    "equal_numeric_value_representation_differences": 20,
+    "whole_FG_HPP_equality_claim_across_activation": false,
+    "real_financial_history_changes_retained": true,
+    "bytes": 34397,
+    "sha256": "0f3c3a760f719cf7ce81350993a2720ab36a70681fbae1d9bef6a88ffd507cd4"
+  },
+  "prior_ae837_run": {
+    "run_id": 41044533553,
+    "status": "IN_PROGRESS_AT_LAST_READ",
+    "cancelled_by_successor": false
+  },
+  "new_UI_SQL_product_changes": 0,
+  "new_actual_browser_qualified_credit": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}
