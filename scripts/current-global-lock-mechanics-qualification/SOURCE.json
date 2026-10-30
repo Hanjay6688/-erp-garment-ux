@@ -1,0 +1,30 @@
+{
+  "base": "a6ded9cd4ce23a6d59cd32e42ca9bb33d793f8cc",
+  "classification": "ISOLATED_POSTGRESQL17_MODEL_ONLY",
+  "actual_ERP_Native_cases": 0,
+  "runtime_entry": null,
+  "production_go": false,
+  "independent_acceptance": false,
+  "files": {
+    "scripts/current-global-lock-mechanics-qualification/README.md": {
+      "bytes": 1791,
+      "sha256": "b5dc62e96f13f9c6596e037ae1f5ec46f912ec3e17dda76cf59b380ced7718e0"
+    },
+    "scripts/current-global-lock-mechanics-qualification/matrix.py": {
+      "bytes": 2045,
+      "sha256": "6774e83c49e9714d6ef6ea5d6f8fb1355c56c641aa4f6a47847159deeb4a2026"
+    },
+    "scripts/current-global-lock-mechanics-qualification/probe.py": {
+      "bytes": 10391,
+      "sha256": "b95f34592d36d04ab270b90434d0edbc56c0342e004292ae4b8b062e1d79241c"
+    },
+    "scripts/current-global-lock-mechanics-qualification/test_matrix.py": {
+      "bytes": 1831,
+      "sha256": "c781a0ddd846ed4f8246cba48502cce3701d0fb2516435017da7a874ed3f8050"
+    },
+    ".github/workflows/cp7-global-lock-mechanics.yml": {
+      "bytes": 2177,
+      "sha256": "2ddbf323a7a1426de2b740dbb31152f2e09340db6ce4f784b2d0822d1d8c8ca2"
+    }
+  }
+}

@@ -1,0 +1,54 @@
+name: CP7 A isolated PostgreSQL17 lock mechanics
+on:
+  push:
+    branches: [astra-a/global-lock-mechanics-20261030]
+    paths:
+      - scripts/current-global-lock-mechanics-qualification/**
+      - .github/workflows/cp7-global-lock-mechanics.yml
+  workflow_dispatch: {}
+permissions:
+  contents: read
+jobs:
+  lock_model:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    services:
+      postgres:
+        image: postgres:17.6-bookworm
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: disposable-lock-model
+          POSTGRES_DB: cp7_lock_mechanics
+        ports: [54329:5432]
+        options: >-
+          --health-cmd "pg_isready -U postgres -d cp7_lock_mechanics"
+          --health-interval 5s --health-timeout 5s --health-retries 12
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.11'
+      - name: Install exact model client
+        run: python -m pip install 'psycopg[binary]==3.2.10'
+      - name: Check independent matrix result gate
+        run: python -B -m unittest discover -s scripts/current-global-lock-mechanics-qualification -p 'test_*.py' -v
+      - name: Record actual disposable image identity
+        env:
+          MODEL_CONTAINER: ${{ job.services.postgres.id }}
+        run: |
+          docker inspect --format '{{json .Image}}' "$MODEL_CONTAINER" > LOCK_MODEL_IMAGE_ID.json
+          docker image inspect postgres:17.6-bookworm --format '{{json .RepoDigests}}' > LOCK_MODEL_IMAGE_DIGESTS.json
+      - name: Execute actual two-backend synthetic lock cases
+        run: python -B scripts/current-global-lock-mechanics-qualification/probe.py
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: cp7-global-lock-mechanics-${{ github.run_attempt }}
+          if-no-files-found: error
+          path: |
+            LOCK_MECHANICS_REPORT.json
+            LOCK_MODEL_IMAGE_ID.json
+            LOCK_MODEL_IMAGE_DIGESTS.json
