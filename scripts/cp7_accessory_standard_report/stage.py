@@ -1,4 +1,4 @@
-"""Additive reader on the exact qualified vendor parent; no connection/commit.
+"""Additive reader source on the explicit S03 parent; no connection/commit.
 
 The caller owns the isolated transaction. Native fixtures/transitions happen
 on the parent BEFORE this stage is installed. The read must leave every row,
@@ -27,7 +27,7 @@ FUNCTIONS = {
 
 
 def parent():
-    from cp7_vendor_receivable import composition
+    from cp7_attendance_period_choice import composition
     return composition
 
 
@@ -73,7 +73,7 @@ def verify(cur, state):
     catalog._authority(cur)
     if state['sources'] != sources() or state['parent_sources'] != parent().sources():
         raise ValueError('S05_PARENT_SOURCE_CHANGED')
-    if state['parent_proof']['status'] != 'VENDOR_RECEIVABLE_EXACT_SOURCE_AND_ALL22':
+    if state['parent_proof']['status'] != 'CP7_S03_EXACT_SOURCE_ACTUAL_ALL22':
         raise ValueError('S05_EXACT_PARENT_PROOF_REQUIRED')
     if catalog.digest(dict(before=state['before'], proof=state['parent_proof'], sources=state['parent_sources'])) != state['parent_binding']:
         raise ValueError('S05_PARENT_BINDING_CHANGED')

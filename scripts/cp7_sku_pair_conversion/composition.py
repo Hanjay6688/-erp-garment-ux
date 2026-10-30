@@ -1,4 +1,4 @@
-"""Owner 29 October pair/master and manual conversion delta over qualified vendor composition.
+"""Owner pair/master and manual conversion source over the explicit E parent.
 
 Parent is verified on its actual catalog before changing the six original
 and two managed-recovery entrypoints. After use, only a full backup restore
@@ -8,7 +8,7 @@ from pathlib import Path
 from hashlib import sha256
 from . import native_delta,ri_catalog,recovery_delta
 from cp7_laundry_unknown_wash.composition import as_owner
-import cp7_vendor_receivable.composition as vendor_parent
+from cp7_credit_correction_de import e_composition as vendor_parent
 HERE=Path(__file__).resolve().parent
 ROOT=HERE.parents[1]
 SCHEMA=native_delta.SCHEMA

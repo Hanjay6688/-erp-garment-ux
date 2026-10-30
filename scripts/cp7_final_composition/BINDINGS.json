@@ -1,0 +1,16 @@
+{
+  "contract": "cp7.final-composition-parent-adapters-prepared.v1",
+  "phase": "SOURCE_PARENT_ADAPTERS_ONLY",
+  "runtime_entry": null,
+  "accepted_component_bindings": {
+    "D1": null,
+    "E": null,
+    "SKU": null,
+    "S03": null,
+    "S05": null
+  },
+  "global_parent_binding": null,
+  "actual_execution_authorized": false,
+  "actual_Native_Auth_HTTP_browser_races": 0,
+  "production_go": false
+}

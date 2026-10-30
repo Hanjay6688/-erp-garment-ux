@@ -1,4 +1,4 @@
-"""Additive S03 stage over the exact qualified vendor composition.
+"""Additive S03 source over the explicit CLOSED global-bridge parent.
 
 Installation derives from the actual installed Native definitions, never the
 source-derived local ABI fixture. After any use, only full backup restore may
@@ -6,7 +6,7 @@ remove the stage. No default installer or shared source is changed here.
 """
 from pathlib import Path
 from hashlib import sha256
-from cp7_vendor_receivable import composition as predecessor
+from cp7_final_global_bridge import composition as predecessor
 from cp7_laundry_unknown_wash.composition import as_owner
 from . import native_delta
 from .installer_ddl import existing_schema_ddl

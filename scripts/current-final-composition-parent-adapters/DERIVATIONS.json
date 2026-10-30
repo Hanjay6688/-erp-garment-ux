@@ -1,0 +1,110 @@
+{
+  "contract": "cp7.final-composition-parent-adapters-counted.v1",
+  "base_commit": "c9613859c4e82f347c8cacfa1f874dbf73361cee",
+  "base_tree": "6ff056ae9a5e2a6ed6a5ed5e0fdbb3d7685115c2",
+  "classification": "EXACT_FOUR_FILE_SOURCE_DERIVATION_NOT_INSTALLATION",
+  "files": [
+    {
+      "path": "scripts/cp7_sku_pair_conversion/composition.py",
+      "original": {
+        "bytes": 10252,
+        "sha256": "fa3e825b251252ae11c2b68eecd9e55562526b468f03a01ebc3d5213ed472be8"
+      },
+      "current": {
+        "bytes": 10245,
+        "sha256": "f4bf4bacc90a2e2ebdef7ea1105a3dae49a9d4c798da77beae40f3702decbeda"
+      },
+      "steps": [
+        {
+          "before": "Owner 29 October pair/master and manual conversion delta over qualified vendor composition.",
+          "after": "Owner pair/master and manual conversion source over the explicit E parent.",
+          "count": 1
+        },
+        {
+          "before": "import cp7_vendor_receivable.composition as vendor_parent",
+          "after": "from cp7_credit_correction_de import e_composition as vendor_parent",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "scripts/cp7_attendance_period_choice/composition.py",
+      "original": {
+        "bytes": 7381,
+        "sha256": "51b3d53dccd69688438287bee338e7a86a37afe57aa963cc2dee24b2e43470f1"
+      },
+      "current": {
+        "bytes": 7386,
+        "sha256": "51ea71ff7ec0cc4a66f27acf3355214aed33983bf9fa44bfbf49b0274b29b4a7"
+      },
+      "steps": [
+        {
+          "before": "Additive S03 stage over the exact qualified vendor composition.",
+          "after": "Additive S03 source over the explicit CLOSED global-bridge parent.",
+          "count": 1
+        },
+        {
+          "before": "from cp7_vendor_receivable import composition as predecessor",
+          "after": "from cp7_final_global_bridge import composition as predecessor",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "scripts/cp7_accessory_standard_report/stage.py",
+      "original": {
+        "bytes": 13018,
+        "sha256": "c8ef2b9f092eca295f4dff1c9691173d9171ca485b6c8179f67700d98260095a"
+      },
+      "current": {
+        "bytes": 13015,
+        "sha256": "5d1c3a9e41d2501be366deed85e30b8d59a4a1cdef22edab47d8a5e7fd2226fd"
+      },
+      "steps": [
+        {
+          "before": "Additive reader on the exact qualified vendor parent; no connection/commit.",
+          "after": "Additive reader source on the explicit S03 parent; no connection/commit.",
+          "count": 1
+        },
+        {
+          "before": "    from cp7_vendor_receivable import composition",
+          "after": "    from cp7_attendance_period_choice import composition",
+          "count": 1
+        },
+        {
+          "before": "'VENDOR_RECEIVABLE_EXACT_SOURCE_AND_ALL22'",
+          "after": "'CP7_S03_EXACT_SOURCE_ACTUAL_ALL22'",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "scripts/cp7_accessory_standard_report/SOURCE.json",
+      "original": {
+        "bytes": 7147,
+        "sha256": "63530f5c713a121f2bde3f63380113bc38e7e1e0fc148727e12ef9d0fea20e33"
+      },
+      "current": {
+        "bytes": 8226,
+        "sha256": "ef1094362ff623dc90716dbc7d222510d4eba10de34e269af2559e0b62292319"
+      },
+      "steps": [
+        {
+          "before": "    \"scripts/cp7_accessory_standard_report/stage.py\": \"c8ef2b9f092eca295f4dff1c9691173d9171ca485b6c8179f67700d98260095a\"",
+          "after": "    \"scripts/cp7_accessory_standard_report/stage.py\": \"5d1c3a9e41d2501be366deed85e30b8d59a4a1cdef22edab47d8a5e7fd2226fd\"",
+          "count": 1
+        },
+        {
+          "before": "_case_callbacks_changed\": 0,\n    \"verifier_changed\": false,\n    \"default_privileges_changed\": false,\n    \"schema_ACL_changed\": false,\n    \"role_or_membership_changes\": 0,\n    \"unknown_default_grants\": \"REFUSE_ATOMICALLY\",\n    \"Native_executions\": 0,\n    \"independent_acceptance\": false,\n    \"production_go\": false\n  }\n}\n",
+          "after": "_case_callbacks_changed\": 0,\n    \"verifier_changed\": false,\n    \"default_privileges_changed\": false,\n    \"schema_ACL_changed\": false,\n    \"role_or_membership_changes\": 0,\n    \"unknown_default_grants\": \"REFUSE_ATOMICALLY\",\n    \"Native_executions\": 0,\n    \"independent_acceptance\": false,\n    \"production_go\": false\n  },\n  \"parent_adapter_transition\": {\n    \"classification\": \"PREPARED_SOURCE_PARENT_CHANGE_NOT_NATIVE_ADMISSION\",\n    \"source_snapshot_public\": \"c9613859c4e82f347c8cacfa1f874dbf73361cee\",\n    \"original_product_head\": \"52eedc88e9aa2cd7470894c1f38ff9eb22f9cc60\",\n    \"original_manifest_pin\": {\n      \"bytes\": 7147,\n      \"sha256\": \"63530f5c713a121f2bde3f63380113bc38e7e1e0fc148727e12ef9d0fea20e33\"\n    },\n    \"original_stage_sha256\": \"c8ef2b9f092eca295f4dff1c9691173d9171ca485b6c8179f67700d98260095a\",\n    \"current_stage_sha256\": \"5d1c3a9e41d2501be366deed85e30b8d59a4a1cdef22edab47d8a5e7fd2226fd\",\n    \"original_parent\": \"cp7_vendor_receivable.composition\",\n    \"current_parent\": \"cp7_attendance_period_choice.composition\",\n    \"original_expected_parent_status\": \"VENDOR_RECEIVABLE_EXACT_SOURCE_AND_ALL22\",\n    \"current_expected_parent_status\": \"CP7_S03_EXACT_SOURCE_ACTUAL_ALL22\",\n    \"qualified_vendor_head_is_historical\": true,\n    \"accepted_component_bindings\": null,\n    \"global_parent_binding\": null,\n    \"runtime_entry\": null,\n    \"actual_Native_Auth_HTTP_browser_races\": 0\n  }\n}\n",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "changed_original_files": 4,
+  "counted_reversible_substitutions": 9,
+  "D1_E_business_and_all_SQL_bodies_changed": false,
+  "global_eight_hooks_changed": false,
+  "actual_Native_Auth_HTTP_browser_races": 0
+}

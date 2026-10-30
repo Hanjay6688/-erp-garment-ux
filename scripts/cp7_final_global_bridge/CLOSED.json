@@ -1,0 +1,17 @@
+{
+  "contract": "cp7.final-global-bridge-closed-source.v1",
+  "classification": "CLOSED_PLACEHOLDER_NOT_AN_INSTALLED_GLOBAL_ADAPTER",
+  "actual_parent_source": "cp7_sku_pair_conversion.composition",
+  "runtime_entry": null,
+  "accepted_parent_binding": null,
+  "Native19_runtime_profile_binding": null,
+  "writer_or_phantom_lock_closed": false,
+  "global_hooks_installed": 0,
+  "actual_execution_authorized": false,
+  "actual_Native_Auth_HTTP_browser_races": 0,
+  "new_catalog_claims": false,
+  "open_native_profiles": [
+    "erp.compute_non_po_product_hpp_book_v2620f(uuid)",
+    "erp.require_internal()"
+  ]
+}

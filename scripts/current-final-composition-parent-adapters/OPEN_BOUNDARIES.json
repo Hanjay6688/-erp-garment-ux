@@ -1,0 +1,30 @@
+{
+  "classification": "READ_ONLY_COUNTER_PROVENANCE_NOT_RUNTIME_ACCEPTANCE",
+  "Native19_current_actual_rows_equal_602_and_cde78": true,
+  "prepared_profile_matches": 17,
+  "prepared_profile_mismatches": 2,
+  "exact_native19_receipt_sha256": "f4367ee83308a7f6c4e964a8e4e9aa9ea0da67413d38a888db91f98c35c05e71",
+  "actual_current4_request_guard_receipt_sha256": "b5ed893a456c142c6988a5cac9535313267f827dbed6f82eeec7e156c41574f2",
+  "current_D1_positive_literal_constant_execute_closure": {
+    "reached_functions": 213,
+    "receipt_sha256": "bc4427770cf6c9173c40eabcf33ac6312021ae3f718d80fe0a160776754258e5",
+    "dynamic_overload_all_caller_closure": false
+  },
+  "known_open": [
+    "Native19 exact current authority transition",
+    "Complete caller/trigger/FK/permission writer closure",
+    "Chosen and qualified global lock/phantom profile",
+    "Actual8 owning hooks and full outside completion",
+    "Exact component raw binding/root acceptance assignment"
+  ],
+  "runtime_entry": null,
+  "accepted_component_bindings": {
+    "D1": null,
+    "E": null,
+    "SKU": null,
+    "S03": null,
+    "S05": null
+  },
+  "global_parent_binding": null,
+  "actual_Native_Auth_HTTP_browser_races": 0
+}
