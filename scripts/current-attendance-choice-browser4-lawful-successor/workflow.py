@@ -22,6 +22,9 @@ def derive(original):
     value['concurrency']['group'] = 'cp7-s03-browser4-${{ github.run_id }}'
     job = value['jobs']['p21']
     job['name'] = 'S03 real browser4 and complete original restore'
+    # Actual30ee exhausted120min after desktop and mobile. Keep four complete
+    # journeys plus outer restoration; do not shorten financial observations.
+    job['timeout-minutes'] = 240
     job['if'] = "github.ref == 'refs/heads/" + BRANCH + "'"
     job['env']['AUDITOR_UI_MODE'] = 'DISPOSABLE'
     steps = job['steps']

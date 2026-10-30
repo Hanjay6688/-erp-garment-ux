@@ -18,11 +18,11 @@ async function menu(page){const toggle=page.getByRole('button',{name:'Buka menu'
 async function setup(ui,today,scenario){
  const user=await ui.login('OWNER',{label:'S03-B4-'+scenario,mobile:scenario==='MOBILE390',timezoneId:scenario==='MOBILE390'?'America/Los_Angeles':'Asia/Jakarta'})
  const page=user.page,expect=ui.expect,observed=observeConsole(page),expectedNetwork=[],calls=[],shots=[],contrasts=[],progress={},attempt=randomUUID().replaceAll('-','')
- let f=null,serial=0
+ let f=null,serial=0,poolHistory={}
  const choice=()=>page.locator('section.attendance-choice'),pools=()=>page.locator('section.hpool')
  const listener=request=>{const rpc=request.url().split('/').at(-1);if([RPC.save,RPC.poolSave].includes(rpc))calls.push({rpc,args:request.postDataJSON()})}
  page.on('request',listener)
- const state=label=>fixture('observe',{fixture:f,label:`S03_B4_${scenario}_${f.run.toUpperCase()}_${String(++serial).padStart(3,'0')}_${label}`})
+ const state=label=>{const result=fixture('observe',{fixture:f,pool_history:poolHistory,label:`S03_B4_${scenario}_${f.run.toUpperCase()}_${String(++serial).padStart(3,'0')}_${label}`});poolHistory=result.pool_history;return result}
  async function shot(label,panel=choice()){
   const width=await page.evaluate(()=>({viewport:innerWidth,page:document.documentElement.scrollWidth}));assert.equal(width.viewport,scenario==='MOBILE390'?390:1440);assert.ok(width.page<=width.viewport,JSON.stringify(width))
   const measured=await readable(panel);contrasts.push({state:label,width,measured})
@@ -45,8 +45,8 @@ async function setup(ui,today,scenario){
  async function save(action,payload,review){const pending=page.waitForResponse(r=>isRpc(RPC.save)(r)&&args(r).p_action===action);await choice().getByRole('button',{name:'Simpan pilihan biaya',exact:true}).click();const response=await pending,result=await success(Promise.resolve(response));exactEnvelope(args(response),action,payload,review.review_token);assert.equal(result.request_id,args(response).p_request);fixture('assert_command',{fixture:f,result});await expect(choice().getByRole('button',{name:'Muat ulang periode',exact:true})).toBeEnabled();return result}
  async function action(a,c=null,out=null){const p=input(f.day,c,out);await fields(a,c,out);const q=await preview(a,p);const result=await save(a,p,q);return{payload:p,preview:q,result}}
  function verifiedNetwork(response,reason){expectedNetwork.push({url:response.url(),text:`Failed to load resource: the server responded with a status of ${response.status()} (${response.status()===403?'Forbidden':'Bad Request'})`,reason})}
- async function finish(){await shot('FINAL');return{status:'PASS',actual_normal_App_real_Auth_public_RPC:true,actual_Native_cases:0,actual_Auth_HTTP_cases:0,actual_two_session_races:0,progress,shots,contrasts,console_evidence:consoleEvidence(observed,expectedNetwork),fixture_source:f.fixture_source,fixture_screen_creation_claim:false,production_go:false}}
- async function fail(error){mkdirSync('cp6-proof/t3',{recursive:true});const name=`cp6-proof/t3/S03_B4_${scenario}_${f?.run??attempt}`;writeFileSync(name+'_FIRST_FAILURE.json',JSON.stringify({error:String(error.stack||error),progress,calls,observed:observed.errors,fixture:f},null,2));await page.screenshot({path:name+'_FIRST_FAILURE.png',fullPage:true}).catch(()=>{})}
+ async function finish(){await shot('FINAL');return{status:'PASS',actual_normal_App_real_Auth_public_RPC:true,actual_Native_cases:0,actual_Auth_HTTP_cases:0,actual_two_session_races:0,progress,shots,contrasts,console_evidence:consoleEvidence(observed,expectedNetwork),fixture_source:f.fixture_source,fixture_screen_creation_claim:false,pool_history:poolHistory,production_go:false}}
+ async function fail(error){mkdirSync('cp6-proof/t3',{recursive:true});const name=`cp6-proof/t3/S03_B4_${scenario}_${f?.run??attempt}`;writeFileSync(name+'_FIRST_FAILURE.json',JSON.stringify({error:String(error.stack||error),progress,calls,observed:observed.errors,fixture:f,pool_history:poolHistory},null,2));await page.screenshot({path:name+'_FIRST_FAILURE.png',fullPage:true}).catch(()=>{})}
  async function close(){observed.stop();page.off('request',listener);await user.context.close()}
  try{f=fixture('prepare',{today,scenario,owner:user.user.id});const before=state('BEFORE_FULL_APP_OPEN');await open();await period(f.day);equalCensus(before.census,state('AFTER_INITIAL_READS').census);return{user,page,expect,choice,pools,calls,shots,contrasts,progress,observed,expectedNetwork,state,shot,open,period,poolReload,fields,preview,save,action,verifiedNetwork,finish,fail,close,get fixture(){return f}}}catch(error){await fail(error);await close();throw error}
 }

@@ -38,9 +38,12 @@ def verify():
     spec=importlib.util.spec_from_file_location('s03_exact_current_rights_delta',HERE/'rights_delta.py')
     rights=importlib.util.module_from_spec(spec);spec.loader.exec_module(rights)
     current_rights=rights.verify()
+    spec=importlib.util.spec_from_file_location('s03_exact_cancelled_history_delta',HERE/'history_delta.py')
+    history=importlib.util.module_from_spec(spec);spec.loader.exec_module(history)
+    current_history=history.verify()
     return dict(derived_files=len(plan['files']),counted_changes=total,all_parent_bytes_restored=True,
         Native_SQL_changed=False,frozen_UI82_changed=False,frozen_runtime7_changed=False,
         current_UI_changed_paths=['src/attendance-period-choice.css'],
-        current_rights_successor=current_rights,actual_Native_Auth_browser_credit=0)
+        current_rights_successor=current_rights,current_history_successor=current_history,actual_Native_Auth_browser_credit=0)
 
 if __name__=='__main__':print(json.dumps(verify()))

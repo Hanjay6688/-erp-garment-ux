@@ -5,6 +5,7 @@ callback, helper source, or previous current-rights declaration is changed.
 """
 from hashlib import sha256
 from pathlib import Path
+import importlib.util
 import json
 import os
 import subprocess
@@ -28,6 +29,8 @@ def pin(raw):
 
 
 def verify(root=ROOT, here=HERE):
+    spec = importlib.util.spec_from_file_location('s03_history_before_ordinary', here / 'history_delta.py')
+    history = importlib.util.module_from_spec(spec); spec.loader.exec_module(history)
     plan = json.loads((here / 'ORDINARY_SNAPSHOT_DELTA.json').read_bytes())
     if (plan['contract'] != 'cp7.s03.browser4.ordinary-snapshot-utc-successor.v1'
             or plan['parent_commit'] != PARENT or tuple(row['name'] for row in plan['files']) != FILES
@@ -40,7 +43,8 @@ def verify(root=ROOT, here=HERE):
         raise ValueError('S03_ORDINARY_EXACT_PUBLIC_PARENT_REQUIRED')
     total = 0
     for row in plan['files']:
-        old = (here / 'retained-ae837' / row['name']).read_bytes(); current = (here / row['name']).read_bytes()
+        old = (here / 'retained-ae837' / row['name']).read_bytes()
+        current = history.previous(row['name'], root=root, here=here)
         if old != git('show', PARENT + ':' + prefix + row['name']) or pin(old) != row['before'] or pin(current) != row['after']:
             raise ValueError('S03_ORDINARY_EXACT_SOURCE_REQUIRED:' + row['name'])
         if row['name'] == 'fixture.py' and row['changes'] != CHANGES:
@@ -62,7 +66,7 @@ def verify(root=ROOT, here=HERE):
     if total != plan['counted_changes']:
         raise ValueError('S03_ORDINARY_DELTA_COUNT_CHANGED')
     for name, expected in plan['unchanged'].items():
-        raw = (here / name).read_bytes()
+        raw = history.previous(name, root=root, here=here)
         if pin(raw) != expected or raw != git('show', PARENT + ':' + prefix + name):
             raise ValueError('S03_ORDINARY_FROZEN_CALLBACK_HELPER_OR_MANIFEST_CHANGED:' + name)
     return dict(fixture_read_scopes=2, counted_changes=total, previous_bytes_restored=True,

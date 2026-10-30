@@ -1,4 +1,21 @@
 The current candidate is described in [ACTUAL14_BINDING.md](ACTUAL14_BINDING.md).
+
+Current30ee failed during post-cancellation observation and then hit the120min
+job limit. The new harness records each first ACTIVE pool only after the real
+Native validator succeeds. CANCELLED history must retain that exact header,
+manifest, source/allocation/link rows and pre-cancel journal/lines, with only
+the Native cancellation fields and POSTED-to-REVERSED header transition.
+It requires one exact dated and dimension-preserving linked inverse. Missing
+authority or subsequent historical rewrites refuse. Current carry eligibility
+still rejects output before WIP restoration and reversed decisions.
+
+All four financial callback bodies, phase-specific full FG/HPP/GL/inverse
+oracles, dated-WIP census and Native/product sources remain exact. Ordinary
+pool Native validation is retained. The setup carries historical authority
+between read-only observations and retains it in success/failure evidence.
+The timeout is240min to retain all four journeys and outer cleanup; neither
+cancelled predecessor supplies a full outer-restoration verdict. This is only
+source preparation pending a fresh complete browser4 run.
 The earlier HANDOFF and retained-preparation directories preserve historical
 closed preparation. The backend14 parent is now bound to exact accepted raw
 Originals; this candidate still has zero actual browser cases until Root runs it.

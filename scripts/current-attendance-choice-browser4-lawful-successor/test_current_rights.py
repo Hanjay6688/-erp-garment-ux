@@ -130,6 +130,9 @@ class CurrentRightsControls(unittest.TestCase):
             target = Path(temporary)
             shutil.copytree(HERE / 'retained-4d968', target / 'retained-4d968')
             shutil.copytree(HERE / 'retained-ae837', target / 'retained-ae837')
+            shutil.copytree(HERE / 'retained-30ee', target / 'retained-30ee')
+            for name in ('history_delta.py', 'CANCELLED_HISTORY_DELTA.json'):
+                shutil.copyfile(HERE / name, target / name)
             ordinary = load('ordinary_snapshot_delta')
             for name in (*ordinary.FILES, *ordinary.UNCHANGED, 'ORDINARY_SNAPSHOT_DELTA.json'):
                 (target / name).parent.mkdir(parents=True, exist_ok=True)

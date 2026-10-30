@@ -345,8 +345,11 @@ def dated_wip(cur, fixture, f):
     return result
 
 
-def observe(cur, r, fixture, label):
+def observe(cur, r, fixture, label, pool_history=None):
     f, core = r['f'], r['core']
+    pool_history = {} if pool_history is None else pool_history
+    history_oracle = load('s03_browser4_cancelled_pool_history', HERE / 'pool_history.py')
+    history_proofs = []
     f.admin(cur)
     if source_rows(cur, fixture['payroll'], f) != fixture['original_accrual']:
         raise ValueError('S03_BROWSER4_ORIGINAL_ACCRUAL_OR_APPROVAL_AUDIT_CHANGED')
@@ -368,15 +371,16 @@ def observe(cur, r, fixture, label):
     reversals = f.one(cur, "select coalesce(jsonb_agg(to_jsonb(r)order by r.id),'[]'::jsonb)from cp7_attendance_choice.reversals_v1 r where r.decision_id=any(%s::uuid[])", ([d['id'] for d in decisions],))
     pools = f.one(cur, "select coalesce(jsonb_agg(to_jsonb(p)order by p.id),'[]'::jsonb)from erp.attendance_hpp_pools p where p.period_start=%s and p.period_end=%s", (fixture['day'], fixture['day']))
     for pool in pools:
-        if pool['status'] in ('ACTIVE', 'CANCELLED'):
-            if f.native(cur, "select erp.validate_attendance_hpp_pool_v1(%s)->>'validation'", (pool['id'],)) != 'PASS':
-                raise ValueError('S03_BROWSER4_ACTUAL_NATIVE_POOL_VALIDATOR_REQUIRED')
+        if pool['status'] in ('ACTIVE', 'CANCELLED') or pool['id'] in pool_history:
+            history_proofs.append(history_oracle.observe(cur, f, pool, pool_history))
     ordinary = None
     if fixture.get('ordinary_pool'):
         f.admin(cur)
         ordinary = f.one(cur, 'select to_jsonb(p)from erp.attendance_hpp_pools p where id=%s', (fixture['ordinary_pool'],))
         if f.native(cur, "select erp.validate_attendance_hpp_pool_v1(%s)->>'validation'", (fixture['ordinary_pool'],)) != 'PASS':
             raise ValueError('S03_BROWSER4_ORDINARY_P2_NATIVE_POOL_VALIDATOR_REQUIRED')
+        history_proofs.append(history_oracle.observe(cur, f, ordinary, pool_history))
+    history_oracle.require_observed(pool_history, pools + ([ordinary] if ordinary else []))
     f.admin(cur)
     accounts = dict(cur.execute("select k,round(coalesce(sum(l.debit-l.credit),0)*100)::bigint::text from unnest(array['WIP','OTHER_EXPENSE','CONTRACTOR_PAYABLE'])k left join erp.journal_lines l on l.account_id=erp.account_id(k)and l.contractor_id=%s and l.po_id is null group by k", (fixture['contractor'],)).fetchall())
     pos = {}
@@ -399,7 +403,8 @@ def observe(cur, r, fixture, label):
     return dict(census=census(cur, r, label), original_accrual=source_rows(cur, fixture['payroll'], f),
         decisions=decisions, reversals=reversals, requests=requests, audit_proofs=audit_proofs, current_decision=current, pools=pools,
         account_cents=accounts, po_finance=pos, physical_rows=physical, journals=journals, finished_native=finished_native,
-        ordinary_pool=ordinary, dated_WIP=dated_wip(cur, fixture, f), Native_financial_truth=truth)
+        ordinary_pool=ordinary, dated_WIP=dated_wip(cur, fixture, f), Native_financial_truth=truth,
+        pool_history=pool_history, pool_history_proofs=history_proofs)
 
 
 def main():
@@ -426,7 +431,7 @@ def operation_on_copy(r, operation, payload):
         if operation == 'prepare':
             result = prepare(cur, r, payload)
         elif operation == 'observe':
-            result = observe(cur, r, payload['fixture'], payload['label']);connection.rollback();return result
+            result = observe(cur, r, payload['fixture'], payload['label'], payload.get('pool_history'));connection.rollback();return result
         elif operation == 'assert_command':
             result = r['core'].choice_audit(cur, payload['fixture'], payload['result']);connection.rollback();return result
         elif operation in ('assert_valuation', 'assert_cancelled', 'assert_ordinary_cancelled'):

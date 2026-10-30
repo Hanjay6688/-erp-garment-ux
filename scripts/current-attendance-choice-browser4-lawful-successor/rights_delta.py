@@ -53,6 +53,8 @@ def callbacks(before, after):
 
 
 def verify(root=ROOT, here=HERE):
+    spec = importlib.util.spec_from_file_location('s03_history_before_rights', here / 'history_delta.py')
+    history = importlib.util.module_from_spec(spec); spec.loader.exec_module(history)
     plan = json.loads((here / 'CURRENT_RIGHTS_DELTA.json').read_bytes())
     if (plan['contract'] != 'cp7.s03.browser4.current-rights-successor.v1'
             or plan['parent_commit'] != PARENT or plan['policy_sha256'] != POLICY_SHA256
@@ -65,7 +67,7 @@ def verify(root=ROOT, here=HERE):
     total = 0
     for item in plan['files']:
         name = item['name']; old = (here / 'retained-4d968' / name).read_bytes()
-        current = (here / name).read_bytes()
+        current = history.previous(name, root=root, here=here)
         if name == 'fixture.py':
             spec = importlib.util.spec_from_file_location('s03_ordinary_snapshot_before_rights', HERE / 'ordinary_snapshot_delta.py')
             ordinary = importlib.util.module_from_spec(spec); spec.loader.exec_module(ordinary)
@@ -90,7 +92,7 @@ def verify(root=ROOT, here=HERE):
         total += len(item['changes'])
     if total != plan['counted_changes']:
         raise ValueError('S03_BROWSER4_CURRENT_RIGHTS_COUNT_CHANGED')
-    proof = callbacks((here / 'retained-4d968/cases.mjs').read_text(), (here / 'cases.mjs').read_text())
+    proof = callbacks((here / 'retained-4d968/cases.mjs').read_text(), history.previous('cases.mjs', root=root, here=here).decode())
     if proof != plan['unchanged_callbacks']:
         raise ValueError('S03_BROWSER4_CURRENT_RIGHTS_CALLBACK_PROOF_CHANGED')
     policy(here)

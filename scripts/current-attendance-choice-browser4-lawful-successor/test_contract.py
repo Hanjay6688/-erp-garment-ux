@@ -328,6 +328,7 @@ class ProofAndSourceControls(unittest.TestCase):
             with self.subTest(name=step.get('name', step.get('uses'))):
                 self.assertEqual(actual_steps.count(step), 1)
         old_job, new_job = deepcopy(original['jobs']['p21']), deepcopy(actual['jobs']['p21'])
+        self.assertEqual((old_job.pop('timeout-minutes'), new_job.pop('timeout-minutes')), (120, 240))
         for job in (old_job, new_job):
             job.pop('steps');job.pop('name');job.pop('if', None);job['env'].pop('AUDITOR_UI_MODE', None)
         self.assertEqual(old_job, new_job)

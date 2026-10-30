@@ -17,7 +17,7 @@ jobs:
   p21:
     name: S03 real browser4 and complete original restore
     runs-on: ubuntu-24.04
-    timeout-minutes: 120
+    timeout-minutes: 240
     env:
       PYTHONDONTWRITEBYTECODE: '1'
       CURRENT_ANALOG_FROZEN_SOURCE_ROOT: ${{ github.workspace }}/frozen

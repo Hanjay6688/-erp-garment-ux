@@ -1,0 +1,36 @@
+{
+  "head": "30ee9874d049632050faf53b299a0cd8a11fe9f6",
+  "run_id": 41049049321,
+  "job_id": 124040265150,
+  "artifact_id": 12981512078,
+  "conclusion": "CANCELLED_TIMEOUT_WITH_MOBILE_FIRST_FAILURE",
+  "archive": {
+    "bytes": 299676377,
+    "sha256": "e58c0aa75e7e8fd8bc6d219fc3518455d158162a369c8b3799781d62e41bb971",
+    "library_file_id": "libfile_3a7861239b848191bcef9e4247dc1f7e"
+  },
+  "first_failure": {
+    "name": "S03_B4_MOBILE390_8789c66e69d14846b96f4fbaf31069f4_FIRST_FAILURE.json",
+    "bytes": 57172,
+    "sha256": "21b27e23e4a85a4439c36708791ca541ee1209f0574bc700038bc05eb720619d",
+    "action_sequence": [
+      "CHOOSE",
+      "ALLOCATE",
+      "CANCEL_ALLOCATION"
+    ],
+    "error_code": "CP7_S03_ALLOCATION_BEFORE_WIP_AVAILABLE",
+    "source": "fixture.py observe CANCELLED pool via current carry eligibility",
+    "source_date": "2026-10-23",
+    "output_date": "2026-10-24"
+  },
+  "original_main_report_absent": true,
+  "full_outer_restore": "NOT_PROVEN_MAIN_REPORT_ABSENT",
+  "first_job_timeout_minutes": 120,
+  "successor_timeout_minutes": 240,
+  "reason": "Keep four complete browser journeys and full outer restoration; desktop took about61min including preceding setup and mobile reached first failure after another36min.",
+  "Native_SQL_changed": false,
+  "four_financial_callback_bodies_changed": false,
+  "source_preparation_not_qualification": true,
+  "actual_new_browser_credit": 0,
+  "production_go": false
+}
