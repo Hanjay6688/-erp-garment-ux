@@ -1,0 +1,133 @@
+{
+  "classification": "S05_CURRENT_SKU_COMPONENTS_AND_COMPLETE_OUTER_CALLER_PREPARED_NOT_RUNTIME_QUALIFIED",
+  "recorded_at_utc": "2026-10-30T20:13:57.065Z",
+  "root_parent": "20ee21d3300f36b91b32e8e7066463c08dcb2cdf",
+  "unified_head": "051b451b34c16ec0a8522a78880d695c4d7354e3",
+  "unified_tree": "6df42995c785a2a6fb3debffda81ebffed365db6",
+  "unified_branch": "astra-a/unified-sku-s05-candidate-20261030",
+  "publications": [
+    {
+      "name": "native",
+      "head": "c387d1962774b967a45cb59e34a3cafeb8e38ab4",
+      "tree": "72b1ced0c8ca36d1a693c30db1770e6f56153615",
+      "parent": "e4915c0b7b8b3cd04293ef8289317ae93cf46597",
+      "local_prepublication": "4788add8c1ff5b71def07543b8026833c61fee32"
+    },
+    {
+      "name": "browser",
+      "head": "21146cd6616b7acd678e49c1db734800f8866487",
+      "tree": "62a4971b4c1837017f9204e89c85ca6d4fffba56",
+      "parent": "c387d1962774b967a45cb59e34a3cafeb8e38ab4",
+      "local_prepublication": "c9a8578ec68af34d1e251d92c5070b65d43f9410"
+    },
+    {
+      "name": "outer",
+      "head": "051b451b34c16ec0a8522a78880d695c4d7354e3",
+      "tree": "6df42995c785a2a6fb3debffda81ebffed365db6",
+      "parent": "21146cd6616b7acd678e49c1db734800f8866487",
+      "local_prepublication": "4b5e5eac8153f8d61a2563da55068fa06463e80b"
+    }
+  ],
+  "unchanged_base_files": 13907,
+  "exact_519d_helpers": 9,
+  "unchanged_existing_S05_source_pins": 20,
+  "current_source_pins": 47,
+  "local_controls": {
+    "native_binding_tests": 6,
+    "browser_component_tests": 3,
+    "outer_caller_tests": 4,
+    "each_suite_passed_on_first_execution": true,
+    "offline_driver": {
+      "decimal_inputs": 8,
+      "money_modes": 2,
+      "rendered_product_states": 4,
+      "actual_Playwright_selector_engine": "1.62.1",
+      "cleanup_continues_after_errors": true
+    },
+    "unchanged61_UI_tests_and_typecheck_reused": true
+  },
+  "prepared_current_cases": {
+    "Native": 10,
+    "browser": 2,
+    "actual_executed": 0
+  },
+  "SKU27_prerequisite_status": "PENDING_ACTUAL_ROOT_INTAKE",
+  "runtime_refuses_before_ERP_imports": true,
+  "combined_workflow_created": false,
+  "actual_combined_qualified": false,
+  "running": [
+    {
+      "id": 41109346033,
+      "head": "e9256772579f387df77dde949f8ea619cbd86856",
+      "status": "in_progress",
+      "conclusion": null,
+      "started_at": "2026-10-30T18:43:35Z",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/41109346033"
+    },
+    {
+      "id": 41113128260,
+      "head": "a2096c570b6a0300b8ef299d6a167b68849e427d",
+      "status": "in_progress",
+      "conclusion": null,
+      "started_at": "2026-10-30T19:11:01Z",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/41113128260"
+    }
+  ],
+  "local_evidence": {
+    "S05_SKU_NATIVE_COMPONENT_CONTROLS_20261031.log": {
+      "bytes": 1046,
+      "sha256": "48380a6eec0422bd323c31c6136739d3f6cc2bec8bb9ae424e446fab8c356034"
+    },
+    "S05_SKU_NATIVE_COMPONENT_SOURCE_COMMITTED_20261031.json": {
+      "bytes": 495,
+      "sha256": "ba18a231fb349cb4651091b0189d0986042f2b0a7b52d45af567b80b443f3078"
+    },
+    "S05_SKU_NATIVE_COMPONENT_PUBLICATION_20261031.json": {
+      "bytes": 4484,
+      "sha256": "497ec0e34d902fb66fb4dbe4f76c7127a2ce0fcb273e8037ce65c8fa6ba61ad1"
+    },
+    "S05_SKU_BROWSER_DRIVER_CONTROLS_20261031.log": {
+      "bytes": 289,
+      "sha256": "486183ea4f79e49e51f90cb8f511fb23c445c2f70b84d89e6b394ba4fe4f8146"
+    },
+    "S05_SKU_BROWSER_COMPONENT_CONTROLS_20261031.log": {
+      "bytes": 547,
+      "sha256": "ebbd6d4abb275b88d01394a634f63c0eabc47f1c0d841376cdb8ff8ce4a37bb8"
+    },
+    "S05_SKU_BROWSER_SOURCE_COMMITTED_20261031.json": {
+      "bytes": 508,
+      "sha256": "d714ce5c9b6d451702df0b006b1e0b81e5c9e505e0c6b2e9e8b23b5a2dd4bbaf"
+    },
+    "S05_SKU_BROWSER_PUBLICATION_INVENTORY_20261031.json": {
+      "bytes": 3345,
+      "sha256": "21cf5464dc74a20773b6856287ea9246706061ad8f9f368661589616d12c8090"
+    },
+    "S05_SKU_OUTER_CONTROLS_20261031.log": {
+      "bytes": 748,
+      "sha256": "82f88ceae64ad8bfd537e48140ef9339846c31c7e97d8163644a59b18eeb7211"
+    },
+    "S05_SKU_OUTER_SOURCE_COMMITTED_20261031.json": {
+      "bytes": 1049,
+      "sha256": "7b561f27d3d9c7e4b977ec4a5c1b3ef47db771486f0d58f2edeac74a7f2c7a9d"
+    },
+    "S05_SKU_OUTER_PUBLICATION_INVENTORY_20261031.json": {
+      "bytes": 3030,
+      "sha256": "5cab2ed83d2d211b4521bfac09c9775743f036d2c973b477ffa732d8c4cfa6fa"
+    },
+    "WRITER_A_V210_RUNS_AND_PUBLICATIONS_20261031.json": {
+      "bytes": 1526,
+      "sha256": "92f224e9adc8c7600d4c7ef066052a4e1341fe514987e52876cf194c12e3d79f"
+    }
+  },
+  "formal_accepted": "5/16",
+  "production_go": false,
+  "independent_acceptance": false,
+  "FG_Mandor_scope": "QUEUED_AFTER_ACTIVE_INTEGRATION_STABLE",
+  "open_after_this_change": [
+    "Terminal e925 full27 plus all5 root intake; no partial aggregation",
+    "Terminal a209 browser4 plus full primary Auth restore intake",
+    "Pin actual SKU27 prerequisite archive and root receipt, validate positive consumer against actual producer",
+    "Add combined workflow and execute Native10/browser2 once after admission",
+    "Global six runtime/authority/lock blockers; Afui HPP-positive R0; remaining agreed scopes unchanged"
+  ]
+}

@@ -1,7 +1,7 @@
 {
   "classification": "WRITER_A_TAKEOVER_ACTIVE_CONTINUATION_NOT_COMPLETION",
-  "recorded_at_utc": "2026-10-30T19:13:03.641Z",
-  "root_parent": "e9f4c09ef48968a88d0908334ca3b7e03243176d",
+  "recorded_at_utc": "2026-10-30T20:13:57.065Z",
+  "root_parent": "20ee21d3300f36b91b32e8e7066463c08dcb2cdf",
   "prior_chat_execution_observable": false,
   "current_work_is_isolated": true,
   "midnight_root_intake_receipt": "MIDNIGHT_NATIVE1_E787_ROOT_INTAKE_20261030.json",
@@ -31,7 +31,8 @@
     "production_go": false,
     "independent_acceptance": false,
     "mount_source_head": "e4915c0b7b8b3cd04293ef8289317ae93cf46597",
-    "actual_current_composite_browser_qualified": false
+    "actual_current_composite_browser_qualified": false,
+    "current_integration_source_head": "051b451b34c16ec0a8522a78880d695c4d7354e3"
   },
   "global_source": {
     "head": "a6ded9cd4ce23a6d59cd32e42ca9bb33d793f8cc",
@@ -94,7 +95,8 @@
           "bytes": 8609,
           "sha256": "03996e9e856dc18ee9e363a0e4a6903e93001994f5b02f3e3df7ed957e4f7a98"
         }
-      }
+      },
+      "last_observed_at_utc": "2026-10-30T20:13:57.065Z"
     },
     {
       "head": "a2096c570b6a0300b8ef299d6a167b68849e427d",
@@ -161,7 +163,8 @@
           "bytes": 1396,
           "sha256": "ea80a7a99b06e4642762e5bb7dc08df59336e6114c5f6815fa2ccd8db8a2af9d"
         }
-      }
+      },
+      "last_observed_at_utc": "2026-10-30T20:13:57.065Z"
     }
   ],
   "first_actual_browser_failure": {
@@ -1983,5 +1986,16 @@
     }
   ],
   "S03_text_evidence_archive_is_not_full_canonical_Original": true,
-  "S03_text_evidence_archive_excludes_browser_screenshots_and_two_clone_dumps": true
+  "S03_text_evidence_archive_excludes_browser_screenshots_and_two_clone_dumps": true,
+  "current_unified_S05_receipt": "WRITER_A_V210_S05_COMPLETE_CALLER_20261031.json",
+  "current_unified_head": "051b451b34c16ec0a8522a78880d695c4d7354e3",
+  "current_unified_tree": "6df42995c785a2a6fb3debffda81ebffed365db6",
+  "current_unified_source_status": "S05_CURRENT_SKU_COMPONENTS_AND_COMPLETE_OUTER_CALLER_PREPARED_NOT_RUNTIME_QUALIFIED",
+  "S05_runtime_still_unqualified": true,
+  "v210_preparation_evidence": {
+    "name": "ERP_S05_SKU_Integration_Preparation_20261031.zip",
+    "bytes": 10950,
+    "sha256": "1a916b3770cb4030b9cdb5264f39ff2f58fb4de3436a6f852eccf804ee7cbc46",
+    "CRC_members": 12
+  }
 }
