@@ -62,6 +62,8 @@ EXTRA={
   ("ROOT / 'scripts/current-sku-combined-fixture-followup/cases.mjs'","ROOT / '"+NS+"/cases.mjs'"),
  ),
  'concurrency':(
+  ("business = load('sku_concurrency_original_races', ROOT / 'scripts/current-sku-combined-fixture-followup/races.py')",
+   "business = load('sku_concurrency_current_pocket_races', ROOT / '"+NS+"/races.py')\n    race_binding = load('sku27_actual_callback_binding', ROOT / '"+NS+"/race_binding.py')\n    report['actual_race_callback_binding'] = race_binding.require_runtime_module(business)"),
   ("controls = load('sku_concurrency_controls', HERE / 'controls.py')","controls = load('sku_concurrency_controls', ROOT / '"+NS+"/session_controls.py')"),
   ("return dict(status='PREPARED', case_id=CASE, race_ids=list(races), permission_wait_ids=list(permissions),","extra = load('sku27_extra_session_plan', ROOT / '"+NS+"/recovery_sessions.py')\n    return dict(status='PREPARED', case_id=CASE, race_ids=list(races), permission_wait_ids=list(permissions) + [extra.IDS[0]], nonblocking_busy_ids=[extra.IDS[1]], busy_subattempts=['FG','MATERIAL_NONE'],"),
   ("expected = tuple(business.IDS) + tuple(permissions.IDS)","extra = load('sku27_real_recovery_sessions', ROOT / '"+NS+"/recovery_sessions.py')\n    cost = load('sku27_existing_derived_cost_fixture', ROOT / '"+NS+"/cost_cases.py')\n    expected = tuple(business.IDS) + tuple(permissions.IDS) + tuple(extra.IDS)"),

@@ -92,3 +92,6 @@ original group/member/stock/result postconditions remain byte-exact. Private
 race scheduling therefore changed explicitly; whole callback-body identity
 is not claimed. The immutable old files, product, default and financial
 engines remain unchanged. Local threaded doubles confer Native0/race0.
+
+
+The complete c397 run retained the old followup race-loader route despite the new schedule being present in the inventory. FIRST_C397_ROUTING_FAILURE.json retains the two actual NO_CONTENTION refusals, partial7+5+9/11 and complete restoration. The successor redirects exactly that caller to the complete own races.py derivative, checks the actual route before DB imports, and checks compiled callable/schedule identity before callbacks. Real-module regression controls reproduce and reject the old route; schedule, all financial postconditions, Native SQL and every27 case ID remain unchanged. No prior partial result is aggregated into PASS.

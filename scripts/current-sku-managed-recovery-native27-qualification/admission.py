@@ -19,7 +19,8 @@ def retained(product):
 def preflight(*,require_clean=True):
     source=load('sku27_full_current_source',HERE/'closure.py').source_only(require_clean=require_clean)
     negative=load('sku27_retained_first602',HERE/'first602.py').verified()
-    return dict(source=source,retained_failed602=negative)
+    route=load('sku27_source_callback_binding',HERE/'race_binding.py').source_check()
+    return dict(source=source,retained_failed602=negative,actual_race_loader_source=route)
 
 def admitted(product,derivation):
     source=preflight();module,proof=historical();old=module.admitted(product,derivation)

@@ -1,0 +1,47 @@
+{
+  "classification": "PRESERVED_ACTUAL_C397_FIRST_ROUTING_FAILURE_NO_QUALIFICATION_CREDIT",
+  "head": "c397409a470c8c3d5f4963bbbdd7b676b1275af7",
+  "run": 41028102549,
+  "job": 123970964483,
+  "artifact": 12968607623,
+  "archive": {
+    "bytes": 46957656,
+    "sha256": "3d4e1dd2f1a10ec988c1578574f98d9a051e0c30f1e28eb9c8b88defaf6e98c3",
+    "members": 143
+  },
+  "raw_main": {
+    "bytes": 5885592,
+    "sha256": "db570f1aad76847c614b324ece8d22527aa2a5c07d33bef07794f44102ac9018"
+  },
+  "base_Native": {
+    "PASS": 7
+  },
+  "cost_Native": {
+    "PASS": 5
+  },
+  "concurrency": {
+    "PASS": 9,
+    "INCOMPLETE": 2
+  },
+  "failed": {
+    "SKU29_RACE_DISTINCT_UUID_COMMIT_STALE": "{'kind': 'NO_CONTENTION'}",
+    "SKU29_RACE_DISTINCT_UUID_ROLLBACK_RECOVERY": "{'kind': 'NO_CONTENTION'}"
+  },
+  "retained_original_loader": "business = load('sku_concurrency_original_races', ROOT / 'scripts/current-sku-combined-fixture-followup/races.py')",
+  "diagnosis": "The admitted new private race schedule was never loaded by the actual concurrency caller.",
+  "complete_installed_copy_restores": 11,
+  "database_remaining": 0,
+  "full_outer_all22_rows_ALL_sequences_CP6_roles_Auth_advisors_restored": true,
+  "all_five_package_gates": false,
+  "actual_browser_cases": 0,
+  "whole27_qualified": false,
+  "prior_partial_cases_aggregated": false,
+  "repair": "Exact counted caller redirect to own races.py, pre-DB source route gate and actual callable/module code identity before callbacks.",
+  "original_race_financial_postcondition_assertions_unchanged": true,
+  "original_financial_functions_unchanged": true,
+  "first_local_routing_adapter_refusal": "First adapter targeted original pre-derivation CALLBACKS anchor; exact guard refused. Corrected to actual retained followup wrapper anchor; preserved log.",
+  "current_real_module_import": "PASS under database/network fence, no attempted DB/network calls",
+  "production_go": false,
+  "independent_acceptance": false,
+  "private_Original_Library_file_id": "libfile_5937a94b1c908191bcebad0581daab43"
+}
