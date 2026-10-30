@@ -1,0 +1,172 @@
+{
+  "check.py": {
+    "parent_path": "scripts/current-de-sku-global-census-qualification/check.py",
+    "before_sha256": "1f4ff519c33efb7a0c74496ae695866e8249fb194907f4ad1ffdc0a81fa4425a",
+    "after_sha256": "1f4ff519c33efb7a0c74496ae695866e8249fb194907f4ad1ffdc0a81fa4425a",
+    "changes": []
+  },
+  "probe.py": {
+    "parent_path": "scripts/current-de-sku-global-census-qualification/probe.py",
+    "before_sha256": "da4a5f6976a04bc3edefc43af241813a211d6f2ebb84d779059ae745d66bdbfb",
+    "after_sha256": "da4a5f6976a04bc3edefc43af241813a211d6f2ebb84d779059ae745d66bdbfb",
+    "changes": []
+  },
+  "result_gate.py": {
+    "parent_path": "scripts/current-de-sku-global-census-qualification/result_gate.py",
+    "before_sha256": "a69a396dfaded4c4fa2c3c908ce7d02de98a432c9810ba269eeea4c5edfbdb31",
+    "after_sha256": "0f2809ecfcb99304241a01be8655282e05c06782757b917482dae1a328d9dfde",
+    "changes": [
+      {
+        "before": "'CP7_D1_E_SKU_GLOBAL_CENSUS.json'",
+        "after": "'CP7_D1_E_SKU_GLOBAL_CENSUS_MULTISET.json'",
+        "count": 1
+      },
+      {
+        "before": "'DE_SKU_GLOBAL_CENSUS_GATE.json'",
+        "after": "'DE_SKU_GLOBAL_CENSUS_MULTISET_GATE.json'",
+        "count": 1
+      }
+    ]
+  },
+  "producer_profiles.py": {
+    "parent_path": "scripts/current-de-sku-global-census-qualification/producer_profiles.py",
+    "before_sha256": "1318a3d2e12115d4d91f9c921d61b36cbaa7fe2c3cf3508312b4499b9ec4825c",
+    "after_sha256": "f6830023a8caf18a93b0e78f29e91d496f9f5cdc5dd0d4bb78a783cac225718b",
+    "changes": [
+      {
+        "before": "PARENT = 'scripts/current-de-sku-parent-catalogue-qualification'",
+        "after": "PARENT = 'scripts/current-de-sku-global-census-qualification'",
+        "count": 1
+      },
+      {
+        "before": "NS = 'scripts/current-de-sku-global-census-qualification'",
+        "after": "NS = 'scripts/current-de-sku-global-census-multiset-qualification'",
+        "count": 1
+      },
+      {
+        "before": "WORKFLOW = '.github/workflows/cp7-de-sku-global-census.yml'",
+        "after": "WORKFLOW = '.github/workflows/cp7-de-sku-global-census-multiset.yml'",
+        "count": 1
+      },
+      {
+        "before": "NAME = 'CP7 A D1 E SKU global writer metadata and full restoration'",
+        "after": "NAME = 'CP7 A D1 E SKU dependency multiset metadata and full restoration'",
+        "count": 1
+      },
+      {
+        "before": "value['package_workflow_name'] != 'CP7 A D1 E SKU actual parent catalogue and preuse restoration'",
+        "after": "value['package_workflow_name'] != 'CP7 A D1 E SKU global writer metadata and full restoration'",
+        "count": 1
+      }
+    ]
+  },
+  "retain.py": {
+    "parent_path": "scripts/current-de-sku-global-census-qualification/retain.py",
+    "before_sha256": "fe4874505befa93ef2a3f3baead58da700ccfd8ec1925871902848df3d5ec083",
+    "after_sha256": "a5422be6af2269715e9c19cf1f494bf5b179e8e84e2cb9ca0b4ec1a627a93200",
+    "changes": [
+      {
+        "before": "'CP7_D1_E_SKU_GLOBAL_CENSUS.json', 'GLOBAL_ACTUAL_WRITER_SUPPLEMENT.json',",
+        "after": "'CP7_D1_E_SKU_GLOBAL_CENSUS_MULTISET.json', 'GLOBAL_ACTUAL_WRITER_SUPPLEMENT_V2.json',",
+        "count": 1
+      },
+      {
+        "before": "'DE_SKU_GLOBAL_CENSUS_GATE.json'",
+        "after": "'DE_SKU_GLOBAL_CENSUS_MULTISET_GATE.json'",
+        "count": 1
+      },
+      {
+        "before": "'SKU_COST_ARTIFACT_COPY_RECEIPT.json')",
+        "after": "'SKU_COST_ARTIFACT_COPY_RECEIPT.json', 'GLOBAL_WRITER_RAW_CAPTURE.json')",
+        "count": 1
+      },
+      {
+        "before": "REQUIRED = {NAMES[0], NAMES[1], NAMES[2],",
+        "after": "REQUIRED = {NAMES[0], NAMES[1], NAMES[2], 'GLOBAL_WRITER_RAW_CAPTURE.json',",
+        "count": 1
+      },
+      {
+        "before": "GLOBAL_CENSUS_ORIGINAL_RETENTION.json",
+        "after": "GLOBAL_CENSUS_MULTISET_ORIGINAL_RETENTION.json",
+        "count": 1
+      }
+    ]
+  },
+  "admission.py": {
+    "parent_path": "scripts/current-de-sku-global-census-qualification/admission.py",
+    "before_sha256": "cfac608b7c2baf970bb32cecea86d93bda0a295f1c12b3b459d4d898d35afe42",
+    "after_sha256": "21f5b6082c7836ce32786988d4651dd7a23e199a836c16229cab0c2c4fe6c5ca",
+    "changes": [
+      {
+        "before": "BASE = '80fab765938f8feaff151cd35fdb7923df987f23'",
+        "after": "BASE = 'ee14592920c331d84d354a24b4b6b4a9f49f91d1'",
+        "count": 1
+      },
+      {
+        "before": "BASE_TREE = '9161822776b958a60cbe845f7a56d96c31db3dc5'",
+        "after": "BASE_TREE = '4f1173e9454548d44fc2c88c0bc628445df57027'",
+        "count": 1
+      },
+      {
+        "before": "NS = 'scripts/current-de-sku-global-census-qualification/'",
+        "after": "NS = 'scripts/current-de-sku-global-census-multiset-qualification/'",
+        "count": 1
+      },
+      {
+        "before": "WORKFLOW = '.github/workflows/cp7-de-sku-global-census.yml'",
+        "after": "WORKFLOW = '.github/workflows/cp7-de-sku-global-census-multiset.yml'",
+        "count": 1
+      },
+      {
+        "before": "NAME = 'CP7 A D1 E SKU global writer metadata and full restoration'",
+        "after": "NAME = 'CP7 A D1 E SKU dependency multiset metadata and full restoration'",
+        "count": 1
+      },
+      {
+        "before": "CASE = 'D1_E_SKU_GLOBAL_WRITER_CENSUS_SOURCE_ONLY'",
+        "after": "CASE = 'D1_E_SKU_GLOBAL_WRITER_MULTISET_SOURCE_ONLY'",
+        "count": 1
+      },
+      {
+        "before": "LABEL = 'CP7_D1_E_SKU_GLOBAL_CENSUS'",
+        "after": "LABEL = 'CP7_D1_E_SKU_GLOBAL_CENSUS_MULTISET'",
+        "count": 1
+      },
+      {
+        "before": "'T3_BACKUP_RESTORE_DRILL.json','GLOBAL_ACTUAL_WRITER_SUPPLEMENT.json',LABEL + '.json',",
+        "after": "'T3_BACKUP_RESTORE_DRILL.json','GLOBAL_ACTUAL_WRITER_SUPPLEMENT_V2.json',\n        'GLOBAL_WRITER_RAW_CAPTURE.json',LABEL + '.json',",
+        "count": 1
+      },
+      {
+        "before": "original = 'cp6-proof/t3/GLOBAL_ACTUAL_WRITER_SUPPLEMENT.json'",
+        "after": "original = 'cp6-proof/t3/GLOBAL_ACTUAL_WRITER_SUPPLEMENT_V2.json'",
+        "count": 1
+      },
+      {
+        "before": "integration = load('global_census_original_output_reader', Path(root) / HELPER / 'integration.py')",
+        "after": "integration = load('global_census_original_output_reader', Path(root) / NS / 'loader.py').integration(admitted=True)",
+        "count": 1
+      },
+      {
+        "before": "status='EXACT_WHOLE_80FAB_TREE_PLUS_BOUNDED_METADATA_SUCCESSOR'",
+        "after": "status='EXACT_WHOLE_EE145_TREE_PLUS_BOUNDED_MULTISET_SUCCESSOR'",
+        "count": 1
+      },
+      {
+        "before": "    original = 'cp6-proof/t3/GLOBAL_ACTUAL_WRITER_SUPPLEMENT_V2.json'\n    report_name = 'cp6-proof/t3/' + LABEL + '.json'\n    if original in names or report_name in names:\n        require({original, report_name} <= set(names), 'GLOBAL_CENSUS_PARTIAL_NEW_ORIGINAL_OUTPUT')\n        report = document(regular(report_name, root).read_bytes())\n        require(report.get('label') == LABEL and report.get('qualification_commit') == git('rev-parse', 'HEAD', root=root).decode().strip(),\n                'GLOBAL_CENSUS_OUTPUT_REPORT_IDENTITY_CHANGED')\n        case = report['committed'][CASE]\n        integration = load('global_census_original_output_reader', Path(root) / NS / 'loader.py').integration(admitted=True)\n        integration.read_original(Path(root) / 'cp6-proof/t3', case['global_writer_supplemental_reference'], case['read_before']['catalog'])\n        accepted.update((original, report_name))\n        proofs['supplement'] = dict(classification='SEPARATE_ORIGINAL_OUTPUT_ONLY_NOT_RUNTIME_PASS',\n                                   actual_Native_credit=0, source_authority=False)\n",
+        "after": "    original = 'cp6-proof/t3/GLOBAL_ACTUAL_WRITER_SUPPLEMENT_V2.json'\n    raw_name = 'cp6-proof/t3/GLOBAL_WRITER_RAW_CAPTURE.json'\n    report_name = 'cp6-proof/t3/' + LABEL + '.json'\n    if raw_name in names:\n        codec = load('global_multiset_raw_output_codec', Path(root) / NS / 'multiset.py')\n        frozen_capture = load('global_multiset_exact_query_reader', Path(root) / HELPER / 'capture.py')\n        raw_capture = document(regular(raw_name, root).read_bytes())\n        codec.validate_raw(raw_capture, frozen_capture.QUERIES)\n        accepted.add(raw_name)\n        proofs['raw_capture'] = dict(classification='RAW_QUERY_OUTPUT_BEFORE_VALIDATION_ONLY',\n            captured_groups=len(raw_capture['captured_groups']), status=raw_capture['status'],\n            actual_Native_credit=0, source_authority=False)\n    if report_name in names:\n        report = document(regular(report_name, root).read_bytes())\n        require(report.get('label') == LABEL and report.get('qualification_commit') == git('rev-parse', 'HEAD', root=root).decode().strip(),\n                'GLOBAL_CENSUS_OUTPUT_REPORT_IDENTITY_CHANGED')\n        accepted.add(report_name)\n        if original not in names:\n            require(report['committed'][CASE].get('status') == 'INCOMPLETE',\n                'GLOBAL_MULTISET_MISSING_SUPPLEMENT_CANNOT_QUALIFY')\n            proofs['failed_capture'] = dict(classification='INCOMPLETE_REPORT_NOT_RUNTIME_PASS', actual_Native_credit=0)\n    if original in names:\n        require({original, report_name, raw_name} <= set(names), 'GLOBAL_MULTISET_ALL_THREE_ORIGINALS_REQUIRED')\n        case = report['committed'][CASE]\n        integration = load('global_multiset_output_compiler_after_source', Path(root) / NS / 'compile_modules.py').integration()\n        integration.read_original(Path(root) / 'cp6-proof/t3', case['global_writer_supplemental_reference'], case['read_before']['catalog'])\n        accepted.add(original)\n        proofs['supplement'] = dict(classification='LOSSLESS_SEPARATE_ORIGINAL_OUTPUT_ONLY_NOT_RUNTIME_PASS',\n                                   actual_Native_credit=0, source_authority=False)\n",
+        "count": 1
+      },
+      {
+        "before": "    generated = {}\n    if require_clean:",
+        "after": "    derivation = load('global_multiset_complete_derivation_after_source', root / NS / 'derive.py')\n    file_transitions = derivation.file_transitions(root)\n    require(cfg.get('derivations') == {kind: getattr(derivation, kind)()[1] for kind in ('engine','runner','gate','integration','capture')},\n            'GLOBAL_MULTISET_CURRENT_DERIVATIONS_CHANGED')\n    generated = {}\n    if require_clean:",
+        "count": 1
+      },
+      {
+        "before": "for kind in ('engine','runner','gate','integration','capture')}",
+        "after": "for kind in ('engine','runner','gate','integration','capture','census')}",
+        "count": 1
+      }
+    ]
+  }
+}

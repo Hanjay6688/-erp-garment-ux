@@ -1,0 +1,263 @@
+{
+  "base": "ee14592920c331d84d354a24b4b6b4a9f49f91d1",
+  "base_tree": "4f1173e9454548d44fc2c88c0bc628445df57027",
+  "original_catalogue_source": "bce07059f7a351372e40bb7c2e4453876320a2e8",
+  "classification": "READ_ONLY_LOSSLESS_DEPENDENCY_MULTISET_WITH_FULL_INHERITED_RESTORATION",
+  "metadata_only_entry": "scripts/current-de-sku-global-census-multiset-qualification/probe.py --metadata-runtime",
+  "runtime_entry": null,
+  "actual_Native_credit": 0,
+  "production_go": false,
+  "independent_acceptance": false,
+  "files": {
+    ".github/workflows/cp7-de-sku-global-census-multiset.yml": {
+      "bytes": 30837,
+      "sha256": "9e8c56c987deff03989d7b9f3b7e6e939616b2781691f2f660573909774a5721",
+      "mode": "100644"
+    },
+    "scripts/current-de-sku-global-census-multiset-qualification/FILE_TRANSITIONS.json": {
+      "bytes": 10599,
+      "sha256": "af123584808594364ead8fd9ef2849eb9e1f2ab4f76d82022625dce75f319cf1",
+      "mode": "100644"
+    },
+    "scripts/current-de-sku-global-census-multiset-qualification/GENERATED_RECEIPTS.json": {
+      "bytes": 59418,
+      "sha256": "461a9e1474d5fe2551859b166404eb7627df2f3038d42146688d89e19a0854ed",
+      "mode": "100644"
+    },
+    "scripts/current-de-sku-global-census-multiset-qualification/LATER_GENERATED_RECEIPTS.json": {
+      "bytes": 28338,
+      "sha256": "b61e24823ebf58a411c3000b980d717c984dd938fcde4532ca7f728a65046ca5",
+      "mode": "100644"
+    },
+    "scripts/current-de-sku-global-census-multiset-qualification/PRIMARY_SOURCE.json": {
+      "bytes": 2605,
+      "sha256": "bec2434d275b07f25815c714f52e84eea90c476e2c3d6cfcd560239ca0a2eb74",
+      "mode": "100644"
+    },
+    "scripts/current-de-sku-global-census-multiset-qualification/README.md": {
+      "bytes": 4656,
+      "sha256": "0f96b4140ba174e173bbf4d1fc402fb3526b9324ec4dd1c82b182137578341f3",
+      "mode": "100644"
+    },
+    "scripts/current-de-sku-global-census-multiset-qualification/SKU_GENERATED_RECEIPTS.json": {
+      "bytes": 28533,
+      "sha256": "23678b9169bd772f21b4fe8ccaf8316f62e242e522b31d4dafa969a90ef3685b",
+      "mode": "100644"
+    },
+    "scripts/current-de-sku-global-census-multiset-qualification/admission.py": {
+      "bytes": 13526,
+      "sha256": "21f5b6082c7836ce32786988d4651dd7a23e199a836c16229cab0c2c4fe6c5ca",
+      "mode": "100644"
+    },
+    "scripts/current-de-sku-global-census-multiset-qualification/check.py": {
+      "bytes": 792,
+      "sha256": "1f4ff519c33efb7a0c74496ae695866e8249fb194907f4ad1ffdc0a81fa4425a",
+      "mode": "100644"
+    },
+    "scripts/current-de-sku-global-census-multiset-qualification/compile_modules.py": {
+      "bytes": 1858,
+      "sha256": "1fa66104803c5ab4fffbbe5ef6589d36ce886f490daeb3e471fa9f4ed41f54d1",
+      "mode": "100644"
+    },
+    "scripts/current-de-sku-global-census-multiset-qualification/dependency_model.mjs": {
+      "bytes": 3756,
+      "sha256": "c131d59db643c8b550dace4561b3d8f94a7d8f6b59125e3c5bc6c79a08901393",
+      "mode": "100644"
+    },
+    "scripts/current-de-sku-global-census-multiset-qualification/derive.py": {
+      "bytes": 12045,
+      "sha256": "79617bc1f18484f13b617641a00311bfdbff9a088a08d6f28de44b327079069b",
+      "mode": "100644"
+    },
+    "scripts/current-de-sku-global-census-multiset-qualification/freeze.py": {
+      "bytes": 2341,
+      "sha256": "4d21641b439f0094f100707c3aaba6f301d13b1a1da30214ba69387c89e9fa32",
+      "mode": "100644"
+    },
+    "scripts/current-de-sku-global-census-multiset-qualification/loader.py": {
+      "bytes": 747,
+      "sha256": "5ac2b7213aae0e088d24c028879af1a8c8e09405fae3baf20ac25e04eebbbb68",
+      "mode": "100644"
+    },
+    "scripts/current-de-sku-global-census-multiset-qualification/multiset.py": {
+      "bytes": 10288,
+      "sha256": "e8c766e24bb195dc28266daa8d9d3f8bb84a9826dfd8d7ec3f675c5833dc9cf6",
+      "mode": "100644"
+    },
+    "scripts/current-de-sku-global-census-multiset-qualification/probe.py": {
+      "bytes": 2687,
+      "sha256": "da4a5f6976a04bc3edefc43af241813a211d6f2ebb84d779059ae745d66bdbfb",
+      "mode": "100644"
+    },
+    "scripts/current-de-sku-global-census-multiset-qualification/producer_profiles.py": {
+      "bytes": 1909,
+      "sha256": "f6830023a8caf18a93b0e78f29e91d496f9f5cdc5dd0d4bb78a783cac225718b",
+      "mode": "100644"
+    },
+    "scripts/current-de-sku-global-census-multiset-qualification/result_gate.py": {
+      "bytes": 2143,
+      "sha256": "0f2809ecfcb99304241a01be8655282e05c06782757b917482dae1a328d9dfde",
+      "mode": "100644"
+    },
+    "scripts/current-de-sku-global-census-multiset-qualification/retain.py": {
+      "bytes": 2566,
+      "sha256": "a5422be6af2269715e9c19cf1f494bf5b179e8e84e2cb9ca0b4ec1a627a93200",
+      "mode": "100644"
+    },
+    "scripts/current-de-sku-global-census-multiset-qualification/test_multiset.py": {
+      "bytes": 19960,
+      "sha256": "f52064a4aafda82fddbd445db0f4d045c79d745b1bd8d609cbc8a96d8ad8dc7c",
+      "mode": "100644"
+    },
+    "scripts/current-de-sku-global-census-multiset-qualification/workflow.py": {
+      "bytes": 3124,
+      "sha256": "39bb649c74593b2f0500766005766a228334a44c72b9a400949f656f75980b1f",
+      "mode": "100644"
+    }
+  },
+  "derivations": {
+    "engine": {
+      "inherited": {
+        "inherited": {
+          "original_path": "scripts/current-vendor-receivable-qualification/probe.py",
+          "original_sha256": "c420d894f8d5f16bddefeae73addb621507170f372a28e7d6e33d88c7eeb0be9",
+          "derived_sha256": "5e252e84922abae81636f7428d86a470d9a50253dd4c5f2ceb7106e176cf7e14",
+          "counted_changes": 13,
+          "original_engine_bytes_preserved": true,
+          "all_install_preuse_reinstall_backup_roles_CP6_advisor_Auth_package_checks_retained": true,
+          "original_business_case_requirement_replaced_by_explicit_catalogue_only_group": true,
+          "no_used_business_witness_claim": true,
+          "actual_Native_cases": 0
+        },
+        "successor": {
+          "kind": "engine",
+          "before_sha256": "5e252e84922abae81636f7428d86a470d9a50253dd4c5f2ceb7106e176cf7e14",
+          "after_sha256": "948752e8f838046be988ca11bbb38e2483a2ab353c8cb94294ea0524b4f685b3",
+          "counted_changes": 4,
+          "byte_reversible": true
+        },
+        "install_preuse_inverse_reinstall_commit_outer_restore_all5_preserved": true,
+        "actual_business_cases": 0,
+        "runtime_entry": null,
+        "actual_Native_credit": 0
+      },
+      "successor": {
+        "kind": "engine",
+        "before_sha256": "948752e8f838046be988ca11bbb38e2483a2ab353c8cb94294ea0524b4f685b3",
+        "after_sha256": "81288ee05b7fa362dbe89240578f1f56688900bb19019ae2b43a6207e106bea0",
+        "counted_changes": 4,
+        "byte_reversible": true
+      },
+      "install_preuse_inverse_reinstall_commit_outer_restore_all5_preserved": true,
+      "actual_business_cases": 0,
+      "runtime_entry": null,
+      "actual_Native_credit": 0
+    },
+    "runner": {
+      "inherited": {
+        "inherited": {
+          "kind": "runner",
+          "original_path": "scripts/current-de-sku-parent-catalogue-qualification/runner.py",
+          "original_sha256": "d5ebbdb8c3984e783043b8cb46d044d320afe592b91b69abd1ae69366041aed0",
+          "derived_sha256": "3fa8832725c4e59b98cbb661e98df63c5665943a5359d45a85938fae44f8f1f0",
+          "counted_changes": 3,
+          "byte_reversible": true,
+          "canonical_parent_written": false,
+          "next_successor_source_admission_required": true,
+          "next_producer_metadata_required": true,
+          "metadata_launch_prepared": false,
+          "runtime_entry": null,
+          "actual_Native_credit": 0,
+          "production_go": false,
+          "independent_acceptance": false
+        },
+        "successor": {
+          "kind": "runner",
+          "before_sha256": "3fa8832725c4e59b98cbb661e98df63c5665943a5359d45a85938fae44f8f1f0",
+          "after_sha256": "bd8e8b3872929f622c0bf9f20dc7106db21ea9be4edd8c1a222f9e10450fdd53",
+          "counted_changes": 4,
+          "byte_reversible": true
+        },
+        "runtime_entry": null,
+        "actual_Native_credit": 0
+      },
+      "successor": {
+        "kind": "runner",
+        "before_sha256": "bd8e8b3872929f622c0bf9f20dc7106db21ea9be4edd8c1a222f9e10450fdd53",
+        "after_sha256": "795ca5b69303a9ee9f586d2fb331a6daa0434eccd6d3547bfa49aad1516b7e86",
+        "counted_changes": 5,
+        "byte_reversible": true
+      },
+      "runtime_entry": null,
+      "actual_Native_credit": 0
+    },
+    "gate": {
+      "inherited": {
+        "inherited": {
+          "kind": "gate",
+          "original_path": "scripts/current-de-sku-parent-catalogue-qualification/result_gate.py",
+          "original_sha256": "ccacf58bd147de7d2b34d39f89f71ad42ac0e62b030a55f5db17c381134abf75",
+          "derived_sha256": "c2328558f251295c0b84e7abe23346ac9d5749d51aec02fb9afd19990209fe86",
+          "counted_changes": 3,
+          "byte_reversible": true,
+          "canonical_parent_written": false,
+          "next_successor_source_admission_required": true,
+          "next_producer_metadata_required": true,
+          "metadata_launch_prepared": false,
+          "runtime_entry": null,
+          "actual_Native_credit": 0,
+          "production_go": false,
+          "independent_acceptance": false
+        },
+        "successor": {
+          "kind": "gate",
+          "before_sha256": "c2328558f251295c0b84e7abe23346ac9d5749d51aec02fb9afd19990209fe86",
+          "after_sha256": "42a03dfded429538dc1c2780be20971a9ab2c90b31210ca38f734fda03ebd602",
+          "counted_changes": 5,
+          "byte_reversible": true
+        },
+        "runtime_entry": null,
+        "actual_Native_credit": 0
+      },
+      "successor": {
+        "kind": "gate",
+        "before_sha256": "42a03dfded429538dc1c2780be20971a9ab2c90b31210ca38f734fda03ebd602",
+        "after_sha256": "08e09896f23663d06980efc3d07140d08b13c6de6961c9eea1c195bf66c4c6b4",
+        "counted_changes": 5,
+        "byte_reversible": true
+      },
+      "runtime_entry": null,
+      "actual_Native_credit": 0
+    },
+    "integration": {
+      "inherited": {
+        "kind": "integration",
+        "before_sha256": "c13c8a08e1ac65167f6209547ecbf5bdb4c41d2bcb1067b962f4d9a243203b61",
+        "after_sha256": "ae8beba4c372cc4fd7475a891b8edc99338dc435e1b65c3d02fac9fba53a8c3c",
+        "counted_changes": 1,
+        "byte_reversible": true
+      },
+      "successor": {
+        "kind": "integration",
+        "before_sha256": "ae8beba4c372cc4fd7475a891b8edc99338dc435e1b65c3d02fac9fba53a8c3c",
+        "after_sha256": "336344bf32e4e6afa9cdb3f9f35a6c57c037f0ee7bfc40e80240f5b9cfdfb49e",
+        "counted_changes": 4,
+        "byte_reversible": true
+      }
+    },
+    "capture": {
+      "kind": "capture",
+      "before_sha256": "a9643a5b89ce5b488bf596b00e8d09c9028a26fc0ebd5e17302a41da36a6f59c",
+      "after_sha256": "55b56ef94d50850ff94a7fd16bf7a6a03a19118d8876525c05f516bc10cbc249",
+      "counted_changes": 11,
+      "byte_reversible": true
+    },
+    "census": {
+      "kind": "census",
+      "before_sha256": "9b24b45a09e3fd5cf240ed033e1553fd3c3bfe81a9b2425c9ad3e71dfaf390c0",
+      "after_sha256": "0bed6769c04776ed857d8664a0f54c683fd2549caed857ca37f445455af89073",
+      "counted_changes": 3,
+      "byte_reversible": true
+    }
+  }
+}

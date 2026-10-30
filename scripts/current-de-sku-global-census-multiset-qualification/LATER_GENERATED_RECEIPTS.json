@@ -1,0 +1,809 @@
+{
+  "contract": "CLOSED_GENERATED_LATER_OUTPUTS_V1",
+  "producer_files": {
+    "scripts/current-finance-combined-composition/disposable_start.py": {
+      "bytes": 2688,
+      "sha256": "523ec29f0566852f56627c7c9be791de215d09b55d8669c071024fd92aa8e257"
+    },
+    "scripts/cp6_t3_aligned_chain.py": {
+      "bytes": 6197,
+      "sha256": "4e043ad5257a2ed93600e3bb745c96a7d2c702ff4b163abaa79548acd5d5a3b9"
+    },
+    "scripts/cp6_g01_align.py": {
+      "bytes": 10339,
+      "sha256": "023a9542037b9ad1bc7860b9fabb42d8062173371fb8af728ac2c9bae376c458"
+    },
+    "scripts/clone-cp6-disposable-database.sh": {
+      "bytes": 7381,
+      "sha256": "c786ad04009547e2e78baf56f93c5dd6dd5847befdb16e721e01909a592285da"
+    },
+    "scripts/verify-cp6-disposable-clone.sh": {
+      "bytes": 4447,
+      "sha256": "b9912f689bbccba172fbbdd7f2f7853bbec29e642307debca56fd6f416aee317"
+    },
+    "scripts/cp6_t3_package_run.py": {
+      "bytes": 17087,
+      "sha256": "952bbf1b99652dadf69ab0e1291979a4e7227182631baaab6af7a7eabcb80ab0"
+    },
+    "scripts/cp6_t3_release_package.py": {
+      "bytes": 23429,
+      "sha256": "29c207f3a3db70194fe3e45ec24c650b6534a5598525588b284df895f41e1358"
+    },
+    "scripts/cp6_run_identity.py": {
+      "bytes": 1869,
+      "sha256": "4876539c2ed0cffc674522f2a24ae73f2f52253f434bf949a53a3744018f2279"
+    },
+    "supabase/release/cp6-t3/MANIFEST.json": {
+      "bytes": 68647,
+      "sha256": "40795c3fce619c5795b427e9aa31836777b687f82eba4ab5654264d57564879f"
+    },
+    ".github/workflows/cp7-sku-managed-recovery-native27.yml": {
+      "bytes": 33068,
+      "sha256": "26691f66a4d5ecb23709ac39e9c1d615d947228535666ade09490dfab3d57541"
+    },
+    ".github/workflows/cp7-de-sku-parent-catalogue.yml": {
+      "bytes": 31472,
+      "sha256": "bb45d55e8ce2ce2df2dea41a460aff443056c4e30ac58a70701269d659e5bf86"
+    },
+    ".github/workflows/cp7-de-sku-global-census.yml": {
+      "bytes": 30700,
+      "sha256": "58709dd09eadf440fddc87e883d3dee0a8df89b01c311539946e34e57a19f87f"
+    },
+    ".github/workflows/cp7-de-sku-global-census-multiset.yml": {
+      "bytes": 30837,
+      "sha256": "9e8c56c987deff03989d7b9f3b7e6e939616b2781691f2f660573909774a5721"
+    }
+  },
+  "aligned_document": {
+    "label": "T3_PREP",
+    "status": "PASS_ALIGNED_CHAIN_TO_AB",
+    "frozen_head": "1bdca3766f7c9800d68295ff5122798060b8a05d",
+    "frozen_workflow_sha256": "5ba14137aca8992f92f32357d2b0a3c15a1ca40a988b3ec79754dde7a6eb8302",
+    "reused_bootstrap_input": {
+      "status": "PRE_U_CAPTURED_IN_THIS_REBUILD",
+      "artifact_id": 10392910720,
+      "artifact_state": "EXPIRED_2026_10_15",
+      "path": "CP6_V2620U_FAILED150_PREDICATES.json",
+      "capture_before_step": "Apply v2.6.20u canonical material, reversal and owner-report business dates before every final-runtime proof",
+      "historical_test_reexecuted": false,
+      "production_go": false,
+      "tables": 208,
+      "erp_tables": 207,
+      "platform_tables": 1,
+      "names_sha256": "eb7f121d3b5fe5a6fc3c920fb88ddbcd64242580f0689f0459a1cb29cc169069",
+      "names_sha256_pinned": "eb7f121d3b5fe5a6fc3c920fb88ddbcd64242580f0689f0459a1cb29cc169069",
+      "frozen_function_sha256": "b326a3a8c49b87980ed6e6c192ac573832d924dcc618b8ee1473831241029ca0"
+    },
+    "aligned_after": "Apply v2.6.20 authoritative Laundry-QC-FG bridge once and reject replay",
+    "stop_after": "Apply AB statement-time Jakarta business dates before every final-runtime proof",
+    "steps": [
+      {
+        "name": "Verify immutable CP4.5a catalog/config bootstrap",
+        "code_sha256": "839718d76b82b56acda3fb58ecb5183a6b539906fc876d4d11883ca92e15fb2a",
+        "exit_code": 0,
+        "after_alignment": false
+      },
+      {
+        "name": "Restore exact CP4.5a schema and allowlisted configuration",
+        "code_sha256": "77fb902eca3f72744555118880a52bc819f82471d1936416e931e03951f9d033",
+        "exit_code": 0,
+        "after_alignment": false
+      },
+      {
+        "name": "Capture exact pre-Cutting and pre-CP5 boundary",
+        "code_sha256": "c53db0f5bf5a8b95b1b5fc6ae7ca8f733d4627db95ebaeee6ababdedaa44c5c4",
+        "exit_code": 0,
+        "after_alignment": false
+      },
+      {
+        "name": "Apply v2.6.18 Cutting Bridge once and reject replay",
+        "code_sha256": "7140254312e3fe788da869c5dc000de4f73acae8e463fe433683b6b1a0b2198c",
+        "exit_code": 0,
+        "after_alignment": false
+      },
+      {
+        "name": "Prove exact recorded and unused v2.6.18 boundary",
+        "code_sha256": "a3eec0740b5021019e6ffd74e86a24c86e416b497a80ed193d5d73ad72574bac",
+        "exit_code": 0,
+        "after_alignment": false
+      },
+      {
+        "name": "Apply v2.6.18a reconciliation once and reject replay",
+        "code_sha256": "8efa0163b930d0e25c2a1c8faa8afd28a060cf7b03c6292263871bb98d77f61c",
+        "exit_code": 0,
+        "after_alignment": false
+      },
+      {
+        "name": "Apply v2.6.19 CP5 once and reject replay",
+        "code_sha256": "0279f8736dcc3a348ebb5365790211b55e38801fa1c7af10d98976a620bbe235",
+        "exit_code": 0,
+        "after_alignment": false
+      },
+      {
+        "name": "Apply official v2.6.19a accessory-lineage correction once and reject replay",
+        "code_sha256": "3ffd94853c6d2cf1cd1fa0a1d14397ee6bf840638e0e86f49c8a0798d38e5dfd",
+        "exit_code": 0,
+        "after_alignment": false
+      },
+      {
+        "name": "Apply official v2.6.19b reliability closure once and reject replay",
+        "code_sha256": "4243df33fe04988665d9f62945ba3ef4e5d311c0ee4c6f7bbd06a90b89bde029",
+        "exit_code": 0,
+        "after_alignment": false
+      },
+      {
+        "name": "Apply official v2.6.19c atomic reversal closure once and reject replay",
+        "code_sha256": "4bba02dc1b4f375105e3f2d640fd274d799e4f2343979a5198095e874d45ce6c",
+        "exit_code": 0,
+        "after_alignment": false
+      },
+      {
+        "name": "Capture exact v2.6.19c predecessor before CP6",
+        "code_sha256": "316ce2f90a1903f0395db4c179e3dc7794714e256d25731b5e8daf3740784d4f",
+        "exit_code": 0,
+        "after_alignment": false
+      },
+      {
+        "name": "Apply v2.6.20 authoritative Laundry-QC-FG bridge once and reject replay",
+        "code_sha256": "eb6d2a0e93a8d013b996b9512b8e43e39917e24963f6f4955b129b583ea69cac",
+        "exit_code": 0,
+        "after_alignment": false
+      },
+      {
+        "name": "Apply v2.6.20a audit reliability closure once and reject replay",
+        "code_sha256": "c2ca57697005975512047ce775ad47bbc4de8d5afe34b008ea284f3026608851",
+        "exit_code": 0,
+        "after_alignment": true
+      },
+      {
+        "name": "Apply v2.6.20b re-audit reliability closure once and reject replay",
+        "code_sha256": "88bd9705a9e457006a1686199b2389bf2839bf2b75634ceb20bdd9b34b33cf37",
+        "exit_code": 0,
+        "after_alignment": true
+      },
+      {
+        "name": "Apply v2.6.20c deep-business reliability repair once and reject replay",
+        "code_sha256": "72fdf053d0d953b9f29258c3254433d506848cb64fcef9c71ea6a34b8a11b25d",
+        "exit_code": 0,
+        "after_alignment": true
+      },
+      {
+        "name": "Apply v2.6.20d independent re-audit business closure once and reject replay",
+        "code_sha256": "3ca603bfed9e30569bba9808cb9273e67fb8544b656153a7a572ebd44f783f18",
+        "exit_code": 0,
+        "after_alignment": true
+      },
+      {
+        "name": "Apply v2.6.20e C01-C06 counterexample closure before final-runtime tests",
+        "code_sha256": "5d61c424dfe4d834d5ce5df81d6504f61fa00f0bd71a6a183106ac2a9d86ebf7",
+        "exit_code": 0,
+        "after_alignment": true
+      },
+      {
+        "name": "Apply v2.6.20f A01-A04 final-runtime reliability closure once and reject replay",
+        "code_sha256": "6e45b55809321dd8c54c991003e9a6a3661c512afb724ed72ad76f69e1c3d6a2",
+        "exit_code": 0,
+        "after_alignment": true
+      },
+      {
+        "name": "Apply v2.6.20g independent N01-N03 closure before all final-runtime evidence",
+        "code_sha256": "188d87e8171f11a74caba1c05e47a7cfd60ad36167eb2a2116726bccb9970b71",
+        "exit_code": 0,
+        "after_alignment": true
+      },
+      {
+        "name": "Apply v2.6.20h expanded R01-R03 closure before all final-runtime evidence",
+        "code_sha256": "6150ad936b52ec9f6317571d7d3baf72726d72e0de3f7db56be5febef257bf6a",
+        "exit_code": 0,
+        "after_alignment": true
+      },
+      {
+        "name": "Apply v2.6.20i H2 audit closure before every final-runtime proof",
+        "code_sha256": "2690597a0f6cc6c38be21aa4f43cddfe61c0ade9a3f45a38d216891e6f3c0df3",
+        "exit_code": 0,
+        "after_alignment": true
+      },
+      {
+        "name": "Apply v2.6.20j immutable payment facts before every final-runtime proof",
+        "code_sha256": "be8c49e02b92a6c6af2d786ad090b6118f1ee5f6a669f6362f717b476722aa78",
+        "exit_code": 0,
+        "after_alignment": true
+      },
+      {
+        "name": "Apply v2.6.20k payment date conservation before every final-runtime proof",
+        "code_sha256": "21d1a6e8283df33ba99253ee029f3d06efda013e52bd59a28cb9cdbbcd653266",
+        "exit_code": 0,
+        "after_alignment": true
+      },
+      {
+        "name": "Apply v2.6.20l exact ledger conservation before every final-runtime proof",
+        "code_sha256": "f0324ae59b5dc8ddce9510243422ef766f281d9137222e2af5d3e8db73a4abfd",
+        "exit_code": 0,
+        "after_alignment": true
+      },
+      {
+        "name": "Apply v2.6.20m exact supplier and opening subledger closure before every final-runtime proof",
+        "code_sha256": "330c3cf828837a04dd0095c0802a2223be185e54c2d656c2adc490703ef8df7a",
+        "exit_code": 0,
+        "after_alignment": true
+      },
+      {
+        "name": "Apply v2.6.20n cumulative supplier cent lifecycle before every final-runtime proof",
+        "code_sha256": "7d01ed8c8c7be2393a446f0972024be8cea596a767b6ab5456239f05137d96c8",
+        "exit_code": 0,
+        "after_alignment": true
+      },
+      {
+        "name": "Apply v2.6.20o cumulative supplier return document allocation before every final-runtime proof",
+        "code_sha256": "8f8d6422304bf07d36d59228fd375174745b28aa8621dda3cc47e9cb21dd1a00",
+        "exit_code": 0,
+        "after_alignment": true
+      },
+      {
+        "name": "Apply v2.6.20p supplier return match state and report scope before every final-runtime proof",
+        "code_sha256": "feed10bf1a27c4660bc9b944cdd85202d54535abcc74f0d5a6693e8cf9cd7de6",
+        "exit_code": 0,
+        "after_alignment": true
+      },
+      {
+        "name": "Apply v2.6.20q exact supplier invoice quantity and completion state before every final-runtime proof",
+        "code_sha256": "59357830d40cf3096d291f0d646177f606f6c6da538e15ee0f96908e152014d7",
+        "exit_code": 0,
+        "after_alignment": true
+      },
+      {
+        "name": "Apply v2.6.20r receipt invoice dependency and source state before every final-runtime proof",
+        "code_sha256": "b1be5c9aa24986c19883268248ace342c04aaeddb0fe5e0048caa121049b6eda",
+        "exit_code": 0,
+        "after_alignment": true
+      },
+      {
+        "name": "Apply v2.6.20s supplier payment canonical business date before every final-runtime proof",
+        "code_sha256": "7cbfece6a4d705ec9f1a293b958f2344ab973bc01ced8b618d3c3ad27e2b9044",
+        "exit_code": 0,
+        "after_alignment": true
+      },
+      {
+        "name": "Apply v2.6.20t material adjustment document cents and canonical accounting day before every final-runtime proof",
+        "code_sha256": "f1c95fa7fe715d8bfecbe435e3aee97198781175a1967ba2c22467ec80fccd40",
+        "exit_code": 0,
+        "after_alignment": true
+      },
+      {
+        "name": "Apply v2.6.20u canonical material, reversal and owner-report business dates before every final-runtime proof",
+        "code_sha256": "e46a3d8d2e831fac08b071ead1a07525e33983dba10ecfaee573d63a3851ec6a",
+        "exit_code": 0,
+        "after_alignment": true
+      },
+      {
+        "name": "Apply v2.6.20v canonical miscellaneous cash business dates before every final-runtime proof",
+        "code_sha256": "96496e67856753afec201dac4009e26bd0f66f7d223957bffb2591cef01c3a00",
+        "exit_code": 0,
+        "after_alignment": true
+      },
+      {
+        "name": "Apply v2.6.20w canonical paid scrap business dates before every final-runtime proof",
+        "code_sha256": "d336ad898b043348790bac518380e1e9c9503991b75617e9f003ff6c89280175",
+        "exit_code": 0,
+        "after_alignment": true
+      },
+      {
+        "name": "Apply v2.6.20x fail-closed internal role before every final-runtime proof",
+        "code_sha256": "8cde80d91ca4d281dd203ffc4d367564de6d1adaf3c1a8dcd55df2cba5781836",
+        "exit_code": 0,
+        "after_alignment": true
+      },
+      {
+        "name": "Apply v2.6.20y canonical cash dates before every final-runtime proof",
+        "code_sha256": "1a1b4f83537d070c6549b49147392952224b312266db093d30c6730dcdf76781",
+        "exit_code": 0,
+        "after_alignment": true
+      },
+      {
+        "name": "Apply Z canonical accounting-close day before every final-runtime proof",
+        "code_sha256": "bae2835963c235a89fc23ee74e4a147c9b3693493b9b5d551d9653b65c8bcc54",
+        "exit_code": 0,
+        "after_alignment": true
+      },
+      {
+        "name": "Apply AA canonical material cost days before every final-runtime proof",
+        "code_sha256": "a4a4db396c39aa4115dd9e9bfa94328c3c3138881d6a8870b57255e51bb55e11",
+        "exit_code": 0,
+        "after_alignment": true
+      },
+      {
+        "name": "Apply AB statement-time Jakarta business dates before every final-runtime proof",
+        "code_sha256": "2e7b338350fee3a4e01d5294ee13c60e14bdc40e3cb272269ed8a4558bc55593",
+        "exit_code": 0,
+        "after_alignment": true
+      }
+    ],
+    "production_go": false,
+    "release_evidence": false,
+    "alignment": {
+      "label": "G01_ALIGNMENT",
+      "sql_sha256": "4e59a131ecec997fbb7b8bbcb9a9fd02c4913be59172d0182ee8e9736863deb2",
+      "constraints": {
+        "attendance_hpp_journal_line_links.attendance_hpp_journal_line_links_link_type_check": {
+          "hosted": "72f8ce2c1e",
+          "aligned": "72f8ce2c1e"
+        },
+        "attendance_hpp_pools.attendance_hpp_pools_status_check": {
+          "hosted": "e05afeb3b8",
+          "aligned": "e05afeb3b8"
+        },
+        "attendance_periods.attendance_periods_status_check": {
+          "hosted": "e69cd6fdeb",
+          "aligned": "e69cd6fdeb"
+        },
+        "attendance_records.attendance_records_lifecycle_check": {
+          "hosted": "452991f694",
+          "aligned": "452991f694"
+        },
+        "fg_stock_movements.fg_stock_movements_movement_type_check": {
+          "hosted": "9fbfff8cd0",
+          "aligned": "9fbfff8cd0"
+        },
+        "idempotency_requests.idempotency_requests_status_check": {
+          "hosted": "0d9b2286cf",
+          "aligned": "0d9b2286cf"
+        },
+        "manual_reminders.manual_reminders_priority_check": {
+          "hosted": "a6e0cfdb2b",
+          "aligned": "a6e0cfdb2b"
+        },
+        "manual_reminders.manual_reminders_status_check": {
+          "hosted": "78723b79b2",
+          "aligned": "78723b79b2"
+        },
+        "material_purchase_cost_corrections.material_purchase_cost_corrections_post_seq_state": {
+          "hosted": "caefcf97c1",
+          "aligned": "caefcf97c1"
+        },
+        "material_purchase_items.material_purchase_items_invoice_match_state_check": {
+          "hosted": "c7c0506ea2",
+          "aligned": "c7c0506ea2"
+        },
+        "material_purchase_items.material_purchase_items_price_source_check": {
+          "hosted": "ac30b11606",
+          "aligned": "ac30b11606"
+        },
+        "material_purchase_items.material_purchase_items_price_state_check": {
+          "hosted": "dfa5f56214",
+          "aligned": "dfa5f56214"
+        },
+        "material_stock_movements.material_stock_movements_movement_type_check": {
+          "hosted": "a218ef6894",
+          "aligned": "a218ef6894"
+        },
+        "material_supplier_invoices.material_supplier_invoices_status_check": {
+          "hosted": "12080adf85",
+          "aligned": "12080adf85"
+        },
+        "material_transfers.material_transfers_status_check": {
+          "hosted": "12080adf85",
+          "aligned": "12080adf85"
+        },
+        "qc_inspections.qc_inspections_completion_mode_check": {
+          "hosted": "b1a922fa1a",
+          "aligned": "b1a922fa1a"
+        },
+        "rework_component_lines.rework_component_lines_rate_basis_check": {
+          "hosted": "8ec02e222b",
+          "aligned": "8ec02e222b"
+        },
+        "sewing_terminal_events.sewing_terminal_events_event_kind_check": {
+          "hosted": "bbd293f60d",
+          "aligned": "bbd293f60d"
+        },
+        "stock_explainability_snapshots.stock_explainability_snapshots_basis_source_check": {
+          "hosted": "d94c5cd613",
+          "aligned": "d94c5cd613"
+        },
+        "stock_explainability_snapshots.stock_explainability_snapshots_health_status_check": {
+          "hosted": "2ec01ea1f0",
+          "aligned": "2ec01ea1f0"
+        },
+        "stock_explainability_snapshots.stock_explainability_snapshots_subject_type_check": {
+          "hosted": "360d893e1b",
+          "aligned": "360d893e1b"
+        },
+        "stock_policy_versions.stock_policy_versions_basis_source_check": {
+          "hosted": "d94c5cd613",
+          "aligned": "d94c5cd613"
+        },
+        "stock_policy_versions.stock_policy_versions_subject_type_check": {
+          "hosted": "360d893e1b",
+          "aligned": "360d893e1b"
+        }
+      },
+      "views": {
+        "erp.v_case_browser": {
+          "hosted": "7056975536aee94c6d8d1783904206a7",
+          "aligned": "7056975536aee94c6d8d1783904206a7"
+        },
+        "erp.v_customer_receivables": {
+          "hosted": "dd5b423149289667606424e199601660",
+          "aligned": "dd5b423149289667606424e199601660"
+        },
+        "erp.v_laundry_po_operational_progress": {
+          "hosted": "e4b0fe144c51d3f7413a94b631d80c30",
+          "aligned": "e4b0fe144c51d3f7413a94b631d80c30"
+        },
+        "erp.v_payroll_nota_browser": {
+          "hosted": "947eb0f63e95b62bda77e77c87134b1d",
+          "aligned": "947eb0f63e95b62bda77e77c87134b1d"
+        },
+        "erp.v_payroll_production_work_eligibility": {
+          "hosted": "004d37be4306832a21a275bd5b7d2b0f",
+          "aligned": "004d37be4306832a21a275bd5b7d2b0f"
+        }
+      },
+      "sequences": {
+        "aligned": {
+          "erp.app_access_audit_id_seq": "i:erp.app_access_audit.id",
+          "erp.audit_logs_id_seq": "a:erp.audit_logs.id",
+          "erp.cost_recalc_queue_id_seq": "a:erp.cost_recalc_queue.id",
+          "erp.cutting_qty_correction_seq": null,
+          "erp.fg_stock_book_order_seq": null,
+          "erp.production_pattern_audit_id_seq": "i:erp.production_pattern_audit.id"
+        },
+        "hosted_owned": {
+          "erp.app_access_audit_id_seq": "i:erp.app_access_audit.id",
+          "erp.production_pattern_audit_id_seq": "i:erp.production_pattern_audit.id",
+          "erp.audit_logs_id_seq": "a:erp.audit_logs.id",
+          "erp.cost_recalc_queue_id_seq": "a:erp.cost_recalc_queue.id"
+        },
+        "hosted_count": 6
+      },
+      "schema_erp": {
+        "hosted": "authenticated:USAGE:false,postgres:CREATE:false,postgres:USAGE:false,service_role:USAGE:false",
+        "aligned": "authenticated:USAGE:false,postgres:CREATE:false,postgres:USAGE:false,service_role:USAGE:false"
+      },
+      "constraints_equal": true,
+      "views_equal": true,
+      "sequences_equal": true,
+      "schema_equal": true,
+      "capsules": [
+        {
+          "view": "erp.v_fg_partial_completion_progress",
+          "status": "ALIGNED",
+          "replay_sha256": "efb2d15345589645f2184c3a749da42acc11bad1d4585988c3e02c5c762464e6",
+          "hosted_sha256": "7897479ca27144e599b6607b60f5b9bed08bdea57171ff6ba8ec81ce46f20037",
+          "hosted_md5_equal": true
+        },
+        {
+          "view": "erp.v_wip_control_status_v1",
+          "status": "ALIGNED",
+          "replay_sha256": "a823510e0e5e5f57dc124001db93ec9636e8120970281473e10fedc54089420a",
+          "hosted_sha256": "2aa2bab69b86be921b022eaca8142a1523124c05bd639b8a641ccf572ac8ded4",
+          "hosted_md5_equal": true
+        }
+      ],
+      "capsules_equal": true,
+      "status": "ALIGNED_PER_OBJECT"
+    },
+    "hosted_fingerprint": {
+      "equal": true,
+      "kinds": 16,
+      "differ": {},
+      "explained": {
+        "platform_ledger": "fixture ledger keeps empty statements and repository stamps (G-01 round 1, ledger_content_order.json)"
+      }
+    }
+  },
+  "clone_identity": {
+    "database_identity": {
+      "owner": "postgres",
+      "acl_entries": [
+        {
+          "grantee": "PUBLIC",
+          "grantor": "postgres",
+          "grantable": false,
+          "privilege": "CONNECT"
+        },
+        {
+          "grantee": "PUBLIC",
+          "grantor": "postgres",
+          "grantable": false,
+          "privilege": "TEMPORARY"
+        },
+        {
+          "grantee": "postgres",
+          "grantor": "postgres",
+          "grantable": false,
+          "privilege": "CONNECT"
+        },
+        {
+          "grantee": "postgres",
+          "grantor": "postgres",
+          "grantable": false,
+          "privilege": "CREATE"
+        },
+        {
+          "grantee": "postgres",
+          "grantor": "postgres",
+          "grantable": false,
+          "privilege": "TEMPORARY"
+        },
+        {
+          "grantee": "supabase_etl_admin",
+          "grantor": "postgres",
+          "grantable": false,
+          "privilege": "CREATE"
+        },
+        {
+          "grantee": "supabase_storage_admin",
+          "grantor": "postgres",
+          "grantable": false,
+          "privilege": "CREATE"
+        },
+        {
+          "grantee": "dashboard_user",
+          "grantor": "postgres",
+          "grantable": false,
+          "privilege": "CONNECT"
+        },
+        {
+          "grantee": "dashboard_user",
+          "grantor": "postgres",
+          "grantable": false,
+          "privilege": "CREATE"
+        },
+        {
+          "grantee": "dashboard_user",
+          "grantor": "postgres",
+          "grantable": false,
+          "privilege": "TEMPORARY"
+        }
+      ],
+      "connection_limit": -1,
+      "allow_connections": true
+    },
+    "public_schema_identity": {
+      "acl": "{pg_database_owner=UC/pg_database_owner,=U/pg_database_owner,postgres=U/pg_database_owner,anon=U/pg_database_owner,authenticated=U/pg_database_owner,service_role=U/pg_database_owner}",
+      "owner": "pg_database_owner",
+      "anon_usage": true,
+      "anon_create": false,
+      "postgres_usage": true,
+      "postgres_create": true,
+      "service_role_usage": true,
+      "authenticated_usage": true,
+      "service_role_create": false,
+      "authenticated_create": false
+    }
+  },
+  "clone_fence_fixed": {
+    "source_database": "postgres",
+    "clone_database": "cp6_rollback",
+    "database_container": "supabase_db_cp5-local",
+    "database_admin": "supabase_admin",
+    "source_database_owner": "postgres",
+    "clone_database_owner": "postgres",
+    "database_owner_preserved": "PASS",
+    "source_database_acl_is_null": "f",
+    "source_database_nonowner_grantors": "0",
+    "database_acl_replayed": "PASS",
+    "clone_strategy": "TEMPLATE_POSTGRES",
+    "source_restart_under_fence": "PASS",
+    "remaining_source_connections_during_clone": "0",
+    "source_connections_restored": "PASS",
+    "status": "PASS"
+  },
+  "package_files_document": {
+    "label": "T3_PREP_RELEASE_PACKAGE_INSTALL",
+    "status": "ALL_FILES_INSTALLED",
+    "files": [
+      {
+        "key": "AC",
+        "status": "PASS"
+      },
+      {
+        "key": "AD",
+        "status": "PASS"
+      },
+      {
+        "key": "AE",
+        "status": "PASS"
+      },
+      {
+        "key": "AF",
+        "status": "PASS"
+      },
+      {
+        "key": "AG",
+        "status": "PASS"
+      },
+      {
+        "key": "AH",
+        "status": "PASS"
+      },
+      {
+        "key": "AI",
+        "status": "PASS"
+      },
+      {
+        "key": "AJ",
+        "status": "PASS"
+      },
+      {
+        "key": "AK",
+        "status": "PASS"
+      },
+      {
+        "key": "AL",
+        "status": "PASS"
+      },
+      {
+        "key": "AM",
+        "status": "PASS"
+      },
+      {
+        "key": "AN",
+        "status": "PASS"
+      },
+      {
+        "key": "AO",
+        "status": "PASS"
+      },
+      {
+        "key": "AP",
+        "status": "PASS"
+      },
+      {
+        "key": "AQ",
+        "status": "PASS"
+      },
+      {
+        "key": "AR",
+        "status": "PASS"
+      },
+      {
+        "key": "AS",
+        "status": "PASS"
+      },
+      {
+        "key": "AT",
+        "status": "PASS"
+      },
+      {
+        "key": "AU",
+        "status": "PASS"
+      },
+      {
+        "key": "AV",
+        "status": "PASS"
+      },
+      {
+        "key": "AW",
+        "status": "PASS"
+      },
+      {
+        "key": "AX",
+        "status": "PASS"
+      },
+      {
+        "key": "AY",
+        "status": "PASS"
+      },
+      {
+        "key": "AZ",
+        "status": "PASS"
+      },
+      {
+        "key": "BA",
+        "status": "PASS"
+      },
+      {
+        "key": "BB",
+        "status": "PASS"
+      },
+      {
+        "key": "BC",
+        "status": "PASS"
+      },
+      {
+        "key": "BD",
+        "status": "PASS"
+      },
+      {
+        "key": "BE",
+        "status": "PASS"
+      },
+      {
+        "key": "BF",
+        "status": "PASS"
+      }
+    ],
+    "production_go": false,
+    "release_evidence": false
+  },
+  "package_allowed_keys": [
+    "label",
+    "mode",
+    "status",
+    "stages",
+    "production_go",
+    "release_evidence",
+    "run_identity",
+    "auth_users_before",
+    "ledger_start",
+    "fingerprint_AB",
+    "hosted_capsules",
+    "ledger_final",
+    "fingerprint_final",
+    "security_advisors",
+    "writer_runtime",
+    "backup_restore_drill",
+    "cutover_data_checks",
+    "primary_unchanged",
+    "auth_users_after",
+    "gate"
+  ],
+  "package_stages": [
+    {
+      "stage": "PACKAGE",
+      "status": "PASS",
+      "result": "ALL_FILES_INSTALLED"
+    },
+    {
+      "stage": "AW_AX_AY_AZ_VERIFY",
+      "status": "PASS",
+      "result": {
+        "stage": "BE_PLUS_BF_T1",
+        "functions": 9,
+        "sql_sha256": "db8ee8115b5a53dd9a7b154c96b764b8bee9e4a79c5adfa48050417bb756bd32",
+        "ax_sql_sha256": "2427b901ce6991c1e36bf1b51e3e756d4d000ae39fe7608ad2888ce7b9e42503",
+        "ay_sql_sha256": "29b8977613012431b9efa927c7cee10654aef8a016368a0430e7c3789070af43",
+        "az_sql_sha256": "9007eefc5b8e8d3ae47dbdc496aca61fb281152385b27c9791284b68fc8125c9",
+        "ba_sql_sha256": "3359a42fe93c35da481d164e5e6d70e79da41559621a65736418bfc8f32d93a7",
+        "bb_sql_sha256": "a423268697f9290d7278bd98a364f9207562769c277d036ccf1c31902bbdf142",
+        "bc_sql_sha256": "f72f72d38ed8d44cd24002e94733f55473760244686296a3970961d7aa4a9ec7",
+        "bd_sql_sha256": "f480f8dd7dc2620e19994e328b971ef159ba81dca1b8272ae42b59e0d370f947",
+        "be_sql_sha256": "695475db3719617bd2c10d82c4dee2eaa567f4c10f322697a1714b17b60d29f6",
+        "bf_sql_sha256": "d5e66d221878db1ba34b0c159e05c13f6b12bac3acc2b3066fcff514ef876ffd"
+      }
+    }
+  ],
+  "package_run_identity_keys": [
+    "label",
+    "tool_head",
+    "product_ref",
+    "product_paths",
+    "run_id",
+    "run_attempt",
+    "workflow",
+    "job",
+    "event",
+    "github_sha",
+    "release_evidence",
+    "production_go",
+    "mode"
+  ],
+  "package_run_identity_static": {
+    "label": "T3_PREP",
+    "product_ref": "961c22f8d3fa6fd2c16a8932a23b6d3a347d0c98",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "release_evidence": false,
+    "production_go": false,
+    "mode": "install"
+  },
+  "reference_provenance": {
+    "head": "bd2cd02c0b724f87f6f1d8628f8227dd30c513a4",
+    "run_id": 40928155690,
+    "artifact_id": 12924775397,
+    "zip_sha256": "014400fd25c7134055a73a761a5c7079f29d0eed686964d8fc077fc221b32196",
+    "raw_reference_is_history_not_actual_current_DB_or_PASS": true
+  },
+  "package_allowed_events": [
+    "push",
+    "workflow_dispatch"
+  ],
+  "package_workflow_name": "CP7 A D1 E SKU dependency multiset metadata and full restoration"
+}

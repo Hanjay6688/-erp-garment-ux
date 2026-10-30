@@ -1,0 +1,59 @@
+{
+  "classification": "PRIMARY_SOURCE_AND_LOCAL_MODEL_ONLY_NOT_ACTUAL_ERP_ROWS",
+  "primary_sources": [
+    {
+      "repository": "postgres/postgres",
+      "ref": "REL_17_STABLE",
+      "path": "src/backend/catalog/pg_depend.c",
+      "github_blob": "7afdc78aa67fbca46a14d5ae0e04a6e84d444b98",
+      "retained_bytes": 36257,
+      "retained_sha256": "4747fe5a42e4188a3ceca7579613d172f0ad9aee6e2216ac56ced2ccc581448f",
+      "retained_git_blob": "7afdc78aa67fbca46a14d5ae0e04a6e84d444b98",
+      "url": "https://github.com/postgres/postgres/blob/REL_17_STABLE/src/backend/catalog/pg_depend.c"
+    },
+    {
+      "repository": "postgres/postgres",
+      "ref": "REL_17_STABLE",
+      "path": "src/include/catalog/pg_depend.h",
+      "github_blob": "eb1ee43b012ebc8aa2192827013d5961f122d9ad",
+      "retained_bytes": 2791,
+      "retained_sha256": "457be3ad66b69095f2b93c3ac3efd425cdf3e9841773e21a94db20ee7780edd4",
+      "retained_git_blob": "eb1ee43b012ebc8aa2192827013d5961f122d9ad",
+      "url": "https://github.com/postgres/postgres/blob/REL_17_STABLE/src/include/catalog/pg_depend.h"
+    }
+  ],
+  "pg17_docs": "https://www.postgresql.org/docs/17/catalog-pg-depend.html",
+  "model": {
+    "server": "PostgreSQL 17.5 on aarch64-unknown-linux-gnu, compiled by emcc (Emscripten gcc/clang-like replacement + linker emulating GNU ld) 3.1.74 (1092ec30a3fb1d46b1782ff1b4db5094d3d06ae5), 32-bit",
+    "result_bytes": 6327,
+    "result_sha256": "593c60451e46680f9841e9114eb5ffd01502ce6894ff6bba762bad9e0c7c1927",
+    "groups": {
+      "dependencies": {
+        "occurrence_count": 16,
+        "distinct_identity_count": 15,
+        "raw_pairs_sha256": "1a9c1a32092766ac5dc8de1e800484297d05942f06651b56803c6050f9483b3d"
+      },
+      "view_relation_dependencies": {
+        "occurrence_count": 2,
+        "distinct_identity_count": 2,
+        "raw_pairs_sha256": "8892ac3bca5ceb36ce18c116b8a5926c262329f2e45bcaa12d8345d1bc0fc654"
+      }
+    },
+    "direct_system_catalog_writes": false
+  },
+  "actual_failure": {
+    "public_head": "ee14592920c331d84d354a24b4b6b4a9f49f91d1",
+    "run": 41044419248,
+    "job": 124024866394,
+    "archive_bytes": 3990236,
+    "archive_sha256": "59d4ce7398bdcfd2cc3603ca487ea40eb171e1426070fe67f273ac5d0dcc174a",
+    "main_sha256": "170957fde933e1afc97f95e20d7cfe700d2b7a8f06c406210f7b4f2832472fb8",
+    "error": "GLOBAL_CENSUS_DUPLICATE_SUPPLEMENT_IDENTITY:dependencies",
+    "offending_raw_rows_retained": false,
+    "actual_object_cause": "UNDETERMINED"
+  },
+  "runtime_entry": null,
+  "actual_Native_credit": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}
