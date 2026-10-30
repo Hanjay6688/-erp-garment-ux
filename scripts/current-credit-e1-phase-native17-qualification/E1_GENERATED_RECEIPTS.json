@@ -1,0 +1,1091 @@
+{
+  "version": "CLOSED_E1_GENERATED_NON_SOURCE_V1",
+  "producer_files": {
+    ".github/workflows/cp7-credit-e1-phase-native17.yml": {
+      "bytes": 31376,
+      "sha256": "03e34150f675bef69701727b01c21855259db31f9d111d68b88369aa5b92ceb4"
+    },
+    "scripts/current-credit-e1-phase-native17-qualification/CONFIG.json": {
+      "bytes": 7031,
+      "sha256": "a69c3d677d1a44766546e4a53779e1a5a27f5dd76b0b3c20d59ae5203650e651"
+    },
+    "scripts/current-credit-e1-phase-native17-qualification/fetch_prerequisite.py": {
+      "bytes": 970,
+      "sha256": "6dad849902b08ea99f419511456b69548319c0a9f02765e29e34b9916db73f66"
+    },
+    "scripts/current-credit-e1-native-qualification/fetch_prerequisite.py": {
+      "bytes": 3158,
+      "sha256": "17b077c04f0235d55c6311a0483daca535bbcef75b9e5cfe1547e21b2e8a2684"
+    },
+    "src/SalesReturnCorrectionPanel.dom.test.tsx": {
+      "bytes": 21219,
+      "sha256": "62ff4479728754b9f91721569da14ab0169d7d8d43e114d605931bea9841666e"
+    },
+    "src/ConnectedCustomerCredit.dom.test.tsx": {
+      "bytes": 16010,
+      "sha256": "a332ab0ffb8149c01569fcaddf4dfcc2743762f804f3b23757914f1e35fe3910"
+    },
+    "src/ConnectedSalesPage.dom.test.tsx": {
+      "bytes": 35904,
+      "sha256": "5cfd2a26cc5889e83600e811e4f0ee3ffcc3e76dea277e716a00fef49e87c8ee"
+    },
+    "src/NoteCreditCarrySection.dom.test.tsx": {
+      "bytes": 9716,
+      "sha256": "2f99042607ee2223cdd9fe716a08f00246f0dab923acb600be4444f7251c04f9"
+    },
+    "src/SalesDraftPanel.dom.test.tsx": {
+      "bytes": 18851,
+      "sha256": "3ff60dcbce6fe9863b69f02d874cf0a52f8c3dba1a62766ec70354ed9b1c5c50"
+    },
+    "src/customerCreditContract.test.ts": {
+      "bytes": 7110,
+      "sha256": "383dbc49dd3bf7e4757178a3c33f6c9a8d8b873e8759efff64f541c853701663"
+    },
+    "src/noteCreditCarryContract.test.ts": {
+      "bytes": 2762,
+      "sha256": "e259287079834abf99493694db4d8a5235c04e5ed125de262dce0f488c9a0e59"
+    },
+    "src/lib/clientError.test.ts": {
+      "bytes": 7766,
+      "sha256": "212ecc4e40b4cffc69e1989ff68922009b31b2f4090b7be5fc1cbc2fa5d8d787"
+    }
+  },
+  "clients": {
+    "D1_TARGETED_CLIENT.json": {
+      "top_keys": [
+        "numTotalTestSuites",
+        "numPassedTestSuites",
+        "numFailedTestSuites",
+        "numPendingTestSuites",
+        "numTotalTests",
+        "numPassedTests",
+        "numFailedTests",
+        "numPendingTests",
+        "numTodoTests",
+        "snapshot",
+        "startTime",
+        "success",
+        "testResults"
+      ],
+      "fixed": {
+        "numTotalTestSuites": 2,
+        "numPassedTestSuites": 2,
+        "numFailedTestSuites": 0,
+        "numPendingTestSuites": 0,
+        "numTotalTests": 20,
+        "numPassedTests": 20,
+        "numFailedTests": 0,
+        "numPendingTests": 0,
+        "numTodoTests": 0,
+        "snapshot": {
+          "added": 0,
+          "failure": false,
+          "filesAdded": 0,
+          "filesRemoved": 0,
+          "filesRemovedList": [],
+          "filesUnmatched": 0,
+          "filesUpdated": 0,
+          "matched": 0,
+          "total": 0,
+          "unchecked": 0,
+          "uncheckedKeysByFile": [],
+          "unmatched": 0,
+          "updated": 0,
+          "didUpdate": false
+        },
+        "success": true
+      },
+      "files": {
+        "src/SalesReturnCorrectionPanel.dom.test.tsx": [
+          {
+            "fullName": "return correction source boundaries and declared UI stand-ins starts an added allocation with blank quantity and value, never a zero refund",
+            "title": "starts an added allocation with blank quantity and value, never a zero refund",
+            "ancestorTitles": [
+              "return correction source boundaries and declared UI stand-ins"
+            ]
+          },
+          {
+            "fullName": "return correction source boundaries and declared UI stand-ins emits one reviewed replacement bound to original allocation and exact microseconds",
+            "title": "emits one reviewed replacement bound to original allocation and exact microseconds",
+            "ancestorTitles": [
+              "return correction source boundaries and declared UI stand-ins"
+            ]
+          },
+          {
+            "fullName": "return correction source boundaries and declared UI stand-ins refuses unchanged fields, excess capacity, sub-cent money and excess paid refund",
+            "title": "refuses unchanged fields, excess capacity, sub-cent money and excess paid refund",
+            "ancestorTitles": [
+              "return correction source boundaries and declared UI stand-ins"
+            ]
+          },
+          {
+            "fullName": "return correction source boundaries and declared UI stand-ins changes physical time only after an explicit WIB edit",
+            "title": "changes physical time only after an explicit WIB edit",
+            "ancestorTitles": [
+              "return correction source boundaries and declared UI stand-ins"
+            ]
+          },
+          {
+            "fullName": "return correction source boundaries and declared UI stand-ins restores actual prior content with a fresh reason and its exact microseconds",
+            "title": "restores actual prior content with a fresh reason and its exact microseconds",
+            "ancestorTitles": [
+              "return correction source boundaries and declared UI stand-ins"
+            ]
+          },
+          {
+            "fullName": "return correction source boundaries and declared UI stand-ins retires a failed current read while retaining only operator input across remount",
+            "title": "retires a failed current read while retaining only operator input across remount",
+            "ancestorTitles": [
+              "return correction source boundaries and declared UI stand-ins"
+            ]
+          },
+          {
+            "fullName": "return correction source boundaries and declared UI stand-ins ignores late facts after the owning invoice ticket is retired",
+            "title": "ignores late facts after the owning invoice ticket is retired",
+            "ancestorTitles": [
+              "return correction source boundaries and declared UI stand-ins"
+            ]
+          },
+          {
+            "fullName": "return correction source boundaries and declared UI stand-ins does not start a new leaf read without a current owning invoice",
+            "title": "does not start a new leaf read without a current owning invoice",
+            "ancestorTitles": [
+              "return correction source boundaries and declared UI stand-ins"
+            ]
+          },
+          {
+            "fullName": "return correction source boundaries and declared UI stand-ins requires a fresh leaf read when the owning invoice ticket changes even with equal header fields",
+            "title": "requires a fresh leaf read when the owning invoice ticket changes even with equal header fields",
+            "ancestorTitles": [
+              "return correction source boundaries and declared UI stand-ins"
+            ]
+          },
+          {
+            "fullName": "return correction source boundaries and declared UI stand-ins requires selected retained allocations to be loaded again before a writer is enabled",
+            "title": "requires selected retained allocations to be loaded again before a writer is enabled",
+            "ancestorTitles": [
+              "return correction source boundaries and declared UI stand-ins"
+            ]
+          },
+          {
+            "fullName": "return correction source boundaries and declared UI stand-ins shows history while denying absent permission and locks stale or pending writes",
+            "title": "shows history while denying absent permission and locks stale or pending writes",
+            "ancestorTitles": [
+              "return correction source boundaries and declared UI stand-ins"
+            ]
+          },
+          {
+            "fullName": "return correction source boundaries and declared UI stand-ins requires the reviewed credit amount and passes its token for a paid source invoice",
+            "title": "requires the reviewed credit amount and passes its token for a paid source invoice",
+            "ancestorTitles": [
+              "return correction source boundaries and declared UI stand-ins"
+            ]
+          },
+          {
+            "fullName": "return correction source boundaries and declared UI stand-ins retires a late credit quote after the operator changes its nominal",
+            "title": "retires a late credit quote after the operator changes its nominal",
+            "ancestorTitles": [
+              "return correction source boundaries and declared UI stand-ins"
+            ]
+          },
+          {
+            "fullName": "return correction source boundaries and declared UI stand-ins shows exact active uses and refunds with the named undo route",
+            "title": "shows exact active uses and refunds with the named undo route",
+            "ancestorTitles": [
+              "return correction source boundaries and declared UI stand-ins"
+            ]
+          },
+          {
+            "fullName": "return correction source boundaries and declared UI stand-ins shows the closed cap refusal REFUND_EXCEEDS_ORIGINAL_NET_SALES_CAP and never enables save",
+            "title": "shows the closed cap refusal REFUND_EXCEEDS_ORIGINAL_NET_SALES_CAP and never enables save",
+            "ancestorTitles": [
+              "return correction source boundaries and declared UI stand-ins"
+            ]
+          },
+          {
+            "fullName": "return correction source boundaries and declared UI stand-ins shows the closed cap refusal REFUND_CAP_SOURCE_UNAVAILABLE and never enables save",
+            "title": "shows the closed cap refusal REFUND_CAP_SOURCE_UNAVAILABLE and never enables save",
+            "ancestorTitles": [
+              "return correction source boundaries and declared UI stand-ins"
+            ]
+          },
+          {
+            "fullName": "return correction source boundaries and declared UI stand-ins rejects an incomplete credit review instead of falling through to ordinary refund admission",
+            "title": "rejects an incomplete credit review instead of falling through to ordinary refund admission",
+            "ancestorTitles": [
+              "return correction source boundaries and declared UI stand-ins"
+            ]
+          },
+          {
+            "fullName": "return correction source boundaries and declared UI stand-ins rejects stale parents, injected cost, missing physical lines and invented capacity",
+            "title": "rejects stale parents, injected cost, missing physical lines and invented capacity",
+            "ancestorTitles": [
+              "return correction source boundaries and declared UI stand-ins"
+            ]
+          },
+          {
+            "fullName": "return correction source boundaries and declared UI stand-ins accepts only the exact committed original, request and actual replacement page",
+            "title": "accepts only the exact committed original, request and actual replacement page",
+            "ancestorTitles": [
+              "return correction source boundaries and declared UI stand-ins"
+            ]
+          },
+          {
+            "fullName": "return correction source boundaries and declared UI stand-ins keeps large aggregate Native cents exact without floating point",
+            "title": "keeps large aggregate Native cents exact without floating point",
+            "ancestorTitles": [
+              "return correction source boundaries and declared UI stand-ins"
+            ]
+          }
+        ]
+      }
+    },
+    "E1_TARGETED_CLIENT.json": {
+      "top_keys": [
+        "numTotalTestSuites",
+        "numPassedTestSuites",
+        "numFailedTestSuites",
+        "numPendingTestSuites",
+        "numTotalTests",
+        "numPassedTests",
+        "numFailedTests",
+        "numPendingTests",
+        "numTodoTests",
+        "snapshot",
+        "startTime",
+        "success",
+        "testResults"
+      ],
+      "fixed": {
+        "numTotalTestSuites": 24,
+        "numPassedTestSuites": 24,
+        "numFailedTestSuites": 0,
+        "numPendingTestSuites": 0,
+        "numTotalTests": 111,
+        "numPassedTests": 111,
+        "numFailedTests": 0,
+        "numPendingTests": 0,
+        "numTodoTests": 0,
+        "snapshot": {
+          "added": 0,
+          "failure": false,
+          "filesAdded": 0,
+          "filesRemoved": 0,
+          "filesRemovedList": [],
+          "filesUnmatched": 0,
+          "filesUpdated": 0,
+          "matched": 0,
+          "total": 0,
+          "unchecked": 0,
+          "uncheckedKeysByFile": [],
+          "unmatched": 0,
+          "updated": 0,
+          "didUpdate": false
+        },
+        "success": true
+      },
+      "files": {
+        "src/ConnectedCustomerCredit.dom.test.tsx": [
+          {
+            "fullName": "consumer UI parent/recovery with declared server contracts names the replacement on an original APPLY undo and carries the exact current version through the owning facade",
+            "title": "names the replacement on an original APPLY undo and carries the exact current version through the owning facade",
+            "ancestorTitles": [
+              "consumer UI parent/recovery with declared server contracts"
+            ]
+          },
+          {
+            "fullName": "consumer UI parent/recovery with declared server contracts sends APPLY once through its owning facade, retains exact versions and retires the form",
+            "title": "sends APPLY once through its owning facade, retains exact versions and retires the form",
+            "ancestorTitles": [
+              "consumer UI parent/recovery with declared server contracts"
+            ]
+          },
+          {
+            "fullName": "consumer UI parent/recovery with declared server contracts sends REFUND once through its owning facade, retains exact versions and retires the form",
+            "title": "sends REFUND once through its owning facade, retains exact versions and retires the form",
+            "ancestorTitles": [
+              "consumer UI parent/recovery with declared server contracts"
+            ]
+          },
+          {
+            "fullName": "consumer UI parent/recovery with declared server contracts sends UNDO once through its owning facade, retains exact versions and retires the form",
+            "title": "sends UNDO once through its owning facade, retains exact versions and retires the form",
+            "ancestorTitles": [
+              "consumer UI parent/recovery with declared server contracts"
+            ]
+          },
+          {
+            "fullName": "consumer UI parent/recovery with declared server contracts retains original UUID/payload/version map through loss, remount, permission refusal and exact replay without requoting",
+            "title": "retains original UUID/payload/version map through loss, remount, permission refusal and exact replay without requoting",
+            "ancestorTitles": [
+              "consumer UI parent/recovery with declared server contracts"
+            ]
+          },
+          {
+            "fullName": "consumer UI parent/recovery with declared server contracts retires a checked intent synchronously when an input changes before the next React render",
+            "title": "retires a checked intent synchronously when an input changes before the next React render",
+            "ancestorTitles": [
+              "consumer UI parent/recovery with declared server contracts"
+            ]
+          },
+          {
+            "fullName": "consumer UI parent/recovery with declared server contracts rejects an old quote after the parent source read is invalidated and replaced",
+            "title": "rejects an old quote after the parent source read is invalidated and replaced",
+            "ancestorTitles": [
+              "consumer UI parent/recovery with declared server contracts"
+            ]
+          },
+          {
+            "fullName": "consumer UI parent/recovery with declared server contracts hides old private source facts on a real-shaped quote403 while preserving operator input",
+            "title": "hides old private source facts on a real-shaped quote403 while preserving operator input",
+            "ancestorTitles": [
+              "consumer UI parent/recovery with declared server contracts"
+            ]
+          },
+          {
+            "fullName": "consumer UI parent/recovery with declared server contracts keeps an inconsistent success uncertain, then validates the saved historical receipt on replay",
+            "title": "keeps an inconsistent success uncertain, then validates the saved historical receipt on replay",
+            "ancestorTitles": [
+              "consumer UI parent/recovery with declared server contracts"
+            ]
+          },
+          {
+            "fullName": "consumer UI parent/recovery with declared server contracts retains global writer locks after a verified commit whose authoritative refresh fails",
+            "title": "retains global writer locks after a verified commit whose authoritative refresh fails",
+            "ancestorTitles": [
+              "consumer UI parent/recovery with declared server contracts"
+            ]
+          },
+          {
+            "fullName": "consumer UI parent/recovery with declared server contracts names why an undo or new use is refused when a return on the target invoice depends on it (OW-04b slice C)",
+            "title": "names why an undo or new use is refused when a return on the target invoice depends on it (OW-04b slice C)",
+            "ancestorTitles": [
+              "consumer UI parent/recovery with declared server contracts"
+            ]
+          },
+          {
+            "fullName": "consumer UI parent/recovery with declared server contracts keeps editable input after a definite rollback, requires fresh source choices, and allows a reviewed retry",
+            "title": "keeps editable input after a definite rollback, requires fresh source choices, and allows a reviewed retry",
+            "ancestorTitles": [
+              "consumer UI parent/recovery with declared server contracts"
+            ]
+          }
+        ],
+        "src/ConnectedSalesPage.dom.test.tsx": [
+          {
+            "fullName": "P11 invoice source boundary re-reads an opened source invoice and never treats receivables navigation as a business write",
+            "title": "re-reads an opened source invoice and never treats receivables navigation as a business write",
+            "ancestorTitles": [
+              "P11 invoice source boundary"
+            ]
+          },
+          {
+            "fullName": "P11 invoice source boundary refuses invalid or mismatched opened invoice identity before showing any old source action",
+            "title": "refuses invalid or mismatched opened invoice identity before showing any old source action",
+            "ancestorTitles": [
+              "P11 invoice source boundary"
+            ]
+          },
+          {
+            "fullName": "P11 invoice source boundary keeps sort local and sends browse and filters through the owned current source reader",
+            "title": "keeps sort local and sends browse and filters through the owned current source reader",
+            "ancestorTitles": [
+              "P11 invoice source boundary"
+            ]
+          },
+          {
+            "fullName": "P11 invoice source boundary names active downstream types at the selected invoice and refuses a premature reversal without blocking atomic edit",
+            "title": "names active downstream types at the selected invoice and refuses a premature reversal without blocking atomic edit",
+            "ancestorTitles": [
+              "P11 invoice source boundary"
+            ]
+          },
+          {
+            "fullName": "P11 invoice source boundary keeps exact versions and source price arithmetic",
+            "title": "keeps exact versions and source price arithmetic",
+            "ancestorTitles": [
+              "P11 invoice source boundary"
+            ]
+          },
+          {
+            "fullName": "P11 invoice source boundary rejects wrong balances, hidden finance, missing lines and wrong pages",
+            "title": "rejects wrong balances, hidden finance, missing lines and wrong pages",
+            "ancestorTitles": [
+              "P11 invoice source boundary"
+            ]
+          },
+          {
+            "fullName": "P11 invoice source boundary does not label a draft total as posted AR",
+            "title": "does not label a draft total as posted AR",
+            "ancestorTitles": [
+              "P11 invoice source boundary"
+            ]
+          },
+          {
+            "fullName": "P11 invoice source boundary renders real fields then clears source and money after failed refresh",
+            "title": "renders real fields then clears source and money after failed refresh",
+            "ancestorTitles": [
+              "P11 invoice source boundary"
+            ]
+          },
+          {
+            "fullName": "P11 invoice source boundary never sends or renders a write and hides finance for operations",
+            "title": "never sends or renders a write and hides finance for operations",
+            "ancestorTitles": [
+              "P11 invoice source boundary"
+            ]
+          },
+          {
+            "fullName": "P11 invoice source boundary ignores an old pending response after current authority remounts",
+            "title": "ignores an old pending response after current authority remounts",
+            "ancestorTitles": [
+              "P11 invoice source boundary"
+            ]
+          },
+          {
+            "fullName": "P11 reviewed native draft commands requires review and binds POST to exact invoice, bigint revision and token",
+            "title": "requires review and binds POST to exact invoice, bigint revision and token",
+            "ancestorTitles": [
+              "P11 reviewed native draft commands"
+            ]
+          },
+          {
+            "fullName": "P11 reviewed native draft commands retains and reconciles the identical request after a lost commit reply and remount",
+            "title": "retains and reconciles the identical request after a lost commit reply and remount",
+            "ancestorTitles": [
+              "P11 reviewed native draft commands"
+            ]
+          },
+          {
+            "fullName": "P11 reviewed native draft commands rejects a success receipt for a different document or wrong transition",
+            "title": "rejects a success receipt for a different document or wrong transition",
+            "ancestorTitles": [
+              "P11 reviewed native draft commands"
+            ]
+          },
+          {
+            "fullName": "owning historical note correction retires current invoice facts and a held correction history after the shared source is invalidated",
+            "title": "retires current invoice facts and a held correction history after the shared source is invalidated",
+            "ancestorTitles": [
+              "owning historical note correction"
+            ]
+          },
+          {
+            "fullName": "owning historical note correction keeps unsent correction quantities and reason while locking its retired source",
+            "title": "keeps unsent correction quantities and reason while locking its retired source",
+            "ancestorTitles": [
+              "owning historical note correction"
+            ]
+          },
+          {
+            "fullName": "owning historical note correction opens a real form, sends exact source/version and retires it for the replacement",
+            "title": "opens a real form, sends exact source/version and retires it for the replacement",
+            "ancestorTitles": [
+              "owning historical note correction"
+            ]
+          },
+          {
+            "fullName": "owning historical note correction recovers an uncertain correction with the identical UUID and payload after reload",
+            "title": "recovers an uncertain correction with the identical UUID and payload after reload",
+            "ancestorTitles": [
+              "owning historical note correction"
+            ]
+          },
+          {
+            "fullName": "owning historical note correction rejects unrelated source, changed effective date and a broken revision chain",
+            "title": "rejects unrelated source, changed effective date and a broken revision chain",
+            "ancestorTitles": [
+              "owning historical note correction"
+            ]
+          },
+          {
+            "fullName": "owning historical note correction shows the immutable correction actor with its current profile name and clears it after current denial",
+            "title": "shows the immutable correction actor with its current profile name and clears it after current denial",
+            "ancestorTitles": [
+              "owning historical note correction"
+            ]
+          },
+          {
+            "fullName": "owning historical note correction preserves the exact Native microsecond and accepts equivalent timezone rendering",
+            "title": "preserves the exact Native microsecond and accepts equivalent timezone rendering",
+            "ancestorTitles": [
+              "owning historical note correction"
+            ]
+          },
+          {
+            "fullName": "payment correction owning command and recovery routing with declared server stand-ins routes the reviewed edit to one owning endpoint and retires the old form after source refresh",
+            "title": "routes the reviewed edit to one owning endpoint and retires the old form after source refresh",
+            "ancestorTitles": [
+              "payment correction owning command and recovery routing with declared server stand-ins"
+            ]
+          },
+          {
+            "fullName": "payment correction owning command and recovery routing with declared server stand-ins retains the exact lost-reply envelope across remount and a current-access refusal, then reconciles it once",
+            "title": "retains the exact lost-reply envelope across remount and a current-access refusal, then reconciles it once",
+            "ancestorTitles": [
+              "payment correction owning command and recovery routing with declared server stand-ins"
+            ]
+          },
+          {
+            "fullName": "owning atomic sale-chain recovery commits through one outer boundary and recovers exactly the same request after a lost reply and remount",
+            "title": "commits through one outer boundary and recovers exactly the same request after a lost reply and remount",
+            "ancestorTitles": [
+              "owning atomic sale-chain recovery"
+            ]
+          },
+          {
+            "fullName": "owning atomic sale-chain recovery holds an incomplete committed reply for same-UUID verification and never treats one child as success",
+            "title": "holds an incomplete committed reply for same-UUID verification and never treats one child as success",
+            "ancestorTitles": [
+              "owning atomic sale-chain recovery"
+            ]
+          },
+          {
+            "fullName": "owning atomic sale-chain recovery offers chain cancellation only with the complete current owning permissions",
+            "title": "offers chain cancellation only with the complete current owning permissions",
+            "ancestorTitles": [
+              "owning atomic sale-chain recovery"
+            ]
+          }
+        ],
+        "src/NoteCreditCarrySection.dom.test.tsx": [
+          {
+            "fullName": "note carry source, amount and owning form wiring retires reviewed credit facts and notifies the owning read boundary on a current 403",
+            "title": "retires reviewed credit facts and notifies the owning read boundary on a current 403",
+            "ancestorTitles": [
+              "note carry source, amount and owning form wiring"
+            ]
+          },
+          {
+            "fullName": "note carry source, amount and owning form wiring shows carried amount and remainder and submits only the exact reviewed five-field metadata",
+            "title": "shows carried amount and remainder and submits only the exact reviewed five-field metadata",
+            "ancestorTitles": [
+              "note carry source, amount and owning form wiring"
+            ]
+          },
+          {
+            "fullName": "note carry source, amount and owning form wiring voids the carry review when price, quantity or general note fields change",
+            "title": "voids the carry review when price, quantity or general note fields change",
+            "ancestorTitles": [
+              "note carry source, amount and owning form wiring"
+            ]
+          },
+          {
+            "fullName": "note carry source, amount and owning form wiring refuses a one-cent insufficient replacement and any unsupported source history",
+            "title": "refuses a one-cent insufficient replacement and any unsupported source history",
+            "ancestorTitles": [
+              "note carry source, amount and owning form wiring"
+            ]
+          },
+          {
+            "fullName": "note carry source, amount and owning form wiring retires the carry review for a new owning read ticket even when visible source fields are identical",
+            "title": "retires the carry review for a new owning read ticket even when visible source fields are identical",
+            "ancestorTitles": [
+              "note carry source, amount and owning form wiring"
+            ]
+          },
+          {
+            "fullName": "note carry source, amount and owning form wiring ignores a late reply after owning read retirement and rejects a different source review token",
+            "title": "ignores a late reply after owning read retirement and rejects a different source review token",
+            "ancestorTitles": [
+              "note carry source, amount and owning form wiring"
+            ]
+          },
+          {
+            "fullName": "note carry source, amount and owning form wiring checks actual history even when current paid total is zero, and uses the unchanged path when workspace has no incoming credit",
+            "title": "checks actual history even when current paid total is zero, and uses the unchanged path when workspace has no incoming credit",
+            "ancestorTitles": [
+              "note carry source, amount and owning form wiring"
+            ]
+          },
+          {
+            "fullName": "note carry source, amount and owning form wiring cannot inspect or save with a missing read ticket, locked writer, or stale invoice",
+            "title": "cannot inspect or save with a missing read ticket, locked writer, or stale invoice",
+            "ancestorTitles": [
+              "note carry source, amount and owning form wiring"
+            ]
+          }
+        ],
+        "src/SalesDraftPanel.dom.test.tsx": [
+          {
+            "fullName": "P11 complete draft form keeps exact cents and integer quantities without accepting hidden rounding",
+            "title": "keeps exact cents and integer quantities without accepting hidden rounding",
+            "ancestorTitles": [
+              "P11 complete draft form"
+            ]
+          },
+          {
+            "fullName": "P11 complete draft form rejects wrong source date, hidden cost and incomplete option pages",
+            "title": "rejects wrong source date, hidden cost and incomplete option pages",
+            "ancestorTitles": [
+              "P11 complete draft form"
+            ]
+          },
+          {
+            "fullName": "P11 complete draft form selects real source IDs, preserves manual13 and only applies the dozen helper on request",
+            "title": "selects real source IDs, preserves manual13 and only applies the dozen helper on request",
+            "ancestorTitles": [
+              "P11 complete draft form"
+            ]
+          },
+          {
+            "fullName": "P11 complete draft form edits one quantity without losing exact time, version, second price or notes",
+            "title": "edits one quantity without losing exact time, version, second price or notes",
+            "ancestorTitles": [
+              "P11 complete draft form"
+            ]
+          },
+          {
+            "fullName": "P11 complete draft form retires late source results after the invoice date changes",
+            "title": "retires late source results after the invoice date changes",
+            "ancestorTitles": [
+              "P11 complete draft form"
+            ]
+          },
+          {
+            "fullName": "P11 complete draft form keeps entered draft but blocks saving when its reviewed source is stale",
+            "title": "keeps entered draft but blocks saving when its reviewed source is stale",
+            "ancestorTitles": [
+              "P11 complete draft form"
+            ]
+          },
+          {
+            "fullName": "P11 complete draft form splits dozens over one size series and reads 4/5/4 back as 1 lusin 1 potong (owner D14-5)",
+            "title": "splits dozens over one size series and reads 4/5/4 back as 1 lusin 1 potong (owner D14-5)",
+            "ancestorTitles": [
+              "P11 complete draft form"
+            ]
+          },
+          {
+            "fullName": "P11 complete draft form picking one size adds the whole series at 1 lusin, a one-size SKU gets 12 PCS, and manual 3/5/4 reads 1 lusin (owner D14-5)",
+            "title": "picking one size adds the whole series at 1 lusin, a one-size SKU gets 12 PCS, and manual 3/5/4 reads 1 lusin (owner D14-5)",
+            "ancestorTitles": [
+              "P11 complete draft form"
+            ]
+          },
+          {
+            "fullName": "P11 complete draft form adds nothing when the series cannot be read completely",
+            "title": "adds nothing when the series cannot be read completely",
+            "ancestorTitles": [
+              "P11 complete draft form"
+            ]
+          },
+          {
+            "fullName": "P11 complete draft form keeps immutable source IDs for duplicate SKU lines after quantity changes and deletion",
+            "title": "keeps immutable source IDs for duplicate SKU lines after quantity changes and deletion",
+            "ancestorTitles": [
+              "P11 complete draft form"
+            ]
+          },
+          {
+            "fullName": "P11 complete draft form keeps two brands with the same SKU number apart: picking Vivo adds only Vivo sizes (Astra ASTRA-C17-01)",
+            "title": "keeps two brands with the same SKU number apart: picking Vivo adds only Vivo sizes (Astra ASTRA-C17-01)",
+            "ancestorTitles": [
+              "P11 complete draft form"
+            ]
+          },
+          {
+            "fullName": "P11 complete draft form cannot save while the sizes of a picked series are still loading, and the review is void (Astra ASTRA-C17-02)",
+            "title": "cannot save while the sizes of a picked series are still loading, and the review is void (Astra ASTRA-C17-02)",
+            "ancestorTitles": [
+              "P11 complete draft form"
+            ]
+          }
+        ],
+        "src/SalesReturnCorrectionPanel.dom.test.tsx": [
+          {
+            "fullName": "return correction source boundaries and declared UI stand-ins starts an added allocation with blank quantity and value, never a zero refund",
+            "title": "starts an added allocation with blank quantity and value, never a zero refund",
+            "ancestorTitles": [
+              "return correction source boundaries and declared UI stand-ins"
+            ]
+          },
+          {
+            "fullName": "return correction source boundaries and declared UI stand-ins emits one reviewed replacement bound to original allocation and exact microseconds",
+            "title": "emits one reviewed replacement bound to original allocation and exact microseconds",
+            "ancestorTitles": [
+              "return correction source boundaries and declared UI stand-ins"
+            ]
+          },
+          {
+            "fullName": "return correction source boundaries and declared UI stand-ins refuses unchanged fields, excess capacity, sub-cent money and excess paid refund",
+            "title": "refuses unchanged fields, excess capacity, sub-cent money and excess paid refund",
+            "ancestorTitles": [
+              "return correction source boundaries and declared UI stand-ins"
+            ]
+          },
+          {
+            "fullName": "return correction source boundaries and declared UI stand-ins changes physical time only after an explicit WIB edit",
+            "title": "changes physical time only after an explicit WIB edit",
+            "ancestorTitles": [
+              "return correction source boundaries and declared UI stand-ins"
+            ]
+          },
+          {
+            "fullName": "return correction source boundaries and declared UI stand-ins restores actual prior content with a fresh reason and its exact microseconds",
+            "title": "restores actual prior content with a fresh reason and its exact microseconds",
+            "ancestorTitles": [
+              "return correction source boundaries and declared UI stand-ins"
+            ]
+          },
+          {
+            "fullName": "return correction source boundaries and declared UI stand-ins retires a failed current read while retaining only operator input across remount",
+            "title": "retires a failed current read while retaining only operator input across remount",
+            "ancestorTitles": [
+              "return correction source boundaries and declared UI stand-ins"
+            ]
+          },
+          {
+            "fullName": "return correction source boundaries and declared UI stand-ins ignores late facts after the owning invoice ticket is retired",
+            "title": "ignores late facts after the owning invoice ticket is retired",
+            "ancestorTitles": [
+              "return correction source boundaries and declared UI stand-ins"
+            ]
+          },
+          {
+            "fullName": "return correction source boundaries and declared UI stand-ins does not start a new leaf read without a current owning invoice",
+            "title": "does not start a new leaf read without a current owning invoice",
+            "ancestorTitles": [
+              "return correction source boundaries and declared UI stand-ins"
+            ]
+          },
+          {
+            "fullName": "return correction source boundaries and declared UI stand-ins requires a fresh leaf read when the owning invoice ticket changes even with equal header fields",
+            "title": "requires a fresh leaf read when the owning invoice ticket changes even with equal header fields",
+            "ancestorTitles": [
+              "return correction source boundaries and declared UI stand-ins"
+            ]
+          },
+          {
+            "fullName": "return correction source boundaries and declared UI stand-ins requires selected retained allocations to be loaded again before a writer is enabled",
+            "title": "requires selected retained allocations to be loaded again before a writer is enabled",
+            "ancestorTitles": [
+              "return correction source boundaries and declared UI stand-ins"
+            ]
+          },
+          {
+            "fullName": "return correction source boundaries and declared UI stand-ins shows history while denying absent permission and locks stale or pending writes",
+            "title": "shows history while denying absent permission and locks stale or pending writes",
+            "ancestorTitles": [
+              "return correction source boundaries and declared UI stand-ins"
+            ]
+          },
+          {
+            "fullName": "return correction source boundaries and declared UI stand-ins requires the reviewed credit amount and passes its token for a paid source invoice",
+            "title": "requires the reviewed credit amount and passes its token for a paid source invoice",
+            "ancestorTitles": [
+              "return correction source boundaries and declared UI stand-ins"
+            ]
+          },
+          {
+            "fullName": "return correction source boundaries and declared UI stand-ins retires a late credit quote after the operator changes its nominal",
+            "title": "retires a late credit quote after the operator changes its nominal",
+            "ancestorTitles": [
+              "return correction source boundaries and declared UI stand-ins"
+            ]
+          },
+          {
+            "fullName": "return correction source boundaries and declared UI stand-ins shows exact active uses and refunds with the named undo route",
+            "title": "shows exact active uses and refunds with the named undo route",
+            "ancestorTitles": [
+              "return correction source boundaries and declared UI stand-ins"
+            ]
+          },
+          {
+            "fullName": "return correction source boundaries and declared UI stand-ins shows the closed cap refusal REFUND_EXCEEDS_ORIGINAL_NET_SALES_CAP and never enables save",
+            "title": "shows the closed cap refusal REFUND_EXCEEDS_ORIGINAL_NET_SALES_CAP and never enables save",
+            "ancestorTitles": [
+              "return correction source boundaries and declared UI stand-ins"
+            ]
+          },
+          {
+            "fullName": "return correction source boundaries and declared UI stand-ins shows the closed cap refusal REFUND_CAP_SOURCE_UNAVAILABLE and never enables save",
+            "title": "shows the closed cap refusal REFUND_CAP_SOURCE_UNAVAILABLE and never enables save",
+            "ancestorTitles": [
+              "return correction source boundaries and declared UI stand-ins"
+            ]
+          },
+          {
+            "fullName": "return correction source boundaries and declared UI stand-ins rejects an incomplete credit review instead of falling through to ordinary refund admission",
+            "title": "rejects an incomplete credit review instead of falling through to ordinary refund admission",
+            "ancestorTitles": [
+              "return correction source boundaries and declared UI stand-ins"
+            ]
+          },
+          {
+            "fullName": "return correction source boundaries and declared UI stand-ins rejects stale parents, injected cost, missing physical lines and invented capacity",
+            "title": "rejects stale parents, injected cost, missing physical lines and invented capacity",
+            "ancestorTitles": [
+              "return correction source boundaries and declared UI stand-ins"
+            ]
+          },
+          {
+            "fullName": "return correction source boundaries and declared UI stand-ins accepts only the exact committed original, request and actual replacement page",
+            "title": "accepts only the exact committed original, request and actual replacement page",
+            "ancestorTitles": [
+              "return correction source boundaries and declared UI stand-ins"
+            ]
+          },
+          {
+            "fullName": "return correction source boundaries and declared UI stand-ins keeps large aggregate Native cents exact without floating point",
+            "title": "keeps large aggregate Native cents exact without floating point",
+            "ancestorTitles": [
+              "return correction source boundaries and declared UI stand-ins"
+            ]
+          }
+        ],
+        "src/customerCreditContract.test.ts": [
+          {
+            "fullName": "bounded credit client contracts, not database qualification accepts the Native eighteen-digit cent maximum without a new frontend money cap",
+            "title": "accepts the Native eighteen-digit cent maximum without a new frontend money cap",
+            "ancestorTitles": [
+              "bounded credit client contracts, not database qualification"
+            ]
+          },
+          {
+            "fullName": "bounded credit client contracts, not database qualification keeps cents and versions beyond Number precision exact",
+            "title": "keeps cents and versions beyond Number precision exact",
+            "ancestorTitles": [
+              "bounded credit client contracts, not database qualification"
+            ]
+          },
+          {
+            "fullName": "bounded credit client contracts, not database qualification requires an explicit WIB instant and compares every microsecond",
+            "title": "requires an explicit WIB instant and compares every microsecond",
+            "ancestorTitles": [
+              "bounded credit client contracts, not database qualification"
+            ]
+          },
+          {
+            "fullName": "bounded credit client contracts, not database qualification binds APPLY review, exact saved envelope and committed receipt",
+            "title": "binds APPLY review, exact saved envelope and committed receipt",
+            "ancestorTitles": [
+              "bounded credit client contracts, not database qualification"
+            ]
+          },
+          {
+            "fullName": "bounded credit client contracts, not database qualification binds REFUND review, exact saved envelope and committed receipt",
+            "title": "binds REFUND review, exact saved envelope and committed receipt",
+            "ancestorTitles": [
+              "bounded credit client contracts, not database qualification"
+            ]
+          },
+          {
+            "fullName": "bounded credit client contracts, not database qualification binds UNDO review, exact saved envelope and committed receipt",
+            "title": "binds UNDO review, exact saved envelope and committed receipt",
+            "ancestorTitles": [
+              "bounded credit client contracts, not database qualification"
+            ]
+          },
+          {
+            "fullName": "bounded credit client contracts, not database qualification UNDO names the full positive original and never accepts a typed amount, bank or cohort",
+            "title": "UNDO names the full positive original and never accepts a typed amount, bank or cohort",
+            "ancestorTitles": [
+              "bounded credit client contracts, not database qualification"
+            ]
+          },
+          {
+            "fullName": "bounded credit client contracts, not database qualification binds APPLY to an explicit replacement assignment without changing the original event",
+            "title": "binds APPLY to an explicit replacement assignment without changing the original event",
+            "ancestorTitles": [
+              "bounded credit client contracts, not database qualification"
+            ]
+          },
+          {
+            "fullName": "bounded credit client contracts, not database qualification binds UNDO to an explicit replacement assignment without changing the original event",
+            "title": "binds UNDO to an explicit replacement assignment without changing the original event",
+            "ancestorTitles": [
+              "bounded credit client contracts, not database qualification"
+            ]
+          },
+          {
+            "fullName": "bounded credit client contracts, not database qualification refuses a crossed actor, source, target customer, query, page receipt or non-boolean capability",
+            "title": "refuses a crossed actor, source, target customer, query, page receipt or non-boolean capability",
+            "ancestorTitles": [
+              "bounded credit client contracts, not database qualification"
+            ]
+          },
+          {
+            "fullName": "bounded credit client contracts, not database qualification requires the original all-row fingerprint on subsequent pages and detects duplicates/incomplete results",
+            "title": "requires the original all-row fingerprint on subsequent pages and detects duplicates/incomplete results",
+            "ancestorTitles": [
+              "bounded credit client contracts, not database qualification"
+            ]
+          }
+        ],
+        "src/noteCreditCarryContract.test.ts": [
+          {
+            "fullName": "note credit carry closed monetary review reviews unchanged credit amount and exact replacement remainder",
+            "title": "reviews unchanged credit amount and exact replacement remainder",
+            "ancestorTitles": [
+              "note credit carry closed monetary review"
+            ]
+          },
+          {
+            "fullName": "note credit carry closed monetary review refuses a one-cent shortfall and any recorded adapter blocker",
+            "title": "refuses a one-cent shortfall and any recorded adapter blocker",
+            "ancestorTitles": [
+              "note credit carry closed monetary review"
+            ]
+          },
+          {
+            "fullName": "note credit carry closed monetary review retains cents beyond JS number precision",
+            "title": "retains cents beyond JS number precision",
+            "ancestorTitles": [
+              "note credit carry closed monetary review"
+            ]
+          },
+          {
+            "fullName": "note credit carry closed monetary review does not treat a late undo as permission to overfund an earlier cutoff",
+            "title": "does not treat a late undo as permission to overfund an earlier cutoff",
+            "ancestorTitles": [
+              "note credit carry closed monetary review"
+            ]
+          },
+          {
+            "fullName": "note credit carry closed monetary review rejects stale parents, injected money, duplicate events and sub-cent amounts",
+            "title": "rejects stale parents, injected money, duplicate events and sub-cent amounts",
+            "ancestorTitles": [
+              "note credit carry closed monetary review"
+            ]
+          }
+        ],
+        "src/lib/clientError.test.ts": [
+          {
+            "fullName": "backend conflict messages explains CP7_CREDIT_NOTE_CARRY_STALE_REVIEW without claiming a credit transfer or automatic retry",
+            "title": "explains CP7_CREDIT_NOTE_CARRY_STALE_REVIEW without claiming a credit transfer or automatic retry",
+            "ancestorTitles": [
+              "backend conflict messages"
+            ]
+          },
+          {
+            "fullName": "backend conflict messages explains CP7_CREDIT_NOTE_CARRY_REVIEW_REFUSED without claiming a credit transfer or automatic retry",
+            "title": "explains CP7_CREDIT_NOTE_CARRY_REVIEW_REFUSED without claiming a credit transfer or automatic retry",
+            "ancestorTitles": [
+              "backend conflict messages"
+            ]
+          },
+          {
+            "fullName": "backend conflict messages explains CP7_CREDIT_NOTE_CARRY_PRICE_ONLY_REQUIRED without claiming a credit transfer or automatic retry",
+            "title": "explains CP7_CREDIT_NOTE_CARRY_PRICE_ONLY_REQUIRED without claiming a credit transfer or automatic retry",
+            "ancestorTitles": [
+              "backend conflict messages"
+            ]
+          },
+          {
+            "fullName": "backend conflict messages explains CP7_CREDIT_NOTE_CARRY_LATER_NATIVE_MUTATION_ADAPTER_REQUIRED without claiming a credit transfer or automatic retry",
+            "title": "explains CP7_CREDIT_NOTE_CARRY_LATER_NATIVE_MUTATION_ADAPTER_REQUIRED without claiming a credit transfer or automatic retry",
+            "ancestorTitles": [
+              "backend conflict messages"
+            ]
+          },
+          {
+            "fullName": "backend conflict messages explains note corrections refused for a re-priced returned line or a reallocated payment",
+            "title": "explains note corrections refused for a re-priced returned line or a reallocated payment",
+            "ancestorTitles": [
+              "backend conflict messages"
+            ]
+          },
+          {
+            "fullName": "backend conflict messages does not claim a different rework order has already been processed",
+            "title": "does not claim a different rework order has already been processed",
+            "ancestorTitles": [
+              "backend conflict messages"
+            ]
+          },
+          {
+            "fullName": "backend conflict messages keeps an idempotency identity conflict distinct without claiming success",
+            "title": "keeps an idempotency identity conflict distinct without claiming success",
+            "ancestorTitles": [
+              "backend conflict messages"
+            ]
+          },
+          {
+            "fullName": "W11: a refusal keeps its own message shows a page parser refusal as is",
+            "title": "shows a page parser refusal as is",
+            "ancestorTitles": [
+              "W11: a refusal keeps its own message"
+            ]
+          },
+          {
+            "fullName": "W11: a refusal keeps its own message shows a server business rule as is",
+            "title": "shows a server business rule as is",
+            "ancestorTitles": [
+              "W11: a refusal keeps its own message"
+            ]
+          },
+          {
+            "fullName": "W11: a refusal keeps its own message keeps unreachable for failures without an answer",
+            "title": "keeps unreachable for failures without an answer",
+            "ancestorTitles": [
+              "W11: a refusal keeps its own message"
+            ]
+          },
+          {
+            "fullName": "owning miscellaneous correction refusals gives the operator the next action after a stale review, changed options, already-corrected source or posted draft",
+            "title": "gives the operator the next action after a stale review, changed options, already-corrected source or posted draft",
+            "ancestorTitles": [
+              "owning miscellaneous correction refusals"
+            ]
+          },
+          {
+            "fullName": "owning miscellaneous correction refusals keeps authorization and uncertain transport failures distinct from business correction refusals",
+            "title": "keeps authorization and uncertain transport failures distinct from business correction refusals",
+            "ancestorTitles": [
+              "owning miscellaneous correction refusals"
+            ]
+          },
+          {
+            "fullName": "plan v2 refusals from a dated snapshot states the numbers the server sent and asks for a review, never a retry",
+            "title": "states the numbers the server sent and asks for a review, never a retry",
+            "ancestorTitles": [
+              "plan v2 refusals from a dated snapshot"
+            ]
+          },
+          {
+            "fullName": "plan v2 refusals from a dated snapshot says the same for an earlier-analysis plan refused under the shared capacity lock",
+            "title": "says the same for an earlier-analysis plan refused under the shared capacity lock",
+            "ancestorTitles": [
+              "plan v2 refusals from a dated snapshot"
+            ]
+          },
+          {
+            "fullName": "plan v2 refusals from a dated snapshot keeps a plain sentence when the numbers are missing or not numbers",
+            "title": "keeps a plain sentence when the numbers are missing or not numbers",
+            "ancestorTitles": [
+              "plan v2 refusals from a dated snapshot"
+            ]
+          },
+          {
+            "fullName": "plan v2 refusals from a dated snapshot leaves any other 40001 as the generic retryable conflict",
+            "title": "leaves any other 40001 as the generic retryable conflict",
+            "ancestorTitles": [
+              "plan v2 refusals from a dated snapshot"
+            ]
+          },
+          {
+            "fullName": "CP1\u2013CP7 dated guards shows the server sentence without its code",
+            "title": "shows the server sentence without its code",
+            "ancestorTitles": [
+              "CP1\u2013CP7 dated guards"
+            ]
+          },
+          {
+            "fullName": "CP1\u2013CP7 dated guards leaves a bare code without a sentence to the generic refusal",
+            "title": "leaves a bare code without a sentence to the generic refusal",
+            "ancestorTitles": [
+              "CP1\u2013CP7 dated guards"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "retained_parent_keys": [
+    "original",
+    "native_group",
+    "package",
+    "package_files",
+    "backup_drill"
+  ]
+}

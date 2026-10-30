@@ -1,0 +1,137 @@
+test_actual_archived_all_phases_replay_fresh_temporary_files (test_generated_ci.Generated.test_actual_archived_all_phases_replay_fresh_temporary_files) ... ERROR
+test_ancestor_symlink_refuses (test_generated_ci.Generated.test_ancestor_symlink_refuses) ... ok
+test_arbitrary_source_JSON_and_extra_clone_file_remain_unaccepted (test_generated_ci.Generated.test_arbitrary_source_JSON_and_extra_clone_file_remain_unaccepted) ... ERROR
+test_boolean_zero_aligned_metadata_refuses (test_generated_ci.Generated.test_boolean_zero_aligned_metadata_refuses) ... ERROR
+test_client_pending_case_or_false_integer_summary_refuses (test_generated_ci.Generated.test_client_pending_case_or_false_integer_summary_refuses) ... ERROR
+test_leaf_symlink_refuses (test_generated_ci.Generated.test_leaf_symlink_refuses) ... ok
+test_missing_historical_UUID_file_refuses_even_when_contract_and_new_UUID_exist (test_generated_ci.Generated.test_missing_historical_UUID_file_refuses_even_when_contract_and_new_UUID_exist) ... ok
+test_parent_download_partial_or_wrong_raw_set_refuses (test_generated_ci.Generated.test_parent_download_partial_or_wrong_raw_set_refuses) ... ERROR
+test_source_producer_changed_refuses (test_generated_ci.Generated.test_source_producer_changed_refuses) ... ok
+test_unknown_artifact_or_inherited_flags_refuse (test_generated_ci.Generated.test_unknown_artifact_or_inherited_flags_refuse) ... ok
+test_all_exact_output_classes_admit_in_progress_package_without_claiming_final_pass (test_generated_later.Later.test_all_exact_output_classes_admit_in_progress_package_without_claiming_final_pass) ... ok
+test_bounded_actual_startup_producer_retry_double_is_admitted (test_generated_later.Later.test_bounded_actual_startup_producer_retry_double_is_admitted) ... EXACT PRODUCER LOCAL COMMAND DOUBLE
+
+{"disposable_startup": "PASS", "attempt": 2, "registry": "public.ecr.aws"}
+ok
+test_changed_clone_diagnostic_or_acl_refuses (test_generated_later.Later.test_changed_clone_diagnostic_or_acl_refuses) ... ok
+test_changed_startup_log_refuses (test_generated_later.Later.test_changed_startup_log_refuses) ... ok
+test_clone_identity_tamper_refuses (test_generated_later.Later.test_clone_identity_tamper_refuses) ... ok
+test_duplicate_json_key_refuses (test_generated_later.Later.test_duplicate_json_key_refuses) ... ok
+test_false_to_integer_zero_metadata_counter_refuses_all_fixed_documents (test_generated_later.Later.test_false_to_integer_zero_metadata_counter_refuses_all_fixed_documents) ... ok
+test_package_source_key_or_tool_head_tamper_refuses (test_generated_later.Later.test_package_source_key_or_tool_head_tamper_refuses) ... ok
+test_producer_source_tamper_refuses (test_generated_later.Later.test_producer_source_tamper_refuses) ... ok
+test_source_declared_manual_dispatch_accepts_and_other_workflow_refuses (test_generated_later.Later.test_source_declared_manual_dispatch_accepts_and_other_workflow_refuses) ... ok
+test_startup_wrong_registry_or_boolean_attempt_refuses (test_generated_later.Later.test_startup_wrong_registry_or_boolean_attempt_refuses) ... ok
+test_symlink_and_frozen_producer_tamper_refuse (test_generated_later.Later.test_symlink_and_frozen_producer_tamper_refuse) ... ok
+test_unknown_source_and_extra_clone_output_remain_unaccepted (test_generated_later.Later.test_unknown_source_and_extra_clone_output_remain_unaccepted) ... ok
+test_wrong_aligned_source_hash_refuses (test_generated_later.Later.test_wrong_aligned_source_hash_refuses) ... ok
+
+======================================================================
+ERROR: test_actual_archived_all_phases_replay_fresh_temporary_files (test_generated_ci.Generated.test_actual_archived_all_phases_replay_fresh_temporary_files)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/ef468a447ac6/erp-credit-e1-qualification/scripts/current-credit-e1-phase-native17-qualification/test_generated_ci.py", line 67, in test_actual_archived_all_phases_replay_fresh_temporary_files
+    accepted,proof=self.admit();self.assertEqual(set(accepted),self.names)
+                   ^^^^^^^^^^^^
+  File "/workspace/scratch/ef468a447ac6/erp-credit-e1-qualification/scripts/current-credit-e1-phase-native17-qualification/test_generated_ci.py", line 57, in admit
+    pins,summary=helper.admit(self.root,self.here,self.names)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/ef468a447ac6/erp-credit-e1-qualification/scripts/current-credit-e1-phase-native17-qualification/generated_e1.py", line 28, in admit
+    cfg=json.loads((here/'CONFIG.json').read_bytes(),object_pairs_hook=g._object)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py", line 1019, in read_bytes
+    with self.open(mode='rb') as f:
+         ^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/tmp/tmpnliv1g4c/qualifier/CONFIG.json'
+
+======================================================================
+ERROR: test_arbitrary_source_JSON_and_extra_clone_file_remain_unaccepted (test_generated_ci.Generated.test_arbitrary_source_JSON_and_extra_clone_file_remain_unaccepted)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/ef468a447ac6/erp-credit-e1-qualification/scripts/current-credit-e1-phase-native17-qualification/test_generated_ci.py", line 84, in test_arbitrary_source_JSON_and_extra_clone_file_remain_unaccepted
+    accepted,_=self.admit();self.assertFalse(self.names<=set(accepted))
+               ^^^^^^^^^^^^
+  File "/workspace/scratch/ef468a447ac6/erp-credit-e1-qualification/scripts/current-credit-e1-phase-native17-qualification/test_generated_ci.py", line 57, in admit
+    pins,summary=helper.admit(self.root,self.here,self.names)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/ef468a447ac6/erp-credit-e1-qualification/scripts/current-credit-e1-phase-native17-qualification/generated_e1.py", line 28, in admit
+    cfg=json.loads((here/'CONFIG.json').read_bytes(),object_pairs_hook=g._object)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py", line 1019, in read_bytes
+    with self.open(mode='rb') as f:
+         ^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/tmp/tmpq13zhvga/qualifier/CONFIG.json'
+
+======================================================================
+ERROR: test_boolean_zero_aligned_metadata_refuses (test_generated_ci.Generated.test_boolean_zero_aligned_metadata_refuses)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/ef468a447ac6/erp-credit-e1-qualification/scripts/current-credit-e1-phase-native17-qualification/test_generated_ci.py", line 96, in test_boolean_zero_aligned_metadata_refuses
+    with self.assertRaisesRegex(AssertionError,'ALIGNMENT_PROVENANCE'):self.admit()
+                                                                       ^^^^^^^^^^^^
+  File "/workspace/scratch/ef468a447ac6/erp-credit-e1-qualification/scripts/current-credit-e1-phase-native17-qualification/test_generated_ci.py", line 57, in admit
+    pins,summary=helper.admit(self.root,self.here,self.names)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/ef468a447ac6/erp-credit-e1-qualification/scripts/current-credit-e1-phase-native17-qualification/generated_e1.py", line 28, in admit
+    cfg=json.loads((here/'CONFIG.json').read_bytes(),object_pairs_hook=g._object)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py", line 1019, in read_bytes
+    with self.open(mode='rb') as f:
+         ^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/tmp/tmp9y_zvemz/qualifier/CONFIG.json'
+
+======================================================================
+ERROR: test_client_pending_case_or_false_integer_summary_refuses (test_generated_ci.Generated.test_client_pending_case_or_false_integer_summary_refuses)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/ef468a447ac6/erp-credit-e1-qualification/scripts/current-credit-e1-phase-native17-qualification/test_generated_ci.py", line 100, in test_client_pending_case_or_false_integer_summary_refuses
+    with self.assertRaisesRegex(AssertionError,'SUMMARY_CHANGED'):self.admit()
+                                                                  ^^^^^^^^^^^^
+  File "/workspace/scratch/ef468a447ac6/erp-credit-e1-qualification/scripts/current-credit-e1-phase-native17-qualification/test_generated_ci.py", line 57, in admit
+    pins,summary=helper.admit(self.root,self.here,self.names)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/ef468a447ac6/erp-credit-e1-qualification/scripts/current-credit-e1-phase-native17-qualification/generated_e1.py", line 28, in admit
+    cfg=json.loads((here/'CONFIG.json').read_bytes(),object_pairs_hook=g._object)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py", line 1019, in read_bytes
+    with self.open(mode='rb') as f:
+         ^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/tmp/tmpoxz4du5k/qualifier/CONFIG.json'
+
+======================================================================
+ERROR: test_parent_download_partial_or_wrong_raw_set_refuses (test_generated_ci.Generated.test_parent_download_partial_or_wrong_raw_set_refuses)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/ef468a447ac6/erp-credit-e1-qualification/scripts/current-credit-e1-phase-native17-qualification/test_generated_ci.py", line 108, in test_parent_download_partial_or_wrong_raw_set_refuses
+    with self.assertRaisesRegex(AssertionError,'PARENT_OUTPUT_SET'):self.admit()
+                                                                    ^^^^^^^^^^^^
+  File "/workspace/scratch/ef468a447ac6/erp-credit-e1-qualification/scripts/current-credit-e1-phase-native17-qualification/test_generated_ci.py", line 57, in admit
+    pins,summary=helper.admit(self.root,self.here,self.names)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/ef468a447ac6/erp-credit-e1-qualification/scripts/current-credit-e1-phase-native17-qualification/generated_e1.py", line 28, in admit
+    cfg=json.loads((here/'CONFIG.json').read_bytes(),object_pairs_hook=g._object)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py", line 1019, in read_bytes
+    with self.open(mode='rb') as f:
+         ^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/tmp/tmp5pguldc7/qualifier/CONFIG.json'
+
+----------------------------------------------------------------------
+Ran 24 tests in 2.047s
+
+FAILED (errors=5)

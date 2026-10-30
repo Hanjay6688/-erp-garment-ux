@@ -1,0 +1,14 @@
+{
+  "parent_workflow": ".github/workflows/cp7-credit-e1-current-d1-native17.yml",
+  "parent_sha256": "6771fa52702491f6939dd4c0b1c745e6aa198f50fbb9c577a20380cce8de31ad",
+  "derived_workflow": ".github/workflows/cp7-credit-e1-phase-native17.yml",
+  "derived_sha256": "03e34150f675bef69701727b01c21855259db31f9d111d68b88369aa5b92ceb4",
+  "namespace_route_occurrences": 7,
+  "workflow_route_occurrences": 1,
+  "branch_descriptor_occurrences": 2,
+  "added_source_only_pre_GET_step": 1,
+  "all_unaffected_step_scripts_and_parameters_exact": true,
+  "Native_engine_substitutions": 6,
+  "main_D1_client20_E_client111_unchanged": true,
+  "fresh_Native17_callbacks_changed": false
+}

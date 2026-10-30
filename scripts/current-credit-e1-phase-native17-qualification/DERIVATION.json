@@ -1,0 +1,41 @@
+{
+  "current_E_source_reader": {
+    "original_sha256": "7832f0f83516959b5a0bbc96e22b964de2fa1a4e18d2ab30582483c834942270",
+    "derived_sha256": "cbe265e1d9c74bc6fcbd542296cf1de49e999180ebded8afb83ba779821d6009",
+    "counted_changes": 3,
+    "classification": "SOURCE_METADATA_READER_ONLY"
+  },
+  "current_D1_routes": {
+    "original_sha256": "e27064d57660c3704db1d93bb3dec562d89551a9c613586447ce011676e3e256",
+    "derived_sha256": "6491807365260c2c85b82e451b15428114eafe441a2b749ee73fb7f364c28bf1",
+    "counted_source_routing_changes": 2,
+    "private_HERE_relocated": true,
+    "retained_historical_D1_diff_endpoint_changes": 1,
+    "all_original_current_hash_financial_parent_raw_checks_preserved": true
+  },
+  "current319_additive_scope": {
+    "original_sha256": "1b91dc1557139a39b9591d6594b013867e5b346cd1e601921ac3b809eebdadc9",
+    "derived_sha256": "46f9b22e1dcb732ff8b46be5eebdbf5d55c0cc2ca2bbafa2b7f17ca1f502ea30",
+    "counted_changes": 3,
+    "classification": "SOURCE_METADATA_READER_ONLY"
+  },
+  "parent_five_raw": {
+    "original_sha256": "17b077c04f0235d55c6311a0483daca535bbcef75b9e5cfe1547e21b2e8a2684",
+    "derived_sha256": "83247caf3aea9ac31357bbe33aa1ff084d313970030f243cd360b94369bb7598",
+    "counted_changes": 1,
+    "classification": "SOURCE_METADATA_READER_ONLY"
+  },
+  "workflow": {
+    "original_sha256": "6771fa52702491f6939dd4c0b1c745e6aa198f50fbb9c577a20380cce8de31ad",
+    "derived_sha256": "03e34150f675bef69701727b01c21855259db31f9d111d68b88369aa5b92ceb4",
+    "routing_descriptor_occurrences": [
+      7,
+      1,
+      2,
+      1,
+      1
+    ],
+    "added_source_only_pre_GET_steps": 1,
+    "unchanged_engine_substitutions": 6
+  }
+}

@@ -1,0 +1,166 @@
+{
+  "status": "EXACT_OFFLINE_HYDRATION_OF_ABSENT_PUBLIC_BACKEND_FILES",
+  "head": "fe2ae370c00e68437c4951c28c3a1038ce35fb38",
+  "missing_before": [
+    {
+      "path": "contracts/cp7/README.md",
+      "mode": "100644",
+      "blob": "b999829efe602920350709b3b76675f8e1073627",
+      "index_flag": "S contracts/cp7/README.md"
+    },
+    {
+      "path": "contracts/cp7/production-policy.ts",
+      "mode": "100644",
+      "blob": "c46dacf396833c64b6a76e3626a1da4fb8007f5f",
+      "index_flag": "S contracts/cp7/production-policy.ts"
+    },
+    {
+      "path": "ops/backup-repo/README.md",
+      "mode": "100644",
+      "blob": "e5cf8ee3d05dfcce2d845c4e4e846075352abad8",
+      "index_flag": "S ops/backup-repo/README.md"
+    },
+    {
+      "path": "ops/backup-repo/proof.sh",
+      "mode": "100755",
+      "blob": "1a752b540fff2b761154c3dd7839d900eff24238",
+      "index_flag": "S ops/backup-repo/proof.sh"
+    },
+    {
+      "path": "ops/backup-repo/proof_seed.sql",
+      "mode": "100644",
+      "blob": "38ac6da984965294e905be5ef9d384ab628a8f9c",
+      "index_flag": "S ops/backup-repo/proof_seed.sql"
+    },
+    {
+      "path": "ops/backup-repo/workflows/drive-proof.yml",
+      "mode": "100644",
+      "blob": "cbff25f93dc1364c645f2a008a326d5386e7689e",
+      "index_flag": "S ops/backup-repo/workflows/drive-proof.yml"
+    },
+    {
+      "path": "ops/backup-repo/workflows/nightly-backup.yml",
+      "mode": "100644",
+      "blob": "f854c28041b8d110e00e845f5149e81ed526b94c",
+      "index_flag": "S ops/backup-repo/workflows/nightly-backup.yml"
+    },
+    {
+      "path": "ops/supabase/uat/acceptance/20260831031520_manual_reminders_v1_acl_hardening_rollback.sql",
+      "mode": "100644",
+      "blob": "8cbf96d6d4dcd459ccca5513d9ad8be9de770fb0",
+      "index_flag": "S ops/supabase/uat/acceptance/20260831031520_manual_reminders_v1_acl_hardening_rollback.sql"
+    },
+    {
+      "path": "ops/supabase/uat/acceptance/20260831032949_erp_v2_6_13b_auth_profile_facade_tracking_rollback.sql",
+      "mode": "100644",
+      "blob": "5465c1b5772af79094855775724f2fbeb4791d63",
+      "index_flag": "S ops/supabase/uat/acceptance/20260831032949_erp_v2_6_13b_auth_profile_facade_tracking_rollback.sql"
+    },
+    {
+      "path": "ops/supabase/uat/applied/20260831031520_manual_reminders_v1_acl_hardening.sql",
+      "mode": "100644",
+      "blob": "d16a2212088c3f8fff754eb91f6f49daae5978b6",
+      "index_flag": "S ops/supabase/uat/applied/20260831031520_manual_reminders_v1_acl_hardening.sql"
+    },
+    {
+      "path": "ops/supabase/uat/applied/20260831032949_erp_v2_6_13b_auth_profile_facade_tracking.sql",
+      "mode": "100644",
+      "blob": "88ebdcb69dac55d58c2af00c20a2b27dd662acfa",
+      "index_flag": "S ops/supabase/uat/applied/20260831032949_erp_v2_6_13b_auth_profile_facade_tracking.sql"
+    },
+    {
+      "path": "ops/supabase/uat/manual_uat_only__erp_enteng__v2_6_11a_preconnect.acceptance.sql",
+      "mode": "100644",
+      "blob": "9ccc7a8b4d1eb330df4973702202e6455e01eb6c",
+      "index_flag": "S ops/supabase/uat/manual_uat_only__erp_enteng__v2_6_11a_preconnect.acceptance.sql"
+    },
+    {
+      "path": "ops/supabase/uat/manual_uat_only__erp_enteng__v2_6_11a_preconnect.sql",
+      "mode": "100644",
+      "blob": "63637d284b2475f1ec1a44444d94a2f39c2a5b39",
+      "index_flag": "S ops/supabase/uat/manual_uat_only__erp_enteng__v2_6_11a_preconnect.sql"
+    }
+  ],
+  "after": [
+    {
+      "path": "contracts/cp7/README.md",
+      "bytes": 649,
+      "sha256": "3898de60cdda81def8a2b82b9dadf932350928a5e2770df188d022621ccc4557",
+      "mode": "100644"
+    },
+    {
+      "path": "contracts/cp7/production-policy.ts",
+      "bytes": 7085,
+      "sha256": "d757985b57bbda355df95501f853432b7111ced1ca64ef3f4c9e5744e8147d3a",
+      "mode": "100644"
+    },
+    {
+      "path": "ops/backup-repo/README.md",
+      "bytes": 5472,
+      "sha256": "3c225e72c095a40f5b1a9f07415678537a900f41e637f9561b3e96afa87cee6d",
+      "mode": "100644"
+    },
+    {
+      "path": "ops/backup-repo/proof.sh",
+      "bytes": 3059,
+      "sha256": "e0f1df0b00a5ed5cb51e14657dacc89130c026a87102dfe5068977f7d574dc0d",
+      "mode": "100755"
+    },
+    {
+      "path": "ops/backup-repo/proof_seed.sql",
+      "bytes": 1813,
+      "sha256": "b9a27c6a37fad44942ef1d0cac91b885ee12bb6da5cd42892c04dbe678689244",
+      "mode": "100644"
+    },
+    {
+      "path": "ops/backup-repo/workflows/drive-proof.yml",
+      "bytes": 3214,
+      "sha256": "4fbf6afa746b0c39c4aff771d8f09a5faf3a188ed974de0ba3d5387d2fc50fb6",
+      "mode": "100644"
+    },
+    {
+      "path": "ops/backup-repo/workflows/nightly-backup.yml",
+      "bytes": 4709,
+      "sha256": "2448eea9bfdc6ab6ade72d9fc2e208bd334d91f7065bd495dc21dee86019c459",
+      "mode": "100644"
+    },
+    {
+      "path": "ops/supabase/uat/acceptance/20260831031520_manual_reminders_v1_acl_hardening_rollback.sql",
+      "bytes": 16540,
+      "sha256": "bb3da0d415a3158c248fd641643bdd9bbe903473590dfed02d27feb27e5c6343",
+      "mode": "100644"
+    },
+    {
+      "path": "ops/supabase/uat/acceptance/20260831032949_erp_v2_6_13b_auth_profile_facade_tracking_rollback.sql",
+      "bytes": 10928,
+      "sha256": "3029e004507f2bcf87a5f4d62da976be76fa2850a7817b57d9a2cc8246f17cd0",
+      "mode": "100644"
+    },
+    {
+      "path": "ops/supabase/uat/applied/20260831031520_manual_reminders_v1_acl_hardening.sql",
+      "bytes": 16026,
+      "sha256": "ef232bc2556bbf5495dd48ce78ac534ea943719f57f9ab9a7f27bbf67b64f6a8",
+      "mode": "100644"
+    },
+    {
+      "path": "ops/supabase/uat/applied/20260831032949_erp_v2_6_13b_auth_profile_facade_tracking.sql",
+      "bytes": 15812,
+      "sha256": "a590eb50f32c6e3c86b46ab6df554a93714b7227a56b7a7d7539e3628e996e60",
+      "mode": "100644"
+    },
+    {
+      "path": "ops/supabase/uat/manual_uat_only__erp_enteng__v2_6_11a_preconnect.acceptance.sql",
+      "bytes": 17128,
+      "sha256": "2e2f7a53b499b1f4ccd05ce1b398fc49f706a00b1ccf9f230b118405a6f39597",
+      "mode": "100644"
+    },
+    {
+      "path": "ops/supabase/uat/manual_uat_only__erp_enteng__v2_6_11a_preconnect.sql",
+      "bytes": 25223,
+      "sha256": "d8b42725eb3299989b682a8f3932f480cf5e1c10344c224235fad6154d404a91",
+      "mode": "100644"
+    }
+  ],
+  "no_source_exceptions": true,
+  "cause_of_absence": "not inferred"
+}

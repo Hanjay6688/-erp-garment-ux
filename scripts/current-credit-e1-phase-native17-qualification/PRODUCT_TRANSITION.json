@@ -1,0 +1,112 @@
+{
+  "contract": "cp7.e1.phase-native17-current-source.v1",
+  "public_backend": {
+    "head": "fe2ae370c00e68437c4951c28c3a1038ce35fb38",
+    "tree": "600d4575309e67a5575d7896382b38a27e000d7e",
+    "parent": "8be4c15a37dcfc6186e32f396df78291ff1b957c",
+    "source_path": "scripts/current-credit-e1-consumer-phase-successor/SOURCE.json",
+    "source_sha256": "c1899ebed78fd3cd94a6e8e2d148fc6fe34911b48951aa1756e9e46dbef38ce3",
+    "source_pins": 319,
+    "private_functions": 41
+  },
+  "historical_E_runtime_files": {
+    "note_carry/01_facts.sql": "ebf128127e6bcab8fe1c52b98f46ede1492356386312fe2f744e3e65ddb1d415",
+    "note_carry/02_plan.sql": "17c9028606298e7d66681deb3c0a1f3260a1ec829d9ba501a647231b358981f3",
+    "note_carry/03_readers.sql": "940200b5320189bd424a99ccef9cc92846dd576a6c6d4bd2e8f1e25afd3325d8",
+    "note_carry/04_basis.sql": "cdd49e1c5f9a78f4c2c27ce0ae055907a485475c0020720c9e18a0f80e68c222",
+    "note_carry/05_effect.sql": "cd77c5ab9427223e1c67b93d8631a1808b8ddc593fc0c97d12e9c069a2950710",
+    "note_carry/06_owning.sql": "8864996e824655766022bafa277ac046beba35794b678eedc388b1093fb38575",
+    "note_carry/07_profile_closure.sql": "7b7c1467176fefb0f564169ab0903c3d93defc88cce97a16a7ad37629ad84ac3",
+    "e_native_delta.py": "314742c922fc82145f7caa8d4217296bf3f2408ceacbc4738d50d3b866d2bfe0",
+    "e_composition.py": "6e690d12e30cb3a6463283dc62f269f5e3e77e2e59f37e45cdd0b5ec1f6a46d6"
+  },
+  "current_E_runtime_files": {
+    "note_carry/01_facts.sql": "ebf128127e6bcab8fe1c52b98f46ede1492356386312fe2f744e3e65ddb1d415",
+    "note_carry/02_plan.sql": "17c9028606298e7d66681deb3c0a1f3260a1ec829d9ba501a647231b358981f3",
+    "note_carry/03_readers.sql": "940200b5320189bd424a99ccef9cc92846dd576a6c6d4bd2e8f1e25afd3325d8",
+    "note_carry/04_basis.sql": "cdd49e1c5f9a78f4c2c27ce0ae055907a485475c0020720c9e18a0f80e68c222",
+    "note_carry/05_effect.sql": "cd77c5ab9427223e1c67b93d8631a1808b8ddc593fc0c97d12e9c069a2950710",
+    "note_carry/06_owning.sql": "0c00bb08274827e6295ada3ed4e4b8e7d917ed1bc1a996aaa0685d0fd1772c94",
+    "note_carry/07_profile_closure.sql": "8e82c257ca20a4dcac5cf0dad2f1e487c2e202caea7fa466503019003d3f75ac",
+    "e_native_delta.py": "314742c922fc82145f7caa8d4217296bf3f2408ceacbc4738d50d3b866d2bfe0",
+    "e_composition.py": "6e690d12e30cb3a6463283dc62f269f5e3e77e2e59f37e45cdd0b5ec1f6a46d6"
+  },
+  "product_changes": {
+    "scripts/cp7_credit_correction_de/note_carry/06_owning.sql": {
+      "before": {
+        "sha256": "8864996e824655766022bafa277ac046beba35794b678eedc388b1093fb38575"
+      },
+      "after": {
+        "bytes": 13433,
+        "sha256": "0c00bb08274827e6295ada3ed4e4b8e7d917ed1bc1a996aaa0685d0fd1772c94"
+      }
+    },
+    "scripts/cp7_credit_correction_de/note_carry/07_profile_closure.sql": {
+      "before": {
+        "sha256": "7b7c1467176fefb0f564169ab0903c3d93defc88cce97a16a7ad37629ad84ac3"
+      },
+      "after": {
+        "bytes": 16068,
+        "sha256": "8e82c257ca20a4dcac5cf0dad2f1e487c2e202caea7fa466503019003d3f75ac"
+      }
+    }
+  },
+  "private_function_count": {
+    "before": 40,
+    "after": 41
+  },
+  "financial_callbacks_changed": false,
+  "Native_changed_functions": 19,
+  "private_Native_copies": 3,
+  "engine_substitutions": 6,
+  "historical_failed_E17": {
+    "head": "8be4c15a37dcfc6186e32f396df78291ff1b957c",
+    "run_id": 40955967062,
+    "job_id": 123736034880,
+    "artifact_id": 12934894175,
+    "zip_bytes": 155710097,
+    "zip_sha256": "c28e446d3775cbbe583fc05d7a78e5b021157d540736a8e9b0eff03eac5f2be6",
+    "counts": {
+      "PASS": 15,
+      "INCOMPLETE": 2
+    },
+    "usable_prerequisite": false,
+    "source_pins": 282
+  },
+  "actual_parent_D1": {
+    "head": "17ac1eeb5833cbf2a786194fe3bfbba6628a1ff8",
+    "tree": "52870c467cb37c328fd6ff73fe8484f8d6798953",
+    "run_id": 40942995096,
+    "job_id": 123690939357,
+    "artifact_id": 12929784527,
+    "zip_bytes": 157902568,
+    "zip_sha256": "2d4acbb051ce4ec55f3eb84d9bb4ee7cacd02aa330a4ae6c86cb1f5d107bc180",
+    "original": {
+      "name": "CP7_CREDIT_DE_NATIVE13.json",
+      "bytes": 4835820,
+      "sha256": "6b5eb3f481e1d36e8fbca64590a8ef83197f3e4e3725d9dfa3964c92cdbafa4c"
+    },
+    "native_group": {
+      "name": "CP7_CREDIT_DE_NATIVE13_CASES.json",
+      "bytes": 231613,
+      "sha256": "3129479dde1805e58fbd3a96cba4653c8da7a0b0f471be65c4182fd772f87d47"
+    },
+    "package": {
+      "name": "T3_PACKAGE_INSTALL.json",
+      "bytes": 360428,
+      "sha256": "84d20d0e7ec045d8496174c25437b3005c158ee517e1d1c014b75175410e8056"
+    },
+    "package_files": {
+      "name": "T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "backup_drill": {
+      "name": "T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 1470,
+      "sha256": "15fe0304a8bf0764722e78ad88cf92e8ed7f87c413b177cedc8e93dd22e31eba"
+    }
+  },
+  "actual_new_Native": 0,
+  "production_go": false
+}
