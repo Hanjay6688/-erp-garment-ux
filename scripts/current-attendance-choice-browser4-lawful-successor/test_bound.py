@@ -134,7 +134,13 @@ class GeneratedSixInputControls(unittest.TestCase):
             inputs.present(self.root, self.here, {}, required=True)
 
     def test_exact_six_and_specific_producer_model_accepts_without_case_credit(self):
-        self.materialize(); names, proof = inputs.present(self.root, self.here, {}, required=True)
+        self.materialize()
+        inherited_ci = os.environ.get('GITHUB_ACTIONS')
+        # This positive case models a local archive replay. The separate CI
+        # control below must still reject the same receipt in GitHub Actions.
+        with patch.dict(os.environ, {'GITHUB_ACTIONS': 'false'}):
+            names, proof = inputs.present(self.root, self.here, {}, required=True)
+        self.assertEqual(os.environ.get('GITHUB_ACTIONS'), inherited_ci)
         self.assertEqual(names, set(self.expected) | {inputs.RECEIPT})
         self.assertEqual(proof['new_Native_Auth_browser_credit'], 0)
 

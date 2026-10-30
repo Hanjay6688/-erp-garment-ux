@@ -6249,8 +6249,8 @@
     },
     {
       "path": "scripts/current-attendance-choice-browser4-lawful-successor/test_bound.py",
-      "bytes": 11465,
-      "sha256": "8c3602f85a8b567367a3625b6c084d3a4ed7dafc93b719605ab3196571333a27"
+      "bytes": 11825,
+      "sha256": "1ea8366b131623c1171744d33e19a000312943ab2b2959f29be1c3d87bab21b2"
     },
     {
       "path": "scripts/current-attendance-choice-browser4-lawful-successor/test_contract.py",
