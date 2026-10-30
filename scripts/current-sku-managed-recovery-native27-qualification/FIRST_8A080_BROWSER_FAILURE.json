@@ -1,0 +1,43 @@
+{
+  "head": "8a08024fda704162481e3123efa5fa7fbfc5663d",
+  "run": 41053845032,
+  "job": 124056289401,
+  "archive": {
+    "bytes": 65145074,
+    "sha256": "be22be31043458c18fd703be994e537651c80e573c819963e465d3bcd23cb135",
+    "CRC_members": 158
+  },
+  "main": {
+    "bytes": 30199369,
+    "sha256": "9971aadafcd3f249d313ad5067accc028ec7e61a9cfbc882485d88d645ba5033"
+  },
+  "status": "INCOMPLETE",
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "browser_counts": {
+    "INCOMPLETE": 4
+  },
+  "browser_errors": {
+    "SKU29_BROWSER_DESKTOP_REAL_AUTH_PAIR_FIFO_RECOVERY_INVERSE": "Error: expect(locator).toContainText(expected) failed",
+    "SKU29_BROWSER_MOBILE390_REAL_AUTH_PAIR_FIFO_GUARDS_INVERSE": "Error: expect(locator).toContainText(expected) failed",
+    "A_STAGED_AI_BROWSER_DESKTOP_MANUAL_AND_RETIRED_RESPONSES": "locator.selectOption: Timeout 20000ms exceeded.",
+    "A_STAGED_AI_BROWSER_MOBILE_MANUAL_AND_RETIRED_RESPONSES": "locator.selectOption: Timeout 20000ms exceeded."
+  },
+  "outer_full22_rows_ALLsequences_restored": true,
+  "cp6_restored": true,
+  "production_go": false,
+  "independent_acceptance": false,
+  "new_actual_qualification_credit": 0,
+  "source_diagnosis": {
+    "SKU_display_expected": "nilai sumber Rp60,06",
+    "SKU_display_observed": "nilai sumber Rp 60,06",
+    "same_numeric_source_value": "60.06",
+    "AI_exact_wrapped_label": "Pengelompokan",
+    "actual_product_accessible_name_unchanged": true
+  }
+}

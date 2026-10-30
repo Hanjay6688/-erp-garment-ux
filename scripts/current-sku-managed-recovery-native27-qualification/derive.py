@@ -125,9 +125,11 @@ def derive(key,raw=None):
       derived_sha256=sha256(text.encode()).hexdigest(),namespace_occurrences=count,
       extra_counted_changes=len(EXTRA.get(key,())),byte_exact_reversible=True,
       original23_financial_callback_bodies_unchanged=key not in('races','browser'),
-      original_financial_postcondition_assertions_unchanged=True,
+      original_financial_postcondition_assertions_unchanged=key!='browser',
+      financial_expected_values_unchanged=True,
       explicit_race_schedule_transition=key=='races',
-      explicit_browser_locator_or_route_changes=sum(row[2]for row in browser_delta.changes(key)))
+      explicit_browser_locator_or_route_changes=sum(row[2]for row in browser_delta.changes(key))-(1 if key=='browser'else 0),
+      explicit_currency_display_whitespace_changes=1 if key=='browser'else 0)
 
 def inventory():return{key:derive(key)[1]for key in SOURCES}
 

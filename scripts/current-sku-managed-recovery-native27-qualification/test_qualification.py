@@ -54,7 +54,10 @@ class Qualification(unittest.TestCase):
         self.assertEqual([key for key,p in proof.items()if not p['original23_financial_callback_bodies_unchanged']],['races','browser'])
         self.assertEqual(proof['browser']['explicit_browser_locator_or_route_changes'],9)
         self.assertEqual(proof['cases']['explicit_browser_locator_or_route_changes'],1)
-        self.assertTrue(all(p['original_financial_postcondition_assertions_unchanged']for p in proof.values()))
+        self.assertEqual([key for key,p in proof.items()if not p['original_financial_postcondition_assertions_unchanged']],['browser'])
+        self.assertTrue(all(p['financial_expected_values_unchanged']for p in proof.values()))
+        self.assertEqual(proof['browser']['explicit_currency_display_whitespace_changes'],1)
+        self.assertEqual(d.browser_delta.DISPLAY[0].replace('Rp60','Rp 60'),d.browser_delta.DISPLAY[1])
         with self.assertRaises(ValueError):d.derive('runner',b'unknown body')
 
     def test_race_only_changes_scheduling_and_retains_every_financial_postcondition(self):

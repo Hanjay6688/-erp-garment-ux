@@ -1,3 +1,17 @@
+## Retained 8a080 first browser failure and bounded display successor
+
+Run41053845032 preserved all four browser failures. The two SKU journeys reached
+the correct source value60.06 but expected the currency prefix without the space
+that the existing UI displays. The two staged journeys reached the wrapped
+Pengelompokan select and encountered the same exact-label/options mismatch as
+the prior SKU selects. Correct only that display-space expectation and the exact
+named combobox selector. Numeric expectations, stock/HPP/Native code, current
+actor access, complete restore and all5 gates are retained. The changed display
+assertion is explicitly disclosed rather than called byte-identical.
+
+Original8a080 source preimages and first-failure pins are retained. No fresh27
+qualification is inferred; a new complete run is still required.
+
 # Prepared full managed SKU recovery Native27
 
 Public product parent f3d014648d12279dfa89ca8593f25585430a5efe,
