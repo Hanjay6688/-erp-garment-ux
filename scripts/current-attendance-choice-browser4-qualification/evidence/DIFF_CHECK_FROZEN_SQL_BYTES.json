@@ -1,0 +1,26 @@
+{
+  "classification": "EXACT_FROZEN_PUBLIC_RUNTIME_BYTES_PRESERVED",
+  "full_command": [
+    "git",
+    "diff",
+    "--cached",
+    "--check"
+  ],
+  "full_observed_exit_code": 2,
+  "full_raw_output": "scripts/current-attendance-choice-browser4-qualification/runtime-backend7/scripts/cp7_attendance_period_choice/choice.sql:758: new blank line at EOF.\n",
+  "sole_warning_exact_public_source": "73ad6d323099e1d5384a94477043c01db8989106:scripts/cp7_attendance_period_choice/choice.sql",
+  "exact_sha256": "44499c6d6a06d1effc2be4f066168f5fa2fe9608b2ccb80d1d2d0b1dac0a8212",
+  "frozen_SQL_normalized": false,
+  "remaining_authored_delta_command": [
+    "git",
+    "diff",
+    "--cached",
+    "--check",
+    "--",
+    ".github/workflows/cp7-current-s03-browser4.yml",
+    "scripts/current-attendance-choice-browser4-qualification",
+    ":(exclude)scripts/current-attendance-choice-browser4-qualification/runtime-backend7/scripts/cp7_attendance_period_choice/choice.sql"
+  ],
+  "remaining_authored_delta_exit_code": 0,
+  "actual_Native_Auth_browser_credit": 0
+}

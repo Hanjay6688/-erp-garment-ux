@@ -1,0 +1,11 @@
+{
+  "classification": "SOURCE_REVIEW_OF_OWN_PREPARED_CALLBACK_NOT_ACTUAL_HTTP_FAILURE",
+  "old_draft_assumption": "Authenticated Admin and anon both return HTTP403 with CP7_S03_OWNER_REQUIRED.",
+  "actual_source_boundary": "The frozen public SQL explicitly revokes anon EXECUTE and grants only authenticated; anon is refused before the owning function body.",
+  "prepared_control": "Admin requires HTTP403/SQLSTATE42501/CP7_S03_OWNER_REQUIRED. Anon requires HTTP401-or403/SQLSTATE42501 and permission denied for the exact public read function; success, missing function, server error and unrelated refusal fail.",
+  "primary_source": "runtime-backend7/scripts/cp7_attendance_period_choice/choice.sql final public revoke/grant statements, byte-exact public73ad",
+  "product_SQL_or_grants_changed": false,
+  "UI_changed": false,
+  "actual_Native_Auth_HTTP_browser_cases": 0,
+  "production_go": false
+}

@@ -1,0 +1,765 @@
+{
+  "classification": "ORIGINAL_LOCAL_SOURCE_PARSER_ORACLE_LOGS_NOT_NATIVE_AUTH_OR_BROWSER",
+  "entries": [
+    {
+      "original_command_receipt": {
+        "command": [
+          "node",
+          "scripts/check-access-catalog.mjs"
+        ],
+        "cwd": "/workspace/scratch/ef468a447ac6/erp-s05-import-argv-successor",
+        "observed_exit_code": 0,
+        "expected_exit_code": 0,
+        "status": "PASS",
+        "source_sha256": "77bf903d248bfb33ea949e99e84eb18232fb8f587e308bf1e68dcb4ae0913961",
+        "raw_log": "/workspace/scratch/ef468a447ac6/evidence-private/s03-browser4-preparation/access-catalog-1793315263978275641.log",
+        "raw_bytes": 433,
+        "raw_sha256": "310accf3ae52f3a56ac81928751066f94bd6e799357c4b78f73c88fda832a11d",
+        "actual_Native_Auth_browser": 0
+      },
+      "retained": "evidence/retained-local/access-catalog-1793315263978275641.log.gz",
+      "gzip_bytes": 304,
+      "gzip_sha256": "fc3028a09d325f8af2b629e0936e398db0cf8da265f91c98e83a173eef505915"
+    },
+    {
+      "original_command_receipt": {
+        "command": [
+          "python",
+          "-B",
+          "scripts/current-attendance-choice-browser4-qualification/source_guard.py",
+          "--require-actual"
+        ],
+        "cwd": "/workspace/scratch/ef468a447ac6/erp-s05-import-argv-successor",
+        "observed_exit_code": 1,
+        "expected_exit_code": 1,
+        "expected_refusal": "S03_BROWSER4_CLOSED_REQUIRES_EXACT_BACKEND14",
+        "status": "FAIL",
+        "elapsed_seconds": 1.49,
+        "source_sha256": "4a792609fe602f4375a87310bd6dc30c507837d958cddb2e6ee83ede7fb69a26",
+        "raw_log": "/workspace/scratch/ef468a447ac6/evidence-private/s03-browser4-preparation/closed-before-import-1793313362341078884.log",
+        "raw_bytes": 796,
+        "raw_sha256": "a12f500dfad1f9f98db7e744dfcb7097089fcd5a69244a2df9814f7badd5fdfc",
+        "actual_Native_Auth_browser": 0
+      },
+      "retained": "evidence/retained-local/closed-before-import-1793313362341078884.log.gz",
+      "gzip_bytes": 336,
+      "gzip_sha256": "f6637e166c2919dcbb646f9f86a782b07fe3228d538e9f79d22a16a768e9b5a1"
+    },
+    {
+      "original_command_receipt": {
+        "command": [
+          "python",
+          "-B",
+          "scripts/current-attendance-choice-browser4-qualification/source_guard.py",
+          "--require-actual"
+        ],
+        "cwd": "/workspace/scratch/ef468a447ac6/erp-s05-import-argv-successor",
+        "observed_exit_code": 1,
+        "expected_exit_code": 1,
+        "expected_refusal": "S03_BROWSER4_CLOSED_REQUIRES_EXACT_BACKEND14",
+        "status": "PASS",
+        "elapsed_seconds": 5.575,
+        "source_sha256": "a563660ccd4edb9089d02374a3069ad52b7a7d4640551c841fe9edc4a3394c88",
+        "raw_log": "/workspace/scratch/ef468a447ac6/evidence-private/s03-browser4-preparation/closed-before-import-1793314238044464913.log",
+        "raw_bytes": 634,
+        "raw_sha256": "fee49a66c136d5d48c43645582019704b35302b14efb25c43376d00f5a981ea3",
+        "actual_Native_Auth_browser": 0
+      },
+      "retained": "evidence/retained-local/closed-before-import-1793314238044464913.log.gz",
+      "gzip_bytes": 336,
+      "gzip_sha256": "4882e4f13dc4cb188edbd1c950c7d249ba9f51397149dd5c463513b1407155fa"
+    },
+    {
+      "original_command_receipt": {
+        "command": [
+          "python",
+          "-B",
+          "scripts/current-attendance-choice-browser4-qualification/fixture.py",
+          "prepare"
+        ],
+        "cwd": "/workspace/scratch/ef468a447ac6/erp-s05-import-argv-successor",
+        "observed_exit_code": 1,
+        "expected_exit_code": 1,
+        "expected_refusal": "S03_BROWSER4_CLOSED_REQUIRES_EXACT_BACKEND14",
+        "status": "PASS",
+        "elapsed_seconds": 5.516,
+        "source_sha256": "01b5d09579f35ef5324e03ec5e14c1efd85b8790908456c2e61705c1abceb90a",
+        "raw_log": "/workspace/scratch/ef468a447ac6/evidence-private/s03-browser4-preparation/closed-fixture-before-import-1793314663624926291.log",
+        "raw_bytes": 962,
+        "raw_sha256": "bc0a37fe7374fb43be367cea1910701b2079649b883aa73321d870421ead925a",
+        "actual_Native_Auth_browser": 0
+      },
+      "retained": "evidence/retained-local/closed-fixture-before-import-1793314663624926291.log.gz",
+      "gzip_bytes": 406,
+      "gzip_sha256": "7f4245fe90c0bca694c129196c3066ad1e812cfca346aafbd6d724a589aaca8f"
+    },
+    {
+      "original_command_receipt": {
+        "command": [
+          "node",
+          "scripts/check-css-ownership.mjs"
+        ],
+        "cwd": "/workspace/scratch/ef468a447ac6/erp-s05-import-argv-successor",
+        "observed_exit_code": 1,
+        "expected_exit_code": 0,
+        "status": "FAIL",
+        "source_sha256": "77bf903d248bfb33ea949e99e84eb18232fb8f587e308bf1e68dcb4ae0913961",
+        "raw_log": "/workspace/scratch/ef468a447ac6/evidence-private/s03-browser4-preparation/css-scope-1793315264128728467.log",
+        "raw_bytes": 1072,
+        "raw_sha256": "4c10b379c3816fa95272d300398c8c92ff49e12c0a10bb06dced7e2e2cb8a667",
+        "actual_Native_Auth_browser": 0
+      },
+      "retained": "evidence/retained-local/css-scope-1793315264128728467.log.gz",
+      "gzip_bytes": 471,
+      "gzip_sha256": "00939e6ef84ca035b6522e2195654eadcb833f8b0cc5d2b1948c66ffe1f94ac4"
+    },
+    {
+      "original_command_receipt": {
+        "command": [
+          "node",
+          "scripts/check-css-ownership.mjs"
+        ],
+        "cwd": "/workspace/scratch/ef468a447ac6/erp-s05-import-argv-successor",
+        "observed_exit_code": 0,
+        "expected_exit_code": 0,
+        "status": "PASS",
+        "source_sha256": "77bf903d248bfb33ea949e99e84eb18232fb8f587e308bf1e68dcb4ae0913961",
+        "raw_log": "/workspace/scratch/ef468a447ac6/evidence-private/s03-browser4-preparation/css-scope-dependencies-present-1793315299075197784.log",
+        "raw_bytes": 72,
+        "raw_sha256": "cdda7299f27298ecdd555eaa9370dfca4852a39e1348052e5cf88f7452718f71",
+        "dependency_setup": "Exact temporary link to existing root dependencies; removed in finally before source controls. No installation or lock edit.",
+        "actual_Native_Auth_browser": 0
+      },
+      "retained": "evidence/retained-local/css-scope-dependencies-present-1793315299075197784.log.gz",
+      "gzip_bytes": 89,
+      "gzip_sha256": "071f32ac773b5ec05a789e2e7d88d3282e420efe8c3b081e86686faa8a9ec9fe"
+    },
+    {
+      "original_command_receipt": {
+        "command": [
+          "node",
+          "--test",
+          "scripts/current-attendance-choice-browser4-qualification/test_oracles.mjs"
+        ],
+        "cwd": "/workspace/scratch/ef468a447ac6/erp-s05-import-argv-successor",
+        "exit_code": 0,
+        "elapsed_seconds": 0.661,
+        "source_sha256": "a12159438762c0a2545037aef8eb2d8b296771a9547597385a8a257d18ada17d",
+        "raw_log": "/workspace/scratch/ef468a447ac6/evidence-private/s03-browser4-preparation/node-controls-1793312931639905625.log",
+        "raw_bytes": 739,
+        "raw_sha256": "58937863c3f562eb1ab586d598bd1f1338225ca82c95e8d2f9eecd264a8f64a6",
+        "actual_Native_Auth_browser": 0
+      },
+      "retained": "evidence/retained-local/node-controls-1793312931639905625.log.gz",
+      "gzip_bytes": 471,
+      "gzip_sha256": "545923b33a6ff7f4b465c3350998b5355ef1dde1a15ee5a9c16eb6ffa0d35a91"
+    },
+    {
+      "original_command_receipt": {
+        "command": [
+          "node",
+          "--test",
+          "scripts/current-attendance-choice-browser4-qualification/test_oracles.mjs"
+        ],
+        "cwd": "/workspace/scratch/ef468a447ac6/erp-s05-import-argv-successor",
+        "observed_exit_code": 0,
+        "expected_exit_code": 0,
+        "expected_refusal": null,
+        "status": "PASS",
+        "elapsed_seconds": 0.773,
+        "source_sha256": "4a792609fe602f4375a87310bd6dc30c507837d958cddb2e6ee83ede7fb69a26",
+        "raw_log": "/workspace/scratch/ef468a447ac6/evidence-private/s03-browser4-preparation/node-controls-1793313362632954598.log",
+        "raw_bytes": 736,
+        "raw_sha256": "51b856609f57b30273f4f86159927c8ec729b9acebe7efc4f7debe7bfdcc4162",
+        "actual_Native_Auth_browser": 0
+      },
+      "retained": "evidence/retained-local/node-controls-1793313362632954598.log.gz",
+      "gzip_bytes": 469,
+      "gzip_sha256": "59431d8417897a5313b08eac0134c44ff580cf9e165591311a4c53a69524daf1"
+    },
+    {
+      "original_command_receipt": {
+        "command": [
+          "node",
+          "--test",
+          "scripts/current-attendance-choice-browser4-qualification/test_oracles.mjs"
+        ],
+        "cwd": "/workspace/scratch/ef468a447ac6/erp-s05-import-argv-successor",
+        "observed_exit_code": 0,
+        "expected_exit_code": 0,
+        "expected_refusal": null,
+        "status": "PASS",
+        "elapsed_seconds": 0.268,
+        "source_sha256": "a563660ccd4edb9089d02374a3069ad52b7a7d4640551c841fe9edc4a3394c88",
+        "raw_log": "/workspace/scratch/ef468a447ac6/evidence-private/s03-browser4-preparation/node-controls-1793314237791726328.log",
+        "raw_bytes": 738,
+        "raw_sha256": "93c56496b5c3b67131cc8120c27a25d276adcfca6d9d1d7d6043ee3cba0f90de",
+        "actual_Native_Auth_browser": 0
+      },
+      "retained": "evidence/retained-local/node-controls-1793314237791726328.log.gz",
+      "gzip_bytes": 469,
+      "gzip_sha256": "a250f45fed10587ae2f28c72a46bb51906bafdd96eb0c8c3ff4c29219cbb721f"
+    },
+    {
+      "original_command_receipt": {
+        "command": [
+          "node",
+          "--test",
+          "scripts/current-attendance-choice-browser4-qualification/test_oracles.mjs"
+        ],
+        "cwd": "/workspace/scratch/ef468a447ac6/erp-s05-import-argv-successor",
+        "observed_exit_code": 0,
+        "expected_exit_code": 0,
+        "expected_refusal": null,
+        "status": "PASS",
+        "elapsed_seconds": 0.276,
+        "source_sha256": "01b5d09579f35ef5324e03ec5e14c1efd85b8790908456c2e61705c1abceb90a",
+        "raw_log": "/workspace/scratch/ef468a447ac6/evidence-private/s03-browser4-preparation/node-final-1793314663415297357.log",
+        "raw_bytes": 739,
+        "raw_sha256": "0c290df24967acc757a1fe906291fd1ae6b50c9eb13f3ee0ca870d45b3205045",
+        "actual_Native_Auth_browser": 0
+      },
+      "retained": "evidence/retained-local/node-final-1793314663415297357.log.gz",
+      "gzip_bytes": 470,
+      "gzip_sha256": "2043055b153518b436edbeb7d5ac72dea1905cd53cb1835c725ac006f6f0dd96"
+    },
+    {
+      "original_command_receipt": {
+        "command": [
+          "node",
+          "--test",
+          "scripts/current-attendance-choice-browser4-qualification/test_oracles.mjs"
+        ],
+        "cwd": "/workspace/scratch/ef468a447ac6/erp-s05-import-argv-successor",
+        "observed_exit_code": 0,
+        "expected_exit_code": 0,
+        "status": "PASS",
+        "elapsed_seconds": 0.284,
+        "source_sha256": "77bf903d248bfb33ea949e99e84eb18232fb8f587e308bf1e68dcb4ae0913961",
+        "raw_log": "/workspace/scratch/ef468a447ac6/evidence-private/s03-browser4-preparation/node-freeze-1793315208778799156.log",
+        "raw_bytes": 849,
+        "raw_sha256": "5f326145faaa1aa9eec60ed3a4e8ed4cb5158d5c7012a0fdfc7180163dd9d0a6",
+        "actual_Native_Auth_browser": 0
+      },
+      "retained": "evidence/retained-local/node-freeze-1793315208778799156.log.gz",
+      "gzip_bytes": 541,
+      "gzip_sha256": "ac8facf299b6e4ef7485ebe80a1525f550bafe58bf919d9215a2e31cf11a17e6"
+    },
+    {
+      "original_command_receipt": {
+        "command": [
+          "python",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "scripts/current-attendance-choice-browser4-qualification",
+          "-p",
+          "test_*.py"
+        ],
+        "cwd": "/workspace/scratch/ef468a447ac6/erp-s05-import-argv-successor",
+        "exit_code": 0,
+        "elapsed_seconds": 1.025,
+        "source_sha256": "a12159438762c0a2545037aef8eb2d8b296771a9547597385a8a257d18ada17d",
+        "raw_log": "/workspace/scratch/ef468a447ac6/evidence-private/s03-browser4-preparation/python-controls-1793312931663355242.log",
+        "raw_bytes": 119,
+        "raw_sha256": "3e1bd8e87e3baa1a62257ecb7cd75a1b7d91fcc34a00acda1e091e906e2eafb9",
+        "actual_Native_Auth_browser": 0
+      },
+      "retained": "evidence/retained-local/python-controls-1793312931663355242.log.gz",
+      "gzip_bytes": 55,
+      "gzip_sha256": "eccfab1ef30f87768a9e8fa5f37644fa6e0657e0bdb7dda691c2b0f5e62fe08d"
+    },
+    {
+      "original_command_receipt": {
+        "command": [
+          "python",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "scripts/current-attendance-choice-browser4-qualification",
+          "-p",
+          "test_*.py"
+        ],
+        "cwd": "/workspace/scratch/ef468a447ac6/erp-s05-import-argv-successor",
+        "observed_exit_code": 1,
+        "expected_exit_code": 0,
+        "expected_refusal": null,
+        "status": "FAIL",
+        "elapsed_seconds": 1.636,
+        "source_sha256": "4a792609fe602f4375a87310bd6dc30c507837d958cddb2e6ee83ede7fb69a26",
+        "raw_log": "/workspace/scratch/ef468a447ac6/evidence-private/s03-browser4-preparation/python-controls-1793313362826205766.log",
+        "raw_bytes": 1052,
+        "raw_sha256": "0d68f1ad141a10230b6f0d7c8755141a8674d9072bd34d7d35c515ab666d0f71",
+        "actual_Native_Auth_browser": 0
+      },
+      "retained": "evidence/retained-local/python-controls-1793313362826205766.log.gz",
+      "gzip_bytes": 413,
+      "gzip_sha256": "08a6bfa195ac4ca963b724f70888e9321fa6b691fdb2bb80717f5ef0ded51903"
+    },
+    {
+      "original_command_receipt": {
+        "command": [
+          "python",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "scripts/current-attendance-choice-browser4-qualification",
+          "-p",
+          "test_*.py"
+        ],
+        "cwd": "/workspace/scratch/ef468a447ac6/erp-s05-import-argv-successor",
+        "observed_exit_code": 0,
+        "expected_exit_code": 0,
+        "expected_refusal": null,
+        "status": "PASS",
+        "elapsed_seconds": 6.056,
+        "source_sha256": "a563660ccd4edb9089d02374a3069ad52b7a7d4640551c841fe9edc4a3394c88",
+        "raw_log": "/workspace/scratch/ef468a447ac6/evidence-private/s03-browser4-preparation/python-controls-1793314237795705870.log",
+        "raw_bytes": 127,
+        "raw_sha256": "37b9dae2a7c0e4e635bdcab93fcc5f0e0ec74d72be312a8b79fc5a53aee34e30",
+        "actual_Native_Auth_browser": 0
+      },
+      "retained": "evidence/retained-local/python-controls-1793314237795705870.log.gz",
+      "gzip_bytes": 55,
+      "gzip_sha256": "26aa05482fa29228b4875a3e6db12522f16a67b1d66d15c3886aab74f5662076"
+    },
+    {
+      "original_command_receipt": {
+        "command": [
+          "python",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "scripts/current-attendance-choice-browser4-qualification",
+          "-p",
+          "test_*.py"
+        ],
+        "cwd": "/workspace/scratch/ef468a447ac6/erp-s05-import-argv-successor",
+        "observed_exit_code": 0,
+        "expected_exit_code": 0,
+        "expected_refusal": null,
+        "status": "PASS",
+        "elapsed_seconds": 8.023,
+        "source_sha256": "01b5d09579f35ef5324e03ec5e14c1efd85b8790908456c2e61705c1abceb90a",
+        "raw_log": "/workspace/scratch/ef468a447ac6/evidence-private/s03-browser4-preparation/python-final-1793314663397845749.log",
+        "raw_bytes": 128,
+        "raw_sha256": "4e27ade2d2ab5de19628af429baa9dbf7ac0cde35f013bae63f17e1759c87ca9",
+        "actual_Native_Auth_browser": 0
+      },
+      "retained": "evidence/retained-local/python-final-1793314663397845749.log.gz",
+      "gzip_bytes": 55,
+      "gzip_sha256": "91a820b5910de07f7da46970769058dc7346994c7384b67affcb4f27d29e3fbc"
+    },
+    {
+      "original_command_receipt": {
+        "command": [
+          "python",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "scripts/current-attendance-choice-browser4-qualification",
+          "-p",
+          "test_*.py"
+        ],
+        "cwd": "/workspace/scratch/ef468a447ac6/erp-s05-import-argv-successor",
+        "observed_exit_code": 0,
+        "expected_exit_code": 0,
+        "status": "PASS",
+        "elapsed_seconds": 9.428,
+        "source_sha256": "77bf903d248bfb33ea949e99e84eb18232fb8f587e308bf1e68dcb4ae0913961",
+        "raw_log": "/workspace/scratch/ef468a447ac6/evidence-private/s03-browser4-preparation/python-freeze-1793315199349335677.log",
+        "raw_bytes": 129,
+        "raw_sha256": "bcee870915dc7a72178f46465afe15b11d4251dd860d463fdbfc641b04ad9dd3",
+        "actual_Native_Auth_browser": 0
+      },
+      "retained": "evidence/retained-local/python-freeze-1793315199349335677.log.gz",
+      "gzip_bytes": 55,
+      "gzip_sha256": "5d7a32cb4fed15f0505762fe4b98f0e2ca06e9c61a3e94cf39f6a0bb18a64637"
+    },
+    {
+      "original_command_receipt": {
+        "command": [
+          "python",
+          "-B",
+          "scripts/current-attendance-choice-browser4-qualification/probe.py",
+          "--check"
+        ],
+        "cwd": "/workspace/scratch/ef468a447ac6/erp-s05-import-argv-successor",
+        "observed_exit_code": 0,
+        "expected_exit_code": 0,
+        "expected_refusal": "SOURCE_PASS",
+        "status": "PASS",
+        "elapsed_seconds": 6.75,
+        "source_sha256": "01b5d09579f35ef5324e03ec5e14c1efd85b8790908456c2e61705c1abceb90a",
+        "raw_log": "/workspace/scratch/ef468a447ac6/evidence-private/s03-browser4-preparation/source-final-1793314663625019517.log",
+        "raw_bytes": 114,
+        "raw_sha256": "d825f32f7473144707cdd25281169f0befaec598661681a5ddd25bd336c5ba2d",
+        "actual_Native_Auth_browser": 0
+      },
+      "retained": "evidence/retained-local/source-final-1793314663625019517.log.gz",
+      "gzip_bytes": 122,
+      "gzip_sha256": "ea1d9b94e1bb961c71f9de2f8821c83de09a1d9495395eb7e1e5b5d67400c927"
+    },
+    {
+      "original_command_receipt": {
+        "command": [
+          "node",
+          "scripts/check-source-ownership.mjs"
+        ],
+        "cwd": "/workspace/scratch/ef468a447ac6/erp-s05-import-argv-successor",
+        "observed_exit_code": 0,
+        "expected_exit_code": 0,
+        "status": "PASS",
+        "source_sha256": "77bf903d248bfb33ea949e99e84eb18232fb8f587e308bf1e68dcb4ae0913961",
+        "raw_log": "/workspace/scratch/ef468a447ac6/evidence-private/s03-browser4-preparation/source-ownership-1793315263746893353.log",
+        "raw_bytes": 104,
+        "raw_sha256": "970d68b72f59cdb9f4c8f1c3ffb31fddb30e7af352cc56809d8bebe402459f5d",
+        "actual_Native_Auth_browser": 0
+      },
+      "retained": "evidence/retained-local/source-ownership-1793315263746893353.log.gz",
+      "gzip_bytes": 114,
+      "gzip_sha256": "91633aa5f1fdbdd26d555226df4ae395fca8d7e6aa075808e3c039eb28d89d6b"
+    },
+    {
+      "original_command_receipt": {
+        "command": [
+          "python",
+          "-B",
+          "-c",
+          "from pathlib import Path; import ast,subprocess; p=Path('scripts/current-attendance-choice-browser4-qualification'); [ast.parse(f.read_text(),filename=str(f)) for f in p.glob('*.py')]; [subprocess.run(['node','--check',str(f)],check=True) for f in p.glob('*.mjs')]; print('Own Python AST and Node syntax PASS; no imports/DB/browser')"
+        ],
+        "cwd": "/workspace/scratch/ef468a447ac6/erp-s05-import-argv-successor",
+        "observed_exit_code": 0,
+        "expected_exit_code": 0,
+        "expected_refusal": null,
+        "status": "PASS",
+        "elapsed_seconds": 0.905,
+        "source_sha256": "4a792609fe602f4375a87310bd6dc30c507837d958cddb2e6ee83ede7fb69a26",
+        "raw_log": "/workspace/scratch/ef468a447ac6/evidence-private/s03-browser4-preparation/syntax-1793313362607198022.log",
+        "raw_bytes": 59,
+        "raw_sha256": "b2e9e350389ccd8a1e65790057bb1092f73abec349afffc4451fb52bd6205305",
+        "actual_Native_Auth_browser": 0
+      },
+      "retained": "evidence/retained-local/syntax-1793313362607198022.log.gz",
+      "gzip_bytes": 79,
+      "gzip_sha256": "de927ae3de139d364852bcf923b3e0eb49bd71c8f2b5d4d045f829677002b9fd"
+    },
+    {
+      "original_command_receipt": {
+        "command": [
+          "python",
+          "-B",
+          "-c",
+          "from pathlib import Path; import ast,subprocess; p=Path('scripts/current-attendance-choice-browser4-qualification'); [ast.parse(f.read_text(),filename=str(f)) for f in p.glob('*.py')]; [subprocess.run(['node','--check',str(f)],check=True) for f in p.glob('*.mjs')]; print('Own Python AST and Node syntax PASS; no imports/DB/browser')"
+        ],
+        "cwd": "/workspace/scratch/ef468a447ac6/erp-s05-import-argv-successor",
+        "observed_exit_code": 0,
+        "expected_exit_code": 0,
+        "expected_refusal": null,
+        "status": "PASS",
+        "elapsed_seconds": 0.374,
+        "source_sha256": "a563660ccd4edb9089d02374a3069ad52b7a7d4640551c841fe9edc4a3394c88",
+        "raw_log": "/workspace/scratch/ef468a447ac6/evidence-private/s03-browser4-preparation/syntax-1793314238034628057.log",
+        "raw_bytes": 59,
+        "raw_sha256": "b2e9e350389ccd8a1e65790057bb1092f73abec349afffc4451fb52bd6205305",
+        "actual_Native_Auth_browser": 0
+      },
+      "retained": "evidence/retained-local/syntax-1793314238034628057.log.gz",
+      "gzip_bytes": 79,
+      "gzip_sha256": "de927ae3de139d364852bcf923b3e0eb49bd71c8f2b5d4d045f829677002b9fd"
+    },
+    {
+      "original_command_receipt": {
+        "command": [
+          "node",
+          "--check",
+          "scripts/current-attendance-choice-browser4-qualification/cases.mjs"
+        ],
+        "cwd": "/workspace/scratch/ef468a447ac6/erp-s05-import-argv-successor",
+        "observed_exit_code": 0,
+        "expected_exit_code": 0,
+        "status": "PASS",
+        "elapsed_seconds": 0.121,
+        "source_sha256": "77bf903d248bfb33ea949e99e84eb18232fb8f587e308bf1e68dcb4ae0913961",
+        "raw_log": "/workspace/scratch/ef468a447ac6/evidence-private/s03-browser4-preparation/syntax-freeze-1793315209063806528.log",
+        "raw_bytes": 0,
+        "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "actual_Native_Auth_browser": 0
+      },
+      "retained": "evidence/retained-local/syntax-freeze-1793315209063806528.log.gz",
+      "gzip_bytes": 20,
+      "gzip_sha256": "f61f27bd17de546264aa58f40f3aafaac7021e0ef69c17f6b1b4cd7664a037ec"
+    },
+    {
+      "original_command_receipt": {
+        "command": [
+          "node_modules/.bin/tsc",
+          "--noEmit",
+          "--project",
+          "tsconfig.app.json"
+        ],
+        "cwd": "/workspace/scratch/ef468a447ac6/erp-s05-import-argv-successor",
+        "observed_exit_code": 0,
+        "expected_exit_code": 0,
+        "expected_refusal": null,
+        "status": "PASS",
+        "elapsed_seconds": 7.712,
+        "source_sha256": "4a792609fe602f4375a87310bd6dc30c507837d958cddb2e6ee83ede7fb69a26",
+        "raw_log": "/workspace/scratch/ef468a447ac6/evidence-private/s03-browser4-preparation/typescript-1793313362379391776.log",
+        "raw_bytes": 0,
+        "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "actual_Native_Auth_browser": 0
+      },
+      "retained": "evidence/retained-local/typescript-1793313362379391776.log.gz",
+      "gzip_bytes": 20,
+      "gzip_sha256": "f61f27bd17de546264aa58f40f3aafaac7021e0ef69c17f6b1b4cd7664a037ec"
+    },
+    {
+      "original_command_receipt": {
+        "classification": "LOCAL_OWN_OUTPUT_ADAPTER_COUNTER_BEFORE_FIX",
+        "command": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "scripts/current-attendance-choice-browser4-qualification",
+          "-p",
+          "test_outputs.py",
+          "-k",
+          "extra_module_tag",
+          "-v"
+        ],
+        "cwd": "/workspace/scratch/ef468a447ac6/erp-s05-import-argv-successor",
+        "source_sha256": "a1fc86fa99394448ac2838da33208aa8532555215b1a280803cc83908f443390",
+        "raw_log": "/workspace/scratch/ef468a447ac6/evidence-private/s03-browser4-preparation/closed-index-first-negative-1793318125067212710.log",
+        "actual_Native_Auth_browser": 0,
+        "observed_exit_code": 1,
+        "raw_bytes": 1027,
+        "raw_sha256": "a29d23da956083486b2daaf0001bcd4cb6c090c6399390c0ad63cafd86412452",
+        "status": "EXPECTED_OWN_ADAPTER_FIRST_FAILURE"
+      },
+      "retained": "evidence/retained-local/closed-index-first-negative-1793318125067212710.log.gz",
+      "gzip_bytes": 373,
+      "gzip_sha256": "fd22dad732a71b7a7a3deb51644f6efa7febc9226f4d8f88ac52051b362b0809"
+    },
+    {
+      "original_command_receipt": {
+        "command": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-B",
+          "scripts/current-attendance-choice-browser4-qualification/fixture.py",
+          "admit"
+        ],
+        "cwd": "/workspace/scratch/ef468a447ac6/erp-s05-import-argv-successor",
+        "classification": "LOCAL_ONLY_NO_ERP_DB_AUTH_BROWSER",
+        "source_sha256": "c753db71e81f35d272e11ceb6fdd6c6c89700a1f5e608c865ebabed38e9808f1",
+        "raw_log": "/workspace/scratch/ef468a447ac6/evidence-private/s03-browser4-preparation/final-closed-before-import-1793318059745207820.log",
+        "expected_exit_code": 1,
+        "expected_refusal": "CLOSED_REQUIRES_EXACT_BACKEND14",
+        "status": "PASS",
+        "observed_exit_code": 1,
+        "raw_bytes": 963,
+        "raw_sha256": "2ad5c3ea68c5ed574673901274215e66d93a174c15ae5c1a82b511e24680cab5"
+      },
+      "retained": "evidence/retained-local/final-closed-before-import-1793318059745207820.log.gz",
+      "gzip_bytes": 406,
+      "gzip_sha256": "37584689728e7af263005c84af0b8fda0b387906cdd0dc2b84cb934fd986e1a4"
+    },
+    {
+      "original_command_receipt": {
+        "command": [
+          "node",
+          "--check",
+          "scripts/current-attendance-choice-browser4-qualification/cases.mjs"
+        ],
+        "cwd": "/workspace/scratch/ef468a447ac6/erp-s05-import-argv-successor",
+        "classification": "LOCAL_ONLY_NO_ERP_DB_AUTH_BROWSER",
+        "source_sha256": "c753db71e81f35d272e11ceb6fdd6c6c89700a1f5e608c865ebabed38e9808f1",
+        "raw_log": "/workspace/scratch/ef468a447ac6/evidence-private/s03-browser4-preparation/final-node-syntax-1793318059742662435.log",
+        "expected_exit_code": 0,
+        "expected_refusal": null,
+        "status": "PASS",
+        "observed_exit_code": 0,
+        "raw_bytes": 0,
+        "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "retained": "evidence/retained-local/final-node-syntax-1793318059742662435.log.gz",
+      "gzip_bytes": 20,
+      "gzip_sha256": "f61f27bd17de546264aa58f40f3aafaac7021e0ef69c17f6b1b4cd7664a037ec"
+    },
+    {
+      "original_command_receipt": {
+        "command": [
+          "node",
+          "--test",
+          "scripts/current-attendance-choice-browser4-qualification/test_oracles.mjs"
+        ],
+        "cwd": "/workspace/scratch/ef468a447ac6/erp-s05-import-argv-successor",
+        "classification": "LOCAL_ONLY_NO_ERP_DB_AUTH_BROWSER",
+        "source_sha256": "c753db71e81f35d272e11ceb6fdd6c6c89700a1f5e608c865ebabed38e9808f1",
+        "raw_log": "/workspace/scratch/ef468a447ac6/evidence-private/s03-browser4-preparation/final-node8-1793318059741878678.log",
+        "expected_exit_code": 0,
+        "expected_refusal": null,
+        "status": "PASS",
+        "observed_exit_code": 0,
+        "raw_bytes": 848,
+        "raw_sha256": "0f6c521111d7d8f0a441114289107c4ab1c484c355f6c04732dd5eda85d5003b"
+      },
+      "retained": "evidence/retained-local/final-node8-1793318059741878678.log.gz",
+      "gzip_bytes": 535,
+      "gzip_sha256": "15f0e7ed540f54334b191913d1d09651f76d6c1e306bd438d3767b0fd345e2c4"
+    },
+    {
+      "original_command_receipt": {
+        "command": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-B",
+          "scripts/current-attendance-choice-browser4-qualification/probe.py",
+          "--check"
+        ],
+        "cwd": "/workspace/scratch/ef468a447ac6/erp-s05-import-argv-successor",
+        "classification": "LOCAL_ONLY_NO_ERP_DB_AUTH_BROWSER",
+        "source_sha256": "c753db71e81f35d272e11ceb6fdd6c6c89700a1f5e608c865ebabed38e9808f1",
+        "raw_log": "/workspace/scratch/ef468a447ac6/evidence-private/s03-browser4-preparation/final-source-1793318059744574001.log",
+        "expected_exit_code": 0,
+        "expected_refusal": null,
+        "status": "PASS",
+        "observed_exit_code": 0,
+        "raw_bytes": 114,
+        "raw_sha256": "358498f4c12ffdfd1b4c39d6831aa2a0c512a7acd74999396b1597c1c669e953"
+      },
+      "retained": "evidence/retained-local/final-source-1793318059744574001.log.gz",
+      "gzip_bytes": 122,
+      "gzip_sha256": "439294a1118870181a755d4b98c7dfbd33b5ac19559898b55639e2c75e858f3b"
+    },
+    {
+      "original_command_receipt": {
+        "command": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "/workspace/scratch/ef468a447ac6/erp-s05-import-argv-successor/scripts/current-attendance-choice-browser4-qualification",
+          "-p",
+          "test*.py",
+          "-v"
+        ],
+        "cwd": "/workspace/scratch/ef468a447ac6/erp-s05-import-argv-successor",
+        "classification": "LOCAL_SOURCE_CONTROLS_ONLY_ERP_DB_AUTH_BROWSER_0",
+        "source_sha256": "c753db71e81f35d272e11ceb6fdd6c6c89700a1f5e608c865ebabed38e9808f1",
+        "started_ns": 1793318036599338910,
+        "raw_log": "/workspace/scratch/ef468a447ac6/evidence-private/s03-browser4-preparation/final38-source-controls-1793318036598502522.log",
+        "runtime": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+        "status": "PASS",
+        "returncode": 0,
+        "finished_ns": 1793318080755297178,
+        "bytes": 6956,
+        "sha256": "d5ac34261b322b718395f56a8688ee490a8c9afef2616807c02d22feb365bb3d"
+      },
+      "retained": "evidence/retained-local/final38-source-controls-1793318036598502522.log.gz",
+      "gzip_bytes": 1471,
+      "gzip_sha256": "708593f65222e7527d7f5b774187f0f51900a272146b243d5f72ace81d3ae368"
+    },
+    {
+      "original_command_receipt": {
+        "command": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "/workspace/scratch/ef468a447ac6/erp-s05-import-argv-successor/scripts/current-attendance-choice-browser4-qualification",
+          "-p",
+          "test*.py",
+          "-v"
+        ],
+        "cwd": "/workspace/scratch/ef468a447ac6/erp-s05-import-argv-successor",
+        "classification": "LOCAL_SOURCE_CONTROLS_ONLY_ERP_DB_AUTH_BROWSER_0",
+        "source_sha256": "ccad5cc3fc844c20668b17d6af396cffcea122095336ac698f8db32d224ed2cc",
+        "started_ns": 1793318171601832729,
+        "raw_log": "/workspace/scratch/ef468a447ac6/evidence-private/s03-browser4-preparation/final39-source-controls-1793318171600564214.log",
+        "runtime": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+        "status": "PASS",
+        "returncode": 0,
+        "finished_ns": 1793318218053989349,
+        "bytes": 7142,
+        "sha256": "85a4e9b481bbef7ffb5efc62d71b6567a70f568dd8abd0b1a53b46c4b4e929aa"
+      },
+      "retained": "evidence/retained-local/final39-source-controls-1793318171600564214.log.gz",
+      "gzip_bytes": 1502,
+      "gzip_sha256": "029543dc66df677637cec6e01f3d4a879405da508d5443af5b4e7f0b53c4da46"
+    },
+    {
+      "original_command_receipt": {
+        "command": [
+          "npm",
+          "run",
+          "build:cp6-disposable"
+        ],
+        "cwd": "/workspace/scratch/ef468a447ac6/erp-s05-import-argv-successor",
+        "observed_exit_code": 0,
+        "status": "PASS",
+        "elapsed_seconds": 9.481,
+        "raw_log": "/workspace/scratch/ef468a447ac6/evidence-private/s03-browser4-preparation/normal-App-build-1793316671072903152.log",
+        "raw_bytes": 14340,
+        "raw_sha256": "593f97ade3f361b2eca445a5e942c31c09d30579f244af45c27cdff9c449755f",
+        "classification": "ACTUAL_COMPILER_REPLAY_ONLY_UNSIGNED_BUILD_ENV_FIXTURE_NOT_AUTH_OR_BROWSER",
+        "API_Auth_DB_requests": 0,
+        "actual_Native_Auth_browser": 0,
+        "temporary_dependency_link_removed": true
+      },
+      "retained": "evidence/retained-local/normal-App-build-1793316671072903152.log.gz",
+      "gzip_bytes": 3854,
+      "gzip_sha256": "d956621fd746e7ab05ce9978636bd140ac32fca619189857b2576f75b2a0d1ed"
+    },
+    {
+      "original_command_receipt": {
+        "command": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "/workspace/scratch/ef468a447ac6/erp-s05-import-argv-successor/scripts/current-attendance-choice-browser4-qualification",
+          "-p",
+          "test*.py",
+          "-v"
+        ],
+        "cwd": "/workspace/scratch/ef468a447ac6/erp-s05-import-argv-successor",
+        "classification": "LOCAL_SOURCE_CONTROLS_ONLY_ERP_DB_AUTH_BROWSER_0",
+        "started_ns": 1793317771234624977,
+        "raw_log": "/workspace/scratch/ef468a447ac6/evidence-private/s03-browser4-preparation/whole-output-controls-1793317771234589207.log",
+        "runtime": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+        "status": "PASS",
+        "returncode": 0,
+        "finished_ns": 1793317812082165629,
+        "bytes": 6576,
+        "sha256": "2a4eba077bc141e6962b58a5c0ad491a7b0edcac11b4c8475e806711a18f72c6"
+      },
+      "retained": "evidence/retained-local/whole-output-controls-1793317771234589207.log.gz",
+      "gzip_bytes": 1419,
+      "gzip_sha256": "3b6e47517e6877448e088ed12e5e531bd1ca39bfd5151ac3d2ccd15640e2c186"
+    }
+  ],
+  "source_oracle_relaxed": false,
+  "logs_overwritten": false,
+  "actual_Native_Auth_browser": 0,
+  "production_go": false,
+  "original_command_count": 31
+}

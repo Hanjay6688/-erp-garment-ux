@@ -1,0 +1,17 @@
+{
+  "contract_version": "cp7.s03-browser4-preparation.v1",
+  "case_ids": [
+    "S03_BROWSER_OWNER_EXPENSE_CORRECT_REVERSE_DESKTOP",
+    "S03_BROWSER_OWNER_CARRY_ALLOCATE_CANCEL_MOBILE390",
+    "S03_BROWSER_ACTUAL_STALE_AND_LOST_REPLY_SAME_UUID",
+    "S03_BROWSER_CURRENT_AUTH_RIGHTS_AND_DELAYED_CONTEXT"
+  ],
+  "backend_binding": null,
+  "accepted_originals": null,
+  "actual_execution_authorized": false,
+  "normal_App_only": true,
+  "Enteng_or_hosted": false,
+  "fresh_Native_cases": 0,
+  "fresh_Auth_HTTP_cases": 0,
+  "fresh_two_session_races": 0
+}

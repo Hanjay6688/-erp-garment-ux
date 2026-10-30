@@ -1,0 +1,4 @@
+  File "<stdin>", line 11
+    sys.exit(0 if okay else1)
+             ^^^^^^^^^
+SyntaxError: expected 'else' after 'if' expression

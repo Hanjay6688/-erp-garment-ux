@@ -1,0 +1,9 @@
+{
+  "classification": "LOCAL_EVIDENCE_ARCHIVAL_COMMAND_ONLY",
+  "observed_exit_code": 1,
+  "observed_error": "KeyError: 'files'",
+  "cause": "Archival command initially read files instead of the existing entries key in RAW_RETENTION.json.",
+  "writes_before_failure": false,
+  "fix": "Preserve the existing entries schema and append verified raw logs.",
+  "actual_Native_Auth_browser": 0
+}

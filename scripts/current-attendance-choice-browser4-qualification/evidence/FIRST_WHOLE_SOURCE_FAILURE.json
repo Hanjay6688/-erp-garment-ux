@@ -1,0 +1,10 @@
+{
+  "classification": "LOCAL_STRICT_SOURCE_FAILURE_RETAINED_NOT_PRODUCT_FAILURE",
+  "source_sha256": "4a792609fe602f4375a87310bd6dc30c507837d958cddb2e6ee83ede7fb69a26",
+  "observed": "S03_BROWSER4_UNDECLARED_CURRENT_WHOLE_SOURCE_DELTA",
+  "cause_proved": "My temporary node_modules symlink appeared in git ls-files --others because the inherited ignore targets a directory. The symlink pointed to the existing root dependency tree.",
+  "repair": "Remove only that exact temporary symlink after successful typecheck. No source exception or ignore rule added.",
+  "failed_python_raw_log": "python-controls-1793313362826205766.log",
+  "failed_closed_raw_log": "closed-before-import-1793313362341078884.log",
+  "actual_Native_Auth_browser": 0
+}

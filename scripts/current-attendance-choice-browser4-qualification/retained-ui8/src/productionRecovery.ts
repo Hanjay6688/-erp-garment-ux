@@ -1,0 +1,211 @@
+import type { Json } from './types/database.preconnect'
+
+export const productionDomains = ['REMINDER', 'CUTOVER', 'MASTER_DATA', 'WORK_RATE', 'CUTTING_AUTO_PO', 'CUTTING_CORRECTION', 'CUTTING_RETURN', 'CUTTING_RETURN_REVERSAL', 'PICKUP_REVERSAL', 'MANDOR_CORRECTION', 'SEWING_COMPLETION', 'PO_FINISH', 'PLAN_APPLY', 'PLAN_APPLY_STAGED', 'PAYROLL_INSTALLMENT', 'PAYROLL_KASBON', 'FINANCE_MISC', 'HPP_RECOST', 'HPP_POOL', 'ATTENDANCE_PERIOD_CHOICE', 'FINANCE_PERIOD', 'SALES', 'ROSTER', 'PAYROLL', 'FG_NOTA', 'FG_BOOK', 'FG_ADJUSTMENT', 'MATERIAL_COUNT', 'SUPPLIER_RETURN', 'PURCHASE_INVOICE', 'SUPPLIER_PAYMENT', 'SUPPLIER_TRANSFER', 'MATERIALS', 'PROCUREMENT', 'SUPPLIER_CREDIT', 'SKU', 'BS', 'LAUNDRY_QC', 'CUTTING', 'PICKUP', 'WIP', 'INITIAL_IMPORT', 'POCKET_FABRIC', 'ACCESSORY_ISSUE', 'ACCESSORY_SERVICE', 'LAUNDRY_BD', 'PRODUCT_CONVERSION', 'RECEIPT_CORRECTION', 'MATERIAL_NAME'] as const
+export type ProductionDomain = typeof productionDomains[number]
+export type ProductionEnvelope = {
+  action: string; payload: Json; expectedVersion: number | null
+  fingerprint: string; id: string; createdAt: string
+}
+export const domainLabels: Record<ProductionDomain, string> = {
+  REMINDER: 'Pengingat di Reminder',
+  CUTOVER: 'Tanggal mulai pakai aplikasi',
+  MASTER_DATA: 'Data master',
+  WORK_RATE: 'Tarif upah mandor dan komponen kerja model',
+  CUTTING_AUTO_PO: 'Buat Potongan dengan PO otomatis',
+  CUTTING_CORRECTION: 'Koreksi potongan di Bagi Potongan',
+  CUTTING_RETURN: 'Kain kembali ke gudang di Bagi Potongan',
+  CUTTING_RETURN_REVERSAL: 'Batal/betulkan kain kembali di Bagi Potongan',
+  PICKUP_REVERSAL: 'Batal Bagi Potongan',
+  MANDOR_CORRECTION: 'Koreksi mandor sesudah jahit',
+  SEWING_COMPLETION: 'Selesai jahit di WIP & Sewing',
+  PO_FINISH: 'Selesai atau buka ulang PO di HPP & Rekalkulasi',
+  PLAN_APPLY: 'Rencana Potongan',
+  PLAN_APPLY_STAGED: 'Rencana Potongan dari analisis bertahap',
+  PAYROLL_INSTALLMENT: 'Pembayaran gaji di Payroll & Kasbon',
+  PAYROLL_KASBON: 'Kasbon tunai di Payroll & Kasbon',
+  FINANCE_MISC: 'Pendapatan & Biaya Lain',
+  HPP_RECOST: 'Hitung ulang HPP',
+  HPP_POOL: 'Pool HPP absensi di HPP & Rekalkulasi',
+  ATTENDANCE_PERIOD_CHOICE: 'Pilihan biaya absensi per periode',
+  FINANCE_PERIOD: 'Tutup buku',
+  SALES: 'Penjualan & Invoice',
+  ROSTER: 'Absensi, pekerja & tarif',
+  PAYROLL: 'Payroll & Kasbon',
+  FG_NOTA: 'Nota FG mandor',
+  FG_BOOK: 'Buku mutasi barang jadi',
+  FG_ADJUSTMENT: 'Penyesuaian barang jadi',
+  MATERIAL_COUNT: 'Penyesuaian bahan',
+  SUPPLIER_RETURN: 'Retur supplier di Pembelian & Penerimaan',
+  PURCHASE_INVOICE: 'Invoice supplier di Pembelian & Penerimaan',
+  SUPPLIER_PAYMENT: 'Pembayaran supplier di Pembelian & Penerimaan',
+  SUPPLIER_TRANSFER: 'Transfer supplier ke beberapa penerimaan di Pembelian & Penerimaan',
+  MATERIALS: 'Bahan & Roll',
+  PROCUREMENT: 'Pembelian & Penerimaan',
+  RECEIPT_CORRECTION: 'Benerin penerimaan di Pembelian & Penerimaan',
+  MATERIAL_NAME: 'Benerin nama bahan di Bahan & Roll',
+  SUPPLIER_CREDIT: 'Kredit retur supplier',
+  SKU: 'Produk & SKU',
+  PRODUCT_CONVERSION: 'Ganti Merek / SKU', ACCESSORY_ISSUE: 'Nota Ambil Aksesori', ACCESSORY_SERVICE: 'Pemakaian & Pengembalian Aksesori', LAUNDRY_BD: 'Harga & Tagihan Laundry',
+  POCKET_FABRIC: 'Kain kantong', BS: 'Barang BS & Rework', LAUNDRY_QC: 'Laundry / QC', CUTTING: 'Buat Potongan',
+  PICKUP: 'Bagi Potongan', WIP: 'Status WIP', INITIAL_IMPORT: 'Impor data awal',
+}
+const actions: Record<ProductionDomain, readonly string[]> = {
+  REMINDER: ['SAVE', 'DONE', 'UNDONE', 'CANCEL'],
+  CUTOVER: ['SET'],
+  MASTER_DATA: ['CREATE', 'UPDATE', 'DEACTIVATE', 'REACTIVATE', 'SET_BENCHMARK', 'SET_MANDOR_PRICE'],
+  WORK_RATE: ['SET_RATE', 'STOP_RATE', 'SAVE_BOM', 'CREATE_COMPONENT'],
+  CUTTING_AUTO_PO: ['SAVE_DRAFT', 'DELETE', 'POST'],
+  CUTTING_CORRECTION: ['REOPEN_POSTED'],
+  CUTTING_RETURN: ['RETURN_FABRIC'],
+  CUTTING_RETURN_REVERSAL: ['REVERSE_RETURN'],
+  PICKUP_REVERSAL: ['REVERSE_PICKUP'],
+  MANDOR_CORRECTION: ['CORRECT_MANDOR'],
+  SEWING_COMPLETION: ['RECORD_SEWING', 'CANCEL_SEWING', 'USE_NEW_RATES'],
+  PO_FINISH: ['FINISH_PO', 'REOPEN_PO'],
+  PLAN_APPLY: ['SAVE_DRAFT', 'APPLY'],
+  PLAN_APPLY_STAGED: ['SAVE_DRAFT', 'APPLY'],
+  PAYROLL_INSTALLMENT: ['PAY', 'REVERSE_PAYMENT', 'REVERSE_PAYROLL'],
+  PAYROLL_KASBON: ['GIVE', 'ALLOCATE', 'CANCEL'],
+  FINANCE_MISC: ['SAVE', 'POST', 'REVERSE', 'CORRECT'],
+  HPP_RECOST: ['PROCESS_ELIGIBLE'],
+  HPP_POOL: ['CREATE', 'ACTIVATE', 'CANCEL'],
+  ATTENDANCE_PERIOD_CHOICE: ['CHOOSE', 'CORRECT', 'REVERSE', 'ALLOCATE', 'CANCEL_ALLOCATION'],
+  FINANCE_PERIOD: ['CLOSE', 'REOPEN'],
+  SALES: ['CREATE', 'EDIT', 'POST', 'CANCEL', 'PAYMENT', 'PAYMENT_REVERSE', 'PAYMENT_CORRECT', 'RETURN', 'RETURN_SETTLEMENT', 'RETURN_REVERSE', 'RETURN_CORRECT', 'SALE_REVERSE', 'SALE_CHAIN_REVERSE', 'CORRECT', 'CREDIT_APPLY', 'CREDIT_REFUND', 'CREDIT_UNDO'],
+  ROSTER: ['CREATE_WORKER', 'UPDATE_WORKER', 'SET_RATE', 'SAVE_ATTENDANCE', 'POST_ATTENDANCE', 'REVERSE_ATTENDANCE'],
+  PAYROLL: ['PREPARE', 'APPROVE', 'PAY', 'CANCEL', 'REVERSE'],
+  FG_NOTA: ['SAVE', 'POST', 'VOID'],
+  FG_BOOK: ['MOVE', 'RESET'],
+  FG_ADJUSTMENT: ['SAVE', 'POST', 'DELETE', 'REVERSE'],
+  MATERIAL_COUNT: ['SAVE', 'POST', 'DELETE', 'REVERSE'],
+  SUPPLIER_RETURN: ['SAVE', 'POST', 'REVERSE', 'SAVE_DOCUMENT', 'POST_DOCUMENT', 'REVERSE_DOCUMENT'],
+  PURCHASE_INVOICE: ['FINALIZE', 'REVERSE', 'SAVE_DOCUMENT', 'POST_DOCUMENT', 'DELETE_DOCUMENT', 'REVERSE_DOCUMENT'],
+  SUPPLIER_PAYMENT: ['REVERSE', 'CORRECT', 'CREATE'],
+  SUPPLIER_TRANSFER: ['CREATE', 'CORRECT', 'REVERSE'],
+  MATERIALS: ['SAVE_TRANSFER', 'POST_TRANSFER', 'REVERSE_TRANSFER'],
+  PROCUREMENT: ['SAVE_DRAFT', 'POST', 'REVERSE'],
+  RECEIPT_CORRECTION: ['CORRECT'],
+  MATERIAL_NAME: ['RENAME'],
+  SUPPLIER_CREDIT: ['ALLOCATE'],
+  SKU: ['SAVE_GROUPS', 'BIND_WAVE'],
+  PRODUCT_CONVERSION: ['POST', 'REVERSE', 'POST_USAGE', 'SAVE_REWORK', 'SAVE_REDYE', 'SET_REDYE_PRICE'],
+  ACCESSORY_ISSUE: ['SAVE_DRAFT','POST','DELETE','REVERSE'],
+  LAUNDRY_BD: ['SET_POLICY', 'SAVE_VENDOR_TERMS', 'SAVE_COMPONENT', 'SAVE_COMPONENT_RATE', 'SAVE_PACKAGE', 'SAVE_PACKAGE_RATE', 'SAVE_PROCESS_RATE',
+    'SAVE_SCOPED_RATE', 'POST_PRICED_DELIVERY', 'SET_CHARGE_PRICE', 'SAVE_INVOICE_DRAFT', 'CANCEL_INVOICE_DRAFT', 'POST_INVOICE', 'REVERSE_INVOICE', 'SET_REDYE_PRICE', 'SET_OPENING_ESTIMATE',
+    'APPLY_CLAIM_CREDIT', 'PAY_VENDOR_DOCUMENT', 'REVERSE_VENDOR_SETTLEMENT', 'SET_FAILED_WASH_PRICE', 'RECEIVE_VENDOR_REFUND', 'REVERSE_VENDOR_REFUND'],
+  ACCESSORY_SERVICE: ['SET_POLICY', 'REGISTER_ZONE', 'FILL_POST', 'RETURN_TO_WAREHOUSE', 'INTERNAL_USE', 'RECEIVE_RETURN', 'INSPECT', 'VALUE_CUSTODY',
+    'CREDIT_NOTE_RETURN', 'ALLOCATE_CARRY', 'DISPOSE_STOCK', 'CLOSE_CUSTODY', 'CUSTOMER_GARMENT_IN', 'CUSTOMER_GARMENT_OUT', 'COUNT_POST',
+    'RESOLVE_VARIANCE', 'ROUND_NOTE', 'REVERSE'],
+  BS: ['SAVE_REWORK_SKU', 'SAVE_REDYE_SKU', 'CREATE_MANUAL_BS', 'CLASSIFY_BS', 'SAVE_REWORK', 'COMPLETE_REWORK', 'DISPOSE_BS',
+    'HOLD_BS', 'RELEASE_HOLD', 'REVERSE_DISPOSITION', 'REVERSE_REWORK_COMPLETION',
+    'SAVE_CLAIM', 'RESOLVE_CLAIM', 'REVERSE_CLAIM_RESOLUTION'],
+  LAUNDRY_QC: ['POST_DELIVERY', 'POST_RECEIPT', 'POST_FAILED_WASH', 'REVERSE_DELIVERY',
+    'REVERSE_RECEIPT', 'POST_FINAL_SKU', 'REVERSE_FINAL_SKU'],
+  CUTTING: ['SAVE_DRAFT', 'POST', 'DELETE'], PICKUP: ['SAVE_DRAFT', 'POST', 'DELETE'], WIP: ['OPEN', 'RESOLVED'],
+  POCKET_FABRIC: ['REGISTER', 'POST', 'REVERSE', 'POST_PERIOD', 'CANCEL_PERIOD', 'CORRECT_OPENING_USAGE'],
+  INITIAL_IMPORT: ['CREATE', 'SAVE_FILE', 'VALIDATE', 'FINALIZE', 'ALLOCATE_CASH_ADVANCE', 'PREPAYMENT', 'WIP_OUTPUT',
+    'OPENING_SETTLEMENT', 'CUSTOMER_CREDIT', 'OPENING_RETURN', 'PURCHASE_COMMITMENT', 'PAYROLL_ENTITLEMENT'],
+}
+const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
+const changeEvent = 'erp:production-recovery-changed'
+
+export function productionKey(scope: string, domain: ProductionDomain) {
+  // Preserve the admitted CP5/CP6 envelopes across upgrades. Never migrate by
+  // deleting an old key: corrupted and inaccessible are not the empty state.
+  const prefix = domain === 'BS' ? 'erp.cp5' : domain === 'LAUNDRY_QC' ? 'erp.cp6' : `erp.production.${domain}`
+  return `${prefix}.pending-mutation.v1:${scope}`
+}
+function revisionKey(scope: string) { return `erp.production.revision.v1:${scope}` }
+export function productionLockName(scope: string) { return `erp.production.exclusive-writer.v1:${scope}` }
+export function productionLockManager() {
+  try { return typeof globalThis.navigator?.locks?.request === 'function' ? globalThis.navigator.locks : null }
+  catch { return null }
+}
+
+export function parseProductionEnvelope(raw: string, domain: ProductionDomain): ProductionEnvelope {
+  const value = JSON.parse(raw) as Partial<ProductionEnvelope> | null
+  if (!value || typeof value !== 'object' || Array.isArray(value)
+    || typeof value.action !== 'string' || !actions[domain].includes(value.action)
+    || !value.payload || typeof value.payload !== 'object' || Array.isArray(value.payload)
+    || !(value.expectedVersion === null || typeof value.expectedVersion === 'number'
+      && Number.isSafeInteger(value.expectedVersion) && value.expectedVersion >= 0)
+    || typeof value.id !== 'string' || !uuid.test(value.id)
+    || typeof value.createdAt !== 'string' || !Number.isFinite(Date.parse(value.createdAt))
+    || value.fingerprint !== JSON.stringify({ action: value.action, payload: value.payload, expectedVersion: value.expectedVersion })) {
+    throw new Error('Recovery envelope rusak; jangan hapus UUID atau payload lama.')
+  }
+  return value as ProductionEnvelope
+}
+
+export type ProductionRecoveryState = {
+  signature: string | null; corrupted: boolean
+  pending: Partial<Record<ProductionDomain, ProductionEnvelope>>
+}
+export function readProductionRecovery(scope: string): ProductionRecoveryState {
+  const pending: ProductionRecoveryState['pending'] = {}
+  try {
+    const storage = globalThis.localStorage
+    if (!storage) throw new Error('Storage tidak tersedia')
+    const revision = storage.getItem(revisionKey(scope))
+    if (revision !== null && !uuid.test(revision)) throw new Error('Revision rusak')
+    const parts = [revision]
+    for (const domain of productionDomains) {
+      const raw = storage.getItem(productionKey(scope, domain))
+      parts.push(raw)
+      if (raw !== null) pending[domain] = parseProductionEnvelope(raw, domain)
+    }
+    return { signature: JSON.stringify(parts), pending, corrupted: false }
+  } catch { return { signature: null, pending, corrupted: true } }
+}
+export function hasProductionPending(state: ProductionRecoveryState) { return Object.keys(state.pending).length > 0 }
+
+function publish(scope: string) {
+  globalThis.dispatchEvent(new CustomEvent(changeEvent, { detail: scope }))
+}
+export function persistProductionEnvelope(scope: string, domain: ProductionDomain, envelope: ProductionEnvelope) {
+  try {
+    const state = readProductionRecovery(scope)
+    if (state.corrupted || hasProductionPending(state)) return false
+    const raw = JSON.stringify(envelope)
+    parseProductionEnvelope(raw, domain)
+    globalThis.localStorage.setItem(productionKey(scope, domain), raw)
+    if (globalThis.localStorage.getItem(productionKey(scope, domain)) !== raw) return false
+    // A completed mutation must invalidate a tab that missed both storage
+    // events. Empty -> envelope -> empty alone would otherwise be an ABA race.
+    const revision = globalThis.crypto.randomUUID()
+    globalThis.localStorage.setItem(revisionKey(scope), revision)
+    return globalThis.localStorage.getItem(revisionKey(scope)) === revision
+  } catch { return false }
+  finally { publish(scope) }
+}
+export function clearProductionEnvelope(scope: string, domain: ProductionDomain, envelope: ProductionEnvelope) {
+  try {
+    const observed = readProductionRecovery(scope)
+    const current = observed.pending[domain]
+    if (observed.corrupted || current?.id !== envelope.id || current.fingerprint !== envelope.fingerprint) return false
+    globalThis.localStorage.removeItem(productionKey(scope, domain))
+    return globalThis.localStorage.getItem(productionKey(scope, domain)) === null
+  } catch { return false }
+  finally { publish(scope) }
+}
+export function observeProductionRecovery(scope: string, listener: () => void) {
+  const local = (event: Event) => { if ((event as CustomEvent).detail === scope) listener() }
+  const storage = (event: StorageEvent) => {
+    if (event.key === null || event.key === revisionKey(scope)
+      || productionDomains.some((domain) => event.key === productionKey(scope, domain))) listener()
+  }
+  globalThis.addEventListener(changeEvent, local)
+  globalThis.addEventListener('storage', storage)
+  return () => { globalThis.removeEventListener(changeEvent, local); globalThis.removeEventListener('storage', storage) }
+}
+
+export function isDefiniteInitialRejection(error: unknown) {
+  if (!error || typeof error !== 'object') return false
+  const { code, status } = error as { code?: unknown; status?: unknown }
+  if (typeof code !== 'string' || typeof status === 'number' && [408, 425, 429, 502, 503, 504].includes(status)) return false
+  // HTTP status alone is not a database rollback receipt. Use the known
+  // PostgreSQL statement-rejection families; connection/resource/shutdown and
+  // PostgREST/proxy failures retain the envelope conservatively.
+  // https://docs.postgrest.org/en/stable/references/errors.html
+  return /^(?:22[0-9A-Z]{3}|23[0-9A-Z]{3}|40[0-9A-Z]{3}|42501|P0001)$/.test(code)
+}

@@ -1,0 +1,18 @@
+{
+  "classification": "OBSERVED_LOCAL_COMMAND_STARTUP_FAILURE_NOT_TYPESCRIPT_TEST_EXECUTION",
+  "command": [
+    "node_modules/.bin/tsc",
+    "--noEmit",
+    "--project",
+    "tsconfig.app.json"
+  ],
+  "cwd": "/workspace/scratch/ef468a447ac6/erp-s05-import-argv-successor",
+  "observed_error": "FileNotFoundError: [Errno 2] No such file or directory: 'node_modules/.bin/tsc'",
+  "exit_code": 1,
+  "compiler_started": false,
+  "cause_observed": "This reused worktree had no node_modules entry; existing root /erp/node_modules remained present.",
+  "repair": "Create only an ignored symlink to existing root node_modules; no package or lock change, no dependency download.",
+  "raw_tool_output_retained_in_session": true,
+  "actual_Native_Auth_browser": 0,
+  "production_go": false
+}

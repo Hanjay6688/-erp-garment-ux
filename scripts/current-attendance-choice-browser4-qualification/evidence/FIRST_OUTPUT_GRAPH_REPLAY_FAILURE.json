@@ -1,0 +1,9 @@
+{
+  "classification": "LOCAL_GENERATED_OUTPUT_GRAPH_CONTROL_NOT_AUTH_OR_BROWSER",
+  "operation": "output_admission.build(Path.cwd(), namespace, actual145buildfiles)",
+  "exit_code": 1,
+  "observed_error": "S03_BROWSER4_GENERATED_UNREFERENCED_BUILD_LEAF:[cp6-ui-build/assets/fixture-BmfXW1xT.js]",
+  "source_cause": "Initial literal dependency reader accepted single/double quotes but omitted Vite noninterpolated template literals. workspace-CpuEi2tN.js actually imports ./fixture-BmfXW1xT.js in backticks.",
+  "fix": "Recognize closed hash-shaped asset references inside noninterpolated backtick literals as well. No allowed unknown output namespace or source mutation scope expanded.",
+  "actual_Native_Auth_browser_credit": 0
+}
