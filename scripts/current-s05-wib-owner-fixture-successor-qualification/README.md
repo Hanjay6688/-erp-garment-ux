@@ -31,8 +31,13 @@ money and timezone assertions remain unchanged.
 
 Within access scope, the real original sole-owner deactivation must first
 refuse with42501/LAST_ACTIVE_OWNER_PROTECTED and the same complete no-effect
-proof. The retained administrative `cp6_bc_probe.user(OWNER,grants=())` helper
-then creates a disclosed distinct owner with the existing active OWNER role.
+proof. The c933 successor reached9PASS/1INCOMPLETE: the retained administrative
+`cp6_bc_probe.user(OWNER,grants=())` helper tried to update the protected OWNER
+role even though it was already active. That actual42501 failure is retained;
+it is not a successful prerequisite. The private helper now creates a disclosed
+distinct user of the one existing active OWNER role without updating that role.
+The same no-op role update must first receive the actual Native
+PROTECTED_OWNER_ROLE_CANNOT_BE_CHANGED refusal and complete no-effect proof.
 No new role or grant is introduced. The original staff/service denial, current
 Admin permission revocation and actual original-owner inactivity assertions
 then run unchanged. No cleanup escape GUC or trigger bypass is enabled.
@@ -42,7 +47,8 @@ evidence, explicitly not actual52eed catalog capture. Both action and owner
 guard prosrc match committed BC/2.6.17 source bytes. The source-defined model
 uses those complete functions and typed captured columns; auth/prelude and
 other omissions are declared doubles. It proves no actual ERP/Auth/browser/
-race result. Fresh execution records the actual three current function DDLs
+race result. Fresh execution records the actual four current function DDLs,
+including the protected-role guard,
 after verifying the real qualified vendor parent. Local SQL model first run
 passed11 controls; the exact report and limitations remain in evidence.
 

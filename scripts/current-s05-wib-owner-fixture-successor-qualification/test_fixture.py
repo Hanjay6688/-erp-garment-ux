@@ -6,7 +6,9 @@ import ast
 import contextlib
 import importlib.util
 import json
+import sqlite3
 import unittest
+import uuid
 
 HERE=Path(__file__).resolve().parent
 ROOT=HERE.parents[1]
@@ -60,8 +62,45 @@ class Fixture(unittest.TestCase):
         adapter=(HERE/'fixture_adapter.py').read_text()
         self.assertNotIn('set_config(',adapter);self.assertNotIn('session_replication_role',adapter)
         for required in ('before_catalog=catalog._catalog_rows(cur)','before_data=catalog._data(cur)',
-                         'after_catalog!=before_catalog or after_data!=before_data',"self.business.issues.bc.user(cur,'OWNER')"):
+                         'after_catalog!=before_catalog or after_data!=before_data','backup=second_active_owner(cur)',
+                         "'PROTECTED_OWNER_ROLE_UNCHANGED'", "'PROTECTED_OWNER_ROLE_CANNOT_BE_CHANGED','42501'"):
             self.assertIn(required,adapter)
+
+    def test_backup_owner_preserves_protected_active_role_and_refuses_missing_role(self):
+        # SQLite trigger double: this tests the fixture's writes, not Native ACL.
+        m=load('s05_fixture_protected_role','fixture_adapter.py')
+        db=sqlite3.connect(':memory:')
+        self.addCleanup(db.close)
+        db.create_function('gen_random_uuid',0,lambda:str(uuid.uuid4()))
+        db.executescript("""
+            attach database ':memory:' as erp;
+            create table erp.app_roles(id text primary key,role_code text unique,is_active boolean);
+            create table erp.app_users(id text,auth_user_id text,full_name text,role text,role_id text,is_active boolean);
+            create trigger erp.protected_owner before update on app_roles when old.role_code='OWNER'
+            begin select raise(abort,'PROTECTED_OWNER_ROLE_CANNOT_BE_CHANGED');end;
+            insert into erp.app_roles values('existing-owner-role','OWNER',true);
+        """)
+        class Cursor:
+            def execute(self,sql,args=()):return db.execute(sql.replace('%s','?'),args)
+        cur=Cursor()
+        # Execute the exact retained helper to retain its first failing operation.
+        text=(ROOT/'scripts/cp6_bc_probe.py').read_text()
+        fn=next(x for x in ast.parse(text).body if isinstance(x,ast.FunctionDef)and x.name=='user')
+        scope={'api':SimpleNamespace(admin=lambda c:None),'uuid':uuid}
+        exec(compile(ast.Module(body=[fn],type_ignores=[]),'<retained user helper; SQLite double>','exec'),scope)
+        with self.assertRaisesRegex(sqlite3.IntegrityError,'PROTECTED_OWNER_ROLE_CANNOT_BE_CHANGED'):
+            scope['user'](cur,'OWNER')
+        before=db.execute('select * from erp.app_roles').fetchall()
+        auth=m.second_active_owner(cur)
+        self.assertEqual(db.execute('select * from erp.app_roles').fetchall(),before)
+        self.assertEqual(db.execute('select auth_user_id,role,role_id,is_active from erp.app_users').fetchall(),
+                         [(auth,'OWNER','existing-owner-role',1)])
+        for rows in ([],[('inactive-owner-role','OWNER',False)]):
+            db.execute('delete from erp.app_roles')
+            db.executemany('insert into erp.app_roles values(?,?,?)',rows)
+            with self.assertRaisesRegex(ValueError,'EXACT_EXISTING_ACTIVE_OWNER_ROLE'):
+                m.second_active_owner(cur)
+        self.assertEqual(db.execute('select count(*) from erp.app_users').fetchone()[0],1)
 
     def test_actual602_canonical_Native_rows_and_both_committed_prosrc_bodies_exact(self):
         v=json.loads((HERE/'evidence/ACTUAL_602_NATIVE_INPUTS.json').read_bytes())

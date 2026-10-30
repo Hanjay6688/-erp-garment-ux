@@ -3,11 +3,23 @@ from contextlib import contextmanager
 from hashlib import sha256
 import json
 import psycopg
+import uuid
 
 WIB_CASE='S05_NATIVE_WIB_COHORTS'
 ACCESS_CASE='S05_NATIVE_CURRENT_ACCESS_PRIVATE_ACL'
 WIB_ERROR='Waktu pengambilan wajib memakai tanggal dan jam WIB'
 OWNER_ERROR='LAST_ACTIVE_OWNER_PROTECTED'
+
+
+def second_active_owner(cur):
+    """Add a fixture user to the existing active role without writing that role."""
+    roles=cur.execute("select id from erp.app_roles where role_code='OWNER' and is_active").fetchall()
+    if len(roles)!=1:
+        raise ValueError('S05_EXACT_EXISTING_ACTIVE_OWNER_ROLE_REQUIRED')
+    auth=str(uuid.uuid4())
+    cur.execute("insert into erp.app_users(id,auth_user_id,full_name,role,role_id,is_active) values(gen_random_uuid(),%s,%s,%s,%s,true)",
+                (auth,'S05 administrative backup owner','OWNER',roles[0][0]))
+    return auth
 
 
 def exact_supported_timestamp(day, supplied):
@@ -47,6 +59,7 @@ class FixtureAdapter:
             if self.native_inputs is None:
                 self.native_inputs={}
                 for signature in ('erp._idempotency_begin(text,uuid,text)','erp.guard_last_active_owner()',
+                                  'erp.guard_protected_role()',
                                   'erp.save_accessory_issue_action_v1(text,jsonb,uuid)'):
                     ddl=cur.execute('select pg_get_functiondef(%s::regprocedure)',(signature,)).fetchone()[0]
                     self.native_inputs[signature]=dict(definition=ddl,sha256=sha256(ddl.encode()).hexdigest())
@@ -112,13 +125,16 @@ class FixtureAdapter:
             raise ValueError('S05_EXACT_SINGLE_ORIGINAL_FIXTURE_OWNER_REQUIRED')
         self.no_effect(cur,'LAST_ACTIVE_OWNER_UNCHANGED',
             lambda:cur.execute('update erp.app_users set is_active=false where auth_user_id=%s',(owner,)),OWNER_ERROR,'42501')
-        backup=self.business.issues.bc.user(cur,'OWNER')
+        self.no_effect(cur,'PROTECTED_OWNER_ROLE_UNCHANGED',
+            lambda:cur.execute("update erp.app_roles set is_active=true where role_code='OWNER'"),
+            'PROTECTED_OWNER_ROLE_CANNOT_BE_CHANGED','42501')
+        backup=second_active_owner(cur)
         if backup==owner:raise AssertionError('S05_DISTINCT_ADMINISTRATIVE_BACKUP_OWNER_REQUIRED')
         actual=cur.execute("select u.auth_user_id::text,u.is_active,u.role,r.role_code,r.is_active from erp.app_users u join erp.app_roles r on r.id=u.role_id where u.auth_user_id in(%s,%s)order by u.auth_user_id",(owner,backup)).fetchall()
         if len(actual)!=2 or {row[0]for row in actual}!={owner,backup} or any(row[1:]!=(True,'OWNER','OWNER',True)for row in actual):
             raise AssertionError('S05_TWO_REAL_ACTIVE_OWNER_FIXTURE_ROWS_REQUIRED')
         self.observations.append(dict(kind='RETAINED_ADMINISTRATIVE_SECOND_OWNER_FIXTURE',case_id=self.active,
             original_owner_auth=owner,backup_owner_auth=backup,active_owner_rows=2,
-            retained_helper='cp6_bc_probe.user(OWNER,grants=())',new_grants_or_roles=False,
+            fixture_helper='second_active_owner(existing_active_role)',new_grants_or_roles=False,
             Native_guard_or_trigger_changes=False,Native_case_credit=0))
         return f

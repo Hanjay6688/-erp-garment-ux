@@ -50,8 +50,8 @@
       "mode": "100644"
     },
     "scripts/current-s05-wib-owner-fixture-successor-qualification/README.md": {
-      "bytes": 4410,
-      "sha256": "fbad2727c51d4a519bc42d6dc3afe5651de9c53939cc418d28302f157115b9d6",
+      "bytes": 4829,
+      "sha256": "db1c2c59e987290b196ec33e368613c912adb54106835a7812fa189f79507d5a",
       "mode": "100644"
     },
     "scripts/current-s05-wib-owner-fixture-successor-qualification/admission.py": {
@@ -140,8 +140,8 @@
       "mode": "100644"
     },
     "scripts/current-s05-wib-owner-fixture-successor-qualification/fixture_adapter.py": {
-      "bytes": 7638,
-      "sha256": "08318e4d229af330b5d014f0bdc8653cb1ed0b2db1fd384c41453f2bb5167f69",
+      "bytes": 8499,
+      "sha256": "219e8e064a21f09917a6f5bc8fe2cf80f9d8a49b0c6867931a86aa687ed499da",
       "mode": "100644"
     },
     "scripts/current-s05-wib-owner-fixture-successor-qualification/freeze.py": {
@@ -215,8 +215,8 @@
       "mode": "100644"
     },
     "scripts/current-s05-wib-owner-fixture-successor-qualification/test_fixture.py": {
-      "bytes": 6220,
-      "sha256": "1c3f8cfe949d6e97c24f432a242a030069eb0058cdd827aab122a4f288376411",
+      "bytes": 8802,
+      "sha256": "c30f5c099c583d05ce87859003f59d9f797aee5e668720d97666a1cb1dc0488c",
       "mode": "100644"
     },
     "scripts/current-s05-wib-owner-fixture-successor-qualification/test_generated.py": {
