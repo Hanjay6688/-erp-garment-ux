@@ -1,0 +1,29 @@
+{
+  "contract": "cp7.s03.browser4.first-84a9-failure.v1",
+  "head": "84a9a09bf372caeeea4cc9eee4a91c51b43d3d93",
+  "run_id": 41025060248,
+  "job_id": 123961103280,
+  "artifact_id": 12965373383,
+  "archive": {
+    "bytes": 60813707,
+    "sha256": "38621b92a8ec873dd0c3c3322ea5ed68e17bc4ad0d356a02ec8ece7ef165d6eb"
+  },
+  "status": "INCOMPLETE",
+  "qualified_browser_cases": 0,
+  "observed_browser_counts": {
+    "INCOMPLETE": 4
+  },
+  "first_failure": "Actual desktop text contrast 1.1095:1 against required 4.5:1 after real CHOOSE",
+  "second_failure": "Mobile Native payroll APPROVE on output cohort collided with retained desktop choice: CP7_S03_PERIOD_CLAIMED",
+  "later_failure": "Undefined fixture omitted from failure JSON; closed output admission rejected incomplete record",
+  "outer_restore_proven": true,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "production_go": false,
+  "independent_acceptance": false
+}

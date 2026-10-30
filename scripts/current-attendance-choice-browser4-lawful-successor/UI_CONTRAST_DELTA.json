@@ -1,0 +1,21 @@
+{
+  "path": "src/attendance-period-choice.css",
+  "parent": "84a9a09bf372caeeea4cc9eee4a91c51b43d3d93",
+  "public_commit": "62ee27df840fb226ba735ce334ea16849edd54da",
+  "public_tree": "49f3fc472e662d8ad088eb18c7e6ad84fbc826b3",
+  "before": {
+    "bytes": 1617,
+    "sha256": "78a5ad2836cc0baf43c0e8777a5244520d1acf67aca695da5e3251d9a1b647cc"
+  },
+  "after": {
+    "bytes": 1732,
+    "sha256": "192f0b7563b54ff34587d93578eb9400d145cc366bb75fa33e245275213e295c"
+  },
+  "changes": [
+    {
+      "before": ".attendance-choice { color: #172b3c; background: #fff; min-width: 0; }\n.attendance-choice h2, .attendance-choice h3 { color: #172b3c; }\n.attendance-choice p, .attendance-choice dd { overflow-wrap: anywhere; }\n.attendance-choice-period, .attendance-choice-form { display: grid; gap: .85rem; margin-block: 1rem; }\n.attendance-choice label { display: grid; gap: .35rem; min-width: 0; }\n.attendance-choice input, .attendance-choice select, .attendance-choice textarea { width: 100%; max-width: 100%; min-width: 0; box-sizing: border-box; color: #172b3c; background: #fff; }\n.attendance-choice input[type=\"checkbox\"] { width: auto; margin-right: .5rem; }\n.attendance-choice label:has(input[type=\"checkbox\"]) { display: block; }\n.attendance-choice textarea { min-height: 5rem; }\n.attendance-choice button { white-space: normal; overflow-wrap: anywhere; }\n.attendance-choice [role=\"alert\"] { color: #813418; background: #fff4e8; padding: .75rem; border-radius: .4rem; }\n.attendance-choice-review { background: #eff7fb; border: 1px solid #8bb7cc; padding: 1rem; color: #172b3c; border-radius: .5rem; }\n",
+      "after": ".attendance-choice { color: #e9eff8; background: #142138; min-width: 0; }\n.attendance-choice h2, .attendance-choice h3 { color: inherit; }\n.attendance-choice p, .attendance-choice dd { overflow-wrap: anywhere; }\n.attendance-choice-period, .attendance-choice-form { display: grid; gap: .85rem; margin-block: 1rem; }\n.attendance-choice label { display: grid; gap: .35rem; min-width: 0; }\n.attendance-choice input, .attendance-choice select, .attendance-choice textarea { width: 100%; max-width: 100%; min-width: 0; box-sizing: border-box; color: #e9eff8; background: #0e1a2c; color-scheme: dark; }\n.attendance-choice input[type=\"checkbox\"] { width: auto; margin-right: .5rem; }\n.attendance-choice label:has(input[type=\"checkbox\"]) { display: block; }\n.attendance-choice textarea { min-height: 5rem; }\n.attendance-choice button { white-space: normal; overflow-wrap: anywhere; }\n.initial-import .attendance-choice button:disabled { opacity: 1; border-style: dashed; }\n.attendance-choice [role=\"alert\"] { color: #813418; background: #fff4e8; padding: .75rem; border-radius: .4rem; }\n.attendance-choice-review { background: #eff7fb; border: 1px solid #8bb7cc; padding: 1rem; color: #172b3c; border-radius: .5rem; }\n"
+    }
+  ],
+  "actual_browser_credit": 0
+}

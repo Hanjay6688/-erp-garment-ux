@@ -114,17 +114,21 @@ def prepare(cur, r, payload):
     extra = {}
     with native_setup(cur, r):
         if scenario == 'MOBILE390':
+            # Select a vacant cohort before any posted fixture exists. Desktop
+            # payroll/choice history remains present and must never enter P2.
+            expected_output = f.quiet_days(cur, today, 1)[0]
+            f.hp.set_closed(cur, expected_output - timedelta(days=1))
             m = f.hp.contractor(cur, 'S03-B4-FIN-' + uuid.uuid4().hex[:10])
             prod = core.f.hp.cp17().bd.chain.production
             previous = prod.CONTRACTOR
             try:
                 prod.CONTRACTOR = m
-                g = f.hp.cp17().finish_fixture(cur, today, label='S03-BROWSER4-FINISHED')
+                g = f.hp.cp17().finish_fixture(cur, expected_output + timedelta(days=5), label='S03-BROWSER4-FINISHED')
             finally:
                 prod.CONTRACTOR = previous
             f.admin(cur)
             days = cur.execute("select distinct erp._cp3_business_date(physical_at)from erp.sewing_terminal_events where po_id=%s and event_kind='SELESAI_DIJAHIT'order by 1", (g['po'],)).fetchall()
-            if len(days) != 1:
+            if days != [(expected_output,)]:
                 raise ValueError('S03_BROWSER4_EXACT_OUTPUT_PERIOD_REQUIRED')
             output = days[0][0]
             source_day = f.quiet_days(cur, today, 1, before=output)[0]

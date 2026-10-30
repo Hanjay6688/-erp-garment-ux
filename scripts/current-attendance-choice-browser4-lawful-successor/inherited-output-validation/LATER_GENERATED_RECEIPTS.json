@@ -770,7 +770,7 @@
   ],
   "package_run_identity_static": {
     "label": "T3_PREP",
-    "product_ref": "598dfe935e97ab7a43d63cd34d9b3b6abd7c7496",
+    "product_ref": "62ee27df840fb226ba735ce334ea16849edd54da",
     "product_paths": [
       "supabase/migrations",
       "supabase/dev",

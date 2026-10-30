@@ -31,6 +31,9 @@ def pin(path):
 
 
 def main():
+    spec = importlib.util.spec_from_file_location('s03_explicit_css_successor', HERE / 'ui_delta.py')
+    ui_delta = importlib.util.module_from_spec(spec); spec.loader.exec_module(ui_delta)
+    current_ui = ui_delta.verify(ROOT, HERE)
     if git('rev-parse', UI_ALIAS + '^{tree}').strip() != UI_TREE:
         raise ValueError('S03_BROWSER4_EXACT_PUBLIC_PREPARED_UI_BASELINE_REQUIRED')
     config = json.loads((HERE / 'CONFIG.json').read_bytes())
@@ -38,7 +41,7 @@ def main():
     for name in baseline_files:
         retained = subprocess.check_output(['/usr/bin/git', '-C', str(ROOT), 'show', UI_ALIAS + ':' + name],
             env=dict(os.environ, GIT_NO_LAZY_FETCH='1'))
-        if (ROOT / name).read_bytes() != retained:
+        if (ROOT / name).read_bytes() != ui_delta.expected(ROOT, HERE, name, retained):
             raise ValueError('S03_BROWSER4_FROZEN_PUBLIC_UI_OR_SOURCE38_CHANGED:' + name)
     own = [str(path.relative_to(ROOT)) for path in HERE.rglob('*') if path.is_file()
         and path != HERE / 'SOURCE.json' and '__pycache__' not in path.parts and path.suffix != '.pyc']
@@ -105,7 +108,7 @@ def main():
     physical = []
     for name, expected in old['copied_eight_exact_sha256'].items():
         retained = str(FROZEN.relative_to(ROOT)) + '/retained-ui8/' + name
-        if pin(retained)['sha256'] != expected or (ROOT / name).read_bytes() != (ROOT / retained).read_bytes():
+        if pin(retained)['sha256'] != expected or (ROOT / name).read_bytes() != ui_delta.expected(ROOT, HERE, name, (ROOT / retained).read_bytes()):
             raise ValueError('S03_BROWSER4_PHYSICAL_UI8_BASELINE_CHANGED:' + name)
         physical.append(dict(live=name, retained=retained, sha256=expected))
     inputs = inventory.historical_inputs(ROOT)
@@ -113,6 +116,7 @@ def main():
         classification='COMPLETE_DECLARED_CURRENT_SOURCE_NOT_ACTUAL_BROWSER_OR_BACKEND_ACCEPTANCE',
         public_base_commit=BASE, public_base_tree=git('rev-parse', BASE + '^{tree}').strip(),
         prepared_UI_public_alias=UI_ALIAS, prepared_UI_tree=UI_TREE,
+        current_UI_product_alias=current_ui['public_commit'], current_UI_delta=current_ui,
         UI_alias_is_runtime_prerequisite=False, physical_UI8_baseline=physical,
         frozen_public_UI_paths=baseline_files,
         frozen_browser_parent_paths=sorted(parent['files']),

@@ -18,7 +18,7 @@ async function menu(page){const toggle=page.getByRole('button',{name:'Buka menu'
 async function setup(ui,today,scenario){
  const user=await ui.login('OWNER',{label:'S03-B4-'+scenario,mobile:scenario==='MOBILE390',timezoneId:scenario==='MOBILE390'?'America/Los_Angeles':'Asia/Jakarta'})
  const page=user.page,expect=ui.expect,observed=observeConsole(page),expectedNetwork=[],calls=[],shots=[],contrasts=[],progress={},attempt=randomUUID().replaceAll('-','')
- let f,serial=0
+ let f=null,serial=0
  const choice=()=>page.locator('section.attendance-choice'),pools=()=>page.locator('section.hpool')
  const listener=request=>{const rpc=request.url().split('/').at(-1);if([RPC.save,RPC.poolSave].includes(rpc))calls.push({rpc,args:request.postDataJSON()})}
  page.on('request',listener)

@@ -1135,8 +1135,8 @@
       "sha256": "00d36dacda7b8fb90fa48a5dc82461ec5037d9da35765e44101bdbee798a8304"
     },
     "src/attendance-period-choice.css": {
-      "bytes": 1617,
-      "sha256": "78a5ad2836cc0baf43c0e8777a5244520d1acf67aca695da5e3251d9a1b647cc"
+      "bytes": 1732,
+      "sha256": "192f0b7563b54ff34587d93578eb9400d145cc366bb75fa33e245275213e295c"
     },
     "src/attendance/AttendancePage.test.tsx": {
       "bytes": 9160,

@@ -43,6 +43,7 @@ def check():
             raise ValueError('S03_BROWSER4_SOURCE_CHANGED:' + str(name))
     # Immutable public endpoint plus a complete declared current delta. No
     # historical test is silently aimed at an expanded tree or private Git ID.
+    ui_delta = load('s03_declared_one_css_successor', HERE / 'ui_delta.py')
     git = lambda *args: subprocess.check_output(['/usr/bin/git', '-C', str(ROOT), *args], text=True,
         env=dict(os.environ, GIT_NO_LAZY_FETCH='1'))
     baseline = declaration['public_base_commit']
@@ -57,7 +58,7 @@ def check():
     for name in frozen_paths:
         retained = subprocess.check_output(['/usr/bin/git', '-C', str(ROOT), 'show', ui + ':' + name],
             env=dict(os.environ, GIT_NO_LAZY_FETCH='1'))
-        if (ROOT / name).read_bytes() != retained:
+        if (ROOT / name).read_bytes() != ui_delta.expected(ROOT, HERE, name, retained):
             raise ValueError('S03_BROWSER4_FROZEN_PUBLIC_UI_OR_SOURCE38_CHANGED:' + name)
     covered = {entry['path'] for entry in files} | {str((HERE / 'SOURCE.json').relative_to(ROOT))}
     changed = set(git('diff', '--name-only', baseline).splitlines())
@@ -104,8 +105,11 @@ def check():
         raise ValueError('S03_BROWSER4_IMPORTED_QUALIFIER_OR_ORACLE_SOURCE_NOT_EXPLICITLY_PINNED')
     for item in declaration['physical_UI8_baseline']:
         original = (ROOT / item['retained']).read_bytes()
-        if sha256(original).hexdigest() != item['sha256'] or (ROOT / item['live']).read_bytes() != original:
+        if sha256(original).hexdigest() != item['sha256'] or (ROOT / item['live']).read_bytes() != ui_delta.expected(ROOT, HERE, item['live'], original):
             raise ValueError('S03_BROWSER4_PHYSICAL_FROZEN_UI_BASELINE_CHANGED:' + item['live'])
+    current_ui = ui_delta.verify(ROOT, HERE)
+    if declaration['current_UI_delta'] != current_ui or declaration['current_UI_product_alias'] != current_ui['public_commit']:
+        raise ValueError('S03_BROWSER4_EXACT_CURRENT_UI_DELTA_REQUIRED')
     config = json.loads((HERE / 'CONFIG.json').read_bytes())
     if config['case_ids'] != declaration['case_ids'] or len(set(config['case_ids'])) != 4:
         raise ValueError('S03_BROWSER4_EXACT_FOUR_IDS_REQUIRED')

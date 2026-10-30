@@ -98,7 +98,7 @@ class GeneratedOutputControls(unittest.TestCase):
         contract=json.loads((HERE/'inherited-output-validation/LATER_GENERATED_RECEIPTS.json').read_bytes())
         identity_module=load('s03_output_original_identity_producer',ROOT/'scripts/cp6_run_identity.py')
         history=subprocess.check_output(['/usr/bin/git','-C',str(ROOT),'log','-1','--format=%H','--',*identity_module.PRODUCT_PATHS],text=True).strip()
-        alias=json.loads((HERE/'SOURCE.json').read_bytes())['prepared_UI_public_alias']
+        alias=json.loads((HERE/'SOURCE.json').read_bytes())['current_UI_product_alias']
         self.assertEqual(history,alias)
         self.assertEqual(contract['package_run_identity_static']['product_ref'],history)
         head=subprocess.check_output(['/usr/bin/git','-C',str(ROOT),'rev-parse','HEAD'],text=True).strip()

@@ -67,13 +67,31 @@ class QualifiedSourceControls(unittest.TestCase):
         self.assertIn('set(state[\'originals\']) != set(native_delta.SIGNATURES)', text)
         self.assertIn("state['clones'] != native_delta.clones(state['originals'])", text)
 
-    def test_four_callbacks_fixture_and_financial_helpers_remain_exact_e09c(self):
+    def test_only_declared_preparation_changes_preserve_all_e09c_business_bytes(self):
         for relative in ('cases.mjs', 'fixture.py', 'test_oracles.mjs', 'test_lawful_oracles.mjs',
                 'helper-source/lawful_fixture.py', 'helper-source/business.py', 'helper-source/CALLBACK_CHANGES.json'):
             name = str(HERE.relative_to(ROOT)) + '/' + relative
             expected = subprocess.check_output(['/usr/bin/git', '-C', str(ROOT), 'show',
                 'e09c6512932de81777e661275d18bb232b2d2ee3:' + name])
-            self.assertEqual((ROOT / name).read_bytes(), expected, name)
+            current = (ROOT / name).read_bytes()
+            changes = []
+            if relative == 'cases.mjs':
+                changes = [(b' let f,serial=0', b' let f=null,serial=0')]
+            elif relative == 'fixture.py':
+                changes = [
+                    (b"        if scenario == 'MOBILE390':\n", b"        if scenario == 'MOBILE390':\n"
+                     b"            # Select a vacant cohort before any posted fixture exists. Desktop\n"
+                     b"            # payroll/choice history remains present and must never enter P2.\n"
+                     b"            expected_output = f.quiet_days(cur, today, 1)[0]\n"
+                     b"            f.hp.set_closed(cur, expected_output - timedelta(days=1))\n"),
+                    (b"finish_fixture(cur, today, label='S03-BROWSER4-FINISHED')",
+                     b"finish_fixture(cur, expected_output + timedelta(days=5), label='S03-BROWSER4-FINISHED')"),
+                    (b'            if len(days) != 1:', b'            if days != [(expected_output,)]:')]
+            for before, after in changes:
+                self.assertEqual(expected.count(before), 1)
+                self.assertEqual(current.count(after), 1)
+                current = current.replace(after, before, 1)
+            self.assertEqual(current, expected, name)
 
 
 class ImmutableArtifactControls(unittest.TestCase):
