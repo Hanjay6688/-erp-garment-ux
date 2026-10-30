@@ -17,27 +17,20 @@ import provenance
 
 def future_metadata_model():
     cfg = deepcopy(common.document((common.HERE / 'CONFIG.json').read_bytes()))
-    cfg['state'] = 'ROOT_BOUND_ACTUAL_SUCCESSOR14'
-    original_pin = dict(encoding='raw', stored=dict(bytes=1, sha256='a' * 64), raw=dict(bytes=1, sha256='a' * 64))
-    cfg['accepted_parent14'] = dict(status='ROOT_VERIFIED_NATIVE14_SIX_ORIGINALS_ALL5',
-        head=binding.HEAD, tree=binding.TREE, run_id=binding.RUN, job_id=binding.JOB,
-        workflow=binding.WORKFLOW, outer_case_id='S03_ATTENDANCE_NATIVE14_AND_USED_INVERSE',
-        original11_ids=cfg['expected_parent11_ids'], reader3_ids=cfg['expected_parent3_ids'],
-        originals={key: dict(original_pin, path=common.NS + 'accepted-parent14/' + key + '.json') for key in gate.SIX})
-    cfg['backend_binding'] = dict(head=binding.HEAD, tree=binding.TREE,
-        runtime_files=cfg['prepared_backend_runtime7'], product_sources_sha256='a' * 64,
-        source_manifest=dict(path=binding.SOURCE, **binding.SOURCE_PIN), files=binding.source()[1])
     return cfg
 
 
 class BindingControls(unittest.TestCase):
     def test_actual_NULL_remains_closed_before_Originals_or_ERP_processes(self):
         import probe
-        with patch.object(subprocess, 'check_output', side_effect=AssertionError('PROCESS_BEFORE_NULL_GATE')):
+        closed = future_metadata_model()
+        closed['accepted_parent14'] = None
+        closed['backend_binding'] = None
+        with patch.object(probe, 'document', return_value=closed), patch.object(subprocess, 'check_output', side_effect=AssertionError('PROCESS_BEFORE_NULL_GATE')):
             with self.assertRaisesRegex(ValueError, gate.CLOSED):
                 probe.runtime()
 
-    def test_exact_future_metadata_is_only_a_model_and_reads_no_Original(self):
+    def test_exact_bound_metadata_reads_no_Original(self):
         cfg = future_metadata_model()
         with patch.object(common, 'read_original', side_effect=AssertionError('ORIGINAL_READ')):
             parent, backend = gate.selected(cfg)
@@ -77,7 +70,7 @@ class BindingControls(unittest.TestCase):
         cfg = future_metadata_model(); cfg['backend_binding']['runtime_files'] = {}
         with self.assertRaisesRegex(ValueError, 'CURRENT_ACTUAL_RUNTIME7'): gate.selected(cfg)
 
-    def test_closed_declaration_is_exact475_plus_its_manifest_not_old425(self):
+    def test_bound_declaration_is_exact475_plus_its_manifest_not_old425(self):
         cfg = common.document((common.HERE / 'CONFIG.json').read_bytes())
         head, tree, files = binding.current_declaration(common.ROOT, cfg)
         self.assertEqual((head, tree), (binding.HEAD, binding.TREE))

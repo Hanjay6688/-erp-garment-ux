@@ -214,8 +214,20 @@
       "sha256": "372d491987e6f1e348784fdb40b9f380a9dfe112a7304181715794068c163c76"
     },
     ".github/workflows/cp7-attendance-midnight-source475-native1.yml": {
-      "bytes": 29556,
-      "sha256": "ad51a0b207bdded9fd721a987cb83ba312ae31d0aeeac5fe9a9e82b0cfa31236"
+      "bytes": 29883,
+      "sha256": "44129c91954eda33eaa1239bc450169b9efe0bebe3919a9df23a36def51e550c"
+    },
+    "scripts/current-attendance-midnight-source475-qualification/CONFIG.json": {
+      "bytes": 114679,
+      "sha256": "7469ff669ce7aa686756593d2d49c7ad8bb793c77a53079b6e094e6a126c1bb2"
+    },
+    "scripts/current-attendance-midnight-source475-qualification/accepted_originals.py": {
+      "bytes": 6936,
+      "sha256": "967f80d906019754b9bb33f26db6df674516c45360df1a33561743a850c542c7"
+    },
+    "scripts/current-attendance-midnight-source475-qualification/ROOT_QUALIFIED_PARENT14.json": {
+      "bytes": 6012,
+      "sha256": "9f0270cf44291ae7cd4b16bddf3fc258e9faf8cdac5a4ab619b3044f81ac66c8"
     }
   },
   "frozen_worktree_document": {
@@ -1587,6 +1599,19 @@
       "first_verified_success_zip": {
         "bytes": 2016825,
         "sha256": "23dbfbac51e38773d0aae77a266fd6ff811f3a4dcbbf4080b48c01d401c332a1"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12947563874": {
+      "source_evidence": {
+        "path": "scripts/current-attendance-midnight-source475-qualification/CONFIG.json",
+        "line": 2077,
+        "literal_artifact_id": 12947563874
+      },
+      "first_verified_success_zip": {
+        "bytes": 8472775,
+        "sha256": "567e64545493d4806fa613b1306b4fe8c2f70a2ebb327fc60b709737813e5a60"
       },
       "max_requests_per_admission": 1,
       "optional_terminal_failure": false

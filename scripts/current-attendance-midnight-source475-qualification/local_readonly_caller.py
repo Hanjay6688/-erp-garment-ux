@@ -12,6 +12,9 @@ import io
 import json
 import os
 import runpy
+import re
+import shutil
+import time
 import socket
 import subprocess
 import sys
@@ -21,6 +24,7 @@ import urllib.request
 HERE=Path(__file__).resolve().parent
 ROOT=HERE.parents[1]
 GIT_READ={'rev-parse','diff','status','ls-files','ls-tree','show','log','cat-file','check-attr'}
+PRIVATE_PREPARATION_HEADS={'6e8a259c6bb767bd05494e6c22a6da683bf91087'}
 
 
 def main(argv=None):
@@ -29,6 +33,9 @@ def main(argv=None):
     parser.add_argument('--environment',type=Path,required=True)
     parser.add_argument('--output',type=Path,required=True)
     args=parser.parse_args(argv)
+    started=time.monotonic()
+    caller_argv=sys.argv
+    caller_argv_values=list(caller_argv)
     if Path.cwd().resolve()!=ROOT.resolve()or args.output.resolve().is_relative_to(ROOT.resolve()):
         raise ValueError('S03_LAWFUL_STUDY_ACTUAL_CANDIDATE_CWD_AND_OUTSIDE_TRACE_REQUIRED')
     env=json.loads(args.environment.read_bytes())
@@ -37,9 +44,10 @@ def main(argv=None):
             'D17_18_ACCEPTED_CONSISTENCY_FOCUSED_DIRECTORY'}:
         raise ValueError('S03_LAWFUL_STUDY_EXACT_REAL_FIVE_ORIGINAL_ENVIRONMENT_REQUIRED')
     os.environ.update(env);os.environ['GIT_NO_LAZY_FETCH']='1';os.environ['GIT_TERMINAL_PROMPT']='0'
-    git=lambda *parts:subprocess.check_output(['git','-C',str(ROOT),*parts],text=True).strip()
+    git=lambda *parts:subprocess.check_output(['/usr/bin/git','-C',str(ROOT),*parts],text=True).strip()
     before=set(git('ls-files','--others','--exclude-standard').splitlines())
-    head=git('rev-parse','HEAD');events=[];attempts=dict(DB=0,network=0,non_readonly_process=0)
+    head=git('rev-parse','HEAD');events=[];git_commands=[]
+    attempts=dict(DB=0,network=0,non_readonly_process=0,private_preparation_git=0)
     active=True
     def audit(event,values):
         if not active:return
@@ -59,6 +67,11 @@ def main(argv=None):
             executable,command=values[:2]
             if not isinstance(command,(list,tuple))or Path(str(executable)).name!='git':
                 attempts['non_readonly_process']+=1;raise AssertionError('SOURCE_STUDY_ONLY_READONLY_GIT_PROCESS_ALLOWED')
+            if any(token in PRIVATE_PREPARATION_HEADS for part in command
+                    for token in re.findall(r'[a-f0-9]{40}',str(part))):
+                attempts['private_preparation_git']+=1
+                raise AssertionError('SOURCE_STUDY_PRIVATE_PREPARATION_GIT_FORBIDDEN')
+            git_commands.append(list(command))
             parts=list(command[1:]);index=0
             while index<len(parts)and parts[index]in('-C','--git-dir','--work-tree'):
                 index+=2
@@ -70,6 +83,13 @@ def main(argv=None):
         attempts['DB']+=1;raise AssertionError('SOURCE_STUDY_DATABASE_FORBIDDEN')
     def blocked_network(*a,**kw):
         attempts['network']+=1;raise AssertionError('SOURCE_STUDY_NETWORK_FORBIDDEN')
+    original_db,original_socket,original_urlopen=psycopg.connect,socket.create_connection,urllib.request.urlopen
+    original_popen=subprocess.Popen
+    def real_readonly_git(command,*values,**kwargs):
+        if isinstance(command,(list,tuple)) and command and Path(str(command[0])).name=='git':
+            command=['/usr/bin/git',*command[1:]]
+        return original_popen(command,*values,**kwargs)
+    subprocess.Popen=real_readonly_git
     psycopg.connect=blocked_db;socket.create_connection=blocked_network;urllib.request.urlopen=blocked_network
     stdout,stderr=io.StringIO(),io.StringIO();status='PASS';error=None
     target=HERE/('probe.py'if args.mode=='probe-check'else'check.py')
@@ -82,13 +102,23 @@ def main(argv=None):
         status='FAIL';error=dict(type=type(caught).__name__,message=str(caught),traceback=traceback.format_exc())
     finally:
         active=False
+        sys.argv=caller_argv
+        psycopg.connect,socket.create_connection,urllib.request.urlopen=original_db,original_socket,original_urlopen
+        subprocess.Popen=original_popen
+    if sys.argv is not caller_argv or sys.argv!=caller_argv_values:
+        raise AssertionError('MIDNIGHT_LOCAL_CALLER_ARGV_RESTORE_REQUIRED')
     after=set(git('ls-files','--others','--exclude-standard').splitlines())
     output=args.output.resolve();output.parent.mkdir(parents=True,exist_ok=True)
     out=stdout.getvalue().encode();err=stderr.getvalue().encode()
     output.with_suffix('.stdout').write_bytes(out);output.with_suffix('.stderr').write_bytes(err)
     report=dict(classification='LOCAL_REAL_WHOLE_SOURCE_ORIGINAL_CLI_WITH_DATABASE_AND_NETWORK_FORBIDDEN',
         status=status,head=head,cwd=str(ROOT),argv=exact_argv,real_Original_environment_keys=sorted(env),
-        attempts=attempts,error=error,write_observations=events,
+        elapsed_ms=round((time.monotonic()-started)*1000),
+        interpreter=dict(path=sys.executable,realpath=str(Path(sys.executable).resolve()),sha256=sha256(Path(sys.executable).read_bytes()).hexdigest()),
+        real_git=dict(path='/usr/bin/git',sha256=sha256(Path('/usr/bin/git').read_bytes()).hexdigest()),
+        node_path=shutil.which('node'),PATH_unchanged=True,actual_git_commands=git_commands,
+        blocked_private_preparation_heads=sorted(PRIVATE_PREPARATION_HEADS),
+        caller_argv_object_and_values_restored=True,attempts=attempts,error=error,write_observations=events,
         untracked_before=sorted(before),untracked_after=sorted(after),new_untracked=sorted(after-before),
         stdout=dict(bytes=len(out),sha256=sha256(out).hexdigest()),stderr=dict(bytes=len(err),sha256=sha256(err).hexdigest()),
         source_results_projected=False,checker_ROOT_replaced=False,actual_Native_cases=0,production_go=False)

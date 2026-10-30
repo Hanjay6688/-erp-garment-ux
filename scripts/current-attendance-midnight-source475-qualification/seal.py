@@ -15,13 +15,15 @@ def seal():
         data['producer_files'][WORKFLOW] = pin((ROOT / WORKFLOW).read_bytes())
         path.write_text(json.dumps(data, indent=2) + '\n')
     own = {str(path.relative_to(ROOT)): pin(path.read_bytes()) for path in HERE.rglob('*')
-           if path.is_file() and not path.is_symlink() and path != HERE / 'SOURCE.json'}
+           if path.is_file() and not path.is_symlink() and path != HERE / 'SOURCE.json'
+           and not path.is_relative_to(HERE / 'accepted-parent14')}
     all_files = dict(source, **{parent_binding.SOURCE: parent_binding.SOURCE_PIN},
                      **own, **{WORKFLOW: pin((ROOT / WORKFLOW).read_bytes())})
     manifest = dict(contract='cp7.midnight-native1.current-source.v1',
         active_parent_head=parent_binding.HEAD, active_parent_tree=parent_binding.TREE,
         files=dict(sorted(all_files.items())), actual_current_source_members=475,
-        accepted_parent14=None, Native_executed=False, actual_Native_cases=0,
+        accepted_parent14=__import__('json').loads((HERE / 'CONFIG.json').read_bytes())['accepted_parent14'],
+        Native_executed=False, actual_Native_cases=0,
         old425_is_accepted_current_source=False, production_go=False, independent_acceptance=False)
     (HERE / 'SOURCE.json').write_text(json.dumps(manifest, indent=2) + '\n')
     return len(all_files)

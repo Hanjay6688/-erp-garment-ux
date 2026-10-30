@@ -1,0 +1,156 @@
+{
+  "contract": "cp7.s03.lawful-fixture.actual14.root-qualified-component.v1",
+  "recorded_at_UTC": "2026-10-30T02:31:31.536958+00:00",
+  "status": "QUALIFIED_NARROW_ACTUAL_NATIVE11_THEN3_FULL_RESTORE_ALL5",
+  "head": "3c0c5defe55e48cf6f221c868594dd6676d17170",
+  "tree": "ca20c918201b455ad09df489829b83b9e6afea95",
+  "run_id": 40983410165,
+  "job_id": 123828634300,
+  "artifact_id": 12947563874,
+  "archive": {
+    "bytes": 8472775,
+    "sha256": "567e64545493d4806fa613b1306b4fe8c2f70a2ebb327fc60b709737813e5a60"
+  },
+  "Original_library_file_id": "libfile_736b3274655081919ad9c324f2ca92a3",
+  "all119_members_CRC_paths_sizes_SHA_verified": true,
+  "Source": {
+    "path": "scripts/current-s03-lawful-fixture-successor-qualification/SOURCE.json",
+    "files": 475,
+    "bytes": 106705,
+    "sha256": "ba59dee4ae71c62df2b2e35c558cb23a7c66254a974c554cc3d17d63b936c555",
+    "all_Git_pins_exact": true,
+    "actual_report_declares_complete475": true,
+    "historical425_not_complete_current_authority": true
+  },
+  "runtime7_Git_pins": {
+    "scripts/cp7_attendance_period_choice/choice.sql": "44499c6d6a06d1effc2be4f066168f5fa2fe9608b2ccb80d1d2d0b1dac0a8212",
+    "scripts/cp7_attendance_period_choice/readers.sql": "4ab82ff58033f4357251930504e6e9e75ecce9d8f1cc5b4e10f689940ce749e2",
+    "scripts/cp7_attendance_period_choice/native_delta.py": "a49242327798a59407739c2999fcf92408aeef9d88a1ae94fccc82bd189ac9ce",
+    "scripts/cp7_attendance_period_choice/catalog_contract.py": "f312de61b3c75087a51d7df712896627c02bb5d6473803bf6d2c90ad506d7c64",
+    "scripts/cp7_attendance_period_choice/NEW_CATALOG_IDENTITIES.json": "e49e4cb9c794d6ed98b831ae318e6d3c401a110d420cf932ee7011f7c971a578",
+    "scripts/cp7_attendance_period_choice/composition.py": "51b3d53dccd69688438287bee338e7a86a37afe57aa963cc2dee24b2e43470f1",
+    "scripts/cp7_attendance_period_choice/installer_ddl.py": "e002ea2dd938fef5913c76974909f70de8bcb47874b7fd958c0aeef0e2993514"
+  },
+  "actual_captures": 15,
+  "private_clones": 2,
+  "actual_all22_capture": true,
+  "local_model_ABI_misrepresented_as_actual": false,
+  "actual_Native_cases": 14,
+  "fresh_strict_groups": [
+    11,
+    3
+  ],
+  "all14_PASS": true,
+  "both_groups_same_actual_installation": true,
+  "case_rows_public_catalog_sessions_WIB_restored": true,
+  "group_sequences_positive_advances_retained_not_reseeded": true,
+  "per_group_ALLsequence_restore_claim": false,
+  "whole_outer_ALLsequence_restore": true,
+  "known_P1_worker_P2_observations": 2,
+  "P2_rate_exact": "20.02",
+  "P1_facts_unchanged": true,
+  "closed_negative_and_real_Owner_REOPEN": true,
+  "finished_cost": {
+    "before": "120.00",
+    "allocated": "1120.03",
+    "cancelled": "120.00",
+    "attendance_cost": "1000.03",
+    "produced": 10,
+    "sold": 4,
+    "FG_delta": "600.02",
+    "COGS_delta": "400.01",
+    "WIP_delta": "0.00",
+    "Native_receipt_HPP_cache_before": "12",
+    "Native_receipt_HPP_cache_allocated": "112.003",
+    "all_other16_fields_and_wholeSALE_immutable": true,
+    "allocation_history_HPP_versions": 3,
+    "allocation_history_HPP_components": 27,
+    "all_allocation_history_retained": true
+  },
+  "separate_committed_ALLOCATE_cents": "100003",
+  "committed_witness_extra_case_credit": 0,
+  "used_refusal_actual_all22_and_full_data_ALLsequences_equal": true,
+  "full_outer_all22_allrows_ALLsequences_roles_public_CP6_advisors_equal": true,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "Auth_users_before": 0,
+  "Auth_users_after": 0,
+  "actual_Auth_HTTP": 0,
+  "actual_browser": 0,
+  "actual_two_session_races": 0,
+  "internal_counter": {
+    "path": "evidence-private/s03-3c0-internal-actual-counter/FINAL_INTERNAL_ACTUAL_COUNTER.json",
+    "bytes": 13285,
+    "sha256": "96c9c65c0a4348aa370ac1756e6f6dd45de3eb6d21a96127d267ea8b4db8304a",
+    "independent_external_audit": false
+  },
+  "accepted_six_originals": [
+    {
+      "path": "CP7_S03_ATTENDANCE_CHOICE_NATIVE11_CASES.json",
+      "bytes": 19498,
+      "compressed_bytes": 3507,
+      "CRC32": "5fdad5ca",
+      "sha256": "105e371726cdacd86900d7f086a4262450801c7606852a7711856b0ff06667dd",
+      "selected_current_raw": true
+    },
+    {
+      "path": "CP7_S03_ATTENDANCE_CHOICE_NATIVE14.json",
+      "bytes": 78242045,
+      "compressed_bytes": 6787608,
+      "CRC32": "d4015160",
+      "sha256": "15d08eb136c46e74ecf814b2256cc12b0a1df2b29fbc27a1296c3100fc2bafb5",
+      "selected_current_raw": true
+    },
+    {
+      "path": "CP7_S03_ATTENDANCE_CHOICE_READER_NATIVE3_CASES.json",
+      "bytes": 13062,
+      "compressed_bytes": 2433,
+      "CRC32": "d8077007",
+      "sha256": "70b618aa40062eaa839a55f2edeb647ea1fe2c520840f5cca85c194df17668b7",
+      "selected_current_raw": true
+    },
+    {
+      "path": "T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 1470,
+      "compressed_bytes": 626,
+      "CRC32": "80e27aa2",
+      "sha256": "3883ec7b222e13badb22f5db7d9fabf563bf99b90dbf5d724a00c3ec40315091",
+      "selected_current_raw": true
+    },
+    {
+      "path": "T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "compressed_bytes": 238,
+      "CRC32": "cfb01269",
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "selected_current_raw": true
+    },
+    {
+      "path": "T3_PACKAGE_INSTALL.json",
+      "bytes": 360433,
+      "compressed_bytes": 11486,
+      "CRC32": "6636b075",
+      "sha256": "0663c1140bd2877ef3859b4e34bb773aaaf15e2f3b4217e48a8df66c1c436c77",
+      "selected_current_raw": true
+    }
+  ],
+  "final_gate": {
+    "path": "S03_NATIVE14_FINAL_GATE.json",
+    "bytes": 871,
+    "compressed_bytes": 461,
+    "CRC32": "323978e4",
+    "sha256": "112886442470b542270c14d6b8fd4b782021daf11c74e382d26bbdee8fc653a2",
+    "selected_current_raw": true
+  },
+  "full_S03_acceptance": false,
+  "combined_ERP_acceptance": false,
+  "default_adopted": false,
+  "formal": "5/16",
+  "production_go": false,
+  "independent_acceptance": false
+}

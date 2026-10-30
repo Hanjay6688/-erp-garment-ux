@@ -1,4 +1,4 @@
-"""Real current475/Original routes, then real CLOSED runtime, same argv/cwd."""
+"""Real bound source/Original/runtime callers and named faults, same argv/cwd."""
 from pathlib import Path
 import argparse
 import contextlib
@@ -49,9 +49,8 @@ def main(argv=None):
         print(json.dumps(dict(case=name, status=status)), flush=True)
 
     invoke('INITIAL_CURRENT475_REAL_ORIGINALS', 'current-originals')
-    invoke('SAME_ARGV_CURRENT475_REAL_ORIGINALS_REPLAY', 'current-originals')
-    invoke('ACTUAL_RUNTIME_NULL_CLOSED', 'runtime', closed=True)
-    invoke('ACTUAL_PROBE_NULL_CLOSED', 'probe-check', closed=True)
+    invoke('ACTUAL_BOUND_RUNTIME', 'runtime')
+    invoke('ACTUAL_BOUND_PROBE_CHECK', 'probe-check')
     for name, relative, raw in (
             ('UNKNOWN_CODE', 'scripts/midnight_unknown_source_negative.py', b'raise RuntimeError("NEVER_EXECUTE")\n'),
             ('UNKNOWN_JSON', 'cp6-proof/t3/MIDNIGHT_FORGED_SOURCE_NEGATIVE.json', b'{"status":"PASS","actual_Native_cases":14}\n')):
@@ -61,24 +60,29 @@ def main(argv=None):
         target.parent.mkdir(parents=True, exist_ok=True)
         try:
             target.write_bytes(raw)
-            invoke(name, 'current-originals', refusal='MIDNIGHT_UNKNOWN_SOURCE_OR_RECEIPT:', path=relative)
+            invoke(name, 'runtime', refusal='MIDNIGHT_UNKNOWN_SOURCE_OR_RECEIPT:', path=relative)
         finally:
             target.unlink()
-        invoke(name + '_RESTORED_POSITIVE', 'current-originals')
+        invoke(name + '_RESTORED_POSITIVE', 'runtime')
     for name, target in (('LEAF_LINK', HERE / 'FIRST_LOCKED_C097_COUNTER.json'),
                          ('ANCESTOR_LINK', HERE / 'retained-c097')):
         held = folder / (name + '_held_original')
         with source_link_fault(target, held) as before:
-            invoke(name, 'current-originals', refusal='MIDNIGHT_SOURCE_SYMLINK:', path=str(target.relative_to(ROOT)))
+            if not target.is_symlink():
+                raise AssertionError('MIDNIGHT_SAME_PROCESS_LINK_MUST_EXIST_IMMEDIATELY_BEFORE_CALLER')
+            invoke(name, 'runtime', refusal='MIDNIGHT_SOURCE_SYMLINK:', path=str(target.relative_to(ROOT)))
         after = snapshot(target)
         if before != after or target.is_symlink():
             raise AssertionError('MIDNIGHT_SOURCE_RESTORE_NOT_EXACT')
         (folder / (name + '_RESTORE.json')).write_text(json.dumps(dict(path=str(target), before=before, after=after,
             regular_or_directory=True, is_symlink=False, exact_bytes_modes_restored=True), indent=2) + '\n')
-        invoke(name + '_RESTORED_POSITIVE', 'current-originals')
-    summary = dict(status='PASS', classification='REAL_SOURCE475_ORIGINALS_AND_CLOSED_RUNTIME_NOT_NATIVE',
+        invoke(name + '_RESTORED_POSITIVE', 'runtime')
+    invoke('FINAL_REAL_CURRENT475_ORIGINALS', 'current-originals')
+    invoke('FINAL_BOUND_PROBE_CHECK', 'probe-check')
+    summary = dict(status='PASS', classification='REAL_SOURCE475_ORIGINALS_AND_BOUND_RUNTIME_SOURCE_ONLY_NOT_NATIVE',
         controls=len(receipts), receipts=receipts, same_process_actual_argv_cwd=True,
-        checker_ROOT_replaced=False, source_results_projected=False, accepted_parent14=None,
+        checker_ROOT_replaced=False, source_results_projected=False,
+        accepted_parent14_head='3c0c5defe55e48cf6f221c868594dd6676d17170',
         actual_Native_cases=0, actual_Auth_HTTP_cases=0, actual_browser_cases=0,
         DB_network_nonreadonly_process_attempts=0, production_go=False, independent_acceptance=False)
     (folder / 'MATRIX.json').write_text(json.dumps(summary, indent=2) + '\n')

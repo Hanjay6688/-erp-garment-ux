@@ -49,9 +49,9 @@ def admitted():
         actual = product.sources()
         if proof['current_installation'] != actual:
             raise ValueError('MIDNIGHT_CURRENT475_FULL_UNPROJECTED_PRODUCT_SOURCES_REQUIRED')
-    return dict(status='SOURCE_ONLY_CURRENT475_AND_ACTUAL_INHERITED_ORIGINALS_ADMITTED_FUTURE14_CLOSED',
+    return dict(status='SOURCE_ONLY_CURRENT475_AND_ACTUAL_INHERITED_ORIGINALS_ADMITTED_NO_NATIVE_CREDIT',
         current_installation=actual, inherited_Original_proof=proof,
         full_current_source=closure, inherited_materialization=materialized,
         counted_current475_intake_changes=1, unchanged_authoritative_Original_readers=True,
-        accepted_parent14=None, future_six_Originals_admitted=False,
+        accepted_parent14_identity_bound=True, six_Originals_admitted_by_this_source_only_route=False,
         actual_Native_cases=0, production_go=False, independent_acceptance=False)

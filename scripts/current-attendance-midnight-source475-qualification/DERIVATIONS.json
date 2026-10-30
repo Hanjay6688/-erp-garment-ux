@@ -207,8 +207,8 @@
         "sha256": "359e9bc029f342925c3f3fb17a74ff1c59f762a556579218eef98daf98f3bbe5"
       },
       "derived": {
-        "bytes": 6540,
-        "sha256": "61653113266b7287d553e9f46d399b69b3d2c41bcea30f8a158d76104c4a3ce5"
+        "bytes": 7097,
+        "sha256": "8490d7e07da852a2121b819b052c88f9c1118628b70808c5d5fa9e1b2525c560"
       },
       "counted_replacements": [
         {
@@ -255,10 +255,47 @@
           "before": "        source_pins=len(manifest['files']), full_parent_files=len(entries),",
           "after": "        source_pins=len(manifest['files']), full_parent_files=len(entries),\n        actual_current_parent_source_members=475, parent_manifest_pinned=True,\n        inherited_Original_input_pins=len(historical_inputs.present_pins(root)),\n        immutable_c097_provenance=routes,",
           "count": 1
+        },
+        {
+          "before": "    if require_bound:\n        gate.selected(cfg)\n",
+          "after": "    if require_bound:\n        gate.selected(cfg)\n    import accepted_originals\n    accepted_inputs = (accepted_originals.present_pins(root, cfg, required=require_bound)\n                       if cfg['accepted_parent14'] is not None else {})\n",
+          "count": 1
+        },
+        {
+          "before": "    expected_own = {name for name in manifest['files'] if name.startswith(NS)} | {NS + 'SOURCE.json'}\n    if own != expected_own:",
+          "after": "    expected_own = {name for name in manifest['files'] if name.startswith(NS)} | {NS + 'SOURCE.json'}\n    own -= set(accepted_inputs)\n    if own != expected_own:",
+          "count": 1
+        },
+        {
+          "before": "    proofs.update(historical_inputs.present_pins(root))",
+          "after": "    proofs.update(historical_inputs.present_pins(root))\n    proofs.update(accepted_inputs)",
+          "count": 1
+        },
+        {
+          "before": "        actual_current_parent_source_members=475, parent_manifest_pinned=True,",
+          "after": "        actual_current_parent_source_members=475, parent_manifest_pinned=True,\n        accepted_parent14_raw_inputs=len(accepted_inputs),\n        accepted_parent14_documents_admitted=False,",
+          "count": 1
+        },
+        {
+          "before": "from midnight_common import HERE, ROOT, NS, WORKFLOW, document, regular, exact",
+          "after": "from midnight_common import HERE, ROOT, NS, WORKFLOW, canonical, document, regular, exact",
+          "count": 1
+        },
+        {
+          "before": "    if manifest.get('contract') != 'cp7.midnight-native1.current-source.v1':\n        raise ValueError('MIDNIGHT_CURRENT_SOURCE_CONTRACT_REQUIRED')",
+          "after": "    if manifest.get('contract') != 'cp7.midnight-native1.current-source.v1':\n        raise ValueError('MIDNIGHT_CURRENT_SOURCE_CONTRACT_REQUIRED')\n    if canonical(manifest.get('accepted_parent14')) != canonical(cfg['accepted_parent14']):\n        raise ValueError('MIDNIGHT_SOURCE_DESCRIPTIVE_ACCEPTED14_BINDING_REQUIRED')",
+          "count": 1
         }
       ]
     }
   ],
   "product_changes": 0,
-  "Native_executions": 0
+  "Native_executions": 0,
+  "late_binding": {
+    "public_prepared_head": "ef491af5b20e93dcbf1808ca8e9aa9f0c542d773",
+    "source475_unchanged": true,
+    "accepted_runtime_inputs_are_not_source_members": true,
+    "source_check_additional_counted_replacements": 6,
+    "financial_runtime_callback_changes": 0
+  }
 }

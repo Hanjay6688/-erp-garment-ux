@@ -1,0 +1,68 @@
+{
+  "contract": "cp7.midnight-source475.root-qualified14-late-binding.v1",
+  "prepared_public_head": "ef491af5b20e93dcbf1808ca8e9aa9f0c542d773",
+  "prepared_source562": {
+    "bytes": 122469,
+    "sha256": "4c022b93ddec8754dfd57b04b2a374030c34dd202dceb139001cd22a453fe443"
+  },
+  "qualified_parent_head": "3c0c5defe55e48cf6f221c868594dd6676d17170",
+  "qualified_parent_run": "40983410165",
+  "qualified_parent_job": "123828634300",
+  "Root_receipt": {
+    "path": "scripts/current-attendance-midnight-source475-qualification/ROOT_QUALIFIED_PARENT14.json",
+    "bytes": 6012,
+    "sha256": "9f0270cf44291ae7cd4b16bddf3fc258e9faf8cdac5a4ab619b3044f81ac66c8"
+  },
+  "whole_archive": {
+    "artifact_id": 12947563874,
+    "bytes": 8472775,
+    "sha256": "567e64545493d4806fa613b1306b4fe8c2f70a2ebb327fc60b709737813e5a60",
+    "expected_members": 119,
+    "selected_root_names": {
+      "strict11": "CP7_S03_ATTENDANCE_CHOICE_NATIVE11_CASES.json",
+      "reader3": "CP7_S03_ATTENDANCE_CHOICE_READER_NATIVE3_CASES.json",
+      "outer14": "CP7_S03_ATTENDANCE_CHOICE_NATIVE14.json",
+      "package": "T3_PACKAGE_INSTALL.json",
+      "files": "T3_PACKAGE_FILES_INSTALL.json",
+      "drill": "T3_BACKUP_RESTORE_DRILL.json"
+    }
+  },
+  "runtime_raw_inputs_committed": false,
+  "raw_input_class_count": 6,
+  "partial_or_missing_inputs_admit_qualified_parent": false,
+  "static_source_check_is_not_parent_Original_admission": true,
+  "unchanged": {
+    "callback_c0_sha256": "7cdfd006c4dfb2f3c35dc9557366f601fd2d0a6748505c40f2ee8b66373b2506",
+    "oracle_sha256": "9f866f07083477ea338649fed88d9f92a71559c173bbbce88885ebf906b77a1d",
+    "single_attempt": true,
+    "day_rollover_retry": false,
+    "fake_clock": false,
+    "runtime7": true,
+    "captures15": true,
+    "clones2": true,
+    "complete_six_substitution_engine": true,
+    "committed_used_witness": true,
+    "outer_restore_and_all5": true
+  },
+  "retained_parent_case_credit": 14,
+  "fresh_required_Native_cases": 1,
+  "actual_Native_cases": 0,
+  "Auth_HTTP_browser_races": 0,
+  "production_go": false,
+  "independent_acceptance": false,
+  "workflow_transition": {
+    "original": {
+      "bytes": 29556,
+      "sha256": "ad51a0b207bdded9fd721a987cb83ba312ae31d0aeeac5fe9a9e82b0cfa31236"
+    },
+    "derived": {
+      "bytes": 29883,
+      "sha256": "44129c91954eda33eaa1239bc450169b9efe0bebe3919a9df23a36def51e550c"
+    },
+    "counted_text_replacements": 2,
+    "unchanged_original_steps": 67,
+    "metadata_step_name_changes": 1,
+    "new_pre_ERP_GET_steps": 1,
+    "exact_reverse": true
+  }
+}

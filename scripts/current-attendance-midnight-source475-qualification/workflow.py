@@ -27,6 +27,14 @@ def derive(original):
     steps = value['jobs']['p21']['steps']
     local = next(row for row in steps if row.get('name') == 'Check exact midnight callback source and labelled local controls before database')
     local['run'] += 'python -B ' + NS + 'check.py --current-originals\n'
+    steps[1]['name'] = 'Require exact qualified14 metadata before ERP GET or database'
+    fetch_index = next(i for i, row in enumerate(steps)
+        if row.get('name') == 'Preserve transient artifact download failures and retry only bounded GETs') + 1
+    steps.insert(fetch_index, dict(
+        name='Fetch exact qualified3c0 whole Original and stage six verified raw inputs before ERP',
+        **{'working-directory': 'auditor', 'shell': 'bash',
+           'env': {'GH_TOKEN': '${{ github.token }}'},
+           'run': 'set -euo pipefail\npython -B ' + NS + 'accepted_originals.py --get\n'}))
     upload = next(row for row in steps if row.get('uses', '').startswith('actions/upload-artifact@'))
     upload['with']['name'] = 'cp7-a-attendance-midnight-source475-native1-${{ github.run_attempt }}'
     return value

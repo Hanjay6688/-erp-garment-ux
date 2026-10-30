@@ -48,7 +48,7 @@ jobs:
         path: auditor
         fetch-depth: 0
         persist-credentials: 'false'
-    - name: Require actual accepted successor14 six Originals before ERP GET or database
+    - name: Require exact qualified14 metadata before ERP GET or database
       working-directory: auditor
       run: 'python -B - <<''PY''
 
@@ -117,6 +117,14 @@ jobs:
         printf ''%s\n'' "$artifact_gh_dir" >> "$GITHUB_PATH"
 
         '
+    - name: Fetch exact qualified3c0 whole Original and stage six verified raw inputs before ERP
+      working-directory: auditor
+      shell: bash
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: |
+        set -euo pipefail
+        python -B scripts/current-attendance-midnight-source475-qualification/accepted_originals.py --get
     - name: Fetch and verify immutable actual Native32 original before DB
       env:
         GH_TOKEN: ${{ github.token }}

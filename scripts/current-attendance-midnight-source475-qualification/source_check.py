@@ -3,7 +3,7 @@ from hashlib import sha1, sha256
 from pathlib import Path
 import os
 import subprocess
-from midnight_common import HERE, ROOT, NS, WORKFLOW, document, regular, exact
+from midnight_common import HERE, ROOT, NS, WORKFLOW, canonical, document, regular, exact
 import midnight_gate as gate
 
 BASE = '3c0c5defe55e48cf6f221c868594dd6676d17170'
@@ -46,9 +46,14 @@ def check(root=ROOT, here=HERE, require_bound=False):
     cfg = document(regular(root, NS + 'CONFIG.json').read_bytes())
     if require_bound:
         gate.selected(cfg)
+    import accepted_originals
+    accepted_inputs = (accepted_originals.present_pins(root, cfg, required=require_bound)
+                       if cfg['accepted_parent14'] is not None else {})
     manifest = document(regular(root, NS + 'SOURCE.json').read_bytes())
     if manifest.get('contract') != 'cp7.midnight-native1.current-source.v1':
         raise ValueError('MIDNIGHT_CURRENT_SOURCE_CONTRACT_REQUIRED')
+    if canonical(manifest.get('accepted_parent14')) != canonical(cfg['accepted_parent14']):
+        raise ValueError('MIDNIGHT_SOURCE_DESCRIPTIVE_ACCEPTED14_BINDING_REQUIRED')
     head, tree, active = current_declaration(root, cfg)
     if (git(root, 'rev-parse', head + '^{tree}').decode().strip() != tree
             or manifest['active_parent_head'] != head or manifest['active_parent_tree'] != tree):
@@ -59,6 +64,7 @@ def check(root=ROOT, here=HERE, require_bound=False):
     own = {str(p.relative_to(root)) for p in here.rglob('*')
            if p.is_file() or p.is_symlink()}
     expected_own = {name for name in manifest['files'] if name.startswith(NS)} | {NS + 'SOURCE.json'}
+    own -= set(accepted_inputs)
     if own != expected_own:
         raise ValueError('MIDNIGHT_UNKNOWN_SOURCE_OR_RECEIPT:' + repr(sorted(own ^ expected_own)))
     expected = set(active) | expected_own | {WORKFLOW}
@@ -90,6 +96,7 @@ def check(root=ROOT, here=HERE, require_bound=False):
     proofs = historical_proofs(root)
     import historical_inputs
     proofs.update(historical_inputs.present_pins(root))
+    proofs.update(accepted_inputs)
     allowed = set(entries) | expected_own | {WORKFLOW}
     unknown = (tracked | untracked) - allowed - set(proofs)
     if unknown:
@@ -115,6 +122,8 @@ def check(root=ROOT, here=HERE, require_bound=False):
                 else 'BOUND_EXACT_CURRENT_SOURCE_ONLY',
         source_pins=len(manifest['files']), full_parent_files=len(entries),
         actual_current_parent_source_members=475, parent_manifest_pinned=True,
+        accepted_parent14_raw_inputs=len(accepted_inputs),
+        accepted_parent14_documents_admitted=False,
         inherited_Original_input_pins=len(historical_inputs.present_pins(root)),
         immutable_c097_provenance=routes,
         historical_midnight_files=9, runtime_files=7, function_captures=15,
