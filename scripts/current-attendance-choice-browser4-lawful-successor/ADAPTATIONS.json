@@ -106,15 +106,30 @@
       ]
     },
     {
-      "parent": "scripts/current-attendance-choice-browser4-lawful-successor/retained-e09c-closed/test_outputs.py",
+      "parent": "scripts/current-attendance-choice-browser4-qualification/test_outputs.py",
       "derived": "scripts/current-attendance-choice-browser4-lawful-successor/test_outputs.py",
-      "parent_bytes": 10598,
-      "parent_sha256": "8b2ea238e52048661b316996b1fb71fbc5c5f9b2b8937293e0c5c8562d42a246",
-      "derived_sha256": "8394ef3bddeb214662d37dff679e7eb2e79bbf044ee9e93019d46d049e54ec0f",
+      "parent_bytes": 10516,
+      "parent_sha256": "37a36c78a407ae47d70b2a70dab7ad35b0b1856282b371b88d6e14f5208303ce",
+      "derived_sha256": "7e7dc421dd35af2b985e4b353e09670fb4d63e27ad021d1c942d5871b4517422",
       "changes": [
         {
-          "before": "            if args[:3]==['git','-C',str(self.root)]:",
-          "after": "            if Path(args[0]).name=='git' and args[1:3]==['-C',str(self.root)]:",
+          "before": "\nHERE=Path(__file__).resolve().parent\nROOT=HERE.parents[1]\n\n\ndef load(name,path):\n",
+          "after": "\nHERE=Path(__file__).resolve().parent\nROOT=HERE.parents[1]\nFROZEN=ROOT/'scripts/current-attendance-choice-browser4-qualification'\n\n\ndef load(name,path):\n",
+          "count": 1
+        },
+        {
+          "before": "\n    def whole(self,names):\n        def observed_untracked_double(args,**kwargs):\n            if args[:3]==['git','-C',str(self.root)]:\n                if args[-3:]==['ls-files','--others','--exclude-standard']:\n                    return ''.join(name+'\\n'for name in sorted(names))\n                args=[args[0],args[1],str(ROOT),*args[3:]]\n",
+          "after": "\n    def whole(self,names):\n        def observed_untracked_double(args,**kwargs):\n            if Path(args[0]).name=='git' and args[1:3]==['-C',str(self.root)]:\n                if args[-3:]==['ls-files','--others','--exclude-standard']:\n                    return ''.join(name+'\\n'for name in sorted(names))\n                args=[args[0],args[1],str(ROOT),*args[3:]]\n",
+          "count": 1
+        },
+        {
+          "before": "\n    def test_exact_public_validators_and_only_declared_contract_changes(self):\n        folder=HERE/'inherited-output-validation';receipt=json.loads((folder/'DERIVATION.json').read_bytes())\n        old='.github/workflows/cp7-s03-choice-reader-native14.yml';new='.github/workflows/cp7-current-s03-browser4.yml'\n        for name in('generated_receipts.py','generated_later.py'):\n            raw=(folder/name).read_bytes();self.assertEqual(sha256(raw).hexdigest(),receipt['parent_files'][name]['sha256'])\n        for name in('GENERATED_RECEIPTS.json','LATER_GENERATED_RECEIPTS.json'):\n",
+          "after": "\n    def test_exact_public_validators_and_only_declared_contract_changes(self):\n        folder=HERE/'inherited-output-validation';receipt=json.loads((folder/'DERIVATION.json').read_bytes())\n        old='.github/workflows/cp7-s03-choice-reader-native14.yml';new='.github/workflows/cp7-current-s03-browser4-lawful.yml'\n        for name in('generated_receipts.py','generated_later.py'):\n            raw=(folder/name).read_bytes();self.assertEqual(sha256(raw).hexdigest(),receipt['parent_files'][name]['sha256'])\n        for name in('GENERATED_RECEIPTS.json','LATER_GENERATED_RECEIPTS.json'):\n",
+          "count": 1
+        },
+        {
+          "before": "            self.assertEqual(len(parent['producer_files']),len(current['producer_files']))\n            self.assertNotIn(old,current['producer_files']);self.assertIn(new,current['producer_files'])\n            current['producer_files'][old]=parent['producer_files'][old];current['producer_files'].pop(new)\n            if name=='LATER_GENERATED_RECEIPTS.json':current['package_workflow_name']=parent['package_workflow_name']\n            self.assertEqual(current,parent)\n\n    def test_whole_caller_replays_actual_old101_outputs_and_actual_normal_App_build(self):\n        names=self.copy_build();index=json.loads((HERE/'retained-generated-source-replay/INDEX.json').read_bytes())\n        self.assertEqual(len(index['files']),101)\n        for row in index['files']:\n            packed=(HERE/row['retained']).read_bytes();raw=gzip.decompress(packed)\n            self.assertEqual(sha256(packed).hexdigest(),row['gzip_sha256']);self.assertEqual(sha256(raw).hexdigest(),row['raw_sha256'])\n            self.put(row['output'],raw);names.add(row['output'])\n        result=self.whole(names);proof=result['generated_output_provenance_only']\n",
+          "after": "            self.assertEqual(len(parent['producer_files']),len(current['producer_files']))\n            self.assertNotIn(old,current['producer_files']);self.assertIn(new,current['producer_files'])\n            current['producer_files'][old]=parent['producer_files'][old];current['producer_files'].pop(new)\n            if name=='LATER_GENERATED_RECEIPTS.json':\n                current['package_workflow_name']=parent['package_workflow_name']\n                current['package_run_identity_static']['product_ref']=parent['package_run_identity_static']['product_ref']\n                current['S03_contract_derivation']['changed_contract_fields']=parent['S03_contract_derivation']['changed_contract_fields']\n            self.assertEqual(current,parent)\n\n    def test_current_package_product_identity_and_foreign_identities(self):\n        # Declared output double uses the actual immutable product path history.\n        # It is neither a DB replay nor a browser PASS receipt.\n        contract=json.loads((HERE/'inherited-output-validation/LATER_GENERATED_RECEIPTS.json').read_bytes())\n        identity_module=load('s03_output_original_identity_producer',ROOT/'scripts/cp6_run_identity.py')\n        history=subprocess.check_output(['/usr/bin/git','-C',str(ROOT),'log','-1','--format=%H','--',*identity_module.PRODUCT_PATHS],text=True).strip()\n        alias=json.loads((HERE/'SOURCE.json').read_bytes())['prepared_UI_public_alias']\n        self.assertEqual(history,alias)\n        self.assertEqual(contract['package_run_identity_static']['product_ref'],history)\n        head=subprocess.check_output(['/usr/bin/git','-C',str(ROOT),'rev-parse','HEAD'],text=True).strip()\n        identity=dict(contract['package_run_identity_static'],tool_head=head,github_sha=head,\n            run_id='41020215484',run_attempt='1',workflow=contract['package_workflow_name'],job='p21',event='push')\n        package=dict(label='T3_PREP',mode='install',status='INCOMPLETE',production_go=False,\n            release_evidence=False,stages=contract['package_stages'],run_identity=identity)\n        first='cp6-proof/t3/T3_PACKAGE_FILES_INSTALL.json';second='cp6-proof/t3/T3_PACKAGE_INSTALL.json'\n        self.put(first,json.dumps(contract['package_files_document']).encode())\n        self.put(second,json.dumps(package).encode())\n        result=self.whole({first,second})\n        self.assertEqual(result['generated_output_provenance_only']['later']['classes']['package'],2)\n        self.assertEqual(result['fresh_Native_Auth_HTTP_race_browser_cases'],0)\n        for wrong in ('d902e4d2e65cf5b382af1ab041120611f9a61078','0'*40):\n            identity['product_ref']=wrong;self.put(second,json.dumps(package).encode())\n            with self.subTest(product_ref=wrong),self.assertRaises(AssertionError):self.whole({first,second})\n        identity['product_ref']=history;identity['tool_head']='0'*40\n        self.put(second,json.dumps(package).encode())\n        with self.assertRaisesRegex(AssertionError,'PACKAGE_TOOL_HEAD_CHANGED'):self.whole({first,second})\n\n    def test_whole_caller_replays_actual_old101_outputs_and_actual_normal_App_build(self):\n        names=self.copy_build();index=json.loads((FROZEN/'retained-generated-source-replay/INDEX.json').read_bytes())\n        self.assertEqual(len(index['files']),101)\n        for row in index['files']:\n            packed=(FROZEN/row['retained']).read_bytes();raw=gzip.decompress(packed)\n            self.assertEqual(sha256(packed).hexdigest(),row['gzip_sha256']);self.assertEqual(sha256(raw).hexdigest(),row['raw_sha256'])\n            self.put(row['output'],raw);names.add(row['output'])\n        result=self.whole(names);proof=result['generated_output_provenance_only']\n",
           "count": 1
         }
       ]
@@ -235,8 +250,14 @@
       "derived": "scripts/current-attendance-choice-browser4-lawful-successor/inherited-output-validation/DERIVATION.json",
       "parent_bytes": 1108,
       "parent_sha256": "4cbfb7b4b83bf4bbbfb2c75c167036cb82832a4361b39880875fc492d9d43016",
-      "derived_sha256": "4cbfb7b4b83bf4bbbfb2c75c167036cb82832a4361b39880875fc492d9d43016",
-      "changes": []
+      "derived_sha256": "503df5f6c3c5a0ca9ed4dd5277a8388f78dac76ce47c4d99edb577f0756a86ce",
+      "changes": [
+        {
+          "before": "    ],\n    \"LATER_GENERATED_RECEIPTS.json\": [\n      \"one exact workflow producer path+bytes/hash\",\n      \"one exact workflow-name field\"\n    ]\n  },\n  \"validators_byte_unchanged\": true,\n",
+          "after": "    ],\n    \"LATER_GENERATED_RECEIPTS.json\": [\n      \"one exact workflow producer path+bytes/hash\",\n      \"one exact workflow-name field\",\n      \"one exact current frozen UI product_ref from unchanged cp6_run_identity.PRODUCT_PATHS Git history\"\n    ]\n  },\n  \"validators_byte_unchanged\": true,\n",
+          "count": 1
+        }
+      ]
     },
     {
       "parent": "scripts/current-attendance-choice-browser4-qualification/inherited-output-validation/parent/GENERATED_RECEIPTS.json",
@@ -574,15 +595,25 @@
       ]
     },
     {
-      "parent": "scripts/current-attendance-choice-browser4-lawful-successor/retained-e09c-closed/inherited-output-validation/LATER_GENERATED_RECEIPTS.json",
+      "parent": "scripts/current-attendance-choice-browser4-qualification/inherited-output-validation/LATER_GENERATED_RECEIPTS.json",
       "derived": "scripts/current-attendance-choice-browser4-lawful-successor/inherited-output-validation/LATER_GENERATED_RECEIPTS.json",
-      "parent_bytes": 28387,
-      "parent_sha256": "d3149310bd6c38b603922a4d13d88b680d35e352e84303baa921b3e0da2192bb",
-      "derived_sha256": "26fa4e4d8d2fcd453dd4f1cc6a1388941914473e7b9c77f37cc36c1d66413658",
+      "parent_bytes": 28365,
+      "parent_sha256": "597da97fb922034522de88012967235ba5c6e009fed9c41f36485ae6490b4687",
+      "derived_sha256": "5ebb34811e786edea953938814ec35d5526230b6877ebc9d0787b668d936d981",
       "changes": [
         {
-          "before": "  \"producer_files\": {\n    \"scripts/current-finance-combined-composition/disposable_start.py\": {\n      \"bytes\": 2688,\n      \"sha256\": \"523ec29f0566852f56627c7c9be791de215d09b55d8669c071024fd92aa8e257\"\n    },\n    \"scripts/cp6_t3_aligned_chain.py\": {\n      \"bytes\": 6197,\n      \"sha256\": \"4e043ad5257a2ed93600e3bb745c96a7d2c702ff4b163abaa79548acd5d5a3b9\"\n    },\n    \"scripts/cp6_g01_align.py\": {\n      \"bytes\": 10339,\n      \"sha256\": \"023a9542037b9ad1bc7860b9fabb42d8062173371fb8af728ac2c9bae376c458\"\n    },\n    \"scripts/clone-cp6-disposable-database.sh\": {\n      \"bytes\": 7381,\n      \"sha256\": \"c786ad04009547e2e78baf56f93c5dd6dd5847befdb16e721e01909a592285da\"\n    },\n    \"scripts/verify-cp6-disposable-clone.sh\": {\n      \"bytes\": 4447,\n      \"sha256\": \"b9912f689bbccba172fbbdd7f2f7853bbec29e642307debca56fd6f416aee317\"\n    },\n    \"scripts/cp6_t3_package_run.py\": {\n      \"bytes\": 17087,\n      \"sha256\": \"952bbf1b99652dadf69ab0e1291979a4e7227182631baaab6af7a7eabcb80ab0\"\n    },\n    \"scripts/cp6_t3_release_package.py\": {\n      \"bytes\": 23429,\n      \"sha256\": \"29c207f3a3db70194fe3e45ec24c650b6534a5598525588b284df895f41e1358\"\n    },\n    \"scripts/cp6_run_identity.py\": {\n      \"bytes\": 1869,\n      \"sha256\": \"4876539c2ed0cffc674522f2a24ae73f2f52253f434bf949a53a3744018f2279\"\n    },\n    \"supabase/release/cp6-t3/MANIFEST.json\": {\n      \"bytes\": 68647,\n      \"sha256\": \"40795c3fce619c5795b427e9aa31836777b687f82eba4ab5654264d57564879f\"\n    },\n    \".github/workflows/cp7-current-s03-browser4-lawful.yml\": {\n      \"bytes\": 30405,\n      \"sha256\": \"b16feb01190142038039bb43cd9f0a57c2bc469014546b46885d1a8dfe8c1577\"\n    }\n  }",
-          "after": "  \"producer_files\": {\n    \"scripts/current-finance-combined-composition/disposable_start.py\": {\n      \"bytes\": 2688,\n      \"sha256\": \"523ec29f0566852f56627c7c9be791de215d09b55d8669c071024fd92aa8e257\"\n    },\n    \"scripts/cp6_t3_aligned_chain.py\": {\n      \"bytes\": 6197,\n      \"sha256\": \"4e043ad5257a2ed93600e3bb745c96a7d2c702ff4b163abaa79548acd5d5a3b9\"\n    },\n    \"scripts/cp6_g01_align.py\": {\n      \"bytes\": 10339,\n      \"sha256\": \"023a9542037b9ad1bc7860b9fabb42d8062173371fb8af728ac2c9bae376c458\"\n    },\n    \"scripts/clone-cp6-disposable-database.sh\": {\n      \"bytes\": 7381,\n      \"sha256\": \"c786ad04009547e2e78baf56f93c5dd6dd5847befdb16e721e01909a592285da\"\n    },\n    \"scripts/verify-cp6-disposable-clone.sh\": {\n      \"bytes\": 4447,\n      \"sha256\": \"b9912f689bbccba172fbbdd7f2f7853bbec29e642307debca56fd6f416aee317\"\n    },\n    \"scripts/cp6_t3_package_run.py\": {\n      \"bytes\": 17087,\n      \"sha256\": \"952bbf1b99652dadf69ab0e1291979a4e7227182631baaab6af7a7eabcb80ab0\"\n    },\n    \"scripts/cp6_t3_release_package.py\": {\n      \"bytes\": 23429,\n      \"sha256\": \"29c207f3a3db70194fe3e45ec24c650b6534a5598525588b284df895f41e1358\"\n    },\n    \"scripts/cp6_run_identity.py\": {\n      \"bytes\": 1869,\n      \"sha256\": \"4876539c2ed0cffc674522f2a24ae73f2f52253f434bf949a53a3744018f2279\"\n    },\n    \"supabase/release/cp6-t3/MANIFEST.json\": {\n      \"bytes\": 68647,\n      \"sha256\": \"40795c3fce619c5795b427e9aa31836777b687f82eba4ab5654264d57564879f\"\n    },\n    \".github/workflows/cp7-current-s03-browser4-lawful.yml\": {\n      \"bytes\": 30903,\n      \"sha256\": \"d8856e285ce927bd04f6e0021e720b866dbecba810199a349088dff8612804d8\"\n    }\n  }",
+          "before": "      \"bytes\": 68647,\n      \"sha256\": \"40795c3fce619c5795b427e9aa31836777b687f82eba4ab5654264d57564879f\"\n    },\n    \".github/workflows/cp7-current-s03-browser4.yml\": {\n      \"bytes\": 30261,\n      \"sha256\": \"228f4689ec9aaaa10cbb04b20ec9f5e3bf102f2a4271696e5ad599a91a105842\"\n    }\n  },\n  \"aligned_document\": {\n",
+          "after": "      \"bytes\": 68647,\n      \"sha256\": \"40795c3fce619c5795b427e9aa31836777b687f82eba4ab5654264d57564879f\"\n    },\n    \".github/workflows/cp7-current-s03-browser4-lawful.yml\": {\n      \"bytes\": 30903,\n      \"sha256\": \"d8856e285ce927bd04f6e0021e720b866dbecba810199a349088dff8612804d8\"\n    }\n  },\n  \"aligned_document\": {\n",
+          "count": 1
+        },
+        {
+          "before": "  ],\n  \"package_run_identity_static\": {\n    \"label\": \"T3_PREP\",\n    \"product_ref\": \"d902e4d2e65cf5b382af1ab041120611f9a61078\",\n    \"product_paths\": [\n      \"supabase/migrations\",\n      \"supabase/dev\",\n",
+          "after": "  ],\n  \"package_run_identity_static\": {\n    \"label\": \"T3_PREP\",\n    \"product_ref\": \"598dfe935e97ab7a43d63cd34d9b3b6abd7c7496\",\n    \"product_paths\": [\n      \"supabase/migrations\",\n      \"supabase/dev\",\n",
+          "count": 1
+        },
+        {
+          "before": "    \"push\",\n    \"workflow_dispatch\"\n  ],\n  \"package_workflow_name\": \"CP7 S03 normal App real Auth browser4\",\n  \"S03_contract_derivation\": {\n    \"reference_helper_sha256\": \"7bf35d85d9f7ec19da34c5626f24af908f3691a4e3ed7251dbc4958e59b4bea3\",\n    \"retained_baseline_metadata_is_not_S03_actual_or_runtime_prerequisite\": true,\n    \"changed_contract_fields\": [\n      \"producer_files.workflow\",\n      \"package_workflow_name\"\n    ],\n    \"product_ref_derived_from\": \"unchanged cp6_run_identity.PRODUCT_PATHS and actual Git log\",\n    \"actual_S03_DB_Native_cases\": 0,\n",
+          "after": "    \"push\",\n    \"workflow_dispatch\"\n  ],\n  \"package_workflow_name\": \"CP7 S03 lawful fixture normal App real Auth browser4\",\n  \"S03_contract_derivation\": {\n    \"reference_helper_sha256\": \"7bf35d85d9f7ec19da34c5626f24af908f3691a4e3ed7251dbc4958e59b4bea3\",\n    \"retained_baseline_metadata_is_not_S03_actual_or_runtime_prerequisite\": true,\n    \"changed_contract_fields\": [\n      \"producer_files.workflow\",\n      \"package_workflow_name\",\n      \"package_run_identity_static.product_ref\"\n    ],\n    \"product_ref_derived_from\": \"unchanged cp6_run_identity.PRODUCT_PATHS and actual Git log\",\n    \"actual_S03_DB_Native_cases\": 0,\n",
           "count": 1
         }
       ]
@@ -602,7 +633,7 @@
       ]
     }
   ],
-  "counted_changes": 63,
+  "counted_changes": 69,
   "source_derivation_only": true,
   "Native_SQL_changed": false,
   "actual_Native_Auth_browser_credit": 0,

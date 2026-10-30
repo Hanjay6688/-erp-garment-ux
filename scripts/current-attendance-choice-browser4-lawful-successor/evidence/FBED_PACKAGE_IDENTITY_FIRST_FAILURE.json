@@ -1,0 +1,35 @@
+{
+  "classification": "FIRST_ACTUAL_FAILURE_RETAINED_NOT_BROWSER_PASS",
+  "head": "fbedc55d3318c87d605fce5861eec9a2759a2981",
+  "run_id": 41020215484,
+  "artifact_id": 12962367714,
+  "archive": {
+    "bytes": 8613656,
+    "sha256": "69a5477cc95eba7f4df59bed788f9d1eb655c21f48e1b914ac829327d35768bf"
+  },
+  "package_original": {
+    "bytes": 360436,
+    "sha256": "18ab86502f4c6df01271000581d47ec885b20fc13627032b9e216b3c816c7c87"
+  },
+  "report_original": {
+    "bytes": 1062594,
+    "sha256": "bc62b42130a7a0ddb29205e470123eb061cfff54daf615153cb5a7237a0a61d6"
+  },
+  "first_failure": "generated_later._package static product_ref mismatch before browser bridge",
+  "expected_historical_product_ref": "d902e4d2e65cf5b382af1ab041120611f9a61078",
+  "actual_fixed_UI_product_ref": "598dfe935e97ab7a43d63cd34d9b3b6abd7c7496",
+  "actual_product_ref_verified_from_unchanged_PRODUCT_PATHS_Git_history": true,
+  "actual_browser_counts": {},
+  "qualified_actual_browser_cases": 0,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "baseline_full22_all_rows_all_sequences_equal": true,
+  "cp6_restored": true,
+  "production_go": false,
+  "independent_acceptance": false
+}

@@ -4664,8 +4664,8 @@
     },
     {
       "path": "scripts/current-attendance-choice-browser4-lawful-successor/ADAPTATIONS.json",
-      "bytes": 356898,
-      "sha256": "fa0c2e37c0278a27d4debd16349792209907cc5d3283a4d141a827594dc8fc13"
+      "bytes": 363698,
+      "sha256": "a80b258a3ebeb7271beb08719b02f1b8a74c93e76e2ce1048ecd62b22143874b"
     },
     {
       "path": "scripts/current-attendance-choice-browser4-lawful-successor/BEFORE_EDIT_475_CLASSIFICATION.json",
@@ -4781,6 +4781,11 @@
       "path": "scripts/current-attendance-choice-browser4-lawful-successor/evidence.mjs",
       "bytes": 7752,
       "sha256": "5940af3c890e2da99f282dba1c1dff030fc3136be1f9a333b321d2a0a719d23f"
+    },
+    {
+      "path": "scripts/current-attendance-choice-browser4-lawful-successor/evidence/FBED_PACKAGE_IDENTITY_FIRST_FAILURE.json",
+      "bytes": 1286,
+      "sha256": "e0b3b5810a52240ea00280b27b3211ab500a3bb3c848518b8502aefb5800c805"
     },
     {
       "path": "scripts/current-attendance-choice-browser4-lawful-successor/evidence/FIRST_API_DOC_PROVENANCE_MISMATCH.json",
@@ -4964,8 +4969,8 @@
     },
     {
       "path": "scripts/current-attendance-choice-browser4-lawful-successor/inherited-output-validation/DERIVATION.json",
-      "bytes": 1108,
-      "sha256": "4cbfb7b4b83bf4bbbfb2c75c167036cb82832a4361b39880875fc492d9d43016"
+      "bytes": 1215,
+      "sha256": "503df5f6c3c5a0ca9ed4dd5277a8388f78dac76ce47c4d99edb577f0756a86ce"
     },
     {
       "path": "scripts/current-attendance-choice-browser4-lawful-successor/inherited-output-validation/GENERATED_RECEIPTS.json",
@@ -4974,8 +4979,8 @@
     },
     {
       "path": "scripts/current-attendance-choice-browser4-lawful-successor/inherited-output-validation/LATER_GENERATED_RECEIPTS.json",
-      "bytes": 28387,
-      "sha256": "26fa4e4d8d2fcd453dd4f1cc6a1388941914473e7b9c77f37cc36c1d66413658"
+      "bytes": 28436,
+      "sha256": "5ebb34811e786edea953938814ec35d5526230b6877ebc9d0787b668d936d981"
     },
     {
       "path": "scripts/current-attendance-choice-browser4-lawful-successor/inherited-output-validation/generated_later.py",
@@ -6269,8 +6274,8 @@
     },
     {
       "path": "scripts/current-attendance-choice-browser4-lawful-successor/test_outputs.py",
-      "bytes": 10623,
-      "sha256": "8394ef3bddeb214662d37dff679e7eb2e79bbf044ee9e93019d46d049e54ec0f"
+      "bytes": 13174,
+      "sha256": "7e7dc421dd35af2b985e4b353e09670fb4d63e27ad021d1c942d5871b4517422"
     },
     {
       "path": "scripts/current-attendance-choice-browser4-lawful-successor/test_successor.py",
@@ -12043,6 +12048,7 @@
     "scripts/current-attendance-choice-browser4-lawful-successor/derive.py",
     "scripts/current-attendance-choice-browser4-lawful-successor/derive_successor.py",
     "scripts/current-attendance-choice-browser4-lawful-successor/evidence.mjs",
+    "scripts/current-attendance-choice-browser4-lawful-successor/evidence/FBED_PACKAGE_IDENTITY_FIRST_FAILURE.json",
     "scripts/current-attendance-choice-browser4-lawful-successor/evidence/FIRST_API_DOC_PROVENANCE_MISMATCH.json",
     "scripts/current-attendance-choice-browser4-lawful-successor/evidence/LOCAL_CHECKS.json",
     "scripts/current-attendance-choice-browser4-lawful-successor/evidence/RAW_RETENTION.json",

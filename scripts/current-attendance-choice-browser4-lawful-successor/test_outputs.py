@@ -86,8 +86,38 @@ class GeneratedOutputControls(unittest.TestCase):
             self.assertEqual(len(parent['producer_files']),len(current['producer_files']))
             self.assertNotIn(old,current['producer_files']);self.assertIn(new,current['producer_files'])
             current['producer_files'][old]=parent['producer_files'][old];current['producer_files'].pop(new)
-            if name=='LATER_GENERATED_RECEIPTS.json':current['package_workflow_name']=parent['package_workflow_name']
+            if name=='LATER_GENERATED_RECEIPTS.json':
+                current['package_workflow_name']=parent['package_workflow_name']
+                current['package_run_identity_static']['product_ref']=parent['package_run_identity_static']['product_ref']
+                current['S03_contract_derivation']['changed_contract_fields']=parent['S03_contract_derivation']['changed_contract_fields']
             self.assertEqual(current,parent)
+
+    def test_current_package_product_identity_and_foreign_identities(self):
+        # Declared output double uses the actual immutable product path history.
+        # It is neither a DB replay nor a browser PASS receipt.
+        contract=json.loads((HERE/'inherited-output-validation/LATER_GENERATED_RECEIPTS.json').read_bytes())
+        identity_module=load('s03_output_original_identity_producer',ROOT/'scripts/cp6_run_identity.py')
+        history=subprocess.check_output(['/usr/bin/git','-C',str(ROOT),'log','-1','--format=%H','--',*identity_module.PRODUCT_PATHS],text=True).strip()
+        alias=json.loads((HERE/'SOURCE.json').read_bytes())['prepared_UI_public_alias']
+        self.assertEqual(history,alias)
+        self.assertEqual(contract['package_run_identity_static']['product_ref'],history)
+        head=subprocess.check_output(['/usr/bin/git','-C',str(ROOT),'rev-parse','HEAD'],text=True).strip()
+        identity=dict(contract['package_run_identity_static'],tool_head=head,github_sha=head,
+            run_id='41020215484',run_attempt='1',workflow=contract['package_workflow_name'],job='p21',event='push')
+        package=dict(label='T3_PREP',mode='install',status='INCOMPLETE',production_go=False,
+            release_evidence=False,stages=contract['package_stages'],run_identity=identity)
+        first='cp6-proof/t3/T3_PACKAGE_FILES_INSTALL.json';second='cp6-proof/t3/T3_PACKAGE_INSTALL.json'
+        self.put(first,json.dumps(contract['package_files_document']).encode())
+        self.put(second,json.dumps(package).encode())
+        result=self.whole({first,second})
+        self.assertEqual(result['generated_output_provenance_only']['later']['classes']['package'],2)
+        self.assertEqual(result['fresh_Native_Auth_HTTP_race_browser_cases'],0)
+        for wrong in ('d902e4d2e65cf5b382af1ab041120611f9a61078','0'*40):
+            identity['product_ref']=wrong;self.put(second,json.dumps(package).encode())
+            with self.subTest(product_ref=wrong),self.assertRaises(AssertionError):self.whole({first,second})
+        identity['product_ref']=history;identity['tool_head']='0'*40
+        self.put(second,json.dumps(package).encode())
+        with self.assertRaisesRegex(AssertionError,'PACKAGE_TOOL_HEAD_CHANGED'):self.whole({first,second})
 
     def test_whole_caller_replays_actual_old101_outputs_and_actual_normal_App_build(self):
         names=self.copy_build();index=json.loads((FROZEN/'retained-generated-source-replay/INDEX.json').read_bytes())

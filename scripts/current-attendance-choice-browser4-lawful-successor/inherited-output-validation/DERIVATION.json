@@ -25,7 +25,8 @@
     ],
     "LATER_GENERATED_RECEIPTS.json": [
       "one exact workflow producer path+bytes/hash",
-      "one exact workflow-name field"
+      "one exact workflow-name field",
+      "one exact current frozen UI product_ref from unchanged cp6_run_identity.PRODUCT_PATHS Git history"
     ]
   },
   "validators_byte_unchanged": true,

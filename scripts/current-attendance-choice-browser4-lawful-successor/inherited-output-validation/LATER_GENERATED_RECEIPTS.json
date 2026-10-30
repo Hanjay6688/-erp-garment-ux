@@ -770,7 +770,7 @@
   ],
   "package_run_identity_static": {
     "label": "T3_PREP",
-    "product_ref": "d902e4d2e65cf5b382af1ab041120611f9a61078",
+    "product_ref": "598dfe935e97ab7a43d63cd34d9b3b6abd7c7496",
     "product_paths": [
       "supabase/migrations",
       "supabase/dev",
@@ -799,7 +799,8 @@
     "retained_baseline_metadata_is_not_S03_actual_or_runtime_prerequisite": true,
     "changed_contract_fields": [
       "producer_files.workflow",
-      "package_workflow_name"
+      "package_workflow_name",
+      "package_run_identity_static.product_ref"
     ],
     "product_ref_derived_from": "unchanged cp6_run_identity.PRODUCT_PATHS and actual Git log",
     "actual_S03_DB_Native_cases": 0,
