@@ -1,0 +1,225 @@
+{
+  "status": "EXACT_A18_FIRST_BROWSER_FAILURE_RETAINED_NOT_ACCEPTANCE",
+  "head": "a18ceb797840934f2cc45222b704b581a00cecf0",
+  "tree": "4882a589802c910bb433462f6a74d4b8f38add37",
+  "run_id": 41039546903,
+  "job_id": 124008666380,
+  "artifact_id": 12973314001,
+  "archive": {
+    "bytes": 60998025,
+    "sha256": "3e81b048586c72e5d97452ecdd1b01dbed60aed2c2914baf4bfaffe4601979b6",
+    "CRC_members": 150
+  },
+  "main": {
+    "bytes": 30196696,
+    "sha256": "4246105c0126cf6a9937a8ad2b1e78963375ef2ded3146baad669f823fbb25d9"
+  },
+  "counts": {
+    "PASS": 23,
+    "INCOMPLETE": 4
+  },
+  "same_run": {
+    "Native": 7,
+    "cost_Native": 5,
+    "races": 11,
+    "browser_PASS": 0,
+    "browser_INCOMPLETE": 4
+  },
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "Auth": {
+    "before": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "after": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "restored": true
+  },
+  "host_status": "RUN_COMPLETE",
+  "host_exit": 0,
+  "browser_database_remaining": 0,
+  "first_failure_errors": {
+    "SKU29_BROWSER_DESKTOP_REAL_AUTH_PAIR_FIFO_RECOVERY_INVERSE": "locator.selectOption: Timeout 20000ms exceeded.\nCall log:\n  - waiting for locator('.sku-workspace').locator('.panel').filter({ has: getByRole('heading', { name: /^Padanan /, level: 2 }) }).getByLabel('SKU padanan', { exact: true })\n\n    at choosePair (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-sku-managed-recovery-native27-qualification/browser.mjs:86:58)\n    at async journey (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-sku-managed-recovery-native27-qualification/browser.mjs:120:42)\n    at async main (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:243:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:259:3",
+    "SKU29_BROWSER_MOBILE390_REAL_AUTH_PAIR_FIFO_GUARDS_INVERSE": "locator.selectOption: Timeout 20000ms exceeded.\nCall log:\n  - waiting for locator('.sku-workspace').locator('.panel').filter({ has: getByRole('heading', { name: /^Padanan /, level: 2 }) }).getByLabel('SKU padanan', { exact: true })\n\n    at choosePair (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-sku-managed-recovery-native27-qualification/browser.mjs:86:58)\n    at async journey (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-sku-managed-recovery-native27-qualification/browser.mjs:120:42)\n    at async main (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:243:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:259:3",
+    "A_STAGED_AI_BROWSER_DESKTOP_MANUAL_AND_RETIRED_RESPONSES": "Error: Command failed: python /home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-staged-ai-browser-qualification/fixture.py prepare\nTraceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-staged-ai-browser-qualification/fixture.py\", line 137, in <module>\n    main()\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-staged-ai-browser-qualification/fixture.py\", line 99, in main\n    native.setup(cur, today)\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-frozen-public-native-qualification/public_finance_cases.py\", line 35, in setup\n    staged.analysis.setup(cur,today)\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_analysis_cases.py\", line 53, in setup\n    f,root,s,p=previous.setup(cur,today,True)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_planning_netting_cases.py\", line 39, in setup\n    f=schedule.opening(cur,today)\n      ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_planning_schedule_cases.py\", line 21, in opening\n    f=production.b.bbp.production_post(cur,today,rows)\n      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_bb_probe.py\", line 1095, in production_post\n    posted=api.invoke(cur,'FINALIZE',batch)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_ao_ap_installed.py\", line 29, in invoke\n    def invoke(cur,action,batch,**extra):return call(cur,action,dict(batch_id=batch,expected_revision=read(cur,batch)['batch']['revision'],**extra))\n                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_ao_ap_installed.py\", line 25, in call\n    result=cur.execute('select public.erp_save_initial_import_action_v1(%s,%s::jsonb,%s)',(action,json.dumps(payload,default=str),key or uuid.uuid4())).fetchone()[0]\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.RaiseException: AR_OPENING_REQUIRES_READ_COMMITTED\nCONTEXT:  PL/pgSQL function post_opening_balance(uuid) line 10 at RAISE\nSQL statement \"SELECT erp.post_opening_balance(v_opening)\"\nPL/pgSQL function erp.save_initial_import_action_v1(text,jsonb,uuid) line 154 at PERFORM\nSQL function \"erp_save_initial_import_action_v1\" statement 1\n\n    at genericNodeError (node:internal/errors:983:15)\n    at wrappedFn (node:intern",
+    "A_STAGED_AI_BROWSER_MOBILE_MANUAL_AND_RETIRED_RESPONSES": "Error: Command failed: python /home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-staged-ai-browser-qualification/fixture.py prepare\nTraceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-staged-ai-browser-qualification/fixture.py\", line 137, in <module>\n    main()\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-staged-ai-browser-qualification/fixture.py\", line 99, in main\n    native.setup(cur, today)\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-frozen-public-native-qualification/public_finance_cases.py\", line 35, in setup\n    staged.analysis.setup(cur,today)\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_analysis_cases.py\", line 53, in setup\n    f,root,s,p=previous.setup(cur,today,True)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_planning_netting_cases.py\", line 39, in setup\n    f=schedule.opening(cur,today)\n      ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_planning_schedule_cases.py\", line 21, in opening\n    f=production.b.bbp.production_post(cur,today,rows)\n      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_bb_probe.py\", line 1095, in production_post\n    posted=api.invoke(cur,'FINALIZE',batch)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_ao_ap_installed.py\", line 29, in invoke\n    def invoke(cur,action,batch,**extra):return call(cur,action,dict(batch_id=batch,expected_revision=read(cur,batch)['batch']['revision'],**extra))\n                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_ao_ap_installed.py\", line 25, in call\n    result=cur.execute('select public.erp_save_initial_import_action_v1(%s,%s::jsonb,%s)',(action,json.dumps(payload,default=str),key or uuid.uuid4())).fetchone()[0]\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.RaiseException: AR_OPENING_REQUIRES_READ_COMMITTED\nCONTEXT:  PL/pgSQL function post_opening_balance(uuid) line 10 at RAISE\nSQL statement \"SELECT erp.post_opening_balance(v_opening)\"\nPL/pgSQL function erp.save_initial_import_action_v1(text,jsonb,uuid) line 154 at PERFORM\nSQL function \"erp_save_initial_import_action_v1\" statement 1\n\n    at genericNodeError (node:internal/errors:983:15)\n    at wrappedFn (node:intern"
+  },
+  "actual_opening_function_row19": [
+    "CREATE OR REPLACE FUNCTION erp.post_opening_balance(p_opening_id uuid)\n RETURNS void\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'erp', 'public'\nAS $function$\ndeclare\n  h erp.opening_balance_headers%rowtype; r record; v_lot uuid; v_lot_no text; v_value numeric(24,6); v_unit_hpp numeric(20,6);\n  v_debits numeric(24,6):=0; v_credits numeric(24,6):=0; v_lines jsonb:='[]'::jsonb; v_default_fg_location uuid; v_fg_count integer;\n  v_product_at timestamptz;v_source erp.initial_import_production_sources%rowtype;v_bs uuid;\n  v_dup_type text;v_dup_batch text;\nbegin\n  perform erp.require_owner_admin();\n  if current_setting('transaction_isolation')<>'read committed' then\n    raise exception 'AR_OPENING_REQUIRES_READ_COMMITTED';\n  end if;\n  perform pg_advisory_xact_lock(hashtextextended('FG_HPP_SALES_V2620C',0));\n  -- Serialize with staging before taking the header lock. A revalidated\n  -- preview alone cannot revive the obsolete prepared lines removed by edit.\n  perform 1 from erp.migration_batches b where b.id=(select migration_batch_id\n    from erp.opening_balance_headers where id=p_opening_id) for update;\n  if exists(select 1 from erp.migration_batches b join erp.opening_balance_headers opening_header on opening_header.migration_batch_id=b.id\n    where opening_header.id=p_opening_id and (b.status not in('READY','POSTING') or exists(\n      select 1 from erp.migration_staging_rows s where s.batch_id=b.id and s.validation_status<>'VALID'))) then\n    raise exception 'AK_OPENING_REQUIRES_CURRENT_VALIDATED_BATCH';\n  end if;\n  select * into h from erp.opening_balance_headers where id=p_opening_id for update;\n  if h.id is null or h.status<>'DRAFT' then raise exception 'Opening balance must be DRAFT'; end if;\n  if not exists(select 1 from erp.opening_balance_items where opening_id=h.id) then raise exception 'Opening balance has no lines'; end if;\n\n  perform i.id from erp.opening_balance_items i\n  where i.opening_id=h.id order by i.id for update;\n\n  -- Ordinary opening items remain editable while DRAFT. Validate the latest\n  -- locked rows before any stock, BS, subledger or journal side effect.\n  for r in select * from erp.opening_balance_items where opening_id=h.id order by id loop\n    if r.qty::text in('NaN','Infinity','-Infinity')\n       or r.amount::text in('NaN','Infinity','-Infinity')\n       or r.unit_cost_snapshot::text in('NaN','Infinity','-Infinity')\n       or r.hpp_percent_of_price::text in('NaN','Infinity','-Infinity')\n       or r.reference_sell_price_snapshot::text in('NaN','Infinity','-Infinity') then\n      raise exception 'AL_OPENING_VALUES_MUST_BE_FINITE';\n    end if;\n    if r.balance_type='BS' and\n       (r.qty is null or r.qty<=0 or r.qty<>trunc(r.qty) or r.qty>2147483647) then\n      raise exception 'AL_BS_REQUIRES_POSITIVE_WHOLE_PCS';\n    end if;\n    if r.balance_type='WIP' then\n      if r.amount is null and (r.qty is null or r.unit_cost_snapshot is null) then\n        raise exception 'AL_WIP_REQUIRES_AMOUNT_OR_QTY_AND_COST';\n      end if;\n      if r.amount<0 or r.qty<0 or r.unit_cost_snapshot<0 then\n        raise exception 'AL_WIP_VALUE_MUST_BE_NONNEGATIVE';\n      end if;\n    end if;\n  end loop;\n  if exists(\n    select 1 from erp.opening_balance_items i\n    where i.opening_id=h.id and i.roll_id is not null\n      and i.balance_type<>'MATERIAL'\n  ) then\n    raise exception 'AE_OPENING_ROLL_ONLY_ALLOWED_FOR_MATERIAL';\n  end if;\n  if exists(\n    select 1 from erp.opening_balance_items i\n    where i.opening_id=h.id and i.balance_type='MATERIAL'\n      and i.roll_id is not null\n    group by i.roll_id having count(*)>1\n  ) then\n    raise exception 'AE_OPENING_ROLL_DUPLICATE_IN_DOCUMENT';\n  end if;\n  perform mr.id from erp.material_rolls mr\n  where mr.id in(\n    select i.roll_id from erp.opening_balance_items i\n    where i.opening_id=h.id and i.roll_id is not null\n  ) order by mr.id for update;\n  for r in\n    select i.*,m.material_type,\n      mr.material_id as roll_material_id,\n      mr.original_qty as roll_original_qty,\n      mr.cached_qty as roll_cached_qty,\n      mr.purchase_item_id as roll_purchase_item_id,\n      mr.status as roll_status\n    from erp.opening_balance_items i\n    left join erp.materials m on m.id=i.material_id\n    left join erp.material_rolls mr on mr.id=i.roll_id\n    where i.opening_id=h.id and i.balance_type='MATERIAL'\n    order by i.id\n  loop\n    if r.material_type='FABRIC' and r.roll_id is null then\n      raise exception 'AE_FABRIC_OPENING_REQUIRES_ROLL';\n    end if;\n    if r.roll_id is not null then\n      if r.material_type is distinct from 'FABRIC' then\n        raise exception 'AE_OPENING_ROLL_REQUIRES_FABRIC';\n      end if;\n      if r.roll_material_id is distinct from r.material_id then\n        raise exception 'AE_OPENING_ROLL_MATERIAL_MISMATCH';\n      end if;\n      if r.roll_status is distinct from 'AVAILABLE' then\n        raise exception 'AE_OPENING_ROLL_NOT_AVAILABLE';\n      end if;\n      if r.roll_purchase_item_id is not null then\n        raise exception 'AE_PURCHASE_ROLL_CANNOT_BE_OPENING_BALANCE';\n      end if;\n      if coalesce(r.qty,0)>r.roll_original_qty then\n        raise exception 'AE_OPENING_QTY_EXCEEDS_ROLL_ORIGINAL';\n      end if;\n      if exists(\n        select 1 from erp.opening_balance_items prior\n        join erp.opening_balance_headers prior_h on prior_h.id=prior.opening_id\n        where prior.roll_id=r.roll_id and prior_h.status='POSTED'\n      ) then\n        raise exception 'AE_OPENING_ROLL_ALREADY_POSTED';\n      end if;\n      if exists(select 1 from erp.material_stock_movements prior_m where prior_m.roll_id=r.roll_id)\n         or coalesce(r.roll_cached_qty,0)<>0 then\n        raise exception 'AE_OPENING_ROLL_HAS_EXISTING_STOCK_HISTORY';\n      end if;\n    end if;\n  end loop;\n\n  select count(*),(array_agg(id order by id))[1] into v_fg_count,v_default_fg_location from erp.locations where location_type='FG_WAREHOUSE' and is_active=true;\n\n  -- AR: all canonical posts share the lock acquired above. READ COMMITTED\n  -- rechecks here after waiting, before creating any economic side effect.\n  -- A legacy line has no imported source document/lot identity: an overlapping\n  -- import cannot prove it represents additional opening rights or goods.\n  -- Keep the inherited rules for separate imported documents/physical sources.\n  if exists(\n    select 1 from erp.opening_balance_items i\n    join erp.opening_balance_items o on o.balance_type=i.balance_type\n    join erp.opening_balance_headers oh on oh.id=o.opening_id\n    left join erp.products ip on ip.id=i.product_id\n    left join erp.products op on op.id=o.product_id\n    where i.opening_id=h.id and oh.id<>h.id and oh.status='POSTED'\n      and ((h.migration_batch_id is null)<>(oh.migration_batch_id is null))\n      and case i.balance_type\n        when 'CUSTOMER_RECEIVABLE' then i.customer_id=o.customer_id\n        when 'SUPPLIER_PAYABLE' then i.supplier_id=o.supplier_id\n        when 'VENDOR_PAYABLE' then i.vendor_id=o.vendor_id\n        when 'CONTRACTOR_RECEIVABLE' then i.contractor_id=o.contractor_id\n        when 'CONTRACTOR_PAYABLE' then i.contractor_id=o.contractor_id\n        when 'CASH_BANK' then i.cash_account_id=o.cash_account_id\n        when 'MATERIAL' then i.material_id=o.material_id\n          and i.location_id=o.location_id\n          and (i.roll_id is null or o.roll_id is null or i.roll_id=o.roll_id)\n        when 'FINISHED_GOODS' then i.product_id=o.product_id and exists(\n          select 1 from erp.fg_stock_movements fm\n          where fm.source_type='OPENING_BALANCE_ITEM' and fm.source_id=o.id\n            and fm.movement_type='OPENING'\n            and fm.location_id=coalesce(i.location_id,v_default_fg_location)\n            and fm.quality_grade=coalesce(i.quality_grade,'GRADE_A'))\n        when 'WIP' then\n          (coalesce(i.model_id,ip.model_id) is null or coalesce(o.model_id,op.model_id) is null\n            or coalesce(i.model_id,ip.model_id)=coalesce(o.model_id,op.model_id))\n          and (i.stage is null or o.stage is null or i.stage=o.stage)\n          and (i.contractor_id is null or o.contractor_id is null or i.contractor_id=o.contractor_id)\n        when 'BS' then\n          (i.product_id is null or o.product_id is null or i.product_id=o.product_id)\n          and (coalesce(i.model_id,ip.model_id) is null or coalesce(o.model_id,op.model_id) is null\n            or coalesce(i.model_id,ip.model_id)=coalesce(o.model_id,op.model_id))\n          and (i.contractor_id is null or o.contractor_id is null or i.contractor_id=o.contractor_id)\n          and (i.vendor_id is null or o.vendor_id is null or i.vendor_id=o.vendor_id)\n        else false end\n  ) then\n    raise exception 'AR_OPENING_ROUTE_OVERLAP: saldo/stok awal sudah disahkan melalui jalur lain; rekonsiliasi sumber sebelum mengesahkan';\n  end if;\n\n  -- BA (audit A1, CP6-09): an import batch may not post an opening item another import batch already posted with the same\n  -- identity (AR above compares only import with legacy). Plain material stock: material, warehouse and roll; finished\n  -- goods: product, warehouse and grade; cash: account; WIP and BS without a PO source: AR's model/stage/holder rule.\n  -- Distinct sources stay admissible: stock both batches tie to their own uninvoiced receipt (receipt identity is unique\n  -- across batches) and WIP/BS both carrying a PO source (each batch creates its own, uniquely numbered POs). Party\n  -- balances and advances keep their document identity checks. Runs after the shared lock above, like AR.\n  if h.migration_batch_id is not null then\n    select i.balance_type,ob.batch_code into v_dup_type,v_dup_batch\n    from erp.opening_balance_items i\n    join erp.opening_balance_items o on o.balance_type=i.balance_type\n    join erp.opening_balance_headers oh on oh.id=o.opening_id\n    join erp.migration_batches ob on ob.id=oh.migration_batch_id\n    left join erp.products ip on ip.id=i.product_id\n    left join erp.products op on op.id=o.product_id\n    where i.opening_id=h.id and oh.id<>h.id and oh.status='POSTED'\n      and oh.migration_batch_id is not null and oh.migration_batch_id<>h.migration_batch_id\n      and case i.balance_type\n        when 'CASH_BANK' then i.cash_account_id=o.cash_account_id\n        when 'MATERIAL' then i.material_id=o.material_id\n          and i.location_id=o.location_id\n          and i.roll_id is not distinct from o.roll_id\n          and not (exists(select 1 from erp.initial_import_receipt_lines rl where rl.opening_item_id=o.id)\n            and exists(select 1 from erp.initial_import_opening_stock_sources ss\n              join erp.migration_staging_rows x on x.batch_id=ss.batch_id and x.entity_type='UNINVOICED_RECEIPT'\n                and x.normalized_payload->>'opening_source_key'=ss.source_key\n              where ss.opening_item_id=i.id))\n        when 'FINISHED_GOODS' then i.product_id=o.product_id and exists(\n          select 1 from erp.fg_stock_movements fm\n          where fm.source_type='OPENING_BALANCE_ITEM' and fm.source_id=o.id\n            and fm.movement_type='OPENING'\n            and fm.location_id=coalesce(i.location_id,v_default_fg_location)\n            and fm.quality_grade=coalesce(i.quality_grade,'GRADE_A'))\n        when 'WIP' then\n          not (exists(select 1 from erp.initial_import_production_sources ps where ps.opening_item_id=i.id)\n            and exists(select 1 from erp.initial_import_production_sources ps where ps.opening_item_id=o.id))\n          and (coalesce(i.model_id,ip.model_id) is null or coalesce(o.model_id,op.model_id) is null\n            or coalesce(i.model_id,ip.model_id)=coalesce(o.model_id,op.model_id))\n          and (i.stage is null or o.stage is null or i.stage=o.stage)\n          and (i.contractor_id is null or o.contractor_id is null or i.contractor_id=o.contractor_id)\n        when 'BS' then\n          not (exists(select 1 from erp.initial_import_production_sources ps where ps.opening_item_id=i.id)\n            and exists(select 1 from erp.initial_import_production_sources ps where ps.opening_item_id=o.id))\n          and (i.product_id is null or o.product_id is null or i.product_id=o.product_id)\n          and (coalesce(i.model_id,ip.model_id) is null or coalesce(o.model_id,op.model_id) is null\n            or coalesce(i.model_id,ip.model_id)=coalesce(o.model_id,op.model_id))\n          and (i.contractor_id is null or o.contractor_id is null or i.contractor_id=o.contractor_id)\n          and (i.vendor_id is null or o.vendor_id is null or i.vendor_id=o.vendor_id)\n        else false end\n    order by i.id,oh.id limit 1;\n    if v_dup_type is not null then\n      raise exception 'BA_IMPORT_OPENING_ALREADY_POSTED: saldo % yang sama sudah dibukukan oleh batch impor %; tambahan untuk item yang sama dicatat lewat penyesuaian, bukan saldo awal kedua',v_dup_type,v_dup_batch;\n    end if;\n  end if;\n\n  for r in select * from erp.opening_balance_items where opening_id=h.id order by id loop\n    select * into v_source from erp.initial_import_production_sources where opening_item_id=r.id;\n    if r.balance_type='MATERIAL' then\n      if r.material_id is null or r.location_id is null or coalesce(r.qty,0)<=0 then raise exception 'Opening material needs material, location and positive qty'; end if;\n      if r.unit_cost_snapshot is null or r.unit_cost_snapshot<0 then raise exception 'Opening material unit cost wajib diisi (0 boleh jika memang nilainya nol)'; end if;\n      v_value:=r.qty*r.unit_cost_snapshot;\n      insert into erp.material_stock_movements(material_id,roll_id,location_id,movement_type,qty_signed,input_unit_cost,unit_cost_snapshot,source_type,source_id,physical_at,created_by)\n      values(r.material_id,r.roll_id,r.location_id,'OPENING',r.qty,r.unit_cost_snapshot,r.unit_cost_snapshot,'OPENING_BALANCE_ITEM',r.id,(h.opening_date::timestamp at time zone 'Asia/Jakarta'),erp.current_app_user_id());\n      perform erp.recalculate_material_cost(r.material_id);\n      if round(v_value,2)>0 then v_lines:=v_lines||jsonb_build_array(jsonb_build_object('mapping_key','MATERIAL_INVENTORY','debit',round(v_value,2),'credit',0));v_debits:=v_debits+round(v_value,2);end if;\n    elsif r.balance_type='FINISHED_GOODS' then\n      if r.product_id is null or coalesce(r.qty,0)<=0 or trunc(r.qty)<>r.qty then raise exception 'Opening FG needs product and whole positive pcs qty'; end if;\n      if r.location_id is null and v_fg_count<>1 then raise exception 'Opening FG requires location when active FG warehouse count is not exactly one'; end if;\n      if r.hpp_input_method='MANUAL' and (r.unit_cost_snapshot is null or r.unit_cost_snapshot<0) then raise exception 'Opening FG HPP manual wajib diisi (0 boleh jika memang HPP nol), atau pilih %% dari harga jual'; end if;\n      v_product_at:=erp.product_opening_physical_at(r.product_id,h.opening_date);\n      v_unit_hpp:=erp.resolve_opening_fg_unit_hpp(r.id,h.opening_date);v_value:=r.qty*v_unit_hpp;\n      v_lot_no:='OPEN-'||h.opening_number||'-'||substr(r.id::text,1,8);\n      insert into erp.fg_lots(lot_number,po_id,qc_item_id,product_id,initial_qty_pcs,cached_qty_pcs,produced_at,is_open,lot_origin)\n      values(v_lot_no,null,null,r.product_id,r.qty::integer,0,v_product_at,true,'OPENING') returning id into v_lot;\n      insert into erp.hpp_versions(lot_id,version_no,cost_state,qty_basis_pcs,total_cost,is_current,calculation_reason,created_by)\n      values(v_lot,1,case when exists(\n        select 1 from erp.initial_import_opening_stock_sources k join erp.migration_staging_rows o\n          on o.batch_id=k.batch_id and o.entity_type='OPENING_COST_ORIGIN' and o.normalized_payload->>'target_source_key'=k.source_key\n        where k.opening_item_id=r.id) then 'ESTIMATED' else 'ACTUAL' end,r.qty::integer,v_value,true,case when r.hpp_input_method='PRICE_PERCENT' then 'Opening FG HPP from selling price percentage snapshot' else 'Opening FG HPP' end,erp.current_app_user_id());\n      perform erp.post_fg_movement(r.product_id,v_lot,coalesce(r.location_id,v_default_fg_location),coalesce(r.quality_grade,'GRADE_A'),'OPENING',r.qty::integer,v_unit_hpp,null,'OPENING_BALANCE_ITEM',r.id,v_product_at,'Opening finished goods',false);\n      if round(v_value,2)>0 then v_lines:=v_lines||jsonb_build_array(jsonb_build_object('mapping_key','FG_INVENTORY','debit',round(v_value,2),'credit',0,'product_id',r.product_id));v_debits:=v_debits+round(v_value,2);end if;\n    elsif r.balance_type='WIP' then v_value:=coalesce(r.amount,coalesce(r.qty,0)*coalesce(r.unit_cost_snapshot,0));if round(v_value,2)>0 then v_lines:=v_lines||jsonb_build_array(jsonb_build_object('mapping_key','WIP','debit',round(v_value,2),'credit',0,'po_id',v_source.po_id));v_debits:=v_debits+round(v_value,2);end if;\n      if v_source.opening_item_id is not null then\n        insert into erp.wip_stage_events(po_id,stage_from,stage_to,qty_pcs,contractor_id,source_type,source_id,physical_at,created_by,notes)\n        values(v_source.po_id,null,v_source.stage,v_source.qty_pcs,r.contractor_id,'INITIAL_IMPORT_WIP_OPENING',r.id,h.opening_date::timestamp at time zone 'Asia/Jakarta',erp.current_app_user_id(),'Posisi fisik pada cutover; bukan penyelesaian kerja atau upah');\n      end if;\n    elsif r.balance_type='BS' then\n      if coalesce(r.qty,0)>0 and trunc(r.qty)=r.qty then\n        if r.product_id is not null then v_product_at:=erp.product_opening_physical_at(r.product_id,h.opening_date); else v_product_at:=h.opening_date::timestamp at time zone 'Asia/Jakarta'; end if;\n        insert into erp.bs_cases(bs_number,po_id,product_id,detected_at_stage,cause_source,untracked_type,responsible_contractor_id,responsible_vendor_id,qty_pcs,status,physical_at,notes,legacy_reference)\n        values('OBS-'||h.opening_number||'-'||substr(r.id::text,1,8),v_source.po_id,r.product_id,coalesce(v_source.stage,'UNKNOWN'),'UNKNOWN','LEGACY',r.contractor_id,r.vendor_id,r.qty::integer,'OPEN',v_product_at,r.notes,case when v_source.opening_item_id is not null then 'OPENING:'||r.id::text else null end) returning id into v_bs;\n        if v_source.opening_item_id is not null then\n          update erp.initial_import_production_sources set bs_case_id=v_bs where opening_item_id=r.id;\n          v_value:=v_source.original_amount;\n          if v_value>0 then v_lines:=v_lines||jsonb_build_array(jsonb_build_object('mapping_key','WIP','debit',v_value,'credit',0,'po_id',v_source.po_id));v_debits:=v_debits+v_value;end if;\n        end if;\n      end if;\n    elsif r.balance_type='CONTRACTOR_RECEIVABLE' then v_value:=coalesce(r.amount,0);if v_value<=0 or r.contractor_id is null then raise exception 'Opening contractor receivable requires contractor and positive amount';end if;v_lines:=v_lines||jsonb_build_array(jsonb_build_object('mapping_key','CONTRACTOR_RECEIVABLE','debit',v_value,'credit',0,'contractor_id',r.contractor_id));v_debits:=v_debits+round(v_value,2);insert into erp.opening_subledger_balances(opening_item_id,party_type,direction,contractor_id,original_amount) values(r.id,'CONTRACTOR','RECEIVABLE',r.contractor_id,v_value);\n    elsif r.balance_type='CONTRACTOR_PAYABLE' then v_value:=coalesce(r.amount,0);if v_value<=0 or r.contractor_id is null then raise exception 'Opening contractor payable requires contractor and positive amount';end if;v_lines:=v_lines||jsonb_build_array(jsonb_build_object('mapping_key','CONTRACTOR_PAYABLE','debit',0,'credit',v_value,'contractor_id',r.contractor_id));v_credits:=v_credits+round(v_value,2);insert into erp.opening_subledger_balances(opening_item_id,party_type,direction,contractor_id,original_amount) values(r.id,'CONTRACTOR','PAYABLE',r.contractor_id,v_value);\n    elsif r.balance_type='VENDOR_PAYABLE' then v_value:=coalesce(r.amount,0);if v_value<=0 or r.vendor_id is null then raise exception 'Opening laundry vendor payable requires vendor and positive amount';end if;v_lines:=v_lines||jsonb_build_array(jsonb_build_object('mapping_key','AP_VENDOR','debit',0,'credit',v_value,'vendor_id',r.vendor_id));v_credits:=v_credits+round(v_value,2);insert into erp.opening_subledger_balances(opening_item_id,party_type,direction,vendor_id,original_amount) values(r.id,'VENDOR','PAYABLE',r.vendor_id,v_value);\n    elsif r.balance_type='SUPPLIER_PAYABLE' then v_value:=coalesce(r.amount,0);if v_value<=0 or r.supplier_id is null then raise exception 'Opening material supplier payable requires supplier and positive amount';end if;v_lines:=v_lines||jsonb_build_array(jsonb_build_object('mapping_key','AP_SUPPLIER','debit',0,'credit',v_value));v_credits:=v_credits+round(v_value,2);insert into erp.opening_subledger_balances(opening_item_id,party_type,direction,supplier_id,original_amount) values(r.id,'SUPPLIER','PAYABLE',r.supplier_id,v_value);\n    elsif r.balance_type='CUSTOMER_RECEIVABLE' then v_value:=coalesce(r.amount,0);if v_value<=0 or r.customer_id is null then raise exception 'Opening customer receivable requires customer and positive amount';end if;v_lines:=v_lines||jsonb_build_array(jsonb_build_object('mapping_key','AR_CUSTOMER','debit',v_value,'credit',0,'customer_id',r.customer_id));v_debits:=v_debits+round(v_value,2);insert into erp.opening_subledger_balances(opening_item_id,party_type,direction,customer_id,original_amount) values(r.id,'CUSTOMER','RECEIVABLE',r.customer_id,v_value);\n    elsif r.balance_type='CASH_BANK' then v_value:=coalesce(r.amount,0);if v_value<=0 or r.cash_account_id is null then raise exception 'Opening cash/bank requires cash_account and positive amount';end if;v_lines:=v_lines||jsonb_build_array(jsonb_build_object('account_id',(select coa_account_id from erp.cash_accounts where id=r.cash_account_id),'debit',v_value,'credit',0));v_debits:=v_debits+round(v_value,2);\n    elsif r.balance_type='OTHER' then raise exception 'Generic OTHER opening balance is intentionally unsupported; use an explicit mapped balance type';\n    end if;\n  end loop;\n  if v_debits>v_credits then v_lines:=v_lines||jsonb_build_array(jsonb_build_object('mapping_key','OPENING_EQUITY','debit',0,'credit',round(v_debits-v_credits,2)));elsif v_credits>v_debits then v_lines:=v_lines||jsonb_build_array(jsonb_build_object('mapping_key','OPENING_EQUITY','debit',round(v_credits-v_debits,2),'credit',0));end if;\n  if jsonb_array_length(v_lines)>=2 then perform erp.post_journal('OPENING_BALANCE',h.id,h.opening_date,'ERP go-live opening balance',v_lines);end if;\n  update erp.opening_balance_headers set status='POSTED' where id=h.id;\nend$function$\n",
+    "postgres",
+    "plpgsql",
+    "f",
+    true,
+    false,
+    false,
+    false,
+    "v",
+    "u",
+    "100",
+    "0",
+    [
+      "search_path=erp, public"
+    ],
+    [
+      "p_opening_id"
+    ],
+    null,
+    "p_opening_id uuid",
+    "void",
+    "-",
+    [
+      [
+        "authenticated",
+        "postgres",
+        "EXECUTE",
+        false
+      ],
+      [
+        "postgres",
+        "postgres",
+        "EXECUTE",
+        false
+      ],
+      [
+        "service_role",
+        "postgres",
+        "EXECUTE",
+        false
+      ]
+    ]
+  ],
+  "source_preparation_only": true,
+  "full27_qualification": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "actual_SKU_first_failures": [
+    {
+      "name": "SKU29_DESKTOP_A6847EC34674_FIRST_FAILURE.json",
+      "bytes": 105884,
+      "sha256": "47561797f69451260c31234f69fdf0abb4d85d3cd41c630583d46aa37e844f38",
+      "text": "Produk & SKU\nCepat, jelas, dan aman buat operasional\nUJI LOKAL \u00b7 DATA SINTETIS\nAB\nAuditor browser SKU29-DESKTOP\nOwner \u00b7 Uji lokal\n\u2304\nProduk & SKU\n\nSatu SKU memiliki satu harga jual, resep aksesori, dan pengaturan tarif jasa. Stok tetap dicatat per ukuran.\n\nCari SKU atau merek\nCari / muat ulang\nSKU bersama\nSKU\tModel \u00b7 warna\tUkuran anggota\tPadanan\tHarga / PCS\tMulai berlaku\tPengaturan\nCP6 Race Brand \u00b7 BF-SKU-30c7d3ab\tCP3 R3 Model \u00b7 CP6-E-S29-69e4f0cb\tS29-69e4f0cb-31, S29-69e4f0cb-32, S29-69e4f0cb-33\tBelum adaAtur padanan BF-SKU-30c7d3ab\tRp185.000,00\t30 Okt 2026, 18.34 WIB\tUbah SKU BF-SKU-30c7d3ab\nPadanan CP6 Race Brand \u00b7 BF-SKU-30c7d3ab\n\nSatu hubungan berlaku dua arah untuk seluruh ukuran SKU. Mengganti atau menghapus padanan memperbarui kedua sisi. Stok dan nilai persediaan tetap.\n\nCari padanan\nCari padanan\nSKU padanan\nTanpa padanan\nSKU29 different brand 834f0f9d0e \u00b7 BF-SKU-2402f024 \u00b7 ukuran S29-834f0f9d0e-34, S29-834f0f9d0e-35, S29-834f0f9d0e-36\n\n1 pilihan \u00b7 halaman 1 Padanan sebelumnyaPadanan berikutnya\n\nJika tujuan sudah mempunyai padanan, hubungan lamanya ikut diganti.\n\nAlasan padananSimpan padanan dua arahTutup padanan\nAnggota fisik tersedia\n\nPilih ukuran yang sudah terdaftar untuk membuat SKU baru atau menambah anggota. Ukuran khusus 27 dapat dibuat menjadi SKU tersendiri.\n\nProduk\tModel \u00b7 warna\tUkuran\tPilih\nSebelumnya Halaman 1 \u00b7 1 SKU / 0 ukuran Berikutnya",
+      "calls": [],
+      "reads": [
+        {
+          "rpc": "erp_get_sku_workspace_v1",
+          "url": "http://127.0.0.1:41115/rest/v1/rpc/erp_get_sku_workspace_v1",
+          "args": {
+            "p_filters": {
+              "query": "",
+              "page": 1
+            }
+          }
+        },
+        {
+          "rpc": "erp_get_sku_workspace_v1",
+          "url": "http://127.0.0.1:41115/rest/v1/rpc/erp_get_sku_workspace_v1",
+          "args": {
+            "p_filters": {
+              "query": "BF-SKU-30c7d3ab",
+              "page": 1
+            }
+          }
+        },
+        {
+          "rpc": "erp_get_sku_workspace_v1",
+          "url": "http://127.0.0.1:41115/rest/v1/rpc/erp_get_sku_workspace_v1",
+          "args": {
+            "p_filters": {
+              "query": "BF-SKU-30c7d3ab",
+              "page": 1,
+              "pair_source_id": "a6847ec3-4674-4b18-b0ce-599e07320b76",
+              "pair_query": "",
+              "pair_page": 1
+            }
+          }
+        },
+        {
+          "rpc": "erp_get_sku_workspace_v1",
+          "url": "http://127.0.0.1:41115/rest/v1/rpc/erp_get_sku_workspace_v1",
+          "args": {
+            "p_filters": {
+              "query": "BF-SKU-30c7d3ab",
+              "page": 1,
+              "pair_source_id": "a6847ec3-4674-4b18-b0ce-599e07320b76",
+              "pair_query": "BF-SKU-2402f024",
+              "pair_page": 1
+            }
+          }
+        }
+      ],
+      "console_errors": [],
+      "page_errors": [],
+      "progress": {}
+    },
+    {
+      "name": "SKU29_MOBILE390_BF5984910A03_FIRST_FAILURE.json",
+      "bytes": 105793,
+      "sha256": "f6251e2ca7237b8729a88cd3011b3a47546c837f637813b739d9015ef44eb698",
+      "text": "Produk & SKU\nUJI LOKAL \u00b7 DATA SINTETIS\nAB\nProduk & SKU\n\nSatu SKU memiliki satu harga jual, resep aksesori, dan pengaturan tarif jasa. Stok tetap dicatat per ukuran.\n\nCari SKU atau merek\nCari / muat ulang\nSKU bersama\nSKU\tModel \u00b7 warna\tUkuran anggota\tPadanan\tHarga / PCS\tMulai berlaku\tPengaturan\nCP6 Race Brand \u00b7 BF-SKU-57f54e83\tCP3 R3 Model \u00b7 CP6-E-S29-484b244a\tS29-484b244a-31, S29-484b244a-32, S29-484b244a-33\tBelum adaAtur padanan BF-SKU-57f54e83\tRp185.000,00\t30 Okt 2026, 18.36 WIB\tUbah SKU BF-SKU-57f54e83\nPadanan CP6 Race Brand \u00b7 BF-SKU-57f54e83\n\nSatu hubungan berlaku dua arah untuk seluruh ukuran SKU. Mengganti atau menghapus padanan memperbarui kedua sisi. Stok dan nilai persediaan tetap.\n\nCari padanan\nCari padanan\nSKU padanan\nTanpa padanan\nSKU29 different brand 48d9c28c6d \u00b7 BF-SKU-ecbeb7a8 \u00b7 ukuran S29-48d9c28c6d-34, S29-48d9c28c6d-35, S29-48d9c28c6d-36\n\n1 pilihan \u00b7 halaman 1 Padanan sebelumnyaPadanan berikutnya\n\nJika tujuan sudah mempunyai padanan, hubungan lamanya ikut diganti.\n\nAlasan padananSimpan padanan dua arahTutup padanan\nAnggota fisik tersedia\n\nPilih ukuran yang sudah terdaftar untuk membuat SKU baru atau menambah anggota. Ukuran khusus 27 dapat dibuat menjadi SKU tersendiri.\n\nProduk\tModel \u00b7 warna\tUkuran\tPilih\nSebelumnya Halaman 1 \u00b7 1 SKU / 0 ukuran Berikutnya",
+      "calls": [],
+      "reads": [
+        {
+          "rpc": "erp_get_sku_workspace_v1",
+          "url": "http://127.0.0.1:41115/rest/v1/rpc/erp_get_sku_workspace_v1",
+          "args": {
+            "p_filters": {
+              "query": "",
+              "page": 1
+            }
+          }
+        },
+        {
+          "rpc": "erp_get_sku_workspace_v1",
+          "url": "http://127.0.0.1:41115/rest/v1/rpc/erp_get_sku_workspace_v1",
+          "args": {
+            "p_filters": {
+              "query": "BF-SKU-57f54e83",
+              "page": 1
+            }
+          }
+        },
+        {
+          "rpc": "erp_get_sku_workspace_v1",
+          "url": "http://127.0.0.1:41115/rest/v1/rpc/erp_get_sku_workspace_v1",
+          "args": {
+            "p_filters": {
+              "query": "BF-SKU-57f54e83",
+              "page": 1,
+              "pair_source_id": "bf598491-0a03-43d2-827b-eae8fe872da9",
+              "pair_query": "",
+              "pair_page": 1
+            }
+          }
+        },
+        {
+          "rpc": "erp_get_sku_workspace_v1",
+          "url": "http://127.0.0.1:41115/rest/v1/rpc/erp_get_sku_workspace_v1",
+          "args": {
+            "p_filters": {
+              "query": "BF-SKU-57f54e83",
+              "page": 1,
+              "pair_source_id": "bf598491-0a03-43d2-827b-eae8fe872da9",
+              "pair_query": "BF-SKU-ecbeb7a8",
+              "pair_page": 1
+            }
+          }
+        }
+      ],
+      "console_errors": [],
+      "page_errors": [],
+      "progress": {}
+    }
+  ]
+}

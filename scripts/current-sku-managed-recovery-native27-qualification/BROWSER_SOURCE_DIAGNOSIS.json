@@ -1,0 +1,76 @@
+{
+  "status": "SOURCE_JSX_AND_INSTALLED_PLAYWRIGHT_SELECTOR_CONTROLS_PASS",
+  "playwright_version": "1.62.1",
+  "injected_source_sha256": "fc43c7ab27d27b4e2241190a6f7a990089328dc95ca29785eb54ed59159f6315",
+  "controls": [
+    {
+      "label": "SKU padanan",
+      "product_source": "src/ConnectedSkuMasterPage.tsx",
+      "product_sha256": "780138485928511db7b18116fde43bbd98b01c9eb10e35bb0356ea85cf8c37f0",
+      "exact_JSX_sha256": "0a0f1a4f39a6f636db2fb62739c365ce3ded04bb18437921386ad270f69b121e",
+      "rendered_HTML": "<label>SKU padanan<select><option value=\"\" selected=\"\">Tanpa padanan</option><option value=\"target\">Brand · Target · ukuran 34</option></select></label>",
+      "old_exact_label_text": [
+        "SKU padananTanpa padananBrand · Target · ukuran 34"
+      ],
+      "old_exact_label_matches": 0,
+      "actual_accessible_name_algorithm": "SKU padanan",
+      "exact_role_matches": 1,
+      "wrong_name_matches": 0,
+      "option_values": [
+        "",
+        "target"
+      ],
+      "selected_value_preserved": true,
+      "panel_scope_preserved": true,
+      "css_pseudo_layout_unavailable_in_jsdom": true
+    },
+    {
+      "label": "SKU asal dan gudang",
+      "product_source": "src/ConnectedProductConversionPage.tsx",
+      "product_sha256": "4d7a14336047cfddf78f9e488250f74f961ce87bd221559feef1323f534b9dfb",
+      "exact_JSX_sha256": "226ac6429ac79a4178ea7c64e7f49e1a16bb8e468b3373c7853d3e46a2a1cbf7",
+      "rendered_HTML": "<label>SKU asal dan gudang<select><option value=\"\" selected=\"\">Pilih SKU asal</option><option value=\"source:warehouse\">Brand · Source · ukuran 31 · FG · tersedia 9 PCS</option></select></label>",
+      "old_exact_label_text": [
+        "SKU asal dan gudangPilih SKU asalBrand · Source · ukuran 31 · FG · tersedia 9 PCS"
+      ],
+      "old_exact_label_matches": 0,
+      "actual_accessible_name_algorithm": "SKU asal dan gudang",
+      "exact_role_matches": 1,
+      "wrong_name_matches": 0,
+      "option_values": [
+        "",
+        "source:warehouse"
+      ],
+      "selected_value_preserved": true,
+      "panel_scope_preserved": true,
+      "css_pseudo_layout_unavailable_in_jsdom": true
+    },
+    {
+      "label": "SKU tujuan",
+      "product_source": "src/ConnectedProductConversionPage.tsx",
+      "product_sha256": "4d7a14336047cfddf78f9e488250f74f961ce87bd221559feef1323f534b9dfb",
+      "exact_JSX_sha256": "318f94c5aba9ad1a1d1b65a1e46fd77e985b017ed793aa7e3bc0f7142dfae466",
+      "rendered_HTML": "<label>SKU tujuan<select><option value=\"\" selected=\"\">Pilih SKU dan ukuran tujuan</option><option value=\"target\">Brand · Target · ukuran 34 · Target size 34</option></select></label>",
+      "old_exact_label_text": [
+        "SKU tujuanPilih SKU dan ukuran tujuanBrand · Target · ukuran 34 · Target size 34"
+      ],
+      "old_exact_label_matches": 0,
+      "actual_accessible_name_algorithm": "SKU tujuan",
+      "exact_role_matches": 1,
+      "wrong_name_matches": 0,
+      "option_values": [
+        "",
+        "target"
+      ],
+      "selected_value_preserved": true,
+      "panel_scope_preserved": true,
+      "css_pseudo_layout_unavailable_in_jsdom": true
+    }
+  ],
+  "evidence_kind": "CURRENT_SOURCE_JSX_RENDERED_OFFLINE_NOT_CAPTURED_ACTUAL_BROWSER_DOM",
+  "actual_browser_cases": 0,
+  "actual_Native_cases": 0,
+  "product_accessibility_defect_claim": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

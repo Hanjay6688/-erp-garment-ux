@@ -12,9 +12,21 @@
       "bytes": 71436,
       "sha256": "22d2df2de0171246dd9658d68c244d6bbc70569a4ece8d9bfe1094f1c0ff0400"
     },
+    "scripts/current-sku-managed-recovery-native27-qualification/BROWSER_SOURCE_DIAGNOSIS.json": {
+      "bytes": 3438,
+      "sha256": "14fdcc62045c61972e860f91cf6b6d68875ff76c9e13f1ca027e51cfd8f5e076"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/FIRST_A18_BROWSER_FAILURE.json": {
+      "bytes": 38818,
+      "sha256": "9a4ac1ce8b0a6607b1c8c20d210231b03490fcf2286127a0cc7aace06da8bbf8"
+    },
     "scripts/current-sku-managed-recovery-native27-qualification/FIRST_C397_ROUTING_FAILURE.json": {
       "bytes": 2044,
       "sha256": "d8f4ad30fef164c7b0853fbd079f19694436bce193e668c33ac24b1fec36c1a5"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/FIRST_LOCAL_BROWSER_SUCCESSOR_FAILURE.json": {
+      "bytes": 382,
+      "sha256": "b817c096b33fc427c2f42c93174aa3b7613939ba206cd9318332008233532723"
     },
     "scripts/current-sku-managed-recovery-native27-qualification/GENERATED_RECEIPTS.json": {
       "bytes": 58902,
@@ -37,24 +49,28 @@
       "sha256": "cb512849e5400869a0efcfbb877198903741e0d4d67b7cf31f312282c9c040ad"
     },
     "scripts/current-sku-managed-recovery-native27-qualification/README.md": {
-      "bytes": 6596,
-      "sha256": "461f93380c029a1ffb964ba9a728b33baeed4f0d42b49eb215abfc59411ad275"
+      "bytes": 8925,
+      "sha256": "b997168e2af66b5ecf2ae892e49366552ed0e0962fd6687d70e75228c9863cfb"
     },
     "scripts/current-sku-managed-recovery-native27-qualification/SKU_GENERATED_RECEIPTS.json": {
       "bytes": 28017,
       "sha256": "ba66bc68dcd921bda71346b14b82331077b31176794e8af96900accf70e7316a"
     },
     "scripts/current-sku-managed-recovery-native27-qualification/admission.py": {
-      "bytes": 1995,
-      "sha256": "97b05e0131b638375dfa6b4aa3a41bbba9e0772ae418273a855b2b7a2eb26fee"
+      "bytes": 2167,
+      "sha256": "42b97e18905faa93b4b321018fc1cdeeebdeeae5e23993d50b5a2b417249b740"
     },
     "scripts/current-sku-managed-recovery-native27-qualification/bind.py": {
-      "bytes": 4137,
-      "sha256": "4299dd39a2c19e74c9baf920cdf209053de6a38e817d9386752bd9f32477a7cd"
+      "bytes": 4361,
+      "sha256": "5d205c272ddda20a74ac738f1a122a2dee81c1d1a0f9921331f21089f79539e3"
     },
     "scripts/current-sku-managed-recovery-native27-qualification/browser.mjs": {
-      "bytes": 22232,
-      "sha256": "351624133b12811291e0451c4f49631b3816a02f62ebf4e52e2a1fbed3fde129"
+      "bytes": 22367,
+      "sha256": "efc85b10844168fb2bcb97bfd793b284426640a4a6a3b962c90b4300a9cb0dae"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/browser_delta.py": {
+      "bytes": 4698,
+      "sha256": "83137a32b180942c36fbfd14a2f1813045c7f2de4463dd275514e69eb3cbf502"
     },
     "scripts/current-sku-managed-recovery-native27-qualification/browser_fixture.py": {
       "bytes": 383,
@@ -69,8 +85,8 @@
       "sha256": "23192ba5d370fbe857527d3f5832f1089461d9eb8a2ad3d85b73632fdbfd3fa9"
     },
     "scripts/current-sku-managed-recovery-native27-qualification/cases.mjs": {
-      "bytes": 566,
-      "sha256": "e9835a0fb9064b4816ab2cf7275fde9b1e71842f41227e45452abff80d13dcfd"
+      "bytes": 535,
+      "sha256": "f0a13f9baaee434c03525a605a86963e0fe3e3890b09e8aa398ad14f53899208"
     },
     "scripts/current-sku-managed-recovery-native27-qualification/check.py": {
       "bytes": 1100,
@@ -93,8 +109,8 @@
       "sha256": "929ea1834693204d278a1879192973055a27338c9a3947836da16753be0aaba4"
     },
     "scripts/current-sku-managed-recovery-native27-qualification/derive.py": {
-      "bytes": 11653,
-      "sha256": "a2af47427385693d67b577917d2793619df43707a266d27a869071426388e79d"
+      "bytes": 12155,
+      "sha256": "eb78c7a1e81576c907f361c2fdcff8cd757a1f951d7d1a7b882b26e38638b603"
     },
     "scripts/current-sku-managed-recovery-native27-qualification/engine_delta.py": {
       "bytes": 1615,
@@ -268,6 +284,42 @@
       "bytes": 1806,
       "sha256": "e5e6bfac1a2f305f58b1c3ad9fda8e1a93e532e538670bf9009bcf2e5047491d"
     },
+    "scripts/current-sku-managed-recovery-native27-qualification/retained_a18/README.md": {
+      "bytes": 6596,
+      "sha256": "461f93380c029a1ffb964ba9a728b33baeed4f0d42b49eb215abfc59411ad275"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/retained_a18/SOURCE.json": {
+      "bytes": 47681,
+      "sha256": "ffc9308f3f623bda226725cf1706a76e6e4128784c1f61a59f4e8ab55f820cbb"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/retained_a18/admission.py.txt": {
+      "bytes": 1995,
+      "sha256": "97b05e0131b638375dfa6b4aa3a41bbba9e0772ae418273a855b2b7a2eb26fee"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/retained_a18/bind.py.txt": {
+      "bytes": 4137,
+      "sha256": "4299dd39a2c19e74c9baf920cdf209053de6a38e817d9386752bd9f32477a7cd"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/retained_a18/browser.mjs": {
+      "bytes": 22232,
+      "sha256": "351624133b12811291e0451c4f49631b3816a02f62ebf4e52e2a1fbed3fde129"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/retained_a18/cases.mjs": {
+      "bytes": 566,
+      "sha256": "e9835a0fb9064b4816ab2cf7275fde9b1e71842f41227e45452abff80d13dcfd"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/retained_a18/derive.py.txt": {
+      "bytes": 11653,
+      "sha256": "a2af47427385693d67b577917d2793619df43707a266d27a869071426388e79d"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/retained_a18/test_node_source.mjs.txt": {
+      "bytes": 4644,
+      "sha256": "86648f031c3bd46466119ee4694bb533981b0ded51de2919823f005477305755"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/retained_a18/test_qualification.py.txt": {
+      "bytes": 14079,
+      "sha256": "800e7096dcca3011e594c30d2849842d3cc2905c42111da8635559a63851225d"
+    },
     "scripts/current-sku-managed-recovery-native27-qualification/runner.py": {
       "bytes": 365,
       "sha256": "4048ad839676eb816469b334ac5749c875a51d61b6f8acf2b7eec6c402cd49dc"
@@ -284,6 +336,22 @@
       "bytes": 1968,
       "sha256": "48e8f2712f8dedc19c9af239e25755abdb64084797041ecb1b90ac4438ef5f88"
     },
+    "scripts/current-sku-managed-recovery-native27-qualification/staged_ai_cases.mjs": {
+      "bytes": 20518,
+      "sha256": "a559941a3e59c8f51c83a0222a1d11e388bc9844554de30fb9b8ea28dfcedce4"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/staged_ai_fixture.py": {
+      "bytes": 6748,
+      "sha256": "241264dbca369179a5fb40a5549a1a70c9847e4772dbe3de05a7af3dc54963ee"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/test_browser_labels.mjs": {
+      "bytes": 5064,
+      "sha256": "8ff236e577c0a9df9b86b01299ff3835aa38eef529c45d14238b98d8aee3a2a7"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/test_browser_prepare_isolation.py": {
+      "bytes": 5082,
+      "sha256": "dc924b59d30799c9f8a1945e7fe443efaccf36409deac0187527635d101232b3"
+    },
     "scripts/current-sku-managed-recovery-native27-qualification/test_generated_ci.py": {
       "bytes": 5460,
       "sha256": "91f2a20315c25ece737e3994d40ebd5776984d4f0c5f33c20753f300fd43b7b4"
@@ -293,12 +361,12 @@
       "sha256": "c8b826affc64b971151a348673919a29aa3111fd4febc7a4a91189b53abdd779"
     },
     "scripts/current-sku-managed-recovery-native27-qualification/test_node_source.mjs": {
-      "bytes": 4644,
-      "sha256": "86648f031c3bd46466119ee4694bb533981b0ded51de2919823f005477305755"
+      "bytes": 4794,
+      "sha256": "8062bdfd13825b10c93b6352a8ecef4b61d44553d30f15606c91f87f33cd67fb"
     },
     "scripts/current-sku-managed-recovery-native27-qualification/test_qualification.py": {
-      "bytes": 14079,
-      "sha256": "800e7096dcca3011e594c30d2849842d3cc2905c42111da8635559a63851225d"
+      "bytes": 14333,
+      "sha256": "c892ba0eca295ad21ffd005d9ce78ddc9f17b281ad41e2f9f0947e127f158a15"
     },
     "scripts/current-sku-managed-recovery-native27-qualification/test_race_binding.py": {
       "bytes": 4509,
@@ -325,7 +393,10 @@
     ".github/workflows/cp7-sku-managed-recovery-native27.yml",
     "scripts/current-sku-managed-recovery-native27-qualification/.gitignore",
     "scripts/current-sku-managed-recovery-native27-qualification/BROWSER_SOURCE.json",
+    "scripts/current-sku-managed-recovery-native27-qualification/BROWSER_SOURCE_DIAGNOSIS.json",
+    "scripts/current-sku-managed-recovery-native27-qualification/FIRST_A18_BROWSER_FAILURE.json",
     "scripts/current-sku-managed-recovery-native27-qualification/FIRST_C397_ROUTING_FAILURE.json",
+    "scripts/current-sku-managed-recovery-native27-qualification/FIRST_LOCAL_BROWSER_SUCCESSOR_FAILURE.json",
     "scripts/current-sku-managed-recovery-native27-qualification/GENERATED_RECEIPTS.json",
     "scripts/current-sku-managed-recovery-native27-qualification/HISTORICAL_TRANSITIONS.json",
     "scripts/current-sku-managed-recovery-native27-qualification/LATER_GENERATED_RECEIPTS.json",
@@ -337,6 +408,7 @@
     "scripts/current-sku-managed-recovery-native27-qualification/admission.py",
     "scripts/current-sku-managed-recovery-native27-qualification/bind.py",
     "scripts/current-sku-managed-recovery-native27-qualification/browser.mjs",
+    "scripts/current-sku-managed-recovery-native27-qualification/browser_delta.py",
     "scripts/current-sku-managed-recovery-native27-qualification/browser_fixture.py",
     "scripts/current-sku-managed-recovery-native27-qualification/browser_guard.py",
     "scripts/current-sku-managed-recovery-native27-qualification/browser_source.py",
@@ -390,10 +462,23 @@
     "scripts/current-sku-managed-recovery-native27-qualification/recovery_cases.py",
     "scripts/current-sku-managed-recovery-native27-qualification/recovery_sessions.py",
     "scripts/current-sku-managed-recovery-native27-qualification/retain_outputs.py",
+    "scripts/current-sku-managed-recovery-native27-qualification/retained_a18/README.md",
+    "scripts/current-sku-managed-recovery-native27-qualification/retained_a18/SOURCE.json",
+    "scripts/current-sku-managed-recovery-native27-qualification/retained_a18/admission.py.txt",
+    "scripts/current-sku-managed-recovery-native27-qualification/retained_a18/bind.py.txt",
+    "scripts/current-sku-managed-recovery-native27-qualification/retained_a18/browser.mjs",
+    "scripts/current-sku-managed-recovery-native27-qualification/retained_a18/cases.mjs",
+    "scripts/current-sku-managed-recovery-native27-qualification/retained_a18/derive.py.txt",
+    "scripts/current-sku-managed-recovery-native27-qualification/retained_a18/test_node_source.mjs.txt",
+    "scripts/current-sku-managed-recovery-native27-qualification/retained_a18/test_qualification.py.txt",
     "scripts/current-sku-managed-recovery-native27-qualification/runner.py",
     "scripts/current-sku-managed-recovery-native27-qualification/sequence_prefix.py",
     "scripts/current-sku-managed-recovery-native27-qualification/session_controls.py",
     "scripts/current-sku-managed-recovery-native27-qualification/source_context.py",
+    "scripts/current-sku-managed-recovery-native27-qualification/staged_ai_cases.mjs",
+    "scripts/current-sku-managed-recovery-native27-qualification/staged_ai_fixture.py",
+    "scripts/current-sku-managed-recovery-native27-qualification/test_browser_labels.mjs",
+    "scripts/current-sku-managed-recovery-native27-qualification/test_browser_prepare_isolation.py",
     "scripts/current-sku-managed-recovery-native27-qualification/test_generated_ci.py",
     "scripts/current-sku-managed-recovery-native27-qualification/test_generated_later.py",
     "scripts/current-sku-managed-recovery-native27-qualification/test_node_source.mjs",
@@ -442,7 +527,8 @@
       "byte_exact_reversible": true,
       "original23_financial_callback_bodies_unchanged": true,
       "original_financial_postcondition_assertions_unchanged": true,
-      "explicit_race_schedule_transition": false
+      "explicit_race_schedule_transition": false,
+      "explicit_browser_locator_or_route_changes": 0
     },
     "cost_native": {
       "retained602": {
@@ -473,7 +559,8 @@
       "byte_exact_reversible": true,
       "original23_financial_callback_bodies_unchanged": true,
       "original_financial_postcondition_assertions_unchanged": true,
-      "explicit_race_schedule_transition": false
+      "explicit_race_schedule_transition": false,
+      "explicit_browser_locator_or_route_changes": 0
     },
     "cost_cases": {
       "retained602": {
@@ -504,7 +591,8 @@
       "byte_exact_reversible": true,
       "original23_financial_callback_bodies_unchanged": true,
       "original_financial_postcondition_assertions_unchanged": true,
-      "explicit_race_schedule_transition": false
+      "explicit_race_schedule_transition": false,
+      "explicit_browser_locator_or_route_changes": 0
     },
     "races": {
       "retained602": {
@@ -535,7 +623,8 @@
       "byte_exact_reversible": true,
       "original23_financial_callback_bodies_unchanged": false,
       "original_financial_postcondition_assertions_unchanged": true,
-      "explicit_race_schedule_transition": true
+      "explicit_race_schedule_transition": true,
+      "explicit_browser_locator_or_route_changes": 0
     },
     "auth_waits": {
       "retained602": {
@@ -566,7 +655,8 @@
       "byte_exact_reversible": true,
       "original23_financial_callback_bodies_unchanged": true,
       "original_financial_postcondition_assertions_unchanged": true,
-      "explicit_race_schedule_transition": false
+      "explicit_race_schedule_transition": false,
+      "explicit_browser_locator_or_route_changes": 0
     },
     "concurrency": {
       "retained602": {
@@ -597,7 +687,8 @@
       "byte_exact_reversible": true,
       "original23_financial_callback_bodies_unchanged": true,
       "original_financial_postcondition_assertions_unchanged": true,
-      "explicit_race_schedule_transition": false
+      "explicit_race_schedule_transition": false,
+      "explicit_browser_locator_or_route_changes": 0
     },
     "browser_fixture": {
       "retained602": {
@@ -628,7 +719,8 @@
       "byte_exact_reversible": true,
       "original23_financial_callback_bodies_unchanged": true,
       "original_financial_postcondition_assertions_unchanged": true,
-      "explicit_race_schedule_transition": false
+      "explicit_race_schedule_transition": false,
+      "explicit_browser_locator_or_route_changes": 0
     },
     "runner": {
       "retained602": {
@@ -659,7 +751,8 @@
       "byte_exact_reversible": true,
       "original23_financial_callback_bodies_unchanged": true,
       "original_financial_postcondition_assertions_unchanged": true,
-      "explicit_race_schedule_transition": false
+      "explicit_race_schedule_transition": false,
+      "explicit_browser_locator_or_route_changes": 0
     },
     "probe": {
       "retained602": {
@@ -690,7 +783,8 @@
       "byte_exact_reversible": true,
       "original23_financial_callback_bodies_unchanged": true,
       "original_financial_postcondition_assertions_unchanged": true,
-      "explicit_race_schedule_transition": false
+      "explicit_race_schedule_transition": false,
+      "explicit_browser_locator_or_route_changes": 0
     },
     "historical_admission": {
       "retained602": {
@@ -721,7 +815,8 @@
       "byte_exact_reversible": true,
       "original23_financial_callback_bodies_unchanged": true,
       "original_financial_postcondition_assertions_unchanged": true,
-      "explicit_race_schedule_transition": false
+      "explicit_race_schedule_transition": false,
+      "explicit_browser_locator_or_route_changes": 0
     },
     "browser": {
       "retained602": {
@@ -746,13 +841,14 @@
         "original_files_modified": false
       },
       "retained602_derived_sha256": "e4f49b2c58b62170f603a40fb211a8a7e64fe15661aa479c1ce11724e9c471f8",
-      "derived_sha256": "351624133b12811291e0451c4f49631b3816a02f62ebf4e52e2a1fbed3fde129",
+      "derived_sha256": "efc85b10844168fb2bcb97bfd793b284426640a4a6a3b962c90b4300a9cb0dae",
       "namespace_occurrences": 0,
       "extra_counted_changes": 6,
       "byte_exact_reversible": true,
-      "original23_financial_callback_bodies_unchanged": true,
+      "original23_financial_callback_bodies_unchanged": false,
       "original_financial_postcondition_assertions_unchanged": true,
-      "explicit_race_schedule_transition": false
+      "explicit_race_schedule_transition": false,
+      "explicit_browser_locator_or_route_changes": 9
     },
     "cases": {
       "retained602": {
@@ -777,13 +873,14 @@
         "original_files_modified": false
       },
       "retained602_derived_sha256": "e9835a0fb9064b4816ab2cf7275fde9b1e71842f41227e45452abff80d13dcfd",
-      "derived_sha256": "e9835a0fb9064b4816ab2cf7275fde9b1e71842f41227e45452abff80d13dcfd",
+      "derived_sha256": "f0a13f9baaee434c03525a605a86963e0fe3e3890b09e8aa398ad14f53899208",
       "namespace_occurrences": 0,
       "extra_counted_changes": 0,
       "byte_exact_reversible": true,
       "original23_financial_callback_bodies_unchanged": true,
       "original_financial_postcondition_assertions_unchanged": true,
-      "explicit_race_schedule_transition": false
+      "explicit_race_schedule_transition": false,
+      "explicit_browser_locator_or_route_changes": 1
     },
     "native_admission": {
       "retained602": {
@@ -805,7 +902,8 @@
       "byte_exact_reversible": true,
       "original23_financial_callback_bodies_unchanged": true,
       "original_financial_postcondition_assertions_unchanged": true,
-      "explicit_race_schedule_transition": false
+      "explicit_race_schedule_transition": false,
+      "explicit_browser_locator_or_route_changes": 0
     },
     "cost_guard": {
       "retained602": {
@@ -827,7 +925,8 @@
       "byte_exact_reversible": true,
       "original23_financial_callback_bodies_unchanged": true,
       "original_financial_postcondition_assertions_unchanged": true,
-      "explicit_race_schedule_transition": false
+      "explicit_race_schedule_transition": false,
+      "explicit_browser_locator_or_route_changes": 0
     },
     "browser_guard": {
       "retained602": {
@@ -849,7 +948,8 @@
       "byte_exact_reversible": true,
       "original23_financial_callback_bodies_unchanged": true,
       "original_financial_postcondition_assertions_unchanged": true,
-      "explicit_race_schedule_transition": false
+      "explicit_race_schedule_transition": false,
+      "explicit_browser_locator_or_route_changes": 0
     }
   },
   "complete_vendor_engine_changes": 6,
@@ -895,6 +995,40 @@
     "actual_current_product_sources": true,
     "authentic_Original21_reader": true,
     "projected_sources": false
+  },
+  "explicit_a18_browser_successor": {
+    "status": "EXACT_A18_BROWSER_FIRST_FAILURE_SOURCE_SUCCESSOR_ONLY",
+    "named_combobox_locator_changes": 9,
+    "exact_accessible_names_retained": true,
+    "stage_cases_route_changes": 1,
+    "staged_derivations": {
+      "staged_ai_cases.mjs": {
+        "source": "scripts/current-staged-ai-browser-qualification/cases.mjs",
+        "original_sha256": "6d28e7da173c4170f9441f55c9f39b56b34779dc17ba930abee4fb680ba2b5d7",
+        "derived_sha256": "a559941a3e59c8f51c83a0222a1d11e388bc9844554de30fb9b8ea28dfcedce4",
+        "counted_changes": 1,
+        "byte_exact_reversible": true,
+        "financial_and_full_census_assertions_unchanged": true
+      },
+      "staged_ai_fixture.py": {
+        "source": "scripts/current-staged-ai-browser-qualification/fixture.py",
+        "original_sha256": "06ca4d87cad916c7af3663e3239beca7761ed3588abd28b1fc6b2e12ba8136b9",
+        "derived_sha256": "241264dbca369179a5fb40a5549a1a70c9847e4772dbe3de05a7af3dc54963ee",
+        "counted_changes": 1,
+        "byte_exact_reversible": true,
+        "financial_and_full_census_assertions_unchanged": true
+      }
+    },
+    "actual_materialized_SKU_and_staged_caller_routes_exact": true,
+    "prepare_isolation": "READ COMMITTED",
+    "state_and_read_isolation": "REPEATABLE READ",
+    "product_sources_changed": 0,
+    "financial_oracles_changed": 0,
+    "original_browser_journey_whole_body_identity_claim": false,
+    "actual_new_browser_cases": 0,
+    "actual_new_Native_cases": 0,
+    "production_go": false,
+    "independent_acceptance": false
   },
   "actual_successor_cases": 0,
   "actual_Auth_HTTP_cases": 0,

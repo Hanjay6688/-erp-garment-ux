@@ -10,6 +10,8 @@ OLD_NS='scripts/current-sku-all-member-native23-qualification'
 path=ROOT/OLD_NS/'derive.py';spec=importlib.util.spec_from_file_location('sku27_frozen_602_private_deriver',path)
 legacy=importlib.util.module_from_spec(spec);spec.loader.exec_module(legacy)
 SOURCES=legacy.SOURCES
+browser_spec=importlib.util.spec_from_file_location('sku27_a18_browser_delta',HERE/'browser_delta.py')
+browser_delta=importlib.util.module_from_spec(browser_spec);browser_spec.loader.exec_module(browser_delta)
 
 EXTRA={
  'races':(
@@ -111,7 +113,10 @@ def derive(key,raw=None):
     for before,after in EXTRA.get(key,()):
         if text.count(before)!=1 or after in text:raise ValueError('SKU27_EXACT_SOURCE_ADAPTER_REQUIRED:'+key+':'+before)
         text=text.replace(before,after,1)
-    reverse=text
+    predecessor_text=text
+    text=browser_delta.adapt(text,key)
+    reverse=browser_delta.adapt(text,key,reverse=True)
+    assert reverse==predecessor_text,'SKU27_BROWSER_DELTA_NOT_REVERSIBLE'
     for before,after in reversed(EXTRA.get(key,())):
         assert reverse.count(after)==1;reverse=reverse.replace(after,before,1)
     assert reverse.replace(NS,OLD_NS)==base,'SKU27_PRIVATE_DERIVATION_NOT_REVERSIBLE'
@@ -119,9 +124,10 @@ def derive(key,raw=None):
     return text,dict(retained602=prior,retained602_derived_sha256=sha256(base.encode()).hexdigest(),
       derived_sha256=sha256(text.encode()).hexdigest(),namespace_occurrences=count,
       extra_counted_changes=len(EXTRA.get(key,())),byte_exact_reversible=True,
-      original23_financial_callback_bodies_unchanged=key!='races',
+      original23_financial_callback_bodies_unchanged=key not in('races','browser'),
       original_financial_postcondition_assertions_unchanged=True,
-      explicit_race_schedule_transition=key=='races')
+      explicit_race_schedule_transition=key=='races',
+      explicit_browser_locator_or_route_changes=sum(row[2]for row in browser_delta.changes(key)))
 
 def inventory():return{key:derive(key)[1]for key in SOURCES}
 

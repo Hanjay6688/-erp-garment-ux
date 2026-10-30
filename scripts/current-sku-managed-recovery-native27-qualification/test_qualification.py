@@ -44,13 +44,16 @@ class Qualification(unittest.TestCase):
             b={n.name:ast.dump(n)for n in ast.parse(after).body if isinstance(n,ast.FunctionDef)}
             for name in names:self.assertEqual(a[name],b[name],(key,name))
         before=d.legacy.derive('browser')[0];after=d.derive('browser')[0]
+        after=d.browser_delta.adapt(after,'browser',reverse=True)
         self.assertEqual(before[before.index('async function journey'):before.index('export function cases')],
                          after[after.index('async function journey'):after.index('export function cases')])
 
     def test_every_private_derivation_has_exact_current_source_and_inverse(self):
         proof=d.inventory();self.assertEqual(len(proof),15)
         self.assertTrue(all(p['byte_exact_reversible']for p in proof.values()))
-        self.assertEqual([key for key,p in proof.items()if not p['original23_financial_callback_bodies_unchanged']],['races'])
+        self.assertEqual([key for key,p in proof.items()if not p['original23_financial_callback_bodies_unchanged']],['races','browser'])
+        self.assertEqual(proof['browser']['explicit_browser_locator_or_route_changes'],9)
+        self.assertEqual(proof['cases']['explicit_browser_locator_or_route_changes'],1)
         self.assertTrue(all(p['original_financial_postcondition_assertions_unchanged']for p in proof.values()))
         with self.assertRaises(ValueError):d.derive('runner',b'unknown body')
 

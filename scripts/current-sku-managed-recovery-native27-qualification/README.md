@@ -95,3 +95,41 @@ engines remain unchanged. Local threaded doubles confer Native0/race0.
 
 
 The complete c397 run retained the old followup race-loader route despite the new schedule being present in the inventory. FIRST_C397_ROUTING_FAILURE.json retains the two actual NO_CONTENTION refusals, partial7+5+9/11 and complete restoration. The successor redirects exactly that caller to the complete own races.py derivative, checks the actual route before DB imports, and checks compiled callable/schedule identity before callbacks. Real-module regression controls reproduce and reject the old route; schedule, all financial postconditions, Native SQL and every27 case ID remain unchanged. No prior partial result is aggregated into PASS.
+
+
+### a18 first browser failure: explicit source successor
+
+The exact a18 Original remains 23 PASS / 4 INCOMPLETE: Native7, cost5 and
+races11 completed in that run, all four browser journeys failed, and the
+package writer_runtime gate stayed false (four of five package gates).
+FIRST_A18_BROWSER_FAILURE.json retains the run/archive/raw pins, first errors,
+actual text/read observations and the actual Native opening function row.
+This successor grants zero fresh case credit and requires a new complete run.
+
+The SKU screenshot and captured text contain the intended select and target
+option. Installed Playwright 1.62.1 label-text matching includes all option
+text in a wrapped label, while its accessible-name algorithm returns the
+correct label. BROWSER_SOURCE_DIAGNOSIS.json records controls using complete
+current product JSX rendered offline and the installed engine, not captured
+actual browser DOM. Nine locator sites for the three affected SKU selects now
+use exact named combobox roles; feature panel scope, selected values, all
+financial assertions and every census comparison remain unchanged. This is
+not evidence of a product accessibility defect.
+
+The staged AI fixture prepare transaction now uses READ COMMITTED, as the
+captured erp.post_opening_balance(uuid) requires. State/read transactions
+retain REPEATABLE READ. The complete staged journey and fixture have one
+counted change each (fixture route and prepare-only isolation), plus one
+combined-case import route. No staged AI product or Native function changes.
+The previous a18 source seals and changed source preimages remain exact under
+retained_a18; browser_delta verifies both materialized caller routes and
+complete derivative bytes before source admission. Whole browser callback
+identity is no longer claimed; all nine locator changes are reversible.
+
+Controls: test_browser_labels.mjs renders exact product JSX and checks old
+label mismatch, exact accessible name, wrong-name refusal, option-value
+preservation and panel scope. Existing test_node_source.mjs invokes it in CI.
+The Python isolation controls exercise complete fixture dispatch against a
+recording connection: old prepare refuses the captured Native contract, new
+prepare establishes RC before any query, and state/read remain RR. These
+controls perform no DB/Auth/browser execution.

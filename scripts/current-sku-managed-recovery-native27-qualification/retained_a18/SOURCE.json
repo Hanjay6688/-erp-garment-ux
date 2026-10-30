@@ -1,0 +1,906 @@
+{
+  "status": "PREPARED_FULL_NATIVE27_NOT_EXECUTED",
+  "base_head": "f3d014648d12279dfa89ca8593f25585430a5efe",
+  "base_tree": "b1c316d6e853805f933a6665a81edf9332d12a36",
+  "base_file_count": 13759,
+  "files": {
+    "scripts/current-sku-managed-recovery-native27-qualification/.gitignore": {
+      "bytes": 19,
+      "sha256": "862263fa1f46c20f0d1e4dac5ffcc75abd55c08211b2c3864c5f8764b9d87793"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/BROWSER_SOURCE.json": {
+      "bytes": 71436,
+      "sha256": "22d2df2de0171246dd9658d68c244d6bbc70569a4ece8d9bfe1094f1c0ff0400"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/FIRST_C397_ROUTING_FAILURE.json": {
+      "bytes": 2044,
+      "sha256": "d8f4ad30fef164c7b0853fbd079f19694436bce193e668c33ac24b1fec36c1a5"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/GENERATED_RECEIPTS.json": {
+      "bytes": 58902,
+      "sha256": "dd9eb13b64ae0d0d1f92372352526bb14e2dff9b15338150f5455cc62a7f4cdd"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/HISTORICAL_TRANSITIONS.json": {
+      "bytes": 1069,
+      "sha256": "957eb85bac3584435beb68baa57db9a78514a9f606dc1d33bdf8e65cad09c79b"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/LATER_GENERATED_RECEIPTS.json": {
+      "bytes": 27798,
+      "sha256": "ab9cbf0d869d2e790621c0dacb011c2d928198d4c24f4f8d7bcb6ec59cc88340"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/PARENT_SOURCE.json": {
+      "bytes": 3675179,
+      "sha256": "42f3c9495e54fa0f2024dd330dfc5c25b762702059d2590bce3a585e61b08d91"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/RACE_CONTRACT.json": {
+      "bytes": 1704,
+      "sha256": "cb512849e5400869a0efcfbb877198903741e0d4d67b7cf31f312282c9c040ad"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/README.md": {
+      "bytes": 6596,
+      "sha256": "461f93380c029a1ffb964ba9a728b33baeed4f0d42b49eb215abfc59411ad275"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/SKU_GENERATED_RECEIPTS.json": {
+      "bytes": 28017,
+      "sha256": "ba66bc68dcd921bda71346b14b82331077b31176794e8af96900accf70e7316a"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/admission.py": {
+      "bytes": 1995,
+      "sha256": "97b05e0131b638375dfa6b4aa3a41bbba9e0772ae418273a855b2b7a2eb26fee"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/bind.py": {
+      "bytes": 4137,
+      "sha256": "4299dd39a2c19e74c9baf920cdf209053de6a38e817d9386752bd9f32477a7cd"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/browser.mjs": {
+      "bytes": 22232,
+      "sha256": "351624133b12811291e0451c4f49631b3816a02f62ebf4e52e2a1fbed3fde129"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/browser_fixture.py": {
+      "bytes": 383,
+      "sha256": "b250543c4627d2aadcab404d9dc417ad4e927be88cd202c9156cb4768791cfb8"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/browser_guard.py": {
+      "bytes": 379,
+      "sha256": "47c668b0dd9a50b33856f05003e898cce1fdd6d66dc00c470e673a1a98e2c093"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/browser_source.py": {
+      "bytes": 2835,
+      "sha256": "23192ba5d370fbe857527d3f5832f1089461d9eb8a2ad3d85b73632fdbfd3fa9"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/cases.mjs": {
+      "bytes": 566,
+      "sha256": "e9835a0fb9064b4816ab2cf7275fde9b1e71842f41227e45452abff80d13dcfd"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/check.py": {
+      "bytes": 1100,
+      "sha256": "bf07bb627199241dbd67c4d638b34b015d279c8cfd7fc9cd532ee6c9a03dbf18"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/closure.py": {
+      "bytes": 6504,
+      "sha256": "df022ea72890a362c619393f7b8c5b3e4d4858514cc27e74abd5c368d364c3c0"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/concurrency.py": {
+      "bytes": 375,
+      "sha256": "15610c6bf9ab357d66c7e4ab523ecbbc2f207e4af15a9c868201f3c26fa117fa"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/cost_cases.py": {
+      "bytes": 373,
+      "sha256": "14a263aeb5d21672b59c8c18cedcf103cbef0a767fd22853e5ed1a7bde8efb06"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/cost_guard.py": {
+      "bytes": 373,
+      "sha256": "929ea1834693204d278a1879192973055a27338c9a3947836da16753be0aaba4"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/derive.py": {
+      "bytes": 11653,
+      "sha256": "a2af47427385693d67b577917d2793619df43707a266d27a869071426388e79d"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/engine_delta.py": {
+      "bytes": 1615,
+      "sha256": "9d80d9593334cdfe16111226c681d5b99013d44c0d968e9ba9899a02d5ad5dda"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/evidence/ACTUAL_NODE_FIRST.stdout.gz": {
+      "bytes": 553,
+      "sha256": "ac4fb41d268168c59cc58ffd1a6b4ef5ec4f19d7c666684d5f3dab0c529a2330"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/evidence/BD2_CLIENT72_REFERENCE.json.gz": {
+      "bytes": 4183,
+      "sha256": "5a3c4e05aa45341b8d460c16ba0fa386b6bd444cff0d24cbe743675cd01c7267"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/evidence/BD2_P0_GENERATED_REFERENCE.zip": {
+      "bytes": 56736,
+      "sha256": "72bf7756ce850f4be6f0e56a373a68a9118da24fbdd431a62c5d4c091b3d55e5"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/evidence/FC9_ACTUAL_SOURCE_MATRIX_PARTIAL.json": {
+      "bytes": 7971,
+      "sha256": "f17210d768ae2ba85b74368a911227484ba266923dc89c2a824c72436f34b8b1"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/evidence/FIRST_WHOLE_CALLER_REFUSALS.json": {
+      "bytes": 624,
+      "sha256": "0fff2041857e6b657c1011a9e611c2d5d4d5c47a41bf2dba86d9667a0d70e09b"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/evidence/FULL_CHECK_FIRST.stderr.gz": {
+      "bytes": 708,
+      "sha256": "cfb9f7fbfb12bb055d0a7de0a6e61b5b442ec34d05c5e36510e1a2cd174bf38e"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/evidence/FULL_CHECK_SECOND.stderr.gz": {
+      "bytes": 708,
+      "sha256": "cfb9f7fbfb12bb055d0a7de0a6e61b5b442ec34d05c5e36510e1a2cd174bf38e"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/evidence/INHERITED_FIRST_MATRIX.json": {
+      "bytes": 755,
+      "sha256": "38df7bc4d287373f285bf7109a984d508fbe80c2b1bd95ea90dd0239b49dbd84"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/evidence/LOCAL_PREPARED_RECEIPT.json": {
+      "bytes": 3221,
+      "sha256": "33621925a52ffefcf3f23615b5c097c4066bc5aca85c7e3b2ba335009057b388"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/evidence/LOCAL_SOURCE_REPLAY_QUARANTINE.json": {
+      "bytes": 27113,
+      "sha256": "ba8298e0fd411c3e4f02da12ac03778354362a02973ee2e9d98df6e7ab20a599"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/evidence/NATIVE27_FIRST_CONTROLS.log": {
+      "bytes": 4772,
+      "sha256": "68c3e850a2ad9cd213202b0d637e0c1969467e13969ab8a32dd77653b8d03395"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/evidence/NATIVE27_INHERITED_UNIQUE_FIRST.log": {
+      "bytes": 772,
+      "sha256": "e94e656b9c4a68cc34f64063f89ffcd09c5b33d59631d1decafd2123bf0dcf61"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/evidence/NATIVE27_NODE_OLD_READER_FIRST_RED.json": {
+      "bytes": 538,
+      "sha256": "d8929bd2162aa800e2397f4348a4553b489edbd0eb7502abbcd3459afe751d58"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/evidence/NATIVE27_NODE_SOURCE_CONTROLS.log": {
+      "bytes": 636,
+      "sha256": "5b06cdd9aba851ff28c480aeb3992e82e70adb9e4e8259e82dfcfc95b0ad9318"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/evidence/NEW_SOURCE_CONTROLS.log": {
+      "bytes": 5458,
+      "sha256": "075d2fdf81ae5b13887cb7fd7d8ae844370d3a1f6b6ddb393562e13d4393c747"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/evidence/NODE_PYTHON_READER.stdout.gz": {
+      "bytes": 43290,
+      "sha256": "6bf8cdb86e24bf4afb538834e4dc372410198470a30e5e046e23e6dc0f7bdf72"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/evidence/ORIGINAL72.json": {
+      "bytes": 28364,
+      "sha256": "6c6a04f449b500d070bc509c940ae417a18b57fb67d8d614fbff5e772f855f2c"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/evidence/ORIGINAL72.log": {
+      "bytes": 120,
+      "sha256": "3490855f6e5034242b0925281942b9874bae3cfb17c92c9d472726033e26a635"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/evidence/PROBE_CHECK.stdout.gz": {
+      "bytes": 176174,
+      "sha256": "08115b0fcc50365967799a126db12247f4355bea2536b860d61123b92bab91ec"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/evidence/PROOF_FULL_CHECK_FIRST.stdout.gz": {
+      "bytes": 176227,
+      "sha256": "d0e48b1ee47fdd071cc4069a209c2d5e29275274143f631977509d85364ee663"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/evidence/REGISTERED_SOURCE_PROOF_WORKTREE.json": {
+      "bytes": 559,
+      "sha256": "1bc58eef216350de578e4d9557289cada68566df032d1b830c4ba557ac436ff0"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/evidence/RETAINED_AI_FIXTURE_CONTROLS.log": {
+      "bytes": 102,
+      "sha256": "56e03afda220e7ba78bbcecf9a2e53a0149cfc3e311fa10bbd01b25e8e5ba671"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/evidence/RETAINED_BROWSER_EVIDENCE_CONTROLS.log": {
+      "bytes": 1578,
+      "sha256": "24a66f3099a01589717b39135597070b810693c9556e26bfd54f326bd040fcf6"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/evidence/RETAINED_CONCURRENCY_CONTROLS.log": {
+      "bytes": 2041,
+      "sha256": "6f0316886914a73af76693374352a03a6461d1c295ac57756aaf348ee35bce8d"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/evidence/RETAINED_DERIVED15.json": {
+      "bytes": 6149,
+      "sha256": "ea61894e92a6ff190689a5c6c8378482697c6ebe0c174308ada9d0bba417dc21"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/evidence/RETAINED_DERIVED15.log": {
+      "bytes": 128,
+      "sha256": "066d242546fa09ab9024cc886a85bfe22ddec7b5a7a2ade86da34b6c66b47761"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/evidence/TYPECHECK.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/evidence/WIP_E8_CHECKPOINT.json": {
+      "bytes": 1014,
+      "sha256": "4997aa8c1cceb4b114a7245494994e596788492ba8974a425de1532ab5727559"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/first602.py": {
+      "bytes": 2573,
+      "sha256": "bca13248d59dad5cec4d9a5b61e38f4aad11f0d62306051719663ee48ca73517"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/generated_later.py": {
+      "bytes": 10525,
+      "sha256": "7bf35d85d9f7ec19da34c5626f24af908f3691a4e3ed7251dbc4958e59b4bea3"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/generated_receipts.py": {
+      "bytes": 9466,
+      "sha256": "a569138a5b6d4c0d1ce542ab45af98ee156f47e6d772766c214bbae3366ffc7e"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/generated_sku.py": {
+      "bytes": 3956,
+      "sha256": "4ea10857db8fd992785eeae8945671da4f51e1a106234b0697cdcb30f295b869"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/historical_admission.py": {
+      "bytes": 393,
+      "sha256": "be2a9a0e79de6778d1e20cf043b0b7d8ca33340ec83ee68971fc1449d9f0e58f"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/inherited_controls.py": {
+      "bytes": 4793,
+      "sha256": "b865c8e1465317c63aa8f6db3ac91a8978aab00447c44a614883323af96ef7fe"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/native_admission.py": {
+      "bytes": 385,
+      "sha256": "5e3e859126b1726d1792b8992efab5a20944b2b0b7a14c74188e7f83d9ae45d1"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/probe.py": {
+      "bytes": 2306,
+      "sha256": "c63c8dfcb5537df5b6f8b2958af5d537ff46311f8ef3b85d1506191cff6925e5"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/race_binding.py": {
+      "bytes": 4234,
+      "sha256": "d6cc7aa963040440f55adda014a7259309a5cd559df0bb6d24782ec0bad5ae20"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/race_schedule.py": {
+      "bytes": 5716,
+      "sha256": "ab75fd21f9438a62ea456fbfba59efec4fb29a038257462e5cc257fcd4d8e9cc"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/races.py": {
+      "bytes": 373,
+      "sha256": "4a9b3e4d7bd9f38d654af0e25e397f5c14c61ad9990b8c5e616d0bdad894dc94"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/recovery_cases.py": {
+      "bytes": 4851,
+      "sha256": "d112e2b569ece5309f9c40303f22afeaa9ce8499547ab20a2b0d115c70be023d"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/recovery_sessions.py": {
+      "bytes": 7504,
+      "sha256": "5a7a2b0c4d90c70dc3489370e379342ce4fdbb74bdf20fdebd7855c3af0105be"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/retain_outputs.py": {
+      "bytes": 1806,
+      "sha256": "e5e6bfac1a2f305f58b1c3ad9fda8e1a93e532e538670bf9009bcf2e5047491d"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/runner.py": {
+      "bytes": 365,
+      "sha256": "4048ad839676eb816469b334ac5749c875a51d61b6f8acf2b7eec6c402cd49dc"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/sequence_prefix.py": {
+      "bytes": 3556,
+      "sha256": "1679d8abdc17c0cc906f026fd51a91510f5809e7323d6ef4dca32c05383f6c5d"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/session_controls.py": {
+      "bytes": 731,
+      "sha256": "112f265ea601e1de84a2c658b1ef2030b47da5f9adf211add8b3942a3e824415"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/source_context.py": {
+      "bytes": 1968,
+      "sha256": "48e8f2712f8dedc19c9af239e25755abdb64084797041ecb1b90ac4438ef5f88"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/test_generated_ci.py": {
+      "bytes": 5460,
+      "sha256": "91f2a20315c25ece737e3994d40ebd5776984d4f0c5f33c20753f300fd43b7b4"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/test_generated_later.py": {
+      "bytes": 8963,
+      "sha256": "c8b826affc64b971151a348673919a29aa3111fd4febc7a4a91189b53abdd779"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/test_node_source.mjs": {
+      "bytes": 4644,
+      "sha256": "86648f031c3bd46466119ee4694bb533981b0ded51de2919823f005477305755"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/test_qualification.py": {
+      "bytes": 14079,
+      "sha256": "800e7096dcca3011e594c30d2849842d3cc2905c42111da8635559a63851225d"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/test_race_binding.py": {
+      "bytes": 4509,
+      "sha256": "ede8882e98bb3d1b7cc9b0bd9a81bf5962e44eb3f4ce2f4ecbab7cc259d20870"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/test_race_schedule.py": {
+      "bytes": 7198,
+      "sha256": "97413d2c948913afa0a5fbc0326f1182fb636a459a0c967bb720a7d3a0c9be9e"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/transition.py": {
+      "bytes": 4896,
+      "sha256": "7e1cdfc172d23605406a981552745e909345afed16b9b16aca4b41589b770bba"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/workflow.py": {
+      "bytes": 2032,
+      "sha256": "807975490a4d09c52adb59fa62f3851d6452f9fab2abeabe75fb93085a8a58f2"
+    },
+    ".github/workflows/cp7-sku-managed-recovery-native27.yml": {
+      "bytes": 33068,
+      "sha256": "26691f66a4d5ecb23709ac39e9c1d615d947228535666ade09490dfab3d57541"
+    }
+  },
+  "allowed_changes": [
+    ".github/workflows/cp7-sku-managed-recovery-native27.yml",
+    "scripts/current-sku-managed-recovery-native27-qualification/.gitignore",
+    "scripts/current-sku-managed-recovery-native27-qualification/BROWSER_SOURCE.json",
+    "scripts/current-sku-managed-recovery-native27-qualification/FIRST_C397_ROUTING_FAILURE.json",
+    "scripts/current-sku-managed-recovery-native27-qualification/GENERATED_RECEIPTS.json",
+    "scripts/current-sku-managed-recovery-native27-qualification/HISTORICAL_TRANSITIONS.json",
+    "scripts/current-sku-managed-recovery-native27-qualification/LATER_GENERATED_RECEIPTS.json",
+    "scripts/current-sku-managed-recovery-native27-qualification/PARENT_SOURCE.json",
+    "scripts/current-sku-managed-recovery-native27-qualification/RACE_CONTRACT.json",
+    "scripts/current-sku-managed-recovery-native27-qualification/README.md",
+    "scripts/current-sku-managed-recovery-native27-qualification/SKU_GENERATED_RECEIPTS.json",
+    "scripts/current-sku-managed-recovery-native27-qualification/SOURCE.json",
+    "scripts/current-sku-managed-recovery-native27-qualification/admission.py",
+    "scripts/current-sku-managed-recovery-native27-qualification/bind.py",
+    "scripts/current-sku-managed-recovery-native27-qualification/browser.mjs",
+    "scripts/current-sku-managed-recovery-native27-qualification/browser_fixture.py",
+    "scripts/current-sku-managed-recovery-native27-qualification/browser_guard.py",
+    "scripts/current-sku-managed-recovery-native27-qualification/browser_source.py",
+    "scripts/current-sku-managed-recovery-native27-qualification/cases.mjs",
+    "scripts/current-sku-managed-recovery-native27-qualification/check.py",
+    "scripts/current-sku-managed-recovery-native27-qualification/closure.py",
+    "scripts/current-sku-managed-recovery-native27-qualification/concurrency.py",
+    "scripts/current-sku-managed-recovery-native27-qualification/cost_cases.py",
+    "scripts/current-sku-managed-recovery-native27-qualification/cost_guard.py",
+    "scripts/current-sku-managed-recovery-native27-qualification/derive.py",
+    "scripts/current-sku-managed-recovery-native27-qualification/engine_delta.py",
+    "scripts/current-sku-managed-recovery-native27-qualification/evidence/ACTUAL_NODE_FIRST.stdout.gz",
+    "scripts/current-sku-managed-recovery-native27-qualification/evidence/BD2_CLIENT72_REFERENCE.json.gz",
+    "scripts/current-sku-managed-recovery-native27-qualification/evidence/BD2_P0_GENERATED_REFERENCE.zip",
+    "scripts/current-sku-managed-recovery-native27-qualification/evidence/FC9_ACTUAL_SOURCE_MATRIX_PARTIAL.json",
+    "scripts/current-sku-managed-recovery-native27-qualification/evidence/FIRST_WHOLE_CALLER_REFUSALS.json",
+    "scripts/current-sku-managed-recovery-native27-qualification/evidence/FULL_CHECK_FIRST.stderr.gz",
+    "scripts/current-sku-managed-recovery-native27-qualification/evidence/FULL_CHECK_SECOND.stderr.gz",
+    "scripts/current-sku-managed-recovery-native27-qualification/evidence/INHERITED_FIRST_MATRIX.json",
+    "scripts/current-sku-managed-recovery-native27-qualification/evidence/LOCAL_PREPARED_RECEIPT.json",
+    "scripts/current-sku-managed-recovery-native27-qualification/evidence/LOCAL_SOURCE_REPLAY_QUARANTINE.json",
+    "scripts/current-sku-managed-recovery-native27-qualification/evidence/NATIVE27_FIRST_CONTROLS.log",
+    "scripts/current-sku-managed-recovery-native27-qualification/evidence/NATIVE27_INHERITED_UNIQUE_FIRST.log",
+    "scripts/current-sku-managed-recovery-native27-qualification/evidence/NATIVE27_NODE_OLD_READER_FIRST_RED.json",
+    "scripts/current-sku-managed-recovery-native27-qualification/evidence/NATIVE27_NODE_SOURCE_CONTROLS.log",
+    "scripts/current-sku-managed-recovery-native27-qualification/evidence/NEW_SOURCE_CONTROLS.log",
+    "scripts/current-sku-managed-recovery-native27-qualification/evidence/NODE_PYTHON_READER.stdout.gz",
+    "scripts/current-sku-managed-recovery-native27-qualification/evidence/ORIGINAL72.json",
+    "scripts/current-sku-managed-recovery-native27-qualification/evidence/ORIGINAL72.log",
+    "scripts/current-sku-managed-recovery-native27-qualification/evidence/PROBE_CHECK.stdout.gz",
+    "scripts/current-sku-managed-recovery-native27-qualification/evidence/PROOF_FULL_CHECK_FIRST.stdout.gz",
+    "scripts/current-sku-managed-recovery-native27-qualification/evidence/REGISTERED_SOURCE_PROOF_WORKTREE.json",
+    "scripts/current-sku-managed-recovery-native27-qualification/evidence/RETAINED_AI_FIXTURE_CONTROLS.log",
+    "scripts/current-sku-managed-recovery-native27-qualification/evidence/RETAINED_BROWSER_EVIDENCE_CONTROLS.log",
+    "scripts/current-sku-managed-recovery-native27-qualification/evidence/RETAINED_CONCURRENCY_CONTROLS.log",
+    "scripts/current-sku-managed-recovery-native27-qualification/evidence/RETAINED_DERIVED15.json",
+    "scripts/current-sku-managed-recovery-native27-qualification/evidence/RETAINED_DERIVED15.log",
+    "scripts/current-sku-managed-recovery-native27-qualification/evidence/TYPECHECK.log",
+    "scripts/current-sku-managed-recovery-native27-qualification/evidence/WIP_E8_CHECKPOINT.json",
+    "scripts/current-sku-managed-recovery-native27-qualification/first602.py",
+    "scripts/current-sku-managed-recovery-native27-qualification/generated_later.py",
+    "scripts/current-sku-managed-recovery-native27-qualification/generated_receipts.py",
+    "scripts/current-sku-managed-recovery-native27-qualification/generated_sku.py",
+    "scripts/current-sku-managed-recovery-native27-qualification/historical_admission.py",
+    "scripts/current-sku-managed-recovery-native27-qualification/inherited_controls.py",
+    "scripts/current-sku-managed-recovery-native27-qualification/native_admission.py",
+    "scripts/current-sku-managed-recovery-native27-qualification/probe.py",
+    "scripts/current-sku-managed-recovery-native27-qualification/race_binding.py",
+    "scripts/current-sku-managed-recovery-native27-qualification/race_schedule.py",
+    "scripts/current-sku-managed-recovery-native27-qualification/races.py",
+    "scripts/current-sku-managed-recovery-native27-qualification/recovery_cases.py",
+    "scripts/current-sku-managed-recovery-native27-qualification/recovery_sessions.py",
+    "scripts/current-sku-managed-recovery-native27-qualification/retain_outputs.py",
+    "scripts/current-sku-managed-recovery-native27-qualification/runner.py",
+    "scripts/current-sku-managed-recovery-native27-qualification/sequence_prefix.py",
+    "scripts/current-sku-managed-recovery-native27-qualification/session_controls.py",
+    "scripts/current-sku-managed-recovery-native27-qualification/source_context.py",
+    "scripts/current-sku-managed-recovery-native27-qualification/test_generated_ci.py",
+    "scripts/current-sku-managed-recovery-native27-qualification/test_generated_later.py",
+    "scripts/current-sku-managed-recovery-native27-qualification/test_node_source.mjs",
+    "scripts/current-sku-managed-recovery-native27-qualification/test_qualification.py",
+    "scripts/current-sku-managed-recovery-native27-qualification/test_race_binding.py",
+    "scripts/current-sku-managed-recovery-native27-qualification/test_race_schedule.py",
+    "scripts/current-sku-managed-recovery-native27-qualification/transition.py",
+    "scripts/current-sku-managed-recovery-native27-qualification/workflow.py"
+  ],
+  "product_alias": {
+    "public_head": "f3d014648d12279dfa89ca8593f25585430a5efe",
+    "tree": "b1c316d6e853805f933a6665a81edf9332d12a36",
+    "historical_preflight_source_pin_count": 43,
+    "prepared_material_transition_source_pin_count": 20,
+    "actual_runtime_leaves": 10,
+    "transition_manifest": "scripts/current-sku-recovery-material-lock/SOURCE.json",
+    "transition_manifest_sha256": "df1278bd775a0666b408959930d2a5c018655ffc62ee242aac3d8048ab0b7586"
+  },
+  "private_derivations": {
+    "fixture": {
+      "retained602": {
+        "source": "scripts/current-sku-pair-conversion-qualification/fixture.py",
+        "original_sha256": "707c579a2bd923466fd0badb2bd09897634501d18b42f8b87c553ba19559ad8e",
+        "derived_sha256": "9d7cfae86d679c7803514db886fc69c8cdc1c8eac2fcda5a3a298927227803b7",
+        "retained17_derivation": {
+          "key": "fixture",
+          "source": "scripts/current-sku-pair-conversion-qualification/fixture.py",
+          "original_sha256": "707c579a2bd923466fd0badb2bd09897634501d18b42f8b87c553ba19559ad8e",
+          "derived_sha256": "9d7cfae86d679c7803514db886fc69c8cdc1c8eac2fcda5a3a298927227803b7",
+          "counted_changes": 1,
+          "byte_exact_reversible": true,
+          "assertions_removed": 0,
+          "administrative_name_changes": 1
+        },
+        "new_counted_changes": 0,
+        "byte_exact_reversible_to_retained_derivation": true,
+        "original_asserts": 2,
+        "derived_asserts": 2,
+        "assertions_removed": 0,
+        "original_files_modified": false
+      },
+      "retained602_derived_sha256": "9d7cfae86d679c7803514db886fc69c8cdc1c8eac2fcda5a3a298927227803b7",
+      "derived_sha256": "9d7cfae86d679c7803514db886fc69c8cdc1c8eac2fcda5a3a298927227803b7",
+      "namespace_occurrences": 0,
+      "extra_counted_changes": 0,
+      "byte_exact_reversible": true,
+      "original23_financial_callback_bodies_unchanged": true,
+      "original_financial_postcondition_assertions_unchanged": true,
+      "explicit_race_schedule_transition": false
+    },
+    "cost_native": {
+      "retained602": {
+        "source": "scripts/current-sku-group-cost-qualification/native_fixture.py",
+        "original_sha256": "12871fbcf27caa62042c0bcd5b8c80ed81ae84ff014af64fdd26703853d51891",
+        "derived_sha256": "1e53418aa277f65c3b9a09f9cebbf1943ab6bc41e45d3c100ec891eaaec15447",
+        "retained17_derivation": {
+          "key": "cost_native",
+          "source": "scripts/current-sku-group-cost-qualification/native_fixture.py",
+          "original_sha256": "12871fbcf27caa62042c0bcd5b8c80ed81ae84ff014af64fdd26703853d51891",
+          "derived_sha256": "1e53418aa277f65c3b9a09f9cebbf1943ab6bc41e45d3c100ec891eaaec15447",
+          "counted_changes": 1,
+          "byte_exact_reversible": true,
+          "assertions_removed": 0,
+          "administrative_name_changes": 0
+        },
+        "new_counted_changes": 0,
+        "byte_exact_reversible_to_retained_derivation": true,
+        "original_asserts": 7,
+        "derived_asserts": 7,
+        "assertions_removed": 0,
+        "original_files_modified": false
+      },
+      "retained602_derived_sha256": "1e53418aa277f65c3b9a09f9cebbf1943ab6bc41e45d3c100ec891eaaec15447",
+      "derived_sha256": "1e53418aa277f65c3b9a09f9cebbf1943ab6bc41e45d3c100ec891eaaec15447",
+      "namespace_occurrences": 0,
+      "extra_counted_changes": 0,
+      "byte_exact_reversible": true,
+      "original23_financial_callback_bodies_unchanged": true,
+      "original_financial_postcondition_assertions_unchanged": true,
+      "explicit_race_schedule_transition": false
+    },
+    "cost_cases": {
+      "retained602": {
+        "source": "scripts/current-sku-group-cost-qualification/cases.py",
+        "original_sha256": "0536eda078071b8b9e87604ee1c722f34157c2b1d34adac8e6a483e5470a9e0c",
+        "derived_sha256": "9e1fda3f9bafcec83168e1970641ecd14bcbc67905727976c1db7437deba05cb",
+        "retained17_derivation": {
+          "key": "cost_cases",
+          "source": "scripts/current-sku-group-cost-qualification/cases.py",
+          "original_sha256": "0536eda078071b8b9e87604ee1c722f34157c2b1d34adac8e6a483e5470a9e0c",
+          "derived_sha256": "98557973b2cdb06d3c25f951bae9810ffec2416dd2a75219a31ad1d500c8e580",
+          "counted_changes": 1,
+          "byte_exact_reversible": true,
+          "assertions_removed": 0,
+          "administrative_name_changes": 0
+        },
+        "new_counted_changes": 9,
+        "byte_exact_reversible_to_retained_derivation": true,
+        "original_asserts": 44,
+        "derived_asserts": 44,
+        "assertions_removed": 0,
+        "original_files_modified": false
+      },
+      "retained602_derived_sha256": "9e1fda3f9bafcec83168e1970641ecd14bcbc67905727976c1db7437deba05cb",
+      "derived_sha256": "b19ab1f7ad4406ac5aa6349a991c200130aa3f0f0a5b81d6ab067cdefc7a3d3c",
+      "namespace_occurrences": 2,
+      "extra_counted_changes": 0,
+      "byte_exact_reversible": true,
+      "original23_financial_callback_bodies_unchanged": true,
+      "original_financial_postcondition_assertions_unchanged": true,
+      "explicit_race_schedule_transition": false
+    },
+    "races": {
+      "retained602": {
+        "source": "scripts/current-sku-pair-conversion-qualification/races.py",
+        "original_sha256": "10361a994d0d26357399f9f7625e5b1828bc8d02a796609b12ff7567e7a034e8",
+        "derived_sha256": "7854b15e736b268a4743f5374732475d734a6a35f05f504954c86b51ffb77d97",
+        "retained17_derivation": {
+          "key": "races",
+          "source": "scripts/current-sku-pair-conversion-qualification/races.py",
+          "original_sha256": "10361a994d0d26357399f9f7625e5b1828bc8d02a796609b12ff7567e7a034e8",
+          "derived_sha256": "7854b15e736b268a4743f5374732475d734a6a35f05f504954c86b51ffb77d97",
+          "counted_changes": 1,
+          "byte_exact_reversible": true,
+          "assertions_removed": 0,
+          "administrative_name_changes": 0
+        },
+        "new_counted_changes": 0,
+        "byte_exact_reversible_to_retained_derivation": true,
+        "original_asserts": 8,
+        "derived_asserts": 8,
+        "assertions_removed": 0,
+        "original_files_modified": false
+      },
+      "retained602_derived_sha256": "7854b15e736b268a4743f5374732475d734a6a35f05f504954c86b51ffb77d97",
+      "derived_sha256": "49f16ac4a0c4387f476b2435ceddb0a467dd216ff5d2d33c724c423ce7fdcfd2",
+      "namespace_occurrences": 0,
+      "extra_counted_changes": 3,
+      "byte_exact_reversible": true,
+      "original23_financial_callback_bodies_unchanged": false,
+      "original_financial_postcondition_assertions_unchanged": true,
+      "explicit_race_schedule_transition": true
+    },
+    "auth_waits": {
+      "retained602": {
+        "source": "scripts/current-sku-pair-conversion-qualification/auth_waits.py",
+        "original_sha256": "5e4e7d4d6f0e71da0817dec670d9e31b8bef9987f683eaf35c7ef198dbfec351",
+        "derived_sha256": "de8d896d8a179c10e0b1438d2f37d308b8e25d24a422e6524f4c7d1bd0e4a2e4",
+        "retained17_derivation": {
+          "key": "auth_waits",
+          "source": "scripts/current-sku-pair-conversion-qualification/auth_waits.py",
+          "original_sha256": "5e4e7d4d6f0e71da0817dec670d9e31b8bef9987f683eaf35c7ef198dbfec351",
+          "derived_sha256": "de8d896d8a179c10e0b1438d2f37d308b8e25d24a422e6524f4c7d1bd0e4a2e4",
+          "counted_changes": 1,
+          "byte_exact_reversible": true,
+          "assertions_removed": 0,
+          "administrative_name_changes": 0
+        },
+        "new_counted_changes": 0,
+        "byte_exact_reversible_to_retained_derivation": true,
+        "original_asserts": 14,
+        "derived_asserts": 14,
+        "assertions_removed": 0,
+        "original_files_modified": false
+      },
+      "retained602_derived_sha256": "de8d896d8a179c10e0b1438d2f37d308b8e25d24a422e6524f4c7d1bd0e4a2e4",
+      "derived_sha256": "de8d896d8a179c10e0b1438d2f37d308b8e25d24a422e6524f4c7d1bd0e4a2e4",
+      "namespace_occurrences": 0,
+      "extra_counted_changes": 0,
+      "byte_exact_reversible": true,
+      "original23_financial_callback_bodies_unchanged": true,
+      "original_financial_postcondition_assertions_unchanged": true,
+      "explicit_race_schedule_transition": false
+    },
+    "concurrency": {
+      "retained602": {
+        "source": "scripts/current-sku-pair-concurrency-qualification/runner.py",
+        "original_sha256": "bae687cb3faffc08cfed294b0106b134d8ad3de11d36612a05212644eb3cad8c",
+        "derived_sha256": "8e944f2c7315c88ad16dd4b925c46a23f139ca2bd2388f5c039a74270d7f8deb",
+        "retained17_derivation": {
+          "key": "concurrency",
+          "source": "scripts/current-sku-pair-concurrency-qualification/runner.py",
+          "original_sha256": "bae687cb3faffc08cfed294b0106b134d8ad3de11d36612a05212644eb3cad8c",
+          "derived_sha256": "8e944f2c7315c88ad16dd4b925c46a23f139ca2bd2388f5c039a74270d7f8deb",
+          "counted_changes": 2,
+          "byte_exact_reversible": true,
+          "assertions_removed": 0,
+          "administrative_name_changes": 0
+        },
+        "new_counted_changes": 0,
+        "byte_exact_reversible_to_retained_derivation": true,
+        "original_asserts": 29,
+        "derived_asserts": 29,
+        "assertions_removed": 0,
+        "original_files_modified": false
+      },
+      "retained602_derived_sha256": "8e944f2c7315c88ad16dd4b925c46a23f139ca2bd2388f5c039a74270d7f8deb",
+      "derived_sha256": "2369c0afdeeab01ebef07bbb6948da112b6e561a8427b3ac5c354c6b40aa2cb3",
+      "namespace_occurrences": 0,
+      "extra_counted_changes": 8,
+      "byte_exact_reversible": true,
+      "original23_financial_callback_bodies_unchanged": true,
+      "original_financial_postcondition_assertions_unchanged": true,
+      "explicit_race_schedule_transition": false
+    },
+    "browser_fixture": {
+      "retained602": {
+        "source": "scripts/current-sku-pair-browser-qualification/fixture.py",
+        "original_sha256": "4474517f582381deaffda79fb3a9bc187e55dc32e4b213e15ed372930cd91450",
+        "derived_sha256": "c0d7c52948e92ee55ab324844d2b71a5d0f32b605665837665dfa17c56ba3022",
+        "retained17_derivation": {
+          "key": "browser_fixture",
+          "source": "scripts/current-sku-pair-browser-qualification/fixture.py",
+          "original_sha256": "4474517f582381deaffda79fb3a9bc187e55dc32e4b213e15ed372930cd91450",
+          "derived_sha256": "c0d7c52948e92ee55ab324844d2b71a5d0f32b605665837665dfa17c56ba3022",
+          "counted_changes": 1,
+          "byte_exact_reversible": true,
+          "assertions_removed": 0,
+          "administrative_name_changes": 0
+        },
+        "new_counted_changes": 0,
+        "byte_exact_reversible_to_retained_derivation": true,
+        "original_asserts": 8,
+        "derived_asserts": 8,
+        "assertions_removed": 0,
+        "original_files_modified": false
+      },
+      "retained602_derived_sha256": "c0d7c52948e92ee55ab324844d2b71a5d0f32b605665837665dfa17c56ba3022",
+      "derived_sha256": "c0d7c52948e92ee55ab324844d2b71a5d0f32b605665837665dfa17c56ba3022",
+      "namespace_occurrences": 0,
+      "extra_counted_changes": 0,
+      "byte_exact_reversible": true,
+      "original23_financial_callback_bodies_unchanged": true,
+      "original_financial_postcondition_assertions_unchanged": true,
+      "explicit_race_schedule_transition": false
+    },
+    "runner": {
+      "retained602": {
+        "source": "scripts/current-sku-combined-followup-qualification/runner.py",
+        "original_sha256": "56da9dc93e51050e83fc2e8267f213a3c5ee3f506f92f8ec3ba471996b0fa8a2",
+        "derived_sha256": "dd7dd53b42ecfc280e3d499ecd38cf5dc5893b4dfa7288dc36990a29f314847a",
+        "retained17_derivation": {
+          "key": "runner",
+          "source": "scripts/current-sku-combined-followup-qualification/runner.py",
+          "original_sha256": "56da9dc93e51050e83fc2e8267f213a3c5ee3f506f92f8ec3ba471996b0fa8a2",
+          "derived_sha256": "6c2bfaf224f5b1b794e49eca020acee3701213734dc49120d2f52612779e4466",
+          "counted_changes": 3,
+          "byte_exact_reversible": true,
+          "assertions_removed": 0,
+          "administrative_name_changes": 0
+        },
+        "new_counted_changes": 4,
+        "byte_exact_reversible_to_retained_derivation": true,
+        "original_asserts": 18,
+        "derived_asserts": 18,
+        "assertions_removed": 0,
+        "original_files_modified": false
+      },
+      "retained602_derived_sha256": "dd7dd53b42ecfc280e3d499ecd38cf5dc5893b4dfa7288dc36990a29f314847a",
+      "derived_sha256": "6651e14a497ca30405fae39016386c3fd40327ad6146bdc656f4b4cc3800061f",
+      "namespace_occurrences": 3,
+      "extra_counted_changes": 19,
+      "byte_exact_reversible": true,
+      "original23_financial_callback_bodies_unchanged": true,
+      "original_financial_postcondition_assertions_unchanged": true,
+      "explicit_race_schedule_transition": false
+    },
+    "probe": {
+      "retained602": {
+        "source": "scripts/current-sku-combined-followup-qualification/probe.py",
+        "original_sha256": "14556c5249689336eaa6bbb29302558238559a4f7274a32129f5bc615e824fae",
+        "derived_sha256": "a55aa1020015053b24447e583c48a6e3bc642ce4e971d8c3b6023ddb787ca4cf",
+        "retained17_derivation": {
+          "key": "probe",
+          "source": "scripts/current-sku-combined-followup-qualification/probe.py",
+          "original_sha256": "14556c5249689336eaa6bbb29302558238559a4f7274a32129f5bc615e824fae",
+          "derived_sha256": "0563561d21ddc635a1a6c839dcc506d33e2d4551e26cb4d56207a8b87165a0c5",
+          "counted_changes": 2,
+          "byte_exact_reversible": true,
+          "assertions_removed": 0,
+          "administrative_name_changes": 0
+        },
+        "new_counted_changes": 3,
+        "byte_exact_reversible_to_retained_derivation": true,
+        "original_asserts": 0,
+        "derived_asserts": 0,
+        "assertions_removed": 0,
+        "original_files_modified": false
+      },
+      "retained602_derived_sha256": "a55aa1020015053b24447e583c48a6e3bc642ce4e971d8c3b6023ddb787ca4cf",
+      "derived_sha256": "1c285668302f40ac8167ffe72d7ca670616c6d943af2f2875f3ae0c0cc8e1c41",
+      "namespace_occurrences": 2,
+      "extra_counted_changes": 2,
+      "byte_exact_reversible": true,
+      "original23_financial_callback_bodies_unchanged": true,
+      "original_financial_postcondition_assertions_unchanged": true,
+      "explicit_race_schedule_transition": false
+    },
+    "historical_admission": {
+      "retained602": {
+        "source": "scripts/current-sku-combined-followup-qualification/admission.py",
+        "original_sha256": "f040f7a7020e0a3d5f811ca5f4508641c84dfa6eda34fd94fa4d74edee80af55",
+        "derived_sha256": "e8b41875dafff8f0b2457a79f158df161566f71e1612310e90953ca7b2ad0fb9",
+        "retained17_derivation": {
+          "key": "historical_admission",
+          "source": "scripts/current-sku-combined-followup-qualification/admission.py",
+          "original_sha256": "f040f7a7020e0a3d5f811ca5f4508641c84dfa6eda34fd94fa4d74edee80af55",
+          "derived_sha256": "28a69a652c3274d4f0ac93602815cd964831d96f4fbc1240fc7c174841a44c09",
+          "counted_changes": 1,
+          "byte_exact_reversible": true,
+          "assertions_removed": 0,
+          "administrative_name_changes": 0
+        },
+        "new_counted_changes": 5,
+        "byte_exact_reversible_to_retained_derivation": true,
+        "original_asserts": 4,
+        "derived_asserts": 4,
+        "assertions_removed": 0,
+        "original_files_modified": false
+      },
+      "retained602_derived_sha256": "e8b41875dafff8f0b2457a79f158df161566f71e1612310e90953ca7b2ad0fb9",
+      "derived_sha256": "1b850c12ad0a6b962ad2981c1b66165bb0a8d6d83186206a124c3e7d053c10b0",
+      "namespace_occurrences": 1,
+      "extra_counted_changes": 0,
+      "byte_exact_reversible": true,
+      "original23_financial_callback_bodies_unchanged": true,
+      "original_financial_postcondition_assertions_unchanged": true,
+      "explicit_race_schedule_transition": false
+    },
+    "browser": {
+      "retained602": {
+        "source": "scripts/current-sku-pair-browser-qualification/browser.mjs",
+        "original_sha256": "436a3eb2ac8a75c1e6e6eeac1e9c3e49f9cb8b15d8cee833f8df9bfdf7ce313e",
+        "derived_sha256": "e4f49b2c58b62170f603a40fb211a8a7e64fe15661aa479c1ce11724e9c471f8",
+        "retained17_derivation": {
+          "key": "browser",
+          "source": "scripts/current-sku-pair-browser-qualification/browser.mjs",
+          "original_sha256": "436a3eb2ac8a75c1e6e6eeac1e9c3e49f9cb8b15d8cee833f8df9bfdf7ce313e",
+          "derived_sha256": "e4f49b2c58b62170f603a40fb211a8a7e64fe15661aa479c1ce11724e9c471f8",
+          "counted_changes": 2,
+          "byte_exact_reversible": true,
+          "assertions_removed": 0,
+          "administrative_name_changes": 0
+        },
+        "new_counted_changes": 0,
+        "byte_exact_reversible_to_retained_derivation": true,
+        "original_asserts": 0,
+        "derived_asserts": 0,
+        "assertions_removed": 0,
+        "original_files_modified": false
+      },
+      "retained602_derived_sha256": "e4f49b2c58b62170f603a40fb211a8a7e64fe15661aa479c1ce11724e9c471f8",
+      "derived_sha256": "351624133b12811291e0451c4f49631b3816a02f62ebf4e52e2a1fbed3fde129",
+      "namespace_occurrences": 0,
+      "extra_counted_changes": 6,
+      "byte_exact_reversible": true,
+      "original23_financial_callback_bodies_unchanged": true,
+      "original_financial_postcondition_assertions_unchanged": true,
+      "explicit_race_schedule_transition": false
+    },
+    "cases": {
+      "retained602": {
+        "source": "scripts/current-sku-combined-followup-qualification/cases.mjs",
+        "original_sha256": "f7c8d60d65de3a543530e6c2039280b43a0c8c676725a21ca3fd8aa11d38ca57",
+        "derived_sha256": "e9835a0fb9064b4816ab2cf7275fde9b1e71842f41227e45452abff80d13dcfd",
+        "retained17_derivation": {
+          "key": "cases",
+          "source": "scripts/current-sku-combined-followup-qualification/cases.mjs",
+          "original_sha256": "f7c8d60d65de3a543530e6c2039280b43a0c8c676725a21ca3fd8aa11d38ca57",
+          "derived_sha256": "e9835a0fb9064b4816ab2cf7275fde9b1e71842f41227e45452abff80d13dcfd",
+          "counted_changes": 1,
+          "byte_exact_reversible": true,
+          "assertions_removed": 0,
+          "administrative_name_changes": 0
+        },
+        "new_counted_changes": 0,
+        "byte_exact_reversible_to_retained_derivation": true,
+        "original_asserts": 0,
+        "derived_asserts": 0,
+        "assertions_removed": 0,
+        "original_files_modified": false
+      },
+      "retained602_derived_sha256": "e9835a0fb9064b4816ab2cf7275fde9b1e71842f41227e45452abff80d13dcfd",
+      "derived_sha256": "e9835a0fb9064b4816ab2cf7275fde9b1e71842f41227e45452abff80d13dcfd",
+      "namespace_occurrences": 0,
+      "extra_counted_changes": 0,
+      "byte_exact_reversible": true,
+      "original23_financial_callback_bodies_unchanged": true,
+      "original_financial_postcondition_assertions_unchanged": true,
+      "explicit_race_schedule_transition": false
+    },
+    "native_admission": {
+      "retained602": {
+        "source": "scripts/current-sku-pair-native-adapter/admission.py",
+        "original_sha256": "ba3406ae26b660d350136c3d75d305abfeedcb9b69b46c30a758b94d4d7c35b7",
+        "derived_sha256": "6fd64791f76e42ced3da5ad05a02282ffcfc6f895caa68f1a6961b6c47c467fb",
+        "retained17_derivation": null,
+        "new_counted_changes": 4,
+        "byte_exact_reversible_to_retained_derivation": true,
+        "original_asserts": 12,
+        "derived_asserts": 12,
+        "assertions_removed": 0,
+        "original_files_modified": false
+      },
+      "retained602_derived_sha256": "6fd64791f76e42ced3da5ad05a02282ffcfc6f895caa68f1a6961b6c47c467fb",
+      "derived_sha256": "961f14184baa710d49cfcc1bd982993348f03385af1a84cdc0f3793e42511aca",
+      "namespace_occurrences": 1,
+      "extra_counted_changes": 0,
+      "byte_exact_reversible": true,
+      "original23_financial_callback_bodies_unchanged": true,
+      "original_financial_postcondition_assertions_unchanged": true,
+      "explicit_race_schedule_transition": false
+    },
+    "cost_guard": {
+      "retained602": {
+        "source": "scripts/current-sku-group-cost-qualification/source_guard.py",
+        "original_sha256": "147f8cae3795a171615bb9c536c4354dac655d235acff50bcd6595c37f51a883",
+        "derived_sha256": "b2bcd1a7605b679e9bcbdecd853685524da4d34c44ec5b33af27d49488966693",
+        "retained17_derivation": null,
+        "new_counted_changes": 3,
+        "byte_exact_reversible_to_retained_derivation": true,
+        "original_asserts": 5,
+        "derived_asserts": 5,
+        "assertions_removed": 0,
+        "original_files_modified": false
+      },
+      "retained602_derived_sha256": "b2bcd1a7605b679e9bcbdecd853685524da4d34c44ec5b33af27d49488966693",
+      "derived_sha256": "ca569ce666f56e317aed4bc4875b14a0aae31792ee33848591eb687254a27862",
+      "namespace_occurrences": 1,
+      "extra_counted_changes": 0,
+      "byte_exact_reversible": true,
+      "original23_financial_callback_bodies_unchanged": true,
+      "original_financial_postcondition_assertions_unchanged": true,
+      "explicit_race_schedule_transition": false
+    },
+    "browser_guard": {
+      "retained602": {
+        "source": "scripts/current-sku-pair-browser-qualification/source_guard.py",
+        "original_sha256": "9ed13bb9db34d55451acf7602fa0fbd72751d6981d7e064cc5d4e8a753a01832",
+        "derived_sha256": "2ebcec0c8a67a564df0ff498fbb5a14fe4345564a412fcaa9368ebc92d4ee6b0",
+        "retained17_derivation": null,
+        "new_counted_changes": 3,
+        "byte_exact_reversible_to_retained_derivation": true,
+        "original_asserts": 5,
+        "derived_asserts": 5,
+        "assertions_removed": 0,
+        "original_files_modified": false
+      },
+      "retained602_derived_sha256": "2ebcec0c8a67a564df0ff498fbb5a14fe4345564a412fcaa9368ebc92d4ee6b0",
+      "derived_sha256": "7fc75aa5f764ede5da9556cbb04512ed9683777d66b236835c20107f74edaaf3",
+      "namespace_occurrences": 1,
+      "extra_counted_changes": 0,
+      "byte_exact_reversible": true,
+      "original23_financial_callback_bodies_unchanged": true,
+      "original_financial_postcondition_assertions_unchanged": true,
+      "explicit_race_schedule_transition": false
+    }
+  },
+  "complete_vendor_engine_changes": 6,
+  "frozen_original23_callbacks_edited": 0,
+  "original_23_ids_retained": true,
+  "planned": {
+    "base_Native": 7,
+    "cost_Native": 5,
+    "conversion_races": 3,
+    "Native_permission_waits": 7,
+    "Native_nonblocking_busy": 1,
+    "real_Auth_browser": 4,
+    "total": 27
+  },
+  "new_case_ids": [
+    "SKU30_RECOVERY_UNDER_FIRST_PART_NATIVE_POST_REPLAY_INVERSE",
+    "SKU30_RECOVERY_EQUAL_FIRST_PART_NATIVE_POST_REPLAY_INVERSE"
+  ],
+  "new_session_ids": [
+    "SKU30_RECOVERY_CACHE_REPLAY_PERMISSION_WITHDRAWN_DURING_REAL_REQUEST_WAIT",
+    "SKU30_RECOVERY_FG_TRY_LOCK_BUSY_BEFORE_ANY_EFFECT"
+  ],
+  "busy_case_subattempts": [
+    "FG",
+    "MATERIAL_NONE"
+  ],
+  "busy_case_declared_IDs": 1,
+  "sequence_producer": {
+    "path": "scripts/current-sku-managed-recovery-native27-qualification/sequence_prefix.py",
+    "all_current_sequences": 15,
+    "per_case_complete_before_after": true,
+    "successful_prefix_is_not_savepoint_restore": true
+  },
+  "cost_census_producer": {
+    "path": "scripts/current-sku-group-cost-qualification/native_fixture.py",
+    "all22": true,
+    "all_current_tables": true,
+    "all_sequences": true,
+    "original_code_unchanged": true
+  },
+  "Node_source_reader": {
+    "path": "scripts/current-sku-managed-recovery-native27-qualification/browser_source.py",
+    "actual_current_product_sources": true,
+    "authentic_Original21_reader": true,
+    "projected_sources": false
+  },
+  "actual_successor_cases": 0,
+  "actual_Auth_HTTP_cases": 0,
+  "actual_real_browser_cases": 0,
+  "group_recovery_supported": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "default_adoption": false
+}

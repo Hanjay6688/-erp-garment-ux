@@ -83,7 +83,7 @@ async function journey(ui,today,mobile){
    const pending=page.waitForResponse(response=>rpc(RPC.master)(response)&&args(response).p_filters?.pair_query===query)
    await pairing().getByRole('button',{name:'Cari padanan',exact:true}).click();await success(pending)
   }
-  await pairing().getByLabel('SKU padanan',{exact:true}).selectOption(target||'')
+  await pairing().getByRole('combobox',{name:'SKU padanan',exact:true}).selectOption(target||'')
   await pairing().getByLabel('Alasan padanan',{exact:true}).fill('Padanan lintas merek diperiksa melalui layar owner29')
   const pending=page.waitForResponse(response=>rpc(RPC.pair)(response)&&args(response).p_action==='SAVE_PAIR')
   await pairing().getByRole('button',{name:'Simpan padanan dua arah',exact:true}).click();const result=await success(pending)
@@ -97,17 +97,17 @@ async function journey(ui,today,mobile){
  }
  async function selectTarget(id){
   const pending=page.waitForResponse(response=>rpc(RPC.read)(response)&&args(response).p_filters?.selection?.target_product_id===id)
-  await destination().getByLabel('SKU tujuan',{exact:true}).selectOption(id);const value=await success(pending)
-  await expect(destination().getByLabel('SKU tujuan',{exact:true})).toHaveValue(id);return value
+  await destination().getByRole('combobox',{name:'SKU tujuan',exact:true}).selectOption(id);const value=await success(pending)
+  await expect(destination().getByRole('combobox',{name:'SKU tujuan',exact:true})).toHaveValue(id);return value
  }
  async function selectSource(){
   await conversion().getByLabel('Cari SKU asal',{exact:true}).fill(f.products.source.sku)
   let pending=page.waitForResponse(response=>rpc(RPC.read)(response)&&args(response).p_filters?.query===f.products.source.sku)
   await conversion().getByRole('button',{name:'Cari SKU asal',exact:true}).click();await success(pending)
   pending=page.waitForResponse(response=>rpc(RPC.read)(response)&&args(response).p_filters?.selection?.source_product_id===f.source)
-  await conversion().getByLabel('SKU asal dan gudang',{exact:true}).selectOption(f.source+':'+f.location);await success(pending)
+  await conversion().getByRole('combobox',{name:'SKU asal dan gudang',exact:true}).selectOption(f.source+':'+f.location);await success(pending)
  }
- async function openConversion(){await menu(page,'Gudang','Ganti Merek');await expect(conversion().getByRole('heading',{name:'Ganti Merek / SKU',exact:true})).toBeVisible();await expect(conversion().getByLabel('SKU asal dan gudang',{exact:true})).toBeEnabled()}
+ async function openConversion(){await menu(page,'Gudang','Ganti Merek');await expect(conversion().getByRole('heading',{name:'Ganti Merek / SKU',exact:true})).toBeVisible();await expect(conversion().getByRole('combobox',{name:'SKU asal dan gudang',exact:true})).toBeEnabled()}
  async function openInverse(member){
   const row=history().getByRole('row').filter({hasText:member.number});await expect(row).toHaveCount(1)
   await row.getByRole('button',{name:'Batalkan '+f.products.source.sku,exact:true}).click()
@@ -121,7 +121,7 @@ async function journey(ui,today,mobile){
   let row=await searchGroup(groupSource);await expect(row).toContainText(f.group_labels[groupTarget].brand_name+' · '+f.group_labels[groupTarget].sku)
   const first=state('PAIR_FIRST');pairOnly(beforePair,first,groupSource,groupTarget,1)
   row=await searchGroup(groupTarget);await expect(row).toContainText(f.group_labels[groupSource].brand_name+' · '+f.group_labels[groupSource].sku)
-  await editPair(groupTarget);await expect(pairing().getByLabel('SKU padanan',{exact:true})).toHaveValue(groupSource)
+  await editPair(groupTarget);await expect(pairing().getByRole('combobox',{name:'SKU padanan',exact:true})).toHaveValue(groupSource)
   await shot('PAIR_TWO_SIDES',pairing())
   await choosePair(groupSource);const duplicate=state('PAIR_REVERSE_DUPLICATE');pairOnly(first,duplicate,groupSource,groupTarget,1)
   assert.equal(duplicate.pairs.length,1)
@@ -136,15 +136,15 @@ async function journey(ui,today,mobile){
   const writesBefore=calls.length,previewsBefore=reads.filter(call=>call.args.p_filters?.preview).length
   const browse=await searchTarget(f.products.target.sku)
   assert.equal(browse.selection.target_product_id,null);assert.ok(!browse.targets.some(target=>target.id===f.other))
-  await expect(destination().getByLabel('SKU tujuan',{exact:true})).toHaveValue('')
+  await expect(destination().getByRole('combobox',{name:'SKU tujuan',exact:true})).toHaveValue('')
   await expect(destination().getByRole('button',{name:'Lihat pratinjau',exact:true})).toBeDisabled()
   await expect(destination().getByRole('button',{name:'Catat konversi fisik',exact:true})).toHaveCount(0)
   assert.equal(calls.length,writesBefore);assert.equal(reads.filter(call=>call.args.p_filters?.preview).length,previewsBefore)
   const selected=await selectTarget(f.target)
   assert.deepEqual(selected.selection.source_stock,{physical:10,reserved:1,available:9});assert.deepEqual(selected.selection.target_stock,{physical:4,reserved:0,available:4})
   assert.ok(selected.targets.find(target=>target.id===f.target)?.recommended===false,'NONPADANAN_REQUIRED')
-  await expect(destination().getByLabel('SKU tujuan',{exact:true}).locator('option:checked')).toContainText(f.products.target.brand)
-  await expect(destination().getByLabel('SKU tujuan',{exact:true}).locator('option:checked')).toContainText('ukuran '+f.products.target.size)
+  await expect(destination().getByRole('combobox',{name:'SKU tujuan',exact:true}).locator('option:checked')).toContainText(f.products.target.brand)
+  await expect(destination().getByRole('combobox',{name:'SKU tujuan',exact:true}).locator('option:checked')).toContainText('ukuran '+f.products.target.size)
   await destination().getByLabel('Jumlah PCS',{exact:true}).fill('4')
   await destination().getByLabel('Waktu fisik · WIB',{exact:true}).fill(f.physical_local)
   await destination().getByLabel('Alasan',{exact:true}).fill('Koreksi fisik campuran merek dan ukuran lewat layar owner29')

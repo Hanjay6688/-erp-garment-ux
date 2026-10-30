@@ -1,0 +1,7 @@
+{
+  "status": "RETAINED_LOCAL_CONTROL_FIRST_FAILURE_NOT_ACTUAL",
+  "error": "TypeError: Cannot read properties of undefined (reading 'React')",
+  "cause": "Installed TypeScript 7.0.2 exposes version.cjs without the old transpileModule API",
+  "resolution": "Render exact current JSX with installed esbuild transformSync; no product or selector-oracle change",
+  "actual_cases": 0
+}

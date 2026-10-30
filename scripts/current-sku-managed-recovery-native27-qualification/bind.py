@@ -19,6 +19,8 @@ def bind():
     assert yaml.safe_load((ROOT/workflow.NEW).read_bytes())==expected
     derived=load('sku27_writer_derivations','derive.py')
     for name in('browser','cases'):(HERE/(name+'.mjs')).write_text(derived.derive(name)[0])
+    browser_delta=load('sku27_writer_browser_delta','browser_delta.py')
+    for name in browser_delta.STAGED:(HERE/name).write_text(browser_delta.staged(name)[0])
     wf=(ROOT/t.WORKFLOW).read_bytes();wf_pin=dict(bytes=len(wf),sha256=sha256(wf).hexdigest())
     for name in('GENERATED_RECEIPTS.json','LATER_GENERATED_RECEIPTS.json','SKU_GENERATED_RECEIPTS.json'):
         path=HERE/name;value=json.loads(path.read_bytes());value['producer_files'][t.WORKFLOW]=wf_pin
@@ -44,6 +46,7 @@ def bind():
       sequence_producer=dict(path=t.NS+'/sequence_prefix.py',all_current_sequences=15,per_case_complete_before_after=True,successful_prefix_is_not_savepoint_restore=True),
       cost_census_producer=dict(path='scripts/current-sku-group-cost-qualification/native_fixture.py',all22=True,all_current_tables=True,all_sequences=True,original_code_unchanged=True),
       Node_source_reader=dict(path=t.NS+'/browser_source.py',actual_current_product_sources=True,authentic_Original21_reader=True,projected_sources=False),
+      explicit_a18_browser_successor=browser_delta.verify(),
       actual_successor_cases=0,actual_Auth_HTTP_cases=0,actual_real_browser_cases=0,
       group_recovery_supported=False,production_go=False,independent_acceptance=False,default_adoption=False)
     (HERE/'SOURCE.json').write_text(json.dumps(value,indent=2)+'\n')

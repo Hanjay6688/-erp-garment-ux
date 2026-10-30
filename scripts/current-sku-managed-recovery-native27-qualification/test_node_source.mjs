@@ -69,3 +69,6 @@ test('same-byte ancestor symlink refuses before authentic reader and restores',(
   assert.throws(()=>run(text,root),/SKU27_SOURCE_SYMLINK/);assert.equal(childCalls,before);
   unlinkSync(folder);renameSync(saved,folder);reaches(root);
 }));
+test('actual product JSX keeps exact named combobox selection under installed Playwright',async()=>{
+  await import('./test_browser_labels.mjs');
+});

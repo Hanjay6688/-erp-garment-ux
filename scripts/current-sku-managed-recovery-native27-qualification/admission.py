@@ -20,7 +20,8 @@ def preflight(*,require_clean=True):
     source=load('sku27_full_current_source',HERE/'closure.py').source_only(require_clean=require_clean)
     negative=load('sku27_retained_first602',HERE/'first602.py').verified()
     route=load('sku27_source_callback_binding',HERE/'race_binding.py').source_check()
-    return dict(source=source,retained_failed602=negative,actual_race_loader_source=route)
+    browser=load('sku27_source_browser_delta',HERE/'browser_delta.py').verify()
+    return dict(source=source,retained_failed602=negative,actual_race_loader_source=route,browser_successor=browser)
 
 def admitted(product,derivation):
     source=preflight();module,proof=historical();old=module.admitted(product,derivation)
@@ -28,5 +29,6 @@ def admitted(product,derivation):
     return dict(status='EXACT_QUALIFIED21_AND_ACTUAL_CURRENT_F3D_NATIVE27_SOURCE_ADMITTED',current_installation=product.sources(),
       current_source_transition=transition.source_receipt(),full_source_closure=source['source'],
       first602=source['retained_failed602'],authentic_old_qualification=old,private_old_scope_derivation=proof,
+      explicit_a18_browser_successor=source['browser_successor'],
       complete_engine_derivation=derivation,actual_successor_cases=0,group_recovery_supported=False,
       production_go=False,independent_acceptance=False)
