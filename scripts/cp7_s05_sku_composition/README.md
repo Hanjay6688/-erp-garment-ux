@@ -37,3 +37,20 @@ Remaining for this integration step:
 Afui's wider nonpayable GOOD/recost/inverse path remains a separately recorded gap.
 FG sales to mandor with chosen-week payroll deduction remains queued after active
 integration stability. Formal5/16, production_go=false, independent_acceptance=false.
+
+### Current targeted successor
+
+Run `41053845032` finished with four incomplete browser cases. The current
+candidate imports the exact 17-path successor published as
+`0938b693dee868ba74323f4ff61db70efdd11e89`: one currency display-space
+expectation and one staged grouping combobox selector, with the original source
+preimages and failure retained. Financial amounts and product/Native code are
+unchanged. Its fresh complete SKU27 run is `41070902168`, still pending.
+The prior 61 UI tests and 20 S05 source pins remain valid because all those
+source bytes are unchanged; this does not qualify the combined runtime.
+
+Global metadata run `41054247479` passed. Root independently recomputed its
+complete gate and all 19 raw-query projections, preserving 193 repeated
+dependency occurrences. This closes metadata capture only. S03 run
+`41049049321` timed out after a mobile post-cancellation pool-validation error;
+the complete outer-restoration report is absent and is not claimed.

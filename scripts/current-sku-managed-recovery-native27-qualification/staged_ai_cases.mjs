@@ -116,7 +116,7 @@ async function openStaged(ui,page,query){
   await history.getByRole('button',{name:'Data permintaan & stok',exact:true}).click()
   await history.getByLabel('Permintaan dari tanggal',{exact:true}).fill(query.from_date)
   await history.getByLabel('Permintaan sampai tanggal',{exact:true}).fill(query.through_date)
-  await history.getByLabel('Pengelompokan',{exact:true}).selectOption(query.group_mode)
+  await history.getByRole('combobox',{name:'Pengelompokan',exact:true}).selectOption(query.group_mode)
   await history.getByRole('button',{name:'Analisis, laporan & pengingat seluruh produk',exact:true}).click()
   const panel=page.getByRole('region',{name:'Analisis ERP bersama',exact:true})
   await panel.getByRole('button',{name:'Analisis bertahap (hingga 5.000 target)',exact:true}).click()

@@ -1,7 +1,7 @@
 """Exact a18 first-failure successor: named comboboxes and Native prepare RC.
 
-No product change, response fixture, financial assertion or observation-census
-change. The three wrapped selects have correct accessible names; Playwright's
+No product change, response fixture, financial amount or observation-census
+change. Wrapped selects have correct accessible names; Playwright's
 label-text selector includes option text. Role selectors retain exact names.
 """
 from hashlib import sha256
@@ -17,6 +17,8 @@ LOCATORS = (
     ("getByLabel('SKU asal dan gudang',{exact:true})", "getByRole('combobox',{name:'SKU asal dan gudang',exact:true})", 2),
 )
 ROUTE = ("from '../current-staged-ai-browser-qualification/cases.mjs'", "from './staged_ai_cases.mjs'", 1)
+DISPLAY = ("toContainText('nilai sumber Rp60,06')", "toContainText('nilai sumber Rp 60,06')", 1)
+STAGED_GROUP = ("getByLabel('Pengelompokan',{exact:true})", "getByRole('combobox',{name:'Pengelompokan',exact:true})", 1)
 STAGED = {
     'staged_ai_cases.mjs': ('scripts/current-staged-ai-browser-qualification/cases.mjs',
         '6d28e7da173c4170f9441f55c9f39b56b34779dc17ba930abee4fb680ba2b5d7',
@@ -29,7 +31,7 @@ STAGED = {
 
 
 def changes(key):
-    return LOCATORS if key == 'browser' else (ROUTE,) if key == 'cases' else ()
+    return LOCATORS + (DISPLAY,) if key == 'browser' else (ROUTE,) if key == 'cases' else ()
 
 
 def adapt(text, key, *, reverse=False):
@@ -51,11 +53,20 @@ def staged(name):
     if text.count(before) != 1 or after in text:
         raise ValueError('SKU27_STAGED_EXACT_ONE_ANCHOR:' + name)
     derived = text.replace(before, after, 1)
-    if derived.replace(after, before, 1) != text:
+    reverse = derived
+    extra = 0
+    if name == 'staged_ai_cases.mjs':
+        old, new, count = STAGED_GROUP
+        if derived.count(old) != count or new in derived:
+            raise ValueError('SKU27_STAGED_EXACT_GROUP_LOCATOR_REQUIRED')
+        derived = derived.replace(old, new, count)
+        reverse = derived.replace(new, old, count)
+        extra = count
+    if reverse.replace(after, before, 1) != text:
         raise ValueError('SKU27_STAGED_REVERSE_NOT_EXACT:' + name)
     if name.endswith('.py'): compile(derived, str(HERE / name), 'exec')
     return derived, dict(source=path, original_sha256=expected,
-        derived_sha256=sha256(derived.encode()).hexdigest(), counted_changes=1,
+        derived_sha256=sha256(derived.encode()).hexdigest(), counted_changes=1 + extra,
         byte_exact_reversible=True, financial_and_full_census_assertions_unchanged=True)
 
 
@@ -77,8 +88,13 @@ def verify():
     retained = json.loads((HERE / 'FIRST_A18_BROWSER_FAILURE.json').read_bytes())
     if retained['head'] != 'a18ceb797840934f2cc45222b704b581a00cecf0' or retained['counts'] != {'PASS': 23, 'INCOMPLETE': 4}:
         raise ValueError('SKU27_FIRST_A18_FAILURE_MUST_REMAIN_FAILED')
+    latest = json.loads((HERE / 'FIRST_8A080_BROWSER_FAILURE.json').read_bytes())
+    if latest['head'] != '8a08024fda704162481e3123efa5fa7fbfc5663d' or latest['browser_counts'] != {'INCOMPLETE': 4}:
+        raise ValueError('SKU27_FIRST_8A080_FAILURE_MUST_REMAIN_FAILED')
     return dict(status='EXACT_A18_BROWSER_FIRST_FAILURE_SOURCE_SUCCESSOR_ONLY',
         named_combobox_locator_changes=9, exact_accessible_names_retained=True,
+        staged_group_combobox_changes=1, currency_display_whitespace_changes=1,
+        expected_source_value_still='60.06', Native_financial_oracles_unchanged=True,
         stage_cases_route_changes=1, staged_derivations=proofs,
         actual_materialized_SKU_and_staged_caller_routes_exact=True,
         prepare_isolation='READ COMMITTED', state_and_read_isolation='REPEATABLE READ',

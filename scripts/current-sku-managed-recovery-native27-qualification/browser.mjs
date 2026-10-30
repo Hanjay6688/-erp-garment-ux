@@ -154,7 +154,7 @@ async function journey(ui,today,mobile){
   const pendingPreview=page.waitForResponse(response=>rpc(RPC.read)(response)&&args(response).p_filters?.preview?.target_product_id===f.target)
   await destination().getByRole('button',{name:'Lihat pratinjau',exact:true}).click();const reviewed=await success(pendingPreview)
   previewOracle(reviewed.preview,f);const afterPreview=state('AFTER_PREVIEW');equalCensus(beforePreview.census,afterPreview.census)
-  await expect(destination()).toContainText('nilai sumber Rp60,06');await expect(destination()).toContainText('Reservasi tetap.')
+  await expect(destination()).toContainText('nilai sumber Rp 60,06');await expect(destination()).toContainText('Reservasi tetap.')
   await shot('FIFO_PREVIEW',destination())
   progress.selection={old_invisible_target_cleared_no_preview_or_write:true,selected_brand_and_size_visible:true,nonpadanan_different_model_and_size:true,preview_full22_rows_and_sequences_unchanged:true}
 

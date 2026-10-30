@@ -21,6 +21,7 @@ for(const[label,path]of[
  ['SKU padanan','src/ConnectedSkuMasterPage.tsx'],
  ['SKU asal dan gudang','src/ConnectedProductConversionPage.tsx'],
  ['SKU tujuan','src/ConnectedProductConversionPage.tsx'],
+ ['Pengelompokan','src/NativeDemandHistoryPanel.tsx'],
 ]){
  const raw=readFileSync(resolve(ROOT,path),'utf8'),start=raw.indexOf('<label>'+label+'<select')
  assert.ok(start>=0);assert.equal(raw.indexOf('<label>'+label+'<select',start+1),-1)
@@ -30,7 +31,7 @@ for(const[label,path]of[
  const data={pairing:{can_edit:true,current:null,options:[{id:'target',brand_name:'Brand',sku:'Target',members:[{size:'34'}]}]},
    targets:[{id:'target',brand_name:'Brand',sku:'Target',size:'34',product_name:'Target size 34',recommended:false}],
    sources:[{product_id:'source',location_id:'warehouse',brand_name:'Brand',sku:'Source',size:'31',location_name:'FG',stock:{available:9}}]}
- const node=new Function('React','data','pairTarget','locked','source','target','selected',code+'return node;')(React,data,'',false,'','',{product_id:'source'})
+ const node=new Function('React','data','pairTarget','locked','source','target','selected','basis','busy','recovery',code+'return node;')(React,data,'',false,'','',{product_id:'source'},'AS_SOLD',false,{pending:null,error:null})
  const html=renderToStaticMarkup(node),virtualConsole=new VirtualConsole(),cssWarnings=[]
  virtualConsole.on('jsdomError',error=>{assert.match(error.message,/Not implemented: window.getComputedStyle\(elt, pseudoElt\)/);cssWarnings.push(error.message)})
  const dom=new JSDOM('<section class="panel">'+html+'</section>',{runScripts:'outside-only',virtualConsole})
