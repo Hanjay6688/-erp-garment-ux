@@ -1,0 +1,55 @@
+{
+  "status": "ACTUAL_CONTRACT_SOURCE_AND_FIRST_FAILURE_NOT_ACCEPTANCE",
+  "head": "7c7204c82debafce217d277514e3f23c8fc2ac69",
+  "run_id": 41020730202,
+  "artifact_id": 12963980858,
+  "archive": {
+    "bytes": 46957580,
+    "sha256": "36fde115aa5eb9bbcc63e6073efa722b52d401c37ac2cb1eaad5091e84fe07db"
+  },
+  "source_report": {
+    "path": "SKU_COST_RECOVERY_OVER_FIRST_PART_REFUSAL_bcf601d77b56_FULL_CURRENT_CENSUS.json",
+    "bytes": 43100594,
+    "sha256": "d19c518e9407668adbd9a21176db63b55d00720374ae5720d55ed8131d860461"
+  },
+  "actual_pocket_function_row19": [
+    "CREATE OR REPLACE FUNCTION erp.pocket_period_lock_v1()\n RETURNS void\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\nAS $function$\nbegin\n if not pg_try_advisory_xact_lock(hashtextextended('POCKET_HPP_PERIOD_V1',0)) then\n  raise exception 'POCKET_PERIOD_BUSY: alokasi kain kantong sedang berubah. Coba kembali dengan data terbaru';end if;\nend;$function$\n",
+    "postgres",
+    "plpgsql",
+    "f",
+    true,
+    false,
+    false,
+    false,
+    "v",
+    "u",
+    "100",
+    "0",
+    [
+      "search_path=\"\""
+    ],
+    null,
+    null,
+    "",
+    "void",
+    "-",
+    [
+      [
+        "postgres",
+        "postgres",
+        "EXECUTE",
+        false
+      ]
+    ]
+  ],
+  "first_session_counts": {
+    "PASS": 9,
+    "INCOMPLETE": 2
+  },
+  "original_failure": "NO_CONTENTION",
+  "first_worker_outcome_not_serialized": true,
+  "inference": "Distinct UUIDs reach the captured existing pocket try-lock; next actual run must prove exact P0001 POCKET_PERIOD_BUSY and full no effect before release, then same-request retry.",
+  "actual_Native_credit": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

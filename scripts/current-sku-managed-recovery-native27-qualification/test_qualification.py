@@ -38,7 +38,7 @@ class Qualification(unittest.TestCase):
 
     def test_complete_old_financial_callbacks_unchanged_in_private_modules(self):
         for key,names in [('cost_cases',['recovery_safety','both_parts_recost','atomic_inverse']),
-                          ('races',['exercise']),('auth_waits',['exercise'])]:
+                          ('auth_waits',['exercise'])]:
             before=d.legacy.derive(key)[0];after=d.derive(key)[0]
             a={n.name:ast.dump(n)for n in ast.parse(before).body if isinstance(n,ast.FunctionDef)}
             b={n.name:ast.dump(n)for n in ast.parse(after).body if isinstance(n,ast.FunctionDef)}
@@ -50,8 +50,21 @@ class Qualification(unittest.TestCase):
     def test_every_private_derivation_has_exact_current_source_and_inverse(self):
         proof=d.inventory();self.assertEqual(len(proof),15)
         self.assertTrue(all(p['byte_exact_reversible']for p in proof.values()))
-        self.assertTrue(all(p['original23_financial_callback_bodies_unchanged']for p in proof.values()))
+        self.assertEqual([key for key,p in proof.items()if not p['original23_financial_callback_bodies_unchanged']],['races'])
+        self.assertTrue(all(p['original_financial_postcondition_assertions_unchanged']for p in proof.values()))
         with self.assertRaises(ValueError):d.derive('runner',b'unknown body')
+
+    def test_race_only_changes_scheduling_and_retains_every_financial_postcondition(self):
+        before=d.legacy.derive('races')[0];after=d.derive('races')[0]
+        a=next(n for n in ast.parse(before).body if isinstance(n,ast.FunctionDef)and n.name=='exercise')
+        b=next(n for n in ast.parse(after).body if isinstance(n,ast.FunctionDef)and n.name=='exercise')
+        self.assertEqual(len(a.body),len(b.body))
+        changed=[i for i,(old,new)in enumerate(zip(a.body,b.body))if ast.dump(old)!=ast.dump(new)]
+        self.assertEqual(changed,[3,4])
+        self.assertIn('tools.two_sessions',ast.unparse(a.body[3]))
+        self.assertIn('schedule.run',ast.unparse(b.body[3]))
+        self.assertIn('schedule.require_contention',ast.unparse(b.body[4]))
+        self.assertEqual([ast.dump(n)for n in a.body[5:]],[ast.dump(n)for n in b.body[5:]])
 
     def test_complete_engine_six_changes_and_inverse(self):
         engine=load('sku27_unit_engine','engine_delta.py');raw=(ROOT/'scripts/current-vendor-receivable-qualification/probe.py').read_bytes()

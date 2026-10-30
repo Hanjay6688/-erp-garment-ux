@@ -28,9 +28,13 @@
       "bytes": 3675179,
       "sha256": "42f3c9495e54fa0f2024dd330dfc5c25b762702059d2590bce3a585e61b08d91"
     },
+    "scripts/current-sku-managed-recovery-native27-qualification/RACE_CONTRACT.json": {
+      "bytes": 1704,
+      "sha256": "cb512849e5400869a0efcfbb877198903741e0d4d67b7cf31f312282c9c040ad"
+    },
     "scripts/current-sku-managed-recovery-native27-qualification/README.md": {
-      "bytes": 4635,
-      "sha256": "96b3388569c0ede468251c66ad7eafe4d1c1e61a577ac97802f6265b14ba9a1b"
+      "bytes": 5951,
+      "sha256": "46d756bb0a4ea96b86deae8fbadf3ab1b819f00e0f9f50e3621bba8052ce96ee"
     },
     "scripts/current-sku-managed-recovery-native27-qualification/SKU_GENERATED_RECEIPTS.json": {
       "bytes": 28017,
@@ -85,8 +89,8 @@
       "sha256": "929ea1834693204d278a1879192973055a27338c9a3947836da16753be0aaba4"
     },
     "scripts/current-sku-managed-recovery-native27-qualification/derive.py": {
-      "bytes": 10031,
-      "sha256": "b32d602039c6affe0e170e9c9a34d611e8831e1063ed83ea65fb3e98fcc977b9"
+      "bytes": 11260,
+      "sha256": "a454d650f5f6c4392872598d7b67b49555c48cb70cd09d26531ee9de1894b212"
     },
     "scripts/current-sku-managed-recovery-native27-qualification/engine_delta.py": {
       "bytes": 1615,
@@ -236,6 +240,10 @@
       "bytes": 2306,
       "sha256": "c63c8dfcb5537df5b6f8b2958af5d537ff46311f8ef3b85d1506191cff6925e5"
     },
+    "scripts/current-sku-managed-recovery-native27-qualification/race_schedule.py": {
+      "bytes": 5716,
+      "sha256": "ab75fd21f9438a62ea456fbfba59efec4fb29a038257462e5cc257fcd4d8e9cc"
+    },
     "scripts/current-sku-managed-recovery-native27-qualification/recovery_cases.py": {
       "bytes": 4851,
       "sha256": "d112e2b569ece5309f9c40303f22afeaa9ce8499547ab20a2b0d115c70be023d"
@@ -277,8 +285,12 @@
       "sha256": "86648f031c3bd46466119ee4694bb533981b0ded51de2919823f005477305755"
     },
     "scripts/current-sku-managed-recovery-native27-qualification/test_qualification.py": {
-      "bytes": 13112,
-      "sha256": "1ae7e165d54da5925228ef73c2331249f107114d201d7f2030514534394d99db"
+      "bytes": 14079,
+      "sha256": "800e7096dcca3011e594c30d2849842d3cc2905c42111da8635559a63851225d"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/test_race_schedule.py": {
+      "bytes": 7198,
+      "sha256": "97413d2c948913afa0a5fbc0326f1182fb636a459a0c967bb720a7d3a0c9be9e"
     },
     "scripts/current-sku-managed-recovery-native27-qualification/transition.py": {
       "bytes": 4896,
@@ -301,6 +313,7 @@
     "scripts/current-sku-managed-recovery-native27-qualification/HISTORICAL_TRANSITIONS.json",
     "scripts/current-sku-managed-recovery-native27-qualification/LATER_GENERATED_RECEIPTS.json",
     "scripts/current-sku-managed-recovery-native27-qualification/PARENT_SOURCE.json",
+    "scripts/current-sku-managed-recovery-native27-qualification/RACE_CONTRACT.json",
     "scripts/current-sku-managed-recovery-native27-qualification/README.md",
     "scripts/current-sku-managed-recovery-native27-qualification/SKU_GENERATED_RECEIPTS.json",
     "scripts/current-sku-managed-recovery-native27-qualification/SOURCE.json",
@@ -354,6 +367,7 @@
     "scripts/current-sku-managed-recovery-native27-qualification/inherited_controls.py",
     "scripts/current-sku-managed-recovery-native27-qualification/native_admission.py",
     "scripts/current-sku-managed-recovery-native27-qualification/probe.py",
+    "scripts/current-sku-managed-recovery-native27-qualification/race_schedule.py",
     "scripts/current-sku-managed-recovery-native27-qualification/recovery_cases.py",
     "scripts/current-sku-managed-recovery-native27-qualification/recovery_sessions.py",
     "scripts/current-sku-managed-recovery-native27-qualification/retain_outputs.py",
@@ -365,6 +379,7 @@
     "scripts/current-sku-managed-recovery-native27-qualification/test_generated_later.py",
     "scripts/current-sku-managed-recovery-native27-qualification/test_node_source.mjs",
     "scripts/current-sku-managed-recovery-native27-qualification/test_qualification.py",
+    "scripts/current-sku-managed-recovery-native27-qualification/test_race_schedule.py",
     "scripts/current-sku-managed-recovery-native27-qualification/transition.py",
     "scripts/current-sku-managed-recovery-native27-qualification/workflow.py"
   ],
@@ -405,7 +420,9 @@
       "namespace_occurrences": 0,
       "extra_counted_changes": 0,
       "byte_exact_reversible": true,
-      "original23_financial_callback_bodies_unchanged": true
+      "original23_financial_callback_bodies_unchanged": true,
+      "original_financial_postcondition_assertions_unchanged": true,
+      "explicit_race_schedule_transition": false
     },
     "cost_native": {
       "retained602": {
@@ -434,7 +451,9 @@
       "namespace_occurrences": 0,
       "extra_counted_changes": 0,
       "byte_exact_reversible": true,
-      "original23_financial_callback_bodies_unchanged": true
+      "original23_financial_callback_bodies_unchanged": true,
+      "original_financial_postcondition_assertions_unchanged": true,
+      "explicit_race_schedule_transition": false
     },
     "cost_cases": {
       "retained602": {
@@ -463,7 +482,9 @@
       "namespace_occurrences": 2,
       "extra_counted_changes": 0,
       "byte_exact_reversible": true,
-      "original23_financial_callback_bodies_unchanged": true
+      "original23_financial_callback_bodies_unchanged": true,
+      "original_financial_postcondition_assertions_unchanged": true,
+      "explicit_race_schedule_transition": false
     },
     "races": {
       "retained602": {
@@ -488,11 +509,13 @@
         "original_files_modified": false
       },
       "retained602_derived_sha256": "7854b15e736b268a4743f5374732475d734a6a35f05f504954c86b51ffb77d97",
-      "derived_sha256": "7854b15e736b268a4743f5374732475d734a6a35f05f504954c86b51ffb77d97",
+      "derived_sha256": "49f16ac4a0c4387f476b2435ceddb0a467dd216ff5d2d33c724c423ce7fdcfd2",
       "namespace_occurrences": 0,
-      "extra_counted_changes": 0,
+      "extra_counted_changes": 3,
       "byte_exact_reversible": true,
-      "original23_financial_callback_bodies_unchanged": true
+      "original23_financial_callback_bodies_unchanged": false,
+      "original_financial_postcondition_assertions_unchanged": true,
+      "explicit_race_schedule_transition": true
     },
     "auth_waits": {
       "retained602": {
@@ -521,7 +544,9 @@
       "namespace_occurrences": 0,
       "extra_counted_changes": 0,
       "byte_exact_reversible": true,
-      "original23_financial_callback_bodies_unchanged": true
+      "original23_financial_callback_bodies_unchanged": true,
+      "original_financial_postcondition_assertions_unchanged": true,
+      "explicit_race_schedule_transition": false
     },
     "concurrency": {
       "retained602": {
@@ -550,7 +575,9 @@
       "namespace_occurrences": 0,
       "extra_counted_changes": 7,
       "byte_exact_reversible": true,
-      "original23_financial_callback_bodies_unchanged": true
+      "original23_financial_callback_bodies_unchanged": true,
+      "original_financial_postcondition_assertions_unchanged": true,
+      "explicit_race_schedule_transition": false
     },
     "browser_fixture": {
       "retained602": {
@@ -579,7 +606,9 @@
       "namespace_occurrences": 0,
       "extra_counted_changes": 0,
       "byte_exact_reversible": true,
-      "original23_financial_callback_bodies_unchanged": true
+      "original23_financial_callback_bodies_unchanged": true,
+      "original_financial_postcondition_assertions_unchanged": true,
+      "explicit_race_schedule_transition": false
     },
     "runner": {
       "retained602": {
@@ -608,7 +637,9 @@
       "namespace_occurrences": 3,
       "extra_counted_changes": 19,
       "byte_exact_reversible": true,
-      "original23_financial_callback_bodies_unchanged": true
+      "original23_financial_callback_bodies_unchanged": true,
+      "original_financial_postcondition_assertions_unchanged": true,
+      "explicit_race_schedule_transition": false
     },
     "probe": {
       "retained602": {
@@ -637,7 +668,9 @@
       "namespace_occurrences": 2,
       "extra_counted_changes": 2,
       "byte_exact_reversible": true,
-      "original23_financial_callback_bodies_unchanged": true
+      "original23_financial_callback_bodies_unchanged": true,
+      "original_financial_postcondition_assertions_unchanged": true,
+      "explicit_race_schedule_transition": false
     },
     "historical_admission": {
       "retained602": {
@@ -666,7 +699,9 @@
       "namespace_occurrences": 1,
       "extra_counted_changes": 0,
       "byte_exact_reversible": true,
-      "original23_financial_callback_bodies_unchanged": true
+      "original23_financial_callback_bodies_unchanged": true,
+      "original_financial_postcondition_assertions_unchanged": true,
+      "explicit_race_schedule_transition": false
     },
     "browser": {
       "retained602": {
@@ -695,7 +730,9 @@
       "namespace_occurrences": 0,
       "extra_counted_changes": 6,
       "byte_exact_reversible": true,
-      "original23_financial_callback_bodies_unchanged": true
+      "original23_financial_callback_bodies_unchanged": true,
+      "original_financial_postcondition_assertions_unchanged": true,
+      "explicit_race_schedule_transition": false
     },
     "cases": {
       "retained602": {
@@ -724,7 +761,9 @@
       "namespace_occurrences": 0,
       "extra_counted_changes": 0,
       "byte_exact_reversible": true,
-      "original23_financial_callback_bodies_unchanged": true
+      "original23_financial_callback_bodies_unchanged": true,
+      "original_financial_postcondition_assertions_unchanged": true,
+      "explicit_race_schedule_transition": false
     },
     "native_admission": {
       "retained602": {
@@ -744,7 +783,9 @@
       "namespace_occurrences": 1,
       "extra_counted_changes": 0,
       "byte_exact_reversible": true,
-      "original23_financial_callback_bodies_unchanged": true
+      "original23_financial_callback_bodies_unchanged": true,
+      "original_financial_postcondition_assertions_unchanged": true,
+      "explicit_race_schedule_transition": false
     },
     "cost_guard": {
       "retained602": {
@@ -764,7 +805,9 @@
       "namespace_occurrences": 1,
       "extra_counted_changes": 0,
       "byte_exact_reversible": true,
-      "original23_financial_callback_bodies_unchanged": true
+      "original23_financial_callback_bodies_unchanged": true,
+      "original_financial_postcondition_assertions_unchanged": true,
+      "explicit_race_schedule_transition": false
     },
     "browser_guard": {
       "retained602": {
@@ -784,7 +827,9 @@
       "namespace_occurrences": 1,
       "extra_counted_changes": 0,
       "byte_exact_reversible": true,
-      "original23_financial_callback_bodies_unchanged": true
+      "original23_financial_callback_bodies_unchanged": true,
+      "original_financial_postcondition_assertions_unchanged": true,
+      "explicit_race_schedule_transition": false
     }
   },
   "complete_vendor_engine_changes": 6,

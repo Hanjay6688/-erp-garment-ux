@@ -15,7 +15,7 @@ give **zero fresh Native, zero real two-session, zero real Auth/browser**
 credit. Only a successful complete run of this candidate can qualify it.
 No default adoption, release evidence or production go is granted here.
 
-The exact old23 callbacks and financial/quantity/FIFO/date assertions remain:
+The frozen old23 callback files and all financial/quantity/FIFO/date assertions remain:
 7 Native base, 3 cost, 3 conversion races, 6 permission waits and 4 real
 Auth/browser journeys. Four new IDs add under/equal first-part Native
 recovery, completed-UUID replay with permission withdrawn during a real
@@ -71,3 +71,24 @@ complete runtime source admission. `inherited_controls.py` runs declared
 private source-reader adaptations of the retained tests; no financial
 assertion is weakened. The new workflow is
 `.github/workflows/cp7-sku-managed-recovery-native27.yml`.
+
+## Explicit pocket-lock race schedule correction
+
+Actual run41020730202 at7c720 had 9 PASS and 2 INCOMPLETE sessions, with
+complete per-copy restoration. The two distinct-UUID callbacks demanded
+blocking, but the actual captured pocket-period function uses a try-lock.
+The first worker outcomes were not serialized by the old harness, so the
+new actual run must establish the precise P0001 POCKET_PERIOD_BUSY result.
+RACE_CONTRACT.json preserves the original archive identity and actual19-field
+function row. No old failure is relabelled or accepted.
+
+Three reversible source adapters load the new schedule, route its call, and
+replace only the contention check. Same UUID still requires real blocking.
+Distinct UUIDs require an uncommitted real holder, a different backend, exact
+named fast refusal, full22/all-row/ALL-sequence equality before holder release,
+and the same request/payload retried after release. Commit requires stale
+refusal plus another full no-effect census; rollback requires success. All
+original group/member/stock/result postconditions remain byte-exact. Private
+race scheduling therefore changed explicitly; whole callback-body identity
+is not claimed. The immutable old files, product, default and financial
+engines remain unchanged. Local threaded doubles confer Native0/race0.

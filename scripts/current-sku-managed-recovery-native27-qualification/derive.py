@@ -12,6 +12,14 @@ legacy=importlib.util.module_from_spec(spec);spec.loader.exec_module(legacy)
 SOURCES=legacy.SOURCES
 
 EXTRA={
+ 'races':(
+  ("def exercise(tools,today,*,same_uuid,first_commit):",
+   "_schedule_spec=importlib.util.spec_from_file_location('sku27_actual_pocket_schedule',HERE.parents[1]/'"+NS+"/race_schedule.py')\nschedule=importlib.util.module_from_spec(_schedule_spec);_schedule_spec.loader.exec_module(schedule)\n_native_spec=importlib.util.spec_from_file_location('sku27_race_full_census',HERE.parents[1]/'"+NS+"/cost_cases.py')\n_native=importlib.util.module_from_spec(_native_spec);_native_spec.loader.exec_module(_native)\n\ndef exercise(tools,today,*,same_uuid,first_commit):"),
+  ("held,contention,outcome=tools.two_sessions(lambda cur:f.action(cur,'POST',payload,first),lambda cur:f.action(cur,'POST',payload,second),first_commit)",
+   "held,contention,outcome=schedule.run(tools,lambda cur:f.action(cur,'POST',payload,first),lambda cur:f.action(cur,'POST',payload,second),first_commit,same_uuid=same_uuid,native_fixture=_native.n)"),
+  ("assert contention.get('kind')=='BLOCKED'and contention.get('holder_blocks_worker')is True,contention",
+   "schedule.require_contention(contention,same_uuid)"),
+ ),
  'probe':(
   ("deriver = load('sku_full_counted_vendor_derivation', HERE / 'derive.py')","deriver = load('sku_full_counted_vendor_derivation', ROOT / '"+NS+"/engine_delta.py')"),
   ("engine.LABEL = 'CP7_SKU_ALL_MEMBER_NATIVE23'","engine.LABEL = 'CP7_SKU_MANAGED_RECOVERY_NATIVE27'"),
@@ -109,7 +117,9 @@ def derive(key,raw=None):
     return text,dict(retained602=prior,retained602_derived_sha256=sha256(base.encode()).hexdigest(),
       derived_sha256=sha256(text.encode()).hexdigest(),namespace_occurrences=count,
       extra_counted_changes=len(EXTRA.get(key,())),byte_exact_reversible=True,
-      original23_financial_callback_bodies_unchanged=True)
+      original23_financial_callback_bodies_unchanged=key!='races',
+      original_financial_postcondition_assertions_unchanged=True,
+      explicit_race_schedule_transition=key=='races')
 
 def inventory():return{key:derive(key)[1]for key in SOURCES}
 
