@@ -1,0 +1,51 @@
+{
+  "status": "PASS",
+  "base_head": "e8f878f2ecaaf24368a0ce1a3393bc29c0b886f6",
+  "base_tree": "abfa0d954db8d1dffb620e416789e699204bbfbb",
+  "existing_product_changes": {
+    "scripts/cp7_sku_pair_conversion/recovery.sql": {
+      "hunks": 1,
+      "insertions": 5,
+      "deletions": 0
+    }
+  },
+  "local_SQL_controls": 49,
+  "retained_local_SQL_controls": 45,
+  "additional_NONE_controls": 4,
+  "new_source_controls": 9,
+  "retained_business_source_controls": 9,
+  "current_physical_product_sources": "PASS_ALL_FIVE_EXISTING_ORIGINAL_ENV_INPUTS_NO_PROJECTION",
+  "unchanged_frozen_source_pins": 43,
+  "unchanged_Native_captures": 8,
+  "unchanged_private_function_count": 19,
+  "private_bodies_changed": 1,
+  "unchanged_private_tables": 5,
+  "unchanged_original_callbacks": 23,
+  "real_NONE_material_holder": "REQUIRED_PENDING_NATIVE27",
+  "real_FG_holder": "REQUIRED_PENDING_NATIVE27",
+  "Native_financial": 0,
+  "real_two_session": 0,
+  "real_Auth_browser": 0,
+  "existing_MOVING_material_wait": "PRESERVED_BEFORE_PREFLIGHT_NOT_A_WHOLE_COMMAND_NOWAIT_CLAIM",
+  "sequence_scope": "No local/actual reseed. Refusal/replay every local row/sequence/session exact; positives may allocate sequence prefixes. Full outer backup alone restores all actual sequences.",
+  "log_pins": {
+    "SOURCE_CONTROLS_FINAL.log": {
+      "bytes": 1368,
+      "sha256": "df8cbaa8993a0eeb670e167d8ac004808d908d05b1bd1f2d4c40832ba1fe4f4c"
+    },
+    "RETAINED_BUSINESS_CONTROLS.log": {
+      "bytes": 1571,
+      "sha256": "b7801d51346d2e03a0dbc8a35f918f9e8849eb5f78163ee5ceeb106249964b09"
+    },
+    "LOCAL_SQL_THIRD.log": {
+      "bytes": 86,
+      "sha256": "03f60c91b8bb649be4ca3e04ca3e59fa315026df1cbd9cec84249bd43b0e015d"
+    }
+  },
+  "default_adoption": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "explicit_libpq_entrypoint_self_controls": 3,
+  "original_connect_descriptors_restored_success_and_error": true,
+  "preserved_before_explicit_DB_guard_head": "24e4f9815bc873537e4b7ffa0879318ee48c50c4"
+}

@@ -1,0 +1,135 @@
+{
+  "status": "PREPARED_NATIVE_FINANCIAL_0",
+  "base_head": "e8f878f2ecaaf24368a0ce1a3393bc29c0b886f6",
+  "base_tree": "abfa0d954db8d1dffb620e416789e699204bbfbb",
+  "sql_before": {
+    "bytes": 18703,
+    "sha256": "584ce0ef6c9ac81a1c0550258c6a371557529e75f5789cff612116b09577fdd4"
+  },
+  "sql_after": {
+    "bytes": 19035,
+    "sha256": "0bfb7d5bf64398470dcdd7f9e8e1ceed124c8db6e051433142f48dcb00ab8bd9"
+  },
+  "old_source43": {
+    "bytes": 10212,
+    "sha256": "b116e0cbbae3107e388977e00d8aebe3a95c056ac582a272a96818629984b47d"
+  },
+  "local_originals": {
+    "scripts/cp7_sku_pair_conversion/recovery_local/check.mjs": {
+      "bytes": 20148,
+      "sha256": "bbc6d07e1bc92f92734f32c6710b1672a1b951dfcada0ebcc7d39c1ffff680cb"
+    },
+    "scripts/cp7_sku_pair_conversion/recovery_local/fixture.sql": {
+      "bytes": 12172,
+      "sha256": "38b5c453acfdbb611c51fbd6a36fc6017f410d7eefc114306e8f3d6473b81d19"
+    },
+    "scripts/cp7_sku_pair_conversion/recovery_local/NATIVE_UNCHANGED.json": {
+      "bytes": 16587,
+      "sha256": "6ef13c7446a4b1c0510f6bf777a6a41cfa5b70e9330a7290a1e8b2eac9acec39"
+    },
+    "scripts/cp7_sku_pair_conversion/recovery_local/NATIVE_PROFILE_CATALOG.json": {
+      "bytes": 101985,
+      "sha256": "b5b69063125cbb2c6231282a47a92208f29fe80d566787ae0e56d24fcb26ee58"
+    }
+  },
+  "files": {
+    "scripts/current-sku-recovery-material-lock/.gitignore": {
+      "bytes": 19,
+      "sha256": "862263fa1f46c20f0d1e4dac5ffcc75abd55c08211b2c3864c5f8764b9d87793"
+    },
+    "scripts/current-sku-recovery-material-lock/README.md": {
+      "bytes": 3481,
+      "sha256": "2ab9925cff3d36a758bb98eaba12716c09c8dcb053ec724a3f295f6a164ab75e"
+    },
+    "scripts/current-sku-recovery-material-lock/bind.py": {
+      "bytes": 2291,
+      "sha256": "66d1c1272b8a4be6d8f97e59c0a40a27a856954298e8f9ff7dcdc51e344040ae"
+    },
+    "scripts/current-sku-recovery-material-lock/evidence/DB_GUARD_COUNTER_RECEIPT.json": {
+      "bytes": 1184,
+      "sha256": "2100044d5ed6df54b67a82f65173cc0c1257b7fbd7249e0113acad91a8c7e6d2"
+    },
+    "scripts/current-sku-recovery-material-lock/evidence/FIRST_LOCAL_SETUP_FAILURES.json": {
+      "bytes": 1631,
+      "sha256": "1db0adea68e9eba05e1b9504ccecb06e167bfe3db6daa0c2f37aae6bc2e7992e"
+    },
+    "scripts/current-sku-recovery-material-lock/evidence/FIRST_UNGUARDED_RUNTIME_SOURCE.json": {
+      "bytes": 1810,
+      "sha256": "b2b6697af8a389587766476601e600cf946248d14e8a67f05f52a498a9a70788"
+    },
+    "scripts/current-sku-recovery-material-lock/evidence/LOCAL_CHECK_RECEIPT.json": {
+      "bytes": 2013,
+      "sha256": "7abb52545d97c3f51864fd1ac77cd7250c718ca2b7f60731bace6690e9dc0481"
+    },
+    "scripts/current-sku-recovery-material-lock/evidence/LOCAL_MATERIAL_POLICY.json": {
+      "bytes": 20643,
+      "sha256": "4b7798dbbd9b3c2ede41351212e20041960a6780e4707727255f12aff3e05cb2"
+    },
+    "scripts/current-sku-recovery-material-lock/evidence/LOCAL_SQL_FIRST.log.gz": {
+      "bytes": 5140,
+      "sha256": "cb1c4148a075784935893b47d896ee1ceb5b18be118ffc0d371fcc9939b62ffb"
+    },
+    "scripts/current-sku-recovery-material-lock/evidence/LOCAL_SQL_SECOND.log.gz": {
+      "bytes": 19761,
+      "sha256": "c0b22c7025d97894c562e5f21037917b48ca5b2333bede1805243ff1f8103771"
+    },
+    "scripts/current-sku-recovery-material-lock/evidence/LOCAL_SQL_THIRD.log": {
+      "bytes": 86,
+      "sha256": "03f60c91b8bb649be4ca3e04ca3e59fa315026df1cbd9cec84249bd43b0e015d"
+    },
+    "scripts/current-sku-recovery-material-lock/evidence/POLICY_CATALOG_AUTHORITY.json": {
+      "bytes": 9093,
+      "sha256": "f46bfc422de1bd0fb4ade9c1c46862fdec8b307a717d5f2b3c42bbfe58a946f0"
+    },
+    "scripts/current-sku-recovery-material-lock/evidence/RETAINED_BUSINESS_CONTROLS.log": {
+      "bytes": 1571,
+      "sha256": "b7801d51346d2e03a0dbc8a35f918f9e8849eb5f78163ee5ceeb106249964b09"
+    },
+    "scripts/current-sku-recovery-material-lock/evidence/SOURCE_CONTROLS_FINAL.log": {
+      "bytes": 1368,
+      "sha256": "df8cbaa8993a0eeb670e167d8ac004808d908d05b1bd1f2d4c40832ba1fe4f4c"
+    },
+    "scripts/current-sku-recovery-material-lock/evidence/SOURCE_CONTROLS_FIRST.log.gz": {
+      "bytes": 2526,
+      "sha256": "f24759523186e166b4d23270a383c72987a07c9bf0f33c4cc059b8a03cd9b9cc"
+    },
+    "scripts/current-sku-recovery-material-lock/evidence/UNPROJECTED_CURRENT_RUNTIME.json": {
+      "bytes": 2190,
+      "sha256": "5f334202efee47c2ad39e295e4c7f91dd1f19cf094500d61461569193ca3787a"
+    },
+    "scripts/current-sku-recovery-material-lock/local.mjs": {
+      "bytes": 5261,
+      "sha256": "4d6d903ee2df81b55a762b20af0f6a517590c854b765f6d6ae5dadc583176d84"
+    },
+    "scripts/current-sku-recovery-material-lock/runtime_source.py": {
+      "bytes": 5176,
+      "sha256": "1439d70810383db377c48e043df7fb6d487a1b2f1a995e8993a2c08590f9f797"
+    },
+    "scripts/current-sku-recovery-material-lock/test_transition.py": {
+      "bytes": 7241,
+      "sha256": "935136f9ed9bcae7d01d8c58724b8f87e8ed56b6c37517efb08873f0e71bfe1c"
+    },
+    "scripts/current-sku-recovery-material-lock/transition.py": {
+      "bytes": 4864,
+      "sha256": "b25939dc978f023133fb860a3da62f17f1137adf8f4faf5ea5cea9ca5cb4e251"
+    }
+  },
+  "exact_SQL_hunks": 1,
+  "unchanged_captures": 8,
+  "unchanged_private_functions": 18,
+  "private_function_count": 19,
+  "changed_private_bodies": [
+    "cp7_sku_conversion.recovery_preflight_v1"
+  ],
+  "unchanged_private_tables": 5,
+  "unchanged_original_callbacks": 23,
+  "planned_total_actual_cases": 27,
+  "added_material_locks": "Only valuation material from already BCLOT-locked return lot; NOWAIT.",
+  "existing_MOVING_native_wait": "Preserved before preflight; command is not globally no-wait.",
+  "real_NONE_material_holder_required": true,
+  "Native_financial": 0,
+  "real_two_session": 0,
+  "default_adoption": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

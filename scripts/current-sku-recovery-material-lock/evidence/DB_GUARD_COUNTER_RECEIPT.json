@@ -1,0 +1,35 @@
+{
+  "status": "PASS",
+  "scope": "LOCAL_SOURCE_PROOF_HELPER_ONLY_NO_PRODUCT_SQL_CHANGE",
+  "preserved_first_head": "24e4f9815bc873537e4b7ffa0879318ee48c50c4",
+  "finding": "Python socket audit events alone do not reliably fence libpq C connection calls.",
+  "repair": "Explicitly block psycopg.connect and Connection/AsyncConnection.connect before retained imports, preserving/restoring original descriptors.",
+  "current_source_self_controls": [
+    {
+      "api": "psycopg.connect",
+      "result": "DENIED_BEFORE_LIBPQ"
+    },
+    {
+      "api": "psycopg.Connection.connect",
+      "result": "DENIED_BEFORE_LIBPQ"
+    },
+    {
+      "api": "psycopg.AsyncConnection.connect",
+      "result": "DENIED_BEFORE_LIBPQ"
+    },
+    {
+      "original_connect_descriptors_restored": true
+    }
+  ],
+  "source_read_forbidden_attempts": [],
+  "old_proof": {
+    "bytes": 1810,
+    "sha256": "b2b6697af8a389587766476601e600cf946248d14e8a67f05f52a498a9a70788",
+    "qualification": "SOURCE_PROOF_BEFORE_EXPLICIT_LIBPQ_ENTRYPOINT_CONTROL"
+  },
+  "current_proof": {
+    "bytes": 2190,
+    "sha256": "5f334202efee47c2ad39e295e4c7f91dd1f19cf094500d61461569193ca3787a"
+  },
+  "Native_financial": 0
+}

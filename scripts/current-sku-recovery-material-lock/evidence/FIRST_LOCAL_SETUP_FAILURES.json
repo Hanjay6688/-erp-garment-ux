@@ -1,0 +1,37 @@
+{
+  "status": "RETAINED_LOCAL_HARNESS_SETUP_FAILURES",
+  "Native_financial": 0,
+  "first": {
+    "name": "LOCAL_SQL_FIRST.log",
+    "cause": "JavaScript replacement-string dollar expansion changed literal SQL $$ in private local derivation; reversible proof refused before PGlite/SQL execution.",
+    "repair": "Literal slicing at exact counted anchor; added explicit $$/$&/$` preservation control."
+  },
+  "second": {
+    "name": "LOCAL_SQL_SECOND.log",
+    "cause": "Absolute filesystem dynamic module import from data: module lacks file URL base.",
+    "repair": "Counted runtime import path conversion to file URL; production source unchanged."
+  },
+  "original_logs": [
+    {
+      "name": "LOCAL_SQL_FIRST.log",
+      "bytes": 28636,
+      "sha256": "940bc47ed3e08a1ff1f99d8ca72dd1dc886faa4c8e9c1221d5a37f8ffac5b6d9",
+      "gzip_bytes": 5140,
+      "gzip_sha256": "cb1c4148a075784935893b47d896ee1ceb5b18be118ffc0d371fcc9939b62ffb"
+    },
+    {
+      "name": "LOCAL_SQL_SECOND.log",
+      "bytes": 57599,
+      "sha256": "4bf52d19800e4cab88321f05c9ee2b804a9c4da0af1e41fbeed4136074e75012",
+      "gzip_bytes": 19761,
+      "gzip_sha256": "c0b22c7025d97894c562e5f21037917b48ca5b2333bede1805243ff1f8103771"
+    }
+  ],
+  "third_source_control": {
+    "name": "SOURCE_CONTROLS_FIRST.log",
+    "cause": "Exact string control expected SQL formatter spaces absent in actual pg_get_functiondef. Body SHA and other6 source controls passed.",
+    "repair": "Use exact immutable actual compact predicate; no body or guard edits.",
+    "bytes": 9789,
+    "sha256": "9d1f0e32f3257d1b5002cbb0a8e8461eb1ad25f19796c592e9b7e858052940bb"
+  }
+}

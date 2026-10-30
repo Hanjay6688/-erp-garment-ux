@@ -1,0 +1,53 @@
+{
+  "contract": "private.sku-material-row-lock.policy-catalog-authority.v1",
+  "signature": "erp.bc_check_policy_value_v1(text,jsonb)",
+  "source": {
+    "Original_archive_sha256": "698b90b0bc3dfa52a8339d0b30464c2d98721594e56abdd53b07c959223f2bcc",
+    "Original_archive_bytes": 27564211,
+    "Original_member": "SKU_COST_RECOVERY_OVER_FIRST_PART_REFUSAL_37fb87d4a2e1_FULL_CURRENT_CENSUS.json",
+    "Original_member_bytes": 43056004,
+    "Original_member_sha256": "1081c288694965278468de28ef65831909bf52dd5461e6d682a00a6ff0418fa0",
+    "catalog_keys": [
+      "before.catalog.functions.erp.bc_check_policy_value_v1(text,jsonb)",
+      "after.catalog.functions.erp.bc_check_policy_value_v1(text,jsonb)"
+    ],
+    "exact_before_after": true
+  },
+  "definition_bytes": 7657,
+  "definition_sha256": "834f2b9cd80d9527dc45397c848d6ea6c1389c130f7539172fea71746f95c6c9",
+  "full_captured_catalog_row": [
+    "CREATE OR REPLACE FUNCTION erp.bc_check_policy_value_v1(p_key text, p_value jsonb)\n RETURNS jsonb\n LANGUAGE plpgsql\n STABLE SECURITY DEFINER\n SET search_path TO ''\nAS $function$\ndeclare v jsonb;v_x jsonb;k text;v_ids jsonb:='[]'::jsonb;v_zone jsonb:='{}'::jsonb;v_users jsonb;u text;\nbegin\n  if jsonb_typeof(p_value) is distinct from 'object' then raise exception 'BC_POLICY_VALUE: nilai pengaturan wajib objek';end if;\n  if p_key='ACC_DEC01' then\n    perform erp._cp3_assert_closed_json_object(p_value,array['mode'],array['mode'],'ACC-DEC01');\n    if p_value->>'mode' is distinct from 'BOTH_REAL_TIMELINES' then raise exception 'BC_POLICY_VALUE: ACC-DEC01 hanya BOTH_REAL_TIMELINES';end if;\n    return jsonb_build_object('mode','BOTH_REAL_TIMELINES');\n  elsif p_key='ACC_DEC03' then\n    perform erp._cp3_assert_closed_json_object(p_value,array['credit_account_id','unit_value_cap'],array['credit_account_id','unit_value_cap'],'ACC-DEC03');\n    if p_value->>'unit_value_cap' is null or p_value->>'unit_value_cap' not in('MOVING_AVERAGE','NONE') then\n      raise exception 'BC_POLICY_VALUE: ACC-DEC03 unit_value_cap MOVING_AVERAGE atau NONE';end if;\n    return jsonb_build_object('credit_account_id',erp.bc_policy_account_v1(p_value,'credit_account_id',array['REVENUE','EXPENSE']),\n      'unit_value_cap',p_value->>'unit_value_cap');\n  elsif p_key='ACC_DEC04' then\n    perform erp._cp3_assert_closed_json_object(p_value,array[]::text[],array['CUSTOMER_SERVICE_account_id','OWN_FG_REPAIR_account_id'],'ACC-DEC04');\n    v:='{}'::jsonb;\n    foreach k in array array['CUSTOMER_SERVICE_account_id','OWN_FG_REPAIR_account_id'] loop\n      if p_value ? k and jsonb_typeof(p_value->k)<>'null' then v:=v||jsonb_build_object(k,erp.bc_policy_account_v1(p_value,k,array['EXPENSE']));end if;\n    end loop;\n    if v='{}'::jsonb then raise exception 'BC_POLICY_VALUE: ACC-DEC04 memerlukan paling sedikit satu akun tujuan';end if;\n    return v;\n  elsif p_key='ACC_DEC05' then\n    perform erp._cp3_assert_closed_json_object(p_value,array['mode','credit_conditions'],array['mode','credit_conditions'],'ACC-DEC05');\n    if p_value->>'mode' is null or p_value->>'mode' not in('CREDIT_UNPAID_ONLY','CREDIT_THEN_CARRY','CREDIT_THEN_REFUND') then\n      raise exception 'BC_POLICY_VALUE: ACC-DEC05 mode CREDIT_UNPAID_ONLY, CREDIT_THEN_CARRY atau CREDIT_THEN_REFUND';end if;\n    if jsonb_typeof(p_value->'credit_conditions') is distinct from 'array' or jsonb_array_length(p_value->'credit_conditions') not between 1 and 2\n      or exists(select 1 from jsonb_array_elements(p_value->'credit_conditions') c where c#>>'{}' not in('USABLE','DAMAGED') or jsonb_typeof(c)<>'string')\n      or (select count(distinct c#>>'{}') from jsonb_array_elements(p_value->'credit_conditions') c)<>jsonb_array_length(p_value->'credit_conditions') then\n      raise exception 'BC_POLICY_VALUE: ACC-DEC05 credit_conditions berisi USABLE dan/atau DAMAGED';end if;\n    return jsonb_build_object('mode',p_value->>'mode','credit_conditions',\n      (select jsonb_agg(c order by c) from (select distinct y#>>'{}' c from jsonb_array_elements(p_value->'credit_conditions') y) s));\n  elsif p_key='ACC_DEC06' then\n    perform erp._cp3_assert_closed_json_object(p_value,array['mode','gain_account_id','loss_account_id'],array['mode','gain_account_id','loss_account_id'],'ACC-DEC06');\n    if p_value->>'mode' is distinct from 'NOTE_NEAREST_RUPIAH' then raise exception 'BC_POLICY_VALUE: ACC-DEC06 mode NOTE_NEAREST_RUPIAH';end if;\n    return jsonb_build_object('mode','NOTE_NEAREST_RUPIAH','gain_account_id',erp.bc_policy_account_v1(p_value,'gain_account_id',array['REVENUE','EXPENSE']),\n      'loss_account_id',erp.bc_policy_account_v1(p_value,'loss_account_id',array['EXPENSE']));\n  elsif p_key='ACC_DEC07' then\n    -- Owner decision no. 6 (26 Sep 2026): \"gausah ada approval dulu sementara karena belum relevan\" is approval NONE, an explicit\n    -- value that can be changed in the app later; a threshold (owner_approval_above) is the other form. Pending stays fail closed.\n    perform erp._cp3_assert_closed_json_object(p_value,array[]::text[],array['approval','owner_approval_above','zone_users'],'ACC-DEC07');\n    if (p_value ? 'approval')=(p_value ? 'owner_approval_above') then\n      raise exception 'BC_POLICY_VALUE: ACC-DEC07 diisi salah satu: approval NONE (tanpa persetujuan) atau owner_approval_above (batas nominal)';end if;\n    if p_value ? 'approval' and p_value->'approval' is distinct from '\"NONE\"'::jsonb then\n      raise exception 'BC_POLICY_VALUE: ACC-DEC07 approval hanya NONE';end if;\n    if p_value ? 'owner_approval_above' then\n      if jsonb_typeof(p_value->'owner_approval_above') is distinct from 'string' then raise exception 'BC_POLICY_VALUE: ACC-DEC07 owner_approval_above wajib nominal teks';end if;\n      perform erp.bb_parse_amount_v1(p_value->>'owner_approval_above','owner_approval_above',true);\n    end if;\n    if p_value ? 'zone_users' then\n      if jsonb_typeof(p_value->'zone_users') is distinct from 'object' then raise exception 'BC_POLICY_VALUE: zone_users wajib objek lokasi -> daftar pengguna';end if;\n      for k,v_users in select key,value from jsonb_each(p_value->'zone_users') loop\n        if k!~'^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$' or not exists(select 1 from erp.bc_accessory_zones_v1 where location_id=k::uuid) then\n          raise exception 'BC_POLICY_VALUE: % bukan zona aksesori terdaftar',k;end if;\n        if jsonb_typeof(v_users) is distinct from 'array' or jsonb_array_length(v_users) not between 1 and 50 then\n          raise exception 'BC_POLICY_VALUE: daftar pengguna zona % tidak valid',k;end if;\n        for u in select jsonb_array_elements_text(v_users) loop\n          if u!~'^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$' or not exists(select 1 from erp.app_users where id=u::uuid and is_active) then\n            raise exception 'BC_POLICY_VALUE: pengguna % tidak aktif atau tidak dikenal',u;end if;\n        end loop;\n        v_zone:=v_zone||jsonb_build_object(k,(select jsonb_agg(distinct y order by y) from jsonb_array_elements_text(v_users) y));\n      end loop;\n    end if;\n    if p_value ? 'approval' then return jsonb_build_object('approval','NONE','zone_users',v_zone);end if;\n    return jsonb_build_object('owner_approval_above',erp.bb_parse_amount_v1(p_value->>'owner_approval_above','owner_approval_above',true)::numeric(20,2)::text,\n      'zone_users',v_zone);\n  elsif p_key='ERP_DEC02' then\n    perform erp._cp3_assert_closed_json_object(p_value,array['special_free_category_ids'],array['special_free_category_ids'],'ERP-DEC02');\n    if jsonb_typeof(p_value->'special_free_category_ids') is distinct from 'array' or jsonb_array_length(p_value->'special_free_category_ids')>50 then\n      raise exception 'BC_POLICY_VALUE: ERP-DEC02 special_free_category_ids wajib daftar kategori';end if;\n    for v_x in select value from jsonb_array_elements(p_value->'special_free_category_ids') loop\n      if jsonb_typeof(v_x) is distinct from 'string' or v_x#>>'{}'!~'^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'\n        or not exists(select 1 from erp.accessory_categories where id=(v_x#>>'{}')::uuid and is_active) then\n        raise exception 'BC_POLICY_VALUE: kategori gratis % tidak aktif atau tidak dikenal',v_x#>>'{}';end if;\n      if not v_ids @> jsonb_build_array(v_x) then v_ids:=v_ids||jsonb_build_array(v_x);end if;\n    end loop;\n    return jsonb_build_object('special_free_category_ids',(select coalesce(jsonb_agg(y order by y),'[]'::jsonb) from jsonb_array_elements_text(v_ids) y));\n  end if;\n  raise exception 'BC_POLICY_KEY: pengaturan % tidak dikenal',p_key;\nend;$function$\n",
+    "postgres",
+    "plpgsql",
+    "f",
+    true,
+    false,
+    false,
+    false,
+    "s",
+    "u",
+    "100",
+    "0",
+    [
+      "search_path=\"\""
+    ],
+    [
+      "p_key",
+      "p_value"
+    ],
+    null,
+    "p_key text, p_value jsonb",
+    "jsonb",
+    "-",
+    [
+      [
+        "postgres",
+        "postgres",
+        "EXECUTE",
+        false
+      ]
+    ]
+  ],
+  "new_Native_financial_credit": 0,
+  "source_or_DB_mutations": 0
+}

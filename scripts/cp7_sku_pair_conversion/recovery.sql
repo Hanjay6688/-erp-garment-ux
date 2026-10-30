@@ -151,6 +151,11 @@ begin
   perform 1 from erp.product_conversions order by id for update nowait;
   perform 1 from erp.fg_lots order by id for update nowait;
   perform 1 from erp.hpp_versions order by id for update nowait;
+  -- Native NONE skips the earlier MOVING_AVERAGE material-row lock. Cover
+  -- its later FK/update waits using only the already BCLOT-locked lot's row.
+  perform 1 from erp.materials material
+   where material.id=(select lot.material_id from erp.bc_return_lots_v1 lot where lot.id=p_lot)
+   order by material.id for update nowait;
   perform 1 from erp.material_stock_movements order by id for update nowait;
   perform 1 from erp.material_cost_history order by movement_id for update nowait;
   perform 1 from erp.material_cost_checkpoints order by material_id for update nowait;

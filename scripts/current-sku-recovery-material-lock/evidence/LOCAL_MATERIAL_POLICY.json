@@ -1,0 +1,472 @@
+{
+  "status": "PASS",
+  "count": 49,
+  "proof_kind": "EXACT_CAPTURED_BC_SERVICE_BE_HPP_WITH_DECLARED_LOCAL_POLICY_AUTH_MATERIAL_JOURNAL_DOUBLES",
+  "retained_controls": 45,
+  "additional_NONE_controls": 4,
+  "real_NOWAIT_contention_proven": false,
+  "actual_Native_financial": 0,
+  "actual_two_session_races": 0,
+  "all_original_23_callbacks_edited": 0,
+  "sequence_scope": "Refused commands/replay compare every local sequence. Successful/old-red allocations are never reseeded; only outer full backup restores actual run sequences.",
+  "sources": {
+    "recovery": "0bfb7d5bf64398470dcdd7f9e8e1ceed124c8db6e051433142f48dcb00ab8bd9",
+    "fixture": "38b5c453acfdbb611c51fbd6a36fc6017f410d7eefc114306e8f3d6473b81d19",
+    "unchanged_Native": {
+      "erp.bc_new_document_v1(uuid,text,timestamp with time zone,jsonb,jsonb)": "80e02bead23ba0d11b979fc512cd9d08f00e33e8456c28f956fae58286727c66",
+      "erp.be_link_recovery_v1(uuid,uuid,date)": "01f42784156d4704526c08058a24291b586c045ef7e1d6e453b85a7c4d4c8867",
+      "erp.be_reconcile_cost_document_v1(uuid,date)": "fdaf4b1384fa7a4840359cbc7c1e94b588979e2cd364a2b2e9da9f03662492ad",
+      "erp.be_propagate_nonpo_v1()": "97d23a16a2e461e6e327f877ba6925d4bfbcb6f99481e070fb85c291c98cac61",
+      "erp.propagate_conversion_hpp_for_po(uuid)": "1f2d3e67b880ff5cd9f2770b332f579b91740965b4b4bb4b1f32d191f3d882fb",
+      "erp.be_allocation_extra_v1(uuid)": "05a0fbfd9d3a95356b5c87f59dc734ef1a562b23c3fd8801d88a30d7854c885f",
+      "erp.be_conversion_extra_v1(uuid)": "d7f3639368848072e71e066c9b20c0ea8112addf94739e1961698b8b3fd6c023",
+      "erp.be_nonpo_admitted_v1(uuid)": "a570b438cddf20c96d536bca4094974d245c19ca8e87bdd54a9573890ad81eaf"
+    }
+  },
+  "cases": [
+    {
+      "id": "RETAINED_OLD_LATE_NATIVE_NEGATIVE_FIRST_FAILURE",
+      "status": "PASS",
+      "sqlstate": "P0001",
+      "message": "BE_RECOVERY_EXCEEDS_VALUE: nilai pemulihan melebihi nilai sumber dan biaya sah",
+      "rows_restored": true,
+      "all_sequences_restored": false,
+      "before": {
+        "erp.audit_logs_id_seq": {
+          "last_value": "1",
+          "is_called": false
+        }
+      },
+      "after": {
+        "erp.audit_logs_id_seq": {
+          "last_value": "5",
+          "is_called": true
+        }
+      },
+      "declared_material_audit_double_count": 4,
+      "exact_BE_journal_audit_double_count": 1
+    },
+    {
+      "id": "NONE_UNDER_POST_EXACT_REPLAY",
+      "status": "PASS",
+      "unit": "20.01",
+      "Native_BE_HPP_hpp": "0.005000",
+      "Native_BE_HPP_total": "0.010000",
+      "complete_local_replay_census_equal": true
+    },
+    {
+      "id": "NONE_EQUAL_POST_EXACT_REPLAY",
+      "status": "PASS",
+      "unit": "20.02",
+      "Native_BE_HPP_hpp": "0.000000",
+      "Native_BE_HPP_total": "0.000000",
+      "complete_local_replay_census_equal": true
+    },
+    {
+      "id": "NONE_SAME_NATIVE_OVER_BUDGET_BEFORE_ANY_EFFECT",
+      "status": "PASS",
+      "sqlstate": "P0001",
+      "message": "BE_RECOVERY_EXCEEDS_VALUE: nilai pemulihan melebihi nilai sumber dan biaya sah",
+      "complete_local_census_equal": true,
+      "before_sha256": "85090a48c405d4f6caf3ca530bfe3188e1e4bc1d46022c398873a72a1a98cda9",
+      "after_sha256": "85090a48c405d4f6caf3ca530bfe3188e1e4bc1d46022c398873a72a1a98cda9"
+    },
+    {
+      "id": "NONE_AUTH_AFTER_NATIVE_BCLOT_WAIT_DOUBLE",
+      "status": "PASS",
+      "sqlstate": "P0001",
+      "message": "OWNER_ADMIN_REQUIRED",
+      "complete_local_census_equal": true,
+      "before_sha256": "7a43c98ea6f40a8b2b343033bc60b6777e12778694001f59539eb6159e103229",
+      "after_sha256": "7a43c98ea6f40a8b2b343033bc60b6777e12778694001f59539eb6159e103229"
+    },
+    {
+      "id": "SAME_NEGATIVE_BEFORE_FIRST_EFFECT",
+      "status": "PASS",
+      "sqlstate": "P0001",
+      "message": "BE_RECOVERY_EXCEEDS_VALUE: nilai pemulihan melebihi nilai sumber dan biaya sah",
+      "complete_local_census_equal": true,
+      "before_sha256": "9691dfdb68eb6722291f3ac85d35ee6964385aedf401044b5c14a40d65a1a046",
+      "after_sha256": "9691dfdb68eb6722291f3ac85d35ee6964385aedf401044b5c14a40d65a1a046"
+    },
+    {
+      "id": "UNDER_CAPACITY_POST_AND_EXACT_REPLAY",
+      "status": "PASS",
+      "response": {
+        "lot": {
+          "usable": 0,
+          "damaged": 0
+        },
+        "value": "20.01",
+        "action": "VALUE_CUSTODY",
+        "status": "POSTED",
+        "event_id": "53e57796-6818-4009-a4aa-4b78f805dadf",
+        "request_id": "10000000-0000-4000-8000-000000000071",
+        "document_id": "10000000-0000-4000-8000-000000000071",
+        "row_version": "1",
+        "adjustment_id": "44a4fc36-c3d8-48c5-93a9-5bdc6aeb70db"
+      },
+      "Native_BE_HPP_hpp": "0.005000",
+      "Native_BE_HPP_total": "0.010000",
+      "material_local_double_stock": "101.000000",
+      "local_census_replay_equal": true
+    },
+    {
+      "id": "CACHED_REPLAY_CURRENT_ROLE_20.01",
+      "status": "PASS",
+      "sqlstate": "P0001",
+      "message": "OWNER_ADMIN_REQUIRED",
+      "complete_local_census_equal": true,
+      "before_sha256": "4e435122ae96f645410ef78e7fc0b7ea01448091658928dd2ff43e52566a685a",
+      "after_sha256": "4e435122ae96f645410ef78e7fc0b7ea01448091658928dd2ff43e52566a685a"
+    },
+    {
+      "id": "CACHED_REPLAY_CURRENT_PERMISSION_20.01",
+      "status": "PASS",
+      "sqlstate": "P0001",
+      "message": "42501 ACCESS_DENIED",
+      "complete_local_census_equal": true,
+      "before_sha256": "9ed0484306544630ab564a6a126c873b04afa5f7fbc2b549ea8fd1add0cd2483",
+      "after_sha256": "9ed0484306544630ab564a6a126c873b04afa5f7fbc2b549ea8fd1add0cd2483"
+    },
+    {
+      "id": "CACHED_REPLAY_AFTER_REQUEST_WAIT_DOUBLE_20.01",
+      "status": "PASS",
+      "sqlstate": "P0001",
+      "message": "OWNER_ADMIN_REQUIRED",
+      "complete_local_census_equal": true,
+      "before_sha256": "dd758e9aec7be0ec685840b7c2293b8424c8a13ebacbd3c5bd18d61286ab83f1",
+      "after_sha256": "dd758e9aec7be0ec685840b7c2293b8424c8a13ebacbd3c5bd18d61286ab83f1"
+    },
+    {
+      "id": "EQUAL_CAPACITY_POST_AND_EXACT_REPLAY",
+      "status": "PASS",
+      "response": {
+        "lot": {
+          "usable": 0,
+          "damaged": 0
+        },
+        "value": "20.02",
+        "action": "VALUE_CUSTODY",
+        "status": "POSTED",
+        "event_id": "337884b9-cd2c-447c-bb04-dc8fe676571b",
+        "request_id": "10000000-0000-4000-8000-000000000071",
+        "document_id": "10000000-0000-4000-8000-000000000071",
+        "row_version": "1",
+        "adjustment_id": "6f8650ee-f162-4931-84e9-6120dedcd0cb"
+      },
+      "Native_BE_HPP_hpp": "0.000000",
+      "Native_BE_HPP_total": "0.000000",
+      "material_local_double_stock": "101.000000",
+      "local_census_replay_equal": true
+    },
+    {
+      "id": "CACHED_REPLAY_CURRENT_ROLE_20.02",
+      "status": "PASS",
+      "sqlstate": "P0001",
+      "message": "OWNER_ADMIN_REQUIRED",
+      "complete_local_census_equal": true,
+      "before_sha256": "27cfb0d63121560478208fa2846389b79abac58720c12ae53122d4a293a10379",
+      "after_sha256": "27cfb0d63121560478208fa2846389b79abac58720c12ae53122d4a293a10379"
+    },
+    {
+      "id": "CACHED_REPLAY_CURRENT_PERMISSION_20.02",
+      "status": "PASS",
+      "sqlstate": "P0001",
+      "message": "42501 ACCESS_DENIED",
+      "complete_local_census_equal": true,
+      "before_sha256": "5bb0fa6e9323b94c678fa8badee93dddbdec488ef54c8ee0dd6a35ecda6170c2",
+      "after_sha256": "5bb0fa6e9323b94c678fa8badee93dddbdec488ef54c8ee0dd6a35ecda6170c2"
+    },
+    {
+      "id": "CACHED_REPLAY_AFTER_REQUEST_WAIT_DOUBLE_20.02",
+      "status": "PASS",
+      "sqlstate": "P0001",
+      "message": "OWNER_ADMIN_REQUIRED",
+      "complete_local_census_equal": true,
+      "before_sha256": "ce58249e625828838e2f1856d2258ed52a6bb3499e2d3c52542a6407dee5df68",
+      "after_sha256": "ce58249e625828838e2f1856d2258ed52a6bb3499e2d3c52542a6407dee5df68"
+    },
+    {
+      "id": "UNMANAGED_NATIVE_PATH_UNCHANGED",
+      "status": "PASS",
+      "message": "BE_RECOVERY_EXCEEDS_VALUE: nilai pemulihan melebihi nilai sumber dan biaya sah",
+      "retained_late_sequence_allocation": true
+    },
+    {
+      "id": "UNMANAGED_LAWFUL_NATIVE_POST_UNCHANGED",
+      "status": "PASS"
+    },
+    {
+      "id": "CURRENT_RECOSTED_SOURCE_USED",
+      "status": "PASS"
+    },
+    {
+      "id": "DESCENDANT_NEGATIVE_BEFORE_ANY_AUDIT",
+      "status": "PASS",
+      "sqlstate": "P0001",
+      "message": "BE_RECOVERY_EXCEEDS_VALUE: nilai pemulihan melebihi nilai sumber dan biaya sah",
+      "complete_local_census_equal": true,
+      "before_sha256": "449abe1936818b8a01c6196ac0c9fe110eca23906abe238c7d0b708f54704c7a",
+      "after_sha256": "449abe1936818b8a01c6196ac0c9fe110eca23906abe238c7d0b708f54704c7a"
+    },
+    {
+      "id": "UNRELATED_VISITED_NEGATIVE_BEFORE_ANY_AUDIT",
+      "status": "PASS",
+      "sqlstate": "P0001",
+      "message": "BE_RECOVERY_EXCEEDS_VALUE: nilai pemulihan melebihi nilai sumber dan biaya sah",
+      "complete_local_census_equal": true,
+      "before_sha256": "4a26ac5dda77dcbdbe83805cb0786294865451a6822023a64ae1e4474d1870cd",
+      "after_sha256": "4a26ac5dda77dcbdbe83805cb0786294865451a6822023a64ae1e4474d1870cd"
+    },
+    {
+      "id": "UNRELATED_NATIVE_ORPHAN_BEFORE_ANY_AUDIT",
+      "status": "PASS",
+      "sqlstate": "P0001",
+      "message": "BE_NON_PO_LINEAGE_ORPHAN_OR_CYCLE",
+      "complete_local_census_equal": true,
+      "before_sha256": "34d221f529d34a6a6beb42894b3a9f6221f86df7473f2b3a8595c3524b859dc8",
+      "after_sha256": "34d221f529d34a6a6beb42894b3a9f6221f86df7473f2b3a8595c3524b859dc8"
+    },
+    {
+      "id": "PENDING_HALF_CENT_NATIVE_ROUND_ONLY",
+      "status": "PASS",
+      "pending_recovery": "0.01",
+      "hpp": "10.005000"
+    },
+    {
+      "id": "EXACT_PO_NATIVE_PROPAGATION_EQUAL",
+      "status": "PASS"
+    },
+    {
+      "id": "ACTUAL_PRIOR_ALLOCATION_EXTRA_INCLUDED",
+      "status": "PASS",
+      "sqlstate": "P0001",
+      "message": "BE_RECOVERY_EXCEEDS_VALUE: nilai pemulihan melebihi nilai sumber dan biaya sah",
+      "complete_local_census_equal": true,
+      "before_sha256": "a2d8905e56821790c975999d8a54ab61fc3b758c42cedb0b2af3502ed6246e4d",
+      "after_sha256": "a2d8905e56821790c975999d8a54ab61fc3b758c42cedb0b2af3502ed6246e4d"
+    },
+    {
+      "id": "UNRECONCILED_EXISTING_NATIVE_COST_SOURCE",
+      "status": "PASS",
+      "sqlstate": "P0001",
+      "message": "CP7_SKU_RECOVERY_PROFILE_REVIEW_REQUIRED: sumber biaya terdahulu perlu diselaraskan",
+      "complete_local_census_equal": true,
+      "before_sha256": "c2c983140c871a1542b71b1fc531fd8693fb11ad79e0ed53c0610abc7716b2c4",
+      "after_sha256": "c2c983140c871a1542b71b1fc531fd8693fb11ad79e0ed53c0610abc7716b2c4"
+    },
+    {
+      "id": "NATIVE_EMPTY_CLOSED_CHECKPOINT_ALLOWED",
+      "status": "PASS"
+    },
+    {
+      "id": "CATEGORY_WITHOUT_NATIVE_REBUILD_SNAPSHOTS_ALLOWED",
+      "status": "PASS"
+    },
+    {
+      "id": "UNVISITED_OTHER_PO_AND_VOIDED_NULL_NAN_HPP_DO_NOT_REFUSE",
+      "status": "PASS"
+    },
+    {
+      "id": "VISITED_NULL_SOURCE_HPP_REFUSES_BEFORE_EFFECT",
+      "status": "PASS",
+      "sqlstate": "P0001",
+      "message": "CP7_SKU_RECOVERY_PROFILE_REVIEW_REQUIRED: HPP sumber belum dapat dipastikan",
+      "complete_local_census_equal": true,
+      "before_sha256": "e55b56552428687076eed651c65174ea9bb05d804b9b727ccd86436ef922724e",
+      "after_sha256": "e55b56552428687076eed651c65174ea9bb05d804b9b727ccd86436ef922724e"
+    },
+    {
+      "id": "REPRICING_UNIT_DIFFERS_FROM_CURRENT_AVERAGE",
+      "status": "PASS",
+      "sqlstate": "P0001",
+      "message": "CP7_SKU_RECOVERY_PROFILE_REVIEW_REQUIRED: biaya material perlu diperiksa kembali sebelum penilaian",
+      "complete_local_census_equal": true,
+      "before_sha256": "13f68e73ff44b7dfbd9373cf8b7ab82e8ae291696d333b223dc060617a90eeb6",
+      "after_sha256": "13f68e73ff44b7dfbd9373cf8b7ab82e8ae291696d333b223dc060617a90eeb6"
+    },
+    {
+      "id": "BACKDATED_APPEND",
+      "status": "PASS",
+      "sqlstate": "P0001",
+      "message": "CP7_SKU_RECOVERY_PROFILE_REVIEW_REQUIRED: biaya material perlu diperiksa kembali sebelum penilaian",
+      "complete_local_census_equal": true,
+      "before_sha256": "397c6750c06f6e9795632d60b5e86df38d499a637453e76c2438fe4f4c9efe68",
+      "after_sha256": "397c6750c06f6e9795632d60b5e86df38d499a637453e76c2438fe4f4c9efe68"
+    },
+    {
+      "id": "INCOMPLETE_MATERIAL_COST",
+      "status": "PASS",
+      "sqlstate": "P0001",
+      "message": "CP7_SKU_RECOVERY_PROFILE_REVIEW_REQUIRED: biaya material perlu diperiksa kembali sebelum penilaian",
+      "complete_local_census_equal": true,
+      "before_sha256": "0f6ad9e839ca618c48526b642ba23e2173608fe760ed04b7a70751db29c8e686",
+      "after_sha256": "0f6ad9e839ca618c48526b642ba23e2173608fe760ed04b7a70751db29c8e686"
+    },
+    {
+      "id": "NEGATIVE_CONSUMER",
+      "status": "PASS",
+      "sqlstate": "P0001",
+      "message": "CP7_SKU_RECOVERY_PROFILE_REVIEW_REQUIRED: biaya material perlu diperiksa kembali sebelum penilaian",
+      "complete_local_census_equal": true,
+      "before_sha256": "15bd8e2b1d091172923bee433fa6991115cd396a1d3edadfa47d70049039e3e1",
+      "after_sha256": "15bd8e2b1d091172923bee433fa6991115cd396a1d3edadfa47d70049039e3e1"
+    },
+    {
+      "id": "TRANSFER_CONSUMER",
+      "status": "PASS",
+      "sqlstate": "P0001",
+      "message": "CP7_SKU_RECOVERY_PROFILE_REVIEW_REQUIRED: biaya material perlu diperiksa kembali sebelum penilaian",
+      "complete_local_census_equal": true,
+      "before_sha256": "36a9b704bfa08dd12cb186858940fd631b4874830fff3e226f0717c831d242a8",
+      "after_sha256": "36a9b704bfa08dd12cb186858940fd631b4874830fff3e226f0717c831d242a8"
+    },
+    {
+      "id": "CUTTING_CONSUMER",
+      "status": "PASS",
+      "sqlstate": "P0001",
+      "message": "CP7_SKU_RECOVERY_PROFILE_REVIEW_REQUIRED: biaya material perlu diperiksa kembali sebelum penilaian",
+      "complete_local_census_equal": true,
+      "before_sha256": "722981858194fd02b8ac49e78f99c49f8eddf12c27f599d54e543f71ae287198",
+      "after_sha256": "722981858194fd02b8ac49e78f99c49f8eddf12c27f599d54e543f71ae287198"
+    },
+    {
+      "id": "CONTRACTOR_CONSUMER",
+      "status": "PASS",
+      "sqlstate": "P0001",
+      "message": "CP7_SKU_RECOVERY_PROFILE_REVIEW_REQUIRED: biaya material perlu diperiksa kembali sebelum penilaian",
+      "complete_local_census_equal": true,
+      "before_sha256": "fc7fc4152eba80ded011f9891bab6ed24969813361293d6d29c68fea6d4c5156",
+      "after_sha256": "fc7fc4152eba80ded011f9891bab6ed24969813361293d6d29c68fea6d4c5156"
+    },
+    {
+      "id": "REVERSED_CONSUMER",
+      "status": "PASS",
+      "sqlstate": "P0001",
+      "message": "CP7_SKU_RECOVERY_PROFILE_REVIEW_REQUIRED: biaya material perlu diperiksa kembali sebelum penilaian",
+      "complete_local_census_equal": true,
+      "before_sha256": "3a60cf3abef82d45b74ce914d0e8d053e8d3aba23ba752187b9c5e3d8706bd49",
+      "after_sha256": "3a60cf3abef82d45b74ce914d0e8d053e8d3aba23ba752187b9c5e3d8706bd49"
+    },
+    {
+      "id": "MATERIAL_HISTORY_MISSING",
+      "status": "PASS",
+      "sqlstate": "P0001",
+      "message": "CP7_SKU_RECOVERY_PROFILE_REVIEW_REQUIRED: biaya material perlu diperiksa kembali sebelum penilaian",
+      "complete_local_census_equal": true,
+      "before_sha256": "0ccdca99edb358b20743b6e36148acf9d070e6afd5ba445a777ab005d202335d",
+      "after_sha256": "0ccdca99edb358b20743b6e36148acf9d070e6afd5ba445a777ab005d202335d"
+    },
+    {
+      "id": "MATERIAL_HISTORY_PREFIX_WRONG",
+      "status": "PASS",
+      "sqlstate": "P0001",
+      "message": "CP7_SKU_RECOVERY_PROFILE_REVIEW_REQUIRED: biaya material perlu diperiksa kembali sebelum penilaian",
+      "complete_local_census_equal": true,
+      "before_sha256": "adf4b0c4a80d583e3efb6ff607b07805e65ddce70901158ccdf5d6abde1153c9",
+      "after_sha256": "adf4b0c4a80d583e3efb6ff607b07805e65ddce70901158ccdf5d6abde1153c9"
+    },
+    {
+      "id": "MATERIAL_CACHED_STOCK_WRONG",
+      "status": "PASS",
+      "sqlstate": "P0001",
+      "message": "CP7_SKU_RECOVERY_PROFILE_REVIEW_REQUIRED: biaya material perlu diperiksa kembali sebelum penilaian",
+      "complete_local_census_equal": true,
+      "before_sha256": "d4a7e109e71a89bea285109ab5c214f9c99dcefe5c4d62a7baaace0ac97126ad",
+      "after_sha256": "d4a7e109e71a89bea285109ab5c214f9c99dcefe5c4d62a7baaace0ac97126ad"
+    },
+    {
+      "id": "SHARED_PURCHASE_RECURSIVE_REVALUATION",
+      "status": "PASS",
+      "sqlstate": "P0001",
+      "message": "CP7_SKU_RECOVERY_PROFILE_REVIEW_REQUIRED: biaya material perlu diperiksa kembali sebelum penilaian",
+      "complete_local_census_equal": true,
+      "before_sha256": "28d53bd86824df52d774dc560296856dff8c53145f4bed3a7aa3a8fe5c6c6e1f",
+      "after_sha256": "28d53bd86824df52d774dc560296856dff8c53145f4bed3a7aa3a8fe5c6c6e1f"
+    },
+    {
+      "id": "UNKNOWN_PURCHASE_LINEAGE",
+      "status": "PASS",
+      "sqlstate": "P0001",
+      "message": "CP7_SKU_RECOVERY_PROFILE_REVIEW_REQUIRED: biaya material perlu diperiksa kembali sebelum penilaian",
+      "complete_local_census_equal": true,
+      "before_sha256": "1b24433c2d6c015b9e481fd5637c101da425c401a8ccdc37339aca749acfbafe",
+      "after_sha256": "1b24433c2d6c015b9e481fd5637c101da425c401a8ccdc37339aca749acfbafe"
+    },
+    {
+      "id": "MATERIAL_CHECKPOINT_WRONG",
+      "status": "PASS",
+      "sqlstate": "P0001",
+      "message": "CP7_SKU_RECOVERY_PROFILE_REVIEW_REQUIRED: biaya material perlu diperiksa kembali sebelum penilaian",
+      "complete_local_census_equal": true,
+      "before_sha256": "42c782ee4f1fb0178fef33f84188192bc717f722794e29f5b7e051208e52234a",
+      "after_sha256": "42c782ee4f1fb0178fef33f84188192bc717f722794e29f5b7e051208e52234a"
+    },
+    {
+      "id": "CATEGORY_NATIVE_REBUILD",
+      "status": "PASS",
+      "sqlstate": "P0001",
+      "message": "CP7_SKU_RECOVERY_PROFILE_REVIEW_REQUIRED: biaya material perlu diperiksa kembali sebelum penilaian",
+      "complete_local_census_equal": true,
+      "before_sha256": "5389aacd6965ae0a316ee6af5a4ca6ed3922f06f829c0d64ec76cea2e7c55efb",
+      "after_sha256": "5389aacd6965ae0a316ee6af5a4ca6ed3922f06f829c0d64ec76cea2e7c55efb"
+    },
+    {
+      "id": "INCOMPLETE_COST_QUEUE",
+      "status": "PASS",
+      "sqlstate": "P0001",
+      "message": "CP7_SKU_RECOVERY_PROFILE_REVIEW_REQUIRED: biaya material perlu diperiksa kembali sebelum penilaian",
+      "complete_local_census_equal": true,
+      "before_sha256": "9cddcd8a14ad57c14aae6f90677996660e08490c8fcbdb8a4631dc3642345b1d",
+      "after_sha256": "9cddcd8a14ad57c14aae6f90677996660e08490c8fcbdb8a4631dc3642345b1d"
+    },
+    {
+      "id": "UNNORMALIZED_NATIVE_GRAPH",
+      "status": "PASS",
+      "sqlstate": "P0001",
+      "message": "CP7_SKU_RECOVERY_PROFILE_REVIEW_REQUIRED: HPP konversi perlu diselaraskan lebih dahulu",
+      "complete_local_census_equal": true,
+      "before_sha256": "77a2f6ee4fd929f48d9394980bec0deeb28060fd8c103dd08b866671c8f9edc1",
+      "after_sha256": "77a2f6ee4fd929f48d9394980bec0deeb28060fd8c103dd08b866671c8f9edc1"
+    },
+    {
+      "id": "AMBIGUOUS_NATIVE_ALLOCATION",
+      "status": "PASS",
+      "sqlstate": "P0001",
+      "message": "CP7_SKU_RECOVERY_PROFILE_REVIEW_REQUIRED: alokasi biaya perlu diperiksa kembali",
+      "complete_local_census_equal": true,
+      "before_sha256": "b39de0131b724f973411a07f720d72c9110b1a70caea4cade91fc36ba11247bb",
+      "after_sha256": "b39de0131b724f973411a07f720d72c9110b1a70caea4cade91fc36ba11247bb"
+    },
+    {
+      "id": "MISS_AUTH_AFTER_IDEMPOTENCY_DOUBLE",
+      "status": "PASS",
+      "sqlstate": "P0001",
+      "message": "OWNER_ADMIN_REQUIRED",
+      "complete_local_census_equal": true,
+      "before_sha256": "00722ee4b2aaa2db09745e70dc2ae5460740958635ae498d8739f5f18c024dbe",
+      "after_sha256": "00722ee4b2aaa2db09745e70dc2ae5460740958635ae498d8739f5f18c024dbe"
+    },
+    {
+      "id": "MISS_AUTH_AFTER_BCLOT_MATERIAL_WAIT_DOUBLE",
+      "status": "PASS",
+      "sqlstate": "P0001",
+      "message": "OWNER_ADMIN_REQUIRED",
+      "complete_local_census_equal": true,
+      "before_sha256": "31fe24d27797d37e23254b9fc990293a1a26ed65e81b7ad7465b76b66686d245",
+      "after_sha256": "31fe24d27797d37e23254b9fc990293a1a26ed65e81b7ad7465b76b66686d245"
+    },
+    {
+      "id": "BUSY_BRANCH_LOCAL_DOUBLE_BEFORE_EFFECT",
+      "status": "PASS",
+      "sqlstate": "P0001",
+      "message": "CP7_SKU_RECOVERY_BUSY: data biaya sedang berubah; muat ulang lalu coba lagi",
+      "complete_local_census_equal": true,
+      "before_sha256": "5abeaa57b47abd51ac6184a88f38c3b367f5e1c6578a1c3ef4fa4e2893a6bdb5",
+      "after_sha256": "5abeaa57b47abd51ac6184a88f38c3b367f5e1c6578a1c3ef4fa4e2893a6bdb5"
+    }
+  ],
+  "production_go": false,
+  "independent_acceptance": false
+}
