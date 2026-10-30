@@ -1,0 +1,26 @@
+{
+  "status": "WIP_NOT_LAUNCHABLE_REQUIRES_LAWFUL_NONE_MATERIAL_ROW_SUCCESSOR",
+  "base_public": "e8f878f2ecaaf24368a0ce1a3393bc29c0b886f6",
+  "product_untouched": true,
+  "complete_engine_structural_steps": 70,
+  "private_engine_changes": 6,
+  "immutable_parent_files": 13738,
+  "local_new_controls_passed": 31,
+  "original_client_tests_passed": 72,
+  "original_client_files": 8,
+  "typecheck": "PASS",
+  "retained_fixture_family_passed": 15,
+  "first_inherited_reader_result": "12PASS1ERROR_VERIFY_FILES_ABI_REPAIR_LOCAL_WIP_SOURCE_NOT_REBOUND",
+  "pending": [
+    "SOURCE refresh after current local edits",
+    "all full runtime/Original/Node gates",
+    "NONE material lock product successor and new public parent",
+    "extended NONE material-holder busy attempt",
+    "complete four callbacks/11 full copy restores/fresh used witness/all5 actual run"
+  ],
+  "actual_Native_financial": 0,
+  "actual_real_sessions": 0,
+  "actual_Auth_browser": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

@@ -1,0 +1,144 @@
+{
+  "status": "PASS_SOURCE_ONLY_EARLIER_SNAPSHOT_REUSE_MUST_BE_DECLARED",
+  "head": "fc9b30ec9fce21b12c9074237a7a2d27d9563eeb",
+  "records": [
+    {
+      "name": "PROOF_FULL_CHECK_FIRST.stdout",
+      "bytes": 687651,
+      "sha256": "a7d59db76012cba1a7fb1894ab305263116e2baa324ccee5776edd1cdba0163f",
+      "snapshot_head": "fc9b30ec9fce21b12c9074237a7a2d27d9563eeb",
+      "kind": "ACTUAL_SOURCE_ORIGINAL_READER_NO_NATIVE",
+      "status": "SOURCE_ONLY_NATIVE_FINANCIAL_0",
+      "guards": {
+        "attempts": [],
+        "network_nonGit_attempts": [],
+        "public_source_sha256": "1439d70810383db377c48e043df7fb6d487a1b2f1a995e8993a2c08590f9f797",
+        "self_controls": [
+          {
+            "api": "psycopg.connect",
+            "result": "DENIED_BEFORE_LIBPQ"
+          },
+          {
+            "api": "psycopg.Connection.connect",
+            "result": "DENIED_BEFORE_LIBPQ"
+          },
+          {
+            "api": "psycopg.AsyncConnection.connect",
+            "result": "DENIED_BEFORE_LIBPQ"
+          },
+          {
+            "original_connect_descriptors_restored": true
+          }
+        ]
+      },
+      "actual_runtime_leaves": {
+        "scripts/cp7_sku_pair_conversion/composition.py": "fa3e825b251252ae11c2b68eecd9e55562526b468f03a01ebc3d5213ed472be8",
+        "scripts/cp7_sku_pair_conversion/conversion.sql": "eece6fbed8cb13b73a49ec2e051478d6ba2a8b1002f6745b8c682db318595d72",
+        "scripts/cp7_sku_pair_conversion/native_delta.py": "ff479d17a8f039693723307088551a0eb6876e2bdd772da2b6dc6f60c55d82f8",
+        "scripts/cp7_sku_pair_conversion/pairs.sql": "05c7b67222b2a003ee4180872216a0837c747fcb145db88157317bad25b281c2",
+        "scripts/cp7_sku_pair_conversion/recovery.sql": "0bfb7d5bf64398470dcdd7f9e8e1ceed124c8db6e051433142f48dcb00ab8bd9",
+        "scripts/cp7_sku_pair_conversion/recovery_before/erp.bc_value_custody_v1.sql": "b9c1c7029802414f42f1a38dadce84d3c08fb2132dd24ef56b2bed87add3776d",
+        "scripts/cp7_sku_pair_conversion/recovery_before/erp.save_accessory_service_action_v1.sql": "6a4431e4d26e61dd3edf1cb5dc18aed407ce54ab49a673a410616aa828a2f644",
+        "scripts/cp7_sku_pair_conversion/recovery_delta.py": "8d4b4e56e497ca5160879f095b1f933cf00f3e858a377bc7da80f121c5dcd116",
+        "scripts/cp7_sku_pair_conversion/recovery_profile.json": "6b577f806e6feefc17be7715624db6c2ff58430b2eadea0a5824975061a61327",
+        "scripts/cp7_sku_pair_conversion/ri_catalog.py": "aa30eff7c258de3ced78067ed7fbe660bef4570c291946f9291d6363881a4f3e"
+      }
+    },
+    {
+      "name": "PROBE_CHECK.stdout",
+      "bytes": 685112,
+      "sha256": "a033ff9bd1ac2088eb199bd8837a8b90eb4ed10c4c4add4f170f0f4c884f8a9d",
+      "snapshot_head": "fc9b30ec9fce21b12c9074237a7a2d27d9563eeb",
+      "kind": "ACTUAL_SOURCE_ORIGINAL_READER_NO_NATIVE",
+      "status": "SOURCE_ONLY_ACTUAL_ORIGINALS_NO_NATIVE",
+      "guards": {
+        "attempts": [],
+        "network_nonGit_attempts": [],
+        "public_source_sha256": "1439d70810383db377c48e043df7fb6d487a1b2f1a995e8993a2c08590f9f797",
+        "self_controls": [
+          {
+            "api": "psycopg.connect",
+            "result": "DENIED_BEFORE_LIBPQ"
+          },
+          {
+            "api": "psycopg.Connection.connect",
+            "result": "DENIED_BEFORE_LIBPQ"
+          },
+          {
+            "api": "psycopg.AsyncConnection.connect",
+            "result": "DENIED_BEFORE_LIBPQ"
+          },
+          {
+            "original_connect_descriptors_restored": true
+          }
+        ]
+      },
+      "actual_runtime_leaves": {
+        "scripts/cp7_sku_pair_conversion/composition.py": "fa3e825b251252ae11c2b68eecd9e55562526b468f03a01ebc3d5213ed472be8",
+        "scripts/cp7_sku_pair_conversion/conversion.sql": "eece6fbed8cb13b73a49ec2e051478d6ba2a8b1002f6745b8c682db318595d72",
+        "scripts/cp7_sku_pair_conversion/native_delta.py": "ff479d17a8f039693723307088551a0eb6876e2bdd772da2b6dc6f60c55d82f8",
+        "scripts/cp7_sku_pair_conversion/pairs.sql": "05c7b67222b2a003ee4180872216a0837c747fcb145db88157317bad25b281c2",
+        "scripts/cp7_sku_pair_conversion/recovery.sql": "0bfb7d5bf64398470dcdd7f9e8e1ceed124c8db6e051433142f48dcb00ab8bd9",
+        "scripts/cp7_sku_pair_conversion/recovery_before/erp.bc_value_custody_v1.sql": "b9c1c7029802414f42f1a38dadce84d3c08fb2132dd24ef56b2bed87add3776d",
+        "scripts/cp7_sku_pair_conversion/recovery_before/erp.save_accessory_service_action_v1.sql": "6a4431e4d26e61dd3edf1cb5dc18aed407ce54ab49a673a410616aa828a2f644",
+        "scripts/cp7_sku_pair_conversion/recovery_delta.py": "8d4b4e56e497ca5160879f095b1f933cf00f3e858a377bc7da80f121c5dcd116",
+        "scripts/cp7_sku_pair_conversion/recovery_profile.json": "6b577f806e6feefc17be7715624db6c2ff58430b2eadea0a5824975061a61327",
+        "scripts/cp7_sku_pair_conversion/ri_catalog.py": "aa30eff7c258de3ced78067ed7fbe660bef4570c291946f9291d6363881a4f3e"
+      }
+    },
+    {
+      "name": "NODE_PYTHON_READER.stdout",
+      "bytes": 181134,
+      "sha256": "727151bd76d5be9784ef036958bd25721ab5114ba3d2c187851394a668ca448e",
+      "snapshot_head": "fc9b30ec9fce21b12c9074237a7a2d27d9563eeb",
+      "kind": "ACTUAL_SOURCE_ORIGINAL_READER_NO_NATIVE",
+      "status": "ACTUAL_NODE_PYTHON_SOURCE_READER_PASS",
+      "guards": {
+        "attempts": [],
+        "network_nonGit_attempts": [],
+        "public_source_sha256": "1439d70810383db377c48e043df7fb6d487a1b2f1a995e8993a2c08590f9f797",
+        "self_controls": [
+          {
+            "api": "psycopg.connect",
+            "result": "DENIED_BEFORE_LIBPQ"
+          },
+          {
+            "api": "psycopg.Connection.connect",
+            "result": "DENIED_BEFORE_LIBPQ"
+          },
+          {
+            "api": "psycopg.AsyncConnection.connect",
+            "result": "DENIED_BEFORE_LIBPQ"
+          },
+          {
+            "original_connect_descriptors_restored": true
+          }
+        ]
+      },
+      "retained_Original": {
+        "fresh_cases_credited": 0,
+        "head": "21c69cf25defcee854beb08e998062d7e883d968",
+        "original_sha256": "92822b4b0f7cf9a5f74a3110ce85f68a95da842b7fd2deba2cadcab1cce33347",
+        "package_sha256": "35c53690fc8200ca873c8a85ecd51d7f547d230731e64480986a9fee7af8d72e",
+        "retained_base_Native_cases": 7,
+        "status": "EXACT_TERMINAL_21C_NATIVE7_AND_FIVE_PACKAGE_GATES_ADMITTED"
+      },
+      "actual_runtime_leaves": {
+        "scripts/cp7_sku_pair_conversion/composition.py": "fa3e825b251252ae11c2b68eecd9e55562526b468f03a01ebc3d5213ed472be8",
+        "scripts/cp7_sku_pair_conversion/conversion.sql": "eece6fbed8cb13b73a49ec2e051478d6ba2a8b1002f6745b8c682db318595d72",
+        "scripts/cp7_sku_pair_conversion/native_delta.py": "ff479d17a8f039693723307088551a0eb6876e2bdd772da2b6dc6f60c55d82f8",
+        "scripts/cp7_sku_pair_conversion/pairs.sql": "05c7b67222b2a003ee4180872216a0837c747fcb145db88157317bad25b281c2",
+        "scripts/cp7_sku_pair_conversion/recovery.sql": "0bfb7d5bf64398470dcdd7f9e8e1ceed124c8db6e051433142f48dcb00ab8bd9",
+        "scripts/cp7_sku_pair_conversion/recovery_before/erp.bc_value_custody_v1.sql": "b9c1c7029802414f42f1a38dadce84d3c08fb2132dd24ef56b2bed87add3776d",
+        "scripts/cp7_sku_pair_conversion/recovery_before/erp.save_accessory_service_action_v1.sql": "6a4431e4d26e61dd3edf1cb5dc18aed407ce54ab49a673a410616aa828a2f644",
+        "scripts/cp7_sku_pair_conversion/recovery_delta.py": "8d4b4e56e497ca5160879f095b1f933cf00f3e858a377bc7da80f121c5dcd116",
+        "scripts/cp7_sku_pair_conversion/recovery_profile.json": "6b577f806e6feefc17be7715624db6c2ff58430b2eadea0a5824975061a61327",
+        "scripts/cp7_sku_pair_conversion/ri_catalog.py": "aa30eff7c258de3ced78067ed7fbe660bef4570c291946f9291d6363881a4f3e"
+      }
+    }
+  ],
+  "Native_financial": 0,
+  "real_two_session": 0,
+  "real_Auth_browser": 0,
+  "private_receipt_builder_first_assertion": "Hand-entered full digest was rejected; retry uses authoritative unchanged public Source20 sql_after digest. No source/native result changed."
+}

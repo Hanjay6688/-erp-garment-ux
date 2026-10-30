@@ -1,0 +1,13 @@
+.E...........
+======================================================================
+ERROR: test_modified_frozen_file_cannot_be_accepted (sku23_private_inherited_test_0.ClosureAndWorkflow.test_modified_frozen_file_cannot_be_accepted)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/ef468a447ac6/erp-sku-combined-fixture-successor/scripts/current-sku-combined-fixture-followup/test_followup.py", line 237, in test_modified_frozen_file_cannot_be_accepted
+    (path / 'fixture.py').write_text('changed!')
+TypeError: verify_files() takes 1 positional argument but 2 were given
+
+----------------------------------------------------------------------
+Ran 13 tests in 3.174s
+
+FAILED (errors=1)

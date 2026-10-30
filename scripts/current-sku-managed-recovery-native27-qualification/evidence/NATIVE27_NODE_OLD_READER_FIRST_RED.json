@@ -1,0 +1,8 @@
+{
+  "kind": "ACTUAL_FROZEN_NODE_SOURCE_GUARD_FIRST_RED",
+  "error": "SKU29_BROWSER_SOURCE_CHANGED:scripts/cp7_sku_pair_conversion/composition.py\n+ actual - expected\n\n+ 'fa3e825b251252ae11c2b68eecd9e55562526b468f03a01ebc3d5213ed472be8'\n- 'dbc2f01afd97ef2b9a231611d4510da623cb1cebf5455da67c52dd3df7130849'\n",
+  "original_body_sha256": "436a3eb2ac8a75c1e6e6eeac1e9c3e49f9cb8b15d8cee833f8df9bfdf7ce313e",
+  "source_HTTP_DB_or_browser_calls": 0,
+  "actual_Native_cases": 0,
+  "repair_scope": "SOURCE_READER_ONLY_SAME_REAL_JOURNEY_BODY"
+}

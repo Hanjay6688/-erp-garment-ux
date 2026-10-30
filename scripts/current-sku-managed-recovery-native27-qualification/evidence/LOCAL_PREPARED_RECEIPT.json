@@ -1,0 +1,79 @@
+{
+  "status": "PREPARED_SOURCE_CONTROLS_PASS_NOT_NATIVE27",
+  "product_public_head": "f3d014648d12279dfa89ca8593f25585430a5efe",
+  "product_tree": "b1c316d6e853805f933a6665a81edf9332d12a36",
+  "unchanged_public_parent_files": 13759,
+  "old_source43_unchanged": true,
+  "material_transition_source20_unchanged": true,
+  "product_runtime_leaves": 10,
+  "old23_callback_bodies_unchanged": true,
+  "original_client_cases": 72,
+  "original_client_files": 8,
+  "typecheck": "PASS",
+  "retained_fixture_family": 15,
+  "retained_inherited_source_controls": 41,
+  "new_Python_controls": 35,
+  "new_Node_guard_controls": 6,
+  "retained_concurrency_browser_AI_controls": "See exact retained logs",
+  "vendor_engine_counted_changes": 6,
+  "workflow_steps": 70,
+  "actual_Original_source_receipts": [
+    {
+      "name": "PROOF_FULL_CHECK_FIRST.stdout",
+      "bytes": 687651,
+      "sha256": "a7d59db76012cba1a7fb1894ab305263116e2baa324ccee5776edd1cdba0163f",
+      "gzip": "PROOF_FULL_CHECK_FIRST.stdout.gz",
+      "gzip_bytes": 176227,
+      "gzip_sha256": "d0e48b1ee47fdd071cc4069a209c2d5e29275274143f631977509d85364ee663"
+    },
+    {
+      "name": "PROBE_CHECK.stdout",
+      "bytes": 685112,
+      "sha256": "a033ff9bd1ac2088eb199bd8837a8b90eb4ed10c4c4add4f170f0f4c884f8a9d",
+      "gzip": "PROBE_CHECK.stdout.gz",
+      "gzip_bytes": 176174,
+      "gzip_sha256": "08115b0fcc50365967799a126db12247f4355bea2536b860d61123b92bab91ec"
+    },
+    {
+      "name": "NODE_PYTHON_READER.stdout",
+      "bytes": 181134,
+      "sha256": "727151bd76d5be9784ef036958bd25721ab5114ba3d2c187851394a668ca448e",
+      "gzip": "NODE_PYTHON_READER.stdout.gz",
+      "gzip_bytes": 43290,
+      "gzip_sha256": "6bf8cdb86e24bf4afb538834e4dc372410198470a30e5e046e23e6dc0f7bdf72"
+    },
+    {
+      "name": "ACTUAL_NODE_FIRST.stdout",
+      "bytes": 807,
+      "sha256": "a31cefc9f6803073bc0767dfc4950756257a6900e3a2d848e530f31af9159fa7",
+      "gzip": "ACTUAL_NODE_FIRST.stdout.gz",
+      "gzip_bytes": 553,
+      "gzip_sha256": "ac4fb41d268168c59cc58ffd1a6b4ef5ec4f19d7c666684d5f3dab0c529a2330"
+    },
+    {
+      "name": "FULL_CHECK_FIRST.stderr",
+      "bytes": 2862,
+      "sha256": "d535a980d90e564fab06b42d1da538e280abbcabd69c024f38516c0a342bcc2f",
+      "gzip": "FULL_CHECK_FIRST.stderr.gz",
+      "gzip_bytes": 708,
+      "gzip_sha256": "cfb9f7fbfb12bb055d0a7de0a6e61b5b442ec34d05c5e36510e1a2cd174bf38e"
+    },
+    {
+      "name": "FULL_CHECK_SECOND.stderr",
+      "bytes": 2862,
+      "sha256": "d535a980d90e564fab06b42d1da538e280abbcabd69c024f38516c0a342bcc2f",
+      "gzip": "FULL_CHECK_SECOND.stderr.gz",
+      "gzip_bytes": 708,
+      "gzip_sha256": "cfb9f7fbfb12bb055d0a7de0a6e61b5b442ec34d05c5e36510e1a2cd174bf38e"
+    }
+  ],
+  "receipts_snapshot": "fc9b30ec9fce21b12c9074237a7a2d27d9563eeb",
+  "later_change": "Only concurrency preparation classification separated permission7/busy1; financial callbacks and registration unchanged. Final complete caller and restored-positive must be rerun against final source before launch.",
+  "planned_case_count": 27,
+  "actual_Native_cases": 0,
+  "actual_real_two_session": 0,
+  "actual_Auth_browser": 0,
+  "production_go": false,
+  "independent_acceptance": false,
+  "default_adoption": false
+}

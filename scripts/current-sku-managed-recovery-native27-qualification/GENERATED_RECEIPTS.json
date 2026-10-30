@@ -1,0 +1,1656 @@
+{
+  "version": "cp7.s03.generated-nonsource-receipts.v1",
+  "producer_files": {
+    "docs/cp7/d17-14/ow05/native28-current-pass.json": {
+      "bytes": 6791,
+      "sha256": "1d25fbbdcdeea6791a7d04b45ac0bb1a17f3629a29a727284fc6796248c08308"
+    },
+    "docs/cp7/d17-14/ow06/CHECKPOINT.json": {
+      "bytes": 12301,
+      "sha256": "25f5c94de0f6d86fc1d0afcd42e3884280b09e501f3d781f84719c0e8dbbbb4c"
+    },
+    "scripts/chain-p21-qualification/SOURCE.json": {
+      "bytes": 2600,
+      "sha256": "bdc430061c7298da8b623038772dbe281a108d96d6a38246409fa2c52b3eceac"
+    },
+    "scripts/cp7_contractor_guidance/SOURCE.json": {
+      "bytes": 1921,
+      "sha256": "99a7c6275c866a3e5e315faad943674c6d9bde81f92384fbb439497a38906f97"
+    },
+    "scripts/cp7_credit_followups/SOURCE.json": {
+      "bytes": 2743,
+      "sha256": "437b12a3f8c22dddfa342ae273184cab55239b07a5f4ba947f96f5fe9fd674c1"
+    },
+    "scripts/cp7_credit_incoming/SOURCE.json": {
+      "bytes": 2760,
+      "sha256": "fde6ea88465cb3e4767191e430edbf8f08237d4dacbc69537157c12b296aa5d8"
+    },
+    "scripts/cp7_credit_multi/SOURCE.json": {
+      "bytes": 2693,
+      "sha256": "ea45e42f68db8bd42a090aae8756ad660e35ced1de1b55085ab99a3d5a12801a"
+    },
+    "scripts/cp7_credit_remaining/SOURCE.json": {
+      "bytes": 2569,
+      "sha256": "3449be9061e6d9d3b1820869c40f6c9324e3aa84af127285e7728cfed8cea8b4"
+    },
+    "scripts/cp7_fg_correction_source/SOURCE.json": {
+      "bytes": 2456,
+      "sha256": "18d0a4852c45ea691863e5adde094e9a9ad31de95744c6bc4e1a79e1186cd484"
+    },
+    "scripts/cp7_finance_capture/SOURCE.json": {
+      "bytes": 1994,
+      "sha256": "2c4b2ff736397721ae3ba8bd744ced999a0f14b5e15900152e5c9d5ebdb19f2b"
+    },
+    "scripts/cp7_hpp_close/SOURCE.json": {
+      "bytes": 1868,
+      "sha256": "c64d968972f9bb6b8cba9d38c265a5e8f58464f66afe85061fe5df53150e51f9"
+    },
+    "scripts/cp7_laundry_unknown_wash/SOURCE.json": {
+      "bytes": 2080,
+      "sha256": "1db76ec98057ac161dc06c618aa9aa2053cb41b64d692801f5037cfb1dbe1567"
+    },
+    "scripts/cp7_ow09_lists/SOURCE.json": {
+      "bytes": 1731,
+      "sha256": "b56eb356b880704d60be3f00644e34af9ad83afbdab2a10bdcd3d934d9290e33"
+    },
+    "scripts/cp7_report_credit/SOURCE.json": {
+      "bytes": 1820,
+      "sha256": "e615913013d12335d16db9b9111d7fb34de39afe67dd5b16e5520b4698116311"
+    },
+    "scripts/current-analog-auth-qualification/SOURCE.json": {
+      "bytes": 135024,
+      "sha256": "2b8bc9aa24fdf9d4f70866b45e3562ac1398fd5cc819b70dd303102fb330ea28"
+    },
+    "scripts/current-analog-choice-browser-qualification/SOURCE.json": {
+      "bytes": 145516,
+      "sha256": "7c227044c0f90e38293cc537114aea7a02bca3936767953da54212894692dcc3"
+    },
+    "scripts/current-analog-consumer-opening-qualification/SOURCE.json": {
+      "bytes": 153266,
+      "sha256": "265870a609583ec161bf28b3c405a4959b00ca253eddcbb68ae8fee191fd5d3e"
+    },
+    "scripts/current-analog-consumer-qualification/SOURCE.json": {
+      "bytes": 151494,
+      "sha256": "cad270ea1881bb15834a4cb8470db36d7e0d874a3c9dac7c4dc68a12c794749c"
+    },
+    "scripts/current-analog-native-fixture-qualification/SOURCE.json": {
+      "bytes": 8213,
+      "sha256": "7c38234e15d2aadb6f8eb7872971acbb806bc9a5918a04f04bcd7045dba651d0"
+    },
+    "scripts/current-backend-acceptance-3194/CONFIG.json": {
+      "bytes": 1922,
+      "sha256": "4eabce28655e92c31c5dffed2ddc22e642ece225cbf7cfc16da3d96144ab0331"
+    },
+    "scripts/current-bounded-finance-native-qualification/SOURCE.json": {
+      "bytes": 150962,
+      "sha256": "c3e447504d5e37023abd320b8b6a0506eb39347960f119708f937ce67fc0a14c"
+    },
+    "scripts/current-bounded-finance-restored-native-qualification/SOURCE.json": {
+      "bytes": 152419,
+      "sha256": "dfece812177307f29d90b5d97f7dfc3e05d87e89f3e5a0c137c544c1ed4685b7"
+    },
+    "scripts/current-choice-finance-cron-qualification/SOURCE.json": {
+      "bytes": 487983,
+      "sha256": "f3a3aed3f3950da5b591c118538686305983a21ad763e3f4e64e94a35fdcfd30"
+    },
+    "scripts/current-choice-preparation-native-qualification/SOURCE.json": {
+      "bytes": 455726,
+      "sha256": "3cd8f662ebaa6133b891786109e2eec37ef2ad0edbb87c1f4cc6bbbe07bc31e7"
+    },
+    "scripts/current-factory-initial-stage/CONFIG.json": {
+      "bytes": 1219,
+      "sha256": "92b6e92923d85b9c0237c6b530e6399f63dcd48c246ea6b133a7dd3248f7c10c"
+    },
+    "scripts/current-factory-live-heartbeat/CONFIG.json": {
+      "bytes": 1028,
+      "sha256": "f20889e53137ecd220d1e750c31b1b1d0e5e24097a1ca81831f1f0cab91418a5"
+    },
+    "scripts/current-factory-operational-profile-qualification/CONFIG.json": {
+      "bytes": 1160,
+      "sha256": "274e6be98007525ce487dfd72dd40544023915ca741c31be5898336169f6ffd7"
+    },
+    "scripts/current-finance-combined-composition/FROZEN_SOURCE_ROOTS.json": {
+      "bytes": 825,
+      "sha256": "684a8b08b54699861262f220eca025bb51a220e58856d53988ea337f81fe8bd7"
+    },
+    "scripts/current-finance-combined-composition/PREREQUISITES.json": {
+      "bytes": 3117,
+      "sha256": "646476411216400bab631a6f85d1408beb36d0c42d6e7414cea1f7b8ccd026d6"
+    },
+    "scripts/current-finance-combined-composition/materialize_sources.py": {
+      "bytes": 3533,
+      "sha256": "cec3576f86bb93d79535b67b35188cd2e3f8a332dc45ceace5a5d7548177210c"
+    },
+    "scripts/current-finance-consistency-corrected-qualification/CONFIG.json": {
+      "bytes": 938,
+      "sha256": "78fdb58ab3615de372b0cf9d067eabf33fdff39070529dcbcd4a2dfce1885c9c"
+    },
+    "scripts/current-finance-consistency-followup-qualification/CONFIG.json": {
+      "bytes": 956,
+      "sha256": "00f3c7aa3734fada5e1fd3826f6c2cbde5fd7cdc29a2a474924e62cbceba887c"
+    },
+    "scripts/current-finance-consistent-capture-diagnostic/CONFIG.json": {
+      "bytes": 986,
+      "sha256": "7968863d749bfe1963328c9efb749fbabc8b673eb3e3fb6f3a05df8de4c39f9e"
+    },
+    "scripts/current-finance-factory-progress-followup-qualification/D3_PREREQUISITE.json": {
+      "bytes": 1061,
+      "sha256": "aabeee434290f665bdaa98f37cadbc164dcfcbacecd355041753e1b6af812de5"
+    },
+    "scripts/current-finance-followups-qualification/CONFIG.json": {
+      "bytes": 979,
+      "sha256": "37d2a6b34d39c95997fd9121a4814cb457cdba6ac179ec60b9b7ca9afd49ba44"
+    },
+    "scripts/current-finance-followups-qualification/artifact_gh.py": {
+      "bytes": 3244,
+      "sha256": "afd081cf03a4d12b07c7db142788d86fbc5ac5bda8597b843749a88572787285"
+    },
+    "scripts/current-finance-model-cron-qualification/SOURCE.json": {
+      "bytes": 359631,
+      "sha256": "1b24c5e9d83021081350a001b7789b13bdd837b23b536ea1a623d973e6b2a8b6"
+    },
+    "scripts/current-finance-model-qualification/SOURCE.json": {
+      "bytes": 356878,
+      "sha256": "e60077bf138fb4e11eedeca1f542590fd281ddc983fc85249f52fd6033e23344"
+    },
+    "scripts/current-finance-model-registry-qualification/SOURCE.json": {
+      "bytes": 359313,
+      "sha256": "a60e0b3b50231120ca4fb1d3881570a8bff5b8f1a27e9c754e7ee04fc288d65f"
+    },
+    "scripts/current-finance-reader-stream-followup-qualification/CONFIG.json": {
+      "bytes": 963,
+      "sha256": "b87bb7e5b2e430b31952d372c619671eb1c8af2106dca09f3e28baa45df3728c"
+    },
+    "scripts/current-finance-readonly-integration-qualification/SOURCE.json": {
+      "bytes": 592231,
+      "sha256": "efcd04e5ae78b391d8e6dcef18f733eff2daffaeba8175dc3ca111211da7a438"
+    },
+    "scripts/current-frozen-finance-native-qualification/SOURCE.json": {
+      "bytes": 440953,
+      "sha256": "ffe45956333f3c9865485b5223d7dc8c261ce6436551ec6ae0081934adecf1ce"
+    },
+    "scripts/current-frozen-public-native-qualification/SOURCE.json": {
+      "bytes": 446524,
+      "sha256": "08df423368c245524fe2feeb4e3dd6ab6cffbd6f9749c2f47ae5731f733dc698"
+    },
+    "scripts/current-frozen-units-native-qualification/SOURCE.json": {
+      "bytes": 438835,
+      "sha256": "7c106526eba90f607fd67960c7e1c66eabb1f7791c5d0c5c25ed19bc12026d87"
+    },
+    "scripts/current-model-history-native-qualification/SOURCE.json": {
+      "bytes": 388033,
+      "sha256": "85cc75fd7366ad4733f5afc185e97bf84892edeaea1c7cc5897c1f4e9ee9ed1e"
+    },
+    "scripts/current-model-target-native-qualification/SOURCE.json": {
+      "bytes": 384111,
+      "sha256": "6b84a44c4a5ae50226b6e9761afa49b58e871bec856b4a1b1dadd086235171b6"
+    },
+    "scripts/current-progress-finance-ui-browser-qualification/SOURCE.json": {
+      "bytes": 475419,
+      "sha256": "6018313aa35f05ba03eddcf3a11e616e12dc2e994c9f6491e70aec5ecc9f92be"
+    },
+    "scripts/current-scoped-model-native-qualification/SOURCE.json": {
+      "bytes": 397315,
+      "sha256": "d68cbbe76e96820e98857dd871a46f17329b46a5dcc9c15ac1c15e9055108e3f"
+    },
+    "scripts/current-selected-return-native-qualification/SOURCE.json": {
+      "bytes": 384268,
+      "sha256": "7d5e1cfbe2f97c4cbe27b927e4603eb38b30318446214305d356db1ac6660d95"
+    },
+    "scripts/current-vendor-receivable-followup/CONFIG.json": {
+      "bytes": 1343,
+      "sha256": "3011ddf4be598ad8f62af78eef28d62499ef721dd579bf730629544043584196"
+    },
+    "scripts/current-vendor-receivable-qualification/CONFIG.json": {
+      "bytes": 3502,
+      "sha256": "bb20f61a2c5837e4a7d70c3794e76392cea583065800b9fe1f830f9ac2563997"
+    },
+    "scripts/current-versioned-performance-native-qualification/SOURCE.json": {
+      "bytes": 434168,
+      "sha256": "e2b04cc8aff1b7dcf943333aab627b85dcfa213c0bc2517f0b132c1f1a08a223"
+    },
+    "scripts/current-versioned-target-native-qualification/SOURCE.json": {
+      "bytes": 426893,
+      "sha256": "372d491987e6f1e348784fdb40b9f380a9dfe112a7304181715794068c163c76"
+    },
+    "scripts/current-vendor-money-browser/CONFIG.json": {
+      "bytes": 3863,
+      "sha256": "dcd67607f12acbb2046f701d902c228d8d81c06b1f14643ceb8afbcd279308e0"
+    },
+    "scripts/current-ow08-source-browser/CONFIG.json": {
+      "bytes": 4928,
+      "sha256": "acc5832baa2f23b210ec761cdd9239b0f5610f59b87dcfb05ce9d84eedfd450d"
+    },
+    "scripts/current-sku-combined-followup-qualification/CONFIG.json": {
+      "bytes": 1574,
+      "sha256": "6b4fd189b7323e78c1ca6dce7d48ef100d468c0f2050495dc40349856e9c3bf8"
+    },
+    ".github/workflows/cp7-sku-managed-recovery-native27.yml": {
+      "bytes": 33068,
+      "sha256": "26691f66a4d5ecb23709ac39e9c1d615d947228535666ade09490dfab3d57541"
+    }
+  },
+  "frozen_worktree_document": {
+    "status": "EXACT_FROZEN_SOURCE_WORKTREES",
+    "single_full_history": true,
+    "network_fetches": 0,
+    "source_refs_substituted": false,
+    "auditor_head_unchanged": true,
+    "inputs": [
+      {
+        "path": "writer",
+        "head": "ca7f09556397801c50a2277bdb65b1bf019f9a05",
+        "tree": "5b5f12c5ef50b646c84a5e41cf8e02b394912325"
+      },
+      {
+        "path": "harness",
+        "head": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+        "tree": "b14b6ed3cf686eba34f68883ae4129ebba132a2b"
+      },
+      {
+        "path": "candidate",
+        "head": "25fa4736329e5148dfdb3572bc169952cba23251",
+        "tree": "a5cb1e43d776a9ffc058f99c8d5c96ac7f6a9c0d"
+      },
+      {
+        "path": "base",
+        "head": "1bdca3766f7c9800d68295ff5122798060b8a05d",
+        "tree": "334629c626257b8b713826f491cdf62385d5299b"
+      },
+      {
+        "path": "frozen",
+        "head": "469ed1e8b2edf80f7988feba38162a5be7251b8c",
+        "tree": "916925f7ddf8b0d0aed8af4ad0414dd28c7847ec"
+      },
+      {
+        "path": "finance-frozen",
+        "head": "05bad4f465c61caabddfc0e8f4d5914b39aab22a",
+        "tree": "d5f6a4736d74c7c844790678221c9a28358b3976"
+      },
+      {
+        "path": "model-frozen",
+        "head": "6d056959d33808dc59b8c38fb15ce8492db44523",
+        "tree": "76f9b08ad52c5ec14971836c1d913300deffa3d0"
+      },
+      {
+        "path": "target-frozen",
+        "head": "3776a052ea97695dce95da018be182fdf21fe85b",
+        "tree": "73badcbc281e6add15505d66d4f051d62e02ecae"
+      },
+      {
+        "path": "history-frozen",
+        "head": "e3261d84ae217d1d37374990dec5804fd1970934",
+        "tree": "68841ff830b7ae2f1c0673c55d8a1733f65a99f7"
+      },
+      {
+        "path": "scoped-model-frozen",
+        "head": "ffa0b63dbb6f0b7888eeaec59d0f39347cd58e0e",
+        "tree": "dd14297b34ecc42ab8ccecfafcea7214cc5394c0"
+      },
+      {
+        "path": "versioned-target-frozen",
+        "head": "014019a612260525e9c3b9459e354a86209336c1",
+        "tree": "1992c1dad5dbcbb41ffe7767d2a12e61731d60ef"
+      },
+      {
+        "path": "B-performance-frozen",
+        "head": "c7f06b855512e0c8d450522c36e84f4cab570a2a",
+        "tree": "6d0f860b6764265eb4d9045251c32214cddb9b26"
+      },
+      {
+        "path": "B-frozen-units-qualified",
+        "head": "10a36e35b956febd9e34907f20fc5b782ec48dc1",
+        "tree": "1603333188495d173cd554a9e9a9664b39e71a25"
+      }
+    ],
+    "source_worktree_count": 13
+  },
+  "artifacts": {
+    "10392910720": {
+      "source_evidence": {
+        "path": ".github/workflows/cp7-sku-all-member-native23.yml",
+        "line": 449,
+        "literal_artifact_id": 10392910720
+      },
+      "first_verified_success_zip": null,
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": true
+    },
+    "12407224140": {
+      "source_evidence": {
+        "path": ".github/workflows/cp7-sku-all-member-native23.yml",
+        "line": 110,
+        "literal_artifact_id": 12407224140
+      },
+      "first_verified_success_zip": {
+        "bytes": 2460112,
+        "sha256": "46db3ad31ef447a073a24630a7af5a87c667b545d797ef612b0a1b4598f2e100"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12429866259": {
+      "source_evidence": {
+        "path": "docs/cp7/d17-14/ow05/native28-current-pass.json",
+        "line": 157,
+        "literal_artifact_id": 12429866259
+      },
+      "first_verified_success_zip": {
+        "bytes": 2299975,
+        "sha256": "e535167c095e46ee5dee1e054bf75ab7cb32a875d7773bbeb87918631fef014a"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12440350206": {
+      "source_evidence": {
+        "path": "docs/cp7/d17-14/ow06/CHECKPOINT.json",
+        "line": 268,
+        "literal_artifact_id": 12440350206
+      },
+      "first_verified_success_zip": {
+        "bytes": 1889529,
+        "sha256": "cac0bb229250867c0fe1e930d39c05cabe477a265a226a2f230bbb39be32715a"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12456785458": {
+      "source_evidence": {
+        "path": "scripts/cp7_fg_correction_source/SOURCE.json",
+        "line": 35,
+        "literal_artifact_id": 12456785458
+      },
+      "first_verified_success_zip": {
+        "bytes": 1751355,
+        "sha256": "5adf3f58a0e34fff266604d4a09224f9675b03f2fcbf30877ba753e8e510a8d9"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12472787961": {
+      "source_evidence": {
+        "path": "scripts/cp7_contractor_guidance/SOURCE.json",
+        "line": 31,
+        "literal_artifact_id": 12472787961
+      },
+      "first_verified_success_zip": {
+        "bytes": 1869606,
+        "sha256": "9c549455b62efff5ad901c137d2d15368d54ef9b62bd1b6ec494511a465d88f2"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12473818897": {
+      "source_evidence": {
+        "path": "scripts/cp7_finance_capture/SOURCE.json",
+        "line": 32,
+        "literal_artifact_id": 12473818897
+      },
+      "first_verified_success_zip": {
+        "bytes": 1800620,
+        "sha256": "64015b2a57e3d4c5ab28cb07a3af9c5a14e6ed905dc41814a187b922dd44fb04"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12473826069": {
+      "source_evidence": {
+        "path": "scripts/cp7_report_credit/SOURCE.json",
+        "line": 30,
+        "literal_artifact_id": 12473826069
+      },
+      "first_verified_success_zip": {
+        "bytes": 1802594,
+        "sha256": "e91d77092af7944e8ba543e70d830a3a84f754d9c6f62bbf4a514f1c5e9244cf"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12474329154": {
+      "source_evidence": {
+        "path": "scripts/cp7_ow09_lists/SOURCE.json",
+        "line": 31,
+        "literal_artifact_id": 12474329154
+      },
+      "first_verified_success_zip": {
+        "bytes": 1825281,
+        "sha256": "4a429ff7a787217c465e4a856238b744a73dba9d242353f260a183bdccc00c3b"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12474909312": {
+      "source_evidence": {
+        "path": "scripts/cp7_laundry_unknown_wash/SOURCE.json",
+        "line": 31,
+        "literal_artifact_id": 12474909312
+      },
+      "first_verified_success_zip": {
+        "bytes": 1827084,
+        "sha256": "408d30860b1babeede501bafd4f339a70afc83771b9aa47f152198563c9da345"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12475194840": {
+      "source_evidence": {
+        "path": "scripts/cp7_credit_followups/SOURCE.json",
+        "line": 40,
+        "literal_artifact_id": 12475194840
+      },
+      "first_verified_success_zip": {
+        "bytes": 1924516,
+        "sha256": "056478c880b511522613c2168e66dcb1c2f1e656b7cca6d848ca43379acd5c60"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12475755459": {
+      "source_evidence": {
+        "path": "scripts/cp7_hpp_close/SOURCE.json",
+        "line": 31,
+        "literal_artifact_id": 12475755459
+      },
+      "first_verified_success_zip": {
+        "bytes": 1849390,
+        "sha256": "75818920508f20b990bc87cb1212ac67d8ddadb2cc38024f832e46409c229421"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12482688955": {
+      "source_evidence": {
+        "path": "scripts/cp7_credit_remaining/SOURCE.json",
+        "line": 25,
+        "literal_artifact_id": 12482688955
+      },
+      "first_verified_success_zip": {
+        "bytes": 1878382,
+        "sha256": "15d9c11dcf7e225341670883b72a4bc1422d35c2bb0d618cc2be7b75b8a3f088"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12483069287": {
+      "source_evidence": {
+        "path": "scripts/cp7_credit_incoming/SOURCE.json",
+        "line": 33,
+        "literal_artifact_id": 12483069287
+      },
+      "first_verified_success_zip": {
+        "bytes": 1810421,
+        "sha256": "ffead865e12cf6b2ca1dd7e1c5bcdf5d5a8d4a9583c7bf5a413e5f5d2ae117ad"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12483287094": {
+      "source_evidence": {
+        "path": "scripts/cp7_credit_multi/SOURCE.json",
+        "line": 33,
+        "literal_artifact_id": 12483287094
+      },
+      "first_verified_success_zip": {
+        "bytes": 1809280,
+        "sha256": "d531574ffef291d1d2d39c2bf0394a6682a31d059553e91c1432b2af9f776afa"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12487401175": {
+      "source_evidence": {
+        "path": "scripts/chain-p21-qualification/SOURCE.json",
+        "line": 21,
+        "literal_artifact_id": 12487401175
+      },
+      "first_verified_success_zip": {
+        "bytes": 1835202,
+        "sha256": "a07de198dc797ed4fcef4282e868634c0cd5a0c5f01bc09e49ccba4b60925934"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12554390190": {
+      "source_evidence": {
+        "path": ".github/workflows/cp7-sku-all-member-native23.yml",
+        "line": 193,
+        "literal_artifact_id": 12554390190
+      },
+      "first_verified_success_zip": {
+        "bytes": 1943043,
+        "sha256": "bfa2b2384ea5628c63822eb2d43b981c1b4a11d30802e5496ddbd5f504a59896"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12555491670": {
+      "source_evidence": {
+        "path": ".github/workflows/cp7-sku-all-member-native23.yml",
+        "line": 206,
+        "literal_artifact_id": 12555491670
+      },
+      "first_verified_success_zip": {
+        "bytes": 3341211,
+        "sha256": "a19f9aa888529783737f4418df10330ba555f3447340a0e1684ac4c0aa9c928c"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12555745676": {
+      "source_evidence": {
+        "path": ".github/workflows/cp7-sku-all-member-native23.yml",
+        "line": 209,
+        "literal_artifact_id": 12555745676
+      },
+      "first_verified_success_zip": {
+        "bytes": 3722714,
+        "sha256": "aebab9db100cca395dd900160bd05ede3f05328c85346a99dbe2750fdfeffb0f"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12556450449": {
+      "source_evidence": {
+        "path": ".github/workflows/cp7-sku-all-member-native23.yml",
+        "line": 220,
+        "literal_artifact_id": 12556450449
+      },
+      "first_verified_success_zip": {
+        "bytes": 3814659,
+        "sha256": "bfb45063e0f008f1662158d30526d35337b155dc3259e909484f5e7f5ec8f06f"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12557050188": {
+      "source_evidence": {
+        "path": "scripts/current-analog-choice-browser-qualification/SOURCE.json",
+        "line": 62,
+        "literal_artifact_id": 12557050188
+      },
+      "first_verified_success_zip": {
+        "bytes": 43943,
+        "sha256": "9d5cab79f41477dda2297bc29ea5ac58e811745d252a43da8815181d17e84759"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12557483809": {
+      "source_evidence": {
+        "path": "scripts/current-analog-choice-browser-qualification/SOURCE.json",
+        "line": 53,
+        "literal_artifact_id": 12557483809
+      },
+      "first_verified_success_zip": {
+        "bytes": 4438528,
+        "sha256": "ca22ab1617ed205ca03d2a8f0354acc1c88c3a352d4fafb38a2bc32724d8733d"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12557970850": {
+      "source_evidence": {
+        "path": ".github/workflows/cp7-sku-all-member-native23.yml",
+        "line": 220,
+        "literal_artifact_id": 12557970850
+      },
+      "first_verified_success_zip": {
+        "bytes": 203858,
+        "sha256": "fad982ba07a86f471bd6118b17c59f21d1555007d1a19d2a24f6d5d696e40696"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12558513245": {
+      "source_evidence": {
+        "path": "scripts/current-analog-native-fixture-qualification/SOURCE.json",
+        "line": 27,
+        "literal_artifact_id": 12558513245
+      },
+      "first_verified_success_zip": {
+        "bytes": 1931951,
+        "sha256": "21d5d765db10ef3fb3cac708439c71684d248b225893c889fbb8f4526aec87f5"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12559149089": {
+      "source_evidence": {
+        "path": "scripts/current-analog-native-fixture-qualification/SOURCE.json",
+        "line": 36,
+        "literal_artifact_id": 12559149089
+      },
+      "first_verified_success_zip": {
+        "bytes": 3870166,
+        "sha256": "47fa47d791a8cc4bc0d6bae659bf4e5451d8ce4d353c9fc407b8b12fd85d7aa8"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12559161887": {
+      "source_evidence": {
+        "path": "scripts/current-analog-choice-browser-qualification/SOURCE.json",
+        "line": 71,
+        "literal_artifact_id": 12559161887
+      },
+      "first_verified_success_zip": {
+        "bytes": 44145,
+        "sha256": "3cf4bc44e536e4c239cefc64d51ccb6c7b8a18bdadbcee8a24cb608d279424a8"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12559379615": {
+      "source_evidence": {
+        "path": "scripts/current-analog-auth-qualification/SOURCE.json",
+        "line": 11,
+        "literal_artifact_id": 12559379615
+      },
+      "first_verified_success_zip": {
+        "bytes": 3864848,
+        "sha256": "636cabf17dc6c5749932fe7bac71572f2019cc167a4357ac39f2ad4d664280bc"
+      },
+      "max_requests_per_admission": 2,
+      "optional_terminal_failure": false
+    },
+    "12560648419": {
+      "source_evidence": {
+        "path": "scripts/current-analog-consumer-qualification/SOURCE.json",
+        "line": 82,
+        "literal_artifact_id": 12560648419
+      },
+      "first_verified_success_zip": {
+        "bytes": 136538,
+        "sha256": "3191539542571e76a05b5ce0f79a6ecfd2e14a26748a3c305a52b633b92000ed"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12560738865": {
+      "source_evidence": {
+        "path": "scripts/current-analog-consumer-qualification/SOURCE.json",
+        "line": 71,
+        "literal_artifact_id": 12560738865
+      },
+      "first_verified_success_zip": {
+        "bytes": 204592,
+        "sha256": "97a393c135b1ef686bda27ff2d0230f33158f0e5fa34aa7754372e89e0c4667e"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12561657183": {
+      "source_evidence": {
+        "path": "scripts/current-analog-consumer-qualification/SOURCE.json",
+        "line": 93,
+        "literal_artifact_id": 12561657183
+      },
+      "first_verified_success_zip": {
+        "bytes": 93235,
+        "sha256": "9c952dd8ad074fb841a704851c7b46d7d01f5076b4f74c2bc31da2fb755455ea"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12562431835": {
+      "source_evidence": {
+        "path": "scripts/current-finance-model-qualification/SOURCE.json",
+        "line": 61,
+        "literal_artifact_id": 12562431835
+      },
+      "first_verified_success_zip": {
+        "bytes": 203909,
+        "sha256": "ce323897d96b3dda84d206a8ce8ea91436bfa5d0edf52e24b9b70d5f63960d86"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12563161383": {
+      "source_evidence": {
+        "path": "scripts/current-analog-consumer-opening-qualification/SOURCE.json",
+        "line": 104,
+        "literal_artifact_id": 12563161383
+      },
+      "first_verified_success_zip": {
+        "bytes": 1797417,
+        "sha256": "8622070ccb96f1675bf17645184ba920445cb3fe38d1c772d5fff21145408126"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12563788280": {
+      "source_evidence": {
+        "path": "scripts/current-bounded-finance-native-qualification/SOURCE.json",
+        "line": 14,
+        "literal_artifact_id": 12563788280
+      },
+      "first_verified_success_zip": {
+        "bytes": 3731358,
+        "sha256": "be8f8ed3439c67f76773b13db4bdc5b43b6533176c98bc63a67bb8678a9b04ac"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12564267714": {
+      "source_evidence": {
+        "path": "scripts/current-finance-model-qualification/SOURCE.json",
+        "line": 73,
+        "literal_artifact_id": 12564267714
+      },
+      "first_verified_success_zip": {
+        "bytes": 204365,
+        "sha256": "49cfccd7d5fe0441fd100301246bff1dd06deda308a34724fb12b37e511299d1"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12565218414": {
+      "source_evidence": {
+        "path": "scripts/current-model-target-native-qualification/SOURCE.json",
+        "line": 3301,
+        "literal_artifact_id": 12565218414
+      },
+      "first_verified_success_zip": {
+        "bytes": 136635,
+        "sha256": "e072a65a783e17ee76b8b4f6951801626585710550dbc0527a24de4ee156c7c0"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12565250730": {
+      "source_evidence": {
+        "path": "scripts/current-bounded-finance-restored-native-qualification/SOURCE.json",
+        "line": 26,
+        "literal_artifact_id": 12565250730
+      },
+      "first_verified_success_zip": {
+        "bytes": 2016538,
+        "sha256": "d1fea313ba18d60a7c016c440862a9b95c117d4e645f586dc8ac78401e6f793b"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12566241868": {
+      "source_evidence": {
+        "path": "scripts/current-finance-model-qualification/SOURCE.json",
+        "line": 53,
+        "literal_artifact_id": 12566241868
+      },
+      "first_verified_success_zip": {
+        "bytes": 2030358,
+        "sha256": "2ddff9661d83ee270a80f9e65930c65eb12ab6cc5d425fde09491c707ba7ff85"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12567031249": {
+      "source_evidence": {
+        "path": "scripts/current-finance-model-registry-qualification/SOURCE.json",
+        "line": 89,
+        "literal_artifact_id": 12567031249
+      },
+      "first_verified_success_zip": {
+        "bytes": 1816640,
+        "sha256": "70d888a6f55c1b22d630d2b5e1e1c8cf37400751b352f0d8d63848f89723cb4e"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12567985958": {
+      "source_evidence": {
+        "path": "scripts/current-finance-model-cron-qualification/SOURCE.json",
+        "line": 3085,
+        "literal_artifact_id": 12567985958
+      },
+      "first_verified_success_zip": {
+        "bytes": 2221225,
+        "sha256": "9a480395694dcff0a7559c14c3839cf77fb569e8ce6e4702c1ea27ea64f33282"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12569253461": {
+      "source_evidence": {
+        "path": "scripts/current-model-target-native-qualification/SOURCE.json",
+        "line": 3337,
+        "literal_artifact_id": 12569253461
+      },
+      "first_verified_success_zip": {
+        "bytes": 206052,
+        "sha256": "de31c106646609136d2737204b0070b977d84ffe847d782487c53f1bc3a40cc2"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12569565118": {
+      "source_evidence": {
+        "path": "scripts/current-model-target-native-qualification/SOURCE.json",
+        "line": 3325,
+        "literal_artifact_id": 12569565118
+      },
+      "first_verified_success_zip": {
+        "bytes": 205917,
+        "sha256": "d070ff694fc390186cb1259ffda5f7604706c2273cc12c2332503832b8113f1d"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12571037094": {
+      "source_evidence": {
+        "path": "scripts/current-model-history-native-qualification/SOURCE.json",
+        "line": 3306,
+        "literal_artifact_id": 12571037094
+      },
+      "first_verified_success_zip": {
+        "bytes": 158837,
+        "sha256": "09c7556b2a6059a4f7790a92b6d5fb8cef88e2a7a95908db997be0e9756bd7f0"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12571712143": {
+      "source_evidence": {
+        "path": "scripts/current-model-target-native-qualification/SOURCE.json",
+        "line": 3349,
+        "literal_artifact_id": 12571712143
+      },
+      "first_verified_success_zip": {
+        "bytes": 206030,
+        "sha256": "c91fe3601c35f579a73add5cc70c1e78eaa5df53b1cfb38c0bb7220948fe7851"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12571747558": {
+      "source_evidence": {
+        "path": "scripts/current-model-history-native-qualification/SOURCE.json",
+        "line": 3318,
+        "literal_artifact_id": 12571747558
+      },
+      "first_verified_success_zip": {
+        "bytes": 204277,
+        "sha256": "7c64fe185181a624e85841fe0dfc1a36382f541de7894e5f18b9c65a9f98e618"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12571875800": {
+      "source_evidence": {
+        "path": "scripts/current-model-history-native-qualification/SOURCE.json",
+        "line": 3342,
+        "literal_artifact_id": 12571875800
+      },
+      "first_verified_success_zip": {
+        "bytes": 91905,
+        "sha256": "68c3fbdf7ab6159e178cb60a9c1e24f4a48958e05143022a0c53e81acc0be38b"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12572228902": {
+      "source_evidence": {
+        "path": "scripts/current-model-history-native-qualification/SOURCE.json",
+        "line": 3330,
+        "literal_artifact_id": 12572228902
+      },
+      "first_verified_success_zip": {
+        "bytes": 92922,
+        "sha256": "ede706a22898befafb5b96a30c6e0cf378d06b5e758921459b6c844c5fe00e5a"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12572681615": {
+      "source_evidence": {
+        "path": "scripts/current-model-target-native-qualification/SOURCE.json",
+        "line": 3313,
+        "literal_artifact_id": 12572681615
+      },
+      "first_verified_success_zip": {
+        "bytes": 205810,
+        "sha256": "5faeb6a96ed365b9e47603cc2e3faa5e4f0cd6f834c87ce112869df5f30c59ed"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12573251215": {
+      "source_evidence": {
+        "path": "scripts/current-scoped-model-native-qualification/SOURCE.json",
+        "line": 3401,
+        "literal_artifact_id": 12573251215
+      },
+      "first_verified_success_zip": {
+        "bytes": 204253,
+        "sha256": "e88b44aaba95f95b408d542b9df18aa9d8c2611b4adbbb297af4dfc1a7bc2339"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12573938163": {
+      "source_evidence": {
+        "path": "scripts/current-versioned-target-native-qualification/SOURCE.json",
+        "line": 3560,
+        "literal_artifact_id": 12573938163
+      },
+      "first_verified_success_zip": {
+        "bytes": 158554,
+        "sha256": "2fb4da1ad59dc05b76e990c066e7969efc8ca9827d15bda43374c98f05b3de57"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12574000715": {
+      "source_evidence": {
+        "path": "scripts/current-scoped-model-native-qualification/SOURCE.json",
+        "line": 3389,
+        "literal_artifact_id": 12574000715
+      },
+      "first_verified_success_zip": {
+        "bytes": 159357,
+        "sha256": "1aa0b3d10cd847822d5e7987d649b71043bea2dfaa3cb8498919e8035b968bb5"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12574265268": {
+      "source_evidence": {
+        "path": "scripts/current-scoped-model-native-qualification/SOURCE.json",
+        "line": 3425,
+        "literal_artifact_id": 12574265268
+      },
+      "first_verified_success_zip": {
+        "bytes": 44955,
+        "sha256": "337baec60a45fb0d2fc36bcbb684ce5a1661800342b7657937b0ff7d118ba87c"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12574455285": {
+      "source_evidence": {
+        "path": "scripts/current-scoped-model-native-qualification/SOURCE.json",
+        "line": 3413,
+        "literal_artifact_id": 12574455285
+      },
+      "first_verified_success_zip": {
+        "bytes": 92999,
+        "sha256": "605228940323f76d9b8ebf873234afb04cc528533a3373612c0aee5c130ee16b"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12574856424": {
+      "source_evidence": {
+        "path": "scripts/current-model-history-native-qualification/SOURCE.json",
+        "line": 3294,
+        "literal_artifact_id": 12574856424
+      },
+      "first_verified_success_zip": {
+        "bytes": 2351794,
+        "sha256": "ffba4c5bd7f6d5b384dd3be50a004eee0f1e2467e58435311b8bf2f551d77bd5"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12574910914": {
+      "source_evidence": {
+        "path": "scripts/current-versioned-target-native-qualification/SOURCE.json",
+        "line": 3592,
+        "literal_artifact_id": 12574910914
+      },
+      "first_verified_success_zip": {
+        "bytes": 158852,
+        "sha256": "c402171c72f249f5f32a84ba4a0ddc3d8552579286cb18af0c28fc03b744eb90"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12575033929": {
+      "source_evidence": {
+        "path": "scripts/current-scoped-model-native-qualification/SOURCE.json",
+        "line": 3437,
+        "literal_artifact_id": 12575033929
+      },
+      "first_verified_success_zip": {
+        "bytes": 2625152,
+        "sha256": "7f2bb3c1b33850560743f93a2945535ff2348a7b108d1fbee0aafac7dc69d723"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12588948272": {
+      "source_evidence": {
+        "path": "scripts/current-versioned-target-native-qualification/SOURCE.json",
+        "line": 3702,
+        "literal_artifact_id": 12588948272
+      },
+      "first_verified_success_zip": {
+        "bytes": 47457,
+        "sha256": "afed95b9bf79e73a199040b69262d996c30b0edb629eeef4eea6ef7d0e1d21e9"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12589057824": {
+      "source_evidence": {
+        "path": "scripts/current-versioned-target-native-qualification/SOURCE.json",
+        "line": 3663,
+        "literal_artifact_id": 12589057824
+      },
+      "first_verified_success_zip": {
+        "bytes": 206245,
+        "sha256": "010f5de305269424fd2c156766fb11a1d35cc9a6670c694085886c04fb0a8337"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12589508473": {
+      "source_evidence": {
+        "path": "scripts/current-scoped-model-native-qualification/SOURCE.json",
+        "line": 3450,
+        "literal_artifact_id": 12589508473
+      },
+      "first_verified_success_zip": {
+        "bytes": 4180543,
+        "sha256": "2816a45d214bfca7092e33c56779ce3d435d51315ebdd0c5d0c6211f3cbb1058"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12589590761": {
+      "source_evidence": {
+        "path": "scripts/current-versioned-target-native-qualification/SOURCE.json",
+        "line": 3624,
+        "literal_artifact_id": 12589590761
+      },
+      "first_verified_success_zip": {
+        "bytes": 159612,
+        "sha256": "e8490b2daedb5a15fc519ebd1b99f978f638a6acc99de9df7f43711f9151206c"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12589761696": {
+      "source_evidence": {
+        "path": "scripts/current-selected-return-native-qualification/SOURCE.json",
+        "line": 3274,
+        "literal_artifact_id": 12589761696
+      },
+      "first_verified_success_zip": {
+        "bytes": 2226743,
+        "sha256": "87b4b8b826e2f0980cc5a183e2abe62dbde6bf5a2edd1c51c1dec2b659a1df4b"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12590300605": {
+      "source_evidence": {
+        "path": "scripts/current-versioned-target-native-qualification/SOURCE.json",
+        "line": 3689,
+        "literal_artifact_id": 12590300605
+      },
+      "first_verified_success_zip": {
+        "bytes": 94861,
+        "sha256": "8fa3297e35ec8eeb1d99750b9517609b03594f764681edf68e5c36ba0244a646"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12590626305": {
+      "source_evidence": {
+        "path": "scripts/current-versioned-target-native-qualification/SOURCE.json",
+        "line": 3676,
+        "literal_artifact_id": 12590626305
+      },
+      "first_verified_success_zip": {
+        "bytes": 94355,
+        "sha256": "60a97f3f327976454faf09afdfd9d6893211238ba3c4ae1bd4e4ab89045b2f9f"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12591251190": {
+      "source_evidence": {
+        "path": "scripts/current-scoped-model-native-qualification/SOURCE.json",
+        "line": 3463,
+        "literal_artifact_id": 12591251190
+      },
+      "first_verified_success_zip": {
+        "bytes": 2755837,
+        "sha256": "9d26e37a4d5b55dba812b18c66a4c60900ad67f09ed7c7ca952c1475af96cf10"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12591551904": {
+      "source_evidence": {
+        "path": "scripts/current-versioned-performance-native-qualification/SOURCE.json",
+        "line": 3638,
+        "literal_artifact_id": 12591551904
+      },
+      "first_verified_success_zip": {
+        "bytes": 48195,
+        "sha256": "b69be4a4f04231e53317f7b32ed7f20bb30bf73fc92b96ffbbb6a7ab37e22b5b"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12591903113": {
+      "source_evidence": {
+        "path": "scripts/current-versioned-performance-native-qualification/SOURCE.json",
+        "line": 3664,
+        "literal_artifact_id": 12591903113
+      },
+      "first_verified_success_zip": {
+        "bytes": 95563,
+        "sha256": "6483faad92743f3266bd58898d3b62d6d8d909033740724a2a0e9b25b81df939"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12591904838": {
+      "source_evidence": {
+        "path": "scripts/current-versioned-target-native-qualification/SOURCE.json",
+        "line": 3728,
+        "literal_artifact_id": 12591904838
+      },
+      "first_verified_success_zip": {
+        "bytes": 2701923,
+        "sha256": "121c930cd9d70ee6703a891ca53b040090ae78ae26f6ed78fc204a4d231ef198"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12591992672": {
+      "source_evidence": {
+        "path": "scripts/current-versioned-performance-native-qualification/SOURCE.json",
+        "line": 3651,
+        "literal_artifact_id": 12591992672
+      },
+      "first_verified_success_zip": {
+        "bytes": 95050,
+        "sha256": "b9869cbf682c434c6b3e4499c05a22838c45f401247cc052c7a69265813e7d69"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12592039704": {
+      "source_evidence": {
+        "path": "scripts/current-versioned-performance-native-qualification/SOURCE.json",
+        "line": 3625,
+        "literal_artifact_id": 12592039704
+      },
+      "first_verified_success_zip": {
+        "bytes": 206936,
+        "sha256": "b236a744fc0b2d11c1e634429f6414490b707ec0600646ae7a039ea7b36a3501"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12593135648": {
+      "source_evidence": {
+        "path": "scripts/current-versioned-target-native-qualification/SOURCE.json",
+        "line": 3741,
+        "literal_artifact_id": 12593135648
+      },
+      "first_verified_success_zip": {
+        "bytes": 2756163,
+        "sha256": "c1a0fc4ed6987f7524efd4402b8c794cae4ef4efd7d8607e8c414e8524292bf2"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12593480203": {
+      "source_evidence": {
+        "path": "scripts/current-versioned-performance-native-qualification/SOURCE.json",
+        "line": 3677,
+        "literal_artifact_id": 12593480203
+      },
+      "first_verified_success_zip": {
+        "bytes": 120103,
+        "sha256": "a9558c161e17ac09dfbdd090b40ff25410b7dca97364fcb3f2c4d24d9850f9db"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12594413905": {
+      "source_evidence": {
+        "path": "scripts/current-versioned-target-native-qualification/SOURCE.json",
+        "line": 3754,
+        "literal_artifact_id": 12594413905
+      },
+      "first_verified_success_zip": {
+        "bytes": 4188860,
+        "sha256": "0f80787367e135f97e0b53a3aff539c727ca2abbbdb72b6b1604f18eeafc1c7d"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12595203825": {
+      "source_evidence": {
+        "path": "scripts/current-versioned-target-native-qualification/SOURCE.json",
+        "line": 3767,
+        "literal_artifact_id": 12595203825
+      },
+      "first_verified_success_zip": {
+        "bytes": 4378278,
+        "sha256": "f4fa6b78953dfad258e692467b941ad58a99bda3b791c120a93fbac080bb85f9"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12598724977": {
+      "source_evidence": {
+        "path": "scripts/current-versioned-performance-native-qualification/SOURCE.json",
+        "line": 3690,
+        "literal_artifact_id": 12598724977
+      },
+      "first_verified_success_zip": {
+        "bytes": 2925494,
+        "sha256": "526a00e2439042f4bad14ba1d70598e705c11e4ee0930440be45949c80aaf225"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12604112580": {
+      "source_evidence": {
+        "path": "scripts/current-frozen-units-native-qualification/SOURCE.json",
+        "line": 3687,
+        "literal_artifact_id": 12604112580
+      },
+      "first_verified_success_zip": {
+        "bytes": 162442,
+        "sha256": "7fa3be5f54bfbe0d2c1583edffff1d0edcffd648cb50daffd3fdb7139adf069f"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12604405073": {
+      "source_evidence": {
+        "path": "scripts/current-frozen-units-native-qualification/SOURCE.json",
+        "line": 3674,
+        "literal_artifact_id": 12604405073
+      },
+      "first_verified_success_zip": {
+        "bytes": 158735,
+        "sha256": "29de2bca13e5071d897e3ceba99bfcac4528c49b841b211ef006417f40a415b5"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12604425877": {
+      "source_evidence": {
+        "path": "scripts/current-versioned-performance-native-qualification/SOURCE.json",
+        "line": 3703,
+        "literal_artifact_id": 12604425877
+      },
+      "first_verified_success_zip": {
+        "bytes": 4229165,
+        "sha256": "4f3576d40297d21b2d1c4a69c2bd703e2b42816467d7bd9cfb6ca82e297310b0"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12605623860": {
+      "source_evidence": {
+        "path": "scripts/current-frozen-units-native-qualification/SOURCE.json",
+        "line": 3700,
+        "literal_artifact_id": 12605623860
+      },
+      "first_verified_success_zip": {
+        "bytes": 163545,
+        "sha256": "2884bee24d56ef2909ed9eb5dc640b0668e20aada351c67eea98c58d595c5bb9"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12605748400": {
+      "source_evidence": {
+        "path": "scripts/current-frozen-units-native-qualification/SOURCE.json",
+        "line": 3713,
+        "literal_artifact_id": 12605748400
+      },
+      "first_verified_success_zip": {
+        "bytes": 2937362,
+        "sha256": "fd324ab8b94ba523dbf0fa713eed82a31eca5c1d3b7d3b3246ad53ba679adbb8"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12608589007": {
+      "source_evidence": {
+        "path": "scripts/current-frozen-finance-native-qualification/SOURCE.json",
+        "line": 3704,
+        "literal_artifact_id": 12608589007
+      },
+      "first_verified_success_zip": {
+        "bytes": 3234103,
+        "sha256": "b44f062290d07d11d9ca00924757e963df315b1cde5cacc2a8bdfb40e5739006"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12609969578": {
+      "source_evidence": {
+        "path": "scripts/current-frozen-public-native-qualification/SOURCE.json",
+        "line": 3757,
+        "literal_artifact_id": 12609969578
+      },
+      "first_verified_success_zip": {
+        "bytes": 142264,
+        "sha256": "03712c1367896a65dc39a6958bf002145e73fa945bcf40c18d18afc9dfafb949"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12611956497": {
+      "source_evidence": {
+        "path": "scripts/current-frozen-public-native-qualification/SOURCE.json",
+        "line": 3744,
+        "literal_artifact_id": 12611956497
+      },
+      "first_verified_success_zip": {
+        "bytes": 3554506,
+        "sha256": "243884352b153f4ef5ce81b2c5d0c0f6872a78334bcdab65b6871f4fd986c058"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12622738467": {
+      "source_evidence": {
+        "path": "scripts/current-choice-finance-cron-qualification/SOURCE.json",
+        "line": 107,
+        "literal_artifact_id": 12622738467
+      },
+      "first_verified_success_zip": {
+        "bytes": 2824168,
+        "sha256": "e641b0f000df45484e9837c47337feb3e0f72230a525d217048fcf8134e17952"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12637959084": {
+      "source_evidence": {
+        "path": "scripts/current-choice-preparation-native-qualification/SOURCE.json",
+        "line": 3790,
+        "literal_artifact_id": 12637959084
+      },
+      "first_verified_success_zip": {
+        "bytes": 2968325,
+        "sha256": "33c1889449edde12aac63c3aba860919c135c77006f813f903e985e0c20e9ecc"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12663230440": {
+      "source_evidence": {
+        "path": "scripts/current-progress-finance-ui-browser-qualification/SOURCE.json",
+        "line": 13,
+        "literal_artifact_id": 12663230440
+      },
+      "first_verified_success_zip": {
+        "bytes": 3007799,
+        "sha256": "9d8d24e9816562b2ff75b622c4da69d3d3cb34494f17cbee4d1b86280916d435"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12681497673": {
+      "source_evidence": {
+        "path": "scripts/current-choice-finance-cron-qualification/SOURCE.json",
+        "line": 14,
+        "literal_artifact_id": 12681497673
+      },
+      "first_verified_success_zip": {
+        "bytes": 4838798,
+        "sha256": "0d13717464cdf9d32809c7963e0bfcc69ceeab1d1a9aac489d6155af5c79136e"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12704208060": {
+      "source_evidence": {
+        "path": "scripts/current-choice-finance-cron-qualification/SOURCE.json",
+        "line": 58,
+        "literal_artifact_id": 12704208060
+      },
+      "first_verified_success_zip": {
+        "bytes": 2829206,
+        "sha256": "e8117db7ced1ac47c58f0b55e61e19c9f8a02de51653d8cad0bb5f9e39ac9bbc"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12732802191": {
+      "source_evidence": {
+        "path": "scripts/current-finance-readonly-integration-qualification/SOURCE.json",
+        "line": 26,
+        "literal_artifact_id": 12732802191
+      },
+      "first_verified_success_zip": {
+        "bytes": 2844452,
+        "sha256": "7648f9c987403452db33114fb76b93310c05e5afaced02d713c45b644136b580"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12745515328": {
+      "source_evidence": {
+        "path": "scripts/current-finance-followups-qualification/CONFIG.json",
+        "line": 10,
+        "literal_artifact_id": 12745515328
+      },
+      "first_verified_success_zip": {
+        "bytes": 3431422,
+        "sha256": "5998bba2a854eb0e4418ef116e87d8923f7b01b4b85e871f9226cc0df2f7710b"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12748819568": {
+      "source_evidence": {
+        "path": "scripts/current-finance-consistent-capture-diagnostic/CONFIG.json",
+        "line": 10,
+        "literal_artifact_id": 12748819568
+      },
+      "first_verified_success_zip": {
+        "bytes": 1904228,
+        "sha256": "ecf0986180ed307049f5dd43b0fd67a9cc1386b0b21b94eb99832db29504848c"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12758446701": {
+      "source_evidence": {
+        "path": "scripts/current-finance-consistency-followup-qualification/CONFIG.json",
+        "line": 9,
+        "literal_artifact_id": 12758446701
+      },
+      "first_verified_success_zip": {
+        "bytes": 2739453,
+        "sha256": "500583d1d388796407315bc1613de5cb79f41ae1c7663805a9edf8b49b495bf9"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12763033758": {
+      "source_evidence": {
+        "path": "scripts/current-finance-consistency-corrected-qualification/CONFIG.json",
+        "line": 9,
+        "literal_artifact_id": 12763033758
+      },
+      "first_verified_success_zip": {
+        "bytes": 1819717,
+        "sha256": "965d408d4e116f8acb8d2c6b92283af2bcf5249ee0c7982ace9a5355bf9d5345"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12766592167": {
+      "source_evidence": {
+        "path": "scripts/current-finance-combined-composition/PREREQUISITES.json",
+        "line": 46,
+        "literal_artifact_id": 12766592167
+      },
+      "first_verified_success_zip": {
+        "bytes": 2492470,
+        "sha256": "b8d393585952ff0b26d86cd7d135309a6050797881eeba7c9c6767e2f4113f38"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12769642828": {
+      "source_evidence": {
+        "path": "scripts/current-finance-reader-stream-followup-qualification/CONFIG.json",
+        "line": 9,
+        "literal_artifact_id": 12769642828
+      },
+      "first_verified_success_zip": {
+        "bytes": 10204338,
+        "sha256": "5e7741b1b7af4389e60943b432000335539dc3e91095c32560c493d3fe644c20"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12785049315": {
+      "source_evidence": {
+        "path": "scripts/current-finance-factory-progress-followup-qualification/D3_PREREQUISITE.json",
+        "line": 9,
+        "literal_artifact_id": 12785049315
+      },
+      "first_verified_success_zip": {
+        "bytes": 23580040,
+        "sha256": "ae30939eca8c75cba99b8710259ffc66dc194f6940907e62e0f022904b22762f"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12793826639": {
+      "source_evidence": {
+        "path": "scripts/current-factory-operational-profile-qualification/CONFIG.json",
+        "line": 9,
+        "literal_artifact_id": 12793826639
+      },
+      "first_verified_success_zip": {
+        "bytes": 10605560,
+        "sha256": "ca8c1b23fe279ee99736d506445011cf2fe656597a9b06b712dbaba3f305b042"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12800202603": {
+      "source_evidence": {
+        "path": "scripts/current-factory-initial-stage/CONFIG.json",
+        "line": 11,
+        "literal_artifact_id": 12800202603
+      },
+      "first_verified_success_zip": {
+        "bytes": 2290453,
+        "sha256": "dbbe85a234912471dcf9a08db1e4ac4fb98c5003622865542620f38cdb30fd3f"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12810096616": {
+      "source_evidence": {
+        "path": "scripts/current-factory-live-heartbeat/CONFIG.json",
+        "line": 11,
+        "literal_artifact_id": 12810096616
+      },
+      "first_verified_success_zip": {
+        "bytes": 10734684,
+        "sha256": "784f17255ae3756b418a89162cd416e58a014a21baea34bd17e151b168e24ddb"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12813599744": {
+      "source_evidence": {
+        "path": "scripts/current-backend-acceptance-3194/CONFIG.json",
+        "line": 23,
+        "literal_artifact_id": 12813599744
+      },
+      "first_verified_success_zip": {
+        "bytes": 9645478,
+        "sha256": "4134df462dc0f05ff53ab5318b280322a8e489b5e65a069a7ac32f7356b9be91"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12842526926": {
+      "source_evidence": {
+        "path": "scripts/current-vendor-receivable-qualification/CONFIG.json",
+        "line": 38,
+        "literal_artifact_id": 12842526926
+      },
+      "first_verified_success_zip": {
+        "bytes": 2018963,
+        "sha256": "7a293d6b0580ec5eaefa5bdffc95e870079849da43763e296e822e79f53acc2b"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12854543326": {
+      "source_evidence": {
+        "path": "scripts/current-vendor-money-browser/CONFIG.json",
+        "line": 10,
+        "literal_artifact_id": 12854543326
+      },
+      "first_verified_success_zip": {
+        "bytes": 2031933,
+        "sha256": "9432cdd8bcea2df52ad8fb631122ce963b91bee32dea849a4337e4ec2c020eb0"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12863121496": {
+      "source_evidence": {
+        "path": "scripts/current-ow08-source-browser/CONFIG.json",
+        "line": 29,
+        "literal_artifact_id": 12863121496
+      },
+      "first_verified_success_zip": {
+        "bytes": 4258622,
+        "sha256": "81f17358ca56f92c8bec4610e2b6d3978667624970e892d2c2c0c5728196f58d"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    },
+    "12915361278": {
+      "source_evidence": {
+        "path": "scripts/current-sku-combined-followup-qualification/CONFIG.json",
+        "line": 13,
+        "literal_artifact_id": 12915361278
+      },
+      "first_verified_success_zip": {
+        "bytes": 1975884,
+        "sha256": "ffb82b8cf174cdb5848724c895559bbfcc0b57d7682f41e1bf38b1cea7fe6fab"
+      },
+      "max_requests_per_admission": 1,
+      "optional_terminal_failure": false
+    }
+  },
+  "authoritative_Original_readers_unchanged": true,
+  "generated_receipts_are_source_authority": false,
+  "first_negative_artifact": {
+    "path": "scripts/current-attendance-period-choice-native11-qualification/retained-a577/PREDB_FIRST_ARTIFACT.zip",
+    "bytes": 54682,
+    "sha256": "8e13006583fab982def0bfbf808d9dec11648c0e3b77f35d11d7ab47005315f0",
+    "head": "a5774f59ce67fd18427a9aa700ee5e34fdece5b3",
+    "run_id": 40945813546,
+    "job_id": 123700741604,
+    "artifact_id": 12929870525,
+    "classification": "PRE_DB_17_PASS_1_ERROR_NATIVE0",
+    "preDB_receipt_count": 101
+  },
+  "sku_reference_artifact": {
+    "head": "bd2cd02c0b724f87f6f1d8628f8227dd30c513a4",
+    "run_id": 40928155690,
+    "artifact_id": 12924775397,
+    "zip_bytes": 4485191,
+    "zip_sha256": "014400fd25c7134055a73a761a5c7079f29d0eed686964d8fc077fc221b32196",
+    "artifactIDs": 102,
+    "old_business_qualification_failed": true,
+    "source_outputs_are_not_Native_credit": true
+  }
+}

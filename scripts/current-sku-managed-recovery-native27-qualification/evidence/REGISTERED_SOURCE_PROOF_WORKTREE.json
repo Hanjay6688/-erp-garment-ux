@@ -1,0 +1,13 @@
+{
+  "status": "PASS",
+  "head": "fc9b30ec9fce21b12c9074237a7a2d27d9563eeb",
+  "tree": "61864e3454718728197566039405aa97b161d12e",
+  "proof_path": "/workspace/scratch/ef468a447ac6/sku27-source-proof-fc9b",
+  "tracked_files_verified": 13821,
+  "verified_tracked_bytes_hardlinked_or_explicit_symlink": 1013577328,
+  "mutable_outputs_hardlinked": 0,
+  "negative_targets_must_be_copied": true,
+  "inplace_writes_or_chmod_to_hardlinks": 0,
+  "private_source_input_directory": "PRESERVED_OLD_LOCAL_SOURCE_REPLAY_OUTPUTS/t3/RETAINED_SKU21C",
+  "no_actual_DB": true
+}

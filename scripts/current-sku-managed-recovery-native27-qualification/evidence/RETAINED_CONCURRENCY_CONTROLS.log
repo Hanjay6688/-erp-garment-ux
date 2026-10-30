@@ -1,0 +1,17 @@
+test_aggregation_requires_every_id_restore_and_cleanup_and_claims_no_real_auth (test_controls.Controls.test_aggregation_requires_every_id_restore_and_cleanup_and_claims_no_real_auth) ... ok
+test_business_failure_preserved_and_full_restore_still_runs (test_controls.Controls.test_business_failure_preserved_and_full_restore_still_runs) ... ok
+test_each_restore_gate_is_required_and_selective_cleanup_is_rejected (test_controls.Controls.test_each_restore_gate_is_required_and_selective_cleanup_is_rejected) ... ok
+test_every_new_source_and_reused_callback_is_pinned (test_controls.Controls.test_every_new_source_and_reused_callback_is_pinned) ... ok
+test_exact_plan_three_original_races_six_original_native_actor_waits (test_controls.Controls.test_exact_plan_three_original_races_six_original_native_actor_waits) ... ok
+test_gate_refuses_failed_partial_wrong_identity_or_missing_used_guard (test_controls.Controls.test_gate_refuses_failed_partial_wrong_identity_or_missing_used_guard) ... ok
+test_local_url_plan_refuses_hosted_or_noncopy_targets (test_controls.Controls.test_local_url_plan_refuses_hosted_or_noncopy_targets) ... ok
+test_observation_failure_does_not_skip_restore_or_manufacture_pass (test_controls.Controls.test_observation_failure_does_not_skip_restore_or_manufacture_pass) ... ok
+test_restore_failure_preserves_business_failure_and_blocks_pass (test_controls.Controls.test_restore_failure_preserves_business_failure_and_blocks_pass) ... ok
+test_exact_original_schedule_routes_nine_callbacks_and_restores_nine_times (test_wiring.Wiring.test_exact_original_schedule_routes_nine_callbacks_and_restores_nine_times) ... ok
+test_failed_restore_closes_later_copy_and_fixture_before_they_run (test_wiring.Wiring.test_failed_restore_closes_later_copy_and_fixture_before_they_run) ... ok
+test_partial_native_never_connects_copies_or_runs_a_fixture (test_wiring.Wiring.test_partial_native_never_connects_copies_or_runs_a_fixture) ... ok
+
+----------------------------------------------------------------------
+Ran 12 tests in 0.063s
+
+OK

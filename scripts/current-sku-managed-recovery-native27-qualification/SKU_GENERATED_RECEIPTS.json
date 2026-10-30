@@ -1,0 +1,583 @@
+{
+  "version": "CLOSED_SKU_GENERATED_NON_SOURCE_V1",
+  "producer_files": {
+    "scripts/current-sku-combined-followup-qualification/fetch_prerequisite.py": {
+      "bytes": 2532,
+      "sha256": "df1ff3abc45fa3f54bb7adcf67563c366dd44537434396c9a2a873d87a92c4c3"
+    },
+    "scripts/current-sku-combined-followup-qualification/CONFIG.json": {
+      "bytes": 1574,
+      "sha256": "6b4fd189b7323e78c1ca6dce7d48ef100d468c0f2050495dc40349856e9c3bf8"
+    },
+    "scripts/current-sku-combined-followup-qualification/gate.py": {
+      "bytes": 5992,
+      "sha256": "0c769d897b71a5d437a3b981afd5a8b083e17470d488d5dcdce95e2013263bfa"
+    },
+    "vite.config.ts": {
+      "bytes": 1032,
+      "sha256": "ccc90fa4b08f58f0658fb9acd4eb6f77abb3affdb4fc79e9bd170ffa8745f355"
+    },
+    "package.json": {
+      "bytes": 5148,
+      "sha256": "188026b2d570d1f5ebcc1e1f5a7a950ae0327c326da7a0e6ce8e22f8b99c4d20"
+    },
+    "package-lock.json": {
+      "bytes": 125971,
+      "sha256": "3f52c1eb326b53129977e78e7c95b14e0d0bebd8c8229e0cab96e88c85d88195"
+    },
+    "src/ConnectedSkuConversion.dom.test.tsx": {
+      "bytes": 13661,
+      "sha256": "1339d1c8e2a8b0ba43acb1dd9f21ba096a898a15cabb3555e333bbe63be7c271"
+    },
+    "src/NativeStagedAiPanel.dom.test.tsx": {
+      "bytes": 3257,
+      "sha256": "b751cd100de3c0a04be739c2d659ca8813248190f19c0b13cbc77440e2d36ebd"
+    },
+    "src/NativeStagedAiPanel.fallback.dom.test.tsx": {
+      "bytes": 14046,
+      "sha256": "19c3c30d781240752b9ab1ec4867a7beb89a7df47108ee8177bce9d6f4b98021"
+    },
+    "src/nativeStagedAi.test.ts": {
+      "bytes": 2629,
+      "sha256": "89871285588ca252ae0bd279e372d667925bf5fdcc4ceb71110cde618dc82420"
+    },
+    "src/productConversion.test.ts": {
+      "bytes": 2149,
+      "sha256": "a2868f9268bf5e1c30757a4c1c9d4400ea022e89e0cb64f014983bee22797d20"
+    },
+    "src/productionRecovery.test.ts": {
+      "bytes": 5125,
+      "sha256": "32b57320137b04105c500c0642957628c001a983a216ebf715cb780c842f3309"
+    },
+    "src/skuMaster.test.ts": {
+      "bytes": 3841,
+      "sha256": "ba43c6917e46873cd12b146447e91ebfcab45c364745167ce35cdca8c951e9a5"
+    },
+    "src/skuPairConversion.test.ts": {
+      "bytes": 5373,
+      "sha256": "ff0367b528dd095ae1c7d59cf0e6d67732830237682ae0a7edf38bde889a56eb"
+    },
+    ".github/workflows/cp7-sku-managed-recovery-native27.yml": {
+      "bytes": 33068,
+      "sha256": "26691f66a4d5ecb23709ac39e9c1d615d947228535666ade09490dfab3d57541"
+    }
+  },
+  "retained21_files": {
+    "ORIGINAL.zip": {
+      "bytes": 1975884,
+      "sha256": "ffb82b8cf174cdb5848724c895559bbfcc0b57d7682f41e1bf38b1cea7fe6fab"
+    },
+    "CP7_SKU_PAIR_CONVERSION_NATIVE.json": {
+      "bytes": 2963678,
+      "sha256": "92822b4b0f7cf9a5f74a3110ce85f68a95da842b7fd2deba2cadcab1cce33347"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360413,
+      "sha256": "35c53690fc8200ca873c8a85ecd51d7f547d230731e64480986a9fee7af8d72e"
+    },
+    "FETCH_RECEIPT.json": {
+      "bytes": 851,
+      "sha256": "c255e931e27fb7134bb215f92b8f65b77c8ab5bab41c2ac71a7c72849d729837"
+    }
+  },
+  "client_top_keys": [
+    "numTotalTestSuites",
+    "numPassedTestSuites",
+    "numFailedTestSuites",
+    "numPendingTestSuites",
+    "numTotalTests",
+    "numPassedTests",
+    "numFailedTests",
+    "numPendingTests",
+    "numTodoTests",
+    "snapshot",
+    "startTime",
+    "success",
+    "testResults"
+  ],
+  "client_fixed": {
+    "numTotalTestSuites": 14,
+    "numPassedTestSuites": 14,
+    "numFailedTestSuites": 0,
+    "numPendingTestSuites": 0,
+    "numTotalTests": 72,
+    "numPassedTests": 72,
+    "numFailedTests": 0,
+    "numPendingTests": 0,
+    "numTodoTests": 0,
+    "success": true
+  },
+  "client_files": {
+    "src/ConnectedSkuConversion.dom.test.tsx": [
+      {
+        "fullName": "shows fresh product/size/location before-after stock, recommendations and other target models/sizes, with no operator lot selection",
+        "title": "shows fresh product/size/location before-after stock, recommendations and other target models/sizes, with no operator lot selection",
+        "ancestorTitles": []
+      },
+      {
+        "fullName": "a failed fresh read clears old quantities and offers no write or fabricated zero",
+        "title": "a failed fresh read clears old quantities and offers no write or fabricated zero",
+        "ancestorTitles": []
+      },
+      {
+        "fullName": "refuses a fresh stock response for a different target instead of showing its numbers under the selected SKU",
+        "title": "refuses a fresh stock response for a different target instead of showing its numbers under the selected SKU",
+        "ancestorTitles": []
+      },
+      {
+        "fullName": "clears the reviewed target when SEARCH removes it from the visible options and requires a new choice",
+        "title": "clears the reviewed target when SEARCH removes it from the visible options and requires a new choice",
+        "ancestorTitles": []
+      },
+      {
+        "fullName": "clears the reviewed target when PAGE removes it from the visible options and requires a new choice",
+        "title": "clears the reviewed target when PAGE removes it from the visible options and requires a new choice",
+        "ancestorTitles": []
+      },
+      {
+        "fullName": "stale rejection refreshes authoritative quantities and requires a new reviewed preview",
+        "title": "stale rejection refreshes authoritative quantities and requires a new reviewed preview",
+        "ancestorTitles": []
+      },
+      {
+        "fullName": "double click shares one immutable request and cannot duplicate the stock command",
+        "title": "double click shares one immutable request and cannot duplicate the stock command",
+        "ancestorTitles": []
+      },
+      {
+        "fullName": "master pair editing is one group action and SEARCH cannot save an invisible unsaved partner",
+        "title": "master pair editing is one group action and SEARCH cannot save an invisible unsaved partner",
+        "ancestorTitles": []
+      },
+      {
+        "fullName": "master pair editing is one group action and PAGE cannot save an invisible unsaved partner",
+        "title": "master pair editing is one group action and PAGE cannot save an invisible unsaved partner",
+        "ancestorTitles": []
+      }
+    ],
+    "src/NativeStagedAiPanel.dom.test.tsx": [
+      {
+        "fullName": "copies a checked prompt from the bounded brief of the run with the selected targets; no finance without access",
+        "title": "copies a checked prompt from the bounded brief of the run with the selected targets; no finance without access",
+        "ancestorTitles": []
+      },
+      {
+        "fullName": "shows a refused brief in words and copies nothing",
+        "title": "shows a refused brief in words and copies nothing",
+        "ancestorTitles": []
+      }
+    ],
+    "src/NativeStagedAiPanel.fallback.dom.test.tsx": [
+      {
+        "fullName": "preserves the complete reviewed prompt for manual copy when clipboard is denied, without claiming a copy or sending it",
+        "title": "preserves the complete reviewed prompt for manual copy when clipboard is denied, without claiming a copy or sending it",
+        "ancestorTitles": []
+      },
+      {
+        "fullName": "quotes a long hostile question as complete JSON and offers only a static manual link when external navigation is unavailable",
+        "title": "quotes a long hostile question as complete JSON and offers only a static manual link when external navigation is unavailable",
+        "ancestorTitles": []
+      },
+      {
+        "fullName": "keeps a verified stale snapshot explicitly dated and unknown figures separate from zero in the manual fallback",
+        "title": "keeps a verified stale snapshot explicitly dated and unknown figures separate from zero in the manual fallback",
+        "ancestorTitles": []
+      },
+      {
+        "fullName": "retires the previous manual text and link when the next brief is 'expired401' while the identity remains AUTHORIZED",
+        "title": "retires the previous manual text and link when the next brief is 'expired401' while the identity remains AUTHORIZED",
+        "ancestorTitles": []
+      },
+      {
+        "fullName": "retires the previous manual text and link when the next brief is 'revoked403' while the identity remains AUTHORIZED",
+        "title": "retires the previous manual text and link when the next brief is 'revoked403' while the identity remains AUTHORIZED",
+        "ancestorTitles": []
+      },
+      {
+        "fullName": "does not publish or copy a pending brief after the selected target changes",
+        "title": "does not publish or copy a pending brief after the selected target changes",
+        "ancestorTitles": []
+      },
+      {
+        "fullName": "keeps the newer selection request busy and authoritative after an overlapping old-success",
+        "title": "keeps the newer selection request busy and authoritative after an overlapping old-success",
+        "ancestorTitles": []
+      },
+      {
+        "fullName": "keeps the newer selection request busy and authoritative after an overlapping old-access-denial",
+        "title": "keeps the newer selection request busy and authoritative after an overlapping old-access-denial",
+        "ancestorTitles": []
+      },
+      {
+        "fullName": "retires a pending brief when the displayed analysis run changes",
+        "title": "retires a pending brief when the displayed analysis run changes",
+        "ancestorTitles": []
+      },
+      {
+        "fullName": "never copies the result of a disposed panel with an outstanding brief",
+        "title": "never copies the result of a disposed panel with an outstanding brief",
+        "ancestorTitles": []
+      },
+      {
+        "fullName": "does not restore a copied-success message when an older clipboard acknowledgement arrives after selection retirement",
+        "title": "does not restore a copied-success message when an older clipboard acknowledgement arrives after selection retirement",
+        "ancestorTitles": []
+      },
+      {
+        "fullName": "retires a pending brief when the parent begins a blocking source read and requires a fresh request after it clears",
+        "title": "retires a pending brief when the parent begins a blocking source read and requires a fresh request after it clears",
+        "ancestorTitles": []
+      }
+    ],
+    "src/nativeStagedAi.test.ts": [
+      {
+        "fullName": "binds the brief to the run on screen: identity, time, period, totals, bounded and ordered lists",
+        "title": "binds the brief to the run on screen: identity, time, period, totals, bounded and ordered lists",
+        "ancestorTitles": []
+      },
+      {
+        "fullName": "writes the prompt with the snapshot time and freshness, never \"terkini\", and states finance absent unless read",
+        "title": "writes the prompt with the snapshot time and freshness, never \"terkini\", and states finance absent unless read",
+        "ancestorTitles": []
+      },
+      {
+        "fullName": "reads finance for today in Jakarta, the period cut at today",
+        "title": "reads finance for today in Jakarta, the period cut at today",
+        "ancestorTitles": []
+      }
+    ],
+    "src/productConversion.test.ts": [
+      {
+        "fullName": "conversion boundary keeps canonical legacy IDs, exact money and opaque revisions",
+        "title": "keeps canonical legacy IDs, exact money and opaque revisions",
+        "ancestorTitles": [
+          "conversion boundary"
+        ]
+      },
+      {
+        "fullName": "conversion boundary does not treat missing stock as zero or accept duplicate composite lots",
+        "title": "does not treat missing stock as zero or accept duplicate composite lots",
+        "ancestorTitles": [
+          "conversion boundary"
+        ]
+      },
+      {
+        "fullName": "conversion boundary uses WIB time and refuses quantities beyond the selected lot",
+        "title": "uses WIB time and refuses quantities beyond the selected lot",
+        "ancestorTitles": [
+          "conversion boundary"
+        ]
+      },
+      {
+        "fullName": "conversion boundary retains recovery for mismatched request, target or reversal",
+        "title": "retains recovery for mismatched request, target or reversal",
+        "ancestorTitles": [
+          "conversion boundary"
+        ]
+      }
+    ],
+    "src/productionRecovery.test.ts": [
+      {
+        "fullName": "recovery storage is durable and isolated quarantines corrupt storage  without deleting it",
+        "title": "quarantines corrupt storage  without deleting it",
+        "ancestorTitles": [
+          "recovery storage is durable and isolated"
+        ]
+      },
+      {
+        "fullName": "recovery storage is durable and isolated quarantines corrupt storage { without deleting it",
+        "title": "quarantines corrupt storage { without deleting it",
+        "ancestorTitles": [
+          "recovery storage is durable and isolated"
+        ]
+      },
+      {
+        "fullName": "recovery storage is durable and isolated quarantines corrupt storage null without deleting it",
+        "title": "quarantines corrupt storage null without deleting it",
+        "ancestorTitles": [
+          "recovery storage is durable and isolated"
+        ]
+      },
+      {
+        "fullName": "recovery storage is durable and isolated quarantines corrupt storage [] without deleting it",
+        "title": "quarantines corrupt storage [] without deleting it",
+        "ancestorTitles": [
+          "recovery storage is durable and isolated"
+        ]
+      },
+      {
+        "fullName": "recovery storage is durable and isolated quarantines corrupt storage {\"action\":\"HOLD_BS\",\"payload\":{\"bs_case_id\":\"case-1\",\"change_reason\":\"Verifikasi fisik\"},\"expectedVersion\":1,\"id\":\"00000000-0000-4000-8000-000000000001\",\"createdAt\":\"2026-09-21T00:00:00Z\",\"fingerprint\":\"wrong\"} without deleting it",
+        "title": "quarantines corrupt storage {\"action\":\"HOLD_BS\",\"payload\":{\"bs_case_id\":\"case-1\",\"change_reason\":\"Verifikasi fisik\"},\"expectedVersion\":1,\"id\":\"00000000-0000-4000-8000-000000000001\",\"createdAt\":\"2026-09-21T00:00:00Z\",\"fingerprint\":\"wrong\"} without deleting it",
+        "ancestorTitles": [
+          "recovery storage is durable and isolated"
+        ]
+      },
+      {
+        "fullName": "recovery storage is durable and isolated quarantines corrupt storage {\"action\":\"HOLD_BS\",\"payload\":{\"bs_case_id\":\"case-1\",\"change_reason\":\"Verifikasi fisik\"},\"expectedVersion\":1,\"id\":\"bad\",\"createdAt\":\"2026-09-21T00:00:00Z\",\"fingerprint\":\"{\\\"action\\\":\\\"HOLD_BS\\\",\\\"payload\\\":{\\\"bs_case_id\\\":\\\"case-1\\\",\\\"change_reason\\\":\\\"Verifikasi fisik\\\"},\\\"expectedVersion\\\":1}\"} without deleting it",
+        "title": "quarantines corrupt storage {\"action\":\"HOLD_BS\",\"payload\":{\"bs_case_id\":\"case-1\",\"change_reason\":\"Verifikasi fisik\"},\"expectedVersion\":1,\"id\":\"bad\",\"createdAt\":\"2026-09-21T00:00:00Z\",\"fingerprint\":\"{\\\"action\\\":\\\"HOLD_BS\\\",\\\"payload\\\":{\\\"bs_case_id\\\":\\\"case-1\\\",\\\"change_reason\\\":\\\"Verifikasi fisik\\\"},\\\"expectedVersion\\\":1}\"} without deleting it",
+        "ancestorTitles": [
+          "recovery storage is durable and isolated"
+        ]
+      },
+      {
+        "fullName": "recovery storage is durable and isolated quarantines corrupt storage {\"action\":\"HOLD_BS\",\"payload\":{\"bs_case_id\":\"case-1\",\"change_reason\":\"Verifikasi fisik\"},\"expectedVersion\":1,\"id\":\"00000000-0000-4000-8000-000000000001\",\"createdAt\":\"yesterday\",\"fingerprint\":\"{\\\"action\\\":\\\"HOLD_BS\\\",\\\"payload\\\":{\\\"bs_case_id\\\":\\\"case-1\\\",\\\"change_reason\\\":\\\"Verifikasi fisik\\\"},\\\"expectedVersion\\\":1}\"} without deleting it",
+        "title": "quarantines corrupt storage {\"action\":\"HOLD_BS\",\"payload\":{\"bs_case_id\":\"case-1\",\"change_reason\":\"Verifikasi fisik\"},\"expectedVersion\":1,\"id\":\"00000000-0000-4000-8000-000000000001\",\"createdAt\":\"yesterday\",\"fingerprint\":\"{\\\"action\\\":\\\"HOLD_BS\\\",\\\"payload\\\":{\\\"bs_case_id\\\":\\\"case-1\\\",\\\"change_reason\\\":\\\"Verifikasi fisik\\\"},\\\"expectedVersion\\\":1}\"} without deleting it",
+        "ancestorTitles": [
+          "recovery storage is durable and isolated"
+        ]
+      },
+      {
+        "fullName": "recovery storage is durable and isolated distinguishes storage failure from an empty envelope",
+        "title": "distinguishes storage failure from an empty envelope",
+        "ancestorTitles": [
+          "recovery storage is durable and isolated"
+        ]
+      },
+      {
+        "fullName": "recovery storage is durable and isolated never overwrites or clears another pending UUID",
+        "title": "never overwrites or clears another pending UUID",
+        "ancestorTitles": [
+          "recovery storage is durable and isolated"
+        ]
+      },
+      {
+        "fullName": "recovery storage is durable and isolated retains the exact legacy envelope and isolates actors and projects",
+        "title": "retains the exact legacy envelope and isolates actors and projects",
+        "ancestorTitles": [
+          "recovery storage is durable and isolated"
+        ]
+      },
+      {
+        "fullName": "recovery storage is durable and isolated retains the original envelope when remove fails",
+        "title": "retains the original envelope when remove fails",
+        "ancestorTitles": [
+          "recovery storage is durable and isolated"
+        ]
+      },
+      {
+        "fullName": "recovery storage is durable and isolated changes the read generation even after an envelope is resolved",
+        "title": "changes the read generation even after an envelope is resolved",
+        "ancestorTitles": [
+          "recovery storage is durable and isolated"
+        ]
+      },
+      {
+        "fullName": "only known statement errors retire an initial request keeps uncertainty for {\"status\":503}",
+        "title": "keeps uncertainty for {\"status\":503}",
+        "ancestorTitles": [
+          "only known statement errors retire an initial request"
+        ]
+      },
+      {
+        "fullName": "only known statement errors retire an initial request keeps uncertainty for {\"status\":408}",
+        "title": "keeps uncertainty for {\"status\":408}",
+        "ancestorTitles": [
+          "only known statement errors retire an initial request"
+        ]
+      },
+      {
+        "fullName": "only known statement errors retire an initial request keeps uncertainty for {\"status\":429}",
+        "title": "keeps uncertainty for {\"status\":429}",
+        "ancestorTitles": [
+          "only known statement errors retire an initial request"
+        ]
+      },
+      {
+        "fullName": "only known statement errors retire an initial request keeps uncertainty for {\"status\":400}",
+        "title": "keeps uncertainty for {\"status\":400}",
+        "ancestorTitles": [
+          "only known statement errors retire an initial request"
+        ]
+      },
+      {
+        "fullName": "only known statement errors retire an initial request keeps uncertainty for {\"status\":403}",
+        "title": "keeps uncertainty for {\"status\":403}",
+        "ancestorTitles": [
+          "only known statement errors retire an initial request"
+        ]
+      },
+      {
+        "fullName": "only known statement errors retire an initial request keeps uncertainty for {\"code\":\"PGRST000\"}",
+        "title": "keeps uncertainty for {\"code\":\"PGRST000\"}",
+        "ancestorTitles": [
+          "only known statement errors retire an initial request"
+        ]
+      },
+      {
+        "fullName": "only known statement errors retire an initial request keeps uncertainty for {\"code\":\"08006\"}",
+        "title": "keeps uncertainty for {\"code\":\"08006\"}",
+        "ancestorTitles": [
+          "only known statement errors retire an initial request"
+        ]
+      },
+      {
+        "fullName": "only known statement errors retire an initial request keeps uncertainty for {\"code\":\"57P01\"}",
+        "title": "keeps uncertainty for {\"code\":\"57P01\"}",
+        "ancestorTitles": [
+          "only known statement errors retire an initial request"
+        ]
+      },
+      {
+        "fullName": "only known statement errors retire an initial request keeps uncertainty for {\"code\":\"53300\"}",
+        "title": "keeps uncertainty for {\"code\":\"53300\"}",
+        "ancestorTitles": [
+          "only known statement errors retire an initial request"
+        ]
+      },
+      {
+        "fullName": "only known statement errors retire an initial request keeps uncertainty for {\"code\":\"XX000\"}",
+        "title": "keeps uncertainty for {\"code\":\"XX000\"}",
+        "ancestorTitles": [
+          "only known statement errors retire an initial request"
+        ]
+      },
+      {
+        "fullName": "only known statement errors retire an initial request recognizes initial database rejection 23514",
+        "title": "recognizes initial database rejection 23514",
+        "ancestorTitles": [
+          "only known statement errors retire an initial request"
+        ]
+      },
+      {
+        "fullName": "only known statement errors retire an initial request recognizes initial database rejection P0001",
+        "title": "recognizes initial database rejection P0001",
+        "ancestorTitles": [
+          "only known statement errors retire an initial request"
+        ]
+      },
+      {
+        "fullName": "only known statement errors retire an initial request recognizes initial database rejection 42501",
+        "title": "recognizes initial database rejection 42501",
+        "ancestorTitles": [
+          "only known statement errors retire an initial request"
+        ]
+      },
+      {
+        "fullName": "only known statement errors retire an initial request recognizes initial database rejection 40001",
+        "title": "recognizes initial database rejection 40001",
+        "ancestorTitles": [
+          "only known statement errors retire an initial request"
+        ]
+      },
+      {
+        "fullName": "only known statement errors retire an initial request recognizes initial database rejection 40P01",
+        "title": "recognizes initial database rejection 40P01",
+        "ancestorTitles": [
+          "only known statement errors retire an initial request"
+        ]
+      },
+      {
+        "fullName": "only known statement errors retire an initial request recognizes initial database rejection 22P02",
+        "title": "recognizes initial database rejection 22P02",
+        "ancestorTitles": [
+          "only known statement errors retire an initial request"
+        ]
+      },
+      {
+        "fullName": "client action lists follow the server routers LAUNDRY_BD accepts every router action",
+        "title": "LAUNDRY_BD accepts every router action",
+        "ancestorTitles": [
+          "client action lists follow the server routers"
+        ]
+      },
+      {
+        "fullName": "client action lists follow the server routers ACCESSORY_SERVICE accepts every router action",
+        "title": "ACCESSORY_SERVICE accepts every router action",
+        "ancestorTitles": [
+          "client action lists follow the server routers"
+        ]
+      }
+    ],
+    "src/skuMaster.test.ts": [
+      {
+        "fullName": "commercial SKU joins preserve physical identities moves size34 atomically and retains35/36 plus their original rates",
+        "title": "moves size34 atomically and retains35/36 plus their original rates",
+        "ancestorTitles": [
+          "commercial SKU joins preserve physical identities"
+        ]
+      },
+      {
+        "fullName": "commercial SKU joins preserve physical identities sends exact two-decimal money from ordinary owner input without changing cents",
+        "title": "sends exact two-decimal money from ordinary owner input without changing cents",
+        "ancestorTitles": [
+          "commercial SKU joins preserve physical identities"
+        ]
+      },
+      {
+        "fullName": "commercial SKU joins preserve physical identities refuses incomplete conflict review and hidden source economics",
+        "title": "refuses incomplete conflict review and hidden source economics",
+        "ancestorTitles": [
+          "commercial SKU joins preserve physical identities"
+        ]
+      },
+      {
+        "fullName": "commercial SKU joins preserve physical identities does not carry legacy SKU laundry overrides into a new revision",
+        "title": "does not carry legacy SKU laundry overrides into a new revision",
+        "ancestorTitles": [
+          "commercial SKU joins preserve physical identities"
+        ]
+      },
+      {
+        "fullName": "commercial SKU joins preserve physical identities formats large money exactly and handles rounding carry without float conversion",
+        "title": "formats large money exactly and handles rounding carry without float conversion",
+        "ancestorTitles": [
+          "commercial SKU joins preserve physical identities"
+        ]
+      },
+      {
+        "fullName": "commercial SKU joins preserve physical identities refuses HPP with missing physical size or duplicate lot",
+        "title": "refuses HPP with missing physical size or duplicate lot",
+        "ancestorTitles": [
+          "commercial SKU joins preserve physical identities"
+        ]
+      }
+    ],
+    "src/skuPairConversion.test.ts": [
+      {
+        "fullName": "owner 29 October pair and conversion boundary retains an exact SAVE_PAIR recovery envelope only in the SKU domain",
+        "title": "retains an exact SAVE_PAIR recovery envelope only in the SKU domain",
+        "ancestorTitles": [
+          "owner 29 October pair and conversion boundary"
+        ]
+      },
+      {
+        "fullName": "owner 29 October pair and conversion boundary sends explicit physical product and location, preserves WIB time, and refuses self or unavailable quantities",
+        "title": "sends explicit physical product and location, preserves WIB time, and refuses self or unavailable quantities",
+        "ancestorTitles": [
+          "owner 29 October pair and conversion boundary"
+        ]
+      },
+      {
+        "fullName": "owner 29 October pair and conversion boundary accepts multi-lot before/after proof and refuses altered reservations, quantities or wrong target scope",
+        "title": "accepts multi-lot before/after proof and refuses altered reservations, quantities or wrong target scope",
+        "ancestorTitles": [
+          "owner 29 October pair and conversion boundary"
+        ]
+      },
+      {
+        "fullName": "owner 29 October pair and conversion boundary requires source/target and unique Native allocation IDs on successful automatic conversion",
+        "title": "requires source/target and unique Native allocation IDs on successful automatic conversion",
+        "ancestorTitles": [
+          "owner 29 October pair and conversion boundary"
+        ]
+      },
+      {
+        "fullName": "owner 29 October pair and conversion boundary refuses duplicate product/location source rows and missing stock rather than displaying zero",
+        "title": "refuses duplicate product/location source rows and missing stock rather than displaying zero",
+        "ancestorTitles": [
+          "owner 29 October pair and conversion boundary"
+        ]
+      },
+      {
+        "fullName": "owner 29 October pair and conversion boundary pair edits do not request stock writers or per-size membership changes and responses must match both endpoints",
+        "title": "pair edits do not request stock writers or per-size membership changes and responses must match both endpoints",
+        "ancestorTitles": [
+          "owner 29 October pair and conversion boundary"
+        ]
+      }
+    ]
+  },
+  "reference_run": 40928155690,
+  "reference_artifact": 12924775397,
+  "reference_data_are_not_current_Native_or_Auth_credit": true
+}

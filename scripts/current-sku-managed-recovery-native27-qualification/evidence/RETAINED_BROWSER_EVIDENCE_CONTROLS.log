@@ -1,0 +1,21 @@
+✔ money remains integer cents and fractional cents cannot be silently rounded (3.049435ms)
+✔ no-effect evidence rejects omitted data, changed sequence, catalog or partial projection (3.906364ms)
+✔ pair mutation may change only the exact pair/event rows while stock and sequence remain exact (1.888622ms)
+✔ independent preview gold rejects wrong destination, consumed reservation, averaged value and reversed chronology (1.874215ms)
+✔ posted proof requires one whole group with the exact two source lineages and values (13.667043ms)
+✔ console evidence retains exact anticipated loss, rejects application errors and extra network events (0.975264ms)
+✔ exactly two host closures plan desktop/mobile without login, fixtures or a new server (13.828475ms)
+✔ manual oracle preserves long hostile JSON, exact Native known values and unknowns (15.51843ms)
+✔ manual oracle rejects silent truncation, wrong selected target, changed numeric facts and unknown-to-zero (24.193275ms)
+✔ absolute AI-only census rejects business updates, sequence allocations, deleted keys and excluded schemas (6.138559ms)
+✔ source-check census allows only its exact append/allocation, rejects any business change or second append (7.115197ms)
+✔ response-delay control forwards the same real response object without replacing its body/status (16.832862ms)
+✔ source plan pins product fix, qualified reused host/helper inputs and every new namespace source (7.382615ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 13
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 561.423786

@@ -1,0 +1,12 @@
+{
+  "status": "PRESERVED_FIRST_TWO_LOCAL_OUTPUT_ADMISSION_REFUSALS",
+  "kind": "DANGLING_LOCAL_GENERATED_OUTPUT_SYMLINK",
+  "path": "cp6-proof/t3/SKU_TARGETED_CLIENT.json",
+  "expected": "Regular producer-pinned actual client report, never a symlink",
+  "observed": "Dangling symlink refused before runtime imports/SQL; the same path reappeared after exactly one lossless quarantine.",
+  "actor_attribution": null,
+  "quarantines": 1,
+  "validator_relaxations": 0,
+  "subsequent_route": "Fresh registered immutable tracked source proof worktree, retained exact Original21 input outside checkout.",
+  "Native_financial": 0
+}

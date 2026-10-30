@@ -1,0 +1,35 @@
+{
+  "scripts/cp7_sku_pair_conversion/composition.py": {
+    "scope": "CURRENT_BUSINESS_SOURCE_READER",
+    "old": {
+      "bytes": 9372,
+      "sha256": "dbc2f01afd97ef2b9a231611d4510da623cb1cebf5455da67c52dd3df7130849"
+    },
+    "current": {
+      "bytes": 10252,
+      "sha256": "fa3e825b251252ae11c2b68eecd9e55562526b468f03a01ebc3d5213ed472be8"
+    }
+  },
+  "scripts/cp7_sku_pair_conversion/conversion.sql": {
+    "scope": "CURRENT_BUSINESS_SOURCE_READER",
+    "old": {
+      "bytes": 20061,
+      "sha256": "4b26a65beae5defc877589dae756ce2adc9ecb19b3b9a3b68c86765a4c434961"
+    },
+    "current": {
+      "bytes": 22975,
+      "sha256": "eece6fbed8cb13b73a49ec2e051478d6ba2a8b1002f6745b8c682db318595d72"
+    }
+  },
+  "scripts/cp7_sku_pair_conversion/README.md": {
+    "scope": "DOCUMENTATION_METADATA_ONLY",
+    "old": {
+      "bytes": 5839,
+      "sha256": "717878b2931225ba446304c70cf9d00029937d46db600801cf39577691806d3f"
+    },
+    "current": {
+      "bytes": 6514,
+      "sha256": "41786ad8f71edcc60faaa884e77de632f4674134ac310897f1598f776a15af8d"
+    }
+  }
+}
