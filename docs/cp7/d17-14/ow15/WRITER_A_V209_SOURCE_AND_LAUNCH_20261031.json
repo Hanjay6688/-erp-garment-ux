@@ -1,0 +1,144 @@
+{
+  "classification": "WRITER_A_SOURCE_SUCCESSORS_AND_FAILED_ACTUAL_INTAKE_NOT_COMPLETION",
+  "recorded_at_utc": "2026-10-30T19:13:03.641Z",
+  "root_parent": "e9f4c09ef48968a88d0908334ca3b7e03243176d",
+  "SKU": {
+    "head": "e9256772579f387df77dde949f8ea619cbd86856",
+    "tree": "8de422523afa42c20d85e830749ed232b7edc6b9",
+    "parent": "58c8e1535c6b5296f07ca41d5eb90cb28ed2872c",
+    "local_prepublication": "d502689609e74b2cb7eb4c1924939fade004e273",
+    "branch": "astra-a/sku-managed-recovery-native27-20261030",
+    "run_id": 41109346033,
+    "job_id": 124247417634,
+    "status": "in_progress",
+    "conclusion": null,
+    "exact_changed_paths": 20,
+    "source_files": 125,
+    "Python_controls_passed": 58,
+    "unchanged_Node_controls_reused": 7,
+    "committed_source_preflight": "PASS",
+    "changes": [
+      "Retain exact failed58c8 Original and both attempts; no partial aggregation",
+      "Real Asia/Jakarta clock must leave more than complete210min workflow budget before midnight; refuse before DB and at runtime",
+      "One inherited runtime attempt preserves first report/status/errors and restores original entry point"
+    ],
+    "Native_product_or_browser_case_changes": false,
+    "complete27_qualified": false,
+    "prior_partial_results_aggregated": false,
+    "local_evidence": {
+      "SKU_58C8_SINGLE_ATTEMPT_CONTROLS_20261031.log": {
+        "bytes": 269,
+        "sha256": "ba39dc0d345a6659f7e46f11d0b6005cdbd36e43ed6d702386a6ad56d2d40cfe"
+      },
+      "SKU_SINGLE_ATTEMPT_COMMITTED_PREFLIGHT_20261031.json": {
+        "bytes": 8609,
+        "sha256": "03996e9e856dc18ee9e363a0e4a6903e93001994f5b02f3e3df7ed957e4f7a98"
+      }
+    }
+  },
+  "S03": {
+    "head": "a2096c570b6a0300b8ef299d6a167b68849e427d",
+    "tree": "9732ed1ecfe9b14e78adef4e4e12c9b960b92714",
+    "parent": "89ab76595424fa55cda3923fbe4499b7b7abf16b",
+    "local_prepublication": "924bab0d7d71f271262f464c1a6c511a088a5d6b",
+    "branch": "astra-a/s03-browser4-lawful-qualification-20261030",
+    "run_id": 41113128260,
+    "job_id": 124260357407,
+    "status": "in_progress",
+    "conclusion": null,
+    "changed_paths": 43,
+    "source_files": 2409,
+    "counted_reversible_change_groups": 45,
+    "controls": {
+      "Node_passed": 15,
+      "Python_last_full": {
+        "run": 94,
+        "passed": 93,
+        "failed": 1,
+        "reason": "Previous exact workflow fixture omitted newly required clock guard"
+      },
+      "corrected_targeted_test_passed": 1,
+      "one_full94PASS_run_claim": false,
+      "final_committed_source_check": "SOURCE_PASS"
+    },
+    "changes": [
+      "Keep every fresh full source/Original gate before ERP access; remove one duplicate gate per fixture operation",
+      "Memoize only within a single source inventory traversal; exact full path graph unchanged and next invocation remains fresh",
+      "Observe pending waitForResponse rejection immediately while returning the original rejected promise; timeout stays INCOMPLETE and cleanup can run",
+      "Strict generated output classification matches real pool_history and loopback_api_origin producers",
+      "Real WIB budget240min and one runtime attempt; preserve exact89ab failure and full prior source preimages"
+    ],
+    "four_financial_case_bodies_exact": true,
+    "Native_SQL_changed": false,
+    "browser4_qualified": false,
+    "actual_primary_Auth_restore_proven_for_successor": false,
+    "local_evidence": {
+      "S03_89AB_SUCCESSOR_NODE_20261031.log": {
+        "bytes": 1635,
+        "sha256": "7f28c227b23f3d171a3cf8f55dd480e33f25742a884bd399e5a9b488e4eb31b0"
+      },
+      "S03_89AB_SUCCESSOR_PYTHON_FIRST_FAILURE_20261031.log": {
+        "bytes": 1181,
+        "sha256": "10113444b51398b8a2ce59e370fd89dc9a30d145a4d7b08b5c4daf37c8215b50"
+      },
+      "S03_89AB_SUCCESSOR_WORKFLOW_EXPECTATION_FAILURE_20261031.log": {
+        "bytes": 1241,
+        "sha256": "adb85371fed5540cc7222726fa980ee9fe29f205c2e3684eb860b077291182d3"
+      },
+      "S03_89AB_SUCCESSOR_TARGETED_20261031.log": {
+        "bytes": 297,
+        "sha256": "a0189e198412429ef69d7eaf45158455bf00a929636cd0bde7246108516024d6"
+      },
+      "S03_89AB_SUCCESSOR_SOURCE_20261031.json": {
+        "bytes": 93,
+        "sha256": "8652d44616e20c6333636c8914516cf42ac1a5684af3dc3176dae4a5c692e0cf"
+      },
+      "S03_89AB_INVENTORY_COMPARISON_20261031.json": {
+        "bytes": 520,
+        "sha256": "be469ea9ead2798f7eb9437a3b59aab57be28d3b06862115e4ad7841089471d8"
+      },
+      "S03_SOURCE_ONLY_PROFILE_20261031.txt": {
+        "bytes": 1396,
+        "sha256": "ea80a7a99b06e4642762e5bb7dc08df59336e6114c5f6815fa2ccd8db8a2af9d"
+      }
+    }
+  },
+  "unified": {
+    "head": "e4915c0b7b8b3cd04293ef8289317ae93cf46597",
+    "tree": "1e27c59bdbf0094b2e9142e4afa15c7df7a3c034",
+    "parent": "18be779b9a31b07bad09e7d98c022026448e8265",
+    "local_prepublication": "e92bb66e0b63cd888c516ad0eeef20871f7ea7d2",
+    "branch": "astra-a/unified-sku-s05-candidate-20261030",
+    "SKU_source": "e9256772579f387df77dde949f8ea619cbd86856",
+    "exact_SKU_paths_imported": 20,
+    "S05_source20_pins_verified": true,
+    "unchanged_S05_UI_tests_reused": 61,
+    "actual_current_combined_qualification": false,
+    "S05_current_combined_runtime_waits_for_full_SKU27": true
+  },
+  "formal_accepted": "5/16",
+  "production_go": false,
+  "independent_acceptance": false,
+  "v209_durable_evidence": [
+    {
+      "file_name": "ERP_SKU_58c8e15_Actual_20261031.zip",
+      "library_file_id": "libfile_90de57c7d94081918ac0db9581237e9c",
+      "file_id": "file_0000000013ac81fdae32ed90358ab768",
+      "current_version_number": 0
+    },
+    {
+      "file_name": "ERP_S03_89ab_Actual_Text_Evidence_20261031.zip",
+      "library_file_id": "libfile_21d6f6a831a88191ad99672353f5515d",
+      "file_id": "file_00000000d0a88230a8a7a3c505cb0d82",
+      "current_version_number": 0
+    },
+    {
+      "file_name": "ERP_Writer_A_Single_Attempt_Source_Validation_20261031.zip",
+      "library_file_id": "libfile_c89b0266c4dc8191860710fe706e0c5c",
+      "file_id": "file_000000006fb081fd8d99d4736652acf8",
+      "current_version_number": 0
+    }
+  ],
+  "S03_text_evidence_archive_is_not_full_canonical_Original": true,
+  "S03_text_evidence_archive_excludes_browser_screenshots_and_two_clone_dumps": true
+}

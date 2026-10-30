@@ -397,7 +397,7 @@ def checked(g, docs, src):
         financial_or_product_change_authorized=False, **NO_GO)
 
 
-def raw_evidence(z, component):
+def raw_evidence(z, component, *, expected_noeffect=14):
     """Every referenced full refusal/replay census, plus complete cost prefixes.
 
     Inspect one large member at a time. The exact outer Original admits bytes;
@@ -416,7 +416,8 @@ def raw_evidence(z, component):
         elif type(value) is list:
             for child in value: walk(child)
     walk(component)
-    exact(len(references), 14, 'ROOT_SKU_ALL14_CURRENT_CENSUS_ORIGINALS')
+    require(type(expected_noeffect) is int and expected_noeffect > 0, 'ROOT_SKU_DECLARED_RAW_CENSUS_COUNT')
+    exact(len(references), expected_noeffect, 'ROOT_SKU_ALL_DECLARED_CURRENT_CENSUS_ORIGINALS')
     exact(set(references), {x for x in z.namelist() if x.endswith('_FULL_CURRENT_CENSUS.json')}, 'ROOT_SKU_NO_OMITTED_CENSUS_ORIGINAL')
     result = []
     for name, receipt in references.items():
@@ -453,7 +454,7 @@ def raw_evidence(z, component):
         chain = proof['after']; rows.append(dict(case_id=name, raw=pin(raw)))
     exact(chain, outer['after'], 'ROOT_SKU_GROUP_PREFIX_END')
     return dict(raw_full_noeffect_censuses=result, complete_cost_sequence_prefixes=rows,
-        all14_full22_all_rows_ALL15_sequence_raw_boundaries_exact=True,
+        **{f'all{expected_noeffect}_full22_all_rows_ALL15_sequence_raw_boundaries_exact': True},
         all5_cost_sequence_prefixes_original_and_contiguous=True, per_savepoint_sequence_restore_claim=False)
 
 

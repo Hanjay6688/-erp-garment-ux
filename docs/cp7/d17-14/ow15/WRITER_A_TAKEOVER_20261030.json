@@ -1,7 +1,7 @@
 {
   "classification": "WRITER_A_TAKEOVER_ACTIVE_CONTINUATION_NOT_COMPLETION",
-  "recorded_at_utc": "2026-10-30T16:09:14.622897+00:00",
-  "root_parent": "8d56ca8e13c218806f4a80bc2e047cab98a82759",
+  "recorded_at_utc": "2026-10-30T19:13:03.641Z",
+  "root_parent": "e9f4c09ef48968a88d0908334ca3b7e03243176d",
   "prior_chat_execution_observable": false,
   "current_work_is_isolated": true,
   "midnight_root_intake_receipt": "MIDNIGHT_NATIVE1_E787_ROOT_INTAKE_20261030.json",
@@ -30,7 +30,7 @@
     "UI_mounted": true,
     "production_go": false,
     "independent_acceptance": false,
-    "mount_source_head": "590bb2ae49e32fa01489551d75858166660f9d35",
+    "mount_source_head": "e4915c0b7b8b3cd04293ef8289317ae93cf46597",
     "actual_current_composite_browser_qualified": false
   },
   "global_source": {
@@ -63,107 +63,105 @@
   "original_intake_mutation_controls": 47,
   "running": [
     {
-      "classification": "SOURCE_SUCCESSOR_FRESH_COMPLETE27_PENDING",
-      "recorded_at_utc": "2026-10-30T16:09:14.622897+00:00",
-      "head": "58c8e1535c6b5296f07ca41d5eb90cb28ed2872c",
-      "tree": "500e0326b140e7e5d7a59b3824a2243334937ed3",
-      "parent": "0938b693dee868ba74323f4ff61db70efdd11e89",
-      "local_prepublication": "59b7b4de286f720e33d0ff76f0cd8ab90a85bc78",
-      "run_id": 41086555559,
-      "job_id": 124169121755,
-      "status": "IN_PROGRESS_AT_LAST_API_OBSERVATION",
-      "source_paths": 19,
-      "previous_actual_receipt": "SKU_0938_ROOT_ACTUAL_INTAKE_20261030.json",
+      "head": "e9256772579f387df77dde949f8ea619cbd86856",
+      "tree": "8de422523afa42c20d85e830749ed232b7edc6b9",
+      "parent": "58c8e1535c6b5296f07ca41d5eb90cb28ed2872c",
+      "local_prepublication": "d502689609e74b2cb7eb4c1924939fade004e273",
+      "branch": "astra-a/sku-managed-recovery-native27-20261030",
+      "run_id": 41109346033,
+      "job_id": 124247417634,
+      "status": "in_progress",
+      "conclusion": null,
+      "exact_changed_paths": 20,
+      "source_files": 125,
+      "Python_controls_passed": 58,
+      "unchanged_Node_controls_reused": 7,
+      "committed_source_preflight": "PASS",
       "changes": [
-        "Require locked source and enabled Reconcile after reload with an uncertain committed reply; require enabled source after authoritative recovery",
-        "Use exact posted member row and authoritative fixture commercial source/target SKU labels for inverse button",
-        "Run staged AI independent Native readback under READ COMMITTED; state census remains REPEATABLE READ"
+        "Retain exact failed58c8 Original and both attempts; no partial aggregation",
+        "Real Asia/Jakarta clock must leave more than complete210min workflow budget before midnight; refuse before DB and at runtime",
+        "One inherited runtime attempt preserves first report/status/errors and restores original entry point"
       ],
-      "Python_tests": 52,
-      "Node_tests": 7,
-      "rendered_JSX_named_selector_controls": 4,
-      "old_0938_recovery_and_history_helpers_reproduced_red": true,
-      "wrong_state_and_label_negative_controls": true,
-      "old_0938_AI_readback_fresh_access_refusal_reproduced": true,
-      "committed_source_preflight": {
-        "bytes": 8566,
-        "sha256": "b322ca36ffe0c96690c1f4dc4b73e837237943110414b5a44cfe7e0d4c80661f"
-      },
-      "all_case_ids_and_financial_expected_values_unchanged": true,
-      "all_complete_census_assertions_unchanged": true,
-      "whole_browser_body_byte_identity_claim": false,
-      "Native_product_changed": false,
+      "Native_product_or_browser_case_changes": false,
+      "complete27_qualified": false,
       "prior_partial_results_aggregated": false,
-      "actual_new_qualification_credit": 0,
-      "production_go": false,
-      "independent_acceptance": false
+      "local_evidence": {
+        "SKU_58C8_SINGLE_ATTEMPT_CONTROLS_20261031.log": {
+          "bytes": 269,
+          "sha256": "ba39dc0d345a6659f7e46f11d0b6005cdbd36e43ed6d702386a6ad56d2d40cfe"
+        },
+        "SKU_SINGLE_ATTEMPT_COMMITTED_PREFLIGHT_20261031.json": {
+          "bytes": 8609,
+          "sha256": "03996e9e856dc18ee9e363a0e4a6903e93001994f5b02f3e3df7ed957e4f7a98"
+        }
+      }
     },
     {
-      "classification": "CANCELLED_HISTORY_HARNESS_SOURCE_SUCCESSOR_FRESH_BROWSER4_PENDING",
-      "head": "89ab76595424fa55cda3923fbe4499b7b7abf16b",
-      "tree": "db63154b4beda614863b665970e0ea0c14d3c754",
-      "parent": "30ee9874d049632050faf53b299a0cd8a11fe9f6",
-      "run_id": 41080255432,
-      "status": "IN_PROGRESS_AT_LAST_API_OBSERVATION",
-      "recorded_at_utc": "2026-10-30T16:09:14.622897+00:00",
-      "previous_runs": [
-        {
-          "head": "ae83782c5dc0701f3b5325375a743b2a08e4ce3d",
-          "run_id": 41044533553,
-          "conclusion": "CANCELLED_TIMEOUT",
-          "library_file_id": "libfile_0935ec92abf08191ba81f89f847a37d6"
+      "head": "a2096c570b6a0300b8ef299d6a167b68849e427d",
+      "tree": "9732ed1ecfe9b14e78adef4e4e12c9b960b92714",
+      "parent": "89ab76595424fa55cda3923fbe4499b7b7abf16b",
+      "local_prepublication": "924bab0d7d71f271262f464c1a6c511a088a5d6b",
+      "branch": "astra-a/s03-browser4-lawful-qualification-20261030",
+      "run_id": 41113128260,
+      "job_id": 124260357407,
+      "status": "in_progress",
+      "conclusion": null,
+      "changed_paths": 43,
+      "source_files": 2409,
+      "counted_reversible_change_groups": 45,
+      "controls": {
+        "Node_passed": 15,
+        "Python_last_full": {
+          "run": 94,
+          "passed": 93,
+          "failed": 1,
+          "reason": "Previous exact workflow fixture omitted newly required clock guard"
         },
-        {
-          "head": "30ee9874d049632050faf53b299a0cd8a11fe9f6",
-          "run_id": 41049049321,
-          "conclusion": "CANCELLED_TIMEOUT",
-          "library_file_id": "libfile_3a7861239b848191bcef9e4247dc1f7e"
-        }
-      ],
-      "previous_full_outer_restore": "NOT_PROVEN_MAIN_ABSENT",
-      "first_mobile_error": "CP7_S03_ALLOCATION_BEFORE_WIP_AVAILABLE after successful CANCEL_ALLOCATION",
-      "diagnosis": "Historical CANCELLED observation incorrectly required current carry allocation eligibility; Native14 deliberately refuses pre-restoration output reuse.",
+        "corrected_targeted_test_passed": 1,
+        "one_full94PASS_run_claim": false,
+        "final_committed_source_check": "SOURCE_PASS"
+      },
       "changes": [
-        "Retain first Native-validated ACTIVE header, manifest, children, allocation metadata and original journal/lines",
-        "CANCELLED requires exact prior authority and one dated linked inverse with all dimensions and amounts",
-        "Retain first cancelled history through later decision reversal and other pool cancellation",
-        "Missing/duplicate historical pool or status regression refuses",
-        "Allow240min for all four complete journeys and outer restoration"
+        "Keep every fresh full source/Original gate before ERP access; remove one duplicate gate per fixture operation",
+        "Memoize only within a single source inventory traversal; exact full path graph unchanged and next invocation remains fresh",
+        "Observe pending waitForResponse rejection immediately while returning the original rejected promise; timeout stays INCOMPLETE and cleanup can run",
+        "Strict generated output classification matches real pool_history and loopback_api_origin producers",
+        "Real WIB budget240min and one runtime attempt; preserve exact89ab failure and full prior source preimages"
       ],
-      "source_files": 2384,
-      "counted_reversible_change_groups": 39,
-      "Python_tests": 85,
-      "Node_tests": 12,
-      "source_preflight": {
-        "bytes": 93,
-        "sha256": "8652d44616e20c6333636c8914516cf42ac1a5684af3dc3176dae4a5c692e0cf"
-      },
-      "four_financial_callback_bodies_exact": true,
+      "four_financial_case_bodies_exact": true,
       "Native_SQL_changed": false,
-      "ordinary_Native_validation_retained": true,
-      "phase_specific_FG_HPP_GL_inverse_oracles_exact": true,
-      "peer_review": {
-        "scope": "Bounded source only",
-        "finding": "Previously observed pool disappearing or changing status could escape observation",
-        "resolution": "Every authority ID must occur exactly once; known status changes route to oracle and refuse",
-        "controls": [
-          "disappearance",
-          "duplicate observation",
-          "DRAFT",
-          "VOIDED"
-        ]
-      },
-      "first_local_suite": {
-        "tests": 85,
-        "failures": 6,
-        "errors": 11,
-        "reason": "Historical source-reader test fixtures and workflow producer pins needed explicit new transition bindings; no financial assertion changed"
-      },
-      "final_local_suite": "85_PASS",
-      "actual_new_browser_credit": 0,
-      "production_go": false,
-      "independent_acceptance": false,
-      "job_id": 124147137480
+      "browser4_qualified": false,
+      "actual_primary_Auth_restore_proven_for_successor": false,
+      "local_evidence": {
+        "S03_89AB_SUCCESSOR_NODE_20261031.log": {
+          "bytes": 1635,
+          "sha256": "7f28c227b23f3d171a3cf8f55dd480e33f25742a884bd399e5a9b488e4eb31b0"
+        },
+        "S03_89AB_SUCCESSOR_PYTHON_FIRST_FAILURE_20261031.log": {
+          "bytes": 1181,
+          "sha256": "10113444b51398b8a2ce59e370fd89dc9a30d145a4d7b08b5c4daf37c8215b50"
+        },
+        "S03_89AB_SUCCESSOR_WORKFLOW_EXPECTATION_FAILURE_20261031.log": {
+          "bytes": 1241,
+          "sha256": "adb85371fed5540cc7222726fa980ee9fe29f205c2e3684eb860b077291182d3"
+        },
+        "S03_89AB_SUCCESSOR_TARGETED_20261031.log": {
+          "bytes": 297,
+          "sha256": "a0189e198412429ef69d7eaf45158455bf00a929636cd0bde7246108516024d6"
+        },
+        "S03_89AB_SUCCESSOR_SOURCE_20261031.json": {
+          "bytes": 93,
+          "sha256": "8652d44616e20c6333636c8914516cf42ac1a5684af3dc3176dae4a5c692e0cf"
+        },
+        "S03_89AB_INVENTORY_COMPARISON_20261031.json": {
+          "bytes": 520,
+          "sha256": "be469ea9ead2798f7eb9437a3b59aab57be28d3b06862115e4ad7841089471d8"
+        },
+        "S03_SOURCE_ONLY_PROFILE_20261031.txt": {
+          "bytes": 1396,
+          "sha256": "ea80a7a99b06e4642762e5bb7dc08df59336e6114c5f6815fa2ccd8db8a2af9d"
+        }
+      }
     }
   ],
   "first_actual_browser_failure": {
@@ -244,12 +242,12 @@
   "independent_acceptance": false,
   "current_default": "cp7_vendor_receivable.composition",
   "next": [
-    "Intake full fresh SKU27 run41086555559; retain0938 first failures and never aggregate earlier partial passes",
-    "Intake full fresh S03 Browser4 run41080255432 with its main report and complete restoration",
-    "Run S05 reader and normal-App desktop/mobile on the one integrated candidate after exact SKU prerequisite qualifies",
-    "Use qualified global raw metadata to close current writer/lock/permission graph; metadata itself gives no business credit",
-    "Complete explicit Afui nonpayable basis and dated GOOD/recost/reversal path; no fake paid source",
-    "FG Mandor chosen-week payroll remains fully recorded after active integration stability"
+    "Intake exact e925 full27 run41109346033 and complete restoration; do not add prior partial passes",
+    "Intake exact a209 Browser4 run41113128260; require complete primary Auth and clone restoration",
+    "Qualify S05 reader and normal-App desktop/mobile on e491 combined candidate after exact SKU prerequisite qualifies",
+    "Complete current global writer/lock/permission and actual two-session proofs using existing qualified metadata",
+    "Complete explicit Afui nonpayable dated basis, GOOD/recost/reversal; no fake paid source",
+    "FG Mandor chosen-week payroll remains recorded after active integration stability"
   ],
   "prior_checkpoint": {
     "classification": "WRITER_A_TAKEOVER_ACTIVE_CONTINUATION_NOT_COMPLETION",
@@ -515,78 +513,46 @@
     }
   },
   "latest_S03_actual_failure": {
-    "classification": "ROOT_RECOMPUTED_ACTUAL_FAILURE_AND_RESTORATION_NOT_QUALIFICATION",
-    "head": "4d968a42e793a77c2dbcbe06dd79c524f18fa0f5",
-    "run_id": 41033738459,
-    "artifact_id": 12969123916,
+    "status": "EXACT_89AB_FAILED_ORIGINALS_AND_INCOMPLETE_PRIMARY_RESTORE_VERIFIED",
+    "head": "89ab76595424fa55cda3923fbe4499b7b7abf16b",
+    "tree": "db63154b4beda614863b665970e0ea0c14d3c754",
+    "run_id": 41080255432,
+    "job_id": 124147137480,
+    "artifact_id": 12995817396,
     "archive": {
-      "name": "ERP_S03_Browser4_4d968_FirstAuditRightsFailure_20261030.zip",
-      "bytes": 165206613,
-      "sha256": "e841f3026e2a7dac9f1ddfea013748572f14cd67ee9dcbbca47a303137469e14",
-      "members": 159,
-      "CRC_ok": true,
-      "private_Original_Library_file_id": "libfile_3f178e36455c8191bb2e284c39775d0b"
+      "bytes": 325434628,
+      "sha256": "72885264769d57c0bd0970410808dc4a26429b07a8c970d8e39eec9623703452"
     },
-    "main_original": {
-      "name": "CP7_S03_MOUNTED_FULL_APP_BROWSER4.json",
-      "bytes": 1576904,
-      "sha256": "b526758031cf1b2b1ddd4b9be478fcfc00facfafe941969452be85b6b19fcf75"
-    },
-    "status": "INCOMPLETE",
-    "complete_outer_restore": {
-      "baseline_full22_all_rows_all_sequences_equal": true,
-      "restore_raw_public_equal": true,
-      "cp6_restored": true,
-      "baseline_advisors_equal": true,
-      "advisor_gate": true,
-      "roles_exact": true,
-      "restore_components": {
-        "erp_platform_auth_schema_acl": true,
-        "all_public_catalog_members_and_row_hashes": true,
-        "erp_public_auth_function_definitions_owners_acls": true
+    "crc_members": 180,
+    "originals": {
+      "CP7_S03_MOUNTED_FULL_APP_BROWSER4.json": {
+        "bytes": 1555048,
+        "sha256": "d8ddd1bea497c5a23e8e33d830580489f52c44a7a4ad8f051aedff2b6159b323"
+      },
+      "T3_PACKAGE_INSTALL.json": {
+        "bytes": 360438,
+        "sha256": "37fd019c52caf61a2a92264df5eea552b6902bc3926fcd76a6b2a868daad5a5b"
+      },
+      "S03_BROWSER4_FINAL_GATE.json": {
+        "bytes": 216,
+        "sha256": "48637d275b742f3e9383ca65bf2d2d1fdc212d8196deee2607839a00c0bf1c89"
+      },
+      "S03_BROWSER4_HOST_ORIGINAL_cp6-auditor-browser-dx6j2xu_.json.gz": {
+        "bytes": 5952,
+        "sha256": "4247f158a2b5a69d6f74872efb0615b36cf7ba12fc87eb9dcc4d7619f98be086"
       }
     },
-    "package_gates": {
-      "installed": true,
-      "primary_unchanged": true,
-      "backup_restore_drill": true,
-      "security_advisors": true,
-      "writer_runtime": false
-    },
-    "all_five_gates_pass": false,
-    "Auth_users_before": 0,
-    "Auth_users_after": 0,
-    "qualified_case_credit": 0,
-    "old_partial_runs_aggregated": false,
-    "source_acceptance_claim": false,
-    "formal_accepted": "5/16",
-    "production_go": false,
-    "independent_acceptance": false,
     "observed_browser_counts": {
       "PASS": 1,
-      "INCOMPLETE": 3
+      "INCOMPLETE": 1,
+      "NOT_REACHED": 2
     },
-    "case_results": {
-      "S03_BROWSER_OWNER_EXPENSE_CORRECT_REVERSE_DESKTOP": {
-        "status": "PASS",
-        "failure": null
-      },
-      "S03_BROWSER_OWNER_CARRY_ALLOCATE_CANCEL_MOBILE390": {
-        "status": "INCOMPLETE",
-        "failure": "ORIGINAL_ACCRUAL_OR_APPROVAL_AUDIT_CHANGED"
-      },
-      "S03_BROWSER_ACTUAL_STALE_AND_LOST_REPLY_SAME_UUID": {
-        "status": "INCOMPLETE",
-        "failure": "ORIGINAL_ACCRUAL_OR_APPROVAL_AUDIT_CHANGED"
-      },
-      "S03_BROWSER_CURRENT_AUTH_RIGHTS_AND_DELAYED_CONTEXT": {
-        "status": "INCOMPLETE",
-        "failure": "PROTECTED_OWNER_ROLE_CANNOT_BE_CHANGED"
-      }
-    },
-    "original_host_bytes_and_hashes_verified": true,
-    "database_remaining": 0,
-    "auth_counts": {
+    "actual_case_qualification_credit": 0,
+    "browser4_qualified": false,
+    "clone_full_restore_source_bound_receipts": true,
+    "outer_raw_before_after_not_serialized": true,
+    "primary_Auth_restored": false,
+    "Auth_counts": {
       "before": [
         0,
         0,
@@ -594,184 +560,218 @@
         0
       ],
       "after": [
-        0,
-        0,
-        0,
-        0
+        2,
+        2,
+        4,
+        4
       ],
-      "restored": true
+      "restored": false
     },
-    "timezone_actual_raw_comparison": {
-      "scenarios": [
-        "MOBILE390",
-        "STALE"
-      ],
-      "changed_fields_per_scenario": [
-        "headers.created_at",
-        "headers.posting_at",
-        "approval_audit.changed_at"
-      ],
-      "offsets": [
-        "+07:00",
-        "+00:00"
-      ],
-      "all_differences_same_instants": true,
-      "all_other_raw_fields_and_rows_exact": true,
-      "evidence": {
-        "bytes": 2609,
-        "sha256": "26cf2678922ebca24f38b66d336d9067b720e3fa033f94ef0580029a6e557c65"
-      },
-      "runtime_normalizer_allowed": false
+    "package_gates": {
+      "installed": true,
+      "primary_unchanged": false,
+      "backup_restore_drill": true,
+      "security_advisors": true,
+      "writer_runtime": false
     },
-    "protected_Owner_guard_preserved": true,
-    "view_only_protected_Owner_supported": false,
-    "successor_scope": "Scoped UTC source reads and explicit lawful current-actor access transition; preserve Native role protection and financial oracles"
+    "mobile_snapshot_count": 31,
+    "last_snapshot": "S03_B4_MOBILE390_A31FB9A5C732463088057BB5DA8C099B_031_BEFORE_POOL_READ_FULL_STATE.json.gz",
+    "whole_mobile_case_not_complete": true,
+    "production_go": false,
+    "independent_acceptance": false
   },
   "latest_SKU_actual_failure": {
-    "status": "EXACT_0938_FIRST_FAILURE_AND_RAW_BOUNDARIES_VERIFIED",
-    "head": "0938b693dee868ba74323f4ff61db70efdd11e89",
-    "tree": "0e0ebd209fbea1b63c9283c02ffb4ce6cfb1e87f",
-    "run_id": 41070902168,
-    "job_id": 124114405860,
-    "artifact_id": 12989469942,
+    "status": "EXACT_58C8_TWO_ATTEMPTS_FAILURE_AND_RAW_BOUNDARIES_VERIFIED",
+    "head": "58c8e1535c6b5296f07ca41d5eb90cb28ed2872c",
+    "tree": "500e0326b140e7e5d7a59b3824a2243334937ed3",
+    "run_id": 41086555559,
+    "job_id": 124169121755,
+    "artifact_id": 12997219671,
     "archive": {
-      "bytes": 73310874,
-      "sha256": "b8f58b099ad12ff208e05dfaec8dc38472886e8a946b80033b8fd5b8d2d65dc1",
-      "library_file_id": "libfile_83aa1c2f0dd08191ac9743ab1914d09b"
+      "bytes": 81653650,
+      "sha256": "dc5c8221b77ecb241e1b5661c124b9c9a577b03254687bdeb471478ad998dcef"
     },
-    "crc_members": 171,
+    "crc_members": 152,
     "originals": {
       "CP7_SKU_MANAGED_RECOVERY_NATIVE27.json": {
-        "bytes": 30200448,
-        "sha256": "303cf04136ddff40a57c9079f61cc470370f5bbede763d5c035bf2a11f8aa3e0"
+        "bytes": 6081688,
+        "sha256": "a38e8b3e511da4c91d441e0fc84478ff767f158c55f5f245ebd133b42c167ecc"
       },
       "CP7_SKU_PAIR_CONVERSION_NATIVE7.json": {
-        "bytes": 21042,
-        "sha256": "e1ef332bf6d38c3ef75a75aee46c608717e93aa16d2e302bff879a39ed609983"
+        "bytes": 21043,
+        "sha256": "f220f89163c7b8d94804084dd92daecb833966faa25bcbcc9def8c8b1ee65e8b"
       },
       "CP7_SKU_GROUP_COST_NATIVE5.json": {
-        "bytes": 39067,
-        "sha256": "ab39226794c2a63f49c85381e958d1c5b628d2433ccbc261563350bf0a45a131"
+        "bytes": 39065,
+        "sha256": "2f3b41473323152b8847ac9366cad89da03e9e346b0586ea74a4939e5e3d0b7c"
       },
       "T3_PACKAGE_INSTALL.json": {
         "bytes": 360424,
-        "sha256": "c2538238f9f7fbb8bdf3b75651c0dce5a1adcb6546111ee612bbbd4eda7aa8e7"
+        "sha256": "70248658c7add5efed662b3325d93a2e2369aaba9bd30124ec291ad7d7f57b16"
       },
       "T3_BACKUP_RESTORE_DRILL.json": {
         "bytes": 1470,
-        "sha256": "8411c075db0682c369d80fc76dfba7ff1ba84f35102be21c6116f8ee244acf94"
+        "sha256": "d85f45a0e726750591f4b8ae12a77fc94a05070c69feb9896b76e4d600474e72"
       }
     },
     "raw_evidence": {
       "raw_full_noeffect_censuses": [
         {
-          "name": "SKU_COST_RECOVERY_OVER_FIRST_PART_REFUSAL_20eb3be072dc_FULL_CURRENT_CENSUS.json",
+          "name": "SKU_COST_RECOVERY_OVER_FIRST_PART_REFUSAL_694ae0d48b6d_FULL_CURRENT_CENSUS.json",
           "bytes": 43100594,
-          "sha256": "8653debb2579a0476194d4a9b3a74458bc61344a22aa40c488384bc905f2b79f",
+          "sha256": "680600e1e825fa1ba4a08e755426432ae0fa67ec1f7679b519a6037e60700bd9",
           "tables": 685,
           "sequences": 15,
           "catalog_groups": 22
         },
         {
-          "name": "SKU_COST_PART_1_USAGE_SAME_UUID_REPLAY_163726023d5b_FULL_CURRENT_CENSUS.json",
+          "name": "SKU_COST_PART_1_USAGE_SAME_UUID_REPLAY_3cd3664cfb39_FULL_CURRENT_CENSUS.json",
           "bytes": 43100592,
-          "sha256": "7847c6ff9a8cce2e7bbf79343e7940786229be62df3a045776817f7a006030a5",
+          "sha256": "364c0b901c5f58c045cfa11cabbd47b8ff9aa497ea9eebd3829de77e0fc83b22",
           "tables": 685,
           "sequences": 15,
           "catalog_groups": 22
         },
         {
-          "name": "SKU_COST_PART_2_USAGE_SAME_UUID_REPLAY_242e95a75681_FULL_CURRENT_CENSUS.json",
+          "name": "SKU_COST_PART_2_USAGE_SAME_UUID_REPLAY_7ad771d5bc32_FULL_CURRENT_CENSUS.json",
           "bytes": 43100592,
-          "sha256": "77c5bd29bac35418654e3185bff3c777e72f13063bbd8a03a9ae869011b3d57d",
+          "sha256": "84475b3bda01150e621b83a5e069e0bf0d905fa566dffe6bc68ca0003b71658f",
           "tables": 685,
           "sequences": 15,
           "catalog_groups": 22
         },
         {
-          "name": "SKU_COST_LATE_INVOICE_SAME_UUID_REPLAY_d31674ca3515_FULL_CURRENT_CENSUS.json",
+          "name": "SKU_COST_LATE_INVOICE_SAME_UUID_REPLAY_408847023d2b_FULL_CURRENT_CENSUS.json",
           "bytes": 43100594,
-          "sha256": "b38418f2fe6b28111c1bb5b3dc36ab6a50b89ee7763ee24d35ad6a1197ae3bf1",
+          "sha256": "4698d2e82e2f07117d00406192f8691015fafac505609184f675bade28c8b57d",
           "tables": 685,
           "sequences": 15,
           "catalog_groups": 22
         },
         {
-          "name": "SKU_COST_GROUP_INVERSE_FIRST_PART_ACTIVE_USAGE_5fc855496f76_FULL_CURRENT_CENSUS.json",
+          "name": "SKU_COST_GROUP_INVERSE_FIRST_PART_ACTIVE_USAGE_5c616c2ca26a_FULL_CURRENT_CENSUS.json",
           "bytes": 43100592,
-          "sha256": "655047daea5e1182b50f21d80ea21163b8bce9a379d7979ffee9008c040459cf",
+          "sha256": "096bdebe64be464673a1c12d3dc7363e2e5104a45f398815aee37337a0578115",
           "tables": 685,
           "sequences": 15,
           "catalog_groups": 22
         },
         {
-          "name": "SKU_COST_DIRECT_PARTIAL_INVERSE_REFUSAL_5ede5dab819e_FULL_CURRENT_CENSUS.json",
+          "name": "SKU_COST_DIRECT_PARTIAL_INVERSE_REFUSAL_a80ba56f459a_FULL_CURRENT_CENSUS.json",
           "bytes": 43100592,
-          "sha256": "655047daea5e1182b50f21d80ea21163b8bce9a379d7979ffee9008c040459cf",
+          "sha256": "096bdebe64be464673a1c12d3dc7363e2e5104a45f398815aee37337a0578115",
           "tables": 685,
           "sequences": 15,
           "catalog_groups": 22
         },
         {
-          "name": "SKU_COST_RECOVERY_UNDER_SAME_UUID_REPLAY_deb3f692f54b_FULL_CURRENT_CENSUS.json",
+          "name": "SKU_COST_RECOVERY_UNDER_SAME_UUID_REPLAY_6239faf0aa14_FULL_CURRENT_CENSUS.json",
           "bytes": 43100596,
-          "sha256": "089dfa91d63d91fa15795401491a2526f10c1eb59f25bccab88bf8b327e15fe0",
+          "sha256": "c629fa4dcac7150540b342fae09f04592d08d2e6274bc2a8dfb938b4f4fbb061",
           "tables": 685,
           "sequences": 15,
           "catalog_groups": 22
         },
         {
-          "name": "SKU_COST_RECOVERY_EQUAL_SAME_UUID_REPLAY_28cee11a3394_FULL_CURRENT_CENSUS.json",
+          "name": "SKU_COST_RECOVERY_EQUAL_SAME_UUID_REPLAY_d75d0aee9d4e_FULL_CURRENT_CENSUS.json",
           "bytes": 43100596,
-          "sha256": "528f3452257e6c7953026e045e0b442b9cfad3918cc550ff29904bc348f32848",
+          "sha256": "143bdce9272885f2549581f1975a071e698c9fba3216cb0bc8e32a1737a0148e",
           "tables": 685,
           "sequences": 15,
           "catalog_groups": 22
         },
         {
-          "name": "SKU_COST_DISTINCT_UUID_POCKET_BUSY_COMMIT_e925a27bc056_FULL_CURRENT_CENSUS.json",
+          "name": "SKU_COST_DISTINCT_UUID_POCKET_BUSY_COMMIT_5cd40a730aaa_FULL_CURRENT_CENSUS.json",
           "bytes": 43100590,
-          "sha256": "de2569f0517b2ec02e23f5c54330c13f08eb12ac8832edce9fda9bf522b619bf",
+          "sha256": "199f4b1c3de064b74102e9b9e4bdb3a802de906b06a584c9de0a57411a88c799",
           "tables": 685,
           "sequences": 15,
           "catalog_groups": 22
         },
         {
-          "name": "SKU_COST_DISTINCT_UUID_COMMITTED_STALE_RETRY_440597daefba_FULL_CURRENT_CENSUS.json",
+          "name": "SKU_COST_DISTINCT_UUID_COMMITTED_STALE_RETRY_e38705480753_FULL_CURRENT_CENSUS.json",
           "bytes": 43100594,
-          "sha256": "184441b8059095a8206251a4cd4cd3089aabdbe79d8c47b294fc8dacac061d91",
+          "sha256": "7ecc4a6022de73f6189f2aff031a90c949b30a1f2ab2a6b8b957f41e44f584fc",
           "tables": 685,
           "sequences": 15,
           "catalog_groups": 22
         },
         {
-          "name": "SKU_COST_DISTINCT_UUID_POCKET_BUSY_ROLLBACK_e907994f0401_FULL_CURRENT_CENSUS.json",
+          "name": "SKU_COST_DISTINCT_UUID_POCKET_BUSY_ROLLBACK_80e71c13eaaf_FULL_CURRENT_CENSUS.json",
           "bytes": 43100590,
-          "sha256": "9c1918938fb753c624079d3952c7a9d68efb9741f392f5bacf02e12ae89d5f88",
+          "sha256": "484a99bb9ff53e65c8446dc8a43c94cc33604db0ab33789a9bd161843c6b6141",
           "tables": 685,
           "sequences": 15,
           "catalog_groups": 22
         },
         {
-          "name": "SKU_COST_RECOVERY_CACHE_PERMISSION_WAIT_19f51d32e9eb_FULL_CURRENT_CENSUS.json",
+          "name": "SKU_COST_RECOVERY_CACHE_PERMISSION_WAIT_99a14b93afac_FULL_CURRENT_CENSUS.json",
           "bytes": 43100598,
-          "sha256": "513b9ac51ad530e394fce6d24629f5678889ecfa2004a8172f393c1149c82095",
+          "sha256": "a1f89716409aeeba212d2be1eec5e87aa1bfcc4dce249f942ea048c52d8a8cb9",
           "tables": 685,
           "sequences": 15,
           "catalog_groups": 22
         },
         {
-          "name": "SKU_COST_RECOVERY_NONBLOCKING_FG_BUSY_c8c552a51240_FULL_CURRENT_CENSUS.json",
+          "name": "SKU_COST_RECOVERY_NONBLOCKING_FG_BUSY_a099c260f1be_FULL_CURRENT_CENSUS.json",
           "bytes": 43100598,
-          "sha256": "6d79f36eac173fadca7f9a6c8c4d82ff75faf4f7a70c8a05d6b2b0fe9e9d2680",
+          "sha256": "b37611bd175476ba8442a88bd015967299f3be99d2797bcaefbe60a9dbe6c5ab",
           "tables": 685,
           "sequences": 15,
           "catalog_groups": 22
         },
         {
-          "name": "SKU_COST_RECOVERY_NONBLOCKING_MATERIAL_NONE_BUSY_0982b5e203e6_FULL_CURRENT_CENSUS.json",
+          "name": "SKU_COST_RECOVERY_NONBLOCKING_MATERIAL_NONE_BUSY_c4fc8638651e_FULL_CURRENT_CENSUS.json",
           "bytes": 43100604,
-          "sha256": "c297241893dceb91d1297f3901ec5284e830947fd8a612d3c79c09ecef1968b8",
+          "sha256": "c9e16342d391d3e1ac666e095a1fb52b530ec05ff75444fca3f428485dd55269",
+          "tables": 685,
+          "sequences": 15,
+          "catalog_groups": 22
+        },
+        {
+          "name": "SKU_COST_DISTINCT_UUID_POCKET_BUSY_COMMIT_9c50266589f4_FULL_CURRENT_CENSUS.json",
+          "bytes": 43100590,
+          "sha256": "1b9ff65c034a6b3ccc15b37ddf23d60d364acd590c39607ca082b45c23aaf21f",
+          "tables": 685,
+          "sequences": 15,
+          "catalog_groups": 22
+        },
+        {
+          "name": "SKU_COST_DISTINCT_UUID_COMMITTED_STALE_RETRY_478ca8a1982d_FULL_CURRENT_CENSUS.json",
+          "bytes": 43100594,
+          "sha256": "ed1af52518561833132bda4e11759a706dc51e7243d8d9f40e61e57797e8b15e",
+          "tables": 685,
+          "sequences": 15,
+          "catalog_groups": 22
+        },
+        {
+          "name": "SKU_COST_DISTINCT_UUID_POCKET_BUSY_ROLLBACK_3492715d2aba_FULL_CURRENT_CENSUS.json",
+          "bytes": 43100590,
+          "sha256": "d527ff212d7fe4b9000a4fd8128b4d937cde31bf907b4cefa84290dc10dcdca3",
+          "tables": 685,
+          "sequences": 15,
+          "catalog_groups": 22
+        },
+        {
+          "name": "SKU_COST_RECOVERY_CACHE_PERMISSION_WAIT_8e5f833772f3_FULL_CURRENT_CENSUS.json",
+          "bytes": 43100598,
+          "sha256": "cab05eef506723f5dfe0f566bbc035876571c9809988388682c0f41b289621af",
+          "tables": 685,
+          "sequences": 15,
+          "catalog_groups": 22
+        },
+        {
+          "name": "SKU_COST_RECOVERY_NONBLOCKING_FG_BUSY_7ac88a3b5daa_FULL_CURRENT_CENSUS.json",
+          "bytes": 43100598,
+          "sha256": "c22f1e41dc20d1da2e2881c6a33118eb3424666deaef4241a61edaff27383b91",
+          "tables": 685,
+          "sequences": 15,
+          "catalog_groups": 22
+        },
+        {
+          "name": "SKU_COST_RECOVERY_NONBLOCKING_MATERIAL_NONE_BUSY_563c82e059aa_FULL_CURRENT_CENSUS.json",
+          "bytes": 43100604,
+          "sha256": "53686a5eb55cb4e2153d33f0a950c806e4e575a1470343caf744bd92f19c01e5",
           "tables": 685,
           "sequences": 15,
           "catalog_groups": 22
@@ -814,21 +814,22 @@
           }
         }
       ],
-      "all14_full22_all_rows_ALL15_sequence_raw_boundaries_exact": true,
+      "all20_full22_all_rows_ALL15_sequence_raw_boundaries_exact": true,
       "all5_cost_sequence_prefixes_original_and_contiguous": true,
       "per_savepoint_sequence_restore_claim": false
     },
-    "same_run_observed_counts": {
-      "PASS": 23,
-      "INCOMPLETE": 4
+    "Native7": true,
+    "cost5": true,
+    "first_attempt_counts": {
+      "PASS": 2,
+      "INCOMPLETE": 9
     },
+    "second_attempt_counts": {
+      "PASS": 11
+    },
+    "admitted_and_restored_copies": 22,
+    "browser_started": false,
     "complete27_qualified": false,
-    "first_errors": {
-      "SKU29_BROWSER_DESKTOP_REAL_AUTH_PAIR_FIFO_RECOVERY_INVERSE": "Error: expect(locator).toBeEnabled() failed\n\nLocator:  locator('.initial-import').filter({ has: getByRole('heading', { name: 'Ganti Merek / SKU', exact: true }) }).getByRole('combobox', { name: 'SKU asal dan gudang', exact: true })\nExpected: enabled\nReceived: disabled\nTimeout:  5000ms\n\nCall log:\n  - Expect \"to.be.enabled\" with timeout 5000ms\n  - waiting for locator('.initial-import').filter({ has: getByRole('heading', { name: 'Ganti Merek / SKU', exact: true }) }).getByRole('combobox', { name: 'SKU asal dan gudang', exact: true })\n    14 × locator resolved to <select disabled>…</select>\n       - unexpected value \"disabled\"\n\n    at captureRawStack (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright-core/lib/coreBundle.js:9681:17)\n    at callMatcherAsStep (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright/lib/matchers/expect.js:13310:57)\n    at Object.toBeEnabled (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright/lib/matchers/expect.js:13300:23)\n    at openConversion (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-sku-managed-recovery-native27-qualification/browser.mjs:110:263)\n    at async journey (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-sku-managed-recovery-native27-qualification/browser.mjs:176:53)\n    at async main (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:243:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:259:3",
-      "SKU29_BROWSER_MOBILE390_REAL_AUTH_PAIR_FIFO_GUARDS_INVERSE": "locator.click: Timeout 20000ms exceeded.\nCall log:\n  - waiting for locator('.initial-import').filter({ has: getByRole('heading', { name: 'Ganti Merek / SKU', exact: true }) }).locator('.panel').filter({ has: getByRole('heading', { name: 'Riwayat konversi', exact: true }) }).getByRole('row').filter({ hasText: 'BE-fea44e35-3c1f-4d39-9a65-7c2d623f1233' }).getByRole('button', { name: 'Batalkan CP6-E-S29-a1429d4b', exact: true })\n\n    at openInverse (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-sku-managed-recovery-native27-qualification/browser.mjs:113:85)\n    at async journey (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-sku-managed-recovery-native27-qualification/browser.mjs:198:3)\n    at async main (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:243:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:259:3",
-      "A_STAGED_AI_BROWSER_DESKTOP_MANUAL_AND_RETIRED_RESPONSES": "Error: Command failed: python /home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-sku-managed-recovery-native27-qualification/staged_ai_fixture.py read\nTraceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-sku-managed-recovery-native27-qualification/staged_ai_fixture.py\", line 137, in <module>\n    main()\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-sku-managed-recovery-native27-qualification/staged_ai_fixture.py\", line 121, in main\n    brief = staged.limited(cur, 'erp_cp7_get_staged_ai_brief_v1', (run, json.dumps(targets)), actor)\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-frozen-public-native-qualification/public_finance_cases.py\", line 22, in limited\n    if name not in routes:return staged_original.limited(cur,name,args,subject,timeout)\n                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_p19_staged_cases.py\", line 70, in limited\n    result = cur.execute('select public.' + name + '(' + placeholders + ')', args).fetchone()[0]\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.RaiseException: CP7_FRESH_ACCESS_REQUIRED\nCONTEXT:  PL/pgSQL function cp7_analysis_stage.ai_brief(uuid,jsonb) line 5 at RAISE\nSQL function \"erp_cp7_get_staged_ai_brief_v1\" statement 1\n\n    at genericNodeError (node:internal/errors:983:15)\n    at wrappedFn (node:internal/errors:537:14)\n    at checkExecSyncError (node:child_process:916:11)\n    at execFileSync (node:child_process:952:15)\n    at fixture (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-sku-managed-recovery-native27-qualification/staged_ai_cases.mjs:15:37)\n    at readPrompt (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-sku-managed-recovery-native27-qualification/staged_ai_cases.mjs:168:22)\n    at async journey (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-sku-managed-recovery-native27-qualification/staged_ai_cases.mjs:177:19)\n    at async main (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:243:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:259:3",
-      "A_STAGED_AI_BROWSER_MOBILE_MANUAL_AND_RETIRED_RESPONSES": "Error: Command failed: python /home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-sku-managed-recovery-native27-qualification/staged_ai_fixture.py read\nTraceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-sku-managed-recovery-native27-qualification/staged_ai_fixture.py\", line 137, in <module>\n    main()\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-sku-managed-recovery-native27-qualification/staged_ai_fixture.py\", line 121, in main\n    brief = staged.limited(cur, 'erp_cp7_get_staged_ai_brief_v1', (run, json.dumps(targets)), actor)\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-frozen-public-native-qualification/public_finance_cases.py\", line 22, in limited\n    if name not in routes:return staged_original.limited(cur,name,args,subject,timeout)\n                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_p19_staged_cases.py\", line 70, in limited\n    result = cur.execute('select public.' + name + '(' + placeholders + ')', args).fetchone()[0]\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.RaiseException: CP7_FRESH_ACCESS_REQUIRED\nCONTEXT:  PL/pgSQL function cp7_analysis_stage.ai_brief(uuid,jsonb) line 5 at RAISE\nSQL function \"erp_cp7_get_staged_ai_brief_v1\" statement 1\n\n    at genericNodeError (node:internal/errors:983:15)\n    at wrappedFn (node:internal/errors:537:14)\n    at checkExecSyncError (node:child_process:916:11)\n    at execFileSync (node:child_process:952:15)\n    at fixture (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-sku-managed-recovery-native27-qualification/staged_ai_cases.mjs:15:37)\n    at readPrompt (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-sku-managed-recovery-native27-qualification/staged_ai_cases.mjs:168:22)\n    at async journey (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-sku-managed-recovery-native27-qualification/staged_ai_cases.mjs:177:19)\n    at async main (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:243:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:259:3"
-    },
     "package_gates": {
       "installed": true,
       "primary_unchanged": true,
@@ -838,6 +839,7 @@
     },
     "outer_restore_receipts": true,
     "outer_raw_before_after_not_serialized": true,
+    "first_failure": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-vendor-receivable-qualification/probe.py\", line 111, in run_inner\n    with psycopg.connect(package.boundary.ADMIN)as conn,conn.cursor()as cur:\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-choice-finance-cron-qualification/phase_timing.py\", line 22, in measured\n    result = operation(*args, **kwargs)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-sku-combined-followup-qualification/runner.py\", line 122, in exercise\n    third = report.setdefault('fresh_real_Auth_browser4', dict(status='INCOMPLETE'))\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-sku-pair-concurrency-qualification/runner.py\", line 266, in exercise\nAssertionError\n",
     "prior_partial_results_aggregated": false,
     "production_go": false,
     "independent_acceptance": false
@@ -1356,7 +1358,7 @@
     "owner_direct_reaffirmation": {
       "date": "2026-10-30",
       "source": "USER message in active Writer A conversation",
-      "title": "HANDOFF WRITER A — PENJUALAN FG KE MANDOR, POTONG PAYROLL MINGGU PILIHAN",
+      "title": "HANDOFF WRITER A \u2014 PENJUALAN FG KE MANDOR, POTONG PAYROLL MINGGU PILIHAN",
       "exact_scope_instruction": "Catat sebagai scope tambahan. Kerjakan setelah blok integrasi aktif stabil, dengan A tetap integrator tunggal.",
       "exact_timing_discretion": "scope tambahan, lu kira kira aja saat paling tepat masukin ini kpan, klo mau selesain yg lama dulu silahkan. gas lanjut",
       "accepted": true,
@@ -1824,123 +1826,120 @@
     "independent_acceptance": false
   },
   "current_integrated_candidate": {
-    "head": "18be779b9a31b07bad09e7d98c022026448e8265",
-    "tree": "6c6ae1b68a4fb004e0feadfe8248ae41dce0bc5a",
-    "parent": "590bb2ae49e32fa01489551d75858166660f9d35",
-    "SKU_source": "58c8e1535c6b5296f07ca41d5eb90cb28ed2872c",
-    "exact_SKU_paths_imported": 19,
+    "head": "e4915c0b7b8b3cd04293ef8289317ae93cf46597",
+    "tree": "1e27c59bdbf0094b2e9142e4afa15c7df7a3c034",
+    "parent": "18be779b9a31b07bad09e7d98c022026448e8265",
+    "local_prepublication": "e92bb66e0b63cd888c516ad0eeef20871f7ea7d2",
+    "branch": "astra-a/unified-sku-s05-candidate-20261030",
+    "SKU_source": "e9256772579f387df77dde949f8ea619cbd86856",
+    "exact_SKU_paths_imported": 20,
     "S05_source20_pins_verified": true,
     "unchanged_S05_UI_tests_reused": 61,
-    "production_go": false,
-    "independent_acceptance": false,
     "actual_current_combined_qualification": false,
-    "SKU27_current_run": 41086555559,
-    "S03_current_run": 41080255432
+    "S05_current_combined_runtime_waits_for_full_SKU27": true
   },
   "current_global_metadata_receipt": "GLOBAL_3D706_ROOT_ACTUAL_INTAKE_20261030.json",
   "current_global_metadata_qualified": true,
   "current_SKU_successor": {
-    "classification": "SOURCE_SUCCESSOR_FRESH_COMPLETE27_PENDING",
-    "recorded_at_utc": "2026-10-30T16:09:14.622897+00:00",
-    "head": "58c8e1535c6b5296f07ca41d5eb90cb28ed2872c",
-    "tree": "500e0326b140e7e5d7a59b3824a2243334937ed3",
-    "parent": "0938b693dee868ba74323f4ff61db70efdd11e89",
-    "local_prepublication": "59b7b4de286f720e33d0ff76f0cd8ab90a85bc78",
-    "run_id": 41086555559,
-    "job_id": 124169121755,
-    "status": "IN_PROGRESS_AT_LAST_API_OBSERVATION",
-    "source_paths": 19,
-    "previous_actual_receipt": "SKU_0938_ROOT_ACTUAL_INTAKE_20261030.json",
+    "head": "e9256772579f387df77dde949f8ea619cbd86856",
+    "tree": "8de422523afa42c20d85e830749ed232b7edc6b9",
+    "parent": "58c8e1535c6b5296f07ca41d5eb90cb28ed2872c",
+    "local_prepublication": "d502689609e74b2cb7eb4c1924939fade004e273",
+    "branch": "astra-a/sku-managed-recovery-native27-20261030",
+    "run_id": 41109346033,
+    "job_id": 124247417634,
+    "status": "in_progress",
+    "conclusion": null,
+    "exact_changed_paths": 20,
+    "source_files": 125,
+    "Python_controls_passed": 58,
+    "unchanged_Node_controls_reused": 7,
+    "committed_source_preflight": "PASS",
     "changes": [
-      "Require locked source and enabled Reconcile after reload with an uncertain committed reply; require enabled source after authoritative recovery",
-      "Use exact posted member row and authoritative fixture commercial source/target SKU labels for inverse button",
-      "Run staged AI independent Native readback under READ COMMITTED; state census remains REPEATABLE READ"
+      "Retain exact failed58c8 Original and both attempts; no partial aggregation",
+      "Real Asia/Jakarta clock must leave more than complete210min workflow budget before midnight; refuse before DB and at runtime",
+      "One inherited runtime attempt preserves first report/status/errors and restores original entry point"
     ],
-    "Python_tests": 52,
-    "Node_tests": 7,
-    "rendered_JSX_named_selector_controls": 4,
-    "old_0938_recovery_and_history_helpers_reproduced_red": true,
-    "wrong_state_and_label_negative_controls": true,
-    "old_0938_AI_readback_fresh_access_refusal_reproduced": true,
-    "committed_source_preflight": {
-      "bytes": 8566,
-      "sha256": "b322ca36ffe0c96690c1f4dc4b73e837237943110414b5a44cfe7e0d4c80661f"
-    },
-    "all_case_ids_and_financial_expected_values_unchanged": true,
-    "all_complete_census_assertions_unchanged": true,
-    "whole_browser_body_byte_identity_claim": false,
-    "Native_product_changed": false,
+    "Native_product_or_browser_case_changes": false,
+    "complete27_qualified": false,
     "prior_partial_results_aggregated": false,
-    "actual_new_qualification_credit": 0,
-    "production_go": false,
-    "independent_acceptance": false
+    "local_evidence": {
+      "SKU_58C8_SINGLE_ATTEMPT_CONTROLS_20261031.log": {
+        "bytes": 269,
+        "sha256": "ba39dc0d345a6659f7e46f11d0b6005cdbd36e43ed6d702386a6ad56d2d40cfe"
+      },
+      "SKU_SINGLE_ATTEMPT_COMMITTED_PREFLIGHT_20261031.json": {
+        "bytes": 8609,
+        "sha256": "03996e9e856dc18ee9e363a0e4a6903e93001994f5b02f3e3df7ed957e4f7a98"
+      }
+    }
   },
   "current_S03_successor": {
-    "classification": "CANCELLED_HISTORY_HARNESS_SOURCE_SUCCESSOR_FRESH_BROWSER4_PENDING",
-    "head": "89ab76595424fa55cda3923fbe4499b7b7abf16b",
-    "tree": "db63154b4beda614863b665970e0ea0c14d3c754",
-    "parent": "30ee9874d049632050faf53b299a0cd8a11fe9f6",
-    "run_id": 41080255432,
-    "status": "IN_PROGRESS_AT_LAST_API_OBSERVATION",
-    "recorded_at_utc": "2026-10-30T15:25:44.794967+00:00",
-    "previous_runs": [
-      {
-        "head": "ae83782c5dc0701f3b5325375a743b2a08e4ce3d",
-        "run_id": 41044533553,
-        "conclusion": "CANCELLED_TIMEOUT",
-        "library_file_id": "libfile_0935ec92abf08191ba81f89f847a37d6"
+    "head": "a2096c570b6a0300b8ef299d6a167b68849e427d",
+    "tree": "9732ed1ecfe9b14e78adef4e4e12c9b960b92714",
+    "parent": "89ab76595424fa55cda3923fbe4499b7b7abf16b",
+    "local_prepublication": "924bab0d7d71f271262f464c1a6c511a088a5d6b",
+    "branch": "astra-a/s03-browser4-lawful-qualification-20261030",
+    "run_id": 41113128260,
+    "job_id": 124260357407,
+    "status": "in_progress",
+    "conclusion": null,
+    "changed_paths": 43,
+    "source_files": 2409,
+    "counted_reversible_change_groups": 45,
+    "controls": {
+      "Node_passed": 15,
+      "Python_last_full": {
+        "run": 94,
+        "passed": 93,
+        "failed": 1,
+        "reason": "Previous exact workflow fixture omitted newly required clock guard"
       },
-      {
-        "head": "30ee9874d049632050faf53b299a0cd8a11fe9f6",
-        "run_id": 41049049321,
-        "conclusion": "CANCELLED_TIMEOUT",
-        "library_file_id": "libfile_3a7861239b848191bcef9e4247dc1f7e"
-      }
-    ],
-    "previous_full_outer_restore": "NOT_PROVEN_MAIN_ABSENT",
-    "first_mobile_error": "CP7_S03_ALLOCATION_BEFORE_WIP_AVAILABLE after successful CANCEL_ALLOCATION",
-    "diagnosis": "Historical CANCELLED observation incorrectly required current carry allocation eligibility; Native14 deliberately refuses pre-restoration output reuse.",
+      "corrected_targeted_test_passed": 1,
+      "one_full94PASS_run_claim": false,
+      "final_committed_source_check": "SOURCE_PASS"
+    },
     "changes": [
-      "Retain first Native-validated ACTIVE header, manifest, children, allocation metadata and original journal/lines",
-      "CANCELLED requires exact prior authority and one dated linked inverse with all dimensions and amounts",
-      "Retain first cancelled history through later decision reversal and other pool cancellation",
-      "Missing/duplicate historical pool or status regression refuses",
-      "Allow240min for all four complete journeys and outer restoration"
+      "Keep every fresh full source/Original gate before ERP access; remove one duplicate gate per fixture operation",
+      "Memoize only within a single source inventory traversal; exact full path graph unchanged and next invocation remains fresh",
+      "Observe pending waitForResponse rejection immediately while returning the original rejected promise; timeout stays INCOMPLETE and cleanup can run",
+      "Strict generated output classification matches real pool_history and loopback_api_origin producers",
+      "Real WIB budget240min and one runtime attempt; preserve exact89ab failure and full prior source preimages"
     ],
-    "source_files": 2384,
-    "counted_reversible_change_groups": 39,
-    "Python_tests": 85,
-    "Node_tests": 12,
-    "source_preflight": {
-      "bytes": 93,
-      "sha256": "8652d44616e20c6333636c8914516cf42ac1a5684af3dc3176dae4a5c692e0cf"
-    },
-    "four_financial_callback_bodies_exact": true,
+    "four_financial_case_bodies_exact": true,
     "Native_SQL_changed": false,
-    "ordinary_Native_validation_retained": true,
-    "phase_specific_FG_HPP_GL_inverse_oracles_exact": true,
-    "peer_review": {
-      "scope": "Bounded source only",
-      "finding": "Previously observed pool disappearing or changing status could escape observation",
-      "resolution": "Every authority ID must occur exactly once; known status changes route to oracle and refuse",
-      "controls": [
-        "disappearance",
-        "duplicate observation",
-        "DRAFT",
-        "VOIDED"
-      ]
-    },
-    "first_local_suite": {
-      "tests": 85,
-      "failures": 6,
-      "errors": 11,
-      "reason": "Historical source-reader test fixtures and workflow producer pins needed explicit new transition bindings; no financial assertion changed"
-    },
-    "final_local_suite": "85_PASS",
-    "actual_new_browser_credit": 0,
-    "production_go": false,
-    "independent_acceptance": false,
-    "job_id": 124147137480
+    "browser4_qualified": false,
+    "actual_primary_Auth_restore_proven_for_successor": false,
+    "local_evidence": {
+      "S03_89AB_SUCCESSOR_NODE_20261031.log": {
+        "bytes": 1635,
+        "sha256": "7f28c227b23f3d171a3cf8f55dd480e33f25742a884bd399e5a9b488e4eb31b0"
+      },
+      "S03_89AB_SUCCESSOR_PYTHON_FIRST_FAILURE_20261031.log": {
+        "bytes": 1181,
+        "sha256": "10113444b51398b8a2ce59e370fd89dc9a30d145a4d7b08b5c4daf37c8215b50"
+      },
+      "S03_89AB_SUCCESSOR_WORKFLOW_EXPECTATION_FAILURE_20261031.log": {
+        "bytes": 1241,
+        "sha256": "adb85371fed5540cc7222726fa980ee9fe29f205c2e3684eb860b077291182d3"
+      },
+      "S03_89AB_SUCCESSOR_TARGETED_20261031.log": {
+        "bytes": 297,
+        "sha256": "a0189e198412429ef69d7eaf45158455bf00a929636cd0bde7246108516024d6"
+      },
+      "S03_89AB_SUCCESSOR_SOURCE_20261031.json": {
+        "bytes": 93,
+        "sha256": "8652d44616e20c6333636c8914516cf42ac1a5684af3dc3176dae4a5c692e0cf"
+      },
+      "S03_89AB_INVENTORY_COMPARISON_20261031.json": {
+        "bytes": 520,
+        "sha256": "be469ea9ead2798f7eb9437a3b59aab57be28d3b06862115e4ad7841089471d8"
+      },
+      "S03_SOURCE_ONLY_PROFILE_20261031.txt": {
+        "bytes": 1396,
+        "sha256": "ea80a7a99b06e4642762e5bb7dc08df59336e6114c5f6815fa2ccd8db8a2af9d"
+      }
+    }
   },
   "current_global_context_and_dynamic_rebind": {
     "receipt": "GLOBAL_3D706_CONTEXT_AND_DYNAMIC_REBIND_20261030.json",
@@ -1961,5 +1960,28 @@
       "SOURCE_TOKENS_NEVER_PROVE_WRITER_OR_CALL_CLOSURE"
     ],
     "actual_Native_credit": 0
-  }
+  },
+  "owner_process_correction": "Solo integrator. Before an expensive run, inspect actual source contracts and reproduce each established harness failure locally. Preserve first failure; no automatic runtime retries, no broad repeats without new concern.",
+  "v209_durable_evidence": [
+    {
+      "file_name": "ERP_SKU_58c8e15_Actual_20261031.zip",
+      "library_file_id": "libfile_90de57c7d94081918ac0db9581237e9c",
+      "file_id": "file_0000000013ac81fdae32ed90358ab768",
+      "current_version_number": 0
+    },
+    {
+      "file_name": "ERP_S03_89ab_Actual_Text_Evidence_20261031.zip",
+      "library_file_id": "libfile_21d6f6a831a88191ad99672353f5515d",
+      "file_id": "file_00000000d0a88230a8a7a3c505cb0d82",
+      "current_version_number": 0
+    },
+    {
+      "file_name": "ERP_Writer_A_Single_Attempt_Source_Validation_20261031.zip",
+      "library_file_id": "libfile_c89b0266c4dc8191860710fe706e0c5c",
+      "file_id": "file_000000006fb081fd8d99d4736652acf8",
+      "current_version_number": 0
+    }
+  ],
+  "S03_text_evidence_archive_is_not_full_canonical_Original": true,
+  "S03_text_evidence_archive_excludes_browser_screenshots_and_two_clone_dumps": true
 }

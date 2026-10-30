@@ -1,0 +1,264 @@
+{
+  "status": "EXACT_58C8_TWO_ATTEMPTS_FAILURE_AND_RAW_BOUNDARIES_VERIFIED",
+  "head": "58c8e1535c6b5296f07ca41d5eb90cb28ed2872c",
+  "tree": "500e0326b140e7e5d7a59b3824a2243334937ed3",
+  "run_id": 41086555559,
+  "job_id": 124169121755,
+  "artifact_id": 12997219671,
+  "archive": {
+    "bytes": 81653650,
+    "sha256": "dc5c8221b77ecb241e1b5661c124b9c9a577b03254687bdeb471478ad998dcef"
+  },
+  "crc_members": 152,
+  "originals": {
+    "CP7_SKU_MANAGED_RECOVERY_NATIVE27.json": {
+      "bytes": 6081688,
+      "sha256": "a38e8b3e511da4c91d441e0fc84478ff767f158c55f5f245ebd133b42c167ecc"
+    },
+    "CP7_SKU_PAIR_CONVERSION_NATIVE7.json": {
+      "bytes": 21043,
+      "sha256": "f220f89163c7b8d94804084dd92daecb833966faa25bcbcc9def8c8b1ee65e8b"
+    },
+    "CP7_SKU_GROUP_COST_NATIVE5.json": {
+      "bytes": 39065,
+      "sha256": "2f3b41473323152b8847ac9366cad89da03e9e346b0586ea74a4939e5e3d0b7c"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360424,
+      "sha256": "70248658c7add5efed662b3325d93a2e2369aaba9bd30124ec291ad7d7f57b16"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 1470,
+      "sha256": "d85f45a0e726750591f4b8ae12a77fc94a05070c69feb9896b76e4d600474e72"
+    }
+  },
+  "raw_evidence": {
+    "raw_full_noeffect_censuses": [
+      {
+        "name": "SKU_COST_RECOVERY_OVER_FIRST_PART_REFUSAL_694ae0d48b6d_FULL_CURRENT_CENSUS.json",
+        "bytes": 43100594,
+        "sha256": "680600e1e825fa1ba4a08e755426432ae0fa67ec1f7679b519a6037e60700bd9",
+        "tables": 685,
+        "sequences": 15,
+        "catalog_groups": 22
+      },
+      {
+        "name": "SKU_COST_PART_1_USAGE_SAME_UUID_REPLAY_3cd3664cfb39_FULL_CURRENT_CENSUS.json",
+        "bytes": 43100592,
+        "sha256": "364c0b901c5f58c045cfa11cabbd47b8ff9aa497ea9eebd3829de77e0fc83b22",
+        "tables": 685,
+        "sequences": 15,
+        "catalog_groups": 22
+      },
+      {
+        "name": "SKU_COST_PART_2_USAGE_SAME_UUID_REPLAY_7ad771d5bc32_FULL_CURRENT_CENSUS.json",
+        "bytes": 43100592,
+        "sha256": "84475b3bda01150e621b83a5e069e0bf0d905fa566dffe6bc68ca0003b71658f",
+        "tables": 685,
+        "sequences": 15,
+        "catalog_groups": 22
+      },
+      {
+        "name": "SKU_COST_LATE_INVOICE_SAME_UUID_REPLAY_408847023d2b_FULL_CURRENT_CENSUS.json",
+        "bytes": 43100594,
+        "sha256": "4698d2e82e2f07117d00406192f8691015fafac505609184f675bade28c8b57d",
+        "tables": 685,
+        "sequences": 15,
+        "catalog_groups": 22
+      },
+      {
+        "name": "SKU_COST_GROUP_INVERSE_FIRST_PART_ACTIVE_USAGE_5c616c2ca26a_FULL_CURRENT_CENSUS.json",
+        "bytes": 43100592,
+        "sha256": "096bdebe64be464673a1c12d3dc7363e2e5104a45f398815aee37337a0578115",
+        "tables": 685,
+        "sequences": 15,
+        "catalog_groups": 22
+      },
+      {
+        "name": "SKU_COST_DIRECT_PARTIAL_INVERSE_REFUSAL_a80ba56f459a_FULL_CURRENT_CENSUS.json",
+        "bytes": 43100592,
+        "sha256": "096bdebe64be464673a1c12d3dc7363e2e5104a45f398815aee37337a0578115",
+        "tables": 685,
+        "sequences": 15,
+        "catalog_groups": 22
+      },
+      {
+        "name": "SKU_COST_RECOVERY_UNDER_SAME_UUID_REPLAY_6239faf0aa14_FULL_CURRENT_CENSUS.json",
+        "bytes": 43100596,
+        "sha256": "c629fa4dcac7150540b342fae09f04592d08d2e6274bc2a8dfb938b4f4fbb061",
+        "tables": 685,
+        "sequences": 15,
+        "catalog_groups": 22
+      },
+      {
+        "name": "SKU_COST_RECOVERY_EQUAL_SAME_UUID_REPLAY_d75d0aee9d4e_FULL_CURRENT_CENSUS.json",
+        "bytes": 43100596,
+        "sha256": "143bdce9272885f2549581f1975a071e698c9fba3216cb0bc8e32a1737a0148e",
+        "tables": 685,
+        "sequences": 15,
+        "catalog_groups": 22
+      },
+      {
+        "name": "SKU_COST_DISTINCT_UUID_POCKET_BUSY_COMMIT_5cd40a730aaa_FULL_CURRENT_CENSUS.json",
+        "bytes": 43100590,
+        "sha256": "199f4b1c3de064b74102e9b9e4bdb3a802de906b06a584c9de0a57411a88c799",
+        "tables": 685,
+        "sequences": 15,
+        "catalog_groups": 22
+      },
+      {
+        "name": "SKU_COST_DISTINCT_UUID_COMMITTED_STALE_RETRY_e38705480753_FULL_CURRENT_CENSUS.json",
+        "bytes": 43100594,
+        "sha256": "7ecc4a6022de73f6189f2aff031a90c949b30a1f2ab2a6b8b957f41e44f584fc",
+        "tables": 685,
+        "sequences": 15,
+        "catalog_groups": 22
+      },
+      {
+        "name": "SKU_COST_DISTINCT_UUID_POCKET_BUSY_ROLLBACK_80e71c13eaaf_FULL_CURRENT_CENSUS.json",
+        "bytes": 43100590,
+        "sha256": "484a99bb9ff53e65c8446dc8a43c94cc33604db0ab33789a9bd161843c6b6141",
+        "tables": 685,
+        "sequences": 15,
+        "catalog_groups": 22
+      },
+      {
+        "name": "SKU_COST_RECOVERY_CACHE_PERMISSION_WAIT_99a14b93afac_FULL_CURRENT_CENSUS.json",
+        "bytes": 43100598,
+        "sha256": "a1f89716409aeeba212d2be1eec5e87aa1bfcc4dce249f942ea048c52d8a8cb9",
+        "tables": 685,
+        "sequences": 15,
+        "catalog_groups": 22
+      },
+      {
+        "name": "SKU_COST_RECOVERY_NONBLOCKING_FG_BUSY_a099c260f1be_FULL_CURRENT_CENSUS.json",
+        "bytes": 43100598,
+        "sha256": "b37611bd175476ba8442a88bd015967299f3be99d2797bcaefbe60a9dbe6c5ab",
+        "tables": 685,
+        "sequences": 15,
+        "catalog_groups": 22
+      },
+      {
+        "name": "SKU_COST_RECOVERY_NONBLOCKING_MATERIAL_NONE_BUSY_c4fc8638651e_FULL_CURRENT_CENSUS.json",
+        "bytes": 43100604,
+        "sha256": "c9e16342d391d3e1ac666e095a1fb52b530ec05ff75444fca3f428485dd55269",
+        "tables": 685,
+        "sequences": 15,
+        "catalog_groups": 22
+      },
+      {
+        "name": "SKU_COST_DISTINCT_UUID_POCKET_BUSY_COMMIT_9c50266589f4_FULL_CURRENT_CENSUS.json",
+        "bytes": 43100590,
+        "sha256": "1b9ff65c034a6b3ccc15b37ddf23d60d364acd590c39607ca082b45c23aaf21f",
+        "tables": 685,
+        "sequences": 15,
+        "catalog_groups": 22
+      },
+      {
+        "name": "SKU_COST_DISTINCT_UUID_COMMITTED_STALE_RETRY_478ca8a1982d_FULL_CURRENT_CENSUS.json",
+        "bytes": 43100594,
+        "sha256": "ed1af52518561833132bda4e11759a706dc51e7243d8d9f40e61e57797e8b15e",
+        "tables": 685,
+        "sequences": 15,
+        "catalog_groups": 22
+      },
+      {
+        "name": "SKU_COST_DISTINCT_UUID_POCKET_BUSY_ROLLBACK_3492715d2aba_FULL_CURRENT_CENSUS.json",
+        "bytes": 43100590,
+        "sha256": "d527ff212d7fe4b9000a4fd8128b4d937cde31bf907b4cefa84290dc10dcdca3",
+        "tables": 685,
+        "sequences": 15,
+        "catalog_groups": 22
+      },
+      {
+        "name": "SKU_COST_RECOVERY_CACHE_PERMISSION_WAIT_8e5f833772f3_FULL_CURRENT_CENSUS.json",
+        "bytes": 43100598,
+        "sha256": "cab05eef506723f5dfe0f566bbc035876571c9809988388682c0f41b289621af",
+        "tables": 685,
+        "sequences": 15,
+        "catalog_groups": 22
+      },
+      {
+        "name": "SKU_COST_RECOVERY_NONBLOCKING_FG_BUSY_7ac88a3b5daa_FULL_CURRENT_CENSUS.json",
+        "bytes": 43100598,
+        "sha256": "c22f1e41dc20d1da2e2881c6a33118eb3424666deaef4241a61edaff27383b91",
+        "tables": 685,
+        "sequences": 15,
+        "catalog_groups": 22
+      },
+      {
+        "name": "SKU_COST_RECOVERY_NONBLOCKING_MATERIAL_NONE_BUSY_563c82e059aa_FULL_CURRENT_CENSUS.json",
+        "bytes": 43100604,
+        "sha256": "53686a5eb55cb4e2153d33f0a950c806e4e575a1470343caf744bd92f19c01e5",
+        "tables": 685,
+        "sequences": 15,
+        "catalog_groups": 22
+      }
+    ],
+    "complete_cost_sequence_prefixes": [
+      {
+        "case_id": "SKU29_COST_GROUP_RETURN_OVER_FIRST_PART_SAFETY_REFUSAL_ONLY",
+        "raw": {
+          "bytes": 2662,
+          "sha256": "cb85afa28beebca38fa408fcf6f8104077b5d582da2947a96cf5863034fd2f67"
+        }
+      },
+      {
+        "case_id": "SKU29_COST_BOTH_PARTS_USAGE_LATE_INVOICE_SOLD_AND_DESCENDANT",
+        "raw": {
+          "bytes": 2663,
+          "sha256": "3a69f7e7e87e4b4b0eede8f3414f2c686e7d0937ff0744a48c6086c0117e903b"
+        }
+      },
+      {
+        "case_id": "SKU29_COST_FIRST_PART_ACTIVE_USAGE_ATOMIC_GROUP_INVERSE",
+        "raw": {
+          "bytes": 2659,
+          "sha256": "cc4514536fefc866cb3a7f295a8a352282cbc283aad001283cfc48c7210428f8"
+        }
+      },
+      {
+        "case_id": "SKU30_RECOVERY_UNDER_FIRST_PART_NATIVE_POST_REPLAY_INVERSE",
+        "raw": {
+          "bytes": 2663,
+          "sha256": "4c538b78c608b5d60fc3adcc5d41a246f274f8b3214e2e2c0df5450457274732"
+        }
+      },
+      {
+        "case_id": "SKU30_RECOVERY_EQUAL_FIRST_PART_NATIVE_POST_REPLAY_INVERSE",
+        "raw": {
+          "bytes": 2663,
+          "sha256": "72ab8856c776680d25509c4cf3564290a1a6a2df3be807f837830f251b64bde4"
+        }
+      }
+    ],
+    "all20_full22_all_rows_ALL15_sequence_raw_boundaries_exact": true,
+    "all5_cost_sequence_prefixes_original_and_contiguous": true,
+    "per_savepoint_sequence_restore_claim": false
+  },
+  "Native7": true,
+  "cost5": true,
+  "first_attempt_counts": {
+    "PASS": 2,
+    "INCOMPLETE": 9
+  },
+  "second_attempt_counts": {
+    "PASS": 11
+  },
+  "admitted_and_restored_copies": 22,
+  "browser_started": false,
+  "complete27_qualified": false,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "outer_restore_receipts": true,
+  "outer_raw_before_after_not_serialized": true,
+  "first_failure": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-vendor-receivable-qualification/probe.py\", line 111, in run_inner\n    with psycopg.connect(package.boundary.ADMIN)as conn,conn.cursor()as cur:\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-choice-finance-cron-qualification/phase_timing.py\", line 22, in measured\n    result = operation(*args, **kwargs)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-sku-combined-followup-qualification/runner.py\", line 122, in exercise\n    third = report.setdefault('fresh_real_Auth_browser4', dict(status='INCOMPLETE'))\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-sku-pair-concurrency-qualification/runner.py\", line 266, in exercise\nAssertionError\n",
+  "prior_partial_results_aggregated": false,
+  "production_go": false,
+  "independent_acceptance": false
+}
