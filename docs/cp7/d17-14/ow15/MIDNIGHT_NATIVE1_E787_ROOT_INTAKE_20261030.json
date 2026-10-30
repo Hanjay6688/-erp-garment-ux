@@ -1,0 +1,84 @@
+{
+  "status": "ROOT_VERIFIED_NARROW_MIDNIGHT_NATIVE1_RAW_SOURCE_RESTORE_ALL5",
+  "actual_Native_cases": 1,
+  "retained_parent14_reexecuted": false,
+  "fresh_original11_or14_reexecuted": false,
+  "single_attempt": true,
+  "all_five_new_package_gates": true,
+  "actual_Auth_HTTP_cases": 0,
+  "actual_browser_cases": 0,
+  "actual_two_session_races": 0,
+  "production_go": false,
+  "independent_acceptance": false,
+  "result_gate_status": "PASS",
+  "head": "e7875cde9709c7375335bade4e1010be9459163e",
+  "tree": "b780219d2ad132f778df5dcd407780219c4619a0",
+  "run_id": "41007933625",
+  "artifact_id": 12958410980,
+  "archive": {
+    "bytes": 8001776,
+    "sha256": "5bb0d0fd4247f12e1c28a7716c04a880c4ddb2639d519b7a5132061d6719c194"
+  },
+  "originals": {
+    "CP7_ATTENDANCE_MIDNIGHT_NATIVE1.json": {
+      "bytes": 74194663,
+      "sha256": "26fcbab359c7455dffd78bb6f2e6c24321e08d606030dde592ed18b6ad2c572b"
+    },
+    "CP7_ATTENDANCE_MIDNIGHT_NATIVE1_CASES.json": {
+      "bytes": 14493,
+      "sha256": "1e6f1ad426c4e838865a79b088410976864f4ebf4e6c0b9178523832bbda2976"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360420,
+      "sha256": "8d3d42794984fd5d6beb698db58034a41148930f1b767d673de1750066a64cc6"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 1470,
+      "sha256": "9cd0b83ca89a0c1a00b82019a2ba5d4ad3455efeb40e1a7f22c2c1ead462b750"
+    }
+  },
+  "retained_parent_originals": {
+    "CP7_S03_ATTENDANCE_CHOICE_NATIVE11_CASES.json": {
+      "bytes": 19498,
+      "sha256": "105e371726cdacd86900d7f086a4262450801c7606852a7711856b0ff06667dd"
+    },
+    "CP7_S03_ATTENDANCE_CHOICE_READER_NATIVE3_CASES.json": {
+      "bytes": 13062,
+      "sha256": "70b618aa40062eaa839a55f2edeb647ea1fe2c520840f5cca85c194df17668b7"
+    },
+    "CP7_S03_ATTENDANCE_CHOICE_NATIVE14.json": {
+      "bytes": 78242045,
+      "sha256": "15d08eb136c46e74ecf814b2256cc12b0a1df2b29fbc27a1296c3100fc2bafb5"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360433,
+      "sha256": "0663c1140bd2877ef3859b4e34bb773aaaf15e2f3b4217e48a8df66c1c436c77"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 1470,
+      "sha256": "3883ec7b222e13badb22f5db7d9fabf563bf99b90dbf5d724a00c3ec40315091"
+    }
+  },
+  "own_source": {
+    "bytes": 127490,
+    "sha256": "d34235f29dba79b26dbe4fea769d22a163a680b13e9e986c9f71ff4a04ddb11d"
+  },
+  "verified_source_pins": 566,
+  "current_parent_source_members": 475,
+  "exact_historical_proof_inputs": [],
+  "physical_WIB_boundary_recomputed": true,
+  "actual_case_id": "S03_NATIVE_MIDNIGHT_OUTPUT_UTC17_SAME_SOURCE_CID_5_5_10",
+  "Native_financial_truth_count": 96,
+  "strict_original_equals_embedded": true,
+  "full_used_inverse_no_effect": true,
+  "full_outer_restore_all22_all_rows_ALL_sequences_roles_Auth_CP6": true,
+  "all_five_package_gates": true
+}

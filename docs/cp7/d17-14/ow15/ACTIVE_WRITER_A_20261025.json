@@ -1,5 +1,5 @@
 {
-  "recorded_at_utc": "2026-10-30T02:36:19.334238+00:00",
+  "recorded_at_utc": "2026-10-30T08:22:06.120163+00:00",
   "role": "A finance writer/integrator replacing Claude; B remains separate production/planning writer",
   "slogan": [
     "VENI. VIDI. VICI. ERP. — I CONQUERED ERP.",
@@ -10,16 +10,28 @@
   "independent_acceptance": false,
   "running": [
     {
-      "head": "c933dbe30b41cd653ff9f02ccbfdb7be5010d567",
-      "tree": "f56864280e64936edbbf864cea5667489b3e2974",
-      "run_id": 40988087747,
-      "job_id": 123843711657,
-      "status": "IN_PROGRESS_FRESH_NATIVE10_AND_UNCHANGED_COMMITTED_USED_FULL_OUTER5",
-      "Source_own_files": 43,
-      "Source_sha256": "f965d5c18354f856747df4d2ca792d6963addafaa03e8b62e506e7cbe87be619",
-      "frozen_source242_unchanged": true,
-      "actual_new_case_credit_before_raw_review": 0,
-      "receipt": "S05_WIB_OWNER_NATIVE10_PUBLICATION.json"
+      "domain": "S03_BROWSER4",
+      "head": "84a9a09bf372caeeea4cc9eee4a91c51b43d3d93",
+      "run_id": 41025060248,
+      "job_id": 123961103280,
+      "status": "IN_PROGRESS",
+      "qualified_new_case_credit": 0
+    },
+    {
+      "domain": "SKU_NATIVE27",
+      "head": "7c7204c82debafce217d277514e3f23c8fc2ac69",
+      "run_id": 41020730202,
+      "job_id": 123947204728,
+      "status": "IN_PROGRESS",
+      "qualified_new_case_credit": 0
+    },
+    {
+      "domain": "S05_NATIVE10",
+      "head": "519d1760a3bad06a346b3d4b3cc0203664615634",
+      "run_id": 41020627427,
+      "job_id": 123946877124,
+      "status": "IN_PROGRESS",
+      "qualified_new_case_credit": 0
     }
   ],
   "actual_new_component": {
@@ -22692,5 +22704,218 @@
     "global8hooks_implemented": false,
     "actual_composite_Native": 0,
     "production_go": false
+  },
+  "previous_running_before_takeover_20261030": [
+    {
+      "head": "c933dbe30b41cd653ff9f02ccbfdb7be5010d567",
+      "tree": "f56864280e64936edbbf864cea5667489b3e2974",
+      "run_id": 40988087747,
+      "job_id": 123843711657,
+      "status": "IN_PROGRESS_FRESH_NATIVE10_AND_UNCHANGED_COMMITTED_USED_FULL_OUTER5",
+      "Source_own_files": 43,
+      "Source_sha256": "f965d5c18354f856747df4d2ca792d6963addafaa03e8b62e506e7cbe87be619",
+      "frozen_source242_unchanged": true,
+      "actual_new_case_credit_before_raw_review": 0,
+      "receipt": "S05_WIB_OWNER_NATIVE10_PUBLICATION.json"
+    }
+  ],
+  "writer_A_takeover_20261030": {
+    "classification": "WRITER_A_TAKEOVER_ACTIVE_CONTINUATION_NOT_COMPLETION",
+    "recorded_at_utc": "2026-10-30T08:22:06.120163+00:00",
+    "root_parent": "1ad9f1ab7a04b1e7b179ba8a1f0ae981b30309b9",
+    "prior_chat_execution_observable": false,
+    "current_work_is_isolated": true,
+    "midnight_root_intake_receipt": "MIDNIGHT_NATIVE1_E787_ROOT_INTAKE_20261030.json",
+    "midnight_actual_cases": 1,
+    "global_source": {
+      "head": "a6ded9cd4ce23a6d59cd32e42ca9bb33d793f8cc",
+      "tree": "55da7c6ab29d9bfda68962be27da0db7ad931662",
+      "parent": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+      "classification": "FINITE_ACTUAL19_SOURCE_PROFILE_ONLY",
+      "actual_source_catalogues": 3,
+      "known_functions": 19,
+      "expected_body_changes": 2,
+      "other_known_entries_preserved": 17,
+      "source_tests": 9,
+      "local_SQL_controls": {
+        "regression": 33,
+        "identity_directed": 18,
+        "identity_fields": 162,
+        "fixed_point": 4,
+        "journal_directed": 5,
+        "journal_fields": 24,
+        "metadata_ACL": 12
+      },
+      "runtime_entry": null,
+      "global_hooks_installed": 0,
+      "writer_or_phantom_lock_closed": false,
+      "actual_Native_credit": 0
+    },
+    "running": [
+      {
+        "domain": "S03_BROWSER4",
+        "head": "84a9a09bf372caeeea4cc9eee4a91c51b43d3d93",
+        "run_id": 41025060248,
+        "job_id": 123961103280,
+        "status": "IN_PROGRESS",
+        "qualified_new_case_credit": 0
+      },
+      {
+        "domain": "SKU_NATIVE27",
+        "head": "7c7204c82debafce217d277514e3f23c8fc2ac69",
+        "run_id": 41020730202,
+        "job_id": 123947204728,
+        "status": "IN_PROGRESS",
+        "qualified_new_case_credit": 0
+      },
+      {
+        "domain": "S05_NATIVE10",
+        "head": "519d1760a3bad06a346b3d4b3cc0203664615634",
+        "run_id": 41020627427,
+        "job_id": 123946877124,
+        "status": "IN_PROGRESS",
+        "qualified_new_case_credit": 0
+      }
+    ],
+    "first_browser_runtime_failure": {
+      "head": "fbedc55d3318c87d605fce5861eec9a2759a2981",
+      "run_id": 41020215484,
+      "artifact_id": 12962367714,
+      "status": "INCOMPLETE_BEFORE_BROWSER",
+      "actual_browser_counts": {},
+      "cause": "Generated package static product_ref still expected historical d902 while frozen UI product is598dfe",
+      "full_baseline_restore": true,
+      "package_all5": false,
+      "archive": {
+        "library_file_id": "libfile_bcd1f84279688191a83a9a7df1730ceb",
+        "bytes": 8613656,
+        "sha256": "69a5477cc95eba7f4df59bed788f9d1eb655c21f48e1b914ac829327d35768bf"
+      }
+    },
+    "recovered_final_phase2": {
+      "head": "e46233133753cd31b0b4120a3a5a88be745aa223",
+      "tree": "8be61dea2be5e6317b98345a7345ce16955b612b",
+      "runtime_entry": null,
+      "component_bindings": null
+    },
+    "formal_accepted": "5/16",
+    "production_go": false,
+    "independent_acceptance": false,
+    "current_default": "cp7_vendor_receivable.composition",
+    "next": [
+      "Terminal current three runs and exact raw/source/full restoration admission",
+      "Complete final typed context catalogue and actual writer/FK/trigger/permission closure",
+      "Choose and prove global phantom/row lock profile before eight owning hooks",
+      "Fresh composite committed SKU first then D1/E/inverses and S03/S05, all5",
+      "S05 UI5 and final normal App integration, then remaining CP6/APHTTP/AM-AN/auditor closure"
+    ]
+  },
+  "actual_midnight_e787_root_qualified_20261030": {
+    "status": "ROOT_VERIFIED_NARROW_MIDNIGHT_NATIVE1_RAW_SOURCE_RESTORE_ALL5",
+    "actual_Native_cases": 1,
+    "retained_parent14_reexecuted": false,
+    "fresh_original11_or14_reexecuted": false,
+    "single_attempt": true,
+    "all_five_new_package_gates": true,
+    "actual_Auth_HTTP_cases": 0,
+    "actual_browser_cases": 0,
+    "actual_two_session_races": 0,
+    "production_go": false,
+    "independent_acceptance": false,
+    "result_gate_status": "PASS",
+    "head": "e7875cde9709c7375335bade4e1010be9459163e",
+    "tree": "b780219d2ad132f778df5dcd407780219c4619a0",
+    "run_id": "41007933625",
+    "artifact_id": 12958410980,
+    "archive": {
+      "bytes": 8001776,
+      "sha256": "5bb0d0fd4247f12e1c28a7716c04a880c4ddb2639d519b7a5132061d6719c194"
+    },
+    "originals": {
+      "CP7_ATTENDANCE_MIDNIGHT_NATIVE1.json": {
+        "bytes": 74194663,
+        "sha256": "26fcbab359c7455dffd78bb6f2e6c24321e08d606030dde592ed18b6ad2c572b"
+      },
+      "CP7_ATTENDANCE_MIDNIGHT_NATIVE1_CASES.json": {
+        "bytes": 14493,
+        "sha256": "1e6f1ad426c4e838865a79b088410976864f4ebf4e6c0b9178523832bbda2976"
+      },
+      "T3_PACKAGE_INSTALL.json": {
+        "bytes": 360420,
+        "sha256": "8d3d42794984fd5d6beb698db58034a41148930f1b767d673de1750066a64cc6"
+      },
+      "T3_PACKAGE_FILES_INSTALL.json": {
+        "bytes": 1806,
+        "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+      },
+      "T3_BACKUP_RESTORE_DRILL.json": {
+        "bytes": 1470,
+        "sha256": "9cd0b83ca89a0c1a00b82019a2ba5d4ad3455efeb40e1a7f22c2c1ead462b750"
+      }
+    },
+    "retained_parent_originals": {
+      "CP7_S03_ATTENDANCE_CHOICE_NATIVE11_CASES.json": {
+        "bytes": 19498,
+        "sha256": "105e371726cdacd86900d7f086a4262450801c7606852a7711856b0ff06667dd"
+      },
+      "CP7_S03_ATTENDANCE_CHOICE_READER_NATIVE3_CASES.json": {
+        "bytes": 13062,
+        "sha256": "70b618aa40062eaa839a55f2edeb647ea1fe2c520840f5cca85c194df17668b7"
+      },
+      "CP7_S03_ATTENDANCE_CHOICE_NATIVE14.json": {
+        "bytes": 78242045,
+        "sha256": "15d08eb136c46e74ecf814b2256cc12b0a1df2b29fbc27a1296c3100fc2bafb5"
+      },
+      "T3_PACKAGE_INSTALL.json": {
+        "bytes": 360433,
+        "sha256": "0663c1140bd2877ef3859b4e34bb773aaaf15e2f3b4217e48a8df66c1c436c77"
+      },
+      "T3_PACKAGE_FILES_INSTALL.json": {
+        "bytes": 1806,
+        "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+      },
+      "T3_BACKUP_RESTORE_DRILL.json": {
+        "bytes": 1470,
+        "sha256": "3883ec7b222e13badb22f5db7d9fabf563bf99b90dbf5d724a00c3ec40315091"
+      }
+    },
+    "own_source": {
+      "bytes": 127490,
+      "sha256": "d34235f29dba79b26dbe4fea769d22a163a680b13e9e986c9f71ff4a04ddb11d"
+    },
+    "verified_source_pins": 566,
+    "current_parent_source_members": 475,
+    "exact_historical_proof_inputs": [],
+    "physical_WIB_boundary_recomputed": true,
+    "actual_case_id": "S03_NATIVE_MIDNIGHT_OUTPUT_UTC17_SAME_SOURCE_CID_5_5_10",
+    "Native_financial_truth_count": 96,
+    "strict_original_equals_embedded": true,
+    "full_used_inverse_no_effect": true,
+    "full_outer_restore_all22_all_rows_ALL_sequences_roles_Auth_CP6": true,
+    "all_five_package_gates": true
+  },
+  "global_actual19_source_profile_20261030": {
+    "head": "a6ded9cd4ce23a6d59cd32e42ca9bb33d793f8cc",
+    "tree": "55da7c6ab29d9bfda68962be27da0db7ad931662",
+    "parent": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+    "classification": "FINITE_ACTUAL19_SOURCE_PROFILE_ONLY",
+    "actual_source_catalogues": 3,
+    "known_functions": 19,
+    "expected_body_changes": 2,
+    "other_known_entries_preserved": 17,
+    "source_tests": 9,
+    "local_SQL_controls": {
+      "regression": 33,
+      "identity_directed": 18,
+      "identity_fields": 162,
+      "fixed_point": 4,
+      "journal_directed": 5,
+      "journal_fields": 24,
+      "metadata_ACL": 12
+    },
+    "runtime_entry": null,
+    "global_hooks_installed": 0,
+    "writer_or_phantom_lock_closed": false,
+    "actual_Native_credit": 0
   }
 }
