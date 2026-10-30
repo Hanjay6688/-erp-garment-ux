@@ -1,0 +1,34 @@
+{
+  "classification": "BOUNDED_GENERATED_NONSOURCE_PROVENANCE_ONLY",
+  "parent_public_commit": "9ac9c8bd1bfb7d64a1e735067083c68acbff02ef",
+  "parent_files": {
+    "generated_receipts.py": {
+      "bytes": 9466,
+      "sha256": "a569138a5b6d4c0d1ce542ab45af98ee156f47e6d772766c214bbae3366ffc7e"
+    },
+    "generated_later.py": {
+      "bytes": 10525,
+      "sha256": "7bf35d85d9f7ec19da34c5626f24af908f3691a4e3ed7251dbc4958e59b4bea3"
+    },
+    "GENERATED_RECEIPTS.json": {
+      "bytes": 57121,
+      "sha256": "500c51798ce3247f6a8957f13fe21f40f76ea43a68e457781d874a3887a6c119"
+    },
+    "LATER_GENERATED_RECEIPTS.json": {
+      "bytes": 28390,
+      "sha256": "7ddaabbc1fb1b35072581eceab79304b245fd267ff63bf8c3184253eb79067b3"
+    }
+  },
+  "changes": {
+    "GENERATED_RECEIPTS.json": [
+      "one exact workflow producer path+bytes/hash"
+    ],
+    "LATER_GENERATED_RECEIPTS.json": [
+      "one exact workflow producer path+bytes/hash",
+      "one exact workflow-name field"
+    ]
+  },
+  "validators_byte_unchanged": true,
+  "source_Original_or_PASS_authority": false,
+  "actual_Native_Auth_browser": 0
+}

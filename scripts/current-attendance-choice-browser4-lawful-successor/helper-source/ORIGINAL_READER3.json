@@ -1,0 +1,8 @@
+{
+  "classification": "SOURCE_ONLY_RETAINED_READER_ORACLE_NOT_RUNTIME_IMPORT",
+  "canonical_path": "scripts/current-attendance-period-choice-readers-qualification/cases.py",
+  "public_commit": "73ad6d323099e1d5384a94477043c01db8989106",
+  "bytes": 10121,
+  "sha256": "eebe27396c93d4b2b14062f778a4f6a4a9c9ae840bed164e11196d90bc603630",
+  "actual_Native_Auth_browser": 0
+}

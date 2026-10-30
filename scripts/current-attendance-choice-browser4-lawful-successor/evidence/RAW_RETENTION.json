@@ -1,0 +1,241 @@
+{
+  "classification": "LOCAL_SOURCE_AND_PARSER_DOUBLES_NOT_ACTUAL_BROWSER_OR_NATIVE",
+  "entries": [
+    {
+      "original_command_receipt": {
+        "classification": "LOCAL_POST_CANCEL_SNAPSHOT_SOURCE_CONTROLS_ONLY_NO_NATIVE_AUTH_BROWSER",
+        "command": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-B",
+          "scripts/current-attendance-choice-browser4-lawful-successor/fixture.py",
+          "admit"
+        ],
+        "cwd": "/workspace/scratch/ef468a447ac6/erp-s05-import-argv-successor",
+        "source_sha256": "d31529b50536b072cf7a7f0c9f8aefb29054aec08a61e90535ab0b510c403686",
+        "expected_exit_code": 1,
+        "expected_refusal": "CLOSED_REQUIRES_EXACT_BACKEND14",
+        "raw_log": "/workspace/scratch/ef468a447ac6/evidence-private/s03-browser4-lawful-successor/CLOSED_AFTER_COUNTER-1793320944576311513.log",
+        "status": "PASS",
+        "observed_exit_code": 1,
+        "raw_bytes": 972,
+        "raw_sha256": "d612804bfd79230be4d2c85847a9f89ae69e2f0f2efdba4d034f8dde23708e9f"
+      },
+      "retained": "evidence/retained-local/CLOSED_AFTER_COUNTER-1793320944576311513.log.gz",
+      "gzip_bytes": 403,
+      "gzip_sha256": "3fc43c45fc642535531a83fba9aeee73837028f8bdbd47b8a14888e09cff8824"
+    },
+    {
+      "original_command_receipt": {
+        "classification": "LOCAL_PREPARATION_SOURCE_ONLY_NATIVE_AUTH_BROWSER_0",
+        "command": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-B",
+          "scripts/current-attendance-choice-browser4-lawful-successor/fixture.py",
+          "admit"
+        ],
+        "cwd": "/workspace/scratch/ef468a447ac6/erp-s05-import-argv-successor",
+        "source_sha256": "98d3299a0903f65be4a02dbe8f8cb0761747826293e45df6f2269649095a83a5",
+        "expected_exit_code": 1,
+        "expected_refusal": "CLOSED_REQUIRES_EXACT_BACKEND14",
+        "raw_log": "/workspace/scratch/ef468a447ac6/evidence-private/s03-browser4-lawful-successor/CLOSED_BEFORE_ERP-1793320053531770229.log",
+        "status": "PASS",
+        "observed_exit_code": 1,
+        "raw_bytes": 972,
+        "raw_sha256": "ddc176e68ecd5cf9d5e511fd4e14a4374ee9de5bd835ad0fa99d9e3c4c214d4d"
+      },
+      "retained": "evidence/retained-local/CLOSED_BEFORE_ERP-1793320053531770229.log.gz",
+      "gzip_bytes": 402,
+      "gzip_sha256": "d70d33aadd2b7a180de0a86baecf1e829eeb8ddd7126fbc232575f9f81ec6738"
+    },
+    {
+      "original_command_receipt": {
+        "classification": "LOCAL_PREPARATION_SOURCE_ONLY_NATIVE_AUTH_BROWSER_0",
+        "command": [
+          "node",
+          "--test",
+          "scripts/current-attendance-choice-browser4-lawful-successor/test_oracles.mjs",
+          "scripts/current-attendance-choice-browser4-lawful-successor/test_lawful_oracles.mjs"
+        ],
+        "cwd": "/workspace/scratch/ef468a447ac6/erp-s05-import-argv-successor",
+        "source_sha256": "98d3299a0903f65be4a02dbe8f8cb0761747826293e45df6f2269649095a83a5",
+        "expected_exit_code": 0,
+        "expected_refusal": null,
+        "raw_log": "/workspace/scratch/ef468a447ac6/evidence-private/s03-browser4-lawful-successor/FINAL11_NODE-1793320053531157709.log",
+        "status": "PASS",
+        "observed_exit_code": 0,
+        "raw_bytes": 1225,
+        "raw_sha256": "90bddd430a76844a2b35b1b704b1b069e32bcc5533ed22cc0880c3eff622d1a2"
+      },
+      "retained": "evidence/retained-local/FINAL11_NODE-1793320053531157709.log.gz",
+      "gzip_bytes": 729,
+      "gzip_sha256": "f9c0785c84716e5d2d7392af93cbaff5f8974acb1a7ba815c4977f10109bc29e"
+    },
+    {
+      "original_command_receipt": {
+        "classification": "LOCAL_POST_CANCEL_SNAPSHOT_SOURCE_CONTROLS_ONLY_NO_NATIVE_AUTH_BROWSER",
+        "command": [
+          "node",
+          "--test",
+          "scripts/current-attendance-choice-browser4-lawful-successor/test_oracles.mjs",
+          "scripts/current-attendance-choice-browser4-lawful-successor/test_lawful_oracles.mjs"
+        ],
+        "cwd": "/workspace/scratch/ef468a447ac6/erp-s05-import-argv-successor",
+        "source_sha256": "d31529b50536b072cf7a7f0c9f8aefb29054aec08a61e90535ab0b510c403686",
+        "expected_exit_code": 0,
+        "expected_refusal": null,
+        "raw_log": "/workspace/scratch/ef468a447ac6/evidence-private/s03-browser4-lawful-successor/FINAL12_POST_CANCEL_NODE-1793320944575569801.log",
+        "status": "PASS",
+        "observed_exit_code": 0,
+        "raw_bytes": 1339,
+        "raw_sha256": "a15c4bf5d50ce72be1f4481d499d8c276c372b307c57bd47bb544b0173bc5c1f"
+      },
+      "retained": "evidence/retained-local/FINAL12_POST_CANCEL_NODE-1793320944575569801.log.gz",
+      "gzip_bytes": 778,
+      "gzip_sha256": "7cb97972cfc81e2872a5359c894be26c1c14c6264c97ba711ef192136c09e05e"
+    },
+    {
+      "original_command_receipt": {
+        "classification": "LOCAL_PREPARATION_SOURCE_ONLY_NATIVE_AUTH_BROWSER_0",
+        "command": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "scripts/current-attendance-choice-browser4-lawful-successor",
+          "-p",
+          "test*.py",
+          "-v"
+        ],
+        "cwd": "/workspace/scratch/ef468a447ac6/erp-s05-import-argv-successor",
+        "source_sha256": "98d3299a0903f65be4a02dbe8f8cb0761747826293e45df6f2269649095a83a5",
+        "expected_exit_code": 0,
+        "expected_refusal": null,
+        "raw_log": "/workspace/scratch/ef468a447ac6/evidence-private/s03-browser4-lawful-successor/FINAL43_PYTHON-1793320053529644652.log",
+        "status": "PASS",
+        "observed_exit_code": 0,
+        "raw_bytes": 7924,
+        "raw_sha256": "22e4cdb8fc9833a8b05bddb8d022825bc9629230b83589ca5f66594bcea8ce09"
+      },
+      "retained": "evidence/retained-local/FINAL43_PYTHON-1793320053529644652.log.gz",
+      "gzip_bytes": 1666,
+      "gzip_sha256": "3da411b763f016d50c212209978f7d58f4f1747c056b8571449d6580ff6155fc"
+    },
+    {
+      "original_command_receipt": {
+        "classification": "LOCAL_POST_CANCEL_SNAPSHOT_SOURCE_CONTROLS_ONLY_NO_NATIVE_AUTH_BROWSER",
+        "command": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "scripts/current-attendance-choice-browser4-lawful-successor",
+          "-p",
+          "test*.py",
+          "-v"
+        ],
+        "cwd": "/workspace/scratch/ef468a447ac6/erp-s05-import-argv-successor",
+        "source_sha256": "d31529b50536b072cf7a7f0c9f8aefb29054aec08a61e90535ab0b510c403686",
+        "expected_exit_code": 0,
+        "expected_refusal": null,
+        "raw_log": "/workspace/scratch/ef468a447ac6/evidence-private/s03-browser4-lawful-successor/FINAL44_POST_CANCEL_PYTHON-1793320944574724610.log",
+        "status": "PASS",
+        "observed_exit_code": 0,
+        "raw_bytes": 8100,
+        "raw_sha256": "c3859a92eb07f635a9615a6ff38f9d49f6e67ac4bd8d195850cfcafa30f07da2"
+      },
+      "retained": "evidence/retained-local/FINAL44_POST_CANCEL_PYTHON-1793320944574724610.log.gz",
+      "gzip_bytes": 1694,
+      "gzip_sha256": "15df85ec76589201b626cdd775dee18bab12ca8aa5ed4f3e0f3d6f2212ddd01b"
+    },
+    {
+      "original_command_receipt": {
+        "classification": "LOCAL_SOURCE_DOUBLE_CONTROLS_NO_ERP_DB_AUTH_BROWSER",
+        "command": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "scripts/current-attendance-choice-browser4-lawful-successor",
+          "-p",
+          "test*.py",
+          "-v"
+        ],
+        "cwd": "/workspace/scratch/ef468a447ac6/erp-s05-import-argv-successor",
+        "source_sha256": "a066d36d8c3c35879d8786502fc82fd55c2332376f2a976650ab6deb203eacbf",
+        "raw_log": "/workspace/scratch/ef468a447ac6/evidence-private/s03-browser4-lawful-successor/FIRST_SOURCE_CONTROLS-1793319607489117324.log",
+        "status": "PASS",
+        "exit_code": 0,
+        "raw_bytes": 7736,
+        "raw_sha256": "dfa9db6a4248068eaf7e221917c4448ce20db506002f6564bc61c3bcde761bfc"
+      },
+      "retained": "evidence/retained-local/FIRST_SOURCE_CONTROLS-1793319607489117324.log.gz",
+      "gzip_bytes": 1634,
+      "gzip_sha256": "d739996cff202c3ec15a21dea74b55de8ea555a1a59216082aa0dd58767d44b2"
+    },
+    {
+      "original_command_receipt": {
+        "classification": "EXPECTED_LOCAL_PRE_CANCEL_API_COUNTER_BEFORE_HELPER_REPAIR_NOT_NATIVE",
+        "command": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "/workspace/scratch/ef468a447ac6/erp-s05-import-argv-successor/scripts/current-attendance-choice-browser4-lawful-successor",
+          "-p",
+          "test_successor.py",
+          "-k",
+          "cancellation_helper_requires",
+          "-v"
+        ],
+        "cwd": "/workspace/scratch/ef468a447ac6/erp-s05-import-argv-successor",
+        "tested_inputs": {
+          "helper-source/lawful_fixture.py": {
+            "bytes": 16648,
+            "sha256": "7bd551eb03cf4c68501fcb69dfdc51de0d28b5e4034648dd40d022cce262cc9c"
+          },
+          "test_successor.py": {
+            "bytes": 4971,
+            "sha256": "132c038b854d1095e5600c58d306d3944462d0eb00f067d0e6c49b695b09b994"
+          },
+          "fixture.py": {
+            "bytes": 27772,
+            "sha256": "5c261c54836bc92b18a851b2c0725c2b1dfb672295f9b88afeb79749d4d441ab"
+          },
+          "cases.mjs": {
+            "bytes": 29725,
+            "sha256": "b4749ecb4078dd14e4c4079f78b832f54ea4c61673818b0fa02940f0553aeab3"
+          }
+        },
+        "status": "EXPECTED_FIRST_FAILURE",
+        "observed_exit_code": 1,
+        "raw_log": "/workspace/scratch/ef468a447ac6/evidence-private/s03-browser4-lawful-successor/PRE_CANCEL_SNAPSHOT_FIRST_NEGATIVE-1793320471343716676.log",
+        "raw_bytes": 1068,
+        "raw_sha256": "5be684aa6eefff50cacf2831c815a5b814e84294dae345509e63de2ca9793576",
+        "actual_Native_Auth_browser": 0
+      },
+      "retained": "evidence/retained-local/PRE_CANCEL_SNAPSHOT_FIRST_NEGATIVE-1793320471343716676.log.gz",
+      "gzip_bytes": 386,
+      "gzip_sha256": "410beff5be06023c43993260f674495744f0d013fc7ea9e1d8ebe667e22ea2f3"
+    }
+  ],
+  "earlier_source_boundary_receipts": [
+    {
+      "classification": "EARLIER_SOURCE_ONLY_RECEIPT_NOT_SEMANTIC_NATIVE_ACCEPTANCE",
+      "retained": "evidence/retained-local/FINAL_FROZEN_SOURCE_1793320300717582733.json.gz",
+      "raw_bytes": 449,
+      "raw_sha256": "c5224b6d437f1518bcc33b02862339c67a5bed715570689c6bcc79dc0258f5cf",
+      "gzip_bytes": 330,
+      "gzip_sha256": "efb00c2ae67a80133f9c5639da7e3bf0c9130c98f7a45db41d4e30d5a5df8628"
+    }
+  ],
+  "logs_overwritten": false,
+  "actual_Native_Auth_browser_credit": 0
+}

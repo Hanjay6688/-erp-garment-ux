@@ -1,0 +1,21 @@
+{
+  "classification": "ACTUAL_FAILED_9AC_OLD_FALSE_PHYSICAL_PREDICATE_NOT_QUALIFIED_PREREQUISITE",
+  "originals": [
+    {
+      "path": "CP7_S03_ATTENDANCE_CHOICE_NATIVE14.json.gz",
+      "gzip_bytes": 2429899,
+      "gzip_sha256": "316deae155842e813a1742afc226b768ae4c4efaeab868d5215bca31e47a0d27",
+      "raw_bytes": 28415697,
+      "raw_sha256": "0716f7cf16c2c02b5487f3c18469bb8b37b9e710b70bfbf07512b0cd5913c55e"
+    },
+    {
+      "path": "CP7_S03_ATTENDANCE_CHOICE_NATIVE11_CASES.json.gz",
+      "gzip_bytes": 4349,
+      "gzip_sha256": "b13d6399b09aa4a29d6bd4940a701d112d62bed2e657bf4b509f5dc3987cc9f5",
+      "raw_bytes": 23409,
+      "raw_sha256": "f53ebbecc4a49780ef3800b884937c91ff1fb9d2825b99cb7830e6e4a9723c40"
+    }
+  ],
+  "actual_new_Native_Auth_browser_credit": 0,
+  "accepted_originals": null
+}

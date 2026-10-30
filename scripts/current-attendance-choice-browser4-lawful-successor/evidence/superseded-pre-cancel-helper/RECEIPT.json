@@ -1,0 +1,19 @@
+{
+  "classification": "SUPERSEDED_PREPARED_HELPER_BEFORE_POST_ALLOCATION_IMMUTABILITY_COUNTER_NOT_NATIVE",
+  "files": {
+    "lawful_fixture.py": {
+      "bytes": 16648,
+      "sha256": "7bd551eb03cf4c68501fcb69dfdc51de0d28b5e4034648dd40d022cce262cc9c"
+    },
+    "CALLBACK_CHANGES.json": {
+      "bytes": 5001,
+      "sha256": "06545db27b3c0418958ec3bdf236c38fd4e53fe3b8a3f1855dfa90519482d9c9"
+    },
+    "business.py": {
+      "bytes": 4461,
+      "sha256": "c10e9b9e2138fd0e0bfd4e165e1e5f96cc2e13f8560159314e1bd576e8e33f6d"
+    }
+  },
+  "reason": "Old cancellation predicate did not bind all intermediate posted/HPP facts captured before cancel; Source-only API negative retained.",
+  "actual_Native_Auth_browser_credit": 0
+}
