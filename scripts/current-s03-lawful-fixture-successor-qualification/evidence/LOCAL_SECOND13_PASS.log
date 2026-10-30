@@ -1,0 +1,18 @@
+test_Reader3_has_one_explicit_API_anchor_all_other_bytes_reverse_exact (test_lawful.Derivations.test_Reader3_has_one_explicit_API_anchor_all_other_bytes_reverse_exact) ... ok
+test_all_original_financial_and_cancel_assertions_survive_except_named_cache_predicate (test_lawful.Derivations.test_all_original_financial_and_cancel_assertions_survive_except_named_cache_predicate) ... ok
+test_native_runner_preserves_fresh11_then_reader_before_same_committed_witness (test_lawful.Derivations.test_native_runner_preserves_fresh11_then_reader_before_same_committed_witness) ... ok
+test_rogue_original_or_duplicate_anchor_fails_closed (test_lawful.Derivations.test_rogue_original_or_duplicate_anchor_fails_closed) ... ok
+test_three_case_anchors_reverse_to_exact15fe_and_eight_callbacks_and_helpers_stay_exact (test_lawful.Derivations.test_three_case_anchors_reverse_to_exact15fe_and_eight_callbacks_and_helpers_stay_exact) ... ok
+test_baseline_posted_journal_and_HPP_fact_mutation_refused (test_lawful.Valuation.test_baseline_posted_journal_and_HPP_fact_mutation_refused) ... ok
+test_cache_must_equal_current_Native_HPP_and_own_allocation_arithmetic (test_lawful.Valuation.test_cache_must_equal_current_Native_HPP_and_own_allocation_arithmetic) ... ok
+test_every_other_physical_field_is_checked_not_a_small_projection (test_lawful.Valuation.test_every_other_physical_field_is_checked_not_a_small_projection) ... ok
+test_exact_Native_cache_positive_old_fullrow_false_negative_and_all_SALE_rows_unchanged (test_lawful.Valuation.test_exact_Native_cache_positive_old_fullrow_false_negative_and_all_SALE_rows_unchanged) ... ok
+test_unknown_field_or_rowset_or_SALE_cache_cannot_be_excluded (test_lawful.Valuation.test_unknown_field_or_rowset_or_SALE_cache_cannot_be_excluded) ... ok
+test_exact_keyset_unknown_or_missing_worker_refuses_without_any_writer (test_lawful.WorkerAPI.test_exact_keyset_unknown_or_missing_worker_refuses_without_any_writer) ... ok
+test_invalid_period_or_amount_refuses_before_fixtures (test_lawful.WorkerAPI.test_invalid_period_or_amount_refuses_before_fixtures) ... ok
+test_one_known_worker_is_reused_through_fresh_rate_and_explicit_PRESENT (test_lawful.WorkerAPI.test_one_known_worker_is_reused_through_fresh_rate_and_explicit_PRESENT) ... ok
+
+----------------------------------------------------------------------
+Ran 13 tests in 0.161s
+
+OK
