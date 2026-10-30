@@ -1,0 +1,4232 @@
+{
+  "contract": "cp7.final-composition-source-plan.v1",
+  "classification": "READ_ONLY_SELECTIVE_SOURCE_IMPLEMENTATION_PLAN_NOT_RUNTIME_OR_COMPOSITE_ACCEPTANCE",
+  "stage": "FINAL_SOURCE_PLAN_WITH_EXPLICIT_READ_ONLY_ACTUAL_CATALOG_COUNTER_NOT_RUNTIME_AUTHORIZATION",
+  "base": {
+    "head": "3fdbffe3f41da6dc1004d2179ac1fe81fe05b609",
+    "tree": "ed8c4c2ec14af2ca4cb28c3b265abb2c249a12ee",
+    "default": "cp7_vendor_receivable.composition",
+    "default_unchanged": true,
+    "vendor_dynamic_parent": "scripts/current-factory-initial-stage/composition.py",
+    "source_getters_are_actual_physical_paths": true
+  },
+  "preserved_browser": {
+    "local": "13686b666e82a977620883d84d236711d3fe270a",
+    "public": "e09c6512932de81777e661275d18bb232b2d2ee3",
+    "tree": "8f18cef07f0939093c0ddc488ef9d7af66b56ae6",
+    "changes": 0,
+    "accepted14": null
+  },
+  "prior_contracts": [
+    {
+      "commit": "3fdbffe3f41da6dc1004d2179ac1fe81fe05b609",
+      "path": "docs/cp7/d17-14/ow15/CURRENT_COMPOSITION_INTERNAL_SOURCE_REVIEW.json",
+      "git_blob": "8720be43b3beb9526c0023ab64879730d6fab8f7",
+      "bytes": 40678,
+      "sha256": "4c5f38062d52f8723ad5c9b3c74f0f2a8f3704c449b2589a5e89f09db6508e85",
+      "base_state": "EXACT"
+    },
+    {
+      "commit": "3fdbffe3f41da6dc1004d2179ac1fe81fe05b609",
+      "path": "docs/cp7/d17-14/ow15/GLOBAL-BE-COEXISTENCE-PLAN-20261030.JSON",
+      "git_blob": "ce3b15e490e34f6179d088d78eb7a84a1acc32ba",
+      "bytes": 17925,
+      "sha256": "8f5e951afcc2fb24927fdce007a73bea21ac487a8d5a7ec122ddc19db9c1cbde",
+      "base_state": "EXACT"
+    }
+  ],
+  "deliberate_candidate": {
+    "proposed_branch": "qualification/a-final-composition-source-20261030",
+    "base": "3fdbffe3f41da6dc1004d2179ac1fe81fe05b609",
+    "proposed_entry": "scripts/cp7_final_composition/composition.py",
+    "runtime_execution_authorized": false,
+    "accepted_component_bindings": {
+      "D1": null,
+      "E": null,
+      "SKU": null,
+      "S03": null,
+      "S05": null
+    },
+    "global_parent_binding": null,
+    "default_installer_change": false,
+    "existing_B_or_main_overwrite": false,
+    "minimum_copies": "Only listed product runtime/bootstrap leaves and explicit admission/frontend dependencies; do not merge author branch histories, qualifier workflows, source evidence packages, receipts or docs."
+  },
+  "components": {
+    "D1": {
+      "source_commit": "cde78b2cc82e0a286174098458dab9815fdfd072",
+      "source_tree": "915103541d247f544c4492db25953b4268d9c2e3",
+      "runtime_leaves": [
+        {
+          "commit": "cde78b2cc82e0a286174098458dab9815fdfd072",
+          "path": "scripts/cp7_credit_correction_de/review.sql",
+          "git_blob": "b705dac23a132495d016109e232dec089846f769",
+          "bytes": 3722,
+          "sha256": "88681bf674a6b6e8aeda46830a4a27b18bdda84cfcba6868bbb08e3f84fdc382",
+          "base_state": "MISSING"
+        },
+        {
+          "commit": "cde78b2cc82e0a286174098458dab9815fdfd072",
+          "path": "scripts/cp7_credit_correction_de/facts.sql",
+          "git_blob": "0102d4f8b13920fbf7bfd0afde2aa32897d23b0c",
+          "bytes": 5073,
+          "sha256": "ddfcf8583cf86a916e04aa5630d6262a32e48919dbd0a4c913a09166ca2f8334",
+          "base_state": "MISSING"
+        },
+        {
+          "commit": "cde78b2cc82e0a286174098458dab9815fdfd072",
+          "path": "scripts/cp7_credit_correction_de/owning.sql",
+          "git_blob": "f45fca19adfc23065f4bc42dc5125bbd5735e7b1",
+          "bytes": 25957,
+          "sha256": "410afb540f455ce6781d8bf09ee6bd6f66420a2f17d3c5474720a642fdcc9cae",
+          "base_state": "MISSING"
+        },
+        {
+          "commit": "cde78b2cc82e0a286174098458dab9815fdfd072",
+          "path": "scripts/cp7_credit_correction_de/proof.sql",
+          "git_blob": "6d462c3ba9b9d8e987f6064ff7cc0ffa5d180038",
+          "bytes": 15975,
+          "sha256": "8d81f2d8d9384c08eda28eb0b86a6c96b97f2ef8178adbe4b7d1dab01b8cf7ef",
+          "base_state": "MISSING"
+        },
+        {
+          "commit": "cde78b2cc82e0a286174098458dab9815fdfd072",
+          "path": "scripts/cp7_credit_correction_de/posting.sql",
+          "git_blob": "4a91227331697ff06879b135bcb11eecaa60cefb",
+          "bytes": 13878,
+          "sha256": "e200a62d91c7975e67a88eb37c47d89dd739eb8f63fc0a1ee7063aaec0f9ce5b",
+          "base_state": "MISSING"
+        },
+        {
+          "commit": "cde78b2cc82e0a286174098458dab9815fdfd072",
+          "path": "scripts/cp7_credit_correction_de/materialize.sql",
+          "git_blob": "b99d6399eb9206db3b74adaeefcf6f16ce31baa5",
+          "bytes": 15010,
+          "sha256": "206c18b517aef54ddc5757fd156a6c7d8d4a2c3240f62779773a4fff74fe6154",
+          "base_state": "MISSING"
+        },
+        {
+          "commit": "cde78b2cc82e0a286174098458dab9815fdfd072",
+          "path": "scripts/cp7_credit_correction_de/closure.sql",
+          "git_blob": "ebbd372e61b0245397bbe95e2fbb425af53ab34a",
+          "bytes": 6259,
+          "sha256": "e21744ba0d98e963ccba9ca916247b797cb2c930b889e2eb41288a12f1888972",
+          "base_state": "MISSING"
+        },
+        {
+          "commit": "cde78b2cc82e0a286174098458dab9815fdfd072",
+          "path": "scripts/cp7_credit_correction_de/native_delta.py",
+          "git_blob": "1635d613d979e092c209c1d475a521483c1fc247",
+          "bytes": 7494,
+          "sha256": "d6157ad24dd22ca4810df12668090eb74a3382e6ceb3e4c0954a037a7016c664",
+          "base_state": "MISSING"
+        },
+        {
+          "commit": "cde78b2cc82e0a286174098458dab9815fdfd072",
+          "path": "scripts/cp7_credit_correction_de/composition.py",
+          "git_blob": "96d2fdbd71c4e6b6cbbcfa32a29e27922c4fbda6",
+          "bytes": 12384,
+          "sha256": "4f7086c157e977cacf5f4281d6a2748113029fd7c2c441837e254c9fca9422af",
+          "base_state": "MISSING"
+        }
+      ],
+      "runtime_leaf_count": 9,
+      "package_bootstrap": {
+        "commit": "cde78b2cc82e0a286174098458dab9815fdfd072",
+        "path": "scripts/cp7_credit_correction_de/__init__.py",
+        "git_blob": "cb6daf16b9fbe416aeef8e07e68a3b27342429fd",
+        "bytes": 91,
+        "sha256": "5cea80d360a7ce7a86d3adc85cc60f84de2fe2eb7e000db4dff1880b8b6eeeb5",
+        "base_state": "MISSING"
+      },
+      "capture_signatures": [
+        "cp7_sales_return_correction.command(jsonb,uuid,text)",
+        "cp7_sales_return_correction.reverse_sales_return(uuid,text)",
+        "erp.post_sales_return(uuid)",
+        "cp7_credit._post_journal_bound(text,uuid,date,text,jsonb)",
+        "cp7_credit.assert_simple_native_base_v1(uuid)",
+        "cp7_credit.initial_base_events_v1(uuid,uuid)",
+        "cp7_credit.initial_ordinal_input_v1(uuid,uuid)",
+        "cp7_credit._consumer_root_source_profile_v1(uuid,uuid,uuid,jsonb)",
+        "cp7_credit.assert_financial_materialization_provenance(jsonb)",
+        "cp7_credit.enforce_initial_return_closure_v1()",
+        "public.erp_cp7_correct_sales_return_v1(jsonb,uuid,text)",
+        "public.erp_cp7_get_sales_return_correction_v1(jsonb)"
+      ],
+      "capture_count": 12,
+      "replaced_existing_signatures": [
+        "cp7_credit.initial_base_events_v1(uuid,uuid)",
+        "cp7_credit.initial_ordinal_input_v1(uuid,uuid)",
+        "cp7_credit._consumer_root_source_profile_v1(uuid,uuid,uuid,jsonb)",
+        "cp7_credit.assert_financial_materialization_provenance(jsonb)",
+        "cp7_credit.enforce_initial_return_closure_v1()",
+        "public.erp_cp7_correct_sales_return_v1(jsonb,uuid,text)",
+        "public.erp_cp7_get_sales_return_correction_v1(jsonb)"
+      ],
+      "replaced_existing_count": 7,
+      "private_Native_clones": {
+        "cp7_sales_return_correction.command(jsonb,uuid,text)": "cp7_credit_correction_de.command_v1(jsonb,uuid,text)",
+        "cp7_sales_return_correction.reverse_sales_return(uuid,text)": "cp7_credit_correction_de.reverse_return_v1(uuid,text)",
+        "erp.post_sales_return(uuid)": "cp7_credit_correction_de.post_return_v1(uuid)",
+        "cp7_credit._post_journal_bound(text,uuid,date,text,jsonb)": "cp7_credit_correction_de._post_journal_v1(text,uuid,date,text,jsonb)",
+        "cp7_credit.assert_simple_native_base_v1(uuid)": "cp7_credit_correction_de.assert_native_base_v1(uuid)"
+      },
+      "private_Native_clone_count": 5,
+      "new_function_signatures": [
+        "cp7_credit_correction_de._post_journal_v1(text,uuid,date,text,jsonb)",
+        "cp7_credit_correction_de.active_consumers_v1(uuid)",
+        "cp7_credit_correction_de.active_v1()",
+        "cp7_credit_correction_de.assert_bound_post_v1(text,uuid,date,jsonb)",
+        "cp7_credit_correction_de.assert_closed_v1(uuid)",
+        "cp7_credit_correction_de.assert_marker_v1(uuid)",
+        "cp7_credit_correction_de.assert_native_base_v1(uuid)",
+        "cp7_credit_correction_de.assert_nonopening_v1(uuid)",
+        "cp7_credit_correction_de.assert_owned_links_v1(uuid)",
+        "cp7_credit_correction_de.assert_plan_set_v1(uuid)",
+        "cp7_credit_correction_de.assert_profile_v1(uuid,uuid,uuid,jsonb)",
+        "cp7_credit_correction_de.assert_source_change_v1(jsonb,jsonb,uuid,uuid)",
+        "cp7_credit_correction_de.assert_work_v1()",
+        "cp7_credit_correction_de.bound_audit_context_v1()",
+        "cp7_credit_correction_de.bound_book_date_v1(text,uuid,date,jsonb)",
+        "cp7_credit_correction_de.close_fact_v1(text,jsonb)",
+        "cp7_credit_correction_de.command_v1(jsonb,uuid,text)",
+        "cp7_credit_correction_de.dispatch_v1(jsonb,uuid,text)",
+        "cp7_credit_correction_de.enforce_closed_v1()",
+        "cp7_credit_correction_de.extra_events_v1(uuid,uuid)",
+        "cp7_credit_correction_de.finish_v1(jsonb)",
+        "cp7_credit_correction_de.has_source_v1(uuid)",
+        "cp7_credit_correction_de.immutable_v1()",
+        "cp7_credit_correction_de.input_without_own_v1(uuid)",
+        "cp7_credit_correction_de.marker_owned_v1(uuid)",
+        "cp7_credit_correction_de.materialize_v1(uuid)",
+        "cp7_credit_correction_de.native_return_complete_v1(uuid,numeric,numeric)",
+        "cp7_credit_correction_de.native_return_enter_v1(uuid)",
+        "cp7_credit_correction_de.native_return_guard_v1(uuid,numeric,numeric,numeric)",
+        "cp7_credit_correction_de.native_return_leave_v1(uuid)",
+        "cp7_credit_correction_de.participates_v1(uuid)",
+        "cp7_credit_correction_de.post_return_journal_v1(text,uuid,date,text,jsonb)",
+        "cp7_credit_correction_de.post_return_v1(uuid)",
+        "cp7_credit_correction_de.prepare_v1(jsonb,uuid,text,jsonb)",
+        "cp7_credit_correction_de.proof_v1(uuid)",
+        "cp7_credit_correction_de.quote_v1(jsonb)",
+        "cp7_credit_correction_de.reverse_complete_v1(text,uuid)",
+        "cp7_credit_correction_de.reverse_enter_v1(text,uuid)",
+        "cp7_credit_correction_de.reverse_reconciled_v1(text,uuid)",
+        "cp7_credit_correction_de.reverse_return_v1(uuid,text)",
+        "cp7_credit_correction_de.review_vectors_v1(jsonb,jsonb)",
+        "cp7_credit_correction_de.temporary_paid_v1(uuid,boolean)",
+        "cp7_credit_correction_de.vector_v1(jsonb)",
+        "cp7_credit_correction_de.workspace_v1(jsonb)"
+      ],
+      "new_function_count": 44,
+      "catalog_counts_are": "SOURCE_DERIVED_NOT_A_COMPOSITE_ACTUAL_CATALOG",
+      "accepted_composite": null,
+      "private_schema": "cp7_credit_correction_de",
+      "new_schema_count": 1,
+      "tables": [
+        "cp7_credit_correction_de.work_v1",
+        "cp7_credit_correction_de.operations_v1",
+        "cp7_credit_correction_de.plans_v1",
+        "cp7_credit_correction_de.parts_v1",
+        "cp7_credit_correction_de.posting_v1"
+      ],
+      "new_table_count": 5,
+      "new_public_RPC_count": 0,
+      "new_roles": [],
+      "source_import_bootstrap_additions": 1,
+      "state": "NARROW_NATIVE13_17ac_PLUS_CURRENT_FRESH3_cde78_ROOT_VERIFIED_NOT_GLOBAL_COEXISTENCE",
+      "Native13": "17ac1eeb5833cbf2a786194fe3bfbba6628a1ff8",
+      "Native13_tree": "52870c467cb37c328fd6ff73fe8484f8d6798953",
+      "continuation3_runtime_delta_files": 0,
+      "formal_D_complete": false
+    },
+    "E": {
+      "source_commit": "fe2ae370c00e68437c4951c28c3a1038ce35fb38",
+      "source_tree": "600d4575309e67a5575d7896382b38a27e000d7e",
+      "runtime_leaves": [
+        {
+          "commit": "fe2ae370c00e68437c4951c28c3a1038ce35fb38",
+          "path": "scripts/cp7_credit_correction_de/note_carry/01_facts.sql",
+          "git_blob": "447a2e020a9b8431b6c9d4ff0012007b7ae478e5",
+          "bytes": 3885,
+          "sha256": "ebf128127e6bcab8fe1c52b98f46ede1492356386312fe2f744e3e65ddb1d415",
+          "base_state": "MISSING"
+        },
+        {
+          "commit": "fe2ae370c00e68437c4951c28c3a1038ce35fb38",
+          "path": "scripts/cp7_credit_correction_de/note_carry/02_plan.sql",
+          "git_blob": "e5810d94cf5ab42fd28f5e4a42fcfb751367b5d7",
+          "bytes": 2297,
+          "sha256": "17c9028606298e7d66681deb3c0a1f3260a1ec829d9ba501a647231b358981f3",
+          "base_state": "MISSING"
+        },
+        {
+          "commit": "fe2ae370c00e68437c4951c28c3a1038ce35fb38",
+          "path": "scripts/cp7_credit_correction_de/note_carry/03_readers.sql",
+          "git_blob": "21968a7be398632753547473e8f671d575f8b14c",
+          "bytes": 9250,
+          "sha256": "940200b5320189bd424a99ccef9cc92846dd576a6c6d4bd2e8f1e25afd3325d8",
+          "base_state": "MISSING"
+        },
+        {
+          "commit": "fe2ae370c00e68437c4951c28c3a1038ce35fb38",
+          "path": "scripts/cp7_credit_correction_de/note_carry/04_basis.sql",
+          "git_blob": "503dff3395c0f725f38b382ee5b6738e75fbceb9",
+          "bytes": 7444,
+          "sha256": "cdd49e1c5f9a78f4c2c27ce0ae055907a485475c0020720c9e18a0f80e68c222",
+          "base_state": "MISSING"
+        },
+        {
+          "commit": "fe2ae370c00e68437c4951c28c3a1038ce35fb38",
+          "path": "scripts/cp7_credit_correction_de/note_carry/05_effect.sql",
+          "git_blob": "88d77d43efe5dde846739518e4df0c154a82ac7e",
+          "bytes": 9816,
+          "sha256": "cd77c5ab9427223e1c67b93d8631a1808b8ddc593fc0c97d12e9c069a2950710",
+          "base_state": "MISSING"
+        },
+        {
+          "commit": "fe2ae370c00e68437c4951c28c3a1038ce35fb38",
+          "path": "scripts/cp7_credit_correction_de/note_carry/06_owning.sql",
+          "git_blob": "9d20f2fca31f4741cbd720a65e8d7ede2145c9e1",
+          "bytes": 13433,
+          "sha256": "0c00bb08274827e6295ada3ed4e4b8e7d917ed1bc1a996aaa0685d0fd1772c94",
+          "base_state": "MISSING"
+        },
+        {
+          "commit": "fe2ae370c00e68437c4951c28c3a1038ce35fb38",
+          "path": "scripts/cp7_credit_correction_de/note_carry/07_profile_closure.sql",
+          "git_blob": "049941b8bb3e85e97cbf267704737c3193f4484d",
+          "bytes": 16068,
+          "sha256": "8e82c257ca20a4dcac5cf0dad2f1e487c2e202caea7fa466503019003d3f75ac",
+          "base_state": "MISSING"
+        },
+        {
+          "commit": "fe2ae370c00e68437c4951c28c3a1038ce35fb38",
+          "path": "scripts/cp7_credit_correction_de/e_native_delta.py",
+          "git_blob": "7542f0a4e3ac4993ac49d6d008b981f29243a772",
+          "bytes": 11997,
+          "sha256": "314742c922fc82145f7caa8d4217296bf3f2408ceacbc4738d50d3b866d2bfe0",
+          "base_state": "MISSING"
+        },
+        {
+          "commit": "fe2ae370c00e68437c4951c28c3a1038ce35fb38",
+          "path": "scripts/cp7_credit_correction_de/e_composition.py",
+          "git_blob": "c15a881f5db1a00ea017dc77bf3d96a88b14da53",
+          "bytes": 12376,
+          "sha256": "6e690d12e30cb3a6463283dc62f269f5e3e77e2e59f37e45cdd0b5ec1f6a46d6",
+          "base_state": "MISSING"
+        }
+      ],
+      "runtime_leaf_count": 9,
+      "package_bootstrap": null,
+      "capture_signatures": [
+        "cp7_note.command(jsonb,uuid,text)",
+        "cp7_note.reverse_sale(uuid,text)",
+        "cp7_credit.source_native_snapshot_v1(uuid)",
+        "public.erp_cp7_correct_note_v1(jsonb,uuid,text)",
+        "public.erp_cp7_get_note_correction_v2(uuid)",
+        "erp._cp7_current_credit_adjustment(uuid)",
+        "cp7_credit.current_materialized_objects(uuid,uuid,uuid)",
+        "cp7_credit.assert_current_source_plan_profile(uuid,uuid,uuid,jsonb)",
+        "cp7_credit.initial_base_events_v1(uuid,uuid)",
+        "cp7_credit.initial_ordinal_input_v1(uuid,uuid)",
+        "cp7_credit.consumer_incoming_funding_v1(uuid)",
+        "cp7_credit_incoming.incoming_applied_v1(uuid)",
+        "cp7_credit.consumer_selection_v1(jsonb)",
+        "cp7_credit.consumer_capture_sources_v1(jsonb)",
+        "cp7_credit.consumer_projection_v1(jsonb,jsonb)",
+        "cp7_credit.consumer_execute_v1(uuid)",
+        "cp7_credit.assert_consumer_closed_v1(uuid)",
+        "cp7_credit.consumer_native_invariant_v1(uuid)",
+        "cp7_credit.consumer_invoice_profile_v1(uuid)",
+        "cp7_credit.consumer_event_data_v1(uuid)",
+        "cp7_credit.consumer_quote_v1(jsonb)",
+        "cp7_credit.native_source_enter(text,uuid)"
+      ],
+      "capture_count": 22,
+      "replaced_existing_signatures": [
+        "public.erp_cp7_correct_note_v1(jsonb,uuid,text)",
+        "public.erp_cp7_get_note_correction_v2(uuid)",
+        "erp._cp7_current_credit_adjustment(uuid)",
+        "cp7_credit.current_materialized_objects(uuid,uuid,uuid)",
+        "cp7_credit.assert_current_source_plan_profile(uuid,uuid,uuid,jsonb)",
+        "cp7_credit.initial_base_events_v1(uuid,uuid)",
+        "cp7_credit.initial_ordinal_input_v1(uuid,uuid)",
+        "cp7_credit.consumer_incoming_funding_v1(uuid)",
+        "cp7_credit_incoming.incoming_applied_v1(uuid)",
+        "cp7_credit.consumer_selection_v1(jsonb)",
+        "cp7_credit.consumer_capture_sources_v1(jsonb)",
+        "cp7_credit.consumer_projection_v1(jsonb,jsonb)",
+        "cp7_credit.consumer_execute_v1(uuid)",
+        "cp7_credit.assert_consumer_closed_v1(uuid)",
+        "cp7_credit.consumer_native_invariant_v1(uuid)",
+        "cp7_credit.consumer_invoice_profile_v1(uuid)",
+        "cp7_credit.consumer_event_data_v1(uuid)",
+        "cp7_credit.consumer_quote_v1(jsonb)",
+        "cp7_credit.native_source_enter(text,uuid)"
+      ],
+      "replaced_existing_count": 19,
+      "private_Native_clones": {
+        "cp7_note.command(jsonb,uuid,text)": "cp7_credit_note_carry_de.command_v1(jsonb,uuid,text)",
+        "cp7_note.reverse_sale(uuid,text)": "cp7_credit_note_carry_de.reverse_sale_v1(uuid,text)",
+        "cp7_credit.source_native_snapshot_v1(uuid)": "cp7_credit_note_carry_de.raw_native_snapshot_v1(uuid)"
+      },
+      "private_Native_clone_count": 3,
+      "new_function_signatures": [
+        "cp7_credit_note_carry_de.active_sales_v1(jsonb)",
+        "cp7_credit_note_carry_de.assert_chain_v1(uuid)",
+        "cp7_credit_note_carry_de.assert_closed_v1(uuid)",
+        "cp7_credit_note_carry_de.assert_effect_v1(jsonb,jsonb,uuid,uuid,numeric)",
+        "cp7_credit_note_carry_de.assert_historical_v1(uuid)",
+        "cp7_credit_note_carry_de.assert_price_only_v1(jsonb)",
+        "cp7_credit_note_carry_de.assert_profile_v1(uuid,uuid,uuid,jsonb)",
+        "cp7_credit_note_carry_de.assert_work_v1()",
+        "cp7_credit_note_carry_de.basis_v1(uuid)",
+        "cp7_credit_note_carry_de.command_v1(jsonb,uuid,text)",
+        "cp7_credit_note_carry_de.consumer_status_refresh_allowed_v1(uuid,jsonb,text)",
+        "cp7_credit_note_carry_de.current_events_v1(uuid)",
+        "cp7_credit_note_carry_de.dispatch_v1(jsonb,uuid,text)",
+        "cp7_credit_note_carry_de.effective_target_v1(uuid)",
+        "cp7_credit_note_carry_de.enforce_closed_v1()",
+        "cp7_credit_note_carry_de.finish_v1(jsonb)",
+        "cp7_credit_note_carry_de.guard_later_native_source_v1(text,uuid)",
+        "cp7_credit_note_carry_de.has_root_v1(uuid)",
+        "cp7_credit_note_carry_de.immutable_v1()",
+        "cp7_credit_note_carry_de.invoice_profile_v1(uuid)",
+        "cp7_credit_note_carry_de.is_current_v1(uuid)",
+        "cp7_credit_note_carry_de.materialize_v1(uuid)",
+        "cp7_credit_note_carry_de.minimum_net_v1(jsonb)",
+        "cp7_credit_note_carry_de.native_events_v1(uuid)",
+        "cp7_credit_note_carry_de.operation_v1(uuid)",
+        "cp7_credit_note_carry_de.ordinal_v1(uuid)",
+        "cp7_credit_note_carry_de.plan_v1(jsonb,text)",
+        "cp7_credit_note_carry_de.prepare_v1(jsonb,uuid,text,uuid,jsonb)",
+        "cp7_credit_note_carry_de.proof_v1(uuid)",
+        "cp7_credit_note_carry_de.public_basis_v1(jsonb)",
+        "cp7_credit_note_carry_de.raw_document_v1(uuid)",
+        "cp7_credit_note_carry_de.raw_native_snapshot_v1(uuid)",
+        "cp7_credit_note_carry_de.reverse_complete_v1(text,uuid)",
+        "cp7_credit_note_carry_de.reverse_enter_v1(text,uuid)",
+        "cp7_credit_note_carry_de.reverse_sale_v1(uuid,text)",
+        "cp7_credit_note_carry_de.review_payload_v1(jsonb)",
+        "cp7_credit_note_carry_de.root_v1(uuid)",
+        "cp7_credit_note_carry_de.same_target_v1(uuid,uuid)",
+        "cp7_credit_note_carry_de.target_assignment_v1(jsonb)",
+        "cp7_credit_note_carry_de.validate_current_v1(uuid)",
+        "cp7_credit_note_carry_de.workspace_v1(uuid)"
+      ],
+      "new_function_count": 41,
+      "catalog_counts_are": "SOURCE_DERIVED_NOT_A_COMPOSITE_ACTUAL_CATALOG",
+      "accepted_composite": null,
+      "private_schema": "cp7_credit_note_carry_de",
+      "new_schema_count": 1,
+      "tables": [
+        "cp7_credit_note_carry_de.work_v1",
+        "cp7_credit_note_carry_de.operations_v1",
+        "cp7_credit_note_carry_de.assignments_v1"
+      ],
+      "new_table_count": 3,
+      "new_public_RPC_count": 0,
+      "new_roles": [],
+      "source_import_bootstrap_additions": 0,
+      "state": "PREPARED_fe2_CURRENT_NATIVE17_928_RUNNING_NO_ACCEPTED_BINDING",
+      "qualifier": "928246e5f62637c7c6457e57d73d0699196e3408",
+      "qualifier_tree": "581303d5f0df8a6ae40f6d7ec0fab7c06678ed9a",
+      "formal_E_complete": false
+    },
+    "SKU": {
+      "source_commit": "f3d014648d12279dfa89ca8593f25585430a5efe",
+      "source_tree": "b1c316d6e853805f933a6665a81edf9332d12a36",
+      "runtime_leaves": [
+        {
+          "commit": "f3d014648d12279dfa89ca8593f25585430a5efe",
+          "path": "scripts/cp7_sku_pair_conversion/pairs.sql",
+          "git_blob": "40a3bb1f66dcb7b317a0221fff3279fd834d4b54",
+          "bytes": 9421,
+          "sha256": "05c7b67222b2a003ee4180872216a0837c747fcb145db88157317bad25b281c2"
+        },
+        {
+          "commit": "f3d014648d12279dfa89ca8593f25585430a5efe",
+          "path": "scripts/cp7_sku_pair_conversion/conversion.sql",
+          "git_blob": "936e5bf98c2deb18827e4d58433939f318391b58",
+          "bytes": 22975,
+          "sha256": "eece6fbed8cb13b73a49ec2e051478d6ba2a8b1002f6745b8c682db318595d72"
+        },
+        {
+          "commit": "f3d014648d12279dfa89ca8593f25585430a5efe",
+          "path": "scripts/cp7_sku_pair_conversion/native_delta.py",
+          "git_blob": "06d7b1686c479bca80a8c4810cd4b354bbda2300",
+          "bytes": 2224,
+          "sha256": "ff479d17a8f039693723307088551a0eb6876e2bdd772da2b6dc6f60c55d82f8"
+        },
+        {
+          "commit": "f3d014648d12279dfa89ca8593f25585430a5efe",
+          "path": "scripts/cp7_sku_pair_conversion/composition.py",
+          "git_blob": "d04134a5f3e70a545e3e0041428075abcfb019b8",
+          "bytes": 10252,
+          "sha256": "fa3e825b251252ae11c2b68eecd9e55562526b468f03a01ebc3d5213ed472be8"
+        },
+        {
+          "commit": "f3d014648d12279dfa89ca8593f25585430a5efe",
+          "path": "scripts/cp7_sku_pair_conversion/ri_catalog.py",
+          "git_blob": "06ab8bea5b4e33a149a0f38581b37bf1de0845f4",
+          "bytes": 1501,
+          "sha256": "aa30eff7c258de3ced78067ed7fbe660bef4570c291946f9291d6363881a4f3e"
+        },
+        {
+          "commit": "f3d014648d12279dfa89ca8593f25585430a5efe",
+          "path": "scripts/cp7_sku_pair_conversion/recovery.sql",
+          "git_blob": "e8931d9db9f47042fc7ae8e81ce5c3ef97026f57",
+          "bytes": 19035,
+          "sha256": "0bfb7d5bf64398470dcdd7f9e8e1ceed124c8db6e051433142f48dcb00ab8bd9"
+        },
+        {
+          "commit": "f3d014648d12279dfa89ca8593f25585430a5efe",
+          "path": "scripts/cp7_sku_pair_conversion/recovery_delta.py",
+          "git_blob": "ba7607b9f7ad733f9d84bb8d39d1af3fa1ac475d",
+          "bytes": 3749,
+          "sha256": "8d4b4e56e497ca5160879f095b1f933cf00f3e858a377bc7da80f121c5dcd116"
+        },
+        {
+          "commit": "f3d014648d12279dfa89ca8593f25585430a5efe",
+          "path": "scripts/cp7_sku_pair_conversion/recovery_profile.json",
+          "git_blob": "80e47854e3926f62fb6809ec682d28103ed6a5ed",
+          "bytes": 6586,
+          "sha256": "6b577f806e6feefc17be7715624db6c2ff58430b2eadea0a5824975061a61327"
+        },
+        {
+          "commit": "f3d014648d12279dfa89ca8593f25585430a5efe",
+          "path": "scripts/cp7_sku_pair_conversion/recovery_before/erp.bc_value_custody_v1.sql",
+          "git_blob": "23c307ea0b8437bbc3a19fd25c10789db3e6069c",
+          "bytes": 3433,
+          "sha256": "b9c1c7029802414f42f1a38dadce84d3c08fb2132dd24ef56b2bed87add3776d"
+        },
+        {
+          "commit": "f3d014648d12279dfa89ca8593f25585430a5efe",
+          "path": "scripts/cp7_sku_pair_conversion/recovery_before/erp.save_accessory_service_action_v1.sql",
+          "git_blob": "97c5eb0a1275bfcff0bf66db647c2b5f21b7c6f0",
+          "bytes": 4996,
+          "sha256": "6a4431e4d26e61dd3edf1cb5dc18aed407ce54ab49a673a410616aa828a2f644"
+        }
+      ],
+      "runtime_leaf_count": 10,
+      "package_bootstrap": {
+        "commit": "f3d014648d12279dfa89ca8593f25585430a5efe",
+        "path": "scripts/cp7_sku_pair_conversion/__init__.py",
+        "git_blob": "26d8027cf0dc74b8757c0a5b47dc5f59c383f491",
+        "bytes": 70,
+        "sha256": "85909f7aeb97bb550afe4c63356c73675cbe3519e3ee518f11e9858dbaa090b5"
+      },
+      "capture_signatures": [
+        "public.erp_get_sku_workspace_v1(jsonb)",
+        "public.erp_save_sku_action_v1(text,jsonb,uuid)",
+        "public.erp_get_product_conversion_workspace_v1(jsonb)",
+        "public.erp_save_product_conversion_action_v1(text,jsonb,uuid)",
+        "erp.be_conversion_preview_v1(jsonb)",
+        "erp.reverse_product_conversion(uuid,text)",
+        "erp.bc_value_custody_v1(jsonb,uuid)",
+        "erp.save_accessory_service_action_v1(text,jsonb,uuid)"
+      ],
+      "capture_count": 8,
+      "replaced_existing_signatures": [
+        "public.erp_get_sku_workspace_v1(jsonb)",
+        "public.erp_save_sku_action_v1(text,jsonb,uuid)",
+        "public.erp_get_product_conversion_workspace_v1(jsonb)",
+        "public.erp_save_product_conversion_action_v1(text,jsonb,uuid)",
+        "erp.be_conversion_preview_v1(jsonb)",
+        "erp.reverse_product_conversion(uuid,text)",
+        "erp.bc_value_custody_v1(jsonb,uuid)",
+        "erp.save_accessory_service_action_v1(text,jsonb,uuid)"
+      ],
+      "replaced_existing_count": 8,
+      "private_Native_clones": {},
+      "private_Native_clone_count": 0,
+      "new_function_signatures": [
+        "cp7_sku_conversion.action_v1(text,jsonb,uuid)",
+        "cp7_sku_conversion.assert_group_reverse_v1(uuid)",
+        "cp7_sku_conversion.group_v1(uuid)",
+        "cp7_sku_conversion.guard_pair_v1()",
+        "cp7_sku_conversion.immutable_v1()",
+        "cp7_sku_conversion.manual_allocation_v1(uuid,uuid,uuid,int,timestamp with time zone)",
+        "cp7_sku_conversion.pair_revision_v1()",
+        "cp7_sku_conversion.partner_v1(uuid)",
+        "cp7_sku_conversion.preview_v1(jsonb)",
+        "cp7_sku_conversion.recovery_auth_v1(jsonb)",
+        "cp7_sku_conversion.recovery_graph_v1(uuid,numeric,boolean)",
+        "cp7_sku_conversion.recovery_managed_v1(uuid)",
+        "cp7_sku_conversion.recovery_preflight_v1(uuid,numeric,numeric,timestamp with time zone)",
+        "cp7_sku_conversion.revision_v1(uuid,uuid,uuid)",
+        "cp7_sku_conversion.save_pair_v1(jsonb,uuid)",
+        "cp7_sku_conversion.sku_action_v1(text,jsonb,uuid)",
+        "cp7_sku_conversion.sku_workspace_v1(jsonb)",
+        "cp7_sku_conversion.stock_v1(uuid,uuid)",
+        "cp7_sku_conversion.workspace_v1(jsonb)"
+      ],
+      "new_function_count": 19,
+      "catalog_counts_are": "SOURCE_DERIVED_NOT_A_COMPOSITE_ACTUAL_CATALOG",
+      "accepted_composite": null,
+      "private_schema": "cp7_sku_conversion",
+      "new_schema_count": 1,
+      "tables": [
+        "cp7_sku_conversion.pairs_v1",
+        "cp7_sku_conversion.pair_events_v1",
+        "cp7_sku_conversion.groups_v1",
+        "cp7_sku_conversion.members_v1",
+        "cp7_sku_conversion.execution_v1"
+      ],
+      "new_table_count": 5,
+      "new_public_RPC_count": 0,
+      "new_roles": [],
+      "source_import_bootstrap_additions": 1,
+      "state": "FINAL_SOURCE_SUCCESSOR_f3d014_PREPARED_ONLY_ACTUAL_QUALIFICATION_PENDING",
+      "next_successor_commit": "f3d014648d12279dfa89ca8593f25585430a5efe",
+      "exact_6_parent_RI_triggers": true,
+      "parent_RI_edges": [
+        [
+          "pairs_v1.left_id",
+          "erp.bf_skus_v1"
+        ],
+        [
+          "pairs_v1.right_id",
+          "erp.bf_skus_v1"
+        ],
+        [
+          "members_v1.conversion_id",
+          "erp.product_conversions"
+        ]
+      ]
+    },
+    "S03": {
+      "source_commit": "73ad6d323099e1d5384a94477043c01db8989106",
+      "source_tree": "87c289b65362d1d29f7c44a620bd83220f6e7df5",
+      "runtime_leaves": [
+        {
+          "commit": "73ad6d323099e1d5384a94477043c01db8989106",
+          "path": "scripts/cp7_attendance_period_choice/choice.sql",
+          "git_blob": "641dac6214b0714946cc07a4fdff1654e8dc7415",
+          "bytes": 61490,
+          "sha256": "44499c6d6a06d1effc2be4f066168f5fa2fe9608b2ccb80d1d2d0b1dac0a8212",
+          "base_state": "MISSING"
+        },
+        {
+          "commit": "73ad6d323099e1d5384a94477043c01db8989106",
+          "path": "scripts/cp7_attendance_period_choice/readers.sql",
+          "git_blob": "fb11863c43faa728533b2b86f12ca69cd2bcce7f",
+          "bytes": 5847,
+          "sha256": "4ab82ff58033f4357251930504e6e9e75ecce9d8f1cc5b4e10f689940ce749e2",
+          "base_state": "MISSING"
+        },
+        {
+          "commit": "73ad6d323099e1d5384a94477043c01db8989106",
+          "path": "scripts/cp7_attendance_period_choice/native_delta.py",
+          "git_blob": "b32617382ee5e788f9cd9292fa3162c473c0cc8f",
+          "bytes": 11507,
+          "sha256": "a49242327798a59407739c2999fcf92408aeef9d88a1ae94fccc82bd189ac9ce",
+          "base_state": "MISSING"
+        },
+        {
+          "commit": "73ad6d323099e1d5384a94477043c01db8989106",
+          "path": "scripts/cp7_attendance_period_choice/catalog_contract.py",
+          "git_blob": "bc92d578b1979d90bf7793e8c8e43d070adaa6c9",
+          "bytes": 2513,
+          "sha256": "f312de61b3c75087a51d7df712896627c02bb5d6473803bf6d2c90ad506d7c64",
+          "base_state": "MISSING"
+        },
+        {
+          "commit": "73ad6d323099e1d5384a94477043c01db8989106",
+          "path": "scripts/cp7_attendance_period_choice/NEW_CATALOG_IDENTITIES.json",
+          "git_blob": "33a5da65b9a44b7d56357b414ccb5aa911fe4f02",
+          "bytes": 18161,
+          "sha256": "e49e4cb9c794d6ed98b831ae318e6d3c401a110d420cf932ee7011f7c971a578",
+          "base_state": "MISSING"
+        },
+        {
+          "commit": "73ad6d323099e1d5384a94477043c01db8989106",
+          "path": "scripts/cp7_attendance_period_choice/composition.py",
+          "git_blob": "b5be1806015edc937e51c7debfb90171eb3bafa7",
+          "bytes": 7381,
+          "sha256": "51b3d53dccd69688438287bee338e7a86a37afe57aa963cc2dee24b2e43470f1",
+          "base_state": "MISSING"
+        },
+        {
+          "commit": "73ad6d323099e1d5384a94477043c01db8989106",
+          "path": "scripts/cp7_attendance_period_choice/installer_ddl.py",
+          "git_blob": "bb6152f50658c498a91595e48fb7d15d0e6b8dd0",
+          "bytes": 4997,
+          "sha256": "e002ea2dd938fef5913c76974909f70de8bcb47874b7fd958c0aeef0e2993514",
+          "base_state": "MISSING"
+        }
+      ],
+      "runtime_leaf_count": 7,
+      "package_bootstrap": {
+        "commit": "73ad6d323099e1d5384a94477043c01db8989106",
+        "path": "scripts/cp7_attendance_period_choice/__init__.py",
+        "git_blob": "2ae3f40f82b99a846d33e75d5cbc1f97b066eca9",
+        "bytes": 75,
+        "sha256": "7078a6a88cf48a6fc9f9de2a06c7367b3b264613682d9cdbb6dce37fe18f34ea",
+        "base_state": "MISSING"
+      },
+      "capture_signatures": [
+        "erp.create_attendance_hpp_pool_v1(jsonb,uuid)",
+        "erp.validate_attendance_hpp_pool_v1(uuid)",
+        "erp.activate_attendance_hpp_pool_v1(uuid,text,uuid,bigint)",
+        "erp.cancel_attendance_hpp_pool_v1(uuid,text,uuid,bigint)",
+        "erp.approve_payroll(uuid)",
+        "erp.cancel_unpaid_payroll(uuid,text)",
+        "erp.reverse_paid_payroll(uuid,text)",
+        "erp._cp3_r4_active_pool_affects_contractor(uuid,date,date)",
+        "erp.set_contractor_hpp_policy_v1(jsonb,uuid,uuid)",
+        "erp.reverse_journal(uuid,text)",
+        "erp.record_sewing_terminal_v1(jsonb,uuid)",
+        "erp.period_blockers_v1(date,date)",
+        "cp7_payroll.apply_settlement(text,jsonb,text)",
+        "cp7_hpp_pool.pool_json(erp.attendance_hpp_pools,date)",
+        "cp7_hpp_pool.preview(date,date,date)"
+      ],
+      "capture_count": 15,
+      "replaced_existing_signatures": [
+        "erp.create_attendance_hpp_pool_v1(jsonb,uuid)",
+        "erp.validate_attendance_hpp_pool_v1(uuid)",
+        "erp.activate_attendance_hpp_pool_v1(uuid,text,uuid,bigint)",
+        "erp.cancel_attendance_hpp_pool_v1(uuid,text,uuid,bigint)",
+        "erp.approve_payroll(uuid)",
+        "erp.cancel_unpaid_payroll(uuid,text)",
+        "erp.reverse_paid_payroll(uuid,text)",
+        "erp._cp3_r4_active_pool_affects_contractor(uuid,date,date)",
+        "erp.set_contractor_hpp_policy_v1(jsonb,uuid,uuid)",
+        "erp.reverse_journal(uuid,text)",
+        "erp.record_sewing_terminal_v1(jsonb,uuid)",
+        "erp.period_blockers_v1(date,date)",
+        "cp7_payroll.apply_settlement(text,jsonb,text)",
+        "cp7_hpp_pool.pool_json(erp.attendance_hpp_pools,date)",
+        "cp7_hpp_pool.preview(date,date,date)"
+      ],
+      "replaced_existing_count": 15,
+      "private_Native_clones": [
+        "cp7_attendance_choice.native_create_carry_pool_v1(jsonb,uuid)",
+        "cp7_attendance_choice.native_validate_carry_pool_v1(uuid)"
+      ],
+      "private_Native_clone_count": 2,
+      "new_function_signatures": [
+        "cp7_attendance_choice.access_v1(boolean)",
+        "cp7_attendance_choice.assert_active_carry_bindings_v1(uuid)",
+        "cp7_attendance_choice.assert_cancel_context_v1(uuid,text,uuid,bigint)",
+        "cp7_attendance_choice.assert_carry_manifest_v1(jsonb)",
+        "cp7_attendance_choice.assert_held_bindings_v1(uuid)",
+        "cp7_attendance_choice.assert_journal_unowned_v1(uuid)",
+        "cp7_attendance_choice.assert_output_unclaimed_v1(timestamp with time zone)",
+        "cp7_attendance_choice.assert_payroll_unclaimed_v1(uuid)",
+        "cp7_attendance_choice.assert_period_unclaimed_v1(date,date)",
+        "cp7_attendance_choice.assert_policy_mutation_v1(uuid,date,date)",
+        "cp7_attendance_choice.blockers_v1(date)",
+        "cp7_attendance_choice.capture_v1(date,date,boolean)",
+        "cp7_attendance_choice.carry_preview_v1(uuid,date,date)",
+        "cp7_attendance_choice.choose_v1(date,date,text,text,uuid,jsonb,uuid)",
+        "cp7_attendance_choice.command_v1(text,jsonb,uuid)",
+        "cp7_attendance_choice.current_allocation_v1(uuid)",
+        "cp7_attendance_choice.current_v1(date,date)",
+        "cp7_attendance_choice.decorate_pool_json_v1(erp.attendance_hpp_pools,date,jsonb)",
+        "cp7_attendance_choice.decorate_pool_preview_v1(date,date,jsonb)",
+        "cp7_attendance_choice.immutable_v1()",
+        "cp7_attendance_choice.inner_uuid_v1(uuid,uuid,text)",
+        "cp7_attendance_choice.native_create_carry_pool_v1(jsonb,uuid)",
+        "cp7_attendance_choice.native_validate_carry_pool_v1(uuid)",
+        "cp7_attendance_choice.parse_v1(text,jsonb)",
+        "cp7_attendance_choice.period_hold_json_v1(date,date)",
+        "cp7_attendance_choice.planned_v1(jsonb,integer,date,date)",
+        "cp7_attendance_choice.policy_consumed_v1(uuid,date,date)",
+        "cp7_attendance_choice.pool_date_v1(uuid,date)",
+        "cp7_attendance_choice.pool_manifest_v1(uuid)",
+        "cp7_attendance_choice.reverse_choice_v1(uuid,text,uuid,jsonb)",
+        "cp7_attendance_choice.review_v1(text,jsonb)",
+        "cp7_attendance_choice.wip_check_v1(jsonb,jsonb)",
+        "cp7_attendance_choice.workspace_v1(date,date,integer,integer)",
+        "public.erp_cp7_get_attendance_choice_v1(date,date,integer,integer)",
+        "public.erp_cp7_preview_attendance_choice_v1(text,jsonb)",
+        "public.erp_cp7_save_attendance_choice_v1(text,jsonb,uuid)"
+      ],
+      "new_function_count": 36,
+      "catalog_counts_are": "SOURCE_DERIVED_NOT_A_COMPOSITE_ACTUAL_CATALOG",
+      "accepted_composite": null,
+      "private_schema": "cp7_attendance_choice",
+      "new_schema_count": 1,
+      "tables": [
+        "cp7_attendance_choice.decisions_v1",
+        "cp7_attendance_choice.sources_v1",
+        "cp7_attendance_choice.reversals_v1",
+        "cp7_attendance_choice.allocations_v1",
+        "cp7_attendance_choice.allocation_reversals_v1",
+        "cp7_attendance_choice.requests_v1",
+        "cp7_attendance_choice.cancel_context_v1"
+      ],
+      "new_table_count": 7,
+      "new_public_RPC_count": 3,
+      "new_roles": [],
+      "source_import_bootstrap_additions": 1,
+      "state": "BACKEND73ad_PREPARED_LAWFUL_FRESH14_3c0_RUNNING_NO_ACCEPTED_BINDING",
+      "qualifier": "3c0c5defe55e48cf6f221c868594dd6676d17170",
+      "qualifier_tree": "ca20c918201b455ad09df489829b83b9e6afea95",
+      "strict_groups": [
+        11,
+        3
+      ],
+      "public_RPC_count": 3,
+      "financial_access_captures": 13,
+      "reader_captures": 2,
+      "source_new_private_functions": 33,
+      "source_new_public_functions": 3,
+      "Native_counts_not_inferred_from_source": true
+    },
+    "S05": {
+      "source_commit": "52eedc88e9aa2cd7470894c1f38ff9eb22f9cc60",
+      "source_tree": "df8970c1c19d19b17c6a870d30adc535170725cc",
+      "runtime_leaves": [
+        {
+          "commit": "52eedc88e9aa2cd7470894c1f38ff9eb22f9cc60",
+          "path": "scripts/cp7_accessory_standard_report/stage.py",
+          "git_blob": "27dc14312ce6b54755bed3aedfe31fc3f8b4f901",
+          "bytes": 13018,
+          "sha256": "c8ef2b9f092eca295f4dff1c9691173d9171ca485b6c8179f67700d98260095a",
+          "base_state": "MISSING"
+        },
+        {
+          "commit": "52eedc88e9aa2cd7470894c1f38ff9eb22f9cc60",
+          "path": "scripts/cp7_accessory_standard_report/report.sql",
+          "git_blob": "e081163ae9c6a9730fc3dfaeeb6b8ddb237047f7",
+          "bytes": 23024,
+          "sha256": "216f34d1225171543a743d272a2a9a15aeeda50658a32b53b0ea7ccc64b3702a",
+          "base_state": "MISSING"
+        },
+        {
+          "commit": "52eedc88e9aa2cd7470894c1f38ff9eb22f9cc60",
+          "path": "scripts/cp7_accessory_standard_report/SOURCE.json",
+          "git_blob": "6a246ea110c43899ccf0d672918f48e52fff6de7",
+          "bytes": 7147,
+          "sha256": "63530f5c713a121f2bde3f63380113bc38e7e1e0fc148727e12ef9d0fea20e33",
+          "base_state": "MISSING"
+        }
+      ],
+      "runtime_leaf_count": 3,
+      "package_bootstrap": {
+        "commit": "52eedc88e9aa2cd7470894c1f38ff9eb22f9cc60",
+        "path": "scripts/cp7_accessory_standard_report/__init__.py",
+        "git_blob": "d6146934d30edc0122ede9724a4e8d3594215ef8",
+        "bytes": 90,
+        "sha256": "e1635547d97e5ffa944392fccbce74ec1eb88160d552d84b26781cdae531194a",
+        "base_state": "MISSING"
+      },
+      "capture_signatures": [],
+      "capture_count": 0,
+      "replaced_existing_signatures": [],
+      "replaced_existing_count": 0,
+      "private_Native_clones": {},
+      "private_Native_clone_count": 0,
+      "new_function_signatures": [
+        "cp7_accessory_standard_report.access_now()",
+        "cp7_accessory_standard_report.iso(timestamp with time zone)",
+        "cp7_accessory_standard_report.period_data(date,date,uuid,uuid)",
+        "cp7_accessory_standard_report.workspace(date,date,uuid,uuid,text,integer,integer)",
+        "public.erp_cp7_get_accessory_standard_report_v1(date,date,uuid,uuid,text,integer,integer)"
+      ],
+      "new_function_count": 5,
+      "catalog_counts_are": "SOURCE_DERIVED_NOT_A_COMPOSITE_ACTUAL_CATALOG",
+      "accepted_composite": null,
+      "private_schema": "cp7_accessory_standard_report",
+      "new_schema_count": 1,
+      "tables": [],
+      "new_table_count": 0,
+      "new_public_RPC_count": 1,
+      "new_roles": [
+        "cp7_accessory_standard_read"
+      ],
+      "source_import_bootstrap_additions": 1,
+      "state": "REPORT52eed_PRODUCT_FROZEN_LAWFUL_FIXTURE_SUCCESSOR_PENDING",
+      "actual_Native10_accepted": null,
+      "private_functions": 4,
+      "public_reads": 1,
+      "private_owner": "postgres",
+      "public_owner": "cp7_accessory_standard_read",
+      "installer": "Already-authorized current postgres/supabase_admin administrative superuser. No new grants/memberships/defaultACL changes. Keep strict final function ACL tuples and unexpected-role atomic refusal."
+    }
+  },
+  "source_derived_component_totals_excluding_future_bridge": {
+    "new_schemas": 5,
+    "new_tables": 20,
+    "new_functions": 145,
+    "new_public_RPCS": 4,
+    "new_private_functions": 141,
+    "private_Native_clones": 10,
+    "new_roles": 1,
+    "capture_sum": 57,
+    "distinct_capture_count": 55,
+    "replaced_definition_sum": 49,
+    "distinct_replaced_definition_count": 47,
+    "runtime_declared_leaves": 38,
+    "package_bootstraps": 4,
+    "final_actual_counts": null,
+    "bridge_counts": null
+  },
+  "direct_existing_definition_intersections": [
+    {
+      "left": "D1",
+      "right": "E",
+      "replaced_intersection": [
+        "cp7_credit.initial_base_events_v1(uuid,uuid)",
+        "cp7_credit.initial_ordinal_input_v1(uuid,uuid)"
+      ],
+      "captured_intersection": [
+        "cp7_credit.initial_base_events_v1(uuid,uuid)",
+        "cp7_credit.initial_ordinal_input_v1(uuid,uuid)"
+      ]
+    },
+    {
+      "left": "D1",
+      "right": "SKU",
+      "replaced_intersection": [],
+      "captured_intersection": []
+    },
+    {
+      "left": "D1",
+      "right": "S03",
+      "replaced_intersection": [],
+      "captured_intersection": []
+    },
+    {
+      "left": "D1",
+      "right": "S05",
+      "replaced_intersection": [],
+      "captured_intersection": []
+    },
+    {
+      "left": "E",
+      "right": "SKU",
+      "replaced_intersection": [],
+      "captured_intersection": []
+    },
+    {
+      "left": "E",
+      "right": "S03",
+      "replaced_intersection": [],
+      "captured_intersection": []
+    },
+    {
+      "left": "E",
+      "right": "S05",
+      "replaced_intersection": [],
+      "captured_intersection": []
+    },
+    {
+      "left": "SKU",
+      "right": "S03",
+      "replaced_intersection": [],
+      "captured_intersection": []
+    },
+    {
+      "left": "SKU",
+      "right": "S05",
+      "replaced_intersection": [],
+      "captured_intersection": []
+    },
+    {
+      "left": "S03",
+      "right": "S05",
+      "replaced_intersection": [],
+      "captured_intersection": []
+    }
+  ],
+  "qualified_D1_leaves_byte_exact_in_E_prepared": [
+    "scripts/cp7_credit_correction_de/review.sql",
+    "scripts/cp7_credit_correction_de/facts.sql",
+    "scripts/cp7_credit_correction_de/owning.sql",
+    "scripts/cp7_credit_correction_de/proof.sql",
+    "scripts/cp7_credit_correction_de/posting.sql",
+    "scripts/cp7_credit_correction_de/materialize.sql",
+    "scripts/cp7_credit_correction_de/closure.sql",
+    "scripts/cp7_credit_correction_de/native_delta.py",
+    "scripts/cp7_credit_correction_de/composition.py"
+  ],
+  "indirect_order_sensitive_interfaces": [
+    {
+      "interface": "D1 then E",
+      "functions": [
+        "cp7_credit.initial_base_events_v1(uuid,uuid)",
+        "cp7_credit.initial_ordinal_input_v1(uuid,uuid)"
+      ],
+      "preservation": "E inserts current-receiver branch at first begin in actual post-D1 functions; original remainder including D1/history/payment branches stays exact. Never install D1 after E."
+    },
+    {
+      "interface": "source_request_enter current composition",
+      "functions": [
+        "cp7_credit.source_request_enter_v1(text,jsonb,uuid,text)",
+        "cp7_credit.source_request_finish_v1(uuid)"
+      ],
+      "preservation": "Current actual602 includes payment PREPARED/INVERSE_COMPLETE early branches, remaining request admission, consumer_source_undone, current own-context/review/locks. Historical SQL lacks these. No all-file restore/replace."
+    },
+    {
+      "interface": "E native_source_enter current composition",
+      "functions": [
+        "cp7_credit.native_source_enter(text,uuid)"
+      ],
+      "preservation": "E prepend guard_later_native_source before the actual body, preserving payment_native_enter, remaining and signed consumer/source branches. Root must capture its real D1+vendor predecessor body."
+    },
+    {
+      "interface": "SKU global nonPO side effect footprint",
+      "functions": [
+        "erp.be_propagate_nonpo_v1()",
+        "erp.be_nonpo_prepare_transfers_v1(date)",
+        "erp.be_nonpo_sync_all_v1(date,text,uuid,text)",
+        "erp.sync_non_po_product_hpp_to_gl_v2620f(uuid,date,text,uuid,text)"
+      ],
+      "preservation": "No direct existing-definition intersection is not coexistence. Persisted POST and its immutable inverse history trigger global guards/no-op proof obligations."
+    },
+    {
+      "interface": "S03 erp.reverse_journal versus earlier private copies",
+      "functions": [
+        "erp.reverse_journal(uuid,text)",
+        "cp7_note.reverse_journal(uuid,text)",
+        "cp7_sales_return_correction.reverse_journal(uuid,text)"
+      ],
+      "preservation": "Later S03 public guard does not retrofit old private copied inverse bodies. Preserve expense refusal + legitimate D1/E inverse source checks; actual route census required, not an asserted bypass."
+    }
+  ],
+  "planned_phases": [
+    {
+      "order": 0,
+      "name": "Freeze source-only branch",
+      "action": "Physical selective leaves over exactA3fdb. Pin every actual module path/HERE/ROOT, bootstrap and dependency. No old source projection or workflow/evidence merges."
+    },
+    {
+      "order": 1,
+      "name": "Vendor",
+      "entry": "cp7_vendor_receivable.composition.install",
+      "parent": null,
+      "live_parent_verification": "Actual qualified baseline before DDL",
+      "changed": false
+    },
+    {
+      "order": 2,
+      "name": "D1",
+      "entry": "cp7_credit_correction_de.composition.install_delta",
+      "parent": "Vendor",
+      "body_source": "cde78b2cc82e0a286174098458dab9815fdfd072"
+    },
+    {
+      "order": 3,
+      "name": "E",
+      "entry": "cp7_credit_correction_de.e_composition.install_delta",
+      "parent": "D1",
+      "gate": "Actual accepted E17/five gates/used Original proof required before admission"
+    },
+    {
+      "order": 4,
+      "name": "SKU",
+      "entry": "cp7_sku_pair_conversion.composition.install_delta",
+      "parent": "E",
+      "adapter": "Counted canonical composition.py parent import vendor -> actual E; source self-pin must identify executing file",
+      "gate": "Exact one-hunk successor + actual qualification required"
+    },
+    {
+      "order": 5,
+      "name": "Global bridge CLOSED",
+      "entry": "NEW isolated owning bridge after root chooses/proves barrier",
+      "parent": "SKU",
+      "captures": "The8 actual CURRENT composed hook bodies below, not old complete SQL files",
+      "gate": "Pure inspector alone gives no runtime guard credit; full writer/phantom closure and new owning catalog remain unapproved/unqualified"
+    },
+    {
+      "order": 6,
+      "name": "S03",
+      "entry": "cp7_attendance_period_choice.composition.install_delta",
+      "parent": "Actual global bridge",
+      "adapter": "Counted canonical composition.py predecessor import vendor -> actual bridge module; natural sources and runtime5-tuple",
+      "gate": "Fresh11 thenReader3, committed used witness, fullouter/all5 exact raws"
+    },
+    {
+      "order": 7,
+      "name": "S05 additive reader",
+      "entry": "cp7_accessory_standard_report.stage.install_delta",
+      "parent": "S03",
+      "adapter": "Change parent() and strict expected parent status/binding deliberately to actual S03 top; update exact stage hash in SOURCE",
+      "gate": "Lawful fresh10 + strict existing role/ACL/source/read-only proof"
+    },
+    {
+      "order": 8,
+      "name": "Final entry",
+      "entry": "NEW cp7_final_composition.composition",
+      "parent": "S05",
+      "action": "Expose real top sources/runtime/install/verify/preuse APIs while retaining every layer original state and before-proof. Default remains vendor."
+    }
+  ],
+  "earliest_8_business_function_touches": [
+    {
+      "id": "D1_QUOTE",
+      "source": {
+        "commit": "cde78b2cc82e0a286174098458dab9815fdfd072",
+        "path": "scripts/cp7_credit_correction_de/owning.sql",
+        "name": "cp7_credit_correction_de.quote_v1",
+        "source_line": 24,
+        "source_function_bytes": 12735,
+        "source_function_sha256": "c9e92ef7928a2425ad0a5ff329f5aeeb2ef0b030c75b44dade7957f5b93c2907"
+      },
+      "anchor": {
+        "text": "  or exists(select 1 from erp.be_conversion_sources_v1 s join erp.fg_lots l on l.id=s.source_lot_id where l.po_id is null)then",
+        "occurrences": 1,
+        "sha256": "64433b5b1de7d04b822ed5a1d828676f6dfc92b7b349e686f71508125402a0d9",
+        "relative_line": 111
+      },
+      "planned_change": "Quote-only inspector, no writes or new locks; replace only global-tail predicate, preserve relevant PO/conversion/opening/multiple-HPP guards. Include exact private global basis in existing binding SHA; no unrelated facts in public response.",
+      "runtime_derivation": "Capture actual final composed live function, exact counted anchor+reverse proof; do not reload old SQL wholesale."
+    },
+    {
+      "id": "D1_PREPARE",
+      "source": {
+        "commit": "cde78b2cc82e0a286174098458dab9815fdfd072",
+        "path": "scripts/cp7_credit_correction_de/owning.sql",
+        "name": "cp7_credit_correction_de.prepare_v1",
+        "source_line": 183,
+        "source_function_bytes": 4272,
+        "source_function_sha256": "e8cc58a89bc8219615325619aae4c20010ba13b89b4312ba2cda523535c5a96c"
+      },
+      "anchor": {
+        "text": " quote:=cp7_credit_correction_de.quote_v1(p);",
+        "occurrences": 1,
+        "sha256": "a8f72a416ce55b0dbc55de3ac3fea4e5ca80f1fd8b1733b110b7238a7dea157f",
+        "relative_line": 28
+      },
+      "planned_change": "Before fresh quote acquire approved NOWAIT global relation/row profile; after every wait recompute keysets/no-op and original access/period/CAS. Bind bridge work only to the actually inserted D1 operation and original request/phase.",
+      "runtime_derivation": "Capture actual final composed live function, exact counted anchor+reverse proof; do not reload old SQL wholesale."
+    },
+    {
+      "id": "D1_FINISH",
+      "source": {
+        "commit": "cde78b2cc82e0a286174098458dab9815fdfd072",
+        "path": "scripts/cp7_credit_correction_de/materialize.sql",
+        "name": "cp7_credit_correction_de.finish_v1",
+        "source_line": 111,
+        "source_function_bytes": 1547,
+        "source_function_sha256": "eb7473a8cd06939c327a0718581ed326916e0e9148fb98afde711c27df005047"
+      },
+      "anchor": {
+        "text": " insert into cp7_credit_correction_de.operations_v1(",
+        "occurrences": 1,
+        "sha256": "3102bf3e29fa168cf9ce01de2baa8a37f76ce6f26fe865ea85abdad75fe6de45",
+        "relative_line": 10
+      },
+      "planned_change": "Before immutable owning completion compare complete frozen outside source/history/stock/HPP/journal facts and exact identity sets; preserve all existing final receipt/scope checks and phase logic.",
+      "runtime_derivation": "Capture actual final composed live function, exact counted anchor+reverse proof; do not reload old SQL wholesale."
+    },
+    {
+      "id": "E_BASIS",
+      "source": {
+        "commit": "fe2ae370c00e68437c4951c28c3a1038ce35fb38",
+        "path": "scripts/cp7_credit_correction_de/note_carry/04_basis.sql",
+        "name": "cp7_credit_note_carry_de.basis_v1",
+        "source_line": 1,
+        "source_function_bytes": 4491,
+        "source_function_sha256": "2ce989e228ac6a7214d79b8a4b52d58a73b9fb5b1e94d4b1b5e0103487d48b79"
+      },
+      "anchor": {
+        "text": "  or exists(select 1 from erp.be_conversion_sources_v1 c join erp.fg_lots l on l.id=c.source_lot_id where l.po_id is null)then",
+        "occurrences": 1,
+        "sha256": "1e803b394f7890ce5b482902cde8caf12aafd60af13a999aa158530828ca5fc7",
+        "relative_line": 36
+      },
+      "planned_change": "Same read-only inspector/private global basis bound by basis_sha256; retain all existing relevant source and price-only/current-assignment guards; public_basis never exposes outside finance data.",
+      "runtime_derivation": "Capture actual final composed live function, exact counted anchor+reverse proof; do not reload old SQL wholesale."
+    },
+    {
+      "id": "E_PREPARE",
+      "source": {
+        "commit": "fe2ae370c00e68437c4951c28c3a1038ce35fb38",
+        "path": "scripts/cp7_credit_correction_de/note_carry/06_owning.sql",
+        "name": "cp7_credit_note_carry_de.prepare_v1",
+        "source_line": 28,
+        "source_function_bytes": 4913,
+        "source_function_sha256": "7203aee1cfa111240c9a87cb59c0d8efa8dfc8e0aaeba89ca296559ed88b5f4f"
+      },
+      "anchor": {
+        "text": " basis:=cp7_credit_note_carry_de.basis_v1((p->>'sale_id')::uuid);net:=cp7_credit_note_carry_de.assert_price_only_v1(p);",
+        "occurrences": 1,
+        "sha256": "b5c58945e43f022a6012f230b2be77ea2bf5a7ec9aa99c144f80a90b475d5ede",
+        "relative_line": 35
+      },
+      "planned_change": "Approved global NOWAIT profile before refreshed basis/plan/review/access; bind actual E work operation and original source graph. Preserve MATERIALIZED logical-AR/status repair and immutable original-consumer receipts.",
+      "runtime_derivation": "Capture actual final composed live function, exact counted anchor+reverse proof; do not reload old SQL wholesale."
+    },
+    {
+      "id": "E_FINISH",
+      "source": {
+        "commit": "fe2ae370c00e68437c4951c28c3a1038ce35fb38",
+        "path": "scripts/cp7_credit_correction_de/note_carry/06_owning.sql",
+        "name": "cp7_credit_note_carry_de.finish_v1",
+        "source_line": 116,
+        "source_function_bytes": 1437,
+        "source_function_sha256": "8fbea94f40fbd610a61231183cd491903007ca458696b86da4c1a428546d42b2"
+      },
+      "anchor": {
+        "text": " insert into cp7_credit_note_carry_de.operations_v1(",
+        "occurrences": 1,
+        "sha256": "f3bb1d40304c0718851addfb36bc8d1dc6959c99257d269854e14d4f62a739ba",
+        "relative_line": 10
+      },
+      "planned_change": "Outside completion check before immutable operations record; preserve Native source context closure, original E final authority/receipt equality, history and replacement assignment guards.",
+      "runtime_derivation": "Capture actual final composed live function, exact counted anchor+reverse proof; do not reload old SQL wholesale."
+    },
+    {
+      "id": "SOURCE_ENTER",
+      "source": {
+        "actual_capture": "/workspace/scratch/ef468a447ac6/evidence-private/sku-602-all-member-native23-first-failure/SKU_COST_RECOVERY_OVER_FIRST_PART_REFUSAL_37fb87d4a2e1_FULL_CURRENT_CENSUS.json",
+        "json_path": [
+          "before",
+          "catalog",
+          "functions",
+          "cp7_credit.source_request_enter_v1(text,jsonb,uuid,text)",
+          0
+        ],
+        "signature": "cp7_credit.source_request_enter_v1(text,jsonb,uuid,text)",
+        "bytes": 10471,
+        "sha256": "2c121e6986c051339bc8a2426b13714fa6758eccf3065a00ff73bbf4ffe04667"
+      },
+      "anchor": {
+        "text": " if exists(select 1 from erp.be_conversion_sources_v1 s\n  join erp.fg_lots l on l.id=s.source_lot_id where l.po_id is null)then\n  raise exception 'CP7_CREDIT_SOURCE_GLOBAL_HPP_GRAPH_UNQUALIFIED';end if;",
+        "occurrences": 1,
+        "sha256": "3fb8529a7bc695de48d92a915568c6f37ecc989dfffa17776ddab400d72bf5fc",
+        "relative_line": 52
+      },
+      "planned_change": "Replace only current normal-branch global guard and bind exact owned source operation before effects. Keep payment-source early branch, remaining admission, current consumers/history, every own-context/access/period/lock/CAS guard byte-exact.",
+      "forbidden": "Never replace historical03_source_requests.sql/06_source_coordinator.sql whole bodies; they omit current transforms."
+    },
+    {
+      "id": "SOURCE_FINISH",
+      "source": {
+        "actual_capture": "/workspace/scratch/ef468a447ac6/evidence-private/sku-602-all-member-native23-first-failure/SKU_COST_RECOVERY_OVER_FIRST_PART_REFUSAL_37fb87d4a2e1_FULL_CURRENT_CENSUS.json",
+        "json_path": [
+          "before",
+          "catalog",
+          "functions",
+          "cp7_credit.source_request_finish_v1(uuid)",
+          0
+        ],
+        "signature": "cp7_credit.source_request_finish_v1(uuid)",
+        "bytes": 2205,
+        "sha256": "0ea71ca9280a296e7a02b89aefbc8819d128a147de32f8990e868aa0b35ec806"
+      },
+      "anchor": {
+        "text": " delete from cp7_credit.source_operation_work_v1 where operation_id=w.operation_id;",
+        "occurrences": 1,
+        "sha256": "6b0a5df7deaa8a40ea252a66d95779d1e45d337a53beadcb507354b581675cce",
+        "relative_line": 32
+      },
+      "planned_change": "Complete actual Native-complete normal source operation outside proof before clearing source work. Payment-correction early return remains exact; do not create orphan global work on that distinct owning branch.",
+      "forbidden": "Never replace historical03_source_requests.sql/06_source_coordinator.sql whole bodies; they omit current transforms."
+    }
+  ],
+  "three_global_guard_codes": [
+    "STOCK_HPP_CLASS_ADAPTER_REQUIRED",
+    "NOTE_HPP_CLASS_ADAPTER_REQUIRED",
+    "CP7_CREDIT_SOURCE_GLOBAL_HPP_GRAPH_UNQUALIFIED"
+  ],
+  "earliest_8_touch_guardrails": {
+    "existing_files_as_source_anchors": 6,
+    "modifications_are_new_live_derived_definitions_not_frozen_SQL_overwrite": true,
+    "native_propagation_FIFO_cost_stock_journal_writers_edited": false,
+    "unknown_final_bridge_private_functions_tables_schema": null,
+    "lock_profile": "UNDECIDED: exact actual writer/FK/trigger census and two-session proof before choosing barrier. Existing pure blueprint SRE does not establish ROW SHARE/FK closure.",
+    "quote_token": "D1 private global basis in existing review binding; E private global basis in basis_sha256. Fresh recheck after waits.",
+    "source_token": "Normal generic source path has no global UI review token. Bind fresh actual owned enter/phase/reconcile/finish; do not claim review staleness it never exposes.",
+    "separate_payment_path": "Do not enter global work before existing payment/remaining early returns and then skip cleanup; test exact current original payment route unchanged."
+  },
+  "typed_context_contract": {
+    "old_source": {
+      "commit": "3fdbffe3f41da6dc1004d2179ac1fe81fe05b609",
+      "path": "scripts/cp7_customer_credit/integration/typed_context_inventory.py",
+      "git_blob": "95e635038a2003e87c19358e04c5ed520915d086",
+      "bytes": 18872,
+      "sha256": "2635024dcc7236eb9f3c8fc84572bc2dbd1e25d437a81a847c70af86b1f89407",
+      "base_state": "EXACT"
+    },
+    "old_closed_specs": 30,
+    "old_schema_exclusions": [
+      "cp7_credit",
+      "ow04_ordinal_wrapper",
+      "ow04_source_proposal",
+      "ow04_pure_kernel"
+    ],
+    "explicit_new_context_tables": [
+      "cp7_credit_correction_de.work_v1",
+      "cp7_credit_correction_de.posting_v1",
+      "cp7_credit_note_carry_de.work_v1",
+      "cp7_sku_conversion.execution_v1",
+      "cp7_attendance_choice.cancel_context_v1"
+    ],
+    "future_global_context": null,
+    "rule": "Introduce an exact composite source/catalog context contract, including full shape/owner/RLS/rawACL/source and domain/request/actor/backend/tx/phase predicates. Retain original known30 and reject every unknown table, even empty. No cp7_* bypass and no treating new contexts as invisible.",
+    "live_parent_rule": "A lower exact-all22 verify runs only before child DDL or after child removal. While child installed bind immutable lower proof/state and verify current full top catalog transition. Never call old lower verifier on projected catalog."
+  },
+  "physical_parent_and_source_rules": {
+    "modify_parent_adapters": [
+      "SKU composition.py",
+      "S03 composition.py",
+      "S05 stage.py and exact SOURCE stage pin"
+    ],
+    "preserve_original_modules": true,
+    "no_global_module_or_method_monkeypatch": true,
+    "no_sources_dictionary_projection": true,
+    "no_catalog_projection_or_reseal": true,
+    "ordinary_import": "Canonical physically selected packages; actual __file__/HERE/ROOT and self hashes. If a dedicated component-root copy is selected, close every imported module plus bootstrap and use its natural sources graph.",
+    "runtime_tuple": "Keep5 tuple and deep predecessor atomic/locks ABI; no hardcoded source-shape index without current typed validation.",
+    "verification": "Actual top parent.verify immediately before each install; bind complete sources/before/after/preuse/preinstall/proof, capture original definitions+metadata; all22 exact transition, not ancestor catalog equality after descendants.",
+    "rollback": "Reverse S05,S03,global,SKU,E,D1,Vendor. Each layer current top verify -> exact own used/data/sequence guard before DDL -> restore original function owner/rawACL/schema/state -> verify actual predecessor after removal. No rollback lower layer while descendant installed."
+  },
+  "base_and_current_transform_source_pins": {
+    "scripts/cp7_vendor_receivable/composition.py": {
+      "commit": "3fdbffe3f41da6dc1004d2179ac1fe81fe05b609",
+      "path": "scripts/cp7_vendor_receivable/composition.py",
+      "git_blob": "daa89f946d7ed7edf04c1960c99f345087c22f93",
+      "bytes": 8287,
+      "sha256": "b0bc106121932deb18a342299ec7ffb1a314abaca9d77879df29784261821df2",
+      "base_state": "EXACT"
+    },
+    "scripts/cp7_vendor_receivable/native_delta.py": {
+      "commit": "3fdbffe3f41da6dc1004d2179ac1fe81fe05b609",
+      "path": "scripts/cp7_vendor_receivable/native_delta.py",
+      "git_blob": "db2204f5ee745e4a74da935daaf2550203e48299",
+      "bytes": 5293,
+      "sha256": "bd0f41be50fea0ab64b19c15d8a09fc7940782507c35482911dd86c36403a52b",
+      "base_state": "EXACT"
+    },
+    "scripts/cp7_vendor_receivable/receivable.sql": {
+      "commit": "3fdbffe3f41da6dc1004d2179ac1fe81fe05b609",
+      "path": "scripts/cp7_vendor_receivable/receivable.sql",
+      "git_blob": "5c5802381382cd7030a3723003ca4da345f03556",
+      "bytes": 20188,
+      "sha256": "3b24728512e8be6af697f3234e591f7fe6b46331c68e3497ab71aedbcc9aa2ba",
+      "base_state": "EXACT"
+    },
+    "scripts/current-factory-initial-stage/composition.py": {
+      "commit": "3fdbffe3f41da6dc1004d2179ac1fe81fe05b609",
+      "path": "scripts/current-factory-initial-stage/composition.py",
+      "git_blob": "05a4d34f507659291b6dff7920d2be3f99b47313",
+      "bytes": 6194,
+      "sha256": "e81a4afa69355e2e946c9562f25e116e3246ce02b63c008a803e50b1e5ba7322",
+      "base_state": "EXACT"
+    },
+    "scripts/cp7_customer_credit/integration/typed_context_inventory.py": {
+      "commit": "3fdbffe3f41da6dc1004d2179ac1fe81fe05b609",
+      "path": "scripts/cp7_customer_credit/integration/typed_context_inventory.py",
+      "git_blob": "95e635038a2003e87c19358e04c5ed520915d086",
+      "bytes": 18872,
+      "sha256": "2635024dcc7236eb9f3c8fc84572bc2dbd1e25d437a81a847c70af86b1f89407",
+      "base_state": "EXACT"
+    },
+    "scripts/cp7_customer_credit/consumer/source_history_transform.py": {
+      "commit": "3fdbffe3f41da6dc1004d2179ac1fe81fe05b609",
+      "path": "scripts/cp7_customer_credit/consumer/source_history_transform.py",
+      "git_blob": "b719e270dc6dab2a17c81d6a6df9dc72b34e4017",
+      "bytes": 4185,
+      "sha256": "2a4c54fe107a720299a68cb8673dc1192cb575ce3c85aa50493820b332415c37",
+      "base_state": "EXACT"
+    },
+    "scripts/cp7_customer_credit/payment_correction/transform.py": {
+      "commit": "3fdbffe3f41da6dc1004d2179ac1fe81fe05b609",
+      "path": "scripts/cp7_customer_credit/payment_correction/transform.py",
+      "git_blob": "43a7acc99ce7ba0ea0fb4fd9fa67f6995e1fa163",
+      "bytes": 26977,
+      "sha256": "fe87209309dc38bf62cc9cf01fc9de62751f8fadbdd52b31bdb1b0b5e45d6b76",
+      "base_state": "EXACT"
+    },
+    "scripts/cp7_credit_remaining/native_delta.py": {
+      "commit": "3fdbffe3f41da6dc1004d2179ac1fe81fe05b609",
+      "path": "scripts/cp7_credit_remaining/native_delta.py",
+      "git_blob": "2f3ce6d1d16f85660a1890140bc3901fd3e647e9",
+      "bytes": 4368,
+      "sha256": "1aa640fe1167f93b9b2962ca16eaeb2268cc07480ef90968fbe355630c2a1c6e",
+      "base_state": "EXACT"
+    },
+    "scripts/cp7_credit_remaining/composition.py": {
+      "commit": "3fdbffe3f41da6dc1004d2179ac1fe81fe05b609",
+      "path": "scripts/cp7_credit_remaining/composition.py",
+      "git_blob": "fcaa89c632d6d0715aeed41d71b7c3ee86704289",
+      "bytes": 6923,
+      "sha256": "ec16cd274b1e1d8306df0486dac624b9f95faeb65f2ee38105e1f23f842b28af",
+      "base_state": "EXACT"
+    },
+    "scripts/cp7_customer_credit/reconciliation/03_source_requests.sql": {
+      "commit": "3fdbffe3f41da6dc1004d2179ac1fe81fe05b609",
+      "path": "scripts/cp7_customer_credit/reconciliation/03_source_requests.sql",
+      "git_blob": "bdf98933cb0892f7dc65fda1c01057cf4a27ec57",
+      "bytes": 21078,
+      "sha256": "9cea83e59f7dd923ae4f182b8126615bad7a274a31765ce4dbff19b41f16a116",
+      "base_state": "EXACT"
+    },
+    "scripts/cp7_customer_credit/reconciliation/06_source_coordinator.sql": {
+      "commit": "3fdbffe3f41da6dc1004d2179ac1fe81fe05b609",
+      "path": "scripts/cp7_customer_credit/reconciliation/06_source_coordinator.sql",
+      "git_blob": "1f056ba82a3f798ffa021e0690cff8137c69bf16",
+      "bytes": 17145,
+      "sha256": "ba06b0bf5134ce189d04b819fe0ef14554a462e2ccacbf58b5c1da0ae9383ce1",
+      "base_state": "EXACT"
+    }
+  },
+  "retained_actual_catalog": {
+    "classification": "ACTUAL_RETAINED602_FAILED_RUN_CURRENT_CATALOG_NOT_COMPOSITE_ACCEPTANCE",
+    "path": "/workspace/scratch/ef468a447ac6/evidence-private/sku-602-all-member-native23-first-failure/SKU_COST_RECOVERY_OVER_FIRST_PART_REFUSAL_37fb87d4a2e1_FULL_CURRENT_CENSUS.json",
+    "bytes": 43056004,
+    "sha256": "1081c288694965278468de28ef65831909bf52dd5461e6d682a00a6ff0418fa0",
+    "actual_head": "602b4e642a0afbb1acdcfd858b9f403dc14ec336",
+    "actual_tree": "2b86a81b9f3b14ff1ca775825ac01bb96afaa50d",
+    "json_path": [
+      "before",
+      "catalog",
+      "functions"
+    ],
+    "catalog_groups": 22,
+    "fingerprints": {
+      "cp7_credit.source_request_enter_v1(text,jsonb,uuid,text)": {
+        "actual_pg_get_functiondef": {
+          "bytes": 10471,
+          "sha256": "2c121e6986c051339bc8a2426b13714fa6758eccf3065a00ff73bbf4ffe04667"
+        },
+        "catalog_metadata": [
+          "postgres",
+          "plpgsql",
+          "f",
+          true,
+          false,
+          false,
+          false,
+          "v",
+          "u",
+          "100",
+          "0",
+          [
+            "search_path=\"\"",
+            "TimeZone=UTC"
+          ],
+          [
+            "p_action",
+            "p_payload",
+            "p_request",
+            "p_expected"
+          ],
+          null,
+          "p_action text, p_payload jsonb, p_request uuid, p_expected text",
+          "void",
+          "-",
+          [
+            [
+              "postgres",
+              "postgres",
+              "EXECUTE",
+              false
+            ]
+          ]
+        ],
+        "full_catalog_row_sha256": "964497f75e215b8a465e81be936fcf589c053bb739da59412842ab2627ef1a80",
+        "actual_before_after_catalog_row_equal": true,
+        "actual_pg_get_functiondef_text": "CREATE OR REPLACE FUNCTION cp7_credit.source_request_enter_v1(p_action text, p_payload jsonb, p_request uuid, p_expected text)\n RETURNS void\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\n SET \"TimeZone\" TO 'UTC'\nAS $function$\ndeclare sale uuid:=(p_payload->>'sale_id')::uuid;v_source_id uuid;q cp7_sales.requests;src jsonb;\n before_input jsonb;before_result jsonb;profile jsonb;accounts jsonb;period jsonb;authority jsonb;blocked jsonb;\n op uuid:=gen_random_uuid();prior_op uuid;op_ordinal bigint;lot_ids uuid[];fresh_lot_ids uuid[];hpp_ids uuid[];fresh_hpp_ids uuid[];\nbegin\n if exists(select 1 from cp7_credit.payment_source_context_v1 where backend_pid=pg_backend_pid()and transaction_id=txid_current())then\n  select w.operation_id into strict op from cp7_credit.source_operation_work_v1 w join cp7_credit.payment_source_context_v1 pc on pc.operation_id=w.operation_id\n   where w.backend_pid=pg_backend_pid()and w.transaction_id=txid_current()and w.actor=auth.uid()\n    and w.action='PAYMENT_CORRECT'and p_action='PAYMENT_REVERSE'and pc.phase='PREPARED'\n    and w.request_id=p_request and w.expected_version=p_expected and p_payload=w.payload-'replacement';\n  perform cp7_credit.payment_source_assert_pending_v1(op);return;\n end if;\n if p_action not in('RETURN_REVERSE','PAYMENT_REVERSE')or p_action is null then raise exception 'CP7_CREDIT_SOURCE_ACTION_UNIMPLEMENTED';end if;\n if not exists(select 1 from cp7_credit.cohorts c join cp7_credit.return_families f on f.id=c.family_id where f.family_root_sale_id=sale)\n  and not exists(select 1 from cp7_credit.consumption_events where event_kind='APPLY'and target_sale_id=sale)\n  or cp7_credit_remaining.request_admitted_v1(p_action,p_payload,sale)then return;end if;\n if auth.uid()is null or auth.jwt()->>'role'is distinct from'authenticated'or current_setting('transaction_isolation')<>'read committed'then\n  raise exception using errcode='42501',message='CP7_CREDIT_SOURCE_CURRENT_ACTOR_REQUIRED';end if;\n perform pg_advisory_xact_lock(hashtextextended('FG_HPP_SALES_V2620C',0));\n perform cp7_credit.assert_only_own_sales_source_context_v1(sale,p_action);\n authority:=cp7_sales.command_access(p_action);\n perform cp7_credit.assert_source_native_trigger_census_v1();\n select *into strict q from cp7_sales.requests where actor=auth.uid()and request_id=p_request;\n if q.response is not null or(q.action,q.payload,q.expected_version)is distinct from(p_action,p_payload,p_expected)then\n  raise exception 'CP7_CREDIT_SOURCE_OWN_PENDING_REQUEST_REQUIRED';end if;\n if exists(select 1 from cp7_credit.source_operation_work_v1 where backend_pid=pg_backend_pid()and transaction_id=txid_current())\n  or exists(select 1 from cp7_credit.execution_context where backend_pid=pg_backend_pid()and transaction_id=txid_current())then\n  raise exception 'CP7_CREDIT_SOURCE_NESTED_OPERATION';end if;\n v_source_id:=(p_payload->>case when p_action='RETURN_REVERSE'then'return_id'else'payment_id'end)::uuid;\n if p_action='RETURN_REVERSE'then\n  if not exists(select 1 from erp.sales_returns where id=v_source_id and sale_id=sale and status='POSTED')then\n   raise exception 'CP7_CREDIT_SOURCE_ACTUAL_RETURN_REQUIRED';end if;\n else\n  if not exists(select 1 from erp.sales_payments where id=v_source_id and sale_id=sale and status='POSTED')then\n   raise exception 'CP7_CREDIT_SOURCE_ACTUAL_PAYMENT_REQUIRED';end if;\n  if exists(select 1 from erp.sales_payments where id=v_source_id and(cash_account_id is null or payment_method='OPENING_ADVANCE'))then\n   raise exception 'CP7_CREDIT_SOURCE_ADVANCE_INVERSE_UNQUALIFIED';end if;\n end if;\n src:=ow04_source_proposal.locked_source_family(sale);\n if src->>'source_status'is distinct from'BASE_COLLECTED'or src#>>'{family,current_leaf_id}'is distinct from sale::text\n  or src#>>'{family,root_sale_id}'is distinct from sale::text then\n  raise exception 'CP7_CREDIT_SOURCE_SIMPLE_NATIVE_FAMILY_REQUIRED';end if;\n perform cp7_credit.assert_simple_native_base_v1(sale);\n -- First bounded adapter cannot adopt Native's global conversion expansion.\n -- Refuse before effects until that entire graph has an owning lock/proof.\n if exists(select 1 from erp.be_conversion_sources_v1 s\n  join erp.fg_lots l on l.id=s.source_lot_id where l.po_id is null)then\n  raise exception 'CP7_CREDIT_SOURCE_GLOBAL_HPP_GRAPH_UNQUALIFIED';end if;\n\n perform cp7_credit.consumer_source_undone_v1(sale);\n if exists(select 1 from erp.initial_import_prepayment_payments l join erp.sales_payments p on p.id=l.payment_id where p.sale_id=sale)\n  or exists(select 1 from erp.sales_payments where sale_id=sale and(cash_account_id is null or payment_method='OPENING_ADVANCE'))then\n  raise exception 'CP7_CREDIT_SOURCE_ADVANCE_INVERSE_UNQUALIFIED';end if;\n if p_action='RETURN_REVERSE'then\n  perform 1 from erp.locations where id in(select location_id from erp.sales_return_items where return_id=v_source_id)order by id for share;\n  perform 1 from erp.fg_inventory_balances b where exists(select 1 from erp.sales_return_items i where i.return_id=v_source_id\n   and(i.product_id,i.location_id,i.quality_grade)=(b.product_id,b.location_id,b.quality_grade))\n   order by b.product_id,b.location_id,b.quality_grade for update;\n  perform 1 from erp.fg_stock_movements m where m.source_type='SALES_RETURN_ITEM'\n   and exists(select 1 from erp.sales_return_items i where i.id=m.source_id and i.return_id=v_source_id)order by m.id for update;\n end if;\n lot_ids:=cp7_credit.source_hpp_lot_ids_v1(sale);\n select coalesce(array_agg(id order by id),'{}')into hpp_ids from erp.hpp_versions where lot_id=any(lot_ids);\n perform 1 from erp.fg_lots where id=any(lot_ids)order by id for update;\n perform 1 from erp.hpp_versions where id=any(hpp_ids)order by id for share;\n select coalesce(array_agg(id order by id),'{}')into fresh_hpp_ids from erp.hpp_versions where lot_id=any(lot_ids);\n if hpp_ids is distinct from fresh_hpp_ids then raise exception 'CP7_CREDIT_SOURCE_HPP_LOCK_SET_CHANGED';end if;\n perform 1 from erp.opening_lot_hpp_gl_state where lot_id=any(lot_ids)order by lot_id for update;\n perform 1 from erp.opening_hpp_corrections where lot_id=any(lot_ids)order by id for share;\n perform 1 from erp.po_hpp_gl_state where po_id in(select po_id from erp.fg_lots where id=any(lot_ids))order by po_id for update;\n fresh_lot_ids:=cp7_credit.source_hpp_lot_ids_v1(sale);\n select coalesce(array_agg(id order by id),'{}')into fresh_hpp_ids from erp.hpp_versions where lot_id=any(fresh_lot_ids);\n if fresh_lot_ids is distinct from lot_ids or fresh_hpp_ids is distinct from hpp_ids then\n  raise exception 'CP7_CREDIT_SOURCE_LOT_LOCK_SET_CHANGED';end if;\n -- Honest first vertical: preserve Native opening/cache/PO/conversion code;\n -- do not enter a class whose complete effects are not qualified yet.\n if exists(select 1 from erp.fg_lots where id=any(lot_ids)and po_id is not null)\n  or exists(select 1 from erp.po_hpp_gl_state where po_id in(select po_id from erp.fg_lots where id=any(lot_ids)))then\n  raise exception 'CP7_CREDIT_SOURCE_PO_HPP_INVERSE_UNQUALIFIED';end if;\n if exists(select 1 from erp.opening_lot_hpp_gl_state where lot_id=any(lot_ids))then\n  raise exception 'CP7_CREDIT_SOURCE_OPENING_HPP_INVERSE_UNQUALIFIED';end if;\n if exists(select 1 from erp.opening_hpp_corrections where lot_id=any(lot_ids))\n  or exists(select 1 from erp.fg_lots l where l.id=any(lot_ids)and\n   ((select count(*)from erp.hpp_versions h where h.lot_id=l.id)<>1\n    or(select count(*)from erp.hpp_versions h where h.lot_id=l.id and h.is_current)<>1))then\n  raise exception 'CP7_CREDIT_SOURCE_RECOST_INVERSE_UNQUALIFIED';end if;\n if exists(select 1 from erp.fg_lots where id=any(lot_ids)and lot_origin='CONVERSION')then\n  raise exception 'CP7_CREDIT_SOURCE_CONVERSION_INVERSE_UNQUALIFIED';end if;\n perform 1 from erp.chart_accounts where id in(select c.credit_account_id from cp7_credit.cohorts c\n  join cp7_credit.return_families f on f.id=c.family_id where f.family_root_sale_id=sale)\n  or id in(select c.ar_account_id from cp7_credit.cohorts c join cp7_credit.return_families f on f.id=c.family_id\n   where f.family_root_sale_id=sale)order by id for share;\n select coalesce(jsonb_agg(to_jsonb(a)order by a.id),'[]')into accounts from erp.chart_accounts a where a.id in(\n  select c.credit_account_id from cp7_credit.cohorts c join cp7_credit.return_families f on f.id=c.family_id where f.family_root_sale_id=sale\n  union select c.ar_account_id from cp7_credit.cohorts c join cp7_credit.return_families f on f.id=c.family_id where f.family_root_sale_id=sale);\n before_input:=cp7_credit.source_reconciliation_input_v1(sale);\n before_result:=ow04_ordinal_wrapper.reconcile_v1(before_input);\n if not(before_result->>'arithmetic_supported')::boolean or exists(select 1 from jsonb_array_elements(before_result->'families')f\n  where(f->>'has_reconciliation_effect')::boolean)then raise exception 'CP7_CREDIT_SOURCE_BEFORE_PROFILE_UNRECONCILED';end if;\n perform cp7_credit.assert_current_materialized_profile(sale,sale,sale);\n profile:=cp7_credit.inspect_current_materialized_profile(sale,sale,sale);\n select operation_id,operation_ordinal+1 into prior_op,op_ordinal from cp7_credit.source_operation_materializations_v1\n  where sale_id=sale order by operation_ordinal desc limit 1;\n if prior_op is null then op_ordinal:=1;\n elsif not exists(select 1 from cp7_credit.source_operation_completions_v1 where operation_id=prior_op)then\n  raise exception 'CP7_CREDIT_SOURCE_PREDECESSOR_NOT_COMPLETE';end if;\n perform 1 from erp.accounting_period_control where singleton_id=1 for share;\n select to_jsonb(c)into strict period from erp.accounting_period_control c where singleton_id=1;\n if cp7_sales.command_access(p_action)is distinct from authority then\n  raise exception using errcode='42501',message='CP7_CREDIT_SOURCE_ACCESS_CHANGED';end if;\n insert into cp7_credit.source_operation_work_v1(operation_id,operation_ordinal,predecessor_operation_id,backend_pid,transaction_id,actor,request_id,action,sale_id,source_id,\n  expected_version,payload,payload_sha256,authority_snapshot,phase,before_source,before_ordinal_input,before_ordinal_result,\n  before_financial_profile,account_facts,period_snapshot)\n values(op,op_ordinal,prior_op,pg_backend_pid(),txid_current(),auth.uid(),p_request,p_action,sale,v_source_id,p_expected,p_payload,\n  cp7_credit.pg_jsonb_sha256(p_payload),authority,'PREPARED',cp7_credit.source_native_snapshot_v1(sale),before_input,before_result,\n  profile,accounts,period);\n perform cp7_credit.assert_source_operation_work_v1(op);\nend $function$\n"
+      },
+      "cp7_credit.source_request_finish_v1(uuid)": {
+        "actual_pg_get_functiondef": {
+          "bytes": 2205,
+          "sha256": "0ea71ca9280a296e7a02b89aefbc8819d128a147de32f8990e868aa0b35ec806"
+        },
+        "catalog_metadata": [
+          "postgres",
+          "plpgsql",
+          "f",
+          true,
+          false,
+          false,
+          false,
+          "v",
+          "u",
+          "100",
+          "0",
+          [
+            "search_path=\"\"",
+            "TimeZone=UTC"
+          ],
+          [
+            "p_request"
+          ],
+          null,
+          "p_request uuid",
+          "void",
+          "-",
+          [
+            [
+              "postgres",
+              "postgres",
+              "EXECUTE",
+              false
+            ]
+          ]
+        ],
+        "full_catalog_row_sha256": "4acc0475310e2e2987830a399e5164ccc48a7d719f03bd12ca04ed06eb456f8d",
+        "actual_before_after_catalog_row_equal": true,
+        "actual_pg_get_functiondef_text": "CREATE OR REPLACE FUNCTION cp7_credit.source_request_finish_v1(p_request uuid)\n RETURNS void\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\n SET \"TimeZone\" TO 'UTC'\nAS $function$\ndeclare w cp7_credit.source_operation_work_v1;c cp7_credit.source_operation_completions_v1;\nbegin\n if exists(select 1 from cp7_credit.payment_source_context_v1 where backend_pid=pg_backend_pid()and transaction_id=txid_current())then\n  select w0.*into strict w from cp7_credit.source_operation_work_v1 w0 join cp7_credit.payment_source_context_v1 pc on pc.operation_id=w0.operation_id\n   where w0.backend_pid=pg_backend_pid()and w0.transaction_id=txid_current()and w0.actor=auth.uid()\n    and w0.request_id=p_request and w0.action='PAYMENT_CORRECT'and pc.phase='INVERSE_COMPLETE';\n  perform cp7_credit.payment_source_assert_pending_v1(w.operation_id);return;\n end if;\n select *into w from cp7_credit.source_operation_work_v1 where backend_pid=pg_backend_pid()\n  and transaction_id=txid_current()and actor=auth.uid()and request_id=p_request;\n if not found then\n  -- No newly owned source is expected on unchanged EMPTY/nonparticipant paths.\n  if exists(select 1 from cp7_credit.source_operation_materializations_v1 where actor=auth.uid()and request_id=p_request)then\n   raise exception 'CP7_CREDIT_SOURCE_OWN_WORK_MISSING';end if;\n  return;\n end if;\n perform cp7_credit.assert_source_operation_work_v1(w.operation_id);\n select *into strict c from cp7_credit.source_operation_completions_v1 where operation_id=w.operation_id;\n if w.phase<>'NATIVE_COMPLETE'or c.final_native_source is distinct from cp7_credit.source_native_snapshot_v1(w.sale_id)\n  or exists(select 1 from cp7_credit.execution_context where backend_pid=w.backend_pid and transaction_id=w.transaction_id)\n  or exists(select 1 from cp7_credit.posting_scope where backend_pid=w.backend_pid and transaction_id=w.transaction_id)then\n  raise exception 'CP7_CREDIT_SOURCE_NATIVE_TAIL_NOT_COMPLETE';end if;\n perform cp7_credit.assert_current_materialized_profile(w.sale_id,w.sale_id,w.sale_id);\n perform cp7_credit.assert_source_completion_v1(w.operation_id);\n delete from cp7_credit.source_operation_work_v1 where operation_id=w.operation_id;\nend $function$\n"
+      },
+      "cp7_credit.native_source_enter(text,uuid)": {
+        "actual_pg_get_functiondef": {
+          "bytes": 2545,
+          "sha256": "bd189658777a06cd7a9320cde07e16c3f64e2c1b5b612ebff04c1c882e874f28"
+        },
+        "catalog_metadata": [
+          "postgres",
+          "plpgsql",
+          "f",
+          true,
+          false,
+          false,
+          false,
+          "v",
+          "u",
+          "100",
+          "0",
+          [
+            "search_path=\"\"",
+            "TimeZone=UTC"
+          ],
+          [
+            "p_action",
+            "p_source"
+          ],
+          null,
+          "p_action text, p_source uuid",
+          "void",
+          "-",
+          [
+            [
+              "postgres",
+              "postgres",
+              "EXECUTE",
+              false
+            ]
+          ]
+        ],
+        "full_catalog_row_sha256": "498da608f7e65bc0a1013d49262ddab9e59e446f99fb49b896bfde1c3754403c",
+        "actual_before_after_catalog_row_equal": true
+      },
+      "cp7_credit_remaining.request_admitted_v1(text,jsonb,uuid)": {
+        "actual_pg_get_functiondef": {
+          "bytes": 792,
+          "sha256": "3d1e90514b21fcb44aa5234a764876cc6c7254a1c59a38fdfcb0874f720e758b"
+        },
+        "catalog_metadata": [
+          "postgres",
+          "plpgsql",
+          "f",
+          false,
+          false,
+          false,
+          false,
+          "s",
+          "u",
+          "100",
+          "0",
+          [
+            "search_path=\"\"",
+            "TimeZone=UTC"
+          ],
+          [
+            "p_action",
+            "p_payload",
+            "p_sale"
+          ],
+          null,
+          "p_action text, p_payload jsonb, p_sale uuid",
+          "boolean",
+          "-",
+          [
+            [
+              "postgres",
+              "postgres",
+              "EXECUTE",
+              false
+            ]
+          ]
+        ],
+        "full_catalog_row_sha256": "f5b95c077c3005fe9bf860aa39fabc75488b4e4d7b2927560f1ff3afd04afc13",
+        "actual_before_after_catalog_row_equal": true
+      },
+      "erp.be_propagate_nonpo_v1()": {
+        "actual_pg_get_functiondef": {
+          "bytes": 4393,
+          "sha256": "97d23a16a2e461e6e327f877ba6925d4bfbcb6f99481e070fb85c291c98cac61"
+        },
+        "catalog_metadata": [
+          "postgres",
+          "plpgsql",
+          "f",
+          true,
+          false,
+          false,
+          false,
+          "v",
+          "u",
+          "100",
+          "0",
+          [
+            "search_path=erp, public"
+          ],
+          null,
+          null,
+          "",
+          "void",
+          "-",
+          [
+            [
+              "postgres",
+              "postgres",
+              "EXECUTE",
+              false
+            ]
+          ]
+        ],
+        "full_catalog_row_sha256": "f7f2375b97fcc2bbb5d212aceb39a4022548fae07dab2d20c5a474f2240382cf",
+        "actual_before_after_catalog_row_equal": true
+      },
+      "erp.be_nonpo_prepare_transfers_v1(date)": {
+        "actual_pg_get_functiondef": {
+          "bytes": 2232,
+          "sha256": "697c02f47c6c7a1d6884a6a49ff595a36b064ac6e2021c0b3c4609c89c534f5e"
+        },
+        "catalog_metadata": [
+          "postgres",
+          "plpgsql",
+          "f",
+          true,
+          false,
+          false,
+          false,
+          "v",
+          "u",
+          "100",
+          "0",
+          [
+            "search_path=\"\""
+          ],
+          [
+            "p_date"
+          ],
+          null,
+          "p_date date",
+          "void",
+          "-",
+          [
+            [
+              "postgres",
+              "postgres",
+              "EXECUTE",
+              false
+            ]
+          ]
+        ],
+        "full_catalog_row_sha256": "ccf34dcce18f3ea287a15fb2d8272ed887857ef70aacd686c170c59fbfc22abc",
+        "actual_before_after_catalog_row_equal": true
+      },
+      "erp.be_nonpo_sync_all_v1(date,text,uuid,text)": {
+        "actual_pg_get_functiondef": {
+          "bytes": 1316,
+          "sha256": "c6fd2da58ec65a5f347bc9f7d1d1352b174ed098cb48899a92ca244acca26041"
+        },
+        "catalog_metadata": [
+          "postgres",
+          "plpgsql",
+          "f",
+          true,
+          false,
+          false,
+          false,
+          "v",
+          "u",
+          "100",
+          "0",
+          [
+            "search_path=\"\""
+          ],
+          [
+            "p_date",
+            "p_source_type",
+            "p_source_id",
+            "p_reason"
+          ],
+          null,
+          "p_date date, p_source_type text, p_source_id uuid, p_reason text",
+          "void",
+          "-",
+          [
+            [
+              "postgres",
+              "postgres",
+              "EXECUTE",
+              false
+            ]
+          ]
+        ],
+        "full_catalog_row_sha256": "2c6d267ea29d943c18495c261bf48d37830a6a510713c07057751f1c759f5d90",
+        "actual_before_after_catalog_row_equal": true
+      },
+      "erp.sync_non_po_product_hpp_to_gl_v2620f(uuid,date,text,uuid,text)": {
+        "actual_pg_get_functiondef": {
+          "bytes": 4197,
+          "sha256": "5c7471588d902fbb721ee2634afb5fd551b6f57a524cc28085c04d2ae04fa47c"
+        },
+        "catalog_metadata": [
+          "postgres",
+          "plpgsql",
+          "f",
+          true,
+          false,
+          false,
+          false,
+          "v",
+          "u",
+          "100",
+          "0",
+          [
+            "search_path=erp, public"
+          ],
+          [
+            "p_product_id",
+            "p_effective_date",
+            "p_trigger_source_type",
+            "p_trigger_source_id",
+            "p_reason"
+          ],
+          null,
+          "p_product_id uuid, p_effective_date date, p_trigger_source_type text, p_trigger_source_id uuid, p_reason text",
+          "void",
+          "-",
+          [
+            [
+              "postgres",
+              "postgres",
+              "EXECUTE",
+              false
+            ]
+          ]
+        ],
+        "full_catalog_row_sha256": "8a4f9b65ca419a07ff21425c76f4f9b11a9f14fdfe394844b5ba7b6c77f6ce61",
+        "actual_before_after_catalog_row_equal": true
+      }
+    },
+    "new_DB_calls": 0,
+    "D1_actual_catalog_counter": "Existing17ac/cde78 Original snapshot members available; independent counter streaming; no fabricated D1/E/S03 catalog authority."
+  },
+  "frontends": {
+    "S03": {
+      "source_commit": "598dfe935e97ab7a43d63cd34d9b3b6abd7c7496",
+      "source_tree": "95d2abc716e0f9af12f5d0a55df29b6a50082868",
+      "exact_product_client_contract_mount_paths": [
+        {
+          "commit": "598dfe935e97ab7a43d63cd34d9b3b6abd7c7496",
+          "path": "scripts/check-access-catalog.mjs",
+          "git_blob": "9a3612d2de99d50c8573a2878f1471fe147311c0",
+          "bytes": 45237,
+          "sha256": "1109bca1799c0fc6b597b8c0a5e6ebb0f25f5610a1a035faf0beb0a615b3300e",
+          "base_state": "DIFFERENT"
+        },
+        {
+          "commit": "598dfe935e97ab7a43d63cd34d9b3b6abd7c7496",
+          "path": "scripts/check-source-ownership.mjs",
+          "git_blob": "0b1e760e8967dd20ef8cdcecf58c2e47c2a6e8c2",
+          "bytes": 25476,
+          "sha256": "ae606622d55d7d5ff86dd21d63d943fb358113553f3e94b381a9d0d744285c2e",
+          "base_state": "DIFFERENT"
+        },
+        {
+          "commit": "598dfe935e97ab7a43d63cd34d9b3b6abd7c7496",
+          "path": "src/AttendanceHppPoolPanel.dom.test.tsx",
+          "git_blob": "2324d99c1ed52ef0ebfc56137d4edf806c812145",
+          "bytes": 32289,
+          "sha256": "4bfa4fd32fa1e717d0f654d998c038259840c83dd3c00733cd29526b15cade3d",
+          "base_state": "DIFFERENT"
+        },
+        {
+          "commit": "598dfe935e97ab7a43d63cd34d9b3b6abd7c7496",
+          "path": "src/AttendanceHppPoolPanel.tsx",
+          "git_blob": "fcae11f4cd323f1970671ec9f9398cbea86a1e0b",
+          "bytes": 23085,
+          "sha256": "e0e779798cb547d4c8db8cd4fc8f54a8479ad32f5c054ae40f532392245975a3",
+          "base_state": "DIFFERENT"
+        },
+        {
+          "commit": "598dfe935e97ab7a43d63cd34d9b3b6abd7c7496",
+          "path": "src/AttendancePeriodChoicePanel.dom.test.tsx",
+          "git_blob": "70faf4a6457f980932e75676f2620494cfa95bac",
+          "bytes": 24187,
+          "sha256": "ae7277377e930cf953baa8447ed8e42e227a2c9039b2b00bde0a52144e9651c6",
+          "base_state": "MISSING"
+        },
+        {
+          "commit": "598dfe935e97ab7a43d63cd34d9b3b6abd7c7496",
+          "path": "src/AttendancePeriodChoicePanel.tsx",
+          "git_blob": "471917ccb8c01d876925b2b6c12c8bef7a56e2f2",
+          "bytes": 22270,
+          "sha256": "a13e248ce5a52795fa464bf82e9f220e355ebede97e6dcb0241d98db81270d8f",
+          "base_state": "MISSING"
+        },
+        {
+          "commit": "598dfe935e97ab7a43d63cd34d9b3b6abd7c7496",
+          "path": "src/ConnectedSkuHppPage.attendance.dom.test.tsx",
+          "git_blob": "897180670e0e99cb19043e8ee74d194588c9dc62",
+          "bytes": 7257,
+          "sha256": "725420372302f9ea1e892e35e1e5e45e2ed3d48849fb4de294516efe33c293b1",
+          "base_state": "MISSING"
+        },
+        {
+          "commit": "598dfe935e97ab7a43d63cd34d9b3b6abd7c7496",
+          "path": "src/ConnectedSkuHppPage.attendance.integration.dom.test.tsx",
+          "git_blob": "05e42ed1f5305ffa7c497f4f67d66cde861b9104",
+          "bytes": 8915,
+          "sha256": "1cd27bc4b2009bd5195f2f4e4871fc4589d8dfc1878539c5c9213e2599b82273",
+          "base_state": "MISSING"
+        },
+        {
+          "commit": "598dfe935e97ab7a43d63cd34d9b3b6abd7c7496",
+          "path": "src/ConnectedSkuHppPage.tsx",
+          "git_blob": "4b309c230d5f0648ad8f678caf1a8cf2b4186f47",
+          "bytes": 7798,
+          "sha256": "3e55bee6dc8b2a5fce70eefeaccafe75926429ac19dd52350cd1a855af591bcb",
+          "base_state": "DIFFERENT"
+        },
+        {
+          "commit": "598dfe935e97ab7a43d63cd34d9b3b6abd7c7496",
+          "path": "src/attendance-period-choice.css",
+          "git_blob": "347e05af09e0eda580cbd9337e7b4b8bcab4dd6d",
+          "bytes": 1617,
+          "sha256": "78a5ad2836cc0baf43c0e8777a5244520d1acf67aca695da5e3251d9a1b647cc",
+          "base_state": "MISSING"
+        },
+        {
+          "commit": "598dfe935e97ab7a43d63cd34d9b3b6abd7c7496",
+          "path": "src/attendancePeriodChoiceContract.test.ts",
+          "git_blob": "8d35305fc33022c84b6c844fab5456dbf3b7bdc2",
+          "bytes": 10768,
+          "sha256": "987563bcb1245299d3a0a6479e268a63a7badb3a28507ba1d70026d7b4eef33e",
+          "base_state": "MISSING"
+        },
+        {
+          "commit": "598dfe935e97ab7a43d63cd34d9b3b6abd7c7496",
+          "path": "src/attendancePeriodChoiceContract.ts",
+          "git_blob": "2d1cf2787e32577e358a81f71f548af506e7941e",
+          "bytes": 20389,
+          "sha256": "49154c93c7626e37bf8c13d8e49d6369d2f729ff393d080e4eaec32957f7a8ae",
+          "base_state": "MISSING"
+        },
+        {
+          "commit": "598dfe935e97ab7a43d63cd34d9b3b6abd7c7496",
+          "path": "src/hppPoolContract.ts",
+          "git_blob": "d8a8fdcc17f5779f00b88a6930b46620ba900630",
+          "bytes": 24299,
+          "sha256": "27640380343a3f2eb8f2f203e2d8b0656438150445162d3b13d3cf3061e24514",
+          "base_state": "DIFFERENT"
+        },
+        {
+          "commit": "598dfe935e97ab7a43d63cd34d9b3b6abd7c7496",
+          "path": "src/productionRecovery.test.ts",
+          "git_blob": "d5541ad49949370497a58f6be3677c5ed349cf86",
+          "bytes": 8312,
+          "sha256": "a52108b4c46c928f222d03db1be41a63af40d484eecb827ebe4ed11bf4e1c208",
+          "base_state": "DIFFERENT"
+        },
+        {
+          "commit": "598dfe935e97ab7a43d63cd34d9b3b6abd7c7496",
+          "path": "src/productionRecovery.ts",
+          "git_blob": "c6d2490eeee74dad1efbee110f1fc02ede53b633",
+          "bytes": 13473,
+          "sha256": "29b741b1d337229ef63d8b9fb062164f50dd0129f965a8f53a4f2c9b1333ab7f",
+          "base_state": "DIFFERENT"
+        },
+        {
+          "commit": "598dfe935e97ab7a43d63cd34d9b3b6abd7c7496",
+          "path": "tests/fixtures/attendancePeriodChoice.ts",
+          "git_blob": "086ffea28ec1cf4cc1a0ae91a0f81590571c9b6d",
+          "bytes": 6007,
+          "sha256": "f3e8c2e92392948f63e7422e0fac6a527d1b13182ece874bef5e656a50c449e3",
+          "base_state": "MISSING"
+        }
+      ],
+      "qualification_history_paths_excluded": 66,
+      "copied_new_panel": "AttendancePeriodChoicePanel plus closed contract/CSS/tests/fixture only",
+      "shared_hunks": [
+        "hppPoolContract metadata variants",
+        "AttendanceHppPoolPanel ownership routing/refusal",
+        "ConnectedSkuHppPage owning source-period mount+cross-refresh",
+        "productionRecovery NEW ATTENDANCE_PERIOD_CHOICE+exact5actions",
+        "check-source-ownership exact3literal RPCs",
+        "check-access-catalog exact3named boundaries"
+      ],
+      "must_not_overwrite": "Current SKU SAVE_PAIR and all preexisting recovery keys/actions/mutex/census. Union exact S03 additions into current A file, never whole older productionRecovery.ts replacement.",
+      "gate": "Actual new backend14 + real normalApp/browser4 later; prepared e09c remains closed and source-only."
+    },
+    "S05": {
+      "source_commit": "52eedc88e9aa2cd7470894c1f38ff9eb22f9cc60",
+      "UI5": [
+        {
+          "commit": "52eedc88e9aa2cd7470894c1f38ff9eb22f9cc60",
+          "path": "src/ConnectedAccessoryStandardReportPage.tsx",
+          "git_blob": "d17c38f14fc7dae4b71edc258ff332f3f03581d0",
+          "bytes": 15355,
+          "sha256": "7ea45bfe0276eca864e67ae0dc0cacd3d9a114436533e6df5923d68cf63d4fab",
+          "base_state": "MISSING"
+        },
+        {
+          "commit": "52eedc88e9aa2cd7470894c1f38ff9eb22f9cc60",
+          "path": "src/accessoryStandardReport.ts",
+          "git_blob": "3b3eec288b1af0f45c687bc7ccd8dee428db061f",
+          "bytes": 21495,
+          "sha256": "982988ce7a48c624294bcb22a6663ae8bd842825ecfa74c72b8f1fa697a6f1a1",
+          "base_state": "MISSING"
+        },
+        {
+          "commit": "52eedc88e9aa2cd7470894c1f38ff9eb22f9cc60",
+          "path": "src/accessory-standard-report.css",
+          "git_blob": "3b2e7903954c396f4268a6810ceea66f84299352",
+          "bytes": 1925,
+          "sha256": "a9d62618178521d25fa392e6497e24ebc1e8146277b9cda33a9d76e7ea76d16a",
+          "base_state": "MISSING"
+        },
+        {
+          "commit": "52eedc88e9aa2cd7470894c1f38ff9eb22f9cc60",
+          "path": "src/accessoryStandardReport.test.ts",
+          "git_blob": "6171fbdcbf80db142a71a322f9f2d2e09607d043",
+          "bytes": 8147,
+          "sha256": "e4de6205b8e023ffc5a46135a98397e3c5859dd19812712458f9339670f8d36b",
+          "base_state": "MISSING"
+        },
+        {
+          "commit": "52eedc88e9aa2cd7470894c1f38ff9eb22f9cc60",
+          "path": "src/AccessoryStandardReport.dom.test.tsx",
+          "git_blob": "4834ec2ad0de0750e22224efda5c97898f9396ec",
+          "bytes": 9290,
+          "sha256": "83746323aa3142f24a89619cd19bb74fcd2638517358b9b62366643ede7b891e",
+          "base_state": "MISSING"
+        }
+      ],
+      "fixture": {
+        "commit": "52eedc88e9aa2cd7470894c1f38ff9eb22f9cc60",
+        "path": "tests/fixtures/accessoryStandardReport.ts",
+        "git_blob": "41cd31e6f8ddbf7481b02a77c720bd8ed38032b4",
+        "bytes": 4928,
+        "sha256": "2013b59a6a93c9b5855f5ca54374f05bc0810c927dc64fc09512fd5af8ccc2b8",
+        "base_state": "MISSING"
+      },
+      "current_A_all_UI5_missing": true,
+      "current_A_component_unmounted": true,
+      "existing_App_mount": {
+        "path": "src/App.tsx",
+        "line": 771,
+        "route": "hpp",
+        "connected_component": "ConnectedSkuHppPage",
+        "permission": "finance.hpp.view"
+      },
+      "minimum_mount_proposal": "Nested read-only HPP subtab/button Aksesori mandor vs standar inside current ConnectedSkuHppPage; preserve mounted S03 and all current HPP writers. No new App Page/menu/route necessary for this minimum option; root chooses final route.",
+      "exact_new_read": "src/ConnectedAccessoryStandardReportPage.tsx:erp_cp7_get_accessory_standard_report_v1",
+      "source_ownership_registry_addition": 1,
+      "access_catalog_named_boundary_addition": 1,
+      "expected_shared_total_if_only_S03_plus_S05": "old326+exactS03three+exactS05one=330; verify current code before using count; preserve every old list/assertion",
+      "access": "Current OWNER or ADMIN, active authorized session, BOTH finance.contractor_accessory.view and finance.hpp.view; backend access_now before+after unchanged. Single actual app authenticated client.",
+      "refresh": "Use existing sibling commit/current actor/period epochs without publishing stale readback; retain current typed source/filter parser and exact decimal strings. Read does not invent a mutation recovery domain.",
+      "gate": "UI5 standalone29local is historical only. Actual Native10 remains required; real normalApp Auth/browser mount/current-revocation/anonymous/limited-role/filter-delay and desktop390 overflow/contrast source evidence still absent.",
+      "report_truth": "Physical WIB POSTED accessory issue vs GOOD initialqty snapshot/BOM; explicit UNKNOWN vs EMPTY/NO_GOOD_OUTPUT. No conversion output count, inferred efficiency or total-HPP-variance claim.",
+      "exact_current_mount_anchor": {
+        "path": "src/App.tsx",
+        "line": 771,
+        "text": "{page === 'hpp' && <Suspense fallback={<WorkspaceFallback label=\"HPP & Rekalkulasi\"/>}>{runtime.mode === 'DEMO_SIMULATION' ? <HppPage /> : <ConnectedSkuHppPage/>}</Suspense>}",
+        "proposed_product_file": "src/ConnectedSkuHppPage.tsx",
+        "route_or_tab_author": "root",
+        "App_menu_changes_for_minimum_option": 0
+      },
+      "remaining_UI5_mount_Auth_browser_prerequisite": {
+        "accepted_backend10": null,
+        "mounted_UI_candidate": null,
+        "real_Auth_browser_proof": null,
+        "flow": [
+          "Owner/Admin with BOTH current read permissions reaches the normal App HPP report tab.",
+          "Anonymous/STAFF/one-permission-only/current-revoked session sees accurate denial and no stale data; backend403 stays an access error.",
+          "Real date/contractor/PO pagination/filter change while prior response delayed cannot overwrite current visible filters/actor.",
+          "Report direct source readback after ordinary SKU/S03 actual use and real inverse: physicalWIB issue/GOOD/BOM snapshots/revisions retained, UNKNOWN never zero.",
+          "Desktop and strict390width/contrast4.5/no unexpected console/screenshot capture through the normal app/client; completeAuth cleanup/fullouter5."
+        ],
+        "additional_MUTATION_domain": false,
+        "standalone_local_DOM_is_acceptance": false
+      }
+    },
+    "source_collision": "Do not adopt whole598/e09c tree: it lacks S05 UI and would overwrite currentA/SKU. Select exact leaves and merge declared shared hunks only."
+  },
+  "S05_natural_source_admission": {
+    "declared_manifest": {
+      "commit": "52eedc88e9aa2cd7470894c1f38ff9eb22f9cc60",
+      "path": "scripts/cp7_accessory_standard_report/SOURCE.json",
+      "git_blob": "6a246ea110c43899ccf0d672918f48e52fff6de7",
+      "bytes": 7147,
+      "sha256": "63530f5c713a121f2bde3f63380113bc38e7e1e0fc148727e12ef9d0fea20e33",
+      "base_state": "MISSING"
+    },
+    "manifest_pinned_dependencies": [
+      {
+        "commit": "52eedc88e9aa2cd7470894c1f38ff9eb22f9cc60",
+        "path": "scripts/cp6_bc_probe.py",
+        "git_blob": "070d1171b0e4d865d1acbafb44c627601f63dcb2",
+        "bytes": 139394,
+        "sha256": "147de7092ba2284312ba376f8cae82bf05c0fbb77e28956f45966cdfa6c8adb1",
+        "base_state": "EXACT"
+      },
+      {
+        "commit": "52eedc88e9aa2cd7470894c1f38ff9eb22f9cc60",
+        "path": "scripts/cp6_bd_probe.py",
+        "git_blob": "c90a3f60af84c00438d1c9bdbbe58907001103cb",
+        "bytes": 142782,
+        "sha256": "c3add21e66d4d5544bf4e4d046a9fa8d64dbcb0cb285551a92c2d7405156b31b",
+        "base_state": "EXACT"
+      },
+      {
+        "commit": "52eedc88e9aa2cd7470894c1f38ff9eb22f9cc60",
+        "path": "scripts/cp6_bf_probe.py",
+        "git_blob": "4e6508ff1e7c3646f1ece0063105e799a65a4c4e",
+        "bytes": 25873,
+        "sha256": "966ab01ad809f53ca895eadfe9394e51737a7b85944a5a5b1752220bb0b57bd7",
+        "base_state": "EXACT"
+      },
+      {
+        "commit": "52eedc88e9aa2cd7470894c1f38ff9eb22f9cc60",
+        "path": "scripts/cp7_accessory_standard_report/README.md",
+        "git_blob": "c96c846385d736732dd982be2735d19587a2a9ba",
+        "bytes": 12288,
+        "sha256": "0603134bc85ad0c4f60d8e7db35e447b89ddb0a6177784f9cb82932423862137",
+        "base_state": "MISSING"
+      },
+      {
+        "commit": "52eedc88e9aa2cd7470894c1f38ff9eb22f9cc60",
+        "path": "scripts/cp7_accessory_standard_report/__init__.py",
+        "git_blob": "d6146934d30edc0122ede9724a4e8d3594215ef8",
+        "bytes": 90,
+        "sha256": "e1635547d97e5ffa944392fccbce74ec1eb88160d552d84b26781cdae531194a",
+        "base_state": "MISSING"
+      },
+      {
+        "commit": "52eedc88e9aa2cd7470894c1f38ff9eb22f9cc60",
+        "path": "scripts/cp7_accessory_standard_report/cases.py",
+        "git_blob": "979663f5d6fb89df88058edcbdb6a297d6427474",
+        "bytes": 19581,
+        "sha256": "e025be1280630dfb89f62261163194ce072b6f6ad6d909b56ff6c82f75778e98",
+        "base_state": "MISSING"
+      },
+      {
+        "commit": "52eedc88e9aa2cd7470894c1f38ff9eb22f9cc60",
+        "path": "scripts/cp7_accessory_standard_report/preflight.py",
+        "git_blob": "40f9058d98eadbe8cfd42d51098f990698fbae0f",
+        "bytes": 5440,
+        "sha256": "986f077c9430713c7735e4d63f8ffac22973aaadf8fd963a3d8dfaf1401833fd",
+        "base_state": "MISSING"
+      },
+      {
+        "commit": "52eedc88e9aa2cd7470894c1f38ff9eb22f9cc60",
+        "path": "scripts/cp7_accessory_standard_report/report.sql",
+        "git_blob": "e081163ae9c6a9730fc3dfaeeb6b8ddb237047f7",
+        "bytes": 23024,
+        "sha256": "216f34d1225171543a743d272a2a9a15aeeda50658a32b53b0ea7ccc64b3702a",
+        "base_state": "MISSING"
+      },
+      {
+        "commit": "52eedc88e9aa2cd7470894c1f38ff9eb22f9cc60",
+        "path": "scripts/cp7_accessory_standard_report/stage.py",
+        "git_blob": "27dc14312ce6b54755bed3aedfe31fc3f8b4f901",
+        "bytes": 13018,
+        "sha256": "c8ef2b9f092eca295f4dff1c9691173d9171ca485b6c8179f67700d98260095a",
+        "base_state": "MISSING"
+      },
+      {
+        "commit": "52eedc88e9aa2cd7470894c1f38ff9eb22f9cc60",
+        "path": "scripts/cp7_f03_e24_issue_cases.py",
+        "git_blob": "6bd51b39ad46a5b508d5e791dc5c4a1d32bafcdd",
+        "bytes": 7445,
+        "sha256": "055fc9ef15b3389a13256df15bb1110632ad3cb504f788f431b389da826211aa",
+        "base_state": "EXACT"
+      },
+      {
+        "commit": "52eedc88e9aa2cd7470894c1f38ff9eb22f9cc60",
+        "path": "scripts/cp7_ow04_restore_bundle.py",
+        "git_blob": "f022dedc4a35d8938de92cb69aeed805d41e14eb",
+        "bytes": 19828,
+        "sha256": "a1605193347cf5b3321a7bdbf8ff6c634df4f4c0a5113eb295e8c3ce44428e00",
+        "base_state": "EXACT"
+      },
+      {
+        "commit": "52eedc88e9aa2cd7470894c1f38ff9eb22f9cc60",
+        "path": "scripts/cp7_qc_source_cases.py",
+        "git_blob": "10da309d1a3d6773723453be3ab451573502078b",
+        "bytes": 10188,
+        "sha256": "67fe6812924583a7789377f6a01525614d9d0fb2665a8d59ee113a794d076ed5",
+        "base_state": "EXACT"
+      },
+      {
+        "commit": "52eedc88e9aa2cd7470894c1f38ff9eb22f9cc60",
+        "path": "scripts/cp7_snapshot_cases.py",
+        "git_blob": "8a524e98114e03b4c1ef5793d73b92514877f4d7",
+        "bytes": 25059,
+        "sha256": "b0f96102c7c508984d830028bbd191804703b7844d8963817ce2917b2050f9f4",
+        "base_state": "EXACT"
+      },
+      {
+        "commit": "52eedc88e9aa2cd7470894c1f38ff9eb22f9cc60",
+        "path": "scripts/cp7_vendor_receivable/composition.py",
+        "git_blob": "daa89f946d7ed7edf04c1960c99f345087c22f93",
+        "bytes": 8287,
+        "sha256": "b0bc106121932deb18a342299ec7ffb1a314abaca9d77879df29784261821df2",
+        "base_state": "EXACT"
+      },
+      {
+        "commit": "52eedc88e9aa2cd7470894c1f38ff9eb22f9cc60",
+        "path": "scripts/cp7_vendor_receivable/native_delta.py",
+        "git_blob": "db2204f5ee745e4a74da935daaf2550203e48299",
+        "bytes": 5293,
+        "sha256": "bd0f41be50fea0ab64b19c15d8a09fc7940782507c35482911dd86c36403a52b",
+        "base_state": "EXACT"
+      },
+      {
+        "commit": "52eedc88e9aa2cd7470894c1f38ff9eb22f9cc60",
+        "path": "scripts/cp7_vendor_receivable/receivable.sql",
+        "git_blob": "5c5802381382cd7030a3723003ca4da345f03556",
+        "bytes": 20188,
+        "sha256": "3b24728512e8be6af697f3234e591f7fe6b46331c68e3497ab71aedbcc9aa2ba",
+        "base_state": "EXACT"
+      },
+      {
+        "commit": "52eedc88e9aa2cd7470894c1f38ff9eb22f9cc60",
+        "path": "scripts/cp7_wip_source_cases.py",
+        "git_blob": "217a7906a23f1b1f5f747a822c2437618b1031f2",
+        "bytes": 23085,
+        "sha256": "4ba09e6aa0e30df94bff740dc1c5b08d2eb8ec0738a5cd70da0f43e172ff1b3a",
+        "base_state": "EXACT"
+      },
+      {
+        "commit": "52eedc88e9aa2cd7470894c1f38ff9eb22f9cc60",
+        "path": "scripts/current-vendor-integration-source/CONFIG.json",
+        "git_blob": "4378bdc9609e8f37e334f9f377ac812cde79a379",
+        "bytes": 6008,
+        "sha256": "5580b0c2a88cf25a5e4cbf7db70e356394d5a690d192249483a7358a7ecb96d7",
+        "base_state": "EXACT"
+      },
+      {
+        "commit": "52eedc88e9aa2cd7470894c1f38ff9eb22f9cc60",
+        "path": "src/AccessoryStandardReport.dom.test.tsx",
+        "git_blob": "4834ec2ad0de0750e22224efda5c97898f9396ec",
+        "bytes": 9290,
+        "sha256": "83746323aa3142f24a89619cd19bb74fcd2638517358b9b62366643ede7b891e",
+        "base_state": "MISSING"
+      },
+      {
+        "commit": "52eedc88e9aa2cd7470894c1f38ff9eb22f9cc60",
+        "path": "src/ConnectedAccessoryStandardReportPage.tsx",
+        "git_blob": "d17c38f14fc7dae4b71edc258ff332f3f03581d0",
+        "bytes": 15355,
+        "sha256": "7ea45bfe0276eca864e67ae0dc0cacd3d9a114436533e6df5923d68cf63d4fab",
+        "base_state": "MISSING"
+      },
+      {
+        "commit": "52eedc88e9aa2cd7470894c1f38ff9eb22f9cc60",
+        "path": "src/accessory-standard-report.css",
+        "git_blob": "3b2e7903954c396f4268a6810ceea66f84299352",
+        "bytes": 1925,
+        "sha256": "a9d62618178521d25fa392e6497e24ebc1e8146277b9cda33a9d76e7ea76d16a",
+        "base_state": "MISSING"
+      },
+      {
+        "commit": "52eedc88e9aa2cd7470894c1f38ff9eb22f9cc60",
+        "path": "src/accessoryStandardReport.test.ts",
+        "git_blob": "6171fbdcbf80db142a71a322f9f2d2e09607d043",
+        "bytes": 8147,
+        "sha256": "e4de6205b8e023ffc5a46135a98397e3c5859dd19812712458f9339670f8d36b",
+        "base_state": "MISSING"
+      },
+      {
+        "commit": "52eedc88e9aa2cd7470894c1f38ff9eb22f9cc60",
+        "path": "src/accessoryStandardReport.ts",
+        "git_blob": "3b3eec288b1af0f45c687bc7ccd8dee428db061f",
+        "bytes": 21495,
+        "sha256": "982988ce7a48c624294bcb22a6663ae8bd842825ecfa74c72b8f1fa697a6f1a1",
+        "base_state": "MISSING"
+      },
+      {
+        "commit": "52eedc88e9aa2cd7470894c1f38ff9eb22f9cc60",
+        "path": "src/auth/AuthProvider.tsx",
+        "git_blob": "0aced13739efc4228c03e7b9b5a2a5b0d8144c8f",
+        "bytes": 9894,
+        "sha256": "d1ee2b58fb8ba4f9d416c84b5f461b28141fc123c6efc6ee89604160b79b2736",
+        "base_state": "EXACT"
+      },
+      {
+        "commit": "52eedc88e9aa2cd7470894c1f38ff9eb22f9cc60",
+        "path": "src/cp6BusinessTime.ts",
+        "git_blob": "3692024bd78a99ef0923b2d4800463856d79ab26",
+        "bytes": 2093,
+        "sha256": "d1681a2c28898c2bd772581bb4436cd1ca34bfa32e41af4b9096f2aaa0b834b7",
+        "base_state": "EXACT"
+      },
+      {
+        "commit": "52eedc88e9aa2cd7470894c1f38ff9eb22f9cc60",
+        "path": "src/lib/supabase.ts",
+        "git_blob": "13855c57d3a51ec738ba07270bdf39c0001d25c1",
+        "bytes": 2639,
+        "sha256": "51dc62a3f5d85fd0aa618a6cbb78bbbd20b063aad4ef64e84da933c3c21bfc28",
+        "base_state": "EXACT"
+      },
+      {
+        "commit": "52eedc88e9aa2cd7470894c1f38ff9eb22f9cc60",
+        "path": "tests/fixtures/accessoryStandardReport.ts",
+        "git_blob": "41cd31e6f8ddbf7481b02a77c720bd8ed38032b4",
+        "bytes": 4928,
+        "sha256": "2013b59a6a93c9b5855f5ca54374f05bc0810c927dc64fc09512fd5af8ccc2b8",
+        "base_state": "MISSING"
+      }
+    ],
+    "exact_missing_or_different_base_dependencies": [
+      {
+        "commit": "52eedc88e9aa2cd7470894c1f38ff9eb22f9cc60",
+        "path": "scripts/cp7_accessory_standard_report/README.md",
+        "git_blob": "c96c846385d736732dd982be2735d19587a2a9ba",
+        "bytes": 12288,
+        "sha256": "0603134bc85ad0c4f60d8e7db35e447b89ddb0a6177784f9cb82932423862137",
+        "base_state": "MISSING"
+      },
+      {
+        "commit": "52eedc88e9aa2cd7470894c1f38ff9eb22f9cc60",
+        "path": "scripts/cp7_accessory_standard_report/__init__.py",
+        "git_blob": "d6146934d30edc0122ede9724a4e8d3594215ef8",
+        "bytes": 90,
+        "sha256": "e1635547d97e5ffa944392fccbce74ec1eb88160d552d84b26781cdae531194a",
+        "base_state": "MISSING"
+      },
+      {
+        "commit": "52eedc88e9aa2cd7470894c1f38ff9eb22f9cc60",
+        "path": "scripts/cp7_accessory_standard_report/cases.py",
+        "git_blob": "979663f5d6fb89df88058edcbdb6a297d6427474",
+        "bytes": 19581,
+        "sha256": "e025be1280630dfb89f62261163194ce072b6f6ad6d909b56ff6c82f75778e98",
+        "base_state": "MISSING"
+      },
+      {
+        "commit": "52eedc88e9aa2cd7470894c1f38ff9eb22f9cc60",
+        "path": "scripts/cp7_accessory_standard_report/preflight.py",
+        "git_blob": "40f9058d98eadbe8cfd42d51098f990698fbae0f",
+        "bytes": 5440,
+        "sha256": "986f077c9430713c7735e4d63f8ffac22973aaadf8fd963a3d8dfaf1401833fd",
+        "base_state": "MISSING"
+      },
+      {
+        "commit": "52eedc88e9aa2cd7470894c1f38ff9eb22f9cc60",
+        "path": "scripts/cp7_accessory_standard_report/report.sql",
+        "git_blob": "e081163ae9c6a9730fc3dfaeeb6b8ddb237047f7",
+        "bytes": 23024,
+        "sha256": "216f34d1225171543a743d272a2a9a15aeeda50658a32b53b0ea7ccc64b3702a",
+        "base_state": "MISSING"
+      },
+      {
+        "commit": "52eedc88e9aa2cd7470894c1f38ff9eb22f9cc60",
+        "path": "scripts/cp7_accessory_standard_report/stage.py",
+        "git_blob": "27dc14312ce6b54755bed3aedfe31fc3f8b4f901",
+        "bytes": 13018,
+        "sha256": "c8ef2b9f092eca295f4dff1c9691173d9171ca485b6c8179f67700d98260095a",
+        "base_state": "MISSING"
+      },
+      {
+        "commit": "52eedc88e9aa2cd7470894c1f38ff9eb22f9cc60",
+        "path": "src/AccessoryStandardReport.dom.test.tsx",
+        "git_blob": "4834ec2ad0de0750e22224efda5c97898f9396ec",
+        "bytes": 9290,
+        "sha256": "83746323aa3142f24a89619cd19bb74fcd2638517358b9b62366643ede7b891e",
+        "base_state": "MISSING"
+      },
+      {
+        "commit": "52eedc88e9aa2cd7470894c1f38ff9eb22f9cc60",
+        "path": "src/ConnectedAccessoryStandardReportPage.tsx",
+        "git_blob": "d17c38f14fc7dae4b71edc258ff332f3f03581d0",
+        "bytes": 15355,
+        "sha256": "7ea45bfe0276eca864e67ae0dc0cacd3d9a114436533e6df5923d68cf63d4fab",
+        "base_state": "MISSING"
+      },
+      {
+        "commit": "52eedc88e9aa2cd7470894c1f38ff9eb22f9cc60",
+        "path": "src/accessory-standard-report.css",
+        "git_blob": "3b2e7903954c396f4268a6810ceea66f84299352",
+        "bytes": 1925,
+        "sha256": "a9d62618178521d25fa392e6497e24ebc1e8146277b9cda33a9d76e7ea76d16a",
+        "base_state": "MISSING"
+      },
+      {
+        "commit": "52eedc88e9aa2cd7470894c1f38ff9eb22f9cc60",
+        "path": "src/accessoryStandardReport.test.ts",
+        "git_blob": "6171fbdcbf80db142a71a322f9f2d2e09607d043",
+        "bytes": 8147,
+        "sha256": "e4de6205b8e023ffc5a46135a98397e3c5859dd19812712458f9339670f8d36b",
+        "base_state": "MISSING"
+      },
+      {
+        "commit": "52eedc88e9aa2cd7470894c1f38ff9eb22f9cc60",
+        "path": "src/accessoryStandardReport.ts",
+        "git_blob": "3b3eec288b1af0f45c687bc7ccd8dee428db061f",
+        "bytes": 21495,
+        "sha256": "982988ce7a48c624294bcb22a6663ae8bd842825ecfa74c72b8f1fa697a6f1a1",
+        "base_state": "MISSING"
+      },
+      {
+        "commit": "52eedc88e9aa2cd7470894c1f38ff9eb22f9cc60",
+        "path": "tests/fixtures/accessoryStandardReport.ts",
+        "git_blob": "41cd31e6f8ddbf7481b02a77c720bd8ed38032b4",
+        "bytes": 4928,
+        "sha256": "2013b59a6a93c9b5855f5ca54374f05bc0810c927dc64fc09512fd5af8ccc2b8",
+        "base_state": "MISSING"
+      }
+    ],
+    "earliest_plan": "Preserve existing full SOURCE dependency checks: copy exact missing product admission code/README/UI/test/fixture leaves only, plus SOURCE. They are source-admission inputs, not Native callbacks to execute or qualification histories to merge. Update ONLY the intentionally changed stage adapter pin with explicit transition. No dishonest reduced sources() dictionary.",
+    "alternative": "A future narrowed runtime-only source contract would require separately declared contract transition; not needed for earliest implementation."
+  },
+  "exact_next_implementation_allocations": [
+    {
+      "order": 1,
+      "task": "Freeze selective source-only candidate fromA3fdb with these exact leaf maps, four bootstraps, explicit S05 admission dependencies; no runtime authority yet."
+    },
+    {
+      "order": 2,
+      "task": "Author deliberate SKU->E, S03->global and S05->S03 adapters with natural real source graph/self pins; new final entry CLOSED. Keep D1/E executable bodies exact except later live8-hook bridge derivation."
+    },
+    {
+      "order": 3,
+      "task": "Close current parent context inventory/actual owner/schema rawACL and parent-proof phase rules, then all22 install/preuse/reinstall locally meaningful source controls without admitting live commands."
+    },
+    {
+      "order": 4,
+      "task": "After writer/FK/trigger/permission/lock counter and root choice, implement only the explicit8 counted live hooks+owning bridge. Capture current composed source_request_enter/finish; pureinspector source alone cannot open it."
+    },
+    {
+      "order": 5,
+      "task": "Root bind exact terminal standalone components and actual raws; new full source gate/current method graph; run fresh composite complete fullengine with committed shared SKU FIRST and inverse retained, then D1/E and S03/S05 positive/inverse/current rights/dirty/stale tests/fullouter5."
+    },
+    {
+      "order": 6,
+      "task": "Selective S03 mount+S05 nested report UI under current role permissions, union recovery/registries, real normalApp Auth/browser proof. Default adoption only after exact composite acceptance."
+    }
+  ],
+  "earliest_composite_business_order": [
+    "Commit real managed SKU POST used witness FIRST; retain whole outside graph and provenance.",
+    "With SKU persisted, run lawful unrelated D1/E positives, source/consumer inverses, immutable historical receipts; repeat after legitimate SKU inverse while BE history remains.",
+    "Relevant/sibling/recursive descendant/identity/mixed support must refuse honestly. Dirty external HPP/transfer/book or same-value changed source must refuse before effects; every waited current-access/period/review branch remains fresh.",
+    "S03 original11 thenReader3 separate raw groups and owning/source/output normal coexistence. S05 report Native10 after SKU/S03 used data, read-only all rows/sequences and exact SOURCE truth.",
+    "Full source/all22/roles/rawACL/defaultACL/all rows/sequences/CP6/advisors/current Auth/primary backup restore; every strict savepoint is not sequence restoration."
+  ],
+  "remaining_unknowns": [
+    "E17 terminal accepted evidence is not available to this plan; no PASS inferred.",
+    "S03 fresh11->3 actual result and six Original raws not accepted yet. Browser accepted14 remainsNULL.",
+    "S05 lawful fixture successor/fresh10 not accepted; UI5 still unmounted and no realAuth/browser proof.",
+    "Final composite actual catalog is not captured; new bridge object count, complete typed contexts, global phantom lock profile and runtime authority all remain null/closed.",
+    "Final S05 route/tab selection belongs root; minimum HPP nested option avoids App/menu changes.",
+    "Actual D1/currentcde78 Native19 profile now read and equal602; final E/S03/composite catalog and writer/FK/trigger/lock qualification remain unavailable. The pure inspector source authority has2 exact current-body mismatches, recorded rather than silently adapted.",
+    "FinalSKUf3d014 source and exact one-hunk recovery.sql transition are now pinned; old43-source endpoint is stale and retained unchanged; actual27qualification remains pending. No broad repin is authorized."
+  ],
+  "optional_pure_inspector": {
+    "public_head": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+    "author_head": "7ce217a735daa88994a78c6d68bac5e4f6b79d20",
+    "author_tree": "6048f949cc7e0aed03ac8573fae942183433253b",
+    "own_paths": 76,
+    "status": "OPTIONAL_SOURCE_ONLY_ADDITION_BEFORE_CLOSED8HOOK_RUNTIME",
+    "source_namespace": "scripts/current-global-nonpo-native-graph-qualification",
+    "runtime_entry": null,
+    "actual_Native": 0,
+    "writer_or_phantom_lock_closed": false,
+    "old_SRE_blueprint_is_not_chosen_final_barrier": true,
+    "does_not_replace_existing_three_guards": true,
+    "public_tree": "6048f949cc7e0aed03ac8573fae942183433253b",
+    "full_source_manifest": {
+      "commit": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+      "path": "scripts/current-global-nonpo-native-graph-qualification/SOURCE.json",
+      "git_blob": "92e871d623eddccaa2e7b107c0b3c166ee1f58d9",
+      "bytes": 47198,
+      "sha256": "e62ffc26fc26a457d4123e444d1bc31af88fa506a4e88a4c1e34cc78d035ae1b"
+    },
+    "exact_optional_own76": [
+      {
+        "commit": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+        "path": "scripts/cp7_global_nonpo_native_graph_adapter/AUTHORITY.json",
+        "git_blob": "974ab52309d9dbac98403907afef1780d3a6e6fe",
+        "bytes": 16759,
+        "sha256": "9f134ea218fc77ade25df9362ee491f7fdb5de005ea0723c8583bef1a3111c5a"
+      },
+      {
+        "commit": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+        "path": "scripts/cp7_global_nonpo_native_graph_adapter/__init__.py",
+        "git_blob": "eb4ee6c8c2799b60553912e1f98df98656e17b17",
+        "bytes": 81,
+        "sha256": "d4df3249fa00d5021ca42e84a027d84458bdea7e81d635510bb93d7f94eef6c5"
+      },
+      {
+        "commit": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+        "path": "scripts/cp7_global_nonpo_native_graph_adapter/authority.sql",
+        "git_blob": "ad656066c2304b4a36d94c44f695e7251820bf4f",
+        "bytes": 14536,
+        "sha256": "c87643d3dad13757bc2e510728550bc53878bce841d9f7da7abfd7179c67f882"
+      },
+      {
+        "commit": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+        "path": "scripts/cp7_global_nonpo_native_graph_adapter/capture.sql",
+        "git_blob": "586f1551a9a4a6f1da0f7014176387727f1c18cb",
+        "bytes": 8016,
+        "sha256": "90a03cbbd430f317c2e18c7e7f13743370e617756d2d2b1fe06179b2af3003cf"
+      },
+      {
+        "commit": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+        "path": "scripts/cp7_global_nonpo_native_graph_adapter/inspect.sql",
+        "git_blob": "953328c920ccb55b566293c3794fb6d97a592280",
+        "bytes": 9510,
+        "sha256": "8f9461ce31e9973969040ae16029241253eb2ce1e0fde9ebba160db32b6cd782"
+      },
+      {
+        "commit": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+        "path": "scripts/cp7_global_nonpo_native_graph_adapter/scope.sql",
+        "git_blob": "c437cddfc9f72e473f1c7e960a453da227439838",
+        "bytes": 10246,
+        "sha256": "c24434d8ab62fd7b92ba1dc0706ee1d35ac06864700cc3ceeec36cf90fad1575"
+      },
+      {
+        "commit": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+        "path": "scripts/cp7_global_nonpo_native_graph_adapter/source.py",
+        "git_blob": "8d38a660c3f6f320c1d9da648369d14ab1647d7f",
+        "bytes": 4146,
+        "sha256": "8721e15f942068de875292b75acb71635054a02aa5706686c8af5e002546c3ec"
+      },
+      {
+        "commit": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+        "path": "scripts/current-global-nonpo-native-graph-qualification/ADJUSTMENT_JOURNAL_SOURCE_PROOF.json",
+        "git_blob": "cebb57375d850f1407df01f23a8d4b285875caee",
+        "bytes": 4711,
+        "sha256": "4ffc95b4a31f64e65aa4ac79539a1bb0918af03edca3b3d46ac9e310a9ded81b"
+      },
+      {
+        "commit": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+        "path": "scripts/current-global-nonpo-native-graph-qualification/ADJUSTMENT_JOURNAL_TRANSITION.json",
+        "git_blob": "378a34cbfccf97d2ede80c8f54a23ae0de4fbfbe",
+        "bytes": 1719,
+        "sha256": "f62f05c8bf885fc8335cb075d3228efb2346cfe43963a9d979b5eb5184b2cf79"
+      },
+      {
+        "commit": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+        "path": "scripts/current-global-nonpo-native-graph-qualification/IDENTITY_CLOSURE_SOURCE_PROOF.json",
+        "git_blob": "50579a715430b8e374bb29aaaff4800eac3787bb",
+        "bytes": 19869,
+        "sha256": "47539783f0a5166e7a34a3d9f09afc3b8a7d6489ea0fec5c7929734f4ffd5ead"
+      },
+      {
+        "commit": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+        "path": "scripts/current-global-nonpo-native-graph-qualification/IDENTITY_CLOSURE_TRANSITION.json",
+        "git_blob": "f1e77450c3b5ac4699de0b1513b4a311e991c548",
+        "bytes": 2125,
+        "sha256": "6559ccbb2475cffdfe17ad345d257a0df1e9ffef5cafe99006d7d1a817137c97"
+      },
+      {
+        "commit": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+        "path": "scripts/current-global-nonpo-native-graph-qualification/LOCK_BLUEPRINT.json",
+        "git_blob": "c7bb233feae42b2214c1af8365a73bbd53aba995",
+        "bytes": 4221,
+        "sha256": "9bc78d517e2df757cc9e6c3f889d36eee0a5ff4f76db2d8a91ffe2542955788c"
+      },
+      {
+        "commit": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+        "path": "scripts/current-global-nonpo-native-graph-qualification/ORIGIN.json",
+        "git_blob": "a9dabf5ba8bc42229df0b301101c4f47c8b4aa92",
+        "bytes": 1066,
+        "sha256": "0b2cb0ca11271c98a9ed4bbe8b66ae0ff7cc3398720b64b8e4b87a3b40bb47eb"
+      },
+      {
+        "commit": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+        "path": "scripts/current-global-nonpo-native-graph-qualification/README.md",
+        "git_blob": "b9348dab0703e3fb60001dd0b2aa988e113b4076",
+        "bytes": 12414,
+        "sha256": "be32253fb11eb0b445551dd670ba41f3a3a549176492c605ea2756b58890bfa4"
+      },
+      {
+        "commit": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+        "path": "scripts/current-global-nonpo-native-graph-qualification/SOURCE.json",
+        "git_blob": "92e871d623eddccaa2e7b107c0b3c166ee1f58d9",
+        "bytes": 47198,
+        "sha256": "e62ffc26fc26a457d4123e444d1bc31af88fa506a4e88a4c1e34cc78d035ae1b"
+      },
+      {
+        "commit": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+        "path": "scripts/current-global-nonpo-native-graph-qualification/WRITER_CENSUS.json",
+        "git_blob": "676306f79cff7ea94ba54d1c36e6ea94d6879f66",
+        "bytes": 85355,
+        "sha256": "0b1a23a8b7c510d7bbd695f352cfb793d1e535086bbe5919b2fc152abc4fc66d"
+      },
+      {
+        "commit": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+        "path": "scripts/current-global-nonpo-native-graph-qualification/census.py",
+        "git_blob": "25120d32f0203fd5d3d44de9a8a269fca20b9132",
+        "bytes": 5844,
+        "sha256": "83b7602337000fe0437566e75603910a4c478dc87710143018c27e1e3e4b28e1"
+      },
+      {
+        "commit": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+        "path": "scripts/current-global-nonpo-native-graph-qualification/check.py",
+        "git_blob": "6e880ed456e97c8b173f4f0c36997743dffec079",
+        "bytes": 3307,
+        "sha256": "2b1e943f9be4b79a942f1ce51d578a6132d1ce85f39a745f0678fa8be93bf80b"
+      },
+      {
+        "commit": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+        "path": "scripts/current-global-nonpo-native-graph-qualification/evidence/ADJUSTMENT_FIRST_923_REPRO.json.gz",
+        "git_blob": "835e3e59550e575e5041a401768a20e710c31cca",
+        "bytes": 2187,
+        "sha256": "b2820f1756f71ff446441e98351229a1dda03d919fe8c7b58ee1605da68f209b"
+      },
+      {
+        "commit": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+        "path": "scripts/current-global-nonpo-native-graph-qualification/evidence/ADJUSTMENT_IDENTITY18_FIELDS162.json.gz",
+        "git_blob": "dd98fe933629be4928da29281cb601ee962f7c48",
+        "bytes": 19705,
+        "sha256": "254549c71c404e5c7ea45cf2638be04deb18261aab775146a9b12b1845a82c40"
+      },
+      {
+        "commit": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+        "path": "scripts/current-global-nonpo-native-graph-qualification/evidence/ADJUSTMENT_LOCAL_CONTROLS_RECEIPT.json",
+        "git_blob": "fc7ca7d0192c55479244c41fd217552ea21f2020",
+        "bytes": 4037,
+        "sha256": "78154b502dbb78d7537b6c9f575596b8934bbbc6576e10787ae08c9003558c24"
+      },
+      {
+        "commit": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+        "path": "scripts/current-global-nonpo-native-graph-qualification/evidence/ADJUSTMENT_NATIVE_SELECT4.json.gz",
+        "git_blob": "9523eec7f4dbd9b32f8da7196fcdc8dbb3dd3662",
+        "bytes": 3027,
+        "sha256": "77ee3ce6eefd096f08881ff4d2c08f16700833b0a16046aaacbc99cf0e6336b6"
+      },
+      {
+        "commit": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+        "path": "scripts/current-global-nonpo-native-graph-qualification/evidence/ADJUSTMENT_NEW5_FIELDS24.json.gz",
+        "git_blob": "ab45cc23abc3e285459c32e899e2081b47127b46",
+        "bytes": 4781,
+        "sha256": "bb66e8fe151c5dab01f8de37575f2d7ae017a81a6216348fe1f9c5150dbc64ba"
+      },
+      {
+        "commit": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+        "path": "scripts/current-global-nonpo-native-graph-qualification/evidence/ADJUSTMENT_REGRESSION33.json.gz",
+        "git_blob": "a15ccd0c2ed695cf87ba7e04e5b4b1cdd98b3863",
+        "bytes": 6141,
+        "sha256": "2f097e6e4c9890f28c64d8b1d62d7b862da981d8646d51c360a6b1d768ad8824"
+      },
+      {
+        "commit": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+        "path": "scripts/current-global-nonpo-native-graph-qualification/evidence/ADJUSTMENT_SOURCE20.log.gz",
+        "git_blob": "d1a629e4d7f536b382c232048c5aa7d006f059ae",
+        "bytes": 924,
+        "sha256": "12b7eebdc849bd80e412ad486fb7dd6bbbc5bb0bf02f9890e37ab8cca5f5502d"
+      },
+      {
+        "commit": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+        "path": "scripts/current-global-nonpo-native-graph-qualification/evidence/CLOSED_CLI_NEGATIVES.json",
+        "git_blob": "2d4f3b85473a7a387a01da5273777c1e50896387",
+        "bytes": 1665,
+        "sha256": "813ad1ea7bc30ca82548d9193d9e564a84f5920ec8608efa7821620b278e2c78"
+      },
+      {
+        "commit": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+        "path": "scripts/current-global-nonpo-native-graph-qualification/evidence/FIXED_POINT_FIRST_NUMERIC_ABI_FAILURE.json.gz",
+        "git_blob": "eac5a8fcf6a0227a0e9ec72a2c1d0b0ca2095ca4",
+        "bytes": 2145,
+        "sha256": "4d5fffb000ddbd57196e39c80ae392ad6a0efb8964f058097db744bb0d36c2b5"
+      },
+      {
+        "commit": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+        "path": "scripts/current-global-nonpo-native-graph-qualification/evidence/FIXED_POINT_FIRST_NUMERIC_ABI_FAILURE.stderr.gz",
+        "git_blob": "d1b91fa26ddbe440c23c38c00c23af3f2d95599e",
+        "bytes": 349,
+        "sha256": "200591af4ffd2172ddaf037fdf214fb3993d9bc9a3b93516e67e5e44b9c995bd"
+      },
+      {
+        "commit": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+        "path": "scripts/current-global-nonpo-native-graph-qualification/evidence/IDENTITY_CLOSURE_4e263_REPLAY.json.gz",
+        "git_blob": "19a3a8f75efd5438fbb7f3703abcb8979b6417f9",
+        "bytes": 2187,
+        "sha256": "1bc162555b749ca84d5b06ab9bcdbbffa08c0a8f192a09e164edbbda10914b86"
+      },
+      {
+        "commit": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+        "path": "scripts/current-global-nonpo-native-graph-qualification/evidence/IDENTITY_CLOSURE_DIRECTED18_FIELDS162.json.gz",
+        "git_blob": "0b457e20a02a51e8a012a04ff21d0f90ead3051c",
+        "bytes": 19704,
+        "sha256": "625b8f94e4f961834ff998c21494dd37687f093ade863fb7a7ed39a5d9318a8f"
+      },
+      {
+        "commit": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+        "path": "scripts/current-global-nonpo-native-graph-qualification/evidence/IDENTITY_CLOSURE_FIRST_4e263_REPRO.json.gz",
+        "git_blob": "0d2ff4cd008b21cf4fa4bc198ac434e45832aa5e",
+        "bytes": 2135,
+        "sha256": "0bf5872ea47d37e9337e9dd3a90dee72de104a649e328c8042c76e38ef6aa4c7"
+      },
+      {
+        "commit": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+        "path": "scripts/current-global-nonpo-native-graph-qualification/evidence/IDENTITY_CLOSURE_FIXED_POINT4.json.gz",
+        "git_blob": "2dc17854ad2a7bee3e0985ac243ace2a565f054e",
+        "bytes": 3027,
+        "sha256": "c10d49bd0c7a55c3ed42ba13bcfc4007fa8bbd64f337a25b2fdf8fe9946589e4"
+      },
+      {
+        "commit": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+        "path": "scripts/current-global-nonpo-native-graph-qualification/evidence/IDENTITY_CLOSURE_LOCAL_CONTROLS_RECEIPT.json",
+        "git_blob": "e0c8f6b4eaeee7410a44243cc013591323bb3303",
+        "bytes": 4172,
+        "sha256": "aef645a15df84e8ee4639547a8947abde9c599c6aec0a7d9c50660410c858354"
+      },
+      {
+        "commit": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+        "path": "scripts/current-global-nonpo-native-graph-qualification/evidence/IDENTITY_CLOSURE_SOURCE16.log.gz",
+        "git_blob": "26cfef7af84841ce147634df8f23c5207e07cc72",
+        "bytes": 742,
+        "sha256": "563b0ca0c04a9e9c4314267d6e2fec39b25bf078b32d454fc57f1d99a5e78265"
+      },
+      {
+        "commit": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+        "path": "scripts/current-global-nonpo-native-graph-qualification/evidence/IDENTITY_CLOSURE_SQL33.json.gz",
+        "git_blob": "9434a2dcc338301b01f98b63e1af91ec3f521b02",
+        "bytes": 6143,
+        "sha256": "2ff609b6d79d236b1d1c25f9b8161319b6bc7c930bc45ec7b276aa6ccb4f836c"
+      },
+      {
+        "commit": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+        "path": "scripts/current-global-nonpo-native-graph-qualification/evidence/IDENTITY_CONTROL_FIRST_FAILURE_NOTES.json",
+        "git_blob": "ef61dffaad0ff27432d5b6abe5b8bc088991ff00",
+        "bytes": 719,
+        "sha256": "f7e96be2e88084569ea7ba79f2a84f01fdfa7984b7e51d2bec2715cd8a665b6b"
+      },
+      {
+        "commit": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+        "path": "scripts/current-global-nonpo-native-graph-qualification/evidence/IDENTITY_MODEL_FIRST_FIXTURE_FAILURE.json.gz",
+        "git_blob": "140f5e97870f7373527a25e99243140e8f9fbefe",
+        "bytes": 4748,
+        "sha256": "d249347ae17eef2235d83e35db5bdca727bf09f98537cb989952fae6c45e91ef"
+      },
+      {
+        "commit": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+        "path": "scripts/current-global-nonpo-native-graph-qualification/evidence/IDENTITY_MODEL_FIRST_FIXTURE_FAILURE.stderr.gz",
+        "git_blob": "28c23841079d2068005785b4dfa6bd52506ae624",
+        "bytes": 367,
+        "sha256": "8b53cc745cedf67ce906a68688de4d0f6b1a1374ecd0dfbbdfe42ba05717ebac"
+      },
+      {
+        "commit": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+        "path": "scripts/current-global-nonpo-native-graph-qualification/evidence/IDENTITY_MODEL_FIRST_FIXTURE_FAILURE_NOTE.json",
+        "git_blob": "0497993694f151c427817aa95a08a33ccc8e57b3",
+        "bytes": 462,
+        "sha256": "63d77191b8391ec0db006b238d497611db1bd4a71c30cc118d2817ede46b8be1"
+      },
+      {
+        "commit": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+        "path": "scripts/current-global-nonpo-native-graph-qualification/evidence/IDENTITY_SOURCE_FIRST_PARSER_FAILURE.log.gz",
+        "git_blob": "9870798f685ed16f1e769958656de33a61fabb9b",
+        "bytes": 1035,
+        "sha256": "859ec2404e10cf902547242d781a33f18d6789f9602b495686993b302c0480f6"
+      },
+      {
+        "commit": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+        "path": "scripts/current-global-nonpo-native-graph-qualification/evidence/IDENTITY_SOURCE_SECOND_PARSER_FAILURE.log.gz",
+        "git_blob": "45aa75296bec0cef12929e14b0111cdb6a1c3124",
+        "bytes": 1037,
+        "sha256": "433281b35934694589f600962df671165a89bbc771214187774166a14f041c06"
+      },
+      {
+        "commit": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+        "path": "scripts/current-global-nonpo-native-graph-qualification/evidence/LOCAL_CONTROLS_RECEIPT.json",
+        "git_blob": "f19a8ba9f54efacf145c18026b3d6695f1a2c416",
+        "bytes": 3106,
+        "sha256": "74aa34c60c8f41e09af813db2615c2bfa62b2947373942909f39ca8e1088b447"
+      },
+      {
+        "commit": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+        "path": "scripts/current-global-nonpo-native-graph-qualification/evidence/LOCAL_METADATA_FIRST_FAILURE.json",
+        "git_blob": "dde9c369bf69ca1f8b88e75622ecdc02c4ade072",
+        "bytes": 453,
+        "sha256": "7c1738ecc06a8d33f226f09ab6f0b26f4ad04da9896b947b8e97e70713ce8ab1"
+      },
+      {
+        "commit": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+        "path": "scripts/current-global-nonpo-native-graph-qualification/evidence/LOCAL_METADATA_FIRST_FAILURE.log.gz",
+        "git_blob": "5e58d257eec27aeadf3cdb8a2cc0923f45ef0061",
+        "bytes": 640,
+        "sha256": "63a10896660778284652cf715565fa97c9d9dc436a48f8a5521a623c4520a8d9"
+      },
+      {
+        "commit": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+        "path": "scripts/current-global-nonpo-native-graph-qualification/evidence/LOCAL_SOURCE11.log.gz",
+        "git_blob": "87b17913578841b4f6c8f534f0545a8e99cc858d",
+        "bytes": 539,
+        "sha256": "f5e5638b0cc97baeb3cd664af911ffe8f22b51b73a10563177cd8a812b85b6ee"
+      },
+      {
+        "commit": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+        "path": "scripts/current-global-nonpo-native-graph-qualification/evidence/LOCAL_SQL_FIRST_COMPILE_FAILURE.json",
+        "git_blob": "56eed1dba8ccf19ba205eebf5cfbc3f94f769366",
+        "bytes": 503,
+        "sha256": "6fe8b18bb72b4db1f36d4e051d37d470510d42e6992530a8205ab0ffaf3c2d57"
+      },
+      {
+        "commit": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+        "path": "scripts/current-global-nonpo-native-graph-qualification/evidence/LOCAL_SQL_FIRST_COMPILE_FAILURE.log.gz",
+        "git_blob": "1fd86cf08da4af65293fbb5f7b330a6155b84f07",
+        "bytes": 10776,
+        "sha256": "7a49979360b9f2e5c922199ec3baff67db9be5cdecb13cb96d9ac28d9c2841c0"
+      },
+      {
+        "commit": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+        "path": "scripts/current-global-nonpo-native-graph-qualification/evidence/LOCAL_TYPED_SQL33.json.gz",
+        "git_blob": "17c5b42cf7afc4cb286698047ff01d0357c81693",
+        "bytes": 6033,
+        "sha256": "5f264b2e38a23bf896788a0dbb4e909a67c4babd87e137263952a819236b9fb7"
+      },
+      {
+        "commit": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+        "path": "scripts/current-global-nonpo-native-graph-qualification/evidence/NATIVE_CENT_SCHEMA_PRECISION.json",
+        "git_blob": "f72fd336b155da139d815f605b10a3097991ecd0",
+        "bytes": 357,
+        "sha256": "a6cb7129dff8f690d3027b9fd5baa851f0ccb594456f5594db7eedda18f6aa50"
+      },
+      {
+        "commit": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+        "path": "scripts/current-global-nonpo-native-graph-qualification/evidence/SOURCE_AUTHORITY_FIRST_FAILURE.json",
+        "git_blob": "e3f38cf6afa009bc2c05f6cffaff31b7f221fdf4",
+        "bytes": 508,
+        "sha256": "bd40d7a5569d97cdcf195da91eac473292b1fa4cca48ae842b6124b35f33d7d7"
+      },
+      {
+        "commit": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+        "path": "scripts/current-global-nonpo-native-graph-qualification/evidence/UNATTRIBUTED_WORKTREE_OUTPUTS.json",
+        "git_blob": "b63c4acde3e7d7b9a0763c521d94c25273590717",
+        "bytes": 51158,
+        "sha256": "4ec4e8fe4f03b0341416b7496b6c10a273bc9d6333cd21ba7e882c8056d44e0e"
+      },
+      {
+        "commit": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+        "path": "scripts/current-global-nonpo-native-graph-qualification/first_adjustment_repro.mjs",
+        "git_blob": "f1c11e14dceb2717a4cf0ef014403904dd33cbaf",
+        "bytes": 2204,
+        "sha256": "8944516a102547b623124f2d6e981751f1b798aa9937ad66b94c43648958ef24"
+      },
+      {
+        "commit": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+        "path": "scripts/current-global-nonpo-native-graph-qualification/first_compile.mjs",
+        "git_blob": "89aa869f13a6bb6cf9415b0e9c09bb40f81e9580",
+        "bytes": 568,
+        "sha256": "a52f544da99dc40ae89a189afecb2b69128a23c74cdc3b0f2f44549866408abf"
+      },
+      {
+        "commit": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+        "path": "scripts/current-global-nonpo-native-graph-qualification/first_identity_repro.mjs",
+        "git_blob": "c19f69a0ba1b5e20acf1fbbd490e9c76f2f54dc5",
+        "bytes": 2091,
+        "sha256": "efca03d7065ecaa9df86a574dd2e14f8cadb7ca3814071f089525a96dfb2ead6"
+      },
+      {
+        "commit": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+        "path": "scripts/current-global-nonpo-native-graph-qualification/freeze.py",
+        "git_blob": "bc3bc16047b48463e33cc7ac48f1941400642ac0",
+        "bytes": 2539,
+        "sha256": "5e892deed306b8f8a3814492e41c157061912aa63c2acadf6ff01680f4a5b079"
+      },
+      {
+        "commit": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+        "path": "scripts/current-global-nonpo-native-graph-qualification/identity_fixtures.mjs",
+        "git_blob": "d5c618e48218e695b4ac230e5629c146102e6c54",
+        "bytes": 3996,
+        "sha256": "7e284b578049f1f0d56ef618379e5333cd8fd21e70f877e9cfd08e4abb0e9dd5"
+      },
+      {
+        "commit": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+        "path": "scripts/current-global-nonpo-native-graph-qualification/model.mjs",
+        "git_blob": "5e8fe6c996580dfd110e2b9ff7fa7b2b79d726cb",
+        "bytes": 2848,
+        "sha256": "bbc3f76327843286f01ec39c25bb0646f2fb23bb546b8b77c675a65c0d6d9733"
+      },
+      {
+        "commit": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+        "path": "scripts/current-global-nonpo-native-graph-qualification/model.sql",
+        "git_blob": "8db4bdd9bcda43e3b5c4865e7773e08792c43754",
+        "bytes": 9062,
+        "sha256": "50df67aee3a5f009911092bcfed737d06aa9b286fa0aedcfb23c8a129e05e668"
+      },
+      {
+        "commit": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+        "path": "scripts/current-global-nonpo-native-graph-qualification/retained/4e263_SOURCE.json",
+        "git_blob": "f313b0efbb73abeaf4b3ed48da799c7a469e6126",
+        "bytes": 33384,
+        "sha256": "dd68947fe0363c4f7c7b8975db83f6d83bdc5397a1ae88def9d18e66edb46e0a"
+      },
+      {
+        "commit": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+        "path": "scripts/current-global-nonpo-native-graph-qualification/retained/4e263_capture.sql",
+        "git_blob": "498d73bf6d34696ed5955d98882c93ec25e8ee45",
+        "bytes": 7448,
+        "sha256": "0e3df3e36a36c2faa93a6126dc38a2c2f2c80c54954aac72ccfb0a08aaf835ad"
+      },
+      {
+        "commit": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+        "path": "scripts/current-global-nonpo-native-graph-qualification/retained/4e263_scope.sql",
+        "git_blob": "1488d332621a3c1b4085c1fe4e522f896c0a0465",
+        "bytes": 5322,
+        "sha256": "d635c876da8a78b5a3249d001b3f4314efb40383d06c4ec9a28ab9c4fe09dbd1"
+      },
+      {
+        "commit": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+        "path": "scripts/current-global-nonpo-native-graph-qualification/retained/923_SOURCE.json",
+        "git_blob": "fb980ee1e15fdba2580c153e769485617be4b523",
+        "bytes": 42501,
+        "sha256": "a32097eb1baacb93e9a4f6f462d39bc2459027f2be9bb53d04c5b21269e510e8"
+      },
+      {
+        "commit": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+        "path": "scripts/current-global-nonpo-native-graph-qualification/retained/923_scope.sql",
+        "git_blob": "af29cebc0dfa4e33c747af131426427765f8bb91",
+        "bytes": 10095,
+        "sha256": "7d5f96fd976cd385df0be391c5916fc0b35c6a66bf94db0618eb3bff0874d76f"
+      },
+      {
+        "commit": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+        "path": "scripts/current-global-nonpo-native-graph-qualification/retained/Actual602_material_adjustment_source.json",
+        "git_blob": "6673d21cd2022e834a65b0a72083d5b91267e2e2",
+        "bytes": 7103,
+        "sha256": "0dccf94a13d1b573db6ee095c0aed984cb49d016a273783fd0af569f85804007"
+      },
+      {
+        "commit": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+        "path": "scripts/current-global-nonpo-native-graph-qualification/retained/Current_parent_readers.sql",
+        "git_blob": "f8895a0b41e29769421b7753be17f2bdca5e4f7f",
+        "bytes": 8693,
+        "sha256": "1f6b78e39074c30e31f79c416e6bc0f7b99515f712bf0e6ea4ea2c6b34a0a8a8"
+      },
+      {
+        "commit": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+        "path": "scripts/current-global-nonpo-native-graph-qualification/retained/Native_authority.sql",
+        "git_blob": "8e821a6df4e8c5a8ed8162314cf852740232b425",
+        "bytes": 20677,
+        "sha256": "a144556789f7b2eade0e8a3cee7473136cb595991959f62bdba04564e69a51bc"
+      },
+      {
+        "commit": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+        "path": "scripts/current-global-nonpo-native-graph-qualification/retained/Native_lineage_guard_query.sql",
+        "git_blob": "09e8772c4dbd80973960e8d56ec0f3f53f1bcd76",
+        "bytes": 1245,
+        "sha256": "0412a0fb5e3fb56b99ede6c335bc406dba229e4a425f4c407f2ba430dda21b33"
+      },
+      {
+        "commit": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+        "path": "scripts/current-global-nonpo-native-graph-qualification/retained/Native_propagation_visits_query.sql",
+        "git_blob": "2e2a98d9e32971c166219685062ff0ca019affb8",
+        "bytes": 930,
+        "sha256": "d3c5f73d0ac9b2b71e91df5557908fa17c0409b6f8cef539286a9ebebfd13ebf"
+      },
+      {
+        "commit": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+        "path": "scripts/current-global-nonpo-native-graph-qualification/seed.sql",
+        "git_blob": "c8e91b9fce3a21e26dbc027848ff766878503681",
+        "bytes": 3830,
+        "sha256": "ab81b454810334e162b66162e3ac98144c5826d612c4ff9ccae2180d48de0c93"
+      },
+      {
+        "commit": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+        "path": "scripts/current-global-nonpo-native-graph-qualification/test_adjustment_journal.mjs",
+        "git_blob": "8dd3c8a68304f4a2b873e6bc67efbee081b22880",
+        "bytes": 6691,
+        "sha256": "9d56d82550415b01ca2c57f7a1bde0d8a88eb59d1e4e2c25ad563cfadd82eee0"
+      },
+      {
+        "commit": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+        "path": "scripts/current-global-nonpo-native-graph-qualification/test_adjustment_source.py",
+        "git_blob": "e9da10c40a5dde2949503c8df26beb037c3bbcaf",
+        "bytes": 4072,
+        "sha256": "6539d952c98ab0332783321fe2237dd4c6dcc25a11abc51d673c21704a78c026"
+      },
+      {
+        "commit": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+        "path": "scripts/current-global-nonpo-native-graph-qualification/test_fixed_point.mjs",
+        "git_blob": "8e5894795ebc80e926e7f68796f348623026036d",
+        "bytes": 6291,
+        "sha256": "68dc4c4404fdc88b91b10677195492262f51dc7f3863aee991ba71fbff7c04cb"
+      },
+      {
+        "commit": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+        "path": "scripts/current-global-nonpo-native-graph-qualification/test_identity_closure.mjs",
+        "git_blob": "b18fea9372e3ed09d95b58ebbe0285dc02593f95",
+        "bytes": 12910,
+        "sha256": "799b80e429c71a2219dad9693a77cc9dcb6fb642c7ba526d8b389919d6785882"
+      },
+      {
+        "commit": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+        "path": "scripts/current-global-nonpo-native-graph-qualification/test_identity_source.py",
+        "git_blob": "660315f3d219c6fa61d2c40c6d541b24492a3f1e",
+        "bytes": 5831,
+        "sha256": "1fe94bafcb34c288ce901452a67c20d9304a4d063c083bad182bd19421bb631c"
+      },
+      {
+        "commit": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+        "path": "scripts/current-global-nonpo-native-graph-qualification/test_model.mjs",
+        "git_blob": "244c80a89711e46a0f1d3af0d61b7c32346ae2e7",
+        "bytes": 16216,
+        "sha256": "7b5db228fe594a9d5f13febc6b3e094a3e664bb90dc36e69d3f1f6557db15ae0"
+      },
+      {
+        "commit": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+        "path": "scripts/current-global-nonpo-native-graph-qualification/test_source.py",
+        "git_blob": "16c5191007af6367b4ddcb75a06a2c733b77e143",
+        "bytes": 6911,
+        "sha256": "2c33374eefa157e06feaac6788ab1ac24623ca869a1d8f05c0d9c500645cf215"
+      }
+    ],
+    "own_product_preparation7": [
+      {
+        "commit": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+        "path": "scripts/cp7_global_nonpo_native_graph_adapter/AUTHORITY.json",
+        "git_blob": "974ab52309d9dbac98403907afef1780d3a6e6fe",
+        "bytes": 16759,
+        "sha256": "9f134ea218fc77ade25df9362ee491f7fdb5de005ea0723c8583bef1a3111c5a"
+      },
+      {
+        "commit": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+        "path": "scripts/cp7_global_nonpo_native_graph_adapter/__init__.py",
+        "git_blob": "eb4ee6c8c2799b60553912e1f98df98656e17b17",
+        "bytes": 81,
+        "sha256": "d4df3249fa00d5021ca42e84a027d84458bdea7e81d635510bb93d7f94eef6c5"
+      },
+      {
+        "commit": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+        "path": "scripts/cp7_global_nonpo_native_graph_adapter/authority.sql",
+        "git_blob": "ad656066c2304b4a36d94c44f695e7251820bf4f",
+        "bytes": 14536,
+        "sha256": "c87643d3dad13757bc2e510728550bc53878bce841d9f7da7abfd7179c67f882"
+      },
+      {
+        "commit": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+        "path": "scripts/cp7_global_nonpo_native_graph_adapter/capture.sql",
+        "git_blob": "586f1551a9a4a6f1da0f7014176387727f1c18cb",
+        "bytes": 8016,
+        "sha256": "90a03cbbd430f317c2e18c7e7f13743370e617756d2d2b1fe06179b2af3003cf"
+      },
+      {
+        "commit": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+        "path": "scripts/cp7_global_nonpo_native_graph_adapter/inspect.sql",
+        "git_blob": "953328c920ccb55b566293c3794fb6d97a592280",
+        "bytes": 9510,
+        "sha256": "8f9461ce31e9973969040ae16029241253eb2ce1e0fde9ebba160db32b6cd782"
+      },
+      {
+        "commit": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+        "path": "scripts/cp7_global_nonpo_native_graph_adapter/scope.sql",
+        "git_blob": "c437cddfc9f72e473f1c7e960a453da227439838",
+        "bytes": 10246,
+        "sha256": "c24434d8ab62fd7b92ba1dc0706ee1d35ac06864700cc3ceeec36cf90fad1575"
+      },
+      {
+        "commit": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+        "path": "scripts/cp7_global_nonpo_native_graph_adapter/source.py",
+        "git_blob": "8d38a660c3f6f320c1d9da648369d14ab1647d7f",
+        "bytes": 4146,
+        "sha256": "8721e15f942068de875292b75acb71635054a02aa5706686c8af5e002546c3ec"
+      }
+    ],
+    "source_only_private_helpers": 4,
+    "source_only_proposed_schema": "cp7_global_nonpo_native_graph",
+    "source_only_new_tables": 0,
+    "source_only_new_roles": 0,
+    "source_only_new_public_RPCS": 0,
+    "natural_extra_source_inputs": [
+      "scripts/current-global-nonpo-native-graph-qualification/retained/Native_authority.sql",
+      "scripts/current-global-nonpo-native-graph-qualification/retained/Current_parent_readers.sql",
+      "exact AUTHORITY.json.parent_source_files"
+    ],
+    "copying_only7_is_closed_source": false,
+    "minimal_rule": "Optional source preparation is distinct from the final product selection. source.py actually reads the two retained SQL inputs and every AUTHORITY.parent_source_file; if used in a future natural component, close those actual imports too. Do not copy only7, then substitute metadata. Keeping76 as a separate prepared source checkpoint does not make any runtime guard active.",
+    "current_actual_authority_mismatches": [
+      {
+        "signature": "erp.compute_non_po_product_hpp_book_v2620f(uuid)",
+        "all_four_actual_metadata_rows_exact": true,
+        "definition_bytes": 1273,
+        "definition_sha256": "1647164dc565d08a010b182c3c08b1d729b00d588fc7a6e43774f8672c9c6ea5",
+        "actual_prosrc_sha256": "35044776219a6916aad2b770ca3a89322c51319004fd9429ab19d611459b0160",
+        "prepared_prosrc_sha256": "16b189ae50325680a6827d4542979d2a3d8fdc5c42c169546d7437c7f348754f",
+        "prepared_source_body_matches_actual": false,
+        "actual_metadata_excluding_definition": [
+          "postgres",
+          "sql",
+          "f",
+          true,
+          false,
+          false,
+          true,
+          "s",
+          "u",
+          "100",
+          "1000",
+          [
+            "search_path=\"\""
+          ],
+          [
+            "p_product_id",
+            "hpp_total_cost",
+            "fg_value",
+            "cogs_value",
+            "other_out_value"
+          ],
+          [
+            "i",
+            "t",
+            "t",
+            "t",
+            "t"
+          ],
+          "p_product_id uuid",
+          "TABLE(hpp_total_cost numeric, fg_value numeric, cogs_value numeric, other_out_value numeric)",
+          "-",
+          [
+            [
+              "postgres",
+              "postgres",
+              "EXECUTE",
+              false
+            ]
+          ]
+        ]
+      },
+      {
+        "signature": "erp.require_internal()",
+        "all_four_actual_metadata_rows_exact": true,
+        "definition_bytes": 10740,
+        "definition_sha256": "b58efa7f7637ad3dd8262b233de4e12a65b9398188d7b78e9096497d551a3666",
+        "actual_prosrc_sha256": "8a4b211d989a7837d53699f1d23c60e5d9febe2fe8c8a7737cc68bca2c1dc0b0",
+        "prepared_prosrc_sha256": "69a908818fa707014f4193ceb0154d9ff55e58ff4ce5795b2c91bc841b9dfc58",
+        "prepared_source_body_matches_actual": false,
+        "actual_metadata_excluding_definition": [
+          "postgres",
+          "plpgsql",
+          "f",
+          true,
+          false,
+          false,
+          false,
+          "v",
+          "u",
+          "100",
+          "0",
+          [
+            "search_path=\"\""
+          ],
+          null,
+          null,
+          "",
+          "void",
+          "-",
+          [
+            [
+              "postgres",
+              "postgres",
+              "EXECUTE",
+              false
+            ],
+            [
+              "service_role",
+              "postgres",
+              "EXECUTE",
+              false
+            ]
+          ]
+        ]
+      }
+    ],
+    "runtime_parent_and_entry_still_null": true
+  },
+  "limitations": {
+    "product_source_edits": 0,
+    "Git_ref_mutations": 0,
+    "default_installer_edits": 0,
+    "B_main_mutations": 0,
+    "DB_calls": 0,
+    "Native_executions": 0,
+    "Auth_HTTP_browser_races": 0,
+    "remote_calls": 0,
+    "new_tests": 0,
+    "global_parent_binding": null,
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "initial_snapshot": {
+    "path": "/workspace/scratch/ef468a447ac6/evidence-private/final-composition-source-plan/FINAL_COMPOSITION_SOURCE_PLAN.initial.json",
+    "bytes": 118655,
+    "sha256": "ed60688b7b168c0047a067eb59a209128bde97363fb39d9e4bfab470f34180bc",
+    "unchanged": true,
+    "not_independent_audit": true
+  },
+  "actual_current_Native19_authority_counter": {
+    "receipt": {
+      "path": "/workspace/scratch/ef468a447ac6/evidence-private/global-nonpo-lock-census-602-current-d1/INITIAL_ACTUAL19_PROFILE_MISMATCH_LOCK.json",
+      "bytes": 26914,
+      "sha256": "f4367ee83308a7f6c4e964a8e4e9aa9ea0da67413d38a888db91f98c35c05e71"
+    },
+    "classification": "LOCKED_CURRENT_RUNTIME_AUTHORITY_GAP_NOT_PREPARED_INSPECTOR_REGRESSION",
+    "status": "FUTURE_RUNTIME_BLOCKED_EXPLICIT_EXACT_PROFILE_TRANSITION_REQUIRED",
+    "actual602": {
+      "path": "/workspace/scratch/ef468a447ac6/evidence-private/sku-602-all-member-native23-first-failure/SKU_COST_RECOVERY_OVER_FIRST_PART_REFUSAL_37fb87d4a2e1_FULL_CURRENT_CENSUS.json",
+      "bytes": 43056004,
+      "sha256": "1081c288694965278468de28ef65831909bf52dd5461e6d682a00a6ff0418fa0",
+      "head": "602b4e642a0afbb1acdcfd858b9f403dc14ec336",
+      "before_after_all19_equal": true
+    },
+    "actual_current_cde78": {
+      "head": "cde78b2cc82e0a286174098458dab9815fdfd072",
+      "tree": "915103541d247f544c4492db25953b4268d9c2e3",
+      "archive_parts": [
+        "/workspace/scratch/ef468a447ac6/evidence-private/d1-cde78-continuation3/original-artifact.zip.part-001",
+        "/workspace/scratch/ef468a447ac6/evidence-private/d1-cde78-continuation3/original-artifact.zip.part-002"
+      ],
+      "archive_whole_bytes": 671127620,
+      "archive_whole_sha256": "609ebff9739f359d39239d0e502aad20d4613f5a037a4e0e83f31b04b4b7652e",
+      "streamed_no_recombine_no_extract": true,
+      "snapshots": [
+        {
+          "member": "D1_CONT_APPLY_D1_250_C2BDB97967674E5993673EF96C33465D_BEFORE.json",
+          "bytes": 56803435,
+          "sha256": "425e149ac20fbd59aa204b36cb9b19d2cac8faec6856e6deb18b1f7b103e9ec5"
+        },
+        {
+          "member": "D1_CONT_APPLY_D1_250_C2BDB97967674E5993673EF96C33465D_RESULT.json",
+          "bytes": 58270925,
+          "sha256": "cb65dbd28c5ad8d77571be409ab2dec732718575f221d3b6196368d2994c2317"
+        }
+      ],
+      "before_after_all19_equal": true
+    },
+    "all19_actual_rows_equal_across602_and_current_cde78": true,
+    "all19": [
+      {
+        "signature": "erp.be_conversion_extra_v1(uuid)",
+        "all_four_actual_metadata_rows_exact": true,
+        "definition_bytes": 384,
+        "definition_sha256": "d7f3639368848072e71e066c9b20c0ea8112addf94739e1961698b8b3fd6c023",
+        "actual_prosrc_sha256": "a14a3c3609d4cf225a1c9c85d784771a04fa1663bc03681ac25da5a9ce3d191b",
+        "prepared_prosrc_sha256": "a14a3c3609d4cf225a1c9c85d784771a04fa1663bc03681ac25da5a9ce3d191b",
+        "prepared_source_body_matches_actual": true,
+        "actual_metadata_excluding_definition": [
+          "postgres",
+          "sql",
+          "f",
+          true,
+          false,
+          false,
+          false,
+          "s",
+          "u",
+          "100",
+          "0",
+          [
+            "search_path=\"\""
+          ],
+          [
+            "p_conversion"
+          ],
+          null,
+          "p_conversion uuid",
+          "numeric",
+          "-",
+          [
+            [
+              "postgres",
+              "postgres",
+              "EXECUTE",
+              false
+            ]
+          ]
+        ]
+      },
+      {
+        "signature": "erp.be_allocation_extra_v1(uuid)",
+        "all_four_actual_metadata_rows_exact": true,
+        "definition_bytes": 324,
+        "definition_sha256": "05a0fbfd9d3a95356b5c87f59dc734ef1a562b23c3fd8801d88a30d7854c885f",
+        "actual_prosrc_sha256": "c8281604fdaf18416ebf3c10372818ee1403c6a88d5851d632585809d4a2d6fb",
+        "prepared_prosrc_sha256": "c8281604fdaf18416ebf3c10372818ee1403c6a88d5851d632585809d4a2d6fb",
+        "prepared_source_body_matches_actual": true,
+        "actual_metadata_excluding_definition": [
+          "postgres",
+          "sql",
+          "f",
+          true,
+          false,
+          false,
+          false,
+          "s",
+          "u",
+          "100",
+          "0",
+          [
+            "search_path=\"\""
+          ],
+          [
+            "p_allocation"
+          ],
+          null,
+          "p_allocation uuid",
+          "numeric",
+          "-",
+          [
+            [
+              "postgres",
+              "postgres",
+              "EXECUTE",
+              false
+            ]
+          ]
+        ]
+      },
+      {
+        "signature": "erp.be_nonpo_admitted_v1(uuid)",
+        "all_four_actual_metadata_rows_exact": true,
+        "definition_bytes": 532,
+        "definition_sha256": "a570b438cddf20c96d536bca4094974d245c19ca8e87bdd54a9573890ad81eaf",
+        "actual_prosrc_sha256": "d32478fb76d3803166dd030d2dcf9fb06b5c0ff162f786140750a5101e4dd6c7",
+        "prepared_prosrc_sha256": "d32478fb76d3803166dd030d2dcf9fb06b5c0ff162f786140750a5101e4dd6c7",
+        "prepared_source_body_matches_actual": true,
+        "actual_metadata_excluding_definition": [
+          "postgres",
+          "sql",
+          "f",
+          true,
+          false,
+          false,
+          false,
+          "s",
+          "u",
+          "100",
+          "0",
+          [
+            "search_path=\"\""
+          ],
+          [
+            "p_conversion"
+          ],
+          null,
+          "p_conversion uuid",
+          "boolean",
+          "-",
+          [
+            [
+              "postgres",
+              "postgres",
+              "EXECUTE",
+              false
+            ]
+          ]
+        ]
+      },
+      {
+        "signature": "erp.compute_non_po_product_hpp_targets_v2620f(uuid)",
+        "all_four_actual_metadata_rows_exact": true,
+        "definition_bytes": 2596,
+        "definition_sha256": "17c02f258d9782f56880b803fe89b2538a685fe0433e7e6638bb24e1bb2f6c4c",
+        "actual_prosrc_sha256": "8cb973a373559d2620d29918a3f589a4845251dc70c0a6ec595cf73e38bd549f",
+        "prepared_prosrc_sha256": "8cb973a373559d2620d29918a3f589a4845251dc70c0a6ec595cf73e38bd549f",
+        "prepared_source_body_matches_actual": true,
+        "actual_metadata_excluding_definition": [
+          "postgres",
+          "sql",
+          "f",
+          true,
+          false,
+          false,
+          true,
+          "s",
+          "u",
+          "100",
+          "1000",
+          [
+            "search_path=\"\""
+          ],
+          [
+            "p_product_id",
+            "hpp_total_cost",
+            "fg_value",
+            "cogs_value",
+            "other_out_value"
+          ],
+          [
+            "i",
+            "t",
+            "t",
+            "t",
+            "t"
+          ],
+          "p_product_id uuid",
+          "TABLE(hpp_total_cost numeric, fg_value numeric, cogs_value numeric, other_out_value numeric)",
+          "-",
+          [
+            [
+              "postgres",
+              "postgres",
+              "EXECUTE",
+              false
+            ]
+          ]
+        ]
+      },
+      {
+        "signature": "erp.compute_non_po_product_hpp_book_v2620f(uuid)",
+        "all_four_actual_metadata_rows_exact": true,
+        "definition_bytes": 1273,
+        "definition_sha256": "1647164dc565d08a010b182c3c08b1d729b00d588fc7a6e43774f8672c9c6ea5",
+        "actual_prosrc_sha256": "35044776219a6916aad2b770ca3a89322c51319004fd9429ab19d611459b0160",
+        "prepared_prosrc_sha256": "16b189ae50325680a6827d4542979d2a3d8fdc5c42c169546d7437c7f348754f",
+        "prepared_source_body_matches_actual": false,
+        "actual_metadata_excluding_definition": [
+          "postgres",
+          "sql",
+          "f",
+          true,
+          false,
+          false,
+          true,
+          "s",
+          "u",
+          "100",
+          "1000",
+          [
+            "search_path=\"\""
+          ],
+          [
+            "p_product_id",
+            "hpp_total_cost",
+            "fg_value",
+            "cogs_value",
+            "other_out_value"
+          ],
+          [
+            "i",
+            "t",
+            "t",
+            "t",
+            "t"
+          ],
+          "p_product_id uuid",
+          "TABLE(hpp_total_cost numeric, fg_value numeric, cogs_value numeric, other_out_value numeric)",
+          "-",
+          [
+            [
+              "postgres",
+              "postgres",
+              "EXECUTE",
+              false
+            ]
+          ]
+        ]
+      },
+      {
+        "signature": "erp.account_id(text)",
+        "all_four_actual_metadata_rows_exact": true,
+        "definition_bytes": 451,
+        "definition_sha256": "f062aed68e292c44220f8fe4de5b90ed49e9881cb94bb784920be771c4bc650d",
+        "actual_prosrc_sha256": "0ae24f40576960c537a81cb9d7b44673ccd9d48cf2c197a519cadc8851d5aa96",
+        "prepared_prosrc_sha256": "0ae24f40576960c537a81cb9d7b44673ccd9d48cf2c197a519cadc8851d5aa96",
+        "prepared_source_body_matches_actual": true,
+        "actual_metadata_excluding_definition": [
+          "postgres",
+          "plpgsql",
+          "f",
+          true,
+          false,
+          false,
+          false,
+          "s",
+          "u",
+          "100",
+          "0",
+          [
+            "search_path=erp, public"
+          ],
+          [
+            "p_mapping_key"
+          ],
+          null,
+          "p_mapping_key text",
+          "uuid",
+          "-",
+          [
+            [
+              "cp7_finance_read",
+              "postgres",
+              "EXECUTE",
+              false
+            ],
+            [
+              "postgres",
+              "postgres",
+              "EXECUTE",
+              false
+            ],
+            [
+              "service_role",
+              "postgres",
+              "EXECUTE",
+              false
+            ]
+          ]
+        ]
+      },
+      {
+        "signature": "erp.require_internal()",
+        "all_four_actual_metadata_rows_exact": true,
+        "definition_bytes": 10740,
+        "definition_sha256": "b58efa7f7637ad3dd8262b233de4e12a65b9398188d7b78e9096497d551a3666",
+        "actual_prosrc_sha256": "8a4b211d989a7837d53699f1d23c60e5d9febe2fe8c8a7737cc68bca2c1dc0b0",
+        "prepared_prosrc_sha256": "69a908818fa707014f4193ceb0154d9ff55e58ff4ce5795b2c91bc841b9dfc58",
+        "prepared_source_body_matches_actual": false,
+        "actual_metadata_excluding_definition": [
+          "postgres",
+          "plpgsql",
+          "f",
+          true,
+          false,
+          false,
+          false,
+          "v",
+          "u",
+          "100",
+          "0",
+          [
+            "search_path=\"\""
+          ],
+          null,
+          null,
+          "",
+          "void",
+          "-",
+          [
+            [
+              "postgres",
+              "postgres",
+              "EXECUTE",
+              false
+            ],
+            [
+              "service_role",
+              "postgres",
+              "EXECUTE",
+              false
+            ]
+          ]
+        ]
+      },
+      {
+        "signature": "erp.be_propagate_nonpo_v1()",
+        "all_four_actual_metadata_rows_exact": true,
+        "definition_bytes": 4393,
+        "definition_sha256": "97d23a16a2e461e6e327f877ba6925d4bfbcb6f99481e070fb85c291c98cac61",
+        "actual_prosrc_sha256": "b5a15b8f5d4e4a3a7a1e251b19a9b2a6b72b51c9a33d15f151cae2fcd06b7cae",
+        "prepared_prosrc_sha256": "b5a15b8f5d4e4a3a7a1e251b19a9b2a6b72b51c9a33d15f151cae2fcd06b7cae",
+        "prepared_source_body_matches_actual": true,
+        "actual_metadata_excluding_definition": [
+          "postgres",
+          "plpgsql",
+          "f",
+          true,
+          false,
+          false,
+          false,
+          "v",
+          "u",
+          "100",
+          "0",
+          [
+            "search_path=erp, public"
+          ],
+          null,
+          null,
+          "",
+          "void",
+          "-",
+          [
+            [
+              "postgres",
+              "postgres",
+              "EXECUTE",
+              false
+            ]
+          ]
+        ]
+      },
+      {
+        "signature": "erp.be_nonpo_prepare_transfers_v1(date)",
+        "all_four_actual_metadata_rows_exact": true,
+        "definition_bytes": 2232,
+        "definition_sha256": "697c02f47c6c7a1d6884a6a49ff595a36b064ac6e2021c0b3c4609c89c534f5e",
+        "actual_prosrc_sha256": "66963c4a209e3467f34e31f7dcdf62b2e91db51ad269ba9bc938baaea0ea90a8",
+        "prepared_prosrc_sha256": "66963c4a209e3467f34e31f7dcdf62b2e91db51ad269ba9bc938baaea0ea90a8",
+        "prepared_source_body_matches_actual": true,
+        "actual_metadata_excluding_definition": [
+          "postgres",
+          "plpgsql",
+          "f",
+          true,
+          false,
+          false,
+          false,
+          "v",
+          "u",
+          "100",
+          "0",
+          [
+            "search_path=\"\""
+          ],
+          [
+            "p_date"
+          ],
+          null,
+          "p_date date",
+          "void",
+          "-",
+          [
+            [
+              "postgres",
+              "postgres",
+              "EXECUTE",
+              false
+            ]
+          ]
+        ]
+      },
+      {
+        "signature": "erp.be_nonpo_sync_all_v1(date,text,uuid,text)",
+        "all_four_actual_metadata_rows_exact": true,
+        "definition_bytes": 1316,
+        "definition_sha256": "c6fd2da58ec65a5f347bc9f7d1d1352b174ed098cb48899a92ca244acca26041",
+        "actual_prosrc_sha256": "c8b38d21f09719285de688141f0cc8f8306ecb261d21b62423ea9242ed9239df",
+        "prepared_prosrc_sha256": "c8b38d21f09719285de688141f0cc8f8306ecb261d21b62423ea9242ed9239df",
+        "prepared_source_body_matches_actual": true,
+        "actual_metadata_excluding_definition": [
+          "postgres",
+          "plpgsql",
+          "f",
+          true,
+          false,
+          false,
+          false,
+          "v",
+          "u",
+          "100",
+          "0",
+          [
+            "search_path=\"\""
+          ],
+          [
+            "p_date",
+            "p_source_type",
+            "p_source_id",
+            "p_reason"
+          ],
+          null,
+          "p_date date, p_source_type text, p_source_id uuid, p_reason text",
+          "void",
+          "-",
+          [
+            [
+              "postgres",
+              "postgres",
+              "EXECUTE",
+              false
+            ]
+          ]
+        ]
+      },
+      {
+        "signature": "erp.sync_non_po_product_hpp_to_gl_v2620f(uuid,date,text,uuid,text)",
+        "all_four_actual_metadata_rows_exact": true,
+        "definition_bytes": 4197,
+        "definition_sha256": "5c7471588d902fbb721ee2634afb5fd551b6f57a524cc28085c04d2ae04fa47c",
+        "actual_prosrc_sha256": "4f487083e54b4a342b71f94d4c1005db0666cd050b661d1c67c8d259436e9e7b",
+        "prepared_prosrc_sha256": "4f487083e54b4a342b71f94d4c1005db0666cd050b661d1c67c8d259436e9e7b",
+        "prepared_source_body_matches_actual": true,
+        "actual_metadata_excluding_definition": [
+          "postgres",
+          "plpgsql",
+          "f",
+          true,
+          false,
+          false,
+          false,
+          "v",
+          "u",
+          "100",
+          "0",
+          [
+            "search_path=erp, public"
+          ],
+          [
+            "p_product_id",
+            "p_effective_date",
+            "p_trigger_source_type",
+            "p_trigger_source_id",
+            "p_reason"
+          ],
+          null,
+          "p_product_id uuid, p_effective_date date, p_trigger_source_type text, p_trigger_source_id uuid, p_reason text",
+          "void",
+          "-",
+          [
+            [
+              "postgres",
+              "postgres",
+              "EXECUTE",
+              false
+            ]
+          ]
+        ]
+      },
+      {
+        "signature": "cp7_credit.current_leaf_assignment(uuid)",
+        "all_four_actual_metadata_rows_exact": true,
+        "definition_bytes": 1675,
+        "definition_sha256": "007e9bc63b1f5f62ec9e89086d2c983e02fe7fd8630f092fa0d0d58cc4e836e9",
+        "actual_prosrc_sha256": "43a35442609edd4d79f283211799be496c2f31e89db3e999176c557d27078950",
+        "prepared_prosrc_sha256": "43a35442609edd4d79f283211799be496c2f31e89db3e999176c557d27078950",
+        "prepared_source_body_matches_actual": true,
+        "actual_metadata_excluding_definition": [
+          "postgres",
+          "plpgsql",
+          "f",
+          true,
+          false,
+          false,
+          true,
+          "s",
+          "u",
+          "100",
+          "1000",
+          [
+            "search_path=\"\""
+          ],
+          [
+            "p_sale",
+            "root_sale_id",
+            "current_leaf_id",
+            "customer_id",
+            "requested_status"
+          ],
+          [
+            "i",
+            "t",
+            "t",
+            "t",
+            "t"
+          ],
+          "p_sale uuid",
+          "TABLE(root_sale_id uuid, current_leaf_id uuid, customer_id uuid, requested_status text)",
+          "-",
+          [
+            [
+              "postgres",
+              "postgres",
+              "EXECUTE",
+              false
+            ]
+          ]
+        ]
+      },
+      {
+        "signature": "cp7_credit.consumer_dependency_graph_v1(uuid)",
+        "all_four_actual_metadata_rows_exact": true,
+        "definition_bytes": 3399,
+        "definition_sha256": "102beb1c6333524c5df837a746ff9deeb6a235d744efbd3177e2016decd7705c",
+        "actual_prosrc_sha256": "c51a3bc2a924aa24a61422348d7e32517a862502b831c54079d1f8f4b7c04796",
+        "prepared_prosrc_sha256": "c51a3bc2a924aa24a61422348d7e32517a862502b831c54079d1f8f4b7c04796",
+        "prepared_source_body_matches_actual": true,
+        "actual_metadata_excluding_definition": [
+          "postgres",
+          "plpgsql",
+          "f",
+          true,
+          false,
+          false,
+          false,
+          "s",
+          "u",
+          "100",
+          "0",
+          [
+            "search_path=\"\"",
+            "TimeZone=UTC"
+          ],
+          [
+            "p_sale"
+          ],
+          null,
+          "p_sale uuid",
+          "jsonb",
+          "-",
+          [
+            [
+              "postgres",
+              "postgres",
+              "EXECUTE",
+              false
+            ]
+          ]
+        ]
+      },
+      {
+        "signature": "cp7_credit.source_hpp_lot_ids_v1(uuid)",
+        "all_four_actual_metadata_rows_exact": true,
+        "definition_bytes": 547,
+        "definition_sha256": "6cc9514cadef5b0895e8d369162e19fb23a9e51d6ae975235330194876e76324",
+        "actual_prosrc_sha256": "2860a19234f397fb7bb2defe265072157cba2263572f44decb3b1db6da463b16",
+        "prepared_prosrc_sha256": "2860a19234f397fb7bb2defe265072157cba2263572f44decb3b1db6da463b16",
+        "prepared_source_body_matches_actual": true,
+        "actual_metadata_excluding_definition": [
+          "postgres",
+          "sql",
+          "f",
+          true,
+          false,
+          false,
+          false,
+          "s",
+          "u",
+          "100",
+          "0",
+          [
+            "search_path=\"\"",
+            "TimeZone=UTC"
+          ],
+          [
+            "p_sale"
+          ],
+          null,
+          "p_sale uuid",
+          "uuid[]",
+          "-",
+          [
+            [
+              "postgres",
+              "postgres",
+              "EXECUTE",
+              false
+            ]
+          ]
+        ]
+      },
+      {
+        "signature": "cp7_credit.initial_hpp_account_facts_v1()",
+        "all_four_actual_metadata_rows_exact": true,
+        "definition_bytes": 645,
+        "definition_sha256": "13a704737b515fc0c0f46a147a398cdb7fa61d68abfec6a56ba3b0429b8c1a45",
+        "actual_prosrc_sha256": "fc0a3e5ac9adb31e395934b5b8ae355369871651dcf3a2fca34d8674295773ba",
+        "prepared_prosrc_sha256": "fc0a3e5ac9adb31e395934b5b8ae355369871651dcf3a2fca34d8674295773ba",
+        "prepared_source_body_matches_actual": true,
+        "actual_metadata_excluding_definition": [
+          "postgres",
+          "sql",
+          "f",
+          true,
+          false,
+          false,
+          false,
+          "s",
+          "u",
+          "100",
+          "0",
+          [
+            "search_path=\"\"",
+            "TimeZone=UTC"
+          ],
+          null,
+          null,
+          "",
+          "jsonb",
+          "-",
+          [
+            [
+              "postgres",
+              "postgres",
+              "EXECUTE",
+              false
+            ]
+          ]
+        ]
+      },
+      {
+        "signature": "cp7_credit.source_first_nonpo_hpp_alignment_v1(jsonb)",
+        "all_four_actual_metadata_rows_exact": true,
+        "definition_bytes": 2407,
+        "definition_sha256": "cdd6aa7a224f38cb157e9a0785fb8f3257d5a31f98f071940664b90521e570fb",
+        "actual_prosrc_sha256": "a82fb111dd73ffbd9b56e9a9c1fb5c951684b33dcda6baee7566c467812e9804",
+        "prepared_prosrc_sha256": "a82fb111dd73ffbd9b56e9a9c1fb5c951684b33dcda6baee7566c467812e9804",
+        "prepared_source_body_matches_actual": true,
+        "actual_metadata_excluding_definition": [
+          "postgres",
+          "plpgsql",
+          "f",
+          true,
+          false,
+          false,
+          false,
+          "s",
+          "u",
+          "100",
+          "0",
+          [
+            "search_path=\"\"",
+            "TimeZone=UTC"
+          ],
+          [
+            "p_snapshot"
+          ],
+          null,
+          "p_snapshot jsonb",
+          "jsonb",
+          "-",
+          [
+            [
+              "postgres",
+              "postgres",
+              "EXECUTE",
+              false
+            ]
+          ]
+        ]
+      },
+      {
+        "signature": "cp7_credit.pg_jsonb_sha256(jsonb)",
+        "all_four_actual_metadata_rows_exact": true,
+        "definition_bytes": 218,
+        "definition_sha256": "79a2ae1536746436205630eaf57ed78396fe2b52abcfdff93e57d91591a7c45e",
+        "actual_prosrc_sha256": "c5d51abf3325c3c259308c2206676321e139b0bba4c53e83e9b01672e7414f1d",
+        "prepared_prosrc_sha256": "c5d51abf3325c3c259308c2206676321e139b0bba4c53e83e9b01672e7414f1d",
+        "prepared_source_body_matches_actual": true,
+        "actual_metadata_excluding_definition": [
+          "postgres",
+          "sql",
+          "f",
+          false,
+          false,
+          false,
+          false,
+          "i",
+          "u",
+          "100",
+          "0",
+          [
+            "search_path=\"\""
+          ],
+          [
+            "p"
+          ],
+          null,
+          "p jsonb",
+          "text",
+          "-",
+          [
+            [
+              "cp7_credit_write",
+              "postgres",
+              "EXECUTE",
+              false
+            ],
+            [
+              "postgres",
+              "postgres",
+              "EXECUTE",
+              false
+            ]
+          ]
+        ]
+      },
+      {
+        "signature": "erp.be_in_context_v1()",
+        "all_four_actual_metadata_rows_exact": true,
+        "definition_bytes": 284,
+        "definition_sha256": "e18b3e4ae90c0c91c8660599ef9f18132d46542ac599cd790367894143aa81cb",
+        "actual_prosrc_sha256": "0926d4cd0d695268e560a94043d16ea52d4c81f32473b4a4a3440237745d38a4",
+        "prepared_prosrc_sha256": "0926d4cd0d695268e560a94043d16ea52d4c81f32473b4a4a3440237745d38a4",
+        "prepared_source_body_matches_actual": true,
+        "actual_metadata_excluding_definition": [
+          "postgres",
+          "sql",
+          "f",
+          true,
+          false,
+          false,
+          false,
+          "s",
+          "u",
+          "100",
+          "0",
+          [
+            "search_path=\"\""
+          ],
+          null,
+          null,
+          "",
+          "boolean",
+          "-",
+          [
+            [
+              "postgres",
+              "postgres",
+              "EXECUTE",
+              false
+            ]
+          ]
+        ]
+      },
+      {
+        "signature": "erp.be_nonpo_in_sync_v1()",
+        "all_four_actual_metadata_rows_exact": true,
+        "definition_bytes": 309,
+        "definition_sha256": "3bf85c1b4084953348c9d35a55f968969c891789b237f8e96c8ec1a55084d6ea",
+        "actual_prosrc_sha256": "b97be444278280a1d9de33c864e35ab1a0cdd5d9004a021392ff0dc81ffd581a",
+        "prepared_prosrc_sha256": "b97be444278280a1d9de33c864e35ab1a0cdd5d9004a021392ff0dc81ffd581a",
+        "prepared_source_body_matches_actual": true,
+        "actual_metadata_excluding_definition": [
+          "postgres",
+          "sql",
+          "f",
+          true,
+          false,
+          false,
+          false,
+          "s",
+          "u",
+          "100",
+          "0",
+          [
+            "search_path=\"\""
+          ],
+          null,
+          null,
+          "",
+          "boolean",
+          "-",
+          [
+            [
+              "postgres",
+              "postgres",
+              "EXECUTE",
+              false
+            ]
+          ]
+        ]
+      }
+    ],
+    "exact_two_source_profile_mismatches": [
+      {
+        "signature": "erp.compute_non_po_product_hpp_book_v2620f(uuid)",
+        "all_four_actual_metadata_rows_exact": true,
+        "definition_bytes": 1273,
+        "definition_sha256": "1647164dc565d08a010b182c3c08b1d729b00d588fc7a6e43774f8672c9c6ea5",
+        "actual_prosrc_sha256": "35044776219a6916aad2b770ca3a89322c51319004fd9429ab19d611459b0160",
+        "prepared_prosrc_sha256": "16b189ae50325680a6827d4542979d2a3d8fdc5c42c169546d7437c7f348754f",
+        "prepared_source_body_matches_actual": false,
+        "actual_metadata_excluding_definition": [
+          "postgres",
+          "sql",
+          "f",
+          true,
+          false,
+          false,
+          true,
+          "s",
+          "u",
+          "100",
+          "1000",
+          [
+            "search_path=\"\""
+          ],
+          [
+            "p_product_id",
+            "hpp_total_cost",
+            "fg_value",
+            "cogs_value",
+            "other_out_value"
+          ],
+          [
+            "i",
+            "t",
+            "t",
+            "t",
+            "t"
+          ],
+          "p_product_id uuid",
+          "TABLE(hpp_total_cost numeric, fg_value numeric, cogs_value numeric, other_out_value numeric)",
+          "-",
+          [
+            [
+              "postgres",
+              "postgres",
+              "EXECUTE",
+              false
+            ]
+          ]
+        ]
+      },
+      {
+        "signature": "erp.require_internal()",
+        "all_four_actual_metadata_rows_exact": true,
+        "definition_bytes": 10740,
+        "definition_sha256": "b58efa7f7637ad3dd8262b233de4e12a65b9398188d7b78e9096497d551a3666",
+        "actual_prosrc_sha256": "8a4b211d989a7837d53699f1d23c60e5d9febe2fe8c8a7737cc68bca2c1dc0b0",
+        "prepared_prosrc_sha256": "69a908818fa707014f4193ceb0154d9ff55e58ff4ce5795b2c91bc841b9dfc58",
+        "prepared_source_body_matches_actual": false,
+        "actual_metadata_excluding_definition": [
+          "postgres",
+          "plpgsql",
+          "f",
+          true,
+          false,
+          false,
+          false,
+          "v",
+          "u",
+          "100",
+          "0",
+          [
+            "search_path=\"\""
+          ],
+          null,
+          null,
+          "",
+          "void",
+          "-",
+          [
+            [
+              "postgres",
+              "postgres",
+              "EXECUTE",
+              false
+            ],
+            [
+              "service_role",
+              "postgres",
+              "EXECUTE",
+              false
+            ]
+          ]
+        ]
+      }
+    ],
+    "Native_R4_05_contexts": [
+      "cp7_attendance.command_context",
+      "cp7_credit.consumer_execution_context",
+      "cp7_material.execution_context",
+      "cp7_payroll.execution_context",
+      "cp7_payroll.settlement_context",
+      "cp7_procurement.execution_context",
+      "cp7_sales.command_context",
+      "cp7_supplier_return.execution_context",
+      "erp.bs_resolution_execution_context",
+      "erp.cp6_laundry_qc_execution_context",
+      "erp.cutting_bridge_execution_context"
+    ],
+    "Native_R4_05_literal_function_names": [
+      "auth.jwt",
+      "auth.uid",
+      "cp7_credit.consumer_internal_allowed_v1",
+      "cp7_sales.command_allowed",
+      "erp._idempotency_actor_key",
+      "erp.current_app_role",
+      "erp.has_permission"
+    ],
+    "runtime_constraint": "An explicit exact current authority transition is required before the owning8-hook successor. Do not restore old Native book/require_internal, whitelist mismatches, ignore ACL metadata or claim the source-only profile is a current runtime profile.",
+    "parent_functions_unchanged": "All19 current full definition and metadata rows equal602before/after and cde78before/result; not a claim about future E/S03 or final composite.",
+    "reviewer": "root/native14_counter",
+    "DB": 0,
+    "Native": 0,
+    "network": 0,
+    "lock_FK_trigger_final_receipt": null
+  },
+  "actual_current_request_guard_counter": {
+    "receipt": {
+      "path": "/workspace/scratch/ef468a447ac6/evidence-private/global-nonpo-lock-census-602-current-d1/ACTUAL_CURRENT_REQUEST_GUARD_FINGERPRINTS.json",
+      "bytes": 2031,
+      "sha256": "b5ed893a456c142c6988a5cac9535313267f827dbed6f82eeec7e156c41574f2"
+    },
+    "observed": {
+      "classification": "CURRENT_D1_CDE78_ACTUAL_METADATA_COMPARED_TO602_NOT_SOURCE_REPLACEMENT",
+      "functions": {
+        "cp7_credit.source_request_enter_v1(text,jsonb,uuid,text)": {
+          "equal_actual602": true,
+          "definition_bytes": 10471,
+          "definition_sha256": "2c121e6986c051339bc8a2426b13714fa6758eccf3065a00ff73bbf4ffe04667",
+          "full_row_sha256": "964497f75e215b8a465e81be936fcf589c053bb739da59412842ab2627ef1a80",
+          "owner": "postgres",
+          "raw_acl": [
+            [
+              "postgres",
+              "postgres",
+              "EXECUTE",
+              false
+            ]
+          ]
+        },
+        "cp7_credit.source_request_finish_v1(uuid)": {
+          "equal_actual602": true,
+          "definition_bytes": 2205,
+          "definition_sha256": "0ea71ca9280a296e7a02b89aefbc8819d128a147de32f8990e868aa0b35ec806",
+          "full_row_sha256": "4acc0475310e2e2987830a399e5164ccc48a7d719f03bd12ca04ed06eb456f8d",
+          "owner": "postgres",
+          "raw_acl": [
+            [
+              "postgres",
+              "postgres",
+              "EXECUTE",
+              false
+            ]
+          ]
+        },
+        "cp7_credit.native_source_enter(text,uuid)": {
+          "equal_actual602": true,
+          "definition_bytes": 2545,
+          "definition_sha256": "bd189658777a06cd7a9320cde07e16c3f64e2c1b5b612ebff04c1c882e874f28",
+          "full_row_sha256": "498da608f7e65bc0a1013d49262ddab9e59e446f99fb49b896bfde1c3754403c",
+          "owner": "postgres",
+          "raw_acl": [
+            [
+              "postgres",
+              "postgres",
+              "EXECUTE",
+              false
+            ]
+          ]
+        },
+        "cp7_credit_remaining.request_admitted_v1(text,jsonb,uuid)": {
+          "equal_actual602": true,
+          "definition_bytes": 792,
+          "definition_sha256": "3d1e90514b21fcb44aa5234a764876cc6c7254a1c59a38fdfcb0874f720e758b",
+          "full_row_sha256": "f5b95c077c3005fe9bf860aa39fabc75488b4e4d7b2927560f1ff3afd04afc13",
+          "owner": "postgres",
+          "raw_acl": [
+            [
+              "postgres",
+              "postgres",
+              "EXECUTE",
+              false
+            ]
+          ]
+        }
+      },
+      "DB": 0,
+      "Native": 0
+    },
+    "classification": "READ_ONLY_EXACT_CURRENT_CDE78_AND_602_FINGERPRINTS_NOT_E_OR_S03_QUALIFICATION"
+  },
+  "SKU_final_product_source_transition": {
+    "from_public": "e8f878f2ecaaf24368a0ce1a3393bc29c0b886f6",
+    "to_public": "f3d014648d12279dfa89ca8593f25585430a5efe",
+    "tree": "b1c316d6e853805f933a6665a81edf9332d12a36",
+    "changed_runtime_paths": [
+      "scripts/cp7_sku_pair_conversion/recovery.sql"
+    ],
+    "exact_runtime_diff": "diff --git a/scripts/cp7_sku_pair_conversion/recovery.sql b/scripts/cp7_sku_pair_conversion/recovery.sql\nindex 305f134f..e8931d9d 100644\n--- a/scripts/cp7_sku_pair_conversion/recovery.sql\n+++ b/scripts/cp7_sku_pair_conversion/recovery.sql\n@@ -151,6 +151,11 @@ begin\n   perform 1 from erp.product_conversions order by id for update nowait;\n   perform 1 from erp.fg_lots order by id for update nowait;\n   perform 1 from erp.hpp_versions order by id for update nowait;\n+  -- Native NONE skips the earlier MOVING_AVERAGE material-row lock. Cover\n+  -- its later FK/update waits using only the already BCLOT-locked lot's row.\n+  perform 1 from erp.materials material\n+   where material.id=(select lot.material_id from erp.bc_return_lots_v1 lot where lot.id=p_lot)\n+   order by material.id for update nowait;\n   perform 1 from erp.material_stock_movements order by id for update nowait;\n   perform 1 from erp.material_cost_history order by movement_id for update nowait;\n   perform 1 from erp.material_cost_checkpoints order by material_id for update nowait;\n",
+    "other9_runtime_leaves_and_bootstrap_byte_exact": true,
+    "body_oracle_relaxations": 0,
+    "old_prepared_Source43": "Retained endpoint is naturally stale for this oneSQL. Do not repin old43, project product.sources or claim old validator PASS.",
+    "current_transition": "Root reports explicit Source20 transition validators and actual physical10 product.sources source-only admission under original5environment; full27pending. Not a qualification receipt supplied by this plan.",
+    "actual_acceptance": null
+  },
+  "runtime_API_bridge_gaps": [
+    {
+      "component": "D1",
+      "existing_parent": "cp7_vendor_receivable.composition",
+      "existing_status": "CREDIT_DE_EXACT_SOURCE_AND_ALL22",
+      "source_mutation_required": false
+    },
+    {
+      "component": "E",
+      "existing_parent": "cp7_credit_correction_de.composition",
+      "existing_status": "CREDIT_E1_EXACT_SOURCE_AND_ALL22",
+      "source_mutation_required": false,
+      "before_DDL": "Capture the actual D1-extended2shared functions; no older E fullfile overlay."
+    },
+    {
+      "component": "SKU",
+      "existing_parent": "cp7_vendor_receivable.composition",
+      "required_parent": "cp7_credit_correction_de.e_composition",
+      "existing_status": "SKU_PAIR_CONVERSION_EXACT_SOURCE_AND_ALL22",
+      "natural_self_hash": "Canonical composition.py is part of its actual10-file source map.",
+      "state_keys_required_from_parent": [
+        "sources",
+        "before",
+        "after",
+        "parent_binding",
+        "definitions",
+        "originals",
+        "preinstall_data_and_sequences",
+        "preuse_data_and_sequences"
+      ]
+    },
+    {
+      "component": "Global owning successor",
+      "existing_parent": null,
+      "required_parent": "Actual SKU successor",
+      "exact_business_capture_count": 8,
+      "state_keys_required_by_S03": [
+        "sources",
+        "before",
+        "after",
+        "preuse_data_and_sequences",
+        "preinstall_data_and_sequences"
+      ],
+      "new_objects_not_fixed": true,
+      "status_literal": null,
+      "rule": "Source-only14b is not this runtime; root authors a new declared source/authority/catalog/phase transition. No actual current Source/Original binding supplied here."
+    },
+    {
+      "component": "S03",
+      "existing_parent": "cp7_vendor_receivable.composition",
+      "required_parent": "Actual new global owning successor",
+      "exact_installed_status": "CP7_S03_EXACT_SOURCE_ACTUAL_ALL22",
+      "exact_existing_transient_CREATE": [
+        "cp7_payroll",
+        "cp7_hpp_pool"
+      ],
+      "original_schema_owners": [
+        "cp7_payroll_read",
+        "cp7_hpp_pool_read"
+      ],
+      "installed_runtime_capture_count": 15,
+      "private_Native_clones": 2,
+      "rule": "Original current13 financial/access bodies and2reader wrappers captured naturally after actual parent; exact schema owner/rawACL restore for both install and preuse inverse."
+    },
+    {
+      "component": "S05",
+      "existing_parent": "cp7_vendor_receivable.composition",
+      "required_parent": "Actual S03 top",
+      "old_parent_status_literal": "VENDOR_RECEIVABLE_EXACT_SOURCE_AND_ALL22",
+      "new_exact_parent_status_literal": "CP7_S03_EXACT_SOURCE_ACTUAL_ALL22",
+      "existing_API": [
+        "parent",
+        "sources",
+        "verify",
+        "install_delta",
+        "uninstall_delta",
+        "reader_only"
+      ],
+      "missing_composition_API": [
+        "runtime",
+        "install",
+        "rollback_delta_preuse",
+        "rollback_preuse"
+      ],
+      "final_orchestrator": "New final entry must call real install_delta/uninstall_delta with original qualified_parent state; expose runtime from actual S03 parent. Do not pretend existing stage already has the standard composition API.",
+      "permanent_reader_after_business": "verify does not require business data equal install baseline, but uninstall_delta does. After any business use retain refusal before DDL and use full backup restore; never erase history or call temporary reader_only as a substitute for the installed final top.",
+      "source_self_pin": "S05 SOURCE.json pins stage.py itself. Deliberate parent/status adapter changes require exact new stage hash plus declared transition while all report function bodies and old dependency map stay bound."
+    }
+  ],
+  "source_count_correction": {
+    "first_private_count_assertion": "Expected144 inherited from old review; failed before writing initial plan.",
+    "deterministic_current_counts": "Currentfe2 E SQL has38 own functions plus3private copies=41; old review40 was stale. Current total145 before unknown global successor.",
+    "product_or_oracle_changes": 0
+  }
+}
