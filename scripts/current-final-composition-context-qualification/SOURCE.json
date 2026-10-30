@@ -1,0 +1,45 @@
+{
+  "contract": "cp7.final-context.closed-source.v1",
+  "base": "e46233133753cd31b0b4120a3a5a88be745aa223",
+  "runtime_entry": null,
+  "actual_Native_credit": 0,
+  "production_go": false,
+  "independent_acceptance": false,
+  "files": {
+    "scripts/current-final-composition-context-qualification/INVENTORY.json": {
+      "bytes": 983292,
+      "sha256": "a81485c98d206e38702bb53fcb60cf6c3feaf1b350a58c3fd6172e6e1281a107",
+      "mode": "100644"
+    },
+    "scripts/current-final-composition-context-qualification/README.md": {
+      "bytes": 2056,
+      "sha256": "505afc0fdbdb3299f8a4a5a3dea3db4472ede1b225ccbca46f2bbe1a004476c6",
+      "mode": "100644"
+    },
+    "scripts/current-final-composition-context-qualification/catalog.py": {
+      "bytes": 5589,
+      "sha256": "acbe911aa1ed6b86d5476e5cad5f70afb99ea36935fd623a1e65a282cef1e3f3",
+      "mode": "100644"
+    },
+    "scripts/current-final-composition-context-qualification/check.py": {
+      "bytes": 5521,
+      "sha256": "6c42777673d4db111580ab8e188f61243f81488f30ba00ab7a5f6fa5c0d9ce76",
+      "mode": "100644"
+    },
+    "scripts/current-final-composition-context-qualification/extract.py": {
+      "bytes": 6992,
+      "sha256": "5b483a10da7c2df45b2486b05a7edc9e493802355410f37c25464be8b0c40b8e",
+      "mode": "100644"
+    },
+    "scripts/current-final-composition-context-qualification/freeze.py": {
+      "bytes": 1476,
+      "sha256": "5567e3d04c93017d8b4e5ae11a22621ddcc6edcee721b08f2c44d44364563e0c",
+      "mode": "100644"
+    },
+    "scripts/current-final-composition-context-qualification/test_catalog.py": {
+      "bytes": 6932,
+      "sha256": "662262bdf8ac19c67e0cc487c16257dda83f60baedb9bd3f73873e0c00c9d9ef",
+      "mode": "100644"
+    }
+  }
+}
