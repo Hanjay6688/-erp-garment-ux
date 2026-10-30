@@ -1,0 +1,19 @@
+{
+  "status": "SOURCE_ONLY_CONTROLS_HARNESS_ERROR_NOT_NATIVE_REGRESSION",
+  "control": "S05_GIT_FULL_PATH_SOURCE_BYTES_CHANGED",
+  "exception": "TypeError: GitBytes object is not callable",
+  "cause": "ChangedBlob stored its reader as git, shadowing the git command method delegated by __getattr__.",
+  "intake_controls_before_fix": {
+    "bytes": 10667,
+    "sha256": "d01a9e754252ea11416d79a574bef62bb479cf71a924dd1d636410d2bf482dd8"
+  },
+  "actual_Native_or_DB_execution": 0,
+  "accepted_transactions_reexecuted": false,
+  "Originals_or_source_worktrees_modified": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "retained_failed_helper_source": "S05_LOCK_HELPER_CONTROLS_FIRST_FAILED.py (private scratch, exact hash above)",
+  "follow_up": "S05_LOCK_ROOT_INTAKE_CONTROLS_20261030.json",
+  "corrected_controls_refused": 47,
+  "positive_Original_intakes_remained_PASS": true
+}

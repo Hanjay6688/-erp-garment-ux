@@ -1,0 +1,154 @@
+{
+  "status": "ROOT_VERIFIED_NARROW_S05_NATIVE10_RAW_SOURCE_RESTORE_ALL5",
+  "classification": "INTERNAL_WRITER_ROOT_INTAKE_NOT_FORMAL_INDEPENDENT_ACCEPTANCE",
+  "head": "519d1760a3bad06a346b3d4b3cc0203664615634",
+  "tree": "15ccd8c9b5eb796724cfb39e3b4c8415f9c952bf",
+  "run_id": "41020627427",
+  "job_id": 123946877124,
+  "artifact_id": 12965058954,
+  "archive_name": "ERP_S05_Native10_519d_20261030.zip",
+  "private_Original_Library_file_id": "libfile_1d18cbfeaf388191940a9e73f39f8122",
+  "archive": {
+    "bytes": 2151338,
+    "sha256": "43dc919acad9880afe6be8a9ba1aaa550503558f473e0b27ac699e8c8bd78854"
+  },
+  "archive_members": 114,
+  "archive_CRC_ok": true,
+  "originals": {
+    "CP7_S05_ACCESSORY_STANDARD_NATIVE10.json": {
+      "bytes": 4435195,
+      "sha256": "be272d5c07c891a9e4ae795c95ec446c727e9a84ad8d90eccbee2507085825eb"
+    },
+    "CP7_S05_ACCESSORY_STANDARD_NATIVE10_CASES.json": {
+      "bytes": 232514,
+      "sha256": "7b13beaa9d369398a2e6c3762d9649303e92e6c835aba8b476a5d51842f3d79a"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360428,
+      "sha256": "089b8531e8d0686a9476f756ee51e865fc06a52de5c298b2b8b96efbcd37a663"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 1470,
+      "sha256": "2494d6eb768bf8ab8f0d8c1541c56a522970d7dd1d8a3059fc0b0d69d8f8bb69"
+    }
+  },
+  "actual_Native_cases": 10,
+  "actual_Auth_HTTP_cases": 0,
+  "actual_browser_cases": 0,
+  "actual_two_session_races": 0,
+  "actual_case_ids": [
+    "S05_NATIVE_CATEGORY_VARIANTS_PO",
+    "S05_NATIVE_HISTORICAL_BOM",
+    "S05_NATIVE_LATE_INVOICE_COST_REVISIONS",
+    "S05_NATIVE_ZERO_REIMBURSEMENT",
+    "S05_NATIVE_EMPTY_AND_NO_OUTPUT",
+    "S05_NATIVE_WIB_COHORTS",
+    "S05_NATIVE_NOTE_DRAFT_INVERSE",
+    "S05_NATIVE_QC_INVERSE",
+    "S05_NATIVE_REWORK_NONE_RECORDED_RECIPIENT",
+    "S05_NATIVE_CURRENT_ACCESS_PRIVATE_ACL"
+  ],
+  "strict_original_equals_embedded": true,
+  "actual_raw_native_reads": 26,
+  "complete_reader_intervals": 27,
+  "source": {
+    "own_manifest": {
+      "bytes": 10966,
+      "sha256": "f81d72d7a4d81685a185e5ff633f326a154e21a9b17a90d1ba7509757146d94d"
+    },
+    "complete_public_parent_files": 13642,
+    "complete_public_parent_modes_and_blobs_equal": true,
+    "new_paths": 43,
+    "historical_proof_inputs": 24,
+    "declared_files_pin_occurrences": 1407,
+    "declared_files_maps": 71,
+    "unique_bound_path_digest_pairs": 417,
+    "relative_files_bound_by_producer_namespace": true,
+    "matching_hash_in_other_namespace_accepted": false,
+    "relative_source_namespaces": [
+      "cp7_contractor_guidance",
+      "cp7_credit_followups",
+      "cp7_credit_incoming",
+      "cp7_credit_multi",
+      "cp7_credit_remaining",
+      "cp7_current_analysis_progress",
+      "cp7_current_frozen_finance",
+      "cp7_current_frozen_public",
+      "cp7_current_versioned_performance",
+      "cp7_fg_correction_source",
+      "cp7_finance_capture",
+      "cp7_hpp_close",
+      "cp7_kasbon_source",
+      "cp7_laundry_unknown_wash",
+      "cp7_ow09_lists",
+      "cp7_report_credit",
+      "cp7_supplier_transfer",
+      "current-finance-combined-composition",
+      "current-finance-factory-progress-followup-qualification",
+      "current-finance-readonly-integration-qualification"
+    ],
+    "non_files_values": "Retained evidence/body/derived hashes keep their original classification; no extra file or case credit."
+  },
+  "original_callback_bytes_unchanged": true,
+  "actual_current_AC_editor_observations": 12,
+  "editor_observation_extra_Native_credit": 0,
+  "actual_fixture_refusal_controls": [
+    {
+      "label": "ORIGINAL_FRACTIONAL_WIB_2",
+      "sqlstate": "P0001",
+      "error": "Waktu pengambilan wajib memakai tanggal dan jam WIB",
+      "full_noeffect": true,
+      "extra_Native_credit": 0
+    },
+    {
+      "label": "ORIGINAL_FRACTIONAL_WIB_3",
+      "sqlstate": "P0001",
+      "error": "Waktu pengambilan wajib memakai tanggal dan jam WIB",
+      "full_noeffect": true,
+      "extra_Native_credit": 0
+    },
+    {
+      "label": "LAST_ACTIVE_OWNER_UNCHANGED",
+      "sqlstate": "42501",
+      "error": "LAST_ACTIVE_OWNER_PROTECTED",
+      "full_noeffect": true,
+      "extra_Native_credit": 0
+    },
+    {
+      "label": "PROTECTED_OWNER_ROLE_UNCHANGED",
+      "sqlstate": "42501",
+      "error": "PROTECTED_OWNER_ROLE_CANNOT_BE_CHANGED",
+      "full_noeffect": true,
+      "extra_Native_credit": 0
+    }
+  ],
+  "extra_case_credit_for_fixture_controls_or_witness": 0,
+  "separate_committed_witness_and_used_inverse_noeffect": true,
+  "report_business_DML": false,
+  "full_outer_restore_all22_all_rows_ALL_sequences_roles_Auth_CP6_advisors": true,
+  "package_all_five_gates": true,
+  "Auth_users_before": 0,
+  "Auth_users_after": 0,
+  "prior_8_plus_2_aggregated": false,
+  "accepted_transactions_reexecuted": false,
+  "Afui_positive_HPP_zero_reimbursement_actual_coverage": false,
+  "UI5_qualified": false,
+  "full_S05_family_accepted": false,
+  "formal_total_unchanged": "5/16",
+  "production_go": false,
+  "independent_acceptance": false,
+  "intake_scripts": {
+    "intake_common.py": {
+      "bytes": 6518,
+      "sha256": "698216cfb4c31e8c93167e1b67f52f0b7532e5906ac8a09584b0a32c728b41e9"
+    },
+    "intake_s05.py": {
+      "bytes": 29616,
+      "sha256": "c23f942e8a01a1a272bcc0f54de0c5ddd48708b3297020513e937dc8ca36a59c"
+    }
+  }
+}

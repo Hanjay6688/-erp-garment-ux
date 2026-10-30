@@ -1,0 +1,266 @@
+{
+  "status": "ROOT_SOURCE_ONLY_INTAKE_MUTATIONS_REFUSED",
+  "positive_actual_originals_before_and_after": true,
+  "refused_controls": 47,
+  "controls": [
+    {
+      "id": "S05_CHANGED_COMPONENT_ID",
+      "status": "REFUSED_AS_REQUIRED",
+      "refusal": "ROOT_S05_SINGLE_COMPONENT_REQUIRED:VALUE"
+    },
+    {
+      "id": "S05_BOOL_FOR_ONE_EXPECTED_CASE",
+      "status": "REFUSED_AS_REQUIRED",
+      "refusal": "ROOT_S05_OUTER/expected_case_count:TYPE"
+    },
+    {
+      "id": "S05_FLOAT_FOR_NATIVE10",
+      "status": "REFUSED_AS_REQUIRED",
+      "refusal": "ROOT_S05_OUTER/actual_Native_cases:TYPE"
+    },
+    {
+      "id": "S05_FLOAT_FOR_GROUP_PASS10",
+      "status": "REFUSED_AS_REQUIRED",
+      "refusal": "ROOT_S05_STRICT_GROUP/counts/PASS:TYPE"
+    },
+    {
+      "id": "S05_CHANGED_STRICT_ORIGINAL_ID",
+      "status": "REFUSED_AS_REQUIRED",
+      "refusal": "ROOT_S05_SEPARATE_CASES_MUST_EQUAL_EMBEDDED_GROUP/planned_case_ids/0:VALUE"
+    },
+    {
+      "id": "S05_OUTER_RESTORE_FALSE",
+      "status": "REFUSED_AS_REQUIRED",
+      "refusal": "ROOT_S05_OUTER/baseline_full22_all_rows_all_sequences_equal:VALUE"
+    },
+    {
+      "id": "S05_ROLE_RESTORE_FALSE",
+      "status": "REFUSED_AS_REQUIRED",
+      "refusal": "ROOT_S05_ROLE_RESTORE/baseline_roles_exact:VALUE"
+    },
+    {
+      "id": "S05_ALL5_WRITER_GATE_FALSE",
+      "status": "REFUSED_AS_REQUIRED",
+      "refusal": "ROOT_S05_ALL_FIVE_PACKAGE_GATES/gate/writer_runtime:VALUE"
+    },
+    {
+      "id": "S05_AUTH_BOOL_FOR_ZERO",
+      "status": "REFUSED_AS_REQUIRED",
+      "refusal": "ROOT_S05_ALL_FIVE_PACKAGE_GATES/auth_users_after:TYPE"
+    },
+    {
+      "id": "S05_DRILL_ROW_COUNT_FLOAT",
+      "status": "REFUSED_AS_REQUIRED",
+      "refusal": "ROOT_S05_DRILL_FULL_DATA_COUNTS/rows:TYPE"
+    },
+    {
+      "id": "S05_READER_PARENT_CHANGED",
+      "status": "REFUSED_AS_REQUIRED",
+      "refusal": "ROOT_S05_ACTUAL_READER_VERIFICATION/parent_verified_before_addition:VALUE"
+    },
+    {
+      "id": "S05_USED_INVERSE_WRONG_ERROR",
+      "status": "REFUSED_AS_REQUIRED",
+      "refusal": "ROOT_S05_COMMITTED_USED_WITNESS/actual_used_guard_error:VALUE"
+    },
+    {
+      "id": "S05_PROTECTED_ROLE_WRONG_SQLSTATE",
+      "status": "REFUSED_AS_REQUIRED",
+      "refusal": "ROOT_S05_REFUSAL_SQLSTATE:VALUE"
+    },
+    {
+      "id": "S05_OWNER_REFUSAL_NOEFFECT_FALSE",
+      "status": "REFUSED_AS_REQUIRED",
+      "refusal": "ROOT_S05_ACTUAL_REFUSAL/all_rows_and_every_sequence_equal:VALUE"
+    },
+    {
+      "id": "S05_CURRENT_AC_EDITOR_BODY_CHANGED",
+      "status": "REFUSED_AS_REQUIRED",
+      "refusal": "ROOT_S05_ACTUAL_CURRENT_EDITOR/observed_prosrc_sha256:VALUE"
+    },
+    {
+      "id": "S05_CURRENT_ACCESS_REFUSAL_REMOVED",
+      "status": "REFUSED_AS_REQUIRED",
+      "refusal": "ROOT_S05_SEPARATE_CASES_MUST_EQUAL_EMBEDDED_GROUP/cases/S05_NATIVE_CURRENT_ACCESS_PRIVATE_ACL/actual_raw_reads/0/actual_error/sqlstate:VALUE"
+    },
+    {
+      "id": "S05_FALSE_S05_FAMILY_ACCEPTANCE",
+      "status": "REFUSED_AS_REQUIRED",
+      "refusal": "ROOT_S05_SEPARATE_CASES_MUST_EQUAL_EMBEDDED_GROUP/cases/S05_NATIVE_CATEGORY_VARIANTS_PO/full_family_acceptance:VALUE"
+    },
+    {
+      "id": "S05_SOURCE_FULL_PATH_PIN_CHANGED",
+      "status": "REFUSED_AS_REQUIRED",
+      "refusal": "ROOT_S05_PUBLIC_ACL_SOURCE162/files/scripts/cp6_bc_probe.py:VALUE"
+    },
+    {
+      "id": "S05_RELATIVE_SOURCE_UNKNOWN_CONTRACT",
+      "status": "REFUSED_AS_REQUIRED",
+      "refusal": "ROOT_S05_UNKNOWN_RELATIVE_SOURCE_CONTRACT"
+    },
+    {
+      "id": "S05_GIT_CALLBACK_BYTES_CHANGED",
+      "status": "REFUSED_AS_REQUIRED",
+      "refusal": "ROOT_S05_ORIGINAL_CALLBACK_BYTES_CHANGED:VALUE"
+    },
+    {
+      "id": "S05_GIT_FULL_PATH_SOURCE_BYTES_CHANGED",
+      "status": "REFUSED_AS_REQUIRED",
+      "refusal": "ROOT_SOURCE_DIGEST_CHANGED:scripts/cp6_bc_probe.py"
+    },
+    {
+      "id": "S05_GIT_PRODUCER_ROUTE_REPLACED_BY_IDENTICAL_ALIAS",
+      "status": "REFUSED_AS_REQUIRED",
+      "refusal": "ROOT_S05_SOURCE_PRODUCER_ROUTE_CHANGED:scripts/current-factory-initial-stage/composition.py"
+    },
+    {
+      "id": "S05_BASENAME_PIN_MUST_NOT_BIND_IDENTICAL_OTHER_NAMESPACE",
+      "status": "REFUSED_AS_REQUIRED",
+      "refusal": "ROOT_S05_OPENING_NAMESPACE_MUST_BE_ACTUAL_FACTORY_PARENT:VALUE"
+    },
+    {
+      "id": "LOCK_IMAGE_ID_OBJECT_FOR_STRING",
+      "status": "REFUSED_AS_REQUIRED",
+      "refusal": "ROOT_LOCK_MODEL_IMAGE_ID_STRING_REQUIRED:TYPE"
+    },
+    {
+      "id": "LOCK_DIGEST_STRING_FOR_LIST",
+      "status": "REFUSED_AS_REQUIRED",
+      "refusal": "ROOT_LOCK_MODEL_EXACT_IMAGE_DIGEST_LIST_REQUIRED:TYPE"
+    },
+    {
+      "id": "LOCK_IMAGE_DIGEST_CHANGED",
+      "status": "REFUSED_AS_REQUIRED",
+      "refusal": "ROOT_LOCK_MODEL_EXACT_IMAGE_DIGEST_LIST_REQUIRED/0:VALUE"
+    },
+    {
+      "id": "LOCK_PAIR_MISSING",
+      "status": "REFUSED_AS_REQUIRED",
+      "refusal": "ROOT_LOCK_MODEL_EXACT_ORDERED_24_PAIRS_REQUIRED:LENGTH"
+    },
+    {
+      "id": "LOCK_PAIR_DUPLICATED",
+      "status": "REFUSED_AS_REQUIRED",
+      "refusal": "ROOT_LOCK_MODEL_EXACT_ORDERED_24_PAIRS_REQUIRED/23:VALUE"
+    },
+    {
+      "id": "LOCK_WRONG_ROW_SHARE_SRE_CONFLICT",
+      "status": "REFUSED_AS_REQUIRED",
+      "refusal": "ROOT_LOCK_MODEL_ACTUAL_PAIR/refused:VALUE"
+    },
+    {
+      "id": "LOCK_WRONG_LOCK_SQLSTATE",
+      "status": "REFUSED_AS_REQUIRED",
+      "refusal": "ROOT_LOCK_MODEL_ACTUAL_PAIR/sqlstate:VALUE"
+    },
+    {
+      "id": "LOCK_TWO_ACTUAL_BACKENDS_FALSE",
+      "status": "REFUSED_AS_REQUIRED",
+      "refusal": "ROOT_LOCK_MODEL_ACTUAL_PAIR/two_actual_backends:VALUE"
+    },
+    {
+      "id": "LOCK_MATRIX_COUNT_FLOAT",
+      "status": "REFUSED_AS_REQUIRED",
+      "refusal": "ROOT_LOCK_MODEL_MATRIX_GATE/actual_lock_pairs:TYPE"
+    },
+    {
+      "id": "LOCK_SOURCE_COUNT_FLOAT",
+      "status": "REFUSED_AS_REQUIRED",
+      "refusal": "ROOT_LOCK_MODEL_ACTUAL_SOURCE_BINDING/files:TYPE"
+    },
+    {
+      "id": "LOCK_ACTUAL_FK_ROW_SHARE_MISSING",
+      "status": "REFUSED_AS_REQUIRED",
+      "refusal": "ROOT_LOCK_MODEL_TWO_REAL_FOREIGN_KEY_HOLDERS_REQUIRED/0/actual_FK_parent_locks:LENGTH"
+    },
+    {
+      "id": "LOCK_EXCLUSIVE_FK_REFUSAL_MISSING",
+      "status": "REFUSED_AS_REQUIRED",
+      "refusal": "ROOT_LOCK_MODEL_TWO_REAL_FOREIGN_KEY_HOLDERS_REQUIRED/1/sqlstate:TYPE"
+    },
+    {
+      "id": "LOCK_BUSY_SEQUENCE_CHANGED",
+      "status": "REFUSED_AS_REQUIRED",
+      "refusal": "ROOT_LOCK_MODEL_BUSY_BEFORE_SEQUENCE_OR_ROW/model_after/sequences/before_effect_seq/1:VALUE"
+    },
+    {
+      "id": "LOCK_BUSY_SEQUENCE_BOOL_FOR_ONE",
+      "status": "REFUSED_AS_REQUIRED",
+      "refusal": "ROOT_LOCK_MODEL_BUSY_BEFORE_SEQUENCE_OR_ROW/model_before/sequences/before_effect_seq/0:TYPE"
+    },
+    {
+      "id": "LOCK_PLAIN_SELECT_UNAVAILABLE",
+      "status": "REFUSED_AS_REQUIRED",
+      "refusal": "ROOT_LOCK_MODEL_PLAIN_SELECT_REQUIRED/plain_SELECT_while_EXCLUSIVE_held:VALUE"
+    },
+    {
+      "id": "LOCK_ACTUAL_WAIT_MISSING",
+      "status": "REFUSED_AS_REQUIRED",
+      "refusal": "ROOT_LOCK_MODEL_EXACT_FOUR_ACTUAL_WAIT_SCHEDULES:LENGTH"
+    },
+    {
+      "id": "LOCK_HOLDER_EQUALS_WORKER_PID",
+      "status": "REFUSED_AS_REQUIRED",
+      "refusal": "ROOT_LOCK_MODEL_DISTINCT_BACKENDS_REQUIRED"
+    },
+    {
+      "id": "LOCK_PID_FLOAT",
+      "status": "REFUSED_AS_REQUIRED",
+      "refusal": "ROOT_LOCK_MODEL_REAL_BACKEND_PID_REQUIRED"
+    },
+    {
+      "id": "LOCK_WORKER_ROLLBACK_FALSE",
+      "status": "REFUSED_AS_REQUIRED",
+      "refusal": "ROOT_LOCK_MODEL_ACTUAL_WAIT_AND_RESTORE_REQUIRED/worker/worker_changes_rolled_back:VALUE"
+    },
+    {
+      "id": "LOCK_MODEL_ROWS_SEQUENCES_RESTORE_FALSE",
+      "status": "REFUSED_AS_REQUIRED",
+      "refusal": "ROOT_LOCK_MODEL_REPORT/complete_model_rows_sequences_equal:VALUE"
+    },
+    {
+      "id": "LOCK_SCHEMA_OR_SESSION_CLEANUP_FALSE",
+      "status": "REFUSED_AS_REQUIRED",
+      "refusal": "ROOT_LOCK_MODEL_REPORT/model_removed_and_no_session_leaks:VALUE"
+    },
+    {
+      "id": "LOCK_ERP_NATIVE_CREDIT_FALSELY_ADDED",
+      "status": "REFUSED_AS_REQUIRED",
+      "refusal": "ROOT_LOCK_MODEL_REPORT/actual_ERP_Native_cases:VALUE"
+    },
+    {
+      "id": "LOCK_ERP_LOCK_PROFILE_FALSELY_QUALIFIED",
+      "status": "REFUSED_AS_REQUIRED",
+      "refusal": "ROOT_LOCK_MODEL_REPORT/ERP_lock_profile_qualified:VALUE"
+    },
+    {
+      "id": "LOCK_GIT_MATRIX_SOURCE_BYTES_CHANGED",
+      "status": "REFUSED_AS_REQUIRED",
+      "refusal": "ROOT_SOURCE_PIN_CHANGED:scripts/current-global-lock-mechanics-qualification/matrix.py/bytes:VALUE"
+    }
+  ],
+  "actual_new_Native_cases": 0,
+  "actual_new_ERP_or_model_DB_execution": 0,
+  "actual_HTTP_browser_or_races": 0,
+  "Originals_or_source_worktrees_modified": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "intake_scripts": {
+    "intake_common.py": {
+      "bytes": 6518,
+      "sha256": "698216cfb4c31e8c93167e1b67f52f0b7532e5906ac8a09584b0a32c728b41e9"
+    },
+    "intake_s05.py": {
+      "bytes": 29616,
+      "sha256": "c23f942e8a01a1a272bcc0f54de0c5ddd48708b3297020513e937dc8ca36a59c"
+    },
+    "intake_lock_model.py": {
+      "bytes": 8947,
+      "sha256": "adbcfa1e6ef4742f302a590e333822de52cfbdbab729b5d783ef47f4ede248ff"
+    },
+    "intake_controls.py": {
+      "bytes": 10834,
+      "sha256": "34eb9dc777c69e53d7168c767fbaab47ca3044e0b70257dc7057cec6f36db204"
+    }
+  }
+}

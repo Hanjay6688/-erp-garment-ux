@@ -1,0 +1,82 @@
+{
+  "status": "ROOT_VERIFIED_STANDALONE_PG17_LOCK_MECHANICS32_RAW_SOURCE",
+  "classification": "INTERNAL_WRITER_ROOT_INTAKE_STANDALONE_SYNTHETIC_MODEL_ONLY",
+  "head": "f852a15ed5b5cdfd009722ad570d7d9bd60607cb",
+  "tree": "708357afb38804052e175409f89116e445839fff",
+  "run_id": "41029331511",
+  "job_id": 123975000845,
+  "artifact_id": 12965455698,
+  "archive_name": "ERP_Global_Lock_Mechanics_PG17_f852_20261030.zip",
+  "private_Original_Library_file_id": "libfile_5044abf64ee48191a49ed4cef538b44a",
+  "CI_identity_binding": "Root archive acquisition metadata; report independently binds exact public head and manifest.",
+  "archive": {
+    "bytes": 1917,
+    "sha256": "8699d99c084ea2a02cf3f99318d53abdfb98082f89a282187491edb5ef61ffca"
+  },
+  "archive_members": 3,
+  "archive_CRC_ok": true,
+  "originals": {
+    "LOCK_MECHANICS_REPORT.json": {
+      "bytes": 8814,
+      "sha256": "853631f572eaece7a3dcbbeeeea9729525c83bcc7399a410c0cf0f31865ae769"
+    },
+    "LOCK_MODEL_IMAGE_ID.json": {
+      "bytes": 74,
+      "sha256": "950e13c7bfef846a33135ca707473dfd42850cc13d5f2c6fab95b4bfefc8a1fd"
+    },
+    "LOCK_MODEL_IMAGE_DIGESTS.json": {
+      "bytes": 85,
+      "sha256": "0bf5c7e8dc14f44f5db879fba4c19c04a9e32bf815c0b89489d403fa6e96ef07"
+    }
+  },
+  "source": {
+    "manifest_sha256": "dddf409c1cd84a94d9f9da41b96481bc105cf4888dab3d5751058c986ff13cb5",
+    "verified_source_pins": 5,
+    "complete_base_blobs_modes_unchanged": true,
+    "base_files": 13776,
+    "added_source_paths": 6,
+    "no_ERP_runtime_entry": true
+  },
+  "actual_server": "PostgreSQL 17.6",
+  "actual_image_id": "sha256:567d5d704a3e5a4864393b623a0d50eb1b5a4ad134cdac7cf19555cb2d8ffe9e",
+  "actual_image_repo_digests": [
+    "postgres@sha256:f3bd19c606e442c3d7bdfa8002e03fe260a1023351e0ea4598032022b68dd6e3"
+  ],
+  "image_ID_JSON_type": "string",
+  "image_digests_JSON_type": "list",
+  "actual_model_observations": 32,
+  "actual_mode_pairs": 24,
+  "actual_FK_holder_cases": 2,
+  "before_effect_busy_cases": 1,
+  "ordinary_SELECT_cases": 1,
+  "actual_blocked_writer_schedules": 4,
+  "distinct_actual_holder_worker_pids": true,
+  "actual_pg_blocking_pids_observed": true,
+  "before_effect_rows_and_both_sequences_equal": true,
+  "all_model_rows_sequences_restored": true,
+  "model_schema_removed_and_no_session_leaks": true,
+  "SHARE_ROW_EXCLUSIVE_excludes_ROW_SHARE": false,
+  "EXCLUSIVE_excludes_ROW_SHARE": true,
+  "EXCLUSIVE_allows_plain_SELECT": true,
+  "ERP_relation_set_qualified": false,
+  "ERP_writer_trigger_FK_census_closed": false,
+  "ERP_lock_profile_qualified": false,
+  "ERP_owning_hooks_qualified": false,
+  "accepted_transactions_reexecuted": false,
+  "actual_Auth_HTTP_cases": 0,
+  "actual_browser_cases": 0,
+  "formal_total_unchanged": "5/16",
+  "actual_ERP_Native_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false,
+  "intake_scripts": {
+    "intake_common.py": {
+      "bytes": 6518,
+      "sha256": "698216cfb4c31e8c93167e1b67f52f0b7532e5906ac8a09584b0a32c728b41e9"
+    },
+    "intake_lock_model.py": {
+      "bytes": 8947,
+      "sha256": "adbcfa1e6ef4742f302a590e333822de52cfbdbab729b5d783ef47f4ede248ff"
+    }
+  }
+}

@@ -1,11 +1,36 @@
 {
   "classification": "WRITER_A_TAKEOVER_ACTIVE_CONTINUATION_NOT_COMPLETION",
-  "recorded_at_utc": "2026-10-30T08:22:06.120163+00:00",
-  "root_parent": "1ad9f1ab7a04b1e7b179ba8a1f0ae981b30309b9",
+  "recorded_at_utc": "2026-10-30T09:55:01.917983+00:00",
+  "root_parent": "8df440c123d88c8f3b71145f3e25b23584c4cd45",
   "prior_chat_execution_observable": false,
   "current_work_is_isolated": true,
   "midnight_root_intake_receipt": "MIDNIGHT_NATIVE1_E787_ROOT_INTAKE_20261030.json",
   "midnight_actual_cases": 1,
+  "S05_root_intake_receipt": "S05_NATIVE10_519D_ROOT_INTAKE_20261030.json",
+  "S05_Native10_qualified": true,
+  "S05_UI5_qualified": false,
+  "S05_Afui_full_family_qualified": false,
+  "S05_client": {
+    "head": "def01e6441950027a2795536adf730b5d84363b7",
+    "tree": "9ba7472ee357a36ae8658a568ace098089379975",
+    "source_parent": "519d1760a3bad06a346b3d4b3cc0203664615634",
+    "classification": "CLIENT_CONTRACT_SUCCESSOR_ONLY",
+    "product_change": "Cost revision id decimal bigint validator corrected to actual Native UUID; audit bigint IDs unchanged",
+    "exact_retained_actual_responses": 22,
+    "old_parser_success": 21,
+    "old_parser_refusals": 1,
+    "new_parser_success": 22,
+    "retained_actual_access_denials": 4,
+    "all_financial_source_fields_unchanged": true,
+    "local_tests": 29,
+    "typecheck": "PASS",
+    "actual_new_Native_cases": 0,
+    "actual_Auth_HTTP_cases": 0,
+    "actual_browser_cases": 0,
+    "UI_mounted": false,
+    "production_go": false,
+    "independent_acceptance": false
+  },
   "global_source": {
     "head": "a6ded9cd4ce23a6d59cd32e42ca9bb33d793f8cc",
     "tree": "55da7c6ab29d9bfda68962be27da0db7ad931662",
@@ -30,45 +55,94 @@
     "writer_or_phantom_lock_closed": false,
     "actual_Native_credit": 0
   },
+  "global_lock_model_receipt": "GLOBAL_LOCK_MODEL_F852_ROOT_INTAKE_20261030.json",
+  "global_lock_model_actual_observations": 32,
+  "global_ERP_graph_and_lock_profile_qualified": false,
+  "original_intake_mutation_controls": 47,
   "running": [
     {
       "domain": "S03_BROWSER4",
-      "head": "84a9a09bf372caeeea4cc9eee4a91c51b43d3d93",
-      "run_id": 41025060248,
-      "job_id": 123961103280,
-      "status": "IN_PROGRESS",
+      "head": "4d968a42e793a77c2dbcbe06dd79c524f18fa0f5",
+      "run_id": 41033738459,
+      "job_id": 123989401947,
+      "status": "IN_PROGRESS_AT_LAST_API_OBSERVATION",
       "qualified_new_case_credit": 0
     },
     {
       "domain": "SKU_NATIVE27",
-      "head": "7c7204c82debafce217d277514e3f23c8fc2ac69",
-      "run_id": 41020730202,
-      "job_id": 123947204728,
-      "status": "IN_PROGRESS",
+      "head": "c397409a470c8c3d5f4963bbbdd7b676b1275af7",
+      "run_id": 41028102549,
+      "job_id": 123970964483,
+      "status": "IN_PROGRESS_AT_LAST_API_OBSERVATION",
       "qualified_new_case_credit": 0
     },
     {
-      "domain": "S05_NATIVE10",
-      "head": "519d1760a3bad06a346b3d4b3cc0203664615634",
-      "run_id": 41020627427,
-      "job_id": 123946877124,
-      "status": "IN_PROGRESS",
+      "domain": "D1_E_SKU_ACTUAL_PARENT_CATALOGUE",
+      "head": "bce07059f7a351372e40bb7c2e4453876320a2e8",
+      "run_id": 41032035497,
+      "job_id": 123983810324,
+      "status": "IN_PROGRESS_AT_LAST_API_OBSERVATION",
       "qualified_new_case_credit": 0
     }
   ],
-  "first_browser_runtime_failure": {
-    "head": "fbedc55d3318c87d605fce5861eec9a2759a2981",
-    "run_id": 41020215484,
-    "artifact_id": 12962367714,
-    "status": "INCOMPLETE_BEFORE_BROWSER",
-    "actual_browser_counts": {},
-    "cause": "Generated package static product_ref still expected historical d902 while frozen UI product is598dfe",
-    "full_baseline_restore": true,
+  "first_actual_browser_failure": {
+    "head": "84a9a09bf372caeeea4cc9eee4a91c51b43d3d93",
+    "run_id": 41025060248,
+    "artifact_id": 12965373383,
+    "status": "INCOMPLETE",
+    "cases": {
+      "INCOMPLETE": 4
+    },
+    "desktop_first_failure": "Actual normal App text contrast 1.1095065772908554 below retained4.5 threshold",
+    "mobile_first_failure": "Native fixture APPROVE refused CP7_S03_PERIOD_CLAIMED after prior desktop posted cohort",
+    "later_failure_shape": "Undefined fixture omitted from incomplete JSON; successor initializes null without waiving failures",
+    "complete_outer_restore": true,
     "package_all5": false,
+    "qualified_browser_credit": 0,
+    "successor": {
+      "product_css_head": "62ee27df840fb226ba735ce334ea16849edd54da",
+      "qualification_head": "4d968a42e793a77c2dbcbe06dd79c524f18fa0f5",
+      "original_four_financial_callback_bodies_unchanged": true,
+      "actual_browser_credit_pending": true
+    },
     "archive": {
-      "library_file_id": "libfile_bcd1f84279688191a83a9a7df1730ceb",
-      "bytes": 8613656,
-      "sha256": "69a5477cc95eba7f4df59bed788f9d1eb655c21f48e1b914ac829327d35768bf"
+      "bytes": 60813707,
+      "sha256": "38621b92a8ec873dd0c3c3322ea5ed68e17bc4ad0d356a02ec8ece7ef165d6eb",
+      "library_file_id": "libfile_a21df1480a488191a9081a20be00aaae"
+    }
+  },
+  "first_SKU_concurrency_failure": {
+    "head": "7c7204c82debafce217d277514e3f23c8fc2ac69",
+    "run_id": 41020730202,
+    "artifact_id": 12963980858,
+    "status": "INCOMPLETE",
+    "Native7": {
+      "PASS": 7
+    },
+    "cost5": {
+      "PASS": 5
+    },
+    "concurrency11": {
+      "PASS": 9,
+      "INCOMPLETE": 2
+    },
+    "browser4_reached": false,
+    "primary_failure": "Two distinct UUID schedules expected blocking despite actual producer pocket TRY returning BUSY",
+    "complete_outer_restore": true,
+    "package_all5": false,
+    "complete27_qualified": false,
+    "successor": {
+      "head": "c397409a470c8c3d5f4963bbbdd7b676b1275af7",
+      "private_schedule_derivative": true,
+      "original_financial_postconditions_unchanged": true,
+      "same_UUID_actual_blocking_required": true,
+      "distinct_UUID_actual_pocket_BUSY_before_effect_required": true,
+      "retry_after_commit_STALE_and_after_abort_success_required": true
+    },
+    "archive": {
+      "bytes": 46957580,
+      "sha256": "36fde115aa5eb9bbcc63e6073efa722b52d401c37ac2cb1eaad5091e84fe07db",
+      "library_file_id": "libfile_44ab079744a081919c3034dafbc45e62"
     }
   },
   "recovered_final_phase2": {
@@ -76,6 +150,13 @@
     "tree": "8be61dea2be5e6317b98345a7345ce16955b612b",
     "runtime_entry": null,
     "component_bindings": null
+  },
+  "final_context_source": {
+    "head": "e299aa25fd96a422d71b16a2eb024011b3a6fa69",
+    "actual_common_contexts": 51,
+    "prospective_final_contexts": 56,
+    "actual_combined_parent_pending": true,
+    "runtime_entry": null
   },
   "formal_accepted": "5/16",
   "production_go": false,
@@ -87,5 +168,96 @@
     "Choose and prove global phantom/row lock profile before eight owning hooks",
     "Fresh composite committed SKU first then D1/E/inverses and S03/S05, all5",
     "S05 UI5 and final normal App integration, then remaining CP6/APHTTP/AM-AN/auditor closure"
-  ]
+  ],
+  "prior_checkpoint": {
+    "classification": "WRITER_A_TAKEOVER_ACTIVE_CONTINUATION_NOT_COMPLETION",
+    "recorded_at_utc": "2026-10-30T08:22:06.120163+00:00",
+    "root_parent": "1ad9f1ab7a04b1e7b179ba8a1f0ae981b30309b9",
+    "prior_chat_execution_observable": false,
+    "current_work_is_isolated": true,
+    "midnight_root_intake_receipt": "MIDNIGHT_NATIVE1_E787_ROOT_INTAKE_20261030.json",
+    "midnight_actual_cases": 1,
+    "global_source": {
+      "head": "a6ded9cd4ce23a6d59cd32e42ca9bb33d793f8cc",
+      "tree": "55da7c6ab29d9bfda68962be27da0db7ad931662",
+      "parent": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+      "classification": "FINITE_ACTUAL19_SOURCE_PROFILE_ONLY",
+      "actual_source_catalogues": 3,
+      "known_functions": 19,
+      "expected_body_changes": 2,
+      "other_known_entries_preserved": 17,
+      "source_tests": 9,
+      "local_SQL_controls": {
+        "regression": 33,
+        "identity_directed": 18,
+        "identity_fields": 162,
+        "fixed_point": 4,
+        "journal_directed": 5,
+        "journal_fields": 24,
+        "metadata_ACL": 12
+      },
+      "runtime_entry": null,
+      "global_hooks_installed": 0,
+      "writer_or_phantom_lock_closed": false,
+      "actual_Native_credit": 0
+    },
+    "running": [
+      {
+        "domain": "S03_BROWSER4",
+        "head": "84a9a09bf372caeeea4cc9eee4a91c51b43d3d93",
+        "run_id": 41025060248,
+        "job_id": 123961103280,
+        "status": "IN_PROGRESS",
+        "qualified_new_case_credit": 0
+      },
+      {
+        "domain": "SKU_NATIVE27",
+        "head": "7c7204c82debafce217d277514e3f23c8fc2ac69",
+        "run_id": 41020730202,
+        "job_id": 123947204728,
+        "status": "IN_PROGRESS",
+        "qualified_new_case_credit": 0
+      },
+      {
+        "domain": "S05_NATIVE10",
+        "head": "519d1760a3bad06a346b3d4b3cc0203664615634",
+        "run_id": 41020627427,
+        "job_id": 123946877124,
+        "status": "IN_PROGRESS",
+        "qualified_new_case_credit": 0
+      }
+    ],
+    "first_browser_runtime_failure": {
+      "head": "fbedc55d3318c87d605fce5861eec9a2759a2981",
+      "run_id": 41020215484,
+      "artifact_id": 12962367714,
+      "status": "INCOMPLETE_BEFORE_BROWSER",
+      "actual_browser_counts": {},
+      "cause": "Generated package static product_ref still expected historical d902 while frozen UI product is598dfe",
+      "full_baseline_restore": true,
+      "package_all5": false,
+      "archive": {
+        "library_file_id": "libfile_bcd1f84279688191a83a9a7df1730ceb",
+        "bytes": 8613656,
+        "sha256": "69a5477cc95eba7f4df59bed788f9d1eb655c21f48e1b914ac829327d35768bf"
+      }
+    },
+    "recovered_final_phase2": {
+      "head": "e46233133753cd31b0b4120a3a5a88be745aa223",
+      "tree": "8be61dea2be5e6317b98345a7345ce16955b612b",
+      "runtime_entry": null,
+      "component_bindings": null
+    },
+    "formal_accepted": "5/16",
+    "production_go": false,
+    "independent_acceptance": false,
+    "current_default": "cp7_vendor_receivable.composition",
+    "next": [
+      "Terminal current three runs and exact raw/source/full restoration admission",
+      "Complete final typed context catalogue and actual writer/FK/trigger/permission closure",
+      "Choose and prove global phantom/row lock profile before eight owning hooks",
+      "Fresh composite committed SKU first then D1/E/inverses and S03/S05, all5",
+      "S05 UI5 and final normal App integration, then remaining CP6/APHTTP/AM-AN/auditor closure"
+    ]
+  }
 }
