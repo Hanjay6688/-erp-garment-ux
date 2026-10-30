@@ -128,7 +128,8 @@ def derive(key,raw=None):
       original_financial_postcondition_assertions_unchanged=key!='browser',
       financial_expected_values_unchanged=True,
       explicit_race_schedule_transition=key=='races',
-      explicit_browser_locator_or_route_changes=sum(row[2]for row in browser_delta.changes(key))-(1 if key=='browser'else 0),
+      explicit_browser_locator_or_route_changes=sum(row[2]for row in browser_delta.LOCATORS)if key=='browser'else 1 if key=='cases'else 0,
+      explicit_recovery_and_history_changes=len(browser_delta.RECOVERY_AND_HISTORY)if key=='browser'else 0,
       explicit_currency_display_whitespace_changes=1 if key=='browser'else 0)
 
 def inventory():return{key:derive(key)[1]for key in SOURCES}

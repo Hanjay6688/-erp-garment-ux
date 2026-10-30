@@ -57,7 +57,8 @@ class IsolationControls(unittest.TestCase):
             self.assertEqual(cur.isolation, 'repeatable read')
             events.append(('state', cur.isolation)); return {'offline': True}
         def limited(cur, *args):
-            self.assertEqual(cur.isolation, 'repeatable read'); events.append(('read', cur.isolation))
+            if cur.isolation != 'read committed': raise ValueError('CP7_FRESH_ACCESS_REQUIRED')
+            events.append(('read', cur.isolation))
             return dict(actor_scope_id='00000000-0000-0000-0000-000000000001',run_id='00000000-0000-0000-0000-000000000002',request_id='request',identity_hash='identity',totals={})
         native = SimpleNamespace(setup=setup, staged=SimpleNamespace(b=SimpleNamespace(api=SimpleNamespace(admin=admin)),
             query=lambda today: dict(day=today.isoformat()), limited=limited,
@@ -79,12 +80,21 @@ class IsolationControls(unittest.TestCase):
         self.assertIn(('opening','read committed'), events); self.assertEqual(conn.end,'commit')
         self.assertEqual(conn.cur.calls[0], 'set transaction isolation level read committed')
 
-    def test_state_and_read_keep_complete_repeatable_read_transactions(self):
+    def test_state_keeps_complete_repeatable_read_transaction(self):
         new = load('sku27_successor_staged_fixture_reads', HERE/'staged_ai_fixture.py')
-        for op in ('state','read'):
-            conn, events = self.invoke(new,op)
-            self.assertIn((op,'repeatable read'),events); self.assertEqual(conn.end,'rollback')
-            self.assertNotIn(('opening','read committed'),events)
+        conn, events = self.invoke(new,'state')
+        self.assertIn(('state','repeatable read'),events); self.assertEqual(conn.end,'rollback')
+        self.assertNotIn(('opening','read committed'),events)
+
+    def test_retained_0938_read_refuses_fresh_access_but_successor_checks_current_access(self):
+        old = ModuleType('retained_0938_staged_fixture'); old.__file__ = str(HERE/'staged_ai_fixture.py')
+        exec(compile((HERE/'retained_0938/staged_ai_fixture.py.txt').read_text(),old.__file__,'exec'),old.__dict__)
+        with self.assertRaisesRegex(ValueError,'CP7_FRESH_ACCESS_REQUIRED'):self.invoke(old,'read')
+        new = load('sku27_successor_current_access_read', HERE/'staged_ai_fixture.py')
+        conn, events = self.invoke(new,'read')
+        self.assertEqual(conn.cur.calls[0],'set transaction isolation level read committed')
+        self.assertIn(('read','read committed'),events); self.assertEqual(conn.end,'rollback')
+        self.assertNotIn(('opening','read committed'),events)
 
     def test_unknown_operations_cannot_create_native_fixture(self):
         new = load('sku27_successor_staged_fixture_unknown', HERE/'staged_ai_fixture.py')

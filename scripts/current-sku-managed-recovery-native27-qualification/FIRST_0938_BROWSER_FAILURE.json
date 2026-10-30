@@ -1,0 +1,107 @@
+{
+  "head": "0938b693dee868ba74323f4ff61db70efdd11e89",
+  "tree": "0e0ebd209fbea1b63c9283c02ffb4ce6cfb1e87f",
+  "run_id": 41070902168,
+  "job_id": 124114405860,
+  "artifact_id": 12989469942,
+  "archive": {
+    "bytes": 73310874,
+    "sha256": "b8f58b099ad12ff208e05dfaec8dc38472886e8a946b80033b8fd5b8d2d65dc1",
+    "CRC_members": 171
+  },
+  "originals": {
+    "A_STAGED_AI_MOBILE_FAILURE.json": {
+      "bytes": 6830,
+      "sha256": "78364353ff627617868e34997507154509b21f0b611661b5f4a57bced6b642c1"
+    },
+    "CP7_SKU_MANAGED_RECOVERY_NATIVE27.json": {
+      "bytes": 30200448,
+      "sha256": "303cf04136ddff40a57c9079f61cc470370f5bbede763d5c035bf2a11f8aa3e0"
+    },
+    "SKU29_DESKTOP_FBBD80F08E9D_FIRST_FAILURE.json": {
+      "bytes": 123750,
+      "sha256": "667848ad043114d98574f6e500b6c0f86fc2df14b77fac235137ae2064fb2280"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360424,
+      "sha256": "c2538238f9f7fbb8bdf3b75651c0dce5a1adcb6546111ee612bbbd4eda7aa8e7"
+    },
+    "A_STAGED_AI_DESKTOP_FAILURE.json": {
+      "bytes": 6830,
+      "sha256": "3261bb5069e488d886cae442956c36a32423c17baa8f237b1c89f121a9e74b5b"
+    },
+    "SKU29_MOBILE390_1AC269A41606_FIRST_FAILURE.json": {
+      "bytes": 124623,
+      "sha256": "398f5e44f183fdc6b726f6fa7181a9cfe433ebfcd6713b7ce78fee872b381e2b"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 1470,
+      "sha256": "8411c075db0682c369d80fc76dfba7ff1ba84f35102be21c6116f8ee244acf94"
+    },
+    "CP7_SKU_GROUP_COST_NATIVE5.json": {
+      "bytes": 39067,
+      "sha256": "ab39226794c2a63f49c85381e958d1c5b628d2433ccbc261563350bf0a45a131"
+    },
+    "CP7_SKU_PAIR_CONVERSION_NATIVE7.json": {
+      "bytes": 21042,
+      "sha256": "e1ef332bf6d38c3ef75a75aee46c608717e93aa16d2e302bff879a39ed609983"
+    }
+  },
+  "counts": {
+    "PASS": 23,
+    "INCOMPLETE": 4
+  },
+  "browser_counts": {
+    "INCOMPLETE": 4
+  },
+  "first_errors": {
+    "SKU29_BROWSER_DESKTOP_REAL_AUTH_PAIR_FIFO_RECOVERY_INVERSE": "Error: expect(locator).toBeEnabled() failed\n\nLocator:  locator('.initial-import').filter({ has: getByRole('heading', { name: 'Ganti Merek / SKU', exact: true }) }).getByRole('combobox', { name: 'SKU asal dan gudang', exact: true })\nExpected: enabled\nReceived: disabled\nTimeout:  5000ms\n\nCall log:\n  - Expect \"to.be.enabled\" with timeout 5000ms\n  - waiting for locator('.initial-import').filter({ has: getByRole('heading', { name: 'Ganti Merek / SKU', exact: true }) }).getByRole('combobox', { name: 'SKU asal dan gudang', exact: true })\n    14 × locator resolved to <select disabled>…</select>\n       - unexpected value \"disabled\"\n\n    at captureRawStack (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright-core/lib/coreBundle.js:9681:17)\n    at callMatcherAsStep (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright/lib/matchers/expect.js:13310:57)\n    at Object.toBeEnabled (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright/lib/matchers/expect.js:13300:23)\n    at openConversion (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-sku-managed-recovery-native27-qualification/browser.mjs:110:263)\n    at async journey (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-sku-managed-recovery-native27-qualification/browser.mjs:176:53)\n    at async main (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:243:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:259:3",
+    "SKU29_BROWSER_MOBILE390_REAL_AUTH_PAIR_FIFO_GUARDS_INVERSE": "locator.click: Timeout 20000ms exceeded.\nCall log:\n  - waiting for locator('.initial-import').filter({ has: getByRole('heading', { name: 'Ganti Merek / SKU', exact: true }) }).locator('.panel').filter({ has: getByRole('heading', { name: 'Riwayat konversi', exact: true }) }).getByRole('row').filter({ hasText: 'BE-fea44e35-3c1f-4d39-9a65-7c2d623f1233' }).getByRole('button', { name: 'Batalkan CP6-E-S29-a1429d4b', exact: true })\n\n    at openInverse (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-sku-managed-recovery-native27-qualification/browser.mjs:113:85)\n    at async journey (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-sku-managed-recovery-native27-qualification/browser.mjs:198:3)\n    at async main (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:243:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:259:3",
+    "A_STAGED_AI_BROWSER_DESKTOP_MANUAL_AND_RETIRED_RESPONSES": "Error: Command failed: python /home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-sku-managed-recovery-native27-qualification/staged_ai_fixture.py read\nTraceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-sku-managed-recovery-native27-qualification/staged_ai_fixture.py\", line 137, in <module>\n    main()\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-sku-managed-recovery-native27-qualification/staged_ai_fixture.py\", line 121, in main\n    brief = staged.limited(cur, 'erp_cp7_get_staged_ai_brief_v1', (run, json.dumps(targets)), actor)\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-frozen-public-native-qualification/public_finance_cases.py\", line 22, in limited\n    if name not in routes:return staged_original.limited(cur,name,args,subject,timeout)\n                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_p19_staged_cases.py\", line 70, in limited\n    result = cur.execute('select public.' + name + '(' + placeholders + ')', args).fetchone()[0]\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.RaiseException: CP7_FRESH_ACCESS_REQUIRED\nCONTEXT:  PL/pgSQL function cp7_analysis_stage.ai_brief(uuid,jsonb) line 5 at RAISE\nSQL function \"erp_cp7_get_staged_ai_brief_v1\" statement 1\n\n    at genericNodeError (node:internal/errors:983:15)\n    at wrappedFn (node:internal/errors:537:14)\n    at checkExecSyncError (node:child_process:916:11)\n    at execFileSync (node:child_process:952:15)\n    at fixture (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-sku-managed-recovery-native27-qualification/staged_ai_cases.mjs:15:37)\n    at readPrompt (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-sku-managed-recovery-native27-qualification/staged_ai_cases.mjs:168:22)\n    at async journey (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-sku-managed-recovery-native27-qualification/staged_ai_cases.mjs:177:19)\n    at async main (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:243:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:259:3",
+    "A_STAGED_AI_BROWSER_MOBILE_MANUAL_AND_RETIRED_RESPONSES": "Error: Command failed: python /home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-sku-managed-recovery-native27-qualification/staged_ai_fixture.py read\nTraceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-sku-managed-recovery-native27-qualification/staged_ai_fixture.py\", line 137, in <module>\n    main()\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-sku-managed-recovery-native27-qualification/staged_ai_fixture.py\", line 121, in main\n    brief = staged.limited(cur, 'erp_cp7_get_staged_ai_brief_v1', (run, json.dumps(targets)), actor)\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-frozen-public-native-qualification/public_finance_cases.py\", line 22, in limited\n    if name not in routes:return staged_original.limited(cur,name,args,subject,timeout)\n                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_p19_staged_cases.py\", line 70, in limited\n    result = cur.execute('select public.' + name + '(' + placeholders + ')', args).fetchone()[0]\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.RaiseException: CP7_FRESH_ACCESS_REQUIRED\nCONTEXT:  PL/pgSQL function cp7_analysis_stage.ai_brief(uuid,jsonb) line 5 at RAISE\nSQL function \"erp_cp7_get_staged_ai_brief_v1\" statement 1\n\n    at genericNodeError (node:internal/errors:983:15)\n    at wrappedFn (node:internal/errors:537:14)\n    at checkExecSyncError (node:child_process:916:11)\n    at execFileSync (node:child_process:952:15)\n    at fixture (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-sku-managed-recovery-native27-qualification/staged_ai_cases.mjs:15:37)\n    at readPrompt (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-sku-managed-recovery-native27-qualification/staged_ai_cases.mjs:168:22)\n    at async journey (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-sku-managed-recovery-native27-qualification/staged_ai_cases.mjs:177:19)\n    at async main (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:243:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:259:3"
+  },
+  "captured_mobile_text": "Ganti Merek\nUJI LOKAL · DATA SINTETIS\nAB\nGUDANG · KONVERSI\nGanti Merek / SKU\n\nPilih SKU asal, SKU tujuan dan jumlah PCS. Model atau ukuran tujuan boleh berbeda. Sistem memilih stok sumber secara berurutan; jumlah barang dan nilai sumber tetap terlacak.\n\nMuat ulang\n1. SKU asal dan gudang\nCari SKU asal\nCari SKU asal\nSKU asal dan gudang\nPilih SKU asal\nCP6 Race Brand · CP6-E-S29-a1429d4b · ukuran S29-a1429d4b-31 · CP6 Race FG · tersedia 5 PCS\n\n1 SKU/lokasi · halaman 1 Asal sebelumnyaAsal berikutnya\n\n2. Tujuan dan waktu fisik\nCari SKU tujuan\nCari tujuan\nSKU tujuan\nPilih SKU dan ukuran tujuan\nSKU29 different brand 657a2b2f5e · S29-657a2b2f5e-34 · ukuran S29-657a2b2f5e-34 · SKU29 target 34\n\nPadanan hanya pilihan cepat. SKU aktif lainnya tetap boleh dipilih; ukuran tujuan harus dipilih dengan jelas.\n\n1 SKU aktif Tujuan sebelumnyaTujuan berikutnya\n\nLingkup: CP6 Race FG, kualitas GOOD, masing-masing produk dan ukuran yang dipilih.\n\nAsal · fisik 6 → — PCS · tersedia 5 PCS · dicadangkan 1 PCS.\n\nTujuan · fisik 8 → — PCS · tersedia 8 PCS · dicadangkan 0 PCS.\n\nJumlah PCSWaktu fisik · WIBAlasan\nBongkaran yang diharapkan kembali\nLihat pratinjau\nRiwayat konversi\nDokumen\tSumber → tujuan\tJumlah\tNilai tujuan kini\tStatus\t\nBE-fea44e35-3c1f-4d39-9a65-7c2d623f1233\n30 Okt 2026, 22.46 WIB\tBF-SKU-ee6fe217 → BF-SKU-696e7f31\nKoreksi fisik campuran merek dan ukuran lewat layar owner29\t2 PCS\nBagian 1/2 dari konversi 4 PCS. Pembatalan berlaku untuk seluruh konversi.\n\tRp 20,02\nTambahan/pulih Rp 0,00\tPOSTED · Biaya bersumber sampai saat ini\tBatalkan BF-SKU-ee6fe217Catat pemakaian aksesori\nBE-3099bfb8-8275-4256-bc50-f146126d99a2\n30 Okt 2026, 22.46 WIB\tBF-SKU-ee6fe217 → BF-SKU-696e7f31\nKoreksi fisik campuran merek dan ukuran lewat layar owner29\t2 PCS\nBagian 2/2 dari konversi 4 PCS. Pembatalan berlaku untuk seluruh konversi.\n\tRp 40,04\nTambahan/pulih Rp 0,00\tPOSTED · Biaya bersumber sampai saat ini\tBatalkan BF-SKU-ee6fe217Catat pemakaian aksesori\nBE-9ab71f1d-fa4e-411c-986b-0cc77db8b7f0\n30 Okt 2026, 22.45 WIB\tBF-SKU-a0c03222 → BF-SKU-43bd2e88\nKoreksi fisik campuran merek dan ukuran lewat layar owner29\t2 PCS\nBagian 2/2 dari konversi 4 PCS. Pembatalan berlaku untuk seluruh konversi.\n\tRp 40,04\nTambahan/pulih Rp 0,00\tPOSTED · Biaya bersumber sampai saat ini\tBatalkan BF-SKU-a0c03222Catat pemakaian aksesori\nBE-69a08028-8a63-40b4-bf22-b149d6119e86\n30 Okt 2026, 22.45 WIB\tBF-SKU-a0c03222 → BF-SKU-43bd2e88\nKoreksi fisik campuran merek dan ukuran lewat layar owner29\t2 PCS\nBagian 1/2 dari konversi 4 PCS. Pembatalan berlaku untuk seluruh konversi.\n\tRp 20,02\nTambahan/pulih Rp 0,00\tPOSTED · Biaya bersumber sampai saat ini\tBatalkan BF-SKU-a0c03222Catat pemakaian aksesori\nBE-b264b305-b538-4700-a449-ef4eaf2e425a\n30 Okt 2026, 22.09 WIB\tBF-SKU-4a5c3972 → BF-SKU-3f252c34\nOwner29 mixed garments manual SKU correction\t2 PCS\nBagian 1/2 dari konversi 4 PCS. Pembatalan berlaku untuk seluruh konversi.\n\tRp 20,02\nTambahan/pulih Rp 0,00\tPOSTED · Biaya bersumber sampai saat ini\tBatalkan BF-SKU-4a5c3972Catat pemakaian aksesori\nBE-8f0b5852-d607-41ef-8358-696d0e235f43\n30 Okt 2026, 22.09 WIB\tBF-SKU-4a5c3972 → BF-SKU-3f252c34\nOwner29 mixed garments manual SKU correction\t2 PCS\nBagian 2/2 dari konversi 4 PCS. Pembatalan berlaku untuk seluruh konversi.\n\tRp 40,04\nTambahan/pulih Rp 0,00\tPOSTED · Biaya bersumber sampai saat ini\tBatalkan BF-SKU-4a5c3972Catat pemakaian aksesori\n\n6 dokumen · halaman 1 Dokumen sebelumnyaDokumen berikutnya",
+  "captured_desktop_text": "Ganti Merek\nCepat, jelas, dan aman buat operasional\nUJI LOKAL · DATA SINTETIS\nAB\nAuditor browser SKU29-DESKTOP\nOwner · Uji lokal\n⌄\nGUDANG · KONVERSI\nGanti Merek / SKU\n\nPilih SKU asal, SKU tujuan dan jumlah PCS. Model atau ukuran tujuan boleh berbeda. Sistem memilih stok sumber secara berurutan; jumlah barang dan nilai sumber tetap terlacak.\n\nMuat ulang\nHasil transaksi belum diketahui di halaman ini atau tab lain. Reconcile transaksi memakai UUID dan payload lama, termasuk setelah reload.\nReconcile transaksi\n1. SKU asal dan gudang\nCari SKU asal\nCari SKU asal\nSKU asal dan gudang\nPilih SKU asal\nCP6 Race Brand · CP6-E-S29-0e4c28ab · ukuran S29-0e4c28ab-31 · CP6 Race FG · tersedia 5 PCS\nCP6 Race Brand · CP6-E-S29-22454904 · ukuran S29-22454904-31 · CP6 Race FG · tersedia 5 PCS\nSKU29 different brand · S29-5bfcb2d6a0-34 · ukuran S29-5bfcb2d6a0-34 · CP6 Race FG · tersedia 8 PCS\nSKU29 different brand 7e539bf8b6 · S29-7e539bf8b6-34 · ukuran S29-7e539bf8b6-34 · CP6 Race FG · tersedia 8 PCS\n\n4 SKU/lokasi · halaman 1 Asal sebelumnyaAsal berikutnya\n\n2. Tujuan dan waktu fisik\nCari SKU tujuan\nCari tujuan\nSKU tujuan\nPilih SKU dan ukuran tujuan\nCP6 Race Brand · CP6-E-BF-32ade1f7 · ukuran BF-32ade1f7-27 · CP6 E BF-32ade1f7\nCP6 Race Brand · CP6-E-BF-7376855c · ukuran BF-7376855c-27 · CP6 E BF-7376855c\nCP6 Race Brand · CP6-E-BF-7f3e10bc · ukuran BF-7f3e10bc-27 · CP6 E BF-7f3e10bc\nCP6 Race Brand · CP6-E-BF-e2ddd0bb · ukuran BF-e2ddd0bb-27 · CP6 E BF-e2ddd0bb\nCP6 Race Brand · CP6-E-S29-0e4c28ab · ukuran S29-0e4c28ab-31 · CP6 E S29-0e4c28ab\nCP6 Race Brand · CP6-E-S29-0e4c28ab · ukuran S29-0e4c28ab-32 · CP6 E S29-0e4c28ab\nCP6 Race Brand · CP6-E-S29-0e4c28ab · ukuran S29-0e4c28ab-33 · CP6 E S29-0e4c28ab\nCP6 Race Brand · CP6-E-S29-22454904 · ukuran S29-22454904-31 · CP6 E S29-22454904\nCP6 Race Brand · CP6-E-S29-22454904 · ukuran S29-22454904-32 · CP6 E S29-22454904\nCP6 Race Brand · CP6-E-S29-22454904 · ukuran S29-22454904-33 · CP6 E S29-22454904\nCP6 Race Brand · CP6-RACE-SKU · ukuran CP6-RACE-S · CP6 Race Final SKU\nSKU29 different brand · S29-5bfcb2d6a0-34 · ukuran S29-5bfcb2d6a0-34 · SKU29 target 34\nSKU29 different brand · S29-5bfcb2d6a0-35 · ukuran S29-5bfcb2d6a0-35 · SKU29 target 35\nSKU29 different brand · S29-5bfcb2d6a0-36 · ukuran S29-5bfcb2d6a0-36 · SKU29 target 36\nSKU29 different brand 7e539bf8b6 · S29-7e539bf8b6-34 · ukuran S29-7e539bf8b6-34 · SKU29 target 34\nSKU29 different brand 7e539bf8b6 · S29-7e539bf8b6-35 · ukuran S29-7e539bf8b6-35 · SKU29 target 35\nSKU29 different brand 7e539bf8b6 · S29-7e539bf8b6-36 · ukuran S29-7e539bf8b6-36 · SKU29 target 36\n\nPadanan hanya pilihan cepat. SKU aktif lainnya tetap boleh dipilih; ukuran tujuan harus dipilih dengan jelas.\n\n17 SKU aktif Tujuan sebelumnyaTujuan berikutnya\n\nJumlah PCSWaktu fisik · WIBAlasan\nBongkaran yang diharapkan kembali\nLihat pratinjau\nRiwayat konversi\nDokumen\tSumber → tujuan\tJumlah\tNilai tujuan kini\tStatus\t\nBE-9ab71f1d-fa4e-411c-986b-0cc77db8b7f0\n30 Okt 2026, 22.45 WIB\tBF-SKU-a0c03222 → BF-SKU-43bd2e88\nKoreksi fisik campuran merek dan ukuran lewat layar owner29\t2 PCS\nBagian 2/2 dari konversi 4 PCS. Pembatalan berlaku untuk seluruh konversi.\n\tRp 40,04\nTambahan/pulih Rp 0,00\tPOSTED · Biaya bersumber sampai saat ini\tBatalkan BF-SKU-a0c03222Catat pemakaian aksesori\nBE-69a08028-8a63-40b4-bf22-b149d6119e86\n30 Okt 2026, 22.45 WIB\tBF-SKU-a0c03222 → BF-SKU-43bd2e88\nKoreksi fisik campuran merek dan ukuran lewat layar owner29\t2 PCS\nBagian 1/2 dari konversi 4 PCS. Pembatalan berlaku untuk seluruh konversi.\n\tRp 20,02\nTambahan/pulih Rp 0,00\tPOSTED · Biaya bersumber sampai saat ini\tBatalkan BF-SKU-a0c03222Catat pemakaian aksesori\nBE-b264b305-b538-4700-a449-ef4eaf2e425a\n30 Okt 2026, 22.09 WIB\tBF-SKU-4a5c3972 → BF-SKU-3f252c34\nOwner29 mixed garments manual SKU correction\t2 PCS\nBagian 1/2 dari konversi 4 PCS. Pembatalan berlaku untuk seluruh konversi.\n\tRp 20,02\nTambahan/pulih Rp 0,00\tPOSTED · Biaya bersumber sampai saat ini\tBatalkan BF-SKU-4a5c3972Catat pemakaian aksesori\nBE-8f0b5852-d607-41ef-8358-696d0e235f43\n30 Okt 2026, 22.09 WIB\tBF-SKU-4a5c3972 → BF-SKU-3f252c34\nOwner29 mixed garments manual SKU correction\t2 PCS\nBagian 2/2 dari konversi 4 PCS. Pembatalan berlaku untuk seluruh konversi.\n\tRp 40,04\nTambahan/pulih Rp 0,00\tPOSTED · Biaya bersumber sampai saat ini\tBatalkan BF-SKU-4a5c3972Catat pemakaian aksesori\n\n4 dokumen · halaman 1 Dokumen sebelumnyaDokumen berikutnya",
+  "outer_restore_flags": {
+    "baseline_full22_all_rows_all_sequences_equal": true,
+    "restore_raw_public_equal": true,
+    "cp6_restored": true,
+    "baseline_advisors_equal": true,
+    "advisor_gate": true
+  },
+  "outer_raw_before_after_not_serialized": true,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "qualified_full27": false,
+  "prior_runs_aggregated": false,
+  "product_or_Native_change": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "mobile_display_control": {
+    "evidence_kind": "OFFLINE_DOM_DISPLAY_INPUT_FROM_CAPTURED_ACTUAL_FAILURE_NOT_DATABASE_FIXTURE",
+    "member": {
+      "conversion_id": "fea44e35-3c1f-4d39-9a65-7c2d623f1233",
+      "source_lot_id": "dfecbb07-9dd7-4e9d-851d-e993ed3a413e",
+      "destination_lot_id": "d53c44a4-8576-4dca-87fb-980a72deacf3",
+      "qty_pcs": 2,
+      "unit_hpp": "10.010000",
+      "destination_value": "20.020000",
+      "status": "POSTED",
+      "number": "BE-fea44e35-3c1f-4d39-9a65-7c2d623f1233",
+      "group_id": "fea44e35-3c1f-4d39-9a65-7c2d623f1233"
+    },
+    "source_sku": "BF-SKU-ee6fe217",
+    "target_sku": "BF-SKU-696e7f31",
+    "physical_source_sku": "CP6-E-S29-a1429d4b",
+    "source_original": "SKU29_MOBILE390_1AC269A41606_FIRST_FAILURE.json"
+  }
+}

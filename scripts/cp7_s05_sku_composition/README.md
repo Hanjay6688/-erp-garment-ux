@@ -1,3 +1,13 @@
+Current Writer A candidate update, 2026-10-30:
+Import all19 exact namespace paths from SKU successor58c8e1535c6b5296f07ca41d5eb90cb28ed2872c.
+The failed0938 full27 run is retained as23 PASS/4 INCOMPLETE, with no full27 credit.
+Current harness checks pending recovery lock/reconcile states, exact commercial
+SKU history labels, and READ COMMITTED for independent staged-AI access/readback.
+New full27 run41086555559 is pending. S03 run41080255432 is also still pending.
+S05 source/UI and all20 composition pins are unchanged. Existing61 UI controls
+and typecheck remain reusable for those identical sources. This candidate is
+source-only and still needs full combined SKU/S05 actual qualification.
+
 # Current SKU + S05 application candidate
 
 Owner steering 30 October: advance one integrated candidate with targeted checks,

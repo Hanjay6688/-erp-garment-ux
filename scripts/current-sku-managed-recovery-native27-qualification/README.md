@@ -1,3 +1,23 @@
+## Retained0938 browser state, commercial-label and current-access correction
+
+Actual41070902168 remains23 PASS and4 INCOMPLETE, with zero complete27 credit.
+The desktop fixture correctly retained an uncertain committed response after
+reload; the harness now requires the source to stay locked and Reconcile to be
+enabled, then requires the source enabled after authoritative recovery. The
+inverse button uses the commercial SKU effective for the Native fixture, scoped
+to the exact posted member and source/target labels. Actual first-failure text
+and original source preimages are retained. No Native/product source changes.
+
+The real staged-AI HTTP brief succeeded. Its independent Native readback failed
+because ai_brief requires READ COMMITTED for current access checks. Prepare and
+read now use that boundary; the complete state census remains REPEATABLE READ.
+All source facts, UUID/payload equality, financial values and census comparisons
+are preserved. Offline controls reproduce both old helper failures and the old
+readback refusal; only a new complete run can qualify these27 cases.
+
+Historical descriptions below describe their retained source versions; the
+current explicit browser successor receipt supersedes their isolation details.
+
 ## Retained 8a080 first browser failure and bounded display successor
 
 Run41053845032 preserved all four browser failures. The two SKU journeys reached

@@ -87,7 +87,7 @@ def main():
     import psycopg
     native, catalog, sources = load_helpers()
     with redirect_stdout(sys.stderr), psycopg.connect(target) as conn, conn.cursor() as cur:
-        cur.execute('set transaction isolation level read committed' if op == 'prepare' else 'set transaction isolation level repeatable read')
+        cur.execute('set transaction isolation level read committed' if op in ('prepare', 'read') else 'set transaction isolation level repeatable read')
         native.staged.b.api.admin(cur)
         cur.execute("set local statement_timeout='45s'")
         if op == 'prepare':
