@@ -3,7 +3,7 @@
 This module does not connect, install, commit, dispatch or claim acceptance.
 An outer caller must admit the complete actual SKU27 Original and own the
 disposable package/backup/restore boundary before invoking the component.
-The prepared normal-App component is separate; its outer caller is unfinished.
+The normal-App component and outer caller are prepared; actual admission is pending.
 """
 from hashlib import sha256
 from pathlib import Path

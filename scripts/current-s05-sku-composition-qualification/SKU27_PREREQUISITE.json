@@ -1,0 +1,14 @@
+{
+  "status": "PENDING_ACTUAL_ROOT_INTAKE",
+  "head": "e9256772579f387df77dde949f8ea619cbd86856",
+  "tree": "8de422523afa42c20d85e830749ed232b7edc6b9",
+  "run_id": 41109346033,
+  "job_id": 124247417634,
+  "complete27_qualified": false,
+  "package_all_five": false,
+  "archive": null,
+  "root_intake_receipt": null,
+  "originals": null,
+  "production_go": false,
+  "independent_acceptance": false
+}

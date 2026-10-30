@@ -35,8 +35,18 @@ restores the reader on its parent and still requires outer package restoration.
 These are prepared journeys, not executed browser evidence. The original five
 standalone UI source files never meant five journeys.
 
-Still required before execution: root intake of exact e925 full SKU27 with
-all five package gates; a complete admitted outer package caller; the combined
-workflow, actual Native10/browser2 results and full restoration.
+The prepared outer caller retains the complete package engine with two
+reversible edits: install its real SKU parent and report the current S05
+Native10/browser2 counts. It preserves the full dump/restore, roles, all22,
+all rows/sequences, CP6 and advisor checks. Native failure stops before the
+browser; browser failure preserves the Native result but fails the component.
+The existing real WIB window and single-attempt policy are retained.
+
+`SKU27_PREREQUISITE.json` is pending. `probe.py --check` is source-only;
+runtime admission rejects before ERP imports until the exact terminal e925
+archive and root intake have been verified and their byte pins recorded.
+Prepared code has never qualified that prerequisite. No workflow is added.
+Still required: actual root SKU27 intake and all five package gates, the
+combined workflow, actual Native10/browser2 results and full restoration.
 No new Native, Auth or browser acceptance is claimed by these source controls.
 Afui HPP-positive/reimbursement-zero and the wider family remain open.
