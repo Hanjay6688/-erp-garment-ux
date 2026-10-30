@@ -42,3 +42,31 @@ Owner preview is then refused at actual save after the authorized role change;
 its full no-effect boundary begins after that role change. OWNER is restored
 through the same public writer. Delayed-period, logout and fresh-actor controls
 remain byte exact. This is preparation only until the actual browser rerun.
+
+ORDINARY_SNAPSHOT_DELTA.json retains the public ae837 preparation and its
+current-rights declaration byte for byte. Two additional read scopes cover
+ordinary_before_native (all FG, HPP history/components, journals and GL) and
+ordinary_pool_journal. The Native ordinary-pool activation between these reads
+keeps the prior caller TimeZone. The frozen helper and all four current browser
+callbacks remain exact, including every financial, stock and HPP assertion.
+
+The retained actual4d scan found 34 distinct timestamp representations with
+equal instants across those raw snapshots (current_HPP repeats one HPP history
+timestamp). It also retains the genuine changes after ordinary activation:
+QC_GOOD cache 12 to 14.002, the old current-HPP pointer retiring, new HPP/journal
+history and the exact financial deltas. It makes no whole-FG/HPP equality claim
+between these economically different states. All values in the 10 original
+journal lines remain equal. Their serialized bytes differ because Node JSON
+uses integer number forms where the later census has equal decimal forms; the
+report retains both hashes and every such numeric representation difference.
+The scanner is evidence analysis only;
+runtime oracles still compare every original raw value without normalization.
+
+Other preparation evidence was inspected: source accruals already use the UTC
+read scope; P1 evidence inside lawful earned compares within the same setup
+connection; independent_original_accrual_oracle is a preparation-only direct
+money/date oracle, not a later raw-row equality baseline; financial truth is
+integer issue counts. Fresh observe/valuation/cancellation helpers start on
+the actual UTC connection. The Native-call, auth-actor and admin wrappers on
+their read paths do not change TimeZone; the census restores its own UTC scope.
+No further read scope or business-session timezone change is introduced.

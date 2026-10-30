@@ -129,7 +129,10 @@ class CurrentRightsControls(unittest.TestCase):
         with TemporaryDirectory() as temporary:
             target = Path(temporary)
             shutil.copytree(HERE / 'retained-4d968', target / 'retained-4d968')
-            for name in ('fixture.py', 'cases.mjs'):
+            shutil.copytree(HERE / 'retained-ae837', target / 'retained-ae837')
+            ordinary = load('ordinary_snapshot_delta')
+            for name in (*ordinary.FILES, *ordinary.UNCHANGED, 'ORDINARY_SNAPSHOT_DELTA.json'):
+                (target / name).parent.mkdir(parents=True, exist_ok=True)
                 shutil.copyfile(HERE / name, target / name)
             original = json.loads((HERE / 'CURRENT_RIGHTS_DELTA.json').read_bytes())
             for mutation in ('count', 'hash', 'anchor', 'before_bytes', 'policy'):

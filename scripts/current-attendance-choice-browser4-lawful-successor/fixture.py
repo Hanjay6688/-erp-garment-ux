@@ -237,11 +237,13 @@ def prepare(cur, r, payload):
             p2 = r['lawful'].earned(cur, s, output, Decimal('20.02'), core=core, evidence=extra)
             normal = f.native(cur, 'select erp.create_attendance_hpp_pool_v1(%s::jsonb,%s)',
                 (json.dumps(dict(period_start=str(output), period_end=str(output), reason=f.REASON)), uuid.uuid4()))
-            ordinary_before_native = r['lawful'].finished_facts(cur, g, core=core)
+            with snapshot_utc(cur, f):
+                ordinary_before_native = r['lawful'].finished_facts(cur, g, core=core)
             f.native(cur, 'select erp.activate_attendance_hpp_pool_v1(%s,%s,%s,%s)',
                 (normal['pool_id'], f.REASON, uuid.uuid4(), normal['row_version']))
             f.admin(cur)
-            ordinary_journal = f.one(cur, 'select to_jsonb(j)from erp.journal_entries j join erp.attendance_hpp_pools p on p.post_journal_entry_id=j.id where p.id=%s', (normal['pool_id'],))
+            with snapshot_utc(cur, f):
+                ordinary_journal = f.one(cur, 'select to_jsonb(j)from erp.journal_entries j join erp.attendance_hpp_pools p on p.post_journal_entry_id=j.id where p.id=%s', (normal['pool_id'],))
             extra.update(output=str(output), ordinary_pool=str(normal['pool_id']), ordinary_payroll=p2,
                 ordinary_before_native=ordinary_before_native, ordinary_pool_journal=ordinary_journal,
                 pos=[g['po']], lots=[g['lot']], sold_qty=4, produced_qty=10,

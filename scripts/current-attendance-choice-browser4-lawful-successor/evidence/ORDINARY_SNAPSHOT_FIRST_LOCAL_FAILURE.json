@@ -1,0 +1,19 @@
+{
+  "classification": "LOCAL_EVIDENCE_SCAN_CONTROL_FAILURE_NOT_BROWSER_RUN",
+  "tests": 5,
+  "passes": 4,
+  "failures": 1,
+  "failed_test": "test_actual_scan_retains_economic_changes_and_every_field_difference",
+  "failed_assertion": "journal_lines original_rows serialization hash equals later_same_id_rows serialization hash",
+  "first_rows": {
+    "bytes": 3269,
+    "sha256": "4245a4affbf8bdecd529346a42bbf7bd26656757710e778cff335bad6e1c60c6"
+  },
+  "later_rows": {
+    "bytes": 3309,
+    "sha256": "4fd715f34596281823eb15d3614f1de43777d3e10d716290635fc19d841a36f5"
+  },
+  "resolution": "Retain both hashes. Report equal JSON numeric values with distinct integer/decimal serialization separately. No runtime comparator or original value is changed; the evidence claim is full value equality, not serialized byte equality.",
+  "actual_browser_credit": 0,
+  "production_go": false
+}

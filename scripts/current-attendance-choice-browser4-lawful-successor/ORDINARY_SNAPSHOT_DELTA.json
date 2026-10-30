@@ -1,0 +1,159 @@
+{
+  "contract": "cp7.s03.browser4.ordinary-snapshot-utc-successor.v1",
+  "parent_commit": "ae83782c5dc0701f3b5325375a743b2a08e4ce3d",
+  "parent_tree": "90df88ef385bfbd89aa05b687e6ba4b30a539432",
+  "files": [
+    {
+      "name": "fixture.py",
+      "before": {
+        "bytes": 34116,
+        "sha256": "e72ae92c291010e68a26b12940824a6e1dd9ef1aeeeb80edf843617701016867"
+      },
+      "after": {
+        "bytes": 34202,
+        "sha256": "99872c78ff1ad9a6f4fe058e2d0ba63c42c1d5bb702007052da7ead7998159a2"
+      },
+      "changes": [
+        {
+          "before": "            ordinary_before_native = r['lawful'].finished_facts(cur, g, core=core)\n",
+          "after": "            with snapshot_utc(cur, f):\n                ordinary_before_native = r['lawful'].finished_facts(cur, g, core=core)\n",
+          "count": 1
+        },
+        {
+          "before": "            ordinary_journal = f.one(cur, 'select to_jsonb(j)from erp.journal_entries j join erp.attendance_hpp_pools p on p.post_journal_entry_id=j.id where p.id=%s', (normal['pool_id'],))\n",
+          "after": "            with snapshot_utc(cur, f):\n                ordinary_journal = f.one(cur, 'select to_jsonb(j)from erp.journal_entries j join erp.attendance_hpp_pools p on p.post_journal_entry_id=j.id where p.id=%s', (normal['pool_id'],))\n",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "name": "rights_delta.py",
+      "before": {
+        "bytes": 5293,
+        "sha256": "6ee4b7ba9d8b2eb971a20e0c54d37a04601bd74c38a30f0ec1f00bd6059fc4a2"
+      },
+      "after": {
+        "bytes": 5636,
+        "sha256": "6545be14aff15b8a08de874ae5432d2d88020dfb748cf54791cfda7e615d97c8"
+      },
+      "changes": [
+        {
+          "before": "\"\"\"\nfrom hashlib import sha256\nfrom pathlib import Path\nimport json\nimport os\nimport subprocess\n",
+          "after": "\"\"\"\nfrom hashlib import sha256\nfrom pathlib import Path\nimport importlib.util\nimport json\nimport os\nimport subprocess\n",
+          "count": 1
+        },
+        {
+          "before": "    for item in plan['files']:\n        name = item['name']; old = (here / 'retained-4d968' / name).read_bytes()\n        current = (here / name).read_bytes()\n        if (old != git('show', PARENT + ':' + str((HERE / name).relative_to(ROOT)))\n                or item['before'] != dict(bytes=len(old), sha256=sha256(old).hexdigest())\n                or item['after'] != dict(bytes=len(current), sha256=sha256(current).hexdigest())):\n",
+          "after": "    for item in plan['files']:\n        name = item['name']; old = (here / 'retained-4d968' / name).read_bytes()\n        current = (here / name).read_bytes()\n        if name == 'fixture.py':\n            spec = importlib.util.spec_from_file_location('s03_ordinary_snapshot_before_rights', HERE / 'ordinary_snapshot_delta.py')\n            ordinary = importlib.util.module_from_spec(spec); spec.loader.exec_module(ordinary)\n            current = ordinary.parent_fixture(root, here)\n        if (old != git('show', PARENT + ':' + str((HERE / name).relative_to(ROOT)))\n                or item['before'] != dict(bytes=len(old), sha256=sha256(old).hexdigest())\n                or item['after'] != dict(bytes=len(current), sha256=sha256(current).hexdigest())):\n",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "name": "test_bound.py",
+      "before": {
+        "bytes": 13751,
+        "sha256": "900a2491ad5e330e929783c5fd05c723e9bf4694af00fa7c73f113139c308243"
+      },
+      "after": {
+        "bytes": 13877,
+        "sha256": "a00cb7b8284d19f1781b52027f9a699853eadf4bcce622bb761890135c2d4241"
+      },
+      "changes": [
+        {
+          "before": "            expected = subprocess.check_output(['/usr/bin/git', '-C', str(ROOT), 'show',\n                'e09c6512932de81777e661275d18bb232b2d2ee3:' + name])\n            current = (ROOT / name).read_bytes()\n            if relative in ('fixture.py', 'cases.mjs'):\n                declaration = next(row for row in successor['files'] if row['name'] == relative)\n                for change in reversed(declaration['changes']):\n",
+          "after": "            expected = subprocess.check_output(['/usr/bin/git', '-C', str(ROOT), 'show',\n                'e09c6512932de81777e661275d18bb232b2d2ee3:' + name])\n            current = (ROOT / name).read_bytes()\n            if relative == 'fixture.py':\n                current = load('ordinary_snapshot_delta').parent_fixture(ROOT, HERE)\n            if relative in ('fixture.py', 'cases.mjs'):\n                declaration = next(row for row in successor['files'] if row['name'] == relative)\n                for change in reversed(declaration['changes']):\n",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "name": "test_current_rights.py",
+      "before": {
+        "bytes": 9988,
+        "sha256": "953db27c16d129ae4f2937e75da2e8c5291296bacc8f1e2b0656b47315da84bf"
+      },
+      "after": {
+        "bytes": 10240,
+        "sha256": "3bb60d649741a4cc1eabd224160873fbbd98f02f299105a752bd45691b0777b4"
+      },
+      "changes": [
+        {
+          "before": "        with TemporaryDirectory() as temporary:\n            target = Path(temporary)\n            shutil.copytree(HERE / 'retained-4d968', target / 'retained-4d968')\n            for name in ('fixture.py', 'cases.mjs'):\n                shutil.copyfile(HERE / name, target / name)\n            original = json.loads((HERE / 'CURRENT_RIGHTS_DELTA.json').read_bytes())\n            for mutation in ('count', 'hash', 'anchor', 'before_bytes', 'policy'):\n",
+          "after": "        with TemporaryDirectory() as temporary:\n            target = Path(temporary)\n            shutil.copytree(HERE / 'retained-4d968', target / 'retained-4d968')\n            shutil.copytree(HERE / 'retained-ae837', target / 'retained-ae837')\n            ordinary = load('ordinary_snapshot_delta')\n            for name in (*ordinary.FILES, *ordinary.UNCHANGED, 'ORDINARY_SNAPSHOT_DELTA.json'):\n                (target / name).parent.mkdir(parents=True, exist_ok=True)\n                shutil.copyfile(HERE / name, target / name)\n            original = json.loads((HERE / 'CURRENT_RIGHTS_DELTA.json').read_bytes())\n            for mutation in ('count', 'hash', 'anchor', 'before_bytes', 'policy'):\n",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "name": "README.md",
+      "before": {
+        "bytes": 3024,
+        "sha256": "22235158148b6f974cf57c1a9b6c32cc71f9796b920aa333cd1eac63621a1104"
+      },
+      "after": {
+        "bytes": 4917,
+        "sha256": "d506acf3e67e5cc586bab4133055f894d5ecdfafb73263de6682989e71261dbb"
+      },
+      "changes": [
+        {
+          "before": "its full no-effect boundary begins after that role change. OWNER is restored\nthrough the same public writer. Delayed-period, logout and fresh-actor controls\nremain byte exact. This is preparation only until the actual browser rerun.\n",
+          "after": "its full no-effect boundary begins after that role change. OWNER is restored\nthrough the same public writer. Delayed-period, logout and fresh-actor controls\nremain byte exact. This is preparation only until the actual browser rerun.\n\nORDINARY_SNAPSHOT_DELTA.json retains the public ae837 preparation and its\ncurrent-rights declaration byte for byte. Two additional read scopes cover\nordinary_before_native (all FG, HPP history/components, journals and GL) and\nordinary_pool_journal. The Native ordinary-pool activation between these reads\nkeeps the prior caller TimeZone. The frozen helper and all four current browser\ncallbacks remain exact, including every financial, stock and HPP assertion.\n\nThe retained actual4d scan found 34 distinct timestamp representations with\nequal instants across those raw snapshots (current_HPP repeats one HPP history\ntimestamp). It also retains the genuine changes after ordinary activation:\nQC_GOOD cache 12 to 14.002, the old current-HPP pointer retiring, new HPP/journal\nhistory and the exact financial deltas. It makes no whole-FG/HPP equality claim\nbetween these economically different states. All values in the 10 original\njournal lines remain equal. Their serialized bytes differ because Node JSON\nuses integer number forms where the later census has equal decimal forms; the\nreport retains both hashes and every such numeric representation difference.\nThe scanner is evidence analysis only;\nruntime oracles still compare every original raw value without normalization.\n\nOther preparation evidence was inspected: source accruals already use the UTC\nread scope; P1 evidence inside lawful earned compares within the same setup\nconnection; independent_original_accrual_oracle is a preparation-only direct\nmoney/date oracle, not a later raw-row equality baseline; financial truth is\ninteger issue counts. Fresh observe/valuation/cancellation helpers start on\nthe actual UTC connection. The Native-call, auth-actor and admin wrappers on\ntheir read paths do not change TimeZone; the census restores its own UTC scope.\nNo further read scope or business-session timezone change is introduced.\n",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "counted_changes": 7,
+  "fixture_read_scopes": 2,
+  "unchanged": {
+    "cases.mjs": {
+      "bytes": 31848,
+      "sha256": "4ff7ac54a5d552e7ce9c3788504e04abdaa78da4080ec7d798c3ac91de1d08d7"
+    },
+    "evidence.mjs": {
+      "bytes": 7752,
+      "sha256": "5940af3c890e2da99f282dba1c1dff030fc3136be1f9a333b321d2a0a719d23f"
+    },
+    "helper-source/lawful_fixture.py": {
+      "bytes": 18312,
+      "sha256": "d8c991189c480033adf711002077062f459f0005bc7f682b10db1be754febd7f"
+    },
+    "HELPER_SOURCE.json": {
+      "bytes": 1993,
+      "sha256": "f613ebe34f75e186d1da97dda180f8a8668e2422246d433ede7aeaf6dda10ac1"
+    },
+    "CURRENT_RIGHTS_DELTA.json": {
+      "bytes": 29252,
+      "sha256": "aed4dbcd02048482262db7a862711750510b2e4c9491abbaf5233d538ea7a586"
+    },
+    "retained-4d968/fixture.py": {
+      "bytes": 28104,
+      "sha256": "2b90127b01ed14630c75addcc0b5c9ae7b67481298b0cebabe030545c9af8b0c"
+    },
+    "retained-4d968/cases.mjs": {
+      "bytes": 29730,
+      "sha256": "335c750dec6b3c2cd6a491f7a9b9e85b7e7572b2b1e10b3bfedbe6206c2ba026"
+    },
+    "retained-4d968/ADAPTATIONS.json": {
+      "bytes": 381853,
+      "sha256": "7dcde3f92c9d46842073eaf84d3275736b5ce99b19d3645d10da4274be7b741b"
+    },
+    "FIRST_84A9_FAILURE.json": {
+      "bytes": 1048,
+      "sha256": "3c158a6d4c4304528acd080b960903100ba15189c4c96a397c70d37b3fc77ce0"
+    },
+    "FIRST_4D968_FAILURE.json": {
+      "bytes": 1868,
+      "sha256": "f010a81cdc6bbbc0e068cba104daaa0e01f925e6f04eb3a65d0988d12c3aafd4"
+    }
+  },
+  "evidence": "evidence/ORDINARY_SNAPSHOT_ACTUAL4D_SCAN.json",
+  "actual_browser_credit": 0,
+  "prior_public_run_preserved": {
+    "run_id": 41044533553,
+    "job_id": 124025266832,
+    "status_at_preparation": "ACTIVE_NOT_CANCELLED_OR_REPLACED"
+  },
+  "production_go": false
+}

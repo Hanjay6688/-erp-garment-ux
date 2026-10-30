@@ -1,0 +1,1054 @@
+{
+  "contract": "cp7.s03.ordinary-snapshot-actual4d-analysis.v1",
+  "classification": "HISTORICAL_RAW_EVIDENCE_ANALYSIS_NOT_RUNTIME_NORMALIZATION_OR_ACCEPTANCE",
+  "archive": {
+    "bytes": 165206613,
+    "sha256": "e841f3026e2a7dac9f1ddfea013748572f14cd67ee9dcbbca47a303137469e14",
+    "crc_members": 159,
+    "run_id": 41033738459,
+    "artifact_id": 12969123916,
+    "library_file_id": "libfile_3f178e36455c8191bb2e284c39775d0b"
+  },
+  "members": {
+    "S03_B4_MOBILE390_636597efdddb46f4ae87be31dfe4bb60_FIRST_FAILURE.json": {
+      "bytes": 53876,
+      "sha256": "f39f89cf9bf614fbc5dead2a2cbdd37167776e5969a5b67ae783c2d5357d6045"
+    },
+    "S03_B4_ACCESS_370704F731DE4104BB8F34DEF123D25E_001_BEFORE_FULL_APP_OPEN_FULL_STATE.json.gz": {
+      "compressed": {
+        "bytes": 6751269,
+        "sha256": "6e73005a03254b926b0f75d8b8631a49872fe91b5915a834e6650e4edb909704"
+      },
+      "uncompressed": {
+        "bytes": 49538248,
+        "sha256": "99f74e1ff460a75553fa2cf32bd25dd340a2e8f77e98689f1b094457d3a3b7de"
+      }
+    }
+  },
+  "groups": {
+    "FG": {
+      "table": "erp.fg_stock_movements",
+      "compared_rows": 2,
+      "compared_fields": 34,
+      "original_rows": {
+        "bytes": 1274,
+        "sha256": "e6006f76dec052c96898d56d8de1cb61995900cf90c520cb45f4161a232459a2"
+      },
+      "later_same_id_rows": {
+        "bytes": 1280,
+        "sha256": "de3b160a09a9a00c01dc4c01ed02cc20591502e4bc5acd22166106f875a65e6f"
+      },
+      "equal_value_fields": 29,
+      "equal_numeric_values_with_different_JSON_representation": [
+        {
+          "id": "724b815c-f988-485c-baa8-bf06351e6209",
+          "column": "unit_hpp_snapshot",
+          "first_JSON": "12",
+          "later_JSON": "12.0",
+          "equal_numeric_value": true
+        }
+      ],
+      "raw_differences": [
+        {
+          "id": "724b815c-f988-485c-baa8-bf06351e6209",
+          "column": "physical_at",
+          "before": "2026-10-24T16:00:00+07:00",
+          "after": "2026-10-24T09:00:00+00:00",
+          "same_instant_different_offset": true
+        },
+        {
+          "id": "724b815c-f988-485c-baa8-bf06351e6209",
+          "column": "system_created_at",
+          "before": "2026-10-30T17:12:35.288774+07:00",
+          "after": "2026-10-30T10:12:35.288774+00:00",
+          "same_instant_different_offset": true
+        },
+        {
+          "id": "b8878af6-f06b-4a4e-b0d0-08e405534da7",
+          "column": "physical_at",
+          "before": "2026-10-24T14:00:00+07:00",
+          "after": "2026-10-24T07:00:00+00:00",
+          "same_instant_different_offset": true
+        },
+        {
+          "id": "b8878af6-f06b-4a4e-b0d0-08e405534da7",
+          "column": "system_created_at",
+          "before": "2026-10-30T17:12:35.17429+07:00",
+          "after": "2026-10-30T10:12:35.17429+00:00",
+          "same_instant_different_offset": true
+        },
+        {
+          "id": "b8878af6-f06b-4a4e-b0d0-08e405534da7",
+          "column": "unit_hpp_snapshot",
+          "before": 12,
+          "after": 14.002,
+          "same_instant_different_offset": false
+        }
+      ],
+      "time_representation_differences": 4,
+      "time_columns": {
+        "physical_at": 2,
+        "system_created_at": 2
+      },
+      "non_time_differences": [
+        {
+          "id": "b8878af6-f06b-4a4e-b0d0-08e405534da7",
+          "column": "unit_hpp_snapshot",
+          "before": 12,
+          "after": 14.002,
+          "same_instant_different_offset": false
+        }
+      ],
+      "other_field_values_equal": true,
+      "serialized_row_bytes_equal": false
+    },
+    "current_HPP": {
+      "table": "erp.hpp_versions",
+      "compared_rows": 1,
+      "compared_fields": 12,
+      "original_rows": {
+        "bytes": 422,
+        "sha256": "b422787e42393884ca84f90d8d1428125a258769da8406e9586d5a891e4129f2"
+      },
+      "later_same_id_rows": {
+        "bytes": 427,
+        "sha256": "40488146631c599537eed1589250e6ff6cce4669a95cb6d754cd60fc843dcad0"
+      },
+      "equal_value_fields": 10,
+      "equal_numeric_values_with_different_JSON_representation": [
+        {
+          "id": "8807ec56-3950-47db-9c9a-a92a82539647",
+          "column": "total_cost",
+          "first_JSON": "120",
+          "later_JSON": "120.0",
+          "equal_numeric_value": true
+        },
+        {
+          "id": "8807ec56-3950-47db-9c9a-a92a82539647",
+          "column": "hpp_per_pcs",
+          "first_JSON": "12",
+          "later_JSON": "12.0",
+          "equal_numeric_value": true
+        }
+      ],
+      "raw_differences": [
+        {
+          "id": "8807ec56-3950-47db-9c9a-a92a82539647",
+          "column": "is_current",
+          "before": true,
+          "after": false,
+          "same_instant_different_offset": false
+        },
+        {
+          "id": "8807ec56-3950-47db-9c9a-a92a82539647",
+          "column": "calculated_at",
+          "before": "2026-10-30T17:12:35.324219+07:00",
+          "after": "2026-10-30T10:12:35.324219+00:00",
+          "same_instant_different_offset": true
+        }
+      ],
+      "time_representation_differences": 1,
+      "time_columns": {
+        "calculated_at": 1
+      },
+      "non_time_differences": [
+        {
+          "id": "8807ec56-3950-47db-9c9a-a92a82539647",
+          "column": "is_current",
+          "before": true,
+          "after": false,
+          "same_instant_different_offset": false
+        }
+      ],
+      "other_field_values_equal": true,
+      "serialized_row_bytes_equal": false
+    },
+    "HPP_history": {
+      "table": "erp.hpp_versions",
+      "compared_rows": 2,
+      "compared_fields": 24,
+      "original_rows": {
+        "bytes": 834,
+        "sha256": "135b5ef4c5c7b873e5b0736649bd2ee832d7d20d1a037ff33e5c66c2399fa55a"
+      },
+      "later_same_id_rows": {
+        "bytes": 843,
+        "sha256": "709e5283e6adb6c7f60428ec046d284629b1760f65cc8ac79f0f15034ea6946c"
+      },
+      "equal_value_fields": 21,
+      "equal_numeric_values_with_different_JSON_representation": [
+        {
+          "id": "8807ec56-3950-47db-9c9a-a92a82539647",
+          "column": "total_cost",
+          "first_JSON": "120",
+          "later_JSON": "120.0",
+          "equal_numeric_value": true
+        },
+        {
+          "id": "8807ec56-3950-47db-9c9a-a92a82539647",
+          "column": "hpp_per_pcs",
+          "first_JSON": "12",
+          "later_JSON": "12.0",
+          "equal_numeric_value": true
+        },
+        {
+          "id": "d05cd5d7-64b2-40e2-a845-a0656a31532e",
+          "column": "total_cost",
+          "first_JSON": "120",
+          "later_JSON": "120.0",
+          "equal_numeric_value": true
+        },
+        {
+          "id": "d05cd5d7-64b2-40e2-a845-a0656a31532e",
+          "column": "hpp_per_pcs",
+          "first_JSON": "12",
+          "later_JSON": "12.0",
+          "equal_numeric_value": true
+        }
+      ],
+      "raw_differences": [
+        {
+          "id": "8807ec56-3950-47db-9c9a-a92a82539647",
+          "column": "is_current",
+          "before": true,
+          "after": false,
+          "same_instant_different_offset": false
+        },
+        {
+          "id": "8807ec56-3950-47db-9c9a-a92a82539647",
+          "column": "calculated_at",
+          "before": "2026-10-30T17:12:35.324219+07:00",
+          "after": "2026-10-30T10:12:35.324219+00:00",
+          "same_instant_different_offset": true
+        },
+        {
+          "id": "d05cd5d7-64b2-40e2-a845-a0656a31532e",
+          "column": "calculated_at",
+          "before": "2026-10-30T17:12:35.15973+07:00",
+          "after": "2026-10-30T10:12:35.15973+00:00",
+          "same_instant_different_offset": true
+        }
+      ],
+      "time_representation_differences": 2,
+      "time_columns": {
+        "calculated_at": 2
+      },
+      "non_time_differences": [
+        {
+          "id": "8807ec56-3950-47db-9c9a-a92a82539647",
+          "column": "is_current",
+          "before": true,
+          "after": false,
+          "same_instant_different_offset": false
+        }
+      ],
+      "other_field_values_equal": true,
+      "serialized_row_bytes_equal": false
+    },
+    "HPP_components": {
+      "table": "erp.hpp_version_components",
+      "compared_rows": 18,
+      "compared_fields": 180,
+      "original_rows": {
+        "bytes": 6884,
+        "sha256": "7d6c5f12b4c43eff60b9009c4c9c56fd8f4e9031ee908772bdfcf9cc969b2424"
+      },
+      "later_same_id_rows": {
+        "bytes": 6956,
+        "sha256": "cbd3c3388bcbdd061aa8525e0d7a7d2780abd77082acd47a0ebd404bcfd105e8"
+      },
+      "equal_value_fields": 162,
+      "equal_numeric_values_with_different_JSON_representation": [
+        {
+          "id": "036a4467-83d8-4625-8f31-3d91169c5e28",
+          "column": "unit_cost",
+          "first_JSON": "0",
+          "later_JSON": "0.0",
+          "equal_numeric_value": true
+        },
+        {
+          "id": "036a4467-83d8-4625-8f31-3d91169c5e28",
+          "column": "total_cost",
+          "first_JSON": "0",
+          "later_JSON": "0.0",
+          "equal_numeric_value": true
+        },
+        {
+          "id": "15e965b4-19ff-4e62-a54e-1edb71420ce1",
+          "column": "unit_cost",
+          "first_JSON": "0",
+          "later_JSON": "0.0",
+          "equal_numeric_value": true
+        },
+        {
+          "id": "15e965b4-19ff-4e62-a54e-1edb71420ce1",
+          "column": "total_cost",
+          "first_JSON": "0",
+          "later_JSON": "0.0",
+          "equal_numeric_value": true
+        },
+        {
+          "id": "3d5b8bbf-a8c4-4611-8e2a-50c47a4c3ea3",
+          "column": "unit_cost",
+          "first_JSON": "0",
+          "later_JSON": "0.0",
+          "equal_numeric_value": true
+        },
+        {
+          "id": "3d5b8bbf-a8c4-4611-8e2a-50c47a4c3ea3",
+          "column": "total_cost",
+          "first_JSON": "100",
+          "later_JSON": "100.0",
+          "equal_numeric_value": true
+        },
+        {
+          "id": "420d907a-42fb-4a69-aa4a-a98eb6c0d78f",
+          "column": "unit_cost",
+          "first_JSON": "0",
+          "later_JSON": "0.0",
+          "equal_numeric_value": true
+        },
+        {
+          "id": "420d907a-42fb-4a69-aa4a-a98eb6c0d78f",
+          "column": "total_cost",
+          "first_JSON": "0",
+          "later_JSON": "0.0",
+          "equal_numeric_value": true
+        },
+        {
+          "id": "492c331e-f4b2-4aab-b638-7fda947c765b",
+          "column": "unit_cost",
+          "first_JSON": "0",
+          "later_JSON": "0.0",
+          "equal_numeric_value": true
+        },
+        {
+          "id": "492c331e-f4b2-4aab-b638-7fda947c765b",
+          "column": "total_cost",
+          "first_JSON": "0",
+          "later_JSON": "0.0",
+          "equal_numeric_value": true
+        },
+        {
+          "id": "50e20043-e46d-4125-bee2-918e40feb536",
+          "column": "unit_cost",
+          "first_JSON": "0",
+          "later_JSON": "0.0",
+          "equal_numeric_value": true
+        },
+        {
+          "id": "50e20043-e46d-4125-bee2-918e40feb536",
+          "column": "total_cost",
+          "first_JSON": "0",
+          "later_JSON": "0.0",
+          "equal_numeric_value": true
+        },
+        {
+          "id": "51169962-7168-4d0b-b1f0-0be2b2769cc2",
+          "column": "unit_cost",
+          "first_JSON": "0",
+          "later_JSON": "0.0",
+          "equal_numeric_value": true
+        },
+        {
+          "id": "51169962-7168-4d0b-b1f0-0be2b2769cc2",
+          "column": "total_cost",
+          "first_JSON": "0",
+          "later_JSON": "0.0",
+          "equal_numeric_value": true
+        },
+        {
+          "id": "5c10133e-d16c-433d-a7d4-412b436cb391",
+          "column": "unit_cost",
+          "first_JSON": "0",
+          "later_JSON": "0.0",
+          "equal_numeric_value": true
+        },
+        {
+          "id": "5c10133e-d16c-433d-a7d4-412b436cb391",
+          "column": "total_cost",
+          "first_JSON": "20",
+          "later_JSON": "20.0",
+          "equal_numeric_value": true
+        },
+        {
+          "id": "6b07a33f-c04c-4a74-8989-ec1983293f04",
+          "column": "unit_cost",
+          "first_JSON": "0",
+          "later_JSON": "0.0",
+          "equal_numeric_value": true
+        },
+        {
+          "id": "6b07a33f-c04c-4a74-8989-ec1983293f04",
+          "column": "total_cost",
+          "first_JSON": "0",
+          "later_JSON": "0.0",
+          "equal_numeric_value": true
+        },
+        {
+          "id": "6e9c140d-1b92-45f0-bac9-24ad874ffbcf",
+          "column": "unit_cost",
+          "first_JSON": "0",
+          "later_JSON": "0.0",
+          "equal_numeric_value": true
+        },
+        {
+          "id": "6e9c140d-1b92-45f0-bac9-24ad874ffbcf",
+          "column": "total_cost",
+          "first_JSON": "0",
+          "later_JSON": "0.0",
+          "equal_numeric_value": true
+        },
+        {
+          "id": "788c949c-5f67-4bb5-8022-528d8e3cc870",
+          "column": "unit_cost",
+          "first_JSON": "0",
+          "later_JSON": "0.0",
+          "equal_numeric_value": true
+        },
+        {
+          "id": "788c949c-5f67-4bb5-8022-528d8e3cc870",
+          "column": "total_cost",
+          "first_JSON": "0",
+          "later_JSON": "0.0",
+          "equal_numeric_value": true
+        },
+        {
+          "id": "c467bbed-133b-4a6c-b067-451927b65e7d",
+          "column": "unit_cost",
+          "first_JSON": "0",
+          "later_JSON": "0.0",
+          "equal_numeric_value": true
+        },
+        {
+          "id": "c467bbed-133b-4a6c-b067-451927b65e7d",
+          "column": "total_cost",
+          "first_JSON": "0",
+          "later_JSON": "0.0",
+          "equal_numeric_value": true
+        },
+        {
+          "id": "ce19e6b7-29dd-485c-8fbe-0fd1cb4ec749",
+          "column": "unit_cost",
+          "first_JSON": "0",
+          "later_JSON": "0.0",
+          "equal_numeric_value": true
+        },
+        {
+          "id": "ce19e6b7-29dd-485c-8fbe-0fd1cb4ec749",
+          "column": "total_cost",
+          "first_JSON": "0",
+          "later_JSON": "0.0",
+          "equal_numeric_value": true
+        },
+        {
+          "id": "ced84b08-9a3f-4e76-a7a4-e7180a2a3a04",
+          "column": "unit_cost",
+          "first_JSON": "0",
+          "later_JSON": "0.0",
+          "equal_numeric_value": true
+        },
+        {
+          "id": "ced84b08-9a3f-4e76-a7a4-e7180a2a3a04",
+          "column": "total_cost",
+          "first_JSON": "0",
+          "later_JSON": "0.0",
+          "equal_numeric_value": true
+        },
+        {
+          "id": "d701893a-b264-4f26-b67d-cc60263b1f05",
+          "column": "unit_cost",
+          "first_JSON": "0",
+          "later_JSON": "0.0",
+          "equal_numeric_value": true
+        },
+        {
+          "id": "d701893a-b264-4f26-b67d-cc60263b1f05",
+          "column": "total_cost",
+          "first_JSON": "20",
+          "later_JSON": "20.0",
+          "equal_numeric_value": true
+        },
+        {
+          "id": "d923a2d3-d599-4176-a1f7-8f328c1c209d",
+          "column": "unit_cost",
+          "first_JSON": "0",
+          "later_JSON": "0.0",
+          "equal_numeric_value": true
+        },
+        {
+          "id": "d923a2d3-d599-4176-a1f7-8f328c1c209d",
+          "column": "total_cost",
+          "first_JSON": "100",
+          "later_JSON": "100.0",
+          "equal_numeric_value": true
+        },
+        {
+          "id": "e8670802-36d4-4489-8922-e9a93be394ed",
+          "column": "unit_cost",
+          "first_JSON": "0",
+          "later_JSON": "0.0",
+          "equal_numeric_value": true
+        },
+        {
+          "id": "e8670802-36d4-4489-8922-e9a93be394ed",
+          "column": "total_cost",
+          "first_JSON": "0",
+          "later_JSON": "0.0",
+          "equal_numeric_value": true
+        },
+        {
+          "id": "f7d7dfda-4d6a-4fb1-a121-187b01910779",
+          "column": "unit_cost",
+          "first_JSON": "0",
+          "later_JSON": "0.0",
+          "equal_numeric_value": true
+        },
+        {
+          "id": "f7d7dfda-4d6a-4fb1-a121-187b01910779",
+          "column": "total_cost",
+          "first_JSON": "0",
+          "later_JSON": "0.0",
+          "equal_numeric_value": true
+        }
+      ],
+      "raw_differences": [
+        {
+          "id": "036a4467-83d8-4625-8f31-3d91169c5e28",
+          "column": "created_at",
+          "before": "2026-10-30T17:12:35.324219+07:00",
+          "after": "2026-10-30T10:12:35.324219+00:00",
+          "same_instant_different_offset": true
+        },
+        {
+          "id": "15e965b4-19ff-4e62-a54e-1edb71420ce1",
+          "column": "created_at",
+          "before": "2026-10-30T17:12:35.15973+07:00",
+          "after": "2026-10-30T10:12:35.15973+00:00",
+          "same_instant_different_offset": true
+        },
+        {
+          "id": "3d5b8bbf-a8c4-4611-8e2a-50c47a4c3ea3",
+          "column": "created_at",
+          "before": "2026-10-30T17:12:35.15973+07:00",
+          "after": "2026-10-30T10:12:35.15973+00:00",
+          "same_instant_different_offset": true
+        },
+        {
+          "id": "420d907a-42fb-4a69-aa4a-a98eb6c0d78f",
+          "column": "created_at",
+          "before": "2026-10-30T17:12:35.15973+07:00",
+          "after": "2026-10-30T10:12:35.15973+00:00",
+          "same_instant_different_offset": true
+        },
+        {
+          "id": "492c331e-f4b2-4aab-b638-7fda947c765b",
+          "column": "created_at",
+          "before": "2026-10-30T17:12:35.324219+07:00",
+          "after": "2026-10-30T10:12:35.324219+00:00",
+          "same_instant_different_offset": true
+        },
+        {
+          "id": "50e20043-e46d-4125-bee2-918e40feb536",
+          "column": "created_at",
+          "before": "2026-10-30T17:12:35.324219+07:00",
+          "after": "2026-10-30T10:12:35.324219+00:00",
+          "same_instant_different_offset": true
+        },
+        {
+          "id": "51169962-7168-4d0b-b1f0-0be2b2769cc2",
+          "column": "created_at",
+          "before": "2026-10-30T17:12:35.15973+07:00",
+          "after": "2026-10-30T10:12:35.15973+00:00",
+          "same_instant_different_offset": true
+        },
+        {
+          "id": "5c10133e-d16c-433d-a7d4-412b436cb391",
+          "column": "created_at",
+          "before": "2026-10-30T17:12:35.15973+07:00",
+          "after": "2026-10-30T10:12:35.15973+00:00",
+          "same_instant_different_offset": true
+        },
+        {
+          "id": "6b07a33f-c04c-4a74-8989-ec1983293f04",
+          "column": "created_at",
+          "before": "2026-10-30T17:12:35.15973+07:00",
+          "after": "2026-10-30T10:12:35.15973+00:00",
+          "same_instant_different_offset": true
+        },
+        {
+          "id": "6e9c140d-1b92-45f0-bac9-24ad874ffbcf",
+          "column": "created_at",
+          "before": "2026-10-30T17:12:35.324219+07:00",
+          "after": "2026-10-30T10:12:35.324219+00:00",
+          "same_instant_different_offset": true
+        },
+        {
+          "id": "788c949c-5f67-4bb5-8022-528d8e3cc870",
+          "column": "created_at",
+          "before": "2026-10-30T17:12:35.324219+07:00",
+          "after": "2026-10-30T10:12:35.324219+00:00",
+          "same_instant_different_offset": true
+        },
+        {
+          "id": "c467bbed-133b-4a6c-b067-451927b65e7d",
+          "column": "created_at",
+          "before": "2026-10-30T17:12:35.15973+07:00",
+          "after": "2026-10-30T10:12:35.15973+00:00",
+          "same_instant_different_offset": true
+        },
+        {
+          "id": "ce19e6b7-29dd-485c-8fbe-0fd1cb4ec749",
+          "column": "created_at",
+          "before": "2026-10-30T17:12:35.324219+07:00",
+          "after": "2026-10-30T10:12:35.324219+00:00",
+          "same_instant_different_offset": true
+        },
+        {
+          "id": "ced84b08-9a3f-4e76-a7a4-e7180a2a3a04",
+          "column": "created_at",
+          "before": "2026-10-30T17:12:35.324219+07:00",
+          "after": "2026-10-30T10:12:35.324219+00:00",
+          "same_instant_different_offset": true
+        },
+        {
+          "id": "d701893a-b264-4f26-b67d-cc60263b1f05",
+          "column": "created_at",
+          "before": "2026-10-30T17:12:35.324219+07:00",
+          "after": "2026-10-30T10:12:35.324219+00:00",
+          "same_instant_different_offset": true
+        },
+        {
+          "id": "d923a2d3-d599-4176-a1f7-8f328c1c209d",
+          "column": "created_at",
+          "before": "2026-10-30T17:12:35.324219+07:00",
+          "after": "2026-10-30T10:12:35.324219+00:00",
+          "same_instant_different_offset": true
+        },
+        {
+          "id": "e8670802-36d4-4489-8922-e9a93be394ed",
+          "column": "created_at",
+          "before": "2026-10-30T17:12:35.15973+07:00",
+          "after": "2026-10-30T10:12:35.15973+00:00",
+          "same_instant_different_offset": true
+        },
+        {
+          "id": "f7d7dfda-4d6a-4fb1-a121-187b01910779",
+          "column": "created_at",
+          "before": "2026-10-30T17:12:35.15973+07:00",
+          "after": "2026-10-30T10:12:35.15973+00:00",
+          "same_instant_different_offset": true
+        }
+      ],
+      "time_representation_differences": 18,
+      "time_columns": {
+        "created_at": 18
+      },
+      "non_time_differences": [],
+      "other_field_values_equal": true,
+      "serialized_row_bytes_equal": false
+    },
+    "journal_headers": {
+      "table": "erp.journal_entries",
+      "compared_rows": 4,
+      "compared_fields": 52,
+      "original_rows": {
+        "bytes": 2045,
+        "sha256": "70f95f78fceda841d495e58ba9114a0929fb20074c4d38bbdec918cad1735871"
+      },
+      "later_same_id_rows": {
+        "bytes": 2045,
+        "sha256": "5d0d863ba08139ee5a3bc03ce631b6b9cc8574eaf6ef1f787d756bbade80dfbb"
+      },
+      "equal_value_fields": 44,
+      "equal_numeric_values_with_different_JSON_representation": [],
+      "raw_differences": [
+        {
+          "id": "0212cc0e-01ac-432d-8147-ef6402f162d9",
+          "column": "created_at",
+          "before": "2026-10-30T17:12:35.114491+07:00",
+          "after": "2026-10-30T10:12:35.114491+00:00",
+          "same_instant_different_offset": true
+        },
+        {
+          "id": "0212cc0e-01ac-432d-8147-ef6402f162d9",
+          "column": "posting_at",
+          "before": "2026-10-30T17:12:35.114491+07:00",
+          "after": "2026-10-30T10:12:35.114491+00:00",
+          "same_instant_different_offset": true
+        },
+        {
+          "id": "230e4972-a020-4b46-8373-c3f9f5b2a570",
+          "column": "created_at",
+          "before": "2026-10-30T17:12:35.15973+07:00",
+          "after": "2026-10-30T10:12:35.15973+00:00",
+          "same_instant_different_offset": true
+        },
+        {
+          "id": "230e4972-a020-4b46-8373-c3f9f5b2a570",
+          "column": "posting_at",
+          "before": "2026-10-30T17:12:35.15973+07:00",
+          "after": "2026-10-30T10:12:35.15973+00:00",
+          "same_instant_different_offset": true
+        },
+        {
+          "id": "3a28da00-059b-46a2-b126-7e75f98952c1",
+          "column": "created_at",
+          "before": "2026-10-30T17:12:35.291066+07:00",
+          "after": "2026-10-30T10:12:35.291066+00:00",
+          "same_instant_different_offset": true
+        },
+        {
+          "id": "3a28da00-059b-46a2-b126-7e75f98952c1",
+          "column": "posting_at",
+          "before": "2026-10-30T17:12:35.291066+07:00",
+          "after": "2026-10-30T10:12:35.291066+00:00",
+          "same_instant_different_offset": true
+        },
+        {
+          "id": "b4269e0d-26df-4dae-95bb-4a1df9d633e8",
+          "column": "created_at",
+          "before": "2026-10-30T17:12:35.065509+07:00",
+          "after": "2026-10-30T10:12:35.065509+00:00",
+          "same_instant_different_offset": true
+        },
+        {
+          "id": "b4269e0d-26df-4dae-95bb-4a1df9d633e8",
+          "column": "posting_at",
+          "before": "2026-10-30T17:12:35.065509+07:00",
+          "after": "2026-10-30T10:12:35.065509+00:00",
+          "same_instant_different_offset": true
+        }
+      ],
+      "time_representation_differences": 8,
+      "time_columns": {
+        "created_at": 4,
+        "posting_at": 4
+      },
+      "non_time_differences": [],
+      "other_field_values_equal": true,
+      "serialized_row_bytes_equal": false
+    },
+    "journal_lines": {
+      "table": "erp.journal_lines",
+      "compared_rows": 10,
+      "compared_fields": 110,
+      "original_rows": {
+        "bytes": 3269,
+        "sha256": "4245a4affbf8bdecd529346a42bbf7bd26656757710e778cff335bad6e1c60c6"
+      },
+      "later_same_id_rows": {
+        "bytes": 3309,
+        "sha256": "4fd715f34596281823eb15d3614f1de43777d3e10d716290635fc19d841a36f5"
+      },
+      "equal_value_fields": 110,
+      "equal_numeric_values_with_different_JSON_representation": [
+        {
+          "id": "0ba304cb-95f0-41ce-b70d-723cf05ac055",
+          "column": "debit",
+          "first_JSON": "0",
+          "later_JSON": "0.0",
+          "equal_numeric_value": true
+        },
+        {
+          "id": "0ba304cb-95f0-41ce-b70d-723cf05ac055",
+          "column": "credit",
+          "first_JSON": "20",
+          "later_JSON": "20.0",
+          "equal_numeric_value": true
+        },
+        {
+          "id": "0bb7914b-7a34-494c-bc78-96de8e17ee82",
+          "column": "debit",
+          "first_JSON": "20",
+          "later_JSON": "20.0",
+          "equal_numeric_value": true
+        },
+        {
+          "id": "0bb7914b-7a34-494c-bc78-96de8e17ee82",
+          "column": "credit",
+          "first_JSON": "0",
+          "later_JSON": "0.0",
+          "equal_numeric_value": true
+        },
+        {
+          "id": "27850b09-6ead-4891-b0fb-d7da8223c1f9",
+          "column": "debit",
+          "first_JSON": "100",
+          "later_JSON": "100.0",
+          "equal_numeric_value": true
+        },
+        {
+          "id": "27850b09-6ead-4891-b0fb-d7da8223c1f9",
+          "column": "credit",
+          "first_JSON": "0",
+          "later_JSON": "0.0",
+          "equal_numeric_value": true
+        },
+        {
+          "id": "2df6e81a-bebe-414b-83b1-c9d83c2fb53c",
+          "column": "debit",
+          "first_JSON": "120",
+          "later_JSON": "120.0",
+          "equal_numeric_value": true
+        },
+        {
+          "id": "2df6e81a-bebe-414b-83b1-c9d83c2fb53c",
+          "column": "credit",
+          "first_JSON": "0",
+          "later_JSON": "0.0",
+          "equal_numeric_value": true
+        },
+        {
+          "id": "39c6297e-59cd-4274-aa10-1856f1f1f84b",
+          "column": "debit",
+          "first_JSON": "0",
+          "later_JSON": "0.0",
+          "equal_numeric_value": true
+        },
+        {
+          "id": "39c6297e-59cd-4274-aa10-1856f1f1f84b",
+          "column": "credit",
+          "first_JSON": "100",
+          "later_JSON": "100.0",
+          "equal_numeric_value": true
+        },
+        {
+          "id": "3a961a6a-e354-47e3-ace8-bec457cd2f88",
+          "column": "debit",
+          "first_JSON": "0",
+          "later_JSON": "0.0",
+          "equal_numeric_value": true
+        },
+        {
+          "id": "3a961a6a-e354-47e3-ace8-bec457cd2f88",
+          "column": "credit",
+          "first_JSON": "80000",
+          "later_JSON": "80000.0",
+          "equal_numeric_value": true
+        },
+        {
+          "id": "46206e62-1aa2-4439-b8b4-16ed62183bbe",
+          "column": "debit",
+          "first_JSON": "80000",
+          "later_JSON": "80000.0",
+          "equal_numeric_value": true
+        },
+        {
+          "id": "46206e62-1aa2-4439-b8b4-16ed62183bbe",
+          "column": "credit",
+          "first_JSON": "0",
+          "later_JSON": "0.0",
+          "equal_numeric_value": true
+        },
+        {
+          "id": "4e6ab071-5052-4307-a896-4c1b102adef2",
+          "column": "debit",
+          "first_JSON": "0",
+          "later_JSON": "0.0",
+          "equal_numeric_value": true
+        },
+        {
+          "id": "4e6ab071-5052-4307-a896-4c1b102adef2",
+          "column": "credit",
+          "first_JSON": "120",
+          "later_JSON": "120.0",
+          "equal_numeric_value": true
+        },
+        {
+          "id": "866dbac3-ce43-4ba9-a012-bf9b8b7c12b4",
+          "column": "debit",
+          "first_JSON": "0",
+          "later_JSON": "0.0",
+          "equal_numeric_value": true
+        },
+        {
+          "id": "866dbac3-ce43-4ba9-a012-bf9b8b7c12b4",
+          "column": "credit",
+          "first_JSON": "48",
+          "later_JSON": "48.0",
+          "equal_numeric_value": true
+        },
+        {
+          "id": "df0043b8-50c8-4e20-9260-d351539b4bbe",
+          "column": "debit",
+          "first_JSON": "48",
+          "later_JSON": "48.0",
+          "equal_numeric_value": true
+        },
+        {
+          "id": "df0043b8-50c8-4e20-9260-d351539b4bbe",
+          "column": "credit",
+          "first_JSON": "0",
+          "later_JSON": "0.0",
+          "equal_numeric_value": true
+        }
+      ],
+      "raw_differences": [],
+      "time_representation_differences": 0,
+      "time_columns": {},
+      "non_time_differences": [],
+      "other_field_values_equal": true,
+      "serialized_row_bytes_equal": false
+    },
+    "ordinary_pool_journal": {
+      "table": "erp.journal_entries",
+      "compared_rows": 1,
+      "compared_fields": 13,
+      "original_rows": {
+        "bytes": 538,
+        "sha256": "0dd8dc7d51d4670482fa50dfa5e6c043e142f293a6f98d8e173b86e6294bfe40"
+      },
+      "later_same_id_rows": {
+        "bytes": 538,
+        "sha256": "8984f1ce40e8c6a4d51a713d71ab757be0e0b6afc653610ff6f819ca729bceb1"
+      },
+      "equal_value_fields": 11,
+      "equal_numeric_values_with_different_JSON_representation": [],
+      "raw_differences": [
+        {
+          "id": "e3e888c6-1dab-4681-8a0f-a422da276d36",
+          "column": "created_at",
+          "before": "2026-10-30T17:12:35.42583+07:00",
+          "after": "2026-10-30T10:12:35.42583+00:00",
+          "same_instant_different_offset": true
+        },
+        {
+          "id": "e3e888c6-1dab-4681-8a0f-a422da276d36",
+          "column": "posting_at",
+          "before": "2026-10-30T17:12:35.42583+07:00",
+          "after": "2026-10-30T10:12:35.42583+00:00",
+          "same_instant_different_offset": true
+        }
+      ],
+      "time_representation_differences": 2,
+      "time_columns": {
+        "created_at": 1,
+        "posting_at": 1
+      },
+      "non_time_differences": [],
+      "other_field_values_equal": true,
+      "serialized_row_bytes_equal": false
+    }
+  },
+  "later_additions": {
+    "HPP_history": {
+      "before": 2,
+      "after": 3,
+      "added_ids": [
+        "b097958a-254a-4e16-bb45-8cec1b692dbe"
+      ],
+      "removed_ids": []
+    },
+    "HPP_components": {
+      "before": 18,
+      "after": 27,
+      "added_ids": [
+        "3ad241fc-72ba-4b26-b627-b625fc348d05",
+        "9894ff27-216b-4a9a-8d16-aa9b61f583d4",
+        "a3864ed1-9bd2-40da-ab7b-70e7864a415d",
+        "b8aeeacd-b35d-433f-953f-3c9ee511e763",
+        "c2ba80ec-23ae-471c-830b-6626476d0903",
+        "d770949c-18c3-4cc5-8364-fd85eaa81adf",
+        "dd5b55f8-c221-4d16-9dcf-d914dee8b60b",
+        "e977679e-ac5d-49c3-982b-8243042db69b",
+        "f374b5c7-bdee-4a6f-94e3-00942b4444b3"
+      ],
+      "removed_ids": []
+    },
+    "journal_headers": {
+      "before": 4,
+      "after": 6,
+      "added_ids": [
+        "9b6d8c3f-df70-466b-8adb-682cbf1f3bd6",
+        "e3e888c6-1dab-4681-8a0f-a422da276d36"
+      ],
+      "removed_ids": []
+    },
+    "journal_lines": {
+      "before": 10,
+      "after": 15,
+      "added_ids": [
+        "0f13bcb6-6dbb-43b0-9f6f-fb2be99294ce",
+        "4e2f26db-eb6a-4c23-b475-26066c80e9dd",
+        "50583837-d351-4351-b973-64d6517e388e",
+        "673b9332-03c0-4c1e-aa72-96be9176b406",
+        "dc94b7a2-ceee-4581-b7e1-197504459d8e"
+      ],
+      "removed_ids": []
+    }
+  },
+  "observer_reader_source_review": {
+    "actual_functions": {
+      "erp.validate_attendance_hpp_pool_v1(uuid)": {
+        "definition": {
+          "bytes": 6640,
+          "sha256": "00bf675c5d310f109b01b0a9979bbb39ba170f829f3d2559b90d041b3f7ac8e4"
+        },
+        "timezone_lines": []
+      },
+      "erp.compute_po_hpp_gl_targets_v2620d(uuid)": {
+        "definition": {
+          "bytes": 2584,
+          "sha256": "2e166752812af06d8f9922c4ad2d0583ddb4f11b9d735756e5ada98eabab8549"
+        },
+        "timezone_lines": []
+      },
+      "erp.compute_po_hpp_gl_book_v2620e(uuid)": {
+        "definition": {
+          "bytes": 2870,
+          "sha256": "0e08bd0dedc37e17da5d08881c2ff179838cf738d1c456bde45693214c489da9"
+        },
+        "timezone_lines": []
+      },
+      "erp.run_v267_financial_truth_checks()": {
+        "definition": {
+          "bytes": 32547,
+          "sha256": "7401b07c6e08b925b62e7c1f5feba1c5cc964115ab6e836873963b6b9cafe1cc"
+        },
+        "timezone_lines": []
+      },
+      "erp.run_v268_financial_report_checks()": {
+        "definition": {
+          "bytes": 59039,
+          "sha256": "11f7fbd69b605998a64cad2943841d99bce914756459f9b6290b9f917ae854e9"
+        },
+        "timezone_lines": [
+          "SET \"TimeZone\" TO 'UTC'"
+        ]
+      }
+    },
+    "note": "Only run_v268 declares function-scoped SET TimeZone UTC; the other four definitions have no TimeZone statements. Python native_call/fixture_journal_call/auth.actor/admin wrappers change authorization only. No additional session-TimeZone scope is introduced on fresh observe/valuation/cancellation paths."
+  },
+  "legitimate_ordinary_activation": {
+    "current_HPP_before": {
+      "bytes": 422,
+      "sha256": "b422787e42393884ca84f90d8d1428125a258769da8406e9586d5a891e4129f2"
+    },
+    "current_HPP_after": {
+      "bytes": 461,
+      "sha256": "12f03df50dd716686f29b457175410f3647470d6b4b3642baed124c3f9754a95"
+    },
+    "current_HPP_rows_before": 1,
+    "current_HPP_rows_after": 1,
+    "before_total_cost": "120",
+    "after_total_cost": "140.02",
+    "GL_before": {
+      "WIP": "0.00",
+      "FG_INVENTORY": "72.00",
+      "COGS": "48.00"
+    },
+    "GL_after": {
+      "WIP": "0.00",
+      "FG_INVENTORY": "84.01",
+      "COGS": "56.01"
+    },
+    "full_FG_or_HPP_equality_claim": false,
+    "explanation": "The later census follows Native ordinary pool activation: QC_GOOD valuation cache and current-HPP pointer/cost plus appended HPP/journal history legitimately differ. Every raw difference and addition is retained above."
+  },
+  "untouched_runtime_oracles": true,
+  "dropped_columns": [],
+  "actual_new_browser_credit": 0,
+  "independent_acceptance": false,
+  "production_go": false
+}

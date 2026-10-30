@@ -1,0 +1,51 @@
+{
+  "contract": "cp7.s03.ordinary-snapshot-local-controls.v1",
+  "classification": "OFFLINE_SOURCE_READ_SCOPE_AND_EVIDENCE_CONTROLS_ONLY",
+  "parent_commit": "ae83782c5dc0701f3b5325375a743b2a08e4ce3d",
+  "parent_tree": "90df88ef385bfbd89aa05b687e6ba4b30a539432",
+  "fixture_read_scopes": 2,
+  "counted_existing_file_change_groups": 7,
+  "python": {
+    "command": "/workspace/scratch/b73c04f98216/erp-test-venv/bin/python -B -m unittest discover -s scripts/current-attendance-choice-browser4-lawful-successor -p test_*.py",
+    "tests": 75,
+    "failures": 0,
+    "errors": 0,
+    "elapsed_seconds": 42.400,
+    "new_controls": 5
+  },
+  "node": {
+    "version": "v24.22.1",
+    "syntax_check": "PASS",
+    "tests": 12,
+    "failures": 0,
+    "skipped": 0
+  },
+  "strict_source_preflight": {
+    "status": "SOURCE_PASS",
+    "audit_hook": "DB, network and writes forbidden; subprocesses restricted to readonly /usr/bin/git",
+    "forbidden_attempts": [],
+    "observed_writes": []
+  },
+  "actual_original_admission": {
+    "status": "CLOSED",
+    "exception": "ValueError",
+    "message": "S03_BOUND_SIX_ACTUAL_ORIGINALS_NOT_MATERIALIZED",
+    "forbidden_attempts": [],
+    "observed_writes": []
+  },
+  "first_local_failure_retained": "ORDINARY_SNAPSHOT_FIRST_LOCAL_FAILURE.json",
+  "raw_scan": "ORDINARY_SNAPSHOT_ACTUAL4D_SCAN.json",
+  "all_four_current_browser_callbacks_exact": true,
+  "frozen_lawful_helper_and_all_financial_oracles_exact": true,
+  "prior_current_rights_manifest_and_4d_84_receipts_exact": true,
+  "Native_activation_and_business_timezone_unchanged": true,
+  "read_failure_restores_original_timezone": true,
+  "runtime_value_normalization_added": false,
+  "DB_calls": 0,
+  "network_calls": 0,
+  "actual_browser_cases": 0,
+  "actual_Native_cases": 0,
+  "actual_Auth_HTTP_cases": 0,
+  "actual_two_session_races": 0,
+  "production_go": false
+}

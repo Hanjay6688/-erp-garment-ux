@@ -4,6 +4,7 @@ Source verification grants no Native, Auth, browser, race or acceptance credit.
 """
 from hashlib import sha256
 from pathlib import Path
+import importlib.util
 import json
 import os
 import subprocess
@@ -65,6 +66,10 @@ def verify(root=ROOT, here=HERE):
     for item in plan['files']:
         name = item['name']; old = (here / 'retained-4d968' / name).read_bytes()
         current = (here / name).read_bytes()
+        if name == 'fixture.py':
+            spec = importlib.util.spec_from_file_location('s03_ordinary_snapshot_before_rights', HERE / 'ordinary_snapshot_delta.py')
+            ordinary = importlib.util.module_from_spec(spec); spec.loader.exec_module(ordinary)
+            current = ordinary.parent_fixture(root, here)
         if (old != git('show', PARENT + ':' + str((HERE / name).relative_to(ROOT)))
                 or item['before'] != dict(bytes=len(old), sha256=sha256(old).hexdigest())
                 or item['after'] != dict(bytes=len(current), sha256=sha256(current).hexdigest())):
