@@ -1,0 +1,127 @@
+{
+  "classification": "WRITER_LOCAL_CLOSED_SUPPLEMENT_INTEGRATION_PREPARATION",
+  "previous_helper_commit": "68ec0f57c5861164f3d37db0efcc1cce0237a126",
+  "parent_source_head": "bce07059f7a351372e40bb7c2e4453876320a2e8",
+  "files": {
+    "EXPECTED_CONTEXTS.json": {
+      "bytes": 2694,
+      "sha256": "585ba758424077ff47588dca41aaca03318587106279cb614b196e10968dc311"
+    },
+    "INTEGRATION_PLAN.md": {
+      "bytes": 9653,
+      "sha256": "fd2cb76781b5f76a993b880f95768d45724a62e4d326c9d3cd2f237f540a1f5c"
+    },
+    "INTEGRATION_SOURCE.json": {
+      "bytes": 3105,
+      "sha256": "36996eb43827be6877937121c731e3d950bf7f70762fc36f29b637215378da6a"
+    },
+    "OBSERVATION_SKU_7C720.json": {
+      "bytes": 26322,
+      "sha256": "30defbdddf4db8ee73a401f5fbbda14c44c90133e498af00b15081cdc956f2ed"
+    },
+    "README.md": {
+      "bytes": 11062,
+      "sha256": "64b2ab76de037c2a6551ba90353bf8a793ea67c3dd8b9419c1b4cf8584c77165"
+    },
+    "ROOTS.json": {
+      "bytes": 2992,
+      "sha256": "a796028c5f8ef540cc28d98299697a85194e850051e42867b70ec007fdd0dce2"
+    },
+    "VALIDATION.json": {
+      "bytes": 5110,
+      "sha256": "eadcb9bedefd7321719d877ce6cf667a299255f3a90f557b1c0850db1ef56d5f"
+    },
+    "capture.py": {
+      "bytes": 20410,
+      "sha256": "a9643a5b89ce5b488bf596b00e8d09c9028a26fc0ebd5e17302a41da36a6f59c"
+    },
+    "census.py": {
+      "bytes": 28604,
+      "sha256": "9b24b45a09e3fd5cf240ed033e1553fd3c3bfe81a9b2425c9ad3e71dfaf390c0"
+    },
+    "integration.py": {
+      "bytes": 9828,
+      "sha256": "c13c8a08e1ac65167f6209547ecbf5bdb4c41d2bcb1067b962f4d9a243203b61"
+    },
+    "probe.py": {
+      "bytes": 4036,
+      "sha256": "932ec519a32f45698fbc80654a7aaa41d99df470e2e55c2790131135c2825dcb"
+    },
+    "query_smoke.mjs": {
+      "bytes": 2909,
+      "sha256": "9542148b7619e9827d3d854e2fa608093d202ed2c988640e44af201702c1a1f7"
+    },
+    "runner_patch.py": {
+      "bytes": 4639,
+      "sha256": "9b1b7aab495277511a591aa3fbdd273664d68ef3ebd2ffb9b240f35cdf4d6b0c"
+    },
+    "test_census.py": {
+      "bytes": 23173,
+      "sha256": "9feb814119f3fdd0eb75d346219abcfed54dc854737859f20579b3a9f116e3b4"
+    },
+    "test_integration.py": {
+      "bytes": 10511,
+      "sha256": "2da48e9b4843eeb0c9377428be4068c79b0e120efee37340c6b4159b30a4b884"
+    }
+  },
+  "local_unit_tests": {
+    "status": "PASS",
+    "test_method_count": 73,
+    "command": "python -B -m unittest discover -s scripts/current-global-actual-writer-census-qualification -p test_*.py -q",
+    "actual_ERP_execution_inferred": false
+  },
+  "capture_queries_identical_to_19_previously_smoked": true,
+  "retained_actual_snapshot_coverage": {
+    "all22_groups": 22,
+    "table_count": 685,
+    "sequence_count": 15,
+    "catalogue_sha256": "f75b7a8034aa0b9102bece1d2848d7c97d0296c8012f4911347f573eafef833f",
+    "data_and_sequences_sha256": "b9bb13075fb9fb7bcde52eb35150ba736dc051f6422bf7318e12f68af829afe8",
+    "snapshot_sha256": "55a368ccab4572421cb82872b999737692075a05c57eae24d62c9e384fb598f6"
+  },
+  "retained_actual_snapshot_observations_equal": 2,
+  "derivative_proofs": {
+    "runner": {
+      "kind": "runner",
+      "original_path": "scripts/current-de-sku-parent-catalogue-qualification/runner.py",
+      "original_sha256": "d5ebbdb8c3984e783043b8cb46d044d320afe592b91b69abd1ae69366041aed0",
+      "derived_sha256": "3fa8832725c4e59b98cbb661e98df63c5665943a5359d45a85938fae44f8f1f0",
+      "counted_changes": 3,
+      "byte_reversible": true,
+      "canonical_parent_written": false,
+      "next_successor_source_admission_required": true,
+      "next_producer_metadata_required": true,
+      "metadata_launch_prepared": false,
+      "runtime_entry": null,
+      "actual_Native_credit": 0,
+      "production_go": false,
+      "independent_acceptance": false
+    },
+    "gate": {
+      "kind": "gate",
+      "original_path": "scripts/current-de-sku-parent-catalogue-qualification/result_gate.py",
+      "original_sha256": "ccacf58bd147de7d2b34d39f89f71ad42ac0e62b030a55f5db17c381134abf75",
+      "derived_sha256": "c2328558f251295c0b84e7abe23346ac9d5749d51aec02fb9afd19990209fe86",
+      "counted_changes": 3,
+      "byte_reversible": true,
+      "canonical_parent_written": false,
+      "next_successor_source_admission_required": true,
+      "next_producer_metadata_required": true,
+      "metadata_launch_prepared": false,
+      "runtime_entry": null,
+      "actual_Native_credit": 0,
+      "production_go": false,
+      "independent_acceptance": false
+    }
+  },
+  "separate_original_name": "GLOBAL_ACTUAL_WRITER_SUPPLEMENT.json",
+  "runtime_source_admission_and_producer_transitions_pending": true,
+  "metadata_launch_prepared": false,
+  "actual_supplement_capture_executed": false,
+  "canonical_parent_changed": false,
+  "global_hooks_opened": false,
+  "runtime_entry": null,
+  "actual_Native_credit": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

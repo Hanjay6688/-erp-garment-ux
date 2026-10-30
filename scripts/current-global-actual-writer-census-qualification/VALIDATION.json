@@ -1,0 +1,172 @@
+{
+  "classification": "WRITER_LOCAL_HELPER_VALIDATION_NOT_ERP_EXECUTION_QUALIFICATION",
+  "source_parent": "bce07059f7a351372e40bb7c2e4453876320a2e8",
+  "files": {
+    "EXPECTED_CONTEXTS.json": {
+      "name": "EXPECTED_CONTEXTS.json",
+      "bytes": 2694,
+      "sha256": "585ba758424077ff47588dca41aaca03318587106279cb614b196e10968dc311"
+    },
+    "OBSERVATION_SKU_7C720.json": {
+      "name": "OBSERVATION_SKU_7C720.json",
+      "bytes": 26322,
+      "sha256": "30defbdddf4db8ee73a401f5fbbda14c44c90133e498af00b15081cdc956f2ed"
+    },
+    "README.md": {
+      "name": "README.md",
+      "bytes": 10679,
+      "sha256": "bd494210fc6dab57acf7b38403ec487c2b8e85f5c2d35082e06a773d1871ee81"
+    },
+    "ROOTS.json": {
+      "name": "ROOTS.json",
+      "bytes": 2992,
+      "sha256": "a796028c5f8ef540cc28d98299697a85194e850051e42867b70ec007fdd0dce2"
+    },
+    "capture.py": {
+      "name": "capture.py",
+      "bytes": 19780,
+      "sha256": "62287e500faf37ce080debb0d06a308721847da9e7ff5d20d8a1e4f87ce2a2e6"
+    },
+    "census.py": {
+      "name": "census.py",
+      "bytes": 28604,
+      "sha256": "9b24b45a09e3fd5cf240ed033e1553fd3c3bfe81a9b2425c9ad3e71dfaf390c0"
+    },
+    "probe.py": {
+      "name": "probe.py",
+      "bytes": 4036,
+      "sha256": "932ec519a32f45698fbc80654a7aaa41d99df470e2e55c2790131135c2825dcb"
+    },
+    "query_smoke.mjs": {
+      "name": "query_smoke.mjs",
+      "bytes": 2909,
+      "sha256": "9542148b7619e9827d3d854e2fa608093d202ed2c988640e44af201702c1a1f7"
+    },
+    "test_census.py": {
+      "name": "test_census.py",
+      "bytes": 19802,
+      "sha256": "f2d7327d2c34e02fb8bfbce972ec186dc4d20ca94e926face7cffc7ebe25b3de"
+    }
+  },
+  "unit_controls": {
+    "status": "PASS",
+    "count": 46,
+    "command": "python -B -m unittest discover -s scripts/current-global-actual-writer-census-qualification -p test_census.py -v"
+  },
+  "capture_query_smoke": {
+    "classification": "LOCAL_PGLITE_QUERY_SYNTAX_AND_CATALOG_ABI_ONLY",
+    "server": "PostgreSQL 17.5 on aarch64-unknown-linux-gnu, compiled by emcc (Emscripten gcc/clang-like replacement + linker emulating GNU ld) 3.1.74 (1092ec30a3fb1d46b1782ff1b4db5094d3d06ae5), 32-bit",
+    "actual_Native_credit": 0,
+    "production_go": false,
+    "independent_acceptance": false,
+    "checks": {
+      "schemas": {
+        "status": "PASS",
+        "rows": 1
+      },
+      "relations": {
+        "status": "PASS",
+        "rows": 5
+      },
+      "columns": {
+        "status": "PASS",
+        "rows": 8
+      },
+      "functions": {
+        "status": "PASS",
+        "rows": 2
+      },
+      "roles": {
+        "status": "PASS",
+        "rows": 18
+      },
+      "memberships": {
+        "status": "PASS",
+        "rows": 4
+      },
+      "foreign_keys": {
+        "status": "PASS",
+        "rows": 1
+      },
+      "triggers": {
+        "status": "PASS",
+        "rows": 5
+      },
+      "view_relation_dependencies": {
+        "status": "PASS",
+        "rows": 2
+      },
+      "inheritance": {
+        "status": "PASS",
+        "rows": 0
+      },
+      "database_authority": {
+        "status": "PASS",
+        "rows": 1
+      },
+      "default_privileges": {
+        "status": "PASS",
+        "rows": 0
+      },
+      "effective_schema_privileges": {
+        "status": "PASS",
+        "rows": 36
+      },
+      "effective_table_privileges": {
+        "status": "PASS",
+        "rows": 432
+      },
+      "effective_function_privileges": {
+        "status": "PASS",
+        "rows": 36
+      },
+      "effective_sequence_privileges": {
+        "status": "PASS",
+        "rows": 54
+      },
+      "effective_explicit_column_privileges": {
+        "status": "PASS",
+        "rows": 72
+      },
+      "effective_database_privileges": {
+        "status": "PASS",
+        "rows": 54
+      },
+      "dependencies": {
+        "status": "PASS",
+        "rows": 26
+      }
+    }
+  },
+  "capture_query_smoke_receipt": {
+    "name": "global-capture-query-smoke-result.json",
+    "bytes": 1804,
+    "sha256": "ba4c3769cea99885f499ecb8c74d2546069c337dc67770678268ef691865fbf5"
+  },
+  "capture_query_smoke_first_failure": {
+    "name": "global-capture-query-smoke-first-failure.json",
+    "bytes": 1855,
+    "sha256": "306b76cb8b1ae048e576fe40ed62063e81cef1318adc18b35d1f01cdac7fff53"
+  },
+  "capture_query_smoke_first_failure_reason": "Two dependency identity expressions required explicit pg_depend.deptype::text; no ERP business run occurred.",
+  "actual_metadata_private_inventory": {
+    "name": "global-census-sku7c720.json",
+    "bytes": 33304507,
+    "sha256": "685f053747a8641553ea7d07c22c8546810fb7f25e07dd484c22d63b63e6fa24"
+  },
+  "actual_metadata_layers": {
+    "outbound_functions": 141,
+    "outbound_relations": 121,
+    "maximal_functions": 2731,
+    "maximal_relations": 588,
+    "maximal_physical_tables": 572,
+    "maximal_is_production_lockset": false
+  },
+  "actual_parent_D1_E_SKU_catalogue_received": false,
+  "supplement_executed_on_actual_ERP": false,
+  "writer_or_phantom_lock_closed": false,
+  "runtime_entry": null,
+  "actual_Native_credit": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

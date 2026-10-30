@@ -1,0 +1,72 @@
+{
+  "contract": "cp7.global.census.parent-integration-source-review.v1",
+  "exact_parent": "bce07059f7a351372e40bb7c2e4453876320a2e8",
+  "files": {
+    "scripts/current-de-sku-parent-catalogue-qualification/runner.py": {
+      "bytes": 4376,
+      "sha256": "d5ebbdb8c3984e783043b8cb46d044d320afe592b91b69abd1ae69366041aed0"
+    },
+    "scripts/current-de-sku-parent-catalogue-qualification/stage.py": {
+      "bytes": 4428,
+      "sha256": "d037434ea4f873730b9fe9217d2704dae799e9d96264c3a36e8875f1e772431e"
+    },
+    "scripts/current-de-sku-parent-catalogue-qualification/result_gate.py": {
+      "bytes": 5113,
+      "sha256": "ccacf58bd147de7d2b34d39f89f71ad42ac0e62b030a55f5db17c381134abf75"
+    },
+    "scripts/current-de-sku-parent-catalogue-qualification/derive.py": {
+      "bytes": 3230,
+      "sha256": "47020816afac33a5d9be488f7d6d85a9f7efc214fb1712b47ad2fb34a9d837c7"
+    },
+    "scripts/current-vendor-receivable-qualification/probe.py": {
+      "bytes": 12667,
+      "sha256": "c420d894f8d5f16bddefeae73addb621507170f372a28e7d6e33d88c7eeb0be9"
+    },
+    "scripts/cp7_sku_pair_conversion/composition.py": {
+      "bytes": 10245,
+      "sha256": "f4bf4bacc90a2e2ebdef7ea1105a3dae49a9d4c798da77beae40f3702decbeda"
+    },
+    "scripts/cp7_ow04_restore_bundle.py": {
+      "bytes": 19828,
+      "sha256": "a1605193347cf5b3321a7bdbf8ff6c634df4f4c0a5113eb295e8c3ce44428e00"
+    },
+    "scripts/current-factory-initial-stage/stream_data.py": {
+      "bytes": 4670,
+      "sha256": "5a07ae1409337424b4d2c1234f75148013a30a8652f451686fdb02cb0b2b483c"
+    },
+    "scripts/current-de-sku-parent-catalogue-qualification/admission.py": {
+      "bytes": 6196,
+      "sha256": "44e6f527049854407dd3c392f72dd440dad9a1f2f833dd6431c9b9c9e51feb52"
+    },
+    "scripts/current-de-sku-parent-catalogue-qualification/freeze.py": {
+      "bytes": 2155,
+      "sha256": "a0c8b621aec6b51745fb3b38c1930909e4d3798e9444f8ee4099b61c3836658a"
+    },
+    "scripts/current-de-sku-parent-catalogue-qualification/workflow.py": {
+      "bytes": 3682,
+      "sha256": "0ffad52ca6308374d503cabcb155697acab4ed253b8046ddd59af8760ab4a1fd"
+    },
+    "scripts/current-de-sku-parent-catalogue-qualification/GENERATED_RECEIPTS.json": {
+      "bytes": 59073,
+      "sha256": "827d03babdbde0a9b44a00f7b7091b3513d122160af6ddbff8f046fe8eb59d6b"
+    },
+    "scripts/current-de-sku-parent-catalogue-qualification/LATER_GENERATED_RECEIPTS.json": {
+      "bytes": 27990,
+      "sha256": "17b941cca7e11c60508d82f675aa44c402f43ef9cbb6b4ba441e00a5b722354d"
+    },
+    "scripts/current-de-sku-parent-catalogue-qualification/SKU_GENERATED_RECEIPTS.json": {
+      "bytes": 28188,
+      "sha256": "8de73c2915fb6ac2e847a4008d9ed382482d1e0329f5bda9fed45c9447795c4f"
+    },
+    ".github/workflows/cp7-de-sku-parent-catalogue.yml": {
+      "bytes": 31472,
+      "sha256": "bb45d55e8ce2ce2df2dea41a460aff443056c4e30ac58a70701269d659e5bf86"
+    }
+  },
+  "canonical_sources_modified": false,
+  "actual_runtime_integration_executed": false,
+  "runtime_entry": null,
+  "actual_Native_credit": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}
