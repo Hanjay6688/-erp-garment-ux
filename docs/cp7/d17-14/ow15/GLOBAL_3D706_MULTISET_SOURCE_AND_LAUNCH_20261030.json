@@ -1,0 +1,117 @@
+{
+  "classification": "SOURCE_MULTISET_SUCCESSOR_LAUNCHED_METADATA_ONLY",
+  "recorded_at_utc": "2026-10-30T12:22:33.343883+00:00",
+  "head": "3d7066b852176d9f343ec831d2f63aee6665579b",
+  "tree": "c5a09173421af936df719971b2c5f1043d292818",
+  "parent": "ee14592920c331d84d354a24b4b6b4a9f49f91d1",
+  "local_reviewed_head": "c5dce6ba9691a3f8dd9c96d26c02e30a6e489041",
+  "branch": "astra-a/de-sku-global-census-multiset-20261030",
+  "run_id": 41054247479,
+  "job_id": 124057642882,
+  "status": "IN_PROGRESS_AT_LAST_API_OBSERVATION",
+  "additive_paths": 22,
+  "immutable_parent_files_and_modes": 13909,
+  "new_source_controls": 32,
+  "retained_source_controls": 73,
+  "peer_targeted_controls": 12,
+  "root_strict_clean_preflight": "PASS",
+  "root_source_review": {
+    "bytes": 3224,
+    "sha256": "6e8d370d4c012c006e2ccc99af911744db06863cd259e98642079242aeca62f2"
+  },
+  "peer_frozen_review": {
+    "bytes": 10051,
+    "sha256": "d6611c96d61fa25a5d020e400f7403867b0b1ff307fa29c9eefc3f3a6dd0aaf6"
+  },
+  "peer_bounded_source_review": "NO_CONCRETE_BLOCKER_FOUND",
+  "private_source_review": {
+    "name": "ERP_Global_Dependency_Multiset_Source_Review_20261030.zip",
+    "bytes": 182079,
+    "sha256": "e5665e88e4ffcefdb59fc1cfd95f6379e9777ea4edb7c6b8f56ff46d2fa397c8",
+    "members": 43,
+    "CRC_ok": true,
+    "library_file_id": "libfile_a7d3a11a95a081919d958399d1c94867"
+  },
+  "unchanged_queries": 19,
+  "bag_groups": [
+    "dependencies",
+    "view_relation_dependencies"
+  ],
+  "other_17_groups_still_require_unique_identity": true,
+  "raw_rows_all_occurrences_preserved": true,
+  "raw_written_before_validation": true,
+  "query_failure_preserves_completed_prefix": true,
+  "raw_to_supplement_binding": "REQUIRED_ON_WRITE_READ_AND_OFFLINE_ANALYSIS",
+  "workflow_steps": 72,
+  "counted_workflow_route_changes": 7,
+  "transaction": "READ COMMITTED READ ONLY",
+  "full_outer_finally_preserved": true,
+  "local_full_actual_Original_admission": "CLOSED_MISSING_D17_18_RETAINED_COMBINED_AF_DIRECTORY",
+  "workflow_provisions_retained_Originals": true,
+  "primary_source_and_model": {
+    "classification": "PRIMARY_SOURCE_AND_LOCAL_MODEL_ONLY_NOT_ACTUAL_ERP_ROWS",
+    "primary_sources": [
+      {
+        "repository": "postgres/postgres",
+        "ref": "REL_17_STABLE",
+        "path": "src/backend/catalog/pg_depend.c",
+        "github_blob": "7afdc78aa67fbca46a14d5ae0e04a6e84d444b98",
+        "retained_bytes": 36257,
+        "retained_sha256": "4747fe5a42e4188a3ceca7579613d172f0ad9aee6e2216ac56ced2ccc581448f",
+        "retained_git_blob": "7afdc78aa67fbca46a14d5ae0e04a6e84d444b98",
+        "url": "https://github.com/postgres/postgres/blob/REL_17_STABLE/src/backend/catalog/pg_depend.c"
+      },
+      {
+        "repository": "postgres/postgres",
+        "ref": "REL_17_STABLE",
+        "path": "src/include/catalog/pg_depend.h",
+        "github_blob": "eb1ee43b012ebc8aa2192827013d5961f122d9ad",
+        "retained_bytes": 2791,
+        "retained_sha256": "457be3ad66b69095f2b93c3ac3efd425cdf3e9841773e21a94db20ee7780edd4",
+        "retained_git_blob": "eb1ee43b012ebc8aa2192827013d5961f122d9ad",
+        "url": "https://github.com/postgres/postgres/blob/REL_17_STABLE/src/include/catalog/pg_depend.h"
+      }
+    ],
+    "pg17_docs": "https://www.postgresql.org/docs/17/catalog-pg-depend.html",
+    "model": {
+      "server": "PostgreSQL 17.5 on aarch64-unknown-linux-gnu, compiled by emcc (Emscripten gcc/clang-like replacement + linker emulating GNU ld) 3.1.74 (1092ec30a3fb1d46b1782ff1b4db5094d3d06ae5), 32-bit",
+      "result_bytes": 6327,
+      "result_sha256": "593c60451e46680f9841e9114eb5ffd01502ce6894ff6bba762bad9e0c7c1927",
+      "groups": {
+        "dependencies": {
+          "occurrence_count": 16,
+          "distinct_identity_count": 15,
+          "raw_pairs_sha256": "1a9c1a32092766ac5dc8de1e800484297d05942f06651b56803c6050f9483b3d"
+        },
+        "view_relation_dependencies": {
+          "occurrence_count": 2,
+          "distinct_identity_count": 2,
+          "raw_pairs_sha256": "8892ac3bca5ceb36ce18c116b8a5926c262329f2e45bcaa12d8345d1bc0fc654"
+        }
+      },
+      "direct_system_catalog_writes": false
+    },
+    "actual_failure": {
+      "public_head": "ee14592920c331d84d354a24b4b6b4a9f49f91d1",
+      "run": 41044419248,
+      "job": 124024866394,
+      "archive_bytes": 3990236,
+      "archive_sha256": "59d4ce7398bdcfd2cc3603ca487ea40eb171e1426070fe67f273ac5d0dcc174a",
+      "main_sha256": "170957fde933e1afc97f95e20d7cfe700d2b7a8f06c406210f7b4f2832472fb8",
+      "error": "GLOBAL_CENSUS_DUPLICATE_SUPPLEMENT_IDENTITY:dependencies",
+      "offending_raw_rows_retained": false,
+      "actual_object_cause": "UNDETERMINED"
+    },
+    "runtime_entry": null,
+    "actual_Native_credit": 0,
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "actual_new_Native_credit": 0,
+  "actual_business_cases": 0,
+  "runtime_entry": null,
+  "global_hooks_opened": false,
+  "writer_or_phantom_or_permission_closure_qualified": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

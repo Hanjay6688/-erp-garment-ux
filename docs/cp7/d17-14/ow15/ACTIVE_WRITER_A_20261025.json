@@ -1,5 +1,5 @@
 {
-  "recorded_at_utc": "2026-10-30T11:37:09.160300+00:00",
+  "recorded_at_utc": "2026-10-30T12:22:33.343883+00:00",
   "role": "A finance writer/integrator replacing Claude; B remains separate production/planning writer",
   "slogan": [
     "VENI. VIDI. VICI. ERP. — I CONQUERED ERP.",
@@ -10,23 +10,23 @@
   "independent_acceptance": false,
   "running": [
     {
-      "domain": "SKU_NATIVE27",
-      "head": "a18ceb797840934f2cc45222b704b581a00cecf0",
-      "run_id": 41039546903,
-      "job_id": 124008666380,
+      "domain": "SKU_NATIVE27_BROWSER_SUCCESSOR",
+      "head": "8a08024fda704162481e3123efa5fa7fbfc5663d",
+      "run_id": 41053845032,
+      "job_id": 124056289401,
       "status": "IN_PROGRESS_AT_LAST_API_OBSERVATION",
       "qualified_new_case_credit": 0
     },
     {
-      "domain": "GLOBAL_WRITER_METADATA_ONLY",
-      "head": "ee14592920c331d84d354a24b4b6b4a9f49f91d1",
-      "run_id": 41044419248,
-      "job_id": 124024866394,
+      "domain": "GLOBAL_MULTISET_METADATA_ONLY",
+      "head": "3d7066b852176d9f343ec831d2f63aee6665579b",
+      "run_id": 41054247479,
+      "job_id": 124057642882,
       "status": "IN_PROGRESS_AT_LAST_API_OBSERVATION",
       "qualified_new_case_credit": 0
     },
     {
-      "domain": "S03_BROWSER4",
+      "domain": "S03_BROWSER4_CURRENT_RIGHTS",
       "head": "ae83782c5dc0701f3b5325375a743b2a08e4ce3d",
       "run_id": 41044533553,
       "job_id": 124025266832,
@@ -34,7 +34,7 @@
       "qualified_new_case_credit": 0
     },
     {
-      "domain": "S03_BROWSER4_ORDINARY_SNAPSHOT_UTC_SUCCESSOR",
+      "domain": "S03_BROWSER4_ORDINARY_SNAPSHOT_UTC",
       "head": "30ee9874d049632050faf53b299a0cd8a11fe9f6",
       "run_id": 41049049321,
       "job_id": 124040265150,
@@ -17240,7 +17240,7 @@
     "production_go": false,
     "independent_acceptance": false
   },
-  "recorded_at_wib": "2026-10-30T09:36:19.334238+07:00",
+  "recorded_at_wib": "2026-10-30T19:22:33.343883+07:00",
   "retained_consistent_faa_retry_infrastructure_failure": {
     "head": "faa5889faf622e4cb07b470aae26eadd750879c1",
     "run_id": 40540122775,
@@ -25067,7 +25067,7 @@
     }
   },
   "global_writer_census_metadata_successor_20261030": {
-    "status": "PUBLISHED_METADATA_ONLY_CANDIDATE_ACTUAL_RUN_IN_PROGRESS",
+    "status": "TERMINAL_FIRST_DEPENDENCY_FAILURE_SEE_EXACT_ROOT_INTAKE",
     "head": "ee14592920c331d84d354a24b4b6b4a9f49f91d1",
     "tree": "4f1173e9454548d44fc2c88c0bc628445df57027",
     "parent": "80fab765938f8feaff151cd35fdb7923df987f23",
@@ -25115,7 +25115,8 @@
     "writer_or_phantom_or_permission_closure_qualified": false,
     "formal_accepted": "5/16",
     "production_go": false,
-    "independent_acceptance": false
+    "independent_acceptance": false,
+    "prior_status": "PUBLISHED_METADATA_ONLY_CANDIDATE_ACTUAL_RUN_IN_PROGRESS"
   },
   "S03_current_rights_lawful_successor_20261030": {
     "status": "PUBLISHED_LAWFUL_BROWSER4_SUCCESSOR_ACTUAL_RUN_IN_PROGRESS",
@@ -25233,7 +25234,19 @@
       "sha256": "0b1acf7b8fb418063fbecab9d3da517896f62d9673df8de78cf880262ebc7bb7",
       "classification": "INTERNAL_SOURCE_REVIEW_FROZEN_BEFORE_PEER_CONCLUSION"
     },
-    "peer_source_review": "IN_PROGRESS_NOT_A_LAUNCH_ACCEPTANCE_CLAIM",
+    "peer_source_review": {
+      "status": "INTERNAL_BOUNDED_SOURCE_REVIEW_COMPLETE_NO_CONCRETE_BLOCKER",
+      "archive": {
+        "name": "ERP_S03_Ordinary_UTC_Internal_Source_Review_20261030.zip",
+        "bytes": 7197,
+        "sha256": "137b78016ff0514f83a4c42c619a6e3449bbb6a5527c399834f256517c508514",
+        "members": 4,
+        "CRC_ok": true,
+        "library_file_id": "libfile_7fb23f5b21fc819197aa156abd326f44"
+      },
+      "independent_acceptance": false,
+      "actual_new_cases": 0
+    },
     "local_full_actual_Original_admission": "CLOSED_SIX_ACTUAL_ORIGINALS_NOT_MATERIALIZED",
     "workflow_provisions_Originals": true,
     "fixture_read_scopes": [
@@ -25290,5 +25303,321 @@
       "status": "IN_PROGRESS_AT_LAST_API_OBSERVATION",
       "qualified_new_case_credit": 0
     }
-  ]
+  ],
+  "previous_running_before_8a080_3d706_launch_20261030": [
+    {
+      "domain": "SKU_NATIVE27",
+      "head": "a18ceb797840934f2cc45222b704b581a00cecf0",
+      "run_id": 41039546903,
+      "job_id": 124008666380,
+      "status": "IN_PROGRESS_AT_LAST_API_OBSERVATION",
+      "qualified_new_case_credit": 0
+    },
+    {
+      "domain": "GLOBAL_WRITER_METADATA_ONLY",
+      "head": "ee14592920c331d84d354a24b4b6b4a9f49f91d1",
+      "run_id": 41044419248,
+      "job_id": 124024866394,
+      "status": "IN_PROGRESS_AT_LAST_API_OBSERVATION",
+      "qualified_new_case_credit": 0
+    },
+    {
+      "domain": "S03_BROWSER4",
+      "head": "ae83782c5dc0701f3b5325375a743b2a08e4ce3d",
+      "run_id": 41044533553,
+      "job_id": 124025266832,
+      "status": "IN_PROGRESS_AT_LAST_API_OBSERVATION",
+      "qualified_new_case_credit": 0
+    },
+    {
+      "domain": "S03_BROWSER4_ORDINARY_SNAPSHOT_UTC_SUCCESSOR",
+      "head": "30ee9874d049632050faf53b299a0cd8a11fe9f6",
+      "run_id": 41049049321,
+      "job_id": 124040265150,
+      "status": "IN_PROGRESS_AT_LAST_API_OBSERVATION",
+      "qualified_new_case_credit": 0
+    }
+  ],
+  "actual_SKU_a18_first_browser_failure_20261030": {
+    "classification": "ROOT_VERIFIED_EXACT_A18_FIRST_FAILURE_NOT_QUALIFIED",
+    "head": "a18ceb797840934f2cc45222b704b581a00cecf0",
+    "run_id": 41039546903,
+    "job_id": 124008666380,
+    "artifact_id": 12973314001,
+    "observed_same_run": {
+      "Native": 7,
+      "cost_Native": 5,
+      "conversion_races": 3,
+      "permission_waits": 7,
+      "busy_cases": 1,
+      "busy_subattempts": 2,
+      "browser_PASS": 0,
+      "browser_INCOMPLETE": 4
+    },
+    "observed_case_counts": {
+      "PASS": 23,
+      "INCOMPLETE": 4
+    },
+    "qualified_full27": false,
+    "package_gates": {
+      "installed": true,
+      "primary_unchanged": true,
+      "backup_restore_drill": true,
+      "security_advisors": true,
+      "writer_runtime": false
+    },
+    "full_raw_censuses_bound": 14,
+    "complete_cost_sequence_prefixes": 5,
+    "outer_restoration_basis": "SOURCE_BOUND_ACTUAL_FINALLY_ASSERTIONS; outer raw snapshots were not serialized",
+    "original_archive": {
+      "bytes": 60998025,
+      "sha256": "3e81b048586c72e5d97452ecdd1b01dbed60aed2c2914baf4bfaffe4601979b6",
+      "CRC_members": 150,
+      "library_file_id": "libfile_aed7c3e269948191a056b5022213a4c6"
+    },
+    "root_intake_receipt": "SKU_A18_FIRST_BROWSER_FAILURE_ROOT_INTAKE_20261030.json",
+    "root_intake": {
+      "bytes": 46798,
+      "sha256": "35cb052fb03a4e914365a88b9152a407af8a3d696a539b918c27ac2162b0b020"
+    },
+    "successor_head": "8a08024fda704162481e3123efa5fa7fbfc5663d",
+    "successor_run_id": 41053845032,
+    "prior_runs_aggregated": false,
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "actual_global_ee145_first_dependency_failure_20261030": {
+    "classification": "ROOT_VERIFIED_EE145_FIRST_DEPENDENCY_FAILURE_AND_RESTORATION_ASSERTIONS_ONLY",
+    "head": "ee14592920c331d84d354a24b4b6b4a9f49f91d1",
+    "run_id": 41044419248,
+    "job_id": 124024866394,
+    "artifact_id": 12973268705,
+    "status": "TERMINAL_FAILURE_INCOMPLETE",
+    "error": "GLOBAL_CENSUS_DUPLICATE_SUPPLEMENT_IDENTITY:dependencies",
+    "actual_offending_rows_or_object": "UNDETERMINED_RAW_FAILED_QUERY_ROWS_NOT_RETAINED",
+    "supplement_Original_retained": false,
+    "result_gate_retained": false,
+    "raw_baseline_and_final_snapshots_retained": false,
+    "outer_restoration_basis": "SOURCE_BOUND_ACTUAL_FINALLY_ASSERTIONS_NOT_ROOT_RECOMPUTED_RAW_EQUALITY",
+    "package_writer_runtime": false,
+    "other_package_gates": 4,
+    "original_archive": {
+      "bytes": 3990236,
+      "sha256": "59d4ce7398bdcfd2cc3603ca487ea40eb171e1426070fe67f273ac5d0dcc174a",
+      "CRC_members": 126,
+      "library_file_id": "libfile_043b47fcc0948191be5bca911477fb6a"
+    },
+    "root_intake_receipt": "GLOBAL_CENSUS_EE145_FIRST_DEPENDENCY_FAILURE_ROOT_INTAKE_20261030.json",
+    "root_intake": {
+      "bytes": 15880,
+      "sha256": "cda147a96c98d24889ad16da050a1c0248be58c70924e980485db0bbbf83e2ca"
+    },
+    "root_reexecuted_byte_identical_receipt": true,
+    "group_progress_counts_are_not_qualification": true,
+    "successor_head": "3d7066b852176d9f343ec831d2f63aee6665579b",
+    "successor_run_id": 41054247479,
+    "actual_Native_credit": 0,
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "SKU_browser_source_successor_20261030": {
+    "classification": "SOURCE_SUCCESSOR_LAUNCHED_NOT_FRESH_ACTUAL_QUALIFICATION",
+    "recorded_at_utc": "2026-10-30T12:22:33.343883+00:00",
+    "head": "8a08024fda704162481e3123efa5fa7fbfc5663d",
+    "tree": "5b6d8e870811308a36b1ce535de13d0495f72648",
+    "parent": "a18ceb797840934f2cc45222b704b581a00cecf0",
+    "local_reviewed_head": "d66adcc75548b40f9d63036ca75e7e26974ddcc4",
+    "branch": "astra-a/sku-managed-recovery-native27-20261030",
+    "run_id": 41053845032,
+    "job_id": 124056289401,
+    "status": "IN_PROGRESS_AT_LAST_API_OBSERVATION",
+    "changed_paths_only_own_namespace": 26,
+    "source_pins": 96,
+    "immutable_parent_files": 13759,
+    "Python_controls": 51,
+    "Node_controls": 7,
+    "root_strict_clean_preflight": "PASS",
+    "root_preflight": {
+      "bytes": 8286,
+      "sha256": "3f4b7034671d67fd40ac7ebad2c71be644af221e67b835852a76113b3a5067c4"
+    },
+    "root_review_chronology": "Direct source review and root preflight after peer result received; no blind-independent review claim",
+    "peer_initial_findings_frozen_before_author_conclusion": true,
+    "peer_bounded_source_review": "NO_CONCRETE_BLOCKER_FOUND",
+    "private_source_review": {
+      "name": "ERP_SKU_Browser_Successor_Source_Review_20261030.zip",
+      "bytes": 30417,
+      "sha256": "ce660cc27261ec3500daf8ffa424aa843beb2c63f24f93b407ee3238f4401226",
+      "members": 11,
+      "CRC_ok": true,
+      "library_file_id": "libfile_d8d045e7919c81919c778e9050e14af4"
+    },
+    "named_combobox_selector_changes": 9,
+    "names": [
+      "SKU padanan",
+      "SKU tujuan",
+      "SKU asal dan gudang"
+    ],
+    "actual_combined_to_private_staged_route_changes": 1,
+    "private_staged_fixture_route_changes": 1,
+    "prepare_isolation": "READ COMMITTED",
+    "state_and_read_isolation": "REPEATABLE READ",
+    "current_product_UI_SQL_changes": 0,
+    "financial_postcondition_oracles_changed": 0,
+    "actual_fresh_27_required": true,
+    "previous_partial_runs_aggregated": false,
+    "new_actual_Native_browser_credit": 0,
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "global_dependency_multiset_successor_20261030": {
+    "classification": "SOURCE_MULTISET_SUCCESSOR_LAUNCHED_METADATA_ONLY",
+    "recorded_at_utc": "2026-10-30T12:22:33.343883+00:00",
+    "head": "3d7066b852176d9f343ec831d2f63aee6665579b",
+    "tree": "c5a09173421af936df719971b2c5f1043d292818",
+    "parent": "ee14592920c331d84d354a24b4b6b4a9f49f91d1",
+    "local_reviewed_head": "c5dce6ba9691a3f8dd9c96d26c02e30a6e489041",
+    "branch": "astra-a/de-sku-global-census-multiset-20261030",
+    "run_id": 41054247479,
+    "job_id": 124057642882,
+    "status": "IN_PROGRESS_AT_LAST_API_OBSERVATION",
+    "additive_paths": 22,
+    "immutable_parent_files_and_modes": 13909,
+    "new_source_controls": 32,
+    "retained_source_controls": 73,
+    "peer_targeted_controls": 12,
+    "root_strict_clean_preflight": "PASS",
+    "root_source_review": {
+      "bytes": 3224,
+      "sha256": "6e8d370d4c012c006e2ccc99af911744db06863cd259e98642079242aeca62f2"
+    },
+    "peer_frozen_review": {
+      "bytes": 10051,
+      "sha256": "d6611c96d61fa25a5d020e400f7403867b0b1ff307fa29c9eefc3f3a6dd0aaf6"
+    },
+    "peer_bounded_source_review": "NO_CONCRETE_BLOCKER_FOUND",
+    "private_source_review": {
+      "name": "ERP_Global_Dependency_Multiset_Source_Review_20261030.zip",
+      "bytes": 182079,
+      "sha256": "e5665e88e4ffcefdb59fc1cfd95f6379e9777ea4edb7c6b8f56ff46d2fa397c8",
+      "members": 43,
+      "CRC_ok": true,
+      "library_file_id": "libfile_a7d3a11a95a081919d958399d1c94867"
+    },
+    "unchanged_queries": 19,
+    "bag_groups": [
+      "dependencies",
+      "view_relation_dependencies"
+    ],
+    "other_17_groups_still_require_unique_identity": true,
+    "raw_rows_all_occurrences_preserved": true,
+    "raw_written_before_validation": true,
+    "query_failure_preserves_completed_prefix": true,
+    "raw_to_supplement_binding": "REQUIRED_ON_WRITE_READ_AND_OFFLINE_ANALYSIS",
+    "workflow_steps": 72,
+    "counted_workflow_route_changes": 7,
+    "transaction": "READ COMMITTED READ ONLY",
+    "full_outer_finally_preserved": true,
+    "local_full_actual_Original_admission": "CLOSED_MISSING_D17_18_RETAINED_COMBINED_AF_DIRECTORY",
+    "workflow_provisions_retained_Originals": true,
+    "primary_source_and_model": {
+      "classification": "PRIMARY_SOURCE_AND_LOCAL_MODEL_ONLY_NOT_ACTUAL_ERP_ROWS",
+      "primary_sources": [
+        {
+          "repository": "postgres/postgres",
+          "ref": "REL_17_STABLE",
+          "path": "src/backend/catalog/pg_depend.c",
+          "github_blob": "7afdc78aa67fbca46a14d5ae0e04a6e84d444b98",
+          "retained_bytes": 36257,
+          "retained_sha256": "4747fe5a42e4188a3ceca7579613d172f0ad9aee6e2216ac56ced2ccc581448f",
+          "retained_git_blob": "7afdc78aa67fbca46a14d5ae0e04a6e84d444b98",
+          "url": "https://github.com/postgres/postgres/blob/REL_17_STABLE/src/backend/catalog/pg_depend.c"
+        },
+        {
+          "repository": "postgres/postgres",
+          "ref": "REL_17_STABLE",
+          "path": "src/include/catalog/pg_depend.h",
+          "github_blob": "eb1ee43b012ebc8aa2192827013d5961f122d9ad",
+          "retained_bytes": 2791,
+          "retained_sha256": "457be3ad66b69095f2b93c3ac3efd425cdf3e9841773e21a94db20ee7780edd4",
+          "retained_git_blob": "eb1ee43b012ebc8aa2192827013d5961f122d9ad",
+          "url": "https://github.com/postgres/postgres/blob/REL_17_STABLE/src/include/catalog/pg_depend.h"
+        }
+      ],
+      "pg17_docs": "https://www.postgresql.org/docs/17/catalog-pg-depend.html",
+      "model": {
+        "server": "PostgreSQL 17.5 on aarch64-unknown-linux-gnu, compiled by emcc (Emscripten gcc/clang-like replacement + linker emulating GNU ld) 3.1.74 (1092ec30a3fb1d46b1782ff1b4db5094d3d06ae5), 32-bit",
+        "result_bytes": 6327,
+        "result_sha256": "593c60451e46680f9841e9114eb5ffd01502ce6894ff6bba762bad9e0c7c1927",
+        "groups": {
+          "dependencies": {
+            "occurrence_count": 16,
+            "distinct_identity_count": 15,
+            "raw_pairs_sha256": "1a9c1a32092766ac5dc8de1e800484297d05942f06651b56803c6050f9483b3d"
+          },
+          "view_relation_dependencies": {
+            "occurrence_count": 2,
+            "distinct_identity_count": 2,
+            "raw_pairs_sha256": "8892ac3bca5ceb36ce18c116b8a5926c262329f2e45bcaa12d8345d1bc0fc654"
+          }
+        },
+        "direct_system_catalog_writes": false
+      },
+      "actual_failure": {
+        "public_head": "ee14592920c331d84d354a24b4b6b4a9f49f91d1",
+        "run": 41044419248,
+        "job": 124024866394,
+        "archive_bytes": 3990236,
+        "archive_sha256": "59d4ce7398bdcfd2cc3603ca487ea40eb171e1426070fe67f273ac5d0dcc174a",
+        "main_sha256": "170957fde933e1afc97f95e20d7cfe700d2b7a8f06c406210f7b4f2832472fb8",
+        "error": "GLOBAL_CENSUS_DUPLICATE_SUPPLEMENT_IDENTITY:dependencies",
+        "offending_raw_rows_retained": false,
+        "actual_object_cause": "UNDETERMINED"
+      },
+      "runtime_entry": null,
+      "actual_Native_credit": 0,
+      "production_go": false,
+      "independent_acceptance": false
+    },
+    "actual_new_Native_credit": 0,
+    "actual_business_cases": 0,
+    "runtime_entry": null,
+    "global_hooks_opened": false,
+    "writer_or_phantom_or_permission_closure_qualified": false,
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "Afui_nonpayable_conservation_source_review_20261030": {
+    "classification": "SOURCE_ACCOUNTING_CONSERVATION_REVIEW_ONLY_NOT_NEW_POLICY_OR_IMPLEMENTATION",
+    "memo": {
+      "bytes": 15988,
+      "sha256": "94acbf8d96be9be699b405cf1c8906a07a5f599c039d810976bb5d2c904371f5"
+    },
+    "equations": [
+      "E=C+R-S",
+      "V=R-H",
+      "H=F+G+O"
+    ],
+    "existing_counterpart_candidate": "For R=S=0 and H>0: Dr WIP H / Cr ACCESSORY_REIMBURSE_VARIANCE H; current initial GOOD guard still rejects. This is a source-derived counterpart candidate, not a lawful implemented path.",
+    "actual_issue_cost_C_and_standard_GOOD_HPP_H_are_independent": true,
+    "negative_variance_not_clipped": true,
+    "required_provenance": "generic effective-dated version-bound category/BOM nonpayable cost basis",
+    "payroll_no_payable_entitlement_for_R0": true,
+    "remaining": [
+      "Lawful initial GOOD with H>0,R0 and explicit contractor/source identity",
+      "Recost delta paths including zero/zero or zero-cent start",
+      "Linked QC inverse; source issue inverse protection if the new basis binds specific issue"
+    ],
+    "private_original_evidence": {
+      "name": "ERP_Afui_Nonpayable_Conservation_Source_Review_20261030.zip",
+      "bytes": 24512,
+      "sha256": "f0584e438be68c0e220c7e523b91343a490af2983be488491f2a7e8fe8580bc7",
+      "members": 10,
+      "CRC_ok": true,
+      "library_file_id": "libfile_87a24fcd06308191ba6cc5d18be67a90"
+    },
+    "new_actual_Native_credit": 0,
+    "production_go": false,
+    "independent_acceptance": false
+  }
 }

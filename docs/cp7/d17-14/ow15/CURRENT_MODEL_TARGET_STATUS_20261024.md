@@ -1,3 +1,38 @@
+## A / 30 Oktober 2026 — kegagalan aktual diintake; SKU dan sensus dependensi dijalankan ulang
+
+SKU a18 selesai dengan 7 Native +5 biaya +11 race PASS, empat browser
+INCOMPLETE. Root mengikat Original150CRC, source79/parent13.759,
+14 census penuh dan lima rantai sequence. Seluruh pemulihan selesai;
+writer_runtime=false, empat gate lainnya benar. Tidak ada kredit qualified27.
+Perbaikan sumber 8a08024f memakai sembilan locator combobox bernama persis
+serta prepare AI READ COMMITTED; state/read tetap REPEATABLE READ. Produk,
+oracle keuangan dan Native tidak berubah. 51Python+7Node dan source bersih
+lulus; run41053845032 menjalankan seluruh27 dari awal.
+
+Global ee145 gagal karena menganggap setiap dependency memiliki identitas
+unik. Raw dependency gagal tidak tersimpan, sehingga objek penyebab aktual
+tetap UNKNOWN. Source PostgreSQL17 dan reproduksi model membuktikan asumsi
+unik itu tidak sah. Penerus3d7066b8 mempertahankan semua kemunculan untuk
+dua kelompok dependency,17 kelompok lain tetap strict;19SQL tidak berubah.
+Raw disimpan sebelum validasi dan diikat kembali saat baca/tulis/analisis.
+32+73 kontrol lokal,12 kontrol peer serta source13.909parent lulus.
+Run41054247479 sedang berjalan untuk metadata saja; runtime/hook global
+tertutup. Pemulihan ee145 adalah assertion finally yang terikat sumber,
+bukan klaim root menghitung ulang snapshot luar yang tidak diserialisasi.
+
+S03 ae837/30ee masih menjalankan empat browser. Review sumber30ee selesai
+tanpa blocker dalam batas tugas, bukan audit independen. Review konservasi
+Afui mempertahankan E=C+R−S dan V=R−H; biaya issue aktual dan HPP GOOD
+standar tetap independen. Kandidat counterpart R0 memakai akun existing,
+tetapi jalur Native initial GOOD/recost/inverse dengan provenance nonpayable
+belum diimplementasi atau dikualifikasi. Tidak ada kategori/rate yang ditebak.
+
+S05 normal App dipetakan sambil menunggu prerequisite yang benar. FG mandor
+ke payroll minggu pilihan tetap scope tambahan sesudah integrasi aktif stabil.
+Formal5/16, production_go=false, independent_acceptance=false tetap.
+
+--- Catatan sebelumnya dipertahankan sebagai histori ---
+
 ## A / 30 Oktober 2026 — aturan Afui dipulihkan; hubungan SQL dinamis diperjelas
 
 Owner menegaskan langsung handoff penjualan FG mandor/potong payroll minggu

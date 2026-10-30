@@ -99,6 +99,39 @@
     "new_owner_question_needed_for_FREE_semantics": false
   },
   "engineering_gap": "generic effective-dated version-bound Special/category nonpayable cost basis and lawful Native accounting path",
-  "financial_counterpart": "UNDER_SOURCE_CONSERVATION_REVIEW_NOT_SELECTED_BY_RECOVERED_QUOTE",
-  "recorded_at_utc": "2026-10-30T11:23:38.831973+00:00"
+  "financial_counterpart": "SOURCE_CONSERVATION_REVIEW_COMPLETE_CANDIDATE_ONLY_NOT_LAWFUL_NATIVE_PATH",
+  "recorded_at_utc": "2026-10-30T12:22:33.343883+00:00",
+  "conservation_review": {
+    "classification": "SOURCE_ACCOUNTING_CONSERVATION_REVIEW_ONLY_NOT_NEW_POLICY_OR_IMPLEMENTATION",
+    "memo": {
+      "bytes": 15988,
+      "sha256": "94acbf8d96be9be699b405cf1c8906a07a5f599c039d810976bb5d2c904371f5"
+    },
+    "equations": [
+      "E=C+R-S",
+      "V=R-H",
+      "H=F+G+O"
+    ],
+    "existing_counterpart_candidate": "For R=S=0 and H>0: Dr WIP H / Cr ACCESSORY_REIMBURSE_VARIANCE H; current initial GOOD guard still rejects. This is a source-derived counterpart candidate, not a lawful implemented path.",
+    "actual_issue_cost_C_and_standard_GOOD_HPP_H_are_independent": true,
+    "negative_variance_not_clipped": true,
+    "required_provenance": "generic effective-dated version-bound category/BOM nonpayable cost basis",
+    "payroll_no_payable_entitlement_for_R0": true,
+    "remaining": [
+      "Lawful initial GOOD with H>0,R0 and explicit contractor/source identity",
+      "Recost delta paths including zero/zero or zero-cent start",
+      "Linked QC inverse; source issue inverse protection if the new basis binds specific issue"
+    ],
+    "private_original_evidence": {
+      "name": "ERP_Afui_Nonpayable_Conservation_Source_Review_20261030.zip",
+      "bytes": 24512,
+      "sha256": "f0584e438be68c0e220c7e523b91343a490af2983be488491f2a7e8fe8580bc7",
+      "members": 10,
+      "CRC_ok": true,
+      "library_file_id": "libfile_87a24fcd06308191ba6cc5d18be67a90"
+    },
+    "new_actual_Native_credit": 0,
+    "production_go": false,
+    "independent_acceptance": false
+  }
 }

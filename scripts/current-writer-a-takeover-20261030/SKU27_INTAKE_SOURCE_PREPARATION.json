@@ -1,0 +1,920 @@
+{
+  "CRC_members": 150,
+  "actual_Auth_HTTP_case_credit": 0,
+  "artifact_id": 12973314001,
+  "browser_runtime_host_receipt": "EMBEDDED_EXACT_ORIGINAL_MAIN",
+  "controls": {
+    "actual_new_cases": 0,
+    "count": 14,
+    "fake_actual_PASS_fixtures": 0,
+    "rows": [
+      {
+        "name": "duplicate",
+        "refusal": "ROOT_DUPLICATE_JSON_KEY"
+      },
+      {
+        "name": "NaN",
+        "refusal": "ROOT_NONFINITE_JSON_REFUSED"
+      },
+      {
+        "name": "overflow",
+        "refusal": "ROOT_SKU_NONFINITE_EXPONENT"
+      },
+      {
+        "name": "bool_is_not_integer",
+        "refusal": "ROOT_SKU_TYPED_COUNT:TYPE"
+      },
+      {
+        "name": "float_is_not_integer",
+        "refusal": "ROOT_SKU_TYPED_COUNT:TYPE"
+      },
+      {
+        "name": "failed_outer_cannot_become_PASS",
+        "refusal": "ROOT_SKU_ACTUAL_FIRST_FAILURE_OUTER/status:VALUE"
+      },
+      {
+        "name": "historical_head_refused",
+        "refusal": "ROOT_SKU_ACTUAL_FIRST_FAILURE_OUTER/qualification_commit:VALUE"
+      },
+      {
+        "name": "fifth_gate_fabricated",
+        "refusal": "ROOT_SKU_EXACT_FOUR_OF_FIVE_GATES/writer_runtime:VALUE"
+      },
+      {
+        "name": "Auth_cleanup_missing",
+        "refusal": "ROOT_SKU_BROWSER_HOST_CLEANUP/auth_counts/restored:VALUE"
+      },
+      {
+        "name": "four_browser_failures_relabelled",
+        "refusal": "ROOT_SKU_BROWSER_HOST_CLEANUP/counts:KEYS"
+      },
+      {
+        "name": "actual_schedule_global_missing",
+        "refusal": "ROOT_SKU_ACTUAL_CODE_GLOBALS_DERIVATION/actual_schedule_global_identity:VALUE"
+      },
+      {
+        "name": "actual_code_identity_missing",
+        "refusal": "ROOT_SKU_ACTUAL_CODE_GLOBALS_DERIVATION/compiled_function_identity:VALUE"
+      },
+      {
+        "name": "outer_ALLseq_restore_false",
+        "refusal": "ROOT_SKU_ACTUAL_FIRST_FAILURE_OUTER/baseline_full22_all_rows_all_sequences_equal:VALUE"
+      },
+      {
+        "name": "raw_native_group_changed",
+        "refusal": "ROOT_SKU_RAW_NATIVE7_EQUALS_EMBEDDED/cases/SKU29_PAIR_BIDIRECTIONAL_REPLACE_DELETE_NO_LEDGER/status:VALUE"
+      }
+    ],
+    "status": "ROOT_SOURCE_ONLY_NEGATIVE_CONTROLS_REFUSED"
+  },
+  "financial_or_product_change_authorized": false,
+  "first_failures": {
+    "A_STAGED_AI_BROWSER_DESKTOP_MANUAL_AND_RETIRED_RESPONSES": "Error: Command failed: python /home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-staged-ai-browser-qualification/fixture.py prepare\nTraceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-staged-ai-browser-qualification/fixture.py\", line 137, in <module>\n    main()\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-staged-ai-browser-qualification/fixture.py\", line 99, in main\n    native.setup(cur, today)\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-frozen-public-native-qualification/public_finance_cases.py\", line 35, in setup\n    staged.analysis.setup(cur,today)\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_analysis_cases.py\", line 53, in setup\n    f,root,s,p=previous.setup(cur,today,True)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_planning_netting_cases.py\", line 39, in setup\n    f=schedule.opening(cur,today)\n      ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_planning_schedule_cases.py\", line 21, in opening\n    f=production.b.bbp.production_post(cur,today,rows)\n      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_bb_probe.py\", line 1095, in production_post\n    posted=api.invoke(cur,'FINALIZE',batch)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_ao_ap_installed.py\", line 29, in invoke\n    def invoke(cur,action,batch,**extra):return call(cur,action,dict(batch_id=batch,expected_revision=read(cur,batch)['batch']['revision'],**extra))\n                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_ao_ap_installed.py\", line 25, in call\n    result=cur.execute('select public.erp_save_initial_import_action_v1(%s,%s::jsonb,%s)',(action,json.dumps(payload,default=str),key or uuid.uuid4())).fetchone()[0]\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.RaiseException: AR_OPENING_REQUIRES_READ_COMMITTED\nCONTEXT:  PL/pgSQL function post_opening_balance(uuid) line 10 at RAISE\nSQL statement \"SELECT erp.post_opening_balance(v_opening)\"\nPL/pgSQL function erp.save_initial_import_action_v1(text,jsonb,uuid) line 154 at PERFORM\nSQL function \"erp_save_initial_import_action_v1\" statement 1\n\n    at genericNodeError (node:internal/errors:983:15)\n    at wrappedFn (node:intern",
+    "A_STAGED_AI_BROWSER_MOBILE_MANUAL_AND_RETIRED_RESPONSES": "Error: Command failed: python /home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-staged-ai-browser-qualification/fixture.py prepare\nTraceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-staged-ai-browser-qualification/fixture.py\", line 137, in <module>\n    main()\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-staged-ai-browser-qualification/fixture.py\", line 99, in main\n    native.setup(cur, today)\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-frozen-public-native-qualification/public_finance_cases.py\", line 35, in setup\n    staged.analysis.setup(cur,today)\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_analysis_cases.py\", line 53, in setup\n    f,root,s,p=previous.setup(cur,today,True)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_planning_netting_cases.py\", line 39, in setup\n    f=schedule.opening(cur,today)\n      ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_planning_schedule_cases.py\", line 21, in opening\n    f=production.b.bbp.production_post(cur,today,rows)\n      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_bb_probe.py\", line 1095, in production_post\n    posted=api.invoke(cur,'FINALIZE',batch)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_ao_ap_installed.py\", line 29, in invoke\n    def invoke(cur,action,batch,**extra):return call(cur,action,dict(batch_id=batch,expected_revision=read(cur,batch)['batch']['revision'],**extra))\n                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_ao_ap_installed.py\", line 25, in call\n    result=cur.execute('select public.erp_save_initial_import_action_v1(%s,%s::jsonb,%s)',(action,json.dumps(payload,default=str),key or uuid.uuid4())).fetchone()[0]\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.RaiseException: AR_OPENING_REQUIRES_READ_COMMITTED\nCONTEXT:  PL/pgSQL function post_opening_balance(uuid) line 10 at RAISE\nSQL statement \"SELECT erp.post_opening_balance(v_opening)\"\nPL/pgSQL function erp.save_initial_import_action_v1(text,jsonb,uuid) line 154 at PERFORM\nSQL function \"erp_save_initial_import_action_v1\" statement 1\n\n    at genericNodeError (node:internal/errors:983:15)\n    at wrappedFn (node:intern",
+    "SKU29_BROWSER_DESKTOP_REAL_AUTH_PAIR_FIFO_RECOVERY_INVERSE": "locator.selectOption: Timeout 20000ms exceeded.\nCall log:\n  - waiting for locator('.sku-workspace').locator('.panel').filter({ has: getByRole('heading', { name: /^Padanan /, level: 2 }) }).getByLabel('SKU padanan', { exact: true })\n\n    at choosePair (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-sku-managed-recovery-native27-qualification/browser.mjs:86:58)\n    at async journey (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-sku-managed-recovery-native27-qualification/browser.mjs:120:42)\n    at async main (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:243:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:259:3",
+    "SKU29_BROWSER_MOBILE390_REAL_AUTH_PAIR_FIFO_GUARDS_INVERSE": "locator.selectOption: Timeout 20000ms exceeded.\nCall log:\n  - waiting for locator('.sku-workspace').locator('.panel').filter({ has: getByRole('heading', { name: /^Padanan /, level: 2 }) }).getByLabel('SKU padanan', { exact: true })\n\n    at choosePair (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-sku-managed-recovery-native27-qualification/browser.mjs:86:58)\n    at async journey (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-sku-managed-recovery-native27-qualification/browser.mjs:120:42)\n    at async main (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:243:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:259:3"
+  },
+  "first_local_validator_failures": [
+    {
+      "error": "ROOT_SKU_CODE_GLOBAL_DERIVATION_BINDING",
+      "resolution": "Matched actual binder variable actual_function and expected_functions; no callable requirement removed",
+      "stage": "source binding token guard"
+    },
+    {
+      "error": "ROOT_SKU_FRESH_RACES11/status:VALUE",
+      "resolution": "Actual host RUN_COMPLETE plus exactly11 PASS cases; never equate host completion with case PASS",
+      "stage": "producer race schema"
+    },
+    {
+      "error": "ROOT_SKU_HANDOFF_RAW_DIGEST:VALUE",
+      "resolution": "Exact catalog producer ensure_ascii=False; census producer retains ensure_ascii=True; full raw typed comparison unchanged",
+      "stage": "raw catalog producer digest"
+    }
+  ],
+  "handoff_census": {
+    "catalog_groups": 22,
+    "sequences": 15,
+    "tables": 685
+  },
+  "independent_acceptance": false,
+  "intake_scripts": {
+    "intake_common.py": {
+      "bytes": 6518,
+      "sha256": "698216cfb4c31e8c93167e1b67f52f0b7532e5906ac8a09584b0a32c728b41e9"
+    },
+    "intake_s05.py": {
+      "bytes": 29616,
+      "sha256": "c23f942e8a01a1a272bcc0f54de0c5ddd48708b3297020513e937dc8ca36a59c"
+    },
+    "intake_sku27.py": {
+      "bytes": 36816,
+      "sha256": "bbd5d5f8a823f4e24aa8937e9e1ee9a8b503966bb2682939c779a6abd298c8b1"
+    }
+  },
+  "job_id": 124008666380,
+  "observed_case_counts": {
+    "INCOMPLETE": 4,
+    "PASS": 23
+  },
+  "observed_same_run": {
+    "Native": 7,
+    "browser_INCOMPLETE": 4,
+    "browser_PASS": 0,
+    "busy_cases": 1,
+    "busy_subattempts": 2,
+    "conversion_races": 3,
+    "cost_Native": 5,
+    "permission_waits": 7
+  },
+  "original_raw_pins": {
+    "CP7_SKU_GROUP_COST_NATIVE5.json": {
+      "bytes": 39063,
+      "sha256": "375dce21f69ded4a6d1be743fddb5af5ed1524bc77d288eaef45585fad096edf"
+    },
+    "CP7_SKU_MANAGED_RECOVERY_NATIVE27.json": {
+      "bytes": 30196696,
+      "sha256": "4246105c0126cf6a9937a8ad2b1e78963375ef2ded3146baad669f823fbb25d9"
+    },
+    "CP7_SKU_PAIR_CONVERSION_NATIVE7.json": {
+      "bytes": 21032,
+      "sha256": "02d4491b8c3106fbb31a07550dd16e735f3b6cc0533e2d5b1827b80ea71bb370"
+    },
+    "FROZEN_SOURCE_WORKTREES.json": {
+      "bytes": 2291,
+      "sha256": "fcfd46f56915951f56384722477fef48967e1239cf63293d285fe12182cd4a78"
+    },
+    "SKU27_ORIGINALS_COPY_RECEIPT.json": {
+      "bytes": 14084,
+      "sha256": "9254ed188a35c9d26168ffb1048380d17ac0f25302075b9818d7d8be9b324eb9"
+    },
+    "SKU_COST_ARTIFACT_COPY_RECEIPT.json": {
+      "bytes": 11236,
+      "sha256": "c48b1207729c2f5c47146fadb06903af2a2d82c21212590f98dfdae24558ed30"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 1470,
+      "sha256": "f6128238b3388ab21946e29af97b74c679fa376da51dd72e29543577accc7fa1"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360424,
+      "sha256": "ac3ac739d268dcd3e81940fcde785bc35efbe4a29091250936c8c8f17c536508"
+    }
+  },
+  "original_zip": {
+    "bytes": 60998025,
+    "sha256": "3e81b048586c72e5d97452ecdd1b01dbed60aed2c2914baf4bfaffe4601979b6"
+  },
+  "outer_raw_before_after_not_serialized": true,
+  "outer_restore_receipts": {
+    "Auth": true,
+    "CP6": true,
+    "advisors": true,
+    "full22_rows_ALL_sequences": true,
+    "raw_public": true,
+    "roles": true
+  },
+  "package_all_five": false,
+  "package_gates": {
+    "backup_restore_drill": true,
+    "installed": true,
+    "primary_unchanged": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "prior_runs_aggregated": false,
+  "production_go": false,
+  "qualified_full27": false,
+  "raw_evidence": {
+    "all14_full22_all_rows_ALL15_sequence_raw_boundaries_exact": true,
+    "all5_cost_sequence_prefixes_original_and_contiguous": true,
+    "complete_cost_sequence_prefixes": [
+      {
+        "case_id": "SKU29_COST_GROUP_RETURN_OVER_FIRST_PART_SAFETY_REFUSAL_ONLY",
+        "raw": {
+          "bytes": 2662,
+          "sha256": "cb85afa28beebca38fa408fcf6f8104077b5d582da2947a96cf5863034fd2f67"
+        }
+      },
+      {
+        "case_id": "SKU29_COST_BOTH_PARTS_USAGE_LATE_INVOICE_SOLD_AND_DESCENDANT",
+        "raw": {
+          "bytes": 2663,
+          "sha256": "3a69f7e7e87e4b4b0eede8f3414f2c686e7d0937ff0744a48c6086c0117e903b"
+        }
+      },
+      {
+        "case_id": "SKU29_COST_FIRST_PART_ACTIVE_USAGE_ATOMIC_GROUP_INVERSE",
+        "raw": {
+          "bytes": 2659,
+          "sha256": "cc4514536fefc866cb3a7f295a8a352282cbc283aad001283cfc48c7210428f8"
+        }
+      },
+      {
+        "case_id": "SKU30_RECOVERY_UNDER_FIRST_PART_NATIVE_POST_REPLAY_INVERSE",
+        "raw": {
+          "bytes": 2663,
+          "sha256": "4c538b78c608b5d60fc3adcc5d41a246f274f8b3214e2e2c0df5450457274732"
+        }
+      },
+      {
+        "case_id": "SKU30_RECOVERY_EQUAL_FIRST_PART_NATIVE_POST_REPLAY_INVERSE",
+        "raw": {
+          "bytes": 2663,
+          "sha256": "72ab8856c776680d25509c4cf3564290a1a6a2df3be807f837830f251b64bde4"
+        }
+      }
+    ],
+    "per_savepoint_sequence_restore_claim": false,
+    "raw_full_noeffect_censuses": [
+      {
+        "bytes": 43100594,
+        "catalog_groups": 22,
+        "name": "SKU_COST_RECOVERY_OVER_FIRST_PART_REFUSAL_02fcba8fe38b_FULL_CURRENT_CENSUS.json",
+        "sequences": 15,
+        "sha256": "22a5e36b957cf53adf05564080215bdba5e5211c054cb8880a3d067ffcc13e49",
+        "tables": 685
+      },
+      {
+        "bytes": 43100592,
+        "catalog_groups": 22,
+        "name": "SKU_COST_PART_1_USAGE_SAME_UUID_REPLAY_a5f245439a0c_FULL_CURRENT_CENSUS.json",
+        "sequences": 15,
+        "sha256": "3b5b19aa04fef9acf43cfc443796adf7dfad6b86a8fdb00bd565cb6918fe98b5",
+        "tables": 685
+      },
+      {
+        "bytes": 43100592,
+        "catalog_groups": 22,
+        "name": "SKU_COST_PART_2_USAGE_SAME_UUID_REPLAY_2ae956d80fe3_FULL_CURRENT_CENSUS.json",
+        "sequences": 15,
+        "sha256": "68a1e8ecb5b4eeef1f4a1e29d79eaf1a3c342b20cb6d0137014f11121fb8da82",
+        "tables": 685
+      },
+      {
+        "bytes": 43100594,
+        "catalog_groups": 22,
+        "name": "SKU_COST_LATE_INVOICE_SAME_UUID_REPLAY_128cf9e8c75b_FULL_CURRENT_CENSUS.json",
+        "sequences": 15,
+        "sha256": "4f9fadae0c3475f2345fbbb43861e2354230b5c212cb519f593a17fe083d70aa",
+        "tables": 685
+      },
+      {
+        "bytes": 43100592,
+        "catalog_groups": 22,
+        "name": "SKU_COST_GROUP_INVERSE_FIRST_PART_ACTIVE_USAGE_1b28487ec0b8_FULL_CURRENT_CENSUS.json",
+        "sequences": 15,
+        "sha256": "fe67055985af88362cf8583bf25fa9749dfa843f5d52caa034b1e835b52e1c51",
+        "tables": 685
+      },
+      {
+        "bytes": 43100592,
+        "catalog_groups": 22,
+        "name": "SKU_COST_DIRECT_PARTIAL_INVERSE_REFUSAL_153d25076748_FULL_CURRENT_CENSUS.json",
+        "sequences": 15,
+        "sha256": "fe67055985af88362cf8583bf25fa9749dfa843f5d52caa034b1e835b52e1c51",
+        "tables": 685
+      },
+      {
+        "bytes": 43100596,
+        "catalog_groups": 22,
+        "name": "SKU_COST_RECOVERY_UNDER_SAME_UUID_REPLAY_ff375c83349c_FULL_CURRENT_CENSUS.json",
+        "sequences": 15,
+        "sha256": "f001211000225b41dc4f3c8153910cfe0819a96f62d1f6697b3a12257b1a89b2",
+        "tables": 685
+      },
+      {
+        "bytes": 43100596,
+        "catalog_groups": 22,
+        "name": "SKU_COST_RECOVERY_EQUAL_SAME_UUID_REPLAY_24223bffef43_FULL_CURRENT_CENSUS.json",
+        "sequences": 15,
+        "sha256": "2432fba4a3d2c1223525950094de2732bcefecec6e2b126254023df3d734daff",
+        "tables": 685
+      },
+      {
+        "bytes": 43100590,
+        "catalog_groups": 22,
+        "name": "SKU_COST_DISTINCT_UUID_POCKET_BUSY_COMMIT_fa1f2757c48d_FULL_CURRENT_CENSUS.json",
+        "sequences": 15,
+        "sha256": "5ce82359bc0cfe90eab74e0d553add1e1475a7ca421b35776ef92dc57b888806",
+        "tables": 685
+      },
+      {
+        "bytes": 43100594,
+        "catalog_groups": 22,
+        "name": "SKU_COST_DISTINCT_UUID_COMMITTED_STALE_RETRY_a028f0a81ff0_FULL_CURRENT_CENSUS.json",
+        "sequences": 15,
+        "sha256": "83881f10d4b4855c32dc98672447dca0c8e6282553729e986255210ced55ecba",
+        "tables": 685
+      },
+      {
+        "bytes": 43100590,
+        "catalog_groups": 22,
+        "name": "SKU_COST_DISTINCT_UUID_POCKET_BUSY_ROLLBACK_49787f506cad_FULL_CURRENT_CENSUS.json",
+        "sequences": 15,
+        "sha256": "7399afcd9a20b933b55935b46f8870bd4ebfa7416d52c97df49e214652a47e12",
+        "tables": 685
+      },
+      {
+        "bytes": 43100598,
+        "catalog_groups": 22,
+        "name": "SKU_COST_RECOVERY_CACHE_PERMISSION_WAIT_5f6ba41a5569_FULL_CURRENT_CENSUS.json",
+        "sequences": 15,
+        "sha256": "5ef6e4e361203ca921f1e8e0c8aee6ae310992858ad55bb4522f14e74b253ac4",
+        "tables": 685
+      },
+      {
+        "bytes": 43100598,
+        "catalog_groups": 22,
+        "name": "SKU_COST_RECOVERY_NONBLOCKING_FG_BUSY_d0b46306d486_FULL_CURRENT_CENSUS.json",
+        "sequences": 15,
+        "sha256": "f2716a7236da830267f70db99736eda1716776b4ff4f829795ffab0a33ad1452",
+        "tables": 685
+      },
+      {
+        "bytes": 43100604,
+        "catalog_groups": 22,
+        "name": "SKU_COST_RECOVERY_NONBLOCKING_MATERIAL_NONE_BUSY_b237cf01b71d_FULL_CURRENT_CENSUS.json",
+        "sequences": 15,
+        "sha256": "d89e8eb78c120eb4377a6dd6e50cce9cd2ee87b344a485d4b6a2135d73131346",
+        "tables": 685
+      }
+    ]
+  },
+  "run_id": 41039546903,
+  "source": {
+    "actual_new_business_cases": 0,
+    "browser_script_sha256": "e9835a0fb9064b4816ab2cf7275fde9b1e71842f41227e45452abff80d13dcfd",
+    "case_ids": {
+      "browser": [
+        "SKU29_BROWSER_DESKTOP_REAL_AUTH_PAIR_FIFO_RECOVERY_INVERSE",
+        "SKU29_BROWSER_MOBILE390_REAL_AUTH_PAIR_FIFO_GUARDS_INVERSE",
+        "A_STAGED_AI_BROWSER_DESKTOP_MANUAL_AND_RETIRED_RESPONSES",
+        "A_STAGED_AI_BROWSER_MOBILE_MANUAL_AND_RETIRED_RESPONSES"
+      ],
+      "busy": [
+        "SKU30_RECOVERY_FG_TRY_LOCK_BUSY_BEFORE_ANY_EFFECT"
+      ],
+      "cost": [
+        "SKU29_COST_GROUP_RETURN_OVER_FIRST_PART_SAFETY_REFUSAL_ONLY",
+        "SKU29_COST_BOTH_PARTS_USAGE_LATE_INVOICE_SOLD_AND_DESCENDANT",
+        "SKU29_COST_FIRST_PART_ACTIVE_USAGE_ATOMIC_GROUP_INVERSE",
+        "SKU30_RECOVERY_UNDER_FIRST_PART_NATIVE_POST_REPLAY_INVERSE",
+        "SKU30_RECOVERY_EQUAL_FIRST_PART_NATIVE_POST_REPLAY_INVERSE"
+      ],
+      "native": [
+        "SKU29_PAIR_BIDIRECTIONAL_REPLACE_DELETE_NO_LEDGER",
+        "SKU29_NONPO_MULTILOT_FIFO_RESERVATION_VALUE_REPLAY",
+        "SKU29_ANY_ACTIVE_MODEL_SIZE_MANUAL_BACK_CURRENT_SOURCE_COST",
+        "SKU29_STALE_SOURCE_TARGET_RESERVATIONS_REFUSE_ZERO_EFFECT",
+        "SKU29_GROUP_REVERSE_ACTIVE_SALE_REFUSAL_THEN_RELEASE",
+        "SKU29_MIXED_PO_NONPO_NATIVE_LINEAGE_VALUE_CONSERVATION",
+        "SKU29_LEGACY_ACCESSORY_COST_AND_INVERSE_PRESERVED"
+      ],
+      "races": [
+        "SKU29_RACE_SAME_UUID_COMMIT_REPLAY",
+        "SKU29_RACE_DISTINCT_UUID_COMMIT_STALE",
+        "SKU29_RACE_DISTINCT_UUID_ROLLBACK_RECOVERY"
+      ],
+      "waits": [
+        "SKU29_PAIR_ADVISORY_PERMISSION_WITHDRAWAL",
+        "SKU29_PAIR_REPLAY_ADVISORY_PERMISSION_WITHDRAWAL",
+        "SKU29_PAIR_ROW_PERMISSION_WITHDRAWAL",
+        "SKU29_PAIR_ROW_ACTOR_DEMOTION",
+        "SKU29_CONVERSION_FG_PERMISSION_WITHDRAWAL",
+        "SKU29_CONVERSION_REPLAY_IDEMPOTENCY_PERMISSION_WITHDRAWAL",
+        "SKU30_RECOVERY_CACHE_REPLAY_PERMISSION_WITHDRAWN_DURING_REAL_REQUEST_WAIT"
+      ]
+    },
+    "complete_engine_derivation": {
+      "additional_report_block_changes": 1,
+      "all_install_preuse_reinstall_used_backup_roles_CP6_advisors_Auth_and_five_gates_retained": true,
+      "counted_changes": 6,
+      "derived_sha256": "6e2ff1c66709ae68e18c5c49e5d0f588cc6c60b2fddee0f4927179f7673d5b24",
+      "original_sha256": "c420d894f8d5f16bddefeae73addb621507170f372a28e7d6e33d88c7eeb0be9",
+      "retained_five_changes": {
+        "all_install_preuse_reinstall_backup_roles_CP6_advisor_package_oracles_retained": true,
+        "counted_changes": 5,
+        "derived_sha256": "ceb6342e496ca27e49c4c218931f389256e8a1ac830928ea6104c5dc2220cb2b",
+        "original_sha256": "c420d894f8d5f16bddefeae73addb621507170f372a28e7d6e33d88c7eeb0be9"
+      }
+    },
+    "current_product_files": {
+      "scripts/cp7_sku_pair_conversion/composition.py": "fa3e825b251252ae11c2b68eecd9e55562526b468f03a01ebc3d5213ed472be8",
+      "scripts/cp7_sku_pair_conversion/conversion.sql": "eece6fbed8cb13b73a49ec2e051478d6ba2a8b1002f6745b8c682db318595d72",
+      "scripts/cp7_sku_pair_conversion/native_delta.py": "ff479d17a8f039693723307088551a0eb6876e2bdd772da2b6dc6f60c55d82f8",
+      "scripts/cp7_sku_pair_conversion/pairs.sql": "05c7b67222b2a003ee4180872216a0837c747fcb145db88157317bad25b281c2",
+      "scripts/cp7_sku_pair_conversion/recovery.sql": "0bfb7d5bf64398470dcdd7f9e8e1ceed124c8db6e051433142f48dcb00ab8bd9",
+      "scripts/cp7_sku_pair_conversion/recovery_before/erp.bc_value_custody_v1.sql": "b9c1c7029802414f42f1a38dadce84d3c08fb2132dd24ef56b2bed87add3776d",
+      "scripts/cp7_sku_pair_conversion/recovery_before/erp.save_accessory_service_action_v1.sql": "6a4431e4d26e61dd3edf1cb5dc18aed407ce54ab49a673a410616aa828a2f644",
+      "scripts/cp7_sku_pair_conversion/recovery_delta.py": "8d4b4e56e497ca5160879f095b1f933cf00f3e858a377bc7da80f121c5dcd116",
+      "scripts/cp7_sku_pair_conversion/recovery_profile.json": "6b577f806e6feefc17be7715624db6c2ff58430b2eadea0a5824975061a61327",
+      "scripts/cp7_sku_pair_conversion/ri_catalog.py": "aa30eff7c258de3ced78067ed7fbe660bef4570c291946f9291d6363881a4f3e"
+    },
+    "head": "a18ceb797840934f2cc45222b704b581a00cecf0",
+    "immutable_parent_changes": 0,
+    "independent_acceptance": false,
+    "manifest": {
+      "bytes": 47681,
+      "sha256": "ffc9308f3f623bda226725cf1706a76e6e4128784c1f61a59f4e8ab55f820cbb"
+    },
+    "new_namespace_and_workflow_paths": 80,
+    "parent_files_modes_and_bytes": 13759,
+    "private_derivations": {
+      "auth_waits": {
+        "byte_exact_reversible": true,
+        "derived_sha256": "de8d896d8a179c10e0b1438d2f37d308b8e25d24a422e6524f4c7d1bd0e4a2e4",
+        "explicit_race_schedule_transition": false,
+        "extra_counted_changes": 0,
+        "namespace_occurrences": 0,
+        "original23_financial_callback_bodies_unchanged": true,
+        "original_financial_postcondition_assertions_unchanged": true,
+        "retained602": {
+          "assertions_removed": 0,
+          "byte_exact_reversible_to_retained_derivation": true,
+          "derived_asserts": 14,
+          "derived_sha256": "de8d896d8a179c10e0b1438d2f37d308b8e25d24a422e6524f4c7d1bd0e4a2e4",
+          "new_counted_changes": 0,
+          "original_asserts": 14,
+          "original_files_modified": false,
+          "original_sha256": "5e4e7d4d6f0e71da0817dec670d9e31b8bef9987f683eaf35c7ef198dbfec351",
+          "retained17_derivation": {
+            "administrative_name_changes": 0,
+            "assertions_removed": 0,
+            "byte_exact_reversible": true,
+            "counted_changes": 1,
+            "derived_sha256": "de8d896d8a179c10e0b1438d2f37d308b8e25d24a422e6524f4c7d1bd0e4a2e4",
+            "key": "auth_waits",
+            "original_sha256": "5e4e7d4d6f0e71da0817dec670d9e31b8bef9987f683eaf35c7ef198dbfec351",
+            "source": "scripts/current-sku-pair-conversion-qualification/auth_waits.py"
+          },
+          "source": "scripts/current-sku-pair-conversion-qualification/auth_waits.py"
+        },
+        "retained602_derived_sha256": "de8d896d8a179c10e0b1438d2f37d308b8e25d24a422e6524f4c7d1bd0e4a2e4"
+      },
+      "browser": {
+        "byte_exact_reversible": true,
+        "derived_sha256": "351624133b12811291e0451c4f49631b3816a02f62ebf4e52e2a1fbed3fde129",
+        "explicit_race_schedule_transition": false,
+        "extra_counted_changes": 6,
+        "namespace_occurrences": 0,
+        "original23_financial_callback_bodies_unchanged": true,
+        "original_financial_postcondition_assertions_unchanged": true,
+        "retained602": {
+          "assertions_removed": 0,
+          "byte_exact_reversible_to_retained_derivation": true,
+          "derived_asserts": 0,
+          "derived_sha256": "e4f49b2c58b62170f603a40fb211a8a7e64fe15661aa479c1ce11724e9c471f8",
+          "new_counted_changes": 0,
+          "original_asserts": 0,
+          "original_files_modified": false,
+          "original_sha256": "436a3eb2ac8a75c1e6e6eeac1e9c3e49f9cb8b15d8cee833f8df9bfdf7ce313e",
+          "retained17_derivation": {
+            "administrative_name_changes": 0,
+            "assertions_removed": 0,
+            "byte_exact_reversible": true,
+            "counted_changes": 2,
+            "derived_sha256": "e4f49b2c58b62170f603a40fb211a8a7e64fe15661aa479c1ce11724e9c471f8",
+            "key": "browser",
+            "original_sha256": "436a3eb2ac8a75c1e6e6eeac1e9c3e49f9cb8b15d8cee833f8df9bfdf7ce313e",
+            "source": "scripts/current-sku-pair-browser-qualification/browser.mjs"
+          },
+          "source": "scripts/current-sku-pair-browser-qualification/browser.mjs"
+        },
+        "retained602_derived_sha256": "e4f49b2c58b62170f603a40fb211a8a7e64fe15661aa479c1ce11724e9c471f8"
+      },
+      "browser_fixture": {
+        "byte_exact_reversible": true,
+        "derived_sha256": "c0d7c52948e92ee55ab324844d2b71a5d0f32b605665837665dfa17c56ba3022",
+        "explicit_race_schedule_transition": false,
+        "extra_counted_changes": 0,
+        "namespace_occurrences": 0,
+        "original23_financial_callback_bodies_unchanged": true,
+        "original_financial_postcondition_assertions_unchanged": true,
+        "retained602": {
+          "assertions_removed": 0,
+          "byte_exact_reversible_to_retained_derivation": true,
+          "derived_asserts": 8,
+          "derived_sha256": "c0d7c52948e92ee55ab324844d2b71a5d0f32b605665837665dfa17c56ba3022",
+          "new_counted_changes": 0,
+          "original_asserts": 8,
+          "original_files_modified": false,
+          "original_sha256": "4474517f582381deaffda79fb3a9bc187e55dc32e4b213e15ed372930cd91450",
+          "retained17_derivation": {
+            "administrative_name_changes": 0,
+            "assertions_removed": 0,
+            "byte_exact_reversible": true,
+            "counted_changes": 1,
+            "derived_sha256": "c0d7c52948e92ee55ab324844d2b71a5d0f32b605665837665dfa17c56ba3022",
+            "key": "browser_fixture",
+            "original_sha256": "4474517f582381deaffda79fb3a9bc187e55dc32e4b213e15ed372930cd91450",
+            "source": "scripts/current-sku-pair-browser-qualification/fixture.py"
+          },
+          "source": "scripts/current-sku-pair-browser-qualification/fixture.py"
+        },
+        "retained602_derived_sha256": "c0d7c52948e92ee55ab324844d2b71a5d0f32b605665837665dfa17c56ba3022"
+      },
+      "browser_guard": {
+        "byte_exact_reversible": true,
+        "derived_sha256": "7fc75aa5f764ede5da9556cbb04512ed9683777d66b236835c20107f74edaaf3",
+        "explicit_race_schedule_transition": false,
+        "extra_counted_changes": 0,
+        "namespace_occurrences": 1,
+        "original23_financial_callback_bodies_unchanged": true,
+        "original_financial_postcondition_assertions_unchanged": true,
+        "retained602": {
+          "assertions_removed": 0,
+          "byte_exact_reversible_to_retained_derivation": true,
+          "derived_asserts": 5,
+          "derived_sha256": "2ebcec0c8a67a564df0ff498fbb5a14fe4345564a412fcaa9368ebc92d4ee6b0",
+          "new_counted_changes": 3,
+          "original_asserts": 5,
+          "original_files_modified": false,
+          "original_sha256": "9ed13bb9db34d55451acf7602fa0fbd72751d6981d7e064cc5d4e8a753a01832",
+          "retained17_derivation": null,
+          "source": "scripts/current-sku-pair-browser-qualification/source_guard.py"
+        },
+        "retained602_derived_sha256": "2ebcec0c8a67a564df0ff498fbb5a14fe4345564a412fcaa9368ebc92d4ee6b0"
+      },
+      "cases": {
+        "byte_exact_reversible": true,
+        "derived_sha256": "e9835a0fb9064b4816ab2cf7275fde9b1e71842f41227e45452abff80d13dcfd",
+        "explicit_race_schedule_transition": false,
+        "extra_counted_changes": 0,
+        "namespace_occurrences": 0,
+        "original23_financial_callback_bodies_unchanged": true,
+        "original_financial_postcondition_assertions_unchanged": true,
+        "retained602": {
+          "assertions_removed": 0,
+          "byte_exact_reversible_to_retained_derivation": true,
+          "derived_asserts": 0,
+          "derived_sha256": "e9835a0fb9064b4816ab2cf7275fde9b1e71842f41227e45452abff80d13dcfd",
+          "new_counted_changes": 0,
+          "original_asserts": 0,
+          "original_files_modified": false,
+          "original_sha256": "f7c8d60d65de3a543530e6c2039280b43a0c8c676725a21ca3fd8aa11d38ca57",
+          "retained17_derivation": {
+            "administrative_name_changes": 0,
+            "assertions_removed": 0,
+            "byte_exact_reversible": true,
+            "counted_changes": 1,
+            "derived_sha256": "e9835a0fb9064b4816ab2cf7275fde9b1e71842f41227e45452abff80d13dcfd",
+            "key": "cases",
+            "original_sha256": "f7c8d60d65de3a543530e6c2039280b43a0c8c676725a21ca3fd8aa11d38ca57",
+            "source": "scripts/current-sku-combined-followup-qualification/cases.mjs"
+          },
+          "source": "scripts/current-sku-combined-followup-qualification/cases.mjs"
+        },
+        "retained602_derived_sha256": "e9835a0fb9064b4816ab2cf7275fde9b1e71842f41227e45452abff80d13dcfd"
+      },
+      "concurrency": {
+        "byte_exact_reversible": true,
+        "derived_sha256": "2369c0afdeeab01ebef07bbb6948da112b6e561a8427b3ac5c354c6b40aa2cb3",
+        "explicit_race_schedule_transition": false,
+        "extra_counted_changes": 8,
+        "namespace_occurrences": 0,
+        "original23_financial_callback_bodies_unchanged": true,
+        "original_financial_postcondition_assertions_unchanged": true,
+        "retained602": {
+          "assertions_removed": 0,
+          "byte_exact_reversible_to_retained_derivation": true,
+          "derived_asserts": 29,
+          "derived_sha256": "8e944f2c7315c88ad16dd4b925c46a23f139ca2bd2388f5c039a74270d7f8deb",
+          "new_counted_changes": 0,
+          "original_asserts": 29,
+          "original_files_modified": false,
+          "original_sha256": "bae687cb3faffc08cfed294b0106b134d8ad3de11d36612a05212644eb3cad8c",
+          "retained17_derivation": {
+            "administrative_name_changes": 0,
+            "assertions_removed": 0,
+            "byte_exact_reversible": true,
+            "counted_changes": 2,
+            "derived_sha256": "8e944f2c7315c88ad16dd4b925c46a23f139ca2bd2388f5c039a74270d7f8deb",
+            "key": "concurrency",
+            "original_sha256": "bae687cb3faffc08cfed294b0106b134d8ad3de11d36612a05212644eb3cad8c",
+            "source": "scripts/current-sku-pair-concurrency-qualification/runner.py"
+          },
+          "source": "scripts/current-sku-pair-concurrency-qualification/runner.py"
+        },
+        "retained602_derived_sha256": "8e944f2c7315c88ad16dd4b925c46a23f139ca2bd2388f5c039a74270d7f8deb"
+      },
+      "cost_cases": {
+        "byte_exact_reversible": true,
+        "derived_sha256": "b19ab1f7ad4406ac5aa6349a991c200130aa3f0f0a5b81d6ab067cdefc7a3d3c",
+        "explicit_race_schedule_transition": false,
+        "extra_counted_changes": 0,
+        "namespace_occurrences": 2,
+        "original23_financial_callback_bodies_unchanged": true,
+        "original_financial_postcondition_assertions_unchanged": true,
+        "retained602": {
+          "assertions_removed": 0,
+          "byte_exact_reversible_to_retained_derivation": true,
+          "derived_asserts": 44,
+          "derived_sha256": "9e1fda3f9bafcec83168e1970641ecd14bcbc67905727976c1db7437deba05cb",
+          "new_counted_changes": 9,
+          "original_asserts": 44,
+          "original_files_modified": false,
+          "original_sha256": "0536eda078071b8b9e87604ee1c722f34157c2b1d34adac8e6a483e5470a9e0c",
+          "retained17_derivation": {
+            "administrative_name_changes": 0,
+            "assertions_removed": 0,
+            "byte_exact_reversible": true,
+            "counted_changes": 1,
+            "derived_sha256": "98557973b2cdb06d3c25f951bae9810ffec2416dd2a75219a31ad1d500c8e580",
+            "key": "cost_cases",
+            "original_sha256": "0536eda078071b8b9e87604ee1c722f34157c2b1d34adac8e6a483e5470a9e0c",
+            "source": "scripts/current-sku-group-cost-qualification/cases.py"
+          },
+          "source": "scripts/current-sku-group-cost-qualification/cases.py"
+        },
+        "retained602_derived_sha256": "9e1fda3f9bafcec83168e1970641ecd14bcbc67905727976c1db7437deba05cb"
+      },
+      "cost_guard": {
+        "byte_exact_reversible": true,
+        "derived_sha256": "ca569ce666f56e317aed4bc4875b14a0aae31792ee33848591eb687254a27862",
+        "explicit_race_schedule_transition": false,
+        "extra_counted_changes": 0,
+        "namespace_occurrences": 1,
+        "original23_financial_callback_bodies_unchanged": true,
+        "original_financial_postcondition_assertions_unchanged": true,
+        "retained602": {
+          "assertions_removed": 0,
+          "byte_exact_reversible_to_retained_derivation": true,
+          "derived_asserts": 5,
+          "derived_sha256": "b2bcd1a7605b679e9bcbdecd853685524da4d34c44ec5b33af27d49488966693",
+          "new_counted_changes": 3,
+          "original_asserts": 5,
+          "original_files_modified": false,
+          "original_sha256": "147f8cae3795a171615bb9c536c4354dac655d235acff50bcd6595c37f51a883",
+          "retained17_derivation": null,
+          "source": "scripts/current-sku-group-cost-qualification/source_guard.py"
+        },
+        "retained602_derived_sha256": "b2bcd1a7605b679e9bcbdecd853685524da4d34c44ec5b33af27d49488966693"
+      },
+      "cost_native": {
+        "byte_exact_reversible": true,
+        "derived_sha256": "1e53418aa277f65c3b9a09f9cebbf1943ab6bc41e45d3c100ec891eaaec15447",
+        "explicit_race_schedule_transition": false,
+        "extra_counted_changes": 0,
+        "namespace_occurrences": 0,
+        "original23_financial_callback_bodies_unchanged": true,
+        "original_financial_postcondition_assertions_unchanged": true,
+        "retained602": {
+          "assertions_removed": 0,
+          "byte_exact_reversible_to_retained_derivation": true,
+          "derived_asserts": 7,
+          "derived_sha256": "1e53418aa277f65c3b9a09f9cebbf1943ab6bc41e45d3c100ec891eaaec15447",
+          "new_counted_changes": 0,
+          "original_asserts": 7,
+          "original_files_modified": false,
+          "original_sha256": "12871fbcf27caa62042c0bcd5b8c80ed81ae84ff014af64fdd26703853d51891",
+          "retained17_derivation": {
+            "administrative_name_changes": 0,
+            "assertions_removed": 0,
+            "byte_exact_reversible": true,
+            "counted_changes": 1,
+            "derived_sha256": "1e53418aa277f65c3b9a09f9cebbf1943ab6bc41e45d3c100ec891eaaec15447",
+            "key": "cost_native",
+            "original_sha256": "12871fbcf27caa62042c0bcd5b8c80ed81ae84ff014af64fdd26703853d51891",
+            "source": "scripts/current-sku-group-cost-qualification/native_fixture.py"
+          },
+          "source": "scripts/current-sku-group-cost-qualification/native_fixture.py"
+        },
+        "retained602_derived_sha256": "1e53418aa277f65c3b9a09f9cebbf1943ab6bc41e45d3c100ec891eaaec15447"
+      },
+      "fixture": {
+        "byte_exact_reversible": true,
+        "derived_sha256": "9d7cfae86d679c7803514db886fc69c8cdc1c8eac2fcda5a3a298927227803b7",
+        "explicit_race_schedule_transition": false,
+        "extra_counted_changes": 0,
+        "namespace_occurrences": 0,
+        "original23_financial_callback_bodies_unchanged": true,
+        "original_financial_postcondition_assertions_unchanged": true,
+        "retained602": {
+          "assertions_removed": 0,
+          "byte_exact_reversible_to_retained_derivation": true,
+          "derived_asserts": 2,
+          "derived_sha256": "9d7cfae86d679c7803514db886fc69c8cdc1c8eac2fcda5a3a298927227803b7",
+          "new_counted_changes": 0,
+          "original_asserts": 2,
+          "original_files_modified": false,
+          "original_sha256": "707c579a2bd923466fd0badb2bd09897634501d18b42f8b87c553ba19559ad8e",
+          "retained17_derivation": {
+            "administrative_name_changes": 1,
+            "assertions_removed": 0,
+            "byte_exact_reversible": true,
+            "counted_changes": 1,
+            "derived_sha256": "9d7cfae86d679c7803514db886fc69c8cdc1c8eac2fcda5a3a298927227803b7",
+            "key": "fixture",
+            "original_sha256": "707c579a2bd923466fd0badb2bd09897634501d18b42f8b87c553ba19559ad8e",
+            "source": "scripts/current-sku-pair-conversion-qualification/fixture.py"
+          },
+          "source": "scripts/current-sku-pair-conversion-qualification/fixture.py"
+        },
+        "retained602_derived_sha256": "9d7cfae86d679c7803514db886fc69c8cdc1c8eac2fcda5a3a298927227803b7"
+      },
+      "historical_admission": {
+        "byte_exact_reversible": true,
+        "derived_sha256": "1b850c12ad0a6b962ad2981c1b66165bb0a8d6d83186206a124c3e7d053c10b0",
+        "explicit_race_schedule_transition": false,
+        "extra_counted_changes": 0,
+        "namespace_occurrences": 1,
+        "original23_financial_callback_bodies_unchanged": true,
+        "original_financial_postcondition_assertions_unchanged": true,
+        "retained602": {
+          "assertions_removed": 0,
+          "byte_exact_reversible_to_retained_derivation": true,
+          "derived_asserts": 4,
+          "derived_sha256": "e8b41875dafff8f0b2457a79f158df161566f71e1612310e90953ca7b2ad0fb9",
+          "new_counted_changes": 5,
+          "original_asserts": 4,
+          "original_files_modified": false,
+          "original_sha256": "f040f7a7020e0a3d5f811ca5f4508641c84dfa6eda34fd94fa4d74edee80af55",
+          "retained17_derivation": {
+            "administrative_name_changes": 0,
+            "assertions_removed": 0,
+            "byte_exact_reversible": true,
+            "counted_changes": 1,
+            "derived_sha256": "28a69a652c3274d4f0ac93602815cd964831d96f4fbc1240fc7c174841a44c09",
+            "key": "historical_admission",
+            "original_sha256": "f040f7a7020e0a3d5f811ca5f4508641c84dfa6eda34fd94fa4d74edee80af55",
+            "source": "scripts/current-sku-combined-followup-qualification/admission.py"
+          },
+          "source": "scripts/current-sku-combined-followup-qualification/admission.py"
+        },
+        "retained602_derived_sha256": "e8b41875dafff8f0b2457a79f158df161566f71e1612310e90953ca7b2ad0fb9"
+      },
+      "native_admission": {
+        "byte_exact_reversible": true,
+        "derived_sha256": "961f14184baa710d49cfcc1bd982993348f03385af1a84cdc0f3793e42511aca",
+        "explicit_race_schedule_transition": false,
+        "extra_counted_changes": 0,
+        "namespace_occurrences": 1,
+        "original23_financial_callback_bodies_unchanged": true,
+        "original_financial_postcondition_assertions_unchanged": true,
+        "retained602": {
+          "assertions_removed": 0,
+          "byte_exact_reversible_to_retained_derivation": true,
+          "derived_asserts": 12,
+          "derived_sha256": "6fd64791f76e42ced3da5ad05a02282ffcfc6f895caa68f1a6961b6c47c467fb",
+          "new_counted_changes": 4,
+          "original_asserts": 12,
+          "original_files_modified": false,
+          "original_sha256": "ba3406ae26b660d350136c3d75d305abfeedcb9b69b46c30a758b94d4d7c35b7",
+          "retained17_derivation": null,
+          "source": "scripts/current-sku-pair-native-adapter/admission.py"
+        },
+        "retained602_derived_sha256": "6fd64791f76e42ced3da5ad05a02282ffcfc6f895caa68f1a6961b6c47c467fb"
+      },
+      "probe": {
+        "byte_exact_reversible": true,
+        "derived_sha256": "1c285668302f40ac8167ffe72d7ca670616c6d943af2f2875f3ae0c0cc8e1c41",
+        "explicit_race_schedule_transition": false,
+        "extra_counted_changes": 2,
+        "namespace_occurrences": 2,
+        "original23_financial_callback_bodies_unchanged": true,
+        "original_financial_postcondition_assertions_unchanged": true,
+        "retained602": {
+          "assertions_removed": 0,
+          "byte_exact_reversible_to_retained_derivation": true,
+          "derived_asserts": 0,
+          "derived_sha256": "a55aa1020015053b24447e583c48a6e3bc642ce4e971d8c3b6023ddb787ca4cf",
+          "new_counted_changes": 3,
+          "original_asserts": 0,
+          "original_files_modified": false,
+          "original_sha256": "14556c5249689336eaa6bbb29302558238559a4f7274a32129f5bc615e824fae",
+          "retained17_derivation": {
+            "administrative_name_changes": 0,
+            "assertions_removed": 0,
+            "byte_exact_reversible": true,
+            "counted_changes": 2,
+            "derived_sha256": "0563561d21ddc635a1a6c839dcc506d33e2d4551e26cb4d56207a8b87165a0c5",
+            "key": "probe",
+            "original_sha256": "14556c5249689336eaa6bbb29302558238559a4f7274a32129f5bc615e824fae",
+            "source": "scripts/current-sku-combined-followup-qualification/probe.py"
+          },
+          "source": "scripts/current-sku-combined-followup-qualification/probe.py"
+        },
+        "retained602_derived_sha256": "a55aa1020015053b24447e583c48a6e3bc642ce4e971d8c3b6023ddb787ca4cf"
+      },
+      "races": {
+        "byte_exact_reversible": true,
+        "derived_sha256": "49f16ac4a0c4387f476b2435ceddb0a467dd216ff5d2d33c724c423ce7fdcfd2",
+        "explicit_race_schedule_transition": true,
+        "extra_counted_changes": 3,
+        "namespace_occurrences": 0,
+        "original23_financial_callback_bodies_unchanged": false,
+        "original_financial_postcondition_assertions_unchanged": true,
+        "retained602": {
+          "assertions_removed": 0,
+          "byte_exact_reversible_to_retained_derivation": true,
+          "derived_asserts": 8,
+          "derived_sha256": "7854b15e736b268a4743f5374732475d734a6a35f05f504954c86b51ffb77d97",
+          "new_counted_changes": 0,
+          "original_asserts": 8,
+          "original_files_modified": false,
+          "original_sha256": "10361a994d0d26357399f9f7625e5b1828bc8d02a796609b12ff7567e7a034e8",
+          "retained17_derivation": {
+            "administrative_name_changes": 0,
+            "assertions_removed": 0,
+            "byte_exact_reversible": true,
+            "counted_changes": 1,
+            "derived_sha256": "7854b15e736b268a4743f5374732475d734a6a35f05f504954c86b51ffb77d97",
+            "key": "races",
+            "original_sha256": "10361a994d0d26357399f9f7625e5b1828bc8d02a796609b12ff7567e7a034e8",
+            "source": "scripts/current-sku-pair-conversion-qualification/races.py"
+          },
+          "source": "scripts/current-sku-pair-conversion-qualification/races.py"
+        },
+        "retained602_derived_sha256": "7854b15e736b268a4743f5374732475d734a6a35f05f504954c86b51ffb77d97"
+      },
+      "runner": {
+        "byte_exact_reversible": true,
+        "derived_sha256": "6651e14a497ca30405fae39016386c3fd40327ad6146bdc656f4b4cc3800061f",
+        "explicit_race_schedule_transition": false,
+        "extra_counted_changes": 19,
+        "namespace_occurrences": 3,
+        "original23_financial_callback_bodies_unchanged": true,
+        "original_financial_postcondition_assertions_unchanged": true,
+        "retained602": {
+          "assertions_removed": 0,
+          "byte_exact_reversible_to_retained_derivation": true,
+          "derived_asserts": 18,
+          "derived_sha256": "dd7dd53b42ecfc280e3d499ecd38cf5dc5893b4dfa7288dc36990a29f314847a",
+          "new_counted_changes": 4,
+          "original_asserts": 18,
+          "original_files_modified": false,
+          "original_sha256": "56da9dc93e51050e83fc2e8267f213a3c5ee3f506f92f8ec3ba471996b0fa8a2",
+          "retained17_derivation": {
+            "administrative_name_changes": 0,
+            "assertions_removed": 0,
+            "byte_exact_reversible": true,
+            "counted_changes": 3,
+            "derived_sha256": "6c2bfaf224f5b1b794e49eca020acee3701213734dc49120d2f52612779e4466",
+            "key": "runner",
+            "original_sha256": "56da9dc93e51050e83fc2e8267f213a3c5ee3f506f92f8ec3ba471996b0fa8a2",
+            "source": "scripts/current-sku-combined-followup-qualification/runner.py"
+          },
+          "source": "scripts/current-sku-combined-followup-qualification/runner.py"
+        },
+        "retained602_derived_sha256": "dd7dd53b42ecfc280e3d499ecd38cf5dc5893b4dfa7288dc36990a29f314847a"
+      }
+    },
+    "production_go": false,
+    "race_binding": {
+      "caller_derived_sha256": "2369c0afdeeab01ebef07bbb6948da112b6e561a8427b3ac5c354c6b40aa2cb3",
+      "derivation": {
+        "byte_exact_reversible": true,
+        "derived_sha256": "49f16ac4a0c4387f476b2435ceddb0a467dd216ff5d2d33c724c423ce7fdcfd2",
+        "explicit_race_schedule_transition": true,
+        "extra_counted_changes": 3,
+        "namespace_occurrences": 0,
+        "original23_financial_callback_bodies_unchanged": false,
+        "original_financial_postcondition_assertions_unchanged": true,
+        "retained602": {
+          "assertions_removed": 0,
+          "byte_exact_reversible_to_retained_derivation": true,
+          "derived_asserts": 8,
+          "derived_sha256": "7854b15e736b268a4743f5374732475d734a6a35f05f504954c86b51ffb77d97",
+          "new_counted_changes": 0,
+          "original_asserts": 8,
+          "original_files_modified": false,
+          "original_sha256": "10361a994d0d26357399f9f7625e5b1828bc8d02a796609b12ff7567e7a034e8",
+          "retained17_derivation": {
+            "administrative_name_changes": 0,
+            "assertions_removed": 0,
+            "byte_exact_reversible": true,
+            "counted_changes": 1,
+            "derived_sha256": "7854b15e736b268a4743f5374732475d734a6a35f05f504954c86b51ffb77d97",
+            "key": "races",
+            "original_sha256": "10361a994d0d26357399f9f7625e5b1828bc8d02a796609b12ff7567e7a034e8",
+            "source": "scripts/current-sku-pair-conversion-qualification/races.py"
+          },
+          "source": "scripts/current-sku-pair-conversion-qualification/races.py"
+        },
+        "retained602_derived_sha256": "7854b15e736b268a4743f5374732475d734a6a35f05f504954c86b51ffb77d97"
+      },
+      "loader_statement": "business = load('sku_concurrency_current_pocket_races', ROOT / 'scripts/current-sku-managed-recovery-native27-qualification/races.py')",
+      "race_derived_sha256": "49f16ac4a0c4387f476b2435ceddb0a467dd216ff5d2d33c724c423ce7fdcfd2",
+      "wrapper_path": "scripts/current-sku-managed-recovery-native27-qualification/races.py",
+      "wrapper_sha256": "4a9b3e4d7bd9f38d654af0e25e397f5c14c61ad9990b8c5e616d0bdad894dc94"
+    },
+    "schedule_source": {
+      "bytes": 5716,
+      "sha256": "ab75fd21f9438a62ea456fbfba59efec4fb29a038257462e5cc257fcd4d8e9cc"
+    },
+    "source_pins": 79,
+    "status": "ROOT_SKU_EXACT_SOURCE_ONLY",
+    "tree": "4882a589802c910bb433462f6a74d4b8f38add37"
+  },
+  "source_maps": {
+    "exact_producer_namespace": true,
+    "file_maps": 65,
+    "pin_occurrences": 271,
+    "unique_paths": 148
+  },
+  "status": "ROOT_VERIFIED_EXACT_A18_FIRST_FAILURE_NOT_QUALIFIED"
+}

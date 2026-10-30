@@ -20,7 +20,19 @@
     "sha256": "0b1acf7b8fb418063fbecab9d3da517896f62d9673df8de78cf880262ebc7bb7",
     "classification": "INTERNAL_SOURCE_REVIEW_FROZEN_BEFORE_PEER_CONCLUSION"
   },
-  "peer_source_review": "IN_PROGRESS_NOT_A_LAUNCH_ACCEPTANCE_CLAIM",
+  "peer_source_review": {
+    "status": "INTERNAL_BOUNDED_SOURCE_REVIEW_COMPLETE_NO_CONCRETE_BLOCKER",
+    "archive": {
+      "name": "ERP_S03_Ordinary_UTC_Internal_Source_Review_20261030.zip",
+      "bytes": 7197,
+      "sha256": "137b78016ff0514f83a4c42c619a6e3449bbb6a5527c399834f256517c508514",
+      "members": 4,
+      "CRC_ok": true,
+      "library_file_id": "libfile_7fb23f5b21fc819197aa156abd326f44"
+    },
+    "independent_acceptance": false,
+    "actual_new_cases": 0
+  },
   "local_full_actual_Original_admission": "CLOSED_SIX_ACTUAL_ORIGINALS_NOT_MATERIALIZED",
   "workflow_provisions_Originals": true,
   "fixture_read_scopes": [

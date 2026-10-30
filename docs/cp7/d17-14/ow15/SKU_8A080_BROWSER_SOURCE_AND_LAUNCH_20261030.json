@@ -1,0 +1,50 @@
+{
+  "classification": "SOURCE_SUCCESSOR_LAUNCHED_NOT_FRESH_ACTUAL_QUALIFICATION",
+  "recorded_at_utc": "2026-10-30T12:22:33.343883+00:00",
+  "head": "8a08024fda704162481e3123efa5fa7fbfc5663d",
+  "tree": "5b6d8e870811308a36b1ce535de13d0495f72648",
+  "parent": "a18ceb797840934f2cc45222b704b581a00cecf0",
+  "local_reviewed_head": "d66adcc75548b40f9d63036ca75e7e26974ddcc4",
+  "branch": "astra-a/sku-managed-recovery-native27-20261030",
+  "run_id": 41053845032,
+  "job_id": 124056289401,
+  "status": "IN_PROGRESS_AT_LAST_API_OBSERVATION",
+  "changed_paths_only_own_namespace": 26,
+  "source_pins": 96,
+  "immutable_parent_files": 13759,
+  "Python_controls": 51,
+  "Node_controls": 7,
+  "root_strict_clean_preflight": "PASS",
+  "root_preflight": {
+    "bytes": 8286,
+    "sha256": "3f4b7034671d67fd40ac7ebad2c71be644af221e67b835852a76113b3a5067c4"
+  },
+  "root_review_chronology": "Direct source review and root preflight after peer result received; no blind-independent review claim",
+  "peer_initial_findings_frozen_before_author_conclusion": true,
+  "peer_bounded_source_review": "NO_CONCRETE_BLOCKER_FOUND",
+  "private_source_review": {
+    "name": "ERP_SKU_Browser_Successor_Source_Review_20261030.zip",
+    "bytes": 30417,
+    "sha256": "ce660cc27261ec3500daf8ffa424aa843beb2c63f24f93b407ee3238f4401226",
+    "members": 11,
+    "CRC_ok": true,
+    "library_file_id": "libfile_d8d045e7919c81919c778e9050e14af4"
+  },
+  "named_combobox_selector_changes": 9,
+  "names": [
+    "SKU padanan",
+    "SKU tujuan",
+    "SKU asal dan gudang"
+  ],
+  "actual_combined_to_private_staged_route_changes": 1,
+  "private_staged_fixture_route_changes": 1,
+  "prepare_isolation": "READ COMMITTED",
+  "state_and_read_isolation": "REPEATABLE READ",
+  "current_product_UI_SQL_changes": 0,
+  "financial_postcondition_oracles_changed": 0,
+  "actual_fresh_27_required": true,
+  "previous_partial_runs_aggregated": false,
+  "new_actual_Native_browser_credit": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

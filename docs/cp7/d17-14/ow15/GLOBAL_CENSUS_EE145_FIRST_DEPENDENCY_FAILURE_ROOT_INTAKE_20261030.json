@@ -1,0 +1,426 @@
+{
+  "status": "ROOT_VERIFIED_EE145_FIRST_DEPENDENCY_FAILURE_AND_RESTORATION_ASSERTIONS_ONLY",
+  "classification": "FAILED_ACTUAL_GLOBAL_CAPTURE_ZERO_SUPPLEMENTAL_QUALIFICATION",
+  "head": "ee14592920c331d84d354a24b4b6b4a9f49f91d1",
+  "tree": "4f1173e9454548d44fc2c88c0bc628445df57027",
+  "run_id": "41044419248",
+  "job_id": 124024866394,
+  "artifact_id": 12973268705,
+  "archive": {
+    "bytes": 3990236,
+    "sha256": "59d4ce7398bdcfd2cc3603ca487ea40eb171e1426070fe67f273ac5d0dcc174a"
+  },
+  "archive_members": 126,
+  "archive_CRC_ok": true,
+  "originals": {
+    "CP7_D1_E_SKU_GLOBAL_CENSUS.json": {
+      "bytes": 828201,
+      "sha256": "170957fde933e1afc97f95e20d7cfe700d2b7a8f06c406210f7b4f2832472fb8"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360442,
+      "sha256": "14c67466babccb2bf82b3b13909e16437d0cf1da62718ccfd390281617ed31ac"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 1470,
+      "sha256": "b09c70d038ea024e1db9841a6f3da2788b212621b13302e9319ef6ff03c4a326"
+    },
+    "GLOBAL_CENSUS_ORIGINAL_RETENTION.json": {
+      "bytes": 1153,
+      "sha256": "1899f07ad715f0cf2c07a1b4ef8b28dc6f9e71b14d866cd8460a1188c7dcc9bd"
+    },
+    "SKU_COST_ARTIFACT_COPY_RECEIPT.json": {
+      "bytes": 224,
+      "sha256": "07dc6c85c6eda4950fe4674c83a5b6ef0688217de4af2c35fa3291ae291a3340"
+    }
+  },
+  "source": {
+    "status": "SOURCE_PREPARED_ONLY_NOT_ACTUAL_SUPPLEMENT_QUALIFICATION",
+    "head": "ee14592920c331d84d354a24b4b6b4a9f49f91d1",
+    "tree": "4f1173e9454548d44fc2c88c0bc628445df57027",
+    "base": "80fab765938f8feaff151cd35fdb7923df987f23",
+    "base_tree": "9161822776b958a60cbe845f7a56d96c31db3dc5",
+    "manifest": {
+      "bytes": 7586,
+      "sha256": "20864fe92fc18421d3264d1602c85780a1d93e41571be9923051573e4bc7cf29"
+    },
+    "inherited_files_and_modes": 13892,
+    "additive_paths": 17,
+    "own_pinned_files": 16,
+    "helper_current_pins": 15,
+    "historical_helper_pins": 9,
+    "exact_bce_parent_pins": 15,
+    "profile_transitions": {
+      "GENERATED_RECEIPTS.json": {
+        "new_workflow_producer": true,
+        "changed_package_workflow_name": false,
+        "old_readers_unchanged": true
+      },
+      "LATER_GENERATED_RECEIPTS.json": {
+        "new_workflow_producer": true,
+        "changed_package_workflow_name": true,
+        "old_readers_unchanged": true
+      },
+      "SKU_GENERATED_RECEIPTS.json": {
+        "new_workflow_producer": true,
+        "changed_package_workflow_name": false,
+        "old_readers_unchanged": true
+      }
+    },
+    "bce_transitive_source": {
+      "own_manifest": {
+        "bytes": 9401,
+        "sha256": "9b0af7074439fdbcd9cf4c65fcb9488fadf34f9317beab8774279d60559c9fa3"
+      },
+      "source_files": 41,
+      "exact_public_imports": 22,
+      "preserved_parent_files_and_modes": 13834,
+      "only_existing_product_change": [
+        "scripts/cp7_sku_pair_conversion/composition.py"
+      ],
+      "declared_delta_paths": 42,
+      "complete_reversible_engine_changes": 13,
+      "file_map_occurrences": 68,
+      "file_pin_occurrences": 330,
+      "unique_bound_path_digest_pairs": 188,
+      "exact_namespace_binding": true,
+      "matching_hash_in_other_namespace_accepted": false,
+      "historical_manifests_resealed": false,
+      "actual_business_runtime_entry": null
+    },
+    "derivations": {
+      "engine": {
+        "inherited": {
+          "original_path": "scripts/current-vendor-receivable-qualification/probe.py",
+          "original_sha256": "c420d894f8d5f16bddefeae73addb621507170f372a28e7d6e33d88c7eeb0be9",
+          "derived_sha256": "5e252e84922abae81636f7428d86a470d9a50253dd4c5f2ceb7106e176cf7e14",
+          "counted_changes": 13,
+          "original_engine_bytes_preserved": true,
+          "all_install_preuse_reinstall_backup_roles_CP6_advisor_Auth_package_checks_retained": true,
+          "original_business_case_requirement_replaced_by_explicit_catalogue_only_group": true,
+          "no_used_business_witness_claim": true,
+          "actual_Native_cases": 0
+        },
+        "successor": {
+          "kind": "engine",
+          "before_sha256": "5e252e84922abae81636f7428d86a470d9a50253dd4c5f2ceb7106e176cf7e14",
+          "after_sha256": "948752e8f838046be988ca11bbb38e2483a2ab353c8cb94294ea0524b4f685b3",
+          "counted_changes": 4,
+          "byte_reversible": true
+        },
+        "install_preuse_inverse_reinstall_commit_outer_restore_all5_preserved": true,
+        "actual_business_cases": 0,
+        "runtime_entry": null,
+        "actual_Native_credit": 0
+      },
+      "runner": {
+        "inherited": {
+          "kind": "runner",
+          "original_path": "scripts/current-de-sku-parent-catalogue-qualification/runner.py",
+          "original_sha256": "d5ebbdb8c3984e783043b8cb46d044d320afe592b91b69abd1ae69366041aed0",
+          "derived_sha256": "3fa8832725c4e59b98cbb661e98df63c5665943a5359d45a85938fae44f8f1f0",
+          "counted_changes": 3,
+          "byte_reversible": true,
+          "canonical_parent_written": false,
+          "next_successor_source_admission_required": true,
+          "next_producer_metadata_required": true,
+          "metadata_launch_prepared": false,
+          "runtime_entry": null,
+          "actual_Native_credit": 0,
+          "production_go": false,
+          "independent_acceptance": false
+        },
+        "successor": {
+          "kind": "runner",
+          "before_sha256": "3fa8832725c4e59b98cbb661e98df63c5665943a5359d45a85938fae44f8f1f0",
+          "after_sha256": "bd8e8b3872929f622c0bf9f20dc7106db21ea9be4edd8c1a222f9e10450fdd53",
+          "counted_changes": 4,
+          "byte_reversible": true
+        },
+        "runtime_entry": null,
+        "actual_Native_credit": 0
+      },
+      "gate": {
+        "inherited": {
+          "kind": "gate",
+          "original_path": "scripts/current-de-sku-parent-catalogue-qualification/result_gate.py",
+          "original_sha256": "ccacf58bd147de7d2b34d39f89f71ad42ac0e62b030a55f5db17c381134abf75",
+          "derived_sha256": "c2328558f251295c0b84e7abe23346ac9d5749d51aec02fb9afd19990209fe86",
+          "counted_changes": 3,
+          "byte_reversible": true,
+          "canonical_parent_written": false,
+          "next_successor_source_admission_required": true,
+          "next_producer_metadata_required": true,
+          "metadata_launch_prepared": false,
+          "runtime_entry": null,
+          "actual_Native_credit": 0,
+          "production_go": false,
+          "independent_acceptance": false
+        },
+        "successor": {
+          "kind": "gate",
+          "before_sha256": "c2328558f251295c0b84e7abe23346ac9d5749d51aec02fb9afd19990209fe86",
+          "after_sha256": "42a03dfded429538dc1c2780be20971a9ab2c90b31210ca38f734fda03ebd602",
+          "counted_changes": 5,
+          "byte_reversible": true
+        },
+        "runtime_entry": null,
+        "actual_Native_credit": 0
+      },
+      "integration": {
+        "kind": "integration",
+        "before_sha256": "c13c8a08e1ac65167f6209547ecbf5bdb4c41d2bcb1067b962f4d9a243203b61",
+        "after_sha256": "ae8beba4c372cc4fd7475a891b8edc99338dc435e1b65c3d02fac9fba53a8c3c",
+        "counted_changes": 1,
+        "byte_reversible": true
+      }
+    },
+    "derived_source_pins": {
+      "engine": {
+        "bytes": 13058,
+        "sha256": "948752e8f838046be988ca11bbb38e2483a2ab353c8cb94294ea0524b4f685b3"
+      },
+      "runner": {
+        "bytes": 5253,
+        "sha256": "bd8e8b3872929f622c0bf9f20dc7106db21ea9be4edd8c1a222f9e10450fdd53"
+      },
+      "gate": {
+        "bytes": 6764,
+        "sha256": "42a03dfded429538dc1c2780be20971a9ab2c90b31210ca38f734fda03ebd602"
+      },
+      "integration": {
+        "bytes": 9853,
+        "sha256": "ae8beba4c372cc4fd7475a891b8edc99338dc435e1b65c3d02fac9fba53a8c3c"
+      }
+    },
+    "complete_outer_restore_finally_pin": {
+      "bytes": 2376,
+      "sha256": "6eb5e171254f3ab9795037ee10069b209e0a6f3c2630c29d32b92f7140e899d1"
+    },
+    "declared_supplement_groups": [
+      "schemas",
+      "relations",
+      "columns",
+      "functions",
+      "roles",
+      "memberships",
+      "foreign_keys",
+      "triggers",
+      "view_relation_dependencies",
+      "inheritance",
+      "database_authority",
+      "default_privileges",
+      "effective_schema_privileges",
+      "effective_table_privileges",
+      "effective_function_privileges",
+      "effective_sequence_privileges",
+      "effective_explicit_column_privileges",
+      "effective_database_privileges",
+      "dependencies"
+    ],
+    "declared_query_pins": {
+      "schemas": {
+        "bytes": 151,
+        "sha256": "2c88f784aae51d4505b20c5a332c11f91d3d7ad139d77c42d6ca88b9c07d12aa"
+      },
+      "relations": {
+        "bytes": 328,
+        "sha256": "ed63c30bdb770f45c535619538f95c13e56df3735f2621bd1c401320851eaac3"
+      },
+      "columns": {
+        "bytes": 346,
+        "sha256": "a97d67ecfcdf46c1ba401b35ac7b4d5d507f3ee55d09f28f9de9318248842cda"
+      },
+      "functions": {
+        "bytes": 234,
+        "sha256": "bb9f53add6e2c2c83d80d0cc4164a6351c885124a18d39a48ec6ba11874b2898"
+      },
+      "roles": {
+        "bytes": 272,
+        "sha256": "ca39878ec7d7b88f500dd5fee38f44bd4071e4b4505bfbeda2a1400e553f376a"
+      },
+      "memberships": {
+        "bytes": 230,
+        "sha256": "dad894bc69299aa26a2eb505ebdf5ab870b8fcfa71d5070fbf5bfc71dba7e261"
+      },
+      "foreign_keys": {
+        "bytes": 539,
+        "sha256": "9fe5b94014c0b6cfa9441c6926be041f22ecd85a2757f354382ced550ccdf125"
+      },
+      "triggers": {
+        "bytes": 568,
+        "sha256": "5be2cd7e64bb10460ac2ebeecd789305f3899fa7e7b42dfa8266ae27e5e142b5"
+      },
+      "view_relation_dependencies": {
+        "bytes": 584,
+        "sha256": "bc001e9a322322f2868030b2977a06c7c83e907acd5e7628a0d4a37ebceca573"
+      },
+      "inheritance": {
+        "bytes": 393,
+        "sha256": "98b271e1bef622d39b50665e8a20244370f409418e11af6b7edcf9a0fdd2d59b"
+      },
+      "database_authority": {
+        "bytes": 142,
+        "sha256": "c75f7f4a6ec9754e585b50960654754ca17348882f424e29957af50392b9ea77"
+      },
+      "default_privileges": {
+        "bytes": 286,
+        "sha256": "3f2d94855899266a5c663c4bfaea3686da877c76b373dad4f32ede87cdbf74c0"
+      },
+      "effective_schema_privileges": {
+        "bytes": 244,
+        "sha256": "6cc1bea9973690c2dd6565e40abc99926d1e0592e2ecc761042f667a90a90db0"
+      },
+      "effective_table_privileges": {
+        "bytes": 419,
+        "sha256": "1aadb99d22e9248fbfc37e1e15b9e0a8751039a3e5856cb9c6c05a542990fedc"
+      },
+      "effective_function_privileges": {
+        "bytes": 200,
+        "sha256": "20f2ddbecba9528ebcdbceb50945fa6873d72defef9cce5aab47d3e5b6741c41"
+      },
+      "effective_sequence_privileges": {
+        "bytes": 347,
+        "sha256": "3493fe7f9858244778d0dba72d3b1ffc80677662d67e74af4e8cffcd1128af60"
+      },
+      "effective_explicit_column_privileges": {
+        "bytes": 507,
+        "sha256": "480e57a56de809cced6335af12bb9e995368ebe9477b3f14976f1c67cae3a0fc"
+      },
+      "effective_database_privileges": {
+        "bytes": 237,
+        "sha256": "414a2f9e9f6477ed6f3c37ada993373eaf4943609f3a926e8d8d3867b2eb04cc"
+      },
+      "dependencies": {
+        "bytes": 1921,
+        "sha256": "ccd4afdf80cf4373c045e7f5d1524f01c5d071d81e98e5c536ecc0caf72faeb7"
+      }
+    },
+    "committed_install_then_fresh_read_committed_read_only_source": true,
+    "actual_supplemental_Original_required": true,
+    "success_acceptance_route_implemented": false,
+    "raw_ACL_null_and_empty_source_distinct": true,
+    "source_checks_execute_no_SQL": true,
+    "old_manifests_resealed": false,
+    "runtime_entry": null,
+    "actual_Native_credit": 0,
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "observed": {
+    "first_error": "GLOBAL_CENSUS_DUPLICATE_SUPPLEMENT_IDENTITY:dependencies",
+    "report_status": "INCOMPLETE",
+    "actual_case_status": "INCOMPLETE",
+    "first_failure_preserved": true,
+    "restoration_error_present": false,
+    "committed_case_ids": [
+      "D1_E_SKU_GLOBAL_WRITER_CENSUS_SOURCE_ONLY"
+    ],
+    "diagnostic_read_bracket_completed": false,
+    "separate_supplemental_Original_exists": false,
+    "final_all5_gate_Original_exists": false,
+    "observed_successful_metadata_groups": 0,
+    "progress_count_is_qualification": false,
+    "used_guard_business_witness_executed": false,
+    "preuse_inverse_layers": [
+      "SKU",
+      "E",
+      "D1"
+    ],
+    "reinstall_before_diagnostics": true,
+    "baseline_full22_all_rows_ALL_sequences_equal_assertion": true,
+    "baseline_roles_exact_assertion": true,
+    "raw_public_CP6_Auth_restore_assertions": true,
+    "baseline_advisors_equal_assertion": true,
+    "advisor_gate": true,
+    "restoration_basis": "EXACT_ORIGINAL_REPORT_ASSERTIONS_AND_UNCHANGED_FULL_OUTER_RESTORE_SOURCE",
+    "raw_baseline_and_final_snapshots_retained": false,
+    "outer_raw_snapshot_equality_independently_recomputed": false,
+    "standalone_drill_status": "RESTORED_IDENTICAL",
+    "standalone_drill_tables": 407,
+    "package_gates": {
+      "installed": true,
+      "primary_unchanged": true,
+      "backup_restore_drill": true,
+      "security_advisors": true,
+      "writer_runtime": false
+    },
+    "package_all_five_gates": false,
+    "Auth_users_before": 0,
+    "Auth_users_after": 0,
+    "source_admission_generated_output_proofs": {
+      "early": {
+        "classification": "BOUNDED_GENERATED_NON_SOURCE_RECEIPTS",
+        "files": 106,
+        "frozen_worktree_receipts": 1,
+        "artifact_requests": 103,
+        "artifact_attempts": 103,
+        "expected_total_request_count": null,
+        "arbitrary_source_allowed": false,
+        "authoritative_Original_readers_unchanged": true,
+        "Native_qualification_credit": 0
+      },
+      "later": {
+        "status": "GENERATED_OUTPUT_PROVENANCE_ONLY_NOT_NATIVE_PASS",
+        "classes": {
+          "startup": 2,
+          "aligned": 1,
+          "clone": 5,
+          "package": 2
+        },
+        "accepted": 10,
+        "SQL_diagnostics_executed": false,
+        "financial_oracles_changed": false,
+        "actual_Native_credit": 0
+      },
+      "SKU": {
+        "classification": "SKU_GENERATED_NON_SOURCE_OUTPUTS_ONLY",
+        "accepted": 5,
+        "authoritative_Native21_reader_unchanged": true,
+        "client_scope": "EXACT_ORIGINAL8_SRC_FILES_72_CASES",
+        "Native_credit": 0
+      }
+    }
+  },
+  "actual_supplemental_groups_qualified": 0,
+  "actual_business_cases": 0,
+  "actual_Auth_HTTP_cases": 0,
+  "actual_browser_cases": 0,
+  "actual_two_session_races": 0,
+  "actual_phase_authority_qualified": false,
+  "actual_complete_ERP_lock_graph_qualified": false,
+  "writer_or_phantom_lock_closed": false,
+  "permission_closure": "UNKNOWN",
+  "duplicate_dependency_cause": "UNDETERMINED_RAW_FAILED_QUERY_ROWS_NOT_RETAINED",
+  "dependency_query_or_identity_changed": false,
+  "success_intake_permitted": false,
+  "source_supplement_scope_is_not_actual_result": true,
+  "accepted_transactions_reexecuted": false,
+  "formal_total_unchanged": "5/16",
+  "runtime_entry": null,
+  "actual_Native_credit": 0,
+  "production_go": false,
+  "independent_acceptance": false,
+  "intake_scripts": {
+    "intake_common.py": {
+      "bytes": 6518,
+      "sha256": "698216cfb4c31e8c93167e1b67f52f0b7532e5906ac8a09584b0a32c728b41e9"
+    },
+    "intake_s05.py": {
+      "bytes": 29616,
+      "sha256": "c23f942e8a01a1a272bcc0f54de0c5ddd48708b3297020513e937dc8ca36a59c"
+    },
+    "intake_de_sku_parent.py": {
+      "bytes": 24562,
+      "sha256": "b1754d28e22b02c86d9f246a0e0a39c19c5f3204c332dc53fd455b3eacc9085d"
+    },
+    "intake_global_census_ee145.py": {
+      "bytes": 25261,
+      "sha256": "84e162d2c0d8edbc813db7e00c14fa01e3e0b99107f40adbe0bdeba52f609f7c"
+    }
+  }
+}
