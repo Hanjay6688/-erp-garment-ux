@@ -1,0 +1,32 @@
+{
+  "contract": "cp7.s05-wib-owner-fixture-successor.v1",
+  "status": "PREPARED_SOURCE_ONLY_FRESH_FULL_NATIVE10_REQUIRED",
+  "base_public_head": "52eedc88e9aa2cd7470894c1f38ff9eb22f9cc60",
+  "base_public_tree": "df8970c1c19d19b17c6a870d30adc535170725cc",
+  "branch": "astra-a/s05-wib-owner-fixture-successor-20261030",
+  "workflow": ".github/workflows/cp7-current-s05-wib-owner-fixture-successor.yml",
+  "historical_current_AC_source_path": "scripts/current-s05-current-ac-editor-qualification/SOURCE.json",
+  "historical_current_AC_source_sha256": "cd2744c98c49e28c66a5ea30de6ee6567e06fe45df42b2deb3836e7bc3f6211c",
+  "historical_current_AC_source_pins": 242,
+  "accepted_fresh_native10": null,
+  "failed_52eed": {
+    "head": "52eedc88e9aa2cd7470894c1f38ff9eb22f9cc60",
+    "run_id": 40969679183,
+    "job_id": 123782996311,
+    "artifact_id": 12944214183,
+    "zip_bytes": 2104864,
+    "zip_sha256": "ca1aa6ed4fac397f53afed778d9d866b982060f631f1f4cd78652f9bba37edcb",
+    "counts": {
+      "PASS": 8,
+      "INCOMPLETE": 2
+    },
+    "usable_prerequisite": false
+  },
+  "original_cases_sha256": "e025be1280630dfb89f62261163194ce072b6f6ad6d909b56ff6c82f75778e98",
+  "actual_new_Native": 0,
+  "actual_Auth_HTTP": 0,
+  "actual_browser": 0,
+  "actual_races": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

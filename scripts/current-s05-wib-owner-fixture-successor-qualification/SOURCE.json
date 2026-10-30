@@ -1,0 +1,238 @@
+{
+  "contract": "cp7.s05-wib-owner-fixture-successor-source.v1",
+  "status": "PREPARED_NOT_NATIVE_QUALIFIED",
+  "base_public_head": "52eedc88e9aa2cd7470894c1f38ff9eb22f9cc60",
+  "base_public_tree": "df8970c1c19d19b17c6a870d30adc535170725cc",
+  "historical_current_AC_source242_sha256": "cd2744c98c49e28c66a5ea30de6ee6567e06fe45df42b2deb3836e7bc3f6211c",
+  "original_callback_source_sha256": "e025be1280630dfb89f62261163194ce072b6f6ad6d909b56ff6c82f75778e98",
+  "original_callback_body_substitutions": 0,
+  "private_case_scope_wrappers": 2,
+  "private_dependency_bindings": [
+    "fixture",
+    "issue_note"
+  ],
+  "product_Native_reader_cost_FIFO_money_datecohort_oracle_changes": 0,
+  "accepted_fresh_native10": null,
+  "fresh_required_Native_cases": 10,
+  "extra_case_credit_for_negative_setup_or_committed_witness": 0,
+  "actual_new_Native_Auth_browser_races": 0,
+  "production_go": false,
+  "independent_acceptance": false,
+  "files": {
+    ".github/workflows/cp7-current-s05-wib-owner-fixture-successor.yml": {
+      "bytes": 26850,
+      "sha256": "9fb907c310ad035a8e1eaf4ae49c0a3c3687faae525d538f6abd49af69839507",
+      "mode": "100644"
+    },
+    "scripts/current-s05-current-ac-editor-qualification/SOURCE.json": {
+      "bytes": 36246,
+      "sha256": "cd2744c98c49e28c66a5ea30de6ee6567e06fe45df42b2deb3836e7bc3f6211c",
+      "mode": "100644"
+    },
+    "scripts/current-s05-wib-owner-fixture-successor-qualification/CONFIG.json": {
+      "bytes": 1323,
+      "sha256": "eaa1fc844ada2a29c9d26a26ce4c749d417fca0afe2e16c873a10227d991ce35",
+      "mode": "100644"
+    },
+    "scripts/current-s05-wib-owner-fixture-successor-qualification/DERIVATION.json": {
+      "bytes": 1134,
+      "sha256": "28605c4953b3e844300549f60ee90a08f4f9403e898cb43ed162c6228fb8ab5d",
+      "mode": "100644"
+    },
+    "scripts/current-s05-wib-owner-fixture-successor-qualification/GENERATED_RECEIPTS.json": {
+      "bytes": 55832,
+      "sha256": "26cbb24670f163ca44b514f967c583f238d5dafa6d0920325d8174e76d4401aa",
+      "mode": "100644"
+    },
+    "scripts/current-s05-wib-owner-fixture-successor-qualification/LATER_GENERATED_RECEIPTS.json": {
+      "bytes": 27718,
+      "sha256": "04e14f11442fe6d319c4518930f004c8a886eb59e0bcecafc10801cde8350fe7",
+      "mode": "100644"
+    },
+    "scripts/current-s05-wib-owner-fixture-successor-qualification/README.md": {
+      "bytes": 4410,
+      "sha256": "fbad2727c51d4a519bc42d6dc3afe5651de9c53939cc418d28302f157115b9d6",
+      "mode": "100644"
+    },
+    "scripts/current-s05-wib-owner-fixture-successor-qualification/admission.py": {
+      "bytes": 2278,
+      "sha256": "637b4da74d3eb38fc56325d2e98bf4205f41f0e38fb057bbda656ab768005874",
+      "mode": "100644"
+    },
+    "scripts/current-s05-wib-owner-fixture-successor-qualification/check.py": {
+      "bytes": 1082,
+      "sha256": "39b8abe0aebba3309cfc12be92d5177a651138f24573c9241f480f6c94a9630a",
+      "mode": "100644"
+    },
+    "scripts/current-s05-wib-owner-fixture-successor-qualification/derive.py": {
+      "bytes": 2548,
+      "sha256": "6f579ff0190132360eb9def3b12ccdc650af8b796136b15f2f6f577c5e93a983",
+      "mode": "100644"
+    },
+    "scripts/current-s05-wib-owner-fixture-successor-qualification/evidence/ACTUAL_602_NATIVE_INPUTS.json": {
+      "bytes": 15541,
+      "sha256": "cc2bdc446d39b37429673f6818511a7828b2d10ba7be92669de2d99791e78d15",
+      "mode": "100644"
+    },
+    "scripts/current-s05-wib-owner-fixture-successor-qualification/evidence/LOCAL_FIRST_CANONICAL_ROW_ENCODING.json": {
+      "bytes": 496,
+      "sha256": "2838135c0425fe6effd86a03955e914132016c84d04ecd2a4c19166de5dc98cd",
+      "mode": "100644"
+    },
+    "scripts/current-s05-wib-owner-fixture-successor-qualification/evidence/LOCAL_FIXTURE_FIRST_PASS.log": {
+      "bytes": 1522,
+      "sha256": "160be897f2a7dbece32de54c577c4a2340895bedff1b6b16e5156a1c69f95b9d",
+      "mode": "100644"
+    },
+    "scripts/current-s05-wib-owner-fixture-successor-qualification/evidence/LOCAL_GENERATED_FIRST_PASS.log": {
+      "bytes": 1370,
+      "sha256": "35263c230934fa4f869f8691ce68c75b09783f70fa877e7fa0afc1dfcd9dfbb9",
+      "mode": "100644"
+    },
+    "scripts/current-s05-wib-owner-fixture-successor-qualification/evidence/LOCAL_MODEL_FIRST.json": {
+      "bytes": 3626,
+      "sha256": "fa31ad9a0423f7a6d4a47091b6ad777e9581b7d91dfe75c64efefc7c244b9fc1",
+      "mode": "100644"
+    },
+    "scripts/current-s05-wib-owner-fixture-successor-qualification/evidence/LOCAL_MODEL_FIRST.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "mode": "100644"
+    },
+    "scripts/current-s05-wib-owner-fixture-successor-qualification/evidence/LOCAL_TYPED_INPUTS.json": {
+      "bytes": 14852,
+      "sha256": "b3158ccc5f41e70a42e752caef8637ccebbd0356f8825fdbe70edeebda3aab8b",
+      "mode": "100644"
+    },
+    "scripts/current-s05-wib-owner-fixture-successor-qualification/evidence/LOCKED_INITIAL_RCA.json": {
+      "bytes": 10346,
+      "sha256": "b727aa996ba42ab96e785206ffbe4c635e5275e7e732a60fa031dfa27c44a49f",
+      "mode": "100644"
+    },
+    "scripts/current-s05-wib-owner-fixture-successor-qualification/evidence/S05_52EED_LATER_REFERENCE.zip": {
+      "bytes": 1620996,
+      "sha256": "5e705a5406ddc3354f2cbed92c4348f89ef7abf016d2b4643d4cddfc1307367c",
+      "mode": "100644"
+    },
+    "scripts/current-s05-wib-owner-fixture-successor-qualification/evidence/S05_52EED_P0_REFERENCE.zip": {
+      "bytes": 51964,
+      "sha256": "4411d865ebb8b1be513f3819d742e0dd4493973fceb6ca00d8b65232468ecedd",
+      "mode": "100644"
+    },
+    "scripts/current-s05-wib-owner-fixture-successor-qualification/evidence/erp_guard_last_active_owner.sql": {
+      "bytes": 1645,
+      "sha256": "77abd861fc0d6d7417b67bf2ed5273bd5872eef6dc7b872461852ed2d6a90886",
+      "mode": "100644"
+    },
+    "scripts/current-s05-wib-owner-fixture-successor-qualification/evidence/erp_save_accessory_issue_action_v1.sql": {
+      "bytes": 10253,
+      "sha256": "7b32cb0addbb20f788f6cb0bc5a54dc6af044a72da49fe38ee953d72603e72ab",
+      "mode": "100644"
+    },
+    "scripts/current-s05-wib-owner-fixture-successor-qualification/factory.py": {
+      "bytes": 1903,
+      "sha256": "e49ae4cc9a98cdb7643f35ffdbc366df45156c2857d575079042c37aa72774a1",
+      "mode": "100644"
+    },
+    "scripts/current-s05-wib-owner-fixture-successor-qualification/first_failure.py": {
+      "bytes": 2626,
+      "sha256": "3ef8612dbe0b473eb45a13cec3f12069fd90ce39e372745c4ea54aebb23a3e64",
+      "mode": "100644"
+    },
+    "scripts/current-s05-wib-owner-fixture-successor-qualification/fixture_adapter.py": {
+      "bytes": 7638,
+      "sha256": "08318e4d229af330b5d014f0bdc8653cb1ed0b2db1fd384c41453f2bb5167f69",
+      "mode": "100644"
+    },
+    "scripts/current-s05-wib-owner-fixture-successor-qualification/freeze.py": {
+      "bytes": 1919,
+      "sha256": "17f6e1556fd6c904f2d38d24e5bd9cc708a93d7a06947b16bce0c423546ca764",
+      "mode": "100644"
+    },
+    "scripts/current-s05-wib-owner-fixture-successor-qualification/generated_later.py": {
+      "bytes": 10525,
+      "sha256": "7bf35d85d9f7ec19da34c5626f24af908f3691a4e3ed7251dbc4958e59b4bea3",
+      "mode": "100644"
+    },
+    "scripts/current-s05-wib-owner-fixture-successor-qualification/generated_receipts.py": {
+      "bytes": 9466,
+      "sha256": "a569138a5b6d4c0d1ce542ab45af98ee156f47e6d772766c214bbae3366ffc7e",
+      "mode": "100644"
+    },
+    "scripts/current-s05-wib-owner-fixture-successor-qualification/local_admission_controls.py": {
+      "bytes": 10020,
+      "sha256": "4e8c0bf8a5d71103800fe15459e9e54e55751a479cf4d1b13443a4837cefe18d",
+      "mode": "100644"
+    },
+    "scripts/current-s05-wib-owner-fixture-successor-qualification/local_model.mjs": {
+      "bytes": 7103,
+      "sha256": "2beb4ac57bb9e62e7c6cb8ad9fecc1a9ff772ee2d464e2a0205e13583e19772f",
+      "mode": "100644"
+    },
+    "scripts/current-s05-wib-owner-fixture-successor-qualification/probe.py": {
+      "bytes": 2330,
+      "sha256": "ac4cd79a96e14499f5834db0a5c4a332141e100f1bd5ab9100cc5719d93aa428",
+      "mode": "100644"
+    },
+    "scripts/current-s05-wib-owner-fixture-successor-qualification/retained-52eed/CP7_S05_ACCESSORY_STANDARD_NATIVE10.json.gz": {
+      "bytes": 411668,
+      "sha256": "aca475c1fa866d59a228617b9af2729511a29a3cb06ad68ac5a7a749e0632402",
+      "mode": "100644"
+    },
+    "scripts/current-s05-wib-owner-fixture-successor-qualification/retained-52eed/CP7_S05_ACCESSORY_STANDARD_NATIVE10_CASES.json.gz": {
+      "bytes": 11879,
+      "sha256": "8ce70f0154a5a52f227d1079ac299f9afcba4254e35d51652a16fac033149179",
+      "mode": "100644"
+    },
+    "scripts/current-s05-wib-owner-fixture-successor-qualification/retained-52eed/INVENTORY.json": {
+      "bytes": 24589,
+      "sha256": "a1a9c39f87e9efd95bd08d3cfca9e88cab66b36f1ace8c52de2bb085177e3e88",
+      "mode": "100644"
+    },
+    "scripts/current-s05-wib-owner-fixture-successor-qualification/retained-52eed/ORIGINAL.zip": {
+      "bytes": 2104864,
+      "sha256": "ca1aa6ed4fac397f53afed778d9d866b982060f631f1f4cd78652f9bba37edcb",
+      "mode": "100644"
+    },
+    "scripts/current-s05-wib-owner-fixture-successor-qualification/retained-52eed/T3_BACKUP_RESTORE_DRILL.json.gz": {
+      "bytes": 646,
+      "sha256": "7371c00b3835ba0b8ffe6ed19707fc20f476be017c725075bad6f4f01ba53a86",
+      "mode": "100644"
+    },
+    "scripts/current-s05-wib-owner-fixture-successor-qualification/retained-52eed/T3_PACKAGE_FILES_INSTALL.json.gz": {
+      "bytes": 255,
+      "sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7",
+      "mode": "100644"
+    },
+    "scripts/current-s05-wib-owner-fixture-successor-qualification/retained-52eed/T3_PACKAGE_INSTALL.json.gz": {
+      "bytes": 11410,
+      "sha256": "a5b85e402369a1189018bb5a0634d0547b4874f29d9f5db71746ea75d29caac7",
+      "mode": "100644"
+    },
+    "scripts/current-s05-wib-owner-fixture-successor-qualification/source_check.py": {
+      "bytes": 6483,
+      "sha256": "8c3d3c1f2d41bf783d83c0557f1cf32841bf4a8c3b81ce8b5632c20a90d378fe",
+      "mode": "100644"
+    },
+    "scripts/current-s05-wib-owner-fixture-successor-qualification/test_fixture.py": {
+      "bytes": 6220,
+      "sha256": "1c3f8cfe949d6e97c24f432a242a030069eb0058cdd827aab122a4f288376411",
+      "mode": "100644"
+    },
+    "scripts/current-s05-wib-owner-fixture-successor-qualification/test_generated.py": {
+      "bytes": 5083,
+      "sha256": "3b10b663f0e7e07e99ffbfc65cca7bb6f1adfecbea60ef355dc904abd46dfe4c",
+      "mode": "100644"
+    },
+    "scripts/current-s05-wib-owner-fixture-successor-qualification/test_source.py": {
+      "bytes": 4831,
+      "sha256": "f41c478fb4bd19fa3c050f2e9153086d9a38c879defbe84ad36d4a44d7a843f2",
+      "mode": "100644"
+    },
+    "scripts/current-s05-wib-owner-fixture-successor-qualification/workflow_source.py": {
+      "bytes": 1576,
+      "sha256": "29ec804a202fece2b7765ea3a0fb3345379d372ca82a088ef4d764d650124d32",
+      "mode": "100644"
+    }
+  }
+}

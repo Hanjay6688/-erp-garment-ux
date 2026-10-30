@@ -1,0 +1,13 @@
+test_actual602_canonical_Native_rows_and_both_committed_prosrc_bodies_exact (test_fixture.Fixture.test_actual602_canonical_Native_rows_and_both_committed_prosrc_bodies_exact) ... ok
+test_first_actual10_and_four_gates_remain_incomplete_not_prerequisite (test_fixture.Fixture.test_first_actual10_and_four_gates_remain_incomplete_not_prerequisite) ... ok
+test_local_SQL_11_proofs_are_explicit_doubles_not_current_Native_qualification (test_fixture.Fixture.test_local_SQL_11_proofs_are_explicit_doubles_not_current_Native_qualification) ... ok
+test_only_two_declared_fractional_inputs_map_to_same_supported_WIB_day (test_fixture.Fixture.test_only_two_declared_fractional_inputs_map_to_same_supported_WIB_day) ... ok
+test_original_exact10_callback_bodies_and_all_financial_assertions (test_fixture.Fixture.test_original_exact10_callback_bodies_and_all_financial_assertions) ... ok
+test_private_scope_restores_after_all_exception_classes_and_refuses_nested (test_fixture.Fixture.test_private_scope_restores_after_all_exception_classes_and_refuses_nested) ... ok
+test_two_scope_bindings_only_and_no_shared_fixture_or_Native_replacement (test_fixture.Fixture.test_two_scope_bindings_only_and_no_shared_fixture_or_Native_replacement) ... ok
+test_unrelated_issue_payloads_forward_exactly_without_format_or_guard_adaptation (test_fixture.Fixture.test_unrelated_issue_payloads_forward_exactly_without_format_or_guard_adaptation) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.268s
+
+OK

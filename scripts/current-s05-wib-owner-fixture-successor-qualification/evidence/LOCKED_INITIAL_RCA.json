@@ -1,0 +1,170 @@
+{
+  "status": "LOCKED_INITIAL_CAUSAL_SOURCE_ASSESSMENT_BEFORE_SUCCESSOR_EDITS",
+  "head": "52eedc88e9aa2cd7470894c1f38ff9eb22f9cc60",
+  "tree": "df8970c1c19d19b17c6a870d30adc535170725cc",
+  "run_id": 40969679183,
+  "job_id": 123782996311,
+  "artifact_id": 12944214183,
+  "zip": {
+    "bytes": 2104864,
+    "sha256": "ca1aa6ed4fac397f53afed778d9d866b982060f631f1f4cd78652f9bba37edcb"
+  },
+  "strict_counts": {
+    "PASS": 8,
+    "INCOMPLETE": 2
+  },
+  "strict_ids": [
+    "S05_NATIVE_CATEGORY_VARIANTS_PO",
+    "S05_NATIVE_HISTORICAL_BOM",
+    "S05_NATIVE_LATE_INVOICE_COST_REVISIONS",
+    "S05_NATIVE_ZERO_REIMBURSEMENT",
+    "S05_NATIVE_EMPTY_AND_NO_OUTPUT",
+    "S05_NATIVE_WIB_COHORTS",
+    "S05_NATIVE_NOTE_DRAFT_INVERSE",
+    "S05_NATIVE_QC_INVERSE",
+    "S05_NATIVE_REWORK_NONE_RECORDED_RECIPIENT",
+    "S05_NATIVE_CURRENT_ACCESS_PRIVATE_ACL"
+  ],
+  "all10_attempted_and_boundary_restored": true,
+  "outer_error": "S05_EXACT_NATIVE10_PASS_REQUIRED",
+  "committed_business_witness_reached": false,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "full_restore": {
+    "cp6_restored": true,
+    "baseline_full22_all_rows_all_sequences_equal": true,
+    "baseline_advisors_equal": true,
+    "advisor_gate": true
+  },
+  "baseline_roles_exact": true,
+  "raw5": {
+    "CP7_S05_ACCESSORY_STANDARD_NATIVE10.json": {
+      "bytes": 4166649,
+      "sha256": "b0101a76f9d80576940a802ab87656531d05e1ff6612e0e75b2ed642d3605fa1"
+    },
+    "CP7_S05_ACCESSORY_STANDARD_NATIVE10_CASES.json": {
+      "bytes": 152358,
+      "sha256": "bc789ede891d25f769d9ce091800a85141a885adae83cc97a3135498440fa1a0"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360439,
+      "sha256": "691b801b582f6c4f2fe45141dd8051356fe1293c08f0a0b2253c99baad6ec5b6"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 1470,
+      "sha256": "4d984df989706ca4f77bd81419f9095846acaec07ab54ee5e314eeec948be231"
+    }
+  },
+  "failures": {
+    "S05_NATIVE_WIB_COHORTS": {
+      "status": "INCOMPLETE",
+      "error": "Waktu pengambilan wajib memakai tanggal dan jam WIB\nCONTEXT:  PL/pgSQL function erp.save_accessory_issue_action_v1(text,jsonb,uuid) line 29 at RAISE\nSQL function \"erp_save_accessory_issue_action_v1\" statement 1",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py\", line 165, in _strict_group_once\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-s05-native10-qualification/component.py\", line 130, in run\n    return operation()\n           ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_accessory_standard_report/cases.py\", line 205, in dates\n    issue_note(cur, f, '2', at=str(f['day'])+'T00:00:00.000000+07:00')\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_accessory_standard_report/cases.py\", line 61, in issue_note\n    result = issues.bc.note_call(cur, action, payload)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_bc_probe.py\", line 133, in note_call\n    result=cur.execute('select public.erp_save_accessory_issue_action_v1(%s,%s::jsonb,%s)',(action,json.dumps(payload,default=str),str(key or uuid.uuid4()))).fetchone()[0]\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.RaiseException: Waktu pengambilan wajib memakai tanggal dan jam WIB\nCONTEXT:  PL/pgSQL function erp.save_accessory_issue_action_v1(text,jsonb,uuid) line 29 at RAISE\nSQL function \"erp_save_accessory_issue_action_v1\" statement 1\n",
+      "cause": "original dates callback passes fractional-secondstrings rejected by Native exact WIBsecond regex BEFOREphysical writers; retained bc.local_at already produces accepted second width"
+    },
+    "S05_NATIVE_CURRENT_ACCESS_PRIVATE_ACL": {
+      "status": "INCOMPLETE",
+      "error": "LAST_ACTIVE_OWNER_PROTECTED\nCONTEXT:  PL/pgSQL function erp.guard_last_active_owner() line 27 at RAISE",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py\", line 165, in _strict_group_once\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-s05-native10-qualification/component.py\", line 130, in run\n    return operation()\n           ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_accessory_standard_report/cases.py\", line 275, in access\n    cur.execute('update erp.app_users set is_active=false where auth_user_id=%s', (owner_auth,))\n  File \"/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.InsufficientPrivilege: LAST_ACTIVE_OWNER_PROTECTED\nCONTEXT:  PL/pgSQL function erp.guard_last_active_owner() line 27 at RAISE\n",
+      "cause": "original access callback attempts is_active=false on its owner before establishing another eligible activeOWNER; Nativeguard faithfully refuses when no other eligible owner remains"
+    }
+  },
+  "Native_sources": {
+    "erp.save_accessory_issue_action_v1": {
+      "path": "supabase/release/cp6-t3/20260925030000_erp_v2_6_20bc_cp6_accessory_service_returns.sql",
+      "source_file": {
+        "bytes": 375492,
+        "sha256": "23f31eafc8b8f235465dac7871f5c3cbd13e4e646552abdf591f82a2a3445bbb"
+      },
+      "DDL": {
+        "bytes": 10253,
+        "sha256": "7b32cb0addbb20f788f6cb0bc5a54dc6af044a72da49fe38ee953d72603e72ab"
+      },
+      "actual_catalog_capture": false,
+      "basis": "frozen committed Native source, exact actualexception text andline ordering corroborate premise"
+    },
+    "erp.guard_last_active_owner": {
+      "path": "supabase/migrations/20260902104937_erp_v2_6_17_access_pattern_wip_control.sql",
+      "source_file": {
+        "bytes": 98728,
+        "sha256": "66175dcc5c73d2fb3bad493c1c6bd6a1ad14877251b0c690c0b642ae226c849a"
+      },
+      "DDL": {
+        "bytes": 1645,
+        "sha256": "77abd861fc0d6d7417b67bf2ed5273bd5872eef6dc7b872461852ed2d6a90886"
+      },
+      "actual_catalog_capture": false,
+      "basis": "frozen committed Native source, exact actualexception text andline ordering corroborate premise"
+    }
+  },
+  "frozen_case_source": {
+    "path": "scripts/cp7_accessory_standard_report/cases.py",
+    "bytes": 19581,
+    "sha256": "e025be1280630dfb89f62261163194ce072b6f6ad6d909b56ff6c82f75778e98"
+  },
+  "original_callback_SHA256": {
+    "variants": "a20f10c0907aad81d5c9a996b61d5516054b50d034345f129c27c600fb8d0c3c",
+    "historical": "1a2ebfb994b89db2022b1d312e33374cccef301e84b92757067b5134e9b456c1",
+    "zero": "cf5f6e38301410321decfe69493fa8b3b7da402aa216a7254678881e39dad06d",
+    "recost": "a0a0d6d2fd1613595660fb3f0e5af37d514e277e3fa67f16ba73e25c4894fe78",
+    "empty_no_output": "f4abca88d701637e9ade7f09a24df67d5690c794e3924076efb2732af4dc2a9c",
+    "dates": "25cc19eb8fbc69975fca05872a10591b3ae46741ac30275cb902235ffff0a598",
+    "note_inverse": "9995c51b861d26ac3b5c0a77ba5dd563d2893081dc06f7ff3ad571bd255a4660",
+    "qc_inverse": "ee7d750b28db0ef464fbb8c427ac3798f9d6d41caf4d146bebc5cc0040977834",
+    "rework_none": "2b98a55335d1af7b2ea53489e034075a9db0ddfb86e4586db63f56b88ec8e837",
+    "access": "551875b5f2a828543c4d435e9d246eb915bd5cd5c8a6a835abe6963ab47467f7"
+  },
+  "source242": {
+    "bytes": 36246,
+    "sha256": "cd2744c98c49e28c66a5ea30de6ee6567e06fe45df42b2deb3836e7bc3f6211c"
+  },
+  "current_AC_premise": {
+    "status": "EXACT_CURRENT_AC_SOURCE_PREMISE_NOT_RUNTIME_CAPTURE",
+    "migration": "supabase/release/cp6-t3/20260915031500_erp_v2_6_20ac_cp6_temporal_surface_closure.sql",
+    "migration_sha256": "871fb32b1d4a1e7f9aedfef684b0f2c766092732c38552620eb394061f6240d1",
+    "old_prosrc_sha256": "6c8c701395ab74874e7cb2f3e78f9912f7380a5a3199cba069b1aec6db09cd85",
+    "current_prosrc_sha256": "3f468d69475ebd199c7a0af7b4ee4486e6b71a5287a0ee63ac0e3dac24f15364",
+    "counted_WIB_label_expression_changes": 1,
+    "all_other_Native_editor_body_bytes_equal": true,
+    "Native_function_rewrites": 0,
+    "actual_current_catalog_capture": false,
+    "actual_Native_credit": 0
+  },
+  "proposed_minimal_qualification_adapter": {
+    "physical_original10_case_bytes_changed": false,
+    "private_raw_callback_body_changes": 0,
+    "case_scope_wrappers": [
+      "S05_NATIVE_WIB_COHORTS",
+      "S05_NATIVE_CURRENT_ACCESS_PRIVATE_ACL"
+    ],
+    "private_dependency_wrappers": [
+      "issue_note",
+      "fixture"
+    ],
+    "timestamp_format_transitions": [
+      "T00:00:00.000000+07:00 ->T00:00:00+07:00",
+      "T23:59:59.999999+07:00 ->T23:59:59+07:00"
+    ],
+    "date_cohort_money_quantity_assertions_changed": false,
+    "owner_fix": "prove soleOwner actualupdate rejects under fullcatalog/data/ALLsequence snapshot and savepoint; then add distinct existingOWNER administrative appuser via retainedfixture helper; original ownerinactive/currentpermission assertions unchanged",
+    "additional_native_case_credit": 0,
+    "product_or_Native_or_report_or_reader_or_cost_FIFO_changes": 0
+  },
+  "limits": [
+    "CLONE_install.source-erp.sql in actualZIP is a data-only diagnostic; it contains no functionDDL. Native premises are labelled committed source, not actualcatalog capture.",
+    "No claimed Native counterexample: both originalfixture setup calls were correctly refused.",
+    "8partialPASS is retained negative, not prerequisite or aggregatecredit.",
+    "Full fresh10 plus unchanged committed business usedinversewitness and all5/fullouter restoration remain required."
+  ],
+  "actual_new_Native": 0,
+  "no_actualDB_or_remote_by_helper": true
+}

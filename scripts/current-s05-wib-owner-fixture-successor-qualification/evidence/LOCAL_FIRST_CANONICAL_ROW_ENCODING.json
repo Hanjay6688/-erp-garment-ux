@@ -1,0 +1,11 @@
+{
+  "status": "LOCAL_SERIALIZATION_PREMISE_CORRECTED_BEFORE_USE",
+  "first_encoding": "json.dumps(row,sort_keys=True,separators=(comma,colon))",
+  "first_bytes": 1542,
+  "first_sha256": "b20b930d44be18181f042e124e851c16484568f133ce3e49fc65770d2afc4548",
+  "required_encoding": "json.dumps(row,sort_keys=True,default=str)",
+  "verified_bytes": 1565,
+  "verified_sha256": "12ab0b5f14bed9f6514982975ea5c213fe0332d9b5e6cf2d6482b45b2ae404be",
+  "payload_values_changed": false,
+  "Native_credit": 0
+}

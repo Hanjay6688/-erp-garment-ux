@@ -1,0 +1,29 @@
+{
+  "current_AC_admission": {
+    "original_sha256": "5f38a6dc84aacb46a1782b9d3345cfd6f86fda536bff3f9397adba00e10caa0f",
+    "derived_sha256": "3f0e1e2429ffd3e8b34e3197565f58d0d805664d5c6ec7ad260429c7b335a53d",
+    "counted_changes": 2,
+    "reverse_original_bytes_exact": true,
+    "classification": "TWO_HISTORICAL_SCOPE_READER_ROUTES_AFTER_COMPLETE_PUBLIC52EED_CLOSURE"
+  },
+  "current_AC_probe": {
+    "parent_sha256": "e08a3a2cd84600214c41af8de1347ff7e12207eac9672f5213d4fc2f8c936a37",
+    "derived_sha256": "9fb907c310ad035a8e1eaf4ae49c0a3c3687faae525d538f6abd49af69839507",
+    "descriptor_occurrences": [
+      5,
+      1,
+      1,
+      1,
+      2
+    ],
+    "added_pre_GET_source_steps": 1,
+    "complete_vendor_engine_changes": 0
+  },
+  "complete_current_AC_probe": {
+    "original_sha256": "f2550890cab997b8b07bf37a6a9ebc1d1ae1da43a78ae225765a313c4f708244",
+    "derived_sha256": "65b7644455f05538ad2b1cd6bd6ccdd792552ea6b93b43a92a380a4b214ec0f5",
+    "counted_changes": 4,
+    "reverse_original_bytes_exact": true,
+    "classification": "TWO_PRIVATE_SOURCE_FACTORY_ROUTES_PLUS_TWO_HONEST_FIXTURE_PROVENANCE_BLOCKS"
+  }
+}

@@ -1,0 +1,101 @@
+{
+  "status": "PASS_LOCAL_NATIVE_PARSER_AND_OWNER_GUARD_MODELS_ONLY",
+  "classification": "SOURCE_DERIVED_LOCAL_SQL_DOUBLES_NOT_ACTUAL_ERP",
+  "actual_Native": 0,
+  "captured_source_head_class": "ACTUAL602_NOT52EED",
+  "full_native_definitions_unchanged": true,
+  "declared_doubles": [
+    "permission/internal/closed-JSON prelude",
+    "request actor/hash",
+    "typed tables without fullRLS/ACL/FKs",
+    "post-validation contractors empty",
+    "AFTER-user audit sequence"
+  ],
+  "checks": [
+    {
+      "name": "WIB_FORMAT_2026-01-15T00:00:00.000000+07:00",
+      "status": "PASS_EXPECTED_CAPTURED_NATIVE_REFUSAL",
+      "error": "Waktu pengambilan wajib memakai tanggal dan jam WIB",
+      "sqlstate": "P0001",
+      "typed_rows_all_model_sequences_and_definitions_equal": true,
+      "Native_credit": 0
+    },
+    {
+      "name": "WIB_FORMAT_2026-01-15T23:59:59.999999+07:00",
+      "status": "PASS_EXPECTED_CAPTURED_NATIVE_REFUSAL",
+      "error": "Waktu pengambilan wajib memakai tanggal dan jam WIB",
+      "sqlstate": "P0001",
+      "typed_rows_all_model_sequences_and_definitions_equal": true,
+      "Native_credit": 0
+    },
+    {
+      "name": "WIB_FORMAT_2026-01-15T00:00:00+00:00",
+      "status": "PASS_EXPECTED_CAPTURED_NATIVE_REFUSAL",
+      "error": "Waktu pengambilan wajib memakai tanggal dan jam WIB",
+      "sqlstate": "P0001",
+      "typed_rows_all_model_sequences_and_definitions_equal": true,
+      "Native_credit": 0
+    },
+    {
+      "name": "SUPPORTED_SECONDS_REACH_NEXT_NATIVE_GUARD_2026-01-15T00:00:00+07:00",
+      "status": "PASS_EXPECTED_CAPTURED_NATIVE_REFUSAL",
+      "error": "Pilih mandor aktif",
+      "sqlstate": "P0001",
+      "typed_rows_all_model_sequences_and_definitions_equal": true,
+      "Native_credit": 0
+    },
+    {
+      "name": "SUPPORTED_SECONDS_REACH_NEXT_NATIVE_GUARD_2026-01-15T23:59:59+07:00",
+      "status": "PASS_EXPECTED_CAPTURED_NATIVE_REFUSAL",
+      "error": "Pilih mandor aktif",
+      "sqlstate": "P0001",
+      "typed_rows_all_model_sequences_and_definitions_equal": true,
+      "Native_credit": 0
+    },
+    {
+      "name": "SOLE_OWNER_DEACTIVATE",
+      "status": "PASS_EXPECTED_CAPTURED_NATIVE_REFUSAL",
+      "error": "LAST_ACTIVE_OWNER_PROTECTED",
+      "sqlstate": "42501",
+      "typed_rows_all_model_sequences_and_definitions_equal": true,
+      "Native_credit": 0
+    },
+    {
+      "name": "SOLE_OWNER_DELETE",
+      "status": "PASS_EXPECTED_CAPTURED_NATIVE_REFUSAL",
+      "error": "LAST_ACTIVE_OWNER_PROTECTED",
+      "sqlstate": "42501",
+      "typed_rows_all_model_sequences_and_definitions_equal": true,
+      "Native_credit": 0
+    },
+    {
+      "name": "SOLE_OWNER_DEMOTE",
+      "status": "PASS_EXPECTED_CAPTURED_NATIVE_REFUSAL",
+      "error": "LAST_ACTIVE_OWNER_PROTECTED",
+      "sqlstate": "42501",
+      "typed_rows_all_model_sequences_and_definitions_equal": true,
+      "Native_credit": 0
+    },
+    {
+      "name": "SOLE_OWNER_CLEAR_AUTH",
+      "status": "PASS_EXPECTED_CAPTURED_NATIVE_REFUSAL",
+      "error": "LAST_ACTIVE_OWNER_PROTECTED",
+      "sqlstate": "42501",
+      "typed_rows_all_model_sequences_and_definitions_equal": true,
+      "Native_credit": 0
+    },
+    {
+      "name": "DISTINCT_BACKUP_OWNER_ALLOWS_ORIGINAL_DEACTIVATION",
+      "status": "PASS_CAPTURED_NATIVE_GUARD_LIFECYCLE_MODEL",
+      "Native_credit": 0
+    },
+    {
+      "name": "REMAINING_BACKUP_STILL_PROTECTED",
+      "status": "PASS_EXPECTED_CAPTURED_NATIVE_REFUSAL",
+      "error": "LAST_ACTIVE_OWNER_PROTECTED",
+      "sqlstate": "42501",
+      "typed_rows_all_model_sequences_and_definitions_equal": true,
+      "Native_credit": 0
+    }
+  ]
+}

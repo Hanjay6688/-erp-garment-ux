@@ -1,0 +1,111 @@
+{
+  "status": "ACTUAL_602_BEFORE_AFTER_EXACT_NATIVE_CAPTURE_NOT_52EED_CAPTURE",
+  "canonical_JSON": "json.dumps(row,sort_keys=True,default=str).encode()",
+  "source_census_bytes": 43056004,
+  "source_census_sha256": "1081c288694965278468de28ef65831909bf52dd5461e6d682a00a6ff0418fa0",
+  "source_path": "/workspace/scratch/ef468a447ac6/evidence-private/sku-602-all-member-native23-first-failure/SKU_COST_RECOVERY_OVER_FIRST_PART_REFUSAL_37fb87d4a2e1_FULL_CURRENT_CENSUS.json",
+  "before_after_rows_equal": true,
+  "functions": {
+    "erp._idempotency_begin(text,uuid,text)": [
+      "CREATE OR REPLACE FUNCTION erp._idempotency_begin(p_operation_name text, p_client_request_id uuid, p_request_hash text)\n RETURNS jsonb\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'erp', 'public', 'pg_temp'\nAS $function$\ndeclare\n  v_actor text := erp._idempotency_actor_key();\n  v_row erp.idempotency_requests%rowtype;\nbegin\n  if p_client_request_id is null then\n    raise exception 'client_request_id is required';\n  end if;\n  if coalesce(btrim(p_operation_name), '') = '' then\n    raise exception 'operation_name is required';\n  end if;\n\n  insert into erp.idempotency_requests(\n    actor_key, operation_name, client_request_id, request_hash\n  ) values (\n    v_actor, p_operation_name, p_client_request_id, p_request_hash\n  )\n  on conflict do nothing;\n\n  select * into v_row\n  from erp.idempotency_requests\n  where actor_key = v_actor\n    and operation_name = p_operation_name\n    and client_request_id = p_client_request_id\n  for update;\n\n  if v_row.request_hash <> p_request_hash then\n    raise exception 'client_request_id was already used with a different payload';\n  end if;\n  if v_row.status = 'COMPLETED' then\n    return v_row.response_payload;\n  end if;\n  return null;\nend;\n$function$\n",
+      "postgres",
+      "plpgsql",
+      "f",
+      true,
+      false,
+      false,
+      false,
+      "v",
+      "u",
+      "100",
+      "0",
+      [
+        "search_path=erp, public, pg_temp"
+      ],
+      [
+        "p_operation_name",
+        "p_client_request_id",
+        "p_request_hash"
+      ],
+      null,
+      "p_operation_name text, p_client_request_id uuid, p_request_hash text",
+      "jsonb",
+      "-",
+      [
+        [
+          "postgres",
+          "postgres",
+          "EXECUTE",
+          false
+        ]
+      ]
+    ],
+    "erp.guard_last_active_owner()": [
+      "CREATE OR REPLACE FUNCTION erp.guard_last_active_owner()\n RETURNS trigger\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\nAS $function$\ndeclare v_old_owner boolean;v_new_owner boolean:=false;\nbegin\n  -- A postgres-only, transaction-local escape hatch exists solely so the\n  -- hosted synthetic Auth proof can return an otherwise-empty UAT to its exact\n  -- zero-user baseline. It is unreachable through the Data API and does not\n  -- weaken application/service-role lifecycle calls.\n  if session_user in ('postgres','supabase_admin')\n     and current_setting('erp.cp45_allow_synthetic_cleanup',true)='on' then\n    if tg_op='DELETE' then return old; else return new; end if;\n  end if;\n  select (r.role_code='OWNER' and old.is_active and old.auth_user_id is not null)\n  into v_old_owner from erp.app_roles r where r.id=old.role_id;\n  if not coalesce(v_old_owner,false) then\n    if tg_op='DELETE' then return old; else return new; end if;\n  end if;\n  perform pg_catalog.pg_advisory_xact_lock(pg_catalog.hashtextextended('erp.active_owner_roster',0));\n  if tg_op='UPDATE' then\n    select (r.role_code='OWNER' and new.is_active and new.auth_user_id is not null)\n    into v_new_owner from erp.app_roles r where r.id=new.role_id;\n  end if;\n  if not coalesce(v_new_owner,false) and not exists(\n    select 1 from erp.app_users u join erp.app_roles r on r.id=u.role_id\n    where u.id<>old.id and u.is_active and u.auth_user_id is not null\n      and r.role_code='OWNER' and r.is_active\n  ) then\n    raise exception using errcode='42501',message='LAST_ACTIVE_OWNER_PROTECTED';\n  end if;\n  if tg_op='DELETE' then return old; else return new; end if;\nend\n$function$\n",
+      "postgres",
+      "plpgsql",
+      "f",
+      true,
+      false,
+      false,
+      false,
+      "v",
+      "u",
+      "100",
+      "0",
+      [
+        "search_path=\"\""
+      ],
+      null,
+      null,
+      "",
+      "trigger",
+      "-",
+      [
+        [
+          "postgres",
+          "postgres",
+          "EXECUTE",
+          false
+        ]
+      ]
+    ],
+    "erp.save_accessory_issue_action_v1(text,jsonb,uuid)": [
+      "CREATE OR REPLACE FUNCTION erp.save_accessory_issue_action_v1(p_action text, p_payload jsonb, p_client_request_id uuid)\n RETURNS jsonb\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\n SET \"TimeZone\" TO 'UTC'\nAS $function$\ndeclare v_action text:=upper(btrim(p_action));v_cached jsonb;v_result jsonb;v_native jsonb;v_line jsonb;v_quote jsonb;v_free jsonb;\n v_id uuid;v_version bigint;v_contractor uuid;v_location uuid;v_po uuid;v_at timestamptz;v_reason text;v_items jsonb:='[]'::jsonb;\n h erp.contractor_material_issues%rowtype;\nbegin\n perform erp.require_permission('finance.contractor_accessory.view');\n if v_action not in('SAVE_DRAFT','POST','DELETE','REVERSE') or v_action is null then raise exception 'Tindakan nota tidak dikenal';end if;\n if v_action in('SAVE_DRAFT','POST','DELETE') then perform erp.require_permission('finance.contractor_accessory.create');end if;\n if v_action='POST' then perform erp.require_permission('finance.contractor_accessory.post');end if;\n if v_action='REVERSE' then perform erp.require_owner_admin();perform erp.require_permission('finance.contractor_accessory.reverse');end if;\n perform erp.require_internal();\n perform erp._cp3_assert_closed_json_object(p_payload,array['reason'],array['id','expected_version','number','contractor_id','location_id','po_id','physical_at','notes','items','reason'],'accessory issue payload');\n if jsonb_typeof(p_payload->'reason')<>'string' or nullif(btrim(p_payload->>'reason'),'') is null or length(p_payload->>'reason')>1000 then raise exception 'Alasan nota wajib diisi';end if;\n v_reason:=btrim(p_payload->>'reason');v_id:=nullif(p_payload->>'id','')::uuid;\n if p_payload->>'expected_version' is not null and (jsonb_typeof(p_payload->'expected_version')<>'string' or (p_payload->>'expected_version')!~'^[1-9][0-9]{0,18}$') then raise exception 'Versi nota wajib berupa teks bilangan bulat';end if;\n v_version:=(p_payload->>'expected_version')::bigint;\n v_cached:=erp._idempotency_begin('save_accessory_issue_action_v1',p_client_request_id,erp._request_hash(jsonb_build_object('action',v_action,'payload',p_payload)));\n if v_cached is not null then return v_cached;end if;\n if v_id is not null then\n  select * into h from erp.contractor_material_issues where id=v_id for update;\n  if h.id is null then raise exception 'Nota tidak ditemukan';end if;\n  if v_version is null or h.row_version<>v_version then raise exception 'STALE_VERSION: nota berubah, muat ulang';end if;\n  if exists(select 1 from erp.contractor_material_issue_items i join erp.materials m on m.id=i.material_id\n   join erp.uom_definitions u on u.unit_code=m.unit_code where i.issue_id=v_id and (m.material_type<>'ACCESSORY' or u.dimension<>'COUNT')) then raise exception 'Form ini hanya untuk nota aksesori hitung';end if;\n elsif v_version is not null or v_action in('DELETE','REVERSE') then raise exception 'Identitas dan versi nota tidak cocok';end if;\n if v_action in('SAVE_DRAFT','POST') then\n  if v_id is not null and h.status<>'DRAFT' then raise exception 'Nota disahkan tidak dapat diedit';end if;\n  if jsonb_typeof(p_payload->'number') is distinct from 'string' or nullif(btrim(p_payload->>'number'),'') is null or length(p_payload->>'number')>60 then raise exception 'Nomor nota wajib diisi';end if;\n  if jsonb_typeof(p_payload->'physical_at') is distinct from 'string' or (p_payload->>'physical_at')!~'^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\+07:00$' then raise exception 'Waktu pengambilan wajib memakai tanggal dan jam WIB';end if;\n  v_at:=(p_payload->>'physical_at')::timestamptz;\n  if (to_char(v_at at time zone 'Asia/Jakarta','YYYY-MM-DD\"T\"HH24:MI:SS')||'+07:00')<>(p_payload->>'physical_at')\n   or erp._cp3_business_date(v_at)>erp._cp3_business_date(statement_timestamp()) then raise exception 'Tanggal pengambilan tidak valid atau di masa depan';end if;\n  v_contractor:=(p_payload->>'contractor_id')::uuid;v_location:=(p_payload->>'location_id')::uuid;v_po:=nullif(p_payload->>'po_id','')::uuid;\n  if not exists(select 1 from erp.contractors where id=v_contractor and is_active and contractor_type='MANDOR') then raise exception 'Pilih mandor aktif';end if;\n  if not exists(select 1 from erp.locations where id=v_location and is_active and location_type='RAW_MATERIAL_WAREHOUSE') then raise exception 'Pilih gudang bahan aktif';end if;\n  if v_po is not null then\n   perform 1 from erp.production_orders where id=v_po and contractor_id=v_contractor and status not in('FINISHED','CANCELLED') for update;\n   if not found then raise exception 'PO harus aktif dan milik mandor yang sama';end if;\n  end if;\n  if jsonb_typeof(p_payload->'items') is distinct from 'array' then raise exception 'Rincian aksesori wajib diisi';end if;\n  if jsonb_array_length(p_payload->'items') not between 1 and 100 then raise exception 'Isi 1 sampai 100 aksesori';end if;\n  if exists(select 1 from jsonb_array_elements(p_payload->'items') x group by x->>'material_id' having count(*)>1) then raise exception 'Aksesori yang sama tidak boleh dua baris';end if;\n  for v_line in select value from jsonb_array_elements(p_payload->'items') loop\n   perform erp._cp3_assert_closed_json_object(v_line,array['material_id','qty','mode'],array['material_id','qty','mode','manual_price','price_version_id','factor','free_policy_version'],'accessory issue line');\n   if jsonb_typeof(v_line->'qty') is distinct from 'string' or (v_line->>'qty')!~'^[1-9][0-9]{0,11}$' then raise exception 'Jumlah aksesori harus PCS utuh positif';end if;\n   v_quote:=erp.accessory_issue_quote_v1((v_line->>'material_id')::uuid,v_contractor,v_at);\n   if v_quote is null then raise exception 'Aksesori hitung aktif tidak ditemukan';end if;\n   if v_line->>'mode'='MANUAL' then\n    if jsonb_typeof(v_line->'manual_price') is distinct from 'string' or (v_line->>'manual_price')!~'^[0-9]{1,12}(\\.[0-9]{1,2})?$' then raise exception 'Harga eceran wajib nominal nonnegatif, maksimal dua desimal';end if;\n    -- BC (M:5023, ERP-DEC02): a price of 0 is free; free is never a way around the note price, only an owner-listed Special category.\n    if (v_line->>'manual_price')::numeric=0 then raise exception 'BC_FREE_REQUIRES_POLICY: harga eceran 0 hanya lewat gratis Special yang ditetapkan owner (ERP-DEC02)';end if;\n    v_items:=v_items||jsonb_build_array(jsonb_build_object('material_id',v_line->>'material_id','qty',v_line->>'qty','manual_retail_unit_price',v_line->>'manual_price'));\n   elsif v_line->>'mode'='MASTER' then\n    if v_line->>'manual_price' is not null then raise exception 'Pilih satu dasar harga';end if;\n    if v_quote->>'price_version_id' is null or v_line->>'price_version_id' is distinct from v_quote->>'price_version_id'\n     or v_line->>'factor' is distinct from v_quote->>'factor' then raise exception 'STALE_PRICE: harga master berubah atau belum tersedia, muat ulang';end if;\n    v_items:=v_items||jsonb_build_array(jsonb_build_object('material_id',v_line->>'material_id','qty',v_line->>'qty'));\n   elsif v_line->>'mode'='FREE' then\n    -- BC (ERP-DEC02): only a category on the owner's Special free list, for a Special contractor at the physical time.\n    if v_line ? 'manual_price' or v_line ? 'price_version_id' or v_line ? 'factor' then raise exception 'Pilih satu dasar harga';end if;\n    perform 1 from erp.bc_policy_settings_v1 where policy_key='ERP_DEC02' for share;\n    v_free:=erp.bc_free_basis_v1((v_line->>'material_id')::uuid,v_contractor,v_at);\n    if v_free is null then raise exception 'BC_FREE_NOT_ALLOWED: aksesori ini tidak gratis untuk mandor pada tanggal nota (ERP-DEC02 belum ditetapkan atau kategori/mandor tidak termasuk)';end if;\n    if v_line->>'free_policy_version' is distinct from v_free->>'policy_version' then raise exception 'STALE_PRICE: daftar kategori gratis berubah, muat ulang';end if;\n    v_items:=v_items||jsonb_build_array(jsonb_build_object('material_id',v_line->>'material_id','qty',v_line->>'qty','manual_retail_unit_price','0'));\n   else raise exception 'Pilih harga master, eceran per pcs, atau gratis Special';end if;\n  end loop;\n  v_native:=erp.save_contractor_material_issue_draft_v2(jsonb_build_object('id',v_id,'issue_number',btrim(p_payload->>'number'),\n   'contractor_id',v_contractor,'location_id',v_location,'po_id',v_po,'physical_at',v_at,'notes',p_payload->>'notes','change_reason',v_reason,'items',v_items),p_client_request_id,v_version);\n  v_id:=(v_native->>'contractor_material_issue_id')::uuid;\n  -- Native save takes the configured-price locks. Verify the actually selected\n  -- versions there, so a concurrent tariff/conversion edit cannot pass preview.\n  if exists(select 1 from jsonb_array_elements(p_payload->'items') x\n   join erp.contractor_material_issue_items i on i.issue_id=v_id and i.material_id=(x->>'material_id')::uuid\n   where x->>'mode'='MASTER' and (i.accessory_price_version_id::text is distinct from x->>'price_version_id'\n    or i.base_qty_per_transaction_uom is distinct from (x->>'factor')::numeric)) then\n   raise exception 'STALE_PRICE: harga master berubah, muat ulang';end if;\n  -- BC (ERP-DEC02): the free lines of this note with the policy version they used.\n  delete from erp.bc_free_issue_lines_v1 where issue_id=v_id;\n  insert into erp.bc_free_issue_lines_v1(issue_id,material_id,category_id,policy_version)\n  select v_id,m.id,m.accessory_category_id,(x->>'free_policy_version')::bigint from jsonb_array_elements(p_payload->'items') x\n   join erp.materials m on m.id=(x->>'material_id')::uuid where x->>'mode'='FREE';\n  if v_action='POST' then v_native:=erp.post_contractor_material_issue_v2(v_id,p_client_request_id,(v_native->>'row_version')::bigint,v_reason);end if;\n elsif v_action='DELETE' then\n  v_native:=erp.save_contractor_material_issue_draft_v2(jsonb_build_object('id',v_id,'action','DELETE','change_reason',v_reason),p_client_request_id,v_version);\n else v_native:=erp.reverse_contractor_material_issue_v2(v_id,v_reason,p_client_request_id,v_version);\n end if;\n select * into h from erp.contractor_material_issues where id=v_id;\n v_result:=jsonb_build_object('id',v_id,'action',v_action,'request_id',p_client_request_id,'status',case when v_action='DELETE' then 'DELETED' else h.status end,'row_version',h.row_version::text);\n return erp._idempotency_complete('save_accessory_issue_action_v1',p_client_request_id,v_result);\nend;$function$\n",
+      "postgres",
+      "plpgsql",
+      "f",
+      true,
+      false,
+      false,
+      false,
+      "v",
+      "u",
+      "100",
+      "0",
+      [
+        "search_path=\"\"",
+        "TimeZone=UTC"
+      ],
+      [
+        "p_action",
+        "p_payload",
+        "p_client_request_id"
+      ],
+      null,
+      "p_action text, p_payload jsonb, p_client_request_id uuid",
+      "jsonb",
+      "-",
+      [
+        [
+          "postgres",
+          "postgres",
+          "EXECUTE",
+          false
+        ]
+      ]
+    ]
+  },
+  "actual52eed_catalog_capture": false,
+  "actual_new_Native": 0
+}
