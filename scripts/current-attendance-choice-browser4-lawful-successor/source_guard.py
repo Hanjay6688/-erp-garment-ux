@@ -31,6 +31,11 @@ def check():
         if name.is_absolute() or '..' in name.parts or '\\' in item['path']:
             raise ValueError('S03_BROWSER4_UNSAFE_SOURCE_PATH')
         path = ROOT / str(name)
+        cursor = ROOT
+        for part in name.parts:
+            cursor = cursor / part
+            if cursor.is_symlink():
+                raise ValueError('S03_BROWSER4_SOURCE_SYMLINK:' + str(name))
         if not path.is_file() or not path.resolve().is_relative_to(ROOT.resolve()):
             raise ValueError('S03_BROWSER4_SOURCE_MISSING:' + str(name))
         raw = path.read_bytes()
@@ -38,7 +43,7 @@ def check():
             raise ValueError('S03_BROWSER4_SOURCE_CHANGED:' + str(name))
     # Immutable public endpoint plus a complete declared current delta. No
     # historical test is silently aimed at an expanded tree or private Git ID.
-    git = lambda *args: subprocess.check_output(['git', '-C', str(ROOT), *args], text=True,
+    git = lambda *args: subprocess.check_output(['/usr/bin/git', '-C', str(ROOT), *args], text=True,
         env=dict(os.environ, GIT_NO_LAZY_FETCH='1'))
     baseline = declaration['public_base_commit']
     if git('rev-parse', baseline + '^{tree}').strip() != declaration['public_base_tree']:
@@ -50,7 +55,7 @@ def check():
     if frozen_paths != declaration['frozen_public_UI_paths']:
         raise ValueError('S03_BROWSER4_COMPLETE_FROZEN_PUBLIC_UI_BASELINE_REQUIRED')
     for name in frozen_paths:
-        retained = subprocess.check_output(['git', '-C', str(ROOT), 'show', ui + ':' + name],
+        retained = subprocess.check_output(['/usr/bin/git', '-C', str(ROOT), 'show', ui + ':' + name],
             env=dict(os.environ, GIT_NO_LAZY_FETCH='1'))
         if (ROOT / name).read_bytes() != retained:
             raise ValueError('S03_BROWSER4_FROZEN_PUBLIC_UI_OR_SOURCE38_CHANGED:' + name)
@@ -74,6 +79,11 @@ def check():
             raise ValueError('S03_BROWSER4_FROZEN_CBB_PARENT_CHANGED:' + name)
     allowed_changes = set(frozen_paths) | set(parent['files']) | {path for path in covered if path.startswith(namespace)}
     allowed_changes.add('.github/workflows/cp7-current-s03-browser4-lawful.yml')
+    qualified_inputs = json.loads((HERE / 'QUALIFIED_SOURCE_INPUTS.json').read_bytes())
+    allowed_changes.update(qualified_inputs['canonical_new_qualifier_paths'])
+    runtime = json.loads((HERE / 'RUNTIME_SOURCE.json').read_bytes())
+    allowed_changes.update(runtime['runtime_files'])
+    allowed_changes.add(runtime['package_entry']['path'])
     if sorted(allowed_changes) != declaration['allowed_current_delta']:
         raise ValueError('S03_BROWSER4_EXACT_OWN_NAMESPACE_AND_WORKFLOW_ALLOCATION_REQUIRED')
     if not changed <= allowed_changes:
@@ -87,7 +97,7 @@ def check():
     if declared_inputs != inventory.historical_inputs(ROOT):
         raise ValueError('S03_BROWSER4_DECLARED_INPUTS_MUST_EQUAL_EXACT28_INHERITED_NONCODE_ORIGINALS')
     original_files = {entry['path'] for entry in files}
-    found, proof = inventory.inventory(ROOT, original_files, FROZEN / 'runtime-backend7/scripts', (HERE / 'SOURCE.json',))
+    found, proof = inventory.inventory(ROOT, original_files, ROOT / 'scripts', (HERE / 'SOURCE.json',))
     # The 28 predeclared, separately byte-checked historical inputs may be
     # materialized after the first source-only gate. They contain no Python.
     if found - original_files - set(declared_inputs) or proof != declaration['inherited_import_inventory']:
@@ -102,6 +112,8 @@ def check():
     if config.get('normal_App_only') is not True or config.get('Enteng_or_hosted') is not False:
         raise ValueError('S03_BROWSER4_NORMAL_APP_LOOPBACK_ONLY')
     load('s03_browser4_lawful_counted_source_derivation', HERE / 'derive_successor.py').verify()
+    accepted = load('s03_browser4_exact_current475_physical_inputs', HERE / 'accepted_inputs.py')
+    accepted.static(ROOT, HERE, config)
     return dict(status='SOURCE_PASS', exact_sources=len(files), config=config,
         generated_output_provenance_only=output_proof, fresh_Native_Auth_HTTP_race_browser_cases=0, production_go=False)
 

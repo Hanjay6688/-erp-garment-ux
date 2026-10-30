@@ -1,0 +1,38 @@
+{
+  "status": "SOURCE_METADATA_DERIVATION_RED_NOT_NATIVE",
+  "error": "S03_BROWSER_LAWFUL_DERIVED_SOURCE_CHANGED",
+  "mismatches": [
+    {
+      "path": "scripts/current-attendance-choice-browser4-lawful-successor/CONFIG.json",
+      "expected_sha": "6c4d43ec2d720f26aaa0bb10127c3219b796f33d6a2d9339418087ef7208be70",
+      "actual_sha": "9f7c712a27671f763945763d3822555dbf6773da5a5862e8fd9ca4fb8edff3ca",
+      "same_derived_sha": false
+    },
+    {
+      "path": "scripts/current-attendance-choice-browser4-lawful-successor/RUNTIME_SOURCE.json",
+      "expected_sha": "40b309036c5067f6beaecfbb4912735b4fbb4c237624864875fea802ed83e082",
+      "actual_sha": "ad649a1d19675e6f2c7961afdbcd3edbc672dee3d9d864467f4125e84cec1db6",
+      "same_derived_sha": false
+    },
+    {
+      "path": "scripts/current-attendance-choice-browser4-lawful-successor/inherited-output-validation/GENERATED_RECEIPTS.json",
+      "expected_sha": "0edae56674ff73edc36681188223422c95a75280287405affb72d0719ca83aa9",
+      "actual_sha": "353750888f26be27c0e1f3018cd251c92ad031a1669ff7d2a6af13df35d0adfc",
+      "same_derived_sha": false
+    },
+    {
+      "path": "scripts/current-attendance-choice-browser4-lawful-successor/inherited-output-validation/LATER_GENERATED_RECEIPTS.json",
+      "expected_sha": "d3149310bd6c38b603922a4d13d88b680d35e352e84303baa921b3e0da2192bb",
+      "actual_sha": "26fa4e4d8d2fcd453dd4f1cc6a1388941914473e7b9c77f37cc36c1d66413658",
+      "same_derived_sha": false
+    },
+    {
+      "path": ".github/workflows/cp7-current-s03-browser4-lawful.yml",
+      "expected_sha": "b16feb01190142038039bb43cd9f0a57c2bc469014546b46885d1a8dfe8c1577",
+      "actual_sha": "d8856e285ce927bd04f6e0021e720b866dbecba810199a349088dff8612804d8",
+      "same_derived_sha": false
+    }
+  ],
+  "Native": 0,
+  "DB": 0
+}

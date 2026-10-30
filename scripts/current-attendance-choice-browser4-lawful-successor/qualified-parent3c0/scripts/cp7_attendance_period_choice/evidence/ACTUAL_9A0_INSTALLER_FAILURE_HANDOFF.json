@@ -1,0 +1,18 @@
+{
+  "classification": "PARENT_REPORTED_ACTUAL_FAILURE_METADATA_NOT_REPLACEMENT_ORIGINAL",
+  "original_retained_by_root": "private/evidence-private/s03-9a0-payroll-install-first.zip",
+  "run": 40954866687,
+  "job": 123732218148,
+  "artifact": 12933923714,
+  "zip_bytes": 1742807,
+  "members": 117,
+  "zip_sha256": "b7d7712c7fdb54d314106f4caad2369d0319920b5a871b78ee646add1d0720f5",
+  "status": "FAIL_BEFORE_BUSINESS",
+  "actual_Native_cases": 0,
+  "phase": "FIRST_FINANCE_DELTA",
+  "observed": "permission denied for schema cp7_payroll while replacing existing apply_settlement definition",
+  "outer_restored": "root reports full22/all rows/all sequences/rawschemas/roles/CP6/advisors/backupAuth restored; package4true writerfalse",
+  "actual_role_catalog_rows_retained": false,
+  "accepted_prerequisite": false,
+  "production_go": false
+}

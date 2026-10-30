@@ -1,0 +1,109 @@
+{
+  "version": "cp7.s03.prepared-native11.v1",
+  "status": "PREPARED",
+  "classification": "SOURCE_BOUND_LOCAL_PREPARATION_NOT_ACTUAL_NATIVE_AUTH_BROWSER",
+  "product_base_commit": "0b4e5eadf3b6a3b9716247bec37bbbea514ed77c",
+  "runtime_parent_module": "cp7_vendor_receivable.composition",
+  "runtime_parent_commit": "41caaaed02c0d89b122ecf1ff221f6647141c335",
+  "retained_parent_original_sha256": "04e00f42862ddfec8346d41d4d6a2d6a285f041127cccf09d973ca929b307ea0",
+  "retained_parent_counts": {
+    "Native": 7,
+    "two_session_races": 3,
+    "real_Auth_HTTP": 1,
+    "browser": 0
+  },
+  "counts": {
+    "existing_native": 12,
+    "existing_private_facade": 1,
+    "captured_originals": 13,
+    "private_native_clones": 2,
+    "prepared_native": 11,
+    "actual_s03_native": 0,
+    "actual_s03_real_Auth": 0,
+    "actual_s03_browser": 0
+  },
+  "Native_case_ids": [
+    "S03_NATIVE_OWNER_FIELDS_READ_FULL_NO_EFFECT",
+    "S03_NATIVE_EXPENSE_APPROVAL_ONCE_PAID_E05_REOPEN",
+    "S03_NATIVE_TWO_EXACT_PERIODS_CENTS_AND_NATIVE_HPP",
+    "S03_NATIVE_P2_PAYROLL_POOL_COEXIST_AND_POLICY_FENCES",
+    "S03_NATIVE_OWNING_CANCEL_LATE_OUTPUT_AND_RESTORATION_FLOOR",
+    "S03_NATIVE_BOTH_CORRECTIONS_LINKED_INVERSES_NO_RECOGNITION",
+    "S03_NATIVE_STALE_REVIEW_UUID_RECOVERY_AND_APPEND_ONLY",
+    "S03_NATIVE_CLOSED_SOURCE_OPEN_OUTPUT_AND_CLOSED_CORRECTION",
+    "S03_NATIVE_ZERO_OUTPUT_SUCCESSOR_POLICY_RETAINS_OLD_INFO",
+    "S03_NATIVE_FINISHED_PO_FG_COGS_COST_AND_CANCEL_EXACT",
+    "S03_NATIVE_OLD_ACCRUAL_LATER_BOOK_REOPEN_DATE_FLOOR"
+  ],
+  "existing_Native_signatures": [
+    "erp.create_attendance_hpp_pool_v1(jsonb,uuid)",
+    "erp.validate_attendance_hpp_pool_v1(uuid)",
+    "erp.activate_attendance_hpp_pool_v1(uuid,text,uuid,bigint)",
+    "erp.cancel_attendance_hpp_pool_v1(uuid,text,uuid,bigint)",
+    "erp.approve_payroll(uuid)",
+    "erp.cancel_unpaid_payroll(uuid,text)",
+    "erp.reverse_paid_payroll(uuid,text)",
+    "erp._cp3_r4_active_pool_affects_contractor(uuid,date,date)",
+    "erp.set_contractor_hpp_policy_v1(jsonb,uuid,uuid)",
+    "erp.reverse_journal(uuid,text)",
+    "erp.record_sewing_terminal_v1(jsonb,uuid)",
+    "erp.period_blockers_v1(date,date)"
+  ],
+  "existing_private_facade": "cp7_payroll.apply_settlement(text,jsonb,text)",
+  "private_Native_clones": [
+    "cp7_attendance_choice.native_create_carry_pool_v1(jsonb,uuid)",
+    "cp7_attendance_choice.native_validate_carry_pool_v1(uuid)"
+  ],
+  "wire_base": "7e91ec5e6",
+  "wire_sha256": "931e62848f6861e24190e76cb0efbd8aa032cb514bf0f0b5af362d62cbe12bbd",
+  "accepted_current_S03_Native_original": null,
+  "independent_acceptance": false,
+  "production_go": false,
+  "files": {
+    "scripts/cp7_attendance_period_choice/choice.sql": "44499c6d6a06d1effc2be4f066168f5fa2fe9608b2ccb80d1d2d0b1dac0a8212",
+    "scripts/cp7_attendance_period_choice/native_delta.py": "7a9576e136089b487920fe5c38088977491d342f87384c8e2e82ad128fcf6b90",
+    "scripts/cp7_attendance_period_choice/catalog_contract.py": "0f0c1266ddefc5133cd693ee208f61f8ea71e5a09ab1ba43b1b52afb910f6764",
+    "scripts/cp7_attendance_period_choice/NEW_CATALOG_IDENTITIES.json": "ef2f99de5ec4104b53f28121d923a44350e80354c67217b70d32231f955fce71",
+    "scripts/cp7_attendance_period_choice/composition.py": "1fd29c8c4cf736241347b6619242096edb409cb6a9d1dbb80533be5fdb45a49e",
+    "scripts/cp7_attendance_period_choice/WIRE_CONTRACT.md": "931e62848f6861e24190e76cb0efbd8aa032cb514bf0f0b5af362d62cbe12bbd",
+    "scripts/cp7_attendance_period_choice/SOURCE_DERIVED_NATIVE_ABI.json": "fd401799313a1a8938d08e226f235461b4425992ffa0d8936327d39cf6571fb3",
+    "scripts/cp7_attendance_period_choice/local.test.ts": "5e88b862eece1ac41c5c80bc7c579b0faea24fc03d65462b2b9fdb48e051ddfb",
+    "scripts/cp7_attendance_period_choice/local_fixture.sql": "47c8718eac2633a4c0e4027ec9d91205c03dba2be5fa1d83c5c9a3f7bf370663",
+    "scripts/cp7_attendance_period_choice/local_catalog.py": "6a09eab11b0f8378069b39c40d0134d5cd85333af9d301b6849d9327fb28ca37",
+    "scripts/cp7_attendance_period_choice/render_local.py": "dce54f00ed45c9763c76bf6c0a816ca606cbb784c3ba59adcabc31dc968544b7",
+    "scripts/cp7_attendance_period_choice/test_source.py": "d6f9f7e85ffb4334c2df8d4862959fa1e6ad1b2aae3268a07384e15d8c04681d",
+    "scripts/current-attendance-period-choice-qualification/admission.py": "06778d6d2f9c7077f05cf3728505c625c8519a809b107c8594bcd9524becb023",
+    "scripts/current-attendance-period-choice-qualification/fixtures.py": "cdb482b56048200f13da5893e119b0b301f54a600888da5252cea2fceaee4258",
+    "scripts/current-attendance-period-choice-qualification/cases.py": "15fe990cccb82ff4c1dcd9ca40dc17fe93ac26a3a359a37361e6d8780b1f16e2",
+    "scripts/current-attendance-period-choice-qualification/test_plan.py": "be3dd7d8e7e273d2730bc44b5e52bf2e14939ee02fd3f422b892876d893e1f5f"
+  },
+  "reviewed_source_change": "Twelve Native hooks plus a thirteenth capture of the existing private settlement facade: APPROVE-only row/raw-contractor/period/access/claim before audited child rebuild; direct Native approval row/period/current original authority/claim before retained audited recalculate. Every original later step remains; no ACTIVATE/CANCEL global envelope added.",
+  "unchanged_wire": true,
+  "source_derived_ABI_is_actual_runtime_capture": false,
+  "installer": {
+    "module": "cp7_attendance_period_choice.composition",
+    "install_delta": "install_delta(cur,prior)",
+    "verify": "verify(cur,state)",
+    "preuse_undo": "rollback_delta_preuse(cur,state)",
+    "used_guard": "CP7_S03_AFTER_USE_REQUIRES_FULL_BACKUP_RESTORE",
+    "Native_callback": "cases(cur,today,state=actual_S03_state,evidence=report)"
+  },
+  "mandatory_outer_gates": [
+    "exact retained parent originals and current parent sources",
+    "parent env D17_18_RETAINED_COMBINED_AF_DIRECTORY materialized by frozen vendor adapter",
+    "full owning installation envelope and actual13 originals/all22 source capture",
+    "exact preuse full restoration then reinstall",
+    "used guard before inverse DDL after actual valid writer",
+    "full installed dump restore after EACH committed fixture, including every business row/sequence/rawACL/role/platform Auth/CP6/advisor",
+    "all five original backup/package gates"
+  ],
+  "explicit_remaining": [
+    "actual execution of all eleven Native callbacks",
+    "two-session source/choice and permission-wait races",
+    "real Auth and desktop/mobile panel incl uncertainty recovery",
+    "actual descendant/conversion-lot costing beyond prepared finished production lot",
+    "historical/import attendance-exempt Native source coverage",
+    "explicit UTC17:00/WIB-midnight actual fact pair"
+  ],
+  "administrative_fixture_caveat": "Masters and DRAFT headers plus declared accounting-control reopen are fixture creation, not screen creation; valid Native writers own attendance, approval, work, sewing, pools, journals, stock and sales."
+}

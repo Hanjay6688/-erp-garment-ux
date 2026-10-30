@@ -1,0 +1,89 @@
+{
+  "contract": "cp7.s03-browser4.canonical-qualified-runtime-intake.v1",
+  "base": "e09c6512932de81777e661275d18bb232b2d2ee3",
+  "accepted_parent": "3c0c5defe55e48cf6f221c868594dd6676d17170",
+  "old_runtime": {
+    "scripts/cp7_attendance_period_choice/choice.sql": {
+      "bytes": 61490,
+      "sha256": "44499c6d6a06d1effc2be4f066168f5fa2fe9608b2ccb80d1d2d0b1dac0a8212",
+      "retained": "scripts/current-attendance-choice-browser4-lawful-successor/retained-e09c-runtime/scripts/cp7_attendance_period_choice/choice.sql",
+      "already_equal": true
+    },
+    "scripts/cp7_attendance_period_choice/readers.sql": {
+      "absent_in_e09c": true
+    },
+    "scripts/cp7_attendance_period_choice/native_delta.py": {
+      "bytes": 9804,
+      "sha256": "7a9576e136089b487920fe5c38088977491d342f87384c8e2e82ad128fcf6b90",
+      "retained": "scripts/current-attendance-choice-browser4-lawful-successor/retained-e09c-runtime/scripts/cp7_attendance_period_choice/native_delta.py",
+      "already_equal": false
+    },
+    "scripts/cp7_attendance_period_choice/catalog_contract.py": {
+      "bytes": 2436,
+      "sha256": "0f0c1266ddefc5133cd693ee208f61f8ea71e5a09ab1ba43b1b52afb910f6764",
+      "retained": "scripts/current-attendance-choice-browser4-lawful-successor/retained-e09c-runtime/scripts/cp7_attendance_period_choice/catalog_contract.py",
+      "already_equal": false
+    },
+    "scripts/cp7_attendance_period_choice/NEW_CATALOG_IDENTITIES.json": {
+      "bytes": 17936,
+      "sha256": "ef2f99de5ec4104b53f28121d923a44350e80354c67217b70d32231f955fce71",
+      "retained": "scripts/current-attendance-choice-browser4-lawful-successor/retained-e09c-runtime/scripts/cp7_attendance_period_choice/NEW_CATALOG_IDENTITIES.json",
+      "already_equal": false
+    },
+    "scripts/cp7_attendance_period_choice/composition.py": {
+      "bytes": 7018,
+      "sha256": "1fd29c8c4cf736241347b6619242096edb409cb6a9d1dbb80533be5fdb45a49e",
+      "retained": "scripts/current-attendance-choice-browser4-lawful-successor/retained-e09c-runtime/scripts/cp7_attendance_period_choice/composition.py",
+      "already_equal": false
+    },
+    "scripts/cp7_attendance_period_choice/installer_ddl.py": {
+      "absent_in_e09c": true
+    },
+    "scripts/cp7_attendance_period_choice/__init__.py": {
+      "bytes": 75,
+      "sha256": "7078a6a88cf48a6fc9f9de2a06c7367b3b264613682d9cdbb6dce37fe18f34ea",
+      "retained": "scripts/current-attendance-choice-browser4-lawful-successor/retained-e09c-runtime/scripts/cp7_attendance_period_choice/__init__.py",
+      "already_equal": true
+    }
+  },
+  "new_runtime": {
+    "scripts/cp7_attendance_period_choice/choice.sql": {
+      "bytes": 61490,
+      "sha256": "44499c6d6a06d1effc2be4f066168f5fa2fe9608b2ccb80d1d2d0b1dac0a8212"
+    },
+    "scripts/cp7_attendance_period_choice/readers.sql": {
+      "bytes": 5847,
+      "sha256": "4ab82ff58033f4357251930504e6e9e75ecce9d8f1cc5b4e10f689940ce749e2"
+    },
+    "scripts/cp7_attendance_period_choice/native_delta.py": {
+      "bytes": 11507,
+      "sha256": "a49242327798a59407739c2999fcf92408aeef9d88a1ae94fccc82bd189ac9ce"
+    },
+    "scripts/cp7_attendance_period_choice/catalog_contract.py": {
+      "bytes": 2513,
+      "sha256": "f312de61b3c75087a51d7df712896627c02bb5d6473803bf6d2c90ad506d7c64"
+    },
+    "scripts/cp7_attendance_period_choice/NEW_CATALOG_IDENTITIES.json": {
+      "bytes": 18161,
+      "sha256": "e49e4cb9c794d6ed98b831ae318e6d3c401a110d420cf932ee7011f7c971a578"
+    },
+    "scripts/cp7_attendance_period_choice/composition.py": {
+      "bytes": 7381,
+      "sha256": "51b3d53dccd69688438287bee338e7a86a37afe57aa963cc2dee24b2e43470f1"
+    },
+    "scripts/cp7_attendance_period_choice/installer_ddl.py": {
+      "bytes": 4997,
+      "sha256": "e002ea2dd938fef5913c76974909f70de8bcb47874b7fd958c0aeef0e2993514"
+    },
+    "scripts/cp7_attendance_period_choice/__init__.py": {
+      "bytes": 75,
+      "sha256": "7078a6a88cf48a6fc9f9de2a06c7367b3b264613682d9cdbb6dce37fe18f34ea"
+    }
+  },
+  "private_clones": 2,
+  "ROOT_or_method_override": false,
+  "old_dedicated_copies_preserved": true,
+  "UI82_unchanged": true,
+  "actual_browser_cases": 0,
+  "expected_captured_existing_functions": 15
+}

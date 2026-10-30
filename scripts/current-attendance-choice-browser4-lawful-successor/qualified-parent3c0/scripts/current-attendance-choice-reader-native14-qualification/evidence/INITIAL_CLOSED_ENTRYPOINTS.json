@@ -1,0 +1,41 @@
+{
+  "classification": "THREE_REAL_CLOSED_CLI_CONTROLS_NO_RUNTIME",
+  "receipts": [
+    {
+      "command": [
+        "python",
+        "-B",
+        "scripts/current-attendance-choice-reader-native14-qualification/check.py",
+        "--runtime"
+      ],
+      "returncode": 1,
+      "stdout": "",
+      "stderr": "Traceback (most recent call last):\n  File \"/workspace/scratch/ef468a447ac6/erp-credit-d1-product-cap/scripts/current-attendance-choice-reader-native14-qualification/check.py\", line 29, in <module>\n    main()\n  File \"/workspace/scratch/ef468a447ac6/erp-credit-d1-product-cap/scripts/current-attendance-choice-reader-native14-qualification/check.py\", line 24, in main\n    result = load('s03_native14_current_runtime_intake', HERE / 'probe.py').runtime().admitted()\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/ef468a447ac6/erp-credit-d1-product-cap/scripts/current-attendance-choice-reader-native14-qualification/probe.py\", line 22, in runtime\n    load('s03_native14_first_closed_gate', HERE / 'gate.py').selected(cfg)\n  File \"/workspace/scratch/ef468a447ac6/erp-credit-d1-product-cap/scripts/current-attendance-choice-reader-native14-qualification/gate.py\", line 20, in selected\n    raise ValueError(CLOSED)\nValueError: S03_NATIVE14_CLOSED_FROZEN_BACKEND_SOURCE_API_AND_VENDOR41C_REQUIRED\n",
+      "actual_Native_SQL_DB_GET_calls": 0
+    },
+    {
+      "command": [
+        "python",
+        "-B",
+        "scripts/current-attendance-choice-reader-native14-qualification/probe.py",
+        "--check"
+      ],
+      "returncode": 1,
+      "stdout": "",
+      "stderr": "Traceback (most recent call last):\n  File \"/workspace/scratch/ef468a447ac6/erp-credit-d1-product-cap/scripts/current-attendance-choice-reader-native14-qualification/probe.py\", line 67, in <module>\n    main()\n  File \"/workspace/scratch/ef468a447ac6/erp-credit-d1-product-cap/scripts/current-attendance-choice-reader-native14-qualification/probe.py\", line 57, in main\n    engine = runtime()\n             ^^^^^^^^^\n  File \"/workspace/scratch/ef468a447ac6/erp-credit-d1-product-cap/scripts/current-attendance-choice-reader-native14-qualification/probe.py\", line 22, in runtime\n    load('s03_native14_first_closed_gate', HERE / 'gate.py').selected(cfg)\n  File \"/workspace/scratch/ef468a447ac6/erp-credit-d1-product-cap/scripts/current-attendance-choice-reader-native14-qualification/gate.py\", line 20, in selected\n    raise ValueError(CLOSED)\nValueError: S03_NATIVE14_CLOSED_FROZEN_BACKEND_SOURCE_API_AND_VENDOR41C_REQUIRED\n",
+      "actual_Native_SQL_DB_GET_calls": 0
+    },
+    {
+      "command": [
+        "python",
+        "-B",
+        "scripts/current-attendance-choice-reader-native14-qualification/probe.py"
+      ],
+      "returncode": 1,
+      "stdout": "",
+      "stderr": "Traceback (most recent call last):\n  File \"/workspace/scratch/ef468a447ac6/erp-credit-d1-product-cap/scripts/current-attendance-choice-reader-native14-qualification/probe.py\", line 67, in <module>\n    main()\n  File \"/workspace/scratch/ef468a447ac6/erp-credit-d1-product-cap/scripts/current-attendance-choice-reader-native14-qualification/probe.py\", line 57, in main\n    engine = runtime()\n             ^^^^^^^^^\n  File \"/workspace/scratch/ef468a447ac6/erp-credit-d1-product-cap/scripts/current-attendance-choice-reader-native14-qualification/probe.py\", line 22, in runtime\n    load('s03_native14_first_closed_gate', HERE / 'gate.py').selected(cfg)\n  File \"/workspace/scratch/ef468a447ac6/erp-credit-d1-product-cap/scripts/current-attendance-choice-reader-native14-qualification/gate.py\", line 20, in selected\n    raise ValueError(CLOSED)\nValueError: S03_NATIVE14_CLOSED_FROZEN_BACKEND_SOURCE_API_AND_VENDOR41C_REQUIRED\n",
+      "actual_Native_SQL_DB_GET_calls": 0
+    }
+  ],
+  "actual_Native_Auth_browser": 0
+}

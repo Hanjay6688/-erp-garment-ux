@@ -1,0 +1,59 @@
+{
+  "classification": "ACTUAL_FIRST_NATIVE14_BUSINESS_FAILURE_NEVER_PREREQUISITE",
+  "head": "9ac9c8bd1bfb7d64a1e735067083c68acbff02ef",
+  "tree": "49591433899ef13c70e3cd94fc0c43894ea182df",
+  "run_id": 40967080539,
+  "job_id": 123774181466,
+  "artifact_id": 12940861511,
+  "ZIP": {
+    "bytes": 4176290,
+    "sha256": "90e6cc9eed6f5c33bb5902df2dc2ba43a0f4f408b9e3ddcf9d2fd7ad633b9a05",
+    "members": 118
+  },
+  "reports": {
+    "CP7_S03_ATTENDANCE_CHOICE_NATIVE11_CASES.json": {
+      "bytes": 23409,
+      "sha256": "f53ebbecc4a49780ef3800b884937c91ff1fb9d2825b99cb7830e6e4a9723c40",
+      "gzip_bytes": 4349,
+      "gzip_sha256": "b13d6399b09aa4a29d6bd4940a701d112d62bed2e657bf4b509f5dc3987cc9f5"
+    },
+    "CP7_S03_ATTENDANCE_CHOICE_NATIVE14.json": {
+      "bytes": 28415697,
+      "sha256": "0716f7cf16c2c02b5487f3c18469bb8b37b9e710b70bfbf07512b0cd5913c55e",
+      "gzip_bytes": 2429899,
+      "gzip_sha256": "316deae155842e813a1742afc226b768ae4c4efaeab868d5215bca31e47a0d27"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360440,
+      "sha256": "d0915aa21ac1c6868fc1a47dcb86520bce3450ed69581a46792bce7e30bdf76c",
+      "gzip_bytes": 11406,
+      "gzip_sha256": "016a7f2a712024d8fb09ce8a406549064ce77df28aa643e2c250d64abdbf362b"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "gzip_bytes": 255,
+      "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 1470,
+      "sha256": "d65203c8eac1ae3235323cb3f095baea7c9c0b59e1b9b3177e5362e6ad0d2c71",
+      "gzip_bytes": 646,
+      "gzip_sha256": "d2c11fe976f542c44296b72f325c5db81589392eb93353728b406f7d60611aa2"
+    },
+    "S03_NATIVE14_FINAL_GATE.json": {
+      "bytes": 294,
+      "sha256": "fd07e63e843c19965fdb53c2e89be45089b25989cf676ba37e1bb0ae07b79c49",
+      "gzip_bytes": 247,
+      "gzip_sha256": "299eccce8385cb9aae47a06f83b07be562d3e5df4119e0f318f3a6d4139e57ca"
+    }
+  },
+  "used_as_prerequisite": false,
+  "strict11_counts": {
+    "PASS": 8,
+    "INCOMPLETE": 3
+  },
+  "Reader3_reached": false,
+  "committed_used_witness_reached": false,
+  "whole14_credit": 0
+}

@@ -1,0 +1,12 @@
+test_actual_callback_factory_has11_callbacks_and_executes_no_fixture_during_declaration (test_plan.Preparation.test_actual_callback_factory_has11_callbacks_and_executes_no_fixture_during_declaration) ... ok
+test_all_retained_original_bytes_and_exact_7_3_1_counts_are_verified (test_plan.Preparation.test_all_retained_original_bytes_and_exact_7_3_1_counts_are_verified) ... ok
+test_changed_native_case_or_original_gzip_cannot_be_substituted (test_plan.Preparation.test_changed_native_case_or_original_gzip_cannot_be_substituted) ... ok
+test_independent_exact_cents_oracle_handles_chronology_and_unequal_output (test_plan.Preparation.test_independent_exact_cents_oracle_handles_chronology_and_unequal_output) ... ok
+test_malformed_original_or_package_or_parent_source_is_refused (test_plan.Preparation.test_malformed_original_or_package_or_parent_source_is_refused) ... ok
+test_own_exact18_files_counts_and_frozen_wire_refuse_mutation (test_plan.Preparation.test_own_exact18_files_counts_and_frozen_wire_refuse_mutation) ... ok
+test_prepared_fixture_contains_no_replica_mode_or_direct_posted_business_seed (test_plan.Preparation.test_prepared_fixture_contains_no_replica_mode_or_direct_posted_business_seed) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 2.405s
+
+OK

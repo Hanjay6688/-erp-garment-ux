@@ -1,0 +1,10 @@
+{
+  "classification": "LOCAL_FRAMEWORK_DOUBLE_FIRST39_TEST_PREMISE_FAILURE_NOT_NATIVE",
+  "passed": 38,
+  "failed": 1,
+  "failing": "test_CI_cannot_reseal_and_unknown_cli_flags_reject_before_source",
+  "observed": "argparse required-mode validation precedes unknown-flag diagnostics when no mode is supplied",
+  "repair": "Supply --offline plus unknown flag so test exercises unknown rejection after valid CLI mode; source/DB gate not changed",
+  "actual_Native_cases": 0,
+  "raw_stdout_reconstructed": false
+}

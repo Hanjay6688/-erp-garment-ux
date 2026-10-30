@@ -49,7 +49,15 @@ jobs:
         path: auditor
         fetch-depth: 0
         persist-credentials: 'false'
-    - name: Require actual backend14 full restore all5 Originals before artifact GET or DB
+    - name: Verify exact qualified14 metadata and complete physical475 source before Original GET
+      working-directory: auditor
+      run: python3 -B scripts/current-attendance-choice-browser4-lawful-successor/source_guard.py
+    - name: Fetch immutable qualified actual14 archive and verify all six raw Originals
+      working-directory: auditor
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: python3 -B scripts/current-attendance-choice-browser4-lawful-successor/fetch_originals.py
+    - name: Require all six actual Originals and complete Source475 before ERP GET or DB
       working-directory: auditor
       run: python3 -B scripts/current-attendance-choice-browser4-lawful-successor/source_guard.py --require-actual
     - name: Select exact qualified prerequisite heads

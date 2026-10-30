@@ -1,0 +1,89 @@
+test_CI_refuses_local_replay_receipt (test_bound.GeneratedSixInputControls.test_CI_refuses_local_replay_receipt) ... ok
+test_absent_static_phase_has_no_original_or_case_credit (test_bound.GeneratedSixInputControls.test_absent_static_phase_has_no_original_or_case_credit) ... ok
+test_changed_stage_or_producer_refuses (test_bound.GeneratedSixInputControls.test_changed_stage_or_producer_refuses) ... ok
+test_exact_six_and_specific_producer_model_accepts_without_case_credit (test_bound.GeneratedSixInputControls.test_exact_six_and_specific_producer_model_accepts_without_case_credit) ... ok
+test_leaf_and_ancestor_symlinks_refuse_and_restore (test_bound.GeneratedSixInputControls.test_leaf_and_ancestor_symlinks_refuse_and_restore) ... ok
+test_partial_mixed_unknown_and_changed_raw_refuse (test_bound.GeneratedSixInputControls.test_partial_mixed_unknown_and_changed_raw_refuse) ... ok
+test_exact_fixed_metadata_is_only_transport_admission (test_bound.ImmutableArtifactControls.test_exact_fixed_metadata_is_only_transport_admission) ... ok
+test_wrong_archive_refuses_before_any_source_or_output_access (test_bound.ImmutableArtifactControls.test_wrong_archive_refuses_before_any_source_or_output_access) ... ok
+test_wrong_run_attempt_head_job_workflow_artifact_size_digest_or_expiry_refuses (test_bound.ImmutableArtifactControls.test_wrong_run_attempt_head_job_workflow_artifact_size_digest_or_expiry_refuses) ... ok
+test_all475_physical_routes_and_canonical_runtime_are_real_exact_bytes (test_bound.QualifiedSourceControls.test_all475_physical_routes_and_canonical_runtime_are_real_exact_bytes) ... ok
+test_four_callbacks_fixture_and_financial_helpers_remain_exact_e09c (test_bound.QualifiedSourceControls.test_four_callbacks_fixture_and_financial_helpers_remain_exact_e09c) ... fatal: path 'scripts/current-attendance-choice-browser4-lawful-successor/oracles.mjs' does not exist in 'e09c6512932de81777e661275d18bb232b2d2ee3'
+ERROR
+test_installer15_plus2_verify_is_before_copy_or_fixture (test_bound.QualifiedSourceControls.test_installer15_plus2_verify_is_before_copy_or_fixture) ... ok
+test_old425_projection_missing_extra_or_changed_canonical_map_refuse (test_bound.QualifiedSourceControls.test_old425_projection_missing_extra_or_changed_canonical_map_refuse) ... ok
+test_retained_proof_copy_cannot_substitute_executing_runtime (test_bound.QualifiedSourceControls.test_retained_proof_copy_cannot_substitute_executing_runtime) ... ok
+test_actual_failure_missing_restore_package_or_run_never_admits (test_contract.ProofAndSourceControls.test_actual_failure_missing_restore_package_or_run_never_admits) ... ok
+test_actual_whole_source_is_checked_without_private_ui_git (test_contract.ProofAndSourceControls.test_actual_whole_source_is_checked_without_private_ui_git) ... ERROR
+test_browser_terminal_positive_is_parser_double_not_execution (test_contract.ProofAndSourceControls.test_browser_terminal_positive_is_parser_double_not_execution) ... ok
+test_canonical118_metadata_is_correspondence_only_and_rejects_one_changed_author_pin (test_contract.ProofAndSourceControls.test_canonical118_metadata_is_correspondence_only_and_rejects_one_changed_author_pin) ... ok
+test_catalog_environment_restores_even_if_original_retention_raises (test_contract.ProofAndSourceControls.test_catalog_environment_restores_even_if_original_retention_raises) ... ok
+test_closed_admission_reaches_no_ERP_import (test_contract.ProofAndSourceControls.test_closed_admission_reaches_no_ERP_import) ... ok
+test_each_browser_id_full_restore_auth_cleanup_and_full22_copy_are_mandatory (test_contract.ProofAndSourceControls.test_each_browser_id_full_restore_auth_cleanup_and_full22_copy_are_mandatory) ... ok
+test_every_frozen_UI_mount_and_source38_byte_matches_public_endpoint (test_contract.ProofAndSourceControls.test_every_frozen_UI_mount_and_source38_byte_matches_public_endpoint) ... ok
+test_fixtures_and_callbacks_close_before_any_db_or_get (test_contract.ProofAndSourceControls.test_fixtures_and_callbacks_close_before_any_db_or_get) ... ok
+test_frozen_config_cannot_execute (test_contract.ProofAndSourceControls.test_frozen_config_cannot_execute) ... ok
+test_host_original_digest_and_case_objects_are_checked_using_explicit_tempfile_double (test_contract.ProofAndSourceControls.test_host_original_digest_and_case_objects_are_checked_using_explicit_tempfile_double) ... ok
+test_independent_dated_source_oracle_refuses_either_axis_before_original (test_contract.ProofAndSourceControls.test_independent_dated_source_oracle_refuses_either_axis_before_original) ... ok
+test_independent_dated_source_oracle_retains_both_axes_and_later_inverse (test_contract.ProofAndSourceControls.test_independent_dated_source_oracle_retains_both_axes_and_later_inverse) ... ok
+test_inherited_source_pin_never_authorizes_out_of_scope_edit_or_untracked_input (test_contract.ProofAndSourceControls.test_inherited_source_pin_never_authorizes_out_of_scope_edit_or_untracked_input) ... ok
+test_loader_restores_modules_path_argv_on_success_and_failure_using_import_double (test_contract.ProofAndSourceControls.test_loader_restores_modules_path_argv_on_success_and_failure_using_import_double) ... ok
+test_materialized_historical_inputs_remain_exact28_and_corrupt_bytes_refuse (test_contract.ProofAndSourceControls.test_materialized_historical_inputs_remain_exact28_and_corrupt_bytes_refuse) ... ok
+test_missing_or_duplicate_anchor_is_refused (test_contract.ProofAndSourceControls.test_missing_or_duplicate_anchor_is_refused) ... ok
+test_native_setup_retains_raw_acl_and_complete22_assertions (test_contract.ProofAndSourceControls.test_native_setup_retains_raw_acl_and_complete22_assertions) ... ok
+test_null_gate_and_ambient_old_package_refuse_before_any_actual_import (test_contract.ProofAndSourceControls.test_null_gate_and_ambient_old_package_refuse_before_any_actual_import) ... ok
+test_prepared_backend_seven_files_and_wire_never_substitute_actual_acceptance (test_contract.ProofAndSourceControls.test_prepared_backend_seven_files_and_wire_never_substitute_actual_acceptance) ... ok
+test_selected_runtime7_and_real_package_entry_are_exact_without_ERP_import (test_contract.ProofAndSourceControls.test_selected_runtime7_and_real_package_entry_are_exact_without_ERP_import) ... ok
+test_separate_strict_group_original_bytes_cannot_be_replaced_by_embedded_claim (test_contract.ProofAndSourceControls.test_separate_strict_group_original_bytes_cannot_be_replaced_by_embedded_claim) ... ok
+test_seven_exact_selections_reverse_to_full_original_engine (test_contract.ProofAndSourceControls.test_seven_exact_selections_reverse_to_full_original_engine) ... ok
+test_synthetic_positive_checks_parser_only (test_contract.ProofAndSourceControls.test_synthetic_positive_checks_parser_only) ... ok
+test_terminal_counts_are_typed_and_never_fold_retained_native14 (test_contract.ProofAndSourceControls.test_terminal_counts_are_typed_and_never_fold_retained_native14) ... ok
+test_terminal_requires_strict390_no_one_px_waiver_real_proof_and_contrast45 (test_contract.ProofAndSourceControls.test_terminal_requires_strict390_no_one_px_waiver_real_proof_and_contrast45) ... ok
+test_two_strict_groups_cannot_be_folded_or_relabelled (test_contract.ProofAndSourceControls.test_two_strict_groups_cannot_be_folded_or_relabelled) ... ok
+test_workflow_is_exact_bounded_child_with_no_ERP_GET_or_DB_before_proof_gate (test_contract.ProofAndSourceControls.test_workflow_is_exact_bounded_child_with_no_ERP_GET_or_DB_before_proof_gate) ... ok
+test_workflow_preserves_every_unselected_full_engine_and_restore_step (test_contract.ProofAndSourceControls.test_workflow_preserves_every_unselected_full_engine_and_restore_step) ... ok
+test_zero_browser_outer_count_cannot_survive_derivation (test_contract.ProofAndSourceControls.test_zero_browser_outer_count_cannot_survive_derivation) ... ok
+test_exact_public_validators_and_only_declared_contract_changes (test_outputs.GeneratedOutputControls.test_exact_public_validators_and_only_declared_contract_changes) ... ok
+test_whole_caller_accepts_closed_snapshot_double_but_never_adds_case_credit (test_outputs.GeneratedOutputControls.test_whole_caller_accepts_closed_snapshot_double_but_never_adds_case_credit) ... ok
+test_whole_caller_rejects_evidence_leaf_and_ancestor_symlinks (test_outputs.GeneratedOutputControls.test_whole_caller_rejects_evidence_leaf_and_ancestor_symlinks) ... ok
+test_whole_caller_rejects_extra_module_tag_or_hidden_script_attribute (test_outputs.GeneratedOutputControls.test_whole_caller_rejects_extra_module_tag_or_hidden_script_attribute) ... ok
+test_whole_caller_rejects_hash_looking_extra_script_and_missing_actual_chunk (test_outputs.GeneratedOutputControls.test_whole_caller_rejects_hash_looking_extra_script_and_missing_actual_chunk) ... ok
+test_whole_caller_rejects_missing_or_changed_fixed_build_producer (test_outputs.GeneratedOutputControls.test_whole_caller_rejects_missing_or_changed_fixed_build_producer) ... ok
+test_whole_caller_rejects_traversal_and_changed_inherited_producer (test_outputs.GeneratedOutputControls.test_whole_caller_rejects_traversal_and_changed_inherited_producer) ... ok
+test_whole_caller_rejects_unknown_code_unknown_JSON_and_bad_build_index (test_outputs.GeneratedOutputControls.test_whole_caller_rejects_unknown_code_unknown_JSON_and_bad_build_index) ... ok
+test_whole_caller_replays_actual_old101_outputs_and_actual_normal_App_build (test_outputs.GeneratedOutputControls.test_whole_caller_replays_actual_old101_outputs_and_actual_normal_App_build) ... ok
+test_all_counted_browser_adaptations_reverse_exact_frozen_parent_bytes (test_successor.LawfulBrowserControls.test_all_counted_browser_adaptations_reverse_exact_frozen_parent_bytes) ... ok
+test_cancellation_helper_requires_exact_post_allocation_snapshot (test_successor.LawfulBrowserControls.test_cancellation_helper_requires_exact_post_allocation_snapshot) ... ok
+test_explicit_helper_and_private_three_source_derivation_are_not_runtime_claims (test_successor.LawfulBrowserControls.test_explicit_helper_and_private_three_source_derivation_are_not_runtime_claims) ... ok
+test_full_future_qualifier_source_map_is_explicit_additive_and_closed (test_successor.LawfulBrowserControls.test_full_future_qualifier_source_map_is_explicit_additive_and_closed) ... ok
+test_p2_and_cancellation_paths_preserve_money_oracles_and_no_old_global_patch (test_successor.LawfulBrowserControls.test_p2_and_cancellation_paths_preserve_money_oracles_and_no_old_global_patch) ... ok
+
+======================================================================
+ERROR: test_four_callbacks_fixture_and_financial_helpers_remain_exact_e09c (test_bound.QualifiedSourceControls.test_four_callbacks_fixture_and_financial_helpers_remain_exact_e09c)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/ef468a447ac6/erp-s03-browser4-bound/scripts/current-attendance-choice-browser4-lawful-successor/test_bound.py", line 74, in test_four_callbacks_fixture_and_financial_helpers_remain_exact_e09c
+    expected = subprocess.check_output(['/usr/bin/git', '-C', str(ROOT), 'show',
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/subprocess.py", line 466, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['/usr/bin/git', '-C', '/workspace/scratch/ef468a447ac6/erp-s03-browser4-bound', 'show', 'e09c6512932de81777e661275d18bb232b2d2ee3:scripts/current-attendance-choice-browser4-lawful-successor/oracles.mjs']' returned non-zero exit status 128.
+
+======================================================================
+ERROR: test_actual_whole_source_is_checked_without_private_ui_git (test_contract.ProofAndSourceControls.test_actual_whole_source_is_checked_without_private_ui_git)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/ef468a447ac6/erp-s03-browser4-bound/scripts/current-attendance-choice-browser4-lawful-successor/test_contract.py", line 114, in test_actual_whole_source_is_checked_without_private_ui_git
+    result = guard.check()
+             ^^^^^^^^^^^^^
+  File "/workspace/scratch/ef468a447ac6/erp-s03-browser4-bound/scripts/current-attendance-choice-browser4-lawful-successor/source_guard.py", line 95, in check
+    raise ValueError('S03_BROWSER4_UNDECLARED_CURRENT_WHOLE_SOURCE_DELTA:' + repr(sorted(unknown - accepted_outputs)))
+ValueError: S03_BROWSER4_UNDECLARED_CURRENT_WHOLE_SOURCE_DELTA:['node_modules']
+
+----------------------------------------------------------------------
+Ran 58 tests in 54.201s
+
+FAILED (errors=2)

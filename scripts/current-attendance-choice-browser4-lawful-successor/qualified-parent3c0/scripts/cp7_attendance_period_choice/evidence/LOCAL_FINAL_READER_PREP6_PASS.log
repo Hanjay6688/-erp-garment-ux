@@ -1,0 +1,11 @@
+test_callback_factory_declares3_without_fixture_and_validates_parent_install (test_plan.Preparation.test_callback_factory_declares3_without_fixture_and_validates_parent_install) ... ok
+test_closed_owned8_and_hold4_shapes_lifetime_ids_and_cutoffs (test_plan.Preparation.test_closed_owned8_and_hold4_shapes_lifetime_ids_and_cutoffs) ... ok
+test_fixture_uses_real_inverse_writers_not_posted_seeds_or_bypass (test_plan.Preparation.test_fixture_uses_real_inverse_writers_not_posted_seeds_or_bypass) ... ok
+test_fresh_original11_partial_missing_changed_ids_bool_and_boundary_refuse (test_plan.Preparation.test_fresh_original11_partial_missing_changed_ids_bool_and_boundary_refuse) ... ok
+test_product_and_own_source_mutations_refuse_without_arbitrary_rehash (test_plan.Preparation.test_product_and_own_source_mutations_refuse_without_arbitrary_rehash) ... ok
+test_source_counts_are15_captures_but11_plus3_equals14_cases (test_plan.Preparation.test_source_counts_are15_captures_but11_plus3_equals14_cases) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.383s
+
+OK

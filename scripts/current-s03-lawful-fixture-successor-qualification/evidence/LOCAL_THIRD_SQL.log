@@ -1,0 +1,41 @@
+{
+  "classification": "LOCAL_PGLITE_ACTUAL_RETAINED_FUNCTION_TEXT_ON_DECLARED_TABLE_AUTHORITY_IDEMPOTENCY_DOUBLES",
+  "status": "PASS",
+  "checks": [
+    {
+      "id": "OLD_EARNED_NEW_WORKER_LEAVES_REAL_UNKNOWN_CELL",
+      "status": "PASS"
+    },
+    {
+      "id": "ACTUAL_NATIVE_RATE_FRESH_VERSION_P2_PRESERVES_P1_RATE",
+      "status": "PASS"
+    },
+    {
+      "id": "SAME_KNOWN_P1_WORKER_P2_PRESENT_IS_COMPLETE",
+      "status": "PASS"
+    },
+    {
+      "id": "ACTUAL_NATIVE_RATE_STALE_AND_HISTORY_FACT_EDIT_REFUSE",
+      "status": "PASS"
+    },
+    {
+      "id": "ACTUAL_NATIVE_OWNER_REOPEN_BACKWARD_REASON_AND_AUDIT",
+      "status": "PASS"
+    },
+    {
+      "id": "EXACT_NATIVE_QC_CACHE_CHANGES_ALL16_OTHER_FIELDS_AND_ENTIRE_SALE_EXACT",
+      "status": "PASS"
+    },
+    {
+      "id": "EXACT_NATIVE_CACHE_CANCEL_VALUATION_FULL_FG_ROWS_RETURN",
+      "status": "PASS"
+    }
+  ],
+  "actual_Native_cases": 0,
+  "actual_Auth_HTTP_cases": 0,
+  "actual_browser_cases": 0,
+  "actual_whole_rebuild_executed": false,
+  "actual_completeness_guard_block_only": true,
+  "full_S03_financial_qualification": false,
+  "production_go": false
+}

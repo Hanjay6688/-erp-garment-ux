@@ -1,0 +1,17 @@
+{
+  "head": "e74d1cb99b7a8df6e8d0f5f7499063ab420a977c",
+  "tree": "4fca9aefd99cfe8c5b323d83440d495e65d17bfe",
+  "run_id": 40953086425,
+  "job_id": 123726035569,
+  "artifact_id": 12932501933,
+  "zip_bytes": 54688,
+  "zip_sha256": "6bc5213ec3ed8e9b6079c8e26da508bc193c1d863b34620e6121130c199088f1",
+  "status": "BEFORE_DATABASE_46_PASS_1_ERROR_NATIVE0",
+  "error": "S03_GENERATED_RECEIPT_REGULAR_FILE_REQUIRED",
+  "cause": "Historical replay test passed original archive filenames to the real workspace without materializing their original bytes; fresh CI generates different UUID paths. The earlier local47 PASS depended on ambient retained outputs.",
+  "source_guard_weakened": false,
+  "helper_oracle_changed": false,
+  "Native_credit": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

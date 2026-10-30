@@ -49,6 +49,15 @@ def actual_browser(conn, cur, report, state, proof, product):
         raise ValueError('S03_BROWSER4_ACTUAL_INSTALLED_PRODUCT_SOURCE_REQUIRED')
     if len(state['originals']) != 15 or len(state['definitions']) != 15 or len(state['clones']) != 2:
         raise ValueError('S03_BROWSER4_ACTUAL15_CAPTURE_AND_TWO_CLONES_REQUIRED')
+    # The actual canonical15-capture/two-clone installer must be verified
+    # before the browser-copy bridge can create any fixture.
+    from cp7_attendance_period_choice import native_delta
+    if (set(state['originals']) != set(native_delta.SIGNATURES)
+            or state['definitions'] != native_delta.patched(state['originals'])
+            or state['clones'] != native_delta.clones(state['originals'])):
+        raise ValueError('S03_BROWSER4_EXACT_CANONICAL15_PLUS2_INSTALLER_REQUIRED')
+    with helper.control.product_catalog(cur):
+        report['canonical_qualified15_installed_proof'] = product.verify(cur, state)
     bridge = load('s03_browser4_frozen_ui_copy_bridge', ROOT / 'scripts/current-attendance-choice-mount-ui/browser_adapter.py')
     adapter = load('s03_browser4_unchanged_physical_copy_authority', ROOT / 'scripts/ow04-payment-current-qualification/copy_authority.py')
     temp = Path(tempfile.gettempdir())
@@ -79,7 +88,8 @@ def actual_browser(conn, cur, report, state, proof, product):
     report.update(actual_backend14_retained_not_rerun=True, normal_full_App=True,
         exact_case_source=str(HERE / 'cases.mjs'), source_admission_before_every_fixture_operation=True,
         actual_captured_originals=15, actual_Native_clones=2, actual_backend_runtime_files=product.sources()['files'],
-        frozen_UI_root_backend_replaced=False, product_sources_override=False)
+        canonical_backend_selected_from_qualified3c0=True, frozen_UI82_source_unchanged=True,
+        backend_ROOT_or_method_override=False, product_sources_override=False)
 
 
 def scheduler_quiet(url):

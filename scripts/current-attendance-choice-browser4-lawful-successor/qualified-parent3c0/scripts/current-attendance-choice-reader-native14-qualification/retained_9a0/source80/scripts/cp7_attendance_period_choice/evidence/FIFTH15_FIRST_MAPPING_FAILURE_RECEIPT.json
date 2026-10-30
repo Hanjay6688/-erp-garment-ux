@@ -1,0 +1,22 @@
+{
+  "classification": "LOCAL_ONLY_NOT_ACTUAL_NATIVE_AUTH",
+  "counts": {
+    "PASS": 12,
+    "FAIL": 3,
+    "SKIP": 0
+  },
+  "product_defect": "OTHER_EXPENSE mapping/metadata absent from exact review token allows changed account after preview",
+  "fixture_errors": [
+    "exempt policy requires contractor master attendance_required=false before Native policy writer",
+    "generic inverse expected error code is CP7_S03_OWNING_INVERSE_REQUIRED"
+  ],
+  "repair_applied": false,
+  "files": {
+    "choice.sql": "ab428ae270cbd3a2496eeab0d989a748a8ca30e19ccc446e5dffdb061107d8c1",
+    "native_delta.py": "03d2eba0a66ac0bfef3607ab8f77cc3007962098c6fe7c28f0f4c8168b878637",
+    "composition.py": "fa30f919d412125ce1e55dceb07a5938a0e19618a8af0ad0a2c86489d4709250",
+    "local.test.ts": "56d9566b167134eaafec6e78366b20e844379dd056aba6169d98f11b4bf5adfd",
+    "local_fixture.sql": "ce440b4c3fc94892d2251a1d2fd0c66dc0d25c14a2cd9c544f787b70a7cded72",
+    "evidence/LOCAL_FIFTH15_12PASS_3FAIL.json": "2fcfae5ba6d9fa286c6737deb3081f443cd719e109f5ccc74cb88005b4d7f562"
+  }
+}

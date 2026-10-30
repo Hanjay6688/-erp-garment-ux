@@ -84,7 +84,9 @@ def browser_double():
         jwt_signed_by_runtime=False, test_only_usage_grant=False)
     component = dict(status='PASS', actual_browser_cases=4, browser=browser,
         actual_captured_originals=15, actual_Native_clones=2, product_sources_override=False,
-        frozen_UI_root_backend_replaced=False, actual_backend_runtime_files={str(i): 'EXPLICIT_DOUBLE' for i in range(7)},
+        canonical_backend_selected_from_qualified3c0=True, frozen_UI82_source_unchanged=True,
+        backend_ROOT_or_method_override=False, canonical_qualified15_installed_proof={'actual_captured_originals': 15},
+        actual_backend_runtime_files={str(i): 'EXPLICIT_DOUBLE' for i in range(7)},
         copy_catalog_admissions=[{'all22_groups_equal_original_install': True}],
         actual_browser_host_originals=[{'classification': 'EXPLICIT_METADATA_DOUBLE_NO_ACTUAL_RAW'}])
     report = dict(status='PASS', label=gate.LABEL, committed={gate.CASE: component},
@@ -170,7 +172,7 @@ class ProofAndSourceControls(unittest.TestCase):
         mapping = json.loads((HERE / 'RUNTIME_SOURCE.json').read_bytes())
         expected = {name: pin['sha256'] for name, pin in mapping['runtime_files'].items()}
         route = loader.retained(expected)
-        self.assertEqual(route['component_root'], FROZEN / 'runtime-backend7')
+        self.assertEqual(route['component_root'], ROOT)
         self.assertEqual(route['runtime_files'], expected)
         for mutation in ('unknown', 'missing', 'changed'):
             wrong = dict(expected)
@@ -187,7 +189,7 @@ class ProofAndSourceControls(unittest.TestCase):
         with patch.object(loader, 'import_module', side_effect=AssertionError('ERP_IMPORT_FORBIDDEN_IN_LOCAL_CONTROL')):
             with self.assertRaisesRegex(ValueError, 'ACTUAL_ADMISSION_BEFORE_BACKEND_IMPORT'):
                 with loader.actual_backend({}):pass
-            old = ModuleType(loader.PACKAGE);old.__file__ = str(ROOT / 'scripts/cp7_attendance_period_choice/__init__.py')
+            old = ModuleType(loader.PACKAGE);old.__file__ = str(FROZEN / 'runtime-backend7/scripts/cp7_attendance_period_choice/__init__.py')
             proof = dict(status='EXACT_ACTUAL_BACKEND14_AND_ALL5_ORIGINALS_ADMITTED', actual_parent_Native_cases=14,
                 current_installation={'files': files})
             with patch.dict(sys.modules, {loader.PACKAGE: old}):
@@ -215,7 +217,7 @@ class ProofAndSourceControls(unittest.TestCase):
                 try:
                     with loader.actual_backend(proof) as product:
                         self.assertEqual(product.sources(), installation)
-                        self.assertEqual(sys.path[0], str(FROZEN / 'runtime-backend7/scripts'))
+                        self.assertEqual(sys.path[0], str(ROOT / 'scripts'))
                         sys.argv.append('EXPLICIT_LOCAL_BODY_CHANGE')
                         if failed:raise ValueError('EXPLICIT_BODY_FAILURE')
                 except ValueError as error:
@@ -300,7 +302,10 @@ class ProofAndSourceControls(unittest.TestCase):
         self.assertEqual(actual, workflow.derive(parent))
         steps = actual['jobs']['p21']['steps']
         self.assertTrue(steps[0]['uses'].startswith('actions/checkout@'))
-        self.assertEqual(steps[1]['run'], 'python3 -B ' + workflow.NAMESPACE + '/source_guard.py --require-actual')
+        self.assertEqual(steps[1]['run'], 'python3 -B ' + workflow.NAMESPACE + '/source_guard.py')
+        self.assertEqual(steps[2]['run'], 'python3 -B ' + workflow.NAMESPACE + '/fetch_originals.py')
+        self.assertEqual(steps[3]['run'], 'python3 -B ' + workflow.NAMESPACE + '/source_guard.py --require-actual')
+        self.assertEqual(steps[2]['env'], {'GH_TOKEN': '${{ github.token }}'})
         self.assertEqual(actual['on']['push']['branches'], [workflow.BRANCH])
         self.assertEqual(actual['jobs']['p21']['if'], "github.ref == 'refs/heads/" + workflow.BRANCH + "'")
         self.assertEqual(actual['jobs']['p21']['env']['AUDITOR_UI_MODE'], 'DISPOSABLE')

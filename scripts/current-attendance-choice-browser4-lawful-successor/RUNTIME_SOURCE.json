@@ -1,53 +1,58 @@
 {
   "classification": "EXACT_SELECTED_PUBLIC_BACKEND_PACKAGE_SOURCE_NOT_RUNTIME_ACCEPTANCE",
-  "source_public_commit": "73ad6d323099e1d5384a94477043c01db8989106",
-  "source_public_tree": "87c289b65362d1d29f7c44a620bd83220f6e7df5",
-  "component_root": "scripts/current-attendance-choice-browser4-qualification/runtime-backend7",
+  "source_public_commit": "3c0c5defe55e48cf6f221c868594dd6676d17170",
+  "source_public_tree": "ca20c918201b455ad09df489829b83b9e6afea95",
+  "component_root": ".",
   "runtime_files": {
     "scripts/cp7_attendance_period_choice/choice.sql": {
-      "retained": "scripts/current-attendance-choice-browser4-qualification/runtime-backend7/scripts/cp7_attendance_period_choice/choice.sql",
+      "retained": "scripts/cp7_attendance_period_choice/choice.sql",
       "bytes": 61490,
       "sha256": "44499c6d6a06d1effc2be4f066168f5fa2fe9608b2ccb80d1d2d0b1dac0a8212"
     },
     "scripts/cp7_attendance_period_choice/readers.sql": {
-      "retained": "scripts/current-attendance-choice-browser4-qualification/runtime-backend7/scripts/cp7_attendance_period_choice/readers.sql",
+      "retained": "scripts/cp7_attendance_period_choice/readers.sql",
       "bytes": 5847,
       "sha256": "4ab82ff58033f4357251930504e6e9e75ecce9d8f1cc5b4e10f689940ce749e2"
     },
     "scripts/cp7_attendance_period_choice/native_delta.py": {
-      "retained": "scripts/current-attendance-choice-browser4-qualification/runtime-backend7/scripts/cp7_attendance_period_choice/native_delta.py",
+      "retained": "scripts/cp7_attendance_period_choice/native_delta.py",
       "bytes": 11507,
       "sha256": "a49242327798a59407739c2999fcf92408aeef9d88a1ae94fccc82bd189ac9ce"
     },
     "scripts/cp7_attendance_period_choice/catalog_contract.py": {
-      "retained": "scripts/current-attendance-choice-browser4-qualification/runtime-backend7/scripts/cp7_attendance_period_choice/catalog_contract.py",
+      "retained": "scripts/cp7_attendance_period_choice/catalog_contract.py",
       "bytes": 2513,
       "sha256": "f312de61b3c75087a51d7df712896627c02bb5d6473803bf6d2c90ad506d7c64"
     },
     "scripts/cp7_attendance_period_choice/NEW_CATALOG_IDENTITIES.json": {
-      "retained": "scripts/current-attendance-choice-browser4-qualification/runtime-backend7/scripts/cp7_attendance_period_choice/NEW_CATALOG_IDENTITIES.json",
+      "retained": "scripts/cp7_attendance_period_choice/NEW_CATALOG_IDENTITIES.json",
       "bytes": 18161,
       "sha256": "e49e4cb9c794d6ed98b831ae318e6d3c401a110d420cf932ee7011f7c971a578"
     },
     "scripts/cp7_attendance_period_choice/composition.py": {
-      "retained": "scripts/current-attendance-choice-browser4-qualification/runtime-backend7/scripts/cp7_attendance_period_choice/composition.py",
+      "retained": "scripts/cp7_attendance_period_choice/composition.py",
       "bytes": 7381,
       "sha256": "51b3d53dccd69688438287bee338e7a86a37afe57aa963cc2dee24b2e43470f1"
     },
     "scripts/cp7_attendance_period_choice/installer_ddl.py": {
-      "retained": "scripts/current-attendance-choice-browser4-qualification/runtime-backend7/scripts/cp7_attendance_period_choice/installer_ddl.py",
+      "retained": "scripts/cp7_attendance_period_choice/installer_ddl.py",
       "bytes": 4997,
       "sha256": "e002ea2dd938fef5913c76974909f70de8bcb47874b7fd958c0aeef0e2993514"
     }
   },
   "package_entry": {
     "path": "scripts/cp7_attendance_period_choice/__init__.py",
-    "retained": "scripts/current-attendance-choice-browser4-qualification/runtime-backend7/scripts/cp7_attendance_period_choice/__init__.py",
+    "retained": "scripts/cp7_attendance_period_choice/__init__.py",
     "bytes": 75,
     "sha256": "7078a6a88cf48a6fc9f9de2a06c7367b3b264613682d9cdbb6dce37fe18f34ea"
   },
-  "accepted_originals": null,
+  "accepted_originals": {
+    "run_id": 40983410165,
+    "job_id": 123828634300,
+    "artifact_id": 12947563874
+  },
   "whole_tree_overlay": false,
   "product_sources_override": false,
-  "actual_Native_Auth_browser": 0
+  "actual_Native_Auth_browser": 0,
+  "canonical_executing_package": true
 }

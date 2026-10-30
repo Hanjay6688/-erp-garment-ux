@@ -21,7 +21,7 @@ WORKFLOW = '.github/workflows/cp7-current-s03-browser4-lawful.yml'
 
 
 def git(*args):
-    return subprocess.check_output(['git', '-C', str(ROOT), *args], text=True,
+    return subprocess.check_output(['/usr/bin/git', '-C', str(ROOT), *args], text=True,
         env=dict(os.environ, GIT_NO_LAZY_FETCH='1'))
 
 
@@ -36,13 +36,15 @@ def main():
     config = json.loads((HERE / 'CONFIG.json').read_bytes())
     baseline_files = git('diff', '--name-only', BASE, UI_ALIAS).splitlines()
     for name in baseline_files:
-        retained = subprocess.check_output(['git', '-C', str(ROOT), 'show', UI_ALIAS + ':' + name],
+        retained = subprocess.check_output(['/usr/bin/git', '-C', str(ROOT), 'show', UI_ALIAS + ':' + name],
             env=dict(os.environ, GIT_NO_LAZY_FETCH='1'))
         if (ROOT / name).read_bytes() != retained:
             raise ValueError('S03_BROWSER4_FROZEN_PUBLIC_UI_OR_SOURCE38_CHANGED:' + name)
     own = [str(path.relative_to(ROOT)) for path in HERE.rglob('*') if path.is_file()
-        and path.name != 'SOURCE.json' and '__pycache__' not in path.parts and path.suffix != '.pyc']
+        and path != HERE / 'SOURCE.json' and '__pycache__' not in path.parts and path.suffix != '.pyc']
     inherited = [
+        'docs/cp7/framework-v2/verification/semantic_contract.py',
+        'docs/cp7/framework-v2/contracts/analysis.schema.json',
         'scripts/current-vendor-receivable-qualification/probe.py',
         'scripts/current-vendor-receivable-qualification/native_runner.py',
         'scripts/current-attendance-period-choice-qualification/fixtures.py',
@@ -73,6 +75,8 @@ def main():
     inherited_source = json.loads((FROZEN / 'SOURCE.json').read_bytes())
     covered = set(baseline_files + own + inherited + list(extra)) | set(parent['files'])
     covered.update(row['path'] for row in inherited_source['files'])
+    accepted_inputs = json.loads((HERE / 'QUALIFIED_SOURCE_INPUTS.json').read_bytes())
+    covered.update(accepted_inputs['canonical_new_qualifier_paths'])
     covered.update(json.loads((HERE / 'BUILD_OUTPUT_CONTRACT.json').read_bytes())['producer_files'])
     # Explicit current inherited source inventory from the public prepared
     # qualifier plus static imports/literal paths. No metadata is used as an
@@ -85,11 +89,16 @@ def main():
     covered.update(name for name in reference['files'] if (ROOT / name).is_file())
     spec = importlib.util.spec_from_file_location('s03_browser4_source_inventory_only', HERE / 'source_inventory.py')
     inventory = importlib.util.module_from_spec(spec);spec.loader.exec_module(inventory)
-    covered, import_proof = inventory.inventory(ROOT, covered, FROZEN / 'runtime-backend7/scripts', (HERE / 'SOURCE.json',))
+    covered, import_proof = inventory.inventory(ROOT, covered, ROOT / 'scripts', (HERE / 'SOURCE.json',))
     if (ROOT / WORKFLOW).is_file():
         covered.add(WORKFLOW)
     current = set(git('diff', '--name-only', BASE).splitlines())
     allowed_changes = set(baseline_files + own + [WORKFLOW, NAMESPACE + '/SOURCE.json']) | set(parent['files'])
+    accepted_inputs = json.loads((HERE / 'QUALIFIED_SOURCE_INPUTS.json').read_bytes())
+    allowed_changes.update(accepted_inputs['canonical_new_qualifier_paths'])
+    selected_runtime = json.loads((HERE / 'RUNTIME_SOURCE.json').read_bytes())
+    allowed_changes.update(selected_runtime['runtime_files'])
+    allowed_changes.add(selected_runtime['package_entry']['path'])
     if not current <= allowed_changes:
         raise ValueError('S03_BROWSER4_UNALLOCATED_SOURCE_OUTSIDE_EXACT_BASELINE_OR_OWN_NAMESPACE:' + ','.join(sorted(current - allowed_changes)))
     old = json.loads((ROOT / 'scripts/current-attendance-choice-mount-ui/SOURCE.json').read_bytes())

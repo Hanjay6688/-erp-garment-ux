@@ -2,8 +2,8 @@
 
 The identity list is rendered locally from this stage's own SQL; it is not a
 capture of the qualified Native parent. Actual install captures its current
-all22 catalog and derives twelve Native hooks, one private facade hook and
-two clones from those actual bodies.
+all22 catalog and derives twelve Native hooks, one private facade hook,
+two private reader return decorators and two Native clones from actual bodies.
 """
 from pathlib import Path
 import json,re
@@ -18,7 +18,7 @@ PUBLIC=('public.erp_cp7_get_attendance_choice_v1(date,date,integer,integer)',
 
 def declared_functions():
     result=set(native_delta.CLONES)
-    for name,args in re.findall(r'create function ([a-z0-9_.]+)\(([^)]*)\)',(HERE/'choice.sql').read_text()):
+    for name,args in re.findall(r'create function ([a-z0-9_.]+)\(([^)]*)\)',(HERE/'choice.sql').read_text()+'\n'+(HERE/'readers.sql').read_text()):
         aliases={'timestamptz':'timestamp with time zone'}
         types=[aliases.get(arg.strip().split()[1],arg.strip().split()[1])for arg in args.split(',')]if args.strip()else[]
         result.add(name+'('+','.join(types)+')')
@@ -27,7 +27,7 @@ def declared_functions():
 def transition(before,after,definitions):
     identities=json.loads((HERE/'NEW_CATALOG_IDENTITIES.json').read_bytes())['objects']
     if set(before)!=set(after)or len(before)!=22 or set(identities)!=set(before):raise ValueError('CP7_S03_ALL22_REQUIRED')
-    if set(definitions)!=set(native_delta.SIGNATURES):raise ValueError('CP7_S03_EXACT_CAPTURE13_REQUIRED')
+    if set(definitions)!=set(native_delta.SIGNATURES):raise ValueError('CP7_S03_EXACT_CAPTURE15_REQUIRED')
     if set(identities['functions'])!=declared_functions():raise ValueError('CP7_S03_DECLARED_IDENTITIES_CHANGED')
     changed=set()
     for group in before:
@@ -40,4 +40,4 @@ def transition(before,after,definitions):
                and new[0]==definitions[key]and old[1:]==new[1:]):
                 changed.add(key);continue
             raise ValueError('CP7_S03_UNDECLARED_CATALOG_DELTA:'+group+':'+key)
-    if changed!=set(definitions):raise ValueError('CP7_S03_EXACT_CHANGED_CAPTURE13_REQUIRED')
+    if changed!=set(definitions):raise ValueError('CP7_S03_EXACT_CHANGED_CAPTURE15_REQUIRED')

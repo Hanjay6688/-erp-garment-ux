@@ -1,0 +1,56 @@
+{
+  "classification": "FROZEN_SOURCE_DERIVATION_NOT_ACTUAL_NATIVE_CAPTURE",
+  "base_commit": "f265ba2691ad03a2b7405806dc3aa4c5788b62fd",
+  "financial13_signatures": [
+    "erp.create_attendance_hpp_pool_v1(jsonb,uuid)",
+    "erp.validate_attendance_hpp_pool_v1(uuid)",
+    "erp.activate_attendance_hpp_pool_v1(uuid,text,uuid,bigint)",
+    "erp.cancel_attendance_hpp_pool_v1(uuid,text,uuid,bigint)",
+    "erp.approve_payroll(uuid)",
+    "erp.cancel_unpaid_payroll(uuid,text)",
+    "erp.reverse_paid_payroll(uuid,text)",
+    "erp._cp3_r4_active_pool_affects_contractor(uuid,date,date)",
+    "erp.set_contractor_hpp_policy_v1(jsonb,uuid,uuid)",
+    "erp.reverse_journal(uuid,text)",
+    "erp.record_sewing_terminal_v1(jsonb,uuid)",
+    "erp.period_blockers_v1(date,date)",
+    "cp7_payroll.apply_settlement(text,jsonb,text)"
+  ],
+  "financial13_original_sha256": {
+    "erp.create_attendance_hpp_pool_v1(jsonb,uuid)": "08cc6fb45472f57879526d552592728edacc42a68bb32dd4f2dd791de85a6ec3",
+    "erp.validate_attendance_hpp_pool_v1(uuid)": "c9bab26675c35c8660f6b68a594e038b0682a84690512e7ed26a8a77902d98ad",
+    "erp.activate_attendance_hpp_pool_v1(uuid,text,uuid,bigint)": "2eda4987a31fc08644edb90b3ea8e962ab6770adc6475b85c72c19fcbd79ae86",
+    "erp.cancel_attendance_hpp_pool_v1(uuid,text,uuid,bigint)": "6e12740f3286994e4b12f58180240b5e30f756a2c50a23ad98d777433b7f63c5",
+    "erp.approve_payroll(uuid)": "1f4f0fb34623517771f124470ed7dfe142364bfa5c21cbf2eb45e1d4a476d3ba",
+    "erp.cancel_unpaid_payroll(uuid,text)": "826ea6388f9346a990bbfa2946688ccd5850fd951aeea7455b02615d1825898f",
+    "erp.reverse_paid_payroll(uuid,text)": "62e5a76ec8075e94b838a83e92fc5fa9eb1b9151dd9370a0efd348c24625946b",
+    "erp._cp3_r4_active_pool_affects_contractor(uuid,date,date)": "7dbcf00da523c9c6d857fd6d6d7f990897ca9fb21ef9d8486c0f16a8c5686a18",
+    "erp.reverse_journal(uuid,text)": "9c3b04353530df3c22e601e59927321714a186cecb026f7b08ff76c0ebb7e396",
+    "erp.record_sewing_terminal_v1(jsonb,uuid)": "00e61679184b9bea77a173c731a2f058fb05e32ecd3a8928e0493911ffd5b401",
+    "erp.period_blockers_v1(date,date)": "91333338c5156104592e324211ca6e303d6eca7bd8cf38be1e24136c9f661497",
+    "erp.set_contractor_hpp_policy_v1(jsonb,uuid,uuid)": "534b642eb61f088d78af56df37440f3f0a00269cdb836557a647fe898b097a8e",
+    "cp7_payroll.apply_settlement(text,jsonb,text)": "c22d627fbbaca18a9d0502605f8603827d225c1d25c6fcaf2a062925c5fb3cf9"
+  },
+  "financial13_derived_sha256": {
+    "erp.create_attendance_hpp_pool_v1(jsonb,uuid)": "fed67622ebba93b15b720ad2592031adab88587feb09e2aa3e3c0351f0493cc1",
+    "erp.validate_attendance_hpp_pool_v1(uuid)": "00bf675c5d310f109b01b0a9979bbb39ba170f829f3d2559b90d041b3f7ac8e4",
+    "erp.activate_attendance_hpp_pool_v1(uuid,text,uuid,bigint)": "15db328e569c518d4ef23c6e0961cd804fd92e15ca9e22ba2862a1fa5a973d02",
+    "erp.cancel_attendance_hpp_pool_v1(uuid,text,uuid,bigint)": "c54d7c109edf70a3ff98280f5e37337289151cd81ff8dc7958dcdbf00d29d09f",
+    "erp.approve_payroll(uuid)": "f2652c9a4078c192deb8f9c6761be9791ea7cd768f240bd27a4c7c6638cc5227",
+    "erp.cancel_unpaid_payroll(uuid,text)": "4ac55a3c188a47fc0ad3211344ae614a6aace30027983394e4f5ad019c81edde",
+    "erp.reverse_paid_payroll(uuid,text)": "124c53ec698c9f2a3ddb9591bc9c02db42daaf12973624156b3817a3ef0725dd",
+    "erp._cp3_r4_active_pool_affects_contractor(uuid,date,date)": "5bd8ce2a92e7f70a2790291fa972ea61dda8c504b9b01ad7eec52eae80c99863",
+    "erp.reverse_journal(uuid,text)": "abfc097da476870eb5a6f9811692b694ebedcba1c7bfc8eed19acb89c3d09a88",
+    "erp.record_sewing_terminal_v1(jsonb,uuid)": "be485cf9640e4e66480174cc2b900758de7f6401cb78aabfa5c5151f1db7db0a",
+    "erp.period_blockers_v1(date,date)": "7ae9b2f67f91130d98208ad2e864f857ca4728529df0f606a5301f7f2078f94d",
+    "erp.set_contractor_hpp_policy_v1(jsonb,uuid,uuid)": "1fa57163cef7a964d8e4d6d06b23ef7ceb29ff8b1a7b7b6fa9783ca9055375c4",
+    "cp7_payroll.apply_settlement(text,jsonb,text)": "05ce98be974a63137792b5e46b6d26171c712d2709e03f1f267e11db844f4906"
+  },
+  "unchanged_two_clone_sha256": {
+    "cp7_attendance_choice.native_create_carry_pool_v1(jsonb,uuid)": "7678bf41491037f083ea76ed6f78ff779a1e8cc1089b313598a1e4a692d76e18",
+    "cp7_attendance_choice.native_validate_carry_pool_v1(uuid)": "b06f183a6bc2e7cacd5bf4d580f6ee73000dd62138f62632e582bb3131daa4ac"
+  },
+  "frozen_choice_sql_sha256": "44499c6d6a06d1effc2be4f066168f5fa2fe9608b2ccb80d1d2d0b1dac0a8212",
+  "original11_cases_sha256": "15fe990cccb82ff4c1dcd9ca40dc17fe93ac26a3a359a37361e6d8780b1f16e2",
+  "actual_current_runtime_capture": false
+}

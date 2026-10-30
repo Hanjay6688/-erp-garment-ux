@@ -1,0 +1,514 @@
+{
+  "contract": "cp7.s03.browser-lawful-reversible-source.v1",
+  "parent_public_commit": "cbb2099271524536404e2aef7a9f5a7fe9ab3533",
+  "parent_tree": "4d32927a514d35c65bc1a2d1788bffbd222c3eaf",
+  "files": [
+    {
+      "parent": "scripts/current-attendance-choice-browser4-qualification/backend_runtime.py",
+      "derived": "scripts/current-attendance-choice-browser4-lawful-successor/backend_runtime.py",
+      "parent_bytes": 5227,
+      "parent_sha256": "3553a842a0c53ffe379bf191faed10f96652ea0008e7ae7befd56a7a18092644",
+      "derived_sha256": "547bec5d2f8655237b269cacfe231ac38b1feea0ec5646d48d31e99eea60a679",
+      "changes": [
+        {
+          "before": "\nHERE = Path(__file__).resolve().parent\nROOT = HERE.parents[1]\nPACKAGE = 'cp7_attendance_period_choice'\nNAMES = ('choice.sql', 'readers.sql', 'native_delta.py', 'catalog_contract.py',\n    'NEW_CATALOG_IDENTITIES.json', 'composition.py', 'installer_ddl.py')\n",
+          "after": "\nHERE = Path(__file__).resolve().parent\nROOT = HERE.parents[1]\nFROZEN = ROOT / 'scripts/current-attendance-choice-browser4-qualification'\nPACKAGE = 'cp7_attendance_period_choice'\nNAMES = ('choice.sql', 'readers.sql', 'native_delta.py', 'catalog_contract.py',\n    'NEW_CATALOG_IDENTITIES.json', 'composition.py', 'installer_ddl.py')\n",
+          "count": 1
+        },
+        {
+          "before": "            or declaration.get('product_sources_override') is not False):\n        raise ValueError('S03_BROWSER4_EXACT_SELECTED_ACTUAL_RUNTIME7_REQUIRED')\n    component = (ROOT / declaration['component_root']).resolve()\n    if component != (HERE / 'runtime-backend7').resolve():\n        raise ValueError('S03_BROWSER4_DEDICATED_COMPONENT_ROOT_REQUIRED')\n    for name, pin in [*files.items(), (declaration['package_entry']['path'], declaration['package_entry'])]:\n        relative = PurePosixPath(name)\n",
+          "after": "            or declaration.get('product_sources_override') is not False):\n        raise ValueError('S03_BROWSER4_EXACT_SELECTED_ACTUAL_RUNTIME7_REQUIRED')\n    component = (ROOT / declaration['component_root']).resolve()\n    if component != (FROZEN / 'runtime-backend7').resolve():\n        raise ValueError('S03_BROWSER4_DEDICATED_COMPONENT_ROOT_REQUIRED')\n    for name, pin in [*files.items(), (declaration['package_entry']['path'], declaration['package_entry'])]:\n        relative = PurePosixPath(name)\n",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "parent": "scripts/current-attendance-choice-browser4-qualification/bind_source.py",
+      "derived": "scripts/current-attendance-choice-browser4-lawful-successor/bind_source.py",
+      "parent_bytes": 7002,
+      "parent_sha256": "86f611bd0e2d66c717249ae72a273c5d83dc603ae7462fa10223959d38ca62c9",
+      "derived_sha256": "2b8c46c4d7eacfa00fabf1ace83109cd390eef0694cc2ce224311aa222f60e0d",
+      "changes": [
+        {
+          "before": "\nHERE = Path(__file__).resolve().parent\nROOT = HERE.parents[1]\nBASE = 'a5774f59ce67fd18427a9aa700ee5e34fdece5b3'\nUI_ALIAS = '598dfe935e97ab7a43d63cd34d9b3b6abd7c7496'\nUI_TREE = '95d2abc716e0f9af12f5d0a55df29b6a50082868'\nNAMESPACE = str(HERE.relative_to(ROOT))\nWORKFLOW = '.github/workflows/cp7-current-s03-browser4.yml'\n\n\ndef git(*args):\n",
+          "after": "\nHERE = Path(__file__).resolve().parent\nROOT = HERE.parents[1]\nFROZEN = ROOT / 'scripts/current-attendance-choice-browser4-qualification'\nBASE = 'a5774f59ce67fd18427a9aa700ee5e34fdece5b3'\nUI_ALIAS = '598dfe935e97ab7a43d63cd34d9b3b6abd7c7496'\nUI_TREE = '95d2abc716e0f9af12f5d0a55df29b6a50082868'\nNAMESPACE = str(HERE.relative_to(ROOT))\nWORKFLOW = '.github/workflows/cp7-current-s03-browser4-lawful.yml'\n\n\ndef git(*args):\n",
+          "count": 1
+        },
+        {
+          "before": "        actual = pin(name)\n        if actual['bytes'] != expected['bytes'] or actual['sha256'] != expected['sha256']:\n            raise ValueError('S03_BROWSER4_DECLARED_QUALIFIED_BACKEND_SOURCE_CHANGED:' + name)\n    covered = set(baseline_files + own + inherited + list(extra))\n    covered.update(json.loads((HERE / 'BUILD_OUTPUT_CONTRACT.json').read_bytes())['producer_files'])\n    # Explicit current inherited source inventory from the public prepared\n    # qualifier plus static imports/literal paths. No metadata is used as an\n",
+          "after": "        actual = pin(name)\n        if actual['bytes'] != expected['bytes'] or actual['sha256'] != expected['sha256']:\n            raise ValueError('S03_BROWSER4_DECLARED_QUALIFIED_BACKEND_SOURCE_CHANGED:' + name)\n    parent = json.loads((HERE / 'FROZEN_BROWSER_PARENT.json').read_bytes())\n    for name, expected in parent['files'].items():\n        actual = pin(name)\n        if (actual['bytes'], actual['sha256']) != (expected['bytes'], expected['sha256']):\n            raise ValueError('S03_BROWSER4_FROZEN_CBB_PARENT_CHANGED:' + name)\n    inherited_source = json.loads((FROZEN / 'SOURCE.json').read_bytes())\n    covered = set(baseline_files + own + inherited + list(extra)) | set(parent['files'])\n    covered.update(row['path'] for row in inherited_source['files'])\n    covered.update(json.loads((HERE / 'BUILD_OUTPUT_CONTRACT.json').read_bytes())['producer_files'])\n    # Explicit current inherited source inventory from the public prepared\n    # qualifier plus static imports/literal paths. No metadata is used as an\n",
+          "count": 1
+        },
+        {
+          "before": "    covered.update(name for name in reference['files'] if (ROOT / name).is_file())\n    spec = importlib.util.spec_from_file_location('s03_browser4_source_inventory_only', HERE / 'source_inventory.py')\n    inventory = importlib.util.module_from_spec(spec);spec.loader.exec_module(inventory)\n    covered, import_proof = inventory.inventory(ROOT, covered, HERE / 'runtime-backend7/scripts', (HERE / 'SOURCE.json',))\n    if (ROOT / WORKFLOW).is_file():\n        covered.add(WORKFLOW)\n    current = set(git('diff', '--name-only', BASE).splitlines())\n    allowed_changes = set(baseline_files + own + [WORKFLOW, NAMESPACE + '/SOURCE.json'])\n    if not current <= allowed_changes:\n        raise ValueError('S03_BROWSER4_UNALLOCATED_SOURCE_OUTSIDE_EXACT_BASELINE_OR_OWN_NAMESPACE:' + ','.join(sorted(current - allowed_changes)))\n    old = json.loads((ROOT / 'scripts/current-attendance-choice-mount-ui/SOURCE.json').read_bytes())\n    physical = []\n    for name, expected in old['copied_eight_exact_sha256'].items():\n        retained = NAMESPACE + '/retained-ui8/' + name\n        if pin(retained)['sha256'] != expected or (ROOT / name).read_bytes() != (ROOT / retained).read_bytes():\n            raise ValueError('S03_BROWSER4_PHYSICAL_UI8_BASELINE_CHANGED:' + name)\n        physical.append(dict(live=name, retained=retained, sha256=expected))\n",
+          "after": "    covered.update(name for name in reference['files'] if (ROOT / name).is_file())\n    spec = importlib.util.spec_from_file_location('s03_browser4_source_inventory_only', HERE / 'source_inventory.py')\n    inventory = importlib.util.module_from_spec(spec);spec.loader.exec_module(inventory)\n    covered, import_proof = inventory.inventory(ROOT, covered, FROZEN / 'runtime-backend7/scripts', (HERE / 'SOURCE.json',))\n    if (ROOT / WORKFLOW).is_file():\n        covered.add(WORKFLOW)\n    current = set(git('diff', '--name-only', BASE).splitlines())\n    allowed_changes = set(baseline_files + own + [WORKFLOW, NAMESPACE + '/SOURCE.json']) | set(parent['files'])\n    if not current <= allowed_changes:\n        raise ValueError('S03_BROWSER4_UNALLOCATED_SOURCE_OUTSIDE_EXACT_BASELINE_OR_OWN_NAMESPACE:' + ','.join(sorted(current - allowed_changes)))\n    old = json.loads((ROOT / 'scripts/current-attendance-choice-mount-ui/SOURCE.json').read_bytes())\n    physical = []\n    for name, expected in old['copied_eight_exact_sha256'].items():\n        retained = str(FROZEN.relative_to(ROOT)) + '/retained-ui8/' + name\n        if pin(retained)['sha256'] != expected or (ROOT / name).read_bytes() != (ROOT / retained).read_bytes():\n            raise ValueError('S03_BROWSER4_PHYSICAL_UI8_BASELINE_CHANGED:' + name)\n        physical.append(dict(live=name, retained=retained, sha256=expected))\n",
+          "count": 1
+        },
+        {
+          "before": "        prepared_UI_public_alias=UI_ALIAS, prepared_UI_tree=UI_TREE,\n        UI_alias_is_runtime_prerequisite=False, physical_UI8_baseline=physical,\n        frozen_public_UI_paths=baseline_files,\n        inherited_import_inventory=import_proof,\n        prepared_qualifier_reference_is_runtime_prerequisite=False,\n        prepared_canonical_author_files=len(prepared_author['author_binding']['files']),\n",
+          "after": "        prepared_UI_public_alias=UI_ALIAS, prepared_UI_tree=UI_TREE,\n        UI_alias_is_runtime_prerequisite=False, physical_UI8_baseline=physical,\n        frozen_public_UI_paths=baseline_files,\n        frozen_browser_parent_paths=sorted(parent['files']),\n        frozen_browser_parent_source=pin(str((FROZEN / 'SOURCE.json').relative_to(ROOT))),\n        inherited_import_inventory=import_proof,\n        prepared_qualifier_reference_is_runtime_prerequisite=False,\n        prepared_canonical_author_files=len(prepared_author['author_binding']['files']),\n",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "parent": "scripts/current-attendance-choice-browser4-qualification/component.py",
+      "derived": "scripts/current-attendance-choice-browser4-lawful-successor/component.py",
+      "parent_bytes": 4284,
+      "parent_sha256": "c24cb3123da4072cd33c2544b21856f47b8ee26baf9775f0160ee40a02ce8f69",
+      "derived_sha256": "c24cb3123da4072cd33c2544b21856f47b8ee26baf9775f0160ee40a02ce8f69",
+      "changes": []
+    },
+    {
+      "parent": "scripts/current-attendance-choice-browser4-qualification/derive.py",
+      "derived": "scripts/current-attendance-choice-browser4-lawful-successor/derive.py",
+      "parent_bytes": 1589,
+      "parent_sha256": "e3484bb45f955d6af9a84297ebfdb4457e42781923b059198c640421043b7e31",
+      "derived_sha256": "e3484bb45f955d6af9a84297ebfdb4457e42781923b059198c640421043b7e31",
+      "changes": []
+    },
+    {
+      "parent": "scripts/current-attendance-choice-browser4-qualification/fixture.py",
+      "derived": "scripts/current-attendance-choice-browser4-lawful-successor/fixture.py",
+      "parent_bytes": 24081,
+      "parent_sha256": "2856eca0e2cc190510eaf9b448e34d47d263a0621fd756b40827f268f59c95fc",
+      "derived_sha256": "5c261c54836bc92b18a851b2c0725c2b1dfb672295f9b88afeb79749d4d441ab",
+      "changes": [
+        {
+          "before": "\nHERE = Path(__file__).resolve().parent\nROOT = HERE.parents[1]\nOPERATIONS = ('admit', 'prepare', 'observe', 'assert_command', 'approve_pending', 'close_source', 'open_source', 'manage_off', 'manage_on')\nSCENARIOS = ('DESKTOP', 'MOBILE390', 'STALE', 'ACCESS')\nUUID = re.compile(r'^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$')\n\n",
+          "after": "\nHERE = Path(__file__).resolve().parent\nROOT = HERE.parents[1]\nOPERATIONS = ('admit', 'prepare', 'observe', 'assert_command', 'approve_pending', 'close_source', 'open_source', 'manage_off', 'manage_on', 'assert_valuation', 'assert_cancelled', 'assert_ordinary_cancelled')\nSCENARIOS = ('DESKTOP', 'MOBILE390', 'STALE', 'ACCESS')\nUUID = re.compile(r'^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$')\n\n",
+          "count": 1
+        },
+        {
+          "before": "        core = load('s03_browser4_retained_native_oracles', ROOT / 'scripts/current-attendance-period-choice-qualification/cases.py')\n        if product.sources() != proof['current_installation']:\n            raise ValueError('S03_BROWSER4_WHOLE_ACTUAL_INSTALLATION_SOURCE_CHANGED')\n        yield dict(proof=proof, psycopg=psycopg, sql=sql, product=product, core=core, f=core.f, truth=truth)\n\n\n@contextmanager\n",
+          "after": "        core = load('s03_browser4_retained_native_oracles', ROOT / 'scripts/current-attendance-period-choice-qualification/cases.py')\n        if product.sources() != proof['current_installation']:\n            raise ValueError('S03_BROWSER4_WHOLE_ACTUAL_INSTALLATION_SOURCE_CHANGED')\n        declaration = json.loads((HERE / 'HELPER_SOURCE.json').read_bytes())\n        helper_path = HERE / declaration['retained']\n        raw = helper_path.read_bytes()\n        if len(raw) != declaration['bytes'] or sha256(raw).hexdigest() != declaration['sha256']:\n            raise ValueError('S03_BROWSER4_EXPLICIT_LAWFUL_HELPER_SOURCE_CHANGED')\n        lawful = load('s03_browser4_explicit_lawful_fixture', helper_path)\n        if lawful.API != declaration['API']:\n            raise ValueError('S03_BROWSER4_EXPLICIT_LAWFUL_HELPER_API_REQUIRED')\n        yield dict(proof=proof, psycopg=psycopg, sql=sql, product=product, core=core, f=core.f, truth=truth, lawful=lawful)\n\n\n@contextmanager\n",
+          "count": 1
+        },
+        {
+          "before": "            f.admin(cur)\n            if c.po_state(cur, g['po'])['status'] != 'FINISHED' or c.po_wip_balance(cur, g['po']) != 0:\n                raise ValueError('S03_BROWSER4_REAL_FINISHED_PO_REQUIRED')\n            p2 = f.earned(cur, m, output, Decimal('20.02'))\n            normal = f.native(cur, 'select erp.create_attendance_hpp_pool_v1(%s::jsonb,%s)',\n                (json.dumps(dict(period_start=str(output), period_end=str(output), reason=f.REASON)), uuid.uuid4()))\n            f.native(cur, 'select erp.activate_attendance_hpp_pool_v1(%s,%s,%s,%s)',\n                (normal['pool_id'], f.REASON, uuid.uuid4(), normal['row_version']))\n            extra = dict(output=str(output), ordinary_pool=str(normal['pool_id']), ordinary_payroll=p2,\n                pos=[g['po']], lots=[g['lot']], sold_qty=4, produced_qty=10,\n                expected_own_FG_delta_cents=60002, expected_own_COGS_delta_cents=40001)\n        elif scenario == 'STALE':\n",
+          "after": "            f.admin(cur)\n            if c.po_state(cur, g['po'])['status'] != 'FINISHED' or c.po_wip_balance(cur, g['po']) != 0:\n                raise ValueError('S03_BROWSER4_REAL_FINISHED_PO_REQUIRED')\n            p2 = r['lawful'].earned(cur, s, output, Decimal('20.02'), core=core, evidence=extra)\n            normal = f.native(cur, 'select erp.create_attendance_hpp_pool_v1(%s::jsonb,%s)',\n                (json.dumps(dict(period_start=str(output), period_end=str(output), reason=f.REASON)), uuid.uuid4()))\n            ordinary_before_native = r['lawful'].finished_facts(cur, g, core=core)\n            f.native(cur, 'select erp.activate_attendance_hpp_pool_v1(%s,%s,%s,%s)',\n                (normal['pool_id'], f.REASON, uuid.uuid4(), normal['row_version']))\n            f.admin(cur)\n            ordinary_journal = f.one(cur, 'select to_jsonb(j)from erp.journal_entries j join erp.attendance_hpp_pools p on p.post_journal_entry_id=j.id where p.id=%s', (normal['pool_id'],))\n            extra.update(output=str(output), ordinary_pool=str(normal['pool_id']), ordinary_payroll=p2,\n                ordinary_before_native=ordinary_before_native, ordinary_pool_journal=ordinary_journal,\n                pos=[g['po']], lots=[g['lot']], sold_qty=4, produced_qty=10,\n                expected_own_FG_delta_cents=60002, expected_own_COGS_delta_cents=40001)\n        elif scenario == 'STALE':\n",
+          "count": 1
+        },
+        {
+          "before": "            raise ValueError('S03_BROWSER4_ACTUAL_NATIVE_HPP_TARGETS_NOT_BOOKS')\n        pos[po] = dict(target=target, book=book, wip=str(core.f.hp.cp17().po_wip_balance(cur, po)), hpp=str(core.f.hp.cp17().po_hpp(cur, po)[0]))\n    physical = f.one(cur, \"select coalesce(jsonb_agg(to_jsonb(m)order by m.id),'[]'::jsonb)from erp.fg_stock_movements m where m.lot_id=any(%s::uuid[])\", (fixture.get('lots', []),))\n    journals = f.one(cur, \"select coalesce(jsonb_agg(jsonb_build_object('header',to_jsonb(j),'lines',(select jsonb_agg(to_jsonb(l)order by l.id)from erp.journal_lines l where l.journal_entry_id=j.id))order by j.id),'[]'::jsonb)from erp.journal_entries j where j.id in(select journal_id from cp7_attendance_choice.decisions_v1 where id=any(%s::uuid[])union select journal_id from cp7_attendance_choice.reversals_v1 where decision_id=any(%s::uuid[]))\", ([d['id'] for d in decisions], [d['id'] for d in decisions]))\n    truth = r['truth'].all_truth(cur)\n    if not r['truth'].truth_quiet(fixture['truth_before'], truth):\n",
+          "after": "            raise ValueError('S03_BROWSER4_ACTUAL_NATIVE_HPP_TARGETS_NOT_BOOKS')\n        pos[po] = dict(target=target, book=book, wip=str(core.f.hp.cp17().po_wip_balance(cur, po)), hpp=str(core.f.hp.cp17().po_hpp(cur, po)[0]))\n    physical = f.one(cur, \"select coalesce(jsonb_agg(to_jsonb(m)order by m.id),'[]'::jsonb)from erp.fg_stock_movements m where m.lot_id=any(%s::uuid[])\", (fixture.get('lots', []),))\n    if len(fixture.get('pos', [])) != len(fixture.get('lots', [])):\n        raise ValueError('S03_BROWSER4_EXPLICIT_PO_LOT_FIXTURE_REQUIRED')\n    finished_native = {po:r['lawful'].finished_facts(cur, dict(po=po, lot=lot), core=core)\n        for po, lot in zip(fixture.get('pos', []), fixture.get('lots', []))}\n    journals = f.one(cur, \"select coalesce(jsonb_agg(jsonb_build_object('header',to_jsonb(j),'lines',(select jsonb_agg(to_jsonb(l)order by l.id)from erp.journal_lines l where l.journal_entry_id=j.id))order by j.id),'[]'::jsonb)from erp.journal_entries j where j.id in(select journal_id from cp7_attendance_choice.decisions_v1 where id=any(%s::uuid[])union select journal_id from cp7_attendance_choice.reversals_v1 where decision_id=any(%s::uuid[]))\", ([d['id'] for d in decisions], [d['id'] for d in decisions]))\n    truth = r['truth'].all_truth(cur)\n    if not r['truth'].truth_quiet(fixture['truth_before'], truth):\n",
+          "count": 1
+        },
+        {
+          "before": "    f.admin(cur)\n    return dict(census=census(cur, r, label), original_accrual=source_rows(cur, fixture['payroll'], f),\n        decisions=decisions, reversals=reversals, requests=requests, audit_proofs=audit_proofs, current_decision=current, pools=pools,\n        account_cents=accounts, po_finance=pos, physical_rows=physical, journals=journals,\n        ordinary_pool=ordinary, dated_WIP=dated_wip(cur, fixture, f), Native_financial_truth=truth)\n\n\n",
+          "after": "    f.admin(cur)\n    return dict(census=census(cur, r, label), original_accrual=source_rows(cur, fixture['payroll'], f),\n        decisions=decisions, reversals=reversals, requests=requests, audit_proofs=audit_proofs, current_decision=current, pools=pools,\n        account_cents=accounts, po_finance=pos, physical_rows=physical, journals=journals, finished_native=finished_native,\n        ordinary_pool=ordinary, dated_WIP=dated_wip(cur, fixture, f), Native_financial_truth=truth)\n\n\n",
+          "count": 1
+        },
+        {
+          "before": "            result = observe(cur, r, payload['fixture'], payload['label']);connection.rollback();return result\n        elif operation == 'assert_command':\n            result = r['core'].choice_audit(cur, payload['fixture'], payload['result']);connection.rollback();return result\n        elif operation == 'approve_pending':\n            with native_setup(cur, r):\n                settlement = r['f'].hp.cp17().s\n",
+          "after": "            result = observe(cur, r, payload['fixture'], payload['label']);connection.rollback();return result\n        elif operation == 'assert_command':\n            result = r['core'].choice_audit(cur, payload['fixture'], payload['result']);connection.rollback();return result\n        elif operation in ('assert_valuation', 'assert_cancelled', 'assert_ordinary_cancelled'):\n            fixture = payload['fixture'];g = dict(po=fixture['pos'][0], lot=fixture['lots'][0]);evidence = {}\n            source = fixture['ordinary_before_native'] if operation == 'assert_ordinary_cancelled' else payload['before']\n            before = dict(source, GL={key:Decimal(str(value)) for key,value in source['GL'].items()})\n            if operation == 'assert_valuation':\n                oracle = r['f'].assert_pool(cur, fixture, payload['made'], date.fromisoformat(fixture['output']))\n                expected = dict(before['GL']);expected['FG_INVENTORY'] += Decimal('600.02');expected['COGS'] += Decimal('400.01')\n                after = r['lawful'].observe_valuation(cur, g, before, Decimal('1000.03'), core=r['core'],\n                    baseline_cost=r['lawful'].hpp_money(before)[0], before_gl=before['GL'], after_gl=expected, evidence=evidence)\n                result = dict(evidence=evidence, owning_pool_oracle=oracle, after=after)\n            else:\n                ordinary = operation == 'assert_ordinary_cancelled'\n                made = dict(pool_id=fixture['ordinary_pool']) if ordinary else payload['made']\n                cancelled = dict(native_result=payload['cancelled']) if ordinary else payload['cancelled']\n                oracle = dict(journal=fixture['ordinary_pool_journal']) if ordinary else payload['oracle']\n                posted = payload['after_allocation']\n                posted = dict(posted, GL={key:Decimal(str(value)) for key,value in posted['GL'].items()})\n                after = r['lawful'].assert_cancelled(cur, g, before, core=r['core'], evidence=evidence,\n                    made=made, cancelled=cancelled, oracle=oracle, after_allocation=posted)\n                result = dict(evidence=evidence, after=after, full_FG_rows_exact=True,\n                    actual_native_result_wrapper_only=ordinary, append_only_history_retained=True)\n            connection.rollback();return result\n        elif operation == 'approve_pending':\n            with native_setup(cur, r):\n                settlement = r['f'].hp.cp17().s\n",
+          "count": 1
+        },
+        {
+          "before": "            result = dict(status='APPROVED_NATIVE_FIXTURE_NOT_SCREEN_CREATION', amount_cents='1101', pending_original_accrual=original)\n        elif operation in ('close_source', 'open_source'):\n            day = date.fromisoformat(payload['fixture']['day'])\n            r['f'].hp.set_closed(cur, day if operation == 'close_source' else day - timedelta(days=1))\n            result = dict(status='EXPLICIT_PERIOD_CONTROL_FIXTURE', through=str(day if operation == 'close_source' else day - timedelta(days=1)))\n        elif operation in ('manage_off', 'manage_on'):\n            subject = payload['owner']\n            if not UUID.fullmatch(subject):\n",
+          "after": "            result = dict(status='APPROVED_NATIVE_FIXTURE_NOT_SCREEN_CREATION', amount_cents='1101', pending_original_accrual=original)\n        elif operation in ('close_source', 'open_source'):\n            day = date.fromisoformat(payload['fixture']['day'])\n            if operation == 'open_source':\n                evidence = {};source = dict(payload['fixture'], day=day)\n                receipt = r['lawful'].reopen_source(cur, source, core=r['core'], evidence=evidence)\n                result = dict(status='REAL_OWNER_PERIOD_REOPEN_AFTER_CLOSED_REFUSAL', receipt=receipt, evidence=evidence)\n            else:\n                r['f'].hp.set_closed(cur, day)\n                result = dict(status='EXPLICIT_PERIOD_CONTROL_FIXTURE', through=str(day))\n        elif operation in ('manage_off', 'manage_on'):\n            subject = payload['owner']\n            if not UUID.fullmatch(subject):\n",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "parent": "scripts/current-attendance-choice-browser4-qualification/output_admission.py",
+      "derived": "scripts/current-attendance-choice-browser4-lawful-successor/output_admission.py",
+      "parent_bytes": 12485,
+      "parent_sha256": "3017070646ae3af978eb007085f2ca27849670d56f91b204b7e2fe41bd2dc88f",
+      "derived_sha256": "3017070646ae3af978eb007085f2ca27849670d56f91b204b7e2fe41bd2dc88f",
+      "changes": []
+    },
+    {
+      "parent": "scripts/current-attendance-choice-browser4-qualification/probe.py",
+      "derived": "scripts/current-attendance-choice-browser4-lawful-successor/probe.py",
+      "parent_bytes": 3637,
+      "parent_sha256": "206db75db535882cc2226633029228daf11b95ef67f58f3f360dfef2deb37568",
+      "derived_sha256": "206db75db535882cc2226633029228daf11b95ef67f58f3f360dfef2deb37568",
+      "changes": []
+    },
+    {
+      "parent": "scripts/current-attendance-choice-browser4-qualification/proof_binder.py",
+      "derived": "scripts/current-attendance-choice-browser4-lawful-successor/proof_binder.py",
+      "parent_bytes": 12306,
+      "parent_sha256": "8059c72c3abdf94aec2a16ae1944790a0aa0ef940ad1d51efa8c7b20903d53e6",
+      "derived_sha256": "df574bb98c5fc0eb1fa77fe0b10d31f13fe14d330cdb9a4d525a3ea1dceb5184",
+      "changes": [
+        {
+          "before": "                ('choice.sql', 'native_delta.py', 'catalog_contract.py', 'NEW_CATALOG_IDENTITIES.json', 'composition.py', 'readers.sql', 'installer_ddl.py')}):\n        raise ValueError('S03_BROWSER4_EXACT_ACTUAL_SEVEN_RUNTIME_FILES_REQUIRED')\n    current = at(report, binding['current_qualification_path'])\n    if (current.get('actual_authored_files') != 118 or current.get('exact_runtime_files') != 7\n            or current.get('captured_originals') != 15 or current.get('private_clones') != 2\n            or current.get('groups') != [11, 3]):\n        raise ValueError('S03_BROWSER4_ACTUAL_READER15_AND_CANONICAL_AUTHOR118_ADMISSION_REQUIRED')\n    return dict(status='EXACT_ACTUAL_BACKEND14_AND_ALL5_ORIGINALS_ADMITTED',\n        current_installation=installation, actual_parent_Native_cases=14,\n        used_inverse_guard_before_DDL=True, fresh_parent_cases_claim=False,\n",
+          "after": "                ('choice.sql', 'native_delta.py', 'catalog_contract.py', 'NEW_CATALOG_IDENTITIES.json', 'composition.py', 'readers.sql', 'installer_ddl.py')}):\n        raise ValueError('S03_BROWSER4_EXACT_ACTUAL_SEVEN_RUNTIME_FILES_REQUIRED')\n    current = at(report, binding['current_qualification_path'])\n    historical = at(current, binding['historical_admission_path'])\n    if (historical.get('actual_authored_files') != 118 or historical.get('exact_runtime_files') != 7\n            or historical.get('captured_originals') != 15 or historical.get('private_clones') != 2\n            or historical.get('groups') != [11, 3]):\n        raise ValueError('S03_BROWSER4_ACTUAL_READER15_AND_CANONICAL_AUTHOR118_ADMISSION_REQUIRED')\n    required = binding['full_current_qualification_values']\n    if not required or type(current.get('files')) is not int or current['files'] != binding['current_qualifier_source_count']:\n        raise ValueError('S03_BROWSER4_COMPLETE_CURRENT_QUALIFIER_SOURCE_REQUIRED')\n    for expected in required:\n        actual = at(current, expected['path'])\n        if type(actual) is not type(expected['value']) or actual != expected['value']:\n            raise ValueError('S03_BROWSER4_EXACT_CURRENT_QUALIFIER_ADMISSION_REQUIRED')\n    private = current.get('private_callback_derivation', {})\n    if (private != binding['private_callback_derivation']\n            or private.get('adapted_callback_ids') != [ORIGINAL11_IDS[i] for i in (3,5,9)]\n            or private.get('original_eight_callbacks_unchanged') is not True\n            or private.get('original_helpers_and_committed_witness_unchanged') is not True\n            or private.get('original_eleven_runtime_callbacks_byte_exact') is not False):\n        raise ValueError('S03_BROWSER4_EXPLICIT_THREE_PRIVATE_CALLBACKS_REQUIRED')\n    return dict(status='EXACT_ACTUAL_BACKEND14_AND_ALL5_ORIGINALS_ADMITTED',\n        current_installation=installation, actual_parent_Native_cases=14,\n        used_inverse_guard_before_DDL=True, fresh_parent_cases_claim=False,\n",
+          "count": 1
+        },
+        {
+          "before": "    return dict(exact_public_authored_files=118, exact_actual_runtime_files=7)\n\n\ndef qualified_source(root, here, binding):\n    \"\"\"Read the actual qualifying Git object locally; never fetch or use HEAD.\"\"\"\n    env = dict(os.environ, GIT_NO_LAZY_FETCH='1')\n",
+          "after": "    return dict(exact_public_authored_files=118, exact_actual_runtime_files=7)\n\n\ndef check_current_closure(source, binding, historical):\n    \"\"\"The new exact whole map is required; old source is correspondence only.\"\"\"\n    closure = source['files']\n    if (type(binding['current_qualifier_source_count']) is not int\n            or len(closure) != binding['current_qualifier_source_count']\n            or len(closure) <= len(historical['files'])\n            or closure != binding['full_current_qualifier_source_files']\n            or any(closure.get(name) != pin for name,pin in historical['files'].items())):\n        raise ValueError('S03_BROWSER4_FULL_ADDITIVE_CURRENT_SOURCE_MAP_REQUIRED')\n    for name,pin in closure.items():\n        relative = PurePosixPath(name)\n        if (relative.is_absolute() or '..' in relative.parts or str(relative) != name or '\\\\' in name\n                or set(pin) != {'bytes','sha256'} or type(pin['bytes']) is not int or pin['bytes'] < 0\n                or not re.fullmatch('[a-f0-9]{64}',pin['sha256'])):\n            raise ValueError('S03_BROWSER4_SAFE_COMPLETE_QUALIFIER_SOURCE_REQUIRED')\n    return closure\n\n\ndef qualified_source(root, here, binding):\n    \"\"\"Read the actual qualifying Git object locally; never fetch or use HEAD.\"\"\"\n    env = dict(os.environ, GIT_NO_LAZY_FETCH='1')\n",
+          "count": 1
+        },
+        {
+          "before": "    if git('rev-parse', commit + '^{tree}').decode().strip() != binding['qualifying_tree']:\n        raise ValueError('S03_BROWSER4_EXACT_ACTUAL_QUALIFYING_TREE_REQUIRED')\n    pins = binding['qualified_source_files']\n    prefix = 'scripts/current-attendance-choice-reader-native14-qualification/'\n    if set(pins) != {'CONFIG.json', 'SOURCE.json'}:\n        raise ValueError('S03_BROWSER4_ACTUAL_QUALIFIER_SOURCE_AND_CONFIG_PINS_REQUIRED')\n    values = {}\n",
+          "after": "    if git('rev-parse', commit + '^{tree}').decode().strip() != binding['qualifying_tree']:\n        raise ValueError('S03_BROWSER4_EXACT_ACTUAL_QUALIFYING_TREE_REQUIRED')\n    pins = binding['qualified_source_files']\n    prefix = 'scripts/current-s03-lawful-fixture-successor-qualification/'\n    if set(pins) != {'CONFIG.json', 'SOURCE.json'}:\n        raise ValueError('S03_BROWSER4_ACTUAL_QUALIFIER_SOURCE_AND_CONFIG_PINS_REQUIRED')\n    values = {}\n",
+          "count": 1
+        },
+        {
+          "before": "            raise ValueError('S03_BROWSER4_ACTUAL_QUALIFIER_SOURCE_BYTES_CHANGED:' + name)\n        values[name] = json.loads(raw)\n    prepared = json.loads((here / 'PREPARED_AUTHOR_BINDING.json').read_bytes())\n    proof = check_qualified_metadata(values['CONFIG.json'], values['SOURCE.json'], prepared, binding['runtime_files'])\n    # __init__ is an explicit eighth import/bootstrap source, not a business leaf.\n    entry = json.loads((here / 'RUNTIME_SOURCE.json').read_bytes())['package_entry']\n    raw = git('show', commit + ':' + entry['path'])\n    if len(raw) != entry['bytes'] or sha256(raw).hexdigest() != entry['sha256']:\n        raise ValueError('S03_BROWSER4_ACTUAL_QUALIFIED_PACKAGE_ENTRY_CHANGED')\n    return dict(proof, qualifying_commit=commit, qualifying_tree=binding['qualifying_tree'],\n        source_files=pins, exact_bootstrap_sha256=entry['sha256'], actual_verdict_reexecuted=False)\n\n\ndef admit(root, here, config, source):\n",
+          "after": "            raise ValueError('S03_BROWSER4_ACTUAL_QUALIFIER_SOURCE_BYTES_CHANGED:' + name)\n        values[name] = json.loads(raw)\n    prepared = json.loads((here / 'PREPARED_AUTHOR_BINDING.json').read_bytes())\n    historical_source = json.loads((here / 'retained-source-metadata/PREPARED_NATIVE14_SOURCE.json').read_bytes())\n    historical_config = json.loads((here / 'retained-source-metadata/PREPARED_NATIVE14_CONFIG.json').read_bytes())\n    proof = check_qualified_metadata(historical_config, historical_source, prepared, binding['runtime_files'])\n    closure = check_current_closure(values['SOURCE.json'], binding, historical_source)\n    for name,pin in closure.items():\n        raw = git('show', commit + ':' + name)\n        if len(raw) != pin['bytes'] or sha256(raw).hexdigest() != pin['sha256']:\n            raise ValueError('S03_BROWSER4_CURRENT_QUALIFIER_GIT_SOURCE_CHANGED:' + name)\n    dependencies = binding['lawful_dependencies']\n    names = ('lawful_fixture.py','CALLBACK_CHANGES.json','business.py')\n    if set(dependencies) != set(names):\n        raise ValueError('S03_BROWSER4_EXACT_LAWFUL_DEPENDENCIES_REQUIRED')\n    for name in names:\n        pin = dependencies[name]\n        if pin['path'] != prefix + name or closure.get(pin['path']) != {key:pin[key] for key in ('bytes','sha256')}:\n            raise ValueError('S03_BROWSER4_LAWFUL_DEPENDENCY_OUTSIDE_ACTUAL_SOURCE')\n        raw = git('show', commit + ':' + pin['path'])\n        if raw != (here / 'helper-source' / name).read_bytes():\n            raise ValueError('S03_BROWSER4_LAWFUL_DEPENDENCY_DIFFERS_FROM_QUALIFIED_SOURCE:' + name)\n    spec = importlib.util.spec_from_file_location('s03_browser4_exact_private_derivation_source_only', here / 'helper-source/business.py')\n    business = importlib.util.module_from_spec(spec);spec.loader.exec_module(business)\n    original = git('show', commit + ':' + business.ORIGINAL)\n    _, private = business.derive(original)\n    reader = git('show', commit + ':' + business.READER)\n    if sha256(reader).hexdigest() != business.READER_SHA:\n        raise ValueError('S03_BROWSER4_EXACT_ORIGINAL_READER3_REQUIRED')\n    _, reader_private = business.substitute(reader, [(business.READER_BEFORE,business.READER_AFTER)])\n    if private != binding['private_callback_derivation'] or reader_private != binding['private_reader_derivation']:\n        raise ValueError('S03_BROWSER4_EXACT_PRIVATE_CALLBACK_AND_READER_DERIVATION_REQUIRED')\n    # __init__ is an explicit eighth import/bootstrap source, not a business leaf.\n    entry = json.loads((here / 'RUNTIME_SOURCE.json').read_bytes())['package_entry']\n    raw = git('show', commit + ':' + entry['path'])\n    if len(raw) != entry['bytes'] or sha256(raw).hexdigest() != entry['sha256']:\n        raise ValueError('S03_BROWSER4_ACTUAL_QUALIFIED_PACKAGE_ENTRY_CHANGED')\n    return dict(proof, qualifying_commit=commit, qualifying_tree=binding['qualifying_tree'],\n        source_files=pins, complete_current_qualifier_sources=len(closure), lawful_dependencies=dependencies,\n        private_callback_derivation=private, private_reader_derivation=reader_private,\n        exact_bootstrap_sha256=entry['sha256'], actual_verdict_reexecuted=False)\n\n\ndef admit(root, here, config, source):\n",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "parent": "scripts/current-attendance-choice-browser4-qualification/result_gate.py",
+      "derived": "scripts/current-attendance-choice-browser4-lawful-successor/result_gate.py",
+      "parent_bytes": 8125,
+      "parent_sha256": "5da9113ac4453ad1ba2d33541cb41813e1c86b9d9e922ffcbd076682e757ca61",
+      "derived_sha256": "5da9113ac4453ad1ba2d33541cb41813e1c86b9d9e922ffcbd076682e757ca61",
+      "changes": []
+    },
+    {
+      "parent": "scripts/current-attendance-choice-browser4-qualification/source_guard.py",
+      "derived": "scripts/current-attendance-choice-browser4-lawful-successor/source_guard.py",
+      "parent_bytes": 6962,
+      "parent_sha256": "a5c2963a0576386c16c7aa55c6a8bac4865dfef67c773c2c9086a4b0d7cfb4b7",
+      "derived_sha256": "6bfc820c77c9097f74292d621abd23e4ff6ec1e40034c9a851c59e26043e07cc",
+      "changes": [
+        {
+          "before": "\nHERE = Path(__file__).resolve().parent\nROOT = HERE.parents[1]\n\n\ndef load(name, path):\n",
+          "after": "\nHERE = Path(__file__).resolve().parent\nROOT = HERE.parents[1]\nFROZEN = ROOT / 'scripts/current-attendance-choice-browser4-qualification'\n\n\ndef load(name, path):\n",
+          "count": 1
+        },
+        {
+          "before": "            if len(raw) != pin['bytes'] or sha256(raw).hexdigest() != pin['sha256']:\n                raise ValueError('S03_BROWSER4_EXACT_HISTORICAL_INPUT_CHANGED:' + name)\n    namespace = str(HERE.relative_to(ROOT)) + '/'\n    allowed_changes = set(frozen_paths) | {path for path in covered if path.startswith(namespace)}\n    allowed_changes.add('.github/workflows/cp7-current-s03-browser4.yml')\n    if sorted(allowed_changes) != declaration['allowed_current_delta']:\n        raise ValueError('S03_BROWSER4_EXACT_OWN_NAMESPACE_AND_WORKFLOW_ALLOCATION_REQUIRED')\n    if not changed <= allowed_changes:\n",
+          "after": "            if len(raw) != pin['bytes'] or sha256(raw).hexdigest() != pin['sha256']:\n                raise ValueError('S03_BROWSER4_EXACT_HISTORICAL_INPUT_CHANGED:' + name)\n    namespace = str(HERE.relative_to(ROOT)) + '/'\n    parent = json.loads((HERE / 'FROZEN_BROWSER_PARENT.json').read_bytes())\n    if declaration['frozen_browser_parent_paths'] != sorted(parent['files']):\n        raise ValueError('S03_BROWSER4_EXACT_FROZEN_CBB_PARENT_REQUIRED')\n    for name, pin in parent['files'].items():\n        raw = (ROOT / name).read_bytes()\n        if len(raw) != pin['bytes'] or sha256(raw).hexdigest() != pin['sha256']:\n            raise ValueError('S03_BROWSER4_FROZEN_CBB_PARENT_CHANGED:' + name)\n    allowed_changes = set(frozen_paths) | set(parent['files']) | {path for path in covered if path.startswith(namespace)}\n    allowed_changes.add('.github/workflows/cp7-current-s03-browser4-lawful.yml')\n    if sorted(allowed_changes) != declaration['allowed_current_delta']:\n        raise ValueError('S03_BROWSER4_EXACT_OWN_NAMESPACE_AND_WORKFLOW_ALLOCATION_REQUIRED')\n    if not changed <= allowed_changes:\n",
+          "count": 1
+        },
+        {
+          "before": "    if declared_inputs != inventory.historical_inputs(ROOT):\n        raise ValueError('S03_BROWSER4_DECLARED_INPUTS_MUST_EQUAL_EXACT28_INHERITED_NONCODE_ORIGINALS')\n    original_files = {entry['path'] for entry in files}\n    found, proof = inventory.inventory(ROOT, original_files, HERE / 'runtime-backend7/scripts', (HERE / 'SOURCE.json',))\n    # The 28 predeclared, separately byte-checked historical inputs may be\n    # materialized after the first source-only gate. They contain no Python.\n    if found - original_files - set(declared_inputs) or proof != declaration['inherited_import_inventory']:\n",
+          "after": "    if declared_inputs != inventory.historical_inputs(ROOT):\n        raise ValueError('S03_BROWSER4_DECLARED_INPUTS_MUST_EQUAL_EXACT28_INHERITED_NONCODE_ORIGINALS')\n    original_files = {entry['path'] for entry in files}\n    found, proof = inventory.inventory(ROOT, original_files, FROZEN / 'runtime-backend7/scripts', (HERE / 'SOURCE.json',))\n    # The 28 predeclared, separately byte-checked historical inputs may be\n    # materialized after the first source-only gate. They contain no Python.\n    if found - original_files - set(declared_inputs) or proof != declaration['inherited_import_inventory']:\n",
+          "count": 1
+        },
+        {
+          "before": "        raise ValueError('S03_BROWSER4_EXACT_FOUR_IDS_REQUIRED')\n    if config.get('normal_App_only') is not True or config.get('Enteng_or_hosted') is not False:\n        raise ValueError('S03_BROWSER4_NORMAL_APP_LOOPBACK_ONLY')\n    return dict(status='SOURCE_PASS', exact_sources=len(files), config=config,\n        generated_output_provenance_only=output_proof, fresh_Native_Auth_HTTP_race_browser_cases=0, production_go=False)\n\n",
+          "after": "        raise ValueError('S03_BROWSER4_EXACT_FOUR_IDS_REQUIRED')\n    if config.get('normal_App_only') is not True or config.get('Enteng_or_hosted') is not False:\n        raise ValueError('S03_BROWSER4_NORMAL_APP_LOOPBACK_ONLY')\n    load('s03_browser4_lawful_counted_source_derivation', HERE / 'derive_successor.py').verify()\n    return dict(status='SOURCE_PASS', exact_sources=len(files), config=config,\n        generated_output_provenance_only=output_proof, fresh_Native_Auth_HTTP_race_browser_cases=0, production_go=False)\n\n",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "parent": "scripts/current-attendance-choice-browser4-qualification/source_inventory.py",
+      "derived": "scripts/current-attendance-choice-browser4-lawful-successor/source_inventory.py",
+      "parent_bytes": 4145,
+      "parent_sha256": "af5b0e38f5bcdce6ad3c626ceda6d89cf4ad4e4daf4edadd12556fb40e4fd508",
+      "derived_sha256": "af5b0e38f5bcdce6ad3c626ceda6d89cf4ad4e4daf4edadd12556fb40e4fd508",
+      "changes": []
+    },
+    {
+      "parent": "scripts/current-attendance-choice-browser4-qualification/test_contract.py",
+      "derived": "scripts/current-attendance-choice-browser4-lawful-successor/test_contract.py",
+      "parent_bytes": 31437,
+      "parent_sha256": "4f8f0d59a71d9939673d299c569c17a7af5000b4ab6baef3e3590d61b3330152",
+      "derived_sha256": "204d76c918f853f8352791a342b6da9b079f3a7b7445823f4a8be4bf934708c4",
+      "changes": [
+        {
+          "before": "\nHERE = Path(__file__).resolve().parent\nROOT = HERE.parents[1]\n\n\ndef load(name):\n",
+          "after": "\nHERE = Path(__file__).resolve().parent\nROOT = HERE.parents[1]\nFROZEN = ROOT / 'scripts/current-attendance-choice-browser4-qualification'\n\n\ndef load(name):\n",
+          "count": 1
+        },
+        {
+          "before": "        sources={'whole_actual_installation': {'files': runtime, 'predecessor': {'classification': 'EXPLICIT_SOURCE_DOUBLE'}}},\n        current_qualification=dict(actual_authored_files=118, exact_runtime_files=7, captured_originals=15, private_clones=2, groups=[11, 3]))\n    report.update({name: True for name in binder.RESTORE_FLAGS})\n    package = dict(status='ALL_STAGES_INSTALLED', gate={key: True for key in binder.PACKAGE_GATES})\n    binding = dict(actual_case_count=14, qualifying_commit='c' * 40, qualifying_tree='d' * 40, run_id='123', job_id='456',\n        original11_ids=original, reader3_ids=readers, outer_label=report['label'], component_path=['committed', 'explicit_double'],\n",
+          "after": "        sources={'whole_actual_installation': {'files': runtime, 'predecessor': {'classification': 'EXPLICIT_SOURCE_DOUBLE'}}},\n        current_qualification=dict(actual_authored_files=118, exact_runtime_files=7, captured_originals=15, private_clones=2, groups=[11, 3]))\n    report.update({name: True for name in binder.RESTORE_FLAGS})\n    historical = deepcopy(report['current_qualification'])\n    report['current_qualification'] = dict(files=450, inherited425_closure=historical,\n        private_callback_derivation=dict(adapted_callback_ids=[original[i] for i in (3,5,9)],\n            original_eight_callbacks_unchanged=True, original_helpers_and_committed_witness_unchanged=True,\n            original_eleven_runtime_callbacks_byte_exact=False))\n    package = dict(status='ALL_STAGES_INSTALLED', gate={key: True for key in binder.PACKAGE_GATES})\n    binding = dict(actual_case_count=14, qualifying_commit='c' * 40, qualifying_tree='d' * 40, run_id='123', job_id='456',\n        original11_ids=original, reader3_ids=readers, outer_label=report['label'], component_path=['committed', 'explicit_double'],\n",
+          "count": 1
+        },
+        {
+          "before": "        files_required_values=[{'path': ['status'], 'value': 'EXPLICIT_FILES_DOUBLE'}],\n        restoration_required_values=[{'path': ['status'], 'value': 'EXPLICIT_RESTORE_DOUBLE'}],\n        current_installation_path=['sources', 'whole_actual_installation'], runtime_files=runtime,\n        current_qualification_path=['current_qualification'])\n    return (report, package, {'status': 'EXPLICIT_FILES_DOUBLE'}, {'status': 'EXPLICIT_RESTORE_DOUBLE'},\n        deepcopy(report['committed']['explicit_double']['native11']),\n        deepcopy(report['committed']['explicit_double']['reader3']), binding)\n",
+          "after": "        files_required_values=[{'path': ['status'], 'value': 'EXPLICIT_FILES_DOUBLE'}],\n        restoration_required_values=[{'path': ['status'], 'value': 'EXPLICIT_RESTORE_DOUBLE'}],\n        current_installation_path=['sources', 'whole_actual_installation'], runtime_files=runtime,\n        current_qualification_path=['current_qualification'], historical_admission_path=['inherited425_closure'],\n        current_qualifier_source_count=450, full_current_qualification_values=[{'path':['files'],'value':450}],\n        private_callback_derivation=deepcopy(report['current_qualification']['private_callback_derivation']))\n    return (report, package, {'status': 'EXPLICIT_FILES_DOUBLE'}, {'status': 'EXPLICIT_RESTORE_DOUBLE'},\n        deepcopy(report['committed']['explicit_double']['native11']),\n        deepcopy(report['committed']['explicit_double']['reader3']), binding)\n",
+          "count": 1
+        },
+        {
+          "before": "        mapping = json.loads((HERE / 'RUNTIME_SOURCE.json').read_bytes())\n        expected = {name: pin['sha256'] for name, pin in mapping['runtime_files'].items()}\n        route = loader.retained(expected)\n        self.assertEqual(route['component_root'], HERE / 'runtime-backend7')\n        self.assertEqual(route['runtime_files'], expected)\n        for mutation in ('unknown', 'missing', 'changed'):\n            wrong = dict(expected)\n",
+          "after": "        mapping = json.loads((HERE / 'RUNTIME_SOURCE.json').read_bytes())\n        expected = {name: pin['sha256'] for name, pin in mapping['runtime_files'].items()}\n        route = loader.retained(expected)\n        self.assertEqual(route['component_root'], FROZEN / 'runtime-backend7')\n        self.assertEqual(route['runtime_files'], expected)\n        for mutation in ('unknown', 'missing', 'changed'):\n            wrong = dict(expected)\n",
+          "count": 1
+        },
+        {
+          "before": "                try:\n                    with loader.actual_backend(proof) as product:\n                        self.assertEqual(product.sources(), installation)\n                        self.assertEqual(sys.path[0], str(HERE / 'runtime-backend7/scripts'))\n                        sys.argv.append('EXPLICIT_LOCAL_BODY_CHANGE')\n                        if failed:raise ValueError('EXPLICIT_BODY_FAILURE')\n                except ValueError as error:\n",
+          "after": "                try:\n                    with loader.actual_backend(proof) as product:\n                        self.assertEqual(product.sources(), installation)\n                        self.assertEqual(sys.path[0], str(FROZEN / 'runtime-backend7/scripts'))\n                        sys.argv.append('EXPLICIT_LOCAL_BODY_CHANGE')\n                        if failed:raise ValueError('EXPLICIT_BODY_FAILURE')\n                except ValueError as error:\n",
+          "count": 1
+        },
+        {
+          "before": "            elif mutation == 'package':package['gate']['writer_runtime'] = False\n            elif mutation == 'commit':report['qualification_commit'] = 'e' * 40\n            elif mutation == 'used_data':report['committed']['explicit_double']['after']['full_data_and_sequences']['sequence:explicit_double'][0] = '4'\n            elif mutation == 'old_capture13':report['current_qualification']['captured_originals'] = 13\n            else:binding['runtime_files'].pop('scripts/cp7_attendance_period_choice/installer_ddl.py')\n            with self.subTest(mutation=mutation), self.assertRaises(ValueError):\n                binder.checked(report, package, files, restoration, native11, reader3, binding)\n",
+          "after": "            elif mutation == 'package':package['gate']['writer_runtime'] = False\n            elif mutation == 'commit':report['qualification_commit'] = 'e' * 40\n            elif mutation == 'used_data':report['committed']['explicit_double']['after']['full_data_and_sequences']['sequence:explicit_double'][0] = '4'\n            elif mutation == 'old_capture13':report['current_qualification']['inherited425_closure']['captured_originals'] = 13\n            else:binding['runtime_files'].pop('scripts/cp7_attendance_period_choice/installer_ddl.py')\n            with self.subTest(mutation=mutation), self.assertRaises(ValueError):\n                binder.checked(report, package, files, restoration, native11, reader3, binding)\n",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "parent": "scripts/current-attendance-choice-browser4-qualification/test_outputs.py",
+      "derived": "scripts/current-attendance-choice-browser4-lawful-successor/test_outputs.py",
+      "parent_bytes": 10516,
+      "parent_sha256": "37a36c78a407ae47d70b2a70dab7ad35b0b1856282b371b88d6e14f5208303ce",
+      "derived_sha256": "8b2ea238e52048661b316996b1fb71fbc5c5f9b2b8937293e0c5c8562d42a246",
+      "changes": [
+        {
+          "before": "\nHERE=Path(__file__).resolve().parent\nROOT=HERE.parents[1]\n\n\ndef load(name,path):\n",
+          "after": "\nHERE=Path(__file__).resolve().parent\nROOT=HERE.parents[1]\nFROZEN=ROOT/'scripts/current-attendance-choice-browser4-qualification'\n\n\ndef load(name,path):\n",
+          "count": 1
+        },
+        {
+          "before": "\n    def test_exact_public_validators_and_only_declared_contract_changes(self):\n        folder=HERE/'inherited-output-validation';receipt=json.loads((folder/'DERIVATION.json').read_bytes())\n        old='.github/workflows/cp7-s03-choice-reader-native14.yml';new='.github/workflows/cp7-current-s03-browser4.yml'\n        for name in('generated_receipts.py','generated_later.py'):\n            raw=(folder/name).read_bytes();self.assertEqual(sha256(raw).hexdigest(),receipt['parent_files'][name]['sha256'])\n        for name in('GENERATED_RECEIPTS.json','LATER_GENERATED_RECEIPTS.json'):\n",
+          "after": "\n    def test_exact_public_validators_and_only_declared_contract_changes(self):\n        folder=HERE/'inherited-output-validation';receipt=json.loads((folder/'DERIVATION.json').read_bytes())\n        old='.github/workflows/cp7-s03-choice-reader-native14.yml';new='.github/workflows/cp7-current-s03-browser4-lawful.yml'\n        for name in('generated_receipts.py','generated_later.py'):\n            raw=(folder/name).read_bytes();self.assertEqual(sha256(raw).hexdigest(),receipt['parent_files'][name]['sha256'])\n        for name in('GENERATED_RECEIPTS.json','LATER_GENERATED_RECEIPTS.json'):\n",
+          "count": 1
+        },
+        {
+          "before": "            self.assertEqual(current,parent)\n\n    def test_whole_caller_replays_actual_old101_outputs_and_actual_normal_App_build(self):\n        names=self.copy_build();index=json.loads((HERE/'retained-generated-source-replay/INDEX.json').read_bytes())\n        self.assertEqual(len(index['files']),101)\n        for row in index['files']:\n            packed=(HERE/row['retained']).read_bytes();raw=gzip.decompress(packed)\n            self.assertEqual(sha256(packed).hexdigest(),row['gzip_sha256']);self.assertEqual(sha256(raw).hexdigest(),row['raw_sha256'])\n            self.put(row['output'],raw);names.add(row['output'])\n        result=self.whole(names);proof=result['generated_output_provenance_only']\n",
+          "after": "            self.assertEqual(current,parent)\n\n    def test_whole_caller_replays_actual_old101_outputs_and_actual_normal_App_build(self):\n        names=self.copy_build();index=json.loads((FROZEN/'retained-generated-source-replay/INDEX.json').read_bytes())\n        self.assertEqual(len(index['files']),101)\n        for row in index['files']:\n            packed=(FROZEN/row['retained']).read_bytes();raw=gzip.decompress(packed)\n            self.assertEqual(sha256(packed).hexdigest(),row['gzip_sha256']);self.assertEqual(sha256(raw).hexdigest(),row['raw_sha256'])\n            self.put(row['output'],raw);names.add(row['output'])\n        result=self.whole(names);proof=result['generated_output_provenance_only']\n",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "parent": "scripts/current-attendance-choice-browser4-qualification/workflow.py",
+      "derived": "scripts/current-attendance-choice-browser4-lawful-successor/workflow.py",
+      "parent_bytes": 4153,
+      "parent_sha256": "d06b5daecf2cdc486a24234bd1c54a311586acea4534448043f51a753e05ebd1",
+      "derived_sha256": "896c6ca2ce701cfc4653c33fbf0c2f79f1af2e5a1dccbeaddc26b55f547d66c0",
+      "changes": [
+        {
+          "before": "from copy import deepcopy\nfrom pathlib import Path\n\nNAMESPACE = 'scripts/current-attendance-choice-browser4-qualification'\nWORKFLOW = '.github/workflows/cp7-current-s03-browser4.yml'\nBRANCH = 'astra-a/s03-browser4-qualification-20261030'\nPARENT = '.github/workflows/cp7-current-vendor-receivable-native.yml'\n\n\n",
+          "after": "from copy import deepcopy\nfrom pathlib import Path\n\nNAMESPACE = 'scripts/current-attendance-choice-browser4-lawful-successor'\nWORKFLOW = '.github/workflows/cp7-current-s03-browser4-lawful.yml'\nBRANCH = 'astra-a/s03-browser4-lawful-qualification-20261030'\nPARENT = '.github/workflows/cp7-current-vendor-receivable-native.yml'\n\n\n",
+          "count": 1
+        },
+        {
+          "before": "\ndef derive(original):\n    value = deepcopy(original)\n    value['name'] = 'CP7 S03 normal App real Auth browser4'\n    value['on'] = {'push': {'branches': [BRANCH], 'paths': [WORKFLOW, NAMESPACE + '/**']}, 'workflow_dispatch': {}}\n    value['concurrency']['group'] = 'cp7-s03-browser4-${{ github.run_id }}'\n    job = value['jobs']['p21']\n",
+          "after": "\ndef derive(original):\n    value = deepcopy(original)\n    value['name'] = 'CP7 S03 lawful fixture normal App real Auth browser4'\n    value['on'] = {'push': {'branches': [BRANCH], 'paths': [WORKFLOW, NAMESPACE + '/**']}, 'workflow_dispatch': {}}\n    value['concurrency']['group'] = 'cp7-s03-browser4-${{ github.run_id }}'\n    job = value['jobs']['p21']\n",
+          "count": 1
+        },
+        {
+          "before": "            'npx tsc --noEmit --project tsconfig.app.json\\n'\n            'python -B -m unittest discover -s ' + NAMESPACE + \" -p 'test_*.py'\\n\"\n            'node --check ' + NAMESPACE + '/cases.mjs\\n'\n            'node --test ' + NAMESPACE + '/test_oracles.mjs\\n'))\n    execute = one(steps, 'Run fresh Native7 then actual race3 AuthHTTP1 and complete restoration')\n    execute['name'] = 'Run four real S03 normal App Auth browser cases and complete restoration'\n    execute['run'] = \"python -B '../auditor/\" + NAMESPACE + \"/probe.py'\"\n",
+          "after": "            'npx tsc --noEmit --project tsconfig.app.json\\n'\n            'python -B -m unittest discover -s ' + NAMESPACE + \" -p 'test_*.py'\\n\"\n            'node --check ' + NAMESPACE + '/cases.mjs\\n'\n            'node --test ' + NAMESPACE + '/test_oracles.mjs ' + NAMESPACE + '/test_lawful_oracles.mjs\\n'))\n    execute = one(steps, 'Run fresh Native7 then actual race3 AuthHTTP1 and complete restoration')\n    execute['name'] = 'Run four real S03 normal App Auth browser cases and complete restoration'\n    execute['run'] = \"python -B '../auditor/\" + NAMESPACE + \"/probe.py'\"\n",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "parent": "scripts/current-attendance-choice-browser4-qualification/cases.mjs",
+      "derived": "scripts/current-attendance-choice-browser4-lawful-successor/cases.mjs",
+      "parent_bytes": 27687,
+      "parent_sha256": "5d76e96a00ff85b113e8710688ff7ddca3bbaaf0f1c56f128c6014d989e2403b",
+      "derived_sha256": "b4749ecb4078dd14e4c4079f78b832f54ea4c61673818b0fa02940f0553aeab3",
+      "changes": [
+        {
+          "before": "import {IDS,RPC,cents,input,equalCensus,immutableFacts,exactEnvelope,accessRefusals,observeConsole,consoleEvidence,readable} from './evidence.mjs'\nexport {IDS}\nconst ROOT=resolve(dirname(fileURLToPath(import.meta.url)),'../..')\nconst fixture=(operation,payload={})=>JSON.parse(execFileSync('python',['-B',resolve(ROOT,'scripts/current-attendance-choice-browser4-qualification/fixture.py'),operation],{cwd:ROOT,input:JSON.stringify(payload),encoding:'utf8',timeout:180000,maxBuffer:32*1024*1024,env:{...process.env,PYTHONDONTWRITEBYTECODE:'1'}}).trim())\nconst isRpc=name=>response=>response.url().endsWith('/rpc/'+name)&&response.request().method()==='POST'\nconst args=response=>response.request().postDataJSON()\nasync function success(promise){const r=await promise;assert.equal(r.status(),200,await r.text());return r.json()}\n",
+          "after": "import {IDS,RPC,cents,input,equalCensus,immutableFacts,exactEnvelope,accessRefusals,observeConsole,consoleEvidence,readable} from './evidence.mjs'\nexport {IDS}\nconst ROOT=resolve(dirname(fileURLToPath(import.meta.url)),'../..')\nconst fixture=(operation,payload={})=>JSON.parse(execFileSync('python',['-B',resolve(ROOT,'scripts/current-attendance-choice-browser4-lawful-successor/fixture.py'),operation],{cwd:ROOT,input:JSON.stringify(payload),encoding:'utf8',timeout:180000,maxBuffer:32*1024*1024,env:{...process.env,PYTHONDONTWRITEBYTECODE:'1'}}).trim())\nconst isRpc=name=>response=>response.url().endsWith('/rpc/'+name)&&response.request().method()==='POST'\nconst args=response=>response.request().postDataJSON()\nasync function success(promise){const r=await promise;assert.equal(r.status(),200,await r.text());return r.json()}\n",
+          "count": 1
+        },
+        {
+          "before": "async function mobile(ui,today){const x=await setup(ui,today,'MOBILE390'),f=x.fixture;try{\n await x.action('CHOOSE','CARRY');const before=x.state('BEFORE_ALLOCATE'),allocation=await x.action('ALLOCATE',null,f.output),active=x.state('ACTIVE')\n immutableFacts(before,active);assert.equal(active.account_cents.WIP,'0');const po=f.pos[0];assert.equal(cents(active.po_finance[po].hpp)-cents(before.po_finance[po].hpp),100003n);assert.equal(cents(active.po_finance[po].book.fg_value)-cents(before.po_finance[po].book.fg_value),60002n);assert.equal(cents(active.po_finance[po].book.cogs_value)-cents(before.po_finance[po].book.cogs_value),40001n);assert.equal(cents(active.po_finance[po].wip),0n)\n fixture('close_source',{fixture:f});const workspace=await x.poolReload(),owned=workspace.pools.find(p=>p.id===allocation.result.pool_id),ordinary=workspace.pools.find(p=>p.id===f.ordinary_pool)\n assert.ok(owned&&ordinary);assert.equal(owned.period_closed,true);assert.deepEqual(owned.actions,[]);assert.deepEqual(owned.attendance_choice,{domain:'ATTENDANCE_PERIOD_CHOICE',decision_id:allocation.result.decision_id,allocation_id:allocation.result.event_id,source_period_start:f.day,source_period_end:f.day,output_period_start:f.output,output_period_end:f.output,output_period_closed:false});assert.ok(!('attendance_choice'in ordinary)&&!('period_hold'in ordinary));assert.deepEqual(ordinary.actions,['CANCEL']);assert.equal(ordinary.period_closed,false)\n const ownedRow=x.pools().getByRole('article',{name:'Pool '+owned.pool_number,exact:true});await x.expect(ownedRow.getByRole('button',{name:'Batalkan pool '+owned.pool_number,exact:true})).toHaveCount(0);await x.expect(ownedRow).not.toContainText('pool ini tidak bisa diaktifkan atau dibatalkan');await x.shot('OWNED_P1_CLOSED_P2_OPEN',ownedRow)\n const beforeRoute=x.state('BEFORE_OWNED_ROUTE'),routed=x.page.waitForResponse(r=>isRpc(RPC.read)(r)&&args(r).p_period_start===f.day);await ownedRow.getByRole('button',{name:'Buka pilihan biaya periode asal '+owned.pool_number,exact:true}).click();await success(routed);equalCensus(beforeRoute.census,x.state('AFTER_OWNED_ROUTE').census);await x.action('CANCEL_ALLOCATION');const cancelled=x.state('CANCELLED')\n assert.equal(cancelled.account_cents.WIP,'100003');assert.equal(cents(cancelled.po_finance[po].hpp),cents(before.po_finance[po].hpp));assert.deepEqual(cancelled.po_finance[po].book,before.po_finance[po].book);immutableFacts(active,cancelled)\n const rows=await x.poolReload(),history=rows.pools.find(p=>p.id===owned.id);assert.equal(history.status,'CANCELLED');assert.deepEqual(history.attendance_choice,owned.attendance_choice);assert.deepEqual(history.actions,[])\n const normal=x.pools().getByRole('article',{name:'Pool '+ordinary.pool_number,exact:true});await normal.getByRole('button',{name:'Batalkan pool '+ordinary.pool_number,exact:true}).click();await normal.getByLabel('Alasan batalkan pool '+ordinary.pool_number,{exact:true}).fill('Pool biasa P2 diperiksa dan dibatalkan lewat jalur aslinya');await normal.getByLabel('Batalkan pool '+ordinary.pool_number+' sudah diperiksa',{exact:true}).check();const normalDone=x.page.waitForResponse(r=>isRpc(RPC.poolSave)(r)&&args(r).p_action==='CANCEL');await normal.getByRole('button',{name:'Simpan: batalkan pool',exact:true}).click();const inverse=await success(normalDone);assert.equal(inverse.pool_id,f.ordinary_pool);assert.equal(inverse.status,'CANCELLED');assert.match(args(await Promise.resolve(normalDone)).p_payload.review_token,/^[a-f0-9]{32}$/)\n const ordinaryCancelled=x.state('ORDINARY_P2_CANCELLED');immutableFacts(cancelled,ordinaryCancelled);assert.equal(ordinaryCancelled.ordinary_pool.status,'CANCELLED');assert.equal(ordinaryCancelled.account_cents.WIP,'102005');assert.equal(cents(cancelled.po_finance[po].hpp)-cents(ordinaryCancelled.po_finance[po].hpp),2002n);assert.equal(cents(cancelled.po_finance[po].book.fg_value)-cents(ordinaryCancelled.po_finance[po].book.fg_value),1201n);assert.equal(cents(cancelled.po_finance[po].book.cogs_value)-cents(ordinaryCancelled.po_finance[po].book.cogs_value),801n);assert.equal(cents(ordinaryCancelled.po_finance[po].wip),0n)\n x.progress.carry={allocation:allocation.result,source_P1_closed_output_P2_open:true,permanent_cancelled_ownership:true,ordinary_P2_cancelled_through_unchanged_route:inverse,nonzero_finished_HPP_targets_equal_books:true,FG_delta:'600.02',COGS_delta:'400.01',posted_physical_history_immutable:true};return await x.finish()\n }catch(e){await x.fail(e);throw e}finally{await x.close()}}\n\nasync function staleLost(ui,today){const x=await setup(ui,today,'STALE'),f=x.fixture;try{\n",
+          "after": "async function mobile(ui,today){const x=await setup(ui,today,'MOBILE390'),f=x.fixture;try{\n await x.action('CHOOSE','CARRY');const before=x.state('BEFORE_ALLOCATE'),allocation=await x.action('ALLOCATE',null,f.output),active=x.state('ACTIVE')\n immutableFacts(before,active);assert.equal(active.account_cents.WIP,'0');const po=f.pos[0];assert.equal(cents(active.po_finance[po].hpp)-cents(before.po_finance[po].hpp),100003n);assert.equal(cents(active.po_finance[po].book.fg_value)-cents(before.po_finance[po].book.fg_value),60002n);assert.equal(cents(active.po_finance[po].book.cogs_value)-cents(before.po_finance[po].book.cogs_value),40001n);assert.equal(cents(active.po_finance[po].wip),0n)\n const valuationBefore=x.state('BEFORE_NATIVE_VALUATION_ORACLE'),valuation=fixture('assert_valuation',{fixture:f,before:before.finished_native[po],made:allocation.result});equalCensus(valuationBefore.census,x.state('AFTER_NATIVE_VALUATION_ORACLE').census)\n fixture('close_source',{fixture:f});const workspace=await x.poolReload(),owned=workspace.pools.find(p=>p.id===allocation.result.pool_id),ordinary=workspace.pools.find(p=>p.id===f.ordinary_pool)\n assert.ok(owned&&ordinary);assert.equal(owned.period_closed,true);assert.deepEqual(owned.actions,[]);assert.deepEqual(owned.attendance_choice,{domain:'ATTENDANCE_PERIOD_CHOICE',decision_id:allocation.result.decision_id,allocation_id:allocation.result.event_id,source_period_start:f.day,source_period_end:f.day,output_period_start:f.output,output_period_end:f.output,output_period_closed:false});assert.ok(!('attendance_choice'in ordinary)&&!('period_hold'in ordinary));assert.deepEqual(ordinary.actions,['CANCEL']);assert.equal(ordinary.period_closed,false)\n const ownedRow=x.pools().getByRole('article',{name:'Pool '+owned.pool_number,exact:true});await x.expect(ownedRow.getByRole('button',{name:'Batalkan pool '+owned.pool_number,exact:true})).toHaveCount(0);await x.expect(ownedRow).not.toContainText('pool ini tidak bisa diaktifkan atau dibatalkan');await x.shot('OWNED_P1_CLOSED_P2_OPEN',ownedRow)\n const beforeRoute=x.state('BEFORE_OWNED_ROUTE'),routed=x.page.waitForResponse(r=>isRpc(RPC.read)(r)&&args(r).p_period_start===f.day);await ownedRow.getByRole('button',{name:'Buka pilihan biaya periode asal '+owned.pool_number,exact:true}).click();await success(routed);equalCensus(beforeRoute.census,x.state('AFTER_OWNED_ROUTE').census);const ownBeforeCancel=x.state('BEFORE_OWN_CANCEL_SNAPSHOT');const ownCancelled=await x.action('CANCEL_ALLOCATION');const cancelled=x.state('CANCELLED')\n assert.equal(cancelled.account_cents.WIP,'100003');assert.equal(cents(cancelled.po_finance[po].hpp),cents(before.po_finance[po].hpp));assert.deepEqual(cancelled.po_finance[po].book,before.po_finance[po].book);immutableFacts(active,cancelled)\n assert.deepEqual(cancelled.physical_rows,before.physical_rows,'OWN_CANCEL_FULL_FG_ROWS_RESTORE_EXACT');const ownCancelProof=fixture('assert_cancelled',{fixture:f,before:before.finished_native[po],after_allocation:ownBeforeCancel.finished_native[po],made:allocation.result,cancelled:ownCancelled.result,oracle:valuation.owning_pool_oracle});equalCensus(cancelled.census,x.state('AFTER_OWN_CANCEL_NATIVE_ORACLE').census)\n const rows=await x.poolReload(),history=rows.pools.find(p=>p.id===owned.id);assert.equal(history.status,'CANCELLED');assert.deepEqual(history.attendance_choice,owned.attendance_choice);assert.deepEqual(history.actions,[])\n const closedBefore=x.state('BEFORE_CLOSED_REVERSE'),closed=await x.user.rpc(RPC.preview,{p_action:'REVERSE',p_payload:input(f.day)});assert.equal(closed.status,400,JSON.stringify(closed));assert.ok(String(closed.body.message).includes('CP7_S03_PERIOD_CLOSED'));equalCensus(closedBefore.census,x.state('AFTER_CLOSED_REVERSE').census)\n const reopened=fixture('open_source',{fixture:f});assert.equal(reopened.status,'REAL_OWNER_PERIOD_REOPEN_AFTER_CLOSED_REFUSAL');await x.period(f.day);const released=await x.action('REVERSE');assert.equal(x.state('AFTER_REOPEN_REVERSE').current_decision,null);await x.poolReload()\n const normal=x.pools().getByRole('article',{name:'Pool '+ordinary.pool_number,exact:true});await normal.getByRole('button',{name:'Batalkan pool '+ordinary.pool_number,exact:true}).click();await normal.getByLabel('Alasan batalkan pool '+ordinary.pool_number,{exact:true}).fill('Pool biasa P2 diperiksa dan dibatalkan lewat jalur aslinya');await normal.getByLabel('Batalkan pool '+ordinary.pool_number+' sudah diperiksa',{exact:true}).check();const ordinaryBeforeCancel=x.state('BEFORE_ORDINARY_CANCEL_SNAPSHOT');const normalDone=x.page.waitForResponse(r=>isRpc(RPC.poolSave)(r)&&args(r).p_action==='CANCEL');await normal.getByRole('button',{name:'Simpan: batalkan pool',exact:true}).click();const inverse=await success(normalDone);assert.equal(inverse.pool_id,f.ordinary_pool);assert.equal(inverse.status,'CANCELLED');assert.match(args(await Promise.resolve(normalDone)).p_payload.review_token,/^[a-f0-9]{32}$/)\n const ordinaryCancelled=x.state('ORDINARY_P2_CANCELLED');immutableFacts(cancelled,ordinaryCancelled);assert.equal(ordinaryCancelled.ordinary_pool.status,'CANCELLED');assert.equal(ordinaryCancelled.account_cents.WIP,'102005');assert.equal(cents(cancelled.po_finance[po].hpp)-cents(ordinaryCancelled.po_finance[po].hpp),2002n);assert.equal(cents(cancelled.po_finance[po].book.fg_value)-cents(ordinaryCancelled.po_finance[po].book.fg_value),1201n);assert.equal(cents(cancelled.po_finance[po].book.cogs_value)-cents(ordinaryCancelled.po_finance[po].book.cogs_value),801n);assert.equal(cents(ordinaryCancelled.po_finance[po].wip),0n)\n const ordinaryCancelProof=fixture('assert_ordinary_cancelled',{fixture:f,after_allocation:ordinaryBeforeCancel.finished_native[po],cancelled:inverse});assert.deepEqual(ordinaryCancelled.physical_rows,f.ordinary_before_native.FG,'ORDINARY_CANCEL_FULL_FG_ROWS_RESTORE_EXACT');equalCensus(ordinaryCancelled.census,x.state('AFTER_ORDINARY_CANCEL_NATIVE_ORACLE').census)\n x.progress.carry={allocation:allocation.result,source_P1_closed_output_P2_open:true,permanent_cancelled_ownership:true,ordinary_P2_cancelled_through_unchanged_route:inverse,nonzero_finished_HPP_targets_equal_books:true,FG_delta:'600.02',COGS_delta:'400.01',all16_physical_fields_and_whole_SALE_rows_immutable:true,only_QC_GOOD_REWORK_IN_cache_equals_current_Native_HPP:true,valuation,ownCancelProof,ordinaryCancelProof,closed_reverse_refused_without_any_effect:true,real_Owner_reopen:reopened,source_reverse:released.result};return await x.finish()\n }catch(e){await x.fail(e);throw e}finally{await x.close()}}\n\nasync function staleLost(ui,today){const x=await setup(ui,today,'STALE'),f=x.fixture;try{\n",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "parent": "scripts/current-attendance-choice-browser4-qualification/evidence.mjs",
+      "derived": "scripts/current-attendance-choice-browser4-lawful-successor/evidence.mjs",
+      "parent_bytes": 4075,
+      "parent_sha256": "9413223b18d1b8d60d8f88712b4dc07fc56a6ceb4b58cc4d3f213371bc1ce692",
+      "derived_sha256": "5940af3c890e2da99f282dba1c1dff030fc3136be1f9a333b321d2a0a719d23f",
+      "changes": [
+        {
+          "before": " assert.deepEqual(after.original_accrual,before.original_accrual,'ORIGINAL_ACCRUAL_CHANGED')\n for(const row of before.decisions)assert.deepEqual(after.decisions.find(x=>x.id===row.id),row,'APPEND_ONLY_DECISION_CHANGED')\n for(const row of before.requests)assert.deepEqual(after.requests.find(x=>x.actor===row.actor&&x.request_id===row.request_id),row,'HISTORICAL_RECEIPT_CHANGED')\n assert.deepEqual(after.physical_rows,before.physical_rows,'POSTED_PHYSICAL_ROWS_CHANGED')\n for(const row of after.dated_WIP)assert.ok(BigInt(row.available_cents)>=0n,'NEGATIVE_DATED_WIP')\n}\nexport function exactEnvelope(args,action,payload,token){assert.deepEqual(Object.keys(args).sort(),['p_action','p_payload','p_request']);assert.equal(args.p_action,action);assert.match(args.p_request,/^[0-9a-f-]{36}$/);assert.match(token,/^[a-f0-9]{64}$/);assert.deepEqual(args.p_payload,{...payload,review_token:token})}\nexport function accessRefusals(admin,anon){assert.equal(admin.status,403,JSON.stringify(admin.body));assert.equal(admin.body?.code,'42501');assert.ok(String(admin.body?.message).includes('CP7_S03_OWNER_REQUIRED'));assert.ok([401,403].includes(anon.status),JSON.stringify(anon.body));assert.equal(anon.body?.code,'42501');assert.match(String(anon.body?.message),/permission denied for function erp_cp7_get_attendance_choice_v1\\b/);return{Admin:{status:admin.status,code:admin.body.code,message:admin.body.message},anonymous:{status:anon.status,code:anon.body.code,message:anon.body.message},anonymous_boundary:'ACTUAL_PUBLIC_FUNCTION_EXECUTE_ACL_BEFORE_OWNING_BODY'}}\n",
+          "after": " assert.deepEqual(after.original_accrual,before.original_accrual,'ORIGINAL_ACCRUAL_CHANGED')\n for(const row of before.decisions)assert.deepEqual(after.decisions.find(x=>x.id===row.id),row,'APPEND_ONLY_DECISION_CHANGED')\n for(const row of before.requests)assert.deepEqual(after.requests.find(x=>x.actor===row.actor&&x.request_id===row.request_id),row,'HISTORICAL_RECEIPT_CHANGED')\n physicalFacts(before,after)\n historyFacts(before,after)\n for(const row of after.dated_WIP)assert.ok(BigInt(row.available_cents)>=0n,'NEGATIVE_DATED_WIP')\n}\nexport const FG_FIELDS=['id','product_id','lot_id','location_id','quality_grade','movement_type','qty_signed','unit_hpp_snapshot','customer_id','source_type','source_id','physical_at','system_created_at','created_by','reversal_of_id','notes','book_order'].sort()\nfunction decimal(value){const match=/^(-?)(\\d+)(?:\\.(\\d+))?$/.exec(String(value));assert.ok(match,'EXACT_NATIVE_DECIMAL_REQUIRED');const whole=match[2].replace(/^0+(?=\\d)/,''),fraction=(match[3]??'').replace(/0+$/,'');return(match[1]&&!(whole==='0'&&!fraction)?'-':'')+whole+(fraction?'.'+fraction:'')}\nexport function physicalFacts(before,after){\n const old=before.physical_rows,next=after.physical_rows\n assert.deepEqual(next.map(r=>r.id),old.map(r=>r.id),'FG_ROWSET_CHANGED')\n for(const facts of[before,after]){const raw=Object.values(facts.finished_native??{}).flatMap(v=>v.FG).sort((a,b)=>a.id.localeCompare(b.id));assert.deepEqual(raw,facts.physical_rows,'WHOLE_NATIVE_FG_ROWS_REQUIRED')}\n const current=new Map(Object.values(after.finished_native??{}).flatMap(f=>f.current_HPP).map(r=>[r.lot_id,r]))\n for(let i=0;i<old.length;i++){\n  const row=old[i],actual=next[i];assert.deepEqual(Object.keys(row).sort(),FG_FIELDS,'UNKNOWN_FG_COLUMNS');assert.deepEqual(Object.keys(actual).sort(),FG_FIELDS,'UNKNOWN_FG_COLUMNS')\n  if(['QC_GOOD','REWORK_IN'].includes(row.movement_type)){\n   const omit=r=>Object.fromEntries(Object.entries(r).filter(([key])=>key!=='unit_hpp_snapshot'))\n   assert.deepEqual(omit(actual),omit(row),'ALL16_PHYSICAL_FIELDS_MUST_REMAIN_EXACT');assert.ok(current.has(row.lot_id),'CURRENT_NATIVE_HPP_MISSING')\n   assert.equal(decimal(actual.unit_hpp_snapshot),decimal(current.get(row.lot_id).hpp_per_pcs),'RECEIPT_CACHE_MUST_EQUAL_CURRENT_NATIVE_HPP')\n  }else assert.deepEqual(actual,row,'WHOLE_SALE_AND_NON_RECEIPT_ROWS_MUST_REMAIN_EXACT')\n }\n return{all16_non_cost_fields_exact:true,whole_SALE_rows_exact:true,only_Native_receiving_cache:true}\n}\nexport function historyFacts(before,after){\n for(const[po,old]of Object.entries(before.finished_native??{})){\n  const next=after.finished_native?.[po];assert.ok(next,'FINISHED_NATIVE_PO_HISTORY_MISSING')\n  for(const name of['journal_lines','HPP_components']){\n   assert.ok(Array.isArray(old[name])&&Array.isArray(next[name]),'FULL_POSTED_NATIVE_HISTORY_REQUIRED')\n   assert.equal(new Set(next[name].map(r=>r.id)).size,next[name].length,'DUPLICATE_NATIVE_HISTORY_ROW')\n   for(const row of old[name])assert.deepEqual(next[name].find(x=>x.id===row.id),row,name==='journal_lines'?'POSTED_JOURNAL_LINE_HISTORY_CHANGED':'HPP_COMPONENT_HISTORY_CHANGED')\n  }\n  for(const row of old.journal_headers){const current=next.journal_headers.find(x=>x.id===row.id);assert.ok(current,'POSTED_JOURNAL_HEADER_REMOVED')\n   if(current.status!==row.status){assert.equal(row.status,'POSTED');assert.equal(current.status,'REVERSED');assert.deepEqual({...current,status:row.status},row,'JOURNAL_HISTORY_FACT_CHANGED');assert.equal(next.journal_headers.filter(x=>x.reversal_of_id===row.id&&x.source_type==='JOURNAL_REVERSAL'&&x.source_id===row.id&&x.status==='POSTED').length,1,'ACTUAL_LINKED_NATIVE_INVERSE_REQUIRED')}\n   else assert.deepEqual(current,row,'POSTED_JOURNAL_HEADER_HISTORY_CHANGED')\n  }\n  for(const row of old.HPP_history){const current=next.HPP_history.find(x=>x.id===row.id);assert.ok(current,'HPP_HISTORY_REMOVED');const omit=r=>Object.fromEntries(Object.entries(r).filter(([key])=>key!=='is_current'));assert.deepEqual(omit(current),omit(row),'HPP_HISTORY_FACT_CHANGED');assert.ok(current.is_current===row.is_current||row.is_current===true&&current.is_current===false,'HPP_CURRENT_POINTER_REACTIVATED')}\n }\n return{posted_and_inverse_history_retained:true,HPP_history_append_only:true}\n}\nexport function exactEnvelope(args,action,payload,token){assert.deepEqual(Object.keys(args).sort(),['p_action','p_payload','p_request']);assert.equal(args.p_action,action);assert.match(args.p_request,/^[0-9a-f-]{36}$/);assert.match(token,/^[a-f0-9]{64}$/);assert.deepEqual(args.p_payload,{...payload,review_token:token})}\nexport function accessRefusals(admin,anon){assert.equal(admin.status,403,JSON.stringify(admin.body));assert.equal(admin.body?.code,'42501');assert.ok(String(admin.body?.message).includes('CP7_S03_OWNER_REQUIRED'));assert.ok([401,403].includes(anon.status),JSON.stringify(anon.body));assert.equal(anon.body?.code,'42501');assert.match(String(anon.body?.message),/permission denied for function erp_cp7_get_attendance_choice_v1\\b/);return{Admin:{status:admin.status,code:admin.body.code,message:admin.body.message},anonymous:{status:anon.status,code:anon.body.code,message:anon.body.message},anonymous_boundary:'ACTUAL_PUBLIC_FUNCTION_EXECUTE_ACL_BEFORE_OWNING_BODY'}}\n",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "parent": "scripts/current-attendance-choice-browser4-qualification/test_oracles.mjs",
+      "derived": "scripts/current-attendance-choice-browser4-lawful-successor/test_oracles.mjs",
+      "parent_bytes": 4284,
+      "parent_sha256": "343c0e0be9cb1e9514a19f930f72dc894681dbb0893e168bb8393ab7eb835b00",
+      "derived_sha256": "0f3f33b36db253e29307138d909eb7e073c4ad4c4b326023f183ebf518ae931f",
+      "changes": [
+        {
+          "before": "test('Admin owning403 and anonymous SQL42501 EXECUTE denial remain distinct (response doubles only)',()=>{const admin={status:403,body:{code:'42501',message:'CP7_S03_OWNER_REQUIRED'}},anon={status:401,body:{code:'42501',message:'permission denied for function erp_cp7_get_attendance_choice_v1'}};assert.equal(accessRefusals(admin,anon).anonymous.status,401);assert.equal(accessRefusals(admin,{...anon,status:403}).anonymous.status,403);for(const wrong of[{...anon,status:200},{...anon,status:500},{...anon,body:{code:'PGRST202',message:'function missing'}},{...anon,body:{code:'42501',message:'unrelated permission error'}}])assert.throws(()=>accessRefusals(admin,wrong));assert.throws(()=>accessRefusals({...admin,status:401},anon))})\nconst census=()=>({catalog_groups:22,catalog_sha256:'source-double',data_and_sequences:{'table':[1,'rows'],'sequence:all':['3',true]},raw_all_rows_and_sequences_sha256:'raw-double',dropped_catalog_fields:[],dropped_row_columns:[],dropped_data_or_sequence_keys:[]})\ntest('complete census compares raw rows as well as catalog and every sequence',()=>{const a=census();equalCensus(a,structuredClone(a));for(const change of[b=>b.catalog_groups=21,b=>b.data_and_sequences['sequence:all'][0]='4',b=>b.raw_all_rows_and_sequences_sha256='changed',b=>b.dropped_row_columns=['physical_at']]){const b=structuredClone(a);change(b);assert.throws(()=>equalCensus(a,b))}})\ntest('positive inverse keeps historical decisions/receipts/physical facts rather than erasing rows',()=>{const a={original_accrual:{id:'original'},decisions:[{id:'old',choice:'EXPENSE'}],requests:[{actor:'owner',request_id:'first'}],physical_rows:[{id:'posted'}],dated_WIP:[]},b={...structuredClone(a),decisions:[...a.decisions,{id:'replacement',choice:'CARRY'}],dated_WIP:[{available_cents:'0'}]};immutableFacts(a,b);const bad=structuredClone(b);bad.decisions.shift();assert.throws(()=>immutableFacts(a,bad));const negative=structuredClone(b);negative.dated_WIP=[{available_cents:'-1'}];assert.throws(()=>immutableFacts(a,negative))})\ntest('console errors are allowed only by exact observed causal URL/text pairs',()=>{const observed={errors:[{text:'exact',location:{url:'http://127.0.0.1/rpc'}}],pageErrors:[]};assert.throws(()=>consoleEvidence(observed,[]));assert.equal(consoleEvidence(observed,[{url:'http://127.0.0.1/rpc',text:'exact',reason:'EXPLICIT_LOCAL_DOUBLE'}]).causally_verified_network_errors.length,1);assert.throws(()=>consoleEvidence({...observed,pageErrors:['unexpected']},[{url:'http://127.0.0.1/rpc',text:'exact'}]))})\ntest('callback admission is closed before any login, GET or SQL',async()=>{let touched=0;const ui=new Proxy({}, {get(){touched++;throw Error('UNAUTHORIZED_UI_ACCESS')}});await assert.rejects(planned(ui,'2026-10-30',()=>{throw Error('EXPLICIT_LOCAL_CLOSED_SOURCE_DOUBLE')}),/EXPLICIT_LOCAL_CLOSED/);assert.equal(touched,0);assert.equal(new Set(IDS).size,4)})\ntest('admitted factory returns exact4 real callback functions without executing a browser',async()=>{let admitted=0,touched=0;const ui=new Proxy({}, {get(){touched++;throw Error('NO_BROWSER_IN_SOURCE_TEST')}}),rows=await planned(ui,'2026-10-30',()=>{admitted++});assert.equal(admitted,1);assert.equal(touched,0);assert.deepEqual(rows.map(([id])=>id),IDS);assert.ok(rows.every(([,operation])=>typeof operation==='function'))})\n",
+          "after": "test('Admin owning403 and anonymous SQL42501 EXECUTE denial remain distinct (response doubles only)',()=>{const admin={status:403,body:{code:'42501',message:'CP7_S03_OWNER_REQUIRED'}},anon={status:401,body:{code:'42501',message:'permission denied for function erp_cp7_get_attendance_choice_v1'}};assert.equal(accessRefusals(admin,anon).anonymous.status,401);assert.equal(accessRefusals(admin,{...anon,status:403}).anonymous.status,403);for(const wrong of[{...anon,status:200},{...anon,status:500},{...anon,body:{code:'PGRST202',message:'function missing'}},{...anon,body:{code:'42501',message:'unrelated permission error'}}])assert.throws(()=>accessRefusals(admin,wrong));assert.throws(()=>accessRefusals({...admin,status:401},anon))})\nconst census=()=>({catalog_groups:22,catalog_sha256:'source-double',data_and_sequences:{'table':[1,'rows'],'sequence:all':['3',true]},raw_all_rows_and_sequences_sha256:'raw-double',dropped_catalog_fields:[],dropped_row_columns:[],dropped_data_or_sequence_keys:[]})\ntest('complete census compares raw rows as well as catalog and every sequence',()=>{const a=census();equalCensus(a,structuredClone(a));for(const change of[b=>b.catalog_groups=21,b=>b.data_and_sequences['sequence:all'][0]='4',b=>b.raw_all_rows_and_sequences_sha256='changed',b=>b.dropped_row_columns=['physical_at']]){const b=structuredClone(a);change(b);assert.throws(()=>equalCensus(a,b))}})\nconst saleDouble={id:'posted',product_id:'product-double',lot_id:'lot-double',location_id:'location-double',quality_grade:'GOOD',movement_type:'SALE',qty_signed:-4,unit_hpp_snapshot:'10.00',customer_id:'customer-double',source_type:'SALES',source_id:'invoice-double',physical_at:'2026-10-01T00:00:00Z',system_created_at:'2026-10-01T00:00:01Z',created_by:'actor-double',reversal_of_id:null,notes:'EXPLICIT_LOCAL_ORACLE_DOUBLE',book_order:1}\ntest('positive inverse keeps historical decisions/receipts/physical facts rather than erasing rows',()=>{const a={original_accrual:{id:'original'},decisions:[{id:'old',choice:'EXPENSE'}],requests:[{actor:'owner',request_id:'first'}],physical_rows:[saleDouble],finished_native:{double:{FG:[saleDouble],current_HPP:[],HPP_history:[],HPP_components:[],journal_headers:[],journal_lines:[]}},dated_WIP:[]},b={...structuredClone(a),decisions:[...a.decisions,{id:'replacement',choice:'CARRY'}],dated_WIP:[{available_cents:'0'}]};immutableFacts(a,b);const bad=structuredClone(b);bad.decisions.shift();assert.throws(()=>immutableFacts(a,bad));const negative=structuredClone(b);negative.dated_WIP=[{available_cents:'-1'}];assert.throws(()=>immutableFacts(a,negative))})\ntest('console errors are allowed only by exact observed causal URL/text pairs',()=>{const observed={errors:[{text:'exact',location:{url:'http://127.0.0.1/rpc'}}],pageErrors:[]};assert.throws(()=>consoleEvidence(observed,[]));assert.equal(consoleEvidence(observed,[{url:'http://127.0.0.1/rpc',text:'exact',reason:'EXPLICIT_LOCAL_DOUBLE'}]).causally_verified_network_errors.length,1);assert.throws(()=>consoleEvidence({...observed,pageErrors:['unexpected']},[{url:'http://127.0.0.1/rpc',text:'exact'}]))})\ntest('callback admission is closed before any login, GET or SQL',async()=>{let touched=0;const ui=new Proxy({}, {get(){touched++;throw Error('UNAUTHORIZED_UI_ACCESS')}});await assert.rejects(planned(ui,'2026-10-30',()=>{throw Error('EXPLICIT_LOCAL_CLOSED_SOURCE_DOUBLE')}),/EXPLICIT_LOCAL_CLOSED/);assert.equal(touched,0);assert.equal(new Set(IDS).size,4)})\ntest('admitted factory returns exact4 real callback functions without executing a browser',async()=>{let admitted=0,touched=0;const ui=new Proxy({}, {get(){touched++;throw Error('NO_BROWSER_IN_SOURCE_TEST')}}),rows=await planned(ui,'2026-10-30',()=>{admitted++});assert.equal(admitted,1);assert.equal(touched,0);assert.deepEqual(rows.map(([id])=>id),IDS);assert.ok(rows.every(([,operation])=>typeof operation==='function'))})\n",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "parent": "scripts/current-attendance-choice-browser4-qualification/CONFIG.json",
+      "derived": "scripts/current-attendance-choice-browser4-lawful-successor/CONFIG.json",
+      "parent_bytes": 552,
+      "parent_sha256": "6c4d43ec2d720f26aaa0bb10127c3219b796f33d6a2d9339418087ef7208be70",
+      "derived_sha256": "6c4d43ec2d720f26aaa0bb10127c3219b796f33d6a2d9339418087ef7208be70",
+      "changes": []
+    },
+    {
+      "parent": "scripts/current-attendance-choice-browser4-qualification/PREPARED_BACKEND.json",
+      "derived": "scripts/current-attendance-choice-browser4-lawful-successor/PREPARED_BACKEND.json",
+      "parent_bytes": 2583,
+      "parent_sha256": "68c174b25f396db487b0f1de695e947adc4dc01ae1667a246838a3d066ebad15",
+      "derived_sha256": "68c174b25f396db487b0f1de695e947adc4dc01ae1667a246838a3d066ebad15",
+      "changes": []
+    },
+    {
+      "parent": "scripts/current-attendance-choice-browser4-qualification/PREPARED_AUTHOR_BINDING.json",
+      "derived": "scripts/current-attendance-choice-browser4-lawful-successor/PREPARED_AUTHOR_BINDING.json",
+      "parent_bytes": 31591,
+      "parent_sha256": "19ca08b6847524af00a8c6c2b089410142f8cfe54ce750944139b1ba2db59db7",
+      "derived_sha256": "19ca08b6847524af00a8c6c2b089410142f8cfe54ce750944139b1ba2db59db7",
+      "changes": []
+    },
+    {
+      "parent": "scripts/current-attendance-choice-browser4-qualification/RUNTIME_SOURCE.json",
+      "derived": "scripts/current-attendance-choice-browser4-lawful-successor/RUNTIME_SOURCE.json",
+      "parent_bytes": 3081,
+      "parent_sha256": "40b309036c5067f6beaecfbb4912735b4fbb4c237624864875fea802ed83e082",
+      "derived_sha256": "40b309036c5067f6beaecfbb4912735b4fbb4c237624864875fea802ed83e082",
+      "changes": []
+    },
+    {
+      "parent": "scripts/current-attendance-choice-browser4-qualification/BUILD_OUTPUT_CONTRACT.json",
+      "derived": "scripts/current-attendance-choice-browser4-lawful-successor/BUILD_OUTPUT_CONTRACT.json",
+      "parent_bytes": 96454,
+      "parent_sha256": "373c63d5c8f06d503f697124c526aa8e4cb3a84c87a6c53ed02f1aca6abafbcf",
+      "derived_sha256": "373c63d5c8f06d503f697124c526aa8e4cb3a84c87a6c53ed02f1aca6abafbcf",
+      "changes": []
+    },
+    {
+      "parent": "scripts/current-attendance-choice-browser4-qualification/retained-preparation/CONFIG.json",
+      "derived": "scripts/current-attendance-choice-browser4-lawful-successor/retained-preparation/CONFIG.json",
+      "parent_bytes": 552,
+      "parent_sha256": "6c4d43ec2d720f26aaa0bb10127c3219b796f33d6a2d9339418087ef7208be70",
+      "derived_sha256": "6c4d43ec2d720f26aaa0bb10127c3219b796f33d6a2d9339418087ef7208be70",
+      "changes": []
+    },
+    {
+      "parent": "scripts/current-attendance-choice-browser4-qualification/retained-source-metadata/PREPARED_NATIVE14_CONFIG.json",
+      "derived": "scripts/current-attendance-choice-browser4-lawful-successor/retained-source-metadata/PREPARED_NATIVE14_CONFIG.json",
+      "parent_bytes": 40380,
+      "parent_sha256": "f794a527849a6b4bf5026763c9f72995254556a0741a2ab8f72f4994a15de4af",
+      "derived_sha256": "f794a527849a6b4bf5026763c9f72995254556a0741a2ab8f72f4994a15de4af",
+      "changes": []
+    },
+    {
+      "parent": "scripts/current-attendance-choice-browser4-qualification/retained-source-metadata/PREPARED_NATIVE14_SOURCE.json",
+      "derived": "scripts/current-attendance-choice-browser4-lawful-successor/retained-source-metadata/PREPARED_NATIVE14_SOURCE.json",
+      "parent_bytes": 130653,
+      "parent_sha256": "a6efa90aa23107a2facdd55d285677bbf60731432543455dcd844b3d2a0a56c1",
+      "derived_sha256": "a6efa90aa23107a2facdd55d285677bbf60731432543455dcd844b3d2a0a56c1",
+      "changes": []
+    },
+    {
+      "parent": "scripts/current-attendance-choice-browser4-qualification/inherited-output-validation/generated_receipts.py",
+      "derived": "scripts/current-attendance-choice-browser4-lawful-successor/inherited-output-validation/generated_receipts.py",
+      "parent_bytes": 9466,
+      "parent_sha256": "a569138a5b6d4c0d1ce542ab45af98ee156f47e6d772766c214bbae3366ffc7e",
+      "derived_sha256": "a569138a5b6d4c0d1ce542ab45af98ee156f47e6d772766c214bbae3366ffc7e",
+      "changes": []
+    },
+    {
+      "parent": "scripts/current-attendance-choice-browser4-qualification/inherited-output-validation/generated_later.py",
+      "derived": "scripts/current-attendance-choice-browser4-lawful-successor/inherited-output-validation/generated_later.py",
+      "parent_bytes": 10525,
+      "parent_sha256": "7bf35d85d9f7ec19da34c5626f24af908f3691a4e3ed7251dbc4958e59b4bea3",
+      "derived_sha256": "7bf35d85d9f7ec19da34c5626f24af908f3691a4e3ed7251dbc4958e59b4bea3",
+      "changes": []
+    },
+    {
+      "parent": "scripts/current-attendance-choice-browser4-qualification/inherited-output-validation/GENERATED_RECEIPTS.json",
+      "derived": "scripts/current-attendance-choice-browser4-lawful-successor/inherited-output-validation/GENERATED_RECEIPTS.json",
+      "parent_bytes": 57115,
+      "parent_sha256": "3ee7f6b9631aeaacd9ebc35ca39495073cb6e417d2ea988d0a283fa407cd00ac",
+      "derived_sha256": "0edae56674ff73edc36681188223422c95a75280287405affb72d0719ca83aa9",
+      "changes": [
+        {
+          "before": "      \"bytes\": 426893,\n      \"sha256\": \"372d491987e6f1e348784fdb40b9f380a9dfe112a7304181715794068c163c76\"\n    },\n    \".github/workflows/cp7-current-s03-browser4.yml\": {\n      \"bytes\": 30261,\n      \"sha256\": \"228f4689ec9aaaa10cbb04b20ec9f5e3bf102f2a4271696e5ad599a91a105842\"\n    }\n  },\n  \"frozen_worktree_document\": {\n",
+          "after": "      \"bytes\": 426893,\n      \"sha256\": \"372d491987e6f1e348784fdb40b9f380a9dfe112a7304181715794068c163c76\"\n    },\n    \".github/workflows/cp7-current-s03-browser4-lawful.yml\": {\n      \"bytes\": 30405,\n      \"sha256\": \"b16feb01190142038039bb43cd9f0a57c2bc469014546b46885d1a8dfe8c1577\"\n    }\n  },\n  \"frozen_worktree_document\": {\n",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "parent": "scripts/current-attendance-choice-browser4-qualification/inherited-output-validation/LATER_GENERATED_RECEIPTS.json",
+      "derived": "scripts/current-attendance-choice-browser4-lawful-successor/inherited-output-validation/LATER_GENERATED_RECEIPTS.json",
+      "parent_bytes": 28365,
+      "parent_sha256": "597da97fb922034522de88012967235ba5c6e009fed9c41f36485ae6490b4687",
+      "derived_sha256": "d3149310bd6c38b603922a4d13d88b680d35e352e84303baa921b3e0da2192bb",
+      "changes": [
+        {
+          "before": "      \"bytes\": 68647,\n      \"sha256\": \"40795c3fce619c5795b427e9aa31836777b687f82eba4ab5654264d57564879f\"\n    },\n    \".github/workflows/cp7-current-s03-browser4.yml\": {\n      \"bytes\": 30261,\n      \"sha256\": \"228f4689ec9aaaa10cbb04b20ec9f5e3bf102f2a4271696e5ad599a91a105842\"\n    }\n  },\n  \"aligned_document\": {\n",
+          "after": "      \"bytes\": 68647,\n      \"sha256\": \"40795c3fce619c5795b427e9aa31836777b687f82eba4ab5654264d57564879f\"\n    },\n    \".github/workflows/cp7-current-s03-browser4-lawful.yml\": {\n      \"bytes\": 30405,\n      \"sha256\": \"b16feb01190142038039bb43cd9f0a57c2bc469014546b46885d1a8dfe8c1577\"\n    }\n  },\n  \"aligned_document\": {\n",
+          "count": 1
+        },
+        {
+          "before": "    \"push\",\n    \"workflow_dispatch\"\n  ],\n  \"package_workflow_name\": \"CP7 S03 normal App real Auth browser4\",\n  \"S03_contract_derivation\": {\n    \"reference_helper_sha256\": \"7bf35d85d9f7ec19da34c5626f24af908f3691a4e3ed7251dbc4958e59b4bea3\",\n    \"retained_baseline_metadata_is_not_S03_actual_or_runtime_prerequisite\": true,\n",
+          "after": "    \"push\",\n    \"workflow_dispatch\"\n  ],\n  \"package_workflow_name\": \"CP7 S03 lawful fixture normal App real Auth browser4\",\n  \"S03_contract_derivation\": {\n    \"reference_helper_sha256\": \"7bf35d85d9f7ec19da34c5626f24af908f3691a4e3ed7251dbc4958e59b4bea3\",\n    \"retained_baseline_metadata_is_not_S03_actual_or_runtime_prerequisite\": true,\n",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "parent": "scripts/current-attendance-choice-browser4-qualification/inherited-output-validation/DERIVATION.json",
+      "derived": "scripts/current-attendance-choice-browser4-lawful-successor/inherited-output-validation/DERIVATION.json",
+      "parent_bytes": 1108,
+      "parent_sha256": "4cbfb7b4b83bf4bbbfb2c75c167036cb82832a4361b39880875fc492d9d43016",
+      "derived_sha256": "4cbfb7b4b83bf4bbbfb2c75c167036cb82832a4361b39880875fc492d9d43016",
+      "changes": []
+    },
+    {
+      "parent": "scripts/current-attendance-choice-browser4-qualification/inherited-output-validation/parent/GENERATED_RECEIPTS.json",
+      "derived": "scripts/current-attendance-choice-browser4-lawful-successor/inherited-output-validation/parent/GENERATED_RECEIPTS.json",
+      "parent_bytes": 57121,
+      "parent_sha256": "500c51798ce3247f6a8957f13fe21f40f76ea43a68e457781d874a3887a6c119",
+      "derived_sha256": "500c51798ce3247f6a8957f13fe21f40f76ea43a68e457781d874a3887a6c119",
+      "changes": []
+    },
+    {
+      "parent": "scripts/current-attendance-choice-browser4-qualification/inherited-output-validation/parent/LATER_GENERATED_RECEIPTS.json",
+      "derived": "scripts/current-attendance-choice-browser4-lawful-successor/inherited-output-validation/parent/LATER_GENERATED_RECEIPTS.json",
+      "parent_bytes": 28390,
+      "parent_sha256": "7ddaabbc1fb1b35072581eceab79304b245fd267ff63bf8c3184253eb79067b3",
+      "derived_sha256": "7ddaabbc1fb1b35072581eceab79304b245fd267ff63bf8c3184253eb79067b3",
+      "changes": []
+    },
+    {
+      "parent": ".github/workflows/cp7-current-s03-browser4.yml",
+      "derived": ".github/workflows/cp7-current-s03-browser4-lawful.yml",
+      "parent_bytes": 30261,
+      "parent_sha256": "228f4689ec9aaaa10cbb04b20ec9f5e3bf102f2a4271696e5ad599a91a105842",
+      "derived_sha256": "b16feb01190142038039bb43cd9f0a57c2bc469014546b46885d1a8dfe8c1577",
+      "changes": [
+        {
+          "before": "name: CP7 S03 normal App real Auth browser4\n'on':\n  push:\n    branches:\n    - astra-a/s03-browser4-qualification-20261030\n    paths:\n    - .github/workflows/cp7-current-s03-browser4.yml\n    - scripts/current-attendance-choice-browser4-qualification/**\n  workflow_dispatch: {}\npermissions:\n  contents: read\n",
+          "after": "name: CP7 S03 lawful fixture normal App real Auth browser4\n'on':\n  push:\n    branches:\n    - astra-a/s03-browser4-lawful-qualification-20261030\n    paths:\n    - .github/workflows/cp7-current-s03-browser4-lawful.yml\n    - scripts/current-attendance-choice-browser4-lawful-successor/**\n  workflow_dispatch: {}\npermissions:\n  contents: read\n",
+          "count": 1
+        },
+        {
+          "before": "        persist-credentials: 'false'\n    - name: Require actual backend14 full restore all5 Originals before artifact GET or DB\n      working-directory: auditor\n      run: python3 -B scripts/current-attendance-choice-browser4-qualification/source_guard.py --require-actual\n    - name: Select exact qualified prerequisite heads\n      id: qualified_heads\n      working-directory: auditor\n",
+          "after": "        persist-credentials: 'false'\n    - name: Require actual backend14 full restore all5 Originals before artifact GET or DB\n      working-directory: auditor\n      run: python3 -B scripts/current-attendance-choice-browser4-lawful-successor/source_guard.py --require-actual\n    - name: Select exact qualified prerequisite heads\n      id: qualified_heads\n      working-directory: auditor\n",
+          "count": 1
+        },
+        {
+          "before": "\n        npx tsc --noEmit --project tsconfig.app.json\n\n        python -B -m unittest discover -s scripts/current-attendance-choice-browser4-qualification -p ''test_*.py''\n\n        node --check scripts/current-attendance-choice-browser4-qualification/cases.mjs\n\n        node --test scripts/current-attendance-choice-browser4-qualification/test_oracles.mjs\n\n        '\n    - name: Admit entire current source and exact actual backend14 graph before database\n      working-directory: writer\n      run: python -B '../auditor/scripts/current-attendance-choice-browser4-qualification/probe.py' --check-actual-source\n    - name: Start disposable database\n      working-directory: base\n      shell: bash\n",
+          "after": "\n        npx tsc --noEmit --project tsconfig.app.json\n\n        python -B -m unittest discover -s scripts/current-attendance-choice-browser4-lawful-successor -p ''test_*.py''\n\n        node --check scripts/current-attendance-choice-browser4-lawful-successor/cases.mjs\n\n        node --test scripts/current-attendance-choice-browser4-lawful-successor/test_oracles.mjs scripts/current-attendance-choice-browser4-lawful-successor/test_lawful_oracles.mjs\n\n        '\n    - name: Admit entire current source and exact actual backend14 graph before database\n      working-directory: writer\n      run: python -B '../auditor/scripts/current-attendance-choice-browser4-lawful-successor/probe.py' --check-actual-source\n    - name: Start disposable database\n      working-directory: base\n      shell: bash\n",
+          "count": 1
+        },
+        {
+          "before": "        \\ \\\\\\n  cp6_rollback supabase_db_cp5-local '../auditor/cp6-proof/t3/CLONE_install'\\n\"\n    - name: Run four real S03 normal App Auth browser cases and complete restoration\n      working-directory: writer\n      run: python -B '../auditor/scripts/current-attendance-choice-browser4-qualification/probe.py'\n    - name: Require browser4 typed counts Auth cleanup outer restore and all5\n      working-directory: auditor\n      if: always()\n      run: python -B scripts/current-attendance-choice-browser4-qualification/result_gate.py\n    - name: Preserve exact original JSON report bytes in a bounded compressed log receipt\n      if: always()\n      working-directory: auditor\n",
+          "after": "        \\ \\\\\\n  cp6_rollback supabase_db_cp5-local '../auditor/cp6-proof/t3/CLONE_install'\\n\"\n    - name: Run four real S03 normal App Auth browser cases and complete restoration\n      working-directory: writer\n      run: python -B '../auditor/scripts/current-attendance-choice-browser4-lawful-successor/probe.py'\n    - name: Require browser4 typed counts Auth cleanup outer restore and all5\n      working-directory: auditor\n      if: always()\n      run: python -B scripts/current-attendance-choice-browser4-lawful-successor/result_gate.py\n    - name: Preserve exact original JSON report bytes in a bounded compressed log receipt\n      if: always()\n      working-directory: auditor\n",
+          "count": 1
+        },
+        {
+          "before": "        path: auditor/cp6-proof/t3\n        retention-days: 30\n        if-no-files-found: error\n    if: github.ref == 'refs/heads/astra-a/s03-browser4-qualification-20261030'\n",
+          "after": "        path: auditor/cp6-proof/t3\n        retention-days: 30\n        if-no-files-found: error\n    if: github.ref == 'refs/heads/astra-a/s03-browser4-lawful-qualification-20261030'\n",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "counted_changes": 45,
+  "source_derivation_only": true,
+  "Native_SQL_changed": false,
+  "actual_Native_Auth_browser_credit": 0
+}

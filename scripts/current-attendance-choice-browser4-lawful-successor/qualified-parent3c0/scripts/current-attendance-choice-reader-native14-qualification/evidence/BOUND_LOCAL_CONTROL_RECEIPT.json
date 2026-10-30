@@ -1,0 +1,16 @@
+{
+  "classification": "SOURCE_PRODUCER_AND_API_WIRING_IN_MEMORY_RESULT_SCHEMA_CONTROLS_ONLY",
+  "tests": 49,
+  "passed": 49,
+  "failed": 0,
+  "log_sha256": "5550b0e5f5996496e220f166a57aa36ab4388c5ca98019d2e4b50dfbf1d1a928",
+  "original11_financial_cases_unchanged": true,
+  "reader_groups": [
+    11,
+    3
+  ],
+  "actual_Native14_executed": false,
+  "actual_SQL_DB_GET_calls": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

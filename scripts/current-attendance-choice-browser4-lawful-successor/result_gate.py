@@ -32,7 +32,10 @@ def checked(report, package):
     browser = component.get('browser', {})
     if (component.get('actual_captured_originals') != 15 or component.get('actual_Native_clones') != 2
             or component.get('product_sources_override') is not False
-            or component.get('frozen_UI_root_backend_replaced') is not False
+            or component.get('canonical_backend_selected_from_qualified3c0') is not True
+            or component.get('frozen_UI82_source_unchanged') is not True
+            or component.get('backend_ROOT_or_method_override') is not False
+            or component.get('canonical_qualified15_installed_proof', {}).get('actual_captured_originals') != 15
             or len(component.get('actual_backend_runtime_files', {})) != 7):
         raise ValueError('S03_BROWSER4_REAL_RUNTIME7_CAPTURE15_SOURCE_REQUIRED')
     if (set(report.get('committed', {})) != {CASE} or component.get('status') != 'PASS'

@@ -1,0 +1,11 @@
+{
+  "classification": "LOCAL_PGLITE_HARNESS_RAW_DRIVER_VS_TO_JSONB_ENCODING_MISMATCH_NOT_NATIVE_FAILURE",
+  "completed": [
+    "OLD_EARNED_NEW_WORKER_LEAVES_REAL_UNKNOWN_CELL"
+  ],
+  "failing": "ACTUAL_NATIVE_RATE_FRESH_VERSION_P2_PRESERVES_P1_RATE",
+  "observed": "Equivalent timestamps/numerics/date fields compared native driver decoded rows versus PostgreSQL to_jsonb encoding",
+  "repair": "Capture baseline and after with the same exact to_jsonb writer, preserve all fields and effective_to-only exception",
+  "actual_Native_cases": 0,
+  "raw_stdout_reconstructed": false
+}

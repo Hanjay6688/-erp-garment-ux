@@ -1,0 +1,16 @@
+{
+  "classification": "LOCAL_MODEL_ALL_USER_SCHEMA_CENSUS_NOT_ACTUAL_NATIVE",
+  "refusal": "CP7_S03_PERIOD_CLAIMED",
+  "changed": {
+    "erp.audit_logs_id_seq": {
+      "before": [
+        "10",
+        true
+      ],
+      "after": [
+        "12",
+        true
+      ]
+    }
+  }
+}

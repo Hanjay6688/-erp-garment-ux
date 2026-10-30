@@ -63,7 +63,7 @@ class GeneratedOutputControls(unittest.TestCase):
 
     def whole(self,names):
         def observed_untracked_double(args,**kwargs):
-            if args[:3]==['git','-C',str(self.root)]:
+            if Path(args[0]).name=='git' and args[1:3]==['-C',str(self.root)]:
                 if args[-3:]==['ls-files','--others','--exclude-standard']:
                     return ''.join(name+'\n'for name in sorted(names))
                 args=[args[0],args[1],str(ROOT),*args[3:]]

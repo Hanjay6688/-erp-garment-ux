@@ -1,0 +1,14 @@
+{
+  "classification": "LOCAL_PYTHON_API_DOUBLE_FIRST_FAILURE_NOT_NATIVE",
+  "command": "python -B -m unittest discover -s scripts/current-s03-lawful-fixture-successor-qualification -p 'test_lawful.py' -v",
+  "observed_tests": 13,
+  "passed": 12,
+  "errors": 1,
+  "failing": "test_invalid_period_or_amount_refuses_before_fixtures",
+  "observed_exception": "AttributeError: 'NoneType' object has no attribute 'f'",
+  "source_line": "f = core.f before amount/period validation",
+  "repair": "Move dependency access after closed input validation; preserve exact test",
+  "raw_stdout_reconstructed": false,
+  "actual_Native_cases": 0,
+  "financial_oracles_changed": false
+}

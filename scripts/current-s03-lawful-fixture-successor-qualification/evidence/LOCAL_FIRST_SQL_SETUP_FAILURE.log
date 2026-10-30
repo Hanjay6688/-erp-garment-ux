@@ -1,0 +1,8 @@
+{
+  "classification": "LOCAL_PGLITE_PREPARATION_FAILURE_NOT_ACTUAL_NATIVE",
+  "status": "FAIL",
+  "completed": [],
+  "error": "error: \"v_uncovered_rate_count\" is not a known variable",
+  "stack": "error: \"v_uncovered_rate_count\" is not a known variable\n    at ye.Ve (file:///workspace/scratch/ef468a447ac6/test-runtime/node_modules/@electric-sql/pglite/dist/chunk-3WWIVTCY.js:1:17616)\n    at ye.nt (file:///workspace/scratch/ef468a447ac6/test-runtime/node_modules/@electric-sql/pglite/dist/chunk-3WWIVTCY.js:1:15003)\n    at ye.parse (file:///workspace/scratch/ef468a447ac6/test-runtime/node_modules/@electric-sql/pglite/dist/chunk-3WWIVTCY.js:1:13755)\n    at file:///workspace/scratch/ef468a447ac6/test-runtime/node_modules/@electric-sql/pglite/dist/index.js:3:191801\n    at wasm://wasm/021cbcb2:wasm-function[3707]:0x27cef1\n    at wasm://wasm/021cbcb2:wasm-function[3717]:0x27d268\n    at wasm://wasm/021cbcb2:wasm-function[9494]:0x509d72\n    at wasm://wasm/021cbcb2:wasm-function[175]:0x598a3\n    at invoke_v (file:///workspace/scratch/ef468a447ac6/test-runtime/node_modules/@electric-sql/pglite/dist/index.js:3:176458)\n    at wasm://wasm/021cbcb2:wasm-function[178]:0x5a0e8",
+  "actual_Native_cases": 0
+}

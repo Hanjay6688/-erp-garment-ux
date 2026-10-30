@@ -171,7 +171,7 @@ def qualified_source(root, here, binding):
     """Read the actual qualifying Git object locally; never fetch or use HEAD."""
     env = dict(os.environ, GIT_NO_LAZY_FETCH='1')
     commit = binding['qualifying_commit']
-    git = lambda *args: subprocess.check_output(['git', '-C', str(root), *args], env=env)
+    git = lambda *args: subprocess.check_output(['/usr/bin/git', '-C', str(root), *args], env=env)
     if git('rev-parse', commit + '^{tree}').decode().strip() != binding['qualifying_tree']:
         raise ValueError('S03_BROWSER4_EXACT_ACTUAL_QUALIFYING_TREE_REQUIRED')
     pins = binding['qualified_source_files']
@@ -191,7 +191,11 @@ def qualified_source(root, here, binding):
     historical_config = json.loads((here / 'retained-source-metadata/PREPARED_NATIVE14_CONFIG.json').read_bytes())
     proof = check_qualified_metadata(historical_config, historical_source, prepared, binding['runtime_files'])
     closure = check_current_closure(values['SOURCE.json'], binding, historical_source)
+    physical = json.loads((here / 'QUALIFIED_SOURCE_INPUTS.json').read_bytes())['files']
+    source_inputs = load_accepted_inputs(here)
+    source_inputs.static(root, here, json.loads((here / 'CONFIG.json').read_bytes()))
     for name,pin in closure.items():
+        source_inputs.exact(root, physical[name]['physical_path'], pin)
         raw = git('show', commit + ':' + name)
         if len(raw) != pin['bytes'] or sha256(raw).hexdigest() != pin['sha256']:
             raise ValueError('S03_BROWSER4_CURRENT_QUALIFIER_GIT_SOURCE_CHANGED:' + name)
@@ -231,20 +235,21 @@ def admit(root, here, config, source):
     originals = config['accepted_originals']
     if not isinstance(originals, dict) or set(originals) != {'report', 'package', 'files', 'restoration', 'native11', 'reader3'}:
         raise ValueError('S03_BROWSER4_EXACT_SIX_ACTUAL_ORIGINALS_REQUIRED')
+    source_inputs = load_accepted_inputs(here)
+    source_inputs.present(root, here, config, required=True)
     documents = {}
     receipts = {}
     for name, item in originals.items():
         relative = PurePosixPath(item['path'])
-        if relative.is_absolute() or '..' in relative.parts or not str(relative).startswith('retained/'):
-            raise ValueError('S03_BROWSER4_RETAINED_ORIGINAL_PATH_REQUIRED')
-        path = here / str(relative)
-        packed = path.read_bytes()
-        raw = gzip.decompress(packed)
-        if (len(packed) != item['gzip_bytes'] or sha256(packed).hexdigest() != item['gzip_sha256']
+        if relative.is_absolute() or '..' in relative.parts or not str(relative).startswith(source_inputs.PREFIX):
+            raise ValueError('S03_BROWSER4_EXACT_GENERATED_RAW_ORIGINAL_PATH_REQUIRED')
+        raw = source_inputs.regular(root, str(relative)).read_bytes()
+        if (item.get('encoding') != 'raw'
                 or len(raw) != item['raw_bytes'] or sha256(raw).hexdigest() != item['raw_sha256']):
             raise ValueError('S03_BROWSER4_ORIGINAL_BYTES_CHANGED:' + name)
         documents[name] = json.loads(raw)
         receipts[name] = item
+    source_inputs.actual_identity(documents, config['backend_binding'])
     proof = checked(**documents, binding=config['backend_binding'])
     source_proof = qualified_source(root, here, config['backend_binding'])
     spec = importlib.util.spec_from_file_location('s03_browser4_admitted_source_routes', here / 'backend_runtime.py')
@@ -253,4 +258,10 @@ def admit(root, here, config, source):
     return dict(proof, accepted_originals=receipts, source_declaration=source,
         actual_qualified_source=source_proof,
         actual_component_root=str(route['component_root']), actual_backend_runtime_files=route['runtime_files'],
-        frozen_UI_backend_files_replaced=False)
+        canonical_backend_selected_from_qualified3c0=True, frozen_UI82_source_unchanged=True,
+        backend_ROOT_or_method_override=False)
+
+
+def load_accepted_inputs(here):
+    spec = importlib.util.spec_from_file_location('s03_browser4_accepted_exact_source_inputs', here / 'accepted_inputs.py')
+    module = importlib.util.module_from_spec(spec); spec.loader.exec_module(module); return module

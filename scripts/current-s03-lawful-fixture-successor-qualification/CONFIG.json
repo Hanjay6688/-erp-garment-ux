@@ -1,0 +1,57 @@
+{
+  "qualification_contract": "cp7.s03.lawful-fixture-successor-native14.v1",
+  "source_base": "9ac9c8bd1bfb7d64a1e735067083c68acbff02ef",
+  "source_base_tree": "49591433899ef13c70e3cd94fc0c43894ea182df",
+  "source_base_is_runtime_prerequisite": false,
+  "failed9ac_partial8PASS_is_prerequisite": false,
+  "inherited_CONFIG": {
+    "bytes": 40380,
+    "sha256": "f794a527849a6b4bf5026763c9f72995254556a0741a2ab8f72f4994a15de4af"
+  },
+  "inherited_SOURCE": {
+    "bytes": 130653,
+    "sha256": "a6efa90aa23107a2facdd55d285677bbf60731432543455dcd844b3d2a0a56c1"
+  },
+  "fresh_groups": [
+    11,
+    3
+  ],
+  "expected_captures": 15,
+  "expected_clones": 2,
+  "runtime_files_changed": false,
+  "actual_Native_cases": 0,
+  "Native_executed": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "root_execution_branch": "astra-a/s03-lawful-fixture-native14-20261030",
+  "workflow": ".github/workflows/cp7-s03-lawful-fixture-native14.yml",
+  "workflow_name": "CP7 A S03 lawful fixture successor Native11 then Reader3",
+  "original_Native11_ids": [
+    "S03_NATIVE_OWNER_FIELDS_READ_FULL_NO_EFFECT",
+    "S03_NATIVE_EXPENSE_APPROVAL_ONCE_PAID_E05_REOPEN",
+    "S03_NATIVE_TWO_EXACT_PERIODS_CENTS_AND_NATIVE_HPP",
+    "S03_NATIVE_P2_PAYROLL_POOL_COEXIST_AND_POLICY_FENCES",
+    "S03_NATIVE_OWNING_CANCEL_LATE_OUTPUT_AND_RESTORATION_FLOOR",
+    "S03_NATIVE_BOTH_CORRECTIONS_LINKED_INVERSES_NO_RECOGNITION",
+    "S03_NATIVE_STALE_REVIEW_UUID_RECOVERY_AND_APPEND_ONLY",
+    "S03_NATIVE_CLOSED_SOURCE_OPEN_OUTPUT_AND_CLOSED_CORRECTION",
+    "S03_NATIVE_ZERO_OUTPUT_SUCCESSOR_POLICY_RETAINS_OLD_INFO",
+    "S03_NATIVE_FINISHED_PO_FG_COGS_COST_AND_CANCEL_EXACT",
+    "S03_NATIVE_OLD_ACCRUAL_LATER_BOOK_REOPEN_DATE_FLOOR"
+  ],
+  "reader_Native3_ids": [
+    "S03_READER_NATIVE_OWNED_ACTIVE_PERIODS_AND_DISJOINT_P2_UNCHANGED",
+    "S03_READER_NATIVE_CANCELLED_LIFETIME_AND_STALE_COMPOSITE_NO_EFFECT",
+    "S03_READER_NATIVE_EXACT_HELD_P1_BLOCKS_LEGACY_REPLACE_AND_CREATE"
+  ],
+  "adapted_callback_ids": [
+    "S03_NATIVE_P2_PAYROLL_POOL_COEXIST_AND_POLICY_FENCES",
+    "S03_NATIVE_BOTH_CORRECTIONS_LINKED_INVERSES_NO_RECOGNITION",
+    "S03_NATIVE_FINISHED_PO_FG_COGS_COST_AND_CANCEL_EXACT"
+  ],
+  "fixture_API": {
+    "path": "scripts/current-s03-lawful-fixture-successor-qualification/lawful_fixture.py",
+    "bytes": 18312,
+    "sha256": "d8c991189c480033adf711002077062f459f0005bc7f682b10db1be754febd7f"
+  }
+}

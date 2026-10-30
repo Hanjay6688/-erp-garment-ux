@@ -1,0 +1,16 @@
+{
+  "status": "METADATA_SCOPE_RED_NOT_NATIVE",
+  "error": "S03_BROWSER4_EXACT_OWN_NAMESPACE_AND_WORKFLOW_ALLOCATION_REQUIRED",
+  "difference": [
+    "scripts/current-attendance-choice-browser4-lawful-successor/qualified-parent3c0/scripts/current-attendance-choice-reader-native14-qualification/SOURCE.json",
+    "scripts/current-attendance-choice-browser4-lawful-successor/qualified-parent3c0/scripts/current-attendance-choice-reader-native14-qualification/retained_9a0/native11/SOURCE.json",
+    "scripts/current-attendance-choice-browser4-lawful-successor/qualified-parent3c0/scripts/current-attendance-choice-reader-native14-qualification/retained_9a0/source80/scripts/current-attendance-period-choice-qualification/SOURCE.json",
+    "scripts/current-attendance-choice-browser4-lawful-successor/qualified-parent3c0/scripts/current-attendance-period-choice-native11-qualification/SOURCE.json",
+    "scripts/current-attendance-choice-browser4-lawful-successor/qualified-parent3c0/scripts/current-attendance-period-choice-qualification/SOURCE.json",
+    "scripts/current-attendance-choice-browser4-lawful-successor/qualified-parent3c0/scripts/current-attendance-period-choice-readers-qualification/SOURCE.json",
+    "scripts/current-attendance-choice-browser4-lawful-successor/retained-e09c-closed/SOURCE.json"
+  ],
+  "cause": "Inherited bind_source filtered every leaf named SOURCE.json, including retained proof manifests; only active self should be excluded.",
+  "Native": 0,
+  "DB": 0
+}

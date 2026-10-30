@@ -1,0 +1,11 @@
+{
+  "status": "LOCAL_METADATA_ONLY_COUNTER_NOT_NATIVE",
+  "helper_snapshot": "d9e1ee6f583072beca30ac4c2f7a1c9e08b3b29c873649438f3ee090c7926f33",
+  "changed_field": "ALIGNED_CHAIN.production_go false -> integer0",
+  "observed_accepted": [
+    "cp6-proof/t3/ALIGNED_CHAIN.json"
+  ],
+  "root_cause": "Python dict equality treats false and0 equal",
+  "expected": "closed producer JSON flag type rejects integer",
+  "DB_executed": false
+}

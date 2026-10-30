@@ -1,0 +1,74 @@
+{
+  "classification": "LOCAL_ALL_PHASE_GENERATED_METADATA_FIXTURE_NOT_S03_DB_OR_NATIVE",
+  "actual_P0_source": "exact a577 first101 files, no edits",
+  "P1_source": {
+    "head": "bd2cd02c0b724f87f6f1d8628f8227dd30c513a4",
+    "zip_bytes": 4485191,
+    "zip_sha256": "014400fd25c7134055a73a761a5c7079f29d0eed686964d8fc077fc221b32196",
+    "member_pins": {
+      "ALIGNED_CHAIN.json": {
+        "bytes": 17536,
+        "sha256": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b"
+      },
+      "CLONE_install.clone-erp.sql": {
+        "bytes": 5385610,
+        "sha256": "54bcc02999beda6f26416782f043433ddb7918c2c0b832b9ecb9616f579fbf62"
+      },
+      "CLONE_install.connection-fence.txt": {
+        "bytes": 494,
+        "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+      },
+      "CLONE_install.database-identity.txt": {
+        "bytes": 3074,
+        "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+      },
+      "CLONE_install.source-erp.sql": {
+        "bytes": 5385610,
+        "sha256": "54bcc02999beda6f26416782f043433ddb7918c2c0b832b9ecb9616f579fbf62"
+      },
+      "CLONE_install.txt": {
+        "bytes": 291,
+        "sha256": "c439ff6111f7bf0f5d30e872a54693b2086b79101e77c8c56b33c2479f6374da"
+      },
+      "T3_PACKAGE_FILES_INSTALL.json": {
+        "bytes": 1806,
+        "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+      },
+      "T3_PACKAGE_INSTALL.json": {
+        "bytes": 360434,
+        "sha256": "0a8b0cb64c9b05c8d9a5ae7662d1fc23b87f9456bec4fb57e32bf2482fee7038"
+      },
+      "disposable-startup-attempts/STARTUP_ATTEMPTS.json": {
+        "bytes": 525,
+        "sha256": "72112d95772b6754ae677c46223cc566a25e8fd8da901c584a9e1e219f5bfde9"
+      },
+      "disposable-startup-attempts/attempt-1-start.log": {
+        "bytes": 28979,
+        "sha256": "5a3dbe6e47f179983a9211541b2735beee2b7cf82c24867b1c3d4de671efc490"
+      }
+    }
+  },
+  "declared_fixture_changes": {
+    "T3_PACKAGE_INSTALL.json": "exact eleven persisted pre-writer fields from unchanged cp6_t3_package_run.save call; status INCOMPLETE; only source-derived product/workflow/current tool identity rebound"
+  },
+  "Raw_reference_archive_modified": false,
+  "SQL_diagnostics_executed": false,
+  "actual_S03_DB_Native_executed": false,
+  "old80_changed": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "P1_optional_expired_AC_artifact_output_actual_pins": {
+    "cp6-proof/t3/ARTIFACT_FETCH/f99e4b35036346c4af003e6f9973b9d1-1.json": {
+      "bytes": 536,
+      "sha256": "cd086e17f9090907ff12adb16d761bf44fec475c6e094f5ed553496ba318a8b3"
+    },
+    "cp6-proof/t3/ARTIFACT_FETCH/f99e4b35036346c4af003e6f9973b9d1-1.stdout.txt": {
+      "bytes": 139,
+      "sha256": "3e2733c709f586f8124ba4eb545a3cb65221dec818acc5b6942738a4aa70d7c6"
+    },
+    "cp6-proof/t3/ARTIFACT_FETCH/f99e4b35036346c4af003e6f9973b9d1-1.stderr.txt": {
+      "bytes": 36,
+      "sha256": "7a17de998793f933f41f520a646b2388f70a705c6b12287b69a90f36fb7ba33f"
+    }
+  }
+}

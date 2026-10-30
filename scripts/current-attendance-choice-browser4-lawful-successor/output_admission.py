@@ -207,10 +207,15 @@ def admit(root, here, names):
     root,here,names=Path(root),Path(here),set(names)
     p0=load('s03_browser4_exact_P0_output_validator',here/'inherited-output-validation/generated_receipts.py')
     later=load('s03_browser4_exact_later_output_validator',here/'inherited-output-validation/generated_later.py')
-    first,p0proof=p0.admit(root,here/'inherited-output-validation',names)
-    second,laterproof=later.admit(root,here/'inherited-output-validation',names-set(first))
-    accepted=set(first)|set(second);built=build(root,here,names-accepted);accepted.update(built)
+    cfg = json.loads((here / 'CONFIG.json').read_bytes())
+    accepted = load('s03_browser4_bound_immutable_original_input_scope', here / 'accepted_inputs.py')
+    input_names, input_proof = accepted.present(root, here, cfg)
+    selected_inputs = set(names) & input_names
+    first,p0proof=p0.admit(root,here/'inherited-output-validation',names - selected_inputs)
+    second,laterproof=later.admit(root,here/'inherited-output-validation',names-set(first)-selected_inputs)
+    accepted=set(first)|set(second)|selected_inputs;built=build(root,here,names-accepted);accepted.update(built)
     own={name for name in names-accepted if evidence(root,here,name)};accepted.update(own)
     return accepted,dict(classification='BOUNDED_NON_SOURCE_OUTPUTS_NOT_ORIGINAL_OR_PASS_AUTHORITY',
         P0=p0proof,later=laterproof,normal_App_build_files=len(built),own_evidence_files=len(own),
+        exact_accepted14_input_stage=input_proof,
         actual_Native_Auth_browser_credit=0,source_authority=False,Original_authority=False)

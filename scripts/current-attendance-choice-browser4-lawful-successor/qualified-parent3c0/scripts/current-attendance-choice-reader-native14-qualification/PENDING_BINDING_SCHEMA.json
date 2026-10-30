@@ -1,0 +1,35 @@
+{
+  "classification": "ROOT_ONLY_BINDING_SCHEMA_NOT_AN_ACCEPTED_BACKEND",
+  "backend_binding": {
+    "head": "PUBLIC_ALIAS_COMMIT40",
+    "tree": "EXACT_INTEGRATED_PUBLIC_ALIAS_TREE40",
+    "source": {
+      "path": "scripts/current-attendance-period-choice-readers-qualification/SOURCE.json",
+      "bytes": "EXACT_INT",
+      "sha256": "EXACT64"
+    },
+    "API": {
+      "path": "scripts/current-attendance-period-choice-readers-qualification/cases.py",
+      "bytes": "EXACT_INT",
+      "sha256": "EXACT64"
+    },
+    "files": "EVERY_EXACT_FILE_IN_THREE_AUTHOR_PREFIXES_WITH_BYTES_SHA",
+    "runtime_files": "EXACT_SEVEN_PRODUCT_PATH_SHA_MAP",
+    "old80_transitions": "EVERY_CHANGED_OLD80_PATH_BEFORE_AND_AFTER_PIN_OBJECT"
+  },
+  "required_backend_source": {
+    "status": "ROOT_BOUND_FROZEN_PREPARED_BACKEND_SOURCE_AND_API",
+    "head": "SAME_PUBLIC_ALIAS40",
+    "tree": "SAME_PUBLIC_ALIAS_TREE40",
+    "source_sha256": "SAME_SOURCE64",
+    "API_sha256": "SAME_API64"
+  },
+  "required_qualified_parent": {
+    "status": "ROOT_VERIFIED_VENDOR41C_FOUR_ORIGINALS_AND_ALL5_GATES",
+    "head": "41caaaed02c0d89b122ecf1ff221f6647141c335",
+    "retained41c": "EXACT_EXISTING_CFG_FOUR_GZIP_PINS",
+    "qualified_vendor_sources_sha256": "1b29b7029499a9ca0778effc89bd651502c6047be336ad887c556188611e3743"
+  },
+  "actual_Native_Auth_browser": 0,
+  "not_executable_acceptance": true
+}

@@ -1,0 +1,49 @@
+{
+  "classification": "LOCAL_METADATA_AND_PHYSICAL_INPUT_FAILURES_NOT_NATIVE_PRODUCT_FAILURES",
+  "files": [
+    {
+      "file": "FIRST_LATE_BINDING_DERIVATION_RED.json",
+      "bytes": 1800,
+      "sha256": "709193e014cd4be663b89ab5113a9dcb342cbad042459a05d9ad117727903210"
+    },
+    {
+      "file": "FIRST_LATE_BINDING_SOURCE_ALLOCATION_RED.json",
+      "bytes": 1491,
+      "sha256": "2913cf182b2b742947a3b882a6d3bc94dcac49e34577a4a3da2f0a484984f7c4"
+    },
+    {
+      "file": "FIRST_REAL_SOURCE.json",
+      "bytes": 9917,
+      "sha256": "1932ac9d51f5f7aa355ea0b940f6cd948e1be296d329f698118c992f668fe97d"
+    },
+    {
+      "file": "SECOND_REAL_SOURCE.json",
+      "bytes": 4205,
+      "sha256": "a19489c754a96cd89518952e335d4866e32251333979f8c0126c931a8a29a814"
+    },
+    {
+      "file": "THIRD_REAL_SOURCE.json",
+      "bytes": 4663,
+      "sha256": "1820e401ac1983ce0bd0fe23ce52d05afa7e0548e62bad2a40af47ee60824c2d"
+    },
+    {
+      "file": "FIRST_BOUND_UNIT.log",
+      "bytes": 12975,
+      "sha256": "608e4267422f0f08c819d0d3cc4e297d2dd63eaa60faec3c8dad5c54e9f18bdd"
+    },
+    {
+      "file": "SECOND_BOUND_UNIT.log",
+      "bytes": 12975,
+      "sha256": "236596d524429f84f5346feb278c0dd5d3999d9c0cd3af9fdf332d9c5814b01c"
+    },
+    {
+      "file": "THIRD_BOUND_UNIT.log",
+      "bytes": 12004,
+      "sha256": "f9a8eedac4a1e71be2b098605d8c09b500fe3aecb2f095b33d585a7a1e3607c2"
+    }
+  ],
+  "actual_Native": 0,
+  "DB": 0,
+  "browser": 0,
+  "preserved_without_relabel": true
+}

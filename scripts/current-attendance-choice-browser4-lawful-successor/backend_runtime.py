@@ -1,7 +1,7 @@
 """Load only the selected real backend package; never alter its sources() or code.
 
-The normal UI checkout stays frozen. Seven exact public runtime files and its
-unchanged Python package entry live in a dedicated component root, whose actual
+The UI82 bytes stay frozen. Seven exact qualified runtime files and the
+unchanged Python package entry execute at their canonical paths, whose actual
 HERE/ROOT naturally produce the same canonical source keys. The complete real
 predecessor graph still comes from the normal checkout and must compare exactly
 with the admitted actual Native14 Original before any database is opened.
@@ -32,8 +32,8 @@ def retained(expected):
             or declaration.get('product_sources_override') is not False):
         raise ValueError('S03_BROWSER4_EXACT_SELECTED_ACTUAL_RUNTIME7_REQUIRED')
     component = (ROOT / declaration['component_root']).resolve()
-    if component != (FROZEN / 'runtime-backend7').resolve():
-        raise ValueError('S03_BROWSER4_DEDICATED_COMPONENT_ROOT_REQUIRED')
+    if component != ROOT.resolve():
+        raise ValueError('S03_BROWSER4_CANONICAL_QUALIFIED_COMPONENT_ROOT_REQUIRED')
     for name, pin in [*files.items(), (declaration['package_entry']['path'], declaration['package_entry'])]:
         relative = PurePosixPath(name)
         if relative.is_absolute() or '..' in relative.parts or '\\' in name:

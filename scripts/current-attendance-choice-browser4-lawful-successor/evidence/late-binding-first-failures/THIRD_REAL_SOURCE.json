@@ -1,0 +1,40 @@
+{
+  "status": "FAIL",
+  "classification": "ACTUAL_ALL6_ORIGINALS_CANONICAL15_SOURCE_ONLY_NO_DB",
+  "head": "e09c6512932de81777e661275d18bb232b2d2ee3",
+  "tree": "8f18cef07f0939093c0ddc488ef9d7af66b56ae6",
+  "cwd": "/workspace/scratch/ef468a447ac6/erp-s03-browser4-bound",
+  "argv": [
+    "/workspace/scratch/ef468a447ac6/erp-s03-browser4-bound/scripts/current-attendance-choice-browser4-lawful-successor/probe.py",
+    "--check-actual-source"
+  ],
+  "Original_environment_keys": [
+    "CP7_VENDOR_BACKEND11_ORIGINALS",
+    "D17_18_ACCEPTED_CONSISTENCY_DIRECTORY",
+    "D17_18_ACCEPTED_CONSISTENCY_FOCUSED_DIRECTORY",
+    "D17_18_RETAINED_COMBINED_AF_DIRECTORY",
+    "D17_18_RETAINED_FOCUSED64_DIRECTORY"
+  ],
+  "Original_environment_sha256": "a22eeb15eda4f79948953886b61f616eb9ec27d49af93cfd792329fa031b457a",
+  "forbidden_attempts": [],
+  "observed_write_paths": [],
+  "error": {
+    "type": "FileNotFoundError",
+    "message": "[Errno 2] No such file or directory: '/workspace/scratch/ef468a447ac6/erp-s03-browser4-bound/docs/cp7/d17-14/ow04/NATIVE_SIGNED_SOURCE_QUALIFICATION.json'",
+    "traceback": "Traceback (most recent call last):\n  File \"/workspace/scratch/ef468a447ac6/erp-s03-browser4-bound/scripts/current-attendance-choice-browser4-lawful-successor/local_no_db_source.py\", line 61, in main\n    runpy.run_path(str(target), run_name='__main__')\n  File \"<frozen runpy>\", line 287, in run_path\n  File \"<frozen runpy>\", line 98, in _run_module_code\n  File \"<frozen runpy>\", line 88, in _run_code\n  File \"/workspace/scratch/ef468a447ac6/erp-s03-browser4-bound/scripts/current-attendance-choice-browser4-lawful-successor/probe.py\", line 77, in <module>\n    main()\n  File \"/workspace/scratch/ef468a447ac6/erp-s03-browser4-bound/scripts/current-attendance-choice-browser4-lawful-successor/probe.py\", line 61, in main\n    with runtime() as engine:\n         ^^^^^^^^^\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/contextlib.py\", line 137, in __enter__\n    return next(self.gen)\n           ^^^^^^^^^^^^^^\n  File \"/workspace/scratch/ef468a447ac6/erp-s03-browser4-bound/scripts/current-attendance-choice-browser4-lawful-successor/probe.py\", line 37, in runtime\n    exec(compile(code, str(original), 'exec'), engine.__dict__)\n  File \"/workspace/scratch/ef468a447ac6/erp-s03-browser4-bound/scripts/current-vendor-receivable-qualification/probe.py\", line 12, in <module>\n    import cp7_p21_current_chain_rehearsal_probe as chain\n  File \"/workspace/scratch/ef468a447ac6/erp-s03-browser4-bound/scripts/cp7_p21_current_chain_rehearsal_probe.py\", line 25, in <module>\n    helper=importlib.util.module_from_spec(spec);spec.loader.exec_module(helper)\n                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/ef468a447ac6/erp-s03-browser4-bound/scripts/ow04-payment-used-restore-qualification/probe.py\", line 13, in <module>\n    import source_probe as control\n  File \"/workspace/scratch/ef468a447ac6/erp-s03-browser4-bound/scripts/ow04-payment-source-qualification/source_probe.py\", line 21, in <module>\n    import cp7_full_ow04_probe as previous\n  File \"/workspace/scratch/ef468a447ac6/erp-s03-browser4-bound/scripts/cp7_full_ow04_probe.py\", line 16, in <module>\n    import cp7_ow04_probe as core\n  File \"/workspace/scratch/ef468a447ac6/erp-s03-browser4-bound/scripts/cp7_ow04_probe.py\", line 63, in <module>\n    else 'docs/cp7/d17-14/ow04/NATIVE_INITIAL_QUALIFICATION.json')).read_bytes()\n                                                                    ^^^^^^^^^^^^\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py\", line 1019, in read_bytes\n    with self.open(mode='rb') as f:\n         ^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py\", line 1013, in open\n    return io.open(self, mode, buffering, encoding, errors, newline)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nFileNotFoundError: [Errno 2] No such file or directory: '/workspace/scratch/ef468a447ac6/erp-s03-browser4-bound/docs/cp7/d17-14/ow04/NATIVE_SIGNED_SOURCE_QUALIFICATION.json'\n"
+  },
+  "stdout": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "stderr": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "actual_browser_cases": 0,
+  "actual_Native_cases": 0,
+  "DB": 0,
+  "checker_ROOT_replaced": false,
+  "product_sources_or_method_overridden": false,
+  "caller_argv_restored": true
+}

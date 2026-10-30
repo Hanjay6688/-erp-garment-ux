@@ -2,7 +2,8 @@
 
 Private carry CREATE/VALIDATE clones preserve the Native allocation and source
 checks. Twelve existing Native functions plus one existing private settlement
-facade receive bounded hooks; all thirteen actual originals remain available
+facade receive bounded financial/access hooks; two private HPP readers receive
+only return decorators. All fifteen actual originals remain available
 for exact preuse removal. Other settlement actions keep their original paths.
 """
 SCHEMA='cp7_attendance_choice'
@@ -19,8 +20,12 @@ JOURNAL='erp.reverse_journal(uuid,text)'
 SEWING='erp.record_sewing_terminal_v1(jsonb,uuid)'
 BLOCKERS='erp.period_blockers_v1(date,date)'
 FACADE='cp7_payroll.apply_settlement(text,jsonb,text)'
+POOL_JSON='cp7_hpp_pool.pool_json(erp.attendance_hpp_pools,date)'
+POOL_PREVIEW='cp7_hpp_pool.preview(date,date,date)'
 NATIVE_SIGNATURES=(CREATE,VALIDATE,ACTIVATE,CANCEL,APPROVE,UNPAID,PAID,POLICY,SET_POLICY,JOURNAL,SEWING,BLOCKERS)
-SIGNATURES=NATIVE_SIGNATURES+(FACADE,)
+FINANCIAL_SIGNATURES=NATIVE_SIGNATURES+(FACADE,)
+READER_SIGNATURES=(POOL_JSON,POOL_PREVIEW)
+SIGNATURES=FINANCIAL_SIGNATURES+READER_SIGNATURES
 CLONES=(SCHEMA+'.native_create_carry_pool_v1(jsonb,uuid)',SCHEMA+'.native_validate_carry_pool_v1(uuid)')
 
 
@@ -128,4 +133,20 @@ def patched(originals):
     result[BLOCKERS]=once(result[BLOCKERS],
         'return query select * from cp7_hpp_close.blockers_v1(p_through);',
         'return query select * from cp7_attendance_choice.blockers_v1(p_through);',BLOCKERS+':owner-policy-successor')
+    # Wrap only the original JSON returns, preserving every ordinary computation
+    # and all thirteen financial/access derivations above byte for byte.
+    result[POOL_JSON]=once(result[POOL_JSON],
+        "return jsonb_build_object('id',p_pool.id,",
+        "return cp7_attendance_choice.decorate_pool_json_v1(p_pool,p_closed,jsonb_build_object('id',p_pool.id,",POOL_JSON+':return-open')
+    result[POOL_JSON]=once(result[POOL_JSON],
+        "'stale',v_stale is not null,'stale_message',v_stale,'actions',to_jsonb(v_actions));",
+        "'stale',v_stale is not null,'stale_message',v_stale,'actions',to_jsonb(v_actions)));",POOL_JSON+':return-close')
+    for status in('BLOCKED','READY'):
+        anchor="return jsonb_build_object('period_start',p_start,'period_end',p_end,'status','"+status+"',"
+        result[POOL_PREVIEW]=once(result[POOL_PREVIEW],anchor,
+            "return cp7_attendance_choice.decorate_pool_preview_v1(p_start,p_end,jsonb_build_object('period_start',p_start,'period_end',p_end,'status','"+status+"',",POOL_PREVIEW+':'+status+':open')
+    result[POOL_PREVIEW]=once(result[POOL_PREVIEW],"'can_create',false);","'can_create',false));",POOL_PREVIEW+':BLOCKED:close')
+    result[POOL_PREVIEW]=once(result[POOL_PREVIEW],
+        "'can_create',not v_period_closed and v_existing is null);",
+        "'can_create',not v_period_closed and v_existing is null));",POOL_PREVIEW+':READY:close')
     return result

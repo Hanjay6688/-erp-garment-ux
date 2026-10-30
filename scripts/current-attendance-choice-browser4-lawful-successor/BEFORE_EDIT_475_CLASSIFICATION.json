@@ -1,0 +1,175 @@
+{
+  "base": "e09c6512932de81777e661275d18bb232b2d2ee3",
+  "accepted_parent": "3c0c5defe55e48cf6f221c868594dd6676d17170",
+  "exact_source_count": 475,
+  "different18": [
+    {
+      "path": "scripts/cp7_attendance_period_choice/NEW_CATALOG_IDENTITIES.json",
+      "classification": "CANONICAL_EXECUTED_RUNTIME",
+      "old_sha256": "ef2f99de5ec4104b53f28121d923a44350e80354c67217b70d32231f955fce71",
+      "accepted_sha256": "e49e4cb9c794d6ed98b831ae318e6d3c401a110d420cf932ee7011f7c971a578"
+    },
+    {
+      "path": "scripts/cp7_attendance_period_choice/README.md",
+      "classification": "QUALIFIER_PROOF_OR_LOCAL_MODEL_METADATA_NOT_EXECUTED_BACKEND",
+      "old_sha256": "4b0254beb3e317d8c8df9077b35ea42c0b8b8f1764cede62750c4865a91d9044",
+      "accepted_sha256": "b6df163c63651acd5e9864ceca935e798626a073f90db7c23820eb4bfaa34a64"
+    },
+    {
+      "path": "scripts/cp7_attendance_period_choice/SOURCE_DERIVED_NATIVE_ABI.json",
+      "classification": "QUALIFIER_PROOF_OR_LOCAL_MODEL_METADATA_NOT_EXECUTED_BACKEND",
+      "old_sha256": "fd401799313a1a8938d08e226f235461b4425992ffa0d8936327d39cf6571fb3",
+      "accepted_sha256": "609032c301a97bc32d43c274fcb5cc1f2ddbf33dd9fbc104ebc876641fe20176"
+    },
+    {
+      "path": "scripts/cp7_attendance_period_choice/catalog_contract.py",
+      "classification": "CANONICAL_EXECUTED_RUNTIME",
+      "old_sha256": "0f0c1266ddefc5133cd693ee208f61f8ea71e5a09ab1ba43b1b52afb910f6764",
+      "accepted_sha256": "f312de61b3c75087a51d7df712896627c02bb5d6473803bf6d2c90ad506d7c64"
+    },
+    {
+      "path": "scripts/cp7_attendance_period_choice/composition.py",
+      "classification": "CANONICAL_EXECUTED_RUNTIME",
+      "old_sha256": "1fd29c8c4cf736241347b6619242096edb409cb6a9d1dbb80533be5fdb45a49e",
+      "accepted_sha256": "51b3d53dccd69688438287bee338e7a86a37afe57aa963cc2dee24b2e43470f1"
+    },
+    {
+      "path": "scripts/cp7_attendance_period_choice/evidence/LOCAL_CHECK_RECEIPT.json",
+      "classification": "QUALIFIER_PROOF_OR_LOCAL_MODEL_METADATA_NOT_EXECUTED_BACKEND",
+      "old_sha256": "3d8115f552edeaaa25846ad887179cb4be9ca98547db5ed5a0764d4eb3653e66",
+      "accepted_sha256": "22a729f2b2d1264161dabf831ff54cc8e7f7e52532abeb0837642e6a929210c5"
+    },
+    {
+      "path": "scripts/cp7_attendance_period_choice/local.test.ts",
+      "classification": "QUALIFIER_PROOF_OR_LOCAL_MODEL_METADATA_NOT_EXECUTED_BACKEND",
+      "old_sha256": "5e88b862eece1ac41c5c80bc7c579b0faea24fc03d65462b2b9fdb48e051ddfb",
+      "accepted_sha256": "cebb720019bcf4c3a58c00cd37720d2824cf5f7c0fe8972ba978607fb002e0ed"
+    },
+    {
+      "path": "scripts/cp7_attendance_period_choice/local_fixture.sql",
+      "classification": "QUALIFIER_PROOF_OR_LOCAL_MODEL_METADATA_NOT_EXECUTED_BACKEND",
+      "old_sha256": "47c8718eac2633a4c0e4027ec9d91205c03dba2be5fa1d83c5c9a3f7bf370663",
+      "accepted_sha256": "f6b0c9f5d24c310b60a1fa857ec759ebddcfc503fd8e7757f34a01421237c572"
+    },
+    {
+      "path": "scripts/cp7_attendance_period_choice/native_delta.py",
+      "classification": "CANONICAL_EXECUTED_RUNTIME",
+      "old_sha256": "7a9576e136089b487920fe5c38088977491d342f87384c8e2e82ad128fcf6b90",
+      "accepted_sha256": "a49242327798a59407739c2999fcf92408aeef9d88a1ae94fccc82bd189ac9ce"
+    },
+    {
+      "path": "scripts/cp7_attendance_period_choice/test_source.py",
+      "classification": "QUALIFIER_PROOF_OR_LOCAL_MODEL_METADATA_NOT_EXECUTED_BACKEND",
+      "old_sha256": "d6f9f7e85ffb4334c2df8d4862959fa1e6ad1b2aae3268a07384e15d8c04681d",
+      "accepted_sha256": "f4ce4d11e84858faa13f46a56011c5ee16df5b1e7a34fd975bbdd400718ff0ea"
+    },
+    {
+      "path": "scripts/current-attendance-period-choice-native11-qualification/README.md",
+      "classification": "QUALIFIER_PROOF_OR_LOCAL_MODEL_METADATA_NOT_EXECUTED_BACKEND",
+      "old_sha256": "0030742ca317052ed81a34928805cff860128f3f144b9975453eb013332253af",
+      "accepted_sha256": "b3c515b383abe9fbfc686ad576432256e4bf2e3897ebf00e76fec8975a1f77ea"
+    },
+    {
+      "path": "scripts/current-attendance-period-choice-native11-qualification/SOURCE.json",
+      "classification": "QUALIFIER_PROOF_OR_LOCAL_MODEL_METADATA_NOT_EXECUTED_BACKEND",
+      "old_sha256": "84f9cf99f46abfcfcff8bc11d0127b86a3dfcc109fdb1dffb68b06274ab22c94",
+      "accepted_sha256": "cc2dc65b6f73b288a34fc7dc9ad5e745f18b0f066595b02572e31804956cd438"
+    },
+    {
+      "path": "scripts/current-attendance-period-choice-native11-qualification/bind.py",
+      "classification": "QUALIFIER_PROOF_OR_LOCAL_MODEL_METADATA_NOT_EXECUTED_BACKEND",
+      "old_sha256": "940547848b5ae1cf4e580b8755e9a30b72217961cb1a8f314d67b53b809ed66b",
+      "accepted_sha256": "338bb44d06e74dde58b11f4c36c2c8b37513fd81075d7015a6b4c04aaecd85db"
+    },
+    {
+      "path": "scripts/current-attendance-period-choice-native11-qualification/source_check.py",
+      "classification": "QUALIFIER_PROOF_OR_LOCAL_MODEL_METADATA_NOT_EXECUTED_BACKEND",
+      "old_sha256": "25b2960b1faee2735fd3775a68261cde5f25a4d840b4c0af2b069cf4ea2b0905",
+      "accepted_sha256": "0509c74a031163156fea3dec587c5d475d3f1563d6504840e5564e159b3b3fe4"
+    },
+    {
+      "path": "scripts/current-attendance-period-choice-qualification/README.md",
+      "classification": "QUALIFIER_PROOF_OR_LOCAL_MODEL_METADATA_NOT_EXECUTED_BACKEND",
+      "old_sha256": "aa524118b13978d76dfe9d625cb29a9e1e38444dcdbdb91f272edf4e5f7af165",
+      "accepted_sha256": "e1183d0fc61f45ce75bdd1acb31991fd65800e8df0c51bf61f2acb7f48108c22"
+    },
+    {
+      "path": "scripts/current-attendance-period-choice-qualification/SOURCE.json",
+      "classification": "QUALIFIER_PROOF_OR_LOCAL_MODEL_METADATA_NOT_EXECUTED_BACKEND",
+      "old_sha256": "4b3ed812b18826d83086acfafb822321ea2c92a3d639678e9f8c04155de676b3",
+      "accepted_sha256": "5ecab817f56b892717995a25711b62e74ad3746cc4729a7c84c3bc49895436b0"
+    },
+    {
+      "path": "scripts/current-attendance-period-choice-qualification/admission.py",
+      "classification": "QUALIFIER_PROOF_OR_LOCAL_MODEL_METADATA_NOT_EXECUTED_BACKEND",
+      "old_sha256": "06778d6d2f9c7077f05cf3728505c625c8519a809b107c8594bcd9524becb023",
+      "accepted_sha256": "fa6a2f578fda9856bdc5f011e7d6175929b80c5072102dc26bf528ea6923a4f5"
+    },
+    {
+      "path": "scripts/current-attendance-period-choice-qualification/test_plan.py",
+      "classification": "QUALIFIER_PROOF_OR_LOCAL_MODEL_METADATA_NOT_EXECUTED_BACKEND",
+      "old_sha256": "be3dd7d8e7e273d2730bc44b5e52bf2e14939ee02fd3f422b892876d893e1f5f",
+      "accepted_sha256": "14237b3db53ce2d01852eae0fa9d7b524fe85f5ea0de075607c0811fb51bb962"
+    }
+  ],
+  "canonical_runtime8": [
+    {
+      "path": "scripts/cp7_attendance_period_choice/choice.sql",
+      "canonical_e09c": "EXACT",
+      "frozen_retained_runtime": "EXACT",
+      "accepted_sha256": "44499c6d6a06d1effc2be4f066168f5fa2fe9608b2ccb80d1d2d0b1dac0a8212",
+      "bytes": 61490
+    },
+    {
+      "path": "scripts/cp7_attendance_period_choice/readers.sql",
+      "canonical_e09c": "ABSENT",
+      "frozen_retained_runtime": "EXACT",
+      "accepted_sha256": "4ab82ff58033f4357251930504e6e9e75ecce9d8f1cc5b4e10f689940ce749e2",
+      "bytes": 5847
+    },
+    {
+      "path": "scripts/cp7_attendance_period_choice/native_delta.py",
+      "canonical_e09c": "DIFFERENT",
+      "frozen_retained_runtime": "EXACT",
+      "accepted_sha256": "a49242327798a59407739c2999fcf92408aeef9d88a1ae94fccc82bd189ac9ce",
+      "bytes": 11507
+    },
+    {
+      "path": "scripts/cp7_attendance_period_choice/catalog_contract.py",
+      "canonical_e09c": "DIFFERENT",
+      "frozen_retained_runtime": "EXACT",
+      "accepted_sha256": "f312de61b3c75087a51d7df712896627c02bb5d6473803bf6d2c90ad506d7c64",
+      "bytes": 2513
+    },
+    {
+      "path": "scripts/cp7_attendance_period_choice/NEW_CATALOG_IDENTITIES.json",
+      "canonical_e09c": "DIFFERENT",
+      "frozen_retained_runtime": "EXACT",
+      "accepted_sha256": "e49e4cb9c794d6ed98b831ae318e6d3c401a110d420cf932ee7011f7c971a578",
+      "bytes": 18161
+    },
+    {
+      "path": "scripts/cp7_attendance_period_choice/composition.py",
+      "canonical_e09c": "DIFFERENT",
+      "frozen_retained_runtime": "EXACT",
+      "accepted_sha256": "51b3d53dccd69688438287bee338e7a86a37afe57aa963cc2dee24b2e43470f1",
+      "bytes": 7381
+    },
+    {
+      "path": "scripts/cp7_attendance_period_choice/installer_ddl.py",
+      "canonical_e09c": "ABSENT",
+      "frozen_retained_runtime": "EXACT",
+      "accepted_sha256": "e002ea2dd938fef5913c76974909f70de8bcb47874b7fd958c0aeef0e2993514",
+      "bytes": 4997
+    },
+    {
+      "path": "scripts/cp7_attendance_period_choice/__init__.py",
+      "canonical_e09c": "EXACT",
+      "frozen_retained_runtime": "EXACT",
+      "accepted_sha256": "7078a6a88cf48a6fc9f9de2a06c7367b3b264613682d9cdbb6dce37fe18f34ea",
+      "bytes": 75
+    }
+  ],
+  "decision": "NO_WRITES_BEFORE_RUNTIME_CLASSIFICATION",
+  "Native": 0
+}

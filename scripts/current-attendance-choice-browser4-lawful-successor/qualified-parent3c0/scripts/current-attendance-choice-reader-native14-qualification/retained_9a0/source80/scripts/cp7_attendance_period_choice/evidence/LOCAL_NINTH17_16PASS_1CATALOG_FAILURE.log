@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/workspace/scratch/ef468a447ac6/erp-attendance-zero/scripts/cp7_attendance_period_choice/local_catalog.py", line 39, in <module>
+    transition(capture['before'],capture['after'],capture['definitions'])
+  File "/workspace/scratch/ef468a447ac6/erp-attendance-zero/scripts/cp7_attendance_period_choice/catalog_contract.py", line 29, in transition
+    if set(identities['functions'])!=declared_functions():raise ValueError('CP7_S03_DECLARED_IDENTITIES_CHANGED')
+                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: CP7_S03_DECLARED_IDENTITIES_CHANGED
+JSON report written to /tmp/s03-local-ninth.json

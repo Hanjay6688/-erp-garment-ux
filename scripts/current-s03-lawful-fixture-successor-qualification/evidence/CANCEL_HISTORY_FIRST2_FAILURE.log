@@ -1,0 +1,25 @@
+test_deleting_intermediate_allocation_HPP_version_is_not_a_legitimate_cancel (test_cancel_history.CancelHistory.test_deleting_intermediate_allocation_HPP_version_is_not_a_legitimate_cancel) ... FAIL
+test_symmetric_post_and_inverse_mutation_cannot_hide_behind_restored_balance (test_cancel_history.CancelHistory.test_symmetric_post_and_inverse_mutation_cannot_hide_behind_restored_balance) ... FAIL
+
+======================================================================
+FAIL: test_deleting_intermediate_allocation_HPP_version_is_not_a_legitimate_cancel (test_cancel_history.CancelHistory.test_deleting_intermediate_allocation_HPP_version_is_not_a_legitimate_cancel)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/ef468a447ac6/erp-cp6-review/scripts/current-s03-lawful-fixture-successor-qualification/test_cancel_history.py", line 64, in test_deleting_intermediate_allocation_HPP_version_is_not_a_legitimate_cancel
+    with self.assertRaises(AssertionError):invoke(before,allocated,after,post)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: AssertionError not raised
+
+======================================================================
+FAIL: test_symmetric_post_and_inverse_mutation_cannot_hide_behind_restored_balance (test_cancel_history.CancelHistory.test_symmetric_post_and_inverse_mutation_cannot_hide_behind_restored_balance)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/ef468a447ac6/erp-cp6-review/scripts/current-s03-lawful-fixture-successor-qualification/test_cancel_history.py", line 59, in test_symmetric_post_and_inverse_mutation_cannot_hide_behind_restored_balance
+    with self.assertRaises(AssertionError):invoke(before,allocated,after,post)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: AssertionError not raised
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.002s
+
+FAILED (failures=2)

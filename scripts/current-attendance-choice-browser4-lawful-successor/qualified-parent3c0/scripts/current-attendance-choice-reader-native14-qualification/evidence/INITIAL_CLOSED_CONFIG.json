@@ -1,0 +1,129 @@
+{
+  "contract": "cp7.attendance-period-choice-native11.v1",
+  "status": "CLOSED_FROZEN_BACKEND_SOURCE_API_AND_VENDOR41C_BINDING_REQUIRED",
+  "source_base": "9a0ca1de04723717c9d6635b8d3a6bd094233b97",
+  "source_base_tree": "9b13113d5ec63afb95874d41f06699e0016744b3",
+  "source_base_is_runtime_prerequisite": false,
+  "qualified_parent_commit": "41caaaed02c0d89b122ecf1ff221f6647141c335",
+  "qualified_vendor_sources_sha256": "1b29b7029499a9ca0778effc89bd651502c6047be336ad887c556188611e3743",
+  "retained41c": {
+    "CP7_VENDOR_RECEIVABLE_COMBINED11.json": {
+      "bytes": 3485711,
+      "sha256": "04e00f42862ddfec8346d41d4d6a2d6a285f041127cccf09d973ca929b307ea0",
+      "gzip_bytes": 347533,
+      "gzip_sha256": "91bab345d1b41ca7fa8f57fab97a407377a2588b0d7298f57bb47ee01d3daade"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360420,
+      "sha256": "48fc54072b4f3122d89f6a45faa93f0e8ebd05ecfde0b9370def8202755e0f43",
+      "gzip_bytes": 11393,
+      "gzip_sha256": "9c651a5d5a38370a2f5f19f30543821ab8333eb267936b34681e9a27784bc2cb"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 1470,
+      "sha256": "c81b67bf21c5b6d5a32107d6fdfb861024b98c276b825f9f2b626d36f07307dd",
+      "gzip_bytes": 645,
+      "gzip_sha256": "430e1a3396f479a756d457495dbf8aa7819a99b2ca49a3908391becfb64cc9ce"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "gzip_bytes": 255,
+      "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7"
+    }
+  },
+  "runtime_files": null,
+  "case_path": "scripts/current-attendance-choice-reader-native14-qualification/case_plan.py",
+  "Native_case_ids": [
+    "S03_NATIVE_OWNER_FIELDS_READ_FULL_NO_EFFECT",
+    "S03_NATIVE_EXPENSE_APPROVAL_ONCE_PAID_E05_REOPEN",
+    "S03_NATIVE_TWO_EXACT_PERIODS_CENTS_AND_NATIVE_HPP",
+    "S03_NATIVE_P2_PAYROLL_POOL_COEXIST_AND_POLICY_FENCES",
+    "S03_NATIVE_OWNING_CANCEL_LATE_OUTPUT_AND_RESTORATION_FLOOR",
+    "S03_NATIVE_BOTH_CORRECTIONS_LINKED_INVERSES_NO_RECOGNITION",
+    "S03_NATIVE_STALE_REVIEW_UUID_RECOVERY_AND_APPEND_ONLY",
+    "S03_NATIVE_CLOSED_SOURCE_OPEN_OUTPUT_AND_CLOSED_CORRECTION",
+    "S03_NATIVE_ZERO_OUTPUT_SUCCESSOR_POLICY_RETAINS_OLD_INFO",
+    "S03_NATIVE_FINISHED_PO_FG_COGS_COST_AND_CANCEL_EXACT",
+    "S03_NATIVE_OLD_ACCRUAL_LATER_BOOK_REOPEN_DATE_FLOOR",
+    "S03_READER_NATIVE_OWNED_ACTIVE_PERIODS_AND_DISJOINT_P2_UNCHANGED",
+    "S03_READER_NATIVE_CANCELLED_LIFETIME_AND_STALE_COMPOSITE_NO_EFFECT",
+    "S03_READER_NATIVE_EXACT_HELD_P1_BLOCKS_LEGACY_REPLACE_AND_CREATE"
+  ],
+  "vendor_probe_path": "scripts/current-vendor-receivable-qualification/probe.py",
+  "runner_derivation": {
+    "original_sha256": "c420d894f8d5f16bddefeae73addb621507170f372a28e7d6e33d88c7eeb0be9",
+    "derived_sha256": "18748a833cf9a0a37b575b7f436272d8c49bae046d1e48f6142c75d9956cc8bf",
+    "counted_changes": 6,
+    "unchanged_install_preuse_reinstall_used_guard_backup_roles_CP6_advisors_package": true,
+    "fresh_race_Auth_HTTP_browser_claim": false
+  },
+  "unchanged_engine_files": [
+    ".github/workflows/cp7-current-vendor-receivable-native.yml",
+    "scripts/cp6_auditor_runner.py",
+    "scripts/cp7_catalog_state.py",
+    "scripts/cp7_ow04_restore_bundle.py",
+    "scripts/cp7_vendor_receivable/cases.py",
+    "scripts/cp7_vendor_receivable/composition.py",
+    "scripts/cp7_vendor_receivable/native_delta.py",
+    "scripts/cp7_vendor_receivable/receivable.sql",
+    "scripts/current-factory-initial-stage/stream_data.py",
+    "scripts/current-vendor-receivable-followup/CONFIG.json",
+    "scripts/current-vendor-receivable-followup/README.md",
+    "scripts/current-vendor-receivable-followup/cases.py",
+    "scripts/current-vendor-receivable-followup/fetch_native.py",
+    "scripts/current-vendor-receivable-followup/gate.py",
+    "scripts/current-vendor-receivable-followup/runner.py",
+    "scripts/current-vendor-receivable-followup/test_gate.py",
+    "scripts/current-vendor-receivable-qualification/CONFIG.json",
+    "scripts/current-vendor-receivable-qualification/README.md",
+    "scripts/current-vendor-receivable-qualification/SOURCE.json",
+    "scripts/current-vendor-receivable-qualification/admission.py",
+    "scripts/current-vendor-receivable-qualification/check_source.py",
+    "scripts/current-vendor-receivable-qualification/native_runner.py",
+    "scripts/current-vendor-receivable-qualification/probe.py",
+    "scripts/current-vendor-receivable-qualification/runner.py",
+    "scripts/current-vendor-receivable-qualification/test_combined_runner.py",
+    "scripts/current-vendor-receivable-qualification/test_workflow_source.py",
+    "scripts/current-vendor-receivable-qualification/workflow_source.py",
+    "scripts/ow04-composed-qualification/composed_probe.py",
+    "scripts/ow04-payment-source-qualification/source_probe.py"
+  ],
+  "expected_existing_Native_hooks": 12,
+  "expected_private_facade_hooks": 1,
+  "expected_captured_originals": 15,
+  "expected_private_clones": 2,
+  "workflow": ".github/workflows/cp7-s03-choice-reader-native14.yml",
+  "root_execution_branch": "astra-a/s03-choice-reader-native14-20261030",
+  "production_go": false,
+  "independent_acceptance": false,
+  "qualification_contract": "cp7.attendance-choice-reader-native14.v1",
+  "failed_baseline": {
+    "head": "9a0ca1de04723717c9d6635b8d3a6bd094233b97",
+    "classification": "FAILED_INSTALL_SCHEMA_CREATE_ZERO_NATIVE_CASES",
+    "used_as_prerequisite": false,
+    "exact_retained_failure": null
+  },
+  "original_Native11_ids": [
+    "S03_NATIVE_OWNER_FIELDS_READ_FULL_NO_EFFECT",
+    "S03_NATIVE_EXPENSE_APPROVAL_ONCE_PAID_E05_REOPEN",
+    "S03_NATIVE_TWO_EXACT_PERIODS_CENTS_AND_NATIVE_HPP",
+    "S03_NATIVE_P2_PAYROLL_POOL_COEXIST_AND_POLICY_FENCES",
+    "S03_NATIVE_OWNING_CANCEL_LATE_OUTPUT_AND_RESTORATION_FLOOR",
+    "S03_NATIVE_BOTH_CORRECTIONS_LINKED_INVERSES_NO_RECOGNITION",
+    "S03_NATIVE_STALE_REVIEW_UUID_RECOVERY_AND_APPEND_ONLY",
+    "S03_NATIVE_CLOSED_SOURCE_OPEN_OUTPUT_AND_CLOSED_CORRECTION",
+    "S03_NATIVE_ZERO_OUTPUT_SUCCESSOR_POLICY_RETAINS_OLD_INFO",
+    "S03_NATIVE_FINISHED_PO_FG_COGS_COST_AND_CANCEL_EXACT",
+    "S03_NATIVE_OLD_ACCRUAL_LATER_BOOK_REOPEN_DATE_FLOOR"
+  ],
+  "reader_Native3_ids": [
+    "S03_READER_NATIVE_OWNED_ACTIVE_PERIODS_AND_DISJOINT_P2_UNCHANGED",
+    "S03_READER_NATIVE_CANCELLED_LIFETIME_AND_STALE_COMPOSITE_NO_EFFECT",
+    "S03_READER_NATIVE_EXACT_HELD_P1_BLOCKS_LEGACY_REPLACE_AND_CREATE"
+  ],
+  "expected_new_reader_captures": 2,
+  "backend_binding": null,
+  "required_backend_source": null,
+  "required_qualified_parent": null
+}

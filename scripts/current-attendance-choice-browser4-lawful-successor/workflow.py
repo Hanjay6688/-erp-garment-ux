@@ -27,8 +27,16 @@ def derive(original):
     steps = job['steps']
     checkout = next(step for step in steps if step.get('uses', '').startswith('actions/checkout@'))
     steps.insert(steps.index(checkout) + 1,
-        dict(name='Require actual backend14 full restore all5 Originals before artifact GET or DB',
-            **{'working-directory': 'auditor'}, run='python3 -B ' + NAMESPACE + '/source_guard.py --require-actual'))
+        dict(name='Verify exact qualified14 metadata and complete physical475 source before Original GET',
+            **{'working-directory': 'auditor'}, run='python3 -B ' + NAMESPACE + '/source_guard.py'))
+    steps.insert(steps.index(checkout) + 2, dict(
+        name='Fetch immutable qualified actual14 archive and verify all six raw Originals',
+        **{'working-directory': 'auditor', 'env': {'GH_TOKEN': '${{ github.token }}'}},
+        run='python3 -B ' + NAMESPACE + '/fetch_originals.py'))
+    steps.insert(steps.index(checkout) + 3, dict(
+        name='Require all six actual Originals and complete Source475 before ERP GET or DB',
+        **{'working-directory': 'auditor'},
+        run='python3 -B ' + NAMESPACE + '/source_guard.py --require-actual'))
     source = one(steps, 'Admit exact backend3194 parent and declared vendor delta before database')
     source['name'] = 'Admit entire current source and exact actual backend14 graph before database'
     source['run'] = "python -B '../auditor/" + NAMESPACE + "/probe.py' --check-actual-source"

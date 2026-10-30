@@ -1,0 +1,191 @@
+{
+  "contract": "cp7.s03.9ac-native14-first-business-failure-causal-assessment.v1",
+  "classification": "READ_ONLY_ACTUAL_ORIGINAL_SEAL_AND_SOURCE_CAUSAL_REVIEW_NO_NEW_NATIVE_RUN",
+  "run_id": 40967080539,
+  "job_id": 123774181466,
+  "head": "9ac9c8bd1bfb7d64a1e735067083c68acbff02ef",
+  "tree": "49591433899ef13c70e3cd94fc0c43894ea182df",
+  "artifact_id": 12940861511,
+  "archive_bytes": 4176290,
+  "archive_sha256": "90e6cc9eed6f5c33bb5902df2dc2ba43a0f4f408b9e3ddcf9d2fd7ad633b9a05",
+  "CRC_pass": true,
+  "ZIP_members": 118,
+  "selected_unmodified_members": {
+    "CP7_S03_ATTENDANCE_CHOICE_NATIVE11_CASES.json": {
+      "bytes": 23409,
+      "sha256": "f53ebbecc4a49780ef3800b884937c91ff1fb9d2825b99cb7830e6e4a9723c40"
+    },
+    "CP7_S03_ATTENDANCE_CHOICE_NATIVE14.json": {
+      "bytes": 28415697,
+      "sha256": "0716f7cf16c2c02b5487f3c18469bb8b37b9e710b70bfbf07512b0cd5913c55e"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360440,
+      "sha256": "d0915aa21ac1c6868fc1a47dcb86520bce3450ed69581a46792bce7e30bdf76c"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 1470,
+      "sha256": "d65203c8eac1ae3235323cb3f095baea7c9c0b59e1b9b3177e5362e6ad0d2c71"
+    },
+    "S03_NATIVE14_FINAL_GATE.json": {
+      "bytes": 294,
+      "sha256": "fd07e63e843c19965fdb53c2e89be45089b25989cf676ba37e1bb0ae07b79c49"
+    }
+  },
+  "strict_original11_counts": {
+    "PASS": 8,
+    "INCOMPLETE": 3
+  },
+  "strict_original11_planned_case_ids": [
+    "S03_NATIVE_OWNER_FIELDS_READ_FULL_NO_EFFECT",
+    "S03_NATIVE_EXPENSE_APPROVAL_ONCE_PAID_E05_REOPEN",
+    "S03_NATIVE_TWO_EXACT_PERIODS_CENTS_AND_NATIVE_HPP",
+    "S03_NATIVE_P2_PAYROLL_POOL_COEXIST_AND_POLICY_FENCES",
+    "S03_NATIVE_OWNING_CANCEL_LATE_OUTPUT_AND_RESTORATION_FLOOR",
+    "S03_NATIVE_BOTH_CORRECTIONS_LINKED_INVERSES_NO_RECOGNITION",
+    "S03_NATIVE_STALE_REVIEW_UUID_RECOVERY_AND_APPEND_ONLY",
+    "S03_NATIVE_CLOSED_SOURCE_OPEN_OUTPUT_AND_CLOSED_CORRECTION",
+    "S03_NATIVE_ZERO_OUTPUT_SUCCESSOR_POLICY_RETAINS_OLD_INFO",
+    "S03_NATIVE_FINISHED_PO_FG_COGS_COST_AND_CANCEL_EXACT",
+    "S03_NATIVE_OLD_ACCRUAL_LATER_BOOK_REOPEN_DATE_FLOOR"
+  ],
+  "actual_original11_case_callbacks_attempted": 11,
+  "actual_original11_partial_PASS": 8,
+  "actual_original11_INCOMPLETE": 3,
+  "Reader3_reached": false,
+  "Reader3_actual_cases": 0,
+  "committed_whole14_used_witness_reached": false,
+  "complete14_accepted_case_credit": 0,
+  "outer_status": "INCOMPLETE",
+  "outer_error": "S03_NATIVE11_COMPLETE_ELEVEN_PASS_REQUIRED",
+  "outer_required_case_ids_pass": false,
+  "all_strict_case_reported_boundary_restored": true,
+  "whole_strict_group_complete_boundary_restored": true,
+  "full_outer22_all_business_rows_and_all_sequences_equal": true,
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "all_public_catalog_members_and_row_hashes": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "raw_public_equal": true,
+  "baseline_roles_exact": true,
+  "CP6_restored": true,
+  "advisors_equal": true,
+  "advisor_gate": true,
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "primary_unchanged": true,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "package_files_all_installed": "ALL_FILES_INSTALLED",
+  "backup_drill_status": "RESTORED_IDENTICAL",
+  "final_gate": {
+    "status": "INCOMPLETE",
+    "error": "[Errno 2] No such file or directory: '/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/cp6-proof/t3/CP7_S03_ATTENDANCE_CHOICE_READER_NATIVE3_CASES.json'",
+    "actual_Native_cases": 0,
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "actual_existing_function_captures": 15,
+  "actual_Native_clones": 2,
+  "actual_derivation_all15_and_clones_match_37b": true,
+  "actual_all22_installed_functions_match_capture": true,
+  "source_derived_local_ABI_used": false,
+  "runtime7_matches_frozen37b": {
+    "scripts/cp7_attendance_period_choice/choice.sql": "44499c6d6a06d1effc2be4f066168f5fa2fe9608b2ccb80d1d2d0b1dac0a8212",
+    "scripts/cp7_attendance_period_choice/readers.sql": "4ab82ff58033f4357251930504e6e9e75ecce9d8f1cc5b4e10f689940ce749e2",
+    "scripts/cp7_attendance_period_choice/native_delta.py": "a49242327798a59407739c2999fcf92408aeef9d88a1ae94fccc82bd189ac9ce",
+    "scripts/cp7_attendance_period_choice/catalog_contract.py": "f312de61b3c75087a51d7df712896627c02bb5d6473803bf6d2c90ad506d7c64",
+    "scripts/cp7_attendance_period_choice/NEW_CATALOG_IDENTITIES.json": "e49e4cb9c794d6ed98b831ae318e6d3c401a110d420cf932ee7011f7c971a578",
+    "scripts/cp7_attendance_period_choice/composition.py": "51b3d53dccd69688438287bee338e7a86a37afe57aa963cc2dee24b2e43470f1",
+    "scripts/cp7_attendance_period_choice/installer_ddl.py": "e002ea2dd938fef5913c76974909f70de8bcb47874b7fd958c0aeef0e2993514"
+  },
+  "frozen_original11_case_body_sha256": "15fe990cccb82ff4c1dcd9ca40dc17fe93ac26a3a359a37361e6d8780b1f16e2",
+  "failed_cases": {
+    "S03_NATIVE_P2_PAYROLL_POOL_COEXIST_AND_POLICY_FENCES": {
+      "error": "Attendance period has 1 unrecorded eligible worker/day cells; blanks are not ABSENT or OFF\nCONTEXT:  PL/pgSQL function post_attendance_period_v1(uuid,text,uuid,bigint) line 71 at RAISE\nSQL function \"erp_post_attendance_period_v1\" statement 2",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py\", line 165, in _strict_group_once\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-attendance-period-choice-qualification/cases.py\", line 171, in coexist\n    f.earned(cur,s['contractor'],out,D('20.02'))\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-attendance-period-choice-qualification/fixtures.py\", line 71, in earned\n    c.s.native(cur,'select public.erp_post_attendance_period_v1(%s,%s,%s,%s)',(c.bc.awp.find(ap,'period_id'),REASON,uuid.uuid4(),c.bc.awp.find(ap,'row_version')))\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_settlement_cases.py\", line 33, in native\n    b.chain.production.owner(cur);r=cur.execute(sql,values).fetchone()[0];b.api.admin(cur);return r\n                                    ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.RaiseException: Attendance period has 1 unrecorded eligible worker/day cells; blanks are not ABSENT or OFF\nCONTEXT:  PL/pgSQL function post_attendance_period_v1(uuid,text,uuid,bigint) line 71 at RAISE\nSQL function \"erp_post_attendance_period_v1\" statement 2\n",
+      "full_boundary_restored": true
+    },
+    "S03_NATIVE_BOTH_CORRECTIONS_LINKED_INVERSES_NO_RECOGNITION": {
+      "error": "CP7_S03_PERIOD_CLOSED: buka kembali periode terkait melalui alur tutup buku sebelum membetulkannya.\nCONTEXT:  PL/pgSQL function cp7_attendance_choice.review_v1(text,jsonb) line 32 at RAISE\nSQL function \"erp_cp7_preview_attendance_choice_v1\" statement 1",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py\", line 165, in _strict_group_once\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-attendance-period-choice-qualification/cases.py\", line 204, in corrections\n    reversed=f.save(cur,s['owner'],'REVERSE',f.body(s['day']));choice_audit(cur,s,reversed);f.admin(cur)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-attendance-period-choice-qualification/fixtures.py\", line 35, in save\n    r=review(cur,subject,action,payload);return command(cur,subject,action,dict(payload,review_token=r['review_token']),key)\n      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-attendance-period-choice-qualification/fixtures.py\", line 32, in review\n    def review(cur,subject,action,payload):return call(cur,subject,'erp_cp7_preview_attendance_choice_v1',(action,json.dumps(payload)))\n                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-attendance-period-choice-qualification/fixtures.py\", line 29, in call\n    try:return one(cur,'select public.'+rpc+'('+placeholders[rpc]+')',args)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-attendance-period-choice-qualification/fixtures.py\", line 17, in one\n    def one(cur,sql,args=()):return cur.execute(sql,args).fetchone()[0]\n                                    ^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.RaiseException: CP7_S03_PERIOD_CLOSED: buka kembali periode terkait melalui alur tutup buku sebelum membetulkannya.\nCONTEXT:  PL/pgSQL function cp7_attendance_choice.review_v1(text,jsonb) line 32 at RAISE\nSQL function \"erp_cp7_preview_attendance_choice_v1\" statement 1\n",
+      "full_boundary_restored": true
+    },
+    "S03_NATIVE_FINISHED_PO_FG_COGS_COST_AND_CANCEL_EXACT": {
+      "error": "",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py\", line 165, in _strict_group_once\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-attendance-period-choice-qualification/cases.py\", line 269, in finished\n    assert physical()==original_physical and c.po_wip_balance(cur,g['po'])==0\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "full_boundary_restored": true
+    }
+  },
+  "actual_captured_Native_causal_definitions": {
+    "erp.rebuild_po_hpp(uuid,text)": {
+      "owner": "postgres",
+      "definition_sha256": "bf8efc539e1f3ee7cb9c7b6278d827ce9f95b1fb5f8a626202576f7b1aab033e",
+      "actual_captured_from_9ac_all22": true
+    },
+    "erp.post_attendance_period_v1(uuid,text,uuid,bigint)": {
+      "owner": "postgres",
+      "definition_sha256": "1fd30916d3e20ef6188defa8278f5d6f0816773d5168b9433bc922fdfd5eaab0",
+      "actual_captured_from_9ac_all22": true
+    },
+    "erp.set_worker_daily_rate_v1(uuid,numeric,date,text,uuid,bigint)": {
+      "owner": "postgres",
+      "definition_sha256": "6f20fad879ed8635e05ec06f36898d2b6e627ae308f82751e32beed249302379",
+      "actual_captured_from_9ac_all22": true
+    },
+    "erp.worker_is_employed_on(uuid,date)": {
+      "owner": "postgres",
+      "definition_sha256": "5aa1793b7aa35447f2eb7d7c8d91a5566b56c7649fdc050086d934f480c1c717",
+      "actual_captured_from_9ac_all22": true
+    },
+    "erp.reopen_accounting_through(date,text)": {
+      "owner": "postgres",
+      "definition_sha256": "cba02940aceb945f448e144e003c1fc31bc365b93e261a64e8c296d9e6ac9725",
+      "actual_captured_from_9ac_all22": true
+    },
+    "cp7_period.command(text,jsonb,uuid)": {
+      "owner": "cp7_period_write",
+      "definition_sha256": "138c4ae964f0c61b8cb5b94b3266b0449481ee3a9b49111165b3437575eafa7a",
+      "actual_captured_from_9ac_all22": true
+    }
+  },
+  "causal_findings": [
+    {
+      "case": "S03_NATIVE_P2_PAYROLL_POOL_COEXIST_AND_POLICY_FENCES",
+      "classification": "FIXTURE_PREMISE_MISMATCH_SOURCE_CONFIRMED",
+      "actual": "Native post sees one unrecorded eligible worker/day; no attendance was fabricated and the transaction refused.",
+      "source": "fixtures.earned creates a new active worker on every call; original P1 source worker has an open employment episode and is still eligible on P2. Only the new worker receives the PRESENT row.",
+      "proposed": "A qualification-owned repeated-payroll fixture must enumerate actual eligible workers, reuse the exact existing fixture worker and set a dated P2 Native rate using erp.set_worker_daily_rate_v1, then explicitly PRESENT that worker. Unknown additional workers refuse; no default ABSENT/OFF/zero. Preserve old P1 source/accrual and exact20.02 P2."
+    },
+    {
+      "case": "S03_NATIVE_BOTH_CORRECTIONS_LINKED_INVERSES_NO_RECOGNITION",
+      "classification": "FIXTURE_PERIOD_SIDE_EFFECT_SOURCE_CONFIRMED_PRODUCT_REFUSAL_EXPECTED",
+      "actual": "Final REVERSE preview refuses CP7_S03_PERIOD_CLOSED after a valid current-day carry and owning cancel.",
+      "source": "f.sewn(today) calls retained estimated_receipt(today+2), which sets closed_through=(today+2-3)-1=today-2, covering the old P1. Product review intentionally requires reopening P1 for REVERSE.",
+      "proposed": "Retain full no-effect closed-REVERSE negative, then explicitly exercise the existing OWNER period workspace/REOPEN command with fresh token/reason/idempotency to restore an open P1 before the final release. Preserve all Native inverse economic/book dates and restoration-floor negatives; no implicit direct reset."
+    },
+    {
+      "case": "S03_NATIVE_FINISHED_PO_FG_COGS_COST_AND_CANCEL_EXACT",
+      "classification": "OVERBROAD_FIXTURE_PHYSICAL_ROW_INVARIANT_VS_ACTUAL_NATIVE_VALUATION_PROJECTION",
+      "actual": "Python assertion fails at cases.py269. Previous assertions proved positive own attendance HPP delta and exact WIP0/FG/COGS deltas. No per-column before/after FG rows were retained in the failed report.",
+      "source": "Actual captured Native rebuild_po_hpp352 updates only fg_stock_movements.unit_hpp_snapshot for QC_GOOD/REWORK_IN to the new Native HPP perpiece. fg_stock_movements has17 columns and no row-version/updated-at mutation triggers. Original to_jsonb full-row equality includes this intentionally refreshed valuation projection.",
+      "proposed": "Keep the old full-row assertion/failure as negative provenance. New narrow oracle must compare every other FG field and all SALE rows exactly; bind the one QC_GOOD/REWORK_IN unit_hpp_snapshot change to exact direct Native current-HPP/baseline+own-cost arithmetic, immutable original costing facts and exact posted GL deltas. On owning cancel require exact original movement rows/cost baseline and GL restoration. Do not drop fabric costs or assert arbitrary absolute zero amounts."
+    }
+  ],
+  "raw_cost_before_after_values_retained": false,
+  "no_product_financial_defect_demonstrated_yet": true,
+  "new_product_or_qualification_edits": 0,
+  "new_Native_Auth_browser_executions": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}
