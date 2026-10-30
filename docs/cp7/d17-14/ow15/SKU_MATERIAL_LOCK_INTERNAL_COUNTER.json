@@ -1,0 +1,358 @@
+{
+  "contract": "private.sku-material-row-lock.final-internal-counter.v1",
+  "locked_at_utc": "2026-10-30T01:17:27.185268+00:00",
+  "status": "NO_CONCRETE_PRODUCT_SOURCE_BLOCKER_FOUND_RUNTIME_QUALIFICATION_PENDING",
+  "classification": "INTERNAL_READ_ONLY_SOURCE_COUNTER_NOT_INDEPENDENT_AUDIT",
+  "candidate": {
+    "head": "7eb2b1bbff879ca36e2ce278331e2b8bf616c050",
+    "tree": "b1c316d6e853805f933a6665a81edf9332d12a36",
+    "parent": "e8f878f2ecaaf24368a0ce1a3393bc29c0b886f6",
+    "parent_tree": "abfa0d954db8d1dffb620e416789e699204bbfbb",
+    "SOURCE": {
+      "path": "scripts/current-sku-recovery-material-lock/SOURCE.json",
+      "bytes": 5848,
+      "sha256": "df1278bd775a0666b408959930d2a5c018655ffc62ee242aac3d8048ab0b7586",
+      "pins": 20
+    }
+  },
+  "immutable_Git_scope": {
+    "base_files": 13738,
+    "candidate_files": 13759,
+    "unchanged_base_bytes_modes_by_exact_Git_blob_identity": 13737,
+    "modified": [
+      "scripts/cp7_sku_pair_conversion/recovery.sql"
+    ],
+    "added": [
+      "scripts/current-sku-recovery-material-lock/.gitignore",
+      "scripts/current-sku-recovery-material-lock/README.md",
+      "scripts/current-sku-recovery-material-lock/SOURCE.json",
+      "scripts/current-sku-recovery-material-lock/bind.py",
+      "scripts/current-sku-recovery-material-lock/evidence/DB_GUARD_COUNTER_RECEIPT.json",
+      "scripts/current-sku-recovery-material-lock/evidence/FIRST_LOCAL_SETUP_FAILURES.json",
+      "scripts/current-sku-recovery-material-lock/evidence/FIRST_UNGUARDED_RUNTIME_SOURCE.json",
+      "scripts/current-sku-recovery-material-lock/evidence/LOCAL_CHECK_RECEIPT.json",
+      "scripts/current-sku-recovery-material-lock/evidence/LOCAL_MATERIAL_POLICY.json",
+      "scripts/current-sku-recovery-material-lock/evidence/LOCAL_SQL_FIRST.log.gz",
+      "scripts/current-sku-recovery-material-lock/evidence/LOCAL_SQL_SECOND.log.gz",
+      "scripts/current-sku-recovery-material-lock/evidence/LOCAL_SQL_THIRD.log",
+      "scripts/current-sku-recovery-material-lock/evidence/POLICY_CATALOG_AUTHORITY.json",
+      "scripts/current-sku-recovery-material-lock/evidence/RETAINED_BUSINESS_CONTROLS.log",
+      "scripts/current-sku-recovery-material-lock/evidence/SOURCE_CONTROLS_FINAL.log",
+      "scripts/current-sku-recovery-material-lock/evidence/SOURCE_CONTROLS_FIRST.log.gz",
+      "scripts/current-sku-recovery-material-lock/evidence/UNPROJECTED_CURRENT_RUNTIME.json",
+      "scripts/current-sku-recovery-material-lock/local.mjs",
+      "scripts/current-sku-recovery-material-lock/runtime_source.py",
+      "scripts/current-sku-recovery-material-lock/test_transition.py",
+      "scripts/current-sku-recovery-material-lock/transition.py"
+    ],
+    "deleted": [],
+    "all_added_modes": "100644",
+    "SQL_mode": "100644",
+    "physical_workspace_untracked_admission_claimed": false
+  },
+  "source_pins": {
+    "scripts/current-sku-recovery-material-lock/.gitignore": {
+      "bytes": 19,
+      "sha256": "862263fa1f46c20f0d1e4dac5ffcc75abd55c08211b2c3864c5f8764b9d87793",
+      "mode": "100644"
+    },
+    "scripts/current-sku-recovery-material-lock/README.md": {
+      "bytes": 3481,
+      "sha256": "2ab9925cff3d36a758bb98eaba12716c09c8dcb053ec724a3f295f6a164ab75e",
+      "mode": "100644"
+    },
+    "scripts/current-sku-recovery-material-lock/SOURCE.json": {
+      "bytes": 5848,
+      "sha256": "df1278bd775a0666b408959930d2a5c018655ffc62ee242aac3d8048ab0b7586",
+      "mode": "100644"
+    },
+    "scripts/current-sku-recovery-material-lock/bind.py": {
+      "bytes": 2291,
+      "sha256": "66d1c1272b8a4be6d8f97e59c0a40a27a856954298e8f9ff7dcdc51e344040ae",
+      "mode": "100644"
+    },
+    "scripts/current-sku-recovery-material-lock/evidence/DB_GUARD_COUNTER_RECEIPT.json": {
+      "bytes": 1184,
+      "sha256": "2100044d5ed6df54b67a82f65173cc0c1257b7fbd7249e0113acad91a8c7e6d2",
+      "mode": "100644"
+    },
+    "scripts/current-sku-recovery-material-lock/evidence/FIRST_LOCAL_SETUP_FAILURES.json": {
+      "bytes": 1631,
+      "sha256": "1db0adea68e9eba05e1b9504ccecb06e167bfe3db6daa0c2f37aae6bc2e7992e",
+      "mode": "100644"
+    },
+    "scripts/current-sku-recovery-material-lock/evidence/FIRST_UNGUARDED_RUNTIME_SOURCE.json": {
+      "bytes": 1810,
+      "sha256": "b2b6697af8a389587766476601e600cf946248d14e8a67f05f52a498a9a70788",
+      "mode": "100644"
+    },
+    "scripts/current-sku-recovery-material-lock/evidence/LOCAL_CHECK_RECEIPT.json": {
+      "bytes": 2013,
+      "sha256": "7abb52545d97c3f51864fd1ac77cd7250c718ca2b7f60731bace6690e9dc0481",
+      "mode": "100644"
+    },
+    "scripts/current-sku-recovery-material-lock/evidence/LOCAL_MATERIAL_POLICY.json": {
+      "bytes": 20643,
+      "sha256": "4b7798dbbd9b3c2ede41351212e20041960a6780e4707727255f12aff3e05cb2",
+      "mode": "100644"
+    },
+    "scripts/current-sku-recovery-material-lock/evidence/LOCAL_SQL_FIRST.log.gz": {
+      "bytes": 5140,
+      "sha256": "cb1c4148a075784935893b47d896ee1ceb5b18be118ffc0d371fcc9939b62ffb",
+      "mode": "100644"
+    },
+    "scripts/current-sku-recovery-material-lock/evidence/LOCAL_SQL_SECOND.log.gz": {
+      "bytes": 19761,
+      "sha256": "c0b22c7025d97894c562e5f21037917b48ca5b2333bede1805243ff1f8103771",
+      "mode": "100644"
+    },
+    "scripts/current-sku-recovery-material-lock/evidence/LOCAL_SQL_THIRD.log": {
+      "bytes": 86,
+      "sha256": "03f60c91b8bb649be4ca3e04ca3e59fa315026df1cbd9cec84249bd43b0e015d",
+      "mode": "100644"
+    },
+    "scripts/current-sku-recovery-material-lock/evidence/POLICY_CATALOG_AUTHORITY.json": {
+      "bytes": 9093,
+      "sha256": "f46bfc422de1bd0fb4ade9c1c46862fdec8b307a717d5f2b3c42bbfe58a946f0",
+      "mode": "100644"
+    },
+    "scripts/current-sku-recovery-material-lock/evidence/RETAINED_BUSINESS_CONTROLS.log": {
+      "bytes": 1571,
+      "sha256": "b7801d51346d2e03a0dbc8a35f918f9e8849eb5f78163ee5ceeb106249964b09",
+      "mode": "100644"
+    },
+    "scripts/current-sku-recovery-material-lock/evidence/SOURCE_CONTROLS_FINAL.log": {
+      "bytes": 1368,
+      "sha256": "df8cbaa8993a0eeb670e167d8ac004808d908d05b1bd1f2d4c40832ba1fe4f4c",
+      "mode": "100644"
+    },
+    "scripts/current-sku-recovery-material-lock/evidence/SOURCE_CONTROLS_FIRST.log.gz": {
+      "bytes": 2526,
+      "sha256": "f24759523186e166b4d23270a383c72987a07c9bf0f33c4cc059b8a03cd9b9cc",
+      "mode": "100644"
+    },
+    "scripts/current-sku-recovery-material-lock/evidence/UNPROJECTED_CURRENT_RUNTIME.json": {
+      "bytes": 2190,
+      "sha256": "5f334202efee47c2ad39e295e4c7f91dd1f19cf094500d61461569193ca3787a",
+      "mode": "100644"
+    },
+    "scripts/current-sku-recovery-material-lock/local.mjs": {
+      "bytes": 5261,
+      "sha256": "4d6d903ee2df81b55a762b20af0f6a517590c854b765f6d6ae5dadc583176d84",
+      "mode": "100644"
+    },
+    "scripts/current-sku-recovery-material-lock/runtime_source.py": {
+      "bytes": 5176,
+      "sha256": "1439d70810383db377c48e043df7fb6d487a1b2f1a995e8993a2c08590f9f797",
+      "mode": "100644"
+    },
+    "scripts/current-sku-recovery-material-lock/test_transition.py": {
+      "bytes": 7241,
+      "sha256": "935136f9ed9bcae7d01d8c58724b8f87e8ed56b6c37517efb08873f0e71bfe1c",
+      "mode": "100644"
+    },
+    "scripts/current-sku-recovery-material-lock/transition.py": {
+      "bytes": 4864,
+      "sha256": "b25939dc978f023133fb860a3da62f17f1137adf8f4faf5ea5cea9ca5cb4e251",
+      "mode": "100644"
+    }
+  },
+  "sql_transition": {
+    "before": {
+      "bytes": 18703,
+      "sha256": "584ce0ef6c9ac81a1c0550258c6a371557529e75f5789cff612116b09577fdd4"
+    },
+    "after": {
+      "bytes": 19035,
+      "sha256": "0bfb7d5bf64398470dcdd7f9e8e1ceed124c8db6e051433142f48dcb00ab8bd9"
+    },
+    "one_hunk": true,
+    "added_lines": 5,
+    "deleted_lines": 0,
+    "exact_removal_restores_public_e8": true,
+    "exact_same_product_as_preserved_24e4": true,
+    "placement": "after sorted hpp_versions prelock; before material_stock_movements, inside existing lock_not_available block; existing post-lock reauth/period/cost/graph checks byte-exact",
+    "material_identity": "materials.id=(select lot.material_id from bc_return_lots_v1 lot where lot.id=p_lot), ORDER BY material.id FOR UPDATE NOWAIT",
+    "scope": "Managed only. Exact return-lot material, not all materials. BCLOT and lot FOR UPDATE already acquired in captured Native body. Actual source column NOTNULL plus material FK.",
+    "financial_drift": "No cap, amount, numeric, round, stock, FIFO, date, HPP, cost, journal, audit, history or financial predicate statement changed."
+  },
+  "unchanged_authorities": {
+    "old_SOURCE43": {
+      "path": "scripts/current-sku-managed-recovery-preflight/SOURCE.json",
+      "bytes": 10212,
+      "sha256": "b116e0cbbae3107e388977e00d8aebe3a95c056ac582a272a96818629984b47d",
+      "raw_retained_exact": true,
+      "42_actual_current_files_match": true,
+      "one_historical_SQL_pin_intake_is_explicit_before_after_exception": true
+    },
+    "Native_captures": [
+      "public.erp_get_sku_workspace_v1(jsonb)",
+      "public.erp_save_sku_action_v1(text,jsonb,uuid)",
+      "public.erp_get_product_conversion_workspace_v1(jsonb)",
+      "public.erp_save_product_conversion_action_v1(text,jsonb,uuid)",
+      "erp.be_conversion_preview_v1(jsonb)",
+      "erp.reverse_product_conversion(uuid,text)",
+      "erp.bc_value_custody_v1(jsonb,uuid)",
+      "erp.save_accessory_service_action_v1(text,jsonb,uuid)"
+    ],
+    "Native_capture_derivation_files_byte_exact_e8": true,
+    "private_functions": 19,
+    "private_functions_changed": 1,
+    "private_functions_unchanged": 18,
+    "private_tables": 5,
+    "old23_callbacks_oracles_engine_and_workflow_unchanged": true,
+    "new_public_RPC_roles_grants_tables": 0,
+    "operational_Git_parent": "PUBLICe8 only in new transition/binder; PUBLIC602 retained old controls; private494/24e4 documentary only, not read dependencies"
+  },
+  "causal_proof": {
+    "initial_locked_assessment": {
+      "bytes": 4640,
+      "sha256": "8e43af593bc7d92822321c6125f2db6e598b9d598573a509843d62bd7997ca82"
+    },
+    "actual602_RCA30": {
+      "bytes": 208216,
+      "sha256": "734abf6a13e0f5ac8ab21b5325366df1485cc0b960b951443ef937f7ae977b3e"
+    },
+    "all30_rows_equal_actual_full_census_before_after": true,
+    "Original_archive": {
+      "bytes": 27564211,
+      "sha256": "698b90b0bc3dfa52a8339d0b30464c2d98721594e56abdd53b07c959223f2bcc"
+    },
+    "Original_member": {
+      "entry": "SKU_COST_RECOVERY_OVER_FIRST_PART_REFUSAL_37fb87d4a2e1_FULL_CURRENT_CENSUS.json",
+      "bytes": 43056004,
+      "sha256": "1081c288694965278468de28ef65831909bf52dd5461e6d682a00a6ff0418fa0",
+      "member_matches_exact_retained_ZIP": true
+    },
+    "actual_policy": {
+      "signature": "erp.bc_check_policy_value_v1(text,jsonb)",
+      "definition_bytes": 7657,
+      "definition_sha256": "834f2b9cd80d9527dc45397c848d6ea6c1389c130f7539172fea71746f95c6c9",
+      "new_namespace_policy_receipt_exact_matches_counter": true
+    },
+    "result": "Lawful NONE skips earlier MOVING-only material row lock. Prior SELECT FOR UPDATE ROW SHARE is compatible with e8 table SRE. Later item FK/core row lock can wait after draft header/audit effects, while holder DML requires conflicting ROW EXCLUSIVE. This is a source-permitted schedule; no actual deadlock observed by this counter.",
+    "official_PG17": [
+      "https://www.postgresql.org/docs/17/explicit-locking.html",
+      "https://www.postgresql.org/docs/17/sql-select.html"
+    ]
+  },
+  "local_evidence_read_not_rerun": {
+    "SQL49": {
+      "bytes": 20643,
+      "sha256": "4b7798dbbd9b3c2ede41351212e20041960a6780e4707727255f12aff3e05cb2",
+      "retained": 45,
+      "new_NONE": 4,
+      "ids": [
+        "NONE_UNDER_POST_EXACT_REPLAY",
+        "NONE_EQUAL_POST_EXACT_REPLAY",
+        "NONE_SAME_NATIVE_OVER_BUDGET_BEFORE_ANY_EFFECT",
+        "NONE_AUTH_AFTER_NATIVE_BCLOT_WAIT_DOUBLE"
+      ],
+      "scope": "Exact retained financial/assertion body with explicit local policy/Auth/material/journal doubles; new policy changes occur inside each rolled-back fixture transaction. Not real contention."
+    },
+    "source9_and_retained9_logs": {
+      "evidence/SOURCE_CONTROLS_FINAL.log": {
+        "bytes": 1368,
+        "sha256": "df8cbaa8993a0eeb670e167d8ac004808d908d05b1bd1f2d4c40832ba1fe4f4c"
+      },
+      "evidence/RETAINED_BUSINESS_CONTROLS.log": {
+        "bytes": 1571,
+        "sha256": "b7801d51346d2e03a0dbc8a35f918f9e8849eb5f78163ee5ceeb106249964b09"
+      },
+      "evidence/LOCAL_SQL_THIRD.log": {
+        "bytes": 86,
+        "sha256": "03f60c91b8bb649be4ca3e04ca3e59fa315026df1cbd9cec84249bd43b0e015d"
+      }
+    },
+    "current_product_sources": {
+      "bytes": 2190,
+      "sha256": "5f334202efee47c2ad39e295e4c7f91dd1f19cf094500d61461569193ca3787a",
+      "whole_sources_bytes": 172449,
+      "whole_sources_sha256": "18a6676923086aa39d1fa3c8d6be7c3d4bb3243a16d439d0b528e745c4482adf",
+      "ten_current_business_leaves_independently_match_candidate_Git": true,
+      "projected_sources": false,
+      "original_module_ROOT_reassigned": false,
+      "actual_forbidden_attempts": [],
+      "three_DB_self_controls_separate": true
+    },
+    "proof_control_repair": {
+      "finding": "INTERNAL_SOURCE_DB_GUARD_01",
+      "status": "RESOLVED_IN_FINAL_HELPER_SOURCE_AND_RETAINED_CONTROLS",
+      "preserved_24e4_interim_review": {
+        "bytes": 9655,
+        "sha256": "898f5a888f6cba9d6bff7d39b9436dbb309a2c2b8e40d8e515083933ec2764e5"
+      },
+      "first_unguarded_runtime_proof_preserved_byte_exact": true,
+      "guarded_APIs": [
+        "psycopg.connect",
+        "psycopg.Connection.connect",
+        "psycopg.AsyncConnection.connect"
+      ],
+      "installed_before_retained_imports": true,
+      "original_descriptors_restored_in_finally": true,
+      "success_and_deliberate_error_controls_retained": true,
+      "product_SQL_changed_by_proof_repair": false
+    }
+  },
+  "required_actual_followup": [
+    {
+      "id": "NONE_MATERIAL_BUSY",
+      "expected": "Real cap NONE, exact valuation material held FOR UPDATE by separate actual backend; candidate returns CP7_SKU_RECOVERY_BUSY while holder transaction remains open. Separate exact all22/data/all-sequence/session census with no command effects; no timeout/eventual-success substitute.",
+      "execution": "pending root Native27 existing BUSY ID subscenario"
+    },
+    {
+      "id": "FG_BUSY",
+      "expected": "Separate actual FG-advisory holder subscenario and independent full census while holder remains open. Do not combine state across NONE/FG attempts.",
+      "execution": "pending root Native27 existing BUSY ID subscenario"
+    },
+    {
+      "id": "CACHE_CURRENT_PERMISSION",
+      "expected": "Completed UUID replay after real idempotency wait rechecks current permissions; new preflight row lock does not run on cached return. Original service checks remain unchanged.",
+      "execution": "pending root Native27 original new cache/wait ID"
+    },
+    {
+      "id": "FULL27_PACKAGE",
+      "expected": "Fresh original23+positive2+session2 exactly27 on same qualified vendor parent, complete install/preuse/reinstall, committed used witness, full22/all rows/all sequence restore/roles/CP6/advisors/Auth/backup and all5 package gates. Failed602 is source/negative evidence, never successful runtime prerequisite.",
+      "execution": "pending root qualification"
+    }
+  ],
+  "meaningful_limits": [
+    "Native MOVING_AVERAGE still performs its original blocking material FOR UPDATE before preflight. No whole-command no-wait claim. Fresh managed authority after waits remains intact.",
+    "NOWAIT row clause does not itself make every possible table/Native lock nonblocking; existing NOWAIT table prelocks are preserved. Counter bounds the new exact-material gap only.",
+    "Prepared source gate is explicitly not the complete untracked/generated-output Native27 admission. No runtime-adoption or financial acceptance implied."
+  ],
+  "counter_operations": {
+    "DB_connections": 0,
+    "Native_cases": 0,
+    "tests_rerun": 0,
+    "repo_source_mutations": 0,
+    "staging_commits": 0,
+    "official_PG_documentation_lookup_only": true,
+    "DB_Git_CI_hosted_remote_actions": 0,
+    "web_activity": "Official PostgreSQL17 documentation read-only lookup; no service execution."
+  },
+  "prior_receipts": {
+    "ADDITIONAL_STATIC_FACTS.json": {
+      "bytes": 10422,
+      "sha256": "2ac6a7806a03141984987ec921b6ea5de3f685062f80fac891071fba970816c7"
+    },
+    "INITIAL_ASSESSMENT.json": {
+      "bytes": 4640,
+      "sha256": "8e43af593bc7d92822321c6125f2db6e598b9d598573a509843d62bd7997ca82"
+    },
+    "INITIAL_SOURCE_CLOSURE.json": {
+      "bytes": 107619,
+      "sha256": "a75fca64353d0bf77716f52bcc532b0dac538d526fd656646c4e68911b3391a5"
+    },
+    "INTERIM_24E4_REVIEW.json": {
+      "bytes": 9655,
+      "sha256": "898f5a888f6cba9d6bff7d39b9436dbb309a2c2b8e40d8e515083933ec2764e5"
+    },
+    "POLICY_CATALOG_AUTHORITY.json": {
+      "bytes": 9093,
+      "sha256": "f46bfc422de1bd0fb4ade9c1c46862fdec8b307a717d5f2b3c42bbfe58a946f0"
+    }
+  },
+  "formal_independent_acceptance": false,
+  "production_go": false
+}

@@ -1,5 +1,5 @@
 {
-  "recorded_at_utc": "2026-10-30T01:06:18.121040+00:00",
+  "recorded_at_utc": "2026-10-30T02:36:19.334238+00:00",
   "role": "A finance writer/integrator replacing Claude; B remains separate production/planning writer",
   "slogan": [
     "VENI. VIDI. VICI. ERP. — I CONQUERED ERP.",
@@ -10,24 +10,16 @@
   "independent_acceptance": false,
   "running": [
     {
-      "head": "928246e5f62637c7c6457e57d73d0699196e3408",
-      "tree": "581303d5f0df8a6ae40f6d7ec0fab7c06678ed9a",
-      "run_id": 40980265302,
-      "job_id": 123818279251,
-      "status": "IN_PROGRESS_NATIVE17_AND_USED_WITNESS_NOT_YET_ACCEPTED",
-      "Source_pins": 361,
-      "Source_sha256": "4bf5790d82bd9724fdf4f046f3638f8ebea6c251a95f6aed21626f003454de7c",
-      "receipt": "E17_PHASE_NATIVE17_PUBLICATION.json"
-    },
-    {
-      "head": "3c0c5defe55e48cf6f221c868594dd6676d17170",
-      "tree": "ca20c918201b455ad09df489829b83b9e6afea95",
-      "run_id": 40983410165,
-      "job_id": 123828634300,
-      "status": "IN_PROGRESS_FRESH11_THEN3_AND_USED_WITNESS_NOT_YET_ACCEPTED",
-      "Source_pins": 475,
-      "Source_sha256": "ba59dee4ae71c62df2b2e35c558cb23a7c66254a974c554cc3d17d63b936c555",
-      "receipt": "S03_LAWFUL_NATIVE14_PUBLICATION.json"
+      "head": "c933dbe30b41cd653ff9f02ccbfdb7be5010d567",
+      "tree": "f56864280e64936edbbf864cea5667489b3e2974",
+      "run_id": 40988087747,
+      "job_id": 123843711657,
+      "status": "IN_PROGRESS_FRESH_NATIVE10_AND_UNCHANGED_COMMITTED_USED_FULL_OUTER5",
+      "Source_own_files": 43,
+      "Source_sha256": "f965d5c18354f856747df4d2ca792d6963addafaa03e8b62e506e7cbe87be619",
+      "frozen_source242_unchanged": true,
+      "actual_new_case_credit_before_raw_review": 0,
+      "receipt": "S05_WIB_OWNER_NATIVE10_PUBLICATION.json"
     }
   ],
   "actual_new_component": {
@@ -17228,7 +17220,7 @@
     "production_go": false,
     "independent_acceptance": false
   },
-  "recorded_at_wib": "2026-10-30T01:35:09.509204+07:00",
+  "recorded_at_wib": "2026-10-30T09:36:19.334238+07:00",
   "retained_consistent_faa_retry_infrastructure_failure": {
     "head": "faa5889faf622e4cb07b470aae26eadd750879c1",
     "run_id": 40540122775,
@@ -20082,7 +20074,7 @@
     "full_data_and_Auth_restored": true,
     "writer_runtime": false
   },
-  "active_priority": "Finish actual E17 and S03 fresh14 raw intake; lawful S05 fresh10; SKU exact material lock then full27; current browser4/midnight1 binding; global composite locks/hooks and ordered coexistence/fullrestore before formal closeout",
+  "active_priority": "Finish actual S05 fresh10 raw intake; launch SKU fresh27 after exact final source matrix; bind acceptedS03 fresh14 to browser4/midnight1; finish closed composition currentNative19 profile/locks/8hooks and ordered coexistence/fullrestore before formal closeout",
   "actual_source6_20261029": {
     "status": "EXACT_ACTUAL_OW08_SOURCE6_ACCEPTABLE_TO_INTEGRATOR",
     "head": "42760534906c330353f9bb0f53d27db65b134626",
@@ -20248,7 +20240,7 @@
   "active_takeover_scope": {
     "integrator": "A",
     "B": "DONE_ACCEPTED",
-    "SKU_features": "ACTUAL_NATIVE7_PASS_FULL_COMBINED23_RUNNING_NOT_DEFAULT_ADOPTED",
+    "SKU_features": "NATIVE7_CORE_RETAINED; COMBINED23_FAILED_RECOVERY_AUDIT_SEQUENCE; FINAL_PRODUCT_F3D_PREPARED_AND_FRESH27_SOURCE_PENDING",
     "staged_AI_context_response": "FIX_PREPARED_REAL_AUTH_BROWSER2_IN_RUNNING_COMBINED23",
     "owner_Q3_replacement_credit": "AUTO_TRANSFER_APPROVED",
     "owner_Q1_Q2": "D17_19B_APPROVED_AUTOMATIC_EXTRA_CREDIT_AND_NAMED_ACTIVE_USE_UNDO_FIRST_NO_NEW_AR",
@@ -21754,7 +21746,7 @@
   },
   "current_composition_source_review": {
     "receipt": "CURRENT_COMPOSITION_INTERNAL_SOURCE_REVIEW.json",
-    "status": "GLOBAL_NONPO_NATIVE_GRAPH_ADAPTER_OPEN",
+    "status": "SELECTIVE_SOURCE_SNAPSHOT_PUBLIC; CLOSED_PARENT_ADAPTERS_IN_PROGRESS; GLOBAL8HOOKS_LOCK_PROFILE_OPEN",
     "direct_changed_captured_intersection": [
       "D1/E initial_base_events_v1",
       "D1/E initial_ordinal_input_v1"
@@ -22163,17 +22155,18 @@
     "private_functions_after": 41,
     "unchanged_callbacks": 17,
     "local_doubles_are_not_Native": true,
-    "accepted_native17": null,
-    "current_fresh_native17_qualifier": {
+    "accepted_native17": {
       "head": "928246e5f62637c7c6457e57d73d0699196e3408",
       "tree": "581303d5f0df8a6ae40f6d7ec0fab7c06678ed9a",
       "run_id": 40980265302,
       "job_id": 123818279251,
-      "status": "IN_PROGRESS_NATIVE17_AND_USED_WITNESS_NOT_YET_ACCEPTED",
-      "Source_pins": 361,
-      "Source_sha256": "4bf5790d82bd9724fdf4f046f3638f8ebea6c251a95f6aed21626f003454de7c",
-      "receipt": "E17_PHASE_NATIVE17_PUBLICATION.json"
+      "artifact_id": 12947220084,
+      "status": "QUALIFIED_NARROW_ACTUAL_NATIVE17_FULL_RESTORE_ALL5",
+      "Native": 17,
+      "default_adopted": false,
+      "full_D_E_qualification": false
     },
+    "current_fresh_native17_qualifier": "TERMINAL_QUALIFIED_SEE_actual_E17_928_phase_native17_qualified_20261030",
     "all39_API_local_tree_equal_before_publication": true,
     "current_source_no_DB": "PASS_ATTEMPTS_EMPTY",
     "internal_counter_status": "NO_SOURCE_BLOCKER_INTERNAL_ONLY",
@@ -22182,7 +22175,7 @@
     "independent_acceptance": false
   },
   "S03_lawful_fixture_successor_20261030": {
-    "status": "PUBLIC_FRESH_NATIVE14_IN_PROGRESS_NOT_ACCEPTED",
+    "status": "QUALIFIED_NARROW_NATIVE11_THEN3_FULL_OUTER5",
     "parent": "9ac9c8bd1bfb7d64a1e735067083c68acbff02ef",
     "worktree": "erp-cp6-review",
     "product_runtime7_unchanged": true,
@@ -22196,8 +22189,24 @@
       11,
       3
     ],
-    "actual_runtime_new": 0,
-    "accepted14": null,
+    "actual_runtime_new": 14,
+    "accepted14": {
+      "head": "3c0c5defe55e48cf6f221c868594dd6676d17170",
+      "tree": "ca20c918201b455ad09df489829b83b9e6afea95",
+      "run_id": 40983410165,
+      "job_id": 123828634300,
+      "artifact_id": 12947563874,
+      "Source": {
+        "path": "scripts/current-s03-lawful-fixture-successor-qualification/SOURCE.json",
+        "files": 475,
+        "bytes": 106705,
+        "sha256": "ba59dee4ae71c62df2b2e35c558cb23a7c66254a974c554cc3d17d63b936c555",
+        "all_Git_pins_exact": true,
+        "actual_report_declares_complete475": true,
+        "historical425_not_complete_current_authority": true
+      },
+      "six_Originals_exact": true
+    },
     "whole14_used_witness_required": true,
     "normal_browser4_gate_closed": true,
     "production_go": false,
@@ -22212,10 +22221,12 @@
     "local_Python_controls": 48,
     "local_PGlite_controls": 7,
     "local_models_are_not_Native": true,
-    "internal_counter": "S03_LAWFUL_NATIVE14_INTERNAL_COUNTER.json"
+    "internal_counter": "S03_LAWFUL_NATIVE14_INTERNAL_COUNTER.json",
+    "browser_and_midnight_credit": 0,
+    "full_S03_acceptance": false
   },
   "SKU_managed_recovery_preflight_20261030": {
-    "status": "FIRST_PRODUCT_PREPARED_PUBLIC_SECOND_MINIMAL_LOCK_FIX_IN_PROGRESS",
+    "status": "PRODUCT_FINAL_PUBLIC_NATIVE27_SOURCE_FINAL_MATRIX_PENDING",
     "parent": "602b4e642a0afbb1acdcfd858b9f403dc14ec336",
     "first_failure_Original_preserved": true,
     "source_of_RCA": "ACTUAL_CAPTURED_NATIVE_FUNCTIONS_NOT_MIGRATION_INFERENCE",
@@ -22234,18 +22245,29 @@
     "added_under_equal_budget_and_targeted_wait_cases_required": true,
     "actual_new_Native": 0,
     "production_go": false,
-    "public_head": "e8f878f2ecaaf24368a0ce1a3393bc29c0b886f6",
-    "tree": "abfa0d954db8d1dffb620e416789e699204bbfbb",
-    "Source_pins": 43,
-    "Source_sha256": "b116e0cbbae3107e388977e00d8aebe3a95c056ac582a272a96818629984b47d",
-    "local_SQL_double_controls": 45,
+    "public_head": "f3d014648d12279dfa89ca8593f25585430a5efe",
+    "tree": "b1c316d6e853805f933a6665a81edf9332d12a36",
+    "Source_pins": 20,
+    "Source_sha256": "df1278bd775a0666b408959930d2a5c018655ffc62ee242aac3d8048ab0b7586",
+    "local_SQL_double_controls": 49,
     "local_source_controls": 11,
     "local_models_are_not_Native": true,
     "internal_counter": "SKU_MANAGED_RECOVERY_494_INTERNAL_COUNTER.json",
-    "remaining_material_lock_gap": "Lawful NONE valuation material may already be held FOR UPDATE; table SRE does not exclude ROW SHARE. Add exact material NOWAIT before effects without changing original MOVING blocking lock.",
+    "remaining_material_lock_gap": "CLOSED_IN_PREPARED_PRODUCT_EXACT_ONE_MATERIAL_ROW_NOWAIT; actual_two_session27_pending",
     "old_Native23_preserved": true,
     "new_Native27_WIP": "b538c0ac34a1681190b0c2991099fa41bf83e641",
-    "default_adopted": false
+    "default_adopted": false,
+    "initial_prepared_head": "e8f878f2ecaaf24368a0ce1a3393bc29c0b886f6",
+    "old43_retained_endpoint_with_explicit_one_SQL_transition": true,
+    "material_lock_counter": "SKU_MATERIAL_LOCK_INTERNAL_COUNTER.json",
+    "native27_source_head": "42f61861fa2aaecbdb13b6bbc870a2da9f959c5e",
+    "native27_source_tree": "3f55823a7dbc94b2e842b8f8943dbe38ba806edf",
+    "native27_Source_pins": 72,
+    "native27_Source_sha256": "6a8f551bff97ecdcc57e5f0f49f2c8d4c1730e9ff71735c57af42e85d39bcce8",
+    "native27_source_static_counter": "PASS_BOUNDED_PREPARATION_ONLY",
+    "native27_wholecaller": "PENDING_FINAL_FRESH_UNIQUE_PROOF; first_link_disappearance_invalid_negative_retained_cause_unassigned",
+    "native27_actual": 0,
+    "Native_MOVING_original_wait_unchanged": true
   },
   "temporary_SKU_review_retired_20261030": {
     "status": "INACTIVE_TEMP_ONLY_NORMAL_GIT_WORKTREE_REMOVE",
@@ -22333,18 +22355,22 @@
     "production_go": false
   },
   "S03_browser4_closed_source_prepared_20261030": {
-    "public_head": "cbb2099271524536404e2aef7a9f5a7fe9ab3533",
-    "tree": "4d32927a514d35c65bc1a2d1788bffbd222c3eaf",
-    "Source_pins": 1949,
-    "Source_sha256": "57d827e9af3cef54ece99d98c2bb6b72d332d4d0db111213f55458b5acd7247e",
+    "public_head": "e09c6512932de81777e661275d18bb232b2d2ee3",
+    "tree": "8f18cef07f0939093c0ddc488ef9d7af66b56ae6",
+    "Source_pins": 2016,
+    "Source_sha256": "bbd4fe5603e5365b16277662bd2131868b2d6874ebe6da02065bb4d276ecd4e7",
     "UI82_and_runtime7_unchanged": true,
     "accepted14": null,
     "actual_browser": 0,
     "lawful_successor_local_head": "bad4ba996733904ee7357a73de382a823b0e57f9",
     "lawful_Source_pins": 2015,
-    "metadata_only_successor_required": "Correct FIXTURE_API current24b provenance from retained3446 historical doc to actual4110 bytes; executable helpers unchanged.",
+    "metadata_only_successor_required": "CLOSED; exactcurrent24b4110byteAPI/old3446historicalreceipt retained",
     "default_adopted": false,
-    "production_go": false
+    "production_go": false,
+    "actual14_prerequisite_available": true,
+    "actual14": "3c0c5defe55e48cf6f221c868594dd6676d17170",
+    "late_binding_status": "IMPLEMENTING_ON_NEW_BRANCH_FROM_PUBLIC_E09C",
+    "accepted14_in_frozen_preparation": null
   },
   "global_nonpo_native_inspector_source_prepared_20261030": {
     "local_head": "7ce217a735daa88994a78c6d68bac5e4f6b79d20",
@@ -22360,19 +22386,311 @@
     "actual_Native": 0,
     "runtime_entry": null,
     "final_composition_parent": null,
-    "internal_counter_in_progress": true,
-    "production_go": false
+    "internal_counter_in_progress": false,
+    "production_go": false,
+    "public_head": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+    "internal_counter": "GLOBAL_NONPO_7CE_INTERNAL_COUNTER.json",
+    "current_actual19_profile_mismatch": {
+      "actual_602_and_cde78_all19_fullrows_equal": true,
+      "old_prepared17_match_2_prosrc_mismatch": true,
+      "signatures": [
+        "erp.compute_non_po_product_hpp_book_v2620f",
+        "erp.require_internal"
+      ],
+      "rootcause": "Prepared source profile lacks current scalar account initplans and R4-05 eleven execution-context guard; noNativebodychangeauthorized",
+      "future_current19_profile_successor": "AUTHORIZED_SOURCE_ONLY_2AuthorityFILES_PLUS_OWN_NAMESPACE; NO_RUNTIME_ADMISSION",
+      "receipt": "GLOBAL_NATIVE19_CURRENT_PROFILE_MISMATCH_LOCK.json"
+    }
   },
   "S03_midnight1_closed_prepared_review_20261030": {
     "local_head": "c0975ead5c9ff5e0677a2b7b9a86ef9cd3b37db5",
-    "tree": "29982d68269a56a088b8bd05e46bd878d341d57f",
-    "Source_pins": 465,
+    "tree": "ee5ebd1e01d35cb3cc3f33883f2950fe48d13224",
+    "Source_pins": 562,
     "callback_once_no_retry_or_fakeclock": true,
     "actual_Native": 0,
     "accepted14": null,
-    "source_binding_gap": "Future gate admits historical425 rather than exact current475. NULL gate closed; minimal owned successor required before binding.",
+    "source_binding_gap": "CLOSED_COMPLETE_CURRENT475_EXACT_MAP; old425negativePASS",
     "fix_in_progress": true,
-    "production_go": false
+    "production_go": false,
+    "status": "CURRENT475_PREPARATION_PUBLIC; ACTUAL14_LATE_BINDING_IN_PROGRESS",
+    "public_head": "ef491af5b20e93dcbf1808ca8e9aa9f0c542d773",
+    "Source_sha256": "4c022b93ddec8754dfd57b04b2a374030c34dd202dceb139001cd22a453fe443",
+    "accepted14_in_frozen_preparation": null,
+    "actual14_prerequisite_available": true
   },
-  "current_facts_are_internal_not_independent_audit": true
+  "current_facts_are_internal_not_independent_audit": true,
+  "previous_running_before_E17_S03_qualified_20261030": [
+    {
+      "head": "928246e5f62637c7c6457e57d73d0699196e3408",
+      "tree": "581303d5f0df8a6ae40f6d7ec0fab7c06678ed9a",
+      "run_id": 40980265302,
+      "job_id": 123818279251,
+      "status": "IN_PROGRESS_NATIVE17_AND_USED_WITNESS_NOT_YET_ACCEPTED",
+      "Source_pins": 361,
+      "Source_sha256": "4bf5790d82bd9724fdf4f046f3638f8ebea6c251a95f6aed21626f003454de7c",
+      "receipt": "E17_PHASE_NATIVE17_PUBLICATION.json"
+    },
+    {
+      "head": "3c0c5defe55e48cf6f221c868594dd6676d17170",
+      "tree": "ca20c918201b455ad09df489829b83b9e6afea95",
+      "run_id": 40983410165,
+      "job_id": 123828634300,
+      "status": "IN_PROGRESS_FRESH11_THEN3_AND_USED_WITNESS_NOT_YET_ACCEPTED",
+      "Source_pins": 475,
+      "Source_sha256": "ba59dee4ae71c62df2b2e35c558cb23a7c66254a974c554cc3d17d63b936c555",
+      "receipt": "S03_LAWFUL_NATIVE14_PUBLICATION.json"
+    }
+  ],
+  "actual_E17_928_phase_native17_qualified_20261030": {
+    "contract": "cp7.e17.phase.actual-native17.root-qualified-component.v1",
+    "recorded_at_UTC": "2026-10-30T02:11:32.148391+00:00",
+    "status": "QUALIFIED_NARROW_ACTUAL_NATIVE17_FULL_RESTORE_ALL5",
+    "head": "928246e5f62637c7c6457e57d73d0699196e3408",
+    "tree": "581303d5f0df8a6ae40f6d7ec0fab7c06678ed9a",
+    "run_id": 40980265302,
+    "job_id": 123818279251,
+    "artifact_id": 12947220084,
+    "archive": {
+      "bytes": 155717286,
+      "sha256": "30e035e10de2e560a9881f70be4aec2567db11393d55a21e3b29d1a5ecd0ad72"
+    },
+    "Source": {
+      "path": "scripts/current-credit-e1-phase-native17-qualification/SOURCE.json",
+      "files": 361,
+      "bytes": 158753,
+      "sha256": "4bf5790d82bd9724fdf4f046f3638f8ebea6c251a95f6aed21626f003454de7c",
+      "actual_raw_declaration_equal_Git": true,
+      "all_Git_pins_exact": true
+    },
+    "prepared_backend": {
+      "head": "fe2ae370c00e68437c4951c28c3a1038ce35fb38",
+      "tree": "600d4575309e67a5575d7896382b38a27e000d7e",
+      "runtime_leaf_count": 9
+    },
+    "actual_Native_cases": 17,
+    "strict17_PASS": 17,
+    "strict17_INCOMPLETE": 0,
+    "wrapper_groups": 1,
+    "separate_committed80_witness_extra_case_credit": 0,
+    "real_committed80_used_guard_verified": true,
+    "original_money_events_journals_source_sale_payment_HPP_cash_cost_immutable": true,
+    "all_case_boundary_public_catalog_session_WIB_checks": true,
+    "full_outer_all22_all_rows_ALL_sequences_roles_public_CP6_advisors_equal": true,
+    "package_gates": {
+      "installed": true,
+      "primary_unchanged": true,
+      "backup_restore_drill": true,
+      "security_advisors": true,
+      "writer_runtime": true
+    },
+    "Auth_users_before": 0,
+    "Auth_users_after": 0,
+    "Source361_all_Git_pins_and_raw_declaration_exact": true,
+    "natural_9E_9D1_3Vendor_runtime_leaves_Git_exact": true,
+    "former_two_failures_closed_without_callback_oracle_changes": true,
+    "root_first_facts": {
+      "path": "ROOT_FIRST_LOCKED_ACTUAL_FACTS.json",
+      "bytes": 12539,
+      "sha256": "5876f3bdb07fbb39932fb16ecf74d20f424a35f6806843da7b057f0c0eb4326b"
+    },
+    "internal_counter": {
+      "path": "INTERNAL_COUNTER_E17_ACTUAL.json",
+      "bytes": 111209,
+      "sha256": "1b9865ad206c4650095d657fe949c9af81aea59412bc528af0527ea5a8dd5cec",
+      "independent_external_audit": false
+    },
+    "actual_Auth_HTTP": 0,
+    "actual_browser": 0,
+    "actual_two_session_races": 0,
+    "retained_D1_Native13_reexecuted_after_E": false,
+    "fresh_D1_cases": 0,
+    "combined_SKU_D1_E_qualification": false,
+    "full_D_E_qualification": false,
+    "default_adopted": false,
+    "formal": "5/16",
+    "production_go": false,
+    "independent_acceptance": false,
+    "evidence_limits": [
+      "Intermediate business rows and UNDO response are not separately serialized; Native completed source assertions and serialized final profiles are distinguished in the internal counter.",
+      "This is the focused E1 Native17 component above retained qualified D1; no combined/native-global, HTTP/browser, complete D/E or external acceptance."
+    ],
+    "Original_library_file_id": "libfile_4dee50f1c7b48191989c1b10b45e40f9",
+    "receipt": "../ow08/e17-928-phase-native17-qualified/ROOT_QUALIFIED_COMPONENT.json"
+  },
+  "actual_S03_3c0_lawful_native14_qualified_20261030": {
+    "contract": "cp7.s03.lawful-fixture.actual14.root-qualified-component.v1",
+    "recorded_at_UTC": "2026-10-30T02:31:31.536958+00:00",
+    "status": "QUALIFIED_NARROW_ACTUAL_NATIVE11_THEN3_FULL_RESTORE_ALL5",
+    "head": "3c0c5defe55e48cf6f221c868594dd6676d17170",
+    "tree": "ca20c918201b455ad09df489829b83b9e6afea95",
+    "run_id": 40983410165,
+    "job_id": 123828634300,
+    "artifact_id": 12947563874,
+    "archive": {
+      "bytes": 8472775,
+      "sha256": "567e64545493d4806fa613b1306b4fe8c2f70a2ebb327fc60b709737813e5a60"
+    },
+    "Original_library_file_id": "libfile_736b3274655081919ad9c324f2ca92a3",
+    "all119_members_CRC_paths_sizes_SHA_verified": true,
+    "Source": {
+      "path": "scripts/current-s03-lawful-fixture-successor-qualification/SOURCE.json",
+      "files": 475,
+      "bytes": 106705,
+      "sha256": "ba59dee4ae71c62df2b2e35c558cb23a7c66254a974c554cc3d17d63b936c555",
+      "all_Git_pins_exact": true,
+      "actual_report_declares_complete475": true,
+      "historical425_not_complete_current_authority": true
+    },
+    "runtime7_Git_pins": {
+      "scripts/cp7_attendance_period_choice/choice.sql": "44499c6d6a06d1effc2be4f066168f5fa2fe9608b2ccb80d1d2d0b1dac0a8212",
+      "scripts/cp7_attendance_period_choice/readers.sql": "4ab82ff58033f4357251930504e6e9e75ecce9d8f1cc5b4e10f689940ce749e2",
+      "scripts/cp7_attendance_period_choice/native_delta.py": "a49242327798a59407739c2999fcf92408aeef9d88a1ae94fccc82bd189ac9ce",
+      "scripts/cp7_attendance_period_choice/catalog_contract.py": "f312de61b3c75087a51d7df712896627c02bb5d6473803bf6d2c90ad506d7c64",
+      "scripts/cp7_attendance_period_choice/NEW_CATALOG_IDENTITIES.json": "e49e4cb9c794d6ed98b831ae318e6d3c401a110d420cf932ee7011f7c971a578",
+      "scripts/cp7_attendance_period_choice/composition.py": "51b3d53dccd69688438287bee338e7a86a37afe57aa963cc2dee24b2e43470f1",
+      "scripts/cp7_attendance_period_choice/installer_ddl.py": "e002ea2dd938fef5913c76974909f70de8bcb47874b7fd958c0aeef0e2993514"
+    },
+    "actual_captures": 15,
+    "private_clones": 2,
+    "actual_all22_capture": true,
+    "local_model_ABI_misrepresented_as_actual": false,
+    "actual_Native_cases": 14,
+    "fresh_strict_groups": [
+      11,
+      3
+    ],
+    "all14_PASS": true,
+    "both_groups_same_actual_installation": true,
+    "case_rows_public_catalog_sessions_WIB_restored": true,
+    "group_sequences_positive_advances_retained_not_reseeded": true,
+    "per_group_ALLsequence_restore_claim": false,
+    "whole_outer_ALLsequence_restore": true,
+    "known_P1_worker_P2_observations": 2,
+    "P2_rate_exact": "20.02",
+    "P1_facts_unchanged": true,
+    "closed_negative_and_real_Owner_REOPEN": true,
+    "finished_cost": {
+      "before": "120.00",
+      "allocated": "1120.03",
+      "cancelled": "120.00",
+      "attendance_cost": "1000.03",
+      "produced": 10,
+      "sold": 4,
+      "FG_delta": "600.02",
+      "COGS_delta": "400.01",
+      "WIP_delta": "0.00",
+      "Native_receipt_HPP_cache_before": "12",
+      "Native_receipt_HPP_cache_allocated": "112.003",
+      "all_other16_fields_and_wholeSALE_immutable": true,
+      "allocation_history_HPP_versions": 3,
+      "allocation_history_HPP_components": 27,
+      "all_allocation_history_retained": true
+    },
+    "separate_committed_ALLOCATE_cents": "100003",
+    "committed_witness_extra_case_credit": 0,
+    "used_refusal_actual_all22_and_full_data_ALLsequences_equal": true,
+    "full_outer_all22_allrows_ALLsequences_roles_public_CP6_advisors_equal": true,
+    "package_gates": {
+      "installed": true,
+      "primary_unchanged": true,
+      "backup_restore_drill": true,
+      "security_advisors": true,
+      "writer_runtime": true
+    },
+    "Auth_users_before": 0,
+    "Auth_users_after": 0,
+    "actual_Auth_HTTP": 0,
+    "actual_browser": 0,
+    "actual_two_session_races": 0,
+    "internal_counter": {
+      "path": "evidence-private/s03-3c0-internal-actual-counter/FINAL_INTERNAL_ACTUAL_COUNTER.json",
+      "bytes": 13285,
+      "sha256": "96c9c65c0a4348aa370ac1756e6f6dd45de3eb6d21a96127d267ea8b4db8304a",
+      "independent_external_audit": false
+    },
+    "accepted_six_originals": [
+      {
+        "path": "CP7_S03_ATTENDANCE_CHOICE_NATIVE11_CASES.json",
+        "bytes": 19498,
+        "compressed_bytes": 3507,
+        "CRC32": "5fdad5ca",
+        "sha256": "105e371726cdacd86900d7f086a4262450801c7606852a7711856b0ff06667dd",
+        "selected_current_raw": true
+      },
+      {
+        "path": "CP7_S03_ATTENDANCE_CHOICE_NATIVE14.json",
+        "bytes": 78242045,
+        "compressed_bytes": 6787608,
+        "CRC32": "d4015160",
+        "sha256": "15d08eb136c46e74ecf814b2256cc12b0a1df2b29fbc27a1296c3100fc2bafb5",
+        "selected_current_raw": true
+      },
+      {
+        "path": "CP7_S03_ATTENDANCE_CHOICE_READER_NATIVE3_CASES.json",
+        "bytes": 13062,
+        "compressed_bytes": 2433,
+        "CRC32": "d8077007",
+        "sha256": "70b618aa40062eaa839a55f2edeb647ea1fe2c520840f5cca85c194df17668b7",
+        "selected_current_raw": true
+      },
+      {
+        "path": "T3_BACKUP_RESTORE_DRILL.json",
+        "bytes": 1470,
+        "compressed_bytes": 626,
+        "CRC32": "80e27aa2",
+        "sha256": "3883ec7b222e13badb22f5db7d9fabf563bf99b90dbf5d724a00c3ec40315091",
+        "selected_current_raw": true
+      },
+      {
+        "path": "T3_PACKAGE_FILES_INSTALL.json",
+        "bytes": 1806,
+        "compressed_bytes": 238,
+        "CRC32": "cfb01269",
+        "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+        "selected_current_raw": true
+      },
+      {
+        "path": "T3_PACKAGE_INSTALL.json",
+        "bytes": 360433,
+        "compressed_bytes": 11486,
+        "CRC32": "6636b075",
+        "sha256": "0663c1140bd2877ef3859b4e34bb773aaaf15e2f3b4217e48a8df66c1c436c77",
+        "selected_current_raw": true
+      }
+    ],
+    "final_gate": {
+      "path": "S03_NATIVE14_FINAL_GATE.json",
+      "bytes": 871,
+      "compressed_bytes": 461,
+      "CRC32": "323978e4",
+      "sha256": "112886442470b542270c14d6b8fd4b782021daf11c74e382d26bbdee8fc653a2",
+      "selected_current_raw": true
+    },
+    "full_S03_acceptance": false,
+    "combined_ERP_acceptance": false,
+    "default_adopted": false,
+    "formal": "5/16",
+    "production_go": false,
+    "independent_acceptance": false,
+    "receipt": "../ow08/s03-3c0-lawful-native14-qualified/ROOT_QUALIFIED_COMPONENT.json"
+  },
+  "final_composition_selective_source_snapshot_20261030": {
+    "public_head": "c9613859c4e82f347c8cacfa1f874dbf73361cee",
+    "tree": "6ff056ae9a5e2a6ed6a5ed5e0fdbb3d7685115c2",
+    "parent": "3fdbffe3f41da6dc1004d2179ac1fe81fe05b609",
+    "new_paths": 57,
+    "original_public_source_leaves": 51,
+    "Source_pins": 56,
+    "Source_sha256": "4ac8631b17402ca679f74a72844780b9df4f016c6e1149cebdff9ce97d179749",
+    "all51_original_bytes_modes_exact": true,
+    "source_controls": 7,
+    "app_and_contract_typecheck": "PASS",
+    "runtime_entry": null,
+    "default_installer_changed": false,
+    "phase2_status": "IMPLEMENTING_4EXACT_PARENT_SOURCE_METADATA_DERIVATIONS_PLUS_CLOSED_GLOBAL_PLACEHOLDER_AND_TOP_SOURCE_GRAPH",
+    "phase2_Native_D1_E_financial_body_changes": 0,
+    "global8hooks_implemented": false,
+    "actual_composite_Native": 0,
+    "production_go": false
+  }
 }

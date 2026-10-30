@@ -1,0 +1,74 @@
+{
+  "contract": "cp7.e17.phase.actual-native17.root-qualified-component.v1",
+  "recorded_at_UTC": "2026-10-30T02:11:32.148391+00:00",
+  "status": "QUALIFIED_NARROW_ACTUAL_NATIVE17_FULL_RESTORE_ALL5",
+  "head": "928246e5f62637c7c6457e57d73d0699196e3408",
+  "tree": "581303d5f0df8a6ae40f6d7ec0fab7c06678ed9a",
+  "run_id": 40980265302,
+  "job_id": 123818279251,
+  "artifact_id": 12947220084,
+  "archive": {
+    "bytes": 155717286,
+    "sha256": "30e035e10de2e560a9881f70be4aec2567db11393d55a21e3b29d1a5ecd0ad72"
+  },
+  "Source": {
+    "path": "scripts/current-credit-e1-phase-native17-qualification/SOURCE.json",
+    "files": 361,
+    "bytes": 158753,
+    "sha256": "4bf5790d82bd9724fdf4f046f3638f8ebea6c251a95f6aed21626f003454de7c",
+    "actual_raw_declaration_equal_Git": true,
+    "all_Git_pins_exact": true
+  },
+  "prepared_backend": {
+    "head": "fe2ae370c00e68437c4951c28c3a1038ce35fb38",
+    "tree": "600d4575309e67a5575d7896382b38a27e000d7e",
+    "runtime_leaf_count": 9
+  },
+  "actual_Native_cases": 17,
+  "strict17_PASS": 17,
+  "strict17_INCOMPLETE": 0,
+  "wrapper_groups": 1,
+  "separate_committed80_witness_extra_case_credit": 0,
+  "real_committed80_used_guard_verified": true,
+  "original_money_events_journals_source_sale_payment_HPP_cash_cost_immutable": true,
+  "all_case_boundary_public_catalog_session_WIB_checks": true,
+  "full_outer_all22_all_rows_ALL_sequences_roles_public_CP6_advisors_equal": true,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "Auth_users_before": 0,
+  "Auth_users_after": 0,
+  "Source361_all_Git_pins_and_raw_declaration_exact": true,
+  "natural_9E_9D1_3Vendor_runtime_leaves_Git_exact": true,
+  "former_two_failures_closed_without_callback_oracle_changes": true,
+  "root_first_facts": {
+    "path": "ROOT_FIRST_LOCKED_ACTUAL_FACTS.json",
+    "bytes": 12539,
+    "sha256": "5876f3bdb07fbb39932fb16ecf74d20f424a35f6806843da7b057f0c0eb4326b"
+  },
+  "internal_counter": {
+    "path": "INTERNAL_COUNTER_E17_ACTUAL.json",
+    "bytes": 111209,
+    "sha256": "1b9865ad206c4650095d657fe949c9af81aea59412bc528af0527ea5a8dd5cec",
+    "independent_external_audit": false
+  },
+  "actual_Auth_HTTP": 0,
+  "actual_browser": 0,
+  "actual_two_session_races": 0,
+  "retained_D1_Native13_reexecuted_after_E": false,
+  "fresh_D1_cases": 0,
+  "combined_SKU_D1_E_qualification": false,
+  "full_D_E_qualification": false,
+  "default_adopted": false,
+  "formal": "5/16",
+  "production_go": false,
+  "independent_acceptance": false,
+  "evidence_limits": [
+    "Intermediate business rows and UNDO response are not separately serialized; Native completed source assertions and serialized final profiles are distinguished in the internal counter.",
+    "This is the focused E1 Native17 component above retained qualified D1; no combined/native-global, HTTP/browser, complete D/E or external acceptance."
+  ]
+}

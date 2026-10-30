@@ -1,0 +1,2478 @@
+{
+  "D_complete": false,
+  "E_complete": false,
+  "actual17": {
+    "cases": {
+      "E_BELOW_CARRIED_80_REFUSES_ATOMIC": {
+        "actual_refusal": {
+          "detail": "{\"issues\": [], \"policy\": \"AUTO_TRANSFER_TO_REPLACEMENT\", \"sale_id\": \"f1266d44-8b01-4119-a810-e2e99eaaa2dd\", \"consumers\": [{\"amount\": \"80.00\", \"event_id\": \"5565a0cb-34f4-4fa5-975c-6b72b0ed69ab\", \"cohort_id\": \"7e9a2a07-62e9-4bf1-b67f-c0062beb898a\", \"journal_id\": \"e7872f45-ab5e-445e-a06d-4b51754d8030\", \"economic_date\": \"2026-10-29\", \"transaction_date\": \"2026-10-29\", \"historical_target_id\": \"f1266d44-8b01-4119-a810-e2e99eaaa2dd\"}], \"row_version\": \"3\", \"basis_sha256\": \"add7e9dae56d324bd9290d978bbdd32549c79610c716d8521e0550a1e23ec696\", \"original_net\": \"500.00\", \"review_token\": \"e8011e3b536435a51a6d3abfb32591ae\", \"root_sale_id\": \"f1266d44-8b01-4119-a810-e2e99eaaa2dd\", \"transfer_amount\": \"80.00\", \"contract_version\": \"cp7.note-credit-carry-basis.v1\", \"minimum_replacement_net\": \"80.00\"}",
+          "message": "CP7_CREDIT_NOTE_CARRY_REVIEW_REFUSED",
+          "sqlstate": "P0001"
+        },
+        "business_day": {
+          "after": "2026-10-30",
+          "before": "2026-10-30",
+          "planned": "2026-10-30"
+        },
+        "full_boundary_restored": true,
+        "no_auto_credit_or_AR": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_lock_keys": [],
+          "advisory_locks": 0,
+          "other_sessions": []
+        },
+        "status": "PASS"
+      },
+      "E_CLOSED_ORIGINAL_BOOK_PAIR_REFUSES": {
+        "actual_refusal": {
+          "detail": "{\"issues\": [\"ORIGINAL_NOTE_BOOK_PAIR_ADAPTER_REQUIRED\"], \"policy\": \"AUTO_TRANSFER_TO_REPLACEMENT\", \"sale_id\": \"090bee4e-386d-4ab9-a826-e7143df40cdd\", \"consumers\": [{\"amount\": \"80.00\", \"event_id\": \"42b6ec1e-d77c-4a2b-b23e-9dbdb168e3c0\", \"cohort_id\": \"a8bda737-8731-47ed-a678-9d90e4cd6525\", \"journal_id\": \"7a2efda7-b914-445b-8cb4-5e9cf91f9fe4\", \"economic_date\": \"2026-10-29\", \"transaction_date\": \"2026-10-29\", \"historical_target_id\": \"090bee4e-386d-4ab9-a826-e7143df40cdd\"}], \"row_version\": \"3\", \"basis_sha256\": \"b8edffb0463df8dcb38f9470202d1a66a352e4a2070d172d82e79e489cafb0cb\", \"original_net\": \"500.00\", \"review_token\": \"a258099ff93ac8c3849281a17dbfa6b7\", \"root_sale_id\": \"090bee4e-386d-4ab9-a826-e7143df40cdd\", \"transfer_amount\": \"80.00\", \"contract_version\": \"cp7.note-credit-carry-basis.v1\", \"minimum_replacement_net\": \"80.00\"}",
+          "message": "CP7_CREDIT_NOTE_CARRY_REVIEW_REFUSED",
+          "sqlstate": "P0001"
+        },
+        "business_day": {
+          "after": "2026-10-30",
+          "before": "2026-10-30",
+          "planned": "2026-10-30"
+        },
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_lock_keys": [],
+          "advisory_locks": 0,
+          "other_sessions": []
+        },
+        "status": "PASS"
+      },
+      "E_CURRENT_ACCESS_REVOKED_REFUSES": {
+        "actual_refusal": {
+          "detail": "",
+          "message": "CP7_NOTE_ACCESS_DENIED",
+          "sqlstate": "42501"
+        },
+        "business_day": {
+          "after": "2026-10-30",
+          "before": "2026-10-30",
+          "planned": "2026-10-30"
+        },
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "real_Auth_browser": false,
+        "session_leaks": {
+          "advisory_lock_keys": [],
+          "advisory_locks": 0,
+          "other_sessions": []
+        },
+        "status": "PASS"
+      },
+      "E_EXACT_FUNDED_80_PAID": {
+        "actual_Native_price_only": true,
+        "business_day": {
+          "after": "2026-10-30",
+          "before": "2026-10-30",
+          "planned": "2026-10-30"
+        },
+        "full_boundary_restored": true,
+        "profile": {
+          "AR": "0.00",
+          "U": "80.00",
+          "net": "80.00",
+          "source": {
+            "AR": "0.00",
+            "I": "200.00",
+            "available": "120.00",
+            "net": "800.00"
+          }
+        },
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_lock_keys": [],
+          "advisory_locks": 0,
+          "other_sessions": []
+        },
+        "status": "PASS"
+      },
+      "E_JOINT_PREFIX_AFTER_UNDO_120_MIN200_NOT150": {
+        "actual_refusal": {
+          "detail": "{\"issues\": [], \"policy\": \"AUTO_TRANSFER_TO_REPLACEMENT\", \"sale_id\": \"4e85cae7-fa73-48e3-a75e-a5f6ddce0075\", \"consumers\": [{\"amount\": \"80.00\", \"event_id\": \"36311ab4-6e21-42ed-b5e1-6bce9f880c0c\", \"cohort_id\": \"8605d314-b9c9-4815-8565-77112473a862\", \"journal_id\": \"8213a3b5-7d24-47e9-8c0a-be6756eca3b1\", \"economic_date\": \"2026-10-29\", \"transaction_date\": \"2026-10-29\", \"historical_target_id\": \"4e85cae7-fa73-48e3-a75e-a5f6ddce0075\"}, {\"amount\": \"120.00\", \"event_id\": \"95a67954-8538-4f9c-ba89-ca9578f3cd8b\", \"cohort_id\": \"8605d314-b9c9-4815-8565-77112473a862\", \"journal_id\": \"3019e0ca-e33e-47a7-ae62-0989390ac226\", \"economic_date\": \"2026-10-29\", \"transaction_date\": \"2026-10-29\", \"historical_target_id\": \"4e85cae7-fa73-48e3-a75e-a5f6ddce0075\"}, {\"amount\": \"-80.00\", \"event_id\": \"a2a64ec2-17c3-4e41-a0e6-3edf109f5613\", \"cohort_id\": \"8605d314-b9c9-4815-8565-77112473a862\", \"journal_id\": \"6053423e-fb27-4160-8e57-6faf43dfc426\", \"economic_date\": \"2026-10-30\", \"transaction_date\": \"2026-10-30\", \"historical_target_id\": \"4e85cae7-fa73-48e3-a75e-a5f6ddce0075\"}], \"row_version\": \"5\", \"basis_sha256\": \"30ce56ef84fe082dc642f1262853eb0446b33d4fb38731ca5bbb2ba1bd0dfb70\", \"original_net\": \"500.00\", \"review_token\": \"6ecec03ee66819b79d539abe11687e69\", \"root_sale_id\": \"4e85cae7-fa73-48e3-a75e-a5f6ddce0075\", \"transfer_amount\": \"120.00\", \"contract_version\": \"cp7.note-credit-carry-basis.v1\", \"minimum_replacement_net\": \"200.00\"}",
+          "message": "CP7_CREDIT_NOTE_CARRY_REVIEW_REFUSED",
+          "sqlstate": "P0001"
+        },
+        "business_day": {
+          "after": "2026-10-30",
+          "before": "2026-10-30",
+          "planned": "2026-10-30"
+        },
+        "full_boundary_restored": true,
+        "genuine_later_named_undo_not_a_historical_capacity_waiver": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_lock_keys": [],
+          "advisory_locks": 0,
+          "other_sessions": []
+        },
+        "status": "PASS"
+      },
+      "E_LATER_APPLY_20_CURRENT_LEAF": {
+        "business_day": {
+          "after": "2026-10-30",
+          "before": "2026-10-30",
+          "planned": "2026-10-30"
+        },
+        "full_boundary_restored": true,
+        "old_completion_still_exact": true,
+        "profile": {
+          "AR": "450.00",
+          "U": "100.00",
+          "net": "550.00",
+          "source": {
+            "AR": "0.00",
+            "I": "200.00",
+            "available": "100.00",
+            "net": "800.00"
+          }
+        },
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_lock_keys": [],
+          "advisory_locks": 0,
+          "other_sessions": []
+        },
+        "status": "PASS"
+      },
+      "E_LATER_NATIVE_REVERSE_REFUSES_ATOMIC": {
+        "actual_refusal": {
+          "detail": "",
+          "message": "CP7_CREDIT_NOTE_CARRY_LATER_NATIVE_MUTATION_ADAPTER_REQUIRED",
+          "sqlstate": "P0001"
+        },
+        "business_day": {
+          "after": "2026-10-30",
+          "before": "2026-10-30",
+          "planned": "2026-10-30"
+        },
+        "full_boundary_restored": true,
+        "no_carried_credit_escape_via_replacement_UUID": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_lock_keys": [],
+          "advisory_locks": 0,
+          "other_sessions": []
+        },
+        "status": "PASS"
+      },
+      "E_LATER_NATIVE_SALE_SAME_LOT_RECONCILES": {
+        "HPP_alignment": [
+          {
+            "book": {
+              "cogs_value": "60.0",
+              "fg_value": "40.0",
+              "hpp_total_cost": "100.0",
+              "other_out_value": 0
+            },
+            "product_id": "37417366-a601-42da-b3c2-812342a2675c",
+            "target": {
+              "cogs_value": "60.0",
+              "fg_value": "40.0",
+              "hpp_total_cost": "100.0",
+              "other_out_value": "0.0"
+            }
+          }
+        ],
+        "actual_later_Native_sale_same_lot_qty1": true,
+        "business_day": {
+          "after": "2026-10-30",
+          "before": "2026-10-30",
+          "planned": "2026-10-30"
+        },
+        "full_boundary_restored": true,
+        "profile": {
+          "AR": "470.00",
+          "U": "80.00",
+          "net": "550.00",
+          "source": {
+            "AR": "0.00",
+            "I": "200.00",
+            "available": "120.00",
+            "net": "800.00"
+          }
+        },
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_lock_keys": [],
+          "advisory_locks": 0,
+          "other_sessions": []
+        },
+        "status": "PASS"
+      },
+      "E_NATIVE_POST_FAILURE_FULL_RESTORE": {
+        "actual_refusal": {
+          "detail": "{\"request_id\": \"686a6049-5ba1-47e0-b7d9-14ac631067b9\", \"work_phase\": \"MATERIALIZED\", \"revision_id\": \"5cd10797-58d4-4d79-9df2-48a77107fc02\", \"operation_id\": \"0332be6d-54fe-4522-84d9-d0ad0fb66801\", \"failure_point\": \"AFTER_NATIVE_POST_DURING_E_FINISH\", \"carried_amount\": \"80.00\", \"source_sale_id\": \"a5d67ab3-5877-49cb-9bf0-156b0e277421\", \"assignment_count\": 1, \"replacement_sale_id\": \"bc9d1e9b-ac63-4fbe-bbfb-76d45ced15ac\", \"actual_guards_returned\": [\"assert_source_native_trigger_census_v1\", \"assert_historical_v1\", \"assert_current_materialized_profile\"], \"replacement_native_net\": \"550.00\", \"original_APPLY_event_id\": \"121dc9fb-043b-4f9e-a863-ddf86f436e41\", \"original_APPLY_target_id\": \"a5d67ab3-5877-49cb-9bf0-156b0e277421\", \"original_APPLY_journal_id\": \"1906aeeb-e1f3-4c12-9293-046052b2239f\", \"owning_contexts_remaining\": 0, \"original_APPLY_event_sha256\": \"6b33ffbe224c9b0c655b14cbf66df402d89ab9fbb10753a88304e0674469226d\", \"replacement_sale_journal_id\": \"8db08576-ec11-46c9-b649-2942b77dd442\", \"original_APPLY_journal_sha256\": \"c520dcf6197fe3f92d38fc6563b9fbf2708516deeefc4e7dcab4240b3285de83\", \"replacement_sale_journal_status\": \"POSTED\"}",
+          "message": "E_TEST_ACTUAL_NATIVE_POST_FAILURE",
+          "sqlstate": "P0001"
+        },
+        "business_day": {
+          "after": "2026-10-30",
+          "before": "2026-10-30",
+          "planned": "2026-10-30"
+        },
+        "failure_after_actual_Native_post_during_E_finish": true,
+        "full_boundary_restored": true,
+        "full_inverse_draft_stock_HPP_and_money_atomic": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_lock_keys": [],
+          "advisory_locks": 0,
+          "other_sessions": []
+        },
+        "status": "PASS",
+        "unchanged_ERP_trigger_census": true
+      },
+      "E_ORIGINAL_DATE_CHANGE_REFUSES": {
+        "actual_refusal": {
+          "detail": "",
+          "message": "CP7_NOTE_SOURCE_IDENTITY_CHANGED",
+          "sqlstate": "P0001"
+        },
+        "business_day": {
+          "after": "2026-10-30",
+          "before": "2026-10-30",
+          "planned": "2026-10-30"
+        },
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_lock_keys": [],
+          "advisory_locks": 0,
+          "other_sessions": []
+        },
+        "status": "PASS"
+      },
+      "E_PRICE_DECREASE_80_NET100_AR20": {
+        "actual_Native_price_only": true,
+        "business_day": {
+          "after": "2026-10-30",
+          "before": "2026-10-30",
+          "planned": "2026-10-30"
+        },
+        "full_boundary_restored": true,
+        "profile": {
+          "AR": "20.00",
+          "U": "80.00",
+          "net": "100.00",
+          "source": {
+            "AR": "0.00",
+            "I": "200.00",
+            "available": "120.00",
+            "net": "800.00"
+          }
+        },
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_lock_keys": [],
+          "advisory_locks": 0,
+          "other_sessions": []
+        },
+        "status": "PASS"
+      },
+      "E_PRICE_INCREASE_80_NET550_AR470": {
+        "actual_Native_price_only": true,
+        "business_day": {
+          "after": "2026-10-30",
+          "before": "2026-10-30",
+          "planned": "2026-10-30"
+        },
+        "full_boundary_restored": true,
+        "profile": {
+          "AR": "470.00",
+          "U": "80.00",
+          "net": "550.00",
+          "source": {
+            "AR": "0.00",
+            "I": "200.00",
+            "available": "120.00",
+            "net": "800.00"
+          }
+        },
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_lock_keys": [],
+          "advisory_locks": 0,
+          "other_sessions": []
+        },
+        "status": "PASS"
+      },
+      "E_QUANTITY_CHANGE_REFUSES": {
+        "actual_refusal": {
+          "detail": "",
+          "message": "CP7_CREDIT_NOTE_CARRY_PRICE_ONLY_REQUIRED",
+          "sqlstate": "P0001"
+        },
+        "business_day": {
+          "after": "2026-10-30",
+          "before": "2026-10-30",
+          "planned": "2026-10-30"
+        },
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_lock_keys": [],
+          "advisory_locks": 0,
+          "other_sessions": []
+        },
+        "status": "PASS"
+      },
+      "E_SAME_UUID_AND_CHANGED_INTENT": {
+        "business_day": {
+          "after": "2026-10-30",
+          "before": "2026-10-30",
+          "planned": "2026-10-30"
+        },
+        "changed_intent_refused": true,
+        "confirmed_lost_reply_same_UUID_one_effect": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_lock_keys": [],
+          "advisory_locks": 0,
+          "other_sessions": []
+        },
+        "status": "PASS"
+      },
+      "E_SECOND_NOTE_REVISION_GUARDED": {
+        "actual_refusal": {
+          "detail": "{\"issues\": [\"NEXT_NOTE_REVISION_ADAPTER_REQUIRED\"], \"policy\": \"AUTO_TRANSFER_TO_REPLACEMENT\", \"sale_id\": \"0a54183a-ab73-4e45-9563-a67bc1c55421\", \"consumers\": [{\"amount\": \"80.00\", \"event_id\": \"63b247ac-ae47-408e-90fe-30bdee42c447\", \"cohort_id\": \"59969415-e737-4e7f-8c18-7a06ab0b1a13\", \"journal_id\": \"6bcb6f31-4e45-4c72-aa06-f4209a1be6da\", \"economic_date\": \"2026-10-29\", \"transaction_date\": \"2026-10-29\", \"historical_target_id\": \"33487829-74c8-48cf-8c4d-ba328b3a4745\"}], \"row_version\": \"3\", \"basis_sha256\": \"a882d90ea11b841a0fd14f8580dbe83bd81392f87d169691b0a1aa6255959c36\", \"original_net\": \"550.00\", \"review_token\": \"28a164fa574f637b164b7ccf49723095\", \"root_sale_id\": \"33487829-74c8-48cf-8c4d-ba328b3a4745\", \"transfer_amount\": \"80.00\", \"contract_version\": \"cp7.note-credit-carry-basis.v1\", \"minimum_replacement_net\": \"80.00\"}",
+          "message": "CP7_CREDIT_NOTE_CARRY_REVIEW_REFUSED",
+          "sqlstate": "P0001"
+        },
+        "business_day": {
+          "after": "2026-10-30",
+          "before": "2026-10-30",
+          "planned": "2026-10-30"
+        },
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_lock_keys": [],
+          "advisory_locks": 0,
+          "other_sessions": []
+        },
+        "status": "PASS"
+      },
+      "E_SOURCE_D1_CHANGE_RETIRES_REVIEW": {
+        "actual_refusal": {
+          "detail": "",
+          "message": "CP7_CREDIT_NOTE_CARRY_STALE_REVIEW",
+          "sqlstate": "P0001"
+        },
+        "business_day": {
+          "after": "2026-10-30",
+          "before": "2026-10-30",
+          "planned": "2026-10-30"
+        },
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_lock_keys": [],
+          "advisory_locks": 0,
+          "other_sessions": []
+        },
+        "status": "PASS",
+        "target_U_unchanged_source_context_rechecked": true
+      },
+      "E_UNDO_ORIGINAL_80_AND_OLD_RECEIPT": {
+        "business_day": {
+          "after": "2026-10-30",
+          "before": "2026-10-30",
+          "planned": "2026-10-30"
+        },
+        "full_boundary_restored": true,
+        "old_completion_still_exact": true,
+        "profile": {
+          "AR": "550.00",
+          "U": "0.00",
+          "net": "550.00",
+          "source": {
+            "AR": "0.00",
+            "I": "200.00",
+            "available": "200.00",
+            "net": "800.00"
+          }
+        },
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_lock_keys": [],
+          "advisory_locks": 0,
+          "other_sessions": []
+        },
+        "status": "PASS"
+      }
+    },
+    "counts": {
+      "PASS": 17
+    },
+    "full_public_raw_snapshots": 36,
+    "group_equals_embedded": true,
+    "ids": [
+      "E_PRICE_INCREASE_80_NET550_AR470",
+      "E_PRICE_DECREASE_80_NET100_AR20",
+      "E_EXACT_FUNDED_80_PAID",
+      "E_BELOW_CARRIED_80_REFUSES_ATOMIC",
+      "E_SAME_UUID_AND_CHANGED_INTENT",
+      "E_SOURCE_D1_CHANGE_RETIRES_REVIEW",
+      "E_LATER_APPLY_20_CURRENT_LEAF",
+      "E_UNDO_ORIGINAL_80_AND_OLD_RECEIPT",
+      "E_NATIVE_POST_FAILURE_FULL_RESTORE",
+      "E_QUANTITY_CHANGE_REFUSES",
+      "E_ORIGINAL_DATE_CHANGE_REFUSES",
+      "E_CLOSED_ORIGINAL_BOOK_PAIR_REFUSES",
+      "E_SECOND_NOTE_REVISION_GUARDED",
+      "E_CURRENT_ACCESS_REVOKED_REFUSES",
+      "E_JOINT_PREFIX_AFTER_UNDO_120_MIN200_NOT150",
+      "E_LATER_NATIVE_REVERSE_REFUSES_ATOMIC",
+      "E_LATER_NATIVE_SALE_SAME_LOT_RECONCILES"
+    ],
+    "runtime_before_after": {
+      "D_complete": false,
+      "E_complete": false,
+      "Native_money_HPP_engine_unchanged": true,
+      "actual_parent_verified_before_delta": true,
+      "changed_functions": [
+        "public.erp_cp7_correct_note_v1(jsonb,uuid,text)",
+        "public.erp_cp7_get_note_correction_v2(uuid)",
+        "erp._cp7_current_credit_adjustment(uuid)",
+        "cp7_credit.current_materialized_objects(uuid,uuid,uuid)",
+        "cp7_credit.assert_current_source_plan_profile(uuid,uuid,uuid,jsonb)",
+        "cp7_credit.initial_base_events_v1(uuid,uuid)",
+        "cp7_credit.initial_ordinal_input_v1(uuid,uuid)",
+        "cp7_credit.consumer_incoming_funding_v1(uuid)",
+        "cp7_credit_incoming.incoming_applied_v1(uuid)",
+        "cp7_credit.consumer_selection_v1(jsonb)",
+        "cp7_credit.consumer_capture_sources_v1(jsonb)",
+        "cp7_credit.consumer_projection_v1(jsonb,jsonb)",
+        "cp7_credit.consumer_execute_v1(uuid)",
+        "cp7_credit.assert_consumer_closed_v1(uuid)",
+        "cp7_credit.consumer_native_invariant_v1(uuid)",
+        "cp7_credit.consumer_invoice_profile_v1(uuid)",
+        "cp7_credit.consumer_event_data_v1(uuid)",
+        "cp7_credit.consumer_quote_v1(jsonb)",
+        "cp7_credit.native_source_enter(text,uuid)"
+      ],
+      "formal_acceptance_unchanged": true,
+      "independent_acceptance": false,
+      "private_Native_copies": {
+        "cp7_credit.source_native_snapshot_v1(uuid)": "cp7_credit_note_carry_de.raw_native_snapshot_v1(uuid)",
+        "cp7_note.command(jsonb,uuid,text)": "cp7_credit_note_carry_de.command_v1(jsonb,uuid,text)",
+        "cp7_note.reverse_sale(uuid,text)": "cp7_credit_note_carry_de.reverse_sale_v1(uuid,text)"
+      },
+      "production_go": false,
+      "projected_catalog": false,
+      "status": "CREDIT_E1_EXACT_SOURCE_AND_ALL22"
+    }
+  },
+  "actual_D1_prerequisite": {
+    "8be4_product_ref": "Package baseline label only; successful actual prerequisite is17ac.",
+    "Native13PASS": true,
+    "five_exact_Originals": true,
+    "pin": {
+      "artifact_id": 12929784527,
+      "backup_drill": {
+        "bytes": 1470,
+        "name": "T3_BACKUP_RESTORE_DRILL.json",
+        "sha256": "15fe0304a8bf0764722e78ad88cf92e8ed7f87c413b177cedc8e93dd22e31eba"
+      },
+      "head": "17ac1eeb5833cbf2a786194fe3bfbba6628a1ff8",
+      "job_id": 123690939357,
+      "native_group": {
+        "bytes": 231613,
+        "name": "CP7_CREDIT_DE_NATIVE13_CASES.json",
+        "sha256": "3129479dde1805e58fbd3a96cba4653c8da7a0b0f471be65c4182fd772f87d47"
+      },
+      "original": {
+        "bytes": 4835820,
+        "name": "CP7_CREDIT_DE_NATIVE13.json",
+        "sha256": "6b5eb3f481e1d36e8fbca64590a8ef83197f3e4e3725d9dfa3964c92cdbafa4c"
+      },
+      "package": {
+        "bytes": 360428,
+        "name": "T3_PACKAGE_INSTALL.json",
+        "sha256": "84d20d0e7ec045d8496174c25437b3005c158ee517e1d1c014b75175410e8056"
+      },
+      "package_files": {
+        "bytes": 1806,
+        "name": "T3_PACKAGE_FILES_INSTALL.json",
+        "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+      },
+      "run_id": 40942995096,
+      "tree": "52870c467cb37c328fd6ff73fe8484f8d6798953",
+      "zip_bytes": 157902568,
+      "zip_sha256": "2d4acbb051ce4ec55f3eb84d9bb4ee7cacd02aa330a4ae6c86cb1f5d107bc180"
+    },
+    "reexecuted": false,
+    "source_runtime_matches_frozen_admission": true
+  },
+  "archive": {
+    "all_CRC_path_size_SHA_independently_rechecked": true,
+    "bytes": 155717286,
+    "members": 128,
+    "raw_bytes": 180893090,
+    "sha256": "30e035e10de2e560a9881f70be4aec2567db11393d55a21e3b29d1a5ecd0ad72",
+    "streamed_without_extraction": true
+  },
+  "artifact_id": 12947220084,
+  "blockers": [],
+  "completed_check_groups": [
+    "Entire Original archive SHA155717286B, all128 exact unique safe regular member paths/CRCs/sizes/SHA,180893090 raw bytes; streamed without extraction.",
+    "Five current local raw reports equal their archive members byte for byte; duplicate-key/nonfinite JSON refused in preceding parser passes.",
+    "Actual17ac five retained Original reports exactly match CONFIG bytes/SHA and actual successful13case group; embedded raw group equal.",
+    "Actual17ac complete outer/roles/preuse-used guard/all5 writerPASS/Auth0\u21920/packagefiles/drill and frozen current source/runtime validated.",
+    "Source361 raw embedded declaration equals exact immutable SOURCE; accepted-native17 remainsNULL and prepared319/private41 explicit.",
+    "Exactly17 planned unique completed cases,17PASS/no missing; raw group equals embedded; original report pin exact.",
+    "All17 full boundaries/public/session/day checks true, all17 day axes unchanged, zero advisory/session leaks.",
+    "Before/after strict runtime equal main verification;19 changed functions+3private Native copies, no catalog projection, Native money/HPP unchanged.",
+    "Six exactdecimal money profiles:550/80/470,100/80/20,80/80/0,later20\u2192550/100/450,UNDO80\u2192550/0/550,laterNative\u2192550/80/470; sourceI200 and available120/120/120/100/200/120 consistent.",
+    "Ten exact named refusal SQLSTATE/message pairs including current access42501, source stale, quantity/date/period, secondnote review and laterNative reverse.",
+    "Actual late failure reached MATERIALIZED after real posted replacement SALE journal/net550/carried80/one exact assignment/cleared owning contexts and three actual source/history/current-profile guard returns.",
+    "Secondnote has named NOTE_CARRY_REVIEW_REFUSED with NEXT_NOTE_REVISION_ADAPTER_REQUIRED; current leaf differs historical original target.",
+    "Joint signed80+120-80 total120/historical peak200; attempted replacement150 refuses, later actual undo date cannot waive historical prefix.",
+    "Later Native one-product HPP raw alignment exact target==book:FG40/COGS60/total100/other0.",
+    "36 complete public raw snapshots rehashed with original exact function-pair sort; all fields/rows/pairs canonical before/after equal, eight preservation sensitivity controls true.",
+    "Separate actually committed80 witness has zero additional17 credit and root\u2192replacement; whole original80 event and balanced80 two-line POSTED GL retained.",
+    "All three event/journal/HPP rawJSON envelopes rehashed and exact source parse_float=str navigation checked; no float-roundtripped hashing.",
+    "96 financial truth observations before/after equal and zero; original source/payment/event/journal/physical/HPP/cash/costGL preserved by completed immutable witness assertions.",
+    "Actual after-use inverse refuses with CREDIT_E1_AFTER_USE_REQUIRES_FULL_BACKUP_RESTORE before DDL; unchanged source compares full22 and wholedata/ALLseq immediately around refusal.",
+    "Current outer full22/all scoped row hashes/ALLsequence states/roles/CP6/public/advisors exact checks true; database owner/ACL/settings preserved; restore errors only qualifiedpg_cron, no unexplained.",
+    "Current all five package gates true, writerPASS, run40980265302 head928 exact, Auth0\u21920, all30filesPASS and backup restore drill identical.",
+    "Only17 Native/business cases; AuthHTTP/browser/races0; no production/default/fullcombined/external acceptance flags.",
+    "Original e_cases17 callback bodies, strict runner and separate committed component byteexact8be4\u2192928; exact9E runtime leaves immutable.12 distinct direct source paths.",
+    "Historical8be4 strict Original remains15PASS/2INCOMPLETE with full first errors/traces preserved; not promoted prerequisite."
+  ],
+  "contract": "cp7.e17.actual-native17.internal-counter.v1",
+  "counter_DB_executions": 0,
+  "counter_Native_executions": 0,
+  "counter_network_calls": 0,
+  "counter_parser_corrections_not_native_failures": [
+    {
+      "attempt": 1,
+      "cause": "HPP_alignment is a one-product list; counter initially indexed object. Corrected to exact list. No source/raw changes.",
+      "error": "TypeError: list indices must be integers or slices, not str"
+    },
+    {
+      "attempt": 2,
+      "cause": "Counter navigation initially Decimal vs source parse_float=str. Actual rawJSON SHA was correct; corrected to exact source parse rule at fixture.py45-53.",
+      "error": "AssertionError: whole_raw_envelope:original_money_events"
+    },
+    {
+      "attempt": 3,
+      "cause": "Counter asserted11 distinct source paths; actual three unchanged paths plus nine runtime leaves are12. Each byte/hash comparison passed. Final count12 verified.",
+      "error": "AssertionError: unchanged_original_callbacks_runner_witness_and_exact9runtime"
+    }
+  ],
+  "current_five_Originals": {
+    "CP7_CREDIT_E1_NATIVE17.json": {
+      "bytes": 6243861,
+      "sha256": "cbdc7681708317876bfccd8d2634697868ecdb2c46c97651736d29b4309303bf"
+    },
+    "CP7_CREDIT_E1_NATIVE17_CASES.json": {
+      "bytes": 28830,
+      "sha256": "4d56b60349604ad9c10974e9ab8f73a8d3d9bec83ba523ea21732054e2e20e33"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 1470,
+      "sha256": "263a9d5e6bf74a09cd9658309c0d5343f2b6bc12a22a2797e8c3186ef1343369"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360423,
+      "sha256": "6c8292f8cbca874fae50f171cdde576ba5ab7d1f7eb09bf669ef9dba8b85f5a5"
+    }
+  },
+  "external_independent_audit": false,
+  "first_failed_E17_retained": {
+    "counts": {
+      "INCOMPLETE": 2,
+      "PASS": 15
+    },
+    "first_errors_and_traces": {
+      "E_SECOND_NOTE_REVISION_GUARDED": {
+        "business_day": {
+          "after": "2026-10-30",
+          "before": "2026-10-30",
+          "planned": "2026-10-30"
+        },
+        "error": "{'message': 'CP7_CREDIT_CURRENT_ASSIGNMENT_CHANGED', 'sqlstate': 'P0001', 'detail': ''}",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_lock_keys": [],
+          "advisory_locks": 0,
+          "other_sessions": []
+        },
+        "status": "INCOMPLETE",
+        "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_credit_correction_de/e_cases.py\", line 37, in refusal\n    try:fn()\n        ^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_credit_correction_de/e_cases.py\", line 239, in <lambda>\n    return dict(status='PASS',actual_refusal=refusal(cur,pair,lambda:note.correct(cur,p,v),'CP7_CREDIT_NOTE_CARRY_REVIEW_REFUSED'))\n                                                                     ^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_note_correction_cases.py\", line 27, in correct\n    out=cur.execute('select public.erp_cp7_correct_note_v1(%s,%s,%s)',(json.dumps(p),key or uuid.uuid4(),version)).fetchone()[0]\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.RaiseException: CP7_CREDIT_CURRENT_ASSIGNMENT_CHANGED\nCONTEXT:  PL/pgSQL function cp7_credit.current_materialized_objects(uuid,uuid,uuid) line 10 at RAISE\nPL/pgSQL function cp7_credit.inspect_current_materialized_profile(uuid,uuid,uuid) line 4 at assignment\nPL/pgSQL function cp7_credit.assert_current_materialized_profile(uuid,uuid,uuid) line 4 at assignment\nSQL statement \"SELECT cp7_credit.assert_current_materialized_profile(sale,cp7_credit_note_carry_de.root_v1(sale),sale)\"\nPL/pgSQL function cp7_credit.consumer_capture_sources_v1(jsonb) line 5 at PERFORM\nPL/pgSQL function cp7_credit_note_carry_de.prepare_v1(jsonb,uuid,text,uuid,jsonb) line 32 at assignment\nSQL statement \"SELECT cp7_credit_note_carry_de.prepare_v1(p_payload,p_request,p_expected,correction_id,a)\"\nPL/pgSQL function cp7_credit_note_carry_de.command_v1(jsonb,uuid,text) line 53 at PERFORM\nSQL expression \"cp7_credit_note_carry_de.command_v1(p,p_request,p_expected)\"\nPL/pgSQL function cp7_credit_note_carry_de.dispatch_v1(jsonb,uuid,text) line 5 at RETURN\nSQL function \"erp_cp7_correct_note_v1\" statement 1\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py\", line 165, in _strict_group_once\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_credit_correction_de/e_cases.py\", line 239, in second\n    return dict(status='PASS',actual_refusal=refusal(cur,pair,lambda:note.correct(cur,p,v),'CP7_CREDIT_NOTE_CARRY_REVIEW_REFUSED'))\n                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_credit_correction_de/e_cases.py\", line 41, in refusal\n    assert result['message']==message,result\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: {'message': 'CP7_CREDIT_CURRENT_ASSIGNMENT_CHANGED', 'sqlstate': 'P0001', 'detail': ''}\n"
+      },
+      "E_UNDO_ORIGINAL_80_AND_OLD_RECEIPT": {
+        "business_day": {
+          "after": "2026-10-30",
+          "before": "2026-10-30",
+          "planned": "2026-10-30"
+        },
+        "error": "CP7_CREDIT_NOTE_CARRY_RAW_AR_OR_STATUS_CHANGED\nCONTEXT:  PL/pgSQL function cp7_credit_note_carry_de.assert_profile_v1(uuid,uuid,uuid,jsonb) line 20 at RAISE\nSQL statement \"SELECT cp7_credit_note_carry_de.assert_profile_v1(p_sale,p_root,p_leaf,actual)\"\nPL/pgSQL function cp7_credit.assert_current_source_plan_profile(uuid,uuid,uuid,jsonb) line 15 at PERFORM\nSQL statement \"select cp7_credit.assert_current_source_plan_profile($1,$2,$3,$4)\"\nPL/pgSQL function cp7_credit.assert_current_materialized_profile(uuid,uuid,uuid) line 18 at EXECUTE\nSQL statement \"SELECT cp7_credit.assert_current_materialized_profile(p_sale,m.root_sale_id,m.current_leaf_id)\"\nPL/pgSQL function erp._cp7_current_credit_adjustment(uuid) line 37 at PERFORM\nPL/pgSQL function cp7_credit.current_effective_paid(uuid) line 5 at assignment\nPL/pgSQL function cp7_credit.consumer_execute_v1(uuid) line 67 at assignment\nPL/pgSQL function cp7_credit.consumer_command_v1(jsonb,uuid,jsonb) line 40 at assignment\nSQL function \"erp_cp7_customer_credit_command_v1\" statement 1",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_lock_keys": [],
+          "advisory_locks": 0,
+          "other_sessions": []
+        },
+        "status": "INCOMPLETE",
+        "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py\", line 165, in _strict_group_once\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_credit_correction_de/e_cases.py\", line 268, in <lambda>\n    lambda:later(False),lambda:later(True),late_failure,lambda:altered(False),lambda:altered(True),closed,second,revoked,prefix,reverse,later_sale)\n                               ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_credit_correction_de/e_cases.py\", line 135, in later\n    p=basic.payload(current,'UNDO',original=first['consumption_event_id']);envelope=basic.review(cur,p);made=basic.command(cur,envelope,uuid.uuid4())\n                                                                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_customer_credit/consumer/native_basic_cases.py\", line 42, in command\n    result=cur.execute('select public.erp_cp7_customer_credit_command_v1(%s::jsonb,%s::uuid,%s::jsonb)',\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.RaiseException: CP7_CREDIT_NOTE_CARRY_RAW_AR_OR_STATUS_CHANGED\nCONTEXT:  PL/pgSQL function cp7_credit_note_carry_de.assert_profile_v1(uuid,uuid,uuid,jsonb) line 20 at RAISE\nSQL statement \"SELECT cp7_credit_note_carry_de.assert_profile_v1(p_sale,p_root,p_leaf,actual)\"\nPL/pgSQL function cp7_credit.assert_current_source_plan_profile(uuid,uuid,uuid,jsonb) line 15 at PERFORM\nSQL statement \"select cp7_credit.assert_current_source_plan_profile($1,$2,$3,$4)\"\nPL/pgSQL function cp7_credit.assert_current_materialized_profile(uuid,uuid,uuid) line 18 at EXECUTE\nSQL statement \"SELECT cp7_credit.assert_current_materialized_profile(p_sale,m.root_sale_id,m.current_leaf_id)\"\nPL/pgSQL function erp._cp7_current_credit_adjustment(uuid) line 37 at PERFORM\nPL/pgSQL function cp7_credit.current_effective_paid(uuid) line 5 at assignment\nPL/pgSQL function cp7_credit.consumer_execute_v1(uuid) line 67 at assignment\nPL/pgSQL function cp7_credit.consumer_command_v1(jsonb,uuid,jsonb) line 40 at assignment\nSQL function \"erp_cp7_customer_credit_command_v1\" statement 1\n"
+      }
+    },
+    "pin": {
+      "artifact_id": 12934894175,
+      "counts": {
+        "INCOMPLETE": 2,
+        "PASS": 15
+      },
+      "head": "8be4c15a37dcfc6186e32f396df78291ff1b957c",
+      "job_id": 123736034880,
+      "run_id": 40955967062,
+      "source_pins": 282,
+      "usable_prerequisite": false,
+      "zip_bytes": 155710097,
+      "zip_sha256": "c28e446d3775cbbe583fc05d7a78e5b021157d540736a8e9b0eff03eac5f2be6"
+    },
+    "raw_bytes": 34500,
+    "raw_sha256": "ed8459e9d694394f5fe8777b324b4bd0afafd74b9eb139465499e7ce56d32818",
+    "source_path": "scripts/current-credit-e1-consumer-phase-successor/evidence/retained_8be4/CP7_CREDIT_E1_NATIVE17_CASES.json.gz",
+    "usable_prerequisite": false
+  },
+  "head": "928246e5f62637c7c6457e57d73d0699196e3408",
+  "independent_acceptance": false,
+  "initial_lock": {
+    "path": "/workspace/scratch/ef468a447ac6/evidence-private/e17-928-phase-native17-actual/INTERNAL_COUNTER_INITIAL_LOCK.json",
+    "sha256": "db24230a5c2459189723d26f8d801deb6e826ea77fb630e2da7fc77106c2cc6d"
+  },
+  "job_id": 123818279251,
+  "joint_prefix": {
+    "attempted_replacement": "5x30=150.00",
+    "decoded_detail": {
+      "basis_sha256": "30ce56ef84fe082dc642f1262853eb0446b33d4fb38731ca5bbb2ba1bd0dfb70",
+      "consumers": [
+        {
+          "amount": "80.00",
+          "cohort_id": "8605d314-b9c9-4815-8565-77112473a862",
+          "economic_date": "2026-10-29",
+          "event_id": "36311ab4-6e21-42ed-b5e1-6bce9f880c0c",
+          "historical_target_id": "4e85cae7-fa73-48e3-a75e-a5f6ddce0075",
+          "journal_id": "8213a3b5-7d24-47e9-8c0a-be6756eca3b1",
+          "transaction_date": "2026-10-29"
+        },
+        {
+          "amount": "120.00",
+          "cohort_id": "8605d314-b9c9-4815-8565-77112473a862",
+          "economic_date": "2026-10-29",
+          "event_id": "95a67954-8538-4f9c-ba89-ca9578f3cd8b",
+          "historical_target_id": "4e85cae7-fa73-48e3-a75e-a5f6ddce0075",
+          "journal_id": "3019e0ca-e33e-47a7-ae62-0989390ac226",
+          "transaction_date": "2026-10-29"
+        },
+        {
+          "amount": "-80.00",
+          "cohort_id": "8605d314-b9c9-4815-8565-77112473a862",
+          "economic_date": "2026-10-30",
+          "event_id": "a2a64ec2-17c3-4e41-a0e6-3edf109f5613",
+          "historical_target_id": "4e85cae7-fa73-48e3-a75e-a5f6ddce0075",
+          "journal_id": "6053423e-fb27-4160-8e57-6faf43dfc426",
+          "transaction_date": "2026-10-30"
+        }
+      ],
+      "contract_version": "cp7.note-credit-carry-basis.v1",
+      "issues": [],
+      "minimum_replacement_net": "200.00",
+      "original_net": "500.00",
+      "policy": "AUTO_TRANSFER_TO_REPLACEMENT",
+      "review_token": "6ecec03ee66819b79d539abe11687e69",
+      "root_sale_id": "4e85cae7-fa73-48e3-a75e-a5f6ddce0075",
+      "row_version": "5",
+      "sale_id": "4e85cae7-fa73-48e3-a75e-a5f6ddce0075",
+      "transfer_amount": "120.00"
+    },
+    "historical_peak": "200.00",
+    "named_refusal": true,
+    "signed_total": "120.00"
+  },
+  "late_actual_post_failure": {
+    "actual_guards_returned": [
+      "assert_source_native_trigger_census_v1",
+      "assert_historical_v1",
+      "assert_current_materialized_profile"
+    ],
+    "assignment_count": 1,
+    "carried_amount": "80.00",
+    "failure_point": "AFTER_NATIVE_POST_DURING_E_FINISH",
+    "operation_id": "0332be6d-54fe-4522-84d9-d0ad0fb66801",
+    "original_APPLY_event_id": "121dc9fb-043b-4f9e-a863-ddf86f436e41",
+    "original_APPLY_event_sha256": "6b33ffbe224c9b0c655b14cbf66df402d89ab9fbb10753a88304e0674469226d",
+    "original_APPLY_journal_id": "1906aeeb-e1f3-4c12-9293-046052b2239f",
+    "original_APPLY_journal_sha256": "c520dcf6197fe3f92d38fc6563b9fbf2708516deeefc4e7dcab4240b3285de83",
+    "original_APPLY_target_id": "a5d67ab3-5877-49cb-9bf0-156b0e277421",
+    "owning_contexts_remaining": 0,
+    "replacement_native_net": "550.00",
+    "replacement_sale_id": "bc9d1e9b-ac63-4fbe-bbfb-76d45ced15ac",
+    "replacement_sale_journal_id": "8db08576-ec11-46c9-b649-2942b77dd442",
+    "replacement_sale_journal_status": "POSTED",
+    "request_id": "686a6049-5ba1-47e0-b7d9-14ac631067b9",
+    "revision_id": "5cd10797-58d4-4d79-9df2-48a77107fc02",
+    "source_sale_id": "a5d67ab3-5877-49cb-9bf0-156b0e277421",
+    "work_phase": "MATERIALIZED"
+  },
+  "limits": [
+    "Internal read-only retained-Original/source counter, not external independent audit or acceptance; no new Native/DB/network executed.",
+    "Raw17 CASES preserve money profiles/refusals/boundary flags and36 complete public raw snapshots; not every intermediate business row or command response. Currentleaf UNDO signed80/same original event and oldcompletion are completed unchanged callback assertions, not invented separately serialized response snapshots.",
+    "Committed80 retains whole raw event/journal/HPP envelopes. Source/payment/history/physical before-after and full22/wholedata/ALLseq refusal are source-backed completed assertions; no separate serialized full E17 business-state snapshots are claimed.",
+    "Outer restore uses existing explicit portable PostgreSQL SQL-reparse/attachedpartitionPK normalization; no function/owner/grant/history projection. Installed and usedguard verification use actual fullcatalog.",
+    "Source361 and accepted_native17=NULL are prepared inputs. This receipt records actual17 outcome; root controls any terminal qualification binding.",
+    "No S03/SKU/global dispatch or locks/HTTP/Auth/browser/two-session races/production/fullD/fullE qualification."
+  ],
+  "outer": {
+    "advisor_disposition": {
+      "current_private_authority": {
+        "object": [
+          "cp7_frozen_choice_preparation",
+          "work"
+        ],
+        "owner": "cp7_capture",
+        "policies": [],
+        "public_schema_acl_empty": true,
+        "public_table_acl_empty": true,
+        "rls": true,
+        "schema_usage": {
+          "anon": false,
+          "authenticated": false,
+          "cp7_alert": false,
+          "cp7_finance_read": false,
+          "service_role": false
+        },
+        "table_privileges": {
+          "anon": {
+            "DELETE": false,
+            "INSERT": false,
+            "REFERENCES": false,
+            "SELECT": false,
+            "TRIGGER": false,
+            "TRUNCATE": false,
+            "UPDATE": false
+          },
+          "authenticated": {
+            "DELETE": false,
+            "INSERT": false,
+            "REFERENCES": false,
+            "SELECT": false,
+            "TRIGGER": false,
+            "TRUNCATE": false,
+            "UPDATE": false
+          },
+          "cp7_alert": {
+            "DELETE": false,
+            "INSERT": false,
+            "REFERENCES": false,
+            "SELECT": false,
+            "TRIGGER": false,
+            "TRUNCATE": false,
+            "UPDATE": false
+          },
+          "cp7_finance_read": {
+            "DELETE": false,
+            "INSERT": false,
+            "REFERENCES": false,
+            "SELECT": false,
+            "TRIGGER": false,
+            "TRUNCATE": false,
+            "UPDATE": false
+          },
+          "service_role": {
+            "DELETE": false,
+            "INSERT": false,
+            "REFERENCES": false,
+            "SELECT": false,
+            "TRIGGER": false,
+            "TRUNCATE": false,
+            "UPDATE": false
+          }
+        }
+      },
+      "gate": true,
+      "predecessor_disposition": {
+        "exact_predecessor_info": [
+          {
+            "cache_key": "rls_enabled_no_policy_cp7_attendance_command_context",
+            "categories": [
+              "SECURITY"
+            ],
+            "description": "Detects cases where row level security (RLS) has been enabled on a table but no RLS policies have been created.",
+            "detail": "Table `cp7_attendance.command_context` has RLS enabled, but no policies exist",
+            "facing": "EXTERNAL",
+            "level": "INFO",
+            "metadata": {
+              "name": "command_context",
+              "schema": "cp7_attendance",
+              "type": "table"
+            },
+            "name": "rls_enabled_no_policy",
+            "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy",
+            "title": "RLS Enabled No Policy"
+          },
+          {
+            "cache_key": "rls_enabled_no_policy_cp7_attendance_command_requests",
+            "categories": [
+              "SECURITY"
+            ],
+            "description": "Detects cases where row level security (RLS) has been enabled on a table but no RLS policies have been created.",
+            "detail": "Table `cp7_attendance.command_requests` has RLS enabled, but no policies exist",
+            "facing": "EXTERNAL",
+            "level": "INFO",
+            "metadata": {
+              "name": "command_requests",
+              "schema": "cp7_attendance",
+              "type": "table"
+            },
+            "name": "rls_enabled_no_policy",
+            "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy",
+            "title": "RLS Enabled No Policy"
+          },
+          {
+            "cache_key": "rls_enabled_no_policy_cp7_attendance_roster_requests",
+            "categories": [
+              "SECURITY"
+            ],
+            "description": "Detects cases where row level security (RLS) has been enabled on a table but no RLS policies have been created.",
+            "detail": "Table `cp7_attendance.roster_requests` has RLS enabled, but no policies exist",
+            "facing": "EXTERNAL",
+            "level": "INFO",
+            "metadata": {
+              "name": "roster_requests",
+              "schema": "cp7_attendance",
+              "type": "table"
+            },
+            "name": "rls_enabled_no_policy",
+            "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy",
+            "title": "RLS Enabled No Policy"
+          },
+          {
+            "cache_key": "rls_enabled_no_policy_cp7_fg_adjustment_documents",
+            "categories": [
+              "SECURITY"
+            ],
+            "description": "Detects cases where row level security (RLS) has been enabled on a table but no RLS policies have been created.",
+            "detail": "Table `cp7_fg.adjustment_documents` has RLS enabled, but no policies exist",
+            "facing": "EXTERNAL",
+            "level": "INFO",
+            "metadata": {
+              "name": "adjustment_documents",
+              "schema": "cp7_fg",
+              "type": "table"
+            },
+            "name": "rls_enabled_no_policy",
+            "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy",
+            "title": "RLS Enabled No Policy"
+          },
+          {
+            "cache_key": "rls_enabled_no_policy_cp7_fg_requests",
+            "categories": [
+              "SECURITY"
+            ],
+            "description": "Detects cases where row level security (RLS) has been enabled on a table but no RLS policies have been created.",
+            "detail": "Table `cp7_fg.requests` has RLS enabled, but no policies exist",
+            "facing": "EXTERNAL",
+            "level": "INFO",
+            "metadata": {
+              "name": "requests",
+              "schema": "cp7_fg",
+              "type": "table"
+            },
+            "name": "rls_enabled_no_policy",
+            "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy",
+            "title": "RLS Enabled No Policy"
+          },
+          {
+            "cache_key": "rls_enabled_no_policy_cp7_identity_commands",
+            "categories": [
+              "SECURITY"
+            ],
+            "description": "Detects cases where row level security (RLS) has been enabled on a table but no RLS policies have been created.",
+            "detail": "Table `cp7_identity.commands` has RLS enabled, but no policies exist",
+            "facing": "EXTERNAL",
+            "level": "INFO",
+            "metadata": {
+              "name": "commands",
+              "schema": "cp7_identity",
+              "type": "table"
+            },
+            "name": "rls_enabled_no_policy",
+            "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy",
+            "title": "RLS Enabled No Policy"
+          },
+          {
+            "cache_key": "rls_enabled_no_policy_cp7_identity_production_policy",
+            "categories": [
+              "SECURITY"
+            ],
+            "description": "Detects cases where row level security (RLS) has been enabled on a table but no RLS policies have been created.",
+            "detail": "Table `cp7_identity.production_policy` has RLS enabled, but no policies exist",
+            "facing": "EXTERNAL",
+            "level": "INFO",
+            "metadata": {
+              "name": "production_policy",
+              "schema": "cp7_identity",
+              "type": "table"
+            },
+            "name": "rls_enabled_no_policy",
+            "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy",
+            "title": "RLS Enabled No Policy"
+          },
+          {
+            "cache_key": "rls_enabled_no_policy_cp7_invoice_payment_requests",
+            "categories": [
+              "SECURITY"
+            ],
+            "description": "Detects cases where row level security (RLS) has been enabled on a table but no RLS policies have been created.",
+            "detail": "Table `cp7_invoice.payment_requests` has RLS enabled, but no policies exist",
+            "facing": "EXTERNAL",
+            "level": "INFO",
+            "metadata": {
+              "name": "payment_requests",
+              "schema": "cp7_invoice",
+              "type": "table"
+            },
+            "name": "rls_enabled_no_policy",
+            "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy",
+            "title": "RLS Enabled No Policy"
+          },
+          {
+            "cache_key": "rls_enabled_no_policy_cp7_invoice_requests",
+            "categories": [
+              "SECURITY"
+            ],
+            "description": "Detects cases where row level security (RLS) has been enabled on a table but no RLS policies have been created.",
+            "detail": "Table `cp7_invoice.requests` has RLS enabled, but no policies exist",
+            "facing": "EXTERNAL",
+            "level": "INFO",
+            "metadata": {
+              "name": "requests",
+              "schema": "cp7_invoice",
+              "type": "table"
+            },
+            "name": "rls_enabled_no_policy",
+            "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy",
+            "title": "RLS Enabled No Policy"
+          },
+          {
+            "cache_key": "rls_enabled_no_policy_cp7_material_count_documents",
+            "categories": [
+              "SECURITY"
+            ],
+            "description": "Detects cases where row level security (RLS) has been enabled on a table but no RLS policies have been created.",
+            "detail": "Table `cp7_material.count_documents` has RLS enabled, but no policies exist",
+            "facing": "EXTERNAL",
+            "level": "INFO",
+            "metadata": {
+              "name": "count_documents",
+              "schema": "cp7_material",
+              "type": "table"
+            },
+            "name": "rls_enabled_no_policy",
+            "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy",
+            "title": "RLS Enabled No Policy"
+          },
+          {
+            "cache_key": "rls_enabled_no_policy_cp7_material_execution_context",
+            "categories": [
+              "SECURITY"
+            ],
+            "description": "Detects cases where row level security (RLS) has been enabled on a table but no RLS policies have been created.",
+            "detail": "Table `cp7_material.execution_context` has RLS enabled, but no policies exist",
+            "facing": "EXTERNAL",
+            "level": "INFO",
+            "metadata": {
+              "name": "execution_context",
+              "schema": "cp7_material",
+              "type": "table"
+            },
+            "name": "rls_enabled_no_policy",
+            "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy",
+            "title": "RLS Enabled No Policy"
+          },
+          {
+            "cache_key": "rls_enabled_no_policy_cp7_material_requests",
+            "categories": [
+              "SECURITY"
+            ],
+            "description": "Detects cases where row level security (RLS) has been enabled on a table but no RLS policies have been created.",
+            "detail": "Table `cp7_material.requests` has RLS enabled, but no policies exist",
+            "facing": "EXTERNAL",
+            "level": "INFO",
+            "metadata": {
+              "name": "requests",
+              "schema": "cp7_material",
+              "type": "table"
+            },
+            "name": "rls_enabled_no_policy",
+            "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy",
+            "title": "RLS Enabled No Policy"
+          },
+          {
+            "cache_key": "rls_enabled_no_policy_cp7_payroll_card_claims",
+            "categories": [
+              "SECURITY"
+            ],
+            "description": "Detects cases where row level security (RLS) has been enabled on a table but no RLS policies have been created.",
+            "detail": "Table `cp7_payroll.card_claims` has RLS enabled, but no policies exist",
+            "facing": "EXTERNAL",
+            "level": "INFO",
+            "metadata": {
+              "name": "card_claims",
+              "schema": "cp7_payroll",
+              "type": "table"
+            },
+            "name": "rls_enabled_no_policy",
+            "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy",
+            "title": "RLS Enabled No Policy"
+          },
+          {
+            "cache_key": "rls_enabled_no_policy_cp7_payroll_execution_context",
+            "categories": [
+              "SECURITY"
+            ],
+            "description": "Detects cases where row level security (RLS) has been enabled on a table but no RLS policies have been created.",
+            "detail": "Table `cp7_payroll.execution_context` has RLS enabled, but no policies exist",
+            "facing": "EXTERNAL",
+            "level": "INFO",
+            "metadata": {
+              "name": "execution_context",
+              "schema": "cp7_payroll",
+              "type": "table"
+            },
+            "name": "rls_enabled_no_policy",
+            "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy",
+            "title": "RLS Enabled No Policy"
+          },
+          {
+            "cache_key": "rls_enabled_no_policy_cp7_payroll_note_requests",
+            "categories": [
+              "SECURITY"
+            ],
+            "description": "Detects cases where row level security (RLS) has been enabled on a table but no RLS policies have been created.",
+            "detail": "Table `cp7_payroll.note_requests` has RLS enabled, but no policies exist",
+            "facing": "EXTERNAL",
+            "level": "INFO",
+            "metadata": {
+              "name": "note_requests",
+              "schema": "cp7_payroll",
+              "type": "table"
+            },
+            "name": "rls_enabled_no_policy",
+            "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy",
+            "title": "RLS Enabled No Policy"
+          },
+          {
+            "cache_key": "rls_enabled_no_policy_cp7_payroll_notes",
+            "categories": [
+              "SECURITY"
+            ],
+            "description": "Detects cases where row level security (RLS) has been enabled on a table but no RLS policies have been created.",
+            "detail": "Table `cp7_payroll.notes` has RLS enabled, but no policies exist",
+            "facing": "EXTERNAL",
+            "level": "INFO",
+            "metadata": {
+              "name": "notes",
+              "schema": "cp7_payroll",
+              "type": "table"
+            },
+            "name": "rls_enabled_no_policy",
+            "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy",
+            "title": "RLS Enabled No Policy"
+          },
+          {
+            "cache_key": "rls_enabled_no_policy_cp7_payroll_settlement_context",
+            "categories": [
+              "SECURITY"
+            ],
+            "description": "Detects cases where row level security (RLS) has been enabled on a table but no RLS policies have been created.",
+            "detail": "Table `cp7_payroll.settlement_context` has RLS enabled, but no policies exist",
+            "facing": "EXTERNAL",
+            "level": "INFO",
+            "metadata": {
+              "name": "settlement_context",
+              "schema": "cp7_payroll",
+              "type": "table"
+            },
+            "name": "rls_enabled_no_policy",
+            "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy",
+            "title": "RLS Enabled No Policy"
+          },
+          {
+            "cache_key": "rls_enabled_no_policy_cp7_payroll_settlement_requests",
+            "categories": [
+              "SECURITY"
+            ],
+            "description": "Detects cases where row level security (RLS) has been enabled on a table but no RLS policies have been created.",
+            "detail": "Table `cp7_payroll.settlement_requests` has RLS enabled, but no policies exist",
+            "facing": "EXTERNAL",
+            "level": "INFO",
+            "metadata": {
+              "name": "settlement_requests",
+              "schema": "cp7_payroll",
+              "type": "table"
+            },
+            "name": "rls_enabled_no_policy",
+            "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy",
+            "title": "RLS Enabled No Policy"
+          },
+          {
+            "cache_key": "rls_enabled_no_policy_cp7_period_requests",
+            "categories": [
+              "SECURITY"
+            ],
+            "description": "Detects cases where row level security (RLS) has been enabled on a table but no RLS policies have been created.",
+            "detail": "Table `cp7_period.requests` has RLS enabled, but no policies exist",
+            "facing": "EXTERNAL",
+            "level": "INFO",
+            "metadata": {
+              "name": "requests",
+              "schema": "cp7_period",
+              "type": "table"
+            },
+            "name": "rls_enabled_no_policy",
+            "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy",
+            "title": "RLS Enabled No Policy"
+          },
+          {
+            "cache_key": "rls_enabled_no_policy_cp7_private_analysis_runs",
+            "categories": [
+              "SECURITY"
+            ],
+            "description": "Detects cases where row level security (RLS) has been enabled on a table but no RLS policies have been created.",
+            "detail": "Table `cp7_private.analysis_runs` has RLS enabled, but no policies exist",
+            "facing": "EXTERNAL",
+            "level": "INFO",
+            "metadata": {
+              "name": "analysis_runs",
+              "schema": "cp7_private",
+              "type": "table"
+            },
+            "name": "rls_enabled_no_policy",
+            "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy",
+            "title": "RLS Enabled No Policy"
+          },
+          {
+            "cache_key": "rls_enabled_no_policy_cp7_procurement_draft_requests",
+            "categories": [
+              "SECURITY"
+            ],
+            "description": "Detects cases where row level security (RLS) has been enabled on a table but no RLS policies have been created.",
+            "detail": "Table `cp7_procurement.draft_requests` has RLS enabled, but no policies exist",
+            "facing": "EXTERNAL",
+            "level": "INFO",
+            "metadata": {
+              "name": "draft_requests",
+              "schema": "cp7_procurement",
+              "type": "table"
+            },
+            "name": "rls_enabled_no_policy",
+            "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy",
+            "title": "RLS Enabled No Policy"
+          },
+          {
+            "cache_key": "rls_enabled_no_policy_cp7_procurement_execution_context",
+            "categories": [
+              "SECURITY"
+            ],
+            "description": "Detects cases where row level security (RLS) has been enabled on a table but no RLS policies have been created.",
+            "detail": "Table `cp7_procurement.execution_context` has RLS enabled, but no policies exist",
+            "facing": "EXTERNAL",
+            "level": "INFO",
+            "metadata": {
+              "name": "execution_context",
+              "schema": "cp7_procurement",
+              "type": "table"
+            },
+            "name": "rls_enabled_no_policy",
+            "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy",
+            "title": "RLS Enabled No Policy"
+          },
+          {
+            "cache_key": "rls_enabled_no_policy_cp7_procurement_reversals",
+            "categories": [
+              "SECURITY"
+            ],
+            "description": "Detects cases where row level security (RLS) has been enabled on a table but no RLS policies have been created.",
+            "detail": "Table `cp7_procurement.reversals` has RLS enabled, but no policies exist",
+            "facing": "EXTERNAL",
+            "level": "INFO",
+            "metadata": {
+              "name": "reversals",
+              "schema": "cp7_procurement",
+              "type": "table"
+            },
+            "name": "rls_enabled_no_policy",
+            "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy",
+            "title": "RLS Enabled No Policy"
+          },
+          {
+            "cache_key": "rls_enabled_no_policy_cp7_recost_requests",
+            "categories": [
+              "SECURITY"
+            ],
+            "description": "Detects cases where row level security (RLS) has been enabled on a table but no RLS policies have been created.",
+            "detail": "Table `cp7_recost.requests` has RLS enabled, but no policies exist",
+            "facing": "EXTERNAL",
+            "level": "INFO",
+            "metadata": {
+              "name": "requests",
+              "schema": "cp7_recost",
+              "type": "table"
+            },
+            "name": "rls_enabled_no_policy",
+            "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy",
+            "title": "RLS Enabled No Policy"
+          },
+          {
+            "cache_key": "rls_enabled_no_policy_cp7_sales_command_context",
+            "categories": [
+              "SECURITY"
+            ],
+            "description": "Detects cases where row level security (RLS) has been enabled on a table but no RLS policies have been created.",
+            "detail": "Table `cp7_sales.command_context` has RLS enabled, but no policies exist",
+            "facing": "EXTERNAL",
+            "level": "INFO",
+            "metadata": {
+              "name": "command_context",
+              "schema": "cp7_sales",
+              "type": "table"
+            },
+            "name": "rls_enabled_no_policy",
+            "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy",
+            "title": "RLS Enabled No Policy"
+          },
+          {
+            "cache_key": "rls_enabled_no_policy_cp7_sales_requests",
+            "categories": [
+              "SECURITY"
+            ],
+            "description": "Detects cases where row level security (RLS) has been enabled on a table but no RLS policies have been created.",
+            "detail": "Table `cp7_sales.requests` has RLS enabled, but no policies exist",
+            "facing": "EXTERNAL",
+            "level": "INFO",
+            "metadata": {
+              "name": "requests",
+              "schema": "cp7_sales",
+              "type": "table"
+            },
+            "name": "rls_enabled_no_policy",
+            "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy",
+            "title": "RLS Enabled No Policy"
+          },
+          {
+            "cache_key": "rls_enabled_no_policy_cp7_supplier_return_execution_context",
+            "categories": [
+              "SECURITY"
+            ],
+            "description": "Detects cases where row level security (RLS) has been enabled on a table but no RLS policies have been created.",
+            "detail": "Table `cp7_supplier_return.execution_context` has RLS enabled, but no policies exist",
+            "facing": "EXTERNAL",
+            "level": "INFO",
+            "metadata": {
+              "name": "execution_context",
+              "schema": "cp7_supplier_return",
+              "type": "table"
+            },
+            "name": "rls_enabled_no_policy",
+            "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy",
+            "title": "RLS Enabled No Policy"
+          },
+          {
+            "cache_key": "rls_enabled_no_policy_cp7_supplier_return_requests",
+            "categories": [
+              "SECURITY"
+            ],
+            "description": "Detects cases where row level security (RLS) has been enabled on a table but no RLS policies have been created.",
+            "detail": "Table `cp7_supplier_return.requests` has RLS enabled, but no policies exist",
+            "facing": "EXTERNAL",
+            "level": "INFO",
+            "metadata": {
+              "name": "requests",
+              "schema": "cp7_supplier_return",
+              "type": "table"
+            },
+            "name": "rls_enabled_no_policy",
+            "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy",
+            "title": "RLS Enabled No Policy"
+          },
+          {
+            "cache_key": "rls_enabled_no_policy_cp7_wip_production_runs",
+            "categories": [
+              "SECURITY"
+            ],
+            "description": "Detects cases where row level security (RLS) has been enabled on a table but no RLS policies have been created.",
+            "detail": "Table `cp7_wip.production_runs` has RLS enabled, but no policies exist",
+            "facing": "EXTERNAL",
+            "level": "INFO",
+            "metadata": {
+              "name": "production_runs",
+              "schema": "cp7_wip",
+              "type": "table"
+            },
+            "name": "rls_enabled_no_policy",
+            "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy",
+            "title": "RLS Enabled No Policy"
+          },
+          {
+            "cache_key": "rls_enabled_no_policy_cp7_wip_runs",
+            "categories": [
+              "SECURITY"
+            ],
+            "description": "Detects cases where row level security (RLS) has been enabled on a table but no RLS policies have been created.",
+            "detail": "Table `cp7_wip.runs` has RLS enabled, but no policies exist",
+            "facing": "EXTERNAL",
+            "level": "INFO",
+            "metadata": {
+              "name": "runs",
+              "schema": "cp7_wip",
+              "type": "table"
+            },
+            "name": "rls_enabled_no_policy",
+            "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy",
+            "title": "RLS Enabled No Policy"
+          }
+        ],
+        "gate": false,
+        "status": "UNEXPLAINED_FINDINGS",
+        "unexplained": [
+          {
+            "cache_key": "rls_enabled_no_policy_cp7_frozen_choice_preparation_work",
+            "categories": [
+              "SECURITY"
+            ],
+            "description": "Detects cases where row level security (RLS) has been enabled on a table but no RLS policies have been created.",
+            "detail": "Table `cp7_frozen_choice_preparation.work` has RLS enabled, but no policies exist",
+            "facing": "EXTERNAL",
+            "level": "INFO",
+            "metadata": {
+              "name": "work",
+              "schema": "cp7_frozen_choice_preparation",
+              "type": "table"
+            },
+            "name": "rls_enabled_no_policy",
+            "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy",
+            "title": "RLS Enabled No Policy"
+          }
+        ]
+      },
+      "reviewed_new_private_info": [
+        {
+          "cache_key": "rls_enabled_no_policy_cp7_frozen_choice_preparation_work",
+          "categories": [
+            "SECURITY"
+          ],
+          "description": "Detects cases where row level security (RLS) has been enabled on a table but no RLS policies have been created.",
+          "detail": "Table `cp7_frozen_choice_preparation.work` has RLS enabled, but no policies exist",
+          "facing": "EXTERNAL",
+          "level": "INFO",
+          "metadata": {
+            "name": "work",
+            "schema": "cp7_frozen_choice_preparation",
+            "type": "table"
+          },
+          "name": "rls_enabled_no_policy",
+          "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy",
+          "title": "RLS Enabled No Policy"
+        }
+      ],
+      "status": "VERIFIED_PRIVATE_DEFAULT_DENY_INFO",
+      "unexplained": []
+    },
+    "advisor_gate": true,
+    "baseline_advisors_equal": true,
+    "baseline_full22_all_rows_all_sequences_equal": true,
+    "baseline_restore": {
+      "database_owner_acl_and_settings_preserved": true,
+      "error_count": 19,
+      "exit": 1,
+      "only_pg_cron_errors": true,
+      "platform_schema_authority_restored": [
+        "graphql",
+        "graphql_public"
+      ],
+      "unexplained": []
+    },
+    "baseline_role_cleanup": {
+      "already_removed_by_preuse": [],
+      "baseline_roles_exact": true,
+      "removed_remaining": [
+        "cp7_alert",
+        "cp7_attendance_read",
+        "cp7_attendance_write",
+        "cp7_audit_read",
+        "cp7_capture",
+        "cp7_credit_visible_read",
+        "cp7_credit_write",
+        "cp7_customer_history_read",
+        "cp7_cutover_read",
+        "cp7_cutover_write",
+        "cp7_cutting_read",
+        "cp7_cutting_write",
+        "cp7_erp_settings_read",
+        "cp7_fg_read",
+        "cp7_fg_write",
+        "cp7_finance_read",
+        "cp7_guard",
+        "cp7_hpp_pool_read",
+        "cp7_hpp_pool_write",
+        "cp7_installment_read",
+        "cp7_installment_write",
+        "cp7_invoice_read",
+        "cp7_invoice_write",
+        "cp7_journal_read",
+        "cp7_kasbon_read",
+        "cp7_kasbon_write",
+        "cp7_master_read",
+        "cp7_master_write",
+        "cp7_material_read",
+        "cp7_material_write",
+        "cp7_misc_read",
+        "cp7_misc_write",
+        "cp7_nota_write",
+        "cp7_obligation_read",
+        "cp7_payable_read",
+        "cp7_payroll_header",
+        "cp7_payroll_read",
+        "cp7_payroll_write",
+        "cp7_period_read",
+        "cp7_period_write",
+        "cp7_plan_writer",
+        "cp7_policy",
+        "cp7_procure_read",
+        "cp7_procure_write",
+        "cp7_public_routes",
+        "cp7_recost_read",
+        "cp7_recost_write",
+        "cp7_reminder",
+        "cp7_reminders_read",
+        "cp7_reminders_write",
+        "cp7_return_read",
+        "cp7_return_write",
+        "cp7_roster_write",
+        "cp7_sales_read",
+        "cp7_sales_write",
+        "cp7_transaction_source_read",
+        "cp7_warehouse_summary_read"
+      ]
+    },
+    "cp6_restored": true,
+    "exact_streaming_data_validation": {
+      "prior_large_regression_repeated": false,
+      "status": "PASS_REAL_BASELINE_EQUALITY_ONLY"
+    },
+    "required_case_ids_pass": true,
+    "restore_components": {
+      "all_public_catalog_members_and_row_hashes": true,
+      "erp_platform_auth_schema_acl": true,
+      "erp_public_auth_function_definitions_owners_acls": true
+    },
+    "restore_raw_public_equal": true,
+    "scheduler_quiet_before_baseline_restore": true,
+    "streaming_data_source_guard": {
+      "derived_source_sha256": "06acf5b9bd879dcd7ec2185d44419255c7635ddf409e611810e94e86cb789cae",
+      "excluded_tables_added": 0,
+      "namespace_table_selection_authority_GUC_and_all_sequences_unchanged": true,
+      "old_jsonb_array_text_hash_algorithm_unchanged": true,
+      "original_source_sha256": "088d259187916716aebcf3473306ae04192bc953ffa90ecb10fc060f7f776487",
+      "qualified_role_oracles_unchanged": true,
+      "rows_or_fields_skipped": 0
+    },
+    "used_guard_refused_before_DDL": true
+  },
+  "package": {
+    "Auth_users_after": 0,
+    "Auth_users_before": 0,
+    "all5": {
+      "backup_restore_drill": true,
+      "installed": true,
+      "primary_unchanged": true,
+      "security_advisors": true,
+      "writer_runtime": true
+    },
+    "drill_catalog": {
+      "differ": {},
+      "match": [
+        "app_ledger",
+        "config_hash",
+        "constraint",
+        "default_acl",
+        "extension",
+        "function",
+        "function_owner_acl",
+        "index",
+        "platform_ledger",
+        "policy",
+        "relation",
+        "relation_owner_acl",
+        "schema",
+        "sequence",
+        "trigger",
+        "view"
+      ],
+      "objects": {}
+    },
+    "drill_checks": {
+      "catalog_explained": true,
+      "data_identical": true,
+      "engine_answer_present": true,
+      "engine_equal": true,
+      "restore_errors_only_pg_cron": true
+    },
+    "drill_data": {
+      "differ": {},
+      "rows": 1860,
+      "schemas": [
+        "_realtime",
+        "auth",
+        "erp",
+        "realtime",
+        "storage",
+        "supabase_functions",
+        "supabase_migrations",
+        "vault"
+      ],
+      "tables": 407
+    },
+    "filesPASS": 30,
+    "run_identity": {
+      "event": "push",
+      "github_sha": "928246e5f62637c7c6457e57d73d0699196e3408",
+      "job": "p21",
+      "label": "T3_PREP",
+      "mode": "install",
+      "product_paths": [
+        "supabase/migrations",
+        "supabase/dev",
+        "supabase/release",
+        "supabase/rollbacks",
+        "src"
+      ],
+      "product_ref": "8be4c15a37dcfc6186e32f396df78291ff1b957c",
+      "production_go": false,
+      "release_evidence": false,
+      "run_attempt": "1",
+      "run_id": "40980265302",
+      "tool_head": "928246e5f62637c7c6457e57d73d0699196e3408",
+      "workflow": "CP7 A current E1 consumer phase fresh Native17"
+    },
+    "writer_runtime": {
+      "full_OW11_acceptance": false,
+      "independent_acceptance": false,
+      "production_go": false,
+      "schema_profile": "HOSTED_USAGE_UNCHANGED",
+      "status": "PASS"
+    }
+  },
+  "production_go": false,
+  "run_id": 40980265302,
+  "separate_committed80_witness": {
+    "E_Native_case_credit": 0,
+    "actual_E_response": {
+      "action": "CORRECT",
+      "contract_version": "cp7.note-correction-outcome.v1",
+      "effective_at": "2026-10-27T03:00:00.123456+00:00",
+      "kind": "COMMITTED_OUTCOME",
+      "previous_sale_id": "d9374391-d9d0-445e-ab89-1e269fd1b99b",
+      "request_id": "3ed25cc6-657a-484e-ba0d-6fbc155af25a",
+      "revision": "1",
+      "revision_id": "1027765e-a9f0-4b37-b37d-58e1db3d221f",
+      "root_sale_id": "d9374391-d9d0-445e-ab89-1e269fd1b99b",
+      "sale_id": "11b1faee-ee11-4a3d-a303-71d68dcea910"
+    },
+    "actual_profile": {
+      "AR": "470.00",
+      "U": "80.00",
+      "net": "550.00",
+      "source": {
+        "AR": "0.00",
+        "I": "200.00",
+        "available": "120.00",
+        "net": "800.00"
+      }
+    },
+    "actual_used_inverse_error": "CREDIT_E1_AFTER_USE_REQUIRES_FULL_BACKUP_RESTORE",
+    "financial_truth_after": {
+      "AP_CASH_ADVANCE_CAPACITY": 0,
+      "AP_CASH_ADVANCE_PAYROLL_JOURNAL": 0,
+      "AP_CASH_ADVANCE_SOURCE": 0,
+      "AP_OPENING_RECEIPT_JOURNAL_DRIFT": 0,
+      "AP_OPENING_RECEIPT_SOURCE_DRIFT": 0,
+      "AP_PERIOD_POCKET_HPP": 0,
+      "AP_PERIOD_POCKET_LEDGER": 0,
+      "AP_PERIOD_POCKET_OVERLAP": 0,
+      "AP_PERIOD_POCKET_SOURCES": 0,
+      "AP_POCKET_EXPENSE_LEDGER": 0,
+      "AP_POCKET_NO_CUTTING": 0,
+      "AP_POCKET_SOURCE": 0,
+      "AP_PREPAYMENT_CAPACITY": 0,
+      "AP_PREPAYMENT_EVENT_JOURNAL": 0,
+      "AP_PREPAYMENT_GL_SUBLEDGER": 0,
+      "AP_PREPAYMENT_OPENING_JOURNAL": 0,
+      "AP_PREPAYMENT_PAYMENT_JOURNAL": 0,
+      "AP_PREPAYMENT_PAYMENT_SOURCE": 0,
+      "CP7_CUSTOMER_CREDIT_REPORT_UNPROVEN": 0,
+      "OW06_SUPPLIER_TRANSFER_CORRECTION": 0,
+      "OW06_SUPPLIER_TRANSFER_FACTS": 0,
+      "V2620AD_OPENING_MATERIAL_TIMELINE_MISMATCH": 0,
+      "V2620AE_OPENING_MATERIAL_ROLL_INTEGRITY": 0,
+      "V2620AF_OPENING_SOURCE_LINEAGE_MISMATCH": 0,
+      "V2620AG_SALE_RESERVATION_LINEAGE_MISMATCH": 0,
+      "V2620AH_RETURN_ALLOCATION_LINEAGE_MISMATCH": 0,
+      "V2620AI_WORK_SOURCE_LINEAGE_MISMATCH": 0,
+      "V2620C_DRAFT_SALE_VALUE_LEAK": 0,
+      "V2620C_HPP_COMPONENT_SUM_MISMATCH": 0,
+      "V2620C_HPP_STATE_HAS_SUBCENT": 0,
+      "V2620C_PO_HPP_BOOK_MISMATCH": 0,
+      "V2620C_PO_HPP_TARGET_STATE_MISMATCH": 0,
+      "V2620C_SALES_RETURN_REPORT_INPUT_MISMATCH": 0,
+      "V2620C_SALE_REVENUE_REPORT_INPUT_MISMATCH": 0,
+      "V2620C_VENDOR_PAYMENT_EXACT_STATUS_MISMATCH": 0,
+      "V2620C_WIP_SOURCE_CONSERVATION_MISMATCH": 0,
+      "V2620D_REDISPATCH_PARTICIPANT_LINEAGE_MISMATCH": 0,
+      "V2620D_SALE_LIFECYCLE_HPP_DIMENSION_MISMATCH": 0,
+      "V2620E_OPENING_FG_GL_MISMATCH": 0,
+      "V2620E_OPENING_HPP_LINEAGE_MISMATCH": 0,
+      "V2620E_REDISPATCH_EVENT_MISMATCH": 0,
+      "V2620E_SALES_RETURN_VALUE_EXCEEDS_SALE": 0,
+      "V2620F_CONVERSION_VALUE_LINEAGE_MISMATCH": 0,
+      "V2620F_NON_PO_PRODUCT_HPP_BOOK_MISMATCH": 0,
+      "V2620G_LAUNDRY_WIP_CUSTODY_MISMATCH": 0,
+      "V2620H_CUSTOMER_AR_BY_CUSTOMER_MISMATCH": 0,
+      "V2620H_CUSTOMER_AR_STATUS_MISMATCH": 0,
+      "V2620H_FAILED_WASH_RETURN_TIME_MISMATCH": 0,
+      "V2620I_SALES_PAYMENT_JOURNAL_LINEAGE_MISMATCH": 0,
+      "V2620J_SALES_PAYMENT_IMMUTABLE_FACT_MISMATCH": 0,
+      "V2620K_PAYMENT_ALLOCATION_DATE_MISMATCH": 0,
+      "V2620L_NEGATIVE_VENDOR_AP": 0,
+      "V2620L_NONFINITE_LEDGER_MONEY": 0,
+      "V2620M_OPENING_SUBLEDGER_STATE": 0,
+      "V2620M_ORPHAN_PAYMENT_JOURNAL": 0,
+      "V2620M_PAYMENT_SOURCE_JOURNAL_MISMATCH": 0,
+      "V2620M_SUPPLIER_PAYMENT_EXACT_STATUS": 0,
+      "V2620N_SUPPLIER_CENT_FACT_LEDGER": 0,
+      "V2620O_SUPPLIER_RETURN_ALLOCATION": 0,
+      "V2620P_SUPPLIER_RETURN_MATCH_STATE": 0,
+      "V2620R_SUPPLIER_INVOICE_SOURCE_STATE": 0,
+      "V2620S_SUPPLIER_PAYMENT_BUSINESS_DATE": 0,
+      "V2620T_JOURNAL_FUTURE_BUSINESS_DATE": 0,
+      "V2620T_MATERIAL_ADJUSTMENT_FACT_LEDGER": 0,
+      "V2620T_MATERIAL_ADJUSTMENT_REVALUATION": 0,
+      "V2620U_JOURNAL_REVERSAL_BUSINESS_DATE": 0,
+      "V2620U_MATERIAL_ADJUSTMENT_BUSINESS_DATE": 0,
+      "V2620U_MATERIAL_RECEIPT_BUSINESS_DATE": 0,
+      "V2620V_MISC_FINANCE_BUSINESS_DATE": 0,
+      "V2620W_SCRAP_BUSINESS_DATE": 0,
+      "V2620Y_OPENING_SETTLEMENT_BUSINESS_DATE": 0,
+      "V2620Y_SALES_PAYMENT_BUSINESS_DATE": 0,
+      "V2620Y_VENDOR_PAYMENT_BUSINESS_DATE": 0,
+      "V267_AP_GL_SUBLEDGER_MISMATCH": 0,
+      "V267_BROWSER_ROLE_DIRECT_INVOICE_WRITE": 0,
+      "V267_ESTIMATED_RECEIPT_MISSING_GRNI_RECLASS": 0,
+      "V267_GRNI_GL_SUBLEDGER_MISMATCH": 0,
+      "V267_GRNI_MAPPING_INVALID": 0,
+      "V267_INVOICE_MATCH_OVER_RECEIPT": 0,
+      "V267_LEGACY_CORRECTION_ON_GRNI": 0,
+      "V267_MISSING_GRNI_MAPPING": 0,
+      "V267_PAYMENT_EXCEEDS_FINAL_AP": 0,
+      "V267_POSTED_INVOICE_MISSING_JOURNAL": 0,
+      "V267_POSTED_RETURN_MISSING_LIABILITY_SNAPSHOT": 0,
+      "V268_ACTIVE_SALE_MISSING_JOURNAL": 0,
+      "V268_AR_GL_SUBLEDGER_MISMATCH": 0,
+      "V268_BALANCE_SHEET_EQUATION": 0,
+      "V268_BROWSER_DIRECT_LEDGER_OR_INVOICE_WRITE": 0,
+      "V268_COST_RECALC_EXHAUSTED": 0,
+      "V268_COST_RECALC_PENDING": 0,
+      "V268_DAILY_BALANCE_LEDGER_MISMATCH": 0,
+      "V268_LIABILITY_VIEW_HELPER_PRIVILEGE": 0,
+      "V268_POSTED_CUSTOMER_PAYMENT_MISSING_JOURNAL": 0,
+      "V268_POSTED_SALES_RETURN_MISSING_JOURNAL": 0,
+      "V268_PRODUCTION_FG_WITHOUT_CURRENT_HPP": 0,
+      "V268_UNBALANCED_POSTED_JOURNAL": 0
+    },
+    "financial_truth_before": {
+      "AP_CASH_ADVANCE_CAPACITY": 0,
+      "AP_CASH_ADVANCE_PAYROLL_JOURNAL": 0,
+      "AP_CASH_ADVANCE_SOURCE": 0,
+      "AP_OPENING_RECEIPT_JOURNAL_DRIFT": 0,
+      "AP_OPENING_RECEIPT_SOURCE_DRIFT": 0,
+      "AP_PERIOD_POCKET_HPP": 0,
+      "AP_PERIOD_POCKET_LEDGER": 0,
+      "AP_PERIOD_POCKET_OVERLAP": 0,
+      "AP_PERIOD_POCKET_SOURCES": 0,
+      "AP_POCKET_EXPENSE_LEDGER": 0,
+      "AP_POCKET_NO_CUTTING": 0,
+      "AP_POCKET_SOURCE": 0,
+      "AP_PREPAYMENT_CAPACITY": 0,
+      "AP_PREPAYMENT_EVENT_JOURNAL": 0,
+      "AP_PREPAYMENT_GL_SUBLEDGER": 0,
+      "AP_PREPAYMENT_OPENING_JOURNAL": 0,
+      "AP_PREPAYMENT_PAYMENT_JOURNAL": 0,
+      "AP_PREPAYMENT_PAYMENT_SOURCE": 0,
+      "CP7_CUSTOMER_CREDIT_REPORT_UNPROVEN": 0,
+      "OW06_SUPPLIER_TRANSFER_CORRECTION": 0,
+      "OW06_SUPPLIER_TRANSFER_FACTS": 0,
+      "V2620AD_OPENING_MATERIAL_TIMELINE_MISMATCH": 0,
+      "V2620AE_OPENING_MATERIAL_ROLL_INTEGRITY": 0,
+      "V2620AF_OPENING_SOURCE_LINEAGE_MISMATCH": 0,
+      "V2620AG_SALE_RESERVATION_LINEAGE_MISMATCH": 0,
+      "V2620AH_RETURN_ALLOCATION_LINEAGE_MISMATCH": 0,
+      "V2620AI_WORK_SOURCE_LINEAGE_MISMATCH": 0,
+      "V2620C_DRAFT_SALE_VALUE_LEAK": 0,
+      "V2620C_HPP_COMPONENT_SUM_MISMATCH": 0,
+      "V2620C_HPP_STATE_HAS_SUBCENT": 0,
+      "V2620C_PO_HPP_BOOK_MISMATCH": 0,
+      "V2620C_PO_HPP_TARGET_STATE_MISMATCH": 0,
+      "V2620C_SALES_RETURN_REPORT_INPUT_MISMATCH": 0,
+      "V2620C_SALE_REVENUE_REPORT_INPUT_MISMATCH": 0,
+      "V2620C_VENDOR_PAYMENT_EXACT_STATUS_MISMATCH": 0,
+      "V2620C_WIP_SOURCE_CONSERVATION_MISMATCH": 0,
+      "V2620D_REDISPATCH_PARTICIPANT_LINEAGE_MISMATCH": 0,
+      "V2620D_SALE_LIFECYCLE_HPP_DIMENSION_MISMATCH": 0,
+      "V2620E_OPENING_FG_GL_MISMATCH": 0,
+      "V2620E_OPENING_HPP_LINEAGE_MISMATCH": 0,
+      "V2620E_REDISPATCH_EVENT_MISMATCH": 0,
+      "V2620E_SALES_RETURN_VALUE_EXCEEDS_SALE": 0,
+      "V2620F_CONVERSION_VALUE_LINEAGE_MISMATCH": 0,
+      "V2620F_NON_PO_PRODUCT_HPP_BOOK_MISMATCH": 0,
+      "V2620G_LAUNDRY_WIP_CUSTODY_MISMATCH": 0,
+      "V2620H_CUSTOMER_AR_BY_CUSTOMER_MISMATCH": 0,
+      "V2620H_CUSTOMER_AR_STATUS_MISMATCH": 0,
+      "V2620H_FAILED_WASH_RETURN_TIME_MISMATCH": 0,
+      "V2620I_SALES_PAYMENT_JOURNAL_LINEAGE_MISMATCH": 0,
+      "V2620J_SALES_PAYMENT_IMMUTABLE_FACT_MISMATCH": 0,
+      "V2620K_PAYMENT_ALLOCATION_DATE_MISMATCH": 0,
+      "V2620L_NEGATIVE_VENDOR_AP": 0,
+      "V2620L_NONFINITE_LEDGER_MONEY": 0,
+      "V2620M_OPENING_SUBLEDGER_STATE": 0,
+      "V2620M_ORPHAN_PAYMENT_JOURNAL": 0,
+      "V2620M_PAYMENT_SOURCE_JOURNAL_MISMATCH": 0,
+      "V2620M_SUPPLIER_PAYMENT_EXACT_STATUS": 0,
+      "V2620N_SUPPLIER_CENT_FACT_LEDGER": 0,
+      "V2620O_SUPPLIER_RETURN_ALLOCATION": 0,
+      "V2620P_SUPPLIER_RETURN_MATCH_STATE": 0,
+      "V2620R_SUPPLIER_INVOICE_SOURCE_STATE": 0,
+      "V2620S_SUPPLIER_PAYMENT_BUSINESS_DATE": 0,
+      "V2620T_JOURNAL_FUTURE_BUSINESS_DATE": 0,
+      "V2620T_MATERIAL_ADJUSTMENT_FACT_LEDGER": 0,
+      "V2620T_MATERIAL_ADJUSTMENT_REVALUATION": 0,
+      "V2620U_JOURNAL_REVERSAL_BUSINESS_DATE": 0,
+      "V2620U_MATERIAL_ADJUSTMENT_BUSINESS_DATE": 0,
+      "V2620U_MATERIAL_RECEIPT_BUSINESS_DATE": 0,
+      "V2620V_MISC_FINANCE_BUSINESS_DATE": 0,
+      "V2620W_SCRAP_BUSINESS_DATE": 0,
+      "V2620Y_OPENING_SETTLEMENT_BUSINESS_DATE": 0,
+      "V2620Y_SALES_PAYMENT_BUSINESS_DATE": 0,
+      "V2620Y_VENDOR_PAYMENT_BUSINESS_DATE": 0,
+      "V267_AP_GL_SUBLEDGER_MISMATCH": 0,
+      "V267_BROWSER_ROLE_DIRECT_INVOICE_WRITE": 0,
+      "V267_ESTIMATED_RECEIPT_MISSING_GRNI_RECLASS": 0,
+      "V267_GRNI_GL_SUBLEDGER_MISMATCH": 0,
+      "V267_GRNI_MAPPING_INVALID": 0,
+      "V267_INVOICE_MATCH_OVER_RECEIPT": 0,
+      "V267_LEGACY_CORRECTION_ON_GRNI": 0,
+      "V267_MISSING_GRNI_MAPPING": 0,
+      "V267_PAYMENT_EXCEEDS_FINAL_AP": 0,
+      "V267_POSTED_INVOICE_MISSING_JOURNAL": 0,
+      "V267_POSTED_RETURN_MISSING_LIABILITY_SNAPSHOT": 0,
+      "V268_ACTIVE_SALE_MISSING_JOURNAL": 0,
+      "V268_AR_GL_SUBLEDGER_MISMATCH": 0,
+      "V268_BALANCE_SHEET_EQUATION": 0,
+      "V268_BROWSER_DIRECT_LEDGER_OR_INVOICE_WRITE": 0,
+      "V268_COST_RECALC_EXHAUSTED": 0,
+      "V268_COST_RECALC_PENDING": 0,
+      "V268_DAILY_BALANCE_LEDGER_MISMATCH": 0,
+      "V268_LIABILITY_VIEW_HELPER_PRIVILEGE": 0,
+      "V268_POSTED_CUSTOMER_PAYMENT_MISSING_JOURNAL": 0,
+      "V268_POSTED_SALES_RETURN_MISSING_JOURNAL": 0,
+      "V268_PRODUCTION_FG_WITHOUT_CURRENT_HPP": 0,
+      "V268_UNBALANCED_POSTED_JOURNAL": 0
+    },
+    "original_APPLY": {
+      "action": "APPLY",
+      "amount": "80.00",
+      "available_credit": "120.00",
+      "cash_account_id": null,
+      "cohort_id": "5d534def-533e-4370-9a29-6d8b6ec1ba0b",
+      "consumption_event_id": "49c7c38b-4380-4de2-aedb-3982f0e99b61",
+      "contract_version": "cp7.customer-credit-outcome.v1",
+      "economic_date": "2026-10-29",
+      "event_kind": "APPLY",
+      "invoice_versions": {
+        "100b3112-18d7-4d79-92b0-bfe8ac44e478": "5",
+        "d9374391-d9d0-445e-ab89-1e269fd1b99b": "3"
+      },
+      "journal_id": "fdbb67d6-c2c0-42c7-a25b-487556cfb8f6",
+      "kind": "COMMITTED_OUTCOME",
+      "operation_id": "49c7c38b-4380-4de2-aedb-3982f0e99b61",
+      "physical_at": "2026-10-29T05:05:00.123456Z",
+      "request_id": "7564d096-e651-4996-a721-27f4a7afb733",
+      "restores_event_id": null,
+      "source_sale_id": "100b3112-18d7-4d79-92b0-bfe8ac44e478",
+      "target_sale_id": "d9374391-d9d0-445e-ab89-1e269fd1b99b",
+      "transaction_date": "2026-10-29"
+    },
+    "original_money_events": {
+      "document": [
+        {
+          "actor": "c8c00000-0000-4000-8000-000000000101",
+          "amount": "80.00",
+          "cash_account_id": null,
+          "cohort_id": "5d534def-533e-4370-9a29-6d8b6ec1ba0b",
+          "economic_date": "2026-10-29",
+          "event_kind": "APPLY",
+          "id": "49c7c38b-4380-4de2-aedb-3982f0e99b61",
+          "journal_id": "fdbb67d6-c2c0-42c7-a25b-487556cfb8f6",
+          "lines_sha256_pg": "0cfc15d56af720df5e71e3e63b187e65dbe3bd6b988c630cc383f575b4ede617",
+          "reason": "Pemakaian kredit pelanggan sesuai tinjauan",
+          "recorded_at": "2026-10-30T01:19:28.029407+00:00",
+          "request_id": "7564d096-e651-4996-a721-27f4a7afb733",
+          "restores_event_id": null,
+          "source_sha256": "b11f48315f058f64176208af8eb05c922ee7975383ecc535737049dce1385590",
+          "target_sale_id": "d9374391-d9d0-445e-ab89-1e269fd1b99b",
+          "transaction_date": "2026-10-29"
+        }
+      ],
+      "raw_json": "[{\"id\": \"49c7c38b-4380-4de2-aedb-3982f0e99b61\", \"actor\": \"c8c00000-0000-4000-8000-000000000101\", \"amount\": 80.00, \"reason\": \"Pemakaian kredit pelanggan sesuai tinjauan\", \"cohort_id\": \"5d534def-533e-4370-9a29-6d8b6ec1ba0b\", \"event_kind\": \"APPLY\", \"journal_id\": \"fdbb67d6-c2c0-42c7-a25b-487556cfb8f6\", \"request_id\": \"7564d096-e651-4996-a721-27f4a7afb733\", \"recorded_at\": \"2026-10-30T01:19:28.029407+00:00\", \"economic_date\": \"2026-10-29\", \"source_sha256\": \"b11f48315f058f64176208af8eb05c922ee7975383ecc535737049dce1385590\", \"target_sale_id\": \"d9374391-d9d0-445e-ab89-1e269fd1b99b\", \"cash_account_id\": null, \"lines_sha256_pg\": \"0cfc15d56af720df5e71e3e63b187e65dbe3bd6b988c630cc383f575b4ede617\", \"transaction_date\": \"2026-10-29\", \"restores_event_id\": null}]",
+      "sha256": "0c14a1fb30464ff54600e319ac196a21588718747d392838fc13feb018ddd696"
+    },
+    "original_money_journals": {
+      "fdbb67d6-c2c0-42c7-a25b-487556cfb8f6": {
+        "document": {
+          "header": {
+            "created_at": "2026-10-30T01:19:28.029407+00:00",
+            "created_by": "c8c00000-0000-4000-8000-000000000001",
+            "description": "Pemakaian atau pembatalan kredit pelanggan",
+            "economic_date": "2026-10-29",
+            "id": "fdbb67d6-c2c0-42c7-a25b-487556cfb8f6",
+            "journal_number": "JRN-20261030081928773-0603b2b9",
+            "period_shifted": false,
+            "posting_at": "2026-10-30T01:19:28.029407+00:00",
+            "reversal_of_id": null,
+            "source_id": "49c7c38b-4380-4de2-aedb-3982f0e99b61",
+            "source_type": "CP7_CUSTOMER_CREDIT_APPLY",
+            "status": "POSTED",
+            "transaction_date": "2026-10-29"
+          },
+          "lines": [
+            {
+              "account_id": "e0f0543f-06ed-4f5c-b206-2e63f5ea2368",
+              "contractor_id": null,
+              "credit": "0.00",
+              "customer_id": "6026014f-4c77-499e-acd3-e48d4788ccec",
+              "debit": "80.00",
+              "description": "Pemakaian kredit pelanggan pada nota",
+              "id": "67f5fb80-dd4e-4ce2-b1c2-f5a52e563c11",
+              "journal_entry_id": "fdbb67d6-c2c0-42c7-a25b-487556cfb8f6",
+              "po_id": null,
+              "product_id": null,
+              "vendor_id": null
+            },
+            {
+              "account_id": "377d37ea-56a9-4ebc-853a-0158a78bb4ff",
+              "contractor_id": null,
+              "credit": "80.00",
+              "customer_id": "6026014f-4c77-499e-acd3-e48d4788ccec",
+              "debit": "0.00",
+              "description": "Pemakaian kredit pelanggan pada nota",
+              "id": "7f711020-5c06-492f-aea0-86b87891e3ab",
+              "journal_entry_id": "fdbb67d6-c2c0-42c7-a25b-487556cfb8f6",
+              "po_id": null,
+              "product_id": null,
+              "vendor_id": null
+            }
+          ]
+        },
+        "raw_json": "{\"lines\": [{\"id\": \"67f5fb80-dd4e-4ce2-b1c2-f5a52e563c11\", \"debit\": 80.00, \"po_id\": null, \"credit\": 0.00, \"vendor_id\": null, \"account_id\": \"e0f0543f-06ed-4f5c-b206-2e63f5ea2368\", \"product_id\": null, \"customer_id\": \"6026014f-4c77-499e-acd3-e48d4788ccec\", \"description\": \"Pemakaian kredit pelanggan pada nota\", \"contractor_id\": null, \"journal_entry_id\": \"fdbb67d6-c2c0-42c7-a25b-487556cfb8f6\"}, {\"id\": \"7f711020-5c06-492f-aea0-86b87891e3ab\", \"debit\": 0.00, \"po_id\": null, \"credit\": 80.00, \"vendor_id\": null, \"account_id\": \"377d37ea-56a9-4ebc-853a-0158a78bb4ff\", \"product_id\": null, \"customer_id\": \"6026014f-4c77-499e-acd3-e48d4788ccec\", \"description\": \"Pemakaian kredit pelanggan pada nota\", \"contractor_id\": null, \"journal_entry_id\": \"fdbb67d6-c2c0-42c7-a25b-487556cfb8f6\"}], \"header\": {\"id\": \"fdbb67d6-c2c0-42c7-a25b-487556cfb8f6\", \"status\": \"POSTED\", \"source_id\": \"49c7c38b-4380-4de2-aedb-3982f0e99b61\", \"created_at\": \"2026-10-30T01:19:28.029407+00:00\", \"created_by\": \"c8c00000-0000-4000-8000-000000000001\", \"posting_at\": \"2026-10-30T01:19:28.029407+00:00\", \"description\": \"Pemakaian atau pembatalan kredit pelanggan\", \"source_type\": \"CP7_CUSTOMER_CREDIT_APPLY\", \"economic_date\": \"2026-10-29\", \"journal_number\": \"JRN-20261030081928773-0603b2b9\", \"period_shifted\": false, \"reversal_of_id\": null, \"transaction_date\": \"2026-10-29\"}}",
+        "sha256": "08c9af50bf599fccb65004a4b0d0d0ed6da2704195a1026b7ab6d8ad4a74df1f"
+      }
+    },
+    "original_source_sale_and_payment_immutable": true,
+    "physical_HPP_cash_and_cost_GL_unchanged": true,
+    "real_Auth": false,
+    "same_original_money_event_and_journal_preserved_by_unchanged_E_post": true,
+    "scope": "SEPARATE_USED_INVERSE_WITNESS_ZERO_NATIVE17_CREDIT",
+    "status": "NATIVE_E_CORRECTION_COMMITTED",
+    "unchanged_physical_HPP_and_cash": {
+      "HPP": {
+        "document": [
+          {
+            "calculated_at": "2026-10-30T01:19:23.940915+00:00",
+            "calculation_reason": "Unsourced FG valued at OWNER_VALUE average HPP; frozen at posting",
+            "cost_state": "ADJUSTED",
+            "created_by": "c8c00000-0000-4000-8000-000000000001",
+            "hpp_per_pcs": "10.000000",
+            "id": "111eff6f-6af7-44b9-8a8c-78f387681743",
+            "is_current": true,
+            "lot_id": "648a55ad-b614-4689-b377-faf2640dbd3e",
+            "qty_basis_pcs": 10,
+            "supersedes_id": null,
+            "total_cost": "100.000000",
+            "version_no": 1
+          },
+          {
+            "calculated_at": "2026-10-30T01:19:27.487976+00:00",
+            "calculation_reason": "Unsourced FG valued at OWNER_VALUE average HPP; frozen at posting",
+            "cost_state": "ADJUSTED",
+            "created_by": "c8c00000-0000-4000-8000-000000000001",
+            "hpp_per_pcs": "10.000000",
+            "id": "6a2c714f-f207-43b6-863d-6ad01b9fbe4b",
+            "is_current": true,
+            "lot_id": "c1006c7e-915b-4d8c-94d5-b2b86e25e17e",
+            "qty_basis_pcs": 10,
+            "supersedes_id": null,
+            "total_cost": "100.000000",
+            "version_no": 1
+          }
+        ],
+        "raw_json": "[{\"id\": \"111eff6f-6af7-44b9-8a8c-78f387681743\", \"lot_id\": \"648a55ad-b614-4689-b377-faf2640dbd3e\", \"cost_state\": \"ADJUSTED\", \"created_by\": \"c8c00000-0000-4000-8000-000000000001\", \"is_current\": true, \"total_cost\": 100.000000, \"version_no\": 1, \"hpp_per_pcs\": 10.000000, \"calculated_at\": \"2026-10-30T01:19:23.940915+00:00\", \"qty_basis_pcs\": 10, \"supersedes_id\": null, \"calculation_reason\": \"Unsourced FG valued at OWNER_VALUE average HPP; frozen at posting\"}, {\"id\": \"6a2c714f-f207-43b6-863d-6ad01b9fbe4b\", \"lot_id\": \"c1006c7e-915b-4d8c-94d5-b2b86e25e17e\", \"cost_state\": \"ADJUSTED\", \"created_by\": \"c8c00000-0000-4000-8000-000000000001\", \"is_current\": true, \"total_cost\": 100.000000, \"version_no\": 1, \"hpp_per_pcs\": 10.000000, \"calculated_at\": \"2026-10-30T01:19:27.487976+00:00\", \"qty_basis_pcs\": 10, \"supersedes_id\": null, \"calculation_reason\": \"Unsourced FG valued at OWNER_VALUE average HPP; frozen at posting\"}]",
+        "sha256": "274ffdc83eff5862be0363b5257b01ddf390f5a11e1b6c78305ebcd9f8674dc4"
+      },
+      "cash": "1000.00",
+      "positions": [
+        [
+          "52a12bd3-9564-47cb-856b-f5e1635afe48",
+          "648a55ad-b614-4689-b377-faf2640dbd3e",
+          "14d08deb-daba-4ced-895a-670f193255df",
+          "GRADE_A",
+          "2",
+          "0",
+          "2"
+        ],
+        [
+          "52a12bd3-9564-47cb-856b-f5e1635afe48",
+          "648a55ad-b614-4689-b377-faf2640dbd3e",
+          "c8c20000-0000-4000-8000-000000000001",
+          "GRADE_A",
+          "5",
+          "0",
+          "5"
+        ],
+        [
+          "92a60ac0-1117-421e-97e8-748fe3a7b3b6",
+          "c1006c7e-915b-4d8c-94d5-b2b86e25e17e",
+          "c8c20000-0000-4000-8000-000000000001",
+          "GRADE_A",
+          "5",
+          "0",
+          "5"
+        ]
+      ]
+    }
+  },
+  "source": {
+    "E_runtime_pins": 9,
+    "SOURCE_bytes": 158753,
+    "SOURCE_path": "scripts/current-credit-e1-phase-native17-qualification/SOURCE.json",
+    "SOURCE_pins": 361,
+    "SOURCE_sha256": "4bf5790d82bd9724fdf4f046f3638f8ebea6c251a95f6aed21626f003454de7c",
+    "direct_byte_pins": {
+      "scripts/cp6_auditor_runner.py": {
+        "byteexact_8be4_928": true,
+        "bytes": 14911,
+        "sha256": "2c74439f7e919e2adb2484bc774bef4881e71237124f2e6b6dabdab141348ea7"
+      },
+      "scripts/cp7_credit_correction_de/e_cases.py": {
+        "byteexact_8be4_928": true,
+        "bytes": 25058,
+        "sha256": "058a9c29b991b30ca4da6467cfeb2629179d3ce8f25b8dba09d6ea45f419e2ad"
+      },
+      "scripts/cp7_credit_correction_de/e_composition.py": {
+        "bytes": 12376,
+        "sha256": "6e690d12e30cb3a6463283dc62f269f5e3e77e2e59f37e45cdd0b5ec1f6a46d6"
+      },
+      "scripts/cp7_credit_correction_de/e_native_delta.py": {
+        "bytes": 11997,
+        "sha256": "314742c922fc82145f7caa8d4217296bf3f2408ceacbc4738d50d3b866d2bfe0"
+      },
+      "scripts/cp7_credit_correction_de/note_carry/01_facts.sql": {
+        "bytes": 3885,
+        "sha256": "ebf128127e6bcab8fe1c52b98f46ede1492356386312fe2f744e3e65ddb1d415"
+      },
+      "scripts/cp7_credit_correction_de/note_carry/02_plan.sql": {
+        "bytes": 2297,
+        "sha256": "17c9028606298e7d66681deb3c0a1f3260a1ec829d9ba501a647231b358981f3"
+      },
+      "scripts/cp7_credit_correction_de/note_carry/03_readers.sql": {
+        "bytes": 9250,
+        "sha256": "940200b5320189bd424a99ccef9cc92846dd576a6c6d4bd2e8f1e25afd3325d8"
+      },
+      "scripts/cp7_credit_correction_de/note_carry/04_basis.sql": {
+        "bytes": 7444,
+        "sha256": "cdd49e1c5f9a78f4c2c27ce0ae055907a485475c0020720c9e18a0f80e68c222"
+      },
+      "scripts/cp7_credit_correction_de/note_carry/05_effect.sql": {
+        "bytes": 9816,
+        "sha256": "cd77c5ab9427223e1c67b93d8631a1808b8ddc593fc0c97d12e9c069a2950710"
+      },
+      "scripts/cp7_credit_correction_de/note_carry/06_owning.sql": {
+        "bytes": 13433,
+        "sha256": "0c00bb08274827e6295ada3ed4e4b8e7d917ed1bc1a996aaa0685d0fd1772c94"
+      },
+      "scripts/cp7_credit_correction_de/note_carry/07_profile_closure.sql": {
+        "bytes": 16068,
+        "sha256": "8e82c257ca20a4dcac5cf0dad2f1e487c2e202caea7fa466503019003d3f75ac"
+      },
+      "scripts/current-credit-e1-native-qualification/component.py": {
+        "byteexact_8be4_928": true,
+        "bytes": 8409,
+        "sha256": "f8a1864d9e7687d20913c149b4c78be6ee17bb8c2163af621be9e9397351f4d1"
+      }
+    },
+    "embedded_source_equals_immutable": true,
+    "pre_run_accepted_native17": null,
+    "prepared_backend319": {
+      "head": "fe2ae370c00e68437c4951c28c3a1038ce35fb38",
+      "parent": "8be4c15a37dcfc6186e32f396df78291ff1b957c",
+      "private_functions": 41,
+      "source_path": "scripts/current-credit-e1-consumer-phase-successor/SOURCE.json",
+      "source_pins": 319,
+      "source_sha256": "c1899ebed78fd3cd94a6e8e2d148fc6fe34911b48951aa1756e9e46dbef38ce3",
+      "tree": "600d4575309e67a5575d7896382b38a27e000d7e"
+    },
+    "private_functions": 41
+  },
+  "source_edits": 0,
+  "source_paths_lines": [
+    {
+      "lines": [
+        55,
+        56,
+        60,
+        61,
+        62,
+        65,
+        67,
+        68,
+        70,
+        72,
+        74,
+        76,
+        79,
+        81,
+        82,
+        84,
+        87,
+        88,
+        96,
+        98,
+        100,
+        107,
+        138,
+        142,
+        143,
+        144
+      ],
+      "path": "scripts/current-credit-e1-native-qualification/component.py",
+      "proof": "Separate committed80/zero17credit; whole source/payment/money/history/physical/HPP/cash/costGL/96truth; usedguard full22+wholedata/ALLseq."
+    },
+    {
+      "lines": [
+        26,
+        35,
+        45,
+        69,
+        74,
+        75,
+        76,
+        82,
+        84,
+        85,
+        91,
+        97,
+        98,
+        99,
+        100,
+        101,
+        105,
+        130,
+        135,
+        136,
+        138,
+        139,
+        140,
+        148,
+        155,
+        160,
+        168,
+        171,
+        177,
+        182,
+        186,
+        192,
+        194,
+        196,
+        206,
+        209,
+        211,
+        219,
+        235,
+        238,
+        246,
+        252,
+        259,
+        264,
+        268
+      ],
+      "path": "scripts/cp7_credit_correction_de/e_cases.py",
+      "proof": "Original independent rawGL/readmoney/status/history oracles; currentleafUNDO; actualposted MATERIALIZED late failure; named2ndnote/jointprefix/laterNativeHPP."
+    },
+    {
+      "lines": [
+        30,
+        39,
+        47,
+        48,
+        55,
+        61,
+        64,
+        67,
+        73,
+        75,
+        80,
+        82,
+        100,
+        107,
+        110,
+        111,
+        126,
+        141
+      ],
+      "path": "scripts/cp7_credit_correction_de/note_carry/07_profile_closure.sql",
+      "proof": "Narrow private same-owning status phase; outsidephase mismatch refuses, finalfullprofile/closure mandatory."
+    },
+    {
+      "lines": [
+        33,
+        34,
+        58,
+        60,
+        111,
+        112,
+        114,
+        119
+      ],
+      "path": "scripts/cp7_credit_correction_de/note_carry/06_owning.sql",
+      "proof": "Wholegraph/historicalsales locks and capture ABI; final oldstatus UPDATE/fullprofile preserved."
+    },
+    {
+      "lines": [
+        83,
+        84,
+        85,
+        86,
+        88,
+        89,
+        96,
+        104,
+        108,
+        113,
+        125,
+        128,
+        130,
+        131,
+        132,
+        133,
+        134,
+        135,
+        138,
+        142,
+        150
+      ],
+      "path": "scripts/current-vendor-receivable-qualification/probe.py",
+      "proof": "Complete retained six-substitution outer roles/22catalog/all scoped rows/ALLseq/CP6/public/Auth/advisors/dumprestore."
+    },
+    {
+      "lines": [
+        26,
+        41,
+        93,
+        110,
+        113,
+        115,
+        117,
+        119,
+        157,
+        161,
+        171
+      ],
+      "path": "scripts/cp7_ow04_restore_bundle.py",
+      "proof": "Complete22 and whole row multiset/sequence last_value+is_called. Explicit portable SQL reparse/attachedpartitionPK normalization only on outerrestore."
+    },
+    {
+      "lines": [
+        12,
+        21,
+        28,
+        30,
+        32,
+        36,
+        40,
+        41,
+        42,
+        43
+      ],
+      "path": "scripts/current-factory-initial-stage/stream_data.py",
+      "proof": "Exact old sortedJSONB multiset hash; selectionauthority/GUC/ALLseq unchanged, no excluded tables or skipped rows/fields."
+    },
+    {
+      "lines": [
+        139,
+        142,
+        143,
+        160,
+        173,
+        183,
+        184,
+        185,
+        188,
+        190,
+        191,
+        195,
+        197,
+        198,
+        199,
+        206,
+        211,
+        214
+      ],
+      "path": "scripts/cp6_auditor_runner.py",
+      "proof": "Unchanged actual strict callbacks and full boundary/public/session/day/group runtime checks."
+    },
+    {
+      "lines": [
+        45,
+        51,
+        53,
+        56,
+        58,
+        68,
+        69,
+        70
+      ],
+      "path": "scripts/cp7_customer_credit/native/cp7_ow04_native_source_fixture.py",
+      "proof": "Hash actual PostgreSQL rawJSON; navigation is parse_float=str."
+    },
+    {
+      "lines": [
+        23,
+        27,
+        29,
+        32,
+        35,
+        40,
+        54,
+        59,
+        61
+      ],
+      "path": "scripts/current-credit-e1-phase-native17-qualification/gate.py",
+      "proof": "Qualified17ac exact5Originals;319/private41 explicit, failed8be4 negative, ownactual17 outcomeNULL input."
+    }
+  ],
+  "status": "INTERNAL_ACTUAL_RAW_AND_IMMUTABLE_SOURCE_COUNTER_NO_BLOCKER_FOUND",
+  "tree": "581303d5f0df8a6ae40f6d7ec0fab7c06678ed9a",
+  "two_fixed_first_failures": {
+    "UNDO80_currentleaf": {
+      "business_day": {
+        "after": "2026-10-30",
+        "before": "2026-10-30",
+        "planned": "2026-10-30"
+      },
+      "full_boundary_restored": true,
+      "old_completion_still_exact": true,
+      "profile": {
+        "AR": "550.00",
+        "U": "0.00",
+        "net": "550.00",
+        "source": {
+          "AR": "0.00",
+          "I": "200.00",
+          "available": "200.00",
+          "net": "800.00"
+        }
+      },
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_lock_keys": [],
+        "advisory_locks": 0,
+        "other_sessions": []
+      },
+      "status": "PASS"
+    },
+    "second_note": {
+      "decoded_detail": {
+        "basis_sha256": "a882d90ea11b841a0fd14f8580dbe83bd81392f87d169691b0a1aa6255959c36",
+        "consumers": [
+          {
+            "amount": "80.00",
+            "cohort_id": "59969415-e737-4e7f-8c18-7a06ab0b1a13",
+            "economic_date": "2026-10-29",
+            "event_id": "63b247ac-ae47-408e-90fe-30bdee42c447",
+            "historical_target_id": "33487829-74c8-48cf-8c4d-ba328b3a4745",
+            "journal_id": "6bcb6f31-4e45-4c72-aa06-f4209a1be6da",
+            "transaction_date": "2026-10-29"
+          }
+        ],
+        "contract_version": "cp7.note-credit-carry-basis.v1",
+        "issues": [
+          "NEXT_NOTE_REVISION_ADAPTER_REQUIRED"
+        ],
+        "minimum_replacement_net": "80.00",
+        "original_net": "550.00",
+        "policy": "AUTO_TRANSFER_TO_REPLACEMENT",
+        "review_token": "28a164fa574f637b164b7ccf49723095",
+        "root_sale_id": "33487829-74c8-48cf-8c4d-ba328b3a4745",
+        "row_version": "3",
+        "sale_id": "0a54183a-ab73-4e45-9563-a67bc1c55421",
+        "transfer_amount": "80.00"
+      },
+      "observed": {
+        "actual_refusal": {
+          "detail": "{\"issues\": [\"NEXT_NOTE_REVISION_ADAPTER_REQUIRED\"], \"policy\": \"AUTO_TRANSFER_TO_REPLACEMENT\", \"sale_id\": \"0a54183a-ab73-4e45-9563-a67bc1c55421\", \"consumers\": [{\"amount\": \"80.00\", \"event_id\": \"63b247ac-ae47-408e-90fe-30bdee42c447\", \"cohort_id\": \"59969415-e737-4e7f-8c18-7a06ab0b1a13\", \"journal_id\": \"6bcb6f31-4e45-4c72-aa06-f4209a1be6da\", \"economic_date\": \"2026-10-29\", \"transaction_date\": \"2026-10-29\", \"historical_target_id\": \"33487829-74c8-48cf-8c4d-ba328b3a4745\"}], \"row_version\": \"3\", \"basis_sha256\": \"a882d90ea11b841a0fd14f8580dbe83bd81392f87d169691b0a1aa6255959c36\", \"original_net\": \"550.00\", \"review_token\": \"28a164fa574f637b164b7ccf49723095\", \"root_sale_id\": \"33487829-74c8-48cf-8c4d-ba328b3a4745\", \"transfer_amount\": \"80.00\", \"contract_version\": \"cp7.note-credit-carry-basis.v1\", \"minimum_replacement_net\": \"80.00\"}",
+          "message": "CP7_CREDIT_NOTE_CARRY_REVIEW_REFUSED",
+          "sqlstate": "P0001"
+        },
+        "business_day": {
+          "after": "2026-10-30",
+          "before": "2026-10-30",
+          "planned": "2026-10-30"
+        },
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_lock_keys": [],
+          "advisory_locks": 0,
+          "other_sessions": []
+        },
+        "status": "PASS"
+      }
+    }
+  },
+  "verification_method": "Read-only Python strict JSON/Decimal/rawtext hashing and immutableGit. Three bounded parser passes verified all archive/case/money/restore/package checks; own parser representation/cardinality mistakes retained below. Final corrective pass rechecked direct source12/runtime9 and all3 rawJSON envelope navigation.",
+  "whole_original_raw_envelopes_rehashed": {
+    "HPP": {
+      "raw_bytes": 910,
+      "raw_sha256": "274ffdc83eff5862be0363b5257b01ddf390f5a11e1b6c78305ebcd9f8674dc4",
+      "whole_document": [
+        {
+          "calculated_at": "2026-10-30T01:19:23.940915+00:00",
+          "calculation_reason": "Unsourced FG valued at OWNER_VALUE average HPP; frozen at posting",
+          "cost_state": "ADJUSTED",
+          "created_by": "c8c00000-0000-4000-8000-000000000001",
+          "hpp_per_pcs": "10.000000",
+          "id": "111eff6f-6af7-44b9-8a8c-78f387681743",
+          "is_current": true,
+          "lot_id": "648a55ad-b614-4689-b377-faf2640dbd3e",
+          "qty_basis_pcs": 10,
+          "supersedes_id": null,
+          "total_cost": "100.000000",
+          "version_no": 1
+        },
+        {
+          "calculated_at": "2026-10-30T01:19:27.487976+00:00",
+          "calculation_reason": "Unsourced FG valued at OWNER_VALUE average HPP; frozen at posting",
+          "cost_state": "ADJUSTED",
+          "created_by": "c8c00000-0000-4000-8000-000000000001",
+          "hpp_per_pcs": "10.000000",
+          "id": "6a2c714f-f207-43b6-863d-6ad01b9fbe4b",
+          "is_current": true,
+          "lot_id": "c1006c7e-915b-4d8c-94d5-b2b86e25e17e",
+          "qty_basis_pcs": 10,
+          "supersedes_id": null,
+          "total_cost": "100.000000",
+          "version_no": 1
+        }
+      ]
+    },
+    "events": {
+      "raw_bytes": 752,
+      "raw_sha256": "0c14a1fb30464ff54600e319ac196a21588718747d392838fc13feb018ddd696",
+      "whole_document": [
+        {
+          "actor": "c8c00000-0000-4000-8000-000000000101",
+          "amount": "80.00",
+          "cash_account_id": null,
+          "cohort_id": "5d534def-533e-4370-9a29-6d8b6ec1ba0b",
+          "economic_date": "2026-10-29",
+          "event_kind": "APPLY",
+          "id": "49c7c38b-4380-4de2-aedb-3982f0e99b61",
+          "journal_id": "fdbb67d6-c2c0-42c7-a25b-487556cfb8f6",
+          "lines_sha256_pg": "0cfc15d56af720df5e71e3e63b187e65dbe3bd6b988c630cc383f575b4ede617",
+          "reason": "Pemakaian kredit pelanggan sesuai tinjauan",
+          "recorded_at": "2026-10-30T01:19:28.029407+00:00",
+          "request_id": "7564d096-e651-4996-a721-27f4a7afb733",
+          "restores_event_id": null,
+          "source_sha256": "b11f48315f058f64176208af8eb05c922ee7975383ecc535737049dce1385590",
+          "target_sale_id": "d9374391-d9d0-445e-ab89-1e269fd1b99b",
+          "transaction_date": "2026-10-29"
+        }
+      ]
+    },
+    "journal:fdbb67d6-c2c0-42c7-a25b-487556cfb8f6": {
+      "raw_bytes": 1329,
+      "raw_sha256": "08c9af50bf599fccb65004a4b0d0d0ed6da2704195a1026b7ab6d8ad4a74df1f",
+      "whole_document": {
+        "header": {
+          "created_at": "2026-10-30T01:19:28.029407+00:00",
+          "created_by": "c8c00000-0000-4000-8000-000000000001",
+          "description": "Pemakaian atau pembatalan kredit pelanggan",
+          "economic_date": "2026-10-29",
+          "id": "fdbb67d6-c2c0-42c7-a25b-487556cfb8f6",
+          "journal_number": "JRN-20261030081928773-0603b2b9",
+          "period_shifted": false,
+          "posting_at": "2026-10-30T01:19:28.029407+00:00",
+          "reversal_of_id": null,
+          "source_id": "49c7c38b-4380-4de2-aedb-3982f0e99b61",
+          "source_type": "CP7_CUSTOMER_CREDIT_APPLY",
+          "status": "POSTED",
+          "transaction_date": "2026-10-29"
+        },
+        "lines": [
+          {
+            "account_id": "e0f0543f-06ed-4f5c-b206-2e63f5ea2368",
+            "contractor_id": null,
+            "credit": "0.00",
+            "customer_id": "6026014f-4c77-499e-acd3-e48d4788ccec",
+            "debit": "80.00",
+            "description": "Pemakaian kredit pelanggan pada nota",
+            "id": "67f5fb80-dd4e-4ce2-b1c2-f5a52e563c11",
+            "journal_entry_id": "fdbb67d6-c2c0-42c7-a25b-487556cfb8f6",
+            "po_id": null,
+            "product_id": null,
+            "vendor_id": null
+          },
+          {
+            "account_id": "377d37ea-56a9-4ebc-853a-0158a78bb4ff",
+            "contractor_id": null,
+            "credit": "80.00",
+            "customer_id": "6026014f-4c77-499e-acd3-e48d4788ccec",
+            "debit": "0.00",
+            "description": "Pemakaian kredit pelanggan pada nota",
+            "id": "7f711020-5c06-492f-aea0-86b87891e3ab",
+            "journal_entry_id": "fdbb67d6-c2c0-42c7-a25b-487556cfb8f6",
+            "po_id": null,
+            "product_id": null,
+            "vendor_id": null
+          }
+        ]
+      }
+    }
+  }
+}

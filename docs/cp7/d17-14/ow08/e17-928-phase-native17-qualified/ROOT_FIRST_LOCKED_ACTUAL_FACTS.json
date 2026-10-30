@@ -1,0 +1,354 @@
+{
+  "contract": "cp7.e17.phase.actual17.root-first-locked-facts.v1",
+  "locked_at_UTC": "2026-10-30T01:54:35.788928+00:00",
+  "classification": "ROOT_RAW_FACTS_VERIFIED_AWAIT_FINAL_INTERNAL_COUNTER",
+  "head": "928246e5f62637c7c6457e57d73d0699196e3408",
+  "tree": "581303d5f0df8a6ae40f6d7ec0fab7c06678ed9a",
+  "run_id": 40980265302,
+  "job_id": 123818279251,
+  "artifact_id": 12947220084,
+  "archive": {
+    "bytes": 155717286,
+    "sha256": "30e035e10de2e560a9881f70be4aec2567db11393d55a21e3b29d1a5ecd0ad72"
+  },
+  "all128_members_CRC_paths_sizes_SHA_verified": true,
+  "selected_raws": [
+    {
+      "path": "CP7_CREDIT_E1_NATIVE17.json",
+      "bytes": 6243861,
+      "compressed_bytes": 644445,
+      "CRC32": "6c3a898f",
+      "sha256": "cbdc7681708317876bfccd8d2634697868ecdb2c46c97651736d29b4309303bf",
+      "selected_current_raw": true
+    },
+    {
+      "path": "CP7_CREDIT_E1_NATIVE17_CASES.json",
+      "bytes": 28830,
+      "compressed_bytes": 4949,
+      "CRC32": "3fdbbb9f",
+      "sha256": "4d56b60349604ad9c10974e9ab8f73a8d3d9bec83ba523ea21732054e2e20e33",
+      "selected_current_raw": true
+    },
+    {
+      "path": "T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 1470,
+      "compressed_bytes": 628,
+      "CRC32": "5ffb32f4",
+      "sha256": "263a9d5e6bf74a09cd9658309c0d5343f2b6bc12a22a2797e8c3186ef1343369",
+      "selected_current_raw": true
+    },
+    {
+      "path": "T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "compressed_bytes": 238,
+      "CRC32": "cfb01269",
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "selected_current_raw": true
+    },
+    {
+      "path": "T3_PACKAGE_INSTALL.json",
+      "bytes": 360423,
+      "compressed_bytes": 11478,
+      "CRC32": "81b66d53",
+      "sha256": "6c8292f8cbca874fae50f171cdde576ba5ab7d1f7eb09bf669ef9dba8b85f5a5",
+      "selected_current_raw": true
+    }
+  ],
+  "Source": {
+    "path": "scripts/current-credit-e1-phase-native17-qualification/SOURCE.json",
+    "files": 361,
+    "bytes": 158753,
+    "sha256": "4bf5790d82bd9724fdf4f046f3638f8ebea6c251a95f6aed21626f003454de7c",
+    "actual_raw_declaration_equal_Git": true,
+    "all_Git_pins_exact": true
+  },
+  "natural_runtime_9E_9D1_3Vendor_file_pins": [
+    {
+      "path": "scripts/cp7_credit_correction_de/note_carry/01_facts.sql",
+      "sha256": "ebf128127e6bcab8fe1c52b98f46ede1492356386312fe2f744e3e65ddb1d415",
+      "contract": "cp7.note-credit-carry.v1"
+    },
+    {
+      "path": "scripts/cp7_credit_correction_de/note_carry/02_plan.sql",
+      "sha256": "17c9028606298e7d66681deb3c0a1f3260a1ec829d9ba501a647231b358981f3",
+      "contract": "cp7.note-credit-carry.v1"
+    },
+    {
+      "path": "scripts/cp7_credit_correction_de/note_carry/03_readers.sql",
+      "sha256": "940200b5320189bd424a99ccef9cc92846dd576a6c6d4bd2e8f1e25afd3325d8",
+      "contract": "cp7.note-credit-carry.v1"
+    },
+    {
+      "path": "scripts/cp7_credit_correction_de/note_carry/04_basis.sql",
+      "sha256": "cdd49e1c5f9a78f4c2c27ce0ae055907a485475c0020720c9e18a0f80e68c222",
+      "contract": "cp7.note-credit-carry.v1"
+    },
+    {
+      "path": "scripts/cp7_credit_correction_de/note_carry/05_effect.sql",
+      "sha256": "cd77c5ab9427223e1c67b93d8631a1808b8ddc593fc0c97d12e9c069a2950710",
+      "contract": "cp7.note-credit-carry.v1"
+    },
+    {
+      "path": "scripts/cp7_credit_correction_de/note_carry/06_owning.sql",
+      "sha256": "0c00bb08274827e6295ada3ed4e4b8e7d917ed1bc1a996aaa0685d0fd1772c94",
+      "contract": "cp7.note-credit-carry.v1"
+    },
+    {
+      "path": "scripts/cp7_credit_correction_de/note_carry/07_profile_closure.sql",
+      "sha256": "8e82c257ca20a4dcac5cf0dad2f1e487c2e202caea7fa466503019003d3f75ac",
+      "contract": "cp7.note-credit-carry.v1"
+    },
+    {
+      "path": "scripts/cp7_credit_correction_de/e_native_delta.py",
+      "sha256": "314742c922fc82145f7caa8d4217296bf3f2408ceacbc4738d50d3b866d2bfe0",
+      "contract": "cp7.note-credit-carry.v1"
+    },
+    {
+      "path": "scripts/cp7_credit_correction_de/e_composition.py",
+      "sha256": "6e690d12e30cb3a6463283dc62f269f5e3e77e2e59f37e45cdd0b5ec1f6a46d6",
+      "contract": "cp7.note-credit-carry.v1"
+    },
+    {
+      "path": "scripts/cp7_credit_correction_de/review.sql",
+      "sha256": "88681bf674a6b6e8aeda46830a4a27b18bdda84cfcba6868bbb08e3f84fdc382",
+      "contract": "cp7.credit-correction-de.v1"
+    },
+    {
+      "path": "scripts/cp7_credit_correction_de/facts.sql",
+      "sha256": "ddfcf8583cf86a916e04aa5630d6262a32e48919dbd0a4c913a09166ca2f8334",
+      "contract": "cp7.credit-correction-de.v1"
+    },
+    {
+      "path": "scripts/cp7_credit_correction_de/owning.sql",
+      "sha256": "410afb540f455ce6781d8bf09ee6bd6f66420a2f17d3c5474720a642fdcc9cae",
+      "contract": "cp7.credit-correction-de.v1"
+    },
+    {
+      "path": "scripts/cp7_credit_correction_de/proof.sql",
+      "sha256": "8d81f2d8d9384c08eda28eb0b86a6c96b97f2ef8178adbe4b7d1dab01b8cf7ef",
+      "contract": "cp7.credit-correction-de.v1"
+    },
+    {
+      "path": "scripts/cp7_credit_correction_de/posting.sql",
+      "sha256": "e200a62d91c7975e67a88eb37c47d89dd739eb8f63fc0a1ee7063aaec0f9ce5b",
+      "contract": "cp7.credit-correction-de.v1"
+    },
+    {
+      "path": "scripts/cp7_credit_correction_de/materialize.sql",
+      "sha256": "206c18b517aef54ddc5757fd156a6c7d8d4a2c3240f62779773a4fff74fe6154",
+      "contract": "cp7.credit-correction-de.v1"
+    },
+    {
+      "path": "scripts/cp7_credit_correction_de/closure.sql",
+      "sha256": "e21744ba0d98e963ccba9ca916247b797cb2c930b889e2eb41288a12f1888972",
+      "contract": "cp7.credit-correction-de.v1"
+    },
+    {
+      "path": "scripts/cp7_credit_correction_de/native_delta.py",
+      "sha256": "d6157ad24dd22ca4810df12668090eb74a3382e6ceb3e4c0954a037a7016c664",
+      "contract": "cp7.credit-correction-de.v1"
+    },
+    {
+      "path": "scripts/cp7_credit_correction_de/composition.py",
+      "sha256": "4f7086c157e977cacf5f4281d6a2748113029fd7c2c441837e254c9fca9422af",
+      "contract": "cp7.credit-correction-de.v1"
+    },
+    {
+      "path": "scripts/cp7_vendor_receivable/receivable.sql",
+      "sha256": "3b24728512e8be6af697f3234e591f7fe6b46331c68e3497ab71aedbcc9aa2ba",
+      "contract": "cp7.vendor-receivable.v1"
+    },
+    {
+      "path": "scripts/cp7_vendor_receivable/native_delta.py",
+      "sha256": "bd0f41be50fea0ab64b19c15d8a09fc7940782507c35482911dd86c36403a52b",
+      "contract": "cp7.vendor-receivable.v1"
+    },
+    {
+      "path": "scripts/cp7_vendor_receivable/composition.py",
+      "sha256": "b0bc106121932deb18a342299ec7ffb1a314abaca9d77879df29784261821df2",
+      "contract": "cp7.vendor-receivable.v1"
+    }
+  ],
+  "Native_cases": 17,
+  "wrapper_groups": 1,
+  "separate_committed_witness_credit": 0,
+  "cases_all_PASS": true,
+  "all_case_boundaries_public_catalog_sessions_WIB_restored": true,
+  "profiles": {
+    "E_PRICE_INCREASE_80_NET550_AR470": {
+      "net": "550.00",
+      "U": "80.00",
+      "AR": "470.00",
+      "source": {
+        "I": "200.00",
+        "available": "120.00",
+        "net": "800.00",
+        "AR": "0.00"
+      }
+    },
+    "E_PRICE_DECREASE_80_NET100_AR20": {
+      "net": "100.00",
+      "U": "80.00",
+      "AR": "20.00",
+      "source": {
+        "I": "200.00",
+        "available": "120.00",
+        "net": "800.00",
+        "AR": "0.00"
+      }
+    },
+    "E_EXACT_FUNDED_80_PAID": {
+      "net": "80.00",
+      "U": "80.00",
+      "AR": "0.00",
+      "source": {
+        "I": "200.00",
+        "available": "120.00",
+        "net": "800.00",
+        "AR": "0.00"
+      }
+    },
+    "E_LATER_APPLY_20_CURRENT_LEAF": {
+      "net": "550.00",
+      "U": "100.00",
+      "AR": "450.00",
+      "source": {
+        "I": "200.00",
+        "available": "100.00",
+        "net": "800.00",
+        "AR": "0.00"
+      }
+    },
+    "E_UNDO_ORIGINAL_80_AND_OLD_RECEIPT": {
+      "net": "550.00",
+      "U": "0.00",
+      "AR": "550.00",
+      "source": {
+        "I": "200.00",
+        "available": "200.00",
+        "net": "800.00",
+        "AR": "0.00"
+      }
+    },
+    "E_LATER_NATIVE_SALE_SAME_LOT_RECONCILES": {
+      "net": "550.00",
+      "U": "80.00",
+      "AR": "470.00",
+      "source": {
+        "I": "200.00",
+        "available": "120.00",
+        "net": "800.00",
+        "AR": "0.00"
+      }
+    }
+  },
+  "former_failures_now_PASS": {
+    "E_UNDO_ORIGINAL_80_AND_OLD_RECEIPT": {
+      "status": "PASS",
+      "profile": {
+        "net": "550.00",
+        "U": "0.00",
+        "AR": "550.00",
+        "source": {
+          "I": "200.00",
+          "available": "200.00",
+          "net": "800.00",
+          "AR": "0.00"
+        }
+      },
+      "old_completion_still_exact": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-30",
+        "before": "2026-10-30",
+        "after": "2026-10-30"
+      }
+    },
+    "E_SECOND_NOTE_REVISION_GUARDED": {
+      "status": "PASS",
+      "actual_refusal": {
+        "message": "CP7_CREDIT_NOTE_CARRY_REVIEW_REFUSED",
+        "sqlstate": "P0001",
+        "detail": "{\"issues\": [\"NEXT_NOTE_REVISION_ADAPTER_REQUIRED\"], \"policy\": \"AUTO_TRANSFER_TO_REPLACEMENT\", \"sale_id\": \"0a54183a-ab73-4e45-9563-a67bc1c55421\", \"consumers\": [{\"amount\": \"80.00\", \"event_id\": \"63b247ac-ae47-408e-90fe-30bdee42c447\", \"cohort_id\": \"59969415-e737-4e7f-8c18-7a06ab0b1a13\", \"journal_id\": \"6bcb6f31-4e45-4c72-aa06-f4209a1be6da\", \"economic_date\": \"2026-10-29\", \"transaction_date\": \"2026-10-29\", \"historical_target_id\": \"33487829-74c8-48cf-8c4d-ba328b3a4745\"}], \"row_version\": \"3\", \"basis_sha256\": \"a882d90ea11b841a0fd14f8580dbe83bd81392f87d169691b0a1aa6255959c36\", \"original_net\": \"550.00\", \"review_token\": \"28a164fa574f637b164b7ccf49723095\", \"root_sale_id\": \"33487829-74c8-48cf-8c4d-ba328b3a4745\", \"transfer_amount\": \"80.00\", \"contract_version\": \"cp7.note-credit-carry-basis.v1\", \"minimum_replacement_net\": \"80.00\"}"
+      },
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-30",
+        "before": "2026-10-30",
+        "after": "2026-10-30"
+      }
+    }
+  },
+  "committed_witness": {
+    "status": "NATIVE_E_CORRECTION_COMMITTED",
+    "actual_profile": {
+      "net": "550.00",
+      "U": "80.00",
+      "AR": "470.00",
+      "source": {
+        "I": "200.00",
+        "available": "120.00",
+        "net": "800.00",
+        "AR": "0.00"
+      }
+    },
+    "actual_used_inverse_error": "CREDIT_E1_AFTER_USE_REQUIRES_FULL_BACKUP_RESTORE",
+    "original_APPLY": {
+      "kind": "COMMITTED_OUTCOME",
+      "action": "APPLY",
+      "amount": "80.00",
+      "cohort_id": "5d534def-533e-4370-9a29-6d8b6ec1ba0b",
+      "event_kind": "APPLY",
+      "journal_id": "fdbb67d6-c2c0-42c7-a25b-487556cfb8f6",
+      "request_id": "7564d096-e651-4996-a721-27f4a7afb733",
+      "physical_at": "2026-10-29T05:05:00.123456Z",
+      "operation_id": "49c7c38b-4380-4de2-aedb-3982f0e99b61",
+      "economic_date": "2026-10-29",
+      "source_sale_id": "100b3112-18d7-4d79-92b0-bfe8ac44e478",
+      "target_sale_id": "d9374391-d9d0-445e-ab89-1e269fd1b99b",
+      "cash_account_id": null,
+      "available_credit": "120.00",
+      "contract_version": "cp7.customer-credit-outcome.v1",
+      "invoice_versions": {
+        "100b3112-18d7-4d79-92b0-bfe8ac44e478": "5",
+        "d9374391-d9d0-445e-ab89-1e269fd1b99b": "3"
+      },
+      "transaction_date": "2026-10-29",
+      "restores_event_id": null,
+      "consumption_event_id": "49c7c38b-4380-4de2-aedb-3982f0e99b61"
+    },
+    "original_money_events_and_journals_immutable": true,
+    "physical_HPP_cash_cost_GL_unchanged": true
+  },
+  "full_outer_all22_allrows_ALLsequences_roles_public_CP6_advisors_equal": true,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "Auth_users_before": 0,
+  "Auth_users_after": 0,
+  "actual_Auth_HTTP": 0,
+  "actual_browser": 0,
+  "actual_two_session_races": 0,
+  "retained_D1_Native13_reexecuted": false,
+  "default_adopted": false,
+  "full_D_E_qualification": false,
+  "formal": "5/16",
+  "production_go": false,
+  "independent_acceptance": false
+}

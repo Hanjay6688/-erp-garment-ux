@@ -1,0 +1,45 @@
+{
+  "public_head": "ef491af5b20e93dcbf1808ca8e9aa9f0c542d773",
+  "tree": "ee5ebd1e01d35cb3cc3f33883f2950fe48d13224",
+  "parent": "3c0c5defe55e48cf6f221c868594dd6676d17170",
+  "local_head": "6e8a259c6bb767bd05494e6c22a6da683bf91087",
+  "repository": "Hanjay6688/-erp-garment-ux",
+  "branch": "astra-a/s03-midnight-source475-prepared-20261030",
+  "paths": 87,
+  "all_added": true,
+  "API_tree_equal_before_commit_ref": true,
+  "GET_commit_tree_parent_and_ref_exact": true,
+  "blobs": [
+    {
+      "path": "scripts/current-attendance-midnight-source475-qualification/SOURCE.json",
+      "sha": "a618a0889c2ec11d896d565be3ef5cdbec29ea1f",
+      "bytes": 122469
+    }
+  ],
+  "Source": {
+    "files": 562,
+    "bytes": 122469,
+    "sha256": "4c022b93ddec8754dfd57b04b2a374030c34dd202dceb139001cd22a453fe443",
+    "all_Git_pins_exact": true,
+    "includes_complete_parent475_and_its_manifest": true
+  },
+  "current_parent14": {
+    "head": "3c0c5defe55e48cf6f221c868594dd6676d17170",
+    "tree": "ca20c918201b455ad09df489829b83b9e6afea95",
+    "run_id": 40983410165,
+    "job_id": 123828634300,
+    "Source_sha256": "ba59dee4ae71c62df2b2e35c558cb23a7c66254a974c554cc3d17d63b936c555"
+  },
+  "local_controls": 15,
+  "wholecaller_controls": 12,
+  "wholecaller_matrix_sha256": "14219cd6ddcb0798a96aa3f6a65aee8b7be11a47aa08099ffe52307ff327faca",
+  "prepared_only": true,
+  "accepted_parent14": null,
+  "backend_binding": null,
+  "accepted_six_originals": null,
+  "Native": 0,
+  "Auth_HTTP": 0,
+  "browser": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

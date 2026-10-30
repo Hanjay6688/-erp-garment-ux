@@ -1,0 +1,82 @@
+{
+  "classification": "INTERNAL_READONLY_SOURCE_COUNTER_NOT_FORMAL_INDEPENDENT_ACCEPTANCE",
+  "status": "NO_CONCRETE_SOURCE_OR_PREPARATION_BLOCKER_FOUND",
+  "head": "a19b618d7ac1cbf51d61929607aa3cf4812608f7",
+  "tree": "f56864280e64936edbbf864cea5667489b3e2974",
+  "source43_sha256": "f965d5c18354f856747df4d2ca792d6963addafaa03e8b62e506e7cbe87be619",
+  "initial_locked_assessment_sha256": "c7e492c6586c8ee55be4d96e5ed388bfb466dadde269d8ff3fb967dd19dc18fc",
+  "own_final_all_Git_files": 13685,
+  "own_all_current_Git_blobs_modes_exact": true,
+  "whole_parent_public52eed_files": 13642,
+  "all_parent_files_and_modes_unchanged": true,
+  "new_additive_paths": 43,
+  "no_other_scope_change": true,
+  "raw_original52eed": {
+    "zip_bytes": 2104864,
+    "zip_sha256": "ca1aa6ed4fac397f53afed778d9d866b982060f631f1f4cd78652f9bba37edcb",
+    "zip_CRC_members": 114,
+    "raw5_equal_to_root_actual": true,
+    "strict10_counts": {
+      "PASS": 8,
+      "INCOMPLETE": 2
+    },
+    "used_witness_not_reached": true,
+    "package_four_true_writer_false": true,
+    "not_success_prerequisite": true
+  },
+  "verified_contracts": [
+    {
+      "id": "WIB",
+      "source": "fixture_adapter.py13-18,39-97; originalcases203-216",
+      "result": "Two exact malformedfractionalNativeP0001noeffect calls before correspondingseconds-onlyposts. Fullcatalog22/allrows/everysequence equal, verifiedactualparent before/after. SameDAY2+3 current5/prior7,5zones andallfinancialassertions exact; no parser widening."
+    },
+    {
+      "id": "OWNER",
+      "source": "fixture_adapter.py99-124; cp6_bc_probe.py158-167; cp6_z_expanded_integrity_audit.py78-83; originalcases259-280",
+      "result": "SoleOriginalOwner/cleanupescapeoff checked; LAST_ACTIVE_OWNER42501fullnoeffect before distinctadminbackupOwner viaexistinghelpergrants=(). prod.owner usesfixedbase.OPERATOR_AUTH; subsequentoriginalcase deactivatesoriginalOwner. Allfour42501currentaccesscontrols exact. No newroles/grants ortrigger bypass."
+    },
+    {
+      "id": "PRIVATE_CALLBACKS",
+      "source": "factory.py15-35; currentACfactory.py18-30; frozenlawfulfactory.py13-34",
+      "result": "Fulloriginalfilee025exact; zero callbackbody text substitutions. Privateglobalsfixture/issue_note only, twocase-scopewrappers;8otherfunctions unchanged. Ownactualconstructor+10registration withDB/network/writes forbidden confirms importedmoduleunchanged; callbacks0."
+    },
+    {
+      "id": "602_CAPTURE",
+      "source": "evidence/ACTUAL_602_NATIVE_INPUTS.json; actual60243MBcensus; fixture_adapter.py45-54",
+      "result": "Allthreecanonical19columnfunctionrows equalactual602before+after; fullcensusSHA1081c288... verified. Explicit602NOT52 classification preserved; guard/actionprosrc exactcommitted SQL. Freshactualinputcaptureonlyafterqualifiedparentverify;localmodelsnotActualNative."
+    },
+    {
+      "id": "SCOPE_AND_ENGINE",
+      "source": "source_check.py46-100; derive.py19-38; admission.py25-41; inheritedcomponent.py65-188; inheritedderive.py",
+      "result": "OwnSource43+wholeactual13642parent andfrozen242/currentAC3f exact.2scope/4probechanges reversible. Sixvendorenginebindings exact. strict10 fullpercase/readinterval equality then separatecommittedreceipt/transfer/issuewitness andusedinverse beforeDDL. Fullouter rows/sequences/catalogues/roles/CP6/advisors/primary/Authrestore andall5 remainmandatory."
+    },
+    {
+      "id": "WHOLE_CALLER",
+      "source": "/workspace/scratch/ef468a447ac6/s05-wib-owner-whole-caller-first.json",
+      "result": "Samea19/Source43 actualCLI--runtime withactual5Originalenv,111copiedboundedoutputs;4named+path-specific unknowncode/JSON/leaf/ancestorrefusals; regular0o644leaf+directoryrestored; identicalpostpositive532B;allparentssnapshot equal;forbiddenattempts[]. Generatedhistoricalwriterfalse preserved."
+    }
+  ],
+  "own_registration_receipt": {
+    "path": "/workspace/scratch/ef468a447ac6/evidence-private/s05-wib-owner-a19-readonly-counter/OWN_PRIVATE_REGISTRATION.json",
+    "sha256": "072f76e853ceca4d0dbc406137b7283b27afbd3835fbdaf035f9a2863fabcdb7"
+  },
+  "author_terminal_matrix": {
+    "path": "/workspace/scratch/ef468a447ac6/s05-wib-owner-whole-caller-first.json",
+    "sha256": "1a321035048ced88154fdd7230c65f0bc1d60aaef7033728152ef3c4b4524657"
+  },
+  "limits": [
+    "Read-only internal source/preparation counter; not independent formal acceptance.",
+    "No database/Native/Auth/browser/race/CI/remote execution byreviewer.",
+    "Author44unit+11localSQLmodels are preparation evidence only; reviewer didnotrerunSQL or mutatingwholecaller.",
+    "Freshactualfull10+separatecommittedusedwitness/fullouter/all5 stillrequired; original8partialnotaggregatecredit."
+  ],
+  "actual_Native": 0,
+  "DB": 0,
+  "Auth_HTTP": 0,
+  "browser": 0,
+  "remote": 0,
+  "worktree_edits": 0,
+  "source_or_financial_oracle_weakened": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

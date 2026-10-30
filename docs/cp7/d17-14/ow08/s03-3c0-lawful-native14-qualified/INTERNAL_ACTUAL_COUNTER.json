@@ -1,0 +1,352 @@
+{
+  "status": "INTERNAL_ACTUAL_S03_NATIVE14_COUNTER_PASS_BOUNDED_NO_EXTERNAL_ACCEPTANCE",
+  "candidate_head": "3c0c5defe55e48cf6f221c868594dd6676d17170",
+  "candidate_tree": "ca20c918201b455ad09df489829b83b9e6afea95",
+  "run_id": 40983410165,
+  "job_id": 123828634300,
+  "artifact_id": 12947563874,
+  "original_zip": {
+    "bytes": 8472775,
+    "sha256": "567e64545493d4806fa613b1306b4fe8c2f70a2ebb327fc60b709737813e5a60",
+    "members": 119,
+    "all_CRC_paths_SHA_checked": true
+  },
+  "actual_case_groups": [
+    11,
+    3
+  ],
+  "actual_Native_cases": 14,
+  "same_candidate_actual_installation": true,
+  "no_invented_strict14": true,
+  "runtime7_source_SHA256_verified": true,
+  "source475_Git_pins_verified": true,
+  "actual_installed15_function_derivation_and2clones_recomputed": true,
+  "source_derived_catalog_substitution": false,
+  "public_raw_fields_dropped": [],
+  "private_case_derivation": "exact3anchors+reverse;8othercallbacks/tophelpers/usedwitness unchanged;Reader3 onehelper binding",
+  "lawful_P2_worker_snapshot_checks": true,
+  "closed_negative_and_real_OWNER_REOPEN_checked": true,
+  "finished_financial_recalculation": {
+    "own_cost": "1000.03",
+    "original_HPP_total": "120.0",
+    "allocated_HPP_total": "1120.03",
+    "cancelled_HPP_total": "120.0",
+    "lot_qty": "10",
+    "GL_delta": {
+      "WIP": "0.00",
+      "FG_INVENTORY": "600.02",
+      "COGS": "400.01"
+    },
+    "cache_changes": [
+      {
+        "id": "5a94431d-1d97-49c8-ac73-1b5d4dec63e7",
+        "type": "QC_GOOD",
+        "old": "12.0",
+        "new": "112.003"
+      }
+    ],
+    "fullSALE_rows_equal": true,
+    "frozen_journal_lines": 2,
+    "frozen_HPP_versions": 3,
+    "frozen_HPP_components": 27,
+    "inverse_economic": "2026-10-30",
+    "inverse_book": "2026-10-30"
+  },
+  "all_pre_and_post_allocation_immutable_history_lines_HPPcomponents_verified": true,
+  "actual_committed_ALLOCATE_used_inverse_witness_verified": true,
+  "witness_additional_Native_credit": 0,
+  "whole_outer22_rows_ALLsequences_roles_public_CP6_advisors_primary_Auth_backup_and5gates": true,
+  "Auth_users_before_after": [
+    0,
+    0
+  ],
+  "actual_Auth_HTTP_browser_races": [
+    0,
+    0,
+    0
+  ],
+  "observed_strict_group_sequence_limit": "Strictgroup Nativebusiness operations allocated sequences and did not reseed; complete ALLsequence restoration is the fullouter dump/restore/package proof, not a per-case sequence restore claim.",
+  "parent9ac8PASS3INCOMPLETE_retained_never_prerequisite": true,
+  "independent_acceptance": false,
+  "production_go": false,
+  "default_adoption": false,
+  "combined_ERP_qualification": false,
+  "reviewer_DB_calls": 0,
+  "reviewer_source_worktree_ref_mutations": 0,
+  "initial_expected_locked_before_raw_or_rootconclusion": true,
+  "checks": [
+    {
+      "name": "actual11_then3_same_candidate",
+      "status": "PASS",
+      "detail": [
+        {
+          "PASS": 11
+        },
+        {
+          "PASS": 3
+        },
+        {
+          "status": "S03_READER_PREPARED_SOURCES_AND_FRESH_FINANCIAL11_ADMITTED",
+          "existing_function_captures": 15,
+          "Native_financial_cases_passed": 11,
+          "additional_reader_cases_prepared": 3,
+          "total_target_Native_cases": 14,
+          "additional_Native_credit_before_execution": 0,
+          "per_case_full_sequence_restoration_claim": false,
+          "production_go": false,
+          "independent_acceptance": false
+        }
+      ]
+    },
+    {
+      "name": "exact_source475_and_actual_runtime7",
+      "status": "PASS",
+      "detail": {
+        "source_sha256": "ba59dee4ae71c62df2b2e35c558cb23a7c66254a974c554cc3d17d63b936c555",
+        "runtime7": {
+          "scripts/cp7_attendance_period_choice/choice.sql": "44499c6d6a06d1effc2be4f066168f5fa2fe9608b2ccb80d1d2d0b1dac0a8212",
+          "scripts/cp7_attendance_period_choice/readers.sql": "4ab82ff58033f4357251930504e6e9e75ecce9d8f1cc5b4e10f689940ce749e2",
+          "scripts/cp7_attendance_period_choice/native_delta.py": "a49242327798a59407739c2999fcf92408aeef9d88a1ae94fccc82bd189ac9ce",
+          "scripts/cp7_attendance_period_choice/catalog_contract.py": "f312de61b3c75087a51d7df712896627c02bb5d6473803bf6d2c90ad506d7c64",
+          "scripts/cp7_attendance_period_choice/NEW_CATALOG_IDENTITIES.json": "e49e4cb9c794d6ed98b831ae318e6d3c401a110d420cf932ee7011f7c971a578",
+          "scripts/cp7_attendance_period_choice/composition.py": "51b3d53dccd69688438287bee338e7a86a37afe57aa963cc2dee24b2e43470f1",
+          "scripts/cp7_attendance_period_choice/installer_ddl.py": "e002ea2dd938fef5913c76974909f70de8bcb47874b7fd958c0aeef0e2993514"
+        }
+      }
+    },
+    {
+      "name": "actual15_capture_exact_patched_and2clones_all22",
+      "status": "PASS",
+      "detail": {
+        "original_signatures": [
+          "erp.create_attendance_hpp_pool_v1(jsonb,uuid)",
+          "erp.validate_attendance_hpp_pool_v1(uuid)",
+          "erp.activate_attendance_hpp_pool_v1(uuid,text,uuid,bigint)",
+          "erp.cancel_attendance_hpp_pool_v1(uuid,text,uuid,bigint)",
+          "erp.approve_payroll(uuid)",
+          "erp.cancel_unpaid_payroll(uuid,text)",
+          "erp.reverse_paid_payroll(uuid,text)",
+          "erp._cp3_r4_active_pool_affects_contractor(uuid,date,date)",
+          "erp.set_contractor_hpp_policy_v1(jsonb,uuid,uuid)",
+          "erp.reverse_journal(uuid,text)",
+          "erp.record_sewing_terminal_v1(jsonb,uuid)",
+          "erp.period_blockers_v1(date,date)",
+          "cp7_payroll.apply_settlement(text,jsonb,text)",
+          "cp7_hpp_pool.pool_json(erp.attendance_hpp_pools,date)",
+          "cp7_hpp_pool.preview(date,date,date)"
+        ],
+        "clones": [
+          "cp7_attendance_choice.native_create_carry_pool_v1(jsonb,uuid)",
+          "cp7_attendance_choice.native_validate_carry_pool_v1(uuid)"
+        ],
+        "source_derived_substitution": false
+      }
+    },
+    {
+      "name": "explicit_three_callbacks_and_oneReader_helper",
+      "status": "PASS",
+      "detail": {
+        "business": {
+          "original_sha256": "15fe990cccb82ff4c1dcd9ca40dc17fe93ac26a3a359a37361e6d8780b1f16e2",
+          "derived_sha256": "ebb0998735e8fbb3e9cb4165f96ad41f064cd430546e120e040db2098711bc11",
+          "counted_changes": 3,
+          "reverse_restores_all_original_bytes": true,
+          "adapted_callback_ids": [
+            "S03_NATIVE_P2_PAYROLL_POOL_COEXIST_AND_POLICY_FENCES",
+            "S03_NATIVE_BOTH_CORRECTIONS_LINKED_INVERSES_NO_RECOGNITION",
+            "S03_NATIVE_FINISHED_PO_FG_COGS_COST_AND_CANCEL_EXACT"
+          ],
+          "original_eight_callbacks_unchanged": true,
+          "original_helpers_and_committed_witness_unchanged": true,
+          "original_eleven_runtime_callbacks_byte_exact": false,
+          "original_financial_assertions_retained_except_named_false_cache_predicate": true
+        },
+        "reader": {
+          "original_sha256": "8083b9b332b5adcca9b4d34a3853f3e5225c6ed4f8d30207f3fb153f3763d31c",
+          "derived_sha256": "a11a56b4672bc76e2d4eb52cd1d665f88813ca6468fca24d688865158d073bd5",
+          "counted_changes": 1,
+          "reverse_restores_all_original_bytes": true
+        },
+        "lawful_helper_sha256": "d8c991189c480033adf711002077062f459f0005bc7f682b10db1be754febd7f"
+      }
+    },
+    {
+      "name": "actual_P2_known_worker_future_rate_present_P1immutable",
+      "status": "PASS",
+      "detail": [
+        {
+          "worker": "edeb4519-d6a3-45ee-ba1f-57fb8ec76a02",
+          "source": "2026-10-24",
+          "output": "2026-10-25",
+          "P1_snapshot_sha256": "8fd20dd0ea59b42886e3c2be52ff50d08f359793aa6272e4a0645e90c20b4560",
+          "amount": "20.02",
+          "request": "eb3a9d7b-3a3c-447d-b134-22cf1d730acf"
+        },
+        {
+          "worker": "1477b836-eebd-4406-9c3c-3db955d315bb",
+          "source": "2026-10-24",
+          "output": "2026-10-25",
+          "P1_snapshot_sha256": "6b4e36313e3a996e6d51a49c8d698411ca22d69171a6e08999a48f9bdc8822eb",
+          "amount": "20.02",
+          "request": "ab5ceb49-983f-42cd-a2b2-e0fff9f2c6f5"
+        }
+      ]
+    },
+    {
+      "name": "closed_inverse_negative_then_actual_OWNER_REOPEN",
+      "status": "PASS",
+      "detail": {
+        "source": "2026-10-25",
+        "review_through": "2026-10-30",
+        "through": "2026-10-24",
+        "new_request": "0bd613ec-6d90-4613-9504-03e7e048ad7f",
+        "receipt": {
+          "kind": "COMMITTED_OUTCOME",
+          "action": "REOPEN",
+          "filing_id": null,
+          "request_id": "0bd613ec-6d90-4613-9504-03e7e048ad7f",
+          "version_token": "3f98ef4b2459da8c4ee5770fca9c5869",
+          "closed_through": "2026-10-24",
+          "contract_version": "cp7.period-outcome.v1"
+        }
+      }
+    },
+    {
+      "name": "actual_finished_valuation_full17field_FG_and_appendonly_cancel_recomputed",
+      "status": "PASS",
+      "detail": {
+        "own_cost": "1000.03",
+        "original_HPP_total": "120.0",
+        "allocated_HPP_total": "1120.03",
+        "cancelled_HPP_total": "120.0",
+        "lot_qty": "10",
+        "GL_delta": {
+          "WIP": "0.00",
+          "FG_INVENTORY": "600.02",
+          "COGS": "400.01"
+        },
+        "cache_changes": [
+          {
+            "id": "5a94431d-1d97-49c8-ac73-1b5d4dec63e7",
+            "type": "QC_GOOD",
+            "old": "12.0",
+            "new": "112.003"
+          }
+        ],
+        "fullSALE_rows_equal": true,
+        "frozen_journal_lines": 2,
+        "frozen_HPP_versions": 3,
+        "frozen_HPP_components": 27,
+        "inverse_economic": "2026-10-30",
+        "inverse_book": "2026-10-30"
+      }
+    },
+    {
+      "name": "separate_real_committed_ALLOCATE_usedguard_and_original_accrual",
+      "status": "PASS",
+      "detail": {
+        "pool_id": "623bb94c-302c-444e-998b-d0fb89f803d2",
+        "source_period": "2026-10-24",
+        "output_period": "2026-10-25",
+        "amount_cents": "100003",
+        "original_approval_audits": 1,
+        "accrual_line_count": 2,
+        "used_all22_data_ALLsequence_equal": true,
+        "Native_case_credit": 0
+      }
+    },
+    {
+      "name": "full_outer22_rows_ALLsequences_roles_public_CP6_advisors_Auth0to0_and5gates",
+      "status": "PASS",
+      "detail": {
+        "package_gate": {
+          "installed": true,
+          "primary_unchanged": true,
+          "backup_restore_drill": true,
+          "security_advisors": true,
+          "writer_runtime": true
+        },
+        "Auth": [
+          0,
+          0
+        ],
+        "baseline_restore": {
+          "exit": 1,
+          "error_count": 19,
+          "unexplained": [],
+          "only_pg_cron_errors": true,
+          "database_owner_acl_and_settings_preserved": true,
+          "platform_schema_authority_restored": [
+            "graphql",
+            "graphql_public"
+          ]
+        },
+        "strict_group_sequence_limit": {
+          "all_current_business_rows_restored": true,
+          "actual_all22_restored": true,
+          "observed_sequence_allocations": {
+            "sequence:erp.audit_logs_id_seq": {
+              "before": [
+                "1",
+                false
+              ],
+              "after": [
+                "1916",
+                true
+              ]
+            },
+            "sequence:erp.fg_stock_book_order_seq": {
+              "before": [
+                "1",
+                false
+              ],
+              "after": [
+                "2",
+                true
+              ]
+            }
+          },
+          "sequence_reseed_performed": false,
+          "complete_sequence_restore_proved": false,
+          "complete_sequence_restore_requires": "OUTER_FULL_DATABASE_BACKUP_RESTORE_AND_PACKAGE_GATES"
+        }
+      }
+    }
+  ],
+  "artifacts": {
+    "INITIAL_EXPECTED_CONTRACT.json": {
+      "bytes": 6598,
+      "sha256": "31e3b61924e9eb23e1254153423eb2707286808bb11ab6e5cf8f37e73142de49"
+    },
+    "RAW_BYTES_VERIFICATION.json": {
+      "bytes": 1373,
+      "sha256": "51c2b3dc7a9fbddc8e8ffb71e03d149792f14ef81ec1cddc94d61d792e42f92e"
+    },
+    "ACTUAL_RAW_DEEP_COUNTER.json": {
+      "bytes": 10035,
+      "sha256": "7dfc15176ed60797cffc77eb98e448d467b5e0baa9563c44a8afa2bce5037cb9"
+    },
+    "EXACT_SOURCE_AND_WITNESS_PROVENANCE.json": {
+      "bytes": 2428,
+      "sha256": "55379cd42d2d8d2760b58bbe30b94d95d1b18f90873e394612a5b76ec28f7554"
+    },
+    "REVIEWER_FIRST_LOCAL_SYNTAX_ERROR.json": {
+      "bytes": 263,
+      "sha256": "901e3723c3968f23756411c334ad76fcfb856909e67800e51670807e17dc31e1"
+    },
+    "review_actual.py": {
+      "bytes": 17108,
+      "sha256": "74ed16e092f08ca4dcff1155b6ffd67de3ea9ed11505b05cda0a094b084041c3"
+    },
+    "REVIEW_ACTUAL_FIRST_EXECUTION.log": {
+      "bytes": 708,
+      "sha256": "73d890add1dc8248fe0ca3cdaac9fb649fa26d5f511e6c0bdfee10c386e836ed"
+    }
+  },
+  "limits": [
+    "INTERNAL raw/source counter; externalindependent acceptance andproduction_go arefalse.",
+    "Browser4 andWIB-midnight1 have0credit here; they need later exactcurrent14/all5 proof binding plus their own actual execution.",
+    "The strictgroups retainNative sequence allocations; onlycompleteouterrestore proves everysequence baselineexact, asrawexplicitlystates.",
+    "Reviewer firstlocalScript SyntaxError was retained andcorrected; it was not a Native/product finding."
+  ]
+}

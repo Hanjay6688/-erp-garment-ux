@@ -1,0 +1,997 @@
+{
+  "contract": "internal.global19.actual-profile-mismatch-lock.v1",
+  "created_utc": "2026-10-30T01:27:59.664544+00:00",
+  "classification": "LOCKED_CURRENT_RUNTIME_AUTHORITY_GAP_NOT_PREPARED_INSPECTOR_REGRESSION",
+  "status": "FUTURE_RUNTIME_BLOCKED_EXPLICIT_EXACT_PROFILE_TRANSITION_REQUIRED",
+  "prepared_profile": {
+    "head": "7ce217a735daa88994a78c6d68bac5e4f6b79d20",
+    "public_alias": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+    "tree": "6048f949cc7e0aed03ac8573fae942183433253b",
+    "runtime_entry": null,
+    "required_final_parent": null,
+    "unchanged": true
+  },
+  "actual602": {
+    "path": "/workspace/scratch/ef468a447ac6/evidence-private/sku-602-all-member-native23-first-failure/SKU_COST_RECOVERY_OVER_FIRST_PART_REFUSAL_37fb87d4a2e1_FULL_CURRENT_CENSUS.json",
+    "bytes": 43056004,
+    "sha256": "1081c288694965278468de28ef65831909bf52dd5461e6d682a00a6ff0418fa0",
+    "head": "602b4e642a0afbb1acdcfd858b9f403dc14ec336",
+    "before_after_all19_equal": true
+  },
+  "actual_cde78": {
+    "head": "cde78b2cc82e0a286174098458dab9815fdfd072",
+    "tree": "915103541d247f544c4492db25953b4268d9c2e3",
+    "archive_parts": [
+      "/workspace/scratch/ef468a447ac6/evidence-private/d1-cde78-continuation3/original-artifact.zip.part-001",
+      "/workspace/scratch/ef468a447ac6/evidence-private/d1-cde78-continuation3/original-artifact.zip.part-002"
+    ],
+    "archive_whole_bytes": 671127620,
+    "archive_whole_sha256": "609ebff9739f359d39239d0e502aad20d4613f5a037a4e0e83f31b04b4b7652e",
+    "streamed_no_recombine_no_extract": true,
+    "snapshots": [
+      {
+        "member": "D1_CONT_APPLY_D1_250_C2BDB97967674E5993673EF96C33465D_BEFORE.json",
+        "bytes": 56803435,
+        "sha256": "425e149ac20fbd59aa204b36cb9b19d2cac8faec6856e6deb18b1f7b103e9ec5"
+      },
+      {
+        "member": "D1_CONT_APPLY_D1_250_C2BDB97967674E5993673EF96C33465D_RESULT.json",
+        "bytes": 58270925,
+        "sha256": "cb65dbd28c5ad8d77571be409ab2dec732718575f221d3b6196368d2994c2317"
+      }
+    ],
+    "before_after_all19_equal": true
+  },
+  "all19_actual_rows_equal_across602_and_current_cde78": true,
+  "prepared_body_matches": 17,
+  "prepared_body_mismatches": 2,
+  "mismatches": [
+    {
+      "signature": "erp.compute_non_po_product_hpp_book_v2620f(uuid)",
+      "all_four_actual_metadata_rows_exact": true,
+      "definition_bytes": 1273,
+      "definition_sha256": "1647164dc565d08a010b182c3c08b1d729b00d588fc7a6e43774f8672c9c6ea5",
+      "actual_prosrc_sha256": "35044776219a6916aad2b770ca3a89322c51319004fd9429ab19d611459b0160",
+      "prepared_prosrc_sha256": "16b189ae50325680a6827d4542979d2a3d8fdc5c42c169546d7437c7f348754f",
+      "prepared_source_body_matches_actual": false,
+      "actual_metadata_excluding_definition": [
+        "postgres",
+        "sql",
+        "f",
+        true,
+        false,
+        false,
+        true,
+        "s",
+        "u",
+        "100",
+        "1000",
+        [
+          "search_path=\"\""
+        ],
+        [
+          "p_product_id",
+          "hpp_total_cost",
+          "fg_value",
+          "cogs_value",
+          "other_out_value"
+        ],
+        [
+          "i",
+          "t",
+          "t",
+          "t",
+          "t"
+        ],
+        "p_product_id uuid",
+        "TABLE(hpp_total_cost numeric, fg_value numeric, cogs_value numeric, other_out_value numeric)",
+        "-",
+        [
+          [
+            "postgres",
+            "postgres",
+            "EXECUTE",
+            false
+          ]
+        ]
+      ]
+    },
+    {
+      "signature": "erp.require_internal()",
+      "all_four_actual_metadata_rows_exact": true,
+      "definition_bytes": 10740,
+      "definition_sha256": "b58efa7f7637ad3dd8262b233de4e12a65b9398188d7b78e9096497d551a3666",
+      "actual_prosrc_sha256": "8a4b211d989a7837d53699f1d23c60e5d9febe2fe8c8a7737cc68bca2c1dc0b0",
+      "prepared_prosrc_sha256": "69a908818fa707014f4193ceb0154d9ff55e58ff4ce5795b2c91bc841b9dfc58",
+      "prepared_source_body_matches_actual": false,
+      "actual_metadata_excluding_definition": [
+        "postgres",
+        "plpgsql",
+        "f",
+        true,
+        false,
+        false,
+        false,
+        "v",
+        "u",
+        "100",
+        "0",
+        [
+          "search_path=\"\""
+        ],
+        null,
+        null,
+        "",
+        "void",
+        "-",
+        [
+          [
+            "postgres",
+            "postgres",
+            "EXECUTE",
+            false
+          ],
+          [
+            "service_role",
+            "postgres",
+            "EXECUTE",
+            false
+          ]
+        ]
+      ]
+    }
+  ],
+  "all19": [
+    {
+      "signature": "erp.be_conversion_extra_v1(uuid)",
+      "all_four_actual_metadata_rows_exact": true,
+      "definition_bytes": 384,
+      "definition_sha256": "d7f3639368848072e71e066c9b20c0ea8112addf94739e1961698b8b3fd6c023",
+      "actual_prosrc_sha256": "a14a3c3609d4cf225a1c9c85d784771a04fa1663bc03681ac25da5a9ce3d191b",
+      "prepared_prosrc_sha256": "a14a3c3609d4cf225a1c9c85d784771a04fa1663bc03681ac25da5a9ce3d191b",
+      "prepared_source_body_matches_actual": true,
+      "actual_metadata_excluding_definition": [
+        "postgres",
+        "sql",
+        "f",
+        true,
+        false,
+        false,
+        false,
+        "s",
+        "u",
+        "100",
+        "0",
+        [
+          "search_path=\"\""
+        ],
+        [
+          "p_conversion"
+        ],
+        null,
+        "p_conversion uuid",
+        "numeric",
+        "-",
+        [
+          [
+            "postgres",
+            "postgres",
+            "EXECUTE",
+            false
+          ]
+        ]
+      ]
+    },
+    {
+      "signature": "erp.be_allocation_extra_v1(uuid)",
+      "all_four_actual_metadata_rows_exact": true,
+      "definition_bytes": 324,
+      "definition_sha256": "05a0fbfd9d3a95356b5c87f59dc734ef1a562b23c3fd8801d88a30d7854c885f",
+      "actual_prosrc_sha256": "c8281604fdaf18416ebf3c10372818ee1403c6a88d5851d632585809d4a2d6fb",
+      "prepared_prosrc_sha256": "c8281604fdaf18416ebf3c10372818ee1403c6a88d5851d632585809d4a2d6fb",
+      "prepared_source_body_matches_actual": true,
+      "actual_metadata_excluding_definition": [
+        "postgres",
+        "sql",
+        "f",
+        true,
+        false,
+        false,
+        false,
+        "s",
+        "u",
+        "100",
+        "0",
+        [
+          "search_path=\"\""
+        ],
+        [
+          "p_allocation"
+        ],
+        null,
+        "p_allocation uuid",
+        "numeric",
+        "-",
+        [
+          [
+            "postgres",
+            "postgres",
+            "EXECUTE",
+            false
+          ]
+        ]
+      ]
+    },
+    {
+      "signature": "erp.be_nonpo_admitted_v1(uuid)",
+      "all_four_actual_metadata_rows_exact": true,
+      "definition_bytes": 532,
+      "definition_sha256": "a570b438cddf20c96d536bca4094974d245c19ca8e87bdd54a9573890ad81eaf",
+      "actual_prosrc_sha256": "d32478fb76d3803166dd030d2dcf9fb06b5c0ff162f786140750a5101e4dd6c7",
+      "prepared_prosrc_sha256": "d32478fb76d3803166dd030d2dcf9fb06b5c0ff162f786140750a5101e4dd6c7",
+      "prepared_source_body_matches_actual": true,
+      "actual_metadata_excluding_definition": [
+        "postgres",
+        "sql",
+        "f",
+        true,
+        false,
+        false,
+        false,
+        "s",
+        "u",
+        "100",
+        "0",
+        [
+          "search_path=\"\""
+        ],
+        [
+          "p_conversion"
+        ],
+        null,
+        "p_conversion uuid",
+        "boolean",
+        "-",
+        [
+          [
+            "postgres",
+            "postgres",
+            "EXECUTE",
+            false
+          ]
+        ]
+      ]
+    },
+    {
+      "signature": "erp.compute_non_po_product_hpp_targets_v2620f(uuid)",
+      "all_four_actual_metadata_rows_exact": true,
+      "definition_bytes": 2596,
+      "definition_sha256": "17c02f258d9782f56880b803fe89b2538a685fe0433e7e6638bb24e1bb2f6c4c",
+      "actual_prosrc_sha256": "8cb973a373559d2620d29918a3f589a4845251dc70c0a6ec595cf73e38bd549f",
+      "prepared_prosrc_sha256": "8cb973a373559d2620d29918a3f589a4845251dc70c0a6ec595cf73e38bd549f",
+      "prepared_source_body_matches_actual": true,
+      "actual_metadata_excluding_definition": [
+        "postgres",
+        "sql",
+        "f",
+        true,
+        false,
+        false,
+        true,
+        "s",
+        "u",
+        "100",
+        "1000",
+        [
+          "search_path=\"\""
+        ],
+        [
+          "p_product_id",
+          "hpp_total_cost",
+          "fg_value",
+          "cogs_value",
+          "other_out_value"
+        ],
+        [
+          "i",
+          "t",
+          "t",
+          "t",
+          "t"
+        ],
+        "p_product_id uuid",
+        "TABLE(hpp_total_cost numeric, fg_value numeric, cogs_value numeric, other_out_value numeric)",
+        "-",
+        [
+          [
+            "postgres",
+            "postgres",
+            "EXECUTE",
+            false
+          ]
+        ]
+      ]
+    },
+    {
+      "signature": "erp.compute_non_po_product_hpp_book_v2620f(uuid)",
+      "all_four_actual_metadata_rows_exact": true,
+      "definition_bytes": 1273,
+      "definition_sha256": "1647164dc565d08a010b182c3c08b1d729b00d588fc7a6e43774f8672c9c6ea5",
+      "actual_prosrc_sha256": "35044776219a6916aad2b770ca3a89322c51319004fd9429ab19d611459b0160",
+      "prepared_prosrc_sha256": "16b189ae50325680a6827d4542979d2a3d8fdc5c42c169546d7437c7f348754f",
+      "prepared_source_body_matches_actual": false,
+      "actual_metadata_excluding_definition": [
+        "postgres",
+        "sql",
+        "f",
+        true,
+        false,
+        false,
+        true,
+        "s",
+        "u",
+        "100",
+        "1000",
+        [
+          "search_path=\"\""
+        ],
+        [
+          "p_product_id",
+          "hpp_total_cost",
+          "fg_value",
+          "cogs_value",
+          "other_out_value"
+        ],
+        [
+          "i",
+          "t",
+          "t",
+          "t",
+          "t"
+        ],
+        "p_product_id uuid",
+        "TABLE(hpp_total_cost numeric, fg_value numeric, cogs_value numeric, other_out_value numeric)",
+        "-",
+        [
+          [
+            "postgres",
+            "postgres",
+            "EXECUTE",
+            false
+          ]
+        ]
+      ]
+    },
+    {
+      "signature": "erp.account_id(text)",
+      "all_four_actual_metadata_rows_exact": true,
+      "definition_bytes": 451,
+      "definition_sha256": "f062aed68e292c44220f8fe4de5b90ed49e9881cb94bb784920be771c4bc650d",
+      "actual_prosrc_sha256": "0ae24f40576960c537a81cb9d7b44673ccd9d48cf2c197a519cadc8851d5aa96",
+      "prepared_prosrc_sha256": "0ae24f40576960c537a81cb9d7b44673ccd9d48cf2c197a519cadc8851d5aa96",
+      "prepared_source_body_matches_actual": true,
+      "actual_metadata_excluding_definition": [
+        "postgres",
+        "plpgsql",
+        "f",
+        true,
+        false,
+        false,
+        false,
+        "s",
+        "u",
+        "100",
+        "0",
+        [
+          "search_path=erp, public"
+        ],
+        [
+          "p_mapping_key"
+        ],
+        null,
+        "p_mapping_key text",
+        "uuid",
+        "-",
+        [
+          [
+            "cp7_finance_read",
+            "postgres",
+            "EXECUTE",
+            false
+          ],
+          [
+            "postgres",
+            "postgres",
+            "EXECUTE",
+            false
+          ],
+          [
+            "service_role",
+            "postgres",
+            "EXECUTE",
+            false
+          ]
+        ]
+      ]
+    },
+    {
+      "signature": "erp.require_internal()",
+      "all_four_actual_metadata_rows_exact": true,
+      "definition_bytes": 10740,
+      "definition_sha256": "b58efa7f7637ad3dd8262b233de4e12a65b9398188d7b78e9096497d551a3666",
+      "actual_prosrc_sha256": "8a4b211d989a7837d53699f1d23c60e5d9febe2fe8c8a7737cc68bca2c1dc0b0",
+      "prepared_prosrc_sha256": "69a908818fa707014f4193ceb0154d9ff55e58ff4ce5795b2c91bc841b9dfc58",
+      "prepared_source_body_matches_actual": false,
+      "actual_metadata_excluding_definition": [
+        "postgres",
+        "plpgsql",
+        "f",
+        true,
+        false,
+        false,
+        false,
+        "v",
+        "u",
+        "100",
+        "0",
+        [
+          "search_path=\"\""
+        ],
+        null,
+        null,
+        "",
+        "void",
+        "-",
+        [
+          [
+            "postgres",
+            "postgres",
+            "EXECUTE",
+            false
+          ],
+          [
+            "service_role",
+            "postgres",
+            "EXECUTE",
+            false
+          ]
+        ]
+      ]
+    },
+    {
+      "signature": "erp.be_propagate_nonpo_v1()",
+      "all_four_actual_metadata_rows_exact": true,
+      "definition_bytes": 4393,
+      "definition_sha256": "97d23a16a2e461e6e327f877ba6925d4bfbcb6f99481e070fb85c291c98cac61",
+      "actual_prosrc_sha256": "b5a15b8f5d4e4a3a7a1e251b19a9b2a6b72b51c9a33d15f151cae2fcd06b7cae",
+      "prepared_prosrc_sha256": "b5a15b8f5d4e4a3a7a1e251b19a9b2a6b72b51c9a33d15f151cae2fcd06b7cae",
+      "prepared_source_body_matches_actual": true,
+      "actual_metadata_excluding_definition": [
+        "postgres",
+        "plpgsql",
+        "f",
+        true,
+        false,
+        false,
+        false,
+        "v",
+        "u",
+        "100",
+        "0",
+        [
+          "search_path=erp, public"
+        ],
+        null,
+        null,
+        "",
+        "void",
+        "-",
+        [
+          [
+            "postgres",
+            "postgres",
+            "EXECUTE",
+            false
+          ]
+        ]
+      ]
+    },
+    {
+      "signature": "erp.be_nonpo_prepare_transfers_v1(date)",
+      "all_four_actual_metadata_rows_exact": true,
+      "definition_bytes": 2232,
+      "definition_sha256": "697c02f47c6c7a1d6884a6a49ff595a36b064ac6e2021c0b3c4609c89c534f5e",
+      "actual_prosrc_sha256": "66963c4a209e3467f34e31f7dcdf62b2e91db51ad269ba9bc938baaea0ea90a8",
+      "prepared_prosrc_sha256": "66963c4a209e3467f34e31f7dcdf62b2e91db51ad269ba9bc938baaea0ea90a8",
+      "prepared_source_body_matches_actual": true,
+      "actual_metadata_excluding_definition": [
+        "postgres",
+        "plpgsql",
+        "f",
+        true,
+        false,
+        false,
+        false,
+        "v",
+        "u",
+        "100",
+        "0",
+        [
+          "search_path=\"\""
+        ],
+        [
+          "p_date"
+        ],
+        null,
+        "p_date date",
+        "void",
+        "-",
+        [
+          [
+            "postgres",
+            "postgres",
+            "EXECUTE",
+            false
+          ]
+        ]
+      ]
+    },
+    {
+      "signature": "erp.be_nonpo_sync_all_v1(date,text,uuid,text)",
+      "all_four_actual_metadata_rows_exact": true,
+      "definition_bytes": 1316,
+      "definition_sha256": "c6fd2da58ec65a5f347bc9f7d1d1352b174ed098cb48899a92ca244acca26041",
+      "actual_prosrc_sha256": "c8b38d21f09719285de688141f0cc8f8306ecb261d21b62423ea9242ed9239df",
+      "prepared_prosrc_sha256": "c8b38d21f09719285de688141f0cc8f8306ecb261d21b62423ea9242ed9239df",
+      "prepared_source_body_matches_actual": true,
+      "actual_metadata_excluding_definition": [
+        "postgres",
+        "plpgsql",
+        "f",
+        true,
+        false,
+        false,
+        false,
+        "v",
+        "u",
+        "100",
+        "0",
+        [
+          "search_path=\"\""
+        ],
+        [
+          "p_date",
+          "p_source_type",
+          "p_source_id",
+          "p_reason"
+        ],
+        null,
+        "p_date date, p_source_type text, p_source_id uuid, p_reason text",
+        "void",
+        "-",
+        [
+          [
+            "postgres",
+            "postgres",
+            "EXECUTE",
+            false
+          ]
+        ]
+      ]
+    },
+    {
+      "signature": "erp.sync_non_po_product_hpp_to_gl_v2620f(uuid,date,text,uuid,text)",
+      "all_four_actual_metadata_rows_exact": true,
+      "definition_bytes": 4197,
+      "definition_sha256": "5c7471588d902fbb721ee2634afb5fd551b6f57a524cc28085c04d2ae04fa47c",
+      "actual_prosrc_sha256": "4f487083e54b4a342b71f94d4c1005db0666cd050b661d1c67c8d259436e9e7b",
+      "prepared_prosrc_sha256": "4f487083e54b4a342b71f94d4c1005db0666cd050b661d1c67c8d259436e9e7b",
+      "prepared_source_body_matches_actual": true,
+      "actual_metadata_excluding_definition": [
+        "postgres",
+        "plpgsql",
+        "f",
+        true,
+        false,
+        false,
+        false,
+        "v",
+        "u",
+        "100",
+        "0",
+        [
+          "search_path=erp, public"
+        ],
+        [
+          "p_product_id",
+          "p_effective_date",
+          "p_trigger_source_type",
+          "p_trigger_source_id",
+          "p_reason"
+        ],
+        null,
+        "p_product_id uuid, p_effective_date date, p_trigger_source_type text, p_trigger_source_id uuid, p_reason text",
+        "void",
+        "-",
+        [
+          [
+            "postgres",
+            "postgres",
+            "EXECUTE",
+            false
+          ]
+        ]
+      ]
+    },
+    {
+      "signature": "cp7_credit.current_leaf_assignment(uuid)",
+      "all_four_actual_metadata_rows_exact": true,
+      "definition_bytes": 1675,
+      "definition_sha256": "007e9bc63b1f5f62ec9e89086d2c983e02fe7fd8630f092fa0d0d58cc4e836e9",
+      "actual_prosrc_sha256": "43a35442609edd4d79f283211799be496c2f31e89db3e999176c557d27078950",
+      "prepared_prosrc_sha256": "43a35442609edd4d79f283211799be496c2f31e89db3e999176c557d27078950",
+      "prepared_source_body_matches_actual": true,
+      "actual_metadata_excluding_definition": [
+        "postgres",
+        "plpgsql",
+        "f",
+        true,
+        false,
+        false,
+        true,
+        "s",
+        "u",
+        "100",
+        "1000",
+        [
+          "search_path=\"\""
+        ],
+        [
+          "p_sale",
+          "root_sale_id",
+          "current_leaf_id",
+          "customer_id",
+          "requested_status"
+        ],
+        [
+          "i",
+          "t",
+          "t",
+          "t",
+          "t"
+        ],
+        "p_sale uuid",
+        "TABLE(root_sale_id uuid, current_leaf_id uuid, customer_id uuid, requested_status text)",
+        "-",
+        [
+          [
+            "postgres",
+            "postgres",
+            "EXECUTE",
+            false
+          ]
+        ]
+      ]
+    },
+    {
+      "signature": "cp7_credit.consumer_dependency_graph_v1(uuid)",
+      "all_four_actual_metadata_rows_exact": true,
+      "definition_bytes": 3399,
+      "definition_sha256": "102beb1c6333524c5df837a746ff9deeb6a235d744efbd3177e2016decd7705c",
+      "actual_prosrc_sha256": "c51a3bc2a924aa24a61422348d7e32517a862502b831c54079d1f8f4b7c04796",
+      "prepared_prosrc_sha256": "c51a3bc2a924aa24a61422348d7e32517a862502b831c54079d1f8f4b7c04796",
+      "prepared_source_body_matches_actual": true,
+      "actual_metadata_excluding_definition": [
+        "postgres",
+        "plpgsql",
+        "f",
+        true,
+        false,
+        false,
+        false,
+        "s",
+        "u",
+        "100",
+        "0",
+        [
+          "search_path=\"\"",
+          "TimeZone=UTC"
+        ],
+        [
+          "p_sale"
+        ],
+        null,
+        "p_sale uuid",
+        "jsonb",
+        "-",
+        [
+          [
+            "postgres",
+            "postgres",
+            "EXECUTE",
+            false
+          ]
+        ]
+      ]
+    },
+    {
+      "signature": "cp7_credit.source_hpp_lot_ids_v1(uuid)",
+      "all_four_actual_metadata_rows_exact": true,
+      "definition_bytes": 547,
+      "definition_sha256": "6cc9514cadef5b0895e8d369162e19fb23a9e51d6ae975235330194876e76324",
+      "actual_prosrc_sha256": "2860a19234f397fb7bb2defe265072157cba2263572f44decb3b1db6da463b16",
+      "prepared_prosrc_sha256": "2860a19234f397fb7bb2defe265072157cba2263572f44decb3b1db6da463b16",
+      "prepared_source_body_matches_actual": true,
+      "actual_metadata_excluding_definition": [
+        "postgres",
+        "sql",
+        "f",
+        true,
+        false,
+        false,
+        false,
+        "s",
+        "u",
+        "100",
+        "0",
+        [
+          "search_path=\"\"",
+          "TimeZone=UTC"
+        ],
+        [
+          "p_sale"
+        ],
+        null,
+        "p_sale uuid",
+        "uuid[]",
+        "-",
+        [
+          [
+            "postgres",
+            "postgres",
+            "EXECUTE",
+            false
+          ]
+        ]
+      ]
+    },
+    {
+      "signature": "cp7_credit.initial_hpp_account_facts_v1()",
+      "all_four_actual_metadata_rows_exact": true,
+      "definition_bytes": 645,
+      "definition_sha256": "13a704737b515fc0c0f46a147a398cdb7fa61d68abfec6a56ba3b0429b8c1a45",
+      "actual_prosrc_sha256": "fc0a3e5ac9adb31e395934b5b8ae355369871651dcf3a2fca34d8674295773ba",
+      "prepared_prosrc_sha256": "fc0a3e5ac9adb31e395934b5b8ae355369871651dcf3a2fca34d8674295773ba",
+      "prepared_source_body_matches_actual": true,
+      "actual_metadata_excluding_definition": [
+        "postgres",
+        "sql",
+        "f",
+        true,
+        false,
+        false,
+        false,
+        "s",
+        "u",
+        "100",
+        "0",
+        [
+          "search_path=\"\"",
+          "TimeZone=UTC"
+        ],
+        null,
+        null,
+        "",
+        "jsonb",
+        "-",
+        [
+          [
+            "postgres",
+            "postgres",
+            "EXECUTE",
+            false
+          ]
+        ]
+      ]
+    },
+    {
+      "signature": "cp7_credit.source_first_nonpo_hpp_alignment_v1(jsonb)",
+      "all_four_actual_metadata_rows_exact": true,
+      "definition_bytes": 2407,
+      "definition_sha256": "cdd6aa7a224f38cb157e9a0785fb8f3257d5a31f98f071940664b90521e570fb",
+      "actual_prosrc_sha256": "a82fb111dd73ffbd9b56e9a9c1fb5c951684b33dcda6baee7566c467812e9804",
+      "prepared_prosrc_sha256": "a82fb111dd73ffbd9b56e9a9c1fb5c951684b33dcda6baee7566c467812e9804",
+      "prepared_source_body_matches_actual": true,
+      "actual_metadata_excluding_definition": [
+        "postgres",
+        "plpgsql",
+        "f",
+        true,
+        false,
+        false,
+        false,
+        "s",
+        "u",
+        "100",
+        "0",
+        [
+          "search_path=\"\"",
+          "TimeZone=UTC"
+        ],
+        [
+          "p_snapshot"
+        ],
+        null,
+        "p_snapshot jsonb",
+        "jsonb",
+        "-",
+        [
+          [
+            "postgres",
+            "postgres",
+            "EXECUTE",
+            false
+          ]
+        ]
+      ]
+    },
+    {
+      "signature": "cp7_credit.pg_jsonb_sha256(jsonb)",
+      "all_four_actual_metadata_rows_exact": true,
+      "definition_bytes": 218,
+      "definition_sha256": "79a2ae1536746436205630eaf57ed78396fe2b52abcfdff93e57d91591a7c45e",
+      "actual_prosrc_sha256": "c5d51abf3325c3c259308c2206676321e139b0bba4c53e83e9b01672e7414f1d",
+      "prepared_prosrc_sha256": "c5d51abf3325c3c259308c2206676321e139b0bba4c53e83e9b01672e7414f1d",
+      "prepared_source_body_matches_actual": true,
+      "actual_metadata_excluding_definition": [
+        "postgres",
+        "sql",
+        "f",
+        false,
+        false,
+        false,
+        false,
+        "i",
+        "u",
+        "100",
+        "0",
+        [
+          "search_path=\"\""
+        ],
+        [
+          "p"
+        ],
+        null,
+        "p jsonb",
+        "text",
+        "-",
+        [
+          [
+            "cp7_credit_write",
+            "postgres",
+            "EXECUTE",
+            false
+          ],
+          [
+            "postgres",
+            "postgres",
+            "EXECUTE",
+            false
+          ]
+        ]
+      ]
+    },
+    {
+      "signature": "erp.be_in_context_v1()",
+      "all_four_actual_metadata_rows_exact": true,
+      "definition_bytes": 284,
+      "definition_sha256": "e18b3e4ae90c0c91c8660599ef9f18132d46542ac599cd790367894143aa81cb",
+      "actual_prosrc_sha256": "0926d4cd0d695268e560a94043d16ea52d4c81f32473b4a4a3440237745d38a4",
+      "prepared_prosrc_sha256": "0926d4cd0d695268e560a94043d16ea52d4c81f32473b4a4a3440237745d38a4",
+      "prepared_source_body_matches_actual": true,
+      "actual_metadata_excluding_definition": [
+        "postgres",
+        "sql",
+        "f",
+        true,
+        false,
+        false,
+        false,
+        "s",
+        "u",
+        "100",
+        "0",
+        [
+          "search_path=\"\""
+        ],
+        null,
+        null,
+        "",
+        "boolean",
+        "-",
+        [
+          [
+            "postgres",
+            "postgres",
+            "EXECUTE",
+            false
+          ]
+        ]
+      ]
+    },
+    {
+      "signature": "erp.be_nonpo_in_sync_v1()",
+      "all_four_actual_metadata_rows_exact": true,
+      "definition_bytes": 309,
+      "definition_sha256": "3bf85c1b4084953348c9d35a55f968969c891789b237f8e96c8ec1a55084d6ea",
+      "actual_prosrc_sha256": "b97be444278280a1d9de33c864e35ab1a0cdd5d9004a021392ff0dc81ffd581a",
+      "prepared_prosrc_sha256": "b97be444278280a1d9de33c864e35ab1a0cdd5d9004a021392ff0dc81ffd581a",
+      "prepared_source_body_matches_actual": true,
+      "actual_metadata_excluding_definition": [
+        "postgres",
+        "sql",
+        "f",
+        true,
+        false,
+        false,
+        false,
+        "s",
+        "u",
+        "100",
+        "0",
+        [
+          "search_path=\"\""
+        ],
+        null,
+        null,
+        "",
+        "boolean",
+        "-",
+        [
+          [
+            "postgres",
+            "postgres",
+            "EXECUTE",
+            false
+          ]
+        ]
+      ]
+    }
+  ],
+  "require_internal_current_R4_05_context_tables": [
+    "cp7_attendance.command_context",
+    "cp7_credit.consumer_execution_context",
+    "cp7_material.execution_context",
+    "cp7_payroll.execution_context",
+    "cp7_payroll.settlement_context",
+    "cp7_procurement.execution_context",
+    "cp7_sales.command_context",
+    "cp7_supplier_return.execution_context",
+    "erp.bs_resolution_execution_context",
+    "erp.cp6_laundry_qc_execution_context",
+    "erp.cutting_bridge_execution_context"
+  ],
+  "require_internal_literal_function_names": [
+    "auth.jwt",
+    "auth.uid",
+    "cp7_credit.consumer_internal_allowed_v1",
+    "cp7_sales.command_allowed",
+    "erp._idempotency_actor_key",
+    "erp.current_app_role",
+    "erp.has_permission"
+  ],
+  "book_difference": "Exact current scalar SELECT account_id initplans for FG_INVENTORY,COGS,OTHER_EXPENSE,OTHER_INCOME; no monetary rounding/formula substitution authorized.",
+  "constraints": [
+    "Prepared7ce/14b stays closed and unchanged.",
+    "Do not restore/edit Native book or require_internal; no guard weakening, body mismatch whitelist or truth fallback.",
+    "Future runtime needs explicit exact actual metadata/prosrc profile and final composite binding; installed and lock qualification remain open."
+  ],
+  "before_any_profile_adaptation": true,
+  "source_edits": 0,
+  "DB": 0,
+  "Native": 0,
+  "network": 0,
+  "production_go": false,
+  "independent_acceptance": false,
+  "external_audit": false
+}

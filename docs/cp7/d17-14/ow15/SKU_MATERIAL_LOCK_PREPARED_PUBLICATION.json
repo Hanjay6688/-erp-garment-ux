@@ -1,0 +1,52 @@
+{
+  "public_head": "f3d014648d12279dfa89ca8593f25585430a5efe",
+  "tree": "b1c316d6e853805f933a6665a81edf9332d12a36",
+  "parent": "e8f878f2ecaaf24368a0ce1a3393bc29c0b886f6",
+  "local_head": "7eb2b1bbff879ca36e2ce278331e2b8bf616c050",
+  "repository": "Hanjay6688/-erp-garment-ux",
+  "branch": "astra-a/sku-material-lock-prepared-20261030",
+  "paths": 22,
+  "existing_SQL_hunks": 1,
+  "added_namespace_paths": 21,
+  "API_tree_equal_before_commit_ref": true,
+  "GET_commit_tree_parent_and_ref_exact": true,
+  "blobs": [
+    {
+      "path": "scripts/current-sku-recovery-material-lock/evidence/LOCAL_SQL_FIRST.log.gz",
+      "sha": "f8d7a874d4e29230ff1019adfd54b60eb417492d",
+      "bytes": 5140
+    },
+    {
+      "path": "scripts/current-sku-recovery-material-lock/evidence/LOCAL_SQL_SECOND.log.gz",
+      "sha": "2158ccc8d0c5a10baa19bf3bfbfcf83b28feda4f",
+      "bytes": 19761
+    },
+    {
+      "path": "scripts/current-sku-recovery-material-lock/evidence/SOURCE_CONTROLS_FIRST.log.gz",
+      "sha": "e437765afda7c027447e5f65c7ea6fbf283b9ac3",
+      "bytes": 2526
+    }
+  ],
+  "Source": {
+    "files": 20,
+    "bytes": 5848,
+    "sha256": "df1278bd775a0666b408959930d2a5c018655ffc62ee242aac3d8048ab0b7586",
+    "all_Git_pins_exact": true,
+    "old43_preserved_with_exact_one_SQL_transition": true
+  },
+  "internal_counter": {
+    "path": "evidence-private/sku-material-row-lock-internal-counter/COUNTER_RECEIPT.json",
+    "bytes": 17067,
+    "sha256": "a73d8a35c2a88b587929686e772f355fc24e427838637305f5487a748eb04b0d"
+  },
+  "prepared_only": true,
+  "Native_financial": 0,
+  "real_two_session": 0,
+  "captures": 8,
+  "private_functions": 19,
+  "private_tables": 5,
+  "old_callbacks": 23,
+  "actual27_pending": true,
+  "production_go": false,
+  "independent_acceptance": false
+}

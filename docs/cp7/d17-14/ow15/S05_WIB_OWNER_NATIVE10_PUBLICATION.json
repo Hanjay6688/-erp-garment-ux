@@ -1,0 +1,81 @@
+{
+  "public_head": "c933dbe30b41cd653ff9f02ccbfdb7be5010d567",
+  "tree": "f56864280e64936edbbf864cea5667489b3e2974",
+  "parent": "52eedc88e9aa2cd7470894c1f38ff9eb22f9cc60",
+  "local_head": "a19b618d7ac1cbf51d61929607aa3cf4812608f7",
+  "repository": "Hanjay6688/-erp-garment-ux",
+  "branch": "astra-a/s05-wib-owner-fixture-successor-20261030",
+  "paths": 43,
+  "all_added": true,
+  "API_tree_equal_before_commit_ref": true,
+  "GET_commit_tree_parent_and_ref_exact": true,
+  "blobs": [
+    {
+      "path": "scripts/current-s05-wib-owner-fixture-successor-qualification/evidence/S05_52EED_LATER_REFERENCE.zip",
+      "sha": "dd06f738c56b74deabd8163d7d9c68a1ce2ee92e",
+      "bytes": 1620996
+    },
+    {
+      "path": "scripts/current-s05-wib-owner-fixture-successor-qualification/evidence/S05_52EED_P0_REFERENCE.zip",
+      "sha": "c79c7a5eefb7ab7c414deba89a007a99b8a3077f",
+      "bytes": 51964
+    },
+    {
+      "path": "scripts/current-s05-wib-owner-fixture-successor-qualification/retained-52eed/CP7_S05_ACCESSORY_STANDARD_NATIVE10.json.gz",
+      "sha": "ae8a691a914ee6747389892087bb1304f8448938",
+      "bytes": 411668
+    },
+    {
+      "path": "scripts/current-s05-wib-owner-fixture-successor-qualification/retained-52eed/CP7_S05_ACCESSORY_STANDARD_NATIVE10_CASES.json.gz",
+      "sha": "ab4aad6aa3c84a3dc8c640b8c6a6ca8c67cdaefc",
+      "bytes": 11879
+    },
+    {
+      "path": "scripts/current-s05-wib-owner-fixture-successor-qualification/retained-52eed/ORIGINAL.zip",
+      "sha": "b1a3bcd3438ecdf8d834960400497127ce873ef6",
+      "bytes": 2104864
+    },
+    {
+      "path": "scripts/current-s05-wib-owner-fixture-successor-qualification/retained-52eed/T3_BACKUP_RESTORE_DRILL.json.gz",
+      "sha": "2f551cca6b0634f64cc23d90f3133f49fed94ccf",
+      "bytes": 646
+    },
+    {
+      "path": "scripts/current-s05-wib-owner-fixture-successor-qualification/retained-52eed/T3_PACKAGE_FILES_INSTALL.json.gz",
+      "sha": "64d22046a49d6c28c30c5088714f77d087217a7e",
+      "bytes": 255
+    },
+    {
+      "path": "scripts/current-s05-wib-owner-fixture-successor-qualification/retained-52eed/T3_PACKAGE_INSTALL.json.gz",
+      "sha": "6a7e2ee63adb7ad79d1d6eec1325a9f880d8554f",
+      "bytes": 11410
+    }
+  ],
+  "Source": {
+    "files": 43,
+    "bytes": 10966,
+    "sha256": "f965d5c18354f856747df4d2ca792d6963addafaa03e8b62e506e7cbe87be619",
+    "all_Git_pins_exact": true,
+    "frozen242_untouched": true
+  },
+  "original_case_body_substitutions": 0,
+  "private_case_scope_wrappers": 2,
+  "private_dependency_bindings": [
+    "fixture",
+    "issue_note"
+  ],
+  "product_Native_parser_Owner_BOM_FIFO_oracle_changes": 0,
+  "internal_counter": {
+    "path": "evidence-private/s05-wib-owner-a19-readonly-counter/FINAL_INTERNAL_COUNTER.json",
+    "bytes": 4903,
+    "sha256": "1d1f176e51ca4bd644b2a30c2201568ccd9418f185b24906c9a9ae9dfd643563"
+  },
+  "local_Python_controls": 44,
+  "local_SQL_model_controls": 11,
+  "wholecaller_controls": 6,
+  "wholecaller_matrix_sha256": "1a321035048ced88154fdd7230c65f0bc1d60aaef7033728152ef3c4b4524657",
+  "Native_at_publication": 0,
+  "fresh10_plus_committed_used_fullouter5_required": true,
+  "production_go": false,
+  "independent_acceptance": false
+}

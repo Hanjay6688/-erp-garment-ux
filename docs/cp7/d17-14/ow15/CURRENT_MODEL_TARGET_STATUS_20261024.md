@@ -1,3 +1,44 @@
+## A / 30 Oktober 2026 — E17 dan S03 terverifikasi; S05 diuji, SKU menunggu pemeriksaan sumber akhir
+
+E17 publik928246e5/run40980265302 terverifikasi17/17 Native. Kredit80 benar-benar
+tercatat pada witness terpisah; guard pemakaian menolak sebelum DDL. Uang, sumber,
+riwayat, HPP/fisik, seluruh katalog22, data, sequence, peran, ACL publik, CP6 dan
+advisor pulih; lima gate true, Auth0→0. Source361 serta21 leaf runtime E/D1/vendor
+cocok Git. Dua kegagalan lama selesai tanpa mengubah17 callback. Ini kualifikasi
+komponen E1; D1 sesudah E, global gabungan, Auth/browser dan full D/E belum tutup.
+Bukti `../ow08/e17-928-phase-native17-qualified/`.
+
+S03 publik3c0c5def/run40983410165 terverifikasi11+3 Native dengan Source475,
+15 capture aktual dan2 clone. HPP120→1120.03→120; dari1000.03 biaya, FG bertambah
+600.02, COGS400.01, WIP0. Semua16 field fisik serta SALE tetap; hanya cache HPP
+Native yang berubah. Tiga versi HPP,27 komponen dan jurnal alokasi bertahan setelah
+cancel, disertai inverse sah. P2 memakai worker yang sama dan tarif20.02; sumberP1
+utuh, periode dibuka lewat Owner setelah penolakan yang sah. ALLOCATE100003 dan
+used guard/fullouter/lima gate lulus. Sequence positif grup tetap tercatat, tidak
+direset; ALLsequence pulih melalui fullouter. Bukti dan enam raw asli terikat di
+`../ow08/s03-3c0-lawful-native14-qualified/`; arsip utuh disimpan lengkap.
+Browser4 dan tengah malam1 kini boleh diikat ke hasil14 ini, belum punya kredit.
+
+S05 pengganti publikc933dbe3/run40988087747/job123843711657 sedang menguji ulang
+seluruh10 dengan witness/pemulihan penuh. Source43 tambahan dan242 lama,44 kontrol
+Python,11 model SQL serta6 wholecaller terverifikasi. Parser Native dan proteksi
+Owner terakhir tetap; dua fixture terbatas berubah, seluruh10 callback fisik utuh.
+Tidak menjumlahkan8 lulus lama dengan hasil baru.
+
+SKU produk final prepared publikf3d01464 menutup celah baris bahanNONE lewat
+NOWAIT satu baris sebelum efek. Perhitungan Native/FIFO serta wait MOVING lama
+utuh. Native27 sumber42f61861 mempertahankan23 kasus lama +4 baru; static source
+lulus. Percobaan negatif symlink yang hilang di tengah baca dinyatakan tidak sah,
+sebab belum diketahui; pengulangan di root unik dan Git asli masih diselesaikan.
+Tidak ada waiver atau kelulusan Native baru dari pemeriksaan lokal.
+
+Snapshot gabungan sumber publikc9613859 memuat51 leaf asli, tanpa mengubah
+pemasang bawaan. Adapter parent yang tertutup sedang dibuat. Inspector global
+publik14b6490e masih source-only; dua profil body Native lama belum cocok katalog
+aktual dan diperbarui sebagai transisi sumber tersendiri. Native tidak diubah.
+Delapan hook, profil lock dan uji SKU→D1/E gabungan tetap terbuka. Formal5/16,
+production_go=false, independent_acceptance=false. Pekerjaan berlanjut.
+
 ## A / 30 Oktober 2026 — E17 dan S03 diuji ulang; dua kegagalan S05 sudah dilacak
 
 E17 publik928246e5/run40980265302 dan S03 publik3c0c5def/run40983410165

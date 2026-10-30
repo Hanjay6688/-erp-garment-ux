@@ -1,0 +1,40 @@
+{
+  "public_head": "c9613859c4e82f347c8cacfa1f874dbf73361cee",
+  "tree": "6ff056ae9a5e2a6ed6a5ed5e0fdbb3d7685115c2",
+  "parent": "3fdbffe3f41da6dc1004d2179ac1fe81fe05b609",
+  "local_head": "ae25039ba320ff9d0362157bfbd1d6a5bac4cd5f",
+  "repository": "Hanjay6688/-erp-garment-ux",
+  "branch": "astra-a/final-composition-source-snapshot-prepared-20261030",
+  "paths": 57,
+  "all_added": true,
+  "original_selected_runtime_bootstrap_dependency_leaves": 51,
+  "all51_byte_exact_named_public_origins": true,
+  "own_snapshot_namespace_files": 6,
+  "API_tree_equal_before_commit_ref": true,
+  "GET_commit_tree_parent_and_ref_exact": true,
+  "blobs": [
+    {
+      "path": "scripts/current-final-composition-source-snapshot/PLAN.json",
+      "sha": "1bf8d2e42ad03c9bd5593fb31854d005e88795a3",
+      "bytes": 191311
+    }
+  ],
+  "Source": {
+    "files": 56,
+    "bytes": 10874,
+    "sha256": "4ac8631b17402ca679f74a72844780b9df4f016c6e1149cebdff9ce97d179749",
+    "all_Git_pins_exact": true
+  },
+  "source_controls": 7,
+  "application_and_contract_typecheck": "PASS",
+  "parent_adapters_changed": false,
+  "global8_hooks_changed": false,
+  "App_menu_registries_changed": false,
+  "default_installer_changed": false,
+  "runtime_entry": null,
+  "accepted_component_bindings": null,
+  "global_parent_binding": null,
+  "actual_Native_Auth_HTTP_browser_races": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

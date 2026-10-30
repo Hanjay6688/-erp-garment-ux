@@ -1,0 +1,94 @@
+{
+  "public_head": "e09c6512932de81777e661275d18bb232b2d2ee3",
+  "tree": "8f18cef07f0939093c0ddc488ef9d7af66b56ae6",
+  "parent": "cbb2099271524536404e2aef7a9f5a7fe9ab3533",
+  "local_head": "13686b666e82a977620883d84d236711d3fe270a",
+  "repository": "Hanjay6688/-erp-garment-ux",
+  "branch": "astra-a/s03-browser4-lawful-prepared-20261030",
+  "paths": 67,
+  "all_added": true,
+  "API_tree_equal_before_commit_ref": true,
+  "GET_commit_tree_parent_and_ref_exact": true,
+  "blobs": [
+    {
+      "path": "scripts/current-attendance-choice-browser4-lawful-successor/SOURCE.json",
+      "sha": "074bf7152d58957c47f54c8f3c31213b8e34ade5",
+      "bytes": 456423
+    },
+    {
+      "path": "scripts/current-attendance-choice-browser4-lawful-successor/evidence/retained-9ac-failure/CP7_S03_ATTENDANCE_CHOICE_NATIVE11_CASES.json.gz",
+      "sha": "a0c074aa73a40bddfb3261389c41706a24d4d00a",
+      "bytes": 4349
+    },
+    {
+      "path": "scripts/current-attendance-choice-browser4-lawful-successor/evidence/retained-9ac-failure/CP7_S03_ATTENDANCE_CHOICE_NATIVE14.json.gz",
+      "sha": "a58d848498d165885dcede9f96d3ee8d4dd7d0d5",
+      "bytes": 2429899
+    },
+    {
+      "path": "scripts/current-attendance-choice-browser4-lawful-successor/evidence/retained-local/CLOSED_AFTER_COUNTER-1793320944576311513.log.gz",
+      "sha": "5016298e4b15977a9bcd7b7509fd16bae37ffeaa",
+      "bytes": 403
+    },
+    {
+      "path": "scripts/current-attendance-choice-browser4-lawful-successor/evidence/retained-local/CLOSED_BEFORE_ERP-1793320053531770229.log.gz",
+      "sha": "a8f40eb6604d05a804eeb3477f3f105e37b83aba",
+      "bytes": 402
+    },
+    {
+      "path": "scripts/current-attendance-choice-browser4-lawful-successor/evidence/retained-local/FINAL11_NODE-1793320053531157709.log.gz",
+      "sha": "d342d951b78ea5d3073bac36687d8aa227411856",
+      "bytes": 729
+    },
+    {
+      "path": "scripts/current-attendance-choice-browser4-lawful-successor/evidence/retained-local/FINAL12_POST_CANCEL_NODE-1793320944575569801.log.gz",
+      "sha": "f5d77f039e1015bbf311105c216fd4ff6536ed9e",
+      "bytes": 778
+    },
+    {
+      "path": "scripts/current-attendance-choice-browser4-lawful-successor/evidence/retained-local/FINAL43_PYTHON-1793320053529644652.log.gz",
+      "sha": "b1adc54bfd1a2d23c4a9fcaa006d57db7219b9aa",
+      "bytes": 1666
+    },
+    {
+      "path": "scripts/current-attendance-choice-browser4-lawful-successor/evidence/retained-local/FINAL44_POST_CANCEL_PYTHON-1793320944574724610.log.gz",
+      "sha": "1e794c9fad99a42f4f62c3dd3e55614edc9b1723",
+      "bytes": 1694
+    },
+    {
+      "path": "scripts/current-attendance-choice-browser4-lawful-successor/evidence/retained-local/FINAL_FROZEN_SOURCE_1793320300717582733.json.gz",
+      "sha": "6412a4370e0585f806b36c9fc14e6e8b8fe289f8",
+      "bytes": 330
+    },
+    {
+      "path": "scripts/current-attendance-choice-browser4-lawful-successor/evidence/retained-local/FIRST_SOURCE_CONTROLS-1793319607489117324.log.gz",
+      "sha": "4786fa74a9e1b0cd7996d7b7bab00d4fc3dba74e",
+      "bytes": 1634
+    },
+    {
+      "path": "scripts/current-attendance-choice-browser4-lawful-successor/evidence/retained-local/PRE_CANCEL_SNAPSHOT_FIRST_NEGATIVE-1793320471343716676.log.gz",
+      "sha": "ee6f6a6717f57ecc6ba9ab291e55201dbec78e78",
+      "bytes": 386
+    },
+    {
+      "path": "scripts/current-attendance-choice-browser4-lawful-successor/retained-source-metadata/PREPARED_NATIVE14_SOURCE.json",
+      "sha": "06d63651cedd245738dea85435d9bd4d0a6c3ece",
+      "bytes": 130653
+    }
+  ],
+  "Source": {
+    "files": 2016,
+    "bytes": 456423,
+    "sha256": "bbd4fe5603e5365b16277662bd2131868b2d6874ebe6da02065bb4d276ecd4e7",
+    "all_Git_pins_exact": true
+  },
+  "prepared_only": true,
+  "actual_execution_authorized": false,
+  "backend_binding": null,
+  "accepted_originals": null,
+  "Native": 0,
+  "Auth_HTTP": 0,
+  "browser": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

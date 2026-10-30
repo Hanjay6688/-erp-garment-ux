@@ -1,0 +1,335 @@
+{
+  "contract": "internal.global-nonpo-7ce.readonly-source-counter.v1",
+  "created_utc": "2026-10-30T01:11:17.254048+00:00",
+  "classification": "INTERNAL_SOURCE_COUNTER_NOT_EXTERNAL_AUDIT_NOT_NATIVE_OR_LOCK_QUALIFICATION",
+  "status": "NO_PREPARED_SOURCE_BLOCKER_FOUND_WITHIN_DECLARED_INSPECTOR_SCOPE",
+  "pin": {
+    "head": "7ce217a735daa88994a78c6d68bac5e4f6b79d20",
+    "tree": "6048f949cc7e0aed03ac8573fae942183433253b",
+    "base": "cde78b2cc82e0a286174098458dab9815fdfd072",
+    "base_tree": "915103541d247f544c4492db25953b4268d9c2e3",
+    "Source": {
+      "path": "scripts/current-global-nonpo-native-graph-qualification/SOURCE.json",
+      "bytes": 47198,
+      "sha256": "e62ffc26fc26a457d4123e444d1bc31af88fa506a4e88a4c1e34cc78d035ae1b"
+    }
+  },
+  "INITIAL_LOCKED_ASSESSMENT": {
+    "locked_before_any_reviewer_model_or_counter": true,
+    "channel": "collaboration.send_message to /root after immutable source read and before executing pure source_contract",
+    "pin": "7ce217a735daa88994a78c6d68bac5e4f6b79d20",
+    "scenarios": [
+      {
+        "expected": "Finite typed history-complete R/support/O closure; Native G domains remain separate; no account/category hubs.",
+        "observed": "scope.sql15-105 uses recursive UNION on kind+UUID pairs, bidirectional documentary/reversal edges and separate Native G predicates."
+      },
+      {
+        "expected": "Account-only MATERIAL_ADJUSTMENT/h.id journal with NULL product/PO must enter capture through actual adjustment identity.",
+        "observed": "scope.sql51 adds the exact typed source edge; capture selects all selected journal headers and siblings."
+      },
+      {
+        "expected": "Valid-state Native economic no-write observation must not imply full dispatcher purity or runtime admission.",
+        "observed": "inspect/source return runtime NULL, qualifiedfalse and Native0; no installer/workflow. Exact numeric/closure details were reviewed only after this initial lock."
+      }
+    ]
+  },
+  "scope_proof": {
+    "unchanged_base_files": 13672,
+    "all_base_Git_blobs_and_modes_exact": true,
+    "new_paths": 76,
+    "only_two_owned_prefixes": true,
+    "Source_files": 140,
+    "all_Source_hash_bytes_modes_exact": true,
+    "frozen_parent_files": 65,
+    "all_frozen_parent_bytes_equal_cde78": true,
+    "new_workflows": 0,
+    "new_public_RPC": 0,
+    "new_roles": 0,
+    "financial_product_or_existing_global_guard_changes": 0
+  },
+  "findings": [
+    {
+      "id": "FINITE_IDENTITY_CLOSURE",
+      "status": "NO_BLOCKER_FOUND",
+      "expected": "Finite history-complete typed source-declared closure with no late support identity outside the partition.",
+      "observed": "Forward/reverse edges range over finite current identity facts; recursive UNION deduplicates kind+UUID nodes and terminates even with cycles. R closes all consumer sale graph seeds; support closes R plus every Native NonPO product; O is support EXCEPT R. An edge from R cannot reach O within this declared graph. Documentary identities and reversal history ignore historical status. Accounts/materials/categories/parties are not graph hubs.",
+      "sources": [
+        "scripts/cp7_global_nonpo_native_graph_adapter/scope.sql:15-85",
+        "scripts/cp7_global_nonpo_native_graph_adapter/scope.sql:90-105",
+        "scripts/current-global-nonpo-native-graph-qualification/retained/Current_parent_readers.sql:27-84"
+      ]
+    },
+    {
+      "id": "NATIVE_G_DOMAINS",
+      "status": "NO_BLOCKER_FOUND",
+      "expected": "Retain actual Native visit predicates separately from broader identity support.",
+      "observed": "All NonPO lots, propagation lock lots excluding VOIDED_PRODUCTION, all-product sync, POSTED source transfer allocations and BE-source guard IDs retain their separate Native predicates. Propagation retains root/path/depth<128/POSTED destination/order. Missing/null/nonfinite/ambiguous current-HPP cases are conservative refusals, not a claim of exact equivalence to every Native skip/join on corrupt data.",
+      "sources": [
+        "scripts/cp7_global_nonpo_native_graph_adapter/scope.sql:60-65,94-102",
+        "scripts/cp7_global_nonpo_native_graph_adapter/inspect.sql:23-90",
+        "scripts/current-global-nonpo-native-graph-qualification/retained/Native_authority.sql:197-349"
+      ]
+    },
+    {
+      "id": "MATERIAL_ADJUSTMENT_JOURNAL_EDGE_AND_CAPTURE",
+      "status": "NO_BLOCKER_FOUND",
+      "expected": "Bind the original account-only Native adjustment journal without inventing a header pointer.",
+      "observed": "The only runtime SQL hunk versus923 adds JOURNAL(source_type=MATERIAL_ADJUSTMENT,source_id) to ADJUSTMENT identity, without status or line-dimension filters. Existing reversal and product/PO sibling edges close before R/O exclusion. Frozen capture selects complete journal headers and every sibling line from domain journal_ids. Retained actual602 full function/owner/ACL row exactly equals RCA container734abf6a and definitionde207556. Both value directions post MATERIAL_ADJUSTMENT,h.id with account-only lines; BC facade guarantees ADJUSTMENT link only. Header pointer absence is retained schema/source evidence, not current installed-catalog acceptance.",
+      "sources": [
+        "scripts/cp7_global_nonpo_native_graph_adapter/scope.sql:29-58",
+        "scripts/cp7_global_nonpo_native_graph_adapter/capture.sql:9-15,25-35,44-45",
+        "scripts/current-global-nonpo-native-graph-qualification/ADJUSTMENT_JOURNAL_SOURCE_PROOF.json",
+        "scripts/current-global-nonpo-native-graph-qualification/retained/Actual602_material_adjustment_source.json"
+      ]
+    },
+    {
+      "id": "ECONOMIC_NO_WRITE_NOT_DISPATCHER_PURITY",
+      "status": "NO_BLOCKER_FOUND",
+      "expected": "Keep exact valid-state economic no-write conditions and distinguish actual dispatcher effects.",
+      "observed": "Desired HPP is assigned numeric(18,6), current-count/finite checks apply and strict0.000001 Native threshold is retained. If every ordered visit is no-write, earlier visits leave later inputs unchanged: immediate fixed point by induction. Each transfer allocation uses Native rounded original value plus full conversion event sum and must individually have zero delta. Outside target/book equality uses frozen parent/Native per-lot rounding, statuses and admission. Actual dispatcher still performs context INSERT/UPDATE/DELETE; per-product sync initializes random UUID before early economic return. Inspector never calls these dispatchers, account dispatcher or require_internal.",
+      "sources": [
+        "scripts/cp7_global_nonpo_native_graph_adapter/inspect.sql:39-110",
+        "scripts/current-global-nonpo-native-graph-qualification/retained/Native_authority.sql:299-349,363-412",
+        "scripts/current-global-nonpo-native-graph-qualification/retained/Current_parent_readers.sql:94-120",
+        "scripts/cp7_global_nonpo_native_graph_adapter/source.py:51-68"
+      ]
+    },
+    {
+      "id": "CLOSED_SOURCE_CAPABILITY",
+      "status": "NO_BLOCKER_FOUND",
+      "expected": "No financial/guard/role/RPC/workflow/runtime or lock qualification.",
+      "observed": "Actual pure source_contract executed against immutable Git reads reports19 known source functions and4 private STABLE helpers; runtime/finalparent remain NULL, lockfalse and Native0. Direct runtime_entry raises CLOSED. CLI routing reaches that guard before ERP/DB import. Only76 new paths in the two prefixes; all13672 base files/modes unchanged. Source140 binds75 own inputs and65 frozen parent inputs. The checker explicitly does not admit the full workspace or unattributed outside files.",
+      "sources": [
+        "scripts/cp7_global_nonpo_native_graph_adapter/source.py:9-14,28-68",
+        "scripts/current-global-nonpo-native-graph-qualification/check.py:21-55",
+        "scripts/current-global-nonpo-native-graph-qualification/SOURCE.json",
+        "scripts/current-global-nonpo-native-graph-qualification/ORIGIN.json"
+      ]
+    }
+  ],
+  "reviewer_pure_executions": {
+    "source_contract_status": "EXACT_STANDALONE_READONLY_SOURCE_NOT_RUNTIME_ADMISSION",
+    "known_source_functions": 19,
+    "own_private_STABLE_functions": 4,
+    "required_final_parent": null,
+    "runtime_entry": null,
+    "writer_or_phantom_lock_closed": false,
+    "runtime_entry_observed": "EXPECTED_REFUSAL",
+    "runtime_entry_error": "CP7_GLOBAL_NONPO_RUNTIME_CLOSED_READONLY_INSPECTOR_ONLY",
+    "method": "Compile exact immutable source.py with read-only Git-backed Path byte reader; call source_contract and direct runtime_entry. No SQL engine or copied source."
+  },
+  "transition": {
+    "parent923": "923a9620d41f618fe72e9cd9181fcf7ddee3cf91",
+    "one_scope_SQL_edge_hunk_exact": true,
+    "capture_inspect_authority_source_and_authority_JSON_byteexact923": true,
+    "old33_identity18_fixedpoint4_model_bodies_seed_and_retained_sources_exact923": true,
+    "known_function_signatures": [
+      "erp.be_conversion_extra_v1(uuid)",
+      "erp.be_allocation_extra_v1(uuid)",
+      "erp.be_nonpo_admitted_v1(uuid)",
+      "erp.compute_non_po_product_hpp_targets_v2620f(uuid)",
+      "erp.compute_non_po_product_hpp_book_v2620f(uuid)",
+      "erp.account_id(text)",
+      "erp.require_internal()",
+      "erp.be_propagate_nonpo_v1()",
+      "erp.be_nonpo_prepare_transfers_v1(date)",
+      "erp.be_nonpo_sync_all_v1(date,text,uuid,text)",
+      "erp.sync_non_po_product_hpp_to_gl_v2620f(uuid,date,text,uuid,text)",
+      "cp7_credit.current_leaf_assignment(uuid)",
+      "cp7_credit.consumer_dependency_graph_v1(uuid)",
+      "cp7_credit.source_hpp_lot_ids_v1(uuid)",
+      "cp7_credit.initial_hpp_account_facts_v1()",
+      "cp7_credit.source_first_nonpo_hpp_alignment_v1(jsonb)",
+      "cp7_credit.pg_jsonb_sha256(jsonb)",
+      "erp.be_in_context_v1()",
+      "erp.be_nonpo_in_sync_v1()"
+    ]
+  },
+  "retained_author_models": {
+    "rerun_by_counter": false,
+    "actual_Native": 0,
+    "actual_DB_server": 0,
+    "original33": {
+      "PASS": 33,
+      "FAIL": 0,
+      "direct_before_after_pairs_verified": 31,
+      "receipt": {
+        "path": "scripts/current-global-nonpo-native-graph-qualification/evidence/ADJUSTMENT_REGRESSION33.json.gz",
+        "bytes": 6141,
+        "sha256": "2f097e6e4c9890f28c64d8b1d62d7b862da981d8646d51c360a6b1d768ad8824"
+      }
+    },
+    "identity18_fields162": {
+      "directed_PASS": 18,
+      "field_PASS": 162,
+      "FAIL": 0,
+      "direct_before_after_pairs_verified": 180,
+      "receipt": {
+        "path": "scripts/current-global-nonpo-native-graph-qualification/evidence/ADJUSTMENT_IDENTITY18_FIELDS162.json.gz",
+        "bytes": 19705,
+        "sha256": "254549c71c404e5c7ea45cf2638be04deb18261aab775146a9b12b1845a82c40"
+      }
+    },
+    "exact_Native_SELECT4": {
+      "PASS": 4,
+      "FAIL": 0,
+      "direct_before_after_pairs_verified": 4,
+      "receipt": {
+        "path": "scripts/current-global-nonpo-native-graph-qualification/evidence/ADJUSTMENT_NATIVE_SELECT4.json.gz",
+        "bytes": 3027,
+        "sha256": "77ee3ce6eefd096f08881ff4d2c08f16700833b0a16046aaacbc99cf0e6336b6"
+      }
+    },
+    "new_adjustment5_fields24": {
+      "directed_PASS": 5,
+      "field_PASS": 24,
+      "FAIL": 0,
+      "direct_before_after_pairs_verified": 29,
+      "receipt": {
+        "path": "scripts/current-global-nonpo-native-graph-qualification/evidence/ADJUSTMENT_NEW5_FIELDS24.json.gz",
+        "bytes": 4781,
+        "sha256": "bb66e8fe151c5dab01f8de37575f2d7ae017a81a6216348fe1f9c5150dbc64ba"
+      }
+    },
+    "source20_declared": true,
+    "loaded_SQL_pins_all_current_exact": true,
+    "actual602_function_full_catalogue_row_matches_retained_Original_RCA": true
+  },
+  "preserved_failures": [
+    {
+      "path": "scripts/current-global-nonpo-native-graph-qualification/evidence/ADJUSTMENT_FIRST_923_REPRO.json.gz",
+      "bytes": 2187,
+      "sha256": "b2820f1756f71ff446441e98351229a1dda03d919fe8c7b58ee1605da68f209b"
+    },
+    {
+      "path": "scripts/current-global-nonpo-native-graph-qualification/evidence/IDENTITY_CLOSURE_FIRST_4e263_REPRO.json.gz",
+      "bytes": 2135,
+      "sha256": "0bf5872ea47d37e9337e9dd3a90dee72de104a649e328c8042c76e38ef6aa4c7"
+    },
+    {
+      "path": "scripts/current-global-nonpo-native-graph-qualification/evidence/IDENTITY_SOURCE_FIRST_PARSER_FAILURE.log.gz",
+      "bytes": 1035,
+      "sha256": "859ec2404e10cf902547242d781a33f18d6789f9602b495686993b302c0480f6"
+    },
+    {
+      "path": "scripts/current-global-nonpo-native-graph-qualification/evidence/IDENTITY_SOURCE_SECOND_PARSER_FAILURE.log.gz",
+      "bytes": 1037,
+      "sha256": "433281b35934694589f600962df671165a89bbc771214187774166a14f041c06"
+    },
+    {
+      "path": "scripts/current-global-nonpo-native-graph-qualification/evidence/FIXED_POINT_FIRST_NUMERIC_ABI_FAILURE.json.gz",
+      "bytes": 2145,
+      "sha256": "4d5fffb000ddbd57196e39c80ae392ad6a0efb8964f058097db744bb0d36c2b5"
+    }
+  ],
+  "limits": [
+    "Final current installed composition, full table/trigger/FK/role/ACL and caller closure are unqualified; final parent/runtime remain NULL. Known source19/view and local catalogue models supply bounded source evidence only.",
+    "Finite capture covers its declared fact families and full selected journal siblings, not all business tables, all database rows/sequences or CP6 backup restore.",
+    "Typed models omit unused Native columns and full business/FK/RLS/trigger/role constraints; synthetic material_adjustments.amount is labelled. Corrupt structural mutations are not lawful Native financial transactions.",
+    "Writer census and LOCK_BLUEPRINT are finite plans. No lock protocol, writer/phantom concurrency, self-exclusion or authority/source freshness across waits is qualified.",
+    "Only economic HPP/transfer/outside-target no-write predicates are observed; genuine Native context DML, UUID initialization and owning authorization remain obligations.",
+    "The source checker is own immutable Git/pinned-input scope only. It explicitly declines full-workspace admission; no full-clean-workspace claim or source projection."
+  ],
+  "source_pins": [
+    {
+      "path": "scripts/cp7_global_nonpo_native_graph_adapter/source.py",
+      "bytes": 4146,
+      "sha256": "8721e15f942068de875292b75acb71635054a02aa5706686c8af5e002546c3ec"
+    },
+    {
+      "path": "scripts/cp7_global_nonpo_native_graph_adapter/authority.sql",
+      "bytes": 14536,
+      "sha256": "c87643d3dad13757bc2e510728550bc53878bce841d9f7da7abfd7179c67f882"
+    },
+    {
+      "path": "scripts/cp7_global_nonpo_native_graph_adapter/scope.sql",
+      "bytes": 10246,
+      "sha256": "c24434d8ab62fd7b92ba1dc0706ee1d35ac06864700cc3ceeec36cf90fad1575"
+    },
+    {
+      "path": "scripts/cp7_global_nonpo_native_graph_adapter/capture.sql",
+      "bytes": 8016,
+      "sha256": "90a03cbbd430f317c2e18c7e7f13743370e617756d2d2b1fe06179b2af3003cf"
+    },
+    {
+      "path": "scripts/cp7_global_nonpo_native_graph_adapter/inspect.sql",
+      "bytes": 9510,
+      "sha256": "8f9461ce31e9973969040ae16029241253eb2ce1e0fde9ebba160db32b6cd782"
+    },
+    {
+      "path": "scripts/cp7_global_nonpo_native_graph_adapter/AUTHORITY.json",
+      "bytes": 16759,
+      "sha256": "9f134ea218fc77ade25df9362ee491f7fdb5de005ea0723c8583bef1a3111c5a"
+    },
+    {
+      "path": "scripts/current-global-nonpo-native-graph-qualification/SOURCE.json",
+      "bytes": 47198,
+      "sha256": "e62ffc26fc26a457d4123e444d1bc31af88fa506a4e88a4c1e34cc78d035ae1b"
+    },
+    {
+      "path": "scripts/current-global-nonpo-native-graph-qualification/check.py",
+      "bytes": 3307,
+      "sha256": "2b1e943f9be4b79a942f1ce51d578a6132d1ce85f39a745f0678fa8be93bf80b"
+    },
+    {
+      "path": "scripts/current-global-nonpo-native-graph-qualification/ADJUSTMENT_JOURNAL_TRANSITION.json",
+      "bytes": 1719,
+      "sha256": "f62f05c8bf885fc8335cb075d3228efb2346cfe43963a9d979b5eb5184b2cf79"
+    },
+    {
+      "path": "scripts/current-global-nonpo-native-graph-qualification/ADJUSTMENT_JOURNAL_SOURCE_PROOF.json",
+      "bytes": 4711,
+      "sha256": "4ffc95b4a31f64e65aa4ac79539a1bb0918af03edca3b3d46ac9e310a9ded81b"
+    },
+    {
+      "path": "scripts/current-global-nonpo-native-graph-qualification/IDENTITY_CLOSURE_TRANSITION.json",
+      "bytes": 2125,
+      "sha256": "6559ccbb2475cffdfe17ad345d257a0df1e9ffef5cafe99006d7d1a817137c97"
+    },
+    {
+      "path": "scripts/current-global-nonpo-native-graph-qualification/retained/Actual602_material_adjustment_source.json",
+      "bytes": 7103,
+      "sha256": "0dccf94a13d1b573db6ee095c0aed984cb49d016a273783fd0af569f85804007"
+    },
+    {
+      "path": "scripts/current-global-nonpo-native-graph-qualification/retained/Native_authority.sql",
+      "bytes": 20677,
+      "sha256": "a144556789f7b2eade0e8a3cee7473136cb595991959f62bdba04564e69a51bc"
+    },
+    {
+      "path": "scripts/current-global-nonpo-native-graph-qualification/retained/Current_parent_readers.sql",
+      "bytes": 8693,
+      "sha256": "1f6b78e39074c30e31f79c416e6bc0f7b99515f712bf0e6ea4ea2c6b34a0a8a8"
+    },
+    {
+      "path": "scripts/current-global-nonpo-native-graph-qualification/README.md",
+      "bytes": 12414,
+      "sha256": "be32253fb11eb0b445551dd670ba41f3a3a549176492c605ea2756b58890bfa4"
+    },
+    {
+      "path": "scripts/current-global-nonpo-native-graph-qualification/evidence/ADJUSTMENT_LOCAL_CONTROLS_RECEIPT.json",
+      "bytes": 4037,
+      "sha256": "78154b502dbb78d7537b6c9f575596b8934bbbc6576e10787ae08c9003558c24"
+    }
+  ],
+  "blockers": [],
+  "reviewer_operations": {
+    "immutable_Git_and_retained_reads": true,
+    "source_edits": 0,
+    "DB_or_SQL_engine_executions": 0,
+    "Native": 0,
+    "network": 0,
+    "staging": 0,
+    "clones_tempworktrees_source_copies": 0,
+    "only_new_write": "This private internal counter receipt.",
+    "prior_S03_counter_untouched": true
+  },
+  "actual_Native_credit": 0,
+  "writer_or_phantom_lock_closed": false,
+  "required_final_composition_parent": null,
+  "runtime_entry": null,
+  "formal_progress": "5/16 unchanged",
+  "production_go": false,
+  "independent_acceptance": false,
+  "external_independent_audit": false
+}
