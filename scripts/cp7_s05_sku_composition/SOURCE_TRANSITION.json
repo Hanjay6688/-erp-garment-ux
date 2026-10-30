@@ -1,0 +1,36 @@
+{
+  "original_head": "def01e6441950027a2795536adf730b5d84363b7",
+  "original_path": "scripts/cp7_accessory_standard_report/stage.py",
+  "original_sha256": "c8ef2b9f092eca295f4dff1c9691173d9171ca485b6c8179f67700d98260095a",
+  "derived_sha256": "32fe6cc1db3112e601b780817bd7179943e4ba7e33da4ba90dd282cb310e6320",
+  "changes": [
+    {
+      "before": "Additive reader on the exact qualified vendor parent; no connection/commit.",
+      "after": "S05 reader on the actual SKU composition; no connection/commit.\n\nSource integration candidate only. The caller must admit the current SKU\nqualification and complete source before executing this additive installation.",
+      "count": 1
+    },
+    {
+      "before": "from cp7_vendor_receivable import composition",
+      "after": "from cp7_sku_pair_conversion import composition",
+      "count": 1
+    },
+    {
+      "before": "'cp7.accessory-standard-report.stage.v1'",
+      "after": "'cp7.s05-sku-normal-app.v1'",
+      "count": 1
+    },
+    {
+      "before": "'VENDOR_RECEIVABLE_EXACT_SOURCE_AND_ALL22'",
+      "after": "'SKU_PAIR_CONVERSION_EXACT_SOURCE_AND_ALL22'",
+      "count": 1
+    },
+    {
+      "before": "(HERE/'report.sql')",
+      "after": "(ROOT/'scripts/cp7_accessory_standard_report/report.sql')",
+      "count": 2
+    }
+  ],
+  "byte_exact_reversible": true,
+  "all_installer_grant_census_data_sequence_and_inverse_checks_retained": true,
+  "actual_runtime_cases": 0
+}

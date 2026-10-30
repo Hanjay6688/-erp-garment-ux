@@ -1,0 +1,3 @@
+.asw-tabs { display: flex; flex-wrap: wrap; gap: .65rem; }
+.asw-tabs button { max-width: 100%; white-space: normal; }
+.asw-tabs button[aria-pressed="true"] { background: #263e46; color: #fff; border-color: #638c95; }

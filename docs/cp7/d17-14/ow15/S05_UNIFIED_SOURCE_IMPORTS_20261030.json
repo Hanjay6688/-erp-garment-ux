@@ -1,0 +1,62 @@
+{
+  "base": "8a08024fda704162481e3123efa5fa7fbfc5663d",
+  "UI_source": "def01e6441950027a2795536adf730b5d84363b7",
+  "files": {
+    "src/AccessoryStandardReport.dom.test.tsx": {
+      "bytes": 9290,
+      "sha256": "83746323aa3142f24a89619cd19bb74fcd2638517358b9b62366643ede7b891e"
+    },
+    "src/ConnectedAccessoryStandardReportPage.tsx": {
+      "bytes": 15355,
+      "sha256": "7ea45bfe0276eca864e67ae0dc0cacd3d9a114436533e6df5923d68cf63d4fab"
+    },
+    "src/accessory-standard-report.css": {
+      "bytes": 1925,
+      "sha256": "a9d62618178521d25fa392e6497e24ebc1e8146277b9cda33a9d76e7ea76d16a"
+    },
+    "src/accessoryStandardReport.test.ts": {
+      "bytes": 8493,
+      "sha256": "bc8513e1e33c009b77d15133e988447e02319206d1160c4245a349a6b6699c02"
+    },
+    "src/accessoryStandardReport.ts": {
+      "bytes": 21493,
+      "sha256": "8cafbfe6747c6e0604edd8ed146fac0ec7265c35a782ca3563e114c99b32240b"
+    },
+    "tests/fixtures/accessoryStandardReport.ts": {
+      "bytes": 4928,
+      "sha256": "2013b59a6a93c9b5855f5ca54374f05bc0810c927dc64fc09512fd5af8ccc2b8"
+    },
+    "scripts/cp7_accessory_standard_report/README.md": {
+      "bytes": 12288,
+      "sha256": "0603134bc85ad0c4f60d8e7db35e447b89ddb0a6177784f9cb82932423862137"
+    },
+    "scripts/cp7_accessory_standard_report/SOURCE.json": {
+      "bytes": 7147,
+      "sha256": "63530f5c713a121f2bde3f63380113bc38e7e1e0fc148727e12ef9d0fea20e33"
+    },
+    "scripts/cp7_accessory_standard_report/__init__.py": {
+      "bytes": 90,
+      "sha256": "e1635547d97e5ffa944392fccbce74ec1eb88160d552d84b26781cdae531194a"
+    },
+    "scripts/cp7_accessory_standard_report/cases.py": {
+      "bytes": 19581,
+      "sha256": "e025be1280630dfb89f62261163194ce072b6f6ad6d909b56ff6c82f75778e98"
+    },
+    "scripts/cp7_accessory_standard_report/preflight.py": {
+      "bytes": 5440,
+      "sha256": "986f077c9430713c7735e4d63f8ffac22973aaadf8fd963a3d8dfaf1401833fd"
+    },
+    "scripts/cp7_accessory_standard_report/report.sql": {
+      "bytes": 23024,
+      "sha256": "216f34d1225171543a743d272a2a9a15aeeda50658a32b53b0ea7ccc64b3702a"
+    },
+    "scripts/cp7_accessory_standard_report/stage.py": {
+      "bytes": 13018,
+      "sha256": "c8ef2b9f092eca295f4dff1c9691173d9171ca485b6c8179f67700d98260095a"
+    }
+  },
+  "actual_SKU27_qualification_pending": true,
+  "actual_S05_current_parent_installation_pending": true,
+  "production_go": false,
+  "independent_acceptance": false
+}
