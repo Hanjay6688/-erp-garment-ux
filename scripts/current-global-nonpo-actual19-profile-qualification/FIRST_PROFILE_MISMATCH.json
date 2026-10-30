@@ -1,0 +1,39 @@
+{
+  "classification": "FIRST_OLD_PROFILE_VERSUS_ACTUAL_SOURCE_MISMATCH",
+  "old_source_base": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+  "unchanged_body_count": 17,
+  "mismatches": {
+    "erp.compute_non_po_product_hpp_book_v2620f(uuid)": {
+      "original_prosrc_sha256": "16b189ae50325680a6827d4542979d2a3d8fdc5c42c169546d7437c7f348754f",
+      "actual_prosrc_sha256": "35044776219a6916aad2b770ca3a89322c51319004fd9429ab19d611459b0160",
+      "actual_definition_sha256": "1647164dc565d08a010b182c3c08b1d729b00d588fc7a6e43774f8672c9c6ea5"
+    },
+    "erp.require_internal()": {
+      "original_prosrc_sha256": "69a908818fa707014f4193ceb0154d9ff55e58ff4ce5795b2c91bc841b9dfc58",
+      "actual_prosrc_sha256": "8a4b211d989a7837d53699f1d23c60e5d9febe2fe8c8a7737cc68bca2c1dc0b0",
+      "actual_definition_sha256": "b58efa7f7637ad3dd8262b233de4e12a65b9398188d7b78e9096497d551a3666"
+    }
+  },
+  "observations": [
+    {
+      "path": "committed.S03_MIDNIGHT_NATIVE1_AND_UNCHANGED_USED_WITNESS.actual_installed_capture.actual_all22",
+      "function_count": 2870,
+      "selected19_sha256": "bb8c2d01c518ced1c4a82220c5c6f161902a13d323679decf42af020f24ee361",
+      "view13_sha256": "bb9b3c2feaa2cc14278a47521387381f5683d3ac8bbb965322a71ef1aa48476f"
+    },
+    {
+      "path": "committed.S03_MIDNIGHT_NATIVE1_AND_UNCHANGED_USED_WITNESS.used_inverse_refusal_before.actual_all22",
+      "function_count": 2870,
+      "selected19_sha256": "bb8c2d01c518ced1c4a82220c5c6f161902a13d323679decf42af020f24ee361",
+      "view13_sha256": "bb9b3c2feaa2cc14278a47521387381f5683d3ac8bbb965322a71ef1aa48476f"
+    },
+    {
+      "path": "committed.S03_MIDNIGHT_NATIVE1_AND_UNCHANGED_USED_WITNESS.used_inverse_refusal_after.actual_all22",
+      "function_count": 2870,
+      "selected19_sha256": "bb8c2d01c518ced1c4a82220c5c6f161902a13d323679decf42af020f24ee361",
+      "view13_sha256": "bb9b3c2feaa2cc14278a47521387381f5683d3ac8bbb965322a71ef1aa48476f"
+    }
+  ],
+  "financial_Native_source_changed": false,
+  "actual_Native_credit": 0
+}

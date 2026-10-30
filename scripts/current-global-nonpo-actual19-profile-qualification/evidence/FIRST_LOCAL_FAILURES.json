@@ -1,0 +1,11 @@
+{
+  "classification": "LOCAL_GENERATOR_DIAGNOSTIC_NOT_NATIVE_FAILURE",
+  "sqlstate": "42601",
+  "message": "syntax error at or near CREATE",
+  "cause": "pg_get_functiondef omits statement semicolon; source parser retained the following newline",
+  "original_generated_two_file_sha256": "390a3c37fba278116eb3101a3359fdde31ef3e5dd6ab4f732a57dc854a398315",
+  "original_stderr_sha256": "5f29fc1cb1be896a0d3c3195536227d4c599bf5f1b9d5afc8e684f1c6da3cb5e",
+  "repair": "add only an executable statement terminator outside each captured function body",
+  "captured_raw_catalog_changed": false,
+  "actual_Native_credit": 0
+}

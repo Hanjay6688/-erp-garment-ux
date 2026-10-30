@@ -70,10 +70,10 @@
       "return_type": "record"
     },
     "erp.compute_non_po_product_hpp_book_v2620f(uuid)": {
-      "source_kind": "EXACT_TRACKED_BE_RELEASE_SOURCE_NOT_ACTUAL_RUNTIME_CAPTURE",
-      "source": "supabase/release/cp6-t3/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql",
-      "prosrc_sha256": "16b189ae50325680a6827d4542979d2a3d8fdc5c42c169546d7437c7f348754f",
-      "source_function_sha256": "bb6e97dd6cad7400b6483b40b930e50b7677f1cf5ded115d839aed51ea942221",
+      "source_kind": "ACTUAL_MIDNIGHT_SOURCE_CAPTURE_NOT_FINAL_COMPOSITE_ACCEPTANCE",
+      "source": "scripts/current-global-nonpo-actual19-profile-qualification/ACTUAL_NATIVE_AUTHORITY.sql",
+      "prosrc_sha256": "35044776219a6916aad2b770ca3a89322c51319004fd9429ab19d611459b0160",
+      "source_function_sha256": "f2853d90e80ef72b68b41f43fdc94ffa6093f65d9d27597f0201bfd6b6296137",
       "volatility": "s",
       "security_definer": true,
       "owner": "postgres",
@@ -102,10 +102,10 @@
       "return_type": "uuid"
     },
     "erp.require_internal()": {
-      "source_kind": "RETAINED_NATIVE_BASELINE_DUMP_SOURCE_NOT_CURRENT_COMPOSITE_ACCEPTANCE",
-      "source": "retained/Native_authority.sql",
-      "prosrc_sha256": "69a908818fa707014f4193ceb0154d9ff55e58ff4ce5795b2c91bc841b9dfc58",
-      "source_function_sha256": "74a4c76af1b7aa004d7be3ca3ef4b467ceab7266908df2f65e44c772642ae6bc",
+      "source_kind": "ACTUAL_MIDNIGHT_SOURCE_CAPTURE_NOT_FINAL_COMPOSITE_ACCEPTANCE",
+      "source": "scripts/current-global-nonpo-actual19-profile-qualification/ACTUAL_NATIVE_AUTHORITY.sql",
+      "prosrc_sha256": "8a4b211d989a7837d53699f1d23c60e5d9febe2fe8c8a7737cc68bca2c1dc0b0",
+      "source_function_sha256": "58c67181ac9d4d811c02ee3831d1e198fa1a6f51d6e180fc0c626be5d7852730",
       "volatility": "v",
       "security_definer": true,
       "owner": "postgres",
@@ -377,5 +377,848 @@
     "Native_G_predicates_changed": false,
     "no_account_or_category_identity_hubs": true,
     "runtime_closed": true
+  },
+  "actual_source_profile": {
+    "classification": "FINITE_ACTUAL_CATALOG_PROFILE_NOT_RUNTIME_ACCEPTANCE",
+    "observed_head": "e7875cde9709c7375335bade4e1010be9459163e",
+    "run_id": "41007933625",
+    "artifact_id": 12958410980,
+    "report": {
+      "name": "CP7_ATTENDANCE_MIDNIGHT_NATIVE1.json",
+      "bytes": 74194663,
+      "sha256": "26fcbab359c7455dffd78bb6f2e6c24321e08d606030dde592ed18b6ad2c572b"
+    },
+    "catalogue_observations": [
+      {
+        "path": "committed.S03_MIDNIGHT_NATIVE1_AND_UNCHANGED_USED_WITNESS.actual_installed_capture.actual_all22",
+        "function_count": 2870,
+        "selected19_sha256": "bb8c2d01c518ced1c4a82220c5c6f161902a13d323679decf42af020f24ee361",
+        "view13_sha256": "bb9b3c2feaa2cc14278a47521387381f5683d3ac8bbb965322a71ef1aa48476f"
+      },
+      {
+        "path": "committed.S03_MIDNIGHT_NATIVE1_AND_UNCHANGED_USED_WITNESS.used_inverse_refusal_before.actual_all22",
+        "function_count": 2870,
+        "selected19_sha256": "bb8c2d01c518ced1c4a82220c5c6f161902a13d323679decf42af020f24ee361",
+        "view13_sha256": "bb9b3c2feaa2cc14278a47521387381f5683d3ac8bbb965322a71ef1aa48476f"
+      },
+      {
+        "path": "committed.S03_MIDNIGHT_NATIVE1_AND_UNCHANGED_USED_WITNESS.used_inverse_refusal_after.actual_all22",
+        "function_count": 2870,
+        "selected19_sha256": "bb8c2d01c518ced1c4a82220c5c6f161902a13d323679decf42af020f24ee361",
+        "view13_sha256": "bb9b3c2feaa2cc14278a47521387381f5683d3ac8bbb965322a71ef1aa48476f"
+      }
+    ],
+    "function_row_fields": [
+      "pg_get_functiondef",
+      "owner",
+      "language",
+      "kind",
+      "security_definer",
+      "leakproof",
+      "strict",
+      "returns_set",
+      "volatility",
+      "parallel",
+      "cost",
+      "rows",
+      "config",
+      "argument_names",
+      "argument_modes",
+      "arguments",
+      "result",
+      "support",
+      "expanded_acl"
+    ],
+    "functions": {
+      "cp7_credit.consumer_dependency_graph_v1(uuid)": [
+        "CREATE OR REPLACE FUNCTION cp7_credit.consumer_dependency_graph_v1(p_sale uuid)\n RETURNS jsonb\n LANGUAGE plpgsql\n STABLE SECURITY DEFINER\n SET search_path TO ''\n SET \"TimeZone\" TO 'UTC'\nAS $function$\ndeclare customer uuid;members uuid[];roots uuid[]:='{}';leaves uuid[]:='{}';\n cohorts uuid[];families uuid[];node uuid;a record;facts jsonb;answer jsonb;\nbegin\n select customer_id into strict customer from erp.sales_headers where id=p_sale;\n with recursive edges(a,b)as(\n  select root_sale_id,previous_sale_id from cp7_note.revisions\n  union select root_sale_id,replacement_sale_id from cp7_note.revisions\n  union select f.family_root_sale_id,c.source_sale_id from cp7_credit.cohorts c\n   join cp7_credit.return_families f on f.id=c.family_id\n  union select f.family_root_sale_id,e.target_sale_id from cp7_credit.consumption_events e\n   join cp7_credit.cohorts c on c.id=e.cohort_id\n   join cp7_credit.return_families f on f.id=c.family_id\n   where e.event_kind='APPLY'\n ),connected(id)as(\n  select p_sale union\n  select case when e.a=g.id then e.b else e.a end from connected g\n   join edges e on e.a=g.id or e.b=g.id\n )select array_agg(id order by id)into members from connected;\n foreach node in array members loop\n  select *into strict a from cp7_credit.current_leaf_assignment(node);\n  if a.customer_id is distinct from customer then\n   raise exception 'CP7_CREDIT_CONSUMER_GRAPH_CUSTOMER_CHANGED';end if;\n  roots:=roots||a.root_sale_id;leaves:=leaves||a.current_leaf_id;\n end loop;\n select array_agg(distinct x order by x)into roots from unnest(roots)x;\n select array_agg(distinct x order by x)into leaves from unnest(leaves)x;\n select coalesce(array_agg(id order by id),'{}')into families\n  from cp7_credit.return_families where family_root_sale_id=any(roots);\n select coalesce(array_agg(id order by id),'{}')into cohorts\n  from cp7_credit.cohorts where family_id=any(families);\n if exists(select 1 from cp7_credit.cohorts c join cp7_credit.return_families f on f.id=c.family_id\n  cross join lateral cp7_credit.current_leaf_assignment(c.source_sale_id)m\n  where c.id=any(cohorts)and(c.customer_id is distinct from customer\n   or m.root_sale_id is distinct from f.family_root_sale_id))then\n  raise exception 'CP7_CREDIT_CONSUMER_GRAPH_COHORT_ROOT_CHANGED';end if;\n facts:=jsonb_build_object(\n  'headers',(select coalesce(jsonb_agg(to_jsonb(h)order by h.id),'[]')from erp.sales_headers h where h.id=any(members)),\n  'revisions',(select coalesce(jsonb_agg(to_jsonb(r)order by r.root_sale_id,r.revision),'[]')from cp7_note.revisions r where r.root_sale_id=any(roots)),\n  'families',(select coalesce(jsonb_agg(to_jsonb(f)order by f.id),'[]')from cp7_credit.return_families f where f.id=any(families)),\n  'cohorts',(select coalesce(jsonb_agg(to_jsonb(c)order by c.id),'[]')from cp7_credit.cohorts c where c.id=any(cohorts)),\n  'consumptions',(select coalesce(jsonb_agg(to_jsonb(e)order by e.id),'[]')from cp7_credit.consumption_events e where e.cohort_id=any(cohorts)));\n answer:=jsonb_build_object('contract_version','ow04.consumer-dependency-graph.v1',\n  'requested_sale_id',p_sale,'customer_id',customer,'sale_ids',members,\n  'root_sale_ids',roots,'current_leaf_ids',leaves,'family_ids',families,'cohort_ids',cohorts,\n  'facts',facts,'facts_sha256',cp7_credit.pg_jsonb_sha256(facts),\n  'source_authority_proven',false,'all_signed_consumer_history_included',true);\n return answer;\nend $function$\n",
+        "postgres",
+        "plpgsql",
+        "f",
+        true,
+        false,
+        false,
+        false,
+        "s",
+        "u",
+        "100",
+        "0",
+        [
+          "search_path=\"\"",
+          "TimeZone=UTC"
+        ],
+        [
+          "p_sale"
+        ],
+        null,
+        "p_sale uuid",
+        "jsonb",
+        "-",
+        [
+          [
+            "postgres",
+            "postgres",
+            "EXECUTE",
+            false
+          ]
+        ]
+      ],
+      "cp7_credit.current_leaf_assignment(uuid)": [
+        "CREATE OR REPLACE FUNCTION cp7_credit.current_leaf_assignment(p_sale uuid)\n RETURNS TABLE(root_sale_id uuid, current_leaf_id uuid, customer_id uuid, requested_status text)\n LANGUAGE plpgsql\n STABLE SECURITY DEFINER\n SET search_path TO ''\nAS $function$\ndeclare roots uuid[];ids uuid[];previous uuid;root uuid;revision bigint:=0;r record;h erp.sales_headers;\nbegin\n select * into strict h from erp.sales_headers where id=p_sale;\n select array_agg(distinct x.root_sale_id) into roots from cp7_note.revisions x\n  where p_sale in(x.root_sale_id,x.previous_sale_id,x.replacement_sale_id);\n if cardinality(roots)>1 then raise exception 'CP7_CREDIT_NOTE_ROOT_AMBIGUOUS';end if;\n root:=coalesce(roots[1],p_sale);previous:=root;ids:=array[root];\n for r in select *from cp7_note.revisions x where x.root_sale_id=root order by x.revision loop\n  revision:=revision+1;\n  if r.revision<>revision or r.previous_sale_id<>previous or r.replacement_sale_id=any(ids)then\n   raise exception 'CP7_CREDIT_NOTE_CHAIN_INVALID';end if;\n  ids:=ids||r.replacement_sale_id;previous:=r.replacement_sale_id;\n end loop;\n if not p_sale=any(ids)or exists(select 1 from unnest(ids)x left join erp.sales_headers s on s.id=x\n  where s.id is null or s.customer_id is distinct from h.customer_id)then\n  raise exception 'CP7_CREDIT_NOTE_MEMBERSHIP_UNPROVEN';end if;\n if h.status in('POSTED','PARTIAL_PAID','PAID')and(p_sale<>previous or exists(\n  select 1 from erp.sales_headers s where s.id=any(ids)and s.id<>p_sale\n   and s.status in('POSTED','PARTIAL_PAID','PAID')))then\n  raise exception 'CP7_CREDIT_ACTIVE_LEAF_AMBIGUOUS';end if;\n return query select root,previous,h.customer_id,h.status::text;\nend $function$\n",
+        "postgres",
+        "plpgsql",
+        "f",
+        true,
+        false,
+        false,
+        true,
+        "s",
+        "u",
+        "100",
+        "1000",
+        [
+          "search_path=\"\""
+        ],
+        [
+          "p_sale",
+          "root_sale_id",
+          "current_leaf_id",
+          "customer_id",
+          "requested_status"
+        ],
+        [
+          "i",
+          "t",
+          "t",
+          "t",
+          "t"
+        ],
+        "p_sale uuid",
+        "TABLE(root_sale_id uuid, current_leaf_id uuid, customer_id uuid, requested_status text)",
+        "-",
+        [
+          [
+            "postgres",
+            "postgres",
+            "EXECUTE",
+            false
+          ]
+        ]
+      ],
+      "cp7_credit.initial_hpp_account_facts_v1()": [
+        "CREATE OR REPLACE FUNCTION cp7_credit.initial_hpp_account_facts_v1()\n RETURNS jsonb\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO ''\n SET \"TimeZone\" TO 'UTC'\nAS $function$\n select jsonb_build_object('mappings',(select jsonb_agg(to_jsonb(m)order by m.mapping_key)from erp.accounting_account_mappings m\n  where m.mapping_key in('FG_INVENTORY','COGS','OTHER_EXPENSE','OTHER_INCOME')),\n  'accounts',(select jsonb_agg(to_jsonb(c)order by c.id)from erp.chart_accounts c where c.id in(\n   select m.account_id from erp.accounting_account_mappings m where m.mapping_key in('FG_INVENTORY','COGS','OTHER_EXPENSE','OTHER_INCOME'))))\n$function$\n",
+        "postgres",
+        "sql",
+        "f",
+        true,
+        false,
+        false,
+        false,
+        "s",
+        "u",
+        "100",
+        "0",
+        [
+          "search_path=\"\"",
+          "TimeZone=UTC"
+        ],
+        null,
+        null,
+        "",
+        "jsonb",
+        "-",
+        [
+          [
+            "postgres",
+            "postgres",
+            "EXECUTE",
+            false
+          ]
+        ]
+      ],
+      "cp7_credit.pg_jsonb_sha256(jsonb)": [
+        "CREATE OR REPLACE FUNCTION cp7_credit.pg_jsonb_sha256(p jsonb)\n RETURNS text\n LANGUAGE sql\n IMMUTABLE\n SET search_path TO ''\nAS $function$\n select encode(pg_catalog.sha256(convert_to(p::text,'UTF8')),'hex')\n$function$\n",
+        "postgres",
+        "sql",
+        "f",
+        false,
+        false,
+        false,
+        false,
+        "i",
+        "u",
+        "100",
+        "0",
+        [
+          "search_path=\"\""
+        ],
+        [
+          "p"
+        ],
+        null,
+        "p jsonb",
+        "text",
+        "-",
+        [
+          [
+            "cp7_credit_write",
+            "postgres",
+            "EXECUTE",
+            false
+          ],
+          [
+            "postgres",
+            "postgres",
+            "EXECUTE",
+            false
+          ]
+        ]
+      ],
+      "cp7_credit.source_first_nonpo_hpp_alignment_v1(jsonb)": [
+        "CREATE OR REPLACE FUNCTION cp7_credit.source_first_nonpo_hpp_alignment_v1(p_snapshot jsonb)\n RETURNS jsonb\n LANGUAGE plpgsql\n STABLE SECURITY DEFINER\n SET search_path TO ''\n SET \"TimeZone\" TO 'UTC'\nAS $function$\ndeclare product uuid;fg uuid;cogs uuid;expense uuid;income uuid;t jsonb;b jsonb;rows jsonb:='[]';\nbegin\n select(x->>'account_id')::uuid into strict fg from jsonb_array_elements(p_snapshot#>'{hpp_accounts,mappings}')x where x->>'mapping_key'='FG_INVENTORY';\n select(x->>'account_id')::uuid into strict cogs from jsonb_array_elements(p_snapshot#>'{hpp_accounts,mappings}')x where x->>'mapping_key'='COGS';\n select(x->>'account_id')::uuid into strict expense from jsonb_array_elements(p_snapshot#>'{hpp_accounts,mappings}')x where x->>'mapping_key'='OTHER_EXPENSE';\n select(x->>'account_id')::uuid into strict income from jsonb_array_elements(p_snapshot#>'{hpp_accounts,mappings}')x where x->>'mapping_key'='OTHER_INCOME';\n if exists(select 1 from jsonb_array_elements(p_snapshot->'fg_lots')x where x->>'po_id'is not null)then\n  raise exception 'CP7_CREDIT_SOURCE_PO_HPP_INVERSE_UNQUALIFIED';end if;\n for product in select distinct(x->>'product_id')::uuid from jsonb_array_elements(p_snapshot->'fg_lots')x loop\n  select to_jsonb(v)into strict t from erp.compute_non_po_product_hpp_targets_v2620f(product)v;\n  select jsonb_build_object('hpp_total_cost',q.f+q.c+q.o,'fg_value',q.f,'cogs_value',q.c,'other_out_value',q.o)into b\n   from(select coalesce(sum(l.debit-l.credit)filter(where l.account_id=fg),0)f,\n    coalesce(sum(l.debit-l.credit)filter(where l.account_id=cogs),0)c,\n    coalesce(sum(l.debit-l.credit)filter(where l.account_id in(expense,income)),0)o\n    from erp.journal_lines l join erp.journal_entries j on j.id=l.journal_entry_id\n    left join erp.journal_entries original on original.id=j.reversal_of_id\n    where l.product_id=product and l.po_id is null and j.status in('POSTED','REVERSED')\n     and(j.source_type<>'PRODUCT_CONVERSION'or erp.be_nonpo_admitted_v1(j.source_id))\n     and(j.source_type<>'JOURNAL_REVERSAL'or original.source_type is distinct from'PRODUCT_CONVERSION'\n      or erp.be_nonpo_admitted_v1(original.source_id)))q;\n  if t is distinct from b then raise exception 'CP7_CREDIT_SOURCE_NATIVE_HPP_TARGET_BOOK_UNQUALIFIED';end if;\n  rows:=rows||jsonb_build_array(jsonb_build_object('product_id',product,'target',t,'book',b));\n end loop;\n return rows;\nend $function$\n",
+        "postgres",
+        "plpgsql",
+        "f",
+        true,
+        false,
+        false,
+        false,
+        "s",
+        "u",
+        "100",
+        "0",
+        [
+          "search_path=\"\"",
+          "TimeZone=UTC"
+        ],
+        [
+          "p_snapshot"
+        ],
+        null,
+        "p_snapshot jsonb",
+        "jsonb",
+        "-",
+        [
+          [
+            "postgres",
+            "postgres",
+            "EXECUTE",
+            false
+          ]
+        ]
+      ],
+      "cp7_credit.source_hpp_lot_ids_v1(uuid)": [
+        "CREATE OR REPLACE FUNCTION cp7_credit.source_hpp_lot_ids_v1(p_sale uuid)\n RETURNS uuid[]\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO ''\n SET \"TimeZone\" TO 'UTC'\nAS $function$\n select coalesce(array_agg(l.id order by l.id),'{}'::uuid[])from erp.fg_lots l\n where l.product_id in(select i.product_id from erp.sales_items i where i.sale_id=p_sale)\n  or l.po_id in(select l0.po_id from erp.sale_stock_allocations a join erp.sales_items i on i.id=a.sale_item_id\n   join erp.fg_lots l0 on l0.id=a.lot_id where i.sale_id=p_sale)\n$function$\n",
+        "postgres",
+        "sql",
+        "f",
+        true,
+        false,
+        false,
+        false,
+        "s",
+        "u",
+        "100",
+        "0",
+        [
+          "search_path=\"\"",
+          "TimeZone=UTC"
+        ],
+        [
+          "p_sale"
+        ],
+        null,
+        "p_sale uuid",
+        "uuid[]",
+        "-",
+        [
+          [
+            "postgres",
+            "postgres",
+            "EXECUTE",
+            false
+          ]
+        ]
+      ],
+      "erp.account_id(text)": [
+        "CREATE OR REPLACE FUNCTION erp.account_id(p_mapping_key text)\n RETURNS uuid\n LANGUAGE plpgsql\n STABLE SECURITY DEFINER\n SET search_path TO 'erp', 'public'\nAS $function$ DECLARE v_id uuid; BEGIN PERFORM erp.require_internal();SELECT account_id INTO v_id FROM erp.accounting_account_mappings WHERE mapping_key=p_mapping_key; IF v_id IS NULL THEN RAISE EXCEPTION 'Accounting mapping % is not configured',p_mapping_key; END IF;RETURN v_id;END; $function$\n",
+        "postgres",
+        "plpgsql",
+        "f",
+        true,
+        false,
+        false,
+        false,
+        "s",
+        "u",
+        "100",
+        "0",
+        [
+          "search_path=erp, public"
+        ],
+        [
+          "p_mapping_key"
+        ],
+        null,
+        "p_mapping_key text",
+        "uuid",
+        "-",
+        [
+          [
+            "cp7_finance_read",
+            "postgres",
+            "EXECUTE",
+            false
+          ],
+          [
+            "postgres",
+            "postgres",
+            "EXECUTE",
+            false
+          ],
+          [
+            "service_role",
+            "postgres",
+            "EXECUTE",
+            false
+          ]
+        ]
+      ],
+      "erp.be_allocation_extra_v1(uuid)": [
+        "CREATE OR REPLACE FUNCTION erp.be_allocation_extra_v1(p_allocation uuid)\n RETURNS numeric\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO ''\nAS $function$\n select a.conversion_cost_allocated+erp.be_conversion_extra_v1(a.conversion_id)\n from erp.product_conversion_allocations a where a.id=p_allocation\n$function$\n",
+        "postgres",
+        "sql",
+        "f",
+        true,
+        false,
+        false,
+        false,
+        "s",
+        "u",
+        "100",
+        "0",
+        [
+          "search_path=\"\""
+        ],
+        [
+          "p_allocation"
+        ],
+        null,
+        "p_allocation uuid",
+        "numeric",
+        "-",
+        [
+          [
+            "postgres",
+            "postgres",
+            "EXECUTE",
+            false
+          ]
+        ]
+      ],
+      "erp.be_conversion_extra_v1(uuid)": [
+        "CREATE OR REPLACE FUNCTION erp.be_conversion_extra_v1(p_conversion uuid)\n RETURNS numeric\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO ''\nAS $function$\n select coalesce(sum(e.target_amount-e.previous_amount),0) from erp.be_conversion_cost_sources_v1 s\n join erp.be_conversion_cost_events_v1 e on e.document_id=s.document_id where s.conversion_id=p_conversion\n$function$\n",
+        "postgres",
+        "sql",
+        "f",
+        true,
+        false,
+        false,
+        false,
+        "s",
+        "u",
+        "100",
+        "0",
+        [
+          "search_path=\"\""
+        ],
+        [
+          "p_conversion"
+        ],
+        null,
+        "p_conversion uuid",
+        "numeric",
+        "-",
+        [
+          [
+            "postgres",
+            "postgres",
+            "EXECUTE",
+            false
+          ]
+        ]
+      ],
+      "erp.be_in_context_v1()": [
+        "CREATE OR REPLACE FUNCTION erp.be_in_context_v1()\n RETURNS boolean\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO ''\nAS $function$\n select exists(select 1 from erp.be_execution_context_v1\n   where backend_pid=pg_backend_pid() and transaction_id=txid_current())\n$function$\n",
+        "postgres",
+        "sql",
+        "f",
+        true,
+        false,
+        false,
+        false,
+        "s",
+        "u",
+        "100",
+        "0",
+        [
+          "search_path=\"\""
+        ],
+        null,
+        null,
+        "",
+        "boolean",
+        "-",
+        [
+          [
+            "postgres",
+            "postgres",
+            "EXECUTE",
+            false
+          ]
+        ]
+      ],
+      "erp.be_nonpo_admitted_v1(uuid)": [
+        "CREATE OR REPLACE FUNCTION erp.be_nonpo_admitted_v1(p_conversion uuid)\n RETURNS boolean\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO ''\nAS $function$\n select exists(select 1 from erp.be_conversion_sources_v1 b join erp.product_conversions c on c.id=b.conversion_id\n  join erp.fg_lots l on l.id=b.source_lot_id join erp.v_current_hpp h on h.lot_id=l.id\n  where b.conversion_id=p_conversion and l.po_id is null and l.product_id=c.from_product_id\n   and l.lot_origin<>'VOIDED_PRODUCTION' and h.hpp_per_pcs>=0)\n$function$\n",
+        "postgres",
+        "sql",
+        "f",
+        true,
+        false,
+        false,
+        false,
+        "s",
+        "u",
+        "100",
+        "0",
+        [
+          "search_path=\"\""
+        ],
+        [
+          "p_conversion"
+        ],
+        null,
+        "p_conversion uuid",
+        "boolean",
+        "-",
+        [
+          [
+            "postgres",
+            "postgres",
+            "EXECUTE",
+            false
+          ]
+        ]
+      ],
+      "erp.be_nonpo_in_sync_v1()": [
+        "CREATE OR REPLACE FUNCTION erp.be_nonpo_in_sync_v1()\n RETURNS boolean\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO ''\nAS $function$\n select coalesce((select syncing_nonpo from erp.be_execution_context_v1\n   where backend_pid=pg_backend_pid() and transaction_id=txid_current()),false)\n$function$\n",
+        "postgres",
+        "sql",
+        "f",
+        true,
+        false,
+        false,
+        false,
+        "s",
+        "u",
+        "100",
+        "0",
+        [
+          "search_path=\"\""
+        ],
+        null,
+        null,
+        "",
+        "boolean",
+        "-",
+        [
+          [
+            "postgres",
+            "postgres",
+            "EXECUTE",
+            false
+          ]
+        ]
+      ],
+      "erp.be_nonpo_prepare_transfers_v1(date)": [
+        "CREATE OR REPLACE FUNCTION erp.be_nonpo_prepare_transfers_v1(p_date date)\n RETURNS void\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\nAS $function$\ndeclare r record;v_own boolean;v_old numeric;v_new numeric;v_delta numeric;v_journal uuid;v_event uuid;\nbegin\n perform erp.require_internal();\n perform pg_advisory_xact_lock(hashtextextended('FG_HPP_SALES_V2620C',0));\n v_own:=not erp.be_in_context_v1();\n if v_own then\n   insert into erp.be_execution_context_v1(backend_pid,transaction_id,request_id,syncing_nonpo)\n   values(pg_backend_pid(),txid_current(),gen_random_uuid(),true);\n end if;\n perform erp.be_propagate_nonpo_v1();\n for r in select c.id,c.from_product_id,c.to_product_id,a.id allocation_id,a.qty_pcs,a.original_hpp_per_pcs,\n    h.hpp_per_pcs from erp.product_conversions c join erp.product_conversion_allocations a on a.conversion_id=c.id\n    join erp.fg_lots l on l.id=a.source_lot_id join erp.v_current_hpp h on h.lot_id=l.id\n    where l.po_id is null and c.status='POSTED' order by c.physical_at,c.id loop\n   if not erp.be_nonpo_admitted_v1(r.id) then raise exception 'NON_PO_CONVERSION_REQUIRES_SOURCED_HPP_WORKFLOW';end if;\n   select round(r.qty_pcs*r.original_hpp_per_pcs,2)+coalesce(sum(target_value-previous_value),0) into v_old\n     from erp.be_nonpo_transfer_events_v1 where conversion_id=r.id;\n   v_new:=round(r.qty_pcs*r.hpp_per_pcs,2);v_delta:=v_new-v_old;\n   if v_delta<>0 then\n     v_event:=gen_random_uuid();\n     v_journal:=erp.post_journal('BE_NONPO_CONVERSION_RECOST',v_event,p_date,'Nilai sumber terkini konversi '||r.id::text,\n       jsonb_build_array(jsonb_build_object('mapping_key','FG_INVENTORY','product_id',r.to_product_id,'debit',greatest(v_delta,0),'credit',greatest(-v_delta,0)),\n         jsonb_build_object('mapping_key','FG_INVENTORY','product_id',r.from_product_id,'debit',greatest(-v_delta,0),'credit',greatest(v_delta,0))));\n     insert into erp.be_nonpo_transfer_events_v1(id,conversion_id,previous_value,target_value,journal_id,economic_date)\n       values(v_event,r.id,v_old,v_new,v_journal,p_date);\n   end if;\n end loop;\n if v_own then delete from erp.be_execution_context_v1 where backend_pid=pg_backend_pid() and transaction_id=txid_current();end if;\nend;$function$\n",
+        "postgres",
+        "plpgsql",
+        "f",
+        true,
+        false,
+        false,
+        false,
+        "v",
+        "u",
+        "100",
+        "0",
+        [
+          "search_path=\"\""
+        ],
+        [
+          "p_date"
+        ],
+        null,
+        "p_date date",
+        "void",
+        "-",
+        [
+          [
+            "postgres",
+            "postgres",
+            "EXECUTE",
+            false
+          ]
+        ]
+      ],
+      "erp.be_nonpo_sync_all_v1(date,text,uuid,text)": [
+        "CREATE OR REPLACE FUNCTION erp.be_nonpo_sync_all_v1(p_date date, p_source_type text, p_source_id uuid, p_reason text)\n RETURNS void\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\nAS $function$\ndeclare v_own boolean;v_product uuid;\nbegin\n perform erp.require_internal();\n perform pg_advisory_xact_lock(hashtextextended('FG_HPP_SALES_V2620C',0));\n if erp.be_nonpo_in_sync_v1() then raise exception 'BE_NON_PO_RECURSION';end if;\n v_own:=not erp.be_in_context_v1();\n if v_own then insert into erp.be_execution_context_v1(backend_pid,transaction_id,request_id) values(pg_backend_pid(),txid_current(),gen_random_uuid());end if;\n update erp.be_execution_context_v1 set syncing_nonpo=true where backend_pid=pg_backend_pid() and transaction_id=txid_current();\n perform erp.be_nonpo_prepare_transfers_v1(p_date);\n for v_product in select distinct product_id from erp.fg_lots where po_id is null order by product_id loop\n   perform erp.sync_non_po_product_hpp_to_gl_v2620f(v_product,p_date,p_source_type,p_source_id,p_reason);\n end loop;\n update erp.be_execution_context_v1 set syncing_nonpo=false where backend_pid=pg_backend_pid() and transaction_id=txid_current();\n if v_own then delete from erp.be_execution_context_v1 where backend_pid=pg_backend_pid() and transaction_id=txid_current();end if;\nend;$function$\n",
+        "postgres",
+        "plpgsql",
+        "f",
+        true,
+        false,
+        false,
+        false,
+        "v",
+        "u",
+        "100",
+        "0",
+        [
+          "search_path=\"\""
+        ],
+        [
+          "p_date",
+          "p_source_type",
+          "p_source_id",
+          "p_reason"
+        ],
+        null,
+        "p_date date, p_source_type text, p_source_id uuid, p_reason text",
+        "void",
+        "-",
+        [
+          [
+            "postgres",
+            "postgres",
+            "EXECUTE",
+            false
+          ]
+        ]
+      ],
+      "erp.be_propagate_nonpo_v1()": [
+        "CREATE OR REPLACE FUNCTION erp.be_propagate_nonpo_v1()\n RETURNS void\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'erp', 'public'\nAS $function$\ndeclare\n  r record;\n  v_source_hpp numeric(18,6);\n  v_desired numeric(18,6);\n  v_current numeric(18,6);\n  v_old_id uuid;\n  v_new_id uuid;\n  v_ver integer;\nbegin\n  perform erp.require_internal();\n  perform pg_advisory_xact_lock(hashtextextended('FG_HPP_SALES_V2620C',0));\n  perform 1 from erp.fg_lots\n  where po_id is null and lot_origin<>'VOIDED_PRODUCTION'\n  order by id for update;\n\n  for r in\n    with recursive rooted(lot_id,depth,path) as(\n      select fl.id,0,array[fl.id]\n      from erp.fg_lots fl\n      where fl.po_id is null and fl.lot_origin not in('CONVERSION','VOIDED_PRODUCTION')\n      union all\n      select a.destination_lot_id,x.depth+1,x.path||a.destination_lot_id\n      from rooted x\n      join erp.product_conversion_allocations a on a.source_lot_id=x.lot_id\n      join erp.product_conversions c on c.id=a.conversion_id and c.status='POSTED'\n      where a.destination_lot_id is not null\n        and not a.destination_lot_id=any(x.path)\n        and x.depth<128\n    )\n    select a.*,x.depth source_depth\n    from rooted x\n    join erp.product_conversion_allocations a on a.source_lot_id=x.lot_id\n    join erp.product_conversions c on c.id=a.conversion_id and c.status='POSTED'\n    where a.destination_lot_id is not null\n    order by x.depth,a.id\n  loop\n    select hpp_per_pcs into v_source_hpp\n    from erp.v_current_hpp where lot_id=r.source_lot_id;\n    if v_source_hpp is null or r.qty_pcs<=0 then continue; end if;\n    v_desired:=v_source_hpp+(erp.be_allocation_extra_v1(r.id)/r.qty_pcs);\n    if v_desired<0 then raise exception 'BE_RECOVERY_EXCEEDS_VALUE: nilai pemulihan melebihi nilai sumber dan biaya sah';end if;\n    select hpp_version_id,hpp_per_pcs into v_old_id,v_current\n    from erp.v_current_hpp where lot_id=r.destination_lot_id;\n    if v_old_id is null or abs(coalesce(v_current,0)-v_desired)>0.000001 then\n      select coalesce(max(version_no),0)+1 into v_ver\n      from erp.hpp_versions where lot_id=r.destination_lot_id;\n      update erp.hpp_versions set is_current=false\n      where lot_id=r.destination_lot_id and is_current;\n      insert into erp.hpp_versions(\n        lot_id,version_no,cost_state,qty_basis_pcs,total_cost,is_current,\n        supersedes_id,calculation_reason,created_by\n      ) values(\n        r.destination_lot_id,v_ver,'ADJUSTED',r.qty_pcs,r.qty_pcs*v_desired,\n        true,v_old_id,'Root-to-leaf propagated source HPP through SKU conversion',\n        erp.current_app_user_id()\n      ) returning id into v_new_id;\n      insert into erp.hpp_version_components(\n        hpp_version_id,component_type,description,qty_basis,unit_cost,total_cost,\n        source_type,source_id\n      ) values\n        (v_new_id,'OTHER','Latest source lot HPP carry-forward',r.qty_pcs,\n          v_source_hpp,r.qty_pcs*v_source_hpp,'FG_LOT',r.source_lot_id),\n        (v_new_id,'CONVERSION','Conversion/relabel cost',r.qty_pcs,\n          erp.be_allocation_extra_v1(r.id)/r.qty_pcs,erp.be_allocation_extra_v1(r.id),\n          'PRODUCT_CONVERSION_ALLOCATION',r.id);\n    end if;\n  end loop;\n\n  if exists(\n    with recursive reachable(lot_id,path,depth) as(\n      select fl.id,array[fl.id],0\n      from erp.fg_lots fl\n      where fl.po_id is null and fl.lot_origin not in('CONVERSION','VOIDED_PRODUCTION')\n      union all\n      select a.destination_lot_id,x.path||a.destination_lot_id,x.depth+1\n      from reachable x\n      join erp.product_conversion_allocations a on a.source_lot_id=x.lot_id\n      join erp.product_conversions c on c.id=a.conversion_id and c.status='POSTED'\n      where a.destination_lot_id is not null\n        and not a.destination_lot_id=any(x.path) and x.depth<128\n    )\n    select 1\n    from erp.product_conversion_allocations a\n    join erp.product_conversions c on c.id=a.conversion_id and c.status='POSTED'\n    join erp.fg_lots s on s.id=a.source_lot_id and s.po_id is null\n    join erp.fg_lots d on d.id=a.destination_lot_id\n    where not exists(select 1 from reachable x where x.lot_id=a.destination_lot_id)\n       or not erp.be_nonpo_admitted_v1(c.id) or d.po_id is distinct from s.po_id\n       or d.lot_origin<>'CONVERSION' or d.source_lot_id is distinct from s.id\n       or a.qty_pcs<=0\n  ) then\n    raise exception 'BE_NON_PO_LINEAGE_ORPHAN_OR_CYCLE';\n  end if;\nend\n$function$\n",
+        "postgres",
+        "plpgsql",
+        "f",
+        true,
+        false,
+        false,
+        false,
+        "v",
+        "u",
+        "100",
+        "0",
+        [
+          "search_path=erp, public"
+        ],
+        null,
+        null,
+        "",
+        "void",
+        "-",
+        [
+          [
+            "postgres",
+            "postgres",
+            "EXECUTE",
+            false
+          ]
+        ]
+      ],
+      "erp.compute_non_po_product_hpp_book_v2620f(uuid)": [
+        "CREATE OR REPLACE FUNCTION erp.compute_non_po_product_hpp_book_v2620f(p_product_id uuid)\n RETURNS TABLE(hpp_total_cost numeric, fg_value numeric, cogs_value numeric, other_out_value numeric)\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO ''\nAS $function$\nwith book as(\n  select\n    coalesce(sum(l.debit-l.credit) filter(\n      where l.account_id=(select erp.account_id('FG_INVENTORY'))),0)::numeric fg,\n    coalesce(sum(l.debit-l.credit) filter(\n      where l.account_id=(select erp.account_id('COGS'))),0)::numeric cogs,\n    coalesce(sum(l.debit-l.credit) filter(\n      where l.account_id in(\n        (select erp.account_id('OTHER_EXPENSE')),(select erp.account_id('OTHER_INCOME'))\n      )),0)::numeric other_out\n  from erp.journal_lines l\n  join erp.journal_entries e on e.id=l.journal_entry_id\n    and e.status in('POSTED','REVERSED')\n  left join erp.journal_entries o on o.id=e.reversal_of_id\n  where l.po_id is null and l.product_id=p_product_id\n    and (e.source_type<>'PRODUCT_CONVERSION' or erp.be_nonpo_admitted_v1(e.source_id))\n    and (e.source_type<>'JOURNAL_REVERSAL' or o.source_type is distinct from 'PRODUCT_CONVERSION'\n      or erp.be_nonpo_admitted_v1(o.source_id))\n)\nselect (fg+cogs+other_out)::numeric,fg,cogs,other_out from book\n$function$\n",
+        "postgres",
+        "sql",
+        "f",
+        true,
+        false,
+        false,
+        true,
+        "s",
+        "u",
+        "100",
+        "1000",
+        [
+          "search_path=\"\""
+        ],
+        [
+          "p_product_id",
+          "hpp_total_cost",
+          "fg_value",
+          "cogs_value",
+          "other_out_value"
+        ],
+        [
+          "i",
+          "t",
+          "t",
+          "t",
+          "t"
+        ],
+        "p_product_id uuid",
+        "TABLE(hpp_total_cost numeric, fg_value numeric, cogs_value numeric, other_out_value numeric)",
+        "-",
+        [
+          [
+            "postgres",
+            "postgres",
+            "EXECUTE",
+            false
+          ]
+        ]
+      ],
+      "erp.compute_non_po_product_hpp_targets_v2620f(uuid)": [
+        "CREATE OR REPLACE FUNCTION erp.compute_non_po_product_hpp_targets_v2620f(p_product_id uuid)\n RETURNS TABLE(hpp_total_cost numeric, fg_value numeric, cogs_value numeric, other_out_value numeric)\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO ''\nAS $function$\nwith lots as(\n  select fl.id,\n    (case when fl.lot_origin<>'CONVERSION' or exists(select 1 from erp.product_conversion_allocations a join erp.product_conversions c on c.id=a.conversion_id\n       where a.destination_lot_id=fl.id and c.status='POSTED') then coalesce(hv.total_cost,0) else 0 end\n     -coalesce((select sum(a.qty_pcs*(hv.total_cost/nullif(hv.qty_basis_pcs,0))) from erp.product_conversion_allocations a\n       join erp.product_conversions c on c.id=a.conversion_id where a.source_lot_id=fl.id and c.status='POSTED'),0))::numeric raw_total,\n    case when coalesce(hv.qty_basis_pcs,0)>0\n      then hv.total_cost/hv.qty_basis_pcs else 0 end::numeric hpp_per_pcs\n  from erp.fg_lots fl\n  left join erp.hpp_versions hv on hv.lot_id=fl.id and hv.is_current\n  where fl.product_id=p_product_id and fl.po_id is null\n    and fl.lot_origin<>'VOIDED_PRODUCTION'\n), balances as(\n  select l.id,l.raw_total,l.hpp_per_pcs,\n    (coalesce(sum(m.qty_signed),0)+coalesce(sum(abs(m.qty_signed)) filter(\n      where m.movement_type='SALE_RESERVE' and not exists(\n        select 1 from erp.fg_stock_movements rv where rv.reversal_of_id=m.id\n      )),0))::numeric owned_qty\n  from lots l\n  left join erp.fg_stock_movements m on m.lot_id=l.id\n  group by l.id,l.raw_total,l.hpp_per_pcs\n), sold as(\n  select a.lot_id,coalesce(sum(a.qty_pcs),0)::numeric qty\n  from erp.sale_stock_allocations a\n  join erp.sales_items i on i.id=a.sale_item_id\n  join erp.sales_headers h on h.id=i.sale_id\n  join lots l on l.id=a.lot_id\n  where h.status in('POSTED','PARTIAL_PAID','PAID')\n  group by a.lot_id\n), returned as(\n  select i.lot_id,coalesce(sum(i.qty_pcs),0)::numeric qty\n  from erp.sales_return_items i\n  join erp.sales_returns h on h.id=i.return_id\n  join lots l on l.id=i.lot_id\n  where h.status='POSTED'\n  group by i.lot_id\n), per_lot as(\n  select b.id,round(b.raw_total,2)::numeric hpp,\n    round(b.raw_total-greatest(b.owned_qty,0)*b.hpp_per_pcs,2)::numeric total_out,\n    round(greatest(coalesce(s.qty,0)-coalesce(r.qty,0),0)\n      *b.hpp_per_pcs,2)::numeric cogs\n  from balances b\n  left join sold s on s.lot_id=b.id\n  left join returned r on r.lot_id=b.id\n)\nselect coalesce(sum(hpp),0)::numeric,\n  coalesce(sum(hpp-total_out),0)::numeric,\n  coalesce(sum(cogs),0)::numeric,\n  coalesce(sum(total_out-cogs),0)::numeric\nfrom per_lot\n$function$\n",
+        "postgres",
+        "sql",
+        "f",
+        true,
+        false,
+        false,
+        true,
+        "s",
+        "u",
+        "100",
+        "1000",
+        [
+          "search_path=\"\""
+        ],
+        [
+          "p_product_id",
+          "hpp_total_cost",
+          "fg_value",
+          "cogs_value",
+          "other_out_value"
+        ],
+        [
+          "i",
+          "t",
+          "t",
+          "t",
+          "t"
+        ],
+        "p_product_id uuid",
+        "TABLE(hpp_total_cost numeric, fg_value numeric, cogs_value numeric, other_out_value numeric)",
+        "-",
+        [
+          [
+            "postgres",
+            "postgres",
+            "EXECUTE",
+            false
+          ]
+        ]
+      ],
+      "erp.require_internal()": [
+        "CREATE OR REPLACE FUNCTION erp.require_internal()\n RETURNS void\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\nAS $function$\ndeclare v_app_role text;v_jwt_role text;\nbegin\n if session_user in('postgres','supabase_admin') then return;end if;\n begin v_jwt_role:=coalesce(auth.jwt()->>'role','');exception when others then v_jwt_role:='';end;\n if v_jwt_role='service_role' then return;end if;\n -- R4-05 one context probe (scripts/cp7_internal_guard_bundle.py): without a private command context row of this\n -- backend and transaction no branch below admits; only the final role test decides. A transaction that has\n -- no transaction id yet has written no row (a context row carries the id of the transaction that wrote it).\n if txid_current_if_assigned() is null or not exists(select 1 from cp7_sales.command_context x where x.backend_pid=pg_backend_pid() and x.transaction_id=txid_current()\n  union all select 1 from erp.cutting_bridge_execution_context x where x.backend_pid=pg_backend_pid() and x.transaction_id=txid_current()\n  union all select 1 from erp.bs_resolution_execution_context x where x.backend_pid=pg_backend_pid() and x.transaction_id=txid_current()\n  union all select 1 from erp.cp6_laundry_qc_execution_context x where x.backend_pid=pg_backend_pid() and x.transaction_id=txid_current()\n  union all select 1 from cp7_procurement.execution_context x where x.backend_pid=pg_backend_pid() and x.transaction_id=txid_current()\n  union all select 1 from cp7_material.execution_context x where x.backend_pid=pg_backend_pid() and x.transaction_id=txid_current()\n  union all select 1 from cp7_supplier_return.execution_context x where x.backend_pid=pg_backend_pid() and x.transaction_id=txid_current()\n  union all select 1 from cp7_payroll.execution_context x where x.backend_pid=pg_backend_pid() and x.transaction_id=txid_current()\n  union all select 1 from cp7_payroll.settlement_context x where x.backend_pid=pg_backend_pid() and x.transaction_id=txid_current()\n  union all select 1 from cp7_attendance.command_context x where x.backend_pid=pg_backend_pid() and x.transaction_id=txid_current()\n  union all select 1 from cp7_credit.consumer_execution_context x where x.backend_pid=pg_backend_pid() and x.transaction_id=txid_current())then\n  if coalesce(erp.current_app_role(),'') not in('OWNER','ADMIN','STAFF') then raise exception 'Internal ERP access required';end if;\n  return;\n end if;\n if exists(select 1 from cp7_sales.command_context c where c.backend_pid=pg_backend_pid()\n  and c.transaction_id=txid_current() and case when c.backend_pid=pg_backend_pid()\n   and c.transaction_id=txid_current() and c.actor=auth.uid() and v_jwt_role='authenticated'\n   and c.action in('CREATE','EDIT','POST','CANCEL','PAYMENT','PAYMENT_REVERSE','RETURN','RETURN_REVERSE','SALE_REVERSE')\n   and not exists(select 1 from erp.cutting_bridge_execution_context before_sales where before_sales.backend_pid=pg_backend_pid() and before_sales.transaction_id=txid_current() union all select 1 from erp.bs_resolution_execution_context before_sales where before_sales.backend_pid=pg_backend_pid() and before_sales.transaction_id=txid_current() union all select 1 from erp.cp6_laundry_qc_execution_context before_sales where before_sales.backend_pid=pg_backend_pid() and before_sales.transaction_id=txid_current() union all select 1 from cp7_procurement.execution_context before_sales where before_sales.backend_pid=pg_backend_pid() and before_sales.transaction_id=txid_current() union all select 1 from cp7_material.execution_context before_sales where before_sales.backend_pid=pg_backend_pid() and before_sales.transaction_id=txid_current() union all select 1 from cp7_supplier_return.execution_context before_sales where before_sales.backend_pid=pg_backend_pid() and before_sales.transaction_id=txid_current() union all select 1 from cp7_payroll.execution_context before_sales where before_sales.backend_pid=pg_backend_pid() and before_sales.transaction_id=txid_current() union all select 1 from cp7_payroll.settlement_context before_sales where before_sales.backend_pid=pg_backend_pid() and before_sales.transaction_id=txid_current() union all select 1 from cp7_attendance.command_context before_sales where before_sales.backend_pid=pg_backend_pid() and before_sales.transaction_id=txid_current())\n   then cp7_sales.command_allowed(c.action) else false end) then return;end if;\n\n -- Keep indexable identity filters, and evaluate live scope permissions only\n -- for that exact candidate. SQL AND does not fix predicate evaluation order.\n -- Matched scope checks and the existing legacy fallback remain unchanged.\n if exists(select 1 from erp.cutting_bridge_execution_context c where c.backend_pid=pg_backend_pid()\n  and c.transaction_id=txid_current() and case when c.backend_pid=pg_backend_pid()\n   and c.transaction_id=txid_current() and c.actor_key=erp._idempotency_actor_key() and c.action='POST_CUTTING'\n   and c.permission_key='production.cutting.post' then erp.has_permission(c.permission_key) else false end) then return;end if;\n if exists(select 1 from erp.bs_resolution_execution_context c where c.backend_pid=pg_backend_pid()\n  and c.transaction_id=txid_current() and case when c.backend_pid=pg_backend_pid()\n   and c.transaction_id=txid_current() and c.actor_key=erp._idempotency_actor_key()\n   and c.permission_key in('production.bs_rework.create','production.bs_rework.post','production.bs_rework.reverse')\n   then erp.has_permission(c.permission_key) else false end) then return;end if;\n if exists(select 1 from erp.cp6_laundry_qc_execution_context c where c.backend_pid=pg_backend_pid()\n  and c.transaction_id=txid_current() and case when c.backend_pid=pg_backend_pid()\n   and c.transaction_id=txid_current() and c.actor_key=erp._idempotency_actor_key()\n   and ((c.action in('POST_DELIVERY','POST_RECEIPT','POST_FAILED_WASH') and c.permission_key='production.laundry.post')\n    or(c.action='POST_FINAL_SKU' and c.permission_key='production.final_sku.post')\n    or(c.action in('REVERSE_DELIVERY','REVERSE_RECEIPT') and c.permission_key='production.laundry.reverse')\n    or(c.action='REVERSE_FINAL_SKU' and c.permission_key='production.final_sku.reverse'))\n   then erp.has_permission(c.permission_key) else false end) then return;end if;\n -- Only a private, transaction/actor-bound public-command context extends the\n -- legacy internal-role guard. Caller-controlled GUCs cannot grant this path.\n if exists(select 1 from cp7_procurement.execution_context c where c.backend_pid=pg_backend_pid()\n  and c.transaction_id=txid_current() and case when c.backend_pid=pg_backend_pid()\n   and c.transaction_id=txid_current() and c.actor=auth.uid() and v_jwt_role='authenticated'\n   and ((c.action='SAVE_DRAFT' and c.permission_key='warehouse.procurement.create')\n    or(c.action='POST' and c.permission_key='warehouse.procurement.post'))\n   then erp.has_permission('warehouse.procurement.view') and erp.has_permission(c.permission_key) else false end) then return;end if;\n if exists(select 1 from cp7_material.execution_context c where c.backend_pid=pg_backend_pid()\n  and c.transaction_id=txid_current() and case when c.backend_pid=pg_backend_pid()\n   and c.transaction_id=txid_current() and c.actor=auth.uid() and v_jwt_role='authenticated'\n   and c.action in('SAVE_TRANSFER','POST_TRANSFER','REVERSE_TRANSFER','SAVE_COUNT','POST_COUNT','DELETE_COUNT','REVERSE_COUNT') and c.permission_key='warehouse.stock.adjust'\n   then erp.has_permission('warehouse.material.view') and erp.has_permission(c.permission_key) else false end) then return;end if;\n if exists(select 1 from cp7_supplier_return.execution_context c where c.backend_pid=pg_backend_pid()\n  and c.transaction_id=txid_current() and case when c.backend_pid=pg_backend_pid()\n   and c.transaction_id=txid_current() and c.actor=auth.uid() and v_jwt_role='authenticated'\n   and ((c.action='SAVE' and c.permission_key='warehouse.procurement.create')\n    or(c.action in('POST','REVERSE') and c.permission_key='warehouse.procurement.reverse'))\n   then erp.has_permission('warehouse.procurement.view') and erp.has_permission(c.permission_key) else false end) then return;end if;\n if exists(select 1 from cp7_payroll.execution_context c where c.backend_pid=pg_backend_pid()\n  and c.transaction_id=txid_current() and case when c.backend_pid=pg_backend_pid()\n   and c.transaction_id=txid_current() and c.actor=auth.uid() and v_jwt_role='authenticated'\n   and c.action='POST_NOTE' and c.permission_key='production.fg_handoff.post'\n   then erp.has_permission('production.fg_handoff.view') and erp.has_permission(c.permission_key) else false end) then return;end if;\n  if exists(select 1 from cp7_payroll.settlement_context c where c.backend_pid=pg_backend_pid()\n    and c.transaction_id=txid_current() and case when c.backend_pid=pg_backend_pid()\n     and c.transaction_id=txid_current() and c.actor=auth.uid() and v_jwt_role='authenticated'\n    then erp.has_permission('finance.payroll.view')\n    and(c.action not in('PREPARE','APPROVE','CANCEL','REVERSE') or erp.has_permission('finance.payroll.approve'))\n    and(c.action not in('PAY','REVERSE') or erp.has_permission('finance.payroll.pay'))\n    else false end) then return;end if;\n  if exists(select 1 from cp7_attendance.command_context c where c.backend_pid=pg_backend_pid()\n    and c.transaction_id=txid_current() and case when c.backend_pid=pg_backend_pid()\n     and c.transaction_id=txid_current() and c.actor=auth.uid() and v_jwt_role='authenticated'\n    then erp.has_permission('finance.attendance.view') and erp.has_permission(c.permission)\n    and(not c.owner_required or erp.current_app_role() in('OWNER','ADMIN'))\n    else false end) then return;end if;\n if exists(select 1 from cp7_sales.command_context c where c.backend_pid=pg_backend_pid()\n  and c.transaction_id=txid_current() and case when c.backend_pid=pg_backend_pid()\n   and c.transaction_id=txid_current() and c.actor=auth.uid() and v_jwt_role='authenticated'\n   and c.action in('CREATE','EDIT','POST','CANCEL','PAYMENT','PAYMENT_REVERSE','RETURN','RETURN_REVERSE','SALE_REVERSE')\n   then cp7_sales.command_allowed(c.action) else false end) then return;end if;\n if exists(select 1 from cp7_credit.consumer_execution_context c where c.backend_pid=pg_backend_pid()\n  and c.transaction_id=txid_current() and case when c.backend_pid=pg_backend_pid()\n   and c.transaction_id=txid_current() and c.actor=auth.uid() and v_jwt_role='authenticated'\n   and c.phase in('LOCKED','POSTING','MATERIALIZED','COMPLETE')\n   then cp7_credit.consumer_internal_allowed_v1() else false end) then return;end if;\n v_app_role:=erp.current_app_role();\n if coalesce(v_app_role,'') not in('OWNER','ADMIN','STAFF') then raise exception 'Internal ERP access required';end if;\nend $function$\n",
+        "postgres",
+        "plpgsql",
+        "f",
+        true,
+        false,
+        false,
+        false,
+        "v",
+        "u",
+        "100",
+        "0",
+        [
+          "search_path=\"\""
+        ],
+        null,
+        null,
+        "",
+        "void",
+        "-",
+        [
+          [
+            "postgres",
+            "postgres",
+            "EXECUTE",
+            false
+          ],
+          [
+            "service_role",
+            "postgres",
+            "EXECUTE",
+            false
+          ]
+        ]
+      ],
+      "erp.sync_non_po_product_hpp_to_gl_v2620f(uuid,date,text,uuid,text)": [
+        "CREATE OR REPLACE FUNCTION erp.sync_non_po_product_hpp_to_gl_v2620f(p_product_id uuid, p_effective_date date, p_trigger_source_type text, p_trigger_source_id uuid, p_reason text)\n RETURNS void\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'erp', 'public'\nAS $function$\ndeclare\n  t record;\n  b record;\n  v_df numeric(20,2);\n  v_dc numeric(20,2);\n  v_do numeric(20,2);\n  v_event uuid:=gen_random_uuid();\n  v_journal uuid;\n  v_lines jsonb:='[]'::jsonb;\nbegin\n  perform erp.require_internal();\n  perform pg_advisory_xact_lock(hashtextextended('FG_HPP_SALES_V2620C',0));\n  if nullif(btrim(p_trigger_source_type),'') is null\n     or nullif(btrim(p_reason),'') is null then\n    raise exception 'Non-PO HPP synchronization requires source and reason';\n  end if;\n  if not erp.be_nonpo_in_sync_v1() and exists(select 1 from erp.be_conversion_sources_v1 be_source\n      join erp.fg_lots be_lot on be_lot.id=be_source.source_lot_id where be_lot.po_id is null) then\n    perform erp.be_nonpo_sync_all_v1(p_effective_date,p_trigger_source_type,p_trigger_source_id,p_reason);return;\n  end if;\n  if exists(\n    select 1\n    from erp.product_conversion_allocations a\n    join erp.product_conversions c on c.id=a.conversion_id and c.status='POSTED'\n    join erp.fg_lots s on s.id=a.source_lot_id\n    join erp.fg_lots d on d.id=a.destination_lot_id\n    where(s.po_id is null or d.po_id is null) and not erp.be_nonpo_admitted_v1(c.id)\n      and(s.product_id=p_product_id or d.product_id=p_product_id)\n  ) then\n    raise exception 'NON_PO_CONVERSION_REQUIRES_SOURCED_HPP_WORKFLOW';\n  end if;\n\n  select * into t\n  from erp.compute_non_po_product_hpp_targets_v2620f(p_product_id);\n  select * into b\n  from erp.compute_non_po_product_hpp_book_v2620f(p_product_id);\n  if abs(t.hpp_total_cost-b.hpp_total_cost)>0.005 then\n    raise exception 'NON_PO_HPP_SOURCE_VALUE_MISMATCH: product %, target total %, book total %',\n      p_product_id,t.hpp_total_cost,b.hpp_total_cost;\n  end if;\n\n  v_df:=round(t.fg_value-b.fg_value,2);\n  v_dc:=round(t.cogs_value-b.cogs_value,2);\n  v_do:=round(t.other_out_value-b.other_out_value,2);\n  if abs(v_df+v_dc+v_do)>0.005 then\n    raise exception 'NON_PO_HPP_DELTA_NOT_CONSERVED: product %, fg %, cogs %, other %',\n      p_product_id,v_df,v_dc,v_do;\n  end if;\n  if abs(v_df)<=0.005 and abs(v_dc)<=0.005 and abs(v_do)<=0.005 then\n    return;\n  end if;\n\n  if abs(v_df)>0.005 then\n    v_lines:=v_lines||jsonb_build_array(case when v_df>0\n      then jsonb_build_object('mapping_key','FG_INVENTORY','debit',v_df,\n        'credit',0,'product_id',p_product_id)\n      else jsonb_build_object('mapping_key','FG_INVENTORY','debit',0,\n        'credit',abs(v_df),'product_id',p_product_id) end);\n  end if;\n  if abs(v_dc)>0.005 then\n    v_lines:=v_lines||jsonb_build_array(case when v_dc>0\n      then jsonb_build_object('mapping_key','COGS','debit',v_dc,\n        'credit',0,'product_id',p_product_id)\n      else jsonb_build_object('mapping_key','COGS','debit',0,\n        'credit',abs(v_dc),'product_id',p_product_id) end);\n  end if;\n  if abs(v_do)>0.005 then\n    v_lines:=v_lines||jsonb_build_array(case when v_do>0\n      then jsonb_build_object('mapping_key','OTHER_EXPENSE','debit',v_do,\n        'credit',0,'product_id',p_product_id)\n      else jsonb_build_object('mapping_key','OTHER_INCOME','debit',0,\n        'credit',abs(v_do),'product_id',p_product_id) end);\n  end if;\n\n  v_journal:=erp.post_journal(\n    'NON_PO_HPP_GL_SYNC_V2620F',v_event,p_effective_date,\n    'Cumulative non-PO HPP redistribution · '||p_reason,v_lines\n  );\n  insert into erp.non_po_hpp_gl_sync_events_v2620f(\n    id,product_id,trigger_source_type,trigger_source_id,effective_date,\n    old_fg_value,new_fg_value,fg_delta,\n    old_cogs_value,new_cogs_value,cogs_delta,\n    old_other_out_value,new_other_out_value,other_delta,\n    journal_entry_id,reason,created_by\n  ) values(\n    v_event,p_product_id,p_trigger_source_type,p_trigger_source_id,\n    p_effective_date,b.fg_value,t.fg_value,v_df,\n    b.cogs_value,t.cogs_value,v_dc,\n    b.other_out_value,t.other_out_value,v_do,\n    v_journal,p_reason,erp.current_app_user_id()\n  );\n  perform erp.assert_non_po_product_hpp_target_book_v2620f(p_product_id);\nend\n$function$\n",
+        "postgres",
+        "plpgsql",
+        "f",
+        true,
+        false,
+        false,
+        false,
+        "v",
+        "u",
+        "100",
+        "0",
+        [
+          "search_path=erp, public"
+        ],
+        [
+          "p_product_id",
+          "p_effective_date",
+          "p_trigger_source_type",
+          "p_trigger_source_id",
+          "p_reason"
+        ],
+        null,
+        "p_product_id uuid, p_effective_date date, p_trigger_source_type text, p_trigger_source_id uuid, p_reason text",
+        "void",
+        "-",
+        [
+          [
+            "postgres",
+            "postgres",
+            "EXECUTE",
+            false
+          ]
+        ]
+      ]
+    },
+    "view_relation": [
+      "postgres",
+      "v",
+      "p",
+      false,
+      false,
+      false,
+      "n",
+      [
+        "security_invoker=true"
+      ],
+      true,
+      " SELECT DISTINCT ON (lot_id) lot_id,\n    id AS hpp_version_id,\n    version_no,\n    cost_state,\n    qty_basis_pcs,\n    total_cost,\n    hpp_per_pcs,\n    calculated_at\n   FROM erp.hpp_versions hv\n  WHERE (is_current = true)\n  ORDER BY lot_id, version_no DESC;",
+      null,
+      null,
+      [
+        [
+          "authenticated",
+          "postgres",
+          "SELECT",
+          false
+        ],
+        [
+          "postgres",
+          "postgres",
+          "DELETE",
+          false
+        ],
+        [
+          "postgres",
+          "postgres",
+          "INSERT",
+          false
+        ],
+        [
+          "postgres",
+          "postgres",
+          "MAINTAIN",
+          false
+        ],
+        [
+          "postgres",
+          "postgres",
+          "REFERENCES",
+          false
+        ],
+        [
+          "postgres",
+          "postgres",
+          "SELECT",
+          false
+        ],
+        [
+          "postgres",
+          "postgres",
+          "TRIGGER",
+          false
+        ],
+        [
+          "postgres",
+          "postgres",
+          "TRUNCATE",
+          false
+        ],
+        [
+          "postgres",
+          "postgres",
+          "UPDATE",
+          false
+        ],
+        [
+          "service_role",
+          "postgres",
+          "DELETE",
+          false
+        ],
+        [
+          "service_role",
+          "postgres",
+          "INSERT",
+          false
+        ],
+        [
+          "service_role",
+          "postgres",
+          "MAINTAIN",
+          false
+        ],
+        [
+          "service_role",
+          "postgres",
+          "REFERENCES",
+          false
+        ],
+        [
+          "service_role",
+          "postgres",
+          "SELECT",
+          false
+        ],
+        [
+          "service_role",
+          "postgres",
+          "TRIGGER",
+          false
+        ],
+        [
+          "service_role",
+          "postgres",
+          "TRUNCATE",
+          false
+        ],
+        [
+          "service_role",
+          "postgres",
+          "UPDATE",
+          false
+        ]
+      ]
+    ],
+    "raw_acl_observed": false,
+    "raw_NULL_vs_explicit_acl_inferred": false,
+    "final_composite_accepted": false,
+    "runtime_entry": null,
+    "writer_or_phantom_lock_closed": false,
+    "actual_Native_credit": 0
   }
 }

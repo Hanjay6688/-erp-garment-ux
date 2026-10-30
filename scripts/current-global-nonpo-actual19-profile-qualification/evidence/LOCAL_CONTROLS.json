@@ -1,0 +1,93 @@
+{
+  "classification": "LOCAL_SOURCE_AND_CATALOG_MODELS_ONLY",
+  "reports": [
+    {
+      "name": "actual19-test_model.mjs.json",
+      "bytes": 246656,
+      "sha256": "e911f603de0d9e5d97848d7b9ce992ee21fa2e28c6a049aadcdca0439057f0ee",
+      "gzip_bytes": 6226,
+      "gzip_sha256": "e3e1b2bfc1a0736950adb3a60f637831769f0249b6c66bc36f04b1bb58a3429c",
+      "status": "PASS",
+      "counts": {
+        "PASS": 33,
+        "FAIL": 0
+      },
+      "case_count": 33,
+      "actual_Native_credit": 0
+    },
+    {
+      "name": "actual19-test_identity_closure.mjs.json",
+      "bytes": 1434446,
+      "sha256": "a5901041a9b62b4275b24ebf351d6419e815765d4934606ba63c5b19dec3ce41",
+      "gzip_bytes": 19788,
+      "gzip_sha256": "e9f91032a38976c3b841c300755736519b411d393cb01110eb23e1482edf114e",
+      "status": "PASS",
+      "counts": {
+        "directed_PASS": 18,
+        "field_sensitivity_PASS": 162,
+        "FAIL": 0
+      },
+      "case_count": 18,
+      "actual_Native_credit": 0
+    },
+    {
+      "name": "actual19-test_fixed_point.mjs.json",
+      "bytes": 36095,
+      "sha256": "991241d3c4126d2eb67ff54b720640b2e45dfdb7d0f0e820ab7ecf214e382d16",
+      "gzip_bytes": 3103,
+      "gzip_sha256": "5413ae5eea8d3d068e1c31740ee8765c30ae63263d593b4572f888abd2a47843",
+      "status": "PASS",
+      "counts": {
+        "PASS": 4,
+        "FAIL": 0
+      },
+      "case_count": 4,
+      "actual_Native_credit": 0
+    },
+    {
+      "name": "actual19-test_adjustment_journal.mjs.json",
+      "bytes": 231878,
+      "sha256": "094439c8016438b69082dbd36d044ab0424b3ba3f1a2f37fd1c2f49b728f62f0",
+      "gzip_bytes": 4873,
+      "gzip_sha256": "6a619362bbcb27a96459df9bc4fc082d992ca2848d10eb284446b9e2e6ddf615",
+      "status": "PASS",
+      "counts": {
+        "directed_PASS": 5,
+        "original_journal_field_sensitivity_PASS": 24,
+        "FAIL": 0
+      },
+      "case_count": 5,
+      "actual_Native_credit": 0
+    },
+    {
+      "name": "global-actual19-profile-tests-fixed.json",
+      "bytes": 3095,
+      "sha256": "02176fa3a9ffbc5a8ad467c4c3ce05cae009459ebe161ae7b85591b2a6fd5592",
+      "gzip_bytes": 621,
+      "gzip_sha256": "9262a0a8eb033b2387043c871d94ae51f10c1127c8fe015268ddb45b657a1072",
+      "status": "PASS",
+      "counts": null,
+      "case_count": 12,
+      "actual_Native_credit": 0
+    },
+    {
+      "name": "global-first-model-retained-verify.json",
+      "bytes": 2515,
+      "sha256": "db9c31632aaaccf986729f5c93482841e129424a618cb353ce0920fe8ca8fa69",
+      "gzip_bytes": 1113,
+      "gzip_sha256": "af0b4ad15a388e4f6491b6083835948aef3a1c4d0170e36169e32f1de56e61f7",
+      "status": "EXPECTED_OLD_PROFILE_REFUSAL_REPRODUCED",
+      "counts": null,
+      "case_count": 0,
+      "actual_Native_credit": 0
+    }
+  ],
+  "original_four_model_callback_files_unchanged": true,
+  "actual_Native_credit": 0,
+  "actual_Auth_HTTP_browser_races": 0,
+  "runtime_entry": null,
+  "required_final_composition_parent": null,
+  "writer_or_phantom_lock_closed": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

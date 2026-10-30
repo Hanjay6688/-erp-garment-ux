@@ -1,0 +1,20 @@
+{
+  "classification": "LOCAL_SOURCE_AND_CATALOG_MODELS_NOT_ERP_RUNTIME_ACCEPTANCE",
+  "status": "INCOMPLETE",
+  "cases": [],
+  "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n+ actual - expected\n\n+ undefined\n- false\n\n    at file:///workspace/scratch/b73c04f98216/erp-global/scripts/current-global-nonpo-actual19-profile-qualification/test_profile.mjs:25:66\n    at check (file:///workspace/scratch/b73c04f98216/erp-global/scripts/current-global-nonpo-actual19-profile-qualification/test_profile.mjs:14:9)\n    at async file:///workspace/scratch/b73c04f98216/erp-global/scripts/current-global-nonpo-actual19-profile-qualification/test_profile.mjs:21:2",
+  "standins": {
+    "classification": "DECLARED_LOCAL_SOURCE_AND_EXPANDED_ACL_MODELS_ONLY",
+    "extra_role_standins": [
+      "cp7_finance_read",
+      "cp7_credit_write"
+    ],
+    "two_captured_definitions_installed_as_model_source": true,
+    "full_ERP_tables_FKs_RLS_roles_and_Native_writers": false,
+    "actual_Native_credit": 0
+  },
+  "actual_Native": 0,
+  "actual_Auth_HTTP_browser_races": 0,
+  "runtime_entry": null,
+  "production_go": false
+}
