@@ -16,6 +16,10 @@
       "bytes": 3438,
       "sha256": "14fdcc62045c61972e860f91cf6b6d68875ff76c9e13f1ca027e51cfd8f5e076"
     },
+    "scripts/current-sku-managed-recovery-native27-qualification/FIRST_0938_BROWSER_FAILURE.json": {
+      "bytes": 20058,
+      "sha256": "8e1a3ed92fdc3a0299cd717bbb01bb51e80743c7d268de8ce8a4ebedddc2302e"
+    },
     "scripts/current-sku-managed-recovery-native27-qualification/FIRST_8A080_BROWSER_FAILURE.json": {
       "bytes": 1569,
       "sha256": "e12918f5f588a9a0657cd683dc04140d25212bdc6a6f49786a0a6ebf6682480d"
@@ -53,8 +57,8 @@
       "sha256": "cb512849e5400869a0efcfbb877198903741e0d4d67b7cf31f312282c9c040ad"
     },
     "scripts/current-sku-managed-recovery-native27-qualification/README.md": {
-      "bytes": 9765,
-      "sha256": "e0a9192630406483280f1a27bb382358b3ab38db9ab22377b64ada2054451a9b"
+      "bytes": 11017,
+      "sha256": "6ebb0930f2f89ab6ac5b4dea942790ff5df0fc84d73278a086290859cb31b6ac"
     },
     "scripts/current-sku-managed-recovery-native27-qualification/SKU_GENERATED_RECEIPTS.json": {
       "bytes": 28017,
@@ -69,12 +73,12 @@
       "sha256": "5d205c272ddda20a74ac738f1a122a2dee81c1d1a0f9921331f21089f79539e3"
     },
     "scripts/current-sku-managed-recovery-native27-qualification/browser.mjs": {
-      "bytes": 22368,
-      "sha256": "7ece0af2e541bee7b76798f9b5a1ca2c918d7dfd98789284cffefc5aaccd35a3"
+      "bytes": 22853,
+      "sha256": "7a1cb2ea0d5b4bed519f45d07ed95b381fae3e01cfa31c6835c30317765c9537"
     },
     "scripts/current-sku-managed-recovery-native27-qualification/browser_delta.py": {
-      "bytes": 5733,
-      "sha256": "fef57bde001d7d70601ea72ded172ebf15d124396704c96040f5fe04a10318e9"
+      "bytes": 7948,
+      "sha256": "fb32a5943aa330c0ad5d2fd66d6fff3ce6745273ac1613ecb40eb83cafa53b34"
     },
     "scripts/current-sku-managed-recovery-native27-qualification/browser_fixture.py": {
       "bytes": 383,
@@ -113,8 +117,8 @@
       "sha256": "929ea1834693204d278a1879192973055a27338c9a3947836da16753be0aaba4"
     },
     "scripts/current-sku-managed-recovery-native27-qualification/derive.py": {
-      "bytes": 12319,
-      "sha256": "377d0450b15cdb87c9c18884584eb1e38839998e18a9ad2b742a59d6b2bc1adc"
+      "bytes": 12440,
+      "sha256": "16fe3c3c403a6926f0110601dfa82e599d0f7217740b674bb2d39a7851d3b7c8"
     },
     "scripts/current-sku-managed-recovery-native27-qualification/engine_delta.py": {
       "bytes": 1615,
@@ -288,6 +292,42 @@
       "bytes": 1806,
       "sha256": "e5e6bfac1a2f305f58b1c3ad9fda8e1a93e532e538670bf9009bcf2e5047491d"
     },
+    "scripts/current-sku-managed-recovery-native27-qualification/retained_0938/README.md": {
+      "bytes": 9765,
+      "sha256": "e0a9192630406483280f1a27bb382358b3ab38db9ab22377b64ada2054451a9b"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/retained_0938/SOURCE.json": {
+      "bytes": 59838,
+      "sha256": "0071912554ed74e0552e5d1a14737a9439e699602545484d85cfc9e68e671221"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/retained_0938/browser.mjs": {
+      "bytes": 22368,
+      "sha256": "7ece0af2e541bee7b76798f9b5a1ca2c918d7dfd98789284cffefc5aaccd35a3"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/retained_0938/browser_delta.py.txt": {
+      "bytes": 5733,
+      "sha256": "fef57bde001d7d70601ea72ded172ebf15d124396704c96040f5fe04a10318e9"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/retained_0938/derive.py.txt": {
+      "bytes": 12319,
+      "sha256": "377d0450b15cdb87c9c18884584eb1e38839998e18a9ad2b742a59d6b2bc1adc"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/retained_0938/staged_ai_fixture.py.txt": {
+      "bytes": 6748,
+      "sha256": "241264dbca369179a5fb40a5549a1a70c9847e4772dbe3de05a7af3dc54963ee"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/retained_0938/test_browser_labels.mjs": {
+      "bytes": 5187,
+      "sha256": "fae76f8e34fb9dd3787792b49178431aacafcd8dbb22f38b4b47e50b880d80e8"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/retained_0938/test_browser_prepare_isolation.py.txt": {
+      "bytes": 5082,
+      "sha256": "dc924b59d30799c9f8a1945e7fe443efaccf36409deac0187527635d101232b3"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/retained_0938/test_qualification.py.txt": {
+      "bytes": 14648,
+      "sha256": "357f6deabbe60f3e41beae699845408753ab2b7772874b76a4090c9f9dcaa95f"
+    },
     "scripts/current-sku-managed-recovery-native27-qualification/retained_8a080/README.md": {
       "bytes": 8925,
       "sha256": "b997168e2af66b5ecf2ae892e49366552ed0e0962fd6687d70e75228c9863cfb"
@@ -377,16 +417,16 @@
       "sha256": "2ae5664425e52653c60a302451b1b5e71a020a5248f4fb3c5b394228a51cdf5a"
     },
     "scripts/current-sku-managed-recovery-native27-qualification/staged_ai_fixture.py": {
-      "bytes": 6748,
-      "sha256": "241264dbca369179a5fb40a5549a1a70c9847e4772dbe3de05a7af3dc54963ee"
+      "bytes": 6758,
+      "sha256": "24ea5926c34948c1709d6acf4d91cb78472e0c1eddfdff7f5a41352236bf1001"
     },
     "scripts/current-sku-managed-recovery-native27-qualification/test_browser_labels.mjs": {
-      "bytes": 5187,
-      "sha256": "fae76f8e34fb9dd3787792b49178431aacafcd8dbb22f38b4b47e50b880d80e8"
+      "bytes": 11353,
+      "sha256": "45a236b1f9f6fdcb2728dcc8c4468d223427f65392407e8de07d2eff06f5c6d9"
     },
     "scripts/current-sku-managed-recovery-native27-qualification/test_browser_prepare_isolation.py": {
-      "bytes": 5082,
-      "sha256": "dc924b59d30799c9f8a1945e7fe443efaccf36409deac0187527635d101232b3"
+      "bytes": 5882,
+      "sha256": "771ab86395384b7af583867da633f11361d32b82d02bb89a3cf509dc13a5d2d2"
     },
     "scripts/current-sku-managed-recovery-native27-qualification/test_generated_ci.py": {
       "bytes": 5460,
@@ -401,8 +441,8 @@
       "sha256": "8062bdfd13825b10c93b6352a8ecef4b61d44553d30f15606c91f87f33cd67fb"
     },
     "scripts/current-sku-managed-recovery-native27-qualification/test_qualification.py": {
-      "bytes": 14648,
-      "sha256": "357f6deabbe60f3e41beae699845408753ab2b7772874b76a4090c9f9dcaa95f"
+      "bytes": 14734,
+      "sha256": "291c5b2f80262121aa5206602ec88364a0fa1da0ee81884200c067b8727a68bd"
     },
     "scripts/current-sku-managed-recovery-native27-qualification/test_race_binding.py": {
       "bytes": 4509,
@@ -430,6 +470,7 @@
     "scripts/current-sku-managed-recovery-native27-qualification/.gitignore",
     "scripts/current-sku-managed-recovery-native27-qualification/BROWSER_SOURCE.json",
     "scripts/current-sku-managed-recovery-native27-qualification/BROWSER_SOURCE_DIAGNOSIS.json",
+    "scripts/current-sku-managed-recovery-native27-qualification/FIRST_0938_BROWSER_FAILURE.json",
     "scripts/current-sku-managed-recovery-native27-qualification/FIRST_8A080_BROWSER_FAILURE.json",
     "scripts/current-sku-managed-recovery-native27-qualification/FIRST_A18_BROWSER_FAILURE.json",
     "scripts/current-sku-managed-recovery-native27-qualification/FIRST_C397_ROUTING_FAILURE.json",
@@ -499,6 +540,15 @@
     "scripts/current-sku-managed-recovery-native27-qualification/recovery_cases.py",
     "scripts/current-sku-managed-recovery-native27-qualification/recovery_sessions.py",
     "scripts/current-sku-managed-recovery-native27-qualification/retain_outputs.py",
+    "scripts/current-sku-managed-recovery-native27-qualification/retained_0938/README.md",
+    "scripts/current-sku-managed-recovery-native27-qualification/retained_0938/SOURCE.json",
+    "scripts/current-sku-managed-recovery-native27-qualification/retained_0938/browser.mjs",
+    "scripts/current-sku-managed-recovery-native27-qualification/retained_0938/browser_delta.py.txt",
+    "scripts/current-sku-managed-recovery-native27-qualification/retained_0938/derive.py.txt",
+    "scripts/current-sku-managed-recovery-native27-qualification/retained_0938/staged_ai_fixture.py.txt",
+    "scripts/current-sku-managed-recovery-native27-qualification/retained_0938/test_browser_labels.mjs",
+    "scripts/current-sku-managed-recovery-native27-qualification/retained_0938/test_browser_prepare_isolation.py.txt",
+    "scripts/current-sku-managed-recovery-native27-qualification/retained_0938/test_qualification.py.txt",
     "scripts/current-sku-managed-recovery-native27-qualification/retained_8a080/README.md",
     "scripts/current-sku-managed-recovery-native27-qualification/retained_8a080/SOURCE.json",
     "scripts/current-sku-managed-recovery-native27-qualification/retained_8a080/browser.mjs",
@@ -575,6 +625,7 @@
       "financial_expected_values_unchanged": true,
       "explicit_race_schedule_transition": false,
       "explicit_browser_locator_or_route_changes": 0,
+      "explicit_recovery_and_history_changes": 0,
       "explicit_currency_display_whitespace_changes": 0
     },
     "cost_native": {
@@ -609,6 +660,7 @@
       "financial_expected_values_unchanged": true,
       "explicit_race_schedule_transition": false,
       "explicit_browser_locator_or_route_changes": 0,
+      "explicit_recovery_and_history_changes": 0,
       "explicit_currency_display_whitespace_changes": 0
     },
     "cost_cases": {
@@ -643,6 +695,7 @@
       "financial_expected_values_unchanged": true,
       "explicit_race_schedule_transition": false,
       "explicit_browser_locator_or_route_changes": 0,
+      "explicit_recovery_and_history_changes": 0,
       "explicit_currency_display_whitespace_changes": 0
     },
     "races": {
@@ -677,6 +730,7 @@
       "financial_expected_values_unchanged": true,
       "explicit_race_schedule_transition": true,
       "explicit_browser_locator_or_route_changes": 0,
+      "explicit_recovery_and_history_changes": 0,
       "explicit_currency_display_whitespace_changes": 0
     },
     "auth_waits": {
@@ -711,6 +765,7 @@
       "financial_expected_values_unchanged": true,
       "explicit_race_schedule_transition": false,
       "explicit_browser_locator_or_route_changes": 0,
+      "explicit_recovery_and_history_changes": 0,
       "explicit_currency_display_whitespace_changes": 0
     },
     "concurrency": {
@@ -745,6 +800,7 @@
       "financial_expected_values_unchanged": true,
       "explicit_race_schedule_transition": false,
       "explicit_browser_locator_or_route_changes": 0,
+      "explicit_recovery_and_history_changes": 0,
       "explicit_currency_display_whitespace_changes": 0
     },
     "browser_fixture": {
@@ -779,6 +835,7 @@
       "financial_expected_values_unchanged": true,
       "explicit_race_schedule_transition": false,
       "explicit_browser_locator_or_route_changes": 0,
+      "explicit_recovery_and_history_changes": 0,
       "explicit_currency_display_whitespace_changes": 0
     },
     "runner": {
@@ -813,6 +870,7 @@
       "financial_expected_values_unchanged": true,
       "explicit_race_schedule_transition": false,
       "explicit_browser_locator_or_route_changes": 0,
+      "explicit_recovery_and_history_changes": 0,
       "explicit_currency_display_whitespace_changes": 0
     },
     "probe": {
@@ -847,6 +905,7 @@
       "financial_expected_values_unchanged": true,
       "explicit_race_schedule_transition": false,
       "explicit_browser_locator_or_route_changes": 0,
+      "explicit_recovery_and_history_changes": 0,
       "explicit_currency_display_whitespace_changes": 0
     },
     "historical_admission": {
@@ -881,6 +940,7 @@
       "financial_expected_values_unchanged": true,
       "explicit_race_schedule_transition": false,
       "explicit_browser_locator_or_route_changes": 0,
+      "explicit_recovery_and_history_changes": 0,
       "explicit_currency_display_whitespace_changes": 0
     },
     "browser": {
@@ -906,7 +966,7 @@
         "original_files_modified": false
       },
       "retained602_derived_sha256": "e4f49b2c58b62170f603a40fb211a8a7e64fe15661aa479c1ce11724e9c471f8",
-      "derived_sha256": "7ece0af2e541bee7b76798f9b5a1ca2c918d7dfd98789284cffefc5aaccd35a3",
+      "derived_sha256": "7a1cb2ea0d5b4bed519f45d07ed95b381fae3e01cfa31c6835c30317765c9537",
       "namespace_occurrences": 0,
       "extra_counted_changes": 6,
       "byte_exact_reversible": true,
@@ -915,6 +975,7 @@
       "financial_expected_values_unchanged": true,
       "explicit_race_schedule_transition": false,
       "explicit_browser_locator_or_route_changes": 9,
+      "explicit_recovery_and_history_changes": 4,
       "explicit_currency_display_whitespace_changes": 1
     },
     "cases": {
@@ -949,6 +1010,7 @@
       "financial_expected_values_unchanged": true,
       "explicit_race_schedule_transition": false,
       "explicit_browser_locator_or_route_changes": 1,
+      "explicit_recovery_and_history_changes": 0,
       "explicit_currency_display_whitespace_changes": 0
     },
     "native_admission": {
@@ -974,6 +1036,7 @@
       "financial_expected_values_unchanged": true,
       "explicit_race_schedule_transition": false,
       "explicit_browser_locator_or_route_changes": 0,
+      "explicit_recovery_and_history_changes": 0,
       "explicit_currency_display_whitespace_changes": 0
     },
     "cost_guard": {
@@ -999,6 +1062,7 @@
       "financial_expected_values_unchanged": true,
       "explicit_race_schedule_transition": false,
       "explicit_browser_locator_or_route_changes": 0,
+      "explicit_recovery_and_history_changes": 0,
       "explicit_currency_display_whitespace_changes": 0
     },
     "browser_guard": {
@@ -1024,6 +1088,7 @@
       "financial_expected_values_unchanged": true,
       "explicit_race_schedule_transition": false,
       "explicit_browser_locator_or_route_changes": 0,
+      "explicit_recovery_and_history_changes": 0,
       "explicit_currency_display_whitespace_changes": 0
     }
   },
@@ -1077,6 +1142,10 @@
     "exact_accessible_names_retained": true,
     "staged_group_combobox_changes": 1,
     "currency_display_whitespace_changes": 1,
+    "recovery_and_history_counted_changes": 4,
+    "pending_recovery_requires_locked_source_and_enabled_reconcile": true,
+    "authoritative_recovery_requires_enabled_source": true,
+    "inverse_matches_exact_document_and_current_fixture_commercial_labels": true,
     "expected_source_value_still": "60.06",
     "Native_financial_oracles_unchanged": true,
     "stage_cases_route_changes": 1,
@@ -1092,7 +1161,7 @@
       "staged_ai_fixture.py": {
         "source": "scripts/current-staged-ai-browser-qualification/fixture.py",
         "original_sha256": "06ca4d87cad916c7af3663e3239beca7761ed3588abd28b1fc6b2e12ba8136b9",
-        "derived_sha256": "241264dbca369179a5fb40a5549a1a70c9847e4772dbe3de05a7af3dc54963ee",
+        "derived_sha256": "24ea5926c34948c1709d6acf4d91cb78472e0c1eddfdff7f5a41352236bf1001",
         "counted_changes": 1,
         "byte_exact_reversible": true,
         "financial_and_full_census_assertions_unchanged": true
@@ -1100,7 +1169,8 @@
     },
     "actual_materialized_SKU_and_staged_caller_routes_exact": true,
     "prepare_isolation": "READ COMMITTED",
-    "state_and_read_isolation": "REPEATABLE READ",
+    "read_isolation": "READ COMMITTED",
+    "state_isolation": "REPEATABLE READ",
     "product_sources_changed": 0,
     "financial_oracles_changed": 0,
     "original_browser_journey_whole_body_identity_claim": false,

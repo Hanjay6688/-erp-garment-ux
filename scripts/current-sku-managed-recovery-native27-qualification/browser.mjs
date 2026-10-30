@@ -107,10 +107,16 @@ async function journey(ui,today,mobile){
   pending=page.waitForResponse(response=>rpc(RPC.read)(response)&&args(response).p_filters?.selection?.source_product_id===f.source)
   await conversion().getByRole('combobox',{name:'SKU asal dan gudang',exact:true}).selectOption(f.source+':'+f.location);await success(pending)
  }
- async function openConversion(){await menu(page,'Gudang','Ganti Merek');await expect(conversion().getByRole('heading',{name:'Ganti Merek / SKU',exact:true})).toBeVisible();await expect(conversion().getByRole('combobox',{name:'SKU asal dan gudang',exact:true})).toBeEnabled()}
+ async function openConversion(pendingRecovery=false){
+  await menu(page,'Gudang','Ganti Merek');await expect(conversion().getByRole('heading',{name:'Ganti Merek / SKU',exact:true})).toBeVisible()
+  const source=conversion().getByRole('combobox',{name:'SKU asal dan gudang',exact:true})
+  if(pendingRecovery){await expect(source).toBeDisabled();await expect(conversion().getByRole('button',{name:'Reconcile transaksi',exact:true})).toBeEnabled()}
+  else await expect(source).toBeEnabled()
+ }
  async function openInverse(member){
   const row=history().getByRole('row').filter({hasText:member.number});await expect(row).toHaveCount(1)
-  await row.getByRole('button',{name:'Batalkan '+f.products.source.sku,exact:true}).click()
+  await expect(row).toContainText(f.group_labels[groupSource].sku+' → '+f.group_labels[groupTarget].sku);await expect(row).toContainText('POSTED')
+  await row.getByRole('button',{name:'Batalkan '+f.group_labels[groupSource].sku,exact:true}).click()
   await history().getByLabel('Alasan pembatalan',{exact:true}).fill('Seluruh perubahan fisik dikembalikan setelah turunan sah dibatalkan')
   await expect(history()).toContainText('Seluruh konversi 4 PCS akan dibatalkan bersama.')
  }
@@ -173,7 +179,7 @@ async function journey(ui,today,mobile){
    await destination().getByRole('button',{name:'Catat konversi fisik',exact:true}).dblclick()
    await expect(conversion().getByRole('button',{name:'Reconcile transaksi',exact:true})).toBeEnabled();assert.ok(lostResponse)
    const committed=state('LOST_COMMITTED_REPLY');postedOracle(committed,f,lostResponse)
-   await page.unroute(endpoint);await page.reload();await openConversion()
+   await page.unroute(endpoint);await page.reload();await openConversion(true)
    const retry=page.waitForResponse(response=>rpc(RPC.write)(response)&&args(response).p_action==='POST')
    await conversion().getByRole('button',{name:'Reconcile transaksi',exact:true}).click();const response=await retry
    replayBody=args(response);made=await success(Promise.resolve(response));assert.deepEqual(replayBody,firstBody);assert.deepEqual(made,lostResponse)
@@ -184,7 +190,8 @@ async function journey(ui,today,mobile){
    await destination().getByRole('button',{name:'Catat konversi fisik',exact:true}).dblclick();made=await success(pending)
   }
   await expect(conversion().getByRole('button',{name:'Muat ulang',exact:true})).toBeEnabled()
-  let posted=state('POSTED');postedOracle(posted,f,made)
+  await expect(conversion().getByRole('combobox',{name:'SKU asal dan gudang',exact:true})).toBeEnabled()
+  let posted = state('POSTED');postedOracle(posted,f,made)
   assert.equal(calls.filter(call=>call.rpc===RPC.write&&call.args.p_action==='POST').length,mobile?1:2)
   await selectSource();await searchTarget(f.products.target.sku);const current=await selectTarget(f.target)
   assert.deepEqual(current.selection.source_stock,{physical:6,reserved:1,available:5});assert.deepEqual(current.selection.target_stock,{physical:8,reserved:0,available:8})

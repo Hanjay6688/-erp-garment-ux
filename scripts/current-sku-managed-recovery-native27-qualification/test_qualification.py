@@ -57,6 +57,7 @@ class Qualification(unittest.TestCase):
         self.assertEqual([key for key,p in proof.items()if not p['original_financial_postcondition_assertions_unchanged']],['browser'])
         self.assertTrue(all(p['financial_expected_values_unchanged']for p in proof.values()))
         self.assertEqual(proof['browser']['explicit_currency_display_whitespace_changes'],1)
+        self.assertEqual(proof['browser']['explicit_recovery_and_history_changes'],4)
         self.assertEqual(d.browser_delta.DISPLAY[0].replace('Rp60','Rp 60'),d.browser_delta.DISPLAY[1])
         with self.assertRaises(ValueError):d.derive('runner',b'unknown body')
 
