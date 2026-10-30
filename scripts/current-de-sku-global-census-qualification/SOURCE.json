@@ -1,0 +1,180 @@
+{
+  "base": "80fab765938f8feaff151cd35fdb7923df987f23",
+  "base_tree": "9161822776b958a60cbe845f7a56d96c31db3dc5",
+  "original_catalogue_source": "bce07059f7a351372e40bb7c2e4453876320a2e8",
+  "classification": "READ_ONLY_GLOBAL_WRITER_METADATA_WITH_FULL_INHERITED_RESTORATION",
+  "metadata_only_entry": "scripts/current-de-sku-global-census-qualification/probe.py --metadata-runtime",
+  "runtime_entry": null,
+  "actual_Native_credit": 0,
+  "production_go": false,
+  "independent_acceptance": false,
+  "files": {
+    ".github/workflows/cp7-de-sku-global-census.yml": {
+      "bytes": 30700,
+      "sha256": "58709dd09eadf440fddc87e883d3dee0a8df89b01c311539946e34e57a19f87f",
+      "mode": "100644"
+    },
+    "scripts/current-de-sku-global-census-qualification/GENERATED_RECEIPTS.json": {
+      "bytes": 59241,
+      "sha256": "cc0ba9b93082b007b0f19e90e96069cdad2c96037a5f245bf829c31cdb3cfe53",
+      "mode": "100644"
+    },
+    "scripts/current-de-sku-global-census-qualification/LATER_GENERATED_RECEIPTS.json": {
+      "bytes": 28155,
+      "sha256": "f5aaa01453844a78617dc45891584bc38da5870aa86c187b59c29b56893d10a2",
+      "mode": "100644"
+    },
+    "scripts/current-de-sku-global-census-qualification/README.md": {
+      "bytes": 6909,
+      "sha256": "5b428a2f602a59b555131ccf70b1c5f882770d973b1d25bfac10d3e70e74b895",
+      "mode": "100644"
+    },
+    "scripts/current-de-sku-global-census-qualification/SKU_GENERATED_RECEIPTS.json": {
+      "bytes": 28356,
+      "sha256": "1a849a7f56e886b4f5628132a57e7b7fa3928d73741ea78e21b6996e6405de6a",
+      "mode": "100644"
+    },
+    "scripts/current-de-sku-global-census-qualification/admission.py": {
+      "bytes": 12017,
+      "sha256": "cfac608b7c2baf970bb32cecea86d93bda0a295f1c12b3b459d4d898d35afe42",
+      "mode": "100644"
+    },
+    "scripts/current-de-sku-global-census-qualification/check.py": {
+      "bytes": 792,
+      "sha256": "1f4ff519c33efb7a0c74496ae695866e8249fb194907f4ad1ffdc0a81fa4425a",
+      "mode": "100644"
+    },
+    "scripts/current-de-sku-global-census-qualification/derive.py": {
+      "bytes": 6401,
+      "sha256": "d3a4214d2d589e358847c42bc3793c6f6f353c5b45a3cfe0e82231c43c3c75b9",
+      "mode": "100644"
+    },
+    "scripts/current-de-sku-global-census-qualification/freeze.py": {
+      "bytes": 2352,
+      "sha256": "72f67f63b84de583c08278871a8eea7e8c3a1432bb655313c60f853e5408c5a7",
+      "mode": "100644"
+    },
+    "scripts/current-de-sku-global-census-qualification/loader.py": {
+      "bytes": 1811,
+      "sha256": "6fea16799eaa18b1cda05b5e8c61f96ef14a172793bef98edec0cc0cccae1d2d",
+      "mode": "100644"
+    },
+    "scripts/current-de-sku-global-census-qualification/probe.py": {
+      "bytes": 2687,
+      "sha256": "da4a5f6976a04bc3edefc43af241813a211d6f2ebb84d779059ae745d66bdbfb",
+      "mode": "100644"
+    },
+    "scripts/current-de-sku-global-census-qualification/producer_profiles.py": {
+      "bytes": 1891,
+      "sha256": "1318a3d2e12115d4d91f9c921d61b36cbaa7fe2c3cf3508312b4499b9ec4825c",
+      "mode": "100644"
+    },
+    "scripts/current-de-sku-global-census-qualification/result_gate.py": {
+      "bytes": 2125,
+      "sha256": "a69a396dfaded4c4fa2c3c908ce7d02de98a432c9810ba269eeea4c5edfbdb31",
+      "mode": "100644"
+    },
+    "scripts/current-de-sku-global-census-qualification/retain.py": {
+      "bytes": 2468,
+      "sha256": "fe4874505befa93ef2a3f3baead58da700ccfd8ec1925871902848df3d5ec083",
+      "mode": "100644"
+    },
+    "scripts/current-de-sku-global-census-qualification/test_successor.py": {
+      "bytes": 15929,
+      "sha256": "0eb3e49c7e01584fe575f5189104b6d54650925634c58aa09fb8230c462454f1",
+      "mode": "100644"
+    },
+    "scripts/current-de-sku-global-census-qualification/workflow.py": {
+      "bytes": 4236,
+      "sha256": "14772a9454e494c164a8d21ded16d2584974b9be6f5d12e83eada3e8ad29c0c6",
+      "mode": "100644"
+    }
+  },
+  "derivations": {
+    "engine": {
+      "inherited": {
+        "original_path": "scripts/current-vendor-receivable-qualification/probe.py",
+        "original_sha256": "c420d894f8d5f16bddefeae73addb621507170f372a28e7d6e33d88c7eeb0be9",
+        "derived_sha256": "5e252e84922abae81636f7428d86a470d9a50253dd4c5f2ceb7106e176cf7e14",
+        "counted_changes": 13,
+        "original_engine_bytes_preserved": true,
+        "all_install_preuse_reinstall_backup_roles_CP6_advisor_Auth_package_checks_retained": true,
+        "original_business_case_requirement_replaced_by_explicit_catalogue_only_group": true,
+        "no_used_business_witness_claim": true,
+        "actual_Native_cases": 0
+      },
+      "successor": {
+        "kind": "engine",
+        "before_sha256": "5e252e84922abae81636f7428d86a470d9a50253dd4c5f2ceb7106e176cf7e14",
+        "after_sha256": "948752e8f838046be988ca11bbb38e2483a2ab353c8cb94294ea0524b4f685b3",
+        "counted_changes": 4,
+        "byte_reversible": true
+      },
+      "install_preuse_inverse_reinstall_commit_outer_restore_all5_preserved": true,
+      "actual_business_cases": 0,
+      "runtime_entry": null,
+      "actual_Native_credit": 0
+    },
+    "runner": {
+      "inherited": {
+        "kind": "runner",
+        "original_path": "scripts/current-de-sku-parent-catalogue-qualification/runner.py",
+        "original_sha256": "d5ebbdb8c3984e783043b8cb46d044d320afe592b91b69abd1ae69366041aed0",
+        "derived_sha256": "3fa8832725c4e59b98cbb661e98df63c5665943a5359d45a85938fae44f8f1f0",
+        "counted_changes": 3,
+        "byte_reversible": true,
+        "canonical_parent_written": false,
+        "next_successor_source_admission_required": true,
+        "next_producer_metadata_required": true,
+        "metadata_launch_prepared": false,
+        "runtime_entry": null,
+        "actual_Native_credit": 0,
+        "production_go": false,
+        "independent_acceptance": false
+      },
+      "successor": {
+        "kind": "runner",
+        "before_sha256": "3fa8832725c4e59b98cbb661e98df63c5665943a5359d45a85938fae44f8f1f0",
+        "after_sha256": "bd8e8b3872929f622c0bf9f20dc7106db21ea9be4edd8c1a222f9e10450fdd53",
+        "counted_changes": 4,
+        "byte_reversible": true
+      },
+      "runtime_entry": null,
+      "actual_Native_credit": 0
+    },
+    "gate": {
+      "inherited": {
+        "kind": "gate",
+        "original_path": "scripts/current-de-sku-parent-catalogue-qualification/result_gate.py",
+        "original_sha256": "ccacf58bd147de7d2b34d39f89f71ad42ac0e62b030a55f5db17c381134abf75",
+        "derived_sha256": "c2328558f251295c0b84e7abe23346ac9d5749d51aec02fb9afd19990209fe86",
+        "counted_changes": 3,
+        "byte_reversible": true,
+        "canonical_parent_written": false,
+        "next_successor_source_admission_required": true,
+        "next_producer_metadata_required": true,
+        "metadata_launch_prepared": false,
+        "runtime_entry": null,
+        "actual_Native_credit": 0,
+        "production_go": false,
+        "independent_acceptance": false
+      },
+      "successor": {
+        "kind": "gate",
+        "before_sha256": "c2328558f251295c0b84e7abe23346ac9d5749d51aec02fb9afd19990209fe86",
+        "after_sha256": "42a03dfded429538dc1c2780be20971a9ab2c90b31210ca38f734fda03ebd602",
+        "counted_changes": 5,
+        "byte_reversible": true
+      },
+      "runtime_entry": null,
+      "actual_Native_credit": 0
+    },
+    "integration": {
+      "kind": "integration",
+      "before_sha256": "c13c8a08e1ac65167f6209547ecbf5bdb4c41d2bcb1067b962f4d9a243203b61",
+      "after_sha256": "ae8beba4c372cc4fd7475a891b8edc99338dc435e1b65c3d02fac9fba53a8c3c",
+      "counted_changes": 1,
+      "byte_reversible": true
+    }
+  }
+}
