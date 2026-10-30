@@ -1,3 +1,42 @@
+## A / 30 Oktober 2026 — kegagalan S03/SKU terpelihara; jalur pemanggil SKU diperbaiki
+
+SKU c397 selesai7 Native+5 biaya, lalu9/11 race dan berhenti sebelum browser.
+Dua race berbeda UUID masih memanggil modul lama. Penerus publika18ceb79
+memperbaiki binding pemanggil dan memeriksa modul/kode/derivasi sebenarnya;
+48 kontrol lokal dan source79pin lulus. Rerun41039546903 masih berjalan.
+Oracle keuangan dan mesin Native tetap; seluruh27 harus lulus dalam run baru.
+
+S03 4d968 selesai1PASS/3INCOMPLETE. Desktop kini lolos kontras. Perbandingan
+Original membuktikan dua kegagalan audit hanya offsetWIB/UTC pada tiga field
+waktu; semua field/baris lain persis. Penerus menyiapkan pembacaan sumber UTC
+berscope. Skenario akses lama mencoba menghapus izin Owner terlindungi dan
+benar ditolak42501. Pengganti eksplisit memakai perubahan aktor melalui Native,
+versi/UUID/audit dan Owner cadangan; keadaan Owner view-only tak dapat diklaim.
+Tiga callback keuangan tetap. Penerus publik ae83782c lulus70Python/12Node
+dan source2.347pin; run41044533553 sedang berjalan untuk empat kasus aktual.
+
+Kedua run gagal memulihkan seluruh katalog22/data/ALLsequence/roles/CP6/advisor,
+Auth kembali0, dan empat gate paket benar; writer_runtime=false. Ini bukan
+kelulusan lima gate atau penerimaan parsial. Original lengkap tetap tersimpan.
+Katalog parentD1/E/SKU bce telah diintake ulang root: source41/import22,
+55konteks/8fungsi19field/3lapis,693tabel/15sequence dan seluruhlima gate cocok.
+Native/business0. Inspector global ee145929 lulus22+73 kontrol lokal dan review
+sumber; run41044419248 membaca metadata sesudah commit lalu wajib fullrestore.
+Runtime bisnis/hook global tetap tertutup; graph580tabel hanya batas review.
+
+S05 UI5 berarti lima file UI mandiri, bukan lima kasus browser. Rencana menu
+serta sumber yang perlu diikat sudah tertulis; halaman belum dipasang. Investigasi
+Afui menemukan aturan FREE pickup terpisah dari reimbursement GOOD; belum ada
+otoritas owner untuk menyamakannya. Guard Native tetap, cakupan lebih luas belum
+terbukti. Handoff invoice FG dipotong payroll dicatat sebagai paket berikutnya
+setelah integrasi aktif stabil, dengan invoice yang sama, reservasi draft,
+pelunasan saatPAID dan inverse tertaut; implementasi belum dimulai.
+
+Default vendor dan formal5/16 tetap; production_go=false,
+independent_acceptance=false. Checkpoint tidak mengakhiri pekerjaan aktif.
+
+--- Catatan sebelumnya dipertahankan ---
+
 ## A / 30 Oktober 2026 — S05 Native10 diterima sempit; parser UI diperbaiki, tiga pengujian aktif
 
 Root mengulang intake Original519d/run41020627427: sepuluh kasus Native,

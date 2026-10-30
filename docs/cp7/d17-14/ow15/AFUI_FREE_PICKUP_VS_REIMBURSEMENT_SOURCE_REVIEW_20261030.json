@@ -1,0 +1,50 @@
+{
+  "status": "COMPLETE_READONLY_SOURCE_EVIDENCE_INVESTIGATION",
+  "findings_bytes": 19442,
+  "findings_sha256": "581ec74fb32d400a1b6ef4125023ad74d017d0c4b6e4d5ad821852910f66fc4c",
+  "actual_guard": "Initial PRODUCTION lot: sum(total_hpp_cost)>0 and sum(total_reimbursement)=0 refuses",
+  "guard_definition_sha256": "b10b63a72b2915cc5a6d1f3331fcbb4fe072c121112df31bbad8306856fcdacc",
+  "current_bce_corroboration": {
+    "selected_functions": 28,
+    "catalogs": 6,
+    "matching_definitions": 168
+  },
+  "owner_authority": "ERP-DEC02 governs FREE pickup lines; D17-19C category BOM/report. No explicit zero-GOOD-reimbursement owner semantics located in docs or supplied primary context",
+  "lawful_positive_HPP_zero_total_reimbursement_path_proved": false,
+  "ordinary_FREE_pickup_path_source_supported": true,
+  "Afui_positive_HPP_zero_reimbursement_actual_coverage": false,
+  "existing_Native10_zero": {
+    "actual_inventory_cost": "14.00",
+    "actual_receivable": "22.75",
+    "standard_quantity": "7.5",
+    "standard_HPP": "0",
+    "standard_reimbursement": "0",
+    "entitlements": 0
+  },
+  "recost_loophole_used": false,
+  "implementation_changes": 0,
+  "new_Native_cases": 0,
+  "new_browser_cases": 0,
+  "formal_completed_scopes": 5,
+  "formal_total_scopes": 16,
+  "production_go": false,
+  "independent_acceptance": false,
+  "private_original_evidence": {
+    "library_file_id": "libfile_234dc62819c88191b5ac2a5ddf31dea6",
+    "name": "ERP_Afui_Economic_Path_Source_Investigation_20261030.zip",
+    "bytes": 74467,
+    "sha256": "ed6bc965705e3805d4a7508edc90e1839e9a51ce64f21b45e72535a2db38b165",
+    "members": 36,
+    "CRC_ok": true
+  },
+  "authority_locators": [
+    "docs/cp6-d11-kebijakan-dan-gbd03.md:15",
+    "docs/cp7/OWNER_DECISIONS_20261008.md:967",
+    "docs/cp7/handoff/WRITER_A_TAKEOVER_20261027.md:392"
+  ],
+  "classification": "INTERNAL_SOURCE_REVIEW_NOT_NEW_OWNER_POLICY_OR_ACTUAL_RUNTIME_ACCEPTANCE",
+  "normal_FREE_pickup_actual_coverage": "PENDING_FRESH_LAWFUL_CASE",
+  "wider_Afui_business_defect_proved": false,
+  "original_master_contract_M_available": false,
+  "forbid_invented_paid_companion_or_direct_posted_row_fixture": true
+}

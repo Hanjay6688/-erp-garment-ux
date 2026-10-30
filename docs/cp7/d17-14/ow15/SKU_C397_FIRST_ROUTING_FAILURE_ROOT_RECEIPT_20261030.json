@@ -1,0 +1,73 @@
+{
+  "classification": "ROOT_RECOMPUTED_ACTUAL_FAILURE_AND_RESTORATION_NOT_QUALIFICATION",
+  "head": "c397409a470c8c3d5f4963bbbdd7b676b1275af7",
+  "run_id": 41028102549,
+  "artifact_id": 12968607623,
+  "archive": {
+    "name": "ERP_SKU_Native27_c397_FirstRoutingFailure_20261030.zip",
+    "bytes": 46957656,
+    "sha256": "3d4e1dd2f1a10ec988c1578574f98d9a051e0c30f1e28eb9c8b88defaf6e98c3",
+    "members": 143,
+    "CRC_ok": true,
+    "private_Original_Library_file_id": "libfile_5937a94b1c908191bcebad0581daab43"
+  },
+  "main_original": {
+    "name": "CP7_SKU_MANAGED_RECOVERY_NATIVE27.json",
+    "bytes": 5885592,
+    "sha256": "db570f1aad76847c614b324ece8d22527aa2a5c07d33bef07794f44102ac9018"
+  },
+  "status": "INCOMPLETE",
+  "complete_outer_restore": {
+    "baseline_full22_all_rows_all_sequences_equal": true,
+    "restore_raw_public_equal": true,
+    "cp6_restored": true,
+    "baseline_advisors_equal": true,
+    "advisor_gate": true,
+    "roles_exact": true,
+    "restore_components": {
+      "erp_platform_auth_schema_acl": true,
+      "all_public_catalog_members_and_row_hashes": true,
+      "erp_public_auth_function_definitions_owners_acls": true
+    }
+  },
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "all_five_gates_pass": false,
+  "Auth_users_before": 0,
+  "Auth_users_after": 0,
+  "qualified_case_credit": 0,
+  "old_partial_runs_aggregated": false,
+  "source_acceptance_claim": false,
+  "formal_accepted": "5/16",
+  "production_go": false,
+  "independent_acceptance": false,
+  "observed_Native7": {
+    "PASS": 7
+  },
+  "observed_cost5": {
+    "PASS": 5
+  },
+  "observed_concurrency11": {
+    "PASS": 9,
+    "INCOMPLETE": 2
+  },
+  "failed_case_ids": [
+    "SKU29_RACE_DISTINCT_UUID_COMMIT_STALE",
+    "SKU29_RACE_DISTINCT_UUID_ROLLBACK_RECOVERY"
+  ],
+  "observed_failure": "NO_CONTENTION",
+  "browser4_reached": false,
+  "all11_installed_copies_full22_all_rows_ALL_sequences_roles_CP6_advisors_restored": true,
+  "database_remaining": 0,
+  "source_diagnosis": "Actual derived concurrency caller retained the older followup races module despite preparing a new schedule.",
+  "successor_head": "a18ceb797840934f2cc45222b704b581a00cecf0",
+  "successor_run_id": 41039546903,
+  "successor_scope": "Counted caller binding plus actual module/code/derivation admission; original financial postconditions and Native functions unchanged",
+  "local_successor_controls": 48,
+  "local_controls_are_actual_Native_credit": false
+}

@@ -1,0 +1,113 @@
+{
+  "classification": "ROOT_RECOMPUTED_ACTUAL_FAILURE_AND_RESTORATION_NOT_QUALIFICATION",
+  "head": "4d968a42e793a77c2dbcbe06dd79c524f18fa0f5",
+  "run_id": 41033738459,
+  "artifact_id": 12969123916,
+  "archive": {
+    "name": "ERP_S03_Browser4_4d968_FirstAuditRightsFailure_20261030.zip",
+    "bytes": 165206613,
+    "sha256": "e841f3026e2a7dac9f1ddfea013748572f14cd67ee9dcbbca47a303137469e14",
+    "members": 159,
+    "CRC_ok": true,
+    "private_Original_Library_file_id": "libfile_3f178e36455c8191bb2e284c39775d0b"
+  },
+  "main_original": {
+    "name": "CP7_S03_MOUNTED_FULL_APP_BROWSER4.json",
+    "bytes": 1576904,
+    "sha256": "b526758031cf1b2b1ddd4b9be478fcfc00facfafe941969452be85b6b19fcf75"
+  },
+  "status": "INCOMPLETE",
+  "complete_outer_restore": {
+    "baseline_full22_all_rows_all_sequences_equal": true,
+    "restore_raw_public_equal": true,
+    "cp6_restored": true,
+    "baseline_advisors_equal": true,
+    "advisor_gate": true,
+    "roles_exact": true,
+    "restore_components": {
+      "erp_platform_auth_schema_acl": true,
+      "all_public_catalog_members_and_row_hashes": true,
+      "erp_public_auth_function_definitions_owners_acls": true
+    }
+  },
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "all_five_gates_pass": false,
+  "Auth_users_before": 0,
+  "Auth_users_after": 0,
+  "qualified_case_credit": 0,
+  "old_partial_runs_aggregated": false,
+  "source_acceptance_claim": false,
+  "formal_accepted": "5/16",
+  "production_go": false,
+  "independent_acceptance": false,
+  "observed_browser_counts": {
+    "PASS": 1,
+    "INCOMPLETE": 3
+  },
+  "case_results": {
+    "S03_BROWSER_OWNER_EXPENSE_CORRECT_REVERSE_DESKTOP": {
+      "status": "PASS",
+      "failure": null
+    },
+    "S03_BROWSER_OWNER_CARRY_ALLOCATE_CANCEL_MOBILE390": {
+      "status": "INCOMPLETE",
+      "failure": "ORIGINAL_ACCRUAL_OR_APPROVAL_AUDIT_CHANGED"
+    },
+    "S03_BROWSER_ACTUAL_STALE_AND_LOST_REPLY_SAME_UUID": {
+      "status": "INCOMPLETE",
+      "failure": "ORIGINAL_ACCRUAL_OR_APPROVAL_AUDIT_CHANGED"
+    },
+    "S03_BROWSER_CURRENT_AUTH_RIGHTS_AND_DELAYED_CONTEXT": {
+      "status": "INCOMPLETE",
+      "failure": "PROTECTED_OWNER_ROLE_CANNOT_BE_CHANGED"
+    }
+  },
+  "original_host_bytes_and_hashes_verified": true,
+  "database_remaining": 0,
+  "auth_counts": {
+    "before": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "after": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "restored": true
+  },
+  "timezone_actual_raw_comparison": {
+    "scenarios": [
+      "MOBILE390",
+      "STALE"
+    ],
+    "changed_fields_per_scenario": [
+      "headers.created_at",
+      "headers.posting_at",
+      "approval_audit.changed_at"
+    ],
+    "offsets": [
+      "+07:00",
+      "+00:00"
+    ],
+    "all_differences_same_instants": true,
+    "all_other_raw_fields_and_rows_exact": true,
+    "evidence": {
+      "bytes": 2609,
+      "sha256": "26cf2678922ebca24f38b66d336d9067b720e3fa033f94ef0580029a6e557c65"
+    },
+    "runtime_normalizer_allowed": false
+  },
+  "protected_Owner_guard_preserved": true,
+  "view_only_protected_Owner_supported": false,
+  "successor_scope": "Scoped UTC source reads and explicit lawful current-actor access transition; preserve Native role protection and financial oracles"
+}

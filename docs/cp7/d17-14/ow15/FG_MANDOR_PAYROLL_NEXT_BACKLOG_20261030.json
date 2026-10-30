@@ -1,0 +1,61 @@
+{
+  "classification": "OWNER_HANDOFF_BACKLOG_AFTER_ACTIVE_INTEGRATION_STABLE",
+  "source": {
+    "file": "HANDOFF_FG_MANDOR_POTONG_PAYROLL_20261030.txt",
+    "library_file_id": "libfile_e56a5df5c9bc81919ea979cd447cb93a",
+    "read_all_lines": 58,
+    "instruction": "Tambahkan kebutuhan ini sebagai scope tersendiri di backlog. Kerjakan sebagai paket berikutnya setelah blok integrasi aktif stabil; pertahankan kandidat dan pengujian yang sedang berjalan. A tetap integrator tunggal."
+  },
+  "scope": "Use normal sales with customer type Toko or Mandor; attach posted FG invoice receivable to the identified mandor and manually selected payroll week.",
+  "UI": "Existing source-card pattern with invoice, date, value, outstanding, allocations, free balance and assigned payroll/week; amount selection and net-pay preview; desktop and mobile.",
+  "manual_week_selection": true,
+  "automatic_week_or_installment_schedule": false,
+  "identity": "Use master mandor ID, never name matching.",
+  "draft_payroll": "Reserve available invoice amount; do not settle receivable yet.",
+  "paid_payroll": "Atomically settle that same invoice receivable through payroll deduction; pay only net cash/bank; preserve existing wage expense recognition.",
+  "owner_example_rupiah": {
+    "payroll": 2000000,
+    "invoice_deduction": 300000,
+    "net_cash_payment": 1700000
+  },
+  "limits": [
+    "Invoice free outstanding after all active payroll reservations, payments and returns",
+    "Payroll capacity after other deductions",
+    "Server concurrency, current permissions, request idempotency and source-version review"
+  ],
+  "history": [
+    "Unassigning or cancelling unpaid payroll releases its reservation",
+    "Reversing paid payroll restores linked settlement through lawful reversal",
+    "Invoice return/cancel follows existing rules and requires refreshed deduction review or named blocking transactions",
+    "Preserve stock, HPP/COGS, posting, physical/system dates and append-only source history"
+  ],
+  "no_duplicate_cash_kasbon_or_receivable": true,
+  "clear_invalid_selection_on_mandor_or_week_change": true,
+  "future_evidence_scope": [
+    "Owner2m/300k example and manually selected other week",
+    "Partial payment, remaining balance and allocations across two payrolls",
+    "Double-click and concurrent tabs",
+    "Balance change through payment or return",
+    "Unassign, cancel, linked reversal and downstream blockers",
+    "Ordinary customer sale regression; stock/HPP recorded once; expense/settlement not duplicated",
+    "Actual Auth and normal App source-card journeys on desktop and mobile"
+  ],
+  "start_paths": [
+    "scripts/cp7-src/sales/form.sql",
+    "src/ConnectedSalesPage.tsx",
+    "src/ConnectedPayrollPage.tsx",
+    "src/PayrollKasbonPanel.tsx",
+    "src/payrollContract.ts",
+    "scripts/cp7-src/payroll/settlement-read.sql",
+    "scripts/cp7-src/payroll/settlement-write.sql",
+    "scripts/cp7-src/payroll/kasbon.sql"
+  ],
+  "source_auditor_observation_head": "8df440c123d88c8f3b71145f3e25b23584c4cd45",
+  "recheck_latest_HEAD_before_implementation": true,
+  "implementation_started": false,
+  "actual_tests": 0,
+  "one_hour_completion_promised": false,
+  "formal_total_unchanged": "5/16",
+  "production_go": false,
+  "independent_acceptance": false
+}

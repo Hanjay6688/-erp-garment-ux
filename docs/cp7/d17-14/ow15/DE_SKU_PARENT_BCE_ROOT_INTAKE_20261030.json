@@ -1,0 +1,216 @@
+{
+  "status": "ROOT_VERIFIED_ACTUAL_D1_E_SKU_PARENT_CATALOGUE_PREUSE_RESTORE_ALL5",
+  "classification": "ACTUAL_INSTALLATION_CATALOGUE_ONLY_NOT_BUSINESS_OR_PHASE_AUTHORITY",
+  "head": "bce07059f7a351372e40bb7c2e4453876320a2e8",
+  "tree": "e2e6c38a63f7fee3aa27922c9379b79d180a2edf",
+  "run_id": "41032035497",
+  "job_id": 123983810324,
+  "artifact_id": 12967889554,
+  "archive": {
+    "bytes": 16764082,
+    "sha256": "74335122eb5ce2e8457e7183c89eab34e6f7e889bcfd6a5c79a5f47a2d596644"
+  },
+  "archive_members": 126,
+  "archive_CRC_ok": true,
+  "originals": {
+    "CP7_D1_E_SKU_PARENT_CATALOGUE.json": {
+      "bytes": 151798168,
+      "sha256": "757cea6bd13480bcea6f4832a4e311795b7105cbab516a8a9e8aba6e5c3722a9"
+    },
+    "DE_SKU_PARENT_CATALOGUE_GATE.json": {
+      "bytes": 712,
+      "sha256": "832f398b554ac0cc970a9a0e18d8a33d7ce2b69e6dc3b2956f1892c90641cd6b"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360438,
+      "sha256": "f8381fa740414ef667d2b395e48228ebec26736d6560999ba58a6c519a291175"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 1470,
+      "sha256": "c6c3d0c742a4868899d3c5822463bf2f07c9abd4d97a92c845b67dabd4d3825d"
+    }
+  },
+  "standalone_original_result_gate_recomputed": true,
+  "source": {
+    "own_manifest": {
+      "bytes": 9401,
+      "sha256": "9b0af7074439fdbcd9cf4c65fcb9488fadf34f9317beab8774279d60559c9fa3"
+    },
+    "source_files": 41,
+    "exact_public_imports": 22,
+    "preserved_parent_files_and_modes": 13834,
+    "only_existing_product_change": [
+      "scripts/cp7_sku_pair_conversion/composition.py"
+    ],
+    "declared_delta_paths": 42,
+    "complete_reversible_engine_changes": 13,
+    "file_map_occurrences": 68,
+    "file_pin_occurrences": 330,
+    "unique_bound_path_digest_pairs": 188,
+    "exact_namespace_binding": true,
+    "matching_hash_in_other_namespace_accepted": false,
+    "historical_manifests_resealed": false,
+    "actual_business_runtime_entry": null
+  },
+  "actual_metadata": {
+    "context_names": [
+      "cp7_attendance.command_context",
+      "cp7_contractor_correction.context_v1",
+      "cp7_credit.consumer_execution_context",
+      "cp7_credit.consumer_posting_scope_v1",
+      "cp7_credit.consumer_validation_queue_v1",
+      "cp7_credit.execution_context",
+      "cp7_credit.initial_refund_operations",
+      "cp7_credit.initial_refund_posting_scope",
+      "cp7_credit.initial_return_work",
+      "cp7_credit.native_empty_operations",
+      "cp7_credit.native_empty_source_scope",
+      "cp7_credit.native_empty_work",
+      "cp7_credit.opening_return_hpp_work_v1",
+      "cp7_credit.payment_consumer_headers_v1",
+      "cp7_credit.payment_source_context_v1",
+      "cp7_credit.posting_scope",
+      "cp7_credit.return_command_scope",
+      "cp7_credit.return_native_scope",
+      "cp7_credit.source_mutation_scope",
+      "cp7_credit.source_operation_materializations_v1",
+      "cp7_credit.source_operation_work_v1",
+      "cp7_credit_correction_de.posting_v1",
+      "cp7_credit_correction_de.work_v1",
+      "cp7_credit_note_carry_de.work_v1",
+      "cp7_cutting_correction.pickup_context",
+      "cp7_guard.compound_scope",
+      "cp7_guard.compound_touch",
+      "cp7_installment.command_context",
+      "cp7_kasbon.command_context",
+      "cp7_material.execution_context",
+      "cp7_misc.command_context",
+      "cp7_note.context",
+      "cp7_payment_correction.context",
+      "cp7_payroll.execution_context",
+      "cp7_payroll.settlement_context",
+      "cp7_plan_native.apply_own_drafts",
+      "cp7_procurement.execution_context",
+      "cp7_receipt_fix.context",
+      "cp7_sales.command_context",
+      "cp7_sales_return_correction.context",
+      "cp7_sku_conversion.execution_v1",
+      "cp7_supplier_payment_correction.context",
+      "cp7_supplier_payment_create.context",
+      "cp7_supplier_return.execution_context",
+      "cp7_supplier_transfer.context_v1",
+      "erp.bc_execution_context_v1",
+      "erp.bd_execution_context_v1",
+      "erp.be_execution_context_v1",
+      "erp.bf_context_v1",
+      "erp.bs_resolution_execution_context",
+      "erp.cp6_laundry_qc_execution_context",
+      "erp.cutting_bridge_execution_context",
+      "erp.invoice_recost_execution_context",
+      "erp.pocket_fabric_execution_context",
+      "erp.product_identity_mutation_context_v1"
+    ],
+    "portable_context_sha256": "7113cf2fbb3d3a38ace7633ae5943a9c2317bfe1edffc25f86706be5892453a5",
+    "complete_layer_catalogue_sha256": {
+      "D1": "d1c7a3dbd71b66ec335c5b50bdfc8b77b065609097c9503aed1a43c252467601",
+      "E": "0a895072b9d0e31da75c7a6a1b87bc6d81952199f98b9f2d711c121f05da0ad9",
+      "SKU": "09d0a32a1c3e96a60c8463482e19ca20bbd9cce1936afb5b764ef1bc962a9bca"
+    },
+    "complete_read_boundary_sha256": "f259eb1aec33c15fa4fc2647fbdfd6dc26833d0e978c7455e42cf20d56785b7f",
+    "all_catalogue_groups": 22,
+    "complete_tables": 693,
+    "complete_sequences": 15,
+    "raw_schemas": 25,
+    "raw_relations": 55,
+    "raw_columns": 543,
+    "effective_roles": 89,
+    "effective_role_table_privilege_rows": 34265,
+    "raw_ACL_meanings_equal_portable_catalogue": true,
+    "hook_rows": {
+      "cp7_credit_correction_de.quote_v1(jsonb)": {
+        "fields": 19,
+        "row_sha256": "6c15f17be1d55e1490d287597ea1d6f29909a7a44201c23536e2715093eafcb0",
+        "definition_sha256": "e584d4980fa44849ff1b54c2fd3ec406fb5f3202ef4c1d74dfa9027710e90fe7"
+      },
+      "cp7_credit_correction_de.prepare_v1(jsonb,uuid,text,jsonb)": {
+        "fields": 19,
+        "row_sha256": "0c45d618086e85982746ee30f5643066e252c08183be78b199ca95b32ff54da0",
+        "definition_sha256": "08df8ae92a2c217c1a18d68aa92b499217726b10a132ce03f6064fb8c990cd9b"
+      },
+      "cp7_credit_correction_de.finish_v1(jsonb)": {
+        "fields": 19,
+        "row_sha256": "47e471f93d48be49a79bdebe29a98fefd6b97c81a935aa59736d66da23e5328a",
+        "definition_sha256": "4f8dceafc7380f7e16f43ea818405fc3db13927565238cd4262cdfb071901200"
+      },
+      "cp7_credit_note_carry_de.basis_v1(uuid)": {
+        "fields": 19,
+        "row_sha256": "81eedccf6cbf1d36df649c42332c054d5ee79efb0cee2b0a6a910ae7c7b7ad1c",
+        "definition_sha256": "3455dcf5ffefb021ed771b882e32282662cbccd440c515b5e99407fb768cfc6d"
+      },
+      "cp7_credit_note_carry_de.prepare_v1(jsonb,uuid,text,uuid,jsonb)": {
+        "fields": 19,
+        "row_sha256": "21686290de9e0bb528cfae0f0691b1c4c099940c222c282b202473ac9111dfb8",
+        "definition_sha256": "4b13bbd1ef039d855e4766ae21f93e60bf12af40e9abc62b862e7856edc6606a"
+      },
+      "cp7_credit_note_carry_de.finish_v1(jsonb)": {
+        "fields": 19,
+        "row_sha256": "e8495988731be86acbb2ca9d5508fb2e59d93899dee03069ee97cecd0ae8702d",
+        "definition_sha256": "ed7984d4b38b7de52d34e3d0ab0dd425ae3b4e197518ec43904d6a5fa5ddb4e0"
+      },
+      "cp7_credit.source_request_enter_v1(text,jsonb,uuid,text)": {
+        "fields": 19,
+        "row_sha256": "964497f75e215b8a465e81be936fcf589c053bb739da59412842ab2627ef1a80",
+        "definition_sha256": "2c121e6986c051339bc8a2426b13714fa6758eccf3065a00ff73bbf4ffe04667"
+      },
+      "cp7_credit.source_request_finish_v1(uuid)": {
+        "fields": 19,
+        "row_sha256": "4acc0475310e2e2987830a399e5164ccc48a7d719f03bd12ca04ed06eb456f8d",
+        "definition_sha256": "0ea71ca9280a296e7a02b89aefbc8819d128a147de32f8990e868aa0b35ec806"
+      }
+    },
+    "active_row_or_phase_authority_qualified": false
+  },
+  "actual_catalogue_groups": 1,
+  "actual_context_tables": 55,
+  "actual_function_hook_rows": 8,
+  "preuse_three_layer_inverse_and_reinstall": true,
+  "complete_outer_all22_rows_ALL_sequences_roles_CP6_advisors": true,
+  "package_all_five_gates": true,
+  "Auth_users_before": 0,
+  "Auth_users_after": 0,
+  "actual_two_session_races": 0,
+  "used_guard_business_witness_executed": false,
+  "global_bridge_qualified": false,
+  "writer_trigger_FK_closure_qualified": false,
+  "active_context_or_phase_authority_qualified": false,
+  "business_owning_hooks_qualified": false,
+  "S03_S05_installed": false,
+  "full_final_composite_qualified": false,
+  "default_adopted": false,
+  "accepted_transactions_reexecuted": false,
+  "formal_total_unchanged": "5/16",
+  "actual_business_cases": 0,
+  "actual_Native_cases": 0,
+  "actual_Auth_HTTP_cases": 0,
+  "actual_browser_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false,
+  "intake_scripts": {
+    "intake_common.py": {
+      "bytes": 6518,
+      "sha256": "698216cfb4c31e8c93167e1b67f52f0b7532e5906ac8a09584b0a32c728b41e9"
+    },
+    "intake_s05.py": {
+      "bytes": 29616,
+      "sha256": "c23f942e8a01a1a272bcc0f54de0c5ddd48708b3297020513e937dc8ca36a59c"
+    },
+    "intake_de_sku_parent.py": {
+      "bytes": 24562,
+      "sha256": "b1754d28e22b02c86d9f246a0e0a39c19c5f3204c332dc53fd455b3eacc9085d"
+    }
+  }
+}

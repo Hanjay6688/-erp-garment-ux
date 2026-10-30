@@ -1,5 +1,5 @@
 {
-  "recorded_at_utc": "2026-10-30T09:55:01.917983+00:00",
+  "recorded_at_utc": "2026-10-30T11:00:00.136696+00:00",
   "role": "A finance writer/integrator replacing Claude; B remains separate production/planning writer",
   "slogan": [
     "VENI. VIDI. VICI. ERP. — I CONQUERED ERP.",
@@ -10,26 +10,26 @@
   "independent_acceptance": false,
   "running": [
     {
-      "domain": "S03_BROWSER4",
-      "head": "4d968a42e793a77c2dbcbe06dd79c524f18fa0f5",
-      "run_id": 41033738459,
-      "job_id": 123989401947,
-      "status": "IN_PROGRESS_AT_LAST_API_OBSERVATION",
-      "qualified_new_case_credit": 0
-    },
-    {
       "domain": "SKU_NATIVE27",
-      "head": "c397409a470c8c3d5f4963bbbdd7b676b1275af7",
-      "run_id": 41028102549,
-      "job_id": 123970964483,
+      "head": "a18ceb797840934f2cc45222b704b581a00cecf0",
+      "run_id": 41039546903,
+      "job_id": 124008666380,
       "status": "IN_PROGRESS_AT_LAST_API_OBSERVATION",
       "qualified_new_case_credit": 0
     },
     {
-      "domain": "D1_E_SKU_ACTUAL_PARENT_CATALOGUE",
-      "head": "bce07059f7a351372e40bb7c2e4453876320a2e8",
-      "run_id": 41032035497,
-      "job_id": 123983810324,
+      "domain": "GLOBAL_WRITER_METADATA_ONLY",
+      "head": "ee14592920c331d84d354a24b4b6b4a9f49f91d1",
+      "run_id": 41044419248,
+      "job_id": 124024866394,
+      "status": "IN_PROGRESS_AT_LAST_API_OBSERVATION",
+      "qualified_new_case_credit": 0
+    },
+    {
+      "domain": "S03_BROWSER4",
+      "head": "ae83782c5dc0701f3b5325375a743b2a08e4ce3d",
+      "run_id": 41044533553,
+      "job_id": 124025266832,
       "status": "IN_PROGRESS_AT_LAST_API_OBSERVATION",
       "qualified_new_case_credit": 0
     }
@@ -22721,8 +22721,8 @@
   ],
   "writer_A_takeover_20261030": {
     "classification": "WRITER_A_TAKEOVER_ACTIVE_CONTINUATION_NOT_COMPLETION",
-    "recorded_at_utc": "2026-10-30T09:55:01.917983+00:00",
-    "root_parent": "8df440c123d88c8f3b71145f3e25b23584c4cd45",
+    "recorded_at_utc": "2026-10-30T11:00:00.136696+00:00",
+    "root_parent": "cfabb5ec2bf5075c45d9283dd0beeb6d2131614d",
     "prior_chat_execution_observable": false,
     "current_work_is_isolated": true,
     "midnight_root_intake_receipt": "MIDNIGHT_NATIVE1_E787_ROOT_INTAKE_20261030.json",
@@ -22782,26 +22782,26 @@
     "original_intake_mutation_controls": 47,
     "running": [
       {
-        "domain": "S03_BROWSER4",
-        "head": "4d968a42e793a77c2dbcbe06dd79c524f18fa0f5",
-        "run_id": 41033738459,
-        "job_id": 123989401947,
-        "status": "IN_PROGRESS_AT_LAST_API_OBSERVATION",
-        "qualified_new_case_credit": 0
-      },
-      {
         "domain": "SKU_NATIVE27",
-        "head": "c397409a470c8c3d5f4963bbbdd7b676b1275af7",
-        "run_id": 41028102549,
-        "job_id": 123970964483,
+        "head": "a18ceb797840934f2cc45222b704b581a00cecf0",
+        "run_id": 41039546903,
+        "job_id": 124008666380,
         "status": "IN_PROGRESS_AT_LAST_API_OBSERVATION",
         "qualified_new_case_credit": 0
       },
       {
-        "domain": "D1_E_SKU_ACTUAL_PARENT_CATALOGUE",
-        "head": "bce07059f7a351372e40bb7c2e4453876320a2e8",
-        "run_id": 41032035497,
-        "job_id": 123983810324,
+        "domain": "GLOBAL_WRITER_METADATA_ONLY",
+        "head": "ee14592920c331d84d354a24b4b6b4a9f49f91d1",
+        "run_id": 41044419248,
+        "job_id": 124024866394,
+        "status": "IN_PROGRESS_AT_LAST_API_OBSERVATION",
+        "qualified_new_case_credit": 0
+      },
+      {
+        "domain": "S03_BROWSER4",
+        "head": "ae83782c5dc0701f3b5325375a743b2a08e4ce3d",
+        "run_id": 41044533553,
+        "job_id": 124025266832,
         "status": "IN_PROGRESS_AT_LAST_API_OBSERVATION",
         "qualified_new_case_credit": 0
       }
@@ -22884,20 +22884,45 @@
     "independent_acceptance": false,
     "current_default": "cp7_vendor_receivable.composition",
     "next": [
-      "Terminal current three runs and exact raw/source/full restoration admission",
-      "Complete final typed context catalogue and actual writer/FK/trigger/permission closure",
-      "Choose and prove global phantom/row lock profile before eight owning hooks",
-      "Fresh composite committed SKU first then D1/E/inverses and S03/S05, all5",
-      "S05 UI5 and final normal App integration, then remaining CP6/APHTTP/AM-AN/auditor closure"
+      "Finish current isolated SKU27 actual run and exact Original/full5/restoration intake; no partial aggregation",
+      "Finish explicit S03 scoped UTC/current actor rights successor, source review and fresh Browser4",
+      "Root-review actual bce metadata parent and new global readonly supplemental census successor; launch metadata-only qualification",
+      "Publish checkpoint with preserved first failures, UI5 meaning, Afui source authority and next FG payroll backlog; keep working",
+      "Only after exact prerequisites, mount S05 through truthful actual parent wrapper and continue approved integration; no inferred Afui reimbursement policy"
     ],
     "prior_checkpoint": {
       "classification": "WRITER_A_TAKEOVER_ACTIVE_CONTINUATION_NOT_COMPLETION",
-      "recorded_at_utc": "2026-10-30T08:22:06.120163+00:00",
-      "root_parent": "1ad9f1ab7a04b1e7b179ba8a1f0ae981b30309b9",
+      "recorded_at_utc": "2026-10-30T09:55:01.917983+00:00",
+      "root_parent": "8df440c123d88c8f3b71145f3e25b23584c4cd45",
       "prior_chat_execution_observable": false,
       "current_work_is_isolated": true,
       "midnight_root_intake_receipt": "MIDNIGHT_NATIVE1_E787_ROOT_INTAKE_20261030.json",
       "midnight_actual_cases": 1,
+      "S05_root_intake_receipt": "S05_NATIVE10_519D_ROOT_INTAKE_20261030.json",
+      "S05_Native10_qualified": true,
+      "S05_UI5_qualified": false,
+      "S05_Afui_full_family_qualified": false,
+      "S05_client": {
+        "head": "def01e6441950027a2795536adf730b5d84363b7",
+        "tree": "9ba7472ee357a36ae8658a568ace098089379975",
+        "source_parent": "519d1760a3bad06a346b3d4b3cc0203664615634",
+        "classification": "CLIENT_CONTRACT_SUCCESSOR_ONLY",
+        "product_change": "Cost revision id decimal bigint validator corrected to actual Native UUID; audit bigint IDs unchanged",
+        "exact_retained_actual_responses": 22,
+        "old_parser_success": 21,
+        "old_parser_refusals": 1,
+        "new_parser_success": 22,
+        "retained_actual_access_denials": 4,
+        "all_financial_source_fields_unchanged": true,
+        "local_tests": 29,
+        "typecheck": "PASS",
+        "actual_new_Native_cases": 0,
+        "actual_Auth_HTTP_cases": 0,
+        "actual_browser_cases": 0,
+        "UI_mounted": false,
+        "production_go": false,
+        "independent_acceptance": false
+      },
       "global_source": {
         "head": "a6ded9cd4ce23a6d59cd32e42ca9bb33d793f8cc",
         "tree": "55da7c6ab29d9bfda68962be27da0db7ad931662",
@@ -22922,45 +22947,94 @@
         "writer_or_phantom_lock_closed": false,
         "actual_Native_credit": 0
       },
+      "global_lock_model_receipt": "GLOBAL_LOCK_MODEL_F852_ROOT_INTAKE_20261030.json",
+      "global_lock_model_actual_observations": 32,
+      "global_ERP_graph_and_lock_profile_qualified": false,
+      "original_intake_mutation_controls": 47,
       "running": [
         {
           "domain": "S03_BROWSER4",
-          "head": "84a9a09bf372caeeea4cc9eee4a91c51b43d3d93",
-          "run_id": 41025060248,
-          "job_id": 123961103280,
-          "status": "IN_PROGRESS",
+          "head": "4d968a42e793a77c2dbcbe06dd79c524f18fa0f5",
+          "run_id": 41033738459,
+          "job_id": 123989401947,
+          "status": "IN_PROGRESS_AT_LAST_API_OBSERVATION",
           "qualified_new_case_credit": 0
         },
         {
           "domain": "SKU_NATIVE27",
-          "head": "7c7204c82debafce217d277514e3f23c8fc2ac69",
-          "run_id": 41020730202,
-          "job_id": 123947204728,
-          "status": "IN_PROGRESS",
+          "head": "c397409a470c8c3d5f4963bbbdd7b676b1275af7",
+          "run_id": 41028102549,
+          "job_id": 123970964483,
+          "status": "IN_PROGRESS_AT_LAST_API_OBSERVATION",
           "qualified_new_case_credit": 0
         },
         {
-          "domain": "S05_NATIVE10",
-          "head": "519d1760a3bad06a346b3d4b3cc0203664615634",
-          "run_id": 41020627427,
-          "job_id": 123946877124,
-          "status": "IN_PROGRESS",
+          "domain": "D1_E_SKU_ACTUAL_PARENT_CATALOGUE",
+          "head": "bce07059f7a351372e40bb7c2e4453876320a2e8",
+          "run_id": 41032035497,
+          "job_id": 123983810324,
+          "status": "IN_PROGRESS_AT_LAST_API_OBSERVATION",
           "qualified_new_case_credit": 0
         }
       ],
-      "first_browser_runtime_failure": {
-        "head": "fbedc55d3318c87d605fce5861eec9a2759a2981",
-        "run_id": 41020215484,
-        "artifact_id": 12962367714,
-        "status": "INCOMPLETE_BEFORE_BROWSER",
-        "actual_browser_counts": {},
-        "cause": "Generated package static product_ref still expected historical d902 while frozen UI product is598dfe",
-        "full_baseline_restore": true,
+      "first_actual_browser_failure": {
+        "head": "84a9a09bf372caeeea4cc9eee4a91c51b43d3d93",
+        "run_id": 41025060248,
+        "artifact_id": 12965373383,
+        "status": "INCOMPLETE",
+        "cases": {
+          "INCOMPLETE": 4
+        },
+        "desktop_first_failure": "Actual normal App text contrast 1.1095065772908554 below retained4.5 threshold",
+        "mobile_first_failure": "Native fixture APPROVE refused CP7_S03_PERIOD_CLAIMED after prior desktop posted cohort",
+        "later_failure_shape": "Undefined fixture omitted from incomplete JSON; successor initializes null without waiving failures",
+        "complete_outer_restore": true,
         "package_all5": false,
+        "qualified_browser_credit": 0,
+        "successor": {
+          "product_css_head": "62ee27df840fb226ba735ce334ea16849edd54da",
+          "qualification_head": "4d968a42e793a77c2dbcbe06dd79c524f18fa0f5",
+          "original_four_financial_callback_bodies_unchanged": true,
+          "actual_browser_credit_pending": true
+        },
         "archive": {
-          "library_file_id": "libfile_bcd1f84279688191a83a9a7df1730ceb",
-          "bytes": 8613656,
-          "sha256": "69a5477cc95eba7f4df59bed788f9d1eb655c21f48e1b914ac829327d35768bf"
+          "bytes": 60813707,
+          "sha256": "38621b92a8ec873dd0c3c3322ea5ed68e17bc4ad0d356a02ec8ece7ef165d6eb",
+          "library_file_id": "libfile_a21df1480a488191a9081a20be00aaae"
+        }
+      },
+      "first_SKU_concurrency_failure": {
+        "head": "7c7204c82debafce217d277514e3f23c8fc2ac69",
+        "run_id": 41020730202,
+        "artifact_id": 12963980858,
+        "status": "INCOMPLETE",
+        "Native7": {
+          "PASS": 7
+        },
+        "cost5": {
+          "PASS": 5
+        },
+        "concurrency11": {
+          "PASS": 9,
+          "INCOMPLETE": 2
+        },
+        "browser4_reached": false,
+        "primary_failure": "Two distinct UUID schedules expected blocking despite actual producer pocket TRY returning BUSY",
+        "complete_outer_restore": true,
+        "package_all5": false,
+        "complete27_qualified": false,
+        "successor": {
+          "head": "c397409a470c8c3d5f4963bbbdd7b676b1275af7",
+          "private_schedule_derivative": true,
+          "original_financial_postconditions_unchanged": true,
+          "same_UUID_actual_blocking_required": true,
+          "distinct_UUID_actual_pocket_BUSY_before_effect_required": true,
+          "retry_after_commit_STALE_and_after_abort_success_required": true
+        },
+        "archive": {
+          "bytes": 46957580,
+          "sha256": "36fde115aa5eb9bbcc63e6073efa722b52d401c37ac2cb1eaad5091e84fe07db",
+          "library_file_id": "libfile_44ab079744a081919c3034dafbc45e62"
         }
       },
       "recovered_final_phase2": {
@@ -22968,6 +23042,13 @@
         "tree": "8be61dea2be5e6317b98345a7345ce16955b612b",
         "runtime_entry": null,
         "component_bindings": null
+      },
+      "final_context_source": {
+        "head": "e299aa25fd96a422d71b16a2eb024011b3a6fa69",
+        "actual_common_contexts": 51,
+        "prospective_final_contexts": 56,
+        "actual_combined_parent_pending": true,
+        "runtime_entry": null
       },
       "formal_accepted": "5/16",
       "production_go": false,
@@ -22979,7 +23060,653 @@
         "Choose and prove global phantom/row lock profile before eight owning hooks",
         "Fresh composite committed SKU first then D1/E/inverses and S03/S05, all5",
         "S05 UI5 and final normal App integration, then remaining CP6/APHTTP/AM-AN/auditor closure"
-      ]
+      ],
+      "prior_checkpoint": {
+        "classification": "WRITER_A_TAKEOVER_ACTIVE_CONTINUATION_NOT_COMPLETION",
+        "recorded_at_utc": "2026-10-30T08:22:06.120163+00:00",
+        "root_parent": "1ad9f1ab7a04b1e7b179ba8a1f0ae981b30309b9",
+        "prior_chat_execution_observable": false,
+        "current_work_is_isolated": true,
+        "midnight_root_intake_receipt": "MIDNIGHT_NATIVE1_E787_ROOT_INTAKE_20261030.json",
+        "midnight_actual_cases": 1,
+        "global_source": {
+          "head": "a6ded9cd4ce23a6d59cd32e42ca9bb33d793f8cc",
+          "tree": "55da7c6ab29d9bfda68962be27da0db7ad931662",
+          "parent": "14b6490e4ceab9fa8806c78fe10ddc820580de21",
+          "classification": "FINITE_ACTUAL19_SOURCE_PROFILE_ONLY",
+          "actual_source_catalogues": 3,
+          "known_functions": 19,
+          "expected_body_changes": 2,
+          "other_known_entries_preserved": 17,
+          "source_tests": 9,
+          "local_SQL_controls": {
+            "regression": 33,
+            "identity_directed": 18,
+            "identity_fields": 162,
+            "fixed_point": 4,
+            "journal_directed": 5,
+            "journal_fields": 24,
+            "metadata_ACL": 12
+          },
+          "runtime_entry": null,
+          "global_hooks_installed": 0,
+          "writer_or_phantom_lock_closed": false,
+          "actual_Native_credit": 0
+        },
+        "running": [
+          {
+            "domain": "S03_BROWSER4",
+            "head": "84a9a09bf372caeeea4cc9eee4a91c51b43d3d93",
+            "run_id": 41025060248,
+            "job_id": 123961103280,
+            "status": "IN_PROGRESS",
+            "qualified_new_case_credit": 0
+          },
+          {
+            "domain": "SKU_NATIVE27",
+            "head": "7c7204c82debafce217d277514e3f23c8fc2ac69",
+            "run_id": 41020730202,
+            "job_id": 123947204728,
+            "status": "IN_PROGRESS",
+            "qualified_new_case_credit": 0
+          },
+          {
+            "domain": "S05_NATIVE10",
+            "head": "519d1760a3bad06a346b3d4b3cc0203664615634",
+            "run_id": 41020627427,
+            "job_id": 123946877124,
+            "status": "IN_PROGRESS",
+            "qualified_new_case_credit": 0
+          }
+        ],
+        "first_browser_runtime_failure": {
+          "head": "fbedc55d3318c87d605fce5861eec9a2759a2981",
+          "run_id": 41020215484,
+          "artifact_id": 12962367714,
+          "status": "INCOMPLETE_BEFORE_BROWSER",
+          "actual_browser_counts": {},
+          "cause": "Generated package static product_ref still expected historical d902 while frozen UI product is598dfe",
+          "full_baseline_restore": true,
+          "package_all5": false,
+          "archive": {
+            "library_file_id": "libfile_bcd1f84279688191a83a9a7df1730ceb",
+            "bytes": 8613656,
+            "sha256": "69a5477cc95eba7f4df59bed788f9d1eb655c21f48e1b914ac829327d35768bf"
+          }
+        },
+        "recovered_final_phase2": {
+          "head": "e46233133753cd31b0b4120a3a5a88be745aa223",
+          "tree": "8be61dea2be5e6317b98345a7345ce16955b612b",
+          "runtime_entry": null,
+          "component_bindings": null
+        },
+        "formal_accepted": "5/16",
+        "production_go": false,
+        "independent_acceptance": false,
+        "current_default": "cp7_vendor_receivable.composition",
+        "next": [
+          "Terminal current three runs and exact raw/source/full restoration admission",
+          "Complete final typed context catalogue and actual writer/FK/trigger/permission closure",
+          "Choose and prove global phantom/row lock profile before eight owning hooks",
+          "Fresh composite committed SKU first then D1/E/inverses and S03/S05, all5",
+          "S05 UI5 and final normal App integration, then remaining CP6/APHTTP/AM-AN/auditor closure"
+        ]
+      }
+    },
+    "latest_S03_actual_failure": {
+      "classification": "ROOT_RECOMPUTED_ACTUAL_FAILURE_AND_RESTORATION_NOT_QUALIFICATION",
+      "head": "4d968a42e793a77c2dbcbe06dd79c524f18fa0f5",
+      "run_id": 41033738459,
+      "artifact_id": 12969123916,
+      "archive": {
+        "name": "ERP_S03_Browser4_4d968_FirstAuditRightsFailure_20261030.zip",
+        "bytes": 165206613,
+        "sha256": "e841f3026e2a7dac9f1ddfea013748572f14cd67ee9dcbbca47a303137469e14",
+        "members": 159,
+        "CRC_ok": true,
+        "private_Original_Library_file_id": "libfile_3f178e36455c8191bb2e284c39775d0b"
+      },
+      "main_original": {
+        "name": "CP7_S03_MOUNTED_FULL_APP_BROWSER4.json",
+        "bytes": 1576904,
+        "sha256": "b526758031cf1b2b1ddd4b9be478fcfc00facfafe941969452be85b6b19fcf75"
+      },
+      "status": "INCOMPLETE",
+      "complete_outer_restore": {
+        "baseline_full22_all_rows_all_sequences_equal": true,
+        "restore_raw_public_equal": true,
+        "cp6_restored": true,
+        "baseline_advisors_equal": true,
+        "advisor_gate": true,
+        "roles_exact": true,
+        "restore_components": {
+          "erp_platform_auth_schema_acl": true,
+          "all_public_catalog_members_and_row_hashes": true,
+          "erp_public_auth_function_definitions_owners_acls": true
+        }
+      },
+      "package_gates": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": false
+      },
+      "all_five_gates_pass": false,
+      "Auth_users_before": 0,
+      "Auth_users_after": 0,
+      "qualified_case_credit": 0,
+      "old_partial_runs_aggregated": false,
+      "source_acceptance_claim": false,
+      "formal_accepted": "5/16",
+      "production_go": false,
+      "independent_acceptance": false,
+      "observed_browser_counts": {
+        "PASS": 1,
+        "INCOMPLETE": 3
+      },
+      "case_results": {
+        "S03_BROWSER_OWNER_EXPENSE_CORRECT_REVERSE_DESKTOP": {
+          "status": "PASS",
+          "failure": null
+        },
+        "S03_BROWSER_OWNER_CARRY_ALLOCATE_CANCEL_MOBILE390": {
+          "status": "INCOMPLETE",
+          "failure": "ORIGINAL_ACCRUAL_OR_APPROVAL_AUDIT_CHANGED"
+        },
+        "S03_BROWSER_ACTUAL_STALE_AND_LOST_REPLY_SAME_UUID": {
+          "status": "INCOMPLETE",
+          "failure": "ORIGINAL_ACCRUAL_OR_APPROVAL_AUDIT_CHANGED"
+        },
+        "S03_BROWSER_CURRENT_AUTH_RIGHTS_AND_DELAYED_CONTEXT": {
+          "status": "INCOMPLETE",
+          "failure": "PROTECTED_OWNER_ROLE_CANNOT_BE_CHANGED"
+        }
+      },
+      "original_host_bytes_and_hashes_verified": true,
+      "database_remaining": 0,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "timezone_actual_raw_comparison": {
+        "scenarios": [
+          "MOBILE390",
+          "STALE"
+        ],
+        "changed_fields_per_scenario": [
+          "headers.created_at",
+          "headers.posting_at",
+          "approval_audit.changed_at"
+        ],
+        "offsets": [
+          "+07:00",
+          "+00:00"
+        ],
+        "all_differences_same_instants": true,
+        "all_other_raw_fields_and_rows_exact": true,
+        "evidence": {
+          "bytes": 2609,
+          "sha256": "26cf2678922ebca24f38b66d336d9067b720e3fa033f94ef0580029a6e557c65"
+        },
+        "runtime_normalizer_allowed": false
+      },
+      "protected_Owner_guard_preserved": true,
+      "view_only_protected_Owner_supported": false,
+      "successor_scope": "Scoped UTC source reads and explicit lawful current-actor access transition; preserve Native role protection and financial oracles"
+    },
+    "latest_SKU_actual_failure": {
+      "classification": "ROOT_RECOMPUTED_ACTUAL_FAILURE_AND_RESTORATION_NOT_QUALIFICATION",
+      "head": "c397409a470c8c3d5f4963bbbdd7b676b1275af7",
+      "run_id": 41028102549,
+      "artifact_id": 12968607623,
+      "archive": {
+        "name": "ERP_SKU_Native27_c397_FirstRoutingFailure_20261030.zip",
+        "bytes": 46957656,
+        "sha256": "3d4e1dd2f1a10ec988c1578574f98d9a051e0c30f1e28eb9c8b88defaf6e98c3",
+        "members": 143,
+        "CRC_ok": true,
+        "private_Original_Library_file_id": "libfile_5937a94b1c908191bcebad0581daab43"
+      },
+      "main_original": {
+        "name": "CP7_SKU_MANAGED_RECOVERY_NATIVE27.json",
+        "bytes": 5885592,
+        "sha256": "db570f1aad76847c614b324ece8d22527aa2a5c07d33bef07794f44102ac9018"
+      },
+      "status": "INCOMPLETE",
+      "complete_outer_restore": {
+        "baseline_full22_all_rows_all_sequences_equal": true,
+        "restore_raw_public_equal": true,
+        "cp6_restored": true,
+        "baseline_advisors_equal": true,
+        "advisor_gate": true,
+        "roles_exact": true,
+        "restore_components": {
+          "erp_platform_auth_schema_acl": true,
+          "all_public_catalog_members_and_row_hashes": true,
+          "erp_public_auth_function_definitions_owners_acls": true
+        }
+      },
+      "package_gates": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": false
+      },
+      "all_five_gates_pass": false,
+      "Auth_users_before": 0,
+      "Auth_users_after": 0,
+      "qualified_case_credit": 0,
+      "old_partial_runs_aggregated": false,
+      "source_acceptance_claim": false,
+      "formal_accepted": "5/16",
+      "production_go": false,
+      "independent_acceptance": false,
+      "observed_Native7": {
+        "PASS": 7
+      },
+      "observed_cost5": {
+        "PASS": 5
+      },
+      "observed_concurrency11": {
+        "PASS": 9,
+        "INCOMPLETE": 2
+      },
+      "failed_case_ids": [
+        "SKU29_RACE_DISTINCT_UUID_COMMIT_STALE",
+        "SKU29_RACE_DISTINCT_UUID_ROLLBACK_RECOVERY"
+      ],
+      "observed_failure": "NO_CONTENTION",
+      "browser4_reached": false,
+      "all11_installed_copies_full22_all_rows_ALL_sequences_roles_CP6_advisors_restored": true,
+      "database_remaining": 0,
+      "source_diagnosis": "Actual derived concurrency caller retained the older followup races module despite preparing a new schedule.",
+      "successor_head": "a18ceb797840934f2cc45222b704b581a00cecf0",
+      "successor_run_id": 41039546903,
+      "successor_scope": "Counted caller binding plus actual module/code/derivation admission; original financial postconditions and Native functions unchanged",
+      "local_successor_controls": 48,
+      "local_controls_are_actual_Native_credit": false
+    },
+    "S03_current_rights_successor": {
+      "status": "PUBLISHED_LAWFUL_BROWSER4_SUCCESSOR_ACTUAL_RUN_IN_PROGRESS",
+      "head": "ae83782c5dc0701f3b5325375a743b2a08e4ce3d",
+      "tree": "90df88ef385bfbd89aa05b687e6ba4b30a539432",
+      "parent": "4d968a42e793a77c2dbcbe06dd79c524f18fa0f5",
+      "local_reviewed_commit": "75961cebe3331988669b2b9d24dfc722f90f84ef",
+      "run_id": 41044533553,
+      "job_id": 124025266832,
+      "changed_paths_only_own_namespace": 19,
+      "source_pins": 2347,
+      "source_sha256": "3ab4504bf2295b3902bb92733736fe723a467a5d87a9c5f02f913d1e169ab1b7",
+      "Python_controls": 70,
+      "Node_controls": 12,
+      "root_source_check": "PASS",
+      "local_full_actual_Originals_admission": "CLOSED_SIX_ACTUAL_ORIGINALS_NOT_MATERIALIZED",
+      "new_UI_build_claim": false,
+      "product_UI_SQL_changes": 0,
+      "explicit_reversible_delta_groups": 5,
+      "three_financial_callbacks_unchanged": true,
+      "delayed_period_logout_fresh_actor_callbacks_unchanged": true,
+      "source_rows": "Whole original rows serialized under scoped UTC; prior TimeZone restored even on query failure",
+      "current_access": "Backup Owner uses normal public Native user-access writer OWNER to ADMIN and back; exact current version/UUID/audit/replay, protected roles and permissions unchanged",
+      "view_only_protected_Owner_representable": false,
+      "view_only_protected_Owner_actual_credit": 0,
+      "prior_4d_failure_receipt": "S03_4D_FIRST_AUDIT_RIGHTS_FAILURE_ROOT_RECEIPT_20261030.json",
+      "actual_new_Native_Auth_HTTP_credit": 0,
+      "actual_browser_qualified": 0,
+      "production_go": false,
+      "independent_acceptance": false
+    },
+    "global_census_source": {
+      "head": "80fab765938f8feaff151cd35fdb7923df987f23",
+      "tree": "9161822776b958a60cbe845f7a56d96c31db3dc5",
+      "parent": "bce07059f7a351372e40bb7c2e4453876320a2e8",
+      "files": 16,
+      "local_controls": 73,
+      "actual_Native_credit": 0,
+      "runtime_entry": null,
+      "owning_hooks_installed": false
+    },
+    "global_census_successor": {
+      "status": "PUBLISHED_METADATA_ONLY_CANDIDATE_ACTUAL_RUN_IN_PROGRESS",
+      "head": "ee14592920c331d84d354a24b4b6b4a9f49f91d1",
+      "tree": "4f1173e9454548d44fc2c88c0bc628445df57027",
+      "parent": "80fab765938f8feaff151cd35fdb7923df987f23",
+      "local_reviewed_commit": "aca81254b0cc02dacefe68f74ee3c4d0eec009e5",
+      "branch": "astra-a/de-sku-global-census-20261030",
+      "run_id": 41044419248,
+      "job_id": 124024866394,
+      "additive_paths": 17,
+      "whole_parent_files_and_modes_exact": 13892,
+      "local_successor_controls": 22,
+      "retained_helper_controls": 73,
+      "root_source_check": "PASS",
+      "independent_internal_source_review": "NO_CONCRETE_BLOCKER_FOUND_NOT_INDEPENDENT_ACCEPTANCE",
+      "local_full_Original_source_admission": "CLOSED_MISSING_D17_18_RETAINED_COMBINED_AF_DIRECTORY",
+      "workflow_provisions_retained_Originals": true,
+      "bce_actual_prerequisite_receipt": "DE_SKU_PARENT_BCE_ROOT_INTAKE_20261030.json",
+      "old_bce_catalogues_injected": false,
+      "private_source_review_archive": {
+        "name": "ERP_Global_Census_bce_Source_Review_20261030.zip",
+        "bytes": 4152068,
+        "sha256": "21c1a54f178e42c4f9eb1059ace62dee6eef1e2883d0cdcf3e8d788980018ea2",
+        "members": 7,
+        "CRC_ok": true,
+        "library_file_id": "libfile_69858a8b434481918a67acf679380555"
+      },
+      "actual_bce_graph_review": {
+        "contexts": 55,
+        "missing_or_unexpected_contexts": [],
+        "root_functions": 27,
+        "root_relations": 38,
+        "total_functions": 2938,
+        "total_relations": 2345,
+        "candidate_functions": 2816,
+        "candidate_relations": 596,
+        "maximal_review_tables": 580,
+        "positive_write_candidates": 630,
+        "dynamic_SQL_unknown": 35,
+        "approved_production_lockset": false
+      },
+      "new_supplemental_capture_qualified": false,
+      "actual_new_Native_credit": 0,
+      "actual_business_cases": 0,
+      "runtime_entry": null,
+      "global_hooks_installed": false,
+      "writer_or_phantom_or_permission_closure_qualified": false,
+      "formal_accepted": "5/16",
+      "production_go": false,
+      "independent_acceptance": false
+    },
+    "D1_E_SKU_actual_parent": {
+      "status": "ROOT_VERIFIED_ACTUAL_D1_E_SKU_PARENT_CATALOGUE_PREUSE_RESTORE_ALL5",
+      "classification": "ACTUAL_INSTALLATION_CATALOGUE_ONLY_NOT_BUSINESS_OR_PHASE_AUTHORITY",
+      "head": "bce07059f7a351372e40bb7c2e4453876320a2e8",
+      "tree": "e2e6c38a63f7fee3aa27922c9379b79d180a2edf",
+      "run_id": "41032035497",
+      "job_id": 123983810324,
+      "artifact_id": 12967889554,
+      "archive": {
+        "bytes": 16764082,
+        "sha256": "74335122eb5ce2e8457e7183c89eab34e6f7e889bcfd6a5c79a5f47a2d596644"
+      },
+      "archive_members": 126,
+      "archive_CRC_ok": true,
+      "originals": {
+        "CP7_D1_E_SKU_PARENT_CATALOGUE.json": {
+          "bytes": 151798168,
+          "sha256": "757cea6bd13480bcea6f4832a4e311795b7105cbab516a8a9e8aba6e5c3722a9"
+        },
+        "DE_SKU_PARENT_CATALOGUE_GATE.json": {
+          "bytes": 712,
+          "sha256": "832f398b554ac0cc970a9a0e18d8a33d7ce2b69e6dc3b2956f1892c90641cd6b"
+        },
+        "T3_PACKAGE_INSTALL.json": {
+          "bytes": 360438,
+          "sha256": "f8381fa740414ef667d2b395e48228ebec26736d6560999ba58a6c519a291175"
+        },
+        "T3_PACKAGE_FILES_INSTALL.json": {
+          "bytes": 1806,
+          "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+        },
+        "T3_BACKUP_RESTORE_DRILL.json": {
+          "bytes": 1470,
+          "sha256": "c6c3d0c742a4868899d3c5822463bf2f07c9abd4d97a92c845b67dabd4d3825d"
+        }
+      },
+      "standalone_original_result_gate_recomputed": true,
+      "source": {
+        "own_manifest": {
+          "bytes": 9401,
+          "sha256": "9b0af7074439fdbcd9cf4c65fcb9488fadf34f9317beab8774279d60559c9fa3"
+        },
+        "source_files": 41,
+        "exact_public_imports": 22,
+        "preserved_parent_files_and_modes": 13834,
+        "only_existing_product_change": [
+          "scripts/cp7_sku_pair_conversion/composition.py"
+        ],
+        "declared_delta_paths": 42,
+        "complete_reversible_engine_changes": 13,
+        "file_map_occurrences": 68,
+        "file_pin_occurrences": 330,
+        "unique_bound_path_digest_pairs": 188,
+        "exact_namespace_binding": true,
+        "matching_hash_in_other_namespace_accepted": false,
+        "historical_manifests_resealed": false,
+        "actual_business_runtime_entry": null
+      },
+      "actual_metadata": {
+        "context_names": [
+          "cp7_attendance.command_context",
+          "cp7_contractor_correction.context_v1",
+          "cp7_credit.consumer_execution_context",
+          "cp7_credit.consumer_posting_scope_v1",
+          "cp7_credit.consumer_validation_queue_v1",
+          "cp7_credit.execution_context",
+          "cp7_credit.initial_refund_operations",
+          "cp7_credit.initial_refund_posting_scope",
+          "cp7_credit.initial_return_work",
+          "cp7_credit.native_empty_operations",
+          "cp7_credit.native_empty_source_scope",
+          "cp7_credit.native_empty_work",
+          "cp7_credit.opening_return_hpp_work_v1",
+          "cp7_credit.payment_consumer_headers_v1",
+          "cp7_credit.payment_source_context_v1",
+          "cp7_credit.posting_scope",
+          "cp7_credit.return_command_scope",
+          "cp7_credit.return_native_scope",
+          "cp7_credit.source_mutation_scope",
+          "cp7_credit.source_operation_materializations_v1",
+          "cp7_credit.source_operation_work_v1",
+          "cp7_credit_correction_de.posting_v1",
+          "cp7_credit_correction_de.work_v1",
+          "cp7_credit_note_carry_de.work_v1",
+          "cp7_cutting_correction.pickup_context",
+          "cp7_guard.compound_scope",
+          "cp7_guard.compound_touch",
+          "cp7_installment.command_context",
+          "cp7_kasbon.command_context",
+          "cp7_material.execution_context",
+          "cp7_misc.command_context",
+          "cp7_note.context",
+          "cp7_payment_correction.context",
+          "cp7_payroll.execution_context",
+          "cp7_payroll.settlement_context",
+          "cp7_plan_native.apply_own_drafts",
+          "cp7_procurement.execution_context",
+          "cp7_receipt_fix.context",
+          "cp7_sales.command_context",
+          "cp7_sales_return_correction.context",
+          "cp7_sku_conversion.execution_v1",
+          "cp7_supplier_payment_correction.context",
+          "cp7_supplier_payment_create.context",
+          "cp7_supplier_return.execution_context",
+          "cp7_supplier_transfer.context_v1",
+          "erp.bc_execution_context_v1",
+          "erp.bd_execution_context_v1",
+          "erp.be_execution_context_v1",
+          "erp.bf_context_v1",
+          "erp.bs_resolution_execution_context",
+          "erp.cp6_laundry_qc_execution_context",
+          "erp.cutting_bridge_execution_context",
+          "erp.invoice_recost_execution_context",
+          "erp.pocket_fabric_execution_context",
+          "erp.product_identity_mutation_context_v1"
+        ],
+        "portable_context_sha256": "7113cf2fbb3d3a38ace7633ae5943a9c2317bfe1edffc25f86706be5892453a5",
+        "complete_layer_catalogue_sha256": {
+          "D1": "d1c7a3dbd71b66ec335c5b50bdfc8b77b065609097c9503aed1a43c252467601",
+          "E": "0a895072b9d0e31da75c7a6a1b87bc6d81952199f98b9f2d711c121f05da0ad9",
+          "SKU": "09d0a32a1c3e96a60c8463482e19ca20bbd9cce1936afb5b764ef1bc962a9bca"
+        },
+        "complete_read_boundary_sha256": "f259eb1aec33c15fa4fc2647fbdfd6dc26833d0e978c7455e42cf20d56785b7f",
+        "all_catalogue_groups": 22,
+        "complete_tables": 693,
+        "complete_sequences": 15,
+        "raw_schemas": 25,
+        "raw_relations": 55,
+        "raw_columns": 543,
+        "effective_roles": 89,
+        "effective_role_table_privilege_rows": 34265,
+        "raw_ACL_meanings_equal_portable_catalogue": true,
+        "hook_rows": {
+          "cp7_credit_correction_de.quote_v1(jsonb)": {
+            "fields": 19,
+            "row_sha256": "6c15f17be1d55e1490d287597ea1d6f29909a7a44201c23536e2715093eafcb0",
+            "definition_sha256": "e584d4980fa44849ff1b54c2fd3ec406fb5f3202ef4c1d74dfa9027710e90fe7"
+          },
+          "cp7_credit_correction_de.prepare_v1(jsonb,uuid,text,jsonb)": {
+            "fields": 19,
+            "row_sha256": "0c45d618086e85982746ee30f5643066e252c08183be78b199ca95b32ff54da0",
+            "definition_sha256": "08df8ae92a2c217c1a18d68aa92b499217726b10a132ce03f6064fb8c990cd9b"
+          },
+          "cp7_credit_correction_de.finish_v1(jsonb)": {
+            "fields": 19,
+            "row_sha256": "47e471f93d48be49a79bdebe29a98fefd6b97c81a935aa59736d66da23e5328a",
+            "definition_sha256": "4f8dceafc7380f7e16f43ea818405fc3db13927565238cd4262cdfb071901200"
+          },
+          "cp7_credit_note_carry_de.basis_v1(uuid)": {
+            "fields": 19,
+            "row_sha256": "81eedccf6cbf1d36df649c42332c054d5ee79efb0cee2b0a6a910ae7c7b7ad1c",
+            "definition_sha256": "3455dcf5ffefb021ed771b882e32282662cbccd440c515b5e99407fb768cfc6d"
+          },
+          "cp7_credit_note_carry_de.prepare_v1(jsonb,uuid,text,uuid,jsonb)": {
+            "fields": 19,
+            "row_sha256": "21686290de9e0bb528cfae0f0691b1c4c099940c222c282b202473ac9111dfb8",
+            "definition_sha256": "4b13bbd1ef039d855e4766ae21f93e60bf12af40e9abc62b862e7856edc6606a"
+          },
+          "cp7_credit_note_carry_de.finish_v1(jsonb)": {
+            "fields": 19,
+            "row_sha256": "e8495988731be86acbb2ca9d5508fb2e59d93899dee03069ee97cecd0ae8702d",
+            "definition_sha256": "ed7984d4b38b7de52d34e3d0ab0dd425ae3b4e197518ec43904d6a5fa5ddb4e0"
+          },
+          "cp7_credit.source_request_enter_v1(text,jsonb,uuid,text)": {
+            "fields": 19,
+            "row_sha256": "964497f75e215b8a465e81be936fcf589c053bb739da59412842ab2627ef1a80",
+            "definition_sha256": "2c121e6986c051339bc8a2426b13714fa6758eccf3065a00ff73bbf4ffe04667"
+          },
+          "cp7_credit.source_request_finish_v1(uuid)": {
+            "fields": 19,
+            "row_sha256": "4acc0475310e2e2987830a399e5164ccc48a7d719f03bd12ca04ed06eb456f8d",
+            "definition_sha256": "0ea71ca9280a296e7a02b89aefbc8819d128a147de32f8990e868aa0b35ec806"
+          }
+        },
+        "active_row_or_phase_authority_qualified": false
+      },
+      "actual_catalogue_groups": 1,
+      "actual_context_tables": 55,
+      "actual_function_hook_rows": 8,
+      "preuse_three_layer_inverse_and_reinstall": true,
+      "complete_outer_all22_rows_ALL_sequences_roles_CP6_advisors": true,
+      "package_all_five_gates": true,
+      "Auth_users_before": 0,
+      "Auth_users_after": 0,
+      "actual_two_session_races": 0,
+      "used_guard_business_witness_executed": false,
+      "global_bridge_qualified": false,
+      "writer_trigger_FK_closure_qualified": false,
+      "active_context_or_phase_authority_qualified": false,
+      "business_owning_hooks_qualified": false,
+      "S03_S05_installed": false,
+      "full_final_composite_qualified": false,
+      "default_adopted": false,
+      "accepted_transactions_reexecuted": false,
+      "formal_total_unchanged": "5/16",
+      "actual_business_cases": 0,
+      "actual_Native_cases": 0,
+      "actual_Auth_HTTP_cases": 0,
+      "actual_browser_cases": 0,
+      "production_go": false,
+      "independent_acceptance": false,
+      "intake_scripts": {
+        "intake_common.py": {
+          "bytes": 6518,
+          "sha256": "698216cfb4c31e8c93167e1b67f52f0b7532e5906ac8a09584b0a32c728b41e9"
+        },
+        "intake_s05.py": {
+          "bytes": 29616,
+          "sha256": "c23f942e8a01a1a272bcc0f54de0c5ddd48708b3297020513e937dc8ca36a59c"
+        },
+        "intake_de_sku_parent.py": {
+          "bytes": 24562,
+          "sha256": "b1754d28e22b02c86d9f246a0e0a39c19c5f3204c332dc53fd455b3eacc9085d"
+        }
+      }
+    },
+    "S05_UI5_glossary": {
+      "meaning": "FIVE_STANDALONE_UI_SOURCE_FILES_NOT_FIVE_BROWSER_CASES",
+      "receipt": "S05_NORMAL_APP_UI_PREPARATION_BINDINGS_20261030.json",
+      "planned_browser_count": null,
+      "source_mounted": false
+    },
+    "Afui_source_review": {
+      "status": "COMPLETE_READONLY_SOURCE_EVIDENCE_INVESTIGATION",
+      "findings_bytes": 19442,
+      "findings_sha256": "581ec74fb32d400a1b6ef4125023ad74d017d0c4b6e4d5ad821852910f66fc4c",
+      "actual_guard": "Initial PRODUCTION lot: sum(total_hpp_cost)>0 and sum(total_reimbursement)=0 refuses",
+      "guard_definition_sha256": "b10b63a72b2915cc5a6d1f3331fcbb4fe072c121112df31bbad8306856fcdacc",
+      "current_bce_corroboration": {
+        "selected_functions": 28,
+        "catalogs": 6,
+        "matching_definitions": 168
+      },
+      "owner_authority": "ERP-DEC02 governs FREE pickup lines; D17-19C category BOM/report. No explicit zero-GOOD-reimbursement owner semantics located in docs or supplied primary context",
+      "lawful_positive_HPP_zero_total_reimbursement_path_proved": false,
+      "ordinary_FREE_pickup_path_source_supported": true,
+      "Afui_positive_HPP_zero_reimbursement_actual_coverage": false,
+      "existing_Native10_zero": {
+        "actual_inventory_cost": "14.00",
+        "actual_receivable": "22.75",
+        "standard_quantity": "7.5",
+        "standard_HPP": "0",
+        "standard_reimbursement": "0",
+        "entitlements": 0
+      },
+      "recost_loophole_used": false,
+      "implementation_changes": 0,
+      "new_Native_cases": 0,
+      "new_browser_cases": 0,
+      "formal_completed_scopes": 5,
+      "formal_total_scopes": 16,
+      "production_go": false,
+      "independent_acceptance": false,
+      "private_original_evidence": {
+        "library_file_id": "libfile_234dc62819c88191b5ac2a5ddf31dea6",
+        "name": "ERP_Afui_Economic_Path_Source_Investigation_20261030.zip",
+        "bytes": 74467,
+        "sha256": "ed6bc965705e3805d4a7508edc90e1839e9a51ce64f21b45e72535a2db38b165",
+        "members": 36,
+        "CRC_ok": true
+      },
+      "authority_locators": [
+        "docs/cp6-d11-kebijakan-dan-gbd03.md:15",
+        "docs/cp7/OWNER_DECISIONS_20261008.md:967",
+        "docs/cp7/handoff/WRITER_A_TAKEOVER_20261027.md:392"
+      ],
+      "classification": "INTERNAL_SOURCE_REVIEW_NOT_NEW_OWNER_POLICY_OR_ACTUAL_RUNTIME_ACCEPTANCE",
+      "normal_FREE_pickup_actual_coverage": "PENDING_FRESH_LAWFUL_CASE",
+      "wider_Afui_business_defect_proved": false,
+      "original_master_contract_M_available": false,
+      "forbid_invented_paid_companion_or_direct_posted_row_fixture": true
+    },
+    "next_FG_Mandor_payroll_backlog": {
+      "receipt": "FG_MANDOR_PAYROLL_NEXT_BACKLOG_20261030.json",
+      "implementation_started": false,
+      "starts_after": "ACTIVE_INTEGRATION_STABLE",
+      "owner_handoff": "libfile_e56a5df5c9bc81919ea979cd447cb93a"
     }
   },
   "actual_midnight_e787_root_qualified_20261030": {
@@ -23430,6 +24157,587 @@
     "actual_Auth_HTTP_cases": 0,
     "actual_browser_cases": 0,
     "UI_mounted": false,
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "previous_running_before_c397_bce_4d_terminal_20261030": [
+    {
+      "domain": "S03_BROWSER4",
+      "head": "4d968a42e793a77c2dbcbe06dd79c524f18fa0f5",
+      "run_id": 41033738459,
+      "job_id": 123989401947,
+      "status": "IN_PROGRESS_AT_LAST_API_OBSERVATION",
+      "qualified_new_case_credit": 0
+    },
+    {
+      "domain": "SKU_NATIVE27",
+      "head": "c397409a470c8c3d5f4963bbbdd7b676b1275af7",
+      "run_id": 41028102549,
+      "job_id": 123970964483,
+      "status": "IN_PROGRESS_AT_LAST_API_OBSERVATION",
+      "qualified_new_case_credit": 0
+    },
+    {
+      "domain": "D1_E_SKU_ACTUAL_PARENT_CATALOGUE",
+      "head": "bce07059f7a351372e40bb7c2e4453876320a2e8",
+      "run_id": 41032035497,
+      "job_id": 123983810324,
+      "status": "IN_PROGRESS_AT_LAST_API_OBSERVATION",
+      "qualified_new_case_credit": 0
+    }
+  ],
+  "actual_S03_4d_first_audit_rights_failure_20261030": {
+    "classification": "ROOT_RECOMPUTED_ACTUAL_FAILURE_AND_RESTORATION_NOT_QUALIFICATION",
+    "head": "4d968a42e793a77c2dbcbe06dd79c524f18fa0f5",
+    "run_id": 41033738459,
+    "artifact_id": 12969123916,
+    "archive": {
+      "name": "ERP_S03_Browser4_4d968_FirstAuditRightsFailure_20261030.zip",
+      "bytes": 165206613,
+      "sha256": "e841f3026e2a7dac9f1ddfea013748572f14cd67ee9dcbbca47a303137469e14",
+      "members": 159,
+      "CRC_ok": true,
+      "private_Original_Library_file_id": "libfile_3f178e36455c8191bb2e284c39775d0b"
+    },
+    "main_original": {
+      "name": "CP7_S03_MOUNTED_FULL_APP_BROWSER4.json",
+      "bytes": 1576904,
+      "sha256": "b526758031cf1b2b1ddd4b9be478fcfc00facfafe941969452be85b6b19fcf75"
+    },
+    "status": "INCOMPLETE",
+    "complete_outer_restore": {
+      "baseline_full22_all_rows_all_sequences_equal": true,
+      "restore_raw_public_equal": true,
+      "cp6_restored": true,
+      "baseline_advisors_equal": true,
+      "advisor_gate": true,
+      "roles_exact": true,
+      "restore_components": {
+        "erp_platform_auth_schema_acl": true,
+        "all_public_catalog_members_and_row_hashes": true,
+        "erp_public_auth_function_definitions_owners_acls": true
+      }
+    },
+    "package_gates": {
+      "installed": true,
+      "primary_unchanged": true,
+      "backup_restore_drill": true,
+      "security_advisors": true,
+      "writer_runtime": false
+    },
+    "all_five_gates_pass": false,
+    "Auth_users_before": 0,
+    "Auth_users_after": 0,
+    "qualified_case_credit": 0,
+    "old_partial_runs_aggregated": false,
+    "source_acceptance_claim": false,
+    "formal_accepted": "5/16",
+    "production_go": false,
+    "independent_acceptance": false,
+    "observed_browser_counts": {
+      "PASS": 1,
+      "INCOMPLETE": 3
+    },
+    "case_results": {
+      "S03_BROWSER_OWNER_EXPENSE_CORRECT_REVERSE_DESKTOP": {
+        "status": "PASS",
+        "failure": null
+      },
+      "S03_BROWSER_OWNER_CARRY_ALLOCATE_CANCEL_MOBILE390": {
+        "status": "INCOMPLETE",
+        "failure": "ORIGINAL_ACCRUAL_OR_APPROVAL_AUDIT_CHANGED"
+      },
+      "S03_BROWSER_ACTUAL_STALE_AND_LOST_REPLY_SAME_UUID": {
+        "status": "INCOMPLETE",
+        "failure": "ORIGINAL_ACCRUAL_OR_APPROVAL_AUDIT_CHANGED"
+      },
+      "S03_BROWSER_CURRENT_AUTH_RIGHTS_AND_DELAYED_CONTEXT": {
+        "status": "INCOMPLETE",
+        "failure": "PROTECTED_OWNER_ROLE_CANNOT_BE_CHANGED"
+      }
+    },
+    "original_host_bytes_and_hashes_verified": true,
+    "database_remaining": 0,
+    "auth_counts": {
+      "before": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "after": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "restored": true
+    },
+    "timezone_actual_raw_comparison": {
+      "scenarios": [
+        "MOBILE390",
+        "STALE"
+      ],
+      "changed_fields_per_scenario": [
+        "headers.created_at",
+        "headers.posting_at",
+        "approval_audit.changed_at"
+      ],
+      "offsets": [
+        "+07:00",
+        "+00:00"
+      ],
+      "all_differences_same_instants": true,
+      "all_other_raw_fields_and_rows_exact": true,
+      "evidence": {
+        "bytes": 2609,
+        "sha256": "26cf2678922ebca24f38b66d336d9067b720e3fa033f94ef0580029a6e557c65"
+      },
+      "runtime_normalizer_allowed": false
+    },
+    "protected_Owner_guard_preserved": true,
+    "view_only_protected_Owner_supported": false,
+    "successor_scope": "Scoped UTC source reads and explicit lawful current-actor access transition; preserve Native role protection and financial oracles"
+  },
+  "actual_SKU_c397_first_routing_failure_20261030": {
+    "classification": "ROOT_RECOMPUTED_ACTUAL_FAILURE_AND_RESTORATION_NOT_QUALIFICATION",
+    "head": "c397409a470c8c3d5f4963bbbdd7b676b1275af7",
+    "run_id": 41028102549,
+    "artifact_id": 12968607623,
+    "archive": {
+      "name": "ERP_SKU_Native27_c397_FirstRoutingFailure_20261030.zip",
+      "bytes": 46957656,
+      "sha256": "3d4e1dd2f1a10ec988c1578574f98d9a051e0c30f1e28eb9c8b88defaf6e98c3",
+      "members": 143,
+      "CRC_ok": true,
+      "private_Original_Library_file_id": "libfile_5937a94b1c908191bcebad0581daab43"
+    },
+    "main_original": {
+      "name": "CP7_SKU_MANAGED_RECOVERY_NATIVE27.json",
+      "bytes": 5885592,
+      "sha256": "db570f1aad76847c614b324ece8d22527aa2a5c07d33bef07794f44102ac9018"
+    },
+    "status": "INCOMPLETE",
+    "complete_outer_restore": {
+      "baseline_full22_all_rows_all_sequences_equal": true,
+      "restore_raw_public_equal": true,
+      "cp6_restored": true,
+      "baseline_advisors_equal": true,
+      "advisor_gate": true,
+      "roles_exact": true,
+      "restore_components": {
+        "erp_platform_auth_schema_acl": true,
+        "all_public_catalog_members_and_row_hashes": true,
+        "erp_public_auth_function_definitions_owners_acls": true
+      }
+    },
+    "package_gates": {
+      "installed": true,
+      "primary_unchanged": true,
+      "backup_restore_drill": true,
+      "security_advisors": true,
+      "writer_runtime": false
+    },
+    "all_five_gates_pass": false,
+    "Auth_users_before": 0,
+    "Auth_users_after": 0,
+    "qualified_case_credit": 0,
+    "old_partial_runs_aggregated": false,
+    "source_acceptance_claim": false,
+    "formal_accepted": "5/16",
+    "production_go": false,
+    "independent_acceptance": false,
+    "observed_Native7": {
+      "PASS": 7
+    },
+    "observed_cost5": {
+      "PASS": 5
+    },
+    "observed_concurrency11": {
+      "PASS": 9,
+      "INCOMPLETE": 2
+    },
+    "failed_case_ids": [
+      "SKU29_RACE_DISTINCT_UUID_COMMIT_STALE",
+      "SKU29_RACE_DISTINCT_UUID_ROLLBACK_RECOVERY"
+    ],
+    "observed_failure": "NO_CONTENTION",
+    "browser4_reached": false,
+    "all11_installed_copies_full22_all_rows_ALL_sequences_roles_CP6_advisors_restored": true,
+    "database_remaining": 0,
+    "source_diagnosis": "Actual derived concurrency caller retained the older followup races module despite preparing a new schedule.",
+    "successor_head": "a18ceb797840934f2cc45222b704b581a00cecf0",
+    "successor_run_id": 41039546903,
+    "successor_scope": "Counted caller binding plus actual module/code/derivation admission; original financial postconditions and Native functions unchanged",
+    "local_successor_controls": 48,
+    "local_controls_are_actual_Native_credit": false
+  },
+  "global_actual_census_source_80fab_20261030": {
+    "head": "80fab765938f8feaff151cd35fdb7923df987f23",
+    "tree": "9161822776b958a60cbe845f7a56d96c31db3dc5",
+    "parent": "bce07059f7a351372e40bb7c2e4453876320a2e8",
+    "files": 16,
+    "local_controls": 73,
+    "actual_Native_credit": 0,
+    "runtime_entry": null,
+    "owning_hooks_installed": false
+  },
+  "S05_UI5_glossary_correction_20261030": {
+    "meaning": "FIVE_STANDALONE_UI_SOURCE_FILES_NOT_FIVE_BROWSER_CASES",
+    "receipt": "S05_NORMAL_APP_UI_PREPARATION_BINDINGS_20261030.json",
+    "planned_browser_count": null,
+    "source_mounted": false
+  },
+  "Afui_FREE_pickup_vs_reimbursement_source_review_20261030": {
+    "status": "COMPLETE_READONLY_SOURCE_EVIDENCE_INVESTIGATION",
+    "findings_bytes": 19442,
+    "findings_sha256": "581ec74fb32d400a1b6ef4125023ad74d017d0c4b6e4d5ad821852910f66fc4c",
+    "actual_guard": "Initial PRODUCTION lot: sum(total_hpp_cost)>0 and sum(total_reimbursement)=0 refuses",
+    "guard_definition_sha256": "b10b63a72b2915cc5a6d1f3331fcbb4fe072c121112df31bbad8306856fcdacc",
+    "current_bce_corroboration": {
+      "selected_functions": 28,
+      "catalogs": 6,
+      "matching_definitions": 168
+    },
+    "owner_authority": "ERP-DEC02 governs FREE pickup lines; D17-19C category BOM/report. No explicit zero-GOOD-reimbursement owner semantics located in docs or supplied primary context",
+    "lawful_positive_HPP_zero_total_reimbursement_path_proved": false,
+    "ordinary_FREE_pickup_path_source_supported": true,
+    "Afui_positive_HPP_zero_reimbursement_actual_coverage": false,
+    "existing_Native10_zero": {
+      "actual_inventory_cost": "14.00",
+      "actual_receivable": "22.75",
+      "standard_quantity": "7.5",
+      "standard_HPP": "0",
+      "standard_reimbursement": "0",
+      "entitlements": 0
+    },
+    "recost_loophole_used": false,
+    "implementation_changes": 0,
+    "new_Native_cases": 0,
+    "new_browser_cases": 0,
+    "formal_completed_scopes": 5,
+    "formal_total_scopes": 16,
+    "production_go": false,
+    "independent_acceptance": false,
+    "private_original_evidence": {
+      "library_file_id": "libfile_234dc62819c88191b5ac2a5ddf31dea6",
+      "name": "ERP_Afui_Economic_Path_Source_Investigation_20261030.zip",
+      "bytes": 74467,
+      "sha256": "ed6bc965705e3805d4a7508edc90e1839e9a51ce64f21b45e72535a2db38b165",
+      "members": 36,
+      "CRC_ok": true
+    },
+    "authority_locators": [
+      "docs/cp6-d11-kebijakan-dan-gbd03.md:15",
+      "docs/cp7/OWNER_DECISIONS_20261008.md:967",
+      "docs/cp7/handoff/WRITER_A_TAKEOVER_20261027.md:392"
+    ],
+    "classification": "INTERNAL_SOURCE_REVIEW_NOT_NEW_OWNER_POLICY_OR_ACTUAL_RUNTIME_ACCEPTANCE",
+    "normal_FREE_pickup_actual_coverage": "PENDING_FRESH_LAWFUL_CASE",
+    "wider_Afui_business_defect_proved": false,
+    "original_master_contract_M_available": false,
+    "forbid_invented_paid_companion_or_direct_posted_row_fixture": true
+  },
+  "FG_Mandor_payroll_next_backlog_20261030": {
+    "receipt": "FG_MANDOR_PAYROLL_NEXT_BACKLOG_20261030.json",
+    "implementation_started": false,
+    "starts_after": "ACTIVE_INTEGRATION_STABLE",
+    "owner_handoff": "libfile_e56a5df5c9bc81919ea979cd447cb93a"
+  },
+  "actual_D1_E_SKU_parent_bce_root_intake_20261030": {
+    "status": "ROOT_VERIFIED_ACTUAL_D1_E_SKU_PARENT_CATALOGUE_PREUSE_RESTORE_ALL5",
+    "classification": "ACTUAL_INSTALLATION_CATALOGUE_ONLY_NOT_BUSINESS_OR_PHASE_AUTHORITY",
+    "head": "bce07059f7a351372e40bb7c2e4453876320a2e8",
+    "tree": "e2e6c38a63f7fee3aa27922c9379b79d180a2edf",
+    "run_id": "41032035497",
+    "job_id": 123983810324,
+    "artifact_id": 12967889554,
+    "archive": {
+      "bytes": 16764082,
+      "sha256": "74335122eb5ce2e8457e7183c89eab34e6f7e889bcfd6a5c79a5f47a2d596644"
+    },
+    "archive_members": 126,
+    "archive_CRC_ok": true,
+    "originals": {
+      "CP7_D1_E_SKU_PARENT_CATALOGUE.json": {
+        "bytes": 151798168,
+        "sha256": "757cea6bd13480bcea6f4832a4e311795b7105cbab516a8a9e8aba6e5c3722a9"
+      },
+      "DE_SKU_PARENT_CATALOGUE_GATE.json": {
+        "bytes": 712,
+        "sha256": "832f398b554ac0cc970a9a0e18d8a33d7ce2b69e6dc3b2956f1892c90641cd6b"
+      },
+      "T3_PACKAGE_INSTALL.json": {
+        "bytes": 360438,
+        "sha256": "f8381fa740414ef667d2b395e48228ebec26736d6560999ba58a6c519a291175"
+      },
+      "T3_PACKAGE_FILES_INSTALL.json": {
+        "bytes": 1806,
+        "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+      },
+      "T3_BACKUP_RESTORE_DRILL.json": {
+        "bytes": 1470,
+        "sha256": "c6c3d0c742a4868899d3c5822463bf2f07c9abd4d97a92c845b67dabd4d3825d"
+      }
+    },
+    "standalone_original_result_gate_recomputed": true,
+    "source": {
+      "own_manifest": {
+        "bytes": 9401,
+        "sha256": "9b0af7074439fdbcd9cf4c65fcb9488fadf34f9317beab8774279d60559c9fa3"
+      },
+      "source_files": 41,
+      "exact_public_imports": 22,
+      "preserved_parent_files_and_modes": 13834,
+      "only_existing_product_change": [
+        "scripts/cp7_sku_pair_conversion/composition.py"
+      ],
+      "declared_delta_paths": 42,
+      "complete_reversible_engine_changes": 13,
+      "file_map_occurrences": 68,
+      "file_pin_occurrences": 330,
+      "unique_bound_path_digest_pairs": 188,
+      "exact_namespace_binding": true,
+      "matching_hash_in_other_namespace_accepted": false,
+      "historical_manifests_resealed": false,
+      "actual_business_runtime_entry": null
+    },
+    "actual_metadata": {
+      "context_names": [
+        "cp7_attendance.command_context",
+        "cp7_contractor_correction.context_v1",
+        "cp7_credit.consumer_execution_context",
+        "cp7_credit.consumer_posting_scope_v1",
+        "cp7_credit.consumer_validation_queue_v1",
+        "cp7_credit.execution_context",
+        "cp7_credit.initial_refund_operations",
+        "cp7_credit.initial_refund_posting_scope",
+        "cp7_credit.initial_return_work",
+        "cp7_credit.native_empty_operations",
+        "cp7_credit.native_empty_source_scope",
+        "cp7_credit.native_empty_work",
+        "cp7_credit.opening_return_hpp_work_v1",
+        "cp7_credit.payment_consumer_headers_v1",
+        "cp7_credit.payment_source_context_v1",
+        "cp7_credit.posting_scope",
+        "cp7_credit.return_command_scope",
+        "cp7_credit.return_native_scope",
+        "cp7_credit.source_mutation_scope",
+        "cp7_credit.source_operation_materializations_v1",
+        "cp7_credit.source_operation_work_v1",
+        "cp7_credit_correction_de.posting_v1",
+        "cp7_credit_correction_de.work_v1",
+        "cp7_credit_note_carry_de.work_v1",
+        "cp7_cutting_correction.pickup_context",
+        "cp7_guard.compound_scope",
+        "cp7_guard.compound_touch",
+        "cp7_installment.command_context",
+        "cp7_kasbon.command_context",
+        "cp7_material.execution_context",
+        "cp7_misc.command_context",
+        "cp7_note.context",
+        "cp7_payment_correction.context",
+        "cp7_payroll.execution_context",
+        "cp7_payroll.settlement_context",
+        "cp7_plan_native.apply_own_drafts",
+        "cp7_procurement.execution_context",
+        "cp7_receipt_fix.context",
+        "cp7_sales.command_context",
+        "cp7_sales_return_correction.context",
+        "cp7_sku_conversion.execution_v1",
+        "cp7_supplier_payment_correction.context",
+        "cp7_supplier_payment_create.context",
+        "cp7_supplier_return.execution_context",
+        "cp7_supplier_transfer.context_v1",
+        "erp.bc_execution_context_v1",
+        "erp.bd_execution_context_v1",
+        "erp.be_execution_context_v1",
+        "erp.bf_context_v1",
+        "erp.bs_resolution_execution_context",
+        "erp.cp6_laundry_qc_execution_context",
+        "erp.cutting_bridge_execution_context",
+        "erp.invoice_recost_execution_context",
+        "erp.pocket_fabric_execution_context",
+        "erp.product_identity_mutation_context_v1"
+      ],
+      "portable_context_sha256": "7113cf2fbb3d3a38ace7633ae5943a9c2317bfe1edffc25f86706be5892453a5",
+      "complete_layer_catalogue_sha256": {
+        "D1": "d1c7a3dbd71b66ec335c5b50bdfc8b77b065609097c9503aed1a43c252467601",
+        "E": "0a895072b9d0e31da75c7a6a1b87bc6d81952199f98b9f2d711c121f05da0ad9",
+        "SKU": "09d0a32a1c3e96a60c8463482e19ca20bbd9cce1936afb5b764ef1bc962a9bca"
+      },
+      "complete_read_boundary_sha256": "f259eb1aec33c15fa4fc2647fbdfd6dc26833d0e978c7455e42cf20d56785b7f",
+      "all_catalogue_groups": 22,
+      "complete_tables": 693,
+      "complete_sequences": 15,
+      "raw_schemas": 25,
+      "raw_relations": 55,
+      "raw_columns": 543,
+      "effective_roles": 89,
+      "effective_role_table_privilege_rows": 34265,
+      "raw_ACL_meanings_equal_portable_catalogue": true,
+      "hook_rows": {
+        "cp7_credit_correction_de.quote_v1(jsonb)": {
+          "fields": 19,
+          "row_sha256": "6c15f17be1d55e1490d287597ea1d6f29909a7a44201c23536e2715093eafcb0",
+          "definition_sha256": "e584d4980fa44849ff1b54c2fd3ec406fb5f3202ef4c1d74dfa9027710e90fe7"
+        },
+        "cp7_credit_correction_de.prepare_v1(jsonb,uuid,text,jsonb)": {
+          "fields": 19,
+          "row_sha256": "0c45d618086e85982746ee30f5643066e252c08183be78b199ca95b32ff54da0",
+          "definition_sha256": "08df8ae92a2c217c1a18d68aa92b499217726b10a132ce03f6064fb8c990cd9b"
+        },
+        "cp7_credit_correction_de.finish_v1(jsonb)": {
+          "fields": 19,
+          "row_sha256": "47e471f93d48be49a79bdebe29a98fefd6b97c81a935aa59736d66da23e5328a",
+          "definition_sha256": "4f8dceafc7380f7e16f43ea818405fc3db13927565238cd4262cdfb071901200"
+        },
+        "cp7_credit_note_carry_de.basis_v1(uuid)": {
+          "fields": 19,
+          "row_sha256": "81eedccf6cbf1d36df649c42332c054d5ee79efb0cee2b0a6a910ae7c7b7ad1c",
+          "definition_sha256": "3455dcf5ffefb021ed771b882e32282662cbccd440c515b5e99407fb768cfc6d"
+        },
+        "cp7_credit_note_carry_de.prepare_v1(jsonb,uuid,text,uuid,jsonb)": {
+          "fields": 19,
+          "row_sha256": "21686290de9e0bb528cfae0f0691b1c4c099940c222c282b202473ac9111dfb8",
+          "definition_sha256": "4b13bbd1ef039d855e4766ae21f93e60bf12af40e9abc62b862e7856edc6606a"
+        },
+        "cp7_credit_note_carry_de.finish_v1(jsonb)": {
+          "fields": 19,
+          "row_sha256": "e8495988731be86acbb2ca9d5508fb2e59d93899dee03069ee97cecd0ae8702d",
+          "definition_sha256": "ed7984d4b38b7de52d34e3d0ab0dd425ae3b4e197518ec43904d6a5fa5ddb4e0"
+        },
+        "cp7_credit.source_request_enter_v1(text,jsonb,uuid,text)": {
+          "fields": 19,
+          "row_sha256": "964497f75e215b8a465e81be936fcf589c053bb739da59412842ab2627ef1a80",
+          "definition_sha256": "2c121e6986c051339bc8a2426b13714fa6758eccf3065a00ff73bbf4ffe04667"
+        },
+        "cp7_credit.source_request_finish_v1(uuid)": {
+          "fields": 19,
+          "row_sha256": "4acc0475310e2e2987830a399e5164ccc48a7d719f03bd12ca04ed06eb456f8d",
+          "definition_sha256": "0ea71ca9280a296e7a02b89aefbc8819d128a147de32f8990e868aa0b35ec806"
+        }
+      },
+      "active_row_or_phase_authority_qualified": false
+    },
+    "actual_catalogue_groups": 1,
+    "actual_context_tables": 55,
+    "actual_function_hook_rows": 8,
+    "preuse_three_layer_inverse_and_reinstall": true,
+    "complete_outer_all22_rows_ALL_sequences_roles_CP6_advisors": true,
+    "package_all_five_gates": true,
+    "Auth_users_before": 0,
+    "Auth_users_after": 0,
+    "actual_two_session_races": 0,
+    "used_guard_business_witness_executed": false,
+    "global_bridge_qualified": false,
+    "writer_trigger_FK_closure_qualified": false,
+    "active_context_or_phase_authority_qualified": false,
+    "business_owning_hooks_qualified": false,
+    "S03_S05_installed": false,
+    "full_final_composite_qualified": false,
+    "default_adopted": false,
+    "accepted_transactions_reexecuted": false,
+    "formal_total_unchanged": "5/16",
+    "actual_business_cases": 0,
+    "actual_Native_cases": 0,
+    "actual_Auth_HTTP_cases": 0,
+    "actual_browser_cases": 0,
+    "production_go": false,
+    "independent_acceptance": false,
+    "intake_scripts": {
+      "intake_common.py": {
+        "bytes": 6518,
+        "sha256": "698216cfb4c31e8c93167e1b67f52f0b7532e5906ac8a09584b0a32c728b41e9"
+      },
+      "intake_s05.py": {
+        "bytes": 29616,
+        "sha256": "c23f942e8a01a1a272bcc0f54de0c5ddd48708b3297020513e937dc8ca36a59c"
+      },
+      "intake_de_sku_parent.py": {
+        "bytes": 24562,
+        "sha256": "b1754d28e22b02c86d9f246a0e0a39c19c5f3204c332dc53fd455b3eacc9085d"
+      }
+    }
+  },
+  "global_writer_census_metadata_successor_20261030": {
+    "status": "PUBLISHED_METADATA_ONLY_CANDIDATE_ACTUAL_RUN_IN_PROGRESS",
+    "head": "ee14592920c331d84d354a24b4b6b4a9f49f91d1",
+    "tree": "4f1173e9454548d44fc2c88c0bc628445df57027",
+    "parent": "80fab765938f8feaff151cd35fdb7923df987f23",
+    "local_reviewed_commit": "aca81254b0cc02dacefe68f74ee3c4d0eec009e5",
+    "branch": "astra-a/de-sku-global-census-20261030",
+    "run_id": 41044419248,
+    "job_id": 124024866394,
+    "additive_paths": 17,
+    "whole_parent_files_and_modes_exact": 13892,
+    "local_successor_controls": 22,
+    "retained_helper_controls": 73,
+    "root_source_check": "PASS",
+    "independent_internal_source_review": "NO_CONCRETE_BLOCKER_FOUND_NOT_INDEPENDENT_ACCEPTANCE",
+    "local_full_Original_source_admission": "CLOSED_MISSING_D17_18_RETAINED_COMBINED_AF_DIRECTORY",
+    "workflow_provisions_retained_Originals": true,
+    "bce_actual_prerequisite_receipt": "DE_SKU_PARENT_BCE_ROOT_INTAKE_20261030.json",
+    "old_bce_catalogues_injected": false,
+    "private_source_review_archive": {
+      "name": "ERP_Global_Census_bce_Source_Review_20261030.zip",
+      "bytes": 4152068,
+      "sha256": "21c1a54f178e42c4f9eb1059ace62dee6eef1e2883d0cdcf3e8d788980018ea2",
+      "members": 7,
+      "CRC_ok": true,
+      "library_file_id": "libfile_69858a8b434481918a67acf679380555"
+    },
+    "actual_bce_graph_review": {
+      "contexts": 55,
+      "missing_or_unexpected_contexts": [],
+      "root_functions": 27,
+      "root_relations": 38,
+      "total_functions": 2938,
+      "total_relations": 2345,
+      "candidate_functions": 2816,
+      "candidate_relations": 596,
+      "maximal_review_tables": 580,
+      "positive_write_candidates": 630,
+      "dynamic_SQL_unknown": 35,
+      "approved_production_lockset": false
+    },
+    "new_supplemental_capture_qualified": false,
+    "actual_new_Native_credit": 0,
+    "actual_business_cases": 0,
+    "runtime_entry": null,
+    "global_hooks_installed": false,
+    "writer_or_phantom_or_permission_closure_qualified": false,
+    "formal_accepted": "5/16",
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "S03_current_rights_lawful_successor_20261030": {
+    "status": "PUBLISHED_LAWFUL_BROWSER4_SUCCESSOR_ACTUAL_RUN_IN_PROGRESS",
+    "head": "ae83782c5dc0701f3b5325375a743b2a08e4ce3d",
+    "tree": "90df88ef385bfbd89aa05b687e6ba4b30a539432",
+    "parent": "4d968a42e793a77c2dbcbe06dd79c524f18fa0f5",
+    "local_reviewed_commit": "75961cebe3331988669b2b9d24dfc722f90f84ef",
+    "run_id": 41044533553,
+    "job_id": 124025266832,
+    "changed_paths_only_own_namespace": 19,
+    "source_pins": 2347,
+    "source_sha256": "3ab4504bf2295b3902bb92733736fe723a467a5d87a9c5f02f913d1e169ab1b7",
+    "Python_controls": 70,
+    "Node_controls": 12,
+    "root_source_check": "PASS",
+    "local_full_actual_Originals_admission": "CLOSED_SIX_ACTUAL_ORIGINALS_NOT_MATERIALIZED",
+    "new_UI_build_claim": false,
+    "product_UI_SQL_changes": 0,
+    "explicit_reversible_delta_groups": 5,
+    "three_financial_callbacks_unchanged": true,
+    "delayed_period_logout_fresh_actor_callbacks_unchanged": true,
+    "source_rows": "Whole original rows serialized under scoped UTC; prior TimeZone restored even on query failure",
+    "current_access": "Backup Owner uses normal public Native user-access writer OWNER to ADMIN and back; exact current version/UUID/audit/replay, protected roles and permissions unchanged",
+    "view_only_protected_Owner_representable": false,
+    "view_only_protected_Owner_actual_credit": 0,
+    "prior_4d_failure_receipt": "S03_4D_FIRST_AUDIT_RIGHTS_FAILURE_ROOT_RECEIPT_20261030.json",
+    "actual_new_Native_Auth_HTTP_credit": 0,
+    "actual_browser_qualified": 0,
     "production_go": false,
     "independent_acceptance": false
   }

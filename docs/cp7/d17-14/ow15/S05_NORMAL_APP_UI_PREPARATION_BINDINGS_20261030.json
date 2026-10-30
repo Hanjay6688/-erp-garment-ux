@@ -1,0 +1,295 @@
+{
+  "status": "READONLY_PATCH_AND_SOURCE_BINDINGS_PLAN_NOT_IMPLEMENTED",
+  "classification": "WRITER_PREPARATION_NO_UI_BROWSER_OR_NATIVE_CREDIT",
+  "source_snapshot": {
+    "src/App.tsx": {
+      "bytes": 221078,
+      "sha256": "3461670796d4e2dbbea44322a5b20356fa5c525452d56e6e4e9d10e65e8e5e42"
+    },
+    "src/auth/accessCatalog.ts": {
+      "bytes": 6344,
+      "sha256": "d40c22da4a4fdf30a37e03e02b16901e13995979e899015aa5e963c60b4ae7a8"
+    },
+    "src/screenActivation.ts": {
+      "bytes": 7579,
+      "sha256": "df30395037201d41a4b3decacf797566919bfd3fc1092bf2321801d6e7ccfd5d"
+    },
+    "src/AccessoryStandardReport.dom.test.tsx": {
+      "bytes": 9290,
+      "sha256": "83746323aa3142f24a89619cd19bb74fcd2638517358b9b62366643ede7b891e"
+    },
+    "src/ConnectedAccessoryStandardReportPage.tsx": {
+      "bytes": 15355,
+      "sha256": "7ea45bfe0276eca864e67ae0dc0cacd3d9a114436533e6df5923d68cf63d4fab"
+    },
+    "src/accessory-standard-report.css": {
+      "bytes": 1925,
+      "sha256": "a9d62618178521d25fa392e6497e24ebc1e8146277b9cda33a9d76e7ea76d16a"
+    },
+    "src/accessoryStandardReport.test.ts": {
+      "bytes": 8493,
+      "sha256": "bc8513e1e33c009b77d15133e988447e02319206d1160c4245a349a6b6699c02"
+    },
+    "src/accessoryStandardReport.ts": {
+      "bytes": 21493,
+      "sha256": "8cafbfe6747c6e0604edd8ed146fac0ec7265c35a782ca3563e114c99b32240b"
+    },
+    "scripts/cp7_accessory_standard_report/stage.py": {
+      "bytes": 13018,
+      "sha256": "c8ef2b9f092eca295f4dff1c9691173d9171ca485b6c8179f67700d98260095a"
+    },
+    "scripts/cp7_accessory_standard_report/report.sql": {
+      "bytes": 23024,
+      "sha256": "216f34d1225171543a743d272a2a9a15aeeda50658a32b53b0ea7ccc64b3702a"
+    },
+    "scripts/cp7_accessory_standard_report/cases.py": {
+      "bytes": 19581,
+      "sha256": "e025be1280630dfb89f62261163194ce072b6f6ad6d909b56ff6c82f75778e98"
+    },
+    "scripts/cp6_auditor_modes.py": {
+      "bytes": 23276,
+      "sha256": "d927c7491c72fe1eecfd1b4b8b4faf7e1710d6943fda601ede6a599fbc99209f"
+    },
+    "scripts/cp6_auditor_browser_host.mjs": {
+      "bytes": 21213,
+      "sha256": "09fa7d7a5fb7d7cb00eb73e1d4354842730c6ae3dd77dbf9b299539ca7de9557"
+    },
+    "scripts/ow04-payment-current-qualification/copy_authority.py": {
+      "bytes": 3895,
+      "sha256": "cfdc3b899e335dd13a9456242ed5158b718ac5c56d9b1ebf06c4571eda2cc7a2"
+    },
+    "scripts/current-owner-lists-browser/probe.py": {
+      "bytes": 7086,
+      "sha256": "09f11d335c800ad735ab53a351a2ee434ae03386ae5091e04d35805c023d3262"
+    },
+    "scripts/current-owner-lists-browser/browser.mjs": {
+      "bytes": 9908,
+      "sha256": "3ff0a9a574160cddbfb53913636cbd7fb62d3e5b693bf7337f8a90ac95dc375b"
+    }
+  },
+  "glossary_correction": {
+    "UI5": "Five standalone report UI source files; not five journeys, not five browser cases, not acceptance.",
+    "exact_locator": {
+      "path": "docs/cp7/d17-14/ow15/CURRENT_COMPOSITION_INTERNAL_SOURCE_REVIEW.json",
+      "line": 591,
+      "json_pointer": "/ui_and_reports/S05_current"
+    },
+    "exact_sentence": "Five standalone report UI files present in d494/911; deliberately unmounted. One authclient and readRPC, Owner/Admin plus finance.contractor_accessory.view+finance.hpp.view, strict response/currentaccess/filter reset.",
+    "five_files": [
+      "src/AccessoryStandardReport.dom.test.tsx",
+      "src/ConnectedAccessoryStandardReportPage.tsx",
+      "src/accessory-standard-report.css",
+      "src/accessoryStandardReport.test.ts",
+      "src/accessoryStandardReport.ts"
+    ],
+    "supporting_fixture_not_one_of_five": "tests/fixtures/accessoryStandardReport.ts",
+    "corroboration": "scripts/cp7_accessory_standard_report/SOURCE.json files pins these exact five src report files, plus the separate test fixture.",
+    "predeclared_five_real_browser_IDs_found": false,
+    "planned_browser_case_count": null,
+    "rule": "Derive coverage and case count from owner/report contracts. Freeze exact IDs/modes/oracles before dispatch; do not force five cases to match UI5."
+  },
+  "contract_authority": [
+    {
+      "path": "docs/cp7/OWNER_DECISIONS_20261008.md",
+      "line": 967,
+      "decision": "D17-19C",
+      "requirement": "Category BOM first; report contractor actual issue vs standard remains required; physical variants stay traceable."
+    },
+    {
+      "path": "src/ConnectedAccessoryStandardReportPage.tsx",
+      "line": 10,
+      "requirement": "Integrator chooses menu/tab after SKU qualification; keep one authenticated client and narrow read adapter."
+    },
+    {
+      "path": "scripts/cp7_accessory_standard_report/README.md",
+      "sections": [
+        "Arti angka dan kelengkapan",
+        "Berkas dan integrasi",
+        "Jalur qualification yang disiapkan"
+      ],
+      "requirement": "Actual POSTED physical WIB issue vs accepted GOOD snapshots, exact source lineage and no report business DML; local DOM controls are not runtime proof."
+    }
+  ],
+  "blocking_entry_gate": {
+    "accepted_SKU_successor": null,
+    "source_head_tree_raw_Originals": null,
+    "required": "Wait for root-verified terminal success of exact SKU successor declared IDs/counts by actual mode, all per-case boundaries/full outer restore and all five package gates.",
+    "failed_7c720_accepted_as_prerequisite": false,
+    "failed_SKU_UUID_catalogue_metadata_is_success_evidence": false,
+    "S05_519d": "Narrow Native10 source/report evidence remains valid; it is not a qualified SKU/S03/S05 composite."
+  },
+  "smallest_normal_App_patch": [
+    {
+      "path": "src/ConnectedAccessoryWorkspacePage.tsx (NEW)",
+      "change": "Connected-only tab wrapper: unchanged note page as default; standalone report in a second labelled tab, conditionally mounted. Switching away unmounts report; returning starts a fresh actual read.",
+      "labels": [
+        "Nota ambil aksesori",
+        "Diambil vs standar GOOD"
+      ],
+      "access": "Report tab and child require Owner/Admin plus finance.contractor_accessory.view AND finance.hpp.view from existing AuthProvider. Known loss of either report right unmounts/clears report immediately; original note page keeps its own existing guards.",
+      "client": "Use existing authenticated client; no additional client, arbitrary RPC adapter, shared RPC-type mutation or sample figures."
+    },
+    {
+      "path": "src/App.tsx",
+      "anchors": [
+        "lazy import ConnectedAccessoryIssuePage around line60",
+        "contractor-issue render branch around line670"
+      ],
+      "change": "Add lazy wrapper import and replace only connected contractor-issue child. Existing DEMO ContractorIssuePage remains. Reuse Keuangan > Nota Ambil Aksesori and current page ID.",
+      "reason": "Small entry change avoids introducing a separate route with a generic single-permission guard for a compound-permission report."
+    },
+    {
+      "paths": [
+        "src/auth/accessCatalog.ts",
+        "src/screenActivation.ts"
+      ],
+      "planned_changes": 0,
+      "reason": "Existing contractor-issue route is connected and already mapped to accessory viewing; report enforces extra HPP and Owner/Admin requirements."
+    },
+    {
+      "path": "src/ConnectedAccessoryWorkspacePage.dom.test.tsx (NEW)",
+      "change": "Focused controls for default tab, compound access, unmount/stale response on tab/identity change and fresh read after note view. Preserve existing standalone DOM oracles."
+    }
+  ],
+  "new_actual_parent_adapter_required": {
+    "namespace": "scripts/current-s05-normal-app-qualification/ (PROPOSED)",
+    "concrete_old_binding": "stage.parent() imports cp7_vendor_receivable.composition and verify requires VENDOR_RECEIVABLE_EXACT_SOURCE_AND_ALL22. Frozen stage SOURCE pins pre-UUID client bytes.",
+    "implementation": "New explicit adapter accepts actual qualified SKU/composite state, its source graph, catalog provider and owning verifier. Prove actual full parent all22/data/ALL sequences/authority before additive reader DDL; use a truthful new composite parent proof status.",
+    "invariants": "Exact original report.sql and five function bodies/signatures; reader role NOLOGIN/NOINHERIT/NOBYPASSRLS, no memberships, no ERP table or Native-writer grants, only declared public read. Full additive catalog admission, source/ACL authority and preuse inverse remain mandatory.",
+    "source_separation": "Bind immutable qualified 519d backend sources explicitly alongside published def01e64 client UUID successor and the new App wrapper. Historical manifests remain frozen; new source scope is declared honestly.",
+    "forbidden": [
+      "Relabel SKU state as vendor proof.",
+      "Project/filter catalog or omit data/sequences.",
+      "Re-seal or bypass historical manifests and claim old gate passed.",
+      "Automatically install an unqualified predecessor."
+    ],
+    "fixtures": "Prepare ordinary Native transitions on the verified actual parent before reader intervals, as in retained S05 qualification. A read-only UI journey does not prove UI posting or continuous owning-write coexistence."
+  },
+  "reusable_harness_bindings": [
+    {
+      "path": "scripts/cp6_auditor_modes.py",
+      "line": 343,
+      "API": "run_browser(browser_script,verify_current_composite,phase)",
+      "binding": "Exact installed current composite; real Auth/PostgREST; no test-only usage grant; no runtime-signed JWT. Declare own case registry and package/source gate."
+    },
+    {
+      "path": "scripts/cp6_auditor_browser_host.mjs",
+      "API": "cases(ui,today), ui.login(role,{mobile,timezoneId}), normal ERP login form, ui.sql only for admitted disposable fixture/readback.",
+      "devices": {
+        "desktop": [
+          1440,
+          1000
+        ],
+        "mobile": [
+          390,
+          844
+        ]
+      },
+      "network": "Release UI mode loopback clone only; every other origin blocked; no hosted/WA/project writes and no fabricated product RPC responses."
+    },
+    {
+      "path": "scripts/ow04-payment-current-qualification/copy_authority.py",
+      "binding": "Pattern only after new source admission: preserve actual createdb database authority, prove its sole admitted delta then full all22 equals original current installation. No product grants."
+    },
+    {
+      "paths": [
+        "scripts/current-owner-lists-browser/probe.py",
+        "scripts/current-owner-lists-browser/browser.mjs"
+      ],
+      "binding": "Normal sidebar/menu/login pattern, response-to-DOM equality, private first-failure artifacts, read-only full data/sequence census and outer cleanup. Do not reuse OW09 case budget or old current_installation as S05 qualification."
+    },
+    {
+      "paths": [
+        "scripts/cp7_accessory_standard_report/cases.py",
+        "scripts/cp7_accessory_standard_report/report.sql"
+      ],
+      "binding": "Preserve predeclared financial/source oracles, lawful master and Native helper transitions, and narrow public read. New fixtures are explicitly new qualifier dependencies; original callbacks stay byte-exact."
+    }
+  ],
+  "coverage_matrix_not_case_count": [
+    {
+      "coverage": "Normal App and real identity",
+      "source": "D17-19C; page auth guards; existing browser host",
+      "required_observation": "Real Owner/Admin login through normal App > Keuangan > existing menu > report tab, one application client; anonymous/Staff or missing compound rights never obtain a usable report. No standalone-only mount credit."
+    },
+    {
+      "coverage": "Physical variants, category totals, selected PO and source trace",
+      "source": "S05_NATIVE_CATEGORY_VARIANTS_PO; page actual/standard details",
+      "required_observation": "Bind actual Native worksheet: linked11 vs standard7.5 delta3.5; unfiltered adds unlinked1 to12. Display exact material/note/movement/snapshot/BOM identities, both WIB cohort definitions and no invented consumption/waste."
+    },
+    {
+      "coverage": "UUID late invoice and immutable history",
+      "source": "S05_NATIVE_LATE_INVOICE_COST_REVISIONS; def01e64 UUID correction",
+      "required_observation": "Actual Native revision UUID reaches DOM. Original cost oracle14->24.50 issue value and15->26.25 standard HPP, reimbursement15, qty7.5/source/BOM identity and physical quantities unchanged; audit bigint IDs remain decimal strings. Validate definitions explicitly and preserve every financial/source field."
+    },
+    {
+      "coverage": "Afui economic path: positive HPP and zero reimbursement",
+      "source": "Active S05 coverage gap; original zero case; Native post_accessory_reimbursement_accrual",
+      "required_observation": "Actual lawful Afui source, positive standard quantity/HPP and zero reimbursement shown without fabricated entitlement. Cost0/rate0 Native case and worksheet DOM do not cover this.",
+      "guard": "Native checks total production LOT: HPP>0 with total reimbursement0 is refused. A free category may coexist with a genuinely reimbursable category; this alone does not establish the full Afui path.",
+      "fixture_gap": "Original recipe uses one rate for both HPP/reimbursement. Establish actual requested policy path through ordinary Native master/post commands in NEW fixture. Do not invent paid companion economics, bypass guards or inject posted rows to force a pass. Preserve an actual refusal and keep this coverage open if no lawful path exists."
+    },
+    {
+      "coverage": "UNKNOWN versus explicit empty and physical WIB cohorts",
+      "source": "S05_NATIVE_EMPTY_AND_NO_OUTPUT, WIB_COHORTS, REWORK_NONE; standalone contract",
+      "required_observation": "No GOOD/incomplete commitment or unit proof does not become0. Explicit empty/NONE with complete lineage does. Preserve original lawful seconds boundary/cohort fixtures and valid historical dates; never change database clock or future guard.",
+      "limit": "Source-hole/UOM-loss/unallocated corruption needs retained actual source or an explicitly separate isolated fault control; local doubles do not become lawful Native journeys."
+    },
+    {
+      "coverage": "Current rights and retirement of old figures",
+      "source": "S05_NATIVE_CURRENT_ACCESS_PRIVATE_ACL; report DOM stale/auth controls",
+      "required_observation": "Actual Admin HPP permission revocation gives fresh RPC42501/HTTP403 while UI still had authorized identity; data clears. Owner deactivation uses another legitimate active Owner and leaves protected OWNER role intact. Known identity/right loss, filter change, tab switch and navigation retire pending old report. Use held/released exact real responses, not fabricated data."
+    },
+    {
+      "coverage": "Read-only effect and exact restore",
+      "source": "S05 reader intervals; browser host cleanup/package gates",
+      "required_observation": "After fixture/Auth setup, full rows/ALL sequences/catalog/authority before/after each report-read window equal. Administrative rights changes lie in explicit admitted setup windows, then restore. Observe only narrow report read RPC, primary/Auth counts restored, no leaked sessions/schema/roles and all outer/package gates."
+    },
+    {
+      "coverage": "Desktop/mobile, readability and source visibility",
+      "source": "ERP_BEST_PRACTICES D17/D17a; standalone page source sections",
+      "required_observation": "Normal App at1440x1000 and390x844 with populated report/details; scrollWidth<=innerWidth exactly, no +1 tolerance/overflow masking. Main numbers contrast>=4.5, text>=2. Actual RPC and source identities agree with visible values/details at both sizes. Device count does not imply a case count."
+    }
+  ],
+  "execution_preparation": {
+    "new_files": [
+      "CONFIG.json",
+      "SOURCE.json",
+      "admission.py",
+      "installation.py",
+      "fixture.py",
+      "browser.mjs",
+      "probe.py",
+      "result_gate.py"
+    ],
+    "before_dispatch": "Freeze exact case IDs, mode/device budget, source pins, independent expected/oracle and fixture legality from coverage needs; current planned browser count remains null.",
+    "browser_gate": [
+      "host exit0/RUN_COMPLETE",
+      "exact frozen planned IDs PASS, no missing",
+      "console errors0",
+      "real_auth true",
+      "test_only_usage_grant false",
+      "jwt_signed_by_runtime false",
+      "Auth counts restored/no cleanup failure",
+      "database_remaining0",
+      "full outer all22/rows/ALL sequences/roles/CP6/advisors restored",
+      "all five package gates"
+    ],
+    "records": "Retain first failures and exact new Originals privately; public receipts contain safe pins/counts/status only. Raw rows, credentials, screenshots and ZIP never enter public repo.",
+    "order": [
+      "Root admits exact terminal SKU successor.",
+      "Lock coverage-derived case registry and actual Afui fixture result; preserve refusal if blocked.",
+      "Implement new truthful parent/source adapter and normal App tab wrapper in separate writer branch.",
+      "Run only touched local source/wrapper checks and strict negative controls.",
+      "Execute explicit actual Auth normal App browser qualification on disposable current composite.",
+      "Root reconciles raw results; broader composition/default/production acceptance stays separate."
+    ]
+  },
+  "App_mount_or_frozen_manifest_edits_by_helper": 0,
+  "actual_new_Native_Auth_HTTP_browser_cases": 0,
+  "UI5_qualified": false,
+  "formal_total_unchanged": "5/16",
+  "default_adopted": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

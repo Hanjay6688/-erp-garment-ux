@@ -1,0 +1,83 @@
+{
+  "status": "INTERNAL_READONLY_REVIEW_NO_CONCRETE_BLOCKER_AFTER_SOURCE_GUARD_FIX",
+  "classification": "INTERNAL_WRITER_COUNTER_NOT_FORMAL_INDEPENDENT_ACCEPTANCE",
+  "public_head": "def01e6441950027a2795536adf730b5d84363b7",
+  "tree": "9ba7472ee357a36ae8658a568ace098089379975",
+  "source_manifest": {
+    "bytes": 2214,
+    "sha256": "10e0dbc68b1a9c6c5c683b8d3ba39824234d6e64ff7721bf4f386ea55ea3f0ed"
+  },
+  "source_guard": {
+    "bytes": 4437,
+    "sha256": "20f01a32514b76716369f1ceff8e8c3e16044e1b4f0071be8e3e7460fa82a80c"
+  },
+  "public_source_pins": 9,
+  "immutable_parent_Git_blobs_and_modes": 13683,
+  "product_change": "Exactly revision.id validator idText -> uuid; audit unit_basis_audit_ids remains idText decimal string.",
+  "source_binding": "Own replay receipt, all nine SOURCE pins and manifest equal exact published Git blobs; all other parent modes/blobs unchanged.",
+  "actual_CASE_SHA256": "7b13beaa9d369398a2e6c3762d9649303e92e6c835aba8b476a5d51842f3d79a",
+  "own_replay": {
+    "positive_responses": 22,
+    "unchanged_old_successes": 21,
+    "reproduced_old_refusal_case": "S05_NATIVE_LATE_INVOICE_COST_REVISIONS",
+    "reproduced_old_refusal_read_index": 1,
+    "retained_actual_access_denials": 4,
+    "all_financial_quantity_source_fields_exact": true,
+    "output_equals_published_CLIENT_REPLAY": true,
+    "receipt": {
+      "bytes": 4323,
+      "sha256": "44893811d8e40307b5d118987668a14df97da6fb07e9a38a37b8b30b615d306c"
+    }
+  },
+  "actual_column_metadata": {
+    "archive_sha256": "36fde115aa5eb9bbcc63e6073efa722b52d401c37ac2cb1eaad5091e84fe07db",
+    "Original_sha256": "d19c518e9407668adbd9a21176db63b55d00720374ae5720d55ed8131d860461",
+    "field": "erp.fg_accessory_cost_revisions.id",
+    "before_after_type": "uuid",
+    "default": "gen_random_uuid()",
+    "whole_failed_SKU_run_accepted": false
+  },
+  "fixed_source_guard_findings": [
+    "PRODUCT hash exemption previously skipped mode check; product/own source/manifest now require exact modes.",
+    "Weak Python JSON equality previously accepted bool/float count substitutions; recursive exact types plus duplicate/nonfinite rejection now enforced."
+  ],
+  "targeted_controls": {
+    "refused": 8,
+    "positive_before_each": true,
+    "positive_after": true,
+    "exact_refusal_reason_required": true,
+    "source_guard_code_sha256": "20f01a32514b76716369f1ceff8e8c3e16044e1b4f0071be8e3e7460fa82a80c",
+    "receipt": {
+      "bytes": 10442,
+      "sha256": "f5a7d38e8239ad8bc70fea1c77d90c242a8012617cf54c85927376f7d81b77b4"
+    },
+    "packaged_metadata_changed_after_controls": true,
+    "source_guard_code_unchanged_after_controls": true
+  },
+  "first_evidence": {
+    "initial_assessment": {
+      "bytes": 2464,
+      "sha256": "4d32d8d0f41ef700c432c56f6acc9decb82d3d3709d51cc555668de90d772868"
+    },
+    "initial_counterexamples": {
+      "bytes": 1530,
+      "sha256": "ee86d599991bd9b631b8643d2df4fe5de7c33ddaa62888225497e39f3b9888f9"
+    },
+    "invalid_intermediate": {
+      "bytes": 2840,
+      "sha256": "648daa94a448a2f21fe5730722a802294fed26e1a37983a51f36e24ed68839a9"
+    },
+    "invalidation": {
+      "bytes": 480,
+      "sha256": "db2de7d55e4e1e6a167f85a54b48f28776e9f3519c317e6aba7a1e6b81078917"
+    },
+    "invalid_intermediate_credit": 0
+  },
+  "candidate_worktree_edits_by_reviewer": 0,
+  "new_Native_DB_Auth_HTTP_browser_cases": 0,
+  "accepted_transactions_reexecuted": false,
+  "UI5_qualified": false,
+  "full_S05_family_accepted": false,
+  "production_go": false,
+  "independent_acceptance": false
+}
