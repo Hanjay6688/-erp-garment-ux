@@ -1,0 +1,177 @@
+{
+  "contract": "cp7.sku-managed-recovery-native-profile.v1",
+  "status": "PREPARED_NOT_NATIVE_ACCEPTANCE",
+  "Original": {
+    "artifact_id": 12937998996,
+    "archive_bytes": 27564211,
+    "archive_sha256": "698b90b0bc3dfa52a8339d0b30464c2d98721594e56abdd53b07c959223f2bcc",
+    "catalogue_member": "SKU_COST_RECOVERY_OVER_FIRST_PART_REFUSAL_37fb87d4a2e1_FULL_CURRENT_CENSUS.json",
+    "catalogue_member_sha256": "1081c288694965278468de28ef65831909bf52dd5461e6d682a00a6ff0418fa0"
+  },
+  "captures": {
+    "erp.bc_value_custody_v1(jsonb,uuid)": {
+      "path": "recovery_before/erp.bc_value_custody_v1.sql",
+      "bytes": 3433,
+      "sha256": "b9c1c7029802414f42f1a38dadce84d3c08fb2132dd24ef56b2bed87add3776d",
+      "metadata": [
+        "postgres",
+        "plpgsql",
+        "f",
+        true,
+        false,
+        false,
+        false,
+        "v",
+        "u",
+        "100",
+        "0",
+        [
+          "search_path=\"\""
+        ],
+        [
+          "p_payload",
+          "p_request"
+        ],
+        null,
+        "p_payload jsonb, p_request uuid",
+        "jsonb",
+        "-",
+        [
+          [
+            "postgres",
+            "postgres",
+            "EXECUTE",
+            false
+          ]
+        ]
+      ]
+    },
+    "erp.save_accessory_service_action_v1(text,jsonb,uuid)": {
+      "path": "recovery_before/erp.save_accessory_service_action_v1.sql",
+      "bytes": 4996,
+      "sha256": "6a4431e4d26e61dd3edf1cb5dc18aed407ce54ab49a673a410616aa828a2f644",
+      "metadata": [
+        "postgres",
+        "plpgsql",
+        "f",
+        true,
+        false,
+        false,
+        false,
+        "v",
+        "u",
+        "100",
+        "0",
+        [
+          "search_path=\"\"",
+          "TimeZone=UTC",
+          "DateStyle=ISO, YMD"
+        ],
+        [
+          "p_action",
+          "p_payload",
+          "p_client_request_id"
+        ],
+        null,
+        "p_action text, p_payload jsonb, p_client_request_id uuid",
+        "jsonb",
+        "-",
+        [
+          [
+            "postgres",
+            "postgres",
+            "EXECUTE",
+            false
+          ]
+        ]
+      ]
+    }
+  },
+  "unchanged_native_function_abi": {
+    "erp._cp6_material_adjustment_revaluation_state(uuid)": "6adc44f0d6cc072267cd3f2e4fd90e5dcbb8ff43999f4d5ac036dfd528a9ff8e",
+    "erp._recalculate_material_cost_core(uuid,timestamp with time zone,boolean)": "ff2008f17103018fab844ca1232e07c2a32576748c9cc820dc9467d7840b7c22",
+    "erp.bc_post_adjustment_v1(uuid,uuid,timestamp with time zone,text,jsonb,text,text,uuid,text)": "e755ec566bd91cb8950eb69b11d98ed4046ce292bfd3bcab59ab8b887fdae173",
+    "erp.be_allocation_extra_v1(uuid)": "05a0fbfd9d3a95356b5c87f59dc734ef1a562b23c3fd8801d88a30d7854c885f",
+    "erp.be_conversion_extra_v1(uuid)": "d7f3639368848072e71e066c9b20c0ea8112addf94739e1961698b8b3fd6c023",
+    "erp.be_nonpo_admitted_v1(uuid)": "a570b438cddf20c96d536bca4094974d245c19ca8e87bdd54a9573890ad81eaf",
+    "erp.be_propagate_nonpo_v1()": "97d23a16a2e461e6e327f877ba6925d4bfbcb6f99481e070fb85c291c98cac61",
+    "erp.be_sync_material_cost_v1(uuid)": "a2cc3cac22b0388dfdacd25f5830c14a7b8b269c3307d0f219d2775556cf7127",
+    "erp.post_journal(text,uuid,date,text,jsonb)": "1f4b630c00147f88d195b3b365114eaecc60fdf3141859c384056423ae39f824",
+    "erp.post_material_adjustment(uuid)": "de207556f98b3aac44dd51fb50669b57652768fbdf2ed26ff04b362864ff9faa",
+    "erp.propagate_conversion_hpp_for_po(uuid)": "1f2d3e67b880ff5cd9f2770b332f579b91740965b4b4bb4b1f32d191f3d882fb",
+    "erp.sync_material_cost_revaluation(uuid)": "7d9bdfb75ac63e1d41ab37aca073c4f8c286887354cd59e25c3f32549142e191",
+    "erp.refresh_accessory_hpp_after_material_recost(uuid,text)": "b2151dcfc3b10659454fc8d7d63412f7affb5e698049e4ec67ff82531fc8faee",
+    "erp.refresh_material_cost_checkpoint(uuid,date)": "316775456f047127bffdb35310d5c0fd73024116368bfb349c5fe8218951f603",
+    "erp.bc_uuid_v1(jsonb,text,boolean)": "8a85add8b98dd0418977d7b9023ebe1fb711c9fcfa44849ed3cd05c503db9b51",
+    "erp.bc_lock_lot_v1(uuid)": "4784c046859778e0ddcfc643c7c7d1710c0aa24b31ddd90cb06068478acdcad5",
+    "erp.bc_new_document_v1(uuid,text,timestamp with time zone,jsonb,jsonb)": "80e02bead23ba0d11b979fc512cd9d08f00e33e8456c28f956fae58286727c66",
+    "erp.be_link_recovery_v1(uuid,uuid,date)": "01f42784156d4704526c08058a24291b586c045ef7e1d6e453b85a7c4d4c8867",
+    "erp.be_reconcile_cost_document_v1(uuid,date)": "fdaf4b1384fa7a4840359cbc7c1e94b588979e2cd364a2b2e9da9f03662492ad"
+  },
+  "hpp_columns": {
+    "erp.hpp_versions:hpp_per_pcs": [
+      "hpp_per_pcs",
+      7,
+      "numeric(18,6)",
+      false,
+      "",
+      "s",
+      "m",
+      "",
+      null,
+      null,
+      null,
+      "-",
+      null,
+      "(total_cost / (NULLIF(qty_basis_pcs, 0))::numeric)"
+    ],
+    "erp.hpp_versions:qty_basis_pcs": [
+      "qty_basis_pcs",
+      5,
+      "integer",
+      true,
+      "",
+      "",
+      "p",
+      "",
+      null,
+      null,
+      null,
+      "-",
+      null,
+      null
+    ],
+    "erp.hpp_versions:total_cost": [
+      "total_cost",
+      6,
+      "numeric(24,6)",
+      true,
+      "",
+      "",
+      "m",
+      "",
+      null,
+      null,
+      null,
+      "-",
+      null,
+      "0"
+    ]
+  },
+  "current_hpp_view_definition": " SELECT DISTINCT ON (lot_id) lot_id,\n    id AS hpp_version_id,\n    version_no,\n    cost_state,\n    qty_basis_pcs,\n    total_cost,\n    hpp_per_pcs,\n    calculated_at\n   FROM erp.hpp_versions hv\n  WHERE (is_current = true)\n  ORDER BY lot_id, version_no DESC;",
+  "new_Native_capture_count": 2,
+  "existing_Native_captures_preserved": 6,
+  "old_private_functions_preserved": 15,
+  "old_tables_preserved": 5,
+  "new_public_RPC": 0,
+  "Native_financial_SQL_rewritten": 0,
+  "production_go": false,
+  "independent_acceptance": false,
+  "conservative_material_profile": {
+    "unchanged_average": "positive-only, one-material purchase/adjustment history; each input/snapshot/current-history average equals Native current material average",
+    "excluded": "backdated, repricing, shared purchase/adjustment, reversals, rolls, negative/transfer/cutting/contractor consumption, category moving-average FG snapshots, incomplete queues or stale Native facts",
+    "preflight_amount": "round(p_qty*p_unit,2), same Native current_value; no HPP cent rounding",
+    "availability": "managed conversion remains attached to exactly one Native allocation; whole-group recovery is not introduced",
+    "locks": "existing BCLOT/material wait, try FG and category advisory, NOWAIT SRE inputs and sorted rows, current authorization after all locks"
+  }
+}

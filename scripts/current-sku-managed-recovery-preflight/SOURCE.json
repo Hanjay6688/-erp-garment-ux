@@ -1,0 +1,238 @@
+{
+  "status": "PREPARED_LOCAL_ONLY_NATIVE_FINANCIAL_0",
+  "base_head": "602b4e642a0afbb1acdcfd858b9f403dc14ec336",
+  "base_tree": "2b86a81b9f3b14ff1ca775825ac01bb96afaa50d",
+  "allowed_modified_base_files": [
+    "scripts/cp7_sku_pair_conversion/composition.py",
+    "scripts/cp7_sku_pair_conversion/README.md"
+  ],
+  "closed_owned_prefixes": [
+    "scripts/cp7_sku_pair_conversion/",
+    "scripts/current-sku-managed-recovery-preflight/"
+  ],
+  "files": {
+    "scripts/cp7_sku_pair_conversion/.gitignore": {
+      "bytes": 13,
+      "sha256": "32dae3052f331ee34d628ef535709b301259a45df7c7522c4d35dcf49873f00b"
+    },
+    "scripts/cp7_sku_pair_conversion/BEFORE_RI_COMPOSITION.py.txt": {
+      "bytes": 8908,
+      "sha256": "2ae89e8aadf79f135d82b474ef738dec7fd6267479caaa13748f5e31f232a06a"
+    },
+    "scripts/cp7_sku_pair_conversion/COUNTER_REVIEW_LOCAL.json": {
+      "bytes": 2200,
+      "sha256": "3e84f78072b5f379f5f78a65e87185060f48426e0a5e5408f1d3d227a57e09a2"
+    },
+    "scripts/cp7_sku_pair_conversion/DELETE_REPAIR_LOCAL.json": {
+      "bytes": 3156,
+      "sha256": "99991fc1c5fde0411d62e646b021fd68b4d05bdb18495ed008b24ff403866d9f"
+    },
+    "scripts/cp7_sku_pair_conversion/INTEGRATOR_REQUIRED.patch": {
+      "bytes": 238,
+      "sha256": "92fb6d974b17ec8553d3e9f522a2e15510c702ee483414ca27e165cfd38366c7"
+    },
+    "scripts/cp7_sku_pair_conversion/LOCAL_FIRST_FAILURES.json": {
+      "bytes": 1532,
+      "sha256": "30ddef2c0723795c29118a9eca99e0c126cf4e4b23cd6e0ac271982833c7115d"
+    },
+    "scripts/cp7_sku_pair_conversion/PREPARED_CHECKPOINT.json": {
+      "bytes": 4346,
+      "sha256": "a55b7fe114f595604a10c238dcf88a826e91222c24e81ea64f8ad55c2e53e302"
+    },
+    "scripts/cp7_sku_pair_conversion/README.md": {
+      "bytes": 6514,
+      "sha256": "41786ad8f71edcc60faaa884e77de632f4674134ac310897f1598f776a15af8d"
+    },
+    "scripts/cp7_sku_pair_conversion/UTC_FINGERPRINT_REPAIR_LOCAL.json": {
+      "bytes": 1246,
+      "sha256": "f79a8435dac41a36fcd1fe5d8d865ced7783dab6d2769d9c460147e2dfd01366"
+    },
+    "scripts/cp7_sku_pair_conversion/__init__.py": {
+      "bytes": 70,
+      "sha256": "85909f7aeb97bb550afe4c63356c73675cbe3519e3ee518f11e9858dbaa090b5"
+    },
+    "scripts/cp7_sku_pair_conversion/composition.py": {
+      "bytes": 10252,
+      "sha256": "fa3e825b251252ae11c2b68eecd9e55562526b468f03a01ebc3d5213ed472be8"
+    },
+    "scripts/cp7_sku_pair_conversion/conversion.sql": {
+      "bytes": 22975,
+      "sha256": "eece6fbed8cb13b73a49ec2e051478d6ba2a8b1002f6745b8c682db318595d72"
+    },
+    "scripts/cp7_sku_pair_conversion/native_delta.py": {
+      "bytes": 2224,
+      "sha256": "ff479d17a8f039693723307088551a0eb6876e2bdd772da2b6dc6f60c55d82f8"
+    },
+    "scripts/cp7_sku_pair_conversion/pairs.sql": {
+      "bytes": 9421,
+      "sha256": "05c7b67222b2a003ee4180872216a0837c747fcb145db88157317bad25b281c2"
+    },
+    "scripts/cp7_sku_pair_conversion/recovery.sql": {
+      "bytes": 18703,
+      "sha256": "584ce0ef6c9ac81a1c0550258c6a371557529e75f5789cff612116b09577fdd4"
+    },
+    "scripts/cp7_sku_pair_conversion/recovery_before/erp.bc_value_custody_v1.sql": {
+      "bytes": 3433,
+      "sha256": "b9c1c7029802414f42f1a38dadce84d3c08fb2132dd24ef56b2bed87add3776d"
+    },
+    "scripts/cp7_sku_pair_conversion/recovery_before/erp.save_accessory_service_action_v1.sql": {
+      "bytes": 4996,
+      "sha256": "6a4431e4d26e61dd3edf1cb5dc18aed407ce54ab49a673a410616aa828a2f644"
+    },
+    "scripts/cp7_sku_pair_conversion/recovery_delta.py": {
+      "bytes": 3749,
+      "sha256": "8d4b4e56e497ca5160879f095b1f933cf00f3e858a377bc7da80f121c5dcd116"
+    },
+    "scripts/cp7_sku_pair_conversion/recovery_local/NATIVE_PROFILE_CATALOG.json": {
+      "bytes": 101985,
+      "sha256": "b5b69063125cbb2c6231282a47a92208f29fe80d566787ae0e56d24fcb26ee58"
+    },
+    "scripts/cp7_sku_pair_conversion/recovery_local/NATIVE_UNCHANGED.json": {
+      "bytes": 16587,
+      "sha256": "6ef13c7446a4b1c0510f6bf777a6a41cfa5b70e9330a7290a1e8b2eac9acec39"
+    },
+    "scripts/cp7_sku_pair_conversion/recovery_local/check.mjs": {
+      "bytes": 20148,
+      "sha256": "bbc6d07e1bc92f92734f32c6710b1672a1b951dfcada0ebcc7d39c1ffff680cb"
+    },
+    "scripts/cp7_sku_pair_conversion/recovery_local/fixture.sql": {
+      "bytes": 12172,
+      "sha256": "38b5c453acfdbb611c51fbd6a36fc6017f410d7eefc114306e8f3d6473b81d19"
+    },
+    "scripts/cp7_sku_pair_conversion/recovery_profile.json": {
+      "bytes": 6586,
+      "sha256": "6b577f806e6feefc17be7715624db6c2ff58430b2eadea0a5824975061a61327"
+    },
+    "scripts/cp7_sku_pair_conversion/ri_catalog.py": {
+      "bytes": 1501,
+      "sha256": "aa30eff7c258de3ced78067ed7fbe660bef4570c291946f9291d6363881a4f3e"
+    },
+    "scripts/cp7_sku_pair_conversion/test_delta.py": {
+      "bytes": 5599,
+      "sha256": "4aa8e4eabf0cfef1442f24f0b90921b0888ac4179aca27c0f96d6512f92ad22b"
+    },
+    "scripts/cp7_sku_pair_conversion/test_recovery.py": {
+      "bytes": 5457,
+      "sha256": "b478529fe466c26e270a59030105aaae3cd67cd3af737bbada10f71c4b782804"
+    },
+    "scripts/current-sku-managed-recovery-preflight/README.md": {
+      "bytes": 4832,
+      "sha256": "58ef0de20cf84cdcfb76d6eaa376b75a92366d83e608346178fd729bbb34b8d3"
+    },
+    "scripts/current-sku-managed-recovery-preflight/bind.py": {
+      "bytes": 3291,
+      "sha256": "3f71966a4777ce2ba848ca0bee2cfc3212efa82f9014d14ca17826bfd033407f"
+    },
+    "scripts/current-sku-managed-recovery-preflight/evidence/FIRST_602_CP7_SKU_ALL_MEMBER_NATIVE23.json.gz": {
+      "bytes": 552216,
+      "sha256": "d00d8592692b44175fd4d064878b62e42f8420bc4f65ee6b725332e7cb1dd8c0"
+    },
+    "scripts/current-sku-managed-recovery-preflight/evidence/FIRST_602_CP7_SKU_GROUP_COST_NATIVE3.json.gz": {
+      "bytes": 3306,
+      "sha256": "677528e36306aa87c874cd04047c0abb5082936fe5d07f625a53983423129c2f"
+    },
+    "scripts/current-sku-managed-recovery-preflight/evidence/FIRST_602_CP7_SKU_PAIR_CONVERSION_NATIVE7.json.gz": {
+      "bytes": 4198,
+      "sha256": "e8992c66aaead24e6f534484d71499ca5ca1b120490ae04f34c043e1f505ef9d"
+    },
+    "scripts/current-sku-managed-recovery-preflight/evidence/FIRST_602_INDEPENDENT_SKU602_FIRST_FAILURE.json.gz": {
+      "bytes": 7093,
+      "sha256": "e2a901f69aa1c34460ed58911e22d0dc7583dad8d90a905fb0dfdd7e1290e820"
+    },
+    "scripts/current-sku-managed-recovery-preflight/evidence/FIRST_602_T3_BACKUP_RESTORE_DRILL.json.gz": {
+      "bytes": 646,
+      "sha256": "58251bb9fb8872aca16bc7eeab2cc9f5461e34aed9d0ac0641dd2cc82dd4ff6a"
+    },
+    "scripts/current-sku-managed-recovery-preflight/evidence/FIRST_602_T3_PACKAGE_FILES_INSTALL.json.gz": {
+      "bytes": 255,
+      "sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7"
+    },
+    "scripts/current-sku-managed-recovery-preflight/evidence/FIRST_602_T3_PACKAGE_INSTALL.json.gz": {
+      "bytes": 11401,
+      "sha256": "f711fdf183a3bd424a81c634f54abc4c4111150f6090929326d1e56616242e4a"
+    },
+    "scripts/current-sku-managed-recovery-preflight/evidence/FIRST_RUNTIME_IMPORT_CONTEXT_SETUP_FAILURE.json": {
+      "bytes": 2726,
+      "sha256": "156e2b48fdbe5fd5ae5aa476cc971030b4f7c617247bfc1e85a0f6e05773f55b"
+    },
+    "scripts/current-sku-managed-recovery-preflight/evidence/LOCAL_RECOVERY.json": {
+      "bytes": 19228,
+      "sha256": "08aaac3350089fc98d499f83b7aa4546433e12d0dfac256b22c03afda0f38bd0"
+    },
+    "scripts/current-sku-managed-recovery-preflight/evidence/RECOVERY_LOCAL_FIRST_RUN.log.gz": {
+      "bytes": 7847,
+      "sha256": "6e7fa38ba89aa7b47e206c85626174a5312d24a926946087e1f233293e4ebc38"
+    },
+    "scripts/current-sku-managed-recovery-preflight/evidence/RECOVERY_LOCAL_SECOND_RUN.log.gz": {
+      "bytes": 413,
+      "sha256": "db9adc8681999f2ef24d2c69fd86e3be67717b9febb76d19dcbd0e966a89ecfb"
+    },
+    "scripts/current-sku-managed-recovery-preflight/evidence/RECOVERY_LOCAL_THIRD_RUN.log.gz": {
+      "bytes": 418,
+      "sha256": "80b8149d884290764219d166d1147549d7dee6ac0df2767bbfed040b516d65fb"
+    },
+    "scripts/current-sku-managed-recovery-preflight/evidence/UNPROJECTED_RUNTIME_SOURCE.json": {
+      "bytes": 1895,
+      "sha256": "c89576d530628ea80a067040cfb1b7625d81744ef70ca6255f70acd73e328091"
+    },
+    "scripts/current-sku-managed-recovery-preflight/source_check.py": {
+      "bytes": 2487,
+      "sha256": "3a690fc75030240f6292ef2a335977b5652c533ed65de0c5bd407e5a21a65767"
+    },
+    "scripts/current-sku-managed-recovery-preflight/test_source.py": {
+      "bytes": 945,
+      "sha256": "0ed514d21fedd467a4e986c0c9edd2d3babbe98e033731f0a1f5b5cb08da2527"
+    }
+  },
+  "new_native_captures": 2,
+  "total_native_captures": 8,
+  "unchanged_original_private_functions": 15,
+  "new_private_functions": 4,
+  "total_private_functions": 19,
+  "unchanged_private_tables": 5,
+  "new_public_RPC": 0,
+  "original23_callback_files_modified": 0,
+  "Native_financial_SQL_rewritten": 0,
+  "local_SQL_controls": 45,
+  "local_source_metadata_controls": 11,
+  "actual_Native_financial": 0,
+  "actual_real_two_session": 0,
+  "first_602": {
+    "run": 40961419818,
+    "job": 123754856235,
+    "artifact": 12937998996,
+    "archive_bytes": 27564211,
+    "archive_sha256": "698b90b0bc3dfa52a8339d0b30464c2d98721594e56abdd53b07c959223f2bcc",
+    "library_id": "libfile_d2e388bf3f1081919710f344d8c2ecfb",
+    "observed": {
+      "Native_core_PASS": 7,
+      "Native_cost_PASS": 2,
+      "Native_cost_INCOMPLETE": 1,
+      "downstream_not_reached": 13
+    },
+    "failing_case": "SKU29_COST_GROUP_RETURN_OVER_FIRST_PART_SAFETY_REFUSAL_ONLY",
+    "audit_sequence": {
+      "before": [
+        "1317",
+        true
+      ],
+      "after": [
+        "1322",
+        true
+      ]
+    },
+    "outer_used_guard": "ABSENT_NOT_QUALIFIED",
+    "restored_all22_data_sequences_roles_CP6_advisors_Auth": true,
+    "writer_runtime": false
+  },
+  "actual_successor_required": {
+    "original23_unchanged": true,
+    "separate_Native_capacity_positive": 2,
+    "separate_busy_cache_permission_wait": 2,
+    "total_planned": 27
+  },
+  "sequence_scope": "No reset. Per-command refusal/replay includes all local sequences; actual successful sequences restore only by full outer backup.",
+  "default_adoption": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

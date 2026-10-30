@@ -8,6 +8,16 @@ Delta ini dibangun di atas `cp7_vendor_receivable.composition`, dengan pemasang
 tetap utuh. Enam definisi yang berubah dinyatakan di `native_delta.py`; semuanya
 diturunkan dengan substitusi tepat satu kali. Tidak ada RPC publik tambahan.
 
+Successor recovery yang masih PREPARED menambah dua tangkapan Native tepat di
+`recovery_delta.py`, tanpa mengganti keenam derivasi semula. Penjaga baca saja
+memeriksa biaya pemulihan SKU yang dikelola sebelum dokumen/audit pertama, dan
+hak mutakhir diperiksa lagi sebelum replay UUID. Perhitungan Native tetap utuh;
+profil material/graph yang belum dapat dipastikan meminta peninjauan sebelum
+efek. Batas bagian pertama tetap berlaku, tanpa pembagian recovery satu grup.
+Ruang bukti, profil yang diterima, lock dan batas kualifikasi dinyatakan di
+`scripts/current-sku-managed-recovery-preflight/README.md`; ini belum merupakan
+hasil actual Native27 atau penerimaan default.
+
 Padanan disimpan satu kali per grup SKU bersama, sehingga tidak perlu diulang
 untuk setiap ukuran. Endpoint diurutkan, satu SKU hanya punya satu pasangan,
 dan perubahan yang bersamaan memakai kunci transaksi yang sama. Pembacaan

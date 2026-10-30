@@ -1,11 +1,12 @@
 """Owner 29 October pair/master and manual conversion delta over qualified vendor composition.
 
-Parent is verified on its actual catalog before changing the six declared
-functions. After use, only a full backup restore may remove this installation.
+Parent is verified on its actual catalog before changing the six original
+and two managed-recovery entrypoints. After use, only a full backup restore
+may remove this installation.
 """
 from pathlib import Path
 from hashlib import sha256
-from . import native_delta,ri_catalog
+from . import native_delta,ri_catalog,recovery_delta
 from cp7_laundry_unknown_wash.composition import as_owner
 import cp7_vendor_receivable.composition as vendor_parent
 HERE=Path(__file__).resolve().parent
@@ -19,9 +20,13 @@ FUNCTIONS=tuple(SCHEMA+'.'+f for f in (
  'save_pair_v1(jsonb,uuid)','sku_workspace_v1(jsonb)','sku_action_v1(text,jsonb,uuid)',
  'manual_allocation_v1(uuid,uuid,uuid,integer,timestamp with time zone)','assert_group_reverse_v1(uuid)',
  'stock_v1(uuid,uuid)','revision_v1(uuid,uuid,uuid)','preview_v1(jsonb)',
- 'action_v1(text,jsonb,uuid)','workspace_v1(jsonb)'))
+ 'action_v1(text,jsonb,uuid)','workspace_v1(jsonb)',
+ 'recovery_managed_v1(uuid)','recovery_auth_v1(jsonb)','recovery_graph_v1(uuid,numeric,boolean)',
+ 'recovery_preflight_v1(uuid,numeric,numeric,timestamp with time zone)'))
 VOLATILE={SCHEMA+'.'+f for f in ('immutable_v1()','guard_pair_v1()','save_pair_v1(jsonb,uuid)','sku_action_v1(text,jsonb,uuid)',
- 'preview_v1(jsonb)','action_v1(text,jsonb,uuid)','workspace_v1(jsonb)')}
+ 'preview_v1(jsonb)','action_v1(text,jsonb,uuid)','workspace_v1(jsonb)',
+ 'recovery_auth_v1(jsonb)','recovery_preflight_v1(uuid,numeric,numeric,timestamp with time zone)')}
+CAPTURE_SIGNATURES=native_delta.SIGNATURES+recovery_delta.SIGNATURES
 CAPTURED={}
 
 def parent():return vendor_parent
@@ -31,7 +36,10 @@ def runtime():return parent().runtime()
 def sources():
     return dict(contract=CONTRACT,predecessor=parent().sources(),
         files={str((HERE/f).relative_to(ROOT)):sha256((HERE/f).read_bytes()).hexdigest()
-               for f in ('pairs.sql','conversion.sql','native_delta.py','composition.py','ri_catalog.py')},
+               for f in ('pairs.sql','conversion.sql','native_delta.py','composition.py','ri_catalog.py',
+                         'recovery.sql','recovery_delta.py','recovery_profile.json',
+                         'recovery_before/erp.bc_value_custody_v1.sql',
+                         'recovery_before/erp.save_accessory_service_action_v1.sql')},
         new_public_RPC=0,production_go=False,independent_acceptance=False)
 
 def transition(before,after,definitions):
@@ -80,7 +88,7 @@ def verify(cur,state):
         owner,rls=cur.execute('select pg_get_userbyid(relowner),relrowsecurity from pg_class where oid=%s::regclass',(table,)).fetchone()
         if owner!='postgres'or not rls:raise ValueError('SKU_PAIR_CONVERSION_RLS_REQUIRED:'+table)
     return dict(status='SKU_PAIR_CONVERSION_EXACT_SOURCE_AND_ALL22',contract=CONTRACT,
-        actual_parent_verified_before_delta=True,projected_catalog=False,Native_changed_functions=list(native_delta.SIGNATURES),
+        actual_parent_verified_before_delta=True,projected_catalog=False,Native_changed_functions=list(CAPTURE_SIGNATURES),
         new_private_functions=len(FUNCTIONS),new_public_rpcs=0,Native_money_stock_HPP_engine_unchanged=True,Native_cross_dimension_only_exact_private_manual_allocation=True,
         formal_acceptance_unchanged=True,production_go=False,independent_acceptance=False)
 
@@ -91,13 +99,16 @@ def install_delta(cur,prior):
         proof=parent().verify(cur,prior)
         before=catalog._catalog_rows(cur);data=catalog._data(cur)
         if SCHEMA in before['schemas']:raise ValueError('SKU_PAIR_CONVERSION_ALREADY_INSTALLED')
-        originals={sig:before['functions'][sig][0]for sig in native_delta.SIGNATURES}
+        recovery_delta.validate(before)
+        originals={sig:before['functions'][sig][0]for sig in CAPTURE_SIGNATURES}
         if any(before['functions'][sig][1]!='postgres'for sig in originals):raise ValueError('SKU_PAIR_CONVERSION_NATIVE_OWNER_CHANGED')
         CAPTURED.clear();CAPTURED.update(originals)
-        definitions=native_delta.patched(originals)
+        definitions=native_delta.patched({sig:originals[sig]for sig in native_delta.SIGNATURES})
+        definitions.update(recovery_delta.patched({sig:originals[sig]for sig in recovery_delta.SIGNATURES}))
         with as_owner(cur,'postgres'):
             cur.execute((HERE/'pairs.sql').read_text(),prepare=False)
             cur.execute((HERE/'conversion.sql').read_text(),prepare=False)
+            cur.execute((HERE/'recovery.sql').read_text(),prepare=False)
             for table in TABLES:
                 cur.execute('alter table '+table+' owner to postgres');cur.execute('revoke all on '+table+' from public,anon,authenticated,service_role')
             for sig in FUNCTIONS:
