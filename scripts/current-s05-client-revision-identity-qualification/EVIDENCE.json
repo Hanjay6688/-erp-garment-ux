@@ -1,0 +1,98 @@
+{
+  "classification": "EXACT_ACTUAL_RAW_AND_COLUMN_METADATA_NOT_NEW_DATABASE_EXECUTION",
+  "S05_head": "519d1760a3bad06a346b3d4b3cc0203664615634",
+  "S05_run": 41020627427,
+  "S05_artifact": 12965058954,
+  "S05_archive": {
+    "bytes": 2151338,
+    "sha256": "43dc919acad9880afe6be8a9ba1aaa550503558f473e0b27ac699e8c8bd78854"
+  },
+  "SKU_head": "7c7204c82debafce217d277514e3f23c8fc2ac69",
+  "SKU_run": 41020730202,
+  "SKU_artifact": 12963980858,
+  "SKU_archive": {
+    "bytes": 46957580,
+    "sha256": "36fde115aa5eb9bbcc63e6073efa722b52d401c37ac2cb1eaad5091e84fe07db"
+  },
+  "catalogue_original": {
+    "name": "SKU_COST_RECOVERY_OVER_FIRST_PART_REFUSAL_bcf601d77b56_FULL_CURRENT_CENSUS.json",
+    "bytes": 43100594,
+    "sha256": "d19c518e9407668adbd9a21176db63b55d00720374ae5720d55ed8131d860461"
+  },
+  "field": "columns/erp.fg_accessory_cost_revisions:id",
+  "before": [
+    "id",
+    1,
+    "uuid",
+    true,
+    "",
+    "",
+    "p",
+    "",
+    null,
+    null,
+    null,
+    "-",
+    null,
+    "gen_random_uuid()"
+  ],
+  "after": [
+    "id",
+    1,
+    "uuid",
+    true,
+    "",
+    "",
+    "p",
+    "",
+    null,
+    null,
+    null,
+    "-",
+    null,
+    "gen_random_uuid()"
+  ],
+  "corrected_old_parser_replay": {
+    "bytes": 3892,
+    "sha256": "955926ebc48779a15da923ebd3a29cd3c8723d160e09672a7d807625cab05427"
+  },
+  "first_harness_assertion_error": "Expected parser to return validated definitions metadata that is intentionally omitted; first log retained privately, corrected explicit invariant and full financial field equality.",
+  "local_units": 29,
+  "typecheck": "PASS",
+  "additional_Native_cases": 0,
+  "actual_browser_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false,
+  "first_source_check_refusal": {
+    "reason": "S05_CLIENT_UNALLOCATED_FILE:node_modules",
+    "cause": "Temporary local test dependency symlink was untracked on the S05 source parent.",
+    "resolution": "Removed the temporary symlink after tests; retained the strict guard unchanged.",
+    "private_original_log": "s05-uuid-client-source.log"
+  },
+  "source_guard_review": {
+    "initial_mode_and_type_counterexamples": 4,
+    "corrected_isolated_controls": 8,
+    "exact_reason_required": true,
+    "positive_before_every_mutation": true,
+    "positive_after": true,
+    "review_file": "SOURCE_GUARD_REVIEW.json",
+    "metadata_packaging_after_review": true,
+    "source_guard_code_unchanged_after_review": true,
+    "intermediate_contaminated_controls_not_credited": true
+  },
+  "first_guard_counterexamples": {
+    "private_original": "S05_CLIENT_UUID_HELPER_SOURCE_GUARD_COUNTERS.json",
+    "bytes": 1530,
+    "sha256": "ee86d599991bd9b631b8643d2df4fe5de7c33ddaa62888225497e39f3b9888f9"
+  },
+  "invalid_intermediate_control": {
+    "private_original": "S05_CLIENT_UUID_HELPER_SOURCE_GUARD_COUNTERS_AFTER_FIX.json",
+    "bytes": 2840,
+    "sha256": "648daa94a448a2f21fe5730722a802294fed26e1a37983a51f36e24ed68839a9"
+  },
+  "intermediate_invalidation": {
+    "private_original": "S05_CLIENT_UUID_HELPER_SOURCE_GUARD_COUNTERS_AFTER_FIX_INVALIDATION.json",
+    "bytes": 480,
+    "sha256": "db2de7d55e4e1e6a167f85a54b48f28776e9f3519c317e6aba7a1e6b81078917"
+  }
+}

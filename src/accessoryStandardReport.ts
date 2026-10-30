@@ -86,7 +86,7 @@ function standard(v: unknown): AccessoryStandardSource {
     hpp_method: choice(r.hpp_method, ['CATEGORY_MOVING_AVG', 'BOM_STANDARD'] as const), hpp_unit_cost: decimal(r.hpp_unit_cost), reimbursement_unit_rate: decimal(r.reimbursement_unit_rate),
     hpp_cost: decimal(r.hpp_cost), reimbursement: decimal(r.reimbursement), costing_basis_at: at(r.costing_basis_at),
     costing_basis_source: choice(r.costing_basis_source, ['FIRST_FINANCIAL_USE', 'FG_ACCEPTANCE'] as const), snapshotted_at: at(r.snapshotted_at), entitlement_ids: ids(r.entitlement_ids),
-    entitlement_known: bool(r.entitlement_known), revisions: arr(r.revisions, v => { const x = object(v); return { id: idText(x.id), material_id: nullable(x.material_id, uuid),
+    entitlement_known: bool(r.entitlement_known), revisions: arr(r.revisions, v => { const x = object(v); return { id: uuid(x.id), material_id: nullable(x.material_id, uuid),
       old_hpp_unit_cost: decimal(x.old_hpp_unit_cost), new_hpp_unit_cost: decimal(x.new_hpp_unit_cost), old_category_avg_cost: nullable(x.old_category_avg_cost, decimal),
       new_category_avg_cost: decimal(x.new_category_avg_cost), reason: str(x.reason), changed_at: at(x.changed_at) } }) }
 }

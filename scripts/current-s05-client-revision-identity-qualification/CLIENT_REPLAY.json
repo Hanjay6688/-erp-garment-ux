@@ -1,0 +1,164 @@
+{
+  "status": "PASS",
+  "classification": "EXACT_RETAINED_NATIVE_RESPONSES_CLIENT_CONTRACT_SUCCESSOR",
+  "source_parent": "519d1760a3bad06a346b3d4b3cc0203664615634",
+  "source_path": "src/accessoryStandardReport.ts",
+  "before_sha256": "982988ce7a48c624294bcb22a6663ae8bd842825ecfa74c72b8f1fa697a6f1a1",
+  "after_sha256": "8cafbfe6747c6e0604edd8ed146fac0ec7265c35a782ca3563e114c99b32240b",
+  "original_bytes": 232514,
+  "original_sha256": "7b13beaa9d369398a2e6c3762d9649303e92e6c835aba8b476a5d51842f3d79a",
+  "old_parser_pass": 21,
+  "old_parser_refusals": [
+    {
+      "case_id": "S05_NATIVE_LATE_INVOICE_COST_REVISIONS",
+      "read_index": 1,
+      "message": "Data laporan aksesori tidak lengkap atau tidak cocok. Muat ulang sebelum memakai angkanya."
+    }
+  ],
+  "new_parser_pass": 22,
+  "original_access_denials": 4,
+  "results": [
+    {
+      "case_id": "S05_NATIVE_CATEGORY_VARIANTS_PO",
+      "read_index": 0,
+      "status": "PASS",
+      "report_status": "KNOWN"
+    },
+    {
+      "case_id": "S05_NATIVE_CATEGORY_VARIANTS_PO",
+      "read_index": 1,
+      "status": "PASS",
+      "report_status": "KNOWN"
+    },
+    {
+      "case_id": "S05_NATIVE_HISTORICAL_BOM",
+      "read_index": 0,
+      "status": "PASS",
+      "report_status": "KNOWN"
+    },
+    {
+      "case_id": "S05_NATIVE_HISTORICAL_BOM",
+      "read_index": 1,
+      "status": "PASS",
+      "report_status": "KNOWN"
+    },
+    {
+      "case_id": "S05_NATIVE_LATE_INVOICE_COST_REVISIONS",
+      "read_index": 0,
+      "status": "PASS",
+      "report_status": "KNOWN"
+    },
+    {
+      "case_id": "S05_NATIVE_LATE_INVOICE_COST_REVISIONS",
+      "read_index": 1,
+      "status": "PASS",
+      "report_status": "KNOWN"
+    },
+    {
+      "case_id": "S05_NATIVE_ZERO_REIMBURSEMENT",
+      "read_index": 0,
+      "status": "PASS",
+      "report_status": "KNOWN"
+    },
+    {
+      "case_id": "S05_NATIVE_EMPTY_AND_NO_OUTPUT",
+      "read_index": 0,
+      "status": "PASS",
+      "report_status": "UNKNOWN"
+    },
+    {
+      "case_id": "S05_NATIVE_EMPTY_AND_NO_OUTPUT",
+      "read_index": 1,
+      "status": "PASS",
+      "report_status": "KNOWN"
+    },
+    {
+      "case_id": "S05_NATIVE_WIB_COHORTS",
+      "read_index": 0,
+      "status": "PASS",
+      "report_status": "KNOWN"
+    },
+    {
+      "case_id": "S05_NATIVE_WIB_COHORTS",
+      "read_index": 1,
+      "status": "PASS",
+      "report_status": "KNOWN"
+    },
+    {
+      "case_id": "S05_NATIVE_WIB_COHORTS",
+      "read_index": 2,
+      "status": "PASS",
+      "report_status": "KNOWN"
+    },
+    {
+      "case_id": "S05_NATIVE_WIB_COHORTS",
+      "read_index": 3,
+      "status": "PASS",
+      "report_status": "KNOWN"
+    },
+    {
+      "case_id": "S05_NATIVE_WIB_COHORTS",
+      "read_index": 4,
+      "status": "PASS",
+      "report_status": "KNOWN"
+    },
+    {
+      "case_id": "S05_NATIVE_WIB_COHORTS",
+      "read_index": 5,
+      "status": "PASS",
+      "report_status": "UNKNOWN"
+    },
+    {
+      "case_id": "S05_NATIVE_NOTE_DRAFT_INVERSE",
+      "read_index": 0,
+      "status": "PASS",
+      "report_status": "KNOWN"
+    },
+    {
+      "case_id": "S05_NATIVE_NOTE_DRAFT_INVERSE",
+      "read_index": 1,
+      "status": "PASS",
+      "report_status": "KNOWN"
+    },
+    {
+      "case_id": "S05_NATIVE_QC_INVERSE",
+      "read_index": 0,
+      "status": "PASS",
+      "report_status": "KNOWN"
+    },
+    {
+      "case_id": "S05_NATIVE_QC_INVERSE",
+      "read_index": 1,
+      "status": "PASS",
+      "report_status": "UNKNOWN"
+    },
+    {
+      "case_id": "S05_NATIVE_REWORK_NONE_RECORDED_RECIPIENT",
+      "read_index": 0,
+      "status": "PASS",
+      "report_status": "KNOWN"
+    },
+    {
+      "case_id": "S05_NATIVE_CURRENT_ACCESS_PRIVATE_ACL",
+      "read_index": 2,
+      "status": "PASS",
+      "report_status": "KNOWN"
+    },
+    {
+      "case_id": "S05_NATIVE_CURRENT_ACCESS_PRIVATE_ACL",
+      "read_index": 4,
+      "status": "PASS",
+      "report_status": "KNOWN"
+    }
+  ],
+  "new_errors": [],
+  "all_report_money_quantity_source_fields_exact": true,
+  "successful_old_answers_unchanged": true,
+  "audit_bigint_IDs_remain_exact_decimal_strings": true,
+  "cost_revision_IDs_are_Native_UUID_strings": true,
+  "additional_Native_cases": 0,
+  "actual_Auth_HTTP_cases": 0,
+  "actual_browser_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

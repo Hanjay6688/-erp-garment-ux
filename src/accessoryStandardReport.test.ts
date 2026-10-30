@@ -21,13 +21,18 @@ describe('S05 exact read contract (hand worksheet, not Native qualification)', (
   })
   it('keeps the same immutable standard quantity/BOM with a Native effective cost revision', () => {
     const p = asrParts()
-    Object.assign(p.standard, { hpp_method: 'CATEGORY_MOVING_AVG', hpp_unit_cost: '2.000000', hpp_cost: '10.000000', revisions: [{ id: '9007199254740995',
+    Object.assign(p.standard, { hpp_method: 'CATEGORY_MOVING_AVG', hpp_unit_cost: '2.000000', hpp_cost: '10.000000', revisions: [{ id: asrId(90),
       material_id: asrId(13), old_hpp_unit_cost: '1.500000', new_hpp_unit_cost: '2.000000', old_category_avg_cost: '1.500000', new_category_avg_cost: '2.000000',
       reason: 'Invoice diterima sesudah GOOD', changed_at: '2026-10-17T06:00:00.000000Z' }] })
     p.row.standard_hpp_cost = '10.000000'
     const standard = parseAccessoryReportWorkspace(p.value, asrQuery()).report!.standard_sources[0]
     expect(standard).toMatchObject({ id: asrId(20), bom_version_id: asrId(24), standard_qty: '5.000000', hpp_cost: '10.000000' })
-    expect(standard.revisions[0].id).toBe('9007199254740995')
+    expect(standard.revisions[0].id).toBe(asrId(90))
+    expect(standard.unit_basis_audit_ids).toEqual(['9007199254740993'])
+    for (const invalid of ['9007199254740995', 9007199254740995, null, 'not-a-uuid', asrId(90).slice(0, -1)]) {
+      Object.assign((p.standard.revisions as Record<string, unknown>[])[0], { id: invalid })
+      expect(() => parseAccessoryReportWorkspace(p.value, asrQuery())).toThrow()
+    }
   })
   it('distinguishes an explicit empty standard from missing snapshots', () => {
     const p = asrParts()

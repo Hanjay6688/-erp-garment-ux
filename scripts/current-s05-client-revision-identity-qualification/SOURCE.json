@@ -1,0 +1,57 @@
+{
+  "contract": "cp7.s05.client-native-uuid-revision.v1",
+  "base": "519d1760a3bad06a346b3d4b3cc0203664615634",
+  "unchanged_parent_files": 13683,
+  "files": {
+    "scripts/current-s05-client-revision-identity-qualification/CLIENT_REPLAY.json": {
+      "bytes": 4323,
+      "sha256": "44893811d8e40307b5d118987668a14df97da6fb07e9a38a37b8b30b615d306c",
+      "mode": "100644"
+    },
+    "scripts/current-s05-client-revision-identity-qualification/EVIDENCE.json": {
+      "bytes": 3179,
+      "sha256": "08ff9e6ef5829abc58fa4c6bb9659415038e36e44afda6dbb0d1c45d9a6a6baa",
+      "mode": "100644"
+    },
+    "scripts/current-s05-client-revision-identity-qualification/README.md": {
+      "bytes": 1422,
+      "sha256": "730a68107ac4b36ede77cc6f646d33c832b719b3cb164d99045c9b12c0c4a2bf",
+      "mode": "100644"
+    },
+    "scripts/current-s05-client-revision-identity-qualification/SOURCE_GUARD_REVIEW.json": {
+      "bytes": 10442,
+      "sha256": "f5a7d38e8239ad8bc70fea1c77d90c242a8012617cf54c85927376f7d81b77b4",
+      "mode": "100644"
+    },
+    "scripts/current-s05-client-revision-identity-qualification/check.py": {
+      "bytes": 4437,
+      "sha256": "20f01a32514b76716369f1ceff8e8c3e16044e1b4f0071be8e3e7460fa82a80c",
+      "mode": "100644"
+    },
+    "scripts/current-s05-client-revision-identity-qualification/replay.mjs": {
+      "bytes": 4578,
+      "sha256": "1bebda2475e15aeb2c4bd5f050578d073718c7c8f31561668cbe5000859fc3b1",
+      "mode": "100644"
+    },
+    "scripts/current-s05-client-revision-identity-qualification/reproduce_old_refusal.mjs": {
+      "bytes": 3470,
+      "sha256": "45ca887b6700a0620f0ae0d5c9a740cac68f4d6e19393835560521e4f0d25808",
+      "mode": "100644"
+    },
+    "src/accessoryStandardReport.test.ts": {
+      "bytes": 8493,
+      "sha256": "bc8513e1e33c009b77d15133e988447e02319206d1160c4245a349a6b6699c02",
+      "mode": "100644"
+    },
+    "src/accessoryStandardReport.ts": {
+      "bytes": 21493,
+      "sha256": "8cafbfe6747c6e0604edd8ed146fac0ec7265c35a782ca3563e114c99b32240b",
+      "mode": "100644"
+    }
+  },
+  "old_manifests_unchanged": true,
+  "Native_code_changed": false,
+  "actual_browser_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

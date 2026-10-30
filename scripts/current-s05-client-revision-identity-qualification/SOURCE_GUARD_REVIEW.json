@@ -1,0 +1,212 @@
+{
+  "status": "EXACT_NEW_SOURCE_GUARD_EIGHT_TARGETED_COUNTERS_PASS",
+  "source_guard": {
+    "bytes": 4437,
+    "sha256": "20f01a32514b76716369f1ceff8e8c3e16044e1b4f0071be8e3e7460fa82a80c"
+  },
+  "source_manifest": {
+    "bytes": 1985,
+    "sha256": "55b75dcb22a9a7f2064f23438f7c93c978261e08a7656a40210ac6eafb956c4e"
+  },
+  "positive_before_every_control": true,
+  "positive_after_everything": true,
+  "refused_controls": 8,
+  "controls": [
+    {
+      "id": "PRODUCT_MODE_CHANGED",
+      "positive_before_exit": 0,
+      "positive_before": {
+        "status": "SOURCE_ONLY_NO_DB",
+        "unchanged_parent_files": 13683,
+        "files": 8,
+        "actual_browser_cases": 0
+      },
+      "negative_exit": 1,
+      "refusal": "ValueError: S05_CLIENT_PARENT_MODE_CHANGED:src/accessoryStandardReport.ts",
+      "expected_refusal": "S05_CLIENT_PARENT_MODE_CHANGED:src/accessoryStandardReport.ts",
+      "modes_at_negative": {
+        "scripts/current-s05-client-revision-identity-qualification/CLIENT_REPLAY.json": "0o644",
+        "scripts/current-s05-client-revision-identity-qualification/EVIDENCE.json": "0o644",
+        "scripts/current-s05-client-revision-identity-qualification/README.md": "0o644",
+        "scripts/current-s05-client-revision-identity-qualification/check.py": "0o644",
+        "scripts/current-s05-client-revision-identity-qualification/replay.mjs": "0o644",
+        "scripts/current-s05-client-revision-identity-qualification/reproduce_old_refusal.mjs": "0o644",
+        "src/accessoryStandardReport.test.ts": "0o644",
+        "src/accessoryStandardReport.ts": "0o755",
+        "scripts/current-s05-client-revision-identity-qualification/SOURCE.json": "0o644"
+      }
+    },
+    {
+      "id": "OWN_NEW_FILE_MODE_CHANGED",
+      "positive_before_exit": 0,
+      "positive_before": {
+        "status": "SOURCE_ONLY_NO_DB",
+        "unchanged_parent_files": 13683,
+        "files": 8,
+        "actual_browser_cases": 0
+      },
+      "negative_exit": 1,
+      "refusal": "ValueError: S05_CLIENT_SOURCE_MODE_CHANGED:scripts/current-s05-client-revision-identity-qualification/README.md",
+      "expected_refusal": "S05_CLIENT_SOURCE_MODE_CHANGED:scripts/current-s05-client-revision-identity-qualification/README.md",
+      "modes_at_negative": {
+        "scripts/current-s05-client-revision-identity-qualification/CLIENT_REPLAY.json": "0o644",
+        "scripts/current-s05-client-revision-identity-qualification/EVIDENCE.json": "0o644",
+        "scripts/current-s05-client-revision-identity-qualification/README.md": "0o755",
+        "scripts/current-s05-client-revision-identity-qualification/check.py": "0o644",
+        "scripts/current-s05-client-revision-identity-qualification/replay.mjs": "0o644",
+        "scripts/current-s05-client-revision-identity-qualification/reproduce_old_refusal.mjs": "0o644",
+        "src/accessoryStandardReport.test.ts": "0o644",
+        "src/accessoryStandardReport.ts": "0o644",
+        "scripts/current-s05-client-revision-identity-qualification/SOURCE.json": "0o644"
+      }
+    },
+    {
+      "id": "MANIFEST_MODE_CHANGED",
+      "positive_before_exit": 0,
+      "positive_before": {
+        "status": "SOURCE_ONLY_NO_DB",
+        "unchanged_parent_files": 13683,
+        "files": 8,
+        "actual_browser_cases": 0
+      },
+      "negative_exit": 1,
+      "refusal": "ValueError: S05_CLIENT_MANIFEST_MODE_CHANGED",
+      "expected_refusal": "S05_CLIENT_MANIFEST_MODE_CHANGED",
+      "modes_at_negative": {
+        "scripts/current-s05-client-revision-identity-qualification/CLIENT_REPLAY.json": "0o644",
+        "scripts/current-s05-client-revision-identity-qualification/EVIDENCE.json": "0o644",
+        "scripts/current-s05-client-revision-identity-qualification/README.md": "0o644",
+        "scripts/current-s05-client-revision-identity-qualification/check.py": "0o644",
+        "scripts/current-s05-client-revision-identity-qualification/replay.mjs": "0o644",
+        "scripts/current-s05-client-revision-identity-qualification/reproduce_old_refusal.mjs": "0o644",
+        "src/accessoryStandardReport.test.ts": "0o644",
+        "src/accessoryStandardReport.ts": "0o644",
+        "scripts/current-s05-client-revision-identity-qualification/SOURCE.json": "0o755"
+      }
+    },
+    {
+      "id": "BROWSER_BOOL",
+      "positive_before_exit": 0,
+      "positive_before": {
+        "status": "SOURCE_ONLY_NO_DB",
+        "unchanged_parent_files": 13683,
+        "files": 8,
+        "actual_browser_cases": 0
+      },
+      "negative_exit": 1,
+      "refusal": "ValueError: S05_CLIENT_EXACT_CURRENT_SOURCE_REQUIRED",
+      "expected_refusal": "S05_CLIENT_EXACT_CURRENT_SOURCE_REQUIRED",
+      "modes_at_negative": {
+        "scripts/current-s05-client-revision-identity-qualification/CLIENT_REPLAY.json": "0o644",
+        "scripts/current-s05-client-revision-identity-qualification/EVIDENCE.json": "0o644",
+        "scripts/current-s05-client-revision-identity-qualification/README.md": "0o644",
+        "scripts/current-s05-client-revision-identity-qualification/check.py": "0o644",
+        "scripts/current-s05-client-revision-identity-qualification/replay.mjs": "0o644",
+        "scripts/current-s05-client-revision-identity-qualification/reproduce_old_refusal.mjs": "0o644",
+        "src/accessoryStandardReport.test.ts": "0o644",
+        "src/accessoryStandardReport.ts": "0o644",
+        "scripts/current-s05-client-revision-identity-qualification/SOURCE.json": "0o644"
+      }
+    },
+    {
+      "id": "PARENT_FLOAT",
+      "positive_before_exit": 0,
+      "positive_before": {
+        "status": "SOURCE_ONLY_NO_DB",
+        "unchanged_parent_files": 13683,
+        "files": 8,
+        "actual_browser_cases": 0
+      },
+      "negative_exit": 1,
+      "refusal": "ValueError: S05_CLIENT_EXACT_CURRENT_SOURCE_REQUIRED",
+      "expected_refusal": "S05_CLIENT_EXACT_CURRENT_SOURCE_REQUIRED",
+      "modes_at_negative": {
+        "scripts/current-s05-client-revision-identity-qualification/CLIENT_REPLAY.json": "0o644",
+        "scripts/current-s05-client-revision-identity-qualification/EVIDENCE.json": "0o644",
+        "scripts/current-s05-client-revision-identity-qualification/README.md": "0o644",
+        "scripts/current-s05-client-revision-identity-qualification/check.py": "0o644",
+        "scripts/current-s05-client-revision-identity-qualification/replay.mjs": "0o644",
+        "scripts/current-s05-client-revision-identity-qualification/reproduce_old_refusal.mjs": "0o644",
+        "src/accessoryStandardReport.test.ts": "0o644",
+        "src/accessoryStandardReport.ts": "0o644",
+        "scripts/current-s05-client-revision-identity-qualification/SOURCE.json": "0o644"
+      }
+    },
+    {
+      "id": "BYTES_FLOAT",
+      "positive_before_exit": 0,
+      "positive_before": {
+        "status": "SOURCE_ONLY_NO_DB",
+        "unchanged_parent_files": 13683,
+        "files": 8,
+        "actual_browser_cases": 0
+      },
+      "negative_exit": 1,
+      "refusal": "ValueError: S05_CLIENT_EXACT_CURRENT_SOURCE_REQUIRED",
+      "expected_refusal": "S05_CLIENT_EXACT_CURRENT_SOURCE_REQUIRED",
+      "modes_at_negative": {
+        "scripts/current-s05-client-revision-identity-qualification/CLIENT_REPLAY.json": "0o644",
+        "scripts/current-s05-client-revision-identity-qualification/EVIDENCE.json": "0o644",
+        "scripts/current-s05-client-revision-identity-qualification/README.md": "0o644",
+        "scripts/current-s05-client-revision-identity-qualification/check.py": "0o644",
+        "scripts/current-s05-client-revision-identity-qualification/replay.mjs": "0o644",
+        "scripts/current-s05-client-revision-identity-qualification/reproduce_old_refusal.mjs": "0o644",
+        "src/accessoryStandardReport.test.ts": "0o644",
+        "src/accessoryStandardReport.ts": "0o644",
+        "scripts/current-s05-client-revision-identity-qualification/SOURCE.json": "0o644"
+      }
+    },
+    {
+      "id": "DUPLICATE_KEY",
+      "positive_before_exit": 0,
+      "positive_before": {
+        "status": "SOURCE_ONLY_NO_DB",
+        "unchanged_parent_files": 13683,
+        "files": 8,
+        "actual_browser_cases": 0
+      },
+      "negative_exit": 1,
+      "refusal": "ValueError: S05_CLIENT_DUPLICATE_SOURCE_KEY",
+      "expected_refusal": "S05_CLIENT_DUPLICATE_SOURCE_KEY",
+      "modes_at_negative": {
+        "scripts/current-s05-client-revision-identity-qualification/CLIENT_REPLAY.json": "0o644",
+        "scripts/current-s05-client-revision-identity-qualification/EVIDENCE.json": "0o644",
+        "scripts/current-s05-client-revision-identity-qualification/README.md": "0o644",
+        "scripts/current-s05-client-revision-identity-qualification/check.py": "0o644",
+        "scripts/current-s05-client-revision-identity-qualification/replay.mjs": "0o644",
+        "scripts/current-s05-client-revision-identity-qualification/reproduce_old_refusal.mjs": "0o644",
+        "src/accessoryStandardReport.test.ts": "0o644",
+        "src/accessoryStandardReport.ts": "0o644",
+        "scripts/current-s05-client-revision-identity-qualification/SOURCE.json": "0o644"
+      }
+    },
+    {
+      "id": "NONFINITE",
+      "positive_before_exit": 0,
+      "positive_before": {
+        "status": "SOURCE_ONLY_NO_DB",
+        "unchanged_parent_files": 13683,
+        "files": 8,
+        "actual_browser_cases": 0
+      },
+      "negative_exit": 1,
+      "refusal": "ValueError: S05_CLIENT_NONFINITE_SOURCE_VALUE",
+      "expected_refusal": "S05_CLIENT_NONFINITE_SOURCE_VALUE",
+      "modes_at_negative": {
+        "scripts/current-s05-client-revision-identity-qualification/CLIENT_REPLAY.json": "0o644",
+        "scripts/current-s05-client-revision-identity-qualification/EVIDENCE.json": "0o644",
+        "scripts/current-s05-client-revision-identity-qualification/README.md": "0o644",
+        "scripts/current-s05-client-revision-identity-qualification/check.py": "0o644",
+        "scripts/current-s05-client-revision-identity-qualification/replay.mjs": "0o644",
+        "scripts/current-s05-client-revision-identity-qualification/reproduce_old_refusal.mjs": "0o644",
+        "src/accessoryStandardReport.test.ts": "0o644",
+        "src/accessoryStandardReport.ts": "0o644",
+        "scripts/current-s05-client-revision-identity-qualification/SOURCE.json": "0o644"
+      }
+    }
+  ],
+  "candidate_worktree_edits": 0,
+  "control_scope": "Own isolated copy only; Native/browser/HTTP/DB not executed.",
+  "production_go": false,
+  "independent_acceptance": false
+}
