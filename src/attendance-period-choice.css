@@ -1,13 +1,14 @@
-.attendance-choice { color: #172b3c; background: #fff; min-width: 0; }
-.attendance-choice h2, .attendance-choice h3 { color: #172b3c; }
+.attendance-choice { color: #e9eff8; background: #142138; min-width: 0; }
+.attendance-choice h2, .attendance-choice h3 { color: inherit; }
 .attendance-choice p, .attendance-choice dd { overflow-wrap: anywhere; }
 .attendance-choice-period, .attendance-choice-form { display: grid; gap: .85rem; margin-block: 1rem; }
 .attendance-choice label { display: grid; gap: .35rem; min-width: 0; }
-.attendance-choice input, .attendance-choice select, .attendance-choice textarea { width: 100%; max-width: 100%; min-width: 0; box-sizing: border-box; color: #172b3c; background: #fff; }
+.attendance-choice input, .attendance-choice select, .attendance-choice textarea { width: 100%; max-width: 100%; min-width: 0; box-sizing: border-box; color: #e9eff8; background: #0e1a2c; color-scheme: dark; }
 .attendance-choice input[type="checkbox"] { width: auto; margin-right: .5rem; }
 .attendance-choice label:has(input[type="checkbox"]) { display: block; }
 .attendance-choice textarea { min-height: 5rem; }
 .attendance-choice button { white-space: normal; overflow-wrap: anywhere; }
+.initial-import .attendance-choice button:disabled { opacity: 1; border-style: dashed; }
 .attendance-choice [role="alert"] { color: #813418; background: #fff4e8; padding: .75rem; border-radius: .4rem; }
 .attendance-choice-review { background: #eff7fb; border: 1px solid #8bb7cc; padding: 1rem; color: #172b3c; border-radius: .5rem; }
 .attendance-choice-facts { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit,minmax(min(100%,13rem),1fr)); }
