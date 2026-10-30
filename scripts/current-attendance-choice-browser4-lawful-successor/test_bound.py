@@ -76,7 +76,7 @@ class QualifiedSourceControls(unittest.TestCase):
             expected = subprocess.check_output(['/usr/bin/git', '-C', str(ROOT), 'show',
                 'e09c6512932de81777e661275d18bb232b2d2ee3:' + name])
             current = (ROOT / name).read_bytes()
-            if relative == 'cases.mjs':
+            if relative in ('cases.mjs', 'test_oracles.mjs'):
                 current = load('history_delta').previous(relative)
             if relative == 'fixture.py':
                 current = load('ordinary_snapshot_delta').parent_fixture(ROOT, HERE)

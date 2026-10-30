@@ -51,7 +51,9 @@ jobs:
         persist-credentials: 'false'
     - name: Verify exact qualified14 metadata and complete physical475 source before Original GET
       working-directory: auditor
-      run: python3 -B scripts/current-attendance-choice-browser4-lawful-successor/source_guard.py
+      run: 'python3 -B scripts/current-attendance-choice-browser4-lawful-successor/attempt_policy.py --require-window
+
+        python3 -B scripts/current-attendance-choice-browser4-lawful-successor/source_guard.py'
     - name: Fetch immutable qualified actual14 archive and verify all six raw Originals
       working-directory: auditor
       env:

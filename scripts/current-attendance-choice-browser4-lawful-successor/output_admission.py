@@ -100,9 +100,10 @@ def evidence(root, here, name):
         png(file(root, name, 32 * 1024 * 1024));return True
     if re.fullmatch(r'S03_B4_' + scenarios + r'_[a-f0-9]{32}_FIRST_FAILURE\.json', leaf):
         value = document(file(root, name, 32 * 1024 * 1024))
-        if (set(value) != {'error', 'progress', 'calls', 'observed', 'fixture'} or not isinstance(value['error'], str)
+        if (set(value) != {'error', 'progress', 'calls', 'observed', 'fixture', 'pool_history'} or not isinstance(value['error'], str)
                 or not isinstance(value['progress'], dict) or not isinstance(value['calls'], list)
-                or not isinstance(value['observed'], list) or value['fixture'] is not None and not isinstance(value['fixture'], dict)):
+                or not isinstance(value['observed'], list) or not isinstance(value['pool_history'], dict)
+                or value['fixture'] is not None and not isinstance(value['fixture'], dict)):
             raise ValueError('S03_BROWSER4_GENERATED_FIRST_FAILURE_SHAPE')
         return True
     if re.fullmatch(r'S03_BROWSER4_HOST_ORIGINAL_cp6-auditor-browser-[A-Za-z0-9_-]+\.json\.gz', leaf):
@@ -111,7 +112,7 @@ def evidence(root, here, name):
             'product_responses_mocked','production_go','release_evidence','auth_cleanup_failures',
             'enteng_requests_answered_by_loopback','enteng_route_errors','blocked_requests'}
         optional = {'stage','error','duplicates','timed_out_case','missing','failed_stage','users_created',
-            'disposable_entry_bootstrap','disposable_entry_text'}
+            'disposable_entry_bootstrap','disposable_entry_text','loopback_api_origin'}
         if (not required <= set(value) or not set(value) <= required | optional
                 or value['label'] != 'AUDITOR_SCENARIO' or value['mode'] != 'BROWSER'
                 or value['phase'] != 'S03_CHOICE_MOUNTED4' or value['ui_mode'] != 'DISPOSABLE'
@@ -121,6 +122,12 @@ def evidence(root, here, name):
                 or not set(value['cases']) <= set(IDS) or not isinstance(value['planned'], list)
                 or not set(value['planned']) <= set(IDS)):
             raise ValueError('S03_BROWSER4_GENERATED_HOST_ORIGINAL_SHAPE')
+        if 'loopback_api_origin' in value:
+            if not isinstance(value['loopback_api_origin'], str):
+                raise ValueError('S03_BROWSER4_GENERATED_HOST_LOOPBACK_ORIGIN')
+            match = re.fullmatch(r'http://127\.0\.0\.1:([1-9][0-9]{0,4})', value['loopback_api_origin'])
+            if match is None or int(match[1]) > 65535:
+                raise ValueError('S03_BROWSER4_GENERATED_HOST_LOOPBACK_ORIGIN')
         return True
     return False
 

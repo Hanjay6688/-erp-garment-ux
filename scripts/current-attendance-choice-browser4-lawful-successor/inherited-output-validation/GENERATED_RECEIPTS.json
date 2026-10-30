@@ -214,8 +214,8 @@
       "sha256": "372d491987e6f1e348784fdb40b9f380a9dfe112a7304181715794068c163c76"
     },
     ".github/workflows/cp7-current-s03-browser4-lawful.yml": {
-      "bytes": 30903,
-      "sha256": "9d8557cad594c697aaa972b3b2660ab6730cdfcae577c23764f5ee82940c2e7a"
+      "bytes": 31020,
+      "sha256": "9b866b83a9dc96caaf9732b86014278fad7a5b861aaee52191ae8e87f66ff531"
     }
   },
   "frozen_worktree_document": {

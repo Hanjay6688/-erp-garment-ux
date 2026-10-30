@@ -31,7 +31,8 @@ def derive(original):
     checkout = next(step for step in steps if step.get('uses', '').startswith('actions/checkout@'))
     steps.insert(steps.index(checkout) + 1,
         dict(name='Verify exact qualified14 metadata and complete physical475 source before Original GET',
-            **{'working-directory': 'auditor'}, run='python3 -B ' + NAMESPACE + '/source_guard.py'))
+            **{'working-directory': 'auditor'}, run='python3 -B ' + NAMESPACE + '/attempt_policy.py --require-window\n'
+                'python3 -B ' + NAMESPACE + '/source_guard.py'))
     steps.insert(steps.index(checkout) + 2, dict(
         name='Fetch immutable qualified actual14 archive and verify all six raw Originals',
         **{'working-directory': 'auditor', 'env': {'GH_TOKEN': '${{ github.token }}'}},

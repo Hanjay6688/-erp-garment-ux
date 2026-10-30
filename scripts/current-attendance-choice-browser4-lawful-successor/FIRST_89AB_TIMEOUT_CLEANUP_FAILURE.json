@@ -1,0 +1,89 @@
+{
+  "status": "EXACT_89AB_FAILED_ORIGINAL_NOT_BROWSER4_ACCEPTANCE",
+  "head": "89ab76595424fa55cda3923fbe4499b7b7abf16b",
+  "tree": "db63154b4beda614863b665970e0ea0c14d3c754",
+  "run": 41080255432,
+  "job": 124147137480,
+  "artifact": 12995817396,
+  "archive": {
+    "bytes": 325434628,
+    "sha256": "72885264769d57c0bd0970410808dc4a26429b07a8c970d8e39eec9623703452",
+    "CRC_members": 180
+  },
+  "originals": {
+    "CP7_S03_MOUNTED_FULL_APP_BROWSER4.json": {
+      "bytes": 1555048,
+      "sha256": "d8ddd1bea497c5a23e8e33d830580489f52c44a7a4ad8f051aedff2b6159b323"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360438,
+      "sha256": "37fd019c52caf61a2a92264df5eea552b6902bc3926fcd76a6b2a868daad5a5b"
+    },
+    "S03_BROWSER4_FINAL_GATE.json": {
+      "bytes": 216,
+      "sha256": "48637d275b742f3e9383ca65bf2d2d1fdc212d8196deee2607839a00c0bf1c89"
+    },
+    "S03_BROWSER4_HOST_ORIGINAL_cp6-auditor-browser-dx6j2xu_.json.gz": {
+      "bytes": 5952,
+      "sha256": "4247f158a2b5a69d6f74872efb0615b36cf7ba12fc87eb9dcc4d7619f98be086"
+    }
+  },
+  "browser_cases": {
+    "S03_BROWSER_OWNER_EXPENSE_CORRECT_REVERSE_DESKTOP": {
+      "status": "PASS",
+      "error": null
+    },
+    "S03_BROWSER_OWNER_CARRY_ALLOCATE_CANCEL_MOBILE390": {
+      "status": "INCOMPLETE",
+      "error": "AUDITOR_BROWSER_CASE_TIMEOUT"
+    }
+  },
+  "browser_host_exit": 1,
+  "cleanup_failures": true,
+  "auth_counts": {
+    "before": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "after": [
+      2,
+      2,
+      4,
+      4
+    ],
+    "restored": false
+  },
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": false,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "outer_clone_source_bound_receipts": {
+    "baseline_full22_all_rows_all_sequences_equal": true,
+    "restore_raw_public_equal": true,
+    "cp6_restored": true,
+    "baseline_advisors_equal": true,
+    "advisor_gate": true
+  },
+  "complete_primary_restoration": false,
+  "whole_browser4_qualified": false,
+  "latest_actual_snapshot": {
+    "name": "S03_B4_MOBILE390_A31FB9A5C732463088057BB5DA8C099B_031_BEFORE_POOL_READ_FULL_STATE.json.gz",
+    "bytes": 6741928,
+    "date_time": [
+      2026,
+      10,
+      30,
+      17,
+      6,
+      22
+    ]
+  },
+  "actual_next_error": "page.waitForResponse: Target page, context or browser has been closed",
+  "failure_site": "poolReload, called after reopening source and reversing decision; Node unhandled rejection interrupted Auth cleanup",
+  "production_go": false
+}

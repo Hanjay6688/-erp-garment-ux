@@ -302,7 +302,8 @@ class ProofAndSourceControls(unittest.TestCase):
         self.assertEqual(actual, workflow.derive(parent))
         steps = actual['jobs']['p21']['steps']
         self.assertTrue(steps[0]['uses'].startswith('actions/checkout@'))
-        self.assertEqual(steps[1]['run'], 'python3 -B ' + workflow.NAMESPACE + '/source_guard.py')
+        self.assertEqual(steps[1]['run'], 'python3 -B ' + workflow.NAMESPACE + '/attempt_policy.py --require-window\n'
+            'python3 -B ' + workflow.NAMESPACE + '/source_guard.py')
         self.assertEqual(steps[2]['run'], 'python3 -B ' + workflow.NAMESPACE + '/fetch_originals.py')
         self.assertEqual(steps[3]['run'], 'python3 -B ' + workflow.NAMESPACE + '/source_guard.py --require-actual')
         self.assertEqual(steps[2]['env'], {'GH_TOKEN': '${{ github.token }}'})

@@ -411,13 +411,15 @@ def main():
     if len(sys.argv) != 2 or sys.argv[1] not in OPERATIONS:
         raise ValueError('S03_BROWSER4_DECLARED_FIXTURE_OPERATION_REQUIRED')
     operation = sys.argv[1]
-    proof = load('s03_browser4_fixture_admission_first', HERE / 'source_guard.py').admitted()
     if operation == 'admit':
+        proof = load('s03_browser4_fixture_admission_first', HERE / 'source_guard.py').admitted()
         return dict(status=proof['status'], fresh_Native_Auth_HTTP_races=0, production_go=False)
     payload = json.load(sys.stdin)
     address = urlparse(os.environ['AUDITOR_BROWSER_DB_URL'])
     if address.hostname not in ('127.0.0.1', 'localhost') or address.port != 54322 or address.path != '/cp6_auditor_browser':
         raise ValueError('S03_BROWSER4_LOCAL_COMMITTED_BROWSER_COPY_ONLY')
+    # runtime() performs the complete fresh admission before any ERP import or
+    # database connection. Do not perform that same full admission twice.
     with runtime() as r:
         return operation_on_copy(r, operation, payload)
 

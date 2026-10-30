@@ -3,6 +3,7 @@ import assert from 'node:assert/strict'
 import {test} from 'node:test'
 import {IDS,cents,input,equalCensus,immutableFacts,exactEnvelope,accessRefusals,consoleEvidence} from './evidence.mjs'
 import {planned} from './cases.mjs'
+import './test_response_waits.mjs'
 
 test('exact cents reject fractional cents and retain bigint precision',()=>{assert.equal(cents('9007199254740993.01'),900719925474099301n);assert.equal(cents('1000.030000'),100003n);assert.throws(()=>cents('1.001'))})
 test('closed six keys and fresh64 token never accept legacy32 token',()=>{const p=input('2026-10-01','CARRY'),id='11111111-1111-4111-8111-111111111111';assert.equal(Object.keys(p).length,6);exactEnvelope({p_action:'CHOOSE',p_payload:{...p,review_token:'a'.repeat(64)},p_request:id},'CHOOSE',p,'a'.repeat(64));assert.throws(()=>exactEnvelope({p_action:'CHOOSE',p_payload:{...p,review_token:'a'.repeat(32)},p_request:id},'CHOOSE',p,'a'.repeat(32)))})

@@ -58,6 +58,9 @@ def main(argv=None):
         print(json.dumps(dict(status=checked['status'], exact_sources=checked['exact_sources'],
             execution_closed=checked['config']['accepted_originals'] is None, actual_Native_Auth_browser_cases=0)))
         return
+    if not options.check_actual_source:
+        attempts = load('s03_single_attempt_policy', HERE / 'attempt_policy.py')
+        print(json.dumps(dict(attempt_policy=attempts.require_window()), sort_keys=True))
     with runtime() as engine:
         if options.check_actual_source:
             proof = engine.admitted()
@@ -68,7 +71,9 @@ def main(argv=None):
         original = engine.package._writer_runtime
         try:
             engine.package._writer_runtime = lambda browser_mode=False: engine.run()
-            engine.package.run('install')
+            import cp6_auditor_business_day as business_day
+            with attempts.single_attempt(business_day):
+                engine.package.run('install')
         finally:
             engine.package._writer_runtime = original
 

@@ -1,3 +1,30 @@
+## Actual89ab timeout, cleanup and admission-cost successor — 31 October 2026
+
+Run41080255432 remains failed: desktopPASS, mobile45-minute timeout, remaining
+cases absent. The real mobile flow passed owning cancellation and reopening /
+decision reversal, then timed out before the ordinary-pool cancellation.
+An unobserved waitForResponse rejection killed Node during browser shutdown,
+leaving two test Auth users: clone restoration passed, primary restoration did
+not. FIRST_89AB_TIMEOUT_CLEANUP_FAILURE.json preserves both distinct outcomes.
+
+The harness now observes response rejection immediately and returns the exact
+original promise, so awaited failures still fail. The host can finish cleanup
+without an unhandled-rejection process exit. No global error swallowing is used.
+Each fixture operation keeps one complete source/Original gate before ERP import
+and DB access; it no longer performs that same gate twice. Import/path resolution
+is cached only inside one complete static inventory, with fresh scans on later
+calls. No source pin, snapshot, financial check or date guard is removed.
+
+Failure-output classification now matches its existing pool_history producer;
+host-output classification admits only the actual strict loopback origin field.
+These are bounded generated outputs, never PASS or source authority. All four
+financial callback bodies, Native SQL and amount/history oracles remain exact.
+Before the first Original GET and again at runtime, the real WIB clock must
+have the full240-minute job budget remaining. Automatic whole-group retries are
+scoped off; date guards and first failed results remain unchanged. The inherited
+scheduler and package entry are restored even when execution fails.
+Actual source/performance/control results must be recorded before another run.
+
 The current candidate is described in [ACTUAL14_BINDING.md](ACTUAL14_BINDING.md).
 
 Current30ee failed during post-cancellation observation and then hit the120min

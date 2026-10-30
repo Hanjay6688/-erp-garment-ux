@@ -4,6 +4,7 @@ The complete public base tree is also immutable. This adds explicit byte pins
 for inherited qualifier/oracle imports beyond the selected backend package.
 """
 import ast
+from functools import cache
 from hashlib import sha256
 import json
 from pathlib import Path
@@ -31,6 +32,9 @@ def inventory(root, seeds, component_scripts, excluded=()):
     pending = list(seeds)
     parsed = set()
 
+    # These caches exist only for this complete scan. Every later admission
+    # rereads source and discovers imports added or removed since the last call.
+    @cache
     def add(path):
         path = path.resolve()
         # These are generated runtime outputs, independently checked by the
@@ -42,6 +46,7 @@ def inventory(root, seeds, component_scripts, excluded=()):
         if name not in found:
             found.add(name);pending.append(name)
 
+    @cache
     def module(name):
         if not name:return
         parts = name.split('.')

@@ -51,7 +51,7 @@ class ContrastSuccessor(unittest.TestCase):
         name = 'cp6-proof/t3/S03_B4_MOBILE390_' + 'a' * 32 + '_FIRST_FAILURE.json'
         with TemporaryDirectory() as temporary:
             root = Path(temporary); path = root / name; path.parent.mkdir(parents=True)
-            value = dict(error='EXPLICIT_LOCAL_PREPARE_FAILURE_DOUBLE', progress={}, calls=[], observed=[], fixture=None)
+            value = dict(error='EXPLICIT_LOCAL_PREPARE_FAILURE_DOUBLE', progress={}, calls=[], observed=[], fixture=None, pool_history={})
             path.write_text(json.dumps(value))
             self.assertTrue(output.evidence(root, HERE, name))
             value.pop('fixture'); path.write_text(json.dumps(value))

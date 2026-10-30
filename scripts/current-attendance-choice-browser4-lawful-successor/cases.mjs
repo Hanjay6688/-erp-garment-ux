@@ -6,6 +6,7 @@ import {mkdirSync,writeFileSync} from 'node:fs'
 import {dirname,resolve} from 'node:path'
 import {fileURLToPath} from 'node:url'
 import {IDS,RPC,cents,input,equalCensus,immutableFacts,exactEnvelope,accessRefusals,observeConsole,consoleEvidence,readable} from './evidence.mjs'
+import {observeResponseWaits} from './response_waits.mjs'
 export {IDS}
 const ROOT=resolve(dirname(fileURLToPath(import.meta.url)),'../..')
 const fixture=(operation,payload={})=>JSON.parse(execFileSync('python',['-B',resolve(ROOT,'scripts/current-attendance-choice-browser4-lawful-successor/fixture.py'),operation],{cwd:ROOT,input:JSON.stringify(payload),encoding:'utf8',timeout:180000,maxBuffer:32*1024*1024,env:{...process.env,PYTHONDONTWRITEBYTECODE:'1'}}).trim())
@@ -17,7 +18,7 @@ async function menu(page){const toggle=page.getByRole('button',{name:'Buka menu'
 
 async function setup(ui,today,scenario){
  const user=await ui.login('OWNER',{label:'S03-B4-'+scenario,mobile:scenario==='MOBILE390',timezoneId:scenario==='MOBILE390'?'America/Los_Angeles':'Asia/Jakarta'})
- const page=user.page,expect=ui.expect,observed=observeConsole(page),expectedNetwork=[],calls=[],shots=[],contrasts=[],progress={},attempt=randomUUID().replaceAll('-','')
+ const page=user.page,expect=ui.expect,observed=observeConsole(page),expectedNetwork=[],calls=[],shots=[],contrasts=[],progress={},attempt=randomUUID().replaceAll('-',''),stopWaiting=observeResponseWaits(page)
  let f=null,serial=0,poolHistory={}
  const choice=()=>page.locator('section.attendance-choice'),pools=()=>page.locator('section.hpool')
  const listener=request=>{const rpc=request.url().split('/').at(-1);if([RPC.save,RPC.poolSave].includes(rpc))calls.push({rpc,args:request.postDataJSON()})}
@@ -47,7 +48,7 @@ async function setup(ui,today,scenario){
  function verifiedNetwork(response,reason){expectedNetwork.push({url:response.url(),text:`Failed to load resource: the server responded with a status of ${response.status()} (${response.status()===403?'Forbidden':'Bad Request'})`,reason})}
  async function finish(){await shot('FINAL');return{status:'PASS',actual_normal_App_real_Auth_public_RPC:true,actual_Native_cases:0,actual_Auth_HTTP_cases:0,actual_two_session_races:0,progress,shots,contrasts,console_evidence:consoleEvidence(observed,expectedNetwork),fixture_source:f.fixture_source,fixture_screen_creation_claim:false,pool_history:poolHistory,production_go:false}}
  async function fail(error){mkdirSync('cp6-proof/t3',{recursive:true});const name=`cp6-proof/t3/S03_B4_${scenario}_${f?.run??attempt}`;writeFileSync(name+'_FIRST_FAILURE.json',JSON.stringify({error:String(error.stack||error),progress,calls,observed:observed.errors,fixture:f,pool_history:poolHistory},null,2));await page.screenshot({path:name+'_FIRST_FAILURE.png',fullPage:true}).catch(()=>{})}
- async function close(){observed.stop();page.off('request',listener);await user.context.close()}
+ async function close(){stopWaiting();observed.stop();page.off('request',listener);await user.context.close()}
  try{f=fixture('prepare',{today,scenario,owner:user.user.id});const before=state('BEFORE_FULL_APP_OPEN');await open();await period(f.day);equalCensus(before.census,state('AFTER_INITIAL_READS').census);return{user,page,expect,choice,pools,calls,shots,contrasts,progress,observed,expectedNetwork,state,shot,open,period,poolReload,fields,preview,save,action,verifiedNetwork,finish,fail,close,get fixture(){return f}}}catch(error){await fail(error);await close();throw error}
 }
 

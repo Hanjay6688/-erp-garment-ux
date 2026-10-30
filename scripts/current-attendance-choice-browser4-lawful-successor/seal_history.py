@@ -10,9 +10,9 @@ import subprocess
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
 PARENT = '30ee9874d049632050faf53b299a0cd8a11fe9f6'
-NAMES = ('fixture.py', 'cases.mjs', 'rights_delta.py', 'ordinary_snapshot_delta.py',
+NAMES = ('fixture.py', 'cases.mjs', 'rights_delta.py', 'ordinary_snapshot_delta.py', 'probe.py',
          'derive_successor.py', 'ADAPTATIONS.json', 'workflow.py', 'README.md', 'workflow.yml',
-         'test_bound.py', 'test_contract.py', 'test_current_rights.py', 'test_ordinary_snapshot.py',
+         'test_bound.py', 'test_contract.py', 'test_current_rights.py', 'test_ordinary_snapshot.py', 'test_oracles.mjs',
          'inherited-output-validation/GENERATED_RECEIPTS.json',
          'inherited-output-validation/LATER_GENERATED_RECEIPTS.json')
 
