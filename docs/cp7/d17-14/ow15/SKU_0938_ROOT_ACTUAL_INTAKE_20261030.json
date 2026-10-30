@@ -1,0 +1,215 @@
+{
+  "status": "EXACT_0938_FIRST_FAILURE_AND_RAW_BOUNDARIES_VERIFIED",
+  "head": "0938b693dee868ba74323f4ff61db70efdd11e89",
+  "tree": "0e0ebd209fbea1b63c9283c02ffb4ce6cfb1e87f",
+  "run_id": 41070902168,
+  "job_id": 124114405860,
+  "artifact_id": 12989469942,
+  "archive": {
+    "bytes": 73310874,
+    "sha256": "b8f58b099ad12ff208e05dfaec8dc38472886e8a946b80033b8fd5b8d2d65dc1",
+    "library_file_id": "libfile_83aa1c2f0dd08191ac9743ab1914d09b"
+  },
+  "crc_members": 171,
+  "originals": {
+    "CP7_SKU_MANAGED_RECOVERY_NATIVE27.json": {
+      "bytes": 30200448,
+      "sha256": "303cf04136ddff40a57c9079f61cc470370f5bbede763d5c035bf2a11f8aa3e0"
+    },
+    "CP7_SKU_PAIR_CONVERSION_NATIVE7.json": {
+      "bytes": 21042,
+      "sha256": "e1ef332bf6d38c3ef75a75aee46c608717e93aa16d2e302bff879a39ed609983"
+    },
+    "CP7_SKU_GROUP_COST_NATIVE5.json": {
+      "bytes": 39067,
+      "sha256": "ab39226794c2a63f49c85381e958d1c5b628d2433ccbc261563350bf0a45a131"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360424,
+      "sha256": "c2538238f9f7fbb8bdf3b75651c0dce5a1adcb6546111ee612bbbd4eda7aa8e7"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 1470,
+      "sha256": "8411c075db0682c369d80fc76dfba7ff1ba84f35102be21c6116f8ee244acf94"
+    }
+  },
+  "raw_evidence": {
+    "raw_full_noeffect_censuses": [
+      {
+        "name": "SKU_COST_RECOVERY_OVER_FIRST_PART_REFUSAL_20eb3be072dc_FULL_CURRENT_CENSUS.json",
+        "bytes": 43100594,
+        "sha256": "8653debb2579a0476194d4a9b3a74458bc61344a22aa40c488384bc905f2b79f",
+        "tables": 685,
+        "sequences": 15,
+        "catalog_groups": 22
+      },
+      {
+        "name": "SKU_COST_PART_1_USAGE_SAME_UUID_REPLAY_163726023d5b_FULL_CURRENT_CENSUS.json",
+        "bytes": 43100592,
+        "sha256": "7847c6ff9a8cce2e7bbf79343e7940786229be62df3a045776817f7a006030a5",
+        "tables": 685,
+        "sequences": 15,
+        "catalog_groups": 22
+      },
+      {
+        "name": "SKU_COST_PART_2_USAGE_SAME_UUID_REPLAY_242e95a75681_FULL_CURRENT_CENSUS.json",
+        "bytes": 43100592,
+        "sha256": "77c5bd29bac35418654e3185bff3c777e72f13063bbd8a03a9ae869011b3d57d",
+        "tables": 685,
+        "sequences": 15,
+        "catalog_groups": 22
+      },
+      {
+        "name": "SKU_COST_LATE_INVOICE_SAME_UUID_REPLAY_d31674ca3515_FULL_CURRENT_CENSUS.json",
+        "bytes": 43100594,
+        "sha256": "b38418f2fe6b28111c1bb5b3dc36ab6a50b89ee7763ee24d35ad6a1197ae3bf1",
+        "tables": 685,
+        "sequences": 15,
+        "catalog_groups": 22
+      },
+      {
+        "name": "SKU_COST_GROUP_INVERSE_FIRST_PART_ACTIVE_USAGE_5fc855496f76_FULL_CURRENT_CENSUS.json",
+        "bytes": 43100592,
+        "sha256": "655047daea5e1182b50f21d80ea21163b8bce9a379d7979ffee9008c040459cf",
+        "tables": 685,
+        "sequences": 15,
+        "catalog_groups": 22
+      },
+      {
+        "name": "SKU_COST_DIRECT_PARTIAL_INVERSE_REFUSAL_5ede5dab819e_FULL_CURRENT_CENSUS.json",
+        "bytes": 43100592,
+        "sha256": "655047daea5e1182b50f21d80ea21163b8bce9a379d7979ffee9008c040459cf",
+        "tables": 685,
+        "sequences": 15,
+        "catalog_groups": 22
+      },
+      {
+        "name": "SKU_COST_RECOVERY_UNDER_SAME_UUID_REPLAY_deb3f692f54b_FULL_CURRENT_CENSUS.json",
+        "bytes": 43100596,
+        "sha256": "089dfa91d63d91fa15795401491a2526f10c1eb59f25bccab88bf8b327e15fe0",
+        "tables": 685,
+        "sequences": 15,
+        "catalog_groups": 22
+      },
+      {
+        "name": "SKU_COST_RECOVERY_EQUAL_SAME_UUID_REPLAY_28cee11a3394_FULL_CURRENT_CENSUS.json",
+        "bytes": 43100596,
+        "sha256": "528f3452257e6c7953026e045e0b442b9cfad3918cc550ff29904bc348f32848",
+        "tables": 685,
+        "sequences": 15,
+        "catalog_groups": 22
+      },
+      {
+        "name": "SKU_COST_DISTINCT_UUID_POCKET_BUSY_COMMIT_e925a27bc056_FULL_CURRENT_CENSUS.json",
+        "bytes": 43100590,
+        "sha256": "de2569f0517b2ec02e23f5c54330c13f08eb12ac8832edce9fda9bf522b619bf",
+        "tables": 685,
+        "sequences": 15,
+        "catalog_groups": 22
+      },
+      {
+        "name": "SKU_COST_DISTINCT_UUID_COMMITTED_STALE_RETRY_440597daefba_FULL_CURRENT_CENSUS.json",
+        "bytes": 43100594,
+        "sha256": "184441b8059095a8206251a4cd4cd3089aabdbe79d8c47b294fc8dacac061d91",
+        "tables": 685,
+        "sequences": 15,
+        "catalog_groups": 22
+      },
+      {
+        "name": "SKU_COST_DISTINCT_UUID_POCKET_BUSY_ROLLBACK_e907994f0401_FULL_CURRENT_CENSUS.json",
+        "bytes": 43100590,
+        "sha256": "9c1918938fb753c624079d3952c7a9d68efb9741f392f5bacf02e12ae89d5f88",
+        "tables": 685,
+        "sequences": 15,
+        "catalog_groups": 22
+      },
+      {
+        "name": "SKU_COST_RECOVERY_CACHE_PERMISSION_WAIT_19f51d32e9eb_FULL_CURRENT_CENSUS.json",
+        "bytes": 43100598,
+        "sha256": "513b9ac51ad530e394fce6d24629f5678889ecfa2004a8172f393c1149c82095",
+        "tables": 685,
+        "sequences": 15,
+        "catalog_groups": 22
+      },
+      {
+        "name": "SKU_COST_RECOVERY_NONBLOCKING_FG_BUSY_c8c552a51240_FULL_CURRENT_CENSUS.json",
+        "bytes": 43100598,
+        "sha256": "6d79f36eac173fadca7f9a6c8c4d82ff75faf4f7a70c8a05d6b2b0fe9e9d2680",
+        "tables": 685,
+        "sequences": 15,
+        "catalog_groups": 22
+      },
+      {
+        "name": "SKU_COST_RECOVERY_NONBLOCKING_MATERIAL_NONE_BUSY_0982b5e203e6_FULL_CURRENT_CENSUS.json",
+        "bytes": 43100604,
+        "sha256": "c297241893dceb91d1297f3901ec5284e830947fd8a612d3c79c09ecef1968b8",
+        "tables": 685,
+        "sequences": 15,
+        "catalog_groups": 22
+      }
+    ],
+    "complete_cost_sequence_prefixes": [
+      {
+        "case_id": "SKU29_COST_GROUP_RETURN_OVER_FIRST_PART_SAFETY_REFUSAL_ONLY",
+        "raw": {
+          "bytes": 2662,
+          "sha256": "cb85afa28beebca38fa408fcf6f8104077b5d582da2947a96cf5863034fd2f67"
+        }
+      },
+      {
+        "case_id": "SKU29_COST_BOTH_PARTS_USAGE_LATE_INVOICE_SOLD_AND_DESCENDANT",
+        "raw": {
+          "bytes": 2663,
+          "sha256": "3a69f7e7e87e4b4b0eede8f3414f2c686e7d0937ff0744a48c6086c0117e903b"
+        }
+      },
+      {
+        "case_id": "SKU29_COST_FIRST_PART_ACTIVE_USAGE_ATOMIC_GROUP_INVERSE",
+        "raw": {
+          "bytes": 2659,
+          "sha256": "cc4514536fefc866cb3a7f295a8a352282cbc283aad001283cfc48c7210428f8"
+        }
+      },
+      {
+        "case_id": "SKU30_RECOVERY_UNDER_FIRST_PART_NATIVE_POST_REPLAY_INVERSE",
+        "raw": {
+          "bytes": 2663,
+          "sha256": "4c538b78c608b5d60fc3adcc5d41a246f274f8b3214e2e2c0df5450457274732"
+        }
+      },
+      {
+        "case_id": "SKU30_RECOVERY_EQUAL_FIRST_PART_NATIVE_POST_REPLAY_INVERSE",
+        "raw": {
+          "bytes": 2663,
+          "sha256": "72ab8856c776680d25509c4cf3564290a1a6a2df3be807f837830f251b64bde4"
+        }
+      }
+    ],
+    "all14_full22_all_rows_ALL15_sequence_raw_boundaries_exact": true,
+    "all5_cost_sequence_prefixes_original_and_contiguous": true,
+    "per_savepoint_sequence_restore_claim": false
+  },
+  "same_run_observed_counts": {
+    "PASS": 23,
+    "INCOMPLETE": 4
+  },
+  "complete27_qualified": false,
+  "first_errors": {
+    "SKU29_BROWSER_DESKTOP_REAL_AUTH_PAIR_FIFO_RECOVERY_INVERSE": "Error: expect(locator).toBeEnabled() failed\n\nLocator:  locator('.initial-import').filter({ has: getByRole('heading', { name: 'Ganti Merek / SKU', exact: true }) }).getByRole('combobox', { name: 'SKU asal dan gudang', exact: true })\nExpected: enabled\nReceived: disabled\nTimeout:  5000ms\n\nCall log:\n  - Expect \"to.be.enabled\" with timeout 5000ms\n  - waiting for locator('.initial-import').filter({ has: getByRole('heading', { name: 'Ganti Merek / SKU', exact: true }) }).getByRole('combobox', { name: 'SKU asal dan gudang', exact: true })\n    14 × locator resolved to <select disabled>…</select>\n       - unexpected value \"disabled\"\n\n    at captureRawStack (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright-core/lib/coreBundle.js:9681:17)\n    at callMatcherAsStep (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright/lib/matchers/expect.js:13310:57)\n    at Object.toBeEnabled (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright/lib/matchers/expect.js:13300:23)\n    at openConversion (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-sku-managed-recovery-native27-qualification/browser.mjs:110:263)\n    at async journey (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-sku-managed-recovery-native27-qualification/browser.mjs:176:53)\n    at async main (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:243:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:259:3",
+    "SKU29_BROWSER_MOBILE390_REAL_AUTH_PAIR_FIFO_GUARDS_INVERSE": "locator.click: Timeout 20000ms exceeded.\nCall log:\n  - waiting for locator('.initial-import').filter({ has: getByRole('heading', { name: 'Ganti Merek / SKU', exact: true }) }).locator('.panel').filter({ has: getByRole('heading', { name: 'Riwayat konversi', exact: true }) }).getByRole('row').filter({ hasText: 'BE-fea44e35-3c1f-4d39-9a65-7c2d623f1233' }).getByRole('button', { name: 'Batalkan CP6-E-S29-a1429d4b', exact: true })\n\n    at openInverse (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-sku-managed-recovery-native27-qualification/browser.mjs:113:85)\n    at async journey (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-sku-managed-recovery-native27-qualification/browser.mjs:198:3)\n    at async main (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:243:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:259:3",
+    "A_STAGED_AI_BROWSER_DESKTOP_MANUAL_AND_RETIRED_RESPONSES": "Error: Command failed: python /home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-sku-managed-recovery-native27-qualification/staged_ai_fixture.py read\nTraceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-sku-managed-recovery-native27-qualification/staged_ai_fixture.py\", line 137, in <module>\n    main()\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-sku-managed-recovery-native27-qualification/staged_ai_fixture.py\", line 121, in main\n    brief = staged.limited(cur, 'erp_cp7_get_staged_ai_brief_v1', (run, json.dumps(targets)), actor)\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-frozen-public-native-qualification/public_finance_cases.py\", line 22, in limited\n    if name not in routes:return staged_original.limited(cur,name,args,subject,timeout)\n                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_p19_staged_cases.py\", line 70, in limited\n    result = cur.execute('select public.' + name + '(' + placeholders + ')', args).fetchone()[0]\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.RaiseException: CP7_FRESH_ACCESS_REQUIRED\nCONTEXT:  PL/pgSQL function cp7_analysis_stage.ai_brief(uuid,jsonb) line 5 at RAISE\nSQL function \"erp_cp7_get_staged_ai_brief_v1\" statement 1\n\n    at genericNodeError (node:internal/errors:983:15)\n    at wrappedFn (node:internal/errors:537:14)\n    at checkExecSyncError (node:child_process:916:11)\n    at execFileSync (node:child_process:952:15)\n    at fixture (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-sku-managed-recovery-native27-qualification/staged_ai_cases.mjs:15:37)\n    at readPrompt (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-sku-managed-recovery-native27-qualification/staged_ai_cases.mjs:168:22)\n    at async journey (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-sku-managed-recovery-native27-qualification/staged_ai_cases.mjs:177:19)\n    at async main (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:243:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:259:3",
+    "A_STAGED_AI_BROWSER_MOBILE_MANUAL_AND_RETIRED_RESPONSES": "Error: Command failed: python /home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-sku-managed-recovery-native27-qualification/staged_ai_fixture.py read\nTraceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-sku-managed-recovery-native27-qualification/staged_ai_fixture.py\", line 137, in <module>\n    main()\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-sku-managed-recovery-native27-qualification/staged_ai_fixture.py\", line 121, in main\n    brief = staged.limited(cur, 'erp_cp7_get_staged_ai_brief_v1', (run, json.dumps(targets)), actor)\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-frozen-public-native-qualification/public_finance_cases.py\", line 22, in limited\n    if name not in routes:return staged_original.limited(cur,name,args,subject,timeout)\n                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_p19_staged_cases.py\", line 70, in limited\n    result = cur.execute('select public.' + name + '(' + placeholders + ')', args).fetchone()[0]\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.RaiseException: CP7_FRESH_ACCESS_REQUIRED\nCONTEXT:  PL/pgSQL function cp7_analysis_stage.ai_brief(uuid,jsonb) line 5 at RAISE\nSQL function \"erp_cp7_get_staged_ai_brief_v1\" statement 1\n\n    at genericNodeError (node:internal/errors:983:15)\n    at wrappedFn (node:internal/errors:537:14)\n    at checkExecSyncError (node:child_process:916:11)\n    at execFileSync (node:child_process:952:15)\n    at fixture (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-sku-managed-recovery-native27-qualification/staged_ai_cases.mjs:15:37)\n    at readPrompt (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-sku-managed-recovery-native27-qualification/staged_ai_cases.mjs:168:22)\n    at async journey (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-sku-managed-recovery-native27-qualification/staged_ai_cases.mjs:177:19)\n    at async main (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:243:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:259:3"
+  },
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "outer_restore_receipts": true,
+  "outer_raw_before_after_not_serialized": true,
+  "prior_partial_results_aggregated": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

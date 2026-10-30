@@ -1,0 +1,14 @@
+{
+  "head": "18be779b9a31b07bad09e7d98c022026448e8265",
+  "tree": "6c6ae1b68a4fb004e0feadfe8248ae41dce0bc5a",
+  "parent": "590bb2ae49e32fa01489551d75858166660f9d35",
+  "SKU_source": "58c8e1535c6b5296f07ca41d5eb90cb28ed2872c",
+  "exact_SKU_paths_imported": 19,
+  "S05_source20_pins_verified": true,
+  "unchanged_S05_UI_tests_reused": 61,
+  "production_go": false,
+  "independent_acceptance": false,
+  "actual_current_combined_qualification": false,
+  "SKU27_current_run": 41086555559,
+  "S03_current_run": 41080255432
+}

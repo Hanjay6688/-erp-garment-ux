@@ -1,0 +1,36 @@
+{
+  "classification": "SOURCE_SUCCESSOR_FRESH_COMPLETE27_PENDING",
+  "recorded_at_utc": "2026-10-30T16:08:40.081072+00:00",
+  "head": "58c8e1535c6b5296f07ca41d5eb90cb28ed2872c",
+  "tree": "500e0326b140e7e5d7a59b3824a2243334937ed3",
+  "parent": "0938b693dee868ba74323f4ff61db70efdd11e89",
+  "local_prepublication": "59b7b4de286f720e33d0ff76f0cd8ab90a85bc78",
+  "run_id": 41086555559,
+  "job_id": 124169121755,
+  "status": "IN_PROGRESS_AT_LAST_API_OBSERVATION",
+  "source_paths": 19,
+  "previous_actual_receipt": "SKU_0938_ROOT_ACTUAL_INTAKE_20261030.json",
+  "changes": [
+    "Require locked source and enabled Reconcile after reload with an uncertain committed reply; require enabled source after authoritative recovery",
+    "Use exact posted member row and authoritative fixture commercial source/target SKU labels for inverse button",
+    "Run staged AI independent Native readback under READ COMMITTED; state census remains REPEATABLE READ"
+  ],
+  "Python_tests": 52,
+  "Node_tests": 7,
+  "rendered_JSX_named_selector_controls": 4,
+  "old_0938_recovery_and_history_helpers_reproduced_red": true,
+  "wrong_state_and_label_negative_controls": true,
+  "old_0938_AI_readback_fresh_access_refusal_reproduced": true,
+  "committed_source_preflight": {
+    "bytes": 8566,
+    "sha256": "b322ca36ffe0c96690c1f4dc4b73e837237943110414b5a44cfe7e0d4c80661f"
+  },
+  "all_case_ids_and_financial_expected_values_unchanged": true,
+  "all_complete_census_assertions_unchanged": true,
+  "whole_browser_body_byte_identity_claim": false,
+  "Native_product_changed": false,
+  "prior_partial_results_aggregated": false,
+  "actual_new_qualification_credit": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}
