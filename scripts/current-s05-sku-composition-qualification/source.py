@@ -77,7 +77,7 @@ def preflight(root=ROOT, *, require_clean=True):
     for name, expected in composition['files'].items():
         if sha256((root/name).read_bytes()).hexdigest() != expected:
             raise ValueError('S05_SKU_EXISTING_COMPOSITION_CHANGED: '+name)
-    return dict(status='S05_SKU_ADDITIVE_NATIVE_COMPONENT_SOURCE_ONLY',
+    return dict(status='S05_SKU_ADDITIVE_NATIVE_AND_BROWSER_COMPONENTS_SOURCE_ONLY',
         base=BASE, base_tree=BASE_TREE, unchanged_base_files=len(base),
         exact_qualified_519d_helpers=len(retained['files']),
         unchanged_existing_S05_pins=len(composition['files']),

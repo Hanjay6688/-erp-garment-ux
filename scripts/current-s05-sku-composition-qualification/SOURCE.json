@@ -1,5 +1,5 @@
 {
-  "contract": "cp7.s05-on-sku.Native-component-source-only.v1",
+  "contract": "cp7.s05-on-sku.Native-and-browser-components-source-only.v2",
   "base": "e4915c0b7b8b3cd04293ef8289317ae93cf46597",
   "base_tree": "1e27c59bdbf0094b2e9142e4afa15c7df7a3c034",
   "required_actual_SKU27_head": "e9256772579f387df77dde949f8ea619cbd86856",
@@ -23,10 +23,17 @@
     "scripts/current-s05-lawful-master-dates-qualification/native-premise/save_accessory_bom_edit.sql": "c64ea9d49be0dd994a0a7bbadef142a3ad74f2e2aed6d924d1cbdf2d87ed5fd0",
     "scripts/current-s05-lawful-master-dates-qualification/recipe.py": "0740c5e18470d8fe2fcd9115887b63e7804fad12a6ab4213840f539bccf07262",
     "scripts/current-s05-native10-qualification/component.py": "c699ad2f5c7a7dbdad40ad7803ceaec066945c56a3ca125ad0d6aabe5574207a",
-    "scripts/current-s05-sku-composition-qualification/README.md": "2032b8052474bfaf418b33adb483de5fdb939c64ed0ec6fbb92f3f7824f1b175",
+    "scripts/current-s05-sku-composition-qualification/README.md": "be0bd8b0479c69ae89820f4501560e18cd8541ac9a7582620be5748ea7e791a5",
     "scripts/current-s05-sku-composition-qualification/RETAINED.json": "52a7e42a5e5dd4824159267b761567b0653cac7ea6712ce3a80c5683802a76fa",
-    "scripts/current-s05-sku-composition-qualification/native.py": "920a8af124bc914b7ef85a2b1d244838f7e0f34baea4829e10a8487ed14abb3d",
-    "scripts/current-s05-sku-composition-qualification/source.py": "7d3d31e013ba28238a200f9fe37419924f7de89cc9e76ecf6fc69b8b7125f232",
+    "scripts/current-s05-sku-composition-qualification/browser.mjs": "77e80c9a2026bc5fa9adca8af082afcfbd353661a1d633a21ef070497374f6ea",
+    "scripts/current-s05-sku-composition-qualification/browser_component.py": "d147114031037a7d3c3faadead4c92e7565897f47307c7923049972187372406",
+    "scripts/current-s05-sku-composition-qualification/browser_fixture.py": "dfd35d7dd8de095aac7dcdb93cf2d0733877ee5ae1642d2f9898fd0c2efc3189",
+    "scripts/current-s05-sku-composition-qualification/browser_prepare.py": "36458d48dd2e94a0c64358320e1fd4d8ce8491fb178c494f7ff9c573b1e8baca",
+    "scripts/current-s05-sku-composition-qualification/native.py": "0f97034f969813ca17d8f5e193f535d47613969c117b1f889d5cecf4fea03f9e",
+    "scripts/current-s05-sku-composition-qualification/response_waits.mjs": "28b01642e26378cb8e5aad96a9d2b2b10e252fbd19ce6151ee62cad7c4557034",
+    "scripts/current-s05-sku-composition-qualification/source.py": "818ef350e1eee4dc9439df0c7bd0740ea3f3636597dd64a05248f96b458aa034",
+    "scripts/current-s05-sku-composition-qualification/test_browser.mjs": "c527fd01383d7bec094a030ffc1afee24ef0342cd450e623cdb48aec0e3722fb",
+    "scripts/current-s05-sku-composition-qualification/test_browser_component.py": "b68c7dcc4f72093101c9fe997b09e8ff13d64efa0d5b2ff5bda623478d052a2d",
     "scripts/current-s05-sku-composition-qualification/test_native.py": "46dbe849e00886eb992caef7a1b17d79a9f4e50274b26dfbbca36b77c6f938ba",
     "scripts/current-s05-wib-owner-fixture-successor-qualification/factory.py": "e49ae4cc9a98cdb7643f35ffdbc366df45156c2857d575079042c37aa72774a1",
     "scripts/current-s05-wib-owner-fixture-successor-qualification/fixture_adapter.py": "219e8e064a21f09917a6f5bc8fe2cf80f9d8a49b0c6867931a86aa687ed499da",
@@ -42,5 +49,9 @@
     "tests/fixtures/accessoryStandardReport.ts": "2013b59a6a93c9b5855f5ca54374f05bc0810c927dc64fc09512fd5af8ccc2b8"
   },
   "production_go": false,
-  "independent_acceptance": false
+  "independent_acceptance": false,
+  "browser_case_ids": [
+    "S05_SKU_NORMAL_APP_DESKTOP_SOURCE_AND_LATE_REPLY",
+    "S05_SKU_NORMAL_APP_MOBILE390_UNKNOWN_ZERO_AND_CURRENT_ACCESS"
+  ]
 }
