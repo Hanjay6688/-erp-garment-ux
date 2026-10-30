@@ -1,0 +1,1873 @@
+{
+  "contract": "cp7.midnight-native1.current-source.v1",
+  "active_parent_head": "9ac9c8bd1bfb7d64a1e735067083c68acbff02ef",
+  "active_parent_tree": "49591433899ef13c70e3cd94fc0c43894ea182df",
+  "files": {
+    ".github/workflows/cp7-attendance-midnight-native1.yml": {
+      "bytes": 29379,
+      "sha256": "a1637209b69374850daaac54d89e404cf51917e31fdffb28a582f89802be1c25"
+    },
+    ".github/workflows/cp7-current-vendor-receivable-native.yml": {
+      "bytes": 28846,
+      "sha256": "c2e35cb1dc08ff179da9392a15a153ffd8f2e7c6479bb44f6cfae30891b4e095"
+    },
+    ".github/workflows/cp7-s03-attendance-native11.yml": {
+      "bytes": 29845,
+      "sha256": "8359b8a5f05c4d8371429e71ba87ff36d2391d6f1108840a805bd8f81452c963"
+    },
+    ".github/workflows/cp7-s03-choice-reader-native14.yml": {
+      "bytes": 29722,
+      "sha256": "f17a754056a094f3e9e2425fd3a8cef228de04a7f270f56005830030fe10a59c"
+    },
+    "docs/cp7/d17-14/ow05/native28-current-pass.json": {
+      "bytes": 6791,
+      "sha256": "1d25fbbdcdeea6791a7d04b45ac0bb1a17f3629a29a727284fc6796248c08308"
+    },
+    "docs/cp7/d17-14/ow06/CHECKPOINT.json": {
+      "bytes": 12301,
+      "sha256": "25f5c94de0f6d86fc1d0afcd42e3884280b09e501f3d781f84719c0e8dbbbb4c"
+    },
+    "scripts/chain-p21-qualification/SOURCE.json": {
+      "bytes": 2600,
+      "sha256": "bdc430061c7298da8b623038772dbe281a108d96d6a38246409fa2c52b3eceac"
+    },
+    "scripts/clone-cp6-disposable-database.sh": {
+      "bytes": 7381,
+      "sha256": "c786ad04009547e2e78baf56f93c5dd6dd5847befdb16e721e01909a592285da"
+    },
+    "scripts/cp6_auditor_runner.py": {
+      "bytes": 14911,
+      "sha256": "2c74439f7e919e2adb2484bc774bef4881e71237124f2e6b6dabdab141348ea7"
+    },
+    "scripts/cp6_g01_align.py": {
+      "bytes": 10339,
+      "sha256": "023a9542037b9ad1bc7860b9fabb42d8062173371fb8af728ac2c9bae376c458"
+    },
+    "scripts/cp6_run_identity.py": {
+      "bytes": 1869,
+      "sha256": "4876539c2ed0cffc674522f2a24ae73f2f52253f434bf949a53a3744018f2279"
+    },
+    "scripts/cp6_t3_aligned_chain.py": {
+      "bytes": 6197,
+      "sha256": "4e043ad5257a2ed93600e3bb745c96a7d2c702ff4b163abaa79548acd5d5a3b9"
+    },
+    "scripts/cp6_t3_package_run.py": {
+      "bytes": 17087,
+      "sha256": "952bbf1b99652dadf69ab0e1291979a4e7227182631baaab6af7a7eabcb80ab0"
+    },
+    "scripts/cp6_t3_release_package.py": {
+      "bytes": 23429,
+      "sha256": "29c207f3a3db70194fe3e45ec24c650b6534a5598525588b284df895f41e1358"
+    },
+    "scripts/cp7_attendance_period_choice/NEW_CATALOG_IDENTITIES.json": {
+      "bytes": 18161,
+      "sha256": "e49e4cb9c794d6ed98b831ae318e6d3c401a110d420cf932ee7011f7c971a578"
+    },
+    "scripts/cp7_attendance_period_choice/READER_WIRE_CONTRACT.md": {
+      "bytes": 3476,
+      "sha256": "977a973fc9d641dc8699bc445ed2c73167aee403a1a78f666fc34e9c5be4cb6c"
+    },
+    "scripts/cp7_attendance_period_choice/README.md": {
+      "bytes": 12352,
+      "sha256": "b6df163c63651acd5e9864ceca935e798626a073f90db7c23820eb4bfaa34a64"
+    },
+    "scripts/cp7_attendance_period_choice/SOURCE_DERIVED_NATIVE_ABI.json": {
+      "bytes": 259083,
+      "sha256": "609032c301a97bc32d43c274fcb5cc1f2ddbf33dd9fbc104ebc876641fe20176"
+    },
+    "scripts/cp7_attendance_period_choice/WIRE_CONTRACT.md": {
+      "bytes": 6821,
+      "sha256": "931e62848f6861e24190e76cb0efbd8aa032cb514bf0f0b5af362d62cbe12bbd"
+    },
+    "scripts/cp7_attendance_period_choice/__init__.py": {
+      "bytes": 75,
+      "sha256": "7078a6a88cf48a6fc9f9de2a06c7367b3b264613682d9cdbb6dce37fe18f34ea"
+    },
+    "scripts/cp7_attendance_period_choice/catalog_contract.py": {
+      "bytes": 2513,
+      "sha256": "f312de61b3c75087a51d7df712896627c02bb5d6473803bf6d2c90ad506d7c64"
+    },
+    "scripts/cp7_attendance_period_choice/choice.sql": {
+      "bytes": 61490,
+      "sha256": "44499c6d6a06d1effc2be4f066168f5fa2fe9608b2ccb80d1d2d0b1dac0a8212"
+    },
+    "scripts/cp7_attendance_period_choice/composition.py": {
+      "bytes": 7381,
+      "sha256": "51b3d53dccd69688438287bee338e7a86a37afe57aa963cc2dee24b2e43470f1"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/ACTUAL_9A0_INSTALLER_FAILURE_HANDOFF.json": {
+      "bytes": 839,
+      "sha256": "fe1cf26693e89b3206d236ce434070196a173dae795aa6bd1c3e81574cf45641"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/ELEVENTH19_FIRST_REVERSAL_POLICY_FAILURE_RECEIPT.json": {
+      "bytes": 1388,
+      "sha256": "b5ac41178565478f883a9cc3dc9a5d6ada0e814267fd7af13f00ba3a6fa7a8c8"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/FAITHFUL22_FIRST_APPROVAL_ORDER_RECEIPT.json": {
+      "bytes": 1938,
+      "sha256": "9c6a687bc0bd398396a0891a50c5100a7ddc5047433af54edbd265e024e1b560"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/FIFTEENTH20_FIRST_CASH_FAILURE_RECEIPT.json": {
+      "bytes": 1037,
+      "sha256": "b3c128cb12a9ea27c374cb48698eb2c805d7f29db8f318d5630c8930e211fbba"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/FIFTH15_FIRST_MAPPING_FAILURE_RECEIPT.json": {
+      "bytes": 1061,
+      "sha256": "f091696b918310b0b470c698acd4a3a2aab3e52acac8a698aa8d66d225a599be"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/FIRST_FAILURE_RECEIPT.json": {
+      "bytes": 1729,
+      "sha256": "e7ca817d0dc8bcb8fe54abafdb9461ca98dfbdfe6893b82073b1404233755edb"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_CAPTURE13_PREP6_FIRST_PASS.log": {
+      "bytes": 1156,
+      "sha256": "a19147c3089c3dfcade7f0515a0a65147ae94b7a83e22c5eafba36af9a43fe6f"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_CAPTURE13_SOURCE10_FIRST_PASS.log": {
+      "bytes": 1808,
+      "sha256": "f462a7337ff5299c915b94188f492a82779ba8dd7093d9a184fc5dad329aea93"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_CHECK_RECEIPT.json": {
+      "bytes": 5237,
+      "sha256": "22a729f2b2d1264161dabf831ff54cc8e7f7e52532abeb0837642e6a929210c5"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_EIGHTEENTH21_PASS.json": {
+      "bytes": 8289,
+      "sha256": "8a17afa09c9c4da2a89239ac811ff0f144b4ab2f19ad4c7ce05cff85caa76ffd"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_EIGHTEENTH21_PASS.log": {
+      "bytes": 54,
+      "sha256": "b631e07ae3e075486eae37a3666316bfa3e4bcf1d5a78d46e7e200272160c3f5"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_EIGHTH17_16PASS_1PREPARATION_FAILURE.json": {
+      "bytes": 9038,
+      "sha256": "2fdc104aa0a8ef95c416e7df47bcb081dd1ecb14382c68a815d0515cf18e10f0"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_EIGHTH17_16PASS_1PREPARATION_FAILURE.log": {
+      "bytes": 1221,
+      "sha256": "9e0782dd94e61c9143a89622cfd5cb641db6ac2035b0d49cd37c84055f5d9762"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_ELEVENTH19_17PASS_2FAIL.json": {
+      "bytes": 8695,
+      "sha256": "62fc24af7f7e31417aec13689de459c3a9901adea80ccfb72eeb26f321840479"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_ELEVENTH19_17PASS_2FAIL.log": {
+      "bytes": 52,
+      "sha256": "fd02ddf78a665ae9d40052bacfdbf27d83a6f156b3a2e89e06ed497d248e0f13"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_FAITHFUL22_FIRST_21PASS_1CLAIM_ORDER_FAILURE.json": {
+      "bytes": 9125,
+      "sha256": "7804c1fc8fd5f5ba361a1087c39e225f9b88a0a6bad3dab93bcedea82b2c1baf"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_FAITHFUL22_FIRST_21PASS_1CLAIM_ORDER_FAILURE.log": {
+      "bytes": 60,
+      "sha256": "cc4dc4fda3c4963c613bc21c6adcf59b382370538ff6711dd3606a532da66cea"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_FAITHFUL22_REPAIRED_PASS.json": {
+      "bytes": 8690,
+      "sha256": "d79d7574305f9e55b9e301e3b43e03360dc3e674620e07dfc19a3040fa437d85"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_FAITHFUL22_REPAIRED_PASS.log": {
+      "bytes": 60,
+      "sha256": "0e92a9356f0bb55f3e98b02b40e51c6bfcb0aa6b5eae5b24ee7799b27247c5b6"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_FAITHFUL_CLAIM_DIAGNOSTIC_1_SELECTED_FAIL.log": {
+      "bytes": 1273,
+      "sha256": "12df39375d4403ee7b5fdcfbccb8513a6d7902cbb0563d2281fe03c90eb94047"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_FAITHFUL_CLAIM_FIRST_CENSUS_DIFF.json": {
+      "bytes": 280,
+      "sha256": "881df8cfb0a0cb86b015f8ad0a50bb2f1689ceb894ee6c3425b6b15a0787a1cb"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_FIFTEENTH20_19PASS_1FIRST_CASH_FAILURE.json": {
+      "bytes": 8732,
+      "sha256": "14fe362a94d0d913c8237518f880a6301989620fe9ea5a637fd1f0fae2bc6121"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_FIFTEENTH20_19PASS_1FIRST_CASH_FAILURE.log": {
+      "bytes": 53,
+      "sha256": "699a0fbb0e8351eade15d4a49b4eeddc0b9499a23e0a7c5a4b6aab65021cd1c0"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_FIFTH15_12PASS_3FAIL.json": {
+      "bytes": 8879,
+      "sha256": "2fcfae5ba6d9fa286c6737deb3081f443cd719e109f5ccc74cb88005b4d7f562"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_FIFTH15_12PASS_3FAIL.log": {
+      "bytes": 49,
+      "sha256": "e4bcf39cc0f464e8709543e2d95caed6051cdee0a0293e43b8fb14e50a2dab5b"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_FINAL_INSTALLER5.json": {
+      "bytes": 2350,
+      "sha256": "ef3542f3b3d56e403f32634a276db4aab7fea358e70176dae884cd77d22dae8e"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_FINAL_INSTALLER5.log": {
+      "bytes": 444,
+      "sha256": "fcfcd9bf7193e0fcf8e60344e7eccb06583e07212a4d10c8952d57a6487acf6e"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_FINAL_ORIGINAL_PREP7_PASS.log": {
+      "bytes": 1311,
+      "sha256": "8cae341f911385f5f165675577bd8f555e7cdbeff26171d3679de4c97ce9886b"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_FINAL_READER30.json": {
+      "bytes": 11463,
+      "sha256": "5a1e1d809145fac11522ebca87b47cd61cf9b51b3e84539d076a3d09ff18455e"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_FINAL_READER30.log": {
+      "bytes": 54,
+      "sha256": "f27f48c8c8356c2131ea217166819ad3ee56312a8719ac8ffecfdf56eb17c68d"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_FINAL_READER_PREP6_PASS.log": {
+      "bytes": 1104,
+      "sha256": "77e9d3a31195ba060c3c795c7c13c5b4300f305a1bea2b9a8f274ce5790dd3a1"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_FINAL_SOURCE_AND_CONTEXT19_PASS.log": {
+      "bytes": 3412,
+      "sha256": "deaf477214d99e4d9f1c105e011b49b799c2c13f5b24dca9b05c08d2e4ccbfce"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_FIRST7_INCOMPLETE.json": {
+      "bytes": 10361,
+      "sha256": "1b1f0662fc440883a43cf0befa740649c5a12e6077b1875b9f403ccb3daaf17a"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_FIRST7_INCOMPLETE.log": {
+      "bytes": 49,
+      "sha256": "45fa2749bd36163c00ea7f4e6cc62956cb0ae9abdc0373582a2fb5ade5436d94"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_FOURTEENTH20_19PASS_1MODEL_DEPENDENCY_FAILURE.json": {
+      "bytes": 8787,
+      "sha256": "9b5f252f32d7ab60c0ee8ef97a82c56c655b2ef823e912b8ff9eb213f97c3553"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_FOURTEENTH20_19PASS_1MODEL_DEPENDENCY_FAILURE.log": {
+      "bytes": 54,
+      "sha256": "5c76eb7335d27cc0797fb5ff8a4c1ec0ef7c97b1f1b4c44d0bbe46c3092e2bc4"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_FOURTH7_PASS.json": {
+      "bytes": 3387,
+      "sha256": "3c3ebfcf91a3c110f8c84f37f5ae00f33134ccc165b100addac152a9c9fcc54e"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_FOURTH7_PASS.log": {
+      "bytes": 50,
+      "sha256": "1f797ba6c1834f492afc9ba5ffc09d1be35f48b10a1bf86d87eb731869c15540"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_FREEZE22_PASS.json": {
+      "bytes": 8696,
+      "sha256": "19a1a8f188280d05d13f161ae484dc8b94d936f4e2e37faf765a44ac516d4eb1"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_FREEZE22_PASS.log": {
+      "bytes": 46,
+      "sha256": "8006e6a2351bc76d83e9660b33ed7c11ec290ffe5a8708621dbab25661e2b676"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_FREEZE_PREP7_PASS.log": {
+      "bytes": 1311,
+      "sha256": "595687a50002361c205fa06204d8252c662237fa16e1c7943a58ccbc28078a75"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_FREEZE_SOURCE10_PASS.log": {
+      "bytes": 1808,
+      "sha256": "b39d707e803bcf171e1c14327fd23723b14b1000a710db15e89a2c67aa1f56ee"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_INSTALLER_CAUSAL5_PASS.json": {
+      "bytes": 2350,
+      "sha256": "ef3542f3b3d56e403f32634a276db4aab7fea358e70176dae884cd77d22dae8e"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_INSTALLER_CAUSAL5_PASS.log": {
+      "bytes": 444,
+      "sha256": "fcfcd9bf7193e0fcf8e60344e7eccb06583e07212a4d10c8952d57a6487acf6e"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_INSTALLER_CONTEXT7_PASS.log": {
+      "bytes": 1341,
+      "sha256": "e73cee062ec95bc2f658b6b8f12eef283a3b5c03895d49560261e03292333042"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_INSTALLER_LITERAL_ROLE_OBSERVATIONS.json": {
+      "bytes": 2730,
+      "sha256": "25800bd2f12947239a952aa38d06d5cab5a3d83c73a258a7b9aec79826aa4ba4"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_ISOLATED_RUNTIME_DIAGNOSIS_2_SELECTED.log": {
+      "bytes": 250,
+      "sha256": "5e799ef14e9bd2854174be8973642334e0c0815276bf24ffaaa014787adee7c1"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_NINTH17_16PASS_1CATALOG_FAILURE.json": {
+      "bytes": 8525,
+      "sha256": "dcabdd3cc1ccb3b4e8b5f754cc10675d003596fdf8002830628b82f25f0a15fa"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_NINTH17_16PASS_1CATALOG_FAILURE.log": {
+      "bytes": 713,
+      "sha256": "346deb4749141ca98860f44cfe3d58dd62eeb981ef0106e73e58d9e8f86e216d"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_PARENT_ENV_MISSING_FIRST.log": {
+      "bytes": 1480,
+      "sha256": "d64f5ced5aafa61dc7a542ce533357157decbaa65322c02774d8bac61468cb5a"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_PREPARED_FIRST6_4PASS_2FAIL.log": {
+      "bytes": 3488,
+      "sha256": "499e1c9d1383063a100b223b50f5c017b5fd3aa808164f5702f8d039c24a1f3d"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_READER15_FIRST28_27PASS_1LOCAL_REINSTALL_FAILURE.json": {
+      "bytes": 11171,
+      "sha256": "efb40d3b2070ea8fe8539533848406ebf4b24503ecdefbb3070b44130ad8ba7a"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_READER15_FIRST28_27PASS_1LOCAL_REINSTALL_FAILURE.log": {
+      "bytes": 59,
+      "sha256": "459f709b87616eb8339b526aaed8616e2b4c4e5fad5859f5953a1ece65b6168f"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_READER28_FIRST_22PASS_6FAIL.json": {
+      "bytes": 15926,
+      "sha256": "eb242f68acf7985c404674f6aaabd0751f13e013ba50a31ea7709621288f9fd3"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_READER28_FIRST_22PASS_6FAIL.log": {
+      "bytes": 52,
+      "sha256": "14f51cc7658228bed276d5e22fe02e8a71cb885eb422ae61892b385532fcb229"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_READER28_SECOND_23PASS_5READER_FAIL.json": {
+      "bytes": 12784,
+      "sha256": "78816a173afd85931a87fa96672632c22108aac194658b219918dbae3af45475"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_READER28_SECOND_23PASS_5READER_FAIL.log": {
+      "bytes": 53,
+      "sha256": "fa853d3b2e459f9345b12a4512b74cbded3ebc186c5b214236c677b8e0931d14"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_READER29_PASS.json": {
+      "bytes": 11174,
+      "sha256": "4015f9feee085845ea8a01fbe9995baeaea834795a4cad778d182b549496686a"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_READER29_PASS.log": {
+      "bytes": 59,
+      "sha256": "d4832b7dbce496f9d79f1d275bf3332b7532e7d5b83094af9e53748c8a1fb062"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_READER30_PASS.json": {
+      "bytes": 11463,
+      "sha256": "5a1e1d809145fac11522ebca87b47cd61cf9b51b3e84539d076a3d09ff18455e"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_READER30_PASS.log": {
+      "bytes": 54,
+      "sha256": "f27f48c8c8356c2131ea217166819ad3ee56312a8719ac8ffecfdf56eb17c68d"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_READER_CATALOG_RENDER_SELECTED1.json": {
+      "bytes": 10076,
+      "sha256": "4518eb408f9bd7a73971a8583a83b09a9854d68400dd23b683a4b42d88fe8766"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_READER_CATALOG_RENDER_SELECTED1.log": {
+      "bytes": 71,
+      "sha256": "eebce5ca41be2375a1f8bd926528cc22153b5011a2a084bf342257efa689b17e"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_READER_DATESTYLE_SELECTED1_FIRST_FAILURE.json": {
+      "bytes": 11409,
+      "sha256": "8ac75dba3f6dfcba31f888ccb1b8e03f692aae7c7e1f0fd69d6ef0ccbc639fff"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_READER_DATESTYLE_SELECTED1_FIRST_FAILURE.log": {
+      "bytes": 70,
+      "sha256": "4bbe3d76ddecddb0cbe511bf857dd57114021c78d9f81d0ca80bccd53a462285"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_SECOND7_5PASS_2FAIL.json": {
+      "bytes": 4713,
+      "sha256": "965d5381d8f314e5d5dd0ba20332bab5bd0b7b34c8926d8badb213be2f829110"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_SECOND7_5PASS_2FAIL.log": {
+      "bytes": 50,
+      "sha256": "7e406785bec2bbba431c56e9034708dde4cfa46edee5db45b0a264624ed3cf97"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_SEVENTEENTH20_PASS.json": {
+      "bytes": 7895,
+      "sha256": "47f9e28b68612fdf8023a313249ff7cbb11a3c6223cedac3ca88e3e456787801"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_SEVENTEENTH20_PASS.log": {
+      "bytes": 55,
+      "sha256": "d2c41437b6d3e4160cb49a291aa2fb887dcd08174d97fd18dc1bb0fe9ee2bdba"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_SEVENTH15_PASS.json": {
+      "bytes": 6095,
+      "sha256": "a95db8c841942dd3566135d6e7de2480f509ba42a0961f5163ef6deae6e6b650"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_SEVENTH15_PASS.log": {
+      "bytes": 51,
+      "sha256": "5ad279f7c2644972031dc973837be8504644915819143940546a81743ac45adb"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_SIXTEENTH20_19PASS_1UNRESOLVED_RUNTIME_FAILURE.json": {
+      "bytes": 9152,
+      "sha256": "516449f79ef674cef7a0fb23223805cf91d816a722a37f2b1a0056f5642af2d3"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_SIXTEENTH20_19PASS_1UNRESOLVED_RUNTIME_FAILURE.log": {
+      "bytes": 53,
+      "sha256": "96e8681d5ce61d1257c162f7ec228df0420af9fe4422205213a19d277546860b"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_SIXTH15_0PASS_15FAIL.json": {
+      "bytes": 20852,
+      "sha256": "0974a9c0a8eadb469c17ee34e5cc0cf674c68b3776d127bc6f0476706b197bd5"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_SIXTH15_0PASS_15FAIL.log": {
+      "bytes": 49,
+      "sha256": "c5c645da029465fe3353c57c8135fcf9feb3cd496e95baa0d95b68af43b8e76f"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_SOURCE_FIRST8_PASS.log": {
+      "bytes": 1410,
+      "sha256": "c4de974d156e42c780d3e0257bbfda27936ebe50189ce8fad2c95705c42ea2fe"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_SOURCE_SECOND8_PASS.log": {
+      "bytes": 1410,
+      "sha256": "cd9dbb5ddc8d89d6b9c0261b58d06c15bcfa43fedbc89562c496dfea593e3de3"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_SOURCE_THIRD8_PASS.log": {
+      "bytes": 1410,
+      "sha256": "cb966804ae5b209d4a1318e58c1d8f74e96541fab9aaed599ad28168a03cf5f8"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_TENTH17_PASS.json": {
+      "bytes": 6850,
+      "sha256": "52e07e3dd8b92ddd8de1dfbb787db819d4e2f0eb891635678255d5b75fca680e"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_TENTH17_PASS.log": {
+      "bytes": 49,
+      "sha256": "01c4a8ccfc56ac0bf6725329624d7da70733e4e38974461d02380f5906418d95"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_THIRD7_6PASS_1FAIL.json": {
+      "bytes": 4385,
+      "sha256": "78282789028a827fcca14fe2613030b78db2ac1c47015f896c9d67ca6ab3c1bd"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_THIRD7_6PASS_1FAIL.log": {
+      "bytes": 49,
+      "sha256": "8ca7c3bb7470638dd647ee70d1ed44fee0caf91a736dd4e0233a73002918b18f"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_THIRTEENTH19_PASS.json": {
+      "bytes": 7494,
+      "sha256": "f8b8b0931172757977819d6b0735fd97e7118b1948ac8f95ac109b95cebfd52b"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_THIRTEENTH19_PASS.log": {
+      "bytes": 54,
+      "sha256": "97ab62afc73a7f8d937711cb2830bbef3aa9715c98b2977febff68609e8e7fd2"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_TWELFTH19_18PASS_1EXPECTATION_FAILURE.json": {
+      "bytes": 8341,
+      "sha256": "02aed1aecccc2397db4a95aa6d54f03a208b0d4d37768dd19077fb31730ce431"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_TWELFTH19_18PASS_1EXPECTATION_FAILURE.log": {
+      "bytes": 51,
+      "sha256": "93bbf506ed0c354eb8657589c47c61a561f7b0126ee30664a49991c4579a52af"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/READER15_FROZEN13_SOURCE_BINDING.json": {
+      "bytes": 4531,
+      "sha256": "e3fe91e8ad735efa0054a0b1dc631ac51027f38bda21308341b61e544b4447e8"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/READER28_FIRST_FAILURE_RECEIPT.json": {
+      "bytes": 1979,
+      "sha256": "ce886c97623f3b6ce2d9d63243164c62a68312cb7dbde140b0ca4a1917aa97d5"
+    },
+    "scripts/cp7_attendance_period_choice/installer.test.ts": {
+      "bytes": 10205,
+      "sha256": "e1f5b712092de839bc14af7a2b185ca73921a05b536d9d496d4baeab091625b7"
+    },
+    "scripts/cp7_attendance_period_choice/installer_ddl.py": {
+      "bytes": 4997,
+      "sha256": "e002ea2dd938fef5913c76974909f70de8bcb47874b7fd958c0aeef0e2993514"
+    },
+    "scripts/cp7_attendance_period_choice/local.test.ts": {
+      "bytes": 52515,
+      "sha256": "cebb720019bcf4c3a58c00cd37720d2824cf5f7c0fe8972ba978607fb002e0ed"
+    },
+    "scripts/cp7_attendance_period_choice/local_catalog.py": {
+      "bytes": 2050,
+      "sha256": "6a09eab11b0f8378069b39c40d0134d5cd85333af9d301b6849d9327fb28ca37"
+    },
+    "scripts/cp7_attendance_period_choice/local_fixture.sql": {
+      "bytes": 3958,
+      "sha256": "f6b0c9f5d24c310b60a1fa857ec759ebddcfc503fd8e7757f34a01421237c572"
+    },
+    "scripts/cp7_attendance_period_choice/native_delta.py": {
+      "bytes": 11507,
+      "sha256": "a49242327798a59407739c2999fcf92408aeef9d88a1ae94fccc82bd189ac9ce"
+    },
+    "scripts/cp7_attendance_period_choice/readers.sql": {
+      "bytes": 5847,
+      "sha256": "4ab82ff58033f4357251930504e6e9e75ecce9d8f1cc5b4e10f689940ce749e2"
+    },
+    "scripts/cp7_attendance_period_choice/render_local.py": {
+      "bytes": 698,
+      "sha256": "dce54f00ed45c9763c76bf6c0a816ca606cbb784c3ba59adcabc31dc968544b7"
+    },
+    "scripts/cp7_attendance_period_choice/test_installer.py": {
+      "bytes": 4671,
+      "sha256": "d765aece6b3a3c9256a05a1f2fe96f3c88b85ecced7b044c8a0651f395be6535"
+    },
+    "scripts/cp7_attendance_period_choice/test_source.py": {
+      "bytes": 13372,
+      "sha256": "f4ce4d11e84858faa13f46a56011c5ee16df5b1e7a34fd975bbdd400718ff0ea"
+    },
+    "scripts/cp7_catalog_state.py": {
+      "bytes": 6336,
+      "sha256": "f3cbfe6e0925f9706a566c7ea0f1353ae7395abf0bfd5479f7cf99171c47676d"
+    },
+    "scripts/cp7_contractor_guidance/SOURCE.json": {
+      "bytes": 1921,
+      "sha256": "99a7c6275c866a3e5e315faad943674c6d9bde81f92384fbb439497a38906f97"
+    },
+    "scripts/cp7_credit_followups/SOURCE.json": {
+      "bytes": 2743,
+      "sha256": "437b12a3f8c22dddfa342ae273184cab55239b07a5f4ba947f96f5fe9fd674c1"
+    },
+    "scripts/cp7_credit_incoming/SOURCE.json": {
+      "bytes": 2760,
+      "sha256": "fde6ea88465cb3e4767191e430edbf8f08237d4dacbc69537157c12b296aa5d8"
+    },
+    "scripts/cp7_credit_multi/SOURCE.json": {
+      "bytes": 2693,
+      "sha256": "ea45e42f68db8bd42a090aae8756ad660e35ced1de1b55085ab99a3d5a12801a"
+    },
+    "scripts/cp7_credit_remaining/SOURCE.json": {
+      "bytes": 2569,
+      "sha256": "3449be9061e6d9d3b1820869c40f6c9324e3aa84af127285e7728cfed8cea8b4"
+    },
+    "scripts/cp7_fg_correction_source/SOURCE.json": {
+      "bytes": 2456,
+      "sha256": "18d0a4852c45ea691863e5adde094e9a9ad31de95744c6bc4e1a79e1186cd484"
+    },
+    "scripts/cp7_finance_capture/SOURCE.json": {
+      "bytes": 1994,
+      "sha256": "2c4b2ff736397721ae3ba8bd744ced999a0f14b5e15900152e5c9d5ebdb19f2b"
+    },
+    "scripts/cp7_hpp_close/SOURCE.json": {
+      "bytes": 1868,
+      "sha256": "c64d968972f9bb6b8cba9d38c265a5e8f58464f66afe85061fe5df53150e51f9"
+    },
+    "scripts/cp7_laundry_unknown_wash/SOURCE.json": {
+      "bytes": 2080,
+      "sha256": "1db76ec98057ac161dc06c618aa9aa2053cb41b64d692801f5037cfb1dbe1567"
+    },
+    "scripts/cp7_ow04_restore_bundle.py": {
+      "bytes": 19828,
+      "sha256": "a1605193347cf5b3321a7bdbf8ff6c634df4f4c0a5113eb295e8c3ce44428e00"
+    },
+    "scripts/cp7_ow09_lists/SOURCE.json": {
+      "bytes": 1731,
+      "sha256": "b56eb356b880704d60be3f00644e34af9ad83afbdab2a10bdcd3d934d9290e33"
+    },
+    "scripts/cp7_report_credit/SOURCE.json": {
+      "bytes": 1820,
+      "sha256": "e615913013d12335d16db9b9111d7fb34de39afe67dd5b16e5520b4698116311"
+    },
+    "scripts/cp7_vendor_receivable/cases.py": {
+      "bytes": 12879,
+      "sha256": "d92dea48580ef5443717292ad1b8e08462f00cf0161d4427ac764d06a312fdd7"
+    },
+    "scripts/cp7_vendor_receivable/composition.py": {
+      "bytes": 8287,
+      "sha256": "b0bc106121932deb18a342299ec7ffb1a314abaca9d77879df29784261821df2"
+    },
+    "scripts/cp7_vendor_receivable/native_delta.py": {
+      "bytes": 5293,
+      "sha256": "bd0f41be50fea0ab64b19c15d8a09fc7940782507c35482911dd86c36403a52b"
+    },
+    "scripts/cp7_vendor_receivable/receivable.sql": {
+      "bytes": 20188,
+      "sha256": "3b24728512e8be6af697f3234e591f7fe6b46331c68e3497ab71aedbcc9aa2ba"
+    },
+    "scripts/current-analog-auth-qualification/SOURCE.json": {
+      "bytes": 135024,
+      "sha256": "2b8bc9aa24fdf9d4f70866b45e3562ac1398fd5cc819b70dd303102fb330ea28"
+    },
+    "scripts/current-analog-choice-browser-qualification/SOURCE.json": {
+      "bytes": 145516,
+      "sha256": "7c227044c0f90e38293cc537114aea7a02bca3936767953da54212894692dcc3"
+    },
+    "scripts/current-analog-consumer-opening-qualification/SOURCE.json": {
+      "bytes": 153266,
+      "sha256": "265870a609583ec161bf28b3c405a4959b00ca253eddcbb68ae8fee191fd5d3e"
+    },
+    "scripts/current-analog-consumer-qualification/SOURCE.json": {
+      "bytes": 151494,
+      "sha256": "cad270ea1881bb15834a4cb8470db36d7e0d874a3c9dac7c4dc68a12c794749c"
+    },
+    "scripts/current-analog-native-fixture-qualification/SOURCE.json": {
+      "bytes": 8213,
+      "sha256": "7c38234e15d2aadb6f8eb7872971acbb806bc9a5918a04f04bcd7045dba651d0"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/CONFIG.json": {
+      "bytes": 40380,
+      "sha256": "f794a527849a6b4bf5026763c9f72995254556a0741a2ab8f72f4994a15de4af"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/GENERATED_RECEIPTS.json": {
+      "bytes": 57121,
+      "sha256": "500c51798ce3247f6a8957f13fe21f40f76ea43a68e457781d874a3887a6c119"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/LATER_GENERATED_RECEIPTS.json": {
+      "bytes": 28390,
+      "sha256": "7ddaabbc1fb1b35072581eceab79304b245fd267ff63bf8c3184253eb79067b3"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/ORIGIN.json": {
+      "bytes": 44409,
+      "sha256": "cd24fcc0c5d22ba9af2c12022067af73f4b3f0ac004d2073fcd460d718c18d55"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/PENDING_BINDING_SCHEMA.json": {
+      "bytes": 1380,
+      "sha256": "d5714b0b69090f9ac062be053003790400f873366e206d72eb6f21fd2825d912"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/README.md": {
+      "bytes": 5755,
+      "sha256": "3e39e92cc2ceef2defc612373d9c1c158cb658fab497049557eec28728e2b12d"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/WORKFLOW_DERIVATION.json": {
+      "bytes": 608,
+      "sha256": "b4946307f3097ad71e0e1b76b545d16a81e56d8365327535dec318099194e3d0"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/admission.py": {
+      "bytes": 1156,
+      "sha256": "6c0d17145098a2203c73ff298500e69958b7fdd0622541d3b7fb1685bd41fc01"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/argv_boundary.py": {
+      "bytes": 338,
+      "sha256": "34994ef5bd70ec495ba104be3c58a9143f8f1eaef64040cf024da01c7e165d46"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/bind.py": {
+      "bytes": 4862,
+      "sha256": "5c94f2c97410688c5601725edf47ad62fe3d8ed5e9647f675a57b92b3d80d1e4"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/case_plan.py": {
+      "bytes": 1775,
+      "sha256": "9fea6f7dfca4f9eeafb8e66013a209ffba1ebcc353cf8d7b70862e6947be4b3b"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/check.py": {
+      "bytes": 973,
+      "sha256": "b522f3d108bdb076dd9f435723d471741a093a486773487ba227e4edc52ed786"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/derive.py": {
+      "bytes": 3503,
+      "sha256": "91ccbb4ce131b32a815a216d86a08c5f5ae360e8450d98b068479b8a19cb72f5"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/evidence/BOUND_LOCAL_CONTROL_RECEIPT.json": {
+      "bytes": 443,
+      "sha256": "45a75ad4949306b2013854cd2e25331cbe77c06c7b5af6b8dd21f31942753026"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/evidence/BOUND_SOURCE_API_SCOPE_CONTROLS.json": {
+      "bytes": 1058,
+      "sha256": "9b3de6a21d0a6bfe91169e859a8046ab41fb809f33ac6319d430c8f66a764027"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/evidence/FAILED9A0_INSTALL_RECEIPT.json": {
+      "bytes": 3884,
+      "sha256": "3ab5a26769231dd477e6c28c2073715671406640ad7f0db58dde10da5e76bda4"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/evidence/INITIAL_CLOSED_CONFIG.json": {
+      "bytes": 6611,
+      "sha256": "fab5c5ab517e067d68097984abe471213e24fd335f2aea10c17a0c15c048d4de"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/evidence/INITIAL_CLOSED_ENTRYPOINTS.json": {
+      "bytes": 3897,
+      "sha256": "f64c6d79313b57269528032cb14dd8811fbbfed1d969ca74f77bc5f3d194c454"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/evidence/LOCAL_BOUND49_PASS.log": {
+      "bytes": 8410,
+      "sha256": "5550b0e5f5996496e220f166a57aa36ab4388c5ca98019d2e4b50dfbf1d1a928"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/evidence/LOCAL_CONTROL_RECEIPT.json": {
+      "bytes": 431,
+      "sha256": "7042241d4e5f921bfa4857a23b5395f879b3313eda2a342c86176777ee9949d3"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/evidence/LOCAL_FIRST47_PASS.log": {
+      "bytes": 8002,
+      "sha256": "889bba855528895b1e3665e0e1987812965f9720aac89101eff5666b7b8aa654"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/evidence/ROOT_EXACT_BACKEND_BINDING.json": {
+      "bytes": 2207,
+      "sha256": "28a5951fbed7bd1bdc4ef757e6cb1e255ce4c8d160c9807a65356cf28b40adb8"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/evidence/s03-reader15-backend-prepared-local-receipt.json": {
+      "bytes": 15748,
+      "sha256": "779511b95d5127e7c51a9b902631b3435159aa310360bff9c89a0295c2c2b85d"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/evidence/s03-reader15-backend-prepared-publication.json": {
+      "bytes": 717,
+      "sha256": "751ef3081ffa8629a6874cc5179fca503e274ff26d6167d7d44bffaccb37a5ea"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/gate.py": {
+      "bytes": 3300,
+      "sha256": "d6a72c3955dc7bba018cc59d3711231ad1c40926fe1b246e464639c83ac61fda"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/generated_later.py": {
+      "bytes": 10525,
+      "sha256": "7bf35d85d9f7ec19da34c5626f24af908f3691a4e3ed7251dbc4958e59b4bea3"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/generated_receipts.py": {
+      "bytes": 9466,
+      "sha256": "a569138a5b6d4c0d1ce542ab45af98ee156f47e6d772766c214bbae3366ffc7e"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/native_runner.py": {
+      "bytes": 1239,
+      "sha256": "1b728ef62705e88d3d7b0ccfd411475397875056c09357c0667491f52d64d7c7"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/probe.py": {
+      "bytes": 3108,
+      "sha256": "efe966d7d4166f5340764b5310d3b557e264375608e8084aee528e304a0d7ad8"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/proof_inputs.py": {
+      "bytes": 2224,
+      "sha256": "c1496301182f50cbf050077f62620ac96330b5d93355e616823de4c4225f09af"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/reader_group.py": {
+      "bytes": 3316,
+      "sha256": "8083b9b332b5adcca9b4d34a3853f3e5225c6ed4f8d30207f3fb153f3763d31c"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/result_gate.py": {
+      "bytes": 7291,
+      "sha256": "2277970ef2996807eebf074db49b9a1dc47db061f6c6d17adaee2de5c1f8f904"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retain_reports.py": {
+      "bytes": 1195,
+      "sha256": "b6d2d0c5c84ecf08d66a1391c610bf943c0e9e8dbb95db92d767df7fba7d3493"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained-9a0-install-first/CP7_S03_ATTENDANCE_CHOICE_NATIVE11.json.gz": {
+      "bytes": 64708,
+      "sha256": "e1c0193cce5d275c164e83efbc3419fb9581c7b7fe2ae9d0e4ee8731c44d89a6"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained-9a0-install-first/S03_NATIVE11_FINAL_GATE.json.gz": {
+      "bytes": 174,
+      "sha256": "161a318b8801c1eedbce7af04d611a78875b6c9811ca1caa482d9d14d784d0a0"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained-9a0-install-first/T3_BACKUP_RESTORE_DRILL.json.gz": {
+      "bytes": 645,
+      "sha256": "5623a284f324ba37be26978675384d79364284f47a0cbb51ffca085a792923f5"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained-9a0-install-first/T3_PACKAGE_FILES_INSTALL.json.gz": {
+      "bytes": 255,
+      "sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained-9a0-install-first/T3_PACKAGE_INSTALL.json.gz": {
+      "bytes": 11390,
+      "sha256": "dbbf3eb8f65921d85788ef80f12356611dd31b3faf07a9908ab1578ae96f6c6a"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained-a577/PREDB_FIRST_ARTIFACT.zip": {
+      "bytes": 54682,
+      "sha256": "8e13006583fab982def0bfbf808d9dec11648c0e3b77f35d11d7ab47005315f0"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained-e74/PREDB_SECOND_ARTIFACT.zip": {
+      "bytes": 54688,
+      "sha256": "6bc5213ec3ed8e9b6079c8e26da508bc193c1d863b34620e6121130c199088f1"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained41c/CP7_VENDOR_RECEIVABLE_COMBINED11.json.gz": {
+      "bytes": 347533,
+      "sha256": "91bab345d1b41ca7fa8f57fab97a407377a2588b0d7298f57bb47ee01d3daade"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained41c/T3_BACKUP_RESTORE_DRILL.json.gz": {
+      "bytes": 645,
+      "sha256": "430e1a3396f479a756d457495dbf8aa7819a99b2ca49a3908391becfb64cc9ce"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained41c/T3_PACKAGE_FILES_INSTALL.json.gz": {
+      "bytes": 255,
+      "sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained41c/T3_PACKAGE_INSTALL.json.gz": {
+      "bytes": 11393,
+      "sha256": "9c651a5d5a38370a2f5f19f30543821ab8333eb267936b34681e9a27784bc2cb"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained_9a0/native11/CONFIG.json": {
+      "bytes": 5622,
+      "sha256": "4231aa7cda7049e90245b8c562d0fffab56303a69f91124a76da8d50cfd6d98c"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained_9a0/native11/ORIGIN.json": {
+      "bytes": 16904,
+      "sha256": "f4cd92dc52e95cb564b61ff6ea536b0658976314cc7b4b21b6ba651fcc0c06ec"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained_9a0/native11/SOURCE.json": {
+      "bytes": 67629,
+      "sha256": "cc2dc65b6f73b288a34fc7dc9ad5e745f18b0f066595b02572e31804956cd438"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained_9a0/source80/scripts/cp7_attendance_period_choice/NEW_CATALOG_IDENTITIES.json": {
+      "bytes": 17936,
+      "sha256": "ef2f99de5ec4104b53f28121d923a44350e80354c67217b70d32231f955fce71"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained_9a0/source80/scripts/cp7_attendance_period_choice/README.md": {
+      "bytes": 9189,
+      "sha256": "4b0254beb3e317d8c8df9077b35ea42c0b8b8f1764cede62750c4865a91d9044"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained_9a0/source80/scripts/cp7_attendance_period_choice/SOURCE_DERIVED_NATIVE_ABI.json": {
+      "bytes": 228645,
+      "sha256": "fd401799313a1a8938d08e226f235461b4425992ffa0d8936327d39cf6571fb3"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained_9a0/source80/scripts/cp7_attendance_period_choice/WIRE_CONTRACT.md": {
+      "bytes": 6821,
+      "sha256": "931e62848f6861e24190e76cb0efbd8aa032cb514bf0f0b5af362d62cbe12bbd"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained_9a0/source80/scripts/cp7_attendance_period_choice/__init__.py": {
+      "bytes": 75,
+      "sha256": "7078a6a88cf48a6fc9f9de2a06c7367b3b264613682d9cdbb6dce37fe18f34ea"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained_9a0/source80/scripts/cp7_attendance_period_choice/catalog_contract.py": {
+      "bytes": 2436,
+      "sha256": "0f0c1266ddefc5133cd693ee208f61f8ea71e5a09ab1ba43b1b52afb910f6764"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained_9a0/source80/scripts/cp7_attendance_period_choice/choice.sql": {
+      "bytes": 61490,
+      "sha256": "44499c6d6a06d1effc2be4f066168f5fa2fe9608b2ccb80d1d2d0b1dac0a8212"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained_9a0/source80/scripts/cp7_attendance_period_choice/composition.py": {
+      "bytes": 7018,
+      "sha256": "1fd29c8c4cf736241347b6619242096edb409cb6a9d1dbb80533be5fdb45a49e"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained_9a0/source80/scripts/cp7_attendance_period_choice/evidence/ELEVENTH19_FIRST_REVERSAL_POLICY_FAILURE_RECEIPT.json": {
+      "bytes": 1388,
+      "sha256": "b5ac41178565478f883a9cc3dc9a5d6ada0e814267fd7af13f00ba3a6fa7a8c8"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained_9a0/source80/scripts/cp7_attendance_period_choice/evidence/FAITHFUL22_FIRST_APPROVAL_ORDER_RECEIPT.json": {
+      "bytes": 1938,
+      "sha256": "9c6a687bc0bd398396a0891a50c5100a7ddc5047433af54edbd265e024e1b560"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained_9a0/source80/scripts/cp7_attendance_period_choice/evidence/FIFTEENTH20_FIRST_CASH_FAILURE_RECEIPT.json": {
+      "bytes": 1037,
+      "sha256": "b3c128cb12a9ea27c374cb48698eb2c805d7f29db8f318d5630c8930e211fbba"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained_9a0/source80/scripts/cp7_attendance_period_choice/evidence/FIFTH15_FIRST_MAPPING_FAILURE_RECEIPT.json": {
+      "bytes": 1061,
+      "sha256": "f091696b918310b0b470c698acd4a3a2aab3e52acac8a698aa8d66d225a599be"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained_9a0/source80/scripts/cp7_attendance_period_choice/evidence/FIRST_FAILURE_RECEIPT.json": {
+      "bytes": 1729,
+      "sha256": "e7ca817d0dc8bcb8fe54abafdb9461ca98dfbdfe6893b82073b1404233755edb"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained_9a0/source80/scripts/cp7_attendance_period_choice/evidence/LOCAL_CAPTURE13_PREP6_FIRST_PASS.log": {
+      "bytes": 1156,
+      "sha256": "a19147c3089c3dfcade7f0515a0a65147ae94b7a83e22c5eafba36af9a43fe6f"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained_9a0/source80/scripts/cp7_attendance_period_choice/evidence/LOCAL_CAPTURE13_SOURCE10_FIRST_PASS.log": {
+      "bytes": 1808,
+      "sha256": "f462a7337ff5299c915b94188f492a82779ba8dd7093d9a184fc5dad329aea93"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained_9a0/source80/scripts/cp7_attendance_period_choice/evidence/LOCAL_CHECK_RECEIPT.json": {
+      "bytes": 7467,
+      "sha256": "3d8115f552edeaaa25846ad887179cb4be9ca98547db5ed5a0764d4eb3653e66"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained_9a0/source80/scripts/cp7_attendance_period_choice/evidence/LOCAL_EIGHTEENTH21_PASS.json": {
+      "bytes": 8289,
+      "sha256": "8a17afa09c9c4da2a89239ac811ff0f144b4ab2f19ad4c7ce05cff85caa76ffd"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained_9a0/source80/scripts/cp7_attendance_period_choice/evidence/LOCAL_EIGHTEENTH21_PASS.log": {
+      "bytes": 54,
+      "sha256": "b631e07ae3e075486eae37a3666316bfa3e4bcf1d5a78d46e7e200272160c3f5"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained_9a0/source80/scripts/cp7_attendance_period_choice/evidence/LOCAL_EIGHTH17_16PASS_1PREPARATION_FAILURE.json": {
+      "bytes": 9038,
+      "sha256": "2fdc104aa0a8ef95c416e7df47bcb081dd1ecb14382c68a815d0515cf18e10f0"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained_9a0/source80/scripts/cp7_attendance_period_choice/evidence/LOCAL_EIGHTH17_16PASS_1PREPARATION_FAILURE.log": {
+      "bytes": 1221,
+      "sha256": "9e0782dd94e61c9143a89622cfd5cb641db6ac2035b0d49cd37c84055f5d9762"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained_9a0/source80/scripts/cp7_attendance_period_choice/evidence/LOCAL_ELEVENTH19_17PASS_2FAIL.json": {
+      "bytes": 8695,
+      "sha256": "62fc24af7f7e31417aec13689de459c3a9901adea80ccfb72eeb26f321840479"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained_9a0/source80/scripts/cp7_attendance_period_choice/evidence/LOCAL_ELEVENTH19_17PASS_2FAIL.log": {
+      "bytes": 52,
+      "sha256": "fd02ddf78a665ae9d40052bacfdbf27d83a6f156b3a2e89e06ed497d248e0f13"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained_9a0/source80/scripts/cp7_attendance_period_choice/evidence/LOCAL_FAITHFUL22_FIRST_21PASS_1CLAIM_ORDER_FAILURE.json": {
+      "bytes": 9125,
+      "sha256": "7804c1fc8fd5f5ba361a1087c39e225f9b88a0a6bad3dab93bcedea82b2c1baf"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained_9a0/source80/scripts/cp7_attendance_period_choice/evidence/LOCAL_FAITHFUL22_FIRST_21PASS_1CLAIM_ORDER_FAILURE.log": {
+      "bytes": 60,
+      "sha256": "cc4dc4fda3c4963c613bc21c6adcf59b382370538ff6711dd3606a532da66cea"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained_9a0/source80/scripts/cp7_attendance_period_choice/evidence/LOCAL_FAITHFUL22_REPAIRED_PASS.json": {
+      "bytes": 8690,
+      "sha256": "d79d7574305f9e55b9e301e3b43e03360dc3e674620e07dfc19a3040fa437d85"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained_9a0/source80/scripts/cp7_attendance_period_choice/evidence/LOCAL_FAITHFUL22_REPAIRED_PASS.log": {
+      "bytes": 60,
+      "sha256": "0e92a9356f0bb55f3e98b02b40e51c6bfcb0aa6b5eae5b24ee7799b27247c5b6"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained_9a0/source80/scripts/cp7_attendance_period_choice/evidence/LOCAL_FAITHFUL_CLAIM_DIAGNOSTIC_1_SELECTED_FAIL.log": {
+      "bytes": 1273,
+      "sha256": "12df39375d4403ee7b5fdcfbccb8513a6d7902cbb0563d2281fe03c90eb94047"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained_9a0/source80/scripts/cp7_attendance_period_choice/evidence/LOCAL_FAITHFUL_CLAIM_FIRST_CENSUS_DIFF.json": {
+      "bytes": 280,
+      "sha256": "881df8cfb0a0cb86b015f8ad0a50bb2f1689ceb894ee6c3425b6b15a0787a1cb"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained_9a0/source80/scripts/cp7_attendance_period_choice/evidence/LOCAL_FIFTEENTH20_19PASS_1FIRST_CASH_FAILURE.json": {
+      "bytes": 8732,
+      "sha256": "14fe362a94d0d913c8237518f880a6301989620fe9ea5a637fd1f0fae2bc6121"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained_9a0/source80/scripts/cp7_attendance_period_choice/evidence/LOCAL_FIFTEENTH20_19PASS_1FIRST_CASH_FAILURE.log": {
+      "bytes": 53,
+      "sha256": "699a0fbb0e8351eade15d4a49b4eeddc0b9499a23e0a7c5a4b6aab65021cd1c0"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained_9a0/source80/scripts/cp7_attendance_period_choice/evidence/LOCAL_FIFTH15_12PASS_3FAIL.json": {
+      "bytes": 8879,
+      "sha256": "2fcfae5ba6d9fa286c6737deb3081f443cd719e109f5ccc74cb88005b4d7f562"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained_9a0/source80/scripts/cp7_attendance_period_choice/evidence/LOCAL_FIFTH15_12PASS_3FAIL.log": {
+      "bytes": 49,
+      "sha256": "e4bcf39cc0f464e8709543e2d95caed6051cdee0a0293e43b8fb14e50a2dab5b"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained_9a0/source80/scripts/cp7_attendance_period_choice/evidence/LOCAL_FIRST7_INCOMPLETE.json": {
+      "bytes": 10361,
+      "sha256": "1b1f0662fc440883a43cf0befa740649c5a12e6077b1875b9f403ccb3daaf17a"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained_9a0/source80/scripts/cp7_attendance_period_choice/evidence/LOCAL_FIRST7_INCOMPLETE.log": {
+      "bytes": 49,
+      "sha256": "45fa2749bd36163c00ea7f4e6cc62956cb0ae9abdc0373582a2fb5ade5436d94"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained_9a0/source80/scripts/cp7_attendance_period_choice/evidence/LOCAL_FOURTEENTH20_19PASS_1MODEL_DEPENDENCY_FAILURE.json": {
+      "bytes": 8787,
+      "sha256": "9b5f252f32d7ab60c0ee8ef97a82c56c655b2ef823e912b8ff9eb213f97c3553"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained_9a0/source80/scripts/cp7_attendance_period_choice/evidence/LOCAL_FOURTEENTH20_19PASS_1MODEL_DEPENDENCY_FAILURE.log": {
+      "bytes": 54,
+      "sha256": "5c76eb7335d27cc0797fb5ff8a4c1ec0ef7c97b1f1b4c44d0bbe46c3092e2bc4"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained_9a0/source80/scripts/cp7_attendance_period_choice/evidence/LOCAL_FOURTH7_PASS.json": {
+      "bytes": 3387,
+      "sha256": "3c3ebfcf91a3c110f8c84f37f5ae00f33134ccc165b100addac152a9c9fcc54e"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained_9a0/source80/scripts/cp7_attendance_period_choice/evidence/LOCAL_FOURTH7_PASS.log": {
+      "bytes": 50,
+      "sha256": "1f797ba6c1834f492afc9ba5ffc09d1be35f48b10a1bf86d87eb731869c15540"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained_9a0/source80/scripts/cp7_attendance_period_choice/evidence/LOCAL_FREEZE22_PASS.json": {
+      "bytes": 8696,
+      "sha256": "19a1a8f188280d05d13f161ae484dc8b94d936f4e2e37faf765a44ac516d4eb1"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained_9a0/source80/scripts/cp7_attendance_period_choice/evidence/LOCAL_FREEZE22_PASS.log": {
+      "bytes": 46,
+      "sha256": "8006e6a2351bc76d83e9660b33ed7c11ec290ffe5a8708621dbab25661e2b676"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained_9a0/source80/scripts/cp7_attendance_period_choice/evidence/LOCAL_FREEZE_PREP7_PASS.log": {
+      "bytes": 1311,
+      "sha256": "595687a50002361c205fa06204d8252c662237fa16e1c7943a58ccbc28078a75"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained_9a0/source80/scripts/cp7_attendance_period_choice/evidence/LOCAL_FREEZE_SOURCE10_PASS.log": {
+      "bytes": 1808,
+      "sha256": "b39d707e803bcf171e1c14327fd23723b14b1000a710db15e89a2c67aa1f56ee"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained_9a0/source80/scripts/cp7_attendance_period_choice/evidence/LOCAL_ISOLATED_RUNTIME_DIAGNOSIS_2_SELECTED.log": {
+      "bytes": 250,
+      "sha256": "5e799ef14e9bd2854174be8973642334e0c0815276bf24ffaaa014787adee7c1"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained_9a0/source80/scripts/cp7_attendance_period_choice/evidence/LOCAL_NINTH17_16PASS_1CATALOG_FAILURE.json": {
+      "bytes": 8525,
+      "sha256": "dcabdd3cc1ccb3b4e8b5f754cc10675d003596fdf8002830628b82f25f0a15fa"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained_9a0/source80/scripts/cp7_attendance_period_choice/evidence/LOCAL_NINTH17_16PASS_1CATALOG_FAILURE.log": {
+      "bytes": 713,
+      "sha256": "346deb4749141ca98860f44cfe3d58dd62eeb981ef0106e73e58d9e8f86e216d"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained_9a0/source80/scripts/cp7_attendance_period_choice/evidence/LOCAL_PARENT_ENV_MISSING_FIRST.log": {
+      "bytes": 1480,
+      "sha256": "d64f5ced5aafa61dc7a542ce533357157decbaa65322c02774d8bac61468cb5a"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained_9a0/source80/scripts/cp7_attendance_period_choice/evidence/LOCAL_PREPARED_FIRST6_4PASS_2FAIL.log": {
+      "bytes": 3488,
+      "sha256": "499e1c9d1383063a100b223b50f5c017b5fd3aa808164f5702f8d039c24a1f3d"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained_9a0/source80/scripts/cp7_attendance_period_choice/evidence/LOCAL_SECOND7_5PASS_2FAIL.json": {
+      "bytes": 4713,
+      "sha256": "965d5381d8f314e5d5dd0ba20332bab5bd0b7b34c8926d8badb213be2f829110"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained_9a0/source80/scripts/cp7_attendance_period_choice/evidence/LOCAL_SECOND7_5PASS_2FAIL.log": {
+      "bytes": 50,
+      "sha256": "7e406785bec2bbba431c56e9034708dde4cfa46edee5db45b0a264624ed3cf97"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained_9a0/source80/scripts/cp7_attendance_period_choice/evidence/LOCAL_SEVENTEENTH20_PASS.json": {
+      "bytes": 7895,
+      "sha256": "47f9e28b68612fdf8023a313249ff7cbb11a3c6223cedac3ca88e3e456787801"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained_9a0/source80/scripts/cp7_attendance_period_choice/evidence/LOCAL_SEVENTEENTH20_PASS.log": {
+      "bytes": 55,
+      "sha256": "d2c41437b6d3e4160cb49a291aa2fb887dcd08174d97fd18dc1bb0fe9ee2bdba"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained_9a0/source80/scripts/cp7_attendance_period_choice/evidence/LOCAL_SEVENTH15_PASS.json": {
+      "bytes": 6095,
+      "sha256": "a95db8c841942dd3566135d6e7de2480f509ba42a0961f5163ef6deae6e6b650"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained_9a0/source80/scripts/cp7_attendance_period_choice/evidence/LOCAL_SEVENTH15_PASS.log": {
+      "bytes": 51,
+      "sha256": "5ad279f7c2644972031dc973837be8504644915819143940546a81743ac45adb"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained_9a0/source80/scripts/cp7_attendance_period_choice/evidence/LOCAL_SIXTEENTH20_19PASS_1UNRESOLVED_RUNTIME_FAILURE.json": {
+      "bytes": 9152,
+      "sha256": "516449f79ef674cef7a0fb23223805cf91d816a722a37f2b1a0056f5642af2d3"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained_9a0/source80/scripts/cp7_attendance_period_choice/evidence/LOCAL_SIXTEENTH20_19PASS_1UNRESOLVED_RUNTIME_FAILURE.log": {
+      "bytes": 53,
+      "sha256": "96e8681d5ce61d1257c162f7ec228df0420af9fe4422205213a19d277546860b"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained_9a0/source80/scripts/cp7_attendance_period_choice/evidence/LOCAL_SIXTH15_0PASS_15FAIL.json": {
+      "bytes": 20852,
+      "sha256": "0974a9c0a8eadb469c17ee34e5cc0cf674c68b3776d127bc6f0476706b197bd5"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained_9a0/source80/scripts/cp7_attendance_period_choice/evidence/LOCAL_SIXTH15_0PASS_15FAIL.log": {
+      "bytes": 49,
+      "sha256": "c5c645da029465fe3353c57c8135fcf9feb3cd496e95baa0d95b68af43b8e76f"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained_9a0/source80/scripts/cp7_attendance_period_choice/evidence/LOCAL_SOURCE_FIRST8_PASS.log": {
+      "bytes": 1410,
+      "sha256": "c4de974d156e42c780d3e0257bbfda27936ebe50189ce8fad2c95705c42ea2fe"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained_9a0/source80/scripts/cp7_attendance_period_choice/evidence/LOCAL_SOURCE_SECOND8_PASS.log": {
+      "bytes": 1410,
+      "sha256": "cd9dbb5ddc8d89d6b9c0261b58d06c15bcfa43fedbc89562c496dfea593e3de3"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained_9a0/source80/scripts/cp7_attendance_period_choice/evidence/LOCAL_SOURCE_THIRD8_PASS.log": {
+      "bytes": 1410,
+      "sha256": "cb966804ae5b209d4a1318e58c1d8f74e96541fab9aaed599ad28168a03cf5f8"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained_9a0/source80/scripts/cp7_attendance_period_choice/evidence/LOCAL_TENTH17_PASS.json": {
+      "bytes": 6850,
+      "sha256": "52e07e3dd8b92ddd8de1dfbb787db819d4e2f0eb891635678255d5b75fca680e"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained_9a0/source80/scripts/cp7_attendance_period_choice/evidence/LOCAL_TENTH17_PASS.log": {
+      "bytes": 49,
+      "sha256": "01c4a8ccfc56ac0bf6725329624d7da70733e4e38974461d02380f5906418d95"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained_9a0/source80/scripts/cp7_attendance_period_choice/evidence/LOCAL_THIRD7_6PASS_1FAIL.json": {
+      "bytes": 4385,
+      "sha256": "78282789028a827fcca14fe2613030b78db2ac1c47015f896c9d67ca6ab3c1bd"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained_9a0/source80/scripts/cp7_attendance_period_choice/evidence/LOCAL_THIRD7_6PASS_1FAIL.log": {
+      "bytes": 49,
+      "sha256": "8ca7c3bb7470638dd647ee70d1ed44fee0caf91a736dd4e0233a73002918b18f"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained_9a0/source80/scripts/cp7_attendance_period_choice/evidence/LOCAL_THIRTEENTH19_PASS.json": {
+      "bytes": 7494,
+      "sha256": "f8b8b0931172757977819d6b0735fd97e7118b1948ac8f95ac109b95cebfd52b"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained_9a0/source80/scripts/cp7_attendance_period_choice/evidence/LOCAL_THIRTEENTH19_PASS.log": {
+      "bytes": 54,
+      "sha256": "97ab62afc73a7f8d937711cb2830bbef3aa9715c98b2977febff68609e8e7fd2"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained_9a0/source80/scripts/cp7_attendance_period_choice/evidence/LOCAL_TWELFTH19_18PASS_1EXPECTATION_FAILURE.json": {
+      "bytes": 8341,
+      "sha256": "02aed1aecccc2397db4a95aa6d54f03a208b0d4d37768dd19077fb31730ce431"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained_9a0/source80/scripts/cp7_attendance_period_choice/evidence/LOCAL_TWELFTH19_18PASS_1EXPECTATION_FAILURE.log": {
+      "bytes": 51,
+      "sha256": "93bbf506ed0c354eb8657589c47c61a561f7b0126ee30664a49991c4579a52af"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained_9a0/source80/scripts/cp7_attendance_period_choice/local.test.ts": {
+      "bytes": 42445,
+      "sha256": "5e88b862eece1ac41c5c80bc7c579b0faea24fc03d65462b2b9fdb48e051ddfb"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained_9a0/source80/scripts/cp7_attendance_period_choice/local_catalog.py": {
+      "bytes": 2050,
+      "sha256": "6a09eab11b0f8378069b39c40d0134d5cd85333af9d301b6849d9327fb28ca37"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained_9a0/source80/scripts/cp7_attendance_period_choice/local_fixture.sql": {
+      "bytes": 3930,
+      "sha256": "47c8718eac2633a4c0e4027ec9d91205c03dba2be5fa1d83c5c9a3f7bf370663"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained_9a0/source80/scripts/cp7_attendance_period_choice/native_delta.py": {
+      "bytes": 9804,
+      "sha256": "7a9576e136089b487920fe5c38088977491d342f87384c8e2e82ad128fcf6b90"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained_9a0/source80/scripts/cp7_attendance_period_choice/render_local.py": {
+      "bytes": 698,
+      "sha256": "dce54f00ed45c9763c76bf6c0a816ca606cbb784c3ba59adcabc31dc968544b7"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained_9a0/source80/scripts/cp7_attendance_period_choice/test_source.py": {
+      "bytes": 10837,
+      "sha256": "d6f9f7e85ffb4334c2df8d4862959fa1e6ad1b2aae3268a07384e15d8c04681d"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained_9a0/source80/scripts/current-attendance-period-choice-qualification/README.md": {
+      "bytes": 8442,
+      "sha256": "aa524118b13978d76dfe9d625cb29a9e1e38444dcdbdb91f272edf4e5f7af165"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained_9a0/source80/scripts/current-attendance-period-choice-qualification/SOURCE.json": {
+      "bytes": 6868,
+      "sha256": "4b3ed812b18826d83086acfafb822321ea2c92a3d639678e9f8c04155de676b3"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained_9a0/source80/scripts/current-attendance-period-choice-qualification/admission.py": {
+      "bytes": 7252,
+      "sha256": "06778d6d2f9c7077f05cf3728505c625c8519a809b107c8594bcd9524becb023"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained_9a0/source80/scripts/current-attendance-period-choice-qualification/cases.py": {
+      "bytes": 28885,
+      "sha256": "15fe990cccb82ff4c1dcd9ca40dc17fe93ac26a3a359a37361e6d8780b1f16e2"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained_9a0/source80/scripts/current-attendance-period-choice-qualification/fixtures.py": {
+      "bytes": 11212,
+      "sha256": "cdb482b56048200f13da5893e119b0b301f54a600888da5252cea2fceaee4258"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/retained_9a0/source80/scripts/current-attendance-period-choice-qualification/test_plan.py": {
+      "bytes": 7100,
+      "sha256": "be3dd7d8e7e273d2730bc44b5e52bf2e14939ee02fd3f422b892876d893e1f5f"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/source_check.py": {
+      "bytes": 12165,
+      "sha256": "00b12c21167f4d44c3b7d33c84f871adb5ef1659b3c4574dbff0e5104b8e0b2c"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/test_framework.py": {
+      "bytes": 9794,
+      "sha256": "fa29ba37a8ecc2f19eebd28b3b7c8617f9b9574b084ad833ad4b8d1af5009c2e"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/test_generated_later.py": {
+      "bytes": 8963,
+      "sha256": "c8b826affc64b971151a348673919a29aa3111fd4febc7a4a91189b53abdd779"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/test_generated_receipts.py": {
+      "bytes": 11700,
+      "sha256": "f7300c78bc11fb404b1f68570ab35427d115fb411eb380052b64c009ed9e6430"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/test_reader_wiring.py": {
+      "bytes": 5648,
+      "sha256": "da94d7c9af6ab523125bb7fca95c332300fda1705f753883d81c8098f043253f"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/test_result_gate.py": {
+      "bytes": 9363,
+      "sha256": "3c92b0267b6782c731a40c326dfb992fa021cf655c76ac412fc015b406fd2cb9"
+    },
+    "scripts/current-attendance-choice-reader-native14-qualification/workflow.py": {
+      "bytes": 3173,
+      "sha256": "9ed12279bc5685a24efc74254b140ce99a3ee02d7487c673b02be007410a507f"
+    },
+    "scripts/current-attendance-midnight-native1-qualification/CHECKOUT_SAFETY.json": {
+      "bytes": 404,
+      "sha256": "55bdb05f9207ca1de4602d836842270618fa8a12889e182ad1f49889dbe1181c"
+    },
+    "scripts/current-attendance-midnight-native1-qualification/CONFIG.json": {
+      "bytes": 2855,
+      "sha256": "52baaca1c0e8c361c99fb2438cbd8a96dd26318e67855e77ebd8c35e3f7c7695"
+    },
+    "scripts/current-attendance-midnight-native1-qualification/DERIVATIONS.json": {
+      "bytes": 1427,
+      "sha256": "4795570d0edb276d64e6cdfb1d4acf11c015a4f78d9c80d1fce4a2ec457c69cd"
+    },
+    "scripts/current-attendance-midnight-native1-qualification/GENERATED_RECEIPTS.json": {
+      "bytes": 57287,
+      "sha256": "6226944ec372860027897ba4bfc272edcf6d0906e687104a5f5e3d4c77b708e5"
+    },
+    "scripts/current-attendance-midnight-native1-qualification/LATER_GENERATED_RECEIPTS.json": {
+      "bytes": 27961,
+      "sha256": "ce84fd98ed01ab3a86ce304c606cad100b4cba91697bfc8b6b7c3d7802f44097"
+    },
+    "scripts/current-attendance-midnight-native1-qualification/ORIGIN.json": {
+      "bytes": 1680,
+      "sha256": "b8a31ad06f5438b7221407eae1cfa4423472452de006282f19cc6b9a763c431b"
+    },
+    "scripts/current-attendance-midnight-native1-qualification/README.md": {
+      "bytes": 5024,
+      "sha256": "b6c9526cc10facaa0decb393fe4cecffb36be30de28d08375ca005a8a7aca7b9"
+    },
+    "scripts/current-attendance-midnight-native1-qualification/check.py": {
+      "bytes": 622,
+      "sha256": "eb45fbc9ab08384d01e27db5d3111df66b6190e2166a4dbbe41e3e71f8de9afa"
+    },
+    "scripts/current-attendance-midnight-native1-qualification/evidence/FIRST_LOCAL_SOURCE_FAILURE.json": {
+      "bytes": 608,
+      "sha256": "50606bb90149a714fb8cd83c9cb4e0275042f8634d4a2bdbba28ee19f1558146"
+    },
+    "scripts/current-attendance-midnight-native1-qualification/evidence/LOCAL_CONTROL_RECEIPT.json": {
+      "bytes": 1578,
+      "sha256": "ae88ffc0f0d9af7726b09c81c8c8f1cf04d3f68e0ce1de3377bea787f9fa98f0"
+    },
+    "scripts/current-attendance-midnight-native1-qualification/freeze.py": {
+      "bytes": 1554,
+      "sha256": "c81f6ee32ec1685e4fdb5271d46eff39d3604309786053d3c8aa16b4193192e2"
+    },
+    "scripts/current-attendance-midnight-native1-qualification/generated_later.py": {
+      "bytes": 10525,
+      "sha256": "7bf35d85d9f7ec19da34c5626f24af908f3691a4e3ed7251dbc4958e59b4bea3"
+    },
+    "scripts/current-attendance-midnight-native1-qualification/generated_receipts.py": {
+      "bytes": 9466,
+      "sha256": "a569138a5b6d4c0d1ce542ab45af98ee156f47e6d772766c214bbae3366ffc7e"
+    },
+    "scripts/current-attendance-midnight-native1-qualification/historical-midnight-c0/LOCAL_CHECK_RECEIPT.json": {
+      "bytes": 4299,
+      "sha256": "f5e3d5a18afaf627e025f396641f5c596ba3f38f35a48a9a848eab2c37c89368"
+    },
+    "scripts/current-attendance-midnight-native1-qualification/historical-midnight-c0/LOCAL_FINAL15_PASS.log": {
+      "bytes": 2677,
+      "sha256": "17d77a6f14d4ae8634ffb108dd42fe24f1c7d4a92e92a698ae9b30f9895e33c6"
+    },
+    "scripts/current-attendance-midnight-native1-qualification/historical-midnight-c0/LOCAL_FIRST15_PASS.log": {
+      "bytes": 2677,
+      "sha256": "e45da16a7bcd5a7ac28a08d1436c7d7b6d5acefcfaf6cf4acacfb684cfcc9dc9"
+    },
+    "scripts/current-attendance-midnight-native1-qualification/historical-midnight-c0/README.md": {
+      "bytes": 6744,
+      "sha256": "845cb636c37ddfb3e406139f9fdb726df3aeda1bf585c93445b5a2c845451a65"
+    },
+    "scripts/current-attendance-midnight-native1-qualification/historical-midnight-c0/SOURCE.json": {
+      "bytes": 14825,
+      "sha256": "d7bb90974374feb0316dc5d465d21d39cdda42a7b103d04e4615d1d3d1fb23b2"
+    },
+    "scripts/current-attendance-midnight-native1-qualification/historical-midnight-c0/admission.py": {
+      "bytes": 6190,
+      "sha256": "a27baa9e5f927bd781ce01868390c68fb0c031cfb640095a3ca2ca64c12b05ff"
+    },
+    "scripts/current-attendance-midnight-native1-qualification/historical-midnight-c0/cases.py": {
+      "bytes": 12384,
+      "sha256": "7cdfd006c4dfb2f3c35dc9557366f601fd2d0a6748505c40f2ee8b66373b2506"
+    },
+    "scripts/current-attendance-midnight-native1-qualification/historical-midnight-c0/oracle.py": {
+      "bytes": 5433,
+      "sha256": "9f866f07083477ea338649fed88d9f92a71559c173bbbce88885ebf906b77a1d"
+    },
+    "scripts/current-attendance-midnight-native1-qualification/historical-midnight-c0/test_preparation.py": {
+      "bytes": 14339,
+      "sha256": "eec913c8ab5270e82775e71504ae5db188d9389187dbd9d8a85ca89cb020188e"
+    },
+    "scripts/current-attendance-midnight-native1-qualification/local_models.py": {
+      "bytes": 6131,
+      "sha256": "2a38374585a3c0c687b1a9d773b4d15b7c899ff09aa6801751cfeb758842008c"
+    },
+    "scripts/current-attendance-midnight-native1-qualification/midnight_admission.py": {
+      "bytes": 7212,
+      "sha256": "dd33f7533cc314284da015f2cae4e85dbafa3a2473b47bbfd4e4cf66b4abc93b"
+    },
+    "scripts/current-attendance-midnight-native1-qualification/midnight_common.py": {
+      "bytes": 2586,
+      "sha256": "ed27a5b8cdd776561e2968752e430f81f0f40f98031e8d084c072d6fa12eaa06"
+    },
+    "scripts/current-attendance-midnight-native1-qualification/midnight_derive.py": {
+      "bytes": 3185,
+      "sha256": "58b068fd26a414c38503e811a2d8ba6982e2406e5554f336297ea5f95164381a"
+    },
+    "scripts/current-attendance-midnight-native1-qualification/midnight_factory.py": {
+      "bytes": 2602,
+      "sha256": "5e36de94aa38d8c1bc51ef00ab82533a2f859069a89570fa27b1e465dbe9b266"
+    },
+    "scripts/current-attendance-midnight-native1-qualification/midnight_gate.py": {
+      "bytes": 3070,
+      "sha256": "fb3482f65d60ce4d56cc2f4e71406a0c47b57959d49169db5653c73ce0f1516d"
+    },
+    "scripts/current-attendance-midnight-native1-qualification/midnight_group.py": {
+      "bytes": 2167,
+      "sha256": "b7de4c0be9c385a16aedf4864e2dabd1c57ed99e5f92f1080cbe8d47614f4b7a"
+    },
+    "scripts/current-attendance-midnight-native1-qualification/midnight_runner.py": {
+      "bytes": 2402,
+      "sha256": "ee9137ee00bd9df02ea221cbd094ce91f5c94f924fa5a74925d5c9ae5a1561e8"
+    },
+    "scripts/current-attendance-midnight-native1-qualification/probe.py": {
+      "bytes": 3114,
+      "sha256": "5f331bd9a785e1e326c15e4f57f61561a3cf9171aa1603aee538a44abb7ca373"
+    },
+    "scripts/current-attendance-midnight-native1-qualification/result_gate.py": {
+      "bytes": 7521,
+      "sha256": "8fd06d55975757d15127c3c305c88cdfff0d10074502ecd7fdc010845ff5a9b8"
+    },
+    "scripts/current-attendance-midnight-native1-qualification/retain_reports.py": {
+      "bytes": 986,
+      "sha256": "a1214d5b7ab392bf2d821733648305d8727f5efa8d6fc2a73d2617a1ef7ac574"
+    },
+    "scripts/current-attendance-midnight-native1-qualification/source_check.py": {
+      "bytes": 6758,
+      "sha256": "359e9bc029f342925c3f3fb17a74ff1c59f762a556579218eef98daf98f3bbe5"
+    },
+    "scripts/current-attendance-midnight-native1-qualification/test_contract.py": {
+      "bytes": 13900,
+      "sha256": "e9d5554078b1f7b358ac6e36bbab328fe86501e1772c59d0171e583e820f25af"
+    },
+    "scripts/current-attendance-midnight-native1-qualification/test_historical_oracles.py": {
+      "bytes": 919,
+      "sha256": "d1ea51cd3b6ad0d6c43b5f7aa829502d4afd7312a474426db9e94f80d180499d"
+    },
+    "scripts/current-attendance-midnight-native1-qualification/test_source.py": {
+      "bytes": 3097,
+      "sha256": "fadf2d1edd0df5b675c81d3c7be7612bcf40698bdafe7dc3404e17d2d6535ad0"
+    },
+    "scripts/current-attendance-midnight-native1-qualification/test_used_witness.py": {
+      "bytes": 4646,
+      "sha256": "c136b4035dd4dd04f175bd5aa24eef8fe0cf6042f0db2f68d30677c851ba5502"
+    },
+    "scripts/current-attendance-midnight-native1-qualification/workflow.py": {
+      "bytes": 2840,
+      "sha256": "57d257319229d4d1dcf4cba6e3671820518705d16d99e1e783689349c63c7dc1"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/.gitignore": {
+      "bytes": 19,
+      "sha256": "862263fa1f46c20f0d1e4dac5ffcc75abd55c08211b2c3864c5f8764b9d87793"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/CONFIG.json": {
+      "bytes": 5622,
+      "sha256": "4231aa7cda7049e90245b8c562d0fffab56303a69f91124a76da8d50cfd6d98c"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/GENERATED_RECEIPTS.json": {
+      "bytes": 57118,
+      "sha256": "a62fbd5a3413b9a6512e336ba57d73da85a0523d0d696c2ffa4c6d040d5cd1c8"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/LATER_GENERATED_RECEIPTS.json": {
+      "bytes": 28385,
+      "sha256": "6f94bfe3008634ad6d3a717c4dca84dfd8e276faab4bba38bdc9c19cfdcd1472"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/LOCAL_RECEIPT.json": {
+      "bytes": 2632,
+      "sha256": "754cd4d0d7028baa9ca9d40d75726dbdd8dc01ba7b0becd0bd6ee1f8715a30bb"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/ORIGIN.json": {
+      "bytes": 16904,
+      "sha256": "f4cd92dc52e95cb564b61ff6ea536b0658976314cc7b4b21b6ba651fcc0c06ec"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/README.md": {
+      "bytes": 8048,
+      "sha256": "b3c515b383abe9fbfc686ad576432256e4bf2e3897ebf00e76fec8975a1f77ea"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/SOURCE.json": {
+      "bytes": 67629,
+      "sha256": "cc2dc65b6f73b288a34fc7dc9ad5e745f18b0f066595b02572e31804956cd438"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/SUCCESSOR_LOCAL_RECEIPT.json": {
+      "bytes": 3142,
+      "sha256": "f233e67e325195448e734c7939f0d472c2fdabfcb6e37020a92264f73d2ad3a7"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/admission.py": {
+      "bytes": 2561,
+      "sha256": "23fd3704191b4d68f515331a293c77cb97af4e0870b1d613b68d9482fb816ee6"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/argv_boundary.py": {
+      "bytes": 338,
+      "sha256": "34994ef5bd70ec495ba104be3c58a9143f8f1eaef64040cf024da01c7e165d46"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/bind.py": {
+      "bytes": 2923,
+      "sha256": "338bb44d06e74dde58b11f4c36c2c8b37513fd81075d7015a6b4c04aaecd85db"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/check.py": {
+      "bytes": 962,
+      "sha256": "fffb62d11d9debf0b131f5d51faac178efafd07b26e04e6162042b53b8fe28db"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/derive.py": {
+      "bytes": 1505,
+      "sha256": "ad2de7c6cc1b2ebc31ce678a41f52e4c4cf25ff76bf93abe4b66d762bcfc253c"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/evidence/LOCAL_FINAL18_PASS.log": {
+      "bytes": 3306,
+      "sha256": "60b7a4b6375086315d0c0ba0a618706e94862f0a91a1410a3e9cdbec163b99be"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/evidence/LOCAL_FIRST16_PASS.log": {
+      "bytes": 2924,
+      "sha256": "1ffd0049d6481f01c00944e12f4c630f74ce88fad503250c63b336b43f60305d"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/evidence/LOCAL_FIRST_REAL_SOURCE_ADMISSION_STDERR.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/evidence/LOCAL_FIRST_REAL_SOURCE_ADMISSION_SUMMARY.json": {
+      "bytes": 1952,
+      "sha256": "1a6759c1b0d8677fa8cd92e86b3b5ea3935a0d3a5a2f5a482f9aeaca823920d9"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/evidence/LOCAL_UNCHANGED_PREP7_PASS.log": {
+      "bytes": 1311,
+      "sha256": "771df314ccc725c4189dc6a05cea6d50af20a67fc7e129a5fadf4d484303355c"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/evidence/LOCAL_UNCHANGED_SOURCE10_PASS.log": {
+      "bytes": 1808,
+      "sha256": "e942ce8e3edbe383f845deb572fbec5e44700bfd3d0f8611a9627afd75e8e898"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/generated_later.py": {
+      "bytes": 10525,
+      "sha256": "7bf35d85d9f7ec19da34c5626f24af908f3691a4e3ed7251dbc4958e59b4bea3"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/generated_receipts.py": {
+      "bytes": 9466,
+      "sha256": "a569138a5b6d4c0d1ce542ab45af98ee156f47e6d772766c214bbae3366ffc7e"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/native_runner.py": {
+      "bytes": 8284,
+      "sha256": "c2124f5371c529ecbf7767381b55f4c799a2fe0829577d80aa3fbd443c4c9512"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/probe.py": {
+      "bytes": 3225,
+      "sha256": "d72bbae586e6b30231bc597adde06303f97c08aac0c8e091d42b88e413bb6f2d"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/proof_inputs.py": {
+      "bytes": 2224,
+      "sha256": "c1496301182f50cbf050077f62620ac96330b5d93355e616823de4c4225f09af"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/result_gate.py": {
+      "bytes": 3293,
+      "sha256": "69f0531bea9fdae02c0bb4468ee99b999a05e2214e754205d1f29c836f1619df"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/retained-a577/LOCAL_ALL_PHASE44_PASS.log": {
+      "bytes": 7394,
+      "sha256": "002e0cfa91f1074558ad2e11e4a59cecaaed40695b712a08a2f5f4ac20644156"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/retained-a577/LOCAL_ALL_PHASE_FIXTURE_PROVENANCE.json": {
+      "bytes": 3056,
+      "sha256": "b286fbb1f40314fd11e2cfa382091fe5666a4d9a4dff2bc9f2b3141160f91edf"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/retained-a577/LOCAL_DIRECT_RECEIPT12_PASS.log": {
+      "bytes": 2121,
+      "sha256": "96249fd8637a5ce45b86a910e7d6a4afc3471ac5295632da858b79db92221e9d"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/retained-a577/LOCAL_FINAL47_PASS.log": {
+      "bytes": 7936,
+      "sha256": "d06189cae504b9e49fc00e30728385d7cc837ebdba10184eead401fb3952ea90"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/retained-a577/LOCAL_FIRST_UNTRACKED_REPRODUCTION.json": {
+      "bytes": 21535,
+      "sha256": "de19a458eecff683f338b9cd2f5005e58d3382f7bd8e93b7cda272244e6f1ada"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/retained-a577/LOCAL_LATER14_PASS.log": {
+      "bytes": 2165,
+      "sha256": "6ca582f9d8e5c456606df7a6381977e449920cf534a9d6b2af485aaedc5868e8"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/retained-a577/LOCAL_LATER_BOOL_INTEGER_FIRST_COUNTER.json": {
+      "bytes": 434,
+      "sha256": "f62748c3b56ac19c2f141e4868a78834e36c9b2431aba7ff873ea9df139e3088"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/retained-a577/LOCAL_P0_FULL30_PASS.log": {
+      "bytes": 5328,
+      "sha256": "c15848ad0f166578aa6399c442ee341f060be722ef43cc283c0208d69e935156"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/retained-a577/LOCAL_REAL_ALL_PHASE_SOURCE_ADMISSION_STDERR.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/retained-a577/LOCAL_REAL_ALL_PHASE_SOURCE_ADMISSION_SUMMARY.json": {
+      "bytes": 2840,
+      "sha256": "ebce2e9cb1c39fd1d9e614566a3773bfe98bbc670254f9e386191e6e2d172210"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/retained-a577/PREDB_FIRST_ARTIFACT.zip": {
+      "bytes": 54682,
+      "sha256": "8e13006583fab982def0bfbf808d9dec11648c0e3b77f35d11d7ab47005315f0"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/retained-a577/S03_NATIVE11_FINAL_GATE.json": {
+      "bytes": 282,
+      "sha256": "682005b65b128ac3b28252e488ba97ec011e06f88d61a16c41340b9d17c1f25c"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/retained-e74/FIRST_FAILURE.json": {
+      "bytes": 803,
+      "sha256": "1218dc032a59c2421fb9775ed0aee7ec7f194c6e1afd492b99002a05df332e0b"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/retained-e74/FIRST_FAILURE.log": {
+      "bytes": 2905,
+      "sha256": "17ff2fa8276ff8e7b53f1bbe27ba4fe2469e41b565d98f30b6c99507a9b53435"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/retained-e74/LOCAL_FIRST_ISOLATED_REPRO.log": {
+      "bytes": 2402,
+      "sha256": "f3c3435063c75b01b9ac0fe48f183501d8a65d390667f5f2a2f05acd20cc586e"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/retained-e74/LOCAL_FRESH_ACTUAL_E74_OUTPUTS48_PASS.log": {
+      "bytes": 8115,
+      "sha256": "38bf8526bf0e9cc559c128971298532c4bd0f91be93c1fea5ae86c261801b972"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/retained-e74/LOCAL_NO_AMBIENT_RECEIPTS13_PASS.log": {
+      "bytes": 2387,
+      "sha256": "4a8a1a5bd815d19cf02ea933e75d35a265d79413777a3c4f4f0c6aef41022238"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/retained-e74/LOCAL_STALE_PACKAGE_FIXTURE_FIRST48.log": {
+      "bytes": 11605,
+      "sha256": "24f28f48c4d77cbe79bb3a84186d58f98f281401a85e2556dae7afc71959f86c"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/retained-e74/LOCAL_SUCCESSOR_RECEIPT.json": {
+      "bytes": 950,
+      "sha256": "292fe679338c8f8cbe21f3a3745b3dbb588411c3c69339691318d1bb2a1b3ab9"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/retained-e74/PREDB_SECOND_ARTIFACT.zip": {
+      "bytes": 54688,
+      "sha256": "6bc5213ec3ed8e9b6079c8e26da508bc193c1d863b34620e6121130c199088f1"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/retained41c/CP7_VENDOR_RECEIVABLE_COMBINED11.json.gz": {
+      "bytes": 347533,
+      "sha256": "91bab345d1b41ca7fa8f57fab97a407377a2588b0d7298f57bb47ee01d3daade"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/retained41c/T3_BACKUP_RESTORE_DRILL.json.gz": {
+      "bytes": 645,
+      "sha256": "430e1a3396f479a756d457495dbf8aa7819a99b2ca49a3908391becfb64cc9ce"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/retained41c/T3_PACKAGE_FILES_INSTALL.json.gz": {
+      "bytes": 255,
+      "sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/retained41c/T3_PACKAGE_INSTALL.json.gz": {
+      "bytes": 11393,
+      "sha256": "9c651a5d5a38370a2f5f19f30543821ab8333eb267936b34681e9a27784bc2cb"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/source_check.py": {
+      "bytes": 6219,
+      "sha256": "0509c74a031163156fea3dec587c5d475d3f1563d6504840e5564e159b3b3fe4"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/test_contract.py": {
+      "bytes": 16081,
+      "sha256": "229cdad63a2f5659c6cf5fa0a0298096a2ccc81345c0ce403e776c3432050cdc"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/test_full_generated_gate.py": {
+      "bytes": 2044,
+      "sha256": "a2df51debb8801b8bfc97b28d7a4d6db37740a25acc18c9cd8d5b3a0a0a76d65"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/test_generated_later.py": {
+      "bytes": 8963,
+      "sha256": "c8b826affc64b971151a348673919a29aa3111fd4febc7a4a91189b53abdd779"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/test_generated_receipts.py": {
+      "bytes": 11700,
+      "sha256": "f7300c78bc11fb404b1f68570ab35427d115fb411eb380052b64c009ed9e6430"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/workflow.py": {
+      "bytes": 3039,
+      "sha256": "90d9e037c09ffdfbe7eca83b3ca954ba8869aa28988984ed3013e6f3310ab070"
+    },
+    "scripts/current-attendance-period-choice-qualification/README.md": {
+      "bytes": 8909,
+      "sha256": "e1183d0fc61f45ce75bdd1acb31991fd65800e8df0c51bf61f2acb7f48108c22"
+    },
+    "scripts/current-attendance-period-choice-qualification/SOURCE.json": {
+      "bytes": 8037,
+      "sha256": "5ecab817f56b892717995a25711b62e74ad3746cc4729a7c84c3bc49895436b0"
+    },
+    "scripts/current-attendance-period-choice-qualification/admission.py": {
+      "bytes": 7312,
+      "sha256": "fa6a2f578fda9856bdc5f011e7d6175929b80c5072102dc26bf528ea6923a4f5"
+    },
+    "scripts/current-attendance-period-choice-qualification/cases.py": {
+      "bytes": 28885,
+      "sha256": "15fe990cccb82ff4c1dcd9ca40dc17fe93ac26a3a359a37361e6d8780b1f16e2"
+    },
+    "scripts/current-attendance-period-choice-qualification/fixtures.py": {
+      "bytes": 11212,
+      "sha256": "cdb482b56048200f13da5893e119b0b301f54a600888da5252cea2fceaee4258"
+    },
+    "scripts/current-attendance-period-choice-qualification/test_plan.py": {
+      "bytes": 7100,
+      "sha256": "14237b3db53ce2d01852eae0fa9d7b524fe85f5ea0de075607c0811fb51bb962"
+    },
+    "scripts/current-attendance-period-choice-readers-qualification/README.md": {
+      "bytes": 5968,
+      "sha256": "dd800e4a4cbe8ecc3ace8f9739a0da466c3448437d3f57feb69eedcbf2301b9f"
+    },
+    "scripts/current-attendance-period-choice-readers-qualification/SOURCE.json": {
+      "bytes": 4173,
+      "sha256": "85de4a6aaca8ad53e179ba4c398e55c554a67b6fe8f325cb9b5ae225c4697d9f"
+    },
+    "scripts/current-attendance-period-choice-readers-qualification/admission.py": {
+      "bytes": 4052,
+      "sha256": "387f0915bf9cedd5508faeccfd3cc03486f30772556d2ecff094aa605fc75527"
+    },
+    "scripts/current-attendance-period-choice-readers-qualification/cases.py": {
+      "bytes": 10121,
+      "sha256": "eebe27396c93d4b2b14062f778a4f6a4a9c9ae840bed164e11196d90bc603630"
+    },
+    "scripts/current-attendance-period-choice-readers-qualification/test_plan.py": {
+      "bytes": 7177,
+      "sha256": "f72539b4a4327bb358f28a22a95fbef4d743b9a0d791da8d0ac611c4ecb56f49"
+    },
+    "scripts/current-backend-acceptance-3194/CONFIG.json": {
+      "bytes": 1922,
+      "sha256": "4eabce28655e92c31c5dffed2ddc22e642ece225cbf7cfc16da3d96144ab0331"
+    },
+    "scripts/current-bounded-finance-native-qualification/SOURCE.json": {
+      "bytes": 150962,
+      "sha256": "c3e447504d5e37023abd320b8b6a0506eb39347960f119708f937ce67fc0a14c"
+    },
+    "scripts/current-bounded-finance-restored-native-qualification/SOURCE.json": {
+      "bytes": 152419,
+      "sha256": "dfece812177307f29d90b5d97f7dfc3e05d87e89f3e5a0c137c544c1ed4685b7"
+    },
+    "scripts/current-choice-finance-cron-qualification/SOURCE.json": {
+      "bytes": 487983,
+      "sha256": "f3a3aed3f3950da5b591c118538686305983a21ad763e3f4e64e94a35fdcfd30"
+    },
+    "scripts/current-choice-preparation-native-qualification/SOURCE.json": {
+      "bytes": 455726,
+      "sha256": "3cd8f662ebaa6133b891786109e2eec37ef2ad0edbb87c1f4cc6bbbe07bc31e7"
+    },
+    "scripts/current-factory-initial-stage/CONFIG.json": {
+      "bytes": 1219,
+      "sha256": "92b6e92923d85b9c0237c6b530e6399f63dcd48c246ea6b133a7dd3248f7c10c"
+    },
+    "scripts/current-factory-initial-stage/stream_data.py": {
+      "bytes": 4670,
+      "sha256": "5a07ae1409337424b4d2c1234f75148013a30a8652f451686fdb02cb0b2b483c"
+    },
+    "scripts/current-factory-live-heartbeat/CONFIG.json": {
+      "bytes": 1028,
+      "sha256": "f20889e53137ecd220d1e750c31b1b1d0e5e24097a1ca81831f1f0cab91418a5"
+    },
+    "scripts/current-factory-operational-profile-qualification/CONFIG.json": {
+      "bytes": 1160,
+      "sha256": "274e6be98007525ce487dfd72dd40544023915ca741c31be5898336169f6ffd7"
+    },
+    "scripts/current-finance-combined-composition/FROZEN_SOURCE_ROOTS.json": {
+      "bytes": 825,
+      "sha256": "684a8b08b54699861262f220eca025bb51a220e58856d53988ea337f81fe8bd7"
+    },
+    "scripts/current-finance-combined-composition/PREREQUISITES.json": {
+      "bytes": 3117,
+      "sha256": "646476411216400bab631a6f85d1408beb36d0c42d6e7414cea1f7b8ccd026d6"
+    },
+    "scripts/current-finance-combined-composition/disposable_start.py": {
+      "bytes": 2688,
+      "sha256": "523ec29f0566852f56627c7c9be791de215d09b55d8669c071024fd92aa8e257"
+    },
+    "scripts/current-finance-combined-composition/materialize_sources.py": {
+      "bytes": 3533,
+      "sha256": "cec3576f86bb93d79535b67b35188cd2e3f8a332dc45ceace5a5d7548177210c"
+    },
+    "scripts/current-finance-consistency-corrected-qualification/CONFIG.json": {
+      "bytes": 938,
+      "sha256": "78fdb58ab3615de372b0cf9d067eabf33fdff39070529dcbcd4a2dfce1885c9c"
+    },
+    "scripts/current-finance-consistency-followup-qualification/CONFIG.json": {
+      "bytes": 956,
+      "sha256": "00f3c7aa3734fada5e1fd3826f6c2cbde5fd7cdc29a2a474924e62cbceba887c"
+    },
+    "scripts/current-finance-consistent-capture-diagnostic/CONFIG.json": {
+      "bytes": 986,
+      "sha256": "7968863d749bfe1963328c9efb749fbabc8b673eb3e3fb6f3a05df8de4c39f9e"
+    },
+    "scripts/current-finance-factory-progress-followup-qualification/D3_PREREQUISITE.json": {
+      "bytes": 1061,
+      "sha256": "aabeee434290f665bdaa98f37cadbc164dcfcbacecd355041753e1b6af812de5"
+    },
+    "scripts/current-finance-followups-qualification/CONFIG.json": {
+      "bytes": 979,
+      "sha256": "37d2a6b34d39c95997fd9121a4814cb457cdba6ac179ec60b9b7ca9afd49ba44"
+    },
+    "scripts/current-finance-followups-qualification/artifact_gh.py": {
+      "bytes": 3244,
+      "sha256": "afd081cf03a4d12b07c7db142788d86fbc5ac5bda8597b843749a88572787285"
+    },
+    "scripts/current-finance-model-cron-qualification/SOURCE.json": {
+      "bytes": 359631,
+      "sha256": "1b24c5e9d83021081350a001b7789b13bdd837b23b536ea1a623d973e6b2a8b6"
+    },
+    "scripts/current-finance-model-qualification/SOURCE.json": {
+      "bytes": 356878,
+      "sha256": "e60077bf138fb4e11eedeca1f542590fd281ddc983fc85249f52fd6033e23344"
+    },
+    "scripts/current-finance-model-registry-qualification/SOURCE.json": {
+      "bytes": 359313,
+      "sha256": "a60e0b3b50231120ca4fb1d3881570a8bff5b8f1a27e9c754e7ee04fc288d65f"
+    },
+    "scripts/current-finance-reader-stream-followup-qualification/CONFIG.json": {
+      "bytes": 963,
+      "sha256": "b87bb7e5b2e430b31952d372c619671eb1c8af2106dca09f3e28baa45df3728c"
+    },
+    "scripts/current-finance-readonly-integration-qualification/SOURCE.json": {
+      "bytes": 592231,
+      "sha256": "efcd04e5ae78b391d8e6dcef18f733eff2daffaeba8175dc3ca111211da7a438"
+    },
+    "scripts/current-frozen-finance-native-qualification/SOURCE.json": {
+      "bytes": 440953,
+      "sha256": "ffe45956333f3c9865485b5223d7dc8c261ce6436551ec6ae0081934adecf1ce"
+    },
+    "scripts/current-frozen-public-native-qualification/SOURCE.json": {
+      "bytes": 446524,
+      "sha256": "08df423368c245524fe2feeb4e3dd6ab6cffbd6f9749c2f47ae5731f733dc698"
+    },
+    "scripts/current-frozen-units-native-qualification/SOURCE.json": {
+      "bytes": 438835,
+      "sha256": "7c106526eba90f607fd67960c7e1c66eabb1f7791c5d0c5c25ed19bc12026d87"
+    },
+    "scripts/current-model-history-native-qualification/SOURCE.json": {
+      "bytes": 388033,
+      "sha256": "85cc75fd7366ad4733f5afc185e97bf84892edeaea1c7cc5897c1f4e9ee9ed1e"
+    },
+    "scripts/current-model-target-native-qualification/SOURCE.json": {
+      "bytes": 384111,
+      "sha256": "6b84a44c4a5ae50226b6e9761afa49b58e871bec856b4a1b1dadd086235171b6"
+    },
+    "scripts/current-progress-finance-ui-browser-qualification/SOURCE.json": {
+      "bytes": 475419,
+      "sha256": "6018313aa35f05ba03eddcf3a11e616e12dc2e994c9f6491e70aec5ecc9f92be"
+    },
+    "scripts/current-scoped-model-native-qualification/SOURCE.json": {
+      "bytes": 397315,
+      "sha256": "d68cbbe76e96820e98857dd871a46f17329b46a5dcc9c15ac1c15e9055108e3f"
+    },
+    "scripts/current-selected-return-native-qualification/SOURCE.json": {
+      "bytes": 384268,
+      "sha256": "7d5e1cfbe2f97c4cbe27b927e4603eb38b30318446214305d356db1ac6660d95"
+    },
+    "scripts/current-vendor-receivable-followup/CONFIG.json": {
+      "bytes": 1343,
+      "sha256": "3011ddf4be598ad8f62af78eef28d62499ef721dd579bf730629544043584196"
+    },
+    "scripts/current-vendor-receivable-followup/README.md": {
+      "bytes": 787,
+      "sha256": "8396d68a5ffb6dbb17d3765066d07b1e292566ffe654d7026566c0994a0bed81"
+    },
+    "scripts/current-vendor-receivable-followup/cases.py": {
+      "bytes": 8066,
+      "sha256": "1e4f7be181edb2787f8c2c2f0d5279da127e33fe96bba06ca60792ef0e17a2f3"
+    },
+    "scripts/current-vendor-receivable-followup/fetch_native.py": {
+      "bytes": 1696,
+      "sha256": "e6a72e7c1150bc1ff7cb7f58e58326787f87db7eb735cd9f73b2d39075b8ff63"
+    },
+    "scripts/current-vendor-receivable-followup/gate.py": {
+      "bytes": 2783,
+      "sha256": "bde0b15368f22e74f460c5cc222f9fc8cd5c48ba00eb6c383f50a1e215c1f549"
+    },
+    "scripts/current-vendor-receivable-followup/runner.py": {
+      "bytes": 4679,
+      "sha256": "24dfc13dc99d7f51c4b4320b2bc3bd941d1107aa4aa254aa7439184289e2f4cb"
+    },
+    "scripts/current-vendor-receivable-followup/test_gate.py": {
+      "bytes": 3659,
+      "sha256": "f58574a669ec7e2dbb9ef7b8164cdbeab96dae36006424a9b5d4c2a931a0091c"
+    },
+    "scripts/current-vendor-receivable-qualification/CONFIG.json": {
+      "bytes": 3502,
+      "sha256": "bb20f61a2c5837e4a7d70c3794e76392cea583065800b9fe1f830f9ac2563997"
+    },
+    "scripts/current-vendor-receivable-qualification/README.md": {
+      "bytes": 446,
+      "sha256": "380c21bca774d9be75e8cad5b2ca2047b58535405704c71cd30500a6a9c2caa8"
+    },
+    "scripts/current-vendor-receivable-qualification/SOURCE.json": {
+      "bytes": 10974,
+      "sha256": "3ee29dfac8a83743e125ae9915aa27b01723d688b16b045fa126f1acb147ebfa"
+    },
+    "scripts/current-vendor-receivable-qualification/admission.py": {
+      "bytes": 6058,
+      "sha256": "5e80384b2ef0479748e76b413604f37979dacbf012fc495e3a8eef0d86efb654"
+    },
+    "scripts/current-vendor-receivable-qualification/check_source.py": {
+      "bytes": 347,
+      "sha256": "0c4db4ed9fd8c5ac989aa20516ce93323614b359dda88fee0ea7cb5f1e79bf8b"
+    },
+    "scripts/current-vendor-receivable-qualification/native_runner.py": {
+      "bytes": 2547,
+      "sha256": "debd69693dc444861aa193b644144eb3a6ee0e7eb0d279f671fcfad82aebdd0d"
+    },
+    "scripts/current-vendor-receivable-qualification/probe.py": {
+      "bytes": 12667,
+      "sha256": "c420d894f8d5f16bddefeae73addb621507170f372a28e7d6e33d88c7eeb0be9"
+    },
+    "scripts/current-vendor-receivable-qualification/runner.py": {
+      "bytes": 2952,
+      "sha256": "318fabe010586301205519c3b648f96496f5d80a651e7be955a0cd6d7a2c5b68"
+    },
+    "scripts/current-vendor-receivable-qualification/test_combined_runner.py": {
+      "bytes": 2849,
+      "sha256": "f3b2ab9fb0c3dcb36d0104e9a1f30a8ea189d4256061ee74724cf0066aec9dc4"
+    },
+    "scripts/current-vendor-receivable-qualification/test_workflow_source.py": {
+      "bytes": 830,
+      "sha256": "3da65714051c4cf9edb1c0708c94905e9f728eb9c1fc0432663cb81c831d2290"
+    },
+    "scripts/current-vendor-receivable-qualification/workflow_source.py": {
+      "bytes": 680,
+      "sha256": "b3af422776b5e0f200ac04ac9fd41a7bf283fa1890819b41df92ef6f31bf1910"
+    },
+    "scripts/current-versioned-performance-native-qualification/SOURCE.json": {
+      "bytes": 434168,
+      "sha256": "e2b04cc8aff1b7dcf943333aab627b85dcfa213c0bc2517f0b132c1f1a08a223"
+    },
+    "scripts/current-versioned-target-native-qualification/SOURCE.json": {
+      "bytes": 426893,
+      "sha256": "372d491987e6f1e348784fdb40b9f380a9dfe112a7304181715794068c163c76"
+    },
+    "scripts/current-workflow-history-isolation/ARCHIVE.json": {
+      "bytes": 10852,
+      "sha256": "0abb7b292818d66e104d0174d790612049afe9efad099943744eb38b4daa7a8b"
+    },
+    "scripts/current-workflow-history-isolation/frozen-workflows/cp7-current-frozen-finance-factory-date2.yml.txt": {
+      "bytes": 26758,
+      "sha256": "ebdf4c3e9cc345bc0873ab16d03ec91c24f1e5291735e54dbcbc64268bc1528e"
+    },
+    "scripts/current-workflow-history-isolation/frozen-workflows/cp7-current-frozen-finance-factory-observe.yml.txt": {
+      "bytes": 26783,
+      "sha256": "2948fe6942bdd0791645698269cb06d09136a9e9dd43c344a2353f80e42dc14b"
+    },
+    "scripts/current-workflow-history-isolation/frozen-workflows/cp7-current-frozen-finance-native.yml.txt": {
+      "bytes": 26389,
+      "sha256": "b3f7e4b5f88be6df6abb9ec1bd6f171d420cd5997e47b1f8e78f78cc15738970"
+    },
+    "scripts/current-workflow-history-isolation/frozen-workflows/cp7-current-frozen-public-cron.yml.txt": {
+      "bytes": 26875,
+      "sha256": "cbd6ffb334d5b4f2d81909b18913037728145afc72608fae1afb86432778ef4a"
+    },
+    "scripts/current-workflow-history-isolation/frozen-workflows/cp7-current-frozen-public-native.yml.txt": {
+      "bytes": 26789,
+      "sha256": "d9fa5ad901531ec80cd18857bf6d454a98e3cd5026bbe2e0186c0e534ea00092"
+    },
+    "scripts/current-workflow-history-isolation/frozen-workflows/cp7-current-frozen-units-native.yml.txt": {
+      "bytes": 26074,
+      "sha256": "e9f1d9e1e1a851ab203ae25dc778dda4b364035732fa9c44edc8c5534786dcf3"
+    },
+    "scripts/current-workflow-history-isolation/frozen-workflows/cp7-current-versioned-performance-browser.yml.txt": {
+      "bytes": 26316,
+      "sha256": "f941b6f381e88010799dcb921328f097b99e5e447bfedaa705ddb2bd80a82bcb"
+    },
+    "scripts/current-workflow-history-isolation/frozen-workflows/cp7-current-versioned-performance-cron.yml.txt": {
+      "bytes": 25814,
+      "sha256": "b9ac4f9996e8d09cab9cade28084b49559dfcfbcb7adcf7af19c6294d60312ed"
+    },
+    "scripts/current-workflow-history-isolation/frozen-workflows/cp7-current-versioned-performance-finance.yml.txt": {
+      "bytes": 25836,
+      "sha256": "e39139ec3b2563dc3aa2648c79d8090202c225f48a77f9304bd90a2f90cfe1a0"
+    },
+    "scripts/current-workflow-history-isolation/frozen-workflows/cp7-current-versioned-performance-native.yml.txt": {
+      "bytes": 25567,
+      "sha256": "bcd835a703e3d27624bd277d5fd26798b04d026fc10f75376d0469250106ecdd"
+    },
+    "scripts/current-workflow-history-isolation/frozen-workflows/cp7-current-versioned-performance-restore.yml.txt": {
+      "bytes": 25858,
+      "sha256": "db4dcf015d8ba7ee211a0bcdb1e184c67eb0810653e868a65dec78c7acb16c0d"
+    },
+    "scripts/current-workflow-history-isolation/frozen-workflows/cp7-current-versioned-performance-transport.yml.txt": {
+      "bytes": 25865,
+      "sha256": "79e391fefb8b845a310e776d00adbcb9058394e44c510674351130f163a976d6"
+    },
+    "scripts/current-workflow-history-isolation/frozen-workflows/cp7-d17-18-choice-finance-cron.yml.txt": {
+      "bytes": 28188,
+      "sha256": "b332179a4ff9bb71483a71a3d75a8c51fd2eadccab9a2b02f0df31c1fd670ad8"
+    },
+    "scripts/current-workflow-history-isolation/frozen-workflows/cp7-d17-18-choice-preparation-native.yml.txt": {
+      "bytes": 27522,
+      "sha256": "85f667e6a6657e8624a759e9b13b0ccfb2d4b7aa361b5919109e9859903a41e4"
+    },
+    "scripts/current-workflow-history-isolation/frozen-workflows/cp7-d17-18-choice-preparation-transport.yml.txt": {
+      "bytes": 27733,
+      "sha256": "0815a329373320b32ed8093f31df224a792cc575afb847c1392d912c3a8c1aac"
+    },
+    "scripts/current-workflow-history-isolation/frozen-workflows/cp7-d17-18-consistent-capture.yml.txt": {
+      "bytes": 29663,
+      "sha256": "305f54fc7a56bea85041e8ca1d5ea09f7553703129401967594d971063940770"
+    },
+    "scripts/current-workflow-history-isolation/frozen-workflows/cp7-d17-18-factory-stage-profile.yml.txt": {
+      "bytes": 27078,
+      "sha256": "cf1f14d7a2aa1cd17d2f673b081e3a7dbb80d495064257b59fa21acee0b334c6"
+    },
+    "scripts/current-workflow-history-isolation/frozen-workflows/cp7-d17-18-finance-check-reuse-diagnostic.yml.txt": {
+      "bytes": 27881,
+      "sha256": "a8166a824f274ec4be16e08b0bfbea8dc003888a4ddb9611f118448561e30b8d"
+    },
+    "scripts/current-workflow-history-isolation/frozen-workflows/cp7-d17-18-finance-followups.yml.txt": {
+      "bytes": 29412,
+      "sha256": "0fb499e1afd4a4e2d9a37cb77caeec841a10899e36e3e6ac80c2a50b54168083"
+    },
+    "scripts/current-workflow-history-isolation/frozen-workflows/cp7-d17-18-finance-reader-diagnostic.yml.txt": {
+      "bytes": 27245,
+      "sha256": "ed75185fcf19c62a39ba69a93f62cbca447b0e8db5f4364966aeb40ade3fa2fb"
+    },
+    "scripts/current-workflow-history-isolation/frozen-workflows/cp7-d17-18-finance-reader-source-race.yml.txt": {
+      "bytes": 28424,
+      "sha256": "a33b489cf0231f308ce3b855e7606dcccc2c75d8f22fc07d54dd1eb896f44829"
+    },
+    "scripts/current-workflow-history-isolation/frozen-workflows/cp7-d17-18-progress-finance-ui-browser.yml.txt": {
+      "bytes": 28456,
+      "sha256": "fb79b494bafb2ebf9063891896229e3942adbae4c36324b402ac297580004c1f"
+    },
+    "scripts/current-workflow-history-isolation/frozen-workflows/cp7-d17-18-progress-native.yml.txt": {
+      "bytes": 27024,
+      "sha256": "e869ab6d3d34c2865a58f0aa3acb1137f9cf3718c1216ecead9db69c358ec1ee"
+    },
+    "scripts/current-workflow-history-isolation/frozen-workflows/cp7-d17-18-readonly-finance-composition.yml.txt": {
+      "bytes": 28683,
+      "sha256": "54b741c037f8b00897bafc64cf2a446e3118642930863567e992c422021cac3d"
+    },
+    "scripts/current-workflow-history-isolation/materialize.py": {
+      "bytes": 2153,
+      "sha256": "53fbfe1cc59c77f49f67fcf4a6ebaa39395c2ae833942270a408a9a82bd99519"
+    },
+    "scripts/ow04-composed-qualification/composed_probe.py": {
+      "bytes": 14672,
+      "sha256": "7241fec3caec31525d4cc7c70855648edb55768fa225543389bebc43e59d2e56"
+    },
+    "scripts/ow04-payment-source-qualification/source_probe.py": {
+      "bytes": 8226,
+      "sha256": "fe8faa04ba6445fc54ff6daeee05753e78a6a73212b24b9d240f4d1fe58d3dad"
+    },
+    "scripts/verify-cp6-disposable-clone.sh": {
+      "bytes": 4447,
+      "sha256": "b9912f689bbccba172fbbdd7f2f7853bbec29e642307debca56fd6f416aee317"
+    },
+    "supabase/release/cp6-t3/MANIFEST.json": {
+      "bytes": 68647,
+      "sha256": "40795c3fce619c5795b427e9aa31836777b687f82eba4ab5654264d57564879f"
+    }
+  },
+  "failed9ac_is_accepted_parent": false,
+  "accepted_parent14": null,
+  "actual_Native_cases": 0,
+  "fresh_original11_or14_reexecuted": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

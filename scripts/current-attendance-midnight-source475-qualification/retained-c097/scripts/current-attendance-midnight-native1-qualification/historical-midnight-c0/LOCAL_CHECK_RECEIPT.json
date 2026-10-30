@@ -1,0 +1,68 @@
+{
+  "version": "cp7.s03.midnight-output-local-preparation.v1",
+  "classification": "PURE_PYTHON_ORACLE_API_CURSOR_MODELS_SOURCE_ONLY_NOT_NATIVE_DB_AUTH_BROWSER",
+  "created_at": "2026-10-29T20:15:02.576676+00:00",
+  "status": "PREPARED_LOCAL_CONTROLS_PASS",
+  "local_controls": {
+    "PASS": 15,
+    "FAIL": 0,
+    "SKIP": 0
+  },
+  "original11_callbacks_changed": 0,
+  "product_hooks_added": 0,
+  "standalone_additional_Native_prepared": 1,
+  "actual_Native_credit": 0,
+  "actual_DB_execution": 0,
+  "actual_Auth_HTTP_credit": 0,
+  "actual_browser_credit": 0,
+  "frozen_base": "f265ba2691ad03a2b7405806dc3aa4c5788b62fd",
+  "frozen_file_count": 80,
+  "frozen_file_graph_sha256": "97a11f7cafce085d516f45c9aeb2b2beeae28e4b7999776698bc8b48f6380993",
+  "frozen_wire_sha256": "931e62848f6861e24190e76cb0efbd8aa032cb514bf0f0b5af362d62cbe12bbd",
+  "source_sha256": "d7bb90974374feb0316dc5d465d21d39cdda42a7b103d04e4615d1d3d1fb23b2",
+  "source_files": {
+    "admission.py": "a27baa9e5f927bd781ce01868390c68fb0c031cfb640095a3ca2ca64c12b05ff",
+    "cases.py": "7cdfd006c4dfb2f3c35dc9557366f601fd2d0a6748505c40f2ee8b66373b2506",
+    "oracle.py": "9f866f07083477ea338649fed88d9f92a71559c173bbbce88885ebf906b77a1d",
+    "test_preparation.py": "eec913c8ab5270e82775e71504ae5db188d9389187dbd9d8a85ca89cb020188e",
+    "README.md": "845cb636c37ddfb3e406139f9fdb726df3aeda1bf585c93445b5a2c845451a65"
+  },
+  "accepted_original11": null,
+  "accepted_package_original": null,
+  "Native_prerequisite_closed": true,
+  "actual_case_ID": "S03_NATIVE_MIDNIGHT_OUTPUT_UTC17_SAME_SOURCE_CID_5_5_10",
+  "runtime_hook": "cases(cur,today,state=actual_S03_state,evidence=report,fresh_original11=unchanged_qualified_native_group,retained_original={'native':retained_original_path,'package':retained_package_path})",
+  "command": "PYTHONDONTWRITEBYTECODE=1 python -B -m unittest discover -s scripts/current-s03-midnight-output-augmentation -p test_preparation.py -v",
+  "exact_CID_binding": "one original100003-cent attendance debit/policy/payroll and both Native5PCS work/terminals use the same source contractor",
+  "fixed_instant_oracle": "D=today-3,D+1=today-2,B=(D+1)00+07=D17Z; facts atB-1microsecond/B; epochdelta1 and one UTCcalendarD but two WIBdates; denominator5/5/10",
+  "source_economics": "APPROVED WIP1000.03/payable1000.03 once; unassigned contractor WIP remains1000.03; no Native WORK_COMPLETION journal, allocation or expense",
+  "other_fixture_economics": "Actual additional Native material receipt10@10 and ordinary roll consumption/cutting; no no-DML claim for fixture creation",
+  "controls": [
+    "aware microsecond precision/year-month boundaries",
+    "sameCID/actualworkevent/qty/status/epoch oracles",
+    "UTCdate-truncation/changed-policy/changed-source counterexamples",
+    "public budget/dates/stripped-private-context checks",
+    "timezone restored on success and modeled SQLerror with original error rethrown",
+    "contractor fixture global restored after modeled Native refusal",
+    "fixed occupied days refuse before fixture with no retry",
+    "null retained pins refuse before cursor/product import",
+    "factory declares one callable without executing fixture",
+    "fresh and retained11 exact status/counts/plannedIDs/caseIDs/groupflag",
+    "all80 frozen hashes and exactown sources/tamper controls",
+    "disposable raw/source/package positive-negative models"
+  ],
+  "limits": [
+    "No actual SQL/PGlite/Native/DB/server/Auth/browser was run",
+    "Expected Native helper ABI/source, cutoff eligibility and actual11/fullrestore/package gates remain unqualified until real run",
+    "Attendance field is DATE; no attendance posting-time boundary is claimed",
+    "Read no-DML comparison uses full owning business rows+all sequences; fixture creation has Native DML",
+    "Savepoint error rollback does not restore sequences; outer complete dump restoration is mandatory after committed fixtures",
+    "Original11 plus additional1 must be reported separately; frozen oldOriginals are never relabelled"
+  ],
+  "local_logs": {
+    "LOCAL_FIRST15_PASS.log": "e45da16a7bcd5a7ac28a08d1436c7d7b6d5acefcfaf6cf4acacfb684cfcc9dc9",
+    "LOCAL_FINAL15_PASS.log": "17d77a6f14d4ae8634ffb108dd42fe24f1c7d4a92e92a698ae9b30f9895e33c6"
+  },
+  "production_go": false,
+  "independent_acceptance": false
+}

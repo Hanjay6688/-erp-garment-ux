@@ -1,0 +1,11 @@
+{
+  "original_path": "scripts/current-s03-lawful-fixture-successor-qualification/admission.py",
+  "original_sha256": "25a9cc50ea44b9aa921bc82bd380178ddcbf345a6f017bd73993dcb9f8187349",
+  "derived_sha256": "3b848cb537ad9e696a4c634c44ac7313d71b539375553617cdfd57bfb05fab37",
+  "counted_changes": 1,
+  "before": "    current=load('s03_lawful_unprojected_current_source',HERE/'source_check.py').check(root,HERE,require_bound=True)",
+  "after": "    current=CURRENT_COMPLETE_SOURCE475_CLOSURE",
+  "all_Original_reader_function_bodies_unchanged": true,
+  "complete_current475_closure_verified_first": true,
+  "Native_credit": 0
+}

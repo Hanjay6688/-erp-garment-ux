@@ -1,0 +1,264 @@
+{
+  "contract": "cp7.midnight-source475.lossless-own-routes.v1",
+  "base": "3c0c5defe55e48cf6f221c868594dd6676d17170",
+  "retained_c097": "c0975ead5c9ff5e0677a2b7b9a86ef9cd3b37db5",
+  "active_routes": [
+    {
+      "path": "scripts/current-attendance-midnight-source475-qualification/midnight_admission.py",
+      "original_path": "scripts/current-attendance-midnight-native1-qualification/midnight_admission.py",
+      "original": {
+        "bytes": 7212,
+        "sha256": "dd33f7533cc314284da015f2cae4e85dbafa3a2473b47bbfd4e4cf66b4abc93b"
+      },
+      "derived": {
+        "bytes": 7212,
+        "sha256": "dd33f7533cc314284da015f2cae4e85dbafa3a2473b47bbfd4e4cf66b4abc93b"
+      },
+      "counted_replacements": []
+    },
+    {
+      "path": "scripts/current-attendance-midnight-source475-qualification/midnight_derive.py",
+      "original_path": "scripts/current-attendance-midnight-native1-qualification/midnight_derive.py",
+      "original": {
+        "bytes": 3185,
+        "sha256": "58b068fd26a414c38503e811a2d8ba6982e2406e5554f336297ea5f95164381a"
+      },
+      "derived": {
+        "bytes": 3185,
+        "sha256": "58b068fd26a414c38503e811a2d8ba6982e2406e5554f336297ea5f95164381a"
+      },
+      "counted_replacements": []
+    },
+    {
+      "path": "scripts/current-attendance-midnight-source475-qualification/midnight_factory.py",
+      "original_path": "scripts/current-attendance-midnight-native1-qualification/midnight_factory.py",
+      "original": {
+        "bytes": 2602,
+        "sha256": "5e36de94aa38d8c1bc51ef00ab82533a2f859069a89570fa27b1e465dbe9b266"
+      },
+      "derived": {
+        "bytes": 2602,
+        "sha256": "5e36de94aa38d8c1bc51ef00ab82533a2f859069a89570fa27b1e465dbe9b266"
+      },
+      "counted_replacements": []
+    },
+    {
+      "path": "scripts/current-attendance-midnight-source475-qualification/midnight_group.py",
+      "original_path": "scripts/current-attendance-midnight-native1-qualification/midnight_group.py",
+      "original": {
+        "bytes": 2167,
+        "sha256": "b7de4c0be9c385a16aedf4864e2dabd1c57ed99e5f92f1080cbe8d47614f4b7a"
+      },
+      "derived": {
+        "bytes": 2167,
+        "sha256": "b7de4c0be9c385a16aedf4864e2dabd1c57ed99e5f92f1080cbe8d47614f4b7a"
+      },
+      "counted_replacements": []
+    },
+    {
+      "path": "scripts/current-attendance-midnight-source475-qualification/midnight_runner.py",
+      "original_path": "scripts/current-attendance-midnight-native1-qualification/midnight_runner.py",
+      "original": {
+        "bytes": 2402,
+        "sha256": "ee9137ee00bd9df02ea221cbd094ce91f5c94f924fa5a74925d5c9ae5a1561e8"
+      },
+      "derived": {
+        "bytes": 2402,
+        "sha256": "ee9137ee00bd9df02ea221cbd094ce91f5c94f924fa5a74925d5c9ae5a1561e8"
+      },
+      "counted_replacements": []
+    },
+    {
+      "path": "scripts/current-attendance-midnight-source475-qualification/probe.py",
+      "original_path": "scripts/current-attendance-midnight-native1-qualification/probe.py",
+      "original": {
+        "bytes": 3114,
+        "sha256": "5f331bd9a785e1e326c15e4f57f61561a3cf9171aa1603aee538a44abb7ca373"
+      },
+      "derived": {
+        "bytes": 3114,
+        "sha256": "5f331bd9a785e1e326c15e4f57f61561a3cf9171aa1603aee538a44abb7ca373"
+      },
+      "counted_replacements": []
+    },
+    {
+      "path": "scripts/current-attendance-midnight-source475-qualification/result_gate.py",
+      "original_path": "scripts/current-attendance-midnight-native1-qualification/result_gate.py",
+      "original": {
+        "bytes": 7521,
+        "sha256": "8fd06d55975757d15127c3c305c88cdfff0d10074502ecd7fdc010845ff5a9b8"
+      },
+      "derived": {
+        "bytes": 7521,
+        "sha256": "8fd06d55975757d15127c3c305c88cdfff0d10074502ecd7fdc010845ff5a9b8"
+      },
+      "counted_replacements": []
+    },
+    {
+      "path": "scripts/current-attendance-midnight-source475-qualification/retain_reports.py",
+      "original_path": "scripts/current-attendance-midnight-native1-qualification/retain_reports.py",
+      "original": {
+        "bytes": 986,
+        "sha256": "a1214d5b7ab392bf2d821733648305d8727f5efa8d6fc2a73d2617a1ef7ac574"
+      },
+      "derived": {
+        "bytes": 986,
+        "sha256": "a1214d5b7ab392bf2d821733648305d8727f5efa8d6fc2a73d2617a1ef7ac574"
+      },
+      "counted_replacements": []
+    },
+    {
+      "path": "scripts/current-attendance-midnight-source475-qualification/generated_receipts.py",
+      "original_path": "scripts/current-attendance-midnight-native1-qualification/generated_receipts.py",
+      "original": {
+        "bytes": 9466,
+        "sha256": "a569138a5b6d4c0d1ce542ab45af98ee156f47e6d772766c214bbae3366ffc7e"
+      },
+      "derived": {
+        "bytes": 9466,
+        "sha256": "a569138a5b6d4c0d1ce542ab45af98ee156f47e6d772766c214bbae3366ffc7e"
+      },
+      "counted_replacements": []
+    },
+    {
+      "path": "scripts/current-attendance-midnight-source475-qualification/generated_later.py",
+      "original_path": "scripts/current-attendance-midnight-native1-qualification/generated_later.py",
+      "original": {
+        "bytes": 10525,
+        "sha256": "7bf35d85d9f7ec19da34c5626f24af908f3691a4e3ed7251dbc4958e59b4bea3"
+      },
+      "derived": {
+        "bytes": 10525,
+        "sha256": "7bf35d85d9f7ec19da34c5626f24af908f3691a4e3ed7251dbc4958e59b4bea3"
+      },
+      "counted_replacements": []
+    },
+    {
+      "path": "scripts/current-attendance-midnight-source475-qualification/midnight_common.py",
+      "original_path": "scripts/current-attendance-midnight-native1-qualification/midnight_common.py",
+      "original": {
+        "bytes": 2586,
+        "sha256": "ed27a5b8cdd776561e2968752e430f81f0f40f98031e8d084c072d6fa12eaa06"
+      },
+      "derived": {
+        "bytes": 2598,
+        "sha256": "26152413eb4cf6a37e459cc0d0a0c91672c57a10c3510aa56cf5ac14ab43c672"
+      },
+      "counted_replacements": [
+        {
+          "before": "NS = 'scripts/current-attendance-midnight-native1-qualification/'",
+          "after": "NS = 'scripts/current-attendance-midnight-source475-qualification/'",
+          "count": 1
+        },
+        {
+          "before": "WORKFLOW = '.github/workflows/cp7-attendance-midnight-native1.yml'",
+          "after": "WORKFLOW = '.github/workflows/cp7-attendance-midnight-source475-native1.yml'",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "scripts/current-attendance-midnight-source475-qualification/midnight_gate.py",
+      "original_path": "scripts/current-attendance-midnight-native1-qualification/midnight_gate.py",
+      "original": {
+        "bytes": 3070,
+        "sha256": "fb3482f65d60ce4d56cc2f4e71406a0c47b57959d49169db5653c73ce0f1516d"
+      },
+      "derived": {
+        "bytes": 3138,
+        "sha256": "d4bd18366f34012a3d1cae234000de4c1e03a7509e7f005c30927b9828c755b7"
+      },
+      "counted_replacements": [
+        {
+          "before": "from midnight_common import ID, hash40",
+          "after": "from midnight_common import ID, hash40\nimport parent_binding",
+          "count": 1
+        },
+        {
+          "before": "    return parent, backend",
+          "after": "    parent_binding.checked(parent, backend)\n    return parent, backend",
+          "count": 1
+        },
+        {
+          "before": "'scripts/current-attendance-midnight-native1-qualification/accepted-parent14/'",
+          "after": "'scripts/current-attendance-midnight-source475-qualification/accepted-parent14/'",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "scripts/current-attendance-midnight-source475-qualification/ORIGIN.json",
+      "original_path": "scripts/current-attendance-midnight-native1-qualification/ORIGIN.json",
+      "original": {
+        "bytes": 1680,
+        "sha256": "b8a31ad06f5438b7221407eae1cfa4423472452de006282f19cc6b9a763c431b"
+      },
+      "derived": {
+        "bytes": 1680,
+        "sha256": "b8a31ad06f5438b7221407eae1cfa4423472452de006282f19cc6b9a763c431b"
+      },
+      "counted_replacements": []
+    },
+    {
+      "path": "scripts/current-attendance-midnight-source475-qualification/source_check.py",
+      "original_path": "scripts/current-attendance-midnight-native1-qualification/source_check.py",
+      "original": {
+        "bytes": 6758,
+        "sha256": "359e9bc029f342925c3f3fb17a74ff1c59f762a556579218eef98daf98f3bbe5"
+      },
+      "derived": {
+        "bytes": 6540,
+        "sha256": "61653113266b7287d553e9f46d399b69b3d2c41bcea30f8a158d76104c4a3ce5"
+      },
+      "counted_replacements": [
+        {
+          "before": "BASE = '9ac9c8bd1bfb7d64a1e735067083c68acbff02ef'",
+          "after": "BASE = '3c0c5defe55e48cf6f221c868594dd6676d17170'",
+          "count": 1
+        },
+        {
+          "before": "TREE = '49591433899ef13c70e3cd94fc0c43894ea182df'",
+          "after": "TREE = 'ca20c918201b455ad09df489829b83b9e6afea95'",
+          "count": 1
+        },
+        {
+          "before": "BASE_MANIFEST = 'scripts/current-attendance-choice-reader-native14-qualification/SOURCE.json'",
+          "after": "BASE_MANIFEST = 'scripts/current-s03-lawful-fixture-successor-qualification/SOURCE.json'",
+          "count": 1
+        },
+        {
+          "before": "BASE_MANIFEST_SHA = 'a6efa90aa23107a2facdd55d285677bbf60731432543455dcd844b3d2a0a56c1'",
+          "after": "BASE_MANIFEST_SHA = 'ba59dee4ae71c62df2b2e35c558cb23a7c66254a974c554cc3d17d63b936c555'",
+          "count": 1
+        },
+        {
+          "before": "def current_declaration(root, cfg):\n    if cfg['backend_binding'] is None:\n        raw = git(root, 'show', BASE + ':' + BASE_MANIFEST)\n        if sha256(raw).hexdigest() != BASE_MANIFEST_SHA:\n            raise ValueError('MIDNIGHT_EXACT_FAILED_BASE_SOURCE_HISTORY_REQUIRED')\n        return BASE, TREE, document(raw)['files']\n    _, backend = gate.selected(cfg)\n    source = backend['source_manifest']\n    raw = regular(root, source['path']).read_bytes()\n    exact(raw, dict(bytes=source['bytes'], sha256=source['sha256']))\n    if raw != git(root, 'show', backend['head'] + ':' + source['path']):\n        raise ValueError('MIDNIGHT_ACTUAL_CURRENT_PARENT_MANIFEST_CHANGED')\n    current = document(raw)['files']\n    if current != backend['files']:\n        raise ValueError('MIDNIGHT_COMPLETE_CURRENT_PARENT_SOURCE_MAP_REQUIRED')\n    return backend['head'], backend['tree'], current\n",
+          "after": "def current_declaration(root, cfg):\n    import parent_binding\n    return parent_binding.current_declaration(root, cfg)\n",
+          "count": 1
+        },
+        {
+          "before": "    own = {str(p.relative_to(root)) for p in here.rglob('*')",
+          "after": "    # Reject leaf/ancestor links by exact source path before enumeration.\n    for name, expected_pin in manifest['files'].items():\n        exact(regular(root, name).read_bytes(), expected_pin)\n    own = {str(p.relative_to(root)) for p in here.rglob('*')",
+          "count": 1
+        },
+        {
+          "before": "    proofs = historical_proofs(root)",
+          "after": "    proofs = historical_proofs(root)\n    import historical_inputs\n    proofs.update(historical_inputs.present_pins(root))",
+          "count": 1
+        },
+        {
+          "before": "    return dict(status='CLOSED_PREPARED_CURRENT_SOURCE_ONLY' if cfg['accepted_parent14'] is None",
+          "after": "    import provenance\n    routes = provenance.check(root, here)\n    return dict(status='CLOSED_PREPARED_CURRENT_SOURCE475_ONLY' if cfg['accepted_parent14'] is None",
+          "count": 1
+        },
+        {
+          "before": "        source_pins=len(manifest['files']), full_parent_files=len(entries),",
+          "after": "        source_pins=len(manifest['files']), full_parent_files=len(entries),\n        actual_current_parent_source_members=475, parent_manifest_pinned=True,\n        inherited_Original_input_pins=len(historical_inputs.present_pins(root)),\n        immutable_c097_provenance=routes,",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "product_changes": 0,
+  "Native_executions": 0
+}

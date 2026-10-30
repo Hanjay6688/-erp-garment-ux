@@ -1,0 +1,173 @@
+{
+  "head": "c0975ead5c9ff5e0677a2b7b9a86ef9cd3b37db5",
+  "tree": "29982d68269a56a088b8bd05e46bd878d341d57f",
+  "files": {
+    ".github/workflows/cp7-attendance-midnight-native1.yml": {
+      "bytes": 29379,
+      "sha256": "a1637209b69374850daaac54d89e404cf51917e31fdffb28a582f89802be1c25"
+    },
+    "scripts/current-attendance-midnight-native1-qualification/CHECKOUT_SAFETY.json": {
+      "bytes": 404,
+      "sha256": "55bdb05f9207ca1de4602d836842270618fa8a12889e182ad1f49889dbe1181c"
+    },
+    "scripts/current-attendance-midnight-native1-qualification/CONFIG.json": {
+      "bytes": 2855,
+      "sha256": "52baaca1c0e8c361c99fb2438cbd8a96dd26318e67855e77ebd8c35e3f7c7695"
+    },
+    "scripts/current-attendance-midnight-native1-qualification/DERIVATIONS.json": {
+      "bytes": 1427,
+      "sha256": "4795570d0edb276d64e6cdfb1d4acf11c015a4f78d9c80d1fce4a2ec457c69cd"
+    },
+    "scripts/current-attendance-midnight-native1-qualification/GENERATED_RECEIPTS.json": {
+      "bytes": 57287,
+      "sha256": "6226944ec372860027897ba4bfc272edcf6d0906e687104a5f5e3d4c77b708e5"
+    },
+    "scripts/current-attendance-midnight-native1-qualification/LATER_GENERATED_RECEIPTS.json": {
+      "bytes": 27961,
+      "sha256": "ce84fd98ed01ab3a86ce304c606cad100b4cba91697bfc8b6b7c3d7802f44097"
+    },
+    "scripts/current-attendance-midnight-native1-qualification/ORIGIN.json": {
+      "bytes": 1680,
+      "sha256": "b8a31ad06f5438b7221407eae1cfa4423472452de006282f19cc6b9a763c431b"
+    },
+    "scripts/current-attendance-midnight-native1-qualification/README.md": {
+      "bytes": 5024,
+      "sha256": "b6c9526cc10facaa0decb393fe4cecffb36be30de28d08375ca005a8a7aca7b9"
+    },
+    "scripts/current-attendance-midnight-native1-qualification/SOURCE.json": {
+      "bytes": 99610,
+      "sha256": "8ab84bf91b9f15c96fe3d4aee5d84f42246ecbc09c5b1d8c9c873b92b6d3059b"
+    },
+    "scripts/current-attendance-midnight-native1-qualification/check.py": {
+      "bytes": 622,
+      "sha256": "eb45fbc9ab08384d01e27db5d3111df66b6190e2166a4dbbe41e3e71f8de9afa"
+    },
+    "scripts/current-attendance-midnight-native1-qualification/evidence/FIRST_LOCAL_SOURCE_FAILURE.json": {
+      "bytes": 608,
+      "sha256": "50606bb90149a714fb8cd83c9cb4e0275042f8634d4a2bdbba28ee19f1558146"
+    },
+    "scripts/current-attendance-midnight-native1-qualification/evidence/LOCAL_CONTROL_RECEIPT.json": {
+      "bytes": 1578,
+      "sha256": "ae88ffc0f0d9af7726b09c81c8c8f1cf04d3f68e0ce1de3377bea787f9fa98f0"
+    },
+    "scripts/current-attendance-midnight-native1-qualification/freeze.py": {
+      "bytes": 1554,
+      "sha256": "c81f6ee32ec1685e4fdb5271d46eff39d3604309786053d3c8aa16b4193192e2"
+    },
+    "scripts/current-attendance-midnight-native1-qualification/generated_later.py": {
+      "bytes": 10525,
+      "sha256": "7bf35d85d9f7ec19da34c5626f24af908f3691a4e3ed7251dbc4958e59b4bea3"
+    },
+    "scripts/current-attendance-midnight-native1-qualification/generated_receipts.py": {
+      "bytes": 9466,
+      "sha256": "a569138a5b6d4c0d1ce542ab45af98ee156f47e6d772766c214bbae3366ffc7e"
+    },
+    "scripts/current-attendance-midnight-native1-qualification/historical-midnight-c0/LOCAL_CHECK_RECEIPT.json": {
+      "bytes": 4299,
+      "sha256": "f5e3d5a18afaf627e025f396641f5c596ba3f38f35a48a9a848eab2c37c89368"
+    },
+    "scripts/current-attendance-midnight-native1-qualification/historical-midnight-c0/LOCAL_FINAL15_PASS.log": {
+      "bytes": 2677,
+      "sha256": "17d77a6f14d4ae8634ffb108dd42fe24f1c7d4a92e92a698ae9b30f9895e33c6"
+    },
+    "scripts/current-attendance-midnight-native1-qualification/historical-midnight-c0/LOCAL_FIRST15_PASS.log": {
+      "bytes": 2677,
+      "sha256": "e45da16a7bcd5a7ac28a08d1436c7d7b6d5acefcfaf6cf4acacfb684cfcc9dc9"
+    },
+    "scripts/current-attendance-midnight-native1-qualification/historical-midnight-c0/README.md": {
+      "bytes": 6744,
+      "sha256": "845cb636c37ddfb3e406139f9fdb726df3aeda1bf585c93445b5a2c845451a65"
+    },
+    "scripts/current-attendance-midnight-native1-qualification/historical-midnight-c0/SOURCE.json": {
+      "bytes": 14825,
+      "sha256": "d7bb90974374feb0316dc5d465d21d39cdda42a7b103d04e4615d1d3d1fb23b2"
+    },
+    "scripts/current-attendance-midnight-native1-qualification/historical-midnight-c0/admission.py": {
+      "bytes": 6190,
+      "sha256": "a27baa9e5f927bd781ce01868390c68fb0c031cfb640095a3ca2ca64c12b05ff"
+    },
+    "scripts/current-attendance-midnight-native1-qualification/historical-midnight-c0/cases.py": {
+      "bytes": 12384,
+      "sha256": "7cdfd006c4dfb2f3c35dc9557366f601fd2d0a6748505c40f2ee8b66373b2506"
+    },
+    "scripts/current-attendance-midnight-native1-qualification/historical-midnight-c0/oracle.py": {
+      "bytes": 5433,
+      "sha256": "9f866f07083477ea338649fed88d9f92a71559c173bbbce88885ebf906b77a1d"
+    },
+    "scripts/current-attendance-midnight-native1-qualification/historical-midnight-c0/test_preparation.py": {
+      "bytes": 14339,
+      "sha256": "eec913c8ab5270e82775e71504ae5db188d9389187dbd9d8a85ca89cb020188e"
+    },
+    "scripts/current-attendance-midnight-native1-qualification/local_models.py": {
+      "bytes": 6131,
+      "sha256": "2a38374585a3c0c687b1a9d773b4d15b7c899ff09aa6801751cfeb758842008c"
+    },
+    "scripts/current-attendance-midnight-native1-qualification/midnight_admission.py": {
+      "bytes": 7212,
+      "sha256": "dd33f7533cc314284da015f2cae4e85dbafa3a2473b47bbfd4e4cf66b4abc93b"
+    },
+    "scripts/current-attendance-midnight-native1-qualification/midnight_common.py": {
+      "bytes": 2586,
+      "sha256": "ed27a5b8cdd776561e2968752e430f81f0f40f98031e8d084c072d6fa12eaa06"
+    },
+    "scripts/current-attendance-midnight-native1-qualification/midnight_derive.py": {
+      "bytes": 3185,
+      "sha256": "58b068fd26a414c38503e811a2d8ba6982e2406e5554f336297ea5f95164381a"
+    },
+    "scripts/current-attendance-midnight-native1-qualification/midnight_factory.py": {
+      "bytes": 2602,
+      "sha256": "5e36de94aa38d8c1bc51ef00ab82533a2f859069a89570fa27b1e465dbe9b266"
+    },
+    "scripts/current-attendance-midnight-native1-qualification/midnight_gate.py": {
+      "bytes": 3070,
+      "sha256": "fb3482f65d60ce4d56cc2f4e71406a0c47b57959d49169db5653c73ce0f1516d"
+    },
+    "scripts/current-attendance-midnight-native1-qualification/midnight_group.py": {
+      "bytes": 2167,
+      "sha256": "b7de4c0be9c385a16aedf4864e2dabd1c57ed99e5f92f1080cbe8d47614f4b7a"
+    },
+    "scripts/current-attendance-midnight-native1-qualification/midnight_runner.py": {
+      "bytes": 2402,
+      "sha256": "ee9137ee00bd9df02ea221cbd094ce91f5c94f924fa5a74925d5c9ae5a1561e8"
+    },
+    "scripts/current-attendance-midnight-native1-qualification/probe.py": {
+      "bytes": 3114,
+      "sha256": "5f331bd9a785e1e326c15e4f57f61561a3cf9171aa1603aee538a44abb7ca373"
+    },
+    "scripts/current-attendance-midnight-native1-qualification/result_gate.py": {
+      "bytes": 7521,
+      "sha256": "8fd06d55975757d15127c3c305c88cdfff0d10074502ecd7fdc010845ff5a9b8"
+    },
+    "scripts/current-attendance-midnight-native1-qualification/retain_reports.py": {
+      "bytes": 986,
+      "sha256": "a1214d5b7ab392bf2d821733648305d8727f5efa8d6fc2a73d2617a1ef7ac574"
+    },
+    "scripts/current-attendance-midnight-native1-qualification/source_check.py": {
+      "bytes": 6758,
+      "sha256": "359e9bc029f342925c3f3fb17a74ff1c59f762a556579218eef98daf98f3bbe5"
+    },
+    "scripts/current-attendance-midnight-native1-qualification/test_contract.py": {
+      "bytes": 13900,
+      "sha256": "e9d5554078b1f7b358ac6e36bbab328fe86501e1772c59d0171e583e820f25af"
+    },
+    "scripts/current-attendance-midnight-native1-qualification/test_historical_oracles.py": {
+      "bytes": 919,
+      "sha256": "d1ea51cd3b6ad0d6c43b5f7aa829502d4afd7312a474426db9e94f80d180499d"
+    },
+    "scripts/current-attendance-midnight-native1-qualification/test_source.py": {
+      "bytes": 3097,
+      "sha256": "fadf2d1edd0df5b675c81d3c7be7612bcf40698bdafe7dc3404e17d2d6535ad0"
+    },
+    "scripts/current-attendance-midnight-native1-qualification/test_used_witness.py": {
+      "bytes": 4646,
+      "sha256": "c136b4035dd4dd04f175bd5aa24eef8fe0cf6042f0db2f68d30677c851ba5502"
+    },
+    "scripts/current-attendance-midnight-native1-qualification/workflow.py": {
+      "bytes": 2840,
+      "sha256": "57d257319229d4d1dcf4cba6e3671820518705d16d99e1e783689349c63c7dc1"
+    }
+  },
+  "historical_only": true,
+  "actual_producer": false,
+  "actual_Git_root": false
+}

@@ -1,0 +1,14 @@
+{
+  "classification": "LOCAL_PURE_AND_SOURCE_CONTROLS_NOT_NATIVE",
+  "status": "PASS",
+  "tests": 15,
+  "Native": 0,
+  "DB": 0,
+  "Auth": 0,
+  "browser": 0,
+  "network": 0,
+  "accepted_parent14": null,
+  "backend_binding": null,
+  "current475_admission_not_financial_acceptance": true,
+  "old425_counter_retained": "FIRST_LOCKED_C097_COUNTER.json"
+}

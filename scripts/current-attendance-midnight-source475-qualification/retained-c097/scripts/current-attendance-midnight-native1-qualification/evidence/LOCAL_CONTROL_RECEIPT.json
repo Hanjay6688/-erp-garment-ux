@@ -1,0 +1,40 @@
+{
+  "classification": "LOCAL_PURE_SOURCE_AND_IN_MEMORY_DOUBLES_ONLY_NOT_NATIVE",
+  "status": "PURE_LOCAL_CONTROLS_PASS_RUNTIME_CLOSED",
+  "Native_executions": 0,
+  "DB_executions": 0,
+  "Auth_HTTP": 0,
+  "browser": 0,
+  "races": 0,
+  "network": 0,
+  "expected_runtime_gate": "MIDNIGHT_NATIVE1_CLOSED_ACTUAL_SUCCESSOR14_SIX_ORIGINALS_REQUIRED",
+  "accepted_parent14": null,
+  "backend_binding": null,
+  "production_go": false,
+  "independent_acceptance": false,
+  "local_controls": {
+    "PASS": 38,
+    "FAIL": 0,
+    "SKIP": 0
+  },
+  "commands": [
+    "python -B -m unittest discover -s scripts/current-attendance-midnight-native1-qualification -p 'test_*.py'",
+    "python -B scripts/current-attendance-midnight-native1-qualification/check.py --offline",
+    "python -B scripts/current-attendance-midnight-native1-qualification/probe.py --check"
+  ],
+  "last_unit_output": "Ran38 local pure/source/API-double controls; OK. No Native/DB/Auth/browser/race/network execution.",
+  "closed_gate_exit": 1,
+  "closed_gate_error": "MIDNIGHT_NATIVE1_CLOSED_ACTUAL_SUCCESSOR14_SIX_ORIGINALS_REQUIRED",
+  "first_source_failure_retained": "evidence/FIRST_LOCAL_SOURCE_FAILURE.json",
+  "source_closure": {
+    "status": "CLOSED_PREPARED_CURRENT_SOURCE_ONLY",
+    "source_pins": 465,
+    "full_parent_files": 13821,
+    "historical_midnight_files": 9,
+    "runtime_files": 7,
+    "function_captures": 15,
+    "planned_new_cases": 1,
+    "actual_Native_cases": 0
+  },
+  "final_namespace_cleanup": "Only unique midnight_* module names are active; unused initial generic filenames removed."
+}

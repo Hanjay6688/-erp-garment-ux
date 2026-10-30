@@ -1,0 +1,78 @@
+{
+  "classification": "INTERNAL_READ_ONLY_FIRST_LOCKED_REVIEW_NOT_INDEPENDENT_ACCEPTANCE",
+  "reviewed_head": "c0975ead5c9ff5e0677a2b7b9a86ef9cd3b37db5",
+  "reviewed_tree": "29982d68269a56a088b8bd05e46bd878d341d57f",
+  "reviewed_worktree": "/workspace/scratch/ef468a447ac6/erp-credit-d1-cap-successor",
+  "locked_before_peer_conclusions": true,
+  "task": "Standalone midnight Native1 preparation",
+  "findings": [
+    {
+      "id": "MIDNIGHT_CURRENT475_BINDING_NOT_REQUIRED",
+      "classification": "INTERNAL_PREPARATION_GAP_BEFORE_FUTURE_ROOT_REBIND",
+      "severity": "MUST_BIND_BEFORE_NATIVE1",
+      "source": [
+        {
+          "file": "scripts/current-attendance-midnight-native1-qualification/midnight_gate.py",
+          "lines": [
+            30,
+            33
+          ]
+        },
+        {
+          "file": "scripts/current-attendance-midnight-native1-qualification/source_check.py",
+          "lines": [
+            20,
+            35
+          ]
+        }
+      ],
+      "observed": "A metadata-only counter used actual24b parent head/tree but supplied unchanged old425 SOURCE map/path: gate.selected returned and source_check.current_declaration returned425. The lawful successor helper path is absent. This was NOT a whole-source/runtime/Original acceptance; actual CONFIG remains NULL and source465 correctly historical/prepared only.",
+      "required": "Future root binding must name/pin actual24b SOURCE475 ba59dee4ae71c62df2b2e35c558cb23a7c66254a974c554cc3d17d63b936c555 (or explicitly reviewed exact successor), require exact complete map and retain old425 only as history. Add source-only old425/rogue-negative control before rebind; no Original manufactured."
+    }
+  ],
+  "verified": [
+    {
+      "item": "Actual CONFIG NULL",
+      "result": "Closed before ERP import/Original/GET/DB via gate.selected at probe.runtime21-24; actual pure gate observed CLOSED code."
+    },
+    {
+      "item": "Actual closed source closure",
+      "result": "source_check.check PASS:465 pins,13821 full parent files, runtime7,captures15, Native0. This is NOT future source475 admission."
+    },
+    {
+      "item": "Immutable callback/oracle provenance",
+      "result": "All9 retained historical files compared byte-exact to actualc0e Git blobs; run_boundary144-208/oracle unchanged."
+    },
+    {
+      "item": "One invocation/no fakeclock/no retry",
+      "result": "factory returns one unchanged run_boundary lambda; group uses actual _strict_group_once once, never strict_group/with_retry; Native day guard retained; historical plan fixes today-3/+1, UTC17 us pair and caller zone restored; no SQL executed."
+    },
+    {
+      "item": "Six future Originals",
+      "result": "strict11/Reader3/outer14/package/files/drill exact raw/gzip pins, groups embedded exact, all14 counts/IDs, same head/run/workflow package, used allocation/full no-effect and all5/fullouter required in admission.checked; in-memory only positive/negative source validation, no actualfutureOriginal exists."
+    },
+    {
+      "item": "Current actual runtime/captures",
+      "result": "runtime7 pins exact; installed() requires exact15 signatures,patched actualdefinitions,two exactclones and actualverify with22 catalog sets; root-bound product.sources is compared full/unprojected."
+    },
+    {
+      "item": "Standalone used/fullouter5",
+      "result": "Reversible extraction retains committedALLOCATE/accrual/source/all22rows+sequences inverse-refusal block; only11to1 count metadata. Engine6 bindings preservefullinstall/preuse/reinstall/backup/roles/CP6/advisors; resultgate pins currentGitHEAD and newraw1/witness/outer/package5."
+    }
+  ],
+  "execution": {
+    "Native": 0,
+    "DB": 0,
+    "Auth": 0,
+    "browser": 0,
+    "network": 0,
+    "remote": 0,
+    "worktree_mutations": 0,
+    "pure_offline_source_call": true,
+    "metadata_only_counter_not_Original_or_runtime": true
+  },
+  "source465_sha256": "8ab84bf91b9f15c96fe3d4aee5d84f42246ecbc09c5b1d8c9c873b92b6d3059b",
+  "worktree_status_before_after": "CLEAN",
+  "production_go": false,
+  "independent_acceptance": false
+}

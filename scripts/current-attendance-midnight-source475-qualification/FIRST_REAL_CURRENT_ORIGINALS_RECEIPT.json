@@ -1,0 +1,35 @@
+{
+  "classification": "ACTUAL_SOURCE475_AND_REAL_FIVE_ENVIRONMENT_ORIGINAL_INTAKE_ONLY",
+  "status": "PASS",
+  "original_cli": [
+    "/workspace/scratch/ef468a447ac6/erp-credit-d1-cap-successor/scripts/current-attendance-midnight-source475-qualification/check.py",
+    "--current-originals"
+  ],
+  "actual_Native_cases": 0,
+  "DB_network_process_attempts": {
+    "DB": 0,
+    "network": 0,
+    "non_readonly_process": 0
+  },
+  "wholecaller_source_results_projected": false,
+  "current_installation_files": 7,
+  "historical_created_exact4": {
+    "classification": "EXACT_UNTRACKED_HISTORICAL_PROOF_INPUTS_ONLY",
+    "created": [
+      "docs/cp7/d17-14/ow08/vendor-combined41c-pass/CP7_VENDOR_RECEIVABLE_COMBINED11.json.gz",
+      "docs/cp7/d17-14/ow08/vendor-combined41c-pass/T3_PACKAGE_INSTALL.json.gz",
+      "docs/cp7/d17-14/ow08/vendor-combined41c-pass/T3_BACKUP_RESTORE_DRILL.json.gz",
+      "docs/cp7/d17-14/ow08/vendor-combined41c-pass/T3_PACKAGE_FILES_INSTALL.json.gz"
+    ],
+    "exact_existing_preserved": [],
+    "overwritten": [],
+    "new_S03_Native_credit": 0,
+    "D1_failed_runtime_is_prerequisite": false
+  },
+  "future_six_Originals_admitted": false,
+  "accepted_parent14": null,
+  "backend_binding": null,
+  "stdout_bytes": 362599,
+  "stdout_sha256": "5fc2dbe28645854595828cbdbcc70bb64cd25f8b2405eaf29996980cfb75e819",
+  "original_intake_source_metadata_anchor_changes": 1
+}

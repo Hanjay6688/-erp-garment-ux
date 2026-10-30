@@ -1,0 +1,20 @@
+test_all80_frozen_files_and_exact_own_sources_are_bound (test_preparation.AdmissionControls.test_all80_frozen_files_and_exact_own_sources_are_bound) ... ok
+test_original11_exact_ids_integer_counts_and_failures_are_closed (test_preparation.AdmissionControls.test_original11_exact_ids_integer_counts_and_failures_are_closed) ... ok
+test_retained_raw_and_package_gate_positive_and_negative_models (test_preparation.AdmissionControls.test_retained_raw_and_package_gate_positive_and_negative_models) ... ok
+test_SQL_error_rolls_back_zone_scope_restores_and_preserves_original_error (test_preparation.ApiControls.test_SQL_error_rolls_back_zone_scope_restores_and_preserves_original_error) ... ok
+test_contractor_fixture_value_restores_even_when_native_chain_refuses (test_preparation.ApiControls.test_contractor_fixture_value_restores_even_when_native_chain_refuses) ... ok
+test_factory_declares_one_additional_case_without_running_fixture (test_preparation.ApiControls.test_factory_declares_one_additional_case_without_running_fixture) ... ok
+test_no_accepted_original_pin_refuses_before_cursor_or_product_import (test_preparation.ApiControls.test_no_accepted_original_pin_refuses_before_cursor_or_product_import) ... ok
+test_occupied_fixed_pair_refuses_before_any_fixture_and_has_no_retry (test_preparation.ApiControls.test_occupied_fixed_pair_refuses_before_any_fixture_and_has_no_retry) ... ok
+test_timezone_is_UTC_inside_and_original_zone_restored_on_success (test_preparation.ApiControls.test_timezone_is_UTC_inside_and_original_zone_restored_on_success) ... ok
+test_UTC_day_filter_or_wrong_policy_or_wrong_source_is_detected (test_preparation.OracleControls.test_UTC_day_filter_or_wrong_policy_or_wrong_source_is_detected) ... ok
+test_exact_two_posted_native_facts_same_source_contractor_are_required (test_preparation.OracleControls.test_exact_two_posted_native_facts_same_source_contractor_are_required) ... ok
+test_fixed_dates_and_one_microsecond_pair_straddle_WIB_not_UTC_day (test_preparation.OracleControls.test_fixed_dates_and_one_microsecond_pair_straddle_WIB_not_UTC_day) ... ok
+test_naive_or_non_date_fixture_clock_is_refused (test_preparation.OracleControls.test_naive_or_non_date_fixture_clock_is_refused) ... ok
+test_public_closed_wire_budget_scope_and_private_context_are_checked (test_preparation.OracleControls.test_public_closed_wire_budget_scope_and_private_context_are_checked) ... ok
+test_three_exact_destination_sets_keep_one_original_source_budget (test_preparation.OracleControls.test_three_exact_destination_sets_keep_one_original_source_budget) ... ok
+
+----------------------------------------------------------------------
+Ran 15 tests in 0.103s
+
+OK

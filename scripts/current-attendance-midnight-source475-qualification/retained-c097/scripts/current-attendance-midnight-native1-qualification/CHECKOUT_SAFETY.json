@@ -1,0 +1,10 @@
+{
+  "old_branch": "qualification/a-credit-d1-cap-native13-20261029",
+  "old_head": "568e57d5bdd1452ed7d62392879f6d5b738dfadd",
+  "new_branch": "qualification/a-s03-midnight-native1-prepared-20261030",
+  "public_base": "9ac9c8bd1bfb7d64a1e735067083c68acbff02ef",
+  "tracked_and_untracked_status_before": "CLEAN",
+  "owned_path_collisions": [],
+  "quarantine_required": false,
+  "WIP_overwritten": false
+}

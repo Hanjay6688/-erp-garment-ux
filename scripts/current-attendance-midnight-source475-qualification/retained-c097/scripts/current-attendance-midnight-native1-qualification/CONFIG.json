@@ -1,0 +1,54 @@
+{
+  "contract": "cp7.attendance-midnight-native1.v1",
+  "state": "CLOSED_PREPARED_ONLY",
+  "public_source_base": "9ac9c8bd1bfb7d64a1e735067083c68acbff02ef",
+  "public_source_base_tree": "49591433899ef13c70e3cd94fc0c43894ea182df",
+  "root_execution_branch": "astra-a/attendance-midnight-native1-20261030",
+  "workflow_name": "CP7 A attendance midnight output Native1",
+  "case_ID": "S03_NATIVE_MIDNIGHT_OUTPUT_UTC17_SAME_SOURCE_CID_5_5_10",
+  "expected_new_Native_cases": 1,
+  "expected_captured_originals": 15,
+  "expected_private_clones": 2,
+  "prepared_backend_runtime7": {
+    "scripts/cp7_attendance_period_choice/choice.sql": "44499c6d6a06d1effc2be4f066168f5fa2fe9608b2ccb80d1d2d0b1dac0a8212",
+    "scripts/cp7_attendance_period_choice/readers.sql": "4ab82ff58033f4357251930504e6e9e75ecce9d8f1cc5b4e10f689940ce749e2",
+    "scripts/cp7_attendance_period_choice/native_delta.py": "a49242327798a59407739c2999fcf92408aeef9d88a1ae94fccc82bd189ac9ce",
+    "scripts/cp7_attendance_period_choice/catalog_contract.py": "f312de61b3c75087a51d7df712896627c02bb5d6473803bf6d2c90ad506d7c64",
+    "scripts/cp7_attendance_period_choice/NEW_CATALOG_IDENTITIES.json": "e49e4cb9c794d6ed98b831ae318e6d3c401a110d420cf932ee7011f7c971a578",
+    "scripts/cp7_attendance_period_choice/composition.py": "51b3d53dccd69688438287bee338e7a86a37afe57aa963cc2dee24b2e43470f1",
+    "scripts/cp7_attendance_period_choice/installer_ddl.py": "e002ea2dd938fef5913c76974909f70de8bcb47874b7fd958c0aeef0e2993514"
+  },
+  "accepted_parent14": null,
+  "backend_binding": null,
+  "failed_native14_source_history": {
+    "head": "9ac9c8bd1bfb7d64a1e735067083c68acbff02ef",
+    "strict11_counts": {
+      "PASS": 8,
+      "INCOMPLETE": 3
+    },
+    "accepted": false,
+    "Reader3_reached": false,
+    "whole14_used_witness_reached": false
+  },
+  "fresh_original11_or14_rerun": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "expected_parent11_ids": [
+    "S03_NATIVE_OWNER_FIELDS_READ_FULL_NO_EFFECT",
+    "S03_NATIVE_EXPENSE_APPROVAL_ONCE_PAID_E05_REOPEN",
+    "S03_NATIVE_TWO_EXACT_PERIODS_CENTS_AND_NATIVE_HPP",
+    "S03_NATIVE_P2_PAYROLL_POOL_COEXIST_AND_POLICY_FENCES",
+    "S03_NATIVE_OWNING_CANCEL_LATE_OUTPUT_AND_RESTORATION_FLOOR",
+    "S03_NATIVE_BOTH_CORRECTIONS_LINKED_INVERSES_NO_RECOGNITION",
+    "S03_NATIVE_STALE_REVIEW_UUID_RECOVERY_AND_APPEND_ONLY",
+    "S03_NATIVE_CLOSED_SOURCE_OPEN_OUTPUT_AND_CLOSED_CORRECTION",
+    "S03_NATIVE_ZERO_OUTPUT_SUCCESSOR_POLICY_RETAINS_OLD_INFO",
+    "S03_NATIVE_FINISHED_PO_FG_COGS_COST_AND_CANCEL_EXACT",
+    "S03_NATIVE_OLD_ACCRUAL_LATER_BOOK_REOPEN_DATE_FLOOR"
+  ],
+  "expected_parent3_ids": [
+    "S03_READER_NATIVE_OWNED_ACTIVE_PERIODS_AND_DISJOINT_P2_UNCHANGED",
+    "S03_READER_NATIVE_CANCELLED_LIFETIME_AND_STALE_COMPOSITE_NO_EFFECT",
+    "S03_READER_NATIVE_EXACT_HELD_P1_BLOCKS_LEGACY_REPLACE_AND_CREATE"
+  ]
+}

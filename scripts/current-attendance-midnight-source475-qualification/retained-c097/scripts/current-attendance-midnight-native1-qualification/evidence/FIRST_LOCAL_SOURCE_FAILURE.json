@@ -1,0 +1,12 @@
+{
+  "classification": "LOCAL_SOURCE_PREPARATION_CONTROL_NATIVE0_DB0",
+  "stage": "FIRST_WHOLE_SOURCE_CLOSURE",
+  "status": "FAIL_RETAINED",
+  "error": "MIDNIGHT_UNKNOWN_SOURCE_OR_RECEIPT:['scripts/current-attendance-midnight-native1-qualification/historical-midnight-c0/SOURCE.json']",
+  "cause": "Writer seal excluded every filename SOURCE.json rather than only the outer self-manifest.",
+  "repair": "Exclude only HERE/SOURCE.json; retain and pin the nested immutable historical SOURCE.json.",
+  "product_changes": 0,
+  "Native_executions": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

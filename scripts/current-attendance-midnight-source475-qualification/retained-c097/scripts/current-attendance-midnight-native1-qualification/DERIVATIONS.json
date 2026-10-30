@@ -1,0 +1,34 @@
+{
+  "contract": "cp7.midnight.explicit-private-derivations.v1",
+  "engine": {
+    "original_sha256": "c420d894f8d5f16bddefeae73addb621507170f372a28e7d6e33d88c7eeb0be9",
+    "derived_sha256": "18748a833cf9a0a37b575b7f436272d8c49bae046d1e48f6142c75d9956cc8bf",
+    "counted_changes": 6,
+    "unchanged_install_preuse_reinstall_used_guard_backup_roles_CP6_advisors_package": true,
+    "fresh_race_Auth_HTTP_browser_claim": false
+  },
+  "used_witness": {
+    "original_module_sha256": "c2124f5371c529ecbf7767381b55f4c799a2fe0829577d80aa3fbd443c4c9512",
+    "original_used_block_sha256": "cb1632c6c29aca6dda19dda4e8613afa06d64eb846bd2e7983d09a3071d62085",
+    "derived_used_block_sha256": "bab8a032a1cc4a2dc125a7f417b4421bf712d52b0fa0010f63279e0efe59799e",
+    "counted_body_changes": 1,
+    "only_change": "actual_Native_cases metadata11 to1",
+    "committed_ALLOCATE_truth_accrual_source_all22_rows_sequences_guard_exact": true,
+    "original11_factory_and_callbacks_executed": false
+  },
+  "historical_callback": {
+    "source_text_changes": 0,
+    "oracle_changes": 0,
+    "old_factory_invoked": false,
+    "explicit_module_ROOT_metadata_routes": 1,
+    "actual_current_product_sources_projected": false
+  },
+  "new_strict_group": {
+    "unchanged_body": "_strict_group_once",
+    "day_guard_unchanged": true,
+    "day_retry": false
+  },
+  "actual_Native_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

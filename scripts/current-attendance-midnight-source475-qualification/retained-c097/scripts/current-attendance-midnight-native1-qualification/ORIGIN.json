@@ -1,0 +1,53 @@
+{
+  "contract": "cp7.midnight-native1.exact-historical-source.v1",
+  "head": "c0e91078cb42b3523f2186cbd7972548aab71e15",
+  "tree": "b596b1d6b5f0d2166b4edb8438335b0051273593",
+  "files": {
+    "LOCAL_CHECK_RECEIPT.json": {
+      "bytes": 4299,
+      "sha256": "f5e3d5a18afaf627e025f396641f5c596ba3f38f35a48a9a848eab2c37c89368"
+    },
+    "LOCAL_FINAL15_PASS.log": {
+      "bytes": 2677,
+      "sha256": "17d77a6f14d4ae8634ffb108dd42fe24f1c7d4a92e92a698ae9b30f9895e33c6"
+    },
+    "LOCAL_FIRST15_PASS.log": {
+      "bytes": 2677,
+      "sha256": "e45da16a7bcd5a7ac28a08d1436c7d7b6d5acefcfaf6cf4acacfb684cfcc9dc9"
+    },
+    "README.md": {
+      "bytes": 6744,
+      "sha256": "845cb636c37ddfb3e406139f9fdb726df3aeda1bf585c93445b5a2c845451a65"
+    },
+    "SOURCE.json": {
+      "bytes": 14825,
+      "sha256": "d7bb90974374feb0316dc5d465d21d39cdda42a7b103d04e4615d1d3d1fb23b2"
+    },
+    "admission.py": {
+      "bytes": 6190,
+      "sha256": "a27baa9e5f927bd781ce01868390c68fb0c031cfb640095a3ca2ca64c12b05ff"
+    },
+    "cases.py": {
+      "bytes": 12384,
+      "sha256": "7cdfd006c4dfb2f3c35dc9557366f601fd2d0a6748505c40f2ee8b66373b2506"
+    },
+    "oracle.py": {
+      "bytes": 5433,
+      "sha256": "9f866f07083477ea338649fed88d9f92a71559c173bbbce88885ebf906b77a1d"
+    },
+    "test_preparation.py": {
+      "bytes": 14339,
+      "sha256": "eec913c8ab5270e82775e71504ae5db188d9389187dbd9d8a85ca89cb020188e"
+    }
+  },
+  "callback_name": "run_boundary",
+  "callback_lines": [
+    144,
+    208
+  ],
+  "old_factory_is_not_invoked": true,
+  "old_fresh11_admission_is_historical_only": true,
+  "actual_Native_credit": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}
