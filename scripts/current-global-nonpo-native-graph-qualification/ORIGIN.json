@@ -1,0 +1,27 @@
+{
+  "source_base": "cde78b2cc82e0a286174098458dab9815fdfd072",
+  "source_base_tree": "915103541d247f544c4492db25953b4268d9c2e3",
+  "previous_37b_branch_preserved": true,
+  "current_D1_and_generic_guard_files": {
+    "scripts/cp7_credit_correction_de/owning.sql": {
+      "bytes": 25957,
+      "sha256": "410afb540f455ce6781d8bf09ee6bd6f66420a2f17d3c5474720a642fdcc9cae"
+    },
+    "scripts/cp7_customer_credit/reconciliation/03_source_requests.sql": {
+      "bytes": 21078,
+      "sha256": "9cea83e59f7dd923ae4f182b8126615bad7a274a31765ce4dbff19b41f16a116"
+    }
+  },
+  "E_basis_runtime_parent": null,
+  "E06_body_copied": false,
+  "original_three_global_guards_modified": false,
+  "qualifies_final_composite": false,
+  "initial_observed_status_surfaces": [
+    "?? node_modules",
+    "?? scripts/cp7_hpp_close/__pycache__/",
+    "?? scripts/cp7_laundry_unknown_wash/__pycache__/"
+  ],
+  "initial_file_hashes_captured": false,
+  "later_untracked_are_not_authorized_source_inputs": true,
+  "later_observation_receipt": "evidence/UNATTRIBUTED_WORKTREE_OUTPUTS.json"
+}

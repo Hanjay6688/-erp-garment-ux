@@ -1,0 +1,10 @@
+{
+  "classification": "LOCAL_PGLITE_STRUCTURAL_SETUP_FAILURE_NO_NATIVE_EXECUTION",
+  "error": "function erp.account_id(unknown) does not exist",
+  "sqlstate": "42883",
+  "cause": "Retained SQL functions were concatenated with book before its account_id dependency.",
+  "raw_bytes": 35379,
+  "raw_sha256": "6de73ec254979685855d73366548249337bac2cf6ee45c483f33f63a973efaa8",
+  "actual_Native": 0,
+  "resolution": "Reorder whole unchanged extracted function statements; preserve every body/source hash."
+}

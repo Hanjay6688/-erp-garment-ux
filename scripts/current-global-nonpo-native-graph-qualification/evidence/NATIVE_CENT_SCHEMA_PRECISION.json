@@ -1,0 +1,8 @@
+{
+  "classification": "SOURCE_PRECISION_CORRECTION_NOT_NATIVE_BUG",
+  "Native_journal_debit_credit": "numeric(20,2)",
+  "Native_target": "each lot rounded2 before product sum",
+  "symbolic_halfcent_raw_delta_not_a_reachable_valid_current_Native_book_fixture": true,
+  "stronger_exactzero_scope_retained": true,
+  "no_Native_schema_or_guard_changed": true
+}

@@ -1,0 +1,82 @@
+{
+  "classification": "LOCAL_SOURCE_AND_IN_MEMORY_TYPED_SQL_CONTROLS_NOT_NATIVE_ACCEPTANCE",
+  "observed_at_UTC": "2026-10-29T23:52:12.041030+00:00",
+  "status": "PASS",
+  "source_base": "cde78b2cc82e0a286174098458dab9815fdfd072",
+  "local_SQL_model_counts": {
+    "PASS": 33,
+    "FAIL": 0
+  },
+  "direct_before_after_full_model_rows_sequence_and_new_catalog_equal": 31,
+  "two_other_controls": [
+    "HALF_CENT_SCALAR_BOUNDARY_AND_NATIVE_CENT_COLUMN_PRECISION",
+    "AUTHENTICATED_HAS_NO_NEW_PRIVATE_SCHEMA_OR_FUNCTION_GRANT"
+  ],
+  "source_controls": {
+    "PASS": 11,
+    "FAIL": 0
+  },
+  "actual_loaded_SQL_pins": {
+    "scripts/current-global-nonpo-native-graph-qualification/model.sql": {
+      "bytes": 5483,
+      "sha256": "bb1902eb8dd6e0e55c76e85e231cca9ae0808896d2511024758c83a0fa4209d6"
+    },
+    "scripts/current-global-nonpo-native-graph-qualification/retained/Native_authority.sql": {
+      "bytes": 20677,
+      "sha256": "a144556789f7b2eade0e8a3cee7473136cb595991959f62bdba04564e69a51bc"
+    },
+    "scripts/current-global-nonpo-native-graph-qualification/retained/Current_parent_readers.sql": {
+      "bytes": 8693,
+      "sha256": "1f6b78e39074c30e31f79c416e6bc0f7b99515f712bf0e6ea4ea2c6b34a0a8a8"
+    },
+    "scripts/cp7_global_nonpo_native_graph_adapter/authority.sql": {
+      "bytes": 14536,
+      "sha256": "c87643d3dad13757bc2e510728550bc53878bce841d9f7da7abfd7179c67f882"
+    },
+    "scripts/cp7_global_nonpo_native_graph_adapter/scope.sql": {
+      "bytes": 5322,
+      "sha256": "d635c876da8a78b5a3249d001b3f4314efb40383d06c4ec9a28ab9c4fe09dbd1"
+    },
+    "scripts/cp7_global_nonpo_native_graph_adapter/capture.sql": {
+      "bytes": 7448,
+      "sha256": "0e3df3e36a36c2faa93a6126dc38a2c2f2c80c54954aac72ccfb0a08aaf835ad"
+    },
+    "scripts/cp7_global_nonpo_native_graph_adapter/inspect.sql": {
+      "bytes": 9510,
+      "sha256": "8f9461ce31e9973969040ae16029241253eb2ce1e0fde9ebba160db32b6cd782"
+    },
+    "scripts/current-global-nonpo-native-graph-qualification/seed.sql": {
+      "bytes": 3830,
+      "sha256": "ab81b454810334e162b66162e3ac98144c5826d612c4ff9ccae2180d48de0c93"
+    }
+  },
+  "raw": {
+    "evidence/LOCAL_TYPED_SQL33.json.gz": {
+      "bytes": 6033,
+      "sha256": "5f264b2e38a23bf896788a0dbb4e909a67c4babd87e137263952a819236b9fb7"
+    },
+    "evidence/LOCAL_SOURCE11.log.gz": {
+      "bytes": 539,
+      "sha256": "f5e5638b0cc97baeb3cd664af911ffe8f22b51b73a10563177cd8a812b85b6ee"
+    },
+    "evidence/CLOSED_CLI_NEGATIVES.json": {
+      "bytes": 1665,
+      "sha256": "813ad1ea7bc30ca82548d9193d9e564a84f5920ec8608efa7821620b278e2c78"
+    }
+  },
+  "exact_Native_dump_provenance_verified_source_only": true,
+  "known_functions": 19,
+  "new_private_STABLE_functions": 4,
+  "required_final_composition_parent": null,
+  "runtime_entry": null,
+  "writer_or_phantom_lock_closed": false,
+  "whole_workspace_admitted": false,
+  "outside_later_199_not_authorized_as_source": true,
+  "actual_Native": 0,
+  "actual_DB_server": 0,
+  "actual_Auth_HTTP": 0,
+  "actual_browser": 0,
+  "actual_race": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

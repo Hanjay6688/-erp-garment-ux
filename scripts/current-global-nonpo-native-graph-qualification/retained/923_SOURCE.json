@@ -1,0 +1,840 @@
+{
+  "contract": "cp7.global-nonpo.readonly-inspector.source.v1",
+  "status": "STANDALONE_PREPARATION_NOT_RUNTIME_QUALIFICATION",
+  "files": {
+    "scripts/cp7_credit_correction_de/closure.sql": {
+      "bytes": 6259,
+      "sha256": "e21744ba0d98e963ccba9ca916247b797cb2c930b889e2eb41288a12f1888972"
+    },
+    "scripts/cp7_credit_correction_de/facts.sql": {
+      "bytes": 5073,
+      "sha256": "ddfcf8583cf86a916e04aa5630d6262a32e48919dbd0a4c913a09166ca2f8334"
+    },
+    "scripts/cp7_credit_correction_de/materialize.sql": {
+      "bytes": 15010,
+      "sha256": "206c18b517aef54ddc5757fd156a6c7d8d4a2c3240f62779773a4fff74fe6154"
+    },
+    "scripts/cp7_credit_correction_de/owning.sql": {
+      "bytes": 25957,
+      "sha256": "410afb540f455ce6781d8bf09ee6bd6f66420a2f17d3c5474720a642fdcc9cae"
+    },
+    "scripts/cp7_credit_correction_de/posting.sql": {
+      "bytes": 13878,
+      "sha256": "e200a62d91c7975e67a88eb37c47d89dd739eb8f63fc0a1ee7063aaec0f9ce5b"
+    },
+    "scripts/cp7_credit_correction_de/proof.sql": {
+      "bytes": 15975,
+      "sha256": "8d81f2d8d9384c08eda28eb0b86a6c96b97f2ef8178adbe4b7d1dab01b8cf7ef"
+    },
+    "scripts/cp7_credit_correction_de/review.sql": {
+      "bytes": 3722,
+      "sha256": "88681bf674a6b6e8aeda46830a4a27b18bdda84cfcba6868bbb08e3f84fdc382"
+    },
+    "scripts/cp7_customer_credit/admission/01_typed_context_and_preclaim.proposal.sql": {
+      "bytes": 14325,
+      "sha256": "44fe8bfae73aecdd85a332f328a4b7dfd6331fa40764025462772a701c9ddb08"
+    },
+    "scripts/cp7_customer_credit/admission/02_owning_wrapper.proposal.sql": {
+      "bytes": 13868,
+      "sha256": "16d93266a9a9c721ec582e62e10db0deccfe7c39724215b955912dfc092f7511"
+    },
+    "scripts/cp7_customer_credit/consumer/01_dependency_graph.sql": {
+      "bytes": 4342,
+      "sha256": "d243b7911700f4077d8c1a8ebd71f861762a5ab9c07e068031c63d2a872e78da"
+    },
+    "scripts/cp7_customer_credit/consumer/02_operation_facts.sql": {
+      "bytes": 10632,
+      "sha256": "832c79e3d46aeb12d8ddacd20b368864836f2675811ea369ff4c7e14177efee7"
+    },
+    "scripts/cp7_customer_credit/consumer/04_credit_book_bound.sql": {
+      "bytes": 4331,
+      "sha256": "fd2276d4480f65a559aad8628f8c1754dc15cd52a9753a4d2e77ae6890486c70"
+    },
+    "scripts/cp7_customer_credit/consumer/05_event_data.sql": {
+      "bytes": 15216,
+      "sha256": "5ce9cdd9df6da8ec0f140ba86e99f927bf2e1bfa95ca5df4a4f621e423356536"
+    },
+    "scripts/cp7_customer_credit/consumer/06_access_and_requests.sql": {
+      "bytes": 15880,
+      "sha256": "9ce2c69378fb032a650a7d6c63e6ee43bf3a59713256e80724673276764def1f"
+    },
+    "scripts/cp7_customer_credit/consumer/07_locked_projection.sql": {
+      "bytes": 23460,
+      "sha256": "87e2860a3d332ab101c2ca49e0bb5a4ebd984de004672d85885ad13ef21ce919"
+    },
+    "scripts/cp7_customer_credit/consumer/08_owning_command.sql": {
+      "bytes": 28347,
+      "sha256": "62d5f5ee48770edee38ac7149c8396748f9e185fb7a457f8c3fd83ddffdeccab"
+    },
+    "scripts/cp7_customer_credit/consumer/09_deferred_closure.sql": {
+      "bytes": 12195,
+      "sha256": "186d1d15fab55f8e52e06b36af9d8eb31e710c60b1320e4e06a0655b4ad7b61f"
+    },
+    "scripts/cp7_customer_credit/consumer/10_capabilities.sql": {
+      "bytes": 1991,
+      "sha256": "22bfa818c35b926e881935819640feae92c0a337fd67515cb5d2de3a8d7e4607"
+    },
+    "scripts/cp7_customer_credit/consumer/11_source_history.sql": {
+      "bytes": 3889,
+      "sha256": "a315e3257f5578de9df7576813a38abcecf61159baa33c3e4d7c44cfa0ea9e58"
+    },
+    "scripts/cp7_customer_credit/consumer/12_payment_restatement_preflight.sql": {
+      "bytes": 12293,
+      "sha256": "696064c8dab1d4842781fd4f573ae11624d9a99fb6db62f617ac0682ff425cba"
+    },
+    "scripts/cp7_customer_credit/consumer/13_workspace.sql": {
+      "bytes": 12668,
+      "sha256": "abf75be91ef4fa3408a8f8187f475c2b5624b5fc143f013452f719922e2f0396"
+    },
+    "scripts/cp7_customer_credit/coordinator/01_coordinator_facts.sql": {
+      "bytes": 14844,
+      "sha256": "4741483e2a61056a6e2365cfcc43e65d83c4ab9d1c8fd6fa77d33eda26b7af99"
+    },
+    "scripts/cp7_customer_credit/coordinator/02_hpp_book.sql": {
+      "bytes": 15772,
+      "sha256": "a9e3ee39b51bb1cbadb9a4f8570b3bae3ddabf83cd589c29e32b71424b4b2391"
+    },
+    "scripts/cp7_customer_credit/coordinator/02_initial_projection.sql": {
+      "bytes": 42785,
+      "sha256": "9202f27d33d32f8dbf04838d5e4540c2aa20a5e74475bb99f30730cb0f3b696c"
+    },
+    "scripts/cp7_customer_credit/coordinator/03_native_initial_callbacks.sql": {
+      "bytes": 19852,
+      "sha256": "b462af8229a8d1cdfc0bda414a555e69108be5961f72af23b214a58ff58a0843"
+    },
+    "scripts/cp7_customer_credit/coordinator/03_opening_hpp_diagnostics.sql": {
+      "bytes": 5479,
+      "sha256": "18fc33e4a88dc211fe7a99fb3dd39251618ed7eda006cacb5d7ab29bfddd7c25"
+    },
+    "scripts/cp7_customer_credit/coordinator/03_opening_return_hpp.sql": {
+      "bytes": 9123,
+      "sha256": "4b3fcd102114691f8029e43befb58f3be90fcabb25f4476874eb471b7af79cba"
+    },
+    "scripts/cp7_customer_credit/coordinator/04_register_and_materialize.sql": {
+      "bytes": 24917,
+      "sha256": "abf523b1ba7a9e2d9f1aa8825b1e2c74cec160d2be726db71e2f2f8176ad7ff0"
+    },
+    "scripts/cp7_customer_credit/coordinator/05_factual_profile.sql": {
+      "bytes": 22669,
+      "sha256": "a11a072b8e0fffbea380063787e752814893089ef9066bcc541b5984221bb16d"
+    },
+    "scripts/cp7_customer_credit/coordinator/06_finish_and_closed_routes.sql": {
+      "bytes": 24657,
+      "sha256": "0dc8fb0f81e5a1787fe29e5a0585b8ca8138915dbb79f536d76051eb9c3ae27e"
+    },
+    "scripts/cp7_customer_credit/coordinator/07_capabilities_and_quote.sql": {
+      "bytes": 10612,
+      "sha256": "4e78155e601b80e5752e7f0f9fb578bd76a8e44f16c3acb822b2b54d0db5df32"
+    },
+    "scripts/cp7_customer_credit/coordinator/08_outer_wrapper.sql": {
+      "bytes": 6506,
+      "sha256": "2e94d859e620dab81aae4b053918f5408c196ded8b571a12d5ef33f827c72c44"
+    },
+    "scripts/cp7_customer_credit/coordinator/09_public_facades.sql": {
+      "bytes": 7496,
+      "sha256": "bb873a9e4d297c8cf1b8e062ece1fa79d39b8411146a1b31787b32b919a74d56"
+    },
+    "scripts/cp7_customer_credit/integration/source_triggers/capture.sql": {
+      "bytes": 5404,
+      "sha256": "0ec6af17788d09a3f30ffc2adffa2f6a8e46dae8d1879664669f91995fe91f38"
+    },
+    "scripts/cp7_customer_credit/kernel/kernel.sql": {
+      "bytes": 17566,
+      "sha256": "f531f50d5a1c7ddc0a2f22f607be5ba0625a2e0388af3e7a4c6d129bf82e15fc"
+    },
+    "scripts/cp7_customer_credit/ledger/01_immutable_facts.proposal.sql": {
+      "bytes": 17049,
+      "sha256": "62383030bf27b70c5c07f948c69329be6f8229c314097e7d3c02293cc8c929c6"
+    },
+    "scripts/cp7_customer_credit/ledger/02_uuid_poster.proposal.sql": {
+      "bytes": 22942,
+      "sha256": "7ab2fc6f5cb700c2284e58921bd6e59fbe731a0064457f5031116d61aa30baf8"
+    },
+    "scripts/cp7_customer_credit/native-empty/01_native_empty_facts.sql": {
+      "bytes": 24714,
+      "sha256": "7a749f27a386633c6533a1c46e5d6b28ab5f8275083a206cba1f4556225b52c1"
+    },
+    "scripts/cp7_customer_credit/native-empty/02_native_empty_callbacks.sql": {
+      "bytes": 39957,
+      "sha256": "0d9a1da2b4409d0f594d36237b6c170cb4aea80f5e11aeadb20caf897facdf64"
+    },
+    "scripts/cp7_customer_credit/native-empty/04_exact_overlays.sql": {
+      "bytes": 53383,
+      "sha256": "bea5faafa415600a9b1973654fe6c0c4c449256ed8bb8fb8698a3ff62b026ad9"
+    },
+    "scripts/cp7_customer_credit/ordinal-wrapper/wrapper.sql": {
+      "bytes": 21084,
+      "sha256": "ed66c7f09433956d18368b7a804b1b04f0dcb7f9e0457686400421a849d671d1"
+    },
+    "scripts/cp7_customer_credit/payment_correction/01_facts.sql": {
+      "bytes": 3148,
+      "sha256": "a779a300b6c0fe3a23b9ce04fdaf324d8f71e4038953b1655c6c540b68d3a5ef"
+    },
+    "scripts/cp7_customer_credit/payment_correction/02_actual_proof.sql": {
+      "bytes": 13278,
+      "sha256": "ce2730695da89646b99598b1051d138f310cd8fb3d4ff096bde24d595df82854"
+    },
+    "scripts/cp7_customer_credit/payment_correction/03_owning_callbacks.sql": {
+      "bytes": 16927,
+      "sha256": "ac680a2c3d2e265c2884dbef774bdae3633ee42acf9f51b8b25fe7b61fbf1360"
+    },
+    "scripts/cp7_customer_credit/payment_correction/04_completion.sql": {
+      "bytes": 12309,
+      "sha256": "1a45a483e774404896017b28886efe4b75669bbd57560d5a0873a078ebf59a7d"
+    },
+    "scripts/cp7_customer_credit/payment_correction/05_consumer_continuation.sql": {
+      "bytes": 9655,
+      "sha256": "e73dec3249d77d849166deb8ddb8419dadb79dddf02a8c916712e10b26beefed"
+    },
+    "scripts/cp7_customer_credit/payment_correction/06_replacement_admission.sql": {
+      "bytes": 4960,
+      "sha256": "b6102c3aa3cdbd577f9f6ef28ac529647dc9dd4850ab22072a3b180450200892"
+    },
+    "scripts/cp7_customer_credit/readers/01_current_reader_capability.proposal.sql": {
+      "bytes": 12021,
+      "sha256": "104853e41bd3cfa79af47d09c7f6ad9d45ff10fb00756b5b57ea71d137d94773"
+    },
+    "scripts/cp7_customer_credit/readers/02_materialized_profile.proposal.sql": {
+      "bytes": 26900,
+      "sha256": "317e689b3b2e738889e86a62dc130fa3ee2f128750f95d5264cd56084fce8575"
+    },
+    "scripts/cp7_customer_credit/readers/04_credit_dependencies.sql": {
+      "bytes": 6217,
+      "sha256": "05b286dd5275c4913dae1a3279cf4bcf7effcd47bb5fbd649665919f15b82514"
+    },
+    "scripts/cp7_customer_credit/reconciliation/01_source_operation_facts.sql": {
+      "bytes": 6963,
+      "sha256": "01fd6745c69d942841e26892ddcf7aa89d0b0c2aa911ea2d5b89ac6be5761fab"
+    },
+    "scripts/cp7_customer_credit/reconciliation/02_reconciliation_inputs.sql": {
+      "bytes": 4598,
+      "sha256": "e68bddefdf3390162d222eba2cf4014dec7ac781a0d60db434f0f61ccceaba42"
+    },
+    "scripts/cp7_customer_credit/reconciliation/03_native_inverse_proof.sql": {
+      "bytes": 38524,
+      "sha256": "9fb7ca993d770ee18a29a1038f5cf1e11c389ad33e7e133a062a31d6298ba442"
+    },
+    "scripts/cp7_customer_credit/reconciliation/03_source_requests.sql": {
+      "bytes": 21078,
+      "sha256": "9cea83e59f7dd923ae4f182b8126615bad7a274a31765ce4dbff19b41f16a116"
+    },
+    "scripts/cp7_customer_credit/reconciliation/04_source_binding.sql": {
+      "bytes": 30137,
+      "sha256": "21bcf036fdfbf7c6e9d6afe8c98c7a8888f8f92ef7ac8c34ef9fccd627139510"
+    },
+    "scripts/cp7_customer_credit/reconciliation/05_source_adjustments.sql": {
+      "bytes": 33463,
+      "sha256": "5432e67f9d64eb068f47c38318a7532837298a75b0db66a6b5bd2dfc469e9bbb"
+    },
+    "scripts/cp7_customer_credit/reconciliation/06_source_coordinator.sql": {
+      "bytes": 17145,
+      "sha256": "ba06b0bf5134ce189d04b819fe0ef14554a462e2ccacbf58b5c1da0ae9383ce1"
+    },
+    "scripts/cp7_customer_credit/reconciliation/07_source_closure.sql": {
+      "bytes": 9272,
+      "sha256": "b5950e046932dcddcfd8a8bb703ab412ec7eba008b6fa1667d1557bf7498b33b"
+    },
+    "scripts/cp7_customer_credit/refund/01_initial_refund.proposal.sql": {
+      "bytes": 41089,
+      "sha256": "d273107f12f1d063005ed0a250d55dde529b725bdf41e8091193046aa0b27410"
+    },
+    "scripts/cp7_customer_credit/source/NO_JOURNAL_SCHEMA_DIFF.proposal.sql": {
+      "bytes": 4673,
+      "sha256": "bed7aea0c7eab97c3917444aac5ea21e167b7ca0dfea4a92d4150124f21baa45"
+    },
+    "scripts/cp7_customer_credit/source/absence-proof.sql": {
+      "bytes": 8168,
+      "sha256": "079a76d64bdfe99051566d4053cdfc1740aded2d6c5a43aeae85feead483ad0c"
+    },
+    "scripts/cp7_customer_credit/source/member-proof.sql": {
+      "bytes": 22614,
+      "sha256": "565e4e8643323442eadad2d6d1e65fdf1750da1675a2c68cc28187add17c1205"
+    },
+    "scripts/cp7_customer_credit/source/source.sql": {
+      "bytes": 53005,
+      "sha256": "dd091f3896929d46587634f70545eea26ffd0ac9a516ffac79d90d4e5b80a729"
+    },
+    "scripts/cp7_global_nonpo_native_graph_adapter/AUTHORITY.json": {
+      "bytes": 16759,
+      "sha256": "9f134ea218fc77ade25df9362ee491f7fdb5de005ea0723c8583bef1a3111c5a"
+    },
+    "scripts/cp7_global_nonpo_native_graph_adapter/__init__.py": {
+      "bytes": 81,
+      "sha256": "d4df3249fa00d5021ca42e84a027d84458bdea7e81d635510bb93d7f94eef6c5"
+    },
+    "scripts/cp7_global_nonpo_native_graph_adapter/authority.sql": {
+      "bytes": 14536,
+      "sha256": "c87643d3dad13757bc2e510728550bc53878bce841d9f7da7abfd7179c67f882"
+    },
+    "scripts/cp7_global_nonpo_native_graph_adapter/capture.sql": {
+      "bytes": 8016,
+      "sha256": "90a03cbbd430f317c2e18c7e7f13743370e617756d2d2b1fe06179b2af3003cf"
+    },
+    "scripts/cp7_global_nonpo_native_graph_adapter/inspect.sql": {
+      "bytes": 9510,
+      "sha256": "8f9461ce31e9973969040ae16029241253eb2ce1e0fde9ebba160db32b6cd782"
+    },
+    "scripts/cp7_global_nonpo_native_graph_adapter/scope.sql": {
+      "bytes": 10095,
+      "sha256": "7d5f96fd976cd385df0be391c5916fc0b35c6a66bf94db0618eb3bff0874d76f"
+    },
+    "scripts/cp7_global_nonpo_native_graph_adapter/source.py": {
+      "bytes": 4146,
+      "sha256": "8721e15f942068de875292b75acb71635054a02aa5706686c8af5e002546c3ec"
+    },
+    "scripts/current-global-nonpo-native-graph-qualification/IDENTITY_CLOSURE_SOURCE_PROOF.json": {
+      "bytes": 19869,
+      "sha256": "47539783f0a5166e7a34a3d9f09afc3b8a7d6489ea0fec5c7929734f4ffd5ead"
+    },
+    "scripts/current-global-nonpo-native-graph-qualification/IDENTITY_CLOSURE_TRANSITION.json": {
+      "bytes": 2125,
+      "sha256": "6559ccbb2475cffdfe17ad345d257a0df1e9ffef5cafe99006d7d1a817137c97"
+    },
+    "scripts/current-global-nonpo-native-graph-qualification/LOCK_BLUEPRINT.json": {
+      "bytes": 4221,
+      "sha256": "9bc78d517e2df757cc9e6c3f889d36eee0a5ff4f76db2d8a91ffe2542955788c"
+    },
+    "scripts/current-global-nonpo-native-graph-qualification/ORIGIN.json": {
+      "bytes": 1066,
+      "sha256": "0b2cb0ca11271c98a9ed4bbe8b66ae0ff7cc3398720b64b8e4b87a3b40bb47eb"
+    },
+    "scripts/current-global-nonpo-native-graph-qualification/README.md": {
+      "bytes": 10484,
+      "sha256": "2edfb1790bb8c877cb37c6c23b2c4054535bcf44729f175b302b9fa23ac006fa"
+    },
+    "scripts/current-global-nonpo-native-graph-qualification/WRITER_CENSUS.json": {
+      "bytes": 85355,
+      "sha256": "0b1a23a8b7c510d7bbd695f352cfb793d1e535086bbe5919b2fc152abc4fc66d"
+    },
+    "scripts/current-global-nonpo-native-graph-qualification/census.py": {
+      "bytes": 5844,
+      "sha256": "83b7602337000fe0437566e75603910a4c478dc87710143018c27e1e3e4b28e1"
+    },
+    "scripts/current-global-nonpo-native-graph-qualification/check.py": {
+      "bytes": 3307,
+      "sha256": "2b1e943f9be4b79a942f1ce51d578a6132d1ce85f39a745f0678fa8be93bf80b"
+    },
+    "scripts/current-global-nonpo-native-graph-qualification/evidence/CLOSED_CLI_NEGATIVES.json": {
+      "bytes": 1665,
+      "sha256": "813ad1ea7bc30ca82548d9193d9e564a84f5920ec8608efa7821620b278e2c78"
+    },
+    "scripts/current-global-nonpo-native-graph-qualification/evidence/FIXED_POINT_FIRST_NUMERIC_ABI_FAILURE.json.gz": {
+      "bytes": 2145,
+      "sha256": "4d5fffb000ddbd57196e39c80ae392ad6a0efb8964f058097db744bb0d36c2b5"
+    },
+    "scripts/current-global-nonpo-native-graph-qualification/evidence/FIXED_POINT_FIRST_NUMERIC_ABI_FAILURE.stderr.gz": {
+      "bytes": 349,
+      "sha256": "200591af4ffd2172ddaf037fdf214fb3993d9bc9a3b93516e67e5e44b9c995bd"
+    },
+    "scripts/current-global-nonpo-native-graph-qualification/evidence/IDENTITY_CLOSURE_4e263_REPLAY.json.gz": {
+      "bytes": 2187,
+      "sha256": "1bc162555b749ca84d5b06ab9bcdbbffa08c0a8f192a09e164edbbda10914b86"
+    },
+    "scripts/current-global-nonpo-native-graph-qualification/evidence/IDENTITY_CLOSURE_DIRECTED18_FIELDS162.json.gz": {
+      "bytes": 19704,
+      "sha256": "625b8f94e4f961834ff998c21494dd37687f093ade863fb7a7ed39a5d9318a8f"
+    },
+    "scripts/current-global-nonpo-native-graph-qualification/evidence/IDENTITY_CLOSURE_FIRST_4e263_REPRO.json.gz": {
+      "bytes": 2135,
+      "sha256": "0bf5872ea47d37e9337e9dd3a90dee72de104a649e328c8042c76e38ef6aa4c7"
+    },
+    "scripts/current-global-nonpo-native-graph-qualification/evidence/IDENTITY_CLOSURE_FIXED_POINT4.json.gz": {
+      "bytes": 3027,
+      "sha256": "c10d49bd0c7a55c3ed42ba13bcfc4007fa8bbd64f337a25b2fdf8fe9946589e4"
+    },
+    "scripts/current-global-nonpo-native-graph-qualification/evidence/IDENTITY_CLOSURE_LOCAL_CONTROLS_RECEIPT.json": {
+      "bytes": 4172,
+      "sha256": "aef645a15df84e8ee4639547a8947abde9c599c6aec0a7d9c50660410c858354"
+    },
+    "scripts/current-global-nonpo-native-graph-qualification/evidence/IDENTITY_CLOSURE_SOURCE16.log.gz": {
+      "bytes": 742,
+      "sha256": "563b0ca0c04a9e9c4314267d6e2fec39b25bf078b32d454fc57f1d99a5e78265"
+    },
+    "scripts/current-global-nonpo-native-graph-qualification/evidence/IDENTITY_CLOSURE_SQL33.json.gz": {
+      "bytes": 6143,
+      "sha256": "2ff609b6d79d236b1d1c25f9b8161319b6bc7c930bc45ec7b276aa6ccb4f836c"
+    },
+    "scripts/current-global-nonpo-native-graph-qualification/evidence/IDENTITY_CONTROL_FIRST_FAILURE_NOTES.json": {
+      "bytes": 719,
+      "sha256": "f7e96be2e88084569ea7ba79f2a84f01fdfa7984b7e51d2bec2715cd8a665b6b"
+    },
+    "scripts/current-global-nonpo-native-graph-qualification/evidence/IDENTITY_MODEL_FIRST_FIXTURE_FAILURE.json.gz": {
+      "bytes": 4748,
+      "sha256": "d249347ae17eef2235d83e35db5bdca727bf09f98537cb989952fae6c45e91ef"
+    },
+    "scripts/current-global-nonpo-native-graph-qualification/evidence/IDENTITY_MODEL_FIRST_FIXTURE_FAILURE.stderr.gz": {
+      "bytes": 367,
+      "sha256": "8b53cc745cedf67ce906a68688de4d0f6b1a1374ecd0dfbbdfe42ba05717ebac"
+    },
+    "scripts/current-global-nonpo-native-graph-qualification/evidence/IDENTITY_MODEL_FIRST_FIXTURE_FAILURE_NOTE.json": {
+      "bytes": 462,
+      "sha256": "63d77191b8391ec0db006b238d497611db1bd4a71c30cc118d2817ede46b8be1"
+    },
+    "scripts/current-global-nonpo-native-graph-qualification/evidence/IDENTITY_SOURCE_FIRST_PARSER_FAILURE.log.gz": {
+      "bytes": 1035,
+      "sha256": "859ec2404e10cf902547242d781a33f18d6789f9602b495686993b302c0480f6"
+    },
+    "scripts/current-global-nonpo-native-graph-qualification/evidence/IDENTITY_SOURCE_SECOND_PARSER_FAILURE.log.gz": {
+      "bytes": 1037,
+      "sha256": "433281b35934694589f600962df671165a89bbc771214187774166a14f041c06"
+    },
+    "scripts/current-global-nonpo-native-graph-qualification/evidence/LOCAL_CONTROLS_RECEIPT.json": {
+      "bytes": 3106,
+      "sha256": "74aa34c60c8f41e09af813db2615c2bfa62b2947373942909f39ca8e1088b447"
+    },
+    "scripts/current-global-nonpo-native-graph-qualification/evidence/LOCAL_METADATA_FIRST_FAILURE.json": {
+      "bytes": 453,
+      "sha256": "7c1738ecc06a8d33f226f09ab6f0b26f4ad04da9896b947b8e97e70713ce8ab1"
+    },
+    "scripts/current-global-nonpo-native-graph-qualification/evidence/LOCAL_METADATA_FIRST_FAILURE.log.gz": {
+      "bytes": 640,
+      "sha256": "63a10896660778284652cf715565fa97c9d9dc436a48f8a5521a623c4520a8d9"
+    },
+    "scripts/current-global-nonpo-native-graph-qualification/evidence/LOCAL_SOURCE11.log.gz": {
+      "bytes": 539,
+      "sha256": "f5e5638b0cc97baeb3cd664af911ffe8f22b51b73a10563177cd8a812b85b6ee"
+    },
+    "scripts/current-global-nonpo-native-graph-qualification/evidence/LOCAL_SQL_FIRST_COMPILE_FAILURE.json": {
+      "bytes": 503,
+      "sha256": "6fe8b18bb72b4db1f36d4e051d37d470510d42e6992530a8205ab0ffaf3c2d57"
+    },
+    "scripts/current-global-nonpo-native-graph-qualification/evidence/LOCAL_SQL_FIRST_COMPILE_FAILURE.log.gz": {
+      "bytes": 10776,
+      "sha256": "7a49979360b9f2e5c922199ec3baff67db9be5cdecb13cb96d9ac28d9c2841c0"
+    },
+    "scripts/current-global-nonpo-native-graph-qualification/evidence/LOCAL_TYPED_SQL33.json.gz": {
+      "bytes": 6033,
+      "sha256": "5f264b2e38a23bf896788a0dbb4e909a67c4babd87e137263952a819236b9fb7"
+    },
+    "scripts/current-global-nonpo-native-graph-qualification/evidence/NATIVE_CENT_SCHEMA_PRECISION.json": {
+      "bytes": 357,
+      "sha256": "a6cb7129dff8f690d3027b9fd5baa851f0ccb594456f5594db7eedda18f6aa50"
+    },
+    "scripts/current-global-nonpo-native-graph-qualification/evidence/SOURCE_AUTHORITY_FIRST_FAILURE.json": {
+      "bytes": 508,
+      "sha256": "bd40d7a5569d97cdcf195da91eac473292b1fa4cca48ae842b6124b35f33d7d7"
+    },
+    "scripts/current-global-nonpo-native-graph-qualification/evidence/UNATTRIBUTED_WORKTREE_OUTPUTS.json": {
+      "bytes": 51158,
+      "sha256": "4ec4e8fe4f03b0341416b7496b6c10a273bc9d6333cd21ba7e882c8056d44e0e"
+    },
+    "scripts/current-global-nonpo-native-graph-qualification/first_compile.mjs": {
+      "bytes": 568,
+      "sha256": "a52f544da99dc40ae89a189afecb2b69128a23c74cdc3b0f2f44549866408abf"
+    },
+    "scripts/current-global-nonpo-native-graph-qualification/first_identity_repro.mjs": {
+      "bytes": 2091,
+      "sha256": "efca03d7065ecaa9df86a574dd2e14f8cadb7ca3814071f089525a96dfb2ead6"
+    },
+    "scripts/current-global-nonpo-native-graph-qualification/freeze.py": {
+      "bytes": 2539,
+      "sha256": "5e892deed306b8f8a3814492e41c157061912aa63c2acadf6ff01680f4a5b079"
+    },
+    "scripts/current-global-nonpo-native-graph-qualification/identity_fixtures.mjs": {
+      "bytes": 3996,
+      "sha256": "7e284b578049f1f0d56ef618379e5333cd8fd21e70f877e9cfd08e4abb0e9dd5"
+    },
+    "scripts/current-global-nonpo-native-graph-qualification/model.mjs": {
+      "bytes": 2848,
+      "sha256": "bbc3f76327843286f01ec39c25bb0646f2fb23bb546b8b77c675a65c0d6d9733"
+    },
+    "scripts/current-global-nonpo-native-graph-qualification/model.sql": {
+      "bytes": 9062,
+      "sha256": "50df67aee3a5f009911092bcfed737d06aa9b286fa0aedcfb23c8a129e05e668"
+    },
+    "scripts/current-global-nonpo-native-graph-qualification/retained/4e263_SOURCE.json": {
+      "bytes": 33384,
+      "sha256": "dd68947fe0363c4f7c7b8975db83f6d83bdc5397a1ae88def9d18e66edb46e0a"
+    },
+    "scripts/current-global-nonpo-native-graph-qualification/retained/4e263_capture.sql": {
+      "bytes": 7448,
+      "sha256": "0e3df3e36a36c2faa93a6126dc38a2c2f2c80c54954aac72ccfb0a08aaf835ad"
+    },
+    "scripts/current-global-nonpo-native-graph-qualification/retained/4e263_scope.sql": {
+      "bytes": 5322,
+      "sha256": "d635c876da8a78b5a3249d001b3f4314efb40383d06c4ec9a28ab9c4fe09dbd1"
+    },
+    "scripts/current-global-nonpo-native-graph-qualification/retained/Current_parent_readers.sql": {
+      "bytes": 8693,
+      "sha256": "1f6b78e39074c30e31f79c416e6bc0f7b99515f712bf0e6ea4ea2c6b34a0a8a8"
+    },
+    "scripts/current-global-nonpo-native-graph-qualification/retained/Native_authority.sql": {
+      "bytes": 20677,
+      "sha256": "a144556789f7b2eade0e8a3cee7473136cb595991959f62bdba04564e69a51bc"
+    },
+    "scripts/current-global-nonpo-native-graph-qualification/retained/Native_lineage_guard_query.sql": {
+      "bytes": 1245,
+      "sha256": "0412a0fb5e3fb56b99ede6c335bc406dba229e4a425f4c407f2ba430dda21b33"
+    },
+    "scripts/current-global-nonpo-native-graph-qualification/retained/Native_propagation_visits_query.sql": {
+      "bytes": 930,
+      "sha256": "d3c5f73d0ac9b2b71e91df5557908fa17c0409b6f8cef539286a9ebebfd13ebf"
+    },
+    "scripts/current-global-nonpo-native-graph-qualification/seed.sql": {
+      "bytes": 3830,
+      "sha256": "ab81b454810334e162b66162e3ac98144c5826d612c4ff9ccae2180d48de0c93"
+    },
+    "scripts/current-global-nonpo-native-graph-qualification/test_fixed_point.mjs": {
+      "bytes": 6291,
+      "sha256": "68dc4c4404fdc88b91b10677195492262f51dc7f3863aee991ba71fbff7c04cb"
+    },
+    "scripts/current-global-nonpo-native-graph-qualification/test_identity_closure.mjs": {
+      "bytes": 12910,
+      "sha256": "799b80e429c71a2219dad9693a77cc9dcb6fb642c7ba526d8b389919d6785882"
+    },
+    "scripts/current-global-nonpo-native-graph-qualification/test_identity_source.py": {
+      "bytes": 5831,
+      "sha256": "1fe94bafcb34c288ce901452a67c20d9304a4d063c083bad182bd19421bb631c"
+    },
+    "scripts/current-global-nonpo-native-graph-qualification/test_model.mjs": {
+      "bytes": 16216,
+      "sha256": "7b5db228fe594a9d5f13febc6b3e094a3e664bb90dc36e69d3f1f6557db15ae0"
+    },
+    "scripts/current-global-nonpo-native-graph-qualification/test_source.py": {
+      "bytes": 6911,
+      "sha256": "2c33374eefa157e06feaac6788ab1ac24623ca869a1d8f05c0d9c500645cf215"
+    },
+    "supabase/release/cp6-t3/20260925030000_erp_v2_6_20bc_cp6_accessory_service_returns.sql": {
+      "bytes": 375492,
+      "sha256": "23f31eafc8b8f235465dac7871f5c3cbd13e4e646552abdf591f82a2a3445bbb"
+    },
+    "supabase/release/cp6-t3/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql": {
+      "bytes": 551875,
+      "sha256": "fbc6e068b9b397149c9ed26d449515a4158e96a5c37221fda26a3870a7c639ea"
+    }
+  },
+  "own_files": [
+    "scripts/cp7_global_nonpo_native_graph_adapter/AUTHORITY.json",
+    "scripts/cp7_global_nonpo_native_graph_adapter/__init__.py",
+    "scripts/cp7_global_nonpo_native_graph_adapter/authority.sql",
+    "scripts/cp7_global_nonpo_native_graph_adapter/capture.sql",
+    "scripts/cp7_global_nonpo_native_graph_adapter/inspect.sql",
+    "scripts/cp7_global_nonpo_native_graph_adapter/scope.sql",
+    "scripts/cp7_global_nonpo_native_graph_adapter/source.py",
+    "scripts/current-global-nonpo-native-graph-qualification/IDENTITY_CLOSURE_SOURCE_PROOF.json",
+    "scripts/current-global-nonpo-native-graph-qualification/IDENTITY_CLOSURE_TRANSITION.json",
+    "scripts/current-global-nonpo-native-graph-qualification/LOCK_BLUEPRINT.json",
+    "scripts/current-global-nonpo-native-graph-qualification/ORIGIN.json",
+    "scripts/current-global-nonpo-native-graph-qualification/README.md",
+    "scripts/current-global-nonpo-native-graph-qualification/SOURCE.json",
+    "scripts/current-global-nonpo-native-graph-qualification/WRITER_CENSUS.json",
+    "scripts/current-global-nonpo-native-graph-qualification/census.py",
+    "scripts/current-global-nonpo-native-graph-qualification/check.py",
+    "scripts/current-global-nonpo-native-graph-qualification/evidence/CLOSED_CLI_NEGATIVES.json",
+    "scripts/current-global-nonpo-native-graph-qualification/evidence/FIXED_POINT_FIRST_NUMERIC_ABI_FAILURE.json.gz",
+    "scripts/current-global-nonpo-native-graph-qualification/evidence/FIXED_POINT_FIRST_NUMERIC_ABI_FAILURE.stderr.gz",
+    "scripts/current-global-nonpo-native-graph-qualification/evidence/IDENTITY_CLOSURE_4e263_REPLAY.json.gz",
+    "scripts/current-global-nonpo-native-graph-qualification/evidence/IDENTITY_CLOSURE_DIRECTED18_FIELDS162.json.gz",
+    "scripts/current-global-nonpo-native-graph-qualification/evidence/IDENTITY_CLOSURE_FIRST_4e263_REPRO.json.gz",
+    "scripts/current-global-nonpo-native-graph-qualification/evidence/IDENTITY_CLOSURE_FIXED_POINT4.json.gz",
+    "scripts/current-global-nonpo-native-graph-qualification/evidence/IDENTITY_CLOSURE_LOCAL_CONTROLS_RECEIPT.json",
+    "scripts/current-global-nonpo-native-graph-qualification/evidence/IDENTITY_CLOSURE_SOURCE16.log.gz",
+    "scripts/current-global-nonpo-native-graph-qualification/evidence/IDENTITY_CLOSURE_SQL33.json.gz",
+    "scripts/current-global-nonpo-native-graph-qualification/evidence/IDENTITY_CONTROL_FIRST_FAILURE_NOTES.json",
+    "scripts/current-global-nonpo-native-graph-qualification/evidence/IDENTITY_MODEL_FIRST_FIXTURE_FAILURE.json.gz",
+    "scripts/current-global-nonpo-native-graph-qualification/evidence/IDENTITY_MODEL_FIRST_FIXTURE_FAILURE.stderr.gz",
+    "scripts/current-global-nonpo-native-graph-qualification/evidence/IDENTITY_MODEL_FIRST_FIXTURE_FAILURE_NOTE.json",
+    "scripts/current-global-nonpo-native-graph-qualification/evidence/IDENTITY_SOURCE_FIRST_PARSER_FAILURE.log.gz",
+    "scripts/current-global-nonpo-native-graph-qualification/evidence/IDENTITY_SOURCE_SECOND_PARSER_FAILURE.log.gz",
+    "scripts/current-global-nonpo-native-graph-qualification/evidence/LOCAL_CONTROLS_RECEIPT.json",
+    "scripts/current-global-nonpo-native-graph-qualification/evidence/LOCAL_METADATA_FIRST_FAILURE.json",
+    "scripts/current-global-nonpo-native-graph-qualification/evidence/LOCAL_METADATA_FIRST_FAILURE.log.gz",
+    "scripts/current-global-nonpo-native-graph-qualification/evidence/LOCAL_SOURCE11.log.gz",
+    "scripts/current-global-nonpo-native-graph-qualification/evidence/LOCAL_SQL_FIRST_COMPILE_FAILURE.json",
+    "scripts/current-global-nonpo-native-graph-qualification/evidence/LOCAL_SQL_FIRST_COMPILE_FAILURE.log.gz",
+    "scripts/current-global-nonpo-native-graph-qualification/evidence/LOCAL_TYPED_SQL33.json.gz",
+    "scripts/current-global-nonpo-native-graph-qualification/evidence/NATIVE_CENT_SCHEMA_PRECISION.json",
+    "scripts/current-global-nonpo-native-graph-qualification/evidence/SOURCE_AUTHORITY_FIRST_FAILURE.json",
+    "scripts/current-global-nonpo-native-graph-qualification/evidence/UNATTRIBUTED_WORKTREE_OUTPUTS.json",
+    "scripts/current-global-nonpo-native-graph-qualification/first_compile.mjs",
+    "scripts/current-global-nonpo-native-graph-qualification/first_identity_repro.mjs",
+    "scripts/current-global-nonpo-native-graph-qualification/freeze.py",
+    "scripts/current-global-nonpo-native-graph-qualification/identity_fixtures.mjs",
+    "scripts/current-global-nonpo-native-graph-qualification/model.mjs",
+    "scripts/current-global-nonpo-native-graph-qualification/model.sql",
+    "scripts/current-global-nonpo-native-graph-qualification/retained/4e263_SOURCE.json",
+    "scripts/current-global-nonpo-native-graph-qualification/retained/4e263_capture.sql",
+    "scripts/current-global-nonpo-native-graph-qualification/retained/4e263_scope.sql",
+    "scripts/current-global-nonpo-native-graph-qualification/retained/Current_parent_readers.sql",
+    "scripts/current-global-nonpo-native-graph-qualification/retained/Native_authority.sql",
+    "scripts/current-global-nonpo-native-graph-qualification/retained/Native_lineage_guard_query.sql",
+    "scripts/current-global-nonpo-native-graph-qualification/retained/Native_propagation_visits_query.sql",
+    "scripts/current-global-nonpo-native-graph-qualification/seed.sql",
+    "scripts/current-global-nonpo-native-graph-qualification/test_fixed_point.mjs",
+    "scripts/current-global-nonpo-native-graph-qualification/test_identity_closure.mjs",
+    "scripts/current-global-nonpo-native-graph-qualification/test_identity_source.py",
+    "scripts/current-global-nonpo-native-graph-qualification/test_model.mjs",
+    "scripts/current-global-nonpo-native-graph-qualification/test_source.py"
+  ],
+  "frozen_parent_files": {
+    "scripts/cp7_customer_credit/admission/01_typed_context_and_preclaim.proposal.sql": {
+      "bytes": 14325,
+      "sha256": "44fe8bfae73aecdd85a332f328a4b7dfd6331fa40764025462772a701c9ddb08"
+    },
+    "scripts/cp7_customer_credit/admission/02_owning_wrapper.proposal.sql": {
+      "bytes": 13868,
+      "sha256": "16d93266a9a9c721ec582e62e10db0deccfe7c39724215b955912dfc092f7511"
+    },
+    "scripts/cp7_customer_credit/consumer/01_dependency_graph.sql": {
+      "bytes": 4342,
+      "sha256": "d243b7911700f4077d8c1a8ebd71f861762a5ab9c07e068031c63d2a872e78da"
+    },
+    "scripts/cp7_customer_credit/consumer/02_operation_facts.sql": {
+      "bytes": 10632,
+      "sha256": "832c79e3d46aeb12d8ddacd20b368864836f2675811ea369ff4c7e14177efee7"
+    },
+    "scripts/cp7_customer_credit/consumer/04_credit_book_bound.sql": {
+      "bytes": 4331,
+      "sha256": "fd2276d4480f65a559aad8628f8c1754dc15cd52a9753a4d2e77ae6890486c70"
+    },
+    "scripts/cp7_customer_credit/consumer/05_event_data.sql": {
+      "bytes": 15216,
+      "sha256": "5ce9cdd9df6da8ec0f140ba86e99f927bf2e1bfa95ca5df4a4f621e423356536"
+    },
+    "scripts/cp7_customer_credit/consumer/06_access_and_requests.sql": {
+      "bytes": 15880,
+      "sha256": "9ce2c69378fb032a650a7d6c63e6ee43bf3a59713256e80724673276764def1f"
+    },
+    "scripts/cp7_customer_credit/consumer/07_locked_projection.sql": {
+      "bytes": 23460,
+      "sha256": "87e2860a3d332ab101c2ca49e0bb5a4ebd984de004672d85885ad13ef21ce919"
+    },
+    "scripts/cp7_customer_credit/consumer/08_owning_command.sql": {
+      "bytes": 28347,
+      "sha256": "62d5f5ee48770edee38ac7149c8396748f9e185fb7a457f8c3fd83ddffdeccab"
+    },
+    "scripts/cp7_customer_credit/consumer/09_deferred_closure.sql": {
+      "bytes": 12195,
+      "sha256": "186d1d15fab55f8e52e06b36af9d8eb31e710c60b1320e4e06a0655b4ad7b61f"
+    },
+    "scripts/cp7_customer_credit/consumer/10_capabilities.sql": {
+      "bytes": 1991,
+      "sha256": "22bfa818c35b926e881935819640feae92c0a337fd67515cb5d2de3a8d7e4607"
+    },
+    "scripts/cp7_customer_credit/consumer/11_source_history.sql": {
+      "bytes": 3889,
+      "sha256": "a315e3257f5578de9df7576813a38abcecf61159baa33c3e4d7c44cfa0ea9e58"
+    },
+    "scripts/cp7_customer_credit/consumer/12_payment_restatement_preflight.sql": {
+      "bytes": 12293,
+      "sha256": "696064c8dab1d4842781fd4f573ae11624d9a99fb6db62f617ac0682ff425cba"
+    },
+    "scripts/cp7_customer_credit/consumer/13_workspace.sql": {
+      "bytes": 12668,
+      "sha256": "abf75be91ef4fa3408a8f8187f475c2b5624b5fc143f013452f719922e2f0396"
+    },
+    "scripts/cp7_customer_credit/coordinator/01_coordinator_facts.sql": {
+      "bytes": 14844,
+      "sha256": "4741483e2a61056a6e2365cfcc43e65d83c4ab9d1c8fd6fa77d33eda26b7af99"
+    },
+    "scripts/cp7_customer_credit/coordinator/02_hpp_book.sql": {
+      "bytes": 15772,
+      "sha256": "a9e3ee39b51bb1cbadb9a4f8570b3bae3ddabf83cd589c29e32b71424b4b2391"
+    },
+    "scripts/cp7_customer_credit/coordinator/02_initial_projection.sql": {
+      "bytes": 42785,
+      "sha256": "9202f27d33d32f8dbf04838d5e4540c2aa20a5e74475bb99f30730cb0f3b696c"
+    },
+    "scripts/cp7_customer_credit/coordinator/03_native_initial_callbacks.sql": {
+      "bytes": 19852,
+      "sha256": "b462af8229a8d1cdfc0bda414a555e69108be5961f72af23b214a58ff58a0843"
+    },
+    "scripts/cp7_customer_credit/coordinator/03_opening_hpp_diagnostics.sql": {
+      "bytes": 5479,
+      "sha256": "18fc33e4a88dc211fe7a99fb3dd39251618ed7eda006cacb5d7ab29bfddd7c25"
+    },
+    "scripts/cp7_customer_credit/coordinator/03_opening_return_hpp.sql": {
+      "bytes": 9123,
+      "sha256": "4b3fcd102114691f8029e43befb58f3be90fcabb25f4476874eb471b7af79cba"
+    },
+    "scripts/cp7_customer_credit/coordinator/04_register_and_materialize.sql": {
+      "bytes": 24917,
+      "sha256": "abf523b1ba7a9e2d9f1aa8825b1e2c74cec160d2be726db71e2f2f8176ad7ff0"
+    },
+    "scripts/cp7_customer_credit/coordinator/05_factual_profile.sql": {
+      "bytes": 22669,
+      "sha256": "a11a072b8e0fffbea380063787e752814893089ef9066bcc541b5984221bb16d"
+    },
+    "scripts/cp7_customer_credit/coordinator/06_finish_and_closed_routes.sql": {
+      "bytes": 24657,
+      "sha256": "0dc8fb0f81e5a1787fe29e5a0585b8ca8138915dbb79f536d76051eb9c3ae27e"
+    },
+    "scripts/cp7_customer_credit/coordinator/07_capabilities_and_quote.sql": {
+      "bytes": 10612,
+      "sha256": "4e78155e601b80e5752e7f0f9fb578bd76a8e44f16c3acb822b2b54d0db5df32"
+    },
+    "scripts/cp7_customer_credit/coordinator/08_outer_wrapper.sql": {
+      "bytes": 6506,
+      "sha256": "2e94d859e620dab81aae4b053918f5408c196ded8b571a12d5ef33f827c72c44"
+    },
+    "scripts/cp7_customer_credit/coordinator/09_public_facades.sql": {
+      "bytes": 7496,
+      "sha256": "bb873a9e4d297c8cf1b8e062ece1fa79d39b8411146a1b31787b32b919a74d56"
+    },
+    "scripts/cp7_customer_credit/integration/source_triggers/capture.sql": {
+      "bytes": 5404,
+      "sha256": "0ec6af17788d09a3f30ffc2adffa2f6a8e46dae8d1879664669f91995fe91f38"
+    },
+    "scripts/cp7_customer_credit/kernel/kernel.sql": {
+      "bytes": 17566,
+      "sha256": "f531f50d5a1c7ddc0a2f22f607be5ba0625a2e0388af3e7a4c6d129bf82e15fc"
+    },
+    "scripts/cp7_customer_credit/ledger/01_immutable_facts.proposal.sql": {
+      "bytes": 17049,
+      "sha256": "62383030bf27b70c5c07f948c69329be6f8229c314097e7d3c02293cc8c929c6"
+    },
+    "scripts/cp7_customer_credit/ledger/02_uuid_poster.proposal.sql": {
+      "bytes": 22942,
+      "sha256": "7ab2fc6f5cb700c2284e58921bd6e59fbe731a0064457f5031116d61aa30baf8"
+    },
+    "scripts/cp7_customer_credit/native-empty/01_native_empty_facts.sql": {
+      "bytes": 24714,
+      "sha256": "7a749f27a386633c6533a1c46e5d6b28ab5f8275083a206cba1f4556225b52c1"
+    },
+    "scripts/cp7_customer_credit/native-empty/02_native_empty_callbacks.sql": {
+      "bytes": 39957,
+      "sha256": "0d9a1da2b4409d0f594d36237b6c170cb4aea80f5e11aeadb20caf897facdf64"
+    },
+    "scripts/cp7_customer_credit/native-empty/04_exact_overlays.sql": {
+      "bytes": 53383,
+      "sha256": "bea5faafa415600a9b1973654fe6c0c4c449256ed8bb8fb8698a3ff62b026ad9"
+    },
+    "scripts/cp7_customer_credit/ordinal-wrapper/wrapper.sql": {
+      "bytes": 21084,
+      "sha256": "ed66c7f09433956d18368b7a804b1b04f0dcb7f9e0457686400421a849d671d1"
+    },
+    "scripts/cp7_customer_credit/payment_correction/01_facts.sql": {
+      "bytes": 3148,
+      "sha256": "a779a300b6c0fe3a23b9ce04fdaf324d8f71e4038953b1655c6c540b68d3a5ef"
+    },
+    "scripts/cp7_customer_credit/payment_correction/02_actual_proof.sql": {
+      "bytes": 13278,
+      "sha256": "ce2730695da89646b99598b1051d138f310cd8fb3d4ff096bde24d595df82854"
+    },
+    "scripts/cp7_customer_credit/payment_correction/03_owning_callbacks.sql": {
+      "bytes": 16927,
+      "sha256": "ac680a2c3d2e265c2884dbef774bdae3633ee42acf9f51b8b25fe7b61fbf1360"
+    },
+    "scripts/cp7_customer_credit/payment_correction/04_completion.sql": {
+      "bytes": 12309,
+      "sha256": "1a45a483e774404896017b28886efe4b75669bbd57560d5a0873a078ebf59a7d"
+    },
+    "scripts/cp7_customer_credit/payment_correction/05_consumer_continuation.sql": {
+      "bytes": 9655,
+      "sha256": "e73dec3249d77d849166deb8ddb8419dadb79dddf02a8c916712e10b26beefed"
+    },
+    "scripts/cp7_customer_credit/payment_correction/06_replacement_admission.sql": {
+      "bytes": 4960,
+      "sha256": "b6102c3aa3cdbd577f9f6ef28ac529647dc9dd4850ab22072a3b180450200892"
+    },
+    "scripts/cp7_customer_credit/readers/01_current_reader_capability.proposal.sql": {
+      "bytes": 12021,
+      "sha256": "104853e41bd3cfa79af47d09c7f6ad9d45ff10fb00756b5b57ea71d137d94773"
+    },
+    "scripts/cp7_customer_credit/readers/02_materialized_profile.proposal.sql": {
+      "bytes": 26900,
+      "sha256": "317e689b3b2e738889e86a62dc130fa3ee2f128750f95d5264cd56084fce8575"
+    },
+    "scripts/cp7_customer_credit/readers/04_credit_dependencies.sql": {
+      "bytes": 6217,
+      "sha256": "05b286dd5275c4913dae1a3279cf4bcf7effcd47bb5fbd649665919f15b82514"
+    },
+    "scripts/cp7_customer_credit/reconciliation/01_source_operation_facts.sql": {
+      "bytes": 6963,
+      "sha256": "01fd6745c69d942841e26892ddcf7aa89d0b0c2aa911ea2d5b89ac6be5761fab"
+    },
+    "scripts/cp7_customer_credit/reconciliation/02_reconciliation_inputs.sql": {
+      "bytes": 4598,
+      "sha256": "e68bddefdf3390162d222eba2cf4014dec7ac781a0d60db434f0f61ccceaba42"
+    },
+    "scripts/cp7_customer_credit/reconciliation/03_native_inverse_proof.sql": {
+      "bytes": 38524,
+      "sha256": "9fb7ca993d770ee18a29a1038f5cf1e11c389ad33e7e133a062a31d6298ba442"
+    },
+    "scripts/cp7_customer_credit/reconciliation/03_source_requests.sql": {
+      "bytes": 21078,
+      "sha256": "9cea83e59f7dd923ae4f182b8126615bad7a274a31765ce4dbff19b41f16a116"
+    },
+    "scripts/cp7_customer_credit/reconciliation/04_source_binding.sql": {
+      "bytes": 30137,
+      "sha256": "21bcf036fdfbf7c6e9d6afe8c98c7a8888f8f92ef7ac8c34ef9fccd627139510"
+    },
+    "scripts/cp7_customer_credit/reconciliation/05_source_adjustments.sql": {
+      "bytes": 33463,
+      "sha256": "5432e67f9d64eb068f47c38318a7532837298a75b0db66a6b5bd2dfc469e9bbb"
+    },
+    "scripts/cp7_customer_credit/reconciliation/06_source_coordinator.sql": {
+      "bytes": 17145,
+      "sha256": "ba06b0bf5134ce189d04b819fe0ef14554a462e2ccacbf58b5c1da0ae9383ce1"
+    },
+    "scripts/cp7_customer_credit/reconciliation/07_source_closure.sql": {
+      "bytes": 9272,
+      "sha256": "b5950e046932dcddcfd8a8bb703ab412ec7eba008b6fa1667d1557bf7498b33b"
+    },
+    "scripts/cp7_customer_credit/refund/01_initial_refund.proposal.sql": {
+      "bytes": 41089,
+      "sha256": "d273107f12f1d063005ed0a250d55dde529b725bdf41e8091193046aa0b27410"
+    },
+    "scripts/cp7_customer_credit/source/NO_JOURNAL_SCHEMA_DIFF.proposal.sql": {
+      "bytes": 4673,
+      "sha256": "bed7aea0c7eab97c3917444aac5ea21e167b7ca0dfea4a92d4150124f21baa45"
+    },
+    "scripts/cp7_customer_credit/source/absence-proof.sql": {
+      "bytes": 8168,
+      "sha256": "079a76d64bdfe99051566d4053cdfc1740aded2d6c5a43aeae85feead483ad0c"
+    },
+    "scripts/cp7_customer_credit/source/member-proof.sql": {
+      "bytes": 22614,
+      "sha256": "565e4e8643323442eadad2d6d1e65fdf1750da1675a2c68cc28187add17c1205"
+    },
+    "scripts/cp7_customer_credit/source/source.sql": {
+      "bytes": 53005,
+      "sha256": "dd091f3896929d46587634f70545eea26ffd0ac9a516ffac79d90d4e5b80a729"
+    },
+    "scripts/cp7_credit_correction_de/closure.sql": {
+      "bytes": 6259,
+      "sha256": "e21744ba0d98e963ccba9ca916247b797cb2c930b889e2eb41288a12f1888972"
+    },
+    "scripts/cp7_credit_correction_de/facts.sql": {
+      "bytes": 5073,
+      "sha256": "ddfcf8583cf86a916e04aa5630d6262a32e48919dbd0a4c913a09166ca2f8334"
+    },
+    "scripts/cp7_credit_correction_de/materialize.sql": {
+      "bytes": 15010,
+      "sha256": "206c18b517aef54ddc5757fd156a6c7d8d4a2c3240f62779773a4fff74fe6154"
+    },
+    "scripts/cp7_credit_correction_de/owning.sql": {
+      "bytes": 25957,
+      "sha256": "410afb540f455ce6781d8bf09ee6bd6f66420a2f17d3c5474720a642fdcc9cae"
+    },
+    "scripts/cp7_credit_correction_de/posting.sql": {
+      "bytes": 13878,
+      "sha256": "e200a62d91c7975e67a88eb37c47d89dd739eb8f63fc0a1ee7063aaec0f9ce5b"
+    },
+    "scripts/cp7_credit_correction_de/proof.sql": {
+      "bytes": 15975,
+      "sha256": "8d81f2d8d9384c08eda28eb0b86a6c96b97f2ef8178adbe4b7d1dab01b8cf7ef"
+    },
+    "scripts/cp7_credit_correction_de/review.sql": {
+      "bytes": 3722,
+      "sha256": "88681bf674a6b6e8aeda46830a4a27b18bdda84cfcba6868bbb08e3f84fdc382"
+    },
+    "supabase/release/cp6-t3/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql": {
+      "bytes": 551875,
+      "sha256": "fbc6e068b9b397149c9ed26d449515a4158e96a5c37221fda26a3870a7c639ea"
+    },
+    "supabase/release/cp6-t3/20260925030000_erp_v2_6_20bc_cp6_accessory_service_returns.sql": {
+      "bytes": 375492,
+      "sha256": "23f31eafc8b8f235465dac7871f5c3cbd13e4e646552abdf591f82a2a3445bbb"
+    }
+  },
+  "source_base": "cde78b2cc82e0a286174098458dab9815fdfd072",
+  "required_final_composition_parent": null,
+  "runtime_entry": null,
+  "actual_Native": 0,
+  "new_public_RPC": 0,
+  "new_roles": 0,
+  "writer_or_phantom_lock_closed": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

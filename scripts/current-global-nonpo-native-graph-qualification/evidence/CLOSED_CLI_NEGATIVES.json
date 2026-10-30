@@ -1,0 +1,35 @@
+{
+  "classification": "LOCAL_CLI_ONLY_NO_ERP_DB_PROCESS_ENTRY",
+  "cases": [
+    {
+      "argv": [
+        "--runtime"
+      ],
+      "returncode": 1,
+      "stdout": "",
+      "stderr": "Traceback (most recent call last):\n  File \"/workspace/scratch/ef468a447ac6/erp-attendance-zero/scripts/current-global-nonpo-native-graph-qualification/check.py\", line 54, in <module>\n    if args.runtime:module().runtime_entry()\n                    ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/ef468a447ac6/erp-attendance-zero/scripts/cp7_global_nonpo_native_graph_adapter/source.py\", line 14, in runtime_entry\n    raise ValueError(CLOSED)\nValueError: CP7_GLOBAL_NONPO_RUNTIME_CLOSED_READONLY_INSPECTOR_ONLY\n",
+      "expected_terminal": "CP7_GLOBAL_NONPO_RUNTIME_CLOSED_READONLY_INSPECTOR_ONLY"
+    },
+    {
+      "argv": [
+        "--unknown-flag"
+      ],
+      "returncode": 2,
+      "stdout": "",
+      "stderr": "usage: check.py [-h] (--source | --runtime)\ncheck.py: error: one of the arguments --source --runtime is required\n",
+      "expected_terminal": "one of the arguments --source --runtime is required"
+    },
+    {
+      "argv": [
+        "--source",
+        "--unknown-flag"
+      ],
+      "returncode": 2,
+      "stdout": "",
+      "stderr": "usage: check.py [-h] (--source | --runtime)\ncheck.py: error: unrecognized arguments: --unknown-flag\n",
+      "expected_terminal": "unrecognized arguments: --unknown-flag"
+    }
+  ],
+  "receipt_control_note": "Unknown flag alone first reports the missing required mode; the second unknown-flag control supplies --source and proves parser rejection before source admission.",
+  "actual_Native": 0
+}

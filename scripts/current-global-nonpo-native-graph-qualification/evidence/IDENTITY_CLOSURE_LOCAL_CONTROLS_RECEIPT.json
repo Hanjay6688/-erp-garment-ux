@@ -1,0 +1,116 @@
+{
+  "classification": "LOCAL_SOURCE_AND_TYPED_DOCUMENTARY_IDENTITY_MODELS_NOT_NATIVE_ACCEPTANCE",
+  "observed_at_UTC": "2026-10-30T00:18:23.730175+00:00",
+  "status": "PASS",
+  "source_base": "cde78b2cc82e0a286174098458dab9815fdfd072",
+  "historical_inspector": "4e263e3437efa156ac27bd95989e2880be8cb570",
+  "regression_original33": {
+    "PASS": 33,
+    "FAIL": 0
+  },
+  "source_controls": {
+    "original": 11,
+    "additional": 5,
+    "PASS": 16,
+    "FAIL": 0
+  },
+  "identity_directed": 18,
+  "retained_Native_shared_column_sensitivities": 161,
+  "synthetic_model_tag_sensitivity": 1,
+  "exact_Native_SELECT_and_fixed_point_controls": {
+    "PASS": 4,
+    "FAIL": 0
+  },
+  "first_gap_and_replay": "CONFIRMED_INSPECTOR_IDENTITY_CUT_GAP_ONLY_NOT_NATIVE_BUG",
+  "actual_loaded_SQL_pins": {
+    "scripts/current-global-nonpo-native-graph-qualification/model.sql": {
+      "bytes": 9062,
+      "sha256": "50df67aee3a5f009911092bcfed737d06aa9b286fa0aedcfb23c8a129e05e668"
+    },
+    "scripts/current-global-nonpo-native-graph-qualification/retained/Native_authority.sql": {
+      "bytes": 20677,
+      "sha256": "a144556789f7b2eade0e8a3cee7473136cb595991959f62bdba04564e69a51bc"
+    },
+    "scripts/current-global-nonpo-native-graph-qualification/retained/Current_parent_readers.sql": {
+      "bytes": 8693,
+      "sha256": "1f6b78e39074c30e31f79c416e6bc0f7b99515f712bf0e6ea4ea2c6b34a0a8a8"
+    },
+    "scripts/cp7_global_nonpo_native_graph_adapter/authority.sql": {
+      "bytes": 14536,
+      "sha256": "c87643d3dad13757bc2e510728550bc53878bce841d9f7da7abfd7179c67f882"
+    },
+    "scripts/cp7_global_nonpo_native_graph_adapter/scope.sql": {
+      "bytes": 10095,
+      "sha256": "7d5f96fd976cd385df0be391c5916fc0b35c6a66bf94db0618eb3bff0874d76f"
+    },
+    "scripts/cp7_global_nonpo_native_graph_adapter/capture.sql": {
+      "bytes": 8016,
+      "sha256": "90a03cbbd430f317c2e18c7e7f13743370e617756d2d2b1fe06179b2af3003cf"
+    },
+    "scripts/cp7_global_nonpo_native_graph_adapter/inspect.sql": {
+      "bytes": 9510,
+      "sha256": "8f9461ce31e9973969040ae16029241253eb2ce1e0fde9ebba160db32b6cd782"
+    },
+    "scripts/current-global-nonpo-native-graph-qualification/seed.sql": {
+      "bytes": 3830,
+      "sha256": "ab81b454810334e162b66162e3ac98144c5826d612c4ff9ccae2180d48de0c93"
+    }
+  },
+  "actual_Native_query_inputs": {
+    "retained/Native_lineage_guard_query.sql": {
+      "bytes": 1245,
+      "sha256": "0412a0fb5e3fb56b99ede6c335bc406dba229e4a425f4c407f2ba430dda21b33"
+    },
+    "retained/Native_propagation_visits_query.sql": {
+      "bytes": 930,
+      "sha256": "d3c5f73d0ac9b2b71e91df5557908fa17c0409b6f8cef539286a9ebebfd13ebf"
+    }
+  },
+  "source_only_writer_census": {
+    "inputs": 66,
+    "candidates": 78,
+    "not_live_or_closed": true
+  },
+  "direct_boundaries": {
+    "original33_measured": 31,
+    "identity_directed": 18,
+    "field_sensitivity": 162,
+    "fixed_point": 4
+  },
+  "raw": {
+    "IDENTITY_CLOSURE_SQL33.json.gz": {
+      "bytes": 6143,
+      "sha256": "2ff609b6d79d236b1d1c25f9b8161319b6bc7c930bc45ec7b276aa6ccb4f836c"
+    },
+    "IDENTITY_CLOSURE_DIRECTED18_FIELDS162.json.gz": {
+      "bytes": 19704,
+      "sha256": "625b8f94e4f961834ff998c21494dd37687f093ade863fb7a7ed39a5d9318a8f"
+    },
+    "IDENTITY_CLOSURE_FIXED_POINT4.json.gz": {
+      "bytes": 3027,
+      "sha256": "c10d49bd0c7a55c3ed42ba13bcfc4007fa8bbd64f337a25b2fdf8fe9946589e4"
+    },
+    "IDENTITY_CLOSURE_4e263_REPLAY.json.gz": {
+      "bytes": 2187,
+      "sha256": "1bc162555b749ca84d5b06ab9bcdbbffa08c0a8f192a09e164edbbda10914b86"
+    },
+    "IDENTITY_CLOSURE_SOURCE16.log.gz": {
+      "bytes": 742,
+      "sha256": "563b0ca0c04a9e9c4314267d6e2fec39b25bf078b32d454fc57f1d99a5e78265"
+    }
+  },
+  "core_inspect_and_authority_unchanged": true,
+  "original33_test_bodies_unchanged": true,
+  "Native_G_predicates_unchanged": true,
+  "runtime_entry": null,
+  "required_final_composition_parent": null,
+  "writer_or_phantom_lock_closed": false,
+  "whole_workspace_admitted": false,
+  "actual_Native": 0,
+  "actual_DB_server": 0,
+  "actual_Auth_HTTP": 0,
+  "actual_browser": 0,
+  "actual_race": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

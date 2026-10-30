@@ -1,0 +1,6 @@
+{
+  "classification": "LOCAL_FIXTURE_EXPECTATION_FAILURE_NOT_NATIVE_OR_PRODUCT_DEFECT",
+  "failure": "Duplicate model allocation initially doubled transferred quantity while leaving stock/GL unchanged; inspector correctly refused exact outside target/book alignment.",
+  "repair": "Split the original2pcs into two1pcs model rows; retain total quantity/value and original no-write assertion. No inspector SQL or financial oracle relaxed.",
+  "actual_Native": 0
+}

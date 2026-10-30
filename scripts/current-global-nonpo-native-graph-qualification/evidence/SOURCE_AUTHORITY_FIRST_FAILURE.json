@@ -1,0 +1,7 @@
+{
+  "classification": "LOCAL_SOURCE_PREPARATION_FAILURE_NOT_RUNTIME",
+  "error": "Retained clone ERP dump does not contain BE extension functions; do not label release source as actual captured Native runtime.",
+  "missing_first_symbol": "erp.be_conversion_extra_v1",
+  "product_code_changed": false,
+  "resolution": "Use exact tracked BE release source for BE bodies, retained actual clone only for account_id/require_internal/view, label sources separately. Final composite parent/capture remains NULL."
+}

@@ -1,0 +1,7 @@
+{
+  "classification": "LOCAL_QUALIFICATION_CONTROL_FAILURE_NOT_NATIVE_OR_PRODUCT_FAILURE",
+  "source_extraction": "Initial source-column extractor omitted timestamptz and then jsonb type tokens; both parser failures retained, extractor corrected against exact DDL. No SQL/business oracle changed.",
+  "fixed_point_numeric_ABI": "PGlite direct numeric(18,6) SELECT columns return exact strings. Initial expected11/10 numbers were corrected to exact11.000000/10.000000 strings. No SQL or rounding changed.",
+  "historical_fixture": "Duplicate visits initially doubled total quantity; corrected to two1pcs rows preserving original2pcs and all target/book assertions. First exact refusal retained.",
+  "actual_Native": 0
+}

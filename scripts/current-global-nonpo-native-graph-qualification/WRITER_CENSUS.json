@@ -1,0 +1,2405 @@
+{
+  "classification": "EXACT_FINITE_SOURCE_TEXT_WRITER_CANDIDATES_NOT_LIVE_INSTALLED_CENSUS",
+  "source_base": "cde78b2cc82e0a286174098458dab9815fdfd072",
+  "inputs": {
+    "/workspace/scratch/ef468a447ac6/evidence-private/s03-9a0-payroll-install-first/CLONE_install.source-erp.sql": {
+      "bytes": 5385614,
+      "sha256": "cb9cd1de02bec3899c0374e9ce21f01fa48ec01ac0adfea039181bf3d2de6fff"
+    },
+    "scripts/cp7_customer_credit/admission/01_typed_context_and_preclaim.proposal.sql": {
+      "bytes": 14325,
+      "sha256": "44fe8bfae73aecdd85a332f328a4b7dfd6331fa40764025462772a701c9ddb08"
+    },
+    "scripts/cp7_customer_credit/admission/02_owning_wrapper.proposal.sql": {
+      "bytes": 13868,
+      "sha256": "16d93266a9a9c721ec582e62e10db0deccfe7c39724215b955912dfc092f7511"
+    },
+    "scripts/cp7_customer_credit/consumer/01_dependency_graph.sql": {
+      "bytes": 4342,
+      "sha256": "d243b7911700f4077d8c1a8ebd71f861762a5ab9c07e068031c63d2a872e78da"
+    },
+    "scripts/cp7_customer_credit/consumer/02_operation_facts.sql": {
+      "bytes": 10632,
+      "sha256": "832c79e3d46aeb12d8ddacd20b368864836f2675811ea369ff4c7e14177efee7"
+    },
+    "scripts/cp7_customer_credit/consumer/04_credit_book_bound.sql": {
+      "bytes": 4331,
+      "sha256": "fd2276d4480f65a559aad8628f8c1754dc15cd52a9753a4d2e77ae6890486c70"
+    },
+    "scripts/cp7_customer_credit/consumer/05_event_data.sql": {
+      "bytes": 15216,
+      "sha256": "5ce9cdd9df6da8ec0f140ba86e99f927bf2e1bfa95ca5df4a4f621e423356536"
+    },
+    "scripts/cp7_customer_credit/consumer/06_access_and_requests.sql": {
+      "bytes": 15880,
+      "sha256": "9ce2c69378fb032a650a7d6c63e6ee43bf3a59713256e80724673276764def1f"
+    },
+    "scripts/cp7_customer_credit/consumer/07_locked_projection.sql": {
+      "bytes": 23460,
+      "sha256": "87e2860a3d332ab101c2ca49e0bb5a4ebd984de004672d85885ad13ef21ce919"
+    },
+    "scripts/cp7_customer_credit/consumer/08_owning_command.sql": {
+      "bytes": 28347,
+      "sha256": "62d5f5ee48770edee38ac7149c8396748f9e185fb7a457f8c3fd83ddffdeccab"
+    },
+    "scripts/cp7_customer_credit/consumer/09_deferred_closure.sql": {
+      "bytes": 12195,
+      "sha256": "186d1d15fab55f8e52e06b36af9d8eb31e710c60b1320e4e06a0655b4ad7b61f"
+    },
+    "scripts/cp7_customer_credit/consumer/10_capabilities.sql": {
+      "bytes": 1991,
+      "sha256": "22bfa818c35b926e881935819640feae92c0a337fd67515cb5d2de3a8d7e4607"
+    },
+    "scripts/cp7_customer_credit/consumer/11_source_history.sql": {
+      "bytes": 3889,
+      "sha256": "a315e3257f5578de9df7576813a38abcecf61159baa33c3e4d7c44cfa0ea9e58"
+    },
+    "scripts/cp7_customer_credit/consumer/12_payment_restatement_preflight.sql": {
+      "bytes": 12293,
+      "sha256": "696064c8dab1d4842781fd4f573ae11624d9a99fb6db62f617ac0682ff425cba"
+    },
+    "scripts/cp7_customer_credit/consumer/13_workspace.sql": {
+      "bytes": 12668,
+      "sha256": "abf75be91ef4fa3408a8f8187f475c2b5624b5fc143f013452f719922e2f0396"
+    },
+    "scripts/cp7_customer_credit/coordinator/01_coordinator_facts.sql": {
+      "bytes": 14844,
+      "sha256": "4741483e2a61056a6e2365cfcc43e65d83c4ab9d1c8fd6fa77d33eda26b7af99"
+    },
+    "scripts/cp7_customer_credit/coordinator/02_hpp_book.sql": {
+      "bytes": 15772,
+      "sha256": "a9e3ee39b51bb1cbadb9a4f8570b3bae3ddabf83cd589c29e32b71424b4b2391"
+    },
+    "scripts/cp7_customer_credit/coordinator/02_initial_projection.sql": {
+      "bytes": 42785,
+      "sha256": "9202f27d33d32f8dbf04838d5e4540c2aa20a5e74475bb99f30730cb0f3b696c"
+    },
+    "scripts/cp7_customer_credit/coordinator/03_native_initial_callbacks.sql": {
+      "bytes": 19852,
+      "sha256": "b462af8229a8d1cdfc0bda414a555e69108be5961f72af23b214a58ff58a0843"
+    },
+    "scripts/cp7_customer_credit/coordinator/03_opening_hpp_diagnostics.sql": {
+      "bytes": 5479,
+      "sha256": "18fc33e4a88dc211fe7a99fb3dd39251618ed7eda006cacb5d7ab29bfddd7c25"
+    },
+    "scripts/cp7_customer_credit/coordinator/03_opening_return_hpp.sql": {
+      "bytes": 9123,
+      "sha256": "4b3fcd102114691f8029e43befb58f3be90fcabb25f4476874eb471b7af79cba"
+    },
+    "scripts/cp7_customer_credit/coordinator/04_register_and_materialize.sql": {
+      "bytes": 24917,
+      "sha256": "abf523b1ba7a9e2d9f1aa8825b1e2c74cec160d2be726db71e2f2f8176ad7ff0"
+    },
+    "scripts/cp7_customer_credit/coordinator/05_factual_profile.sql": {
+      "bytes": 22669,
+      "sha256": "a11a072b8e0fffbea380063787e752814893089ef9066bcc541b5984221bb16d"
+    },
+    "scripts/cp7_customer_credit/coordinator/06_finish_and_closed_routes.sql": {
+      "bytes": 24657,
+      "sha256": "0dc8fb0f81e5a1787fe29e5a0585b8ca8138915dbb79f536d76051eb9c3ae27e"
+    },
+    "scripts/cp7_customer_credit/coordinator/07_capabilities_and_quote.sql": {
+      "bytes": 10612,
+      "sha256": "4e78155e601b80e5752e7f0f9fb578bd76a8e44f16c3acb822b2b54d0db5df32"
+    },
+    "scripts/cp7_customer_credit/coordinator/08_outer_wrapper.sql": {
+      "bytes": 6506,
+      "sha256": "2e94d859e620dab81aae4b053918f5408c196ded8b571a12d5ef33f827c72c44"
+    },
+    "scripts/cp7_customer_credit/coordinator/09_public_facades.sql": {
+      "bytes": 7496,
+      "sha256": "bb873a9e4d297c8cf1b8e062ece1fa79d39b8411146a1b31787b32b919a74d56"
+    },
+    "scripts/cp7_customer_credit/integration/source_triggers/capture.sql": {
+      "bytes": 5404,
+      "sha256": "0ec6af17788d09a3f30ffc2adffa2f6a8e46dae8d1879664669f91995fe91f38"
+    },
+    "scripts/cp7_customer_credit/kernel/kernel.sql": {
+      "bytes": 17566,
+      "sha256": "f531f50d5a1c7ddc0a2f22f607be5ba0625a2e0388af3e7a4c6d129bf82e15fc"
+    },
+    "scripts/cp7_customer_credit/ledger/01_immutable_facts.proposal.sql": {
+      "bytes": 17049,
+      "sha256": "62383030bf27b70c5c07f948c69329be6f8229c314097e7d3c02293cc8c929c6"
+    },
+    "scripts/cp7_customer_credit/ledger/02_uuid_poster.proposal.sql": {
+      "bytes": 22942,
+      "sha256": "7ab2fc6f5cb700c2284e58921bd6e59fbe731a0064457f5031116d61aa30baf8"
+    },
+    "scripts/cp7_customer_credit/native-empty/01_native_empty_facts.sql": {
+      "bytes": 24714,
+      "sha256": "7a749f27a386633c6533a1c46e5d6b28ab5f8275083a206cba1f4556225b52c1"
+    },
+    "scripts/cp7_customer_credit/native-empty/02_native_empty_callbacks.sql": {
+      "bytes": 39957,
+      "sha256": "0d9a1da2b4409d0f594d36237b6c170cb4aea80f5e11aeadb20caf897facdf64"
+    },
+    "scripts/cp7_customer_credit/native-empty/04_exact_overlays.sql": {
+      "bytes": 53383,
+      "sha256": "bea5faafa415600a9b1973654fe6c0c4c449256ed8bb8fb8698a3ff62b026ad9"
+    },
+    "scripts/cp7_customer_credit/ordinal-wrapper/wrapper.sql": {
+      "bytes": 21084,
+      "sha256": "ed66c7f09433956d18368b7a804b1b04f0dcb7f9e0457686400421a849d671d1"
+    },
+    "scripts/cp7_customer_credit/payment_correction/01_facts.sql": {
+      "bytes": 3148,
+      "sha256": "a779a300b6c0fe3a23b9ce04fdaf324d8f71e4038953b1655c6c540b68d3a5ef"
+    },
+    "scripts/cp7_customer_credit/payment_correction/02_actual_proof.sql": {
+      "bytes": 13278,
+      "sha256": "ce2730695da89646b99598b1051d138f310cd8fb3d4ff096bde24d595df82854"
+    },
+    "scripts/cp7_customer_credit/payment_correction/03_owning_callbacks.sql": {
+      "bytes": 16927,
+      "sha256": "ac680a2c3d2e265c2884dbef774bdae3633ee42acf9f51b8b25fe7b61fbf1360"
+    },
+    "scripts/cp7_customer_credit/payment_correction/04_completion.sql": {
+      "bytes": 12309,
+      "sha256": "1a45a483e774404896017b28886efe4b75669bbd57560d5a0873a078ebf59a7d"
+    },
+    "scripts/cp7_customer_credit/payment_correction/05_consumer_continuation.sql": {
+      "bytes": 9655,
+      "sha256": "e73dec3249d77d849166deb8ddb8419dadb79dddf02a8c916712e10b26beefed"
+    },
+    "scripts/cp7_customer_credit/payment_correction/06_replacement_admission.sql": {
+      "bytes": 4960,
+      "sha256": "b6102c3aa3cdbd577f9f6ef28ac529647dc9dd4850ab22072a3b180450200892"
+    },
+    "scripts/cp7_customer_credit/readers/01_current_reader_capability.proposal.sql": {
+      "bytes": 12021,
+      "sha256": "104853e41bd3cfa79af47d09c7f6ad9d45ff10fb00756b5b57ea71d137d94773"
+    },
+    "scripts/cp7_customer_credit/readers/02_materialized_profile.proposal.sql": {
+      "bytes": 26900,
+      "sha256": "317e689b3b2e738889e86a62dc130fa3ee2f128750f95d5264cd56084fce8575"
+    },
+    "scripts/cp7_customer_credit/readers/04_credit_dependencies.sql": {
+      "bytes": 6217,
+      "sha256": "05b286dd5275c4913dae1a3279cf4bcf7effcd47bb5fbd649665919f15b82514"
+    },
+    "scripts/cp7_customer_credit/reconciliation/01_source_operation_facts.sql": {
+      "bytes": 6963,
+      "sha256": "01fd6745c69d942841e26892ddcf7aa89d0b0c2aa911ea2d5b89ac6be5761fab"
+    },
+    "scripts/cp7_customer_credit/reconciliation/02_reconciliation_inputs.sql": {
+      "bytes": 4598,
+      "sha256": "e68bddefdf3390162d222eba2cf4014dec7ac781a0d60db434f0f61ccceaba42"
+    },
+    "scripts/cp7_customer_credit/reconciliation/03_native_inverse_proof.sql": {
+      "bytes": 38524,
+      "sha256": "9fb7ca993d770ee18a29a1038f5cf1e11c389ad33e7e133a062a31d6298ba442"
+    },
+    "scripts/cp7_customer_credit/reconciliation/03_source_requests.sql": {
+      "bytes": 21078,
+      "sha256": "9cea83e59f7dd923ae4f182b8126615bad7a274a31765ce4dbff19b41f16a116"
+    },
+    "scripts/cp7_customer_credit/reconciliation/04_source_binding.sql": {
+      "bytes": 30137,
+      "sha256": "21bcf036fdfbf7c6e9d6afe8c98c7a8888f8f92ef7ac8c34ef9fccd627139510"
+    },
+    "scripts/cp7_customer_credit/reconciliation/05_source_adjustments.sql": {
+      "bytes": 33463,
+      "sha256": "5432e67f9d64eb068f47c38318a7532837298a75b0db66a6b5bd2dfc469e9bbb"
+    },
+    "scripts/cp7_customer_credit/reconciliation/06_source_coordinator.sql": {
+      "bytes": 17145,
+      "sha256": "ba06b0bf5134ce189d04b819fe0ef14554a462e2ccacbf58b5c1da0ae9383ce1"
+    },
+    "scripts/cp7_customer_credit/reconciliation/07_source_closure.sql": {
+      "bytes": 9272,
+      "sha256": "b5950e046932dcddcfd8a8bb703ab412ec7eba008b6fa1667d1557bf7498b33b"
+    },
+    "scripts/cp7_customer_credit/refund/01_initial_refund.proposal.sql": {
+      "bytes": 41089,
+      "sha256": "d273107f12f1d063005ed0a250d55dde529b725bdf41e8091193046aa0b27410"
+    },
+    "scripts/cp7_customer_credit/source/NO_JOURNAL_SCHEMA_DIFF.proposal.sql": {
+      "bytes": 4673,
+      "sha256": "bed7aea0c7eab97c3917444aac5ea21e167b7ca0dfea4a92d4150124f21baa45"
+    },
+    "scripts/cp7_customer_credit/source/absence-proof.sql": {
+      "bytes": 8168,
+      "sha256": "079a76d64bdfe99051566d4053cdfc1740aded2d6c5a43aeae85feead483ad0c"
+    },
+    "scripts/cp7_customer_credit/source/member-proof.sql": {
+      "bytes": 22614,
+      "sha256": "565e4e8643323442eadad2d6d1e65fdf1750da1675a2c68cc28187add17c1205"
+    },
+    "scripts/cp7_customer_credit/source/source.sql": {
+      "bytes": 53005,
+      "sha256": "dd091f3896929d46587634f70545eea26ffd0ac9a516ffac79d90d4e5b80a729"
+    },
+    "scripts/cp7_credit_correction_de/closure.sql": {
+      "bytes": 6259,
+      "sha256": "e21744ba0d98e963ccba9ca916247b797cb2c930b889e2eb41288a12f1888972"
+    },
+    "scripts/cp7_credit_correction_de/facts.sql": {
+      "bytes": 5073,
+      "sha256": "ddfcf8583cf86a916e04aa5630d6262a32e48919dbd0a4c913a09166ca2f8334"
+    },
+    "scripts/cp7_credit_correction_de/materialize.sql": {
+      "bytes": 15010,
+      "sha256": "206c18b517aef54ddc5757fd156a6c7d8d4a2c3240f62779773a4fff74fe6154"
+    },
+    "scripts/cp7_credit_correction_de/owning.sql": {
+      "bytes": 25957,
+      "sha256": "410afb540f455ce6781d8bf09ee6bd6f66420a2f17d3c5474720a642fdcc9cae"
+    },
+    "scripts/cp7_credit_correction_de/posting.sql": {
+      "bytes": 13878,
+      "sha256": "e200a62d91c7975e67a88eb37c47d89dd739eb8f63fc0a1ee7063aaec0f9ce5b"
+    },
+    "scripts/cp7_credit_correction_de/proof.sql": {
+      "bytes": 15975,
+      "sha256": "8d81f2d8d9384c08eda28eb0b86a6c96b97f2ef8178adbe4b7d1dab01b8cf7ef"
+    },
+    "scripts/cp7_credit_correction_de/review.sql": {
+      "bytes": 3722,
+      "sha256": "88681bf674a6b6e8aeda46830a4a27b18bdda84cfcba6868bbb08e3f84fdc382"
+    },
+    "supabase/release/cp6-t3/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql": {
+      "bytes": 551875,
+      "sha256": "fbc6e068b9b397149c9ed26d449515a4158e96a5c37221fda26a3870a7c639ea"
+    },
+    "supabase/release/cp6-t3/20260925030000_erp_v2_6_20bc_cp6_accessory_service_returns.sql": {
+      "bytes": 375492,
+      "sha256": "23f31eafc8b8f235465dac7871f5c3cbd13e4e646552abdf591f82a2a3445bbb"
+    }
+  },
+  "input_files": 66,
+  "relation_names": [
+    "accounting_account_mappings",
+    "accounting_period_control",
+    "bc_adjustment_purposes_v1",
+    "bc_document_links_v1",
+    "bc_documents_v1",
+    "bc_lot_events_v1",
+    "bc_outstanding_returns_v1",
+    "bc_return_lots_v1",
+    "be_conversion_cost_events_v1",
+    "be_conversion_cost_sources_v1",
+    "be_conversion_returns_v1",
+    "be_conversion_sources_v1",
+    "be_execution_context_v1",
+    "be_nonpo_transfer_events_v1",
+    "chart_accounts",
+    "cohorts",
+    "consumption_events",
+    "fg_inventory_balances",
+    "fg_lots",
+    "fg_stock_movements",
+    "hpp_version_components",
+    "hpp_versions",
+    "journal_entries",
+    "journal_lines",
+    "material_adjustments",
+    "non_po_hpp_gl_sync_events_v2620f",
+    "opening_hpp_corrections",
+    "opening_lot_hpp_gl_state",
+    "po_hpp_gl_state",
+    "product_conversion_allocations",
+    "product_conversions",
+    "return_families",
+    "revisions",
+    "sale_stock_allocations",
+    "sales_headers",
+    "sales_items",
+    "sales_return_items",
+    "sales_returns"
+  ],
+  "writer_candidates": [
+    {
+      "function": "erp._cp3_r4_reverse_journal_internal",
+      "path": "/workspace/scratch/ef468a447ac6/evidence-private/s03-9a0-payroll-install-first/CLONE_install.source-erp.sql",
+      "line": 706,
+      "source_definition_sha256": "9e64ec038b6086a156c75d7dc206a904a724f3a602706ce6e669979a2c68f9c3",
+      "writes": [
+        {
+          "operation": "UPDATE",
+          "schema": "erp",
+          "relation": "journal_entries",
+          "source_offset": 1044
+        },
+        {
+          "operation": "UPDATE",
+          "schema": "erp",
+          "relation": "journal_entries",
+          "source_offset": 1122
+        }
+      ],
+      "literal_FG_HPP_SALES_lock_present": false,
+      "literal_FGBOOK_lock_present": false,
+      "pocket_try_source_present": false,
+      "dynamic_EXECUTE_tokens_present": false
+    },
+    {
+      "function": "erp._release_sale_draft_reservations",
+      "path": "/workspace/scratch/ef468a447ac6/evidence-private/s03-9a0-payroll-install-first/CLONE_install.source-erp.sql",
+      "line": 1377,
+      "source_definition_sha256": "31d49c8ad39dbb1bbfd7a755bdaf82e2a9acc04784007974f2a8a6caf11d9847",
+      "writes": [
+        {
+          "operation": "UPDATE",
+          "schema": "erp",
+          "relation": "fg_stock_movements",
+          "source_offset": 1098
+        },
+        {
+          "operation": "DELETE FROM",
+          "schema": "erp",
+          "relation": "sale_stock_allocations",
+          "source_offset": 1253
+        }
+      ],
+      "literal_FG_HPP_SALES_lock_present": true,
+      "literal_FGBOOK_lock_present": false,
+      "pocket_try_source_present": false,
+      "dynamic_EXECUTE_tokens_present": false
+    },
+    {
+      "function": "erp._reserve_sale_draft",
+      "path": "/workspace/scratch/ef468a447ac6/evidence-private/s03-9a0-payroll-install-first/CLONE_install.source-erp.sql",
+      "line": 1442,
+      "source_definition_sha256": "eca0f4251b604a1a49f693ccaf78a76cbb4c515839b9931839b5c9bc80ed629b",
+      "writes": [
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "fg_inventory_balances",
+          "source_offset": 1355
+        },
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "sale_stock_allocations",
+          "source_offset": 2439
+        }
+      ],
+      "literal_FG_HPP_SALES_lock_present": true,
+      "literal_FGBOOK_lock_present": false,
+      "pocket_try_source_present": false,
+      "dynamic_EXECUTE_tokens_present": false
+    },
+    {
+      "function": "erp.cancel_sale_draft_v2",
+      "path": "/workspace/scratch/ef468a447ac6/evidence-private/s03-9a0-payroll-install-first/CLONE_install.source-erp.sql",
+      "line": 3976,
+      "source_definition_sha256": "d6e37fe1de832ce2ecbf24c2a2c0995825ebf5d984bb07c92c21bdb7f649cf96",
+      "writes": [
+        {
+          "operation": "UPDATE",
+          "schema": "erp",
+          "relation": "sales_headers",
+          "source_offset": 1498
+        }
+      ],
+      "literal_FG_HPP_SALES_lock_present": true,
+      "literal_FGBOOK_lock_present": false,
+      "pocket_try_source_present": false,
+      "dynamic_EXECUTE_tokens_present": false
+    },
+    {
+      "function": "erp.close_accounting_through",
+      "path": "/workspace/scratch/ef468a447ac6/evidence-private/s03-9a0-payroll-install-first/CLONE_install.source-erp.sql",
+      "line": 4165,
+      "source_definition_sha256": "db8fb841d5a2fc9488d6b8a7b90d3d182a4243da7c95f43dc52905508ca8f066",
+      "writes": [
+        {
+          "operation": "UPDATE",
+          "schema": "erp",
+          "relation": "accounting_period_control",
+          "source_offset": 915
+        }
+      ],
+      "literal_FG_HPP_SALES_lock_present": false,
+      "literal_FGBOOK_lock_present": false,
+      "pocket_try_source_present": false,
+      "dynamic_EXECUTE_tokens_present": false
+    },
+    {
+      "function": "erp.move_fg_stock_card_row_to_position",
+      "path": "/workspace/scratch/ef468a447ac6/evidence-private/s03-9a0-payroll-install-first/CLONE_install.source-erp.sql",
+      "line": 13339,
+      "source_definition_sha256": "02c8878c485a57bd545fbe8b414eeb28e18caa11756709df2c6b742b70b90ba8",
+      "writes": [
+        {
+          "operation": "UPDATE",
+          "schema": "erp",
+          "relation": "fg_stock_movements",
+          "source_offset": 2115
+        },
+        {
+          "operation": "UPDATE",
+          "schema": "erp",
+          "relation": "fg_stock_movements",
+          "source_offset": 2858
+        }
+      ],
+      "literal_FG_HPP_SALES_lock_present": false,
+      "literal_FGBOOK_lock_present": true,
+      "pocket_try_source_present": false,
+      "dynamic_EXECUTE_tokens_present": false
+    },
+    {
+      "function": "erp.post_fg_adjustment",
+      "path": "/workspace/scratch/ef468a447ac6/evidence-private/s03-9a0-payroll-install-first/CLONE_install.source-erp.sql",
+      "line": 14617,
+      "source_definition_sha256": "fd41892f68569fde5819f883379429a83dc301a0be1c75d65b9e024beda4a2a3",
+      "writes": [
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "fg_inventory_balances",
+          "source_offset": 1645
+        }
+      ],
+      "literal_FG_HPP_SALES_lock_present": true,
+      "literal_FGBOOK_lock_present": false,
+      "pocket_try_source_present": false,
+      "dynamic_EXECUTE_tokens_present": false
+    },
+    {
+      "function": "erp.post_fg_movement",
+      "path": "/workspace/scratch/ef468a447ac6/evidence-private/s03-9a0-payroll-install-first/CLONE_install.source-erp.sql",
+      "line": 14769,
+      "source_definition_sha256": "14c92575985ff3b3132bd5771f7d5c9ec478d43a7dbe380e379c47b43967b966",
+      "writes": [
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "fg_inventory_balances",
+          "source_offset": 1073
+        },
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "fg_stock_movements",
+          "source_offset": 2443
+        },
+        {
+          "operation": "UPDATE",
+          "schema": "erp",
+          "relation": "fg_inventory_balances",
+          "source_offset": 3070
+        },
+        {
+          "operation": "UPDATE",
+          "schema": "erp",
+          "relation": "fg_lots",
+          "source_offset": 3330
+        }
+      ],
+      "literal_FG_HPP_SALES_lock_present": false,
+      "literal_FGBOOK_lock_present": false,
+      "pocket_try_source_present": false,
+      "dynamic_EXECUTE_tokens_present": false
+    },
+    {
+      "function": "erp.post_journal",
+      "path": "/workspace/scratch/ef468a447ac6/evidence-private/s03-9a0-payroll-install-first/CLONE_install.source-erp.sql",
+      "line": 15180,
+      "source_definition_sha256": "3ec4da1198cac4a8300cb70de8383ea1b79977032b2fa75f1dd6922f3b20af74",
+      "writes": [
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "journal_entries",
+          "source_offset": 4752
+        },
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "journal_lines",
+          "source_offset": 5263
+        }
+      ],
+      "literal_FG_HPP_SALES_lock_present": false,
+      "literal_FGBOOK_lock_present": false,
+      "pocket_try_source_present": false,
+      "dynamic_EXECUTE_tokens_present": false
+    },
+    {
+      "function": "erp.post_material_adjustment",
+      "path": "/workspace/scratch/ef468a447ac6/evidence-private/s03-9a0-payroll-install-first/CLONE_install.source-erp.sql",
+      "line": 15511,
+      "source_definition_sha256": "a36ebb24946c0692c8cbe357fa096128b8eb7f9628ea54d27b3a5dd723a51991",
+      "writes": [
+        {
+          "operation": "UPDATE",
+          "schema": "erp",
+          "relation": "material_adjustments",
+          "source_offset": 2466
+        }
+      ],
+      "literal_FG_HPP_SALES_lock_present": false,
+      "literal_FGBOOK_lock_present": false,
+      "pocket_try_source_present": false,
+      "dynamic_EXECUTE_tokens_present": false
+    },
+    {
+      "function": "erp.post_opening_balance",
+      "path": "/workspace/scratch/ef468a447ac6/evidence-private/s03-9a0-payroll-install-first/CLONE_install.source-erp.sql",
+      "line": 16249,
+      "source_definition_sha256": "5d9d088e5c5baffddf1b65bf9166bc098de34ab8b724b32ffd4e57b4248169ac",
+      "writes": [
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "fg_lots",
+          "source_offset": 3068
+        },
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "hpp_versions",
+          "source_offset": 3316
+        }
+      ],
+      "literal_FG_HPP_SALES_lock_present": true,
+      "literal_FGBOOK_lock_present": false,
+      "pocket_try_source_present": false,
+      "dynamic_EXECUTE_tokens_present": false
+    },
+    {
+      "function": "erp.post_opening_hpp_correction",
+      "path": "/workspace/scratch/ef468a447ac6/evidence-private/s03-9a0-payroll-install-first/CLONE_install.source-erp.sql",
+      "line": 16425,
+      "source_definition_sha256": "41d372fc13cdba528db7cb227e0335f57f9d549e93518f4eeeee12768cea178d",
+      "writes": [
+        {
+          "operation": "UPDATE",
+          "schema": "erp",
+          "relation": "hpp_versions",
+          "source_offset": 1715
+        },
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "hpp_versions",
+          "source_offset": 1801
+        },
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "opening_hpp_corrections",
+          "source_offset": 2244
+        }
+      ],
+      "literal_FG_HPP_SALES_lock_present": true,
+      "literal_FGBOOK_lock_present": false,
+      "pocket_try_source_present": false,
+      "dynamic_EXECUTE_tokens_present": false
+    },
+    {
+      "function": "erp.post_opening_hpp_correction_from_price_percent",
+      "path": "/workspace/scratch/ef468a447ac6/evidence-private/s03-9a0-payroll-install-first/CLONE_install.source-erp.sql",
+      "line": 16464,
+      "source_definition_sha256": "554b2784628c189da957e1e85a86cc010bd411175afa3fac6af151daf2f7d720",
+      "writes": [
+        {
+          "operation": "UPDATE",
+          "schema": "erp",
+          "relation": "opening_hpp_corrections",
+          "source_offset": 1448
+        }
+      ],
+      "literal_FG_HPP_SALES_lock_present": false,
+      "literal_FGBOOK_lock_present": false,
+      "pocket_try_source_present": false,
+      "dynamic_EXECUTE_tokens_present": false
+    },
+    {
+      "function": "erp.post_product_conversion",
+      "path": "/workspace/scratch/ef468a447ac6/evidence-private/s03-9a0-payroll-install-first/CLONE_install.source-erp.sql",
+      "line": 16611,
+      "source_definition_sha256": "8a4e66d60f3a1c5d3bf6a5f2e86429160b324f68eb873cf65b2ea150e8606662",
+      "writes": [
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "fg_inventory_balances",
+          "source_offset": 1659
+        },
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "fg_inventory_balances",
+          "source_offset": 1876
+        },
+        {
+          "operation": "DELETE FROM",
+          "schema": "erp",
+          "relation": "product_conversion_allocations",
+          "source_offset": 2408
+        },
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "fg_lots",
+          "source_offset": 3254
+        },
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "hpp_versions",
+          "source_offset": 3563
+        },
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "hpp_version_components",
+          "source_offset": 3858
+        },
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "product_conversion_allocations",
+          "source_offset": 4642
+        },
+        {
+          "operation": "UPDATE",
+          "schema": "erp",
+          "relation": "product_conversions",
+          "source_offset": 5076
+        }
+      ],
+      "literal_FG_HPP_SALES_lock_present": true,
+      "literal_FGBOOK_lock_present": false,
+      "pocket_try_source_present": false,
+      "dynamic_EXECUTE_tokens_present": false
+    },
+    {
+      "function": "erp.post_qc",
+      "path": "/workspace/scratch/ef468a447ac6/evidence-private/s03-9a0-payroll-install-first/CLONE_install.source-erp.sql",
+      "line": 16771,
+      "source_definition_sha256": "7f82904c79e712ac0c4451f0c7d1ff718474d7d5aec9264c2b53f3dbacdf6613",
+      "writes": [
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "fg_lots",
+          "source_offset": 1361
+        }
+      ],
+      "literal_FG_HPP_SALES_lock_present": false,
+      "literal_FGBOOK_lock_present": false,
+      "pocket_try_source_present": false,
+      "dynamic_EXECUTE_tokens_present": false
+    },
+    {
+      "function": "erp.post_rework_completion",
+      "path": "/workspace/scratch/ef468a447ac6/evidence-private/s03-9a0-payroll-install-first/CLONE_install.source-erp.sql",
+      "line": 16839,
+      "source_definition_sha256": "c107c025b7f811ed6cf659c68eda988e60e002f169bd4801810d65988db334e6",
+      "writes": [
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "fg_lots",
+          "source_offset": 2253
+        },
+        {
+          "operation": "UPDATE",
+          "schema": "erp",
+          "relation": "fg_stock_movements",
+          "source_offset": 5258
+        }
+      ],
+      "literal_FG_HPP_SALES_lock_present": false,
+      "literal_FGBOOK_lock_present": false,
+      "pocket_try_source_present": false,
+      "dynamic_EXECUTE_tokens_present": false
+    },
+    {
+      "function": "erp.post_sale",
+      "path": "/workspace/scratch/ef468a447ac6/evidence-private/s03-9a0-payroll-install-first/CLONE_install.source-erp.sql",
+      "line": 16969,
+      "source_definition_sha256": "f46838fe5b83a16f10c52d7302c874a2536ac2afc5ce6660b943cacad93a0206",
+      "writes": [
+        {
+          "operation": "UPDATE",
+          "schema": "erp",
+          "relation": "sale_stock_allocations",
+          "source_offset": 2407
+        },
+        {
+          "operation": "UPDATE",
+          "schema": "erp",
+          "relation": "fg_stock_movements",
+          "source_offset": 2594
+        },
+        {
+          "operation": "UPDATE",
+          "schema": "erp",
+          "relation": "fg_stock_movements",
+          "source_offset": 2986
+        },
+        {
+          "operation": "UPDATE",
+          "schema": "erp",
+          "relation": "sales_headers",
+          "source_offset": 3345
+        }
+      ],
+      "literal_FG_HPP_SALES_lock_present": true,
+      "literal_FGBOOK_lock_present": false,
+      "pocket_try_source_present": false,
+      "dynamic_EXECUTE_tokens_present": false
+    },
+    {
+      "function": "erp.post_sales_payment",
+      "path": "/workspace/scratch/ef468a447ac6/evidence-private/s03-9a0-payroll-install-first/CLONE_install.source-erp.sql",
+      "line": 17241,
+      "source_definition_sha256": "5bcfb9b57b21d27c2f50de5237330a66d17dfebf4f1ad9a7b00070694a2a71c9",
+      "writes": [
+        {
+          "operation": "UPDATE",
+          "schema": "erp",
+          "relation": "sales_headers",
+          "source_offset": 5606
+        }
+      ],
+      "literal_FG_HPP_SALES_lock_present": false,
+      "literal_FGBOOK_lock_present": false,
+      "pocket_try_source_present": false,
+      "dynamic_EXECUTE_tokens_present": false
+    },
+    {
+      "function": "erp.post_sales_return",
+      "path": "/workspace/scratch/ef468a447ac6/evidence-private/s03-9a0-payroll-install-first/CLONE_install.source-erp.sql",
+      "line": 17354,
+      "source_definition_sha256": "5f974ad9b9fff9ec9fef3018153683d35b79a9a5e8bd4c60e9a4a17b97622cdc",
+      "writes": [
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "fg_inventory_balances",
+          "source_offset": 2419
+        },
+        {
+          "operation": "UPDATE",
+          "schema": "erp",
+          "relation": "sales_return_items",
+          "source_offset": 5173
+        },
+        {
+          "operation": "UPDATE",
+          "schema": "erp",
+          "relation": "sales_returns",
+          "source_offset": 6046
+        },
+        {
+          "operation": "UPDATE",
+          "schema": "erp",
+          "relation": "sales_headers",
+          "source_offset": 11670
+        }
+      ],
+      "literal_FG_HPP_SALES_lock_present": true,
+      "literal_FGBOOK_lock_present": false,
+      "pocket_try_source_present": false,
+      "dynamic_EXECUTE_tokens_present": false
+    },
+    {
+      "function": "erp.propagate_conversion_hpp_for_po",
+      "path": "/workspace/scratch/ef468a447ac6/evidence-private/s03-9a0-payroll-install-first/CLONE_install.source-erp.sql",
+      "line": 18177,
+      "source_definition_sha256": "32c588fe5977dc7e83b73d80c4434f55c27f70ecd0c6989b80fc6a11bc37ed4c",
+      "writes": [
+        {
+          "operation": "UPDATE",
+          "schema": "erp",
+          "relation": "hpp_versions",
+          "source_offset": 1976
+        },
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "hpp_versions",
+          "source_offset": 2083
+        },
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "hpp_version_components",
+          "source_offset": 2491
+        }
+      ],
+      "literal_FG_HPP_SALES_lock_present": true,
+      "literal_FGBOOK_lock_present": false,
+      "pocket_try_source_present": false,
+      "dynamic_EXECUTE_tokens_present": false
+    },
+    {
+      "function": "erp.rebuild_po_hpp",
+      "path": "/workspace/scratch/ef468a447ac6/evidence-private/s03-9a0-payroll-install-first/CLONE_install.source-erp.sql",
+      "line": 18395,
+      "source_definition_sha256": "df37be32da4101f7b25fe9b829fcb6ab5af29b0890c62c583bac5865843c9ef9",
+      "writes": [
+        {
+          "operation": "UPDATE",
+          "schema": "erp",
+          "relation": "hpp_versions",
+          "source_offset": 15743
+        },
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "hpp_versions",
+          "source_offset": 15820
+        },
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "hpp_version_components",
+          "source_offset": 16106
+        },
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "hpp_version_components",
+          "source_offset": 18301
+        },
+        {
+          "operation": "UPDATE",
+          "schema": "erp",
+          "relation": "fg_stock_movements",
+          "source_offset": 18583
+        }
+      ],
+      "literal_FG_HPP_SALES_lock_present": true,
+      "literal_FGBOOK_lock_present": false,
+      "pocket_try_source_present": false,
+      "dynamic_EXECUTE_tokens_present": false
+    },
+    {
+      "function": "erp.refresh_po_hpp_gl_baseline",
+      "path": "/workspace/scratch/ef468a447ac6/evidence-private/s03-9a0-payroll-install-first/CLONE_install.source-erp.sql",
+      "line": 19346,
+      "source_definition_sha256": "699c88919075d906f35dae924669339d8eebd6d6faddea56bdbd2380d8b11d22",
+      "writes": [
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "po_hpp_gl_state",
+          "source_offset": 819
+        }
+      ],
+      "literal_FG_HPP_SALES_lock_present": true,
+      "literal_FGBOOK_lock_present": false,
+      "pocket_try_source_present": false,
+      "dynamic_EXECUTE_tokens_present": false
+    },
+    {
+      "function": "erp.reopen_accounting_through",
+      "path": "/workspace/scratch/ef468a447ac6/evidence-private/s03-9a0-payroll-install-first/CLONE_install.source-erp.sql",
+      "line": 19398,
+      "source_definition_sha256": "a7e24df7d04cfad90b15c88ab51711f71d860183fa8d5c02705d604ebd636348",
+      "writes": [
+        {
+          "operation": "UPDATE",
+          "schema": "erp",
+          "relation": "accounting_period_control",
+          "source_offset": 891
+        }
+      ],
+      "literal_FG_HPP_SALES_lock_present": false,
+      "literal_FGBOOK_lock_present": false,
+      "pocket_try_source_present": false,
+      "dynamic_EXECUTE_tokens_present": false
+    },
+    {
+      "function": "erp.reset_fg_stock_card_order",
+      "path": "/workspace/scratch/ef468a447ac6/evidence-private/s03-9a0-payroll-install-first/CLONE_install.source-erp.sql",
+      "line": 19770,
+      "source_definition_sha256": "706c872aafcffec9ab9d3f49c70425f56891c38e015f9ecca2a9ace71f6da9b5",
+      "writes": [
+        {
+          "operation": "UPDATE",
+          "schema": "erp",
+          "relation": "fg_stock_movements",
+          "source_offset": 517
+        }
+      ],
+      "literal_FG_HPP_SALES_lock_present": false,
+      "literal_FGBOOK_lock_present": false,
+      "pocket_try_source_present": false,
+      "dynamic_EXECUTE_tokens_present": false
+    },
+    {
+      "function": "erp.reset_fg_stock_mutation_book_order",
+      "path": "/workspace/scratch/ef468a447ac6/evidence-private/s03-9a0-payroll-install-first/CLONE_install.source-erp.sql",
+      "line": 19794,
+      "source_definition_sha256": "ebc8c383168edd27a1477f832274f298398c7342ac6dc76552a43c807acdfb6f",
+      "writes": [
+        {
+          "operation": "UPDATE",
+          "schema": "erp",
+          "relation": "fg_stock_movements",
+          "source_offset": 471
+        }
+      ],
+      "literal_FG_HPP_SALES_lock_present": false,
+      "literal_FGBOOK_lock_present": true,
+      "pocket_try_source_present": false,
+      "dynamic_EXECUTE_tokens_present": false
+    },
+    {
+      "function": "erp.reset_fg_stock_mutation_order",
+      "path": "/workspace/scratch/ef468a447ac6/evidence-private/s03-9a0-payroll-install-first/CLONE_install.source-erp.sql",
+      "line": 19820,
+      "source_definition_sha256": "5234f4a5c2f740ba289c49374cdb8fba3024e9b656bedd14abbcbfd52d4c2ee9",
+      "writes": [
+        {
+          "operation": "UPDATE",
+          "schema": "erp",
+          "relation": "fg_stock_movements",
+          "source_offset": 482
+        }
+      ],
+      "literal_FG_HPP_SALES_lock_present": false,
+      "literal_FGBOOK_lock_present": true,
+      "pocket_try_source_present": false,
+      "dynamic_EXECUTE_tokens_present": false
+    },
+    {
+      "function": "erp.reverse_fg_movement",
+      "path": "/workspace/scratch/ef468a447ac6/evidence-private/s03-9a0-payroll-install-first/CLONE_install.source-erp.sql",
+      "line": 20941,
+      "source_definition_sha256": "98c834b73570714c3ef9f1824c7c2432cb1ac0c87c02d0702878ebff06e9b11a",
+      "writes": [
+        {
+          "operation": "UPDATE",
+          "schema": "erp",
+          "relation": "fg_stock_movements",
+          "source_offset": 879
+        }
+      ],
+      "literal_FG_HPP_SALES_lock_present": false,
+      "literal_FGBOOK_lock_present": false,
+      "pocket_try_source_present": false,
+      "dynamic_EXECUTE_tokens_present": false
+    },
+    {
+      "function": "erp.reverse_material_adjustment",
+      "path": "/workspace/scratch/ef468a447ac6/evidence-private/s03-9a0-payroll-install-first/CLONE_install.source-erp.sql",
+      "line": 21304,
+      "source_definition_sha256": "ef533ecbe0e48f88df21746ab8f788451680b9d00ff3dcd42605a57f3146d19e",
+      "writes": [
+        {
+          "operation": "UPDATE",
+          "schema": "erp",
+          "relation": "material_adjustments",
+          "source_offset": 2082
+        }
+      ],
+      "literal_FG_HPP_SALES_lock_present": false,
+      "literal_FGBOOK_lock_present": false,
+      "pocket_try_source_present": false,
+      "dynamic_EXECUTE_tokens_present": false
+    },
+    {
+      "function": "erp.reverse_opening_hpp_correction",
+      "path": "/workspace/scratch/ef468a447ac6/evidence-private/s03-9a0-payroll-install-first/CLONE_install.source-erp.sql",
+      "line": 22053,
+      "source_definition_sha256": "3ef5f1942bbe5044d9257c13c49066ae787adbbef986b1d4072516d1f4d38c4a",
+      "writes": [
+        {
+          "operation": "UPDATE",
+          "schema": "erp",
+          "relation": "hpp_versions",
+          "source_offset": 2664
+        },
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "hpp_versions",
+          "source_offset": 2750
+        },
+        {
+          "operation": "UPDATE",
+          "schema": "erp",
+          "relation": "opening_hpp_corrections",
+          "source_offset": 3104
+        }
+      ],
+      "literal_FG_HPP_SALES_lock_present": true,
+      "literal_FGBOOK_lock_present": false,
+      "pocket_try_source_present": false,
+      "dynamic_EXECUTE_tokens_present": false
+    },
+    {
+      "function": "erp.reverse_product_conversion",
+      "path": "/workspace/scratch/ef468a447ac6/evidence-private/s03-9a0-payroll-install-first/CLONE_install.source-erp.sql",
+      "line": 22218,
+      "source_definition_sha256": "1cb1bf250396743798fd99d414e742012bc4c11d379fc5b6ffac147db0b8a64e",
+      "writes": [
+        {
+          "operation": "UPDATE",
+          "schema": "erp",
+          "relation": "product_conversions",
+          "source_offset": 2657
+        }
+      ],
+      "literal_FG_HPP_SALES_lock_present": false,
+      "literal_FGBOOK_lock_present": false,
+      "pocket_try_source_present": false,
+      "dynamic_EXECUTE_tokens_present": false
+    },
+    {
+      "function": "erp.reverse_qc",
+      "path": "/workspace/scratch/ef468a447ac6/evidence-private/s03-9a0-payroll-install-first/CLONE_install.source-erp.sql",
+      "line": 22281,
+      "source_definition_sha256": "cefe15abb39e6e64d9fa5baf6bfaa26f8b132a3d64cc800ffa8dbb046f9fe183",
+      "writes": [
+        {
+          "operation": "UPDATE",
+          "schema": "erp",
+          "relation": "fg_lots",
+          "source_offset": 3065
+        }
+      ],
+      "literal_FG_HPP_SALES_lock_present": false,
+      "literal_FGBOOK_lock_present": false,
+      "pocket_try_source_present": false,
+      "dynamic_EXECUTE_tokens_present": false
+    },
+    {
+      "function": "erp.reverse_rework_completion",
+      "path": "/workspace/scratch/ef468a447ac6/evidence-private/s03-9a0-payroll-install-first/CLONE_install.source-erp.sql",
+      "line": 22371,
+      "source_definition_sha256": "35b04c8a773a134341a5f12e551b9dc070bf13987480e4ca2ecec2c9441141a6",
+      "writes": [
+        {
+          "operation": "UPDATE",
+          "schema": "erp",
+          "relation": "fg_lots",
+          "source_offset": 3217
+        }
+      ],
+      "literal_FG_HPP_SALES_lock_present": false,
+      "literal_FGBOOK_lock_present": false,
+      "pocket_try_source_present": false,
+      "dynamic_EXECUTE_tokens_present": false
+    },
+    {
+      "function": "erp.reverse_sale",
+      "path": "/workspace/scratch/ef468a447ac6/evidence-private/s03-9a0-payroll-install-first/CLONE_install.source-erp.sql",
+      "line": 22447,
+      "source_definition_sha256": "7e8b5deda518f7c6bde56930e93da8ac45d565c52a13d9365e81b69d027df5c5",
+      "writes": [
+        {
+          "operation": "UPDATE",
+          "schema": "erp",
+          "relation": "sales_headers",
+          "source_offset": 3180
+        }
+      ],
+      "literal_FG_HPP_SALES_lock_present": true,
+      "literal_FGBOOK_lock_present": false,
+      "pocket_try_source_present": false,
+      "dynamic_EXECUTE_tokens_present": false
+    },
+    {
+      "function": "erp.reverse_sales_payment",
+      "path": "/workspace/scratch/ef468a447ac6/evidence-private/s03-9a0-payroll-install-first/CLONE_install.source-erp.sql",
+      "line": 22565,
+      "source_definition_sha256": "1b52fad54b0cbf644414a048f2351b6fae50712ee5a2cf1f84710a79cf6bdbad",
+      "writes": [
+        {
+          "operation": "UPDATE",
+          "schema": "erp",
+          "relation": "sales_headers",
+          "source_offset": 3433
+        }
+      ],
+      "literal_FG_HPP_SALES_lock_present": false,
+      "literal_FGBOOK_lock_present": false,
+      "pocket_try_source_present": false,
+      "dynamic_EXECUTE_tokens_present": false
+    },
+    {
+      "function": "erp.reverse_sales_return",
+      "path": "/workspace/scratch/ef468a447ac6/evidence-private/s03-9a0-payroll-install-first/CLONE_install.source-erp.sql",
+      "line": 22645,
+      "source_definition_sha256": "085c10a4c74e34ba897b65449ffeb09b528902b1747ec6abe5cf2a7ba3dfc139",
+      "writes": [
+        {
+          "operation": "UPDATE",
+          "schema": "erp",
+          "relation": "sales_returns",
+          "source_offset": 2898
+        },
+        {
+          "operation": "UPDATE",
+          "schema": "erp",
+          "relation": "sales_headers",
+          "source_offset": 3549
+        }
+      ],
+      "literal_FG_HPP_SALES_lock_present": true,
+      "literal_FGBOOK_lock_present": false,
+      "pocket_try_source_present": false,
+      "dynamic_EXECUTE_tokens_present": false
+    },
+    {
+      "function": "erp.save_material_adjustment_draft_v2",
+      "path": "/workspace/scratch/ef468a447ac6/evidence-private/s03-9a0-payroll-install-first/CLONE_install.source-erp.sql",
+      "line": 29718,
+      "source_definition_sha256": "321eb3034025e4fbb1b026f167f953f201a520e3849a6c51689cae7870374c78",
+      "writes": [
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "material_adjustments",
+          "source_offset": 1600
+        },
+        {
+          "operation": "DELETE FROM",
+          "schema": "erp",
+          "relation": "material_adjustments",
+          "source_offset": 2643
+        },
+        {
+          "operation": "UPDATE",
+          "schema": "erp",
+          "relation": "material_adjustments",
+          "source_offset": 2932
+        }
+      ],
+      "literal_FG_HPP_SALES_lock_present": false,
+      "literal_FGBOOK_lock_present": false,
+      "pocket_try_source_present": false,
+      "dynamic_EXECUTE_tokens_present": false
+    },
+    {
+      "function": "erp.save_sale_draft_v2",
+      "path": "/workspace/scratch/ef468a447ac6/evidence-private/s03-9a0-payroll-install-first/CLONE_install.source-erp.sql",
+      "line": 30973,
+      "source_definition_sha256": "0cb88f3a68db82d0a5479eac54238eace3b93656603df3a13afc71bc7193c985",
+      "writes": [
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "sales_headers",
+          "source_offset": 3159
+        },
+        {
+          "operation": "DELETE FROM",
+          "schema": "erp",
+          "relation": "sales_items",
+          "source_offset": 4131
+        },
+        {
+          "operation": "UPDATE",
+          "schema": "erp",
+          "relation": "sales_headers",
+          "source_offset": 4188
+        },
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "sales_items",
+          "source_offset": 4468
+        }
+      ],
+      "literal_FG_HPP_SALES_lock_present": true,
+      "literal_FGBOOK_lock_present": false,
+      "pocket_try_source_present": false,
+      "dynamic_EXECUTE_tokens_present": false
+    },
+    {
+      "function": "erp.sync_non_po_product_hpp_to_gl_v2620f",
+      "path": "/workspace/scratch/ef468a447ac6/evidence-private/s03-9a0-payroll-install-first/CLONE_install.source-erp.sql",
+      "line": 32937,
+      "source_definition_sha256": "2fb85e3a107ec8f8e830b02e04cea73443029650ccfdd4a201813f50a4206790",
+      "writes": [
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "non_po_hpp_gl_sync_events_v2620f",
+          "source_offset": 3165
+        }
+      ],
+      "literal_FG_HPP_SALES_lock_present": true,
+      "literal_FGBOOK_lock_present": false,
+      "pocket_try_source_present": false,
+      "dynamic_EXECUTE_tokens_present": false
+    },
+    {
+      "function": "erp.sync_opening_lot_hpp_to_gl",
+      "path": "/workspace/scratch/ef468a447ac6/evidence-private/s03-9a0-payroll-install-first/CLONE_install.source-erp.sql",
+      "line": 33103,
+      "source_definition_sha256": "9faef903a865fd646cce3ee0823d3b9c3763f3dc1fc314bd257b5705e623e91b",
+      "writes": [
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "opening_lot_hpp_gl_state",
+          "source_offset": 4754
+        }
+      ],
+      "literal_FG_HPP_SALES_lock_present": true,
+      "literal_FGBOOK_lock_present": false,
+      "pocket_try_source_present": false,
+      "dynamic_EXECUTE_tokens_present": false
+    },
+    {
+      "function": "erp.sync_po_hpp_to_gl",
+      "path": "/workspace/scratch/ef468a447ac6/evidence-private/s03-9a0-payroll-install-first/CLONE_install.source-erp.sql",
+      "line": 33193,
+      "source_definition_sha256": "efa962783fa69b388d95d989ba66e8d9599ee1e5fc2a8981ddac5195cf2630ff",
+      "writes": [
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "po_hpp_gl_state",
+          "source_offset": 4665
+        }
+      ],
+      "literal_FG_HPP_SALES_lock_present": true,
+      "literal_FGBOOK_lock_present": false,
+      "pocket_try_source_present": false,
+      "dynamic_EXECUTE_tokens_present": false
+    },
+    {
+      "function": "cp7_credit.consumer_execute_v1",
+      "path": "scripts/cp7_customer_credit/consumer/08_owning_command.sql",
+      "line": 219,
+      "source_definition_sha256": "8757551b9a64ca410d9150b7da56fdf1f1573273ae5b3bc421ef0c5a03c9f536",
+      "writes": [
+        {
+          "operation": "INSERT INTO",
+          "schema": "cp7_credit",
+          "relation": "consumption_events",
+          "source_offset": 4984
+        },
+        {
+          "operation": "UPDATE",
+          "schema": "erp",
+          "relation": "sales_headers",
+          "source_offset": 7196
+        }
+      ],
+      "literal_FG_HPP_SALES_lock_present": false,
+      "literal_FGBOOK_lock_present": false,
+      "pocket_try_source_present": false,
+      "dynamic_EXECUTE_tokens_present": false
+    },
+    {
+      "function": "cp7_credit.refresh_opening_return_hpp_diagnostics_v1",
+      "path": "scripts/cp7_customer_credit/coordinator/03_opening_hpp_diagnostics.sql",
+      "line": 13,
+      "source_definition_sha256": "74670973126dcf90265fc22f31d3cca889ff317ddc563146144981f27bd1d517",
+      "writes": [
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "opening_lot_hpp_gl_state",
+          "source_offset": 3598
+        }
+      ],
+      "literal_FG_HPP_SALES_lock_present": false,
+      "literal_FGBOOK_lock_present": false,
+      "pocket_try_source_present": false,
+      "dynamic_EXECUTE_tokens_present": false
+    },
+    {
+      "function": "cp7_credit.store_initial_plan_v1",
+      "path": "scripts/cp7_customer_credit/coordinator/04_register_and_materialize.sql",
+      "line": 82,
+      "source_definition_sha256": "d91a70e119a6de2f2a3aff1263855017e8800ae45156161111256e1bbc64d76e",
+      "writes": [
+        {
+          "operation": "INSERT INTO",
+          "schema": "cp7_credit",
+          "relation": "return_families",
+          "source_offset": 3973
+        },
+        {
+          "operation": "INSERT INTO",
+          "schema": "cp7_credit",
+          "relation": "cohorts",
+          "source_offset": 7082
+        }
+      ],
+      "literal_FG_HPP_SALES_lock_present": false,
+      "literal_FGBOOK_lock_present": false,
+      "pocket_try_source_present": false,
+      "dynamic_EXECUTE_tokens_present": false
+    },
+    {
+      "function": "cp7_credit.native_empty_complete_v1",
+      "path": "scripts/cp7_customer_credit/native-empty/02_native_empty_callbacks.sql",
+      "line": 224,
+      "source_definition_sha256": "a829b1bf8249320d354c775a9e83dfdbbed86b5e1894cf707f58d95da09573c1",
+      "writes": [
+        {
+          "operation": "INSERT INTO",
+          "schema": "cp7_credit",
+          "relation": "return_families",
+          "source_offset": 4069
+        }
+      ],
+      "literal_FG_HPP_SALES_lock_present": false,
+      "literal_FGBOOK_lock_present": false,
+      "pocket_try_source_present": false,
+      "dynamic_EXECUTE_tokens_present": false
+    },
+    {
+      "function": "cp7_credit.post_initial_refund",
+      "path": "scripts/cp7_customer_credit/refund/01_initial_refund.proposal.sql",
+      "line": 407,
+      "source_definition_sha256": "dc8553f95ba976aeeda3ac85c7111dd88e65d7b4eb9bde94afca1a155946d054",
+      "writes": [
+        {
+          "operation": "INSERT INTO",
+          "schema": "cp7_credit",
+          "relation": "consumption_events",
+          "source_offset": 3104
+        }
+      ],
+      "literal_FG_HPP_SALES_lock_present": false,
+      "literal_FGBOOK_lock_present": false,
+      "pocket_try_source_present": false,
+      "dynamic_EXECUTE_tokens_present": false
+    },
+    {
+      "function": "erp.be_post_conversion_v1",
+      "path": "supabase/release/cp6-t3/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql",
+      "line": 277,
+      "source_definition_sha256": "bf3bea48001c11fe2e0db4d0b11964557032dfadf47dcec08db37c4b1f22b35e",
+      "writes": [
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "product_conversions",
+          "source_offset": 718
+        },
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "be_conversion_sources_v1",
+          "source_offset": 1151
+        },
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "bc_outstanding_returns_v1",
+          "source_offset": 2001
+        },
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "be_conversion_returns_v1",
+          "source_offset": 2261
+        }
+      ],
+      "literal_FG_HPP_SALES_lock_present": true,
+      "literal_FGBOOK_lock_present": false,
+      "pocket_try_source_present": false,
+      "dynamic_EXECUTE_tokens_present": false
+    },
+    {
+      "function": "erp.save_product_conversion_action_v1",
+      "path": "supabase/release/cp6-t3/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql",
+      "line": 309,
+      "source_definition_sha256": "d224b848be73b5a2cf0409dd509e0b91527a69fb03d2e84b48bf23060d508e91",
+      "writes": [
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "be_execution_context_v1",
+          "source_offset": 1460
+        },
+        {
+          "operation": "DELETE FROM",
+          "schema": "erp",
+          "relation": "be_execution_context_v1",
+          "source_offset": 2337
+        }
+      ],
+      "literal_FG_HPP_SALES_lock_present": false,
+      "literal_FGBOOK_lock_present": false,
+      "pocket_try_source_present": false,
+      "dynamic_EXECUTE_tokens_present": false
+    },
+    {
+      "function": "erp.be_reconcile_cost_document_v1",
+      "path": "supabase/release/cp6-t3/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql",
+      "line": 457,
+      "source_definition_sha256": "c949765495148a0b9182b846a77f5e840558dc8b404d94617386fbf432ebe054",
+      "writes": [
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "be_execution_context_v1",
+          "source_offset": 972
+        },
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "be_conversion_cost_events_v1",
+          "source_offset": 2320
+        },
+        {
+          "operation": "DELETE FROM",
+          "schema": "erp",
+          "relation": "be_execution_context_v1",
+          "source_offset": 2920
+        }
+      ],
+      "literal_FG_HPP_SALES_lock_present": true,
+      "literal_FGBOOK_lock_present": false,
+      "pocket_try_source_present": false,
+      "dynamic_EXECUTE_tokens_present": false
+    },
+    {
+      "function": "erp.be_link_recovery_v1",
+      "path": "supabase/release/cp6-t3/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql",
+      "line": 509,
+      "source_definition_sha256": "f01fd041fc67c8bbb2d1d02f55781f58854c4f075fb1a045fd01cf698245ec8e",
+      "writes": [
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "be_execution_context_v1",
+          "source_offset": 495
+        },
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "be_conversion_cost_sources_v1",
+          "source_offset": 602
+        },
+        {
+          "operation": "DELETE FROM",
+          "schema": "erp",
+          "relation": "be_execution_context_v1",
+          "source_offset": 802
+        }
+      ],
+      "literal_FG_HPP_SALES_lock_present": false,
+      "literal_FGBOOK_lock_present": false,
+      "pocket_try_source_present": false,
+      "dynamic_EXECUTE_tokens_present": false
+    },
+    {
+      "function": "erp.be_post_usage_v1",
+      "path": "supabase/release/cp6-t3/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql",
+      "line": 524,
+      "source_definition_sha256": "60a1e014d6e80374dbecf3259c4e0a266a2d23dd3c73cc76eec6f6b9fbd1cf00",
+      "writes": [
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "be_conversion_cost_sources_v1",
+          "source_offset": 1772
+        }
+      ],
+      "literal_FG_HPP_SALES_lock_present": true,
+      "literal_FGBOOK_lock_present": false,
+      "pocket_try_source_present": false,
+      "dynamic_EXECUTE_tokens_present": false
+    },
+    {
+      "function": "erp.be_nonpo_prepare_transfers_v1",
+      "path": "supabase/release/cp6-t3/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql",
+      "line": 600,
+      "source_definition_sha256": "937e2a4ba2d4c3eeee521c9d0d92c1bdb640d3ef6a9f7ed540282f3d8fe8de9d",
+      "writes": [
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "be_execution_context_v1",
+          "source_offset": 430
+        },
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "be_nonpo_transfer_events_v1",
+          "source_offset": 1887
+        },
+        {
+          "operation": "DELETE FROM",
+          "schema": "erp",
+          "relation": "be_execution_context_v1",
+          "source_offset": 2097
+        }
+      ],
+      "literal_FG_HPP_SALES_lock_present": true,
+      "literal_FGBOOK_lock_present": false,
+      "pocket_try_source_present": false,
+      "dynamic_EXECUTE_tokens_present": false
+    },
+    {
+      "function": "erp.be_nonpo_sync_all_v1",
+      "path": "supabase/release/cp6-t3/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql",
+      "line": 633,
+      "source_definition_sha256": "69e3c76ffb76106b9f6fd535d4cc543759c546e425b72b1182cb9d1e49e592c0",
+      "writes": [
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "be_execution_context_v1",
+          "source_offset": 483
+        },
+        {
+          "operation": "UPDATE",
+          "schema": "erp",
+          "relation": "be_execution_context_v1",
+          "source_offset": 629
+        },
+        {
+          "operation": "UPDATE",
+          "schema": "erp",
+          "relation": "be_execution_context_v1",
+          "source_offset": 1034
+        },
+        {
+          "operation": "DELETE FROM",
+          "schema": "erp",
+          "relation": "be_execution_context_v1",
+          "source_offset": 1178
+        }
+      ],
+      "literal_FG_HPP_SALES_lock_present": true,
+      "literal_FGBOOK_lock_present": false,
+      "pocket_try_source_present": false,
+      "dynamic_EXECUTE_tokens_present": false
+    },
+    {
+      "function": "erp.be_complete_rework_target_v1",
+      "path": "supabase/release/cp6-t3/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql",
+      "line": 701,
+      "source_definition_sha256": "94f8e2858c5dfb370107ba02b5ad6647445e0a8e217ee39bef0c1dae0817f1ee",
+      "writes": [
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "be_execution_context_v1",
+          "source_offset": 958
+        },
+        {
+          "operation": "DELETE FROM",
+          "schema": "erp",
+          "relation": "be_execution_context_v1",
+          "source_offset": 1547
+        }
+      ],
+      "literal_FG_HPP_SALES_lock_present": false,
+      "literal_FGBOOK_lock_present": false,
+      "pocket_try_source_present": false,
+      "dynamic_EXECUTE_tokens_present": false
+    },
+    {
+      "function": "erp.be_reverse_conversion_v1",
+      "path": "supabase/release/cp6-t3/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql",
+      "line": 723,
+      "source_definition_sha256": "d5fe49077c8cceca7dbdc07978338bfe6945fa3454528829a8c8625a765092ad",
+      "writes": [
+        {
+          "operation": "UPDATE",
+          "schema": "erp",
+          "relation": "bc_outstanding_returns_v1",
+          "source_offset": 1163
+        }
+      ],
+      "literal_FG_HPP_SALES_lock_present": true,
+      "literal_FGBOOK_lock_present": false,
+      "pocket_try_source_present": false,
+      "dynamic_EXECUTE_tokens_present": false
+    },
+    {
+      "function": "erp.be_reverse_rework_target_v1",
+      "path": "supabase/release/cp6-t3/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql",
+      "line": 739,
+      "source_definition_sha256": "61e2dcf75c0978f0f8339f31ac47588b469161cfba46a2485d8eb9e6697ad667",
+      "writes": [
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "be_execution_context_v1",
+          "source_offset": 359
+        },
+        {
+          "operation": "DELETE FROM",
+          "schema": "erp",
+          "relation": "be_execution_context_v1",
+          "source_offset": 803
+        }
+      ],
+      "literal_FG_HPP_SALES_lock_present": false,
+      "literal_FGBOOK_lock_present": false,
+      "pocket_try_source_present": false,
+      "dynamic_EXECUTE_tokens_present": false
+    },
+    {
+      "function": "erp.post_product_conversion",
+      "path": "supabase/release/cp6-t3/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql",
+      "line": 1353,
+      "source_definition_sha256": "e3b7c6b226224b79877c0544141c2cf1a4c59ae55a6b3b50355897da1b8f2243",
+      "writes": [
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "fg_inventory_balances",
+          "source_offset": 1900
+        },
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "fg_inventory_balances",
+          "source_offset": 2117
+        },
+        {
+          "operation": "DELETE FROM",
+          "schema": "erp",
+          "relation": "product_conversion_allocations",
+          "source_offset": 2649
+        },
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "fg_lots",
+          "source_offset": 3722
+        },
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "hpp_versions",
+          "source_offset": 4031
+        },
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "hpp_version_components",
+          "source_offset": 4326
+        },
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "product_conversion_allocations",
+          "source_offset": 5110
+        },
+        {
+          "operation": "UPDATE",
+          "schema": "erp",
+          "relation": "product_conversions",
+          "source_offset": 5544
+        }
+      ],
+      "literal_FG_HPP_SALES_lock_present": true,
+      "literal_FGBOOK_lock_present": false,
+      "pocket_try_source_present": false,
+      "dynamic_EXECUTE_tokens_present": false
+    },
+    {
+      "function": "erp.propagate_conversion_hpp_for_po",
+      "path": "supabase/release/cp6-t3/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql",
+      "line": 1512,
+      "source_definition_sha256": "dea20600e76a73d814367999223ab982dbb50982fcadb663adb23a60f8409817",
+      "writes": [
+        {
+          "operation": "UPDATE",
+          "schema": "erp",
+          "relation": "hpp_versions",
+          "source_offset": 2116
+        },
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "hpp_versions",
+          "source_offset": 2223
+        },
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "hpp_version_components",
+          "source_offset": 2631
+        }
+      ],
+      "literal_FG_HPP_SALES_lock_present": true,
+      "literal_FGBOOK_lock_present": false,
+      "pocket_try_source_present": false,
+      "dynamic_EXECUTE_tokens_present": false
+    },
+    {
+      "function": "erp.bc_value_custody_v1",
+      "path": "supabase/release/cp6-t3/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql",
+      "line": 1680,
+      "source_definition_sha256": "05ab39bf9ed8ccff1b4fa592f3b1b865e1df4b88df62e1ac2af58e5379e5c10f",
+      "writes": [
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "bc_lot_events_v1",
+          "source_offset": 2666
+        }
+      ],
+      "literal_FG_HPP_SALES_lock_present": false,
+      "literal_FGBOOK_lock_present": false,
+      "pocket_try_source_present": false,
+      "dynamic_EXECUTE_tokens_present": false
+    },
+    {
+      "function": "erp.bc_reverse_v1",
+      "path": "supabase/release/cp6-t3/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql",
+      "line": 1716,
+      "source_definition_sha256": "bd947132bf7ee2f027f9a6a33a9fd1d8d01fe556e6dbf28a05c64b0d7abc3aee",
+      "writes": [
+        {
+          "operation": "UPDATE",
+          "schema": "erp",
+          "relation": "bc_documents_v1",
+          "source_offset": 3832
+        }
+      ],
+      "literal_FG_HPP_SALES_lock_present": false,
+      "literal_FGBOOK_lock_present": false,
+      "pocket_try_source_present": false,
+      "dynamic_EXECUTE_tokens_present": false
+    },
+    {
+      "function": "erp.be_propagate_nonpo_v1",
+      "path": "supabase/release/cp6-t3/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql",
+      "line": 3124,
+      "source_definition_sha256": "68e9d172aed75081840f216fd7b2580189fb34fa0775098270a55602462d9daa",
+      "writes": [
+        {
+          "operation": "UPDATE",
+          "schema": "erp",
+          "relation": "hpp_versions",
+          "source_offset": 2113
+        },
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "hpp_versions",
+          "source_offset": 2220
+        },
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "hpp_version_components",
+          "source_offset": 2628
+        }
+      ],
+      "literal_FG_HPP_SALES_lock_present": true,
+      "literal_FGBOOK_lock_present": false,
+      "pocket_try_source_present": false,
+      "dynamic_EXECUTE_tokens_present": false
+    },
+    {
+      "function": "erp.sync_non_po_product_hpp_to_gl_v2620f",
+      "path": "supabase/release/cp6-t3/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql",
+      "line": 3356,
+      "source_definition_sha256": "e3e704d873f8551c943aa5eba6ae2ec5f7b55203ad73313b42a2a1771a38c319",
+      "writes": [
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "non_po_hpp_gl_sync_events_v2620f",
+          "source_offset": 3545
+        }
+      ],
+      "literal_FG_HPP_SALES_lock_present": true,
+      "literal_FGBOOK_lock_present": false,
+      "pocket_try_source_present": false,
+      "dynamic_EXECUTE_tokens_present": false
+    },
+    {
+      "function": "erp.reverse_product_conversion",
+      "path": "supabase/release/cp6-t3/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql",
+      "line": 3462,
+      "source_definition_sha256": "0edaef63fd3fed1f4586566927f8fa50a7358dad1d386fe2ff618d7d80754356",
+      "writes": [
+        {
+          "operation": "UPDATE",
+          "schema": "erp",
+          "relation": "product_conversions",
+          "source_offset": 2949
+        }
+      ],
+      "literal_FG_HPP_SALES_lock_present": false,
+      "literal_FGBOOK_lock_present": false,
+      "pocket_try_source_present": false,
+      "dynamic_EXECUTE_tokens_present": false
+    },
+    {
+      "function": "erp.post_rework_completion",
+      "path": "supabase/release/cp6-t3/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql",
+      "line": 3524,
+      "source_definition_sha256": "fb2a64a9c171d5bdf286e8cc052af7f298ad866fe57f9bcd699939e19eeb235b",
+      "writes": [
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "fg_lots",
+          "source_offset": 2356
+        },
+        {
+          "operation": "UPDATE",
+          "schema": "erp",
+          "relation": "fg_stock_movements",
+          "source_offset": 5565
+        }
+      ],
+      "literal_FG_HPP_SALES_lock_present": false,
+      "literal_FGBOOK_lock_present": false,
+      "pocket_try_source_present": false,
+      "dynamic_EXECUTE_tokens_present": false
+    },
+    {
+      "function": "erp.reverse_rework_completion",
+      "path": "supabase/release/cp6-t3/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql",
+      "line": 3944,
+      "source_definition_sha256": "4a440d88c5e90b017e60faf5204dcbc0ad75c8a130806a73c4de3e410bb28c46",
+      "writes": [
+        {
+          "operation": "UPDATE",
+          "schema": "erp",
+          "relation": "fg_lots",
+          "source_offset": 3286
+        }
+      ],
+      "literal_FG_HPP_SALES_lock_present": false,
+      "literal_FGBOOK_lock_present": false,
+      "pocket_try_source_present": false,
+      "dynamic_EXECUTE_tokens_present": false
+    },
+    {
+      "function": "erp.sync_opening_lot_hpp_to_gl",
+      "path": "supabase/release/cp6-t3/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql",
+      "line": 4068,
+      "source_definition_sha256": "724f46a3d83a69779e17b453cf4503adf591e3da4bb965357d38588b49fda7c3",
+      "writes": [
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "opening_lot_hpp_gl_state",
+          "source_offset": 5123
+        }
+      ],
+      "literal_FG_HPP_SALES_lock_present": true,
+      "literal_FGBOOK_lock_present": false,
+      "pocket_try_source_present": false,
+      "dynamic_EXECUTE_tokens_present": false
+    },
+    {
+      "function": "erp.rebuild_po_hpp",
+      "path": "supabase/release/cp6-t3/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql",
+      "line": 4628,
+      "source_definition_sha256": "3dfcfd49b02031555e831d60a5cc143734ce9097df37e4e258e606b60e6d3574",
+      "writes": [
+        {
+          "operation": "UPDATE",
+          "schema": "erp",
+          "relation": "hpp_versions",
+          "source_offset": 18641
+        },
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "hpp_versions",
+          "source_offset": 18718
+        },
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "hpp_version_components",
+          "source_offset": 19004
+        },
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "hpp_version_components",
+          "source_offset": 21434
+        },
+        {
+          "operation": "UPDATE",
+          "schema": "erp",
+          "relation": "fg_stock_movements",
+          "source_offset": 21716
+        }
+      ],
+      "literal_FG_HPP_SALES_lock_present": true,
+      "literal_FGBOOK_lock_present": false,
+      "pocket_try_source_present": true,
+      "dynamic_EXECUTE_tokens_present": false
+    },
+    {
+      "function": "erp.refresh_initial_import_fg_cost_v1",
+      "path": "supabase/release/cp6-t3/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql",
+      "line": 5559,
+      "source_definition_sha256": "5798286d9e8761843bd80d007d8bc2ac6c0ca9dd788aaf06310749732053b1c8",
+      "writes": [
+        {
+          "operation": "UPDATE",
+          "schema": "erp",
+          "relation": "hpp_versions",
+          "source_offset": 990
+        },
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "hpp_versions",
+          "source_offset": 1055
+        }
+      ],
+      "literal_FG_HPP_SALES_lock_present": true,
+      "literal_FGBOOK_lock_present": false,
+      "pocket_try_source_present": false,
+      "dynamic_EXECUTE_tokens_present": false
+    },
+    {
+      "function": "erp.bc_new_document_v1",
+      "path": "supabase/release/cp6-t3/20260925030000_erp_v2_6_20bc_cp6_accessory_service_returns.sql",
+      "line": 769,
+      "source_definition_sha256": "281d51c5f48c24f2765b1c05380ab94e5a6668771f907fdbe305263cebc16846",
+      "writes": [
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "bc_documents_v1",
+          "source_offset": 242
+        }
+      ],
+      "literal_FG_HPP_SALES_lock_present": false,
+      "literal_FGBOOK_lock_present": false,
+      "pocket_try_source_present": false,
+      "dynamic_EXECUTE_tokens_present": false
+    },
+    {
+      "function": "erp.bc_link_v1",
+      "path": "supabase/release/cp6-t3/20260925030000_erp_v2_6_20bc_cp6_accessory_service_returns.sql",
+      "line": 779,
+      "source_definition_sha256": "8635e75a1f61b4fe8910b682244934071bd0efb3017b48389e89ae413d685581",
+      "writes": [
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "bc_document_links_v1",
+          "source_offset": 161
+        }
+      ],
+      "literal_FG_HPP_SALES_lock_present": false,
+      "literal_FGBOOK_lock_present": false,
+      "pocket_try_source_present": false,
+      "dynamic_EXECUTE_tokens_present": false
+    },
+    {
+      "function": "erp.bc_post_adjustment_v1",
+      "path": "supabase/release/cp6-t3/20260925030000_erp_v2_6_20bc_cp6_accessory_service_returns.sql",
+      "line": 798,
+      "source_definition_sha256": "b51d7946dc322d98ef663797429f7b1ed310233675e04a649891844136280318",
+      "writes": [
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "bc_adjustment_purposes_v1",
+          "source_offset": 690
+        }
+      ],
+      "literal_FG_HPP_SALES_lock_present": false,
+      "literal_FGBOOK_lock_present": false,
+      "pocket_try_source_present": false,
+      "dynamic_EXECUTE_tokens_present": false
+    },
+    {
+      "function": "erp.bc_receive_return_v1",
+      "path": "supabase/release/cp6-t3/20260925030000_erp_v2_6_20bc_cp6_accessory_service_returns.sql",
+      "line": 979,
+      "source_definition_sha256": "ac1980c544a9cde63b7677e193913e97bbfeeaab0954d799a88ffffb91e1d9ba",
+      "writes": [
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "bc_return_lots_v1",
+          "source_offset": 3383
+        },
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "bc_return_lots_v1",
+          "source_offset": 4864
+        },
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "bc_return_lots_v1",
+          "source_offset": 7657
+        }
+      ],
+      "literal_FG_HPP_SALES_lock_present": false,
+      "literal_FGBOOK_lock_present": false,
+      "pocket_try_source_present": false,
+      "dynamic_EXECUTE_tokens_present": false
+    },
+    {
+      "function": "erp.bc_inspect_v1",
+      "path": "supabase/release/cp6-t3/20260925030000_erp_v2_6_20bc_cp6_accessory_service_returns.sql",
+      "line": 1074,
+      "source_definition_sha256": "a253b6f9dae88d11b0a2ce74007d6c9d1d81382fb64b1fa018dd14666a7cf836",
+      "writes": [
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "bc_lot_events_v1",
+          "source_offset": 2329
+        }
+      ],
+      "literal_FG_HPP_SALES_lock_present": false,
+      "literal_FGBOOK_lock_present": false,
+      "pocket_try_source_present": false,
+      "dynamic_EXECUTE_tokens_present": false
+    },
+    {
+      "function": "erp.bc_value_custody_v1",
+      "path": "supabase/release/cp6-t3/20260925030000_erp_v2_6_20bc_cp6_accessory_service_returns.sql",
+      "line": 1117,
+      "source_definition_sha256": "ef6a9037bd1edb14d80c834cd0678691dc421831a560e00de7e6f0513598a1a2",
+      "writes": [
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "bc_lot_events_v1",
+          "source_offset": 2666
+        }
+      ],
+      "literal_FG_HPP_SALES_lock_present": false,
+      "literal_FGBOOK_lock_present": false,
+      "pocket_try_source_present": false,
+      "dynamic_EXECUTE_tokens_present": false
+    },
+    {
+      "function": "erp.bc_close_custody_v1",
+      "path": "supabase/release/cp6-t3/20260925030000_erp_v2_6_20bc_cp6_accessory_service_returns.sql",
+      "line": 1156,
+      "source_definition_sha256": "b5a3433529c6d2462d3c11a3bd7cb15d6ecf80de35e089deb38f17b804053f7e",
+      "writes": [
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "bc_lot_events_v1",
+          "source_offset": 2233
+        }
+      ],
+      "literal_FG_HPP_SALES_lock_present": false,
+      "literal_FGBOOK_lock_present": false,
+      "pocket_try_source_present": false,
+      "dynamic_EXECUTE_tokens_present": false
+    },
+    {
+      "function": "erp.bc_credit_note_return_v1",
+      "path": "supabase/release/cp6-t3/20260925030000_erp_v2_6_20bc_cp6_accessory_service_returns.sql",
+      "line": 1419,
+      "source_definition_sha256": "f9bd9e95bb9f8d72b1426bd5dccbcbcf389a607aef696003812fc91dac1f95fe",
+      "writes": [
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "bc_lot_events_v1",
+          "source_offset": 5717
+        },
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "bc_return_lots_v1",
+          "source_offset": 10076
+        }
+      ],
+      "literal_FG_HPP_SALES_lock_present": false,
+      "literal_FGBOOK_lock_present": false,
+      "pocket_try_source_present": false,
+      "dynamic_EXECUTE_tokens_present": false
+    },
+    {
+      "function": "erp.bc_apply_imports_v1",
+      "path": "supabase/release/cp6-t3/20260925030000_erp_v2_6_20bc_cp6_accessory_service_returns.sql",
+      "line": 1833,
+      "source_definition_sha256": "7745753cbe4afaf79b5b3765ad89e9c0aff100a029c4d0e5b1b0560d97a05381",
+      "writes": [
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "bc_return_lots_v1",
+          "source_offset": 1931
+        },
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "bc_outstanding_returns_v1",
+          "source_offset": 2534
+        },
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "bc_return_lots_v1",
+          "source_offset": 3786
+        }
+      ],
+      "literal_FG_HPP_SALES_lock_present": false,
+      "literal_FGBOOK_lock_present": false,
+      "pocket_try_source_present": false,
+      "dynamic_EXECUTE_tokens_present": false
+    },
+    {
+      "function": "erp.bc_reverse_v1",
+      "path": "supabase/release/cp6-t3/20260925030000_erp_v2_6_20bc_cp6_accessory_service_returns.sql",
+      "line": 1921,
+      "source_definition_sha256": "78f7cf8aa144117952d6ec1fea8a46d986d52ec33cb6dfa0fe0d2af48ba3d3d1",
+      "writes": [
+        {
+          "operation": "UPDATE",
+          "schema": "erp",
+          "relation": "bc_documents_v1",
+          "source_offset": 3832
+        }
+      ],
+      "literal_FG_HPP_SALES_lock_present": false,
+      "literal_FGBOOK_lock_present": false,
+      "pocket_try_source_present": false,
+      "dynamic_EXECUTE_tokens_present": false
+    },
+    {
+      "function": "erp.post_material_adjustment",
+      "path": "supabase/release/cp6-t3/20260925030000_erp_v2_6_20bc_cp6_accessory_service_returns.sql",
+      "line": 2255,
+      "source_definition_sha256": "60291db5c55eb29ce3fa59e5b4025ceaba1a15ddfcce6c580ca494b0bbebfb4a",
+      "writes": [
+        {
+          "operation": "UPDATE",
+          "schema": "erp",
+          "relation": "material_adjustments",
+          "source_offset": 2545
+        }
+      ],
+      "literal_FG_HPP_SALES_lock_present": false,
+      "literal_FGBOOK_lock_present": false,
+      "pocket_try_source_present": false,
+      "dynamic_EXECUTE_tokens_present": false
+    }
+  ],
+  "count": 78,
+  "has_non_FG_literal_writers": true,
+  "critical_examples": [
+    {
+      "function": "erp.post_journal",
+      "path": "/workspace/scratch/ef468a447ac6/evidence-private/s03-9a0-payroll-install-first/CLONE_install.source-erp.sql",
+      "line": 15180,
+      "source_definition_sha256": "3ec4da1198cac4a8300cb70de8383ea1b79977032b2fa75f1dd6922f3b20af74",
+      "writes": [
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "journal_entries",
+          "source_offset": 4752
+        },
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "journal_lines",
+          "source_offset": 5263
+        }
+      ],
+      "literal_FG_HPP_SALES_lock_present": false,
+      "literal_FGBOOK_lock_present": false,
+      "pocket_try_source_present": false,
+      "dynamic_EXECUTE_tokens_present": false
+    },
+    {
+      "function": "erp.post_product_conversion",
+      "path": "/workspace/scratch/ef468a447ac6/evidence-private/s03-9a0-payroll-install-first/CLONE_install.source-erp.sql",
+      "line": 16611,
+      "source_definition_sha256": "8a4e66d60f3a1c5d3bf6a5f2e86429160b324f68eb873cf65b2ea150e8606662",
+      "writes": [
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "fg_inventory_balances",
+          "source_offset": 1659
+        },
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "fg_inventory_balances",
+          "source_offset": 1876
+        },
+        {
+          "operation": "DELETE FROM",
+          "schema": "erp",
+          "relation": "product_conversion_allocations",
+          "source_offset": 2408
+        },
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "fg_lots",
+          "source_offset": 3254
+        },
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "hpp_versions",
+          "source_offset": 3563
+        },
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "hpp_version_components",
+          "source_offset": 3858
+        },
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "product_conversion_allocations",
+          "source_offset": 4642
+        },
+        {
+          "operation": "UPDATE",
+          "schema": "erp",
+          "relation": "product_conversions",
+          "source_offset": 5076
+        }
+      ],
+      "literal_FG_HPP_SALES_lock_present": true,
+      "literal_FGBOOK_lock_present": false,
+      "pocket_try_source_present": false,
+      "dynamic_EXECUTE_tokens_present": false
+    },
+    {
+      "function": "erp.reverse_product_conversion",
+      "path": "/workspace/scratch/ef468a447ac6/evidence-private/s03-9a0-payroll-install-first/CLONE_install.source-erp.sql",
+      "line": 22218,
+      "source_definition_sha256": "1cb1bf250396743798fd99d414e742012bc4c11d379fc5b6ffac147db0b8a64e",
+      "writes": [
+        {
+          "operation": "UPDATE",
+          "schema": "erp",
+          "relation": "product_conversions",
+          "source_offset": 2657
+        }
+      ],
+      "literal_FG_HPP_SALES_lock_present": false,
+      "literal_FGBOOK_lock_present": false,
+      "pocket_try_source_present": false,
+      "dynamic_EXECUTE_tokens_present": false
+    },
+    {
+      "function": "erp.save_product_conversion_action_v1",
+      "path": "supabase/release/cp6-t3/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql",
+      "line": 309,
+      "source_definition_sha256": "d224b848be73b5a2cf0409dd509e0b91527a69fb03d2e84b48bf23060d508e91",
+      "writes": [
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "be_execution_context_v1",
+          "source_offset": 1460
+        },
+        {
+          "operation": "DELETE FROM",
+          "schema": "erp",
+          "relation": "be_execution_context_v1",
+          "source_offset": 2337
+        }
+      ],
+      "literal_FG_HPP_SALES_lock_present": false,
+      "literal_FGBOOK_lock_present": false,
+      "pocket_try_source_present": false,
+      "dynamic_EXECUTE_tokens_present": false
+    },
+    {
+      "function": "erp.post_product_conversion",
+      "path": "supabase/release/cp6-t3/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql",
+      "line": 1353,
+      "source_definition_sha256": "e3b7c6b226224b79877c0544141c2cf1a4c59ae55a6b3b50355897da1b8f2243",
+      "writes": [
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "fg_inventory_balances",
+          "source_offset": 1900
+        },
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "fg_inventory_balances",
+          "source_offset": 2117
+        },
+        {
+          "operation": "DELETE FROM",
+          "schema": "erp",
+          "relation": "product_conversion_allocations",
+          "source_offset": 2649
+        },
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "fg_lots",
+          "source_offset": 3722
+        },
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "hpp_versions",
+          "source_offset": 4031
+        },
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "hpp_version_components",
+          "source_offset": 4326
+        },
+        {
+          "operation": "INSERT INTO",
+          "schema": "erp",
+          "relation": "product_conversion_allocations",
+          "source_offset": 5110
+        },
+        {
+          "operation": "UPDATE",
+          "schema": "erp",
+          "relation": "product_conversions",
+          "source_offset": 5544
+        }
+      ],
+      "literal_FG_HPP_SALES_lock_present": true,
+      "literal_FGBOOK_lock_present": false,
+      "pocket_try_source_present": false,
+      "dynamic_EXECUTE_tokens_present": false
+    },
+    {
+      "function": "erp.reverse_product_conversion",
+      "path": "supabase/release/cp6-t3/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql",
+      "line": 3462,
+      "source_definition_sha256": "0edaef63fd3fed1f4586566927f8fa50a7358dad1d386fe2ff618d7d80754356",
+      "writes": [
+        {
+          "operation": "UPDATE",
+          "schema": "erp",
+          "relation": "product_conversions",
+          "source_offset": 2949
+        }
+      ],
+      "literal_FG_HPP_SALES_lock_present": false,
+      "literal_FGBOOK_lock_present": false,
+      "pocket_try_source_present": false,
+      "dynamic_EXECUTE_tokens_present": false
+    }
+  ],
+  "not_closed": [
+    "Some SQL files are source assembly inputs/proposals, not independent installed functions.",
+    "A missing literal advisory lock does not prove caller lacks it; complete exact caller/trigger/RI/context/privilege routes remain required.",
+    "Dynamic SQL and later current E/SKU/composition source routing are not inferred from token search.",
+    "Current source authority/OWNER permissions and actual function/trigger/FK census must be rebound to final composite parent.",
+    "No two-session exclusion, phantom prevention or permission-after-wait was executed."
+  ],
+  "writer_or_phantom_lock_closed": false,
+  "runtime_entry": null,
+  "actual_Native": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

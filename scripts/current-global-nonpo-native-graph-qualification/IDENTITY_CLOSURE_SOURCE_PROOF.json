@@ -1,0 +1,127 @@
+{
+  "classification": "EXACT_SOURCE_SCHEMA_ANALYSIS_NOT_NATIVE_BUSINESS_OR_BUG_ACCEPTANCE",
+  "historical_inspector": "4e263e3437efa156ac27bd95989e2880be8cb570",
+  "first_assessment": "No universal nonnull product/PO connectivity proof: Native journal dimensions nullable; event/document/FK identities must be followed independently.",
+  "tables": {
+    "erp.be_conversion_cost_sources_v1": {
+      "source": "supabase/release/cp6-t3/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql",
+      "bytes": 308,
+      "sha256": "f1d69025b01e6bc63a8b542eb6ca108c666e80f2433bc414e436c08621172f34",
+      "definition": "create table erp.be_conversion_cost_sources_v1(\n  document_id uuid primary key references erp.bc_documents_v1(id),\n  conversion_id uuid not null references erp.product_conversions(id),\n  kind text not null check(kind in('USAGE','RECOVERY')),\n  created_at timestamptz not null default statement_timestamp()\n);"
+    },
+    "erp.be_conversion_cost_events_v1": {
+      "source": "supabase/release/cp6-t3/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql",
+      "bytes": 506,
+      "sha256": "a6f3632e381ca9626a55ec2b18bef6c06a53d740ac7c64a25047071dc5ebefe6",
+      "definition": "create table erp.be_conversion_cost_events_v1(\n  id uuid primary key default gen_random_uuid(),\n  document_id uuid not null references erp.be_conversion_cost_sources_v1(document_id),\n  adjustment_id uuid not null references erp.material_adjustments(id),\n  previous_amount numeric(20,2) not null,target_amount numeric(20,2) not null,\n  journal_id uuid not null references erp.journal_entries(id),\n  economic_date date not null,created_at timestamptz not null default statement_timestamp(),created_by uuid\n);"
+    },
+    "erp.be_conversion_returns_v1": {
+      "source": "supabase/release/cp6-t3/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql",
+      "bytes": 272,
+      "sha256": "f5a7af04f8b9cc8cbceb6ebdd5c1a4c6f0ad070d16bc009cd6f2593a757a74f7",
+      "definition": "create table erp.be_conversion_returns_v1(\n  outstanding_id uuid primary key references erp.bc_outstanding_returns_v1(id),\n  conversion_id uuid not null references erp.product_conversions(id),\n  line_no integer not null check(line_no>0),\n  unique(conversion_id,line_no)\n);"
+    },
+    "erp.be_nonpo_transfer_events_v1": {
+      "source": "supabase/release/cp6-t3/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql",
+      "bytes": 392,
+      "sha256": "67d08e0c51e0e70455d51e5ad5168df799fad9ed98f92255c0f397411a49f1fc",
+      "definition": "create table erp.be_nonpo_transfer_events_v1(\n id uuid primary key default gen_random_uuid(),conversion_id uuid not null references erp.product_conversions(id),\n previous_value numeric(20,2) not null,target_value numeric(20,2) not null,\n journal_id uuid not null references erp.journal_entries(id),economic_date date not null,\n created_at timestamptz not null default statement_timestamp()\n);"
+    },
+    "erp.bc_documents_v1": {
+      "source": "supabase/release/cp6-t3/20260925030000_erp_v2_6_20bc_cp6_accessory_service_returns.sql",
+      "bytes": 1144,
+      "sha256": "4ffb7860ef343c9530e65043e575db80c209b66f3f0694a4d4a21c83c66b3880",
+      "definition": "create table erp.bc_documents_v1(\n  id uuid primary key,\n  document_number text not null unique,\n  action text not null check(action in('FILL_POST','RETURN_TO_WAREHOUSE','INTERNAL_USE','RECEIVE_RETURN','INSPECT','VALUE_CUSTODY',\n    'CREDIT_NOTE_RETURN','ALLOCATE_CARRY','DISPOSE_STOCK','CLOSE_CUSTODY','CUSTOMER_GARMENT_IN','CUSTOMER_GARMENT_OUT','COUNT_POST',\n    'RESOLVE_VARIANCE','ROUND_NOTE')),\n  status text not null default 'POSTED' check(status in('POSTED','REVERSED')),\n  physical_at timestamptz not null,\n  responsible text check(responsible is null or length(responsible) between 1 and 120),\n  reference text check(reference is null or length(reference) between 1 and 200),\n  reason text not null check(length(btrim(reason)) between 1 and 1000),\n  payload jsonb not null,\n  policy_versions jsonb not null default '{}'::jsonb,\n  row_version bigint not null default 1 check(row_version>0),\n  created_by uuid,\n  created_at timestamptz not null default statement_timestamp(),\n  reversed_by uuid,\n  reversed_at timestamptz,\n  reversal_reason text,\n  check((status='REVERSED')=(reversed_at is not null and reversal_reason is not null))\n);"
+    },
+    "erp.bc_document_links_v1": {
+      "source": "supabase/release/cp6-t3/20260925030000_erp_v2_6_20bc_cp6_accessory_service_returns.sql",
+      "bytes": 296,
+      "sha256": "c05a7b662bc5c6a8cdfd99f0e8955d1aa630d8cb2850b9cec998b5655d962708",
+      "definition": "create table erp.bc_document_links_v1(\n  document_id uuid not null references erp.bc_documents_v1(id),\n  link_kind text not null check(link_kind in('TRANSFER','ADJUSTMENT','MOVEMENT','JOURNAL','SETTLEMENT','PAYROLL_LINE')),\n  link_id uuid not null,\n  primary key(document_id,link_kind,link_id)\n);"
+    },
+    "erp.bc_adjustment_purposes_v1": {
+      "source": "supabase/release/cp6-t3/20260925030000_erp_v2_6_20bc_cp6_accessory_service_returns.sql",
+      "bytes": 434,
+      "sha256": "3e9cea76bc69a42a6a4f2db73abd2cda4c738f4820c8147fc672fe9e60a4df3d",
+      "definition": "create table erp.bc_adjustment_purposes_v1(\n  adjustment_id uuid primary key references erp.material_adjustments(id),\n  document_id uuid not null references erp.bc_documents_v1(id),\n  purpose text not null check(purpose in('FACTORY_USE','CUSTOMER_SERVICE','OWN_FG_REPAIR','RECOVERY_VALUATION','DAMAGE_DISPOSAL','COUNT_LOSS')),\n  account_id uuid not null references erp.chart_accounts(id),\n  policy_key text,\n  policy_version bigint\n);"
+    },
+    "erp.bc_outstanding_returns_v1": {
+      "source": "supabase/release/cp6-t3/20260925030000_erp_v2_6_20bc_cp6_accessory_service_returns.sql",
+      "bytes": 812,
+      "sha256": "c1cecdcc98f5f7f4715e7c685475fe8f0dbfa453bfaa204baf52c0a0ee14f5d6",
+      "definition": "create table erp.bc_outstanding_returns_v1(\n  id uuid primary key default gen_random_uuid(),\n  source_kind text not null check(source_kind in('OPENING_UNRETURNED','HOLDER','CONVERSION')),\n  owner_kind text not null check(owner_kind in('COMPANY','CUSTOMER')),\n  material_id uuid references erp.materials(id),\n  description text,\n  qty_expected numeric(18,6) not null check(qty_expected>0),\n  holder text not null check(length(btrim(holder)) between 1 and 120),\n  reference text,\n  batch_id uuid references erp.migration_batches(id),\n  source_row_id uuid,\n  document_id uuid references erp.bc_documents_v1(id),\n  status text not null default 'OPEN' check(status in('OPEN','CANCELLED')),\n  created_at timestamptz not null default statement_timestamp(),\n  check(material_id is not null or description is not null)\n);"
+    },
+    "erp.bc_return_lots_v1": {
+      "source": "supabase/release/cp6-t3/20260925030000_erp_v2_6_20bc_cp6_accessory_service_returns.sql",
+      "bytes": 1958,
+      "sha256": "302991d8d513c6c6ca125f71caf8f64f6d203f94fc1acadfa4d269deda1d1d5c",
+      "definition": "create table erp.bc_return_lots_v1(\n  id uuid primary key default gen_random_uuid(),\n  document_id uuid references erp.bc_documents_v1(id),\n  line_number integer not null default 1,\n  source_kind text not null check(source_kind in('SERVICE_LEFTOVER','NOTE_RETURN','OPENING_NOTE_RETURN','TEARDOWN','LEGACY',\n    'OPENING_PENDING_VALUE','OPENING_QUARANTINE','NOTE_RETURN_CREDITED')),\n  owner_kind text not null check(owner_kind in('COMPANY','MANDOR')),\n  value_mode text not null check(value_mode in('LEDGER','PENDING','MANDOR_OWNED')),\n  material_id uuid not null references erp.materials(id),\n  location_id uuid not null references erp.locations(id),\n  qty_received numeric(18,6) not null check(qty_received>0),\n  init_usable numeric(18,6) not null default 0 check(init_usable>=0),\n  init_damaged numeric(18,6) not null default 0 check(init_damaged>=0),\n  received_at timestamptz not null,\n  contractor_id uuid references erp.contractors(id),\n  note_item_id uuid references erp.contractor_material_issue_items(id),\n  opening_note_line_id uuid,\n  outstanding_id uuid references erp.bc_outstanding_returns_v1(id),\n  parent_lot_id uuid references erp.bc_return_lots_v1(id),\n  parent_event_id uuid,\n  batch_id uuid references erp.migration_batches(id),\n  source_row_id uuid,\n  reference text,\n  created_at timestamptz not null default statement_timestamp(),\n  check(init_usable+init_damaged<=qty_received),\n  check((source_kind='NOTE_RETURN')=(note_item_id is not null)),\n  check((source_kind='OPENING_NOTE_RETURN')=(opening_note_line_id is not null)),\n  check((owner_kind='MANDOR')=(value_mode='MANDOR_OWNED')),\n  check((value_mode='LEDGER')=(source_kind in('SERVICE_LEFTOVER','OPENING_QUARANTINE'))),\n  check((source_kind='NOTE_RETURN_CREDITED')=(parent_lot_id is not null and parent_event_id is not null)),\n  check((document_id is null)=(batch_id is not null)),\n  check((source_kind in('OPENING_PENDING_VALUE','OPENING_QUARANTINE'))=(batch_id is not null))\n);"
+    },
+    "erp.bc_lot_events_v1": {
+      "source": "supabase/release/cp6-t3/20260925030000_erp_v2_6_20bc_cp6_accessory_service_returns.sql",
+      "bytes": 1559,
+      "sha256": "9aa003e81c27e7f3ec2c0f5886a2bf38de1fc132b9225efcecfd55f15a32a055",
+      "definition": "create table erp.bc_lot_events_v1(\n  id uuid primary key default gen_random_uuid(),\n  document_id uuid not null references erp.bc_documents_v1(id),\n  lot_id uuid not null references erp.bc_return_lots_v1(id),\n  event_kind text not null check(event_kind in('INSPECT','CREDIT','VALUE','RETURN_TO_OWNER','DISCARD')),\n  condition text check(condition in('WAITING','USABLE','DAMAGED')),\n  qty_usable numeric(18,6) not null default 0 check(qty_usable>=0),\n  qty_damaged numeric(18,6) not null default 0 check(qty_damaged>=0),\n  qty numeric(18,6) not null default 0 check(qty>=0),\n  inspector text,\n  event_at timestamptz not null,\n  target_location_id uuid references erp.locations(id),\n  unit_value numeric(18,2),\n  amount numeric(18,2),\n  amount_unpaid numeric(18,2),\n  amount_carry numeric(18,2),\n  amount_refund numeric(18,2),\n  cash_account_id uuid references erp.cash_accounts(id),\n  created_at timestamptz not null default statement_timestamp(),\n  check((event_kind='INSPECT')=(condition is null)),\n  check(event_kind<>'INSPECT' or (qty=0 and qty_usable+qty_damaged>0 and inspector is not null)),\n  check(event_kind='INSPECT' or (qty>0 and qty_usable=0 and qty_damaged=0)),\n  check(event_kind in('INSPECT','RETURN_TO_OWNER') or condition<>'WAITING'),\n  check((event_kind='CREDIT')=(amount is not null and amount_unpaid is not null and amount_carry is not null and amount_refund is not null)),\n  check(event_kind<>'CREDIT' or amount=amount_unpaid+amount_carry+amount_refund),\n  check((amount_refund>0)=(cash_account_id is not null) or event_kind<>'CREDIT')\n);"
+    },
+    "erp.journal_entries": {
+      "source": "/workspace/scratch/ef468a447ac6/evidence-private/s03-9a0-payroll-install-first/CLONE_install.source-erp.sql",
+      "bytes": 844,
+      "sha256": "734af7c8bd0b8609d3cc2299a599e18e632bc1ff712af2603656aa5df924672f",
+      "definition": "CREATE TABLE erp.journal_entries (\n    id uuid DEFAULT gen_random_uuid() NOT NULL,\n    journal_number character varying(70) NOT NULL,\n    transaction_date date NOT NULL,\n    posting_at timestamp with time zone DEFAULT now() NOT NULL,\n    source_type character varying(50) NOT NULL,\n    source_id uuid,\n    description text NOT NULL,\n    status character varying(20) DEFAULT 'DRAFT'::character varying NOT NULL,\n    reversal_of_id uuid,\n    created_by uuid,\n    created_at timestamp with time zone DEFAULT now() NOT NULL,\n    economic_date date NOT NULL,\n    period_shifted boolean GENERATED ALWAYS AS ((economic_date <> transaction_date)) STORED,\n    CONSTRAINT journal_entries_status_check CHECK (((status)::text = ANY (ARRAY[('DRAFT'::character varying)::text, ('POSTED'::character varying)::text, ('REVERSED'::character varying)::text])))\n);"
+    },
+    "erp.journal_lines": {
+      "source": "/workspace/scratch/ef468a447ac6/evidence-private/s03-9a0-payroll-install-first/CLONE_install.source-erp.sql",
+      "bytes": 667,
+      "sha256": "1d26e3c343617911fe83202db9d62adc8e5c9be03e31e1c6106cb7182e7d6d88",
+      "definition": "CREATE TABLE erp.journal_lines (\n    id uuid DEFAULT gen_random_uuid() NOT NULL,\n    journal_entry_id uuid NOT NULL,\n    account_id uuid NOT NULL,\n    description text,\n    debit numeric(20,2) DEFAULT 0 NOT NULL,\n    credit numeric(20,2) DEFAULT 0 NOT NULL,\n    customer_id uuid,\n    vendor_id uuid,\n    contractor_id uuid,\n    po_id uuid,\n    product_id uuid,\n    CONSTRAINT journal_lines_check CHECK ((((debit > (0)::numeric) AND (credit = (0)::numeric)) OR ((credit > (0)::numeric) AND (debit = (0)::numeric)))),\n    CONSTRAINT journal_lines_credit_check CHECK ((credit >= (0)::numeric)),\n    CONSTRAINT journal_lines_debit_check CHECK ((debit >= (0)::numeric))\n);"
+    },
+    "erp.material_adjustments": {
+      "source": "/workspace/scratch/ef468a447ac6/evidence-private/s03-9a0-payroll-install-first/CLONE_install.source-erp.sql",
+      "bytes": 1298,
+      "sha256": "1c826a30c30830fc51158f3523d725ecf23d30e03e5c79d45c344b7314059fc5",
+      "definition": "CREATE TABLE erp.material_adjustments (\n    id uuid DEFAULT gen_random_uuid() NOT NULL,\n    adjustment_number character varying(60) NOT NULL,\n    reason_code character varying(30) NOT NULL,\n    physical_at timestamp with time zone NOT NULL,\n    status character varying(20) DEFAULT 'DRAFT'::character varying NOT NULL,\n    notes text,\n    created_by uuid,\n    created_at timestamp with time zone DEFAULT now() NOT NULL,\n    updated_at timestamp with time zone DEFAULT now() NOT NULL,\n    location_id uuid,\n    row_version bigint DEFAULT 1 NOT NULL,\n    CONSTRAINT material_adjustments_reason_code_check CHECK (((reason_code)::text = ANY (ARRAY[('PERSONAL_USE'::character varying)::text, ('INTERNAL_FACTORY_USE'::character varying)::text, ('SAMPLE'::character varying)::text, ('MAINTENANCE'::character varying)::text, ('GIVEAWAY'::character varying)::text, ('DAMAGE'::character varying)::text, ('LOSS'::character varying)::text, ('COUNT_CORRECTION'::character varying)::text, ('OTHER'::character varying)::text]))),\n    CONSTRAINT material_adjustments_row_version_check CHECK ((row_version > 0)),\n    CONSTRAINT material_adjustments_status_check CHECK (((status)::text = ANY (ARRAY[('DRAFT'::character varying)::text, ('POSTED'::character varying)::text, ('REVERSED'::character varying)::text])))\n);"
+    },
+    "erp.non_po_hpp_gl_sync_events_v2620f": {
+      "source": "/workspace/scratch/ef468a447ac6/evidence-private/s03-9a0-payroll-install-first/CLONE_install.source-erp.sql",
+      "bytes": 1308,
+      "sha256": "6428493f0a8e5b8ba1dfa5bfe3b31530d2c7771b3f39412821bc50f38b45a96e",
+      "definition": "CREATE TABLE erp.non_po_hpp_gl_sync_events_v2620f (\n    id uuid NOT NULL,\n    product_id uuid NOT NULL,\n    trigger_source_type text NOT NULL,\n    trigger_source_id uuid,\n    effective_date date NOT NULL,\n    old_fg_value numeric(20,2) NOT NULL,\n    new_fg_value numeric(20,2) NOT NULL,\n    fg_delta numeric(20,2) NOT NULL,\n    old_cogs_value numeric(20,2) NOT NULL,\n    new_cogs_value numeric(20,2) NOT NULL,\n    cogs_delta numeric(20,2) NOT NULL,\n    old_other_out_value numeric(20,2) NOT NULL,\n    new_other_out_value numeric(20,2) NOT NULL,\n    other_delta numeric(20,2) NOT NULL,\n    journal_entry_id uuid NOT NULL,\n    reason text NOT NULL,\n    created_by uuid,\n    created_at timestamp with time zone DEFAULT clock_timestamp() NOT NULL,\n    CONSTRAINT non_po_hpp_gl_sync_events_v2620f_check CHECK ((new_fg_value = (old_fg_value + fg_delta))),\n    CONSTRAINT non_po_hpp_gl_sync_events_v2620f_check1 CHECK ((new_cogs_value = (old_cogs_value + cogs_delta))),\n    CONSTRAINT non_po_hpp_gl_sync_events_v2620f_check2 CHECK ((new_other_out_value = (old_other_out_value + other_delta))),\n    CONSTRAINT non_po_hpp_gl_sync_events_v2620f_check3 CHECK ((((fg_delta + cogs_delta) + other_delta) = (0)::numeric)),\n    CONSTRAINT non_po_hpp_gl_sync_events_v2620f_reason_check CHECK ((length(btrim(reason)) >= 4))\n);"
+    },
+    "erp.be_conversion_sources_v1": {
+      "source": "supabase/release/cp6-t3/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql",
+      "bytes": 464,
+      "sha256": "dd7743b5e40f7652527e1fd5396f3aca0686485fb79de6a37b56c0e8f38ddb4c",
+      "definition": "create table erp.be_conversion_sources_v1(\n  conversion_id uuid primary key references erp.product_conversions(id),\n  source_lot_id uuid not null references erp.fg_lots(id),\n  origin_kind text not null check(origin_kind in('FG','REWORK','REDYE')),\n  rework_id uuid references erp.rework_orders(id),\n  source_revision text not null,\n  created_by uuid, created_at timestamptz not null default statement_timestamp(),\n  check((origin_kind='FG')=(rework_id is null))\n);"
+    }
+  },
+  "Native_lineage_query": {
+    "file": "retained/Native_lineage_guard_query.sql",
+    "query_body_sha256": "c4d77bd46f794ab80298e2277b8a871ef61e37fa0226707a82aac9b2b65d52fa",
+    "envelope": "SELECT EXISTS only; actual Native writer never called"
+  },
+  "findings": [
+    "BE cost-source document_id PK permits one direct cost-source conversion per document, not universal identity isolation from returns, document links or adjustments.",
+    "BE cost/transfer journal_id FK is explicit; no journal-line dimension assertion in these table definitions.",
+    "BC return lots permit multiple outstanding IDs in one document; BC document link uniqueness is per document/kind/id, not a global uniqueness constraint.",
+    "BC lot event documents and return parent-lot/event identities remain history edges regardless of reversed status.",
+    "Ordinary BE writers emit product/PO dimensions, but that does not prove complete documentary connectivity by journal_lines alone.",
+    "Graph edges use only actual typed document/event/journal/reversal identities, never account/material/category equality."
+  ],
+  "Native_cycle_and_noop_note": "Rooted walk and final Native reachable predicate retained exactly for model comparison. Inspector additionally refuses missing destination/current-HPP/invalid numeric source instead of relying on Native joins/skips. No-op proof is immediate: every visit tests against unchanged current state and would not write; induction on Native ordered visits leaves later inputs identical. No writer/rollback experiment is used.",
+  "actual_Native": 0,
+  "required_final_composition_parent": null,
+  "runtime_entry": null,
+  "writer_or_phantom_lock_closed": false,
+  "Native_dispatcher_purity_limitation": "Immediate no-op induction concerns propagation/transfer/economic journal branches only. Actual Native global callers still manage execution-context DML and sync declares gen_random_uuid before its economic early return. No Native dispatcher is executed by this inspector or its proof.",
+  "retained_baseline_SOURCE": {
+    "path": "retained/4e263_SOURCE.json",
+    "bytes": 33384,
+    "sha256": "dd68947fe0363c4f7c7b8975db83f6d83bdc5397a1ae88def9d18e66edb46e0a"
+  },
+  "local_model_constraint_limitations": "Typed standins include every Native shared documentary/journal column for field sensitivity but omit full Native FK/RLS/business constraints and include one historical synthetic material_adjustments.amount fixture tag. Mutated states are structural controls, never Native transactions.",
+  "Native_ordered_visits_query": {
+    "file": "retained/Native_propagation_visits_query.sql",
+    "query_body_sha256": "628b64f471e1099cc65dbbbdc5e4d12d8c1c80134aa7536228019756b51e27f1",
+    "envelope": "Exact Native SELECT only; loop/current-value branches modeled without any Native writes."
+  }
+}

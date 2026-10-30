@@ -1,0 +1,65 @@
+{
+  "classification": "RETAINED_ACTUAL_602_NATIVE_FUNCTION_SOURCE_ONLY_NOT_SUCCESSFUL_RUN_PREREQUISITE",
+  "source_container": {
+    "path": "/workspace/scratch/ef468a447ac6/evidence-private/sku-602-all-member-native23-first-failure/ACTUAL_NATIVE_RCA_FUNCTIONS.json",
+    "bytes": 208216,
+    "sha256": "734abf6a13e0f5ac8ab21b5325366df1485cc0b960b951443ef937f7ae977b3e"
+  },
+  "Original": {
+    "artifact_id": 12937998996,
+    "archive_bytes": 27564211,
+    "archive_sha256": "698b90b0bc3dfa52a8339d0b30464c2d98721594e56abdd53b07c959223f2bcc",
+    "member": "SKU_COST_RECOVERY_OVER_FIRST_PART_REFUSAL_37fb87d4a2e1_FULL_CURRENT_CENSUS.json",
+    "member_bytes": 43056004,
+    "member_sha256": "1081c288694965278468de28ef65831909bf52dd5461e6d682a00a6ff0418fa0"
+  },
+  "source": "Actual before+after catalogue rows in original failed recovery census; no SQL execution by reviewer.",
+  "function": "erp.post_material_adjustment(uuid)",
+  "captured": {
+    "definition": "CREATE OR REPLACE FUNCTION erp.post_material_adjustment(p_adjustment_id uuid)\n RETURNS void\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'erp', 'public'\nAS $function$ DECLARE h erp.material_adjustments%ROWTYPE;r record;v_type varchar(40);v_value numeric(24,6):=0; BEGIN PERFORM erp.require_internal(); SELECT * INTO h FROM erp.material_adjustments WHERE id=p_adjustment_id FOR UPDATE; IF h.id IS NULL OR h.status<>'DRAFT' THEN RAISE EXCEPTION 'Adjustment must be DRAFT'; END IF; IF h.location_id IS NULL THEN RAISE EXCEPTION 'Adjustment location is required'; END IF; v_type:=CASE h.reason_code WHEN 'PERSONAL_USE' THEN 'PERSONAL_USE' WHEN 'INTERNAL_FACTORY_USE' THEN 'INTERNAL_USE' WHEN 'SAMPLE' THEN 'SAMPLE' WHEN 'DAMAGE' THEN 'DAMAGE' WHEN 'LOSS' THEN 'LOSS' ELSE 'ADJUSTMENT' END; FOR r IN SELECT * FROM erp.material_adjustment_items WHERE adjustment_id=p_adjustment_id LOOP IF r.qty_signed>0 AND r.input_unit_cost IS NULL THEN RAISE EXCEPTION 'Positive material adjustment requires input_unit_cost'; END IF; INSERT INTO erp.material_stock_movements(material_id,roll_id,location_id,movement_type,qty_signed,input_unit_cost,source_type,source_id,physical_at,created_by) VALUES (r.material_id,r.roll_id,h.location_id,v_type,r.qty_signed,r.input_unit_cost,'MATERIAL_ADJUSTMENT_ITEM',r.id,h.physical_at,erp.current_app_user_id()); END LOOP; FOR r IN SELECT DISTINCT material_id FROM erp.material_adjustment_items WHERE adjustment_id=p_adjustment_id LOOP PERFORM erp.recalculate_material_cost(r.material_id); END LOOP; SELECT COALESCE(SUM(msm.qty_signed*msm.unit_cost_snapshot),0) INTO v_value FROM erp.material_stock_movements msm JOIN erp.material_adjustment_items mai ON mai.id=msm.source_id WHERE mai.adjustment_id=p_adjustment_id AND msm.source_type='MATERIAL_ADJUSTMENT_ITEM'; IF v_value<0 THEN PERFORM erp.post_journal('MATERIAL_ADJUSTMENT',h.id,erp._cp3_business_date(h.physical_at),'Material usage/adjustment',jsonb_build_array(jsonb_build_object('account_id',erp.bc_adjustment_account_v1(h.id,'OTHER_EXPENSE'),'debit',round(-v_value,2),'credit',0),jsonb_build_object('mapping_key','MATERIAL_INVENTORY','debit',0,'credit',round(-v_value,2)))); ELSIF v_value>0 THEN PERFORM erp.post_journal('MATERIAL_ADJUSTMENT',h.id,erp._cp3_business_date(h.physical_at),'Positive material adjustment',jsonb_build_array(jsonb_build_object('mapping_key','MATERIAL_INVENTORY','debit',round(v_value,2),'credit',0),jsonb_build_object('account_id',erp.bc_adjustment_account_v1(h.id,'OTHER_INCOME'),'debit',0,'credit',round(v_value,2)))); END IF; UPDATE erp.material_adjustments SET status='POSTED' WHERE id=p_adjustment_id; END; $function$\n",
+    "definition_bytes": 2639,
+    "definition_sha256": "de207556f98b3aac44dd51fb50669b57652768fbdf2ed26ff04b362864ff9faa",
+    "owner": "postgres",
+    "full_captured_catalog_row": [
+      "CREATE OR REPLACE FUNCTION erp.post_material_adjustment(p_adjustment_id uuid)\n RETURNS void\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'erp', 'public'\nAS $function$ DECLARE h erp.material_adjustments%ROWTYPE;r record;v_type varchar(40);v_value numeric(24,6):=0; BEGIN PERFORM erp.require_internal(); SELECT * INTO h FROM erp.material_adjustments WHERE id=p_adjustment_id FOR UPDATE; IF h.id IS NULL OR h.status<>'DRAFT' THEN RAISE EXCEPTION 'Adjustment must be DRAFT'; END IF; IF h.location_id IS NULL THEN RAISE EXCEPTION 'Adjustment location is required'; END IF; v_type:=CASE h.reason_code WHEN 'PERSONAL_USE' THEN 'PERSONAL_USE' WHEN 'INTERNAL_FACTORY_USE' THEN 'INTERNAL_USE' WHEN 'SAMPLE' THEN 'SAMPLE' WHEN 'DAMAGE' THEN 'DAMAGE' WHEN 'LOSS' THEN 'LOSS' ELSE 'ADJUSTMENT' END; FOR r IN SELECT * FROM erp.material_adjustment_items WHERE adjustment_id=p_adjustment_id LOOP IF r.qty_signed>0 AND r.input_unit_cost IS NULL THEN RAISE EXCEPTION 'Positive material adjustment requires input_unit_cost'; END IF; INSERT INTO erp.material_stock_movements(material_id,roll_id,location_id,movement_type,qty_signed,input_unit_cost,source_type,source_id,physical_at,created_by) VALUES (r.material_id,r.roll_id,h.location_id,v_type,r.qty_signed,r.input_unit_cost,'MATERIAL_ADJUSTMENT_ITEM',r.id,h.physical_at,erp.current_app_user_id()); END LOOP; FOR r IN SELECT DISTINCT material_id FROM erp.material_adjustment_items WHERE adjustment_id=p_adjustment_id LOOP PERFORM erp.recalculate_material_cost(r.material_id); END LOOP; SELECT COALESCE(SUM(msm.qty_signed*msm.unit_cost_snapshot),0) INTO v_value FROM erp.material_stock_movements msm JOIN erp.material_adjustment_items mai ON mai.id=msm.source_id WHERE mai.adjustment_id=p_adjustment_id AND msm.source_type='MATERIAL_ADJUSTMENT_ITEM'; IF v_value<0 THEN PERFORM erp.post_journal('MATERIAL_ADJUSTMENT',h.id,erp._cp3_business_date(h.physical_at),'Material usage/adjustment',jsonb_build_array(jsonb_build_object('account_id',erp.bc_adjustment_account_v1(h.id,'OTHER_EXPENSE'),'debit',round(-v_value,2),'credit',0),jsonb_build_object('mapping_key','MATERIAL_INVENTORY','debit',0,'credit',round(-v_value,2)))); ELSIF v_value>0 THEN PERFORM erp.post_journal('MATERIAL_ADJUSTMENT',h.id,erp._cp3_business_date(h.physical_at),'Positive material adjustment',jsonb_build_array(jsonb_build_object('mapping_key','MATERIAL_INVENTORY','debit',round(v_value,2),'credit',0),jsonb_build_object('account_id',erp.bc_adjustment_account_v1(h.id,'OTHER_INCOME'),'debit',0,'credit',round(v_value,2)))); END IF; UPDATE erp.material_adjustments SET status='POSTED' WHERE id=p_adjustment_id; END; $function$\n",
+      "postgres",
+      "plpgsql",
+      "f",
+      true,
+      false,
+      false,
+      false,
+      "v",
+      "u",
+      "100",
+      "0",
+      [
+        "search_path=erp, public"
+      ],
+      [
+        "p_adjustment_id"
+      ],
+      null,
+      "p_adjustment_id uuid",
+      "void",
+      "-",
+      [
+        [
+          "postgres",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "service_role",
+          "postgres",
+          "EXECUTE",
+          false
+        ]
+      ]
+    ],
+    "before_and_after_exact_equal": true
+  },
+  "executed_in_this_qualification": false,
+  "actual_new_Native": 0
+}

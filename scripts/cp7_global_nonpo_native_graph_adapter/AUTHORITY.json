@@ -1,0 +1,381 @@
+{
+  "classification": "EXACT_KNOWN_SOURCE_AUTHORITY_ONLY_NOT_CURRENT_RUNTIME_PARENT_ACCEPTANCE",
+  "source_base": "cde78b2cc82e0a286174098458dab9815fdfd072",
+  "source_base_tree": "915103541d247f544c4492db25953b4268d9c2e3",
+  "required_final_composition_parent": null,
+  "runtime_entry": null,
+  "known_functions": {
+    "erp.be_conversion_extra_v1(uuid)": {
+      "source_kind": "EXACT_TRACKED_BE_RELEASE_SOURCE_NOT_ACTUAL_RUNTIME_CAPTURE",
+      "source": "supabase/release/cp6-t3/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql",
+      "prosrc_sha256": "a14a3c3609d4cf225a1c9c85d784771a04fa1663bc03681ac25da5a9ce3d191b",
+      "source_function_sha256": "8eaa71ffe861f427c2da0fca362fc34bb8879c8f9b4de19e6f80f041f97eae02",
+      "volatility": "s",
+      "security_definer": true,
+      "owner": "postgres",
+      "inspection_only_never_called": false,
+      "language": "sql",
+      "config": [
+        "search_path=\"\""
+      ],
+      "returns_set": false,
+      "return_type": "numeric"
+    },
+    "erp.be_allocation_extra_v1(uuid)": {
+      "source_kind": "EXACT_TRACKED_BE_RELEASE_SOURCE_NOT_ACTUAL_RUNTIME_CAPTURE",
+      "source": "supabase/release/cp6-t3/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql",
+      "prosrc_sha256": "c8281604fdaf18416ebf3c10372818ee1403c6a88d5851d632585809d4a2d6fb",
+      "source_function_sha256": "de6893f82ef3cd195d6d36e88ee211cba52dc5d75c985a70800a885e098ffb6e",
+      "volatility": "s",
+      "security_definer": true,
+      "owner": "postgres",
+      "inspection_only_never_called": false,
+      "language": "sql",
+      "config": [
+        "search_path=\"\""
+      ],
+      "returns_set": false,
+      "return_type": "numeric"
+    },
+    "erp.be_nonpo_admitted_v1(uuid)": {
+      "source_kind": "EXACT_TRACKED_BE_RELEASE_SOURCE_NOT_ACTUAL_RUNTIME_CAPTURE",
+      "source": "supabase/release/cp6-t3/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql",
+      "prosrc_sha256": "d32478fb76d3803166dd030d2dcf9fb06b5c0ff162f786140750a5101e4dd6c7",
+      "source_function_sha256": "be664f7c3b167f1817687dc5d955a2e39d4a35a002b01e3ab3f059b0c81fd056",
+      "volatility": "s",
+      "security_definer": true,
+      "owner": "postgres",
+      "inspection_only_never_called": false,
+      "language": "sql",
+      "config": [
+        "search_path=\"\""
+      ],
+      "returns_set": false,
+      "return_type": "boolean"
+    },
+    "erp.compute_non_po_product_hpp_targets_v2620f(uuid)": {
+      "source_kind": "EXACT_TRACKED_BE_RELEASE_SOURCE_NOT_ACTUAL_RUNTIME_CAPTURE",
+      "source": "supabase/release/cp6-t3/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql",
+      "prosrc_sha256": "8cb973a373559d2620d29918a3f589a4845251dc70c0a6ec595cf73e38bd549f",
+      "source_function_sha256": "6c78bfdb8fbf50524f18574b52d2a4a39a229ea6de947a2f38634d03056f1394",
+      "volatility": "s",
+      "security_definer": true,
+      "owner": "postgres",
+      "inspection_only_never_called": false,
+      "language": "sql",
+      "config": [
+        "search_path=\"\""
+      ],
+      "returns_set": true,
+      "return_type": "record"
+    },
+    "erp.compute_non_po_product_hpp_book_v2620f(uuid)": {
+      "source_kind": "EXACT_TRACKED_BE_RELEASE_SOURCE_NOT_ACTUAL_RUNTIME_CAPTURE",
+      "source": "supabase/release/cp6-t3/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql",
+      "prosrc_sha256": "16b189ae50325680a6827d4542979d2a3d8fdc5c42c169546d7437c7f348754f",
+      "source_function_sha256": "bb6e97dd6cad7400b6483b40b930e50b7677f1cf5ded115d839aed51ea942221",
+      "volatility": "s",
+      "security_definer": true,
+      "owner": "postgres",
+      "inspection_only_never_called": true,
+      "language": "sql",
+      "config": [
+        "search_path=\"\""
+      ],
+      "returns_set": true,
+      "return_type": "record"
+    },
+    "erp.account_id(text)": {
+      "source_kind": "RETAINED_NATIVE_BASELINE_DUMP_SOURCE_NOT_CURRENT_COMPOSITE_ACCEPTANCE",
+      "source": "retained/Native_authority.sql",
+      "prosrc_sha256": "0ae24f40576960c537a81cb9d7b44673ccd9d48cf2c197a519cadc8851d5aa96",
+      "source_function_sha256": "b8a09819406f957d156d41e70166059f6f81fc5277cce86759f57c1924ffe408",
+      "volatility": "s",
+      "security_definer": true,
+      "owner": "postgres",
+      "inspection_only_never_called": true,
+      "language": "plpgsql",
+      "config": [
+        "search_path=erp, public"
+      ],
+      "returns_set": false,
+      "return_type": "uuid"
+    },
+    "erp.require_internal()": {
+      "source_kind": "RETAINED_NATIVE_BASELINE_DUMP_SOURCE_NOT_CURRENT_COMPOSITE_ACCEPTANCE",
+      "source": "retained/Native_authority.sql",
+      "prosrc_sha256": "69a908818fa707014f4193ceb0154d9ff55e58ff4ce5795b2c91bc841b9dfc58",
+      "source_function_sha256": "74a4c76af1b7aa004d7be3ca3ef4b467ceab7266908df2f65e44c772642ae6bc",
+      "volatility": "v",
+      "security_definer": true,
+      "owner": "postgres",
+      "inspection_only_never_called": true,
+      "language": "plpgsql",
+      "config": [
+        "search_path=\"\""
+      ],
+      "returns_set": false,
+      "return_type": "void"
+    },
+    "erp.be_propagate_nonpo_v1()": {
+      "source_kind": "EXACT_TRACKED_BE_RELEASE_SOURCE_NOT_ACTUAL_RUNTIME_CAPTURE",
+      "source": "supabase/release/cp6-t3/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql",
+      "prosrc_sha256": "b5a15b8f5d4e4a3a7a1e251b19a9b2a6b72b51c9a33d15f151cae2fcd06b7cae",
+      "source_function_sha256": "68e9d172aed75081840f216fd7b2580189fb34fa0775098270a55602462d9daa",
+      "volatility": "v",
+      "security_definer": true,
+      "owner": "postgres",
+      "inspection_only_never_called": true,
+      "language": "plpgsql",
+      "config": [
+        "search_path=erp, public"
+      ],
+      "returns_set": false,
+      "return_type": "void"
+    },
+    "erp.be_nonpo_prepare_transfers_v1(date)": {
+      "source_kind": "EXACT_TRACKED_BE_RELEASE_SOURCE_NOT_ACTUAL_RUNTIME_CAPTURE",
+      "source": "supabase/release/cp6-t3/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql",
+      "prosrc_sha256": "66963c4a209e3467f34e31f7dcdf62b2e91db51ad269ba9bc938baaea0ea90a8",
+      "source_function_sha256": "937e2a4ba2d4c3eeee521c9d0d92c1bdb640d3ef6a9f7ed540282f3d8fe8de9d",
+      "volatility": "v",
+      "security_definer": true,
+      "owner": "postgres",
+      "inspection_only_never_called": true,
+      "language": "plpgsql",
+      "config": [
+        "search_path=\"\""
+      ],
+      "returns_set": false,
+      "return_type": "void"
+    },
+    "erp.be_nonpo_sync_all_v1(date,text,uuid,text)": {
+      "source_kind": "EXACT_TRACKED_BE_RELEASE_SOURCE_NOT_ACTUAL_RUNTIME_CAPTURE",
+      "source": "supabase/release/cp6-t3/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql",
+      "prosrc_sha256": "c8b38d21f09719285de688141f0cc8f8306ecb261d21b62423ea9242ed9239df",
+      "source_function_sha256": "69e3c76ffb76106b9f6fd535d4cc543759c546e425b72b1182cb9d1e49e592c0",
+      "volatility": "v",
+      "security_definer": true,
+      "owner": "postgres",
+      "inspection_only_never_called": true,
+      "language": "plpgsql",
+      "config": [
+        "search_path=\"\""
+      ],
+      "returns_set": false,
+      "return_type": "void"
+    },
+    "erp.sync_non_po_product_hpp_to_gl_v2620f(uuid,date,text,uuid,text)": {
+      "source_kind": "EXACT_TRACKED_BE_RELEASE_SOURCE_NOT_ACTUAL_RUNTIME_CAPTURE",
+      "source": "supabase/release/cp6-t3/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql",
+      "prosrc_sha256": "4f487083e54b4a342b71f94d4c1005db0666cd050b661d1c67c8d259436e9e7b",
+      "source_function_sha256": "e3e704d873f8551c943aa5eba6ae2ec5f7b55203ad73313b42a2a1771a38c319",
+      "volatility": "v",
+      "security_definer": true,
+      "owner": "postgres",
+      "inspection_only_never_called": true,
+      "language": "plpgsql",
+      "config": [
+        "search_path=erp, public"
+      ],
+      "returns_set": false,
+      "return_type": "void"
+    },
+    "cp7_credit.current_leaf_assignment(uuid)": {
+      "source_kind": "EXACT_CURRENT_CDE78_PARENT_SOURCE_FUNCTION",
+      "source": "scripts/cp7_customer_credit/readers/01_current_reader_capability.proposal.sql",
+      "prosrc_sha256": "43a35442609edd4d79f283211799be496c2f31e89db3e999176c557d27078950",
+      "source_function_sha256": "80341c993ba7c814e72e68b1bc18ed5163b75b2af894abaf7ea972a955a7a07a",
+      "volatility": "s",
+      "security_definer": true,
+      "owner": "postgres",
+      "inspection_only_never_called": false,
+      "language": "plpgsql",
+      "config": [
+        "search_path=\"\""
+      ],
+      "returns_set": true,
+      "return_type": "record"
+    },
+    "cp7_credit.consumer_dependency_graph_v1(uuid)": {
+      "source_kind": "EXACT_CURRENT_CDE78_PARENT_SOURCE_FUNCTION",
+      "source": "scripts/cp7_customer_credit/consumer/01_dependency_graph.sql",
+      "prosrc_sha256": "c51a3bc2a924aa24a61422348d7e32517a862502b831c54079d1f8f4b7c04796",
+      "source_function_sha256": "5bcb1b6b95f7ac5cb2948822b03540a31e24d6e53d66b765e3b1ff1d5825fee7",
+      "volatility": "s",
+      "security_definer": true,
+      "owner": "postgres",
+      "inspection_only_never_called": false,
+      "language": "plpgsql",
+      "config": [
+        "search_path=\"\"",
+        "TimeZone=UTC"
+      ],
+      "returns_set": false,
+      "return_type": "jsonb"
+    },
+    "cp7_credit.source_hpp_lot_ids_v1(uuid)": {
+      "source_kind": "EXACT_CURRENT_CDE78_PARENT_SOURCE_FUNCTION",
+      "source": "scripts/cp7_customer_credit/reconciliation/03_source_requests.sql",
+      "prosrc_sha256": "2860a19234f397fb7bb2defe265072157cba2263572f44decb3b1db6da463b16",
+      "source_function_sha256": "ac7d9a5fbea999d93fc2f2132d53e35f3371d4754b1c54166998cdc81d8fab52",
+      "volatility": "s",
+      "security_definer": true,
+      "owner": "postgres",
+      "inspection_only_never_called": false,
+      "language": "sql",
+      "config": [
+        "search_path=\"\"",
+        "TimeZone=UTC"
+      ],
+      "returns_set": false,
+      "return_type": "uuid[]"
+    },
+    "cp7_credit.initial_hpp_account_facts_v1()": {
+      "source_kind": "EXACT_CURRENT_CDE78_PARENT_SOURCE_FUNCTION",
+      "source": "scripts/cp7_customer_credit/coordinator/02_hpp_book.sql",
+      "prosrc_sha256": "fc0a3e5ac9adb31e395934b5b8ae355369871651dcf3a2fca34d8674295773ba",
+      "source_function_sha256": "87c7ce47ea3b4ede09eafe609a309d4e105e15a2d7a13e2bb504f47eb762bb48",
+      "volatility": "s",
+      "security_definer": true,
+      "owner": "postgres",
+      "inspection_only_never_called": false,
+      "language": "sql",
+      "config": [
+        "search_path=\"\"",
+        "TimeZone=UTC"
+      ],
+      "returns_set": false,
+      "return_type": "jsonb"
+    },
+    "cp7_credit.source_first_nonpo_hpp_alignment_v1(jsonb)": {
+      "source_kind": "EXACT_CURRENT_CDE78_PARENT_SOURCE_FUNCTION",
+      "source": "scripts/cp7_customer_credit/reconciliation/03_native_inverse_proof.sql",
+      "prosrc_sha256": "a82fb111dd73ffbd9b56e9a9c1fb5c951684b33dcda6baee7566c467812e9804",
+      "source_function_sha256": "adf9ea1eeb3b7fe483a22cd429831943bae2d00cbd2a5d66c61174a9099d81e4",
+      "volatility": "s",
+      "security_definer": true,
+      "owner": "postgres",
+      "inspection_only_never_called": false,
+      "language": "plpgsql",
+      "config": [
+        "search_path=\"\"",
+        "TimeZone=UTC"
+      ],
+      "returns_set": false,
+      "return_type": "jsonb"
+    },
+    "cp7_credit.pg_jsonb_sha256(jsonb)": {
+      "source_kind": "EXACT_CURRENT_CDE78_PARENT_SOURCE_FUNCTION",
+      "source": "scripts/cp7_customer_credit/ledger/01_immutable_facts.proposal.sql",
+      "prosrc_sha256": "c5d51abf3325c3c259308c2206676321e139b0bba4c53e83e9b01672e7414f1d",
+      "source_function_sha256": "49bb809e3b38c6d7d9884ccf8e91d50e6802e21ef76ac63d828ff09a09d965db",
+      "volatility": "i",
+      "security_definer": false,
+      "owner": "postgres",
+      "inspection_only_never_called": false,
+      "language": "sql",
+      "config": [
+        "search_path=\"\""
+      ],
+      "returns_set": false,
+      "return_type": "text"
+    },
+    "erp.be_in_context_v1()": {
+      "source_kind": "EXACT_TRACKED_BE_RELEASE_SOURCE_NOT_ACTUAL_RUNTIME_CAPTURE",
+      "source": "supabase/release/cp6-t3/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql",
+      "prosrc_sha256": "0926d4cd0d695268e560a94043d16ea52d4c81f32473b4a4a3440237745d38a4",
+      "source_function_sha256": "ef5e6c17899b425ac0307c57a058be86e295af169b15121769e7c07ae4651c7b",
+      "volatility": "s",
+      "security_definer": true,
+      "owner": "postgres",
+      "inspection_only_never_called": true,
+      "language": "sql",
+      "config": [
+        "search_path=\"\""
+      ],
+      "returns_set": false,
+      "return_type": "boolean"
+    },
+    "erp.be_nonpo_in_sync_v1()": {
+      "source_kind": "EXACT_TRACKED_BE_RELEASE_SOURCE_NOT_ACTUAL_RUNTIME_CAPTURE",
+      "source": "supabase/release/cp6-t3/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql",
+      "prosrc_sha256": "b97be444278280a1d9de33c864e35ab1a0cdd5d9004a021392ff0dc81ffd581a",
+      "source_function_sha256": "118d930000eadca07f647011c488bfd0d88169fe27af35bbbf02c626427b40b3",
+      "volatility": "s",
+      "security_definer": true,
+      "owner": "postgres",
+      "inspection_only_never_called": true,
+      "language": "sql",
+      "config": [
+        "search_path=\"\""
+      ],
+      "returns_set": false,
+      "return_type": "boolean"
+    }
+  },
+  "parent_source_files": {
+    "supabase/release/cp6-t3/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql": {
+      "bytes": 551875,
+      "sha256": "fbc6e068b9b397149c9ed26d449515a4158e96a5c37221fda26a3870a7c639ea"
+    },
+    "scripts/cp7_customer_credit/readers/01_current_reader_capability.proposal.sql": {
+      "bytes": 12021,
+      "sha256": "104853e41bd3cfa79af47d09c7f6ad9d45ff10fb00756b5b57ea71d137d94773"
+    },
+    "scripts/cp7_customer_credit/consumer/01_dependency_graph.sql": {
+      "bytes": 4342,
+      "sha256": "d243b7911700f4077d8c1a8ebd71f861762a5ab9c07e068031c63d2a872e78da"
+    },
+    "scripts/cp7_customer_credit/reconciliation/03_source_requests.sql": {
+      "bytes": 21078,
+      "sha256": "9cea83e59f7dd923ae4f182b8126615bad7a274a31765ce4dbff19b41f16a116"
+    },
+    "scripts/cp7_customer_credit/coordinator/02_hpp_book.sql": {
+      "bytes": 15772,
+      "sha256": "a9e3ee39b51bb1cbadb9a4f8570b3bae3ddabf83cd589c29e32b71424b4b2391"
+    },
+    "scripts/cp7_customer_credit/reconciliation/03_native_inverse_proof.sql": {
+      "bytes": 38524,
+      "sha256": "9fb7ca993d770ee18a29a1038f5cf1e11c389ad33e7e133a062a31d6298ba442"
+    },
+    "scripts/cp7_customer_credit/ledger/01_immutable_facts.proposal.sql": {
+      "bytes": 17049,
+      "sha256": "62383030bf27b70c5c07f948c69329be6f8229c314097e7d3c02293cc8c929c6"
+    },
+    "supabase/release/cp6-t3/20260925030000_erp_v2_6_20bc_cp6_accessory_service_returns.sql": {
+      "bytes": 375492,
+      "sha256": "23f31eafc8b8f235465dac7871f5c3cbd13e4e646552abdf591f82a2a3445bbb"
+    }
+  },
+  "retained_Native_dump": {
+    "path": "/workspace/scratch/ef468a447ac6/evidence-private/s03-9a0-payroll-install-first/CLONE_install.source-erp.sql",
+    "bytes": 5385614,
+    "sha256": "cb9cd1de02bec3899c0374e9ce21f01fa48ec01ac0adfea039181bf3d2de6fff",
+    "context": "Retained9a0 baseline source only; failed S03 install grants no successful prerequisite; BE extensions intentionally come from exact tracked release, not this dump."
+  },
+  "Native_view": {
+    "name": "erp.v_current_hpp",
+    "trimmed_source_definition_sha256": "9eb6fa12ee2b72085c6941fe00003f7da643b6fc98ebcd27ca12cc4220dee170",
+    "expected_security_invoker": true,
+    "expected_owner": "postgres",
+    "source_definition": "SELECT DISTINCT ON (lot_id) lot_id,\n    id AS hpp_version_id,\n    version_no,\n    cost_state,\n    qty_basis_pcs,\n    total_cost,\n    hpp_per_pcs,\n    calculated_at\n   FROM erp.hpp_versions hv\n  WHERE (is_current = true)\n  ORDER BY lot_id, version_no DESC;"
+  },
+  "new_roles": [],
+  "new_public_RPC": [],
+  "production_go": false,
+  "independent_acceptance": false,
+  "actual_executed_Native_dispatchers": [],
+  "unqualified_future_runtime_obligations": [
+    "Exact accepted final composition source and Native table/trigger/RI/role profile",
+    "Existing D1/E current authority/pending request/phase and no ambient contexts",
+    "Global writer/phantom lock route and post-command outside proof"
+  ],
+  "identity_closure_source_profile": {
+    "historical_inspector": "4e263e3437efa156ac27bd95989e2880be8cb570",
+    "BC_schema_source": "supabase/release/cp6-t3/20260925030000_erp_v2_6_20bc_cp6_accessory_service_returns.sql",
+    "Native_G_predicates_changed": false,
+    "no_account_or_category_identity_hubs": true,
+    "runtime_closed": true
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "classification": "LOCAL_EXPECTED_SOURCE_METADATA_TYPE_ERROR_NOT_NATIVE_FAILURE",
+  "symbol": "erp.be_nonpo_admitted_v1(uuid)",
+  "declared_expected": "jsonb",
+  "exact_frozen_source_and_observed": "boolean",
+  "raw_bytes": 1589,
+  "raw_sha256": "76f275623157df6139a6b1920253c6b87e3fb66d859396befb34a429942f0d86",
+  "resolution": "Correct expected metadata to exact RETURNS boolean; no function body/profile check weakened.",
+  "actual_Native": 0
+}

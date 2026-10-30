@@ -1,0 +1,61 @@
+{
+  "contract": "cp7.global-nonpo.identity-closure.preparation-transition.v1",
+  "from_head": "4e263e3437efa156ac27bd95989e2880be8cb570",
+  "from_tree": "1a31621e8b9f43c025d555822b9831870b3f6aa4",
+  "immutable_public_source_base": "cde78b2cc82e0a286174098458dab9815fdfd072",
+  "historical_SOURCE": {
+    "bytes": 33384,
+    "sha256": "dd68947fe0363c4f7c7b8975db83f6d83bdc5397a1ae88def9d18e66edb46e0a"
+  },
+  "runtime_SQL_changes": {
+    "scope.sql": {
+      "before": {
+        "bytes": 5322,
+        "sha256": "d635c876da8a78b5a3249d001b3f4314efb40383d06c4ec9a28ab9c4fe09dbd1"
+      },
+      "after": {
+        "bytes": 10095,
+        "sha256": "7d5f96fd976cd385df0be391c5916fc0b35c6a66bf94db0618eb3bff0874d76f"
+      }
+    },
+    "capture.sql": {
+      "before": {
+        "bytes": 7448,
+        "sha256": "0e3df3e36a36c2faa93a6126dc38a2c2f2c80c54954aac72ccfb0a08aaf835ad"
+      },
+      "after": {
+        "bytes": 8016,
+        "sha256": "90a03cbbd430f317c2e18c7e7f13743370e617756d2d2b1fe06179b2af3003cf"
+      }
+    }
+  },
+  "core_runtime_SQL_exact": {
+    "authority.sql": {
+      "bytes": 14536,
+      "sha256": "c87643d3dad13757bc2e510728550bc53878bce841d9f7da7abfd7179c67f882"
+    },
+    "inspect.sql": {
+      "bytes": 9510,
+      "sha256": "8f9461ce31e9973969040ae16029241253eb2ce1e0fde9ebba160db32b6cd782"
+    }
+  },
+  "additional_tracked_BC_schema_source": {
+    "bytes": 375492,
+    "sha256": "23f31eafc8b8f235465dac7871f5c3cbd13e4e646552abdf591f82a2a3445bbb"
+  },
+  "reason": "Close actual finite document/event/journal/reversal identities before R/O exclusion; no late identity-only capture assumption.",
+  "no_universal_account_or_category_hubs": true,
+  "existing_financial_functions_modified": [],
+  "existing_global_guards_modified": [],
+  "Native_known_bodies_modified": [],
+  "new_workflows": [],
+  "original33_callbacks_oracles_exact": true,
+  "Native_G_domains_exact": true,
+  "new_private_functions": 0,
+  "runtime_entry": null,
+  "required_final_composition_parent": null,
+  "writer_or_phantom_lock_closed": false,
+  "actual_Native": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

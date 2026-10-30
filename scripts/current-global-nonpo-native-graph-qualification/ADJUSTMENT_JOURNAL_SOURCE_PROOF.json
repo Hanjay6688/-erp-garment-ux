@@ -1,0 +1,39 @@
+{
+  "classification": "LOCKED_NATIVE_SOURCE_IDENTITY_ANALYSIS_NOT_NATIVE_TRANSACTION_BUG",
+  "historical_inspector": "923a9620d41f618fe72e9cd9181fcf7ddee3cf91",
+  "initial_causal_lock": "Native original MATERIAL_ADJUSTMENT/h.id journal can have only account dimensions; BC adjustment facade records only ADJUSTMENT link. Existing923 captures header but can omit original journal and miss a journal-only change.",
+  "retained_actual_function": {
+    "path": "retained/Actual602_material_adjustment_source.json",
+    "bytes": 7103,
+    "sha256": "0dccf94a13d1b573db6ee095c0aed984cb49d016a273783fd0af569f85804007",
+    "definition_sha256": "de207556f98b3aac44dd51fb50669b57652768fbdf2ed26ff04b362864ff9faa"
+  },
+  "exact_retained_header_DDL": {
+    "source": "/workspace/scratch/ef468a447ac6/evidence-private/s03-9a0-payroll-install-first/CLONE_install.source-erp.sql",
+    "bytes": 1298,
+    "sha256": "1c826a30c30830fc51158f3523d725ecf23d30e03e5c79d45c344b7314059fc5",
+    "definition": "CREATE TABLE erp.material_adjustments (\n    id uuid DEFAULT gen_random_uuid() NOT NULL,\n    adjustment_number character varying(60) NOT NULL,\n    reason_code character varying(30) NOT NULL,\n    physical_at timestamp with time zone NOT NULL,\n    status character varying(20) DEFAULT 'DRAFT'::character varying NOT NULL,\n    notes text,\n    created_by uuid,\n    created_at timestamp with time zone DEFAULT now() NOT NULL,\n    updated_at timestamp with time zone DEFAULT now() NOT NULL,\n    location_id uuid,\n    row_version bigint DEFAULT 1 NOT NULL,\n    CONSTRAINT material_adjustments_reason_code_check CHECK (((reason_code)::text = ANY (ARRAY[('PERSONAL_USE'::character varying)::text, ('INTERNAL_FACTORY_USE'::character varying)::text, ('SAMPLE'::character varying)::text, ('MAINTENANCE'::character varying)::text, ('GIVEAWAY'::character varying)::text, ('DAMAGE'::character varying)::text, ('LOSS'::character varying)::text, ('COUNT_CORRECTION'::character varying)::text, ('OTHER'::character varying)::text]))),\n    CONSTRAINT material_adjustments_row_version_check CHECK ((row_version > 0)),\n    CONSTRAINT material_adjustments_status_check CHECK (((status)::text = ANY (ARRAY[('DRAFT'::character varying)::text, ('POSTED'::character varying)::text, ('REVERSED'::character varying)::text])))\n);"
+  },
+  "header_journal_entry_id_present": false,
+  "exact_BC_adjustment_facade": {
+    "source": "supabase/release/cp6-t3/20260925030000_erp_v2_6_20bc_cp6_accessory_service_returns.sql",
+    "definition": "CREATE OR REPLACE FUNCTION erp.bc_post_adjustment_v1(p_document uuid,p_location uuid,p_at timestamptz,p_reason_code text,p_items jsonb,\n  p_reason text,p_purpose text,p_account uuid,p_policy_key text default null)\n RETURNS uuid LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''\nAS $function$\ndeclare v jsonb;v_id uuid;\nbegin\n  v:=erp.save_material_adjustment_draft_v2(jsonb_build_object('adjustment_number','BCJ-'||upper(substr(replace(gen_random_uuid()::text,'-',''),1,16)),\n    'reason_code',p_reason_code,'physical_at',p_at,'location_id',p_location,'notes',p_reason,'change_reason',p_reason,'items',p_items),gen_random_uuid(),null);\n  v_id:=(v->>'material_adjustment_id')::uuid;\n  insert into erp.bc_adjustment_purposes_v1(adjustment_id,document_id,purpose,account_id,policy_key,policy_version)\n  values(v_id,p_document,p_purpose,p_account,p_policy_key,case when p_policy_key is not null then erp.bc_policy_version_v1(p_policy_key) end);\n  perform erp.post_material_adjustment_v2(v_id,gen_random_uuid(),(v->>'row_version')::bigint,p_reason);\n  perform erp.bc_link_v1(p_document,'ADJUSTMENT',v_id);\n  return v_id;\nend;$function$;",
+    "bytes": 1137,
+    "sha256": "b51d7946dc322d98ef663797429f7b1ed310233675e04a649891844136280318",
+    "only_ADJUSTMENT_link": true
+  },
+  "source_semantic_edge": "JOURNAL(source_type='MATERIAL_ADJUSTMENT',source_id) <-> ADJUSTMENT(source_id)",
+  "capture_change_needed": false,
+  "capture_reason": "Frozen923 capture selects full actual journal headers/lines from the same scope journal_ids. New edge expands that same domain, verified by added directed and field controls.",
+  "unrelated_same_UUID_and_shared_account_are_not_edges": true,
+  "known_global_reader_and_writer_authority_functions": 19,
+  "new_public_RPC": 0,
+  "new_runtime_hooks": 0,
+  "runtime_entry": null,
+  "required_final_composition_parent": null,
+  "writer_or_phantom_lock_closed": false,
+  "actual_Native": 0,
+  "production_go": false,
+  "independent_acceptance": false,
+  "header_pointer_absence_scope": "Exact retained Native header DDL and tracked BC/BE source; no current installed-catalog acceptance. A later differing schema requires explicit final-parent rebind."
+}
