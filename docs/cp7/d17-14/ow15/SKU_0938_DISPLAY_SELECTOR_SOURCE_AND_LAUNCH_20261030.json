@@ -1,0 +1,37 @@
+{
+  "classification": "EXACT_SOURCE_SUCCESSOR_FRESH_COMPLETE_RUN_PENDING",
+  "head": "0938b693dee868ba74323f4ff61db70efdd11e89",
+  "tree": "0e0ebd209fbea1b63c9283c02ffb4ce6cfb1e87f",
+  "parent": "8a08024fda704162481e3123efa5fa7fbfc5663d",
+  "run_id": 41070902168,
+  "job_id": 124114405860,
+  "status": "IN_PROGRESS_AT_LAST_API_OBSERVATION",
+  "recorded_at_utc": "2026-10-30T15:25:44.794967+00:00",
+  "previous_actual": {
+    "run_id": 41053845032,
+    "Native_base": 7,
+    "Native_cost": 5,
+    "callbacks": 11,
+    "browser_incomplete": 4,
+    "complete27_qualified": false,
+    "complete_outer_restored": true,
+    "package_writer_runtime": false,
+    "archive_library_file_id": "libfile_75e6facf83988191b9cfbbba28ec030d"
+  },
+  "changes": [
+    "Exact existing currency display space; expected source value remains60.06",
+    "Exact named staged grouping combobox; selected values unchanged"
+  ],
+  "Python_tests": 51,
+  "Node_tests": 7,
+  "rendered_JSX_selector_controls": 4,
+  "committed_source_preflight": {
+    "bytes": 7856,
+    "sha256": "2a6e27de21c5aa48befdd2c4de54fc5eb42c6956f1aa31d29db86e2bc4be8f96"
+  },
+  "actual_new_qualification_credit": 0,
+  "no_partial_run_aggregation": true,
+  "Native_product_changed": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

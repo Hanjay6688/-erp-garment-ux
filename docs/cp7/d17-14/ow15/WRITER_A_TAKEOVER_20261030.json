@@ -1,7 +1,7 @@
 {
   "classification": "WRITER_A_TAKEOVER_ACTIVE_CONTINUATION_NOT_COMPLETION",
-  "recorded_at_utc": "2026-10-30T12:22:33.343883+00:00",
-  "root_parent": "c9e711a167a9f345fffc8c76891557f6a2526d76",
+  "recorded_at_utc": "2026-10-30T15:25:44.794967+00:00",
+  "root_parent": "aa7517a45e0b8929e7c0dbc67307f6832cba98a8",
   "prior_chat_execution_observable": false,
   "current_work_is_isolated": true,
   "midnight_root_intake_receipt": "MIDNIGHT_NATIVE1_E787_ROOT_INTAKE_20261030.json",
@@ -27,9 +27,11 @@
     "actual_new_Native_cases": 0,
     "actual_Auth_HTTP_cases": 0,
     "actual_browser_cases": 0,
-    "UI_mounted": false,
+    "UI_mounted": true,
     "production_go": false,
-    "independent_acceptance": false
+    "independent_acceptance": false,
+    "mount_source_head": "590bb2ae49e32fa01489551d75858166660f9d35",
+    "actual_current_composite_browser_qualified": false
   },
   "global_source": {
     "head": "a6ded9cd4ce23a6d59cd32e42ca9bb33d793f8cc",
@@ -61,36 +63,108 @@
   "original_intake_mutation_controls": 47,
   "running": [
     {
-      "domain": "SKU_NATIVE27_BROWSER_SUCCESSOR",
-      "head": "8a08024fda704162481e3123efa5fa7fbfc5663d",
-      "run_id": 41053845032,
-      "job_id": 124056289401,
+      "classification": "EXACT_SOURCE_SUCCESSOR_FRESH_COMPLETE_RUN_PENDING",
+      "head": "0938b693dee868ba74323f4ff61db70efdd11e89",
+      "tree": "0e0ebd209fbea1b63c9283c02ffb4ce6cfb1e87f",
+      "parent": "8a08024fda704162481e3123efa5fa7fbfc5663d",
+      "run_id": 41070902168,
+      "job_id": 124114405860,
       "status": "IN_PROGRESS_AT_LAST_API_OBSERVATION",
-      "qualified_new_case_credit": 0
+      "recorded_at_utc": "2026-10-30T15:25:44.794967+00:00",
+      "previous_actual": {
+        "run_id": 41053845032,
+        "Native_base": 7,
+        "Native_cost": 5,
+        "callbacks": 11,
+        "browser_incomplete": 4,
+        "complete27_qualified": false,
+        "complete_outer_restored": true,
+        "package_writer_runtime": false,
+        "archive_library_file_id": "libfile_75e6facf83988191b9cfbbba28ec030d"
+      },
+      "changes": [
+        "Exact existing currency display space; expected source value remains60.06",
+        "Exact named staged grouping combobox; selected values unchanged"
+      ],
+      "Python_tests": 51,
+      "Node_tests": 7,
+      "rendered_JSX_selector_controls": 4,
+      "committed_source_preflight": {
+        "bytes": 7856,
+        "sha256": "2a6e27de21c5aa48befdd2c4de54fc5eb42c6956f1aa31d29db86e2bc4be8f96"
+      },
+      "actual_new_qualification_credit": 0,
+      "no_partial_run_aggregation": true,
+      "Native_product_changed": false,
+      "production_go": false,
+      "independent_acceptance": false
     },
     {
-      "domain": "GLOBAL_MULTISET_METADATA_ONLY",
-      "head": "3d7066b852176d9f343ec831d2f63aee6665579b",
-      "run_id": 41054247479,
-      "job_id": 124057642882,
+      "classification": "CANCELLED_HISTORY_HARNESS_SOURCE_SUCCESSOR_FRESH_BROWSER4_PENDING",
+      "head": "89ab76595424fa55cda3923fbe4499b7b7abf16b",
+      "tree": "db63154b4beda614863b665970e0ea0c14d3c754",
+      "parent": "30ee9874d049632050faf53b299a0cd8a11fe9f6",
+      "run_id": 41080255432,
       "status": "IN_PROGRESS_AT_LAST_API_OBSERVATION",
-      "qualified_new_case_credit": 0
-    },
-    {
-      "domain": "S03_BROWSER4_CURRENT_RIGHTS",
-      "head": "ae83782c5dc0701f3b5325375a743b2a08e4ce3d",
-      "run_id": 41044533553,
-      "job_id": 124025266832,
-      "status": "IN_PROGRESS_AT_LAST_API_OBSERVATION",
-      "qualified_new_case_credit": 0
-    },
-    {
-      "domain": "S03_BROWSER4_ORDINARY_SNAPSHOT_UTC",
-      "head": "30ee9874d049632050faf53b299a0cd8a11fe9f6",
-      "run_id": 41049049321,
-      "job_id": 124040265150,
-      "status": "IN_PROGRESS_AT_LAST_API_OBSERVATION",
-      "qualified_new_case_credit": 0
+      "recorded_at_utc": "2026-10-30T15:25:44.794967+00:00",
+      "previous_runs": [
+        {
+          "head": "ae83782c5dc0701f3b5325375a743b2a08e4ce3d",
+          "run_id": 41044533553,
+          "conclusion": "CANCELLED_TIMEOUT",
+          "library_file_id": "libfile_0935ec92abf08191ba81f89f847a37d6"
+        },
+        {
+          "head": "30ee9874d049632050faf53b299a0cd8a11fe9f6",
+          "run_id": 41049049321,
+          "conclusion": "CANCELLED_TIMEOUT",
+          "library_file_id": "libfile_3a7861239b848191bcef9e4247dc1f7e"
+        }
+      ],
+      "previous_full_outer_restore": "NOT_PROVEN_MAIN_ABSENT",
+      "first_mobile_error": "CP7_S03_ALLOCATION_BEFORE_WIP_AVAILABLE after successful CANCEL_ALLOCATION",
+      "diagnosis": "Historical CANCELLED observation incorrectly required current carry allocation eligibility; Native14 deliberately refuses pre-restoration output reuse.",
+      "changes": [
+        "Retain first Native-validated ACTIVE header, manifest, children, allocation metadata and original journal/lines",
+        "CANCELLED requires exact prior authority and one dated linked inverse with all dimensions and amounts",
+        "Retain first cancelled history through later decision reversal and other pool cancellation",
+        "Missing/duplicate historical pool or status regression refuses",
+        "Allow240min for all four complete journeys and outer restoration"
+      ],
+      "source_files": 2384,
+      "counted_reversible_change_groups": 39,
+      "Python_tests": 85,
+      "Node_tests": 12,
+      "source_preflight": {
+        "bytes": 93,
+        "sha256": "8652d44616e20c6333636c8914516cf42ac1a5684af3dc3176dae4a5c692e0cf"
+      },
+      "four_financial_callback_bodies_exact": true,
+      "Native_SQL_changed": false,
+      "ordinary_Native_validation_retained": true,
+      "phase_specific_FG_HPP_GL_inverse_oracles_exact": true,
+      "peer_review": {
+        "scope": "Bounded source only",
+        "finding": "Previously observed pool disappearing or changing status could escape observation",
+        "resolution": "Every authority ID must occur exactly once; known status changes route to oracle and refuse",
+        "controls": [
+          "disappearance",
+          "duplicate observation",
+          "DRAFT",
+          "VOIDED"
+        ]
+      },
+      "first_local_suite": {
+        "tests": 85,
+        "failures": 6,
+        "errors": 11,
+        "reason": "Historical source-reader test fixtures and workflow producer pins needed explicit new transition bindings; no financial assertion changed"
+      },
+      "final_local_suite": "85_PASS",
+      "actual_new_browser_credit": 0,
+      "production_go": false,
+      "independent_acceptance": false,
+      "job_id": 124147137480
     }
   ],
   "first_actual_browser_failure": {
@@ -171,12 +245,12 @@
   "independent_acceptance": false,
   "current_default": "cp7_vendor_receivable.composition",
   "next": [
-    "Finish fresh SKU27 run8a080 with exact Original intake; no 23+4 aggregation",
-    "Finish S03 ae837 and30ee Browser4 Originals and restoration intakes",
-    "Finish global3d706 raw multiset metadata run; bind every occurrence and all5/full restoration before any metadata qualification",
-    "Prepare exact S05 normal App seams and owner-derived coverage while waiting; mount only with truthful qualified prerequisite",
-    "Continue explicit Afui nonpayable provenance engineering from recovered authority and conservation source; no invented categories/rates or paid companion",
-    "FG Mandor chosen-week payroll remains next additional scope after active integration stabilizes; A sole integrator"
+    "Intake full fresh SKU27 run41070902168 without aggregating earlier partial passes",
+    "Intake full fresh S03 Browser4 run41080255432 with its main report and complete restoration",
+    "Run S05 reader and normal-App desktop/mobile on the one integrated candidate after exact SKU prerequisite qualifies",
+    "Use qualified global raw metadata to close current writer/lock/permission graph; metadata itself gives no business credit",
+    "Complete explicit Afui nonpayable basis and dated GOOD/recost/reversal path; no fake paid source",
+    "FG Mandor chosen-week payroll remains fully recorded after active integration stability"
   ],
   "prior_checkpoint": {
     "classification": "WRITER_A_TAKEOVER_ACTIVE_CONTINUATION_NOT_COMPLETION",
@@ -1116,7 +1190,7 @@
     "owner_direct_reaffirmation": {
       "date": "2026-10-30",
       "source": "USER message in active Writer A conversation",
-      "title": "HANDOFF WRITER A — PENJUALAN FG KE MANDOR, POTONG PAYROLL MINGGU PILIHAN",
+      "title": "HANDOFF WRITER A \u2014 PENJUALAN FG KE MANDOR, POTONG PAYROLL MINGGU PILIHAN",
       "exact_scope_instruction": "Catat sebagai scope tambahan. Kerjakan setelah blok integrasi aktif stabil, dengan A tetap integrator tunggal.",
       "exact_timing_discretion": "scope tambahan, lu kira kira aja saat paling tepat masukin ini kpan, klo mau selesain yg lama dulu silahkan. gas lanjut",
       "accepted": true,
@@ -1582,5 +1656,125 @@
     "writer_or_phantom_or_permission_closure_qualified": false,
     "production_go": false,
     "independent_acceptance": false
+  },
+  "current_integrated_candidate": {
+    "classification": "ONE_INTEGRATED_SOURCE_CANDIDATE_NOT_RUNTIME_QUALIFIED",
+    "head": "590bb2ae49e32fa01489551d75858166660f9d35",
+    "tree": "b04eae0e406e28783633fc2661394e365fae911d",
+    "parent": "4ac9d866d24e6690be993494a236f8ca6c45180c",
+    "branch": "astra-a/unified-sku-s05-candidate-20261030",
+    "SKU_successor_exact_paths": 17,
+    "S05_source_pins_unchanged": 20,
+    "previous_UI_tests_still_valid": 61,
+    "normal_App_report_mounted": true,
+    "actual_current_composite_browser_qualified": false,
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "current_global_metadata_receipt": "GLOBAL_3D706_ROOT_ACTUAL_INTAKE_20261030.json",
+  "current_global_metadata_qualified": true,
+  "current_SKU_successor": {
+    "classification": "EXACT_SOURCE_SUCCESSOR_FRESH_COMPLETE_RUN_PENDING",
+    "head": "0938b693dee868ba74323f4ff61db70efdd11e89",
+    "tree": "0e0ebd209fbea1b63c9283c02ffb4ce6cfb1e87f",
+    "parent": "8a08024fda704162481e3123efa5fa7fbfc5663d",
+    "run_id": 41070902168,
+    "job_id": 124114405860,
+    "status": "IN_PROGRESS_AT_LAST_API_OBSERVATION",
+    "recorded_at_utc": "2026-10-30T15:25:44.794967+00:00",
+    "previous_actual": {
+      "run_id": 41053845032,
+      "Native_base": 7,
+      "Native_cost": 5,
+      "callbacks": 11,
+      "browser_incomplete": 4,
+      "complete27_qualified": false,
+      "complete_outer_restored": true,
+      "package_writer_runtime": false,
+      "archive_library_file_id": "libfile_75e6facf83988191b9cfbbba28ec030d"
+    },
+    "changes": [
+      "Exact existing currency display space; expected source value remains60.06",
+      "Exact named staged grouping combobox; selected values unchanged"
+    ],
+    "Python_tests": 51,
+    "Node_tests": 7,
+    "rendered_JSX_selector_controls": 4,
+    "committed_source_preflight": {
+      "bytes": 7856,
+      "sha256": "2a6e27de21c5aa48befdd2c4de54fc5eb42c6956f1aa31d29db86e2bc4be8f96"
+    },
+    "actual_new_qualification_credit": 0,
+    "no_partial_run_aggregation": true,
+    "Native_product_changed": false,
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "current_S03_successor": {
+    "classification": "CANCELLED_HISTORY_HARNESS_SOURCE_SUCCESSOR_FRESH_BROWSER4_PENDING",
+    "head": "89ab76595424fa55cda3923fbe4499b7b7abf16b",
+    "tree": "db63154b4beda614863b665970e0ea0c14d3c754",
+    "parent": "30ee9874d049632050faf53b299a0cd8a11fe9f6",
+    "run_id": 41080255432,
+    "status": "IN_PROGRESS_AT_LAST_API_OBSERVATION",
+    "recorded_at_utc": "2026-10-30T15:25:44.794967+00:00",
+    "previous_runs": [
+      {
+        "head": "ae83782c5dc0701f3b5325375a743b2a08e4ce3d",
+        "run_id": 41044533553,
+        "conclusion": "CANCELLED_TIMEOUT",
+        "library_file_id": "libfile_0935ec92abf08191ba81f89f847a37d6"
+      },
+      {
+        "head": "30ee9874d049632050faf53b299a0cd8a11fe9f6",
+        "run_id": 41049049321,
+        "conclusion": "CANCELLED_TIMEOUT",
+        "library_file_id": "libfile_3a7861239b848191bcef9e4247dc1f7e"
+      }
+    ],
+    "previous_full_outer_restore": "NOT_PROVEN_MAIN_ABSENT",
+    "first_mobile_error": "CP7_S03_ALLOCATION_BEFORE_WIP_AVAILABLE after successful CANCEL_ALLOCATION",
+    "diagnosis": "Historical CANCELLED observation incorrectly required current carry allocation eligibility; Native14 deliberately refuses pre-restoration output reuse.",
+    "changes": [
+      "Retain first Native-validated ACTIVE header, manifest, children, allocation metadata and original journal/lines",
+      "CANCELLED requires exact prior authority and one dated linked inverse with all dimensions and amounts",
+      "Retain first cancelled history through later decision reversal and other pool cancellation",
+      "Missing/duplicate historical pool or status regression refuses",
+      "Allow240min for all four complete journeys and outer restoration"
+    ],
+    "source_files": 2384,
+    "counted_reversible_change_groups": 39,
+    "Python_tests": 85,
+    "Node_tests": 12,
+    "source_preflight": {
+      "bytes": 93,
+      "sha256": "8652d44616e20c6333636c8914516cf42ac1a5684af3dc3176dae4a5c692e0cf"
+    },
+    "four_financial_callback_bodies_exact": true,
+    "Native_SQL_changed": false,
+    "ordinary_Native_validation_retained": true,
+    "phase_specific_FG_HPP_GL_inverse_oracles_exact": true,
+    "peer_review": {
+      "scope": "Bounded source only",
+      "finding": "Previously observed pool disappearing or changing status could escape observation",
+      "resolution": "Every authority ID must occur exactly once; known status changes route to oracle and refuse",
+      "controls": [
+        "disappearance",
+        "duplicate observation",
+        "DRAFT",
+        "VOIDED"
+      ]
+    },
+    "first_local_suite": {
+      "tests": 85,
+      "failures": 6,
+      "errors": 11,
+      "reason": "Historical source-reader test fixtures and workflow producer pins needed explicit new transition bindings; no financial assertion changed"
+    },
+    "final_local_suite": "85_PASS",
+    "actual_new_browser_credit": 0,
+    "production_go": false,
+    "independent_acceptance": false,
+    "job_id": 124147137480
   }
 }

@@ -1,0 +1,14 @@
+{
+  "classification": "ONE_INTEGRATED_SOURCE_CANDIDATE_NOT_RUNTIME_QUALIFIED",
+  "head": "590bb2ae49e32fa01489551d75858166660f9d35",
+  "tree": "b04eae0e406e28783633fc2661394e365fae911d",
+  "parent": "4ac9d866d24e6690be993494a236f8ca6c45180c",
+  "branch": "astra-a/unified-sku-s05-candidate-20261030",
+  "SKU_successor_exact_paths": 17,
+  "S05_source_pins_unchanged": 20,
+  "previous_UI_tests_still_valid": 61,
+  "normal_App_report_mounted": true,
+  "actual_current_composite_browser_qualified": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

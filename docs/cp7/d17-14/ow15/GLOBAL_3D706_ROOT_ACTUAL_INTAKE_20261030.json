@@ -1,0 +1,277 @@
+{
+  "status": "ROOT_EXACT_3D706_METADATA_GATE_AND_RAW_LOSSLESS_PROJECTION_PASS",
+  "head": "3d7066b852176d9f343ec831d2f63aee6665579b",
+  "source_tree": "c5a09173421af936df719971b2c5f1043d292818",
+  "local_source_head": "c5dce6ba9691a3f8dd9c96d26c02e30a6e489041",
+  "archive": {
+    "bytes": 25922920,
+    "sha256": "1b0180984af615c78dd635b72e6ce8e36f3f45e656cc04fcf955084b7c0605f9",
+    "crc_members": 129
+  },
+  "originals": {
+    "CP7_D1_E_SKU_GLOBAL_CENSUS_MULTISET.json": {
+      "bytes": 151801795,
+      "sha256": "9d4cd4ddf21977d3ec2ce6683e329e1e6ee51606bcb201ddbb51e0a910f2584b"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360441,
+      "sha256": "351b02a1c67c085d9c06c1dd04fcc8cb91ed68f7798a2c8102698f2f4fc162f5"
+    },
+    "GLOBAL_ACTUAL_WRITER_SUPPLEMENT_V2.json": {
+      "bytes": 79526731,
+      "sha256": "f3183fa6b71e34d46df5e462556396846b457de7e78768bd88b426777850cfa0"
+    },
+    "GLOBAL_WRITER_RAW_CAPTURE.json": {
+      "bytes": 100821477,
+      "sha256": "7b752a13b8ab5fd87a384b27592b114f6149c316b0b8382eb344bff5544c4087"
+    },
+    "DE_SKU_GLOBAL_CENSUS_MULTISET_GATE.json": {
+      "bytes": 1206,
+      "sha256": "4ce79046864f135982ff15c33eaab3f0f66a670a6f292245b5333c3d3b177075"
+    }
+  },
+  "exact_source_admission": {
+    "status": "EXACT_WHOLE_EE145_TREE_PLUS_BOUNDED_MULTISET_SUCCESSOR",
+    "parent_files": 13909,
+    "successor_files": 21,
+    "profile_transitions": {
+      "GENERATED_RECEIPTS.json": {
+        "new_workflow_producer": true,
+        "changed_package_workflow_name": false,
+        "old_readers_unchanged": true
+      },
+      "LATER_GENERATED_RECEIPTS.json": {
+        "new_workflow_producer": true,
+        "changed_package_workflow_name": true,
+        "old_readers_unchanged": true
+      },
+      "SKU_GENERATED_RECEIPTS.json": {
+        "new_workflow_producer": true,
+        "changed_package_workflow_name": false,
+        "old_readers_unchanged": true
+      }
+    },
+    "generated_output_proofs": {
+      "early": {
+        "classification": "BOUNDED_GENERATED_NON_SOURCE_RECEIPTS",
+        "files": 0,
+        "frozen_worktree_receipts": 0,
+        "artifact_requests": 0,
+        "artifact_attempts": 0,
+        "expected_total_request_count": null,
+        "arbitrary_source_allowed": false,
+        "authoritative_Original_readers_unchanged": true,
+        "Native_qualification_credit": 0
+      },
+      "later": {
+        "status": "GENERATED_OUTPUT_PROVENANCE_ONLY_NOT_NATIVE_PASS",
+        "classes": {
+          "startup": 0,
+          "aligned": 0,
+          "clone": 0,
+          "package": 0
+        },
+        "accepted": 0,
+        "SQL_diagnostics_executed": false,
+        "financial_oracles_changed": false,
+        "actual_Native_credit": 0
+      },
+      "SKU": {
+        "classification": "SKU_GENERATED_NON_SOURCE_OUTPUTS_ONLY",
+        "accepted": 0,
+        "authoritative_Native21_reader_unchanged": true,
+        "client_scope": "EXACT_ORIGINAL8_SRC_FILES_72_CASES",
+        "Native_credit": 0
+      }
+    },
+    "old_frozen_guards_edited": false,
+    "old_source_manifests_resealed": false,
+    "old_runtime_qualification_inferred": false,
+    "metadata_only_entry": "scripts/current-de-sku-global-census-multiset-qualification/probe.py --metadata-runtime",
+    "runtime_entry": null,
+    "actual_Native_credit": 0,
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "source_DB_guard": {
+    "attempts": [],
+    "self_controls": [
+      {
+        "api": "psycopg.connect",
+        "result": "DENIED_BEFORE_LIBPQ"
+      },
+      {
+        "api": "psycopg.Connection.connect",
+        "result": "DENIED_BEFORE_LIBPQ"
+      },
+      {
+        "api": "psycopg.AsyncConnection.connect",
+        "result": "DENIED_BEFORE_LIBPQ"
+      },
+      {
+        "original_connect_descriptors_restored": true
+      }
+    ],
+    "network_nonGit_attempts": [],
+    "public_source_sha256": "1439d70810383db377c48e043df7fb6d487a1b2f1a995e8993a2c08590f9f797"
+  },
+  "recomputed_gate": {
+    "status": "ACTUAL_D1_E_SKU_GLOBAL_MULTISET_METADATA_PREUSE_AND_ALL5_QUALIFIED",
+    "head": "3d7066b852176d9f343ec831d2f63aee6665579b",
+    "actual_context_tables": 55,
+    "actual_hook_rows": 8,
+    "actual_Native_cases": 0,
+    "actual_business_cases": 0,
+    "global_bridge_qualified": false,
+    "full_final_composite_qualified": false,
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "raw_query_statistics": {
+    "schemas": {
+      "occurrences": 135,
+      "distinct_identities": 135,
+      "repeated_identities": 0,
+      "repeated_occurrences": 0,
+      "maximum_multiplicity": 1
+    },
+    "relations": {
+      "occurrences": 2345,
+      "distinct_identities": 2345,
+      "repeated_identities": 0,
+      "repeated_occurrences": 0,
+      "maximum_multiplicity": 1
+    },
+    "columns": {
+      "occurrences": 9680,
+      "distinct_identities": 9680,
+      "repeated_identities": 0,
+      "repeated_occurrences": 0,
+      "maximum_multiplicity": 1
+    },
+    "functions": {
+      "occurrences": 2938,
+      "distinct_identities": 2938,
+      "repeated_identities": 0,
+      "repeated_occurrences": 0,
+      "maximum_multiplicity": 1
+    },
+    "roles": {
+      "occurrences": 89,
+      "distinct_identities": 89,
+      "repeated_identities": 0,
+      "repeated_occurrences": 0,
+      "maximum_multiplicity": 1
+    },
+    "memberships": {
+      "occurrences": 26,
+      "distinct_identities": 26,
+      "repeated_identities": 0,
+      "repeated_occurrences": 0,
+      "maximum_multiplicity": 1
+    },
+    "foreign_keys": {
+      "occurrences": 1088,
+      "distinct_identities": 1088,
+      "repeated_identities": 0,
+      "repeated_occurrences": 0,
+      "maximum_multiplicity": 1
+    },
+    "triggers": {
+      "occurrences": 5208,
+      "distinct_identities": 5208,
+      "repeated_identities": 0,
+      "repeated_occurrences": 0,
+      "maximum_multiplicity": 1
+    },
+    "view_relation_dependencies": {
+      "occurrences": 1052,
+      "distinct_identities": 1052,
+      "repeated_identities": 0,
+      "repeated_occurrences": 0,
+      "maximum_multiplicity": 1
+    },
+    "inheritance": {
+      "occurrences": 15,
+      "distinct_identities": 15,
+      "repeated_identities": 0,
+      "repeated_occurrences": 0,
+      "maximum_multiplicity": 1
+    },
+    "database_authority": {
+      "occurrences": 1,
+      "distinct_identities": 1,
+      "repeated_identities": 0,
+      "repeated_occurrences": 0,
+      "maximum_multiplicity": 1
+    },
+    "default_privileges": {
+      "occurrences": 27,
+      "distinct_identities": 27,
+      "repeated_identities": 0,
+      "repeated_occurrences": 0,
+      "maximum_multiplicity": 1
+    },
+    "effective_schema_privileges": {
+      "occurrences": 24030,
+      "distinct_identities": 24030,
+      "repeated_identities": 0,
+      "repeated_occurrences": 0,
+      "maximum_multiplicity": 1
+    },
+    "effective_table_privileges": {
+      "occurrences": 531864,
+      "distinct_identities": 531864,
+      "repeated_identities": 0,
+      "repeated_occurrences": 0,
+      "maximum_multiplicity": 1
+    },
+    "effective_function_privileges": {
+      "occurrences": 261482,
+      "distinct_identities": 261482,
+      "repeated_identities": 0,
+      "repeated_occurrences": 0,
+      "maximum_multiplicity": 1
+    },
+    "effective_sequence_privileges": {
+      "occurrences": 4005,
+      "distinct_identities": 4005,
+      "repeated_identities": 0,
+      "repeated_occurrences": 0,
+      "maximum_multiplicity": 1
+    },
+    "effective_explicit_column_privileges": {
+      "occurrences": 27768,
+      "distinct_identities": 27768,
+      "repeated_identities": 0,
+      "repeated_occurrences": 0,
+      "maximum_multiplicity": 1
+    },
+    "effective_database_privileges": {
+      "occurrences": 267,
+      "distinct_identities": 267,
+      "repeated_identities": 0,
+      "repeated_occurrences": 0,
+      "maximum_multiplicity": 1
+    },
+    "dependencies": {
+      "occurrences": 28217,
+      "distinct_identities": 28024,
+      "repeated_identities": 193,
+      "repeated_occurrences": 193,
+      "maximum_multiplicity": 2
+    }
+  },
+  "prior_ee145_failed_raw_query_object": "UNKNOWN_NOT_RECONSTRUCTED_FROM_SUCCESSOR",
+  "runtime_entry": null,
+  "actual_Native_credit": 0,
+  "global_bridge_qualified": false,
+  "writer_or_phantom_lock_closed": false,
+  "permission_closure": "UNKNOWN",
+  "production_go": false,
+  "independent_acceptance": false,
+  "run_id": 41054247479,
+  "job_id": 124057642882,
+  "artifact_id": 12978996837,
+  "archive_library_file_id": "libfile_64713e98f61c8191b2b6c4112db64718"
+}
