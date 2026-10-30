@@ -38,8 +38,8 @@
       "sha256": "40795c3fce619c5795b427e9aa31836777b687f82eba4ab5654264d57564879f"
     },
     ".github/workflows/cp7-sku-managed-recovery-native27.yml": {
-      "bytes": 33068,
-      "sha256": "26691f66a4d5ecb23709ac39e9c1d615d947228535666ade09490dfab3d57541"
+      "bytes": 33182,
+      "sha256": "7b44245e426e16615e23806956487aa2f6405e6d1b76e61433bfd7fbe7ba4007"
     }
   },
   "aligned_document": {

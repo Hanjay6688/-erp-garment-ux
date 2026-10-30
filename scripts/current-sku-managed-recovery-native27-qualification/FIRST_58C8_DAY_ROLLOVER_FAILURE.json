@@ -1,0 +1,41 @@
+{
+  "status": "FIRST_ACTUAL_58C8_FAILURE_RETAINED",
+  "commit": "58c8e1535c6b5296f07ca41d5eb90cb28ed2872c",
+  "run_id": 41086555559,
+  "artifact_id": 12997219671,
+  "archive": {
+    "bytes": 81653650,
+    "sha256": "dc5c8221b77ecb241e1b5661c124b9c9a577b03254687bdeb471478ad998dcef",
+    "CRC_members": 152
+  },
+  "main": {
+    "bytes": 6081688,
+    "sha256": "a38e8b3e511da4c91d441e0fc84478ff767f158c55f5f245ebd133b42c167ecc"
+  },
+  "failure_traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-vendor-receivable-qualification/probe.py\", line 111, in run_inner\n    with psycopg.connect(package.boundary.ADMIN)as conn,conn.cursor()as cur:\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-choice-finance-cron-qualification/phase_timing.py\", line 22, in measured\n    result = operation(*args, **kwargs)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-sku-combined-followup-qualification/runner.py\", line 122, in exercise\n    third = report.setdefault('fresh_real_Auth_browser4', dict(status='INCOMPLETE'))\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-sku-pair-concurrency-qualification/runner.py\", line 266, in exercise\nAssertionError\n",
+  "first_attempt_counts": {
+    "PASS": 2,
+    "INCOMPLETE": 9
+  },
+  "second_attempt_counts": {
+    "PASS": 11
+  },
+  "automatic_business_day_retry": true,
+  "copy_catalog_admissions": 22,
+  "required_single_attempt_admissions": 11,
+  "browser_started": false,
+  "outer_source_bound_receipts": {
+    "baseline_full22_all_rows_all_sequences_equal": true,
+    "restore_components": {
+      "erp_platform_auth_schema_acl": true,
+      "all_public_catalog_members_and_row_hashes": true,
+      "erp_public_auth_function_definitions_owners_acls": true
+    },
+    "restore_raw_public_equal": true,
+    "cp6_restored": true,
+    "baseline_advisors_equal": true,
+    "advisor_gate": true
+  },
+  "qualified27": false,
+  "production_go": false
+}

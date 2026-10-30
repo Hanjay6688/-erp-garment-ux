@@ -82,6 +82,10 @@ class Qualification(unittest.TestCase):
     def test_workflow_retains_full_seventy_step_engine_and_always_cleanup(self):
         workflow=load('sku27_unit_workflow','workflow.py');old=yaml.safe_load((ROOT/workflow.OLD).read_bytes());new=yaml.safe_load((ROOT/workflow.NEW).read_bytes())
         self.assertEqual(new,workflow.derive(old));self.assertEqual(len(new['jobs']['p21']['steps']),70)
+        policy=load('sku27_unit_attempt_policy','attempt_policy.py')
+        self.assertEqual(policy.JOB_BUDGET_SECONDS,new['jobs']['p21']['timeout-minutes']*60)
+        check=next(s for s in new['jobs']['p21']['steps']if s.get('name')=='Check SKU delta and unchanged runner derivation before database')
+        self.assertTrue(check['run'].startswith('python -B '+workflow.NS+'/attempt_policy.py --require-window\n'))
         a=old['jobs']['p21']['steps'];b=new['jobs']['p21']['steps']
         for name in('Start disposable database','Rebuild to v2.6.20, align with hosted, continue the frozen path to AB','Provision isolated rollback authority','Clone the aligned AB state for install','Remove disposable database'):
             self.assertEqual(next(s for s in a if s.get('name')==name),next(s for s in b if s.get('name')==name))

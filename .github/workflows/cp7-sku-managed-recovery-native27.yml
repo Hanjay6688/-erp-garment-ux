@@ -455,7 +455,9 @@ jobs:
         npx tsc -b --pretty false'
     - name: Check SKU delta and unchanged runner derivation before database
       working-directory: auditor
-      run: 'python -B -m unittest discover -s scripts/cp7_sku_pair_conversion -p test_delta.py
+      run: 'python -B scripts/current-sku-managed-recovery-native27-qualification/attempt_policy.py --require-window
+
+        python -B -m unittest discover -s scripts/cp7_sku_pair_conversion -p test_delta.py
 
         python -B -m unittest discover -s scripts/current-sku-pair-conversion-qualification
         -p test_plan.py

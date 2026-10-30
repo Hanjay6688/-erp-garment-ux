@@ -1,3 +1,19 @@
+## Retained58c8 midnight retry failure and single-attempt execution
+
+Actual41086555559 crossed midnight in its race group. The inherited automatic
+retry made22 admitted/restored copies, while the strict caller correctly
+required11. It stopped before all4 browser journeys. The first attempt remains
+2PASS/9INCOMPLETE and the second11PASS is not a complete27 qualification.
+
+The owning runtime now scopes the inherited group scheduler to one attempt,
+preserving the exact first report and unchanged date/failure/restoration guards.
+The caller's scheduler is restored on every exit. Before database setup and
+again at runtime entry, the real WIB clock must have more than the complete
+210-minute job budget until midnight. No clock is frozen or date result waived.
+Original58c8 source preimages and actual first failure are retained. Native,
+financial, browser and full-census callbacks and the required11 copies are
+unchanged. Offline controls confer no fresh Native/browser credit.
+
 ## Retained0938 browser state, commercial-label and current-access correction
 
 Actual41070902168 remains23 PASS and4 INCOMPLETE, with zero complete27 credit.
