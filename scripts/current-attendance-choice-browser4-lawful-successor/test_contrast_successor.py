@@ -33,11 +33,17 @@ class ContrastSuccessor(unittest.TestCase):
                 with self.subTest(key=key), self.assertRaises(ValueError):
                     delta.expected(ROOT, target, delta.PATH, original)
 
-    def test_four_complete_business_callbacks_remain_exact(self):
+    def test_three_financial_callbacks_exact_and_access_explicit_reversible_successor(self):
         old = subprocess.check_output(['/usr/bin/git', '-C', str(ROOT), 'show',
             '84a9a09bf372caeeea4cc9eee4a91c51b43d3d93:' + str(HERE.relative_to(ROOT) / 'cases.mjs')]).decode()
+        retained = (HERE / 'retained-4d968/cases.mjs').read_text()
+        self.assertEqual(retained.replace(' let f=null,serial=0', ' let f,serial=0', 1), old)
         current = (HERE / 'cases.mjs').read_text()
-        self.assertEqual(current.replace(' let f=null,serial=0', ' let f,serial=0', 1), old)
+        proof = load('rights_delta').verify()
+        self.assertEqual(proof['whole_financial_callbacks'], 3)
+        self.assertTrue(proof['all_4d_bytes_restored'])
+        self.assertTrue(proof['delayed_period_logout_fresh_actor_exact'])
+        self.assertEqual(proof['actual_browser_credit'], 0)
         self.assertIn('fixture:f', current)
 
     def test_null_fixture_failure_is_preserved_and_missing_field_refused(self):

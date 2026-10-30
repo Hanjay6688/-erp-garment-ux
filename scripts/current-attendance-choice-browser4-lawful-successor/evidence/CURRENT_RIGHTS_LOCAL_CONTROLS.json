@@ -1,0 +1,48 @@
+{
+  "contract": "cp7.s03.browser4.current-rights-local-controls.v1",
+  "classification": "OFFLINE_SOURCE_AND_ORACLE_CONTROLS_NOT_ACTUAL_BROWSER_ACCEPTANCE",
+  "python": {
+    "command": "/workspace/scratch/b73c04f98216/erp-test-venv/bin/python -B -m unittest discover -s scripts/current-attendance-choice-browser4-lawful-successor -p test_*.py",
+    "tests": 70,
+    "failures": 0,
+    "errors": 0,
+    "elapsed_seconds": 44.427,
+    "first_failure_retained": "CURRENT_RIGHTS_FIRST_LOCAL_PYTHON.log",
+    "first_failure_resolution": "The old whole-file assertion now reverses the exact declared 4d successor before its unchanged e09c equality; the new worktree reuses the already-built unchanged 4d UI output for the existing output-admission controls."
+  },
+  "node": {
+    "version": "v24.22.1",
+    "syntax_check": "PASS",
+    "command": "node --test scripts/current-attendance-choice-browser4-lawful-successor/test_oracles.mjs scripts/current-attendance-choice-browser4-lawful-successor/test_lawful_oracles.mjs",
+    "tests": 12,
+    "failures": 0,
+    "skipped": 0
+  },
+  "strict_source_preflight": {
+    "command": "source_guard.py under Python audit hook forbidding DB, network, writes and every subprocess except readonly /usr/bin/git",
+    "status": "SOURCE_PASS",
+    "forbidden_attempts": [],
+    "observed_writes": []
+  },
+  "full_actual_source_admission": {
+    "command": "probe.py --check-actual-source under the same audit hook",
+    "status": "CLOSED",
+    "exception": "ValueError",
+    "message": "S03_BOUND_SIX_ACTUAL_ORIGINALS_NOT_MATERIALIZED",
+    "forbidden_attempts": [],
+    "observed_writes": [],
+    "full_Original_admission_claim": false
+  },
+  "compiler_output": "Copied the existing cp6-ui-build from the exact public 4d worktree for output replay; no new compilation or browser claim.",
+  "first_84_and_4d_failures_retained": true,
+  "three_financial_callbacks_exact": true,
+  "delayed_period_logout_fresh_actor_exact": true,
+  "changed_product_UI_or_Native_policy": false,
+  "DB_calls": 0,
+  "network_calls": 0,
+  "actual_browser_cases": 0,
+  "actual_Native_cases": 0,
+  "actual_Auth_HTTP_cases": 0,
+  "actual_two_session_races": 0,
+  "production_go": false
+}

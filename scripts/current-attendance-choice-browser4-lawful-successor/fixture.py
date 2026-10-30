@@ -19,7 +19,7 @@ import uuid
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
-OPERATIONS = ('admit', 'prepare', 'observe', 'assert_command', 'approve_pending', 'close_source', 'open_source', 'manage_off', 'manage_on', 'assert_valuation', 'assert_cancelled', 'assert_ordinary_cancelled')
+OPERATIONS = ('admit', 'prepare', 'observe', 'assert_command', 'approve_pending', 'close_source', 'open_source', 'access_snapshot', 'assert_access_transition', 'protected_owner_refusal', 'assert_valuation', 'assert_cancelled', 'assert_ordinary_cancelled')
 SCENARIOS = ('DESKTOP', 'MOBILE390', 'STALE', 'ACCESS')
 UUID = re.compile(r'^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$')
 
@@ -91,12 +91,107 @@ def cents(value):
     return int(number)
 
 
+@contextmanager
+def snapshot_utc(cur, f):
+    """Serialize whole raw rows in UTC; restore the caller even on query failure.
+
+    The nested transaction rolls a failed read back to its savepoint before the
+    finally restores TimeZone. No business timestamp or financial date changes.
+    """
+    before = f.one(cur, "select current_setting('TimeZone')")
+    try:
+        with cur.connection.transaction():
+            cur.execute("select set_config('TimeZone','UTC',true)")
+            yield
+    finally:
+        cur.execute("select set_config('TimeZone',%s,true)", (before,))
+
+
 def source_rows(cur, payroll, f):
     f.admin(cur)
-    header = f.one(cur, "select coalesce(jsonb_agg(to_jsonb(j)order by j.id),'[]'::jsonb)from erp.journal_entries j where source_type='PAYROLL_ATTENDANCE_ACCRUAL'and source_id=%s", (payroll,))
-    lines = f.one(cur, "select coalesce(jsonb_agg(to_jsonb(l)order by l.id),'[]'::jsonb)from erp.journal_lines l join erp.journal_entries j on j.id=l.journal_entry_id where j.source_type='PAYROLL_ATTENDANCE_ACCRUAL'and j.source_id=%s", (payroll,))
-    audit = f.one(cur, "select coalesce(jsonb_agg(to_jsonb(a)order by a.id),'[]'::jsonb)from erp.audit_logs a where entity_type='payroll_settlements'and entity_id=%s and action='POST'and new_data->>'lifecycle_action'='APPROVE'", (payroll,))
-    return dict(headers=header, lines=lines, approval_audit=audit)
+    with snapshot_utc(cur, f):
+        header = f.one(cur, "select coalesce(jsonb_agg(to_jsonb(j)order by j.id),'[]'::jsonb)from erp.journal_entries j where source_type='PAYROLL_ATTENDANCE_ACCRUAL'and source_id=%s", (payroll,))
+        lines = f.one(cur, "select coalesce(jsonb_agg(to_jsonb(l)order by l.id),'[]'::jsonb)from erp.journal_lines l join erp.journal_entries j on j.id=l.journal_entry_id where j.source_type='PAYROLL_ATTENDANCE_ACCRUAL'and j.source_id=%s", (payroll,))
+        audit = f.one(cur, "select coalesce(jsonb_agg(to_jsonb(a)order by a.id),'[]'::jsonb)from erp.audit_logs a where entity_type='payroll_settlements'and entity_id=%s and action='POST'and new_data->>'lifecycle_action'='APPROVE'", (payroll,))
+        return dict(headers=header, lines=lines, approval_audit=audit)
+
+
+def access_snapshot(cur, r, payload):
+    f = r['f']; f.admin(cur)
+    owner, controller = payload['owner'], payload['backup_owner']
+    if not UUID.fullmatch(owner) or not UUID.fullmatch(controller) or owner == controller:
+        raise ValueError('S03_BROWSER4_DISTINCT_REAL_AUTH_ACTORS_REQUIRED')
+    policy = load('s03_current_rights_exact_actual_policy', HERE / 'rights_delta.py').policy()
+    for signature, definition in policy.items():
+        if f.one(cur, 'select pg_get_functiondef(%s::regprocedure)', (signature,)) != definition:
+            raise ValueError('S03_BROWSER4_ACTUAL_ACCESS_POLICY_CHANGED:' + signature)
+    with snapshot_utc(cur, f):
+        subject = f.one(cur, 'select to_jsonb(u)from erp.app_users u where auth_user_id=%s and is_active', (owner,))
+        backup = f.one(cur, "select to_jsonb(u)from erp.app_users u join erp.app_roles r on r.id=u.role_id where u.auth_user_id=%s and u.is_active and r.is_active and r.is_protected and r.role_code='OWNER'", (controller,))
+        if not subject or not backup:
+            raise ValueError('S03_BROWSER4_ACTIVE_SUBJECT_AND_PROTECTED_BACKUP_OWNER_REQUIRED')
+        roles = f.one(cur, "select jsonb_agg(to_jsonb(r)order by r.id)from erp.app_roles r")
+        permissions = f.one(cur, "select jsonb_agg(to_jsonb(p)order by p.permission_key)from erp.app_permissions p")
+        assignments = f.one(cur, "select jsonb_agg(to_jsonb(p)order by p.role_id,p.permission_key)from erp.app_role_permissions p")
+        request = payload.get('request')
+        audit = f.one(cur, "select coalesce(jsonb_agg(to_jsonb(a)order by a.id),'[]'::jsonb)from erp.app_access_audit a where client_request_id=%s", (request,))
+        idempotency = f.one(cur, "select coalesce(jsonb_agg(to_jsonb(i)order by i.actor_key),'[]'::jsonb)from erp.idempotency_requests i where operation_name='save_app_user_v2'and client_request_id=%s", (request,))
+        return dict(subject=subject, backup_owner=backup, roles=roles, permissions=permissions,
+            assignments=assignments, audit=audit, idempotency=idempotency,
+            policy_signatures=sorted(policy), classification='ACTUAL_RAW_CURRENT_ACCESS_ROWS')
+
+
+def assert_access_transition(before, after, payload):
+    """Check the normal public writer's exact role/version/audit/idempotency effects."""
+    for key in ('backup_owner', 'roles', 'permissions', 'assignments', 'policy_signatures'):
+        if before[key] != after[key]:
+            raise ValueError('S03_BROWSER4_ACCESS_PROTECTED_AUTHORITY_CHANGED:' + key)
+    old, new = before['subject'], after['subject']
+    role = next((row for row in before['roles'] if row['role_code'] == payload['role'] and row['is_active']), None)
+    if {old['role'], payload['role']} != {'ADMIN', 'OWNER'} or not role:
+        raise ValueError('S03_BROWSER4_EXACT_OWNER_ADMIN_TRANSITION_REQUIRED')
+    expected = dict(old, role=payload['role'], role_id=role['id'], row_version=old['row_version'] + 1,
+        updated_at=new['updated_at'])
+    if new != expected or new['updated_at'] == old['updated_at']:
+        raise ValueError('S03_BROWSER4_EXACT_USER_VERSION_TRANSITION_REQUIRED')
+    result = payload['result']
+    if result != dict(app_user_id=new['id'], role_id=role['id'], role=payload['role'], is_active=True,
+            mapped=True, row_version=new['row_version']):
+        raise ValueError('S03_BROWSER4_EXACT_NATIVE_ACCESS_RESPONSE_REQUIRED')
+    audit, request = after['audit'], after['idempotency']
+    if (len(audit) != 1 or audit[0]['entity_type'] != 'USER_ACCESS' or audit[0]['entity_id'] != new['id']
+            or audit[0]['action'] != 'UPDATE' or audit[0]['old_data'] != old or audit[0]['new_data'] != new
+            or audit[0]['client_request_id'] != payload['request'] or audit[0]['change_reason'] != payload['reason']
+            or audit[0]['actor_app_user_id'] != before['backup_owner']['id']):
+        raise ValueError('S03_BROWSER4_EXACT_NATIVE_ACCESS_AUDIT_REQUIRED')
+    if (len(request) != 1 or request[0]['actor_key'] != before['backup_owner']['id']
+            or request[0]['client_request_id'] != payload['request'] or request[0]['status'] != 'COMPLETED'
+            or request[0]['response_payload'] != result):
+        raise ValueError('S03_BROWSER4_EXACT_NATIVE_ACCESS_IDEMPOTENCY_REQUIRED')
+    return dict(status='ACTUAL_PUBLIC_ROLE_TRANSITION_VERIFIED', role=payload['role'],
+        expected_version=old['row_version'], response=result, audit=audit, idempotency=request,
+        all_roles_permissions_and_backup_owner_unchanged=True, policy_signatures=after['policy_signatures'])
+
+
+def protected_owner_refusal(cur, r, payload):
+    before = access_snapshot(cur, r, payload)
+    if before['subject']['role'] != 'OWNER':
+        raise ValueError('S03_BROWSER4_PROTECTED_OWNER_SUBJECT_REQUIRED')
+    refusal = None
+    cur.execute('savepoint s03_protected_owner_permission')
+    try:
+        cur.execute("delete from erp.app_role_permissions where role_id=%s and permission_key='finance.hpp.manage'", (before['subject']['role_id'],))
+    except r['psycopg'].Error as error:
+        refusal = dict(sqlstate=error.sqlstate, message=error.diag.message_primary)
+    finally:
+        cur.execute('rollback to savepoint s03_protected_owner_permission')
+        cur.execute('release savepoint s03_protected_owner_permission')
+    if refusal != dict(sqlstate='42501', message='PROTECTED_OWNER_ROLE_CANNOT_BE_CHANGED'):
+        raise ValueError('S03_BROWSER4_ACTUAL_PROTECTED_OWNER_REFUSAL_REQUIRED')
+    if before != access_snapshot(cur, r, payload):
+        raise ValueError('S03_BROWSER4_PROTECTED_OWNER_REFUSAL_CHANGED_ACCESS_ROWS')
+    return dict(status='ACTUAL_PROTECTED_OWNER_DELETE_REFUSED', refusal=refusal,
+        raw_access_rows_unchanged=True, view_only_Owner_representable=False, actual_view_only_Owner_credit=0)
 
 
 def prepare(cur, r, payload):
@@ -374,18 +469,14 @@ def operation_on_copy(r, operation, payload):
             else:
                 r['f'].hp.set_closed(cur, day)
                 result = dict(status='EXPLICIT_PERIOD_CONTROL_FIXTURE', through=str(day))
-        elif operation in ('manage_off', 'manage_on'):
-            subject = payload['owner']
-            if not UUID.fullmatch(subject):
-                raise ValueError('S03_BROWSER4_REAL_OWNER_ID_REQUIRED')
-            role = r['f'].one(cur, "select u.role_id from erp.app_users u join erp.app_roles r on r.id=u.role_id where u.auth_user_id=%s and u.is_active and r.role_code='OWNER'", (subject,))
-            if operation == 'manage_off':
-                cur.execute("delete from erp.app_role_permissions where role_id=%s and permission_key='finance.hpp.manage'", (role,))
-                if cur.rowcount != 1:
-                    raise ValueError('S03_BROWSER4_MANAGE_PERMISSION_NOT_PRESENT')
+        elif operation in ('access_snapshot', 'assert_access_transition', 'protected_owner_refusal'):
+            if operation == 'protected_owner_refusal':
+                result = protected_owner_refusal(cur, r, payload)
             else:
-                cur.execute("insert into erp.app_role_permissions(role_id,permission_key)values(%s,'finance.hpp.manage')", (role,))
-            result = dict(status=operation, classification='EXPLICIT_CURRENT_PERMISSION_CONTROL_NOT_PRODUCT_WRITER')
+                result = access_snapshot(cur, r, payload)
+                if operation == 'assert_access_transition':
+                    result = assert_access_transition(payload['before'], result, payload)
+            connection.rollback();return result
         else:
             raise ValueError('S03_BROWSER4_UNIMPLEMENTED_OPERATION')
         r['f'].admin(cur)

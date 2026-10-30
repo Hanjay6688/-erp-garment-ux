@@ -1,0 +1,56 @@
+{
+  "contract": "cp7.s03.browser4.first-4d968-failure.v1",
+  "head": "4d968a42e793a77c2dbcbe06dd79c524f18fa0f5",
+  "run_id": 41033738459,
+  "artifact_id": 12969123916,
+  "archive": {
+    "bytes": 165206613,
+    "sha256": "e841f3026e2a7dac9f1ddfea013748572f14cd67ee9dcbbca47a303137469e14",
+    "crc_members": 159,
+    "library_file_id": "libfile_3f178e36455c8191bb2e284c39775d0b"
+  },
+  "status": "INCOMPLETE",
+  "qualified_browser_cases": 0,
+  "observed_browser_counts": {
+    "PASS": 1,
+    "INCOMPLETE": 3
+  },
+  "observed_cases": {
+    "DESKTOP": "PASS",
+    "MOBILE390": "INCOMPLETE: raw accrued timestamps serialized in inherited Asia/Jakarta then UTC",
+    "STALE": "INCOMPLETE: raw accrued timestamps serialized in inherited Asia/Jakarta then UTC",
+    "ACCESS": "INCOMPLETE: 42501 PROTECTED_OWNER_ROLE_CANNOT_BE_CHANGED"
+  },
+  "timestamp_analysis": "Root compared later actual ACCESS raw census: created_at/posting_at/changed_at only, three offset differences per failed cohort, same instants; all other raw fields and rows exact. No timestamps are stripped or normalized.",
+  "outer_restore_proven": true,
+  "outer_full22_allrows_allsequences_roles_rawpublic_CP6_advisors_restored": true,
+  "browser_database_remaining": 0,
+  "auth_counts_before": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "auth_counts_after": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "auth_restored": true,
+  "auth_cleanup_failures": [],
+  "session_leaks": [],
+  "host_status": "RUN_COMPLETE",
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "all_five_package_gates_pass": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "served_source256_full_intake": "ROOT_PENDING_AT_RECEIPT_CREATION",
+  "earlier_first_failure_retained": "FIRST_84A9_FAILURE.json"
+}

@@ -1,0 +1,22 @@
+............F.........................................E.....
+======================================================================
+ERROR: setUpClass (test_outputs.GeneratedOutputControls)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/b73c04f98216/erp-s03-successor/scripts/current-attendance-choice-browser4-lawful-successor/test_outputs.py", line 34, in setUpClass
+    if not (ROOT/'node_modules').is_dir():raise RuntimeError('LOCAL_BUILD_REPLAY_REQUIRES_EXISTING_LOCKED_DEPENDENCIES')
+                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: LOCAL_BUILD_REPLAY_REQUIRES_EXISTING_LOCKED_DEPENDENCIES
+
+======================================================================
+FAIL: test_only_declared_preparation_changes_preserve_all_e09c_business_bytes (test_bound.QualifiedSourceControls.test_only_declared_preparation_changes_preserve_all_e09c_business_bytes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/b73c04f98216/erp-s03-successor/scripts/current-attendance-choice-browser4-lawful-successor/test_bound.py", line 94, in test_only_declared_preparation_changes_preserve_all_e09c_business_bytes
+    self.assertEqual(current, expected, name)
+AssertionError: b"// [21988 chars]tion currentRole(x,backupOwner,role){\n const [9977 chars])}\n" != b"// [21988 chars]tion access(ui,today){const x=await setup(ui,t[7845 chars])}\n" : scripts/current-attendance-choice-browser4-lawful-successor/cases.mjs
+
+----------------------------------------------------------------------
+Ran 59 tests in 9.474s
+
+FAILED (failures=1, errors=1)

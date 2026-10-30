@@ -5,6 +5,7 @@ neither a source change nor an actual browser/financial verdict.
 """
 from hashlib import sha256
 from pathlib import Path
+import importlib.util
 import json
 
 HERE=Path(__file__).resolve().parent
@@ -34,9 +35,12 @@ def verify():
         if value.encode()!=original:raise ValueError('S03_BROWSER_LAWFUL_LOSSLESS_PARENT_REQUIRED')
         total+=len(item['changes'])
     if total!=plan['counted_changes']:raise ValueError('S03_BROWSER_LAWFUL_COUNT_CHANGED')
+    spec=importlib.util.spec_from_file_location('s03_exact_current_rights_delta',HERE/'rights_delta.py')
+    rights=importlib.util.module_from_spec(spec);spec.loader.exec_module(rights)
+    current_rights=rights.verify()
     return dict(derived_files=len(plan['files']),counted_changes=total,all_parent_bytes_restored=True,
         Native_SQL_changed=False,frozen_UI82_changed=False,frozen_runtime7_changed=False,
         current_UI_changed_paths=['src/attendance-period-choice.css'],
-        actual_Native_Auth_browser_credit=0)
+        current_rights_successor=current_rights,actual_Native_Auth_browser_credit=0)
 
 if __name__=='__main__':print(json.dumps(verify()))

@@ -68,12 +68,21 @@ class QualifiedSourceControls(unittest.TestCase):
         self.assertIn("state['clones'] != native_delta.clones(state['originals'])", text)
 
     def test_only_declared_preparation_changes_preserve_all_e09c_business_bytes(self):
+        rights = load('rights_delta'); rights.verify()
+        successor = json.loads((HERE / 'CURRENT_RIGHTS_DELTA.json').read_bytes())
         for relative in ('cases.mjs', 'fixture.py', 'test_oracles.mjs', 'test_lawful_oracles.mjs',
                 'helper-source/lawful_fixture.py', 'helper-source/business.py', 'helper-source/CALLBACK_CHANGES.json'):
             name = str(HERE.relative_to(ROOT)) + '/' + relative
             expected = subprocess.check_output(['/usr/bin/git', '-C', str(ROOT), 'show',
                 'e09c6512932de81777e661275d18bb232b2d2ee3:' + name])
             current = (ROOT / name).read_bytes()
+            if relative in ('fixture.py', 'cases.mjs'):
+                declaration = next(row for row in successor['files'] if row['name'] == relative)
+                for change in reversed(declaration['changes']):
+                    before, after = change['before'].encode(), change['after'].encode()
+                    self.assertEqual(current.count(after), 1)
+                    current = current.replace(after, before, 1)
+                self.assertEqual(current, (HERE / 'retained-4d968' / relative).read_bytes())
             changes = []
             if relative == 'cases.mjs':
                 changes = [(b' let f,serial=0', b' let f=null,serial=0')]
