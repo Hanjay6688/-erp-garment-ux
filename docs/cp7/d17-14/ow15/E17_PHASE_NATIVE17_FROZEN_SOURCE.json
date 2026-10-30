@@ -1,0 +1,185 @@
+{
+  "status": "FROZEN_FULL_E17_QUALIFIER_SOURCE_READY_ROOT_REVIEW_ONLY",
+  "head": "2fde9cdae1b6e80a3b0c64bc90962abbd66e5299",
+  "tree": "581303d5f0df8a6ae40f6d7ec0fab7c06678ed9a",
+  "public_parent": "fe2ae370c00e68437c4951c28c3a1038ce35fb38",
+  "paths": 42,
+  "new_namespace_paths": 41,
+  "workflow_paths": 1,
+  "binary_files": 4,
+  "SOURCE": {
+    "path": "/workspace/scratch/ef468a447ac6/erp-credit-e1-qualification/scripts/current-credit-e1-phase-native17-qualification/SOURCE.json",
+    "pins": 361,
+    "sha256": "4bf5790d82bd9724fdf4f046f3638f8ebea6c251a95f6aed21626f003454de7c"
+  },
+  "backend_source319_sha256": "c1899ebed78fd3cd94a6e8e2d148fc6fe34911b48951aa1756e9e46dbef38ce3",
+  "frozen_failed_source282_sha256": "7a92b13976bd8cc24d19bc9f3ccb379f8a582bf7370ded4b23739296603d14fc",
+  "qualified_parent": "17ac1eeb5833cbf2a786194fe3bfbba6628a1ff8",
+  "private_functions": 41,
+  "public_backend_files_verified": 13733,
+  "historical_base_files_verified": 13696,
+  "complete_candidate_files_verified": 13775,
+  "actual_whole_caller_checks": [
+    {
+      "name": "actual_runtime_and_real_Original_admission_with118generated_outputs",
+      "status": "PASS",
+      "seconds": 157.478,
+      "elapsed_ms": 157478,
+      "retained_D1": {
+        "status": "EXACT_SUCCESSFUL_D1_NATIVE13_AND_FIVE_PACKAGE_GATES_ADMITTED",
+        "head": "17ac1eeb5833cbf2a786194fe3bfbba6628a1ff8",
+        "retained_Native_cases": 13,
+        "fresh_E_cases_credited": 0,
+        "original_sha256": "6b5eb3f481e1d36e8fbca64590a8ef83197f3e4e3725d9dfa3964c92cdbafa4c",
+        "native_group_sha256": "3129479dde1805e58fbd3a96cba4653c8da7a0b0f471be65c4182fd772f87d47",
+        "package_sha256": "84d20d0e7ec045d8496174c25437b3005c158ee517e1d1c014b75175410e8056",
+        "production_go": false,
+        "independent_acceptance": false,
+        "parent_originals_retained": 5,
+        "additional_raw_names": [
+          "T3_PACKAGE_FILES_INSTALL.json",
+          "T3_BACKUP_RESTORE_DRILL.json"
+        ],
+        "fresh_E17_outcome_not_used_as_prerequisite": true
+      },
+      "private_functions": 41,
+      "current_E_files": {
+        "note_carry/01_facts.sql": "ebf128127e6bcab8fe1c52b98f46ede1492356386312fe2f744e3e65ddb1d415",
+        "note_carry/02_plan.sql": "17c9028606298e7d66681deb3c0a1f3260a1ec829d9ba501a647231b358981f3",
+        "note_carry/03_readers.sql": "940200b5320189bd424a99ccef9cc92846dd576a6c6d4bd2e8f1e25afd3325d8",
+        "note_carry/04_basis.sql": "cdd49e1c5f9a78f4c2c27ce0ae055907a485475c0020720c9e18a0f80e68c222",
+        "note_carry/05_effect.sql": "cd77c5ab9427223e1c67b93d8631a1808b8ddc593fc0c97d12e9c069a2950710",
+        "note_carry/06_owning.sql": "0c00bb08274827e6295ada3ed4e4b8e7d917ed1bc1a996aaa0685d0fd1772c94",
+        "note_carry/07_profile_closure.sql": "8e82c257ca20a4dcac5cf0dad2f1e487c2e202caea7fa466503019003d3f75ac",
+        "e_native_delta.py": "314742c922fc82145f7caa8d4217296bf3f2408ceacbc4738d50d3b866d2bfe0",
+        "e_composition.py": "6e690d12e30cb3a6463283dc62f269f5e3e77e2e59f37e45cdd0b5ec1f6a46d6"
+      },
+      "current_full_graph_sha256": "99b6af6b58fbac770eb52a3fae0cb72b8e8cd4706e79558c3eb152577bf3a00f",
+      "full_runtime_admission_status": "EXACT_QUALIFIED_D1_AND_CLOSED_SOURCE_E1_CHILD_ADMITTED"
+    },
+    {
+      "name": "unknown_code",
+      "status": "PASS_EXPECTED_REFUSAL",
+      "observed": "E_PHASE23_UNKNOWN_SOURCE_OR_RECEIPT:['scripts/e_phase_unexpected_source.py']",
+      "elapsed_ms": 3553
+    },
+    {
+      "name": "arbitrary_JSON",
+      "status": "PASS_EXPECTED_REFUSAL",
+      "observed": "E_PHASE23_UNKNOWN_GENERATED_OUTPUT:['cp6-proof/t3/arbitrary.json']",
+      "elapsed_ms": 4993
+    },
+    {
+      "name": "receipt_leaf_symlink",
+      "status": "PASS_EXPECTED_REFUSAL",
+      "observed": "E_PHASE23_GENERATED_SYMLINK:cp6-proof/t3/FROZEN_SOURCE_WORKTREES.json",
+      "elapsed_ms": 3387
+    },
+    {
+      "name": "receipt_ancestor_symlink",
+      "status": "PASS_EXPECTED_REFUSAL",
+      "observed": "E_PHASE23_GENERATED_SYMLINK:cp6-proof/t3/ARTIFACT_FETCH",
+      "elapsed_ms": 3973
+    },
+    {
+      "name": "post_restore_same_caller_full_runtime_and_Original_admission",
+      "status": "PASS",
+      "elapsed_ms": 171071,
+      "public_snapshot_before": "9021be4925cc12be11dc33a7482fd84aa6add469b8930210529f71384590974d",
+      "public_snapshot_after": "9021be4925cc12be11dc33a7482fd84aa6add469b8930210529f71384590974d"
+    }
+  ],
+  "whole_caller_elapsed_ms": 375963,
+  "caller": {
+    "cwd": "/tmp/e17-phase-native17-2fde-isolated-20261030",
+    "argv": [
+      "scripts/current-credit-e1-phase-native17-qualification/local_admission_controls.py",
+      "--environment",
+      "/workspace/scratch/ef468a447ac6/source-admission-inputs/environment.json",
+      "--out",
+      "/workspace/scratch/ef468a447ac6/e17-phase-whole-caller-isolated.json"
+    ],
+    "pipeline": "probe.runtime() then returned engine.admitted()",
+    "engine_execute_called": false,
+    "inherited_argv_context": "exact frozen argv_boundary.py"
+  },
+  "forbidden_attempts": [],
+  "exact_24_historical_proofs": true,
+  "byte_mode_or_inode_changes": 0,
+  "final_unknown_source_JSON_symlink_pending": false,
+  "unit_source_controls_PASS": 67,
+  "source_import_checks_PASS": 2,
+  "actual_fresh_Native_Auth_browser_races": 0,
+  "Native17_callbacks_changed": false,
+  "complete_engine_counted_changes": 6,
+  "all22_data_every_sequence_role_schema_CP6_advisor_Auth_restore_math_changed": false,
+  "workflow_old_steps": 72,
+  "workflow_exact_unchanged_steps": 65,
+  "workflow_routing_or_descriptor_steps": 7,
+  "workflow_added_pre_GET_steps": 1,
+  "published": false,
+  "publication_manifest": "/workspace/scratch/ef468a447ac6/e17-phase-native17-publication-manifest.json",
+  "publication_manifest_sha256": "383dda33213e8af1df15ccdcce26ccbae450fdf8fd0afd9a2e39e60ac24d90d8",
+  "artifacts": {
+    "/workspace/scratch/ef468a447ac6/e17-phase-whole-caller-first.json": {
+      "bytes": 4252,
+      "sha256": "975ab8bc1f6383d7685e7056ee4f9df1fe00435856566a31b6d3a4169505b2b2"
+    },
+    "/workspace/scratch/ef468a447ac6/e17-phase-whole-caller-first.log": {
+      "bytes": 124,
+      "sha256": "c64726e1278382315a78679de2345bd48226ddcdf68ef48315f13d6772e6d4b4"
+    },
+    "/workspace/scratch/ef468a447ac6/e17-phase-whole-caller-final.json": {
+      "bytes": 4829,
+      "sha256": "b4de98b00f92e0a73a8ca378167c67029e027eeee33f33db810413125a2b72cd"
+    },
+    "/workspace/scratch/ef468a447ac6/e17-phase-whole-caller-final.log": {
+      "bytes": 1776,
+      "sha256": "8583982403abb18ef8b81b374fa8fd1141f4eecb908c4e18884e99c24ced8aae"
+    },
+    "/workspace/scratch/ef468a447ac6/e17-phase-final-output-restore-observation.json": {
+      "bytes": 189,
+      "sha256": "603e9d2066157cdb31549b626e4a99bfade3b6cd45968476200fa8e6004488dc"
+    },
+    "/workspace/scratch/ef468a447ac6/e17-phase-reference-output-cleanup.json": {
+      "bytes": 22987,
+      "sha256": "8d16024293e14eaa414292fc81a424488f966bef6d0b58aa3349d4983df2d096"
+    },
+    "/workspace/scratch/ef468a447ac6/e17-phase-whole-caller-isolated.json": {
+      "bytes": 5275,
+      "sha256": "a873b0be796622f76a0e38b2d31d366c9ef943a00a0491c627f4a4da30d91152"
+    },
+    "/workspace/scratch/ef468a447ac6/e17-phase-whole-caller-isolated.log": {
+      "bytes": 124,
+      "sha256": "c64726e1278382315a78679de2345bd48226ddcdf68ef48315f13d6772e6d4b4"
+    },
+    "/workspace/scratch/ef468a447ac6/e17-phase-isolation-before.json": {
+      "bytes": 5458340,
+      "sha256": "95a9f350d1631a15f33cf8287485ea7a80e9e5489443cbb678801979707c9995"
+    },
+    "/workspace/scratch/ef468a447ac6/e17-phase-isolation-after.json": {
+      "bytes": 5911,
+      "sha256": "5acf6507cc86776a42dd0238c3df87eb0ce46a403d695aec0677be8187a8cacf"
+    },
+    "/workspace/scratch/ef468a447ac6/e17-phase-final38-controls.log": {
+      "bytes": 5746,
+      "sha256": "0519798f896bf00959e1f93e6b764dae8f912a409b88380d9a9af6ee89f9f1a2"
+    },
+    "/workspace/scratch/ef468a447ac6/e17-phase-inherited-D1-controls.log": {
+      "bytes": 5976,
+      "sha256": "b9417878fb09c8e14416907d13fdc4aac51d2282685d96df0f81fea342ac2988"
+    },
+    "/workspace/scratch/ef468a447ac6/e17-phase-workflow-routing-review.json": {
+      "bytes": 6471,
+      "sha256": "685918fcb11366fd53dc4e1fdf941f4dee1aea566abefcbcb1cca5b3e350df6c"
+    }
+  },
+  "limits": [
+    "Isolated noDB admission is source/Original proof only; fresh actual17+committed80 witness and all5/fullrestore are still mandatory.",
+    "2913 first PASS and2fde active-worktree postrestore symlink refusal are both retained; no filesystem cause is inferred.",
+    "Historical report identity tool_head/github_sha/workflow was derived only for copied output replay; archived failed writer gate remains false.",
+    "The full157902568byte qualified D1 ZIP was not re-extracted for local replay. Its validator rejects partial output sets; actual five raw Originals were admitted from exact retained gzip bytes.",
+    "The code tree remains2fde; final proof artifacts are external receipts, not self-referential SOURCE additions.",
+    "No component result establishes combined ERP/default integration qualification."
+  ]
+}

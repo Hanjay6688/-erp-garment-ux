@@ -1,0 +1,31 @@
+{
+  "contract": "cp7.root.s03.lawful-fixture-native14.source-review.v1",
+  "local_head": "24b17ae349f5503963d009ba01459f11c0677e14",
+  "tree": "ca20c918201b455ad09df489829b83b9e6afea95",
+  "parent": "9ac9c8bd1bfb7d64a1e735067083c68acbff02ef",
+  "source": {
+    "files": 475,
+    "bytes": 106705,
+    "sha256": "ba59dee4ae71c62df2b2e35c558cb23a7c66254a974c554cc3d17d63b936c555",
+    "all_Git_pins_exact": true
+  },
+  "delta": {
+    "paths": 50,
+    "all_added": true,
+    "product_runtime_changed": false
+  },
+  "internal_counter": {
+    "path": "evidence-private/s03-lawful-fixture-final-source-counter/FINAL_COUNTER_24b.json",
+    "bytes": 27958,
+    "sha256": "270b686dcf0e5b604869d45efe0dc67cf6c6c705f818ab4ae6c4b56f8cc23aa0"
+  },
+  "publication_manifest": {
+    "path": "/workspace/scratch/ef468a447ac6/s03-lawful-fixture-native14-root-publish.json",
+    "bytes": 9532326,
+    "sha256": "e72345f298fb9b092ad770d88c63d787fd3fac778f820095b8fabd1d3e8f5d12"
+  },
+  "prepared_only": true,
+  "actual_Native_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

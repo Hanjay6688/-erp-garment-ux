@@ -1,0 +1,643 @@
+{
+  "contract": "internal.s03-lawful-fixture.source-counter.final.v1",
+  "created_utc": "2026-10-30T00:59:23.754107+00:00",
+  "classification": "INTERNAL_READ_ONLY_SOURCE_COUNTER_NOT_EXTERNAL_INDEPENDENT_ACCEPTANCE",
+  "status": "NO_REMAINING_SOURCE_BLOCKER_PREPARED_ONLY",
+  "pin": {
+    "head": "24b17ae349f5503963d009ba01459f11c0677e14",
+    "tree": "ca20c918201b455ad09df489829b83b9e6afea95",
+    "source_base": "9ac9c8bd1bfb7d64a1e735067083c68acbff02ef",
+    "source_base_is_successful_prerequisite": false,
+    "Source": {
+      "path": "scripts/current-s03-lawful-fixture-successor-qualification/SOURCE.json",
+      "bytes": 106705,
+      "sha256": "ba59dee4ae71c62df2b2e35c558cb23a7c66254a974c554cc3d17d63b936c555"
+    },
+    "fixture_API": {
+      "path": "scripts/current-s03-lawful-fixture-successor-qualification/lawful_fixture.py",
+      "bytes": 18312,
+      "sha256": "d8c991189c480033adf711002077062f459f0005bc7f682b10db1be754febd7f"
+    },
+    "publication_manifest": {
+      "path": "/workspace/scratch/ef468a447ac6/s03-lawful-fixture-native14-prepared-publication.json",
+      "bytes": 16132,
+      "sha256": "a8d4a7592063cde7cf34157bce7fb32a7a83162f7706181ac89a23ec747bf77c"
+    }
+  },
+  "preserved_initial_counter": {
+    "path": "/workspace/scratch/ef468a447ac6/evidence-private/s03-lawful-fixture-final-source-counter/INITIAL_LOCKED_0590_COUNTER.json",
+    "bytes": 15355,
+    "sha256": "4cc25095797fd22fdeaa5219b16f121e11a118eac0cc6f6b46004a0a96d1fa6e"
+  },
+  "preserved_additional_current_head_finding": {
+    "path": "/workspace/scratch/ef468a447ac6/evidence-private/s03-lawful-fixture-final-source-counter/ADDITIONAL_CURRENT_HEAD_BINDING_FINDING.json",
+    "bytes": 1003,
+    "sha256": "12568984d5a1d792f810dfae001bfb13c0f4e04a3f3f9d8b7d166b8dfa50cd19"
+  },
+  "preserved_original_causal_lock": {
+    "path": "/workspace/scratch/ef468a447ac6/evidence-private/s03-9ac-native14-first-failure/INTERNAL_COUNTER_NATIVE14_FIRST_FAILURE.json",
+    "bytes": 53610,
+    "sha256": "114472a7101e283ab7950f5861127ac95fdfd2048787526288f4ddcec539b278"
+  },
+  "original9ac_actual": {
+    "strict11_counts": {
+      "PASS": 8,
+      "INCOMPLETE": 3
+    },
+    "Reader3_reached": false,
+    "committed_used_witness_reached": false,
+    "Native14_bundle_accepted": false,
+    "all_original_first_errors_retained": true,
+    "numerical_FG_before_after_raw_snapshots_not_claimed": true
+  },
+  "closed_findings": [
+    {
+      "id": "S03_LAWFUL_CANCEL_PREALLOCATION_BASELINE_OMITS_NEW_POSTED_HISTORY",
+      "status": "CLOSED",
+      "initial_pin": "0590ec157f2dcfda6a86a4f07729f7d01075b902",
+      "expected": "Freeze and use the complete after-allocation snapshot BEFORE cancel; retain all intermediate HPP versions/components and original journal lines; allow only Native current-pointer retirement and the known original pool header status transition.",
+      "observed": "finished callback now assigns raw_after_allocation from observe_valuation before CANCEL_ALLOCATION and passes it as mandatory after_allocation. Cancellation verifies baseline and complete after-allocation HPP history/components, journal headers and full lines. Only the identified original pool header may change POSTED to REVERSED; other header bytes and original lines remain exact. The inverse is compared to pre-cancel frozen lines, with exact dimensions, amount signs, links, economic/book dates. Full FG rows, current HPP quantity/value and FG/COGS/WIP GL return to original baseline.",
+      "sources": [
+        "scripts/current-s03-lawful-fixture-successor-qualification/CALLBACK_CHANGES.json:21",
+        "scripts/current-s03-lawful-fixture-successor-qualification/lawful_fixture.py:144-155",
+        "scripts/current-s03-lawful-fixture-successor-qualification/lawful_fixture.py:196-211",
+        "scripts/current-s03-lawful-fixture-successor-qualification/lawful_fixture.py:223-270"
+      ],
+      "preserved_first_RED2": {
+        "path": "scripts/current-s03-lawful-fixture-successor-qualification/evidence/CANCEL_HISTORY_FIRST2_FAILURE.log",
+        "bytes": 2045,
+        "sha256": "75e69176b05a849dbc2889efa97ed89f3624405768af0c0c421269e750507091"
+      },
+      "reviewer_original_vectors_rechecked_against_final": {
+        "method": "Exact immutable final helper executed with declared in-memory fact/cursor models only.",
+        "mandatory_after_allocation_no_default": true,
+        "legitimate_complete_history": "PASS",
+        "missing_intermediate_HPP_version": {
+          "observed": "EXPECTED_REFUSAL",
+          "error": "S03_LAWFUL_HPP_HISTORY_REMOVED"
+        },
+        "symmetric_posted_and_matching_inverse_line_mutation": {
+          "observed": "EXPECTED_REFUSAL",
+          "error": "('S03_LAWFUL_BASELINE_HISTORY_CHANGED', 'journal_lines', 'posted_debit')"
+        },
+        "Native": 0
+      },
+      "financial_product_defect_claim": false
+    },
+    {
+      "id": "S03_LAWFUL_CURRENT_HEAD_BINDING",
+      "status": "CLOSED",
+      "expected": "Bind the final six raw reports to current candidate HEAD as well as to each other.",
+      "observed": "New result_gate.main now supplies expected_head from actual git rev-parse HEAD. checked forwards it into the unchanged full parent gate, retaining report/package Git source equality and full5 gates.",
+      "sources": [
+        "scripts/current-s03-lawful-fixture-successor-qualification/result_gate.py:21-24",
+        "scripts/current-s03-lawful-fixture-successor-qualification/result_gate.py:56-65",
+        "scripts/current-attendance-choice-reader-native14-qualification/result_gate.py:56-69"
+      ]
+    },
+    {
+      "id": "S03_LAWFUL_MATRIX_SYMLINK_CONSTRUCTION_RESTORE",
+      "status": "CLOSED",
+      "expected": "Include all fault construction in restoration finally; fail for a real named link, prove restored bytes/modes and rerun wholecaller positive. The original FileNotFoundError is invalid as a symlink fence test.",
+      "observed": "source_link_fault covers unlink/rename/symlink construction and caller failure; preserved source survives a restore exception. Snapshots cover regular bytes and modes without following links. Final Source checks pinned paths before allocation cardinality. Both leaf and ancestor now fail with S03_NATIVE14_SOURCE_SYMLINK and the injected path, then exact regular/nonlink restore and actual wholecaller positive pass. Same-process runpy keeps actual argv/cwd/real5 Original environment, checker ROOT and product.sources.",
+      "sources": [
+        "scripts/current-s03-lawful-fixture-successor-qualification/whole_caller_matrix.py:22-58",
+        "scripts/current-s03-lawful-fixture-successor-qualification/whole_caller_matrix.py:73-128",
+        "scripts/current-s03-lawful-fixture-successor-qualification/source_check.py:43-60"
+      ],
+      "final_restore_receipts": [
+        {
+          "receipt": {
+            "path": "/workspace/scratch/ef468a447ac6/evidence-private/s03-lawful-fixture-source-study/whole-caller-matrix-final/LEAF_SOURCE_LINK_RESTORE.json",
+            "bytes": 628,
+            "sha256": "57d4d9cf87669e3ab093897216747872c79041ec90a3b0aad5e925b4a66d5622"
+          },
+          "regular_file": true,
+          "real_directory": false,
+          "nonsymlink": true,
+          "entries": 1,
+          "before_equals_after_bytes_and_modes": true
+        },
+        {
+          "receipt": {
+            "path": "/workspace/scratch/ef468a447ac6/evidence-private/s03-lawful-fixture-source-study/whole-caller-matrix-final/ANCESTOR_SOURCE_LINK_RESTORE.json",
+            "bytes": 3893,
+            "sha256": "f20da9543e84f2a725afca71410ca03ff23ffca4fc16fd4dface2fb8d282f243"
+          },
+          "regular_file": false,
+          "real_directory": true,
+          "nonsymlink": true,
+          "entries": 10,
+          "before_equals_after_bytes_and_modes": true
+        }
+      ],
+      "preserved_invalid_first_symlink_receipt": {
+        "path": "/workspace/scratch/ef468a447ac6/evidence-private/s03-lawful-fixture-source-study/whole-caller-matrix-first/LEAF_SOURCE_LINK.json",
+        "bytes": 7989,
+        "sha256": "e918b0a21bddceb6066f05efa2071879ebea0eabf98fbe95168a65226be720ea"
+      },
+      "invalid_first_classification": "FileNotFoundError from missing link is NOT a PASS or a proved symlink refusal; trace retained unchanged."
+    }
+  ],
+  "source_scope": {
+    "immutable_base9ac_files": 13821,
+    "all_base_blobs_and_Git_modes_exact": true,
+    "delta_paths": 50,
+    "all_delta_paths_are_new": true,
+    "only_new_namespace_and_owned_workflow": true,
+    "Source_files": 475,
+    "Source_all_hashes_bytes_Git_modes_and_closed_sets_verified": true,
+    "inherited425_pins_unchanged": true,
+    "whole_active_current_product_sources_Original_admission_not_projected": true,
+    "runtime7_unchanged": true,
+    "actual15_originals_plus2_clones_unchanged": true,
+    "original11_and_Reader3_physical_sources_unchanged": true,
+    "selected11_actual9ac_ABI_definitions_match_actual_capture": true,
+    "old251_and80_manifests_are_retained_history_not_current_source_projection": true
+  },
+  "private_derivation": {
+    "adapted_original11_callbacks": 3,
+    "original_eight_callbacks_exact": true,
+    "original_eleven_runtime_callbacks_byte_exact": false,
+    "original_helpers_and_committed_ALLOCATE_witness_exact": true,
+    "callback_original_sha256": "15fe990cccb82ff4c1dcd9ca40dc17fe93ac26a3a359a37361e6d8780b1f16e2",
+    "callback_final_derived_sha256": "ebb0998735e8fbb3e9cb4165f96ad41f064cd430546e120e040db2098711bc11",
+    "three_changes_reverse_to_all_original_bytes": true,
+    "Reader3_private_P2_helper_anchors": 1,
+    "Reader3_original_sha256": "eebe27396c93d4b2b14062f778a4f6a4a9c9ae840bed164e11196d90bc603630",
+    "Reader3_one_change_reverse_exact": true,
+    "outer_source_scope_adapters": 5,
+    "inner_source_scope_adapters": 4,
+    "parent_history_metadata_adapters_unchanged": 4,
+    "workflow_exact_bounded_six_routing_steps": true,
+    "workflow_and_producer_descriptors_byteexact_from0590": true,
+    "P2_and_owner_REOPEN_helpers_byteexact_from0590": true
+  },
+  "retained_financial_contract": {
+    "P2_reuses_exact_known_P1_worker_with_real_Native20_02_future_effective_rate": true,
+    "all_eligible_cells_explicit_PRESENT_unknown_cells_refuse": true,
+    "P1_capture_source_accrual_payroll_attendance_unchanged": true,
+    "closed_REVERSE_full_rows_sequences_negative_preserved": true,
+    "real_owner_period_workspace_REOPEN_fresh_UUID_reason_Native_audit": true,
+    "fresh_choice_preview_after_reopen_via_unchanged_f_save": true,
+    "all16_non_cost_FG_fields_and_entire_SALE_rows_immutable": true,
+    "only_QC_GOOD_REWORK_IN_unit_hpp_snapshot_equals_current_Native_HPP": true,
+    "unknown_FG_fields_or_rowsets_refuse": true,
+    "all_original_money_qty_date_and_GL_oracles_preserved": true,
+    "outer_restore_all_raw_rows_and_all_sequences_unchanged": true
+  },
+  "wholecaller": {
+    "matrix": {
+      "path": "/workspace/scratch/ef468a447ac6/evidence-private/s03-lawful-fixture-source-study/whole-caller-matrix-final/MATRIX.json",
+      "bytes": 14039,
+      "sha256": "6ee4a7aaa4d894b43d9a4b7ab025065183ca81d126e60957995e4acce3f1de54"
+    },
+    "status": "PASS",
+    "expected_controls": 11,
+    "actual_controls": 11,
+    "same_final_head": "24b17ae349f5503963d009ba01459f11c0677e14",
+    "actual5_Original_environment": true,
+    "same_process_actual_argv_and_cwd": true,
+    "source_results_projected": false,
+    "checker_ROOT_replaced": false,
+    "product_sources_mocked": false,
+    "controls": [
+      {
+        "id": "INITIAL_REAL_RUNTIME",
+        "expected": "PASS",
+        "observed": "PASS",
+        "error_type": null,
+        "error_message": null,
+        "receipt": {
+          "path": "/workspace/scratch/ef468a447ac6/evidence-private/s03-lawful-fixture-source-study/whole-caller-matrix-final/INITIAL_REAL_RUNTIME.json",
+          "bytes": 5276,
+          "sha256": "c5f9096e4b8039f74c98cb3d7203cb21a5228e2cccd1756d006845895d11e412"
+        },
+        "head": "24b17ae349f5503963d009ba01459f11c0677e14",
+        "attempts": {
+          "DB": 0,
+          "network": 0,
+          "non_readonly_process": 0
+        },
+        "Native": 0,
+        "new_untracked": [],
+        "writes": [
+          {
+            "event": "os.mkdir",
+            "paths": [
+              "/workspace/scratch/ef468a447ac6/erp-s03-lawful-source-check/docs/cp7/d17-14/ow08/vendor-combined41c-pass"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "SAME_ARGV_RUNTIME_REPLAY",
+        "expected": "PASS",
+        "observed": "PASS",
+        "error_type": null,
+        "error_message": null,
+        "receipt": {
+          "path": "/workspace/scratch/ef468a447ac6/evidence-private/s03-lawful-fixture-source-study/whole-caller-matrix-final/SAME_ARGV_RUNTIME_REPLAY.json",
+          "bytes": 5276,
+          "sha256": "c5f9096e4b8039f74c98cb3d7203cb21a5228e2cccd1756d006845895d11e412"
+        },
+        "head": "24b17ae349f5503963d009ba01459f11c0677e14",
+        "attempts": {
+          "DB": 0,
+          "network": 0,
+          "non_readonly_process": 0
+        },
+        "Native": 0,
+        "new_untracked": [],
+        "writes": [
+          {
+            "event": "os.mkdir",
+            "paths": [
+              "/workspace/scratch/ef468a447ac6/erp-s03-lawful-source-check/docs/cp7/d17-14/ow08/vendor-combined41c-pass"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "ACTUAL_PROBE_CHECK",
+        "expected": "PASS",
+        "observed": "PASS",
+        "error_type": null,
+        "error_message": null,
+        "receipt": {
+          "path": "/workspace/scratch/ef468a447ac6/evidence-private/s03-lawful-fixture-source-study/whole-caller-matrix-final/ACTUAL_PROBE_CHECK.json",
+          "bytes": 5271,
+          "sha256": "f9c47240c17c6d1cc54672072b843cf80f64fae52ed05796a5e914b36adb7a08"
+        },
+        "head": "24b17ae349f5503963d009ba01459f11c0677e14",
+        "attempts": {
+          "DB": 0,
+          "network": 0,
+          "non_readonly_process": 0
+        },
+        "Native": 0,
+        "new_untracked": [],
+        "writes": [
+          {
+            "event": "os.mkdir",
+            "paths": [
+              "/workspace/scratch/ef468a447ac6/erp-s03-lawful-source-check/docs/cp7/d17-14/ow08/vendor-combined41c-pass"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "UNKNOWN_CODE",
+        "expected": "REFUSE",
+        "observed": "FAIL",
+        "error_type": "ValueError",
+        "error_message": "S03_NATIVE14_UNKNOWN_SOURCE_OR_GENERATED_OUTPUT:['scripts/s03_unknown_source_negative.py']",
+        "receipt": {
+          "path": "/workspace/scratch/ef468a447ac6/evidence-private/s03-lawful-fixture-source-study/whole-caller-matrix-final/UNKNOWN_CODE.json",
+          "bytes": 7451,
+          "sha256": "22e4b94890e18275d60e873c3f8198e5ab3d2cc0df3611d9e9e5a4b0d7a0bd4c"
+        },
+        "head": "24b17ae349f5503963d009ba01459f11c0677e14",
+        "attempts": {
+          "DB": 0,
+          "network": 0,
+          "non_readonly_process": 0
+        },
+        "Native": 0,
+        "new_untracked": [],
+        "writes": []
+      },
+      {
+        "id": "UNKNOWN_CODE_RESTORED_POSITIVE",
+        "expected": "PASS",
+        "observed": "PASS",
+        "error_type": null,
+        "error_message": null,
+        "receipt": {
+          "path": "/workspace/scratch/ef468a447ac6/evidence-private/s03-lawful-fixture-source-study/whole-caller-matrix-final/UNKNOWN_CODE_RESTORED_POSITIVE.json",
+          "bytes": 5276,
+          "sha256": "c5f9096e4b8039f74c98cb3d7203cb21a5228e2cccd1756d006845895d11e412"
+        },
+        "head": "24b17ae349f5503963d009ba01459f11c0677e14",
+        "attempts": {
+          "DB": 0,
+          "network": 0,
+          "non_readonly_process": 0
+        },
+        "Native": 0,
+        "new_untracked": [],
+        "writes": [
+          {
+            "event": "os.mkdir",
+            "paths": [
+              "/workspace/scratch/ef468a447ac6/erp-s03-lawful-source-check/docs/cp7/d17-14/ow08/vendor-combined41c-pass"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "UNKNOWN_JSON",
+        "expected": "REFUSE",
+        "observed": "FAIL",
+        "error_type": "ValueError",
+        "error_message": "S03_NATIVE14_UNKNOWN_SOURCE_OR_GENERATED_OUTPUT:['cp6-proof/t3/S03_FORGED_SOURCE_NEGATIVE.json']",
+        "receipt": {
+          "path": "/workspace/scratch/ef468a447ac6/evidence-private/s03-lawful-fixture-source-study/whole-caller-matrix-final/UNKNOWN_JSON.json",
+          "bytes": 7475,
+          "sha256": "457ca89b8c6471bc561b61a8c6a3bcce026ceb43ed0868a9006cd6231fbbd588"
+        },
+        "head": "24b17ae349f5503963d009ba01459f11c0677e14",
+        "attempts": {
+          "DB": 0,
+          "network": 0,
+          "non_readonly_process": 0
+        },
+        "Native": 0,
+        "new_untracked": [],
+        "writes": []
+      },
+      {
+        "id": "UNKNOWN_JSON_RESTORED_POSITIVE",
+        "expected": "PASS",
+        "observed": "PASS",
+        "error_type": null,
+        "error_message": null,
+        "receipt": {
+          "path": "/workspace/scratch/ef468a447ac6/evidence-private/s03-lawful-fixture-source-study/whole-caller-matrix-final/UNKNOWN_JSON_RESTORED_POSITIVE.json",
+          "bytes": 5276,
+          "sha256": "c5f9096e4b8039f74c98cb3d7203cb21a5228e2cccd1756d006845895d11e412"
+        },
+        "head": "24b17ae349f5503963d009ba01459f11c0677e14",
+        "attempts": {
+          "DB": 0,
+          "network": 0,
+          "non_readonly_process": 0
+        },
+        "Native": 0,
+        "new_untracked": [],
+        "writes": [
+          {
+            "event": "os.mkdir",
+            "paths": [
+              "/workspace/scratch/ef468a447ac6/erp-s03-lawful-source-check/docs/cp7/d17-14/ow08/vendor-combined41c-pass"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "LEAF_SOURCE_LINK",
+        "expected": "REFUSE",
+        "observed": "FAIL",
+        "error_type": "ValueError",
+        "error_message": "S03_NATIVE14_SOURCE_SYMLINK:scripts/current-s03-lawful-fixture-successor-qualification/lawful_fixture.py",
+        "receipt": {
+          "path": "/workspace/scratch/ef468a447ac6/evidence-private/s03-lawful-fixture-source-study/whole-caller-matrix-final/LEAF_SOURCE_LINK.json",
+          "bytes": 7190,
+          "sha256": "ffdb19259321cb171336506f5b963a391987ca44ec6268221df66614300537d4"
+        },
+        "head": "24b17ae349f5503963d009ba01459f11c0677e14",
+        "attempts": {
+          "DB": 0,
+          "network": 0,
+          "non_readonly_process": 0
+        },
+        "Native": 0,
+        "new_untracked": [],
+        "writes": []
+      },
+      {
+        "id": "LEAF_SOURCE_LINK_RESTORED_POSITIVE",
+        "expected": "PASS",
+        "observed": "PASS",
+        "error_type": null,
+        "error_message": null,
+        "receipt": {
+          "path": "/workspace/scratch/ef468a447ac6/evidence-private/s03-lawful-fixture-source-study/whole-caller-matrix-final/LEAF_SOURCE_LINK_RESTORED_POSITIVE.json",
+          "bytes": 5276,
+          "sha256": "c5f9096e4b8039f74c98cb3d7203cb21a5228e2cccd1756d006845895d11e412"
+        },
+        "head": "24b17ae349f5503963d009ba01459f11c0677e14",
+        "attempts": {
+          "DB": 0,
+          "network": 0,
+          "non_readonly_process": 0
+        },
+        "Native": 0,
+        "new_untracked": [],
+        "writes": [
+          {
+            "event": "os.mkdir",
+            "paths": [
+              "/workspace/scratch/ef468a447ac6/erp-s03-lawful-source-check/docs/cp7/d17-14/ow08/vendor-combined41c-pass"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "ANCESTOR_SOURCE_LINK",
+        "expected": "REFUSE",
+        "observed": "FAIL",
+        "error_type": "ValueError",
+        "error_message": "S03_NATIVE14_SOURCE_SYMLINK:scripts/current-s03-lawful-fixture-successor-qualification/retained-9ac-first/CP7_S03_ATTENDANCE_CHOICE_NATIVE11_CASES.json.gz",
+        "receipt": {
+          "path": "/workspace/scratch/ef468a447ac6/evidence-private/s03-lawful-fixture-source-study/whole-caller-matrix-final/ANCESTOR_SOURCE_LINK.json",
+          "bytes": 7460,
+          "sha256": "27ab1828c4bc9fcc564275db5d248e0e60d40fe8ef6ea053c5abe5c1d37469c5"
+        },
+        "head": "24b17ae349f5503963d009ba01459f11c0677e14",
+        "attempts": {
+          "DB": 0,
+          "network": 0,
+          "non_readonly_process": 0
+        },
+        "Native": 0,
+        "new_untracked": [],
+        "writes": []
+      },
+      {
+        "id": "ANCESTOR_SOURCE_LINK_RESTORED_POSITIVE",
+        "expected": "PASS",
+        "observed": "PASS",
+        "error_type": null,
+        "error_message": null,
+        "receipt": {
+          "path": "/workspace/scratch/ef468a447ac6/evidence-private/s03-lawful-fixture-source-study/whole-caller-matrix-final/ANCESTOR_SOURCE_LINK_RESTORED_POSITIVE.json",
+          "bytes": 5276,
+          "sha256": "c5f9096e4b8039f74c98cb3d7203cb21a5228e2cccd1756d006845895d11e412"
+        },
+        "head": "24b17ae349f5503963d009ba01459f11c0677e14",
+        "attempts": {
+          "DB": 0,
+          "network": 0,
+          "non_readonly_process": 0
+        },
+        "Native": 0,
+        "new_untracked": [],
+        "writes": [
+          {
+            "event": "os.mkdir",
+            "paths": [
+              "/workspace/scratch/ef468a447ac6/erp-s03-lawful-source-check/docs/cp7/d17-14/ow08/vendor-combined41c-pass"
+            ]
+          }
+        ]
+      }
+    ],
+    "all_DB_network_nonreadonly_process_attempts": 0,
+    "actual_Native_cases": 0
+  },
+  "physical_source": {
+    "snapshot": {
+      "path": "/workspace/scratch/ef468a447ac6/evidence-private/s03-lawful-fixture-source-study/FINAL_MATERIALIZED_GIT_SNAPSHOT.json",
+      "bytes": 2453834,
+      "sha256": "10329c134f28b04420e8d70a6fc29783fb6ce02285f905076b512270e10f9fa2"
+    },
+    "classification": "ALL_MATERIALIZED_TRACKED_BYTES_MODES_EQUAL_COMMITTED_GIT_AFTER_WHOLE_CALLER_FAULTS",
+    "materialized_tracked_files": 9282,
+    "materialized_tracked_bytes": 155069533,
+    "sparse_unmaterialized_tracked_files": 4589,
+    "full_repository_materialized": false,
+    "reviewer_checked_all9282_snapshot_Git_blob_and_mode_identities": true,
+    "reviewer_independently_rehashed_current_live475_Source_files_regular_nonsymlink_bytes_modes": true,
+    "all13871_files_physically_rehashed_claim": false,
+    "tracked_clean": true,
+    "untracked_closed_proof_inputs": {
+      "count": 28,
+      "historical_workflows": 24,
+      "qualified_vendor41c_gzip": 4,
+      "all_exact_regular_nonsymlink_bytes_hash_modes_independently_verified": true,
+      "classification": "DECLARED_NON_SOURCE_HISTORICAL_PROOF_MATERIALIZATIONS"
+    },
+    "unknown_untracked": []
+  },
+  "local_control_limits": {
+    "retained_initial13_python_log_is_historical": true,
+    "retained_later39_python_log_preserved": true,
+    "retained_final48_python_controls": {
+      "status": "PASS",
+      "receipt": {
+        "path": "scripts/current-s03-lawful-fixture-successor-qualification/evidence/LOCAL_COUNTER_REPAIRED48.log",
+        "bytes": 8604,
+        "sha256": "49f01e254d58229de155c1c3d82b1b9aeb21bbaf6c410d541f10b906656eb16b"
+      },
+      "rerun_by_counter": false
+    },
+    "retained7_PGlite_controls": {
+      "status": "PASS",
+      "receipt": {
+        "path": "scripts/current-s03-lawful-fixture-successor-qualification/evidence/LOCAL_THIRD_SQL.log",
+        "bytes": 1140,
+        "sha256": "e6b4731593996f764776b566442268167b8a48aee191ca1aa121a11ecf536d0a"
+      },
+      "whole_Native": false,
+      "rerun_by_counter": false
+    },
+    "reviewer_final_pure_controls": 3,
+    "reviewer_DB_or_SQL_engine_or_Native_executions": 0
+  },
+  "runtime_qualification_still_required": {
+    "fresh_strict11_actual_all_PASS_before_Reader3": true,
+    "fresh_separate_Reader3_same_current_installation": true,
+    "retain_both_raw_groups_byte_equal_embedded": true,
+    "no_fabricated_strict14": true,
+    "unchanged_committed_ALLOCATE_used_witness": true,
+    "actual_capture15_and2_clones_fullcurrent22": true,
+    "full_rows_all_sequences_roles_Auth_CP6_advisors_and_backup_restore": true,
+    "all_five_package_gates_including_writer_runtime_true": true,
+    "actual_new_Native_credit": 0,
+    "old_partial8_used_as_successful_prerequisite": false
+  },
+  "immutable_final_source_pins": [
+    {
+      "path": "scripts/current-s03-lawful-fixture-successor-qualification/CALLBACK_CHANGES.json",
+      "bytes": 5060,
+      "sha256": "92cf7781fb331fc7c9d5c2cf67526b14671b8aad08594f144644e68aa83b7a75"
+    },
+    {
+      "path": "scripts/current-s03-lawful-fixture-successor-qualification/CONFIG.json",
+      "bytes": 2414,
+      "sha256": "4c93094960a2aea45152d9a9cbbdb1cdfad83fa633777316cccb7a21c5ec1748"
+    },
+    {
+      "path": "scripts/current-s03-lawful-fixture-successor-qualification/lawful_fixture.py",
+      "bytes": 18312,
+      "sha256": "d8c991189c480033adf711002077062f459f0005bc7f682b10db1be754febd7f"
+    },
+    {
+      "path": "scripts/current-s03-lawful-fixture-successor-qualification/business.py",
+      "bytes": 4461,
+      "sha256": "c10e9b9e2138fd0e0bfd4e165e1e5f96cc2e13f8560159314e1bd576e8e33f6d"
+    },
+    {
+      "path": "scripts/current-s03-lawful-fixture-successor-qualification/derive.py",
+      "bytes": 4322,
+      "sha256": "af75c90b9ab0e1ddd2298e299f165ea08e840162709050cd6ae492c47ec019cb"
+    },
+    {
+      "path": "scripts/current-s03-lawful-fixture-successor-qualification/source_check.py",
+      "bytes": 6965,
+      "sha256": "d26daf0316c52a08e50b96a3647323f5cd50f2c76e183725ac03ebbd4f816def"
+    },
+    {
+      "path": "scripts/current-s03-lawful-fixture-successor-qualification/admission.py",
+      "bytes": 1444,
+      "sha256": "25a9cc50ea44b9aa921bc82bd380178ddcbf345a6f017bd73993dcb9f8187349"
+    },
+    {
+      "path": "scripts/current-s03-lawful-fixture-successor-qualification/native_runner.py",
+      "bytes": 1803,
+      "sha256": "aad4e6cd05ed71bd8b852fca4378baa3aaa8f1d3ad8b3777b2d0e9f23407df6d"
+    },
+    {
+      "path": "scripts/current-s03-lawful-fixture-successor-qualification/reader_group.py",
+      "bytes": 1156,
+      "sha256": "446605c06d5df8b02847431d1b770a81626856404a9daec5505bc4770f576a2b"
+    },
+    {
+      "path": "scripts/current-s03-lawful-fixture-successor-qualification/result_gate.py",
+      "bytes": 4365,
+      "sha256": "48a1fb821734301b806110b8c152904d098ef83a07e8925a2bc6bee7835eac54"
+    },
+    {
+      "path": "scripts/current-s03-lawful-fixture-successor-qualification/whole_caller_matrix.py",
+      "bytes": 7258,
+      "sha256": "55c55166943c27d34581a5491bd02a3e4d93d72bcdcc54083cb2b991f9216434"
+    },
+    {
+      "path": "scripts/current-s03-lawful-fixture-successor-qualification/test_cancel_history.py",
+      "bytes": 4889,
+      "sha256": "a5ec4e0fe41de7c4fbbb2079e9dea6ded07c1a1d4d50eba87045047949e62694"
+    },
+    {
+      "path": "scripts/current-s03-lawful-fixture-successor-qualification/test_fault_restore.py",
+      "bytes": 2463,
+      "sha256": "1b5254ca94d0687080b4e44607185ab579c9f8616c3c5d7d1c0d4434fa2e0afe"
+    },
+    {
+      "path": "scripts/current-s03-lawful-fixture-successor-qualification/test_framework.py",
+      "bytes": 9290,
+      "sha256": "6ef344defbaff39983c14188bf102f11b30a1866ad70a32c703fad713fcd323b"
+    },
+    {
+      "path": "scripts/current-s03-lawful-fixture-successor-qualification/SOURCE.json",
+      "bytes": 106705,
+      "sha256": "ba59dee4ae71c62df2b2e35c558cb23a7c66254a974c554cc3d17d63b936c555"
+    }
+  ],
+  "reviewer_operations": {
+    "readonly_immutable_Git_and_declared_current_files": true,
+    "source_edits": 0,
+    "staging": 0,
+    "network": 0,
+    "DB": 0,
+    "Native": 0,
+    "clones_tempworktrees_fulltree_copies": 0,
+    "only_new_writes": "Receipts in assigned private counter namespace."
+  },
+  "findings_remaining": [],
+  "blockers": [],
+  "formal_progress": "5/16 unchanged",
+  "production_go": false,
+  "independent_acceptance": false,
+  "external_independent_audit": false
+}

@@ -1,0 +1,171 @@
+{
+  "classification": "INTERNAL_READONLY_FINAL_SOURCE_COUNTER_NOT_INDEPENDENT_AUDIT_OR_NATIVE_ACCEPTANCE",
+  "observed_at_UTC": "2026-10-30T00:29:21.847262+00:00",
+  "status": "NO_CONCRETE_SOURCE_LAUNCH_BLOCKER",
+  "head": "2fde9cdae1b6e80a3b0c64bc90962abbd66e5299",
+  "tree": "581303d5f0df8a6ae40f6d7ec0fab7c06678ed9a",
+  "prepared_backend": "fe2ae370c00e68437c4951c28c3a1038ce35fb38",
+  "source361": {
+    "bytes": 158753,
+    "sha256": "4bf5790d82bd9724fdf4f046f3638f8ebea6c251a95f6aed21626f003454de7c"
+  },
+  "backend_source319": {
+    "bytes": 62189,
+    "sha256": "c1899ebed78fd3cd94a6e8e2d148fc6fe34911b48951aa1756e9e46dbef38ce3"
+  },
+  "public_files": 13733,
+  "public_total_bytes": 1005909323,
+  "public_bytes_modes_snapshot_sha256": "9021be4925cc12be11dc33a7482fd84aa6add469b8930210529f71384590974d",
+  "all_public_Git_blob_mode_entries_unchanged": true,
+  "all361_physical_pins_and_modes_verified": true,
+  "delta": {
+    "added": 42,
+    "modified": 0,
+    "deleted": 0,
+    "namespace": 41,
+    "workflow": 1
+  },
+  "callbacks17_ids": [
+    "E_PRICE_INCREASE_80_NET550_AR470",
+    "E_PRICE_DECREASE_80_NET100_AR20",
+    "E_EXACT_FUNDED_80_PAID",
+    "E_BELOW_CARRIED_80_REFUSES_ATOMIC",
+    "E_SAME_UUID_AND_CHANGED_INTENT",
+    "E_SOURCE_D1_CHANGE_RETIRES_REVIEW",
+    "E_LATER_APPLY_20_CURRENT_LEAF",
+    "E_UNDO_ORIGINAL_80_AND_OLD_RECEIPT",
+    "E_NATIVE_POST_FAILURE_FULL_RESTORE",
+    "E_QUANTITY_CHANGE_REFUSES",
+    "E_ORIGINAL_DATE_CHANGE_REFUSES",
+    "E_CLOSED_ORIGINAL_BOOK_PAIR_REFUSES",
+    "E_SECOND_NOTE_REVISION_GUARDED",
+    "E_CURRENT_ACCESS_REVOKED_REFUSES",
+    "E_JOINT_PREFIX_AFTER_UNDO_120_MIN200_NOT150",
+    "E_LATER_NATIVE_REVERSE_REFUSES_ATOMIC",
+    "E_LATER_NATIVE_SALE_SAME_LOT_RECONCILES"
+  ],
+  "Native_captures": 22,
+  "Native_modified": 19,
+  "Native_private_copies": 3,
+  "private_functions": 41,
+  "pure_source_derivations": {
+    "current_E3": {
+      "original_sha256": "7832f0f83516959b5a0bbc96e22b964de2fa1a4e18d2ab30582483c834942270",
+      "derived_sha256": "cbe265e1d9c74bc6fcbd542296cf1de49e999180ebded8afb83ba779821d6009",
+      "counted_changes": 3,
+      "classification": "SOURCE_METADATA_READER_ONLY"
+    },
+    "inherited_D1routes2": {
+      "original_sha256": "e27064d57660c3704db1d93bb3dec562d89551a9c613586447ce011676e3e256",
+      "derived_sha256": "6491807365260c2c85b82e451b15428114eafe441a2b749ee73fb7f364c28bf1",
+      "counted_source_routing_changes": 2,
+      "private_HERE_relocated": true,
+      "retained_historical_D1_diff_endpoint_changes": 1,
+      "all_original_current_hash_financial_parent_raw_checks_preserved": true
+    },
+    "current319additive3": {
+      "original_sha256": "1b91dc1557139a39b9591d6594b013867e5b346cd1e601921ac3b809eebdadc9",
+      "derived_sha256": "46f9b22e1dcb732ff8b46be5eebdbf5d55c0cc2ca2bbafa2b7f17ca1f502ea30",
+      "counted_changes": 3,
+      "classification": "SOURCE_METADATA_READER_ONLY"
+    },
+    "parent_raw5_fetch1": {
+      "original_sha256": "17b077c04f0235d55c6311a0483daca535bbcef75b9e5cfe1547e21b2e8a2684",
+      "derived_sha256": "83247caf3aea9ac31357bbe33aa1ff084d313970030f243cd360b94369bb7598",
+      "counted_changes": 1,
+      "classification": "SOURCE_METADATA_READER_ONLY"
+    }
+  },
+  "API_AST": {
+    "status": "PASS_SOURCE_AST_API_ONLY",
+    "modules": 4,
+    "function_bodies": 20,
+    "actual_Native_cases": 0,
+    "production_go": false
+  },
+  "engine6": {
+    "original_sha256": "c420d894f8d5f16bddefeae73addb621507170f372a28e7d6e33d88c7eeb0be9",
+    "derived_sha256": "18748a833cf9a0a37b575b7f436272d8c49bae046d1e48f6142c75d9956cc8bf",
+    "counted_changes": 6,
+    "unchanged_install_preuse_used_guard_backup_restore_roles_data_sequences_advisors": true,
+    "fresh_Auth_HTTP_races_browser_claim": false
+  },
+  "workflow": {
+    "old_steps": 72,
+    "new_steps": 73,
+    "unchanged": 65,
+    "routed_or_descriptor": 7,
+    "source_only_pre_GET_added": 1,
+    "exact_whole_derivation": {
+      "original_sha256": "6771fa52702491f6939dd4c0b1c745e6aa198f50fbb9c577a20380cce8de31ad",
+      "derived_sha256": "03e34150f675bef69701727b01c21855259db31f9d111d68b88369aa5b92ceb4",
+      "routing_descriptor_occurrences": [
+        7,
+        1,
+        2,
+        1,
+        1
+      ],
+      "added_source_only_pre_GET_steps": 1,
+      "unchanged_engine_substitutions": 6
+    }
+  },
+  "scope_findings": [
+    "Whole publicfe2 and361 closure precedes private319/historical282 read routes; actual product.sources/files/predecessor equality is retained.",
+    "Nine current E sources are physically pinned; only06/07 differ; historical E_DEPENDENCIES runtime_sources remain provenance and are explicitly compared as historical metadata, not substituted into product.sources.",
+    "Original17 callback file/API and complete six-change engine/component are unchanged from publicfe2; strict17 precedes separately committed80 witness with immutable stock/HPP/cash/source-money and used-inverse no-DML checks.",
+    "Complete outer dump/restore verifies all22/catalog/full rows/all sequences/roles/CP6/advisors; unchanged package owns all5 and Auth before/after. Per-case strict boundary is not an independent all-sequence restoration claim.",
+    "Only qualified17ac D1 withfive raw parent pins is prerequisite. Failed8be4 remains15P2INC; accepted_native17 remainsNULL, avoiding circular acceptance.",
+    "Producer-bound generated outputs are non-source/non-result credit. Unknown code/JSON and receipt leaf/ancestor symlinks remain rejected. Current workflow uses dynamiccurrent head/workflow identity, not historical UUID ambient files."
+  ],
+  "reference_replay": {
+    "E8BE4_P0_REFERENCE.zip": {
+      "bytes": 54528,
+      "sha256": "96e1492cc9f1cc2a96cf1a59d9f75953295473bdad23c2b4cecf49d67dad332a",
+      "members": 106
+    },
+    "E8BE4_LATER_REFERENCE.zip": {
+      "bytes": 1620743,
+      "sha256": "c5d36d79e369771a4b4d888ef8d89a0baaeb4ab9c571857d399a1a24606e73a0",
+      "members": 10
+    }
+  },
+  "reference_output_count": 118,
+  "isolated_actual_wholecaller": {
+    "receipt": {
+      "bytes": 5275,
+      "sha256": "a873b0be796622f76a0e38b2d31d366c9ef943a00a0491c627f4a4da30d91152"
+    },
+    "checks": 6,
+    "full_positive_then4negatives_then_full_post_restore_positive": true,
+    "attempts": [],
+    "engine_execute_called": false,
+    "Native": 0
+  },
+  "isolated_before": {
+    "bytes": 5458340,
+    "sha256": "95a9f350d1631a15f33cf8287485ea7a80e9e5489443cbb678801979707c9995"
+  },
+  "isolated_after": {
+    "bytes": 5911,
+    "sha256": "5acf6507cc86776a42dd0238c3df87eb0ce46a403d695aec0677be8187a8cacf"
+  },
+  "full13775_before_after_source_and_TMP_census_pass": true,
+  "first_2913_PASS_and_2fde_active_POSTRESTORE_symlink_refusal": "Retained separately in author finalfreeze receipt; no causal attribution or overwrite.",
+  "scope_limits": [
+    "Counter independently verified361physical pins and all13733public Git blob/mode identities; reused hash-checked author full13775physical/inode before-after census rather than duplicating whole scans.",
+    "No new suite run, product/DB/runtime invocation, active-tree/TMP mutation, staging, network, remote or publish by this counter.",
+    "Actual full157902568B parent ZIP extraction was not replayed locally; actualfive raw parent Originals were admitted by source caller, online fetch retains exact ZIP/hash/5-raw checks.",
+    "Fresh actualE17, committed80 used witness, fullouter recovery and all5 package gates remain root-owned runtime qualification."
+  ],
+  "manifest": {
+    "bytes": 2592755,
+    "sha256": "58f84988dfb7aaf063f1b00074bfe3c1d28dd917f6c4953bb7fe0f3de110b0c3"
+  },
+  "actual_new_Native": 0,
+  "actual_Auth_HTTP": 0,
+  "actual_browser": 0,
+  "actual_races": 0,
+  "independent_acceptance": false,
+  "production_go": false
+}

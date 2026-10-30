@@ -1,0 +1,125 @@
+{
+  "classification": "FROZEN_SOURCE_ONLY_NATIVE_ADJUSTMENT_JOURNAL_IDENTITY_SUCCESSOR_NOT_NATIVE_ACCEPTANCE",
+  "observed_at_UTC": "2026-10-30T00:44:31.928460+00:00",
+  "head": "7ce217a735daa88994a78c6d68bac5e4f6b79d20",
+  "tree": "6048f949cc7e0aed03ac8573fae942183433253b",
+  "parent": "923a9620d41f618fe72e9cd9181fcf7ddee3cf91",
+  "branch": "qualification/a-global-nonpo-adjustment-journal-20261030",
+  "worktree": "/workspace/scratch/ef468a447ac6/erp-attendance-zero",
+  "public_operational_base": "cde78b2cc82e0a286174098458dab9815fdfd072",
+  "private_author_Git_dependency": false,
+  "root_may_publish_same_tree_over_public_cde78": true,
+  "source": {
+    "bytes": 47198,
+    "sha256": "e62ffc26fc26a457d4123e444d1bc31af88fa506a4e88a4c1e34cc78d035ae1b"
+  },
+  "file_closure": {
+    "pins": 140,
+    "own_files": 76,
+    "frozen_public_parent_files": 65
+  },
+  "delta_vs_923": {
+    "added": 15,
+    "modified": 3,
+    "deleted": 0
+  },
+  "delta_vs_public_cde78": {
+    "added": 76,
+    "modified": 0,
+    "deleted": 0
+  },
+  "only_runtime_SQL_change": "One JOURNAL(source_type='MATERIAL_ADJUSTMENT',source_id) to ADJUSTMENT(source_id) edge.",
+  "unchanged": [
+    "capture.sql",
+    "inspect.sql",
+    "authority.sql",
+    "Native_G_predicates",
+    "all19knownNative_and_parent_function_bodies",
+    "original33test_bodies",
+    "identity18and162sensitivity_test_bodies",
+    "NativeSELECT4test_bodies",
+    "previous16source_control_bodies",
+    "all_existing_financial_functions_and_global_guards"
+  ],
+  "proof_result": "Confirmed prepared inspector identity/capture gap, not a demonstrated Native transaction bug. Retained602 Native original journal is account-only; BC guarantees ADJUSTMENT link, not JOURNAL. Exact known header DDL has no journal_entry_id; no pointer invented.",
+  "retained_actual_post_material_adjustment_definition": {
+    "bytes": 2639,
+    "sha256": "de207556f98b3aac44dd51fb50669b57652768fbdf2ed26ff04b362864ff9faa",
+    "executed": false,
+    "successful_run_prerequisite": false
+  },
+  "controls": {
+    "original_regression33": "PASS",
+    "previous_directed18": "PASS",
+    "previous_fields162": "PASS",
+    "previous_exact_Native_SELECT4": "PASS",
+    "existing16plus4source20": "PASS",
+    "new_directed5": "PASS",
+    "new_original_journal_field_sensitivity24": "PASS",
+    "source_check": "PASS_OWN_SCOPE_ONLY"
+  },
+  "initial_923_gap_retained": true,
+  "Native_commands_executed": 0,
+  "no_account_category_hubs": true,
+  "header_pointer_absence_scope": "Retained Native DDL/tracked source only, not installed-catalog acceptance.",
+  "closure_transition": {
+    "bytes": 1719,
+    "sha256": "f62f05c8bf885fc8335cb075d3228efb2346cfe43963a9d979b5eb5184b2cf79"
+  },
+  "source_proof": {
+    "bytes": 4711,
+    "sha256": "4ffc95b4a31f64e65aa4ac79539a1bb0918af03edca3b3d46ac9e310a9ded81b"
+  },
+  "raw_evidence": {
+    "scripts/current-global-nonpo-native-graph-qualification/evidence/ADJUSTMENT_FIRST_923_REPRO.json.gz": {
+      "bytes": 2187,
+      "sha256": "b2820f1756f71ff446441e98351229a1dda03d919fe8c7b58ee1605da68f209b"
+    },
+    "scripts/current-global-nonpo-native-graph-qualification/evidence/ADJUSTMENT_IDENTITY18_FIELDS162.json.gz": {
+      "bytes": 19705,
+      "sha256": "254549c71c404e5c7ea45cf2638be04deb18261aab775146a9b12b1845a82c40"
+    },
+    "scripts/current-global-nonpo-native-graph-qualification/evidence/ADJUSTMENT_LOCAL_CONTROLS_RECEIPT.json": {
+      "bytes": 4037,
+      "sha256": "78154b502dbb78d7537b6c9f575596b8934bbbc6576e10787ae08c9003558c24"
+    },
+    "scripts/current-global-nonpo-native-graph-qualification/evidence/ADJUSTMENT_NATIVE_SELECT4.json.gz": {
+      "bytes": 3027,
+      "sha256": "77ee3ce6eefd096f08881ff4d2c08f16700833b0a16046aaacbc99cf0e6336b6"
+    },
+    "scripts/current-global-nonpo-native-graph-qualification/evidence/ADJUSTMENT_NEW5_FIELDS24.json.gz": {
+      "bytes": 4781,
+      "sha256": "bb66e8fe151c5dab01f8de37575f2d7ae017a81a6216348fe1f9c5150dbc64ba"
+    },
+    "scripts/current-global-nonpo-native-graph-qualification/evidence/ADJUSTMENT_REGRESSION33.json.gz": {
+      "bytes": 6141,
+      "sha256": "2f097e6e4c9890f28c64d8b1d62d7b862da981d8646d51c360a6b1d768ad8824"
+    },
+    "scripts/current-global-nonpo-native-graph-qualification/evidence/ADJUSTMENT_SOURCE20.log.gz": {
+      "bytes": 924,
+      "sha256": "12b7eebdc849bd80e412ad486fb7dd6bbbc5bb0bf02f9890e37ab8cca5f5502d"
+    }
+  },
+  "whole_workspace_admitted": false,
+  "outside199_unstaged_and_observed_hashes_symlink_preserved": true,
+  "runtime_entry": null,
+  "required_final_composition_parent": null,
+  "writer_or_phantom_lock_closed": false,
+  "new_workflows": 0,
+  "new_roles": 0,
+  "new_public_RPC": 0,
+  "actual_Native": 0,
+  "actual_DB_server": 0,
+  "actual_Auth_HTTP": 0,
+  "actual_browser": 0,
+  "actual_races": 0,
+  "production_go": false,
+  "independent_acceptance": false,
+  "published": false,
+  "limits": [
+    "Source-only preparation. Final actual composition/Native table/role/trigger/FK/source profile and full writer/phantom lock census remain unqualified.",
+    "No Native dispatcher, economic posting, runtime eligibility, command-hook or global-guard modification.",
+    "Exact original material-adjustment journal identity is added; broader material/FIFO recost provenance is not claimed qualified by this slice.",
+    "Persisted SKU\u2192D1/E positive/inverse/relevant-denial qualification and all5/fullouter recovery remain root-owned future work."
+  ]
+}

@@ -1,0 +1,404 @@
+{
+  "contract": "internal.sku-managed-recovery-494.counter.v1",
+  "created_utc": "2026-10-30T00:25:59.933336+00:00",
+  "role": "INTERNAL_COUNTER_SOURCE_ONLY_NOT_EXTERNAL_INDEPENDENT_AUDIT",
+  "status": "NO_SOURCE_BLOCKER_FOUND_PREPARED_ONLY",
+  "pins": {
+    "product_head": "494fa87d70749ae36f25b816744984210ec52427",
+    "public_alias": "e8f878f2ecaaf24368a0ce1a3393bc29c0b886f6",
+    "tree": "abfa0d954db8d1dffb620e416789e699204bbfbb",
+    "parent": "602b4e642a0afbb1acdcfd858b9f403dc14ec336",
+    "parent_tree": "2b86a81b9f3b14ff1ca775825ac01bb96afaa50d",
+    "alias_tree_exact": true,
+    "Source_sha256": "b116e0cbbae3107e388977e00d8aebe3a95c056ac582a272a96818629984b47d"
+  },
+  "FIRST_LOCKED_CAUSAL_ASSESSMENT": {
+    "locked_before_candidate_source_review": true,
+    "lock_channel": "collaboration.send_message to /root before494 source inspection",
+    "source_pins": [
+      {
+        "path": "/workspace/scratch/ef468a447ac6/evidence-private/sku-602-all-member-native23-first-failure/CP7_SKU_ALL_MEMBER_NATIVE23.json",
+        "bytes": 5143295,
+        "sha256": "8564282e94e04aa9eb522b2c1657722e66eb1cdcdcc82be1a5f3648827e15ec7"
+      },
+      {
+        "path": "/workspace/scratch/ef468a447ac6/evidence-private/sku-602-all-member-native23-first-failure/CP7_SKU_GROUP_COST_NATIVE3.json",
+        "bytes": 13716,
+        "sha256": "f7310091e6962f9e6e61c37179d7a7c5e3f5cdf0598085555345d8fbb732f87e"
+      },
+      {
+        "path": "/workspace/scratch/ef468a447ac6/evidence-private/sku-602-all-member-native23-first-failure/CP7_SKU_PAIR_CONVERSION_NATIVE7.json",
+        "bytes": 20819,
+        "sha256": "4c3ff3f49908863eb4c959fd7a8c37d9d73e1b17f78ba73502b094b258a21166"
+      },
+      {
+        "path": "/workspace/scratch/ef468a447ac6/evidence-private/sku-602-all-member-native23-first-failure/ACTUAL_NATIVE_RCA_FUNCTIONS.json",
+        "bytes": 208216,
+        "sha256": "734abf6a13e0f5ac8ab21b5325366df1485cc0b960b951443ef937f7ae977b3e"
+      },
+      {
+        "path": "/workspace/scratch/ef468a447ac6/evidence-private/sku-602-all-member-native23-first-failure/SKU_COST_RECOVERY_OVER_FIRST_PART_REFUSAL_37fb87d4a2e1_FULL_CURRENT_CENSUS.json",
+        "bytes": 43056004,
+        "sha256": "1081c288694965278468de28ef65831909bf52dd5461e6d682a00a6ff0418fa0"
+      }
+    ],
+    "scenarios": [
+      {
+        "id": "actual602_first_refusal",
+        "expected": "The original overbudget recovery refuses without altering any current catalogue, row or sequence; Native first-child capacity and error remain strict.",
+        "observed": {
+          "outer_status": "INCOMPLETE",
+          "outer_error": "SKU_COMBINED_FRESH_NATIVE_GROUP_OR_BOUNDARY_FAILED",
+          "Native7_PASS": 7,
+          "Native_cost_PASS": 2,
+          "Native_cost_INCOMPLETE": 1,
+          "downstream_callbacks_not_reached": 13,
+          "failed_case": "SKU29_COST_GROUP_RETURN_OVER_FIRST_PART_SAFETY_REFUSAL_ONLY",
+          "first_serialized_error": "{'error': 'SKU_COST_CURRENT_CENSUS_CHANGED', 'label': 'RECOVERY_OVER_FIRST_PART_REFUSAL', 'catalog_groups': [], 'data_or_sequences': ['sequence:erp.audit_logs_id_seq'], 'raw': 'cp6-proof/t3/SKU_COST_RECOVERY_OVER_FIRST_PART_REFUSAL_37fb87d4a2e1_FULL_CURRENT_CENSUS.json'}",
+          "catalogue_and_other_data_keys_equal": true,
+          "audit_sequence_before": [
+            "1317",
+            true
+          ],
+          "audit_sequence_after": [
+            "1322",
+            true
+          ]
+        },
+        "source_refs": [
+          "scripts/current-sku-group-cost-qualification/cases.py:48-67",
+          "scripts/current-sku-group-cost-qualification/native_fixture.py:26-53",
+          "Original failed full census before/after"
+        ]
+      },
+      {
+        "id": "source_supported_cause",
+        "expected": "Move admission before first document/audit allocation while retaining every Native costing statement and original case oracle.",
+        "observed": "Captured bc_value_custody calls bc_new_document at32, posts adjustment35-36 and only then be_link_recovery37. Reconcile invokes Native propagation; source_hpp+allocation_extra/qty is assigned numeric(18,6) before its negative P0001 BE_RECOVERY_EXCEEDS_VALUE guard. The failed traceback reaches unchanged after the original refused helper, which already asserts P0001 and the error substring. The full nested financial error is not separately serialized in the failed case; no invented raw field is claimed. The audit sequence survives savepoint rollback.",
+        "source_refs": [
+          "ACTUAL_NATIVE_RCA_FUNCTIONS.json / erp.bc_value_custody_v1 lines32-37",
+          "ACTUAL_NATIVE_RCA_FUNCTIONS.json / erp.be_reconcile_cost_document_v1",
+          "ACTUAL_NATIVE_RCA_FUNCTIONS.json / erp.propagate_conversion_hpp_for_po lines9-11,46-47",
+          "ACTUAL_NATIVE_RCA_FUNCTIONS.json / erp.be_propagate_nonpo_v1 lines9-11,46-47"
+        ]
+      }
+    ]
+  },
+  "original_integrity": {
+    "archive": {
+      "path": "/workspace/scratch/ef468a447ac6/evidence-private/sku-602-all-member-native23-first-failure/ORIGINAL.zip",
+      "bytes": 27564211,
+      "sha256": "698b90b0bc3dfa52a8339d0b30464c2d98721594e56abdd53b07c959223f2bcc"
+    },
+    "all132_members_streamed_CRC_SHA_path_checked": true,
+    "total_uncompressed_bytes": 280080386,
+    "new_extraction_or_archive_copy": false,
+    "retained_independent_inventory": {
+      "path": "/workspace/scratch/ef468a447ac6/evidence-private/sku-602-all-member-native23-first-failure/INDEPENDENT_ORIGINAL_INVENTORY.json",
+      "bytes": 39658,
+      "sha256": "341c7ce085e3f4470c694f909206b8cecea30d48f6341288d20b56a99daa7f8a"
+    },
+    "actual_RCA": {
+      "path": "/workspace/scratch/ef468a447ac6/evidence-private/sku-602-all-member-native23-first-failure/ACTUAL_NATIVE_RCA_FUNCTIONS.json",
+      "bytes": 208216,
+      "sha256": "734abf6a13e0f5ac8ab21b5325366df1485cc0b960b951443ef937f7ae977b3e"
+    },
+    "actual_RCA_functions": 30
+  },
+  "source_scope": {
+    "base_files": 13710,
+    "other_base_files_byte_mode_exact": 13708,
+    "modified_base_files": [
+      "scripts/cp7_sku_pair_conversion/composition.py",
+      "scripts/cp7_sku_pair_conversion/README.md"
+    ],
+    "added_files": 28,
+    "total_delta_paths": 30,
+    "Source_files": 43,
+    "own_prefix_files_including_Source": 44,
+    "all_Source_hash_bytes_modes_match": true,
+    "all_original23_callback_sources_unchanged": true,
+    "old_Native_derivations": 6,
+    "new_exact_captures": 2,
+    "total_captures": 8,
+    "old_private_functions_unchanged": 15,
+    "new_private_helpers": 4,
+    "total_private_functions": 19,
+    "old_private_tables_unchanged": 5,
+    "new_public_RPC": 0
+  },
+  "actual_catalogue_proof": {
+    "two_new_capture_definitions_and_metadata_exact_before_and_after": true,
+    "Native_ABI_functions_exact": 19,
+    "HPP_columns_exact": 3,
+    "current_HPP_view_exact": true,
+    "unchanged_local_Native_witnesses_exact": 8,
+    "actual_RCA_functions_hash_bytes_and_catalogue_match": 30
+  },
+  "scenarios": [
+    {
+      "id": "before_first_effect_and_exact_reversal",
+      "expected": "Managed guard precedes first document; deleting only the declared inserted statements recovers exact originals; owner/ACL/config preserved.",
+      "observed": {
+        "custody_original_sha256": "b9c1c7029802414f42f1a38dadce84d3c08fb2132dd24ef56b2bed87add3776d",
+        "service_original_sha256": "6a4431e4d26e61dd3edf1cb5dc18aed407ce54ab49a673a410616aa828a2f644",
+        "custody_derived_sha256": "551d99a2260e02a144e7743135a3ae5a4453e86c46c23cad8757fae7f1aacee9",
+        "service_derived_sha256": "c87e0c1629fcb94e5d8ba2c0804f203ddfa5dad234350018553c3a49151e41fc",
+        "reversible": true,
+        "actual_original_metadata_rows_equal": true,
+        "prelude_idempotency_and_BC_context_have_no_captured_audit_triggers": true
+      },
+      "source_refs": [
+        "scripts/cp7_sku_pair_conversion/recovery_delta.py:8-10,24-42,50-69",
+        "scripts/cp7_sku_pair_conversion/recovery_before/erp.bc_value_custody_v1.sql:10-38",
+        "scripts/cp7_sku_pair_conversion/composition.py:53-55,105-122"
+      ]
+    },
+    {
+      "id": "exact_native_capacity",
+      "expected": "Use all current allocation extra and exact Native numeric assignments, rounding, epsilon and propagation scope; no group budget or Native cost rewrite.",
+      "observed": "recovery_graph uses numeric(18,6) source/desired/current; desired=source+(actual be_allocation_extra minus pending only for target conversion)/qty; same P0001 BE_RECOVERY_EXCEEDS_VALUE guard follows assignment. Pending alone uses round(qty*unit,2). Rewrites to virtual map only when Native epsilon permits; total numeric(24,6), stored generated HPP numeric(18,6). Baseline normal graph checked first. Native cost/GL/stock statements are untouched.",
+      "source_refs": [
+        "scripts/cp7_sku_pair_conversion/recovery.sql:24-28,64-99,236-239",
+        "Actual Native propagators:9-11,43-71",
+        "Actual _cp6_material_adjustment_revaluation_state:7-15"
+      ]
+    },
+    {
+      "id": "global_graph_descendants_orphans",
+      "expected": "Match all actual Native cursor roots, path/depth128, ordering, descendants and orphan predicates. Unvisited otherPO/VOIDED NULL must not refuse; visited NULL must refuse before effects.",
+      "observed": "PO production roots and NonPO nonconversion/nonvoid roots, POSTED joins, path anti-cycle, depth<128, ordered source depth/allocation id, all visited source/destination HPP domain, native post-traversal orphan predicates match. Existing targeted multi-allocation or ambiguous destinations conservatively require review. Unvisited HPP omitted from map; visited missing/NULL/nonfinite source refuses.",
+      "source_refs": [
+        "scripts/cp7_sku_pair_conversion/recovery.sql:30-63,66-122",
+        "Actual PO/NONPO propagators:22-99",
+        "scripts/cp7_sku_pair_conversion/recovery_local/check.mjs:106-139"
+      ]
+    },
+    {
+      "id": "material_profile",
+      "expected": "Support a useful conservative equal-cost profile and refuse unsupported profiles before effects; do not implement a replacement cost engine or blanket group denial.",
+      "observed": "Admission requires positive finite current average and stock, equal proposed unit, append after every movement, positive one-material purchase/adjustment inputs with exact current cost snapshots and history prefixes, cached stock and checkpoint consistency, no rolls/reversals/consumers/shared-material documents, no CATEGORY_MOVING_AVG snapshots and no incomplete queue. Prior actual BE costs on material are fully reconciled and same scope. The actual failed census has queue0 and one material movement/history/checkpoint; retained original fixture creates equal-cost30.03 positive purchase. Under/equal local controls are positive paths, not a universal rejection.",
+      "source_refs": [
+        "scripts/cp7_sku_pair_conversion/recovery.sql:168-235",
+        "scripts/current-sku-group-cost-qualification/cases.py:48-59",
+        "scripts/current-sku-group-cost-qualification/native_fixture.py:55-69",
+        "scripts/cp7_sku_pair_conversion/recovery_local/check.mjs:82-95,119-160"
+      ]
+    },
+    {
+      "id": "lock_order_and_phantoms",
+      "expected": "Keep Native BCLOT/material wait order, introduce no opposing blocking FG acquisition, freeze graph/material inputs including insertion phantoms, use deterministic NOWAIT facts and current period/category key.",
+      "observed": "Existing BCLOT/material locks remain in captured custody body before guard. Guard tries FG key, obtains SRE NOWAIT input barriers, current accounting-period row FOR SHARE NOWAIT and sorted fact row locks; catches lock_not_available as BUSY. Category key is try-only. Ordinary reads remain compatible. All new opposite-order acquisition points fail promptly before business writes. No sequence reset, GUC bypass or persistent permission grant in helper.",
+      "source_refs": [
+        "scripts/cp7_sku_pair_conversion/recovery_before/erp.bc_value_custody_v1.sql:14-31",
+        "Actual bc_lock_lot_v1:9-16",
+        "scripts/cp7_sku_pair_conversion/recovery.sql:130-167,182-185"
+      ]
+    },
+    {
+      "id": "current_auth_replay_and_wait",
+      "expected": "Current permission/owner/internal authority must be checked before and after idempotency wait and all added lock boundaries, before cached return.",
+      "observed": "Managed VALUE_CUSTODY authority calls bracket unchanged _idempotency_begin and precede cached return. Guard rechecks at entry, after table/row waits and after category try. Invalid/unmanaged input preserves old parser path. Authority role/permission switches are local explicit doubles, not real sessions.",
+      "source_refs": [
+        "scripts/cp7_sku_pair_conversion/recovery_delta.py:9-10,62-68",
+        "scripts/cp7_sku_pair_conversion/recovery.sql:10-22,130-131,166,185",
+        "scripts/cp7_sku_pair_conversion/recovery_local/check.mjs:90-94,161-167"
+      ]
+    },
+    {
+      "id": "closed_private_install_and_restore",
+      "expected": "Validate actual parent/catalogue before DDL; exact added4 helpers, old15/6 captures/5 tables, no public RPC/grant widening; preuse inverse and used guard preserved.",
+      "observed": "Parent verify runs before recovery.validate and DDL; all22 transition rejects undeclared mutations and preserves metadata of changed Native functions. All19 private functions postgres-owned, explicit search_path, exact volatility/security-definer profile and no execution/usage for browser/service/CP7 roles. Existing5 RLS tables and original15 SQL helper bodies unchanged. New8 captured definitions restore during preuse rollback; old full data/sequence used guard remains before inverse DDL.",
+      "source_refs": [
+        "scripts/cp7_sku_pair_conversion/composition.py:17-31,49-55,61-91,101-144",
+        "scripts/cp7_sku_pair_conversion/recovery_delta.py:24-42",
+        "scripts/cp7_sku_pair_conversion/pairs.sql (byteexact602)",
+        "scripts/cp7_sku_pair_conversion/conversion.sql (byteexact602)",
+        "scripts/cp7_sku_pair_conversion/native_delta.py (byteexact602)"
+      ]
+    },
+    {
+      "id": "prepared_source_and_evidence_claims",
+      "expected": "Source scope and first failures must be exact and local controls must not be represented as Native or a complete fresh outer qualifier.",
+      "observed": "Source43 matches every admitted own-prefix physical file and mode, with no unexpected own file; all13708 other602 base files/modes exact. New30 paths contain2 approved modifications and28 additions. Retained7 gzip evidence files decompress byteexact to602 evidence. source_check explicitly bounded PREPARED only; full successor must retain complete source/generated validation.45 retained local SQL cases and11 source metadata controls explicitly Native0/races0. Fresh Native27 is planned, not supplied by494.",
+      "source_refs": [
+        "scripts/current-sku-managed-recovery-preflight/SOURCE.json",
+        "scripts/current-sku-managed-recovery-preflight/source_check.py:10-37",
+        "scripts/current-sku-managed-recovery-preflight/README.md:50-73"
+      ]
+    }
+  ],
+  "immutable_source_pins": [
+    {
+      "path": "scripts/cp7_sku_pair_conversion/composition.py",
+      "bytes": 10252,
+      "sha256": "fa3e825b251252ae11c2b68eecd9e55562526b468f03a01ebc3d5213ed472be8"
+    },
+    {
+      "path": "scripts/cp7_sku_pair_conversion/recovery.sql",
+      "bytes": 18703,
+      "sha256": "584ce0ef6c9ac81a1c0550258c6a371557529e75f5789cff612116b09577fdd4"
+    },
+    {
+      "path": "scripts/cp7_sku_pair_conversion/recovery_delta.py",
+      "bytes": 3749,
+      "sha256": "8d4b4e56e497ca5160879f095b1f933cf00f3e858a377bc7da80f121c5dcd116"
+    },
+    {
+      "path": "scripts/cp7_sku_pair_conversion/recovery_profile.json",
+      "bytes": 6586,
+      "sha256": "6b577f806e6feefc17be7715624db6c2ff58430b2eadea0a5824975061a61327"
+    },
+    {
+      "path": "scripts/cp7_sku_pair_conversion/recovery_before/erp.bc_value_custody_v1.sql",
+      "bytes": 3433,
+      "sha256": "b9c1c7029802414f42f1a38dadce84d3c08fb2132dd24ef56b2bed87add3776d"
+    },
+    {
+      "path": "scripts/cp7_sku_pair_conversion/recovery_before/erp.save_accessory_service_action_v1.sql",
+      "bytes": 4996,
+      "sha256": "6a4431e4d26e61dd3edf1cb5dc18aed407ce54ab49a673a410616aa828a2f644"
+    },
+    {
+      "path": "scripts/cp7_sku_pair_conversion/recovery_local/NATIVE_PROFILE_CATALOG.json",
+      "bytes": 101985,
+      "sha256": "b5b69063125cbb2c6231282a47a92208f29fe80d566787ae0e56d24fcb26ee58"
+    },
+    {
+      "path": "scripts/cp7_sku_pair_conversion/recovery_local/NATIVE_UNCHANGED.json",
+      "bytes": 16587,
+      "sha256": "6ef13c7446a4b1c0510f6bf777a6a41cfa5b70e9330a7290a1e8b2eac9acec39"
+    },
+    {
+      "path": "scripts/cp7_sku_pair_conversion/recovery_local/check.mjs",
+      "bytes": 20148,
+      "sha256": "bbc6d07e1bc92f92734f32c6710b1672a1b951dfcada0ebcc7d39c1ffff680cb"
+    },
+    {
+      "path": "scripts/cp7_sku_pair_conversion/recovery_local/fixture.sql",
+      "bytes": 12172,
+      "sha256": "38b5c453acfdbb611c51fbd6a36fc6017f410d7eefc114306e8f3d6473b81d19"
+    },
+    {
+      "path": "scripts/cp7_sku_pair_conversion/test_recovery.py",
+      "bytes": 5457,
+      "sha256": "b478529fe466c26e270a59030105aaae3cd67cd3af737bbada10f71c4b782804"
+    },
+    {
+      "path": "scripts/current-sku-managed-recovery-preflight/SOURCE.json",
+      "bytes": 10212,
+      "sha256": "b116e0cbbae3107e388977e00d8aebe3a95c056ac582a272a96818629984b47d"
+    },
+    {
+      "path": "scripts/current-sku-managed-recovery-preflight/source_check.py",
+      "bytes": 2487,
+      "sha256": "3a690fc75030240f6292ef2a335977b5652c533ed65de0c5bd407e5a21a65767"
+    },
+    {
+      "path": "scripts/current-sku-managed-recovery-preflight/test_source.py",
+      "bytes": 945,
+      "sha256": "0ed514d21fedd467a4e986c0c9edd2d3babbe98e033731f0a1f5b5cb08da2527"
+    },
+    {
+      "path": "scripts/current-sku-managed-recovery-preflight/evidence/LOCAL_RECOVERY.json",
+      "bytes": 19228,
+      "sha256": "08aaac3350089fc98d499f83b7aa4546433e12d0dfac256b22c03afda0f38bd0"
+    }
+  ],
+  "controls": {
+    "reviewer_pure_in_memory_immutable_Python": {
+      "status": "PASS",
+      "count": 11,
+      "case_ids": [
+        "actual_catalog_profile_admitted",
+        "both_derivations_exact_reversible",
+        "reject_body",
+        "reject_owner",
+        "reject_acl",
+        "reject_math",
+        "reject_storage",
+        "reject_view",
+        "reject_capture_missing",
+        "reject_capture_extra",
+        "reject_capture_body"
+      ],
+      "method": "Compile immutable recovery_delta.py with a read-only GitPath byte reader, validate retained exact actual catalogue, independently remove declared guard/auth statements and reject body/owner/ACL/math/storage/view/capture set mutations; no filesystem source copies/import cache."
+    },
+    "retained_author_local_SQL": {
+      "status": "PASS",
+      "count": 45,
+      "receipt": {
+        "path": "scripts/current-sku-managed-recovery-preflight/evidence/LOCAL_RECOVERY.json",
+        "bytes": 19228,
+        "sha256": "08aaac3350089fc98d499f83b7aa4546433e12d0dfac256b22c03afda0f38bd0"
+      },
+      "proof_kind": "EXACT_CAPTURED_BC_SERVICE_AND_UNCHANGED_BE_HPP_WITH_DECLARED_LOCAL_DOUBLES",
+      "actual_Native_financial": 0,
+      "actual_two_session_races": 0,
+      "rerun_by_counter": false
+    },
+    "retained_author_source_metadata_count": 11
+  },
+  "readonly_commands": [
+    "GIT_NO_LAZY_FETCH=1 GIT_OPTIONAL_LOCKS=0 git rev-parse <494|e8f>^{tree}",
+    "GIT_NO_LAZY_FETCH=1 GIT_OPTIONAL_LOCKS=0 git diff --name-status 602b4e642a0afbb1acdcfd858b9f403dc14ec336 494fa87d70749ae36f25b816744984210ec52427",
+    "GIT_NO_LAZY_FETCH=1 GIT_OPTIONAL_LOCKS=0 git show <immutable494>:<scopedpath>",
+    "GIT_NO_LAZY_FETCH=1 GIT_OPTIONAL_LOCKS=0 python -B inline: ls-tree recursive full baseline mode/blob comparison, Source43 closed-prefix/hash/bytes/mode validation, actual-catalogue/RCA/profile and retained gzip comparisons",
+    "GIT_NO_LAZY_FETCH=1 GIT_OPTIONAL_LOCKS=0 python -B inline: immutable recovery_delta pure11 controls with in-memory GitPath",
+    "python -B inline: stream retained Original.zip132 members, CRC32/SHA256/size and safe nonduplicate nonsymlink member paths against retained inventory; no extraction"
+  ],
+  "original602_boundary": {
+    "status": "INCOMPLETE",
+    "error": "SKU_COMBINED_FRESH_NATIVE_GROUP_OR_BOUNDARY_FAILED",
+    "baseline_full22_all_rows_all_sequences_equal": true,
+    "cp6_restored": true,
+    "restore_components": {
+      "erp_platform_auth_schema_acl": true,
+      "all_public_catalog_members_and_row_hashes": true,
+      "erp_public_auth_function_definitions_owners_acls": true
+    },
+    "baseline_roles_exact": true,
+    "baseline_advisors_equal": true,
+    "advisor_gate": true,
+    "Auth_users_before": 0,
+    "Auth_users_after": 0,
+    "package_all_five_gates": {
+      "installed": true,
+      "primary_unchanged": true,
+      "backup_restore_drill": true,
+      "security_advisors": true,
+      "writer_runtime": false
+    },
+    "writer_runtime": {
+      "status": "INCOMPLETE",
+      "full_OW11_acceptance": false,
+      "production_go": false,
+      "independent_acceptance": false,
+      "schema_profile": "HOSTED_USAGE_UNCHANGED"
+    },
+    "outer_fresh_committed_used_guard": "NOT_REACHED_NOT_QUALIFIED"
+  },
+  "findings": [],
+  "blockers": [],
+  "remaining_actual_proof": [
+    "Fresh original23 unchanged plus separate under/equal capacity2 and actual busy/cache/permission wait2:27 planned IDs.",
+    "Exact current product.sources and producer/wholecaller source admission, full installed catalogue19 functions/8 captures/5 tables, and source-preserved full monetary oracles.",
+    "Actual two-session contention and permission-cache changes; local injected doubles do not prove these.",
+    "Fresh committed used witness and full22/allrows/allsequences/roles/CP6/Auth/advisors plus full outer backup restore and all5 mandatory package gates including writer_runtime=true."
+  ],
+  "limits": {
+    "actual_new_Native_financial": 0,
+    "reviewer_DB_server_executions": 0,
+    "reviewer_SQL_model_executions": 0,
+    "reviewer_Native_executions": 0,
+    "network_or_remote_calls": 0,
+    "source_edits_or_staging": 0,
+    "clones_or_temp_worktrees_or_tree_copies": 0,
+    "only_new_write": "This receipt under the explicitly assigned private evidence namespace.",
+    "active_SKU_and_frozen_midnight_c097_untouched": true
+  },
+  "formal_progress": "5/16 unchanged",
+  "production_go": false,
+  "independent_acceptance": false,
+  "external_independent_audit_claim": false
+}

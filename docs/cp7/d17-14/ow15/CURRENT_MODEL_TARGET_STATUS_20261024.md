@@ -1,3 +1,42 @@
+## A / 30 Oktober 2026 — E17 dan S03 diuji ulang; dua kegagalan S05 sudah dilacak
+
+E17 publik928246e5/run40980265302 dan S03 publik3c0c5def/run40983410165
+sedang berjalan. Keduanya belum diterima. E17 memakai17 callback asli dan
+witness committed terpisah; S03 menjalankan11 kasus lalu3 pembaca serta witness
+ALLOCATE. Sumber masing-masing361 dan475 pin diperiksa lengkap. Tiga temuan
+counter S03 ditutup sebelum publikasi: riwayat HPP/jurnal sesudah alokasi dibekukan
+sebelum cancel, hasil terikat HEAD aktual, dan kontrol symlink pulih persis.
+Tidak ada kelulusan Native baru dari tes lokal atau publikasi sumber ini.
+
+S05 publik52eedc88/run40969679183 selesai8 PASS dan2 INCOMPLETE, seluruh10
+dicoba. Witness committed terpisah belum tercapai. Pemulihan penuh serta empat
+gerbang paket lulus; writer_runtime=false. Dua penyebab fixture: format jam
+WIB pecahan ditolak parser Native dan pencabutan Owner terakhir ditolak guard.
+Perbaikan kualifikasi mempertahankan dua penolakan beserta semua sequence,
+kemudian memakai format detik yang didukung dan Owner cadangan yang sah.
+Parser/guard produk dan10 callback fisik lama tetap. Original114 anggota,
+lima raw exact serta seluruh242 pin diverifikasi; bukti di
+`../ow08/s05-52eed-current-ac-first-failure/`.
+
+SKU perbaikan awal prepared publike8f878f2 mempertahankan Native biaya/FIFO,
+menambah guard recovery sebelum audit dan akses terkini pada cache UUID.
+45 kontrol SQL memakai doubles; ini bukan Native. Pemeriksaan berikut menemukan
+baris bahan NONE dapat sudah ditahan FOR UPDATE tanpa ditolak barrier tabel.
+Perbaikan satu baris material NOWAIT sedang disiapkan sebelum full27 dijalankan;
+23 kasus lama tetap. Fungsi yang benar ialah bc_value_custody_v1 dan
+save_accessory_service_action_v1. Belum diadopsi pemasang bawaan.
+
+Browser4 sumber tertutup publikcbb20992 belum dijalankan. Pengganti lawful
+memakai helper S03 terbaru; satu catatan asal dokumen API yang tertinggal sedang
+dibetulkan. Uji tengah malam1 juga tetap tertutup sampai binding menuntut Source475
+aktual, bukan425 historis. Inspector global7ce baru membaca sumber tanpa menulis:
+dua celah identity telah ditutup, tetapi delapan hook runtime, tiga guard,
+barrier writer/phantom dan koeksistensi SKU→D1/E belum dikualifikasi.
+
+Formal5/16, production_go=false dan independent_acceptance=false. Pemasang
+bawaan, main, hosted serta penerimaan B tidak diubah. Checkpoint disimpan;
+pekerjaan yang sudah diotorisasi berlanjut.
+
 ## A / 30 Oktober 2026 — D1 lanjutan3 terverifikasi; recovery SKU gagal; S03 dan S05 diuji
 
 E17 publik8be4/run40955967062 mencapai17 skenario aktual:15 PASS dan2

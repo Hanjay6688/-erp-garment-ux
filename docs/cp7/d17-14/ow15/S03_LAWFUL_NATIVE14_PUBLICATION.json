@@ -1,0 +1,68 @@
+{
+  "repository": "Hanjay6688/-erp-garment-ux",
+  "branch": "astra-a/s03-lawful-fixture-native14-20261030",
+  "public_head": "3c0c5defe55e48cf6f221c868594dd6676d17170",
+  "tree": "ca20c918201b455ad09df489829b83b9e6afea95",
+  "parent": "9ac9c8bd1bfb7d64a1e735067083c68acbff02ef",
+  "local_head": "24b17ae349f5503963d009ba01459f11c0677e14",
+  "paths": 50,
+  "all_added": true,
+  "API_tree_equal_before_commit_and_ref": true,
+  "GET_commit_parent_tree_verified": true,
+  "GET_branch_ref_verified": true,
+  "blobs": [
+    {
+      "path": "scripts/current-s03-lawful-fixture-successor-qualification/ACTUAL9AC_ABI.json",
+      "sha": "6f98ac40135d6a45dae33b4103553c499a55ba13",
+      "bytes": 264506
+    },
+    {
+      "path": "scripts/current-s03-lawful-fixture-successor-qualification/SOURCE.json",
+      "sha": "dde61e7f153ff8d0e9ed742f800793c4034e629a",
+      "bytes": 106705
+    },
+    {
+      "path": "scripts/current-s03-lawful-fixture-successor-qualification/retained-9ac-first/CP7_S03_ATTENDANCE_CHOICE_NATIVE11_CASES.json.gz",
+      "sha": "a0c074aa73a40bddfb3261389c41706a24d4d00a",
+      "bytes": 4349
+    },
+    {
+      "path": "scripts/current-s03-lawful-fixture-successor-qualification/retained-9ac-first/CP7_S03_ATTENDANCE_CHOICE_NATIVE14.json.gz",
+      "sha": "a58d848498d165885dcede9f96d3ee8d4dd7d0d5",
+      "bytes": 2429899
+    },
+    {
+      "path": "scripts/current-s03-lawful-fixture-successor-qualification/retained-9ac-first/ORIGINAL.zip",
+      "sha": "2325fa344c36f833399e994f614517ce68966908",
+      "bytes": 4176290
+    },
+    {
+      "path": "scripts/current-s03-lawful-fixture-successor-qualification/retained-9ac-first/S03_NATIVE14_FINAL_GATE.json.gz",
+      "sha": "9dad7966da2c8a4311b93f4fdf138488ee350e09",
+      "bytes": 247
+    },
+    {
+      "path": "scripts/current-s03-lawful-fixture-successor-qualification/retained-9ac-first/T3_BACKUP_RESTORE_DRILL.json.gz",
+      "sha": "2bd102c92c7a6054c11fd6dfa46cf65204df77fd",
+      "bytes": 646
+    },
+    {
+      "path": "scripts/current-s03-lawful-fixture-successor-qualification/retained-9ac-first/T3_PACKAGE_FILES_INSTALL.json.gz",
+      "sha": "64d22046a49d6c28c30c5088714f77d087217a7e",
+      "bytes": 255
+    },
+    {
+      "path": "scripts/current-s03-lawful-fixture-successor-qualification/retained-9ac-first/T3_PACKAGE_INSTALL.json.gz",
+      "sha": "4ccf710bdf170e5cec18aff141b29de0a150daa4",
+      "bytes": 11406
+    }
+  ],
+  "Source": {
+    "files": 475,
+    "sha256": "ba59dee4ae71c62df2b2e35c558cb23a7c66254a974c554cc3d17d63b936c555"
+  },
+  "prepared_only": true,
+  "Native_result": "PENDING_CURRENT_RUN",
+  "production_go": false,
+  "independent_acceptance": false
+}

@@ -1,0 +1,341 @@
+{
+  "classification": "PREPARED_S03_LAWFUL_FIXTURE_NATIVE14_REVIEW_CANDIDATE_NOT_ACTUAL_NATIVE_PASS",
+  "status": "FROZEN_PREPARED_SOURCE_LOCAL_CONTROLS_COMPLETE_NATIVE0",
+  "head": "24b17ae349f5503963d009ba01459f11c0677e14",
+  "tree": "ca20c918201b455ad09df489829b83b9e6afea95",
+  "source_base": "9ac9c8bd1bfb7d64a1e735067083c68acbff02ef",
+  "source_base_is_successful_prerequisite": false,
+  "branch": "qualification/a-s03-lawful-fixture-successor-20261030",
+  "root_execution_branch": "astra-a/s03-lawful-fixture-native14-20261030",
+  "workflow": ".github/workflows/cp7-s03-lawful-fixture-native14.yml",
+  "workflow_name": "CP7 A S03 lawful fixture successor Native11 then Reader3",
+  "owned_paths": {
+    ".github/workflows/cp7-s03-lawful-fixture-native14.yml": {
+      "bytes": 29525,
+      "sha256": "ffd357cfb04d2108d932885dba172ffb132fc832468c49fe54af7915a7b37673",
+      "mode": "100644"
+    },
+    "scripts/current-s03-lawful-fixture-successor-qualification/ACTUAL9AC_ABI.json": {
+      "bytes": 264506,
+      "sha256": "a88a2320a244dfcad886075fcae0539d520d1f85c5e067ec78abfa4ecf1c6a18",
+      "mode": "100644"
+    },
+    "scripts/current-s03-lawful-fixture-successor-qualification/CALLBACK_CHANGES.json": {
+      "bytes": 5060,
+      "sha256": "92cf7781fb331fc7c9d5c2cf67526b14671b8aad08594f144644e68aa83b7a75",
+      "mode": "100644"
+    },
+    "scripts/current-s03-lawful-fixture-successor-qualification/CONFIG.json": {
+      "bytes": 2414,
+      "sha256": "4c93094960a2aea45152d9a9cbbdb1cdfad83fa633777316cccb7a21c5ec1748",
+      "mode": "100644"
+    },
+    "scripts/current-s03-lawful-fixture-successor-qualification/FIXTURE_API.md": {
+      "bytes": 4110,
+      "sha256": "2ca0eb2d1ea3019b637de96659b40e96748a1c94e7d3e297f6ab8fd4335204cd",
+      "mode": "100644"
+    },
+    "scripts/current-s03-lawful-fixture-successor-qualification/GENERATED_RECEIPTS.json": {
+      "bytes": 57338,
+      "sha256": "6f42964fb0ba7923b3ac1b7ecfc1af03640df42477e1d5dd9ffe6e03381e8faa",
+      "mode": "100644"
+    },
+    "scripts/current-s03-lawful-fixture-successor-qualification/LATER_GENERATED_RECEIPTS.json": {
+      "bytes": 28028,
+      "sha256": "adc1fda3c9be29f57b36d09d8dcb5c4cc7957234c97595ed39393ed39a57dc51",
+      "mode": "100644"
+    },
+    "scripts/current-s03-lawful-fixture-successor-qualification/README.md": {
+      "bytes": 7234,
+      "sha256": "d06366dae5ab38cd39126f19e89a9de875701d74e55a6f99b47b6dff08b7222e",
+      "mode": "100644"
+    },
+    "scripts/current-s03-lawful-fixture-successor-qualification/SOURCE.json": {
+      "bytes": 106705,
+      "sha256": "ba59dee4ae71c62df2b2e35c558cb23a7c66254a974c554cc3d17d63b936c555",
+      "mode": "100644"
+    },
+    "scripts/current-s03-lawful-fixture-successor-qualification/admission.py": {
+      "bytes": 1444,
+      "sha256": "25a9cc50ea44b9aa921bc82bd380178ddcbf345a6f017bd73993dcb9f8187349",
+      "mode": "100644"
+    },
+    "scripts/current-s03-lawful-fixture-successor-qualification/business.py": {
+      "bytes": 4461,
+      "sha256": "c10e9b9e2138fd0e0bfd4e165e1e5f96cc2e13f8560159314e1bd576e8e33f6d",
+      "mode": "100644"
+    },
+    "scripts/current-s03-lawful-fixture-successor-qualification/check.py": {
+      "bytes": 879,
+      "sha256": "b5f7831ecdfccd8daa3946eee727558ef6ef0cb49f8c982526ff6a23830d152c",
+      "mode": "100644"
+    },
+    "scripts/current-s03-lawful-fixture-successor-qualification/derive.py": {
+      "bytes": 4322,
+      "sha256": "af75c90b9ab0e1ddd2298e299f165ea08e840162709050cd6ae492c47ec019cb",
+      "mode": "100644"
+    },
+    "scripts/current-s03-lawful-fixture-successor-qualification/evidence/CANCEL_HISTORY_FIRST2_FAILURE.log": {
+      "bytes": 2045,
+      "sha256": "75e69176b05a849dbc2889efa97ed89f3624405768af0c0c421269e750507091",
+      "mode": "100644"
+    },
+    "scripts/current-s03-lawful-fixture-successor-qualification/evidence/LOCAL_COUNTER_REPAIRED48.log": {
+      "bytes": 8604,
+      "sha256": "49f01e254d58229de155c1c3d82b1b9aeb21bbaf6c410d541f10b906656eb16b",
+      "mode": "100644"
+    },
+    "scripts/current-s03-lawful-fixture-successor-qualification/evidence/LOCAL_FIRST13_RECEIPT.json": {
+      "bytes": 669,
+      "sha256": "d78cd6daca4588199ae0af799962131be8352b81e3e43637308812de9a978115",
+      "mode": "100644"
+    },
+    "scripts/current-s03-lawful-fixture-successor-qualification/evidence/LOCAL_FIRST39_CLI_TEST_PREMISE_RECEIPT.json": {
+      "bytes": 511,
+      "sha256": "b87200f6f81883869fe6087e5e156eaf34b13c3debea26980214f37f10ba60d9",
+      "mode": "100644"
+    },
+    "scripts/current-s03-lawful-fixture-successor-qualification/evidence/LOCAL_FIRST_SQL_SETUP_FAILURE.log": {
+      "bytes": 1221,
+      "sha256": "88baaf6a4be164763fca3fdd540321764065217a35b4f199922888fc8d7872fc",
+      "mode": "100644"
+    },
+    "scripts/current-s03-lawful-fixture-successor-qualification/evidence/LOCAL_SECOND13_PASS.log": {
+      "bytes": 2354,
+      "sha256": "35f654862b0df5ab27ccc9283425a7ac39582994099edf415ddad34b1f63d8dd",
+      "mode": "100644"
+    },
+    "scripts/current-s03-lawful-fixture-successor-qualification/evidence/LOCAL_SECOND39.log": {
+      "bytes": 6916,
+      "sha256": "301a709661d0263599d6c17cb376aa40fcb7bbf6ccb9159c5dd77026ee08351e",
+      "mode": "100644"
+    },
+    "scripts/current-s03-lawful-fixture-successor-qualification/evidence/LOCAL_SECOND_SQL_ENCODING_FAILURE_RECEIPT.json": {
+      "bytes": 580,
+      "sha256": "ba05d6b5bbcc9f0ae04ccce268f427b8b9052c7bec8fa81cee9476f831f1dee8",
+      "mode": "100644"
+    },
+    "scripts/current-s03-lawful-fixture-successor-qualification/evidence/LOCAL_THIRD_SQL.log": {
+      "bytes": 1140,
+      "sha256": "e6b4731593996f764776b566442268167b8a48aee191ca1aa121a11ecf536d0a",
+      "mode": "100644"
+    },
+    "scripts/current-s03-lawful-fixture-successor-qualification/gate.py": {
+      "bytes": 1709,
+      "sha256": "d9878c4023cecdfd6925a0d02766b7516b6fd45d15e0aca5b0e8aed69166e2a0",
+      "mode": "100644"
+    },
+    "scripts/current-s03-lawful-fixture-successor-qualification/lawful_fixture.py": {
+      "bytes": 18312,
+      "sha256": "d8c991189c480033adf711002077062f459f0005bc7f682b10db1be754febd7f",
+      "mode": "100644"
+    },
+    "scripts/current-s03-lawful-fixture-successor-qualification/local_readonly_caller.py": {
+      "bytes": 5741,
+      "sha256": "2c8524b02b31be2d3e190d3a6d7630f5afe477ec0794f182228baa0a50a427df",
+      "mode": "100644"
+    },
+    "scripts/current-s03-lawful-fixture-successor-qualification/local_sql_controls.mjs": {
+      "bytes": 12129,
+      "sha256": "6493263a55e8db3f6c09510ed1eac64b55024dd684e071c16dc53ffd54962545",
+      "mode": "100644"
+    },
+    "scripts/current-s03-lawful-fixture-successor-qualification/native_runner.py": {
+      "bytes": 1803,
+      "sha256": "aad4e6cd05ed71bd8b852fca4378baa3aaa8f1d3ad8b3777b2d0e9f23407df6d",
+      "mode": "100644"
+    },
+    "scripts/current-s03-lawful-fixture-successor-qualification/negative.py": {
+      "bytes": 4627,
+      "sha256": "bb9c3b927f1d6f5b956c2f66c825cc9922c83df2c7676d7e3a5eeb067b444b6b",
+      "mode": "100644"
+    },
+    "scripts/current-s03-lawful-fixture-successor-qualification/probe.py": {
+      "bytes": 1427,
+      "sha256": "71e6fde8f582403fb5fa4c1bb4ae5398c57e0142096542c0bfb250d5e4a3f559",
+      "mode": "100644"
+    },
+    "scripts/current-s03-lawful-fixture-successor-qualification/reader_group.py": {
+      "bytes": 1156,
+      "sha256": "446605c06d5df8b02847431d1b770a81626856404a9daec5505bc4770f576a2b",
+      "mode": "100644"
+    },
+    "scripts/current-s03-lawful-fixture-successor-qualification/result_gate.py": {
+      "bytes": 4365,
+      "sha256": "48a1fb821734301b806110b8c152904d098ef83a07e8925a2bc6bee7835eac54",
+      "mode": "100644"
+    },
+    "scripts/current-s03-lawful-fixture-successor-qualification/retain_reports.py": {
+      "bytes": 527,
+      "sha256": "17f241c09a90c2c7a43c17e4bef8a6289aef64b34fdbf7289a520bfaf603dbe8",
+      "mode": "100644"
+    },
+    "scripts/current-s03-lawful-fixture-successor-qualification/retained-9ac-first/CP7_S03_ATTENDANCE_CHOICE_NATIVE11_CASES.json.gz": {
+      "bytes": 4349,
+      "sha256": "b13d6399b09aa4a29d6bd4940a701d112d62bed2e657bf4b509f5dc3987cc9f5",
+      "mode": "100644"
+    },
+    "scripts/current-s03-lawful-fixture-successor-qualification/retained-9ac-first/CP7_S03_ATTENDANCE_CHOICE_NATIVE14.json.gz": {
+      "bytes": 2429899,
+      "sha256": "316deae155842e813a1742afc226b768ae4c4efaeab868d5215bca31e47a0d27",
+      "mode": "100644"
+    },
+    "scripts/current-s03-lawful-fixture-successor-qualification/retained-9ac-first/FIRST_LOCKED_CAUSAL_ASSESSMENT.json": {
+      "bytes": 15111,
+      "sha256": "10672b74af6aded38278f4193a846011296c9b7eec6e5a6d8985b6cbf6c911e1",
+      "mode": "100644"
+    },
+    "scripts/current-s03-lawful-fixture-successor-qualification/retained-9ac-first/MANIFEST.json": {
+      "bytes": 2236,
+      "sha256": "6d6f5eb62e7775409d57daa620f0dbaef0cdcf5ee906887bc30e65603768922a",
+      "mode": "100644"
+    },
+    "scripts/current-s03-lawful-fixture-successor-qualification/retained-9ac-first/ORIGINAL.zip": {
+      "bytes": 4176290,
+      "sha256": "90e6cc9eed6f5c33bb5902df2dc2ba43a0f4f408b9e3ddcf9d2fd7ad633b9a05",
+      "mode": "100644"
+    },
+    "scripts/current-s03-lawful-fixture-successor-qualification/retained-9ac-first/S03_NATIVE14_FINAL_GATE.json.gz": {
+      "bytes": 247,
+      "sha256": "299eccce8385cb9aae47a06f83b07be562d3e5df4119e0f318f3a6d4139e57ca",
+      "mode": "100644"
+    },
+    "scripts/current-s03-lawful-fixture-successor-qualification/retained-9ac-first/T3_BACKUP_RESTORE_DRILL.json.gz": {
+      "bytes": 646,
+      "sha256": "d2c11fe976f542c44296b72f325c5db81589392eb93353728b406f7d60611aa2",
+      "mode": "100644"
+    },
+    "scripts/current-s03-lawful-fixture-successor-qualification/retained-9ac-first/T3_PACKAGE_FILES_INSTALL.json.gz": {
+      "bytes": 255,
+      "sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7",
+      "mode": "100644"
+    },
+    "scripts/current-s03-lawful-fixture-successor-qualification/retained-9ac-first/T3_PACKAGE_INSTALL.json.gz": {
+      "bytes": 11406,
+      "sha256": "016a7f2a712024d8fb09ce8a406549064ce77df28aa643e2c250d64abdbf362b",
+      "mode": "100644"
+    },
+    "scripts/current-s03-lawful-fixture-successor-qualification/seal.py": {
+      "bytes": 2586,
+      "sha256": "3a55aa1bec617cde5f1f549f70c82c0460fdaca1b80381d2a5c3f78686d70c6d",
+      "mode": "100644"
+    },
+    "scripts/current-s03-lawful-fixture-successor-qualification/source_check.py": {
+      "bytes": 6965,
+      "sha256": "d26daf0316c52a08e50b96a3647323f5cd50f2c76e183725ac03ebbd4f816def",
+      "mode": "100644"
+    },
+    "scripts/current-s03-lawful-fixture-successor-qualification/test_cancel_history.py": {
+      "bytes": 4889,
+      "sha256": "a5ec4e0fe41de7c4fbbb2079e9dea6ded07c1a1d4d50eba87045047949e62694",
+      "mode": "100644"
+    },
+    "scripts/current-s03-lawful-fixture-successor-qualification/test_fault_restore.py": {
+      "bytes": 2463,
+      "sha256": "1b5254ca94d0687080b4e44607185ab579c9f8616c3c5d7d1c0d4434fa2e0afe",
+      "mode": "100644"
+    },
+    "scripts/current-s03-lawful-fixture-successor-qualification/test_framework.py": {
+      "bytes": 9290,
+      "sha256": "6ef344defbaff39983c14188bf102f11b30a1866ad70a32c703fad713fcd323b",
+      "mode": "100644"
+    },
+    "scripts/current-s03-lawful-fixture-successor-qualification/test_generated_context.py": {
+      "bytes": 2966,
+      "sha256": "b002ab0906c607453cd6f10cb060710f3a203f6d18531e081a6787eb0b0c9fe5",
+      "mode": "100644"
+    },
+    "scripts/current-s03-lawful-fixture-successor-qualification/test_lawful.py": {
+      "bytes": 15900,
+      "sha256": "dc826d1cdecda55a09308d796277af943cda888aefd9a6eca5b94e2406d179bc",
+      "mode": "100644"
+    },
+    "scripts/current-s03-lawful-fixture-successor-qualification/whole_caller_matrix.py": {
+      "bytes": 7258,
+      "sha256": "55c55166943c27d34581a5491bd02a3e4d93d72bcdcc54083cb2b991f9216434",
+      "mode": "100644"
+    },
+    "scripts/current-s03-lawful-fixture-successor-qualification/workflow.py": {
+      "bytes": 1331,
+      "sha256": "25587b7d70ba0f08971ad029f053118cc2263e2739d3b84bb82a5b4b79db693d",
+      "mode": "100644"
+    }
+  },
+  "source": {
+    "path": "scripts/current-s03-lawful-fixture-successor-qualification/SOURCE.json",
+    "files": 475,
+    "bytes": 106705,
+    "sha256": "ba59dee4ae71c62df2b2e35c558cb23a7c66254a974c554cc3d17d63b936c555"
+  },
+  "fixture_API": {
+    "path": "scripts/current-s03-lawful-fixture-successor-qualification/lawful_fixture.py",
+    "bytes": 18312,
+    "sha256": "d8c991189c480033adf711002077062f459f0005bc7f682b10db1be754febd7f"
+  },
+  "callback_manifest": {
+    "path": "scripts/current-s03-lawful-fixture-successor-qualification/CALLBACK_CHANGES.json",
+    "bytes": 5060,
+    "sha256": "92cf7781fb331fc7c9d5c2cf67526b14671b8aad08594f144644e68aa83b7a75"
+  },
+  "unchanged_runtime_files": {
+    "scripts/cp7_attendance_period_choice/choice.sql": "44499c6d6a06d1effc2be4f066168f5fa2fe9608b2ccb80d1d2d0b1dac0a8212",
+    "scripts/cp7_attendance_period_choice/readers.sql": "4ab82ff58033f4357251930504e6e9e75ecce9d8f1cc5b4e10f689940ce749e2",
+    "scripts/cp7_attendance_period_choice/native_delta.py": "a49242327798a59407739c2999fcf92408aeef9d88a1ae94fccc82bd189ac9ce",
+    "scripts/cp7_attendance_period_choice/catalog_contract.py": "f312de61b3c75087a51d7df712896627c02bb5d6473803bf6d2c90ad506d7c64",
+    "scripts/cp7_attendance_period_choice/NEW_CATALOG_IDENTITIES.json": "e49e4cb9c794d6ed98b831ae318e6d3c401a110d420cf932ee7011f7c971a578",
+    "scripts/cp7_attendance_period_choice/composition.py": "51b3d53dccd69688438287bee338e7a86a37afe57aa963cc2dee24b2e43470f1",
+    "scripts/cp7_attendance_period_choice/installer_ddl.py": "e002ea2dd938fef5913c76974909f70de8bcb47874b7fd958c0aeef0e2993514"
+  },
+  "financial_product_edits": 0,
+  "captures": 15,
+  "clones": 2,
+  "fresh_group_plan": [
+    11,
+    3
+  ],
+  "actual_Native_cases": 0,
+  "actual_Auth_HTTP_cases": 0,
+  "actual_browser_cases": 0,
+  "old_Native11_callbacks_physical_sha256": "15fe990cccb82ff4c1dcd9ca40dc17fe93ac26a3a359a37361e6d8780b1f16e2",
+  "runtime_adapted_callbacks": [
+    "S03_NATIVE_P2_PAYROLL_POOL_COEXIST_AND_POLICY_FENCES",
+    "S03_NATIVE_BOTH_CORRECTIONS_LINKED_INVERSES_NO_RECOGNITION",
+    "S03_NATIVE_FINISHED_PO_FG_COGS_COST_AND_CANCEL_EXACT"
+  ],
+  "runtime_eight_callbacks_exact": true,
+  "old_eleven_runtime_callbacks_byte_exact": false,
+  "Reader3_private_helper_bindings": 1,
+  "used_ALLOCATE_witness_unchanged": true,
+  "local_python_tests": 48,
+  "local_PGlite_controls": 7,
+  "local_PGlite_is_whole_Native": false,
+  "qualifier_matrix_expected_controls": 11,
+  "qualifier_matrix_path": "/workspace/scratch/ef468a447ac6/evidence-private/s03-lawful-fixture-source-study/whole-caller-matrix-final/MATRIX.json",
+  "root_sole_publisher": true,
+  "production_go": false,
+  "independent_acceptance": false,
+  "full_current_real_source_and_Originals": true,
+  "full_wholecaller_controls": 11,
+  "wholecaller_matrix": {
+    "path": "/workspace/scratch/ef468a447ac6/evidence-private/s03-lawful-fixture-source-study/whole-caller-matrix-final/MATRIX.json",
+    "bytes": 14039,
+    "sha256": "6ee4a7aaa4d894b43d9a4b7ab025065183ca81d126e60957995e4acce3f1de54"
+  },
+  "physical_source_snapshot": {
+    "path": "/workspace/scratch/ef468a447ac6/evidence-private/s03-lawful-fixture-source-study/FINAL_MATERIALIZED_GIT_SNAPSHOT.json",
+    "bytes": 2453834,
+    "sha256": "10329c134f28b04420e8d70a6fc29783fb6ce02285f905076b512270e10f9fa2"
+  },
+  "actual_source_cwd": "/workspace/scratch/ef468a447ac6/erp-s03-lawful-source-check",
+  "actual_source_argv_runtime": [
+    "/workspace/scratch/ef468a447ac6/erp-s03-lawful-source-check/scripts/current-s03-lawful-fixture-successor-qualification/check.py",
+    "--runtime"
+  ],
+  "actual_source_argv_probe": [
+    "/workspace/scratch/ef468a447ac6/erp-s03-lawful-source-check/scripts/current-s03-lawful-fixture-successor-qualification/probe.py",
+    "--check"
+  ],
+  "DB_network_non_readonly_process_attempts": 0,
+  "unknown_export_reappearance_in_sparse_candidate": 0,
+  "full_outer_Native_qualification_still_required": true
+}
