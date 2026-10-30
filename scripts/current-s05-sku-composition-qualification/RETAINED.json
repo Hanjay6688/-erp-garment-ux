@@ -1,0 +1,43 @@
+{
+  "head": "519d1760a3bad06a346b3d4b3cc0203664615634",
+  "tree": "15ccd8c9b5eb796724cfb39e3b4c8415f9c952bf",
+  "copied_source_bytes_unchanged": true,
+  "files": {
+    "scripts/current-s05-native10-qualification/component.py": {
+      "bytes": 10136,
+      "sha256": "c699ad2f5c7a7dbdad40ad7803ceaec066945c56a3ca125ad0d6aabe5574207a"
+    },
+    "scripts/current-s05-lawful-master-dates-qualification/factory.py": {
+      "bytes": 1886,
+      "sha256": "18eecbcf22f09ead60907ac5ded52bd54a1385cf7d74bad3b1ce25726730cc46"
+    },
+    "scripts/current-s05-lawful-master-dates-qualification/recipe.py": {
+      "bytes": 7956,
+      "sha256": "0740c5e18470d8fe2fcd9115887b63e7804fad12a6ab4213840f539bccf07262"
+    },
+    "scripts/current-s05-lawful-master-dates-qualification/native-premise/save_accessory_bom_edit.sql": {
+      "bytes": 4222,
+      "sha256": "c64ea9d49be0dd994a0a7bbadef142a3ad74f2e2aed6d924d1cbdf2d87ed5fd0"
+    },
+    "scripts/current-s05-current-ac-editor-qualification/factory.py": {
+      "bytes": 1271,
+      "sha256": "bc87a2125ebd1e0733618a81a17792f22be9ee566ec7d5b19445eab4b822276a"
+    },
+    "scripts/current-s05-current-ac-editor-qualification/recipe.py": {
+      "bytes": 1021,
+      "sha256": "772d7ef9a019ca353f5d592284145438be30c4dac633b7f4f9035d7e451cba34"
+    },
+    "scripts/current-s05-current-ac-editor-qualification/binding.py": {
+      "bytes": 4936,
+      "sha256": "bf150d30539f7c23f1d75c12c428191acf1c0cc79f6679a6d11b2d41d84c70b9"
+    },
+    "scripts/current-s05-wib-owner-fixture-successor-qualification/factory.py": {
+      "bytes": 1903,
+      "sha256": "e49ae4cc9a98cdb7643f35ffdbc366df45156c2857d575079042c37aa72774a1"
+    },
+    "scripts/current-s05-wib-owner-fixture-successor-qualification/fixture_adapter.py": {
+      "bytes": 8499,
+      "sha256": "219e8e064a21f09917a6f5bc8fe2cf80f9d8a49b0c6867931a86aa687ed499da"
+    }
+  }
+}
