@@ -1,0 +1,37 @@
+{
+  "classification": "PREPARED_P0_CURRENT_IDENTITY_BINDING_NOT_GLOBAL_ACCEPTANCE",
+  "old_source_review": {
+    "path": "evidence-private/global-dynamic-current/REVIEW.json",
+    "bytes": 302694,
+    "sha256": "30c448baaba7e0b7727a0422678e7ff7051648de0e37e2b1e0601fc1fabc916b",
+    "records": 35,
+    "P0_records": 3,
+    "added_positive_functions": 31,
+    "added_positive_relations": 2,
+    "old_catalogue_is_not_current_identity": true
+  },
+  "current_capture": {
+    "new_SQL_queries": 0,
+    "functions_selected_from_existing_routines_group": 6,
+    "relations_selected_from_existing_relations_group": 2,
+    "owner_roles_selected_from_existing_roles_group": true,
+    "complete_selected_rows_retained": true,
+    "same_original_readonly_snapshot": true
+  },
+  "controls": {
+    "positive": 1,
+    "negative": 13,
+    "actual_SQL_executed": 0,
+    "actual_ERP_calls": 0,
+    "actual_Native_case_credit": 0
+  },
+  "unresolved": [
+    "EFFECTIVE_EXECUTION_AUTHORITY",
+    "AUTHORITY_AFTER_WAITS",
+    "DOWNSTREAM_SOURCE_AND_DYNAMIC_REACHABILITY",
+    "INSERTION_PHANTOMS_AND_EXISTING_LOCK_HOLDERS",
+    "WRITER_AND_FOREIGN_KEY_CLOSURE"
+  ],
+  "production_go": false,
+  "independent_acceptance": false
+}

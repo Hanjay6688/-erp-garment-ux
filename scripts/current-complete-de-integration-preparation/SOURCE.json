@@ -167,6 +167,18 @@
       "bytes": 1342,
       "sha256": "5c01ca75523dc9816be1676692b7e24ba385900d9fc16053993b594a0618bd25"
     },
+    "scripts/current-complete-de-integration-preparation/P0_DEPENDENCIES.json": {
+      "bytes": 1679,
+      "sha256": "48e1d6fe410cce19ab5756594fe27d11bca189aee5878d72ae060427c48249c6"
+    },
+    "scripts/current-complete-de-integration-preparation/P0_DEPENDENCY_CONTROLS.json": {
+      "bytes": 697,
+      "sha256": "408c7d4d0395de619b49ee00df05b825d0e75ed0d7ac236f56d7c2d97f20f75c"
+    },
+    "scripts/current-complete-de-integration-preparation/P0_DEPENDENCY_SOURCE.json": {
+      "bytes": 1207,
+      "sha256": "af430157d5b150c291f6fd1c59523f8b4b140164d487ecb8a891150da06dffcf"
+    },
     "scripts/current-complete-de-integration-preparation/README.md": {
       "bytes": 7261,
       "sha256": "e2e70460b415d6f5fcbcbeccda7a800c2f8bde6515f8ce613fdb9eadadbe5e01"
@@ -243,6 +255,14 @@
       "bytes": 5829,
       "sha256": "7b58e59ae50ed235167e399ace67d06ed2d5305fbb8bf0607ab989c98a3f2d98"
     },
+    "scripts/current-complete-de-integration-preparation/p0_dependencies.py": {
+      "bytes": 3905,
+      "sha256": "e8bab96303cb902d810139a7bf60bf371357560a7fa7eee87aa327cfc98ea820"
+    },
+    "scripts/current-complete-de-integration-preparation/p0_dependency_controls.py": {
+      "bytes": 3845,
+      "sha256": "fc3c71af3ad16280c630aa34ee8efef2bf68a6ba08bcd9b3b838d6955d167e6f"
+    },
     "scripts/current-complete-de-integration-preparation/probe.py": {
       "bytes": 3566,
       "sha256": "45e2f0e68afba297698dbddad842a9f7b7e61dbf507d864ebb2a95ceab26ad32"
@@ -280,8 +300,8 @@
       "sha256": "ed29060678bae2f8b56c220c632bb1b58c44771f652fe821a1f9c2eeb5ab7e02"
     },
     "scripts/current-complete-de-integration-preparation/system_metadata.py": {
-      "bytes": 2791,
-      "sha256": "82b68051b740ad4ab49be974ecad724a34f1b2519322b3c017b34fc16632cc9c"
+      "bytes": 2955,
+      "sha256": "a56d64daa23f59c873e9177fc9cf2dbfe68473615dd4baa88fa2a560c583904b"
     },
     "scripts/current-complete-de-integration-preparation/test_lifecycle.py": {
       "bytes": 11628,

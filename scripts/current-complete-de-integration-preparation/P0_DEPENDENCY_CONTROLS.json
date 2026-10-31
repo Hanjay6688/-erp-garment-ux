@@ -1,0 +1,28 @@
+{
+  "status": "PASS_P0_IDENTITY_SELECTION_NOT_AUTHORITY_OR_LOCK_CLOSURE",
+  "positive_controls": 1,
+  "negative_controls": [
+    "missing-function",
+    "duplicate-function",
+    "wrong-function-schema",
+    "wrong-function-kind",
+    "wrong-security-mode",
+    "wrong-volatility",
+    "boolean-function-oid",
+    "missing-relation",
+    "duplicate-relation",
+    "wrong-relation-kind",
+    "temporary-relation",
+    "missing-owner",
+    "empty-owner-name"
+  ],
+  "functions": 6,
+  "relations": 2,
+  "owner_roles": 1,
+  "full_rows_retained": true,
+  "actual_SQL_executed": 0,
+  "actual_ERP_calls": 0,
+  "actual_Native_case_credit": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

@@ -1,0 +1,28 @@
+{
+  "classification": "READONLY_P0_DYNAMIC_DEPENDENCY_IDENTITIES_NOT_AUTHORITY_OR_LOCK_CLOSURE",
+  "functions": {
+    "cp7_credit.assert_current_materialized_profile(uuid,uuid,uuid)": {"schema": "cp7_credit", "security_definer": true, "volatility": "s"},
+    "ow04_source_proposal.locked_source_family(uuid)": {"schema": "ow04_source_proposal", "security_definer": true, "volatility": "v"},
+    "ow04_source_proposal.verify_return_member_v1(uuid)": {"schema": "ow04_source_proposal", "security_definer": true, "volatility": "s"},
+    "cp7_credit.assert_current_source_plan_profile(uuid,uuid,uuid,jsonb)": {"schema": "cp7_credit", "security_definer": true, "volatility": "s"},
+    "cp7_credit.assert_financial_materialization_provenance(jsonb)": {"schema": "cp7_credit", "security_definer": true, "volatility": "s"},
+    "ow04_source_proposal.sale_absence_fact_v1(uuid)": {"schema": "ow04_source_proposal", "security_definer": false, "volatility": "s"}
+  },
+  "relations": {
+    "cp7_credit.return_families": {"schema": "cp7_credit", "name": "return_families", "kind": "r", "persistence": "p"},
+    "cp7_credit.return_family_members": {"schema": "cp7_credit", "name": "return_family_members", "kind": "r", "persistence": "p"}
+  },
+  "source_review": {
+    "review_sha256": "30c448baaba7e0b7727a0422678e7ff7051648de0e37e2b1e0601fc1fabc916b",
+    "dynamic_review_records": 35,
+    "P0_records": 3,
+    "old_catalogue_is_not_current_identity": true
+  },
+  "unresolved": [
+    "EFFECTIVE_EXECUTION_AUTHORITY",
+    "AUTHORITY_AFTER_WAITS",
+    "DOWNSTREAM_SOURCE_AND_DYNAMIC_REACHABILITY",
+    "INSERTION_PHANTOMS_AND_EXISTING_LOCK_HOLDERS",
+    "WRITER_AND_FOREIGN_KEY_CLOSURE"
+  ]
+}

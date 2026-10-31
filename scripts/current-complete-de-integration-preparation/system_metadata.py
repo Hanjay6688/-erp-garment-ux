@@ -43,6 +43,8 @@ def capture_pair(url):
                 base['execution_oid_supplement']=identities.capture(cursor,base)
                 dispatch=load('complete_DE_additive_dispatch_oid_metadata',HERE/'dispatch_oids.py')
                 base['dispatch_oid_supplement']=dispatch.capture(cursor,base)
+                p0=load('complete_DE_P0_dynamic_dependency_identities',HERE/'p0_dependencies.py')
+                base['P0_dependency_supplement']=p0.capture(base)
                 return base
             result['snapshots'][kind]=original.one(psycopg,target,observe)
         except psycopg.Error as error:
