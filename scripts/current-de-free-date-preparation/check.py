@@ -42,6 +42,30 @@ def controls():
     if signature in set(d1.CHANGED)|set(e.CHANGED):raise ValueError('FREE_DATE_DE_EXISTING_D1_E_SIGNATURE_OVERLAP')
     admission=load('free_date_DE_actual_root_receipt_gate',HERE/'admission.py')
     product=load('free_date_DE_current_whole_composition',ROOT/'scripts/cp7_current_de_free_date/composition.py')
+    native=load('free_date_DE_prepared_Native3_source',HERE/'native_free.py')
+    native_source=native.source_controls()
+    engine=load('free_date_DE_whole_original_package_engine',HERE/'engine.py').derive(
+        (ROOT/'scripts/current-vendor-receivable-qualification/probe.py').read_bytes())[1]
+    fetch=load('free_date_DE_exact_canonical_parent_fetcher',HERE/'fetch_parent.py')
+    _,fetch_source=fetch.derive()
+    workflow=load('free_date_DE_reviewable_workflow_data',HERE/'workflow.py').source_control()
+    policy=load('free_date_DE_original_real_WIB_policy',
+        ROOT/'scripts/current-sku-managed-recovery-native27-qualification/attempt_policy.py')
+    if policy.JOB_BUDGET_SECONDS!=workflow['job_minutes']*60:
+        raise ValueError('FREE_DATE_WORKFLOW_AND_ACTUAL_WIB_BUDGET_MUST_MATCH')
+    monitor=ast.parse((ROOT/'scripts/current-complete-de-integration-preparation/runtime_note.py').read_bytes())
+    functions={n.name for n in monitor.body if isinstance(n,ast.FunctionDef)};calls=[]
+    for name in('component.py','probe.py'):
+        raw=(HERE/name).read_bytes();compile(raw,str(HERE/name),'exec')
+        for node in ast.walk(ast.parse(raw)):
+            if(isinstance(node,ast.Call)and isinstance(node.func,ast.Attribute)
+               and isinstance(node.func.value,ast.Name)and node.func.value.id=='monitor'):
+                key=node.func.attr
+                if key not in functions or len(node.args)!=(1 if key=='phase'else 0):
+                    raise ValueError('FREE_DATE_ACTUAL_DIAGNOSTIC_CALLER_API_REQUIRED')
+                calls.append([name,key,len(node.args)])
+    probe=load('free_date_DE_owning_runtime_pending_control',HERE/'probe.py')
+    final=load('free_date_DE_owning_final_gate_pending_control',HERE/'final_gate.py')
     closed=[]
     operations=(('parent_receipt',admission.parent_receipt),('whole_source_admission',admission.admitted),
         ('stage_parent_before_ERP',stage.parent),('stage_install_before_ERP_or_SQL',lambda:stage.install_delta(None,{})),
@@ -50,7 +74,11 @@ def controls():
         ('delta_install_before_ERP_or_SQL',lambda:product.install_delta(None,{})),
         ('whole_verify_before_ERP_or_SQL',lambda:product.verify(None,{})),
         ('delta_inverse_before_ERP_or_SQL',lambda:product.rollback_delta_preuse(None,{})),
-        ('full_inverse_before_ERP_or_SQL',lambda:product.rollback_preuse(None,{})))
+        ('full_inverse_before_ERP_or_SQL',lambda:product.rollback_preuse(None,{})),
+        ('Native3_binding_before_ERP_or_SQL',lambda:native.bind({})),
+        ('owning_runtime_before_ERP_or_SQL',probe.runtime),
+        ('canonical_DE30_fetch_before_any_GET',fetch.main),
+        ('final_gate_before_any_report_file',lambda:final.gate(HERE/'ABSENT_REPORT_DIRECTORY','NOT_A_HEAD')))
     for name,operation in operations:
         try:operation()
         except ValueError as error:
@@ -62,6 +90,9 @@ def controls():
         original_SQL_and_lifecycle_statements_unchanged=True,Native_predicate_before_bytes=749,
         Native_predicate_after_bytes=822,predicate_derivation=predicate,
         D1_E_changed_signature_overlap=False,closed_before_ERP_or_SQL=closed,
+        prepared_Native3_source=native_source,
+        whole_original_package_engine_derivation=engine,canonical_DE30_fetch_derivation=fetch_source,
+        owning_workflow_data_only=workflow,actual_diagnostic_API_source_calls=calls,
         reused_isolated_date_SQL_controls=39,actual_new_SQL_executed=0,actual_Native_cases=0,
         GOOD_eligibility_policy_decided=False,production_go=False,independent_acceptance=False)
 

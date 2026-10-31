@@ -31,3 +31,41 @@ history still require the owning disposable qualification.
 This changes no category, rate, recipient, GOOD eligibility-clock decision,
 paid companion, wage, reimbursement, journal or posted row. The broader Afui
 positive-HPP/zero-reimbursement, GOOD and recost questions remain open.
+
+`native_free.py` prepares three new cases for a future owning disposable run.
+The first checks inclusive WIB boundaries under four session timezones and
+reads the normal public note form. The second posts one FREE line on the final
+valid day, checks stock, inventory cost, zero receivable/cash and exact replay.
+The third reads that posted document after its eligibility period and requires
+the original price, provenance, stock and GL to remain unchanged. All posting
+times are on the real supplied WIB business day minus one, without changing
+the product clock. The original active fixture Owner must already exist; the
+cases do not promote users or change roles, permissions or guard functions.
+
+The existing BC fixture, public commands and strict runner remain byte exact.
+Only disposable, rolled-back fixture policy/category values are configured.
+The posting contains one FREE line, no paid companion and no PO/FG match.
+The exact actual Native30 parent receipt is required before importing ERP or
+binding these cases. No cases have run and no owning workflow is activated.
+An actual refusal must remain a first failure; it is not converted into a
+positive result by modifying an economic policy or the original Native engine.
+
+The prepared owning caller retains the complete original installation,
+preuse inverse/reinstall, committed-use refusal, whole backup/restore, roles,
+Auth, CP6, advisors and all five package gates. Its extra engine changes only
+label the actual DE parent and declare three new cases with zero fresh credit
+for the retained DE30. The canonical parent fetcher keeps all original terminal
+run/job, archive size/SHA/CRC/path/member and main-byte checks through twenty
+reversible date routes. A reviewable `native3.workflow.yml.txt` preserves 68
+of the 74 parent step dictionaries and routes six to this qualification; the
+unchanged real 210-minute WIB guard and single-attempt policy remain intact.
+The workflow is data only. Neither a workflow file nor a runtime branch update
+has been activated. The final gate checks the original raw three-case report,
+actual stock/account values, replay/history equality, committed-use raw full22
+and ALL rows/sequences, backup restoration and the five actual package gates.
+Each new case also owns an inner rollback boundary and retains its actual
+complete22 catalog, ALL table rows and ALL sequences before/after; the original
+strict runner's outer savepoint, CP6/public and session checks remain unchanged.
+A sequence change that cannot roll back is a failure, and an original business
+exception survives the cleanup. Local synthetic gate/boundary controls carry
+zero Native, SQL or business acceptance credit.
