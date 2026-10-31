@@ -15,8 +15,8 @@
       "sha256": "23b325fd9b7876a3f6cd993267feb5fe97516334ade5bc12034ba453a5be4b4f"
     },
     "scripts/cp7_complete_credit_de/composition.py": {
-      "bytes": 7547,
-      "sha256": "e25bcbcbf03a0d7cd4df3486776b5d3c0ba42d7b956131d0ba3c940caff013a1"
+      "bytes": 7567,
+      "sha256": "be83bdd60bbc5c268dd69d832768df7518a118dd041cc351e7151580b515296b"
     },
     "scripts/cp7_credit_correction_de/__init__.py": {
       "bytes": 91,

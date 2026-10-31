@@ -84,7 +84,7 @@ def verify(cur,state):
        or state['preuse_data_and_sequences']!=state['E']['preuse_data_and_sequences']
        or complete.binding(catalog,state['complete_parent'])!=state['complete_parent']['component_binding']):
         raise ValueError('COMPLETE_CREDIT_DE_ACTUAL_STATE_CHAIN_CHANGED')
-    if state['binding']!=binding(catalog,state):raise ValueError('COMPLETE_CREDIT_DE_BOUNDARY_BINDING_CHANGED')
+    if state['component_binding']!=binding(catalog,state):raise ValueError('COMPLETE_CREDIT_DE_BOUNDARY_BINDING_CHANGED')
     if raw_authority(cur,state['raw_existing_function_authority'])!=state['raw_existing_function_authority']:
         raise ValueError('COMPLETE_CREDIT_DE_EXISTING_OID_OWNER_OR_RAW_ACL_CHANGED')
     top=e.verify(cur,state['E'])
@@ -117,7 +117,7 @@ def install_delta(cur,qualified_complete_parent):
             before=qualified_complete_parent['after'],after=second['after'],
             preinstall_data_and_sequences=qualified_complete_parent['preinstall_data_and_sequences'],
             preuse_data_and_sequences=second['preuse_data_and_sequences'])
-        state['binding']=binding(catalog,state);verify(cur,state);return state
+        state['component_binding']=binding(catalog,state);verify(cur,state);return state
 
 
 def rollback_delta_preuse(cur,state):

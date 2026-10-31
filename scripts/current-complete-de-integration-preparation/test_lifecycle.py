@@ -68,7 +68,7 @@ class Lifecycle(unittest.TestCase):
             raw_existing_function_authority=deepcopy(cur.raw),preinstall_data_and_sequences={'MODEL_BASE':True},
             preuse_data_and_sequences=deepcopy(data2))
         with patch.object(product,'parts',return_value=(complete,d1,e)):
-            state['binding']=product.binding(catalog,state)
+            state['component_binding']=product.binding(catalog,state)
         return cur,state,catalog,base,complete,d1,e,original
 
     def inverse(self,values):
