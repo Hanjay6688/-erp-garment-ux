@@ -50,7 +50,7 @@ def main():
     if os.environ.get('FREE_DATE_CONFIRM')!='cp6_rollback':
         raise ValueError('FREE_DATE_EXPLICIT_DISPOSABLE_CONFIRMATION_REQUIRED')
     attempts=load('free_date_original_real_WIB_single_attempt',
-        ROOT/'scripts/current-sku-managed-recovery-native27-qualification/attempt_policy.py')
+        HERE/'attempt_policy.py')
     monitor=load('free_date_original_runtime_diagnostics',
         ROOT/'scripts/current-complete-de-integration-preparation/runtime_note.py')
     with monitor.monitor(),monitor.phase('FREE_DATE_SOURCE_ADMISSION_AND_WHOLE_PACKAGE_RUNTIME'):

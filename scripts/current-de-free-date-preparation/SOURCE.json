@@ -47,13 +47,21 @@
       "bytes": 7934,
       "sha256": "4f76de39386159836243ca7b8425de302dab28c234051459c3c7f8dac80b67d1"
     },
+    "scripts/current-de-free-date-preparation/SUPERVISION_INTEGRATION_CONTROLS.json": {
+      "bytes": 844,
+      "sha256": "35628a30d1ab7ffa46fae83c2667864cc642708120d6ecd02bfa579bf694681f"
+    },
     "scripts/current-de-free-date-preparation/admission.py": {
       "bytes": 3622,
       "sha256": "d50d42e788cf76534458a2bdc939944af6000748b590cc51860c067d8f57de26"
     },
+    "scripts/current-de-free-date-preparation/attempt_policy.py": {
+      "bytes": 2209,
+      "sha256": "5076f5ddb63b8c6b677c6141253d25734b295721aa8d483f116abc6ecd0136f8"
+    },
     "scripts/current-de-free-date-preparation/check.py": {
-      "bytes": 7379,
-      "sha256": "1518e61df23303473611ed2a1b5cceb1d6dfaf1d73b12165677881fded4f40a1"
+      "bytes": 7472,
+      "sha256": "eba2755139471a32d83c125f08b21ef2d9d4e69cc72404df6d16eef47f9643b0"
     },
     "scripts/current-de-free-date-preparation/component.py": {
       "bytes": 10169,
@@ -68,20 +76,32 @@
       "sha256": "2504e6960b15411c0c6ef82929ca3a17899e697568b6423e6284ce06ca65e35f"
     },
     "scripts/current-de-free-date-preparation/final_gate.py": {
-      "bytes": 14543,
-      "sha256": "76f77079586b34468e3ea9e749bd371a674306d60398d5a7e76b7b8f2b38d22d"
+      "bytes": 14789,
+      "sha256": "5f349f9d08181ffa5bbb82a17423309a537010c93635fca3fca04f9b7ccc01c4"
     },
     "scripts/current-de-free-date-preparation/native3.workflow.yml.txt": {
-      "bytes": 33343,
-      "sha256": "46d81671926cff9faf3e49fbc883d8112f7372f2572b082c61dd2797d8b5f1df"
+      "bytes": 33741,
+      "sha256": "a77b83f9a5430355fa517e1766a855fb7673b437f413bd77b8ee4d0602f23977"
     },
     "scripts/current-de-free-date-preparation/native_free.py": {
       "bytes": 15045,
       "sha256": "804cd2862a426e11c883f7252c553059af7fdc919cb8a2de8fa3ee0917326575"
     },
     "scripts/current-de-free-date-preparation/probe.py": {
-      "bytes": 3737,
-      "sha256": "ac7e03bc5fb8c06820eb2fc8dec8c1baf5fd95f4fa8f522ea40bf3dd7f224354"
+      "bytes": 3677,
+      "sha256": "60d6fcf58f14a56814b2db09300480333708579e037329b58fc863da1ec190b2"
+    },
+    "scripts/current-de-free-date-preparation/retained_de_workflow.py": {
+      "bytes": 6369,
+      "sha256": "598b8b148504c79b2e0f7d43b314d5df2a209ab07a97359c731b3b07ae5acc07"
+    },
+    "scripts/current-de-free-date-preparation/runtime_controls.py": {
+      "bytes": 2735,
+      "sha256": "9841343a30c5046036e3323bc0a4df392df62b7468de72da6caaef02813062d4"
+    },
+    "scripts/current-de-free-date-preparation/runtime_supervisor.py": {
+      "bytes": 8914,
+      "sha256": "af04570b8aecef5d7b0c9b1dfd5ab04942aec32fee8c2fdb908663108c97e149"
     },
     "scripts/current-de-free-date-preparation/source.py": {
       "bytes": 4324,
@@ -91,9 +111,13 @@
       "bytes": 13683,
       "sha256": "6395f72cf536c7567b0accdab8104dc059ce706fe2bdc49ac1f612d93e108b41"
     },
+    "scripts/current-de-free-date-preparation/test_runtime_integration.py": {
+      "bytes": 6514,
+      "sha256": "1a1f0cb71d962954caec581ecfb62401eb2e0fbc24bac040240b9536cf2c89f4"
+    },
     "scripts/current-de-free-date-preparation/workflow.py": {
-      "bytes": 5141,
-      "sha256": "ebed082de947195edb036bbecc2c1e5cf89eda7cd708bd4d86eeb466bf308d47"
+      "bytes": 6251,
+      "sha256": "68779810dce660e1571e6e468dfdcf992d0e0255739b23c751569754d74b0edf"
     },
     "scripts/current-special-free-date-boundary/ACTUAL_REFERENCE.json": {
       "bytes": 1417,

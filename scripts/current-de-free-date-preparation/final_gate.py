@@ -93,6 +93,8 @@ def gate(directory,head):
     ids=source['case_ids']
     main=p.strict((directory/MAIN).read_bytes());raw=p.strict((directory/RAW).read_bytes())
     package=p.strict((directory/'T3_PACKAGE_INSTALL.json').read_bytes())
+    supervised=load('free_date_own_process_supervision',HERE/'runtime_controls.py').receipt(p,
+        p.strict((directory/'FREE_DATE_RUNTIME_SUPERVISION.json').read_bytes()),head,package['run_identity']['run_id'])
     backup=p.strict((directory/'T3_BACKUP_RESTORE_DRILL.json').read_bytes())
     return validate(p,main,raw,package,backup,ids,head)
 
@@ -198,7 +200,7 @@ def validate(p,main,raw,package,backup,ids,head):
     p.exact(backup['data']['differ'],{},'FREE_DATE_BACKUP_NO_ROW_DIFFERENCE')
     return dict(status='CURRENT_COMPLETE_DE_FREE_DATE_NATIVE3_AND_ALL5_PASS',head=head,actual_fresh_cases=3,
         actual_browser_cases=0,actual_Auth_HTTP_cases=0,actual_two_session_races=0,
-        retained_DE30_fresh_case_credit=0,GOOD_eligibility_policy_decided=False,
+        retained_DE30_fresh_case_credit=0,GOOD_eligibility_policy_decided=False,runtime_supervision=supervised,
         Afui_GOOD_nonpayable_path_complete=False,global_writer_or_permission_or_lock_closure=False,
         production_go=False,independent_acceptance=False)
 

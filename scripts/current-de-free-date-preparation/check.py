@@ -50,9 +50,10 @@ def controls():
     _,fetch_source=fetch.derive()
     workflow=load('free_date_DE_reviewable_workflow_data',HERE/'workflow.py').source_control()
     policy=load('free_date_DE_original_real_WIB_policy',
-        ROOT/'scripts/current-sku-managed-recovery-native27-qualification/attempt_policy.py')
+        HERE/'attempt_policy.py')
     if policy.JOB_BUDGET_SECONDS!=workflow['job_minutes']*60:
         raise ValueError('FREE_DATE_WORKFLOW_AND_ACTUAL_WIB_BUDGET_MUST_MATCH')
+    supervision=load('free_date_exact_process_supervision',HERE/'runtime_controls.py').source_controls()
     monitor=ast.parse((ROOT/'scripts/current-complete-de-integration-preparation/runtime_note.py').read_bytes())
     functions={n.name for n in monitor.body if isinstance(n,ast.FunctionDef)};calls=[]
     for name in('component.py','probe.py'):
@@ -93,6 +94,7 @@ def controls():
         prepared_Native3_source=native_source,
         whole_original_package_engine_derivation=engine,canonical_DE30_fetch_derivation=fetch_source,
         owning_workflow_data_only=workflow,actual_diagnostic_API_source_calls=calls,
+        runtime_supervision_source=supervision,
         reused_isolated_date_SQL_controls=39,actual_new_SQL_executed=0,actual_Native_cases=0,
         GOOD_eligibility_policy_decided=False,production_go=False,independent_acceptance=False)
 

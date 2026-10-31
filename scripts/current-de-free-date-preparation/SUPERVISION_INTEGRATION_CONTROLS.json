@@ -1,0 +1,22 @@
+{
+  "status": "FREE_DATE_SUPERVISION_NEW_WIRING_CONTROLS_PASS",
+  "command": "python -B -m unittest discover -s scripts/current-de-free-date-preparation -p test_runtime_integration.py -v",
+  "tests": 4,
+  "failures": 0,
+  "exit_code": 0,
+  "receipt_positive": 1,
+  "receipt_negative_controls": 39,
+  "unchanged_process_engine_and_real_WIB_policy": true,
+  "retained_workflow_generator_exact_commit": "927ee03213a80e854fda30779d824c5c617644bd",
+  "workflow_source_is_not_actual_parent_acceptance": true,
+  "generated_workflow_steps": 75,
+  "routed_parent_steps": 9,
+  "unchanged_parent_steps": 66,
+  "log_receipt_python_compiles": true,
+  "old_process_controls_reused": 10,
+  "old_FREE_SQL_and_audit_sequence_tests_reused": true,
+  "actual_SQL_executed": 0,
+  "actual_ERP_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

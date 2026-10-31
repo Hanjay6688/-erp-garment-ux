@@ -10,7 +10,7 @@ NS='scripts/current-de-free-date-preparation/'
 WORKFLOW='.github/workflows/cp7-current-complete-de-free-date-native3.yml'
 BRANCH='astra-a/current-complete-de-free-date-native3-20261101'
 TEMPLATE='native3.workflow.yml.txt'
-ROUTED=(61,62,63,68,71,73)
+ROUTED=(0,2,62,63,64,69,72,73,74)
 
 
 def load(name,path):
@@ -20,49 +20,63 @@ def load(name,path):
 
 def derive():
     import yaml
-    raw,prior=load('free_date_exact_DE_workflow_data',
-        ROOT/'scripts/current-complete-de-integration-preparation/workflow.py').derive()
+    load('free_date_exact_retained_supervised_DE_source',HERE/'runtime_controls.py').source_controls()
+    raw,prior=load('free_date_exact_DE_workflow_data',HERE/'retained_de_workflow.py').derive()
     original=yaml.safe_load(raw);value=deepcopy(original)
-    if set(value['jobs'])!={'p21'}or len(value['jobs']['p21']['steps'])!=74:
-        raise ValueError('FREE_DATE_EXACT_PARENT_74_STEP_WORKFLOW_REQUIRED')
+    if set(value['jobs'])!={'p21'}or len(value['jobs']['p21']['steps'])!=75:
+        raise ValueError('FREE_DATE_EXACT_SUPERVISED_DE_75_STEP_WORKFLOW_REQUIRED')
     value['name']='CP7 A current complete DE FREE date Native3'
     value['on']['push']=dict(branches=[BRANCH],paths=[WORKFLOW,NS+'**',
         'scripts/current-special-free-date-boundary/**','scripts/cp7_special_free_date_on_de/**',
         'scripts/cp7_current_de_free_date/**'])
-    value['concurrency']['group']='cp7-current-complete-de-free-date3-${{ github.run_id }}'
+    value['concurrency']['group']='cp7-current-complete-de-free-date3-single-owning-qualification'
     job=value['jobs']['p21'];job['name']='Native FREE date3; real posting and complete restoration'
     job['if']="github.ref == 'refs/heads/"+BRANCH+"'"
     job['env'].pop('COMPLETE_DE_CONFIRM');job['env']['FREE_DATE_CONFIRM']='cp6_rollback'
     steps=job['steps']
-    steps[61]=dict(name='Fetch canonical terminal DE30 root intake and original archive before database',
+    if steps[0]['run'].count('DE_JOB_START_MONOTONIC')!=1:
+        raise ValueError('FREE_DATE_EXACT_PROCESS_CLOCK_ROUTE_REQUIRED')
+    steps[0]['name']='Record monotonic FREE date job start before setup and admission'
+    steps[0]['run']=steps[0]['run'].replace('DE_JOB_START_MONOTONIC','FREE_DATE_JOB_START_MONOTONIC',1)
+    steps[2]['run']='python -B '+NS+'attempt_policy.py --require-window\n'
+    steps[62]=dict(name='Fetch canonical terminal DE30 root intake and original archive before database',
         **{'working-directory':'auditor'},env={'GH_TOKEN':'${{ github.token }}'},
         run='python -B '+NS+'fetch_parent.py\n')
-    steps[62]=dict(name='Check Native FREE3 sources and pending-parent controls before database',
+    steps[63]=dict(name='Check Native FREE3 sources and pending-parent controls before database',
         **{'working-directory':'auditor'},
         run='set -euo pipefail\npython -B '+NS+'check.py --source\n')
-    steps[63]=dict(name='Admit complete DE FREE date source graph under database network fence',
+    steps[64]=dict(name='Admit complete DE FREE date source graph under database network fence',
         **{'working-directory':'auditor'},
-        run='python -B '+NS+'probe.py --check\npython -B scripts/current-sku-managed-recovery-native27-qualification/attempt_policy.py --require-window\n')
-    steps[68]=dict(name='Run Native FREE date3 and complete outer restoration',
+        run='python -B '+NS+'probe.py --check\npython -B '+NS+'attempt_policy.py --require-window\n')
+    steps[69]=dict(name='Run Native FREE date3 and complete outer restoration',
         **{'working-directory':'writer'},
-        run="python -u -B '../auditor/"+NS+"probe.py' --runtime\npython -B '../auditor/"+NS+"final_gate.py'\n")
+        run="python -u -B '../auditor/"+NS+"runtime_supervisor.py'\npython -B '../auditor/"+NS+"final_gate.py'\n")
     for before,after in(('CP7_CURRENT_COMPLETE_D1_E_NATIVE30','CP7_CURRENT_COMPLETE_DE_FREE_DATE_NATIVE3'),
                          ('DE30_FINAL_GATE','FREE_DATE_FINAL_GATE'),
                          ('PERMANENT6_PARENT_ORIGINAL_ADMISSION','DE30_PARENT_ORIGINAL_ADMISSION')):
-        if before not in steps[71]['run']or after in steps[71]['run']:
+        if before not in steps[72]['run']or after in steps[72]['run']:
             raise ValueError('FREE_DATE_EXACT_PARENT_LOG_RECEIPT_ROUTE_REQUIRED:'+before)
-        steps[71]['run']=steps[71]['run'].replace(before,after)
-    steps[73]['with']['name']='cp7-current-complete-de-free-date-native3-${{ github.run_attempt }}'
+        steps[72]['run']=steps[72]['run'].replace(before,after)
+    if steps[72]['run'].count('for name in (')!=1:
+        raise ValueError('FREE_DATE_EXACT_RAW_SUPERVISION_RETENTION_ROUTE_REQUIRED')
+    steps[72]['run']=steps[72]['run'].replace('for name in (',"for name in ('FREE_DATE_RUNTIME_SUPERVISION.json',",1)
+    previous='current-complete-de-integration-preparation/runtime_supervisor.py'
+    if steps[73]['run'].count(previous)!=1:
+        raise ValueError('FREE_DATE_EXACT_DATABASE_STOP_GUARD_ROUTE_REQUIRED')
+    steps[73]['run']=steps[73]['run'].replace(previous,NS+'runtime_supervisor.py',1)
+    steps[74]['with']['name']='cp7-current-complete-de-free-date-native3-${{ github.run_attempt }}'
     before=original['jobs']['p21']['steps']
-    if [i for i in range(74)if steps[i]!=before[i]]!=list(ROUTED):
-        raise ValueError('FREE_DATE_ONLY_SIX_PARENT_WORKFLOW_STEPS_MAY_ROUTE')
-    if job['timeout-minutes']!=210 or steps[1]!=before[1]:
-        raise ValueError('FREE_DATE_UNCHANGED_REAL_210_MINUTE_GUARD_REQUIRED')
+    if [i for i in range(75)if steps[i]!=before[i]]!=list(ROUTED):
+        raise ValueError('FREE_DATE_ONLY_NINE_SUPERVISED_WORKFLOW_STEPS_MAY_ROUTE')
+    if job['timeout-minutes']!=360 or steps[1]!=before[1]:
+        raise ValueError('FREE_DATE_REAL_360_MINUTE_GUARD_AND_CHECKOUT_REQUIRED')
     text=yaml.safe_dump(value,sort_keys=False,allow_unicode=True)
     if yaml.safe_load(text)!=value:raise ValueError('FREE_DATE_WORKFLOW_DATA_YAML_ROUNDTRIP_REQUIRED')
     return text,dict(status='FREE_DATE_NATIVE3_WORKFLOW_DATA_NOT_ACTIVATED',parent_derivation=prior,
-        parent_template_sha256=sha256(raw.encode()).hexdigest(),unchanged_parent_steps=68,
-        routed_parent_steps=6,steps=74,job_minutes=210,real_clock_guard_unchanged=True,
+        parent_template_sha256=sha256(raw.encode()).hexdigest(),unchanged_parent_steps=66,
+        routed_parent_steps=9,steps=75,job_minutes=360,real_clock_guard_unchanged=True,
+        workflow_source_commit='927ee03213a80e854fda30779d824c5c617644bd',
+        workflow_source_is_not_actual_parent_acceptance=True,
         runtime_dispatches=0,actual_Native_cases=0,production_go=False,independent_acceptance=False)
 
 

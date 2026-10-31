@@ -14,13 +14,13 @@ permissions:
   contents: read
   actions: read
 concurrency:
-  group: cp7-current-complete-de-free-date3-${{ github.run_id }}
+  group: cp7-current-complete-de-free-date3-single-owning-qualification
   cancel-in-progress: false
 jobs:
   p21:
     name: Native FREE date3; real posting and complete restoration
     runs-on: ubuntu-24.04
-    timeout-minutes: 210
+    timeout-minutes: 360
     env:
       PYTHONDONTWRITEBYTECODE: '1'
       CURRENT_ANALOG_FROZEN_SOURCE_ROOT: ${{ github.workspace }}/frozen
@@ -53,15 +53,18 @@ jobs:
       PERMANENT_S05_CONFIRM: cp6_rollback
       FREE_DATE_CONFIRM: cp6_rollback
     steps:
+    - name: Record monotonic FREE date job start before setup and admission
+      run: "python - <<'PY'\nimport os,time\nwith open(os.environ['GITHUB_ENV'],'a')\
+        \ as stream:\n    stream.write('FREE_DATE_JOB_START_MONOTONIC='+str(time.monotonic())+'\\\
+        n')\nPY\n"
     - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       with:
         path: auditor
         fetch-depth: 0
         persist-credentials: 'false'
-    - name: Require genuine 210 minute WIB window before setup
+    - name: Require genuine 360 minute WIB window before setup
       working-directory: auditor
-      run: 'python -B scripts/current-sku-managed-recovery-native27-qualification/attempt_policy.py
-        --require-window
+      run: 'python -B scripts/current-de-free-date-preparation/attempt_policy.py --require-window
 
         '
     - name: Select exact qualified prerequisite heads
@@ -480,8 +483,7 @@ jobs:
       working-directory: auditor
       run: 'python -B scripts/current-de-free-date-preparation/probe.py --check
 
-        python -B scripts/current-sku-managed-recovery-native27-qualification/attempt_policy.py
-        --require-window
+        python -B scripts/current-de-free-date-preparation/attempt_policy.py --require-window
 
         '
     - name: Start disposable database
@@ -563,8 +565,7 @@ jobs:
         \n"
     - name: Run Native FREE date3 and complete outer restoration
       working-directory: writer
-      run: 'python -u -B ''../auditor/scripts/current-de-free-date-preparation/probe.py''
-        --runtime
+      run: 'python -u -B ''../auditor/scripts/current-de-free-date-preparation/runtime_supervisor.py''
 
         python -B ''../auditor/scripts/current-de-free-date-preparation/final_gate.py''
 
@@ -583,7 +584,7 @@ jobs:
       if: always()
       working-directory: auditor
       run: "python - <<'PY'\nimport base64,gzip,hashlib,json\nfrom pathlib import\
-        \ Path\nroot=Path('cp6-proof/t3')\nfor name in ('CP7_CURRENT_COMPLETE_DE_FREE_DATE_NATIVE3.json','FREE_DATE_FINAL_GATE.json','CP7_CURRENT_COMPLETE_DE_FREE_DATE_NATIVE3_CASES.json','CP7_CURRENT_COMPLETE_DE_FREE_DATE_NATIVE3_CASES_BUSINESS_DAY_FIRST_ATTEMPT.json','DE30_PARENT_ORIGINAL_ADMISSION.json','CP7_S03_ATTENDANCE_CHOICE_NATIVE11_CASES.json','CP7_S03_ATTENDANCE_CHOICE_READER_NATIVE3_CASES.json','CP7_S05_ON_SKU_NATIVE10_CASES.json','CP7_SKU_GROUP_COST_NATIVE5_BUSINESS_DAY_FIRST_ATTEMPT.json','CP7_SKU_PAIR_CONVERSION_NATIVE.json','CP7_SKU_PAIR_CONVERSION_NATIVE7.json','CP7_SKU_PAIR_CONVERSION_NATIVE7_BUSINESS_DAY_FIRST_ATTEMPT.json','T3_PACKAGE_INSTALL.json','T3_BACKUP_RESTORE_DRILL.json','T3_PACKAGE_FILES_INSTALL.json','SKU_COST_ARTIFACT_COPY_RECEIPT.json'):\n\
+        \ Path\nroot=Path('cp6-proof/t3')\nfor name in ('FREE_DATE_RUNTIME_SUPERVISION.json','CP7_CURRENT_COMPLETE_DE_FREE_DATE_NATIVE3.json','FREE_DATE_FINAL_GATE.json','CP7_CURRENT_COMPLETE_DE_FREE_DATE_NATIVE3_CASES.json','CP7_CURRENT_COMPLETE_DE_FREE_DATE_NATIVE3_CASES_BUSINESS_DAY_FIRST_ATTEMPT.json','DE30_PARENT_ORIGINAL_ADMISSION.json','CP7_S03_ATTENDANCE_CHOICE_NATIVE11_CASES.json','CP7_S03_ATTENDANCE_CHOICE_READER_NATIVE3_CASES.json','CP7_S05_ON_SKU_NATIVE10_CASES.json','CP7_SKU_GROUP_COST_NATIVE5_BUSINESS_DAY_FIRST_ATTEMPT.json','CP7_SKU_PAIR_CONVERSION_NATIVE.json','CP7_SKU_PAIR_CONVERSION_NATIVE7.json','CP7_SKU_PAIR_CONVERSION_NATIVE7_BUSINESS_DAY_FIRST_ATTEMPT.json','T3_PACKAGE_INSTALL.json','T3_BACKUP_RESTORE_DRILL.json','T3_PACKAGE_FILES_INSTALL.json','SKU_COST_ARTIFACT_COPY_RECEIPT.json'):\n\
         \    path=root/name\n    if not path.is_file():\n        continue\n    raw=path.read_bytes();packed=gzip.compress(raw,mtime=0)\n\
         \    print(json.dumps(dict(ow04_original_report_bytes=True,name=name,raw_bytes=len(raw),\n\
         \        raw_sha256=hashlib.sha256(raw).hexdigest(),gzip_bytes=len(packed),\n\
@@ -592,8 +593,11 @@ jobs:
     - name: Remove disposable database
       if: always()
       working-directory: base
-      run: if command -v supabase >/dev/null 2>&1 && test -d cp5-local; then supabase
-        stop --workdir cp5-local --no-backup; fi
+      run: 'python -B ../auditor/scripts/scripts/current-de-free-date-preparation/runtime_supervisor.py
+        --allow-database-stop
+
+        if command -v supabase >/dev/null 2>&1 && test -d cp5-local; then supabase
+        stop --workdir cp5-local --no-backup; fi'
     - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
       if: always()
       with:
