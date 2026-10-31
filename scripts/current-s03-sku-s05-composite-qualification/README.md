@@ -108,7 +108,7 @@ The new focused workflow has70unchanged steps, five explicit routing/label
 changes and one source-only real-clock check. No full37 rerun is triggered by
 the prepared branch. The source scope explicitly names only these two workflows.
 
-Local controls:20Python source/fixture models PASS; PostgreSQL17.5 narrow SQL
+Local controls:21Python source/fixture models PASS; PostgreSQL17.5 narrow SQL
 models execute both exact Native guards captured from actual1d52, for one, two
 and four owners. They prove ordinary extra-owner deactivation, exact last-owner
 and protected-role refusals, supported backup then original deactivation and

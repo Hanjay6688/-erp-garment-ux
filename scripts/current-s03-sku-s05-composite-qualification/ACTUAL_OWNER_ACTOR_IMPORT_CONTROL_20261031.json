@@ -1,0 +1,45 @@
+{
+  "classification": "ACTUAL_NATURAL_FIXTURE_OWNER_FUNCTION_AND_PRIVATE_FACTORY_IMPORT_ONLY",
+  "functions": {
+    "owner": {
+      "module": "cp6_z_expanded_integrity_audit",
+      "file": "/workspace/scratch/b73c04f98216/writer/scripts/cp6_z_expanded_integrity_audit.py",
+      "file_sha256": "c4f977bfd6dd9da1b1eaf068bddf6fce37296d016d4ff9832aa987640682042b",
+      "function": "def as_owner(cur: psycopg.Cursor) -> None:\n    actors.claims(cur, {'sub': base.OPERATOR_AUTH, 'role': 'authenticated'})\n    actors.session(cur, 'authenticated')\n    cur.execute('select current_user,session_user,erp.current_app_role()')\n    if cur.fetchone() != ('authenticated', 'authenticated', 'OWNER'):\n        raise AssertionError('Z_EXPANDED_REAL_OWNER_SESSION_REQUIRED')\n"
+    },
+    "seed": {
+      "module": "cp6_ao_ap_installed",
+      "file": "/workspace/scratch/b73c04f98216/writer/scripts/cp6_ao_ap_installed.py",
+      "file_sha256": "c5ff9f51bfeaa04c95f1f77f8b82ce5129d93965ea4d452c867135e48a57bd62",
+      "function": "def seed(cur):\n    admin(cur)\n    initial=cur.execute(\"select nspacl::text from pg_namespace where nspname='erp'\").fetchone()\n    # Foundation loading stays in its existing administrative session with the\n    # seeded JWT actor. Grant/revoke would materialize a previously NULL ACL and\n    # would therefore change the exact predecessor even with equal privileges.\n    actors.actors.claims(cur,dict(sub=base.OPERATOR_AUTH,role='authenticated'))\n    base.load_fixture_foundation(cur);admin(cur)\n    assert cur.execute(\"select nspacl::text from pg_namespace where nspname='erp'\").fetchone()==initial,'FIXTURE_SCHEMA_ACL_NOT_RESTORED'\n"
+    }
+  },
+  "source_DB_guard": {
+    "attempts": [],
+    "self_controls": [
+      {
+        "api": "psycopg.connect",
+        "result": "DENIED_BEFORE_LIBPQ"
+      },
+      {
+        "api": "psycopg.Connection.connect",
+        "result": "DENIED_BEFORE_LIBPQ"
+      },
+      {
+        "api": "psycopg.AsyncConnection.connect",
+        "result": "DENIED_BEFORE_LIBPQ"
+      },
+      {
+        "original_connect_descriptors_restored": true
+      }
+    ],
+    "network_nonGit_attempts": [],
+    "public_source_sha256": "1439d70810383db377c48e043df7fb6d487a1b2f1a995e8993a2c08590f9f797"
+  },
+  "original_owner_helper_requires_actual_OWNER_session": true,
+  "original_strict_group_seeds_only_empty_app_users": true,
+  "actual_Native_cases": 0,
+  "actual_SQL_executed": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

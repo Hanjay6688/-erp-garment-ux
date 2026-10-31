@@ -64,6 +64,11 @@ class OwnerFixtureControls(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,'DISPOSABLE_DATABASE'):helper.prepare_single_original_owner(cur,'owner1',[])
         self.assertEqual(cur.commands,[])
 
+    def test_focused_extra_owner_refuses_a_nonlocal_database_before_any_user_setup(self):
+        cur=Cursor(host='remote.example')
+        with self.assertRaisesRegex(ValueError,'DISPOSABLE_DATABASE'):helper.force_additional_owner(cur,object(),{})
+        self.assertEqual(cur.commands,[])
+
     def test_private_source_preparation_keeps_original_single_owner_guard_and_callbacks(self):
         adapter,factory,proof=helper.prepared_sources()
         self.assertIn("if eligible!=[(owner,)]:",adapter)

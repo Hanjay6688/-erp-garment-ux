@@ -62,6 +62,9 @@ def prepare_single_original_owner(cur,owner,observations):
 
 
 def force_additional_owner(cur,business,report):
+    if(cur.connection.info.host not in('localhost','127.0.0.1')or cur.connection.info.port!=54322
+       or cur.execute('select current_database()').fetchone()!=('cp6_rollback',)):
+        raise ValueError('JOIN_FOCUSED_OWNER_DISPOSABLE_DATABASE_ONLY')
     business.prod.owner(cur)
     owner=str(cur.execute('select auth.uid()').fetchone()[0]);business.b.api.admin(cur)
     before=cur.execute(ROSTER).fetchall()
