@@ -1,0 +1,65 @@
+{
+  "status": "SOURCE_BINDING_PREPARATION_NOT_RUNTIME",
+  "source_commit": "f42e76978852ba9efe34f75a4b622990c0331866",
+  "current_join": "17c5b19462ff21e4452b63b2cda3f4e716158b38",
+  "retained_sources": {
+    "cases.py": {
+      "original_path": "scripts/current-attendance-period-choice-qualification/cases.py",
+      "bytes": 28885,
+      "sha256": "15fe990cccb82ff4c1dcd9ca40dc17fe93ac26a3a359a37361e6d8780b1f16e2",
+      "git_blob": "da0c3f3d74067048895c59fa19eff447a8702f6e"
+    },
+    "fixtures.py": {
+      "original_path": "scripts/current-attendance-period-choice-qualification/fixtures.py",
+      "bytes": 11212,
+      "sha256": "cdb482b56048200f13da5893e119b0b301f54a600888da5252cea2fceaee4258",
+      "git_blob": "2e9966d9bcd4034ca58a510874d9134f6be05e46"
+    },
+    "business.py": {
+      "original_path": "scripts/current-s03-lawful-fixture-successor-qualification/business.py",
+      "bytes": 4461,
+      "sha256": "c10e9b9e2138fd0e0bfd4e165e1e5f96cc2e13f8560159314e1bd576e8e33f6d",
+      "git_blob": "5c2ac010dfbb4ca9e5d3b89559c324b7a72362b3"
+    },
+    "lawful_fixture.py": {
+      "original_path": "scripts/current-s03-lawful-fixture-successor-qualification/lawful_fixture.py",
+      "bytes": 18312,
+      "sha256": "d8c991189c480033adf711002077062f459f0005bc7f682b10db1be754febd7f",
+      "git_blob": "1ca82dc063de10abbebbf1247e87101e58052bb2"
+    },
+    "CALLBACK_CHANGES.json": {
+      "original_path": "scripts/current-s03-lawful-fixture-successor-qualification/CALLBACK_CHANGES.json",
+      "bytes": 5060,
+      "sha256": "92cf7781fb331fc7c9d5c2cf67526b14671b8aad08594f144644e68aa83b7a75",
+      "git_blob": "c8698c690fd2591582edcf4de41a19c70049cc1b"
+    },
+    "reader_cases.py": {
+      "original_path": "scripts/current-attendance-choice-browser4-lawful-successor/qualified-parent3c0/scripts/current-attendance-period-choice-readers-qualification/cases.py",
+      "bytes": 10121,
+      "sha256": "eebe27396c93d4b2b14062f778a4f6a4a9c9ae840bed164e11196d90bc603630",
+      "git_blob": "f3233c3a40c1f66f47fb0ffd5d968b43c7984c5b"
+    },
+    "native_runner.py": {
+      "original_path": "scripts/current-attendance-period-choice-native11-qualification/native_runner.py",
+      "bytes": 8284,
+      "sha256": "c2124f5371c529ecbf7767381b55f4c799a2fe0829577d80aa3fbd443c4c9512",
+      "git_blob": "db9e6b059311f02885c100d794a50f906139e730"
+    },
+    "reader_group.py": {
+      "original_path": "scripts/current-attendance-choice-browser4-lawful-successor/qualified-parent3c0/scripts/current-attendance-choice-reader-native14-qualification/reader_group.py",
+      "bytes": 3316,
+      "sha256": "8083b9b332b5adcca9b4d34a3853f3e5225c6ed4f8d30207f3fb153f3763d31c",
+      "git_blob": "f2bcdb9910599971126d1123f18f61be362ebd3b"
+    },
+    "native14_derive.py": {
+      "original_path": "scripts/current-attendance-choice-browser4-lawful-successor/qualified-parent3c0/scripts/current-attendance-choice-reader-native14-qualification/derive.py",
+      "bytes": 3503,
+      "sha256": "91ccbb4ce131b32a815a216d86a08c5f5ae360e8450d98b068479b8a19cb72f5",
+      "git_blob": "0171ada26adf1c13ea0e254277429359e600d56c"
+    }
+  },
+  "actual_Native_cases": 0,
+  "actual_browser_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

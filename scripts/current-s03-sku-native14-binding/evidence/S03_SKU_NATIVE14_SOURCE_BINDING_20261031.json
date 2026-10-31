@@ -1,0 +1,122 @@
+{
+  "status": "S03_NATIVE14_SOURCE_BINDINGS_COMPILED_NOT_EXECUTED",
+  "retained_sources": 9,
+  "complete_compiled_modules": 6,
+  "separate_strict_groups": [
+    11,
+    3
+  ],
+  "original11_ids": [
+    "S03_NATIVE_OWNER_FIELDS_READ_FULL_NO_EFFECT",
+    "S03_NATIVE_EXPENSE_APPROVAL_ONCE_PAID_E05_REOPEN",
+    "S03_NATIVE_TWO_EXACT_PERIODS_CENTS_AND_NATIVE_HPP",
+    "S03_NATIVE_P2_PAYROLL_POOL_COEXIST_AND_POLICY_FENCES",
+    "S03_NATIVE_OWNING_CANCEL_LATE_OUTPUT_AND_RESTORATION_FLOOR",
+    "S03_NATIVE_BOTH_CORRECTIONS_LINKED_INVERSES_NO_RECOGNITION",
+    "S03_NATIVE_STALE_REVIEW_UUID_RECOVERY_AND_APPEND_ONLY",
+    "S03_NATIVE_CLOSED_SOURCE_OPEN_OUTPUT_AND_CLOSED_CORRECTION",
+    "S03_NATIVE_ZERO_OUTPUT_SUCCESSOR_POLICY_RETAINS_OLD_INFO",
+    "S03_NATIVE_FINISHED_PO_FG_COGS_COST_AND_CANCEL_EXACT",
+    "S03_NATIVE_OLD_ACCRUAL_LATER_BOOK_REOPEN_DATE_FLOOR"
+  ],
+  "reader3_ids": [
+    "S03_READER_NATIVE_OWNED_ACTIVE_PERIODS_AND_DISJOINT_P2_UNCHANGED",
+    "S03_READER_NATIVE_CANCELLED_LIFETIME_AND_STALE_COMPOSITE_NO_EFFECT",
+    "S03_READER_NATIVE_EXACT_HELD_P1_BLOCKS_LEGACY_REPLACE_AND_CREATE"
+  ],
+  "original_lawful_derivation": {
+    "original_sha256": "15fe990cccb82ff4c1dcd9ca40dc17fe93ac26a3a359a37361e6d8780b1f16e2",
+    "derived_sha256": "ebb0998735e8fbb3e9cb4165f96ad41f064cd430546e120e040db2098711bc11",
+    "counted_changes": 3,
+    "reverse_restores_all_original_bytes": true,
+    "adapted_callback_ids": [
+      "S03_NATIVE_P2_PAYROLL_POOL_COEXIST_AND_POLICY_FENCES",
+      "S03_NATIVE_BOTH_CORRECTIONS_LINKED_INVERSES_NO_RECOGNITION",
+      "S03_NATIVE_FINISHED_PO_FG_COGS_COST_AND_CANCEL_EXACT"
+    ],
+    "original_eight_callbacks_unchanged": true,
+    "original_helpers_and_committed_witness_unchanged": true,
+    "original_eleven_runtime_callbacks_byte_exact": false,
+    "original_financial_assertions_retained_except_named_false_cache_predicate": true
+  },
+  "core_route": {
+    "original_sha256": "ebb0998735e8fbb3e9cb4165f96ad41f064cd430546e120e040db2098711bc11",
+    "derived_sha256": "8fb5407581f1a7ab02280961dd025bfa4134cd6f235ab2363e85f74222d71f91",
+    "counted_change_groups": 3,
+    "all_other_bytes_exact": true,
+    "original_bytes_recovered": true
+  },
+  "fixture_route": {
+    "original_sha256": "cdb482b56048200f13da5893e119b0b301f54a600888da5252cea2fceaee4258",
+    "derived_sha256": "2a08821840194f208aa5881027883790a110c8d091c951c532e5a90ba9f7142a",
+    "counted_change_groups": 1,
+    "all_other_bytes_exact": true,
+    "original_bytes_recovered": true
+  },
+  "original_reader_lawful_derivation": {
+    "original_sha256": "eebe27396c93d4b2b14062f778a4f6a4a9c9ae840bed164e11196d90bc603630",
+    "derived_sha256": "ae3af173cd087638b5dd5aaf851da201a9e0b26a0a498370dbe4ffcd3df7d145",
+    "counted_change_groups": 1,
+    "all_other_bytes_exact": true,
+    "original_bytes_recovered": true
+  },
+  "reader_route": {
+    "original_sha256": "ae3af173cd087638b5dd5aaf851da201a9e0b26a0a498370dbe4ffcd3df7d145",
+    "derived_sha256": "a1d969403c28118b0c9de1c0191c41619cd354dc361c929b7a78c27549e06684",
+    "counted_change_groups": 2,
+    "all_other_bytes_exact": true,
+    "original_bytes_recovered": true
+  },
+  "retained_complete_native14_derivation": {
+    "original_sha256": "c2124f5371c529ecbf7767381b55f4c799a2fe0829577d80aa3fbd443c4c9512",
+    "derived_sha256": "3fb749f57a633b0c21775876a6574e5697418bc5ecc2ed5b1e39d2afff823c37",
+    "counted_change_groups": 5,
+    "all_other_bytes_exact": true,
+    "original_bytes_recovered": true
+  },
+  "native_route": {
+    "original_sha256": "3fb749f57a633b0c21775876a6574e5697418bc5ecc2ed5b1e39d2afff823c37",
+    "derived_sha256": "8e2e4e17fc2032f76be2276e8f260b4652a7fef1910a94a01ba9c66e3683cd77",
+    "counted_change_groups": 3,
+    "all_other_bytes_exact": true,
+    "original_bytes_recovered": true
+  },
+  "reader_group_route": {
+    "original_sha256": "8083b9b332b5adcca9b4d34a3853f3e5225c6ed4f8d30207f3fb153f3763d31c",
+    "derived_sha256": "cdce3636c8c67414efa4c00fd664fc60184d1b0fd8769ed1bac52c91a9a378f8",
+    "counted_change_groups": 2,
+    "all_other_bytes_exact": true,
+    "original_bytes_recovered": true
+  },
+  "all_current_lawful_financial11_callback_ASTs_exact": true,
+  "all_current_lawful_reader3_callback_ASTs_exact": true,
+  "original_committed_ALLOCATE_used_witness_retained": true,
+  "complete_strict_group_public_catalog_and_restoration_checks_retained": true,
+  "required_private_runtime_bindings": {
+    "core": [
+      "JOIN_FIXTURE",
+      "JOIN_PARENT_ADMISSION",
+      "LAWFUL",
+      "CORE"
+    ],
+    "reader": [
+      "JOIN_READER_ADMISSION",
+      "JOIN_CORE",
+      "LAWFUL"
+    ],
+    "native_runner": [
+      "JOIN_BUSINESS",
+      "CURRENT_READER_IDS",
+      "run_actual_reader3"
+    ],
+    "reader_group": [
+      "JOIN_CONFIG",
+      "JOIN_READER"
+    ]
+  },
+  "runtime_admission_or_outer_caller_supplied": false,
+  "actual_Native_cases": 0,
+  "actual_browser_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

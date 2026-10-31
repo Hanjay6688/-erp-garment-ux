@@ -41,3 +41,13 @@ The controls use a recorded old catalog with explicitly synthetic additions;
 they do not represent an actual combined installation. No SQL is executed.
 The previous S05 Native10/browser2 caller still requires complete rebinding
 and actual composite admission before it may execute this new stage.
+
+## Current S03 Native14 source bindings
+
+`scripts/current-s03-sku-native14-binding/prepare.py` prepares six private
+modules for the joined product from nine exact current S03 reference files.
+It retains the lawful financial11 and reader3 callbacks, both strict groups,
+the complete runner and the unchanged committed allocation/used-inverse
+witness. Compilation and four source/oracle refusal controls pass under the
+database/network fence. This supplies source bindings only; the full composite
+admission and executable outer caller remain pending.

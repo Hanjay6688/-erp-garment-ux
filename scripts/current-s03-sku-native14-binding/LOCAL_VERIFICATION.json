@@ -1,0 +1,78 @@
+{
+  "status": "CURRENT_JOIN_NATIVE14_SOURCE_BINDINGS_PREPARED_NOT_EXECUTED",
+  "compiled_modules": 6,
+  "actual_local_refusal_controls": 4,
+  "current_lawful_financial11_and_reader3_callback_ASTs_exact": true,
+  "actual_Native_cases": 0,
+  "actual_browser_cases": 0,
+  "actual_composite_install_qualified": false,
+  "full_runtime_source_and_Original_admission_still_required": true,
+  "files": {
+    "README.md": {
+      "bytes": 1704,
+      "sha256": "49e73f399126d3a3cda57fd7ca3b29d9f4df3650a455b41f7ab26449eee12f56"
+    },
+    "RETAINED.json": {
+      "bytes": 3252,
+      "sha256": "d702267ab2c48fd8be4f6209eed88c88cb813ab8e4cb061043a4ed12bdbbed95"
+    },
+    "evidence/S03_SKU_NATIVE14_FROZEN_ORACLE_CONTROLS_20261031.json": {
+      "bytes": 536,
+      "sha256": "3f63f9ac0877b7e5a9aab4865e7450397397839d593198ae2b2c200362774cfb"
+    },
+    "evidence/S03_SKU_NATIVE14_FROZEN_ORACLE_CONTROLS_20261031.log": {
+      "bytes": 704,
+      "sha256": "5a4a4e9e8d02fba9d71e42720775e142fa9d61071f28399cf1e50b0f8848143a"
+    },
+    "evidence/S03_SKU_NATIVE14_SOURCE_BINDING_20261031.json": {
+      "bytes": 4957,
+      "sha256": "840db74a1cf589c837f7268ba2c02460b265c9a7263a0260dd6a13c16dac62cd"
+    },
+    "prepare.py": {
+      "bytes": 7650,
+      "sha256": "b17d20bf73f453e61416f0109c4289d57367bf76307d172bb1780d176b42cba7"
+    },
+    "retained-s03-f42e/CALLBACK_CHANGES.json": {
+      "bytes": 5060,
+      "sha256": "92cf7781fb331fc7c9d5c2cf67526b14671b8aad08594f144644e68aa83b7a75"
+    },
+    "retained-s03-f42e/business.py": {
+      "bytes": 4461,
+      "sha256": "c10e9b9e2138fd0e0bfd4e165e1e5f96cc2e13f8560159314e1bd576e8e33f6d"
+    },
+    "retained-s03-f42e/cases.py": {
+      "bytes": 28885,
+      "sha256": "15fe990cccb82ff4c1dcd9ca40dc17fe93ac26a3a359a37361e6d8780b1f16e2"
+    },
+    "retained-s03-f42e/fixtures.py": {
+      "bytes": 11212,
+      "sha256": "cdb482b56048200f13da5893e119b0b301f54a600888da5252cea2fceaee4258"
+    },
+    "retained-s03-f42e/lawful_fixture.py": {
+      "bytes": 18312,
+      "sha256": "d8c991189c480033adf711002077062f459f0005bc7f682b10db1be754febd7f"
+    },
+    "retained-s03-f42e/native14_derive.py": {
+      "bytes": 3503,
+      "sha256": "91ccbb4ce131b32a815a216d86a08c5f5ae360e8450d98b068479b8a19cb72f5"
+    },
+    "retained-s03-f42e/native_runner.py": {
+      "bytes": 8284,
+      "sha256": "c2124f5371c529ecbf7767381b55f4c799a2fe0829577d80aa3fbd443c4c9512"
+    },
+    "retained-s03-f42e/reader_cases.py": {
+      "bytes": 10121,
+      "sha256": "eebe27396c93d4b2b14062f778a4f6a4a9c9ae840bed164e11196d90bc603630"
+    },
+    "retained-s03-f42e/reader_group.py": {
+      "bytes": 3316,
+      "sha256": "8083b9b332b5adcca9b4d34a3853f3e5225c6ed4f8d30207f3fb153f3763d31c"
+    },
+    "test_source_guard.py": {
+      "bytes": 3976,
+      "sha256": "747dcc1e7e27ae389c7f46fa689929e09af9c7558325ef99015482c5b08c06c6"
+    }
+  },
+  "production_go": false,
+  "independent_acceptance": false
+}
