@@ -13,6 +13,16 @@ All four current S03 browser callbacks must pass fresh here. No database,
 production, independent acceptance or global closure is implied by source
 controls. Afui positive HPP / zero reimbursement remains separate work.
 
+The SKU backend lives in its exact physical 090b checkout. Historical Original
+fetchers execute there, and natural backend imports and complete source checks
+run there before the current S03/S05 packages are imported. Every imported
+parent has its actual original ROOT and source map. The current joined App
+lives in the candidate checkout and is independently bound to the unchanged
+b25 tree. Its two explicit S05 workspace substitutions are checked against
+the qualified SKU App. Historical menu admission deliberately still refuses
+the new App; its old results cannot stand in for the fresh combined browser6.
+No historical admission checker or frozen source is edited.
+
 The qualification's private host uses a separate real loopback connection for
 each direct administrative RPC, with no automatic retry. It preserves the
 request body, Auth identity and HTTP/error response. The actual App's browser

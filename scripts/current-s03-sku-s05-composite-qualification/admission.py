@@ -17,20 +17,33 @@ def load(name,path):
 def import_scope():
     before_path=list(sys.path);before_argv=sys.argv
     try:
-        sys.argv=sys.argv[:1];sys.path.insert(0,str(ROOT/'scripts'));yield
+        backend=load('joined_physical_qualified_backend',HERE/'frozen_parent.py').admitted()
+        backend_root=Path(backend['path'])
+        sys.argv=sys.argv[:1];sys.path.insert(0,str(backend_root/'scripts'))
+        # Load the real historical parent and its complete source graph while
+        # its own physical checkout is first. Never rewrite a ROOT or source map.
+        vendor=importlib.import_module('cp7_vendor_receivable.composition')
+        sku=importlib.import_module('cp7_sku_pair_conversion.composition')
+        for module,name in((vendor,'cp7_vendor_receivable'),(sku,'cp7_sku_pair_conversion')):
+            if Path(module.__file__).resolve()!=backend_root/'scripts'/name/'composition.py':
+                raise ValueError('JOIN_QUALIFIED_BACKEND_MODULE_ORIGIN_CHANGED:'+name)
+        sku.sources()
+        sys.path.insert(0,str(ROOT/'scripts'));yield
     finally:sys.path[:]=before_path;sys.argv=before_argv
 
 
 def admitted():
     source=load('joined_complete_current_source',HERE/'source.py').preflight()
     parents=load('joined_exact_current_parent_originals',HERE/'parents.py').admitted()
+    backend=load('joined_exact_backend_before_current_product',HERE/'frozen_parent.py').admitted()
     with import_scope():
         # Preload the current vendor before inherited harness search paths.
         vendor=importlib.import_module('cp7_vendor_receivable.composition')
         sku=importlib.import_module('cp7_sku_pair_conversion.composition')
         product=importlib.import_module('cp7_s03_sku_composition.composition')
         for module,path in((vendor,'cp7_vendor_receivable'),(sku,'cp7_sku_pair_conversion'),(product,'cp7_s03_sku_composition')):
-            if Path(module.__file__).resolve()!=ROOT/'scripts'/path/'composition.py':
+            expected_root=ROOT if module is product else Path(backend['path'])
+            if Path(module.__file__).resolve()!=expected_root/'scripts'/path/'composition.py':
                 raise ValueError('JOIN_NATURAL_CURRENT_PACKAGE_REQUIRED:'+path)
         if product.parent()is not sku or sku.parent()is not vendor:raise ValueError('JOIN_NATURAL_PARENT_CHAIN_CHANGED')
         current=product.sources();actual_sku=sku.sources()
@@ -53,6 +66,7 @@ def admitted():
             if sha256((ROOT/name).read_bytes()).hexdigest()!=digest:raise ValueError('JOIN_NATURAL_CURRENT_STAGE_FILE_CHANGED:'+name)
     return dict(status='EXACT_CURRENT_PARENTS_AND_NATURAL_S03_ON_SKU_PRODUCT_SOURCE_ADMITTED',
         current_source=source,current_installation=current,qualified_SKU_parent=parents['SKU'],qualified_S03_parent=parents['S03'],
+        physical_qualified_SKU_backend=backend,current_UI_is_separately_bound_by_exact_joined_base=True,
         qualified_SKU_current_installation=actual_sku,used_inverse_guard_before_DDL=True,
         product_sources_override=False,projected_source_graph=False,actual_composite_cases_credited=0,
         production_go=False,independent_acceptance=False)

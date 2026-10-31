@@ -58,13 +58,31 @@ class SourceControls(unittest.TestCase):
         self.assertEqual(workflow['on']['push']['branches'],['astra-a/s03-sku-product-join-20261031'])
         self.assertEqual(current['if'],"github.ref == 'refs/heads/"+workflow['on']['push']['branches'][0]+"'")
         steps=current['steps']
-        for index in record['unchanged_steps']:self.assertIn(old[index],steps)
+        for index in record['unchanged_steps']:
+            expected=dict(old[index])
+            if expected.get('name')in record.get('historical_admission_steps_use_exact_physical_SKU_checkout',[]):
+                expected['working-directory']='qualified-sku090b'
+            self.assertIn(expected,steps)
         start=next(i for i,s in enumerate(steps)if s.get('name')=='Start disposable database')
         for marker in ('fetch_parents.py','test_rpc_transport.mjs','probe.py --check'):
             self.assertTrue(any(marker in s.get('run','')for s in steps[:start]))
         actual=next(s for s in steps if 'probe.py\' --runtime' in s.get('run',''))
         self.assertIn('final_gate.py',actual['run']);self.assertEqual(current['timeout-minutes'],210)
         self.assertEqual(current['env']['JOIN_CONFIRM'],'cp6_rollback')
+        self.assertEqual(current['env']['JOIN_QUALIFIED_SKU_ROOT'],'${{ github.workspace }}/qualified-sku090b')
+
+    def test_exact_historical_app_is_admitted_and_current_additions_remain_explicit(self):
+        backend=load('frozen_parent')
+        original=subprocess.check_output(['/usr/bin/git','-C',str(ROOT),'show',backend.HEAD+':src/App.tsx'])
+        namespace={};exec(compile((ROOT/'scripts/cp7_ab_master_navigation.py').read_bytes(),'original_navigation_admission','exec'),namespace)
+        self.assertTrue(namespace['admit_master_navigation'](original,namespace['OLD_APP_SHA256'])['unchanged_other_App_bytes'])
+        current=(ROOT/'src/App.tsx').read_bytes()
+        with self.assertRaisesRegex(ValueError,'UNDECLARED_APP_CHANGE'):
+            namespace['admit_master_navigation'](current,namespace['OLD_APP_SHA256'])
+        text=original.decode()
+        for before,after in [("const ConnectedAccessoryIssuePage = lazy(() => import('./ConnectedAccessoryIssuePage'))","const ConnectedAccessoryWorkspacePage = lazy(() => import('./ConnectedAccessoryWorkspacePage'))"),('<ConnectedAccessoryIssuePage/>','<ConnectedAccessoryWorkspacePage/>')]:
+            self.assertEqual(text.count(before),1);text=text.replace(before,after)
+        self.assertEqual(text.encode(),current)
 
 class OrchestrationControls(unittest.TestCase):
     def invoke(self,*,failed=None,duplicate=False):

@@ -2,7 +2,7 @@
   "status": "CURRENT_COMPOSITE_SOURCE_AND_ROUTING_CONTROLS_PASS_NOT_NATIVE",
   "python": "3.12.14",
   "node": "22.23.4",
-  "source_and_orchestration_tests": 7,
+  "source_and_orchestration_tests": 8,
   "real_loopback_requests": 9,
   "distinct_loopback_connections": 9,
   "automatic_write_retries": 0,
@@ -35,5 +35,20 @@
     "reason": "Inherited SKU-only job branch guard; corrected for the current joined branch",
     "database_started": false,
     "actual_case_credit": 0
-  }
+  },
+  "first_actual_pre_DB_failure": {
+    "head": "5a3dd667a28cdebb55bc4613c78aab0f41bc9099",
+    "run_id": 41178533043,
+    "job_id": 124470992976,
+    "artifact_id": 13032854512,
+    "archive_bytes": 2235716,
+    "archive_sha256": "c9cb4431c302a7d7fe5aaee2abca31b151aad95abe5e0e5e72da9998c6abf819",
+    "error": "AB_UI_UNDECLARED_APP_CHANGE",
+    "database_started": false,
+    "actual_case_credit": 0,
+    "reason": "Two explicit S05 workspace App substitutions exceed the historical Master navigation admission",
+    "solution": "Physical qualified SKU checkout, natural parent imports, separately bound current frontend; historical checker unchanged"
+  },
+  "physical_qualified_SKU_checkout_admission_locally": "PASS",
+  "physical_parent_whole_graph_evaluated_locally": false
 }
