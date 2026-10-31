@@ -1,0 +1,22 @@
+{
+  "status": "PREPARED_PERMANENT_READER_BROWSER_NOT_EXECUTED",
+  "browser_case_ids": [
+    "PERMANENT_S05_SKU_NORMAL_APP_DESKTOP_SOURCE_AND_LATE_REPLY",
+    "PERMANENT_S05_SKU_NORMAL_APP_MOBILE390_UNKNOWN_ZERO_AND_CURRENT_ACCESS"
+  ],
+  "files": {
+    "scripts/current-final-s03-sku-s05-preparation/persistent_browser.mjs": "92deacd23947796604a444a7fe0ed32304aa1c61288dc8d753775d69bc60110a",
+    "scripts/current-final-s03-sku-s05-preparation/persistent_browser_fixture.py": "6eca40b1f668cb6da9097d89e5959d858f644e453fc95f78613cedc3865d79b9",
+    "scripts/current-final-s03-sku-s05-preparation/persistent_source.py": "196b68659b600f5ccada0eeae15d75a7d13269e5242f492e170ec96954004db5",
+    "scripts/current-final-s03-sku-s05-preparation/persistent_financial.py": "bfac5595306c462074662701d7a678d1a25ee367b0252c95f5fa022a09ed19a4",
+    "scripts/current-final-s03-sku-s05-preparation/business_reader.py": "7418e5911669b7aa32eff324319176931a4ebf0ac85e560c7b615ad4468eda91",
+    "scripts/current-final-s03-sku-s05-preparation/persistent_browser_prepare.py": "fd3fab4c42acc4cf8233a3223291bf7155d2d3caaf8c34b89a877f516bd708c8",
+    "scripts/current-s03-sku-s05-composite-qualification/response_waits.mjs": "28b01642e26378cb8e5aad96a9d2b2b10e252fbd19ce6151ee62cad7c4557034",
+    "scripts/current-sku-pair-browser-qualification/evidence.mjs": "790083c4f578de04d54e943f58746ae73d269362e8337773a0847a293333213f",
+    "src/App.tsx": "cc1666b377d064a7ed6bdd0953afd3bd3c12faae2464329e0aba71377a87bb6c",
+    "src/ConnectedAccessoryWorkspacePage.tsx": "03ca854cce6aa089b9dd7fdaf767ffbcf591a332d861454813ffdd099fcec2ba"
+  },
+  "actual_browser_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

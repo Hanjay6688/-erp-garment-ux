@@ -20,3 +20,10 @@ first finish the current Native31/browser6 candidate, then qualify this actual
 installed assembly with complete package/restore and normal-App evidence.
 Prepared controls are orchestration/source controls only. No actual ERP
 Native/Auth/browser acceptance or production/default installation is claimed.
+
+The prepared persistence delta now retains four exact financial callbacks and
+the complete desktop/mobile normal-App journeys while the S05 reader stays
+installed. Every read compares all22, all business rows and all sequences.
+Only the private fixture dependency changes; no product module is overridden.
+The exact joined37 root intake is still pending, so both execution paths refuse
+before importing the ERP graph. No actual Native or browser credit is claimed.

@@ -16,5 +16,60 @@
   "actual_browser_cases": 0,
   "installed_on_active_candidate": false,
   "production_go": false,
-  "independent_acceptance": false
+  "independent_acceptance": false,
+  "persistent_financial_source_only": {
+    "status": "FOUR_ORIGINAL_FINANCIAL_CALLBACKS_PREPARED_WITH_COMPLETE_COMPOSITE_VERIFIER",
+    "all_eleven_callback_ASTs_unchanged": true,
+    "constructor_only_routing_changes": 1,
+    "complete_original_bytes_recovered": true,
+    "selected_cases": [
+      "S03_NATIVE_EXPENSE_APPROVAL_ONCE_PAID_E05_REOPEN",
+      "S03_NATIVE_BOTH_CORRECTIONS_LINKED_INVERSES_NO_RECOGNITION",
+      "S03_NATIVE_FINISHED_PO_FG_COGS_COST_AND_CANCEL_EXACT",
+      "S03_NATIVE_OLD_ACCRUAL_LATER_BOOK_REOPEN_DATE_FLOOR"
+    ],
+    "actual_parent_pending_refused_before_ERP_import": true,
+    "real_Native_cases": 0,
+    "complete_outer_runner_not_supplied": true
+  },
+  "permanent_reader_dependency_controls": {
+    "status": "PRIVATE_DEPENDENCY_ORCHESTRATION_MODEL_PASS",
+    "unchanged_read_keeps_reader": true,
+    "row_change_refused": true,
+    "sequence_change_refused": true,
+    "install_or_inverse_calls": 0,
+    "parent_pending_denied_before_ERP_import": true,
+    "actual_Native_credit": 0
+  },
+  "whole_persistent_browser_source_control": {
+    "status": "FOUR_COMPLETE_IMMUTABLE_SOURCE_DERIVATIONS_RECOVER_EXACT_BYTES",
+    "files": 4,
+    "node": "22.23.4",
+    "actual_transitive_Node_import": "PASS",
+    "Python_source_and_pending_runtime_DB_network_guard": {
+      "attempts": [],
+      "self_controls": [
+        {
+          "api": "psycopg.connect",
+          "result": "DENIED_BEFORE_LIBPQ"
+        },
+        {
+          "api": "psycopg.Connection.connect",
+          "result": "DENIED_BEFORE_LIBPQ"
+        },
+        {
+          "api": "psycopg.AsyncConnection.connect",
+          "result": "DENIED_BEFORE_LIBPQ"
+        },
+        {
+          "original_connect_descriptors_restored": true
+        }
+      ],
+      "network_nonGit_attempts": [],
+      "public_source_sha256": "1439d70810383db377c48e043df7fb6d487a1b2f1a995e8993a2c08590f9f797"
+    },
+    "pending_parent_runtime_stopped_before_ERP_import": true,
+    "actual_browser_cases": 0,
+    "actual_Native_cases": 0
+  }
 }

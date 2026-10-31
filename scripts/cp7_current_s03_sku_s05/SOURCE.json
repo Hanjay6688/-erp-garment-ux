@@ -3,7 +3,7 @@
   "classification": "PREPARED_PERMANENT_READER_ASSEMBLY_NOT_QUALIFIED",
   "base_head": "33988923ab3bad708b21f3c74002f1309a3644e1",
   "files": {
-    "scripts/cp7_current_s03_sku_s05/README.md": "0a1d89eff32936fe9378881e177053ad5253862e1da7c6be27ad49c2bcb79518",
+    "scripts/cp7_current_s03_sku_s05/README.md": "1a68d8c95363a7fa9eabd994eb0a891f630f966ed8d6225f6088a2880409a568",
     "scripts/cp7_current_s03_sku_s05/__init__.py": "985511f5f5f2b17b1fb57e3b75a22339f1240df8930b6f9f63bfc482bd88f2c6",
     "scripts/cp7_current_s03_sku_s05/composition.py": "d9e51354f3e401af10d8498a2947a2089e217d854383a622e56aa79fb370d85a"
   },
