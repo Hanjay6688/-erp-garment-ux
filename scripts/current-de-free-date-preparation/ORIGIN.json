@@ -1,0 +1,114 @@
+{
+  "classification": "EXACT_DATE_C43_WITH_ONLY_DECLARED_PARENT_GATE_AND_CONTRACT_ROUTE",
+  "head": "c43dabf4378fb8096cd86b37adc9b24c359efa63",
+  "tree": "c373fb2f1cb56db996880e4e18702588f5fc5261",
+  "files": {
+    "scripts/current-special-free-date-boundary/ACTUAL_REFERENCE.json": {
+      "source_path": "scripts/current-special-free-date-boundary/ACTUAL_REFERENCE.json",
+      "bytes": 1417,
+      "sha256": "82cef356bb20c536ef881e1db5c88b4e92a41e6af7441e6e70f204a92a754e4b",
+      "changes": []
+    },
+    "scripts/current-special-free-date-boundary/LOCAL_POSTGRES_CONTROLS.json": {
+      "source_path": "scripts/current-special-free-date-boundary/LOCAL_POSTGRES_CONTROLS.json",
+      "bytes": 3249,
+      "sha256": "f19bf10248115e439649ef46f1be150c083fcca1ef5f4bff5b771c4a3d0515cd",
+      "changes": []
+    },
+    "scripts/current-special-free-date-boundary/ORIGINAL.sql": {
+      "source_path": "scripts/current-special-free-date-boundary/ORIGINAL.sql",
+      "bytes": 749,
+      "sha256": "8d514efa74707dbc2f275a225f081095d1311558a9ef7819c8b8ef5aca98260e",
+      "changes": []
+    },
+    "scripts/current-special-free-date-boundary/PREPARED.sql": {
+      "source_path": "scripts/current-special-free-date-boundary/PREPARED.sql",
+      "bytes": 822,
+      "sha256": "24d125565c1a89a25ca8f77603b68664705aaa271a3d69493f33cc782017acd8",
+      "changes": []
+    },
+    "scripts/current-special-free-date-boundary/README.md": {
+      "source_path": "scripts/current-special-free-date-boundary/README.md",
+      "bytes": 1441,
+      "sha256": "0d20d2d6eb1a607d24cb97c4a0fadbb81f5c7b55354bd420c286e4823273c716",
+      "changes": []
+    },
+    "scripts/current-special-free-date-boundary/SOURCE.json": {
+      "source_path": "scripts/current-special-free-date-boundary/SOURCE.json",
+      "bytes": 1560,
+      "sha256": "11aef96c62d220c3f22550854635752311896fdf69f3ad2c2771f4ee461ee664",
+      "changes": []
+    },
+    "scripts/current-special-free-date-boundary/derive.py": {
+      "source_path": "scripts/current-special-free-date-boundary/derive.py",
+      "bytes": 1724,
+      "sha256": "09fc083f1c1eb4f7f6f129e7d47054392876b3c3b57e8850135055e35418a095",
+      "changes": []
+    },
+    "scripts/current-special-free-date-boundary/test_dates.mjs": {
+      "source_path": "scripts/current-special-free-date-boundary/test_dates.mjs",
+      "bytes": 6013,
+      "sha256": "64bea625dba59b8ef0065a11f18db815b1b95c31952b71c36d6182ed4bbee6c1",
+      "changes": []
+    },
+    "scripts/cp7_special_free_date_on_de/composition.py": {
+      "source_path": "scripts/cp7_special_free_date_boundary/composition.py",
+      "bytes": 7475,
+      "sha256": "7944602450ca3e8e77e18ad83937fc01627b9d982e37824515be6d735b6f2a88",
+      "changes": [
+        {
+          "before": "CONTRACT='cp7.special-free-wib-date.v1'",
+          "after": "CONTRACT='cp7.special-free-wib-date-complete-de-stage.v1'",
+          "count": 1
+        },
+        {
+          "before": "def parent():\n    from cp7_current_s03_sku_s05 import composition\n    return composition",
+          "after": "def parent():\n    path=ROOT/'scripts/current-de-free-date-preparation/admission.py'\n    spec=importlib.util.spec_from_file_location('free_date_actual_DE_parent_before_ERP',path)\n    admission=importlib.util.module_from_spec(spec);spec.loader.exec_module(admission);admission.parent_receipt()\n    from cp7_complete_credit_de import composition\n    return composition",
+          "count": 1
+        }
+      ]
+    }
+  },
+  "SQL_predicate_or_original_lifecycle_function_changes": 0,
+  "actual_Native_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false,
+  "source_preflight_origin": {
+    "head": "674a700096eab400e9b75700e4a2704f799d69b8",
+    "path": "scripts/current-complete-de-integration-preparation/source.py",
+    "bytes": 4260,
+    "sha256": "8fcd679648b2cc0902562c39d00588594dbbf426ab8e40aabf2f4cbbde30dccb",
+    "changes": [
+      {
+        "before": "Closed additive D1/E sources over the exact prepared complete parent.",
+        "after": "Closed additive FREE date sources over the exact prepared complete DE parent.",
+        "count": 1
+      },
+      {
+        "before": "BASE='a6cc41ec58e4d0d0c8191f1b1fe5c27309fff559'",
+        "after": "BASE='fef0d838991df1ab3474382747ee3519d4c237eb'",
+        "count": 1
+      },
+      {
+        "before": "TREE='48c5e13acdb5d8fb9529f2ce1661e4fee09e2a5b'",
+        "after": "TREE='772cc0a80e1857bc03e6a544a39d5b5de3beb4c3'",
+        "count": 1
+      },
+      {
+        "before": "PREFIXES=('scripts/cp7_credit_correction_de/','scripts/cp7_complete_credit_de/',\n    'scripts/current-complete-de-integration-preparation/')",
+        "after": "PREFIXES=('scripts/current-special-free-date-boundary/','scripts/cp7_special_free_date_on_de/',\n    'scripts/cp7_current_de_free_date/','scripts/current-de-free-date-preparation/')",
+        "count": 1
+      },
+      {
+        "before": "EXACT_UNCHANGED_COMPLETE_PARENT_AND_CLOSED_D1_E_PREPARATION",
+        "after": "EXACT_UNCHANGED_COMPLETE_DE_AND_CLOSED_FREE_DATE_PREPARATION",
+        "count": 1
+      },
+      {
+        "before": "COMPLETE_DE_",
+        "after": "FREE_DATE_DE_",
+        "count": 15
+      }
+    ]
+  }
+}

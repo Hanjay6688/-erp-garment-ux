@@ -1,0 +1,46 @@
+{
+  "status": "PREPARED_DATE_BOUNDARY_FIX_NOT_INSTALLED",
+  "base_head": "b132f8211d6bd47ae5b478a5927742071440cd30",
+  "files": {
+    "ACTUAL_REFERENCE.json": {
+      "bytes": 1417,
+      "sha256": "82cef356bb20c536ef881e1db5c88b4e92a41e6af7441e6e70f204a92a754e4b"
+    },
+    "LOCAL_POSTGRES_CONTROLS.json": {
+      "bytes": 3249,
+      "sha256": "f19bf10248115e439649ef46f1be150c083fcca1ef5f4bff5b771c4a3d0515cd"
+    },
+    "ORIGINAL.sql": {
+      "bytes": 749,
+      "sha256": "8d514efa74707dbc2f275a225f081095d1311558a9ef7819c8b8ef5aca98260e"
+    },
+    "PREPARED.sql": {
+      "bytes": 822,
+      "sha256": "24d125565c1a89a25ca8f77603b68664705aaa271a3d69493f33cc782017acd8"
+    },
+    "README.md": {
+      "bytes": 1441,
+      "sha256": "0d20d2d6eb1a607d24cb97c4a0fadbb81f5c7b55354bd420c286e4823273c716"
+    },
+    "derive.py": {
+      "bytes": 1724,
+      "sha256": "09fc083f1c1eb4f7f6f129e7d47054392876b3c3b57e8850135055e35418a095"
+    },
+    "test_dates.mjs": {
+      "bytes": 6013,
+      "sha256": "64bea625dba59b8ef0065a11f18db815b1b95c31952b71c36d6182ed4bbee6c1"
+    }
+  },
+  "dependency": "@electric-sql/pglite@0.3.14",
+  "artificial_fixture_only": true,
+  "actual_function_rows_agree": 3,
+  "temporal_SQL_controls": 32,
+  "additional_refusal_or_open_end_controls": 7,
+  "unknown_actual_source_mutation_refusals": 3,
+  "actual_ERP_Native_cases": 0,
+  "installed_on_active_candidate": false,
+  "Afui_GOOD_eligibility_policy_decided": false,
+  "Afui_GOOD_nonpayable_path_complete": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

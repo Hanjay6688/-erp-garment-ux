@@ -1,0 +1,115 @@
+{
+  "status": "ISOLATED_POSTGRES_WIB_INCLUSIVE_DATE_CONTROLS_PASS",
+  "engine": "PostgreSQL 17.5 on aarch64-unknown-linux-gnu, compiled by emcc (Emscripten gcc/clang-like replacement + linker emulating GNU ld) 3.1.74 (1092ec30a3fb1d46b1782ff1b4db5094d3d06ae5), 32-bit",
+  "original_sha256": "8d514efa74707dbc2f275a225f081095d1311558a9ef7819c8b8ef5aca98260e",
+  "prepared_sha256": "24d125565c1a89a25ca8f77603b68664705aaa271a3d69493f33cc782017acd8",
+  "business_timezones": [
+    "UTC",
+    "Asia/Jakarta",
+    "America/New_York",
+    "Pacific/Kiritimati"
+  ],
+  "temporal_checks": 32,
+  "original_mismatches": [
+    {
+      "zone": "UTC",
+      "at": "2026-09-30T17:00:00Z",
+      "expected": {
+        "category_id": "00000000-0000-4000-8000-000000000101",
+        "policy_version": "17"
+      },
+      "actual": null
+    },
+    {
+      "zone": "UTC",
+      "at": "2026-10-31T16:59:59.999999Z",
+      "expected": {
+        "category_id": "00000000-0000-4000-8000-000000000101",
+        "policy_version": "17"
+      },
+      "actual": null
+    },
+    {
+      "zone": "Asia/Jakarta",
+      "at": "2026-10-30T17:00:00Z",
+      "expected": {
+        "category_id": "00000000-0000-4000-8000-000000000101",
+        "policy_version": "17"
+      },
+      "actual": null
+    },
+    {
+      "zone": "Asia/Jakarta",
+      "at": "2026-10-31T16:59:59.999999Z",
+      "expected": {
+        "category_id": "00000000-0000-4000-8000-000000000101",
+        "policy_version": "17"
+      },
+      "actual": null
+    },
+    {
+      "zone": "America/New_York",
+      "at": "2026-09-30T17:00:00Z",
+      "expected": {
+        "category_id": "00000000-0000-4000-8000-000000000101",
+        "policy_version": "17"
+      },
+      "actual": null
+    },
+    {
+      "zone": "America/New_York",
+      "at": "2026-10-01T00:00:00Z",
+      "expected": {
+        "category_id": "00000000-0000-4000-8000-000000000101",
+        "policy_version": "17"
+      },
+      "actual": null
+    },
+    {
+      "zone": "America/New_York",
+      "at": "2026-10-31T16:59:59.999999Z",
+      "expected": {
+        "category_id": "00000000-0000-4000-8000-000000000101",
+        "policy_version": "17"
+      },
+      "actual": null
+    },
+    {
+      "zone": "Pacific/Kiritimati",
+      "at": "2026-09-30T16:59:59.999999Z",
+      "expected": null,
+      "actual": {
+        "category_id": "00000000-0000-4000-8000-000000000101",
+        "policy_version": "17"
+      }
+    },
+    {
+      "zone": "Pacific/Kiritimati",
+      "at": "2026-10-30T17:00:00Z",
+      "expected": {
+        "category_id": "00000000-0000-4000-8000-000000000101",
+        "policy_version": "17"
+      },
+      "actual": null
+    },
+    {
+      "zone": "Pacific/Kiritimati",
+      "at": "2026-10-31T16:59:59.999999Z",
+      "expected": {
+        "category_id": "00000000-0000-4000-8000-000000000101",
+        "policy_version": "17"
+      },
+      "actual": null
+    }
+  ],
+  "ineligible_pending_and_open_end_checks": 7,
+  "exact_function_metadata_unchanged": true,
+  "fixture_rows_unchanged": true,
+  "actual_ERP_Native_cases": 0,
+  "actual_Auth_cases": 0,
+  "actual_browser_cases": 0,
+  "installed_on_candidate": false,
+  "Afui_GOOD_nonpayable_path_complete": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

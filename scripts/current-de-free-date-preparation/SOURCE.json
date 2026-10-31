@@ -1,0 +1,95 @@
+{
+  "classification": "CLOSED_DATE_ON_COMPLETE_DE_PREPARATION_NOT_QUALIFICATION",
+  "base_head": "fef0d838991df1ab3474382747ee3519d4c237eb",
+  "base_tree": "772cc0a80e1857bc03e6a544a39d5b5de3beb4c3",
+  "files": {
+    "scripts/current-special-free-date-boundary/ACTUAL_REFERENCE.json": {
+      "bytes": 1417,
+      "sha256": "82cef356bb20c536ef881e1db5c88b4e92a41e6af7441e6e70f204a92a754e4b"
+    },
+    "scripts/current-special-free-date-boundary/LOCAL_POSTGRES_CONTROLS.json": {
+      "bytes": 3249,
+      "sha256": "f19bf10248115e439649ef46f1be150c083fcca1ef5f4bff5b771c4a3d0515cd"
+    },
+    "scripts/current-special-free-date-boundary/ORIGINAL.sql": {
+      "bytes": 749,
+      "sha256": "8d514efa74707dbc2f275a225f081095d1311558a9ef7819c8b8ef5aca98260e"
+    },
+    "scripts/current-special-free-date-boundary/PREPARED.sql": {
+      "bytes": 822,
+      "sha256": "24d125565c1a89a25ca8f77603b68664705aaa271a3d69493f33cc782017acd8"
+    },
+    "scripts/current-special-free-date-boundary/README.md": {
+      "bytes": 1441,
+      "sha256": "0d20d2d6eb1a607d24cb97c4a0fadbb81f5c7b55354bd420c286e4823273c716"
+    },
+    "scripts/current-special-free-date-boundary/SOURCE.json": {
+      "bytes": 1560,
+      "sha256": "11aef96c62d220c3f22550854635752311896fdf69f3ad2c2771f4ee461ee664"
+    },
+    "scripts/current-special-free-date-boundary/derive.py": {
+      "bytes": 1724,
+      "sha256": "09fc083f1c1eb4f7f6f129e7d47054392876b3c3b57e8850135055e35418a095"
+    },
+    "scripts/current-special-free-date-boundary/test_dates.mjs": {
+      "bytes": 6013,
+      "sha256": "64bea625dba59b8ef0065a11f18db815b1b95c31952b71c36d6182ed4bbee6c1"
+    },
+    "scripts/cp7_special_free_date_on_de/SOURCE.json": {
+      "bytes": 2328,
+      "sha256": "44da339665b163e41293f57d19be0ab65a6d6a51518e256c54f7b1459e1b893f"
+    },
+    "scripts/cp7_special_free_date_on_de/__init__.py": {
+      "bytes": 78,
+      "sha256": "bb4a21df7d4d08c0d2c087ae5aa36bff27fecde5c06d01032a03125e5ab9f609"
+    },
+    "scripts/cp7_special_free_date_on_de/composition.py": {
+      "bytes": 7770,
+      "sha256": "ebe598411dc59d1475bbda64d0f5465b6c346a33ebd49437d043c90a9851cd8e"
+    },
+    "scripts/cp7_current_de_free_date/SOURCE.json": {
+      "bytes": 1114,
+      "sha256": "c7d517f8e99194dba0c196d33af69157292d42cf3bff8b11892091e3c0d38cd1"
+    },
+    "scripts/cp7_current_de_free_date/__init__.py": {
+      "bytes": 66,
+      "sha256": "bff4507b4aa2def5970d6ee3b6710ea1b5bc638068a1d8381456939a54f7e64c"
+    },
+    "scripts/cp7_current_de_free_date/composition.py": {
+      "bytes": 6400,
+      "sha256": "4ad7ca90207d29acc0634d1952e0955167ef6d68835de59f04d56918ab35f4d6"
+    },
+    "scripts/current-de-free-date-preparation/ORIGIN.json": {
+      "bytes": 5197,
+      "sha256": "2a5806937950919b438f5fdc1a6f3b7de392201f9165058271c1ca3056d45c46"
+    },
+    "scripts/current-de-free-date-preparation/README.md": {
+      "bytes": 2101,
+      "sha256": "881655ac7af71aceb42781bd9d89b36869a27df8e1cb39a71a11ff75815eaef2"
+    },
+    "scripts/current-de-free-date-preparation/REPAIRED_DE_REBASE_ORIGIN.json": {
+      "bytes": 7934,
+      "sha256": "4f76de39386159836243ca7b8425de302dab28c234051459c3c7f8dac80b67d1"
+    },
+    "scripts/current-de-free-date-preparation/admission.py": {
+      "bytes": 3622,
+      "sha256": "d50d42e788cf76534458a2bdc939944af6000748b590cc51860c067d8f57de26"
+    },
+    "scripts/current-de-free-date-preparation/check.py": {
+      "bytes": 5077,
+      "sha256": "6dbdd5c9b95758a308cce41d25824cfbf25776af86070c0c5f10f5b3c64487e3"
+    },
+    "scripts/current-de-free-date-preparation/source.py": {
+      "bytes": 4324,
+      "sha256": "bb856c61a1a4faf0f31d7a8a9a8fd8db88c1e140fbe662066198ebd476ee9ed9"
+    },
+    "scripts/current-de-free-date-preparation/test_lifecycle.py": {
+      "bytes": 13683,
+      "sha256": "6395f72cf536c7567b0accdab8104dc059ce706fe2bdc49ac1f612d93e108b41"
+    }
+  },
+  "actual_parent_qualification": null,
+  "actual_Native_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}
