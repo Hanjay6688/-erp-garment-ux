@@ -1,0 +1,27 @@
+Traceback (most recent call last):
+  File "/workspace/scratch/b73c04f98216/erp-operational-join/scripts/current-s03-sku-integration-preparation/check.py", line 79, in <module>
+    args=parser.parse_args();print(json.dumps(check(args.sku_archive),indent=2))
+                                              ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/b73c04f98216/erp-operational-join/scripts/current-s03-sku-integration-preparation/check.py", line 51, in check
+    source=product.sources()
+           ^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/b73c04f98216/erp-operational-join/scripts/cp7_s03_sku_composition/composition.py", line 23, in sources
+    return dict(contract=CONTRACT,predecessor=predecessor.sources(),files={str((HERE/name).relative_to(ROOT)):sha256((HERE/name).read_bytes()).hexdigest()
+                                              ^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/b73c04f98216/erp-operational-join/scripts/cp7_sku_pair_conversion/composition.py", line 37, in sources
+    return dict(contract=CONTRACT,predecessor=parent().sources(),
+                                              ^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/b73c04f98216/erp-operational-join/scripts/cp7_vendor_receivable/composition.py", line 36, in sources
+    return dict(contract=CONTRACT,predecessor=parent().sources(),
+                                              ^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/b73c04f98216/erp-operational-join/scripts/current-factory-initial-stage/composition.py", line 22, in sources
+    return dict(contract=CONTRACT,predecessor=base().sources(),source=source,
+                                              ^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/b73c04f98216/erp-operational-join/scripts/current-finance-factory-progress-followup-qualification/composition.py", line 39, in sources
+    _,accepted=qualification()
+               ^^^^^^^^^^^^^^^
+  File "/workspace/scratch/b73c04f98216/erp-operational-join/scripts/current-finance-factory-progress-followup-qualification/composition.py", line 31, in qualification
+    directory=Path(os.environ[config['original_directory_variable']])
+                   ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen os>", line 714, in __getitem__
+KeyError: 'D17_18_RETAINED_COMBINED_AF_DIRECTORY'

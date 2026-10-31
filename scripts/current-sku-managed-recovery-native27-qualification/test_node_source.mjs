@@ -7,6 +7,8 @@ import {readFileSync,writeFileSync,mkdtempSync,mkdirSync,rmSync,renameSync,symli
 import {dirname,resolve} from 'node:path';
 import {tmpdir} from 'node:os';
 import {fileURLToPath} from 'node:url';
+// The same CI entry also exercises the lossless timestamp regression.
+await import('./test_staged_timestamps.mjs');
 
 const here=dirname(fileURLToPath(import.meta.url)),ROOT=resolve(here,'../..');
 const oldPath='scripts/current-sku-pair-browser-qualification/SOURCE.json';

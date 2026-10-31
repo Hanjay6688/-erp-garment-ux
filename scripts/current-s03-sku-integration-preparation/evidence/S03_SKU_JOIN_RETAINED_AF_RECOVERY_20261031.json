@@ -1,0 +1,16 @@
+{
+  "status": "EXACT_ORIGINAL_INPUTS_RECOVERED",
+  "artifact_id": 12769642828,
+  "files": [
+    {
+      "name": "CP7_D17_18_COMBINED_FINANCE_NATIVE_SOURCE_FACTORY_CRON7.json",
+      "bytes": 83281688,
+      "sha256": "ff77efc2e8cbd2ff182c2af36b319aee06b35e62edf73acfbb2ab24c32cc846d"
+    },
+    {
+      "name": "T3_PACKAGE_INSTALL.json",
+      "bytes": 360452,
+      "sha256": "119da071fc5fd336f5c1eb029202d61d9d421462a1d7e9722b99cd3b90a7dbd1"
+    }
+  ]
+}

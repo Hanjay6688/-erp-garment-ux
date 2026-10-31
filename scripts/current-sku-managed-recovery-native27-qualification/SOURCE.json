@@ -4,6 +4,10 @@
   "base_tree": "b1c316d6e853805f933a6665a81edf9332d12a36",
   "base_file_count": 13759,
   "files": {
+    ".github/workflows/cp7-sku-managed-recovery-native27.yml": {
+      "bytes": 33182,
+      "sha256": "7b44245e426e16615e23806956487aa2f6405e6d1b76e61433bfd7fbe7ba4007"
+    },
     "scripts/current-sku-managed-recovery-native27-qualification/.gitignore": {
       "bytes": 19,
       "sha256": "862263fa1f46c20f0d1e4dac5ffcc75abd55c08211b2c3864c5f8764b9d87793"
@@ -36,6 +40,10 @@
       "bytes": 2044,
       "sha256": "d8f4ad30fef164c7b0853fbd079f19694436bce193e668c33ac24b1fec36c1a5"
     },
+    "scripts/current-sku-managed-recovery-native27-qualification/FIRST_E925_TIMESTAMP_FAILURE.json": {
+      "bytes": 3663,
+      "sha256": "834278b87ddb59fc88adc3eb42e41d75de97c7dd695c4af8d6d2fe2030784348"
+    },
     "scripts/current-sku-managed-recovery-native27-qualification/FIRST_LOCAL_BROWSER_SUCCESSOR_FAILURE.json": {
       "bytes": 382,
       "sha256": "b817c096b33fc427c2f42c93174aa3b7613939ba206cd9318332008233532723"
@@ -61,8 +69,8 @@
       "sha256": "cb512849e5400869a0efcfbb877198903741e0d4d67b7cf31f312282c9c040ad"
     },
     "scripts/current-sku-managed-recovery-native27-qualification/README.md": {
-      "bytes": 12000,
-      "sha256": "f0bfb9ab29c32f716ee4bf8b33ba3d21a41846b6cf32fd6fec4c3b8126ed6b46"
+      "bytes": 12835,
+      "sha256": "54ca595b16ad56669c2547e34e67318d6d65453223eb5fd6ea2ac72c2af09072"
     },
     "scripts/current-sku-managed-recovery-native27-qualification/SKU_GENERATED_RECEIPTS.json": {
       "bytes": 28017,
@@ -85,8 +93,8 @@
       "sha256": "7a1cb2ea0d5b4bed519f45d07ed95b381fae3e01cfa31c6835c30317765c9537"
     },
     "scripts/current-sku-managed-recovery-native27-qualification/browser_delta.py": {
-      "bytes": 7948,
-      "sha256": "fb32a5943aa330c0ad5d2fd66d6fff3ce6745273ac1613ecb40eb83cafa53b34"
+      "bytes": 8936,
+      "sha256": "d6c405e3f997c7c5d47ec6a29e58be29c7c736b3b698c37d16c27213e30ed70e"
     },
     "scripts/current-sku-managed-recovery-native27-qualification/browser_fixture.py": {
       "bytes": 383,
@@ -432,6 +440,22 @@
       "bytes": 14079,
       "sha256": "800e7096dcca3011e594c30d2849842d3cc2905c42111da8635559a63851225d"
     },
+    "scripts/current-sku-managed-recovery-native27-qualification/retained_e925/SOURCE.json": {
+      "bytes": 539,
+      "sha256": "4b0e0e6dcb3fb088f5004c088d447ee2f1435b88c4d7d42c8ecc55dedd8eed54"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/retained_e925/SOURCE.json.txt": {
+      "bytes": 67381,
+      "sha256": "a6ba44cf8379141268a4cbcc999c168c4eaf43edea6eee934efa342d4061f650"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/retained_e925/browser_delta.py.txt": {
+      "bytes": 7948,
+      "sha256": "fb32a5943aa330c0ad5d2fd66d6fff3ce6745273ac1613ecb40eb83cafa53b34"
+    },
+    "scripts/current-sku-managed-recovery-native27-qualification/retained_e925/staged_ai_cases.mjs.txt": {
+      "bytes": 20533,
+      "sha256": "2ae5664425e52653c60a302451b1b5e71a020a5248f4fb3c5b394228a51cdf5a"
+    },
     "scripts/current-sku-managed-recovery-native27-qualification/runner.py": {
       "bytes": 365,
       "sha256": "4048ad839676eb816469b334ac5749c875a51d61b6f8acf2b7eec6c402cd49dc"
@@ -449,8 +473,8 @@
       "sha256": "48e8f2712f8dedc19c9af239e25755abdb64084797041ecb1b90ac4438ef5f88"
     },
     "scripts/current-sku-managed-recovery-native27-qualification/staged_ai_cases.mjs": {
-      "bytes": 20533,
-      "sha256": "2ae5664425e52653c60a302451b1b5e71a020a5248f4fb3c5b394228a51cdf5a"
+      "bytes": 20484,
+      "sha256": "4cf2c4d00bbbc57954cfceb03abd2745d09f731882520cd056f9ea47da2b569c"
     },
     "scripts/current-sku-managed-recovery-native27-qualification/staged_ai_fixture.py": {
       "bytes": 6758,
@@ -477,8 +501,8 @@
       "sha256": "c8b826affc64b971151a348673919a29aa3111fd4febc7a4a91189b53abdd779"
     },
     "scripts/current-sku-managed-recovery-native27-qualification/test_node_source.mjs": {
-      "bytes": 4794,
-      "sha256": "8062bdfd13825b10c93b6352a8ecef4b61d44553d30f15606c91f87f33cd67fb"
+      "bytes": 4911,
+      "sha256": "e433cdb9c9dda7673e80239fabf9218efb5654b1e1aa5994596d56aadfed161d"
     },
     "scripts/current-sku-managed-recovery-native27-qualification/test_qualification.py": {
       "bytes": 15153,
@@ -492,6 +516,10 @@
       "bytes": 7198,
       "sha256": "97413d2c948913afa0a5fbc0326f1182fb636a459a0c967bb720a7d3a0c9be9e"
     },
+    "scripts/current-sku-managed-recovery-native27-qualification/test_staged_timestamps.mjs": {
+      "bytes": 3890,
+      "sha256": "4200f8469095313b73a4cddef43a8100a145baa8617cc84546ec775c063ceddb"
+    },
     "scripts/current-sku-managed-recovery-native27-qualification/transition.py": {
       "bytes": 4896,
       "sha256": "7e1cdfc172d23605406a981552745e909345afed16b9b16aca4b41589b770bba"
@@ -499,10 +527,6 @@
     "scripts/current-sku-managed-recovery-native27-qualification/workflow.py": {
       "bytes": 2118,
       "sha256": "86ca0f9ae71559b69b74e6ba27982dba67e0d00aa2b752556bd7d227848a3005"
-    },
-    ".github/workflows/cp7-sku-managed-recovery-native27.yml": {
-      "bytes": 33182,
-      "sha256": "7b44245e426e16615e23806956487aa2f6405e6d1b76e61433bfd7fbe7ba4007"
     }
   },
   "allowed_changes": [
@@ -515,6 +539,7 @@
     "scripts/current-sku-managed-recovery-native27-qualification/FIRST_8A080_BROWSER_FAILURE.json",
     "scripts/current-sku-managed-recovery-native27-qualification/FIRST_A18_BROWSER_FAILURE.json",
     "scripts/current-sku-managed-recovery-native27-qualification/FIRST_C397_ROUTING_FAILURE.json",
+    "scripts/current-sku-managed-recovery-native27-qualification/FIRST_E925_TIMESTAMP_FAILURE.json",
     "scripts/current-sku-managed-recovery-native27-qualification/FIRST_LOCAL_BROWSER_SUCCESSOR_FAILURE.json",
     "scripts/current-sku-managed-recovery-native27-qualification/GENERATED_RECEIPTS.json",
     "scripts/current-sku-managed-recovery-native27-qualification/HISTORICAL_TRANSITIONS.json",
@@ -615,6 +640,10 @@
     "scripts/current-sku-managed-recovery-native27-qualification/retained_a18/derive.py.txt",
     "scripts/current-sku-managed-recovery-native27-qualification/retained_a18/test_node_source.mjs.txt",
     "scripts/current-sku-managed-recovery-native27-qualification/retained_a18/test_qualification.py.txt",
+    "scripts/current-sku-managed-recovery-native27-qualification/retained_e925/SOURCE.json",
+    "scripts/current-sku-managed-recovery-native27-qualification/retained_e925/SOURCE.json.txt",
+    "scripts/current-sku-managed-recovery-native27-qualification/retained_e925/browser_delta.py.txt",
+    "scripts/current-sku-managed-recovery-native27-qualification/retained_e925/staged_ai_cases.mjs.txt",
     "scripts/current-sku-managed-recovery-native27-qualification/runner.py",
     "scripts/current-sku-managed-recovery-native27-qualification/sequence_prefix.py",
     "scripts/current-sku-managed-recovery-native27-qualification/session_controls.py",
@@ -630,6 +659,7 @@
     "scripts/current-sku-managed-recovery-native27-qualification/test_qualification.py",
     "scripts/current-sku-managed-recovery-native27-qualification/test_race_binding.py",
     "scripts/current-sku-managed-recovery-native27-qualification/test_race_schedule.py",
+    "scripts/current-sku-managed-recovery-native27-qualification/test_staged_timestamps.mjs",
     "scripts/current-sku-managed-recovery-native27-qualification/transition.py",
     "scripts/current-sku-managed-recovery-native27-qualification/workflow.py"
   ],

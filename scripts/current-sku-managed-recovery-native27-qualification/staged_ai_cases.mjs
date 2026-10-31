@@ -45,8 +45,8 @@ export function assertManualPrompt(text,wire,question,targets){
   assert.deepEqual(data.selected_targets,wire.selected.map(promptRow),'SELECTED_NATIVE_FACT_CHANGED')
   assert.deepEqual([...data.selected_targets.map(r=>r.target_key)].sort(),[...targets].sort())
   const f=wire.freshness
-  assert.deepEqual(data.changes_since_analysis,f.changes_since.filter(c=>c.rows>0).map(c=>({category:c.category,rows:c.rows,deleted:c.deleted,last_recorded_at:c.last_recorded_at===null?null:instant(c.last_recorded_at)})))
-  assert.deepEqual(data.last_full_check,f.last_full_check===null?null:{sourceState:f.last_full_check.source_state,checkedAt:instant(f.last_full_check.checked_at),boundary:f.last_full_check.boundary,changesAfterCheck:f.last_full_check.changes_after_check})
+  assert.deepEqual(data.changes_since_analysis,f.changes_since.filter(c=>c.rows>0).map(c=>({category:c.category,rows:c.rows,deleted:c.deleted,last_recorded_at:c.last_recorded_at})))
+  assert.deepEqual(data.last_full_check,f.last_full_check===null?null:{sourceState:f.last_full_check.source_state,checkedAt:f.last_full_check.checked_at,boundary:f.last_full_check.boundary,changesAfterCheck:f.last_full_check.changes_after_check})
   return {prompt_sha256:hash(text),characters:text.length,selected:targets,priority:wire.priority.length,targets_total:wire.targets_total,freshness:scope.freshness_state}
 }
 

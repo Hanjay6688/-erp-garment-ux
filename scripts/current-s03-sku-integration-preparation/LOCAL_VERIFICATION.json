@@ -1,0 +1,42 @@
+{
+  "status": "PREPARED_S03_ON_SKU_PRODUCT_AND_UI_NOT_RUNTIME_QUALIFIED",
+  "actual_client_test_files": 7,
+  "actual_client_tests_passed": 154,
+  "actual_typecheck_exit": 0,
+  "actual_native_cases": 0,
+  "actual_browser_cases": 0,
+  "full_product_source_graph_evaluated": false,
+  "source_ABI_derivation_passed": true,
+  "initial_source_preparation_failures_retained": 2,
+  "existing_S05_caller_requires_rebinding": true,
+  "source_imports_sha256": "6f475e1668ffb5cc692662634540accc6abef2e1309aededd19d4a857081cf43",
+  "check_script_sha256": "3b91f9a2d4c542844154725cca091e000bc200b1ae53b73684e644a07e9e0346",
+  "files": {
+    "S03_SKU_JOIN_ACTUAL_RECORDED_ABI_20261031.json": {
+      "bytes": 10422,
+      "sha256": "7de54b7be363db208289e5c818af53faeb0ae088940d23331ae0049000278993"
+    },
+    "S03_SKU_JOIN_FIRST_MISSING_RETAINED_AF_20261031.stderr": {
+      "bytes": 2301,
+      "sha256": "78a736fcc9a53743e642870c19d6d33040e73e4a1d627a2f237e987915054df9"
+    },
+    "S03_SKU_JOIN_RETAINED_AF_RECOVERY_20261031.json": {
+      "bytes": 456,
+      "sha256": "6b5b597b2e868c5296bb3246a23c8672c4cc4cc91e393cdaf54f2b505dd3976a"
+    },
+    "S03_SKU_JOIN_SECOND_MISSING_HISTORICAL_WORKFLOW_20261031.stderr": {
+      "bytes": 3297,
+      "sha256": "8fab05e62c601aefff45177d134e33d3ff650ef65861a74013a03b0090e852c9"
+    },
+    "S03_SKU_JOIN_TARGETED_CLIENT_20261031.log": {
+      "bytes": 243,
+      "sha256": "449c7462ab81adbe75042dc8692b5a2f062281f9a80861b5b77c6a5e3e0f5b82"
+    },
+    "S03_SKU_JOIN_TYPECHECK_20261031.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "production_go": false,
+  "independent_acceptance": false
+}

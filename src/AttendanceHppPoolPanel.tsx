@@ -9,7 +9,7 @@ import { useProductionMutation, type ProductionMutationHandlers } from './usePro
 import ProductionRecoveryNotice from './ProductionRecoveryNotice'
 import {
   hppPoolActionPayload, hppPoolBlockerText, hppPoolCreatePayload, hppPoolDay, hppPoolPcs, hppPoolPeriodText, hppPoolRefusalText, hppPoolRupiah,
-  hppPoolStatusText, parseHppPoolOutcome, parseHppPoolWorkspace, type HppPool, type HppPoolOutcome, type HppPoolQuery, type HppPoolWorkspace,
+  hppPoolStatusText, parseHppPoolOutcome, parseHppPoolWorkspace, type HppPool, type HppPoolOutcome, type HppPoolPeriodHold, type HppPoolQuery, type HppPoolWorkspace,
 } from './hppPoolContract'
 import type { ProductionEnvelope } from './productionRecovery'
 import './hpp-pool.css'
@@ -42,7 +42,11 @@ function step(label: string, at: string | null, by: string | null, why: string |
   return <li>{label} {formatCp6WibDateTime(at)} oleh {by ?? 'pengguna tidak tercatat'}{why ? `: ${why}` : ''}{journal ? ` · jurnal ${journal}` : ''}</li>
 }
 
-export default function AttendanceHppPoolPanel({ onCommitted, refresh = 0 }: { onCommitted: () => Promise<unknown>; refresh?: number }) {
+export type AttendanceHppPoolPanelProps = {
+  onCommitted: () => Promise<unknown>; refresh?: number
+  onOpenAttendanceChoice?: (sourcePeriod: { start: string; end: string }) => void
+}
+export default function AttendanceHppPoolPanel({ onCommitted, refresh = 0, onOpenAttendanceChoice }: AttendanceHppPoolPanelProps) {
   const { runtime, identity } = useAuth()
   if (!isConnectedRuntime(runtime) || identity.status !== 'AUTHORIZED') throw new Error('Sesi pool HPP absensi belum siap.')
   const client = useMemo(() => getUatSupabaseClient(runtime), [runtime])
@@ -67,7 +71,10 @@ export default function AttendanceHppPoolPanel({ onCommitted, refresh = 0 }: { o
       const w = parseHppPoolWorkspace(r.data, q)
       // A current read may show facts while an earlier command is still being reconciled; the writer stays locked then.
       const fresh = finishRead(ticket)
-      setData(w); return fresh
+      setData(w)
+      setForm(current => current && (current.kind === 'CREATE' ? Boolean(w.preview?.periodHold)
+        : w.pools.some(p => p.id === current.poolId && (p.attendanceChoice !== null || p.periodHold !== null))) ? null : current)
+      return fresh
     } catch (e) { if (n === serial.current && isReadCurrent(ticket)) setError(errorText(e)); return false }
     finally { if (n === serial.current) setLoading(false) }
   }, [allowed, beginRead, client, finishRead, isReadCurrent])
@@ -96,6 +103,11 @@ export default function AttendanceHppPoolPanel({ onCommitted, refresh = 0 }: { o
   const previewCurrent = preview !== null && preview.periodStart === start && preview.periodEnd === end
   const canWrite = mayManage && data?.canManage === true
   const locked = recovery.writerLocked || loading || recovery.busy
+  const ownerRoute = (source: HppPoolPeriodHold, label: string) => <>
+    {identity.profile.role === 'OWNER' && identity.profile.isActive && onOpenAttendanceChoice
+      ? <button type="button" aria-label={label} disabled={recovery.busy} onClick={() => onOpenAttendanceChoice({ start: source.sourcePeriodStart, end: source.sourcePeriodEnd })}>Buka pilihan biaya periode asal</button>
+      : <p>Owner membuka Pilihan biaya absensi per periode pada periode asal untuk memeriksa keadaan dan tindakan yang tersedia.</p>}
+  </>
   const correctionPool = correctionOf ? data?.pools.find(p => p.id === correctionOf) ?? preview?.cancelledPools.find(c => c.id === correctionOf) ?? null : null
   const why = reason.trim(), reasonOk = why.length >= 5 && why.length <= 1000
   const showPreview = (from: string, to: string, replace: string | null) => {
@@ -133,13 +145,13 @@ export default function AttendanceHppPoolPanel({ onCommitted, refresh = 0 }: { o
   }
   return <section className="panel cproc hpool" aria-label="Pool HPP absensi">
     <h2>Pool HPP absensi</h2>
-    <p>Biaya absensi mandor biasa dari gaji yang sudah disetujui dibagi ke PO menurut jumlah potong yang selesai dijahit pada periode gaji yang sama. Pool aktif masuk ke HPP PO; pool yang dibatalkan dibalik jurnalnya, lalu bisa dibuat pool pengganti.</p>
+    <p>Biaya absensi mandor biasa dari gaji yang sudah disetujui dibagi ke PO menurut jumlah potong yang selesai dijahit pada periode gaji yang sama. Pool aktif masuk ke HPP PO; pool yang dibatalkan dibalik jurnalnya, lalu bisa dibuat pool pengganti. Alokasi dari pilihan biaya Owner menampilkan periode asal biaya dan periode hasil jahit tujuannya secara terpisah.</p>
     <ProductionRecoveryNotice recovery={recovery} className="" onReconcile={() => reconcile(handlers)} reconcileLabel="Periksa hasil pool"/>
     {done ? <p role="status">{done}</p> : null}
     {error ? <p role="alert">{error}</p> : null}
     {loading ? <p role="status">Memuat pool HPP absensi…</p> : null}
     {data ? <>
-      <p>{data.closedThrough ? `Pembukuan ditutup sampai ${hppPoolDay(data.closedThrough)}. Pool yang periodenya berakhir pada atau sebelum tanggal itu tidak bisa dibuat, diaktifkan, atau dibatalkan.` : 'Belum ada periode pembukuan yang ditutup.'}</p>
+      <p>{data.closedThrough ? `Pembukuan ditutup sampai ${hppPoolDay(data.closedThrough)}. Tindakan pool biasa mengikuti akhir periode pool. Untuk alokasi pilihan biaya Owner, periksa periode hasil jahit tujuan pada pool tersebut.` : 'Belum ada periode pembukuan yang ditutup.'}</p>
       {!canWrite ? <p>Anda bisa melihat pool. Membuat, mengaktifkan, dan membatalkan pool perlu hak HPP "Rekalkulasi".</p> : null}
     </> : null}
     <form className="hpool-period" onSubmit={e => { e.preventDefault(); submitPeriod() }}>
@@ -174,7 +186,8 @@ export default function AttendanceHppPoolPanel({ onCommitted, refresh = 0 }: { o
         {preview.poCount !== null && preview.poCount > preview.pos.length ? <p>Menampilkan {preview.pos.length} dari {preview.poCount} PO.</p> : null}
       </> : null}
       {preview.periodClosed ? <p className="hpool-blocker">Pembukuan periode ini sudah ditutup{data?.closedThrough ? ` sampai ${hppPoolDay(data.closedThrough)}` : ''}, jadi pool untuk periode ini tidak bisa dibuat. Bila memang perlu dibetulkan, buka kembali periodenya di Keuangan → Laporan &amp; Tutup Buku → tab Tutup Buku.</p> : null}
-      {preview.existingPool ? <p>Periode ini sudah punya pool {hppPoolStatusText[preview.existingPool.status].toLowerCase()}: {preview.existingPool.poolNumber}. Aktifkan atau batalkan pool itu di daftar di bawah.</p> : null}
+      {preview.periodHold ? <section aria-label="Pilihan Owner pada periode pratinjau"><p>Periode asal {hppPoolPeriodText(preview.periodHold.sourcePeriodStart, preview.periodHold.sourcePeriodEnd)} dikelola melalui pilihan biaya absensi Owner. Buka periode asal untuk melihat pilihan yang berlaku saat ini.</p>{ownerRoute(preview.periodHold, 'Buka pilihan biaya periode pratinjau')}</section>
+        : preview.existingPool ? <p>Periode ini sudah punya pool {hppPoolStatusText[preview.existingPool.status].toLowerCase()}: {preview.existingPool.poolNumber}. Aktifkan atau batalkan pool itu di daftar di bawah.</p> : null}
       {preview.status === 'READY' && preview.canCreate && previewCurrent ? <p>Siap dibuat sebagai draf. Draf belum mengubah jurnal maupun HPP.</p> : null}
       {previewCurrent && preview.canCreate && canWrite ? form?.kind === 'CREATE'
         ? <section className="hpool-form" aria-label="Buat draf pool">
@@ -207,9 +220,15 @@ export default function AttendanceHppPoolPanel({ onCommitted, refresh = 0 }: { o
         </ul>
         {p.correctionOf ? <p>Mengganti pool {p.correctionOf.poolNumber} yang dibatalkan.</p> : null}
         {p.replacedBy.length ? <p>Diganti oleh {p.replacedBy.map(x => `pool ${x.poolNumber} (${hppPoolStatusText[x.status]})`).join(', ')}.</p> : null}
+        {p.attendanceChoice ? <section aria-label={`Asal pilihan biaya ${p.poolNumber}`}>
+          <p>Pool ini berasal dari alokasi Pilihan biaya absensi Owner. Periode asal {hppPoolPeriodText(p.attendanceChoice.sourcePeriodStart, p.attendanceChoice.sourcePeriodEnd)} · hasil jahit {hppPoolPeriodText(p.attendanceChoice.outputPeriodStart, p.attendanceChoice.outputPeriodEnd)}.</p>
+          <p>Hubungan asal ini tetap tersimpan setelah pembatalan. Buka periode asal untuk melihat pilihan yang berlaku saat ini.</p>
+          {p.attendanceChoice.outputPeriodClosed ? <p className="hpool-blocker">Pembukuan periode hasil jahit tujuan sudah ditutup. Pembatalan alokasi aktif memerlukan periode tujuan terbuka; periksa di Keuangan → Laporan &amp; Tutup Buku → tab Tutup Buku.</p> : null}
+          {ownerRoute(p.attendanceChoice, `Buka pilihan biaya periode asal ${p.poolNumber}`)}
+        </section> : p.periodHold ? <section aria-label={`Pilihan Owner periode ${p.poolNumber}`}><p>Periode asal {hppPoolPeriodText(p.periodHold.sourcePeriodStart, p.periodHold.sourcePeriodEnd)} sudah memiliki pilihan biaya absensi Owner. Pool pengganti biasa tidak dibuat dari periode ini.</p>{ownerRoute(p.periodHold, `Buka pilihan biaya periode asal ${p.poolNumber}`)}</section> : null}
         {p.stale ? <p className="hpool-blocker">Data gaji absensi, aturan HPP mandor, atau setoran jahit periode ini berubah sejak draf dibuat, jadi draf ini tidak bisa diaktifkan. Batalkan draf ini lalu buat draf baru.</p> : null}
-        {p.periodClosed && p.status !== 'VOIDED' ? <p className="hpool-blocker">Pembukuan periode pool ini sudah ditutup, jadi pool ini tidak bisa diaktifkan atau dibatalkan. Bila memang perlu dibetulkan, buka kembali periodenya di Keuangan → Laporan &amp; Tutup Buku → tab Tutup Buku.</p> : null}
-        {canWrite && p.actions.length ? <div className="hpool-buttons">
+        {p.periodClosed && p.status !== 'VOIDED' && !p.attendanceChoice ? <p className="hpool-blocker">Pembukuan periode pool ini sudah ditutup, jadi pool ini tidak bisa diaktifkan atau dibatalkan. Bila memang perlu dibetulkan, buka kembali periodenya di Keuangan → Laporan &amp; Tutup Buku → tab Tutup Buku.</p> : null}
+        {canWrite && !p.attendanceChoice && !p.periodHold && p.actions.length ? <div className="hpool-buttons">
           {p.actions.includes('ACTIVATE') ? <button type="button" aria-label={`Aktifkan pool ${p.poolNumber}`} disabled={locked}
             onClick={() => { setDone(''); setReason(''); setReviewed(false); setForm({ kind: 'ACTIVATE', poolId: p.id }) }}>Aktifkan</button> : null}
           {p.actions.includes('CANCEL') ? <button type="button" aria-label={`Batalkan pool ${p.poolNumber}`} disabled={locked}
@@ -217,7 +236,7 @@ export default function AttendanceHppPoolPanel({ onCommitted, refresh = 0 }: { o
           {p.actions.includes('REPLACE') ? <button type="button" aria-label={`Buat pool pengganti untuk ${p.poolNumber}`} disabled={locked}
             onClick={() => showPreview(p.periodStart, p.periodEnd, p.id)}>Buat pool pengganti</button> : null}
         </div> : null}
-        {form && form.kind !== 'CREATE' && form.poolId === p.id && canWrite ? poolForm(p, form.kind) : null}
+        {form && form.kind !== 'CREATE' && form.poolId === p.id && canWrite && !p.attendanceChoice && !p.periodHold ? poolForm(p, form.kind) : null}
       </article>)}
       <div className="hpool-buttons">
         <button type="button" disabled={loading || data.offset === 0} onClick={() => { query.current = { ...query.current, offset: Math.max(0, data.offset - LIMIT) }; closeForm(); void load() }}>Pool sebelumnya</button>

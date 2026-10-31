@@ -1,0 +1,419 @@
+{
+  "status": "SOURCE_COMPOSITION_PREPARATION_NOT_EXECUTED",
+  "base": "051b451b34c16ec0a8522a78880d695c4d7354e3",
+  "S03_source": "f42e76978852ba9efe34f75a4b622990c0331866",
+  "SKU_source": "090b85d3fcb738d3e694d4329d306f199a686eb8",
+  "merge_base": "42760534906c330353f9bb0f53d27db65b134626",
+  "files": [
+    {
+      "path": "scripts/current-sku-managed-recovery-native27-qualification/FIRST_E925_TIMESTAMP_FAILURE.json",
+      "kind": "EXACT_SKU_SUCCESSOR_QUALIFIER",
+      "source": "090b85d3fcb738d3e694d4329d306f199a686eb8",
+      "bytes": 3663,
+      "sha256": "834278b87ddb59fc88adc3eb42e41d75de97c7dd695c4af8d6d2fe2030784348"
+    },
+    {
+      "path": "scripts/current-sku-managed-recovery-native27-qualification/README.md",
+      "kind": "EXACT_SKU_SUCCESSOR_QUALIFIER",
+      "source": "090b85d3fcb738d3e694d4329d306f199a686eb8",
+      "bytes": 12835,
+      "sha256": "54ca595b16ad56669c2547e34e67318d6d65453223eb5fd6ea2ac72c2af09072"
+    },
+    {
+      "path": "scripts/current-sku-managed-recovery-native27-qualification/SOURCE.json",
+      "kind": "EXACT_SKU_SUCCESSOR_QUALIFIER",
+      "source": "090b85d3fcb738d3e694d4329d306f199a686eb8",
+      "bytes": 69244,
+      "sha256": "06b6658ebbccc438f324f87d984760f936e68bece8345b9f60f8ab0158b4f1a8"
+    },
+    {
+      "path": "scripts/current-sku-managed-recovery-native27-qualification/browser_delta.py",
+      "kind": "EXACT_SKU_SUCCESSOR_QUALIFIER",
+      "source": "090b85d3fcb738d3e694d4329d306f199a686eb8",
+      "bytes": 8936,
+      "sha256": "d6c405e3f997c7c5d47ec6a29e58be29c7c736b3b698c37d16c27213e30ed70e"
+    },
+    {
+      "path": "scripts/current-sku-managed-recovery-native27-qualification/retained_e925/SOURCE.json",
+      "kind": "EXACT_SKU_SUCCESSOR_QUALIFIER",
+      "source": "090b85d3fcb738d3e694d4329d306f199a686eb8",
+      "bytes": 539,
+      "sha256": "4b0e0e6dcb3fb088f5004c088d447ee2f1435b88c4d7d42c8ecc55dedd8eed54"
+    },
+    {
+      "path": "scripts/current-sku-managed-recovery-native27-qualification/retained_e925/SOURCE.json.txt",
+      "kind": "EXACT_SKU_SUCCESSOR_QUALIFIER",
+      "source": "090b85d3fcb738d3e694d4329d306f199a686eb8",
+      "bytes": 67381,
+      "sha256": "a6ba44cf8379141268a4cbcc999c168c4eaf43edea6eee934efa342d4061f650"
+    },
+    {
+      "path": "scripts/current-sku-managed-recovery-native27-qualification/retained_e925/browser_delta.py.txt",
+      "kind": "EXACT_SKU_SUCCESSOR_QUALIFIER",
+      "source": "090b85d3fcb738d3e694d4329d306f199a686eb8",
+      "bytes": 7948,
+      "sha256": "fb32a5943aa330c0ad5d2fd66d6fff3ce6745273ac1613ecb40eb83cafa53b34"
+    },
+    {
+      "path": "scripts/current-sku-managed-recovery-native27-qualification/retained_e925/staged_ai_cases.mjs.txt",
+      "kind": "EXACT_SKU_SUCCESSOR_QUALIFIER",
+      "source": "090b85d3fcb738d3e694d4329d306f199a686eb8",
+      "bytes": 20533,
+      "sha256": "2ae5664425e52653c60a302451b1b5e71a020a5248f4fb3c5b394228a51cdf5a"
+    },
+    {
+      "path": "scripts/current-sku-managed-recovery-native27-qualification/staged_ai_cases.mjs",
+      "kind": "EXACT_SKU_SUCCESSOR_QUALIFIER",
+      "source": "090b85d3fcb738d3e694d4329d306f199a686eb8",
+      "bytes": 20484,
+      "sha256": "4cf2c4d00bbbc57954cfceb03abd2745d09f731882520cd056f9ea47da2b569c"
+    },
+    {
+      "path": "scripts/current-sku-managed-recovery-native27-qualification/test_node_source.mjs",
+      "kind": "EXACT_SKU_SUCCESSOR_QUALIFIER",
+      "source": "090b85d3fcb738d3e694d4329d306f199a686eb8",
+      "bytes": 4911,
+      "sha256": "e433cdb9c9dda7673e80239fabf9218efb5654b1e1aa5994596d56aadfed161d"
+    },
+    {
+      "path": "scripts/current-sku-managed-recovery-native27-qualification/test_staged_timestamps.mjs",
+      "kind": "EXACT_SKU_SUCCESSOR_QUALIFIER",
+      "source": "090b85d3fcb738d3e694d4329d306f199a686eb8",
+      "bytes": 3890,
+      "sha256": "4200f8469095313b73a4cddef43a8100a145baa8617cc84546ec775c063ceddb"
+    },
+    {
+      "path": "scripts/cp7_attendance_period_choice/__init__.py",
+      "kind": "EXACT_S03_REFERENCE_PACKAGE",
+      "source": "f42e76978852ba9efe34f75a4b622990c0331866",
+      "bytes": 75,
+      "sha256": "7078a6a88cf48a6fc9f9de2a06c7367b3b264613682d9cdbb6dce37fe18f34ea"
+    },
+    {
+      "path": "scripts/cp7_s03_sku_composition/__init__.py",
+      "kind": "EXACT_S03_COMPONENT_BYTES",
+      "source": "f42e76978852ba9efe34f75a4b622990c0331866",
+      "bytes": 75,
+      "sha256": "7078a6a88cf48a6fc9f9de2a06c7367b3b264613682d9cdbb6dce37fe18f34ea"
+    },
+    {
+      "path": "scripts/cp7_attendance_period_choice/choice.sql",
+      "kind": "EXACT_S03_REFERENCE_PACKAGE",
+      "source": "f42e76978852ba9efe34f75a4b622990c0331866",
+      "bytes": 61490,
+      "sha256": "44499c6d6a06d1effc2be4f066168f5fa2fe9608b2ccb80d1d2d0b1dac0a8212"
+    },
+    {
+      "path": "scripts/cp7_s03_sku_composition/choice.sql",
+      "kind": "EXACT_S03_COMPONENT_BYTES",
+      "source": "f42e76978852ba9efe34f75a4b622990c0331866",
+      "bytes": 61490,
+      "sha256": "44499c6d6a06d1effc2be4f066168f5fa2fe9608b2ccb80d1d2d0b1dac0a8212"
+    },
+    {
+      "path": "scripts/cp7_attendance_period_choice/readers.sql",
+      "kind": "EXACT_S03_REFERENCE_PACKAGE",
+      "source": "f42e76978852ba9efe34f75a4b622990c0331866",
+      "bytes": 5847,
+      "sha256": "4ab82ff58033f4357251930504e6e9e75ecce9d8f1cc5b4e10f689940ce749e2"
+    },
+    {
+      "path": "scripts/cp7_s03_sku_composition/readers.sql",
+      "kind": "EXACT_S03_COMPONENT_BYTES",
+      "source": "f42e76978852ba9efe34f75a4b622990c0331866",
+      "bytes": 5847,
+      "sha256": "4ab82ff58033f4357251930504e6e9e75ecce9d8f1cc5b4e10f689940ce749e2"
+    },
+    {
+      "path": "scripts/cp7_attendance_period_choice/native_delta.py",
+      "kind": "EXACT_S03_REFERENCE_PACKAGE",
+      "source": "f42e76978852ba9efe34f75a4b622990c0331866",
+      "bytes": 11507,
+      "sha256": "a49242327798a59407739c2999fcf92408aeef9d88a1ae94fccc82bd189ac9ce"
+    },
+    {
+      "path": "scripts/cp7_s03_sku_composition/native_delta.py",
+      "kind": "EXACT_S03_COMPONENT_BYTES",
+      "source": "f42e76978852ba9efe34f75a4b622990c0331866",
+      "bytes": 11507,
+      "sha256": "a49242327798a59407739c2999fcf92408aeef9d88a1ae94fccc82bd189ac9ce"
+    },
+    {
+      "path": "scripts/cp7_attendance_period_choice/catalog_contract.py",
+      "kind": "EXACT_S03_REFERENCE_PACKAGE",
+      "source": "f42e76978852ba9efe34f75a4b622990c0331866",
+      "bytes": 2513,
+      "sha256": "f312de61b3c75087a51d7df712896627c02bb5d6473803bf6d2c90ad506d7c64"
+    },
+    {
+      "path": "scripts/cp7_s03_sku_composition/catalog_contract.py",
+      "kind": "EXACT_S03_COMPONENT_BYTES",
+      "source": "f42e76978852ba9efe34f75a4b622990c0331866",
+      "bytes": 2513,
+      "sha256": "f312de61b3c75087a51d7df712896627c02bb5d6473803bf6d2c90ad506d7c64"
+    },
+    {
+      "path": "scripts/cp7_attendance_period_choice/NEW_CATALOG_IDENTITIES.json",
+      "kind": "EXACT_S03_REFERENCE_PACKAGE",
+      "source": "f42e76978852ba9efe34f75a4b622990c0331866",
+      "bytes": 18161,
+      "sha256": "e49e4cb9c794d6ed98b831ae318e6d3c401a110d420cf932ee7011f7c971a578"
+    },
+    {
+      "path": "scripts/cp7_s03_sku_composition/NEW_CATALOG_IDENTITIES.json",
+      "kind": "EXACT_S03_COMPONENT_BYTES",
+      "source": "f42e76978852ba9efe34f75a4b622990c0331866",
+      "bytes": 18161,
+      "sha256": "e49e4cb9c794d6ed98b831ae318e6d3c401a110d420cf932ee7011f7c971a578"
+    },
+    {
+      "path": "scripts/cp7_attendance_period_choice/composition.py",
+      "kind": "EXACT_S03_REFERENCE_PACKAGE",
+      "source": "f42e76978852ba9efe34f75a4b622990c0331866",
+      "bytes": 7381,
+      "sha256": "51b3d53dccd69688438287bee338e7a86a37afe57aa963cc2dee24b2e43470f1"
+    },
+    {
+      "path": "scripts/cp7_s03_sku_composition/composition.py",
+      "kind": "S03_ON_SKU_PARENT_ROUTE_AND_DOC_ONLY",
+      "source": "f42e76978852ba9efe34f75a4b622990c0331866",
+      "bytes": 7371,
+      "sha256": "edeca8f5875412f94b4a058a9b8c0960802665fd09926a1aa1ef109dda32635e"
+    },
+    {
+      "path": "scripts/cp7_attendance_period_choice/installer_ddl.py",
+      "kind": "EXACT_S03_REFERENCE_PACKAGE",
+      "source": "f42e76978852ba9efe34f75a4b622990c0331866",
+      "bytes": 4997,
+      "sha256": "e002ea2dd938fef5913c76974909f70de8bcb47874b7fd958c0aeef0e2993514"
+    },
+    {
+      "path": "scripts/cp7_s03_sku_composition/installer_ddl.py",
+      "kind": "EXACT_S03_COMPONENT_BYTES",
+      "source": "f42e76978852ba9efe34f75a4b622990c0331866",
+      "bytes": 4997,
+      "sha256": "e002ea2dd938fef5913c76974909f70de8bcb47874b7fd958c0aeef0e2993514"
+    },
+    {
+      "path": "src/AttendanceHppPoolPanel.dom.test.tsx",
+      "kind": "EXACT_S03_UI",
+      "source": "f42e76978852ba9efe34f75a4b622990c0331866",
+      "bytes": 32289,
+      "sha256": "4bfa4fd32fa1e717d0f654d998c038259840c83dd3c00733cd29526b15cade3d"
+    },
+    {
+      "path": "src/AttendanceHppPoolPanel.tsx",
+      "kind": "EXACT_S03_UI",
+      "source": "f42e76978852ba9efe34f75a4b622990c0331866",
+      "bytes": 23085,
+      "sha256": "e0e779798cb547d4c8db8cd4fc8f54a8479ad32f5c054ae40f532392245975a3"
+    },
+    {
+      "path": "src/AttendancePeriodChoicePanel.dom.test.tsx",
+      "kind": "EXACT_S03_UI",
+      "source": "f42e76978852ba9efe34f75a4b622990c0331866",
+      "bytes": 24187,
+      "sha256": "ae7277377e930cf953baa8447ed8e42e227a2c9039b2b00bde0a52144e9651c6"
+    },
+    {
+      "path": "src/AttendancePeriodChoicePanel.tsx",
+      "kind": "EXACT_S03_UI",
+      "source": "f42e76978852ba9efe34f75a4b622990c0331866",
+      "bytes": 22270,
+      "sha256": "a13e248ce5a52795fa464bf82e9f220e355ebede97e6dcb0241d98db81270d8f"
+    },
+    {
+      "path": "src/ConnectedSkuHppPage.attendance.dom.test.tsx",
+      "kind": "EXACT_S03_UI",
+      "source": "f42e76978852ba9efe34f75a4b622990c0331866",
+      "bytes": 7257,
+      "sha256": "725420372302f9ea1e892e35e1e5e45e2ed3d48849fb4de294516efe33c293b1"
+    },
+    {
+      "path": "src/ConnectedSkuHppPage.attendance.integration.dom.test.tsx",
+      "kind": "EXACT_S03_UI",
+      "source": "f42e76978852ba9efe34f75a4b622990c0331866",
+      "bytes": 8915,
+      "sha256": "1cd27bc4b2009bd5195f2f4e4871fc4589d8dfc1878539c5c9213e2599b82273"
+    },
+    {
+      "path": "src/ConnectedSkuHppPage.tsx",
+      "kind": "EXACT_S03_UI",
+      "source": "f42e76978852ba9efe34f75a4b622990c0331866",
+      "bytes": 7798,
+      "sha256": "3e55bee6dc8b2a5fce70eefeaccafe75926429ac19dd52350cd1a855af591bcb"
+    },
+    {
+      "path": "src/attendance-period-choice.css",
+      "kind": "EXACT_S03_UI",
+      "source": "f42e76978852ba9efe34f75a4b622990c0331866",
+      "bytes": 1732,
+      "sha256": "192f0b7563b54ff34587d93578eb9400d145cc366bb75fa33e245275213e295c"
+    },
+    {
+      "path": "src/attendancePeriodChoiceContract.test.ts",
+      "kind": "EXACT_S03_UI",
+      "source": "f42e76978852ba9efe34f75a4b622990c0331866",
+      "bytes": 10768,
+      "sha256": "987563bcb1245299d3a0a6479e268a63a7badb3a28507ba1d70026d7b4eef33e"
+    },
+    {
+      "path": "src/attendancePeriodChoiceContract.ts",
+      "kind": "EXACT_S03_UI",
+      "source": "f42e76978852ba9efe34f75a4b622990c0331866",
+      "bytes": 20389,
+      "sha256": "49154c93c7626e37bf8c13d8e49d6369d2f729ff393d080e4eaec32957f7a8ae"
+    },
+    {
+      "path": "src/hppPoolContract.ts",
+      "kind": "EXACT_S03_UI",
+      "source": "f42e76978852ba9efe34f75a4b622990c0331866",
+      "bytes": 24299,
+      "sha256": "27640380343a3f2eb8f2f203e2d8b0656438150445162d3b13d3cf3061e24514"
+    },
+    {
+      "path": "src/productionRecovery.test.ts",
+      "kind": "EXACT_S03_UI",
+      "source": "f42e76978852ba9efe34f75a4b622990c0331866",
+      "bytes": 8312,
+      "sha256": "a52108b4c46c928f222d03db1be41a63af40d484eecb827ebe4ed11bf4e1c208"
+    },
+    {
+      "path": "src/productionRecovery.ts",
+      "kind": "THREE_WAY_S03_AND_CURRENT_UI_MERGE",
+      "source": "f42e76978852ba9efe34f75a4b622990c0331866",
+      "bytes": 13486,
+      "sha256": "130b165ae214708edd0c4055f4fda3d2084d5dc808172251f485d4c01d9a7689"
+    },
+    {
+      "path": "tests/fixtures/attendancePeriodChoice.ts",
+      "kind": "EXACT_S03_UI",
+      "source": "f42e76978852ba9efe34f75a4b622990c0331866",
+      "bytes": 6007,
+      "sha256": "f3e8c2e92392948f63e7422e0fac6a527d1b13182ece874bef5e656a50c449e3"
+    }
+  ],
+  "ui": [
+    {
+      "path": "src/AttendanceHppPoolPanel.dom.test.tsx",
+      "kind": "EXACT_S03_UI",
+      "retained_current_sha256": "f072a0b32b0b8e4bd552efb92dae190ff0725fa198283f66288ee1326e833e63",
+      "S03_sha256": "4bfa4fd32fa1e717d0f654d998c038259840c83dd3c00733cd29526b15cade3d",
+      "result_sha256": "4bfa4fd32fa1e717d0f654d998c038259840c83dd3c00733cd29526b15cade3d"
+    },
+    {
+      "path": "src/AttendanceHppPoolPanel.tsx",
+      "kind": "EXACT_S03_UI",
+      "retained_current_sha256": "0cbcf49f1138743bee12966b03659d801f5715ecd441c30e4fcdfe47df26011e",
+      "S03_sha256": "e0e779798cb547d4c8db8cd4fc8f54a8479ad32f5c054ae40f532392245975a3",
+      "result_sha256": "e0e779798cb547d4c8db8cd4fc8f54a8479ad32f5c054ae40f532392245975a3"
+    },
+    {
+      "path": "src/AttendancePeriodChoicePanel.dom.test.tsx",
+      "kind": "EXACT_S03_UI",
+      "retained_current_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "S03_sha256": "ae7277377e930cf953baa8447ed8e42e227a2c9039b2b00bde0a52144e9651c6",
+      "result_sha256": "ae7277377e930cf953baa8447ed8e42e227a2c9039b2b00bde0a52144e9651c6"
+    },
+    {
+      "path": "src/AttendancePeriodChoicePanel.tsx",
+      "kind": "EXACT_S03_UI",
+      "retained_current_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "S03_sha256": "a13e248ce5a52795fa464bf82e9f220e355ebede97e6dcb0241d98db81270d8f",
+      "result_sha256": "a13e248ce5a52795fa464bf82e9f220e355ebede97e6dcb0241d98db81270d8f"
+    },
+    {
+      "path": "src/ConnectedSkuHppPage.attendance.dom.test.tsx",
+      "kind": "EXACT_S03_UI",
+      "retained_current_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "S03_sha256": "725420372302f9ea1e892e35e1e5e45e2ed3d48849fb4de294516efe33c293b1",
+      "result_sha256": "725420372302f9ea1e892e35e1e5e45e2ed3d48849fb4de294516efe33c293b1"
+    },
+    {
+      "path": "src/ConnectedSkuHppPage.attendance.integration.dom.test.tsx",
+      "kind": "EXACT_S03_UI",
+      "retained_current_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "S03_sha256": "1cd27bc4b2009bd5195f2f4e4871fc4589d8dfc1878539c5c9213e2599b82273",
+      "result_sha256": "1cd27bc4b2009bd5195f2f4e4871fc4589d8dfc1878539c5c9213e2599b82273"
+    },
+    {
+      "path": "src/ConnectedSkuHppPage.tsx",
+      "kind": "EXACT_S03_UI",
+      "retained_current_sha256": "17d8f5dc91d600fbb14129d4ac76d91838b47ef90c5b9774c7c69b2d65bd23e5",
+      "S03_sha256": "3e55bee6dc8b2a5fce70eefeaccafe75926429ac19dd52350cd1a855af591bcb",
+      "result_sha256": "3e55bee6dc8b2a5fce70eefeaccafe75926429ac19dd52350cd1a855af591bcb"
+    },
+    {
+      "path": "src/attendance-period-choice.css",
+      "kind": "EXACT_S03_UI",
+      "retained_current_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "S03_sha256": "192f0b7563b54ff34587d93578eb9400d145cc366bb75fa33e245275213e295c",
+      "result_sha256": "192f0b7563b54ff34587d93578eb9400d145cc366bb75fa33e245275213e295c"
+    },
+    {
+      "path": "src/attendancePeriodChoiceContract.test.ts",
+      "kind": "EXACT_S03_UI",
+      "retained_current_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "S03_sha256": "987563bcb1245299d3a0a6479e268a63a7badb3a28507ba1d70026d7b4eef33e",
+      "result_sha256": "987563bcb1245299d3a0a6479e268a63a7badb3a28507ba1d70026d7b4eef33e"
+    },
+    {
+      "path": "src/attendancePeriodChoiceContract.ts",
+      "kind": "EXACT_S03_UI",
+      "retained_current_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "S03_sha256": "49154c93c7626e37bf8c13d8e49d6369d2f729ff393d080e4eaec32957f7a8ae",
+      "result_sha256": "49154c93c7626e37bf8c13d8e49d6369d2f729ff393d080e4eaec32957f7a8ae"
+    },
+    {
+      "path": "src/hppPoolContract.ts",
+      "kind": "EXACT_S03_UI",
+      "retained_current_sha256": "c92ea89df06b97bce3491efe6464331351dea615ef9b3ec2cb44c0949403c3a4",
+      "S03_sha256": "27640380343a3f2eb8f2f203e2d8b0656438150445162d3b13d3cf3061e24514",
+      "result_sha256": "27640380343a3f2eb8f2f203e2d8b0656438150445162d3b13d3cf3061e24514"
+    },
+    {
+      "path": "src/productionRecovery.test.ts",
+      "kind": "EXACT_S03_UI",
+      "retained_current_sha256": "32b57320137b04105c500c0642957628c001a983a216ebf715cb780c842f3309",
+      "S03_sha256": "a52108b4c46c928f222d03db1be41a63af40d484eecb827ebe4ed11bf4e1c208",
+      "result_sha256": "a52108b4c46c928f222d03db1be41a63af40d484eecb827ebe4ed11bf4e1c208"
+    },
+    {
+      "path": "src/productionRecovery.ts",
+      "kind": "THREE_WAY_S03_AND_CURRENT_UI_MERGE",
+      "retained_current_sha256": "c05ea0af7214ea45c36e1ab777552ff8da6761c59d8e539332439b7f6e6fd0d6",
+      "S03_sha256": "29b741b1d337229ef63d8b9fb062164f50dd0129f965a8f53a4f2c9b1333ab7f",
+      "result_sha256": "130b165ae214708edd0c4055f4fda3d2084d5dc808172251f485d4c01d9a7689"
+    },
+    {
+      "path": "tests/fixtures/attendancePeriodChoice.ts",
+      "kind": "EXACT_S03_UI",
+      "retained_current_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "S03_sha256": "f3e8c2e92392948f63e7422e0fac6a527d1b13182ece874bef5e656a50c449e3",
+      "result_sha256": "f3e8c2e92392948f63e7422e0fac6a527d1b13182ece874bef5e656a50c449e3"
+    }
+  ],
+  "unresolved_conflicts": [],
+  "Native_or_browser_case_credit": 0,
+  "actual_composite_install_qualified": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "S03_composition_derivation": {
+    "source_sha256": "51b3d53dccd69688438287bee338e7a86a37afe57aa963cc2dee24b2e43470f1",
+    "derived_sha256": "edeca8f5875412f94b4a058a9b8c0960802665fd09926a1aa1ef109dda32635e",
+    "changes": [
+      {
+        "before": "from cp7_vendor_receivable import composition as predecessor",
+        "after": "from cp7_sku_pair_conversion import composition as predecessor",
+        "count": 1
+      },
+      {
+        "before": "Additive S03 stage over the exact qualified vendor composition.",
+        "after": "Additive S03 stage over the actual SKU composition.",
+        "count": 1
+      }
+    ],
+    "all_function_AST_bodies_exact": true,
+    "original_bytes_recovered": true
+  }
+}

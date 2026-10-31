@@ -183,3 +183,17 @@ The Python isolation controls exercise complete fixture dispatch against a
 recording connection: old prepare refuses the captured Native contract, new
 prepare establishes RC before any query, and state/read remain RR. These
 controls perform no DB/Auth/browser execution.
+
+
+## Current e925 actual timestamp failure
+
+Run41109346033 retained Native7/cost5/callbacks11 and two real SKU browser passes.
+Both staged AI journeys failed because their oracle normalized copied PostgreSQL
+timestamps to millisecond UTC strings. The actual product parser and prompt
+preserve the original offset and microseconds. This successor changes exactly
+two copied timestamp assertions to compare the exact original strings, retaining
+all other values, nulls, source-state, boundary and census assertions.
+The failed Original and source preimages remain in FIRST_E925_TIMESTAMP_FAILURE.json
+and retained_e925. The new two-control regression runs the actual product parser
+and prompt with the captured timestamps; losing one microsecond still fails.
+This source repair gives no new Native/Auth/browser acceptance or complete27.
