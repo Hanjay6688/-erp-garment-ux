@@ -1,0 +1,21 @@
+{
+  "status": "S05_ON_S03_SKU_SOURCE_AND_PURE_TRANSITION_CONTROLS_PASS_NOT_RUNTIME",
+  "negative_controls_passed": 30,
+  "pinned_source_files": 41,
+  "first_source_control_execution_exit": 0,
+  "report_SQL_and_UI_unchanged": true,
+  "previous_61_client_tests_reused": true,
+  "new_SQL_or_browser_execution": false,
+  "full_product_source_graph_evaluated": false,
+  "actual_Native_cases": 0,
+  "actual_browser_cases": 0,
+  "actual_composite_install_qualified": false,
+  "checker_sha256": "d57d1b4e25c7ef4c2b1dbd500246d814358966b81365829b5b884558f4b51daa",
+  "evidence": {
+    "path": "evidence/S05_S03_SKU_SOURCE_TRANSITION_CONTROLS_20261031.json",
+    "bytes": 3252,
+    "sha256": "f445f11c8907569312f1eddae355faa53124d05b2234b67636278eb5144fffc3"
+  },
+  "production_go": false,
+  "independent_acceptance": false
+}

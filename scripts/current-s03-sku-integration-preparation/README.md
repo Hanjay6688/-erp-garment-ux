@@ -28,3 +28,16 @@ complete combined install/restore and real browser qualification. The existing
 S05 caller still targets the earlier SKU-only parent and cannot be executed
 unchanged against this candidate. No default installer or workflow is changed.
 Global writer/permission/lock closure and production acceptance remain open.
+
+## S05 report stage on the joined product
+
+`scripts/cp7_s05_s03_sku_composition/stage.py` now supplies the additive S05
+reader above the actual S03-on-SKU parent. Four reversible changes preserve
+the complete previous installer and all catalog/source/authority/no-DML and
+removal checks. The five report SQL functions and normal-App UI are unchanged.
+`check_s05.py` checks all41 source pins, the natural three-stage import chain,
+the unchanged function bodies and thirty pure transition refusal controls.
+The controls use a recorded old catalog with explicitly synthetic additions;
+they do not represent an actual combined installation. No SQL is executed.
+The previous S05 Native10/browser2 caller still requires complete rebinding
+and actual composite admission before it may execute this new stage.

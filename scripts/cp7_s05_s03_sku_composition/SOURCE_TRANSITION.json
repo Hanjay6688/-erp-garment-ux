@@ -1,0 +1,32 @@
+{
+  "original_commit": "bc89c9f19a362dfaf5c6bd149253f9235542fa75",
+  "original_path": "scripts/cp7_s05_sku_composition/stage.py",
+  "original_sha256": "32fe6cc1db3112e601b780817bd7179943e4ba7e33da4ba90dd282cb310e6320",
+  "derived_sha256": "380fbd15a107cf4f8048917e1424b20f5ab90b302f2d64c9d77b860669025911",
+  "changes": [
+    {
+      "before": "S05 reader on the actual SKU composition; no connection/commit.\n\nSource integration candidate only. The caller must admit the current SKU\nqualification and complete source before executing this additive installation.",
+      "after": "S05 reader on the actual S03 and SKU composition; no connection/commit.\n\nSource integration candidate only. The caller must admit current S03 and SKU\nqualifications and complete source before this additive installation.",
+      "count": 1
+    },
+    {
+      "before": "from cp7_sku_pair_conversion import composition",
+      "after": "from cp7_s03_sku_composition import composition",
+      "count": 1
+    },
+    {
+      "before": "'cp7.s05-sku-normal-app.v1'",
+      "after": "'cp7.s05-s03-sku-normal-app.v1'",
+      "count": 1
+    },
+    {
+      "before": "'SKU_PAIR_CONVERSION_EXACT_SOURCE_AND_ALL22'",
+      "after": "'CP7_S03_EXACT_SOURCE_ACTUAL_ALL22'",
+      "count": 1
+    }
+  ],
+  "byte_exact_reversible": true,
+  "financial_SQL_changes": 0,
+  "all_installer_grant_census_data_sequence_and_inverse_checks_retained": true,
+  "actual_runtime_cases": 0
+}
