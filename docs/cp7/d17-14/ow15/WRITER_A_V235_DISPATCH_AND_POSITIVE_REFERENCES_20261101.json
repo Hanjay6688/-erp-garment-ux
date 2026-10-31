@@ -1,0 +1,70 @@
+{
+  "classification": "ROOT_EXACT_DISPATCH_AND_POSITIVE_REFERENCE_PREPARATION_NOT_ERP_ACCEPTANCE",
+  "recorded_at_UTC": "2026-10-31T21:26:20.028Z",
+  "root_predecessor": "4a8ef07197f5a25309be4f4f945b7339507933bc",
+  "current37": {
+    "head": "e6684b07f98d753b5f78b24c7af52cd981971c0c",
+    "run_id": 41241493562,
+    "job_id": 124656157099,
+    "last_observed_status": "in_progress",
+    "last_observed_UTC": "2026-10-31T21:20:11.509Z",
+    "completed_steps": 71,
+    "current_step": 72,
+    "accepted_cases": 0,
+    "duplicate_run_created": false,
+    "candidate_changed": false
+  },
+  "positive_execution_references": {
+    "saved_PG17_model_reused": true,
+    "edges": 4893,
+    "distinct_target_routines": 1228,
+    "per_catalog": {
+      "pg_type": 3087,
+      "pg_operator": 1797,
+      "pg_range": 9
+    },
+    "edges_sha256": "a53c62f18c3d8a536f5d6385a1414c4e100e19ed755a412554d918f1fbe1bb91",
+    "library_file_id": "libfile_e87d3a7bc7948191bd813fb2bc3660c5",
+    "controls": 8,
+    "Root_intake_binds_exact_graph_digest": true,
+    "not_actual_ERP_reachability": true
+  },
+  "dispatch_metadata": {
+    "prepared_head": "0f5f1ce3c7a6c5537204eae86e1cd6d74aef157d",
+    "prepared_tree": "ac1149d572ef3dc23619978be24874a99dfcc2c9",
+    "parent": "aedec5a73902289e00846d05c43e93dce4abd5c1",
+    "source_base": "04ed2fbc3f1fb24174ff7368bffbb2dff01f5423",
+    "own_paths": 74,
+    "source_pins": 73,
+    "unchanged_base_blobs_and_modes": 14119,
+    "unchanged_original_system_queries": 27,
+    "unchanged_original_raw_dependency_queries": 19,
+    "unchanged_previous_execution_queries": 4,
+    "new_catalogue_queries": 7,
+    "actual_model": "PGlite PostgreSQL17.5; distinct aggregate and transition OIDs despite equal regproc JSON names",
+    "positive": 1,
+    "negative": 29,
+    "snapshot_protocol_controls": 3,
+    "provider_functions_invoked": 0,
+    "Root_positive": 1,
+    "Root_negative": 12,
+    "Root_actual_identity_constants_still_unarmed": true,
+    "model_library_file_id": "libfile_62c8642233c8819196467fdb506c062e",
+    "source_fence_library_file_id": "libfile_d7cf7ad89a148191bd05330af5cd634b",
+    "source_fence_connection_attempts": 0,
+    "source_fence_network_nonGit_attempts": 0,
+    "unchanged_business_controls_reused": true
+  },
+  "remaining": [
+    "Actual current37 canonical full37/all5 and complete restoration",
+    "Receipt-bound permanent6 actual qualification then DE30 then FREE3",
+    "Fresh actual global metadata before authority/writer/phantom closure",
+    "Input dependent caller reachability and provider binary implementations",
+    "FG Mandor implementation after active integration stable"
+  ],
+  "actual_ERP_calls_in_this_metadata_work": 0,
+  "formal_accepted": 5,
+  "formal_total": 16,
+  "production_go": false,
+  "independent_acceptance": false
+}

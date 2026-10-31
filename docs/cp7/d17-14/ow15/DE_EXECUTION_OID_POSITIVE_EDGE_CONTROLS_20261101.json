@@ -1,0 +1,67 @@
+{
+  "status": "POSITIVE_EXECUTION_REFERENCE_CONTROLS_PASS",
+  "input_model": {
+    "bytes": 471304,
+    "sha256": "a48eebbf02e0ca6d410c2b452d97b8629521dee1539e268580c9e64325895a47"
+  },
+  "original_PG17_model_rerun": false,
+  "actual_ERP_calls": 0,
+  "actual_saved_PG17_reference_derivation": true,
+  "controls": [
+    "all_nonzero_fields_exact_once",
+    "overloaded_actual_function_ids_preserved",
+    "zero_sentinel_excluded",
+    "input_order_invariant",
+    "same_target_distinct_fields_preserved",
+    "synthetic_cross_catalog_OID_collision_preserved",
+    "orphan_target_refused_before_derivation",
+    "Root_metadata_intake_binds_exact_graph_digest"
+  ],
+  "output": {
+    "bytes": 1564984,
+    "sha256": "4ff882d1dd283ca6b930a208465a8fea1a234a6e90e46acf96c0d8b68e0daf9b"
+  },
+  "observed": {
+    "classification": "POSITIVE_CATALOG_EXECUTION_REFERENCES_NOT_RUNTIME_REACHABILITY",
+    "edge_count": 4893,
+    "per_catalog": {
+      "pg_operator": 1797,
+      "pg_range": 9,
+      "pg_type": 3087
+    },
+    "distinct_target_routines": 1228,
+    "target_identity": "pg_proc OID within this same captured snapshot only",
+    "zero_sentinel_is_not_a_routine": true,
+    "distinct_reference_fields_preserved": true,
+    "edges_sha256": "a53c62f18c3d8a536f5d6385a1414c4e100e19ed755a412554d918f1fbe1bb91",
+    "unresolved": [
+      "INPUT_DEPENDENT_REACHABILITY",
+      "PROVIDER_BINARY_IMPLEMENTATIONS",
+      "RANGE_OPERATOR_CLASS_EXECUTION",
+      "AUTHORITY_AFTER_WAITS",
+      "WRITER_AND_PHANTOM_CLOSURE",
+      "ROUTINE_PLANNER_SUPPORT_IDENTITIES",
+      "AGGREGATE_SUPPORT_IDENTITIES",
+      "ACCESS_METHOD_AND_OPERATOR_FAMILY_DISPATCH",
+      "ACTUAL_CALLER_REACHABILITY"
+    ],
+    "routine_execution_observed": false,
+    "writer_closure": false,
+    "permission_closure": false,
+    "lockset_approved": false,
+    "actual_Native_case_credit": 0,
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "helper_source": {
+    "bytes": 2440,
+    "sha256": "cc240a0d5b92e50c6ea0a56ea88746d4fc33911994342fcbba010e8b9c824174"
+  },
+  "Root_intake_source": {
+    "bytes": 27079,
+    "sha256": "7b389d88e632e1ca67a1996cc989f77419542e61acbdf2b01c285ff3f582fec8"
+  },
+  "actual_Native_case_credit": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

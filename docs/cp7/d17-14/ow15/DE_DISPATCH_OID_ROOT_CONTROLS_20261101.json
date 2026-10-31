@@ -1,0 +1,111 @@
+{
+  "status": "ROOT_DISPATCH_METADATA_CONTROLS_PASS",
+  "head": "0f5f1ce3c7a6c5537204eae86e1cd6d74aef157d",
+  "tree": "ac1149d572ef3dc23619978be24874a99dfcc2c9",
+  "source": {
+    "source_pins": 73,
+    "own_paths": 74,
+    "unchanged_base": 14119,
+    "D1_ids": [
+      "D_POSITIVE_CREDIT_INCREMENT",
+      "D_AFTER_ACTIVE_APPLY",
+      "D_AFTER_REFUND_EXTRA_STAYS_CREDIT",
+      "D_MULTIFAMILY_ORDINAL",
+      "D_REPLAY_EXACT_UUID",
+      "D_STALE_REVIEW_NO_EFFECT",
+      "D_ACCESS_REVOKED_NO_EFFECT",
+      "D_SHORTFALL_NAMES_UNDO",
+      "D_ROOT_BOOK_FLOOR_REFUSAL",
+      "D_ATOMIC_POST_FAILURE_RESTORE",
+      "D_SECOND_REVISION_ORDINAL_HISTORY",
+      "D_AFTER_NAMED_UNDO_NO_FALSE_BLOCKER",
+      "E_UNIMPLEMENTED_INCOMING_CORRECTION_STAYS_GUARDED"
+    ],
+    "E_ids": [
+      "E_PRICE_INCREASE_80_NET550_AR470",
+      "E_PRICE_DECREASE_80_NET100_AR20",
+      "E_EXACT_FUNDED_80_PAID",
+      "E_BELOW_CARRIED_80_REFUSES_ATOMIC",
+      "E_SAME_UUID_AND_CHANGED_INTENT",
+      "E_SOURCE_D1_CHANGE_RETIRES_REVIEW",
+      "E_LATER_APPLY_20_CURRENT_LEAF",
+      "E_UNDO_ORIGINAL_80_AND_OLD_RECEIPT",
+      "E_NATIVE_POST_FAILURE_FULL_RESTORE",
+      "E_QUANTITY_CHANGE_REFUSES",
+      "E_ORIGINAL_DATE_CHANGE_REFUSES",
+      "E_CLOSED_ORIGINAL_BOOK_PAIR_REFUSES",
+      "E_SECOND_NOTE_REVISION_GUARDED",
+      "E_CURRENT_ACCESS_REVOKED_REFUSES",
+      "E_JOINT_PREFIX_AFTER_UNDO_120_MIN200_NOT150",
+      "E_LATER_NATIVE_REVERSE_REFUSES_ATOMIC",
+      "E_LATER_NATIVE_SALE_SAME_LOT_RECONCILES"
+    ],
+    "source_manifest": {
+      "bytes": 13939,
+      "sha256": "056bd1d1cd149373dac30c0739e4a40bdfba0fee7e7d299d1b4d9c0f7d518217"
+    },
+    "unchanged_business_source_files": 3,
+    "frozen_fixture_inputs": 4,
+    "recorded_predecessor_functions": 32,
+    "unchanged_global_metadata_source_files": 4,
+    "unchanged_raw_metadata_queries": 19,
+    "supplemental_exact_execution_oid_queries": 4,
+    "supplemental_exact_dispatch_oid_queries": 7,
+    "actual_case_credit": 0,
+    "parent_qualification_pending": true
+  },
+  "input_model": {
+    "bytes": 1040357,
+    "sha256": "8eea909a5128094acdfa93abd988b79c3a3dc7a2c006f92b5fb58fd2c4268de2"
+  },
+  "intake_source": {
+    "bytes": 29610,
+    "sha256": "825981b326d82e7b2e2efd938e1f8f5ae7e6b30ad82dc8968863835b3a099281"
+  },
+  "positive_saved_PG17_observation": 1,
+  "negative_controls": [
+    "missing-dispatch-supplement",
+    "ambiguous-function-name",
+    "missing-family-support",
+    "wrong-declaration",
+    "wrong-query",
+    "forged-count",
+    "changed-snapshot",
+    "original27-rewritten",
+    "execution4-rewritten",
+    "invented-runtime-observation",
+    "invented-permission-closure",
+    "hidden-remaining-limits"
+  ],
+  "accepted_observation": {
+    "query_count": 7,
+    "group_counts": {
+      "routine_support_oids": 3334,
+      "aggregate_support_oids": 159,
+      "access_method_oids": 7,
+      "operator_family_oids": 146,
+      "operator_class_oids": 177,
+      "family_operator_oids": 945,
+      "family_support_oids": 696
+    },
+    "same_original_readonly_snapshot": true,
+    "unresolved": [
+      "ACTUAL_CALLER_REACHABILITY",
+      "PLANNER_AND_INDEX_DISPATCH_SEMANTICS",
+      "PROVIDER_BINARY_IMPLEMENTATIONS",
+      "INPUT_DEPENDENT_CALLS",
+      "AUTHORITY_AFTER_WAITS",
+      "WRITER_AND_PHANTOM_CLOSURE"
+    ],
+    "routine_execution_observed": false,
+    "writer_closure": false,
+    "permission_closure": false,
+    "actual_Native_case_credit": 0
+  },
+  "unarmed_before_archive_or_Git": true,
+  "original_PG17_model_rerun": false,
+  "actual_ERP_calls": 0,
+  "actual_Native_case_credit": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}
