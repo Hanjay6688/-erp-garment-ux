@@ -1,0 +1,95 @@
+{
+  "status": "ROOT_VERIFIED_QUALIFIED_S03_NATIVE14_ALL5",
+  "head": "3c0c5defe55e48cf6f221c868594dd6676d17170",
+  "tree": "ca20c918201b455ad09df489829b83b9e6afea95",
+  "run_id": 40983410165,
+  "job_id": 123828634300,
+  "artifact_id": 12947563874,
+  "archive": {
+    "bytes": 8472775,
+    "sha256": "567e64545493d4806fa613b1306b4fe8c2f70a2ebb327fc60b709737813e5a60",
+    "members": 119
+  },
+  "originals": {
+    "CP7_S03_ATTENDANCE_CHOICE_NATIVE14.json": {
+      "bytes": 78242045,
+      "sha256": "15d08eb136c46e74ecf814b2256cc12b0a1df2b29fbc27a1296c3100fc2bafb5"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360433,
+      "sha256": "0663c1140bd2877ef3859b4e34bb773aaaf15e2f3b4217e48a8df66c1c436c77"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 1470,
+      "sha256": "3883ec7b222e13badb22f5db7d9fabf563bf99b90dbf5d724a00c3ec40315091"
+    },
+    "CP7_S03_ATTENDANCE_CHOICE_NATIVE11_CASES.json": {
+      "bytes": 19498,
+      "sha256": "105e371726cdacd86900d7f086a4262450801c7606852a7711856b0ff06667dd"
+    },
+    "CP7_S03_ATTENDANCE_CHOICE_READER_NATIVE3_CASES.json": {
+      "bytes": 13062,
+      "sha256": "70b618aa40062eaa839a55f2edeb647ea1fe2c520840f5cca85c194df17668b7"
+    }
+  },
+  "exact_source_pins": 475,
+  "source_manifest": {
+    "bytes": 106705,
+    "sha256": "ba59dee4ae71c62df2b2e35c558cb23a7c66254a974c554cc3d17d63b936c555"
+  },
+  "actual_product_source_maps": {
+    "file_maps": 65,
+    "pin_occurrences": 268,
+    "unique_paths": 145,
+    "exact_producer_namespace": true
+  },
+  "actual_case_ids": [
+    "S03_NATIVE_OWNER_FIELDS_READ_FULL_NO_EFFECT",
+    "S03_NATIVE_EXPENSE_APPROVAL_ONCE_PAID_E05_REOPEN",
+    "S03_NATIVE_TWO_EXACT_PERIODS_CENTS_AND_NATIVE_HPP",
+    "S03_NATIVE_P2_PAYROLL_POOL_COEXIST_AND_POLICY_FENCES",
+    "S03_NATIVE_OWNING_CANCEL_LATE_OUTPUT_AND_RESTORATION_FLOOR",
+    "S03_NATIVE_BOTH_CORRECTIONS_LINKED_INVERSES_NO_RECOGNITION",
+    "S03_NATIVE_STALE_REVIEW_UUID_RECOVERY_AND_APPEND_ONLY",
+    "S03_NATIVE_CLOSED_SOURCE_OPEN_OUTPUT_AND_CLOSED_CORRECTION",
+    "S03_NATIVE_ZERO_OUTPUT_SUCCESSOR_POLICY_RETAINS_OLD_INFO",
+    "S03_NATIVE_FINISHED_PO_FG_COGS_COST_AND_CANCEL_EXACT",
+    "S03_NATIVE_OLD_ACCRUAL_LATER_BOOK_REOPEN_DATE_FLOOR",
+    "S03_READER_NATIVE_OWNED_ACTIVE_PERIODS_AND_DISJOINT_P2_UNCHANGED",
+    "S03_READER_NATIVE_CANCELLED_LIFETIME_AND_STALE_COMPOSITE_NO_EFFECT",
+    "S03_READER_NATIVE_EXACT_HELD_P1_BLOCKS_LEGACY_REPLACE_AND_CREATE"
+  ],
+  "strict_group_counts": [
+    11,
+    3
+  ],
+  "actual_captures": 15,
+  "actual_clones": 2,
+  "used_refusal_raw_full_boundary": {
+    "tables": 687,
+    "sequences": 15,
+    "catalog_groups": 22
+  },
+  "actual_used_refusal_full22_rows_ALL_sequences_equal": true,
+  "complete_native14_qualified": true,
+  "package_all_five": true,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "prior_runs_aggregated": false,
+  "outer_raw_before_after_not_serialized": true,
+  "outer_restore_source_bound_receipts": true,
+  "original_data_reused_not_new_Native_execution": true,
+  "current_S03_browser4_result_required_for_separate_qualification": true,
+  "fresh_composite_case_credit": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

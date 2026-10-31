@@ -1,6 +1,6 @@
 {
   "classification": "WRITER_A_TAKEOVER_ACTIVE_CONTINUATION_NOT_COMPLETION",
-  "recorded_at_utc": "2026-10-31T05:06:32.822636+00:00",
+  "recorded_at_utc": "2026-10-31T06:44:55.861715+00:00",
   "root_parent": "20ee21d3300f36b91b32e8e7066463c08dcb2cdf",
   "prior_chat_execution_observable": false,
   "current_work_is_isolated": true,
@@ -78,9 +78,11 @@
       "run_id": 41168528689,
       "job_id": 124441234727,
       "head": "f42e76978852ba9efe34f75a4b622990c0331866",
-      "status": "in_progress",
-      "conclusion": null,
-      "run_attempt": 1
+      "status": "completed",
+      "conclusion": "failure",
+      "run_attempt": 1,
+      "artifact_id": 13032507966,
+      "root_intake": "docs/cp7/d17-14/ow15/S03_F42_ROOT_ACTUAL_FAILURE_INTAKE_20261031.json"
     }
   ],
   "first_actual_browser_failure": {
@@ -161,7 +163,7 @@
   "independent_acceptance": false,
   "current_default": "cp7_vendor_receivable.composition",
   "next": [
-    "Intake terminal exact current S03 Browser4 Original; SKU090b complete27/all5 is now independently root verified. Preserve failed prior runs.",
+    "Finish composite37 admission using root-qualified current SKU27 plus unchanged qualified S03 backend14. Run UI4 fresh on the actual joined candidate; never aggregate the failed F42 Browser4.",
     "Complete current joined product source/Original admission; historical product.sources graph not evaluated locally",
     "Executable owning composite caller and actual current install, strict groups, callbacks, normal-App browsers and complete backup/restoration",
     "Rebind the S05 Native10/browser2 components and retired SKU-only outer caller to actual current joined parent",
@@ -1278,7 +1280,7 @@
     "owner_direct_reaffirmation": {
       "date": "2026-10-30",
       "source": "USER message in active Writer A conversation",
-      "title": "HANDOFF WRITER A \u2014 PENJUALAN FG KE MANDOR, POTONG PAYROLL MINGGU PILIHAN",
+      "title": "HANDOFF WRITER A — PENJUALAN FG KE MANDOR, POTONG PAYROLL MINGGU PILIHAN",
       "exact_scope_instruction": "Catat sebagai scope tambahan. Kerjakan setelah blok integrasi aktif stabil, dengan A tetap integrator tunggal.",
       "exact_timing_discretion": "scope tambahan, lu kira kira aja saat paling tepat masukin ini kpan, klo mau selesain yg lama dulu silahkan. gas lanjut",
       "accepted": true,
@@ -1928,5 +1930,22 @@
   "S03_SKU_source_join_prepared": true,
   "SKU_090b_successful_actual_intake": "docs/cp7/d17-14/ow15/SKU_090B_ROOT_ACTUAL_INTAKE_20261031.json",
   "current_SKU27_qualified": true,
-  "current_combined_runtime_qualified": false
+  "current_combined_runtime_qualified": false,
+  "S03_backend14_root_intake": "docs/cp7/d17-14/ow15/S03_NATIVE14_ROOT_ACTUAL_INTAKE_20261031.json",
+  "S03_backend14_qualified_source_still_exact_for_join": true,
+  "current_composite_source_preparation": "Native14/SKU7/S05Native10 and S03browser4/S05browser2,37 fresh integration cases; retained parents earn zero fresh credit",
+  "current_composite_parent_plan": "Reuse exact qualified3c0 S03 Native14 backend and current090b SKU27, both root verified/all5; current S03 UI4 is qualified fresh inside the new composite. Standalone f42 browser result still must be intaken separately.",
+  "current_S03_browser4_qualified": false,
+  "current_S03_browser4_actual_result": {
+    "head": "f42e76978852ba9efe34f75a4b622990c0331866",
+    "counts": {
+      "PASS": 3,
+      "INCOMPLETE": 1
+    },
+    "package_all_five": false,
+    "outer_restore": true,
+    "exact_transport_root_cause_confirmed": false,
+    "first_failure_preserved": true,
+    "all_four_required_fresh_on_joined_candidate": true
+  }
 }
