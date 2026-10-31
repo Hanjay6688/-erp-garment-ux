@@ -77,7 +77,17 @@ def raw_authority(cur):
 def binding(catalog,state):
     return catalog.digest(dict(sources=state['sources'],parent_sources=state['parent_sources'],
         parent_proof=state['parent_proof'],parent_binding=state['parent_binding'],before=state['before'],after=state['after'],
-        raw_native_authority=state['raw_native_authority'],data=state['preuse_data_and_sequences']))
+        raw_native_authority=state['raw_native_authority'],data=state['preuse_data_and_sequences'],
+        preinstall_data_and_sequences=state['preinstall_data_and_sequences']))
+
+
+def require_parent_state(catalog,state,qualified_parent):
+    if(qualified_parent['sources']!=state['parent_sources']or qualified_parent['after']!=state['before']
+       or qualified_parent['component_binding']!=state['parent_binding']
+       or parent().binding(catalog,qualified_parent)!=state['parent_binding']
+       or qualified_parent['preuse_data_and_sequences']!=state['preuse_data_and_sequences']
+       or qualified_parent['preinstall_data_and_sequences']!=state['preinstall_data_and_sequences']):
+        raise ValueError('SPECIAL_FREE_DATE_EXACT_QUALIFIED_PARENT_STATE_REQUIRED')
 
 
 def verify(cur,state):
@@ -121,9 +131,7 @@ def install_delta(cur,qualified_parent):
 def rollback_delta_preuse(cur,state,qualified_parent):
     _,_,_,base,catalog=runtime()
     with base.atomic(cur):
-        if(qualified_parent['sources']!=state['parent_sources']or qualified_parent['after']!=state['before']
-           or qualified_parent['component_binding']!=state['parent_binding']):
-            raise ValueError('SPECIAL_FREE_DATE_EXACT_QUALIFIED_PARENT_STATE_REQUIRED')
+        require_parent_state(catalog,state,qualified_parent)
         base.predecessor.predecessor._locks(cur)
         verify(cur,state);catalog._lock_tables(cur)
         if catalog._data(cur)!=state['preuse_data_and_sequences']:raise ValueError(USED_ERROR)

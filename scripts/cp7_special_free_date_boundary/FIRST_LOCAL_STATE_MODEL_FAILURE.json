@@ -1,0 +1,17 @@
+{
+  "classification": "LOCAL_MODEL_FIXTURE_FAILURE_NOT_NATIVE",
+  "tests": 6,
+  "errors": 3,
+  "seconds": 0.015,
+  "error_type": "AttributeError",
+  "error": "'types.SimpleNamespace' object has no attribute 'sources'",
+  "affected": [
+    "test_unused_inverse_keeps_rows_sequences_and_restores_exact_catalog",
+    "test_used_row_refuses_before_DDL",
+    "test_used_sequence_refuses_before_DDL"
+  ],
+  "correction": "The labelled model parent supplies the source reader required by verify; no production predicate was relaxed",
+  "actual_ERP_Native_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

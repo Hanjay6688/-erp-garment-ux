@@ -9,21 +9,33 @@
       "bytes": 510,
       "sha256": "0b91c1875135a05c8e2c38ec90f12d416bdba23affe12023c7db404bad54580e"
     },
+    "scripts/cp7_special_free_date_boundary/FIRST_LOCAL_STATE_MODEL_FAILURE.json": {
+      "bytes": 621,
+      "sha256": "0931759427096c0323bf082d475b7470946e856dfc71df9eed90aa22dad697c0"
+    },
     "scripts/cp7_special_free_date_boundary/LOCAL_RECORDED_CATALOG_CONTROLS.json": {
       "bytes": 760,
       "sha256": "a28962a0f19b71dfb2af148bbc158586a3255a01b8fd184b869ab4dc85f14754"
     },
+    "scripts/cp7_special_free_date_boundary/LOCAL_STATE_BINDING_CONTROLS.json": {
+      "bytes": 963,
+      "sha256": "622ad9566ce60189749934f1ebb4630f052f11b03e91d85605813d6ceb578b8f"
+    },
     "scripts/cp7_special_free_date_boundary/README.md": {
-      "bytes": 1780,
-      "sha256": "ba85445701c1a2fca563a9e2fbac1e80fee6c7d06dda04fec35b8cdf3d49e66d"
+      "bytes": 2410,
+      "sha256": "659cfc23e44ddd9b0f9badab3c5f41d9fb4fb14f23572064aab45029be3f044e"
     },
     "scripts/cp7_special_free_date_boundary/__init__.py": {
       "bytes": 77,
       "sha256": "043f1f3ee68b7233e004f13ccf43892a9d3427dbb3c1984ba74a85b1d544c44b"
     },
     "scripts/cp7_special_free_date_boundary/composition.py": {
-      "bytes": 7018,
-      "sha256": "065d6ebaeb668c61f4c92bdd1985f946ea2c125f1fefb9e48c69437a8f284490"
+      "bytes": 7475,
+      "sha256": "7944602450ca3e8e77e18ad83937fc01627b9d982e37824515be6d735b6f2a88"
+    },
+    "scripts/cp7_special_free_date_boundary/test_state_binding.py": {
+      "bytes": 6854,
+      "sha256": "b2bc3bcd160ec119a26b319826cc99bc0ea5426d60751e6f8a7456f04d7d9af3"
     },
     "scripts/current-special-free-date-boundary/ACTUAL_REFERENCE.json": {
       "bytes": 1417,

@@ -17,6 +17,16 @@ retained without normalizing NULL ACLs. Preuse inverse checks full data and
 sequences before DDL and binds the exact parent state. Used installation needs
 the owning full backup/restore path.
 
+The date-stage binding includes both preuse and preinstall data/sequence
+snapshots. Inverse admission recomputes the complete parent's original binding
+and compares both snapshots before acquiring the parent's locks. Coordinated
+changes to date/parent snapshot fields cannot relabel a different boundary.
+Six labelled lifecycle models use the exact published parent binding function;
+they cover unused restore, used rows/sequences and coordinated snapshot changes.
+The first model fixture omitted its parent's source reader; that local failure
+and its correction are retained separately. No ERP SQL was executed by these
+models.
+
 The existing39 isolated PostgreSQL date/eligibility controls are reused. New
 source controls use the actual339889 recorded full all22 catalog: the single
 predicate change is admitted; all22 groups plus target owner/definition
