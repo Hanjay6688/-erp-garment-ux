@@ -27,5 +27,13 @@
   "actual_Native_cases": 0,
   "actual_browser_cases": 0,
   "production_go": false,
-  "independent_acceptance": false
+  "independent_acceptance": false,
+  "first_server_start_attempt": {
+    "run_id": 41178452882,
+    "head": "bd82de24710c124df2b0b029f47d1a413113bebd",
+    "conclusion": "skipped",
+    "reason": "Inherited SKU-only job branch guard; corrected for the current joined branch",
+    "database_started": false,
+    "actual_case_credit": 0
+  }
 }

@@ -76,5 +76,6 @@
   ],
   "current_composite_controls_before_DB": true,
   "first_attempt_only": true,
-  "actual_case_credit": 0
+  "actual_case_credit": 0,
+  "job_guard_bound_to_exact_current_branch": true
 }

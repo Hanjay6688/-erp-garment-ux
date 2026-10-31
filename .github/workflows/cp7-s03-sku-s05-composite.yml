@@ -533,4 +533,4 @@ jobs:
         path: auditor/cp6-proof/t3
         retention-days: 30
         if-no-files-found: error
-    if: github.ref == 'refs/heads/astra-a/sku-managed-recovery-native27-20261030'
+    if: github.ref == 'refs/heads/astra-a/s03-sku-product-join-20261031'

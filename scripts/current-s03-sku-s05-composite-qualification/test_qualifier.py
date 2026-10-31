@@ -53,7 +53,10 @@ class SourceControls(unittest.TestCase):
         raw=subprocess.check_output(['/usr/bin/git','-C',str(ROOT),'show',record['source_commit']+':'+record['source_path']])
         self.assertEqual(sha256(raw).hexdigest(),record['source_sha256'])
         old=yaml.safe_load(raw)['jobs']['p21']['steps']
-        current=yaml.safe_load((ROOT/'.github/workflows/cp7-s03-sku-s05-composite.yml').read_bytes())['jobs']['p21']
+        workflow=yaml.safe_load((ROOT/'.github/workflows/cp7-s03-sku-s05-composite.yml').read_bytes())
+        current=workflow['jobs']['p21']
+        self.assertEqual(workflow['on']['push']['branches'],['astra-a/s03-sku-product-join-20261031'])
+        self.assertEqual(current['if'],"github.ref == 'refs/heads/"+workflow['on']['push']['branches'][0]+"'")
         steps=current['steps']
         for index in record['unchanged_steps']:self.assertIn(old[index],steps)
         start=next(i for i,s in enumerate(steps)if s.get('name')=='Start disposable database')
