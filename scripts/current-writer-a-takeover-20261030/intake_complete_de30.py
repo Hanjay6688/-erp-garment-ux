@@ -18,8 +18,8 @@ RUN=None
 JOB=None
 PARENT_HEAD=None
 PARENT_TREE=None
-PREPARED_HEAD='3d64cf509ce9129e02279d2d866e7bcd799ea693'
-PREPARED_TREE='38f7004952347225853905fd257195131a856325'
+PREPARED_HEAD='e3b3035c0cfceb2edda2c6c3adffed8e8c94117e'
+PREPARED_TREE='221fe2fd8b2806c8a0eff0817f51e63fdc3f2f87'
 PREPARED_BASE='04ed2fbc3f1fb24174ff7368bffbb2dff01f5423'
 PREPARED_BASE_TREE='66930111fa9826b0c18ed6cfd3b05ea225e4e62b'
 NS='scripts/current-complete-de-integration-preparation/'
@@ -50,7 +50,7 @@ def source(g):
     exact(set(g.tree)-set(base),allowed,'DE30_CLOSED_ADDITIVE_SOURCE')
     for name,value in declaration['files'].items():g.verify_pin(name,value)
     if PARENT_HEAD is None:
-        exact(len(base),14119,'DE30_REPAIRED_PREPARED_PARENT14119');exact(len(allowed),79,'DE30_REPAIRED_PREPARED_OWN79')
+        exact(len(base),14119,'DE30_REPAIRED_PREPARED_PARENT14119');exact(len(allowed),81,'DE30_REPAIRED_PREPARED_OWN81')
         exact(literal(g,NS+'admission.py','PARENT_HEAD'),None,'DE30_PREPARED_PARENT_GATE_CLOSED')
         exact(literal(g,NS+'admission.py','PARENT_RECEIPT'),None,'DE30_PREPARED_RECEIPT_GATE_CLOSED')
         require(WORKFLOW not in g.tree,'DE30_PREPARED_WORKFLOW_NOT_ACTIVATED')
@@ -261,6 +261,11 @@ def p0_dependency_sources(g):
 
 
 def p0_dependency_observation(g,row):
+    if row.get('primary_scheduler_database')is True:
+        exact(row.get('database'),'postgres','DE30_P0_PRIMARY_DATABASE_IDENTITY')
+        require('P0_dependency_supplement'not in row,'DE30_PRIMARY_MUST_NOT_CLAIM_INSTALLED_P0_IDENTITIES')
+        return dict(status='NOT_APPLICABLE_PRIMARY_SCHEDULER_DATABASE',actual_Native_case_credit=0)
+    fields(row,dict(database='cp6_rollback',primary_scheduler_database=False),'DE30_P0_CANDIDATE_IDENTITY')
     declaration,select=p0_dependency_sources(g);value=row['P0_dependency_supplement']
     fields(value,dict(classification=declaration['classification'],
         declaration_sha256=sha256(g.read(NS+'P0_DEPENDENCIES.json')).hexdigest(),

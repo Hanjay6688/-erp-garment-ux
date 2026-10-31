@@ -1,0 +1,67 @@
+{
+  "classification": "ROOT_P0_DATABASE_SCOPE_FIXED_AND_CP7_CONTINUATION_TIMER_VERIFIED",
+  "recorded_at_UTC": "2026-10-31T21:42:35Z",
+  "root_predecessor": "523c9b8c72751375da8da540d0395a0cd69756d0",
+  "current37": {
+    "head": "e6684b07f98d753b5f78b24c7af52cd981971c0c",
+    "tree": "8be456a10207882fbcaeb5c9c2706974ef355349",
+    "run_id": 41241493562,
+    "job_id": 124656157099,
+    "status": "in_progress",
+    "completed_steps": 71,
+    "active_step": 72,
+    "failed_steps": [],
+    "duplicate_run_created": false,
+    "candidate_changed": false,
+    "accepted_cases": 0
+  },
+  "prepared_DE": {
+    "head": "e3b3035c0cfceb2edda2c6c3adffed8e8c94117e",
+    "tree": "221fe2fd8b2806c8a0eff0817f51e63fdc3f2f87",
+    "parent": "3d64cf509ce9129e02279d2d866e7bcd799ea693",
+    "source_base": "04ed2fbc3f1fb24174ff7368bffbb2dff01f5423",
+    "own_paths": 81,
+    "source_pins": 80,
+    "unchanged_base_blobs_and_modes": 14119,
+    "actual_parent_unarmed": true
+  },
+  "defect": {
+    "old_nested_observer_reproduced": true,
+    "old_primary_error": "DE_P0_ALL_SIX_FUNCTIONS_REQUIRED",
+    "reason": "Primary scheduler database postgres intentionally does not install candidate ERP functions. Installed six-function/two-table P0 inventory belongs only to cp6_rollback.",
+    "fix": "Require explicit installed candidate identity; keep original system and exact OID capture on both databases; do not manufacture P0 inventory in primary."
+  },
+  "checks": {
+    "DE": {
+      "positive": 2,
+      "negative": 6
+    },
+    "Root": {
+      "positive": 1,
+      "negative": 14,
+      "primary_scope_control": true
+    },
+    "source_fence": {
+      "connection_attempts": 0,
+      "non_git_subprocess_attempts": 0
+    },
+    "actual_SQL_executed": 0,
+    "actual_ERP_calls": 0,
+    "actual_Native_case_credit": 0
+  },
+  "continuation": {
+    "existing_timer_updated": true,
+    "readback_verified": true,
+    "every_minutes": 90,
+    "timezone": "Asia/Jakarta",
+    "same_chat": true,
+    "no_end_date": true,
+    "new_timer_created": false,
+    "instruction": "Continue all CP7 scope. Checkpoints, commits, pushes, and progress reports do not end work. While CI is active, continue safe independent work without duplicate runs or valid-test repetition."
+  },
+  "next": "Continue now. Inspect permanent6 runtime/restoration exposure using saved actual log while same current37 executes; terminal canonical current37 Root acceptance remains prerequisite for downstream activation.",
+  "formal_accepted": 5,
+  "formal_total": 16,
+  "production_go": false,
+  "independent_acceptance": false
+}

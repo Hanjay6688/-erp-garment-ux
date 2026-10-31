@@ -20,6 +20,7 @@ def check(root):
             relations.append(dict(oid=index,relowner=100,schema=item['schema'],relname=item['name'],
                 relkind=item['kind'],relpersistence=item['persistence'],relacl=None))
         row=dict(classification='ACTUAL_READ_ONLY_ALL_NAMESPACE_SYSTEM_CRON_METADATA_NOT_WRITER_CLOSURE',
+            database='cp6_rollback',primary_scheduler_database=False,
             groups={'routines':{'rows':functions},'relations':{'rows':relations},
                 'roles':{'rows':[dict(oid=100,rolname='postgres',rolsuper=True)]}})
         selected=target.p0_dependency_sources(g)[1](row,declaration)
@@ -32,6 +33,15 @@ def check(root):
             actual_Native_case_credit=0,production_go=False,independent_acceptance=False)
         row['P0_dependency_supplement']=value
         accepted=target.p0_dependency_observation(g,row);negative=[]
+        primary=dict(database='postgres',primary_scheduler_database=True)
+        exact(target.p0_dependency_observation(g,primary),
+            dict(status='NOT_APPLICABLE_PRIMARY_SCHEDULER_DATABASE',actual_Native_case_credit=0),
+            'PRIMARY_DOES_NOT_REQUIRE_INSTALLED_ERP_FUNCTIONS')
+        for label,bad in [('primary-claiming-candidate-P0',dict(primary,P0_dependency_supplement=value)),
+                          ('primary-marker-wrong-database',dict(primary,database='cp6_rollback'))]:
+            try:target.p0_dependency_observation(g,bad)
+            except ValueError:negative.append(label)
+            else:raise AssertionError('ROOT_ACCEPTED_WRONG_DATABASE_SCOPE:'+label)
         changes=[
             ('missing-supplement',lambda r:r.pop('P0_dependency_supplement')),
             ('missing-function-row',lambda r:r['groups']['routines']['rows'].pop()),
@@ -59,7 +69,7 @@ def check(root):
     else:raise AssertionError('UNARMED_DE30_INTAKE_OPENED')
     return dict(status='ROOT_P0_DEPENDENCY_IDENTITY_CONTROLS_PASS',head=target.PREPARED_HEAD,
         tree=target.PREPARED_TREE,source=source,positive=1,negative_controls=negative,
-        accepted=accepted,full_rows_retained=True,unarmed_before_archive_or_Git=True,
+        accepted=accepted,primary_scope_control=True,full_rows_retained=True,unarmed_before_archive_or_Git=True,
         actual_SQL_executed=0,actual_ERP_calls=0,actual_Native_case_credit=0,
         production_go=False,independent_acceptance=False,
         root_intake_source=pin(Path(target.__file__).read_bytes()))
