@@ -73,3 +73,11 @@ owning workflow must use the same budget. Published1d52 diagnostics remain
 byte exact. The first local caller API mismatch was caught and retained before
 ERP/SQL, then corrected to the actual phase/monitor context-manager API. These
 source controls do not constitute an actual Native30, browser or global run.
+
+The owning Native30 component also records the existing 27 readonly system
+metadata queries before the cases and after the separate committed E use.
+The inherited collector, URI guard and readonly Repeatable Read connection
+helper remain byte exact. Its pending-parent gate precedes URI handling and
+client imports. Candidate and primary scheduler snapshots remain separate;
+unavailable metadata is recorded without connection details and gives no
+global writer, permission or lock closure. All prior query controls are reused.

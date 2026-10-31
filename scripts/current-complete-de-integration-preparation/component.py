@@ -45,6 +45,9 @@ def exercise(conn,cur,database,url,report,state):
     with control.product_catalog(cur):product.verify(cur,state)
     conn.rollback();cur.close();conn.close()
     monitor=load('complete_DE_runtime_phases',HERE/'runtime_note.py')
+    metadata=load('complete_DE_owning_readonly_system_metadata',HERE/'system_metadata.py')
+    with monitor.phase('DE_READONLY_SYSTEM_METADATA_BEFORE_NATIVE30'):
+        report['read_only_system_metadata_before_native30']=metadata.capture_pair(url)
     def verify(cursor):
         with control.product_catalog(cursor):return product.verify(cursor,state)
     try:
@@ -69,6 +72,8 @@ def exercise(conn,cur,database,url,report,state):
        or used.get('before')!=used.get('after')):
         raise ValueError('COMPLETE_DE_REAL_COMMITTED_E_USE_AND_RAW_USED_REFUSAL_REQUIRED')
     report['separate_committed_E_witness']=dict(used,source_derivation=derivation)
+    with monitor.phase('DE_READONLY_SYSTEM_METADATA_AFTER_NATIVE30_AND_COMMITTED_USE'):
+        report['read_only_system_metadata_after_native30_and_committed_use']=metadata.capture_pair(url)
     report.update(status='PASS',actual_Native_cases=30,business_counts={'PASS':30},
         actual_D1_cases=13,actual_E_cases=17,used_guard_refused_before_DDL=True,
         original_business_callback_changes=0,all_outer_restore_and_five_package_gates_still_required=True)

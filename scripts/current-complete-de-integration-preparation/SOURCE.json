@@ -144,12 +144,12 @@
       "sha256": "5c01ca75523dc9816be1676692b7e24ba385900d9fc16053993b594a0618bd25"
     },
     "scripts/current-complete-de-integration-preparation/README.md": {
-      "bytes": 4914,
-      "sha256": "eb51627a44b3038ca7f6c8858f4c4e5f9b5694dc973035380651cb5964e12ad9"
+      "bytes": 5443,
+      "sha256": "6b40a7db56810688da15746d7c341bbcd8a0cfd8056d125bf4fe5b4b45d982e2"
     },
     "scripts/current-complete-de-integration-preparation/RUNTIME_DIAGNOSTICS_SOURCE.json": {
-      "bytes": 627,
-      "sha256": "61ca7311aa6c5895db5ecf380b3ec6750bd5f804aa17eacd20268aee02fda6bd"
+      "bytes": 743,
+      "sha256": "cffea3b5d75efe5095f7598dcc0cdbe08a10d7dc293341b1544770c78f0c53d1"
     },
     "scripts/current-complete-de-integration-preparation/WITNESS_ORIGIN.json": {
       "bytes": 598,
@@ -160,12 +160,12 @@
       "sha256": "1cc6a1cc54d46c0409ee376d1a40bd19f768bfd47ace7fb6e0faa34f2f1c05aa"
     },
     "scripts/current-complete-de-integration-preparation/check.py": {
-      "bytes": 6909,
-      "sha256": "218db60ad90476389853e9e3b32f6940c8e09eb7d096c2fea4604bd460f43b47"
+      "bytes": 7530,
+      "sha256": "ab3ba6f21fe19bf1b2bdd8b1a8cdcca59dceff4fd3969d77d1a25ed6ad775b41"
     },
     "scripts/current-complete-de-integration-preparation/component.py": {
-      "bytes": 4236,
-      "sha256": "939f52aae5229f633791d2034ba11a9b507f28248d9134a734f33d98a461c565"
+      "bytes": 4677,
+      "sha256": "a431190a60e282886395dad56077d6ff56dc43acdb1a00689fa2601aa0b996a3"
     },
     "scripts/current-complete-de-integration-preparation/engine.py": {
       "bytes": 2143,
@@ -190,6 +190,10 @@
     "scripts/current-complete-de-integration-preparation/source.py": {
       "bytes": 4260,
       "sha256": "8fcd679648b2cc0902562c39d00588594dbbf426ab8e40aabf2f4cbbde30dccb"
+    },
+    "scripts/current-complete-de-integration-preparation/system_metadata.py": {
+      "bytes": 2345,
+      "sha256": "38294c5fcf40b848c1d147734e27350e7045311f891d7c346bb390ba7017c03f"
     },
     "scripts/current-complete-de-integration-preparation/test_lifecycle.py": {
       "bytes": 11628,

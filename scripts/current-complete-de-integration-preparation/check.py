@@ -77,6 +77,15 @@ def controls():
                 calls.append([name,key,len(node.args)])
     if calls!=diagnostic['caller_API_source_controls']:
         raise ValueError('COMPLETE_DE_EXACT_DIAGNOSTIC_CALLER_SITES_REQUIRED')
+    metadata=load('complete_DE_readonly_metadata_source_control',HERE/'system_metadata.py')
+    _,_,metadata_source=metadata.source()
+    metadata_pending=False
+    if pending:
+        try:metadata.capture_pair('not-a-database-uri')
+        except ValueError as error:
+            if str(error)!='COMPLETE_DE_ACTUAL_PERMANENT_PARENT_INTAKE_PENDING':raise
+            metadata_pending=True
+        else:raise ValueError('COMPLETE_DE_PENDING_READONLY_METADATA_WAS_OPENED')
     caller_pending=[]
     if pending:
         probe=load('complete_de_pending_full_caller_control',HERE/'probe.py')
@@ -94,6 +103,8 @@ def controls():
         native30_source=native_source,Native30_pending_before_ERP_or_SQL=native_pending,
         whole_package_engine_derivation=engine,committed_E_witness_derivation=witness,
         actual_diagnostic_API_source_calls=calls,pending_full_caller_controls=caller_pending,
+        unchanged_inherited_system_metadata_source=metadata_source,
+        metadata_pending_before_URI_source_client_or_connection=metadata_pending,
         actual_SQL_executed=0,actual_Native_cases=0,production_go=False,independent_acceptance=False)
 
 
