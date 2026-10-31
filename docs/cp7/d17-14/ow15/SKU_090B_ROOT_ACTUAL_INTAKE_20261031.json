@@ -1,0 +1,298 @@
+{
+  "status": "ROOT_VERIFIED_CURRENT_SKU27_ALL5",
+  "head": "090b85d3fcb738d3e694d4329d306f199a686eb8",
+  "tree": "e04831b441bed987cd72ff738cf2a06a7c0ef0ae",
+  "run_id": 41167734749,
+  "job_id": 124438845597,
+  "artifact_id": 13031164777,
+  "archive": {
+    "bytes": 94781660,
+    "sha256": "9ad923d20d0972b2a01df3ce3307bf03db537406ac89f99f700cf6d235bfc341",
+    "members": 170
+  },
+  "originals": {
+    "CP7_SKU_MANAGED_RECOVERY_NATIVE27.json": {
+      "bytes": 30376182,
+      "sha256": "5e22077e71e34add6fd0627c89e9d21a2235f463818e45b233c7619bcfb0d48f"
+    },
+    "CP7_SKU_PAIR_CONVERSION_NATIVE7.json": {
+      "bytes": 21044,
+      "sha256": "19416848a4247973e9302d669945baccd7a536210eadcffdef57d8206b7eda3e"
+    },
+    "CP7_SKU_GROUP_COST_NATIVE5.json": {
+      "bytes": 39067,
+      "sha256": "49be026d74c011aed4195117fa6f8f85ee12cf1e7dfa8272430479e1e40dc839"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360417,
+      "sha256": "9afc5d5798b9ccc85c5c61c922e3cbfea75829aa2d790a8e4468149440cfd5e2"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 1470,
+      "sha256": "bb7bd9fedafa7d1a72b7a7aed6431d82ca9d4de7bd2849df33c06d245b1f61c9"
+    }
+  },
+  "source": {
+    "manifest": {
+      "bytes": 69244,
+      "sha256": "06b6658ebbccc438f324f87d984760f936e68bece8345b9f60f8ab0158b4f1a8"
+    },
+    "source_pins": 131,
+    "unchanged_parent_blobs_and_modes": 13759,
+    "whole_parent_physical_bytes_reread": false,
+    "parent_git_blob_identity_reused": true,
+    "declared_current_paths": 132
+  },
+  "actual_product_source_maps": {
+    "file_maps": 65,
+    "pin_occurrences": 271,
+    "unique_paths": 148,
+    "exact_producer_namespace": true
+  },
+  "case_ids": {
+    "native": [
+      "SKU29_PAIR_BIDIRECTIONAL_REPLACE_DELETE_NO_LEDGER",
+      "SKU29_NONPO_MULTILOT_FIFO_RESERVATION_VALUE_REPLAY",
+      "SKU29_ANY_ACTIVE_MODEL_SIZE_MANUAL_BACK_CURRENT_SOURCE_COST",
+      "SKU29_STALE_SOURCE_TARGET_RESERVATIONS_REFUSE_ZERO_EFFECT",
+      "SKU29_GROUP_REVERSE_ACTIVE_SALE_REFUSAL_THEN_RELEASE",
+      "SKU29_MIXED_PO_NONPO_NATIVE_LINEAGE_VALUE_CONSERVATION",
+      "SKU29_LEGACY_ACCESSORY_COST_AND_INVERSE_PRESERVED"
+    ],
+    "cost": [
+      "SKU29_COST_GROUP_RETURN_OVER_FIRST_PART_SAFETY_REFUSAL_ONLY",
+      "SKU29_COST_BOTH_PARTS_USAGE_LATE_INVOICE_SOLD_AND_DESCENDANT",
+      "SKU29_COST_FIRST_PART_ACTIVE_USAGE_ATOMIC_GROUP_INVERSE",
+      "SKU30_RECOVERY_UNDER_FIRST_PART_NATIVE_POST_REPLAY_INVERSE",
+      "SKU30_RECOVERY_EQUAL_FIRST_PART_NATIVE_POST_REPLAY_INVERSE"
+    ],
+    "races": [
+      "SKU29_RACE_SAME_UUID_COMMIT_REPLAY",
+      "SKU29_RACE_DISTINCT_UUID_COMMIT_STALE",
+      "SKU29_RACE_DISTINCT_UUID_ROLLBACK_RECOVERY"
+    ],
+    "waits": [
+      "SKU29_PAIR_ADVISORY_PERMISSION_WITHDRAWAL",
+      "SKU29_PAIR_REPLAY_ADVISORY_PERMISSION_WITHDRAWAL",
+      "SKU29_PAIR_ROW_PERMISSION_WITHDRAWAL",
+      "SKU29_PAIR_ROW_ACTOR_DEMOTION",
+      "SKU29_CONVERSION_FG_PERMISSION_WITHDRAWAL",
+      "SKU29_CONVERSION_REPLAY_IDEMPOTENCY_PERMISSION_WITHDRAWAL",
+      "SKU30_RECOVERY_CACHE_REPLAY_PERMISSION_WITHDRAWN_DURING_REAL_REQUEST_WAIT"
+    ],
+    "busy": [
+      "SKU30_RECOVERY_FG_TRY_LOCK_BUSY_BEFORE_ANY_EFFECT"
+    ],
+    "browser": [
+      "SKU29_BROWSER_DESKTOP_REAL_AUTH_PAIR_FIFO_RECOVERY_INVERSE",
+      "SKU29_BROWSER_MOBILE390_REAL_AUTH_PAIR_FIFO_GUARDS_INVERSE",
+      "A_STAGED_AI_BROWSER_DESKTOP_MANUAL_AND_RETIRED_RESPONSES",
+      "A_STAGED_AI_BROWSER_MOBILE_MANUAL_AND_RETIRED_RESPONSES"
+    ]
+  },
+  "observed_counts": {
+    "PASS": 27
+  },
+  "browser_counts": {
+    "PASS": 4
+  },
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "handoff_census": {
+    "tables": 685,
+    "sequences": 15,
+    "catalog_groups": 22
+  },
+  "raw_evidence": {
+    "raw_full_noeffect_censuses": [
+      {
+        "name": "SKU_COST_RECOVERY_OVER_FIRST_PART_REFUSAL_c9a8f21ffb7b_FULL_CURRENT_CENSUS.json",
+        "bytes": 43100594,
+        "sha256": "b689c37dd37de7c4add436befa18146e2fb323a98e84e98b4e0dc731d9a8b286",
+        "tables": 685,
+        "sequences": 15,
+        "catalog_groups": 22
+      },
+      {
+        "name": "SKU_COST_PART_1_USAGE_SAME_UUID_REPLAY_74691f507b8a_FULL_CURRENT_CENSUS.json",
+        "bytes": 43100592,
+        "sha256": "0ff67e9b53cd7dc05caae0e0b5b64c82ebbb97a396f0db3837130edd0bb522a9",
+        "tables": 685,
+        "sequences": 15,
+        "catalog_groups": 22
+      },
+      {
+        "name": "SKU_COST_PART_2_USAGE_SAME_UUID_REPLAY_3d0658e37a7d_FULL_CURRENT_CENSUS.json",
+        "bytes": 43100592,
+        "sha256": "e88be7e7a9762216204ef2d9efc23746749f9992d6f6db313d7d6ca77878bd4c",
+        "tables": 685,
+        "sequences": 15,
+        "catalog_groups": 22
+      },
+      {
+        "name": "SKU_COST_LATE_INVOICE_SAME_UUID_REPLAY_3eb667427b70_FULL_CURRENT_CENSUS.json",
+        "bytes": 43100594,
+        "sha256": "094ec5f51c02220ea9f484bd6e3cc22dd4ba30fccddcbb047ccb2d16438f4707",
+        "tables": 685,
+        "sequences": 15,
+        "catalog_groups": 22
+      },
+      {
+        "name": "SKU_COST_GROUP_INVERSE_FIRST_PART_ACTIVE_USAGE_fdf86026f368_FULL_CURRENT_CENSUS.json",
+        "bytes": 43100592,
+        "sha256": "c1450a3dc1d1a42ad911c7685085afa3213b4c912dc04005e16e9e636ddc3939",
+        "tables": 685,
+        "sequences": 15,
+        "catalog_groups": 22
+      },
+      {
+        "name": "SKU_COST_DIRECT_PARTIAL_INVERSE_REFUSAL_56ed8452b5b0_FULL_CURRENT_CENSUS.json",
+        "bytes": 43100592,
+        "sha256": "c1450a3dc1d1a42ad911c7685085afa3213b4c912dc04005e16e9e636ddc3939",
+        "tables": 685,
+        "sequences": 15,
+        "catalog_groups": 22
+      },
+      {
+        "name": "SKU_COST_RECOVERY_UNDER_SAME_UUID_REPLAY_8c3b0019b866_FULL_CURRENT_CENSUS.json",
+        "bytes": 43100596,
+        "sha256": "cc4ad4d423d6761d737766ac36e7a1990cc7921d27ec25b1be305669aa030760",
+        "tables": 685,
+        "sequences": 15,
+        "catalog_groups": 22
+      },
+      {
+        "name": "SKU_COST_RECOVERY_EQUAL_SAME_UUID_REPLAY_1b361db8b334_FULL_CURRENT_CENSUS.json",
+        "bytes": 43100596,
+        "sha256": "805ca958bf61be8b33ba3d82c1ac1d20ab2cee07b0c0d6883ff6b59e26f4953f",
+        "tables": 685,
+        "sequences": 15,
+        "catalog_groups": 22
+      },
+      {
+        "name": "SKU_COST_DISTINCT_UUID_POCKET_BUSY_COMMIT_2884c35ccbec_FULL_CURRENT_CENSUS.json",
+        "bytes": 43100590,
+        "sha256": "6900efc24763bbc3e7a9b4bb43b10dd176c6f720d464d7ecb687fad0487a1d75",
+        "tables": 685,
+        "sequences": 15,
+        "catalog_groups": 22
+      },
+      {
+        "name": "SKU_COST_DISTINCT_UUID_COMMITTED_STALE_RETRY_48a71eb3aae4_FULL_CURRENT_CENSUS.json",
+        "bytes": 43100594,
+        "sha256": "049253885bf2c0f51c06e125b53a57cea5451d85a7e19e1fea46f46306fd5e85",
+        "tables": 685,
+        "sequences": 15,
+        "catalog_groups": 22
+      },
+      {
+        "name": "SKU_COST_DISTINCT_UUID_POCKET_BUSY_ROLLBACK_7a9cf30aad56_FULL_CURRENT_CENSUS.json",
+        "bytes": 43100590,
+        "sha256": "fe3451db7e60dbdb18c456d120d7dfd5550823983fcbb7df497574c8ccc4815b",
+        "tables": 685,
+        "sequences": 15,
+        "catalog_groups": 22
+      },
+      {
+        "name": "SKU_COST_RECOVERY_CACHE_PERMISSION_WAIT_60e0ef3ac49c_FULL_CURRENT_CENSUS.json",
+        "bytes": 43100598,
+        "sha256": "cd52484f66bb30457ffedfaa017a344578d7864018397f8efbfa70386505273b",
+        "tables": 685,
+        "sequences": 15,
+        "catalog_groups": 22
+      },
+      {
+        "name": "SKU_COST_RECOVERY_NONBLOCKING_FG_BUSY_14772f44cbc4_FULL_CURRENT_CENSUS.json",
+        "bytes": 43100598,
+        "sha256": "3eb230e87f7b906feb4b1fb80a33adf71f0c2dbd4f0daebf3c8ebf6a53c3d02c",
+        "tables": 685,
+        "sequences": 15,
+        "catalog_groups": 22
+      },
+      {
+        "name": "SKU_COST_RECOVERY_NONBLOCKING_MATERIAL_NONE_BUSY_073734d08e8f_FULL_CURRENT_CENSUS.json",
+        "bytes": 43100604,
+        "sha256": "3df009aa0dc5ab4b65930e63d8f3e53d0990e1fdd5e04d6a1c1571916f767160",
+        "tables": 685,
+        "sequences": 15,
+        "catalog_groups": 22
+      }
+    ],
+    "complete_cost_sequence_prefixes": [
+      {
+        "case_id": "SKU29_COST_GROUP_RETURN_OVER_FIRST_PART_SAFETY_REFUSAL_ONLY",
+        "raw": {
+          "bytes": 2662,
+          "sha256": "cb85afa28beebca38fa408fcf6f8104077b5d582da2947a96cf5863034fd2f67"
+        }
+      },
+      {
+        "case_id": "SKU29_COST_BOTH_PARTS_USAGE_LATE_INVOICE_SOLD_AND_DESCENDANT",
+        "raw": {
+          "bytes": 2663,
+          "sha256": "3a69f7e7e87e4b4b0eede8f3414f2c686e7d0937ff0744a48c6086c0117e903b"
+        }
+      },
+      {
+        "case_id": "SKU29_COST_FIRST_PART_ACTIVE_USAGE_ATOMIC_GROUP_INVERSE",
+        "raw": {
+          "bytes": 2659,
+          "sha256": "cc4514536fefc866cb3a7f295a8a352282cbc283aad001283cfc48c7210428f8"
+        }
+      },
+      {
+        "case_id": "SKU30_RECOVERY_UNDER_FIRST_PART_NATIVE_POST_REPLAY_INVERSE",
+        "raw": {
+          "bytes": 2663,
+          "sha256": "4c538b78c608b5d60fc3adcc5d41a246f274f8b3214e2e2c0df5450457274732"
+        }
+      },
+      {
+        "case_id": "SKU30_RECOVERY_EQUAL_FIRST_PART_NATIVE_POST_REPLAY_INVERSE",
+        "raw": {
+          "bytes": 2663,
+          "sha256": "72ab8856c776680d25509c4cf3564290a1a6a2df3be807f837830f251b64bde4"
+        }
+      }
+    ],
+    "all14_full22_all_rows_ALL15_sequence_raw_boundaries_exact": true,
+    "all5_cost_sequence_prefixes_original_and_contiguous": true,
+    "per_savepoint_sequence_restore_claim": false
+  },
+  "negative_controls": [
+    {
+      "name": "failed_outer",
+      "refusal": "EXACT_CURRENT_PASS_OUTER/status:VALUE"
+    },
+    {
+      "name": "missing_fifth_gate",
+      "refusal": "ALL_FIVE_PACKAGE_GATES/writer_runtime:VALUE"
+    },
+    {
+      "name": "missing_Auth_restore",
+      "refusal": "EXACT_FOUR_REAL_AUTH_BROWSER_AND_CLEANUP/auth_counts/restored:VALUE"
+    },
+    {
+      "name": "float_not_exact_count",
+      "refusal": "ALL_27_SAME_RUN/business_counts/PASS:TYPE"
+    }
+  ],
+  "complete27_qualified": true,
+  "package_all_five": true,
+  "prior_runs_aggregated": false,
+  "outer_restore_source_bound_receipts": true,
+  "outer_raw_before_after_not_serialized": true,
+  "actual_Auth_HTTP_case_credit": 0,
+  "combined_S03_SKU_S05_runtime_qualified": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

@@ -68,9 +68,10 @@
       "run_id": 41167734749,
       "job_id": 124438845597,
       "head": "090b85d3fcb738d3e694d4329d306f199a686eb8",
-      "status": "in_progress",
-      "conclusion": null,
-      "run_attempt": 1
+      "status": "completed",
+      "conclusion": "success",
+      "run_attempt": 1,
+      "root_intake": "docs/cp7/d17-14/ow15/SKU_090B_ROOT_ACTUAL_INTAKE_20261031.json"
     },
     {
       "kind": "S03Browser4",
@@ -160,7 +161,7 @@
   "independent_acceptance": false,
   "current_default": "cp7_vendor_receivable.composition",
   "next": [
-    "Terminal exact current SKU27 and S03 Browser4 Originals; complete restoration and all5 before parent qualification",
+    "Intake terminal exact current S03 Browser4 Original; SKU090b complete27/all5 is now independently root verified. Preserve failed prior runs.",
     "Complete current joined product source/Original admission; historical product.sources graph not evaluated locally",
     "Executable owning composite caller and actual current install, strict groups, callbacks, normal-App browsers and complete backup/restoration",
     "Rebind the S05 Native10/browser2 components and retired SKU-only outer caller to actual current joined parent",
@@ -1924,5 +1925,8 @@
     "current_unified_source_status": "S05_CURRENT_SKU_COMPONENTS_AND_COMPLETE_OUTER_CALLER_PREPARED_NOT_RUNTIME_QUALIFIED"
   },
   "current_operational_join_receipt": "docs/cp7/d17-14/ow15/WRITER_A_V212_S03_SKU_S05_JOIN_20261031.json",
-  "S03_SKU_source_join_prepared": true
+  "S03_SKU_source_join_prepared": true,
+  "SKU_090b_successful_actual_intake": "docs/cp7/d17-14/ow15/SKU_090B_ROOT_ACTUAL_INTAKE_20261031.json",
+  "current_SKU27_qualified": true,
+  "current_combined_runtime_qualified": false
 }
