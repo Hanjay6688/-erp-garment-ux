@@ -1,0 +1,113 @@
+{
+  "classification": "GLOBAL19_DIRECT_D1_E_SOURCE_OVERLAP_REVIEW_NOT_RUNTIME",
+  "complete_DE_prepared_head": "77b613562dff63dafbe0d06425abd503f9a7df76",
+  "global_profile_head": "a6ded9cd4ce23a6d59cd32e42ca9bb33d793f8cc",
+  "global_authority_pin": {
+    "bytes": 71436,
+    "sha256": "193194184cdbfde1753677ad486d7010ada8ed9e6198f9a19e57c4b8587e3d78"
+  },
+  "known_functions": 19,
+  "checks": [
+    {
+      "deriver": "native_delta.py",
+      "changed_signatures": [
+        "cp7_credit.initial_base_events_v1(uuid,uuid)",
+        "cp7_credit.initial_ordinal_input_v1(uuid,uuid)",
+        "cp7_credit._consumer_root_source_profile_v1(uuid,uuid,uuid,jsonb)",
+        "cp7_credit.assert_financial_materialization_provenance(jsonb)",
+        "cp7_credit.enforce_initial_return_closure_v1()",
+        "public.erp_cp7_correct_sales_return_v1(jsonb,uuid,text)",
+        "public.erp_cp7_get_sales_return_correction_v1(jsonb)"
+      ],
+      "direct_known19_overlap": []
+    },
+    {
+      "deriver": "e_native_delta.py",
+      "changed_signatures": [
+        "public.erp_cp7_correct_note_v1(jsonb,uuid,text)",
+        "public.erp_cp7_get_note_correction_v2(uuid)",
+        "erp._cp7_current_credit_adjustment(uuid)",
+        "cp7_credit.current_materialized_objects(uuid,uuid,uuid)",
+        "cp7_credit.assert_current_source_plan_profile(uuid,uuid,uuid,jsonb)",
+        "cp7_credit.initial_base_events_v1(uuid,uuid)",
+        "cp7_credit.initial_ordinal_input_v1(uuid,uuid)",
+        "cp7_credit.consumer_incoming_funding_v1(uuid)",
+        "cp7_credit_incoming.incoming_applied_v1(uuid)",
+        "cp7_credit.consumer_selection_v1(jsonb)",
+        "cp7_credit.consumer_capture_sources_v1(jsonb)",
+        "cp7_credit.consumer_projection_v1(jsonb,jsonb)",
+        "cp7_credit.consumer_execute_v1(uuid)",
+        "cp7_credit.assert_consumer_closed_v1(uuid)",
+        "cp7_credit.consumer_native_invariant_v1(uuid)",
+        "cp7_credit.consumer_invoice_profile_v1(uuid)",
+        "cp7_credit.consumer_event_data_v1(uuid)",
+        "cp7_credit.consumer_quote_v1(jsonb)",
+        "cp7_credit.native_source_enter(text,uuid)"
+      ],
+      "direct_known19_overlap": []
+    }
+  ],
+  "parent_source_files": [
+    {
+      "path": "supabase/release/cp6-t3/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql",
+      "exact": true
+    },
+    {
+      "path": "scripts/cp7_customer_credit/readers/01_current_reader_capability.proposal.sql",
+      "exact": true
+    },
+    {
+      "path": "scripts/cp7_customer_credit/consumer/01_dependency_graph.sql",
+      "exact": true
+    },
+    {
+      "path": "scripts/cp7_customer_credit/reconciliation/03_source_requests.sql",
+      "exact": true
+    },
+    {
+      "path": "scripts/cp7_customer_credit/coordinator/02_hpp_book.sql",
+      "exact": true
+    },
+    {
+      "path": "scripts/cp7_customer_credit/reconciliation/03_native_inverse_proof.sql",
+      "exact": true
+    },
+    {
+      "path": "scripts/cp7_customer_credit/ledger/01_immutable_facts.proposal.sql",
+      "exact": true
+    },
+    {
+      "path": "supabase/release/cp6-t3/20260925030000_erp_v2_6_20bc_cp6_accessory_service_returns.sql",
+      "exact": true
+    }
+  ],
+  "source_DB_guard": {
+    "attempts": [],
+    "self_controls": [
+      {
+        "api": "psycopg.connect",
+        "result": "DENIED_BEFORE_LIBPQ"
+      },
+      {
+        "api": "psycopg.Connection.connect",
+        "result": "DENIED_BEFORE_LIBPQ"
+      },
+      {
+        "api": "psycopg.AsyncConnection.connect",
+        "result": "DENIED_BEFORE_LIBPQ"
+      },
+      {
+        "original_connect_descriptors_restored": true
+      }
+    ],
+    "network_nonGit_attempts": [],
+    "public_source_sha256": "1439d70810383db377c48e043df7fb6d487a1b2f1a995e8993a2c08590f9f797"
+  },
+  "not_a_transitive_callee_or_data_closure_proof": true,
+  "D1_E_new_table_capture_completeness": "UNREVIEWED",
+  "actual_normalized_install_and_metadata": "PENDING",
+  "actor_or_permission_or_writer_lock_closure": false,
+  "actual_Native_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

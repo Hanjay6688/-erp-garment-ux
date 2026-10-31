@@ -1,0 +1,11 @@
+{
+  "classification": "ROOT_UNARMED_FULL37_ADMISSION_CONTROL_NOT_NATIVE",
+  "source_head": "6cb5bfe213fe3ce684244370dec092569705f6ff",
+  "run": null,
+  "job": null,
+  "observed_exception_type": "ValueError",
+  "observed_message": "CURRENT_FULL37_SUCCESSOR_ACTUAL_RUN_NOT_YET_PINNED",
+  "refused_before_Git_archive_or_focused1_metadata": true,
+  "first_local_control_expected_wrong_exception_class": "AssertionError; actual intake_common.require uses ValueError",
+  "actual_Native_cases": 0
+}

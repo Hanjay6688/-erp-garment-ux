@@ -1,0 +1,57 @@
+{
+  "classification": "GLOBAL_AFTER_WAIT_SOURCE_REVIEW_ONLY_NOT_CONCURRENCY_PROOF",
+  "head": "77b613562dff63dafbe0d06425abd503f9a7df76",
+  "files": {
+    "scripts/cp7_credit_correction_de/owning.sql": {
+      "bytes": 25957,
+      "sha256": "410afb540f455ce6781d8bf09ee6bd6f66420a2f17d3c5474720a642fdcc9cae"
+    },
+    "scripts/cp7_credit_correction_de/note_carry/06_owning.sql": {
+      "bytes": 13433,
+      "sha256": "0c00bb08274827e6295ada3ed4e4b8e7d917ed1bc1a996aaa0685d0fd1772c94"
+    },
+    "scripts/cp7_customer_credit/reconciliation/03_source_requests.sql": {
+      "bytes": 21078,
+      "sha256": "9cea83e59f7dd923ae4f182b8126615bad7a274a31765ce4dbff19b41f16a116"
+    }
+  },
+  "observations": [
+    {
+      "function": "cp7_credit_correction_de.prepare_v1(jsonb,uuid,text,jsonb)",
+      "volatility": "VOLATILE",
+      "existing_after_wait_checks": "quote_v1(p) and access_now() compared to p_authority after existing account and period SHARE locks, before work-row INSERT"
+    },
+    {
+      "function": "cp7_credit_note_carry_de.prepare_v1(jsonb,uuid,text,uuid,jsonb)",
+      "volatility": "VOLATILE",
+      "existing_after_wait_checks": "Fresh basis and access_now() compared to p_authority after existing resource and period locks, before work-row INSERT"
+    },
+    {
+      "function": "cp7_credit.source_request_enter_v1(text,jsonb,uuid,text)",
+      "volatility": "VOLATILE",
+      "existing_actor_contract": "Explicit authenticated actor and READ COMMITTED requirement; command_access(action) after FG advisory lock"
+    }
+  ],
+  "PostgreSQL_sources": [
+    {
+      "url": "https://www.postgresql.org/docs/17/xfunc-volatility.html",
+      "applies": "Stable/immutable helpers retain their calling-query snapshot; volatile functions obtain a fresh snapshot for each query they execute."
+    },
+    {
+      "url": "https://www.postgresql.org/docs/17/transaction-iso.html",
+      "applies": "Read Committed uses a new statement snapshot; stronger transaction isolation cannot be treated as fresh cross-session visibility merely by rereading."
+    }
+  ],
+  "future_global_obligations": [
+    "Place/repeat actual current-rights checks after any newly introduced global lock wait and before effects",
+    "Require compatible actual transaction isolation and real private owning context",
+    "Prove revocation and role change while waiting with two actual sessions on the admitted final ERP candidate",
+    "Do not equate read-only source review or generic snapshot models with actual permission/writer/phantom closure"
+  ],
+  "existing_code_modified": false,
+  "actual_Native_cases": 0,
+  "actual_two_session_observations": 0,
+  "global_permission_closure": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

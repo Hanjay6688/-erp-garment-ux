@@ -1,0 +1,55 @@
+{
+  "classification": "WRITER_A_ROOT_DE30_INTAKE_PREPARED_AND_GLOBAL_SOURCE_REVIEW_NOT_RUNTIME",
+  "recorded_at_utc": "2026-10-31T15:53:36.452676+00:00",
+  "solo_integrator": true,
+  "root_predecessor": "63eb8ecae93bccf99ae5fa9495265f90ba657e62",
+  "actual_owner_access": {
+    "head": "6cb5bfe213fe3ce684244370dec092569705f6ff",
+    "run_id": 41212698704,
+    "job_id": 124570848589,
+    "last_observed_status": "in_progress",
+    "actual_accepted_cases": 0,
+    "full37_qualified": false
+  },
+  "repaired_full37_root_intake": {
+    "source_pins": 69,
+    "own_paths": 70,
+    "unchanged_base": 14000,
+    "run_id": null,
+    "job_id": null,
+    "unarmed_before_archive_or_Git": true,
+    "receipt": "JOIN37_SUCCESSOR_ROOT_UNARMED_CONTROL_20261031.json",
+    "focused1_cannot_satisfy_full37": true
+  },
+  "complete_DE_root_intake": {
+    "prepared_head": "77b613562dff63dafbe0d06425abd503f9a7df76",
+    "prepared_tree": "0db13a8fc0b202d6225877525e16cddfe29f421f",
+    "source_pins": 49,
+    "own_paths": 50,
+    "unchanged_prepared_parent": 14092,
+    "unchanged_business_sources": 3,
+    "frozen_fixture_inputs": 4,
+    "original_D1_ids": 13,
+    "original_E_ids": 17,
+    "actual_parent_qualification": null,
+    "owning_run": null,
+    "source_and_unarmed_refusal_control": "PASS",
+    "receipt": "DE30_ROOT_PREPARED_SOURCE_AND_UNARMED_CONTROL_20261031.json",
+    "actual_Native_cases": 0,
+    "full_intake_requires": "Exact actual permanent6 receipt and whole parent source graph; one actual original strict30; raw committed E witness and full22/ALLrow/ALLseq no-effect; canonical archive/API identity; all5 and all restoration"
+  },
+  "global_source_review": {
+    "direct_known19_overlap_with_D1_or_E": [],
+    "unchanged_parent_input_files": 8,
+    "direct_overlap_receipt": "GLOBAL19_DIRECT_COMPLETE_DE_SOURCE_OVERLAP_20261031.json",
+    "after_wait_source_receipt": "GLOBAL_AFTER_WAIT_SOURCE_REVIEW_20261031.json",
+    "transitive_callee_or_data_closure": false,
+    "actual_permission_or_writer_or_lock_closure": false,
+    "actual_two_session_observations": 0
+  },
+  "all_old_scope_retained": true,
+  "FG_Mandor_manual_week": "QUEUED_AFTER_STABLE_ACTIVE_INTEGRATION",
+  "formal_accepted": "5/16",
+  "production_go": false,
+  "independent_acceptance": false
+}
