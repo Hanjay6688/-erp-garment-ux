@@ -7,6 +7,7 @@ import {dirname,resolve} from 'node:path'
 import {fileURLToPath} from 'node:url'
 import {IDS,RPC,cents,input,equalCensus,immutableFacts,exactEnvelope,accessRefusals,observeConsole,consoleEvidence,readable} from './evidence.mjs'
 import {observeResponseWaits} from './response_waits.mjs'
+import {freshRead} from './fresh_read.mjs'
 export {IDS}
 const ROOT=resolve(dirname(fileURLToPath(import.meta.url)),'../..')
 const fixture=(operation,payload={})=>JSON.parse(execFileSync('python',['-B',resolve(ROOT,'scripts/current-attendance-choice-browser4-lawful-successor/fixture.py'),operation],{cwd:ROOT,input:JSON.stringify(payload),encoding:'utf8',timeout:180000,maxBuffer:32*1024*1024,env:{...process.env,PYTHONDONTWRITEBYTECODE:'1'}}).trim())
@@ -32,7 +33,13 @@ async function setup(ui,today,scenario){
  }
  async function open(){await menu(page);await expect(page.getByRole('heading',{name:'HPP per SKU',exact:true})).toBeVisible();await expect(choice().getByRole('heading',{name:'Pilihan biaya absensi per periode',exact:true})).toBeVisible()}
  async function period(day){const before=state('BEFORE_PERIOD_READ');await choice().getByLabel('Mulai periode asal',{exact:true}).fill(day);await choice().getByLabel('Akhir periode asal',{exact:true}).fill(day);const pending=page.waitForResponse(r=>isRpc(RPC.read)(r)&&args(r).p_period_start===day&&args(r).p_period_end===day);await choice().getByRole('button',{name:'Muat ulang periode',exact:true}).click();const w=await success(pending);assert.equal(w.period_start,day);assert.equal(w.period_end,day);equalCensus(before.census,state('AFTER_PERIOD_READ').census);return w}
- async function poolReload(){const before=state('BEFORE_POOL_READ'),pending=page.waitForResponse(isRpc(RPC.poolRead));await pools().getByRole('button',{name:'Muat ulang daftar pool',exact:true}).click();const workspace=await success(pending);equalCensus(before.census,state('AFTER_POOL_READ').census);return workspace}
+ async function poolReload(){
+  const before=state('BEFORE_POOL_READ')
+  const current=await freshRead(page,RPC.poolRead,()=>pools().getByRole('button',{name:'Muat ulang daftar pool',exact:true}).click())
+  const workspace=await success(current.response)
+  ;(progress.pool_reads??=[]).push({request_started_at:current.request_started_at,refresh_registered_at:current.refresh_registered_at,actual_workspace:workspace})
+  equalCensus(before.census,state('AFTER_POOL_READ').census);return workspace
+ }
  async function fields(action,selection=null,output=null){await choice().getByLabel('Tindakan pilihan biaya',{exact:true}).selectOption(action);if(selection)await choice().getByLabel('Pilihan biaya absensi',{exact:true}).selectOption(selection);if(output){await choice().getByLabel('Mulai periode hasil jahit',{exact:true}).fill(output);await choice().getByLabel('Akhir periode hasil jahit',{exact:true}).fill(output)}await choice().getByLabel('Alasan pilihan biaya absensi',{exact:true}).fill(input(f.day).reason)}
  async function preview(action,payload,expectedCents='100003'){
   const before=state('BEFORE_PREVIEW'),pending=page.waitForResponse(r=>isRpc(RPC.preview)(r)&&args(r).p_action===action)

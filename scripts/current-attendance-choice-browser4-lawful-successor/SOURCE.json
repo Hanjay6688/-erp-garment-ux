@@ -346,7 +346,7 @@
     "sha256": "57d827e9af3cef54ece99d98c2bb6b72d332d4d0db111213f55458b5acd7247e"
   },
   "inherited_import_inventory": {
-    "static_python_files_parsed": 951,
+    "static_python_files_parsed": 953,
     "imported_qualifier_oracle_paths_explicitly_pinned": true,
     "ERP_imports_executed": 0
   },
@@ -4676,8 +4676,8 @@
     },
     {
       "path": "scripts/current-attendance-choice-browser4-lawful-successor/ADAPTATIONS.json",
-      "bytes": 426473,
-      "sha256": "7c47ae2b6942eecda6ae68d9c777138875091c4914ca81ad267dea34a94fe474"
+      "bytes": 455136,
+      "sha256": "1b5fc53f2e354a410988fd46b5b78ce4e5418455e16f4991a38832a76709c7ce"
     },
     {
       "path": "scripts/current-attendance-choice-browser4-lawful-successor/BEFORE_EDIT_475_CLASSIFICATION.json",
@@ -4696,8 +4696,8 @@
     },
     {
       "path": "scripts/current-attendance-choice-browser4-lawful-successor/CANCELLED_HISTORY_DELTA.json",
-      "bytes": 753418,
-      "sha256": "b19bdaa11f242df531841bf2f5856b674cb10d08b82e1d0a5c48ef25c001cdb3"
+      "bytes": 835116,
+      "sha256": "e32abb56bc0d934052d2c96c0b440b8240a15577a16cf37fdb76def3f761a1df"
     },
     {
       "path": "scripts/current-attendance-choice-browser4-lawful-successor/CANONICAL_RUNTIME_INTAKE.json",
@@ -4733,6 +4733,11 @@
       "path": "scripts/current-attendance-choice-browser4-lawful-successor/FIRST_89AB_TIMEOUT_CLEANUP_FAILURE.json",
       "bytes": 2539,
       "sha256": "6132145bb3f96cc174837e57c177dc99ffa8369f9ef74b68ae5aecd21f11b090"
+    },
+    {
+      "path": "scripts/current-attendance-choice-browser4-lawful-successor/FIRST_A209_RELOAD_AND_LABEL_FAILURE.json",
+      "bytes": 4875,
+      "sha256": "82d9a11618eba96076260ee42223b7d137ae35ef916ed9be09180857cf8ef8b1"
     },
     {
       "path": "scripts/current-attendance-choice-browser4-lawful-successor/FROZEN_BROWSER_PARENT.json",
@@ -4816,8 +4821,8 @@
     },
     {
       "path": "scripts/current-attendance-choice-browser4-lawful-successor/cases.mjs",
-      "bytes": 32110,
-      "sha256": "e08d7b073087a272def63e3bad53490d8b5d249a2855ef081e2ff1790f68f87d"
+      "bytes": 32333,
+      "sha256": "abb98bc6e9605c1a2ba5152e27d36828372f9ddd31e1ccea6039eac211ff3738"
     },
     {
       "path": "scripts/current-attendance-choice-browser4-lawful-successor/component.py",
@@ -5020,6 +5025,11 @@
       "sha256": "d48ccac975e5d0dffbff133f1b940bb30f6967f87d422a5f0f0b0b9adfa67910"
     },
     {
+      "path": "scripts/current-attendance-choice-browser4-lawful-successor/fresh_read.mjs",
+      "bytes": 633,
+      "sha256": "476c3b9148fe4f78838843228e0ef722ce3e0bd68a9a3b8068af57c9bf5046c7"
+    },
+    {
       "path": "scripts/current-attendance-choice-browser4-lawful-successor/helper-source/CALLBACK_CHANGES.json",
       "bytes": 5060,
       "sha256": "92cf7781fb331fc7c9d5c2cf67526b14671b8aad08594f144644e68aa83b7a75"
@@ -5051,8 +5061,8 @@
     },
     {
       "path": "scripts/current-attendance-choice-browser4-lawful-successor/history_delta.py",
-      "bytes": 3489,
-      "sha256": "939bfa3cfff26a251ec22763aca8c15990704309ce1bb27ff84facb61163e644"
+      "bytes": 3784,
+      "sha256": "730115cba2233a3e895dc627da3c01274ac3b2c608a1974a86751a7872d84a22"
     },
     {
       "path": "scripts/current-attendance-choice-browser4-lawful-successor/inherited-output-validation/DERIVATION.json",
@@ -5101,8 +5111,8 @@
     },
     {
       "path": "scripts/current-attendance-choice-browser4-lawful-successor/output_admission.py",
-      "bytes": 13387,
-      "sha256": "c9d2fd935e1dcefef1fde0019d492d6b7841f074979341c1637b894936e88362"
+      "bytes": 13884,
+      "sha256": "2888df04ffa911352cefe4d5e0a41ff966fc5d5cd6b3d96975eaa313209d54f6"
     },
     {
       "path": "scripts/current-attendance-choice-browser4-lawful-successor/pool_history.py",
@@ -6190,6 +6200,11 @@
       "sha256": "f72539b4a4327bb358f28a22a95fbef4d743b9a0d791da8d0ac611c4ecb56f49"
     },
     {
+      "path": "scripts/current-attendance-choice-browser4-lawful-successor/refresh_delta.py",
+      "bytes": 2176,
+      "sha256": "ffef3f38f9e172752e02079c1d6d6f818dc05da1c10579a047623a9db3f8b225"
+    },
+    {
       "path": "scripts/current-attendance-choice-browser4-lawful-successor/response_waits.mjs",
       "bytes": 544,
       "sha256": "28b01642e26378cb8e5aad96a9d2b2b10e252fbd19ce6151ee62cad7c4557034"
@@ -6393,6 +6408,36 @@
       "path": "scripts/current-attendance-choice-browser4-lawful-successor/retained-89ab/workflow.yml",
       "bytes": 30903,
       "sha256": "9d8557cad594c697aaa972b3b2660ab6730cdfcae577c23764f5ee82940c2e7a"
+    },
+    {
+      "path": "scripts/current-attendance-choice-browser4-lawful-successor/retained-a209/ADAPTATIONS.json.txt",
+      "bytes": 426473,
+      "sha256": "7c47ae2b6942eecda6ae68d9c777138875091c4914ca81ad267dea34a94fe474"
+    },
+    {
+      "path": "scripts/current-attendance-choice-browser4-lawful-successor/retained-a209/SOURCE.json",
+      "bytes": 810,
+      "sha256": "01510e8ff27cefeb35d158431fd574292e31ed76239859679e524b319bf34d94"
+    },
+    {
+      "path": "scripts/current-attendance-choice-browser4-lawful-successor/retained-a209/SOURCE.json.txt",
+      "bytes": 629759,
+      "sha256": "49c603caddd3c075df97b0636c6733c849107f82658a6ac87eda9581f2ad680b"
+    },
+    {
+      "path": "scripts/current-attendance-choice-browser4-lawful-successor/retained-a209/cases.mjs.txt",
+      "bytes": 32110,
+      "sha256": "e08d7b073087a272def63e3bad53490d8b5d249a2855ef081e2ff1790f68f87d"
+    },
+    {
+      "path": "scripts/current-attendance-choice-browser4-lawful-successor/retained-a209/history_delta.py.txt",
+      "bytes": 3489,
+      "sha256": "939bfa3cfff26a251ec22763aca8c15990704309ce1bb27ff84facb61163e644"
+    },
+    {
+      "path": "scripts/current-attendance-choice-browser4-lawful-successor/retained-a209/output_admission.py.txt",
+      "bytes": 13387,
+      "sha256": "c9d2fd935e1dcefef1fde0019d492d6b7841f074979341c1637b894936e88362"
     },
     {
       "path": "scripts/current-attendance-choice-browser4-lawful-successor/retained-ae837/ADAPTATIONS.json",
@@ -6631,13 +6676,18 @@
     },
     {
       "path": "scripts/current-attendance-choice-browser4-lawful-successor/test_current_rights.py",
-      "bytes": 10456,
-      "sha256": "6a3702e37f4c60cf482898aec88f471ebe7ea1cc89d3af00c612f188da0b088e"
+      "bytes": 10663,
+      "sha256": "a698e36b6909469d98cc215297ccc52bf0b8024c7f1fc6a07a3fab1708415328"
     },
     {
       "path": "scripts/current-attendance-choice-browser4-lawful-successor/test_execution_efficiency.py",
       "bytes": 6485,
       "sha256": "40b051bfedd07cb935197bc01b7f2a660e0e8029f5041d0e2c459e223f21d162"
+    },
+    {
+      "path": "scripts/current-attendance-choice-browser4-lawful-successor/test_fresh_read.mjs",
+      "bytes": 1680,
+      "sha256": "ac4d61daf94508ac0720178ac503eaa222f958151f39db18ff44444852404c31"
     },
     {
       "path": "scripts/current-attendance-choice-browser4-lawful-successor/test_lawful_oracles.mjs",
@@ -6651,8 +6701,8 @@
     },
     {
       "path": "scripts/current-attendance-choice-browser4-lawful-successor/test_ordinary_snapshot.py",
-      "bytes": 8783,
-      "sha256": "e8efd4b69ce4808070e6d96ae72a06e3eb01f27e3d7e1ef6610400b65b8fa5ab"
+      "bytes": 8881,
+      "sha256": "f0a66a905373723df4ea0d3e424393dce8a20f9fef07657e03af3bbdbc0f00d8"
     },
     {
       "path": "scripts/current-attendance-choice-browser4-lawful-successor/test_outputs.py",
@@ -6668,6 +6718,11 @@
       "path": "scripts/current-attendance-choice-browser4-lawful-successor/test_response_waits.mjs",
       "bytes": 2542,
       "sha256": "513c429958315dcb856ccf8bfe92f85fb87a5d61de6cdba24abc99bc6ae5f54e"
+    },
+    {
+      "path": "scripts/current-attendance-choice-browser4-lawful-successor/test_role_labels.py",
+      "bytes": 2617,
+      "sha256": "21ed722553d4e7ab4f431c3ca6e4f80ac075fb7e31a36d7fd7c214be0c2628c8"
     },
     {
       "path": "scripts/current-attendance-choice-browser4-lawful-successor/test_successor.py",
@@ -12432,6 +12487,7 @@
     "scripts/current-attendance-choice-browser4-lawful-successor/FIRST_4D968_FAILURE.json",
     "scripts/current-attendance-choice-browser4-lawful-successor/FIRST_84A9_FAILURE.json",
     "scripts/current-attendance-choice-browser4-lawful-successor/FIRST_89AB_TIMEOUT_CLEANUP_FAILURE.json",
+    "scripts/current-attendance-choice-browser4-lawful-successor/FIRST_A209_RELOAD_AND_LABEL_FAILURE.json",
     "scripts/current-attendance-choice-browser4-lawful-successor/FROZEN_BROWSER_PARENT.json",
     "scripts/current-attendance-choice-browser4-lawful-successor/HANDOFF.md",
     "scripts/current-attendance-choice-browser4-lawful-successor/HELPER_SOURCE.json",
@@ -12490,6 +12546,7 @@
     "scripts/current-attendance-choice-browser4-lawful-successor/evidence/superseded-pre-cancel-helper/lawful_fixture.py",
     "scripts/current-attendance-choice-browser4-lawful-successor/fetch_originals.py",
     "scripts/current-attendance-choice-browser4-lawful-successor/fixture.py",
+    "scripts/current-attendance-choice-browser4-lawful-successor/fresh_read.mjs",
     "scripts/current-attendance-choice-browser4-lawful-successor/helper-source/CALLBACK_CHANGES.json",
     "scripts/current-attendance-choice-browser4-lawful-successor/helper-source/FIXTURE_API.md",
     "scripts/current-attendance-choice-browser4-lawful-successor/helper-source/ORIGINAL_READER3.json",
@@ -12724,6 +12781,7 @@
     "scripts/current-attendance-choice-browser4-lawful-successor/qualified-parent3c0/scripts/current-attendance-period-choice-readers-qualification/admission.py",
     "scripts/current-attendance-choice-browser4-lawful-successor/qualified-parent3c0/scripts/current-attendance-period-choice-readers-qualification/cases.py",
     "scripts/current-attendance-choice-browser4-lawful-successor/qualified-parent3c0/scripts/current-attendance-period-choice-readers-qualification/test_plan.py",
+    "scripts/current-attendance-choice-browser4-lawful-successor/refresh_delta.py",
     "scripts/current-attendance-choice-browser4-lawful-successor/response_waits.mjs",
     "scripts/current-attendance-choice-browser4-lawful-successor/result_gate.py",
     "scripts/current-attendance-choice-browser4-lawful-successor/retained-30ee/ADAPTATIONS.json",
@@ -12765,6 +12823,12 @@
     "scripts/current-attendance-choice-browser4-lawful-successor/retained-89ab/test_oracles.mjs",
     "scripts/current-attendance-choice-browser4-lawful-successor/retained-89ab/workflow.py",
     "scripts/current-attendance-choice-browser4-lawful-successor/retained-89ab/workflow.yml",
+    "scripts/current-attendance-choice-browser4-lawful-successor/retained-a209/ADAPTATIONS.json.txt",
+    "scripts/current-attendance-choice-browser4-lawful-successor/retained-a209/SOURCE.json",
+    "scripts/current-attendance-choice-browser4-lawful-successor/retained-a209/SOURCE.json.txt",
+    "scripts/current-attendance-choice-browser4-lawful-successor/retained-a209/cases.mjs.txt",
+    "scripts/current-attendance-choice-browser4-lawful-successor/retained-a209/history_delta.py.txt",
+    "scripts/current-attendance-choice-browser4-lawful-successor/retained-a209/output_admission.py.txt",
     "scripts/current-attendance-choice-browser4-lawful-successor/retained-ae837/ADAPTATIONS.json",
     "scripts/current-attendance-choice-browser4-lawful-successor/retained-ae837/CURRENT_RIGHTS_DELTA.json",
     "scripts/current-attendance-choice-browser4-lawful-successor/retained-ae837/README.md",
@@ -12814,12 +12878,14 @@
     "scripts/current-attendance-choice-browser4-lawful-successor/test_contrast_successor.py",
     "scripts/current-attendance-choice-browser4-lawful-successor/test_current_rights.py",
     "scripts/current-attendance-choice-browser4-lawful-successor/test_execution_efficiency.py",
+    "scripts/current-attendance-choice-browser4-lawful-successor/test_fresh_read.mjs",
     "scripts/current-attendance-choice-browser4-lawful-successor/test_lawful_oracles.mjs",
     "scripts/current-attendance-choice-browser4-lawful-successor/test_oracles.mjs",
     "scripts/current-attendance-choice-browser4-lawful-successor/test_ordinary_snapshot.py",
     "scripts/current-attendance-choice-browser4-lawful-successor/test_outputs.py",
     "scripts/current-attendance-choice-browser4-lawful-successor/test_pool_history.py",
     "scripts/current-attendance-choice-browser4-lawful-successor/test_response_waits.mjs",
+    "scripts/current-attendance-choice-browser4-lawful-successor/test_role_labels.py",
     "scripts/current-attendance-choice-browser4-lawful-successor/test_successor.py",
     "scripts/current-attendance-choice-browser4-lawful-successor/ui_delta.py",
     "scripts/current-attendance-choice-browser4-lawful-successor/whole_caller_matrix.py",

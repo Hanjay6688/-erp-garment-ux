@@ -1,0 +1,26 @@
+{
+  "head": "a2096c570b6a0300b8ef299d6a167b68849e427d",
+  "tree": "9732ed1ecfe9b14e78adef4e4e12c9b960b92714",
+  "files": {
+    "cases.mjs": {
+      "bytes": 32110,
+      "sha256": "e08d7b073087a272def63e3bad53490d8b5d249a2855ef081e2ff1790f68f87d"
+    },
+    "history_delta.py": {
+      "bytes": 3489,
+      "sha256": "939bfa3cfff26a251ec22763aca8c15990704309ce1bb27ff84facb61163e644"
+    },
+    "output_admission.py": {
+      "bytes": 13387,
+      "sha256": "c9d2fd935e1dcefef1fde0019d492d6b7841f074979341c1637b894936e88362"
+    },
+    "SOURCE.json": {
+      "bytes": 629759,
+      "sha256": "49c603caddd3c075df97b0636c6733c849107f82658a6ac87eda9581f2ad680b"
+    },
+    "ADAPTATIONS.json": {
+      "bytes": 426473,
+      "sha256": "7c47ae2b6942eecda6ae68d9c777138875091c4914ca81ad267dea34a94fe474"
+    }
+  }
+}

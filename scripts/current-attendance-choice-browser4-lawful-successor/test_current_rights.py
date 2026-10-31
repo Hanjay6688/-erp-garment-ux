@@ -131,7 +131,8 @@ class CurrentRightsControls(unittest.TestCase):
             shutil.copytree(HERE / 'retained-4d968', target / 'retained-4d968')
             shutil.copytree(HERE / 'retained-ae837', target / 'retained-ae837')
             shutil.copytree(HERE / 'retained-30ee', target / 'retained-30ee')
-            for name in ('history_delta.py', 'CANCELLED_HISTORY_DELTA.json'):
+            shutil.copytree(HERE / 'retained-a209', target / 'retained-a209')
+            for name in ('history_delta.py', 'refresh_delta.py', 'CANCELLED_HISTORY_DELTA.json'):
                 shutil.copyfile(HERE / name, target / name)
             ordinary = load('ordinary_snapshot_delta')
             for name in (*ordinary.FILES, *ordinary.UNCHANGED, 'ORDINARY_SNAPSHOT_DELTA.json'):
@@ -151,7 +152,8 @@ class CurrentRightsControls(unittest.TestCase):
 
     def test_financial_and_delayed_controls_are_not_covered_by_a_new_blanket_hash(self):
         delta = load('rights_delta'); old = (HERE / 'retained-4d968/cases.mjs').read_text()
-        current = (HERE / 'cases.mjs').read_text()
+        current = load('history_delta').previous('cases.mjs').decode()
+        delta.callbacks(old, current)  # First prove the unchanged baseline is accepted.
         for before, after in (("100003n", "100004n"),
                 ("await y.expect(y.choice()).toHaveCount(0)", "await y.expect(y.choice()).toHaveCount(1)")):
             self.assertIn(before, current)

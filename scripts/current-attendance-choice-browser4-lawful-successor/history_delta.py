@@ -2,6 +2,7 @@
 from hashlib import sha256
 from pathlib import Path
 import json
+import importlib.util
 import os
 import subprocess
 
@@ -27,6 +28,10 @@ def previous(name, current=None, *, root=ROOT, here=HERE):
     old = (here / 'retained-30ee' / name).read_bytes()
     path = root / row['path'] if name == 'workflow.yml' else here / name
     actual = path.read_bytes() if current is None else current
+    if name == 'cases.mjs':
+        spec=importlib.util.spec_from_file_location('s03_exact_current_refresh_inverse',here/'refresh_delta.py')
+        refresh=importlib.util.module_from_spec(spec);spec.loader.exec_module(refresh)
+        actual=refresh.previous(actual,here)
     git = subprocess.check_output(['/usr/bin/git', '-C', str(root), 'show', PARENT + ':' + row['path']],
                                   env=dict(os.environ, GIT_NO_LAZY_FETCH='1'))
     if old != git or pin(old) != row['before'] or pin(actual) != row['after']:

@@ -80,7 +80,14 @@ def evidence(root, here, name):
     scenarios = r'(?:DESKTOP|MOBILE390|STALE|ACCESS)'
     snapshot = re.fullmatch(r'S03_B4_' + scenarios + r'_[A-F0-9]{32}_[0-9]{3}_([A-Z0-9_]+)_FULL_STATE\.json\.gz', leaf)
     if snapshot:
-        labels = set(re.findall(r"\bstate\(['\"]([A-Z0-9_]+)['\"]\)", (here / 'cases.mjs').read_text()))
+        source=(here / 'cases.mjs').read_text()
+        labels = set(re.findall(r"\bstate\(['\"]([A-Z0-9_]+)['\"]\)", source))
+        roles=set(re.findall(r"currentRole\(x,backupOwner,'(ADMIN|OWNER)'\)",source))
+        if roles!={'ADMIN','OWNER'}:raise ValueError('S03_BROWSER4_EXACT_CURRENT_ROLE_PRODUCERS_REQUIRED')
+        for prefix in ('AFTER_AUTHORIZED_ROLE_','AFTER_ACCESS_ROLE_REPLAY_'):
+            if source.count("state('"+prefix+"'+role)")!=1:
+                raise ValueError('S03_BROWSER4_EXACT_ROLE_SNAPSHOT_PRODUCER_REQUIRED')
+            labels.update(prefix+role for role in roles)
         if snapshot[1] not in labels:raise ValueError('S03_BROWSER4_GENERATED_UNKNOWN_SNAPSHOT_LABEL')
         value = unpack(file(root, name))
         if (set(value) != {'all22', 'all_rows', 'data_and_all_sequences'}

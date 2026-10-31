@@ -111,7 +111,8 @@ class OrdinarySnapshotControls(unittest.TestCase):
             target = Path(temporary)
             shutil.copytree(HERE / 'retained-ae837', target / 'retained-ae837')
             shutil.copytree(HERE / 'retained-30ee', target / 'retained-30ee')
-            for name in ('history_delta.py', 'CANCELLED_HISTORY_DELTA.json'):
+            shutil.copytree(HERE / 'retained-a209', target / 'retained-a209')
+            for name in ('history_delta.py', 'refresh_delta.py', 'CANCELLED_HISTORY_DELTA.json'):
                 shutil.copyfile(HERE / name, target / name)
             for name in (*delta.FILES, *delta.UNCHANGED, 'ORDINARY_SNAPSHOT_DELTA.json'):
                 (target / name).parent.mkdir(parents=True, exist_ok=True); shutil.copyfile(HERE / name, target / name)
