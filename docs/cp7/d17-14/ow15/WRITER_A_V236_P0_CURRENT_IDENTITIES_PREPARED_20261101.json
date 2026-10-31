@@ -1,0 +1,72 @@
+{
+  "classification": "ROOT_P0_CURRENT_IDENTITY_INTAKE_PREPARED_WHILE_CURRENT37_RUNNING",
+  "recorded_at_UTC": "2026-10-31T21:31:42.220Z",
+  "root_predecessor": "f9e73eb5aea42786c42fddd7bc38bc185a0c4811",
+  "current37": {
+    "head": "e6684b07f98d753b5f78b24c7af52cd981971c0c",
+    "tree": "8be456a10207882fbcaeb5c9c2706974ef355349",
+    "run_id": 41241493562,
+    "job_id": 124656157099,
+    "observed_UTC": "2026-10-31T21:31:42.220Z",
+    "status": "in_progress",
+    "conclusion": null,
+    "completed": 71,
+    "active": [
+      {
+        "name": "Run one actual current Native31 browser6 composite and complete outer restoration",
+        "status": "in_progress",
+        "conclusion": null,
+        "number": 72
+      }
+    ],
+    "failed": [],
+    "accepted_cases": 0,
+    "duplicate_run_created": false,
+    "candidate_changed": false
+  },
+  "prepared_DE": {
+    "head": "3d64cf509ce9129e02279d2d866e7bcd799ea693",
+    "tree": "38f7004952347225853905fd257195131a856325",
+    "parent": "0f5f1ce3c7a6c5537204eae86e1cd6d74aef157d",
+    "source_base": "04ed2fbc3f1fb24174ff7368bffbb2dff01f5423",
+    "own_paths": 79,
+    "source_pins": 78,
+    "unchanged_base_blobs_and_modes": 14119,
+    "original_system_queries_unchanged": 27,
+    "new_P0_SQL_queries": 0,
+    "pending_before_URI_client_or_connection": true
+  },
+  "P0_identity_binding": {
+    "source_review_sha256": "30c448baaba7e0b7727a0422678e7ff7051648de0e37e2b1e0601fc1fabc916b",
+    "old_review_records": 35,
+    "P0_records": 3,
+    "selected_functions": 6,
+    "selected_relations": 2,
+    "complete_owner_role_rows": true,
+    "complete_selected_rows_retained": true,
+    "same_readonly_snapshot": true,
+    "DE_controls": {
+      "positive": 1,
+      "negative": 13
+    },
+    "Root_controls": {
+      "positive": 1,
+      "negative": 12
+    },
+    "actual_SQL_executed": 0,
+    "actual_ERP_calls": 0,
+    "actual_Native_case_credit": 0
+  },
+  "not_proven": [
+    "Effective execution authority",
+    "Authority after waits",
+    "Downstream dynamic reachability",
+    "Insertion phantom and existing lock holder exclusion",
+    "Writer and foreign-key closure"
+  ],
+  "next": "Do not alter or duplicate current37. On terminal success, download canonical artifact and run exact Root intake; only then bind permanent6 actual parent.",
+  "formal_accepted": 5,
+  "formal_total": 16,
+  "production_go": false,
+  "independent_acceptance": false
+}
