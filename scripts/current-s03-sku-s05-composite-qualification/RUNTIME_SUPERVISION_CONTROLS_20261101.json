@@ -1,0 +1,42 @@
+{
+  "status": "LOCAL_PROCESS_AND_SOURCE_CONTROLS_PASS_NOT_NATIVE",
+  "controls": {
+    "runtime_process_controls": 10,
+    "immutable_derivation_control": 1,
+    "workflow_preservation_control": 1
+  },
+  "original_business_callbacks_unchanged": true,
+  "actual_new_Native_cases": 0,
+  "actual_new_browser_cases": 0,
+  "actual_ERP_DB_calls": 0,
+  "controls_cover": [
+    "successful exit and original nonzero exit",
+    "soft-deadline finally completion",
+    "orphaned child refusal and reap",
+    "SIGINT TERM KILL escalation",
+    "new-session child adoption and exit",
+    "invalid budget refuses before spawn",
+    "real aware WIB 360-minute window",
+    "workflow clock before setup and recovery reserve",
+    "database-stop guard refuses missing/false/nonboolean process proof",
+    "external cancellation refuses even zero exit",
+    "all derivations recover immutable Originals",
+    "original setup and cleanup body preserved with explicit preceding guard"
+  ],
+  "source_files": {
+    "runtime_supervisor.py": "6e750658b188a67dff4f0ed3100dd78740652d3193d055d8402ec5a9d77ee99b",
+    "test_runtime_supervisor.py": "be946b20baf0820c1a7a86c5c6fda54bb0423a338ae6a6f79adbd3db133d1c4e",
+    "attempt_policy.py": "5076f5ddb63b8c6b677c6141253d25734b295721aa8d483f116abc6ecd0136f8",
+    "probe.py": "198aacc1ac66764511750ea3729dd91525e4e16dd5b70ab3e939242708bb7493",
+    "final_gate.py": "c00bba7fa694a36c7bfdf194f6fe64772a15705cea05ef100e4def87c5c660f9",
+    "test_qualifier.py": "dc7e53d7df7f480c4974e6d438679d2d562e1b1249f989c6c02ff89c5b291e2b",
+    "WORKFLOW_DERIVATION.json": "d952883ca245fa635a0f04627056e0d01df51ae08579e8e367e94ca3dfd8aecd",
+    "DERIVATIONS.json": "05a74f572a0f55999bec45e2a134950c9f055ca79283e33d0d60e9e794156288"
+  },
+  "local_first_failures_fixed_before_any_ERP_execution": [
+    "host-mounted proc PID namespace mismatch replaced by waitpid ownership",
+    "declared cleanup source contract updated for exact added guard"
+  ],
+  "production_go": false,
+  "independent_acceptance": false
+}

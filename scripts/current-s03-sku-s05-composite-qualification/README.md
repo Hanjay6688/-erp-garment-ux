@@ -114,3 +114,21 @@ and four owners. They prove ordinary extra-owner deactivation, exact last-owner
 and protected-role refusals, supported backup then original deactivation and
 whole model rollback. They are not installed ERP/Native/Auth/business evidence.
 The focused actual Native1 and the fresh complete37 are still required.
+
+Actual6cb completed 31 Native and two S03 browser cases before the 210-minute
+job limit. The canonical archive records INCOMPLETE, cp6_restored=false and no
+all5/full37 acceptance. CANCELLED_6CB_ACTUAL_20261101.json preserves the source,
+run, archive and individual raw results; no partial aggregation grants credit.
+
+The execution successor uses a real 360-minute WIB admission window and the
+unchanged single-attempt policy. Its job clock starts before setup. At minute
+330, a private supervisor interrupts its worker process group and allows up to
+20 minutes for the original restoration finally blocks; at least nine minutes
+remain for evidence after forced shutdown overhead. The supervisor reaps its
+worker and adopted children, including children that started another session.
+A deadline, external cancellation, nonzero exit or orphaned child cannot pass.
+If any child remains, the database-stop step refuses. GitHub cancellation or
+runner loss can still interrupt this protocol and never grants acceptance.
+Branch concurrency prevents overlapping composite jobs without cancelling one
+already running. All37 business callbacks, full22/ALL rows and sequences,
+original package restoration and all5 remain required and unchanged.
