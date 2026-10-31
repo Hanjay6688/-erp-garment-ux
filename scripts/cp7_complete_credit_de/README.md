@@ -31,6 +31,11 @@ Every later verification repeats that receipt comparison, and the accepted
 source pin is included in the component binding. A prepared parent, partial
 source map, altered lower source or same shape with different bytes refuses.
 
+The full install entry point admits that parent graph and the own source
+closure before parent DDL, then installs complete, D1 and E within one outer
+transaction. Full preuse inverse removes E, D1 and then the complete parent.
+Used data or sequences refuse before any of those layers can be removed.
+
 No workflow, runtime dispatcher, connection or default change is supplied.
 The actual permanent-parent qualification remains pending. Existing D/E
 slice limits, global command refusals, permissions, money/HPP engines, physical

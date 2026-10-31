@@ -73,7 +73,7 @@ class Lifecycle(unittest.TestCase):
             state['component_binding']=product.binding(catalog,state)
         return cur,state,catalog,base,complete,d1,e,original
 
-    def inverse(self,values):
+    def inverse(self,values,*,full=False):
         cur,state,catalog,base,complete,d1,e,_=values
         # Only this isolated module's model dependencies are supplied. No
         # imported product or ERP method is changed and no database exists.
@@ -83,12 +83,17 @@ class Lifecycle(unittest.TestCase):
              patch.object(product,'parent_qualification',return_value={
                  'qualified_complete_sources':deepcopy(state['qualified_complete_sources'])}),\
              patch.object(product,'raw_authority',side_effect=lambda c,signatures:c.raw):
-            return product.rollback_delta_preuse(cur,state)
+            return(product.rollback_preuse(cur,state)if full else product.rollback_delta_preuse(cur,state))
 
     def test_pending_parent_refuses_before_ERP_import_or_database(self):
         with patch.object(product,'parts',side_effect=AssertionError('ERP_TOO_EARLY')):
             with self.assertRaisesRegex(ValueError,'PERMANENT_PARENT_INTAKE_PENDING'):
                 product.install_delta(object(),{})
+
+    def test_pending_full_install_and_full_inverse_refuse_before_ERP_or_SQL(self):
+        with patch.object(product,'parts',side_effect=AssertionError('ERP_TOO_EARLY')):
+            for call in(lambda:product.install(object()),lambda:product.rollback_preuse(object(),{})):
+                with self.assertRaisesRegex(ValueError,'PERMANENT_PARENT_INTAKE_PENDING'):call()
 
     def test_entire_parent_source_graph_refuses_changed_lower_source_before_ERP_or_SQL(self):
         values=self.fixture();state=values[1]
@@ -126,6 +131,25 @@ class Lifecycle(unittest.TestCase):
         self.assertEqual(cur.data,values[-1]);self.assertEqual(cur.catalog,state['before'])
         self.assertLess(cur.events.index('REMOVE_E'),cur.events.index('REMOVE_D1'))
         self.assertEqual(cur.events[-1],'VERIFY_COMPLETE')
+
+    def test_full_inverse_removes_children_before_actual_complete_parent(self):
+        values=self.fixture();cur,state,_,_,complete,*_=values
+        def remove(c,s):
+            self.assertEqual(c.layer,'COMPLETE');self.assertEqual(c.catalog,s['after'])
+            self.assertEqual(c.data,s['preuse_data_and_sequences'])
+            c.events.append('REMOVE_COMPLETE');return {'MODEL_REMOVED':'COMPLETE'}
+        complete.rollback_preuse=remove
+        result=self.inverse(values,full=True)
+        self.assertEqual(result['status'],'COMPLETE_CREDIT_DE_FULL_PREUSE_RESTORE')
+        self.assertLess(cur.events.index('REMOVE_E'),cur.events.index('REMOVE_D1'))
+        self.assertLess(cur.events.index('REMOVE_D1'),cur.events.index('REMOVE_COMPLETE'))
+        self.assertEqual(cur.events[-2:],['VERIFY_COMPLETE','REMOVE_COMPLETE'])
+
+    def test_used_full_inverse_never_removes_the_complete_parent(self):
+        values=self.fixture();cur=values[0];cur.data['MODEL_ROW']=2
+        values[4].rollback_preuse=lambda c,s:self.fail('MODEL_PARENT_REMOVED_AFTER_USE')
+        with self.assertRaisesRegex(ValueError,product.USED_ERROR):self.inverse(values,full=True)
+        self.assertFalse(any(x.startswith('REMOVE')for x in cur.events))
 
     def test_used_row_refuses_before_either_child_removal(self):
         values=self.fixture();cur=values[0];cur.data['MODEL_ROW']=2

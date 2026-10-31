@@ -137,6 +137,15 @@ def install_delta(cur,qualified_complete_parent):
         state['component_binding']=binding(catalog,state);verify(cur,state);return state
 
 
+def install(cur):
+    receipt=parent_qualification()
+    complete=parent()
+    qualified_parent_sources(receipt,dict(sources=complete.sources()))
+    sources()  # Own source closure is checked before the first parent DDL.
+    _,_,_,base,_=runtime()
+    with base.atomic(cur):return install_delta(cur,complete.install(cur))
+
+
 def rollback_delta_preuse(cur,state):
     complete,d1,e=parts();_,_,_,base,catalog=runtime()
     with base.atomic(cur):
@@ -150,3 +159,12 @@ def rollback_delta_preuse(cur,state):
             raise ValueError('COMPLETE_CREDIT_DE_EXACT_PARENT_ROWS_CATALOG_SEQUENCES_NOT_RESTORED')
         return dict(status='COMPLETE_CREDIT_DE_PREUSE_DELTA_INVERSE',E=second,D1=first,parent=proof,
             used_guard_before_DDL=True)
+
+
+def rollback_preuse(cur,state):
+    qualified_parent_sources(parent_qualification(),state['complete_parent'])
+    complete=parent();_,_,_,base,_=runtime()
+    with base.atomic(cur):
+        removed=rollback_delta_preuse(cur,state)
+        restored=complete.rollback_preuse(cur,state['complete_parent'])
+        return dict(status='COMPLETE_CREDIT_DE_FULL_PREUSE_RESTORE',delta=removed,parent=restored)

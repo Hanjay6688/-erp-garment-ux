@@ -37,6 +37,9 @@ The top stage binds actual lower states and complete catalog observations.
 Older verifiers run before child installation and after child removal; no
 catalog is projected into them. E is removed before D1, then the complete
 parent must verify again. Any used row or sequence requires full restore.
+The full package entry points install complete then D1 then E in an outer
+transaction, or remove E then D1 then the actual complete parent before use.
+Pending parent admission closes both full entry points before ERP or SQL.
 Local source/lifecycle models carry zero Native/business credit. D_complete,
 E_complete and global eight-hook acceptance remain false. Completing the
 existing restricted D/E slices and opening global flows still require their
