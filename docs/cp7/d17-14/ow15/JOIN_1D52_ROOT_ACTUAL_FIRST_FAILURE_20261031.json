@@ -1,0 +1,227 @@
+{
+  "status": "ROOT_VERIFIED_CURRENT_JOIN_FIRST_FAILURE_NOT_QUALIFIED",
+  "head": "1d52f8a2cf48c07d6af86dbaf114989cb2f5bece",
+  "tree": "abdae9ea30b7e6a32d77fbe0e8151196f9e8ff7f",
+  "run_id": 41200818043,
+  "job_id": 124536087695,
+  "run_attempt": 1,
+  "artifact_id": 13045614548,
+  "archive": {
+    "bytes": 9492179,
+    "sha256": "9eaf5d338b8fcdcfa486cd704630492b51c16f821c95fb26c1857e3fc56ff4a4",
+    "members": 130,
+    "CRC": "PASS"
+  },
+  "archive_library_file_id": "libfile_e772f6dd0f64819189f80761d7727f3e",
+  "originals": {
+    "CP7_CURRENT_S03_SKU_S05_NATIVE31_BROWSER6.json": {
+      "bytes": 91171388,
+      "sha256": "d428f14364002b07449556a636790937cd1fb215076a659b0226f483db7a87c1"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360437,
+      "sha256": "7d87b578be3a7896ec99fbe963dcb29075be80271c4ad6bb287788a7a944e654"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 1470,
+      "sha256": "5f798fc57611f338a84b710df6f89e04ec79a051ea933224523073205738cee1"
+    },
+    "CP7_S03_ATTENDANCE_CHOICE_NATIVE11_CASES.json": {
+      "bytes": 19494,
+      "sha256": "e04d82e10d252f143abd5beacf2405c33825c4c40751d885a6501614186c34db"
+    },
+    "CP7_S03_ATTENDANCE_CHOICE_READER_NATIVE3_CASES.json": {
+      "bytes": 13058,
+      "sha256": "896e69892148910421fcce198c850256eb55e4c49b50ba5c907fc76144bbddc3"
+    },
+    "CP7_SKU_PAIR_CONVERSION_NATIVE7.json": {
+      "bytes": 17681,
+      "sha256": "18dfe21a634bdd5b43644be92e2415fdbee1747b80bc2d4afbc3f8855ad0cc3e"
+    },
+    "CP7_S05_ON_SKU_NATIVE10_CASES.json": {
+      "bytes": 215228,
+      "sha256": "20481d3383be0ba39e361a06346bd93f6703d76c27dac2399205bb76479b8af0"
+    }
+  },
+  "source_admission": {
+    "manifest": {
+      "bytes": 8150,
+      "sha256": "863545650fcff6c05491be61728fa3b75a7a85258834431dd01af5b6d8352934"
+    },
+    "source_files": 52,
+    "unchanged_base_blobs_and_modes": 14000,
+    "current_paths": 53,
+    "case_ids": {
+      "S03_Native11": [
+        "S03_NATIVE_OWNER_FIELDS_READ_FULL_NO_EFFECT",
+        "S03_NATIVE_EXPENSE_APPROVAL_ONCE_PAID_E05_REOPEN",
+        "S03_NATIVE_TWO_EXACT_PERIODS_CENTS_AND_NATIVE_HPP",
+        "S03_NATIVE_P2_PAYROLL_POOL_COEXIST_AND_POLICY_FENCES",
+        "S03_NATIVE_OWNING_CANCEL_LATE_OUTPUT_AND_RESTORATION_FLOOR",
+        "S03_NATIVE_BOTH_CORRECTIONS_LINKED_INVERSES_NO_RECOGNITION",
+        "S03_NATIVE_STALE_REVIEW_UUID_RECOVERY_AND_APPEND_ONLY",
+        "S03_NATIVE_CLOSED_SOURCE_OPEN_OUTPUT_AND_CLOSED_CORRECTION",
+        "S03_NATIVE_ZERO_OUTPUT_SUCCESSOR_POLICY_RETAINS_OLD_INFO",
+        "S03_NATIVE_FINISHED_PO_FG_COGS_COST_AND_CANCEL_EXACT",
+        "S03_NATIVE_OLD_ACCRUAL_LATER_BOOK_REOPEN_DATE_FLOOR"
+      ],
+      "S03_reader3": [
+        "S03_READER_NATIVE_OWNED_ACTIVE_PERIODS_AND_DISJOINT_P2_UNCHANGED",
+        "S03_READER_NATIVE_CANCELLED_LIFETIME_AND_STALE_COMPOSITE_NO_EFFECT",
+        "S03_READER_NATIVE_EXACT_HELD_P1_BLOCKS_LEGACY_REPLACE_AND_CREATE"
+      ],
+      "SKU_Native7": [
+        "SKU29_PAIR_BIDIRECTIONAL_REPLACE_DELETE_NO_LEDGER",
+        "SKU29_NONPO_MULTILOT_FIFO_RESERVATION_VALUE_REPLAY",
+        "SKU29_ANY_ACTIVE_MODEL_SIZE_MANUAL_BACK_CURRENT_SOURCE_COST",
+        "SKU29_STALE_SOURCE_TARGET_RESERVATIONS_REFUSE_ZERO_EFFECT",
+        "SKU29_GROUP_REVERSE_ACTIVE_SALE_REFUSAL_THEN_RELEASE",
+        "SKU29_MIXED_PO_NONPO_NATIVE_LINEAGE_VALUE_CONSERVATION",
+        "SKU29_LEGACY_ACCESSORY_COST_AND_INVERSE_PRESERVED"
+      ],
+      "S05_Native10": [
+        "S05_NATIVE_CATEGORY_VARIANTS_PO",
+        "S05_NATIVE_HISTORICAL_BOM",
+        "S05_NATIVE_LATE_INVOICE_COST_REVISIONS",
+        "S05_NATIVE_ZERO_REIMBURSEMENT",
+        "S05_NATIVE_EMPTY_AND_NO_OUTPUT",
+        "S05_NATIVE_WIB_COHORTS",
+        "S05_NATIVE_NOTE_DRAFT_INVERSE",
+        "S05_NATIVE_QC_INVERSE",
+        "S05_NATIVE_REWORK_NONE_RECORDED_RECIPIENT",
+        "S05_NATIVE_CURRENT_ACCESS_PRIVATE_ACL"
+      ],
+      "S05_browser2": [
+        "S05_SKU_NORMAL_APP_DESKTOP_SOURCE_AND_LATE_REPLY",
+        "S05_SKU_NORMAL_APP_MOBILE390_UNKNOWN_ZERO_AND_CURRENT_ACCESS"
+      ],
+      "S03_browser4": [
+        "S03_BROWSER_OWNER_EXPENSE_CORRECT_REVERSE_DESKTOP",
+        "S03_BROWSER_OWNER_CARRY_ALLOCATE_CANCEL_MOBILE390",
+        "S03_BROWSER_ACTUAL_STALE_AND_LOST_REPLY_SAME_UUID",
+        "S03_BROWSER_CURRENT_AUTH_RIGHTS_AND_DELAYED_CONTEXT"
+      ]
+    },
+    "actual_case_credit": 0
+  },
+  "raw_current_case_counts": {
+    "S03_Native11_PASS": 11,
+    "S03_reader3_PASS": 3,
+    "SKU_Native7_PASS": 7,
+    "S05_Native_PASS": 9,
+    "S05_Native_INCOMPLETE": 1,
+    "browser_executed": 0
+  },
+  "raw_current_PASS_total": 30,
+  "failed_case": {
+    "id": "S05_NATIVE_CURRENT_ACCESS_PRIVATE_ACL",
+    "error": "S05_EXACT_SINGLE_ORIGINAL_FIXTURE_OWNER_REQUIRED",
+    "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/qualified-sku090b/scripts/cp6_auditor_runner.py\", line 165, in _strict_group_once\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-s05-native10-qualification/component.py\", line 130, in run\n    return operation()\n           ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-s05-wib-owner-fixture-successor-qualification/factory.py\", line 26, in run\n    with adapter.case_scope(name):return operation()\n                                         ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_accessory_standard_report/cases.py\", line 260, in access\n    f = fixture(cur, today, empty=True); traces = []\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-s05-wib-owner-fixture-successor-qualification/fixture_adapter.py\", line 125, in fixture\n    raise ValueError('S05_EXACT_SINGLE_ORIGINAL_FIXTURE_OWNER_REQUIRED')\nValueError: S05_EXACT_SINGLE_ORIGINAL_FIXTURE_OWNER_REQUIRED\n"
+  },
+  "eligible_owner_rows_not_recorded_before_failure": true,
+  "exact_owner_cardinality_cause_not_yet_observed": true,
+  "unchanged_original_predicate_requires_single_active_owner": true,
+  "all_attempted_strict_case_boundaries_restored": true,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "package_all_five": false,
+  "complete37_qualified": false,
+  "retained_prior_run_fresh_case_credit": 0,
+  "prior_runs_aggregated": false,
+  "actual_S03_used_refusal_raw_full_boundary": {
+    "tables": 692,
+    "sequences": 15,
+    "catalog_groups": 22
+  },
+  "outer_restore_source_bound_receipts": true,
+  "measured_phases": [
+    {
+      "event": "PRE_RUNTIME_RESOURCE_SNAPSHOT",
+      "label": "NO_BUSINESS_CASE_EXECUTED",
+      "utc": "2026-10-31T12:29:49.736982+00:00",
+      "self_peak_rss_KiB": 13824
+    },
+    {
+      "event": "MONITOR_STARTED",
+      "label": "OWNING_RUNTIME_PROCESS",
+      "utc": "2026-10-31T12:29:51.150436+00:00",
+      "self_peak_rss_KiB": 14868
+    },
+    {
+      "event": "START",
+      "label": "SOURCE_ADMISSION_BEFORE_ERP",
+      "utc": "2026-10-31T12:29:51.151053+00:00",
+      "self_peak_rss_KiB": 14868
+    },
+    {
+      "event": "RETURNED",
+      "label": "SOURCE_ADMISSION_BEFORE_ERP",
+      "utc": "2026-10-31T12:30:33.637457+00:00",
+      "self_peak_rss_KiB": 384720
+    },
+    {
+      "event": "START",
+      "label": "COMPLETE_PACKAGE_INSTALL_EXERCISE_RESTORE",
+      "utc": "2026-10-31T12:31:26.403361+00:00",
+      "self_peak_rss_KiB": 414668
+    },
+    {
+      "event": "START",
+      "label": "S03_NATIVE14",
+      "utc": "2026-10-31T13:08:13.236528+00:00",
+      "self_peak_rss_KiB": 5814204
+    },
+    {
+      "event": "RETURNED",
+      "label": "S03_NATIVE14",
+      "utc": "2026-10-31T13:14:02.100710+00:00",
+      "self_peak_rss_KiB": 5865240
+    },
+    {
+      "event": "START",
+      "label": "SKU_NATIVE7",
+      "utc": "2026-10-31T13:14:02.101241+00:00",
+      "self_peak_rss_KiB": 5865240
+    },
+    {
+      "event": "RETURNED",
+      "label": "SKU_NATIVE7",
+      "utc": "2026-10-31T13:15:59.099589+00:00",
+      "self_peak_rss_KiB": 5913272
+    },
+    {
+      "event": "START",
+      "label": "S05_NATIVE10",
+      "utc": "2026-10-31T13:15:59.480116+00:00",
+      "self_peak_rss_KiB": 5913272
+    },
+    {
+      "event": "RAISED_ValueError",
+      "label": "S05_NATIVE10",
+      "utc": "2026-10-31T14:22:07.843470+00:00",
+      "self_peak_rss_KiB": 5996784
+    },
+    {
+      "event": "RAISED_AssertionError",
+      "label": "COMPLETE_PACKAGE_INSTALL_EXERCISE_RESTORE",
+      "utc": "2026-10-31T14:22:30.159950+00:00",
+      "self_peak_rss_KiB": 6012260
+    },
+    {
+      "event": "MONITOR_STOPPED",
+      "label": "OWNING_RUNTIME_PROCESS",
+      "utc": "2026-10-31T14:22:30.161610+00:00",
+      "self_peak_rss_KiB": 6012260
+    }
+  ],
+  "diagnostic_peak_self_KiB": 6012260,
+  "diagnostic_minimum_available_host_KiB": 8419864,
+  "runner_survived_and_uploaded_final_result": true,
+  "production_go": false,
+  "independent_acceptance": false
+}

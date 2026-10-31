@@ -1,7 +1,7 @@
 {
   "classification": "WRITER_A_TAKEOVER_ACTIVE_CONTINUATION_NOT_COMPLETION",
-  "recorded_at_utc": "2026-10-31T10:38:06.078820+00:00",
-  "root_parent": "20ee21d3300f36b91b32e8e7066463c08dcb2cdf",
+  "recorded_at_utc": "2026-10-31T15:08:55.748053+00:00",
+  "root_parent": "2f9435251792a4b8169ea588cf46b5fd63fdf1ee",
   "prior_chat_execution_observable": false,
   "current_work_is_isolated": true,
   "midnight_root_intake_receipt": "MIDNIGHT_NATIVE1_E787_ROOT_INTAKE_20261030.json",
@@ -163,11 +163,11 @@
   "independent_acceptance": false,
   "current_default": "cp7_vendor_receivable.composition",
   "next": [
-    "Intake exact current1edd run41190706967 when terminal; all37 plus complete restoration/all5 from its own canonical archive are required",
-    "If current37 qualifies, pin its actual root receipt and whole financial source graph, then run permanent S05 delta financial4/browser2 with all5 on one current installation",
-    "Complete global current-writer/authority/call/lock closure with actual two-session proofs",
-    "Complete Afui lawful dated nonpayable HPP/reimbursement source, GOOD, recost and inverse without mandatory PO/FG matching; temporal choice remains unanswered",
-    "Implement FG Mandor invoice allocation to manually chosen payroll week after active integration stability"
+    "Finish actual focused Owner access Native1 exact canonical intake/all5; full37 remains false",
+    "Requalify full37 once in a sufficient unchanged realWIB210minute window, using actual focused result and never aggregating prior30",
+    "Bind and qualify permanent6 after actual accepted full37",
+    "Rebase exact complete D1/E Native30 caller on actual accepted permanent6, then finish global/currentrights/locks/twoSessions",
+    "Keep all remaining prior scope including final date join, Afui, FG Mandor and independent acceptance"
   ],
   "prior_checkpoint": {
     "classification": "WRITER_A_TAKEOVER_ACTIVE_CONTINUATION_NOT_COMPLETION",
@@ -1994,13 +1994,18 @@
   },
   "current_active_join": {
     "head": "1d52f8a2cf48c07d6af86dbaf114989cb2f5bece",
-    "tree": "abdae9ea30b7e6a32d77fbe0e8151196f9e8ff7f",
     "run_id": 41200818043,
     "job_id": 124536087695,
-    "status": "in_progress",
-    "pre_DB_complete_natural_source_graph_and_controls": "PASS",
-    "last_observed_step": "Run one actual current Native31 browser6 composite and complete outer restoration",
-    "complete37_qualified": false
+    "artifact_id": 13045614548,
+    "root_receipt": "JOIN_1D52_ROOT_ACTUAL_FIRST_FAILURE_20261031.json",
+    "raw_current_PASS": 30,
+    "S05_INCOMPLETE": 1,
+    "browsers_executed": 0,
+    "package_all_five": false,
+    "complete37_qualified": false,
+    "outer_restore_source_bound_receipts": true,
+    "status": "completed",
+    "conclusion": "failure"
   },
   "current_join_first_financial_failure": {
     "receipt": "JOIN_339889_ROOT_ACTUAL_FAILURE_INTAKE_20261031.json",
@@ -2015,24 +2020,12 @@
     "all_outer_restoration_receipts": true
   },
   "permanent_complete_assembly": {
-    "head": "a6cc41ec58e4d0d0c8191f1b1fe5c27309fff559",
-    "tree": "48c5e13acdb5d8fb9529f2ce1661e4fee09e2a5b",
-    "parent": "a42f666a4cdd0b62d7ed759a9ed58abdf7fa2fa0",
-    "own_source_paths": 42,
-    "status": "PREPARED_PARENT37_ACTUAL_PENDING",
-    "financial_cases_prepared": 4,
-    "browser_cases_prepared": 2,
-    "read_only_metadata_hooks": [
-      "before_native",
-      "after_native_and_browser"
-    ],
-    "all_namespace_queries": 27,
-    "source_metadata_files_exact_from_root": 11,
-    "lifecycle_and_source_model_tests_PASS": 11,
-    "source_derivation_and_fence": "PASS",
-    "pending_parent_fails_before_ERP_DB_GH": true,
-    "actual_Native_cases": 0,
-    "actual_browser_cases": 0
+    "head": "a5944f25a5e3ba1f1f537a18abe923eb753f922f",
+    "tree": "42011c517ae4f8ecf69ebf6ce565c5da2c75eea5",
+    "job_and_WIB_window_minutes": 120,
+    "source_models_PASS": 13,
+    "actual_parent37_receipt": null,
+    "actual_Native_cases": 0
   },
   "prior_active_join_before_runner_loss_20261031": {
     "head": "1edd7b7fb6f7f02528cf09bcc352b72ea0e4a2c3",
@@ -2045,7 +2038,7 @@
     "complete37_qualified": false
   },
   "latest_runner_loss_receipt": "JOIN_1EDD_ROOT_RUNNER_LOSS_20261031.json",
-  "latest_continuation_receipt": "WRITER_A_V218_COMPLETE_PARENT_DE_JOIN_20261031.json",
+  "latest_continuation_receipt": "WRITER_A_V220_OWNER_REPAIR_AND_DE_NATIVE30_20261031.json",
   "current_system_cron_profile_preparation": {
     "namespace": "scripts/current-global-system-cron-profile-preparation",
     "queries": 27,
@@ -2068,33 +2061,53 @@
     "no_D1_E_qualification_in_join37_or_permanent6": true
   },
   "current_D1_E_on_complete_preparation": {
-    "head": "e90484e7a512fe3de901a734ec8ecca91c4a6ca9",
-    "tree": "2711e08412e573e3393578aa602dd520284c9485",
-    "parent": "f8700d8cde6096f3eed51f9d7ed6c346960b08d3",
-    "original_parent": "a6cc41ec58e4d0d0c8191f1b1fe5c27309fff559",
-    "branch": "astra-a/current-complete-de-integration-prepared-20261031",
-    "status": "D1_E_SOURCE_JOIN_ON_COMPLETE_PARENT_PREPARED_NOT_NATIVE",
-    "base_files_and_modes_unchanged": 14092,
-    "own_source_paths": 35,
-    "original_package_files": 19,
-    "SQL_and_Native_deriver_files_unchanged": true,
-    "D1_parent_import_changes": 1,
-    "recorded_actual_Native_full19_functions": 32,
-    "D1_raw_source_derivations": 12,
-    "E_raw_source_derivations": 22,
-    "changed_function_overlap_with_S03_SKU": [],
-    "source_controls_under_DB_fence": "PASS",
-    "actual_natural_module_import_chain_under_DB_fence": "PASS",
-    "lifecycle_models_PASS": 6,
-    "three_psycopg_entrypoint_self_controls_denied": true,
-    "source_DB_or_nonGit_network_attempts": [],
-    "canonical_component_binding_field": true,
-    "raw_existing_function_OID_owner_ACL_preservation_required": true,
-    "parent_head_and_receipt": null,
-    "runtime_workflow_created": false,
+    "head": "77b613562dff63dafbe0d06425abd503f9a7df76",
+    "tree": "0db13a8fc0b202d6225877525e16cddfe29f421f",
+    "own_paths": 50,
+    "unchanged_prepared_parent_files": 14092,
+    "original_D1_E_runtime_files": 19,
+    "unchanged_Native_business_source_files": 3,
+    "planned_D1_cases": 13,
+    "planned_E_cases": 17,
+    "whole_engine_reversible_routes": 2,
+    "committed_E_witness_observation_retention_changes": 1,
+    "source_and_DB_fence_controls": "PASS",
+    "lifecycle_models_PASS": 12,
+    "actual_permanent6_parent_receipt": null,
+    "Native_workflow_created": false,
+    "actual_Native_cases": 0,
     "D_complete": false,
     "E_complete": false,
-    "global_eight_hooks_opened": false,
-    "actual_Native_cases": 0
-  }
+    "global_hooks_qualified": false
+  },
+  "current_join_first_S05_owner_failure": "JOIN_1D52_ROOT_ACTUAL_FIRST_FAILURE_20261031.json",
+  "current_focused_owner_access": {
+    "head": "6cb5bfe213fe3ce684244370dec092569705f6ff",
+    "tree": "260cc8e984ae41409b43c62256acbbbf6ee25071",
+    "run_id": 41212698704,
+    "job_id": 124570848589,
+    "branch": "astra-a/s03-sku-owner-access-native1-20261031",
+    "status": "in_progress",
+    "planned_actual_Native_cases": 1,
+    "source_pins": 69,
+    "own_paths": 70,
+    "unchanged_base_files": 14000,
+    "local_source_or_fixture_models_PASS": 21,
+    "isolated_PostgreSQL_guard_owner_scenarios": [
+      1,
+      2,
+      4
+    ],
+    "whole_source_and_DB_fence_controls": true,
+    "job_and_WIB_window_minutes": 90,
+    "unchanged_single_attempt_and_real_clock": true,
+    "full37_qualified": false
+  },
+  "prior_next_before_focused_owner_repair": [
+    "Intake exact current1edd run41190706967 when terminal; all37 plus complete restoration/all5 from its own canonical archive are required",
+    "If current37 qualifies, pin its actual root receipt and whole financial source graph, then run permanent S05 delta financial4/browser2 with all5 on one current installation",
+    "Complete global current-writer/authority/call/lock closure with actual two-session proofs",
+    "Complete Afui lawful dated nonpayable HPP/reimbursement source, GOOD, recost and inverse without mandatory PO/FG matching; temporal choice remains unanswered",
+    "Implement FG Mandor invoice allocation to manually chosen payroll week after active integration stability"
+  ]
 }
