@@ -13,6 +13,24 @@ def load(name,path):
 
 
 def controls():
+    policy_record=json.loads((HERE/'ATTEMPT_POLICY_DERIVATION.json').read_bytes())
+    original_policy=subprocess.check_output(['/usr/bin/git','-C',str(ROOT),'show',
+        policy_record['source_commit']+':'+policy_record['source_path']])
+    if(len(original_policy)!=policy_record['original_bytes']
+       or sha256(original_policy).hexdigest()!=policy_record['original_sha256']):
+        raise ValueError('PERMANENT_S05_EXACT_ORIGINAL_ATTEMPT_POLICY_REQUIRED')
+    value=original_policy.decode()
+    for change in policy_record['changes']:
+        if value.count(change['before'])!=change['count']:raise ValueError('PERMANENT_S05_EXACT_ATTEMPT_BUDGET_CHANGE_REQUIRED')
+        value=value.replace(change['before'],change['after'],change['count'])
+    if value.encode()!=(HERE/'attempt_policy.py').read_bytes():
+        raise ValueError('PERMANENT_S05_ONLY_DECLARED_ATTEMPT_POLICY_CHANGE_ALLOWED')
+    diagnostics=json.loads((HERE/'RUNTIME_DIAGNOSTICS_SOURCE.json').read_bytes())
+    raw_diagnostics=subprocess.check_output(['/usr/bin/git','-C',str(ROOT),'show',
+        diagnostics['source_commit']+':'+diagnostics['source_path']])
+    if(raw_diagnostics!=(HERE/'runtime_note.py').read_bytes()
+       or sha256(raw_diagnostics).hexdigest()!=diagnostics['sha256']):
+        raise ValueError('PERMANENT_S05_EXACT_PUBLISHED_DIAGNOSTICS_REQUIRED')
     declaration=json.loads((HERE/'PERSISTENT_BROWSER_DERIVATIONS.json').read_bytes())
     for name,item in declaration['files'].items():
         raw=subprocess.check_output(['/usr/bin/git','-C',str(ROOT),'show',item['source_commit']+':'+item['source_path']])
@@ -49,7 +67,9 @@ def controls():
     branch=record['branch']
     if workflow['on']['push']['branches']!=[branch]or job['if']!="github.ref == 'refs/heads/"+branch+"'":
         raise ValueError('PERMANENT_S05_EXACT_RUNTIME_BRANCH_REQUIRED')
-    if job['timeout-minutes']!=210 or job['env']['PERMANENT_S05_CONFIRM']!='cp6_rollback':
+    policy=load('permanent_exact_own_full_job_day_window',HERE/'attempt_policy.py')
+    if(job['timeout-minutes']!=120 or policy.JOB_BUDGET_SECONDS!=job['timeout-minutes']*60
+       or job['env']['PERMANENT_S05_CONFIRM']!='cp6_rollback'):
         raise ValueError('PERMANENT_S05_DISPOSABLE_WINDOW_AND_CONFIRMATION_REQUIRED')
     start=next(i for i,s in enumerate(steps)if s.get('name')=='Start disposable database')
     for marker in('fetch_parent37.py','controls.py','probe.py --check'):
@@ -63,6 +83,8 @@ def controls():
         unchanged_financial_callback_ASTs=financial['original_financial_callback_ASTs_unchanged'],
         selected_persistent_financial_cases=4,complete_package_engine=engine_proof,
         exact_original_workflow_steps_retained=len(record['unchanged_step_indices']),
+        exact_job_and_WIB_guard_budget_seconds=policy.JOB_BUDGET_SECONDS,
+        original_single_attempt_and_real_day_behavior_unchanged=True,published_diagnostics_byte_exact=True,
         actual_Native_cases=0,actual_browser_cases=0,production_go=False,independent_acceptance=False)
 
 

@@ -1,0 +1,22 @@
+{
+  "source_commit": "33988923ab3bad708b21f3c74002f1309a3644e1",
+  "source_path": "scripts/current-sku-managed-recovery-native27-qualification/attempt_policy.py",
+  "original_bytes": 2209,
+  "original_sha256": "87d89647ff0637d6449ba015352950715384807c5e3027233467935871804755",
+  "derived_bytes": 2209,
+  "derived_sha256": "fc1010ef06a8e51611c4a2d413589df0e40b32c32ed753b8c142f2a365c5b7a5",
+  "changes": [
+    {
+      "before": "JOB_BUDGET_SECONDS = 210 * 60",
+      "after": "JOB_BUDGET_SECONDS = 120 * 60",
+      "count": 1
+    }
+  ],
+  "original_job_minutes": 210,
+  "own_job_minutes": 120,
+  "reason": "Fresh delta4 Native plus2 browser cases; both existing10min browser limits unchanged; full source/install/restore and date checks retained",
+  "financial_or_browser_callbacks_changed": 0,
+  "product_clock_changed": false,
+  "actual_Native_cases": 0,
+  "production_go": false
+}

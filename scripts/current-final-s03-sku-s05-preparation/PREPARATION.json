@@ -3,8 +3,8 @@
   "base_head": "33988923ab3bad708b21f3c74002f1309a3644e1",
   "files": {
     ".github/workflows/cp7-final-s03-sku-s05.yml": {
-      "bytes": 33929,
-      "sha256": "38fe3d05a5da303f714fae738d1c475cb9b16790b26487d091b3b712a5af9f55"
+      "bytes": 33918,
+      "sha256": "11d398b373b478f49c366cd611ab0cd67a9e2cc8361b7a49cdaa92cc116c8af5"
     },
     "scripts/cp7_current_s03_sku_s05/README.md": {
       "bytes": 1825,
@@ -22,6 +22,14 @@
       "bytes": 5181,
       "sha256": "d0cf9005d7322dbd57e332d90e156f168ceee4425edc9a6092879153c89b6beb"
     },
+    "scripts/current-final-s03-sku-s05-preparation/ATTEMPT_POLICY_DERIVATION.json": {
+      "bytes": 884,
+      "sha256": "dafbca3a4092ecac77071726745d304b843f7313d0c05725fa27c52c47449a93"
+    },
+    "scripts/current-final-s03-sku-s05-preparation/BOUNDED_WINDOW_CONTROLS.json": {
+      "bytes": 822,
+      "sha256": "a6635b161ef04c9bb5077d5c00b3fdd1e496ab5a9ec9c2785ead25d24caa36ed"
+    },
     "scripts/current-final-s03-sku-s05-preparation/LOCAL_CONTROLS.json": {
       "bytes": 6027,
       "sha256": "02f00876a41967d5485088dea6a22d3fbcf68bcbebc94f7f9c0992c7a3964c1a"
@@ -38,29 +46,37 @@
       "bytes": 3392,
       "sha256": "529e44c6b586f72b448994c1c23bc41b018cf3b9169bde0f5a5fe77f6e3c118d"
     },
+    "scripts/current-final-s03-sku-s05-preparation/RUNTIME_DIAGNOSTICS_SOURCE.json": {
+      "bytes": 324,
+      "sha256": "2743c6139de29943b8d5305c56650a78046d124ca17cae2c300be34b0c066a31"
+    },
     "scripts/current-final-s03-sku-s05-preparation/SYSTEM_METADATA_WIRING.json": {
       "bytes": 1341,
       "sha256": "fc5579228fb3a65147350676ab707f5bcf61cd7d75c36f6c8fa4073a3bf245f6"
     },
     "scripts/current-final-s03-sku-s05-preparation/WORKFLOW_DERIVATION.json": {
-      "bytes": 2608,
-      "sha256": "c70b1844c25301e3c80c2881e06b17a93d13df66d7a35e158afb8b2d84125ded"
+      "bytes": 3084,
+      "sha256": "7da3c8c6db35c663f49501e029b594a1b4bdece9714e0335b1ba5eae9ae94b7a"
     },
     "scripts/current-final-s03-sku-s05-preparation/admission.py": {
       "bytes": 4203,
       "sha256": "8b872bceac6d4ce3f622cd1c4e5d5db430b3d3e69b2e67910906a61284189837"
+    },
+    "scripts/current-final-s03-sku-s05-preparation/attempt_policy.py": {
+      "bytes": 2209,
+      "sha256": "fc1010ef06a8e51611c4a2d413589df0e40b32c32ed753b8c142f2a365c5b7a5"
     },
     "scripts/current-final-s03-sku-s05-preparation/business_reader.py": {
       "bytes": 3589,
       "sha256": "7418e5911669b7aa32eff324319176931a4ebf0ac85e560c7b615ad4468eda91"
     },
     "scripts/current-final-s03-sku-s05-preparation/component.py": {
-      "bytes": 6641,
-      "sha256": "a151261eba3e4bbc383b968c94fb0f6d08edaaf8a8dc27b5bbd5178d2fc22824"
+      "bytes": 7057,
+      "sha256": "d971af03ac45a7d919e709773c2054594f2f4980a36b1f6e6a3b7ea93fdbe7a4"
     },
     "scripts/current-final-s03-sku-s05-preparation/controls.py": {
-      "bytes": 4868,
-      "sha256": "18d7fd8ff9af9d506eb0fb14f62d6c9439b094aee17533b926f19beaaf70099e"
+      "bytes": 6545,
+      "sha256": "871de0b59ecc9ef506e41cbe14ea2d87f75f4a47bbb81bf6697f5d08cd4e4076"
     },
     "scripts/current-final-s03-sku-s05-preparation/engine.py": {
       "bytes": 2050,
@@ -151,12 +167,20 @@
       "sha256": "f2a89ff0fe5e1cb2332f763bbfacbd9b04aac95e14cbd3c97cae0d29019de3d7"
     },
     "scripts/current-final-s03-sku-s05-preparation/probe.py": {
-      "bytes": 3564,
-      "sha256": "df508fe5415eeae3e1bf21b4a02c66ece2c585dea92bfabf6f940f690a88b57e"
+      "bytes": 3784,
+      "sha256": "fb66f362aae4e820b5c86fe7a9ffa580aaca32b2da7bfe652c03dbf71d2a0418"
+    },
+    "scripts/current-final-s03-sku-s05-preparation/runtime_note.py": {
+      "bytes": 3265,
+      "sha256": "fac2004806156b4fd8746503ba54bf2c455368c8d78edeb8e8f34d4f106b095a"
     },
     "scripts/current-final-s03-sku-s05-preparation/system_metadata.py": {
       "bytes": 4307,
       "sha256": "88c01a97334e62af9036b5d9aacc6e967aef7087a7aee888f8293e543febcd6d"
+    },
+    "scripts/current-final-s03-sku-s05-preparation/test_attempt_policy.py": {
+      "bytes": 2674,
+      "sha256": "450b8af3e737c40b4adac404946886125900f6f24e5c667288e65b7e23879ba7"
     },
     "scripts/current-final-s03-sku-s05-preparation/test_composition.py": {
       "bytes": 6181,
@@ -176,5 +200,7 @@
   "new_runtime_entry": "scripts/current-final-s03-sku-s05-preparation/probe.py",
   "read_only_system_and_scheduler_metadata_prepared": true,
   "metadata_query_count": 27,
-  "metadata_Native_case_credit": 0
+  "metadata_Native_case_credit": 0,
+  "owning_job_and_real_WIB_guard_minutes": 120,
+  "qualification_clock_changed": false
 }

@@ -1,0 +1,9 @@
+{
+  "source_commit": "1d52f8a2cf48c07d6af86dbaf114989cb2f5bece",
+  "source_path": "scripts/current-s03-sku-s05-composite-qualification/runtime_note.py",
+  "bytes": 3265,
+  "sha256": "fac2004806156b4fd8746503ba54bf2c455368c8d78edeb8e8f34d4f106b095a",
+  "byte_exact_copy": true,
+  "case_credit": 0,
+  "production_go": false
+}

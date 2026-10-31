@@ -68,6 +68,7 @@ def committed_use(url,state,raw_receipt,report):
 
 
 def exercise(conn,cur,database,url,report,state):
+    notes=load('permanent_component_published_diagnostics',HERE/'runtime_note.py')
     proof=load('permanent_complete_current_source_and_parent_admission',HERE/'admission.py').admitted()
     if state['sources']!=proof['current_installation']:
         raise ValueError('PERMANENT_S05_EXACT_ACTUAL_COMPLETE_INSTALLATION_REQUIRED')
@@ -76,20 +77,25 @@ def exercise(conn,cur,database,url,report,state):
         retained_join37_fresh_case_credit=0,permanent_reader_remains_installed=True,
         production_go=False,independent_acceptance=False)
     metadata=load('permanent_owning_readonly_system_metadata',HERE/'system_metadata.py')
-    report['read_only_system_metadata_before_native']=metadata.capture_pair(url,raw_receipt)
+    with notes.phase('PERMANENT_READONLY_METADATA_BEFORE_NATIVE'):
+        report['read_only_system_metadata_before_native']=metadata.capture_pair(url,raw_receipt)
     first=report['fresh_permanent_financial4']=dict(status='INCOMPLETE')
-    load('permanent_four_original_financial_cases',HERE/'persistent_financial.py').exercise(
-        conn,cur,database,url,first,state,raw_parent_receipt=raw_receipt)
+    with notes.phase('PERMANENT_NATIVE4'):
+        load('permanent_four_original_financial_cases',HERE/'persistent_financial.py').exercise(
+            conn,cur,database,url,first,state,raw_parent_receipt=raw_receipt)
     if first.get('status')!='PASS'or first.get('actual_Native_cases')!=4:
         raise ValueError('PERMANENT_S05_ACTUAL_FINANCIAL4_REQUIRED')
     witness=report['separate_committed_Native_use']=dict(status='INCOMPLETE')
-    committed_use(url,state,raw_receipt,witness)
+    with notes.phase('PERMANENT_NATIVE_COMMITTED_WITNESS_ZERO_CASE_CREDIT'):
+        committed_use(url,state,raw_receipt,witness)
     second=report['fresh_permanent_browser2']=dict(status='INCOMPLETE')
-    load('permanent_complete_normal_App_browser2',HERE/'persistent_browser.py').exercise(
-        url,state,second,raw_parent_receipt=raw_receipt)
+    with notes.phase('PERMANENT_BROWSER2'):
+        load('permanent_complete_normal_App_browser2',HERE/'persistent_browser.py').exercise(
+            url,state,second,raw_parent_receipt=raw_receipt)
     if second.get('status')!='PASS'or second.get('actual_browser_cases')!=2:
         raise ValueError('PERMANENT_S05_ACTUAL_NORMAL_APP_BROWSER2_REQUIRED')
-    report['read_only_system_metadata_after_native_and_browser']=metadata.capture_pair(url,raw_receipt)
+    with notes.phase('PERMANENT_READONLY_METADATA_AFTER_NATIVE_BROWSER'):
+        report['read_only_system_metadata_after_native_and_browser']=metadata.capture_pair(url,raw_receipt)
     groups=(first['native']['cases'],second['browser']['cases'])
     cases={key:dict(status=row['status'])for group in groups for key,row in group.items()}
     if len(cases)!=6 or sum(map(len,groups))!=6 or any(row['status']!='PASS'for row in cases.values()):

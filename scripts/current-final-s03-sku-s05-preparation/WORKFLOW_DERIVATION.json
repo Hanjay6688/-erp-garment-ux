@@ -109,5 +109,16 @@
   "actual_new_Native_cases": 0,
   "actual_browser_cases": 0,
   "production_go": false,
-  "independent_acceptance": false
+  "independent_acceptance": false,
+  "owning_job_budget_change": {
+    "original_minutes": 210,
+    "current_minutes": 120,
+    "full_owning_pre_DB_and_runtime_WIB_guard_minutes": 120,
+    "private_policy": "scripts/current-final-s03-sku-s05-preparation/attempt_policy.py",
+    "all_actual_business_day_checks_and_single_attempt_unchanged": true,
+    "fresh_Native_cases": 4,
+    "fresh_browser_cases": 2,
+    "browser_case_timeout_minutes": 10,
+    "source_install_restore_or_financial_checks_removed": 0
+  }
 }

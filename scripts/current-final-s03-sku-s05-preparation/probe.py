@@ -48,16 +48,20 @@ def main():
         print(json.dumps(dict(status=proof['status'],source_DB_guard=guard,actual_new_cases=0,
             whole_natural_product_source_graph_evaluated=True,production_go=False),sort_keys=True));return
     if os.environ.get('PERMANENT_S05_CONFIRM')!='cp6_rollback':raise ValueError('JOIN_EXPLICIT_LOCAL_DISPOSABLE_CONFIRMATION_REQUIRED')
-    attempts=load('joined_single_attempt_real_WIB_window',ROOT/'scripts/current-sku-managed-recovery-native27-qualification/attempt_policy.py')
+    attempts=load('joined_single_attempt_real_WIB_window',HERE/'attempt_policy.py')
     print(json.dumps(dict(attempt_policy=attempts.require_window())))
-    engine,admission=runtime()
-    with admission.import_scope():
-        engine.admitted();original=engine.package._writer_runtime
-        try:
-            engine.package._writer_runtime=lambda browser_mode=False:engine.run()
-            import cp6_auditor_business_day as business_day
-            with attempts.single_attempt(business_day):engine.package.run('install')
-        finally:engine.package._writer_runtime=original
+    notes=load('permanent_actual_published_runner_diagnostics',HERE/'runtime_note.py')
+    with notes.monitor():
+        with notes.phase('PERMANENT_SOURCE_ADMISSION'):
+            engine,admission=runtime()
+        with admission.import_scope():
+            engine.admitted();original=engine.package._writer_runtime
+            try:
+                engine.package._writer_runtime=lambda browser_mode=False:engine.run()
+                import cp6_auditor_business_day as business_day
+                with attempts.single_attempt(business_day),notes.phase('PERMANENT_COMPLETE_PACKAGE_AND_RESTORE'):
+                    engine.package.run('install')
+            finally:engine.package._writer_runtime=original
 
 
 if __name__=='__main__':main()

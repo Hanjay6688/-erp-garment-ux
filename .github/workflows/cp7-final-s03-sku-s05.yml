@@ -19,7 +19,7 @@ jobs:
     name: Permanent reader; unchanged financial4; real Auth normal App browser2; complete
       restoration
     runs-on: ubuntu-24.04
-    timeout-minutes: 210
+    timeout-minutes: 120
     env:
       PYTHONDONTWRITEBYTECODE: '1'
       CURRENT_ANALOG_FROZEN_SOURCE_ROOT: ${{ github.workspace }}/frozen
@@ -492,7 +492,7 @@ jobs:
 
         python -B scripts/current-final-s03-sku-s05-preparation/probe.py --check
 
-        python -B scripts/current-sku-managed-recovery-native27-qualification/attempt_policy.py
+        python -B scripts/current-final-s03-sku-s05-preparation/attempt_policy.py
         --require-window
 
         '
@@ -576,7 +576,7 @@ jobs:
     - name: Run actual permanent reader financial4 normal App browser2 and complete
         outer restoration
       working-directory: writer
-      run: 'python -B ''../auditor/scripts/current-final-s03-sku-s05-preparation/probe.py''
+      run: 'python -u -B ''../auditor/scripts/current-final-s03-sku-s05-preparation/probe.py''
         --runtime
 
         python -B ''../auditor/scripts/current-final-s03-sku-s05-preparation/final_gate.py''
