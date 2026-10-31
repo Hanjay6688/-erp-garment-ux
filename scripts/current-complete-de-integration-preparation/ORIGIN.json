@@ -1,0 +1,189 @@
+{
+  "classification": "EXACT_D1_E_PACKAGE_WITH_ONLY_DECLARED_COMPLETE_PARENT_IMPORT",
+  "source_commit": "3d7066b852176d9f343ec831d2f63aee6665579b",
+  "files": [
+    {
+      "path": "scripts/cp7_credit_correction_de/__init__.py",
+      "source_commit": "3d7066b852176d9f343ec831d2f63aee6665579b",
+      "original_bytes": 91,
+      "original_sha256": "5cea80d360a7ce7a86d3adc85cc60f84de2fe2eb7e000db4dff1880b8b6eeeb5",
+      "current_bytes": 91,
+      "current_sha256": "5cea80d360a7ce7a86d3adc85cc60f84de2fe2eb7e000db4dff1880b8b6eeeb5",
+      "changes": []
+    },
+    {
+      "path": "scripts/cp7_credit_correction_de/closure.sql",
+      "source_commit": "3d7066b852176d9f343ec831d2f63aee6665579b",
+      "original_bytes": 6259,
+      "original_sha256": "e21744ba0d98e963ccba9ca916247b797cb2c930b889e2eb41288a12f1888972",
+      "current_bytes": 6259,
+      "current_sha256": "e21744ba0d98e963ccba9ca916247b797cb2c930b889e2eb41288a12f1888972",
+      "changes": []
+    },
+    {
+      "path": "scripts/cp7_credit_correction_de/composition.py",
+      "source_commit": "3d7066b852176d9f343ec831d2f63aee6665579b",
+      "original_bytes": 12384,
+      "original_sha256": "4f7086c157e977cacf5f4281d6a2748113029fd7c2c441837e254c9fca9422af",
+      "current_bytes": 12386,
+      "current_sha256": "3387878acd8374237b294475a14f7fb877f2827fcad1358eabd953b6e99afa00",
+      "changes": [
+        {
+          "before": "from cp7_vendor_receivable import composition as predecessor",
+          "after": "from cp7_current_s03_sku_s05 import composition as predecessor",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "scripts/cp7_credit_correction_de/e_composition.py",
+      "source_commit": "3d7066b852176d9f343ec831d2f63aee6665579b",
+      "original_bytes": 12376,
+      "original_sha256": "6e690d12e30cb3a6463283dc62f269f5e3e77e2e59f37e45cdd0b5ec1f6a46d6",
+      "current_bytes": 12376,
+      "current_sha256": "6e690d12e30cb3a6463283dc62f269f5e3e77e2e59f37e45cdd0b5ec1f6a46d6",
+      "changes": []
+    },
+    {
+      "path": "scripts/cp7_credit_correction_de/e_native_delta.py",
+      "source_commit": "3d7066b852176d9f343ec831d2f63aee6665579b",
+      "original_bytes": 11997,
+      "original_sha256": "314742c922fc82145f7caa8d4217296bf3f2408ceacbc4738d50d3b866d2bfe0",
+      "current_bytes": 11997,
+      "current_sha256": "314742c922fc82145f7caa8d4217296bf3f2408ceacbc4738d50d3b866d2bfe0",
+      "changes": []
+    },
+    {
+      "path": "scripts/cp7_credit_correction_de/facts.sql",
+      "source_commit": "3d7066b852176d9f343ec831d2f63aee6665579b",
+      "original_bytes": 5073,
+      "original_sha256": "ddfcf8583cf86a916e04aa5630d6262a32e48919dbd0a4c913a09166ca2f8334",
+      "current_bytes": 5073,
+      "current_sha256": "ddfcf8583cf86a916e04aa5630d6262a32e48919dbd0a4c913a09166ca2f8334",
+      "changes": []
+    },
+    {
+      "path": "scripts/cp7_credit_correction_de/materialize.sql",
+      "source_commit": "3d7066b852176d9f343ec831d2f63aee6665579b",
+      "original_bytes": 15010,
+      "original_sha256": "206c18b517aef54ddc5757fd156a6c7d8d4a2c3240f62779773a4fff74fe6154",
+      "current_bytes": 15010,
+      "current_sha256": "206c18b517aef54ddc5757fd156a6c7d8d4a2c3240f62779773a4fff74fe6154",
+      "changes": []
+    },
+    {
+      "path": "scripts/cp7_credit_correction_de/native_delta.py",
+      "source_commit": "3d7066b852176d9f343ec831d2f63aee6665579b",
+      "original_bytes": 7494,
+      "original_sha256": "d6157ad24dd22ca4810df12668090eb74a3382e6ceb3e4c0954a037a7016c664",
+      "current_bytes": 7494,
+      "current_sha256": "d6157ad24dd22ca4810df12668090eb74a3382e6ceb3e4c0954a037a7016c664",
+      "changes": []
+    },
+    {
+      "path": "scripts/cp7_credit_correction_de/note_carry/01_facts.sql",
+      "source_commit": "3d7066b852176d9f343ec831d2f63aee6665579b",
+      "original_bytes": 3885,
+      "original_sha256": "ebf128127e6bcab8fe1c52b98f46ede1492356386312fe2f744e3e65ddb1d415",
+      "current_bytes": 3885,
+      "current_sha256": "ebf128127e6bcab8fe1c52b98f46ede1492356386312fe2f744e3e65ddb1d415",
+      "changes": []
+    },
+    {
+      "path": "scripts/cp7_credit_correction_de/note_carry/02_plan.sql",
+      "source_commit": "3d7066b852176d9f343ec831d2f63aee6665579b",
+      "original_bytes": 2297,
+      "original_sha256": "17c9028606298e7d66681deb3c0a1f3260a1ec829d9ba501a647231b358981f3",
+      "current_bytes": 2297,
+      "current_sha256": "17c9028606298e7d66681deb3c0a1f3260a1ec829d9ba501a647231b358981f3",
+      "changes": []
+    },
+    {
+      "path": "scripts/cp7_credit_correction_de/note_carry/03_readers.sql",
+      "source_commit": "3d7066b852176d9f343ec831d2f63aee6665579b",
+      "original_bytes": 9250,
+      "original_sha256": "940200b5320189bd424a99ccef9cc92846dd576a6c6d4bd2e8f1e25afd3325d8",
+      "current_bytes": 9250,
+      "current_sha256": "940200b5320189bd424a99ccef9cc92846dd576a6c6d4bd2e8f1e25afd3325d8",
+      "changes": []
+    },
+    {
+      "path": "scripts/cp7_credit_correction_de/note_carry/04_basis.sql",
+      "source_commit": "3d7066b852176d9f343ec831d2f63aee6665579b",
+      "original_bytes": 7444,
+      "original_sha256": "cdd49e1c5f9a78f4c2c27ce0ae055907a485475c0020720c9e18a0f80e68c222",
+      "current_bytes": 7444,
+      "current_sha256": "cdd49e1c5f9a78f4c2c27ce0ae055907a485475c0020720c9e18a0f80e68c222",
+      "changes": []
+    },
+    {
+      "path": "scripts/cp7_credit_correction_de/note_carry/05_effect.sql",
+      "source_commit": "3d7066b852176d9f343ec831d2f63aee6665579b",
+      "original_bytes": 9816,
+      "original_sha256": "cd77c5ab9427223e1c67b93d8631a1808b8ddc593fc0c97d12e9c069a2950710",
+      "current_bytes": 9816,
+      "current_sha256": "cd77c5ab9427223e1c67b93d8631a1808b8ddc593fc0c97d12e9c069a2950710",
+      "changes": []
+    },
+    {
+      "path": "scripts/cp7_credit_correction_de/note_carry/06_owning.sql",
+      "source_commit": "3d7066b852176d9f343ec831d2f63aee6665579b",
+      "original_bytes": 13433,
+      "original_sha256": "0c00bb08274827e6295ada3ed4e4b8e7d917ed1bc1a996aaa0685d0fd1772c94",
+      "current_bytes": 13433,
+      "current_sha256": "0c00bb08274827e6295ada3ed4e4b8e7d917ed1bc1a996aaa0685d0fd1772c94",
+      "changes": []
+    },
+    {
+      "path": "scripts/cp7_credit_correction_de/note_carry/07_profile_closure.sql",
+      "source_commit": "3d7066b852176d9f343ec831d2f63aee6665579b",
+      "original_bytes": 16068,
+      "original_sha256": "8e82c257ca20a4dcac5cf0dad2f1e487c2e202caea7fa466503019003d3f75ac",
+      "current_bytes": 16068,
+      "current_sha256": "8e82c257ca20a4dcac5cf0dad2f1e487c2e202caea7fa466503019003d3f75ac",
+      "changes": []
+    },
+    {
+      "path": "scripts/cp7_credit_correction_de/owning.sql",
+      "source_commit": "3d7066b852176d9f343ec831d2f63aee6665579b",
+      "original_bytes": 25957,
+      "original_sha256": "410afb540f455ce6781d8bf09ee6bd6f66420a2f17d3c5474720a642fdcc9cae",
+      "current_bytes": 25957,
+      "current_sha256": "410afb540f455ce6781d8bf09ee6bd6f66420a2f17d3c5474720a642fdcc9cae",
+      "changes": []
+    },
+    {
+      "path": "scripts/cp7_credit_correction_de/posting.sql",
+      "source_commit": "3d7066b852176d9f343ec831d2f63aee6665579b",
+      "original_bytes": 13878,
+      "original_sha256": "e200a62d91c7975e67a88eb37c47d89dd739eb8f63fc0a1ee7063aaec0f9ce5b",
+      "current_bytes": 13878,
+      "current_sha256": "e200a62d91c7975e67a88eb37c47d89dd739eb8f63fc0a1ee7063aaec0f9ce5b",
+      "changes": []
+    },
+    {
+      "path": "scripts/cp7_credit_correction_de/proof.sql",
+      "source_commit": "3d7066b852176d9f343ec831d2f63aee6665579b",
+      "original_bytes": 15975,
+      "original_sha256": "8d81f2d8d9384c08eda28eb0b86a6c96b97f2ef8178adbe4b7d1dab01b8cf7ef",
+      "current_bytes": 15975,
+      "current_sha256": "8d81f2d8d9384c08eda28eb0b86a6c96b97f2ef8178adbe4b7d1dab01b8cf7ef",
+      "changes": []
+    },
+    {
+      "path": "scripts/cp7_credit_correction_de/review.sql",
+      "source_commit": "3d7066b852176d9f343ec831d2f63aee6665579b",
+      "original_bytes": 3722,
+      "original_sha256": "88681bf674a6b6e8aeda46830a4a27b18bdda84cfcba6868bbb08e3f84fdc382",
+      "current_bytes": 3722,
+      "current_sha256": "88681bf674a6b6e8aeda46830a4a27b18bdda84cfcba6868bbb08e3f84fdc382",
+      "changes": []
+    }
+  ],
+  "unchanged_files": 18,
+  "declared_parent_import_changes": 1,
+  "SQL_or_Native_derivation_changes": 0,
+  "actual_Native_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

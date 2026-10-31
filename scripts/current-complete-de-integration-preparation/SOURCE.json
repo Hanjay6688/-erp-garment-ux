@@ -1,0 +1,255 @@
+{
+  "classification": "CLOSED_D1_E_ON_COMPLETE_SOURCE_PREPARATION_NOT_QUALIFICATION",
+  "base_head": "04ed2fbc3f1fb24174ff7368bffbb2dff01f5423",
+  "base_tree": "66930111fa9826b0c18ed6cfd3b05ea225e4e62b",
+  "files": {
+    "scripts/cp7_credit_correction_de/__init__.py": {
+      "bytes": 91,
+      "sha256": "5cea80d360a7ce7a86d3adc85cc60f84de2fe2eb7e000db4dff1880b8b6eeeb5"
+    },
+    "scripts/cp7_credit_correction_de/cases.py": {
+      "bytes": 21156,
+      "sha256": "c530bb87f72ee6091e032d15efdb2b2e55cf9c9632b64c9e781665b70325bbdb"
+    },
+    "scripts/cp7_credit_correction_de/closure.sql": {
+      "bytes": 6259,
+      "sha256": "e21744ba0d98e963ccba9ca916247b797cb2c930b889e2eb41288a12f1888972"
+    },
+    "scripts/cp7_credit_correction_de/composition.py": {
+      "bytes": 12386,
+      "sha256": "3387878acd8374237b294475a14f7fb877f2827fcad1358eabd953b6e99afa00"
+    },
+    "scripts/cp7_credit_correction_de/e_cases.py": {
+      "bytes": 25058,
+      "sha256": "058a9c29b991b30ca4da6467cfeb2629179d3ce8f25b8dba09d6ea45f419e2ad"
+    },
+    "scripts/cp7_credit_correction_de/e_composition.py": {
+      "bytes": 12376,
+      "sha256": "6e690d12e30cb3a6463283dc62f269f5e3e77e2e59f37e45cdd0b5ec1f6a46d6"
+    },
+    "scripts/cp7_credit_correction_de/e_native_delta.py": {
+      "bytes": 11997,
+      "sha256": "314742c922fc82145f7caa8d4217296bf3f2408ceacbc4738d50d3b866d2bfe0"
+    },
+    "scripts/cp7_credit_correction_de/facts.sql": {
+      "bytes": 5073,
+      "sha256": "ddfcf8583cf86a916e04aa5630d6262a32e48919dbd0a4c913a09166ca2f8334"
+    },
+    "scripts/cp7_credit_correction_de/materialize.sql": {
+      "bytes": 15010,
+      "sha256": "206c18b517aef54ddc5757fd156a6c7d8d4a2c3240f62779773a4fff74fe6154"
+    },
+    "scripts/cp7_credit_correction_de/native_delta.py": {
+      "bytes": 7494,
+      "sha256": "d6157ad24dd22ca4810df12668090eb74a3382e6ceb3e4c0954a037a7016c664"
+    },
+    "scripts/cp7_credit_correction_de/native_fixture.py": {
+      "bytes": 7703,
+      "sha256": "4fbe56583ffc63473c12195ddaae6ff3e0cd0ad46b358bf7eef7b5175c67e829"
+    },
+    "scripts/cp7_credit_correction_de/note_carry/01_facts.sql": {
+      "bytes": 3885,
+      "sha256": "ebf128127e6bcab8fe1c52b98f46ede1492356386312fe2f744e3e65ddb1d415"
+    },
+    "scripts/cp7_credit_correction_de/note_carry/02_plan.sql": {
+      "bytes": 2297,
+      "sha256": "17c9028606298e7d66681deb3c0a1f3260a1ec829d9ba501a647231b358981f3"
+    },
+    "scripts/cp7_credit_correction_de/note_carry/03_readers.sql": {
+      "bytes": 9250,
+      "sha256": "940200b5320189bd424a99ccef9cc92846dd576a6c6d4bd2e8f1e25afd3325d8"
+    },
+    "scripts/cp7_credit_correction_de/note_carry/04_basis.sql": {
+      "bytes": 7444,
+      "sha256": "cdd49e1c5f9a78f4c2c27ce0ae055907a485475c0020720c9e18a0f80e68c222"
+    },
+    "scripts/cp7_credit_correction_de/note_carry/05_effect.sql": {
+      "bytes": 9816,
+      "sha256": "cd77c5ab9427223e1c67b93d8631a1808b8ddc593fc0c97d12e9c069a2950710"
+    },
+    "scripts/cp7_credit_correction_de/note_carry/06_owning.sql": {
+      "bytes": 13433,
+      "sha256": "0c00bb08274827e6295ada3ed4e4b8e7d917ed1bc1a996aaa0685d0fd1772c94"
+    },
+    "scripts/cp7_credit_correction_de/note_carry/07_profile_closure.sql": {
+      "bytes": 16068,
+      "sha256": "8e82c257ca20a4dcac5cf0dad2f1e487c2e202caea7fa466503019003d3f75ac"
+    },
+    "scripts/cp7_credit_correction_de/owning.sql": {
+      "bytes": 25957,
+      "sha256": "410afb540f455ce6781d8bf09ee6bd6f66420a2f17d3c5474720a642fdcc9cae"
+    },
+    "scripts/cp7_credit_correction_de/posting.sql": {
+      "bytes": 13878,
+      "sha256": "e200a62d91c7975e67a88eb37c47d89dd739eb8f63fc0a1ee7063aaec0f9ce5b"
+    },
+    "scripts/cp7_credit_correction_de/proof.sql": {
+      "bytes": 15975,
+      "sha256": "8d81f2d8d9384c08eda28eb0b86a6c96b97f2ef8178adbe4b7d1dab01b8cf7ef"
+    },
+    "scripts/cp7_credit_correction_de/review.sql": {
+      "bytes": 3722,
+      "sha256": "88681bf674a6b6e8aeda46830a4a27b18bdda84cfcba6868bbb08e3f84fdc382"
+    },
+    "scripts/cp7_complete_credit_de/README.md": {
+      "bytes": 2724,
+      "sha256": "ecc8b9508505a8f267f06487b52fce48cabc8f4f5e0db4eb1cd302a3e71fb1a2"
+    },
+    "scripts/cp7_complete_credit_de/RECORDED_NATIVE_CAPTURES.json": {
+      "bytes": 173774,
+      "sha256": "c5c18ca3d68e373ecaef8ec992e168564e21f37d9a0ee190414322e1688de214"
+    },
+    "scripts/cp7_complete_credit_de/__init__.py": {
+      "bytes": 76,
+      "sha256": "23b325fd9b7876a3f6cd993267feb5fe97516334ade5bc12034ba453a5be4b4f"
+    },
+    "scripts/cp7_complete_credit_de/composition.py": {
+      "bytes": 9314,
+      "sha256": "17a21d98a3b72c538321f836b13a690f5728a3c55afbb52d5e9397b251f6ecf5"
+    },
+    "scripts/current-complete-de-integration-preparation/ACTUAL_D1_E_INTEGRATION_GAP.json": {
+      "bytes": 1707,
+      "sha256": "f17b925f5bbc294b0103b07bb9db19737bf2a92976f4dbba9bb1de60ad420f7a"
+    },
+    "scripts/current-complete-de-integration-preparation/ACTUAL_FENCED_IMPORT_CONTROL.json": {
+      "bytes": 1572,
+      "sha256": "5bea0b5a4bca39942af7df8be65bffcf8bf6abcd5669dfacdde2e853edb14c0c"
+    },
+    "scripts/current-complete-de-integration-preparation/D1_E_ACTUAL_CURRENT_RAW_SOURCE_DERIVATION.json": {
+      "bytes": 1978,
+      "sha256": "d0cc0f551a0fa1957bba1330edfb26142ee699cf21bd13063c0304b1ac979693"
+    },
+    "scripts/current-complete-de-integration-preparation/FIRST_CALLER_API_SOURCE_FAILURE.json": {
+      "bytes": 500,
+      "sha256": "4c5f0a7e4656475e3ee2ae9820638a553c998d144da1301b465357e2d1b89527"
+    },
+    "scripts/current-complete-de-integration-preparation/LOCAL_LIFECYCLE_CONTROLS.json": {
+      "bytes": 898,
+      "sha256": "ca42b075e851cb46cf7526dd24c8fd402593675d9ae37bd69c1558dc60bc5a8a"
+    },
+    "scripts/current-complete-de-integration-preparation/NATIVE_CALLBACK_ORIGIN.json": {
+      "bytes": 2230,
+      "sha256": "70a6e9bba1044ba7b3759ea85a9012d9a3b194c550456264ca9fca5f2f35212c"
+    },
+    "scripts/current-complete-de-integration-preparation/ORIGIN.json": {
+      "bytes": 8419,
+      "sha256": "b926d14fb519bcba48148f54c76ecc2792919363e0a600c45bbf2347ba16662b"
+    },
+    "scripts/current-complete-de-integration-preparation/OWNING_CALLER_SOURCE_CONTROLS.json": {
+      "bytes": 1342,
+      "sha256": "5c01ca75523dc9816be1676692b7e24ba385900d9fc16053993b594a0618bd25"
+    },
+    "scripts/current-complete-de-integration-preparation/README.md": {
+      "bytes": 7261,
+      "sha256": "e2e70460b415d6f5fcbcbeccda7a800c2f8bde6515f8ce613fdb9eadadbe5e01"
+    },
+    "scripts/current-complete-de-integration-preparation/REPAIRED_PERMANENT_REBASE_ORIGIN.json": {
+      "bytes": 21662,
+      "sha256": "0b761883a0120dd50c97e6ca545d7a100535561d46bb76931a2dcf379193e9a2"
+    },
+    "scripts/current-complete-de-integration-preparation/RUNTIME_DIAGNOSTICS_SOURCE.json": {
+      "bytes": 859,
+      "sha256": "305124921eccc5618d79d3e4abdb7db5627d4891d00d275192f76255b7586958"
+    },
+    "scripts/current-complete-de-integration-preparation/WITNESS_ORIGIN.json": {
+      "bytes": 598,
+      "sha256": "61de51e9744baefa471362b50e1204499b3ccd38dfe696f46d33390664af2e6d"
+    },
+    "scripts/current-complete-de-integration-preparation/admission.py": {
+      "bytes": 3418,
+      "sha256": "1cc6a1cc54d46c0409ee376d1a40bd19f768bfd47ace7fb6e0faa34f2f1c05aa"
+    },
+    "scripts/current-complete-de-integration-preparation/check.py": {
+      "bytes": 9212,
+      "sha256": "88ff32692e287e065934980d2fe85a9b0097cf37ca47ad068e74e89b163fc287"
+    },
+    "scripts/current-complete-de-integration-preparation/component.py": {
+      "bytes": 5274,
+      "sha256": "8a4f1b1a4b8858c376442c1abb15064254915f06141aaa94cdd0bbb0ca4a0cf5"
+    },
+    "scripts/current-complete-de-integration-preparation/engine.py": {
+      "bytes": 2143,
+      "sha256": "4deb4dee31df37681442c4bf6c16c01387c9376f4d879f227e670b2f5f9a00dd"
+    },
+    "scripts/current-complete-de-integration-preparation/fetch_parent.py": {
+      "bytes": 4122,
+      "sha256": "83d885253cb6ff43f72ec57f300bd5724a13a6a87dc5fcb89b158571b3c022b8"
+    },
+    "scripts/current-complete-de-integration-preparation/final_gate.py": {
+      "bytes": 5433,
+      "sha256": "2c547bd66703cdc18576f6a1472b9311383fb749e409bd22493008b940dd775b"
+    },
+    "scripts/current-complete-de-integration-preparation/global_metadata.py": {
+      "bytes": 7872,
+      "sha256": "22d15b91fd205e46e9a977d990cec6f61536b361ce236b933a66915c6b0ce686"
+    },
+    "scripts/current-complete-de-integration-preparation/native30.workflow.yml.txt": {
+      "bytes": 33352,
+      "sha256": "1ed4384495a6ed8870565db4d2733b19290d09c6615f8b7f825c4474dd72d29c"
+    },
+    "scripts/current-complete-de-integration-preparation/native_business.py": {
+      "bytes": 5829,
+      "sha256": "7b58e59ae50ed235167e399ace67d06ed2d5305fbb8bf0607ab989c98a3f2d98"
+    },
+    "scripts/current-complete-de-integration-preparation/probe.py": {
+      "bytes": 3566,
+      "sha256": "45e2f0e68afba297698dbddad842a9f7b7e61dbf507d864ebb2a95ceab26ad32"
+    },
+    "scripts/current-complete-de-integration-preparation/retained-e17-component.py.txt": {
+      "bytes": 8409,
+      "sha256": "f8a1864d9e7687d20913c149b4c78be6ee17bb8c2163af621be9e9397351f4d1"
+    },
+    "scripts/current-complete-de-integration-preparation/retained-global-census/ORIGIN.json": {
+      "bytes": 1349,
+      "sha256": "f7074f24224fe90f8a8b1035fb80bf7c25735a45e06b8e83274c43a361e5a342"
+    },
+    "scripts/current-complete-de-integration-preparation/retained-global-census/capture.py": {
+      "bytes": 20410,
+      "sha256": "a9643a5b89ce5b488bf596b00e8d09c9028a26fc0ebd5e17302a41da36a6f59c"
+    },
+    "scripts/current-complete-de-integration-preparation/retained-global-census/census.py": {
+      "bytes": 28604,
+      "sha256": "9b24b45a09e3fd5cf240ed033e1553fd3c3bfe81a9b2425c9ad3e71dfaf390c0"
+    },
+    "scripts/current-complete-de-integration-preparation/retained-global-census/derive.py.txt": {
+      "bytes": 12045,
+      "sha256": "79617bc1f18484f13b617641a00311bfdbff9a088a08d6f28de44b327079069b"
+    },
+    "scripts/current-complete-de-integration-preparation/retained-global-census/multiset.py": {
+      "bytes": 10288,
+      "sha256": "e8c766e24bb195dc28266daa8d9d3f8bb84a9826dfd8d7ec3f675c5833dc9cf6"
+    },
+    "scripts/current-complete-de-integration-preparation/runtime_note.py": {
+      "bytes": 3265,
+      "sha256": "fac2004806156b4fd8746503ba54bf2c455368c8d78edeb8e8f34d4f106b095a"
+    },
+    "scripts/current-complete-de-integration-preparation/source.py": {
+      "bytes": 4260,
+      "sha256": "ed29060678bae2f8b56c220c632bb1b58c44771f652fe821a1f9c2eeb5ab7e02"
+    },
+    "scripts/current-complete-de-integration-preparation/system_metadata.py": {
+      "bytes": 2345,
+      "sha256": "38294c5fcf40b848c1d147734e27350e7045311f891d7c346bb390ba7017c03f"
+    },
+    "scripts/current-complete-de-integration-preparation/test_lifecycle.py": {
+      "bytes": 11628,
+      "sha256": "370180e095247cde42dda89d21f7b88df04585b4c6cdee6ec47381b7b07fe91b"
+    },
+    "scripts/current-complete-de-integration-preparation/witness.py": {
+      "bytes": 3188,
+      "sha256": "eeefe44420b6bf72682713f35c5ee2197846a6c5a702a2af6736c99517483245"
+    },
+    "scripts/current-complete-de-integration-preparation/workflow.py": {
+      "bytes": 6023,
+      "sha256": "1031edc58eeaf3e384bf1c3c517b1fbb1b158058e01a9e7339fbcc77498c5a7c"
+    },
+    "scripts/cp7_complete_credit_de/SOURCE.json": {
+      "bytes": 4417,
+      "sha256": "e9ace40097d89acc59e632190021151584842062a2b84b73ec41d9658d059ca3"
+    }
+  },
+  "actual_parent_qualification": null,
+  "actual_Native_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

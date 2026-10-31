@@ -1,0 +1,12 @@
+{
+  "classification": "LOCAL_SOURCE_CHECK_FAILURE_BEFORE_ANY_ERP_OR_SQL",
+  "first_failure": "AssertionError: expected monitor and call functions, but published runtime_note exposes phase and keyword-only monitor",
+  "caller_mismatches": [
+    "component monitor.call",
+    "probe monitor(label)"
+  ],
+  "correction": "Use original phase(label) and monitor() context managers; published diagnostic source unchanged",
+  "actual_Native_cases": 0,
+  "actual_SQL_executed": 0,
+  "production_go": false
+}

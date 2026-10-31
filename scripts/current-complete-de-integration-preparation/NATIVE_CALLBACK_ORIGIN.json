@@ -1,0 +1,59 @@
+{
+  "classification": "EXACT_PUBLIC_NATIVE_BUSINESS_SOURCES_NOT_EXECUTED",
+  "source_head": "928246e5f62637c7c6457e57d73d0699196e3408",
+  "source_tree": "581303d5f0df8a6ae40f6d7ec0fab7c06678ed9a",
+  "files": {
+    "scripts/cp7_credit_correction_de/cases.py": {
+      "bytes": 21156,
+      "sha256": "c530bb87f72ee6091e032d15efdb2b2e55cf9c9632b64c9e781665b70325bbdb"
+    },
+    "scripts/cp7_credit_correction_de/e_cases.py": {
+      "bytes": 25058,
+      "sha256": "058a9c29b991b30ca4da6467cfeb2629179d3ce8f25b8dba09d6ea45f419e2ad"
+    },
+    "scripts/cp7_credit_correction_de/native_fixture.py": {
+      "bytes": 7703,
+      "sha256": "4fbe56583ffc63473c12195ddaae6ff3e0cd0ad46b358bf7eef7b5175c67e829"
+    }
+  },
+  "actual_Native_cases": 0,
+  "actual_browser_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false,
+  "D1_case_ids": [
+    "D_POSITIVE_CREDIT_INCREMENT",
+    "D_AFTER_ACTIVE_APPLY",
+    "D_AFTER_REFUND_EXTRA_STAYS_CREDIT",
+    "D_MULTIFAMILY_ORDINAL",
+    "D_REPLAY_EXACT_UUID",
+    "D_STALE_REVIEW_NO_EFFECT",
+    "D_ACCESS_REVOKED_NO_EFFECT",
+    "D_SHORTFALL_NAMES_UNDO",
+    "D_ROOT_BOOK_FLOOR_REFUSAL",
+    "D_ATOMIC_POST_FAILURE_RESTORE",
+    "D_SECOND_REVISION_ORDINAL_HISTORY",
+    "D_AFTER_NAMED_UNDO_NO_FALSE_BLOCKER",
+    "E_UNIMPLEMENTED_INCOMING_CORRECTION_STAYS_GUARDED"
+  ],
+  "E_case_ids": [
+    "E_PRICE_INCREASE_80_NET550_AR470",
+    "E_PRICE_DECREASE_80_NET100_AR20",
+    "E_EXACT_FUNDED_80_PAID",
+    "E_BELOW_CARRIED_80_REFUSES_ATOMIC",
+    "E_SAME_UUID_AND_CHANGED_INTENT",
+    "E_SOURCE_D1_CHANGE_RETIRES_REVIEW",
+    "E_LATER_APPLY_20_CURRENT_LEAF",
+    "E_UNDO_ORIGINAL_80_AND_OLD_RECEIPT",
+    "E_NATIVE_POST_FAILURE_FULL_RESTORE",
+    "E_QUANTITY_CHANGE_REFUSES",
+    "E_ORIGINAL_DATE_CHANGE_REFUSES",
+    "E_CLOSED_ORIGINAL_BOOK_PAIR_REFUSES",
+    "E_SECOND_NOTE_REVISION_GUARDED",
+    "E_CURRENT_ACCESS_REVOKED_REFUSES",
+    "E_JOINT_PREFIX_AFTER_UNDO_120_MIN200_NOT150",
+    "E_LATER_NATIVE_REVERSE_REFUSES_ATOMIC",
+    "E_LATER_NATIVE_SALE_SAME_LOT_RECONCILES"
+  ],
+  "source_callbacks_changed": 0,
+  "retained_D1_last_negative": "Old Native note.edit omits the new required carry review; retain original CP7 refusal assertion and qualify it on the combined stage."
+}
