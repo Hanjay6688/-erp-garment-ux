@@ -77,8 +77,10 @@ class Lifecycle(unittest.TestCase):
         receipt={'qualified_complete_DE_sources':dict(bytes=len(raw),sha256=sha256(raw).hexdigest())}
         cur=SimpleNamespace(catalog=deepcopy(after),data=deepcopy(data),events=[],authority=['MODEL_OID','postgres',None])
         def execute(sql,*,prepare):
-            if sql!=before_sql or prepare is not False:raise AssertionError('ONLY_ORIGINAL_MODEL_INVERSE_ALLOWED')
-            cur.events.append('MODEL_DATE_INVERSE');cur.catalog=deepcopy(before)
+            if prepare is not False:raise AssertionError('EXACT_MODEL_STATEMENT_MODE_REQUIRED')
+            if sql==before_sql:cur.events.append('MODEL_DATE_INVERSE');cur.catalog=deepcopy(before)
+            elif sql==after_sql:cur.events.append('MODEL_DATE_INSTALL');cur.catalog=deepcopy(after)
+            else:raise AssertionError('ONLY_EXACT_ORIGINAL_OR_DERIVED_MODEL_STATEMENT_ALLOWED')
         cur.execute=execute
         def verify(c,s):
             if c.catalog!=s['after']:raise AssertionError('OLD_PARENT_VERIFIER_CALLED_ON_CHANGED_CATALOGUE')
@@ -86,7 +88,10 @@ class Lifecycle(unittest.TestCase):
         def remove(c,s):
             verify(c,s);c.events.append('MODEL_PARENT_INVERSE');c.catalog=deepcopy(s['before']);c.data=deepcopy(s['preinstall_data_and_sequences'])
             return {'MODEL_PARENT_REMOVED':True}
-        p=SimpleNamespace(sources=lambda:parent['sources'],binding=self.de_binding,verify=verify,rollback_preuse=remove)
+        def install(c):
+            c.events.append('MODEL_PARENT_INSTALL');c.catalog=deepcopy(parent['after']);c.data=deepcopy(parent['preuse_data_and_sequences'])
+            return parent
+        p=SimpleNamespace(sources=lambda:parent['sources'],binding=self.de_binding,verify=verify,rollback_preuse=remove,install=install)
         date=dict(sources={'MODEL':'date-stage'},parent_sources=parent['sources'],parent_proof={'MODEL_PARENT_VERIFIED':True},
             parent_binding=parent['component_binding'],before=deepcopy(before),after=deepcopy(after),
             raw_native_authority=deepcopy(cur.authority),preuse_data_and_sequences=deepcopy(data),
@@ -100,7 +105,7 @@ class Lifecycle(unittest.TestCase):
         runtime=(None,None,None,base,catalog)
         return cur,state,parent,p,receipt,runtime
 
-    def invoke(self,cur,state,parent,p,receipt,runtime,full=False):
+    def invoke(self,cur,state,parent,p,receipt,runtime,full=False,operation=None):
         # Only these synthetic modules are patched. No imported ERP code or
         # real product state is patched, connected, installed or qualified.
         with patch.object(product,'qualification',return_value=receipt),patch.object(product,'parent',return_value=p),\
@@ -109,8 +114,27 @@ class Lifecycle(unittest.TestCase):
             patch.object(stage,'parent',return_value=p),patch.object(stage,'runtime',return_value=runtime),\
             patch.object(stage,'sources',return_value={'MODEL':'date-stage'}),\
             patch.object(stage,'raw_authority',side_effect=lambda c:list(c.authority)):
+            if operation=='install_delta':return product.install_delta(cur,parent)
+            if operation=='install':return product.install(cur)
             if 'component_binding'not in state:state['component_binding']=product.binding(runtime[4],state)
             return(product.rollback_preuse if full else product.rollback_delta_preuse)(cur,state)
+
+    def test_delta_install_verifies_real_parent_before_single_predicate_DDL(self):
+        cur,state,parent,p,receipt,runtime=self.fixture();cur.catalog=deepcopy(parent['after'])
+        before_data=deepcopy(cur.data);authority=deepcopy(cur.authority)
+        made=self.invoke(cur,state,parent,p,receipt,runtime,operation='install_delta')
+        self.assertEqual(cur.catalog,made['after']);self.assertEqual(cur.data,before_data);self.assertEqual(cur.authority,authority)
+        self.assertEqual(cur.events.count('MODEL_DATE_INSTALL'),1)
+        self.assertLess(cur.events.index('MODEL_PARENT_VERIFY'),cur.events.index('MODEL_DATE_INSTALL'))
+        self.assertEqual(made['predecessor'],parent)
+
+    def test_full_install_builds_parent_before_date_and_round_trips(self):
+        cur,state,parent,p,receipt,runtime=self.fixture();cur.catalog={};cur.data=deepcopy(parent['preinstall_data_and_sequences'])
+        made=self.invoke(cur,state,parent,p,receipt,runtime,operation='install')
+        self.assertLess(cur.events.index('MODEL_PARENT_INSTALL'),cur.events.index('MODEL_DATE_INSTALL'))
+        self.invoke(cur,made,parent,p,receipt,runtime,full=True)
+        self.assertLess(cur.events.index('MODEL_DATE_INVERSE'),cur.events.index('MODEL_PARENT_INVERSE'))
+        self.assertEqual(cur.data,parent['preinstall_data_and_sequences'])
 
     def test_unused_date_inverse_restores_before_parent_verification(self):
         cur,state,parent,p,receipt,runtime=self.fixture();data=deepcopy(cur.data)

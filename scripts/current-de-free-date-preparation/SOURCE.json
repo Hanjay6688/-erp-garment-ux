@@ -48,8 +48,8 @@
       "sha256": "07d9c8bded8cec5e85a73e95a6d3deb1ac9f9b6cee14723528726f4810dbec63"
     },
     "scripts/current-de-free-date-preparation/test_lifecycle.py": {
-      "bytes": 11782,
-      "sha256": "989f473d863abb8d8bb7197628ff4e215f23a43e565c84e862fa6a599485279b"
+      "bytes": 13683,
+      "sha256": "6395f72cf536c7567b0accdab8104dc059ce706fe2bdc49ac1f612d93e108b41"
     },
     "scripts/current-special-free-date-boundary/ACTUAL_REFERENCE.json": {
       "bytes": 1417,
