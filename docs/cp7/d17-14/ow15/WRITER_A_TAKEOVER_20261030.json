@@ -1961,16 +1961,18 @@
     "retained_cases_fresh_credit": 0
   },
   "Special_FREE_date_boundary": {
-    "head": "0b921747c5cb2786d812bc5bd4b13960c3fd0f17",
-    "tree": "fd02885c52efd6a9183993bc8701150386059083",
-    "status": "ADDITIVE_COMPLETE_PRODUCT_DATE_STAGE_PREPARED_NOT_NATIVE",
-    "old_SQL_bytes": 749,
-    "new_SQL_bytes": 822,
-    "existing_isolated_SQL_controls_reused": 39,
-    "recorded_actual_all22_transition_mutations_refused": 24,
-    "actual_Native_cases": 0,
-    "existing_native_policy_setter_closes_previous_DATE_at_new_from_minus_one": true,
-    "GOOD_temporal_policy_not_decided": true
+    "head": "c43dabf4378fb8096cd86b37adc9b24c359efa63",
+    "tree": "c373fb2f1cb56db996880e4e18702588f5fc5261",
+    "parent": "0b921747c5cb2786d812bc5bd4b13960c3fd0f17",
+    "status": "PREPARED_NOT_NATIVE",
+    "lifecycle_models_PASS": 6,
+    "preuse_and_preinstall_snapshots_bound": true,
+    "parent_binding_recomputed_before_inverse": true,
+    "coordinated_snapshot_mutations_refused": true,
+    "first_model_fixture_failure_retained": true,
+    "isolated_SQL39_reused": true,
+    "actual_recorded_catalogue_mutation_refusals24_reused": true,
+    "actual_Native_cases": 0
   },
   "Afui_temporal_question_answered": false,
   "Afui_owner_constraint_PO_optional_without_FG_matching": true,
@@ -1993,15 +1995,12 @@
   "current_active_join": {
     "head": "1d52f8a2cf48c07d6af86dbaf114989cb2f5bece",
     "tree": "abdae9ea30b7e6a32d77fbe0e8151196f9e8ff7f",
-    "parent": "1edd7b7fb6f7f02528cf09bcc352b72ea0e4a2c3",
     "run_id": 41200818043,
     "job_id": 124536087695,
     "status": "in_progress",
-    "started_at_utc": "2026-10-31T12:22:32Z",
-    "complete37_qualified": false,
-    "all5_qualified": false,
-    "current_paths": 53,
-    "source_pins": 52
+    "pre_DB_complete_natural_source_graph_and_controls": "PASS",
+    "last_observed_step": "Run one actual current Native31 browser6 composite and complete outer restoration",
+    "complete37_qualified": false
   },
   "current_join_first_financial_failure": {
     "receipt": "JOIN_339889_ROOT_ACTUAL_FAILURE_INTAKE_20261031.json",
@@ -2016,17 +2015,24 @@
     "all_outer_restoration_receipts": true
   },
   "permanent_complete_assembly": {
-    "head": "a42f666a4cdd0b62d7ed759a9ed58abdf7fa2fa0",
-    "tree": "8f9e7ee1ba3d20b996df39238844b4d56c9f836d",
-    "parent": "b046e4401f6e98ab3048336a4791794d0c3af64e",
-    "status": "PREPARED_ONLY_PARENT37_NOT_YET_ACCEPTED",
-    "model_controls": 6,
-    "coordinated_preuse_snapshot_mutation_refused": true,
-    "fresh_financial_cases_prepared": 4,
+    "head": "a6cc41ec58e4d0d0c8191f1b1fe5c27309fff559",
+    "tree": "48c5e13acdb5d8fb9529f2ce1661e4fee09e2a5b",
+    "parent": "a42f666a4cdd0b62d7ed759a9ed58abdf7fa2fa0",
+    "own_source_paths": 42,
+    "status": "PREPARED_PARENT37_ACTUAL_PENDING",
+    "financial_cases_prepared": 4,
     "browser_cases_prepared": 2,
+    "read_only_metadata_hooks": [
+      "before_native",
+      "after_native_and_browser"
+    ],
+    "all_namespace_queries": 27,
+    "source_metadata_files_exact_from_root": 11,
+    "lifecycle_and_source_model_tests_PASS": 11,
+    "source_derivation_and_fence": "PASS",
+    "pending_parent_fails_before_ERP_DB_GH": true,
     "actual_Native_cases": 0,
-    "actual_browser_cases": 0,
-    "runtime_branch_created": false
+    "actual_browser_cases": 0
   },
   "prior_active_join_before_runner_loss_20261031": {
     "head": "1edd7b7fb6f7f02528cf09bcc352b72ea0e4a2c3",
@@ -2039,7 +2045,7 @@
     "complete37_qualified": false
   },
   "latest_runner_loss_receipt": "JOIN_1EDD_ROOT_RUNNER_LOSS_20261031.json",
-  "latest_continuation_receipt": "WRITER_A_V217_RUNNER_SUCCESSOR_AND_SYSTEM_PROFILE_20261031.json",
+  "latest_continuation_receipt": "WRITER_A_V218_COMPLETE_PARENT_DE_JOIN_20261031.json",
   "current_system_cron_profile_preparation": {
     "namespace": "scripts/current-global-system-cron-profile-preparation",
     "queries": 27,
@@ -2054,5 +2060,41 @@
     "writer_closure": false,
     "permission_closure": false,
     "lockset_approved": false
+  },
+  "current_D1_E_actual_integration_gap": {
+    "expected": 8,
+    "present": 2,
+    "missing": 6,
+    "no_D1_E_qualification_in_join37_or_permanent6": true
+  },
+  "current_D1_E_on_complete_preparation": {
+    "head": "e90484e7a512fe3de901a734ec8ecca91c4a6ca9",
+    "tree": "2711e08412e573e3393578aa602dd520284c9485",
+    "parent": "f8700d8cde6096f3eed51f9d7ed6c346960b08d3",
+    "original_parent": "a6cc41ec58e4d0d0c8191f1b1fe5c27309fff559",
+    "branch": "astra-a/current-complete-de-integration-prepared-20261031",
+    "status": "D1_E_SOURCE_JOIN_ON_COMPLETE_PARENT_PREPARED_NOT_NATIVE",
+    "base_files_and_modes_unchanged": 14092,
+    "own_source_paths": 35,
+    "original_package_files": 19,
+    "SQL_and_Native_deriver_files_unchanged": true,
+    "D1_parent_import_changes": 1,
+    "recorded_actual_Native_full19_functions": 32,
+    "D1_raw_source_derivations": 12,
+    "E_raw_source_derivations": 22,
+    "changed_function_overlap_with_S03_SKU": [],
+    "source_controls_under_DB_fence": "PASS",
+    "actual_natural_module_import_chain_under_DB_fence": "PASS",
+    "lifecycle_models_PASS": 6,
+    "three_psycopg_entrypoint_self_controls_denied": true,
+    "source_DB_or_nonGit_network_attempts": [],
+    "canonical_component_binding_field": true,
+    "raw_existing_function_OID_owner_ACL_preservation_required": true,
+    "parent_head_and_receipt": null,
+    "runtime_workflow_created": false,
+    "D_complete": false,
+    "E_complete": false,
+    "global_eight_hooks_opened": false,
+    "actual_Native_cases": 0
   }
 }
