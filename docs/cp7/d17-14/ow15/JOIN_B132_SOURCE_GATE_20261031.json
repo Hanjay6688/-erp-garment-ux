@@ -1,0 +1,33 @@
+{
+  "status": "API_OBSERVED_EXACT_CURRENT_JOIN_SOURCE_GATE_PASS_RUNTIME_PENDING",
+  "head": "b132f8211d6bd47ae5b478a5927742071440cd30",
+  "run_id": 41186705778,
+  "job_id": 124494988319,
+  "run_attempt": 1,
+  "whole_source_gate": {
+    "name": "Admit complete natural joined source graph under a DB and network fence before database",
+    "status": "completed",
+    "conclusion": "success",
+    "number": 64,
+    "started_at": "2026-10-31T09:00:53Z",
+    "completed_at": "2026-10-31T09:02:39Z"
+  },
+  "current_job_status": "completed",
+  "current_job_conclusion": "failure",
+  "current_steps": [
+    {
+      "name": "Run one actual current Native31 browser6 composite and complete outer restoration",
+      "status": "completed",
+      "conclusion": "failure"
+    }
+  ],
+  "actual_37_case_result_intaken": false,
+  "whole_actual_product_source_graph_evaluated": true,
+  "current_source_guard_tests": 9,
+  "real_loopback_transport_controls": 9,
+  "parent_archive_checks_before_DB": true,
+  "prior_runs_aggregated": false,
+  "actual_new_Native_cases_qualified": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

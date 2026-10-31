@@ -133,5 +133,26 @@
     "new_actual_Native_credit": 0,
     "production_go": false,
     "independent_acceptance": false
+  },
+  "recovered_PO_matching_constraint": {
+    "author_role": "USER",
+    "retrieved_user_time": "2026-08-25T05:08:58Z",
+    "constraint": "Accessory pickup may happen anytime; PO optional; matching to PO or FG is not mandatory",
+    "retrieval_kind": "Personal Context targeted temporal/funding retrieval",
+    "full_original_transcript_observed": false,
+    "engineering_consequence": "Do not turn funding provenance into mandatory per-issue PO/FG matching"
+  },
+  "temporal_eligibility_clarification": {
+    "requested": true,
+    "answered": false,
+    "request_aborted": true,
+    "recommended_option_not_accepted": true,
+    "dependent_GOOD_policy_implementation_pending": true
+  },
+  "independent_date_boundary_prepared": {
+    "head": "161ae77261e8a9c0bc734feae1dcdb86cc779203",
+    "isolated_SQL_checks": 39,
+    "installed": false,
+    "actual_ERP_Native_cases": 0
   }
 }
