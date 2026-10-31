@@ -18,5 +18,22 @@
   "actual_SQL_executed": 0,
   "actual_ERP_cases": 0,
   "production_go": false,
-  "independent_acceptance": false
+  "independent_acceptance": false,
+  "additional_owner_gate_control": {
+    "command": "python -B -m unittest discover -s scripts/current-de-free-date-preparation -p test_runtime_integration.py -k financial_validator -v",
+    "tests": 1,
+    "failures": 0,
+    "exit_code": 0,
+    "four_financial_validator_ASTs_unchanged_from": "e686f804de40077465e40ef26d2f88d23fe18fab",
+    "good_owning_receipt_attached": true,
+    "wrong_head_refused_before_business_validation": true
+  },
+  "pre_runtime_source_defect": {
+    "head": "d8178ef26673cd1114a767fdf427d99bc6c22380",
+    "discovery": "Source inspection before Root intake or runtime activation",
+    "finding": "The new supervised local was referenced from the separate pure validate function; it belongs to the owning gate scope.",
+    "fix": "Attach supervision only in owning gate after unchanged pure validator returns.",
+    "actual_ERP_runs": 0,
+    "original_four_wiring_controls_reused": true
+  }
 }

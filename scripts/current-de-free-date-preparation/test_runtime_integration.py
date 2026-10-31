@@ -3,7 +3,7 @@ from pathlib import Path
 from contextlib import redirect_stdout
 from io import StringIO
 from unittest.mock import patch
-import importlib.util,json,os,sys,tempfile,unittest,yaml
+import ast,importlib.util,json,os,subprocess,sys,tempfile,unittest,yaml
 
 HERE=Path(__file__).resolve().parent
 ROOT=HERE.parents[1]
@@ -15,6 +15,41 @@ def load(name,path=None):
 
 
 class FREEDateProcessWiring(unittest.TestCase):
+    def test_financial_validator_is_unchanged_and_supervision_stays_in_owning_gate(self):
+        path='scripts/current-de-free-date-preparation/final_gate.py'
+        old=subprocess.check_output(['/usr/bin/git','-C',str(ROOT),'show',
+            'e686f804de40077465e40ef26d2f88d23fe18fab:'+path])
+        names={'money','posted','case_boundary','validate'}
+        selected=lambda raw:[ast.dump(n,include_attributes=False)for n in ast.parse(raw).body
+            if isinstance(n,ast.FunctionDef)and n.name in names]
+        self.assertEqual(selected(old),selected((HERE/'final_gate.py').read_bytes()))
+        gate=load('final_gate');typed=load('supervision_typed_fields',
+            ROOT/'scripts/current-s03-sku-s05-composite-qualification/parents.py')
+        from types import SimpleNamespace
+        control=load('runtime_controls')
+        good=dict(status='WORKER_COMPLETED_AND_REAPED',qualification_commit='control-head',github_run_id='control-run',
+            github_run_attempt='1',worker_exit=0,deadline_reached=False,external_signal=None,orphaned_child=False,
+            process_group_empty=True,process_tree_empty=True,signals=[],actual_case_credit=0,production_go=False,
+            job_budget_seconds=21600,work_budget_seconds=19800,recovery_reserve_seconds=1200,artifact_reserve_seconds=600)
+        modules={'admission.py':SimpleNamespace(parent_receipt=lambda:None),
+            'parents.py':typed,'native_free.py':SimpleNamespace(source_controls=lambda:{'case_ids':['control-only']}),
+            'runtime_controls.py':control}
+        with tempfile.TemporaryDirectory()as directory:
+            out=Path(directory)
+            for name in (gate.MAIN,gate.RAW,'T3_BACKUP_RESTORE_DRILL.json'):(out/name).write_text('{}')
+            (out/'T3_PACKAGE_INSTALL.json').write_text('{"run_identity":{"run_id":"control-run"}}')
+            (out/'FREE_DATE_RUNTIME_SUPERVISION.json').write_text(json.dumps(good))
+            with patch.object(gate,'load',side_effect=lambda name,path:modules[path.name]), \
+                 patch.object(gate,'validate',return_value={'actual_ERP_cases':0})as business:
+                result=gate.gate(out,'control-head')
+                self.assertEqual(result,{'actual_ERP_cases':0,
+                    'runtime_supervision':{'status':'FREE_DATE_SUPERVISION_ACCEPTED','actual_case_credit':0}})
+                business.assert_called_once()
+                business.reset_mock();good['qualification_commit']='other-head'
+                (out/'FREE_DATE_RUNTIME_SUPERVISION.json').write_text(json.dumps(good))
+                with self.assertRaises(ValueError):gate.gate(out,'control-head')
+                business.assert_not_called()
+
     def test_source_workflow_and_real_window_agree(self):
         self.assertTrue(load('runtime_controls').source_controls()['process_engine_unchanged'])
         raw,proof=load('workflow').derive();workflow=yaml.safe_load(raw);job=workflow['jobs']['p21'];steps=job['steps']
