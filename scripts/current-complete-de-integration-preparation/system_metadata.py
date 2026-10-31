@@ -46,6 +46,8 @@ def capture_pair(url):
                 if kind=='candidate':
                     p0=load('complete_DE_P0_dynamic_dependency_identities',HERE/'p0_dependencies.py')
                     base['P0_dependency_supplement']=p0.capture(base)
+                    privileges=load('complete_DE_P0_snapshot_privilege_facts',HERE/'p0_privileges.py')
+                    base['P0_privilege_supplement']=privileges.capture(cursor,base)
                 return base
             result['snapshots'][kind]=original.one(psycopg,target,observe)
         except psycopg.Error as error:

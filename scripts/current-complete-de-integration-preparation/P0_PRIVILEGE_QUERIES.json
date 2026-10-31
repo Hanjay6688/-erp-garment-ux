@@ -1,0 +1,141 @@
+{
+  "classification": "READONLY_P0_PG17_PRIVILEGE_FACTS_NOT_APPLICATION_OR_POST_WAIT_AUTHORITY",
+  "original_27_queries_changed": false,
+  "groups": {
+    "functions": {
+      "fields": [
+        "role_oid",
+        "function_oid",
+        "schema_oid",
+        "schema_usage",
+        "schema_create",
+        "execute"
+      ],
+      "oid_fields": [
+        "role_oid",
+        "function_oid",
+        "schema_oid"
+      ],
+      "boolean_fields": [
+        "schema_usage",
+        "schema_create",
+        "execute"
+      ],
+      "key": [
+        "role_oid",
+        "function_oid"
+      ],
+      "parameters": [
+        "roles",
+        "functions"
+      ],
+      "query": "select coalesce(jsonb_agg(to_jsonb(q) order by q.role_oid::oid,q.function_oid::oid),'[]'::jsonb) from (select r.oid::text role_oid,p.oid::text function_oid,p.pronamespace::text schema_oid,has_schema_privilege(r.oid,p.pronamespace,'USAGE') schema_usage,has_schema_privilege(r.oid,p.pronamespace,'CREATE') schema_create,has_function_privilege(r.oid,p.oid,'EXECUTE') execute from pg_roles r cross join pg_proc p where r.oid=any(%s::oid[]) and p.oid=any(%s::oid[])) q"
+    },
+    "tables": {
+      "fields": [
+        "role_oid",
+        "relation_oid",
+        "schema_oid",
+        "schema_usage",
+        "schema_create",
+        "select",
+        "insert",
+        "update",
+        "delete",
+        "truncate",
+        "references",
+        "trigger",
+        "maintain"
+      ],
+      "oid_fields": [
+        "role_oid",
+        "relation_oid",
+        "schema_oid"
+      ],
+      "boolean_fields": [
+        "schema_usage",
+        "schema_create",
+        "select",
+        "insert",
+        "update",
+        "delete",
+        "truncate",
+        "references",
+        "trigger",
+        "maintain"
+      ],
+      "key": [
+        "role_oid",
+        "relation_oid"
+      ],
+      "parameters": [
+        "roles",
+        "relations"
+      ],
+      "query": "select coalesce(jsonb_agg(to_jsonb(q) order by q.role_oid::oid,q.relation_oid::oid),'[]'::jsonb) from (select r.oid::text role_oid,c.oid::text relation_oid,c.relnamespace::text schema_oid,has_schema_privilege(r.oid,c.relnamespace,'USAGE') schema_usage,has_schema_privilege(r.oid,c.relnamespace,'CREATE') schema_create,has_table_privilege(r.oid,c.oid,'SELECT') \"select\",has_table_privilege(r.oid,c.oid,'INSERT') \"insert\",has_table_privilege(r.oid,c.oid,'UPDATE') \"update\",has_table_privilege(r.oid,c.oid,'DELETE') \"delete\",has_table_privilege(r.oid,c.oid,'TRUNCATE') \"truncate\",has_table_privilege(r.oid,c.oid,'REFERENCES') \"references\",has_table_privilege(r.oid,c.oid,'TRIGGER') \"trigger\",has_table_privilege(r.oid,c.oid,'MAINTAIN') \"maintain\" from pg_roles r cross join pg_class c where r.oid=any(%s::oid[]) and c.oid=any(%s::oid[])) q"
+    },
+    "columns": {
+      "fields": [
+        "relation_oid",
+        "attnum",
+        "attname",
+        "atttypid",
+        "attacl",
+        "attisdropped"
+      ],
+      "oid_fields": [
+        "relation_oid",
+        "atttypid"
+      ],
+      "boolean_fields": [
+        "attisdropped"
+      ],
+      "key": [
+        "relation_oid",
+        "attnum"
+      ],
+      "parameters": [
+        "relations"
+      ],
+      "query": "select coalesce(jsonb_agg(to_jsonb(q) order by q.relation_oid::oid,q.attnum),'[]'::jsonb) from (select a.attrelid::text relation_oid,a.attnum,a.attname,a.atttypid::text,a.attacl,a.attisdropped from pg_attribute a where a.attrelid=any(%s::oid[]) and a.attnum>0) q"
+    },
+    "column_privileges": {
+      "fields": [
+        "role_oid",
+        "relation_oid",
+        "attnum",
+        "select",
+        "insert",
+        "update",
+        "references"
+      ],
+      "oid_fields": [
+        "role_oid",
+        "relation_oid"
+      ],
+      "boolean_fields": [
+        "select",
+        "insert",
+        "update",
+        "references"
+      ],
+      "key": [
+        "role_oid",
+        "relation_oid",
+        "attnum"
+      ],
+      "parameters": [
+        "roles",
+        "relations"
+      ],
+      "query": "select coalesce(jsonb_agg(to_jsonb(q) order by q.role_oid::oid,q.relation_oid::oid,q.attnum),'[]'::jsonb) from (select r.oid::text role_oid,a.attrelid::text relation_oid,a.attnum,has_column_privilege(r.oid,a.attrelid,a.attnum,'SELECT') \"select\",has_column_privilege(r.oid,a.attrelid,a.attnum,'INSERT') \"insert\",has_column_privilege(r.oid,a.attrelid,a.attnum,'UPDATE') \"update\",has_column_privilege(r.oid,a.attrelid,a.attnum,'REFERENCES') \"references\" from pg_roles r cross join pg_attribute a where r.oid=any(%s::oid[]) and a.attrelid=any(%s::oid[]) and a.attnum>0 and not a.attisdropped) q"
+    }
+  },
+  "unresolved": [
+    "APPLICATION_AUTHORIZATION_AND_RLS_DECISIONS",
+    "SET_ROLE_AND_SECURITY_DEFINER_REACHABILITY",
+    "AUTHORITY_AFTER_WAITS",
+    "DYNAMIC_CALL_AND_PROVIDER_IMPLEMENTATION",
+    "WRITER_FOREIGN_KEY_AND_PHANTOM_EXCLUSION"
+  ]
+}

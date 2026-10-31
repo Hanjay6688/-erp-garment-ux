@@ -51,7 +51,9 @@ def check():
             kind=kind,load=load,HERE=HERE)
         exec(compile(ast.Module(body=fn,type_ignores=[]),'exact_owning_metadata_observer','exec'),scope)
         result=scope['observe'](object());assert data==original
-        assert observed==['execution_oids.py','dispatch_oids.py']
+        expected=['execution_oids.py','dispatch_oids.py']
+        if kind=='candidate'and b'P0_privilege_supplement'in observer:expected.append('p0_privileges.py')
+        assert observed==expected
         return result,loads
     try:run(old_observer,old_p0,'primary_scheduler',primary)
     except ValueError as error:assert str(error)=='DE_P0_ALL_SIX_FUNCTIONS_REQUIRED';first=str(error)
@@ -60,6 +62,7 @@ def check():
     assert len(positive['P0_dependency_supplement']['selected']['functions'])==6
     observed,loads=run(current_observer,current_p0,'primary_scheduler',primary)
     assert 'P0_dependency_supplement'not in observed and 'p0_dependencies.py'not in loads
+    assert 'P0_privilege_supplement'not in observed and 'p0_privileges.py'not in loads
     negative=[]
     for label,data in [('missing-candidate-function',deepcopy(candidate)),('primary-as-candidate',primary)]:
         if label=='missing-candidate-function':data['groups']['routines']['rows'].pop()

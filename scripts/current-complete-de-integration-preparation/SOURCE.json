@@ -183,6 +183,22 @@
       "bytes": 1207,
       "sha256": "af430157d5b150c291f6fd1c59523f8b4b140164d487ecb8a891150da06dffcf"
     },
+    "scripts/current-complete-de-integration-preparation/P0_PRIVILEGE_CONTROLS.json": {
+      "bytes": 1582,
+      "sha256": "516f75a030866adbba985d029790fc57c0f8d5fe0a41467d770a625a7c119751"
+    },
+    "scripts/current-complete-de-integration-preparation/P0_PRIVILEGE_DATABASE_SCOPE_CONTROLS.json": {
+      "bytes": 1045,
+      "sha256": "3e4f591780e4391a200dcccef1b695cba4ea8d0a7ae930724eb50051beb43592"
+    },
+    "scripts/current-complete-de-integration-preparation/P0_PRIVILEGE_QUERIES.json": {
+      "bytes": 4910,
+      "sha256": "b8b42d0ac619495badca65853221ce987a17749fa2ec3137cd5e778ff56a5545"
+    },
+    "scripts/current-complete-de-integration-preparation/P0_PRIVILEGE_SOURCE.json": {
+      "bytes": 1564,
+      "sha256": "7cb006ab8293e84436972ed130d202bb1b5d907989f58d5424f572453fa3b731"
+    },
     "scripts/current-complete-de-integration-preparation/README.md": {
       "bytes": 7261,
       "sha256": "e2e70460b415d6f5fcbcbeccda7a800c2f8bde6515f8ce613fdb9eadadbe5e01"
@@ -268,8 +284,8 @@
       "sha256": "7b58e59ae50ed235167e399ace67d06ed2d5305fbb8bf0607ab989c98a3f2d98"
     },
     "scripts/current-complete-de-integration-preparation/p0_database_scope_controls.py": {
-      "bytes": 5531,
-      "sha256": "ebbb62bbeeb09a5b315945fe6531e2d42d610160a234712a626493abbd12f83f"
+      "bytes": 5750,
+      "sha256": "8122fa7cc1b91428ea74b3fa98bd6f8b8144e4f0f8c3d46f7918b7b4cd8a300e"
     },
     "scripts/current-complete-de-integration-preparation/p0_dependencies.py": {
       "bytes": 4075,
@@ -278,6 +294,18 @@
     "scripts/current-complete-de-integration-preparation/p0_dependency_controls.py": {
       "bytes": 3911,
       "sha256": "f7e5cc76ea54cc3619cd453b2229a3df949160f5ce804dc65ee5968906a13e35"
+    },
+    "scripts/current-complete-de-integration-preparation/p0_privilege_controls.py": {
+      "bytes": 6158,
+      "sha256": "fc893fc41d737e088639b17e2df2864d4a55fde2082b023e5b3a6d183c7bee21"
+    },
+    "scripts/current-complete-de-integration-preparation/p0_privilege_model.mjs": {
+      "bytes": 7154,
+      "sha256": "8914ab9bfc6d6efd889e648ba8a5320ceda7380269dcac6510283fac476d7851"
+    },
+    "scripts/current-complete-de-integration-preparation/p0_privileges.py": {
+      "bytes": 7412,
+      "sha256": "3ac48b47a7ad6e396b31fbd2b94c151d7665a3d81143888a0a99c1311905d1c1"
     },
     "scripts/current-complete-de-integration-preparation/probe.py": {
       "bytes": 3506,
@@ -324,8 +352,8 @@
       "sha256": "ed29060678bae2f8b56c220c632bb1b58c44771f652fe821a1f9c2eeb5ab7e02"
     },
     "scripts/current-complete-de-integration-preparation/system_metadata.py": {
-      "bytes": 3001,
-      "sha256": "c886a1c505f41f1280687fad4e056f366a0fe5aa8e4470e9aea2f9af65d2c184"
+      "bytes": 3188,
+      "sha256": "1ea41f1520f2174674a9ab52ec9ba5943e5225f3da0c1ed26c35ffaa2d1ad399"
     },
     "scripts/current-complete-de-integration-preparation/test_lifecycle.py": {
       "bytes": 11628,

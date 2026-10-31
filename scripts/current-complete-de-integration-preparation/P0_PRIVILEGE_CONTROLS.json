@@ -1,0 +1,59 @@
+{
+  "status": "PASS_P0_PRIVILEGE_FACTS_NOT_AUTHORITY_CLOSURE",
+  "model": {
+    "bytes": 5630014,
+    "sha256": "42f98d22eca2fbb4a29b6e6a1239a2491623dbf3837b9f814b142349933a01fb",
+    "version": "17.5",
+    "assertions": [
+      "NULL_ACL_PUBLIC_EXECUTE",
+      "REVOKED_PUBLIC_EXECUTE",
+      "INHERITED_MEMBERSHIP",
+      "NOINHERIT_MEMBERSHIP",
+      "EXECUTE_WITHOUT_SCHEMA_USAGE",
+      "COLUMN_UPDATE_WITHOUT_TABLE_UPDATE",
+      "DROPPED_COLUMN_INVENTORY",
+      "READONLY_SAME_SNAPSHOT"
+    ],
+    "provider_functions_invoked": 0
+  },
+  "positive_controls": 2,
+  "negative_controls": [
+    "missing-group",
+    "missing-role-function",
+    "missing-role-table",
+    "missing-column-privilege",
+    "omitted-physical-column",
+    "duplicate-function",
+    "duplicate-column",
+    "integer-boolean",
+    "unknown-field",
+    "bad-oid",
+    "wrong-schema-oid",
+    "unknown-role-oid",
+    "boolean-attnum",
+    "string-acl",
+    "missing-base-role",
+    "duplicate-base-role",
+    "missing-base-schema",
+    "missing-selected-function",
+    "wrong-database",
+    "primary-marker",
+    "unsupported-major-version"
+  ],
+  "snapshot_controls": [
+    "P0_PRIVILEGE_SNAPSHOT_CHANGED_BEFORE_READ",
+    "P0_PRIVILEGE_SNAPSHOT_CHANGED_AFTER_READ",
+    "P0_PRIVILEGE_EXISTING_LOCAL_READONLY_CURSOR_REQUIRED"
+  ],
+  "group_counts": {
+    "functions": 132,
+    "tables": 44,
+    "columns": 5,
+    "column_privileges": 88
+  },
+  "actual_SQL_executed_this_control": 0,
+  "actual_ERP_calls": 0,
+  "actual_Native_case_credit": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

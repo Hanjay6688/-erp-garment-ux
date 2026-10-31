@@ -1,0 +1,49 @@
+{
+  "classification": "PREPARED_P0_PRIVILEGE_CAPTURE_NOT_PERMISSION_CLOSURE",
+  "source_review_reused": true,
+  "candidate_database_only": true,
+  "existing_readonly_repeatable_read_cursor": true,
+  "new_catalog_queries": 4,
+  "original_system27_and_execution4_and_dispatch7_unchanged": true,
+  "functions": 6,
+  "registry_relations": 2,
+  "all_captured_roles": true,
+  "includes_table_and_column_privileges": true,
+  "includes_schema_usage_and_create": true,
+  "includes_dropped_column_inventory": true,
+  "provider_routines_never_called": true,
+  "model": {
+    "bytes": 5630014,
+    "sha256": "42f98d22eca2fbb4a29b6e6a1239a2491623dbf3837b9f814b142349933a01fb",
+    "version": "17.5",
+    "assertions": [
+      "NULL_ACL_PUBLIC_EXECUTE",
+      "REVOKED_PUBLIC_EXECUTE",
+      "INHERITED_MEMBERSHIP",
+      "NOINHERIT_MEMBERSHIP",
+      "EXECUTE_WITHOUT_SCHEMA_USAGE",
+      "COLUMN_UPDATE_WITHOUT_TABLE_UPDATE",
+      "DROPPED_COLUMN_INVENTORY",
+      "READONLY_SAME_SNAPSHOT"
+    ],
+    "provider_functions_invoked": 0
+  },
+  "controls": {
+    "positive": 2,
+    "negative": 21,
+    "snapshot": 3,
+    "candidate_primary_routing_positive": 2,
+    "candidate_primary_routing_negative": 6
+  },
+  "actual_ERP_calls": 0,
+  "actual_Native_case_credit": 0,
+  "production_go": false,
+  "independent_acceptance": false,
+  "unresolved": [
+    "APPLICATION_AUTHORIZATION_AND_RLS_DECISIONS",
+    "SET_ROLE_AND_SECURITY_DEFINER_REACHABILITY",
+    "AUTHORITY_AFTER_WAITS",
+    "DYNAMIC_CALL_AND_PROVIDER_IMPLEMENTATION",
+    "WRITER_FOREIGN_KEY_AND_PHANTOM_EXCLUSION"
+  ]
+}

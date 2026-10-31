@@ -1,0 +1,28 @@
+{
+  "status": "PASS_ACTUAL_OBSERVER_CANDIDATE_PRIMARY_SCOPE_CONTROLS",
+  "first_failure": {
+    "head": "3d64cf509ce9129e02279d2d866e7bcd799ea693",
+    "error": "DE_P0_ALL_SIX_FUNCTIONS_REQUIRED",
+    "observer_sha256": "a56d64daa23f59c873e9177fc9cf2dbfe68473615dd4baa88fa2a560c583904b",
+    "kind": "PURE_ROUTING_REPRODUCTION_NOT_ACTUAL_ERP_RUN"
+  },
+  "positive_candidate": 1,
+  "positive_primary_without_ERP_functions": 1,
+  "negative_controls": [
+    "missing-candidate-function",
+    "primary-as-candidate",
+    "wrong-database",
+    "wrong-marker",
+    "missing-marker",
+    "boolean-integer-marker"
+  ],
+  "original_catalogues_not_mutated": true,
+  "system_and_dispatch_collectors_called_on_both": true,
+  "owning_observer_sha256": "1ea41f1520f2174674a9ab52ec9ba5943e5225f3da0c1ed26c35ffaa2d1ad399",
+  "selector_sha256": "edd1ace3928ea6b6b317e6b70839faa0d5a3a070503aad502b0b2ecc00f670d7",
+  "actual_SQL_executed": 0,
+  "actual_ERP_calls": 0,
+  "actual_Native_case_credit": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}
