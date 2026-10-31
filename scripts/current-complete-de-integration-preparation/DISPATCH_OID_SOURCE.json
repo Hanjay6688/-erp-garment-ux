@@ -1,0 +1,59 @@
+{
+  "classification": "ADDITIVE_READONLY_DISPATCH_METADATA_PREPARATION_NOT_GLOBAL_CLOSURE",
+  "original_27_queries_changed": false,
+  "original_four_execution_queries_changed": false,
+  "same_existing_readonly_snapshot": true,
+  "query_count": 7,
+  "actual_disposable_model": {
+    "version": "17.5",
+    "bytes": 1040357,
+    "sha256": "8eea909a5128094acdfa93abd988b79c3a3dc7a2c006f92b5fb58fd2c4268de2",
+    "counterexample": [
+      {
+        "aggregate_oid": "16391",
+        "transition_oid": "16389",
+        "old_aggregate_name": "public.metadata_probe_agg",
+        "old_transition_name": "public.metadata_probe_transition"
+      },
+      {
+        "aggregate_oid": "16392",
+        "transition_oid": "16390",
+        "old_aggregate_name": "public.metadata_probe_agg",
+        "old_transition_name": "public.metadata_probe_transition"
+      }
+    ],
+    "provider_functions_invoked": 0
+  },
+  "relationships_checked": [
+    "every original pg_proc including planner support",
+    "every prokind=a aggregate and exact supporting routines",
+    "relation access method handler",
+    "operator class family and method",
+    "operator family operators and supporting functions",
+    "range subtype operator class"
+  ],
+  "positive_saved_model": 1,
+  "negative_controls": 29,
+  "snapshot_protocol_controls": 3,
+  "unresolved": [
+    "ACTUAL_CALLER_REACHABILITY",
+    "PLANNER_AND_INDEX_DISPATCH_SEMANTICS",
+    "PROVIDER_BINARY_IMPLEMENTATIONS",
+    "INPUT_DEPENDENT_CALLS",
+    "AUTHORITY_AFTER_WAITS",
+    "WRITER_AND_PHANTOM_CLOSURE"
+  ],
+  "primary_references": [
+    "https://www.postgresql.org/docs/17/catalog-pg-proc.html",
+    "https://www.postgresql.org/docs/17/catalog-pg-aggregate.html",
+    "https://www.postgresql.org/docs/17/catalog-pg-am.html",
+    "https://www.postgresql.org/docs/17/catalog-pg-opclass.html",
+    "https://www.postgresql.org/docs/17/catalog-pg-opfamily.html",
+    "https://www.postgresql.org/docs/17/catalog-pg-amop.html",
+    "https://www.postgresql.org/docs/17/catalog-pg-amproc.html"
+  ],
+  "actual_ERP_calls": 0,
+  "actual_Native_case_credit": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

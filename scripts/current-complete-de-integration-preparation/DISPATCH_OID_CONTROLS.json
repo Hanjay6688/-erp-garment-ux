@@ -1,0 +1,71 @@
+{
+  "status": "PASS_PG17_DISPATCH_OIDS_AND_CLOSED_CURSOR_PROTOCOL_MODELS",
+  "input_model": {
+    "bytes": 1040357,
+    "sha256": "8eea909a5128094acdfa93abd988b79c3a3dc7a2c006f92b5fb58fd2c4268de2"
+  },
+  "query_counts": {
+    "routine_support_oids": 3334,
+    "aggregate_support_oids": 159,
+    "access_method_oids": 7,
+    "operator_family_oids": 146,
+    "operator_class_oids": 177,
+    "family_operator_oids": 945,
+    "family_support_oids": 696
+  },
+  "actual_model_queries": 7,
+  "positive_saved_model": 1,
+  "negative_controls": [
+    "missing:routine_support_oids",
+    "missing:aggregate_support_oids",
+    "missing:access_method_oids",
+    "missing:operator_family_oids",
+    "missing:operator_class_oids",
+    "missing:family_operator_oids",
+    "missing:family_support_oids",
+    "extra-group",
+    "noncanonical:1",
+    "noncanonical:True",
+    "noncanonical:'01'",
+    "noncanonical:'-1'",
+    "noncanonical:'\u0661'",
+    "noncanonical:'4294967296'",
+    "noncanonical:'public.metadata_probe_transition'",
+    "invalid-support-number:False",
+    "invalid-support-number:0",
+    "invalid-support-number:-1",
+    "invalid-support-number:32768",
+    "invalid-support-number:'1'",
+    "duplicate-row",
+    "unknown-handler",
+    "invalid-method-type",
+    "missing-original-routine",
+    "missing-original-aggregate",
+    "range-class-missing",
+    "relation-method-missing",
+    "unknown-operator",
+    "operator-class-family-method-mismatch"
+  ],
+  "snapshot_protocol_controls": 3,
+  "model_counterexample": [
+    {
+      "aggregate_oid": "16391",
+      "transition_oid": "16389",
+      "old_aggregate_name": "public.metadata_probe_agg",
+      "old_transition_name": "public.metadata_probe_transition"
+    },
+    {
+      "aggregate_oid": "16392",
+      "transition_oid": "16390",
+      "old_aggregate_name": "public.metadata_probe_agg",
+      "old_transition_name": "public.metadata_probe_transition"
+    }
+  ],
+  "provider_functions_invoked": 0,
+  "original_27_queries_rewritten": false,
+  "original_four_execution_queries_rewritten": false,
+  "actual_ERP_calls": 0,
+  "actual_Native_case_credit": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

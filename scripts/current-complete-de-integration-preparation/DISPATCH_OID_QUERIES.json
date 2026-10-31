@@ -1,0 +1,259 @@
+{
+  "classification": "READONLY_EXACT_DISPATCH_IDENTITIES_NOT_RUNTIME_OR_AUTHORITY_CLOSURE",
+  "original_27_queries_changed": false,
+  "original_four_execution_queries_changed": false,
+  "groups": {
+    "routine_support_oids": {
+      "table": "pg_proc",
+      "identity": "oid",
+      "fields": {
+        "oid": {
+          "type": "oid",
+          "zero": false,
+          "target": "routines"
+        },
+        "prosupport": {
+          "type": "oid",
+          "target": "routines",
+          "zero": true
+        }
+      },
+      "query": "select coalesce(pg_catalog.jsonb_agg(pg_catalog.to_jsonb(q) order by q.oid),'[]'::jsonb) from (select x.oid::pg_catalog.oid::pg_catalog.text as oid,x.prosupport::pg_catalog.oid::pg_catalog.text as prosupport from pg_catalog.pg_proc x) q"
+    },
+    "aggregate_support_oids": {
+      "table": "pg_aggregate",
+      "identity": "aggfnoid",
+      "fields": {
+        "aggfnoid": {
+          "type": "oid",
+          "zero": false,
+          "target": "routines"
+        },
+        "aggtransfn": {
+          "type": "oid",
+          "zero": false,
+          "target": "routines"
+        },
+        "aggfinalfn": {
+          "type": "oid",
+          "target": "routines",
+          "zero": true
+        },
+        "aggcombinefn": {
+          "type": "oid",
+          "target": "routines",
+          "zero": true
+        },
+        "aggserialfn": {
+          "type": "oid",
+          "target": "routines",
+          "zero": true
+        },
+        "aggdeserialfn": {
+          "type": "oid",
+          "target": "routines",
+          "zero": true
+        },
+        "aggmtransfn": {
+          "type": "oid",
+          "target": "routines",
+          "zero": true
+        },
+        "aggminvtransfn": {
+          "type": "oid",
+          "target": "routines",
+          "zero": true
+        },
+        "aggmfinalfn": {
+          "type": "oid",
+          "target": "routines",
+          "zero": true
+        },
+        "aggsortop": {
+          "type": "oid",
+          "target": "operators",
+          "zero": true
+        },
+        "aggtranstype": {
+          "type": "oid",
+          "zero": false,
+          "target": "types"
+        },
+        "aggmtranstype": {
+          "type": "oid",
+          "target": "types",
+          "zero": true
+        }
+      },
+      "query": "select coalesce(pg_catalog.jsonb_agg(pg_catalog.to_jsonb(q) order by q.aggfnoid),'[]'::jsonb) from (select x.aggfnoid::pg_catalog.oid::pg_catalog.text as aggfnoid,x.aggtransfn::pg_catalog.oid::pg_catalog.text as aggtransfn,x.aggfinalfn::pg_catalog.oid::pg_catalog.text as aggfinalfn,x.aggcombinefn::pg_catalog.oid::pg_catalog.text as aggcombinefn,x.aggserialfn::pg_catalog.oid::pg_catalog.text as aggserialfn,x.aggdeserialfn::pg_catalog.oid::pg_catalog.text as aggdeserialfn,x.aggmtransfn::pg_catalog.oid::pg_catalog.text as aggmtransfn,x.aggminvtransfn::pg_catalog.oid::pg_catalog.text as aggminvtransfn,x.aggmfinalfn::pg_catalog.oid::pg_catalog.text as aggmfinalfn,x.aggsortop::pg_catalog.oid::pg_catalog.text as aggsortop,x.aggtranstype::pg_catalog.oid::pg_catalog.text as aggtranstype,x.aggmtranstype::pg_catalog.oid::pg_catalog.text as aggmtranstype from pg_catalog.pg_aggregate x) q"
+    },
+    "access_method_oids": {
+      "table": "pg_am",
+      "identity": "oid",
+      "fields": {
+        "oid": {
+          "type": "oid",
+          "target": null,
+          "zero": false
+        },
+        "amhandler": {
+          "type": "oid",
+          "zero": false,
+          "target": "routines"
+        },
+        "amtype": {
+          "type": "choice",
+          "values": [
+            "i",
+            "t"
+          ]
+        }
+      },
+      "query": "select coalesce(pg_catalog.jsonb_agg(pg_catalog.to_jsonb(q) order by q.oid),'[]'::jsonb) from (select x.oid::pg_catalog.oid::pg_catalog.text as oid,x.amhandler::pg_catalog.oid::pg_catalog.text as amhandler,x.amtype::pg_catalog.text as amtype from pg_catalog.pg_am x) q"
+    },
+    "operator_family_oids": {
+      "table": "pg_opfamily",
+      "identity": "oid",
+      "fields": {
+        "oid": {
+          "type": "oid",
+          "target": null,
+          "zero": false
+        },
+        "opfmethod": {
+          "type": "oid",
+          "zero": false,
+          "target": "access_method_oids"
+        }
+      },
+      "query": "select coalesce(pg_catalog.jsonb_agg(pg_catalog.to_jsonb(q) order by q.oid),'[]'::jsonb) from (select x.oid::pg_catalog.oid::pg_catalog.text as oid,x.opfmethod::pg_catalog.oid::pg_catalog.text as opfmethod from pg_catalog.pg_opfamily x) q"
+    },
+    "operator_class_oids": {
+      "table": "pg_opclass",
+      "identity": "oid",
+      "fields": {
+        "oid": {
+          "type": "oid",
+          "target": null,
+          "zero": false
+        },
+        "opcmethod": {
+          "type": "oid",
+          "zero": false,
+          "target": "access_method_oids"
+        },
+        "opcfamily": {
+          "type": "oid",
+          "zero": false,
+          "target": "operator_family_oids"
+        },
+        "opcintype": {
+          "type": "oid",
+          "zero": false,
+          "target": "types"
+        },
+        "opckeytype": {
+          "type": "oid",
+          "target": "types",
+          "zero": true
+        }
+      },
+      "query": "select coalesce(pg_catalog.jsonb_agg(pg_catalog.to_jsonb(q) order by q.oid),'[]'::jsonb) from (select x.oid::pg_catalog.oid::pg_catalog.text as oid,x.opcmethod::pg_catalog.oid::pg_catalog.text as opcmethod,x.opcfamily::pg_catalog.oid::pg_catalog.text as opcfamily,x.opcintype::pg_catalog.oid::pg_catalog.text as opcintype,x.opckeytype::pg_catalog.oid::pg_catalog.text as opckeytype from pg_catalog.pg_opclass x) q"
+    },
+    "family_operator_oids": {
+      "table": "pg_amop",
+      "identity": "oid",
+      "fields": {
+        "oid": {
+          "type": "oid",
+          "target": null,
+          "zero": false
+        },
+        "amopfamily": {
+          "type": "oid",
+          "zero": false,
+          "target": "operator_family_oids"
+        },
+        "amoplefttype": {
+          "type": "oid",
+          "zero": false,
+          "target": "types"
+        },
+        "amoprighttype": {
+          "type": "oid",
+          "zero": false,
+          "target": "types"
+        },
+        "amopstrategy": {
+          "type": "smallint"
+        },
+        "amoppurpose": {
+          "type": "choice",
+          "values": [
+            "s",
+            "o"
+          ]
+        },
+        "amopopr": {
+          "type": "oid",
+          "zero": false,
+          "target": "operators"
+        },
+        "amopmethod": {
+          "type": "oid",
+          "zero": false,
+          "target": "access_method_oids"
+        },
+        "amopsortfamily": {
+          "type": "oid",
+          "target": "operator_family_oids",
+          "zero": true
+        }
+      },
+      "query": "select coalesce(pg_catalog.jsonb_agg(pg_catalog.to_jsonb(q) order by q.oid),'[]'::jsonb) from (select x.oid::pg_catalog.oid::pg_catalog.text as oid,x.amopfamily::pg_catalog.oid::pg_catalog.text as amopfamily,x.amoplefttype::pg_catalog.oid::pg_catalog.text as amoplefttype,x.amoprighttype::pg_catalog.oid::pg_catalog.text as amoprighttype,x.amopstrategy::pg_catalog.int2 as amopstrategy,x.amoppurpose::pg_catalog.text as amoppurpose,x.amopopr::pg_catalog.oid::pg_catalog.text as amopopr,x.amopmethod::pg_catalog.oid::pg_catalog.text as amopmethod,x.amopsortfamily::pg_catalog.oid::pg_catalog.text as amopsortfamily from pg_catalog.pg_amop x) q"
+    },
+    "family_support_oids": {
+      "table": "pg_amproc",
+      "identity": "oid",
+      "fields": {
+        "oid": {
+          "type": "oid",
+          "target": null,
+          "zero": false
+        },
+        "amprocfamily": {
+          "type": "oid",
+          "zero": false,
+          "target": "operator_family_oids"
+        },
+        "amproclefttype": {
+          "type": "oid",
+          "zero": false,
+          "target": "types"
+        },
+        "amprocrighttype": {
+          "type": "oid",
+          "zero": false,
+          "target": "types"
+        },
+        "amprocnum": {
+          "type": "smallint"
+        },
+        "amproc": {
+          "type": "oid",
+          "zero": false,
+          "target": "routines"
+        }
+      },
+      "query": "select coalesce(pg_catalog.jsonb_agg(pg_catalog.to_jsonb(q) order by q.oid),'[]'::jsonb) from (select x.oid::pg_catalog.oid::pg_catalog.text as oid,x.amprocfamily::pg_catalog.oid::pg_catalog.text as amprocfamily,x.amproclefttype::pg_catalog.oid::pg_catalog.text as amproclefttype,x.amprocrighttype::pg_catalog.oid::pg_catalog.text as amprocrighttype,x.amprocnum::pg_catalog.int2 as amprocnum,x.amproc::pg_catalog.oid::pg_catalog.text as amproc from pg_catalog.pg_amproc x) q"
+    }
+  },
+  "unresolved": [
+    "ACTUAL_CALLER_REACHABILITY",
+    "PLANNER_AND_INDEX_DISPATCH_SEMANTICS",
+    "PROVIDER_BINARY_IMPLEMENTATIONS",
+    "INPUT_DEPENDENT_CALLS",
+    "AUTHORITY_AFTER_WAITS",
+    "WRITER_AND_PHANTOM_CLOSURE"
+  ]
+}

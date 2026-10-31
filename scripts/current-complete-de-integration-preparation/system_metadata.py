@@ -41,6 +41,8 @@ def capture_pair(url):
                 base=(collector.capture if kind=='candidate'else collector.capture_scheduler)(cursor)
                 identities=load('complete_DE_additive_execution_oid_metadata',HERE/'execution_oids.py')
                 base['execution_oid_supplement']=identities.capture(cursor,base)
+                dispatch=load('complete_DE_additive_dispatch_oid_metadata',HERE/'dispatch_oids.py')
+                base['dispatch_oid_supplement']=dispatch.capture(cursor,base)
                 return base
             result['snapshots'][kind]=original.one(psycopg,target,observe)
         except psycopg.Error as error:
