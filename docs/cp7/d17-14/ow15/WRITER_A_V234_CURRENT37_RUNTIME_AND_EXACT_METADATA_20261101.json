@@ -1,0 +1,105 @@
+{
+  "classification": "CURRENT37_RUNTIME_ACTIVE_AND_DE_EXACT_EXECUTION_OIDS_PREPARED_NOT_QUALIFIED",
+  "recorded_at_UTC": "2026-10-31T21:15:18.876Z",
+  "root_predecessor": "74c992523650a4588505d552d0e61b5d6e61753c",
+  "prior_e221": {
+    "head": "e2214780348ace563e8ec7929035acb20fc77de0",
+    "run_id": 41240864881,
+    "job_id": 124654287660,
+    "conclusion": "failure",
+    "failure_before_database": true,
+    "actual_unit_controls": 31,
+    "pass": 30,
+    "fail": 1,
+    "first_failure": "Old full37 workflow equality control did not account for six deliberate runtime changes.",
+    "repair": "Six counted reversible changes prove exact original and current workflow; unchanged Owner1 source and financial callbacks preserved.",
+    "original_log_library_file_id": "libfile_c9fc5593a0948191ba75e0652ac36f62",
+    "canonical_archive_library_file_id": "libfile_7fbd49f973548191bae680c38482e33e",
+    "new_Native_cases": 0,
+    "new_browser_cases": 0
+  },
+  "current37": {
+    "head": "e6684b07f98d753b5f78b24c7af52cd981971c0c",
+    "tree": "8be456a10207882fbcaeb5c9c2706974ef355349",
+    "run_id": 41241493562,
+    "job_id": 124656157099,
+    "run_attempt": 1,
+    "status": "in_progress",
+    "conclusion": null,
+    "completed_steps": 71,
+    "current_steps": [
+      {
+        "name": "Run one actual current Native31 browser6 composite and complete outer restoration",
+        "status": "in_progress",
+        "conclusion": null,
+        "number": 72
+      }
+    ],
+    "unit_control_step": {
+      "name": "Check only new composite routing, immutable callback derivations and real loopback transport",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 64
+    },
+    "complete_source_graph_step": {
+      "name": "Admit complete natural joined source graph under a DB and network fence before database",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 65
+    },
+    "source_pins": 76,
+    "own_paths": 77,
+    "unchanged_base": 14000,
+    "accepted_case_credit": 0,
+    "complete37": false,
+    "all5": false
+  },
+  "prepared_DE": {
+    "head": "aedec5a73902289e00846d05c43e93dce4abd5c1",
+    "tree": "3f3cfec6c5a39121d8ec6cb6543e10e3000dcfc2",
+    "base": "04ed2fbc3f1fb24174ff7368bffbb2dff01f5423",
+    "own_paths": 68,
+    "pins": 67,
+    "unchanged_base_blobs_and_modes": 14119,
+    "unchanged_original_system_queries": 27,
+    "unchanged_original_raw_dependency_queries": 19,
+    "supplemental_readonly_queries": 4,
+    "pending_before_connection": true,
+    "actual_ERP_cases": 0,
+    "PG17_model": {
+      "version": "17.5",
+      "ambiguous_name": "public.metadata_probe_equal",
+      "distinct_function_OIDs": [
+        "16389",
+        "16390"
+      ],
+      "provider_functions_invoked": 0,
+      "original_snapshot_preserved": true,
+      "library_file_id": "libfile_547f6486f460819199f7309a5e95b179",
+      "positive": 1,
+      "negative": 21,
+      "snapshot_protocol_controls": 3
+    },
+    "source_fence_library_file_id": "libfile_b5c3cf2c3a308191afe9db055f425f7b",
+    "Root_controls": {
+      "positive": 1,
+      "negative": 12,
+      "original_model_rerun": false,
+      "unarmed_before_archive_or_Git": true,
+      "receipt": "DE_EXACT_EXECUTION_OID_ROOT_CONTROLS_20261101.json"
+    },
+    "unresolved": [
+      "INPUT_DEPENDENT_REACHABILITY",
+      "PROVIDER_BINARY_IMPLEMENTATIONS",
+      "RANGE_OPERATOR_CLASS_EXECUTION",
+      "AUTHORITY_AFTER_WAITS",
+      "WRITER_AND_PHANTOM_CLOSURE"
+    ]
+  },
+  "next": "Keep current37 candidate immutable; prepare exact global metadata review using saved Originals; accept only terminal canonical full37/all5 then rebind permanent6 actual parent before DE30 and FREE3.",
+  "FG_Mandor": "Implementation after active integration stable; full owner scope retained.",
+  "formal_accepted": 5,
+  "formal_total": 16,
+  "production_go": false,
+  "independent_acceptance": false
+}

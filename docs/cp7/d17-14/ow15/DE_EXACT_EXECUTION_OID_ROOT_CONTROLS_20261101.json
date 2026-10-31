@@ -1,0 +1,99 @@
+{
+  "status": "ROOT_EXACT_EXECUTION_METADATA_CONTROLS_PASS",
+  "head": "aedec5a73902289e00846d05c43e93dce4abd5c1",
+  "tree": "3f3cfec6c5a39121d8ec6cb6543e10e3000dcfc2",
+  "source": {
+    "source_pins": 67,
+    "own_paths": 68,
+    "unchanged_base": 14119,
+    "D1_ids": [
+      "D_POSITIVE_CREDIT_INCREMENT",
+      "D_AFTER_ACTIVE_APPLY",
+      "D_AFTER_REFUND_EXTRA_STAYS_CREDIT",
+      "D_MULTIFAMILY_ORDINAL",
+      "D_REPLAY_EXACT_UUID",
+      "D_STALE_REVIEW_NO_EFFECT",
+      "D_ACCESS_REVOKED_NO_EFFECT",
+      "D_SHORTFALL_NAMES_UNDO",
+      "D_ROOT_BOOK_FLOOR_REFUSAL",
+      "D_ATOMIC_POST_FAILURE_RESTORE",
+      "D_SECOND_REVISION_ORDINAL_HISTORY",
+      "D_AFTER_NAMED_UNDO_NO_FALSE_BLOCKER",
+      "E_UNIMPLEMENTED_INCOMING_CORRECTION_STAYS_GUARDED"
+    ],
+    "E_ids": [
+      "E_PRICE_INCREASE_80_NET550_AR470",
+      "E_PRICE_DECREASE_80_NET100_AR20",
+      "E_EXACT_FUNDED_80_PAID",
+      "E_BELOW_CARRIED_80_REFUSES_ATOMIC",
+      "E_SAME_UUID_AND_CHANGED_INTENT",
+      "E_SOURCE_D1_CHANGE_RETIRES_REVIEW",
+      "E_LATER_APPLY_20_CURRENT_LEAF",
+      "E_UNDO_ORIGINAL_80_AND_OLD_RECEIPT",
+      "E_NATIVE_POST_FAILURE_FULL_RESTORE",
+      "E_QUANTITY_CHANGE_REFUSES",
+      "E_ORIGINAL_DATE_CHANGE_REFUSES",
+      "E_CLOSED_ORIGINAL_BOOK_PAIR_REFUSES",
+      "E_SECOND_NOTE_REVISION_GUARDED",
+      "E_CURRENT_ACCESS_REVOKED_REFUSES",
+      "E_JOINT_PREFIX_AFTER_UNDO_120_MIN200_NOT150",
+      "E_LATER_NATIVE_REVERSE_REFUSES_ATOMIC",
+      "E_LATER_NATIVE_SALE_SAME_LOT_RECONCILES"
+    ],
+    "source_manifest": {
+      "bytes": 12764,
+      "sha256": "d673fd4e87be24a8fa19d8950c3336b00970fae09d1d6b70676295a88c5ee827"
+    },
+    "unchanged_business_source_files": 3,
+    "frozen_fixture_inputs": 4,
+    "recorded_predecessor_functions": 32,
+    "unchanged_global_metadata_source_files": 4,
+    "unchanged_raw_metadata_queries": 19,
+    "supplemental_exact_execution_oid_queries": 4,
+    "actual_case_credit": 0,
+    "parent_qualification_pending": true
+  },
+  "input_model": {
+    "bytes": 471304,
+    "sha256": "a48eebbf02e0ca6d410c2b452d97b8629521dee1539e268580c9e64325895a47"
+  },
+  "intake_source": {
+    "bytes": 26898,
+    "sha256": "2a446b60a12085c739cf643b96a300f1243e844449095a66f767a9e10b5dbaaf"
+  },
+  "positive_saved_PG17_observation": 1,
+  "negative_controls": [
+    "missing-supplement",
+    "old-name-instead-of-exact-oid",
+    "unknown-function",
+    "missing-range-catalog",
+    "forged-count",
+    "boolean-zero-count",
+    "different-query",
+    "different-declaration",
+    "different-snapshot",
+    "rewritten-original27",
+    "permission-closure-claim",
+    "hidden-remaining-limits"
+  ],
+  "accepted_observation": {
+    "query_count": 4,
+    "group_counts": {
+      "type_routine_oids": 619,
+      "operator_routine_oids": 801,
+      "range_execution_oids": 6,
+      "transform_execution_oids": 0
+    },
+    "same_original_readonly_snapshot": true,
+    "provider_routine_calls": 0,
+    "writer_closure": false,
+    "permission_closure": false,
+    "actual_Native_case_credit": 0
+  },
+  "unarmed_before_archive_or_Git": true,
+  "original_PG17_model_rerun": false,
+  "actual_ERP_calls": 0,
+  "actual_Native_case_credit": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

@@ -17,8 +17,8 @@ RUN=None
 JOB=None
 PARENT_HEAD=None
 PARENT_TREE=None
-PREPARED_HEAD='fef0d838991df1ab3474382747ee3519d4c237eb'
-PREPARED_TREE='772cc0a80e1857bc03e6a544a39d5b5de3beb4c3'
+PREPARED_HEAD='aedec5a73902289e00846d05c43e93dce4abd5c1'
+PREPARED_TREE='3f3cfec6c5a39121d8ec6cb6543e10e3000dcfc2'
 PREPARED_BASE='04ed2fbc3f1fb24174ff7368bffbb2dff01f5423'
 PREPARED_BASE_TREE='66930111fa9826b0c18ed6cfd3b05ea225e4e62b'
 NS='scripts/current-complete-de-integration-preparation/'
@@ -49,7 +49,7 @@ def source(g):
     exact(set(g.tree)-set(base),allowed,'DE30_CLOSED_ADDITIVE_SOURCE')
     for name,value in declaration['files'].items():g.verify_pin(name,value)
     if PARENT_HEAD is None:
-        exact(len(base),14119,'DE30_REPAIRED_PREPARED_PARENT14119');exact(len(allowed),62,'DE30_REPAIRED_PREPARED_OWN62')
+        exact(len(base),14119,'DE30_REPAIRED_PREPARED_PARENT14119');exact(len(allowed),68,'DE30_REPAIRED_PREPARED_OWN68')
         exact(literal(g,NS+'admission.py','PARENT_HEAD'),None,'DE30_PREPARED_PARENT_GATE_CLOSED')
         exact(literal(g,NS+'admission.py','PARENT_RECEIPT'),None,'DE30_PREPARED_RECEIPT_GATE_CLOSED')
         require(WORKFLOW not in g.tree,'DE30_PREPARED_WORKFLOW_NOT_ACTIVATED')
@@ -79,10 +79,12 @@ def source(g):
     exact(len(recorded),32,'DE30_RECORDED_PREDECESSOR32')
     require(all(type(row)is list and len(row)==19 for row in recorded.values()),'DE30_RECORDED_FULL19_ROWS')
     _,_,queries=raw_metadata_sources(g)
+    execution_queries,_=execution_oid_sources(g)
     return dict(source_pins=len(declaration['files']),own_paths=len(allowed),unchanged_base=len(base),
         D1_ids=d1,E_ids=e,source_manifest=pin(g.read(NS+'SOURCE.json')),
         unchanged_business_source_files=3,frozen_fixture_inputs=4,recorded_predecessor_functions=32,
         unchanged_global_metadata_source_files=4,unchanged_raw_metadata_queries=len(queries),
+        supplemental_exact_execution_oid_queries=len(execution_queries['groups']),
         actual_case_credit=0,parent_qualification_pending=PARENT_HEAD is None)
 
 
@@ -172,6 +174,36 @@ def raw_metadata_observation(g,original,raw_pins,value,directory):
         actual_Native_cases=0,global_qualified=False)
 
 
+def execution_oid_sources(g):
+    """Compile only the two pure validators; never load a runtime or open SQL."""
+    raw=g.read(NS+'EXECUTION_OID_QUERIES.json');declaration=strict(raw)
+    fields(declaration,dict(classification='READONLY_EXACT_EXECUTION_IDENTITIES_NOT_CALL_OR_PERMISSION_CLOSURE',
+        original_27_queries_changed=False),'DE30_ADDITIVE_EXACT_EXECUTION_METADATA_SOURCE')
+    exact(set(declaration['groups']),{'type_routine_oids','operator_routine_oids',
+        'range_execution_oids','transform_execution_oids'},'DE30_FOUR_EXACT_EXECUTION_METADATA_GROUPS')
+    nodes=[node for node in ast.parse(g.read(NS+'execution_oids.py')).body
+        if isinstance(node,ast.FunctionDef)and node.name in('oid','validate')]
+    exact([node.name for node in nodes],['oid','validate'],'DE30_ONLY_TWO_PURE_EXECUTION_OID_VALIDATORS')
+    env={};exec(compile(ast.Module(body=nodes,type_ignores=[]),'root_DE30_pure_exact_execution_oids','exec'),env)
+    return declaration,env['validate']
+
+
+def execution_oid_observation(g,row):
+    declaration,validate=execution_oid_sources(g)
+    value=row['execution_oid_supplement']
+    fields(value,dict(classification=declaration['classification'],
+        declaration_sha256=sha256(g.read(NS+'EXECUTION_OID_QUERIES.json')).hexdigest(),
+        query_sha256={name:sha256(spec['query'].encode()).hexdigest()
+            for name,spec in declaration['groups'].items()},same_original_readonly_snapshot=True,
+        original_27_groups_rewritten=False,unresolved=declaration['unresolved'],
+        writer_closure=False,permission_closure=False,actual_Native_case_credit=0,
+        production_go=False,independent_acceptance=False),'DE30_EXACT_EXECUTION_IDENTITIES_ARE_NOT_CLOSURE')
+    counts=validate(value['groups'],declaration['groups'],row['groups'])
+    exact(value['group_counts'],counts,'DE30_EXACT_EXECUTION_METADATA_TYPED_COUNTS')
+    return dict(query_count=4,group_counts=counts,same_original_readonly_snapshot=True,
+        provider_routine_calls=0,writer_closure=False,permission_closure=False,actual_Native_case_credit=0)
+
+
 def metadata_observation(g,value):
     """Inspect availability and source identity; metadata never grants closure."""
     fields(value,dict(classification='READONLY_CURRENT_DE_SYSTEM_AND_PRIMARY_SCHEDULER_METADATA_NOT_CLOSURE',
@@ -187,7 +219,7 @@ def metadata_observation(g,value):
         query_count=27),'DE30_EXACT_INHERITED_METADATA_SOURCE')
     queries=strict(g.read(prefix+'QUERIES.json'))['queries'];exact(len(queries),27,'DE30_ALL_METADATA_QUERY_IDENTITIES')
     exact(set(value['snapshots']),{'candidate','primary_scheduler'},'DE30_TWO_SEPARATE_METADATA_SNAPSHOTS')
-    captured={}
+    captured={};execution_metadata={}
     for kind,database in(('candidate','cp6_rollback'),('primary_scheduler','postgres')):
         row=value['snapshots'][kind]
         if row.get('status')=='READONLY_METADATA_UNAVAILABLE':
@@ -208,9 +240,10 @@ def metadata_observation(g,value):
             exact(row['group_counts'][name],len(item['rows']),'DE30_METADATA_ACTUAL_COUNT:'+name)
             require(item['status']=='CAPTURED'or(name=='cron_jobs'and item['status']=='RELATION_ABSENT'and not item['rows']),
                 'DE30_METADATA_GROUP_CAPTURE_OR_EXPLICIT_ABSENCE:'+name)
+        execution_metadata[kind]=execution_oid_observation(g,row)
         captured[kind]=True
     exact(value['all_metadata_captured'],all(captured.values()),'DE30_METADATA_AVAILABILITY_IS_NOT_ACCEPTANCE')
-    return dict(captured=captured,query_count=27,separate_snapshots_not_atomic=True,
+    return dict(captured=captured,query_count=27,execution_metadata=execution_metadata,separate_snapshots_not_atomic=True,
         writer_closure=False,permission_closure=False,lockset_approved=False,actual_Native_case_credit=0)
 
 
