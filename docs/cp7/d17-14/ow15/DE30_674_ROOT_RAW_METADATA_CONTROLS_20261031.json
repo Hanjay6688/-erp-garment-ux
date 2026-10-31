@@ -1,0 +1,32 @@
+{
+  "status": "ROOT_RAW_METADATA_SOURCE_ACTUAL_ABI_AND_NEGATIVE_GRAMMAR_CONTROLS_PASS_NOT_NATIVE",
+  "prepared_head": "674a700096eab400e9b75700e4a2704f799d69b8",
+  "prepared_tree": "02e0e9bf7254054f37ca5d08c706d4e4cc4b603a",
+  "reused_already_qualified_catalogue": {
+    "head": "090b85d3fcb738d3e694d4329d306f199a686eb8",
+    "member": "SKU_COST_DIRECT_PARTIAL_INVERSE_REFUSAL_56ed8452b5b0_FULL_CURRENT_CENSUS.json",
+    "bytes": 43100592,
+    "sha256": "c1450a3dc1d1a42ad911c7685085afa3213b4c912dc04005e16e9e636ddc3939",
+    "boundary": {
+      "tables": 685,
+      "sequences": 15,
+      "catalog_groups": 22
+    }
+  },
+  "actual_ERP_catalogue_ABI_validated": true,
+  "new_readonly_metadata_queries_executed": 0,
+  "explicitly_synthetic_observation_model_only": true,
+  "controls": [
+    "ACTUAL_FUNCTION19_WIDTH_CORRUPTION_REFUSED",
+    "SYNTHETIC_UNAVAILABLE_OBSERVATION_GRANTS_ZERO_CREDIT",
+    "WRONG_CANONICAL_MEMBER_SHA_REFUSED",
+    "GLOBAL_CLOSURE_FORGERY_REFUSED",
+    "BOOLEAN_NATIVE_COUNT_REFUSED",
+    "MISSING_QUERY_DIGEST_REFUSED",
+    "FULL_INTAKE_PENDING_BEFORE_GIT_ARCHIVE_OR_METADATA"
+  ],
+  "actual_Native_cases": 0,
+  "global_qualified": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

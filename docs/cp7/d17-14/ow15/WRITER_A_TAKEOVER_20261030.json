@@ -1,7 +1,7 @@
 {
   "classification": "WRITER_A_TAKEOVER_ACTIVE_CONTINUATION_NOT_COMPLETION",
-  "recorded_at_utc": "2026-10-31T16:14:03.570314+00:00",
-  "root_parent": "e978bfd871697ce4c49187991ebfc1b2d647b16c",
+  "recorded_at_utc": "2026-10-31T16:42:34.903816+00:00",
+  "root_parent": "52ef112dcb31f0dd6ad781aaa5ebef0c60b08537",
   "prior_chat_execution_observable": false,
   "current_work_is_isolated": true,
   "midnight_root_intake_receipt": "MIDNIGHT_NATIVE1_E787_ROOT_INTAKE_20261030.json",
@@ -2033,7 +2033,7 @@
     "complete37_qualified": false
   },
   "latest_runner_loss_receipt": "JOIN_1EDD_ROOT_RUNNER_LOSS_20261031.json",
-  "latest_continuation_receipt": "WRITER_A_V222_ACTUAL_OWNER1_ACCEPTED_AND_DE30_WORKFLOW_20261031.json",
+  "latest_continuation_receipt": "WRITER_A_V223_DE30_LOSSLESS_RAW_METADATA_20261031.json",
   "current_system_cron_profile_preparation": {
     "namespace": "scripts/current-global-system-cron-profile-preparation",
     "queries": 27,
@@ -2056,28 +2056,30 @@
     "no_D1_E_qualification_in_join37_or_permanent6": true
   },
   "current_D1_E_on_complete_preparation": {
-    "head": "a93bd2be7d8fb04ae379dbf34e39b08d1eaeddf7",
-    "tree": "505b3b0f240f000f3ab38a440f2a1517d80afcd0",
-    "source_pins": 54,
-    "own_paths": 55,
+    "head": "674a700096eab400e9b75700e4a2704f799d69b8",
+    "tree": "02e0e9bf7254054f37ca5d08c706d4e4cc4b603a",
+    "parent": "a93bd2be7d8fb04ae379dbf34e39b08d1eaeddf7",
+    "source_pins": 60,
+    "own_paths": 61,
     "unchanged_prepared_parent": 14092,
-    "source_control_receipt": "DE30_A93_ROOT_SOURCE_UNARMED_CONTROL_20261031.json",
-    "fenced_control_receipt": "DE30_WORKFLOW_AND_PARENT_FETCH_FENCED_SOURCE_20261031.json",
     "original_D1_cases": 13,
     "original_E_cases": 17,
+    "original_financial_package_or_callback_changes": 0,
+    "readonly_system_queries": 27,
+    "readonly_raw_dependency_queries": 19,
+    "retained_metadata_files_byte_exact": 4,
+    "original_pure_derivation_functions": 2,
+    "original_capture_derivation_changes": 11,
+    "lossless_repeated_dependency_identity_preserved": true,
+    "full_raw_catalogue_data_ALL_sequence_brackets_prepared": true,
+    "old_runtime_loader_or_admission_invoked": false,
+    "old_runtime_guards_modified": false,
+    "global_hook_installation_or_explicit_LOCK_statement": false,
+    "implicit_provider_or_system_call_closure_proven": false,
+    "actual_parent_receipt": null,
+    "workflow_activated": false,
     "actual_Native_cases": 0,
-    "workflow_is_non_executing_template": true,
-    "unchanged_original_workflow_steps": 67,
-    "routed_original_workflow_steps": 6,
-    "additional_real_clock_guard": 1,
-    "job_and_runtime_budget_minutes": 210,
-    "canonical_permanent6_fetch_reversible_rules": 22,
-    "parent_fetch_and_final_gate_closed_before_IO": true,
-    "readonly_metadata_original_queries": 27,
-    "actual_parent_qualification": null,
-    "D_complete": false,
-    "E_complete": false,
-    "global_writer_or_permission_or_lock_closure": false
+    "actual_new_metadata_queries_executed": 0
   },
   "current_join_first_S05_owner_failure": "JOIN_1D52_ROOT_ACTUAL_FIRST_FAILURE_20261031.json",
   "current_focused_owner_access": {
@@ -2238,5 +2240,22 @@
     "transitive_callee_or_data_closure": false,
     "actual_permission_or_writer_or_lock_closure": false,
     "actual_two_session_observations": 0
+  },
+  "current_complete_DE_raw_metadata_intake": {
+    "actual_existing_SKU_catalogue_ABI_source_validated": {
+      "catalog_groups": 22,
+      "tables": 685,
+      "sequences": 15
+    },
+    "actual_existing_member_pin_bound": true,
+    "new_source_and_negative_grammar_controls": 7,
+    "unavailable_metadata_never_grants_global_credit": true,
+    "actual_Native_cases": 0,
+    "canonical_member_bytes_used_instead_of_JSON_reserialization": true,
+    "receipts": [
+      "DE30_674_ROOT_SOURCE_CONTROL_20261031.json",
+      "DE30_674_ROOT_RAW_METADATA_CONTROLS_20261031.json",
+      "DE30_LOSSLESS_RAW_METADATA_FENCED_SOURCE_20261031.json"
+    ]
   }
 }

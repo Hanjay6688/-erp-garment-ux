@@ -1,0 +1,56 @@
+{
+  "classification": "WRITER_A_CURRENT_DE_RAW_METADATA_SOURCE_PREPARED_NOT_EXECUTED",
+  "recorded_at_utc": "2026-10-31T16:42:34.903816+00:00",
+  "root_predecessor": "52ef112dcb31f0dd6ad781aaa5ebef0c60b08537",
+  "solo_integrator": true,
+  "actual_owner1_accepted": true,
+  "actual_current37_successor_launched": false,
+  "next_real_WIB_day_starts_utc": "2026-10-31T17:00:00Z",
+  "complete_DE": {
+    "head": "674a700096eab400e9b75700e4a2704f799d69b8",
+    "tree": "02e0e9bf7254054f37ca5d08c706d4e4cc4b603a",
+    "parent": "a93bd2be7d8fb04ae379dbf34e39b08d1eaeddf7",
+    "source_pins": 60,
+    "own_paths": 61,
+    "unchanged_prepared_parent": 14092,
+    "original_D1_cases": 13,
+    "original_E_cases": 17,
+    "original_financial_package_or_callback_changes": 0,
+    "readonly_system_queries": 27,
+    "readonly_raw_dependency_queries": 19,
+    "retained_metadata_files_byte_exact": 4,
+    "original_pure_derivation_functions": 2,
+    "original_capture_derivation_changes": 11,
+    "lossless_repeated_dependency_identity_preserved": true,
+    "full_raw_catalogue_data_ALL_sequence_brackets_prepared": true,
+    "old_runtime_loader_or_admission_invoked": false,
+    "old_runtime_guards_modified": false,
+    "global_hook_installation_or_explicit_LOCK_statement": false,
+    "implicit_provider_or_system_call_closure_proven": false,
+    "actual_parent_receipt": null,
+    "workflow_activated": false,
+    "actual_Native_cases": 0,
+    "actual_new_metadata_queries_executed": 0
+  },
+  "root_raw_intake": {
+    "actual_existing_SKU_catalogue_ABI_source_validated": {
+      "catalog_groups": 22,
+      "tables": 685,
+      "sequences": 15
+    },
+    "actual_existing_member_pin_bound": true,
+    "new_source_and_negative_grammar_controls": 7,
+    "unavailable_metadata_never_grants_global_credit": true,
+    "actual_Native_cases": 0,
+    "canonical_member_bytes_used_instead_of_JSON_reserialization": true,
+    "receipts": [
+      "DE30_674_ROOT_SOURCE_CONTROL_20261031.json",
+      "DE30_674_ROOT_RAW_METADATA_CONTROLS_20261031.json",
+      "DE30_LOSSLESS_RAW_METADATA_FENCED_SOURCE_20261031.json"
+    ]
+  },
+  "all_old_scope_retained": true,
+  "formal_accepted": "5/16",
+  "production_go": false,
+  "independent_acceptance": false
+}

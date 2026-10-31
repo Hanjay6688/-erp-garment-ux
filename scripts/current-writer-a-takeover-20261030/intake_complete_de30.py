@@ -5,7 +5,9 @@ prepared base with the accepted permanent6 parent and bind its exact receipt.
 """
 from pathlib import Path
 from hashlib import file_digest,sha256
-import argparse,json,re,zipfile
+from collections import defaultdict
+from types import ModuleType
+import argparse,ast,json,re,zipfile
 from intake_common import GitBytes,exact,fields,pin,require,safe_path
 from intake_sku27 import strict,literal,group,full_census,declared_files
 
@@ -15,8 +17,8 @@ RUN=None
 JOB=None
 PARENT_HEAD=None
 PARENT_TREE=None
-PREPARED_HEAD='a93bd2be7d8fb04ae379dbf34e39b08d1eaeddf7'
-PREPARED_TREE='505b3b0f240f000f3ab38a440f2a1517d80afcd0'
+PREPARED_HEAD='674a700096eab400e9b75700e4a2704f799d69b8'
+PREPARED_TREE='02e0e9bf7254054f37ca5d08c706d4e4cc4b603a'
 PREPARED_BASE='a6cc41ec58e4d0d0c8191f1b1fe5c27309fff559'
 PREPARED_BASE_TREE='48c5e13acdb5d8fb9529f2ce1661e4fee09e2a5b'
 NS='scripts/current-complete-de-integration-preparation/'
@@ -45,7 +47,7 @@ def source(g):
     exact(set(g.tree)-set(base),allowed,'DE30_CLOSED_ADDITIVE_SOURCE')
     for name,value in declaration['files'].items():g.verify_pin(name,value)
     if PARENT_HEAD is None:
-        exact(len(base),14092,'DE30_PREPARED_PARENT14092');exact(len(allowed),55,'DE30_PREPARED_OWN55')
+        exact(len(base),14092,'DE30_PREPARED_PARENT14092');exact(len(allowed),61,'DE30_PREPARED_OWN61')
         exact(literal(g,NS+'admission.py','PARENT_HEAD'),None,'DE30_PREPARED_PARENT_GATE_CLOSED')
         exact(literal(g,NS+'admission.py','PARENT_RECEIPT'),None,'DE30_PREPARED_RECEIPT_GATE_CLOSED')
     product=strict(g.read(PRODUCT+'SOURCE.json'))
@@ -70,10 +72,98 @@ def source(g):
     recorded=strict(g.read(PRODUCT+'RECORDED_NATIVE_CAPTURES.json'))['functions']
     exact(len(recorded),32,'DE30_RECORDED_PREDECESSOR32')
     require(all(type(row)is list and len(row)==19 for row in recorded.values()),'DE30_RECORDED_FULL19_ROWS')
+    _,_,queries=raw_metadata_sources(g)
     return dict(source_pins=len(declaration['files']),own_paths=len(allowed),unchanged_base=len(base),
         D1_ids=d1,E_ids=e,source_manifest=pin(g.read(NS+'SOURCE.json')),
         unchanged_business_source_files=3,frozen_fixture_inputs=4,recorded_predecessor_functions=32,
+        unchanged_global_metadata_source_files=4,unchanged_raw_metadata_queries=len(queries),
         actual_case_credit=0,parent_qualification_pending=PARENT_HEAD is None)
+
+
+def raw_metadata_sources(g):
+    """Compile only immutable metadata validators and the query dictionary."""
+    prefix=NS+'retained-global-census/'
+    origin=strict(g.read(prefix+'ORIGIN.json'))
+    fields(origin,dict(head='3d7066b852176d9f343ec831d2f63aee6665579b',
+        pure_selected_functions=['replace_exact','capture'],financial_SQL_or_business_callbacks_changed=False,
+        metadata_SQL_queries_changed=False,actual_Native_cases=0,global_writer_or_permission_or_lock_closure=False,
+        production_go=False,independent_acceptance=False),'DE30_EXACT_RECORDED_RAW_METADATA_SOURCES')
+    exact(set(origin['files']),{'capture.py','census.py','multiset.py','derive.py.txt'},'DE30_FOUR_RAW_METADATA_ORIGINALS')
+    for name,value in origin['files'].items():
+        raw=g.verify_pin(prefix+name,{k:value[k]for k in('bytes','sha256')})
+        exact(raw,g.read(value['path'],origin['head']),'DE30_RETAINED_RAW_METADATA_ORIGINAL:'+name)
+    qenv={};nodes=[]
+    for node in ast.parse(g.read(prefix+'capture.py')).body:
+        if not isinstance(node,ast.Assign):continue
+        target=node.targets[0]
+        name=target.id if isinstance(target,ast.Name)else(
+            target.value.id if isinstance(target,ast.Subscript)and isinstance(target.value,ast.Name)else None)
+        if name in('SCOPE','RELATION','RELATION_SCOPE','FUNCTION_SCOPE','QUERIES'):nodes.append(node)
+    exec(compile(ast.Module(body=nodes,type_ignores=[]),'root_DE30_pure_readonly_query_dictionary','exec'),qenv)
+    queries=qenv['QUERIES'];exact(len(queries),19,'DE30_NINETEEN_ORIGINAL_RAW_METADATA_QUERIES')
+    cenv=dict(defaultdict=defaultdict,sha256=sha256,json=json);nodes=[]
+    for node in ast.parse(g.read(prefix+'census.py')).body:
+        if isinstance(node,ast.Assign)and any(isinstance(t,ast.Name)and t.id in('ALL22','WIDTHS')for t in node.targets):nodes.append(node)
+        elif isinstance(node,ast.FunctionDef)and node.name in('require','canonical','digest','validate_catalog'):nodes.append(node)
+    exec(compile(ast.Module(body=nodes,type_ignores=[]),'root_DE30_pure_full22_metadata_validator','exec'),cenv)
+    codec=ModuleType('root_DE30_pure_recorded_lossless_codec');codec.__file__='recorded_3d706_multiset.py'
+    exec(compile(g.read(prefix+'multiset.py'),codec.__file__,'exec'),codec.__dict__)
+    return cenv,codec,queries
+
+
+def raw_metadata_observation(g,original,raw_pins,value,directory):
+    fields(value,dict(classification='READONLY_CURRENT_DE_RAW_DEPENDENCIES_NOT_WRITER_CLOSURE',actual_Native_cases=0,
+        global_writer_or_permission_or_lock_closure=False,production_go=False,independent_acceptance=False),
+        'DE30_RAW_DEPENDENCY_OBSERVATION_NOT_GLOBAL_ACCEPTANCE')
+    expected_name=directory+'/CALLER_RAW_BOUNDARY_OBSERVATION.json';reference=value['observation']
+    exact(reference['name'],expected_name,'DE30_EXACT_RAW_METADATA_BOUNDARY_MEMBER')
+    observed=original(expected_name)
+    exact({k:reference[k]for k in('bytes','sha256')},raw_pins[expected_name],
+        'DE30_EXACT_CANONICAL_RAW_METADATA_BOUNDARY_REFERENCE')
+    fields(observed,dict(classification=value['classification'],permanent_parent_head=PARENT_HEAD,
+        transaction_writes=False,observed_catalog_includes_qualification_overlays=True,
+        global_hook_installation_or_explicit_LOCK_statement=False,provider_or_system_call_closure_proven=False,
+        actual_Native_cases=0,global_writer_or_permission_or_lock_closure=False,
+        production_go=False,independent_acceptance=False),'DE30_RAW_METADATA_SCOPE_AND_AUTHORITY')
+    exact(observed['status'],value['status'],'DE30_RAW_METADATA_STATUS_EQUALS_CANONICAL_OBSERVATION')
+    exact(observed['source'],value['source'],'DE30_RAW_METADATA_SOURCE_EQUALS_CANONICAL_OBSERVATION')
+    cenv,codec,queries=raw_metadata_sources(g)
+    fields(observed['source'],dict(origin_head='3d7066b852176d9f343ec831d2f63aee6665579b',
+        byte_exact_original_files=4,selected_original_pure_functions=2,unchanged_SQL_queries=19,
+        query_sha256={k:sha256(v.encode()).hexdigest()for k,v in queries.items()},
+        prior_runtime_loader_or_admission_used=False,prior_runtime_guards_modified=False,
+        actual_Native_cases=0,global_writer_or_permission_or_lock_closure=False,
+        production_go=False,independent_acceptance=False),'DE30_UNCHANGED_RAW_QUERY_SOURCE_AND_OPEN_CLOSURE')
+    if observed['status']=='RAW_READONLY_METADATA_UNAVAILABLE':
+        fields(observed,dict(error_text_or_connection_details_retained=False),'DE30_UNAVAILABLE_RAW_METADATA')
+        return dict(status=observed['status'],actual_Native_cases=0,global_qualified=False)
+    exact(observed['status'],'RAW_READONLY_METADATA_CAPTURED','DE30_RAW_METADATA_CAPTURE_STATUS')
+    fields(observed,dict(all22_ALL_rows_ALL_sequences_equal=True,all19_queries_captured=True),
+        'DE30_EACH_RAW_METADATA_READONLY_FULL_BOUNDARY')
+    before=observed['before'];exact(before,observed['after'],'DE30_RAW_METADATA_FULL_TYPED_NO_EFFECT')
+    cenv['validate_catalog'](before['actual_all22'])
+    census=full_census(before['actual_all22'],before['full_data_and_sequences'])
+    supplement=observed['supplement'];ref=supplement['raw_capture_reference'];codec.reference(ref)
+    raw_name=directory+'/'+ref['name'];exact(observed['raw_original'],raw_name,'DE30_EXACT_RAW_PAIR_MEMBER')
+    raw=original(raw_name)
+    exact(raw_pins[raw_name],{k:ref[k]for k in('bytes','sha256')},'DE30_RAW_PAIR_ORIGINAL_REFERENCE')
+    codec.validate_raw(raw,queries,before['actual_all22'])
+    fields(raw,dict(status='ALL_QUERIES_CAPTURED_BEFORE_VALIDATION',captured_groups=list(queries),query_failure=None),
+        'DE30_EVERY_ORIGINAL_RAW_QUERY_COMPLETED')
+    exact(codec.digest(raw),ref['raw_capture_sha256'],'DE30_RAW_PAIR_PAYLOAD_DIGEST')
+    exact(cenv['digest'](before['actual_all22']),ref['catalogue_sha256'],'DE30_RAW_PAIR_CATALOGUE_DIGEST')
+    fields(supplement,dict(contract='cp7.global.actual-writer-census.supplement.multiset.v2',
+        catalogue_sha256=ref['catalogue_sha256'],identity=raw['identity'],transaction_writes=False,
+        caller_full_catalogue_data_sequence_bracket_required=True,caller_outer_restoration_required=True,
+        runtime_entry=None,actual_Native_credit=0,production_go=False,independent_acceptance=False),
+        'DE30_RAW_SUPPLEMENT_REMAINS_METADATA_ONLY')
+    exact(supplement['groups'],{name:codec.encode_group(name,rows)for name,rows in raw['raw_groups'].items()},
+        'DE30_LOSSLESS_RAW_PAIRS_EQUAL_EVERY_SUPPLEMENT_GROUP')
+    require(type(observed['repeatable_read_snapshot'])is str and bool(observed['repeatable_read_snapshot']),
+        'DE30_EXPLICIT_READONLY_REPEATABLE_SNAPSHOT')
+    return dict(status=observed['status'],raw_original=raw_name,raw_boundary=census,query_count=19,
+        raw_pairs_and_catalogue_bound=True,repeated_dependency_identities_preserved=True,
+        actual_Native_cases=0,global_qualified=False)
 
 
 def metadata_observation(g,value):
@@ -178,6 +268,9 @@ def intake(root,path,metadata):
         system_metadata={name:metadata_observation(g,part[key])for name,key in(
             ('before_native30','read_only_system_metadata_before_native30'),
             ('after_native30_and_committed_use','read_only_system_metadata_after_native30_and_committed_use'))}
+        raw_metadata={name:raw_metadata_observation(g,original,pins,part[key],directory)for name,key,directory in(
+            ('before_native30','raw_global_metadata_before_native30','DE_GLOBAL_BEFORE_NATIVE30'),
+            ('after_committed_E_use','raw_global_metadata_after_committed_E_use','DE_GLOBAL_AFTER_COMMITTED_E_USE'))}
         exact(package['gate'],GATES,'DE30_ALL_FIVE_PACKAGE_GATES')
         fields(package['run_identity'],dict(tool_head=HEAD,github_sha=HEAD,run_id=str(RUN),run_attempt='1'),
             'DE30_CURRENT_OWNING_PACKAGE_RUN')
@@ -201,7 +294,8 @@ def intake(root,path,metadata):
             actual_Native_cases=30,actual_D1_cases=13,actual_E_cases=17,actual_browser_cases=0,
             actual_Auth_HTTP_cases=0,actual_two_session_races=0,package_all_five=True,
             prior_runs_aggregated=False,retained_permanent6_fresh_case_credit=0,
-            actual_used_refusal_raw_boundary=used,read_only_system_metadata=system_metadata,D_complete=False,E_complete=False,
+            actual_used_refusal_raw_boundary=used,read_only_system_metadata=system_metadata,
+            readonly_raw_dependency_metadata=raw_metadata,D_complete=False,E_complete=False,
             global_writer_or_permission_or_lock_closure=False,production_go=False,independent_acceptance=False)
 
 
