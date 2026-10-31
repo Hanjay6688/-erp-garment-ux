@@ -1,0 +1,64 @@
+{
+  "contract": "cp7.special-free-wib-date.v1",
+  "status": "PREPARED_ADDITIVE_DATE_STAGE_ACTUAL_PARENT_PENDING",
+  "base_head": "161ae77261e8a9c0bc734feae1dcdb86cc779203",
+  "expected_parent": "cp7_current_s03_sku_s05.composition",
+  "actual_qualified_parent": null,
+  "files": {
+    "scripts/cp7_special_free_date_boundary/ACTUAL_DIRECT_CALLERS.json": {
+      "bytes": 510,
+      "sha256": "0b91c1875135a05c8e2c38ec90f12d416bdba23affe12023c7db404bad54580e"
+    },
+    "scripts/cp7_special_free_date_boundary/LOCAL_RECORDED_CATALOG_CONTROLS.json": {
+      "bytes": 760,
+      "sha256": "a28962a0f19b71dfb2af148bbc158586a3255a01b8fd184b869ab4dc85f14754"
+    },
+    "scripts/cp7_special_free_date_boundary/README.md": {
+      "bytes": 1780,
+      "sha256": "ba85445701c1a2fca563a9e2fbac1e80fee6c7d06dda04fec35b8cdf3d49e66d"
+    },
+    "scripts/cp7_special_free_date_boundary/__init__.py": {
+      "bytes": 77,
+      "sha256": "043f1f3ee68b7233e004f13ccf43892a9d3427dbb3c1984ba74a85b1d544c44b"
+    },
+    "scripts/cp7_special_free_date_boundary/composition.py": {
+      "bytes": 7018,
+      "sha256": "065d6ebaeb668c61f4c92bdd1985f946ea2c125f1fefb9e48c69437a8f284490"
+    },
+    "scripts/current-special-free-date-boundary/ACTUAL_REFERENCE.json": {
+      "bytes": 1417,
+      "sha256": "82cef356bb20c536ef881e1db5c88b4e92a41e6af7441e6e70f204a92a754e4b"
+    },
+    "scripts/current-special-free-date-boundary/LOCAL_POSTGRES_CONTROLS.json": {
+      "bytes": 3249,
+      "sha256": "f19bf10248115e439649ef46f1be150c083fcca1ef5f4bff5b771c4a3d0515cd"
+    },
+    "scripts/current-special-free-date-boundary/ORIGINAL.sql": {
+      "bytes": 749,
+      "sha256": "8d514efa74707dbc2f275a225f081095d1311558a9ef7819c8b8ef5aca98260e"
+    },
+    "scripts/current-special-free-date-boundary/PREPARED.sql": {
+      "bytes": 822,
+      "sha256": "24d125565c1a89a25ca8f77603b68664705aaa271a3d69493f33cc782017acd8"
+    },
+    "scripts/current-special-free-date-boundary/README.md": {
+      "bytes": 1441,
+      "sha256": "0d20d2d6eb1a607d24cb97c4a0fadbb81f5c7b55354bd420c286e4823273c716"
+    },
+    "scripts/current-special-free-date-boundary/SOURCE.json": {
+      "bytes": 1560,
+      "sha256": "11aef96c62d220c3f22550854635752311896fdf69f3ad2c2771f4ee461ee664"
+    },
+    "scripts/current-special-free-date-boundary/derive.py": {
+      "bytes": 1724,
+      "sha256": "09fc083f1c1eb4f7f6f129e7d47054392876b3c3b57e8850135055e35418a095"
+    },
+    "scripts/current-special-free-date-boundary/test_dates.mjs": {
+      "bytes": 6013,
+      "sha256": "64bea625dba59b8ef0065a11f18db815b1b95c31952b71c36d6182ed4bbee6c1"
+    }
+  },
+  "actual_Native_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

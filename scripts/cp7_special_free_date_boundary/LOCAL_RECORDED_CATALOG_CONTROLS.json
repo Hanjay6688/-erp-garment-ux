@@ -1,0 +1,18 @@
+{
+  "status": "DATE_DELTA_ACTUAL_RECORDED_ALL22_TRANSITION_CONTROLS_PASS_NOT_NATIVE",
+  "source_head": "33988923ab3bad708b21f3c74002f1309a3644e1",
+  "source_artifact_id": 13037578868,
+  "actual_recorded_catalog_groups": 22,
+  "actual_original_definition_sha256": "8d514efa74707dbc2f275a225f081095d1311558a9ef7819c8b8ef5aca98260e",
+  "derived_definition_sha256": "24d125565c1a89a25ca8f77603b68664705aaa271a3d69493f33cc782017acd8",
+  "only_one_predicate_change_admitted": true,
+  "undeclared_catalog_mutation_refusals": 24,
+  "all_22_groups_covered": true,
+  "Native_cases": 0,
+  "DB_connections": 0,
+  "production_go": false,
+  "independent_acceptance": false,
+  "reused_isolated_PostgreSQL_controls": 39,
+  "actual_ERP_Native_cases": 0,
+  "installed": false
+}

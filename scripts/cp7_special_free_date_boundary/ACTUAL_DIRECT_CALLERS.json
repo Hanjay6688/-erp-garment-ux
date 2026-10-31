@@ -1,0 +1,15 @@
+{
+  "status": "ACTUAL_339889_DIRECT_LITERAL_FUNCTION_REFERENCES_ONLY_NOT_GLOBAL_CALL_CLOSURE",
+  "source_artifact": 13037578868,
+  "functions": {
+    "erp.save_accessory_issue_action_v1(text,jsonb,uuid)": {
+      "bytes": 10268,
+      "sha256": "4346b5e5bc58d97d1b1d0cb6bfb9b5c0b62689853aeffded6f012bbd6d4e2045"
+    },
+    "erp.get_accessory_issue_workspace_v1(jsonb)": {
+      "bytes": 10356,
+      "sha256": "b9bd11e74c373f7a81a7435619ac78053ef2dc288369492452d3ab5c8b903d12"
+    }
+  },
+  "Native_cases": 0
+}
