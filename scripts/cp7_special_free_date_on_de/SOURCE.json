@@ -1,0 +1,56 @@
+{
+  "contract": "cp7.special-free-wib-date-complete-de-stage.v1",
+  "status": "PREPARED_C43_DATE_STAGE_WITH_EXPLICIT_COMPLETE_DE_PARENT_PENDING",
+  "expected_parent": "cp7_complete_credit_de.composition",
+  "actual_qualified_parent": null,
+  "files": {
+    "scripts/cp7_special_free_date_on_de/__init__.py": {
+      "bytes": 78,
+      "sha256": "bb4a21df7d4d08c0d2c087ae5aa36bff27fecde5c06d01032a03125e5ab9f609"
+    },
+    "scripts/cp7_special_free_date_on_de/composition.py": {
+      "bytes": 7770,
+      "sha256": "ebe598411dc59d1475bbda64d0f5465b6c346a33ebd49437d043c90a9851cd8e"
+    },
+    "scripts/current-de-free-date-preparation/admission.py": {
+      "bytes": 3622,
+      "sha256": "d50d42e788cf76534458a2bdc939944af6000748b590cc51860c067d8f57de26"
+    },
+    "scripts/current-special-free-date-boundary/ACTUAL_REFERENCE.json": {
+      "bytes": 1417,
+      "sha256": "82cef356bb20c536ef881e1db5c88b4e92a41e6af7441e6e70f204a92a754e4b"
+    },
+    "scripts/current-special-free-date-boundary/LOCAL_POSTGRES_CONTROLS.json": {
+      "bytes": 3249,
+      "sha256": "f19bf10248115e439649ef46f1be150c083fcca1ef5f4bff5b771c4a3d0515cd"
+    },
+    "scripts/current-special-free-date-boundary/ORIGINAL.sql": {
+      "bytes": 749,
+      "sha256": "8d514efa74707dbc2f275a225f081095d1311558a9ef7819c8b8ef5aca98260e"
+    },
+    "scripts/current-special-free-date-boundary/PREPARED.sql": {
+      "bytes": 822,
+      "sha256": "24d125565c1a89a25ca8f77603b68664705aaa271a3d69493f33cc782017acd8"
+    },
+    "scripts/current-special-free-date-boundary/README.md": {
+      "bytes": 1441,
+      "sha256": "0d20d2d6eb1a607d24cb97c4a0fadbb81f5c7b55354bd420c286e4823273c716"
+    },
+    "scripts/current-special-free-date-boundary/SOURCE.json": {
+      "bytes": 1560,
+      "sha256": "11aef96c62d220c3f22550854635752311896fdf69f3ad2c2771f4ee461ee664"
+    },
+    "scripts/current-special-free-date-boundary/derive.py": {
+      "bytes": 1724,
+      "sha256": "09fc083f1c1eb4f7f6f129e7d47054392876b3c3b57e8850135055e35418a095"
+    },
+    "scripts/current-special-free-date-boundary/test_dates.mjs": {
+      "bytes": 6013,
+      "sha256": "64bea625dba59b8ef0065a11f18db815b1b95c31952b71c36d6182ed4bbee6c1"
+    }
+  },
+  "actual_Native_cases": 0,
+  "GOOD_eligibility_policy_decided": false,
+  "production_go": false,
+  "independent_acceptance": false
+}
