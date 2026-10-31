@@ -1,0 +1,43 @@
+{
+  "classification": "SOURCE_ONLY_D1_THEN_E_ANCHORS_ON_ACTUAL_CURRENT_S03_SKU_NATIVE_DEFINITIONS",
+  "source_head": "33988923ab3bad708b21f3c74002f1309a3644e1",
+  "actual_original_capture_signatures": 32,
+  "D1_derived_definitions": 12,
+  "E_derived_definitions": 22,
+  "D1_changed_functions": [
+    "cp7_credit.initial_base_events_v1(uuid,uuid)",
+    "cp7_credit.initial_ordinal_input_v1(uuid,uuid)",
+    "cp7_credit._consumer_root_source_profile_v1(uuid,uuid,uuid,jsonb)",
+    "cp7_credit.assert_financial_materialization_provenance(jsonb)",
+    "cp7_credit.enforce_initial_return_closure_v1()",
+    "public.erp_cp7_correct_sales_return_v1(jsonb,uuid,text)",
+    "public.erp_cp7_get_sales_return_correction_v1(jsonb)"
+  ],
+  "E_changed_functions": [
+    "public.erp_cp7_correct_note_v1(jsonb,uuid,text)",
+    "public.erp_cp7_get_note_correction_v2(uuid)",
+    "erp._cp7_current_credit_adjustment(uuid)",
+    "cp7_credit.current_materialized_objects(uuid,uuid,uuid)",
+    "cp7_credit.assert_current_source_plan_profile(uuid,uuid,uuid,jsonb)",
+    "cp7_credit.initial_base_events_v1(uuid,uuid)",
+    "cp7_credit.initial_ordinal_input_v1(uuid,uuid)",
+    "cp7_credit.consumer_incoming_funding_v1(uuid)",
+    "cp7_credit_incoming.incoming_applied_v1(uuid)",
+    "cp7_credit.consumer_selection_v1(jsonb)",
+    "cp7_credit.consumer_capture_sources_v1(jsonb)",
+    "cp7_credit.consumer_projection_v1(jsonb,jsonb)",
+    "cp7_credit.consumer_execute_v1(uuid)",
+    "cp7_credit.assert_consumer_closed_v1(uuid)",
+    "cp7_credit.consumer_native_invariant_v1(uuid)",
+    "cp7_credit.consumer_invoice_profile_v1(uuid)",
+    "cp7_credit.consumer_event_data_v1(uuid)",
+    "cp7_credit.consumer_quote_v1(jsonb)",
+    "cp7_credit.native_source_enter(text,uuid)"
+  ],
+  "D1_then_E_raw_source_chain": "PASS",
+  "PostgreSQL_normalization_and_actual_install_not_executed": true,
+  "actual_SQL_executed": 0,
+  "actual_Native_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

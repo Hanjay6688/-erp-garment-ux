@@ -1,0 +1,108 @@
+{
+  "contract": "cp7.current-complete-credit-de.v1",
+  "status": "PREPARED_ACTUAL_COMPLETE_PARENT_PENDING",
+  "files": {
+    "scripts/cp7_complete_credit_de/README.md": {
+      "bytes": 1894,
+      "sha256": "2ac03019e692e5fbe8820b6e7163bb8efd77291c2c29c1efa7e08588520c8992"
+    },
+    "scripts/cp7_complete_credit_de/RECORDED_NATIVE_CAPTURES.json": {
+      "bytes": 173774,
+      "sha256": "c5c18ca3d68e373ecaef8ec992e168564e21f37d9a0ee190414322e1688de214"
+    },
+    "scripts/cp7_complete_credit_de/__init__.py": {
+      "bytes": 76,
+      "sha256": "23b325fd9b7876a3f6cd993267feb5fe97516334ade5bc12034ba453a5be4b4f"
+    },
+    "scripts/cp7_complete_credit_de/composition.py": {
+      "bytes": 7547,
+      "sha256": "e25bcbcbf03a0d7cd4df3486776b5d3c0ba42d7b956131d0ba3c940caff013a1"
+    },
+    "scripts/cp7_credit_correction_de/__init__.py": {
+      "bytes": 91,
+      "sha256": "5cea80d360a7ce7a86d3adc85cc60f84de2fe2eb7e000db4dff1880b8b6eeeb5"
+    },
+    "scripts/cp7_credit_correction_de/closure.sql": {
+      "bytes": 6259,
+      "sha256": "e21744ba0d98e963ccba9ca916247b797cb2c930b889e2eb41288a12f1888972"
+    },
+    "scripts/cp7_credit_correction_de/composition.py": {
+      "bytes": 12386,
+      "sha256": "3387878acd8374237b294475a14f7fb877f2827fcad1358eabd953b6e99afa00"
+    },
+    "scripts/cp7_credit_correction_de/e_composition.py": {
+      "bytes": 12376,
+      "sha256": "6e690d12e30cb3a6463283dc62f269f5e3e77e2e59f37e45cdd0b5ec1f6a46d6"
+    },
+    "scripts/cp7_credit_correction_de/e_native_delta.py": {
+      "bytes": 11997,
+      "sha256": "314742c922fc82145f7caa8d4217296bf3f2408ceacbc4738d50d3b866d2bfe0"
+    },
+    "scripts/cp7_credit_correction_de/facts.sql": {
+      "bytes": 5073,
+      "sha256": "ddfcf8583cf86a916e04aa5630d6262a32e48919dbd0a4c913a09166ca2f8334"
+    },
+    "scripts/cp7_credit_correction_de/materialize.sql": {
+      "bytes": 15010,
+      "sha256": "206c18b517aef54ddc5757fd156a6c7d8d4a2c3240f62779773a4fff74fe6154"
+    },
+    "scripts/cp7_credit_correction_de/native_delta.py": {
+      "bytes": 7494,
+      "sha256": "d6157ad24dd22ca4810df12668090eb74a3382e6ceb3e4c0954a037a7016c664"
+    },
+    "scripts/cp7_credit_correction_de/note_carry/01_facts.sql": {
+      "bytes": 3885,
+      "sha256": "ebf128127e6bcab8fe1c52b98f46ede1492356386312fe2f744e3e65ddb1d415"
+    },
+    "scripts/cp7_credit_correction_de/note_carry/02_plan.sql": {
+      "bytes": 2297,
+      "sha256": "17c9028606298e7d66681deb3c0a1f3260a1ec829d9ba501a647231b358981f3"
+    },
+    "scripts/cp7_credit_correction_de/note_carry/03_readers.sql": {
+      "bytes": 9250,
+      "sha256": "940200b5320189bd424a99ccef9cc92846dd576a6c6d4bd2e8f1e25afd3325d8"
+    },
+    "scripts/cp7_credit_correction_de/note_carry/04_basis.sql": {
+      "bytes": 7444,
+      "sha256": "cdd49e1c5f9a78f4c2c27ce0ae055907a485475c0020720c9e18a0f80e68c222"
+    },
+    "scripts/cp7_credit_correction_de/note_carry/05_effect.sql": {
+      "bytes": 9816,
+      "sha256": "cd77c5ab9427223e1c67b93d8631a1808b8ddc593fc0c97d12e9c069a2950710"
+    },
+    "scripts/cp7_credit_correction_de/note_carry/06_owning.sql": {
+      "bytes": 13433,
+      "sha256": "0c00bb08274827e6295ada3ed4e4b8e7d917ed1bc1a996aaa0685d0fd1772c94"
+    },
+    "scripts/cp7_credit_correction_de/note_carry/07_profile_closure.sql": {
+      "bytes": 16068,
+      "sha256": "8e82c257ca20a4dcac5cf0dad2f1e487c2e202caea7fa466503019003d3f75ac"
+    },
+    "scripts/cp7_credit_correction_de/owning.sql": {
+      "bytes": 25957,
+      "sha256": "410afb540f455ce6781d8bf09ee6bd6f66420a2f17d3c5474720a642fdcc9cae"
+    },
+    "scripts/cp7_credit_correction_de/posting.sql": {
+      "bytes": 13878,
+      "sha256": "e200a62d91c7975e67a88eb37c47d89dd739eb8f63fc0a1ee7063aaec0f9ce5b"
+    },
+    "scripts/cp7_credit_correction_de/proof.sql": {
+      "bytes": 15975,
+      "sha256": "8d81f2d8d9384c08eda28eb0b86a6c96b97f2ef8178adbe4b7d1dab01b8cf7ef"
+    },
+    "scripts/cp7_credit_correction_de/review.sql": {
+      "bytes": 3722,
+      "sha256": "88681bf674a6b6e8aeda46830a4a27b18bdda84cfcba6868bbb08e3f84fdc382"
+    },
+    "scripts/current-complete-de-integration-preparation/admission.py": {
+      "bytes": 1070,
+      "sha256": "e952ef3a1d6d13c382b70a0d9c092637c5fd8f4626852068cab2d9088e04aeb9"
+    }
+  },
+  "actual_Native_cases": 0,
+  "D_complete": false,
+  "E_complete": false,
+  "global_eight_hook_runtime_opened": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

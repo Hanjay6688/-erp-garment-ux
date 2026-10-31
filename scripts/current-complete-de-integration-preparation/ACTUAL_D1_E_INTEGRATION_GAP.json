@@ -1,0 +1,42 @@
+{
+  "classification": "ACTUAL_CURRENT_CATALOGUE_D1_E_NOT_YET_JOINED",
+  "source_head": "33988923ab3bad708b21f3c74002f1309a3644e1",
+  "archive": {
+    "bytes": 4555289,
+    "sha256": "bde00f8a2fe020bc5b8a8f69d4952599d61850b1522bd5b232f67ffc12538d28"
+  },
+  "member": "CP7_CURRENT_S03_SKU_S05_NATIVE31_BROWSER6.json",
+  "member_pin": {
+    "bytes": 32490207,
+    "sha256": "d773fcb176045d8457624d411c798fdb3d48aca85929c37d3905a3ec5e210a1e"
+  },
+  "actual_catalogue_pointer": "/committed/CURRENT_S03_SKU_S05_NATIVE31_BROWSER6/fresh_S03_Native14/actual_installed_capture/actual_all22",
+  "actual_groups": 22,
+  "actual_function_count": 2889,
+  "expected_owning_roots_source": "3d7066b852176d9f343ec831d2f63aee6665579b:scripts/current-global-actual-writer-census-qualification/ROOTS.json",
+  "expected_owning_roots": 8,
+  "present": [
+    "cp7_credit.source_request_enter_v1(text,jsonb,uuid,text)",
+    "cp7_credit.source_request_finish_v1(uuid)"
+  ],
+  "missing": [
+    "cp7_credit_correction_de.quote_v1(jsonb)",
+    "cp7_credit_correction_de.prepare_v1(jsonb,uuid,text,jsonb)",
+    "cp7_credit_correction_de.finish_v1(jsonb)",
+    "cp7_credit_note_carry_de.basis_v1(uuid)",
+    "cp7_credit_note_carry_de.prepare_v1(jsonb,uuid,text,uuid,jsonb)",
+    "cp7_credit_note_carry_de.finish_v1(jsonb)"
+  ],
+  "missing_schemas": [
+    "cp7_credit_correction_de",
+    "cp7_credit_note_carry_de"
+  ],
+  "current37_qualification_does_not_cover_D1_E": true,
+  "D1_E_must_join_before_global_eight_hook_installation": true,
+  "raw_ACL_NULL_vs_explicit_not_inferred": true,
+  "actual_new_Native_cases": 0,
+  "writer_closure": false,
+  "permission_closure": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

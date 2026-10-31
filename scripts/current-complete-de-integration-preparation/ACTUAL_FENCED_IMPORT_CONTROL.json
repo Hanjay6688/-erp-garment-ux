@@ -1,0 +1,43 @@
+{
+  "status": "ACTUAL_COMPLETE_D1_E_NATURAL_IMPORT_CHAIN_UNDER_DB_FENCE_PASS",
+  "current_modules": {
+    "top": "scripts/cp7_complete_credit_de/composition.py",
+    "complete": "scripts/cp7_current_s03_sku_s05/composition.py",
+    "D1": "scripts/cp7_credit_correction_de/composition.py",
+    "E": "scripts/cp7_credit_correction_de/e_composition.py",
+    "financial": "scripts/cp7_s03_sku_composition/composition.py",
+    "reader": "scripts/cp7_s05_s03_sku_composition/stage.py"
+  },
+  "physical_Vendor_SKU_modules": [
+    "/workspace/scratch/b73c04f98216/erp-sku-browser-successor/scripts/cp7_vendor_receivable/composition.py",
+    "/workspace/scratch/b73c04f98216/erp-sku-browser-successor/scripts/cp7_sku_pair_conversion/composition.py"
+  ],
+  "source_DB_guard": {
+    "attempts": [],
+    "self_controls": [
+      {
+        "api": "psycopg.connect",
+        "result": "DENIED_BEFORE_LIBPQ"
+      },
+      {
+        "api": "psycopg.Connection.connect",
+        "result": "DENIED_BEFORE_LIBPQ"
+      },
+      {
+        "api": "psycopg.AsyncConnection.connect",
+        "result": "DENIED_BEFORE_LIBPQ"
+      },
+      {
+        "original_connect_descriptors_restored": true
+      }
+    ],
+    "network_nonGit_attempts": [],
+    "public_source_sha256": "1439d70810383db377c48e043df7fb6d487a1b2f1a995e8993a2c08590f9f797"
+  },
+  "product_ROOT_method_or_source_map_override": false,
+  "whole_financial_source_graph_evaluated": false,
+  "actual_parent_qualification_still_pending": true,
+  "actual_Native_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}
