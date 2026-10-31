@@ -5,14 +5,14 @@ import argparse,ast,json,re,zipfile
 from intake_common import GitBytes,exact,fields,pin,require,safe_path
 from intake_sku27 import strict,literal,group,full_census,declared_files
 
-HEAD='1edd7b7fb6f7f02528cf09bcc352b72ea0e4a2c3'
-TREE='7433f5bb0208584e656bbd30f90a7cac3cede1e8'
+HEAD='1d52f8a2cf48c07d6af86dbaf114989cb2f5bece'
+TREE='abdae9ea30b7e6a32d77fbe0e8151196f9e8ff7f'
 BASE='b25eaae55a144aa03cc05f8f77109f5d0b02fbfb'
 NS='scripts/current-s03-sku-s05-composite-qualification/'
 CASE='CURRENT_S03_SKU_S05_NATIVE31_BROWSER6'
 MAIN='CP7_CURRENT_S03_SKU_S05_NATIVE31_BROWSER6.json'
-RUN=41190706967
-JOB=124506749369
+RUN=41200818043
+JOB=124536087695
 GATES=dict(installed=True,primary_unchanged=True,backup_restore_drill=True,security_advisors=True,writer_runtime=True)
 
 def source(g):
@@ -21,11 +21,11 @@ def source(g):
         base_tree='e08f5eba90fd9a2deeb53a0a483c49e7a080e31c',actual_cases=0,
         planned=dict(SKU_Native7=7,S03_Native14=14,S05_Native10=10,S03_browser4=4,S05_browser2=2,total=37),
         production_go=False,independent_acceptance=False),'EXACT_CURRENT_JOIN_SOURCE')
-    exact(len(manifest['files']),49,'EXACT_SOURCE49')
+    exact(len(manifest['files']),52,'EXACT_SOURCE52')
     for name,digest in manifest['files'].items():g.verify_pin(name,digest)
     base=g.entries(BASE);exact(len(base),14000,'EXACT_JOINED_BASE14000')
     for name,entry in base.items():exact(g.tree.get(name),entry,'UNCHANGED_PARENT_BLOB_AND_MODE:'+name)
-    exact(set(g.tree)-set(base),set(manifest['files'])|{NS+'SOURCE.json'},'CLOSED_CURRENT_JOIN50_PATHS')
+    exact(set(g.tree)-set(base),set(manifest['files'])|{NS+'SOURCE.json'},'CLOSED_CURRENT_JOIN53_PATHS')
     ids={
         'S03_Native11':list(literal(g,'scripts/current-s03-sku-native14-binding/retained-s03-f42e/cases.py','IDS')),
         'S03_reader3':list(literal(g,'scripts/current-s03-sku-native14-binding/retained-s03-f42e/reader_cases.py','IDS')),
@@ -38,8 +38,8 @@ def source(g):
     exact([len(ids[key])for key in ('S03_Native11','S03_reader3','SKU_Native7','S05_Native10','S03_browser4','S05_browser2')],
         [11,3,7,10,4,2],'EXACT_SIX_SOURCE_GROUPS')
     exact(len({item for values in ids.values()for item in values}),37,'EXACT_37_UNIQUE_SOURCE_IDS')
-    return dict(manifest=pin(g.read(NS+'SOURCE.json')),source_files=49,unchanged_base_blobs_and_modes=14000,
-        current_paths=50,case_ids=ids,actual_case_credit=0)
+    return dict(manifest=pin(g.read(NS+'SOURCE.json')),source_files=52,unchanged_base_blobs_and_modes=14000,
+        current_paths=53,case_ids=ids,actual_case_credit=0)
 
 def browser(value,ids,g,script,label):
     fields(value,dict(status='RUN_COMPLETE',counts={'PASS':len(ids)},planned_case_ids=ids,

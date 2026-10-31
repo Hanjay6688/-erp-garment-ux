@@ -1,0 +1,10 @@
+{
+  "status": "FIRST_LOCAL_ADDITIONAL_QUERY_CONTROL_FAILURE_RETAINED",
+  "query_SQL_executed": 4,
+  "failed_assertion": "backend_activity.length > 0",
+  "actual_backend_activity_rows": 0,
+  "environment": "Embedded isolated PostgreSQL17.5 exposes no live server backend rows",
+  "source_collector_did_not_require_nonempty_backend_rows": true,
+  "correction": "Keep actual empty observation; separately test exact SQL projection on labelled synthetic values; no Native or live-backend proof claimed",
+  "actual_Native_cases": 0
+}

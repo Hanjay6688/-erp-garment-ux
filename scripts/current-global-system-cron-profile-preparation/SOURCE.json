@@ -1,0 +1,51 @@
+{
+  "classification": "ALL_NAMESPACE_SYSTEM_CRON_READONLY_PROFILE_PREPARED_NOT_EXECUTED_ON_ERP",
+  "files": {
+    "ADDED_FOUR_ISOLATED_SQL_CONTROLS.json": {
+      "bytes": 662,
+      "sha256": "476acf0b57961c8d8e2ebe3f54cc24b4139f4c1b09860df864d03191fb9bef9d"
+    },
+    "FIRST23_ISOLATED_SQL_CONTROLS.json": {
+      "bytes": 1452,
+      "sha256": "411bd59dd5216e42f405a7cf8e62abfaef1770276ce83f9933581d866c8449a7"
+    },
+    "FIRST_ADDED_CONTROL_FAILURE.json": {
+      "bytes": 529,
+      "sha256": "231a05d2d2381536e147ee822fd0f58234af9c9898a104c3ec3566e260b078cb"
+    },
+    "LOCAL_ADMINISTRATIVE_GUARD_CONTROLS.json": {
+      "bytes": 252,
+      "sha256": "f24774853682848eb65710433031112472b6b11e2a55f0848dc01b11caa49b77"
+    },
+    "QUERIES.json": {
+      "bytes": 12006,
+      "sha256": "bb0d7d530cb34fb098923e7ec641d7ab616c7e302b48b79974799defa5009059"
+    },
+    "README.md": {
+      "bytes": 2071,
+      "sha256": "b0fde47c18d347cbf37b7678f76323c8bc202ca1ef0392ecbea7490b24f76bb9"
+    },
+    "collector.py": {
+      "bytes": 5028,
+      "sha256": "1cffca9b0db23ebb4c7dd5419c52621c83b143327194ee0322819b3709d9e27c"
+    },
+    "test_added_queries.mjs": {
+      "bytes": 3077,
+      "sha256": "3cd0bced7fca50f535dbef39a7e3d253bb1b443ea7903a750f4df59f57817630"
+    },
+    "test_collector.py": {
+      "bytes": 4097,
+      "sha256": "c0473cf09bcf8b17559369ee57b51a95d76466474912a22ca475ffbfcad9d11e"
+    },
+    "test_queries.mjs": {
+      "bytes": 5316,
+      "sha256": "75a40419bd5f31e30f97c7d039a8f1b792d57d852c5a64e12547353603766d07"
+    }
+  },
+  "query_count": 27,
+  "actual_ERP_Native_cases": 0,
+  "writer_closure": false,
+  "permission_closure": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

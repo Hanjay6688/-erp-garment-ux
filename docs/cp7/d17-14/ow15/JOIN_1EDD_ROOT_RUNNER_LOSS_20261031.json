@@ -1,0 +1,32 @@
+{
+  "classification": "ACTUAL_GITHUB_RUNNER_COMMUNICATION_LOSS_NO_QUALIFICATION",
+  "head": "1edd7b7fb6f7f02528cf09bcc352b72ea0e4a2c3",
+  "tree": "7433f5bb0208584e656bbd30f90a7cac3cede1e8",
+  "run_id": 41190706967,
+  "job_id": 124506749369,
+  "run_started_at": "2026-10-31T09:56:31Z",
+  "job_started_at": "2026-10-31T09:56:33Z",
+  "job_completed_at": "2026-10-31T11:54:39Z",
+  "conclusion": "failure",
+  "annotation_source": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/check-runs/124506749369/annotations",
+  "annotation": {
+    "path": ".github",
+    "start_line": 1,
+    "end_line": 1,
+    "annotation_level": "failure",
+    "message": "The hosted runner lost communication with the server. Anything in your workflow that terminates the runner process, starves it for CPU/Memory, or blocks its network access can cause this error."
+  },
+  "runner_loss_confirmed": true,
+  "CPU_memory_disk_network_or_process_cause_proven": false,
+  "job_logs": "404_BlobNotFound",
+  "artifacts_at_2026_10_31T12_04_38Z": [],
+  "last_observed_step": "Run one actual current Native31 browser6 composite and complete outer restoration",
+  "last_observed_step_status": "in_progress_despite_terminal_job",
+  "completed_business_cases_known": false,
+  "restoration_or_all5_proven": false,
+  "fresh_case_credit": 0,
+  "complete37_qualified": false,
+  "prior339889_financial11_are_not_credited_to_this_run": true,
+  "production_go": false,
+  "independent_acceptance": false
+}
