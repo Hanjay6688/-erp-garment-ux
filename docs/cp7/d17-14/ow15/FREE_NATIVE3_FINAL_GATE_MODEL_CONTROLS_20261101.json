@@ -1,0 +1,135 @@
+{
+  "classification": "EXPLICIT_SYNTHETIC_FREE3_GATE_GRAMMAR_NOT_ACTUAL_ACCEPTANCE",
+  "status": "PASS",
+  "positive_grammar_controls": 1,
+  "negative_controls": 12,
+  "negative_results": [
+    {
+      "name": "Boolean_case_count",
+      "result": "REFUSED",
+      "error": "JOIN_PARENT_TYPE:FREE_DATE_NATIVE3_AND_FULL_RESTORE/actual_Native_cases"
+    },
+    {
+      "name": "Changed_replay_raw_history",
+      "result": "REFUSED",
+      "error": "JOIN_PARENT_VALUE:FREE_DATE_REPLAY_RAW_POSTED_HISTORY/header/status"
+    },
+    {
+      "name": "Empty_posted_snapshot",
+      "result": "REFUSED",
+      "error": "FREE_DATE_RAW_POSTED_SNAPSHOT_STRUCTURE_REQUIRED"
+    },
+    {
+      "name": "Balanced_GL_without_inventory_cost",
+      "result": "REFUSED",
+      "error": "FREE_DATE_RAW_GL_COST_AND_NO_RECEIVABLE_OR_CASH"
+    },
+    {
+      "name": "Changed_stock_replay",
+      "result": "REFUSED",
+      "error": "JOIN_PARENT_VALUE:FREE_DATE_REPLAY_RAW_STOCK_NO_EFFECT"
+    },
+    {
+      "name": "Forged_boundary_expectation",
+      "result": "REFUSED",
+      "error": "JOIN_PARENT_VALUE:FREE_DATE_INDEPENDENT_INCLUSIVE_BOUNDARY_ORACLE"
+    },
+    {
+      "name": "Committed_used_sequence_changed",
+      "result": "REFUSED",
+      "error": "JOIN_PARENT_VALUE:FREE_DATE_USED_INVERSE_RAW_NO_EFFECT/full_data_and_sequences/MODEL_SEQUENCE"
+    },
+    {
+      "name": "Case_private_sequence_changed",
+      "result": "REFUSED",
+      "error": "JOIN_PARENT_VALUE:FREE_DATE_EVERY_CASE_FULL22_ROWS_SEQUENCES:FREE_DATE_NATIVE_WIB_INCLUSIVE_LOOKUP_AND_NORMAL_PUBLIC_QUOTE/full_data_and_sequences/MODEL_SEQUENCE"
+    },
+    {
+      "name": "Writer_package_gate_false",
+      "result": "REFUSED",
+      "error": "JOIN_PARENT_VALUE:FREE_DATE_ALL_FIVE_ACTUAL_PACKAGE_GATES/writer_runtime"
+    },
+    {
+      "name": "Nonfinite_or_boolean_decimal_True",
+      "result": "REFUSED"
+    },
+    {
+      "name": "Nonfinite_or_boolean_decimal_NaN",
+      "result": "REFUSED"
+    },
+    {
+      "name": "Nonfinite_or_boolean_decimal_Infinity",
+      "result": "REFUSED"
+    }
+  ],
+  "case_boundary_model_controls": [
+    {
+      "name": "Ordinary_model_rows_restored_with_observation_retained",
+      "result": "PASS"
+    },
+    {
+      "name": "Nontransactional_model_sequence_change",
+      "result": "REFUSED"
+    },
+    {
+      "name": "Original_model_business_error_preserved_after_rollback",
+      "result": "PASS"
+    },
+    {
+      "name": "Ended_model_transaction",
+      "result": "REFUSED"
+    }
+  ],
+  "model_source_pin": {
+    "bytes": 14545,
+    "sha256": "7fa0b810700ed2a3c1c3b3addffa7301fdf33939affb9fe484a417268cc0039d"
+  },
+  "actual_prepared_source_pins": {
+    "final_gate.py": {
+      "bytes": 12159,
+      "sha256": "2c1aa3bf2848c755157f3d4d974c91a51f33642c732b94393fdaf8f3d56db446"
+    },
+    "component.py": {
+      "bytes": 8583,
+      "sha256": "926767c3b3487539fbbea77de7ea2a6eecf29fdb462237f25977cbac6c793e02"
+    },
+    "native_free.py": {
+      "bytes": 15045,
+      "sha256": "804cd2862a426e11c883f7252c553059af7fdc919cb8a2de8fa3ee0917326575"
+    }
+  },
+  "existing_backup_and_package_fixture_origin": {
+    "head": "6cb5bfe213fe3ce684244370dec092569705f6ff",
+    "run_id": 41212698704,
+    "root_receipt": "OWNER_ACCESS1_6CB_ROOT_ACTUAL_INTAKE_20261031.json"
+  },
+  "synthetic_loader_override_only": true,
+  "actual_ERP_or_product_module_overrides": false,
+  "source_DB_guard": {
+    "attempts": [],
+    "self_controls": [
+      {
+        "api": "psycopg.connect",
+        "result": "DENIED_BEFORE_LIBPQ"
+      },
+      {
+        "api": "psycopg.Connection.connect",
+        "result": "DENIED_BEFORE_LIBPQ"
+      },
+      {
+        "api": "psycopg.AsyncConnection.connect",
+        "result": "DENIED_BEFORE_LIBPQ"
+      },
+      {
+        "original_connect_descriptors_restored": true
+      }
+    ],
+    "network_nonGit_attempts": [],
+    "public_source_sha256": "1439d70810383db377c48e043df7fb6d487a1b2f1a995e8993a2c08590f9f797"
+  },
+  "actual_SQL_executed": 0,
+  "actual_Native_cases": 0,
+  "actual_business_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

@@ -1,0 +1,75 @@
+{
+  "classification": "ROOT_PREPARED_NATIVE_FREE3_OWNING_CALLER_SOURCE_AND_SYNTHETIC_GATE_CONTROLS_NOT_NATIVE_ACCEPTANCE",
+  "created_at_UTC": "2026-10-31T18:36:06.622173+00:00",
+  "root_predecessor": "f18705efb15f73068e3de567ae031237b6cf9eaf",
+  "prepared_FREE_date": {
+    "head": "67baa0ddb5cd8773104e8c43a287b58f1df772dc",
+    "tree": "bf4cea8fa127b68926ec6294ed19193ceca9188a",
+    "parent": "13db04e03a060e3a1faaac9f7125d9a2e5578adb",
+    "base": "fef0d838991df1ab3474382747ee3519d4c237eb",
+    "branch": "astra-a/de-free-date-repaired-parent-source-prepared-20261101",
+    "own_paths": 31,
+    "own_pins": 30,
+    "unchanged_parent_files_and_modes": 14181,
+    "prepared_new_Native_case_ids": [
+      "FREE_DATE_NATIVE_WIB_INCLUSIVE_LOOKUP_AND_NORMAL_PUBLIC_QUOTE",
+      "FREE_DATE_NATIVE_FINAL_DAY_POST_STOCK_GL_AND_EXACT_REPLAY",
+      "FREE_DATE_NATIVE_POSTED_HISTORY_AFTER_ELIGIBILITY_ENDS"
+    ],
+    "unchanged_BC_fixture_and_strict_runner_sources": 3,
+    "code_changes_to_original_fixture_or_runner": 0,
+    "inner_per_case_full22_ALL_rows_and_sequences_bracket": true,
+    "original_strict_outer_CP6_public_session_checks_retained": true,
+    "whole_original_package_engine_reused": true,
+    "additional_engine_routes": 2,
+    "canonical_parent_fetch_routes": 20,
+    "workflow_data_steps": 74,
+    "unchanged_parent_workflow_steps": 68,
+    "routed_parent_steps": 6,
+    "job_and_real_WIB_minutes": 210,
+    "pending_entries_before_ERP_SQL_GET_or_report": 15,
+    "source_fence_control": "PASS_THREE_PSYCOPG_AND_NON_GIT_NETWORK_ZERO_ATTEMPTS",
+    "positive_synthetic_gate_grammar_controls": 1,
+    "negative_synthetic_gate_controls": 12,
+    "synthetic_case_boundary_controls": 4,
+    "reused_unchanged_lifecycle_models_PASS": 14,
+    "reused_unchanged_isolated_date_SQL_controls": 39,
+    "actual_DE30_root_receipt": null,
+    "workflow_activated": false,
+    "runtime_dispatched": false,
+    "actual_Native_cases": 0,
+    "actual_new_SQL_executed": 0,
+    "GOOD_eligibility_policy_decided": false,
+    "Afui_GOOD_nonpayable_path_complete": false
+  },
+  "receipts": {
+    "FREE_NATIVE3_OWNING_SOURCE_CONTROL_20261101.json": {
+      "bytes": 6812,
+      "sha256": "319ccc2d9b2db65f3427aaaff6f532ada332056f636548ab051d492c40440fda"
+    },
+    "FREE_NATIVE3_FINAL_GATE_MODEL_CONTROLS_20261101.json": {
+      "bytes": 4094,
+      "sha256": "a783e363167be9d2d618c182c6f9464993a63c0d7de3bf47eaef2828e792b18c"
+    },
+    "FREE_NATIVE3_OWNING_CALLER_PREBUILD_20261101.json": {
+      "bytes": 3697,
+      "sha256": "d9647b78a83d3ca13026c1a879cee714a44677dd575b64437dc26b2befef29c2"
+    }
+  },
+  "current37": {
+    "head": "6cb5bfe213fe3ce684244370dec092569705f6ff",
+    "run_id": 41222437891,
+    "job_id": 124599622258,
+    "last_observed_status": "in_progress",
+    "actual_cases_accepted": 0
+  },
+  "next": "Continue actual current37 monitoring and prepare canonical Root FREE3 intake without opening pending parent or activating the data-only workflow.",
+  "actual_new_Native_cases": 0,
+  "actual_new_SQL_executed": 0,
+  "D_complete": false,
+  "E_complete": false,
+  "global_writer_or_permission_or_lock_closure": false,
+  "FG_Mandor_queued_after_active_integration_stable": true,
+  "production_go": false,
+  "independent_acceptance": false
+}

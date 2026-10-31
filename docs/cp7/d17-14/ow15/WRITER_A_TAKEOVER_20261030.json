@@ -166,7 +166,8 @@
     "Monitor actual current37 run41222437891/job124599622258; preserve the first failure and canonical artifact; no acceptance while active.",
     "On terminal success verify exact current37 canonical archive/API identity and all original fresh37/all5/restores using pinned Root intake.",
     "Permanent49, DE62 and date22 source ports are already prepared on repaired source; after each actual successful parent bind only its canonical Root receipt, regenerate own source pins and observe each actual owning run before arming intake.",
-    "Continue remaining old ERP/global/Afui scope and implement FG Mandor chosen-week allocations after active integration is stable."
+    "Continue remaining old ERP/global/Afui scope and implement FG Mandor chosen-week allocations after active integration is stable.",
+    "Prepared FREE3 source67baa includes the whole owning caller and data-only workflow; add its closed canonical Root intake before actual activation after accepted DE30. Synthetic model controls are zero Native/business credit."
   ],
   "prior_checkpoint": {
     "classification": "WRITER_A_TAKEOVER_ACTIVE_CONTINUATION_NOT_COMPLETION",
@@ -2044,7 +2045,7 @@
     "complete37_qualified": false
   },
   "latest_runner_loss_receipt": "JOIN_1EDD_ROOT_RUNNER_LOSS_20261031.json",
-  "latest_continuation_receipt": "WRITER_A_V228_REPAIRED_PARENT_DE62_DATE22_UNIFIED_20261101.json",
+  "latest_continuation_receipt": "WRITER_A_V229_PREPARED_NATIVE_FREE3_WHOLE_CALLER_20261101.json",
   "current_system_cron_profile_preparation": {
     "namespace": "scripts/current-global-system-cron-profile-preparation",
     "queries": 27,
@@ -2282,27 +2283,44 @@
     "current_prepared_head": "04ed2fbc3f1fb24174ff7368bffbb2dff01f5423"
   },
   "explicit_current_DE_FREE_date_preparation": {
-    "head": "13db04e03a060e3a1faaac9f7125d9a2e5578adb",
-    "tree": "35c1b48d8fecc4a9f12fafe30444eaa578a8f571",
-    "parent": "fef0d838991df1ab3474382747ee3519d4c237eb",
+    "head": "67baa0ddb5cd8773104e8c43a287b58f1df772dc",
+    "tree": "bf4cea8fa127b68926ec6294ed19193ceca9188a",
+    "parent": "13db04e03a060e3a1faaac9f7125d9a2e5578adb",
+    "base": "fef0d838991df1ab3474382747ee3519d4c237eb",
     "branch": "astra-a/de-free-date-repaired-parent-source-prepared-20261101",
+    "own_paths": 31,
+    "own_pins": 30,
     "unchanged_parent_files_and_modes": 14181,
-    "own_paths": 22,
-    "own_pins": 21,
-    "original_own_files": 21,
-    "original_byte_unchanged": 17,
-    "code_literal_changes": 2,
-    "readme_text_changes": 1,
-    "origin_declared_after_routes": 2,
-    "manifest_regenerated": true,
+    "prepared_new_Native_case_ids": [
+      "FREE_DATE_NATIVE_WIB_INCLUSIVE_LOOKUP_AND_NORMAL_PUBLIC_QUOTE",
+      "FREE_DATE_NATIVE_FINAL_DAY_POST_STOCK_GL_AND_EXACT_REPLAY",
+      "FREE_DATE_NATIVE_POSTED_HISTORY_AFTER_ELIGIBILITY_ENDS"
+    ],
+    "unchanged_BC_fixture_and_strict_runner_sources": 3,
+    "code_changes_to_original_fixture_or_runner": 0,
+    "inner_per_case_full22_ALL_rows_and_sequences_bracket": true,
+    "original_strict_outer_CP6_public_session_checks_retained": true,
+    "whole_original_package_engine_reused": true,
+    "additional_engine_routes": 2,
+    "canonical_parent_fetch_routes": 20,
+    "workflow_data_steps": 74,
+    "unchanged_parent_workflow_steps": 68,
+    "routed_parent_steps": 6,
+    "job_and_real_WIB_minutes": 210,
+    "pending_entries_before_ERP_SQL_GET_or_report": 15,
+    "source_fence_control": "PASS_THREE_PSYCOPG_AND_NON_GIT_NETWORK_ZERO_ATTEMPTS",
+    "positive_synthetic_gate_grammar_controls": 1,
+    "negative_synthetic_gate_controls": 12,
+    "synthetic_case_boundary_controls": 4,
     "reused_unchanged_lifecycle_models_PASS": 14,
     "reused_unchanged_isolated_date_SQL_controls": 39,
-    "original_product_compositions_and_SQL_unchanged": true,
-    "pending_entries_before_ERP_SQL": 11,
     "actual_DE30_root_receipt": null,
     "workflow_activated": false,
+    "runtime_dispatched": false,
     "actual_Native_cases": 0,
-    "GOOD_eligibility_policy_decided": false
+    "actual_new_SQL_executed": 0,
+    "GOOD_eligibility_policy_decided": false,
+    "Afui_GOOD_nonpayable_path_complete": false
   },
   "prior_current_complete_DE_root_intake_before_repaired_parent": {
     "status": "ROOT_DE30_WORKFLOW_SUCCESSOR_SOURCE_AND_UNARMED_CONTROL_PASS",

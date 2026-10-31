@@ -1,0 +1,95 @@
+{
+  "status": "FREE_NATIVE3_OWNING_CALLER_PURE_DERIVATIONS_PASS_NOT_RUNTIME",
+  "whole_engine": {
+    "parent_derivation": {
+      "original_sha256": "c420d894f8d5f16bddefeae73addb621507170f372a28e7d6e33d88c7eeb0be9",
+      "derived_sha256": "71f828311c2720d32bfd70a0b3725fff1e538044f7d82cd45c587643a2a7d088",
+      "counted_changes": 2,
+      "complete_original_recovered": true,
+      "install_preuse_reinstall_used_backup_roles_all22_ALL_rows_sequences_CP6_advisors_Auth_package_checks_retained": true,
+      "actual_Native_cases": 0,
+      "production_go": false,
+      "independent_acceptance": false
+    },
+    "parent_derived_sha256": "71f828311c2720d32bfd70a0b3725fff1e538044f7d82cd45c587643a2a7d088",
+    "derived_sha256": "0eb019886ff98f70ea4127cc1dd7ed6e8cdd139f086bb8b48005d79c549948cf",
+    "additional_declared_routes": 2,
+    "entire_original_engine_recovered": true,
+    "all_original_backup_restore_and_package_checks_retained": true,
+    "actual_Native_cases": 0,
+    "actual_SQL_executed": 0
+  },
+  "canonical_parent_fetch": {
+    "parent_derivation": {
+      "original_head": "a5944f25a5e3ba1f1f537a18abe923eb753f922f",
+      "original_path": "scripts/current-final-s03-sku-s05-preparation/fetch_parent37.py",
+      "original_bytes": 4756,
+      "original_sha256": "a595f49e9fef9860363bfef19b856efa183896af049470627108241ad45ae6dd",
+      "derived_sha256": "d1bef01e3a2b2f3466ac9facc603ff4b52e3781335fe112df5775f70ee3cb726",
+      "counted_replacement_rules": 22,
+      "original_source_recovered": true,
+      "actual_GitHub_GETs": 0,
+      "actual_Native_cases": 0
+    },
+    "parent_derived_sha256": "d1bef01e3a2b2f3466ac9facc603ff4b52e3781335fe112df5775f70ee3cb726",
+    "derived_sha256": "6f52d8ee89903745a8e6f6c755a718ef160f190135c7c69a9953f426dc2303f7",
+    "additional_counted_routes": 20,
+    "complete_original_fetcher_recovered": true,
+    "actual_GitHub_GETs": 0,
+    "actual_Native_cases": 0
+  },
+  "workflow": {
+    "status": "FREE_DATE_NATIVE3_WORKFLOW_DATA_NOT_ACTIVATED",
+    "parent_derivation": {
+      "status": "DE30_WORKFLOW_DATA_ONLY_NOT_ACTIVATED",
+      "original_head": "a5944f25a5e3ba1f1f537a18abe923eb753f922f",
+      "original_path": ".github/workflows/cp7-final-s03-sku-s05.yml",
+      "original_bytes": 33918,
+      "original_sha256": "11d398b373b478f49c366cd611ab0cd67a9e2cc8361b7a49cdaa92cc116c8af5",
+      "unchanged_original_steps": 67,
+      "routed_original_steps": 6,
+      "new_pre_setup_real_clock_guards": 1,
+      "steps": 74,
+      "job_minutes": 210,
+      "original_policy_minutes": 210,
+      "runtime_dispatches": 0,
+      "actual_Native_cases": 0,
+      "production_go": false,
+      "independent_acceptance": false
+    },
+    "parent_template_sha256": "1ed4384495a6ed8870565db4d2733b19290d09c6615f8b7f825c4474dd72d29c",
+    "unchanged_parent_steps": 68,
+    "routed_parent_steps": 6,
+    "steps": 74,
+    "job_minutes": 210,
+    "real_clock_guard_unchanged": true,
+    "runtime_dispatches": 0,
+    "actual_Native_cases": 0,
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "source_DB_guard": {
+    "attempts": [],
+    "self_controls": [
+      {
+        "api": "psycopg.connect",
+        "result": "DENIED_BEFORE_LIBPQ"
+      },
+      {
+        "api": "psycopg.Connection.connect",
+        "result": "DENIED_BEFORE_LIBPQ"
+      },
+      {
+        "api": "psycopg.AsyncConnection.connect",
+        "result": "DENIED_BEFORE_LIBPQ"
+      },
+      {
+        "original_connect_descriptors_restored": true
+      }
+    ],
+    "network_nonGit_attempts": [],
+    "public_source_sha256": "1439d70810383db377c48e043df7fb6d487a1b2f1a995e8993a2c08590f9f797"
+  },
+  "actual_SQL_executed": 0,
+  "actual_Native_cases": 0
+}
