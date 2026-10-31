@@ -1,0 +1,24 @@
+{
+  "classification": "LABELLED_SYNTHETIC_LIFECYCLE_MODELS_NOT_ERP_SQL_OR_NATIVE",
+  "status": "PASS",
+  "tests": 14,
+  "elapsed_seconds": 0.055,
+  "original_parent_binding_heads": [
+    "674a700096eab400e9b75700e4a2704f799d69b8"
+  ],
+  "raw_log": {
+    "bytes": 2085,
+    "sha256": "1bc519fdba9d3eaa7896f7c49c6bcade6dffce260a07cdbf03d7ec5c299a08b9"
+  },
+  "used_rows_sequences_refused_before_DDL": true,
+  "coordinated_preuse_preinstall_and_nested_parent_changes_refused": true,
+  "changed_lower_sources_and_raw_NULL_to_explicit_ACL_refused": true,
+  "date_removed_before_parent_verification_or_inverse": true,
+  "duplicate_and_nonfinite_receipts_refused": true,
+  "actual_ERP_SQL_executed": 0,
+  "actual_Native_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false,
+  "actual_stage_and_whole_delta_install_model_exercised": true,
+  "full_parent_date_install_inverse_round_trip_model": true
+}

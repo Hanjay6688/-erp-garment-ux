@@ -1,7 +1,7 @@
 {
   "classification": "WRITER_A_TAKEOVER_ACTIVE_CONTINUATION_NOT_COMPLETION",
-  "recorded_at_utc": "2026-10-31T17:03:28.406920+00:00",
-  "root_parent": "28051b59e5a3b4294059ba3aeff4caccddf265a4",
+  "recorded_at_utc": "2026-10-31T17:55:20.378241+00:00",
+  "root_parent": "8f3551fa74dc4605c8b9d77d631d16ab26cee8f5",
   "prior_chat_execution_observable": false,
   "current_work_is_isolated": true,
   "midnight_root_intake_receipt": "MIDNIGHT_NATIVE1_E787_ROOT_INTAKE_20261030.json",
@@ -1991,28 +1991,13 @@
     "canonical_archive_sha256": "103a31494e72025c4ae446ecfa4591d92b0dca857dcfd92b35355d8593026715"
   },
   "current_active_join": {
+    "head": "6cb5bfe213fe3ce684244370dec092569705f6ff",
     "run_id": 41222437891,
     "job_id": 124599622258,
-    "head": "6cb5bfe213fe3ce684244370dec092569705f6ff",
-    "tree": "260cc8e984ae41409b43c62256acbbbf6ee25071",
-    "path": ".github/workflows/cp7-s03-sku-s05-composite.yml",
-    "branch": "astra-a/s03-sku-product-join-20261031",
-    "run_attempt": 1,
-    "status": "in_progress",
-    "conclusion": null,
-    "created_at": "2026-10-31T17:01:04Z",
-    "job_status": "in_progress",
-    "job_conclusion": null,
+    "last_observed_status": "in_progress",
+    "last_observed_step": "Run one actual current Native31 browser6 composite and complete outer restoration",
     "actual_fresh_cases_accepted": 0,
-    "full37_qualified": false,
-    "active_run_refused_before_archive_or_Git": true,
-    "actual_refusal": "EXACT_TERMINAL_API_ARTIFACT_METADATA/conclusion:TYPE",
-    "classification": "ACTUAL_REPAIRED_FULL37_OWNING_RUN_OBSERVED_AND_ROOT_IDENTITY_PINNED",
-    "recorded_at_utc": "2026-10-31T17:02:51.086179+00:00",
-    "automatic_group_retry": false,
-    "product_clock_changed": false,
-    "production_go": false,
-    "independent_acceptance": false
+    "full37_qualified": false
   },
   "current_join_first_financial_failure": {
     "receipt": "JOIN_339889_ROOT_ACTUAL_FAILURE_INTAKE_20261031.json",
@@ -2027,11 +2012,24 @@
     "all_outer_restoration_receipts": true
   },
   "permanent_complete_assembly": {
-    "head": "a5944f25a5e3ba1f1f537a18abe923eb753f922f",
-    "tree": "42011c517ae4f8ecf69ebf6ce565c5da2c75eea5",
-    "job_and_WIB_window_minutes": 120,
+    "head": "04ed2fbc3f1fb24174ff7368bffbb2dff01f5423",
+    "tree": "66930111fa9826b0c18ed6cfd3b05ea225e4e62b",
+    "branch": "astra-a/permanent-on-repaired-current37-prepared-20261101",
+    "base_head": "6cb5bfe213fe3ce684244370dec092569705f6ff",
+    "unchanged_parent_files_and_modes": 14070,
+    "own_paths": 49,
+    "source_pins": 48,
+    "unchanged_original_source_files": 45,
+    "changed_original_code_files": 2,
+    "declared_literal_routes": 5,
+    "metadata_manifest_regenerated": true,
+    "original_workflow_and_financial_and_browser_callbacks_unchanged": true,
+    "job_and_WIB_minutes": 120,
     "source_models_PASS": 13,
-    "actual_parent37_receipt": null,
+    "source_and_pending_DB_network_controls": "PASS",
+    "actual_root37_receipt": null,
+    "Root_activated_head_tree_run_job": null,
+    "workflow_activated": false,
     "actual_Native_cases": 0
   },
   "prior_active_join_before_runner_loss_20261031": {
@@ -2045,7 +2043,7 @@
     "complete37_qualified": false
   },
   "latest_runner_loss_receipt": "JOIN_1EDD_ROOT_RUNNER_LOSS_20261031.json",
-  "latest_continuation_receipt": "WRITER_A_V225_ACTUAL_REPAIRED_CURRENT37_STARTED_20261101.json",
+  "latest_continuation_receipt": "WRITER_A_V227_PERMANENT_CURRENT37_REBASED_DATE14_20261101.json",
   "current_system_cron_profile_preparation": {
     "namespace": "scripts/current-global-system-cron-profile-preparation",
     "queries": 27,
@@ -2275,5 +2273,20 @@
     "changed_financial_product_paths": [],
     "actual_parent_receipt": null,
     "rebase_performed": false
+  },
+  "explicit_current_DE_FREE_date_preparation": {
+    "head": "ccdcd0a59634a6a4f6cc98b5e1a2060492bf0e19",
+    "tree": "477ebef37a255bbf7ed0fb954626d74258e0e72b",
+    "parent": "e8585c7bd3e642c921c58a6eae968e9e1c08cee1",
+    "base": "674a700096eab400e9b75700e4a2704f799d69b8",
+    "own_paths": 21,
+    "unchanged_parent_files_and_modes": 14153,
+    "lifecycle_models_PASS": 14,
+    "exact_actual_parent_binding_functions_used_in_models": 2,
+    "pending_entries_before_ERP_SQL": 11,
+    "actual_DE30_root_receipt": null,
+    "workflow_activated": false,
+    "actual_Native_cases": 0,
+    "GOOD_eligibility_policy_decided": false
   }
 }

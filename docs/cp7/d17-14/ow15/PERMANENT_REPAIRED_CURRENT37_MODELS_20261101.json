@@ -1,0 +1,14 @@
+{
+  "classification": "REPAIRED_CURRENT37_SOURCE_MODEL_RESULTS_NOT_NATIVE",
+  "tests": 13,
+  "status": "PASS",
+  "elapsed_seconds": 0.153,
+  "raw_log": {
+    "bytes": 2220,
+    "sha256": "dc8dfa544e5a1702267fd6c74a83943c6c7f9df54138dc43e1ab037b3df6ac8c"
+  },
+  "actual_Native_cases": 0,
+  "actual_new_SQL_executed": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

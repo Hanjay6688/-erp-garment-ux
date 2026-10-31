@@ -1,0 +1,41 @@
+{
+  "status": "PERMANENT_REPAIRED37_EXACT_SOURCE_PORT_AND_PENDING_PARENT_CONTROLS_PASS",
+  "preserved_parent_files": 14070,
+  "own_paths": 49,
+  "original_public_source_files_checked": 47,
+  "unchanged_original_files": 45,
+  "only_source_guard_and_expected_parent_literal_routes": 5,
+  "original_workflow_unchanged": true,
+  "job_and_real_WIB_policy_minutes": 120,
+  "actual_parent_root_receipt": null,
+  "closed_before_GitHub_API_or_ERP_or_SQL": [
+    "qualified_receipt",
+    "canonical_parent_fetch",
+    "whole_runtime"
+  ],
+  "source_DB_guard": {
+    "attempts": [],
+    "self_controls": [
+      {
+        "api": "psycopg.connect",
+        "result": "DENIED_BEFORE_LIBPQ"
+      },
+      {
+        "api": "psycopg.Connection.connect",
+        "result": "DENIED_BEFORE_LIBPQ"
+      },
+      {
+        "api": "psycopg.AsyncConnection.connect",
+        "result": "DENIED_BEFORE_LIBPQ"
+      },
+      {
+        "original_connect_descriptors_restored": true
+      }
+    ],
+    "network_nonGit_attempts": [],
+    "public_source_sha256": "1439d70810383db377c48e043df7fb6d487a1b2f1a995e8993a2c08590f9f797"
+  },
+  "actual_Native_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

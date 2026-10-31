@@ -15,9 +15,9 @@ HEAD=None
 TREE=None
 RUN=None
 JOB=None
-PREPARED_HEAD='a5944f25a5e3ba1f1f537a18abe923eb753f922f'
-PREPARED_TREE='42011c517ae4f8ecf69ebf6ce565c5da2c75eea5'
-BASE='33988923ab3bad708b21f3c74002f1309a3644e1'
+PREPARED_HEAD='04ed2fbc3f1fb24174ff7368bffbb2dff01f5423'
+PREPARED_TREE='66930111fa9826b0c18ed6cfd3b05ea225e4e62b'
+BASE='6cb5bfe213fe3ce684244370dec092569705f6ff'
 NS='scripts/current-final-s03-sku-s05-preparation/'
 MAIN='CP7_PERMANENT_S05_S03_SKU_NATIVE4_BROWSER2.json'
 NATIVE='CP7_PERMANENT_S05_S03_FINANCIAL_NATIVE4.json'
@@ -29,7 +29,7 @@ def source(g):
     declaration=strict(g.read(NS+'PREPARATION.json'))
     fields(declaration,dict(base_head=BASE,actual_new_Native_cases=0,production_go=False,
         independent_acceptance=False),'PERMANENT_SOURCE_PREPARATION_NOT_CASE_CREDIT')
-    base=g.entries(BASE);exact(len(base),14050,'PERMANENT_UNCHANGED_FINANCIAL_BASE14050')
+    base=g.entries(BASE);exact(len(base),14070,'PERMANENT_UNCHANGED_REPAIRED_FINANCIAL_BASE14070')
     for name,value in base.items():exact(g.tree.get(name),value,'PERMANENT_BASE_BLOB_AND_MODE:'+name)
     allowed=set(declaration['files'])|{NS+'PREPARATION.json'}
     require(all(name.startswith(('scripts/cp7_current_s03_sku_s05/',NS))
@@ -45,7 +45,7 @@ def source(g):
     require(match is not None,'PERMANENT_EXPLICIT_BROWSER_IDS_REQUIRED')
     brows=ast.literal_eval(match.group(1));exact(len(brows),2,'PERMANENT_EXACT_TWO_BROWSER_IDS')
     exact(len(set(native+brows)),6,'PERMANENT_EXACT_SIX_UNIQUE_SOURCE_IDS')
-    return dict(source_pins=len(declaration['files']),own_paths=len(allowed),unchanged_base=14050,
+    return dict(source_pins=len(declaration['files']),own_paths=len(allowed),unchanged_base=14070,
         native_ids=native,browser_ids=brows,source_manifest=pin(g.read(NS+'PREPARATION.json')),actual_case_credit=0)
 
 

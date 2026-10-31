@@ -1,0 +1,30 @@
+{
+  "status": "ROOT_REPAIRED_PERMANENT6_SOURCE_AND_UNARMED_CONTROL_PASS",
+  "prepared_head": "04ed2fbc3f1fb24174ff7368bffbb2dff01f5423",
+  "prepared_tree": "66930111fa9826b0c18ed6cfd3b05ea225e4e62b",
+  "source": {
+    "source_pins": 48,
+    "own_paths": 49,
+    "unchanged_base": 14070,
+    "native_ids": [
+      "PERMANENT_S05_S03_NATIVE_EXPENSE_APPROVAL_ONCE_PAID_E05_REOPEN",
+      "PERMANENT_S05_S03_NATIVE_BOTH_CORRECTIONS_LINKED_INVERSES_NO_RECOGNITION",
+      "PERMANENT_S05_S03_NATIVE_FINISHED_PO_FG_COGS_COST_AND_CANCEL_EXACT",
+      "PERMANENT_S05_S03_NATIVE_OLD_ACCRUAL_LATER_BOOK_REOPEN_DATE_FLOOR"
+    ],
+    "browser_ids": [
+      "PERMANENT_S05_SKU_NORMAL_APP_DESKTOP_SOURCE_AND_LATE_REPLY",
+      "PERMANENT_S05_SKU_NORMAL_APP_MOBILE390_UNKNOWN_ZERO_AND_CURRENT_ACCESS"
+    ],
+    "source_manifest": {
+      "bytes": 9765,
+      "sha256": "7cf7e205231edf62629046813deaacc81541a93ce8475dc3b06812a987bf853d"
+    },
+    "actual_case_credit": 0
+  },
+  "activated_identity_pending": true,
+  "unarmed_before_Git_archive_or_metadata": true,
+  "actual_Native_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}
