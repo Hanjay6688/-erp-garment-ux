@@ -19,6 +19,11 @@ LOCATORS = (
 ROUTE = ("from '../current-staged-ai-browser-qualification/cases.mjs'", "from './staged_ai_cases.mjs'", 1)
 DISPLAY = ("toContainText('nilai sumber Rp60,06')", "toContainText('nilai sumber Rp 60,06')", 1)
 STAGED_GROUP = ("getByLabel('Pengelompokan',{exact:true})", "getByRole('combobox',{name:'Pengelompokan',exact:true})", 1)
+STAGED_TIMESTAMPS = (
+    ("last_recorded_at:c.last_recorded_at===null?null:instant(c.last_recorded_at)",
+     "last_recorded_at:c.last_recorded_at", 1),
+    ("checkedAt:instant(f.last_full_check.checked_at)", "checkedAt:f.last_full_check.checked_at", 1),
+)
 RECOVERY_AND_HISTORY = (
     ("async function openConversion(){await menu(page,'Gudang','Ganti Merek');await expect(conversion().getByRole('heading',{name:'Ganti Merek / SKU',exact:true})).toBeVisible();await expect(conversion().getByRole('combobox',{name:'SKU asal dan gudang',exact:true})).toBeEnabled()}",
      """async function openConversion(pendingRecovery=false){
@@ -71,12 +76,15 @@ def staged(name):
     reverse = derived
     extra = 0
     if name == 'staged_ai_cases.mjs':
-        old, new, count = STAGED_GROUP
-        if derived.count(old) != count or new in derived:
-            raise ValueError('SKU27_STAGED_EXACT_GROUP_LOCATOR_REQUIRED')
-        derived = derived.replace(old, new, count)
-        reverse = derived.replace(new, old, count)
-        extra = count
+        edits = (STAGED_GROUP,) + STAGED_TIMESTAMPS
+        for old, new, count in edits:
+            if derived.count(old) != count or new in derived.replace(old, ''):
+                raise ValueError('SKU27_STAGED_EXACT_GROUP_OR_TIMESTAMP_ANCHOR_REQUIRED')
+            derived = derived.replace(old, new, count)
+        reverse = derived
+        for old, new, count in reversed(edits):
+            reverse = reverse.replace(new, old, count)
+        extra = sum(count for _, _, count in edits)
     if reverse.replace(after, before, 1) != text:
         raise ValueError('SKU27_STAGED_REVERSE_NOT_EXACT:' + name)
     if name.endswith('.py'): compile(derived, str(HERE / name), 'exec')
@@ -109,9 +117,16 @@ def verify():
     current = json.loads((HERE / 'FIRST_0938_BROWSER_FAILURE.json').read_bytes())
     if current['head'] != '0938b693dee868ba74323f4ff61db70efdd11e89' or current['browser_counts'] != {'INCOMPLETE': 4}:
         raise ValueError('SKU27_FIRST_0938_FAILURE_MUST_REMAIN_FAILED')
+    latest = json.loads((HERE / 'FIRST_E925_TIMESTAMP_FAILURE.json').read_bytes())
+    if (latest['head'] != 'e9256772579f387df77dde949f8ea619cbd86856'
+            or latest['browser_counts'] != {'PASS': 2, 'INCOMPLETE': 2}
+            or latest['complete27_qualified'] is not False
+            or latest['archive']['sha256'] != '06d8605b40b05c62b6a9cc7115444560f403d6c1844aa114e901e76a26ac9ac0'):
+        raise ValueError('SKU27_FIRST_E925_FAILURE_MUST_REMAIN_FAILED')
     return dict(status='EXACT_A18_BROWSER_FIRST_FAILURE_SOURCE_SUCCESSOR_ONLY',
         named_combobox_locator_changes=9, exact_accessible_names_retained=True,
         staged_group_combobox_changes=1, currency_display_whitespace_changes=1,
+        staged_lossless_timestamp_copy_assertion_changes=2,
         recovery_and_history_counted_changes=len(RECOVERY_AND_HISTORY),
         pending_recovery_requires_locked_source_and_enabled_reconcile=True,
         authoritative_recovery_requires_enabled_source=True,

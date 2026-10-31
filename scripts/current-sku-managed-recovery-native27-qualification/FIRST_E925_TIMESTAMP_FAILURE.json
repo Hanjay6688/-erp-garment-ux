@@ -1,0 +1,67 @@
+{
+  "classification": "ACTUAL_E925_FAILURE_NOT_QUALIFIED",
+  "head": "e9256772579f387df77dde949f8ea619cbd86856",
+  "tree": "8de422523afa42c20d85e830749ed232b7edc6b9",
+  "run_id": 41109346033,
+  "job_id": 124247417634,
+  "artifact_id": 13009010614,
+  "archive": {
+    "bytes": 94787144,
+    "sha256": "06d8605b40b05c62b6a9cc7115444560f403d6c1844aa114e901e76a26ac9ac0",
+    "CRC_members": 170
+  },
+  "main_original": {
+    "bytes": 30492000,
+    "sha256": "81efcdc57fcdac466bfa41c65b161f02b0a6088924d2ba19a8d1cb56fc0f3cdc"
+  },
+  "native": {
+    "PASS": 7
+  },
+  "cost": {
+    "PASS": 5
+  },
+  "callbacks": {
+    "PASS": 11
+  },
+  "browser_counts": {
+    "PASS": 2,
+    "INCOMPLETE": 2
+  },
+  "first_errors": {
+    "A_STAGED_AI_BROWSER_DESKTOP_MANUAL_AND_RETIRED_RESPONSES": "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\n+ actual - expected\n\n  {\n    boundary: 'SNAPSHOT',\n    changesAfterCheck: 0,\n+   checkedAt: '2026-10-30T20:07:46.47535+00:00',\n-   checkedAt: '2026-10-30T20:07:46.475Z',\n    sourceState: 'UNCHANGED'\n  }\n\n    at assertManualPrompt (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-sku-managed-recovery-native27-qualification/staged_ai_cases.mjs:49:10)\n    at readPrompt (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-sku-managed-recovery-native27-qualification/staged_ai_cases.mjs:167:20)\n    at async journey (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-sku-managed-recovery-native27-qualification/staged_ai_cases.mjs:222:5)\n    at async main (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:243:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:259:3",
+    "A_STAGED_AI_BROWSER_MOBILE_MANUAL_AND_RETIRED_RESPONSES": "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\n+ actual - expected\n\n  {\n    boundary: 'SNAPSHOT',\n    changesAfterCheck: 0,\n+   checkedAt: '2026-10-30T20:08:16.832213+00:00',\n-   checkedAt: '2026-10-30T20:08:16.832Z',\n    sourceState: 'UNCHANGED'\n  }\n\n    at assertManualPrompt (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-sku-managed-recovery-native27-qualification/staged_ai_cases.mjs:49:10)\n    at readPrompt (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-sku-managed-recovery-native27-qualification/staged_ai_cases.mjs:167:20)\n    at async journey (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-sku-managed-recovery-native27-qualification/staged_ai_cases.mjs:222:5)\n    at async main (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:243:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:259:3"
+  },
+  "captured_timestamps": [
+    "2026-10-30T20:07:46.47535+00:00",
+    "2026-10-30T20:08:16.832213+00:00"
+  ],
+  "auth_counts": {
+    "before": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "after": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "restored": true
+  },
+  "outer_full22_rows_ALL_sequences_restored": true,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "complete27_qualified": false,
+  "financial_callbacks_changed": false,
+  "production_go": false,
+  "independent_acceptance": false
+}
