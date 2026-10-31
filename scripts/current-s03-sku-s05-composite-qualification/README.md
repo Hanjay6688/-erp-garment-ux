@@ -77,3 +77,40 @@ parent. No module is evicted and no ROOT or source map is reassigned. Actual
 import-only controls deny all three psycopg connection entrypoints and network.
 The first failure, missing owning package Originals and all restoration evidence
 remain recorded in LOCAL_CONTROLS.json. This is no full37 or release acceptance.
+
+Actual1d52 reached S03 Native14 PASS, SKU Native7 PASS and S05 nine PASS plus
+one INCOMPLETE at its single-original-owner fixture precondition. Its six
+browsers were not run. Raw strict boundaries, outer all22/data/ALLsequence
+restore, CP6, roles, public state, advisors and backup receipts passed; writer
+runtime failed, so all5/full37 remain false. The complete canonical archive
+and the first failure are retained. The failed predicate did not serialize
+its actual owner rows; cardinality is not inferred as an observed fact.
+
+The repair adds a private ACCESS-case preparation before the unchanged
+single-owner predicate: the explicitly active original fixture owner remains
+active while other eligible owners are temporarily made inactive through
+ordinary guarded app-user UPDATEs. The original Native last-owner and protected
+role refusals, supported backup-owner insertion, original ten callbacks, money,
+physical dates, HPP and reader no-effect checks remain. No cleanup escape,
+role/permission/grant change or posted-row edit is introduced. The existing
+strict case rollback restores the original complete user roster. Missing or
+inactive original owner refuses; it is never silently repaired or promoted.
+Original guard observations are retained on the actual access case result.
+
+A separate focused Native1 workflow deliberately creates one additional real
+fixture owner, selects only the unchanged original access callback and keeps
+the complete original reader intervals, used witness and outer package gates.
+Its job and exact one-constant policy both use90minutes of the real WIB day.
+It never supplies full37 or retained-case fresh credit. Its early/pre-DB and
+runtime guards refuse an insufficient real window and keep the first attempt.
+The full37 workflow remains byte exact at1d52 and retains its210minute policy.
+The new focused workflow has70unchanged steps, five explicit routing/label
+changes and one source-only real-clock check. No full37 rerun is triggered by
+the prepared branch. The source scope explicitly names only these two workflows.
+
+Local controls:20Python source/fixture models PASS; PostgreSQL17.5 narrow SQL
+models execute both exact Native guards captured from actual1d52, for one, two
+and four owners. They prove ordinary extra-owner deactivation, exact last-owner
+and protected-role refusals, supported backup then original deactivation and
+whole model rollback. They are not installed ERP/Native/Auth/business evidence.
+The focused actual Native1 and the fresh complete37 are still required.

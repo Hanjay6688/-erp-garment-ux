@@ -1,0 +1,8 @@
+{
+  "classification": "SOURCE_ANCHOR_REFUSAL_BEFORE_ANY_RUNTIME",
+  "attempted": "MIN_REMAINING_SECONDS=210*60",
+  "actual": "JOB_BUDGET_SECONDS = 210 * 60",
+  "file_written_before_refusal": false,
+  "actual_Native_cases": 0,
+  "actual_SQL_executed": 0
+}

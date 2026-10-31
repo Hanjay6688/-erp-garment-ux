@@ -9,6 +9,7 @@ PREFIX=str(HERE.relative_to(ROOT))+'/'
 BASE='b25eaae55a144aa03cc05f8f77109f5d0b02fbfb'
 TREE='e08f5eba90fd9a2deeb53a0a483c49e7a080e31c'
 WORKFLOW='.github/workflows/cp7-s03-sku-s05-composite.yml'
+FOCUSED_WORKFLOW='.github/workflows/cp7-s03-sku-owner-access-native1.yml'
 
 
 def git(*args):
@@ -48,7 +49,7 @@ def preflight(*,require_clean=True):
     for name,entry in base.items():
         if current.get(name)!=entry:raise ValueError('JOIN_FROZEN_BASE_BLOB_MODE_CHANGED:'+name)
     allowed=set(value['files'])|{PREFIX+'SOURCE.json'}
-    if any(not(name.startswith(PREFIX)or name==WORKFLOW)for name in allowed):
+    if any(not(name.startswith(PREFIX)or name in(WORKFLOW,FOCUSED_WORKFLOW))for name in allowed):
         raise ValueError('JOIN_ONLY_OWN_NAMESPACE_AND_WORKFLOW_ALLOWED')
     if set(current)-set(base)-allowed:raise ValueError('JOIN_UNDECLARED_TRACKED_SOURCE')
     for name,expected in value['files'].items():

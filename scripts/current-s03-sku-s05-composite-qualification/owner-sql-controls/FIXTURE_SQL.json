@@ -1,0 +1,5 @@
+{
+  "ROSTER": "select u.id::text,u.auth_user_id::text,u.is_active,u.role,u.role_id::text,r.role_code,r.is_active\nfrom erp.app_users u join erp.app_roles r on r.id=u.role_id\nwhere u.is_active and u.auth_user_id is not null and r.role_code='OWNER'and r.is_active\norder by u.auth_user_id,u.id",
+  "ALL_TARGETS": "select u.id::text,u.auth_user_id::text,u.is_active,u.role,u.role_id::text,r.role_code,r.is_active\nfrom erp.app_users u join erp.app_roles r on r.id=u.role_id\nwhere u.id=any(%s::uuid[])order by u.auth_user_id,u.id",
+  "DEACTIVATE": "update erp.app_users set is_active=false where id=%s::uuid and auth_user_id=%s::uuid and is_active returning id::text"
+}

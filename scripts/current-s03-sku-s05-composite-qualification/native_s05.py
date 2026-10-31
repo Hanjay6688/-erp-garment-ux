@@ -82,7 +82,7 @@ def bind_private_business(retained, state, factory, reader):
 def business(retained, state):
     load('s05_sku_source_before_private_binding', HERE/'source.py').preflight()
     from cp7_s05_s03_sku_composition import stage
-    factory = load('s05_sku_exact_519d_fixture_factory', ROOT/FACTORY)
+    factory = load('s05_join_single_owner_private_factory', HERE/'owner_fixture.py').factory()
     return bind_private_business(retained, state, factory, stage)
 
 

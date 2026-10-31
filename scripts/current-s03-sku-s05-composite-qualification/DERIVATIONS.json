@@ -8,8 +8,8 @@
       "source_path": "scripts/current-s05-sku-composition-qualification/native.py",
       "original_bytes": 4924,
       "original_sha256": "64274d27078d1a5faf700efb6419c94e293528de2508891aabcca4e6d2ce8b1d",
-      "derived_bytes": 5107,
-      "derived_sha256": "48066a7f515c8447f0687344b6339a11955c1070f623c35b044b62c6ed9f65d6",
+      "derived_bytes": 5131,
+      "derived_sha256": "d5c47b4cc9113d7b1a6e1ca4e35cbaf7c52ee3a005192c1d57fc4e9609cfd157",
       "changes": [
         {
           "before": "from cp7_sku_pair_conversion import composition as product",
@@ -24,6 +24,11 @@
         {
           "before": "    exec(compile(text, module.__file__, 'exec'), module.__dict__)\n    return module, dict(source=proof, component_derivation=derivation,",
           "after": "    exec(compile(text, module.__file__, 'exec'), module.__dict__)\n    module.scheduler_quiet = lambda url: load('joined_s05_real_quiet_scheduler', ROOT/'scripts/current-vendor-receivable-qualification/native_runner.py').scheduler_quiet(url)\n    return module, dict(source=proof, component_derivation=derivation,",
+          "count": 1
+        },
+        {
+          "before": "factory = load('s05_sku_exact_519d_fixture_factory', ROOT/FACTORY)",
+          "after": "factory = load('s05_join_single_owner_private_factory', HERE/'owner_fixture.py').factory()",
           "count": 1
         }
       ],

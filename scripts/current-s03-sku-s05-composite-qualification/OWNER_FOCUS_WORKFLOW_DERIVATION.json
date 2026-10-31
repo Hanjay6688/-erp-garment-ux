@@ -1,0 +1,28 @@
+{
+  "classification": "SEPARATE_FOCUSED_NATIVE1_WORKFLOW_NOT_FULL37",
+  "source_head": "1d52f8a2cf48c07d6af86dbaf114989cb2f5bece",
+  "source_path": ".github/workflows/cp7-s03-sku-s05-composite.yml",
+  "source_sha256": "9b17c16a3a6ae749e8f21718162869716b91e64d17b1dbe832e48a3379b8f30e",
+  "new_path": ".github/workflows/cp7-s03-sku-owner-access-native1.yml",
+  "changed_steps": [
+    "Admit complete natural joined source graph under a DB and network fence before database",
+    "Preserve the pre-runtime diagnostic independently of runner survival",
+    "Run one actual current Native31 browser6 composite and complete outer restoration",
+    "Preserve exact original JSON report bytes in a bounded compressed log receipt",
+    "final artifact"
+  ],
+  "new_source_only_steps": 1,
+  "unchanged_steps": 70,
+  "original_steps": 75,
+  "job_budget_minutes": 90,
+  "real_WIB_guard_seconds": 5400,
+  "attempt_policy": {
+    "original_sha256": "87d89647ff0637d6449ba015352950715384807c5e3027233467935871804755",
+    "derived_sha256": "ed29ce96fe9fe1e961fc5f91d51c3093a76d7c1e440f3fa68afa8c703dd9b824",
+    "one_constant_changed": true,
+    "single_attempt_and_rollover_statements_unchanged": true
+  },
+  "actual_Native_cases": 0,
+  "full37_qualified": false,
+  "production_go": false
+}

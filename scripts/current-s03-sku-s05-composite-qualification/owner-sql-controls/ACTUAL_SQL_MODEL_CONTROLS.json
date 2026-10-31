@@ -1,0 +1,36 @@
+{
+  "classification": "ISOLATED_POSTGRESQL_NATIVE_GUARD_SQL_MODEL_NOT_ERP",
+  "engine": "PostgreSQL 17.5 on aarch64-unknown-linux-gnu, compiled by emcc (Emscripten gcc/clang-like replacement + linker emulating GNU ld) 3.1.74 (1092ec30a3fb1d46b1782ff1b4db5094d3d06ae5), 32-bit",
+  "results": [
+    {
+      "initial_active_owners": 1,
+      "only_other_active_flags_changed": true,
+      "last_owner_refused": "42501",
+      "protected_role_refused": "42501",
+      "backup_then_original_deactivation_allowed": true,
+      "whole_model_rollback_equal": true
+    },
+    {
+      "initial_active_owners": 2,
+      "only_other_active_flags_changed": true,
+      "last_owner_refused": "42501",
+      "protected_role_refused": "42501",
+      "backup_then_original_deactivation_allowed": true,
+      "whole_model_rollback_equal": true
+    },
+    {
+      "initial_active_owners": 4,
+      "only_other_active_flags_changed": true,
+      "last_owner_refused": "42501",
+      "protected_role_refused": "42501",
+      "backup_then_original_deactivation_allowed": true,
+      "whole_model_rollback_equal": true
+    }
+  ],
+  "actual_Native_cases": 0,
+  "actual_Auth_or_browser_cases": 0,
+  "financial_SQL_executed": 0,
+  "Native_guard_changes": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

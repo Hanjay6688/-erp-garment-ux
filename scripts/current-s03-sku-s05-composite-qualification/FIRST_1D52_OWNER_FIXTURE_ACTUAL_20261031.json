@@ -1,0 +1,49 @@
+{
+  "status": "ROOT_VERIFIED_CURRENT_JOIN_FIRST_FAILURE_NOT_QUALIFIED",
+  "head": "1d52f8a2cf48c07d6af86dbaf114989cb2f5bece",
+  "tree": "abdae9ea30b7e6a32d77fbe0e8151196f9e8ff7f",
+  "run_id": 41200818043,
+  "job_id": 124536087695,
+  "artifact_id": 13045614548,
+  "archive": {
+    "bytes": 9492179,
+    "sha256": "9eaf5d338b8fcdcfa486cd704630492b51c16f821c95fb26c1857e3fc56ff4a4",
+    "members": 130,
+    "CRC": "PASS"
+  },
+  "archive_library_file_id": "libfile_e772f6dd0f64819189f80761d7727f3e",
+  "raw_current_case_counts": {
+    "S03_Native11_PASS": 11,
+    "S03_reader3_PASS": 3,
+    "SKU_Native7_PASS": 7,
+    "S05_Native_PASS": 9,
+    "S05_Native_INCOMPLETE": 1,
+    "browser_executed": 0
+  },
+  "raw_current_PASS_total": 30,
+  "failed_case": {
+    "id": "S05_NATIVE_CURRENT_ACCESS_PRIVATE_ACL",
+    "error": "S05_EXACT_SINGLE_ORIGINAL_FIXTURE_OWNER_REQUIRED",
+    "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/qualified-sku090b/scripts/cp6_auditor_runner.py\", line 165, in _strict_group_once\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-s05-native10-qualification/component.py\", line 130, in run\n    return operation()\n           ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-s05-wib-owner-fixture-successor-qualification/factory.py\", line 26, in run\n    with adapter.case_scope(name):return operation()\n                                         ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_accessory_standard_report/cases.py\", line 260, in access\n    f = fixture(cur, today, empty=True); traces = []\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-s05-wib-owner-fixture-successor-qualification/fixture_adapter.py\", line 125, in fixture\n    raise ValueError('S05_EXACT_SINGLE_ORIGINAL_FIXTURE_OWNER_REQUIRED')\nValueError: S05_EXACT_SINGLE_ORIGINAL_FIXTURE_OWNER_REQUIRED\n"
+  },
+  "eligible_owner_rows_not_recorded_before_failure": true,
+  "exact_owner_cardinality_cause_not_yet_observed": true,
+  "all_attempted_strict_case_boundaries_restored": true,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "package_all_five": false,
+  "complete37_qualified": false,
+  "outer_restore_source_bound_receipts": true,
+  "runner_survived_and_uploaded_final_result": true,
+  "production_go": false,
+  "independent_acceptance": false,
+  "complete_root_failure_receipt": {
+    "bytes": 9089,
+    "sha256": "509097e473eff2aa0d25982fef54c586d9cafe6a5e876a2e0881d1222be3fe62"
+  }
+}

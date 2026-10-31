@@ -1,0 +1,18 @@
+{
+  "classification": "ACTUAL_CAPTURED_NATIVE_GUARDS_FOR_ISOLATED_SQL_MODEL_ONLY",
+  "head": "1d52f8a2cf48c07d6af86dbaf114989cb2f5bece",
+  "artifact_id": 13045614548,
+  "source_pointer": "/committed/CURRENT_S03_SKU_S05_NATIVE31_BROWSER6/fresh_S03_Native14/actual_installed_capture/actual_all22/functions",
+  "files": {
+    "captured_guard_last_active_owner.sql": {
+      "bytes": 1663,
+      "sha256": "8037e40d56f925538ed4d025e3bc928582c4a15cb4a56a0d2c0362cd0741a7d2"
+    },
+    "captured_guard_protected_role.sql": {
+      "bytes": 849,
+      "sha256": "8e96d049bbe7a25a277b5454748626504ef9059a9e35d47afd8eccb37bbb1c47"
+    }
+  },
+  "actual_Native_cases": 0,
+  "production_go": false
+}

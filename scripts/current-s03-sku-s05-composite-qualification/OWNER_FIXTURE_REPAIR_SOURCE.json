@@ -1,0 +1,37 @@
+{
+  "adapter": {
+    "original_sha256": "219e8e064a21f09917a6f5bc8fe2cf80f9d8a49b0c6867931a86aa687ed499da",
+    "derived_sha256": "4d39e41c928fb745c28981c6e2dca289463ab94bab722b0e74c3504af21a85d6",
+    "counted_changes": 1,
+    "original_bytes_recovered": true
+  },
+  "factory": {
+    "original_sha256": "e49ae4cc9a98cdb7643f35ffdbc366df45156c2857d575079042c37aa72774a1",
+    "derived_sha256": "220b87abc53630896f05106dea0cc5d83d9af82827ac2cd30e302571a8fa64d8",
+    "counted_changes": 1,
+    "original_bytes_recovered": true
+  },
+  "raw_observation_retention": {
+    "original_sha256": "220b87abc53630896f05106dea0cc5d83d9af82827ac2cd30e302571a8fa64d8",
+    "derived_sha256": "aa760954585274a13aa701ba3a8b3282fe30bc9e54bbd9681957bc8c88a90a99",
+    "counted_changes": 1,
+    "original_bytes_recovered": true
+  },
+  "original_Native10_callback_changes": 0,
+  "original_last_owner_and_protected_role_refusals_unchanged": true,
+  "Native_guard_changes": 0,
+  "actual_Native_cases": 0,
+  "classification": "OWNER_FIXTURE_PREPARATION_ONLY_NOT_NATIVE",
+  "first_failed_head": "1d52f8a2cf48c07d6af86dbaf114989cb2f5bece",
+  "first_failed_artifact": 13045614548,
+  "first_failed_archive_sha256": "9eaf5d338b8fcdcfa486cd704630492b51c16f821c95fb26c1857e3fc56ff4a4",
+  "actual_owner_cardinality_in_failed_case_not_serialized": true,
+  "repair_explicitly_requires_original_active_owner": true,
+  "isolated_PostgreSQL_model_initial_owner_counts": [
+    1,
+    2,
+    4
+  ],
+  "full37_qualified": false,
+  "production_go": false
+}
