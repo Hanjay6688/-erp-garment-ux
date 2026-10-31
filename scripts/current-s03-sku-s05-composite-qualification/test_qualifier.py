@@ -4,7 +4,7 @@ from types import ModuleType,SimpleNamespace
 from contextlib import nullcontext
 from hashlib import sha256
 from unittest.mock import patch
-import ast,importlib.util,json,subprocess,sys,unittest,yaml
+import ast,importlib.util,json,subprocess,sys,tempfile,unittest,yaml
 
 HERE=Path(__file__).resolve().parent
 ROOT=HERE.parents[1]
@@ -22,10 +22,51 @@ class SourceControls(unittest.TestCase):
             if name.startswith('cp7_vendor'):sys.path[:]=['/control/foreign/scripts']
             return result
         try:
-            with patch.object(selector.importlib,'import_module',side_effect=imported):
+            with patch.object(selector,'owning_harness',return_value={}),patch.object(selector.importlib,'import_module',side_effect=imported):
                 self.assertEqual(len(selector.parent_modules(root)),2)
-            with patch.object(selector.importlib,'import_module',return_value=SimpleNamespace(__file__='/control/foreign/composition.py')):
+            with patch.object(selector,'owning_harness',return_value={}),patch.object(selector.importlib,'import_module',return_value=SimpleNamespace(__file__='/control/foreign/composition.py')):
                 with self.assertRaisesRegex(ValueError,'ORIGIN_CHANGED'):selector.parent_modules(root)
+        finally:sys.path[:]=previous
+
+    def test_owning_harness_refuses_foreign_cached_cp6_module(self):
+        selector=load('parent_import');previous=list(sys.path)
+        package=SimpleNamespace(__file__=str(ROOT/'scripts/cp6_t3_package_run.py'),AUDITOR=ROOT,OUT=ROOT/'cp6-proof/t3')
+        identity=SimpleNamespace(__file__=str(ROOT/'scripts/cp6_run_identity.py'),ROOT=ROOT)
+        foreign=ModuleType('cp6_run_identity');foreign.__file__='/foreign/scripts/cp6_run_identity.py'
+        try:
+            with patch.object(selector.importlib,'import_module',side_effect=lambda name:package if name=='cp6_t3_package_run'else foreign):
+                with self.assertRaisesRegex(ValueError,'OWNING_CP6_HARNESS_ORIGIN_CHANGED'):selector.owning_harness()
+        finally:sys.path[:]=previous
+
+    def test_retained_reader_group_accepts_json_arrays_and_refuses_tuple_or_changed_ids(self):
+        source_path=ROOT/'scripts/current-s03-sku-native14-binding/prepare.py'
+        spec=importlib.util.spec_from_file_location('joined_actual_reader_group_contract',source_path)
+        source=importlib.util.module_from_spec(spec);spec.loader.exec_module(source)
+        texts,proof=source.prepare();private=load('native_s03')
+        reader=private.code('control_unchanged_authored_reader',texts['reader'],path=HERE/'joined_reader.py',
+            JOIN_READER_ADMISSION=object(),JOIN_CORE=object(),LAWFUL=object())
+        # Admission-only orchestration control. The original callbacks and SQL
+        # are not invoked and no financial case is credited by this control.
+        ids=proof['original11_ids']
+        original11=dict(status='PASS',counts={'PASS':11},planned_case_ids=list(ids),complete_boundary_restored=True,
+            cases={key:dict(status='PASS',full_boundary_restored=True,public_schema_unchanged=True)for key in ids})
+        class ReachedStrictGroup(Exception):pass
+        def stop(*args):raise ReachedStrictGroup('REAL_READER_GROUP_ADMISSION_REACHED')
+        previous=list(sys.path);sys.path.insert(0,str(ROOT/'scripts'))
+        try:
+            with tempfile.TemporaryDirectory()as directory:
+                native=SimpleNamespace(public_state=lambda *args:None,strict_group=stop,r1=SimpleNamespace(OUT=Path(directory)))
+                for kind in ('original_tuple_failure','JSON_arrays','changed_ID'):
+                    configuration=private.reader_configuration(proof)
+                    configured=proof['reader3_ids']if kind=='original_tuple_failure'else configuration['reader_Native3_ids']
+                    if kind=='changed_ID':configured[0]+=':CHANGED'
+                    group=private.code('control_complete_retained_reader_group',texts['reader_group'],path=HERE/'joined_reader_group.py',
+                        JOIN_CONFIG=dict(original_Native11_ids=list(ids),reader_Native3_ids=configured),JOIN_READER=reader)
+                    with self.subTest(kind=kind):
+                        if kind=='JSON_arrays':
+                            with self.assertRaises(ReachedStrictGroup):group.run(native,object(),{}, {},object(),original11)
+                        else:
+                            with self.assertRaisesRegex(ValueError,'EXACT_AUTHORED_READER3_IDS_REQUIRED'):group.run(native,object(),{}, {},object(),original11)
         finally:sys.path[:]=previous
 
     def test_all_derivations_recover_exact_immutable_blobs(self):

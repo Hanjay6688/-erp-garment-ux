@@ -43,3 +43,16 @@ These have zero Native/browser case credit. `probe.py --check` evaluates the
 whole natural product source graph under the existing DB/network fence before
 database startup. `probe.py --runtime` requires `JOIN_CONFIRM=cp6_rollback` and
 the exact frozen prerequisites. `final_gate.py` refuses partial/retained credit.
+
+Current runtime successor: the first actual combined run reached all financial
+Native11 PASS, then the unchanged Reader3 guard refused tuple-valued private
+configuration. The private adapter now preserves CONFIG.json array types. The
+original reader group and every financial callback remain unchanged. A local
+admission-only control uses the actual Native11 Original and stops before SQL.
+
+The owning CP6 package, report/restore modules and run identity are naturally
+preloaded from this checkout before selecting the exact qualified financial
+parent. No module is evicted and no ROOT or source map is reassigned. Actual
+import-only controls deny all three psycopg connection entrypoints and network.
+The first failure, missing owning package Originals and all restoration evidence
+remain recorded in LOCAL_CONTROLS.json. This is no full37 or release acceptance.

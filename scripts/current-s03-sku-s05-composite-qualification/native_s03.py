@@ -17,6 +17,11 @@ def code(name,text,*,path,**bindings):
     exec(compile(text,str(path),'exec'),module.__dict__);return module
 
 
+def reader_configuration(derivation):
+    # The retained group reads CONFIG.json, whose arrays are lists.
+    return dict(original_Native11_ids=list(derivation['original11_ids']),reader_Native3_ids=list(derivation['reader3_ids']))
+
+
 def modules():
     admission=load('joined_native14_actual_parent_admission',HERE/'admission.py')
     proof=admission.admitted()  # Current exact parents, before any ERP import.
@@ -38,7 +43,7 @@ def modules():
             reader_cases_before_execution=0,production_go=False)
     reader=code('joined_native14_reader',texts['reader'],path=HERE/'joined_reader.py',
         JOIN_READER_ADMISSION=SimpleNamespace(admit=fresh11),JOIN_CORE=core,LAWFUL=lawful)
-    group.__dict__.update(JOIN_CONFIG=dict(original_Native11_ids=derivation['original11_ids'],reader_Native3_ids=derivation['reader3_ids']),JOIN_READER=reader)
+    group.__dict__.update(JOIN_CONFIG=reader_configuration(derivation),JOIN_READER=reader)
     exec(compile(texts['reader_group'],group.__file__,'exec'),group.__dict__)
     runner=code('joined_native14_complete_runner',texts['native_runner'],path=HERE/'joined_native_runner.py',
         JOIN_BUSINESS=core,CURRENT_READER_IDS=derivation['reader3_ids'],run_actual_reader3=group.run)
