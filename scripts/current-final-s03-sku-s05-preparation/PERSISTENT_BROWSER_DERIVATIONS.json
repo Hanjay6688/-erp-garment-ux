@@ -1,0 +1,154 @@
+{
+  "status": "PERMANENT_READER_BROWSER_PREPARATION_ONLY",
+  "files": {
+    "persistent_browser_prepare.py": {
+      "original_sha256": "d13aaee73897210f97dd95695a029e43380a32f1fd621b80557cdfe75de00c07",
+      "derived_sha256": "fd3fab4c42acc4cf8233a3223291bf7155d2d3caaf8c34b89a877f516bd708c8",
+      "counted_change_groups": 2,
+      "all_other_bytes_exact": true,
+      "original_bytes_recovered": true,
+      "source_commit": "1edd7b7fb6f7f02528cf09bcc352b72ea0e4a2c3",
+      "source_path": "scripts/current-s03-sku-s05-composite-qualification/browser_prepare.py",
+      "original_bytes": 5055,
+      "derived_bytes": 5037,
+      "changes": [
+        {
+          "before": "HERE/'native_s05.py'",
+          "after": "HERE/'business_reader.py'",
+          "count": 1
+        },
+        {
+          "before": "from cp7_s05_s03_sku_composition import stage\n    product = stage.parent()",
+          "after": "stage = business.stage\n    product = stage.parent()",
+          "count": 1
+        }
+      ],
+      "new_Native_case_credit": 0
+    },
+    "persistent_browser.py": {
+      "original_sha256": "4662c033946a236fa9282ea9fdfe19f87eaf5f376b4b456da2899634636a2964",
+      "derived_sha256": "e0ff53270c8ffc111093808a75d0dbc87d2a789a3556a8bdfc3588345cc6af15",
+      "counted_change_groups": 8,
+      "all_other_bytes_exact": true,
+      "original_bytes_recovered": true,
+      "source_commit": "1edd7b7fb6f7f02528cf09bcc352b72ea0e4a2c3",
+      "source_path": "scripts/current-s03-sku-s05-composite-qualification/s05_browser.py",
+      "original_bytes": 7188,
+      "derived_bytes": 7238,
+      "changes": [
+        {
+          "before": "@contextmanager\ndef reader_interval(url, sku_state, report):\n    import psycopg\n    from cp7_s05_s03_sku_composition import stage\n    from cp7_p21_current_chain_rehearsal_probe import helper\n    prepared = load('s05_sku_actual_native_browser_prerequisites', HERE/'browser_prepare.py')\n    with psycopg.connect(url) as conn, conn.cursor() as cur:\n        today = cur.execute(\"select(statement_timestamp()at time zone'Asia/Jakarta')::date\").fetchone()[0]\n        fixture = prepared.prepare(cur, today, sku_state)\n        report['browser_fixture_original'] = save('S05_SKU_BROWSER_FIXTURES.json', fixture)\n        with helper.control.product_catalog(cur):\n            reader_state = stage.install_delta(cur, sku_state)\n        conn.commit()\n    primary_error = None\n    try:\n        report['browser_reader_state_original'] = save('S05_SKU_BROWSER_READER_STATE.json', reader_state)\n        yield reader_state\n    except BaseException as error:\n        primary_error = error\n        report.setdefault('first_browser_failure', str(error))\n        raise\n    finally:\n        try:\n            with psycopg.connect(url) as conn, conn.cursor() as cur:\n                with helper.control.product_catalog(cur):\n                    report['reader_post_browser_inverse'] = stage.uninstall_delta(cur, reader_state, sku_state)\n                conn.commit()\n        except BaseException as error:\n            report['reader_cleanup_failure'] = str(error)\n            if primary_error is None:\n                raise\n",
+          "after": "@contextmanager\ndef reader_interval(url, sku_state, report):\n    import psycopg\n    from cp7_current_s03_sku_s05 import composition as complete\n    from cp7_p21_current_chain_rehearsal_probe import helper\n    prepared = load('permanent_S05_actual_native_browser_prerequisites', HERE/'persistent_browser_prepare.py')\n    with psycopg.connect(url) as conn, conn.cursor() as cur:\n        with helper.control.product_catalog(cur):\n            complete.verify(cur, sku_state)\n        today = cur.execute(\"select(statement_timestamp()at time zone'Asia/Jakarta')::date\").fetchone()[0]\n        fixture = prepared.prepare(cur, today, sku_state)\n        report['browser_fixture_original'] = save('S05_PERMANENT_BROWSER_FIXTURES.json', fixture)\n        with helper.control.product_catalog(cur):\n            complete.verify(cur, sku_state)\n        reader_state = sku_state['reader']\n        conn.commit()\n    report['browser_reader_state_original'] = save('S05_PERMANENT_BROWSER_READER_STATE.json', reader_state)\n    try:\n        yield reader_state\n    finally:\n        with psycopg.connect(url) as conn, conn.cursor() as cur:\n            with helper.control.product_catalog(cur):\n                report['reader_after_browser_still_installed'] = complete.verify(cur, sku_state)\n            conn.rollback()",
+          "count": 1
+        },
+        {
+          "before": "load('s05_sku_before_browser_runtime', HERE/'source.py').preflight()",
+          "after": "load('permanent_S05_before_browser_runtime', HERE/'persistent_source.py').preflight()",
+          "count": 1
+        },
+        {
+          "before": "def exercise(url, sku_state, report):",
+          "after": "def exercise(url, sku_state, report, *, raw_parent_receipt):\n    load('permanent_S05_requires_exact_accepted_join37', HERE/'persistent_financial.py').qualified_receipt(raw_parent_receipt)",
+          "count": 1
+        },
+        {
+          "before": "HERE/'modes.py'",
+          "after": "ROOT/'scripts/current-s03-sku-s05-composite-qualification/modes.py'",
+          "count": 1
+        },
+        {
+          "before": "HERE/'browser.mjs'",
+          "after": "HERE/'persistent_browser.mjs'",
+          "count": 1
+        },
+        {
+          "before": "S05_SKU_BROWSER_SOURCE_CATALOG.json",
+          "after": "S05_PERMANENT_BROWSER_SOURCE_CATALOG.json",
+          "count": 1
+        },
+        {
+          "before": "S05_SKU_NORMAL_APP_DESKTOP_SOURCE_AND_LATE_REPLY",
+          "after": "PERMANENT_S05_SKU_NORMAL_APP_DESKTOP_SOURCE_AND_LATE_REPLY",
+          "count": 1
+        },
+        {
+          "before": "S05_SKU_NORMAL_APP_MOBILE390_UNKNOWN_ZERO_AND_CURRENT_ACCESS",
+          "after": "PERMANENT_S05_SKU_NORMAL_APP_MOBILE390_UNKNOWN_ZERO_AND_CURRENT_ACCESS",
+          "count": 1
+        }
+      ],
+      "actual_new_Native_cases": 0,
+      "actual_browser_cases": 0
+    },
+    "persistent_browser.mjs": {
+      "original_sha256": "92f62b487de442143f2fa7f8b45108da5d9bace27993e7f89168da4679a48837",
+      "derived_sha256": "92deacd23947796604a444a7fe0ed32304aa1c61288dc8d753775d69bc60110a",
+      "counted_change_groups": 6,
+      "all_other_bytes_exact": true,
+      "original_bytes_recovered": true,
+      "source_commit": "1edd7b7fb6f7f02528cf09bcc352b72ea0e4a2c3",
+      "source_path": "scripts/current-s03-sku-s05-composite-qualification/browser.mjs",
+      "original_bytes": 13870,
+      "derived_bytes": 13959,
+      "changes": [
+        {
+          "before": "scripts/current-s03-sku-s05-composite-qualification/browser_fixture.py",
+          "after": "scripts/current-final-s03-sku-s05-preparation/persistent_browser_fixture.py",
+          "count": 1
+        },
+        {
+          "before": "scripts/current-s03-sku-s05-composite-qualification/SOURCE.json",
+          "after": "scripts/current-final-s03-sku-s05-preparation/PERSISTENT_BROWSER_SOURCE.json",
+          "count": 1
+        },
+        {
+          "before": "S05_SKU_BROWSER_FIXTURES.json",
+          "after": "S05_PERMANENT_BROWSER_FIXTURES.json",
+          "count": 1
+        },
+        {
+          "before": "S05_SKU_NORMAL_APP_DESKTOP_SOURCE_AND_LATE_REPLY",
+          "after": "PERMANENT_S05_SKU_NORMAL_APP_DESKTOP_SOURCE_AND_LATE_REPLY",
+          "count": 1
+        },
+        {
+          "before": "S05_SKU_NORMAL_APP_MOBILE390_UNKNOWN_ZERO_AND_CURRENT_ACCESS",
+          "after": "PERMANENT_S05_SKU_NORMAL_APP_MOBILE390_UNKNOWN_ZERO_AND_CURRENT_ACCESS",
+          "count": 1
+        },
+        {
+          "before": "from './response_waits.mjs'",
+          "after": "from '../current-s03-sku-s05-composite-qualification/response_waits.mjs'",
+          "count": 1
+        }
+      ],
+      "actual_new_Native_cases": 0,
+      "actual_browser_cases": 0
+    },
+    "persistent_browser_fixture.py": {
+      "original_sha256": "850efdb3d1cc726118265bebf71bd208ae6324fc5af861c9a789b0de226c023d",
+      "derived_sha256": "6eca40b1f668cb6da9097d89e5959d858f644e453fc95f78613cedc3865d79b9",
+      "counted_change_groups": 2,
+      "all_other_bytes_exact": true,
+      "original_bytes_recovered": true,
+      "source_commit": "1edd7b7fb6f7f02528cf09bcc352b72ea0e4a2c3",
+      "source_path": "scripts/current-s03-sku-s05-composite-qualification/browser_fixture.py",
+      "original_bytes": 4557,
+      "derived_bytes": 4574,
+      "changes": [
+        {
+          "before": "HERE/'source.py'",
+          "after": "HERE/'persistent_source.py'",
+          "count": 1
+        },
+        {
+          "before": "S05_SKU_BROWSER_READER_STATE.json",
+          "after": "S05_PERMANENT_BROWSER_READER_STATE.json",
+          "count": 1
+        }
+      ],
+      "actual_new_Native_cases": 0,
+      "actual_browser_cases": 0
+    }
+  }
+}

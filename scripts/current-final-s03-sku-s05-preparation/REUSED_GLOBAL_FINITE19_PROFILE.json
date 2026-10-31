@@ -1,0 +1,50 @@
+{
+  "status": "REUSE_EXACT_EXISTING_FINITE19_PROFILE_NO_REBUILD",
+  "profile_head": "a6ded9cd4ce23a6d59cd32e42ca9bb33d793f8cc",
+  "capture_manifest": {
+    "bytes": 53674,
+    "sha256": "7bae0b9efd389ca70a66b322fafca54e05538ad7d5b42b4f5d68f46d962f48e0"
+  },
+  "exact_function_rows_per_catalogue": 19,
+  "view_fields_per_catalogue": 13,
+  "actual_catalogues_compared": 3,
+  "SKU": {
+    "head": "090b85d3fcb738d3e694d4329d306f199a686eb8",
+    "archive_sha256": "9ad923d20d0972b2a01df3ce3307bf03db537406ac89f99f700cf6d235bfc341",
+    "member": "SKU_COST_DIRECT_PARTIAL_INVERSE_REFUSAL_56ed8452b5b0_FULL_CURRENT_CENSUS.json",
+    "before_after_equal": true
+  },
+  "S03": {
+    "head": "f42e76978852ba9efe34f75a4b622990c0331866",
+    "archive_sha256": "8c3c3f435d1ecf7de032e9bc42ec93de9056d8c36e0520c9756e9a683d9fe68c",
+    "member": "S03_B4_ACCESS_BB0405B5E7564B44A6B70A44E81B72E6_013_AFTER_AUTHORIZED_ROLE_OWNER_FULL_STATE.json.gz"
+  },
+  "function_row_sha256": {
+    "cp7_credit.consumer_dependency_graph_v1(uuid)": "4fbcf4d60716ba37757ffedd99864d8bf6f4b2848bc630a9bf3fcad0f9d1af53",
+    "cp7_credit.current_leaf_assignment(uuid)": "60c72c377355449a21cefa5c23ce2b649f54e2cb59e8ee40ea11324195c7cd52",
+    "cp7_credit.initial_hpp_account_facts_v1()": "f3973ab603f8269ed824536266fe18777012f3fa50dfc0bf7cb7b835fb68a9b2",
+    "cp7_credit.pg_jsonb_sha256(jsonb)": "5dca9de88fe210fb0623b5b555e7d2f11d730f78c33ea8a4a75e0652190857e4",
+    "cp7_credit.source_first_nonpo_hpp_alignment_v1(jsonb)": "1cb3a88294a6805138bc3217541244bc526f88e9dcb8347df0974bc8f1efeb7e",
+    "cp7_credit.source_hpp_lot_ids_v1(uuid)": "709dfc24d2d6ff79908014e8e2b5e1f11f4c0c89cada513d104efeb2190915c6",
+    "erp.account_id(text)": "68044d46d1a3c283028a668fd504417367bbed86669e8b8ff4606d7067ac5f73",
+    "erp.be_allocation_extra_v1(uuid)": "ec87a157548ba38db10f45e00cf311bc9d7fbec4f63471761bcea8db04ffedd5",
+    "erp.be_conversion_extra_v1(uuid)": "7cf675fcc3714322e23d0a0f31f1933500488bde7bee8019b0133f40ab5c90a0",
+    "erp.be_in_context_v1()": "f4213ff057787e4a9b3c8b8cd5a0cb87061556d41e379c57ec8c4857c4e6dd0e",
+    "erp.be_nonpo_admitted_v1(uuid)": "d71d4b0a99620eb5f199b02e10bf22544fe547f0885b03fb103794de387f7397",
+    "erp.be_nonpo_in_sync_v1()": "431cda9290684f1429db6ccb2ed3635c165584be9afbad4a655eb29e70ee952f",
+    "erp.be_nonpo_prepare_transfers_v1(date)": "ccf34dcce18f3ea287a15fb2d8272ed887857ef70aacd686c170c59fbfc22abc",
+    "erp.be_nonpo_sync_all_v1(date,text,uuid,text)": "2c6d267ea29d943c18495c261bf48d37830a6a510713c07057751f1c759f5d90",
+    "erp.be_propagate_nonpo_v1()": "f7f2375b97fcc2bbb5d212aceb39a4022548fae07dab2d20c5a474f2240382cf",
+    "erp.compute_non_po_product_hpp_book_v2620f(uuid)": "b686ac54c3906d4c3012ed16338f920bf655f0fe3b90976c6abf959bcb0f4ded",
+    "erp.compute_non_po_product_hpp_targets_v2620f(uuid)": "6291c4749939bc9812492b632493cf9b5fe7ee156d8e53c0b8270a7aa4f31271",
+    "erp.require_internal()": "defc7d03ca14cb74f5e69a33d88fd191be40bcced8cbfee250294c2334f8ba10",
+    "erp.sync_non_po_product_hpp_to_gl_v2620f(uuid,date,text,uuid,text)": "8a4f9b65ca419a07ff21425c76f4f9b11a9f14fdfe394844b5ba7b6c77f6ce61"
+  },
+  "raw_ACL_NULL_vs_explicit_not_inferred": true,
+  "actual_joined37_catalogue_intake_pending": true,
+  "global_runtime_hooks_installed": 0,
+  "writer_or_phantom_lock_closed": false,
+  "actual_Native_credit": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}
