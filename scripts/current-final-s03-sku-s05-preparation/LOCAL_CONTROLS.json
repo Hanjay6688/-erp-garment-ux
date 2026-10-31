@@ -71,5 +71,87 @@
     "pending_parent_runtime_stopped_before_ERP_import": true,
     "actual_browser_cases": 0,
     "actual_Native_cases": 0
+  },
+  "complete_owning_delta_caller": {
+    "status": "PREPARED_PARENT_JOIN37_PENDING_NOT_EXECUTED",
+    "source_controls": {
+      "status": "PERMANENT_READER_SOURCE_AND_CALLER_CONTROLS_PASS_NOT_NATIVE",
+      "complete_unchanged_browser_source_derivations": 4,
+      "unchanged_financial_callback_ASTs": 11,
+      "selected_persistent_financial_cases": 4,
+      "complete_package_engine": {
+        "original_sha256": "c420d894f8d5f16bddefeae73addb621507170f372a28e7d6e33d88c7eeb0be9",
+        "derived_sha256": "1639b4a21068a2a9e048f982036940136829e906341fe8eba3f9127233cf2733",
+        "counted_changes": 2,
+        "complete_original_recovered": true,
+        "full_install_preuse_reinstall_used_backup_roles_full22_ALL_rows_sequences_CP6_advisors_Auth_package_checks_retained": true
+      },
+      "exact_original_workflow_steps_retained": 67,
+      "actual_Native_cases": 0,
+      "actual_browser_cases": 0,
+      "production_go": false,
+      "independent_acceptance": false
+    },
+    "actual_DB_network_fence": {
+      "attempts": [],
+      "self_controls": [
+        {
+          "api": "psycopg.connect",
+          "result": "DENIED_BEFORE_LIBPQ"
+        },
+        {
+          "api": "psycopg.Connection.connect",
+          "result": "DENIED_BEFORE_LIBPQ"
+        },
+        {
+          "api": "psycopg.AsyncConnection.connect",
+          "result": "DENIED_BEFORE_LIBPQ"
+        },
+        {
+          "original_connect_descriptors_restored": true
+        }
+      ],
+      "network_nonGit_attempts": [],
+      "public_source_sha256": "1439d70810383db377c48e043df7fb6d487a1b2f1a995e8993a2c08590f9f797"
+    },
+    "fetch_and_admission_pending_parent_refused_before_ERP_or_GH": true,
+    "preuse_consumer_contract": {
+      "caller": "scripts/current-vendor-receivable-qualification/probe.py",
+      "required_key": "used_guard_before_DDL",
+      "matched_actual_composition_return": true,
+      "identified_before_new_DB_run": true
+    },
+    "fresh_model_install_inverse_controls": 5,
+    "new_Native_cases": 0,
+    "new_browser_cases": 0
+  },
+  "actual_frozen_writer_CWD_import_control": {
+    "status": "ACTUAL_QUALIFIED_PARENT_MODULE_ORIGINS_PASS",
+    "writer_head": "ca7f09556397801c50a2277bdb65b1bf019f9a05",
+    "natural_current_owning_report_identity_modules": 9,
+    "actual_vendor_SKU_from_exact_qualified_checkout": true,
+    "source_DB_guard": {
+      "attempts": [],
+      "self_controls": [
+        {
+          "api": "psycopg.connect",
+          "result": "DENIED_BEFORE_LIBPQ"
+        },
+        {
+          "api": "psycopg.Connection.connect",
+          "result": "DENIED_BEFORE_LIBPQ"
+        },
+        {
+          "api": "psycopg.AsyncConnection.connect",
+          "result": "DENIED_BEFORE_LIBPQ"
+        },
+        {
+          "original_connect_descriptors_restored": true
+        }
+      ],
+      "network_nonGit_attempts": [],
+      "public_source_sha256": "1439d70810383db377c48e043df7fb6d487a1b2f1a995e8993a2c08590f9f797"
+    },
+    "new_Native_cases": 0
   }
 }

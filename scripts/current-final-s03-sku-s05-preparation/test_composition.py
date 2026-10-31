@@ -60,7 +60,9 @@ class AssemblyControls(unittest.TestCase):
 
     def test_unused_inverse_orders_reader_before_financial_parent(self):
         state=self.module.install_delta(object(),self.financial_state);self.events.clear()
-        self.module.rollback_preuse(object(),state)
+        restored=self.module.rollback_preuse(object(),state)
+        # Consumed by the unchanged owning package engine after preuse inverse.
+        self.assertIs(restored['reader']['used_guard_before_DDL'],True)
         self.assertLess(self.events.index('lock_tables'),self.events.index('inverse_reader'))
         self.assertLess(self.events.index('inverse_reader'),self.events.index('inverse_financial'))
 

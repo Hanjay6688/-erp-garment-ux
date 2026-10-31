@@ -33,6 +33,8 @@ def raw(name):
     full=ROOT/path
     if any(p.is_symlink()for p in(full,*full.parents))or not full.is_file():
         raise ValueError('PERMANENT_S05_REGULAR_PHYSICAL_SOURCE_REQUIRED:'+name)
+    if full.stat().st_mode&0o111:
+        raise ValueError('PERMANENT_S05_EXACT_NONEXECUTABLE_SOURCE_MODE_REQUIRED:'+name)
     return full.read_bytes()
 
 

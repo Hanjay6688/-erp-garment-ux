@@ -83,7 +83,7 @@ def rollback_delta_preuse(cur,state):
         if catalog._data(cur)!=state['preuse_data_and_sequences']:raise ValueError(USED_ERROR)
         restored=reader.uninstall_delta(cur,state['reader'],state['financial_parent'])
         return dict(status='CURRENT_COMPOSITE_READER_PREUSE_INVERSE',financial_parent=restored,
-            used_guard_refused_before_DDL=True)
+            used_guard_before_DDL=True)
 
 def rollback_preuse(cur,state):
     _,_,_,base,_=runtime()
