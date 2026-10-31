@@ -1,0 +1,97 @@
+{
+  "status": "ROOT_VERIFIED_CURRENT_SKU27_AND_QUALIFIED_S03_NATIVE14_ALL5",
+  "SKU": {
+    "head": "090b85d3fcb738d3e694d4329d306f199a686eb8",
+    "tree": "e04831b441bed987cd72ff738cf2a06a7c0ef0ae",
+    "run_id": 41167734749,
+    "job_id": 124438845597,
+    "artifact_id": 13031164777,
+    "archive": {
+      "bytes": 94781660,
+      "sha256": "9ad923d20d0972b2a01df3ce3307bf03db537406ac89f99f700cf6d235bfc341"
+    },
+    "members": 170,
+    "originals": {
+      "CP7_SKU_MANAGED_RECOVERY_NATIVE27.json": {
+        "bytes": 30376182,
+        "sha256": "5e22077e71e34add6fd0627c89e9d21a2235f463818e45b233c7619bcfb0d48f"
+      },
+      "CP7_SKU_PAIR_CONVERSION_NATIVE7.json": {
+        "bytes": 21044,
+        "sha256": "19416848a4247973e9302d669945baccd7a536210eadcffdef57d8206b7eda3e"
+      },
+      "CP7_SKU_GROUP_COST_NATIVE5.json": {
+        "bytes": 39067,
+        "sha256": "49be026d74c011aed4195117fa6f8f85ee12cf1e7dfa8272430479e1e40dc839"
+      },
+      "T3_PACKAGE_INSTALL.json": {
+        "bytes": 360417,
+        "sha256": "9afc5d5798b9ccc85c5c61c922e3cbfea75829aa2d790a8e4468149440cfd5e2"
+      },
+      "T3_PACKAGE_FILES_INSTALL.json": {
+        "bytes": 1806,
+        "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+      },
+      "T3_BACKUP_RESTORE_DRILL.json": {
+        "bytes": 1470,
+        "sha256": "bb7bd9fedafa7d1a72b7a7aed6431d82ca9d4de7bd2849df33c06d245b1f61c9"
+      }
+    },
+    "root_receipt": {
+      "path": "SKU27_ROOT_INTAKE.json",
+      "source_commit": "f4d562a2c376ee1ce7a41bf3323cb6fadb26f6a2",
+      "source_path": "docs/cp7/d17-14/ow15/SKU_090B_ROOT_ACTUAL_INTAKE_20261031.json",
+      "bytes": 10559,
+      "sha256": "d4a400a47daa049cc96092aa851ee943ca96d56a0bcc77adb55182a95d3cff7b"
+    }
+  },
+  "S03": {
+    "head": "3c0c5defe55e48cf6f221c868594dd6676d17170",
+    "tree": "ca20c918201b455ad09df489829b83b9e6afea95",
+    "run_id": 40983410165,
+    "job_id": 123828634300,
+    "artifact_id": 12947563874,
+    "originals": {
+      "CP7_S03_ATTENDANCE_CHOICE_NATIVE14.json": {
+        "bytes": 78242045,
+        "sha256": "15d08eb136c46e74ecf814b2256cc12b0a1df2b29fbc27a1296c3100fc2bafb5"
+      },
+      "T3_PACKAGE_INSTALL.json": {
+        "bytes": 360433,
+        "sha256": "0663c1140bd2877ef3859b4e34bb773aaaf15e2f3b4217e48a8df66c1c436c77"
+      },
+      "T3_PACKAGE_FILES_INSTALL.json": {
+        "bytes": 1806,
+        "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+      },
+      "T3_BACKUP_RESTORE_DRILL.json": {
+        "bytes": 1470,
+        "sha256": "3883ec7b222e13badb22f5db7d9fabf563bf99b90dbf5d724a00c3ec40315091"
+      },
+      "CP7_S03_ATTENDANCE_CHOICE_NATIVE11_CASES.json": {
+        "bytes": 19498,
+        "sha256": "105e371726cdacd86900d7f086a4262450801c7606852a7711856b0ff06667dd"
+      },
+      "CP7_S03_ATTENDANCE_CHOICE_READER_NATIVE3_CASES.json": {
+        "bytes": 13062,
+        "sha256": "70b618aa40062eaa839a55f2edeb647ea1fe2c520840f5cca85c194df17668b7"
+      }
+    },
+    "archive": {
+      "bytes": 8472775,
+      "sha256": "567e64545493d4806fa613b1306b4fe8c2f70a2ebb327fc60b709737813e5a60"
+    },
+    "members": 119,
+    "root_receipt": {
+      "path": "S03_NATIVE14_ROOT_INTAKE.json",
+      "source_commit": "9f099766b8da81d3dde9cbe3bcc76c38997d3efd",
+      "source_path": "docs/cp7/d17-14/ow15/S03_NATIVE14_ROOT_ACTUAL_INTAKE_20261031.json",
+      "bytes": 3443,
+      "sha256": "f27e5bb55629619efbc38d8bb1f631275a00c9b0b6ad57781142a9f41205c951"
+    },
+    "classification": "QUALIFIED_UNCHANGED_BACKEND14_UI4_FRESH_ON_JOIN_REQUIRED"
+  },
+  "actual_composite_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

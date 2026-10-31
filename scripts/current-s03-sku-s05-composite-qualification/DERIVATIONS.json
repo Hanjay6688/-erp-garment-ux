@@ -1,0 +1,378 @@
+{
+  "status": "PREPARED_CURRENT_COMPOSITE37_NOT_EXECUTED",
+  "base_head": "b25eaae55a144aa03cc05f8f77109f5d0b02fbfb",
+  "base_tree": "e08f5eba90fd9a2deeb53a0a483c49e7a080e31c",
+  "files": {
+    "native_s05.py": {
+      "source_commit": "b25eaae55a144aa03cc05f8f77109f5d0b02fbfb",
+      "source_path": "scripts/current-s05-sku-composition-qualification/native.py",
+      "original_bytes": 4924,
+      "original_sha256": "64274d27078d1a5faf700efb6419c94e293528de2508891aabcca4e6d2ce8b1d",
+      "derived_bytes": 5107,
+      "derived_sha256": "48066a7f515c8447f0687344b6339a11955c1070f623c35b044b62c6ed9f65d6",
+      "changes": [
+        {
+          "before": "from cp7_sku_pair_conversion import composition as product",
+          "after": "from cp7_s03_sku_composition import composition as product",
+          "count": 1
+        },
+        {
+          "before": "cp7_s05_sku_composition",
+          "after": "cp7_s05_s03_sku_composition",
+          "count": 2
+        },
+        {
+          "before": "    exec(compile(text, module.__file__, 'exec'), module.__dict__)\n    return module, dict(source=proof, component_derivation=derivation,",
+          "after": "    exec(compile(text, module.__file__, 'exec'), module.__dict__)\n    module.scheduler_quiet = lambda url: load('joined_s05_real_quiet_scheduler', ROOT/'scripts/current-vendor-receivable-qualification/native_runner.py').scheduler_quiet(url)\n    return module, dict(source=proof, component_derivation=derivation,",
+          "count": 1
+        }
+      ],
+      "byte_exact_reversible": true
+    },
+    "s05_browser.py": {
+      "source_commit": "b25eaae55a144aa03cc05f8f77109f5d0b02fbfb",
+      "source_path": "scripts/current-s05-sku-composition-qualification/browser_component.py",
+      "original_bytes": 7152,
+      "original_sha256": "d147114031037a7d3c3faadead4c92e7565897f47307c7923049972187372406",
+      "derived_bytes": 7188,
+      "derived_sha256": "4662c033946a236fa9282ea9fdfe19f87eaf5f376b4b456da2899634636a2964",
+      "changes": [
+        {
+          "before": "from cp7_s05_sku_composition import stage",
+          "after": "from cp7_s05_s03_sku_composition import stage",
+          "count": 2
+        },
+        {
+          "before": "import cp6_auditor_modes as modes",
+          "after": "modes = load('joined_private_browser_modes', HERE/'modes.py')",
+          "count": 1
+        }
+      ],
+      "byte_exact_reversible": true
+    },
+    "browser_prepare.py": {
+      "source_commit": "b25eaae55a144aa03cc05f8f77109f5d0b02fbfb",
+      "source_path": "scripts/current-s05-sku-composition-qualification/browser_prepare.py",
+      "original_bytes": 5047,
+      "original_sha256": "36458d48dd2e94a0c64358320e1fd4d8ce8491fb178c494f7ff9c573b1e8baca",
+      "derived_bytes": 5055,
+      "derived_sha256": "d13aaee73897210f97dd95695a029e43380a32f1fd621b80557cdfe75de00c07",
+      "changes": [
+        {
+          "before": "HERE/'native.py'",
+          "after": "HERE/'native_s05.py'",
+          "count": 1
+        },
+        {
+          "before": "from cp7_s05_sku_composition import stage",
+          "after": "from cp7_s05_s03_sku_composition import stage",
+          "count": 1
+        }
+      ],
+      "byte_exact_reversible": true
+    },
+    "browser_fixture.py": {
+      "source_commit": "b25eaae55a144aa03cc05f8f77109f5d0b02fbfb",
+      "source_path": "scripts/current-s05-sku-composition-qualification/browser_fixture.py",
+      "original_bytes": 4553,
+      "original_sha256": "dfd35d7dd8de095aac7dcdb93cf2d0733877ee5ae1642d2f9898fd0c2efc3189",
+      "derived_bytes": 4557,
+      "derived_sha256": "850efdb3d1cc726118265bebf71bd208ae6324fc5af861c9a789b0de226c023d",
+      "changes": [
+        {
+          "before": "from cp7_s05_sku_composition import stage",
+          "after": "from cp7_s05_s03_sku_composition import stage",
+          "count": 1
+        }
+      ],
+      "byte_exact_reversible": true
+    },
+    "browser.mjs": {
+      "source_commit": "b25eaae55a144aa03cc05f8f77109f5d0b02fbfb",
+      "source_path": "scripts/current-s05-sku-composition-qualification/browser.mjs",
+      "original_bytes": 13866,
+      "original_sha256": "77e80c9a2026bc5fa9adca8af082afcfbd353661a1d633a21ef070497374f6ea",
+      "derived_bytes": 13870,
+      "derived_sha256": "92f62b487de442143f2fa7f8b45108da5d9bace27993e7f89168da4679a48837",
+      "changes": [
+        {
+          "before": "scripts/current-s05-sku-composition-qualification",
+          "after": "scripts/current-s03-sku-s05-composite-qualification",
+          "count": 2
+        }
+      ],
+      "byte_exact_reversible": true
+    },
+    "response_waits.mjs": {
+      "source_commit": "b25eaae55a144aa03cc05f8f77109f5d0b02fbfb",
+      "source_path": "scripts/current-s05-sku-composition-qualification/response_waits.mjs",
+      "original_bytes": 544,
+      "original_sha256": "28b01642e26378cb8e5aad96a9d2b2b10e252fbd19ce6151ee62cad7c4557034",
+      "derived_bytes": 544,
+      "derived_sha256": "28b01642e26378cb8e5aad96a9d2b2b10e252fbd19ce6151ee62cad7c4557034",
+      "changes": [],
+      "byte_exact_reversible": true
+    },
+    "s03_cases.mjs": {
+      "source_commit": "f42e76978852ba9efe34f75a4b622990c0331866",
+      "source_path": "scripts/current-attendance-choice-browser4-lawful-successor/cases.mjs",
+      "original_bytes": 32333,
+      "original_sha256": "abb98bc6e9605c1a2ba5152e27d36828372f9ddd31e1ccea6039eac211ff3738",
+      "derived_bytes": 32333,
+      "derived_sha256": "96b0ab47cd1f54924c8bf1c443a1ade6e87bcb62c55754388b502c29e636bef5",
+      "changes": [
+        {
+          "before": "scripts/current-attendance-choice-browser4-lawful-successor/fixture.py",
+          "after": "scripts/current-s03-sku-s05-composite-qualification/s03_fixture.py",
+          "count": 1
+        },
+        {
+          "before": "'./response_waits.mjs'",
+          "after": "'./s03_response_waits.mjs'",
+          "count": 1
+        }
+      ],
+      "byte_exact_reversible": true
+    },
+    "s03_response_waits.mjs": {
+      "source_commit": "f42e76978852ba9efe34f75a4b622990c0331866",
+      "source_path": "scripts/current-attendance-choice-browser4-lawful-successor/response_waits.mjs",
+      "original_bytes": 544,
+      "original_sha256": "28b01642e26378cb8e5aad96a9d2b2b10e252fbd19ce6151ee62cad7c4557034",
+      "derived_bytes": 544,
+      "derived_sha256": "28b01642e26378cb8e5aad96a9d2b2b10e252fbd19ce6151ee62cad7c4557034",
+      "changes": [],
+      "byte_exact_reversible": true
+    },
+    "evidence.mjs": {
+      "source_commit": "f42e76978852ba9efe34f75a4b622990c0331866",
+      "source_path": "scripts/current-attendance-choice-browser4-lawful-successor/evidence.mjs",
+      "original_bytes": 7752,
+      "original_sha256": "5940af3c890e2da99f282dba1c1dff030fc3136be1f9a333b321d2a0a719d23f",
+      "derived_bytes": 7752,
+      "derived_sha256": "5940af3c890e2da99f282dba1c1dff030fc3136be1f9a333b321d2a0a719d23f",
+      "changes": [],
+      "byte_exact_reversible": true
+    },
+    "fresh_read.mjs": {
+      "source_commit": "f42e76978852ba9efe34f75a4b622990c0331866",
+      "source_path": "scripts/current-attendance-choice-browser4-lawful-successor/fresh_read.mjs",
+      "original_bytes": 633,
+      "original_sha256": "476c3b9148fe4f78838843228e0ef722ce3e0bd68a9a3b8068af57c9bf5046c7",
+      "derived_bytes": 633,
+      "derived_sha256": "476c3b9148fe4f78838843228e0ef722ce3e0bd68a9a3b8068af57c9bf5046c7",
+      "changes": [],
+      "byte_exact_reversible": true
+    },
+    "pool_history.py": {
+      "source_commit": "f42e76978852ba9efe34f75a4b622990c0331866",
+      "source_path": "scripts/current-attendance-choice-browser4-lawful-successor/pool_history.py",
+      "original_bytes": 8063,
+      "original_sha256": "4bb57a46d1ccaf7098addbc1d907dde93adab758bd2701783a44be694b8ba4fa",
+      "derived_bytes": 8063,
+      "derived_sha256": "4bb57a46d1ccaf7098addbc1d907dde93adab758bd2701783a44be694b8ba4fa",
+      "changes": [],
+      "byte_exact_reversible": true
+    },
+    "rights_delta.py": {
+      "source_commit": "f42e76978852ba9efe34f75a4b622990c0331866",
+      "source_path": "scripts/current-attendance-choice-browser4-lawful-successor/rights_delta.py",
+      "original_bytes": 5874,
+      "original_sha256": "ff5a3fab3fc2b67d5d5ba551da55ad9abc313cfaa5f333039bf0a5a566d48588",
+      "derived_bytes": 5874,
+      "derived_sha256": "ff5a3fab3fc2b67d5d5ba551da55ad9abc313cfaa5f333039bf0a5a566d48588",
+      "changes": [],
+      "byte_exact_reversible": true
+    },
+    "HELPER_SOURCE.json": {
+      "source_commit": "f42e76978852ba9efe34f75a4b622990c0331866",
+      "source_path": "scripts/current-attendance-choice-browser4-lawful-successor/HELPER_SOURCE.json",
+      "original_bytes": 1993,
+      "original_sha256": "f613ebe34f75e186d1da97dda180f8a8668e2422246d433ede7aeaf6dda10ac1",
+      "derived_bytes": 1993,
+      "derived_sha256": "f613ebe34f75e186d1da97dda180f8a8668e2422246d433ede7aeaf6dda10ac1",
+      "changes": [],
+      "byte_exact_reversible": true
+    },
+    "helper-source/lawful_fixture.py": {
+      "source_commit": "f42e76978852ba9efe34f75a4b622990c0331866",
+      "source_path": "scripts/current-attendance-choice-browser4-lawful-successor/helper-source/lawful_fixture.py",
+      "original_bytes": 18312,
+      "original_sha256": "d8c991189c480033adf711002077062f459f0005bc7f682b10db1be754febd7f",
+      "derived_bytes": 18312,
+      "derived_sha256": "d8c991189c480033adf711002077062f459f0005bc7f682b10db1be754febd7f",
+      "changes": [],
+      "byte_exact_reversible": true
+    },
+    "retained-4d968/POLICY_FUNCTIONS.json": {
+      "source_commit": "f42e76978852ba9efe34f75a4b622990c0331866",
+      "source_path": "scripts/current-attendance-choice-browser4-lawful-successor/retained-4d968/POLICY_FUNCTIONS.json",
+      "original_bytes": 18156,
+      "original_sha256": "7154b9c0290767446bc3ee6aea7b22a9a8a81caeddc0226d5effefd729d7b8f8",
+      "derived_bytes": 18156,
+      "derived_sha256": "7154b9c0290767446bc3ee6aea7b22a9a8a81caeddc0226d5effefd729d7b8f8",
+      "changes": [],
+      "byte_exact_reversible": true
+    },
+    "s03_fixture.py": {
+      "source_commit": "f42e76978852ba9efe34f75a4b622990c0331866",
+      "source_path": "scripts/current-attendance-choice-browser4-lawful-successor/fixture.py",
+      "original_bytes": 34744,
+      "original_sha256": "d48ccac975e5d0dffbff133f1b940bb30f6967f87d422a5f0f0b0b9adfa67910",
+      "derived_bytes": 34688,
+      "derived_sha256": "4c592bbd141293ec2241a788b3cdde903ba46c1b50e6cee081a927d0f16595b6",
+      "changes": [
+        {
+          "before": "HERE / 'source_guard.py'",
+          "after": "HERE / 'admission.py'",
+          "count": 2
+        },
+        {
+          "before": "HERE / 'backend_runtime.py'",
+          "after": "HERE / 'backend.py'",
+          "count": 1
+        },
+        {
+          "before": "core = load('s03_browser4_retained_native_oracles', ROOT / 'scripts/current-attendance-period-choice-qualification/cases.py')",
+          "after": "core = load('joined_s03_native_oracles', HERE / 'native_s03.py').business_runtime()",
+          "count": 1
+        }
+      ],
+      "byte_exact_reversible": true
+    },
+    "native_sku.py": {
+      "source_commit": "b25eaae55a144aa03cc05f8f77109f5d0b02fbfb",
+      "source_path": "scripts/current-sku-pair-conversion-qualification/runner.py",
+      "original_bytes": 4292,
+      "original_sha256": "86f03376ebe0838da52cb612a92178628b70121631f18978b11314690963ab58",
+      "derived_bytes": 4343,
+      "derived_sha256": "b48cdb6a8b68c1c76f6e3a7f6b7b1fa61c2b92f13ae18cc1eeeca4c01475ec68",
+      "changes": [
+        {
+          "before": "from cp7_sku_pair_conversion import composition as product",
+          "after": "from cp7_s03_sku_composition import composition as product",
+          "count": 1
+        },
+        {
+          "before": "business=load('sku29_actual_native_cases',HERE/'cases.py')",
+          "after": "business=load('sku29_actual_native_cases',HERE.parent/'current-sku-pair-conversion-qualification'/'cases.py')",
+          "count": 1
+        }
+      ],
+      "byte_exact_reversible": true
+    },
+    "s03_component.py": {
+      "source_commit": "f42e76978852ba9efe34f75a4b622990c0331866",
+      "source_path": "scripts/current-attendance-choice-browser4-lawful-successor/component.py",
+      "original_bytes": 5006,
+      "original_sha256": "d86a30e292100eb0fdb1ad544965e80399e9163478ed59db4ce17bb44da43502",
+      "derived_bytes": 5030,
+      "derived_sha256": "799140dd2e4c35bc3fe8d2bc0a917edcd9a63016c330105020cece80a989e3e5",
+      "changes": [
+        {
+          "before": "HERE / 'source_guard.py'",
+          "after": "HERE / 'admission.py'",
+          "count": 1
+        },
+        {
+          "before": "HERE / 'backend_runtime.py'",
+          "after": "HERE / 'backend.py'",
+          "count": 1
+        },
+        {
+          "before": "ROOT / 'scripts/current-attendance-choice-mount-ui/browser_adapter.py'",
+          "after": "HERE / 's03_bridge.py'",
+          "count": 1
+        },
+        {
+          "before": "HERE / 'cases.mjs'",
+          "after": "HERE / 's03_cases.mjs'",
+          "count": 2
+        },
+        {
+          "before": "actual_backend14_retained_not_rerun=True",
+          "after": "actual_backend14_retained_not_rerun=False",
+          "count": 1
+        },
+        {
+          "before": "canonical_backend_selected_from_qualified3c0=True",
+          "after": "canonical_backend_selected_from_qualified3c0=False",
+          "count": 1
+        },
+        {
+          "before": "frozen_UI82_source_unchanged=True",
+          "after": "frozen_UI82_source_unchanged=False, current_join_UI_bound_by_whole_source=True",
+          "count": 1
+        },
+        {
+          "before": "import cp6_auditor_modes as modes",
+          "after": "modes = load('joined_private_browser_modes', HERE/'modes.py')",
+          "count": 1
+        }
+      ],
+      "byte_exact_reversible": true
+    },
+    "s03_bridge.py": {
+      "source_commit": "f42e76978852ba9efe34f75a4b622990c0331866",
+      "source_path": "scripts/current-attendance-choice-mount-ui/browser_adapter.py",
+      "original_bytes": 4206,
+      "original_sha256": "d5959879b2cfd3780e476f21ef7c428899acadd2382913dcc655e1cc8b1aecc7",
+      "derived_bytes": 2703,
+      "derived_sha256": "da0fda5f02099d318793820c8ad9dfc77dce50ee49bfd85962aed39bca596483",
+      "derivation": "FULL_UNCHANGED_BRIDGE_FUNCTION_AND_EXACT_IDS_EXTRACTION",
+      "complete_bridge_function_AST_unchanged": true
+    },
+    "host.mjs": {
+      "source_commit": "b25eaae55a144aa03cc05f8f77109f5d0b02fbfb",
+      "source_path": "scripts/cp6_auditor_browser_host.mjs",
+      "original_bytes": 21213,
+      "original_sha256": "09fa7d7a5fb7d7cb00eb73e1d4354842730c6ae3dd77dbf9b299539ca7de9557",
+      "derived_bytes": 20910,
+      "derived_sha256": "b1b119dbc7656ae58c9f789e63cc4a80cc61dd12cca20a30ada35f87e2c1dcb2",
+      "changes": [
+        {
+          "before": "from './cp6_auditor_business_day.mjs'",
+          "after": "from '../cp6_auditor_business_day.mjs'",
+          "count": 1
+        },
+        {
+          "before": "import assert from 'node:assert/strict'",
+          "after": "import assert from 'node:assert/strict'\nimport {directRpc} from './rpc_transport.mjs'",
+          "count": 1
+        },
+        {
+          "before": "async function rpc(token, name, args = {}) {\n  const res = await fetch(`http://127.0.0.1:${restPort}/rpc/` + name, { method: 'POST', headers: { apikey: anon,\n    Authorization: `Bearer ${token || anon}`, 'Content-Type': 'application/json' }, body: JSON.stringify(args) })\n  const text = await res.text()\n  let body; try { body = text ? JSON.parse(text) : null } catch { body = text.slice(0, 2000) }\n  return { status: res.status, body }\n}\n",
+          "after": "async function rpc(token,name,args={}) {return directRpc(restPort,anon,token,name,args)}\n",
+          "count": 1
+        }
+      ],
+      "byte_exact_reversible": true
+    },
+    "modes.py": {
+      "source_commit": "b25eaae55a144aa03cc05f8f77109f5d0b02fbfb",
+      "source_path": "scripts/cp6_auditor_modes.py",
+      "original_bytes": 23276,
+      "original_sha256": "d927c7491c72fe1eecfd1b4b8b4faf7e1710d6943fda601ede6a599fbc99209f",
+      "derived_bytes": 23300,
+      "derived_sha256": "5f4f45edcc99d24987908369fbec687f8373c6ffb37ce01d5e0fe63d79c6afb4",
+      "changes": [
+        {
+          "before": "AUDITOR=Path(__file__).resolve().parents[1]",
+          "after": "AUDITOR=Path(__file__).resolve().parents[2]",
+          "count": 1
+        },
+        {
+          "before": "['node','scripts/cp6_auditor_browser_host.mjs']",
+          "after": "['node','scripts/current-s03-sku-s05-composite-qualification/host.mjs']",
+          "count": 1
+        }
+      ],
+      "byte_exact_reversible": true
+    }
+  },
+  "financial_oracle_changes": 0,
+  "actual_Native_cases": 0,
+  "actual_browser_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}
