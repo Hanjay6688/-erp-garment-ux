@@ -76,6 +76,10 @@ class SourceControls(unittest.TestCase):
             expected=dict(old[index])
             if expected.get('name')in record.get('historical_admission_steps_use_exact_physical_SKU_checkout',[]):
                 expected['working-directory']='qualified-sku090b'
+            for change in record.get('clone_output_path_changes',[]):
+                if expected.get('name')==change['step_name']:
+                    self.assertEqual(expected['run'].count(change['before']),1)
+                    expected['run']=expected['run'].replace(change['before'],change['after'],1)
             self.assertIn(expected,steps)
         start=next(i for i,s in enumerate(steps)if s.get('name')=='Start disposable database')
         for marker in ('fetch_parents.py','test_rpc_transport.mjs','probe.py --check'):
@@ -84,6 +88,10 @@ class SourceControls(unittest.TestCase):
         self.assertIn('final_gate.py',actual['run']);self.assertEqual(current['timeout-minutes'],210)
         self.assertEqual(current['env']['JOIN_CONFIRM'],'cp6_rollback')
         self.assertEqual(current['env']['JOIN_QUALIFIED_SKU_ROOT'],'${{ github.workspace }}/qualified-sku090b')
+        runtime_index=next(i for i,s in enumerate(steps)if 'probe.py\' --runtime'in s.get('run',''))
+        retained_index=next(i for i,s in enumerate(steps)if 'retain_clone.py'in s.get('run',''))
+        self.assertGreater(retained_index,runtime_index)
+        self.assertEqual(steps[retained_index]['if'],'always()')
 
     def test_exact_historical_app_is_admitted_and_current_additions_remain_explicit(self):
         backend=load('frozen_parent')

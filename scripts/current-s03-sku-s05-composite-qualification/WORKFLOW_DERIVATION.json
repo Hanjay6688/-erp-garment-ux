@@ -125,5 +125,12 @@
     "Verify actual draft return counterexample before DB",
     "Verify actual full choice Native6 Original before DB",
     "Verify exact accepted UI, transport and prior cron Originals before database"
+  ],
+  "clone_output_path_changes": [
+    {
+      "step_name": "Clone the aligned AB state for install",
+      "before": "'../auditor/cp6-proof/t3/CLONE_install'",
+      "after": "\"$RUNNER_TEMP/join-clone/CLONE_install\""
+    }
   ]
 }

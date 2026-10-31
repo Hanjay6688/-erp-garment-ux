@@ -76,5 +76,20 @@
     "user_time": "2026-08-25T05:08:58Z",
     "rule": "Accessory pickup may happen anytime; PO optional; no mandatory matching to PO or FG",
     "source": "personal_context targeted temporal/funding search; no temporal eligibility decision found"
+  },
+  "first_runtime_admission_failure": {
+    "head": "b132f8211d6bd47ae5b478a5927742071440cd30",
+    "run_id": 41186705778,
+    "job_id": 124494988319,
+    "artifact_id": 13037860035,
+    "archive_bytes": 1668585,
+    "archive_sha256": "103a31494e72025c4ae446ecfa4591d92b0dca857dcfd92b35355d8593026715",
+    "error": "JOIN_UNDECLARED_EXECUTABLE_SOURCE:cp6-proof/t3/CLONE_install.clone-erp.sql",
+    "whole_natural_source_graph_before_DB": "PASS",
+    "disposable_aligned_and_cloned": true,
+    "business_cases_started": false,
+    "root_cause": "Existing clone verifier writes two pg_dump comparison artifacts with .sql suffix into the source checkout",
+    "fix": "Generate clone evidence outside checkouts; retain exact bytes only after source/runtime verification; no source waiver",
+    "actual_case_credit": 0
   }
 }

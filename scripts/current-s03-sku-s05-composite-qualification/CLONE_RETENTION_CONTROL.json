@@ -1,0 +1,39 @@
+{
+  "status": "ACTUAL_B132_FIVE_CLONE_OUTPUTS_RETAINED_BYTE_EXACT",
+  "files": [
+    {
+      "name": "CLONE_install.source-erp.sql",
+      "bytes": 5385608,
+      "sha256": "eab1f24a6b4329c288b39fe1a6fe57b4336e88b5852174f57d79c90575a3056f"
+    },
+    {
+      "name": "CLONE_install.clone-erp.sql",
+      "bytes": 5385608,
+      "sha256": "eab1f24a6b4329c288b39fe1a6fe57b4336e88b5852174f57d79c90575a3056f"
+    },
+    {
+      "name": "CLONE_install.database-identity.txt",
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    {
+      "name": "CLONE_install.txt",
+      "bytes": 291,
+      "sha256": "2d004a7b60784bcfbdb160158ad4b373c2b3200edccd183298d9779b5a3a3765"
+    },
+    {
+      "name": "CLONE_install.connection-fence.txt",
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    }
+  ],
+  "all_five_outputs_present": true,
+  "output_absence_is_not_PASS": true,
+  "SQL_executed_by_retainer": false,
+  "source_guard_weakened": false,
+  "actual_case_credit": 0,
+  "canonical_archive_sha256": "103a31494e72025c4ae446ecfa4591d92b0dca857dcfd92b35355d8593026715",
+  "actual_two_ERP_dumps_equal": true,
+  "canonical_clone_receipt_digest_verified": true,
+  "source_directory_outside_checkout": true
+}
