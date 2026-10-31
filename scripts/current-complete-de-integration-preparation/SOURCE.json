@@ -167,6 +167,10 @@
       "bytes": 1342,
       "sha256": "5c01ca75523dc9816be1676692b7e24ba385900d9fc16053993b594a0618bd25"
     },
+    "scripts/current-complete-de-integration-preparation/P0_DATABASE_SCOPE_CONTROLS.json": {
+      "bytes": 1045,
+      "sha256": "1fb9a2d51a4b39f52e91dba71192d0be065625efb56c76ce8e4449c495ff4989"
+    },
     "scripts/current-complete-de-integration-preparation/P0_DEPENDENCIES.json": {
       "bytes": 1679,
       "sha256": "48e1d6fe410cce19ab5756594fe27d11bca189aee5878d72ae060427c48249c6"
@@ -255,13 +259,17 @@
       "bytes": 5829,
       "sha256": "7b58e59ae50ed235167e399ace67d06ed2d5305fbb8bf0607ab989c98a3f2d98"
     },
+    "scripts/current-complete-de-integration-preparation/p0_database_scope_controls.py": {
+      "bytes": 5531,
+      "sha256": "ebbb62bbeeb09a5b315945fe6531e2d42d610160a234712a626493abbd12f83f"
+    },
     "scripts/current-complete-de-integration-preparation/p0_dependencies.py": {
-      "bytes": 3905,
-      "sha256": "e8bab96303cb902d810139a7bf60bf371357560a7fa7eee87aa327cfc98ea820"
+      "bytes": 4075,
+      "sha256": "edd1ace3928ea6b6b317e6b70839faa0d5a3a070503aad502b0b2ecc00f670d7"
     },
     "scripts/current-complete-de-integration-preparation/p0_dependency_controls.py": {
-      "bytes": 3845,
-      "sha256": "fc3c71af3ad16280c630aa34ee8efef2bf68a6ba08bcd9b3b838d6955d167e6f"
+      "bytes": 3911,
+      "sha256": "f7e5cc76ea54cc3619cd453b2229a3df949160f5ce804dc65ee5968906a13e35"
     },
     "scripts/current-complete-de-integration-preparation/probe.py": {
       "bytes": 3566,
@@ -300,8 +308,8 @@
       "sha256": "ed29060678bae2f8b56c220c632bb1b58c44771f652fe821a1f9c2eeb5ab7e02"
     },
     "scripts/current-complete-de-integration-preparation/system_metadata.py": {
-      "bytes": 2955,
-      "sha256": "a56d64daa23f59c873e9177fc9cf2dbfe68473615dd4baa88fa2a560c583904b"
+      "bytes": 3001,
+      "sha256": "c886a1c505f41f1280687fad4e056f366a0fe5aa8e4470e9aea2f9af65d2c184"
     },
     "scripts/current-complete-de-integration-preparation/test_lifecycle.py": {
       "bytes": 11628,

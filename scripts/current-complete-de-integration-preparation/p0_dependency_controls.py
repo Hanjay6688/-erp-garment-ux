@@ -19,7 +19,8 @@ def check():
     for index,(name,item)in enumerate(declaration['relations'].items(),20):
         relations.append(dict(oid=index,relowner=100,schema=item['schema'],relname=item['name'],
             relkind=item['kind'],relpersistence=item['persistence'],relacl=None))
-    base=dict(classification='ACTUAL_READ_ONLY_ALL_NAMESPACE_SYSTEM_CRON_METADATA_NOT_WRITER_CLOSURE',groups={
+    base=dict(classification='ACTUAL_READ_ONLY_ALL_NAMESPACE_SYSTEM_CRON_METADATA_NOT_WRITER_CLOSURE',
+        database='cp6_rollback',primary_scheduler_database=False,groups={
         'routines':{'rows':functions},'relations':{'rows':relations},
         'roles':{'rows':[dict(oid=100,rolname='postgres',rolsuper=True,rolinherit=True)]}})
     selected=module.select(base,declaration);negative=[]

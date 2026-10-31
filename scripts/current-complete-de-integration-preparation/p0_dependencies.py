@@ -21,6 +21,8 @@ def positive_oid(value):
 
 
 def select(base,declaration):
+    if base.get('database')!='cp6_rollback'or base.get('primary_scheduler_database')is not False:
+        raise ValueError('DE_P0_INSTALLED_CANDIDATE_SNAPSHOT_REQUIRED')
     if base['classification']!='ACTUAL_READ_ONLY_ALL_NAMESPACE_SYSTEM_CRON_METADATA_NOT_WRITER_CLOSURE':
         raise ValueError('DE_P0_ACTUAL_READONLY_SYSTEM_METADATA_REQUIRED')
     groups=base['groups']
