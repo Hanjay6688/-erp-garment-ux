@@ -49,6 +49,42 @@ def posted(p,snapshot,issue,at):
         raise ValueError('FREE_DATE_RAW_EXPLICIT_CATEGORY_AND_POLICY_VERSION_REQUIRED')
 
 
+def case_boundary(boundary):
+    before=boundary['before'];after=boundary['after'];observed=boundary['after_operation']
+    if(before['actual_all22']!=after['actual_all22']or len(before['actual_all22'])!=22):
+        raise ValueError('FREE_DATE_CASE_ALL22_CATALOG_CHANGED')
+    original=before['full_data_and_sequences'];restored=after['full_data_and_sequences']
+    if({k:v for k,v in original.items()if not k.startswith('sequence:')}!=
+       {k:v for k,v in restored.items()if not k.startswith('sequence:')}):
+        raise ValueError('FREE_DATE_CASE_ALL_TABLE_ROWS_NOT_RESTORED')
+    first={k:v for k,v in original.items()if k.startswith('sequence:')}
+    last={k:v for k,v in restored.items()if k.startswith('sequence:')}
+    audit='sequence:erp.audit_logs_id_seq'
+    if(set(first)!=set(last)or set(first)!=set(observed['sequences'])or audit not in first):
+        raise ValueError('FREE_DATE_CASE_ALL_SEQUENCE_MEMBERS_REQUIRED')
+    if last!=observed['sequences']:
+        raise ValueError('FREE_DATE_CASE_ROLLBACK_CHANGED_SEQUENCE_VALUES')
+    if any(first[k]!=last[k]for k in first if k!=audit):
+        raise ValueError('FREE_DATE_CASE_UNEXPECTED_NON_AUDIT_SEQUENCE_CHANGE')
+    for value in(first[audit],last[audit]):
+        if(type(value)is not list or len(value)!=2 or type(value[0])is not str
+           or type(value[1])is not bool or not value[0].isdecimal()
+           or str(int(value[0]))!=value[0]or int(value[0])<1):
+            raise ValueError('FREE_DATE_CASE_TYPED_AUDIT_SEQUENCE_REQUIRED')
+    ids=observed['audit_ids'];count=observed['audit_row_count']
+    minimum=int(first[audit][0])+(1 if first[audit][1]else 0)
+    if(type(ids)is not list or not ids or type(count)is not int
+       or any(type(v)is not str for v in ids)
+       or ids!=[str(minimum+i)for i in range(len(ids))]
+       or last[audit]!=[ids[-1],True]
+       or count!=original['erp.audit_logs'][0]+len(ids)):
+        raise ValueError('FREE_DATE_CASE_AUDIT_ADVANCE_REQUIRES_EVERY_ACTUAL_INSERTED_ID')
+    return dict(classification='AUDITED_NATIVE_SEQUENCE_CONSUMPTION_NOT_TRANSACTIONAL_RESTORE',
+        audit_sequence_increments=len(ids),all_table_rows_restored=True,all22_catalog_exact=True,
+        all_other_sequences_unchanged=True,rollback_sequence_values_unchanged=True,
+        case_sequence_reset_performed=False,complete_outer_backup_sequence_restore_required=True)
+
+
 def gate(directory,head):
     load('free_date_actual_parent_before_report_read',HERE/'admission.py').parent_receipt()
     p=load('free_date_exact_original_typed_report_gate',
@@ -88,9 +124,8 @@ def validate(p,main,raw,package,backup,ids,head):
             'FREE_DATE_ORIGINAL_STRICT_CASE:'+name)
         if row.get('business_day_rollover'):raise ValueError('FREE_DATE_CASE_ROLLED_OVER:'+name)
         boundary=row['actual_full22_case_boundary']
-        p.exact(boundary['before'],boundary['after'],'FREE_DATE_EVERY_CASE_FULL22_ROWS_SEQUENCES:'+name)
-        if len(boundary['before']['actual_all22'])!=22:
-            raise ValueError('FREE_DATE_EVERY_ACTUAL_CASE_REQUIRES_COMPLETE22:'+name)
+        p.exact(boundary['verification'],case_boundary(boundary),
+            'FREE_DATE_EVERY_CASE_AUDITED_SEQUENCE_CONSUMPTION_AND_ALL_ROWS:'+name)
     lookup,replay,history=[raw['cases'][key]for key in ids]
     p.fields(lookup,dict(actual_public_final_day_quotes=4,null_and_absent_ids_ineligible=True,
         product_clock_changed=False,GOOD_eligibility_policy_decided=False),'FREE_DATE_ACTUAL_NORMAL_PUBLIC_QUOTE')

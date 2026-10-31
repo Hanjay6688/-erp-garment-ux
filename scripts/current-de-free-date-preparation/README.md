@@ -63,9 +63,15 @@ The workflow is data only. Neither a workflow file nor a runtime branch update
 has been activated. The final gate checks the original raw three-case report,
 actual stock/account values, replay/history equality, committed-use raw full22
 and ALL rows/sequences, backup restoration and the five actual package gates.
-Each new case also owns an inner rollback boundary and retains its actual
-complete22 catalog, ALL table rows and ALL sequences before/after; the original
-strict runner's outer savepoint, CP6/public and session checks remain unchanged.
-A sequence change that cannot roll back is a failure, and an original business
-exception survives the cleanup. Local synthetic gate/boundary controls carry
+Each new case retains its complete22 catalog, ALL table rows and ALL sequences
+before/after its inner rollback. Native audit inserts consume the existing
+audit sequence even when their rows roll back. Before rollback, retain every
+actual sequence value and every generated audit ID. Only contiguous audit IDs
+present in that transaction may account for this advance. All other sequences,
+every rolled-back table row and the full catalog stay exact. Rollback itself
+must not change a sequence. Never reset a sequence in a case. The separate
+used-refusal oracle still requires exact ALL rows/sequences, and the outer
+backup must restore every original sequence. The original strict runner keeps
+its CP6/public/session boundary; an original business error survives cleanup.
+Local synthetic gate/boundary controls carry
 zero Native, SQL or business acceptance credit.

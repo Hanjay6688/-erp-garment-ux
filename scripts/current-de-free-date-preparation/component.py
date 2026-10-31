@@ -39,8 +39,28 @@ def retain(native,report):
     report['strict_group_originals']=pins
 
 
+def operation_sequences(cur,catalog,before):
+    """Observe all actual sequences and the IDs consumed by Native audit DML.
+
+    Reuse the complete catalogue's namespace and identifier quoting. Reading
+    sequences does not advance or reset them. Retain the generated audit IDs
+    before rollback because sequence consumption is not transactional.
+    """
+    first=before['full_data_and_sequences']['sequence:erp.audit_logs_id_seq']
+    minimum=int(first[0])+(1 if first[1] else 0)
+    with catalog._catalog(cur):
+        names=cur.execute("select n.nspname,c.relname from pg_class c join pg_namespace n on n.oid=c.relnamespace where c.relkind='S'and "+catalog.NAMESPACE+" order by 1,2").fetchall()
+        sequences={'sequence:'+'.'.join(name):list(cur.execute(catalog.sql.SQL(
+            'select last_value::text,is_called from {}').format(catalog.sql.Identifier(*name))).fetchone())
+            for name in names}
+        ids=[row[0]for row in cur.execute(
+            'select id::text from erp.audit_logs where id>=%s order by id',(minimum,)).fetchall()]
+        count=cur.execute('select count(*) from erp.audit_logs').fetchone()[0]
+    return dict(sequences=sequences,audit_ids=ids,audit_row_count=count)
+
+
 def full_case(cur,operation,work,control):
-    """Retain full current22/ALL rows/sequences after an actual rolled-back case.
+    """Retain full current22/ALL rows and account for Native audit sequences.
 
     The unchanged strict runner still owns its outer savepoint, CP6/public
     boundary and session checks. This inner case savepoint adds the complete
@@ -52,8 +72,10 @@ def full_case(cur,operation,work,control):
         before=dict(actual_all22=catalog._catalog_rows(cur),
                     full_data_and_sequences=catalog._data(cur))
     cur.execute('savepoint free_date_full_current_case')
-    error=None;result=None
-    try:result=operation()
+    error=None;result=None;observed=None
+    try:
+        result=operation()
+        with control.product_catalog(cur):observed=operation_sequences(cur,catalog,before)
     except Exception as failed:error=failed
     try:
         cur.execute('rollback to savepoint free_date_full_current_case')
@@ -65,10 +87,14 @@ def full_case(cur,operation,work,control):
         work.product.verify(cur,work.state)
         after=dict(actual_all22=catalog._catalog_rows(cur),
                    full_data_and_sequences=catalog._data(cur))
-    if before!=after or len(before['actual_all22'])!=22:
-        raise ValueError('FREE_DATE_ROLLED_BACK_CASE_CHANGED_FULL22_ROWS_OR_SEQUENCES')
     if type(result)is not dict:raise ValueError('FREE_DATE_ACTUAL_CASE_RESULT_OBJECT_REQUIRED')
-    result['actual_full22_case_boundary']=dict(before=before,after=after)
+    boundary=dict(before=before,after=after,after_operation=observed)
+    # Only contiguous IDs actually inserted into the Native audit table may
+    # consume a sequence. Other sequences, ALL rows and the full catalogue
+    # stay exact; the separate used-refusal oracle is unchanged.
+    validator=load('free_date_audited_sequence_boundary',HERE/'final_gate.py')
+    boundary['verification']=validator.case_boundary(boundary)
+    result['actual_full22_case_boundary']=boundary
     return result
 
 
