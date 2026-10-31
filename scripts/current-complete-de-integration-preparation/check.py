@@ -86,6 +86,23 @@ def controls():
             if str(error)!='COMPLETE_DE_ACTUAL_PERMANENT_PARENT_INTAKE_PENDING':raise
             metadata_pending=True
         else:raise ValueError('COMPLETE_DE_PENDING_READONLY_METADATA_WAS_OPENED')
+    fetch=load('complete_DE_canonical_permanent6_fetch_source',HERE/'fetch_parent.py')
+    _,fetch_source=fetch.derive()
+    workflow=load('complete_DE_data_only_owning_workflow_source',HERE/'workflow.py').source_control()
+    attempts=load('complete_DE_exact_unchanged_real_WIB_policy',
+        ROOT/'scripts/current-sku-managed-recovery-native27-qualification/attempt_policy.py')
+    if attempts.JOB_BUDGET_SECONDS!=workflow['job_minutes']*60:
+        raise ValueError('COMPLETE_DE_WORKFLOW_AND_ACTUAL_WIB_POLICY_BUDGET_MUST_MATCH')
+    pending_gate_and_fetch=[]
+    if pending:
+        final=load('complete_DE_exact_final_gate_pending_parent',HERE/'final_gate.py')
+        for name,operation in(('canonical_parent_fetch',fetch.main),
+            ('final_report_gate',lambda:final.gate(HERE/'ABSENT_REPORT_DIRECTORY','NOT_A_HEAD'))):
+            try:operation()
+            except ValueError as error:
+                if str(error)!='COMPLETE_DE_ACTUAL_PERMANENT_PARENT_INTAKE_PENDING':raise
+                pending_gate_and_fetch.append(name)
+            else:raise ValueError('COMPLETE_DE_PENDING_FETCH_OR_REPORT_GATE_WAS_OPENED:'+name)
     caller_pending=[]
     if pending:
         probe=load('complete_de_pending_full_caller_control',HERE/'probe.py')
@@ -105,6 +122,8 @@ def controls():
         actual_diagnostic_API_source_calls=calls,pending_full_caller_controls=caller_pending,
         unchanged_inherited_system_metadata_source=metadata_source,
         metadata_pending_before_URI_source_client_or_connection=metadata_pending,
+        canonical_permanent6_fetch_source=fetch_source,owning_workflow_data_only=workflow,
+        pending_before_any_parent_GET_or_report_file=pending_gate_and_fetch,
         actual_SQL_executed=0,actual_Native_cases=0,production_go=False,independent_acceptance=False)
 
 

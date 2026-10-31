@@ -144,8 +144,8 @@
       "sha256": "5c01ca75523dc9816be1676692b7e24ba385900d9fc16053993b594a0618bd25"
     },
     "scripts/current-complete-de-integration-preparation/README.md": {
-      "bytes": 5443,
-      "sha256": "6b40a7db56810688da15746d7c341bbcd8a0cfd8056d125bf4fe5b4b45d982e2"
+      "bytes": 6284,
+      "sha256": "1feef86eed8a855a064ed88d72722cfe3f6e97b279a75325e29ed24a028659ac"
     },
     "scripts/current-complete-de-integration-preparation/RUNTIME_DIAGNOSTICS_SOURCE.json": {
       "bytes": 743,
@@ -160,8 +160,8 @@
       "sha256": "1cc6a1cc54d46c0409ee376d1a40bd19f768bfd47ace7fb6e0faa34f2f1c05aa"
     },
     "scripts/current-complete-de-integration-preparation/check.py": {
-      "bytes": 7530,
-      "sha256": "ab3ba6f21fe19bf1b2bdd8b1a8cdcca59dceff4fd3969d77d1a25ed6ad775b41"
+      "bytes": 8839,
+      "sha256": "21832400bdbd89d12b31f9bc8815f6d7e00b40dbb2f1132d04f7fdc954fddf55"
     },
     "scripts/current-complete-de-integration-preparation/component.py": {
       "bytes": 4677,
@@ -170,6 +170,18 @@
     "scripts/current-complete-de-integration-preparation/engine.py": {
       "bytes": 2143,
       "sha256": "4deb4dee31df37681442c4bf6c16c01387c9376f4d879f227e670b2f5f9a00dd"
+    },
+    "scripts/current-complete-de-integration-preparation/fetch_parent.py": {
+      "bytes": 4122,
+      "sha256": "83d885253cb6ff43f72ec57f300bd5724a13a6a87dc5fcb89b158571b3c022b8"
+    },
+    "scripts/current-complete-de-integration-preparation/final_gate.py": {
+      "bytes": 5433,
+      "sha256": "2c547bd66703cdc18576f6a1472b9311383fb749e409bd22493008b940dd775b"
+    },
+    "scripts/current-complete-de-integration-preparation/native30.workflow.yml.txt": {
+      "bytes": 33352,
+      "sha256": "1ed4384495a6ed8870565db4d2733b19290d09c6615f8b7f825c4474dd72d29c"
     },
     "scripts/current-complete-de-integration-preparation/native_business.py": {
       "bytes": 5829,
@@ -202,6 +214,10 @@
     "scripts/current-complete-de-integration-preparation/witness.py": {
       "bytes": 3188,
       "sha256": "eeefe44420b6bf72682713f35c5ee2197846a6c5a702a2af6736c99517483245"
+    },
+    "scripts/current-complete-de-integration-preparation/workflow.py": {
+      "bytes": 6023,
+      "sha256": "1031edc58eeaf3e384bf1c3c517b1fbb1b158058e01a9e7339fbcc77498c5a7c"
     }
   },
   "actual_parent_qualification": null,

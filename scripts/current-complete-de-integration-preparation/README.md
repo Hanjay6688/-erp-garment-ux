@@ -81,3 +81,15 @@ helper remain byte exact. Its pending-parent gate precedes URI handling and
 client imports. Candidate and primary scheduler snapshots remain separate;
 unavailable metadata is recorded without connection details and gives no
 global writer, permission or lock closure. All prior query controls are reused.
+
+The workflow preparation is stored as native30.workflow.yml.txt inside this
+namespace. It cannot trigger Actions. It derives from the exact permanent6
+workflow: 67 original step dictionaries stay unchanged, six route to this
+qualification, and one real 210 minute WIB guard runs before setup. The job
+budget equals the unchanged runtime policy. The canonical-parent fetcher
+retains the original terminal run/job, ZIP size/SHA/CRC, path and main-byte
+checks, routed to the actual accepted permanent6 receipt. It refuses a pending
+parent before any GitHub GET. The typed final gate also refuses before reading
+any report while the parent is pending. Activation still requires rebasing on
+the accepted parent, an explicitly admitted workflow path and fresh source
+review; no workflow creation or dispatch operation is supplied by the builder.
