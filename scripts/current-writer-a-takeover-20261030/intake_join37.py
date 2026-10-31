@@ -13,8 +13,8 @@ CASE='CURRENT_S03_SKU_S05_NATIVE31_BROWSER6'
 MAIN='CP7_CURRENT_S03_SKU_S05_NATIVE31_BROWSER6.json'
 # Arm only after the actual full37 successor is launched and observed.
 # The focused Owner Native1 run on the same tree cannot satisfy this intake.
-RUN=None
-JOB=None
+RUN=41222437891
+JOB=124599622258
 GATES=dict(installed=True,primary_unchanged=True,backup_restore_drill=True,security_advisors=True,writer_runtime=True)
 
 def source(g):

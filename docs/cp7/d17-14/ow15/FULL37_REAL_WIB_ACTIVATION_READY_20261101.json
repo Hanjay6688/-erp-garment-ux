@@ -1,0 +1,17 @@
+{
+  "status": "ACTUAL_REAL_FULL37_WINDOW_AND_OWNER_FIX_PREREQUISITE_READY",
+  "observed_at_utc": "2026-10-31T17:00:59.789814+00:00",
+  "head": "6cb5bfe213fe3ce684244370dec092569705f6ff",
+  "tree": "260cc8e984ae41409b43c62256acbbbf6ee25071",
+  "actual_unmodified_policy": {
+    "business_day": "2026-11-01",
+    "seconds_to_midnight": 86340.210176,
+    "required_seconds": 12600,
+    "automatic_group_retry": false,
+    "product_clock_changed": false
+  },
+  "Owner1_root_status": "ROOT_VERIFIED_CURRENT_OWNER_ACCESS_NATIVE1_ALL5",
+  "full37_actual_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

@@ -1,7 +1,7 @@
 {
   "classification": "WRITER_A_TAKEOVER_ACTIVE_CONTINUATION_NOT_COMPLETION",
-  "recorded_at_utc": "2026-10-31T16:42:34.903816+00:00",
-  "root_parent": "52ef112dcb31f0dd6ad781aaa5ebef0c60b08537",
+  "recorded_at_utc": "2026-10-31T17:03:28.406920+00:00",
+  "root_parent": "28051b59e5a3b4294059ba3aeff4caccddf265a4",
   "prior_chat_execution_observable": false,
   "current_work_is_isolated": true,
   "midnight_root_intake_receipt": "MIDNIGHT_NATIVE1_E787_ROOT_INTAKE_20261030.json",
@@ -163,9 +163,9 @@
   "independent_acceptance": false,
   "current_default": "cp7_vendor_receivable.composition",
   "next": [
-    "Use the accepted actual Owner1 repair; launch and observe one current full37 only in the unchanged real210minute WIB window, then bind root intake to its actual run/job.",
-    "Accept canonical actual37 only when all original groups, six normal App browser cases and all5/full restores pass; do not combine prior30 and focused1.",
-    "Bind and qualify permanent6; then rebase and admit the prepared current D1/E Native30 workflow on that exact accepted parent, retaining pending global and old scope."
+    "Monitor the one actual repaired full37 run 41222437891/job124599622258; preserve first failure and exact canonical artifact with complete CRC/API identity. No current37 acceptance while active.",
+    "Run the exact pinned root full37 intake only against terminal success and its canonical archive; require all fresh original groups, six actual normal App browser cases, all5 and whole restores.",
+    "After actual accepted37, rebase the preserved permanent6 own48 files onto that exact parent, bind its canonical Root receipt and fresh owning runtime identity; then advance the closed D1/E Native30 source preparation and remaining old scope."
   ],
   "prior_checkpoint": {
     "classification": "WRITER_A_TAKEOVER_ACTIVE_CONTINUATION_NOT_COMPLETION",
@@ -1991,16 +1991,28 @@
     "canonical_archive_sha256": "103a31494e72025c4ae446ecfa4591d92b0dca857dcfd92b35355d8593026715"
   },
   "current_active_join": {
+    "run_id": 41222437891,
+    "job_id": 124599622258,
     "head": "6cb5bfe213fe3ce684244370dec092569705f6ff",
     "tree": "260cc8e984ae41409b43c62256acbbbf6ee25071",
-    "actual_successor_run": null,
-    "actual_successor_job": null,
-    "root_intake_unarmed": true,
-    "branch_still_failed_head": "1d52f8a2cf48c07d6af86dbaf114989cb2f5bece",
-    "actual_real_window_refusal_receipt": "FULL37_REAL_WIB_WINDOW_AFTER_OWNER1_20261031.json",
-    "next_WIB_day_starts_utc": "2026-10-31T17:00:00Z",
-    "prior30_plus_focused1_not_aggregated": true,
-    "qualified": false
+    "path": ".github/workflows/cp7-s03-sku-s05-composite.yml",
+    "branch": "astra-a/s03-sku-product-join-20261031",
+    "run_attempt": 1,
+    "status": "in_progress",
+    "conclusion": null,
+    "created_at": "2026-10-31T17:01:04Z",
+    "job_status": "in_progress",
+    "job_conclusion": null,
+    "actual_fresh_cases_accepted": 0,
+    "full37_qualified": false,
+    "active_run_refused_before_archive_or_Git": true,
+    "actual_refusal": "EXACT_TERMINAL_API_ARTIFACT_METADATA/conclusion:TYPE",
+    "classification": "ACTUAL_REPAIRED_FULL37_OWNING_RUN_OBSERVED_AND_ROOT_IDENTITY_PINNED",
+    "recorded_at_utc": "2026-10-31T17:02:51.086179+00:00",
+    "automatic_group_retry": false,
+    "product_clock_changed": false,
+    "production_go": false,
+    "independent_acceptance": false
   },
   "current_join_first_financial_failure": {
     "receipt": "JOIN_339889_ROOT_ACTUAL_FAILURE_INTAKE_20261031.json",
@@ -2033,7 +2045,7 @@
     "complete37_qualified": false
   },
   "latest_runner_loss_receipt": "JOIN_1EDD_ROOT_RUNNER_LOSS_20261031.json",
-  "latest_continuation_receipt": "WRITER_A_V223_DE30_LOSSLESS_RAW_METADATA_20261031.json",
+  "latest_continuation_receipt": "WRITER_A_V225_ACTUAL_REPAIRED_CURRENT37_STARTED_20261101.json",
   "current_system_cron_profile_preparation": {
     "namespace": "scripts/current-global-system-cron-profile-preparation",
     "queries": 27,
@@ -2222,16 +2234,7 @@
     "production_go": false,
     "independent_acceptance": false
   },
-  "current_full37_root_intake_unarmed": {
-    "source_pins": 69,
-    "own_paths": 70,
-    "unchanged_base": 14000,
-    "run_id": null,
-    "job_id": null,
-    "unarmed_before_archive_or_Git": true,
-    "receipt": "JOIN37_SUCCESSOR_ROOT_UNARMED_CONTROL_20261031.json",
-    "focused1_cannot_satisfy_full37": true
-  },
+  "current_full37_root_intake_unarmed": false,
   "current_global_after_wait_source_review": {
     "direct_known19_overlap_with_D1_or_E": [],
     "unchanged_parent_input_files": 8,
@@ -2257,5 +2260,20 @@
       "DE30_674_ROOT_RAW_METADATA_CONTROLS_20261031.json",
       "DE30_LOSSLESS_RAW_METADATA_FENCED_SOURCE_20261031.json"
     ]
+  },
+  "current_full37_root_intake_identity": {
+    "head": "6cb5bfe213fe3ce684244370dec092569705f6ff",
+    "tree": "260cc8e984ae41409b43c62256acbbbf6ee25071",
+    "run_id": 41222437891,
+    "job_id": 124599622258
+  },
+  "permanent_rebase_source_plan": {
+    "receipt": "PERMANENT6_REBASE_INPUT_PLAN_AFTER_OWNER1_20261031.json",
+    "own_paths": 48,
+    "no_path_overlap": true,
+    "proposed_parent_files": 14070,
+    "changed_financial_product_paths": [],
+    "actual_parent_receipt": null,
+    "rebase_performed": false
   }
 }
