@@ -1,0 +1,74 @@
+{
+  "classification": "ACTUAL_FAILED_ORIGINALS_VERIFIED_CONCRETE_CORRECTIONS_PUBLISHED_NEW_RUNS_PENDING",
+  "recorded_at_utc": "2026-10-31T04:31:45.360Z",
+  "SKU": {
+    "head": "090b85d3fcb738d3e694d4329d306f199a686eb8",
+    "tree": "e04831b441bed987cd72ff738cf2a06a7c0ef0ae",
+    "parent": "e9256772579f387df77dde949f8ea619cbd86856",
+    "local_prepublication": "eedac974c073513054352dae23b956178df5b9cb",
+    "branch": "astra-a/sku-managed-recovery-native27-20261030",
+    "run_id": 41167734749,
+    "job_id": 124438845597
+  },
+  "S03": {
+    "head": "f42e76978852ba9efe34f75a4b622990c0331866",
+    "tree": "489f35012ae17821afc9c138a7dc64cb024d5cd4",
+    "parent": "a2096c570b6a0300b8ef299d6a167b68849e427d",
+    "local_prepublication": "d235510a99282534a3990089bb6e23d2802dd6fa",
+    "branch": "astra-a/s03-browser4-lawful-qualification-20261030",
+    "run_id": 41168528689
+  },
+  "local_controls": {
+    "SKU_Node": 9,
+    "SKU_captured_timestamp_regression": 2,
+    "SKU_strict_committed_source": "PASS_NO_DB_ATTEMPTS",
+    "S03_Python_final_full": 97,
+    "S03_Node": 15,
+    "S03_new_fresh_response_Node_controls": 2,
+    "S03_source": "SOURCE_PASS"
+  },
+  "first_preparation_failures_retained": true,
+  "preparation_issues": [
+    "Timestamp derivation initially rejected replacement that is a prefix of old text; corrected counted guard before runtime",
+    "Fresh workspace missing Python dependencies and retained Original environment; restored pinned dependencies and reused unchanged Original import proof",
+    "First S03 local suite87 had4 errors from local dependency symlink/PATH and one missing copied unit fixture dependency; fixed and complete97 passed",
+    "Root S03 source-pin consumer initially included path in the expected-pin shape; corrected and all2409 pins passed"
+  ],
+  "actual_intakes": [
+    "SKU_E925_ROOT_ACTUAL_INTAKE_20261031.json",
+    "S03_A209_ROOT_ACTUAL_INTAKE_20261031.json"
+  ],
+  "evidence_archives": [
+    {
+      "name": "ERP_SKU_e925_Actual_Text_Evidence_20261031.zip",
+      "bytes": 59090534,
+      "sha256": "2155ba7cae011e6d0a858435f02175f9d2a16337c9ac48e10b82e7cd8fb0958c",
+      "CRC_members": 147,
+      "exact_text_originals": 146,
+      "excluded": 24,
+      "full_canonical_archive": false
+    },
+    {
+      "name": "ERP_S03_a209_Actual_Text_Evidence_20261031.zip",
+      "bytes": 354140758,
+      "sha256": "a84324887432ae1301345769e6adc96e211a46f8cd52e80c0c55e3d09ef47b7f",
+      "CRC_members": 186,
+      "exact_text_originals": 185,
+      "excluded": 10,
+      "full_canonical_archive": false
+    },
+    {
+      "name": "ERP_Writer_A_e925_a209_Corrections_and_Intake_20261031.zip",
+      "bytes": 16130,
+      "sha256": "e9df89c3c3d36aca18349863cacd12efb06e800ce1dc3e277d87eb522dcbc793",
+      "CRC_members": 16
+    }
+  ],
+  "unified_current_head": "051b451b34c16ec0a8522a78880d695c4d7354e3",
+  "S03_product_namespace_absent_from_SKU_candidate": true,
+  "S03_and_SKU_product_composition_still_required": true,
+  "S05_combined_runtime_qualified": false,
+  "formal_accepted": "5/16",
+  "production_go": false,
+  "independent_acceptance": false
+}

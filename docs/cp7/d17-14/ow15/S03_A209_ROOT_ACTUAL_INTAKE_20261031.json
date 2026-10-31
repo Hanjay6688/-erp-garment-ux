@@ -1,0 +1,56 @@
+{
+  "status": "EXACT_TERMINAL_FAILED_ORIGINAL_AND_RESTORATION_ROOT_VERIFIED",
+  "head": "a2096c570b6a0300b8ef299d6a167b68849e427d",
+  "tree": "9732ed1ecfe9b14e78adef4e4e12c9b960b92714",
+  "run_id": 41113128260,
+  "job_id": 124260357407,
+  "artifact_id": 13009109235,
+  "archive": {
+    "bytes": 359771010,
+    "sha256": "6e26f2ea5836aca14a514a9c3d2b6a2254fc4d1b513a72028b1f44745020c808",
+    "members": 195
+  },
+  "originals": {
+    "CP7_S03_MOUNTED_FULL_APP_BROWSER4.json": {
+      "bytes": 1809664,
+      "sha256": "1514d344c1a600a0869598c9d38a0add3adc73c71cb6326c514c558cfd6a8fa0"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360436,
+      "sha256": "ce26b47583c36d855769d9cb5d619d39a7cc85cc0e78c251e847c86b9eb3b79e"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 1470,
+      "sha256": "9598e18433224263f2552186c980b2c8f1f98931d8e2520b083179261fd7d93e"
+    }
+  },
+  "exact_source_pins": 2409,
+  "browser_counts": {
+    "PASS": 2,
+    "INCOMPLETE": 2
+  },
+  "failures": {
+    "S03_BROWSER_OWNER_CARRY_ALLOCATE_CANCEL_MOBILE390": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\nfalse !== true\n\n    at mobile (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-attendance-choice-browser4-lawful-successor/cases.mjs:74:36)\n    at async main (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:243:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:259:3",
+    "S03_BROWSER_CURRENT_AUTH_RIGHTS_AND_DELAYED_CONTEXT": "Error: Command failed: python -B /home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-attendance-choice-browser4-lawful-successor/fixture.py access_snapshot\nTraceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-attendance-choice-browser4-lawful-successor/fixture.py\", line 497, in <module>\n    print(json.dumps(main(), default=str))\n                     ^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-attendance-choice-browser4-lawful-successor/fixture.py\", line 423, in main\n    with runtime() as r:\n         ^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/contextlib.py\", line 137, in __enter__\n    return next(self.gen)\n           ^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-attendance-choice-browser4-lawful-successor/fixture.py\", line 40, in runtime\n    proof = load('s03_browser4_fixture_source_gate', HERE / 'source_guard.py').admitted()\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-attendance-choice-browser4-lawful-successor/source_guard.py\", line 126, in admitted\n    checked = check()\n              ^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-attendance-choice-browser4-lawful-successor/source_guard.py\", line 94, in check\n    accepted_outputs, output_proof = outputs.admit(ROOT, HERE, unknown)\n                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-attendance-choice-browser4-lawful-successor/output_admission.py\", line 224, in admit\n    own={name for name in names-accepted if evidence(root,here,name)};accepted.update(own)\n                                            ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-attendance-choice-browser4-lawful-successor/output_admission.py\", line 84, in evidence\n    if snapshot[1] not in labels:raise ValueError('S03_BROWSER4_GENERATED_UNKNOWN_SNAPSHOT_LABEL')\n                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nValueError: S03_BROWSER4_GENERATED_UNKNOWN_SNAPSHOT_LABEL\n\n    at genericNodeError (node:internal/errors:983:15)\n    at wrappedFn (node:internal/errors:537:14)\n    at checkExecSyncError (node:child_process:916:11)\n    at execFileSync (node:child_process:952:15)\n    at fixture (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-attendance-choice-browser4-lawful-successor/cases.mjs:12:50)\n    at access (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-attendance-choice-browser4-lawful-successor/cases.mjs:144:142)\n    at async main (file:///home/runner/work/-erp-garment-ux/-erp-garment"
+  },
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "outer_restore_source_bound_receipts": true,
+  "outer_raw_before_after_not_serialized": true,
+  "prior_runs_aggregated": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "complete_browser4_qualified": false,
+  "raw_host_original": {
+    "bytes": 10273,
+    "sha256": "9fd1d2b486adf41d0f2b35984c98c04e11166df4659d9f076ce9862280c2603f"
+  },
+  "failed_pool_read_raw_censuses_equal": true,
+  "actual_closed_through": "2026-10-24",
+  "read_selection_stale_answer_is_inference": true
+}
