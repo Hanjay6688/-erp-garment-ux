@@ -1,0 +1,52 @@
+{
+  "classification": "ROOT_AUDITED_FREE3_CASE_BOUNDARY_PREPARED_NOT_ACTUAL_QUALIFICATION",
+  "created_at_UTC": "2026-10-31T19:51:14.260928+00:00",
+  "root_predecessor": "bd470c797c0bddf2223d80445f529d7983dbf448",
+  "prepared_head": "e686f804de40077465e40ef26d2f88d23fe18fab",
+  "prepared_tree": "4d34212b36297b7f13858a68b0c6ae5b90ebe952",
+  "prepared_parent": "651084161b76f7b38951fe0c22b725fe2b2a1dd3",
+  "concrete_change": "Replace impossible per-case audit-sequence rollback equality with actual complete sequence observations and contiguous IDs actually inserted into Native audit_logs; ALL table rows/catalog, every other sequence, rollback non-mutation, exact used-refusal and outer ALL-sequence backup restore remain mandatory.",
+  "no_case_sequence_reset": true,
+  "unchanged_Native_business_cases": 3,
+  "unchanged_fixture_and_strict_runner_files": 3,
+  "immutable_pure_functions": [
+    "money",
+    "posted",
+    "case_boundary",
+    "validate"
+  ],
+  "local_synthetic_report_controls": {
+    "positive": 1,
+    "negative": 20,
+    "case_boundaries": 5
+  },
+  "disposable_PostgreSQL17_semantics_and_observer_controls": 5,
+  "source_parent_blobs_modes_unchanged": 14181,
+  "closed_pending_entry_gates": 15,
+  "current37": {
+    "head": "6cb5bfe213fe3ce684244370dec092569705f6ff",
+    "run_id": 41222437891,
+    "job_id": 124599622258,
+    "last_observed_status": "in_progress",
+    "last_observed_at_UTC": "2026-10-31T19:49:30Z",
+    "actual_cases_accepted": 0,
+    "duplicate_run_launched": false
+  },
+  "receipts": {
+    "FREE3_ROOT_AUDIT_SEQUENCE_SOURCE_AND_UNARMED_20261101.json": {
+      "bytes": 1832,
+      "sha256": "89dc0db5fc66e7ab9328f097ed31aa881032e305f43094288da67b347a54dbfd"
+    },
+    "FREE3_ROOT_AUDIT_SEQUENCE_MODEL_CONTROLS_20261101.json": {
+      "bytes": 5768,
+      "sha256": "33a8241bab889fa97518e5c39d7e95256d939ccc2dc06316935cfb5a15228881"
+    }
+  },
+  "active_FG_implementation_started": false,
+  "FG_order": "AFTER_ACTIVE_INTEGRATION_STABLE",
+  "actual_ERP_SQL_executed": 0,
+  "actual_Native_cases": 0,
+  "actual_new_qualification_dispatched": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

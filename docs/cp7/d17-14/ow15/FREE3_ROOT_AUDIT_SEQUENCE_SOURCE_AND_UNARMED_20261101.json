@@ -1,0 +1,62 @@
+{
+  "classification": "ROOT_CLOSED_AUDITED_FREE3_SOURCE_REVIEW_NOT_ACTUAL_ACCEPTANCE",
+  "prepared_head": "e686f804de40077465e40ef26d2f88d23fe18fab",
+  "prepared_tree": "4d34212b36297b7f13858a68b0c6ae5b90ebe952",
+  "prepared_base": "fef0d838991df1ab3474382747ee3519d4c237eb",
+  "owning_paths": 32,
+  "pinned_sources": 31,
+  "unchanged_parent_blobs_and_modes": 14181,
+  "immutable_pure_source": {
+    "selected_functions": [
+      "money",
+      "posted",
+      "case_boundary",
+      "validate"
+    ],
+    "exact_source": {
+      "bytes": 14543,
+      "sha256": "76f77079586b34468e3ea9e749bd371a674306d60398d5a7e76b7b8f2b38d22d"
+    },
+    "actual_ERP_imports": 0,
+    "actual_SQL_executed": 0
+  },
+  "all_eight_actual_identity_constants": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+  ],
+  "unarmed_refusal": "FREE3_ACTUAL_PARENT_AND_OWNING_RUN_NOT_YET_PINNED",
+  "unarmed_refusal_before_any_Git_archive_or_metadata": true,
+  "source_checked_with": "intake_free3.py --source /workspace/scratch/b73c04f98216/erp-date-on-repaired-de-preparation --check-source",
+  "source_check_status": "EXACT_FREE3_SOURCE_AND_THREE_IDS_ONLY",
+  "source_DB_guard": {
+    "attempts": [],
+    "self_controls": [
+      {
+        "api": "psycopg.connect",
+        "result": "DENIED_BEFORE_LIBPQ"
+      },
+      {
+        "api": "psycopg.Connection.connect",
+        "result": "DENIED_BEFORE_LIBPQ"
+      },
+      {
+        "api": "psycopg.AsyncConnection.connect",
+        "result": "DENIED_BEFORE_LIBPQ"
+      },
+      {
+        "original_connect_descriptors_restored": true
+      }
+    ],
+    "network_nonGit_attempts": [],
+    "public_source_sha256": "1439d70810383db377c48e043df7fb6d487a1b2f1a995e8993a2c08590f9f797"
+  },
+  "actual_Native_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

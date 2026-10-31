@@ -1,7 +1,7 @@
 {
   "classification": "WRITER_A_TAKEOVER_ACTIVE_CONTINUATION_NOT_COMPLETION",
-  "recorded_at_utc": "2026-10-31T17:55:20.378241+00:00",
-  "root_parent": "8f3551fa74dc4605c8b9d77d631d16ab26cee8f5",
+  "recorded_at_utc": "2026-10-31T19:51:14.260928+00:00",
+  "root_parent": "bd470c797c0bddf2223d80445f529d7983dbf448",
   "prior_chat_execution_observable": false,
   "current_work_is_isolated": true,
   "midnight_root_intake_receipt": "MIDNIGHT_NATIVE1_E787_ROOT_INTAKE_20261030.json",
@@ -1277,7 +1277,7 @@
     "owner_direct_reaffirmation": {
       "date": "2026-10-30",
       "source": "USER message in active Writer A conversation",
-      "title": "HANDOFF WRITER A — PENJUALAN FG KE MANDOR, POTONG PAYROLL MINGGU PILIHAN",
+      "title": "HANDOFF WRITER A \u2014 PENJUALAN FG KE MANDOR, POTONG PAYROLL MINGGU PILIHAN",
       "exact_scope_instruction": "Catat sebagai scope tambahan. Kerjakan setelah blok integrasi aktif stabil, dengan A tetap integrator tunggal.",
       "exact_timing_discretion": "scope tambahan, lu kira kira aja saat paling tepat masukin ini kpan, klo mau selesain yg lama dulu silahkan. gas lanjut",
       "accepted": true,
@@ -2048,7 +2048,7 @@
     "complete37_qualified": false
   },
   "latest_runner_loss_receipt": "JOIN_1EDD_ROOT_RUNNER_LOSS_20261031.json",
-  "latest_continuation_receipt": "WRITER_A_V231_FG_PATHS_AND_ACTIVATION_ADMISSION_20261101.json",
+  "latest_continuation_receipt": "WRITER_A_V232_AUDITED_SEQUENCE_BOUNDARY_PREPARED_20261101.json",
   "current_system_cron_profile_preparation": {
     "namespace": "scripts/current-global-system-cron-profile-preparation",
     "queries": 27,
@@ -2286,13 +2286,13 @@
     "current_prepared_head": "04ed2fbc3f1fb24174ff7368bffbb2dff01f5423"
   },
   "explicit_current_DE_FREE_date_preparation": {
-    "head": "651084161b76f7b38951fe0c22b725fe2b2a1dd3",
-    "tree": "01a26e00a1bfce174248a4826aa372518ecd5dee",
-    "parent": "67baa0ddb5cd8773104e8c43a287b58f1df772dc",
+    "head": "e686f804de40077465e40ef26d2f88d23fe18fab",
+    "tree": "4d34212b36297b7f13858a68b0c6ae5b90ebe952",
+    "parent": "651084161b76f7b38951fe0c22b725fe2b2a1dd3",
     "base": "fef0d838991df1ab3474382747ee3519d4c237eb",
     "branch": "astra-a/de-free-date-repaired-parent-source-prepared-20261101",
-    "own_paths": 31,
-    "own_pins": 30,
+    "own_paths": 32,
+    "own_pins": 31,
     "unchanged_parent_files_and_modes": 14181,
     "prepared_new_Native_case_ids": [
       "FREE_DATE_NATIVE_WIB_INCLUSIVE_LOOKUP_AND_NORMAL_PUBLIC_QUOTE",
@@ -2313,8 +2313,8 @@
     "pending_entries_before_ERP_SQL_GET_or_report": 15,
     "source_fence_control": "PASS_THREE_PSYCOPG_AND_NON_GIT_NETWORK_ZERO_ATTEMPTS",
     "positive_synthetic_gate_grammar_controls": 1,
-    "negative_synthetic_gate_controls": 12,
-    "synthetic_case_boundary_controls": 4,
+    "negative_synthetic_gate_controls": 20,
+    "synthetic_case_boundary_controls": 5,
     "reused_unchanged_lifecycle_models_PASS": 14,
     "reused_unchanged_isolated_date_SQL_controls": 39,
     "actual_DE30_root_receipt": null,
@@ -2326,7 +2326,11 @@
     "Afui_GOOD_nonpayable_path_complete": false,
     "Root_intake": "scripts/current-writer-a-takeover-20261030/intake_free3.py",
     "Root_pure_AST_and_unarmed_controls": "PASS",
-    "all_eight_actual_parent_and_runtime_identity_constants": null
+    "all_eight_actual_parent_and_runtime_identity_constants": null,
+    "disposable_PostgreSQL17_semantics_and_observer_controls": 5,
+    "only_contiguous_inserted_Native_audit_ids_account_sequence_consumption": true,
+    "case_sequence_resets": 0,
+    "used_refusal_and_outer_backup_ALL_sequence_equality_retained": true
   },
   "prior_current_complete_DE_root_intake_before_repaired_parent": {
     "status": "ROOT_DE30_WORKFLOW_SUCCESSOR_SOURCE_AND_UNARMED_CONTROL_PASS",
@@ -2420,10 +2424,10 @@
     "GOOD_eligibility_policy_decided": false
   },
   "current_FREE3_Root_intake_preparation": {
-    "head": "651084161b76f7b38951fe0c22b725fe2b2a1dd3",
-    "tree": "01a26e00a1bfce174248a4826aa372518ecd5dee",
-    "source": "FREE3_ROOT_SOURCE_AND_UNARMED_CONTROL_20261101.json",
-    "models": "FREE3_ROOT_PURE_REPORT_MODEL_CONTROLS_20261101.json",
+    "head": "e686f804de40077465e40ef26d2f88d23fe18fab",
+    "tree": "4d34212b36297b7f13858a68b0c6ae5b90ebe952",
+    "source": "FREE3_ROOT_AUDIT_SEQUENCE_SOURCE_AND_UNARMED_20261101.json",
+    "models": "FREE3_ROOT_AUDIT_SEQUENCE_MODEL_CONTROLS_20261101.json",
     "actual_Native_cases": 0,
     "actual_accepted_parent": null,
     "activated": false
@@ -2435,5 +2439,48 @@
     "Afui lawful positive-HPP/zero-reimbursement GOOD/recost scope remains open; temporal policy choice is unanswered.",
     "FG Mandor chosen-week invoice allocation implementation follows stable active integration; source paths mapped.",
     "Independent acceptance and remaining formal checkpoints/dated report and role CSV handoff remain open."
-  ]
+  ],
+  "prior_FREE3_before_audited_sequence_boundary": {
+    "head": "651084161b76f7b38951fe0c22b725fe2b2a1dd3",
+    "tree": "01a26e00a1bfce174248a4826aa372518ecd5dee",
+    "parent": "67baa0ddb5cd8773104e8c43a287b58f1df772dc",
+    "base": "fef0d838991df1ab3474382747ee3519d4c237eb",
+    "branch": "astra-a/de-free-date-repaired-parent-source-prepared-20261101",
+    "own_paths": 31,
+    "own_pins": 30,
+    "unchanged_parent_files_and_modes": 14181,
+    "prepared_new_Native_case_ids": [
+      "FREE_DATE_NATIVE_WIB_INCLUSIVE_LOOKUP_AND_NORMAL_PUBLIC_QUOTE",
+      "FREE_DATE_NATIVE_FINAL_DAY_POST_STOCK_GL_AND_EXACT_REPLAY",
+      "FREE_DATE_NATIVE_POSTED_HISTORY_AFTER_ELIGIBILITY_ENDS"
+    ],
+    "unchanged_BC_fixture_and_strict_runner_sources": 3,
+    "code_changes_to_original_fixture_or_runner": 0,
+    "inner_per_case_full22_ALL_rows_and_sequences_bracket": true,
+    "original_strict_outer_CP6_public_session_checks_retained": true,
+    "whole_original_package_engine_reused": true,
+    "additional_engine_routes": 2,
+    "canonical_parent_fetch_routes": 20,
+    "workflow_data_steps": 74,
+    "unchanged_parent_workflow_steps": 68,
+    "routed_parent_steps": 6,
+    "job_and_real_WIB_minutes": 210,
+    "pending_entries_before_ERP_SQL_GET_or_report": 15,
+    "source_fence_control": "PASS_THREE_PSYCOPG_AND_NON_GIT_NETWORK_ZERO_ATTEMPTS",
+    "positive_synthetic_gate_grammar_controls": 1,
+    "negative_synthetic_gate_controls": 12,
+    "synthetic_case_boundary_controls": 4,
+    "reused_unchanged_lifecycle_models_PASS": 14,
+    "reused_unchanged_isolated_date_SQL_controls": 39,
+    "actual_DE30_root_receipt": null,
+    "workflow_activated": false,
+    "runtime_dispatched": false,
+    "actual_Native_cases": 0,
+    "actual_new_SQL_executed": 0,
+    "GOOD_eligibility_policy_decided": false,
+    "Afui_GOOD_nonpayable_path_complete": false,
+    "Root_intake": "scripts/current-writer-a-takeover-20261030/intake_free3.py",
+    "Root_pure_AST_and_unarmed_controls": "PASS",
+    "all_eight_actual_parent_and_runtime_identity_constants": null
+  }
 }

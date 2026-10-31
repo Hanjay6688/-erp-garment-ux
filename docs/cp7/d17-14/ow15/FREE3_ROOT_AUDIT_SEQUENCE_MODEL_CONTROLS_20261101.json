@@ -1,0 +1,194 @@
+{
+  "classification": "EXPLICIT_SYNTHETIC_FREE3_GATE_GRAMMAR_NOT_ACTUAL_ACCEPTANCE",
+  "status": "PASS",
+  "positive_grammar_controls": 1,
+  "negative_controls": 20,
+  "negative_results": [
+    {
+      "name": "Boolean_case_count",
+      "result": "REFUSED",
+      "error": "FREE_DATE_NATIVE3_AND_FULL_RESTORE/actual_Native_cases:TYPE"
+    },
+    {
+      "name": "Changed_replay_raw_history",
+      "result": "REFUSED",
+      "error": "FREE_DATE_REPLAY_RAW_POSTED_HISTORY/header/status:VALUE"
+    },
+    {
+      "name": "Empty_posted_snapshot",
+      "result": "REFUSED",
+      "error": "FREE_DATE_RAW_POSTED_SNAPSHOT_STRUCTURE_REQUIRED"
+    },
+    {
+      "name": "Balanced_GL_without_inventory_cost",
+      "result": "REFUSED",
+      "error": "FREE_DATE_RAW_GL_COST_AND_NO_RECEIVABLE_OR_CASH"
+    },
+    {
+      "name": "Changed_stock_replay",
+      "result": "REFUSED",
+      "error": "FREE_DATE_REPLAY_RAW_STOCK_NO_EFFECT:VALUE"
+    },
+    {
+      "name": "Forged_boundary_expectation",
+      "result": "REFUSED",
+      "error": "FREE_DATE_INDEPENDENT_INCLUSIVE_BOUNDARY_ORACLE/0:VALUE"
+    },
+    {
+      "name": "Committed_used_sequence_changed",
+      "result": "REFUSED",
+      "error": "FREE_DATE_USED_INVERSE_RAW_NO_EFFECT/full_data_and_sequences/MODEL_SEQUENCE/0:VALUE"
+    },
+    {
+      "name": "Rollback_private_sequence_changed",
+      "result": "REFUSED",
+      "error": "FREE_DATE_CASE_ROLLBACK_CHANGED_SEQUENCE_VALUES"
+    },
+    {
+      "name": "Unrelated_sequence_advance_even_when_observed",
+      "result": "REFUSED",
+      "error": "FREE_DATE_CASE_UNEXPECTED_NON_AUDIT_SEQUENCE_CHANGE"
+    },
+    {
+      "name": "Missing_actual_audit_ID",
+      "result": "REFUSED",
+      "error": "FREE_DATE_CASE_AUDIT_ADVANCE_REQUIRES_EVERY_ACTUAL_INSERTED_ID"
+    },
+    {
+      "name": "Gapped_or_forged_audit_ID",
+      "result": "REFUSED",
+      "error": "FREE_DATE_CASE_AUDIT_ADVANCE_REQUIRES_EVERY_ACTUAL_INSERTED_ID"
+    },
+    {
+      "name": "Boolean_audit_row_count",
+      "result": "REFUSED",
+      "error": "FREE_DATE_CASE_AUDIT_ADVANCE_REQUIRES_EVERY_ACTUAL_INSERTED_ID"
+    },
+    {
+      "name": "Audit_reset_during_rollback",
+      "result": "REFUSED",
+      "error": "FREE_DATE_CASE_ROLLBACK_CHANGED_SEQUENCE_VALUES"
+    },
+    {
+      "name": "Rolled_back_table_row_changed",
+      "result": "REFUSED",
+      "error": "FREE_DATE_CASE_ALL_TABLE_ROWS_NOT_RESTORED"
+    },
+    {
+      "name": "Catalogue_changed",
+      "result": "REFUSED",
+      "error": "FREE_DATE_CASE_ALL22_CATALOG_CHANGED"
+    },
+    {
+      "name": "Forged_consumption_receipt",
+      "result": "REFUSED",
+      "error": "FREE_DATE_EVERY_CASE_AUDITED_SEQUENCE_CONSUMPTION_AND_ALL_ROWS:FREE_DATE_NATIVE_WIB_INCLUSIVE_LOOKUP_AND_NORMAL_PUBLIC_QUOTE/audit_sequence_increments:VALUE"
+    },
+    {
+      "name": "Writer_package_gate_false",
+      "result": "REFUSED",
+      "error": "FREE_DATE_ALL_FIVE_ACTUAL_PACKAGE_GATES/writer_runtime:VALUE"
+    },
+    {
+      "name": "Nonfinite_or_boolean_decimal_True",
+      "result": "REFUSED"
+    },
+    {
+      "name": "Nonfinite_or_boolean_decimal_NaN",
+      "result": "REFUSED"
+    },
+    {
+      "name": "Nonfinite_or_boolean_decimal_Infinity",
+      "result": "REFUSED"
+    }
+  ],
+  "case_boundary_model_controls": [
+    {
+      "name": "Actual_audit_sequence_consumption_retained_without_reset_and_ALL_rows_rolled_back",
+      "result": "PASS"
+    },
+    {
+      "name": "Unrelated_nontransactional_sequence_advance",
+      "result": "REFUSED"
+    },
+    {
+      "name": "Audit_sequence_advance_without_inserted_audit_row",
+      "result": "REFUSED"
+    },
+    {
+      "name": "Original_model_business_error_preserved_after_rollback",
+      "result": "PASS"
+    },
+    {
+      "name": "Ended_model_transaction",
+      "result": "REFUSED"
+    }
+  ],
+  "model_source_pin": {
+    "bytes": 19463,
+    "sha256": "dc9a5fb461a0b1a224ddbfa24bdd70004d6ebb964936495833575d643c7d82a8"
+  },
+  "actual_prepared_source_pins": {
+    "final_gate.py": {
+      "bytes": 14543,
+      "sha256": "76f77079586b34468e3ea9e749bd371a674306d60398d5a7e76b7b8f2b38d22d"
+    },
+    "component.py": {
+      "bytes": 10169,
+      "sha256": "4fea2d66c65cb3a29b56a95b753f4e5ec7fa193e80fa777951b1f9eeae9d5342"
+    },
+    "native_free.py": {
+      "bytes": 15045,
+      "sha256": "804cd2862a426e11c883f7252c553059af7fdc919cb8a2de8fa3ee0917326575"
+    }
+  },
+  "existing_backup_and_package_fixture_origin": {
+    "head": "6cb5bfe213fe3ce684244370dec092569705f6ff",
+    "run_id": 41212698704,
+    "root_receipt": "OWNER_ACCESS1_6CB_ROOT_ACTUAL_INTAKE_20261031.json"
+  },
+  "synthetic_loader_override_only": true,
+  "actual_ERP_or_product_module_overrides": false,
+  "Root_immutable_AST_validator_mode": true,
+  "Root_pure_source": {
+    "selected_functions": [
+      "money",
+      "posted",
+      "case_boundary",
+      "validate"
+    ],
+    "exact_source": {
+      "bytes": 14543,
+      "sha256": "76f77079586b34468e3ea9e749bd371a674306d60398d5a7e76b7b8f2b38d22d"
+    },
+    "actual_ERP_imports": 0,
+    "actual_SQL_executed": 0
+  },
+  "source_DB_guard": {
+    "attempts": [],
+    "self_controls": [
+      {
+        "api": "psycopg.connect",
+        "result": "DENIED_BEFORE_LIBPQ"
+      },
+      {
+        "api": "psycopg.Connection.connect",
+        "result": "DENIED_BEFORE_LIBPQ"
+      },
+      {
+        "api": "psycopg.AsyncConnection.connect",
+        "result": "DENIED_BEFORE_LIBPQ"
+      },
+      {
+        "original_connect_descriptors_restored": true
+      }
+    ],
+    "network_nonGit_attempts": [],
+    "public_source_sha256": "1439d70810383db377c48e043df7fb6d487a1b2f1a995e8993a2c08590f9f797"
+  },
+  "actual_SQL_executed": 0,
+  "actual_Native_cases": 0,
+  "actual_business_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

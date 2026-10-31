@@ -21,8 +21,8 @@ PARENT_HEAD=None
 PARENT_TREE=None
 PARENT_RUN=None
 PARENT_JOB=None
-PREPARED_HEAD='651084161b76f7b38951fe0c22b725fe2b2a1dd3'
-PREPARED_TREE='01a26e00a1bfce174248a4826aa372518ecd5dee'
+PREPARED_HEAD='e686f804de40077465e40ef26d2f88d23fe18fab'
+PREPARED_TREE='4d34212b36297b7f13858a68b0c6ae5b90ebe952'
 PREPARED_BASE='fef0d838991df1ab3474382747ee3519d4c237eb'
 PREPARED_BASE_TREE='772cc0a80e1857bc03e6a544a39d5b5de3beb4c3'
 NS='scripts/current-de-free-date-preparation/'
@@ -39,13 +39,14 @@ GATES=dict(installed=True,primary_unchanged=True,backup_restore_drill=True,secur
 
 
 def report_validator(g):
-    """Compile only the exact three pure functions from an immutable blob."""
+    """Compile only the exact four pure functions from an immutable blob."""
     selected=[node for node in ast.parse(g.read(NS+'final_gate.py')).body
-              if isinstance(node,ast.FunctionDef)and node.name in('money','posted','validate')]
-    exact([node.name for node in selected],['money','posted','validate'],'FREE3_EXACT_THREE_PURE_VALIDATOR_FUNCTIONS')
+              if isinstance(node,ast.FunctionDef)and node.name in('money','posted','case_boundary','validate')]
+    exact([node.name for node in selected],['money','posted','case_boundary','validate'],'FREE3_EXACT_FOUR_PURE_VALIDATOR_FUNCTIONS')
     names={'ValueError','type','len','set','dict','str','list','range','sum','any',
-           'Decimal','ZoneInfo','timedelta','money','posted'}
-    attributes={'fields','exact','fromisoformat','combine','isoformat','utcoffset','is_finite','get','items','values'}
+           'int','Decimal','ZoneInfo','timedelta','money','posted','case_boundary'}
+    attributes={'fields','exact','fromisoformat','combine','isoformat','utcoffset','is_finite','get','items','values',
+                'startswith','isdecimal'}
     for function in selected:
         require(not function.decorator_list,'FREE3_PURE_VALIDATOR_NO_DECORATOR')
         for node in ast.walk(function):
@@ -81,7 +82,7 @@ def source(g):
     exact(set(g.tree)-set(base),allowed,'FREE3_EXACT_CLOSED_ADDITIVE_SOURCE')
     for name,value in declaration['files'].items():g.verify_pin(name,value)
     if PARENT_HEAD is None:
-        exact(len(base),14181,'FREE3_PREPARED_BASE14181');exact(len(allowed),31,'FREE3_PREPARED_OWN31')
+        exact(len(base),14181,'FREE3_PREPARED_BASE14181');exact(len(allowed),32,'FREE3_PREPARED_OWN32')
         exact(literal(g,NS+'admission.py','PARENT_HEAD'),None,'FREE3_PREPARED_PARENT_GATE_CLOSED')
         exact(literal(g,NS+'admission.py','PARENT_RECEIPT'),None,'FREE3_PREPARED_RECEIPT_GATE_CLOSED')
         require(WORKFLOW not in g.tree,'FREE3_PREPARED_WORKFLOW_NOT_ACTIVATED')
@@ -157,8 +158,10 @@ def intake(root,path,metadata):
         boundaries={}
         for key,row in raw['cases'].items():
             boundary=row['actual_full22_case_boundary']
-            exact(boundary['before'],boundary['after'],'FREE3_ACTUAL_CASE_FULL_BOUNDARY:'+key)
-            boundaries[key]=full_census(boundary['before']['actual_all22'],boundary['before']['full_data_and_sequences'])
+            boundaries[key]=dict(
+                before=full_census(boundary['before']['actual_all22'],boundary['before']['full_data_and_sequences']),
+                after=full_census(boundary['after']['actual_all22'],boundary['after']['full_data_and_sequences']),
+                audit_sequence_consumption=pure.case_boundary(boundary))
         used=main['committed'][CASE]['separate_committed_Native_use']
         exact(used['before'],used['after'],'FREE3_COMMITTED_USED_REFUSAL_RAW_NO_EFFECT')
         used_boundary=full_census(used['before']['actual_all22'],used['before']['full_data_and_sequences'])
