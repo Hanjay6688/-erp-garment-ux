@@ -1,0 +1,37 @@
+{
+  "status": "COMPLETE_ASSEMBLY_SOURCE_PREPARATION_ONLY",
+  "base_head": "33988923ab3bad708b21f3c74002f1309a3644e1",
+  "files": {
+    "scripts/cp7_current_s03_sku_s05/README.md": {
+      "bytes": 1359,
+      "sha256": "0a1d89eff32936fe9378881e177053ad5253862e1da7c6be27ad49c2bcb79518"
+    },
+    "scripts/cp7_current_s03_sku_s05/SOURCE.json": {
+      "bytes": 763,
+      "sha256": "b05af453dd0bb14a6f7a144d2c287c0b29862cc1f8a6096786d2db538b7a5f10"
+    },
+    "scripts/cp7_current_s03_sku_s05/__init__.py": {
+      "bytes": 81,
+      "sha256": "985511f5f5f2b17b1fb57e3b75a22339f1240df8930b6f9f63bfc482bd88f2c6"
+    },
+    "scripts/cp7_current_s03_sku_s05/composition.py": {
+      "bytes": 4824,
+      "sha256": "d9e51354f3e401af10d8498a2947a2089e217d854383a622e56aa79fb370d85a"
+    },
+    "scripts/current-final-s03-sku-s05-preparation/LOCAL_CONTROLS.json": {
+      "bytes": 668,
+      "sha256": "35689180ef0bd43d380693a03b4b0f960ae203fe14ca0e62aa651016b9e82b8a"
+    },
+    "scripts/current-final-s03-sku-s05-preparation/REUSED_GLOBAL_FINITE19_PROFILE.json": {
+      "bytes": 3392,
+      "sha256": "529e44c6b586f72b448994c1c23bc41b018cf3b9169bde0f5a5fe77f6e3c118d"
+    },
+    "scripts/current-final-s03-sku-s05-preparation/test_composition.py": {
+      "bytes": 5248,
+      "sha256": "550910ab056d39aede94a5f2cddea88f2fab3219f9be13dc779e6bc42a9d338d"
+    }
+  },
+  "actual_new_Native_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

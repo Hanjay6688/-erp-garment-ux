@@ -1,0 +1,20 @@
+{
+  "status": "PREPARED_ASSEMBLY_ORCHESTRATION_CONTROLS_PASS",
+  "explicit_model_controls": 5,
+  "model_control_cases": [
+    "full_install_keeps_reader",
+    "business_rows_allowed_but_preuse_inverse_refuses_before_DDL",
+    "sequence_only_use_refuses_before_DDL",
+    "unused_reader_inverse_precedes_financial_inverse",
+    "changed_source_or_component_chain_refuses"
+  ],
+  "original_S03_S05_SQL_changed": false,
+  "default_installer_changed": false,
+  "DB_connections": 0,
+  "actual_ERP_Native_cases": 0,
+  "actual_Auth_cases": 0,
+  "actual_browser_cases": 0,
+  "installed_on_active_candidate": false,
+  "production_go": false,
+  "independent_acceptance": false
+}
