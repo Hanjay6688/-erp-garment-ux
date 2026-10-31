@@ -1,7 +1,7 @@
 """Exact source/recorded-capture checks only. No database or installer call."""
 from pathlib import Path
 from hashlib import sha256
-import argparse,importlib.util,json,subprocess
+import argparse,ast,importlib.util,json,subprocess
 
 HERE=Path(__file__).resolve().parent
 ROOT=HERE.parents[1]
@@ -56,12 +56,44 @@ def controls():
             if str(error)!='COMPLETE_DE_ACTUAL_PERMANENT_PARENT_INTAKE_PENDING':raise
             native_pending=True
         else:raise ValueError('COMPLETE_DE_PENDING_NATIVE30_ADMISSION_WAS_OPENED')
+    engine=load('complete_de_unchanged_whole_package_engine_source',HERE/'engine.py').derive(
+        (ROOT/'scripts/current-vendor-receivable-qualification/probe.py').read_bytes())[1]
+    witness=load('complete_de_unchanged_committed_E_source',HERE/'witness.py').prepared_sources()[1]
+    diagnostic=json.loads((HERE/'RUNTIME_DIAGNOSTICS_SOURCE.json').read_bytes())
+    diagnostic_raw=subprocess.check_output(['/usr/bin/git','-C',str(ROOT),'show',
+        diagnostic['head']+':'+diagnostic['path']])
+    if diagnostic_raw!=(HERE/'runtime_note.py').read_bytes():
+        raise ValueError('COMPLETE_DE_EXACT_PUBLISHED_DIAGNOSTIC_SOURCE_REQUIRED')
+    functions={n.name for n in ast.parse(diagnostic_raw).body if isinstance(n,ast.FunctionDef)}
+    calls=[]
+    for name in('component.py','probe.py'):
+        raw=(HERE/name).read_bytes();compile(raw,str(HERE/name),'exec')
+        for node in ast.walk(ast.parse(raw)):
+            if(isinstance(node,ast.Call)and isinstance(node.func,ast.Attribute)
+               and isinstance(node.func.value,ast.Name)and node.func.value.id=='monitor'):
+                key=node.func.attr
+                if key not in functions or len(node.args)!=(1 if key=='phase'else 0):
+                    raise ValueError('COMPLETE_DE_ACTUAL_DIAGNOSTIC_CALLER_API_REQUIRED')
+                calls.append([name,key,len(node.args)])
+    if calls!=diagnostic['caller_API_source_controls']:
+        raise ValueError('COMPLETE_DE_EXACT_DIAGNOSTIC_CALLER_SITES_REQUIRED')
+    caller_pending=[]
+    if pending:
+        probe=load('complete_de_pending_full_caller_control',HERE/'probe.py')
+        for name,operation in(('whole_source_admission',admission.admitted),('whole_package_runtime',probe.runtime)):
+            try:operation()
+            except ValueError as error:
+                if str(error)!='COMPLETE_DE_ACTUAL_PERMANENT_PARENT_INTAKE_PENDING':raise
+                caller_pending.append(name)
+            else:raise ValueError('COMPLETE_DE_PENDING_FULL_CALLER_WAS_OPENED:'+name)
     return dict(status='COMPLETE_DE_PACKAGE_AND_CURRENT_NATIVE_SOURCE_CONTROLS_PASS_NOT_NATIVE',
         exact_package_files=len(record['files']),parent_import_changes=1,other_package_files_unchanged=18,
         actual_recorded_predecessor_functions=len(rows),D1_raw_definitions=len(first),E_raw_definitions=len(second),
         changed_function_overlap_with_S03_SKU=sorted(overlap),SQL_and_Native_derivers_unchanged=True,
         raw_source_chain_not_PostgreSQL_normalized_install=True,parent_qualification_pending=pending,
         native30_source=native_source,Native30_pending_before_ERP_or_SQL=native_pending,
+        whole_package_engine_derivation=engine,committed_E_witness_derivation=witness,
+        actual_diagnostic_API_source_calls=calls,pending_full_caller_controls=caller_pending,
         actual_SQL_executed=0,actual_Native_cases=0,production_go=False,independent_acceptance=False)
 
 

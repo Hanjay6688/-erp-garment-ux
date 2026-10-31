@@ -51,8 +51,25 @@ fixture inputs are checked; native_business.py binds the original thirteen
 D1 and seventeen E callbacks without rewriting them. Its entry point first
 admits the actual permanent6 ROOT receipt and entire parent source graph,
 then requires the actual natural current modules and complete source state.
-It supplies no runtime, connection, strict-group execution or case credit.
-The owning future disposable caller must retain the real clock, original
+This binding helper supplies no connection, strict-group execution or case credit.
+The separately prepared disposable caller retains the real clock, original
 strict-group restore/oracles, separate committed-use witness and all five
 outer package gates. The original D1 incoming negative submits no new carry
 review; preserve it and qualify its refusal on the combined E installation.
+
+probe.py prepares the complete owning package through two reversible changes
+to the existing vendor runner: the actual complete parent installation route
+and the Native30-only counts. Install/preuse inverse/reinstall, committed use,
+full backup/restore, all22 catalog/ALL rows/sequences, roles, CP6, advisors and
+Auth package checks remain in the whole original engine. The E17 committed
+APPLY80 and price correction witness keeps its original monetary, physical,
+HPP, history and financial-truth statements; one reversible observation-only
+change retains the same checked raw before/after boundary. It adds zero cases.
+
+Whole admission and runtime both refuse the pending permanent6 receipt before
+ERP imports. No workflow is created or activated here. The prepared runtime
+uses the unchanged original 210-minute real-WIB single-attempt policy; a future
+owning workflow must use the same budget. Published1d52 diagnostics remain
+byte exact. The first local caller API mismatch was caught and retained before
+ERP/SQL, then corrected to the actual phase/monitor context-manager API. These
+source controls do not constitute an actual Native30, browser or global run.

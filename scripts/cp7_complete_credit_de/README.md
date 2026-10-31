@@ -36,7 +36,8 @@ closure before parent DDL, then installs complete, D1 and E within one outer
 transaction. Full preuse inverse removes E, D1 and then the complete parent.
 Used data or sequences refuse before any of those layers can be removed.
 
-No workflow, runtime dispatcher, connection or default change is supplied.
+No workflow or default adoption is supplied. A separate closed Native30
+qualification caller is prepared; this product module supplies no connection.
 The actual permanent-parent qualification remains pending. Existing D/E
 slice limits, global command refusals, permissions, money/HPP engines, physical
 dates and immutable posted history remain in the original SQL. D_complete,

@@ -1,0 +1,17 @@
+{
+  "classification": "EXACT_QUALIFIED_E17_COMMITTED_WITNESS_SOURCE_ONLY",
+  "source_head": "928246e5f62637c7c6457e57d73d0699196e3408",
+  "source_path": "scripts/current-credit-e1-native-qualification/component.py",
+  "original": {
+    "bytes": 8409,
+    "sha256": "f8a1864d9e7687d20913c149b4c78be6ee17bb8c2163af621be9e9397351f4d1"
+  },
+  "retained_path": "scripts/current-complete-de-integration-preparation/retained-e17-component.py.txt",
+  "functions": [
+    "committed_witness",
+    "require_local"
+  ],
+  "actual_Native_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}
