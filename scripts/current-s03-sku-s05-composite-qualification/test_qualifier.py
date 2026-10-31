@@ -14,6 +14,20 @@ def load(name):
     module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module);return module
 
 class SourceControls(unittest.TestCase):
+    def test_parent_import_reselects_after_vendor_path_change_and_refuses_foreign_module(self):
+        selector=load('parent_import');root=Path('/control/qualified');previous=list(sys.path)
+        def imported(name):
+            self.assertEqual(sys.path[0],str(root/'scripts'))
+            result=SimpleNamespace(__file__=str(root/'scripts'/(name.replace('.', '/')+'.py')))
+            if name.startswith('cp7_vendor'):sys.path[:]=['/control/foreign/scripts']
+            return result
+        try:
+            with patch.object(selector.importlib,'import_module',side_effect=imported):
+                self.assertEqual(len(selector.parent_modules(root)),2)
+            with patch.object(selector.importlib,'import_module',return_value=SimpleNamespace(__file__='/control/foreign/composition.py')):
+                with self.assertRaisesRegex(ValueError,'ORIGIN_CHANGED'):selector.parent_modules(root)
+        finally:sys.path[:]=previous
+
     def test_all_derivations_recover_exact_immutable_blobs(self):
         declaration=json.loads((HERE/'DERIVATIONS.json').read_bytes())
         for name,item in declaration['files'].items():

@@ -2,7 +2,7 @@
   "status": "CURRENT_COMPOSITE_SOURCE_AND_ROUTING_CONTROLS_PASS_NOT_NATIVE",
   "python": "3.12.14",
   "node": "22.23.4",
-  "source_and_orchestration_tests": 8,
+  "source_and_orchestration_tests": 9,
   "real_loopback_requests": 9,
   "distinct_loopback_connections": 9,
   "automatic_write_retries": 0,
@@ -50,5 +50,31 @@
     "solution": "Physical qualified SKU checkout, natural parent imports, separately bound current frontend; historical checker unchanged"
   },
   "physical_qualified_SKU_checkout_admission_locally": "PASS",
-  "physical_parent_whole_graph_evaluated_locally": false
+  "physical_parent_whole_graph_evaluated_locally": false,
+  "actual_parent_module_import_control": {
+    "status": "PASS",
+    "DB_calls": 0,
+    "network_calls": 0,
+    "psycopg_entrypoint_self_controls": 3,
+    "connect_descriptors_restored": true,
+    "actual_modules_from_qualified_SKU": true
+  },
+  "second_actual_pre_DB_failure": {
+    "run_id": 41179247780,
+    "job_id": 124473074933,
+    "head": "f52025d35d6349abefb7e371248c411301c4bc9c",
+    "artifact_id": 13033699439,
+    "archive_bytes": 57640,
+    "archive_sha256": "3b2b0959d843a8584e9b6cb813a08de9de936f1e8915a599137040be5bbece37",
+    "error": "JOIN_QUALIFIED_BACKEND_MODULE_ORIGIN_CHANGED:cp7_sku_pair_conversion",
+    "root_cause": "Vendor import prepends retained reader paths before the subsequent SKU import; reselect exact physical backend before each import",
+    "database_started": false,
+    "actual_case_credit": 0
+  },
+  "Afui_clarification_unanswered": true,
+  "Afui_recovered_owner_PO_optional_no_FG_matching": {
+    "user_time": "2026-08-25T05:08:58Z",
+    "rule": "Accessory pickup may happen anytime; PO optional; no mandatory matching to PO or FG",
+    "source": "personal_context targeted temporal/funding search; no temporal eligibility decision found"
+  }
 }

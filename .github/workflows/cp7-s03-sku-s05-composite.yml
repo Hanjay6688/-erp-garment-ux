@@ -432,7 +432,9 @@ jobs:
         '
     - name: Admit complete natural joined source graph under a DB and network fence before database
       working-directory: auditor
-      run: 'python -B scripts/current-s03-sku-s05-composite-qualification/probe.py --check-static
+      run: 'python -B scripts/current-s03-sku-s05-composite-qualification/parent_import.py
+
+        python -B scripts/current-s03-sku-s05-composite-qualification/probe.py --check-static
 
         python -B scripts/current-s03-sku-s05-composite-qualification/probe.py --check
 

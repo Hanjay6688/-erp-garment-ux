@@ -22,11 +22,7 @@ def import_scope():
         sys.argv=sys.argv[:1];sys.path.insert(0,str(backend_root/'scripts'))
         # Load the real historical parent and its complete source graph while
         # its own physical checkout is first. Never rewrite a ROOT or source map.
-        vendor=importlib.import_module('cp7_vendor_receivable.composition')
-        sku=importlib.import_module('cp7_sku_pair_conversion.composition')
-        for module,name in((vendor,'cp7_vendor_receivable'),(sku,'cp7_sku_pair_conversion')):
-            if Path(module.__file__).resolve()!=backend_root/'scripts'/name/'composition.py':
-                raise ValueError('JOIN_QUALIFIED_BACKEND_MODULE_ORIGIN_CHANGED:'+name)
+        vendor,sku=load('joined_real_parent_module_selector',HERE/'parent_import.py').parent_modules(backend_root)
         sku.sources()
         sys.path.insert(0,str(ROOT/'scripts'));yield
     finally:sys.path[:]=before_path;sys.argv=before_argv
