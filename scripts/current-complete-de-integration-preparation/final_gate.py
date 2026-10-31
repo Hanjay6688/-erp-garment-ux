@@ -22,6 +22,8 @@ def gate(directory,head):
     ids=source['D1_case_ids']+source['E_case_ids']
     main=p.strict((directory/MAIN).read_bytes());raw=p.strict((directory/RAW).read_bytes())
     package=p.strict((directory/'T3_PACKAGE_INSTALL.json').read_bytes())
+    supervised=load('complete_DE_own_supervision_receipt',HERE/'runtime_controls.py').receipt(p,
+        p.strict((directory/'DE_RUNTIME_SUPERVISION.json').read_bytes()),head,package['run_identity']['run_id'])
     backup=p.strict((directory/'T3_BACKUP_RESTORE_DRILL.json').read_bytes())
     p.fields(main,dict(status='PASS',qualification_commit=head,required_case_ids=[CASE],required_case_ids_pass=True,
         actual_Native_cases=30,actual_browser_cases=0,actual_business_cases=30,actual_Auth_HTTP_cases=0,
@@ -66,7 +68,7 @@ def gate(directory,head):
     p.exact(backup['data']['differ'],{},'COMPLETE_DE_BACKUP_NO_ROW_DIFFERENCE')
     return dict(status='CURRENT_COMPLETE_D1_E_NATIVE30_AND_ALL5_PASS',head=head,actual_fresh_cases=30,
         retained_permanent6_fresh_case_credit=0,actual_browser_cases=0,actual_Auth_HTTP_cases=0,
-        actual_two_session_races=0,D_complete=False,E_complete=False,
+        actual_two_session_races=0,D_complete=False,E_complete=False,runtime_supervision=supervised,
         global_writer_or_permission_or_lock_closure=False,production_go=False,independent_acceptance=False)
 
 

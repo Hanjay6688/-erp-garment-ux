@@ -92,9 +92,10 @@ def controls():
     _,fetch_source=fetch.derive()
     workflow=load('complete_DE_data_only_owning_workflow_source',HERE/'workflow.py').source_control()
     attempts=load('complete_DE_exact_unchanged_real_WIB_policy',
-        ROOT/'scripts/current-sku-managed-recovery-native27-qualification/attempt_policy.py')
+        HERE/'attempt_policy.py')
     if attempts.JOB_BUDGET_SECONDS!=workflow['job_minutes']*60:
         raise ValueError('COMPLETE_DE_WORKFLOW_AND_ACTUAL_WIB_POLICY_BUDGET_MUST_MATCH')
+    supervision=load('complete_DE_exact_reused_process_supervision',HERE/'runtime_controls.py').source_controls()
     pending_gate_and_fetch=[]
     if pending:
         final=load('complete_DE_exact_final_gate_pending_parent',HERE/'final_gate.py')
@@ -127,6 +128,7 @@ def controls():
         unchanged_lossless_global_metadata_source=global_metadata_source,
         metadata_pending_before_URI_source_client_or_connection=metadata_pending,
         canonical_permanent6_fetch_source=fetch_source,owning_workflow_data_only=workflow,
+        runtime_supervision_source=supervision,
         pending_before_any_parent_GET_or_report_file=pending_gate_and_fetch,
         actual_SQL_executed=0,actual_Native_cases=0,production_go=False,independent_acceptance=False)
 

@@ -48,7 +48,7 @@ def main():
     if os.environ.get('COMPLETE_DE_CONFIRM')!='cp6_rollback':
         raise ValueError('COMPLETE_DE_EXPLICIT_DISPOSABLE_CONFIRMATION_REQUIRED')
     attempts=load('complete_DE_original_single_attempt_WIB_window',
-        ROOT/'scripts/current-sku-managed-recovery-native27-qualification/attempt_policy.py')
+        HERE/'attempt_policy.py')
     monitor=load('complete_DE_diagnostic_only_runtime',HERE/'runtime_note.py')
     with monitor.monitor(),monitor.phase('DE_SOURCE_ADMISSION_AND_WHOLE_PACKAGE_RUNTIME'):
         print(json.dumps(dict(attempt_policy=attempts.require_window())),flush=True)

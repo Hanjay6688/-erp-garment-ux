@@ -1,0 +1,23 @@
+{
+  "status": "DE_SUPERVISION_NEW_WIRING_CONTROLS_PASS",
+  "command": "python -B -m unittest discover -s scripts/current-complete-de-integration-preparation -p test_runtime_integration.py -v",
+  "tests": 4,
+  "failures": 0,
+  "exit_code": 0,
+  "receipt_positive": 1,
+  "receipt_negative_controls": 39,
+  "source_process_engine_unchanged": true,
+  "source_real_WIB_policy_byte_exact": true,
+  "old_process_controls_reused": 10,
+  "job_budget_seconds": 21600,
+  "work_budget_seconds": 19800,
+  "recovery_reserve_seconds": 1200,
+  "artifact_reserve_seconds": 600,
+  "source_workflow_steps": 75,
+  "unchanged_original_steps": 66,
+  "routed_original_steps": 7,
+  "actual_SQL_executed": 0,
+  "actual_ERP_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

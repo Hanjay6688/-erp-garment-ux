@@ -13,13 +13,13 @@ permissions:
   contents: read
   actions: read
 concurrency:
-  group: cp7-current-complete-de30-${{ github.run_id }}
+  group: cp7-current-complete-de30-single-owning-qualification
   cancel-in-progress: false
 jobs:
   p21:
     name: Original D1 Native13 and E Native17; complete restoration
     runs-on: ubuntu-24.04
-    timeout-minutes: 210
+    timeout-minutes: 360
     env:
       PYTHONDONTWRITEBYTECODE: '1'
       CURRENT_ANALOG_FROZEN_SOURCE_ROOT: ${{ github.workspace }}/frozen
@@ -52,14 +52,18 @@ jobs:
       PERMANENT_S05_CONFIRM: cp6_rollback
       COMPLETE_DE_CONFIRM: cp6_rollback
     steps:
+    - name: Record monotonic DE job start before setup and admission
+      run: "python - <<'PY'\nimport os,time\nwith open(os.environ['GITHUB_ENV'],'a')\
+        \ as stream:\n    stream.write('DE_JOB_START_MONOTONIC='+str(time.monotonic())+'\\\
+        n')\nPY\n"
     - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       with:
         path: auditor
         fetch-depth: 0
         persist-credentials: 'false'
-    - name: Require genuine 210 minute WIB window before setup
+    - name: Require genuine 360 minute WIB window before setup
       working-directory: auditor
-      run: 'python -B scripts/current-sku-managed-recovery-native27-qualification/attempt_policy.py
+      run: 'python -B scripts/current-complete-de-integration-preparation/attempt_policy.py
         --require-window
 
         '
@@ -482,7 +486,7 @@ jobs:
       run: 'python -B scripts/current-complete-de-integration-preparation/probe.py
         --check
 
-        python -B scripts/current-sku-managed-recovery-native27-qualification/attempt_policy.py
+        python -B scripts/current-complete-de-integration-preparation/attempt_policy.py
         --require-window
 
         '
@@ -565,8 +569,7 @@ jobs:
         \n"
     - name: Run original current D1 E Native30 and complete outer restoration
       working-directory: writer
-      run: 'python -u -B ''../auditor/scripts/current-complete-de-integration-preparation/probe.py''
-        --runtime
+      run: 'python -u -B ''../auditor/scripts/current-complete-de-integration-preparation/runtime_supervisor.py''
 
         python -B ''../auditor/scripts/current-complete-de-integration-preparation/final_gate.py''
 
@@ -594,8 +597,11 @@ jobs:
     - name: Remove disposable database
       if: always()
       working-directory: base
-      run: if command -v supabase >/dev/null 2>&1 && test -d cp5-local; then supabase
-        stop --workdir cp5-local --no-backup; fi
+      run: 'python -B ../auditor/scripts/current-complete-de-integration-preparation/runtime_supervisor.py
+        --allow-database-stop
+
+        if command -v supabase >/dev/null 2>&1 && test -d cp5-local; then supabase
+        stop --workdir cp5-local --no-backup; fi'
     - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
       if: always()
       with:
