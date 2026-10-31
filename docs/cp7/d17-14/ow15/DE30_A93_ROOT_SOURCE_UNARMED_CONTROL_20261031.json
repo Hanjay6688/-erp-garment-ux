@@ -1,0 +1,59 @@
+{
+  "status": "ROOT_DE30_WORKFLOW_SUCCESSOR_SOURCE_AND_UNARMED_CONTROL_PASS",
+  "head": "a93bd2be7d8fb04ae379dbf34e39b08d1eaeddf7",
+  "tree": "505b3b0f240f000f3ab38a440f2a1517d80afcd0",
+  "source": {
+    "source_pins": 54,
+    "own_paths": 55,
+    "unchanged_base": 14092,
+    "D1_ids": [
+      "D_POSITIVE_CREDIT_INCREMENT",
+      "D_AFTER_ACTIVE_APPLY",
+      "D_AFTER_REFUND_EXTRA_STAYS_CREDIT",
+      "D_MULTIFAMILY_ORDINAL",
+      "D_REPLAY_EXACT_UUID",
+      "D_STALE_REVIEW_NO_EFFECT",
+      "D_ACCESS_REVOKED_NO_EFFECT",
+      "D_SHORTFALL_NAMES_UNDO",
+      "D_ROOT_BOOK_FLOOR_REFUSAL",
+      "D_ATOMIC_POST_FAILURE_RESTORE",
+      "D_SECOND_REVISION_ORDINAL_HISTORY",
+      "D_AFTER_NAMED_UNDO_NO_FALSE_BLOCKER",
+      "E_UNIMPLEMENTED_INCOMING_CORRECTION_STAYS_GUARDED"
+    ],
+    "E_ids": [
+      "E_PRICE_INCREASE_80_NET550_AR470",
+      "E_PRICE_DECREASE_80_NET100_AR20",
+      "E_EXACT_FUNDED_80_PAID",
+      "E_BELOW_CARRIED_80_REFUSES_ATOMIC",
+      "E_SAME_UUID_AND_CHANGED_INTENT",
+      "E_SOURCE_D1_CHANGE_RETIRES_REVIEW",
+      "E_LATER_APPLY_20_CURRENT_LEAF",
+      "E_UNDO_ORIGINAL_80_AND_OLD_RECEIPT",
+      "E_NATIVE_POST_FAILURE_FULL_RESTORE",
+      "E_QUANTITY_CHANGE_REFUSES",
+      "E_ORIGINAL_DATE_CHANGE_REFUSES",
+      "E_CLOSED_ORIGINAL_BOOK_PAIR_REFUSES",
+      "E_SECOND_NOTE_REVISION_GUARDED",
+      "E_CURRENT_ACCESS_REVOKED_REFUSES",
+      "E_JOINT_PREFIX_AFTER_UNDO_120_MIN200_NOT150",
+      "E_LATER_NATIVE_REVERSE_REFUSES_ATOMIC",
+      "E_LATER_NATIVE_SALE_SAME_LOT_RECONCILES"
+    ],
+    "source_manifest": {
+      "bytes": 10143,
+      "sha256": "2d695c3edd8332d8d0eda18b512040637d867d5c581187f437360465ea0b7af6"
+    },
+    "unchanged_business_source_files": 3,
+    "frozen_fixture_inputs": 4,
+    "recorded_predecessor_functions": 32,
+    "actual_case_credit": 0,
+    "parent_qualification_pending": true
+  },
+  "parent_receipt_and_run_pending": true,
+  "unarmed_intake_refused_before_Git_archive_or_metadata": true,
+  "actual_Native_cases": 0,
+  "actual_SQL_executed": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

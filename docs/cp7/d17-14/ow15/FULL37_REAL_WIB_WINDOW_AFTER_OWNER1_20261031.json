@@ -1,0 +1,10 @@
+{
+  "classification": "ACTUAL_UNCHANGED_FULL37_REAL_CLOCK_WINDOW_OBSERVATION_NOT_RUNTIME",
+  "observed_at_utc": "2026-10-31T16:03:51.790012+00:00",
+  "required_seconds": 12600,
+  "source_sha256": "87d89647ff0637d6449ba015352950715384807c5e3027233467935871804755",
+  "runtime_launched": false,
+  "actual_Native_cases": 0,
+  "status": "REAL_WINDOW_REFUSED_BEFORE_RUNTIME",
+  "actual_error": "SKU27_INSUFFICIENT_WIB_DAY_WINDOW_BEFORE_RUNTIME"
+}

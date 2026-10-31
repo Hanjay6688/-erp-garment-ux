@@ -1,0 +1,121 @@
+{
+  "classification": "WRITER_A_ACTUAL_OWNER_ACCESS1_ALL5_ACCEPTED_DE30_OWNING_WORKFLOW_PREPARED",
+  "recorded_at_utc": "2026-10-31T16:14:03.570314+00:00",
+  "root_predecessor": "e978bfd871697ce4c49187991ebfc1b2d647b16c",
+  "solo_integrator": true,
+  "owner_access": {
+    "status": "ROOT_VERIFIED_CURRENT_OWNER_ACCESS_NATIVE1_ALL5",
+    "head": "6cb5bfe213fe3ce684244370dec092569705f6ff",
+    "tree": "260cc8e984ae41409b43c62256acbbbf6ee25071",
+    "run_id": 41212698704,
+    "job_id": 124570848589,
+    "artifact_id": 13048332558,
+    "archive": {
+      "bytes": 2001321,
+      "sha256": "33b2cd4069d5a560730fbda87757b9d25299902c1fa6abdc17b4178aa02e7494",
+      "members": 128
+    },
+    "originals": {
+      "CP7_CURRENT_S03_SKU_S05_OWNER_ACCESS_NATIVE1.json": {
+        "bytes": 2535060,
+        "sha256": "bbe19e82361df69c17ac8fce212e18b9c4905f70594bfcec21777e195e6ee39b"
+      },
+      "T3_PACKAGE_INSTALL.json": {
+        "bytes": 360433,
+        "sha256": "4d7ca2fc2490088398dadbbfad2e985691971c331a4bb27bcba59dab8282871b"
+      },
+      "T3_BACKUP_RESTORE_DRILL.json": {
+        "bytes": 1470,
+        "sha256": "38cd2fa286200ec12ac375824400c44bf913be398e324bb37273b65526f0141d"
+      },
+      "CP7_S05_ON_SKU_OWNER_ACCESS_NATIVE1_CASES.json": {
+        "bytes": 49152,
+        "sha256": "8c6d129ae004db625f4d8047fb35daeaa5daf6fb68ac444e1b9f0aad094cf48a"
+      }
+    },
+    "source_admission": {
+      "source_pins": 69,
+      "own_paths": 70,
+      "unchanged_base_blobs_and_modes": 14000,
+      "actual_case_credit": 0,
+      "selected_original_case_id": "S05_NATIVE_CURRENT_ACCESS_PRIVATE_ACL",
+      "source_manifest": {
+        "bytes": 10909,
+        "sha256": "b191bd7185043bcf95f25dcf294135e2874b98c9cfb39c9c09706733994825a2"
+      }
+    },
+    "actual_product_source_maps": {
+      "file_maps": 66,
+      "pin_occurrences": 278,
+      "unique_paths": 155,
+      "exact_producer_namespace": true
+    },
+    "actual_owner_guard_proof": {
+      "active_owner_rows_before": 2,
+      "original_actor": "c8c00000-0000-4000-8000-000000000101",
+      "actual_last_owner_and_protected_role_refusals": true,
+      "unchanged_actual_native_guard_sources": 2,
+      "selected_authority_rows_preserved_except_other_active_flags": true,
+      "synthetic_cleanup_escape": false
+    },
+    "actual_Native_cases": 1,
+    "actual_browser_cases": 0,
+    "package_all_five": true,
+    "package_gates": {
+      "installed": true,
+      "primary_unchanged": true,
+      "backup_restore_drill": true,
+      "security_advisors": true,
+      "writer_runtime": true
+    },
+    "full37_qualified": false,
+    "prior_runs_aggregated": false,
+    "retained_current30_fresh_case_credit": 0,
+    "source_bound_original_committed_use_and_used_refusal_assertions": true,
+    "global_writer_or_permission_or_lock_closure": false,
+    "production_go": false,
+    "independent_acceptance": false,
+    "canonical_archive_library_file_id": "libfile_afdb67c347e88191beba542d5ccfb1e0"
+  },
+  "full37": {
+    "head": "6cb5bfe213fe3ce684244370dec092569705f6ff",
+    "tree": "260cc8e984ae41409b43c62256acbbbf6ee25071",
+    "actual_successor_run": null,
+    "actual_successor_job": null,
+    "root_intake_unarmed": true,
+    "branch_still_failed_head": "1d52f8a2cf48c07d6af86dbaf114989cb2f5bece",
+    "actual_real_window_refusal_receipt": "FULL37_REAL_WIB_WINDOW_AFTER_OWNER1_20261031.json",
+    "next_WIB_day_starts_utc": "2026-10-31T17:00:00Z",
+    "prior30_plus_focused1_not_aggregated": true,
+    "qualified": false
+  },
+  "complete_DE": {
+    "head": "a93bd2be7d8fb04ae379dbf34e39b08d1eaeddf7",
+    "tree": "505b3b0f240f000f3ab38a440f2a1517d80afcd0",
+    "source_pins": 54,
+    "own_paths": 55,
+    "unchanged_prepared_parent": 14092,
+    "source_control_receipt": "DE30_A93_ROOT_SOURCE_UNARMED_CONTROL_20261031.json",
+    "fenced_control_receipt": "DE30_WORKFLOW_AND_PARENT_FETCH_FENCED_SOURCE_20261031.json",
+    "original_D1_cases": 13,
+    "original_E_cases": 17,
+    "actual_Native_cases": 0,
+    "workflow_is_non_executing_template": true,
+    "unchanged_original_workflow_steps": 67,
+    "routed_original_workflow_steps": 6,
+    "additional_real_clock_guard": 1,
+    "job_and_runtime_budget_minutes": 210,
+    "canonical_permanent6_fetch_reversible_rules": 22,
+    "parent_fetch_and_final_gate_closed_before_IO": true,
+    "readonly_metadata_original_queries": 27,
+    "actual_parent_qualification": null,
+    "D_complete": false,
+    "E_complete": false,
+    "global_writer_or_permission_or_lock_closure": false
+  },
+  "FG_Mandor_manual_week": "QUEUED_AFTER_STABLE_ACTIVE_INTEGRATION",
+  "all_old_scope_retained": true,
+  "formal_accepted": "5/16",
+  "production_go": false,
+  "independent_acceptance": false
+}

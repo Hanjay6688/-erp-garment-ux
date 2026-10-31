@@ -15,8 +15,8 @@ RUN=None
 JOB=None
 PARENT_HEAD=None
 PARENT_TREE=None
-PREPARED_HEAD='77b613562dff63dafbe0d06425abd503f9a7df76'
-PREPARED_TREE='0db13a8fc0b202d6225877525e16cddfe29f421f'
+PREPARED_HEAD='a93bd2be7d8fb04ae379dbf34e39b08d1eaeddf7'
+PREPARED_TREE='505b3b0f240f000f3ab38a440f2a1517d80afcd0'
 PREPARED_BASE='a6cc41ec58e4d0d0c8191f1b1fe5c27309fff559'
 PREPARED_BASE_TREE='48c5e13acdb5d8fb9529f2ce1661e4fee09e2a5b'
 NS='scripts/current-complete-de-integration-preparation/'
@@ -45,7 +45,7 @@ def source(g):
     exact(set(g.tree)-set(base),allowed,'DE30_CLOSED_ADDITIVE_SOURCE')
     for name,value in declaration['files'].items():g.verify_pin(name,value)
     if PARENT_HEAD is None:
-        exact(len(base),14092,'DE30_PREPARED_PARENT14092');exact(len(allowed),50,'DE30_PREPARED_OWN50')
+        exact(len(base),14092,'DE30_PREPARED_PARENT14092');exact(len(allowed),55,'DE30_PREPARED_OWN55')
         exact(literal(g,NS+'admission.py','PARENT_HEAD'),None,'DE30_PREPARED_PARENT_GATE_CLOSED')
         exact(literal(g,NS+'admission.py','PARENT_RECEIPT'),None,'DE30_PREPARED_RECEIPT_GATE_CLOSED')
     product=strict(g.read(PRODUCT+'SOURCE.json'))
@@ -74,6 +74,48 @@ def source(g):
         D1_ids=d1,E_ids=e,source_manifest=pin(g.read(NS+'SOURCE.json')),
         unchanged_business_source_files=3,frozen_fixture_inputs=4,recorded_predecessor_functions=32,
         actual_case_credit=0,parent_qualification_pending=PARENT_HEAD is None)
+
+
+def metadata_observation(g,value):
+    """Inspect availability and source identity; metadata never grants closure."""
+    fields(value,dict(classification='READONLY_CURRENT_DE_SYSTEM_AND_PRIMARY_SCHEDULER_METADATA_NOT_CLOSURE',
+        permanent_parent_head=PARENT_HEAD,separate_snapshots_not_atomic=True,
+        qualification_actors_and_overlays_may_be_observed=True,actual_Native_case_credit=0,
+        writer_closure=False,permission_closure=False,lockset_approved=False,
+        production_go=False,independent_acceptance=False),'DE30_READONLY_METADATA_NO_CLOSURE')
+    prefix='scripts/current-final-s03-sku-s05-preparation/metadata/'
+    manifest=strict(g.read(prefix+'SOURCE.json'))
+    fields(value['source'],dict(commit='a83f87d76abbd3d94b5e75a50391d1d202b837c9',
+        prefix='scripts/current-global-system-cron-profile-preparation/',
+        manifest=pin(g.read(prefix+'SOURCE.json')),byte_exact_original_files=len(manifest['files'])+1,
+        query_count=27),'DE30_EXACT_INHERITED_METADATA_SOURCE')
+    queries=strict(g.read(prefix+'QUERIES.json'))['queries'];exact(len(queries),27,'DE30_ALL_METADATA_QUERY_IDENTITIES')
+    exact(set(value['snapshots']),{'candidate','primary_scheduler'},'DE30_TWO_SEPARATE_METADATA_SNAPSHOTS')
+    captured={}
+    for kind,database in(('candidate','cp6_rollback'),('primary_scheduler','postgres')):
+        row=value['snapshots'][kind]
+        if row.get('status')=='READONLY_METADATA_UNAVAILABLE':
+            fields(row,dict(error_text_or_connection_details_retained=False,writer_closure=False),
+                'DE30_UNAVAILABLE_METADATA_IS_NOT_CLOSURE')
+            captured[kind]=False;continue
+        fields(row,dict(classification='ACTUAL_READ_ONLY_ALL_NAMESPACE_SYSTEM_CRON_METADATA_NOT_WRITER_CLOSURE',
+            database=database,search_path='pg_catalog',Native_cases=0,
+            primary_scheduler_database=kind=='primary_scheduler',separate_database_snapshots_are_not_atomic_writer_closure=True,
+            writer_closure=False,permission_closure=False,lockset_approved=False,
+            production_go=False,independent_acceptance=False),'DE30_ACTUAL_READONLY_METADATA_CONTRACT')
+        require(row['current_role']in('postgres','supabase_admin')and row['session_role']in('postgres','supabase_admin'),
+            'DE30_ACTUAL_METADATA_ADMINISTRATIVE_CONTEXT')
+        exact(set(row['groups']),set(queries),'DE30_ALL27_METADATA_GROUPS')
+        exact(set(row['group_counts']),set(queries),'DE30_ALL27_TYPED_METADATA_COUNTS')
+        for name,item in row['groups'].items():
+            require(type(item['rows'])is list,'DE30_METADATA_TYPED_ROWS:'+name)
+            exact(row['group_counts'][name],len(item['rows']),'DE30_METADATA_ACTUAL_COUNT:'+name)
+            require(item['status']=='CAPTURED'or(name=='cron_jobs'and item['status']=='RELATION_ABSENT'and not item['rows']),
+                'DE30_METADATA_GROUP_CAPTURE_OR_EXPLICIT_ABSENCE:'+name)
+        captured[kind]=True
+    exact(value['all_metadata_captured'],all(captured.values()),'DE30_METADATA_AVAILABILITY_IS_NOT_ACCEPTANCE')
+    return dict(captured=captured,query_count=27,separate_snapshots_not_atomic=True,
+        writer_closure=False,permission_closure=False,lockset_approved=False,actual_Native_case_credit=0)
 
 
 def intake(root,path,metadata):
@@ -133,6 +175,9 @@ def intake(root,path,metadata):
         fields(witness['source_derivation'],dict(selected_function_count=2,counted_changes=1,
             complete_original_function_bytes_recovered=True,raw_observation_retention_only=True,
             Native_case_credit=0,actual_SQL_executed=0),'DE30_ORIGINAL_COMMITTED_WITNESS_DERIVATION')
+        system_metadata={name:metadata_observation(g,part[key])for name,key in(
+            ('before_native30','read_only_system_metadata_before_native30'),
+            ('after_native30_and_committed_use','read_only_system_metadata_after_native30_and_committed_use'))}
         exact(package['gate'],GATES,'DE30_ALL_FIVE_PACKAGE_GATES')
         fields(package['run_identity'],dict(tool_head=HEAD,github_sha=HEAD,run_id=str(RUN),run_attempt='1'),
             'DE30_CURRENT_OWNING_PACKAGE_RUN')
@@ -156,7 +201,7 @@ def intake(root,path,metadata):
             actual_Native_cases=30,actual_D1_cases=13,actual_E_cases=17,actual_browser_cases=0,
             actual_Auth_HTTP_cases=0,actual_two_session_races=0,package_all_five=True,
             prior_runs_aggregated=False,retained_permanent6_fresh_case_credit=0,
-            actual_used_refusal_raw_boundary=used,D_complete=False,E_complete=False,
+            actual_used_refusal_raw_boundary=used,read_only_system_metadata=system_metadata,D_complete=False,E_complete=False,
             global_writer_or_permission_or_lock_closure=False,production_go=False,independent_acceptance=False)
 
 

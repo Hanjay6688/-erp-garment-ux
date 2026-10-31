@@ -1,0 +1,73 @@
+{
+  "status": "ROOT_VERIFIED_CURRENT_OWNER_ACCESS_NATIVE1_ALL5",
+  "head": "6cb5bfe213fe3ce684244370dec092569705f6ff",
+  "tree": "260cc8e984ae41409b43c62256acbbbf6ee25071",
+  "run_id": 41212698704,
+  "job_id": 124570848589,
+  "artifact_id": 13048332558,
+  "archive": {
+    "bytes": 2001321,
+    "sha256": "33b2cd4069d5a560730fbda87757b9d25299902c1fa6abdc17b4178aa02e7494",
+    "members": 128
+  },
+  "originals": {
+    "CP7_CURRENT_S03_SKU_S05_OWNER_ACCESS_NATIVE1.json": {
+      "bytes": 2535060,
+      "sha256": "bbe19e82361df69c17ac8fce212e18b9c4905f70594bfcec21777e195e6ee39b"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360433,
+      "sha256": "4d7ca2fc2490088398dadbbfad2e985691971c331a4bb27bcba59dab8282871b"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 1470,
+      "sha256": "38cd2fa286200ec12ac375824400c44bf913be398e324bb37273b65526f0141d"
+    },
+    "CP7_S05_ON_SKU_OWNER_ACCESS_NATIVE1_CASES.json": {
+      "bytes": 49152,
+      "sha256": "8c6d129ae004db625f4d8047fb35daeaa5daf6fb68ac444e1b9f0aad094cf48a"
+    }
+  },
+  "source_admission": {
+    "source_pins": 69,
+    "own_paths": 70,
+    "unchanged_base_blobs_and_modes": 14000,
+    "actual_case_credit": 0,
+    "selected_original_case_id": "S05_NATIVE_CURRENT_ACCESS_PRIVATE_ACL",
+    "source_manifest": {
+      "bytes": 10909,
+      "sha256": "b191bd7185043bcf95f25dcf294135e2874b98c9cfb39c9c09706733994825a2"
+    }
+  },
+  "actual_product_source_maps": {
+    "file_maps": 66,
+    "pin_occurrences": 278,
+    "unique_paths": 155,
+    "exact_producer_namespace": true
+  },
+  "actual_owner_guard_proof": {
+    "active_owner_rows_before": 2,
+    "original_actor": "c8c00000-0000-4000-8000-000000000101",
+    "actual_last_owner_and_protected_role_refusals": true,
+    "unchanged_actual_native_guard_sources": 2,
+    "selected_authority_rows_preserved_except_other_active_flags": true,
+    "synthetic_cleanup_escape": false
+  },
+  "actual_Native_cases": 1,
+  "actual_browser_cases": 0,
+  "package_all_five": true,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "full37_qualified": false,
+  "prior_runs_aggregated": false,
+  "retained_current30_fresh_case_credit": 0,
+  "source_bound_original_committed_use_and_used_refusal_assertions": true,
+  "global_writer_or_permission_or_lock_closure": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

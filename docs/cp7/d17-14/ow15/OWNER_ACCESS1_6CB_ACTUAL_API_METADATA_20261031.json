@@ -1,0 +1,18 @@
+{
+  "head": "6cb5bfe213fe3ce684244370dec092569705f6ff",
+  "tree": "260cc8e984ae41409b43c62256acbbbf6ee25071",
+  "run_id": 41212698704,
+  "job_id": 124570848589,
+  "run_attempt": 1,
+  "conclusion": "success",
+  "expired": false,
+  "artifact_id": 13048332558,
+  "archive": {
+    "bytes": 2001321,
+    "sha256": "33b2cd4069d5a560730fbda87757b9d25299902c1fa6abdc17b4178aa02e7494"
+  },
+  "artifact_name": "cp7-current-S05-owner-access-native1-1",
+  "run_status": "completed",
+  "job_status": "completed",
+  "job_conclusion": "success"
+}

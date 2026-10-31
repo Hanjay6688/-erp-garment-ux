@@ -1,7 +1,7 @@
 {
   "classification": "WRITER_A_TAKEOVER_ACTIVE_CONTINUATION_NOT_COMPLETION",
-  "recorded_at_utc": "2026-10-31T15:53:36.452676+00:00",
-  "root_parent": "63eb8ecae93bccf99ae5fa9495265f90ba657e62",
+  "recorded_at_utc": "2026-10-31T16:14:03.570314+00:00",
+  "root_parent": "e978bfd871697ce4c49187991ebfc1b2d647b16c",
   "prior_chat_execution_observable": false,
   "current_work_is_isolated": true,
   "midnight_root_intake_receipt": "MIDNIGHT_NATIVE1_E787_ROOT_INTAKE_20261030.json",
@@ -163,11 +163,9 @@
   "independent_acceptance": false,
   "current_default": "cp7_vendor_receivable.composition",
   "next": [
-    "Finish actual focused Owner access Native1 exact canonical intake/all5; full37 remains false",
-    "Requalify full37 once in a sufficient unchanged realWIB210minute window, using actual focused result and never aggregating prior30",
-    "Bind and qualify permanent6 after actual accepted full37",
-    "Rebase exact complete D1/E Native30 caller on actual accepted permanent6, then finish global/currentrights/locks/twoSessions",
-    "Keep all remaining prior scope including final date join, Afui, FG Mandor and independent acceptance"
+    "Use the accepted actual Owner1 repair; launch and observe one current full37 only in the unchanged real210minute WIB window, then bind root intake to its actual run/job.",
+    "Accept canonical actual37 only when all original groups, six normal App browser cases and all5/full restores pass; do not combine prior30 and focused1.",
+    "Bind and qualify permanent6; then rebase and admit the prepared current D1/E Native30 workflow on that exact accepted parent, retaining pending global and old scope."
   ],
   "prior_checkpoint": {
     "classification": "WRITER_A_TAKEOVER_ACTIVE_CONTINUATION_NOT_COMPLETION",
@@ -1993,19 +1991,16 @@
     "canonical_archive_sha256": "103a31494e72025c4ae446ecfa4591d92b0dca857dcfd92b35355d8593026715"
   },
   "current_active_join": {
-    "head": "1d52f8a2cf48c07d6af86dbaf114989cb2f5bece",
-    "run_id": 41200818043,
-    "job_id": 124536087695,
-    "artifact_id": 13045614548,
-    "root_receipt": "JOIN_1D52_ROOT_ACTUAL_FIRST_FAILURE_20261031.json",
-    "raw_current_PASS": 30,
-    "S05_INCOMPLETE": 1,
-    "browsers_executed": 0,
-    "package_all_five": false,
-    "complete37_qualified": false,
-    "outer_restore_source_bound_receipts": true,
-    "status": "completed",
-    "conclusion": "failure"
+    "head": "6cb5bfe213fe3ce684244370dec092569705f6ff",
+    "tree": "260cc8e984ae41409b43c62256acbbbf6ee25071",
+    "actual_successor_run": null,
+    "actual_successor_job": null,
+    "root_intake_unarmed": true,
+    "branch_still_failed_head": "1d52f8a2cf48c07d6af86dbaf114989cb2f5bece",
+    "actual_real_window_refusal_receipt": "FULL37_REAL_WIB_WINDOW_AFTER_OWNER1_20261031.json",
+    "next_WIB_day_starts_utc": "2026-10-31T17:00:00Z",
+    "prior30_plus_focused1_not_aggregated": true,
+    "qualified": false
   },
   "current_join_first_financial_failure": {
     "receipt": "JOIN_339889_ROOT_ACTUAL_FAILURE_INTAKE_20261031.json",
@@ -2038,7 +2033,7 @@
     "complete37_qualified": false
   },
   "latest_runner_loss_receipt": "JOIN_1EDD_ROOT_RUNNER_LOSS_20261031.json",
-  "latest_continuation_receipt": "WRITER_A_V221_DE30_ROOT_INTAKE_AND_GLOBAL_SOURCE_20261031.json",
+  "latest_continuation_receipt": "WRITER_A_V222_ACTUAL_OWNER1_ACCEPTED_AND_DE30_WORKFLOW_20261031.json",
   "current_system_cron_profile_preparation": {
     "namespace": "scripts/current-global-system-cron-profile-preparation",
     "queries": 27,
@@ -2061,47 +2056,103 @@
     "no_D1_E_qualification_in_join37_or_permanent6": true
   },
   "current_D1_E_on_complete_preparation": {
-    "head": "77b613562dff63dafbe0d06425abd503f9a7df76",
-    "tree": "0db13a8fc0b202d6225877525e16cddfe29f421f",
-    "own_paths": 50,
-    "unchanged_prepared_parent_files": 14092,
-    "original_D1_E_runtime_files": 19,
-    "unchanged_Native_business_source_files": 3,
-    "planned_D1_cases": 13,
-    "planned_E_cases": 17,
-    "whole_engine_reversible_routes": 2,
-    "committed_E_witness_observation_retention_changes": 1,
-    "source_and_DB_fence_controls": "PASS",
-    "lifecycle_models_PASS": 12,
-    "actual_permanent6_parent_receipt": null,
-    "Native_workflow_created": false,
+    "head": "a93bd2be7d8fb04ae379dbf34e39b08d1eaeddf7",
+    "tree": "505b3b0f240f000f3ab38a440f2a1517d80afcd0",
+    "source_pins": 54,
+    "own_paths": 55,
+    "unchanged_prepared_parent": 14092,
+    "source_control_receipt": "DE30_A93_ROOT_SOURCE_UNARMED_CONTROL_20261031.json",
+    "fenced_control_receipt": "DE30_WORKFLOW_AND_PARENT_FETCH_FENCED_SOURCE_20261031.json",
+    "original_D1_cases": 13,
+    "original_E_cases": 17,
     "actual_Native_cases": 0,
+    "workflow_is_non_executing_template": true,
+    "unchanged_original_workflow_steps": 67,
+    "routed_original_workflow_steps": 6,
+    "additional_real_clock_guard": 1,
+    "job_and_runtime_budget_minutes": 210,
+    "canonical_permanent6_fetch_reversible_rules": 22,
+    "parent_fetch_and_final_gate_closed_before_IO": true,
+    "readonly_metadata_original_queries": 27,
+    "actual_parent_qualification": null,
     "D_complete": false,
     "E_complete": false,
-    "global_hooks_qualified": false
+    "global_writer_or_permission_or_lock_closure": false
   },
   "current_join_first_S05_owner_failure": "JOIN_1D52_ROOT_ACTUAL_FIRST_FAILURE_20261031.json",
   "current_focused_owner_access": {
+    "status": "ROOT_VERIFIED_CURRENT_OWNER_ACCESS_NATIVE1_ALL5",
     "head": "6cb5bfe213fe3ce684244370dec092569705f6ff",
     "tree": "260cc8e984ae41409b43c62256acbbbf6ee25071",
     "run_id": 41212698704,
     "job_id": 124570848589,
-    "branch": "astra-a/s03-sku-owner-access-native1-20261031",
-    "status": "in_progress",
-    "planned_actual_Native_cases": 1,
-    "source_pins": 69,
-    "own_paths": 70,
-    "unchanged_base_files": 14000,
-    "local_source_or_fixture_models_PASS": 21,
-    "isolated_PostgreSQL_guard_owner_scenarios": [
-      1,
-      2,
-      4
-    ],
-    "whole_source_and_DB_fence_controls": true,
-    "job_and_WIB_window_minutes": 90,
-    "unchanged_single_attempt_and_real_clock": true,
-    "full37_qualified": false
+    "artifact_id": 13048332558,
+    "archive": {
+      "bytes": 2001321,
+      "sha256": "33b2cd4069d5a560730fbda87757b9d25299902c1fa6abdc17b4178aa02e7494",
+      "members": 128
+    },
+    "originals": {
+      "CP7_CURRENT_S03_SKU_S05_OWNER_ACCESS_NATIVE1.json": {
+        "bytes": 2535060,
+        "sha256": "bbe19e82361df69c17ac8fce212e18b9c4905f70594bfcec21777e195e6ee39b"
+      },
+      "T3_PACKAGE_INSTALL.json": {
+        "bytes": 360433,
+        "sha256": "4d7ca2fc2490088398dadbbfad2e985691971c331a4bb27bcba59dab8282871b"
+      },
+      "T3_BACKUP_RESTORE_DRILL.json": {
+        "bytes": 1470,
+        "sha256": "38cd2fa286200ec12ac375824400c44bf913be398e324bb37273b65526f0141d"
+      },
+      "CP7_S05_ON_SKU_OWNER_ACCESS_NATIVE1_CASES.json": {
+        "bytes": 49152,
+        "sha256": "8c6d129ae004db625f4d8047fb35daeaa5daf6fb68ac444e1b9f0aad094cf48a"
+      }
+    },
+    "source_admission": {
+      "source_pins": 69,
+      "own_paths": 70,
+      "unchanged_base_blobs_and_modes": 14000,
+      "actual_case_credit": 0,
+      "selected_original_case_id": "S05_NATIVE_CURRENT_ACCESS_PRIVATE_ACL",
+      "source_manifest": {
+        "bytes": 10909,
+        "sha256": "b191bd7185043bcf95f25dcf294135e2874b98c9cfb39c9c09706733994825a2"
+      }
+    },
+    "actual_product_source_maps": {
+      "file_maps": 66,
+      "pin_occurrences": 278,
+      "unique_paths": 155,
+      "exact_producer_namespace": true
+    },
+    "actual_owner_guard_proof": {
+      "active_owner_rows_before": 2,
+      "original_actor": "c8c00000-0000-4000-8000-000000000101",
+      "actual_last_owner_and_protected_role_refusals": true,
+      "unchanged_actual_native_guard_sources": 2,
+      "selected_authority_rows_preserved_except_other_active_flags": true,
+      "synthetic_cleanup_escape": false
+    },
+    "actual_Native_cases": 1,
+    "actual_browser_cases": 0,
+    "package_all_five": true,
+    "package_gates": {
+      "installed": true,
+      "primary_unchanged": true,
+      "backup_restore_drill": true,
+      "security_advisors": true,
+      "writer_runtime": true
+    },
+    "full37_qualified": false,
+    "prior_runs_aggregated": false,
+    "retained_current30_fresh_case_credit": 0,
+    "source_bound_original_committed_use_and_used_refusal_assertions": true,
+    "global_writer_or_permission_or_lock_closure": false,
+    "production_go": false,
+    "independent_acceptance": false,
+    "canonical_archive_library_file_id": "libfile_afdb67c347e88191beba542d5ccfb1e0"
   },
   "prior_next_before_focused_owner_repair": [
     "Intake exact current1edd run41190706967 when terminal; all37 plus complete restoration/all5 from its own canonical archive are required",
@@ -2111,21 +2162,63 @@
     "Implement FG Mandor invoice allocation to manually chosen payroll week after active integration stability"
   ],
   "current_complete_DE_root_intake": {
-    "prepared_head": "77b613562dff63dafbe0d06425abd503f9a7df76",
-    "prepared_tree": "0db13a8fc0b202d6225877525e16cddfe29f421f",
-    "source_pins": 49,
-    "own_paths": 50,
-    "unchanged_prepared_parent": 14092,
-    "unchanged_business_sources": 3,
-    "frozen_fixture_inputs": 4,
-    "original_D1_ids": 13,
-    "original_E_ids": 17,
-    "actual_parent_qualification": null,
-    "owning_run": null,
-    "source_and_unarmed_refusal_control": "PASS",
-    "receipt": "DE30_ROOT_PREPARED_SOURCE_AND_UNARMED_CONTROL_20261031.json",
+    "status": "ROOT_DE30_WORKFLOW_SUCCESSOR_SOURCE_AND_UNARMED_CONTROL_PASS",
+    "head": "a93bd2be7d8fb04ae379dbf34e39b08d1eaeddf7",
+    "tree": "505b3b0f240f000f3ab38a440f2a1517d80afcd0",
+    "source": {
+      "source_pins": 54,
+      "own_paths": 55,
+      "unchanged_base": 14092,
+      "D1_ids": [
+        "D_POSITIVE_CREDIT_INCREMENT",
+        "D_AFTER_ACTIVE_APPLY",
+        "D_AFTER_REFUND_EXTRA_STAYS_CREDIT",
+        "D_MULTIFAMILY_ORDINAL",
+        "D_REPLAY_EXACT_UUID",
+        "D_STALE_REVIEW_NO_EFFECT",
+        "D_ACCESS_REVOKED_NO_EFFECT",
+        "D_SHORTFALL_NAMES_UNDO",
+        "D_ROOT_BOOK_FLOOR_REFUSAL",
+        "D_ATOMIC_POST_FAILURE_RESTORE",
+        "D_SECOND_REVISION_ORDINAL_HISTORY",
+        "D_AFTER_NAMED_UNDO_NO_FALSE_BLOCKER",
+        "E_UNIMPLEMENTED_INCOMING_CORRECTION_STAYS_GUARDED"
+      ],
+      "E_ids": [
+        "E_PRICE_INCREASE_80_NET550_AR470",
+        "E_PRICE_DECREASE_80_NET100_AR20",
+        "E_EXACT_FUNDED_80_PAID",
+        "E_BELOW_CARRIED_80_REFUSES_ATOMIC",
+        "E_SAME_UUID_AND_CHANGED_INTENT",
+        "E_SOURCE_D1_CHANGE_RETIRES_REVIEW",
+        "E_LATER_APPLY_20_CURRENT_LEAF",
+        "E_UNDO_ORIGINAL_80_AND_OLD_RECEIPT",
+        "E_NATIVE_POST_FAILURE_FULL_RESTORE",
+        "E_QUANTITY_CHANGE_REFUSES",
+        "E_ORIGINAL_DATE_CHANGE_REFUSES",
+        "E_CLOSED_ORIGINAL_BOOK_PAIR_REFUSES",
+        "E_SECOND_NOTE_REVISION_GUARDED",
+        "E_CURRENT_ACCESS_REVOKED_REFUSES",
+        "E_JOINT_PREFIX_AFTER_UNDO_120_MIN200_NOT150",
+        "E_LATER_NATIVE_REVERSE_REFUSES_ATOMIC",
+        "E_LATER_NATIVE_SALE_SAME_LOT_RECONCILES"
+      ],
+      "source_manifest": {
+        "bytes": 10143,
+        "sha256": "2d695c3edd8332d8d0eda18b512040637d867d5c581187f437360465ea0b7af6"
+      },
+      "unchanged_business_source_files": 3,
+      "frozen_fixture_inputs": 4,
+      "recorded_predecessor_functions": 32,
+      "actual_case_credit": 0,
+      "parent_qualification_pending": true
+    },
+    "parent_receipt_and_run_pending": true,
+    "unarmed_intake_refused_before_Git_archive_or_metadata": true,
     "actual_Native_cases": 0,
-    "full_intake_requires": "Exact actual permanent6 receipt and whole parent source graph; one actual original strict30; raw committed E witness and full22/ALLrow/ALLseq no-effect; canonical archive/API identity; all5 and all restoration"
+    "actual_SQL_executed": 0,
+    "production_go": false,
+    "independent_acceptance": false
   },
   "current_full37_root_intake_unarmed": {
     "source_pins": 69,
