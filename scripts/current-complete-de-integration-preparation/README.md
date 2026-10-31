@@ -44,3 +44,15 @@ Local source/lifecycle models carry zero Native/business credit. D_complete,
 E_complete and global eight-hook acceptance remain false. Completing the
 existing restricted D/E slices and opening global flows still require their
 fresh business, current-rights, lock/phantom and two-session evidence.
+
+The unchanged canonical Native cases.py, e_cases.py and native_fixture.py
+are copied from exact qualified public928246e5. Their full bytes and all four
+fixture inputs are checked; native_business.py binds the original thirteen
+D1 and seventeen E callbacks without rewriting them. Its entry point first
+admits the actual permanent6 ROOT receipt and entire parent source graph,
+then requires the actual natural current modules and complete source state.
+It supplies no runtime, connection, strict-group execution or case credit.
+The owning future disposable caller must retain the real clock, original
+strict-group restore/oracles, separate committed-use witness and all five
+outer package gates. The original D1 incoming negative submits no new carry
+review; preserve it and qualify its refusal on the combined E installation.

@@ -47,11 +47,21 @@ def controls():
     except ValueError as error:
         if str(error)!='COMPLETE_DE_ACTUAL_PERMANENT_PARENT_INTAKE_PENDING':raise
         pending=True
+    business=load('complete_de_exact_native30_source_control',HERE/'native_business.py')
+    native_source=business.source_controls()
+    native_pending=False
+    if pending:
+        try:business.bind({})
+        except ValueError as error:
+            if str(error)!='COMPLETE_DE_ACTUAL_PERMANENT_PARENT_INTAKE_PENDING':raise
+            native_pending=True
+        else:raise ValueError('COMPLETE_DE_PENDING_NATIVE30_ADMISSION_WAS_OPENED')
     return dict(status='COMPLETE_DE_PACKAGE_AND_CURRENT_NATIVE_SOURCE_CONTROLS_PASS_NOT_NATIVE',
         exact_package_files=len(record['files']),parent_import_changes=1,other_package_files_unchanged=18,
         actual_recorded_predecessor_functions=len(rows),D1_raw_definitions=len(first),E_raw_definitions=len(second),
         changed_function_overlap_with_S03_SKU=sorted(overlap),SQL_and_Native_derivers_unchanged=True,
         raw_source_chain_not_PostgreSQL_normalized_install=True,parent_qualification_pending=pending,
+        native30_source=native_source,Native30_pending_before_ERP_or_SQL=native_pending,
         actual_SQL_executed=0,actual_Native_cases=0,production_go=False,independent_acceptance=False)
 
 
