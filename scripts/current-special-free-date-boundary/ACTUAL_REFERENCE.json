@@ -1,0 +1,54 @@
+{
+  "status": "EXACT_S03_AND_SKU_ACTUAL_DEFINITION_AND_METADATA_AGREE",
+  "signature": "erp.bc_free_basis_v1(uuid,uuid,timestamp with time zone)",
+  "original_bytes": 749,
+  "original_sha256": "8d514efa74707dbc2f275a225f081095d1311558a9ef7819c8b8ef5aca98260e",
+  "actual_function_metadata": [
+    "postgres",
+    "sql",
+    "f",
+    true,
+    false,
+    false,
+    false,
+    "s",
+    "u",
+    "100",
+    "0",
+    [
+      "search_path=\"\""
+    ],
+    [
+      "p_material",
+      "p_contractor",
+      "p_at"
+    ],
+    null,
+    "p_material uuid, p_contractor uuid, p_at timestamp with time zone",
+    "jsonb",
+    "-",
+    [
+      [
+        "postgres",
+        "postgres",
+        "EXECUTE",
+        false
+      ]
+    ]
+  ],
+  "S03": {
+    "head": "f42e76978852ba9efe34f75a4b622990c0331866",
+    "artifact_id": 13032507966,
+    "archive_sha256": "8c3c3f435d1ecf7de032e9bc42ec93de9056d8c36e0520c9756e9a683d9fe68c",
+    "member": "S03_B4_ACCESS_BB0405B5E7564B44A6B70A44E81B72E6_013_AFTER_AUTHORIZED_ROLE_OWNER_FULL_STATE.json.gz"
+  },
+  "SKU": {
+    "head": "090b85d3fcb738d3e694d4329d306f199a686eb8",
+    "artifact_id": 13031164777,
+    "archive_sha256": "9ad923d20d0972b2a01df3ce3307bf03db537406ac89f99f700cf6d235bfc341",
+    "member": "SKU_COST_DIRECT_PARTIAL_INVERSE_REFUSAL_56ed8452b5b0_FULL_CURRENT_CENSUS.json"
+  },
+  "actual_new_Native_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}
