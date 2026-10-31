@@ -42,7 +42,11 @@ def admitted():
             if Path(module.__file__).resolve()!=expected_root/'scripts'/path/'composition.py':
                 raise ValueError('JOIN_NATURAL_CURRENT_PACKAGE_REQUIRED:'+path)
         if product.parent()is not sku or sku.parent()is not vendor:raise ValueError('JOIN_NATURAL_PARENT_CHAIN_CHANGED')
-        current=product.sources();actual_sku=sku.sources()
+        current=product.sources()
+        # sources() has just evaluated the real SKU parent through the
+        # verified natural object chain. Compare that complete observation;
+        # evaluating the same graph again adds no independent evidence.
+        actual_sku=current['predecessor']
         if actual_sku!=parents['SKU']['current_installation']or current['predecessor']!=actual_sku:
             raise ValueError('JOIN_WHOLE_ACTUAL_SKU_SOURCE_MUST_EQUAL_QUALIFIED_CURRENT_ORIGINAL')
         s03=parents['S03']['current_installation']

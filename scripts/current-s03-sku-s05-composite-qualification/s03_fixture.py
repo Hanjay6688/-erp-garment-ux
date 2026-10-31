@@ -43,7 +43,7 @@ def runtime():
         import psycopg
         from psycopg import sql
         import cp6_bd_probe as truth
-        core = load('joined_s03_native_oracles', HERE / 'native_s03.py').business_runtime()
+        core = load('joined_s03_native_oracles', HERE / 'native_s03.py').business_runtime(proof)
         if product.sources() != proof['current_installation']:
             raise ValueError('S03_BROWSER4_WHOLE_ACTUAL_INSTALLATION_SOURCE_CHANGED')
         declaration = json.loads((HERE / 'HELPER_SOURCE.json').read_bytes())

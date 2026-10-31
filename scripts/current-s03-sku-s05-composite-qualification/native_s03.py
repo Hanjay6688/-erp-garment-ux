@@ -25,6 +25,10 @@ def reader_configuration(derivation):
 def modules():
     admission=load('joined_native14_actual_parent_admission',HERE/'admission.py')
     proof=admission.admitted()  # Current exact parents, before any ERP import.
+    return _modules(proof)
+
+
+def _modules(proof):
     source=load('joined_native14_whole_private_source_binding',ROOT/'scripts/current-s03-sku-native14-binding/prepare.py')
     texts,derivation=source.prepare()
     fixture=code('joined_native14_fixture',texts['fixture'],path=HERE/'joined_fixture.py')
@@ -51,7 +55,17 @@ def modules():
     return runner,core,derivation
 
 
-def business_runtime():return modules()[1]
+def business_runtime(proof):
+    # The browser caller has freshly admitted both Originals and its complete
+    # natural graph, and backend.actual_backend has compared that graph again.
+    # Reuse only this in-process observation; every new fixture process still
+    # performs fresh admission and its final graph check before connecting.
+    if (proof.get('status')!='EXACT_CURRENT_PARENTS_AND_NATURAL_S03_ON_SKU_PRODUCT_SOURCE_ADMITTED'
+        or proof.get('product_sources_override')is not False
+        or proof.get('projected_source_graph')is not False
+        or proof['current_installation']['predecessor']!=proof['qualified_SKU_current_installation']):
+        raise ValueError('JOIN_NATIVE_BROWSER_FRESH_ADMITTED_SOURCE_REQUIRED')
+    return _modules(proof)[1]
 
 
 def exercise(conn,cur,database,url,report,state):

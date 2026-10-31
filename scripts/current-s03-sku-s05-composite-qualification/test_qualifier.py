@@ -4,7 +4,7 @@ from types import ModuleType,SimpleNamespace
 from contextlib import nullcontext
 from hashlib import sha256
 from unittest.mock import patch
-import ast,importlib.util,json,subprocess,sys,tempfile,unittest,yaml
+import ast,importlib.util,io,json,subprocess,sys,tempfile,unittest,yaml
 
 HERE=Path(__file__).resolve().parent
 ROOT=HERE.parents[1]
@@ -14,6 +14,35 @@ def load(name):
     module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module);return module
 
 class SourceControls(unittest.TestCase):
+    def test_browser_reuses_admitted_proof_and_refuses_changed_parent_before_private_import(self):
+        private=load('native_s03')
+        source={'predecessor':{'actual':'qualified-parent'}}
+        proof=dict(status='EXACT_CURRENT_PARENTS_AND_NATURAL_S03_ON_SKU_PRODUCT_SOURCE_ADMITTED',
+            product_sources_override=False,projected_source_graph=False,
+            current_installation=source,qualified_SKU_current_installation=source['predecessor'])
+        sentinel=object()
+        with patch.object(private,'_modules',return_value=(None,sentinel,None))as prepared,patch.object(private,'load',side_effect=AssertionError('REPEATED_ADMISSION')):
+            self.assertIs(private.business_runtime(proof),sentinel)
+            prepared.assert_called_once_with(proof)
+            for change in [dict(status='not-admitted'),dict(product_sources_override=True),
+                           dict(projected_source_graph=True),dict(qualified_SKU_current_installation={'changed':True})]:
+                with self.subTest(change=change),self.assertRaisesRegex(ValueError,'FRESH_ADMITTED_SOURCE'):
+                    private.business_runtime(dict(proof,**change))
+            self.assertEqual(prepared.call_count,1)
+
+    def test_diagnostics_preserve_original_exception_and_append_without_case_credit(self):
+        notes=load('runtime_note')
+        with tempfile.TemporaryDirectory()as directory,patch.object(notes,'OUT',Path(directory)),patch.object(sys,'stderr',io.StringIO()):
+            with self.assertRaisesRegex(KeyboardInterrupt,'original'):
+                with notes.phase('CONTROL'):raise KeyboardInterrupt('original')
+            rows=[json.loads(line)for line in(Path(directory)/'JOIN_RUNTIME_PROGRESS.jsonl').read_text().splitlines()]
+            self.assertEqual([r['event']for r in rows],['START','RAISED_KeyboardInterrupt'])
+            self.assertTrue(all(r['actual_case_credit']==0 and r['diagnostics_only']is True for r in rows))
+            self.assertTrue(all(r['self_peak_rss_KiB']>0 for r in rows))
+            with patch.object(notes.os,'open',side_effect=OSError('local-write-failure')):
+                with self.assertRaisesRegex(RuntimeError,'original'):
+                    with notes.phase('CONTROL_WRITE_FAILURE'):raise RuntimeError('original')
+
     def test_parent_import_reselects_after_vendor_path_change_and_refuses_foreign_module(self):
         selector=load('parent_import');root=Path('/control/qualified');previous=list(sys.path)
         def imported(name):
@@ -133,6 +162,9 @@ class SourceControls(unittest.TestCase):
         retained_index=next(i for i,s in enumerate(steps)if 'retain_clone.py'in s.get('run',''))
         self.assertGreater(retained_index,runtime_index)
         self.assertEqual(steps[retained_index]['if'],'always()')
+        diagnostic_upload=next(i for i,s in enumerate(steps)if s.get('name')=='Preserve the pre-runtime diagnostic independently of runner survival')
+        self.assertLess(diagnostic_upload,runtime_index)
+        self.assertEqual(steps[diagnostic_upload]['with']['path'],'auditor/cp6-proof/t3/JOIN_PRE_RUNTIME_RESOURCE.json')
 
     def test_exact_historical_app_is_admitted_and_current_additions_remain_explicit(self):
         backend=load('frozen_parent')
@@ -164,6 +196,7 @@ class OrchestrationControls(unittest.TestCase):
             return run
         proof=dict(current_installation=source,qualified_SKU_parent={'control':1},qualified_S03_parent={'control':2})
         doubles={
+            'runtime_note':SimpleNamespace(phase=lambda label:nullcontext()),
             'admission':SimpleNamespace(admitted=lambda:proof),
             'native_s03':SimpleNamespace(exercise=exercise('S03N',14,True)),
             'native_sku':SimpleNamespace(exercise=exercise('SKUN',7,True)),

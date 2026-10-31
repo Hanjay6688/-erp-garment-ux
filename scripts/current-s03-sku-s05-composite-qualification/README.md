@@ -36,6 +36,27 @@ counted reversible substitutions. The private host and modes preserve the
 canonical auditor files. `SOURCE.json` freezes the complete own namespace and
 workflow over the unchanged b25 joined base; CI may not regenerate it.
 
+The actual `1edd7b7f` attempt ended with GitHub's hosted-runner
+communication-loss annotation. No logs or result artifact were available;
+no business count, complete restoration, all5 or composite37 acceptance is
+credited. The exact observed metadata is retained in
+`RUNNER_LOSS_1edd_ACTUAL_20261031.json`. Resource exhaustion is a possible
+cause mentioned by GitHub, not an established diagnosis.
+
+The successor reuses only the freshly admitted in-process parent proof when
+constructing browser oracles. Every new fixture process still admits both
+exact Originals and the complete natural product graph; the full graph is
+checked before the database connection. No cross-process cache, source-map
+projection, product override or financial callback change is introduced.
+The SKU observation already present in the natural current graph is compared
+to its qualified Original instead of reevaluating that same graph again.
+
+Bounded diagnostics emit phase boundaries and resource observations every
+30 seconds. Their separate pre-runtime artifact contains no business result
+and grants zero case credit. A returned phase is not a qualification gate.
+The original installer, full-boundary restoration and all37 gates still own
+acceptance. The 13 local controls are recorded separately from Native proof.
+
 Local controls: `python -B -m unittest discover -s
 scripts/current-s03-sku-s05-composite-qualification -p 'test_*.py'` and
 `node scripts/current-s03-sku-s05-composite-qualification/test_rpc_transport.mjs`.

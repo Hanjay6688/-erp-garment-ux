@@ -219,8 +219,8 @@
       "source_path": "scripts/current-attendance-choice-browser4-lawful-successor/fixture.py",
       "original_bytes": 34744,
       "original_sha256": "d48ccac975e5d0dffbff133f1b940bb30f6967f87d422a5f0f0b0b9adfa67910",
-      "derived_bytes": 34688,
-      "derived_sha256": "4c592bbd141293ec2241a788b3cdde903ba46c1b50e6cee081a927d0f16595b6",
+      "derived_bytes": 34693,
+      "derived_sha256": "fdcda06209acf950ca08f7f1918f36193e53a1ae4a54616d90c375e43c192826",
       "changes": [
         {
           "before": "HERE / 'source_guard.py'",
@@ -234,7 +234,7 @@
         },
         {
           "before": "core = load('s03_browser4_retained_native_oracles', ROOT / 'scripts/current-attendance-period-choice-qualification/cases.py')",
-          "after": "core = load('joined_s03_native_oracles', HERE / 'native_s03.py').business_runtime()",
+          "after": "core = load('joined_s03_native_oracles', HERE / 'native_s03.py').business_runtime(proof)",
           "count": 1
         }
       ],

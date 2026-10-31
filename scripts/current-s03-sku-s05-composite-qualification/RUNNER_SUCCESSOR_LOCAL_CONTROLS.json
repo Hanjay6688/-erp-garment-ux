@@ -1,0 +1,24 @@
+{
+  "classification": "LOCAL_SOURCE_ORCHESTRATION_CONTROLS_NOT_NATIVE",
+  "command": "python -B -m unittest discover -s scripts/current-s03-sku-s05-composite-qualification -p 'test_*.py'",
+  "tests": 13,
+  "result": "PASS",
+  "seconds": 0.263,
+  "includes": [
+    "all_exact_reversible_source_derivations",
+    "unchanged_retained_reader3_accepts_JSON_arrays_and_rejects_changed_IDs",
+    "natural_parent_and_owning_harness_origin_refusals",
+    "strict_original_typing_duplicates_and_nonfinite_refusals",
+    "complete_engine_and_unchanged_workflow_setup",
+    "fresh_admitted_parent_required_before_private_browser_oracle_construction",
+    "diagnostic_append_and_original_exception_preservation_including_failed_file_write",
+    "all37_unique_and_first_failure_stops_following_components"
+  ],
+  "financial_oracle_changes": 0,
+  "cross_process_admission_cache_added": false,
+  "current_whole_product_graph_checks_before_browser_DB_retained": true,
+  "actual_Native_cases": 0,
+  "actual_browser_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

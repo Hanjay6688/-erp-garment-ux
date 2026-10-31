@@ -17,6 +17,7 @@ def scheduler_quiet(url):
 
 
 def exercise(conn,cur,database,url,report,state):
+    notes=load('joined_component_bounded_diagnostics',HERE/'runtime_note.py')
     admission=load('joined_component_before_ERP_admission',HERE/'admission.py');proof=admission.admitted()
     import psycopg
     from cp7_s03_sku_composition import composition as product
@@ -28,27 +29,29 @@ def exercise(conn,cur,database,url,report,state):
     # Native14 must run first: its strict sequence-prefix proof starts at the
     # exact initial preuse boundary, before any other component commits a use.
     first=report['fresh_S03_Native14']=dict(status='INCOMPLETE')
-    load('joined_complete_fresh_S03_Native14',HERE/'native_s03.py').exercise(conn,cur,database,url,first,state)
+    with notes.phase('S03_NATIVE14'):
+        load('joined_complete_fresh_S03_Native14',HERE/'native_s03.py').exercise(conn,cur,database,url,first,state)
     if first.get('status')!='PASS'or first.get('actual_Native_cases')!=14 or first.get('used_guard_refused_before_DDL')is not True:
         raise ValueError('JOIN_FRESH_S03_NATIVE14_AND_USED_INVERSE_REQUIRED')
     second=report['fresh_SKU_Native7']=dict(status='INCOMPLETE')
-    with psycopg.connect(url)as connection,connection.cursor()as cursor:
+    with notes.phase('SKU_NATIVE7'),psycopg.connect(url)as connection,connection.cursor()as cursor:
         load('joined_complete_SKU_Native7',HERE/'native_sku.py').exercise(connection,cursor,database,url,second,state)
     if second.get('status')!='PASS'or second.get('actual_Native_cases')!=7 or second.get('used_guard_refused_before_DDL')is not True:
         raise ValueError('JOIN_FRESH_SKU_NATIVE7_REQUIRED')
     native,derivation=load('joined_complete_S05_Native10_binding',HERE/'native_s05.py').component()
     third=report['fresh_S05_Native10']=dict(status='INCOMPLETE',source_binding=derivation)
-    with psycopg.connect(url)as connection,connection.cursor()as cursor:
+    with notes.phase('S05_NATIVE10'),psycopg.connect(url)as connection,connection.cursor()as cursor:
         native.exercise(connection,cursor,database,url,third,state)
     if third.get('status')!='PASS'or third.get('actual_Native_cases')!=10 or third.get('used_guard_refused_before_DDL')is not True:
         raise ValueError('JOIN_FRESH_S05_NATIVE10_REQUIRED')
     fourth=report['fresh_S03_browser4']=dict(status='INCOMPLETE')
-    with psycopg.connect(url)as connection,connection.cursor()as cursor:
+    with notes.phase('S03_BROWSER4'),psycopg.connect(url)as connection,connection.cursor()as cursor:
         load('joined_complete_S03_real_App_browser4',HERE/'s03_component.py').exercise(connection,cursor,database,url,fourth,state)
     if fourth.get('status')!='PASS'or fourth.get('actual_browser_cases')!=4:
         raise ValueError('JOIN_FRESH_S03_REAL_AUTH_BROWSER4_REQUIRED')
     fifth=report['fresh_S05_browser2']=dict(status='INCOMPLETE')
-    load('joined_complete_S05_real_App_browser2',HERE/'s05_browser.py').exercise(url,state,fifth)
+    with notes.phase('S05_BROWSER2'):
+        load('joined_complete_S05_real_App_browser2',HERE/'s05_browser.py').exercise(url,state,fifth)
     if fifth.get('status')!='PASS'or fifth.get('actual_browser_cases')!=2:
         raise ValueError('JOIN_FRESH_S05_REAL_AUTH_BROWSER2_REQUIRED')
     groups=(first['native']['cases'],first['reader_native3']['cases'],second['native']['cases'],
