@@ -38,6 +38,10 @@
       "bytes": 3392,
       "sha256": "529e44c6b586f72b448994c1c23bc41b018cf3b9169bde0f5a5fe77f6e3c118d"
     },
+    "scripts/current-final-s03-sku-s05-preparation/SYSTEM_METADATA_WIRING.json": {
+      "bytes": 1341,
+      "sha256": "fc5579228fb3a65147350676ab707f5bcf61cd7d75c36f6c8fa4073a3bf245f6"
+    },
     "scripts/current-final-s03-sku-s05-preparation/WORKFLOW_DERIVATION.json": {
       "bytes": 2608,
       "sha256": "c70b1844c25301e3c80c2881e06b17a93d13df66d7a35e158afb8b2d84125ded"
@@ -51,8 +55,8 @@
       "sha256": "7418e5911669b7aa32eff324319176931a4ebf0ac85e560c7b615ad4468eda91"
     },
     "scripts/current-final-s03-sku-s05-preparation/component.py": {
-      "bytes": 6355,
-      "sha256": "8a4f67b9d3d188e8d9124260b5f6b2b16c7a5d7c5f9ce14c6169fea6fe0e94d7"
+      "bytes": 6641,
+      "sha256": "a151261eba3e4bbc383b968c94fb0f6d08edaaf8a8dc27b5bbd5178d2fc22824"
     },
     "scripts/current-final-s03-sku-s05-preparation/controls.py": {
       "bytes": 4868,
@@ -73,6 +77,50 @@
     "scripts/current-final-s03-sku-s05-preparation/frozen_parent.py": {
       "bytes": 1984,
       "sha256": "d179d2e9f36b1248f2f2d00736ad11391e703a1020390396ffe870e8edca857c"
+    },
+    "scripts/current-final-s03-sku-s05-preparation/metadata/ADDED_FOUR_ISOLATED_SQL_CONTROLS.json": {
+      "bytes": 662,
+      "sha256": "476acf0b57961c8d8e2ebe3f54cc24b4139f4c1b09860df864d03191fb9bef9d"
+    },
+    "scripts/current-final-s03-sku-s05-preparation/metadata/FIRST23_ISOLATED_SQL_CONTROLS.json": {
+      "bytes": 1452,
+      "sha256": "411bd59dd5216e42f405a7cf8e62abfaef1770276ce83f9933581d866c8449a7"
+    },
+    "scripts/current-final-s03-sku-s05-preparation/metadata/FIRST_ADDED_CONTROL_FAILURE.json": {
+      "bytes": 529,
+      "sha256": "231a05d2d2381536e147ee822fd0f58234af9c9898a104c3ec3566e260b078cb"
+    },
+    "scripts/current-final-s03-sku-s05-preparation/metadata/LOCAL_ADMINISTRATIVE_GUARD_CONTROLS.json": {
+      "bytes": 252,
+      "sha256": "f24774853682848eb65710433031112472b6b11e2a55f0848dc01b11caa49b77"
+    },
+    "scripts/current-final-s03-sku-s05-preparation/metadata/QUERIES.json": {
+      "bytes": 12006,
+      "sha256": "bb0d7d530cb34fb098923e7ec641d7ab616c7e302b48b79974799defa5009059"
+    },
+    "scripts/current-final-s03-sku-s05-preparation/metadata/README.md": {
+      "bytes": 2071,
+      "sha256": "b0fde47c18d347cbf37b7678f76323c8bc202ca1ef0392ecbea7490b24f76bb9"
+    },
+    "scripts/current-final-s03-sku-s05-preparation/metadata/SOURCE.json": {
+      "bytes": 1726,
+      "sha256": "7a1d1b6d930abc96918df8fb35f96ac2a4dd3905c7e230d848c5d4f528b80c47"
+    },
+    "scripts/current-final-s03-sku-s05-preparation/metadata/collector.py": {
+      "bytes": 5028,
+      "sha256": "1cffca9b0db23ebb4c7dd5419c52621c83b143327194ee0322819b3709d9e27c"
+    },
+    "scripts/current-final-s03-sku-s05-preparation/metadata/test_added_queries.mjs": {
+      "bytes": 3077,
+      "sha256": "3cd0bced7fca50f535dbef39a7e3d253bb1b443ea7903a750f4df59f57817630"
+    },
+    "scripts/current-final-s03-sku-s05-preparation/metadata/test_collector.py": {
+      "bytes": 4097,
+      "sha256": "c0473cf09bcf8b17559369ee57b51a95d76466474912a22ca475ffbfcad9d11e"
+    },
+    "scripts/current-final-s03-sku-s05-preparation/metadata/test_queries.mjs": {
+      "bytes": 5316,
+      "sha256": "75a40419bd5f31e30f97c7d039a8f1b792d57d852c5a64e12547353603766d07"
     },
     "scripts/current-final-s03-sku-s05-preparation/parent_import.py": {
       "bytes": 3264,
@@ -106,9 +154,17 @@
       "bytes": 3564,
       "sha256": "df508fe5415eeae3e1bf21b4a02c66ece2c585dea92bfabf6f940f690a88b57e"
     },
+    "scripts/current-final-s03-sku-s05-preparation/system_metadata.py": {
+      "bytes": 4307,
+      "sha256": "88c01a97334e62af9036b5d9aacc6e967aef7087a7aee888f8293e543febcd6d"
+    },
     "scripts/current-final-s03-sku-s05-preparation/test_composition.py": {
       "bytes": 6181,
       "sha256": "6f5e9e945e88ffe3915fb2257d45cb0c819503851387f3d7596df2806ebed1b5"
+    },
+    "scripts/current-final-s03-sku-s05-preparation/test_system_metadata.py": {
+      "bytes": 4368,
+      "sha256": "32a5f95debbe559117dbaa54064d43b9f6438ebc4b05e11efdf7b7f0be3b4400"
     }
   },
   "actual_new_Native_cases": 0,
@@ -117,5 +173,8 @@
   "persistent_reader_financial_callbacks_prepared": 4,
   "actual_accepted_parent_run": null,
   "persistent_normal_App_browser_cases_prepared": 2,
-  "new_runtime_entry": "scripts/current-final-s03-sku-s05-preparation/probe.py"
+  "new_runtime_entry": "scripts/current-final-s03-sku-s05-preparation/probe.py",
+  "read_only_system_and_scheduler_metadata_prepared": true,
+  "metadata_query_count": 27,
+  "metadata_Native_case_credit": 0
 }

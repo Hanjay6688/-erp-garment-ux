@@ -75,6 +75,8 @@ def exercise(conn,cur,database,url,report,state):
     report.update(status='INCOMPLETE',actual_Native_cases=0,actual_browser_cases=0,
         retained_join37_fresh_case_credit=0,permanent_reader_remains_installed=True,
         production_go=False,independent_acceptance=False)
+    metadata=load('permanent_owning_readonly_system_metadata',HERE/'system_metadata.py')
+    report['read_only_system_metadata_before_native']=metadata.capture_pair(url,raw_receipt)
     first=report['fresh_permanent_financial4']=dict(status='INCOMPLETE')
     load('permanent_four_original_financial_cases',HERE/'persistent_financial.py').exercise(
         conn,cur,database,url,first,state,raw_parent_receipt=raw_receipt)
@@ -87,6 +89,7 @@ def exercise(conn,cur,database,url,report,state):
         url,state,second,raw_parent_receipt=raw_receipt)
     if second.get('status')!='PASS'or second.get('actual_browser_cases')!=2:
         raise ValueError('PERMANENT_S05_ACTUAL_NORMAL_APP_BROWSER2_REQUIRED')
+    report['read_only_system_metadata_after_native_and_browser']=metadata.capture_pair(url,raw_receipt)
     groups=(first['native']['cases'],second['browser']['cases'])
     cases={key:dict(status=row['status'])for group in groups for key,row in group.items()}
     if len(cases)!=6 or sum(map(len,groups))!=6 or any(row['status']!='PASS'for row in cases.values()):
