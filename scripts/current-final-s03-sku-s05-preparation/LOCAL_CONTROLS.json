@@ -121,7 +121,7 @@
       "matched_actual_composition_return": true,
       "identified_before_new_DB_run": true
     },
-    "fresh_model_install_inverse_controls": 5,
+    "fresh_model_install_inverse_controls": 6,
     "new_Native_cases": 0,
     "new_browser_cases": 0
   },
@@ -153,5 +153,12 @@
       "public_source_sha256": "1439d70810383db377c48e043df7fb6d487a1b2f1a995e8993a2c08590f9f797"
     },
     "new_Native_cases": 0
+  },
+  "used_guard_snapshot_binding_control": {
+    "status": "PASS_EXPLICIT_ORCHESTRATION_MODEL_NOT_NATIVE",
+    "coordinated_reader_data_and_preuse_snapshot_mutation_refused": true,
+    "coordinated_parent_and_install_snapshot_mutation_refused": true,
+    "all_used_guard_snapshots_in_component_binding": true,
+    "actual_Native_cases": 0
   }
 }

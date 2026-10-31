@@ -38,7 +38,11 @@ def binding(catalog,state):
     financial=state['financial_parent'];reader=state['reader']
     return catalog.digest(dict(sources=state['sources'],financial_sources=financial['sources'],
         financial_parent_binding=financial['parent_binding'],financial_catalog=financial['after'],
-        reader_sources=reader['sources'],reader_parent_binding=reader['parent_binding'],reader_catalog=reader['after']))
+        reader_sources=reader['sources'],reader_parent_binding=reader['parent_binding'],reader_catalog=reader['after'],
+        reader_data_and_sequences=reader['data'],preuse_data_and_sequences=state['preuse_data_and_sequences'],
+        preinstall_data_and_sequences=state['preinstall_data_and_sequences'],
+        financial_preuse_data_and_sequences=financial['preuse_data_and_sequences'],
+        financial_preinstall_data_and_sequences=financial['preinstall_data_and_sequences']))
 
 def verify(cur,state):
     financial,reader=parts();_,_,_,_,catalog=runtime()

@@ -18,7 +18,8 @@ class AssemblyControls(unittest.TestCase):
     def setUp(self):
         self.module=module();self.events=[];self.data={'rows':[1],'sequence':7}
         self.financial_state=dict(sources={'financial':'exact'},parent_binding='actual-bound-parent',
-            after={'actual':'parent-catalog'},preinstall_data_and_sequences={'rows':[],'sequence':1})
+            after={'actual':'parent-catalog'},preinstall_data_and_sequences={'rows':[],'sequence':1},
+            preuse_data_and_sequences=deepcopy(self.data))
         self.reader_state=dict(sources={'reader':'exact'},parent_sources=self.financial_state['sources'],
             parent_binding='actual-bound-reader',before=self.financial_state['after'],
             after={'actual':'parent-plus-reader-catalog'},data=deepcopy(self.data))
@@ -74,5 +75,16 @@ class AssemblyControls(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,'COMPONENT_BINDING_CHANGED'):self.module.verify(object(),changed)
         changed=deepcopy(state);changed['sources']={'unknown':'source'}
         with self.assertRaisesRegex(ValueError,'ACTUAL_SOURCE_CHANGED'):self.module.verify(object(),changed)
+
+    def test_coordinated_guard_snapshot_changes_cannot_relabel_used_rows_as_preuse(self):
+        state=self.module.install_delta(object(),self.financial_state)
+        changed=deepcopy(state)
+        changed['reader']['data']['rows'].append(2)
+        changed['preuse_data_and_sequences']['rows'].append(2)
+        with self.assertRaisesRegex(ValueError,'COMPONENT_BINDING_CHANGED'):self.module.verify(object(),changed)
+        changed=deepcopy(state)
+        changed['financial_parent']['preinstall_data_and_sequences']['sequence']=9
+        changed['preinstall_data_and_sequences']['sequence']=9
+        with self.assertRaisesRegex(ValueError,'COMPONENT_BINDING_CHANGED'):self.module.verify(object(),changed)
 
 if __name__=='__main__':unittest.main()

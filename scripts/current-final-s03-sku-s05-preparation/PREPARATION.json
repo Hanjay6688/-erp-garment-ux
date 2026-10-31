@@ -12,19 +12,19 @@
     },
     "scripts/cp7_current_s03_sku_s05/SOURCE.json": {
       "bytes": 763,
-      "sha256": "dbca6e7405641cef67dacebc54588d07712d55265dc13135e38df6cdd5675d2e"
+      "sha256": "91d0f63b3775e3c5a790fc03b7e83d22c7fd1588e7e72828a0d243b780c058b7"
     },
     "scripts/cp7_current_s03_sku_s05/__init__.py": {
       "bytes": 81,
       "sha256": "985511f5f5f2b17b1fb57e3b75a22339f1240df8930b6f9f63bfc482bd88f2c6"
     },
     "scripts/cp7_current_s03_sku_s05/composition.py": {
-      "bytes": 4816,
-      "sha256": "45de8a32cffcf0eea19b2ae867969e412bee2161d89d053fe585af8ac0590768"
+      "bytes": 5181,
+      "sha256": "d0cf9005d7322dbd57e332d90e156f168ceee4425edc9a6092879153c89b6beb"
     },
     "scripts/current-final-s03-sku-s05-preparation/LOCAL_CONTROLS.json": {
-      "bytes": 5685,
-      "sha256": "0b8e55c178d6666b5140ad7d9a6c4ada507e8974d21aaf6b3ff812bd4ff08a1f"
+      "bytes": 6027,
+      "sha256": "02f00876a41967d5485088dea6a22d3fbcf68bcbebc94f7f9c0992c7a3964c1a"
     },
     "scripts/current-final-s03-sku-s05-preparation/PERSISTENT_BROWSER_DERIVATIONS.json": {
       "bytes": 8892,
@@ -107,8 +107,8 @@
       "sha256": "df508fe5415eeae3e1bf21b4a02c66ece2c585dea92bfabf6f940f690a88b57e"
     },
     "scripts/current-final-s03-sku-s05-preparation/test_composition.py": {
-      "bytes": 5409,
-      "sha256": "3e67206746aa02f91aec46e72a02265e1bab9b73043fba690344ad52688f38b8"
+      "bytes": 6181,
+      "sha256": "6f5e9e945e88ffe3915fb2257d45cb0c819503851387f3d7596df2806ebed1b5"
     }
   },
   "actual_new_Native_cases": 0,
