@@ -96,8 +96,8 @@
       "sha256": "2504e6960b15411c0c6ef82929ca3a17899e697568b6423e6284ce06ca65e35f"
     },
     "scripts/current-de-free-date-preparation/final_gate.py": {
-      "bytes": 12159,
-      "sha256": "2c1aa3bf2848c755157f3d4d974c91a51f33642c732b94393fdaf8f3d56db446"
+      "bytes": 12267,
+      "sha256": "80aafce47933de5d1702a1b1c3db1230034b4b8597cd6edc24104472212537e1"
     },
     "scripts/current-de-free-date-preparation/native3.workflow.yml.txt": {
       "bytes": 33343,

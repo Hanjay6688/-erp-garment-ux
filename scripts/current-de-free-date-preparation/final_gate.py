@@ -58,6 +58,10 @@ def gate(directory,head):
     main=p.strict((directory/MAIN).read_bytes());raw=p.strict((directory/RAW).read_bytes())
     package=p.strict((directory/'T3_PACKAGE_INSTALL.json').read_bytes())
     backup=p.strict((directory/'T3_BACKUP_RESTORE_DRILL.json').read_bytes())
+    return validate(p,main,raw,package,backup,ids,head)
+
+
+def validate(p,main,raw,package,backup,ids,head):
     p.fields(main,dict(status='PASS',qualification_commit=head,required_case_ids=[CASE],required_case_ids_pass=True,
         actual_Native_cases=3,actual_browser_cases=0,actual_business_cases=3,actual_Auth_HTTP_cases=0,
         actual_two_session_races=0,retained_DE30_fresh_case_credit=0,real_Auth_browser_claim=False,
