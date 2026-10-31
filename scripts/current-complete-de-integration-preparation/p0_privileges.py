@@ -1,8 +1,10 @@
 """Catalog privilege facts for the six P0 functions and two registries.
 
 Use the owning candidate's existing readonly RR cursor. These are PostgreSQL
-privileges at this snapshot, not application authorization, RLS decisions,
+privileges observed in this transaction, not application authorization, RLS,
 SET ROLE reachability, post-wait freshness, or writer/phantom exclusion.
+Internal catalog-cache reads need not use the SQL transaction's snapshot;
+an unchanged pg_current_snapshot() is not proof of atomic ACL visibility.
 """
 from hashlib import sha256
 from pathlib import Path
@@ -119,7 +121,8 @@ def capture(cur,base):
     return dict(classification=declaration['classification'],groups=groups,group_counts=counts,
         declaration_sha256=sha256(raw).hexdigest(),
         query_sha256={name:sha256(spec['query'].encode()).hexdigest()for name,spec in declaration['groups'].items()},
-        same_original_readonly_snapshot=True,original_27_groups_rewritten=False,
+        same_readonly_transaction_identity=True,catalog_cache_snapshot_alignment_proven=False,
+        concurrent_acl_and_membership_changes_excluded=False,original_27_groups_rewritten=False,
         provider_function_calls=0,unresolved=declaration['unresolved'],
         writer_closure=False,permission_closure=False,lockset_approved=False,
         actual_Native_case_credit=0,production_go=False,independent_acceptance=False)

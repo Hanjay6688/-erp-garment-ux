@@ -199,6 +199,10 @@
       "bytes": 1564,
       "sha256": "7cb006ab8293e84436972ed130d202bb1b5d907989f58d5424f572453fa3b731"
     },
+    "scripts/current-complete-de-integration-preparation/P0_PRIVILEGE_VISIBILITY_BOUNDARY.json": {
+      "bytes": 944,
+      "sha256": "8ee68fad8c138154e91ef3b12b87d15ef2b54f9a377591bc0d5390ac29e7573e"
+    },
     "scripts/current-complete-de-integration-preparation/README.md": {
       "bytes": 7261,
       "sha256": "e2e70460b415d6f5fcbcbeccda7a800c2f8bde6515f8ce613fdb9eadadbe5e01"
@@ -304,8 +308,8 @@
       "sha256": "8914ab9bfc6d6efd889e648ba8a5320ceda7380269dcac6510283fac476d7851"
     },
     "scripts/current-complete-de-integration-preparation/p0_privileges.py": {
-      "bytes": 7412,
-      "sha256": "3ac48b47a7ad6e396b31fbd2b94c151d7665a3d81143888a0a99c1311905d1c1"
+      "bytes": 7673,
+      "sha256": "1da4cfec2d3fac1ac03ebceb56638d6765d7a77cb9ffbfede05ad6ed012ae9f9"
     },
     "scripts/current-complete-de-integration-preparation/probe.py": {
       "bytes": 3506,

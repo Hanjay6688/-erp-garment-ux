@@ -1,0 +1,20 @@
+{
+  "classification": "P0_PRIVILEGE_CATALOG_VISIBILITY_LIMIT_NOT_NEW_SQL_OR_MODEL_RUN",
+  "supersedes_ambiguous_return_field": "same_original_readonly_snapshot",
+  "required_fields": {
+    "same_readonly_transaction_identity": true,
+    "catalog_cache_snapshot_alignment_proven": false,
+    "concurrent_acl_and_membership_changes_excluded": false
+  },
+  "primary_documentation": "https://www.postgresql.org/docs/17/mvcc-caveats.html",
+  "inference": "Transaction isolation does not govern internal catalog reads. Privilege built-in observations are not claimed atomic with explicit catalog rows.",
+  "pure_validators_AST_unchanged": 3,
+  "capture_body_before_return_AST_unchanged": true,
+  "query_bytes_unchanged": true,
+  "previous_PG17_model_and_validation_controls_reused": true,
+  "actual_SQL_executed_this_change": 0,
+  "actual_ERP_calls": 0,
+  "actual_Native_case_credit": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}
