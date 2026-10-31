@@ -1,6 +1,6 @@
 {
   "classification": "WRITER_A_TAKEOVER_ACTIVE_CONTINUATION_NOT_COMPLETION",
-  "recorded_at_utc": "2026-10-31T04:31:45.360Z",
+  "recorded_at_utc": "2026-10-31T05:06:32.822636+00:00",
   "root_parent": "20ee21d3300f36b91b32e8e7066463c08dcb2cdf",
   "prior_chat_execution_observable": false,
   "current_work_is_isolated": true,
@@ -64,25 +64,22 @@
   "original_intake_mutation_controls": 47,
   "running": [
     {
-      "head": "090b85d3fcb738d3e694d4329d306f199a686eb8",
-      "tree": "e04831b441bed987cd72ff738cf2a06a7c0ef0ae",
-      "parent": "e9256772579f387df77dde949f8ea619cbd86856",
-      "local_prepublication": "eedac974c073513054352dae23b956178df5b9cb",
-      "branch": "astra-a/sku-managed-recovery-native27-20261030",
+      "kind": "SKU27",
       "run_id": 41167734749,
       "job_id": 124438845597,
+      "head": "090b85d3fcb738d3e694d4329d306f199a686eb8",
       "status": "in_progress",
-      "conclusion": null
+      "conclusion": null,
+      "run_attempt": 1
     },
     {
-      "head": "f42e76978852ba9efe34f75a4b622990c0331866",
-      "tree": "489f35012ae17821afc9c138a7dc64cb024d5cd4",
-      "parent": "a2096c570b6a0300b8ef299d6a167b68849e427d",
-      "local_prepublication": "d235510a99282534a3990089bb6e23d2802dd6fa",
-      "branch": "astra-a/s03-browser4-lawful-qualification-20261030",
+      "kind": "S03Browser4",
       "run_id": 41168528689,
+      "job_id": 124441234727,
+      "head": "f42e76978852ba9efe34f75a4b622990c0331866",
       "status": "in_progress",
-      "conclusion": null
+      "conclusion": null,
+      "run_attempt": 1
     }
   ],
   "first_actual_browser_failure": {
@@ -163,12 +160,13 @@
   "independent_acceptance": false,
   "current_default": "cp7_vendor_receivable.composition",
   "next": [
-    "Intake exact e925 full27 run41109346033 and complete restoration; do not add prior partial passes",
-    "Intake exact a209 Browser4 run41113128260; require complete primary Auth and clone restoration",
-    "Qualify S05 reader and normal-App desktop/mobile on e491 combined candidate after exact SKU prerequisite qualifies",
-    "Complete current global writer/lock/permission and actual two-session proofs using existing qualified metadata",
-    "Complete explicit Afui nonpayable dated basis, GOOD/recost/reversal; no fake paid source",
-    "FG Mandor chosen-week payroll remains recorded after active integration stability"
+    "Terminal exact current SKU27 and S03 Browser4 Originals; complete restoration and all5 before parent qualification",
+    "Complete current joined product source/Original admission; historical product.sources graph not evaluated locally",
+    "Executable owning composite caller and actual current install, strict groups, callbacks, normal-App browsers and complete backup/restoration",
+    "Rebind the S05 Native10/browser2 components and retired SKU-only outer caller to actual current joined parent",
+    "Global writer/call/permission/lock closure and actual two-session proofs",
+    "Afui positive-HPP zero-reimbursement lawful dated nonpayable basis, GOOD/recost/inverse",
+    "FG Mandor explicit buyer and manual chosen-week payroll allocation after active integration stability"
   ],
   "prior_checkpoint": {
     "classification": "WRITER_A_TAKEOVER_ACTIVE_CONTINUATION_NOT_COMPLETION",
@@ -1906,9 +1904,9 @@
   "S03_text_evidence_archive_is_not_full_canonical_Original": true,
   "S03_text_evidence_archive_excludes_browser_screenshots_and_two_clone_dumps": true,
   "current_unified_S05_receipt": "WRITER_A_V210_S05_COMPLETE_CALLER_20261031.json",
-  "current_unified_head": "051b451b34c16ec0a8522a78880d695c4d7354e3",
-  "current_unified_tree": "6df42995c785a2a6fb3debffda81ebffed365db6",
-  "current_unified_source_status": "S05_CURRENT_SKU_COMPONENTS_AND_COMPLETE_OUTER_CALLER_PREPARED_NOT_RUNTIME_QUALIFIED",
+  "current_unified_head": "b25eaae55a144aa03cc05f8f77109f5d0b02fbfb",
+  "current_unified_tree": "e08f5eba90fd9a2deeb53a0a483c49e7a080e31c",
+  "current_unified_source_status": "V212_ONE_S03_SKU_S05_SOURCE_CANDIDATE_PREPARED_NOT_RUNTIME_QUALIFIED",
   "S05_runtime_still_unqualified": true,
   "v210_preparation_evidence": {
     "name": "ERP_S05_SKU_Integration_Preparation_20261031.zip",
@@ -1919,5 +1917,12 @@
   "current_actual_corrections_receipt": "WRITER_A_V211_ACTUAL_FIXES_AND_RUNS_20261031.json",
   "SKU_e925_failed_actual_intake": "SKU_E925_ROOT_ACTUAL_INTAKE_20261031.json",
   "S03_a209_failed_actual_intake": "S03_A209_ROOT_ACTUAL_INTAKE_20261031.json",
-  "S03_SKU_product_join_still_required": true
+  "S03_SKU_product_join_still_required": true,
+  "prior_unified_before_v212": {
+    "current_unified_head": "051b451b34c16ec0a8522a78880d695c4d7354e3",
+    "current_unified_tree": "6df42995c785a2a6fb3debffda81ebffed365db6",
+    "current_unified_source_status": "S05_CURRENT_SKU_COMPONENTS_AND_COMPLETE_OUTER_CALLER_PREPARED_NOT_RUNTIME_QUALIFIED"
+  },
+  "current_operational_join_receipt": "docs/cp7/d17-14/ow15/WRITER_A_V212_S03_SKU_S05_JOIN_20261031.json",
+  "S03_SKU_source_join_prepared": true
 }

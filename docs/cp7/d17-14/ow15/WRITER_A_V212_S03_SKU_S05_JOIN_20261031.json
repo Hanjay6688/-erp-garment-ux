@@ -1,0 +1,97 @@
+{
+  "classification": "V212_ONE_S03_SKU_S05_SOURCE_CANDIDATE_PREPARED_NOT_RUNTIME_QUALIFIED",
+  "recorded_at_utc": "2026-10-31T05:06:32.822636+00:00",
+  "root_parent": "999cf17e4e13fc2a5ad5a9a16ce7215331ed00ad",
+  "candidate": {
+    "branch": "astra-a/s03-sku-product-join-20261031",
+    "head": "b25eaae55a144aa03cc05f8f77109f5d0b02fbfb",
+    "tree": "e08f5eba90fd9a2deeb53a0a483c49e7a080e31c",
+    "worktree": "/workspace/scratch/b73c04f98216/erp-operational-join",
+    "publications": [
+      {
+        "name": "product_and_UI",
+        "public_commit": "bc89c9f19a362dfaf5c6bd149253f9235542fa75",
+        "tree": "da7a8be0a44645e44c68bb772aeb7befbeb71542",
+        "parent": "051b451b34c16ec0a8522a78880d695c4d7354e3",
+        "local_prepublication": "8fb6bb6d0717d5c7b311ecbe25ccd29ca5780710",
+        "changed_files": 51,
+        "same_tree_verified": true
+      },
+      {
+        "name": "S05_reader",
+        "public_commit": "17c5b19462ff21e4452b63b2cda3f4e716158b38",
+        "tree": "bf6326e0e0e6d89d0d3bb7400a422fc664fc462c",
+        "parent": "bc89c9f19a362dfaf5c6bd149253f9235542fa75",
+        "local_prepublication": "7a66dc1bf67c392e99af1e694776807a5fa6f34d",
+        "changed_files": 9,
+        "same_tree_verified": true
+      },
+      {
+        "name": "S03_Native14_source_binding",
+        "public_commit": "b25eaae55a144aa03cc05f8f77109f5d0b02fbfb",
+        "tree": "e08f5eba90fd9a2deeb53a0a483c49e7a080e31c",
+        "parent": "17c5b19462ff21e4452b63b2cda3f4e716158b38",
+        "local_prepublication": "7831a6ea0defcfe7a7e221f0a89903557928a585",
+        "changed_files": 18,
+        "same_tree_verified": true
+      }
+    ]
+  },
+  "actual_local_evidence": {
+    "client_tests": 154,
+    "client_test_files": 7,
+    "typecheck_exit": 0,
+    "recorded_ABI_function_derivations": 15,
+    "recorded_ABI_private_clones": 2,
+    "pinned_SKU_product_leaves": 10,
+    "source_ABI_is_actual_runtime": false,
+    "whole_product_sources_evaluated": false,
+    "first_missing_historical_input_failures_preserved": 2,
+    "S05_source_pins": 41,
+    "S05_pure_transition_refusal_controls": 30,
+    "S05_report_SQL_and_UI_unchanged": true,
+    "previous_S05_61_client_tests_reused": true,
+    "S03_current_source_modules_compiled": 6,
+    "S03_lawful_financial11_and_reader3_callback_ASTs_unchanged": true,
+    "S03_source_oracle_refusal_controls": 4,
+    "DB_and_network_attempts": [],
+    "actual_new_Native_cases": 0,
+    "actual_new_Auth_cases": 0,
+    "actual_new_browser_cases": 0
+  },
+  "running": [
+    {
+      "kind": "SKU27",
+      "run_id": 41167734749,
+      "job_id": 124438845597,
+      "head": "090b85d3fcb738d3e694d4329d306f199a686eb8",
+      "status": "in_progress",
+      "conclusion": null,
+      "run_attempt": 1
+    },
+    {
+      "kind": "S03Browser4",
+      "run_id": 41168528689,
+      "job_id": 124441234727,
+      "head": "f42e76978852ba9efe34f75a4b622990c0331866",
+      "status": "in_progress",
+      "conclusion": null,
+      "run_attempt": 1
+    }
+  ],
+  "prior_e925_and_a209_failures_remain_failed_and_root_intaken": true,
+  "remaining": [
+    "Terminal exact current SKU27 and S03 Browser4 Originals; complete restoration and all5 before parent qualification",
+    "Complete current joined product source/Original admission; historical product.sources graph not evaluated locally",
+    "Executable owning composite caller and actual current install, strict groups, callbacks, normal-App browsers and complete backup/restoration",
+    "Rebind the S05 Native10/browser2 components and retired SKU-only outer caller to actual current joined parent",
+    "Global writer/call/permission/lock closure and actual two-session proofs",
+    "Afui positive-HPP zero-reimbursement lawful dated nonpayable basis, GOOD/recost/inverse",
+    "FG Mandor explicit buyer and manual chosen-week payroll allocation after active integration stability"
+  ],
+  "formal_accepted": "5/16",
+  "actual_composite_install_qualified": false,
+  "global_writer_or_permission_closure_proven": false,
+  "production_go": false,
+  "independent_acceptance": false
+}
