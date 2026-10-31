@@ -1,0 +1,36 @@
+{
+  "classification": "EXACT_RECORDED_METADATA_HELPERS_NOT_AN_OLD_RUNTIME_ADMISSION",
+  "head": "3d7066b852176d9f343ec831d2f63aee6665579b",
+  "files": {
+    "capture.py": {
+      "path": "scripts/current-global-actual-writer-census-qualification/capture.py",
+      "bytes": 20410,
+      "sha256": "a9643a5b89ce5b488bf596b00e8d09c9028a26fc0ebd5e17302a41da36a6f59c"
+    },
+    "census.py": {
+      "path": "scripts/current-global-actual-writer-census-qualification/census.py",
+      "bytes": 28604,
+      "sha256": "9b24b45a09e3fd5cf240ed033e1553fd3c3bfe81a9b2425c9ad3e71dfaf390c0"
+    },
+    "multiset.py": {
+      "path": "scripts/current-de-sku-global-census-multiset-qualification/multiset.py",
+      "bytes": 10288,
+      "sha256": "e8c766e24bb195dc28266daa8d9d3f8bb84a9826dfd8d7ec3f675c5833dc9cf6"
+    },
+    "derive.py.txt": {
+      "path": "scripts/current-de-sku-global-census-multiset-qualification/derive.py",
+      "bytes": 12045,
+      "sha256": "79617bc1f18484f13b617641a00311bfdbff9a088a08d6f28de44b327079069b"
+    }
+  },
+  "pure_selected_functions": [
+    "replace_exact",
+    "capture"
+  ],
+  "financial_SQL_or_business_callbacks_changed": false,
+  "metadata_SQL_queries_changed": false,
+  "actual_Native_cases": 0,
+  "global_writer_or_permission_or_lock_closure": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

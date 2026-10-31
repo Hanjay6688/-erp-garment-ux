@@ -144,12 +144,12 @@
       "sha256": "5c01ca75523dc9816be1676692b7e24ba385900d9fc16053993b594a0618bd25"
     },
     "scripts/current-complete-de-integration-preparation/README.md": {
-      "bytes": 6284,
-      "sha256": "1feef86eed8a855a064ed88d72722cfe3f6e97b279a75325e29ed24a028659ac"
+      "bytes": 7216,
+      "sha256": "07de08cdc0cd289008bb74ef0e16be7e073bf002c713ee8bc3e6d7dba58389b7"
     },
     "scripts/current-complete-de-integration-preparation/RUNTIME_DIAGNOSTICS_SOURCE.json": {
-      "bytes": 743,
-      "sha256": "cffea3b5d75efe5095f7598dcc0cdbe08a10d7dc293341b1544770c78f0c53d1"
+      "bytes": 859,
+      "sha256": "305124921eccc5618d79d3e4abdb7db5627d4891d00d275192f76255b7586958"
     },
     "scripts/current-complete-de-integration-preparation/WITNESS_ORIGIN.json": {
       "bytes": 598,
@@ -160,12 +160,12 @@
       "sha256": "1cc6a1cc54d46c0409ee376d1a40bd19f768bfd47ace7fb6e0faa34f2f1c05aa"
     },
     "scripts/current-complete-de-integration-preparation/check.py": {
-      "bytes": 8839,
-      "sha256": "21832400bdbd89d12b31f9bc8815f6d7e00b40dbb2f1132d04f7fdc954fddf55"
+      "bytes": 9212,
+      "sha256": "88ff32692e287e065934980d2fe85a9b0097cf37ca47ad068e74e89b163fc287"
     },
     "scripts/current-complete-de-integration-preparation/component.py": {
-      "bytes": 4677,
-      "sha256": "a431190a60e282886395dad56077d6ff56dc43acdb1a00689fa2601aa0b996a3"
+      "bytes": 5274,
+      "sha256": "8a4f1b1a4b8858c376442c1abb15064254915f06141aaa94cdd0bbb0ca4a0cf5"
     },
     "scripts/current-complete-de-integration-preparation/engine.py": {
       "bytes": 2143,
@@ -178,6 +178,10 @@
     "scripts/current-complete-de-integration-preparation/final_gate.py": {
       "bytes": 5433,
       "sha256": "2c547bd66703cdc18576f6a1472b9311383fb749e409bd22493008b940dd775b"
+    },
+    "scripts/current-complete-de-integration-preparation/global_metadata.py": {
+      "bytes": 7872,
+      "sha256": "22d15b91fd205e46e9a977d990cec6f61536b361ce236b933a66915c6b0ce686"
     },
     "scripts/current-complete-de-integration-preparation/native30.workflow.yml.txt": {
       "bytes": 33352,
@@ -194,6 +198,26 @@
     "scripts/current-complete-de-integration-preparation/retained-e17-component.py.txt": {
       "bytes": 8409,
       "sha256": "f8a1864d9e7687d20913c149b4c78be6ee17bb8c2163af621be9e9397351f4d1"
+    },
+    "scripts/current-complete-de-integration-preparation/retained-global-census/ORIGIN.json": {
+      "bytes": 1349,
+      "sha256": "f7074f24224fe90f8a8b1035fb80bf7c25735a45e06b8e83274c43a361e5a342"
+    },
+    "scripts/current-complete-de-integration-preparation/retained-global-census/capture.py": {
+      "bytes": 20410,
+      "sha256": "a9643a5b89ce5b488bf596b00e8d09c9028a26fc0ebd5e17302a41da36a6f59c"
+    },
+    "scripts/current-complete-de-integration-preparation/retained-global-census/census.py": {
+      "bytes": 28604,
+      "sha256": "9b24b45a09e3fd5cf240ed033e1553fd3c3bfe81a9b2425c9ad3e71dfaf390c0"
+    },
+    "scripts/current-complete-de-integration-preparation/retained-global-census/derive.py.txt": {
+      "bytes": 12045,
+      "sha256": "79617bc1f18484f13b617641a00311bfdbff9a088a08d6f28de44b327079069b"
+    },
+    "scripts/current-complete-de-integration-preparation/retained-global-census/multiset.py": {
+      "bytes": 10288,
+      "sha256": "e8c766e24bb195dc28266daa8d9d3f8bb84a9826dfd8d7ec3f675c5833dc9cf6"
     },
     "scripts/current-complete-de-integration-preparation/runtime_note.py": {
       "bytes": 3265,

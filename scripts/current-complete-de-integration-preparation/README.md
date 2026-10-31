@@ -93,3 +93,16 @@ parent before any GitHub GET. The typed final gate also refuses before reading
 any report while the parent is pending. Activation still requires rebasing on
 the accepted parent, an explicitly admitted workflow path and fresh source
 review; no workflow creation or dispatch operation is supplied by the builder.
+
+The same owning run also records the 19 original readonly dependency/authority
+queries before Native30 and after the separate committed E use. Four metadata
+helper files stay byte exact to recorded3d706; two original pure derivation
+functions route their source/codec files inside this closed namespace. This
+new caller does not invoke or modify the old runtime loader or its admission.
+Every SQL query stays unchanged. Raw pairs are persisted before validation,
+including every repeated dependency identity, with the original lossless codec.
+Each administrative readonly Repeatable Read snapshot retains its own full22,
+ALL rows and ALL sequences before/after bracket. Qualification overlays remain
+visible. Explicitly unavailable observations give no global credit and cannot
+substitute for a financial case. No global hook is installed or explicit LOCK
+issued; implicit type-output/provider/system call closure is not inferred.

@@ -79,6 +79,8 @@ def controls():
         raise ValueError('COMPLETE_DE_EXACT_DIAGNOSTIC_CALLER_SITES_REQUIRED')
     metadata=load('complete_DE_readonly_metadata_source_control',HERE/'system_metadata.py')
     _,_,metadata_source=metadata.source()
+    global_metadata=load('complete_DE_readonly_lossless_metadata_source_control',HERE/'global_metadata.py')
+    _,global_metadata_source=global_metadata.source()
     metadata_pending=False
     if pending:
         try:metadata.capture_pair('not-a-database-uri')
@@ -97,7 +99,8 @@ def controls():
     if pending:
         final=load('complete_DE_exact_final_gate_pending_parent',HERE/'final_gate.py')
         for name,operation in(('canonical_parent_fetch',fetch.main),
-            ('final_report_gate',lambda:final.gate(HERE/'ABSENT_REPORT_DIRECTORY','NOT_A_HEAD'))):
+            ('final_report_gate',lambda:final.gate(HERE/'ABSENT_REPORT_DIRECTORY','NOT_A_HEAD')),
+            ('raw_dependency_metadata',lambda:global_metadata.capture_once('not-a-database-uri',None,HERE/'ABSENT_METADATA_DIRECTORY'))):
             try:operation()
             except ValueError as error:
                 if str(error)!='COMPLETE_DE_ACTUAL_PERMANENT_PARENT_INTAKE_PENDING':raise
@@ -121,6 +124,7 @@ def controls():
         whole_package_engine_derivation=engine,committed_E_witness_derivation=witness,
         actual_diagnostic_API_source_calls=calls,pending_full_caller_controls=caller_pending,
         unchanged_inherited_system_metadata_source=metadata_source,
+        unchanged_lossless_global_metadata_source=global_metadata_source,
         metadata_pending_before_URI_source_client_or_connection=metadata_pending,
         canonical_permanent6_fetch_source=fetch_source,owning_workflow_data_only=workflow,
         pending_before_any_parent_GET_or_report_file=pending_gate_and_fetch,

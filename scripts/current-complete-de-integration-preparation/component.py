@@ -48,6 +48,10 @@ def exercise(conn,cur,database,url,report,state):
     metadata=load('complete_DE_owning_readonly_system_metadata',HERE/'system_metadata.py')
     with monitor.phase('DE_READONLY_SYSTEM_METADATA_BEFORE_NATIVE30'):
         report['read_only_system_metadata_before_native30']=metadata.capture_pair(url)
+    global_metadata=load('complete_DE_readonly_raw_dependency_metadata',HERE/'global_metadata.py')
+    with monitor.phase('DE_READONLY_RAW_DEPENDENCIES_BEFORE_NATIVE30'):
+        report['raw_global_metadata_before_native30']=global_metadata.capture_once(
+            url,product.runtime()[4],ROOT/'cp6-proof/t3/DE_GLOBAL_BEFORE_NATIVE30')
     def verify(cursor):
         with control.product_catalog(cursor):return product.verify(cursor,state)
     try:
@@ -74,6 +78,9 @@ def exercise(conn,cur,database,url,report,state):
     report['separate_committed_E_witness']=dict(used,source_derivation=derivation)
     with monitor.phase('DE_READONLY_SYSTEM_METADATA_AFTER_NATIVE30_AND_COMMITTED_USE'):
         report['read_only_system_metadata_after_native30_and_committed_use']=metadata.capture_pair(url)
+    with monitor.phase('DE_READONLY_RAW_DEPENDENCIES_AFTER_COMMITTED_E_USE'):
+        report['raw_global_metadata_after_committed_E_use']=global_metadata.capture_once(
+            url,product.runtime()[4],ROOT/'cp6-proof/t3/DE_GLOBAL_AFTER_COMMITTED_E_USE')
     report.update(status='PASS',actual_Native_cases=30,business_counts={'PASS':30},
         actual_D1_cases=13,actual_E_cases=17,used_guard_refused_before_DDL=True,
         original_business_callback_changes=0,all_outer_restore_and_five_package_gates_still_required=True)
