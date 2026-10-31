@@ -1,0 +1,45 @@
+{
+  "status": "PASS_PG17_EXACT_OIDS_AND_CLOSED_CURSOR_PROTOCOL_MODELS",
+  "input_model": {
+    "bytes": 471304,
+    "sha256": "a48eebbf02e0ca6d410c2b452d97b8629521dee1539e268580c9e64325895a47"
+  },
+  "query_counts": {
+    "type_routine_oids": 619,
+    "operator_routine_oids": 801,
+    "range_execution_oids": 6,
+    "transform_execution_oids": 0
+  },
+  "actual_model_queries": 4,
+  "provider_functions_invoked": 0,
+  "positive_model": 1,
+  "negative_models": [
+    "missing:type_routine_oids",
+    "missing:operator_routine_oids",
+    "missing:range_execution_oids",
+    "missing:transform_execution_oids",
+    "additional-group",
+    "noncanonical:1",
+    "noncanonical:True",
+    "noncanonical:-1",
+    "noncanonical:'01'",
+    "noncanonical:'-1'",
+    "noncanonical:'\u0661'",
+    "noncanonical:'4294967296'",
+    "noncanonical:'not-an-oid'",
+    "duplicate",
+    "missing-original-member",
+    "unknown-routine",
+    "extra-column",
+    "invalid-range-type:0",
+    "invalid-range-type:4294967295",
+    "unknown-transform-language",
+    "duplicate-original-routine"
+  ],
+  "snapshot_protocol_controls": 3,
+  "original_27_groups_rewritten": false,
+  "actual_ERP_calls": 0,
+  "actual_Native_case_credit": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

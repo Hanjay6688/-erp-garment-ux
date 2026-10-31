@@ -1,0 +1,107 @@
+{
+  "classification": "READONLY_EXACT_EXECUTION_IDENTITIES_NOT_CALL_OR_PERMISSION_CLOSURE",
+  "original_27_queries_changed": false,
+  "groups": {
+    "type_routine_oids": {
+      "table": "pg_type",
+      "alias": "t",
+      "identity": "oid",
+      "fields": [
+        "oid",
+        "typinput",
+        "typoutput",
+        "typreceive",
+        "typsend",
+        "typmodin",
+        "typmodout",
+        "typanalyze",
+        "typsubscript"
+      ],
+      "routine_fields": [
+        "typinput",
+        "typoutput",
+        "typreceive",
+        "typsend",
+        "typmodin",
+        "typmodout",
+        "typanalyze",
+        "typsubscript"
+      ],
+      "type_fields": [],
+      "base_group": "types",
+      "query": "select coalesce(pg_catalog.jsonb_agg(pg_catalog.to_jsonb(x) order by x.oid),'[]'::jsonb) from (select t.oid::pg_catalog.oid::pg_catalog.text as oid,t.typinput::pg_catalog.oid::pg_catalog.text as typinput,t.typoutput::pg_catalog.oid::pg_catalog.text as typoutput,t.typreceive::pg_catalog.oid::pg_catalog.text as typreceive,t.typsend::pg_catalog.oid::pg_catalog.text as typsend,t.typmodin::pg_catalog.oid::pg_catalog.text as typmodin,t.typmodout::pg_catalog.oid::pg_catalog.text as typmodout,t.typanalyze::pg_catalog.oid::pg_catalog.text as typanalyze,t.typsubscript::pg_catalog.oid::pg_catalog.text as typsubscript from pg_catalog.pg_type t) x"
+    },
+    "operator_routine_oids": {
+      "table": "pg_operator",
+      "alias": "o",
+      "identity": "oid",
+      "fields": [
+        "oid",
+        "oprcode",
+        "oprrest",
+        "oprjoin"
+      ],
+      "routine_fields": [
+        "oprcode",
+        "oprrest",
+        "oprjoin"
+      ],
+      "type_fields": [],
+      "base_group": "operators",
+      "query": "select coalesce(pg_catalog.jsonb_agg(pg_catalog.to_jsonb(x) order by x.oid),'[]'::jsonb) from (select o.oid::pg_catalog.oid::pg_catalog.text as oid,o.oprcode::pg_catalog.oid::pg_catalog.text as oprcode,o.oprrest::pg_catalog.oid::pg_catalog.text as oprrest,o.oprjoin::pg_catalog.oid::pg_catalog.text as oprjoin from pg_catalog.pg_operator o) x"
+    },
+    "range_execution_oids": {
+      "table": "pg_range",
+      "alias": "r",
+      "identity": "rngtypid",
+      "fields": [
+        "rngtypid",
+        "rngsubtype",
+        "rngmultitypid",
+        "rngcollation",
+        "rngsubopc",
+        "rngcanonical",
+        "rngsubdiff"
+      ],
+      "routine_fields": [
+        "rngcanonical",
+        "rngsubdiff"
+      ],
+      "type_fields": [
+        "rngtypid",
+        "rngsubtype",
+        "rngmultitypid"
+      ],
+      "base_group": null,
+      "query": "select coalesce(pg_catalog.jsonb_agg(pg_catalog.to_jsonb(x) order by x.rngtypid),'[]'::jsonb) from (select r.rngtypid::pg_catalog.oid::pg_catalog.text as rngtypid,r.rngsubtype::pg_catalog.oid::pg_catalog.text as rngsubtype,r.rngmultitypid::pg_catalog.oid::pg_catalog.text as rngmultitypid,r.rngcollation::pg_catalog.oid::pg_catalog.text as rngcollation,r.rngsubopc::pg_catalog.oid::pg_catalog.text as rngsubopc,r.rngcanonical::pg_catalog.oid::pg_catalog.text as rngcanonical,r.rngsubdiff::pg_catalog.oid::pg_catalog.text as rngsubdiff from pg_catalog.pg_range r) x"
+    },
+    "transform_execution_oids": {
+      "table": "pg_transform",
+      "alias": "t",
+      "identity": "oid",
+      "fields": [
+        "oid",
+        "trftype",
+        "trflang",
+        "trffromsql",
+        "trftosql"
+      ],
+      "routine_fields": [
+        "trffromsql",
+        "trftosql"
+      ],
+      "type_fields": [
+        "trftype"
+      ],
+      "base_group": null,
+      "query": "select coalesce(pg_catalog.jsonb_agg(pg_catalog.to_jsonb(x) order by x.oid),'[]'::jsonb) from (select t.oid::pg_catalog.oid::pg_catalog.text as oid,t.trftype::pg_catalog.oid::pg_catalog.text as trftype,t.trflang::pg_catalog.oid::pg_catalog.text as trflang,t.trffromsql::pg_catalog.oid::pg_catalog.text as trffromsql,t.trftosql::pg_catalog.oid::pg_catalog.text as trftosql from pg_catalog.pg_transform t) x"
+    }
+  },
+  "unresolved": [
+    "INPUT_DEPENDENT_REACHABILITY",
+    "PROVIDER_BINARY_IMPLEMENTATIONS",
+    "RANGE_OPERATOR_CLASS_EXECUTION",
+    "AUTHORITY_AFTER_WAITS",
+    "WRITER_AND_PHANTOM_CLOSURE"
+  ]
+}

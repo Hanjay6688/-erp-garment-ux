@@ -37,8 +37,12 @@ def capture_pair(url):
         lockset_approved=False,production_go=False,independent_acceptance=False)
     for kind,target in urls:
         try:
-            result['snapshots'][kind]=original.one(psycopg,target,
-                collector.capture if kind=='candidate'else collector.capture_scheduler)
+            def observe(cursor):
+                base=(collector.capture if kind=='candidate'else collector.capture_scheduler)(cursor)
+                identities=load('complete_DE_additive_execution_oid_metadata',HERE/'execution_oids.py')
+                base['execution_oid_supplement']=identities.capture(cursor,base)
+                return base
+            result['snapshots'][kind]=original.one(psycopg,target,observe)
         except psycopg.Error as error:
             result['snapshots'][kind]=dict(status='READONLY_METADATA_UNAVAILABLE',
                 error_type=type(error).__name__,sqlstate=error.sqlstate,

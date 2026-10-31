@@ -1,0 +1,47 @@
+{
+  "status": "PREPARED_EXACT_EXECUTION_OID_METADATA_NOT_CURRENT_ERP_RUNTIME",
+  "reason": "PostgreSQL regproc JSON outputs can collapse two overloads into the same function name. Preserve numeric function OIDs and range/transform call references in the same existing read-only snapshot.",
+  "actual_model_counterexample": [
+    {
+      "oid": "16391",
+      "exact_function_oid": "16389",
+      "prior_json_value": "public.metadata_probe_equal"
+    },
+    {
+      "oid": "16392",
+      "exact_function_oid": "16390",
+      "prior_json_value": "public.metadata_probe_equal"
+    }
+  ],
+  "model_server_version": "17.5",
+  "model_provider_functions_invoked": 0,
+  "additive_query_groups": [
+    "type_routine_oids",
+    "operator_routine_oids",
+    "range_execution_oids",
+    "transform_execution_oids"
+  ],
+  "original_27_queries_unchanged": true,
+  "original_19_raw_queries_unchanged": true,
+  "current_parent_gate_still_pending": true,
+  "actual_Native_cases": 0,
+  "actual_ERP_SQL_executed": 0,
+  "writer_closure": false,
+  "permission_closure": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "authoritative_references": [
+    "https://www.postgresql.org/docs/17/catalog-pg-type.html",
+    "https://www.postgresql.org/docs/17/catalog-pg-operator.html",
+    "https://www.postgresql.org/docs/17/catalog-pg-range.html",
+    "https://www.postgresql.org/docs/17/catalog-pg-transform.html"
+  ],
+  "residuals": [
+    "Input-dependent caller eligibility",
+    "Provider binary implementations",
+    "Range operator-class dispatch",
+    "Authority after waits",
+    "Actual two-session writer and phantom locks"
+  ],
+  "model_first_setup_failure": "PGlite multi-statement DDL and BEGIN isolation could not share one exec; isolated fixture setup now commits before read-only repeatable-read transaction. No ERP connection attempted."
+}
