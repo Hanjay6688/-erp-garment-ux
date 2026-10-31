@@ -1,6 +1,6 @@
 {
   "classification": "WRITER_A_TAKEOVER_ACTIVE_CONTINUATION_NOT_COMPLETION",
-  "recorded_at_utc": "2026-10-31T09:05:46.330354+00:00",
+  "recorded_at_utc": "2026-10-31T10:38:06.078820+00:00",
   "root_parent": "20ee21d3300f36b91b32e8e7066463c08dcb2cdf",
   "prior_chat_execution_observable": false,
   "current_work_is_isolated": true,
@@ -163,13 +163,11 @@
   "independent_acceptance": false,
   "current_default": "cp7_vendor_receivable.composition",
   "next": [
-    "Intake exact current joined37 run41187551323 when terminal. Preserve first B132 clone-output source refusal; current339889 moves the exact unchanged clone evidence outside executable source and retains it after checks.",
-    "Complete current joined product source/Original admission; historical product.sources graph not evaluated locally",
-    "Executable owning composite caller and actual current install, strict groups, callbacks, normal-App browsers and complete backup/restoration",
-    "Rebind the S05 Native10/browser2 components and retired SKU-only outer caller to actual current joined parent",
-    "Global writer/call/permission/lock closure and actual two-session proofs",
-    "Afui positive-HPP zero-reimbursement lawful dated nonpayable basis, GOOD/recost/inverse",
-    "FG Mandor explicit buyer and manual chosen-week payroll allocation after active integration stability"
+    "Intake exact current1edd run41190706967 when terminal; all37 plus complete restoration/all5 from its own canonical archive are required",
+    "If current37 qualifies, pin its actual root receipt and whole financial source graph, then run permanent S05 delta financial4/browser2 with all5 on one current installation",
+    "Complete global current-writer/authority/call/lock closure with actual two-session proofs",
+    "Complete Afui lawful dated nonpayable HPP/reimbursement source, GOOD, recost and inverse without mandatory PO/FG matching; temporal choice remains unanswered",
+    "Implement FG Mandor invoice allocation to manually chosen payroll week after active integration stability"
   ],
   "prior_checkpoint": {
     "classification": "WRITER_A_TAKEOVER_ACTIVE_CONTINUATION_NOT_COMPLETION",
@@ -1280,7 +1278,7 @@
     "owner_direct_reaffirmation": {
       "date": "2026-10-30",
       "source": "USER message in active Writer A conversation",
-      "title": "HANDOFF WRITER A — PENJUALAN FG KE MANDOR, POTONG PAYROLL MINGGU PILIHAN",
+      "title": "HANDOFF WRITER A \u2014 PENJUALAN FG KE MANDOR, POTONG PAYROLL MINGGU PILIHAN",
       "exact_scope_instruction": "Catat sebagai scope tambahan. Kerjakan setelah blok integrasi aktif stabil, dengan A tetap integrator tunggal.",
       "exact_timing_discretion": "scope tambahan, lu kira kira aja saat paling tepat masukin ini kpan, klo mau selesain yg lama dulu silahkan. gas lanjut",
       "accepted": true,
@@ -1989,5 +1987,54 @@
     "failure": "JOIN_UNDECLARED_EXECUTABLE_SOURCE:cp6-proof/t3/CLONE_install.clone-erp.sql",
     "canonical_archive_verified": true,
     "canonical_archive_sha256": "103a31494e72025c4ae446ecfa4591d92b0dca857dcfd92b35355d8593026715"
+  },
+  "current_active_join": {
+    "head": "1edd7b7fb6f7f02528cf09bcc352b72ea0e4a2c3",
+    "tree": "7433f5bb0208584e656bbd30f90a7cac3cede1e8",
+    "run_id": 41190706967,
+    "job_id": 124506749369,
+    "status": "in_progress",
+    "last_observed_step": "Run one actual current Native31 browser6 composite and complete outer restoration",
+    "pre_DB_whole_natural_source_graph": "PASS",
+    "complete37_qualified": false
+  },
+  "current_join_first_financial_failure": {
+    "receipt": "JOIN_339889_ROOT_ACTUAL_FAILURE_INTAKE_20261031.json",
+    "financial11_counts": {
+      "PASS": 11
+    },
+    "Reader3_not_executed": true,
+    "complete14_and37_qualified": false,
+    "first_error": "S03_NATIVE14_EXACT_AUTHORED_READER3_IDS_REQUIRED",
+    "confirmed_cause": "AST literal tuples supplied where original CONFIG JSON supplies list arrays",
+    "owning_package_original_missing": true,
+    "all_outer_restoration_receipts": true
+  },
+  "permanent_complete_assembly": {
+    "head": "b046e4401f6e98ab3048336a4791794d0c3af64e",
+    "tree": "0502153b299e1c822ef13aceb68cdcce6bbb4c9e",
+    "parent": "1684be50b8b32837607de0233869cb07260cfec8",
+    "branch": "astra-a/current-s03-sku-s05-assembly-prepared-20261031",
+    "runtime_branch_not_created": "astra-a/current-s03-sku-s05-permanent-qualification-20261031",
+    "classification": "COMPLETE_OWNING_DELTA_CALLER_PREPARED_ACTUAL_PARENT_PENDING",
+    "own_source_paths": 28,
+    "unchanged_base_blobs_and_modes": 14050,
+    "financial_callbacks_prepared": 4,
+    "all_eleven_financial_callback_ASTs_unchanged": true,
+    "complete_normal_App_browsers_prepared": 2,
+    "complete_browser_source_derivations_exact_reversible": 4,
+    "unchanged_original_workflow_steps": 67,
+    "model_install_inverse_controls": 5,
+    "private_reader_dependency_controls": 4,
+    "actual_Node22_transitive_browser_import": "PASS",
+    "actual_frozen_writer_CWD_import": "PASS",
+    "frozen_writer_head": "ca7f09556397801c50a2277bdb65b1bf019f9a05",
+    "Python_source_DB_network_attempts": [],
+    "three_psycopg_entrypoint_self_controls_denied": true,
+    "parent37_pending_refused_before_ERP_DB_or_GH": true,
+    "actual_accepted_parent_run": null,
+    "actual_Native_cases": 0,
+    "actual_browser_cases": 0,
+    "default_adopted": false
   }
 }

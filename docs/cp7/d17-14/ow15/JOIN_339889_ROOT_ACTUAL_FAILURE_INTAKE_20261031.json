@@ -1,0 +1,104 @@
+{
+  "status": "ROOT_VERIFIED_JOIN_FINANCIAL11_PASS_READER3_NOT_EXECUTED_COMPLETE37_INCOMPLETE",
+  "head": "33988923ab3bad708b21f3c74002f1309a3644e1",
+  "tree": "b5698d239cb1744c95b49c71c9d68131d8af5f83",
+  "run_id": 41187551323,
+  "job_id": 124497449715,
+  "artifact_id": 13037578868,
+  "archive": {
+    "bytes": 4555289,
+    "sha256": "bde00f8a2fe020bc5b8a8f69d4952599d61850b1522bd5b232f67ffc12538d28",
+    "members": 122
+  },
+  "source": {
+    "manifest": {
+      "bytes": 7678,
+      "sha256": "5af6619a8351ab17e308a25c3221bd783349a5025313be8844773b402cc80bda"
+    },
+    "source_files": 49,
+    "unchanged_base_blobs_and_modes": 14000,
+    "current_paths": 50,
+    "case_ids": {
+      "S03_Native11": [
+        "S03_NATIVE_OWNER_FIELDS_READ_FULL_NO_EFFECT",
+        "S03_NATIVE_EXPENSE_APPROVAL_ONCE_PAID_E05_REOPEN",
+        "S03_NATIVE_TWO_EXACT_PERIODS_CENTS_AND_NATIVE_HPP",
+        "S03_NATIVE_P2_PAYROLL_POOL_COEXIST_AND_POLICY_FENCES",
+        "S03_NATIVE_OWNING_CANCEL_LATE_OUTPUT_AND_RESTORATION_FLOOR",
+        "S03_NATIVE_BOTH_CORRECTIONS_LINKED_INVERSES_NO_RECOGNITION",
+        "S03_NATIVE_STALE_REVIEW_UUID_RECOVERY_AND_APPEND_ONLY",
+        "S03_NATIVE_CLOSED_SOURCE_OPEN_OUTPUT_AND_CLOSED_CORRECTION",
+        "S03_NATIVE_ZERO_OUTPUT_SUCCESSOR_POLICY_RETAINS_OLD_INFO",
+        "S03_NATIVE_FINISHED_PO_FG_COGS_COST_AND_CANCEL_EXACT",
+        "S03_NATIVE_OLD_ACCRUAL_LATER_BOOK_REOPEN_DATE_FLOOR"
+      ],
+      "S03_reader3": [
+        "S03_READER_NATIVE_OWNED_ACTIVE_PERIODS_AND_DISJOINT_P2_UNCHANGED",
+        "S03_READER_NATIVE_CANCELLED_LIFETIME_AND_STALE_COMPOSITE_NO_EFFECT",
+        "S03_READER_NATIVE_EXACT_HELD_P1_BLOCKS_LEGACY_REPLACE_AND_CREATE"
+      ],
+      "SKU_Native7": [
+        "SKU29_PAIR_BIDIRECTIONAL_REPLACE_DELETE_NO_LEDGER",
+        "SKU29_NONPO_MULTILOT_FIFO_RESERVATION_VALUE_REPLAY",
+        "SKU29_ANY_ACTIVE_MODEL_SIZE_MANUAL_BACK_CURRENT_SOURCE_COST",
+        "SKU29_STALE_SOURCE_TARGET_RESERVATIONS_REFUSE_ZERO_EFFECT",
+        "SKU29_GROUP_REVERSE_ACTIVE_SALE_REFUSAL_THEN_RELEASE",
+        "SKU29_MIXED_PO_NONPO_NATIVE_LINEAGE_VALUE_CONSERVATION",
+        "SKU29_LEGACY_ACCESSORY_COST_AND_INVERSE_PRESERVED"
+      ],
+      "S05_Native10": [
+        "S05_NATIVE_CATEGORY_VARIANTS_PO",
+        "S05_NATIVE_HISTORICAL_BOM",
+        "S05_NATIVE_LATE_INVOICE_COST_REVISIONS",
+        "S05_NATIVE_ZERO_REIMBURSEMENT",
+        "S05_NATIVE_EMPTY_AND_NO_OUTPUT",
+        "S05_NATIVE_WIB_COHORTS",
+        "S05_NATIVE_NOTE_DRAFT_INVERSE",
+        "S05_NATIVE_QC_INVERSE",
+        "S05_NATIVE_REWORK_NONE_RECORDED_RECIPIENT",
+        "S05_NATIVE_CURRENT_ACCESS_PRIVATE_ACL"
+      ],
+      "S05_browser2": [
+        "S05_SKU_NORMAL_APP_DESKTOP_SOURCE_AND_LATE_REPLY",
+        "S05_SKU_NORMAL_APP_MOBILE390_UNKNOWN_ZERO_AND_CURRENT_ACCESS"
+      ],
+      "S03_browser4": [
+        "S03_BROWSER_OWNER_EXPENSE_CORRECT_REVERSE_DESKTOP",
+        "S03_BROWSER_OWNER_CARRY_ALLOCATE_CANCEL_MOBILE390",
+        "S03_BROWSER_ACTUAL_STALE_AND_LOST_REPLY_SAME_UUID",
+        "S03_BROWSER_CURRENT_AUTH_RIGHTS_AND_DELAYED_CONTEXT"
+      ]
+    },
+    "actual_case_credit": 0
+  },
+  "main_original": {
+    "bytes": 32490207,
+    "sha256": "d773fcb176045d8457624d411c798fdb3d48aca85929c37d3905a3ec5e210a1e"
+  },
+  "native11_original": {
+    "bytes": 19493,
+    "sha256": "b065988b559d6bf885928ed8718304fb395edf7388399baee91af3f3ba3c54f9"
+  },
+  "actual_financial11_counts": {
+    "PASS": 11
+  },
+  "native11_complete_strict_boundaries": true,
+  "exact_raw_group_embedded_in_main": true,
+  "public_raw_observations": 24,
+  "reader3_executed": false,
+  "complete14_qualified": false,
+  "complete37_qualified": false,
+  "owning_package_original_missing": true,
+  "all5_qualified": false,
+  "outer_full22_rows_sequences_roles_public_CP6_advisor_restoration_receipts": true,
+  "raw_full_outer_restore_recomputed": false,
+  "root_cause": "Private configuration supplied tuple IDs where the retained JSON configuration contract supplies lists",
+  "successor_head": "1edd7b7fb6f7f02528cf09bcc352b72ea0e4a2c3",
+  "successor_tree": "7433f5bb0208584e656bbd30f90a7cac3cede1e8",
+  "successor_run": 41190706967,
+  "successor_job": 124506749369,
+  "prior_runs_aggregated": false,
+  "complete_composite_case_credit": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

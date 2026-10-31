@@ -1,0 +1,90 @@
+{
+  "classification": "WRITER_A_ACTIVE_CONTINUATION_ACTUAL_FAILURE_AND_PERMANENT_CALLER_PREPARATION",
+  "recorded_at_utc": "2026-10-31T10:38:06.078820+00:00",
+  "root_parent": "98e7d8d1d89ca2e00fd20b4cbf715314c6599474",
+  "solo_integrator": true,
+  "active_join": {
+    "head": "1edd7b7fb6f7f02528cf09bcc352b72ea0e4a2c3",
+    "tree": "7433f5bb0208584e656bbd30f90a7cac3cede1e8",
+    "run_id": 41190706967,
+    "job_id": 124506749369,
+    "status": "in_progress",
+    "last_observed_step": "Run one actual current Native31 browser6 composite and complete outer restoration",
+    "pre_DB_whole_natural_source_graph": "PASS",
+    "complete37_qualified": false
+  },
+  "actual_first_financial_failure": {
+    "receipt": "JOIN_339889_ROOT_ACTUAL_FAILURE_INTAKE_20261031.json",
+    "financial11_counts": {
+      "PASS": 11
+    },
+    "Reader3_not_executed": true,
+    "complete14_and37_qualified": false,
+    "first_error": "S03_NATIVE14_EXACT_AUTHORED_READER3_IDS_REQUIRED",
+    "confirmed_cause": "AST literal tuples supplied where original CONFIG JSON supplies list arrays",
+    "owning_package_original_missing": true,
+    "all_outer_restoration_receipts": true
+  },
+  "current_fixes": {
+    "json_configuration_contract_preserved": true,
+    "retained_reader_group_and_callback_ASTs_unchanged": true,
+    "nine_owning_CP6_entry_report_restore_identity_modules_naturally_current": true,
+    "Vendor_and_SKU_naturally_exact_qualified_physical_parent": true,
+    "ROOT_or_method_or_source_map_override": false,
+    "source_and_orchestration_controls": 11,
+    "actual_group_admission_using_retained_Native11_then_stop_before_SQL": true
+  },
+  "actual_source_crosscheck": {
+    "source": "failed339889 canonical actual current_installation, compared read-only against successor1edd Git",
+    "file_maps": 66,
+    "pin_occurrences": 278,
+    "unique_paths": 155,
+    "all_exact": true,
+    "new_Native_credit": 0
+  },
+  "permanent_complete_assembly": {
+    "head": "b046e4401f6e98ab3048336a4791794d0c3af64e",
+    "tree": "0502153b299e1c822ef13aceb68cdcce6bbb4c9e",
+    "parent": "1684be50b8b32837607de0233869cb07260cfec8",
+    "branch": "astra-a/current-s03-sku-s05-assembly-prepared-20261031",
+    "runtime_branch_not_created": "astra-a/current-s03-sku-s05-permanent-qualification-20261031",
+    "classification": "COMPLETE_OWNING_DELTA_CALLER_PREPARED_ACTUAL_PARENT_PENDING",
+    "own_source_paths": 28,
+    "unchanged_base_blobs_and_modes": 14050,
+    "financial_callbacks_prepared": 4,
+    "all_eleven_financial_callback_ASTs_unchanged": true,
+    "complete_normal_App_browsers_prepared": 2,
+    "complete_browser_source_derivations_exact_reversible": 4,
+    "unchanged_original_workflow_steps": 67,
+    "model_install_inverse_controls": 5,
+    "private_reader_dependency_controls": 4,
+    "actual_Node22_transitive_browser_import": "PASS",
+    "actual_frozen_writer_CWD_import": "PASS",
+    "frozen_writer_head": "ca7f09556397801c50a2277bdb65b1bf019f9a05",
+    "Python_source_DB_network_attempts": [],
+    "three_psycopg_entrypoint_self_controls_denied": true,
+    "parent37_pending_refused_before_ERP_DB_or_GH": true,
+    "actual_accepted_parent_run": null,
+    "actual_Native_cases": 0,
+    "actual_browser_cases": 0,
+    "default_adopted": false
+  },
+  "exact_parent_reuse_contract": {
+    "root_intake": "scripts/current-writer-a-takeover-20261030/intake_join37.py",
+    "immutable_head": "1edd7b7fb6f7f02528cf09bcc352b72ea0e4a2c3",
+    "whole_qualified_financial_sources_canonical_JSON_digest": true,
+    "canonical_archive_and_main_hashes_retained": true,
+    "large_Original_not_reparsed_on_every_case": true,
+    "prior37_fresh_delta_credit": 0
+  },
+  "unchanged_open_scope": [
+    "Current joined37 terminal canonical intake and all5",
+    "Actual permanent S05 delta qualification on exactly accepted37",
+    "Global six writer/permission/lock/phantom/call-closure blockers",
+    "Afui lawful configured dated nonpayable GOOD H>0 R0, recost and inverse; temporal choice still unanswered",
+    "FG Mandor selected-week payroll invoice allocation after active integration stability"
+  ],
+  "formal_accepted": "5/16",
+  "production_go": false,
+  "independent_acceptance": false
+}
