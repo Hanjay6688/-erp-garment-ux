@@ -18,8 +18,8 @@ RUN=None
 JOB=None
 PARENT_HEAD=None
 PARENT_TREE=None
-PREPARED_HEAD='927ee03213a80e854fda30779d824c5c617644bd'
-PREPARED_TREE='efd08b4ff2315aa0280c086023d30ac22b7d092f'
+PREPARED_HEAD='9a2a6064513dc97a04e607a133ae003c3e463f0f'
+PREPARED_TREE='865d1950927bd8b39d6961d56872de757a4a2253'
 PREPARED_BASE='04ed2fbc3f1fb24174ff7368bffbb2dff01f5423'
 PREPARED_BASE_TREE='66930111fa9826b0c18ed6cfd3b05ea225e4e62b'
 NS='scripts/current-complete-de-integration-preparation/'
@@ -50,7 +50,7 @@ def source(g):
     exact(set(g.tree)-set(base),allowed,'DE30_CLOSED_ADDITIVE_SOURCE')
     for name,value in declaration['files'].items():g.verify_pin(name,value)
     if PARENT_HEAD is None:
-        exact(len(base),14119,'DE30_REPAIRED_PREPARED_PARENT14119');exact(len(allowed),86,'DE30_REPAIRED_PREPARED_OWN86')
+        exact(len(base),14119,'DE30_REPAIRED_PREPARED_PARENT14119');exact(len(allowed),93,'DE30_REPAIRED_PREPARED_OWN93')
         exact(literal(g,NS+'admission.py','PARENT_HEAD'),None,'DE30_PREPARED_PARENT_GATE_CLOSED')
         exact(literal(g,NS+'admission.py','PARENT_RECEIPT'),None,'DE30_PREPARED_RECEIPT_GATE_CLOSED')
         require(WORKFLOW not in g.tree,'DE30_PREPARED_WORKFLOW_NOT_ACTIVATED')
@@ -83,6 +83,7 @@ def source(g):
     execution_queries,_=execution_oid_sources(g)
     dispatch_queries,_=dispatch_oid_sources(g)
     p0_declaration,_=p0_dependency_sources(g)
+    privilege_declaration,_=p0_privilege_sources(g)
     return dict(source_pins=len(declaration['files']),own_paths=len(allowed),unchanged_base=len(base),
         D1_ids=d1,E_ids=e,source_manifest=pin(g.read(NS+'SOURCE.json')),
         unchanged_business_source_files=3,frozen_fixture_inputs=4,recorded_predecessor_functions=32,
@@ -91,6 +92,7 @@ def source(g):
         supplemental_exact_dispatch_oid_queries=len(dispatch_queries['groups']),
         P0_dependency_functions=len(p0_declaration['functions']),
         P0_dependency_relations=len(p0_declaration['relations']),
+        P0_privilege_queries=len(privilege_declaration['groups']),
         actual_case_credit=0,parent_qualification_pending=PARENT_HEAD is None)
 
 
@@ -283,6 +285,39 @@ def p0_dependency_observation(g,row):
         identity_is_not_lock_closure=True,actual_Native_case_credit=0)
 
 
+def p0_privilege_sources(g):
+    declaration=strict(g.read(NS+'P0_PRIVILEGE_QUERIES.json'))
+    fields(declaration,dict(classification='READONLY_P0_PG17_PRIVILEGE_FACTS_NOT_APPLICATION_OR_POST_WAIT_AUTHORITY',
+        original_27_queries_changed=False),'DE30_P0_PRIVILEGE_QUERY_CONTRACT')
+    exact(set(declaration['groups']),{'functions','tables','columns','column_privileges'},
+        'DE30_P0_FOUR_PRIVILEGE_QUERY_GROUPS')
+    nodes=[node for node in ast.parse(g.read(NS+'p0_privileges.py')).body
+        if isinstance(node,ast.FunctionDef)and node.name in('oid','targets','validate')]
+    exact([node.name for node in nodes],['oid','targets','validate'],'DE30_ONLY_THREE_PURE_PRIVILEGE_VALIDATORS')
+    env={};exec(compile(ast.Module(body=nodes,type_ignores=[]),'root_DE30_pure_P0_privileges','exec'),env)
+    return declaration,env['validate']
+
+
+def p0_privilege_observation(g,row):
+    if row.get('primary_scheduler_database')is True:
+        exact(row.get('database'),'postgres','DE30_PRIVILEGE_PRIMARY_DATABASE_IDENTITY')
+        require('P0_privilege_supplement'not in row,'DE30_PRIMARY_MUST_NOT_CLAIM_CANDIDATE_PRIVILEGES')
+        return dict(status='NOT_APPLICABLE_PRIMARY_SCHEDULER_DATABASE',actual_Native_case_credit=0)
+    declaration,validate=p0_privilege_sources(g);value=row['P0_privilege_supplement']
+    fields(value,dict(classification=declaration['classification'],
+        declaration_sha256=sha256(g.read(NS+'P0_PRIVILEGE_QUERIES.json')).hexdigest(),
+        query_sha256={name:sha256(spec['query'].encode()).hexdigest()for name,spec in declaration['groups'].items()},
+        same_original_readonly_snapshot=True,original_27_groups_rewritten=False,provider_function_calls=0,
+        unresolved=declaration['unresolved'],writer_closure=False,permission_closure=False,
+        lockset_approved=False,actual_Native_case_credit=0,production_go=False,independent_acceptance=False),
+        'DE30_P0_SNAPSHOT_PRIVILEGES_NEVER_GRANT_AUTHORITY_OR_LOCK_CLOSURE')
+    dependencies,select=p0_dependency_sources(g);selected=select(row,dependencies)
+    counts=validate(value['groups'],declaration,row,selected)
+    exact(value['group_counts'],counts,'DE30_P0_PRIVILEGE_ACTUAL_TYPED_COUNTS')
+    return dict(group_counts=counts,same_original_readonly_snapshot=True,
+        provider_function_calls=0,permission_closure=False,lockset_approved=False,actual_Native_case_credit=0)
+
+
 def metadata_observation(g,value):
     """Inspect availability and source identity; metadata never grants closure."""
     fields(value,dict(classification='READONLY_CURRENT_DE_SYSTEM_AND_PRIMARY_SCHEDULER_METADATA_NOT_CLOSURE',
@@ -298,7 +333,7 @@ def metadata_observation(g,value):
         query_count=27),'DE30_EXACT_INHERITED_METADATA_SOURCE')
     queries=strict(g.read(prefix+'QUERIES.json'))['queries'];exact(len(queries),27,'DE30_ALL_METADATA_QUERY_IDENTITIES')
     exact(set(value['snapshots']),{'candidate','primary_scheduler'},'DE30_TWO_SEPARATE_METADATA_SNAPSHOTS')
-    captured={};execution_metadata={};dispatch_metadata={};p0_dependencies={}
+    captured={};execution_metadata={};dispatch_metadata={};p0_dependencies={};p0_privileges={}
     for kind,database in(('candidate','cp6_rollback'),('primary_scheduler','postgres')):
         row=value['snapshots'][kind]
         if row.get('status')=='READONLY_METADATA_UNAVAILABLE':
@@ -322,10 +357,11 @@ def metadata_observation(g,value):
         execution_metadata[kind]=execution_oid_observation(g,row)
         dispatch_metadata[kind]=dispatch_oid_observation(g,row)
         p0_dependencies[kind]=p0_dependency_observation(g,row)
+        p0_privileges[kind]=p0_privilege_observation(g,row)
         captured[kind]=True
     exact(value['all_metadata_captured'],all(captured.values()),'DE30_METADATA_AVAILABILITY_IS_NOT_ACCEPTANCE')
     return dict(captured=captured,query_count=27,execution_metadata=execution_metadata,dispatch_metadata=dispatch_metadata,
-        P0_dependencies=p0_dependencies,
+        P0_dependencies=p0_dependencies,P0_privileges=p0_privileges,
         separate_snapshots_not_atomic=True,
         writer_closure=False,permission_closure=False,lockset_approved=False,actual_Native_case_credit=0)
 
