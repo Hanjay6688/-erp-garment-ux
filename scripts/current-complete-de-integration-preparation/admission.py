@@ -16,7 +16,9 @@ def parent_receipt():
         raise ValueError('COMPLETE_DE_EXACT_PERMANENT_PARENT_INTAKE_CHANGED')
     value=json.loads(raw)
     required=dict(status='ROOT_VERIFIED_PERMANENT_S05_NATIVE4_BROWSER2_ALL5',head=PARENT_HEAD,
-        package_all_five=True,prior_runs_aggregated=False,production_go=False,independent_acceptance=False)
+        complete6_qualified=True,actual_Native_cases=4,actual_browser_cases=2,
+        retained_join37_fresh_case_credit=0,package_all_five=True,prior_runs_aggregated=False,
+        production_go=False,independent_acceptance=False)
     for key,expected in required.items():
         if type(value.get(key))is not type(expected)or value[key]!=expected:
             raise ValueError('COMPLETE_DE_ACTUAL_QUALIFIED_PERMANENT_PARENT_REQUIRED:'+key)

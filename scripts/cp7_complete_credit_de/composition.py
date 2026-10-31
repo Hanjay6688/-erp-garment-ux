@@ -54,6 +54,17 @@ def parent_qualification():
     return module.parent_receipt()
 
 
+def qualified_parent_sources(receipt,state):
+    raw=json.dumps(state['sources'],sort_keys=True,separators=(',',':'),allow_nan=False).encode()
+    actual=dict(bytes=len(raw),sha256=sha256(raw).hexdigest())
+    expected=receipt.get('qualified_complete_sources')
+    if(type(expected)is not dict or set(expected)!={'bytes','sha256'}
+       or type(expected.get('bytes'))is not int or type(expected.get('sha256'))is not str
+       or expected!=actual):
+        raise ValueError('COMPLETE_CREDIT_DE_ENTIRE_SOURCE_GRAPH_MUST_EQUAL_ACTUAL_PERMANENT6')
+    return actual
+
+
 def raw_authority(cur,signatures):
     rows=cur.execute("select s.signature,p.oid::text,pg_get_userbyid(p.proowner),p.proacl::text "
         "from unnest(%s::text[])s(signature)join pg_proc p on p.oid=to_regprocedure(s.signature) "
@@ -65,6 +76,7 @@ def raw_authority(cur,signatures):
 def binding(catalog,state):
     complete=state['complete_parent'];d1=state['D1'];e=state['E']
     return catalog.digest(dict(sources=state['sources'],before=state['before'],after=state['after'],
+        qualified_complete_sources=state['qualified_complete_sources'],
         raw_existing_function_authority=state['raw_existing_function_authority'],
         complete_component_binding=complete['component_binding'],complete_sources=complete['sources'],
         complete_binding_recomputed=parent().binding(catalog,complete),
@@ -76,6 +88,9 @@ def binding(catalog,state):
 
 
 def verify(cur,state):
+    actual_parent=qualified_parent_sources(parent_qualification(),state['complete_parent'])
+    if state['qualified_complete_sources']!=actual_parent:
+        raise ValueError('COMPLETE_CREDIT_DE_QUALIFIED_PARENT_SOURCE_PIN_CHANGED')
     complete,d1,e=parts();_,_,_,_,catalog=runtime();catalog._authority(cur)
     if state['sources']!=sources():raise ValueError('COMPLETE_CREDIT_DE_ACTUAL_SOURCE_CHANGED')
     if(state['D1']['predecessor']!=state['complete_parent']or state['E']['predecessor']!=state['D1']
@@ -95,7 +110,8 @@ def verify(cur,state):
 
 
 def install_delta(cur,qualified_complete_parent):
-    parent_qualification()  # Pending closes before ERP imports or any database statement.
+    receipt=parent_qualification()  # Pending closes before ERP imports or any database statement.
+    accepted_sources=qualified_parent_sources(receipt,qualified_complete_parent)
     pins=sources()
     complete,d1,e=parts();_,_,_,base,catalog=runtime()
     with base.atomic(cur):
@@ -113,6 +129,7 @@ def install_delta(cur,qualified_complete_parent):
         if raw_authority(cur,expected)!=authority:
             raise ValueError('COMPLETE_CREDIT_DE_INSTALL_CHANGED_EXISTING_OID_OWNER_OR_RAW_ACL')
         state=dict(sources=pins,complete_parent=qualified_complete_parent,D1=first,E=second,
+            qualified_complete_sources=accepted_sources,
             raw_existing_function_authority=authority,
             before=qualified_complete_parent['after'],after=second['after'],
             preinstall_data_and_sequences=qualified_complete_parent['preinstall_data_and_sequences'],

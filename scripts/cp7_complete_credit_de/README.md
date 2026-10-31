@@ -24,6 +24,13 @@ receives a projected catalog. The complete parent's component binding and all
 preinstall/preuse rows and sequences are bound. Used data refuse inverse
 before DDL and require the caller's full backup/restore flow.
 
+The canonical ROOT permanent6 receipt must bind the entire supplied complete
+parent's source graph, including every lower source. Canonical JSON length
+and SHA256 must both match before any ERP import or SQL in installation.
+Every later verification repeats that receipt comparison, and the accepted
+source pin is included in the component binding. A prepared parent, partial
+source map, altered lower source or same shape with different bytes refuses.
+
 No workflow, runtime dispatcher, connection or default change is supplied.
 The actual permanent-parent qualification remains pending. Existing D/E
 slice limits, global command refusals, permissions, money/HPP engines, physical

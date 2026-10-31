@@ -1,15 +1,18 @@
 {
   "classification": "SOURCE_AND_LABELLED_LIFECYCLE_MODELS_NOT_NATIVE",
-  "lifecycle_tests": 6,
-  "PASS": 6,
-  "seconds": 0.01,
+  "lifecycle_tests": 9,
+  "PASS": 9,
+  "seconds": 0.022,
   "covers": [
     "pending_actual_parent_before_ERP_or_SQL",
     "E_then_D1_removal_and_actual_complete_layer_verify",
     "used_row_before_either_removal",
     "used_sequence_before_either_removal",
     "coordinated_original_parent_snapshot_change_refused",
-    "NULL_to_explicit_empty_raw_ACL_refused"
+    "NULL_to_explicit_empty_raw_ACL_refused",
+    "entire_canonical_parent_source_graph_before_ERP_or_SQL",
+    "exact_typed_length_and_digest_pin",
+    "matched_source_graph_reaches_source_admission_without_SQL"
   ],
   "actual_Native_cases": 0,
   "actual_SQL_executed": 0,

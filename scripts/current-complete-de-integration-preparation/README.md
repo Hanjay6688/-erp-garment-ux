@@ -25,6 +25,14 @@ the new source declaration. PARENT_HEAD and PARENT_RECEIPT remain NULL and
 installation refuses before ERP import or any database statement. No runtime
 workflow or default adoption is supplied here.
 
+Admission also requires the actual complete6 qualification, its exact four
+Native and two browser counts and zero retained-parent fresh credit. The top
+product compares the supplied complete parent's entire canonical source
+graph with qualified_complete_sources from that exact ROOT receipt before
+ERP imports or SQL. Verification repeats the comparison and binds its pin.
+The local labelled model controls include a changed lower source and malformed
+or mismatched pins; these carry no financial, SQL or browser case credit.
+
 The top stage binds actual lower states and complete catalog observations.
 Older verifiers run before child installation and after child removal; no
 catalog is projected into them. E is removed before D1, then the complete

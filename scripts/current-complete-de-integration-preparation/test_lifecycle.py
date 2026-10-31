@@ -67,6 +67,8 @@ class Lifecycle(unittest.TestCase):
         state=dict(sources={'MODEL':'top'},complete_parent=complete_state,D1=d1_state,E=e_state,before=c0,after=c2,
             raw_existing_function_authority=deepcopy(cur.raw),preinstall_data_and_sequences={'MODEL_BASE':True},
             preuse_data_and_sequences=deepcopy(data2))
+        raw=json.dumps(complete_state['sources'],sort_keys=True,separators=(',',':')).encode()
+        state['qualified_complete_sources']=dict(bytes=len(raw),sha256=sha256(raw).hexdigest())
         with patch.object(product,'parts',return_value=(complete,d1,e)):
             state['component_binding']=product.binding(catalog,state)
         return cur,state,catalog,base,complete,d1,e,original
@@ -78,6 +80,8 @@ class Lifecycle(unittest.TestCase):
         with patch.object(product,'parts',return_value=(complete,d1,e)),\
              patch.object(product,'runtime',return_value=(None,None,None,base,catalog)),\
              patch.object(product,'sources',return_value={'MODEL':'top'}),\
+             patch.object(product,'parent_qualification',return_value={
+                 'qualified_complete_sources':deepcopy(state['qualified_complete_sources'])}),\
              patch.object(product,'raw_authority',side_effect=lambda c,signatures:c.raw):
             return product.rollback_delta_preuse(cur,state)
 
@@ -85,6 +89,36 @@ class Lifecycle(unittest.TestCase):
         with patch.object(product,'parts',side_effect=AssertionError('ERP_TOO_EARLY')):
             with self.assertRaisesRegex(ValueError,'PERMANENT_PARENT_INTAKE_PENDING'):
                 product.install_delta(object(),{})
+
+    def test_entire_parent_source_graph_refuses_changed_lower_source_before_ERP_or_SQL(self):
+        values=self.fixture();state=values[1]
+        receipt={'qualified_complete_sources':deepcopy(state['qualified_complete_sources'])}
+        state['complete_parent']['sources']['MODEL_LOWER_SOURCE']={'MODEL_BYTES':7}
+        with patch.object(product,'parent_qualification',return_value=receipt),\
+             patch.object(product,'sources',side_effect=AssertionError('ERP_TOO_EARLY')),\
+             patch.object(product,'parts',side_effect=AssertionError('ERP_TOO_EARLY')):
+            with self.assertRaisesRegex(ValueError,'ENTIRE_SOURCE_GRAPH_MUST_EQUAL_ACTUAL_PERMANENT6'):
+                product.install_delta(object(),state['complete_parent'])
+
+    def test_parent_graph_pin_requires_exact_bytes_and_digest_types(self):
+        state=self.fixture()[1]
+        expected=deepcopy(state['qualified_complete_sources'])
+        self.assertEqual(product.qualified_parent_sources({'qualified_complete_sources':expected},
+            state['complete_parent']),expected)
+        for bad in(None,{'bytes':True,'sha256':expected['sha256']},
+                   dict(expected,bytes=expected['bytes']+1),dict(expected,sha256='0'*64),
+                   dict(expected,UNREVIEWED_EXTRA=True)):
+            with self.subTest(pin=bad),self.assertRaisesRegex(ValueError,'ENTIRE_SOURCE_GRAPH'):
+                product.qualified_parent_sources({'qualified_complete_sources':bad},state['complete_parent'])
+
+    def test_exact_parent_graph_reaches_source_admission_without_any_SQL(self):
+        state=self.fixture()[1]
+        receipt={'qualified_complete_sources':deepcopy(state['qualified_complete_sources'])}
+        with patch.object(product,'parent_qualification',return_value=receipt),\
+             patch.object(product,'sources',side_effect=RuntimeError('MODEL_SOURCE_ADMISSION_REACHED')),\
+             patch.object(product,'parts',side_effect=AssertionError('ERP_TOO_EARLY')):
+            with self.assertRaisesRegex(RuntimeError,'MODEL_SOURCE_ADMISSION_REACHED'):
+                product.install_delta(object(),state['complete_parent'])
 
     def test_inverse_removes_E_then_D1_and_verifies_actual_complete_parent(self):
         values=self.fixture();cur,state,*_=values;result=self.inverse(values)
