@@ -29,6 +29,7 @@ NATIVE_TREE='581303d5f0df8a6ae40f6d7ec0fab7c06678ed9a'
 CASE='CURRENT_COMPLETE_D1_E_NATIVE30'
 MAIN='CP7_CURRENT_COMPLETE_D1_E_NATIVE30.json'
 RAW='CP7_CURRENT_COMPLETE_D1_E_NATIVE30_CASES.json'
+WORKFLOW='.github/workflows/cp7-current-complete-de-native30.yml'
 GATES=dict(installed=True,primary_unchanged=True,backup_restore_drill=True,security_advisors=True,writer_runtime=True)
 
 
@@ -43,13 +44,18 @@ def source(g):
     base=g.entries(base_head)
     for name,value in base.items():exact(g.tree.get(name),value,'DE30_UNCHANGED_PARENT_BLOB_AND_MODE:'+name)
     allowed=set(declaration['files'])|{NS+'SOURCE.json'}
-    require(all(name.startswith((NS,PRODUCT,BUSINESS))for name in allowed),'DE30_ONLY_THREE_OWN_NAMESPACES')
+    require(all(name.startswith((NS,PRODUCT,BUSINESS))or(PARENT_HEAD is not None and name==WORKFLOW)
+        for name in allowed),'DE30_ONLY_THREE_OWN_NAMESPACES_AND_EXACT_ACTIVATED_WORKFLOW')
     exact(set(g.tree)-set(base),allowed,'DE30_CLOSED_ADDITIVE_SOURCE')
     for name,value in declaration['files'].items():g.verify_pin(name,value)
     if PARENT_HEAD is None:
         exact(len(base),14119,'DE30_REPAIRED_PREPARED_PARENT14119');exact(len(allowed),62,'DE30_REPAIRED_PREPARED_OWN62')
         exact(literal(g,NS+'admission.py','PARENT_HEAD'),None,'DE30_PREPARED_PARENT_GATE_CLOSED')
         exact(literal(g,NS+'admission.py','PARENT_RECEIPT'),None,'DE30_PREPARED_RECEIPT_GATE_CLOSED')
+        require(WORKFLOW not in g.tree,'DE30_PREPARED_WORKFLOW_NOT_ACTIVATED')
+    else:
+        require(WORKFLOW in allowed,'DE30_ACTUAL_WORKFLOW_MUST_BE_EXPLICITLY_DECLARED')
+        exact(g.read(WORKFLOW),g.read(NS+'native30.workflow.yml.txt'),'DE30_ACTUAL_WORKFLOW_EQUALS_REVIEWED_TEMPLATE')
     product=strict(g.read(PRODUCT+'SOURCE.json'))
     fields(product,dict(contract='cp7.current-complete-credit-de.v1',actual_Native_cases=0,
         D_complete=False,E_complete=False,global_eight_hook_runtime_opened=False,

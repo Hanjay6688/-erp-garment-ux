@@ -1,0 +1,38 @@
+{
+  "classification": "READ_ONLY_PERMANENT6_ACTIVATION_READINESS_PLAN_NOT_DISPATCH_OR_PARENT_ACCEPTANCE",
+  "recorded_at_UTC": "2026-10-31T19:21:07.586134+00:00",
+  "prepared_source_head": "04ed2fbc3f1fb24174ff7368bffbb2dff01f5423",
+  "prepared_tree": "66930111fa9826b0c18ed6cfd3b05ea225e4e62b",
+  "expected_actual_parent_head": "6cb5bfe213fe3ce684244370dec092569705f6ff",
+  "expected_parent_tree": "260cc8e984ae41409b43c62256acbbbf6ee25071",
+  "expected_actual_parent_run": 41222437891,
+  "expected_actual_parent_job": 124599622258,
+  "actual_parent_root_intake": null,
+  "runtime_branch": "astra-a/current-s03-sku-s05-permanent-qualification-20261031",
+  "runtime_branch_latest_API_read": {
+    "status": 404,
+    "meaning": "Branch absent; re-read immediately before any creation"
+  },
+  "runtime_workflow": ".github/workflows/cp7-final-s03-sku-s05.yml",
+  "workflow_present_in_expected_parent": false,
+  "workflow_prepared_pin": {
+    "bytes": 33918,
+    "sha256": "11d398b373b478f49c366cd611ab0cd67a9e2cc8361b7a49cdaa92cc116c8af5"
+  },
+  "real_job_and_WIB_minutes": 120,
+  "canonical_artifact_name_pattern": "cp7-permanent-s05-financial4-browser2-${{ github.sha }}",
+  "only_after_exact_terminal_37_root_all5": [
+    "Copy exact canonical ROOT actual37 receipt bytes to own JOIN37_ROOT_ACTUAL_INTAKE.json; preserve its actual head/tree/run/job/whole qualified financial source pin.",
+    "Bind persistent_financial.PARENT_RECEIPT to those bytes/SHA; retain expected parent6cb/tree260/run41222437891. Refresh PREPARATION.actual_accepted_parent_run and exact own file pins.",
+    "Preserve every14070 parent blob/mode, every original financial callback and browser source byte, original job/window120 and single-attempt real clock policy.",
+    "Run owned source/derivation/DB-network fence controls and original real require_window() without injected time. Verify natural exact full source graph and physical frozen inputs.",
+    "Publish meaningful receipt-bound source commit/tree. Re-read runtime branch; if still absent create at expected parent6cb where this permanent workflow does not exist, then nonforce lease-update to receipt-bound descendant source. Do not create a known pending-parent runtime job.",
+    "Observe the actual new workflow owning run/job/head and attempt. Pin only those observed runtime IDs in Root intake_permanent6; require exact canonical final artifact and all6 fresh cases/all5/restores.",
+    "After actual accepted6, bind its exact canonical Root receipt and new source head/tree into the prepared DE62 sources and its explicitly reviewed runtime workflow; no source/synthetic acceptance credit."
+  ],
+  "actual_Git_ref_mutations": 0,
+  "actual_SQL_executed": 0,
+  "actual_Native_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

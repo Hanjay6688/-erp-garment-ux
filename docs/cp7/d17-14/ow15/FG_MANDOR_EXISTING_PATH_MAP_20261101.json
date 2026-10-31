@@ -1,0 +1,213 @@
+{
+  "classification": "READ_ONLY_FG_MANDOR_EXISTING_PATH_MAP_NOT_PRODUCT_IMPLEMENTATION_OR_NATIVE_QUALIFICATION",
+  "created_at_UTC": "2026-10-31T19:11:48.364901+00:00",
+  "prepared_source_head": "651084161b76f7b38951fe0c22b725fe2b2a1dd3",
+  "prepared_source_tree": "01a26e00a1bfce174248a4826aa372518ecd5dee",
+  "prepared_source_is_not_actual_runtime_parent": true,
+  "actual_active_current37_head": "6cb5bfe213fe3ce684244370dec092569705f6ff",
+  "implementation_order": "AFTER_ACTIVE_INTEGRATION_STABLE",
+  "original_owner_example": {
+    "payroll": "2000000.00",
+    "invoice_deduction": "300000.00",
+    "net_cash": "1700000.00"
+  },
+  "source_files": {
+    "src/ConnectedSalesPage.tsx": {
+      "bytes": 26817,
+      "sha256": "de7e3e7e04c3193be649cedd87f1162716b52020359a851ce7d680e2ee778bc4"
+    },
+    "src/SalesDraftPanel.tsx": {
+      "bytes": 18649,
+      "sha256": "26101d87ed1907ab6103bafe572f513171dd3da14aa2e76e78b5c173b6226bd2"
+    },
+    "src/salesReadContract.ts": {
+      "bytes": 10510,
+      "sha256": "f51e1de4b71bc85f459200040e67fbc13ca96d72e5207ecbd9a025aaeb09fa2b"
+    },
+    "src/ConnectedPayrollPage.tsx": {
+      "bytes": 20865,
+      "sha256": "7c2eda2f0dd7ff8cd276c987ce4c5d0cb3abc556d5da8509e093299454e71a89"
+    },
+    "src/payrollContract.ts": {
+      "bytes": 7925,
+      "sha256": "a2a1dbc37349a79c4d06289272ecc773bd13db4856c0eedbe4c26aa1398b7b82"
+    },
+    "src/PayrollKasbonPanel.tsx": {
+      "bytes": 13108,
+      "sha256": "feeda406c493398bec514fc40c901e5182389fd3a324ec8fe4017e4c7f563ca6"
+    },
+    "src/PayrollInstallmentPanel.tsx": {
+      "bytes": 13399,
+      "sha256": "07e4bba230b7d7a69eb6a0f73583697a3e66289a21c841a3524787658a4d563c"
+    },
+    "src/payrollInstallmentContract.ts": {
+      "bytes": 8999,
+      "sha256": "5a7229e50b735cd62aa3783de26c2c4fff663516093f9f7c431cdbc49a760f39"
+    },
+    "src/useProductionMutation.ts": {
+      "bytes": 12605,
+      "sha256": "6d2fe37e9fc47c9dee67951165415230002341bbaa23b1cd5433401f7681e8ed"
+    },
+    "scripts/cp7-src/sales/form.sql": {
+      "bytes": 4677,
+      "sha256": "90db4a6705e6f403851672a0e58006d20451edc15b623a7b2e6dd14ff7f48dfa"
+    },
+    "scripts/cp7-src/sales/read.sql": {
+      "bytes": 9479,
+      "sha256": "8cb9c0582c61297c782a3794ba533c247aedaa4cad218ec8ca2e83a556152bd5"
+    },
+    "scripts/cp7-src/sales/drafts.sql": {
+      "bytes": 3116,
+      "sha256": "78eb64ccb93e64851f9c04f88cd734e8eec9613cadbe00776b147719d63374ae"
+    },
+    "scripts/cp7-src/payroll/installments.sql": {
+      "bytes": 38795,
+      "sha256": "743406d68778c3d2ba812ff189765f7e7b6cc1ba9a39fe30ef1ce55095a9fa8e"
+    },
+    "scripts/cp7_installment_bundle.py": {
+      "bytes": 10743,
+      "sha256": "b3c96e3f19c7f941ae8689ad0bbb5294c54bee469ed8310a0696f11b029823cb"
+    },
+    "scripts/cp7_customer_credit/coordinator/05_factual_profile.sql": {
+      "bytes": 22669,
+      "sha256": "a11a072b8e0fffbea380063787e752814893089ef9066bcc541b5984221bb16d"
+    },
+    "scripts/cp7_customer_credit/readers/03_reader_transforms.py": {
+      "bytes": 4693,
+      "sha256": "7b6f0572ffd1ef673a63c09797e3d004d231a2f046d29fa60cac2db24e5e8c6a"
+    },
+    "scripts/cp7_customer_credit/consumer/native_basic_cases.py": {
+      "bytes": 13216,
+      "sha256": "24ba3f79cc01905d1289b0db08552ed2c0593138e3c83f4551b88a025ae6a567"
+    },
+    "scripts/cp7_customer_credit/consumer/native_refund_cases.py": {
+      "bytes": 5467,
+      "sha256": "3972a6da010cf2ed066db431252f548721e66ecf38c2dbc3b1fa42b86ed4d8ca"
+    },
+    "scripts/cp7_customer_credit/integration/owning_bundle.py": {
+      "bytes": 30639,
+      "sha256": "11de7b5d6af83999e3ca17b23662308b07e222f516e33133671a0fc978dffd1a"
+    },
+    "scripts/cp7_s03_sku_composition/native_delta.py": {
+      "bytes": 11507,
+      "sha256": "a49242327798a59407739c2999fcf92408aeef9d88a1ae94fccc82bd189ac9ce"
+    },
+    "supabase/migrations/20260922135615_erp_v2_6_20ap_cp6_connected_import_materials.sql": {
+      "bytes": 518931,
+      "sha256": "fb8e14f0fd505edf730c0908f7e1c500cf850e29bcc0e90b3a51877224edd61b"
+    },
+    "supabase/release/cp6-t3-src/20260925020000_erp_v2_6_20bb_cp6_open_cutover_states.sql": {
+      "bytes": 503118,
+      "sha256": "966939292e04f0cbfbbf113f7ec831e4a448958f6e6861fc0eb16bc31a5fcab1"
+    }
+  },
+  "findings": [
+    {
+      "id": "FG_MAP_01_EXPLICIT_BUYER",
+      "finding": "Existing invoice forms and closed read/command contracts identify only customer_id. Add an explicit master contractor identity and buyer category; never infer Mandor from customer names.",
+      "evidence": [
+        "src/SalesDraftPanel.tsx:21",
+        "src/SalesDraftPanel.tsx:65",
+        "src/salesReadContract.ts:4",
+        "scripts/cp7-src/sales/drafts.sql:7"
+      ],
+      "storage_route_selected": false
+    },
+    {
+      "id": "FG_MAP_02_MANUAL_WEEK",
+      "finding": "The selected payroll already owns contractor_id and period_start/period_end. Attach the invoice reservation to that exact payroll ID after verifying the same contractor ID; display every existing allocation and payroll period.",
+      "evidence": [
+        "src/ConnectedPayrollPage.tsx:81",
+        "src/payrollContract.ts:6"
+      ]
+    },
+    {
+      "id": "FG_MAP_03_RESERVATION_NOT_SETTLEMENT",
+      "finding": "Draft allocation must only reserve free outstanding and payroll capacity. Existing APPROVED cost recognition remains separate from the Native PAID settlement.",
+      "owner_authority": "HANDOFF_FG_MANDOR_POTONG_PAYROLL_20261030.txt",
+      "invoice_AR_effect_before_paid": "ZERO"
+    },
+    {
+      "id": "FG_MAP_04_GENERIC_DEDUCTION_UNSAFE",
+      "finding": "The accepted payroll settlement source credits OTHER_INCOME for deductions outside material and cash advance. FG purchases need an explicit classification excluded from that generic aggregate and a source-linked debit CONTRACTOR_PAYABLE / credit invoice AR path.",
+      "evidence": [
+        "supabase/release/cp6-t3-src/20260925020000_erp_v2_6_20bb_cp6_open_cutover_states.sql:3250",
+        "scripts/cp7_installment_bundle.py:22"
+      ],
+      "original_reference_is_not_new_runtime_proof": true
+    },
+    {
+      "id": "FG_MAP_05_INSTALLMENT_TIMING",
+      "finding": "The existing E05 check_payment ends before the native deduction block. final_payment retains the deductions and Native PAID transition. FG must remain reserved through early cash installments and settle once at final Native payroll settlement.",
+      "evidence": [
+        "scripts/cp7_installment_bundle.py:43",
+        "scripts/cp7-src/payroll/installments.sql:309"
+      ]
+    },
+    {
+      "id": "FG_MAP_06_REOPEN_AND_REVERSE",
+      "finding": "Reversing a cash payment on a PAID managed payroll first reopens its noncash settlement while preserving approved costs. The new FG settlement must be included in this legitimate reopen as well as full payroll reversal, and retain named downstream consumer blockers.",
+      "evidence": [
+        "scripts/cp7_installment_bundle.py:55",
+        "scripts/cp7_installment_bundle.py:73",
+        "scripts/cp7-src/payroll/installments.sql:325"
+      ]
+    },
+    {
+      "id": "FG_MAP_07_CASHLESS_AR_EXISTS",
+      "finding": "Current credit already supports effective invoice payment without a target sales_payments row. Use the actual current effective-paid / reader / receivable adjustment path consistently; never fabricate a cash receipt to make an invoice look paid.",
+      "evidence": [
+        "scripts/cp7_customer_credit/coordinator/05_factual_profile.sql:235",
+        "scripts/cp7_customer_credit/readers/03_reader_transforms.py:20",
+        "scripts/cp7_customer_credit/readers/03_reader_transforms.py:42",
+        "scripts/cp7_customer_credit/consumer/native_basic_cases.py:110",
+        "scripts/cp7_customer_credit/consumer/native_refund_cases.py:90"
+      ],
+      "final_cashless_storage_and_source_protocol": "PENDING_IMPLEMENTATION_REVIEW_ON_ACTUAL_STABLE_PARENT"
+    },
+    {
+      "id": "FG_MAP_08_DEDUCTION_TYPE_CONSTRAINT",
+      "finding": "The native payroll deduction type is a text CHECK, with existing material/BS/penalty/other/cash-advance cases. Any FG classification must retain all existing cases, the cash-advance source constraint and exact lawful preuse inversion.",
+      "evidence": [
+        "supabase/migrations/20260922135615_erp_v2_6_20ap_cp6_connected_import_materials.sql:189"
+      ]
+    },
+    {
+      "id": "FG_MAP_09_ZERO_NET",
+      "finding": "Native settlement permits zero net without a cash account. E05 cash installments require positive amounts and approved_net>0; preserve the existing unmanaged/legacy zero-cash route when FG deductions use the whole payroll capacity.",
+      "evidence": [
+        "scripts/cp7-src/payroll/installments.sql:16",
+        "scripts/cp7-src/payroll/installments.sql:291",
+        "src/ConnectedPayrollPage.tsx:63",
+        "supabase/release/cp6-t3-src/20260925020000_erp_v2_6_20bb_cp6_open_cutover_states.sql:3217"
+      ]
+    },
+    {
+      "id": "FG_MAP_10_CURRENT_REVIEW_AND_RECOVERY",
+      "finding": "Keep the existing global mutation recovery and review fencing. Invalidate selected cards and amounts when contractor/payroll changes; re-read permissions and invoice/payroll/other-reservation balances after every blocking lock before any effect.",
+      "evidence": [
+        "src/useProductionMutation.ts",
+        "src/ConnectedPayrollPage.tsx:40",
+        "scripts/cp7-src/payroll/installments.sql:265",
+        "scripts/cp7-src/payroll/installments.sql:281"
+      ]
+    }
+  ],
+  "required_future_cases": [
+    "Manual selected future/other payroll week and same explicit Mandor ID",
+    "Partial invoice allocation and remaining outstanding on later payroll",
+    "Concurrent tabs allocating one invoice across two payrolls, exact UUID replay and changed intent",
+    "Return or other settlement changes invoice balance; retire review and preserve approved/managed payroll immutability",
+    "Unassign/cancel unpaid releases reservation; paid reverse/reopen reverses same linked AR settlement with legal downstream blockers",
+    "Payroll early cash installment does not settle FG yet; final settlement settles exactly once; individual payment reversal reopens linked settlement",
+    "Zero net payroll has no fake bank/cash event",
+    "Stock/HPP/COGS/revenue/invoice posting and ordinary Toko regression remain single recorded events",
+    "Desktop and mobile card pop-up, source changes, permission waits and uncertain network outcome"
+  ],
+  "actual_product_changes": 0,
+  "actual_new_SQL_executed": 0,
+  "actual_Native_cases": 0,
+  "architectural_storage_choice_finalized": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

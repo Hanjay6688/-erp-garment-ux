@@ -87,6 +87,8 @@ def source(g):
         require(WORKFLOW not in g.tree,'FREE3_PREPARED_WORKFLOW_NOT_ACTIVATED')
     else:
         exact(literal(g,NS+'admission.py','PARENT_HEAD'),PARENT_HEAD,'FREE3_ACTUAL_ACCEPTED_PARENT_HEAD')
+        require(WORKFLOW in allowed,'FREE3_ACTUAL_WORKFLOW_MUST_BE_EXPLICITLY_DECLARED')
+        exact(g.read(WORKFLOW),g.read(NS+'native3.workflow.yml.txt'),'FREE3_ACTUAL_WORKFLOW_EQUALS_REVIEWED_TEMPLATE')
     exact(list(literal(g,NS+'native_free.py','IDS')),IDS,'FREE3_THREE_EXACT_UNIQUE_SOURCE_CASE_IDS')
     exact(literal(g,NS+'final_gate.py','CASE'),CASE,'FREE3_FINAL_GATE_CASE_ID')
     native=strict(g.read(NS+'FREE_NATIVE3_SOURCE.json'))

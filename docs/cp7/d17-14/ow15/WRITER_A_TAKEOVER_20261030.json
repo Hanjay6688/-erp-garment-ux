@@ -1300,7 +1300,9 @@
       "stock/COGS/posting/returns use existing sales engine",
       "no cash advance or fictitious cash flow",
       "current rights/idempotency/source dates and posted history preserved"
-    ]
+    ],
+    "read_only_path_map": "FG_MANDOR_EXISTING_PATH_MAP_20261101.json",
+    "existing_installment_settlement_timing": "The invoice remains reserved during early cash installments; settle once at final Native payroll PAID; legitimate payment reopen/full reversal must reverse the linked noncash settlement."
   },
   "global_dynamic_sql_review": {
     "classification": "EXACT_ACTUAL_DEFINITION_REVIEW_ONLY",
@@ -2031,7 +2033,9 @@
     "actual_root37_receipt": null,
     "Root_activated_head_tree_run_job": null,
     "workflow_activated": false,
-    "actual_Native_cases": 0
+    "actual_Native_cases": 0,
+    "activation_readiness": "PERMANENT6_ACTIVATION_READINESS_AFTER_CURRENT37_20261101.json",
+    "runtime_branch_last_API_status": 404
   },
   "prior_active_join_before_runner_loss_20261031": {
     "head": "1edd7b7fb6f7f02528cf09bcc352b72ea0e4a2c3",
@@ -2044,7 +2048,7 @@
     "complete37_qualified": false
   },
   "latest_runner_loss_receipt": "JOIN_1EDD_ROOT_RUNNER_LOSS_20261031.json",
-  "latest_continuation_receipt": "WRITER_A_V230_CLOSED_ROOT_FREE3_INTAKE_READY_20261101.json",
+  "latest_continuation_receipt": "WRITER_A_V231_FG_PATHS_AND_ACTIVATION_ADMISSION_20261101.json",
   "current_system_cron_profile_preparation": {
     "namespace": "scripts/current-global-system-cron-profile-preparation",
     "queries": 27,
@@ -2423,5 +2427,13 @@
     "actual_Native_cases": 0,
     "actual_accepted_parent": null,
     "activated": false
-  }
+  },
+  "current_short_blockers": [
+    "Exact terminal current37 original fresh31 Native +6 browser/all5/canonical ROOT intake.",
+    "Actual accepted permanent6 then DE30 then FREE3 on the same source-qualified product; source preparation already ready and no source/model case credit.",
+    "Global current-writer/call/authority/lock closure and actual two-session proofs remain open.",
+    "Afui lawful positive-HPP/zero-reimbursement GOOD/recost scope remains open; temporal policy choice is unanswered.",
+    "FG Mandor chosen-week invoice allocation implementation follows stable active integration; source paths mapped.",
+    "Independent acceptance and remaining formal checkpoints/dated report and role CSV handoff remain open."
+  ]
 }

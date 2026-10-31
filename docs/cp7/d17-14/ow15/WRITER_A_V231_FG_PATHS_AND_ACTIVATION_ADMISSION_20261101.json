@@ -1,0 +1,43 @@
+{
+  "classification": "ROOT_FG_READONLY_PATHS_AND_EXPLICIT_FUTURE_WORKFLOW_ADMISSION_READY_NOT_NATIVE_ACCEPTANCE",
+  "created_at_UTC": "2026-10-31T19:26:35.889251+00:00",
+  "root_predecessor": "759e590b8b76e3142948d509e044f905404228c1",
+  "current37": {
+    "head": "6cb5bfe213fe3ce684244370dec092569705f6ff",
+    "run_id": 41222437891,
+    "job_id": 124599622258,
+    "last_observed_status": "in_progress",
+    "actual_cases_accepted": 0
+  },
+  "FG_readonly_findings": 10,
+  "FG_pinned_source_files": 22,
+  "FG_product_implementation_started": false,
+  "FG_implementation_order": "AFTER_ACTIVE_INTEGRATION_STABLE",
+  "FG_installment_rule_from_existing_engine": "Reserve through early cash installments; settle at final Native PAID; legitimate reopen/reversal restores linked noncash settlement.",
+  "permanent_runtime_branch_last_read": "ABSENT_404_RECHECK_BEFORE_CREATION",
+  "permanent_workflow_absent_from_actual_current37_head": true,
+  "permanent_canonical_artifact_name_pattern": "cp7-permanent-s05-financial4-browser2-${{ github.sha }}",
+  "Root_DE30_future_workflow_rule": "Only with exact known actual parent, explicitly declared path and byte equality with reviewed template.",
+  "Root_FREE3_future_workflow_rule": "Only with exact known actual parent, explicitly declared path and byte equality with reviewed template.",
+  "prepared_source_controls": "PASS_DE62_AND_FREE31_PARENT_RECEIPTS_STILL_PENDING",
+  "all_actual_runtime_identity_constants_unchanged": true,
+  "receipts": {
+    "FG_MANDOR_EXISTING_PATH_MAP_20261101.json": {
+      "bytes": 10666,
+      "sha256": "b789af44e0019cb0c10dcfb83dadf45918f16f030b91e11622456452f13be631"
+    },
+    "PERMANENT6_ACTIVATION_READINESS_AFTER_CURRENT37_20261101.json": {
+      "bytes": 2793,
+      "sha256": "e127eb96fc0f909dfffede788bed5448c821295946e8c7e23f4744cbeacbb546"
+    },
+    "ROOT_DE_FREE_FUTURE_WORKFLOW_SOURCE_CONTROLS_20261101.json": {
+      "bytes": 3610,
+      "sha256": "b276ab18084d0ebb43aa339bc3419381ddcbf2d4897736512a3cd18291ac780c"
+    }
+  },
+  "actual_product_changes": 0,
+  "actual_SQL_executed": 0,
+  "actual_Native_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}
