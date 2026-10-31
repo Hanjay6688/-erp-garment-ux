@@ -1,0 +1,95 @@
+{
+  "status": "ROOT_FREE3_SUPERVISION_CONTROLS_PASS",
+  "head": "10ac4e74cfcc66db7d1f2b166f3da0fc479f127b",
+  "tree": "a0b0108113b9b4d43d57483f291383229a37d4ad",
+  "source": {
+    "source_pins": 37,
+    "own_paths": 38,
+    "unchanged_base": 14181,
+    "Native_case_ids": [
+      "FREE_DATE_NATIVE_WIB_INCLUSIVE_LOOKUP_AND_NORMAL_PUBLIC_QUOTE",
+      "FREE_DATE_NATIVE_FINAL_DAY_POST_STOCK_GL_AND_EXACT_REPLAY",
+      "FREE_DATE_NATIVE_POSTED_HISTORY_AFTER_ELIGIBILITY_ENDS"
+    ],
+    "original_C43_date_files": 9,
+    "explicit_date_stage_routes": 2,
+    "unchanged_Native_fixture_runner_sources": 3,
+    "pure_report_validator": {
+      "selected_functions": [
+        "money",
+        "posted",
+        "case_boundary",
+        "validate"
+      ],
+      "exact_source": {
+        "bytes": 14818,
+        "sha256": "e88f6a9e04c0f27b951616949698f00c8ada1848bf9cd86987a0e9c4084813f5"
+      },
+      "actual_ERP_imports": 0,
+      "actual_SQL_executed": 0
+    },
+    "source_manifest": {
+      "bytes": 6911,
+      "sha256": "ab038659ea2cebdae033b5dcf1faa52cd592de7eaae063f05744c80e4ce9016b"
+    },
+    "actual_case_credit": 0,
+    "parent_qualification_pending": true
+  },
+  "positive": 1,
+  "negative_controls": [
+    "missing:status",
+    "changed:status",
+    "missing:qualification_commit",
+    "changed:qualification_commit",
+    "missing:github_run_id",
+    "changed:github_run_id",
+    "missing:github_run_attempt",
+    "changed:github_run_attempt",
+    "missing:worker_exit",
+    "changed:worker_exit",
+    "missing:signals",
+    "changed:signals",
+    "missing:deadline_reached",
+    "changed:deadline_reached",
+    "missing:external_signal",
+    "changed:external_signal",
+    "missing:orphaned_child",
+    "changed:orphaned_child",
+    "missing:process_group_empty",
+    "changed:process_group_empty",
+    "missing:process_tree_empty",
+    "changed:process_tree_empty",
+    "missing:job_budget_seconds",
+    "changed:job_budget_seconds",
+    "missing:work_budget_seconds",
+    "changed:work_budget_seconds",
+    "missing:recovery_reserve_seconds",
+    "changed:recovery_reserve_seconds",
+    "missing:artifact_reserve_seconds",
+    "changed:artifact_reserve_seconds",
+    "missing:actual_case_credit",
+    "changed:actual_case_credit",
+    "missing:production_go",
+    "changed:production_go",
+    "integer-boolean:deadline_reached",
+    "integer-boolean:orphaned_child",
+    "integer-boolean:process_group_empty",
+    "integer-boolean:process_tree_empty",
+    "integer-boolean:production_go"
+  ],
+  "accepted": {
+    "status": "EXACT_FREE3_SUPERVISION_REQUIRED_NOT_BUSINESS_ACCEPTANCE",
+    "run_id": 17,
+    "worker_completed_before_database_stop": true,
+    "actual_case_credit": 0
+  },
+  "unarmed_before_archive_or_Git": true,
+  "actual_SQL_executed": 0,
+  "actual_ERP_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false,
+  "root_intake_source": {
+    "bytes": 15880,
+    "sha256": "4cd7a49a27a328c57f5c6d7b70b105177750e0cc2888511bd3b709efddff57ae"
+  }
+}

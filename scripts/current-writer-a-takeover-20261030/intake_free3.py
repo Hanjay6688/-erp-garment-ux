@@ -21,8 +21,8 @@ PARENT_HEAD=None
 PARENT_TREE=None
 PARENT_RUN=None
 PARENT_JOB=None
-PREPARED_HEAD='e686f804de40077465e40ef26d2f88d23fe18fab'
-PREPARED_TREE='4d34212b36297b7f13858a68b0c6ae5b90ebe952'
+PREPARED_HEAD='10ac4e74cfcc66db7d1f2b166f3da0fc479f127b'
+PREPARED_TREE='a0b0108113b9b4d43d57483f291383229a37d4ad'
 PREPARED_BASE='fef0d838991df1ab3474382747ee3519d4c237eb'
 PREPARED_BASE_TREE='772cc0a80e1857bc03e6a544a39d5b5de3beb4c3'
 NS='scripts/current-de-free-date-preparation/'
@@ -82,7 +82,7 @@ def source(g):
     exact(set(g.tree)-set(base),allowed,'FREE3_EXACT_CLOSED_ADDITIVE_SOURCE')
     for name,value in declaration['files'].items():g.verify_pin(name,value)
     if PARENT_HEAD is None:
-        exact(len(base),14181,'FREE3_PREPARED_BASE14181');exact(len(allowed),32,'FREE3_PREPARED_OWN32')
+        exact(len(base),14181,'FREE3_PREPARED_BASE14181');exact(len(allowed),38,'FREE3_PREPARED_OWN38')
         exact(literal(g,NS+'admission.py','PARENT_HEAD'),None,'FREE3_PREPARED_PARENT_GATE_CLOSED')
         exact(literal(g,NS+'admission.py','PARENT_RECEIPT'),None,'FREE3_PREPARED_RECEIPT_GATE_CLOSED')
         require(WORKFLOW not in g.tree,'FREE3_PREPARED_WORKFLOW_NOT_ACTIVATED')
@@ -127,6 +127,18 @@ def source(g):
         parent_qualification_pending=PARENT_HEAD is None)
 
 
+def supervision(value):
+    require(HEAD is not None and RUN is not None,'FREE3_SUPERVISION_ACTUAL_IDENTITY_PENDING')
+    fields(value,dict(status='WORKER_COMPLETED_AND_REAPED',qualification_commit=HEAD,
+        github_run_id=str(RUN),github_run_attempt='1',worker_exit=0,signals=[],
+        deadline_reached=False,external_signal=None,orphaned_child=False,
+        process_group_empty=True,process_tree_empty=True,job_budget_seconds=21600,
+        work_budget_seconds=19800,recovery_reserve_seconds=1200,artifact_reserve_seconds=600,
+        actual_case_credit=0,production_go=False),'FREE3_ACTUAL_CURRENT_WORKER_COMPLETE_AND_REAPED')
+    return dict(status='EXACT_FREE3_SUPERVISION_REQUIRED_NOT_BUSINESS_ACCEPTANCE',
+        run_id=RUN,worker_completed_before_database_stop=True,actual_case_credit=0)
+
+
 def intake(root,path,metadata):
     require(all(value is not None for value in(HEAD,TREE,RUN,JOB,PARENT_HEAD,PARENT_TREE,PARENT_RUN,PARENT_JOB)),
         'FREE3_ACTUAL_PARENT_AND_OWNING_RUN_NOT_YET_PINNED')
@@ -148,6 +160,7 @@ def intake(root,path,metadata):
             raw=z.read(name);pins[name]=pin(raw);return strict(raw)
         main=original(MAIN);raw=original(RAW)
         package=original('T3_PACKAGE_INSTALL.json');backup=original('T3_BACKUP_RESTORE_DRILL.json')
+        supervised=supervision(original('FREE_DATE_RUNTIME_SUPERVISION.json'))
         pure,proof=report_validator(g)
         gate=pure.validate(SimpleNamespace(fields=fields,exact=exact,GATES=GATES),
             main,raw,package,backup,IDS,HEAD)
@@ -186,6 +199,7 @@ def intake(root,path,metadata):
         return dict(status='ROOT_VERIFIED_CURRENT_COMPLETE_DE_FREE_DATE_NATIVE3_ALL5',head=HEAD,tree=TREE,
             run_id=RUN,job_id=JOB,artifact_id=metadata['artifact_id'],archive=dict(expected,members=len(names)),
             originals=pins,source_admission=admitted,pure_report_validator=proof,actual_product_source_maps=maps,
+            runtime_supervision=supervised,
             qualified_complete_DE_FREE_date_sources=pin(json.dumps(graph,sort_keys=True,separators=(',',':'),allow_nan=False).encode()),
             qualified_DE30=dict(head=PARENT_HEAD,tree=PARENT_TREE,run_id=PARENT_RUN,job_id=PARENT_JOB,
                 root_intake=pin(parent_raw)),actual_Native_cases=3,actual_business_cases=3,
