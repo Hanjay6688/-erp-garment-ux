@@ -1,0 +1,51 @@
+{
+  "classification": "CURRENT37_TIMEOUT_FIXED_SUPERVISED_SUCCESSOR_RUNNING_NOT_ACCEPTED",
+  "created_at_UTC": "2026-10-31T20:53:54.963971+00:00",
+  "root_predecessor": "4b5b9e8a4bfedbcfd18764fe9026a41bcf611328",
+  "old_current37": {
+    "head": "6cb5bfe213fe3ce684244370dec092569705f6ff",
+    "run_id": 41222437891,
+    "conclusion": "cancelled",
+    "raw_Native_PASS": 31,
+    "raw_browser_PASS": 2,
+    "cp6_restored": false,
+    "all5": false,
+    "complete37": false,
+    "canonical_artifact_id": 13055854638,
+    "archive_library_file_id": "libfile_6194976757148191b5d114480d424659"
+  },
+  "current37": {
+    "head": "e2214780348ace563e8ec7929035acb20fc77de0",
+    "tree": "9896b095679742251ea44804f6a62e28a68ffddc",
+    "run_id": 41240864881,
+    "job_id": 124654287660,
+    "run_attempt": 1,
+    "last_observed_status": "in_progress",
+    "created_at_UTC": "2026-10-31T20:51:41Z",
+    "actual_cases_accepted": 0
+  },
+  "concrete_changes": [
+    "Job360 minutes; real WIB window360; original single attempt preserved",
+    "Clock recorded before setup; minute330 starts20-minute original recovery grace; artifact reserve",
+    "Dedicated supervisor owns worker group and adopts orphan children; any surviving child refuses DB stop",
+    "Final gate and Root require exact current run supervision without timeout, cancellation, nonzero exit or orphan",
+    "Per-branch concurrency queues duplicate trigger without cancelling active job"
+  ],
+  "business_callbacks_or_financial_oracles_changed": false,
+  "local_process_controls": 10,
+  "local_derivation_and_workflow_controls": 2,
+  "source_pins": 74,
+  "unchanged_base_blobs": 14000,
+  "prepared_downstream": {
+    "permanent6": "04ed2fbc3f1fb24174ff7368bffbb2dff01f5423",
+    "DE30": "fef0d838991df1ab3474382747ee3519d4c237eb",
+    "FREE3": "e686f804de40077465e40ef26d2f88d23fe18fab",
+    "actual_parent_rebind_after_current37_acceptance_required": true
+  },
+  "foreground_next": "Continue global dynamic/permission source work without changing active candidate; inspect current job progress, never duplicate run or valid tests.",
+  "FG_implementation": "AFTER_ACTIVE_INTEGRATION_STABLE; source map already retained",
+  "formal_accepted": 5,
+  "formal_total": 16,
+  "production_go": false,
+  "independent_acceptance": false
+}

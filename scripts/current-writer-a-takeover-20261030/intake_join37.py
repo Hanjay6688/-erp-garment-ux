@@ -5,16 +5,16 @@ import argparse,ast,json,re,zipfile
 from intake_common import GitBytes,exact,fields,pin,require,safe_path
 from intake_sku27 import strict,literal,group,full_census,declared_files
 
-HEAD='6cb5bfe213fe3ce684244370dec092569705f6ff'
-TREE='260cc8e984ae41409b43c62256acbbbf6ee25071'
+HEAD='e2214780348ace563e8ec7929035acb20fc77de0'
+TREE='9896b095679742251ea44804f6a62e28a68ffddc'
 BASE='b25eaae55a144aa03cc05f8f77109f5d0b02fbfb'
 NS='scripts/current-s03-sku-s05-composite-qualification/'
 CASE='CURRENT_S03_SKU_S05_NATIVE31_BROWSER6'
 MAIN='CP7_CURRENT_S03_SKU_S05_NATIVE31_BROWSER6.json'
 # Arm only after the actual full37 successor is launched and observed.
 # The focused Owner Native1 run on the same tree cannot satisfy this intake.
-RUN=41222437891
-JOB=124599622258
+RUN=41240864881
+JOB=124654287660
 GATES=dict(installed=True,primary_unchanged=True,backup_restore_drill=True,security_advisors=True,writer_runtime=True)
 
 def source(g):
@@ -23,14 +23,14 @@ def source(g):
         base_tree='e08f5eba90fd9a2deeb53a0a483c49e7a080e31c',actual_cases=0,
         planned=dict(SKU_Native7=7,S03_Native14=14,S05_Native10=10,S03_browser4=4,S05_browser2=2,total=37),
         production_go=False,independent_acceptance=False),'EXACT_CURRENT_JOIN_SOURCE')
-    exact(len(manifest['files']),69,'EXACT_SOURCE69')
+    exact(len(manifest['files']),74,'EXACT_SOURCE74')
     for name,digest in manifest['files'].items():g.verify_pin(name,digest)
     base=g.entries(BASE);exact(len(base),14000,'EXACT_JOINED_BASE14000')
     for name,entry in base.items():exact(g.tree.get(name),entry,'UNCHANGED_PARENT_BLOB_AND_MODE:'+name)
     allowed=set(manifest['files'])|{NS+'SOURCE.json'}
     require(all(name.startswith(NS)or name in('.github/workflows/cp7-s03-sku-s05-composite.yml',
         '.github/workflows/cp7-s03-sku-owner-access-native1.yml')for name in allowed),'CURRENT_ONLY_TWO_EXPLICIT_WORKFLOWS_AND_OWN_NAMESPACE')
-    exact(set(g.tree)-set(base),allowed,'CLOSED_CURRENT_JOIN70_PATHS')
+    exact(set(g.tree)-set(base),allowed,'CLOSED_CURRENT_JOIN75_PATHS')
     ids={
         'S03_Native11':list(literal(g,'scripts/current-s03-sku-native14-binding/retained-s03-f42e/cases.py','IDS')),
         'S03_reader3':list(literal(g,'scripts/current-s03-sku-native14-binding/retained-s03-f42e/reader_cases.py','IDS')),
@@ -43,8 +43,8 @@ def source(g):
     exact([len(ids[key])for key in ('S03_Native11','S03_reader3','SKU_Native7','S05_Native10','S03_browser4','S05_browser2')],
         [11,3,7,10,4,2],'EXACT_SIX_SOURCE_GROUPS')
     exact(len({item for values in ids.values()for item in values}),37,'EXACT_37_UNIQUE_SOURCE_IDS')
-    return dict(manifest=pin(g.read(NS+'SOURCE.json')),source_files=69,unchanged_base_blobs_and_modes=14000,
-        current_paths=70,case_ids=ids,actual_case_credit=0)
+    return dict(manifest=pin(g.read(NS+'SOURCE.json')),source_files=74,unchanged_base_blobs_and_modes=14000,
+        current_paths=75,case_ids=ids,actual_case_credit=0)
 
 def browser(value,ids,g,script,label):
     fields(value,dict(status='RUN_COMPLETE',counts={'PASS':len(ids)},planned_case_ids=ids,
@@ -58,6 +58,17 @@ def browser(value,ids,g,script,label):
         require(not row.get('business_day_rollover'),label+'_REAL_BUSINESS_DAY')
     require(not any(value.get(key)for key in ('cleanup_failures','error','host_error','business_day_retried','business_day_first_attempt')),
         label+'_SINGLE_ATTEMPT_AND_CLEANUP')
+
+def supervision(value):
+    fields(value,dict(status='WORKER_COMPLETED_AND_REAPED',qualification_commit=HEAD,
+        github_run_id=str(RUN),github_run_attempt='1',worker_exit=0,signals=[],
+        deadline_reached=False,external_signal=None,orphaned_child=False,
+        process_group_empty=True,process_tree_empty=True,job_budget_seconds=21600,
+        work_budget_seconds=19800,recovery_reserve_seconds=1200,artifact_reserve_seconds=600,
+        actual_case_credit=0,production_go=False),'ACTUAL_CURRENT_WORKER_COMPLETE_AND_REAPED')
+    return dict(status='EXACT_CURRENT_SUPERVISION_REQUIRED_NOT_BUSINESS_ACCEPTANCE',
+        run_id=RUN,worker_completed_before_database_stop=True,actual_case_credit=0)
+
 
 def intake(root,path,metadata):
     require(RUN is not None and JOB is not None,'CURRENT_FULL37_SUCCESSOR_ACTUAL_RUN_NOT_YET_PINNED')
@@ -78,6 +89,7 @@ def intake(root,path,metadata):
         def original(name):
             raw=z.read(name);raw_pins[name]=pin(raw);return strict(raw)
         main=original(MAIN);package=original('T3_PACKAGE_INSTALL.json');restore=original('T3_BACKUP_RESTORE_DRILL.json')
+        supervised=supervision(original('JOIN_RUNTIME_SUPERVISION.json'))
         fields(main,dict(status='PASS',qualification_commit=HEAD,required_case_ids=[CASE],required_case_ids_pass=True,
             actual_Native_cases=31,actual_browser_cases=6,actual_business_cases=37,actual_Auth_HTTP_cases=0,
             actual_two_session_races=0,baseline_full22_all_rows_all_sequences_equal=True,restore_raw_public_equal=True,
@@ -124,7 +136,7 @@ def intake(root,path,metadata):
         maps=declared_files(g,main['source_declaration']['current_installation'])
         return dict(status='ROOT_VERIFIED_CURRENT_JOIN_NATIVE31_BROWSER6_ALL5',head=HEAD,tree=TREE,run_id=RUN,
             job_id=JOB,artifact_id=metadata['artifact_id'],archive=dict(expected,members=len(names)),originals=raw_pins,
-            source_admission=admitted,actual_product_source_maps=maps,complete37_qualified=True,
+            source_admission=admitted,runtime_supervision=supervised,actual_product_source_maps=maps,complete37_qualified=True,
             qualified_financial_sources=pin(json.dumps(main['source_declaration']['current_installation'],
                 sort_keys=True,separators=(',',':')).encode()),
             actual_Native_cases=31,actual_browser_cases=6,package_all_five=True,package_gates=package['gate'],

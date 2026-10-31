@@ -1,0 +1,120 @@
+{
+  "status": "ACTUAL_CANCELLED_CURRENT37_NOT_QUALIFIED",
+  "head": "6cb5bfe213fe3ce684244370dec092569705f6ff",
+  "tree": "260cc8e984ae41409b43c62256acbbbf6ee25071",
+  "run_id": 41222437891,
+  "job_id": 124599622258,
+  "run_attempt": 1,
+  "artifact_id": 13055854638,
+  "archive": {
+    "bytes": 355794957,
+    "sha256": "c4f6e1a12c1ce950ff137a9a52102213db48e7545ac07f2eb6d5d18372aab55f",
+    "members": 193,
+    "CRC_verified": true,
+    "library_file_id": "libfile_6194976757148191b5d114480d424659",
+    "library_version": 0
+  },
+  "actual_raw_native_pass": 31,
+  "actual_raw_browser_pass": 2,
+  "native_originals": {
+    "CP7_S03_ATTENDANCE_CHOICE_NATIVE11_CASES.json": {
+      "bytes": 19499,
+      "sha256": "588593bb7762a2d35b3b7bf3e0d5ee328facfb6515953680c5a91dd8eca7ea62",
+      "cases": {
+        "S03_NATIVE_OWNER_FIELDS_READ_FULL_NO_EFFECT": "PASS",
+        "S03_NATIVE_EXPENSE_APPROVAL_ONCE_PAID_E05_REOPEN": "PASS",
+        "S03_NATIVE_TWO_EXACT_PERIODS_CENTS_AND_NATIVE_HPP": "PASS",
+        "S03_NATIVE_P2_PAYROLL_POOL_COEXIST_AND_POLICY_FENCES": "PASS",
+        "S03_NATIVE_OWNING_CANCEL_LATE_OUTPUT_AND_RESTORATION_FLOOR": "PASS",
+        "S03_NATIVE_BOTH_CORRECTIONS_LINKED_INVERSES_NO_RECOGNITION": "PASS",
+        "S03_NATIVE_STALE_REVIEW_UUID_RECOVERY_AND_APPEND_ONLY": "PASS",
+        "S03_NATIVE_CLOSED_SOURCE_OPEN_OUTPUT_AND_CLOSED_CORRECTION": "PASS",
+        "S03_NATIVE_ZERO_OUTPUT_SUCCESSOR_POLICY_RETAINS_OLD_INFO": "PASS",
+        "S03_NATIVE_FINISHED_PO_FG_COGS_COST_AND_CANCEL_EXACT": "PASS",
+        "S03_NATIVE_OLD_ACCRUAL_LATER_BOOK_REOPEN_DATE_FLOOR": "PASS"
+      }
+    },
+    "CP7_S03_ATTENDANCE_CHOICE_READER_NATIVE3_CASES.json": {
+      "bytes": 13062,
+      "sha256": "f6e67c40a134928979b91557f196df805eccbfc64ad26f11bac77de6089102d9",
+      "cases": {
+        "S03_READER_NATIVE_OWNED_ACTIVE_PERIODS_AND_DISJOINT_P2_UNCHANGED": "PASS",
+        "S03_READER_NATIVE_CANCELLED_LIFETIME_AND_STALE_COMPOSITE_NO_EFFECT": "PASS",
+        "S03_READER_NATIVE_EXACT_HELD_P1_BLOCKS_LEGACY_REPLACE_AND_CREATE": "PASS"
+      }
+    },
+    "CP7_SKU_PAIR_CONVERSION_NATIVE7.json": {
+      "bytes": 17681,
+      "sha256": "37796759ab85e2255d3089d66b94c65538c4d497ca3d7bc935767cb9e13762c1",
+      "cases": {
+        "SKU29_PAIR_BIDIRECTIONAL_REPLACE_DELETE_NO_LEDGER": "PASS",
+        "SKU29_NONPO_MULTILOT_FIFO_RESERVATION_VALUE_REPLAY": "PASS",
+        "SKU29_ANY_ACTIVE_MODEL_SIZE_MANUAL_BACK_CURRENT_SOURCE_COST": "PASS",
+        "SKU29_STALE_SOURCE_TARGET_RESERVATIONS_REFUSE_ZERO_EFFECT": "PASS",
+        "SKU29_GROUP_REVERSE_ACTIVE_SALE_REFUSAL_THEN_RELEASE": "PASS",
+        "SKU29_MIXED_PO_NONPO_NATIVE_LINEAGE_VALUE_CONSERVATION": "PASS",
+        "SKU29_LEGACY_ACCESSORY_COST_AND_INVERSE_PRESERVED": "PASS"
+      }
+    },
+    "CP7_S05_ON_SKU_NATIVE10_CASES.json": {
+      "bytes": 255161,
+      "sha256": "1f6b629620c7c082fee33ff43506c5b86f916d0ff33587340ba567d4323b92cb",
+      "cases": {
+        "S05_NATIVE_CATEGORY_VARIANTS_PO": "PASS",
+        "S05_NATIVE_HISTORICAL_BOM": "PASS",
+        "S05_NATIVE_LATE_INVOICE_COST_REVISIONS": "PASS",
+        "S05_NATIVE_ZERO_REIMBURSEMENT": "PASS",
+        "S05_NATIVE_EMPTY_AND_NO_OUTPUT": "PASS",
+        "S05_NATIVE_WIB_COHORTS": "PASS",
+        "S05_NATIVE_NOTE_DRAFT_INVERSE": "PASS",
+        "S05_NATIVE_QC_INVERSE": "PASS",
+        "S05_NATIVE_REWORK_NONE_RECORDED_RECIPIENT": "PASS",
+        "S05_NATIVE_CURRENT_ACCESS_PRIVATE_ACL": "PASS"
+      }
+    }
+  },
+  "browser_cases": {
+    "S03_BROWSER_OWNER_EXPENSE_CORRECT_REVERSE_DESKTOP": "PASS",
+    "S03_BROWSER_OWNER_CARRY_ALLOCATE_CANCEL_MOBILE390": "PASS"
+  },
+  "browser_missing": [
+    "S03_BROWSER_ACTUAL_STALE_AND_LOST_REPLY_SAME_UUID",
+    "S03_BROWSER_CURRENT_AUTH_RIGHTS_AND_DELAYED_CONTEXT"
+  ],
+  "S05_browser2_not_started": true,
+  "main_original": {
+    "bytes": 91201287,
+    "sha256": "efba5eed752d45ae163a0172214a325b140daa0781c2309212957bc18248147f",
+    "status": "INCOMPLETE",
+    "cp6_restored": false,
+    "required_case_ids_pass": false
+  },
+  "full37_qualified": false,
+  "all5_qualified": false,
+  "independent_acceptance": false,
+  "production_go": false,
+  "observed": {
+    "job_created_utc": "2026-10-31T17:01:04Z",
+    "cancellation_log_utc": "2026-10-31T20:31:20.1174375Z",
+    "configured_job_timeout_minutes": 210,
+    "S05_Native10_seconds": 5259.933,
+    "S03_browser4_started_utc": "2026-10-31T19:23:19.594Z",
+    "first_browser_failure": "third case fixture database connection refused",
+    "outer_restore_failure": "connection failed: connection to server at \"127.0.0.1\", port 54322 failed: Connection refused\n\tIs the server running on that host and accepting TCP/IP connections?"
+  },
+  "diagnosis": {
+    "deadline_exhaustion": "inference supported by configured 210-minute limit and observed 210-minute cancellation",
+    "database_shutdown_before_worker_exit": "always database-stop step completed while later report records refused database connections",
+    "OOM_proven": false
+  },
+  "intended_repair": {
+    "job_minutes": 360,
+    "work_minutes_from_job_start": 330,
+    "restoration_grace_minutes": 20,
+    "artifact_reserve_minutes": 10,
+    "one_attempt": true,
+    "real_WIB_day_required": true,
+    "worker_process_tree_must_be_reaped_before_database_stop": true,
+    "business_callbacks_or_oracles_changed": false
+  }
+}
