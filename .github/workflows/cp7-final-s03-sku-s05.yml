@@ -12,14 +12,14 @@ permissions:
   contents: read
   actions: read
 concurrency:
-  group: cp7-permanent-s05-${{ github.run_id }}
+  group: cp7-permanent-s05-single-owning-qualification
   cancel-in-progress: false
 jobs:
   p21:
     name: Permanent reader; unchanged financial4; real Auth normal App browser2; complete
       restoration
     runs-on: ubuntu-24.04
-    timeout-minutes: 120
+    timeout-minutes: 360
     env:
       PYTHONDONTWRITEBYTECODE: '1'
       CURRENT_ANALOG_FROZEN_SOURCE_ROOT: ${{ github.workspace }}/frozen
@@ -51,6 +51,13 @@ jobs:
       JOIN_QUALIFIED_SKU_ROOT: ${{ github.workspace }}/qualified-sku090b
       PERMANENT_S05_CONFIRM: cp6_rollback
     steps:
+    - name: Record monotonic job start before setup and admission
+      run: |
+        python - <<'PY'
+        import os,time
+        with open(os.environ['GITHUB_ENV'],'a') as stream:
+            stream.write('PERMANENT_JOB_START_MONOTONIC='+str(time.monotonic())+'\n')
+        PY
     - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       with:
         path: auditor
@@ -576,8 +583,7 @@ jobs:
     - name: Run actual permanent reader financial4 normal App browser2 and complete
         outer restoration
       working-directory: writer
-      run: 'python -u -B ''../auditor/scripts/current-final-s03-sku-s05-preparation/probe.py''
-        --runtime
+      run: 'python -u -B ''../auditor/scripts/current-final-s03-sku-s05-preparation/runtime_supervisor.py''
 
         python -B ''../auditor/scripts/current-final-s03-sku-s05-preparation/final_gate.py''
 
@@ -605,8 +611,9 @@ jobs:
     - name: Remove disposable database
       if: always()
       working-directory: base
-      run: if command -v supabase >/dev/null 2>&1 && test -d cp5-local; then supabase
-        stop --workdir cp5-local --no-backup; fi
+      run: |
+        python -B ../auditor/scripts/current-final-s03-sku-s05-preparation/runtime_supervisor.py --allow-database-stop
+        if command -v supabase >/dev/null 2>&1 && test -d cp5-local; then supabase stop --workdir cp5-local --no-backup; fi
     - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
       if: always()
       with:

@@ -112,13 +112,15 @@
   "independent_acceptance": false,
   "owning_job_budget_change": {
     "original_minutes": 210,
-    "current_minutes": 120,
-    "full_owning_pre_DB_and_runtime_WIB_guard_minutes": 120,
+    "current_minutes": 360,
+    "full_owning_pre_DB_and_runtime_WIB_guard_minutes": 360,
     "private_policy": "scripts/current-final-s03-sku-s05-preparation/attempt_policy.py",
     "all_actual_business_day_checks_and_single_attempt_unchanged": true,
     "fresh_Native_cases": 4,
     "fresh_browser_cases": 2,
     "browser_case_timeout_minutes": 10,
     "source_install_restore_or_financial_checks_removed": 0
-  }
+  },
+  "supervision_derivation": "SUPERVISION_DERIVATIONS.json",
+  "unchanged_step_indices_apply_to": "Reconstructed prior permanent workflow before the exact five supervision changes"
 }

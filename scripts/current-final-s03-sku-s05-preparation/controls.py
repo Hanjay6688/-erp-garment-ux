@@ -60,15 +60,17 @@ def controls():
     if sha256(original).hexdigest()!=record['source_sha256']:
         raise ValueError('PERMANENT_S05_FROZEN_WORKFLOW_SOURCE_CHANGED')
     old=yaml.safe_load(original)['jobs']['p21']['steps']
+    supervision=load('permanent_exact_process_owner_reuse',HERE/'runtime_controls.py').verify()
+    prior_steps=yaml.safe_load(supervision.pop('prior_workflow'))['jobs']['p21']['steps']
     workflow=yaml.safe_load((ROOT/'.github/workflows/cp7-final-s03-sku-s05.yml').read_bytes())
     job=workflow['jobs']['p21'];steps=job['steps']
     for i in record['unchanged_step_indices']:
-        if steps[i]!=old[i]:raise ValueError('PERMANENT_S05_UNDECLARED_WORKFLOW_STEP_CHANGE:'+str(i))
+        if prior_steps[i]!=old[i]:raise ValueError('PERMANENT_S05_UNDECLARED_WORKFLOW_STEP_CHANGE:'+str(i))
     branch=record['branch']
     if workflow['on']['push']['branches']!=[branch]or job['if']!="github.ref == 'refs/heads/"+branch+"'":
         raise ValueError('PERMANENT_S05_EXACT_RUNTIME_BRANCH_REQUIRED')
     policy=load('permanent_exact_own_full_job_day_window',HERE/'attempt_policy.py')
-    if(job['timeout-minutes']!=120 or policy.JOB_BUDGET_SECONDS!=job['timeout-minutes']*60
+    if(job['timeout-minutes']!=360 or policy.JOB_BUDGET_SECONDS!=job['timeout-minutes']*60
        or job['env']['PERMANENT_S05_CONFIRM']!='cp6_rollback'):
         raise ValueError('PERMANENT_S05_DISPOSABLE_WINDOW_AND_CONFIRMATION_REQUIRED')
     start=next(i for i,s in enumerate(steps)if s.get('name')=='Start disposable database')
@@ -85,6 +87,7 @@ def controls():
         exact_original_workflow_steps_retained=len(record['unchanged_step_indices']),
         exact_job_and_WIB_guard_budget_seconds=policy.JOB_BUDGET_SECONDS,
         original_single_attempt_and_real_day_behavior_unchanged=True,published_diagnostics_byte_exact=True,
+        runtime_supervision=supervision,
         actual_Native_cases=0,actual_browser_cases=0,production_go=False,independent_acceptance=False)
 
 

@@ -8,10 +8,22 @@ MAIN='CP7_PERMANENT_S05_S03_SKU_NATIVE4_BROWSER2.json'
 CASE='PERMANENT_S05_S03_SKU_NATIVE4_BROWSER2'
 
 
+def supervision(p,value,head,run_id):
+    p.fields(value,dict(status='WORKER_COMPLETED_AND_REAPED',qualification_commit=head,
+        github_run_id=run_id,github_run_attempt='1',worker_exit=0,deadline_reached=False,
+        external_signal=None,orphaned_child=False,process_group_empty=True,process_tree_empty=True,
+        signals=[],actual_case_credit=0,production_go=False,job_budget_seconds=21600,
+        work_budget_seconds=19800,recovery_reserve_seconds=1200,artifact_reserve_seconds=600),
+        'PERMANENT_COMPLETE_OWNED_PROCESS_REAP_BEFORE_DATABASE_REMOVAL')
+    return dict(status='PERMANENT_SUPERVISION_ACCEPTED',actual_case_credit=0)
+
+
 def gate(directory,head):
     spec=importlib.util.spec_from_file_location('permanent_typed_actual_report_gate',ROOT/'scripts/current-s03-sku-s05-composite-qualification/parents.py')
     p=importlib.util.module_from_spec(spec);spec.loader.exec_module(p)
     main=p.strict((directory/MAIN).read_bytes());package=p.strict((directory/'T3_PACKAGE_INSTALL.json').read_bytes())
+    supervised=supervision(p,p.strict((directory/'PERMANENT_RUNTIME_SUPERVISION.json').read_bytes()),
+        head,package['run_identity']['run_id'])
     backup=p.strict((directory/'T3_BACKUP_RESTORE_DRILL.json').read_bytes())
     p.fields(main,dict(status='PASS',qualification_commit=head,required_case_ids_pass=True,
         actual_Native_cases=4,actual_browser_cases=2,actual_business_cases=6,
@@ -54,6 +66,7 @@ def gate(directory,head):
         raise ValueError('PERMANENT_S05_ALL_TYPED_BACKUP_CHECKS_REQUIRED')
     return dict(status='CURRENT_PERMANENT_S05_FINANCIAL4_BROWSER2_AND_ALL5_PASS',head=head,
         actual_fresh_cases=6,retained_join37_fresh_case_credit=0,reader_remains_installed=True,
+        runtime_supervision=supervised,
         production_go=False,independent_acceptance=False)
 
 
