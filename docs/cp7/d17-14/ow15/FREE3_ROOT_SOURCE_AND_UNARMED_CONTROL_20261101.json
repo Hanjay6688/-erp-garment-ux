@@ -1,0 +1,48 @@
+{
+  "status": "ROOT_FREE3_EXACT_SOURCE_AND_UNARMED_INTAKE_CONTROLS_PASS_NOT_NATIVE",
+  "source": {
+    "source_pins": 30,
+    "own_paths": 31,
+    "unchanged_base": 14181,
+    "Native_case_ids": [
+      "FREE_DATE_NATIVE_WIB_INCLUSIVE_LOOKUP_AND_NORMAL_PUBLIC_QUOTE",
+      "FREE_DATE_NATIVE_FINAL_DAY_POST_STOCK_GL_AND_EXACT_REPLAY",
+      "FREE_DATE_NATIVE_POSTED_HISTORY_AFTER_ELIGIBILITY_ENDS"
+    ],
+    "original_C43_date_files": 9,
+    "explicit_date_stage_routes": 2,
+    "unchanged_Native_fixture_runner_sources": 3,
+    "pure_report_validator": {
+      "selected_functions": [
+        "money",
+        "posted",
+        "validate"
+      ],
+      "exact_source": {
+        "bytes": 12267,
+        "sha256": "80aafce47933de5d1702a1b1c3db1230034b4b8597cd6edc24104472212537e1"
+      },
+      "actual_ERP_imports": 0,
+      "actual_SQL_executed": 0
+    },
+    "source_manifest": {
+      "bytes": 5595,
+      "sha256": "634bd7ad53ee50fe5c899dea24a8a6752e5325897afb469c4052faa33e4d2578"
+    },
+    "actual_case_credit": 0,
+    "parent_qualification_pending": true
+  },
+  "actual_Native_cases": 0,
+  "head": "651084161b76f7b38951fe0c22b725fe2b2a1dd3",
+  "tree": "01a26e00a1bfce174248a4826aa372518ecd5dee",
+  "unarmed_intake_refused_before_Git_archive_or_API_metadata": true,
+  "actual_SQL_executed": 0,
+  "first_local_source_control_refusal": {
+    "error": "FREE3_PURE_VALIDATOR_DECLARED_CALLS_ONLY",
+    "cause": "Pure builtins list/range/timedelta absent from initial Root allowlist; inspected exact AST call set and admitted only these pure calls.",
+    "actual_ERP_imports": 0,
+    "actual_SQL_executed": 0,
+    "actual_Native_cases": 0,
+    "corrected": true
+  }
+}

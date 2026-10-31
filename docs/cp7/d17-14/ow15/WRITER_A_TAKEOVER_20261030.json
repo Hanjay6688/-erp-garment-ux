@@ -163,11 +163,10 @@
   "independent_acceptance": false,
   "current_default": "cp7_vendor_receivable.composition",
   "next": [
-    "Monitor actual current37 run41222437891/job124599622258; preserve the first failure and canonical artifact; no acceptance while active.",
-    "On terminal success verify exact current37 canonical archive/API identity and all original fresh37/all5/restores using pinned Root intake.",
-    "Permanent49, DE62 and date22 source ports are already prepared on repaired source; after each actual successful parent bind only its canonical Root receipt, regenerate own source pins and observe each actual owning run before arming intake.",
-    "Continue remaining old ERP/global/Afui scope and implement FG Mandor chosen-week allocations after active integration is stable.",
-    "Prepared FREE3 source67baa includes the whole owning caller and data-only workflow; add its closed canonical Root intake before actual activation after accepted DE30. Synthetic model controls are zero Native/business credit."
+    "Monitor actual current37 run41222437891/job124599622258 and preserve canonical terminal artifact and every first failure.",
+    "If actual full37 passes exact Root intake, bind its canonical receipt into prepared permanent49, refresh own pins, verify the real120-minute policy and exact runtime branch, then observe actual permanent6 run/job before arming intake.",
+    "DE62 and FREE3 source/owning caller/closed Root intakers are prepared. Bind only actual accepted parents in order; no fresh case credit from source or synthetic models.",
+    "Continue old ERP/global/Afui scope and FG Mandor manually chosen payroll week after stable active integration."
   ],
   "prior_checkpoint": {
     "classification": "WRITER_A_TAKEOVER_ACTIVE_CONTINUATION_NOT_COMPLETION",
@@ -2045,7 +2044,7 @@
     "complete37_qualified": false
   },
   "latest_runner_loss_receipt": "JOIN_1EDD_ROOT_RUNNER_LOSS_20261031.json",
-  "latest_continuation_receipt": "WRITER_A_V229_PREPARED_NATIVE_FREE3_WHOLE_CALLER_20261101.json",
+  "latest_continuation_receipt": "WRITER_A_V230_CLOSED_ROOT_FREE3_INTAKE_READY_20261101.json",
   "current_system_cron_profile_preparation": {
     "namespace": "scripts/current-global-system-cron-profile-preparation",
     "queries": 27,
@@ -2283,9 +2282,9 @@
     "current_prepared_head": "04ed2fbc3f1fb24174ff7368bffbb2dff01f5423"
   },
   "explicit_current_DE_FREE_date_preparation": {
-    "head": "67baa0ddb5cd8773104e8c43a287b58f1df772dc",
-    "tree": "bf4cea8fa127b68926ec6294ed19193ceca9188a",
-    "parent": "13db04e03a060e3a1faaac9f7125d9a2e5578adb",
+    "head": "651084161b76f7b38951fe0c22b725fe2b2a1dd3",
+    "tree": "01a26e00a1bfce174248a4826aa372518ecd5dee",
+    "parent": "67baa0ddb5cd8773104e8c43a287b58f1df772dc",
     "base": "fef0d838991df1ab3474382747ee3519d4c237eb",
     "branch": "astra-a/de-free-date-repaired-parent-source-prepared-20261101",
     "own_paths": 31,
@@ -2320,7 +2319,10 @@
     "actual_Native_cases": 0,
     "actual_new_SQL_executed": 0,
     "GOOD_eligibility_policy_decided": false,
-    "Afui_GOOD_nonpayable_path_complete": false
+    "Afui_GOOD_nonpayable_path_complete": false,
+    "Root_intake": "scripts/current-writer-a-takeover-20261030/intake_free3.py",
+    "Root_pure_AST_and_unarmed_controls": "PASS",
+    "all_eight_actual_parent_and_runtime_identity_constants": null
   },
   "prior_current_complete_DE_root_intake_before_repaired_parent": {
     "status": "ROOT_DE30_WORKFLOW_SUCCESSOR_SOURCE_AND_UNARMED_CONTROL_PASS",
@@ -2412,5 +2414,14 @@
     "workflow_activated": false,
     "actual_Native_cases": 0,
     "GOOD_eligibility_policy_decided": false
+  },
+  "current_FREE3_Root_intake_preparation": {
+    "head": "651084161b76f7b38951fe0c22b725fe2b2a1dd3",
+    "tree": "01a26e00a1bfce174248a4826aa372518ecd5dee",
+    "source": "FREE3_ROOT_SOURCE_AND_UNARMED_CONTROL_20261101.json",
+    "models": "FREE3_ROOT_PURE_REPORT_MODEL_CONTROLS_20261101.json",
+    "actual_Native_cases": 0,
+    "actual_accepted_parent": null,
+    "activated": false
   }
 }

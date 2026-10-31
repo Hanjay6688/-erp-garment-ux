@@ -1,0 +1,204 @@
+"""Read-only canonical FREE3 intake, closed until both actual owning runs exist.
+
+Prepared source checks and pure report grammar grant zero business credit.
+No product/ERP module, connection, Auth, browser or network is imported here.
+"""
+from pathlib import Path
+from hashlib import file_digest
+from datetime import date,datetime,time,timedelta
+from decimal import Decimal
+from types import ModuleType,SimpleNamespace
+from zoneinfo import ZoneInfo
+import argparse,ast,json,re,zipfile
+from intake_common import GitBytes,exact,fields,pin,require,safe_path
+from intake_sku27 import strict,literal,group,full_census,declared_files
+
+HEAD=None
+TREE=None
+RUN=None
+JOB=None
+PARENT_HEAD=None
+PARENT_TREE=None
+PARENT_RUN=None
+PARENT_JOB=None
+PREPARED_HEAD='651084161b76f7b38951fe0c22b725fe2b2a1dd3'
+PREPARED_TREE='01a26e00a1bfce174248a4826aa372518ecd5dee'
+PREPARED_BASE='fef0d838991df1ab3474382747ee3519d4c237eb'
+PREPARED_BASE_TREE='772cc0a80e1857bc03e6a544a39d5b5de3beb4c3'
+NS='scripts/current-de-free-date-preparation/'
+PREFIXES=('scripts/current-special-free-date-boundary/','scripts/cp7_special_free_date_on_de/',
+          'scripts/cp7_current_de_free_date/',NS)
+WORKFLOW='.github/workflows/cp7-current-complete-de-free-date-native3.yml'
+MAIN='CP7_CURRENT_COMPLETE_DE_FREE_DATE_NATIVE3.json'
+RAW='CP7_CURRENT_COMPLETE_DE_FREE_DATE_NATIVE3_CASES.json'
+CASE='CURRENT_COMPLETE_DE_FREE_DATE_NATIVE3'
+IDS=['FREE_DATE_NATIVE_WIB_INCLUSIVE_LOOKUP_AND_NORMAL_PUBLIC_QUOTE',
+     'FREE_DATE_NATIVE_FINAL_DAY_POST_STOCK_GL_AND_EXACT_REPLAY',
+     'FREE_DATE_NATIVE_POSTED_HISTORY_AFTER_ELIGIBILITY_ENDS']
+GATES=dict(installed=True,primary_unchanged=True,backup_restore_drill=True,security_advisors=True,writer_runtime=True)
+
+
+def report_validator(g):
+    """Compile only the exact three pure functions from an immutable blob."""
+    selected=[node for node in ast.parse(g.read(NS+'final_gate.py')).body
+              if isinstance(node,ast.FunctionDef)and node.name in('money','posted','validate')]
+    exact([node.name for node in selected],['money','posted','validate'],'FREE3_EXACT_THREE_PURE_VALIDATOR_FUNCTIONS')
+    names={'ValueError','type','len','set','dict','str','list','range','sum','any',
+           'Decimal','ZoneInfo','timedelta','money','posted'}
+    attributes={'fields','exact','fromisoformat','combine','isoformat','utcoffset','is_finite','get','items','values'}
+    for function in selected:
+        require(not function.decorator_list,'FREE3_PURE_VALIDATOR_NO_DECORATOR')
+        for node in ast.walk(function):
+            require(not isinstance(node,(ast.Import,ast.ImportFrom,ast.Global,ast.Nonlocal,
+                ast.With,ast.AsyncWith,ast.Await,ast.Yield,ast.YieldFrom)),
+                'FREE3_PURE_VALIDATOR_NO_RUNTIME_IMPORT_OR_CONTEXT')
+            if isinstance(node,ast.Attribute):
+                require(not node.attr.startswith('__'),'FREE3_PURE_VALIDATOR_NO_SPECIAL_ATTRIBUTE')
+            if isinstance(node,ast.Call):
+                call=node.func
+                require((isinstance(call,ast.Name)and call.id in names)
+                    or(isinstance(call,ast.Attribute)and call.attr in attributes),
+                    'FREE3_PURE_VALIDATOR_DECLARED_CALLS_ONLY:'+ast.unparse(call))
+    module=ModuleType('ROOT_EXACT_PURE_FREE3_REPORT_VALIDATOR')
+    module.__dict__.update(Decimal=Decimal,date=date,datetime=datetime,time=time,timedelta=timedelta,
+                          ZoneInfo=ZoneInfo,CASE=CASE)
+    exec(compile(ast.Module(body=selected,type_ignores=[]),NS+'final_gate.py:pure-only','exec'),module.__dict__)
+    return module,dict(selected_functions=[node.name for node in selected],
+        exact_source=pin(g.read(NS+'final_gate.py')),actual_ERP_imports=0,actual_SQL_executed=0)
+
+
+def source(g):
+    base_head=PARENT_HEAD or PREPARED_BASE;base_tree=PARENT_TREE or PREPARED_BASE_TREE
+    declaration=strict(g.read(NS+'SOURCE.json'))
+    fields(declaration,dict(classification='CLOSED_DATE_ON_COMPLETE_DE_PREPARATION_NOT_QUALIFICATION',
+        base_head=base_head,base_tree=base_tree,actual_Native_cases=0,production_go=False,
+        independent_acceptance=False),'FREE3_SOURCE_PREPARATION_NOT_ACTUAL_CASE_CREDIT')
+    exact(g.git('rev-parse',base_head+'^{tree}').decode().strip(),base_tree,'FREE3_EXACT_PARENT_TREE')
+    base=g.entries(base_head)
+    for name,value in base.items():exact(g.tree.get(name),value,'FREE3_PARENT_BLOB_AND_MODE:'+name)
+    allowed=set(declaration['files'])|{NS+'SOURCE.json'}
+    require(all(name.startswith(PREFIXES)or name==WORKFLOW for name in allowed),'FREE3_ONLY_OWN_NAMESPACES')
+    exact(set(g.tree)-set(base),allowed,'FREE3_EXACT_CLOSED_ADDITIVE_SOURCE')
+    for name,value in declaration['files'].items():g.verify_pin(name,value)
+    if PARENT_HEAD is None:
+        exact(len(base),14181,'FREE3_PREPARED_BASE14181');exact(len(allowed),31,'FREE3_PREPARED_OWN31')
+        exact(literal(g,NS+'admission.py','PARENT_HEAD'),None,'FREE3_PREPARED_PARENT_GATE_CLOSED')
+        exact(literal(g,NS+'admission.py','PARENT_RECEIPT'),None,'FREE3_PREPARED_RECEIPT_GATE_CLOSED')
+        require(WORKFLOW not in g.tree,'FREE3_PREPARED_WORKFLOW_NOT_ACTIVATED')
+    else:
+        exact(literal(g,NS+'admission.py','PARENT_HEAD'),PARENT_HEAD,'FREE3_ACTUAL_ACCEPTED_PARENT_HEAD')
+    exact(list(literal(g,NS+'native_free.py','IDS')),IDS,'FREE3_THREE_EXACT_UNIQUE_SOURCE_CASE_IDS')
+    exact(literal(g,NS+'final_gate.py','CASE'),CASE,'FREE3_FINAL_GATE_CASE_ID')
+    native=strict(g.read(NS+'FREE_NATIVE3_SOURCE.json'))
+    fields(native,dict(classification='PREPARED_THREE_NATIVE_FREE_DATE_CASES_NOT_ACTUAL_EXECUTION',
+        head='13db04e03a060e3a1faaac9f7125d9a2e5578adb',case_ids=IDS,fixture_or_runner_changes=0,
+        posted_free_lines_per_post=1,paid_companion_lines=0,mandatory_PO_or_FG_matching=False,
+        product_clock_changed=False,actual_Native_cases=0,actual_SQL_executed=0,
+        GOOD_eligibility_policy_decided=False,production_go=False,independent_acceptance=False),
+        'FREE3_NATIVE_SOURCE_NO_ECONOMIC_POLICY_OR_ACTUAL_CREDIT')
+    exact(set(native['unchanged_sources']),{'scripts/cp6_bc_probe.py','scripts/cp6_auditor_runner.py',
+        'scripts/cp6_v2620c_live_rollback_race.py'},'FREE3_THREE_UNCHANGED_FIXTURE_RUNNER_SOURCES')
+    for name,value in native['unchanged_sources'].items():
+        raw=g.verify_pin(name,value);exact(raw,g.read(name,native['head']),'FREE3_ORIGINAL_NATIVE_FIXTURE_BYTES:'+name)
+    origin=strict(g.read(NS+'ORIGIN.json'))
+    fields(origin,dict(head='c43dabf4378fb8096cd86b37adc9b24c359efa63',
+        tree='c373fb2f1cb56db996880e4e18702588f5fc5261',
+        SQL_predicate_or_original_lifecycle_function_changes=0,actual_Native_cases=0,
+        production_go=False,independent_acceptance=False),'FREE3_EXACT_C43_DATE_STAGE_ORIGIN')
+    exact(len(origin['files']),9,'FREE3_NINE_ORIGINAL_C43_DATE_FILES')
+    changes=0
+    for name,value in origin['files'].items():
+        raw=g.read(value['source_path'],origin['head']);exact(pin(raw),
+            {key:value[key]for key in('bytes','sha256')},'FREE3_EXACT_ORIGINAL_C43_BYTES:'+name)
+        text=raw.decode()
+        for change in value['changes']:
+            exact(text.count(change['before']),change['count'],'FREE3_DECLARED_DATE_STAGE_ROUTE_ANCHOR')
+            text=text.replace(change['before'],change['after'],change['count']);changes+=change['count']
+        exact(text.encode(),g.read(name),'FREE3_ONLY_DECLARED_C43_PARENT_AND_CONTRACT_ROUTES:'+name)
+    exact(changes,2,'FREE3_ONLY_TWO_DATE_STAGE_PARENT_AND_CONTRACT_ROUTES')
+    _,validator=report_validator(g)
+    return dict(source_pins=len(declaration['files']),own_paths=len(allowed),unchanged_base=len(base),
+        Native_case_ids=IDS,original_C43_date_files=9,explicit_date_stage_routes=2,
+        unchanged_Native_fixture_runner_sources=3,pure_report_validator=validator,
+        source_manifest=pin(g.read(NS+'SOURCE.json')),actual_case_credit=0,
+        parent_qualification_pending=PARENT_HEAD is None)
+
+
+def intake(root,path,metadata):
+    require(all(value is not None for value in(HEAD,TREE,RUN,JOB,PARENT_HEAD,PARENT_TREE,PARENT_RUN,PARENT_JOB)),
+        'FREE3_ACTUAL_PARENT_AND_OWNING_RUN_NOT_YET_PINNED')
+    fields(metadata,dict(head=HEAD,tree=TREE,run_id=RUN,job_id=JOB,run_attempt=1,
+        conclusion='success',expired=False),'FREE3_EXACT_TERMINAL_CANONICAL_API_METADATA')
+    require(type(metadata['artifact_id'])is int and metadata['artifact_id']>0,'FREE3_ACTUAL_ARTIFACT_ID')
+    expected=metadata['archive']
+    require(type(expected['bytes'])is int and expected['bytes']>0,'FREE3_CANONICAL_ARCHIVE_POSITIVE_BYTES')
+    require(type(expected['sha256'])is str and re.fullmatch('[0-9a-f]{64}',expected['sha256'])is not None,
+        'FREE3_CANONICAL_ARCHIVE_SHA256')
+    path=Path(path);exact(path.stat().st_size,expected['bytes'],'FREE3_CANONICAL_ARCHIVE_SIZE')
+    with path.open('rb')as stream:exact(file_digest(stream,'sha256').hexdigest(),expected['sha256'],'FREE3_CANONICAL_ARCHIVE_DIGEST')
+    with GitBytes(root,HEAD,TREE)as g,zipfile.ZipFile(path)as z:
+        names=z.namelist();exact(len(set(names)),len(names),'FREE3_NO_DUPLICATE_ARCHIVE_MEMBERS')
+        for name in names:safe_path(name)
+        require(z.testzip()is None,'FREE3_COMPLETE_CANONICAL_ARCHIVE_CRC')
+        admitted=source(g);pins={}
+        def original(name):
+            raw=z.read(name);pins[name]=pin(raw);return strict(raw)
+        main=original(MAIN);raw=original(RAW)
+        package=original('T3_PACKAGE_INSTALL.json');backup=original('T3_BACKUP_RESTORE_DRILL.json')
+        pure,proof=report_validator(g)
+        gate=pure.validate(SimpleNamespace(fields=fields,exact=exact,GATES=GATES),
+            main,raw,package,backup,IDS,HEAD)
+        fields(gate,dict(status='CURRENT_COMPLETE_DE_FREE_DATE_NATIVE3_AND_ALL5_PASS',head=HEAD,
+            actual_fresh_cases=3,retained_DE30_fresh_case_credit=0,production_go=False,
+            independent_acceptance=False),'FREE3_EXACT_PURE_CANONICAL_REPORT_GATE')
+        group(raw,IDS)
+        boundaries={}
+        for key,row in raw['cases'].items():
+            boundary=row['actual_full22_case_boundary']
+            exact(boundary['before'],boundary['after'],'FREE3_ACTUAL_CASE_FULL_BOUNDARY:'+key)
+            boundaries[key]=full_census(boundary['before']['actual_all22'],boundary['before']['full_data_and_sequences'])
+        used=main['committed'][CASE]['separate_committed_Native_use']
+        exact(used['before'],used['after'],'FREE3_COMMITTED_USED_REFUSAL_RAW_NO_EFFECT')
+        used_boundary=full_census(used['before']['actual_all22'],used['before']['full_data_and_sequences'])
+        fields(package['run_identity'],dict(tool_head=HEAD,github_sha=HEAD,run_id=str(RUN),run_attempt='1'),
+            'FREE3_EXACT_CURRENT_OWNING_PACKAGE_RUN')
+        fields(main['baseline_role_cleanup'],dict(baseline_roles_exact=True),'FREE3_EXACT_ROLE_RESTORE')
+        fields(main['baseline_restore'],dict(unexplained=[],only_pg_cron_errors=True,
+            database_owner_acl_and_settings_preserved=True),'FREE3_OUTER_DATABASE_RESTORE')
+        parent_raw=g.read(NS+'DE30_PARENT_ROOT_ACTUAL_INTAKE.json');parent=strict(parent_raw)
+        fields(parent,dict(status='ROOT_VERIFIED_CURRENT_COMPLETE_D1_E_NATIVE30_ALL5',head=PARENT_HEAD,
+            tree=PARENT_TREE,run_id=PARENT_RUN,job_id=PARENT_JOB,actual_Native_cases=30,actual_D1_cases=13,
+            actual_E_cases=17,actual_browser_cases=0,actual_Auth_HTTP_cases=0,actual_two_session_races=0,
+            package_all_five=True,prior_runs_aggregated=False,retained_permanent6_fresh_case_credit=0,
+            D_complete=False,E_complete=False,global_writer_or_permission_or_lock_closure=False,
+            production_go=False,independent_acceptance=False),'FREE3_ACTUAL_CANONICAL_ACCEPTED_DE30_PARENT')
+        exact(pin(parent_raw),literal(g,NS+'admission.py','PARENT_RECEIPT'),'FREE3_PARENT_RECEIPT_PHYSICAL_SOURCE_PIN')
+        graph=main['source_declaration']['current_installation'];maps=declared_files(g,graph)
+        exact(graph['date']['parent'],graph['parent'],'FREE3_NATURAL_DATE_AND_COMPLETE_DE_PARENT_GRAPH')
+        parent_pin=pin(json.dumps(graph['parent'],sort_keys=True,separators=(',',':'),allow_nan=False).encode())
+        exact(parent_pin,parent['qualified_complete_DE_sources'],'FREE3_ENTIRE_ACTUAL_DE30_PARENT_SOURCE_GRAPH')
+        exact(main['source_declaration']['qualified_parent_sources'],parent_pin,'FREE3_ADMITTED_WHOLE_PARENT_SOURCE_PIN')
+        return dict(status='ROOT_VERIFIED_CURRENT_COMPLETE_DE_FREE_DATE_NATIVE3_ALL5',head=HEAD,tree=TREE,
+            run_id=RUN,job_id=JOB,artifact_id=metadata['artifact_id'],archive=dict(expected,members=len(names)),
+            originals=pins,source_admission=admitted,pure_report_validator=proof,actual_product_source_maps=maps,
+            qualified_complete_DE_FREE_date_sources=pin(json.dumps(graph,sort_keys=True,separators=(',',':'),allow_nan=False).encode()),
+            qualified_DE30=dict(head=PARENT_HEAD,tree=PARENT_TREE,run_id=PARENT_RUN,job_id=PARENT_JOB,
+                root_intake=pin(parent_raw)),actual_Native_cases=3,actual_business_cases=3,
+            actual_browser_cases=0,actual_Auth_HTTP_cases=0,actual_two_session_races=0,
+            complete3_qualified=True,package_all_five=True,prior_runs_aggregated=False,
+            retained_DE30_fresh_case_credit=0,actual_full22_case_boundaries=boundaries,
+            actual_used_refusal_raw_boundary=used_boundary,GOOD_eligibility_policy_decided=False,
+            Afui_GOOD_nonpayable_path_complete=False,D_complete=False,E_complete=False,
+            global_writer_or_permission_or_lock_closure=False,production_go=False,independent_acceptance=False)
+
+
+if __name__=='__main__':
+    p=argparse.ArgumentParser();p.add_argument('--source',type=Path,required=True);p.add_argument('--check-source',action='store_true')
+    p.add_argument('--archive',type=Path);p.add_argument('--artifact-metadata',type=Path);p.add_argument('--output',type=Path);a=p.parse_args()
+    if a.check_source:
+        with GitBytes(a.source,HEAD or PREPARED_HEAD,TREE or PREPARED_TREE)as g:value=source(g)
+        print(json.dumps(dict(status='EXACT_FREE3_SOURCE_AND_THREE_IDS_ONLY',source=value,actual_Native_cases=0)))
+    else:
+        require(all((a.archive,a.artifact_metadata,a.output)),'FREE3_CANONICAL_ARCHIVE_API_METADATA_AND_OUTPUT_REQUIRED')
+        value=intake(a.source,a.archive,strict(a.artifact_metadata.read_bytes()))
+        a.output.write_text(json.dumps(value,indent=2)+'\n');print(json.dumps(dict(status=value['status'],actual_Native_cases=3)))

@@ -86,8 +86,8 @@
   },
   "actual_prepared_source_pins": {
     "final_gate.py": {
-      "bytes": 12159,
-      "sha256": "2c1aa3bf2848c755157f3d4d974c91a51f33642c732b94393fdaf8f3d56db446"
+      "bytes": 12267,
+      "sha256": "80aafce47933de5d1702a1b1c3db1230034b4b8597cd6edc24104472212537e1"
     },
     "component.py": {
       "bytes": 8583,
