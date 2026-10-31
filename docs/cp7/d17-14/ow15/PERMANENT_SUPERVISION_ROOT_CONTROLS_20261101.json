@@ -1,0 +1,82 @@
+{
+  "status": "ROOT_PERMANENT_SUPERVISION_CONTROLS_PASS",
+  "head": "92a70c1fbe51208f098e82a27088649add4befd4",
+  "tree": "8a633067765c4717720fe7b067fa2f6b4a665179",
+  "source": {
+    "source_pins": 53,
+    "own_paths": 54,
+    "unchanged_base": 14070,
+    "native_ids": [
+      "PERMANENT_S05_S03_NATIVE_EXPENSE_APPROVAL_ONCE_PAID_E05_REOPEN",
+      "PERMANENT_S05_S03_NATIVE_BOTH_CORRECTIONS_LINKED_INVERSES_NO_RECOGNITION",
+      "PERMANENT_S05_S03_NATIVE_FINISHED_PO_FG_COGS_COST_AND_CANCEL_EXACT",
+      "PERMANENT_S05_S03_NATIVE_OLD_ACCRUAL_LATER_BOOK_REOPEN_DATE_FLOOR"
+    ],
+    "browser_ids": [
+      "PERMANENT_S05_SKU_NORMAL_APP_DESKTOP_SOURCE_AND_LATE_REPLY",
+      "PERMANENT_S05_SKU_NORMAL_APP_MOBILE390_UNKNOWN_ZERO_AND_CURRENT_ACCESS"
+    ],
+    "source_manifest": {
+      "bytes": 10736,
+      "sha256": "350a7568e9b58209be51c0ac690484467cb39f93d77591d8f4afc475090b8fc0"
+    },
+    "actual_case_credit": 0
+  },
+  "positive": 1,
+  "negative_controls": [
+    "missing:status",
+    "changed:status",
+    "missing:qualification_commit",
+    "changed:qualification_commit",
+    "missing:github_run_id",
+    "changed:github_run_id",
+    "missing:github_run_attempt",
+    "changed:github_run_attempt",
+    "missing:worker_exit",
+    "changed:worker_exit",
+    "missing:signals",
+    "changed:signals",
+    "missing:deadline_reached",
+    "changed:deadline_reached",
+    "missing:external_signal",
+    "changed:external_signal",
+    "missing:orphaned_child",
+    "changed:orphaned_child",
+    "missing:process_group_empty",
+    "changed:process_group_empty",
+    "missing:process_tree_empty",
+    "changed:process_tree_empty",
+    "missing:job_budget_seconds",
+    "changed:job_budget_seconds",
+    "missing:work_budget_seconds",
+    "changed:work_budget_seconds",
+    "missing:recovery_reserve_seconds",
+    "changed:recovery_reserve_seconds",
+    "missing:artifact_reserve_seconds",
+    "changed:artifact_reserve_seconds",
+    "missing:actual_case_credit",
+    "changed:actual_case_credit",
+    "missing:production_go",
+    "changed:production_go",
+    "integer-boolean:deadline_reached",
+    "integer-boolean:orphaned_child",
+    "integer-boolean:process_group_empty",
+    "integer-boolean:process_tree_empty",
+    "integer-boolean:production_go"
+  ],
+  "accepted": {
+    "status": "EXACT_PERMANENT_SUPERVISION_REQUIRED_NOT_BUSINESS_ACCEPTANCE",
+    "run_id": 17,
+    "worker_completed_before_database_stop": true,
+    "actual_case_credit": 0
+  },
+  "unarmed_before_archive_or_Git": true,
+  "actual_SQL_executed": 0,
+  "actual_ERP_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false,
+  "root_intake_source": {
+    "bytes": 11031,
+    "sha256": "a1c55e9c980dcba9d6c2692b359240dac9eb8b86d10dcac8e8604f9973bbbfa0"
+  }
+}

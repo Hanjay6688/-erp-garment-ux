@@ -18,8 +18,8 @@ RUN=None
 JOB=None
 PARENT_HEAD=None
 PARENT_TREE=None
-PREPARED_HEAD='e3b3035c0cfceb2edda2c6c3adffed8e8c94117e'
-PREPARED_TREE='221fe2fd8b2806c8a0eff0817f51e63fdc3f2f87'
+PREPARED_HEAD='927ee03213a80e854fda30779d824c5c617644bd'
+PREPARED_TREE='efd08b4ff2315aa0280c086023d30ac22b7d092f'
 PREPARED_BASE='04ed2fbc3f1fb24174ff7368bffbb2dff01f5423'
 PREPARED_BASE_TREE='66930111fa9826b0c18ed6cfd3b05ea225e4e62b'
 NS='scripts/current-complete-de-integration-preparation/'
@@ -50,7 +50,7 @@ def source(g):
     exact(set(g.tree)-set(base),allowed,'DE30_CLOSED_ADDITIVE_SOURCE')
     for name,value in declaration['files'].items():g.verify_pin(name,value)
     if PARENT_HEAD is None:
-        exact(len(base),14119,'DE30_REPAIRED_PREPARED_PARENT14119');exact(len(allowed),81,'DE30_REPAIRED_PREPARED_OWN81')
+        exact(len(base),14119,'DE30_REPAIRED_PREPARED_PARENT14119');exact(len(allowed),86,'DE30_REPAIRED_PREPARED_OWN86')
         exact(literal(g,NS+'admission.py','PARENT_HEAD'),None,'DE30_PREPARED_PARENT_GATE_CLOSED')
         exact(literal(g,NS+'admission.py','PARENT_RECEIPT'),None,'DE30_PREPARED_RECEIPT_GATE_CLOSED')
         require(WORKFLOW not in g.tree,'DE30_PREPARED_WORKFLOW_NOT_ACTIVATED')
@@ -330,6 +330,18 @@ def metadata_observation(g,value):
         writer_closure=False,permission_closure=False,lockset_approved=False,actual_Native_case_credit=0)
 
 
+def supervision(value):
+    require(HEAD is not None and RUN is not None,'DE30_SUPERVISION_ACTUAL_IDENTITY_PENDING')
+    fields(value,dict(status='WORKER_COMPLETED_AND_REAPED',qualification_commit=HEAD,
+        github_run_id=str(RUN),github_run_attempt='1',worker_exit=0,signals=[],
+        deadline_reached=False,external_signal=None,orphaned_child=False,
+        process_group_empty=True,process_tree_empty=True,job_budget_seconds=21600,
+        work_budget_seconds=19800,recovery_reserve_seconds=1200,artifact_reserve_seconds=600,
+        actual_case_credit=0,production_go=False),'DE30_ACTUAL_CURRENT_WORKER_COMPLETE_AND_REAPED')
+    return dict(status='EXACT_DE30_SUPERVISION_REQUIRED_NOT_BUSINESS_ACCEPTANCE',
+        run_id=RUN,worker_completed_before_database_stop=True,actual_case_credit=0)
+
+
 def intake(root,path,metadata):
     require(all(value is not None for value in(HEAD,TREE,RUN,JOB,PARENT_HEAD,PARENT_TREE)),
         'DE30_ACTUAL_QUALIFIED_PARENT_AND_OWNING_RUN_NOT_YET_PINNED')
@@ -356,6 +368,7 @@ def intake(root,path,metadata):
             retained_join37_fresh_case_credit=0,package_all_five=True,prior_runs_aggregated=False,
             production_go=False,independent_acceptance=False),'DE30_ACTUAL_QUALIFIED_PERMANENT_PARENT')
         main=original(MAIN);package=original('T3_PACKAGE_INSTALL.json');backup=original('T3_BACKUP_RESTORE_DRILL.json')
+        supervised=supervision(original('DE_RUNTIME_SUPERVISION.json'))
         fields(main,dict(status='PASS',qualification_commit=HEAD,required_case_ids=[CASE],required_case_ids_pass=True,
             actual_Native_cases=30,actual_browser_cases=0,actual_Auth_HTTP_cases=0,actual_two_session_races=0,
             actual_business_cases=30,retained_permanent6_fresh_case_credit=0,real_Auth_HTTP_qualified=False,
@@ -410,7 +423,7 @@ def intake(root,path,metadata):
         exact(main['source_declaration']['qualified_complete_sources'],complete_pin,'DE30_ADMITTED_PARENT_SOURCE_PIN')
         return dict(status='ROOT_VERIFIED_CURRENT_COMPLETE_D1_E_NATIVE30_ALL5',head=HEAD,tree=TREE,
             run_id=RUN,job_id=JOB,artifact_id=metadata['artifact_id'],archive=dict(expected,members=len(names)),originals=pins,
-            source_admission=admitted,actual_product_source_maps=maps,
+            source_admission=admitted,actual_product_source_maps=maps,runtime_supervision=supervised,
             qualified_complete_DE_sources=pin(json.dumps(graph,sort_keys=True,separators=(',',':'),allow_nan=False).encode()),
             qualified_permanent6=dict(head=PARENT_HEAD,tree=PARENT_TREE,root_intake=pin(parent_raw)),
             actual_Native_cases=30,actual_D1_cases=13,actual_E_cases=17,actual_browser_cases=0,

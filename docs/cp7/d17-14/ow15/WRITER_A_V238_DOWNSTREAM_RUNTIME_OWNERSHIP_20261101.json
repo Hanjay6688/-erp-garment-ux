@@ -1,0 +1,101 @@
+{
+  "classification": "PREPARED_PERMANENT6_AND_DE30_RUNTIME_OWNERSHIP_CLOSED_WHILE_CURRENT37_CONTINUES",
+  "recorded_at_UTC": "2026-10-31T21:58:12Z",
+  "root_predecessor": "46f236de22e87991aab6453fad7d4add72babb3b",
+  "user_directive": "Continue all CP7. Checkpoints are save points. Do not stop per point or wait for another lanjut.",
+  "current37": {
+    "head": "e6684b07f98d753b5f78b24c7af52cd981971c0c",
+    "tree": "8be456a10207882fbcaeb5c9c2706974ef355349",
+    "run_id": 41241493562,
+    "job_id": 124656157099,
+    "observed_status": "in_progress",
+    "observed_completed_steps": 71,
+    "observed_active_step": 72,
+    "duplicate_created": false,
+    "candidate_modified": false,
+    "accepted_cases": 0
+  },
+  "actual_defect_basis": {
+    "prior_head": "6cb5bfe213fe3ce684244370dec092569705f6ff",
+    "run_id": 41222437891,
+    "job_id": 124599622258,
+    "outcome": "Cancelled at whole-job limit; disposable database removal raced lingering browser/restoration work.",
+    "same_unprotected_cleanup_in_downstream_templates": true
+  },
+  "permanent": {
+    "head": "92a70c1fbe51208f098e82a27088649add4befd4",
+    "tree": "8a633067765c4717720fe7b067fa2f6b4a665179",
+    "parent": "04ed2fbc3f1fb24174ff7368bffbb2dff01f5423",
+    "source_base": "6cb5bfe213fe3ce684244370dec092569705f6ff",
+    "unchanged_base_blobs_and_modes": 14070,
+    "source_pins": 53,
+    "own_paths": 54,
+    "process_engine_unchanged_from_e668": true,
+    "only_three_controller_identity_routes": true,
+    "workflow_counted_reversible_changes": 5,
+    "new_wiring_and_clock_tests": 8,
+    "source_fence_connections": 0,
+    "source_fence_nonGit_processes": 0,
+    "root_controls": {
+      "positive": 1,
+      "negative": 39,
+      "unarmed": true
+    }
+  },
+  "DE": {
+    "head": "927ee03213a80e854fda30779d824c5c617644bd",
+    "tree": "efd08b4ff2315aa0280c086023d30ac22b7d092f",
+    "parent": "e3b3035c0cfceb2edda2c6c3adffed8e8c94117e",
+    "source_base": "04ed2fbc3f1fb24174ff7368bffbb2dff01f5423",
+    "unchanged_base_blobs_and_modes": 14119,
+    "source_pins": 85,
+    "own_paths": 86,
+    "process_engine_and_real_WIB_policy_exact_reuse": true,
+    "new_wiring_tests": 4,
+    "workflow_steps": 75,
+    "unchanged_original_steps": 66,
+    "routed_original_steps": 7,
+    "source_fence_connections": 0,
+    "source_fence_nonGit_processes": 0,
+    "root_controls": {
+      "positive": 1,
+      "negative": 39,
+      "unarmed": true
+    },
+    "original_business_callbacks_unchanged": true,
+    "P0_candidate_database_scope_fix_retained": true
+  },
+  "runtime": {
+    "job_budget_seconds": 21600,
+    "work_budget_seconds": 19800,
+    "recovery_reserve_seconds": 1200,
+    "artifact_reserve_seconds": 600,
+    "clock": "actual monotonic from before setup; unchanged real WIB business day",
+    "single_attempt": true,
+    "process_tree_must_be_empty_before_database_stop": true,
+    "cancel_or_timeout_or_orphan_cannot_pass": true,
+    "ten_existing_process_tests_reused": true,
+    "actual_ERP_cases": 0
+  },
+  "remaining": {
+    "current37_terminal_canonical_acceptance": "pending",
+    "permanent_actual_parent_and_runtime": "pending exact current37 acceptance",
+    "DE_actual_parent_and_runtime": "pending exact permanent6 acceptance",
+    "FREE3_runtime_supervision": "pending integration with new DE workflow; its prepared template currently derives older 74-step DE",
+    "global_current_authority_and_writer_lock_closure": "open",
+    "FG_Mandor": "after active integration stabilizes; full user scope retained"
+  },
+  "timer": {
+    "updated_prompt_verified": true,
+    "is_enabled": true,
+    "interval_minutes": 90,
+    "timezone": "Asia/Jakarta",
+    "new_automation_created": false,
+    "original_old_chat_destination_verified": false,
+    "explanation": "Recorded task and last result share one conversation ID. Tool does not expose a standalone/in-chat selector or destination setter; do not claim this proves continuity with the old thread."
+  },
+  "formal_accepted": 5,
+  "formal_total": 16,
+  "production_go": false,
+  "independent_acceptance": false
+}

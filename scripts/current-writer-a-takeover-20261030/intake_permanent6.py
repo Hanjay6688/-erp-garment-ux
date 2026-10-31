@@ -15,8 +15,8 @@ HEAD=None
 TREE=None
 RUN=None
 JOB=None
-PREPARED_HEAD='04ed2fbc3f1fb24174ff7368bffbb2dff01f5423'
-PREPARED_TREE='66930111fa9826b0c18ed6cfd3b05ea225e4e62b'
+PREPARED_HEAD='92a70c1fbe51208f098e82a27088649add4befd4'
+PREPARED_TREE='8a633067765c4717720fe7b067fa2f6b4a665179'
 BASE='6cb5bfe213fe3ce684244370dec092569705f6ff'
 NS='scripts/current-final-s03-sku-s05-preparation/'
 MAIN='CP7_PERMANENT_S05_S03_SKU_NATIVE4_BROWSER2.json'
@@ -49,6 +49,18 @@ def source(g):
         native_ids=native,browser_ids=brows,source_manifest=pin(g.read(NS+'PREPARATION.json')),actual_case_credit=0)
 
 
+def supervision(value):
+    require(HEAD is not None and RUN is not None,'PERMANENT_SUPERVISION_ACTUAL_IDENTITY_PENDING')
+    fields(value,dict(status='WORKER_COMPLETED_AND_REAPED',qualification_commit=HEAD,
+        github_run_id=str(RUN),github_run_attempt='1',worker_exit=0,signals=[],
+        deadline_reached=False,external_signal=None,orphaned_child=False,
+        process_group_empty=True,process_tree_empty=True,job_budget_seconds=21600,
+        work_budget_seconds=19800,recovery_reserve_seconds=1200,artifact_reserve_seconds=600,
+        actual_case_credit=0,production_go=False),'PERMANENT_ACTUAL_CURRENT_WORKER_COMPLETE_AND_REAPED')
+    return dict(status='EXACT_PERMANENT_SUPERVISION_REQUIRED_NOT_BUSINESS_ACCEPTANCE',
+        run_id=RUN,worker_completed_before_database_stop=True,actual_case_credit=0)
+
+
 def intake(root,path,metadata):
     require(all(value is not None for value in(HEAD,TREE,RUN,JOB)),'PERMANENT_ACTIVATED_EXACT_RUN_INTAKE_NOT_YET_PINNED')
     fields(metadata,dict(head=HEAD,tree=TREE,run_id=RUN,job_id=JOB,run_attempt=1,
@@ -67,6 +79,7 @@ def intake(root,path,metadata):
         def original(name):
             raw=z.read(name);pins[name]=pin(raw);return strict(raw)
         main=original(MAIN);package=original('T3_PACKAGE_INSTALL.json');backup=original('T3_BACKUP_RESTORE_DRILL.json')
+        supervised=supervision(original('PERMANENT_RUNTIME_SUPERVISION.json'))
         fields(main,dict(status='PASS',qualification_commit=HEAD,required_case_ids=[CASE],required_case_ids_pass=True,
             actual_Native_cases=4,actual_browser_cases=2,actual_business_cases=6,actual_Auth_HTTP_cases=0,
             actual_two_session_races=0,retained_join37_fresh_case_credit=0,used_guard_refused_before_DDL=True,
@@ -116,6 +129,7 @@ def intake(root,path,metadata):
             qualified_complete_sources=pin(json.dumps(graph,sort_keys=True,separators=(',',':')).encode()),
             qualified_parent37=dict(head=parent['head'],run_id=parent['run_id'],root_intake=pin(parent_raw)),
             actual_Native_cases=4,actual_browser_cases=2,complete6_qualified=True,package_all_five=True,
+            runtime_supervision=supervised,
             prior_runs_aggregated=False,retained_join37_fresh_case_credit=0,reader_remains_installed=True,
             actual_used_refusal_raw_boundary=used,global_writer_or_permission_or_lock_closure=False,
             Afui_positive_HPP_zero_reimbursement_coverage=False,D1_E_qualified=False,
