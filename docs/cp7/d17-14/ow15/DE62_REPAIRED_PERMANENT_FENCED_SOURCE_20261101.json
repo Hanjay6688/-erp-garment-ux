@@ -1,0 +1,255 @@
+{
+  "controls": {
+    "D1_raw_definitions": 12,
+    "E_raw_definitions": 22,
+    "Native30_pending_before_ERP_or_SQL": true,
+    "SQL_and_Native_derivers_unchanged": true,
+    "actual_Native_cases": 0,
+    "actual_SQL_executed": 0,
+    "actual_diagnostic_API_source_calls": [
+      [
+        "component.py",
+        "phase",
+        1
+      ],
+      [
+        "component.py",
+        "phase",
+        1
+      ],
+      [
+        "component.py",
+        "phase",
+        1
+      ],
+      [
+        "component.py",
+        "phase",
+        1
+      ],
+      [
+        "component.py",
+        "phase",
+        1
+      ],
+      [
+        "component.py",
+        "phase",
+        1
+      ],
+      [
+        "probe.py",
+        "monitor",
+        0
+      ],
+      [
+        "probe.py",
+        "phase",
+        1
+      ]
+    ],
+    "actual_recorded_predecessor_functions": 32,
+    "canonical_permanent6_fetch_source": {
+      "actual_GitHub_GETs": 0,
+      "actual_Native_cases": 0,
+      "counted_replacement_rules": 22,
+      "derived_sha256": "d1bef01e3a2b2f3466ac9facc603ff4b52e3781335fe112df5775f70ee3cb726",
+      "original_bytes": 4756,
+      "original_head": "a5944f25a5e3ba1f1f537a18abe923eb753f922f",
+      "original_path": "scripts/current-final-s03-sku-s05-preparation/fetch_parent37.py",
+      "original_sha256": "a595f49e9fef9860363bfef19b856efa183896af049470627108241ad45ae6dd",
+      "original_source_recovered": true
+    },
+    "changed_function_overlap_with_S03_SKU": [],
+    "committed_E_witness_derivation": {
+      "Native_case_credit": 0,
+      "actual_SQL_executed": 0,
+      "complete_original_function_bytes_recovered": true,
+      "counted_changes": 1,
+      "derived_sha256": "36aa2a2194f0c3f376677ae2cf548b7df3bc2130d8c8d84b355c1b2ac231dd80",
+      "original_component": {
+        "bytes": 8409,
+        "sha256": "f8a1864d9e7687d20913c149b4c78be6ee17bb8c2163af621be9e9397351f4d1"
+      },
+      "original_function_sha256": "c6c82d4e6f9ffdfe6905b82474cf3fadbf685ab48c301aaa213bc13280290393",
+      "raw_observation_retention_only": true,
+      "selected_function_count": 2
+    },
+    "exact_package_files": 19,
+    "independent_acceptance": false,
+    "metadata_pending_before_URI_source_client_or_connection": true,
+    "native30_source": {
+      "D1_case_ids": [
+        "D_POSITIVE_CREDIT_INCREMENT",
+        "D_AFTER_ACTIVE_APPLY",
+        "D_AFTER_REFUND_EXTRA_STAYS_CREDIT",
+        "D_MULTIFAMILY_ORDINAL",
+        "D_REPLAY_EXACT_UUID",
+        "D_STALE_REVIEW_NO_EFFECT",
+        "D_ACCESS_REVOKED_NO_EFFECT",
+        "D_SHORTFALL_NAMES_UNDO",
+        "D_ROOT_BOOK_FLOOR_REFUSAL",
+        "D_ATOMIC_POST_FAILURE_RESTORE",
+        "D_SECOND_REVISION_ORDINAL_HISTORY",
+        "D_AFTER_NAMED_UNDO_NO_FALSE_BLOCKER",
+        "E_UNIMPLEMENTED_INCOMING_CORRECTION_STAYS_GUARDED"
+      ],
+      "E_case_ids": [
+        "E_PRICE_INCREASE_80_NET550_AR470",
+        "E_PRICE_DECREASE_80_NET100_AR20",
+        "E_EXACT_FUNDED_80_PAID",
+        "E_BELOW_CARRIED_80_REFUSES_ATOMIC",
+        "E_SAME_UUID_AND_CHANGED_INTENT",
+        "E_SOURCE_D1_CHANGE_RETIRES_REVIEW",
+        "E_LATER_APPLY_20_CURRENT_LEAF",
+        "E_UNDO_ORIGINAL_80_AND_OLD_RECEIPT",
+        "E_NATIVE_POST_FAILURE_FULL_RESTORE",
+        "E_QUANTITY_CHANGE_REFUSES",
+        "E_ORIGINAL_DATE_CHANGE_REFUSES",
+        "E_CLOSED_ORIGINAL_BOOK_PAIR_REFUSES",
+        "E_SECOND_NOTE_REVISION_GUARDED",
+        "E_CURRENT_ACCESS_REVOKED_REFUSES",
+        "E_JOINT_PREFIX_AFTER_UNDO_120_MIN200_NOT150",
+        "E_LATER_NATIVE_REVERSE_REFUSES_ATOMIC",
+        "E_LATER_NATIVE_SALE_SAME_LOT_RECONCILES"
+      ],
+      "actual_Native_cases": 0,
+      "actual_SQL_executed": 0,
+      "business_source_files": 3,
+      "frozen_fixture_input_files": 4,
+      "independent_acceptance": false,
+      "original_callback_changes": 0,
+      "production_go": false,
+      "status": "COMPLETE_DE_NATIVE30_SOURCE_ONLY"
+    },
+    "other_package_files_unchanged": 18,
+    "owning_workflow_data_only": {
+      "actual_Native_cases": 0,
+      "independent_acceptance": false,
+      "job_minutes": 210,
+      "new_pre_setup_real_clock_guards": 1,
+      "original_bytes": 33918,
+      "original_head": "a5944f25a5e3ba1f1f537a18abe923eb753f922f",
+      "original_path": ".github/workflows/cp7-final-s03-sku-s05.yml",
+      "original_policy_minutes": 210,
+      "original_sha256": "11d398b373b478f49c366cd611ab0cd67a9e2cc8361b7a49cdaa92cc116c8af5",
+      "production_go": false,
+      "routed_original_steps": 6,
+      "runtime_dispatches": 0,
+      "status": "DE30_WORKFLOW_DATA_ONLY_NOT_ACTIVATED",
+      "steps": 74,
+      "unchanged_original_steps": 67
+    },
+    "parent_import_changes": 1,
+    "parent_qualification_pending": true,
+    "pending_before_any_parent_GET_or_report_file": [
+      "canonical_parent_fetch",
+      "final_report_gate",
+      "raw_dependency_metadata"
+    ],
+    "pending_full_caller_controls": [
+      "whole_source_admission",
+      "whole_package_runtime"
+    ],
+    "production_go": false,
+    "raw_source_chain_not_PostgreSQL_normalized_install": true,
+    "status": "COMPLETE_DE_PACKAGE_AND_CURRENT_NATIVE_SOURCE_CONTROLS_PASS_NOT_NATIVE",
+    "unchanged_inherited_system_metadata_source": {
+      "byte_exact_original_files": 11,
+      "commit": "a83f87d76abbd3d94b5e75a50391d1d202b837c9",
+      "manifest": {
+        "bytes": 1726,
+        "sha256": "7a1d1b6d930abc96918df8fb35f96ac2a4dd3905c7e230d848c5d4f528b80c47"
+      },
+      "prefix": "scripts/current-global-system-cron-profile-preparation/",
+      "query_count": 27
+    },
+    "unchanged_lossless_global_metadata_source": {
+      "actual_Native_cases": 0,
+      "byte_exact_original_files": 4,
+      "classification": "RECORDED_GLOBAL_METADATA_SOURCE_ONLY_NOT_RUNTIME",
+      "derivation": {
+        "after_sha256": "ef9d7a5731dcde25ae99508628e8ce3ee73722d351f58cdb081f11fc8baee5a1",
+        "before_sha256": "a9643a5b89ce5b488bf596b00e8d09c9028a26fc0ebd5e17302a41da36a6f59c",
+        "byte_reversible": true,
+        "counted_changes": 11,
+        "kind": "capture"
+      },
+      "global_writer_or_permission_or_lock_closure": false,
+      "independent_acceptance": false,
+      "origin_head": "3d7066b852176d9f343ec831d2f63aee6665579b",
+      "owning_source_routes": {
+        "codec": "current-complete-de-integration-preparation/retained-global-census",
+        "helper": "scripts/current-complete-de-integration-preparation/retained-global-census"
+      },
+      "prior_runtime_guards_modified": false,
+      "prior_runtime_loader_or_admission_used": false,
+      "production_go": false,
+      "query_sha256": {
+        "columns": "a97d67ecfcdf46c1ba401b35ac7b4d5d507f3ee55d09f28f9de9318248842cda",
+        "database_authority": "c75f7f4a6ec9754e585b50960654754ca17348882f424e29957af50392b9ea77",
+        "default_privileges": "3f2d94855899266a5c663c4bfaea3686da877c76b373dad4f32ede87cdbf74c0",
+        "dependencies": "ccd4afdf80cf4373c045e7f5d1524f01c5d071d81e98e5c536ecc0caf72faeb7",
+        "effective_database_privileges": "414a2f9e9f6477ed6f3c37ada993373eaf4943609f3a926e8d8d3867b2eb04cc",
+        "effective_explicit_column_privileges": "480e57a56de809cced6335af12bb9e995368ebe9477b3f14976f1c67cae3a0fc",
+        "effective_function_privileges": "20f2ddbecba9528ebcdbceb50945fa6873d72defef9cce5aab47d3e5b6741c41",
+        "effective_schema_privileges": "6cc1bea9973690c2dd6565e40abc99926d1e0592e2ecc761042f667a90a90db0",
+        "effective_sequence_privileges": "3493fe7f9858244778d0dba72d3b1ffc80677662d67e74af4e8cffcd1128af60",
+        "effective_table_privileges": "1aadb99d22e9248fbfc37e1e15b9e0a8751039a3e5856cb9c6c05a542990fedc",
+        "foreign_keys": "9fe5b94014c0b6cfa9441c6926be041f22ecd85a2757f354382ced550ccdf125",
+        "functions": "bb9f53add6e2c2c83d80d0cc4164a6351c885124a18d39a48ec6ba11874b2898",
+        "inheritance": "98b271e1bef622d39b50665e8a20244370f409418e11af6b7edcf9a0fdd2d59b",
+        "memberships": "dad894bc69299aa26a2eb505ebdf5ab870b8fcfa71d5070fbf5bfc71dba7e261",
+        "relations": "ed63c30bdb770f45c535619538f95c13e56df3735f2621bd1c401320851eaac3",
+        "roles": "ca39878ec7d7b88f500dd5fee38f44bd4071e4b4505bfbeda2a1400e553f376a",
+        "schemas": "2c88f784aae51d4505b20c5a332c11f91d3d7ad139d77c42d6ca88b9c07d12aa",
+        "triggers": "5be2cd7e64bb10460ac2ebeecd789305f3899fa7e7b42dfa8266ae27e5e142b5",
+        "view_relation_dependencies": "bc001e9a322322f2868030b2977a06c7c83e907acd5e7628a0d4a37ebceca573"
+      },
+      "selected_original_pure_functions": 2,
+      "unchanged_SQL_queries": 19
+    },
+    "whole_package_engine_derivation": {
+      "actual_Native_cases": 0,
+      "complete_original_recovered": true,
+      "counted_changes": 2,
+      "derived_sha256": "71f828311c2720d32bfd70a0b3725fff1e538044f7d82cd45c587643a2a7d088",
+      "independent_acceptance": false,
+      "install_preuse_reinstall_used_backup_roles_all22_ALL_rows_sequences_CP6_advisors_Auth_package_checks_retained": true,
+      "original_sha256": "c420d894f8d5f16bddefeae73addb621507170f372a28e7d6e33d88c7eeb0be9",
+      "production_go": false
+    }
+  },
+  "source": {
+    "actual_Native_cases": 0,
+    "base_head": "04ed2fbc3f1fb24174ff7368bffbb2dff01f5423",
+    "base_tree": "66930111fa9826b0c18ed6cfd3b05ea225e4e62b",
+    "independent_acceptance": false,
+    "own_paths": 62,
+    "production_go": false,
+    "status": "EXACT_UNCHANGED_COMPLETE_PARENT_AND_CLOSED_D1_E_PREPARATION",
+    "unchanged_parent_blobs_and_modes": 14119
+  },
+  "source_DB_guard": {
+    "attempts": [],
+    "network_nonGit_attempts": [],
+    "public_source_sha256": "1439d70810383db377c48e043df7fb6d487a1b2f1a995e8993a2c08590f9f797",
+    "self_controls": [
+      {
+        "api": "psycopg.connect",
+        "result": "DENIED_BEFORE_LIBPQ"
+      },
+      {
+        "api": "psycopg.Connection.connect",
+        "result": "DENIED_BEFORE_LIBPQ"
+      },
+      {
+        "api": "psycopg.AsyncConnection.connect",
+        "result": "DENIED_BEFORE_LIBPQ"
+      },
+      {
+        "original_connect_descriptors_restored": true
+      }
+    ]
+  }
+}

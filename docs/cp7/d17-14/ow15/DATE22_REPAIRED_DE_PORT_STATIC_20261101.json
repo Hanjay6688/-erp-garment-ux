@@ -1,0 +1,24 @@
+{
+  "status": "DATE22_SOURCE_PORT_DECLARED_REVERSIBLE_PARENT_STILL_PENDING",
+  "head": "572f2841a10d5669dd64b62d5095690d453097c3",
+  "tree": "35c1b48d8fecc4a9f12fafe30444eaa578a8f571",
+  "base": "fef0d838991df1ab3474382747ee3519d4c237eb",
+  "base_tree": "772cc0a80e1857bc03e6a544a39d5b5de3beb4c3",
+  "parent_files": 14181,
+  "own_paths": 22,
+  "own_pins": 21,
+  "original_own_files": 21,
+  "byte_unchanged_original_files": 17,
+  "source_literal_routes": 2,
+  "readme_text_routes": 1,
+  "source_preflight_origin_after_routes": 2,
+  "manifest_regenerated": true,
+  "reused_binding_sources": [
+    "scripts/cp7_current_s03_sku_s05/composition.py",
+    "scripts/cp7_complete_credit_de/composition.py"
+  ],
+  "reused_unchanged_lifecycle_models": 14,
+  "reused_unchanged_isolated_date_SQL_controls": 39,
+  "actual_new_SQL_executed": 0,
+  "actual_Native_cases": 0
+}
