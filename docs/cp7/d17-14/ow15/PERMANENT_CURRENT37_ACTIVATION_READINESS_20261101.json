@@ -1,0 +1,81 @@
+{
+  "classification": "READONLY_PERMANENT_ON_CURRENT37_ACTIVATION_READINESS_NOT_ACTIVATION",
+  "prepared_head": "92a70c1fbe51208f098e82a27088649add4befd4",
+  "old_parent": "6cb5bfe213fe3ce684244370dec092569705f6ff",
+  "current_candidate": "e6684b07f98d753b5f78b24c7af52cd981971c0c",
+  "current_candidate_tree": "8be456a10207882fbcaeb5c9c2706974ef355349",
+  "source_own_paths": 54,
+  "old_parent_paths": 14070,
+  "current_parent_paths": 14077,
+  "prospective_union_paths": 14131,
+  "parent_changed_paths": [
+    ".github/workflows/cp7-s03-sku-s05-composite.yml",
+    "scripts/current-s03-sku-s05-composite-qualification/CANCELLED_6CB_ACTUAL_20261101.json",
+    "scripts/current-s03-sku-s05-composite-qualification/DERIVATIONS.json",
+    "scripts/current-s03-sku-s05-composite-qualification/E221_FIRST_PREFLIGHT_FAILURE_20261101.json",
+    "scripts/current-s03-sku-s05-composite-qualification/README.md",
+    "scripts/current-s03-sku-s05-composite-qualification/RUNTIME_SUPERVISION_CONTROLS_20261101.json",
+    "scripts/current-s03-sku-s05-composite-qualification/RUNTIME_WORKFLOW_DERIVATION.json",
+    "scripts/current-s03-sku-s05-composite-qualification/SOURCE.json",
+    "scripts/current-s03-sku-s05-composite-qualification/WORKFLOW_DERIVATION.json",
+    "scripts/current-s03-sku-s05-composite-qualification/attempt_policy.py",
+    "scripts/current-s03-sku-s05-composite-qualification/final_gate.py",
+    "scripts/current-s03-sku-s05-composite-qualification/probe.py",
+    "scripts/current-s03-sku-s05-composite-qualification/runtime_supervisor.py",
+    "scripts/current-s03-sku-s05-composite-qualification/test_owner_fixture.py",
+    "scripts/current-s03-sku-s05-composite-qualification/test_qualifier.py",
+    "scripts/current-s03-sku-s05-composite-qualification/test_runtime_supervisor.py"
+  ],
+  "own_namespace_collision": [],
+  "whole_parent_rebase_performed": false,
+  "current37_acceptance_pending": true,
+  "bindings_after_actual_Root_PASS": [
+    {
+      "path": "scripts/current-final-s03-sku-s05-preparation/persistent_financial.py",
+      "constants": [
+        "PARENT_HEAD",
+        "PARENT_TREE",
+        "PARENT_RUN",
+        "PARENT_RECEIPT"
+      ]
+    },
+    {
+      "path": "scripts/current-final-s03-sku-s05-preparation/persistent_source.py",
+      "constants": [
+        "BASE",
+        "TREE"
+      ]
+    },
+    {
+      "path": "scripts/current-final-s03-sku-s05-preparation/PREPARATION.json",
+      "fields": [
+        "base_head",
+        "files",
+        "actual_accepted_parent_run"
+      ]
+    },
+    {
+      "path": "scripts/current-final-s03-sku-s05-preparation/JOIN37_ROOT_ACTUAL_INTAKE.json",
+      "source": "exact terminal Root canonical intake bytes, not a constructed receipt"
+    },
+    {
+      "path": "scripts/current-writer-a-takeover-20261030/intake_permanent6.py",
+      "constants": [
+        "BASE",
+        "HEAD",
+        "TREE",
+        "RUN",
+        "JOB"
+      ],
+      "source_count": 14077
+    }
+  ],
+  "runtime_branch": "astra-a/current-s03-sku-s05-permanent-qualification-20261031",
+  "new_runtime_not_started": true,
+  "duplicate_current37_not_started": true,
+  "financial_or_browser_callbacks_changed": 0,
+  "actual_ERP_calls": 0,
+  "actual_Native_case_credit": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

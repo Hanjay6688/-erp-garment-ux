@@ -7,7 +7,7 @@ import intake_complete_de30 as target
 from intake_common import GitBytes,exact,pin
 
 
-def check(root,path):
+def check(root,path,visibility_only=False):
     raw=path.read_bytes();model=json.loads(raw)
     exact(model['classification'],'DISPOSABLE_PG17_P0_PRIVILEGE_MODEL_NOT_ERP','MODEL_NOT_ERP')
     exact(model['actual_ERP_calls'],0,'NO_ERP_CALLS');exact(model['provider_functions_invoked'],0,'NO_PROVIDER_CALLS')
@@ -19,7 +19,8 @@ def check(root,path):
             group_counts={name:len(rows)for name,rows in model['groups'].items()},
             declaration_sha256=model['declaration_sha256'],
             query_sha256={name:sha256(spec['query'].encode()).hexdigest()for name,spec in declaration['groups'].items()},
-            same_original_readonly_snapshot=True,original_27_groups_rewritten=False,provider_function_calls=0,
+            same_readonly_transaction_identity=True,catalog_cache_snapshot_alignment_proven=False,
+            concurrent_acl_and_membership_changes_excluded=False,original_27_groups_rewritten=False,provider_function_calls=0,
             unresolved=declaration['unresolved'],writer_closure=False,permission_closure=False,lockset_approved=False,
             actual_Native_case_credit=0,production_go=False,independent_acceptance=False)
         row['P0_privilege_supplement']=value
@@ -34,7 +35,7 @@ def check(root,path):
             ('wrong-declaration',lambda r:r['P0_privilege_supplement'].update(declaration_sha256='0'*64)),
             ('wrong-query',lambda r:r['P0_privilege_supplement']['query_sha256'].update(functions='0'*64)),
             ('forged-count',lambda r:r['P0_privilege_supplement']['group_counts'].update(functions=True)),
-            ('changed-snapshot',lambda r:r['P0_privilege_supplement'].update(same_original_readonly_snapshot=False)),
+            ('changed-transaction-identity',lambda r:r['P0_privilege_supplement'].update(same_readonly_transaction_identity=False)),
             ('original27-rewritten',lambda r:r['P0_privilege_supplement'].update(original_27_groups_rewritten=True)),
             ('provider-executed',lambda r:r['P0_privilege_supplement'].update(provider_function_calls=1)),
             ('permission-closure-invented',lambda r:r['P0_privilege_supplement'].update(permission_closure=True)),
@@ -42,6 +43,12 @@ def check(root,path):
             ('hidden-remaining-limits',lambda r:r['P0_privilege_supplement'].update(unresolved=[])),
             ('primary-claiming-candidate-privileges',lambda r:r.update(database='postgres',primary_scheduler_database=True)),
         ]
+        visibility=[
+            ('missing-cache-boundary',lambda r:r['P0_privilege_supplement'].pop('catalog_cache_snapshot_alignment_proven')),
+            ('invented-atomic-cache-snapshot',lambda r:r['P0_privilege_supplement'].update(catalog_cache_snapshot_alignment_proven=True)),
+            ('invented-exclusion-of-concurrent-ACL',lambda r:r['P0_privilege_supplement'].update(concurrent_acl_and_membership_changes_excluded=True)),
+        ]
+        changes=visibility if visibility_only else changes+visibility
         for label,change in changes:
             changed=deepcopy(row);change(changed)
             try:target.p0_privilege_observation(g,changed)
@@ -60,6 +67,7 @@ def check(root,path):
     return dict(status='ROOT_P0_PRIVILEGE_CONTROLS_PASS',head=target.PREPARED_HEAD,tree=target.PREPARED_TREE,
         source=source,input_model=pin(raw),intake_source=pin(Path(target.__file__).read_bytes()),
         positive_saved_PG17_observation=1,positive_primary_scope=1,negative_controls=negative,
+        visibility_only=visibility_only,previous_fourteen_negative_controls_reused=visibility_only,
         accepted_observation=accepted,unarmed_before_archive_or_Git=True,
         original_PG17_model_rerun=False,actual_ERP_calls=0,actual_Native_case_credit=0,
         production_go=False,independent_acceptance=False)
@@ -67,7 +75,8 @@ def check(root,path):
 
 if __name__=='__main__':
     p=argparse.ArgumentParser();p.add_argument('--source',type=Path,required=True);p.add_argument('--model',type=Path,required=True)
-    p.add_argument('--output',type=Path,required=True);a=p.parse_args();result=check(a.source,a.model)
+    p.add_argument('--output',type=Path,required=True);p.add_argument('--visibility-only',action='store_true')
+    a=p.parse_args();result=check(a.source,a.model,a.visibility_only)
     a.output.write_text(json.dumps(result,indent=2)+'\n')
     print(json.dumps(dict(status=result['status'],own_paths=result['source']['own_paths'],positive=2,
         negative=len(result['negative_controls']),actual_ERP_calls=0)))

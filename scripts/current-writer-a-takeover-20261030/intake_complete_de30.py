@@ -18,8 +18,8 @@ RUN=None
 JOB=None
 PARENT_HEAD=None
 PARENT_TREE=None
-PREPARED_HEAD='9a2a6064513dc97a04e607a133ae003c3e463f0f'
-PREPARED_TREE='865d1950927bd8b39d6961d56872de757a4a2253'
+PREPARED_HEAD='871234317f7fdcb58bea9c621a5333e9cf61f464'
+PREPARED_TREE='e6161b0f0912f3618af9a9d9cfb5392c006a3642'
 PREPARED_BASE='04ed2fbc3f1fb24174ff7368bffbb2dff01f5423'
 PREPARED_BASE_TREE='66930111fa9826b0c18ed6cfd3b05ea225e4e62b'
 NS='scripts/current-complete-de-integration-preparation/'
@@ -50,7 +50,7 @@ def source(g):
     exact(set(g.tree)-set(base),allowed,'DE30_CLOSED_ADDITIVE_SOURCE')
     for name,value in declaration['files'].items():g.verify_pin(name,value)
     if PARENT_HEAD is None:
-        exact(len(base),14119,'DE30_REPAIRED_PREPARED_PARENT14119');exact(len(allowed),93,'DE30_REPAIRED_PREPARED_OWN93')
+        exact(len(base),14119,'DE30_REPAIRED_PREPARED_PARENT14119');exact(len(allowed),94,'DE30_REPAIRED_PREPARED_OWN94')
         exact(literal(g,NS+'admission.py','PARENT_HEAD'),None,'DE30_PREPARED_PARENT_GATE_CLOSED')
         exact(literal(g,NS+'admission.py','PARENT_RECEIPT'),None,'DE30_PREPARED_RECEIPT_GATE_CLOSED')
         require(WORKFLOW not in g.tree,'DE30_PREPARED_WORKFLOW_NOT_ACTIVATED')
@@ -307,14 +307,16 @@ def p0_privilege_observation(g,row):
     fields(value,dict(classification=declaration['classification'],
         declaration_sha256=sha256(g.read(NS+'P0_PRIVILEGE_QUERIES.json')).hexdigest(),
         query_sha256={name:sha256(spec['query'].encode()).hexdigest()for name,spec in declaration['groups'].items()},
-        same_original_readonly_snapshot=True,original_27_groups_rewritten=False,provider_function_calls=0,
+        same_readonly_transaction_identity=True,catalog_cache_snapshot_alignment_proven=False,
+        concurrent_acl_and_membership_changes_excluded=False,original_27_groups_rewritten=False,provider_function_calls=0,
         unresolved=declaration['unresolved'],writer_closure=False,permission_closure=False,
         lockset_approved=False,actual_Native_case_credit=0,production_go=False,independent_acceptance=False),
         'DE30_P0_SNAPSHOT_PRIVILEGES_NEVER_GRANT_AUTHORITY_OR_LOCK_CLOSURE')
     dependencies,select=p0_dependency_sources(g);selected=select(row,dependencies)
     counts=validate(value['groups'],declaration,row,selected)
     exact(value['group_counts'],counts,'DE30_P0_PRIVILEGE_ACTUAL_TYPED_COUNTS')
-    return dict(group_counts=counts,same_original_readonly_snapshot=True,
+    return dict(group_counts=counts,same_readonly_transaction_identity=True,
+        catalog_cache_snapshot_alignment_proven=False,concurrent_acl_and_membership_changes_excluded=False,
         provider_function_calls=0,permission_closure=False,lockset_approved=False,actual_Native_case_credit=0)
 
 
