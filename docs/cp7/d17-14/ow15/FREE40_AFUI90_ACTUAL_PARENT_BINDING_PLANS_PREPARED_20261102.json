@@ -1,0 +1,68 @@
+{
+  "status": "DOWNSTREAM_FREE40_AFUI90_REVIEWABLE_BINDING_PLANS_PREPARED_NOT_ACTIVATED",
+  "FREE_actual_accepted_DE_pin": null,
+  "AFUI_actual_accepted_FREE_pin": null,
+  "no_child_branch_rebase_or_activation_performed": true,
+  "FREE": {
+    "status": "FREE40_PURE_ASSEMBLY_MODEL_PASS_NOT_ACTUAL_DE_PARENT_ACCEPTANCE",
+    "own_paths": 40,
+    "pins": 39,
+    "unchanged_own_files": 34,
+    "all39_actual_source_pins_match": true,
+    "exact_workflow_template": true,
+    "only_two_new_paths": true,
+    "source_guard_routes": 12,
+    "whole_original_guard_recovered": true,
+    "closed_parent_negatives": [
+      "pending",
+      "older_S05",
+      "retained4_only"
+    ],
+    "synthetic_request_never_saved_or_published": true,
+    "planned_request_sha256": "c41180517b5ad2c08e56b4ba3f1118fcf6f0325f92c20eafe243d3c480023e94",
+    "actual_parent_pin": null,
+    "Git_mutations": 0,
+    "DB_or_ERP_executions": 0
+  },
+  "AFUI": {
+    "status": "AFUI90_PURE_ASSEMBLY_MODEL_PASS_NOT_ACTUAL_FREE_PARENT_ACCEPTANCE",
+    "own_paths": 90,
+    "source_pins": 57,
+    "unchanged_own_paths": 86,
+    "unchanged_reviewed_UI_paths": 4,
+    "all57_actual_source_pins_match": true,
+    "exact_workflow_template": true,
+    "only_two_new_paths": true,
+    "closed_parent_negatives": [
+      "pending",
+      "older_S05",
+      "retained4_only"
+    ],
+    "synthetic_request_never_saved_or_published": true,
+    "planned_request_sha256": "be374c798f29440ea69b2f6ddeebf155a9f1f68138e0c9c40f33fb75ba8691ca",
+    "actual_parent_pin": null,
+    "Git_mutations": 0,
+    "DB_or_ERP_executions": 0
+  },
+  "actual_runtime_qualification_required_in_order": [
+    "CURRENT_PERMANENT_RETAINED4_FRESH_BROWSER2_ALL5",
+    "DE30_ALL5",
+    "FREE3_ALL5",
+    "AFUI15_ALL5"
+  ],
+  "all_source_checks_after_actual_binding_still_required": true,
+  "source_models_are_not_parent_or_case_acceptance": true,
+  "actual_new_Native_Auth_browser_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false,
+  "scripts": {
+    "scripts/current-writer-a-takeover-20261030/prepare_free_activation.py": {
+      "bytes": 8393,
+      "sha256": "811dc736abeeef1202da89e8624c56f00041b9af99734b104c3d0495000751de"
+    },
+    "scripts/current-writer-a-takeover-20261030/prepare_afui_activation.py": {
+      "bytes": 6625,
+      "sha256": "2b27415c7cb89221588f95004755d1b683de5323a644e9ad19a6a451c4bfffdf"
+    }
+  }
+}
