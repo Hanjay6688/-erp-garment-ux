@@ -166,6 +166,17 @@ class SourceControls(unittest.TestCase):
         self.assertLess(diagnostic_upload,runtime_index)
         self.assertEqual(steps[diagnostic_upload]['with']['path'],'auditor/cp6-proof/t3/JOIN_PRE_RUNTIME_RESOURCE.json')
 
+    def test_current_rights_save_changes_role_before_request_and_waits_for_refusal(self):
+        text=(HERE/'s03_cases.mjs').read_text()
+        start=text.index("restoreRequired=true;await currentRole(x,backupOwner,'ADMIN');const deniedBoundary")
+        end=text.index("await x.shot('CURRENT_RIGHTS_REFUSED')",start)
+        block=text[start:end]
+        self.assertNotIn('.route(',block)
+        self.assertLess(block.index("currentRole(x,backupOwner,'ADMIN')"),block.index('waitForResponse'))
+        self.assertLess(block.index('waitForResponse'),block.index("getByRole('button',{name:'Simpan pilihan biaya'"))
+        self.assertLess(block.index("getByRole('button',{name:'Simpan pilihan biaya'"),block.index("await denied(currentRightsSave,'CP7_S03_OWNER_REQUIRED')"))
+        self.assertLess(block.index("await denied(currentRightsSave,'CP7_S03_OWNER_REQUIRED')"),block.index("getByRole('region',{name:'Tinjauan perubahan biaya'"))
+
     def test_exact_historical_app_is_admitted_and_current_additions_remain_explicit(self):
         backend=load('frozen_parent')
         original=subprocess.check_output(['/usr/bin/git','-C',str(ROOT),'show',backend.HEAD+':src/App.tsx'])

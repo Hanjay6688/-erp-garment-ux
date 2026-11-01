@@ -1,0 +1,31 @@
+{
+  "status": "E668_BROWSER_SYNCHRONIZATION_REPAIR_SOURCE_CONTROLS_PASS_NOT_NATIVE",
+  "failed_run": "41241493562",
+  "failed_commit": "e6684b07f98d753b5f78b24c7af52cd981971c0c",
+  "diagnosed_failure": "CURRENT_RIGHTS_ROLE_TRANSITION_INSIDE_ROUTE_HANDLER_RACED_FIVE_SECOND_UI_ASSERTION",
+  "repair": {
+    "database_role_changes_after_preview": true,
+    "database_role_changes_before_real_save_request": true,
+    "same_stale_browser_identity_used_for_real_save": true,
+    "actual_403_response_awaited_before_UI_assertion": true,
+    "product_permission_policy_changed": false,
+    "financial_oracle_changed": false,
+    "automatic_retry_added": false
+  },
+  "controls": {
+    "python_source_and_orchestration_tests": 32,
+    "python_result": "PASS",
+    "real_loopback_RPC_requests": 9,
+    "distinct_loopback_connections": 9,
+    "loopback_result": "REAL_LOOPBACK_RPC_TRANSPORT_CONTRACT_PASS",
+    "response_loss_without_retry": true,
+    "refusal_preserved": true,
+    "exact_payload_and_Auth_headers": true,
+    "bounded_JSON_diagnostic_artifact_excludes_SQL_and_dump": true
+  },
+  "ERP_database_started": false,
+  "actual_Native_cases": 0,
+  "actual_browser_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

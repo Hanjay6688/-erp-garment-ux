@@ -129,9 +129,14 @@ async function access(ui,today){const x=await setup(ui,today,'ACCESS'),f=x.fixtu
  for(const [rpc,args]of[[RPC.read,read],[RPC.preview,{p_action:'CHOOSE',p_payload:p}],[RPC.save,{p_action:'CHOOSE',p_payload:{...p,review_token:'0'.repeat(64)},p_request:randomUUID()}]]){const refused=await x.user.rpc(rpc,args);assert.equal(refused.status,403,JSON.stringify(refused.body));assert.ok(String(refused.body.message).includes('CP7_S03_OWNER_REQUIRED'));sameJwtRefusals.push({rpc,status:refused.status,body:refused.body})}
  equalCensus(currentAdmin.census,x.state('AFTER_SAME_JWT_ADMIN_DENIALS').census)
  await currentRole(x,backupOwner,'OWNER');restoreRequired=false;await x.page.reload();await x.open();await x.period(f.day);await x.fields('CHOOSE','CARRY');await x.preview('CHOOSE',p)
- const endpoint='**/rest/v1/rpc/'+RPC.save;let deniedBoundary,actualRefusal
- await x.page.route(endpoint,async route=>{restoreRequired=true;await currentRole(x,backupOwner,'ADMIN');deniedBoundary=x.state('BEFORE_CURRENT_RIGHTS_SAVE');const actual=await route.fetch();actualRefusal={status:actual.status(),body:await actual.json()};assert.equal(actual.status(),403);assert.ok(String(actualRefusal.body.message).includes('CP7_S03_OWNER_REQUIRED'));x.expectedNetwork.push({url:route.request().url(),text:'Failed to load resource: the server responded with a status of 403 (Forbidden)',reason:'CURRENT_OWNER_ROLE_CHANGED_BY_BACKUP_OWNER_BEFORE_REAL_SAVE'});await route.fulfill({response:actual})})
- await x.choice().getByRole('button',{name:'Simpan pilihan biaya',exact:true}).click();await x.expect(x.choice().getByRole('region',{name:'Tinjauan perubahan biaya',exact:true})).toHaveCount(0);assert.ok(actualRefusal);equalCensus(deniedBoundary.census,x.state('AFTER_CURRENT_RIGHTS_DENIAL').census);await x.page.unroute(endpoint)
+ // Change the database role after preview but before the real save. Do not put
+ // the lawful transition inside a Playwright route handler: its audit/census
+ // proof is intentionally substantial and the click would race the UI expect
+ // timeout before the intercepted save response had even been delivered.
+ restoreRequired=true;await currentRole(x,backupOwner,'ADMIN');const deniedBoundary=x.state('BEFORE_CURRENT_RIGHTS_SAVE')
+ const currentRightsSave=x.page.waitForResponse(r=>isRpc(RPC.save)(r)&&args(r).p_action==='CHOOSE')
+ await x.choice().getByRole('button',{name:'Simpan pilihan biaya',exact:true}).click();const actualRefusal=await denied(currentRightsSave,'CP7_S03_OWNER_REQUIRED');x.verifiedNetwork(actualRefusal.response,'CURRENT_OWNER_ROLE_CHANGED_BY_BACKUP_OWNER_BEFORE_REAL_SAVE')
+ await x.expect(x.choice().getByRole('region',{name:'Tinjauan perubahan biaya',exact:true})).toHaveCount(0);equalCensus(deniedBoundary.census,x.state('AFTER_CURRENT_RIGHTS_DENIAL').census)
  await x.shot('CURRENT_RIGHTS_REFUSED')
  await currentRole(x,backupOwner,'OWNER');restoreRequired=false
  // Preserve any unresolved old actor envelope; use a fresh actual Owner context for independent delay controls.

@@ -5,8 +5,8 @@
   "original_bytes": 33313,
   "original_sha256": "9b17c16a3a6ae749e8f21718162869716b91e64d17b1dbe832e48a3379b8f30e",
   "derived_head": "e2214780348ace563e8ec7929035acb20fc77de0",
-  "derived_bytes": 33705,
-  "derived_sha256": "000f193fb2fb8d283eadb36e9f4227d05c750bb1e4a2c2bc90b242526c7d6b1a",
+  "derived_bytes": 34249,
+  "derived_sha256": "7822d89bd191a5b7ed16c6e64f839313c4a1454bfcb6d693877bab5d06da2e0b",
   "changes": [
     {
       "before": "  group: cp7-current-s03-sku-s05-${{ github.run_id }}\n",
@@ -36,6 +36,11 @@
     {
       "before": "      run: if command -v supabase >/dev/null 2>&1 && test -d cp5-local; then supabase stop --workdir cp5-local --no-backup;\n        fi\n",
       "after": "      run: |-\n        python -B ../auditor/scripts/current-s03-sku-s05-composite-qualification/runtime_supervisor.py --allow-database-stop\n        if command -v supabase >/dev/null 2>&1 && test -d cp5-local; then supabase stop --workdir cp5-local --no-backup; fi\n",
+      "count": 1
+    },
+    {
+      "before": "    - name: Remove disposable database\n",
+      "after": "    - name: Preserve bounded JSON diagnostics independently of large clone evidence\n      if: always()\n      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02\n      with:\n        name: cp7-current-s03-sku-s05-37-bounded-diagnostics-${{ github.run_attempt }}\n        path: |\n          auditor/cp6-proof/t3/*.json\n          auditor/cp6-proof/t3/*.jsonl\n          auditor/cp6-proof/t3/**/*.json\n          auditor/cp6-proof/t3/**/*.jsonl\n        retention-days: 30\n        if-no-files-found: error\n        compression-level: 9\n    - name: Remove disposable database\n",
       "count": 1
     }
   ],

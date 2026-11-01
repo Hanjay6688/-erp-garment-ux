@@ -552,6 +552,19 @@ jobs:
         \    print(json.dumps(dict(ow04_original_report_bytes=True,name=name,raw_bytes=len(raw),\n        raw_sha256=hashlib.sha256(raw).hexdigest(),gzip_bytes=len(packed),\n\
         \        gzip_sha256=hashlib.sha256(packed).hexdigest(),\n        gzip_base64=base64.b64encode(packed).decode('ascii'))),flush=True)\n\
         PY\n"
+    - name: Preserve bounded JSON diagnostics independently of large clone evidence
+      if: always()
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      with:
+        name: cp7-current-s03-sku-s05-37-bounded-diagnostics-${{ github.run_attempt }}
+        path: |
+          auditor/cp6-proof/t3/*.json
+          auditor/cp6-proof/t3/*.jsonl
+          auditor/cp6-proof/t3/**/*.json
+          auditor/cp6-proof/t3/**/*.jsonl
+        retention-days: 30
+        if-no-files-found: error
+        compression-level: 9
     - name: Remove disposable database
       if: always()
       working-directory: base
