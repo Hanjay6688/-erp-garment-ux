@@ -32,6 +32,50 @@ MAIN='CP7_CURRENT_COMPLETE_D1_E_NATIVE30.json'
 RAW='CP7_CURRENT_COMPLETE_D1_E_NATIVE30_CASES.json'
 WORKFLOW='.github/workflows/cp7-current-complete-de-native30.yml'
 GATES=dict(installed=True,primary_unchanged=True,backup_restore_drill=True,security_advisors=True,writer_runtime=True)
+ACTIVATION_SOURCE_HEAD='a71de0fba6d4a02a1db9acd471970c3df43d7ff5'
+ACTIVATION_SOURCE_TREE='a5ff3fa842e829187952c887dba579db693311b8'
+
+
+def actual_activation_source(g,declaration):
+    """Replay only four bindings/provenance files over the old closed own94."""
+    import prepare_de_activation as planner
+    receipt_path=NS+'PERMANENT_PARENT_ROOT_ACTUAL_INTAKE.json'
+    raw=g.read(receipt_path);receipt=planner.accepted_parent(raw)
+    fields(receipt,dict(head=PARENT_HEAD,tree=PARENT_TREE),'DE30_EXACT_ROOT_ACCEPTED_CURRENT_PARENT')
+    exact(len(g.entries(PARENT_HEAD)),14169,'DE30_ALL_CURRENT_RETAINED4_FRESH2_PARENT14169')
+    with GitBytes(g.root,ACTIVATION_SOURCE_HEAD,ACTIVATION_SOURCE_TREE)as old:
+        original=strict(old.read(NS+'SOURCE.json'));old_paths=set(original['files'])|{NS+'SOURCE.json'}
+        exact(len(old_paths),94,'DE30_EXACT_OLD_CLOSED_OWN94')
+        changed={NS+n for n in('admission.py','source.py','SOURCE.json','REPAIRED_PERMANENT_REBASE_ORIGIN.json')}
+        for name in old_paths-changed:
+            exact(g.tree.get(name),old.tree[name],'DE30_ALL_NINETY_OTHER_OWN_BLOBS_AND_MODES_UNCHANGED:'+name)
+        routes=[];expected={name:old.read(name)for name in(NS+'admission.py',NS+'source.py')}
+        for name,bindings in((NS+'admission.py',(
+            ('PARENT_HEAD',None,PARENT_HEAD),('PARENT_RECEIPT',None,pin(raw)))),
+            (NS+'source.py',(
+            ('BASE',original['base_head'],PARENT_HEAD),('TREE',original['base_tree'],PARENT_TREE)))):
+            for key,before,after in bindings:
+                expected[name],route=planner.literal_route(expected[name],key,before,after)
+                routes.append(dict(path=name,**route))
+        expected[NS+'admission.py'],protocol=planner.protocol_route(expected[NS+'admission.py'])
+        for name,value in expected.items():exact(g.read(name),value,'DE30_ONLY_EXACT_PARENT_BINDING_AND_PROTOCOL_ROUTES:'+name)
+        origin=strict(old.read(NS+'REPAIRED_PERMANENT_REBASE_ORIGIN.json'))
+        origin['actual_permanent_parent_binding']=dict(head=PARENT_HEAD,tree=PARENT_TREE,
+            run_id=receipt['run_id'],job_id=receipt['job_id'],receipt=pin(raw),
+            source_preparation_not_DE_acceptance=True,unchanged_parent_blobs_and_modes=14169,
+            own_paths=96,own_source_pins=95,literal_routes=routes,parent_protocol_route=protocol,actual_DE_cases=0,
+            production_go=False,independent_acceptance=False)
+        exact(g.read(NS+'REPAIRED_PERMANENT_REBASE_ORIGIN.json'),(json.dumps(origin,indent=2)+'\n').encode(),
+            'DE30_ORIGINAL_PROVENANCE_RETAINED_WITH_ONLY_EXACT_ACTUAL_BINDING_APPEND')
+        exact({k:v for k,v in declaration.items()if k not in('base_head','base_tree','files','actual_parent_qualification')},
+            {k:v for k,v in original.items()if k not in('base_head','base_tree','files','actual_parent_qualification')},
+            'DE30_ALL_ORIGINAL_SOURCE_CONTRACT_METADATA_UNCHANGED')
+        exact(declaration['actual_parent_qualification'],dict(head=PARENT_HEAD,tree=PARENT_TREE,
+            run_id=receipt['run_id'],job_id=receipt['job_id'],receipt=pin(raw)),'DE30_EXACT_ACTUAL_PARENT_QUALIFICATION_BINDING')
+        exact(set(declaration['files']),set(original['files'])|{receipt_path,WORKFLOW},'DE30_ONLY_TWO_NEW_OWN_PATHS')
+        exact(g.read(WORKFLOW),old.read(NS+'native30.workflow.yml.txt'),'DE30_OLD_REVIEWED_WORKFLOW_BYTES_UNCHANGED')
+    return dict(status='EXACT_OWN94_TO96_WITH_FOUR_REVERSED_BINDINGS_AND_PARENT_PROTOCOL_ONLY',
+        old_own_blobs_unchanged=90,actual_case_credit=0)
 
 
 def source(g):
@@ -55,6 +99,9 @@ def source(g):
         exact(literal(g,NS+'admission.py','PARENT_RECEIPT'),None,'DE30_PREPARED_RECEIPT_GATE_CLOSED')
         require(WORKFLOW not in g.tree,'DE30_PREPARED_WORKFLOW_NOT_ACTIVATED')
     else:
+        exact(len(base),14169,'DE30_CURRENT_QUALIFIED_RETAINED4_FRESH2_PARENT14169')
+        exact(len(allowed),96,'DE30_EXACT_BOUND_OWN96')
+        actual_activation_source(g,declaration)
         require(WORKFLOW in allowed,'DE30_ACTUAL_WORKFLOW_MUST_BE_EXPLICITLY_DECLARED')
         exact(g.read(WORKFLOW),g.read(NS+'native30.workflow.yml.txt'),'DE30_ACTUAL_WORKFLOW_EQUALS_REVIEWED_TEMPLATE')
     product=strict(g.read(PRODUCT+'SOURCE.json'))
@@ -401,9 +448,12 @@ def intake(root,path,metadata):
         parent_raw=g.read(NS+'PERMANENT_PARENT_ROOT_ACTUAL_INTAKE.json');parent=strict(parent_raw)
         exact(literal(g,NS+'admission.py','PARENT_HEAD'),PARENT_HEAD,'DE30_EXACT_PARENT_ADMISSION_HEAD')
         exact(literal(g,NS+'admission.py','PARENT_RECEIPT'),pin(parent_raw),'DE30_EXACT_PARENT_RECEIPT_BYTES')
-        fields(parent,dict(status='ROOT_VERIFIED_PERMANENT_S05_NATIVE4_BROWSER2_ALL5',head=PARENT_HEAD,
-            tree=PARENT_TREE,complete6_qualified=True,actual_Native_cases=4,actual_browser_cases=2,
-            retained_join37_fresh_case_credit=0,package_all_five=True,prior_runs_aggregated=False,
+        fields(parent,dict(status='ROOT_VERIFIED_PERMANENT_S05_RETAINED4_FRESH_BROWSER2_ALL5',head=PARENT_HEAD,
+            tree=PARENT_TREE,complete6_qualified=True,actual_Native_cases=0,actual_browser_cases=2,fresh_cases=2,
+            retained_Native_cases=4,retained_cases=4,retained_cases_are_not_fresh=True,candidate_case_coverage=6,
+            fresh6_one_attempt=False,prior_runs_aggregated=True,source_invariant_reuse=True,financial_groups_rerun=False,
+            retained_original_run_conclusion='failure',failed_run_relabelled_PASS=False,
+            retained_join37_fresh_case_credit=0,package_all_five=True,
             production_go=False,independent_acceptance=False),'DE30_ACTUAL_QUALIFIED_PERMANENT_PARENT')
         main=original(MAIN);package=original('T3_PACKAGE_INSTALL.json');backup=original('T3_BACKUP_RESTORE_DRILL.json')
         supervised=supervision(original('DE_RUNTIME_SUPERVISION.json'))

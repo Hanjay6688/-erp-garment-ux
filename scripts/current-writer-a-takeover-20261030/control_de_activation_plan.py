@@ -22,7 +22,7 @@ def control(root,head,tree):
         def __enter__(self):self.real.__enter__();return self
         def __exit__(self,*args):return self.real.__exit__(*args)
         def read(self,*args):return self.real.read(*args)
-        def entries(self,ref):return self.real.entries(base if ref==model_head else ref)
+        def entries(self,ref):return self.real.entries(planner.parent.HEAD if ref==model_head else ref)
         def git(self,*args):
             if args==('rev-parse',model_head+'^{tree}'):return model_tree.encode()+b'\n'
             return self.real.git(*args)
@@ -59,6 +59,35 @@ def control(root,head,tree):
         planner.exact(set(entries)-old,{planner.RECEIPT,planner.WORKFLOW},'DE96_MODEL_ONLY_TWO_NEW_PATHS')
         planner.exact({name for name in old if'content'in entries[name]},set(review['changed_own_files']),
             'DE96_MODEL_ONLY_DECLARED_FOUR_CHANGES')
+        parent_entries=git.entries(planner.parent.HEAD)
+        modeled_raw={name:(row['content'].encode()if'content'in row else git.read(name))for name,row in entries.items()}
+        class PlannedSource:
+            def __init__(self,changed=None):
+                self.root=git.root;self.changed=changed or{}
+                self.tree=dict(parent_entries)
+                for name,raw in modeled_raw.items():
+                    actual=self.changed.get(name,raw)
+                    self.tree[name]=dict(mode='100644',blob=sha1(b'blob '+str(len(actual)).encode()+b'\0'+actual).hexdigest())
+            def read(self,name):return self.changed.get(name,modeled_raw[name])
+            def entries(self,ref):
+                planner.exact(ref,model_head,'MODEL_EXACT_PARENT_REQUEST')
+                return parent_entries
+        with patch.multiple(planner.child,PARENT_HEAD=model_head,PARENT_TREE=model_tree),\
+             patch.object(planner,'accepted_parent',return_value=model_receipt):
+            verified=planner.child.actual_activation_source(PlannedSource(),manifest)
+            planner.exact(verified['old_own_blobs_unchanged'],90,'DE96_SEPARATE_ROOT_REPLAY_PRESERVES_ALL90')
+            refused=[]
+            mutations={
+                'Native_callback':{planner.child.BUSINESS+'cases.py':modeled_raw[planner.child.BUSINESS+'cases.py']+b'\n'},
+                'parent_protocol':{planner.NS+'admission.py':modeled_raw[planner.NS+'admission.py'].replace(
+                    b'actual_Native_cases=0,actual_browser_cases=2,fresh_cases=2',
+                    b'actual_Native_cases=4,actual_browser_cases=2,fresh_cases=6',1)},
+                'rebase_provenance':{planner.NS+'REPAIRED_PERMANENT_REBASE_ORIGIN.json':b'{}'},
+            }
+            for label,changed in mutations.items():
+                try:planner.child.actual_activation_source(PlannedSource(changed),manifest)
+                except ValueError:refused.append(label)
+                else:raise AssertionError('DE96_ROOT_REPLAY_ACCEPTED_MUTATION:'+label)
     digest=sha256(json.dumps(request,sort_keys=True,ensure_ascii=False,separators=(',',':')).encode()).hexdigest()
     return dict(status='DE96_PURE_ASSEMBLY_MODEL_PASS_NOT_PARENT_ACCEPTANCE',own_paths=96,pins=95,
         unchanged_own90=90,manifest_all95_actual_bytes_match=True,workflow_exact_template=True,

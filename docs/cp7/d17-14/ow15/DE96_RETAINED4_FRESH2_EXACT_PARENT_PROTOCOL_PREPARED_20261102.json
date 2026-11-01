@@ -1,0 +1,92 @@
+{
+  "status": "DE96_EXACT_RETAINED4_FRESH2_PROTOCOL_PREPARED_NOT_ACTIVATED",
+  "actual_parent_pin": null,
+  "prepared_DE_head": "a71de0fba6d4a02a1db9acd471970c3df43d7ff5",
+  "prepared_DE_tree": "a5ff3fa842e829187952c887dba579db693311b8",
+  "actual_DE_alias_exists_unarmed": true,
+  "actual_DE_workflow_runs": 0,
+  "prospective_parent_head": "15a2170cea88cd03a4d1bcaa0873a969d495b9fa",
+  "prospective_parent_accepted": false,
+  "required_parent_status": "ROOT_VERIFIED_PERMANENT_S05_RETAINED4_FRESH_BROWSER2_ALL5",
+  "fresh_parent_Native_cases": 0,
+  "retained_parent_Native_cases": 4,
+  "fresh_parent_browser_cases": 2,
+  "parent_source_paths": 14169,
+  "unchanged_own_files": 90,
+  "only_four_changed_own_files": [
+    "admission.py",
+    "source.py",
+    "SOURCE.json",
+    "REPAIRED_PERMANENT_REBASE_ORIGIN.json"
+  ],
+  "two_new_own_paths": [
+    "PERMANENT_PARENT_ROOT_ACTUAL_INTAKE.json",
+    ".github/workflows/cp7-current-complete-de-native30.yml"
+  ],
+  "Root_activated_source_replays_exact_old94_routes": true,
+  "model": {
+    "status": "DE96_PURE_ASSEMBLY_MODEL_PASS_NOT_PARENT_ACCEPTANCE",
+    "own_paths": 96,
+    "pins": 95,
+    "unchanged_own90": 90,
+    "manifest_all95_actual_bytes_match": true,
+    "workflow_exact_template": true,
+    "planned_tree_request_sha256": "b9f4dbd7a3507a30c511deaf93cb91c70f318010b4700351f45fbf15ec2e914b",
+    "synthetic_request_never_saved": true,
+    "actual_parent_receipt_not_accepted": true,
+    "Git_mutations": 0,
+    "SQL": 0,
+    "ERP_cases": 0
+  },
+  "closed_parent_controls": {
+    "status": "EXACT_RETAINED4_FRESH2_PARENT_PROTOCOL_PREPARED_ACTUAL_GATE_CLOSED",
+    "controls": [
+      {
+        "control": "unarmed_actual4_is_not_parent6",
+        "status": "REFUSED_BEFORE_GIT_OR_ERP",
+        "reason": "DE_ACTIVATION_ACTUAL_PARENT_ROOT_PIN_PENDING"
+      },
+      {
+        "control": "retained4_not_aggregate_parent",
+        "status": "REFUSED_BEFORE_GIT_OR_ERP",
+        "reason": "DE_ACTIVATION_EXACT_TYPED_PARENT_status"
+      },
+      {
+        "control": "old_valid_S05_not_current_permanent",
+        "status": "REFUSED_BEFORE_GIT_OR_ERP",
+        "reason": "DE_ACTIVATION_EXACT_TYPED_PARENT_status"
+      },
+      {
+        "control": "corrupt_actual_pinned_bytes",
+        "status": "REFUSED_BEFORE_GIT_OR_ERP",
+        "reason": "DE_ACTIVATION_EXACT_ACCEPTED_ROOT_RECEIPT_BYTES/bytes:VALUE"
+      }
+    ],
+    "actual_parent_pin": null,
+    "actual_ERP_cases": 0,
+    "Git_mutations": 0
+  },
+  "model_source_asserts_refusal_of": [
+    "changed_Native_callback_blob",
+    "false_parent_fresh_case_counts",
+    "altered_original_provenance"
+  ],
+  "financial_SQL_or_Native_callback_changes": false,
+  "DB_or_ERP_executions": 0,
+  "production_go": false,
+  "independent_acceptance": false,
+  "scripts": {
+    "scripts/current-writer-a-takeover-20261030/prepare_de_activation.py": {
+      "bytes": 11187,
+      "sha256": "04ed2268482a92937a663ad5feb0bb6c491e48575fcc6c4d2c8b24cab9cf3f1a"
+    },
+    "scripts/current-writer-a-takeover-20261030/control_de_activation_plan.py": {
+      "bytes": 6364,
+      "sha256": "79620e9b9eb8ed432da9bcf2bda70dbbbb6fcad02851c0d7761c6ad45ad5c62c"
+    },
+    "scripts/current-writer-a-takeover-20261030/intake_complete_de30.py": {
+      "bytes": 40385,
+      "sha256": "d7a32645fe4b69317979e8451cd6b61d2b07f89a73761eea3ec59030305c57a6"
+    }
+  }
+}

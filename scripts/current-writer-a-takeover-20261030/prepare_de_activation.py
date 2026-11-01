@@ -11,7 +11,7 @@ import argparse,ast,json
 from intake_common import GitBytes,exact,pin,require
 from intake_sku27 import strict
 import intake_complete_de30 as child
-import intake_permanent6 as parent
+import intake_permanent_focused as parent
 
 NS=child.NS
 RECEIPT=NS+'PERMANENT_PARENT_ROOT_ACTUAL_INTAKE.json'
@@ -19,6 +19,31 @@ WORKFLOW=child.WORKFLOW
 # Populate only after the exact current Permanent canonical Root intake passes.
 # A plausible JSON status or an older passing receipt cannot arm this planner.
 ACTUAL_ACCEPTED_PARENT_RECEIPT=None
+
+# Exact bounded protocol route on the old unarmed DE caller. No financial,
+# SQL, reader, Native callback, privilege or runtime change is supplied.
+PARENT_PROTOCOL_BEFORE="""    required=dict(status='ROOT_VERIFIED_PERMANENT_S05_NATIVE4_BROWSER2_ALL5',head=PARENT_HEAD,
+        complete6_qualified=True,actual_Native_cases=4,actual_browser_cases=2,
+        retained_join37_fresh_case_credit=0,package_all_five=True,prior_runs_aggregated=False,
+        production_go=False,independent_acceptance=False)"""
+PARENT_PROTOCOL_AFTER="""    required=dict(status='ROOT_VERIFIED_PERMANENT_S05_RETAINED4_FRESH_BROWSER2_ALL5',head=PARENT_HEAD,
+        complete6_qualified=True,actual_Native_cases=0,actual_browser_cases=2,fresh_cases=2,
+        retained_Native_cases=4,retained_cases=4,retained_cases_are_not_fresh=True,candidate_case_coverage=6,
+        fresh6_one_attempt=False,prior_runs_aggregated=True,source_invariant_reuse=True,financial_groups_rerun=False,
+        retained_original_run_conclusion='failure',failed_run_relabelled_PASS=False,
+        retained_join37_fresh_case_credit=0,package_all_five=True,
+        production_go=False,independent_acceptance=False)"""
+
+
+def protocol_route(raw):
+    text=raw.decode();exact(text.count(PARENT_PROTOCOL_BEFORE),1,'DE_ACTIVATION_EXACT_ORIGINAL_PARENT_PROTOCOL')
+    result=text.replace(PARENT_PROTOCOL_BEFORE,PARENT_PROTOCOL_AFTER,1)
+    exact(result.count(PARENT_PROTOCOL_AFTER),1,'DE_ACTIVATION_ONE_TRUTHFUL_RETAINED4_FRESH2_PROTOCOL')
+    exact(result.replace(PARENT_PROTOCOL_AFTER,PARENT_PROTOCOL_BEFORE,1).encode(),raw,
+        'DE_ACTIVATION_ENTIRE_ORIGINAL_PARENT_PROTOCOL_RECOVERED')
+    compile(result,'DE-activation-retained4-fresh2-protocol-only','exec')
+    return result.encode(),dict(before=PARENT_PROTOCOL_BEFORE,after=PARENT_PROTOCOL_AFTER,count=1,
+        exact_original_recovered=True,financial_SQL_or_Native_callbacks_changed=False)
 
 
 def typed(value,expected,label):
@@ -29,10 +54,13 @@ def accepted_parent(raw):
     require(ACTUAL_ACCEPTED_PARENT_RECEIPT is not None,'DE_ACTIVATION_ACTUAL_PARENT_ROOT_PIN_PENDING')
     exact(pin(raw),ACTUAL_ACCEPTED_PARENT_RECEIPT,'DE_ACTIVATION_EXACT_ACCEPTED_ROOT_RECEIPT_BYTES')
     value=strict(raw)
-    required=dict(status='ROOT_VERIFIED_PERMANENT_S05_NATIVE4_BROWSER2_ALL5',
+    required=dict(status='ROOT_VERIFIED_PERMANENT_S05_RETAINED4_FRESH_BROWSER2_ALL5',
         head=parent.HEAD,tree=parent.TREE,run_id=parent.RUN,job_id=parent.JOB,
-        actual_Native_cases=4,actual_browser_cases=2,complete6_qualified=True,package_all_five=True,
-        fresh6_one_attempt=True,prior_runs_aggregated=False,retained_join37_fresh_case_credit=0,
+        actual_Native_cases=0,actual_browser_cases=2,fresh_cases=2,retained_Native_cases=4,retained_cases=4,
+        retained_cases_are_not_fresh=True,candidate_case_coverage=6,complete6_qualified=True,package_all_five=True,
+        fresh6_one_attempt=False,prior_runs_aggregated=True,source_invariant_reuse=True,financial_groups_rerun=False,
+        retained_original_run_conclusion='failure',failed_run_relabelled_PASS=False,retained_root_receipt=parent.ROOT_PIN,
+        retained_join37_fresh_case_credit=0,
         reader_remains_installed=True,global_writer_or_permission_or_lock_closure=False,
         Afui_positive_HPP_zero_reimbursement_coverage=False,D1_E_qualified=False,
         production_go=False,independent_acceptance=False)
@@ -76,7 +104,7 @@ def plan(root,prepared_head,prepared_tree,raw_receipt):
         values={name:git.read(name)for name in sorted(old_paths)};before=dict(values)
         parent_entries=git.entries(receipt['head'])
         exact(git.git('rev-parse',receipt['head']+'^{tree}').decode().strip(),receipt['tree'],'DE_ACTIVATION_ACTUAL_PARENT_TREE')
-        exact(len(parent_entries),14164,'DE_ACTIVATION_ENTIRE_CURRENT_PARENT14164')
+        exact(len(parent_entries),14169,'DE_ACTIVATION_ENTIRE_CURRENT_PARENT14169')
         require(not(old_paths|{RECEIPT,WORKFLOW})&set(parent_entries),'DE_ACTIVATION_ADDITIVE_NAMESPACES_ONLY')
         routes=[]
         for name,bindings in((NS+'admission.py',(
@@ -85,13 +113,14 @@ def plan(root,prepared_head,prepared_tree,raw_receipt):
             ('BASE',declaration['base_head'],receipt['head']),('TREE',declaration['base_tree'],receipt['tree'])))):
             for key,old,new in bindings:
                 values[name],route=literal_route(values[name],key,old,new);routes.append(dict(path=name,**route))
+        values[NS+'admission.py'],protocol=protocol_route(values[NS+'admission.py'])
         values[RECEIPT]=raw_receipt
         values[WORKFLOW]=values[NS+'native30.workflow.yml.txt']
         origin=strict(values[NS+'REPAIRED_PERMANENT_REBASE_ORIGIN.json'])
         origin['actual_permanent_parent_binding']=dict(head=receipt['head'],tree=receipt['tree'],
             run_id=receipt['run_id'],job_id=receipt['job_id'],receipt=pin(raw_receipt),
-            source_preparation_not_DE_acceptance=True,unchanged_parent_blobs_and_modes=14164,
-            own_paths=96,own_source_pins=95,literal_routes=routes,actual_DE_cases=0,
+            source_preparation_not_DE_acceptance=True,unchanged_parent_blobs_and_modes=14169,
+            own_paths=96,own_source_pins=95,literal_routes=routes,parent_protocol_route=protocol,actual_DE_cases=0,
             production_go=False,independent_acceptance=False)
         values[NS+'REPAIRED_PERMANENT_REBASE_ORIGIN.json']=(json.dumps(origin,indent=2)+'\n').encode()
         declaration['base_head']=receipt['head'];declaration['base_tree']=receipt['tree']
@@ -114,9 +143,9 @@ def plan(root,prepared_head,prepared_tree,raw_receipt):
     review=dict(status='DE96_ACTUAL_PARENT_BOUND_TREE_PLAN_ONLY_NOT_EXECUTED',
         prepared_source_head=prepared_head,prepared_source_tree=prepared_tree,parent_head=receipt['head'],
         parent_tree=receipt['tree'],parent_root_receipt=pin(raw_receipt),
-        source_before=original,unchanged_parent_blobs_and_modes=14164,own_paths=96,own_source_pins=95,
+        source_before=original,unchanged_parent_blobs_and_modes=14169,own_paths=96,own_source_pins=95,
         unchanged_own_files=90,changed_own_files=changed,new_paths=[RECEIPT,WORKFLOW],
-        literal_routes=routes,workflow_bytes_equal_reviewed_template=True,actual_DE_cases=0,
+        literal_routes=routes,parent_protocol_route=protocol,workflow_bytes_equal_reviewed_template=True,actual_DE_cases=0,
         must_materialize_check_entire_source_and_Root_gate_before_activation=True,
         production_go=False,independent_acceptance=False)
     return request,review
