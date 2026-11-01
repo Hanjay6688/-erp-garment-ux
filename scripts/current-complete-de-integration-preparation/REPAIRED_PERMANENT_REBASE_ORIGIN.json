@@ -640,6 +640,23 @@
       "exact_original_recovered": true,
       "financial_SQL_or_Native_callbacks_changed": false
     },
+    "nested_product_pin_route": {
+      "path": "scripts/cp7_complete_credit_de/SOURCE.json",
+      "key": [
+        "files",
+        "scripts/current-complete-de-integration-preparation/admission.py"
+      ],
+      "before": {
+        "bytes": 3418,
+        "sha256": "1cc6a1cc54d46c0409ee376d1a40bd19f768bfd47ace7fb6e0faa34f2f1c05aa"
+      },
+      "after": {
+        "bytes": 3853,
+        "sha256": "a96c54c53ec4b9bae0fefe72f53ae767549643cb1a1014ad631f795d94f5a097"
+      },
+      "only_existing_parent_pin_changed": true,
+      "exact_original_recovered": true
+    },
     "actual_DE_cases": 0,
     "production_go": false,
     "independent_acceptance": false
