@@ -1,0 +1,330 @@
+{
+  "status": "ROOT_RETAINED_CURRENT38_NATIVE31_S03_BROWSER4_NOT_AGGREGATE_PASS",
+  "head": "08ef3bee814e6452b9193b53efc05d53abca2d9d",
+  "tree": "abf7e8b78bd56907ace9fb30211d956b63d68797",
+  "run_id": 41291621885,
+  "job_id": 124803871870,
+  "artifact_id": 13082560860,
+  "original_run_conclusion": "failure",
+  "archive": {
+    "bytes": 688425402,
+    "sha256": "3ee9b053a947e4dee14602dd07a9574191c6707813dfb27cbadfbc08b28e7b0c",
+    "members": 259
+  },
+  "originals": {
+    "CP7_CURRENT_S03_SKU_S05_NATIVE31_BROWSER6.json": {
+      "bytes": 94366432,
+      "sha256": "7b97632eb8ef783d0864ec8d00f769940e07c05264c330a608ed19d2e28bebc0"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360437,
+      "sha256": "b54b58cec26567505f6651920cbd86f81c0e5c9eb602f0c9567cc0d4360b0147"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 1470,
+      "sha256": "cf50edb310607ef39ebbf1d3b3b6ae82dc403c784d2b2156cc4722789718bfb8"
+    },
+    "JOIN_RUNTIME_SUPERVISION.json": {
+      "bytes": 584,
+      "sha256": "47030d7c01c520dde9e7693fd3b7fdece368ed48018adbcd21c13767f5c618af"
+    },
+    "CP7_S03_ATTENDANCE_CHOICE_NATIVE11_CASES.json": {
+      "bytes": 19492,
+      "sha256": "1adbda51daba4dd7777efdfdba44c07681a1ac9dfb587525f74bc119f3009469"
+    },
+    "CP7_S03_ATTENDANCE_CHOICE_READER_NATIVE3_CASES.json": {
+      "bytes": 13061,
+      "sha256": "e76152aef38254578262fd3ac847f863596219d882a19b633c934a6f6cf6224b"
+    },
+    "CP7_SKU_PAIR_CONVERSION_NATIVE7.json": {
+      "bytes": 17681,
+      "sha256": "dd2fba0d94035cd5b4c4a79a206bdf75c3356bb3ed081429738a4a2de5ff8a69"
+    },
+    "CP7_S05_ON_SKU_NATIVE10_CASES.json": {
+      "bytes": 255161,
+      "sha256": "363068543dd596fc44c60960da2a82437cb93b05f25cb31a77a123ca78ed9026"
+    },
+    "S05_SKU_DESKTOP_8CEA71E86A09496DB0E82ACA8CEECD74_FIRST_FAILURE.json": {
+      "bytes": 4353,
+      "sha256": "cd2a0aba49560ab3ba78d7a8f58ab5d7ed4ba179a49a66ef987a745836ff0065"
+    },
+    "S05_SKU_MOBILE390_8CEA71E86A09496DB0E82ACA8CEECD74_FIRST_FAILURE.json": {
+      "bytes": 3801,
+      "sha256": "11a5022e950973d1727dcd734da8eabe5545c690570421990ed1231aaf56de82"
+    }
+  },
+  "source_admission": {
+    "manifest": {
+      "bytes": 12727,
+      "sha256": "a80975ebd300e72d83ef185e413cc5bcdb8c3969548b50423029665a8708a186"
+    },
+    "source_files": 80,
+    "unchanged_base_blobs_and_modes": 14000,
+    "current_paths": 81,
+    "case_ids": {
+      "S03_Native11": [
+        "S03_NATIVE_OWNER_FIELDS_READ_FULL_NO_EFFECT",
+        "S03_NATIVE_EXPENSE_APPROVAL_ONCE_PAID_E05_REOPEN",
+        "S03_NATIVE_TWO_EXACT_PERIODS_CENTS_AND_NATIVE_HPP",
+        "S03_NATIVE_P2_PAYROLL_POOL_COEXIST_AND_POLICY_FENCES",
+        "S03_NATIVE_OWNING_CANCEL_LATE_OUTPUT_AND_RESTORATION_FLOOR",
+        "S03_NATIVE_BOTH_CORRECTIONS_LINKED_INVERSES_NO_RECOGNITION",
+        "S03_NATIVE_STALE_REVIEW_UUID_RECOVERY_AND_APPEND_ONLY",
+        "S03_NATIVE_CLOSED_SOURCE_OPEN_OUTPUT_AND_CLOSED_CORRECTION",
+        "S03_NATIVE_ZERO_OUTPUT_SUCCESSOR_POLICY_RETAINS_OLD_INFO",
+        "S03_NATIVE_FINISHED_PO_FG_COGS_COST_AND_CANCEL_EXACT",
+        "S03_NATIVE_OLD_ACCRUAL_LATER_BOOK_REOPEN_DATE_FLOOR"
+      ],
+      "S03_reader3": [
+        "S03_READER_NATIVE_OWNED_ACTIVE_PERIODS_AND_DISJOINT_P2_UNCHANGED",
+        "S03_READER_NATIVE_CANCELLED_LIFETIME_AND_STALE_COMPOSITE_NO_EFFECT",
+        "S03_READER_NATIVE_EXACT_HELD_P1_BLOCKS_LEGACY_REPLACE_AND_CREATE"
+      ],
+      "SKU_Native7": [
+        "SKU29_PAIR_BIDIRECTIONAL_REPLACE_DELETE_NO_LEDGER",
+        "SKU29_NONPO_MULTILOT_FIFO_RESERVATION_VALUE_REPLAY",
+        "SKU29_ANY_ACTIVE_MODEL_SIZE_MANUAL_BACK_CURRENT_SOURCE_COST",
+        "SKU29_STALE_SOURCE_TARGET_RESERVATIONS_REFUSE_ZERO_EFFECT",
+        "SKU29_GROUP_REVERSE_ACTIVE_SALE_REFUSAL_THEN_RELEASE",
+        "SKU29_MIXED_PO_NONPO_NATIVE_LINEAGE_VALUE_CONSERVATION",
+        "SKU29_LEGACY_ACCESSORY_COST_AND_INVERSE_PRESERVED"
+      ],
+      "S05_Native10": [
+        "S05_NATIVE_CATEGORY_VARIANTS_PO",
+        "S05_NATIVE_HISTORICAL_BOM",
+        "S05_NATIVE_LATE_INVOICE_COST_REVISIONS",
+        "S05_NATIVE_ZERO_REIMBURSEMENT",
+        "S05_NATIVE_EMPTY_AND_NO_OUTPUT",
+        "S05_NATIVE_WIB_COHORTS",
+        "S05_NATIVE_NOTE_DRAFT_INVERSE",
+        "S05_NATIVE_QC_INVERSE",
+        "S05_NATIVE_REWORK_NONE_RECORDED_RECIPIENT",
+        "S05_NATIVE_CURRENT_ACCESS_PRIVATE_ACL"
+      ],
+      "S05_browser2": [
+        "S05_SKU_NORMAL_APP_DESKTOP_SOURCE_AND_LATE_REPLY",
+        "S05_SKU_NORMAL_APP_MOBILE390_UNKNOWN_ZERO_AND_CURRENT_ACCESS"
+      ],
+      "S03_browser4": [
+        "S03_BROWSER_OWNER_EXPENSE_CORRECT_REVERSE_DESKTOP",
+        "S03_BROWSER_OWNER_CARRY_ALLOCATE_CANCEL_MOBILE390",
+        "S03_BROWSER_ACTUAL_STALE_AND_LOST_REPLY_SAME_UUID",
+        "S03_BROWSER_CURRENT_AUTH_RIGHTS_AND_DELAYED_CONTEXT"
+      ]
+    },
+    "actual_case_credit": 0
+  },
+  "actual_product_source_maps": {
+    "file_maps": 66,
+    "pin_occurrences": 278,
+    "unique_paths": 155,
+    "exact_producer_namespace": true
+  },
+  "qualified_financial_sources": {
+    "bytes": 173444,
+    "sha256": "be51f0247a24b192fd8d704b2bc3f8000f13d53e3b54d2d228ccf316096fe9b4"
+  },
+  "retained_cases": {
+    "S03_NATIVE_OWNER_FIELDS_READ_FULL_NO_EFFECT": {
+      "status": "PASS",
+      "retained": true,
+      "fresh_case_credit": 0
+    },
+    "S03_NATIVE_EXPENSE_APPROVAL_ONCE_PAID_E05_REOPEN": {
+      "status": "PASS",
+      "retained": true,
+      "fresh_case_credit": 0
+    },
+    "S03_NATIVE_TWO_EXACT_PERIODS_CENTS_AND_NATIVE_HPP": {
+      "status": "PASS",
+      "retained": true,
+      "fresh_case_credit": 0
+    },
+    "S03_NATIVE_P2_PAYROLL_POOL_COEXIST_AND_POLICY_FENCES": {
+      "status": "PASS",
+      "retained": true,
+      "fresh_case_credit": 0
+    },
+    "S03_NATIVE_OWNING_CANCEL_LATE_OUTPUT_AND_RESTORATION_FLOOR": {
+      "status": "PASS",
+      "retained": true,
+      "fresh_case_credit": 0
+    },
+    "S03_NATIVE_BOTH_CORRECTIONS_LINKED_INVERSES_NO_RECOGNITION": {
+      "status": "PASS",
+      "retained": true,
+      "fresh_case_credit": 0
+    },
+    "S03_NATIVE_STALE_REVIEW_UUID_RECOVERY_AND_APPEND_ONLY": {
+      "status": "PASS",
+      "retained": true,
+      "fresh_case_credit": 0
+    },
+    "S03_NATIVE_CLOSED_SOURCE_OPEN_OUTPUT_AND_CLOSED_CORRECTION": {
+      "status": "PASS",
+      "retained": true,
+      "fresh_case_credit": 0
+    },
+    "S03_NATIVE_ZERO_OUTPUT_SUCCESSOR_POLICY_RETAINS_OLD_INFO": {
+      "status": "PASS",
+      "retained": true,
+      "fresh_case_credit": 0
+    },
+    "S03_NATIVE_FINISHED_PO_FG_COGS_COST_AND_CANCEL_EXACT": {
+      "status": "PASS",
+      "retained": true,
+      "fresh_case_credit": 0
+    },
+    "S03_NATIVE_OLD_ACCRUAL_LATER_BOOK_REOPEN_DATE_FLOOR": {
+      "status": "PASS",
+      "retained": true,
+      "fresh_case_credit": 0
+    },
+    "S03_READER_NATIVE_OWNED_ACTIVE_PERIODS_AND_DISJOINT_P2_UNCHANGED": {
+      "status": "PASS",
+      "retained": true,
+      "fresh_case_credit": 0
+    },
+    "S03_READER_NATIVE_CANCELLED_LIFETIME_AND_STALE_COMPOSITE_NO_EFFECT": {
+      "status": "PASS",
+      "retained": true,
+      "fresh_case_credit": 0
+    },
+    "S03_READER_NATIVE_EXACT_HELD_P1_BLOCKS_LEGACY_REPLACE_AND_CREATE": {
+      "status": "PASS",
+      "retained": true,
+      "fresh_case_credit": 0
+    },
+    "SKU29_PAIR_BIDIRECTIONAL_REPLACE_DELETE_NO_LEDGER": {
+      "status": "PASS",
+      "retained": true,
+      "fresh_case_credit": 0
+    },
+    "SKU29_NONPO_MULTILOT_FIFO_RESERVATION_VALUE_REPLAY": {
+      "status": "PASS",
+      "retained": true,
+      "fresh_case_credit": 0
+    },
+    "SKU29_ANY_ACTIVE_MODEL_SIZE_MANUAL_BACK_CURRENT_SOURCE_COST": {
+      "status": "PASS",
+      "retained": true,
+      "fresh_case_credit": 0
+    },
+    "SKU29_STALE_SOURCE_TARGET_RESERVATIONS_REFUSE_ZERO_EFFECT": {
+      "status": "PASS",
+      "retained": true,
+      "fresh_case_credit": 0
+    },
+    "SKU29_GROUP_REVERSE_ACTIVE_SALE_REFUSAL_THEN_RELEASE": {
+      "status": "PASS",
+      "retained": true,
+      "fresh_case_credit": 0
+    },
+    "SKU29_MIXED_PO_NONPO_NATIVE_LINEAGE_VALUE_CONSERVATION": {
+      "status": "PASS",
+      "retained": true,
+      "fresh_case_credit": 0
+    },
+    "SKU29_LEGACY_ACCESSORY_COST_AND_INVERSE_PRESERVED": {
+      "status": "PASS",
+      "retained": true,
+      "fresh_case_credit": 0
+    },
+    "S05_NATIVE_CATEGORY_VARIANTS_PO": {
+      "status": "PASS",
+      "retained": true,
+      "fresh_case_credit": 0
+    },
+    "S05_NATIVE_HISTORICAL_BOM": {
+      "status": "PASS",
+      "retained": true,
+      "fresh_case_credit": 0
+    },
+    "S05_NATIVE_LATE_INVOICE_COST_REVISIONS": {
+      "status": "PASS",
+      "retained": true,
+      "fresh_case_credit": 0
+    },
+    "S05_NATIVE_ZERO_REIMBURSEMENT": {
+      "status": "PASS",
+      "retained": true,
+      "fresh_case_credit": 0
+    },
+    "S05_NATIVE_EMPTY_AND_NO_OUTPUT": {
+      "status": "PASS",
+      "retained": true,
+      "fresh_case_credit": 0
+    },
+    "S05_NATIVE_WIB_COHORTS": {
+      "status": "PASS",
+      "retained": true,
+      "fresh_case_credit": 0
+    },
+    "S05_NATIVE_NOTE_DRAFT_INVERSE": {
+      "status": "PASS",
+      "retained": true,
+      "fresh_case_credit": 0
+    },
+    "S05_NATIVE_QC_INVERSE": {
+      "status": "PASS",
+      "retained": true,
+      "fresh_case_credit": 0
+    },
+    "S05_NATIVE_REWORK_NONE_RECORDED_RECIPIENT": {
+      "status": "PASS",
+      "retained": true,
+      "fresh_case_credit": 0
+    },
+    "S05_NATIVE_CURRENT_ACCESS_PRIVATE_ACL": {
+      "status": "PASS",
+      "retained": true,
+      "fresh_case_credit": 0
+    },
+    "S03_BROWSER_OWNER_EXPENSE_CORRECT_REVERSE_DESKTOP": {
+      "status": "PASS",
+      "retained": true,
+      "fresh_case_credit": 0
+    },
+    "S03_BROWSER_OWNER_CARRY_ALLOCATE_CANCEL_MOBILE390": {
+      "status": "PASS",
+      "retained": true,
+      "fresh_case_credit": 0
+    },
+    "S03_BROWSER_ACTUAL_STALE_AND_LOST_REPLY_SAME_UUID": {
+      "status": "PASS",
+      "retained": true,
+      "fresh_case_credit": 0
+    },
+    "S03_BROWSER_CURRENT_AUTH_RIGHTS_AND_DELAYED_CONTEXT": {
+      "status": "PASS",
+      "retained": true,
+      "fresh_case_credit": 0
+    }
+  },
+  "retained_Native_cases": 31,
+  "retained_S03_browser_cases": 4,
+  "retained_cases_require_successor_source_invariance": true,
+  "fresh_case_credit": 0,
+  "missing_case_ids": [
+    "S05_SKU_NORMAL_APP_DESKTOP_SOURCE_AND_LATE_REPLY",
+    "S05_SKU_NORMAL_APP_MOBILE390_UNKNOWN_ZERO_AND_CURRENT_ACCESS"
+  ],
+  "original_package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "original_restore_and_backup_valid": true,
+  "actual_S03_used_refusal_raw_full_boundary": {
+    "tables": 692,
+    "sequences": 15,
+    "catalog_groups": 22
+  },
+  "failed_run_relabelled_PASS": false,
+  "full37_qualified": false,
+  "package_all_five": false,
+  "production_go": false,
+  "independent_acceptance": false
+}
