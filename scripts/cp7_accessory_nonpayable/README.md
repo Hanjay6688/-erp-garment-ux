@@ -172,3 +172,26 @@ still refuses before connections while the actual FREE3 receipt is missing.
 `LOCAL_ACCESS_PREPARATION_CONTROLS.json` records four new pure refusal/history/
 census controls. These cases have not run on ERP or Auth; their owning mode,
 complete restoration, cleanup and final acceptance remain required.
+
+`browser_prepare.py` and `browser_fixture.py` prepare one lawful Native GOOD
+prerequisite and read-only complete observations for two normal-App browser
+journeys. They own no connection to the candidate by import and cannot pass
+admission until FREE3 is actually accepted. The Native prerequisite must show
+positive HPP 20, zero reimbursement and no entitlement before copying the
+installed component. Every browser observation requires the exact saved state,
+fixture digest and local `cp6_auditor_browser` identity; complete raw all22/data/
+sequence evidence is retained in original gzip files without omissions.
+
+`browser.mjs` prepares desktop posted-use refusal plus a lost real server reply
+reconciled with the same UUID from a second tab. The phone journey prepares a
+request lost before forwarding, an actual cancellation tombstone, its late
+arrival replaying CANCELLED, a fresh reviewed future-date save in a different
+display timezone, and ADMIN read-only controls. Both use the existing normal
+App menu and unchanged real Auth browser host. They require the active GOOD's
+full observed stock/HPP/entitlement state to remain exact; only the declared
+new date/request rows may be appended. Unexpected console errors, unreadable
+text and horizontal overflow refuse. Screenshots, network requests, complete
+census originals and first failures must be retained by the owning qualifier.
+`LOCAL_BROWSER_PREPARATION_CONTROLS.json` records five new pure oracle/closed-
+parent controls, not real browser execution. Source parse/admission is complete;
+actual wiring, browser journeys, restoration and acceptance remain pending.

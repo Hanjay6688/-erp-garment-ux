@@ -47,7 +47,7 @@ def context(cur,state,mode):
     from . import admission,native_fixture,settings_stage
     admission.parent_receipt()  # Before domain imports, cursor or tool use.
     source_controls()
-    names={'HTTP':'cp6_auditor_http','RACE':'cp6_auditor_race'}
+    names={'HTTP':'cp6_auditor_http','RACE':'cp6_auditor_race','BROWSER':'cp6_auditor_browser'}
     if mode not in names:raise ValueError('NONPAYABLE_EXPLICIT_ACCESS_COPY_MODE_REQUIRED')
     connection=cur.connection
     if (connection.info.host not in('127.0.0.1','localhost')or connection.info.port!=54322
