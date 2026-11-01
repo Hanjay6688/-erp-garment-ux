@@ -1,0 +1,83 @@
+{
+  "status": "CURRENT37_TERMINAL_FAILURE_DIAGNOSED_CURRENT38_RUNNING",
+  "recorded_at_utc": "2026-11-01T09:07:00Z",
+  "current37": {
+    "run_id": 41267825303,
+    "job_id": 124734228589,
+    "attempt": 1,
+    "head_sha": "dad402b1a6eee7c4acdd776c8c6a1538c1a52f0a",
+    "tree_sha": "d9d89babc816032fbdf06f1c961f7829a2cbab7c",
+    "conclusion": "failure",
+    "runtime_step": 72,
+    "runtime_step_conclusion": "failure",
+    "prior_steps_1_through_71": "success",
+    "cleanup_and_artifact_steps_73_through_78": "success",
+    "disposable_database_removed": true,
+    "actual_case_credit": 0,
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "bounded_artifact": {
+    "artifact_id": 13075925217,
+    "name": "cp7-current-s03-sku-s05-37-bounded-diagnostics-1",
+    "size_bytes": 13786132,
+    "github_sha256": "ae54ae20fb856ff2a115c98ccc383e1ccfbdd4daeedbec0174cb7924fdb35f2c",
+    "downloaded_sha256": "ae54ae20fb856ff2a115c98ccc383e1ccfbdd4daeedbec0174cb7924fdb35f2c",
+    "zip_crc_check": "PASS",
+    "full_artifact_downloaded": false,
+    "full_artifact_id": 13075342459,
+    "full_artifact_size_bytes": 684153883
+  },
+  "first_failure": {
+    "phase": "S05_BROWSER2",
+    "desktop_and_mobile_same_first_failure": true,
+    "exception": "TypeError: 'NoneType' object is not subscriptable",
+    "source": "scripts/ow04-payment-source-qualification/source_probe.py:60",
+    "expression": "STATE['installed_catalog']['schemas']['erp']",
+    "cause": "browser_fixture.py runs in a fresh Python process, so the parent process module-global catalog state is not inherited before helper.control.product_catalog(cur)",
+    "financial_or_inventory_business_failure": false,
+    "native_groups_completed_before_failure": 31,
+    "browser_case_credit": 0
+  },
+  "repair": {
+    "scope": "HARNESS_ONLY",
+    "branch": "astra-a/s03-sku-product-join-20261031",
+    "commit_sha": "08ef3bee814e6452b9193b53efc05d53abca2d9d",
+    "tree_sha": "abf7e8b78bd56907ace9fb30211d956b63d68797",
+    "parent_sha": "dad402b1a6eee7c4acdd776c8c6a1538c1a52f0a",
+    "change": "bind helper.control.STATE installed_catalog from the exact digest-verified reader_state['after'] before the first product_catalog call",
+    "erp_business_logic_changed": false,
+    "stock_hpp_payroll_or_posting_changed": false,
+    "source_controls": {
+      "SourceControls_tests": 11,
+      "SourceControls_result": "PASS",
+      "check_static_result": "PASS",
+      "check_static_actual_cases": 0,
+      "check_import_fence_local": "NOT_CREDITED_LOCAL_ENVIRONMENT_MISSING_PSYCOG",
+      "ci_import_fence_remains_required": true
+    }
+  },
+  "current38": {
+    "run_id": 41291621885,
+    "job_id": 124803871870,
+    "attempt": 1,
+    "event": "push",
+    "head_sha": "08ef3bee814e6452b9193b53efc05d53abca2d9d",
+    "tree_sha": "abf7e8b78bd56907ace9fb30211d956b63d68797",
+    "observed_status": "in_progress",
+    "started_at_utc": "2026-11-01T09:06:09Z",
+    "duplicate_run_started": false,
+    "case_credit_pending_terminal_evidence": true
+  },
+  "downstream": {
+    "permanent_intake_activated": false,
+    "de871_activated": false,
+    "free10ac_armed": false,
+    "reason": "Current38 must reach terminal success with exact artifacts first"
+  },
+  "owner_scope": {
+    "moving_average_not_fifo": true,
+    "fg_mandor_after_active_integration_stable": true,
+    "reliable_data_finance_stock_hpp_are_gates": true
+  }
+}
