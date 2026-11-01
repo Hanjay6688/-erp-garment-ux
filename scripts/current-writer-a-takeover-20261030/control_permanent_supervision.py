@@ -12,16 +12,15 @@ def check(root):
     with GitBytes(root,target.PREPARED_HEAD,target.PREPARED_TREE) as g:
         source=target.source(g)
         exact(source['own_paths'],57 if target.PARENT_RECEIPT is not None else 56,'PERMANENT_SUPERVISED_EXACT_OWN_SOURCE_PATHS')
-    for name in ('HEAD','TREE','RUN','JOB'):
-        exact(getattr(target,name),None,'PERMANENT_RUNTIME_STILL_UNARMED:'+name)
-    try:target.intake(None,None,None)
-    except ValueError as error:
-        if 'ACTIVATED_EXACT_RUN_INTAKE_NOT_YET_PINNED' not in str(error):raise
-    else:raise AssertionError('UNARMED_PERMANENT_INTAKE_OPENED')
-    try:target.supervision({})
-    except ValueError as error:
-        if 'ACTUAL_IDENTITY_PENDING' not in str(error):raise
-    else:raise AssertionError('UNARMED_PERMANENT_SUPERVISION_OPENED')
+    with patch.multiple(target,HEAD=None,TREE=None,RUN=None,JOB=None):
+        try:target.intake(None,None,None)
+        except ValueError as error:
+            if 'ACTIVATED_EXACT_RUN_INTAKE_NOT_YET_PINNED' not in str(error):raise
+        else:raise AssertionError('UNARMED_PERMANENT_INTAKE_OPENED')
+        try:target.supervision({})
+        except ValueError as error:
+            if 'ACTUAL_IDENTITY_PENDING' not in str(error):raise
+        else:raise AssertionError('UNARMED_PERMANENT_SUPERVISION_OPENED')
     good=dict(status='WORKER_COMPLETED_AND_REAPED',qualification_commit='process-control-head',
         github_run_id='17',github_run_attempt='1',worker_exit=0,signals=[],deadline_reached=False,
         external_signal=None,orphaned_child=False,process_group_empty=True,process_tree_empty=True,

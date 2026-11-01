@@ -1,0 +1,108 @@
+{
+  "status": "PERMANENT_SINGLE_ACTUAL_OWNING_RUN_ACTIVE_NOT_YET_QUALIFIED",
+  "head": "60cbc27bcdaa52c0d852580c1b95bc0301a55471",
+  "tree": "f3848510357894892a330bdfd28b55ac214e7938",
+  "local_same_tree_head": "9def2270d5707ce0c6a606d213e1350071d1dce6",
+  "run_id": 41338539278,
+  "job_id": 124943416257,
+  "attempt": 1,
+  "event": "push",
+  "created_at": "2026-11-01T18:49:02Z",
+  "actual_latest_status": "in_progress",
+  "root_accepted_parent": {
+    "head": "2cb8c9ac85b6111e8bb170de6c2ec5c44f7c798c",
+    "run_id": 41333643573,
+    "job_id": 124928771868,
+    "artifact_id": 13095548796,
+    "root_receipt": {
+      "bytes": 20463,
+      "sha256": "2d9731cf9cdaed8ed90c0e189e56663a54e3bdd28ba8e24741516c4d1a85d9ba"
+    },
+    "published_Root": "dc5acdbcd4b6843142c53360d6371cc7916f8dfa"
+  },
+  "only_own_source_onto_all_14107_current_parent_blobs": true,
+  "own_paths": 57,
+  "source_pins": 56,
+  "final_current_browser_inputs_verified": 19,
+  "unchanged_browser_UI_fixture_inputs": 11,
+  "final_readme_updated_from_pending_to_actual_accepted_parent": true,
+  "financial_source_SQL_Native_and_browser_oracles_unchanged": true,
+  "activation": {
+    "missing_ref_update_ref_422_created_no_job": true,
+    "explicit_branch_creation_succeeded": true,
+    "empty_commit_skipped_by_existing_paths_filter_and_created_no_job": true,
+    "final_meaningful_parent_README_and_manifest_update_triggered_one_job": true,
+    "existing_other_active_jobs_before_activation": 0
+  },
+  "actual_real_WIB_window_checked_before_activation": true,
+  "job_budget_seconds": 21600,
+  "read_only_monitor_cell": "835",
+  "previous_S05_monitor723_completed": true,
+  "planned_fresh_Native_cases": 4,
+  "planned_fresh_browser_cases": 2,
+  "actual_fresh_qualified_cases": 0,
+  "retained_parent_cases_not_rerun": true,
+  "baseline_restore_all22_all_rows_ALL_sequences_roles_public_CP6_advisors_primaryAuth_and_backup5_required": true,
+  "complete_child_source_graph_must_pass_fence_before_DB": true,
+  "scope_complete_CP7": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "pending_source_controls_explicitly_model_unarmed_own_identity_after_activation": true,
+  "affected_new_parent_source_controls_after_binding": {
+    "bytes": 1842,
+    "sha256": "f6d54772022e399f9165088e5931b8e2b13b503af617dff321010bca539b812b",
+    "result": {
+      "status": "ROOT_PERMANENT_ACTUAL_PARENT_SOURCE_CONTROLS_PASS",
+      "head": "9def2270d5707ce0c6a606d213e1350071d1dce6",
+      "tree": "f3848510357894892a330bdfd28b55ac214e7938",
+      "source": {
+        "source_pins": 56,
+        "own_paths": 57,
+        "unchanged_base": 14107,
+        "expected_parent_head": "2cb8c9ac85b6111e8bb170de6c2ec5c44f7c798c",
+        "expected_parent_run": 41333643573,
+        "expected_parent_job": 124928771868,
+        "parent_root_acceptance_pending": false,
+        "parent_root_receipt": {
+          "bytes": 20463,
+          "sha256": "2d9731cf9cdaed8ed90c0e189e56663a54e3bdd28ba8e24741516c4d1a85d9ba"
+        },
+        "retained_parent_case_credit_is_not_fresh": true,
+        "native_ids": [
+          "PERMANENT_S05_S03_NATIVE_EXPENSE_APPROVAL_ONCE_PAID_E05_REOPEN",
+          "PERMANENT_S05_S03_NATIVE_BOTH_CORRECTIONS_LINKED_INVERSES_NO_RECOGNITION",
+          "PERMANENT_S05_S03_NATIVE_FINISHED_PO_FG_COGS_COST_AND_CANCEL_EXACT",
+          "PERMANENT_S05_S03_NATIVE_OLD_ACCRUAL_LATER_BOOK_REOPEN_DATE_FLOOR"
+        ],
+        "browser_ids": [
+          "PERMANENT_S05_SKU_NORMAL_APP_DESKTOP_SOURCE_AND_LATE_REPLY",
+          "PERMANENT_S05_SKU_NORMAL_APP_MOBILE390_UNKNOWN_ZERO_AND_CURRENT_ACCESS"
+        ],
+        "current_browser_source_binding": {
+          "actual_current_inputs_verified": 19,
+          "explicit_current_caller_pin_routes": 8,
+          "unchanged_browser_UI_and_fixture_inputs": 11,
+          "original_manifest_recovered": true,
+          "actual_case_credit": 0
+        },
+        "source_manifest": {
+          "bytes": 11692,
+          "sha256": "95535269734c7a271de6d115efb52f5881468fda728887a31328699cfd1f5259"
+        },
+        "actual_case_credit": 0
+      },
+      "positive": 2,
+      "negative_controls": [
+        "missing",
+        "edited",
+        "unbound",
+        "own_runtime_unarmed_before_archive"
+      ],
+      "actual_ERP_cases": 0,
+      "actual_SQL_executed": 0,
+      "production_go": false,
+      "independent_acceptance": false
+    }
+  },
+  "old_39_process_negative_controls_rerun": false
+}

@@ -37,13 +37,12 @@ def check(root,head,tree):
                     before=('PARENT_RECEIPT='+repr(pin(raw))).encode()
                     return financial.replace(before,b'PARENT_RECEIPT=None',1)
             exact(target.parent_receipt_source(Pending()),None,'PENDING_REMAINS_CLOSED_WITHOUT_READING_ARCHIVE')
-        for name in('HEAD','TREE','RUN','JOB'):
-            exact(getattr(target,name),None,'CHILD_RUNTIME_IDENTITY_STILL_UNARMED:'+name)
-        try:target.intake(None,None,None)
-        except ValueError as error:
-            if'ACTIVATED_EXACT_RUN_INTAKE_NOT_YET_PINNED'not in str(error):raise
-            negatives.append('own_runtime_unarmed_before_archive')
-        else:raise AssertionError('BOUND_PARENT_OPENED_OWN_UNQUALIFIED_RUNTIME_INTAKE')
+        with patch.multiple(target,HEAD=None,TREE=None,RUN=None,JOB=None):
+            try:target.intake(None,None,None)
+            except ValueError as error:
+                if'ACTIVATED_EXACT_RUN_INTAKE_NOT_YET_PINNED'not in str(error):raise
+                negatives.append('own_runtime_unarmed_before_archive')
+            else:raise AssertionError('BOUND_PARENT_OPENED_OWN_UNQUALIFIED_RUNTIME_INTAKE')
     return dict(status='ROOT_PERMANENT_ACTUAL_PARENT_SOURCE_CONTROLS_PASS',head=head,tree=tree,
         source=value,positive=2,negative_controls=negatives,actual_ERP_cases=0,
         actual_SQL_executed=0,production_go=False,independent_acceptance=False)

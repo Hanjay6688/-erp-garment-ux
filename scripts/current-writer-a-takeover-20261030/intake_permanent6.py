@@ -11,12 +11,12 @@ from intake_common import GitBytes,exact,fields,pin,require,safe_path
 from intake_sku27 import strict,literal,group,full_census,declared_files
 from intake_join37 import browser
 
-HEAD=None
-TREE=None
-RUN=None
-JOB=None
-PREPARED_HEAD='e805d9a6e57997fa3d9cf2e8f47f5922995b6a5f'
-PREPARED_TREE='171d01c77b2ab82184dd4676f87f8f68f8df2cb6'
+HEAD='60cbc27bcdaa52c0d852580c1b95bc0301a55471'
+TREE='f3848510357894892a330bdfd28b55ac214e7938'
+RUN=41338539278
+JOB=124943416257
+PREPARED_HEAD='60cbc27bcdaa52c0d852580c1b95bc0301a55471'
+PREPARED_TREE='f3848510357894892a330bdfd28b55ac214e7938'
 BASE='2cb8c9ac85b6111e8bb170de6c2ec5c44f7c798c'
 BASE_TREE='5c5111505dafc5a92a79de4d9b52e4d93e37500e'
 PARENT_RUN=41333643573
