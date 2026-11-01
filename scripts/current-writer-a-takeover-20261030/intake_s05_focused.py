@@ -9,8 +9,8 @@ from intake_sku27 import strict,full_census,declared_files,ALL22
 
 HEAD='49f8f1697e7777cf9542f131c7d3c5d135cc1ec7'
 TREE='179ef11defd62439371689ffaf766b5c83da4325'
-RUN=None  # Corrected reader binding has not been activated.
-JOB=None
+RUN=41329176840  # Actual reader49 attempt 1 observed after owning-window activation.
+JOB=124915457260
 ARTIFACT=None  # Arm only after the actual terminal artifact is observed.
 BASE='50c77207e088af16988d7d91a5b06f72e8e30ecc'
 BASE_TREE='28295dd44a59f1832bebb86af24bd85df4471f4b'
