@@ -12,6 +12,33 @@ ACTUAL_ACCEPTED_DE_RECEIPT=None
 NS=child.NS
 RECEIPT=NS+'DE30_PARENT_ROOT_ACTUAL_INTAKE.json'
 WORKFLOW=child.WORKFLOW
+NESTED_PARENT_MANIFESTS=(
+    ('scripts/cp7_special_free_date_on_de/SOURCE.json',(NS+'admission.py',)),
+    ('scripts/cp7_current_de_free_date/SOURCE.json',(
+        'scripts/cp7_special_free_date_on_de/SOURCE.json',NS+'admission.py',NS+'source.py')),
+)
+
+
+def rebind_nested_parent_manifests(values,before):
+    """Rebind exactly four existing pins, from the leaf manifest upward."""
+    routes=[]
+    for path,dependencies in NESTED_PARENT_MANIFESTS:
+        raw=before[path];value=strict(raw)
+        exact((json.dumps(value,indent=2)+'\n').encode(),raw,'FREE_ACTIVATION_CANONICAL_NESTED_MANIFEST:'+path)
+        own=[]
+        for name in dependencies:
+            previous=pin(before[name]);following=pin(values[name])
+            exact(value['files'][name],previous,'FREE_ACTIVATION_EXACT_OLD_NESTED_PIN:'+path+':'+name)
+            require(previous!=following,'FREE_ACTIVATION_NESTED_DEPENDENCY_MUST_CHANGE:'+name)
+            value['files'][name]=following
+            own.append(dict(path=path,key=['files',name],before=previous,after=following,
+                only_existing_parent_pin_changed=True,exact_original_recovered=True))
+        values[path]=(json.dumps(value,indent=2)+'\n').encode()
+        for route in reversed(own):value['files'][route['key'][1]]=route['before']
+        exact((json.dumps(value,indent=2)+'\n').encode(),raw,'FREE_ACTIVATION_ENTIRE_NESTED_MANIFEST_RECOVERED:'+path)
+        routes.extend(own)
+    exact(len(routes),4,'FREE_ACTIVATION_EXACT_FOUR_NESTED_PARENT_PINS')
+    return routes
 
 
 def accepted_parent(raw):
@@ -50,6 +77,7 @@ def plan(root,prepared_head,prepared_tree,raw_receipt):
             ('BASE',declaration['base_head'],receipt['head']),('TREE',declaration['base_tree'],receipt['tree'])))):
             for key,old,new in bindings:
                 values[name],route=literal_route(values[name],key,old,new);routes.append(dict(path=name,**route))
+        nested=rebind_nested_parent_manifests(values,before)
         origin=strict(values[NS+'ORIGIN.json']);guard=origin['source_preflight_origin']
         exact(len(guard['changes']),12,'FREE_ACTIVATION_PRESERVE_ALL_TWELVE_SOURCE_ROUTES')
         for key,old,new in(('BASE',declaration['base_head'],receipt['head']),('TREE',declaration['base_tree'],receipt['tree'])):
@@ -72,6 +100,7 @@ def plan(root,prepared_head,prepared_tree,raw_receipt):
         actual=dict(head=receipt['head'],tree=receipt['tree'],run_id=receipt['run_id'],job_id=receipt['job_id'],receipt=pin(raw_receipt))
         origin['actual_DE30_parent_binding']=dict(actual,source_preparation_not_FREE_acceptance=True,
             unchanged_parent_blobs_and_modes=14265,own_paths=40,own_source_pins=39,literal_routes=routes,
+            nested_parent_pin_routes=nested,
             financial_SQL_or_Native_callbacks_changed=False,actual_FREE_cases=0,production_go=False,independent_acceptance=False)
         values[NS+'ORIGIN.json']=(json.dumps(origin,indent=2)+'\n').encode()
         values[RECEIPT]=raw_receipt;values[WORKFLOW]=values[NS+'native3.workflow.yml.txt']
@@ -80,8 +109,9 @@ def plan(root,prepared_head,prepared_tree,raw_receipt):
         exact(len(declaration['files']),39,'FREE_ACTIVATION_EXACT39_PINS')
         values[NS+'SOURCE.json']=(json.dumps(declaration,indent=2)+'\n').encode()
         changed=sorted(name for name in old_paths if values[name]!=before[name])
-        exact(changed,sorted(NS+n for n in('admission.py','source.py','SOURCE.json','ORIGIN.json')),
-            'FREE_ACTIVATION_ONLY_FOUR_OWN_BINDING_FILES_CHANGE')
+        exact(changed,sorted([path for path,_ in NESTED_PARENT_MANIFESTS]+
+            [NS+n for n in('admission.py','source.py','SOURCE.json','ORIGIN.json')]),
+            'FREE_ACTIVATION_ONLY_FOUR_OWN_BINDING_FILES_AND_TWO_NESTED_MANIFESTS_CHANGE')
         exact(len(values),40,'FREE_ACTIVATION_EXACT_OWN40')
         elements=[]
         for name,raw in sorted(values.items()):
@@ -93,7 +123,8 @@ def plan(root,prepared_head,prepared_tree,raw_receipt):
     review=dict(status='FREE40_ACTUAL_DE30_BOUND_TREE_PLAN_ONLY_NOT_EXECUTED',prepared_source_head=prepared_head,
         prepared_source_tree=prepared_tree,parent_head=receipt['head'],parent_tree=receipt['tree'],parent_root_receipt=pin(raw_receipt),
         source_before=before_source,unchanged_parent_blobs_and_modes=14265,own_paths=40,own_source_pins=39,
-        unchanged_own_files=34,changed_own_files=changed,new_paths=[RECEIPT,WORKFLOW],literal_routes=routes,
+        unchanged_own_files=32,changed_own_files=changed,new_paths=[RECEIPT,WORKFLOW],literal_routes=routes,
+        nested_parent_pin_routes=nested,
         source_guard_routes=12,complete_original_guard_recovered=True,workflow_equal_reviewed_template=True,
         actual_FREE_cases=0,must_materialize_check_entire_source_and_Root_gate_before_activation=True,
         production_go=False,independent_acceptance=False)

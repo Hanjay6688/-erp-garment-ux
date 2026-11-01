@@ -1,0 +1,54 @@
+{
+  "status": "ACTUAL_PREPARED_FREE_STALE_SOURCE_PIN_REPAIRED_BEFORE_ANY_FREE_RUNTIME",
+  "old_head": "5c6daebe1184bffeb214a79c071d7ad081400d21",
+  "old_tree": "89c75f47cae6b019810007efb5c6b1d5fa34b629",
+  "local_head": "ce32d4fc8f308a50f0a7c31bccb31715f2ac8b16",
+  "tree": "aceccbf696165c85291d5d10a365ac262908f8a2",
+  "source_guard_original": {
+    "bytes": 4260,
+    "sha256": "8fcd679648b2cc0902562c39d00588594dbbf426ab8e40aabf2f4cbbde30dccb"
+  },
+  "first_six_reviewed_source_routes": {
+    "bytes": 4324,
+    "sha256": "bb856c61a1a4faf0f31d7a8a9a8fd8db88c1e140fbe662066198ebd476ee9ed9"
+  },
+  "all_twelve_reviewed_source_routes": {
+    "bytes": 5794,
+    "sha256": "71b6ef0e44fbf03cfe9ba46f2d41fc50bbcbce79c682d9f487c42e623352d481"
+  },
+  "existing_nested_pin_before": {
+    "bytes": 4324,
+    "sha256": "07d9c8bded8cec5e85a73e95a6d3deb1ac9f9b6cee14723528726f4810dbec63"
+  },
+  "existing_nested_pin_after": {
+    "bytes": 5794,
+    "sha256": "71b6ef0e44fbf03cfe9ba46f2d41fc50bbcbce79c682d9f487c42e623352d481"
+  },
+  "stale_pin_original_body_not_assumed": true,
+  "whole_original_manifest_recovered": true,
+  "changed_paths": [
+    "scripts/cp7_current_de_free_date/SOURCE.json",
+    "scripts/current-de-free-date-preparation/SOURCE.json"
+  ],
+  "unchanged_other_own_files": 36,
+  "unchanged_parent_blobs_and_modes": 14181,
+  "own_paths": 38,
+  "source_pins": 37,
+  "SQL_Native_callbacks_or_source_guard_changed": false,
+  "actual_ERP_calls": 0,
+  "actual_Native_cases": 0,
+  "parent_gate_armed": false,
+  "workflow_activated": false,
+  "payload_characters": 8947,
+  "observed_UTC": "2026-11-01T23:27:07.759882+00:00",
+  "production_go": false,
+  "independent_acceptance": false,
+  "public_head": "fe21e26e9ca1fb8428dc0b1f86f16b03de2c9fcb",
+  "actual_Git_blobs_and_modes_changed": [
+    "scripts/cp7_current_de_free_date/SOURCE.json",
+    "scripts/current-de-free-date-preparation/SOURCE.json"
+  ],
+  "all_other_14217_blobs_and_modes_unchanged": true,
+  "new_Root_nested_product_pin_gate_PASS": true,
+  "source_guard_twelve_routes_preserved": true
+}

@@ -21,8 +21,8 @@ PARENT_HEAD=None
 PARENT_TREE=None
 PARENT_RUN=None
 PARENT_JOB=None
-PREPARED_HEAD='5c6daebe1184bffeb214a79c071d7ad081400d21'
-PREPARED_TREE='89c75f47cae6b019810007efb5c6b1d5fa34b629'
+PREPARED_HEAD='fe21e26e9ca1fb8428dc0b1f86f16b03de2c9fcb'
+PREPARED_TREE='aceccbf696165c85291d5d10a365ac262908f8a2'
 PREPARED_BASE='fef0d838991df1ab3474382747ee3519d4c237eb'
 PREPARED_BASE_TREE='772cc0a80e1857bc03e6a544a39d5b5de3beb4c3'
 NS='scripts/current-de-free-date-preparation/'
@@ -36,6 +36,65 @@ IDS=['FREE_DATE_NATIVE_WIB_INCLUSIVE_LOOKUP_AND_NORMAL_PUBLIC_QUOTE',
      'FREE_DATE_NATIVE_FINAL_DAY_POST_STOCK_GL_AND_EXACT_REPLAY',
      'FREE_DATE_NATIVE_POSTED_HISTORY_AFTER_ELIGIBILITY_ENDS']
 GATES=dict(installed=True,primary_unchanged=True,backup_restore_drill=True,security_advisors=True,writer_runtime=True)
+ACTIVATION_SOURCE_HEAD='fe21e26e9ca1fb8428dc0b1f86f16b03de2c9fcb'
+ACTIVATION_SOURCE_TREE='aceccbf696165c85291d5d10a365ac262908f8a2'
+
+
+def nested_manifest_sources(g):
+    manifests=('scripts/cp7_special_free_date_on_de/SOURCE.json','scripts/cp7_current_de_free_date/SOURCE.json')
+    count=0
+    for path in manifests:
+        value=strict(g.read(path))
+        for name,expected in value['files'].items():g.verify_pin(name,expected);count+=1
+    exact(count,16,'FREE3_ALL_SIXTEEN_NESTED_PRODUCT_SOURCE_PINS')
+    return dict(manifests=list(manifests),source_pins=count,actual_case_credit=0)
+
+
+def actual_activation_source(g,declaration):
+    """Replay the exact bound own40 from immutable, closed own38."""
+    import prepare_free_activation as planner
+    receipt_path=NS+'DE30_PARENT_ROOT_ACTUAL_INTAKE.json';raw=g.read(receipt_path)
+    receipt=planner.accepted_parent(raw)
+    fields(receipt,dict(head=PARENT_HEAD,tree=PARENT_TREE,run_id=PARENT_RUN,job_id=PARENT_JOB),
+        'FREE3_EXACT_ROOT_ACCEPTED_CURRENT_DE_PARENT')
+    with GitBytes(g.root,ACTIVATION_SOURCE_HEAD,ACTIVATION_SOURCE_TREE)as old:
+        original=strict(old.read(NS+'SOURCE.json'));old_paths=set(original['files'])|{NS+'SOURCE.json'}
+        exact(len(old_paths),38,'FREE3_EXACT_OLD_CLOSED_OWN38')
+        changed={path for path,_ in planner.NESTED_PARENT_MANIFESTS}|{NS+n for n in('admission.py','source.py','SOURCE.json','ORIGIN.json')}
+        for name in old_paths-changed:
+            exact(g.tree.get(name),old.tree[name],'FREE3_ALL_THIRTYTWO_OTHER_OWN_BLOBS_AND_MODES_UNCHANGED:'+name)
+        before={name:old.read(name)for name in sorted(old_paths)};expected=dict(before);routes=[]
+        for path,bindings in((NS+'admission.py',(
+            ('PARENT_HEAD',None,PARENT_HEAD),('PARENT_RECEIPT',None,pin(raw)))),
+            (NS+'source.py',(
+            ('BASE',original['base_head'],PARENT_HEAD),('TREE',original['base_tree'],PARENT_TREE)))):
+            for key,previous,following in bindings:
+                expected[path],route=planner.literal_route(expected[path],key,previous,following)
+                routes.append(dict(path=path,**route))
+        nested=planner.rebind_nested_parent_manifests(expected,before)
+        for name in changed-{NS+'SOURCE.json',NS+'ORIGIN.json'}:
+            exact(g.read(name),expected[name],'FREE3_ONLY_EXACT_PARENT_BINDINGS_AND_FOUR_NESTED_PINS:'+name)
+        origin=strict(old.read(NS+'ORIGIN.json'));guard=origin['source_preflight_origin']
+        exact(len(guard['changes']),12,'FREE3_RETAIN_ALL_TWELVE_ORIGINAL_SOURCE_GUARD_ROUTES')
+        for key,previous,following in(('BASE',original['base_head'],PARENT_HEAD),('TREE',original['base_tree'],PARENT_TREE)):
+            matches=[item for item in guard['changes']if item['after']==key+'='+repr(previous)]
+            exact(len(matches),1,'FREE3_ONLY_UPDATE_EXISTING_SOURCE_GUARD_ROUTE:'+key)
+            matches[0]['after']=key+'='+repr(following)
+        actual=dict(head=PARENT_HEAD,tree=PARENT_TREE,run_id=PARENT_RUN,job_id=PARENT_JOB,receipt=pin(raw))
+        origin['actual_DE30_parent_binding']=dict(actual,source_preparation_not_FREE_acceptance=True,
+            unchanged_parent_blobs_and_modes=14265,own_paths=40,own_source_pins=39,literal_routes=routes,
+            nested_parent_pin_routes=nested,financial_SQL_or_Native_callbacks_changed=False,
+            actual_FREE_cases=0,production_go=False,independent_acceptance=False)
+        exact(g.read(NS+'ORIGIN.json'),(json.dumps(origin,indent=2)+'\n').encode(),
+            'FREE3_EXACT_ORIGINAL_PROVENANCE_TWELVE_ROUTES_AND_ACTUAL_BINDING_ONLY')
+        exact({k:v for k,v in declaration.items()if k not in('base_head','base_tree','files','actual_parent_qualification')},
+            {k:v for k,v in original.items()if k not in('base_head','base_tree','files','actual_parent_qualification')},
+            'FREE3_ALL_OTHER_ORIGINAL_SOURCE_CONTRACT_FIELDS_UNCHANGED')
+        exact(declaration['actual_parent_qualification'],actual,'FREE3_EXACT_ACTUAL_PARENT_QUALIFICATION')
+        exact(set(declaration['files']),set(original['files'])|{receipt_path,WORKFLOW},'FREE3_ONLY_TWO_NEW_OWN_PATHS')
+        exact(g.read(WORKFLOW),old.read(NS+'native3.workflow.yml.txt'),'FREE3_EXACT_ORIGINAL_REVIEWED_WORKFLOW')
+    return dict(status='EXACT_OWN38_TO40_FOUR_BINDING_FILES_AND_FOUR_NESTED_PINS_ONLY',
+        unchanged_old_own_blobs_and_modes=32,actual_case_credit=0)
 
 
 def report_validator(g):
@@ -110,6 +169,9 @@ def source(g):
         exact(literal(g,NS+'admission.py','PARENT_RECEIPT'),None,'FREE3_PREPARED_RECEIPT_GATE_CLOSED')
         require(WORKFLOW not in g.tree,'FREE3_PREPARED_WORKFLOW_NOT_ACTIVATED')
     else:
+        exact(len(base),14265,'FREE3_ACTUAL_ACCEPTED_CURRENT_DE_PARENT14265')
+        exact(len(allowed),40,'FREE3_EXACT_ACTIVATED_OWN40')
+        actual_activation_source(g,declaration)
         exact(literal(g,NS+'admission.py','PARENT_HEAD'),PARENT_HEAD,'FREE3_ACTUAL_ACCEPTED_PARENT_HEAD')
         require(WORKFLOW in allowed,'FREE3_ACTUAL_WORKFLOW_MUST_BE_EXPLICITLY_DECLARED')
         exact(g.read(WORKFLOW),g.read(NS+'native3.workflow.yml.txt'),'FREE3_ACTUAL_WORKFLOW_EQUALS_REVIEWED_TEMPLATE')
@@ -143,11 +205,13 @@ def source(g):
         exact(text.encode(),g.read(name),'FREE3_ONLY_DECLARED_C43_PARENT_AND_CONTRACT_ROUTES:'+name)
     exact(changes,2,'FREE3_ONLY_TWO_DATE_STAGE_PARENT_AND_CONTRACT_ROUTES')
     guard_source=source_guard_derivation(g,origin)
+    nested_source=nested_manifest_sources(g)
     _,validator=report_validator(g)
     return dict(source_pins=len(declaration['files']),own_paths=len(allowed),unchanged_base=len(base),
         Native_case_ids=IDS,original_C43_date_files=9,explicit_date_stage_routes=2,
         unchanged_Native_fixture_runner_sources=3,pure_report_validator=validator,
         exact_reversible_source_guard_derivation=guard_source,
+        nested_product_source_closure=nested_source,
         source_manifest=pin(g.read(NS+'SOURCE.json')),actual_case_credit=0,
         parent_qualification_pending=PARENT_HEAD is None)
 

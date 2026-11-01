@@ -26,8 +26,8 @@
     "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/41361511976",
     "complete_source_graph_required_before_database": true,
     "source_parent_and_Root_checks_PASS": true,
-    "last_API_stage": "6: materialize exact frozen inputs",
-    "current_observation_UTC": "2026-11-01T23:20:10.029Z"
+    "last_API_stage": "71: actual original D1 E Native30 and complete outer restoration",
+    "current_observation_UTC": "2026-11-01T23:25:36.103Z"
   },
   "sole_readonly_monitor_cell": "1197",
   "new_qualified_cases": 0,
@@ -88,7 +88,7 @@
         }
       },
       "accepted_parent_bound_in_tree_plan": true,
-      "actual_runtime_started": false,
+      "actual_runtime_started": true,
       "planned_own_paths": 96,
       "parent_head": "15a2170cea88cd03a4d1bcaa0873a969d495b9fa",
       "parent_tree": "3fe772a1314ae6bc7c4f36f72e3fda8738eb70fc",
@@ -97,10 +97,16 @@
       "job_id": 125012678506
     },
     "FREE": {
-      "head": "5c6daebe1184bffeb214a79c071d7ad081400d21",
+      "head": "fe21e26e9ca1fb8428dc0b1f86f16b03de2c9fcb",
       "own_paths": 38,
       "accepted_parent_bound": false,
-      "workflow_activated": false
+      "workflow_activated": false,
+      "tree": "aceccbf696165c85291d5d10a365ac262908f8a2",
+      "source_pins": 37,
+      "all_sixteen_nested_source_pins_PASS": true,
+      "activation_planner_nested_pin_updates": 4,
+      "activation_planner_changed_old_own_files": 6,
+      "activation_planner_unchanged_old_own_files": 32
     },
     "AFUI": {
       "head": "098dbd8769cbbf6f0502750a7c2a770959e02385",
@@ -123,7 +129,7 @@
     "evidence": "GLOBAL19_AND_NATIVE32_SAVED_ACTUAL_COMPATIBILITY_20261102.json"
   },
   "continuity": "Use this compact state and the newest estafet header. Savepoints are not stopping points. Check the existing run before any new work or tests.",
-  "operational_update_UTC": "2026-11-01T23:20:33.589132+00:00",
+  "operational_update_UTC": "2026-11-01T23:28:13.864020+00:00",
   "current_qualification_observation_is_earlier_API_snapshot": false,
   "retained_permanent_financial4": {
     "evidence": "CURRENT_PERMANENT23E_ROOT_RETAINED4_20261102.json",

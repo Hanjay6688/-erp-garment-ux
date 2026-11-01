@@ -1,0 +1,101 @@
+{
+  "status": "ACTUAL_FREE_SOURCE_NESTED_DEPENDENCY_CONTROLS_PASS_NOT_RUNTIME",
+  "immutable_prepared_head": "fe21e26e9ca1fb8428dc0b1f86f16b03de2c9fcb",
+  "immutable_prepared_tree": "aceccbf696165c85291d5d10a365ac262908f8a2",
+  "original_source_closure": {
+    "manifests": [
+      "scripts/cp7_special_free_date_on_de/SOURCE.json",
+      "scripts/cp7_current_de_free_date/SOURCE.json"
+    ],
+    "source_pins": 16,
+    "actual_case_credit": 0
+  },
+  "source_sentinel_propagation": {
+    "manifests": [
+      "scripts/cp7_special_free_date_on_de/SOURCE.json",
+      "scripts/cp7_current_de_free_date/SOURCE.json"
+    ],
+    "source_pins": 16,
+    "actual_case_credit": 0
+  },
+  "existing_pin_routes": [
+    {
+      "path": "scripts/cp7_special_free_date_on_de/SOURCE.json",
+      "key": [
+        "files",
+        "scripts/current-de-free-date-preparation/admission.py"
+      ],
+      "before": {
+        "bytes": 3622,
+        "sha256": "d50d42e788cf76534458a2bdc939944af6000748b590cc51860c067d8f57de26"
+      },
+      "after": {
+        "bytes": 3684,
+        "sha256": "ae8f1c9cb202d6662aaaff47042f056ca234059c810e3086cdec9aaddadf4b17"
+      },
+      "only_existing_parent_pin_changed": true,
+      "exact_original_recovered": true
+    },
+    {
+      "path": "scripts/cp7_current_de_free_date/SOURCE.json",
+      "key": [
+        "files",
+        "scripts/cp7_special_free_date_on_de/SOURCE.json"
+      ],
+      "before": {
+        "bytes": 2328,
+        "sha256": "44da339665b163e41293f57d19be0ab65a6d6a51518e256c54f7b1459e1b893f"
+      },
+      "after": {
+        "bytes": 2328,
+        "sha256": "3f8c66feed6abbfef6b94fbc3ab8d5f79eda467ed8a3740a07f9db5e59d6c767"
+      },
+      "only_existing_parent_pin_changed": true,
+      "exact_original_recovered": true
+    },
+    {
+      "path": "scripts/cp7_current_de_free_date/SOURCE.json",
+      "key": [
+        "files",
+        "scripts/current-de-free-date-preparation/admission.py"
+      ],
+      "before": {
+        "bytes": 3622,
+        "sha256": "d50d42e788cf76534458a2bdc939944af6000748b590cc51860c067d8f57de26"
+      },
+      "after": {
+        "bytes": 3684,
+        "sha256": "ae8f1c9cb202d6662aaaff47042f056ca234059c810e3086cdec9aaddadf4b17"
+      },
+      "only_existing_parent_pin_changed": true,
+      "exact_original_recovered": true
+    },
+    {
+      "path": "scripts/cp7_current_de_free_date/SOURCE.json",
+      "key": [
+        "files",
+        "scripts/current-de-free-date-preparation/source.py"
+      ],
+      "before": {
+        "bytes": 5794,
+        "sha256": "71b6ef0e44fbf03cfe9ba46f2d41fc50bbcbce79c682d9f487c42e623352d481"
+      },
+      "after": {
+        "bytes": 5856,
+        "sha256": "5329464e539610cb8aeb74c74200e0a64f885dc69882673f6837c3e0a2cefea2"
+      },
+      "only_existing_parent_pin_changed": true,
+      "exact_original_recovered": true
+    }
+  ],
+  "stale_composite_manifest_refused": "FREE_NESTED_CONTROL_DEPENDENCY_PIN:scripts/cp7_special_free_date_on_de/SOURCE.json/sha256:VALUE",
+  "wrong_original_nested_pin_refused": "FREE_ACTIVATION_EXACT_OLD_NESTED_PIN:scripts/cp7_special_free_date_on_de/SOURCE.json:scripts/current-de-free-date-preparation/admission.py/bytes:VALUE",
+  "actual_parent_receipt_created": false,
+  "activation_planner_armed": false,
+  "candidate_tree_or_ref_written": false,
+  "actual_ERP_imports": 0,
+  "actual_SQL_executed": 0,
+  "actual_Native_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}
