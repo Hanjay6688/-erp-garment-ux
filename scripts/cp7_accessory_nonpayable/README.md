@@ -214,3 +214,39 @@ source files are pinned, and no engine body changes. The three new pure cost-
 conservation/closed-parent controls and affected source summary result are
 recorded in `LOCAL_NATIVE_SALES_PREPARATION_CONTROLS.json`, including the first
 cosmetic numeric-format comparison failure and its one focused correction.
+
+`qualification.py` now wires the complete prepared business plan: Native9,
+real-Auth HTTP2, two database session races and normal-App browser2. The five
+actual FREE3 parent bindings remain closed. `--check-static` only checks source;
+`--check` requires the actual accepted parent and a fenced natural source graph;
+`--runtime` also requires explicit local confirmation and the unchanged six-hour
+real WIB window. No executable workflow has been activated.
+
+`assembly.py` pairs the financial and owner-settings deltas atomically, including
+both preuse inverses. `package_engine.py` changes only the accepted parent
+installation route and declared case counts in the entire original package
+engine. Its full preinstall dump, preuse removal/reinstall, committed-used
+refusal, restoration, roles, raw22, every row/sequence, CP6, advisors, Auth and
+outer package checks remain intact. `runtime_supervisor.py` recovers the exact
+original process engine with four bounded filename/confirmation/command routes;
+the 360-minute job, 330-minute work, 20-minute recovery and 10-minute artifact
+budgets remain intact. The earlier process controls are reused without repeats.
+
+`case_boundary.py` retains all raw22 and table fingerprints around each original
+strict-case savepoint. For the five relevant Native allocators, complete actual
+generated rows explain every allocated identifier; only the exact declared
+failed GOOD may explain its independently observed, rolled-back allocations.
+Other sequences cannot advance, and rollback must not reset any observed
+allocator. This is explicit nontransactional allocation accounting, never a
+claim that a savepoint restores sequences; the complete outer dump restoration
+must still restore ALL sequences. `copy_context.py` extends the unchanged
+copy-authority helper by one fixed race DB name, retaining every raw authority
+comparison. The Native SQL-only ERP usage overlay is removed before committing
+the source used by actual Auth/browser copies. Separate used Native GOOD and
+full no-effect observations prove refusal before DDL.
+
+`LOCAL_QUALIFIER_PREPARATION_CONTROLS.json` records fifteen new pure assembly,
+sequence-witness, exact-source, typed-result, closed-parent and supervision
+controls. The source runner is wired; actual acceptance remains pending. The
+whole-package artifact final gate and workflow template still need completion
+before any activation, followed by actual FREE3 rebase/admission and execution.
