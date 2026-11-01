@@ -1,0 +1,103 @@
+{
+  "status": "INCOMPLETE",
+  "classification": "POSTGRES_TWO_SESSION_LOCK_PRIMITIVES_ONLY",
+  "actual_ERP_cases": 0,
+  "actual_Native_cases": 0,
+  "actual_Auth_or_browser_cases": 0,
+  "global_writer_current_rights_or_phantom_closure": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "documentation": "https://www.postgresql.org/docs/17/explicit-locking.html",
+  "cases": {
+    "SHARE_ROW_EXCLUSIVE_DOES_NOT_EXCLUDE_EXISTING_ROW_LOCKER": {
+      "status": "PASS",
+      "rows_and_sequence_unchanged": true,
+      "table_barrier_acquired": true,
+      "separate_row_lock_refusal": {
+        "sqlstate": "55P03",
+        "elapsed_ms": 0.233
+      }
+    },
+    "EXCLUSIVE_NOWAIT_REFUSES_EXISTING_ROW_SHARE": {
+      "status": "PASS",
+      "rows_and_sequence_unchanged": true,
+      "refusal": {
+        "sqlstate": "55P03",
+        "elapsed_ms": 0.193
+      }
+    },
+    "EXCLUSIVE_NOWAIT_REFUSES_EXISTING_DML": {
+      "status": "PASS",
+      "rows_and_sequence_unchanged": true,
+      "refusal": {
+        "sqlstate": "55P03",
+        "elapsed_ms": 0.187
+      }
+    },
+    "EXCLUSIVE_PRESERVES_CONCURRENT_ORDINARY_SELECT": {
+      "status": "PASS",
+      "rows_and_sequence_unchanged": true,
+      "reader_completed": true
+    },
+    "SECOND_EXCLUSIVE_BARRIER_REFUSES_WITHOUT_UPGRADE_CYCLE": {
+      "status": "PASS",
+      "rows_and_sequence_unchanged": true,
+      "refusal": {
+        "sqlstate": "55P03",
+        "elapsed_ms": 0.206
+      }
+    },
+    "EXCLUSIVE_BLOCKS_FOREIGN_KEY_PARENT_ROW_SHARE": {
+      "status": "PASS",
+      "rows_and_sequence_unchanged": true,
+      "refusal": {
+        "sqlstate": "55P03",
+        "elapsed_ms": 250.63
+      },
+      "bounded_model_lock_timeout_ms": 250,
+      "Native_or_ERP_path_executed": false
+    },
+    "EXCLUSIVE_BLOCKS_RELATION_DDL": {
+      "status": "PASS",
+      "rows_and_sequence_unchanged": true,
+      "refusal": {
+        "sqlstate": "55P03",
+        "elapsed_ms": 250.371
+      },
+      "bounded_model_lock_timeout_ms": 250
+    }
+  },
+  "sessions": [
+    {
+      "database": "cp7_lock_modes",
+      "server_version_num": "170006",
+      "backend_pid": 139
+    },
+    {
+      "database": "cp7_lock_modes",
+      "server_version_num": "170006",
+      "backend_pid": 140
+    }
+  ],
+  "baseline": {
+    "facts": [
+      [
+        1,
+        "100.00"
+      ],
+      [
+        2,
+        "200.00"
+      ]
+    ],
+    "children": [],
+    "sequence": [
+      "11",
+      false
+    ]
+  },
+  "error_type": "AssertionError",
+  "error": "FUNCTION_DDL_COUNTEREXAMPLE_NOT_OBSERVED",
+  "owned_model_schema_removed": true,
+  "both_connections_closed": true
+}

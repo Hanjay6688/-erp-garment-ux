@@ -1,0 +1,47 @@
+{
+  "status": "ROOT_RETAINED_REAL_POSTGRES_LOCK_PRIMITIVES7_NOT_ALL9_PASS",
+  "head": "33766513e53345b7e293c1378767960a1c6b219a",
+  "tree": "86a8d6bd7851b7252e2af006df42fc0b85f25b7f",
+  "run_id": 41359313650,
+  "job_id": 125006061208,
+  "artifact_id": 13104890894,
+  "original_run_conclusion": "failure",
+  "archive": {
+    "bytes": 1657,
+    "sha256": "cae05620bfa3e0628a77329bb36d719e751599a4e6c8e47e848352862fc04ad0",
+    "members": 3
+  },
+  "original_report": {
+    "bytes": 2631,
+    "sha256": "52b4915d589dbb24ee29bedbe63a225dedb8e3c126c2ed0783a10fa72c9fd313"
+  },
+  "unchanged_probe_source": {
+    "bytes": 9779,
+    "sha256": "074640e8923c1de68c47da5cc69a6aee918e42bedfffe2227e84823daa53099e"
+  },
+  "postgres_image_digests": [
+    "postgres@sha256:00bc86618629af00d2937fdc5a5d63db3ff8450acf52f0636ec813c7f4902929"
+  ],
+  "retained_case_ids": [
+    "SHARE_ROW_EXCLUSIVE_DOES_NOT_EXCLUDE_EXISTING_ROW_LOCKER",
+    "EXCLUSIVE_NOWAIT_REFUSES_EXISTING_ROW_SHARE",
+    "EXCLUSIVE_NOWAIT_REFUSES_EXISTING_DML",
+    "EXCLUSIVE_PRESERVES_CONCURRENT_ORDINARY_SELECT",
+    "SECOND_EXCLUSIVE_BARRIER_REFUSES_WITHOUT_UPGRADE_CYCLE",
+    "EXCLUSIVE_BLOCKS_FOREIGN_KEY_PARENT_ROW_SHARE",
+    "EXCLUSIVE_BLOCKS_RELATION_DDL"
+  ],
+  "retained_cases": 7,
+  "all9_qualified": false,
+  "schema_cleanup": true,
+  "backends_closed": true,
+  "next_focus": [
+    "actual_function_DDL_observations_before_assumptions",
+    "transaction_end_releases_barrier"
+  ],
+  "actual_ERP_cases": 0,
+  "global_writer_or_permission_or_phantom_closure": false,
+  "failed_run_relabelled_PASS": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

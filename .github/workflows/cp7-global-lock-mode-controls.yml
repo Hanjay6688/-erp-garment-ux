@@ -50,22 +50,23 @@ jobs:
           source=json.loads(manifest.read_bytes())
           assert source['classification']=='REAL_POSTGRES_17_6_TWO_SESSION_MODEL_NOT_ERP'
           assert source['actual_ERP_cases']==0 and source['global_writer_closure']is False
-          assert len(source['files'])==2
+          assert len(source['files'])==3
           for name,pin in source['files'].items():
               raw=Path(name).read_bytes()
               assert {'bytes':len(raw),'sha256':sha256(raw).hexdigest()}==pin
           value=dict(head=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),
               tree=subprocess.check_output(['git','rev-parse','HEAD^{tree}'],text=True).strip(),
               probe=dict(bytes=p.stat().st_size,sha256=sha256(p.read_bytes()).hexdigest()),
+              focused_probe=source['files']['scripts/current-global-lock-mode-controls/ddl_probe.py'],
               source_manifest=dict(bytes=manifest.stat().st_size,sha256=sha256(manifest.read_bytes()).hexdigest()),
               actual_ERP_cases=0,production_go=False,independent_acceptance=False)
           Path('cp7-proof/MODEL_SOURCE_IDENTITY.json').write_text(json.dumps(value,indent=2)+'\n')
           PY
-      - name: Run actual two-backend model without ERP
+      - name: Run only missing DDL and release2 without rerunning retained7 or ERP
         env:
           PGLOCK_MODEL_CONFIRM: cp7_lock_modes
           PGLOCK_MODEL_URL: postgresql://postgres:control-only-local-not-erp@127.0.0.1:55439/cp7_lock_modes
-        run: python -B scripts/current-global-lock-mode-controls/probe.py --run
+        run: python -B scripts/current-global-lock-mode-controls/ddl_probe.py --run
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:

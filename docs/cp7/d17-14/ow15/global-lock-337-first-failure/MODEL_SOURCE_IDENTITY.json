@@ -1,0 +1,15 @@
+{
+  "head": "33766513e53345b7e293c1378767960a1c6b219a",
+  "tree": "86a8d6bd7851b7252e2af006df42fc0b85f25b7f",
+  "probe": {
+    "bytes": 9779,
+    "sha256": "074640e8923c1de68c47da5cc69a6aee918e42bedfffe2227e84823daa53099e"
+  },
+  "source_manifest": {
+    "bytes": 583,
+    "sha256": "4e44cfafa63aa6f529bac4e7f778f803af8689955120075efec279c661b4b618"
+  },
+  "actual_ERP_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

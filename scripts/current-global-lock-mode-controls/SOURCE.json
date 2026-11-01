@@ -10,9 +10,17 @@
       "bytes": 9779,
       "sha256": "074640e8923c1de68c47da5cc69a6aee918e42bedfffe2227e84823daa53099e"
     },
+    "scripts/current-global-lock-mode-controls/ddl_probe.py": {
+      "bytes": 7527,
+      "sha256": "72a637bd84246f72940612fae06bea16e8279c207565481088f5dcb9ebfcecd5"
+    },
     ".github/workflows/cp7-global-lock-mode-controls.yml": {
-      "bytes": 3402,
-      "sha256": "946bf2d90f98637afe183ff80ce7bb33d67f00d40976702587cd214841e22d09"
+      "bytes": 3537,
+      "sha256": "ed71eafd11a8625d19ace1cf981b4b627103cbe6e8880cc3f1023319a80b3348"
     }
-  }
+  },
+  "actual_run_model_controls": 2,
+  "retained_prior_model_controls": 7,
+  "retained_prior_controls_rerun": false,
+  "retained_original_head": "33766513e53345b7e293c1378767960a1c6b219a"
 }
