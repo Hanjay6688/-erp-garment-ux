@@ -1,6 +1,6 @@
 {
   "contract": "writer-a.compact-current-state.v1",
-  "observed_at_UTC": "2026-11-01T20:51:13.795945+00:00",
+  "observed_at_UTC": "2026-11-01T21:46:05.146518+00:00",
   "integrator": "A",
   "A_B_division_preserved": true,
   "formal_CP7": "5/16",
@@ -12,25 +12,25 @@
     "tree": "0637e2f69fc24cd2a98260210e9c358222ae992b",
     "run_id": 41346386747,
     "job_id": 124966984224,
-    "status": "in_progress",
-    "conclusion": null,
+    "status": "completed",
+    "conclusion": "failure",
     "created_at": "2026-11-01T20:20:53Z",
-    "updated_at": "2026-11-01T20:20:56Z",
+    "updated_at": "2026-11-01T21:30:44Z",
     "run_attempt": 1,
     "event": "push",
-    "successful_steps": 69,
-    "active_steps": [
+    "successful_steps": 76,
+    "active_steps": [],
+    "failed_steps": [
       {
         "number": 70,
-        "name": "Run actual permanent reader financial4 normal App browser2 and complete outer restoration"
+        "cause": "FRESH_BROWSER_FIXTURE_HELPER_STATE_NOT_INITIALIZED"
       }
     ],
-    "failed_steps": [],
     "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/41346386747"
   },
-  "sole_readonly_monitor_cell": "977",
+  "sole_readonly_monitor_cell": null,
   "new_qualified_cases": 0,
-  "Root_terminal_intake_pending": true,
+  "Root_terminal_intake_pending": false,
   "accepted_parent": {
     "head": "2cb8c9ac85b6111e8bb170de6c2ec5c44f7c798c",
     "run_id": 41333643573,
@@ -75,7 +75,7 @@
     }
   },
   "remaining_gate_summary_not_full_scope_inventory": [
-    "Finish the single active Permanent run, verify full original and Root acceptance, then bind and run DE30 -> FREE3 -> AFUI15 once per actual changed candidate.",
+    "Repair the exact browser observer initialization, preserve the four Root-validated financial cases by immutable source identity, qualify only browser2 plus a fresh complete package/restore, then bind and run DE30 -> FREE3 -> AFUI15 once per changed candidate.",
     "After the active integration block is stable: implement SKU moving average and FG Mandor purchases with chosen payroll week; apply and verify the prepared tab contrast correction.",
     "Close the current global writer/current-rights/phantom-lock/command-hook and factory/combined acceptance obligations on the final integrated candidate."
   ],
@@ -88,6 +88,16 @@
     "evidence": "GLOBAL19_AND_NATIVE32_SAVED_ACTUAL_COMPATIBILITY_20261102.json"
   },
   "continuity": "Use this compact state and the newest estafet header. Savepoints are not stopping points. Check the existing run before any new work or tests.",
-  "operational_update_UTC": "2026-11-01T21:32:40.824826+00:00",
-  "current_qualification_observation_is_earlier_API_snapshot": true
+  "operational_update_UTC": "2026-11-01T21:46:05.146518+00:00",
+  "current_qualification_observation_is_earlier_API_snapshot": false,
+  "retained_permanent_financial4": {
+    "evidence": "CURRENT_PERMANENT23E_ROOT_RETAINED4_20261102.json",
+    "retained_Native_cases": 4,
+    "actual_new_Native_cases": 0,
+    "complete6_qualified": false,
+    "package_all_five": false,
+    "source_invariant_reuse_required": true,
+    "missing_browser_cases": 2,
+    "canonical_archive_library_file_id": "libfile_416857433c4c8191bd7398f0ead82fb7"
+  }
 }

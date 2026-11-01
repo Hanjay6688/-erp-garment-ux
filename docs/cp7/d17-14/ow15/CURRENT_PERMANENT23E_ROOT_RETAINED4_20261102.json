@@ -1,0 +1,208 @@
+{
+  "status": "ROOT_RETAINED_PERMANENT_FINANCIAL4_NOT_AGGREGATE_PASS",
+  "head": "23e3e77d6dddd48a98d31c35822d637db2cee528",
+  "tree": "0637e2f69fc24cd2a98260210e9c358222ae992b",
+  "run_id": 41346386747,
+  "job_id": 124966984224,
+  "artifact_id": 13101464593,
+  "archive": {
+    "bytes": 48925129,
+    "sha256": "95d7ccbe4be056c27968ba0c2c312dcce16a0608c3cca0406aa796535a09fa44",
+    "members": 134
+  },
+  "originals": {
+    "CP7_PERMANENT_S05_S03_SKU_NATIVE4_BROWSER2.json": {
+      "bytes": 353769786,
+      "sha256": "feb8b633caf618803d27b09a84aab3863fb253a23f683cd6e1e780898e7584dc"
+    },
+    "CP7_PERMANENT_S05_S03_FINANCIAL_NATIVE4.json": {
+      "bytes": 205653484,
+      "sha256": "9da986f85d54b1da0d89034a3b64109366b8f1951c23ecce119868b04b8b6621"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360439,
+      "sha256": "5a244219371149cea6ead62d99c3a60758fdd4ef6025daa5a332a6ea4736debf"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 1470,
+      "sha256": "0ac656148298a2897b537e7a84afe406019a6803790e1189864cd25f3f631565"
+    },
+    "PERMANENT_RUNTIME_SUPERVISION.json": {
+      "bytes": 584,
+      "sha256": "f46ef49ef4a1ce1c078a964b6be1c4f2fcf6511eece78fc285a91f8ef7501aa1"
+    }
+  },
+  "source_admission": {
+    "source_pins": 56,
+    "own_paths": 57,
+    "unchanged_base": 14107,
+    "expected_parent_head": "2cb8c9ac85b6111e8bb170de6c2ec5c44f7c798c",
+    "expected_parent_run": 41333643573,
+    "expected_parent_job": 124928771868,
+    "parent_root_acceptance_pending": false,
+    "parent_root_receipt": {
+      "bytes": 20463,
+      "sha256": "2d9731cf9cdaed8ed90c0e189e56663a54e3bdd28ba8e24741516c4d1a85d9ba"
+    },
+    "retained_parent_case_credit_is_not_fresh": true,
+    "native_ids": [
+      "PERMANENT_S05_S03_NATIVE_EXPENSE_APPROVAL_ONCE_PAID_E05_REOPEN",
+      "PERMANENT_S05_S03_NATIVE_BOTH_CORRECTIONS_LINKED_INVERSES_NO_RECOGNITION",
+      "PERMANENT_S05_S03_NATIVE_FINISHED_PO_FG_COGS_COST_AND_CANCEL_EXACT",
+      "PERMANENT_S05_S03_NATIVE_OLD_ACCRUAL_LATER_BOOK_REOPEN_DATE_FLOOR"
+    ],
+    "browser_ids": [
+      "PERMANENT_S05_SKU_NORMAL_APP_DESKTOP_SOURCE_AND_LATE_REPLY",
+      "PERMANENT_S05_SKU_NORMAL_APP_MOBILE390_UNKNOWN_ZERO_AND_CURRENT_ACCESS"
+    ],
+    "current_browser_source_binding": {
+      "actual_current_inputs_verified": 19,
+      "explicit_current_caller_pin_routes": 8,
+      "unchanged_browser_UI_and_fixture_inputs": 11,
+      "original_manifest_recovered": true,
+      "actual_case_credit": 0
+    },
+    "nested_product_source_binding": {
+      "actual_source_files": 3,
+      "source_manifest": {
+        "bytes": 763,
+        "sha256": "f451b5462236e50c0b8b0abf34fa92efef71d97f05f4d447ede0c8d4c08a0434"
+      },
+      "actual_case_credit": 0
+    },
+    "source_manifest": {
+      "bytes": 11693,
+      "sha256": "7ae22029e5381edff88b53d9d35801a8f3e00805b615d2bbbc3e29febe9ad607"
+    },
+    "actual_case_credit": 0
+  },
+  "actual_product_source_maps": {
+    "file_maps": 134,
+    "pin_occurrences": 600,
+    "unique_paths": 182,
+    "exact_producer_namespace": true
+  },
+  "qualified_complete_sources": {
+    "bytes": 352866,
+    "sha256": "4afa5b6fa9e39ee509ca235f1af3ba62f238344763126b4fbd48d263bfcfc1b7"
+  },
+  "qualified_financial_sources": {
+    "bytes": 173444,
+    "sha256": "be51f0247a24b192fd8d704b2bc3f8000f13d53e3b54d2d228ccf316096fe9b4"
+  },
+  "financial_callback_source": {
+    "bytes": 10901,
+    "sha256": "5ac05941799fec2fdb5a7b15bb4e41985d1b6a657c58b2ce68df77076db3342a"
+  },
+  "retained_Native_cases": 4,
+  "actual_new_Native_cases": 0,
+  "actual_new_browser_cases": 0,
+  "retained_cases_are_not_fresh": true,
+  "retained_case_ids": [
+    "PERMANENT_S05_S03_NATIVE_EXPENSE_APPROVAL_ONCE_PAID_E05_REOPEN",
+    "PERMANENT_S05_S03_NATIVE_BOTH_CORRECTIONS_LINKED_INVERSES_NO_RECOGNITION",
+    "PERMANENT_S05_S03_NATIVE_FINISHED_PO_FG_COGS_COST_AND_CANCEL_EXACT",
+    "PERMANENT_S05_S03_NATIVE_OLD_ACCRUAL_LATER_BOOK_REOPEN_DATE_FLOOR"
+  ],
+  "missing_case_ids": [
+    "PERMANENT_S05_SKU_NORMAL_APP_DESKTOP_SOURCE_AND_LATE_REPLY",
+    "PERMANENT_S05_SKU_NORMAL_APP_MOBILE390_UNKNOWN_ZERO_AND_CURRENT_ACCESS"
+  ],
+  "financial_cases": {
+    "PERMANENT_S05_S03_NATIVE_EXPENSE_APPROVAL_ONCE_PAID_E05_REOPEN": {
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "read_boundary": {
+        "tables": 692,
+        "sequences": 15,
+        "catalog_groups": 22
+      },
+      "raw_before_after_equal": true,
+      "raw_boundary": {
+        "bytes": 14117831,
+        "sha256": "dbafc36cf473174d3e6607962aa88c98c5bf57995311cb9ee5f0a01bf9a6731e"
+      },
+      "unchanged_original_financial_case": "S03_NATIVE_EXPENSE_APPROVAL_ONCE_PAID_E05_REOPEN"
+    },
+    "PERMANENT_S05_S03_NATIVE_BOTH_CORRECTIONS_LINKED_INVERSES_NO_RECOGNITION": {
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "read_boundary": {
+        "tables": 692,
+        "sequences": 15,
+        "catalog_groups": 22
+      },
+      "raw_before_after_equal": true,
+      "raw_boundary": {
+        "bytes": 14117835,
+        "sha256": "cea43719f5e765161d270c6d095d5128c6cc336d7dd7649a4484baf939ca1a79"
+      },
+      "unchanged_original_financial_case": "S03_NATIVE_BOTH_CORRECTIONS_LINKED_INVERSES_NO_RECOGNITION"
+    },
+    "PERMANENT_S05_S03_NATIVE_FINISHED_PO_FG_COGS_COST_AND_CANCEL_EXACT": {
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "read_boundary": {
+        "tables": 692,
+        "sequences": 15,
+        "catalog_groups": 22
+      },
+      "raw_before_after_equal": true,
+      "raw_boundary": {
+        "bytes": 14117834,
+        "sha256": "61bb5062529e8dac1e4ef53a50d1666e24ec4e0b7a2d9484fbe897d5da6b4b15"
+      },
+      "unchanged_original_financial_case": "S03_NATIVE_FINISHED_PO_FG_COGS_COST_AND_CANCEL_EXACT"
+    },
+    "PERMANENT_S05_S03_NATIVE_OLD_ACCRUAL_LATER_BOOK_REOPEN_DATE_FLOOR": {
+      "status": "PASS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "read_boundary": {
+        "tables": 692,
+        "sequences": 15,
+        "catalog_groups": 22
+      },
+      "raw_before_after_equal": true,
+      "raw_boundary": {
+        "bytes": 14117836,
+        "sha256": "f42f8c11f7bc0de0b7cb32d60ac2fb74efd712a346c607bb0323bd4c80e29ab9"
+      },
+      "unchanged_original_financial_case": "S03_NATIVE_OLD_ACCRUAL_LATER_BOOK_REOPEN_DATE_FLOOR"
+    }
+  },
+  "actual_used_refusal_raw_boundary": {
+    "tables": 692,
+    "sequences": 15,
+    "catalog_groups": 22
+  },
+  "actual_outer_restoration_verified": true,
+  "actual_backup_restore_verified": true,
+  "actual_primary_unchanged": true,
+  "actual_advisors_equal": true,
+  "actual_Auth_and_browser_copy_cleanup": true,
+  "failed_worker_reaped": true,
+  "package_all_five": false,
+  "complete6_qualified": false,
+  "retained_original_run_conclusion": "failure",
+  "failed_run_relabelled_PASS": false,
+  "missing_browser_cases": {
+    "PERMANENT_S05_SKU_NORMAL_APP_DESKTOP_SOURCE_AND_LATE_REPLY": {
+      "status": "INCOMPLETE",
+      "error_sha256": "fa2aaa318424371cd9a5f13605049930fadade66c8bc50d8d363b1dc2e32b3bd",
+      "cause": "FRESH_BROWSER_FIXTURE_HELPER_STATE_NOT_INITIALIZED"
+    },
+    "PERMANENT_S05_SKU_NORMAL_APP_MOBILE390_UNKNOWN_ZERO_AND_CURRENT_ACCESS": {
+      "status": "INCOMPLETE",
+      "error_sha256": "fa2aaa318424371cd9a5f13605049930fadade66c8bc50d8d363b1dc2e32b3bd",
+      "cause": "FRESH_BROWSER_FIXTURE_HELPER_STATE_NOT_INITIALIZED"
+    }
+  },
+  "source_invariant_reuse_required": true,
+  "all_five_new_package_gates_still_required": true,
+  "production_go": false,
+  "independent_acceptance": false
+}

@@ -1,0 +1,49 @@
+{
+  "status": "ACTUAL_PERMANENT4_ORIGINAL_INTAKE_PASS_AND_EIGHT_INVALID_API_MUTATIONS_REFUSED",
+  "controls": [
+    {
+      "control": "failed_run_cannot_be_relabelled",
+      "status": "REFUSED_BEFORE_GIT_OR_ARCHIVE",
+      "reason": "EXACT_ACTUAL_FAILED_RUN_API/conclusion:VALUE"
+    },
+    {
+      "control": "other_head",
+      "status": "REFUSED_BEFORE_GIT_OR_ARCHIVE",
+      "reason": "EXACT_ACTUAL_FAILED_RUN_API/head_sha:VALUE"
+    },
+    {
+      "control": "second_attempt",
+      "status": "REFUSED_BEFORE_GIT_OR_ARCHIVE",
+      "reason": "EXACT_ACTUAL_FAILED_RUN_API/run_attempt:VALUE"
+    },
+    {
+      "control": "other_tree",
+      "status": "REFUSED_BEFORE_GIT_OR_ARCHIVE",
+      "reason": "EXACT_ACTUAL_FAILED_SOURCE_TREE_API/tree_id:VALUE"
+    },
+    {
+      "control": "other_job",
+      "status": "REFUSED_BEFORE_GIT_OR_ARCHIVE",
+      "reason": "EXACT_TERMINAL_FAILED_JOB_API/id:VALUE"
+    },
+    {
+      "control": "expired_original",
+      "status": "REFUSED_BEFORE_GIT_OR_ARCHIVE",
+      "reason": "EXACT_ACTUAL_UNEXPIRED_FULL_CANONICAL_API/expired:VALUE"
+    },
+    {
+      "control": "other_original_bytes",
+      "status": "REFUSED_BEFORE_GIT_OR_ARCHIVE",
+      "reason": "EXACT_ACTUAL_UNEXPIRED_FULL_CANONICAL_API/size_in_bytes:VALUE"
+    },
+    {
+      "control": "other_original_digest",
+      "status": "REFUSED_BEFORE_GIT_OR_ARCHIVE",
+      "reason": "EXACT_ACTUAL_UNEXPIRED_FULL_CANONICAL_API/digest:VALUE"
+    }
+  ],
+  "retained_Native_cases": 4,
+  "actual_new_Native_cases": 0,
+  "DB_or_ERP_executions": 0,
+  "failed_run_relabelled_PASS": false
+}
