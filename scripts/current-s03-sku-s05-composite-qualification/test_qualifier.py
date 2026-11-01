@@ -173,9 +173,15 @@ class SourceControls(unittest.TestCase):
         block=text[start:end]
         self.assertNotIn('.route(',block)
         self.assertLess(block.index("currentRole(x,backupOwner,'ADMIN')"),block.index('waitForResponse'))
-        self.assertLess(block.index('waitForResponse'),block.index("getByRole('button',{name:'Simpan pilihan biaya'"))
+        self.assertIn("const currentRightsReload=x.page.waitForResponse(r=>isRpc(RPC.read)(r)",block)
+        self.assertIn("args(r).p_period_start===f.day&&args(r).p_period_end===f.day&&args(r).p_offset===0&&args(r).p_limit===25",block)
+        self.assertLess(block.index('const currentRightsSave='),block.index("getByRole('button',{name:'Simpan pilihan biaya'"))
+        self.assertLess(block.index('const currentRightsReload='),block.index("getByRole('button',{name:'Simpan pilihan biaya'"))
         self.assertLess(block.index("getByRole('button',{name:'Simpan pilihan biaya'"),block.index("await denied(currentRightsSave,'CP7_S03_OWNER_REQUIRED')"))
-        self.assertLess(block.index("await denied(currentRightsSave,'CP7_S03_OWNER_REQUIRED')"),block.index("getByRole('region',{name:'Tinjauan perubahan biaya'"))
+        self.assertLess(block.index("await denied(currentRightsSave,'CP7_S03_OWNER_REQUIRED')"),block.index("await denied(currentRightsReload,'CP7_S03_OWNER_REQUIRED')"))
+        self.assertLess(block.index("await denied(currentRightsReload,'CP7_S03_OWNER_REQUIRED')"),block.index("getByRole('region',{name:'Tinjauan perubahan biaya'"))
+        self.assertEqual(block.count('x.verifiedNetwork('),2)
+        self.assertNotIn('expectedNetwork.push',block)
 
     def test_exact_historical_app_is_admitted_and_current_additions_remain_explicit(self):
         backend=load('frozen_parent')

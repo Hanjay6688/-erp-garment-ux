@@ -1,0 +1,82 @@
+{
+  "status": "TERMINAL_FAILURE_DIAGNOSED_NO_CASE_CREDIT",
+  "qualification_commit": "ace57bc877bec11e113b5c903a811e3bb4cba224",
+  "qualification_tree": "3ab793e094d00047b9c90447965483ae0503081a",
+  "github_run_id": "41255938821",
+  "github_job_id": "124698984573",
+  "github_run_attempt": "1",
+  "run_conclusion": "failure",
+  "failed_step": "Run one actual current Native31 browser6 composite and complete outer restoration",
+  "runtime_supervision": {
+    "status": "INCOMPLETE",
+    "worker_exit": 1,
+    "deadline_reached": false,
+    "external_signal": null,
+    "orphaned_child": false,
+    "process_group_empty": true,
+    "process_tree_empty": true,
+    "elapsed_seconds": 9456.25,
+    "actual_case_credit": 0,
+    "production_go": false
+  },
+  "first_failure": {
+    "phase": "S03_BROWSER4",
+    "case": "S03_BROWSER_CURRENT_AUTH_RIGHTS_AND_DELAYED_CONTEXT",
+    "exception": "AssertionError [ERR_ASSERTION]: UNEXPECTED_CONSOLE_ERROR",
+    "unexpected_request": "erp_cp7_get_attendance_choice_v1",
+    "unexpected_status": 403,
+    "unexpected_console_text": "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+    "source": "scripts/current-s03-sku-s05-composite-qualification/s03_cases.mjs:155",
+    "diagnosis": "The stale browser actor was lawfully changed from OWNER to ADMIN after preview. The actual save was refused with 403 CP7_S03_OWNER_REQUIRED and the product retired the review. The production mutation handler then deliberately reloaded the same exact period; that read was also correctly refused with 403 CP7_S03_OWNER_REQUIRED. The qualifier causally registered only the save refusal, so its strict console oracle rejected the expected reload refusal. This is a qualification evidence-binding defect, not a product permission leak."
+  },
+  "observed_permission_semantics": {
+    "same_stale_JWT_read_preview_save_all_refused": true,
+    "actual_save_after_current_role_change_refused": true,
+    "actual_save_refusal_code": "CP7_S03_OWNER_REQUIRED",
+    "automatic_reload_refusal_code": "CP7_S03_OWNER_REQUIRED",
+    "review_retired_after_refusal": true,
+    "financial_or_stock_effect": false
+  },
+  "bounded_diagnostic_artifact": {
+    "artifact_id": "13067492719",
+    "name": "cp7-current-s03-sku-s05-37-bounded-diagnostics-1",
+    "size_in_bytes": 7895593,
+    "digest": "sha256:37e61cb5eea6a407aef1d2ec276dbd7a2ede3da8051e1544604b5aff4f82998b",
+    "expired": false
+  },
+  "full_evidence_artifact": {
+    "artifact_id": "13067482937",
+    "name": "cp7-current-s03-sku-s05-37-1",
+    "size_in_bytes": 679395162,
+    "digest": "sha256:21a5aefd8fb7ca83e6ab99dcd917495f75cbfbdb885330b0566dbdc7d7a357b1",
+    "expired": false
+  },
+  "pre_runtime_artifact": {
+    "artifact_id": "13063660767",
+    "name": "cp7-composite37-pre-runtime-1",
+    "size_in_bytes": 518,
+    "digest": "sha256:54e44e65ffd8753dc0be24f11802ce38ec39033402923ffd43956a339c85e368",
+    "expired": false
+  },
+  "restoration": {
+    "baseline_restore_full": true,
+    "baseline_restore_only_expected_pg_cron_errors": true,
+    "cp6_restored": true,
+    "advisor_gate": true,
+    "cleanup_step_conclusion": "success",
+    "cleanup_success_is_not_business_acceptance": true
+  },
+  "repair_scope": {
+    "await_exact_save_refusal": true,
+    "await_exact_period_reload_refusal": true,
+    "causally_register_both_403_responses": true,
+    "generic_console_allowlist_added": false,
+    "product_permission_policy_changed": false,
+    "financial_oracle_changed": false,
+    "automatic_retry_added": false
+  },
+  "actual_Native_cases_credited": 0,
+  "actual_browser_cases_credited": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

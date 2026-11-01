@@ -135,7 +135,12 @@ async function access(ui,today){const x=await setup(ui,today,'ACCESS'),f=x.fixtu
  // timeout before the intercepted save response had even been delivered.
  restoreRequired=true;await currentRole(x,backupOwner,'ADMIN');const deniedBoundary=x.state('BEFORE_CURRENT_RIGHTS_SAVE')
  const currentRightsSave=x.page.waitForResponse(r=>isRpc(RPC.save)(r)&&args(r).p_action==='CHOOSE')
+ // A refused production mutation deliberately invokes its normal reload handler.
+ // Register that exact period read before the click and prove its refusal too;
+ // never hide an unbound 403 with a generic console allow-list.
+ const currentRightsReload=x.page.waitForResponse(r=>isRpc(RPC.read)(r)&&args(r).p_period_start===f.day&&args(r).p_period_end===f.day&&args(r).p_offset===0&&args(r).p_limit===25)
  await x.choice().getByRole('button',{name:'Simpan pilihan biaya',exact:true}).click();const actualRefusal=await denied(currentRightsSave,'CP7_S03_OWNER_REQUIRED');x.verifiedNetwork(actualRefusal.response,'CURRENT_OWNER_ROLE_CHANGED_BY_BACKUP_OWNER_BEFORE_REAL_SAVE')
+ const reloadRefusal=await denied(currentRightsReload,'CP7_S03_OWNER_REQUIRED');x.verifiedNetwork(reloadRefusal.response,'CURRENT_OWNER_ROLE_CHANGED_RELOAD_AFTER_REFUSED_REAL_SAVE')
  await x.expect(x.choice().getByRole('region',{name:'Tinjauan perubahan biaya',exact:true})).toHaveCount(0);equalCensus(deniedBoundary.census,x.state('AFTER_CURRENT_RIGHTS_DENIAL').census)
  await x.shot('CURRENT_RIGHTS_REFUSED')
  await currentRole(x,backupOwner,'OWNER');restoreRequired=false
