@@ -1,0 +1,61 @@
+{
+  "status": "ROOT_SOURCE_VERIFIED_AFUI_AUTH2_SESSION2_BROWSER2_PREPARATION_ONLY",
+  "head": "1dec2469c50d503c7a12a1d830f4a043ecf233de",
+  "tree": "0142f0e2caef0f33c9f3c9116d97aa9bde6a3140",
+  "prior_Native8_inverse_source": "c9b73bf46fc96b120ef9594368eb482d1590ad6c",
+  "intermediate_access_source": "bb71da28f789a68527e23b3a394500c9c1fc0d68",
+  "unchanged_prior_blobs": 14275,
+  "modified_prior_paths": [
+    "scripts/cp7_accessory_nonpayable/README.md",
+    "scripts/cp7_accessory_nonpayable/SOURCE.json"
+  ],
+  "added_paths": [
+    "scripts/cp7_accessory_nonpayable/LOCAL_ACCESS_PREPARATION_CONTROLS.json",
+    "scripts/cp7_accessory_nonpayable/LOCAL_BROWSER_PREPARATION_CONTROLS.json",
+    "scripts/cp7_accessory_nonpayable/access_cases.py",
+    "scripts/cp7_accessory_nonpayable/browser.mjs",
+    "scripts/cp7_accessory_nonpayable/browser_fixture.py",
+    "scripts/cp7_accessory_nonpayable/browser_prepare.py",
+    "scripts/cp7_accessory_nonpayable/test_access_preparation.py",
+    "scripts/cp7_accessory_nonpayable/test_browser_preparation.mjs"
+  ],
+  "source_pins": 37,
+  "all_31_prior_Native_financial_SQL_UI_and_case_pins_unchanged": true,
+  "parent_acceptance_bindings_all_None": true,
+  "prepared_case_ids": {
+    "real_Auth_HTTP": [
+      "NONPAYABLE_AUTH_HTTP_OWNER_ADMIN_DENIAL_REPLAY_CANCEL_AND_STALE_TIMELINE",
+      "NONPAYABLE_AUTH_HTTP_CACHED_REPLAY_OWNER_DEACTIVATED_DURING_REAL_LOCK_WAIT"
+    ],
+    "two_database_sessions": [
+      "NONPAYABLE_TWO_SESSION_SAME_REQUEST_ONE_IMMUTABLE_DATE_AND_REPLY",
+      "NONPAYABLE_TWO_SESSION_DIFFERENT_REQUESTS_ONE_DATE_AND_ONE_STALE_TIMELINE"
+    ],
+    "normal_App_browser": [
+      "NONPAYABLE_BROWSER_DESKTOP_POSTED_USE_REFUSAL_LOST_REPLY_TWO_TABS",
+      "NONPAYABLE_BROWSER_MOBILE390_CANCEL_LATE_SAVE_OWNER_AND_ADMIN_READ_ONLY"
+    ]
+  },
+  "new_pure_access_preparation_controls_PASS": 4,
+  "new_pure_browser_preparation_controls_PASS": 5,
+  "preparation_first_failures": 0,
+  "real_Auth_harness_and_browser_host_unchanged": true,
+  "no_runtime_signed_JWTs": true,
+  "no_role_promotion": true,
+  "full_all22_data_ALL_sequences_and_append_only_history_required": true,
+  "deferred_actual_proofs": [
+    "OWNER save/read, ADMIN read-only, other roles and anonymous refusal",
+    "Replay, changed intent, stale timeline and cancellation tombstone",
+    "Cached successful real Auth request rechecked after observed FG/HPP lock wait and owner deactivation",
+    "Distinct database sessions: same UUID one immutable effect; different UUIDs one save/one stale refusal",
+    "Normal App desktop posted-GOOD refusal and real lost reply reconciled from second tab",
+    "Phone unforwarded request cancellation, late arrival replay, future date save and ADMIN read-only; readable/no overflow/screenshots"
+  ],
+  "actual_ERP_Native_cases": 0,
+  "actual_Auth_HTTP_cases": 0,
+  "actual_two_session_cases": 0,
+  "actual_browser_cases": 0,
+  "owning_qualifier_wired": false,
+  "production_go": false,
+  "independent_acceptance": false
+}
