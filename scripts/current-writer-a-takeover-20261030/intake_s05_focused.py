@@ -7,10 +7,10 @@ import intake_join_layout as css_parent
 from intake_common import GitBytes,exact,fields,pin,require,safe_path
 from intake_sku27 import strict,full_census,declared_files,ALL22
 
-HEAD='49f8f1697e7777cf9542f131c7d3c5d135cc1ec7'
-TREE='179ef11defd62439371689ffaf766b5c83da4325'
-RUN=41329176840  # Actual reader49 attempt 1 observed after owning-window activation.
-JOB=124915457260
+HEAD='2cb8c9ac85b6111e8bb170de6c2ec5c44f7c798c'
+TREE='5c5111505dafc5a92a79de4d9b52e4d93e37500e'
+RUN=41333643573  # Actual source-release successor attempt 1 observed after activation.
+JOB=124928771868
 ARTIFACT=None  # Arm only after the actual terminal artifact is observed.
 BASE='50c77207e088af16988d7d91a5b06f72e8e30ecc'
 BASE_TREE='28295dd44a59f1832bebb86af24bd85df4471f4b'
@@ -95,6 +95,14 @@ def check_foundation(main,part,source_proof):
     exact(set(setup['protected_role_data_before']),{'erp.app_roles','erp.app_role_permissions'},'BOTH_AUTHORITY_TABLES_RAW')
     return dict(actual_original_seed_mode=mode,setup_has_no_Native_case_credit=True,
         all22_catalog_and_protected_role_rows_unchanged=True,partial_or_foreign_foundation_refused=True)
+
+def check_source_release(part):
+    value=part['source_connection_release']
+    fields(value,dict(phase='AFTER_FOUNDATION_COMMIT_BEFORE_READER_OR_COPY',database='cp6_rollback',
+        cursor_closed=True,connection_closed=True,foreign_backends_terminated=0,actual_Native_case_credit=0),
+        'ACTUAL_OWN_COMMITTED_SOURCE_CONNECTION_CLOSED_BEFORE_TEMPLATE_COPY')
+    require(type(value.get('backend_pid'))is int and value['backend_pid']>0,'ACTUAL_OWN_SOURCE_BACKEND_ID')
+    return value
 
 def reader_source(g):
     raw=g.read(READER_MANIFEST,BASE)
@@ -235,6 +243,7 @@ def intake(root,path,metadata):
         exact(set(main['committed']),{CASE},'ONE_FOCUSED_COMPONENT')
         part=main['committed'][CASE]
         original_foundation=check_foundation(main,part,prepared['foundation_setup_source'])
+        own_source_release=check_source_release(part)
         fields(part,dict(status='PASS',business_counts={'PASS':2},actual_Native_cases=0,actual_browser_cases=2,
             actual_Auth_HTTP_cases=0,actual_two_session_races=0,retained_Native_cases=31,retained_S03_browser_cases=4,
             retained_case_count=35,candidate_case_coverage=37,retained_cases_are_not_fresh=True,
@@ -282,7 +291,7 @@ def intake(root,path,metadata):
             qualified_financial_sources=financial_pin,actual_product_source_maps=maps,
             actual_reader_product_source_maps=reader_maps,current_reader_graph_verified_before_database=True,
             package_all_five=True,package_gates=package['gate'],actual_used_refusal_raw_full_boundary=census,
-            exact_original_foundation_setup=original_foundation,
+            exact_original_foundation_setup=original_foundation,actual_own_source_connection_release=own_source_release,
             permanent_complete_assembly_qualified=False,global_writer_or_permission_or_lock_closure=False,
             Afui_positive_HPP_zero_reimbursement_coverage=False,production_go=False,independent_acceptance=False)
 

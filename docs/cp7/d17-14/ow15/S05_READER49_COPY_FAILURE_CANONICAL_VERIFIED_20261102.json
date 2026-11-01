@@ -1,0 +1,62 @@
+{
+  "status": "ROOT_VERIFIED_READER49_ACTUAL_TEMPLATE_COPY_FAILURE_FULL_RESTORE_NOT_PASS",
+  "head": "49f8f1697e7777cf9542f131c7d3c5d135cc1ec7",
+  "tree": "179ef11defd62439371689ffaf766b5c83da4325",
+  "run_id": 41329176840,
+  "job_id": 124915457260,
+  "attempt": 1,
+  "conclusion": "failure",
+  "terminal_UTC": "2026-11-01T17:43:47Z",
+  "artifact_id": 13094142444,
+  "archive": {
+    "bytes": 12078007,
+    "sha256": "15deeba5891469ffd13936c98bcb854741e9edc2b24de67695849a8279de3dc0",
+    "members": 130,
+    "full_CRC_and_safe_paths_verified": true
+  },
+  "durable_original": "libfile_6337bd0beacc8191886db217c30ff372",
+  "originals": {
+    "CP7_CURRENT_S05_CSS_RETAIN35_BROWSER2.json": {
+      "bytes": 51451793,
+      "sha256": "f7da33ae37c890e2203263dfd04c8b166878f2970eb88304278dc246ab801a48"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360436,
+      "sha256": "ffd01d3156aef9a09aed37b40c3eb082255098dd8171300670c5fbab17581213"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 1470,
+      "sha256": "3acc0c06be21f393ae8348572830da95c0417cad79cf6899731b83b848642c2f"
+    },
+    "S05_FOLLOWUP_SUPERVISION.json": {
+      "bytes": 582,
+      "sha256": "835969300e8be5da197bf1a6dd247c82e912c8f5d5d0d48b061e664432c7b885"
+    }
+  },
+  "actual_first_failure": "createdb: source database cp6_rollback is being accessed by other users",
+  "owning_component_defect": "Committed foundation retained outer source connection through createdb -T; source sessions must be closed",
+  "actual_full_source_admission_parent_install_preuse_inverse_reinstall_and_Native_browser_prerequisite_passed": true,
+  "actual_browser_cases_started": 0,
+  "fresh_qualified_cases": 0,
+  "retained35_rerun": false,
+  "full_all22_rows_ALL_sequences_roles_CP6_advisors_and_primary_Auth_restored": true,
+  "backup_checks": {
+    "restore_errors_only_pg_cron": true,
+    "catalog_explained": true,
+    "data_identical": true,
+    "engine_answer_present": true,
+    "engine_equal": true
+  },
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "process_group_and_tree_completely_reaped": true,
+  "deadline_or_external_cancellation": false,
+  "failed_run_relabelled_PASS": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

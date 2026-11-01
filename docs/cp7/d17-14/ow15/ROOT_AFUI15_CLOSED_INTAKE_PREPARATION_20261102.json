@@ -1,0 +1,179 @@
+{
+  "status": "ROOT_AFUI15_CLOSED_INTAKE_IMPLEMENTED_SOURCE_AND_FOUR_PREPARATION_CONTROLS_PASS_NOT_QUALIFICATION",
+  "candidate_prepared_head": "3bd02a2dcbb9015fb677d9090ca3fd54af97f87f",
+  "candidate_prepared_tree": "598e830f36a974a24506ed0e76b04fb3fab1dae9",
+  "unique_new_pure_controls_PASS": 4,
+  "all_eight_actual_parent_and_owning_bindings_None": true,
+  "exact_source": {
+    "source_pins": 56,
+    "own_paths": 88,
+    "unchanged_parent_paths": 14215,
+    "source_manifest": {
+      "bytes": 10319,
+      "sha256": "cc40239ae8c1efb09dc033890cda9e7449c2231fdbfb24d44270bb95c2b50d51"
+    },
+    "UI_manifest": {
+      "bytes": 2539,
+      "sha256": "bb1e1948a39fde11de1c16a1da0a880ca1390e5c634698821a6822a0a81cf649"
+    },
+    "exact_counted_UI_paths": 4,
+    "new_UI_paths": 5,
+    "pure_report_functions": {
+      "exact_pure_sources": {
+        "access_cases.py": {
+          "source": {
+            "bytes": 19642,
+            "sha256": "aeb719231c22e89b4c77b9ff85b2e85084066c2dc9919fcaf6ad01f4104c66de"
+          },
+          "functions": [
+            "require_changes",
+            "require_append"
+          ],
+          "data_imports_replaced_by_Root_values": [],
+          "actual_ERP_imports": 0,
+          "actual_SQL_executed": 0
+        },
+        "case_boundary.py": {
+          "source": {
+            "bytes": 7764,
+            "sha256": "40b457f54d0082ae969c0a6d55a33dfe90e27fb88674ef6ffbf908b78f5fa837"
+          },
+          "functions": [
+            "state",
+            "allocations",
+            "expected_refusal_gaps",
+            "validate"
+          ],
+          "data_imports_replaced_by_Root_values": [],
+          "actual_ERP_imports": 0,
+          "actual_SQL_executed": 0
+        },
+        "qualification_gate.py": {
+          "source": {
+            "bytes": 4826,
+            "sha256": "c0647aeb14b09cd179c7f977c2c60c70434dc3afcd91a66755229e5de353482c"
+          },
+          "functions": [
+            "rows",
+            "native",
+            "copies"
+          ],
+          "data_imports_replaced_by_Root_values": [],
+          "actual_ERP_imports": 0,
+          "actual_SQL_executed": 0
+        },
+        "native_fixture.py": {
+          "source": {
+            "bytes": 14500,
+            "sha256": "3ae95f92bd5b56254f233232a223b0b262782bff2d1d56330c447d85964630b0"
+          },
+          "functions": [
+            "require_economics"
+          ],
+          "data_imports_replaced_by_Root_values": [],
+          "actual_ERP_imports": 0,
+          "actual_SQL_executed": 0
+        },
+        "final_gate.py": {
+          "source": {
+            "bytes": 15834,
+            "sha256": "8eb2440bcf029a638544f90e2c1eaad5caf37f5e1765b5de6b108ab027285c7f"
+          },
+          "functions": [
+            "supervisor",
+            "artifact",
+            "compare_census",
+            "race_facts",
+            "assets",
+            "validate"
+          ],
+          "data_imports_replaced_by_Root_values": [
+            [
+              "admission"
+            ],
+            [
+              "access_cases"
+            ],
+            [
+              "admission"
+            ],
+            [
+              "admission",
+              "assembly",
+              "native_cases",
+              "access_cases",
+              "browser_prepare",
+              "case_boundary",
+              "qualification_gate",
+              "native_fixture"
+            ]
+          ],
+          "actual_ERP_imports": 0,
+          "actual_SQL_executed": 0
+        }
+      },
+      "Native_ids": [
+        "NONPAYABLE_NATIVE_POSITIVE_HPP_ZERO_REIMBURSEMENT_FROZEN_HISTORY_AND_REPLAY",
+        "NONPAYABLE_NATIVE_EXPLICIT_NORMAL_POLICY_REIMBURSEMENT_REGRESSION",
+        "NONPAYABLE_NATIVE_NORMAL_PICKUP_SPECIAL_GOOD_PHYSICAL_DATE",
+        "NONPAYABLE_NATIVE_SPECIAL_PICKUP_NORMAL_GOOD_PHYSICAL_DATE",
+        "NONPAYABLE_NATIVE_MISSING_CATEGORY_EFFECTIVE_DATE_ATOMIC_GOOD_REFUSAL",
+        "NONPAYABLE_NATIVE_NO_INITIAL_JOURNAL_CUMULATIVE_CENTS_AND_LAWFUL_INVOICE_INVERSES",
+        "NONPAYABLE_NATIVE_QC_INVERSE_AFTER_RECOST_AND_NEXT_LAWFUL_COST_REVISION",
+        "NONPAYABLE_NATIVE_REWORK_NO_INITIAL_JOURNAL_INVERSE_AND_ACTIVE_LOT_RECOST",
+        "NONPAYABLE_NATIVE_FINISHED_PO_FG_SALES_COGS_LATE_COST_AND_LAWFUL_INVERSES"
+      ],
+      "HTTP_ids": [
+        "NONPAYABLE_AUTH_HTTP_OWNER_ADMIN_DENIAL_REPLAY_CANCEL_AND_STALE_TIMELINE",
+        "NONPAYABLE_AUTH_HTTP_CACHED_REPLAY_OWNER_DEACTIVATED_DURING_REAL_LOCK_WAIT"
+      ],
+      "race_ids": [
+        "NONPAYABLE_TWO_SESSION_SAME_REQUEST_ONE_IMMUTABLE_DATE_AND_REPLY",
+        "NONPAYABLE_TWO_SESSION_DIFFERENT_REQUESTS_ONE_DATE_AND_ONE_STALE_TIMELINE"
+      ],
+      "browser_ids": [
+        "NONPAYABLE_BROWSER_DESKTOP_POSTED_USE_REFUSAL_LOST_REPLY_TWO_TABS",
+        "NONPAYABLE_BROWSER_MOBILE390_CANCEL_LATE_SAVE_OWNER_AND_ADMIN_READ_ONLY"
+      ],
+      "actual_ERP_imports": 0,
+      "actual_SQL_executed": 0
+    },
+    "parent_qualification_pending": true,
+    "actual_case_credit": 0
+  },
+  "only_16_selected_bounded_pure_functions_compiled": true,
+  "no_ERP_runtime_module_imports": true,
+  "actual_context_uses_Root_verified_parent_values_and_pinned_private_current_original_files": true,
+  "actual_canonical_whole_archive_size_SHA_CRC_paths_and_all5_mandatory": true,
+  "actual_Root_recomputes_current_gate_and_whole_parent_and_own_source_graph": true,
+  "first_preparation_failures_preserved": [
+    "Pure default guard initially refused the original empty tuple default; now only literal constants or empty tuples allowed",
+    "Literal-only assignment reader initially refused original dict(key=literal) error data; exact static keywords decoded without executing a call"
+  ],
+  "only_two_affected_controls_repeated_after_each_narrow_fix": true,
+  "raw_logs": {
+    "ROOT_AFUI15_PREPARATION_CONTROLS.log": {
+      "bytes": 3664,
+      "sha256": "7638e44083719983eb3e3f27032e893502d57f5c36d1e3efdc1d28bf2c355084",
+      "text": ".E.E\n======================================================================\nERROR: test_exact_public_afui56_tree_and_all_pure_functions_import_no_erp_runtime (__main__.Afui15RootPreparationControls.test_exact_public_afui56_tree_and_all_pure_functions_import_no_erp_runtime)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/workspace/scratch/cf5f04e2b451/erp-root/scripts/current-writer-a-takeover-20261030/control_afui15_prepared.py\", line 38, in test_exact_public_afui56_tree_and_all_pure_functions_import_no_erp_runtime\n    value=target.source(g)\n          ^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/cf5f04e2b451/erp-root/scripts/current-writer-a-takeover-20261030/intake_afui15.py\", line 164, in source\n    _,pure=report_validator(g,None)\n           ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/cf5f04e2b451/erp-root/scripts/current-writer-a-takeover-20261030/intake_afui15.py\", line 92, in report_validator\n    access=select('access_cases.py',('require_changes','require_append'),{})\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/cf5f04e2b451/erp-root/scripts/current-writer-a-takeover-20261030/intake_afui15.py\", line 91, in select\n    module,proof=pure_functions(g.read(NS+file),NS+file,names,context);proofs[file]=proof;return module\n                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/cf5f04e2b451/erp-root/scripts/current-writer-a-takeover-20261030/intake_afui15.py\", line 61, in pure_functions\n    require(all(isinstance(n,ast.Constant)for n in function.args.defaults+[\n  File \"/workspace/scratch/cf5f04e2b451/erp-root/scripts/current-writer-a-takeover-20261030/intake_common.py\", line 13, in require\n    raise ValueError(message)\nValueError: AFUI15_PURE_LITERAL_DEFAULTS_ONLY\n\n======================================================================\nERROR: test_root_selected_artifact_validator_reads_only_pinned_original_bytes (__main__.Afui15RootPreparationControls.test_root_selected_artifact_validator_reads_only_pinned_original_bytes)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/workspace/scratch/cf5f04e2b451/erp-root/scripts/current-writer-a-takeover-20261030/control_afui15_prepared.py\", line 46, in test_root_selected_artifact_validator_reads_only_pinned_original_bytes\n    gate,proof=target.report_validator(g,None)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/cf5f04e2b451/erp-root/scripts/current-writer-a-takeover-20261030/intake_afui15.py\", line 92, in report_validator\n    access=select('access_cases.py',('require_changes','require_append'),{})\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/cf5f04e2b451/erp-root/scripts/current-writer-a-takeover-20261030/intake_afui15.py\", line 91, in select\n    module,proof=pure_functions(g.read(NS+file),NS+file,names,context);proofs[file]=proof;return module\n                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/cf5f04e2b451/erp-root/scripts/current-writer-a-takeover-20261030/intake_afui15.py\", line 61, in pure_functions\n    require(all(isinstance(n,ast.Constant)for n in function.args.defaults+[\n  File \"/workspace/scratch/cf5f04e2b451/erp-root/scripts/current-writer-a-takeover-20261030/intake_common.py\", line 13, in require\n    raise ValueError(message)\nValueError: AFUI15_PURE_LITERAL_DEFAULTS_ONLY\n\n----------------------------------------------------------------------\nRan 4 tests in 0.350s\n\nFAILED (errors=2)\n"
+    },
+    "ROOT_AFUI15_AFFECTED_PREPARATION_CONTROLS.log": {
+      "bytes": 4704,
+      "sha256": "05159ca2c7f90b15bee3a62cc3b53dffc6a929da26c138d1d43b83d7057484fa",
+      "text": "EE\n======================================================================\nERROR: test_exact_public_afui56_tree_and_all_pure_functions_import_no_erp_runtime (__main__.Afui15RootPreparationControls.test_exact_public_afui56_tree_and_all_pure_functions_import_no_erp_runtime)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/workspace/scratch/cf5f04e2b451/erp-root/scripts/current-writer-a-takeover-20261030/control_afui15_prepared.py\", line 38, in test_exact_public_afui56_tree_and_all_pure_functions_import_no_erp_runtime\n    value=target.source(g)\n          ^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/cf5f04e2b451/erp-root/scripts/current-writer-a-takeover-20261030/intake_afui15.py\", line 164, in source\n    _,pure=report_validator(g,None)\n           ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/cf5f04e2b451/erp-root/scripts/current-writer-a-takeover-20261030/intake_afui15.py\", line 101, in report_validator\n    boundary_constants={name:literal(g,NS+'case_boundary.py',name)for name in('OWNED','FG','MISSING','MISSING_ERROR','SEQUENCE_DEFINITION')}\n                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/cf5f04e2b451/erp-root/scripts/current-writer-a-takeover-20261030/intake_sku27.py\", line 72, in literal\n    return ast.literal_eval(nodes[0].value)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/ast.py\", line 112, in literal_eval\n    return _convert(node_or_string)\n           ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/ast.py\", line 111, in _convert\n    return _convert_signed_num(node)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/ast.py\", line 85, in _convert_signed_num\n    return _convert_num(node)\n           ^^^^^^^^^^^^^^^^^^\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/ast.py\", line 76, in _convert_num\n    _raise_malformed_node(node)\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/ast.py\", line 73, in _raise_malformed_node\n    raise ValueError(msg + f': {node!r}')\nValueError: malformed node or string on line 17: <ast.Call object at 0x7fe3f4795cd0>\n\n======================================================================\nERROR: test_root_selected_artifact_validator_reads_only_pinned_original_bytes (__main__.Afui15RootPreparationControls.test_root_selected_artifact_validator_reads_only_pinned_original_bytes)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/workspace/scratch/cf5f04e2b451/erp-root/scripts/current-writer-a-takeover-20261030/control_afui15_prepared.py\", line 46, in test_root_selected_artifact_validator_reads_only_pinned_original_bytes\n    gate,proof=target.report_validator(g,None)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/cf5f04e2b451/erp-root/scripts/current-writer-a-takeover-20261030/intake_afui15.py\", line 101, in report_validator\n    boundary_constants={name:literal(g,NS+'case_boundary.py',name)for name in('OWNED','FG','MISSING','MISSING_ERROR','SEQUENCE_DEFINITION')}\n                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/cf5f04e2b451/erp-root/scripts/current-writer-a-takeover-20261030/intake_sku27.py\", line 72, in literal\n    return ast.literal_eval(nodes[0].value)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/ast.py\", line 112, in literal_eval\n    return _convert(node_or_string)\n           ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/ast.py\", line 111, in _convert\n    return _convert_signed_num(node)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/ast.py\", line 85, in _convert_signed_num\n    return _convert_num(node)\n           ^^^^^^^^^^^^^^^^^^\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/ast.py\", line 76, in _convert_num\n    _raise_malformed_node(node)\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/ast.py\", line 73, in _raise_malformed_node\n    raise ValueError(msg + f': {node!r}')\nValueError: malformed node or string on line 17: <ast.Call object at 0x7fe3f4de7150>\n\n----------------------------------------------------------------------\nRan 2 tests in 0.463s\n\nFAILED (errors=2)\n"
+    },
+    "ROOT_AFUI15_AFFECTED_PREPARATION_CONTROLS_2.log": {
+      "bytes": 100,
+      "sha256": "7280249d00ab7f2961880141f2d67be86d3914beb03fc1d972c08217f025c205",
+      "text": "..\n----------------------------------------------------------------------\nRan 2 tests in 0.666s\n\nOK\n"
+    }
+  },
+  "actual_ERP_imports": 0,
+  "actual_SQL_executed": 0,
+  "actual_Native_cases": 0,
+  "actual_Auth_HTTP_cases": 0,
+  "actual_two_session_cases": 0,
+  "actual_browser_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

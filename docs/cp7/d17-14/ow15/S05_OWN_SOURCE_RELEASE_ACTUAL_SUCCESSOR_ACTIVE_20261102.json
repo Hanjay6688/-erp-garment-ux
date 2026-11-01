@@ -1,0 +1,77 @@
+{
+  "status": "S05_OWN_SOURCE_RELEASE_CORRECTED_ONE_ACTUAL_SUCCESSOR_RUN_ACTIVE",
+  "head": "2cb8c9ac85b6111e8bb170de6c2ec5c44f7c798c",
+  "tree": "5c5111505dafc5a92a79de4d9b52e4d93e37500e",
+  "local_same_tree_head": "863af3dc80641b7eeee4e31957ba66c49dbddfb4",
+  "parent_failure_head": "49f8f1697e7777cf9542f131c7d3c5d135cc1ec7",
+  "run_id": 41333643573,
+  "job_id": 124928771868,
+  "attempt": 1,
+  "event": "push",
+  "actual_started_UTC": "2026-11-01T17:52:03Z",
+  "actual_observed_status": "in_progress",
+  "candidate_product_backend_and_UI_unchanged": true,
+  "financial_source_and_retained35_invariance_preserved": true,
+  "source_pins": 108,
+  "only_own_committed_source_connection_closed_before_reader_or_copy": true,
+  "no_foreign_backend_termination": true,
+  "new_pure_protocol_controls_PASS": 4,
+  "one_affected_complete_gate_control_PASS": true,
+  "first_new_control_failures": 0,
+  "actual_CI_psycopg_version": "3.2.10",
+  "official_exact_version_Connection_exit_and_Cursor_close_source_reviewed": true,
+  "official_version_source": "https://github.com/psycopg/psycopg/tree/3.2.10/psycopg/psycopg",
+  "Root_new_typed_source_release_control": {
+    "status": "ROOT_S05_OWN_SOURCE_CONNECTION_RELEASE_TYPED_CONTROL_PASS",
+    "positive": 1,
+    "negative": [
+      [
+        "backend_pid",
+        false
+      ],
+      [
+        "backend_pid",
+        0
+      ],
+      [
+        "connection_closed",
+        false
+      ],
+      [
+        "cursor_closed",
+        1
+      ],
+      [
+        "foreign_backends_terminated",
+        1
+      ],
+      [
+        "actual_Native_case_credit",
+        1
+      ],
+      [
+        "missing",
+        true
+      ]
+    ],
+    "actual_ERP_cases": 0,
+    "artifact_binding_None": true
+  },
+  "Root_entire_source_check": {
+    "status": "EXACT_FOCUSED_SOURCE_AND_RETAINED35_INVARIANCE_ONLY",
+    "source_pins": 108,
+    "retained_ids": 35,
+    "fresh_planned_ids": 2,
+    "actual_case_credit": 0
+  },
+  "single_owning_run": true,
+  "active_read_only_monitor_cell": "723",
+  "predecessor_monitor636_completed": true,
+  "activation_after_actual_terminal_failure_source_clean_tree_exact_public_tree_real_WIB_window_and_ref_lease": true,
+  "artifact_binding_None": true,
+  "fresh_qualified_cases": 0,
+  "retained35_are_not_fresh": true,
+  "downstream_Permanent_DE_FREE_Afui_unarmed": true,
+  "production_go": false,
+  "independent_acceptance": false
+}
