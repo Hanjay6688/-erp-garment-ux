@@ -1,0 +1,207 @@
+{
+  "status": "SAVED_ACTUAL2894_FUNCTION_SYNTAX_WRITER_CENSUS_NOT_RUNTIME_CLOSURE",
+  "source": {
+    "head": "15a2170cea88cd03a4d1bcaa0873a969d495b9fa",
+    "tree": "3fe772a1314ae6bc7c4f36f72e3fda8738eb70fc",
+    "run_id": 41354607179,
+    "job_id": 124991886417,
+    "canonical_archive_library_file_id": "libfile_b7953797e6d88191986c649725deae2a",
+    "raw_census_source": {
+      "head": "15a2170cea88cd03a4d1bcaa0873a969d495b9fa",
+      "run_id": 41354607179,
+      "job_id": 124991886417,
+      "Root_receipt": {
+        "bytes": 11935,
+        "sha256": "8e3bd34eab2f65596c74171ac2c1f9611e101390dbbbb7dae3e001cf64ec9b46"
+      },
+      "archive": {
+        "bytes": 29038320,
+        "sha256": "c5662038231938aefc8bce32beb41125be7a423d816ce1a1014f32d209745f65",
+        "members": 148
+      },
+      "member": "S05_SKU_DESKTOP_9872EEB811CE469EBC2FF2719C51C397_01_BEFORE_REPORT_READS_FULL_CURRENT_STATE.json.gz",
+      "original": {
+        "compressed": {
+          "bytes": 1830701,
+          "sha256": "71bb1ea35386140526f3148df3432ec9d66b521022d4ab282b8f38924606935e"
+        },
+        "raw": {
+          "bytes": 14658977,
+          "sha256": "39c88c4494b10e711b8e58116ea6013e00e1caae8f1d4f9b64fda9566e5c0789"
+        }
+      },
+      "derived_file": "PERMANENT15A_DESKTOP_BEFORE_RAW_CENSUS.json",
+      "existing_accepted_evidence_reused_not_a_new_test": true
+    }
+  },
+  "report": {
+    "bytes": 5694338,
+    "sha256": "56ce1474d6ece1e7c35a7b250ade71fd0838153d4f5efcfd614b7a30c1b40060"
+  },
+  "source_code": {
+    "path": "scripts/current-writer-a-takeover-20261030/scan_saved_writer_census.py",
+    "bytes": 13782,
+    "sha256": "69adaed6494ea81cc93ed304718eda7a94131052a81ae3dbc2c8a6d54b4e045c"
+  },
+  "parser": {
+    "pglast": "7.20",
+    "grammar_PostgreSQL": [
+      17,
+      7
+    ],
+    "wheel_sha256": "d5e6d4f4bcce6192ab89ba2a98ad55b3b4783138be43a00189c440108c3b8139",
+    "installed_only_in_isolated_analysis_runtime": true,
+    "not_product_dependency": true
+  },
+  "all_2894_functions_scanned": true,
+  "source_19_field_rows_bound": true,
+  "parsed_expressions": 39131,
+  "direct_writer_candidates": 86,
+  "transitive_known_call_candidates": 368,
+  "unresolved_function_count": 88,
+  "unresolved_counts": {
+    "outer_error": 0,
+    "body_error": 7,
+    "query_errors": 0,
+    "dynamic_PL_statements": 29,
+    "opaque_language": 52
+  },
+  "relevant_triggers": 721,
+  "exact_RI_bound_FKs": 245,
+  "parser_controls": {
+    "modifying_CTE_detected": true,
+    "literal_and_comment_decoys_excluded": true,
+    "dynamic_SQL_explicitly_unresolved": true,
+    "assignment_function_call_preserved": true,
+    "SQL_executed": 0,
+    "Native_cases": 0
+  },
+  "metadata_selection_correction": {
+    "source_function_AST_results_reused_without_reparsing": true,
+    "previous_constraint_text_candidates": 245,
+    "exact_RI_identity_candidates": 245,
+    "text_candidates_not_selected_by_RI": [],
+    "incoming_RI_identities_missing_from_text_selection": []
+  },
+  "limits": [
+    "Parent15a snapshot; final accepted composite remains required.",
+    "Expanded ACL only: raw NULL ACL and actual OIDs are not inferred.",
+    "Seven PL record-field bodies remain unparsed; twenty-nine functions contain dynamic or nonlocal PL statements; fifty-two C functions remain opaque.",
+    "External/builtin/operator/cast/RLS/trigger/FK runtime dispatch and current-role rights require actual capture and review.",
+    "No runtime guard opened; no writer/current-rights/phantom closure; no new ERP or Native cases."
+  ],
+  "ERP_imports": 0,
+  "SQL_executed": 0,
+  "Native_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false,
+  "observed_UTC": "2026-11-01T23:41:08.968279+00:00",
+  "durable_full_report_archive": {
+    "library_file_id": "libfile_bc4091358b0c8191893a1e2e54a8a1cf",
+    "version": 0,
+    "bytes": 569215,
+    "sha256": "c9f8aed566a4537a6c6bca21a365d0482c6b8ea568951038808c25604a0fbdde"
+  },
+  "direct_writer_signatures": [
+    "cp7_credit._post_consumer_bound_v1(text,uuid,date,text,jsonb)",
+    "cp7_credit._post_initial_refund_bound(text,uuid,date,text,jsonb)",
+    "cp7_credit._post_journal_bound(text,uuid,date,text,jsonb)",
+    "cp7_credit.consumer_execute_v1(uuid)",
+    "cp7_credit.native_empty_complete_v1(uuid,numeric,numeric)",
+    "cp7_credit.post_initial_refund(uuid,uuid)",
+    "cp7_credit.refresh_opening_return_hpp_diagnostics_v1(uuid,uuid)",
+    "cp7_credit.store_initial_plan_v1(uuid)",
+    "cp7_note._cp3_r4_reverse_journal_internal(uuid,text)",
+    "cp7_note.command(jsonb,uuid,text)",
+    "cp7_note.reverse_fg_movement(uuid,text)",
+    "cp7_note.reverse_sale(uuid,text)",
+    "cp7_note.reverse_sales_payment(uuid,text)",
+    "cp7_note.reverse_sales_return(uuid,text)",
+    "cp7_sales.apply_command(text,jsonb,uuid,text)",
+    "cp7_sales_return_correction._cp3_r4_reverse_journal_internal(uuid,text)",
+    "cp7_sales_return_correction.command(jsonb,uuid,text)",
+    "cp7_sales_return_correction.reverse_fg_movement(uuid,text)",
+    "cp7_sales_return_correction.reverse_sales_return(uuid,text)",
+    "erp._cp3_r4_reverse_journal_internal(uuid,text)",
+    "erp._release_sale_draft_reservations(uuid,text)",
+    "erp._reserve_sale_draft(uuid)",
+    "erp.apply_migration_master_rows(uuid)",
+    "erp.bb_manage_opening_sale_return_v1(jsonb,uuid)",
+    "erp.bc_apply_imports_v1(uuid)",
+    "erp.bc_close_custody_v1(jsonb,uuid)",
+    "erp.bc_credit_note_return_v1(jsonb,uuid)",
+    "erp.bc_inspect_v1(jsonb,uuid)",
+    "erp.bc_link_v1(uuid,text,uuid)",
+    "erp.bc_new_document_v1(uuid,text,timestamp with time zone,jsonb,jsonb)",
+    "erp.bc_post_adjustment_v1(uuid,uuid,timestamp with time zone,text,jsonb,text,text,uuid,text)",
+    "erp.bc_receive_return_v1(jsonb,uuid)",
+    "erp.bc_reverse_v1(jsonb,uuid)",
+    "erp.bc_value_custody_v1(jsonb,uuid)",
+    "erp.be_complete_rework_target_v1(uuid)",
+    "erp.be_link_recovery_v1(uuid,uuid,date)",
+    "erp.be_nonpo_prepare_transfers_v1(date)",
+    "erp.be_nonpo_sync_all_v1(date,text,uuid,text)",
+    "erp.be_post_conversion_v1(jsonb,uuid,text,uuid)",
+    "erp.be_post_usage_v1(jsonb,uuid)",
+    "erp.be_propagate_nonpo_v1()",
+    "erp.be_reconcile_cost_document_v1(uuid,date)",
+    "erp.be_reverse_conversion_v1(uuid,text)",
+    "erp.be_reverse_rework_target_v1(uuid,text)",
+    "erp.cancel_sale_draft_v2(uuid,text,uuid,bigint)",
+    "erp.close_accounting_through(date,text)",
+    "erp.complete_initial_import_wip_v1(jsonb)",
+    "erp.move_fg_stock_card_row_to_position(uuid,integer)",
+    "erp.post_fg_adjustment(uuid)",
+    "erp.post_fg_movement(uuid,uuid,uuid,text,text,integer,numeric,uuid,text,uuid,timestamp with time zone,text,boolean)",
+    "erp.post_fg_unsourced_receipt_v1(jsonb,uuid)",
+    "erp.post_journal(text,uuid,date,text,jsonb)",
+    "erp.post_material_adjustment(uuid)",
+    "erp.post_opening_balance(uuid)",
+    "erp.post_opening_hpp_correction(uuid,numeric,text,date)",
+    "erp.post_opening_hpp_correction_from_price_percent(uuid,numeric,text,date)",
+    "erp.post_product_conversion(uuid)",
+    "erp.post_qc(uuid)",
+    "erp.post_rework_completion(uuid)",
+    "erp.post_sale(uuid)",
+    "erp.post_sales_payment(uuid)",
+    "erp.post_sales_return(uuid)",
+    "erp.propagate_conversion_hpp_for_po(uuid)",
+    "erp.rebuild_po_hpp(uuid,text)",
+    "erp.refresh_initial_import_fg_cost_v1(uuid,numeric,date)",
+    "erp.refresh_po_hpp_gl_baseline(uuid)",
+    "erp.reopen_accounting_through(date,text)",
+    "erp.reset_fg_stock_card_order(uuid,uuid,text)",
+    "erp.reset_fg_stock_mutation_book_order()",
+    "erp.reset_fg_stock_mutation_order()",
+    "erp.reverse_fg_movement(uuid,text)",
+    "erp.reverse_fg_unsourced_receipt_v1(uuid,text,uuid)",
+    "erp.reverse_material_adjustment(uuid,text)",
+    "erp.reverse_opening_hpp_correction(uuid,text)",
+    "erp.reverse_product_conversion(uuid,text)",
+    "erp.reverse_qc(uuid,text)",
+    "erp.reverse_rework_completion(uuid,text)",
+    "erp.reverse_sale(uuid,text)",
+    "erp.reverse_sales_payment(uuid,text)",
+    "erp.reverse_sales_return(uuid,text)",
+    "erp.save_material_adjustment_draft_v2(jsonb,uuid,bigint)",
+    "erp.save_product_conversion_action_v1(text,jsonb,uuid)",
+    "erp.save_sale_draft_v2(jsonb,uuid,bigint)",
+    "erp.sync_non_po_product_hpp_to_gl_v2620f(uuid,date,text,uuid,text)",
+    "erp.sync_opening_lot_hpp_to_gl(uuid,date)",
+    "erp.sync_po_hpp_to_gl(uuid,date)"
+  ],
+  "unparsed_function_bodies": {
+    "cp7_alert_native.analysis_unit(cp7_alert_native.settings,timestamp with time zone)": "\"r.next_offset\" is not a known variable",
+    "cp7_cutting_observations.command(jsonb,uuid,boolean)": "\"run.id\" is not a known variable",
+    "cp7_proof_runner.prove_next()": "\"r.pass\" is not a known variable",
+    "cp7_reorder_reader.snapshot(jsonb)": "\"cached.threshold_captured_at\" is not a known variable",
+    "erp.cancel_product_identity_successor(uuid,text)": "\"n.effective_to\" is not a known variable",
+    "erp.edit_product_identity_effective(uuid,text,uuid,uuid,text,uuid,text,timestamp with time zone,text)": "\"n.sku\" is not a known variable",
+    "erp.post_work_completion(uuid)": "\"h.cutting_group_id\" is not a known variable"
+  },
+  "transitive_candidates_with_dynamic_PL_statements": {
+    "erp.manage_initial_prepayment_v1(jsonb)": {
+      "PLpgSQL_stmt_dynexecute": 6
+    }
+  }
+}
