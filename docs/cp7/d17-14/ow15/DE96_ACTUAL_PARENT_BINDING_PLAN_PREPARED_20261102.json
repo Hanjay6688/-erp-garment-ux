@@ -1,0 +1,91 @@
+{
+  "status": "DE96_CURRENT_PARENT_BINDING_PLANNER_PREPARED_UNARMED_NOT_ACTUAL_PARENT_OR_DE_ACCEPTANCE",
+  "source_files": {
+    "scripts/current-writer-a-takeover-20261030/prepare_de_activation.py": {
+      "bytes": 8815,
+      "sha256": "975e59904a48c5a003b981c9a00733c2939304280b8dec0344dc6659bf556868"
+    },
+    "scripts/current-writer-a-takeover-20261030/control_de_activation_plan.py": {
+      "bytes": 4313,
+      "sha256": "384a5ee89726e8fe48b09977bf8d4b1001b78cd9afdd26bee03d914c93ae919f"
+    }
+  },
+  "accepted_parent_receipt_pin": null,
+  "actual_parent_gate_controls": {
+    "status": "DE96_CURRENT_PARENT_PIN_AND_OLDER_RECEIPT_CONTROLS_PASS",
+    "negative": [
+      {
+        "mode": "current_pending",
+        "refused": "DE_ACTIVATION_ACTUAL_PARENT_ROOT_PIN_PENDING"
+      },
+      {
+        "mode": "older_valid_S05_pin",
+        "refused": "DE_ACTIVATION_EXACT_TYPED_PARENT_status"
+      },
+      {
+        "mode": "corrupt_pinned_bytes",
+        "refused": "DE_ACTIVATION_EXACT_ACCEPTED_ROOT_RECEIPT_BYTES/sha256:VALUE"
+      }
+    ],
+    "Git_accesses": 0,
+    "SQL": 0,
+    "ERP_cases": 0,
+    "actual_parent_qualified": false
+  },
+  "independent_Python_hash_seed_models": [
+    {
+      "seed": 1,
+      "status": "DE96_PURE_ASSEMBLY_MODEL_PASS_NOT_PARENT_ACCEPTANCE",
+      "own_paths": 96,
+      "pins": 95,
+      "unchanged_own90": 90,
+      "manifest_all95_actual_bytes_match": true,
+      "workflow_exact_template": true,
+      "planned_tree_request_sha256": "45bd2025ade25a4c3d382e0e8c2e2e07b5815d21369c969dea261662ac8e31b0",
+      "synthetic_request_never_saved": true,
+      "actual_parent_receipt_not_accepted": true,
+      "Git_mutations": 0,
+      "SQL": 0,
+      "ERP_cases": 0
+    },
+    {
+      "seed": 2,
+      "status": "DE96_PURE_ASSEMBLY_MODEL_PASS_NOT_PARENT_ACCEPTANCE",
+      "own_paths": 96,
+      "pins": 95,
+      "unchanged_own90": 90,
+      "manifest_all95_actual_bytes_match": true,
+      "workflow_exact_template": true,
+      "planned_tree_request_sha256": "45bd2025ade25a4c3d382e0e8c2e2e07b5815d21369c969dea261662ac8e31b0",
+      "synthetic_request_never_saved": true,
+      "actual_parent_receipt_not_accepted": true,
+      "Git_mutations": 0,
+      "SQL": 0,
+      "ERP_cases": 0
+    }
+  ],
+  "pure_assembly_only": true,
+  "synthetic_request_never_saved_or_published": true,
+  "own96_pins95_and_unchanged90_verified_in_model": true,
+  "only_changed_own_paths": [
+    "SOURCE.json",
+    "REPAIRED_PERMANENT_REBASE_ORIGIN.json",
+    "admission.py",
+    "source.py"
+  ],
+  "two_new_paths": [
+    "PERMANENT_PARENT_ROOT_ACTUAL_INTAKE.json",
+    ".github/workflows/cp7-current-complete-de-native30.yml"
+  ],
+  "actual_required_next": [
+    "Complete single active Permanent23e and accept its full original through Root.",
+    "Set prepare_de_activation.ACTUAL_ACCEPTED_PARENT_RECEIPT only to that exact accepted Root receipt pin.",
+    "Generate actual DE96 request from latest a71 own94 and accepted parent, publish to prepared branch, materialize and run whole source and Root checks.",
+    "Only then activate exactly one actual DE30 run and bind its API identity."
+  ],
+  "actual_ERP_cases": 0,
+  "actual_Git_mutations_by_planner": 0,
+  "actual_workflow_activations_by_planner": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}
