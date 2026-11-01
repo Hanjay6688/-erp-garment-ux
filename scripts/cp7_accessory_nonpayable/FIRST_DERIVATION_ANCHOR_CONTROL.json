@@ -1,0 +1,9 @@
+{
+  "status": "FIRST_LOCAL_SOURCE_DERIVATION_REFUSAL_PRESERVED",
+  "error": "NONPAYABLE_EXACT_NATIVE_ANCHOR_REQUIRED:erp.ensure_fg_accessory_cost_snapshot(uuid):    ) returning id into v_snapshot;",
+  "cause": "Four-space substring also matched the six-space rework line; source derivation refused before SQL execution.",
+  "repair": "Anchor both snapshot insertion endings at the preceding newline so normal and rework branches are distinct.",
+  "actual_SQL_or_ERP_executed": 0,
+  "actual_case_credit": 0,
+  "production_go": false
+}

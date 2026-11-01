@@ -1,0 +1,44 @@
+{
+  "classification": "LOCAL_ISOLATED_MODEL_FIRST_FAILURES_PRESERVED_NOT_ERP_RUNS",
+  "attempts": [
+    {
+      "attempt": 1,
+      "error": "42601: syntax error at or near CREATE",
+      "completed_checks": 0,
+      "cause": "pg_get_functiondef originals omit statement separators; combined SQL output needed delimiters",
+      "repair": "Append statement separators only to emitted SQL, preserving original bytes and derivation hashes"
+    },
+    {
+      "attempt": 2,
+      "error": "42883: function erp.be_reverse_rework_target_v1(uuid,text) does not exist",
+      "completed_checks": 20,
+      "cause": "Isolated model omitted an actual Native dependency of the rework inverse",
+      "repair": "Capture and use the unchanged actual BE helper and its real no-target predicate; do not claim converted-target coverage"
+    },
+    {
+      "attempt": 3,
+      "error": "42703: record b has no field lot_id",
+      "completed_checks": 20,
+      "cause": "New rework query alias b collided with the predecessor's local bs_cases row variable b",
+      "repair": "Use np_basis and require alias checks on emitted Native SQL before running the model"
+    },
+    {
+      "attempt": 4,
+      "error": "OSError ENXIO opening /dev/stdin from the Node subprocess socket",
+      "completed_checks": 0,
+      "cause": "The existing filename-based checker cannot reopen Node's stdin socket as a path",
+      "repair": "Give the unchanged checker a regular generated SQL file in a fresh temporary directory"
+    },
+    {
+      "attempt": 5,
+      "error": "42703: column updated_at of relation production_orders does not exist",
+      "completed_checks": 21,
+      "cause": "The small isolated schema omitted a column used by the unchanged QC inverse",
+      "repair": "Align the model column inventory with the captured QC body before rerunning; keep the Native body unchanged"
+    }
+  ],
+  "actual_ERP_Native_cases": 0,
+  "actual_CI_runs_started": 0,
+  "business_oracles_relaxed": false,
+  "production_go": false
+}
