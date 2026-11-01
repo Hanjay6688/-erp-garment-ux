@@ -1,0 +1,72 @@
+{
+  "status": "FAILED_SCOPED_S05_FIXTURE_SETUP_RESTORED_NOT_ACCEPTED",
+  "head": "14486decb34b261f70a8a12800ae7980bab4cbdd",
+  "tree": "c626150f0d0cbc3e24ae5237efbec44f25cf74f2",
+  "run_id": 41310096963,
+  "job_id": 124858465060,
+  "run_attempt": 1,
+  "conclusion": "failure",
+  "artifact_id": 13086358611,
+  "canonical_archive": {
+    "bytes": 1990873,
+    "sha256": "559089916067ef544b87731fb72151eafd4b43fa3579628565d4c180ee346dc2",
+    "library_file_id": "libfile_7ba22530c1e081919c31038ccbb764af",
+    "size_SHA_CRC_safe_paths_verified": true
+  },
+  "originals": {
+    "CP7_CURRENT_S05_CSS_RETAIN35_BROWSER2.json": {
+      "bytes": 2348102,
+      "sha256": "23337475f6e88c090850d77e52fdca5ee8e8d82c127f5b8e0c3553d28c870e94"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360436,
+      "sha256": "4b88020c1dfabc7192cc4d6fce0a675dc23dc525c1e2c913d30e8e7684885d39"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 1470,
+      "sha256": "f61e55696a9044bb0efcb59f6ef75ff1d0120b2b36266b9dbc69f14f0ff0f4e6"
+    },
+    "S05_FOLLOWUP_SUPERVISION.json": {
+      "bytes": 582,
+      "sha256": "4aaa8830a1c43f2e9b19b5e69f691d60f2e504f3e1b886e6add09372cee19c22"
+    }
+  },
+  "first_failure": "Z_EXPANDED_BASE_MATERIAL_MISSING",
+  "cause": "Scoped runner omitted the existing foundation seed committed by the retained Native witness; first Native browser fixture could not clone its base material.",
+  "actual_fresh_Native_cases": 0,
+  "actual_fresh_browser_cases": 0,
+  "retained35_not_rerun": true,
+  "aggregate_acceptance": false,
+  "failed_run_relabelled_PASS": false,
+  "outer_all22_all_rows_all_sequences_public_roles_CP6_advisors_restore": true,
+  "backup_restore_checks": {
+    "restore_errors_only_pg_cron": true,
+    "catalog_explained": true,
+    "data_identical": true,
+    "engine_answer_present": true,
+    "engine_equal": true
+  },
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "worker_exit": 1,
+  "no_deadline_signal_or_orphan": true,
+  "process_group_and_tree_empty": true,
+  "corrected_successor_source": {
+    "head": "cb8aa092506a272da526aa55a1cfef4b2a6413c0",
+    "tree": "e47caf3ea3b739b713f6c9b9a0e0041f91c5ac58",
+    "actual_run_id": null,
+    "read_only_precheck_before_expensive_install": true,
+    "exact_existing_seed_only_for_empty_database": true,
+    "partial_foundations_refused": true,
+    "financial_or_browser_oracles_changed": false,
+    "Native_fixture_and_browser_callbacks_unchanged": true
+  },
+  "formal_CP7": "5/16_UNCHANGED",
+  "production_go": false,
+  "independent_acceptance": false
+}

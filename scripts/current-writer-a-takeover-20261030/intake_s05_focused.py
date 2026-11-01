@@ -5,12 +5,12 @@ import argparse,ast,json,zipfile
 import intake_join37 as original_join
 import intake_join_layout as css_parent
 from intake_common import GitBytes,exact,fields,pin,require,safe_path
-from intake_sku27 import strict,full_census,declared_files
+from intake_sku27 import strict,full_census,declared_files,ALL22
 
-HEAD='14486decb34b261f70a8a12800ae7980bab4cbdd'
-TREE='c626150f0d0cbc3e24ae5237efbec44f25cf74f2'
-RUN=41310096963
-JOB=124858465060
+HEAD='cb8aa092506a272da526aa55a1cfef4b2a6413c0'
+TREE='e47caf3ea3b739b713f6c9b9a0e0041f91c5ac58'
+RUN=41315727305
+JOB=124875223281
 ARTIFACT=None  # Arm only after the actual terminal artifact is observed.
 BASE='50c77207e088af16988d7d91a5b06f72e8e30ecc'
 BASE_TREE='28295dd44a59f1832bebb86af24bd85df4471f4b'
@@ -24,12 +24,82 @@ ROOT_PIN=dict(bytes=10877,sha256='4743e60ed6fdf33682a9e576ce180675923ed7287fda5a
 MAIN='CP7_CURRENT_S05_CSS_RETAIN35_BROWSER2.json'
 CASE='CURRENT_S05_CSS_RETAINED35_FRESH_BROWSER2'
 GATES=original_join.GATES
+FOUNDATION_IDS={
+    'erp.materials':'c8c30000-0000-4000-8000-000000000002',
+    'erp.suppliers':'c8c30000-0000-4000-8000-000000000001',
+    'erp.product_models':'a2000000-0000-0000-0000-000000000001',
+    'erp.contractors':'a1000000-0000-0000-0000-000000000001',
+    'erp.production_patterns':'c8c10000-0000-4000-8000-000000000001',
+    'erp.sizes':'c8c10000-0000-4000-8000-000000000002',
+    'erp.products':'c8c10000-0000-4000-8000-000000000004',
+    'erp.locations':'c8c20000-0000-4000-8000-000000000001',
+    'erp.laundry_vendors':'c8c20000-0000-4000-8000-000000000002',
+    'erp.wash_processes':'c8c20000-0000-4000-8000-000000000003',
+    'erp.po_work_component_snapshots':'a4100000-0000-0000-0000-000000000001',
+}
+
+def foundation_source(g):
+    origin=strict(g.read(NS+'FOUNDATION_ORIGIN.json'))
+    fields(origin,dict(status='EXACT_EXISTING_FIXTURE_SETUP_SOURCE_NOT_NEW_FINANCIAL_FIXTURE',
+        source_commit=BASE,seed='cp6_ao_ap_installed.seed',original_condition='no erp.app_users',
+        original_committed_witness='scripts/current-s03-sku-native14-binding/retained-s03-f42e/native_runner.py',
+        historical_cutting_compatibility_trigger='trg_06_require_pattern_identity',
+        trigger_suspension='EXACT_ORIGINAL_SEED_ONLY_MUST_RESTORE',new_Native_case_credit=0,production_go=False),
+        'ONLY_THE_EXISTING_COMMITTED_FOUNDATION_SEED')
+    expected={'scripts/cp6_ao_ap_installed.py','scripts/cp6_v2620e_counterexample_regression.py',
+        'scripts/current-s03-sku-native14-binding/retained-s03-f42e/native_runner.py',
+        OLD+'browser_prepare.py','supabase/tests/cp3_r4_full_schema_seed.sql',
+        'supabase/tests/cp3_r3_full_schema_seed.sql','supabase/tests/cp6_laundry_qc_concurrency_seed.sql'}
+    exact(set(origin['files']),expected,'ENTIRE_ORIGINAL_SEED_AND_INCLUDE_CLOSURE')
+    for name,expected_pin in origin['files'].items():
+        raw=g.read(name);exact(raw,g.read(name,BASE),'FOUNDATION_ORIGINAL_BYTES_UNCHANGED:'+name)
+        exact(pin(raw),expected_pin,'EXACT_ORIGINAL_FOUNDATION_PIN:'+name)
+    assignments={node.targets[0].id:ast.literal_eval(node.value)for node in ast.parse(g.read(NS+'foundation.py')).body
+        if isinstance(node,ast.Assign)and len(node.targets)==1 and isinstance(node.targets[0],ast.Name)
+        and node.targets[0].id in('REQUIRED','SEED','OPERATOR_AUTH')}
+    exact(assignments,dict(REQUIRED=FOUNDATION_IDS,SEED='cp6_ao_ap_installed.seed',
+        OPERATOR_AUTH='c8c00000-0000-4000-8000-000000000101'),'EXACT_EXISTING_FOUNDATION_IDENTITIES')
+    return dict(status='EXACT_ORIGINAL_FOUNDATION_SOURCE_AND_INCLUDE_CLOSURE',seed=origin['seed'],
+        source_commit=BASE,files=origin['files'],Native_case_credit=0)
+
+def foundation_mode(value):
+    require(type(value)is dict and set(value)=={'app_users','active_owner_roles','original_owner','required'},'EXACT_FOUNDATION_STATE_FIELDS')
+    require(type(value['app_users'])is int and value['app_users']>=0,'INTEGER_FOUNDATION_USER_COUNT')
+    exact(value['active_owner_roles'],1,'ONE_ACTUAL_ACTIVE_OWNER_ROLE')
+    require(type(value['original_owner'])is int,'INTEGER_ORIGINAL_OWNER_COUNT')
+    exact(set(value['required']),set(FOUNDATION_IDS),'ALL_ELEVEN_FOUNDATION_DEPENDENCIES')
+    require(all(type(v)is bool for v in value['required'].values()),'BOOLEAN_MASTER_EXISTENCE')
+    if value['app_users']==0 and value['original_owner']==0 and not any(value['required'].values()):
+        return 'ORIGINAL_EMPTY_DATABASE_SEED_REQUIRED'
+    if value['app_users']>0 and value['original_owner']==1 and all(value['required'].values()):
+        return 'ORIGINAL_FOUNDATION_ALREADY_PRESENT'
+    raise ValueError('ROOT_PARTIAL_OR_FOREIGN_FOUNDATION_REFUSED')
+
+def check_foundation(main,part,source_proof):
+    check=main['fixture_foundation_precheck'];setup=part['fixture_foundation']
+    fields(check,dict(status='READ_ONLY_FOUNDATION_PRECHECK',database_mutated=False,Native_case_credit=0),
+        'READ_ONLY_CHECK_BEFORE_EXPENSIVE_PARENT')
+    exact(check['source'],source_proof,'ACTUAL_PRECHECK_ORIGINAL_SOURCE')
+    mode=foundation_mode(check['initial']);exact(check['mode'],mode,'EXACT_INITIAL_FOUNDATION_MODE')
+    fields(setup,dict(status='EXACT_RETAINED_FIXTURE_FOUNDATION_READY',source=source_proof,mode=mode,
+        initial=check['initial'],seed='cp6_ao_ap_installed.seed',Native_case_credit=0,retained_cases_rerun=False,
+        production_go=False,seed_called=mode=='ORIGINAL_EMPTY_DATABASE_SEED_REQUIRED',all22_equal=True,
+        original_seed_schema_ACL_equal=True,protected_role_data_equal=True,
+        only_existing_Native_SQL_harness_usage_overlay=True,connection_and_commit_owned_by_component=True),
+        'EXACT_EXISTING_FOUNDATION_COMMITTED_WITHOUT_NEW_CASE_CREDIT')
+    exact(foundation_mode(setup['final']),'ORIGINAL_FOUNDATION_ALREADY_PRESENT','EVERY_ORIGINAL_DEPENDENCY_READY')
+    exact(setup['actual_all22_before'],setup['actual_all22_after'],'ALL22_CATALOG_UNCHANGED_BY_SETUP')
+    exact(set(setup['actual_all22_before']),set(ALL22),'EVERY_FOUNDATION_CATALOG_CLASS_RETAINED')
+    exact(setup['protected_role_data_before'],setup['protected_role_data_after'],'ALL_PROTECTED_ROLE_DATA_UNCHANGED')
+    exact(set(setup['protected_role_data_before']),{'erp.app_roles','erp.app_role_permissions'},'BOTH_AUTHORITY_TABLES_RAW')
+    return dict(actual_original_seed_mode=mode,setup_has_no_Native_case_credit=True,
+        all22_catalog_and_protected_role_rows_unchanged=True,partial_or_foreign_foundation_refused=True)
 
 def source(g):
     with GitBytes(g.root,BASE,BASE_TREE)as parent:prior=css_parent.source(parent)
     manifest=strict(g.read(OLD+'SOURCE.json'));before=strict(g.read(OLD+'SOURCE.json',BASE))
     fields(manifest,dict(actual_cases=0,production_go=False,independent_acceptance=False),'SOURCE_IS_NOT_ACCEPTANCE')
-    exact(len(manifest['files']),102,'CLOSED_102_SOURCE_PINS')
+    exact(len(manifest['files']),105,'CLOSED_105_SOURCE_PINS')
     for name,digest in manifest['files'].items():g.verify_pin(name,digest)
     exact({k:v for k,v in manifest.items()if k!='files'},{k:v for k,v in before.items()if k!='files'},
         'OLD_FULL37_PREPARATION_METADATA_NOT_REWRITTEN')
@@ -38,7 +108,7 @@ def source(g):
     for name,entry in base.items():
         if name not in changed:exact(g.tree.get(name),entry,'UNCHANGED_PRODUCT_AND_PREPARED_ORACLE:'+name)
     added={name for name in manifest['files']if name.startswith(NS)or name==WORKFLOW}
-    exact(len(added),16,'EXACT_FOCUSED_NAMESPACE_AND_ONE_WORKFLOW')
+    exact(len(added),19,'EXACT_FOCUSED_NAMESPACE_AND_ONE_WORKFLOW')
     exact(set(g.tree)-set(base),added,'NO_OTHER_PRODUCT_OR_QUALIFIER_ADDITION')
     exact(set(manifest['files'])-set(before['files']),added,'ONLY_CLOSED_NEW_SOURCE_PINS')
     for name,digest in before['files'].items():
@@ -76,15 +146,16 @@ def source(g):
     whole=dict(status='EXACT_CURRENT_S03_SKU_S05_BASE_AND_CLOSED_QUALIFIER_SOURCE',
         base_head=original_join.BASE,base_tree='e08f5eba90fd9a2deeb53a0a483c49e7a080e31c',
         unchanged_base_blobs_and_modes=13999,reviewed_S05_css_derivation=prior['reviewed_CSS_derivation'],
-        current_qualifier_files=103,current_own_source_hashes_verified=True,tracked_physical_changes_refused=True,
+        current_qualifier_files=106,current_own_source_hashes_verified=True,tracked_physical_changes_refused=True,
         untracked_executable_sources_refused=True,generated_outputs_are_not_source_waivers=True,
         actual_Native_cases=0,actual_browser_cases=0,production_go=False,independent_acceptance=False)
     invariance=dict(status='EXACT_S05_ONLY_CSS_PRODUCT_AND_RETAINED35_SOURCE_INVARIANCE',
         base_head=BASE,base_tree=BASE_TREE,unchanged_base_blobs_and_modes=14083,modified_old_qualification_files=3,
-        added_focused_paths=16,whole_current_source=whole,backend_and_all_UI_unchanged_from_CSS_candidate=True,
+        added_focused_paths=19,whole_current_source=whole,backend_and_all_UI_unchanged_from_CSS_candidate=True,
         retained35_source_invariance=True,actual_new_cases=0,production_go=False,independent_acceptance=False)
     proof=dict(source_invariance=invariance,receipt=receipt,root_head=ROOT_HEAD,root_receipt=ROOT_PIN)
-    return dict(source_pins=102,unchanged_product_parent_blobs=14083,qualified_routing_files=3,added_focused_paths=16,
+    return dict(source_pins=105,unchanged_product_parent_blobs=14083,qualified_routing_files=3,added_focused_paths=19,
+        foundation_setup_source=foundation_source(g),
         prior_CSS_source=prior,expected_runtime_retention=proof,retained_ids=retained,fresh_ids=ids['S05_browser2'],
         actual_case_credit=0)
 
@@ -125,6 +196,7 @@ def intake(root,path,metadata):
         exact(financial_pin,proof['receipt']['qualified_financial_sources'],'ENTIRE_RETAINED_FINANCIAL_SOURCE_GRAPH_UNCHANGED')
         exact(set(main['committed']),{CASE},'ONE_FOCUSED_COMPONENT')
         part=main['committed'][CASE]
+        original_foundation=check_foundation(main,part,prepared['foundation_setup_source'])
         fields(part,dict(status='PASS',business_counts={'PASS':2},actual_Native_cases=0,actual_browser_cases=2,
             actual_Auth_HTTP_cases=0,actual_two_session_races=0,retained_Native_cases=31,retained_S03_browser_cases=4,
             retained_case_count=35,candidate_case_coverage=37,retained_cases_are_not_fresh=True,
@@ -171,6 +243,7 @@ def intake(root,path,metadata):
             fresh37_one_attempt=False,prior_runs_aggregated=True,source_invariant_reuse=True,
             qualified_financial_sources=financial_pin,actual_product_source_maps=maps,
             package_all_five=True,package_gates=package['gate'],actual_used_refusal_raw_full_boundary=census,
+            exact_original_foundation_setup=original_foundation,
             permanent_complete_assembly_qualified=False,global_writer_or_permission_or_lock_closure=False,
             Afui_positive_HPP_zero_reimbursement_coverage=False,production_go=False,independent_acceptance=False)
 
