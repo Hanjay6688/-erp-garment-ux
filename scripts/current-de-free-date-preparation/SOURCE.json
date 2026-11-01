@@ -5,7 +5,7 @@
   "files": {
     "scripts/cp7_current_de_free_date/SOURCE.json": {
       "bytes": 1114,
-      "sha256": "c7d517f8e99194dba0c196d33af69157292d42cf3bff8b11892091e3c0d38cd1"
+      "sha256": "bfb0ea9eb5095991802c05933235eb104636494ca37e415daa0a5e9be8a95344"
     },
     "scripts/cp7_current_de_free_date/__init__.py": {
       "bytes": 66,

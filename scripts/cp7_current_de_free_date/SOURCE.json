@@ -19,8 +19,8 @@
       "sha256": "d50d42e788cf76534458a2bdc939944af6000748b590cc51860c067d8f57de26"
     },
     "scripts/current-de-free-date-preparation/source.py": {
-      "bytes": 4324,
-      "sha256": "07d9c8bded8cec5e85a73e95a6d3deb1ac9f9b6cee14723528726f4810dbec63"
+      "bytes": 5794,
+      "sha256": "71b6ef0e44fbf03cfe9ba46f2d41fc50bbcbce79c682d9f487c42e623352d481"
     }
   },
   "actual_Native_cases": 0,
