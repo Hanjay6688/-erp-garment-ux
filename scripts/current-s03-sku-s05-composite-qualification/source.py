@@ -11,6 +11,8 @@ TREE='e08f5eba90fd9a2deeb53a0a483c49e7a080e31c'
 WORKFLOW='.github/workflows/cp7-s03-sku-s05-composite.yml'
 FOCUSED_WORKFLOW='.github/workflows/cp7-s03-sku-owner-access-native1.yml'
 LAYOUT='src/accessory-standard-report.css'
+FOLLOWUP_PREFIX='scripts/current-s05-css-followup-qualification/'
+FOLLOWUP_WORKFLOW='.github/workflows/cp7-s05-css-followup.yml'
 
 
 def git(*args):
@@ -60,14 +62,15 @@ def preflight(*,require_clean=True):
             continue
         if current.get(name)!=entry:raise ValueError('JOIN_FROZEN_BASE_BLOB_MODE_CHANGED:'+name)
     allowed=set(value['files'])|{PREFIX+'SOURCE.json'}
-    if any(not(name.startswith(PREFIX)or name in(WORKFLOW,FOCUSED_WORKFLOW,LAYOUT))for name in allowed):
+    if any(not(name.startswith((PREFIX,FOLLOWUP_PREFIX))or name in(WORKFLOW,FOCUSED_WORKFLOW,LAYOUT,FOLLOWUP_WORKFLOW))for name in allowed):
         raise ValueError('JOIN_ONLY_OWN_NAMESPACE_AND_WORKFLOW_ALLOWED')
     if set(current)-set(base)-allowed:raise ValueError('JOIN_UNDECLARED_TRACKED_SOURCE')
     for name,expected in value['files'].items():
         content=raw(name)
         if sha256(content).hexdigest()!=expected:raise ValueError('JOIN_SOURCE_PIN_CHANGED:'+name)
     owned={str(p.relative_to(ROOT))for p in HERE.rglob('*')if p.is_file()and'__pycache__'not in p.parts and p.suffix!='.pyc'}
-    if owned!={name for name in allowed if name.startswith(PREFIX)}:
+    owned.update(str(p.relative_to(ROOT))for p in(ROOT/FOLLOWUP_PREFIX).rglob('*')if p.is_file()and'__pycache__'not in p.parts and p.suffix!='.pyc')
+    if owned!={name for name in allowed if name.startswith((PREFIX,FOLLOWUP_PREFIX))}:
         raise ValueError('JOIN_CLOSED_OWN_SOURCE_REQUIRED')
     if require_clean:
         if git('diff','--name-only','--no-ext-diff','HEAD','--').strip():raise ValueError('JOIN_PHYSICAL_TRACKED_SOURCE_CHANGED')

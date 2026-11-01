@@ -1,0 +1,17 @@
+{
+  "root_head": "dd5011d1453f5d8ac75bb11520e0e2c7cf38459b",
+  "root_tree": "186c94227610e202629c5d321ecbcea8b75c9f62",
+  "root_path": "docs/cp7/d17-14/ow15/CURRENT38_ROOT_RETAINED35_20261101.json",
+  "receipt": {
+    "bytes": 10877,
+    "sha256": "4743e60ed6fdf33682a9e576ce180675923ed7287fda5a6372f56509a89f39c0"
+  },
+  "parent_head": "50c77207e088af16988d7d91a5b06f72e8e30ecc",
+  "parent_tree": "28295dd44a59f1832bebb86af24bd85df4471f4b",
+  "original_head": "08ef3bee814e6452b9193b53efc05d53abca2d9d",
+  "original_tree": "abf7e8b78bd56907ace9fb30211d956b63d68797",
+  "retained_case_count": 35,
+  "fresh_case_credit": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}
