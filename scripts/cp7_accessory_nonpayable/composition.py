@@ -64,7 +64,8 @@ def source_manifest():
         or value.get('production_go') is not False or value.get('independent_acceptance') is not False):
         raise ValueError('NONPAYABLE_EXACT_PREPARATION_SOURCE_REQUIRED')
     required = {str(path.relative_to(ROOT)) for path in HERE.rglob('*')
-        if path.is_file() and (path.suffix in ('.py', '.sql', '.mjs') or path.name == 'NATIVE_ORIGIN.json')}
+        if path.is_file() and (path.suffix in ('.py', '.sql', '.mjs')
+            or path.name in ('NATIVE_ORIGIN.json', 'UI_ORIGIN.json', 'UI_SOURCE.json'))}
     if set(value['files']) != required:
         raise ValueError('NONPAYABLE_COMPLETE_OWN_SOURCE_MANIFEST_REQUIRED')
     for name, expected in value['files'].items():

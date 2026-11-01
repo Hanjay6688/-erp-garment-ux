@@ -1,0 +1,129 @@
+{
+  "contract": "cp7.good-policy-date-reviewed-ui-origin.v1",
+  "base_head": "10ac4e74cfcc66db7d1f2b166f3da0fc479f127b",
+  "files": {
+    "src/ConnectedErpSettingsPage.tsx": {
+      "captured_file": "ui-before/ConnectedErpSettingsPage.tsx.txt",
+      "original": {
+        "bytes": 22681,
+        "sha256": "5d97515f8f788ab1c7755d7c1c8677c7c7b77867701f95a3ae667e4091d44487"
+      },
+      "original_blob_sha": "262338739b49c983b2d9a155a4c7b8f37e2f9503",
+      "derived": {
+        "bytes": 23367,
+        "sha256": "d0dd71d4b1f7ff528fad411bbb133b80dfb52f137b64102174b758a4a2969659"
+      },
+      "derived_blob_sha": "471a03addacf3be44b633fe1c030d5c7b813f6ea",
+      "context_lines": 3,
+      "changes": [
+        {
+          "before": "import { normalizeClientError } from './lib/clientError'\nimport { useProductionMutation, type ProductionMutationHandlers } from './useProductionMutation'\nimport ProductionRecoveryNotice from './ProductionRecoveryNotice'\nimport Cp6PolicyReadiness from './Cp6PolicyReadiness'\nimport { ownerChoice, policyValueText, type PolicyState } from './cp6Readiness'\nimport { policyValue as accessoryPolicyValue, validateServiceResult, type AccessoryPolicyKey } from './accessoryService'\n",
+          "after": "import { normalizeClientError } from './lib/clientError'\nimport { useProductionMutation, type ProductionMutationHandlers } from './useProductionMutation'\nimport ProductionRecoveryNotice from './ProductionRecoveryNotice'\nimport GoodPolicyDatesPanel from './GoodPolicyDatesPanel'\nimport Cp6PolicyReadiness from './Cp6PolicyReadiness'\nimport { ownerChoice, policyValueText, type PolicyState } from './cp6Readiness'\nimport { policyValue as accessoryPolicyValue, validateServiceResult, type AccessoryPolicyKey } from './accessoryService'\n",
+          "count": 1
+        },
+        {
+          "before": "  }, [client, beginAccessory, beginLaundry, finishAccessory, finishLaundry, accessoryCurrent, laundryCurrent])\n  useEffect(() => { void load() }, [load])\n  useEffect(() => () => { ++sequence.current }, [])\n\n  const saved = (value: unknown, envelope: ProductionEnvelope) => {\n    const r = value as Record<string, unknown>, p = envelope.payload as Record<string, Json>\n",
+          "after": "  }, [client, beginAccessory, beginLaundry, finishAccessory, finishLaundry, accessoryCurrent, laundryCurrent])\n  useEffect(() => { void load() }, [load])\n  useEffect(() => () => { ++sequence.current }, [])\n  const [goodDateLocked, setGoodDateLocked] = useState(false)\n  const goodDateAccessLost = useCallback((message: string) => {\n    ++sequence.current; setData(null); setError(message)\n  }, [])\n\n  const saved = (value: unknown, envelope: ProductionEnvelope) => {\n    const r = value as Record<string, unknown>, p = envelope.payload as Record<string, Json>\n",
+          "count": 1
+        },
+        {
+          "before": "    else void laundry.run('SET_POLICY', laundryPolicyPayload(key as LauPolicyKey, operation, version, reason, value), null, laundryHandlers)\n  }\n  const busy = loading || accessory.busy || laundry.busy\n  const locked = (family: SettingsFamilyKey) => busy || data === null || (family === 'ACCESSORY' ? accessory.writerLocked : laundry.writerLocked)\n  const recovery = (m: typeof accessory, handlers: ProductionMutationHandlers, page: string) => m.pending\n    ? m.pending.action === 'SET_POLICY'\n      ? <ProductionRecoveryNotice recovery={m} onReconcile={() => m.reconcile(handlers)} className=\"cset-alert\" messageText={m.error ? settingsRefusalText(m.error) : undefined}\n",
+          "after": "    else void laundry.run('SET_POLICY', laundryPolicyPayload(key as LauPolicyKey, operation, version, reason, value), null, laundryHandlers)\n  }\n  const busy = loading || accessory.busy || laundry.busy\n  const locked = (family: SettingsFamilyKey) => busy || goodDateLocked || data === null || (family === 'ACCESSORY' ? accessory.writerLocked : laundry.writerLocked)\n  const recovery = (m: typeof accessory, handlers: ProductionMutationHandlers, page: string) => m.pending\n    ? m.pending.action === 'SET_POLICY'\n      ? <ProductionRecoveryNotice recovery={m} onReconcile={() => m.reconcile(handlers)} className=\"cset-alert\" messageText={m.error ? settingsRefusalText(m.error) : undefined}\n",
+          "count": 1
+        },
+        {
+          "before": "      {policies.length ? <Cp6PolicyReadiness policies={policies}/> : null}\n      {data.families.map(f => <Family key={f.family} family={f} canSeeValues={data.canSeeValues} names={names} choices={data.choices} locked={locked(f.family)}\n        open={editing?.family === f.family ? editing.key : null} onEdit={key => { setDone(''); setEditing(key ? { family: f.family, key } : null) }} onSubmit={submit(f.family)}/>)}\n    </>}\n  </main>\n}\n",
+          "after": "      {policies.length ? <Cp6PolicyReadiness policies={policies}/> : null}\n      {data.families.map(f => <Family key={f.family} family={f} canSeeValues={data.canSeeValues} names={names} choices={data.choices} locked={locked(f.family)}\n        open={editing?.family === f.family ? editing.key : null} onEdit={key => { setDone(''); setEditing(key ? { family: f.family, key } : null) }} onSubmit={submit(f.family)}/>)}\n      {data.canSeeValues && data.families[0].visible ? <GoodPolicyDatesPanel key={`${runtime.projectRef}:${identity.profile.id}`}\n        client={client} scope={`${runtime.projectRef}:${identity.profile.id}`} actor={identity.profile.id}\n        canManage={data.families[0].canSet && !accessory.writerLocked && !laundry.writerLocked}\n        onAccessLost={goodDateAccessLost} onLockChange={setGoodDateLocked}/> : null}\n    </>}\n  </main>\n}\n",
+          "count": 1
+        }
+      ]
+    },
+    "scripts/check-source-ownership.mjs": {
+      "captured_file": "ui-before/check-source-ownership.mjs.txt",
+      "original": {
+        "bytes": 25243,
+        "sha256": "bba02cb2f7892c3f40ab88be4a887741362868bd34be2f2d80a1826cc9022649"
+      },
+      "original_blob_sha": "7115410e955486efe504ef0d56f7b47ac081952a",
+      "derived": {
+        "bytes": 25610,
+        "sha256": "cdeb12e5a1da01308623bdf53b9d55080b9377c9aafb6ba21d7857d650c6bf01"
+      },
+      "derived_blob_sha": "3d5352771c19e56cf3e9226682f95f0924a3855b",
+      "context_lines": 3,
+      "changes": [
+        {
+          "before": "  'src/ConnectedInitialImportPage.tsx:erp_get_initial_import_workspace_v1',\n  'src/ConnectedInitialImportPage.tsx:erp_save_initial_import_action_v1',\n  'src/ConnectedErpSettingsPage.tsx:erp_cp7_get_erp_settings_v1',\n  'src/ConnectedErpSettingsPage.tsx:erp_save_accessory_service_action_v1',\n  'src/ConnectedErpSettingsPage.tsx:erp_save_laundry_bd_action_v1',\n  'src/ConnectedBsResolutionPage.tsx:erp_get_bs_resolution_workspace_v1',\n",
+          "after": "  'src/ConnectedInitialImportPage.tsx:erp_get_initial_import_workspace_v1',\n  'src/ConnectedInitialImportPage.tsx:erp_save_initial_import_action_v1',\n  'src/ConnectedErpSettingsPage.tsx:erp_cp7_get_erp_settings_v1',\n  'src/nativeGoodPolicyDates.ts:erp_cp7_get_good_policy_dates_v1',\n  'src/nativeGoodPolicyDates.ts:erp_cp7_save_good_policy_date_v1',\n  'src/attendancePeriodChoiceContract.ts:erp_cp7_get_attendance_choice_v1',\n  'src/attendancePeriodChoiceContract.ts:erp_cp7_preview_attendance_choice_v1',\n  'src/attendancePeriodChoiceContract.ts:erp_cp7_save_attendance_choice_v1',\n  'src/ConnectedErpSettingsPage.tsx:erp_save_accessory_service_action_v1',\n  'src/ConnectedErpSettingsPage.tsx:erp_save_laundry_bd_action_v1',\n  'src/ConnectedBsResolutionPage.tsx:erp_get_bs_resolution_workspace_v1',\n",
+          "count": 1
+        }
+      ]
+    },
+    "src/ConnectedErpSettingsPage.dom.test.tsx": {
+      "captured_file": "ui-before/ConnectedErpSettingsPage.dom.test.tsx.txt",
+      "original": {
+        "bytes": 19000,
+        "sha256": "eea4cdce3854fe9d061d8f926b664606f93162df0e3446ccc928aa9249729b05"
+      },
+      "original_blob_sha": "6a4782c847228f0e1fac6dab0416b72b8df1922b",
+      "derived": {
+        "bytes": 21386,
+        "sha256": "cc76895152e45f0a30b584efedd8fd0fe61647173bca51898861bb35b8a821d8"
+      },
+      "derived_blob_sha": "2eb9be0857dee3d951ea68192bd8d98ab0088aff",
+      "context_lines": 3,
+      "changes": [
+        {
+          "before": "import { ACCESSORY_POLICY_KEYS, POLICY_LABEL } from './accessoryService'\nimport { LAU_POLICY_KEYS, LAU_POLICY_LABEL } from './laundryBd'\nimport { POLICY_EFFECT, ownerChoice, policyStatus, type Cp6PolicyKey } from './cp6Readiness'\nimport { recoveryIdentity } from '../tests/fixtures/productionRecovery'\nimport { productionKey } from './productionRecovery'\n\n// R3-03 (owner D16-1): Pengaturan ERP lists every owner policy from the server and changes one only through the Native writer of\n// its own page (Aksesori / Laundry), with the version that was read, a reason and one request UUID kept for recovery.\nconst auth = vi.hoisted(() => ({ current: null as unknown }))\nconst client = vi.hoisted(() => ({ rpc: vi.fn() }))\nvi.mock('./auth/AuthProvider', () => ({ useAuth: () => auth.current }))\nvi.mock('./lib/supabase', () => ({ getUatSupabaseClient: () => client }))\nconst at = '2026-10-16T03:00:00.000000Z', owner = 'Owner Satu'\nconst expense = 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaa1', asset = 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaa2', revenue = 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaa3'\ntype Over = Record<string, unknown>\n",
+          "after": "import { ACCESSORY_POLICY_KEYS, POLICY_LABEL } from './accessoryService'\nimport { LAU_POLICY_KEYS, LAU_POLICY_LABEL } from './laundryBd'\nimport { POLICY_EFFECT, ownerChoice, policyStatus, type Cp6PolicyKey } from './cp6Readiness'\nimport { recoveryIdentity as legacyRecoveryIdentity } from '../tests/fixtures/productionRecovery'\nimport { productionKey } from './productionRecovery'\nimport goodDateWire from '../scripts/cp7_accessory_nonpayable/LOCAL_SETTINGS_CONTROLS.json'\nimport { parseGoodPolicyDates, persistGoodDateRequest, prepareGoodPolicyDate } from './nativeGoodPolicyDates'\n\n// R3-03 (owner D16-1): Pengaturan ERP lists every owner policy from the server and changes one only through the Native writer of\n// its own page (Aksesori / Laundry), with the version that was read, a reason and one request UUID kept for recovery.\nconst auth = vi.hoisted(() => ({ current: null as unknown }))\nconst client = vi.hoisted(() => ({ rpc: vi.fn() }))\n// The date contract uses actual UUID identities. The older shared fixture's\n// synthetic \"actor\" label is retained elsewhere; this suite uses the SQL model\n// actor consistently for Auth, source reads and every recovery scope.\nconst recoveryIdentity = { ...legacyRecoveryIdentity, identity: { ...legacyRecoveryIdentity.identity,\n  profile: { ...legacyRecoveryIdentity.identity.profile, id: goodDateWire.contract_samples.workspace.actor } } }\nconst recoveryScope = `${recoveryIdentity.runtime.projectRef}:${recoveryIdentity.identity.profile.id}`\nvi.mock('./auth/AuthProvider', () => ({ useAuth: () => auth.current }))\nvi.mock('./lib/supabase', () => ({ getUatSupabaseClient: () => ({ rpc: (name: string, ...args: unknown[]) => {\n  // The new date facade has its own protocol/DOM suite. Keep this legacy\n  // suite's original Native call counts while providing its actual wire shape.\n  if (name === 'erp_cp7_get_good_policy_dates_v1') {\n    const current = (auth.current as typeof recoveryIdentity).identity\n    return Promise.resolve({ data: { ...goodDateWire.contract_samples.workspace, actor: current.profile.id,\n      can_write: current.profile.role === 'OWNER' && current.permissions.includes('settings.erp.manage') }, error: null })\n  }\n  return client.rpc(name, ...args)\n} }) }))\nconst at = '2026-10-16T03:00:00.000000Z', owner = 'Owner Satu'\nconst expense = 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaa1', asset = 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaa2', revenue = 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaa3'\ntype Over = Record<string, unknown>\n",
+          "count": 1
+        },
+        {
+          "before": "const calls = (name: string) => client.rpc.mock.calls.filter(([n]) => n === name)\n\ndescribe('Pengaturan ERP (R3-03, owner D16-1)', () => {\n  it('lists every owner policy of both pages with the server status, the readiness texts and the read-only cutover date', async () => {\n    client.rpc.mockResolvedValue({ data: ws(true, { acc: { 'ACC-DEC01': { status: 'SET', value: { mode: 'BOTH_REAL_TIMELINES' }, version: '3', reason: 'Garis waktu nyata' } } }), error: null })\n    const openImport = vi.fn()\n",
+          "after": "const calls = (name: string) => client.rpc.mock.calls.filter(([n]) => n === name)\n\ndescribe('Pengaturan ERP (R3-03, owner D16-1)', () => {\n  it('attaches the GOOD date panel and blocks both old policy editors while its request is unresolved', async () => {\n    client.rpc.mockResolvedValue({ data: ws(true), error: null })\n    const actor = recoveryIdentity.identity.profile.id, scope = `${recoveryIdentity.runtime.projectRef}:${actor}`\n    const w = parseGoodPolicyDates({ ...goodDateWire.contract_samples.workspace, actor }, actor)\n    persistGoodDateRequest(scope, prepareGoodPolicyDate(w, w.current_source.id, '2026-10-01', 'SYNTHETIC PENDING DATE', true, crypto.randomUUID()))\n    await mount()\n    expect(container.querySelector('[aria-label=\"Tanggal berlaku kategori gratis untuk GOOD\"]')).not.toBeNull()\n    expect(button('Periksa hasil tanggal yang sama').disabled).toBe(false)\n    expect(button('Ubah ACC-DEC01', card('ACC-DEC01')).disabled).toBe(true)\n    expect(button('Ubah LAU-DEC01', card('LAU-DEC01')).disabled).toBe(true)\n    expect(calls('erp_save_accessory_service_action_v1')).toHaveLength(0)\n    expect(calls('erp_save_laundry_bd_action_v1')).toHaveLength(0)\n  })\n  it('lists every owner policy of both pages with the server status, the readiness texts and the read-only cutover date', async () => {\n    client.rpc.mockResolvedValue({ data: ws(true, { acc: { 'ACC-DEC01': { status: 'SET', value: { mode: 'BOTH_REAL_TIMELINES' }, version: '3', reason: 'Garis waktu nyata' } } }), error: null })\n    const openImport = vi.fn()\n",
+          "count": 1
+        },
+        {
+          "before": "    expect(calls('erp_cp7_get_erp_settings_v1')).toHaveLength(2)\n    expect(container.querySelector('[role=\"status\"].cset-done')?.textContent).toBe('ACC-DEC01 tersimpan: ditetapkan, versi 2. Pengaturan dibaca ulang dari server.')\n    expect(card('ACC-DEC01').textContent).toContain('Ditetapkan di aplikasi')\n    expect(localStorage.getItem(productionKey('disposable:actor-1', 'ACCESSORY_SERVICE'))).toBeNull()\n    // Both writers are free again after the save (best practice D18b).\n    expect(button('Ubah ACC-DEC03', card('ACC-DEC03')).disabled).toBe(false)\n    expect(button('Ubah LAU-DEC01', card('LAU-DEC01')).disabled).toBe(false)\n",
+          "after": "    expect(calls('erp_cp7_get_erp_settings_v1')).toHaveLength(2)\n    expect(container.querySelector('[role=\"status\"].cset-done')?.textContent).toBe('ACC-DEC01 tersimpan: ditetapkan, versi 2. Pengaturan dibaca ulang dari server.')\n    expect(card('ACC-DEC01').textContent).toContain('Ditetapkan di aplikasi')\n    expect(localStorage.getItem(productionKey(recoveryScope, 'ACCESSORY_SERVICE'))).toBeNull()\n    // Both writers are free again after the save (best practice D18b).\n    expect(button('Ubah ACC-DEC03', card('ACC-DEC03')).disabled).toBe(false)\n    expect(button('Ubah LAU-DEC01', card('LAU-DEC01')).disabled).toBe(false)\n",
+          "count": 1
+        },
+        {
+          "before": "    await click('Tetapkan ACC-DEC01')\n    expect(container.textContent).toContain('Pengaturan ini baru saja diubah di layar lain. Muat ulang pengaturan, periksa nilai terbaru, lalu simpan lagi bila masih perlu.')\n    expect(calls('erp_cp7_get_erp_settings_v1')).toHaveLength(2)\n    expect(localStorage.getItem(productionKey('disposable:actor-1', 'ACCESSORY_SERVICE'))).toBeNull()\n  })\n\n  it('keeps an unanswered save with its UUID and reconciles it with the same UUID and payload', async () => {\n",
+          "after": "    await click('Tetapkan ACC-DEC01')\n    expect(container.textContent).toContain('Pengaturan ini baru saja diubah di layar lain. Muat ulang pengaturan, periksa nilai terbaru, lalu simpan lagi bila masih perlu.')\n    expect(calls('erp_cp7_get_erp_settings_v1')).toHaveLength(2)\n    expect(localStorage.getItem(productionKey(recoveryScope, 'ACCESSORY_SERVICE'))).toBeNull()\n  })\n\n  it('keeps an unanswered save with its UUID and reconciles it with the same UUID and payload', async () => {\n",
+          "count": 1
+        },
+        {
+          "before": "    await click('Ubah LAU-DEC01', card('LAU-DEC01'))\n    await tick('Borongan per batch'); await type('Alasan perubahan LAU-DEC01', 'Borongan diizinkan'); await tick('Perubahan LAU-DEC01 sudah diperiksa')\n    await click('Tetapkan LAU-DEC01')\n    expect(localStorage.getItem(productionKey('disposable:actor-1', 'LAUNDRY_BD'))).not.toBeNull()\n    expect(button('Ubah ACC-DEC01', card('ACC-DEC01')).disabled).toBe(true)\n    await click('Periksa hasil simpan kebijakan')\n    const sent = calls('erp_save_laundry_bd_action_v1')\n    expect(sent).toHaveLength(2)\n    expect(sent[1][1]).toEqual(sent[0][1])\n    expect(sent[0][1].p_payload).toEqual({ policy_key: 'LAU-DEC01', operation: 'SET', expected_version: '1', reason: 'Borongan diizinkan', value: { units: ['BATCH'] } })\n    expect(localStorage.getItem(productionKey('disposable:actor-1', 'LAUNDRY_BD'))).toBeNull()\n  })\n\n  it('shows statuses without values, names or edit controls to a reader who is not owner/admin', async () => {\n",
+          "after": "    await click('Ubah LAU-DEC01', card('LAU-DEC01'))\n    await tick('Borongan per batch'); await type('Alasan perubahan LAU-DEC01', 'Borongan diizinkan'); await tick('Perubahan LAU-DEC01 sudah diperiksa')\n    await click('Tetapkan LAU-DEC01')\n    expect(localStorage.getItem(productionKey(recoveryScope, 'LAUNDRY_BD'))).not.toBeNull()\n    expect(button('Ubah ACC-DEC01', card('ACC-DEC01')).disabled).toBe(true)\n    await click('Periksa hasil simpan kebijakan')\n    const sent = calls('erp_save_laundry_bd_action_v1')\n    expect(sent).toHaveLength(2)\n    expect(sent[1][1]).toEqual(sent[0][1])\n    expect(sent[0][1].p_payload).toEqual({ policy_key: 'LAU-DEC01', operation: 'SET', expected_version: '1', reason: 'Borongan diizinkan', value: { units: ['BATCH'] } })\n    expect(localStorage.getItem(productionKey(recoveryScope, 'LAUNDRY_BD'))).toBeNull()\n  })\n\n  it('shows statuses without values, names or edit controls to a reader who is not owner/admin', async () => {\n",
+          "count": 1
+        }
+      ]
+    },
+    "scripts/check-access-catalog.mjs": {
+      "captured_file": "ui-before/check-access-catalog.mjs.txt",
+      "original": {
+        "bytes": 44657,
+        "sha256": "6e277aa3e1dc9eb54e98a985f2b64359acce9e05afb246caebf6600c1a1aad14"
+      },
+      "original_blob_sha": "1d5971bafbcceefc759022cf93552229b3c1f7a6",
+      "derived": {
+        "bytes": 45455,
+        "sha256": "58bf2a296983f44b7ace6340a377ab1d1ee1ad1e71c2d1944246316cfc9ab748"
+      },
+      "derived_blob_sha": "6432697025d407d3de5ee1a2e5aed7415e2bd5ff",
+      "context_lines": 3,
+      "changes": [
+        {
+          "before": "]\nassert.equal(new Set(cp7ScopedModelBoundaries).size,4)\nfor(const name of cp7ScopedModelBoundaries)assert.ok(rpcBoundaries.has(name),name)\nassert.equal(rpcBoundaries.size, cp7ScopedModelBoundaries.length + cp7BoundedSuccessorBoundaries.length + cp7ProductionSuccessorBoundaries.length + cp7ConsumerCreditBoundaries.length + cp7MandorCorrectionBoundaries.length + cp7SupplierTransferBoundaries.length + evidence.counts.browser_rpc_boundaries + 4 + cp7RecostBoundaries.length + cp7FinanceBoundaries.length + cp7PeriodBoundaries.length + cp7HppPoolBoundaries.length + cp7SalesBoundaries.length + cp7PaymentCorrectionBoundaries.length + cp7AttendanceBoundaries.length + cp7PayrollBoundaries.length + cp7InstallmentBoundaries.length + cp7NotaBoundaries.length + cp7FgBookBoundaries.length + cp7FgAdjustmentBoundaries.length + cp7FgBoundaries.length + cp7CountBoundaries.length + cp7CountSourceBoundaries.length + cp7ReturnBoundaries.length + cp7InvoiceBoundaries.length + cp7SupplierPaymentBoundaries.length + 19 + beRpcBoundaries.length + bfRpcBoundaries.length + cp7ProcurementBoundaries.length + cp7ReceiptCorrectionBoundaries.length + cp7MaterialNameBoundaries.length + cp7MaterialBoundaries.length + cp7FinanceOverviewBoundaries.length + cp7CustomerHistoryBoundaries.length + cp7HistoryBoundaries.length + cp7CuttingYieldBoundaries.length + cp7CuttingInputBoundaries.length + cp7CuttingLearningBoundaries.length + cp7PlanningBoundaries.length + cp7ProductionPlanningBoundaries.length + cp7AnalysisBoundaries.length + cp7ModelBoundaries.length + cp7ModelPolicyBoundaries.length + cp7ModelV2Boundaries.length + cp7PlanBoundaries.length + cp7ReportBoundaries.length + cp7StagedReportBoundaries.length + cp7StagedAiBoundaries.length + cp7StagedReminderBoundaries.length + cp7YieldPolicyBoundaries.length + cp7PolicyBoundaries.length + cp7RuleBoundaries.length + cp7ObligationReportBoundaries.length + cp7SourceOwningRecheckBoundaries.length + cp7TransactionDependencyBoundaries.length + cp7FabricBoundaries.length + cp7ErpSettingsBoundaries.length + cp7AuditBoundaries.length + cp7WarehouseSummaryBoundaries.length + cp7WaBoundaries.length + cp7FgReorderBoundaries.length + cp7MaterialReorderBoundaries.length + cp7ReturnSettlementBoundaries.length)\nassert.ok(rpcBoundaries.has('src/ConnectedInitialImportPage.tsx:erp_get_initial_import_workspace_v1'))\nassert.ok(rpcBoundaries.has('src/ConnectedInitialImportPage.tsx:erp_save_initial_import_action_v1'))\nassert.ok(rpcBoundaries.has('src/useLaundryQcWorkspace.ts:erp_get_laundry_qc_workspace_v1'))\n",
+          "after": "]\nassert.equal(new Set(cp7ScopedModelBoundaries).size,4)\nfor(const name of cp7ScopedModelBoundaries)assert.ok(rpcBoundaries.has(name),name)\n// Explicit existing S03 routes, plus the two new owner GOOD-date facades.\n// Frozen evidence counts and every previously owned boundary stay unchanged.\nconst cp7AttendanceChoiceBoundaries=[\n  'src/attendancePeriodChoiceContract.ts:erp_cp7_get_attendance_choice_v1',\n  'src/attendancePeriodChoiceContract.ts:erp_cp7_preview_attendance_choice_v1',\n  'src/attendancePeriodChoiceContract.ts:erp_cp7_save_attendance_choice_v1',\n]\nconst cp7GoodPolicyDateBoundaries=[\n  'src/nativeGoodPolicyDates.ts:erp_cp7_get_good_policy_dates_v1',\n  'src/nativeGoodPolicyDates.ts:erp_cp7_save_good_policy_date_v1',\n]\nfor(const name of [...cp7AttendanceChoiceBoundaries,...cp7GoodPolicyDateBoundaries])assert.ok(rpcBoundaries.has(name),name)\nassert.equal(rpcBoundaries.size, cp7AttendanceChoiceBoundaries.length + cp7GoodPolicyDateBoundaries.length + cp7ScopedModelBoundaries.length + cp7BoundedSuccessorBoundaries.length + cp7ProductionSuccessorBoundaries.length + cp7ConsumerCreditBoundaries.length + cp7MandorCorrectionBoundaries.length + cp7SupplierTransferBoundaries.length + evidence.counts.browser_rpc_boundaries + 4 + cp7RecostBoundaries.length + cp7FinanceBoundaries.length + cp7PeriodBoundaries.length + cp7HppPoolBoundaries.length + cp7SalesBoundaries.length + cp7PaymentCorrectionBoundaries.length + cp7AttendanceBoundaries.length + cp7PayrollBoundaries.length + cp7InstallmentBoundaries.length + cp7NotaBoundaries.length + cp7FgBookBoundaries.length + cp7FgAdjustmentBoundaries.length + cp7FgBoundaries.length + cp7CountBoundaries.length + cp7CountSourceBoundaries.length + cp7ReturnBoundaries.length + cp7InvoiceBoundaries.length + cp7SupplierPaymentBoundaries.length + 19 + beRpcBoundaries.length + bfRpcBoundaries.length + cp7ProcurementBoundaries.length + cp7ReceiptCorrectionBoundaries.length + cp7MaterialNameBoundaries.length + cp7MaterialBoundaries.length + cp7FinanceOverviewBoundaries.length + cp7CustomerHistoryBoundaries.length + cp7HistoryBoundaries.length + cp7CuttingYieldBoundaries.length + cp7CuttingInputBoundaries.length + cp7CuttingLearningBoundaries.length + cp7PlanningBoundaries.length + cp7ProductionPlanningBoundaries.length + cp7AnalysisBoundaries.length + cp7ModelBoundaries.length + cp7ModelPolicyBoundaries.length + cp7ModelV2Boundaries.length + cp7PlanBoundaries.length + cp7ReportBoundaries.length + cp7StagedReportBoundaries.length + cp7StagedAiBoundaries.length + cp7StagedReminderBoundaries.length + cp7YieldPolicyBoundaries.length + cp7PolicyBoundaries.length + cp7RuleBoundaries.length + cp7ObligationReportBoundaries.length + cp7SourceOwningRecheckBoundaries.length + cp7TransactionDependencyBoundaries.length + cp7FabricBoundaries.length + cp7ErpSettingsBoundaries.length + cp7AuditBoundaries.length + cp7WarehouseSummaryBoundaries.length + cp7WaBoundaries.length + cp7FgReorderBoundaries.length + cp7MaterialReorderBoundaries.length + cp7ReturnSettlementBoundaries.length)\nassert.ok(rpcBoundaries.has('src/ConnectedInitialImportPage.tsx:erp_get_initial_import_workspace_v1'))\nassert.ok(rpcBoundaries.has('src/ConnectedInitialImportPage.tsx:erp_save_initial_import_action_v1'))\nassert.ok(rpcBoundaries.has('src/useLaundryQcWorkspace.ts:erp_get_laundry_qc_workspace_v1'))\n",
+          "count": 1
+        }
+      ]
+    }
+  },
+  "actual_browser_cases": 0,
+  "actual_Auth_HTTP_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

@@ -44,17 +44,39 @@ the exact 10 parent-side RI triggers and one policy-use trigger, unchanged
 existing rows/sequences, raw Native OID/owner/ACL, and private authority. The
 preuse inverse refuses any row or sequence change before DDL.
 
-There is no public RPC or settings UI integration yet. Do not execute this
-source on the live candidate, hosted project or production. The isolated
-PostgreSQL controls use small labelled model tables and guard stubs, not an ERP
-installation. No executable workflow has been added.
+`settings_stage.py` separately prepares two owner settings RPCs, one narrowly
+granted non-login facade role and an immutable request ledger. Existing settings
+view/manage and accessory-view rights apply; only OWNER confirms dates, while
+ADMIN can read. Source and timeline cursors are bounded to 30 entries. Exact
+replay checks actor and the whole intent before stale-source checks. Cancelling
+an absent request stores a tombstone, so a late save cannot apply it; cancellation
+after an existing save returns that original success and preserves its history.
+
+`GoodPolicyDatesPanel` is connected to ordinary Pengaturan ERP. Its explicit
+date and review are required, pending requests persist before send, and the
+existing global browser lock is used. It can retry or cancel the same request,
+keeps uncertain or malformed replies, ignores stale responses after another
+tab changes the request, and blocks both policy editors while unresolved.
+`UI_ORIGIN.json` declares exact reversible changes to only four existing UI/
+test/source-owner/access-check files; `UI_SOURCE.json` pins those and the five
+new UI files. The build also caught three preexisting S03 attendance RPC callers
+missing from the source-owner and access-counter declarations. Their unchanged
+callers, Native routes and permissions were reviewed, then those three exact
+names were added alongside the two new date facades. No Native definition or
+permission changed for this build repair.
+
+All installation and settings-stage entrypoints remain unarmed behind the
+absent actual FREE3 acceptance receipt. Do not execute this source on the live
+candidate, hosted project or production. The isolated PostgreSQL controls use
+small labelled model tables and guard stubs, not an ERP installation. No
+executable workflow has been added.
 
 Still required before this feature can be accepted:
 
 1. Bind the prepared installer and source/admission controls to the actually
    accepted FREE3 final parent; prove the full real installer lifecycle there.
-2. Add the ordinary owner settings/UI route for confirming effective dates and
-   replay/recovery, and verify posted-use refusal messages in that route.
+2. Prove the prepared settings installer, ordinary owner route and posted-use
+   refusal messages with actual Auth and browser sessions on that parent.
 3. Prove the complete real inventory/HPP/sales and zero-payable flow, real
    permissions and two-tab waits, complete restoration and preuse inverse.
 4. Retain the final source, advisor and restoration evidence with the exact
@@ -82,3 +104,14 @@ authority checks, including the complete unchanged all22 query set, exact RI
 edges, no seeded rows, role denial, and a full preuse DDL catalogue inverse.
 `LOCAL_LIFECYCLE_CONTROLS.json` separately records synthetic refusal/order
 controls and the narrow first harness correction; it is not actual ERP proof.
+
+`LOCAL_SETTINGS_CONTROLS.json`: 30 isolated PostgreSQL settings controls, including
+permissions, exact replay after source/epoch changes, stale observations, used
+GOOD, cancellation tombstones and all22 restoration. Auth is explicitly stubbed.
+`LOCAL_SETTINGS_STAGE_CATALOG_CONTROLS.json`: four new actual model-catalogue/body
+checks over the exact settings-stage transition and inverse. Earlier settings/
+financial cases were not rerun for that catalogue check. `LOCAL_UI_CONTROLS.json`
+records 18 new protocol/DOM successes and coverage of the 10 ordinary settings
+scenarios, preserving narrow fixture failures and focused repairs. Actual Auth
+HTTP, real two-session races, desktop/mobile browser and complete ERP inventory/
+HPP/sales acceptance remain pending.

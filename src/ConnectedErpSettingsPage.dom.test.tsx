@@ -6,15 +6,32 @@ import ConnectedErpSettingsPage from './ConnectedErpSettingsPage'
 import { ACCESSORY_POLICY_KEYS, POLICY_LABEL } from './accessoryService'
 import { LAU_POLICY_KEYS, LAU_POLICY_LABEL } from './laundryBd'
 import { POLICY_EFFECT, ownerChoice, policyStatus, type Cp6PolicyKey } from './cp6Readiness'
-import { recoveryIdentity } from '../tests/fixtures/productionRecovery'
+import { recoveryIdentity as legacyRecoveryIdentity } from '../tests/fixtures/productionRecovery'
 import { productionKey } from './productionRecovery'
+import goodDateWire from '../scripts/cp7_accessory_nonpayable/LOCAL_SETTINGS_CONTROLS.json'
+import { parseGoodPolicyDates, persistGoodDateRequest, prepareGoodPolicyDate } from './nativeGoodPolicyDates'
 
 // R3-03 (owner D16-1): Pengaturan ERP lists every owner policy from the server and changes one only through the Native writer of
 // its own page (Aksesori / Laundry), with the version that was read, a reason and one request UUID kept for recovery.
 const auth = vi.hoisted(() => ({ current: null as unknown }))
 const client = vi.hoisted(() => ({ rpc: vi.fn() }))
+// The date contract uses actual UUID identities. The older shared fixture's
+// synthetic "actor" label is retained elsewhere; this suite uses the SQL model
+// actor consistently for Auth, source reads and every recovery scope.
+const recoveryIdentity = { ...legacyRecoveryIdentity, identity: { ...legacyRecoveryIdentity.identity,
+  profile: { ...legacyRecoveryIdentity.identity.profile, id: goodDateWire.contract_samples.workspace.actor } } }
+const recoveryScope = `${recoveryIdentity.runtime.projectRef}:${recoveryIdentity.identity.profile.id}`
 vi.mock('./auth/AuthProvider', () => ({ useAuth: () => auth.current }))
-vi.mock('./lib/supabase', () => ({ getUatSupabaseClient: () => client }))
+vi.mock('./lib/supabase', () => ({ getUatSupabaseClient: () => ({ rpc: (name: string, ...args: unknown[]) => {
+  // The new date facade has its own protocol/DOM suite. Keep this legacy
+  // suite's original Native call counts while providing its actual wire shape.
+  if (name === 'erp_cp7_get_good_policy_dates_v1') {
+    const current = (auth.current as typeof recoveryIdentity).identity
+    return Promise.resolve({ data: { ...goodDateWire.contract_samples.workspace, actor: current.profile.id,
+      can_write: current.profile.role === 'OWNER' && current.permissions.includes('settings.erp.manage') }, error: null })
+  }
+  return client.rpc(name, ...args)
+} }) }))
 const at = '2026-10-16T03:00:00.000000Z', owner = 'Owner Satu'
 const expense = 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaa1', asset = 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaa2', revenue = 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaa3'
 type Over = Record<string, unknown>
@@ -73,6 +90,19 @@ async function tick(label: string) { await act(async () => field<HTMLInputElemen
 const calls = (name: string) => client.rpc.mock.calls.filter(([n]) => n === name)
 
 describe('Pengaturan ERP (R3-03, owner D16-1)', () => {
+  it('attaches the GOOD date panel and blocks both old policy editors while its request is unresolved', async () => {
+    client.rpc.mockResolvedValue({ data: ws(true), error: null })
+    const actor = recoveryIdentity.identity.profile.id, scope = `${recoveryIdentity.runtime.projectRef}:${actor}`
+    const w = parseGoodPolicyDates({ ...goodDateWire.contract_samples.workspace, actor }, actor)
+    persistGoodDateRequest(scope, prepareGoodPolicyDate(w, w.current_source.id, '2026-10-01', 'SYNTHETIC PENDING DATE', true, crypto.randomUUID()))
+    await mount()
+    expect(container.querySelector('[aria-label="Tanggal berlaku kategori gratis untuk GOOD"]')).not.toBeNull()
+    expect(button('Periksa hasil tanggal yang sama').disabled).toBe(false)
+    expect(button('Ubah ACC-DEC01', card('ACC-DEC01')).disabled).toBe(true)
+    expect(button('Ubah LAU-DEC01', card('LAU-DEC01')).disabled).toBe(true)
+    expect(calls('erp_save_accessory_service_action_v1')).toHaveLength(0)
+    expect(calls('erp_save_laundry_bd_action_v1')).toHaveLength(0)
+  })
   it('lists every owner policy of both pages with the server status, the readiness texts and the read-only cutover date', async () => {
     client.rpc.mockResolvedValue({ data: ws(true, { acc: { 'ACC-DEC01': { status: 'SET', value: { mode: 'BOTH_REAL_TIMELINES' }, version: '3', reason: 'Garis waktu nyata' } } }), error: null })
     const openImport = vi.fn()
@@ -119,7 +149,7 @@ describe('Pengaturan ERP (R3-03, owner D16-1)', () => {
     expect(calls('erp_cp7_get_erp_settings_v1')).toHaveLength(2)
     expect(container.querySelector('[role="status"].cset-done')?.textContent).toBe('ACC-DEC01 tersimpan: ditetapkan, versi 2. Pengaturan dibaca ulang dari server.')
     expect(card('ACC-DEC01').textContent).toContain('Ditetapkan di aplikasi')
-    expect(localStorage.getItem(productionKey('disposable:actor-1', 'ACCESSORY_SERVICE'))).toBeNull()
+    expect(localStorage.getItem(productionKey(recoveryScope, 'ACCESSORY_SERVICE'))).toBeNull()
     // Both writers are free again after the save (best practice D18b).
     expect(button('Ubah ACC-DEC03', card('ACC-DEC03')).disabled).toBe(false)
     expect(button('Ubah LAU-DEC01', card('LAU-DEC01')).disabled).toBe(false)
@@ -159,7 +189,7 @@ describe('Pengaturan ERP (R3-03, owner D16-1)', () => {
     await click('Tetapkan ACC-DEC01')
     expect(container.textContent).toContain('Pengaturan ini baru saja diubah di layar lain. Muat ulang pengaturan, periksa nilai terbaru, lalu simpan lagi bila masih perlu.')
     expect(calls('erp_cp7_get_erp_settings_v1')).toHaveLength(2)
-    expect(localStorage.getItem(productionKey('disposable:actor-1', 'ACCESSORY_SERVICE'))).toBeNull()
+    expect(localStorage.getItem(productionKey(recoveryScope, 'ACCESSORY_SERVICE'))).toBeNull()
   })
 
   it('keeps an unanswered save with its UUID and reconciles it with the same UUID and payload', async () => {
@@ -173,14 +203,14 @@ describe('Pengaturan ERP (R3-03, owner D16-1)', () => {
     await click('Ubah LAU-DEC01', card('LAU-DEC01'))
     await tick('Borongan per batch'); await type('Alasan perubahan LAU-DEC01', 'Borongan diizinkan'); await tick('Perubahan LAU-DEC01 sudah diperiksa')
     await click('Tetapkan LAU-DEC01')
-    expect(localStorage.getItem(productionKey('disposable:actor-1', 'LAUNDRY_BD'))).not.toBeNull()
+    expect(localStorage.getItem(productionKey(recoveryScope, 'LAUNDRY_BD'))).not.toBeNull()
     expect(button('Ubah ACC-DEC01', card('ACC-DEC01')).disabled).toBe(true)
     await click('Periksa hasil simpan kebijakan')
     const sent = calls('erp_save_laundry_bd_action_v1')
     expect(sent).toHaveLength(2)
     expect(sent[1][1]).toEqual(sent[0][1])
     expect(sent[0][1].p_payload).toEqual({ policy_key: 'LAU-DEC01', operation: 'SET', expected_version: '1', reason: 'Borongan diizinkan', value: { units: ['BATCH'] } })
-    expect(localStorage.getItem(productionKey('disposable:actor-1', 'LAUNDRY_BD'))).toBeNull()
+    expect(localStorage.getItem(productionKey(recoveryScope, 'LAUNDRY_BD'))).toBeNull()
   })
 
   it('shows statuses without values, names or edit controls to a reader who is not owner/admin', async () => {

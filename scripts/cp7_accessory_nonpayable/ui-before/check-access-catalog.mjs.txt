@@ -1,0 +1,465 @@
+import './check-production-recovery.mjs'
+import assert from 'node:assert/strict'
+import { createHash } from 'node:crypto'
+import { readFileSync, readdirSync } from 'node:fs'
+import { extname, join, resolve } from 'node:path'
+
+const root = process.cwd()
+const migration = readFileSync(resolve(root, 'supabase/migrations/20260902104937_erp_v2_6_17_access_pattern_wip_control.sql'), 'utf8')
+const integrityCorrection = readFileSync(resolve(root, 'supabase/migrations/20260902180726_erp_v2_6_17a_cp45_pattern_assignment_immutability.sql'), 'utf8')
+const catalog = readFileSync(resolve(root, 'src/auth/accessCatalog.ts'), 'utf8')
+const app = readFileSync(resolve(root, 'src/App.tsx'), 'utf8')
+const accessPage = readFileSync(resolve(root, 'src/AccessControlPage.tsx'), 'utf8')
+const accessCss = readFileSync(resolve(root, 'src/access-control-cp45.css'), 'utf8')
+const cp45EvidencePath = resolve(root, 'docs/evidence/cp45_access_route_action_ownership.json')
+const cp45EvidenceBytes = readFileSync(cp45EvidencePath)
+const cp45Evidence = JSON.parse(cp45EvidenceBytes)
+const evidence = JSON.parse(readFileSync(resolve(root, 'docs/evidence/cp5_access_route_action_ownership.json'), 'utf8'))
+const v2619cEvidence = JSON.parse(readFileSync(resolve(root, 'docs/evidence/cp5_v2619c_uat_acceptance.json'), 'utf8'))
+
+function between(source, start, end) {
+  const from = source.indexOf(start)
+  const to = source.indexOf(end, from + start.length)
+  assert.ok(from >= 0 && to > from, `Cannot resolve source block: ${start}`)
+  return source.slice(from, to)
+}
+
+function objectEntries(source, name) {
+  const body = between(source, `export const ${name}`, '})')
+  const entries = [...body.matchAll(/^\s*(?:'([^']+)'|([A-Za-z][A-Za-z0-9 ]*)):\s*'([^']+)'/gm)]
+    .map((match) => [match[1] ?? match[2], match[3]])
+  assert.ok(entries.length > 0, `${name} is empty or unparsable`)
+  assert.equal(new Set(entries.map(([key]) => key)).size, entries.length, `${name} has duplicate keys`)
+  return new Map(entries)
+}
+
+const permissionSection = between(migration, 'insert into erp.app_permissions', 'insert into erp.app_roles')
+const permissionRows = [...permissionSection.matchAll(/\('([^']+)','([^']*)','([^']*)','([^']*)','([^']*)','([^']*)',(true|false),(\d+)\)/g)]
+  .map((match) => ({ key: match[1], module: match[2], action: match[4], highRisk: match[7] === 'true' }))
+assert.ok(permissionRows.length >= 90, 'Permission catalog unexpectedly small')
+assert.equal(new Set(permissionRows.map((row) => row.key)).size, permissionRows.length, 'Backend permission key is duplicated')
+
+const backendKeys = new Set(permissionRows.map((row) => row.key))
+const highRiskKeys = new Set(permissionRows.filter((row) => row.highRisk).map((row) => row.key))
+const navMap = objectEntries(catalog, 'NAV_PERMISSION_BY_LABEL')
+const pageMap = objectEntries(catalog, 'PAGE_PERMISSION_BY_ID')
+const actionMap = objectEntries(catalog, 'SENSITIVE_ACTION_PERMISSION')
+
+for (const [owner, permission] of [...navMap, ...pageMap, ...actionMap]) {
+  assert.ok(backendKeys.has(permission), `Frontend owner ${owner} points to missing permission ${permission}`)
+}
+for (const [action, permission] of actionMap) {
+  assert.ok(highRiskKeys.has(permission), `Sensitive action ${action} is not high-risk in backend catalog: ${permission}`)
+}
+
+const navBlock = between(app, 'const nav:', 'const salesPageByLabel')
+const navLabels = new Set([
+  'Dashboard',
+  ...[...navBlock.matchAll(/'([^']+)'/g)].map((match) => match[1]),
+  ...[...between(app, 'const adminNav', 'const salesViews').matchAll(/'([^']+)'/g)].map((match) => match[1]),
+])
+for (const section of ['Produksi', 'Gudang', 'Penjualan', 'Keuangan', 'Master Data']) navLabels.delete(section)
+assert.deepEqual([...navMap.keys()].sort(), [...navLabels].sort(), 'Sidebar label ownership is stale or incomplete')
+
+const discoveredRoutes = new Set([...app.matchAll(/(?:page\s*===|setPage\()\s*'([^']+)'/g)].map((match) => match[1]))
+discoveredRoutes.delete('placeholder')
+for (const route of discoveredRoutes) {
+  assert.ok(pageMap.has(route), `Protected route has no permission owner: ${route}`)
+}
+
+const missingRouteConsumers = [...pageMap.keys()].filter((route) => !app.includes(`'${route}'`))
+assert.deepEqual(missingRouteConsumers, [], 'Permission points to a missing route')
+
+assert.equal(cp45EvidenceBytes.length, 1242, 'Frozen CP4.5 access evidence byte length drift')
+assert.equal(
+  createHash('sha256').update(cp45EvidenceBytes).digest('hex'),
+  '349f7d653adbf132e21d3ee2adb740bf9f2185445d612e5dce73a674fa178184',
+  'Frozen CP4.5 access evidence SHA-256 drift',
+)
+assert.equal(cp45Evidence.format, 'CP45_ACCESS_ROUTE_ACTION_OWNERSHIP_V1')
+assert.equal(cp45Evidence.counts.sensitive_actions, 17)
+assert.equal(cp45Evidence.production_go, false)
+
+function sourceFiles(directory) {
+  return readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
+    const path = join(directory, entry.name)
+    if (entry.isDirectory()) return sourceFiles(path)
+    return ['.ts', '.tsx'].includes(extname(path)) && !/(?:\.test\.|\.d\.ts$)/.test(path) ? [path] : []
+  })
+}
+
+const rpcBoundaries = new Set()
+for (const path of sourceFiles(resolve(root, 'src'))) {
+  const source = readFileSync(path, 'utf8')
+  for (const match of source.matchAll(/\.rpc\s*\(\s*['"]([^'"]+)['"]/g)) {
+    rpcBoundaries.add(`${path.slice(root.length + 1)}:${match[1]}`)
+  }
+}
+
+assert.equal(evidence.format, 'CP5_ACCESS_ROUTE_ACTION_OWNERSHIP_V1')
+assert.equal(evidence.closure_status, 'READY_FOR_INDEPENDENT_REAUDIT_NO_GO')
+assert.equal(evidence.production_go, false)
+assert.equal(evidence.counts.backend_permissions, permissionRows.length)
+// +2 since CP5 (Kain kantong, Impor data awal), -1 by owner D16-5: "Tutup Periode" is a tab of "Laporan & Tutup Buku",
+// no longer a sidebar label; its route stays owned by finance.period_close.manage and redirects to the merged page.
+assert.equal(evidence.counts.navigation_labels + 1, navMap.size)
+assert.equal(navMap.has('Tutup Periode'), false)
+assert.equal(pageMap.get('admin-period-close'), 'finance.period_close.manage')
+assert.equal(evidence.counts.protected_routes + 2, pageMap.size)
+assert.equal(navMap.get('Kain kantong'), 'warehouse.stock.adjust')
+assert.equal(pageMap.get('pocket-fabric'), 'warehouse.stock.adjust')
+assert.equal(navMap.get('Impor data awal'), 'settings.erp.view')
+assert.equal(pageMap.get('admin-import'), 'settings.erp.view')
+const cp6SensitiveActions = new Set(['reverseFinalSku'])
+const cp7SensitiveActions = new Set(['recalculateHpp'])
+assert.equal(actionMap.get('recalculateHpp'), 'finance.hpp.manage')
+const cp5SensitiveActionCount = [...actionMap.keys()].filter((action) => !cp6SensitiveActions.has(action) && !cp7SensitiveActions.has(action)).length
+assert.equal(evidence.counts.sensitive_actions, cp5SensitiveActionCount)
+assert.equal(actionMap.get('reverseFinalSku'), 'production.final_sku.reverse')
+assert.ok(rpcBoundaries.has('src/ConnectedPocketFabricPage.tsx:erp_get_pocket_fabric_workspace_v1'))
+assert.ok(rpcBoundaries.has('src/ConnectedPocketFabricPage.tsx:erp_get_pocket_periods_v1'))
+assert.ok(rpcBoundaries.has('src/ConnectedPocketFabricPage.tsx:erp_save_pocket_fabric_action_v1'))
+assert.ok(rpcBoundaries.has('src/ConnectedPocketFabricPage.tsx:erp_preview_pocket_fabric_period_v1'))
+assert.ok(rpcBoundaries.has('src/ConnectedAccessoryIssuePage.tsx:erp_get_accessory_issue_workspace_v1'))
+assert.ok(rpcBoundaries.has('src/ConnectedAccessoryIssuePage.tsx:erp_save_accessory_issue_action_v1'))
+assert.ok(rpcBoundaries.has('src/ConnectedAccessoryServicePage.tsx:erp_get_accessory_service_workspace_v1'))
+assert.ok(rpcBoundaries.has('src/ConnectedAccessoryServicePage.tsx:erp_save_accessory_service_action_v1'))
+assert.ok(rpcBoundaries.has('src/LaundryBdPanel.tsx:erp_get_laundry_bd_workspace_v1'))
+assert.ok(rpcBoundaries.has('src/LaundryBdPanel.tsx:erp_save_laundry_bd_action_v1'))
+const beRpcBoundaries = [
+  'src/BeReworkTargetFields.tsx:erp_get_laundry_bd_workspace_v1',
+  'src/BeReworkTargetFields.tsx:erp_get_product_conversion_workspace_v1',
+  'src/ConnectedBsResolutionPage.tsx:erp_save_product_conversion_action_v1',
+  'src/ConnectedProductConversionPage.tsx:erp_get_accessory_service_workspace_v1',
+  'src/ConnectedProductConversionPage.tsx:erp_get_product_conversion_workspace_v1',
+  'src/ConnectedProductConversionPage.tsx:erp_save_product_conversion_action_v1',
+  'src/LaundryBdPanel.tsx:erp_save_product_conversion_action_v1',
+]
+for (const boundary of beRpcBoundaries) assert.ok(rpcBoundaries.has(boundary), `Missing BE RPC ownership: ${boundary}`)
+const bfRpcBoundaries = ['src/SkuWaveReferences.tsx:erp_get_sku_workspace_v1', 'src/SkuWaveReferences.tsx:erp_save_sku_action_v1', 'src/ConnectedSkuHppPage.tsx:erp_get_sku_hpp_v1', 'src/ConnectedSkuMasterPage.tsx:erp_get_sku_workspace_v1', 'src/ConnectedSkuMasterPage.tsx:erp_save_sku_action_v1']
+for (const boundary of bfRpcBoundaries) assert.ok(rpcBoundaries.has(boundary), `Missing BF RPC ownership: ${boundary}`)
+assert.ok(rpcBoundaries.has('src/ConnectedSupplierCreditPage.tsx:erp_get_supplier_credit_v1'))
+assert.ok(rpcBoundaries.has('src/ConnectedSupplierCreditPage.tsx:erp_save_supplier_credit_v1'))
+assert.ok(rpcBoundaries.has('src/LaundrySkuHistory.tsx:erp_get_laundry_history_v1'))
+assert.ok(rpcBoundaries.has('src/SalesDraftPanel.tsx:erp_cp7_get_sales_form_v1'))
+assert.ok(rpcBoundaries.has('src/SalesPaymentPanel.tsx:erp_cp7_get_sales_cash_v1'))
+assert.ok(rpcBoundaries.has('src/SalesReturnPanel.tsx:erp_cp7_get_sales_returns_v1'))
+assert.ok(rpcBoundaries.has('src/TransactionSourceNavigation.tsx:erp_cp7_resolve_transaction_source_v1'))
+const cp7TransactionDependencyBoundaries = [
+  'src/LaundryReceiptDependencies.tsx:erp_cp7_get_transaction_dependencies_v1',
+  'src/SalesInvoiceDependencies.tsx:erp_cp7_get_sales_cash_v1',
+  'src/SalesInvoiceDependencies.tsx:erp_cp7_get_sales_returns_v1',
+]
+for (const name of cp7TransactionDependencyBoundaries) assert.ok(rpcBoundaries.has(name))
+const cp7RecostBoundaries = ['erp_cp7_get_recost_queue_v1','erp_cp7_process_recost_v1']
+for (const name of cp7RecostBoundaries) assert.ok(rpcBoundaries.has(`src/RecostQueuePanel.tsx:${name}`))
+const cp7PeriodBoundaries = ['erp_cp7_get_period_control_v1','erp_cp7_save_period_control_v1']
+for (const name of cp7PeriodBoundaries) assert.ok(rpcBoundaries.has(`src/FinancePeriodPanel.tsx:${name}`))
+// R3-04 (owner D16-1): the attendance HPP pool section of HPP & Rekalkulasi (Owner/Admin, finance.hpp.view; actions finance.hpp.manage).
+const cp7HppPoolBoundaries = ['erp_cp7_get_hpp_pools_v1','erp_cp7_save_hpp_pool_v1']
+for (const name of cp7HppPoolBoundaries) assert.ok(rpcBoundaries.has(`src/AttendanceHppPoolPanel.tsx:${name}`))
+const cp7FinanceBoundaries = ['src/ConnectedFinanceReportPage.tsx:erp_cp7_get_finance_report_v1','src/FinanceAnalysisPanel.tsx:erp_cp7_get_finance_analysis_v1','src/ConnectedCashLedgerPage.tsx:erp_cp7_get_finance_analysis_v1']
+for (const boundary of cp7FinanceBoundaries) assert.ok(rpcBoundaries.has(boundary))
+const cp7SalesBoundaries = ['erp_cp7_get_sales_v1','erp_cp7_save_sale_v1','erp_cp7_get_note_correction_v2','erp_cp7_correct_note_v1','erp_cp7_correct_sales_payment_v1','erp_cp7_correct_sales_return_v1','erp_cp7_reverse_sales_chain_v1']
+for (const name of cp7SalesBoundaries) assert.ok(rpcBoundaries.has(`src/ConnectedSalesPage.tsx:${name}`))
+// OW04: the return owns its quote; the shared sales mutation owns settlement/recovery.
+const cp7ReturnSettlementBoundaries=['src/SalesReturnPanel.tsx:erp_cp7_get_sales_return_settlement_quote_v1',
+ 'src/ConnectedSalesPage.tsx:erp_cp7_settle_sales_return_v1',
+ 'src/SalesCreditDependencies.tsx:erp_cp7_get_sales_credit_dependencies_v1']
+for(const name of cp7ReturnSettlementBoundaries)assert.ok(rpcBoundaries.has(name),name)
+const cp7PaymentCorrectionBoundaries = ['src/CuttingCorrectionPanel.tsx:erp_cp7_get_cutting_correction_v1','src/CuttingCorrectionPanel.tsx:erp_cp7_reopen_cutting_v1','src/CuttingFabricReturnPanel.tsx:erp_cp7_get_cutting_return_v1','src/CuttingFabricReturnPanel.tsx:erp_cp7_return_cutting_fabric_v1','src/CuttingFabricReturnReversalPanel.tsx:erp_cp7_get_cutting_return_reversal_v1','src/CuttingFabricReturnReversalPanel.tsx:erp_cp7_reverse_cutting_return_v1','src/PickupReversalPanel.tsx:erp_cp7_get_pickup_reversal_v1','src/PickupReversalPanel.tsx:erp_cp7_reverse_pickup_v1','src/SewingCompletionPanel.tsx:erp_cp7_get_sewing_completion_v1','src/SewingCompletionPanel.tsx:erp_cp7_save_sewing_completion_v1','src/PoFinishPanel.tsx:erp_cp7_list_po_finish_v1','src/PoFinishPanel.tsx:erp_cp7_get_po_finish_v1','src/PoFinishPanel.tsx:erp_cp7_finish_po_v1','src/PoFinishPanel.tsx:erp_cp7_get_po_reopen_v1','src/PoFinishPanel.tsx:erp_cp7_reopen_po_v1','src/ConnectedMasterPage.tsx:erp_cp7_get_master_v1','src/ConnectedMasterPage.tsx:erp_cp7_save_master_v1','src/CutoverPanel.tsx:erp_cp7_get_cutover_v1','src/CutoverPanel.tsx:erp_cp7_set_cutover_v1','src/ConnectedRemindersPage.tsx:erp_cp7_get_reminders_v1','src/ConnectedRemindersPage.tsx:erp_cp7_save_reminder_v1','src/ConnectedCuttingPage.tsx:erp_cp7_get_cutting_auto_po_v1','src/ConnectedCuttingPage.tsx:erp_cp7_save_cutting_auto_po_v1','src/WorkRatePanel.tsx:erp_cp7_get_work_rates_v1','src/WorkRatePanel.tsx:erp_cp7_save_work_rate_v1','src/PayrollKasbonPanel.tsx:erp_cp7_get_kasbon_v1','src/PayrollKasbonPanel.tsx:erp_cp7_save_kasbon_v1','src/SalesChainReversalPanel.tsx:erp_cp7_get_sales_chain_v1','src/SalesPaymentCorrectionPanel.tsx:erp_cp7_get_sales_payment_correction_v1','src/SalesReturnCorrectionPanel.tsx:erp_cp7_get_sales_return_correction_v1']
+for (const name of cp7PaymentCorrectionBoundaries) assert.ok(rpcBoundaries.has(name))
+const cp7PayrollBoundaries = ['erp_cp7_get_payroll_workspace_v1','erp_cp7_save_payroll_v1']
+for (const name of cp7PayrollBoundaries) assert.ok(rpcBoundaries.has(`src/ConnectedPayrollPage.tsx:${name}`))
+const cp7InstallmentBoundaries = ['erp_cp7_get_payroll_installments_v1','erp_cp7_save_payroll_installment_v1']
+for (const name of cp7InstallmentBoundaries) assert.ok(rpcBoundaries.has(`src/PayrollInstallmentPanel.tsx:${name}`))
+const cp7PlanBoundaries=['erp_cp7_get_plan_options_v1','erp_cp7_save_plan_draft_v1','erp_cp7_preview_plan_action_v1','erp_cp7_apply_plan_action_v1','erp_cp7_read_plan_draft_v1','erp_cp7_read_plan_actual_v1',
+ // plan v2 from a staged snapshot (contract v2 §3), same panel and permissions
+ 'erp_cp7_get_plan_options_v2','erp_cp7_save_plan_draft_v2','erp_cp7_preview_plan_action_v2','erp_cp7_apply_plan_action_v2','erp_cp7_read_plan_draft_v2']
+const cp7PlanningBoundaries=['erp_cp7_get_planning_profiles_v1','erp_cp7_save_planning_profile_v1','erp_cp7_capture_baseline_v1','erp_cp7_read_baseline_v1']
+for(const name of cp7PlanBoundaries) assert.ok(rpcBoundaries.has(`src/NativePlanDraftPanel.tsx:${name}`))
+for(const name of cp7PlanningBoundaries) assert.ok(rpcBoundaries.has(`src/NativePlanningProfilePanel.tsx:${name}`))
+const cp7ProductionPlanningBoundaries=['erp_cp7_capture_production_supply_v1','erp_cp7_read_production_supply_v1','erp_cp7_get_production_schedule_v1','erp_cp7_save_production_schedule_v1','erp_cp7_capture_netting_v1','erp_cp7_read_netting_v1']
+const cp7FabricBoundaries=['erp_cp7_get_fabric_recipe_v1','erp_cp7_save_fabric_recipe_v1']
+for(const name of cp7FabricBoundaries)assert.ok(rpcBoundaries.has(`src/NativeFabricRecipePanel.tsx:${name}`))
+const cp7AnalysisBoundaries=['erp_cp7_capture_analysis_v1','erp_cp7_capture_operational_analysis_v1','erp_cp7_read_analysis_v1','erp_cp7_request_analysis_job_v1','erp_cp7_request_operational_analysis_job_v1','erp_cp7_run_analysis_job_v1','erp_cp7_get_analysis_job_v1','erp_cp7_read_analysis_manifest_v1','erp_cp7_read_analysis_segment_v1','erp_cp7_request_staged_analysis_v1','erp_cp7_step_staged_analysis_v1','erp_cp7_get_staged_analysis_v1','erp_cp7_read_staged_analysis_pages_v1','erp_cp7_read_staged_analysis_page_v1','erp_cp7_staged_snapshot_freshness_v1','erp_cp7_check_staged_snapshot_v1','erp_cp7_get_analysis_attention_v1','erp_cp7_save_analysis_attention_v1','erp_cp7_get_analysis_attention_request_v1','erp_cp7_list_analysis_archives_v1','erp_cp7_get_analysis_receivable_conditions_v1','erp_cp7_get_analysis_payable_conditions_v1','erp_cp7_evaluate_obligation_episodes_v1','erp_cp7_get_obligation_episode_request_v1','erp_cp7_get_obligation_episode_history_v1']
+const cp7PolicyBoundaries=['erp_cp7_get_reminder_policy_history_v1','erp_cp7_get_reminder_policy_v1','erp_cp7_save_reminder_policy_v1','erp_cp7_get_reminder_policy_request_v1']
+for(const name of cp7PolicyBoundaries) assert.ok(rpcBoundaries.has(`src/NativeReminderPolicyPanel.tsx:${name}`))
+const cp7RuleBoundaries=['erp_cp7_get_rule_conditions_v1', 'erp_cp7_evaluate_rule_episodes_v1', 'erp_cp7_get_rule_episode_request_v1', 'erp_cp7_get_local_reminders_v1', 'erp_cp7_save_local_binding_v1', 'erp_cp7_claim_local_preview_v1', 'erp_cp7_finish_local_preview_v1', 'erp_cp7_resolve_local_preview_v1', 'erp_cp7_get_local_reminder_request_v1']
+for(const name of cp7RuleBoundaries) assert.ok(rpcBoundaries.has(`src/NativeRuleSourcePanel.tsx:${name}`))
+const cp7ReportBoundaries=['erp_cp7_publish_report_v1','erp_cp7_get_report_request_v1','erp_cp7_read_report_v1','erp_cp7_list_reports_v1','erp_cp7_compare_reports_v1']
+const cp7ObligationReportBoundaries=['erp_cp7_get_obligation_report_preview_v1','erp_cp7_read_obligation_report_v1','erp_cp7_publish_obligation_report_v1','erp_cp7_get_obligation_report_request_v1','erp_cp7_list_obligation_reports_v1']
+for(const name of cp7ObligationReportBoundaries) assert.ok(rpcBoundaries.has(`src/NativeObligationReportsPanel.tsx:${name}`))
+for(const name of cp7ReportBoundaries) assert.ok(rpcBoundaries.has(`src/NativeAnalysisReportsPanel.tsx:${name}`))
+// Business Report v2 of a staged run (snapshot contract v2 §4): its own panel in the staged view.
+const cp7StagedReportBoundaries=['erp_cp7_publish_report_v2','erp_cp7_get_report_request_v2','erp_cp7_step_report_v2','erp_cp7_read_report_v2','erp_cp7_read_report_section_v2','erp_cp7_list_reports_v2',
+ // OW-12a: the period comparison of two published staged reports (same rights as opening each).
+ 'erp_cp7_compare_reports_v2']
+for(const name of cp7StagedReportBoundaries) assert.ok(rpcBoundaries.has(`src/NativeStagedReportsPanel.tsx:${name}`))
+// AI v2 of a staged run (contract v2 §6): the bounded brief and the owner finance report read at question time.
+const cp7StagedAiBoundaries=['erp_cp7_get_staged_ai_brief_v1','erp_cp7_get_finance_report_v1']
+for(const name of cp7StagedAiBoundaries) assert.ok(rpcBoundaries.has(`src/NativeStagedAiPanel.tsx:${name}`))
+const cp7StagedReminderBoundaries=['erp_cp7_step_reminder_conditions_v2','erp_cp7_read_reminder_conditions_v2','erp_cp7_get_reminder_obligations_v2','erp_cp7_recheck_reminder_v2','erp_cp7_get_reminder_workspace_v2','erp_cp7_save_reminder_policy_v2','erp_cp7_save_reminder_binding_v2','erp_cp7_claim_reminder_v2','erp_cp7_finish_reminder_v2','erp_cp7_resolve_reminder_claim_v2','erp_cp7_get_reminder_request_v2']
+for(const name of cp7StagedReminderBoundaries) assert.ok(rpcBoundaries.has(`src/NativeStagedRemindersPanel.tsx:${name}`),name)
+// PL-5 B: the versioned history yield policy (owner decision 8 Oct 2026).
+const cp7YieldPolicyBoundaries=['erp_cp7_get_history_yield_policy_v1','erp_cp7_save_history_yield_policy_v1']
+for(const name of cp7YieldPolicyBoundaries) assert.ok(rpcBoundaries.has(`src/NativeHistoryYieldPolicyPanel.tsx:${name}`),name)
+for(const name of cp7AnalysisBoundaries) assert.ok(rpcBoundaries.has(`src/NativeAnalysisPanel.tsx:${name}`))
+for(const name of cp7ProductionPlanningBoundaries) assert.ok(rpcBoundaries.has(`src/NativeProductionPlanningPanel.tsx:${name}`))
+const cp7ModelBoundaries=['erp_cp7_capture_model_evaluation_v1','erp_cp7_read_model_evaluation_v1']
+for(const name of cp7ModelBoundaries) assert.ok(rpcBoundaries.has(`src/NativeModelEvaluationPanel.tsx:${name}`))
+const cp7ModelPolicyBoundaries=['erp_cp7_get_model_activation_policy_v1','erp_cp7_save_model_activation_policy_v1']
+for(const name of cp7ModelPolicyBoundaries)assert.ok(rpcBoundaries.has(`src/nativeModelPolicy.ts:${name}`))
+const cp7ModelV2Boundaries=['erp_cp7_capture_model_evaluation_v2','erp_cp7_read_model_evaluation_v2']
+for(const name of cp7ModelV2Boundaries)assert.ok(rpcBoundaries.has(`src/nativeModelEvaluationV2.ts:${name}`))
+const cp7HistoryBoundaries = ['erp_cp7_capture_demand_history_v1','erp_cp7_read_demand_history_v1']
+const cp7CuttingYieldBoundaries=['erp_cp7_capture_cutting_yield_v1','erp_cp7_read_cutting_yield_v1']
+for(const name of cp7CuttingYieldBoundaries) assert.ok(rpcBoundaries.has(`src/NativeCuttingYieldPanel.tsx:${name}`))
+const cp7CuttingLearningBoundaries=['erp_cp7_get_cutting_input_workspace_v1','erp_cp7_get_cutting_model_workspace_v1','erp_cp7_capture_cutting_model_v1','erp_cp7_get_cutting_model_request_v1','erp_cp7_capture_cutting_observation_v1','erp_cp7_get_cutting_observation_request_v1']
+for(const name of cp7CuttingLearningBoundaries) assert.ok(rpcBoundaries.has(`src/NativeCuttingLearningPanel.tsx:${name}`))
+const cp7CuttingInputBoundaries=['erp_cp7_get_cutting_input_workspace_v1','erp_cp7_record_cutting_inputs_v1','erp_cp7_get_cutting_input_request_v1']
+for(const name of cp7CuttingInputBoundaries) assert.ok(rpcBoundaries.has(`src/NativeCuttingInputsPanel.tsx:${name}`))
+for (const name of cp7HistoryBoundaries) assert.ok(rpcBoundaries.has(`src/NativeDemandHistoryPanel.tsx:${name}`))
+const cp7AttendanceBoundaries = ['erp_cp7_get_attendance_workspace_v1','erp_cp7_save_roster_v1','erp_cp7_get_attendance_entry_v1','erp_cp7_preview_attendance_v1','erp_cp7_save_attendance_v1']
+for (const name of cp7AttendanceBoundaries) assert.ok(rpcBoundaries.has(`src/ConnectedAttendancePage.tsx:${name}`))
+const cp7NotaBoundaries = ['erp_cp7_get_nota_workspace_v1','erp_cp7_save_nota_v1']
+for (const name of cp7NotaBoundaries) assert.ok(rpcBoundaries.has(`src/ConnectedNotaPage.tsx:${name}`))
+const cp7FgBookBoundaries = ['erp_cp7_get_fg_book_v2','erp_cp7_save_fg_book_v1','erp_cp7_get_fg_book_options_v1']
+for (const name of cp7FgBookBoundaries) assert.ok(rpcBoundaries.has(`src/ConnectedFgBookPage.tsx:${name}`))
+const cp7FgBoundaries = ['erp_cp7_get_fg_v1','erp_cp7_get_fg_ledger_v2']
+const cp7FgAdjustmentBoundaries = ['erp_cp7_get_fg_v1','erp_cp7_get_fg_adjustments_v1','erp_cp7_save_fg_adjustment_v1']
+for (const name of cp7FgAdjustmentBoundaries) assert.ok(rpcBoundaries.has(`src/ConnectedFgAdjustmentPage.tsx:${name}`))
+for (const name of cp7FgBoundaries) assert.ok(rpcBoundaries.has(`src/ConnectedFgStockPage.tsx:${name}`))
+const cp7CountBoundaries = ['erp_cp7_get_materials_v1', 'erp_cp7_get_material_counts_v1', 'erp_cp7_preview_material_count_v1', 'erp_cp7_save_material_count_v1']
+const cp7CountSourceBoundaries = ['erp_cp7_get_material_count_options_v1', 'erp_cp7_get_material_locations_v1']
+for (const name of cp7CountSourceBoundaries) assert.ok(rpcBoundaries.has(`src/MaterialCountSourcePicker.tsx:${name}`))
+for (const name of cp7CountBoundaries) assert.ok(rpcBoundaries.has(`src/ConnectedMaterialCountPage.tsx:${name}`))
+const cp7MaterialBoundaries = ['erp_cp7_get_materials_v1', 'erp_cp7_get_material_ledger_v2', 'erp_cp7_get_material_transfers_v1', 'erp_cp7_get_material_locations_v1', 'erp_cp7_save_materials_v1']
+for (const name of cp7MaterialBoundaries) assert.ok(rpcBoundaries.has(`src/ConnectedMaterialsPage.tsx:${name}`))
+const cp7ProcurementBoundaries = ['erp_cp7_get_procurement_uom_v1','erp_cp7_get_procurement_v1','erp_cp7_get_procurement_options_v1','erp_cp7_save_procurement_v1']
+for (const name of cp7ProcurementBoundaries) assert.ok(rpcBoundaries.has(`src/ConnectedProcurementPage.tsx:${name}`))
+const cp7ReceiptCorrectionBoundaries = ['erp_cp7_get_receipt_correction_v1','erp_cp7_correct_receipt_v1','erp_cp7_get_procurement_options_v1']
+for (const name of cp7ReceiptCorrectionBoundaries) assert.ok(rpcBoundaries.has(`src/ReceiptCorrectionPanel.tsx:${name}`))
+const cp7MaterialNameBoundaries = ['erp_cp7_get_material_name_v1','erp_cp7_rename_material_v1']
+for (const name of cp7MaterialNameBoundaries) assert.ok(rpcBoundaries.has(`src/MaterialNamePanel.tsx:${name}`))
+const cp7InvoiceBoundaries = ['erp_cp7_get_invoice_sources_v1','erp_cp7_get_purchase_invoices_v1','erp_cp7_save_purchase_invoice_v1']
+for (const name of cp7InvoiceBoundaries) assert.ok(rpcBoundaries.has(`src/PurchaseInvoicePanel.tsx:${name}`))
+const cp7SupplierPaymentBoundaries = ['src/SupplierPaymentPanel.tsx:erp_cp7_get_supplier_payments_v1','src/SupplierPaymentPanel.tsx:erp_cp7_reverse_supplier_payment_v1','src/SupplierPaymentPanel.tsx:erp_cp7_correct_supplier_payment_v1','src/SupplierPaymentCorrectionPanel.tsx:erp_cp7_get_supplier_payment_correction_v1','src/SupplierPaymentPanel.tsx:erp_cp7_create_supplier_payment_v1','src/SupplierPaymentCreatePanel.tsx:erp_cp7_get_supplier_payment_create_v1']
+for (const site of cp7SupplierPaymentBoundaries) assert.ok(rpcBoundaries.has(site))
+const cp7ReturnBoundaries = ['erp_cp7_get_supplier_return_sources_v1','erp_cp7_get_supplier_returns_v1','erp_cp7_save_supplier_return_v1','erp_cp7_get_procurement_options_v1']
+for (const name of cp7ReturnBoundaries) assert.ok(rpcBoundaries.has(`src/SupplierReturnPanel.tsx:${name}`))
+const cp7FinanceOverviewBoundaries = ['src/ConnectedFinanceOverviewPage.tsx:erp_cp7_get_finance_report_v1','src/ConnectedReceivablesPage.tsx:erp_cp7_get_sales_v1','src/ConnectedJournalPage.tsx:erp_cp7_get_journal_book_v1']
+cp7FinanceOverviewBoundaries.push('src/MiscFinancePanel.tsx:erp_cp7_get_misc_finance_v1','src/MiscFinancePanel.tsx:erp_cp7_save_misc_finance_v1','src/MiscFinancePanel.tsx:erp_cp7_correct_misc_finance_v1','src/MiscFinancePanel.tsx:erp_cp7_get_misc_correction_history_v1')
+for (const name of cp7FinanceOverviewBoundaries) assert.ok(rpcBoundaries.has(name))
+// R3-03 (owner D16-1): Riwayat Pelanggan reads through its own CP7 facade only.
+const cp7CustomerHistoryBoundaries = ['src/ConnectedCustomerHistoryPage.tsx:erp_cp7_get_customer_history_v1']
+for (const name of cp7CustomerHistoryBoundaries) assert.ok(rpcBoundaries.has(name))
+const cp7SourceOwningRecheckBoundaries = ['src/ConnectedBsResolutionPage.tsx:erp_cp7_resolve_transaction_source_v1']
+for (const name of cp7SourceOwningRecheckBoundaries) assert.ok(rpcBoundaries.has(name))
+// R3-03 (owner D16-1): Ringkasan Gudang reads one summary facade (page warehouse.dashboard.view; each section its own key).
+const cp7WarehouseSummaryBoundaries = ['src/ConnectedWarehouseSummaryPage.tsx:erp_cp7_get_warehouse_summary_v1']
+for (const name of cp7WarehouseSummaryBoundaries) assert.ok(rpcBoundaries.has(name), name)
+// R3-03 (owner D16-1): Pengaturan ERP reads its facade and saves through the Aksesori and Laundry Native writers.
+const cp7ErpSettingsBoundaries=['erp_cp7_get_erp_settings_v1','erp_save_accessory_service_action_v1','erp_save_laundry_bd_action_v1']
+for(const name of cp7ErpSettingsBoundaries) assert.ok(rpcBoundaries.has(`src/ConnectedErpSettingsPage.tsx:${name}`),name)
+// R3-03 (owner D16-1): the connected Audit Trail reads the Native audit log through one read facade (settings.audit.view).
+const cp7AuditBoundaries=['src/ConnectedAuditTrailPage.tsx:erp_cp7_get_audit_trail_v1']
+for(const name of cp7AuditBoundaries)assert.ok(rpcBoundaries.has(name),name)
+// WA-4 (owner D17-3..D17-6): Pengingat sistem reads one facade (each kind by its source screen's key); Sambungan WhatsApp
+// (OWNER role only, refused by the server for anyone else) reads one and writes through four.
+const cp7WaBoundaries=['src/SystemRemindersPanel.tsx:erp_cp7_get_alerts_v1','src/WaConnectionPanel.tsx:erp_cp7_get_wa_settings_v1',
+  'src/WaConnectionPanel.tsx:erp_cp7_save_wa_settings_v1','src/WaConnectionPanel.tsx:erp_cp7_set_wa_key_v1','src/WaConnectionPanel.tsx:erp_cp7_send_wa_test_v1',
+  'src/WaConnectionPanel.tsx:erp_cp7_resolve_wa_dispatch_v1']
+for(const name of cp7WaBoundaries)assert.ok(rpcBoundaries.has(name),name)
+// SS-1 (owner D17-8, D17-9): Titik pesan ulang on Ringkasan Barang Jadi reads one facade (warehouse.fg.view), refreshes, and
+// writes the manual point and the formula settings (Owner/Admin, refused by the server for anyone else).
+const cp7FgReorderBoundaries=['erp_cp7_get_fg_reorder_v1','erp_cp7_refresh_fg_reorder_v1','erp_cp7_save_fg_reorder_manual_v1','erp_cp7_save_stock_formula_settings_v1']
+for(const name of cp7FgReorderBoundaries)assert.ok(rpcBoundaries.has(`src/FgReorderPanel.tsx:${name}`),name)
+// SS-2/SS-3: Titik pesan ulang of fabric and accessories, one panel on Bahan & Roll, Aksesori and the two Master Data pages;
+// reads with the screens' own keys, Owner/Admin write lama kirim and an accessory's manual number (server-enforced).
+const cp7MaterialReorderBoundaries=['erp_cp7_get_material_reorder_v1','erp_cp7_refresh_material_reorder_v1','erp_cp7_save_material_reorder_v1']
+for(const name of cp7MaterialReorderBoundaries)assert.ok(rpcBoundaries.has(`src/MaterialReorderPanel.tsx:${name}`),name)
+// OW04 consumer workspace/review and its single owning command use SALES recovery.
+const cp7ConsumerCreditBoundaries=['src/CustomerCreditPanel.tsx:erp_cp7_get_customer_credit_workspace_v1',
+ 'src/CustomerCreditPanel.tsx:erp_cp7_get_customer_credit_review_v1','src/ConnectedSalesPage.tsx:erp_cp7_customer_credit_command_v1']
+for(const name of cp7ConsumerCreditBoundaries)assert.ok(rpcBoundaries.has(name),name)
+// OW05/OW05b mandor correction on WIP & Sewing: one workspace read, the sewing read it reopens, and one correction command.
+const cp7MandorCorrectionBoundaries=['erp_cp7_get_mandor_correction_v1','erp_cp7_get_sewing_completion_v1','erp_cp7_correct_mandor_v1']
+for(const name of cp7MandorCorrectionBoundaries)assert.ok(rpcBoundaries.has(`src/MandorCorrectionPanel.tsx:${name}`),name)
+// OW06 one supplier transfer for many receipts on Pembelian & Penerimaan: one read and one command (PROCUREMENT recovery).
+const cp7SupplierTransferBoundaries=['erp_cp7_get_supplier_transfer_v1','erp_cp7_save_supplier_transfer_v1']
+for(const name of cp7SupplierTransferBoundaries)assert.ok(rpcBoundaries.has(`src/SupplierTransferPanel.tsx:${name}`),name)
+// B integration: retain exact ownership for status, initial analysis and checked cutting save.
+const cp7ProductionSuccessorBoundaries=[
+ 'src/NativeCuttingStatusPanel.tsx:erp_cp7_get_cutting_status_policy_request_v1',
+ 'src/NativeCuttingStatusPanel.tsx:erp_cp7_get_cutting_status_v1',
+ 'src/NativeCuttingStatusPanel.tsx:erp_cp7_save_cutting_status_policy_v1',
+ 'src/NativeInitialAnalysisPanel.tsx:erp_cp7_request_staged_analysis_v1',
+ 'src/nativeCuttingSuggestion.ts:erp_cp7_save_cutting_suggestion_v1']
+for(const name of cp7ProductionSuccessorBoundaries)assert.ok(rpcBoundaries.has(name),name)
+const cp7BoundedSuccessorBoundaries=[
+  'src/nativeProductAnalog.ts:erp_cp7_read_product_analog_candidates_v1',
+  'src/nativeProductAnalogChoice.ts:erp_cp7_get_product_analog_choices_v1',
+  'src/nativeProductAnalogChoice.ts:erp_cp7_save_product_analog_choice_v1',
+  'src/NativeProductionPlanningPanel.tsx:erp_cp7_request_staged_analysis_v1',
+  'src/nativeStagedSchedule.ts:erp_cp7_get_staged_production_schedule_v1',
+  'src/nativeStagedSchedule.ts:erp_cp7_save_staged_production_schedule_v1',
+  'src/nativeBoundedAnalysis.ts:erp_cp7_request_bounded_staged_analysis_v1',
+  'src/nativeBoundedQuantity.ts:erp_cp7_get_staged_analysis_v1',
+  'src/nativeBoundedQuantity.ts:erp_cp7_step_staged_analysis_v1',
+  'src/nativeBoundedQuantity.ts:erp_cp7_read_staged_analysis_pages_v1',
+  'src/nativeBoundedQuantity.ts:erp_cp7_read_staged_analysis_page_v1',
+  'src/nativeBoundedQuantity.ts:erp_cp7_check_staged_analysis_source_v1',
+]
+for(const name of cp7BoundedSuccessorBoundaries)assert.ok(rpcBoundaries.has(name),name)
+// Scoped immutable history/model are four explicitly owned boundaries.
+// Keep frozen evidence counts and every old boundary unchanged.
+const cp7ScopedModelBoundaries=[
+  'src/nativeScopedModel.ts:erp_cp7_capture_model_evaluation_v3',
+  'src/nativeScopedModel.ts:erp_cp7_capture_model_history_v1',
+  'src/nativeScopedModel.ts:erp_cp7_read_model_evaluation_v3',
+  'src/nativeScopedModel.ts:erp_cp7_read_model_history_v1',
+]
+assert.equal(new Set(cp7ScopedModelBoundaries).size,4)
+for(const name of cp7ScopedModelBoundaries)assert.ok(rpcBoundaries.has(name),name)
+assert.equal(rpcBoundaries.size, cp7ScopedModelBoundaries.length + cp7BoundedSuccessorBoundaries.length + cp7ProductionSuccessorBoundaries.length + cp7ConsumerCreditBoundaries.length + cp7MandorCorrectionBoundaries.length + cp7SupplierTransferBoundaries.length + evidence.counts.browser_rpc_boundaries + 4 + cp7RecostBoundaries.length + cp7FinanceBoundaries.length + cp7PeriodBoundaries.length + cp7HppPoolBoundaries.length + cp7SalesBoundaries.length + cp7PaymentCorrectionBoundaries.length + cp7AttendanceBoundaries.length + cp7PayrollBoundaries.length + cp7InstallmentBoundaries.length + cp7NotaBoundaries.length + cp7FgBookBoundaries.length + cp7FgAdjustmentBoundaries.length + cp7FgBoundaries.length + cp7CountBoundaries.length + cp7CountSourceBoundaries.length + cp7ReturnBoundaries.length + cp7InvoiceBoundaries.length + cp7SupplierPaymentBoundaries.length + 19 + beRpcBoundaries.length + bfRpcBoundaries.length + cp7ProcurementBoundaries.length + cp7ReceiptCorrectionBoundaries.length + cp7MaterialNameBoundaries.length + cp7MaterialBoundaries.length + cp7FinanceOverviewBoundaries.length + cp7CustomerHistoryBoundaries.length + cp7HistoryBoundaries.length + cp7CuttingYieldBoundaries.length + cp7CuttingInputBoundaries.length + cp7CuttingLearningBoundaries.length + cp7PlanningBoundaries.length + cp7ProductionPlanningBoundaries.length + cp7AnalysisBoundaries.length + cp7ModelBoundaries.length + cp7ModelPolicyBoundaries.length + cp7ModelV2Boundaries.length + cp7PlanBoundaries.length + cp7ReportBoundaries.length + cp7StagedReportBoundaries.length + cp7StagedAiBoundaries.length + cp7StagedReminderBoundaries.length + cp7YieldPolicyBoundaries.length + cp7PolicyBoundaries.length + cp7RuleBoundaries.length + cp7ObligationReportBoundaries.length + cp7SourceOwningRecheckBoundaries.length + cp7TransactionDependencyBoundaries.length + cp7FabricBoundaries.length + cp7ErpSettingsBoundaries.length + cp7AuditBoundaries.length + cp7WarehouseSummaryBoundaries.length + cp7WaBoundaries.length + cp7FgReorderBoundaries.length + cp7MaterialReorderBoundaries.length + cp7ReturnSettlementBoundaries.length)
+assert.ok(rpcBoundaries.has('src/ConnectedInitialImportPage.tsx:erp_get_initial_import_workspace_v1'))
+assert.ok(rpcBoundaries.has('src/ConnectedInitialImportPage.tsx:erp_save_initial_import_action_v1'))
+assert.ok(rpcBoundaries.has('src/useLaundryQcWorkspace.ts:erp_get_laundry_qc_workspace_v1'))
+assert.ok(rpcBoundaries.has('src/useLaundryQcWorkspace.ts:erp_save_laundry_qc_action_v1'))
+assert.ok(rpcBoundaries.has('src/useLaundryQcWorkspace.ts:erp_search_final_sku_products_v1'))
+assert.ok(rpcBoundaries.has('src/useLaundryQcWorkspace.ts:erp_search_laundry_bs_products_v1'))
+for (const [route, permission] of Object.entries(evidence.critical_routes)) {
+  assert.equal(pageMap.get(route), permission, `Critical route evidence drift: ${route}`)
+}
+for (const [action, permission] of Object.entries(evidence.critical_actions)) {
+  assert.equal(actionMap.get(action), permission, `Critical action evidence drift: ${action}`)
+}
+assert.equal(evidence.invariants.cutting_view_does_not_grant_pattern_manage, true)
+assert.notEqual(pageMap.get('cutting-roll'), actionMap.get('quickCreatePattern'))
+assert.equal(evidence.invariants.quick_create_uses_master_save_rpc, true)
+assert.match(readFileSync(resolve(root, 'src/CuttingPatternPicker.tsx'), 'utf8'), /\.rpc\('erp_save_pattern_v1'/)
+assert.equal(evidence.invariants.cutting_transaction_pattern_id_required, true)
+assert.equal(evidence.invariants.pattern_snapshot_visible_in_pickup_and_wip, true)
+assert.equal(evidence.invariants.grandfathered_history_requires_bulk_import, false)
+assert.match(migration, /PATTERN_ID_REQUIRED_FOR_CUTTING_TRANSACTION/)
+const initialAssignmentGuard = between(
+  integrityCorrection,
+  'create function erp.assert_pattern_initial_assignment_allowed',
+  'create or replace function erp.guard_pattern_assignment_snapshot',
+)
+for (const table of [
+  'cutting_qty_correction_lines', 'work_completion_events', 'sewing_terminal_events',
+  'laundry_delivery_lines', 'qc_inspection_items', 'fg_lots', 'bs_cases',
+  'attendance_hpp_pool_allocations', 'wip_stage_events', 'wip_control_flags', 'scrap_batches',
+]) assert.match(initialAssignmentGuard, new RegExp(`erp\\.${table}`), `Missing initial-assignment blocker: ${table}`)
+assert.doesNotMatch(initialAssignmentGuard, /cutting_group_(?:rolls|size_slots)/)
+assert.match(initialAssignmentGuard, /for update/i)
+assert.match(integrityCorrection, /PATTERN_IDENTITY_ALREADY_BOUND/)
+assert.match(integrityCorrection, /PATTERN_ASSIGNMENT_SNAPSHOT_IMMUTABLE/)
+assert.match(integrityCorrection, /revoke all on function erp\.assert_pattern_initial_assignment_allowed\(uuid\)/)
+assert.match(app, /disabled=\{!hasCanonicalPattern\(selectedPattern\)\|\|!yardUsageValid\|\|totalPieces===0\}/)
+assert.match(app, /className="wip-selected-pattern" data-pattern-snapshot=/)
+assert.match(app, /className="sewing-parent-pattern" data-pattern-snapshot=/)
+
+assert.equal(evidence.invariants.cp45_evidence_remains_frozen, true)
+assert.equal(evidence.invariants.module_specific_runtime_routing, true)
+assert.match(app, /runtime\.cuttingMode === 'CONNECTED'/)
+assert.match(app, /runtime\.distributionMode === 'CONNECTED'/)
+assert.match(app, /runtime\.wipStatusMode === 'CONNECTED'/)
+assert.match(app, /runtime\.bsResolutionMode === 'CONNECTED'/)
+assert.match(app, /runtime\.laundryMode === 'CONNECTED'/)
+assert.match(app, /runtime\.qcFinalMode === 'CONNECTED'/)
+assert.match(app, /runtime\.fgHandoffMode === 'BLOCKED_UNTIL_AUTHORITATIVE'/)
+assert.match(app, /firstAllowedPageId\(accessBundle\)/,
+  'A restricted role still lands on an implicitly forbidden dashboard')
+assert.match(app, /!accessBundle \|\| isPageAllowed\(accessBundle, page\)/,
+  'App does not re-evaluate the active route after role/identity changes')
+for (const token of [
+  'Mode kelola hak akses', 'Mode lihat saja', 'permission-dependency-warning',
+  'disabled={!canManage}', 'Template tetap',
+]) assert.ok(accessPage.includes(token), `Access-control UX invariant missing: ${token}`)
+for (const token of [
+  '.access-panel,', 'color: #352b26;', '.role-title > span > strong,',
+  'color: #2f2723;', '.access-mode-banner.view', 'min-height: 40px;',
+]) assert.ok(accessCss.includes(token), `Access-control readability invariant missing: ${token}`)
+assert.equal(evidence.invariants.connected_pattern_filter_cutting_pickup, true)
+assert.match(readFileSync(resolve(root, 'src/ConnectedPickupPage.tsx'), 'utf8'), /ConnectedPatternFilter/)
+assert.equal(evidence.invariants.connected_pattern_filter_wip, true)
+assert.match(readFileSync(resolve(root, 'src/ConnectedWipStatusPage.tsx'), 'utf8'), /ConnectedPatternFilter/)
+assert.equal(evidence.invariants.connected_pattern_filter_bs_resolution, true)
+const bsPage = readFileSync(resolve(root, 'src/ConnectedBsResolutionPage.tsx'), 'utf8')
+const bsModel = readFileSync(resolve(root, 'src/bsResolutionModel.ts'), 'utf8')
+const createClaimBlock = between(bsPage, 'function CreateClaim', 'function ClassificationPanel')
+assert.match(bsPage, /ConnectedPatternFilter/)
+assert.match(bsPage, /erp_get_bs_resolution_workspace_v1/)
+assert.match(bsPage, /erp_save_bs_resolution_action_v1/)
+assert.equal(evidence.invariants.simulation_pattern_filter_laundry, true)
+assert.match(app, /aria-label="Filter Pola Laundry"/)
+assert.equal(evidence.invariants.simulation_pattern_filter_qc, true)
+assert.match(readFileSync(resolve(root, 'src/QcFinalPage.tsx'), 'utf8'), /aria-label="Filter Pola QC"/)
+assert.equal(evidence.invariants.bs_resolution_uses_two_public_rpc_facades, true)
+const bsRpcNames = [...bsPage.matchAll(/\.rpc\s*\(\s*['"]([^'"]+)['"]/g)].map((match) => match[1])
+assert.deepEqual(
+  [...new Set(bsRpcNames)].sort(),
+  ['erp_cp7_resolve_transaction_source_v1', 'erp_get_bs_resolution_workspace_v1', 'erp_save_bs_resolution_action_v1', 'erp_save_product_conversion_action_v1'],
+)
+assert.equal(bsRpcNames.filter((name) => name === 'erp_get_bs_resolution_workspace_v1').length, 1)
+assert.equal(bsRpcNames.filter((name) => name === 'erp_save_bs_resolution_action_v1').length, 1)
+assert.equal(evidence.invariants.laundry_and_qc_writers_connected, false)
+assert.equal(evidence.invariants.source_only, false)
+assert.equal(evidence.invariants.uat_applied, true)
+assert.equal(evidence.invariants.candidate_apply_status, 'RECORDED_V2618_V2618A_V2619_V2619A_V2619B_V2619C')
+assert.equal(evidence.invariants.rework_accessory_selection_uses_existing_dispatcher, true)
+assert.equal(evidence.invariants.rework_partial_return_uses_existing_dispatcher, true)
+assert.equal(evidence.invariants.rework_defaults_are_server_proven_unpaid_or_remaining_entitlement, true)
+assert.match(bsPage, /filter\(\(item\) => item\.default_selected\)/)
+assert.match(bsPage, /remaining_new_work_qty_pcs/)
+assert.match(bsModel, /SERVER_ENTITLEMENT_V2619B/)
+assert.equal(evidence.invariants.manual_replacement_requires_explicit_selection, true)
+assert.match(bsModel, /MANUAL_REPLACEMENT/)
+assert.match(bsPage, /manual bila penggantian nyata/)
+assert.equal(evidence.invariants.laundry_claim_types_are_missing_stuck_damage_only, true)
+assert.match(bsPage, /type ClaimType = 'STUCK' \| 'MISSING' \| 'DAMAGE'/)
+assert.doesNotMatch(createClaimBlock, /OTHER/)
+assert.equal(evidence.invariants.post_commit_refetch_failure_freezes_all_writers, true)
+assert.equal(evidence.invariants.lost_response_reuses_exact_durable_envelope, true)
+assert.equal(evidence.invariants.claim_bs_cash_lineage_is_atomic, true)
+assert.equal(evidence.invariants.rollback_ledger_is_statement_digest_bound, true)
+assert.match(bsPage, /useProductionMutation\('BS'\)/)
+assert.match(bsPage, /effectiveCanCreate = canCreate && !mutation\.writerLocked/)
+assert.match(bsPage, /effectiveCanPost = canPost && !mutation\.writerLocked/)
+assert.match(bsPage, /effectiveCanReverse = canReverse && !mutation\.writerLocked/)
+assert.equal(evidence.invariants.private_accessory_lineage_has_no_browser_table_access, true)
+assert.equal(evidence.invariants.hosted_auth_permission_e2e, 'PASS_31_OF_31')
+assert.equal(evidence.invariants.legacy_mutated, false)
+assert.equal(evidence.invariants.v2619c_uat_runtime_verified, true)
+assert.equal(evidence.invariants.v2619c_platform_ledger_exact_source, true)
+assert.equal(evidence.invariants.exact_code_head_ci_5_of_5, true)
+
+assert.equal(v2619cEvidence.format, 'CP5_V2619C_UAT_ACCEPTANCE_V1')
+assert.equal(v2619cEvidence.status, 'PASS')
+assert.equal(v2619cEvidence.correction.application_version, 'v2.6.19c')
+assert.equal(v2619cEvidence.correction.source_bytes, 13808)
+assert.equal(v2619cEvidence.correction.source_sha256, 'b11014081391f3d72e242813b09bb64c53e2aefe0f4eb42cc20e8089a57ef8ba')
+assert.equal(v2619cEvidence.correction.connector_ledger_sha256, v2619cEvidence.correction.source_sha256)
+assert.equal(v2619cEvidence.code_ci.runtime_head_sha, '49647ded395d516983417e5f6315f6f0dc707f3d')
+assert.equal(v2619cEvidence.code_ci.runtime_head_tree, '9c1b5ee3d6c225d0b7ef5b3d193e0e90ef30a2c5')
+assert.deepEqual(v2619cEvidence.code_ci.unit_tests, { files: 25, passed: 172 })
+assert.deepEqual(v2619cEvidence.code_ci.browser_tests, { cp45: 2, pre_cp5: 2, cp5: 8, total: 12 })
+assert.equal(v2619cEvidence.code_ci.ownership.unowned, 0)
+assert.equal(v2619cEvidence.hosted_uat_runtime.enabled_guard_triggers, 2)
+assert.equal(v2619cEvidence.hosted_uat_runtime.capsule_definition_mismatch, 0)
+assert.equal(v2619cEvidence.installed_function_md5.reverse_laundry_claim_resolution, 'eb83b83b5c5b1a302f56f433f919e363')
+assert.equal(v2619cEvidence.disposable_proofs.v2619c_pre_rollback_history.new_audit_rows, 0)
+assert.ok(Object.values(v2619cEvidence.post_proof_residue).every((value) => value === 0))
+assert.equal(v2619cEvidence.preexisting_state_preserved.audit_rows, 36)
+assert.equal(v2619cEvidence.post_apply_advisors.security_error, 0)
+assert.equal(v2619cEvidence.post_apply_advisors.scoped_unexpected_security_warn, 0)
+assert.equal(v2619cEvidence.post_apply_advisors.performance_warn_or_error, 0)
+assert.equal(v2619cEvidence.legacy_read_only.legacy_mutated, false)
+assert.equal(v2619cEvidence.legacy_mutated, false)
+assert.equal(v2619cEvidence.production_go, false)
+assert.equal(v2619cEvidence.independent_audit_verdict, 'PENDING')
+
+console.log(`Access ownership passed: frozen CP4.5/CP5 proofs intact; current code owns ${permissionRows.length} backend permissions, ${navMap.size} nav labels, ${pageMap.size} routes, ${actionMap.size} sensitive actions, and ${rpcBoundaries.size} browser RPC boundaries.`)

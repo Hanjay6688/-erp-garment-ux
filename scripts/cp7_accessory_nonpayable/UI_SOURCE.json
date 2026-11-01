@@ -1,0 +1,65 @@
+{
+  "contract": "cp7.good-policy-date-settings-ui.v1",
+  "files": {
+    "scripts/check-access-catalog.mjs": {
+      "bytes": 45455,
+      "sha256": "58bf2a296983f44b7ace6340a377ab1d1ee1ad1e71c2d1944246316cfc9ab748"
+    },
+    "scripts/check-source-ownership.mjs": {
+      "bytes": 25610,
+      "sha256": "cdeb12e5a1da01308623bdf53b9d55080b9377c9aafb6ba21d7857d650c6bf01"
+    },
+    "scripts/cp7_accessory_nonpayable/UI_ORIGIN.json": {
+      "bytes": 25394,
+      "sha256": "f4d21bda4221e2e7ec58d96d1dad03b08b2aba5ef2134365d6ce22f8a2b82b9c"
+    },
+    "scripts/cp7_accessory_nonpayable/ui-before/ConnectedErpSettingsPage.dom.test.tsx.txt": {
+      "bytes": 19000,
+      "sha256": "eea4cdce3854fe9d061d8f926b664606f93162df0e3446ccc928aa9249729b05"
+    },
+    "scripts/cp7_accessory_nonpayable/ui-before/ConnectedErpSettingsPage.tsx.txt": {
+      "bytes": 22681,
+      "sha256": "5d97515f8f788ab1c7755d7c1c8677c7c7b77867701f95a3ae667e4091d44487"
+    },
+    "scripts/cp7_accessory_nonpayable/ui-before/check-access-catalog.mjs.txt": {
+      "bytes": 44657,
+      "sha256": "6e277aa3e1dc9eb54e98a985f2b64359acce9e05afb246caebf6600c1a1aad14"
+    },
+    "scripts/cp7_accessory_nonpayable/ui-before/check-source-ownership.mjs.txt": {
+      "bytes": 25243,
+      "sha256": "bba02cb2f7892c3f40ab88be4a887741362868bd34be2f2d80a1826cc9022649"
+    },
+    "src/ConnectedErpSettingsPage.dom.test.tsx": {
+      "bytes": 21386,
+      "sha256": "cc76895152e45f0a30b584efedd8fd0fe61647173bca51898861bb35b8a821d8"
+    },
+    "src/ConnectedErpSettingsPage.tsx": {
+      "bytes": 23367,
+      "sha256": "d0dd71d4b1f7ff528fad411bbb133b80dfb52f137b64102174b758a4a2969659"
+    },
+    "src/GoodPolicyDatesPanel.dom.test.tsx": {
+      "bytes": 10471,
+      "sha256": "1ab765dbb012fc9c8bb714f3959336a07fa49731b0946c27239c72db022de604"
+    },
+    "src/GoodPolicyDatesPanel.tsx": {
+      "bytes": 12808,
+      "sha256": "89034c7e6a058259e3559007822707a53994f6217db6c96b53ccef1a4237bddf"
+    },
+    "src/good-policy-dates.css": {
+      "bytes": 876,
+      "sha256": "f6deee83b211576641f6a536a282d12a3b89076eb55e9d6d02fd97ba1c6328e5"
+    },
+    "src/nativeGoodPolicyDates.test.ts": {
+      "bytes": 6991,
+      "sha256": "35eb0f818fd8e26b4cc1fdf2206f39ac225e7696d71228a2474181046e6c2571"
+    },
+    "src/nativeGoodPolicyDates.ts": {
+      "bytes": 13900,
+      "sha256": "bcb325f133e651ba7d0572cd5021cb071f9c7a49a9899e6c573709780706db36"
+    }
+  },
+  "actual_browser_cases": 0,
+  "actual_Auth_HTTP_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

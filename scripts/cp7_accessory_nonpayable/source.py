@@ -8,7 +8,7 @@ import sys
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
 sys.path.insert(0, str(HERE.parent))
-from cp7_accessory_nonpayable import admission, composition
+from cp7_accessory_nonpayable import admission, composition, settings_stage, ui_derivation
 
 PREPARED_BASE = '10ac4e74cfcc66db7d1f2b166f3da0fc479f127b'
 PREPARED_TREE = 'a0b0108113b9b4d43d57483f291383229a37d4ad'
@@ -32,6 +32,8 @@ def entries(ref):
 
 def preflight():
     source = composition.source_manifest()
+    ui = ui_derivation.source_manifest()
+    body_count = len(settings_stage.function_bodies())
     bindings = (admission.PARENT_HEAD, admission.PARENT_TREE, admission.PARENT_RUN,
         admission.PARENT_JOB, admission.PARENT_RECEIPT)
     if any(value is not None for value in bindings):
@@ -45,17 +47,26 @@ def preflight():
         raise ValueError('NONPAYABLE_EXACT_PARENT_GIT_TREE_REQUIRED')
     before, after = entries(base), entries('HEAD')
     for name, row in before.items():
+        if name in ui_derivation.CHANGED:
+            proof = ui['UI_derivations'][name]
+            if (row != '100644 blob ' + proof['original_blob_sha']
+                or after.get(name) != '100644 blob ' + proof['derived_blob_sha']):
+                raise ValueError('NONPAYABLE_ONLY_EXACT_COUNTED_UI_PARENT_CHANGE_ALLOWED:' + name)
+            continue
         if after.get(name) != row:
             raise ValueError('NONPAYABLE_EXISTING_PARENT_BLOB_OR_MODE_CHANGED:' + name)
     added = set(after) - set(before)
-    if not added or any(not name.startswith('scripts/cp7_accessory_nonpayable/') for name in added):
+    if not added or any(not name.startswith('scripts/cp7_accessory_nonpayable/')
+                        and name not in ui_derivation.ADDED for name in added):
         raise ValueError('NONPAYABLE_ONLY_DECLARED_ADDITIVE_COMPONENT_ALLOWED')
     if not set(source['files']).issubset(added):
         raise ValueError('NONPAYABLE_ALL_EXECUTABLE_SOURCE_MUST_BE_TRACKED_OWN_ADDITION')
     return dict(status='NONPAYABLE_SOURCE_ONLY_ADMITTED_PARENT_ACCEPTANCE_PENDING'
         if all(value is None for value in bindings) else 'NONPAYABLE_SOURCE_BOUND_TO_ACTUAL_FREE3_PARENT',
-        base_head=base, base_tree=tree, unchanged_parent_paths=len(before), own_paths=len(added),
+        base_head=base, base_tree=tree, unchanged_parent_paths=len(before)-len(ui_derivation.CHANGED), own_paths=len(added),
         own_source_pins=len(source['files']), exact_counted_Native_derivations=4,
+        exact_counted_existing_UI_paths=len(ui_derivation.CHANGED), new_UI_paths=len(ui_derivation.ADDED),
+        prepared_public_facade_functions=2, exact_settings_function_bodies=body_count,
         accepted_parent_bound=all(value is not None for value in bindings), actual_SQL_executed=0,
         actual_Native_cases=0, actual_Auth_HTTP_cases=0, actual_browser_cases=0,
         production_go=False, independent_acceptance=False)
