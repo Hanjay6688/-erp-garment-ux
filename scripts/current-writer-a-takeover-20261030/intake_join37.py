@@ -5,16 +5,16 @@ import argparse,ast,json,re,zipfile
 from intake_common import GitBytes,exact,fields,pin,require,safe_path
 from intake_sku27 import strict,literal,group,full_census,declared_files
 
-HEAD='dad402b1a6eee7c4acdd776c8c6a1538c1a52f0a'
-TREE='d9d89babc816032fbdf06f1c961f7829a2cbab7c'
+HEAD='08ef3bee814e6452b9193b53efc05d53abca2d9d'
+TREE='abf7e8b78bd56907ace9fb30211d956b63d68797'
 BASE='b25eaae55a144aa03cc05f8f77109f5d0b02fbfb'
 NS='scripts/current-s03-sku-s05-composite-qualification/'
 CASE='CURRENT_S03_SKU_S05_NATIVE31_BROWSER6'
 MAIN='CP7_CURRENT_S03_SKU_S05_NATIVE31_BROWSER6.json'
 # Arm only after the actual full37 successor is launched and observed.
 # The focused Owner Native1 run on the same tree cannot satisfy this intake.
-RUN=41267825303
-JOB=124734228589
+RUN=41291621885
+JOB=124803871870
 GATES=dict(installed=True,primary_unchanged=True,backup_restore_drill=True,security_advisors=True,writer_runtime=True)
 
 def source(g):
