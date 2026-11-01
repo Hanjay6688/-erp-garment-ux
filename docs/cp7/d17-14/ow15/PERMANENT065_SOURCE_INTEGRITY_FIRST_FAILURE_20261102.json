@@ -1,0 +1,43 @@
+{
+  "status": "PERMANENT065_FAILED_BEFORE_DB_EXACT_OWNER_SETUP_SOURCE_ROUTE_CORRECTED",
+  "head": "065fff01bba869acca842e4008d87caf1e09b318",
+  "tree": "ed3cdf7d306be989bd46bf94f0305a7ece21d986",
+  "run_id": 41345722922,
+  "job_id": 124964983426,
+  "run_attempt": 1,
+  "terminal_conclusion": "failure",
+  "failed_step": 64,
+  "DB_started": false,
+  "ERP_started": false,
+  "actual_case_credit": 0,
+  "first_error": "test_all_financial_and_fixture_functions_except_receipt_parser_are_unchanged: changed functions ['qualified_receipt', 'read_kept_reader'] vs old expected ['qualified_receipt']",
+  "canonical": {
+    "artifact_id": 13099785086,
+    "bytes": 58115,
+    "sha256": "ae4b8f857d9b7d491489ecc491e78f8d2b9b122c5c656ccd8832290e37c84bc9",
+    "full_crc": true,
+    "safe_unique_paths": true,
+    "members": 109,
+    "library_file_id": "libfile_feb73a24d31c8191870348b8ce1a879f"
+  },
+  "source_control_correction": {
+    "exact_original_read_function_AST_required_after_only_OWNER_setup_move": true,
+    "every_other_nonreceipt_function_AST_exact": true,
+    "exact_original_reader_bytes_recovered_by_inverse": true,
+    "read_SQL_response_full22_rows_sequences_oracles_unchanged": true,
+    "product_runtime_oracles_not_weakened": true
+  },
+  "full_source_unit_tests": {
+    "methods": 30,
+    "status": "PASS",
+    "seconds": 0.2,
+    "log": {
+      "bytes": 5343,
+      "sha256": "49657b1aa788f3c99e2bf580d3757d82b208b470a1632717bf50eeb05fdbb894"
+    }
+  },
+  "actual_runtime_financial_reader_SQL_UI_workflow_unchanged_from065": true,
+  "no_local_ERP_or_browser_rerun": true,
+  "production_go": false,
+  "independent_acceptance": false
+}

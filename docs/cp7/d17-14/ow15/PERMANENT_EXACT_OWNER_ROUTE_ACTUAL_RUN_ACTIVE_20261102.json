@@ -1,0 +1,145 @@
+{
+  "status": "SINGLE_ACTUAL_PERMANENT_EXACT_OWNER_SETUP_ROUTE_RUN_ACTIVE_NOT_QUALIFIED",
+  "head": "23e3e77d6dddd48a98d31c35822d637db2cee528",
+  "tree": "0637e2f69fc24cd2a98260210e9c358222ae992b",
+  "local_same_tree_head": "7658c92a70ae774dce531ed780e92c48fc3b19d9",
+  "run_id": 41346386747,
+  "job_id": 124966984224,
+  "run_attempt": 1,
+  "event": "push",
+  "created_at": "2026-11-01T20:20:53Z",
+  "sole_readonly_monitor_cell": "977",
+  "previous_065_terminal_failure_preserved_before_retry": true,
+  "previous_065_database_never_started": true,
+  "changed_qualification_files": 3,
+  "financial_runtime_product_SQL_UI_workflow_unchanged_from065": true,
+  "all_source_unittests_before_activation": {
+    "count": 30,
+    "status": "PASS",
+    "log": {
+      "bytes": 5343,
+      "sha256": "49657b1aa788f3c99e2bf580d3757d82b208b470a1632717bf50eeb05fdbb894"
+    }
+  },
+  "exact_owner_route_source_guard": {
+    "original_reader_AST_after_only_fixture_move": true,
+    "original_reader_bytes_recovered": true,
+    "every_other_function_except_receipt_AST_exact": true
+  },
+  "source_controls": {
+    "actual_Native_cases": 0,
+    "actual_browser_cases": 0,
+    "complete_package_engine": {
+      "complete_original_recovered": true,
+      "counted_changes": 2,
+      "derived_sha256": "1639b4a21068a2a9e048f982036940136829e906341fe8eba3f9127233cf2733",
+      "full_install_preuse_reinstall_used_backup_roles_full22_ALL_rows_sequences_CP6_advisors_Auth_package_checks_retained": true,
+      "original_sha256": "c420d894f8d5f16bddefeae73addb621507170f372a28e7d6e33d88c7eeb0be9"
+    },
+    "complete_unchanged_browser_source_derivations": 4,
+    "current_browser_source_binding": {
+      "actual_ERP_cases": 0,
+      "complete_original_manifest_recovered": true,
+      "current_inputs": 19,
+      "explicitly_routed_current_caller_pins": 8,
+      "production_go": false,
+      "status": "EXACT_CURRENT_PERMANENT_BROWSER_BINDING",
+      "unchanged_browser_UI_and_fixture_inputs": 11
+    },
+    "exact_job_and_WIB_guard_budget_seconds": 21600,
+    "exact_original_workflow_steps_retained": 67,
+    "independent_acceptance": false,
+    "original_single_attempt_and_real_day_behavior_unchanged": true,
+    "production_go": false,
+    "published_diagnostics_byte_exact": true,
+    "runtime_supervision": {
+      "actual_case_credit": 0,
+      "artifact_reserve_seconds": 600,
+      "job_seconds": 21600,
+      "own_probe_and_receipt_routes": true,
+      "restoration_reserve_seconds": 1200,
+      "status": "PERMANENT_SUPERVISION_EXACT_REUSE_SOURCE_PASS",
+      "unchanged_process_engine": true,
+      "work_seconds": 19800
+    },
+    "selected_persistent_financial_cases": 4,
+    "source_DB_network_guard": {
+      "attempts": [],
+      "network_nonGit_attempts": [],
+      "public_source_sha256": "1439d70810383db377c48e043df7fb6d487a1b2f1a995e8993a2c08590f9f797",
+      "self_controls": [
+        {
+          "api": "psycopg.connect",
+          "result": "DENIED_BEFORE_LIBPQ"
+        },
+        {
+          "api": "psycopg.Connection.connect",
+          "result": "DENIED_BEFORE_LIBPQ"
+        },
+        {
+          "api": "psycopg.AsyncConnection.connect",
+          "result": "DENIED_BEFORE_LIBPQ"
+        },
+        {
+          "original_connect_descriptors_restored": true
+        }
+      ]
+    },
+    "status": "PERMANENT_READER_SOURCE_AND_CALLER_CONTROLS_PASS_NOT_NATIVE",
+    "unchanged_financial_callback_ASTs": 11
+  },
+  "Root_source": {
+    "source_pins": 56,
+    "own_paths": 57,
+    "unchanged_base": 14107,
+    "expected_parent_head": "2cb8c9ac85b6111e8bb170de6c2ec5c44f7c798c",
+    "expected_parent_run": 41333643573,
+    "expected_parent_job": 124928771868,
+    "parent_root_acceptance_pending": false,
+    "parent_root_receipt": {
+      "bytes": 20463,
+      "sha256": "2d9731cf9cdaed8ed90c0e189e56663a54e3bdd28ba8e24741516c4d1a85d9ba"
+    },
+    "retained_parent_case_credit_is_not_fresh": true,
+    "native_ids": [
+      "PERMANENT_S05_S03_NATIVE_EXPENSE_APPROVAL_ONCE_PAID_E05_REOPEN",
+      "PERMANENT_S05_S03_NATIVE_BOTH_CORRECTIONS_LINKED_INVERSES_NO_RECOGNITION",
+      "PERMANENT_S05_S03_NATIVE_FINISHED_PO_FG_COGS_COST_AND_CANCEL_EXACT",
+      "PERMANENT_S05_S03_NATIVE_OLD_ACCRUAL_LATER_BOOK_REOPEN_DATE_FLOOR"
+    ],
+    "browser_ids": [
+      "PERMANENT_S05_SKU_NORMAL_APP_DESKTOP_SOURCE_AND_LATE_REPLY",
+      "PERMANENT_S05_SKU_NORMAL_APP_MOBILE390_UNKNOWN_ZERO_AND_CURRENT_ACCESS"
+    ],
+    "current_browser_source_binding": {
+      "actual_current_inputs_verified": 19,
+      "explicit_current_caller_pin_routes": 8,
+      "unchanged_browser_UI_and_fixture_inputs": 11,
+      "original_manifest_recovered": true,
+      "actual_case_credit": 0
+    },
+    "nested_product_source_binding": {
+      "actual_source_files": 3,
+      "source_manifest": {
+        "bytes": 763,
+        "sha256": "f451b5462236e50c0b8b0abf34fa92efef71d97f05f4d447ede0c8d4c08a0434"
+      },
+      "actual_case_credit": 0
+    },
+    "source_manifest": {
+      "bytes": 11693,
+      "sha256": "7ae22029e5381edff88b53d9d35801a8f3e00805b615d2bbbc3e29febe9ad607"
+    },
+    "actual_case_credit": 0
+  },
+  "actual_new_qualified_cases": 0,
+  "required_fresh_cases": {
+    "Native": 4,
+    "normal_App_real_Auth_browser": 2
+  },
+  "requires_full_canonical_originals_full_restore_all5_and_Root_intake": true,
+  "old_S05_Root_acceptance_reused": true,
+  "DE_not_activated": true,
+  "production_go": false,
+  "independent_acceptance": false
+}
