@@ -1,0 +1,23 @@
+{
+  "status": "OBSERVED_INACTIVE_ACCESSORY_TAB_CONTRAST_PATCH_PREPARED_NOT_APPLIED",
+  "observed_actual_source": "S05_2CB_SUCCESS_CANONICAL.zip actual desktop and mobile390 SOURCES PNGs",
+  "actual_source_file": "src/accessory-workspace.css",
+  "source_sha256": "54b53c7fba6b85dd6dab3f964da265c648e722b8df7233226a46c252769ca0b5",
+  "prepared_sha256": "573966c363a38314bbab8f7dcc265b68436c0fef3283cf8ab7300bbe0c8485e6",
+  "prepared_patch": "scripts/current-writer-a-takeover-20261030/prepared-ui/accessory-workspace-tabs.patch.txt",
+  "defect": "Only the selected tab has explicit colors. The inactive native button retains a light browser background against inherited light text.",
+  "scope": "Only existing asw-tabs buttons; explicit inactive colors, existing selected colors, keyboard focus and 44px minimum touch height. No layout or behavior change to the report.",
+  "static_computed_solid_color_contrast_ratios": {
+    "inactive_text": 14.78575520820998,
+    "selected_text": 11.290912167549513,
+    "focus_outline_on_inactive_button": 10.333105411196726
+  },
+  "actual_browser_or_ERP_cases": 0,
+  "apply_after": "The active financial integration is stable; rebind the actual reader UI manifest entry and its current source pins before the affected full App visual check.",
+  "active_candidate_changed": false,
+  "patch_applied": false,
+  "actual_product_changes": 0,
+  "production_go": false,
+  "independent_acceptance": false,
+  "git_apply_check_on_unchanged_actual_source_passed": true
+}
