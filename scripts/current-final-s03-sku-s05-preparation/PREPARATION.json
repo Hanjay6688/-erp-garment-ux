@@ -1,6 +1,6 @@
 {
-  "status": "COMPLETE_PERMANENT_READER_CALLER_PREPARED_PARENT37_PENDING",
-  "base_head": "cb8aa092506a272da526aa55a1cfef4b2a6413c0",
+  "status": "COMPLETE_PERMANENT_READER_CALLER_PARENT37_BOUND_READY_FOR_RUNTIME",
+  "base_head": "2cb8c9ac85b6111e8bb170de6c2ec5c44f7c798c",
   "files": {
     ".github/workflows/cp7-final-s03-sku-s05.yml": {
       "bytes": 34323,
@@ -40,15 +40,15 @@
     },
     "scripts/current-final-s03-sku-s05-preparation/PERSISTENT_BROWSER_SOURCE.json": {
       "bytes": 2912,
-      "sha256": "c8e2fb8c10cdef7ffd68ad5e52d5de9309c6dcfdd959a22cda75b61eb63d4b19"
+      "sha256": "4480bd30700b08896519a08b5bad2e2b8173e2581c414ded0299c7c3140d7298"
     },
     "scripts/current-final-s03-sku-s05-preparation/REPAIRED_CURRENT37_REBASE_ORIGIN.json": {
       "bytes": 15493,
       "sha256": "72cefd641f1b110acfbbaccb144a4f72828c38a258f794f4adc6e905752098db"
     },
     "scripts/current-final-s03-sku-s05-preparation/RETAINED35_PARENT_TRANSITION.json": {
-      "bytes": 5563,
-      "sha256": "d0ccfee2e97acd5c9ea517ae00aed5a334d2ed24b67938cf67466b361a71ceac"
+      "bytes": 6212,
+      "sha256": "1372875a2da3d2d3ac547b99ed2a349213e11ec9bebba0e163434929800ca999"
     },
     "scripts/current-final-s03-sku-s05-preparation/REUSED_GLOBAL_FINITE19_PROFILE.json": {
       "bytes": 3392,
@@ -175,12 +175,12 @@
       "sha256": "fd3fab4c42acc4cf8233a3223291bf7155d2d3caaf8c34b89a877f516bd708c8"
     },
     "scripts/current-final-s03-sku-s05-preparation/persistent_financial.py": {
-      "bytes": 10673,
-      "sha256": "9e4ddc0d6a3486dc9b8e28de6dabc7476c0f41e7645917a74453bed077196999"
+      "bytes": 10763,
+      "sha256": "1377251ec3b9a1da2be79b279e71207d2564b2d38f0d341473ca6ef896c60364"
     },
     "scripts/current-final-s03-sku-s05-preparation/persistent_source.py": {
       "bytes": 4631,
-      "sha256": "ba2e01a0f1ea0c6438f642a3241ebd28ba40e0b51384fdc0e45ca230d4d45a33"
+      "sha256": "d9d209fef89599e2423478dc696dbe68d52aec4bbbd1c29cf5fce4273d0d36f4"
     },
     "scripts/current-final-s03-sku-s05-preparation/probe.py": {
       "bytes": 3784,
@@ -221,13 +221,17 @@
     "scripts/current-final-s03-sku-s05-preparation/test_system_metadata.py": {
       "bytes": 4565,
       "sha256": "573b100486b6d57ec786eec33b3365966a0d451ad4ade888b94d0733f098e8ce"
+    },
+    "scripts/current-final-s03-sku-s05-preparation/JOIN37_ROOT_ACTUAL_INTAKE.json": {
+      "bytes": 20463,
+      "sha256": "2d9731cf9cdaed8ed90c0e189e56663a54e3bdd28ba8e24741516c4d1a85d9ba"
     }
   },
   "actual_new_Native_cases": 0,
   "production_go": false,
   "independent_acceptance": false,
   "persistent_reader_financial_callbacks_prepared": 4,
-  "actual_accepted_parent_run": null,
+  "actual_accepted_parent_run": 41333643573,
   "persistent_normal_App_browser_cases_prepared": 2,
   "new_runtime_entry": "scripts/current-final-s03-sku-s05-preparation/probe.py",
   "read_only_system_and_scheduler_metadata_prepared": true,
@@ -235,9 +239,12 @@
   "metadata_Native_case_credit": 0,
   "owning_job_and_real_WIB_guard_minutes": 360,
   "qualification_clock_changed": false,
-  "expected_current37_run_in_progress": 41315727305,
+  "expected_current37_run_in_progress": 41333643573,
   "expected_parent_qualification": "ROOT_VERIFIED_CURRENT_JOIN_RETAINED35_FRESH_S05_BROWSER2_ALL5",
   "retained_parent_case_credit_is_not_fresh": true,
-  "expected_current37_job_in_progress": 124875223281,
-  "actual_parent_root_receipt": null
+  "expected_current37_job_in_progress": 124928771868,
+  "actual_parent_root_receipt": {
+    "bytes": 20463,
+    "sha256": "2d9731cf9cdaed8ed90c0e189e56663a54e3bdd28ba8e24741516c4d1a85d9ba"
+  }
 }

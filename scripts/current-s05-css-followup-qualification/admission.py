@@ -1,7 +1,7 @@
 """Actual Root retention and immutable source proof precede every ERP import."""
 from pathlib import Path
 from hashlib import sha256
-import importlib.util,json
+import importlib,importlib.util,json
 
 HERE=Path(__file__).resolve().parent
 ROOT=HERE.parents[1]
@@ -56,8 +56,16 @@ def admitted():
     p=load('focused_complete_financial_source_comparison',PARENT/'parents.py')
     p.exact(json_pin(parent['current_installation']),proof['receipt']['qualified_financial_sources'],
         'RETAINED_NATIVE35_WHOLE_FINANCIAL_SOURCE_GRAPH_UNCHANGED')
+    with import_scope():
+        reader=importlib.import_module('cp7_s05_s03_sku_composition.stage')
+        p.exact(Path(reader.__file__).resolve(),ROOT/'scripts/cp7_s05_s03_sku_composition/stage.py',
+            'ACTUAL_CURRENT_READER_MODULE_BEFORE_ANY_DATABASE')
+        complete_reader=reader.sources()
+        p.exact(complete_reader['parent'],parent['current_installation'],'READER_COMPLETE_NATURAL_FINANCIAL_PARENT_SOURCE')
+        p.exact(len(reader.function_sources()),5,'COMPLETE_FIVE_READER_FUNCTION_SOURCES_BEFORE_DB')
     return dict(status='ACTUAL_RETAINED35_AND_EXACT_CURRENT_PRODUCT_ADMITTED_FOR_FRESH_BROWSER2',
         **proof,current_installation=parent['current_installation'],natural_parent_admission=parent,
+        current_reader_installation=complete_reader,current_reader_graph_checked_before_database=True,
         retained_case_credit_is_not_fresh=True,actual_new_cases=0,production_go=False,independent_acceptance=False)
 
 def import_scope():return parent_admission().import_scope()

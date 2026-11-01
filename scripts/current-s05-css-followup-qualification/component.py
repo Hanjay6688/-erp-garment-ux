@@ -17,6 +17,21 @@ def scheduler_quiet(url):
 def foundation_precheck(cur):
     return load('focused_original_fixture_readiness',HERE/'foundation.py').check_before_install(cur)
 
+def release_source_for_copy(conn,cur):
+    """Release only our committed source connection, never another backend."""
+    info=conn.info
+    if(info.host not in('127.0.0.1','localhost')or info.port!=54322 or info.dbname!='cp6_rollback'
+        or type(info.backend_pid)is not int or info.backend_pid<=0):
+        raise ValueError('FOCUSED_EXACT_OWN_LOCAL_SOURCE_CONNECTION_REQUIRED')
+    pid=info.backend_pid
+    try:cur.close()
+    finally:conn.close()
+    if cur.closed is not True or conn.closed is not True:
+        raise ValueError('FOCUSED_SOURCE_CONNECTION_MUST_BE_CLOSED_BEFORE_BROWSER_COPY')
+    return dict(phase='AFTER_FOUNDATION_COMMIT_BEFORE_READER_OR_COPY',database='cp6_rollback',
+        backend_pid=pid,cursor_closed=True,connection_closed=True,foreign_backends_terminated=0,
+        actual_Native_case_credit=0)
+
 def exercise(conn,cur,database,url,report,state):
     admission=load('focused_component_actual_retention',HERE/'admission.py');proof=admission.retained()
     p=load('focused_component_typed_truth',PARENT/'parents.py')
@@ -29,6 +44,9 @@ def exercise(conn,cur,database,url,report,state):
     foundation=report['fixture_foundation']=dict(status='INCOMPLETE')
     load('focused_original_committed_fixture_setup',HERE/'foundation.py').prepare(cur,product,state,helper.control,foundation)
     conn.commit()  # The unchanged historical setup was committed by the omitted Native witness.
+    # PostgreSQL createdb -T requires zero source sessions, including idle ones.
+    # The owning engine's context manager also accepts an already closed handle.
+    report['source_connection_release']=release_source_for_copy(conn,cur)
     fresh=report['fresh_S05_browser2']=dict(status='INCOMPLETE')
     load('focused_unchanged_real_Auth_S05_browser2',PARENT/'s05_browser.py').exercise(url,state,fresh)
     p.fields(fresh,dict(status='PASS',actual_browser_cases=2,actual_Native_cases=0),'COMPLETE_FRESH_S05_BROWSER2_REQUIRED')

@@ -14,6 +14,7 @@ def freeze():
     names={str(p.relative_to(ROOT))for p in HERE.rglob('*')if p.is_file()and p.name!='SOURCE.json'and'__pycache__'not in p.parts and p.suffix!='.pyc'}|{WORKFLOW,'.github/workflows/cp7-s03-sku-owner-access-native1.yml','src/accessory-standard-report.css'}
     names.update(str(p.relative_to(ROOT))for p in(ROOT/'scripts/current-s05-css-followup-qualification').rglob('*')if p.is_file()and'__pycache__'not in p.parts and p.suffix!='.pyc')
     names.add('.github/workflows/cp7-s05-css-followup.yml')
+    names.add('scripts/cp7_s05_s03_sku_composition/SOURCE.json')
     files={name:sha256((ROOT/name).read_bytes()).hexdigest()for name in sorted(names)}
     result=dict(status='PREPARED_CURRENT_COMPOSITE37_NOT_EXECUTED',base_head='b25eaae55a144aa03cc05f8f77109f5d0b02fbfb',
         base_tree='e08f5eba90fd9a2deeb53a0a483c49e7a080e31c',files=files,actual_cases=0,

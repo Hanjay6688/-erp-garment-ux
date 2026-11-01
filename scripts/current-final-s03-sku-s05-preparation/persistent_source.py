@@ -5,8 +5,8 @@ import json,os,subprocess
 
 HERE=Path(__file__).resolve().parent
 ROOT=HERE.parents[1]
-BASE='cb8aa092506a272da526aa55a1cfef4b2a6413c0'
-TREE='e47caf3ea3b739b713f6c9b9a0e0041f91c5ac58'
+BASE='2cb8c9ac85b6111e8bb170de6c2ec5c44f7c798c'
+TREE='5c5111505dafc5a92a79de4d9b52e4d93e37500e'
 PREFIXES=('scripts/cp7_current_s03_sku_s05/','scripts/current-final-s03-sku-s05-preparation/')
 WORKFLOW='.github/workflows/cp7-final-s03-sku-s05.yml'
 

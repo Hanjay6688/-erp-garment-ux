@@ -33,6 +33,13 @@ def full_census(value,p):
             raise ValueError('FOCUSED_EXACT_ROW_COUNT_HASH_ABI_REQUIRED')
     return dict(tables=len(tables),sequences=len(sequences),catalog_groups=22)
 
+def connection_release(value,p):
+    p.fields(value,dict(phase='AFTER_FOUNDATION_COMMIT_BEFORE_READER_OR_COPY',database='cp6_rollback',
+        cursor_closed=True,connection_closed=True,foreign_backends_terminated=0,actual_Native_case_credit=0),
+        'OWN_COMMITTED_SOURCE_RELEASED_BEFORE_TEMPLATE_COPY')
+    if type(value.get('backend_pid'))is not int or value['backend_pid']<=0:
+        raise ValueError('FOCUSED_ACTUAL_OWN_SOURCE_BACKEND_ID_REQUIRED')
+
 def validate(main,package,backup,supervision,head,proof,p):
     p.fields(main,dict(status='PASS',qualification_commit=head,required_case_ids=[CASE],required_case_ids_pass=True,
         actual_Native_cases=0,actual_browser_cases=2,actual_business_cases=2,actual_Auth_HTTP_cases=0,
@@ -41,8 +48,15 @@ def validate(main,package,backup,supervision,head,proof,p):
         restore_raw_public_equal=True,cp6_restored=True,baseline_advisors_equal=True,advisor_gate=True,
         used_guard_refused_before_DDL=True,production_go=False,independent_acceptance=False),'FOCUSED_FRESH2_AND_COMPLETE_RESTORE')
     if any(main.get(k)for k in ('error','restore_error','restore_traceback')):raise ValueError('FOCUSED_NO_RUNTIME_OR_RESTORE_ERRORS')
+    declaration=main['source_declaration']
+    p.fields(declaration,dict(current_reader_graph_checked_before_database=True),'COMPLETE_CURRENT_READER_SOURCE_BEFORE_DB')
+    reader=declaration['current_reader_installation']
+    p.exact(reader['parent'],declaration['current_installation'],'EXACT_NATURAL_READER_FINANCIAL_PARENT')
+    p.exact(reader['stage'],p.strict((ROOT/'scripts/cp7_s05_s03_sku_composition/SOURCE.json').read_bytes()),
+        'EXACT_CURRENT_READER_STAGE_PINS_IN_ACTUAL_SOURCE_GRAPH')
     p.exact(set(main['committed']),{CASE},'ONE_FOCUSED_OWNING_COMPONENT')
     component=main['committed'][CASE]
+    connection_release(component['source_connection_release'],p)
     foundation=load('focused_gate_original_foundation',HERE/'foundation.py')
     precheck=main['fixture_foundation_precheck'];setup=component['fixture_foundation']
     p.fields(precheck,dict(status='READ_ONLY_FOUNDATION_PRECHECK',database_mutated=False,Native_case_credit=0),

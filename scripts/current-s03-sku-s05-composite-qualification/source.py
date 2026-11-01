@@ -13,6 +13,7 @@ FOCUSED_WORKFLOW='.github/workflows/cp7-s03-sku-owner-access-native1.yml'
 LAYOUT='src/accessory-standard-report.css'
 FOLLOWUP_PREFIX='scripts/current-s05-css-followup-qualification/'
 FOLLOWUP_WORKFLOW='.github/workflows/cp7-s05-css-followup.yml'
+READER_MANIFEST='scripts/cp7_s05_s03_sku_composition/SOURCE.json'
 
 
 def git(*args):
@@ -54,15 +55,21 @@ def preflight(*,require_clean=True):
     layout=importlib.util.module_from_spec(spec);spec.loader.exec_module(layout)
     derived,layout_proof=layout.derive(git('show',BASE+':'+LAYOUT))
     if raw(LAYOUT)!=derived:raise ValueError('JOIN_EXACT_REVIEWED_S05_CSS_REQUIRED')
+    spec=importlib.util.spec_from_file_location('joined_exact_current_reader_CSS_pin',ROOT/FOLLOWUP_PREFIX/'reader_binding.py')
+    reader=importlib.util.module_from_spec(spec);spec.loader.exec_module(reader)
+    reader_derived,reader_proof=reader.derive(git('show',BASE+':'+READER_MANIFEST))
+    if raw(READER_MANIFEST)!=reader_derived:raise ValueError('JOIN_EXACT_CURRENT_READER_MANIFEST_DERIVATION_REQUIRED')
+    reviewed={LAYOUT:derived,READER_MANIFEST:reader_derived}
     base=entries(BASE);current=entries('HEAD')
     for name,entry in base.items():
-        if name==LAYOUT:
-            expected=(entry[0],sha1(b'blob '+str(len(derived)).encode()+b'\0'+derived).hexdigest())
-            if current.get(name)!=expected:raise ValueError('JOIN_COMMITTED_S05_CSS_DERIVATION_REQUIRED')
+        if name in reviewed:
+            content=reviewed[name]
+            expected=(entry[0],sha1(b'blob '+str(len(content)).encode()+b'\0'+content).hexdigest())
+            if current.get(name)!=expected:raise ValueError('JOIN_COMMITTED_REVIEWED_S05_DERIVATION_REQUIRED:'+name)
             continue
         if current.get(name)!=entry:raise ValueError('JOIN_FROZEN_BASE_BLOB_MODE_CHANGED:'+name)
     allowed=set(value['files'])|{PREFIX+'SOURCE.json'}
-    if any(not(name.startswith((PREFIX,FOLLOWUP_PREFIX))or name in(WORKFLOW,FOCUSED_WORKFLOW,LAYOUT,FOLLOWUP_WORKFLOW))for name in allowed):
+    if any(not(name.startswith((PREFIX,FOLLOWUP_PREFIX))or name in(WORKFLOW,FOCUSED_WORKFLOW,LAYOUT,FOLLOWUP_WORKFLOW,READER_MANIFEST))for name in allowed):
         raise ValueError('JOIN_ONLY_OWN_NAMESPACE_AND_WORKFLOW_ALLOWED')
     if set(current)-set(base)-allowed:raise ValueError('JOIN_UNDECLARED_TRACKED_SOURCE')
     for name,expected in value['files'].items():
@@ -88,7 +95,8 @@ def preflight(*,require_clean=True):
             elif Path(name).suffix in executable and not name.startswith('cp6-ui-build/'):
                 raise ValueError('JOIN_UNDECLARED_EXECUTABLE_SOURCE:'+name)
     return dict(status='EXACT_CURRENT_S03_SKU_S05_BASE_AND_CLOSED_QUALIFIER_SOURCE',base_head=BASE,base_tree=TREE,
-        unchanged_base_blobs_and_modes=len(base)-1,reviewed_S05_css_derivation=layout_proof,current_qualifier_files=len(allowed),
+        unchanged_base_blobs_and_modes=len(base)-2,reviewed_S05_css_derivation=layout_proof,
+        reviewed_current_reader_manifest_derivation=reader_proof,current_qualifier_files=len(allowed),
         current_own_source_hashes_verified=True,tracked_physical_changes_refused=require_clean,
         untracked_executable_sources_refused=require_clean,generated_outputs_are_not_source_waivers=True,
         actual_Native_cases=0,actual_browser_cases=0,production_go=False,independent_acceptance=False)

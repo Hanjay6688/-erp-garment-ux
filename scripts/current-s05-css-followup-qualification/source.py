@@ -13,6 +13,7 @@ WORKFLOW='.github/workflows/cp7-s05-css-followup.yml'
 ROUTING=('scripts/current-s03-sku-s05-composite-qualification/source.py',
          'scripts/current-s03-sku-s05-composite-qualification/freeze.py')
 MANIFEST='scripts/current-s03-sku-s05-composite-qualification/SOURCE.json'
+READER_MANIFEST='scripts/cp7_s05_s03_sku_composition/SOURCE.json'
 
 def load(name,path):
     spec=importlib.util.spec_from_file_location(name,path)
@@ -25,7 +26,7 @@ def preflight():
     p.exact(original.git('rev-parse',BASE+'^{tree}').decode().strip(),TREE,'EXACT_CSS_QUALIFIED_SOURCE_TREE')
     base=original.entries(BASE);current=original.entries('HEAD')
     p.exact(len(base),14086,'EXACT_PREPARED_PRODUCT_BASE14086')
-    changed=set(ROUTING)|{MANIFEST}
+    changed=set(ROUTING)|{MANIFEST,READER_MANIFEST}
     for name,entry in base.items():
         if name not in changed:p.exact(current.get(name),entry,'UNCHANGED_PRODUCT_OR_PREPARED_ORACLE:'+name)
     declaration=p.strict((HERE/'ROUTING_ORIGIN.json').read_bytes())
@@ -47,10 +48,12 @@ def preflight():
         if name not in ROUTING:p.exact(after['files'].get(name),digest,'UNCHANGED_PRIOR_SOURCE_PIN:'+name)
     added={name for name in after['files']if name.startswith(PREFIX)or name==WORKFLOW}
     p.exact(set(current)-set(base),added,'CLOSED_FOCUSED_NAMESPACE_AND_ONE_WORKFLOW')
-    p.exact(set(after['files'])-set(before['files']),added,'ONLY_EXPLICIT_ADDITIONAL_SOURCE_PINS')
+    p.exact(set(after['files'])-set(before['files']),added|{READER_MANIFEST},'ONLY_EXPLICIT_ADDITIONAL_SOURCE_PINS')
+    reader=load('focused_current_reader_binding_before_any_ERP',HERE/'reader_binding.py').preflight()
     return dict(status='EXACT_S05_ONLY_CSS_PRODUCT_AND_RETAINED35_SOURCE_INVARIANCE',
-        base_head=BASE,base_tree=TREE,unchanged_base_blobs_and_modes=len(base)-3,
+        base_head=BASE,base_tree=TREE,unchanged_base_blobs_and_modes=len(base)-4,
         modified_old_qualification_files=3,added_focused_paths=len(added),
+        modified_current_reader_manifests=1,current_reader_source_binding=reader,
         whole_current_source=observation,backend_and_all_UI_unchanged_from_CSS_candidate=True,
         retained35_source_invariance=True,actual_new_cases=0,production_go=False,independent_acceptance=False)
 

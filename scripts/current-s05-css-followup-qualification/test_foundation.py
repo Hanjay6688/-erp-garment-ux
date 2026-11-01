@@ -3,7 +3,7 @@ from contextlib import contextmanager
 from pathlib import Path
 from types import SimpleNamespace
 from unittest.mock import patch
-import copy,importlib.util,sys,unittest
+import ast,copy,importlib.util,sys,unittest
 
 HERE=Path(__file__).resolve().parent
 def load(name):
@@ -107,5 +107,58 @@ class FixtureFoundationControls(unittest.TestCase):
             elif mutation=='credit':setup['Native_case_credit']=1
             else:setup['seed_called']=False
             with self.subTest(mutation=mutation),self.assertRaises((ValueError,KeyError)):gate.validate(*values,p)
+
+class ConnectionReleaseControls(unittest.TestCase):
+    def handles(self,*,cursor_error=False):
+        events=[]
+        conn=SimpleNamespace(info=SimpleNamespace(host='127.0.0.1',port=54322,dbname='cp6_rollback',backend_pid=321),closed=False)
+        cur=SimpleNamespace(closed=False)
+        def cursor_close():
+            events.append('own_cursor_close')
+            if cursor_error:raise RuntimeError('LABELLED_CURSOR_CLOSE_FAILURE')
+            cur.closed=True
+        def connection_close():events.append('own_connection_close');conn.closed=True
+        cur.close=cursor_close;conn.close=connection_close
+        return conn,cur,events
+
+    def test_only_own_cursor_and_connection_close_before_copy_without_other_backend_action(self):
+        component=load('component');conn,cur,events=self.handles()
+        proof=component.release_source_for_copy(conn,cur)
+        self.assertEqual(events,['own_cursor_close','own_connection_close'])
+        self.assertEqual(proof['backend_pid'],321);self.assertEqual(proof['foreign_backends_terminated'],0)
+        self.assertTrue(cur.closed);self.assertTrue(conn.closed)
+
+    def test_foreign_or_primary_handle_refuses_before_close_and_cursor_failure_still_closes_connection(self):
+        component=load('component')
+        for key,value in(('host','example.invalid'),('port',5432),('dbname','postgres'),('backend_pid',False)):
+            conn,cur,events=self.handles();setattr(conn.info,key,value)
+            with self.subTest(key=key),self.assertRaisesRegex(ValueError,'EXACT_OWN_LOCAL_SOURCE'):
+                component.release_source_for_copy(conn,cur)
+            self.assertEqual(events,[])
+        conn,cur,events=self.handles(cursor_error=True)
+        with self.assertRaisesRegex(RuntimeError,'LABELLED_CURSOR_CLOSE_FAILURE'):component.release_source_for_copy(conn,cur)
+        self.assertTrue(conn.closed);self.assertEqual(events,['own_cursor_close','own_connection_close'])
+
+    def test_actual_component_commits_then_releases_passed_handles_before_reader_and_browser(self):
+        tree=ast.parse((HERE/'component.py').read_bytes())
+        function=next(n for n in tree.body if isinstance(n,ast.FunctionDef)and n.name=='exercise')
+        calls=[n for n in ast.walk(function)if isinstance(n,ast.Call)]
+        committed=[n.lineno for n in calls if ast.unparse(n.func)=='conn.commit']
+        release=[n for n in calls if ast.unparse(n.func)=='release_source_for_copy']
+        browser=[n.lineno for n in calls if isinstance(n.func,ast.Attribute)and n.func.attr=='exercise']
+        self.assertEqual(len(committed),1);self.assertEqual(len(release),1);self.assertEqual(len(browser),1)
+        self.assertEqual([ast.unparse(n)for n in release[0].args],['conn','cur'])
+        self.assertLess(committed[0],release[0].lineno);self.assertLess(release[0].lineno,browser[0])
+        self.assertEqual([n.id for n in ast.walk(function)if isinstance(n,ast.Name)and n.id in('conn','cur')and n.lineno>release[0].lineno],[])
+
+    def test_gate_refuses_missing_unclosed_false_pid_or_unrelated_backend_termination(self):
+        gate=load('final_gate');typed=load('test_followup').load('typed',HERE.parent/'current-s03-sku-s05-composite-qualification/parents.py')
+        value=dict(phase='AFTER_FOUNDATION_COMMIT_BEFORE_READER_OR_COPY',database='cp6_rollback',backend_pid=321,
+            cursor_closed=True,connection_closed=True,foreign_backends_terminated=0,actual_Native_case_credit=0)
+        gate.connection_release(value,typed)
+        for key,wrong in(('connection_closed',False),('backend_pid',False),('foreign_backends_terminated',1),('actual_Native_case_credit',1)):
+            bad=dict(value);bad[key]=wrong
+            with self.subTest(key=key),self.assertRaises(ValueError):gate.connection_release(bad,typed)
+        with self.assertRaises(ValueError):gate.connection_release({},typed)
 
 if __name__=='__main__':unittest.main()
