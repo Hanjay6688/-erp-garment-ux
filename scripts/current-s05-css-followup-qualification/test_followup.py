@@ -43,7 +43,9 @@ def fixture():
         used_guard_refused_before_DDL=True,Afui_positive_HPP_zero_reimbursement_coverage=False,
         global_writer_or_permission_or_lock_closure=False,production_go=False,independent_acceptance=False,
         retained35=proof,fresh_S05_browser2=fresh,used_inverse_refusal_before=boundary,
-        used_inverse_refusal_after=copy.deepcopy(boundary),fixture_foundation=setup)
+        used_inverse_refusal_after=copy.deepcopy(boundary),fixture_foundation=setup,
+        source_connection_release=dict(phase='AFTER_FOUNDATION_COMMIT_BEFORE_READER_OR_COPY',database='cp6_rollback',
+            backend_pid=123,cursor_closed=True,connection_closed=True,foreign_backends_terminated=0,actual_Native_case_credit=0))
     head='f'*40
     main=dict(status='PASS',qualification_commit=head,required_case_ids=[gate.CASE],required_case_ids_pass=True,
         actual_Native_cases=0,actual_browser_cases=2,actual_business_cases=2,actual_Auth_HTTP_cases=0,actual_two_session_races=0,

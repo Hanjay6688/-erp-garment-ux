@@ -1,5 +1,5 @@
 {
-  "status": "PREPARED_CURRENT_READER_CSS_SOURCE_BINDING_CORRECTION_NOT_RUNTIME_QUALIFICATION",
+  "status": "PREPARED_OWN_SOURCE_CONNECTION_RELEASE_AFTER_ACTUAL_READER49_COPY_FAILURE",
   "actual_new_ERP_cases": 0,
   "actual_Auth_cases": 0,
   "local_controls": {
@@ -147,5 +147,58 @@
     "actual_ERP_case_credit": 0,
     "reader_SQL_and_Native_callback_changes": false,
     "generated_bytecode_caught_by_closed_source_gate_before_publication": true
+  },
+  "source_connection_release": {
+    "unique_new_protocol_controls_PASS": 4,
+    "one_affected_complete_gate_control_PASS": true,
+    "first_failures": 0,
+    "source_foundation_committed_before_release": true,
+    "only_own_cursor_and_connection_closed": true,
+    "no_foreign_backend_termination": true,
+    "close_failure_refuses_and_connection_is_finally_closed": true,
+    "real_PostgreSQL_COPY_not_executed_locally": true,
+    "actual_ERP_cases": 0,
+    "log": {
+      "bytes": 103,
+      "sha256": "884ae734946814c0dbc2bd5af83098848b94b0f83df33bafe5ff150b0b096756",
+      "text": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.062s\n\nOK\n"
+    },
+    "CI_psycopg_version": "3.2.10",
+    "actual_CI_version_source_checked": "https://github.com/psycopg/psycopg/tree/3.2.10/psycopg/psycopg",
+    "Connection_exit_early_returns_when_closed": true,
+    "Cursor_close_resets_without_using_connection": true
+  },
+  "failed_reader49_attempt": {
+    "head": "49f8f1697e7777cf9542f131c7d3c5d135cc1ec7",
+    "tree": "179ef11defd62439371689ffaf766b5c83da4325",
+    "run_id": 41329176840,
+    "job_id": 124915457260,
+    "run_attempt": 1,
+    "conclusion": "failure",
+    "terminal_UTC": "2026-11-01T17:43:47Z",
+    "artifact_id": 13094142444,
+    "archive": {
+      "bytes": 12078007,
+      "sha256": "15deeba5891469ffd13936c98bcb854741e9edc2b24de67695849a8279de3dc0",
+      "members": 130,
+      "CRC": "PASS"
+    },
+    "durable_original_library_file_id": "libfile_6337bd0beacc8191886db217c30ff372",
+    "first_failure": "createdb: source database cp6_rollback is being accessed by other users",
+    "cause": "Owning component committed foundation but retained its outer source connection through browser copy",
+    "browser_cases_started": 0,
+    "fresh_qualified_cases": 0,
+    "retained35_rerun": false,
+    "original_qualified_parent_install_and_preuse_reinstall_passed": true,
+    "actual_Native_browser_prerequisite_and_reader_install_passed": true,
+    "complete_all22_rows_ALL_sequences_roles_CP6_advisors_Auth_restore": true,
+    "package_gates": {
+      "installed": true,
+      "primary_unchanged": true,
+      "backup_restore_drill": true,
+      "security_advisors": true,
+      "writer_runtime": false
+    },
+    "failure_not_relabelled_pass": true
   }
 }
