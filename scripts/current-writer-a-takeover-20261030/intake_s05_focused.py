@@ -1,16 +1,16 @@
 """Exact canonical focused intake: fresh2 plus invariant retained35, never fresh37."""
 from pathlib import Path
 from hashlib import sha256,file_digest
-import argparse,ast,json,zipfile
+import argparse,ast,json,re,zipfile
 import intake_join37 as original_join
 import intake_join_layout as css_parent
 from intake_common import GitBytes,exact,fields,pin,require,safe_path
 from intake_sku27 import strict,full_census,declared_files,ALL22
 
-HEAD='cb8aa092506a272da526aa55a1cfef4b2a6413c0'
-TREE='e47caf3ea3b739b713f6c9b9a0e0041f91c5ac58'
-RUN=41315727305
-JOB=124875223281
+HEAD='49f8f1697e7777cf9542f131c7d3c5d135cc1ec7'
+TREE='179ef11defd62439371689ffaf766b5c83da4325'
+RUN=None  # Corrected reader binding has not been activated.
+JOB=None
 ARTIFACT=None  # Arm only after the actual terminal artifact is observed.
 BASE='50c77207e088af16988d7d91a5b06f72e8e30ecc'
 BASE_TREE='28295dd44a59f1832bebb86af24bd85df4471f4b'
@@ -24,6 +24,7 @@ ROOT_PIN=dict(bytes=10877,sha256='4743e60ed6fdf33682a9e576ce180675923ed7287fda5a
 MAIN='CP7_CURRENT_S05_CSS_RETAIN35_BROWSER2.json'
 CASE='CURRENT_S05_CSS_RETAINED35_FRESH_BROWSER2'
 GATES=original_join.GATES
+READER_MANIFEST='scripts/cp7_s05_s03_sku_composition/SOURCE.json'
 FOUNDATION_IDS={
     'erp.materials':'c8c30000-0000-4000-8000-000000000002',
     'erp.suppliers':'c8c30000-0000-4000-8000-000000000001',
@@ -95,22 +96,49 @@ def check_foundation(main,part,source_proof):
     return dict(actual_original_seed_mode=mode,setup_has_no_Native_case_credit=True,
         all22_catalog_and_protected_role_rows_unchanged=True,partial_or_foreign_foundation_refused=True)
 
+def reader_source(g):
+    raw=g.read(READER_MANIFEST,BASE)
+    original=dict(bytes=5351,sha256='344d0248e341826978e4aad76bb1c3311bba2e69ac87cb1ad07785c06df7c237')
+    exact(pin(raw),original,'EXACT_ORIGINAL_CURRENT_READER_MANIFEST')
+    name='src/accessory-standard-report.css'
+    before='a9d62618178521d25fa392e6497e24ebc1e8146277b9cda33a9d76e7ea76d16a'
+    after='0ca870ad603a4654d44b4f9b8905f4e91c47d26ff45947d8017d17a1b8b3bcdf'
+    a=json.dumps(name)+': '+json.dumps(before);b=json.dumps(name)+': '+json.dumps(after)
+    text=raw.decode();exact(text.count(a),1,'ONE_CURRENT_READER_CSS_PIN')
+    derived=text.replace(a,b,1).encode();exact(g.read(READER_MANIFEST),derived,'ONLY_REVIEWED_CURRENT_READER_CSS_PIN_CHANGED')
+    exact(derived.decode().replace(b,a,1).encode(),raw,'ORIGINAL_READER_MANIFEST_RECOVERED_EXACTLY')
+    manifest=strict(derived);old=strict(raw)
+    exact({k:v for k,v in manifest.items()if k!='files'},{k:v for k,v in old.items()if k!='files'},'CURRENT_READER_CONTRACT_METADATA_UNCHANGED')
+    exact(len(manifest['files']),41,'ALL41_CURRENT_READER_INPUTS')
+    for path,digest in manifest['files'].items():
+        g.verify_pin(path,digest)
+        if path!=name:exact(digest,old['files'][path],'ALL_OTHER_FORTY_READER_PINS_UNCHANGED')
+    functions=re.findall(r'create function\s+([\w.]+)\([^$]*?as \$\$(.*?)\$\$;',
+        g.read('scripts/cp7_accessory_standard_report/report.sql').decode(),re.I|re.S)
+    exact(len(functions),5,'EXACT_FIVE_UNCHANGED_READER_FUNCTION_SOURCES')
+    proof=dict(path=READER_MANIFEST,original=original,derived=pin(derived),counted_changes=1,
+        current_CSS_path=name,current_CSS_sha256=after,other_reader_source_pins_unchanged=40,
+        complete_original_recovered=True,historical_manifests_changed=False,reader_SQL_or_Native_changes=False)
+    full=dict(status='EXACT_CURRENT_READER_CSS_BINDING_AND_ALL41_INPUTS',**proof,
+        actual_reader_inputs_checked=41,all_current_reader_source_pins_match=True,reader_function_sources=5,actual_case_credit=0)
+    return manifest,proof,full
+
 def source(g):
     with GitBytes(g.root,BASE,BASE_TREE)as parent:prior=css_parent.source(parent)
     manifest=strict(g.read(OLD+'SOURCE.json'));before=strict(g.read(OLD+'SOURCE.json',BASE))
     fields(manifest,dict(actual_cases=0,production_go=False,independent_acceptance=False),'SOURCE_IS_NOT_ACCEPTANCE')
-    exact(len(manifest['files']),105,'CLOSED_105_SOURCE_PINS')
+    exact(len(manifest['files']),108,'CLOSED_108_SOURCE_PINS')
     for name,digest in manifest['files'].items():g.verify_pin(name,digest)
     exact({k:v for k,v in manifest.items()if k!='files'},{k:v for k,v in before.items()if k!='files'},
         'OLD_FULL37_PREPARATION_METADATA_NOT_REWRITTEN')
-    routing={OLD+'source.py',OLD+'freeze.py'};changed=routing|{OLD+'SOURCE.json'}
+    routing={OLD+'source.py',OLD+'freeze.py'};changed=routing|{OLD+'SOURCE.json',READER_MANIFEST}
     base=g.entries(BASE);exact(len(base),14086,'EXACT_CSS_CANDIDATE_BASE')
     for name,entry in base.items():
         if name not in changed:exact(g.tree.get(name),entry,'UNCHANGED_PRODUCT_AND_PREPARED_ORACLE:'+name)
     added={name for name in manifest['files']if name.startswith(NS)or name==WORKFLOW}
-    exact(len(added),19,'EXACT_FOCUSED_NAMESPACE_AND_ONE_WORKFLOW')
+    exact(len(added),21,'EXACT_FOCUSED_NAMESPACE_AND_ONE_WORKFLOW')
     exact(set(g.tree)-set(base),added,'NO_OTHER_PRODUCT_OR_QUALIFIER_ADDITION')
-    exact(set(manifest['files'])-set(before['files']),added,'ONLY_CLOSED_NEW_SOURCE_PINS')
+    exact(set(manifest['files'])-set(before['files']),added|{READER_MANIFEST},'ONLY_CLOSED_NEW_SOURCE_PINS_AND_CURRENT_READER_MANIFEST')
     for name,digest in before['files'].items():
         if name not in routing:exact(manifest['files'].get(name),digest,'UNCHANGED_PRIOR_SOURCE_PIN:'+name)
     origin=strict(g.read(NS+'ROUTING_ORIGIN.json'))
@@ -143,18 +171,22 @@ def source(g):
     for row in receipt['retained_cases'].values():fields(row,dict(status='PASS',retained=True,fresh_case_credit=0),'OLD_PASS_NEVER_FRESH')
     exact(receipt['missing_case_ids'],ids['S05_browser2'],'ONLY_MISSING_TWO_FRESH_IDS')
     exact(manifest['browser_case_ids'],ids['S05_browser2'],'UNCHANGED_S05_BROWSER_ASSERTION_IDENTITIES')
+    reader_manifest,reader_derivation,reader_binding=reader_source(g)
     whole=dict(status='EXACT_CURRENT_S03_SKU_S05_BASE_AND_CLOSED_QUALIFIER_SOURCE',
         base_head=original_join.BASE,base_tree='e08f5eba90fd9a2deeb53a0a483c49e7a080e31c',
-        unchanged_base_blobs_and_modes=13999,reviewed_S05_css_derivation=prior['reviewed_CSS_derivation'],
-        current_qualifier_files=106,current_own_source_hashes_verified=True,tracked_physical_changes_refused=True,
+        unchanged_base_blobs_and_modes=13998,reviewed_S05_css_derivation=prior['reviewed_CSS_derivation'],
+        reviewed_current_reader_manifest_derivation=reader_derivation,
+        current_qualifier_files=109,current_own_source_hashes_verified=True,tracked_physical_changes_refused=True,
         untracked_executable_sources_refused=True,generated_outputs_are_not_source_waivers=True,
         actual_Native_cases=0,actual_browser_cases=0,production_go=False,independent_acceptance=False)
     invariance=dict(status='EXACT_S05_ONLY_CSS_PRODUCT_AND_RETAINED35_SOURCE_INVARIANCE',
-        base_head=BASE,base_tree=BASE_TREE,unchanged_base_blobs_and_modes=14083,modified_old_qualification_files=3,
-        added_focused_paths=19,whole_current_source=whole,backend_and_all_UI_unchanged_from_CSS_candidate=True,
+        base_head=BASE,base_tree=BASE_TREE,unchanged_base_blobs_and_modes=14082,modified_old_qualification_files=3,
+        added_focused_paths=21,modified_current_reader_manifests=1,current_reader_source_binding=reader_binding,
+        whole_current_source=whole,backend_and_all_UI_unchanged_from_CSS_candidate=True,
         retained35_source_invariance=True,actual_new_cases=0,production_go=False,independent_acceptance=False)
     proof=dict(source_invariance=invariance,receipt=receipt,root_head=ROOT_HEAD,root_receipt=ROOT_PIN)
-    return dict(source_pins=105,unchanged_product_parent_blobs=14083,qualified_routing_files=3,added_focused_paths=19,
+    return dict(source_pins=108,unchanged_product_parent_blobs=14082,qualified_routing_files=3,added_focused_paths=21,
+        current_reader_manifest=reader_manifest,current_reader_source_binding=reader_binding,
         foundation_setup_source=foundation_source(g),
         prior_CSS_source=prior,expected_runtime_retention=proof,retained_ids=retained,fresh_ids=ids['S05_browser2'],
         actual_case_credit=0)
@@ -194,6 +226,12 @@ def intake(root,path,metadata):
         financial=main['source_declaration']['current_installation']
         financial_pin=pin(json.dumps(financial,sort_keys=True,separators=(',',':')).encode())
         exact(financial_pin,proof['receipt']['qualified_financial_sources'],'ENTIRE_RETAINED_FINANCIAL_SOURCE_GRAPH_UNCHANGED')
+        fields(main['source_declaration'],dict(current_reader_graph_checked_before_database=True),
+            'ACTUAL_FULL_READER_GRAPH_ADMITTED_BEFORE_DATABASE')
+        reader_graph=main['source_declaration']['current_reader_installation']
+        exact(reader_graph['stage'],prepared['current_reader_manifest'],'ACTUAL_CURRENT_READER_STAGE_SOURCE')
+        exact(reader_graph['parent'],financial,'ENTIRE_NATURAL_READER_FINANCIAL_PARENT_UNCHANGED')
+        reader_maps=declared_files(g,dict(stage=reader_graph['stage']))
         exact(set(main['committed']),{CASE},'ONE_FOCUSED_COMPONENT')
         part=main['committed'][CASE]
         original_foundation=check_foundation(main,part,prepared['foundation_setup_source'])
@@ -242,6 +280,7 @@ def intake(root,path,metadata):
             qualified_candidate_browser_coverage=6,candidate_case_coverage=37,complete37_qualified=True,
             fresh37_one_attempt=False,prior_runs_aggregated=True,source_invariant_reuse=True,
             qualified_financial_sources=financial_pin,actual_product_source_maps=maps,
+            actual_reader_product_source_maps=reader_maps,current_reader_graph_verified_before_database=True,
             package_all_five=True,package_gates=package['gate'],actual_used_refusal_raw_full_boundary=census,
             exact_original_foundation_setup=original_foundation,
             permanent_complete_assembly_qualified=False,global_writer_or_permission_or_lock_closure=False,

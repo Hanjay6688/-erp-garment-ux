@@ -1,0 +1,65 @@
+{
+  "status": "FAILED_CURRENT_READER_CSS_SOURCE_PIN_FIXTURE_FOUNDATION_PASS_FULLY_RESTORED",
+  "head": "cb8aa092506a272da526aa55a1cfef4b2a6413c0",
+  "tree": "e47caf3ea3b739b713f6c9b9a0e0041f91c5ac58",
+  "run_id": 41315727305,
+  "job_id": 124875223281,
+  "artifact_id": 13088337710,
+  "run_attempt": 1,
+  "conclusion": "failure",
+  "canonical_archive": {
+    "bytes": 6148333,
+    "sha256": "7b94a0adf7acf25f57ecaf0f14c4688f6e8b0b28eb69422c41149b6fcdb3045e",
+    "library_file_id": "libfile_8315efab9ebc8191b932aa3109422966",
+    "size_SHA_CRC_safe_paths_verified": true,
+    "members": 127
+  },
+  "originals": {
+    "CP7_CURRENT_S05_CSS_RETAIN35_BROWSER2.json": {
+      "bytes": 51056535,
+      "sha256": "1186e01c6e11fef15c995045d806bd12d8a8f6c98817b8c2feb58ef155442970"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360436,
+      "sha256": "dd06b28d874be8ab95cc901ccb069bf3a617c7f8ee5320972296ca01ec17f23f"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 1470,
+      "sha256": "4682d353b99139ed350e2e7ae13156ee449b87aefce597de7af7700b75d8ed5b"
+    },
+    "S05_FOLLOWUP_SUPERVISION.json": {
+      "bytes": 582,
+      "sha256": "bd307155ea9af505f2fab185b94ff0b4c3f8f735ed17c56b0ce2ca2726aa9f92"
+    }
+  },
+  "first_error": "S05_SOURCE_CHANGED: src/accessory-standard-report.css",
+  "cause": "The current composed S05 reader manifest still pinned the old CSS even though the actual candidate CSS had its reviewed layout change. The whole financial graph was admitted, but the reader graph was not included before database startup.",
+  "actual_original_fixture_foundation_PASS": true,
+  "foundation_all22_raw_catalog_schemaACL_and_protected_role_rows_unchanged": true,
+  "fresh_ERP_Native_case_credit": 0,
+  "fresh_browser_case_credit": 0,
+  "retained35_not_repeated": true,
+  "failed_run_relabelled_PASS": false,
+  "aggregate_acceptance": false,
+  "complete_outer_all22_all_rows_ALL_sequences_public_roles_CP6_advisors_restore": true,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "backup_restore_checks": {
+    "restore_errors_only_pg_cron": true,
+    "catalog_explained": true,
+    "data_identical": true,
+    "engine_answer_present": true,
+    "engine_equal": true
+  },
+  "worker_exit": 1,
+  "process_group_and_tree_empty": true,
+  "deadline_signal_or_orphan": false,
+  "formal_CP7": "5/16_UNCHANGED",
+  "production_go": false,
+  "independent_acceptance": false
+}
