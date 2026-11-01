@@ -39,6 +39,10 @@ def main():
     if sha256(state_raw).hexdigest() != os.environ['S05_SKU_BROWSER_READER_STATE_SHA256']:
         raise ValueError('S05_SKU_ORIGINAL_READER_STATE_CHANGED')
     state = json.loads(state_raw)
+    # This fixture runs in a fresh Python process. Rebind the frozen helper's
+    # catalog expectation from the exact reader state before its first use;
+    # the parent qualification process cannot share module globals with us.
+    helper.control.STATE = dict(installed_catalog=state['after'])
     with psycopg.connect(url, connect_timeout=10) as conn, conn.cursor() as cur:
         if cur.execute('select current_database()').fetchone() != ('cp6_auditor_browser',):
             raise ValueError('S05_SKU_ACTUAL_COPY_DATABASE_REQUIRED')

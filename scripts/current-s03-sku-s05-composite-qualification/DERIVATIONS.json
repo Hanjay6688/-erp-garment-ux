@@ -81,12 +81,17 @@
       "source_path": "scripts/current-s05-sku-composition-qualification/browser_fixture.py",
       "original_bytes": 4553,
       "original_sha256": "dfd35d7dd8de095aac7dcdb93cf2d0733877ee5ae1642d2f9898fd0c2efc3189",
-      "derived_bytes": 4557,
-      "derived_sha256": "850efdb3d1cc726118265bebf71bd208ae6324fc5af861c9a789b0de226c023d",
+      "derived_bytes": 4853,
+      "derived_sha256": "69f999eed1e4b262e0199e7918092e9a1a74d9f439fbfb3179b6a039bc2835ea",
       "changes": [
         {
           "before": "from cp7_s05_sku_composition import stage",
           "after": "from cp7_s05_s03_sku_composition import stage",
+          "count": 1
+        },
+        {
+          "before": "    state = json.loads(state_raw)\n    with psycopg.connect(url, connect_timeout=10) as conn, conn.cursor() as cur:",
+          "after": "    state = json.loads(state_raw)\n    # This fixture runs in a fresh Python process. Rebind the frozen helper's\n    # catalog expectation from the exact reader state before its first use;\n    # the parent qualification process cannot share module globals with us.\n    helper.control.STATE = dict(installed_catalog=state['after'])\n    with psycopg.connect(url, connect_timeout=10) as conn, conn.cursor() as cur:",
           "count": 1
         }
       ],
