@@ -1,0 +1,55 @@
+{
+  "status": "CSS_SOURCE_VERIFIED_FOCUSED_SUCCESSOR_IN_PREPARATION_NOT_QUALIFIED",
+  "date_utc": "2026-11-01",
+  "source": {
+    "branch": "astra-a/s05-layout-source-prepared-20261101",
+    "head": "50c77207e088af16988d7d91a5b06f72e8e30ecc",
+    "tree": "28295dd44a59f1832bebb86af24bd85df4471f4b",
+    "local_head": "7976e4970",
+    "source_pins": 86,
+    "owned_scope_paths": 87,
+    "unchanged_base_blobs_and_modes": 13999,
+    "reviewed_base_CSS_files": 1,
+    "reversible_CSS_hunks": 4,
+    "source_only_check_PASS": true,
+    "Root_exact_public_source_check_PASS": true,
+    "unchanged_case_ids": 37,
+    "ERP_execution": 0
+  },
+  "local_visual_receipt": "scripts/current-s03-sku-s05-composite-qualification/LOCAL_S05_LAYOUT_CONTROLS_20261101.json",
+  "local_visual_unique_cases": 24,
+  "focused_selected_form_followup": 6,
+  "local_visual_archive": {
+    "library_file_id": "libfile_3b46a781defc8191a2906cb1ce746658",
+    "bytes": 7936978,
+    "sha256": "95f325d4be3b8fbe0aba18cfe97f0ea0ea442aaa43b9e4b223bc36daab850e81"
+  },
+  "full37_fallback_intake": "scripts/current-writer-a-takeover-20261030/intake_join_layout.py",
+  "full37_fallback_armed": false,
+  "focused_successor": {
+    "implemented": false,
+    "reason": "Only reviewed S05 CSS changed; prepare strict source-invariant reuse of completed Native31 and unchanged S03 browser4 to avoid repeating valid tests.",
+    "retained_observed_cases": 35,
+    "retained_acceptance_credit_now": 0,
+    "fresh_planned_cases": 2,
+    "requirements": [
+      "complete canonical failed Current38 archive and terminal API identity, not bounded diagnostics alone",
+      "raw strict11+3+7+10 and real Auth S03 browser4 exact proof, full restoration and four successful prior package gates",
+      "explicit source-invariance proof; CSS selectors scoped only to S05, all backend bodies/ACLs/permissions and other UI unchanged",
+      "new S05 real-Auth desktop/mobile2, Native fixture numerical oracles unchanged, all22/data/ALLsequence/roles/CP6/public/advisors/Auth restoration and allfive fresh package gates",
+      "no prior run relabelled PASS; retained35 not fresh cases; no fabricated all37 one-attempt result"
+    ]
+  },
+  "canonical_transport": {
+    "branch": "astra-a/recover-run-41241493562-20261101",
+    "head": "99c113e93c2af9c000124c39da4ed42183afb46d",
+    "tree": "6826f1dbb1450f5f1af4cdcd09cd36201dea2acb",
+    "same_existing_single_workflow": true,
+    "ERP_execution": false,
+    "local_new_controls_PASS": 7
+  },
+  "production_go": false,
+  "independent_acceptance": false,
+  "formal": "5/16",
+  "no_new_ERP_workflow_launched": true
+}

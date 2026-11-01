@@ -1,0 +1,20 @@
+{
+  "status": "EXACT_CURRENT38_FAILED_ARCHIVE_ONLY_TRANSPORT_CONTROLS_PASS",
+  "focused_controls_PASS": 7,
+  "unchanged_original_split_join_controls_reused": 7,
+  "source_before": {
+    "bytes": 10623,
+    "sha256": "105d07e3031fd1cd2a525da89fb61d270ce439cc63a3146b6d5a576f16b0c3ff"
+  },
+  "source_after": {
+    "bytes": 11130,
+    "sha256": "0b5850a7b691f03500f3ff82f9130a047529f13aa6675588db8a031616f7ba9b"
+  },
+  "changes": [
+    "pin entire known failed Current38 identity before any API",
+    "require terminal failure on the exact run and job instead of success"
+  ],
+  "actual_API_calls_in_local_controls": 0,
+  "actual_ERP_cases": 0,
+  "production_go": false
+}
