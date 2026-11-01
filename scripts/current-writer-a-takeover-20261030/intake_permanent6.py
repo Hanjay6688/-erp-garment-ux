@@ -11,12 +11,12 @@ from intake_common import GitBytes,exact,fields,pin,require,safe_path
 from intake_sku27 import strict,literal,group,full_census,declared_files
 from intake_join37 import browser
 
-HEAD='60cbc27bcdaa52c0d852580c1b95bc0301a55471'
-TREE='f3848510357894892a330bdfd28b55ac214e7938'
-RUN=41338539278
-JOB=124943416257
-PREPARED_HEAD='60cbc27bcdaa52c0d852580c1b95bc0301a55471'
-PREPARED_TREE='f3848510357894892a330bdfd28b55ac214e7938'
+HEAD='887fb69c3ea95192fbd5ad3dbe63230189a0916e'
+TREE='3567695ca9f8baed4c592669f70e5f26b43b0704'
+RUN=41339521839
+JOB=124946366351
+PREPARED_HEAD='887fb69c3ea95192fbd5ad3dbe63230189a0916e'
+PREPARED_TREE='3567695ca9f8baed4c592669f70e5f26b43b0704'
 BASE='2cb8c9ac85b6111e8bb170de6c2ec5c44f7c798c'
 BASE_TREE='5c5111505dafc5a92a79de4d9b52e4d93e37500e'
 PARENT_RUN=41333643573
@@ -56,6 +56,17 @@ def browser_source_binding(g):
     return dict(actual_current_inputs_verified=19,explicit_current_caller_pin_routes=8,
         unchanged_browser_UI_and_fixture_inputs=11,original_manifest_recovered=True,actual_case_credit=0)
 
+def product_source_binding(g):
+    prefix='scripts/cp7_current_s03_sku_s05/'
+    raw=g.read(prefix+'SOURCE.json');value=strict(raw)
+    fields(value,dict(contract='cp7.current-s03-sku-s05.v1',actual_new_Native_cases=0,
+        actual_new_browser_cases=0,production_go=False,independent_acceptance=False),
+        'PERMANENT_NESTED_PRODUCT_MANIFEST_CONTRACT')
+    exact(set(value['files']),{prefix+n for n in('README.md','__init__.py','composition.py')},
+        'PERMANENT_EXACT_THREE_NESTED_PRODUCT_SOURCE_PATHS')
+    for name,digest in value['files'].items():g.verify_pin(name,digest)
+    return dict(actual_source_files=3,source_manifest=pin(raw),actual_case_credit=0)
+
 def parent_receipt_source(g):
     actual=literal(g,NS+'persistent_financial.py','PARENT_RECEIPT')
     exact(actual,PARENT_RECEIPT,'PERMANENT_EXACT_ROOT_ACCEPTED_PARENT_RECEIPT_BINDING')
@@ -82,6 +93,7 @@ def source(g):
         or name=='.github/workflows/cp7-final-s03-sku-s05.yml'for name in allowed),'PERMANENT_ONLY_OWN_SOURCE_SCOPE')
     exact(set(g.tree)-set(base),allowed,'PERMANENT_EXACT_CLOSED_ADDITIVE_SOURCE')
     for name,value in declaration['files'].items():g.verify_pin(name,value)
+    nested_product=product_source_binding(g)
     current_browser=browser_source_binding(g)
     for name,value in dict(PARENT_HEAD=BASE,PARENT_TREE=BASE_TREE,PARENT_RUN=PARENT_RUN,PARENT_JOB=PARENT_JOB).items():
         exact(literal(g,NS+'persistent_financial.py',name),value,'PERMANENT_EXACT_ACTUAL_PARENT_BINDING:'+name)
@@ -104,6 +116,7 @@ def source(g):
         parent_root_acceptance_pending=parent_receipt is None,parent_root_receipt=parent_receipt,
         retained_parent_case_credit_is_not_fresh=True,
         native_ids=native,browser_ids=brows,current_browser_source_binding=current_browser,
+        nested_product_source_binding=nested_product,
         source_manifest=pin(g.read(NS+'PREPARATION.json')),actual_case_credit=0)
 
 

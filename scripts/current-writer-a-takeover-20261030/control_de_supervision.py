@@ -11,17 +11,16 @@ from intake_common import GitBytes, exact, pin
 def check(root):
     with GitBytes(root,target.PREPARED_HEAD,target.PREPARED_TREE) as g:
         source=target.source(g)
-        exact(source['own_paths'],86,'DE30_SUPERVISED_OWN_SOURCE86')
-    for name in ('HEAD','TREE','RUN','JOB','PARENT_HEAD','PARENT_TREE'):
-        exact(getattr(target,name),None,'DE30_RUNTIME_STILL_UNARMED:'+name)
-    try:target.intake(None,None,None)
-    except ValueError as error:
-        if 'ACTUAL_QUALIFIED_PARENT_AND_OWNING_RUN_NOT_YET_PINNED' not in str(error):raise
-    else:raise AssertionError('UNARMED_DE30_INTAKE_OPENED')
-    try:target.supervision({})
-    except ValueError as error:
-        if 'ACTUAL_IDENTITY_PENDING' not in str(error):raise
-    else:raise AssertionError('UNARMED_DE30_SUPERVISION_OPENED')
+        exact(source['own_paths'],96 if target.PARENT_HEAD is not None else 94,'DE30_SUPERVISED_EXACT_OWN_SOURCE_PATHS')
+    with patch.multiple(target,HEAD=None,TREE=None,RUN=None,JOB=None,PARENT_HEAD=None,PARENT_TREE=None):
+        try:target.intake(None,None,None)
+        except ValueError as error:
+            if 'ACTUAL_QUALIFIED_PARENT_AND_OWNING_RUN_NOT_YET_PINNED' not in str(error):raise
+        else:raise AssertionError('UNARMED_DE30_INTAKE_OPENED')
+        try:target.supervision({})
+        except ValueError as error:
+            if 'ACTUAL_IDENTITY_PENDING' not in str(error):raise
+        else:raise AssertionError('UNARMED_DE30_SUPERVISION_OPENED')
     good=dict(status='WORKER_COMPLETED_AND_REAPED',qualification_commit='process-control-head',
         github_run_id='17',github_run_attempt='1',worker_exit=0,signals=[],deadline_reached=False,
         external_signal=None,orphaned_child=False,process_group_empty=True,process_tree_empty=True,

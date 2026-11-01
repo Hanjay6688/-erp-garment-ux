@@ -1,0 +1,30 @@
+{
+  "status": "ACTUAL_PERMANENT60_FAILED_SOURCE_ADMISSION_BEFORE_DATABASE",
+  "head": "60cbc27bcdaa52c0d852580c1b95bc0301a55471",
+  "tree": "f3848510357894892a330bdfd28b55ac214e7938",
+  "run_id": 41338539278,
+  "job_id": 124943416257,
+  "attempt": 1,
+  "conclusion": "failure",
+  "terminal_at": "2026-11-01T18:53:29Z",
+  "failed_step": 65,
+  "error": "CURRENT_COMPOSITE_SOURCE_CHANGED:scripts/cp7_current_s03_sku_s05/README.md",
+  "cause": "The qualification README was updated and its outer preparation pin rebound, but its nested product SOURCE.json README digest remained historical.",
+  "canonical": {
+    "artifact_id": 13096945284,
+    "bytes": 58093,
+    "sha256": "92ffddd64c543e02c20f0bd25c81a277e323a51699889e37ffa5e5612cd9eda1",
+    "members": 109,
+    "full_CRC_safe_paths_verified": true,
+    "library_file_id": "libfile_0a73c1bf6c648191a90dd013b1a7cb43",
+    "library_version": 0
+  },
+  "database_started": false,
+  "restoration_credit_not_applicable_no_database_started": true,
+  "actual_Native_cases": 0,
+  "actual_browser_cases": 0,
+  "S05_Root_qualification_remains_valid": true,
+  "failed_attempt_relabelled_PASS": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

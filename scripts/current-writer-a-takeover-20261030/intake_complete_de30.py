@@ -18,10 +18,10 @@ RUN=None
 JOB=None
 PARENT_HEAD=None
 PARENT_TREE=None
-PREPARED_HEAD='871234317f7fdcb58bea9c621a5333e9cf61f464'
-PREPARED_TREE='e6161b0f0912f3618af9a9d9cfb5392c006a3642'
-PREPARED_BASE='04ed2fbc3f1fb24174ff7368bffbb2dff01f5423'
-PREPARED_BASE_TREE='66930111fa9826b0c18ed6cfd3b05ea225e4e62b'
+PREPARED_HEAD='76c5e244fe298b4e7dd0786a761e66b31c2fd45d'
+PREPARED_TREE='7c6dd46aab213ffda5af8545d12a42260014ba1e'
+PREPARED_BASE='887fb69c3ea95192fbd5ad3dbe63230189a0916e'
+PREPARED_BASE_TREE='3567695ca9f8baed4c592669f70e5f26b43b0704'
 NS='scripts/current-complete-de-integration-preparation/'
 PRODUCT='scripts/cp7_complete_credit_de/'
 BUSINESS='scripts/cp7_credit_correction_de/'
@@ -50,7 +50,7 @@ def source(g):
     exact(set(g.tree)-set(base),allowed,'DE30_CLOSED_ADDITIVE_SOURCE')
     for name,value in declaration['files'].items():g.verify_pin(name,value)
     if PARENT_HEAD is None:
-        exact(len(base),14119,'DE30_REPAIRED_PREPARED_PARENT14119');exact(len(allowed),94,'DE30_REPAIRED_PREPARED_OWN94')
+        exact(len(base),14164,'DE30_CURRENT_UNQUALIFIED_PREPARED_PARENT14164');exact(len(allowed),94,'DE30_REPAIRED_PREPARED_OWN94')
         exact(literal(g,NS+'admission.py','PARENT_HEAD'),None,'DE30_PREPARED_PARENT_GATE_CLOSED')
         exact(literal(g,NS+'admission.py','PARENT_RECEIPT'),None,'DE30_PREPARED_RECEIPT_GATE_CLOSED')
         require(WORKFLOW not in g.tree,'DE30_PREPARED_WORKFLOW_NOT_ACTIVATED')

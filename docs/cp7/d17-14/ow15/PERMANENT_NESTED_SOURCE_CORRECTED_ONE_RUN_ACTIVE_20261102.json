@@ -1,0 +1,154 @@
+{
+  "status": "PERMANENT_NESTED_MANIFEST_CORRECTED_ONE_ACTUAL_RUN_ACTIVE_NOT_ACCEPTED",
+  "head": "887fb69c3ea95192fbd5ad3dbe63230189a0916e",
+  "tree": "3567695ca9f8baed4c592669f70e5f26b43b0704",
+  "local_same_tree_head": "9a381e3668dd68884946d5efec84c2b95ece7abe",
+  "run_id": 41339521839,
+  "job_id": 124946366351,
+  "attempt": 1,
+  "event": "push",
+  "created_at": "2026-11-01T19:00:47Z",
+  "read_only_monitor_cell": "863",
+  "previous_monitor835_completed": true,
+  "correction": {
+    "nested_README_pin_only": true,
+    "nested_manifest_files": 3,
+    "nested_manifest_bytes": 763,
+    "nested_manifest_sha256": "f451b5462236e50c0b8b0abf34fa92efef71d97f05f4d447ede0c8d4c08a0434",
+    "new_early_source_guard_before_ERP_graph_import": true,
+    "new_pure_tests": 2,
+    "first_new_control_failures": 0
+  },
+  "Root_corrected_source_and_actual_failed_predecessor_refusal": {
+    "bytes": 1920,
+    "sha256": "dbd3f8dcc24ae0f007115c46aab9219213b5bea7779d33452ec438eb03cc3b44",
+    "result": {
+      "status": "ROOT_CURRENT_NESTED_FIXED_SOURCE_PASS_AND_ACTUAL_FAILED_PREDECESSOR_REFUSED",
+      "positive": 1,
+      "negative": 1,
+      "old_actual_failure": "ROOT_SOURCE_DIGEST_CHANGED:scripts/cp7_current_s03_sku_s05/README.md",
+      "source": {
+        "source_pins": 56,
+        "own_paths": 57,
+        "unchanged_base": 14107,
+        "expected_parent_head": "2cb8c9ac85b6111e8bb170de6c2ec5c44f7c798c",
+        "expected_parent_run": 41333643573,
+        "expected_parent_job": 124928771868,
+        "parent_root_acceptance_pending": false,
+        "parent_root_receipt": {
+          "bytes": 20463,
+          "sha256": "2d9731cf9cdaed8ed90c0e189e56663a54e3bdd28ba8e24741516c4d1a85d9ba"
+        },
+        "retained_parent_case_credit_is_not_fresh": true,
+        "native_ids": [
+          "PERMANENT_S05_S03_NATIVE_EXPENSE_APPROVAL_ONCE_PAID_E05_REOPEN",
+          "PERMANENT_S05_S03_NATIVE_BOTH_CORRECTIONS_LINKED_INVERSES_NO_RECOGNITION",
+          "PERMANENT_S05_S03_NATIVE_FINISHED_PO_FG_COGS_COST_AND_CANCEL_EXACT",
+          "PERMANENT_S05_S03_NATIVE_OLD_ACCRUAL_LATER_BOOK_REOPEN_DATE_FLOOR"
+        ],
+        "browser_ids": [
+          "PERMANENT_S05_SKU_NORMAL_APP_DESKTOP_SOURCE_AND_LATE_REPLY",
+          "PERMANENT_S05_SKU_NORMAL_APP_MOBILE390_UNKNOWN_ZERO_AND_CURRENT_ACCESS"
+        ],
+        "current_browser_source_binding": {
+          "actual_current_inputs_verified": 19,
+          "explicit_current_caller_pin_routes": 8,
+          "unchanged_browser_UI_and_fixture_inputs": 11,
+          "original_manifest_recovered": true,
+          "actual_case_credit": 0
+        },
+        "nested_product_source_binding": {
+          "actual_source_files": 3,
+          "source_manifest": {
+            "bytes": 763,
+            "sha256": "f451b5462236e50c0b8b0abf34fa92efef71d97f05f4d447ede0c8d4c08a0434"
+          },
+          "actual_case_credit": 0
+        },
+        "source_manifest": {
+          "bytes": 11692,
+          "sha256": "75cba27baa1ff1f68f803bd12a2b8c193a2056f790317229e06c614e39c395c6"
+        },
+        "actual_case_credit": 0
+      },
+      "actual_ERP_cases": 0
+    }
+  },
+  "original_current_source_fence": {
+    "bytes": 1944,
+    "sha256": "ad1c771fb894ca30cc55c3caad94318ada6665a4a6dfc2ebf68bd0fe84d68071",
+    "result": {
+      "actual_Native_cases": 0,
+      "actual_browser_cases": 0,
+      "complete_package_engine": {
+        "complete_original_recovered": true,
+        "counted_changes": 2,
+        "derived_sha256": "1639b4a21068a2a9e048f982036940136829e906341fe8eba3f9127233cf2733",
+        "full_install_preuse_reinstall_used_backup_roles_full22_ALL_rows_sequences_CP6_advisors_Auth_package_checks_retained": true,
+        "original_sha256": "c420d894f8d5f16bddefeae73addb621507170f372a28e7d6e33d88c7eeb0be9"
+      },
+      "complete_unchanged_browser_source_derivations": 4,
+      "current_browser_source_binding": {
+        "actual_ERP_cases": 0,
+        "complete_original_manifest_recovered": true,
+        "current_inputs": 19,
+        "explicitly_routed_current_caller_pins": 8,
+        "production_go": false,
+        "status": "EXACT_CURRENT_PERMANENT_BROWSER_BINDING",
+        "unchanged_browser_UI_and_fixture_inputs": 11
+      },
+      "exact_job_and_WIB_guard_budget_seconds": 21600,
+      "exact_original_workflow_steps_retained": 67,
+      "independent_acceptance": false,
+      "original_single_attempt_and_real_day_behavior_unchanged": true,
+      "production_go": false,
+      "published_diagnostics_byte_exact": true,
+      "runtime_supervision": {
+        "actual_case_credit": 0,
+        "artifact_reserve_seconds": 600,
+        "job_seconds": 21600,
+        "own_probe_and_receipt_routes": true,
+        "restoration_reserve_seconds": 1200,
+        "status": "PERMANENT_SUPERVISION_EXACT_REUSE_SOURCE_PASS",
+        "unchanged_process_engine": true,
+        "work_seconds": 19800
+      },
+      "selected_persistent_financial_cases": 4,
+      "source_DB_network_guard": {
+        "attempts": [],
+        "network_nonGit_attempts": [],
+        "public_source_sha256": "1439d70810383db377c48e043df7fb6d487a1b2f1a995e8993a2c08590f9f797",
+        "self_controls": [
+          {
+            "api": "psycopg.connect",
+            "result": "DENIED_BEFORE_LIBPQ"
+          },
+          {
+            "api": "psycopg.Connection.connect",
+            "result": "DENIED_BEFORE_LIBPQ"
+          },
+          {
+            "api": "psycopg.AsyncConnection.connect",
+            "result": "DENIED_BEFORE_LIBPQ"
+          },
+          {
+            "original_connect_descriptors_restored": true
+          }
+        ]
+      },
+      "status": "PERMANENT_READER_SOURCE_AND_CALLER_CONTROLS_PASS_NOT_NATIVE",
+      "unchanged_financial_callback_ASTs": 11
+    }
+  },
+  "old_failed_attempt_original_preserved": true,
+  "old_failed_attempt_no_database_or_ERP": true,
+  "only_one_actual_current_job": true,
+  "qualified_parent_head": "2cb8c9ac85b6111e8bb170de6c2ec5c44f7c798c",
+  "qualified_parent_run": 41333643573,
+  "all_five_and_full_restore_still_required": true,
+  "actual_new_qualified_cases": 0,
+  "old35_not_rerun": true,
+  "financial_SQL_stock_HPP_Native4_browser2_oracles_unchanged": true,
+  "production_go": false,
+  "independent_acceptance": false
+}
