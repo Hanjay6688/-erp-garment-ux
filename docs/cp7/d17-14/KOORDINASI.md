@@ -6141,3 +6141,17 @@ late_failure feba dan continuation3 7e020 tetap gate null/tertutup;8kontrol
 source E telah root periksa, continuation137pin/10lama+18baru baru prepared.
 Keduanya tidak mengambil d902 gagal sebagai parent qualified. S03 backend/UI
 lanjut pemeriksaan terpisah. Default vendor/B/formal5/16/produksi tetap.
+
+
+## A — 1 November 2026 WIB — keputusan D17-20 dan jalur Afui terpisah
+
+Owner memilih “Tanggal GOOD (Recommended)” untuk acuan kebijakan bebas remburs
+komponen aksesori Special saat kebijakan berubah antara pengambilan dan GOOD.
+Keputusan lengkap ditambahkan sebagai D17-20 pada OWNER_DECISIONS; pilihan lama
+yang dibatalkan tidak dianggap persetujuan. A menyiapkan basis versi/tanggal
+dan jalur biaya nonpayable pada cabang terpisah dari Current38 yang sedang diuji.
+Tidak mengubah kandidat aktif, cabang B, main, hosted, atau produksi. Hanya
+kategori gratis yang dikonfigurasi; tidak ada wajib pencocokan nota ke PO/FG,
+nominal/tarif buatan, atau penghapusan penjaga HPP secara umum. Perubahan
+produk masih memerlukan pembuktian awal GOOD, recost, pembalikan, dan konservasi
+nilai sebelum integrasi. Formal5/16 dan production_go=false tetap.

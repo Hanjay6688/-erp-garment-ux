@@ -973,3 +973,14 @@ Setelah tiga pilihan terstruktur ditampilkan, jawaban persis owner: “oke ikuti
 3. S05 KATEGORI DULU: standar BOM tetap per kategori. Laporan mandor mengambil berapa versus standar tetap dikerjakan. Opsi BOM warna/ukuran spesifik tidak dipilih pada keputusan ini; stok fisik per varian yang ada tetap terlacak. Tidak menetapkan tahap masa depan sepihak.
 
 Keputusan ini bukan bukti implementasi/PASS. S06 penerima/pembagian pengingat pribadi staf belum diputuskan dan tidak tercakup persetujuan ini. production_go=false.
+
+
+## D17-20 — 1 November 2026 WIB — tanggal acuan bebas remburs aksesori Special
+
+Pertanyaan terstruktur kepada owner: “Jika status Special atau kategori aksesori gratis berubah antara pengambilan dan hasil GOOD, aturan bebas remburs untuk GOOD mengikuti yang mana?”
+
+Jawaban persis owner melalui pilihan interaktif: “Tanggal GOOD (Recommended)”. Deskripsi pilihan saat dijawab: “Hak gratis mengikuti kebijakan pada tanggal hasil GOOD, sejalan dengan snapshot BOM/HPP; nota pengambilan lama tetap utuh.”
+
+Akibat pelaksanaan oleh penulis: eligibility komponen tidak diremburs ditentukan dari kebijakan Special/kategori yang berlaku pada tanggal fisik GOOD menurut WIB, lalu disimpan bersama versi kebijakan dan snapshot BOM/HPP. Tidak merekonstruksi kebijakan historis dari konfigurasi hari ini. Hanya kategori yang dikonfigurasi gratis yang terpengaruh; tidak membuat seluruh aksesori Afui gratis. Catatan pengambilan lama dan tanggal fisik/pencatatannya tetap; tidak mewajibkan pencocokan nota pengambilan ke PO/FG. HPP inventori tetap diakui dan bebas remburs tidak menciptakan utang mandor atau uang fiktif. Koreksi/reversal tetap melalui jalur sah dengan jejak sumber dan konservasi nilai.
+
+Ini menyelesaikan pilihan tanggal yang sebelumnya belum dijawab; tidak mengesahkan nilai kategori/tarif baru, rekonstruksi periode lama, implementasi, hasil uji, atau pembukaan produksi. production_go=false.
