@@ -1,0 +1,124 @@
+{
+  "status": "AFUI_GOOD_DATE_NONPAYABLE_AND_OWNER_SETTINGS_SOURCE_PREPARED_NOT_ERP_ACCEPTANCE",
+  "recorded_utc": "2026-11-01 11:46:57 UTC",
+  "integrator": "Writer A only",
+  "owner_decision": "D17-20 at Root1b4d7033d9cfb78dbb0eff3637a806d67e237daf",
+  "source": {
+    "branch": "astra-a/afui-good-date-source-prepared-20261101",
+    "head": "0da4d79a4f7201ef053d6de1eb155d990b4bfa4d",
+    "tree": "e84b52eb9fb9d11ee6303597ddae1a4fca03e0df",
+    "prepared_parent_head": "10ac4e74cfcc66db7d1f2b166f3da0fc479f127b",
+    "prepared_parent_tree": "a0b0108113b9b4d43d57483f291383229a37d4ad",
+    "accepted_parent_bound": false
+  },
+  "implemented_as_unarmed_source": [
+    "Freeze actual Special/category eligibility at physical GOOD date in Asia/Jakarta, retaining original BOM reimbursement rate and exact policy identities.",
+    "Counted four Native derivations preserve lawful HPP while avoiding a contractor payable for configured free components; unproven positive-HPP/zero-reimbursement remains refused.",
+    "Cumulative-cent recost, zero/subcent initial recognition, replay and lawful QC/rework inverse are prepared without a fake companion, zero journal or pickup-to-PO/FG requirement.",
+    "Receipt-gated financial and settings installers preserve exact Native metadata and all22, rows, sequences and preuse inverse safeguards.",
+    "Ordinary ERP settings offers explicit source version/date/review, owner-only confirmation and admin reading, existing settings/accessory permissions, durable request recovery and a global browser lock.",
+    "Cancel an absent request by immutable tombstone; a late save replays cancellation, while cancellation after a committed save returns that original success without deleting history."
+  ],
+  "evidence_groups": [
+    {
+      "path": "scripts/cp7_accessory_nonpayable/LOCAL_POSTGRES_CONTROLS.json",
+      "kind": "ISOLATED_POSTGRES_POLICY_MODEL",
+      "controls": 44,
+      "reused_unchanged": true
+    },
+    {
+      "path": "scripts/cp7_accessory_nonpayable/LOCAL_COST_CONTROLS.json",
+      "kind": "ISOLATED_POSTGRES_NATIVE_BODY_FINANCIAL_MODEL",
+      "controls": 25,
+      "reused_unchanged": true
+    },
+    {
+      "path": "scripts/cp7_accessory_nonpayable/LOCAL_CATALOG_CONTROLS.json",
+      "kind": "ISOLATED_POSTGRES_FINANCIAL_CATALOGUE_MODEL",
+      "controls": 10,
+      "recorded_version_preserved": true
+    },
+    {
+      "path": "scripts/cp7_accessory_nonpayable/LOCAL_LIFECYCLE_CONTROLS.json",
+      "kind": "SYNTHETIC_ADMISSION_LIFECYCLE_CONTROLS",
+      "controls": 12,
+      "focused_failed_rechecks_recorded": true
+    },
+    {
+      "path": "scripts/cp7_accessory_nonpayable/LOCAL_SETTINGS_CONTROLS.json",
+      "kind": "ISOLATED_POSTGRES_SETTINGS_FACADE_MODEL_WITH_AUTH_STUBS",
+      "controls": 30
+    },
+    {
+      "path": "scripts/cp7_accessory_nonpayable/LOCAL_SETTINGS_STAGE_CATALOG_CONTROLS.json",
+      "kind": "ISOLATED_POSTGRES_SETTINGS_CATALOGUE_AND_SOURCE_BODY_MODEL",
+      "controls": 4
+    },
+    {
+      "path": "scripts/cp7_accessory_nonpayable/LOCAL_UI_CONTROLS.json",
+      "kind": "MOCK_PROTOCOL_DOM_AND_ORDINARY_SETTINGS_INTEGRATION",
+      "new_protocol_DOM_controls": 18,
+      "settings_scenarios_covered": 10,
+      "fixture_failures_and_focused_repairs_retained": true
+    },
+    {
+      "path": "scripts/cp7_accessory_nonpayable/LOCAL_BUILD_CONTROLS.json",
+      "kind": "DEFAULT_LOCAL_BUILD",
+      "status": "PASS",
+      "runtime_source_files": 394,
+      "owned_RPC_boundaries": 331,
+      "source_access_CSS_typescript_vite_and_client_artifact_scan": true
+    }
+  ],
+  "source_admission": {
+    "private_source_pins": 26,
+    "UI_source_pins": 14,
+    "new_paths": 50,
+    "unchanged_parent_blobs_and_modes": 14215,
+    "reviewed_existing_UI_test_and_static_guard_paths": 4,
+    "new_UI_paths": 5,
+    "counted_Native_derivations": 4,
+    "settings_function_bodies": 6,
+    "actual_SQL_executed": 0
+  },
+  "build_repair": {
+    "existing_S03_calls_registered": 3,
+    "new_GOOD_date_calls_registered": 2,
+    "caller_Native_route_and_catalog_sources_unchanged": true,
+    "Native_definition_or_permission_changes": 0,
+    "frozen_evidence_counts_unchanged": true
+  },
+  "single_active_integration": {
+    "branch": "astra-a/s03-sku-product-join-20261031",
+    "head": "08ef3bee814e6452b9193b53efc05d53abca2d9d",
+    "tree": "abf7e8b78bd56907ace9fb30211d956b63d68797",
+    "run_id": 41291621885,
+    "job_id": 124803871870,
+    "latest": {
+      "at": "2026-11-01 11:46:57 UTC",
+      "status": "in_progress",
+      "conclusion": null,
+      "active": [
+        72
+      ],
+      "failed": []
+    },
+    "duplicated_ERP_run": false
+  },
+  "remaining": [
+    "Terminal canonical Current38 intake; then actual Permanent -> DE -> FREE acceptance in order.",
+    "Bind this source to the actually accepted FREE parent; complete actual financial/settings installer, Native inventory-HPP-sales flow and restore evidence.",
+    "Real Auth HTTP, two-session waits/races, desktop/mobile browser and complete owning backup/restoration.",
+    "Global writer, permission, FK and phantom-lock closure.",
+    "After stable active integration, the owner moving-average SKU correction and FG sales to mandor with payroll-week allocations."
+  ],
+  "actual_new_ERP_Native_cases": 0,
+  "actual_new_Auth_HTTP_cases": 0,
+  "actual_new_browser_cases": 0,
+  "actual_two_session_races": 0,
+  "installed_on_active_candidate": false,
+  "hosted_or_production_mutation": false,
+  "formal_acceptance": "5/16 unchanged",
+  "production_go": false,
+  "independent_acceptance": false
+}
