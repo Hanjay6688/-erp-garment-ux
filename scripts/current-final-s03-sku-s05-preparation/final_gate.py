@@ -26,32 +26,38 @@ def gate(directory,head):
         head,package['run_identity']['run_id'])
     backup=p.strict((directory/'T3_BACKUP_RESTORE_DRILL.json').read_bytes())
     p.fields(main,dict(status='PASS',qualification_commit=head,required_case_ids_pass=True,
-        actual_Native_cases=4,actual_browser_cases=2,actual_business_cases=6,
+        actual_Native_cases=0,actual_browser_cases=2,actual_business_cases=2,
+        retained_Native_cases=4,retained_cases_are_not_fresh=True,candidate_case_coverage=6,
+        financial_groups_rerun=False,source_invariant_reuse=True,prior_runs_aggregated=True,
         actual_Auth_HTTP_cases=0,actual_two_session_races=0,retained_join37_fresh_case_credit=0,
         baseline_full22_all_rows_all_sequences_equal=True,restore_raw_public_equal=True,cp6_restored=True,
         baseline_advisors_equal=True,advisor_gate=True,used_guard_refused_before_DDL=True,
         production_go=False,independent_acceptance=False),'ACTUAL_PERMANENT_DELTA_AND_COMPLETE_RESTORE')
     p.exact(set(main['committed']),{CASE},'ONE_ACTUAL_PERMANENT_DELTA')
     part=main['committed'][CASE]
-    p.fields(part,dict(status='PASS',business_counts={'PASS':6},actual_Native_cases=4,actual_browser_cases=2,
+    p.fields(part,dict(status='PASS',business_counts={'PASS':2},actual_Native_cases=0,actual_browser_cases=2,
+        retained_Native_cases=4,retained_cases_are_not_fresh=True,candidate_case_coverage=6,
+        financial_groups_rerun=False,source_invariant_reuse=True,prior_runs_aggregated=True,
         retained_join37_fresh_case_credit=0,permanent_reader_remains_installed=True,
         global_writer_or_permission_or_lock_closure=False,Afui_positive_HPP_zero_reimbursement_coverage=False),
         'PERMANENT_DELTA_NO_RETAINED_OR_UNPROVEN_FRESH_CREDIT')
-    if len(part['business_cases'])!=6 or any(row['status']!='PASS'for row in part['business_cases'].values()):
-        raise ValueError('PERMANENT_S05_SIX_UNIQUE_FRESH_CASES_REQUIRED')
+    spec=importlib.util.spec_from_file_location('permanent_exact_retained4_final_gate',HERE/'retained4.py')
+    retained=importlib.util.module_from_spec(spec);spec.loader.exec_module(retained)
+    reuse=retained.invariant_sources(main['source_declaration']['current_installation'])
+    p.exact(part['retained_permanent_financial4'],reuse,'ACTUAL_ROOT_RETAINED4_AND_WHOLE_CURRENT_SOURCE_IDENTITY')
+    p.exact(part['retained4_original_admission'],retained.original_admission(),'ACTUAL_FAILED_ORIGINAL_ARCHIVE_ADMITTED_BEFORE_DB')
+    p.exact(set(part['business_cases']),set(reuse['missing_case_ids']),'ONLY_TWO_MISSING_BROWSER_CASES_RUN')
+    if any(row['status']!='PASS'for row in part['business_cases'].values()):
+        raise ValueError('PERMANENT_S05_TWO_FRESH_BROWSER_CASES_REQUIRED')
+    p.fields(part['source_connection_release'],dict(cursor_closed=True,connection_closed=True,foreign_backends_terminated=0),
+        'OWN_SOURCE_CONNECTION_RELEASED_WITHOUT_TOUCHING_FOREIGN_BACKENDS')
     witness=part['separate_committed_Native_use']
     p.fields(witness,dict(status='NATIVE_BUSINESS_COMMITTED',Native_case_credit=0,
         used_inverse_guard_refused_before_DDL=True,reader_remains_installed=True),'ACTUAL_COMMITTED_USE_NOT_A_TEST_ROW')
     p.exact(witness['before'],witness['after'],'ACTUAL_USED_REFUSAL_ALL22_ROWS_AND_ALL_SEQUENCES')
     if len(witness['before']['actual_all22'])!=22:
         raise ValueError('PERMANENT_S05_COMPLETE_RAW_ALL22_REQUIRED')
-    native=part['fresh_permanent_financial4']['native']
-    p.fields(native,dict(status='PASS',counts={'PASS':4},complete_boundary_restored=True),'ACTUAL_NATIVE4')
-    for row in native['cases'].values():
-        p.fields(row,dict(status='PASS',full_boundary_restored=True,public_schema_unchanged=True),'ACTUAL_STRICT_FINANCIAL_CASE')
-        read=row['permanent_S05_read']
-        p.fields(read,dict(status='PASS',reader_remained_installed=True,business_DML=False,all_fields_retained=True),'ACTUAL_PERSISTENT_PUBLIC_READ')
-        p.exact(read['before'],read['after'],'EVERY_PERSISTENT_READ_ALL22_ROWS_AND_ALL_SEQUENCES')
+    # Financial4 remain the exact Root-validated old cases, never executed here.
     browser=part['fresh_permanent_browser2']['browser']
     p.fields(browser,dict(status='RUN_COMPLETE',counts={'PASS':2},real_auth=True,jwt_signed_by_runtime=False,
         host_exit=0,host_status='RUN_COMPLETE',console_errors=0,database_remaining=0,
@@ -64,8 +70,9 @@ def gate(directory,head):
     p.fields(backup,dict(status='RESTORED_IDENTICAL'),'ACTUAL_BACKUP_DRILL')
     if not backup['checks']or any(type(value)is not bool or not value for value in backup['checks'].values()):
         raise ValueError('PERMANENT_S05_ALL_TYPED_BACKUP_CHECKS_REQUIRED')
-    return dict(status='CURRENT_PERMANENT_S05_FINANCIAL4_BROWSER2_AND_ALL5_PASS',head=head,
-        actual_fresh_cases=6,retained_join37_fresh_case_credit=0,reader_remains_installed=True,
+    return dict(status='CURRENT_PERMANENT_S05_RETAINED4_FRESH_BROWSER2_AND_ALL5_PASS',head=head,
+        actual_fresh_cases=2,retained_Native_cases=4,retained_cases_are_not_fresh=True,candidate_case_coverage=6,
+        financial_groups_rerun=False,source_invariant_reuse=True,prior_runs_aggregated=True,retained_join37_fresh_case_credit=0,reader_remains_installed=True,
         runtime_supervision=supervised,
         production_go=False,independent_acceptance=False)
 

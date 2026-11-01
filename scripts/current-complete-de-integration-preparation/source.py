@@ -5,8 +5,8 @@ import importlib.util,json,os,subprocess
 
 HERE=Path(__file__).resolve().parent
 ROOT=HERE.parents[1]
-BASE='065fff01bba869acca842e4008d87caf1e09b318'
-TREE='ed3cdf7d306be989bd46bf94f0305a7ece21d986'
+BASE='15a2170cea88cd03a4d1bcaa0873a969d495b9fa'
+TREE='3fe772a1314ae6bc7c4f36f72e3fda8738eb70fc'
 PREFIXES=('scripts/cp7_credit_correction_de/','scripts/cp7_complete_credit_de/',
     'scripts/current-complete-de-integration-preparation/')
 WORKFLOW='.github/workflows/cp7-current-complete-de-native30.yml'

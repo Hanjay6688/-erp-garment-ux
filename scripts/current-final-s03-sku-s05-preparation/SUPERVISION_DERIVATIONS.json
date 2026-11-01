@@ -6,8 +6,8 @@
       "source_path": ".github/workflows/cp7-final-s03-sku-s05.yml",
       "original_bytes": 33918,
       "original_sha256": "11d398b373b478f49c366cd611ab0cd67a9e2cc8361b7a49cdaa92cc116c8af5",
-      "derived_bytes": 34323,
-      "derived_sha256": "8689ea2162fcae0f8d4e0caf31cb6cdced15cd628d5954e0243c5ecd58a5d7cf",
+      "derived_bytes": 34335,
+      "derived_sha256": "621b85f5ae559d720e32318c8df8cbad8b84d4b80cdd5010eb36bc0525598e22",
       "changes": [
         {
           "before": "  group: cp7-permanent-s05-${{ github.run_id }}\n",
@@ -32,6 +32,21 @@
         {
           "before": "      run: if command -v supabase >/dev/null 2>&1 && test -d cp5-local; then supabase\n        stop --workdir cp5-local --no-backup; fi\n",
           "after": "      run: |\n        python -B ../auditor/scripts/current-final-s03-sku-s05-preparation/runtime_supervisor.py --allow-database-stop\n        if command -v supabase >/dev/null 2>&1 && test -d cp5-local; then supabase stop --workdir cp5-local --no-backup; fi\n",
+          "count": 1
+        },
+        {
+          "before": "name: CP7 A permanent S05 on current S03 SKU Native4 browser2",
+          "after": "name: CP7 A permanent S05 retained financial4 fresh browser2",
+          "count": 1
+        },
+        {
+          "before": "    name: Permanent reader; unchanged financial4; real Auth normal App browser2; complete\n      restoration",
+          "after": "    name: Permanent reader; retained financial4; fresh real Auth App browser2; complete\n      restoration",
+          "count": 1
+        },
+        {
+          "before": "Run actual permanent reader financial4 normal App browser2 and complete\n        outer restoration",
+          "after": "Run actual permanent reader retained financial4 fresh normal App browser2 and complete\n        outer restoration",
           "count": 1
         }
       ]

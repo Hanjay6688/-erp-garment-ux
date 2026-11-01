@@ -6,8 +6,8 @@ import importlib,importlib.util,json
 
 HERE=Path(__file__).resolve().parent
 ROOT=HERE.parents[1]
-PARENT_HEAD=None
-PARENT_RECEIPT=None
+PARENT_HEAD='15a2170cea88cd03a4d1bcaa0873a969d495b9fa'
+PARENT_RECEIPT={'bytes': 11935, 'sha256': '8e3bd34eab2f65596c74171ac2c1f9611e101390dbbbb7dae3e001cf64ec9b46'}
 
 
 def parent_receipt():
@@ -17,9 +17,12 @@ def parent_receipt():
     if len(raw)!=PARENT_RECEIPT['bytes']or sha256(raw).hexdigest()!=PARENT_RECEIPT['sha256']:
         raise ValueError('COMPLETE_DE_EXACT_PERMANENT_PARENT_INTAKE_CHANGED')
     value=json.loads(raw)
-    required=dict(status='ROOT_VERIFIED_PERMANENT_S05_NATIVE4_BROWSER2_ALL5',head=PARENT_HEAD,
-        complete6_qualified=True,actual_Native_cases=4,actual_browser_cases=2,
-        retained_join37_fresh_case_credit=0,package_all_five=True,prior_runs_aggregated=False,
+    required=dict(status='ROOT_VERIFIED_PERMANENT_S05_RETAINED4_FRESH_BROWSER2_ALL5',head=PARENT_HEAD,
+        complete6_qualified=True,actual_Native_cases=0,actual_browser_cases=2,fresh_cases=2,
+        retained_Native_cases=4,retained_cases=4,retained_cases_are_not_fresh=True,candidate_case_coverage=6,
+        fresh6_one_attempt=False,prior_runs_aggregated=True,source_invariant_reuse=True,financial_groups_rerun=False,
+        retained_original_run_conclusion='failure',failed_run_relabelled_PASS=False,
+        retained_join37_fresh_case_credit=0,package_all_five=True,
         production_go=False,independent_acceptance=False)
     for key,expected in required.items():
         if type(value.get(key))is not type(expected)or value[key]!=expected:

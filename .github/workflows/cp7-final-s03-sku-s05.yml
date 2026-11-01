@@ -1,4 +1,4 @@
-name: CP7 A permanent S05 on current S03 SKU Native4 browser2
+name: CP7 A permanent S05 retained financial4 fresh browser2
 'on':
   push:
     branches:
@@ -16,7 +16,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   p21:
-    name: Permanent reader; unchanged financial4; real Auth normal App browser2; complete
+    name: Permanent reader; retained financial4; fresh real Auth App browser2; complete
       restoration
     runs-on: ubuntu-24.04
     timeout-minutes: 360
@@ -580,7 +580,7 @@ jobs:
         \ \\\n  'postgresql://postgres:postgres@127.0.0.1:54322/cp6_rollback' \\\n\
         \  cp6_rollback supabase_db_cp5-local \"$RUNNER_TEMP/join-clone/CLONE_install\"\
         \n"
-    - name: Run actual permanent reader financial4 normal App browser2 and complete
+    - name: Run actual permanent reader retained financial4 fresh normal App browser2 and complete
         outer restoration
       working-directory: writer
       run: 'python -u -B ''../auditor/scripts/current-final-s03-sku-s05-preparation/runtime_supervisor.py''

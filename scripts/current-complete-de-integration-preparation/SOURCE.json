@@ -1,8 +1,12 @@
 {
   "classification": "CLOSED_D1_E_ON_COMPLETE_SOURCE_PREPARATION_NOT_QUALIFICATION",
-  "base_head": "065fff01bba869acca842e4008d87caf1e09b318",
-  "base_tree": "ed3cdf7d306be989bd46bf94f0305a7ece21d986",
+  "base_head": "15a2170cea88cd03a4d1bcaa0873a969d495b9fa",
+  "base_tree": "3fe772a1314ae6bc7c4f36f72e3fda8738eb70fc",
   "files": {
+    ".github/workflows/cp7-current-complete-de-native30.yml": {
+      "bytes": 33740,
+      "sha256": "132407f34a650f5d20cafb819001d643c8bcd19357a324ce05fc25d04e773411"
+    },
     "scripts/cp7_complete_credit_de/README.md": {
       "bytes": 2724,
       "sha256": "ecc8b9508505a8f267f06487b52fce48cabc8f4f5e0db4eb1cd302a3e71fb1a2"
@@ -203,13 +207,17 @@
       "bytes": 944,
       "sha256": "8ee68fad8c138154e91ef3b12b87d15ef2b54f9a377591bc0d5390ac29e7573e"
     },
+    "scripts/current-complete-de-integration-preparation/PERMANENT_PARENT_ROOT_ACTUAL_INTAKE.json": {
+      "bytes": 11935,
+      "sha256": "8e3bd34eab2f65596c74171ac2c1f9611e101390dbbbb7dae3e001cf64ec9b46"
+    },
     "scripts/current-complete-de-integration-preparation/README.md": {
       "bytes": 7261,
       "sha256": "e2e70460b415d6f5fcbcbeccda7a800c2f8bde6515f8ce613fdb9eadadbe5e01"
     },
     "scripts/current-complete-de-integration-preparation/REPAIRED_PERMANENT_REBASE_ORIGIN.json": {
-      "bytes": 23527,
-      "sha256": "d589b623f0ea2b2f799eb8e3cfdb83af0660cf2bab98c1bcd338eeb9660e55b1"
+      "bytes": 26451,
+      "sha256": "05c3da15aa4bf5f47481cb86ef07c3fb0cf21233eeb145d3d80628232374dd3d"
     },
     "scripts/current-complete-de-integration-preparation/RUNTIME_DIAGNOSTICS_SOURCE.json": {
       "bytes": 859,
@@ -224,8 +232,8 @@
       "sha256": "61de51e9744baefa471362b50e1204499b3ccd38dfe696f46d33390664af2e6d"
     },
     "scripts/current-complete-de-integration-preparation/admission.py": {
-      "bytes": 3418,
-      "sha256": "1cc6a1cc54d46c0409ee376d1a40bd19f768bfd47ace7fb6e0faa34f2f1c05aa"
+      "bytes": 3853,
+      "sha256": "a96c54c53ec4b9bae0fefe72f53ae767549643cb1a1014ad631f795d94f5a097"
     },
     "scripts/current-complete-de-integration-preparation/attempt_policy.py": {
       "bytes": 2209,
@@ -353,7 +361,7 @@
     },
     "scripts/current-complete-de-integration-preparation/source.py": {
       "bytes": 5793,
-      "sha256": "38330dd4e41830c29e553bea3b111d78d5aa719e69d559b856d1890a553cf652"
+      "sha256": "7519f8a84e35b228800f6553ae068f7d4daa9b6ec263ea0acfaa7daa120bb45d"
     },
     "scripts/current-complete-de-integration-preparation/system_metadata.py": {
       "bytes": 3188,
@@ -376,7 +384,16 @@
       "sha256": "598b8b148504c79b2e0f7d43b314d5df2a209ab07a97359c731b3b07ae5acc07"
     }
   },
-  "actual_parent_qualification": null,
+  "actual_parent_qualification": {
+    "head": "15a2170cea88cd03a4d1bcaa0873a969d495b9fa",
+    "tree": "3fe772a1314ae6bc7c4f36f72e3fda8738eb70fc",
+    "run_id": 41354607179,
+    "job_id": 124991886417,
+    "receipt": {
+      "bytes": 11935,
+      "sha256": "8e3bd34eab2f65596c74171ac2c1f9611e101390dbbbb7dae3e001cf64ec9b46"
+    }
+  },
   "actual_Native_cases": 0,
   "production_go": false,
   "independent_acceptance": false

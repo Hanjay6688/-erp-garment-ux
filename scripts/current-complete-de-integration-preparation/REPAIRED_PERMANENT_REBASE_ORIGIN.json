@@ -589,5 +589,59 @@
     "actual_ERP_cases": 0,
     "production_go": false,
     "independent_acceptance": false
+  },
+  "actual_permanent_parent_binding": {
+    "head": "15a2170cea88cd03a4d1bcaa0873a969d495b9fa",
+    "tree": "3fe772a1314ae6bc7c4f36f72e3fda8738eb70fc",
+    "run_id": 41354607179,
+    "job_id": 124991886417,
+    "receipt": {
+      "bytes": 11935,
+      "sha256": "8e3bd34eab2f65596c74171ac2c1f9611e101390dbbbb7dae3e001cf64ec9b46"
+    },
+    "source_preparation_not_DE_acceptance": true,
+    "unchanged_parent_blobs_and_modes": 14169,
+    "own_paths": 96,
+    "own_source_pins": 95,
+    "literal_routes": [
+      {
+        "path": "scripts/current-complete-de-integration-preparation/admission.py",
+        "name": "PARENT_HEAD",
+        "before": "None",
+        "after": "'15a2170cea88cd03a4d1bcaa0873a969d495b9fa'",
+        "exact_original_recovered": true
+      },
+      {
+        "path": "scripts/current-complete-de-integration-preparation/admission.py",
+        "name": "PARENT_RECEIPT",
+        "before": "None",
+        "after": "{'bytes': 11935, 'sha256': '8e3bd34eab2f65596c74171ac2c1f9611e101390dbbbb7dae3e001cf64ec9b46'}",
+        "exact_original_recovered": true
+      },
+      {
+        "path": "scripts/current-complete-de-integration-preparation/source.py",
+        "name": "BASE",
+        "before": "'065fff01bba869acca842e4008d87caf1e09b318'",
+        "after": "'15a2170cea88cd03a4d1bcaa0873a969d495b9fa'",
+        "exact_original_recovered": true
+      },
+      {
+        "path": "scripts/current-complete-de-integration-preparation/source.py",
+        "name": "TREE",
+        "before": "'ed3cdf7d306be989bd46bf94f0305a7ece21d986'",
+        "after": "'3fe772a1314ae6bc7c4f36f72e3fda8738eb70fc'",
+        "exact_original_recovered": true
+      }
+    ],
+    "parent_protocol_route": {
+      "before": "    required=dict(status='ROOT_VERIFIED_PERMANENT_S05_NATIVE4_BROWSER2_ALL5',head=PARENT_HEAD,\n        complete6_qualified=True,actual_Native_cases=4,actual_browser_cases=2,\n        retained_join37_fresh_case_credit=0,package_all_five=True,prior_runs_aggregated=False,\n        production_go=False,independent_acceptance=False)",
+      "after": "    required=dict(status='ROOT_VERIFIED_PERMANENT_S05_RETAINED4_FRESH_BROWSER2_ALL5',head=PARENT_HEAD,\n        complete6_qualified=True,actual_Native_cases=0,actual_browser_cases=2,fresh_cases=2,\n        retained_Native_cases=4,retained_cases=4,retained_cases_are_not_fresh=True,candidate_case_coverage=6,\n        fresh6_one_attempt=False,prior_runs_aggregated=True,source_invariant_reuse=True,financial_groups_rerun=False,\n        retained_original_run_conclusion='failure',failed_run_relabelled_PASS=False,\n        retained_join37_fresh_case_credit=0,package_all_five=True,\n        production_go=False,independent_acceptance=False)",
+      "count": 1,
+      "exact_original_recovered": true,
+      "financial_SQL_or_Native_callbacks_changed": false
+    },
+    "actual_DE_cases": 0,
+    "production_go": false,
+    "independent_acceptance": false
   }
 }

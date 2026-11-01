@@ -105,7 +105,7 @@
     69,
     71
   ],
-  "parent_root_intake_pending": true,
+  "parent_root_intake_pending": false,
   "actual_new_Native_cases": 0,
   "actual_browser_cases": 0,
   "production_go": false,
@@ -116,10 +116,12 @@
     "full_owning_pre_DB_and_runtime_WIB_guard_minutes": 360,
     "private_policy": "scripts/current-final-s03-sku-s05-preparation/attempt_policy.py",
     "all_actual_business_day_checks_and_single_attempt_unchanged": true,
-    "fresh_Native_cases": 4,
+    "fresh_Native_cases": 0,
     "fresh_browser_cases": 2,
     "browser_case_timeout_minutes": 10,
-    "source_install_restore_or_financial_checks_removed": 0
+    "source_install_restore_or_financial_checks_removed": 0,
+    "retained_Native_cases": 4,
+    "financial_groups_rerun": false
   },
   "supervision_derivation": "SUPERVISION_DERIVATIONS.json",
   "unchanged_step_indices_apply_to": "Reconstructed prior permanent workflow before the exact five supervision changes"

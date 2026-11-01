@@ -1,4 +1,4 @@
-"""Actual permanent-reader delta: financial4, committed Native use, browser2."""
+"""Retain actual unchanged financial4; run only missing browser2 and full restore."""
 from pathlib import Path
 import importlib.util,os
 
@@ -79,12 +79,12 @@ def exercise(conn,cur,database,url,report,state):
     metadata=load('permanent_owning_readonly_system_metadata',HERE/'system_metadata.py')
     with notes.phase('PERMANENT_READONLY_METADATA_BEFORE_NATIVE'):
         report['read_only_system_metadata_before_native']=metadata.capture_pair(url,raw_receipt)
-    first=report['fresh_permanent_financial4']=dict(status='INCOMPLETE')
-    with notes.phase('PERMANENT_NATIVE4'):
-        load('permanent_four_original_financial_cases',HERE/'persistent_financial.py').exercise(
-            conn,cur,database,url,first,state,raw_parent_receipt=raw_receipt)
-    if first.get('status')!='PASS'or first.get('actual_Native_cases')!=4:
-        raise ValueError('PERMANENT_S05_ACTUAL_FINANCIAL4_REQUIRED')
+    retained=load('permanent_keep_actual_financial4_without_rerun',HERE/'retained4.py')
+    report['retained_permanent_financial4']=retained.invariant_sources(state['sources'])
+    report['retained4_original_admission']=retained.original_admission()
+    # The omitted strict group used to release this owning source connection.
+    # Release our own connection before the real witness and template copy.
+    report['source_connection_release']=retained.release_source(conn,cur)
     witness=report['separate_committed_Native_use']=dict(status='INCOMPLETE')
     with notes.phase('PERMANENT_NATIVE_COMMITTED_WITNESS_ZERO_CASE_CREDIT'):
         committed_use(url,state,raw_receipt,witness)
@@ -96,11 +96,12 @@ def exercise(conn,cur,database,url,report,state):
         raise ValueError('PERMANENT_S05_ACTUAL_NORMAL_APP_BROWSER2_REQUIRED')
     with notes.phase('PERMANENT_READONLY_METADATA_AFTER_NATIVE_BROWSER'):
         report['read_only_system_metadata_after_native_and_browser']=metadata.capture_pair(url,raw_receipt)
-    groups=(first['native']['cases'],second['browser']['cases'])
-    cases={key:dict(status=row['status'])for group in groups for key,row in group.items()}
-    if len(cases)!=6 or sum(map(len,groups))!=6 or any(row['status']!='PASS'for row in cases.values()):
-        raise ValueError('PERMANENT_S05_EXACT_SIX_FRESH_DELTA_CASES_REQUIRED')
-    report.update(status='PASS',business_cases=cases,business_counts={'PASS':6},actual_Native_cases=4,
+    cases={key:dict(status=row['status'])for key,row in second['browser']['cases'].items()}
+    if set(cases)!=set(report['retained_permanent_financial4']['missing_case_ids'])or any(row['status']!='PASS'for row in cases.values()):
+        raise ValueError('PERMANENT_S05_EXACT_TWO_MISSING_BROWSER_CASES_REQUIRED')
+    report.update(status='PASS',business_cases=cases,business_counts={'PASS':2},actual_Native_cases=0,
+        retained_Native_cases=4,retained_cases_are_not_fresh=True,candidate_case_coverage=6,
+        financial_groups_rerun=False,source_invariant_reuse=True,prior_runs_aggregated=True,
         actual_browser_cases=2,actual_Auth_HTTP_cases=0,actual_two_session_races=0,
         used_guard_refused_before_DDL=True,retained_join37_fresh_case_credit=0,
         global_writer_or_permission_or_lock_closure=False,Afui_positive_HPP_zero_reimbursement_coverage=False,

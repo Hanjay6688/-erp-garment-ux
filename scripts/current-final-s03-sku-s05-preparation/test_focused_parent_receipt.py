@@ -44,13 +44,28 @@ class FocusedParentProtocol(unittest.TestCase):
         example=sample();example.pop('source_invariant_reuse')
         with self.assertRaises(ValueError):check(example)
 
-    def test_all_financial_and_fixture_functions_except_receipt_parser_are_unchanged(self):
+    def test_only_receipt_protocol_and_exact_owner_setup_order_differ_from_original(self):
         before=subprocess.check_output(['git','-C',str(ROOT),'show',
             '92a70c1fbe51208f098e82a27088649add4befd4:scripts/current-final-s03-sku-s05-preparation/persistent_financial.py'])
         functions=lambda raw:{n.name:ast.dump(n,include_attributes=False)for n in ast.parse(raw).body
             if isinstance(n,(ast.FunctionDef,ast.AsyncFunctionDef))}
         old=functions(before);new=functions((HERE/'persistent_financial.py').read_bytes())
-        self.assertEqual(set(old),set(new));self.assertEqual([name for name in old if old[name]!=new[name]],['qualified_receipt'])
+        self.assertEqual(set(old),set(new))
+        original=next(n for n in ast.parse(before).body if isinstance(n,ast.FunctionDef)and n.name=='read_kept_reader')
+        reader=ast.get_source_segment(before.decode(),original)
+        setup='    owner=core.f.hp.owner(cursor)\n'
+        boundary='    core.f.admin(cursor)\n    with helper.control.product_catalog(cursor):'
+        replacement='    core.f.admin(cursor)\n'+setup+'    with helper.control.product_catalog(cursor):'
+        self.assertEqual(reader.count(setup),1);self.assertEqual(reader.count(boundary),1)
+        moved=reader.replace(setup,'',1).replace(boundary,replacement,1)
+        # Admit only this exact setup move. No read, response check, full22,
+        # row or sequence oracle can change along with it.
+        self.assertEqual(new['read_kept_reader'],functions(moved)['read_kept_reader'])
+        recovered=moved.replace(replacement,boundary,1)
+        restore_before='    core.f.hp.auth.actor(cursor,owner)'
+        self.assertEqual(recovered.count(restore_before),1)
+        self.assertEqual(recovered.replace(restore_before,setup+restore_before,1),reader)
+        self.assertEqual([name for name in old if old[name]!=new[name]],['qualified_receipt','read_kept_reader'])
 
 class CurrentBrowserBindingControls(unittest.TestCase):
     def inputs(self):
@@ -62,8 +77,9 @@ class CurrentBrowserBindingControls(unittest.TestCase):
 
     def test_exact_current_input_manifest_recovers_original_and_preserves_all_browser_oracles(self):
         controls,original,current,inputs=self.inputs();value=controls.browser_binding(original,current,inputs)
-        self.assertEqual(value['current_inputs'],19);self.assertEqual(value['explicitly_routed_current_caller_pins'],8)
-        self.assertEqual(value['unchanged_browser_UI_and_fixture_inputs'],11)
+        self.assertEqual(value['current_inputs'],19);self.assertEqual(value['explicitly_routed_current_caller_pins'],9)
+        self.assertEqual(value['unchanged_browser_UI_and_fixture_inputs'],9)
+        self.assertEqual(value['exact_observer_initialization_routes'],1)
         self.assertTrue(value['complete_original_manifest_recovered']);self.assertEqual(value['actual_ERP_cases'],0)
 
     def test_stale_caller_pin_changed_browser_bytes_extra_key_or_case_metadata_refuse(self):

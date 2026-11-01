@@ -10,10 +10,16 @@ COUNTS_BEFORE="""report['actual_two_session_races']=3
             report['actual_business_cases']=11
             report['real_Auth_HTTP_qualified']=True"""
 COUNTS_AFTER="""report['actual_two_session_races']=0
-            report['actual_Native_cases']=4
+            report['actual_Native_cases']=0
             report['actual_Auth_HTTP_cases']=0
             report['actual_browser_cases']=2
-            report['actual_business_cases']=6
+            report['actual_business_cases']=2
+            report['retained_Native_cases']=4
+            report['retained_cases_are_not_fresh']=True
+            report['candidate_case_coverage']=6
+            report['financial_groups_rerun']=False
+            report['source_invariant_reuse']=True
+            report['prior_runs_aggregated']=True
             report['retained_join37_fresh_case_credit']=0
             report['real_Auth_HTTP_qualified']=False
             report['real_Auth_browser_claim']=True"""
