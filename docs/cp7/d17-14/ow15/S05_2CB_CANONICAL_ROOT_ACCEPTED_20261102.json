@@ -1,0 +1,63 @@
+{
+  "status": "ACTUAL_S05_ROOT_ACCEPTED_RETAIN35_FRESH2_AND_ALL5",
+  "head": "2cb8c9ac85b6111e8bb170de6c2ec5c44f7c798c",
+  "tree": "5c5111505dafc5a92a79de4d9b52e4d93e37500e",
+  "run_id": 41333643573,
+  "job_id": 124928771868,
+  "artifact_id": 13095548796,
+  "actual_terminal_successful_steps": 82,
+  "root_receipt": {
+    "bytes": 20463,
+    "sha256": "2d9731cf9cdaed8ed90c0e189e56663a54e3bdd28ba8e24741516c4d1a85d9ba"
+  },
+  "root_receipt_path": "docs/cp7/d17-14/ow15/CURRENT_S05_RETAIN35_FRESH2_ROOT_ACTUAL_INTAKE_20261102.json",
+  "canonical_original": {
+    "bytes": 29806135,
+    "sha256": "704d58e2e15d851375ca19f4be78eec2144d759e37544bed6576816e26f6d749",
+    "members": 147,
+    "library_file_id": "libfile_8984fd7d18e48191b8052518f3b32cdf",
+    "library_version": 0
+  },
+  "qualification": {
+    "fresh_browser_cases": 2,
+    "retained_Native_cases": 31,
+    "retained_S03_browser_cases": 4,
+    "retained_cases_are_not_fresh": true,
+    "candidate_case_coverage": 37,
+    "fresh37_one_attempt": false
+  },
+  "full_raw_boundary": {
+    "tables": 692,
+    "sequences": 15,
+    "catalog_groups": 22
+  },
+  "all_five_package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "actual_own_source_connection_release": {
+    "phase": "AFTER_FOUNDATION_COMMIT_BEFORE_READER_OR_COPY",
+    "database": "cp6_rollback",
+    "backend_pid": 1357,
+    "cursor_closed": true,
+    "connection_closed": true,
+    "foreign_backends_terminated": 0,
+    "actual_Native_case_credit": 0
+  },
+  "actual_browser_originals": {
+    "raw_census_files": 6,
+    "zero_effect_intervals": 3,
+    "unique_PNGs": 10,
+    "desktop_sources_PNG_visually_inspected": true,
+    "mobile390_sources_PNG_visually_inspected": true
+  },
+  "visual_followup": "The inactive outer Nota tab appears light against light in both SOURCES screenshots; inspect its actual computed contrast during the remaining global UI review. This is outside the scoped S05 report CSS oracle and is not credited as independent acceptance.",
+  "old_failed_attempts_relabelled_PASS": false,
+  "retained35_rerun": false,
+  "scope_complete_CP7": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

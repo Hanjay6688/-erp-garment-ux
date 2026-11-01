@@ -1,0 +1,62 @@
+{
+  "status": "FG_MANDOR_ZERO_NET_NONCASH_COMPLETION_GAP_IDENTIFIED_NOT_IMPLEMENTED",
+  "classification": "READ_ONLY_ACCEPTED_NATIVE_AND_CURRENT_SOURCE_BINDING",
+  "reviewed_root_head": "b98818d579f67f6ad47fac561e049ae8fc3e76e0",
+  "accepted_native": {
+    "schema": "erp",
+    "function": "post_payroll_payment(uuid)",
+    "definition_sha256": "3ed74e090199067b4a1fd5c954f57abf9401dfdd48807437cc0aac1976a1b949",
+    "negative_net_refused": true,
+    "zero_net_can_transition_PAID": true,
+    "active_cash_account_required_only_for_positive_net": true,
+    "cash_journal_created_only_for_positive_net": true
+  },
+  "source_pins": {
+    "scripts/cp7-src/payroll/installments.sql": {
+      "bytes": 38795,
+      "sha256": "743406d68778c3d2ba812ff189765f7e7b6cc1ba9a39fe30ef1ce55095a9fa8e"
+    },
+    "scripts/cp7_installment_bundle.py": {
+      "bytes": 10743,
+      "sha256": "b3c96e3f19c7f941ae8689ad0bbb5294c54bee469ed8310a0696f11b029823cb"
+    },
+    "scripts/cp7_settlement_bundle.py": {
+      "bytes": 5158,
+      "sha256": "ef2817a5d9759802ccd8b19c4bf88fc92909389118b1d88d9870a56ac99a9ba9"
+    }
+  },
+  "observed_installment_guards": {
+    "account_requires_positive_net": "approved_net numeric(20,2) not null check(approved_net>0)",
+    "payment_requires_positive_amount": "amount numeric(20,2) not null check(amount>0)",
+    "pay_command_refuses_zero_net": "h.net_payable<=0 then raise exception 'CP7_INSTALLMENT_APPROVED_POSITIVE_PAYROLL_ONLY'",
+    "amount_guard_refuses_zero": "p_amount<=0",
+    "cash_journal_required": "if journal_id is null then raise exception 'CP7_INSTALLMENT_NATIVE_JOURNAL_MISSING'"
+  },
+  "owner_required_boundary": {
+    "invoice_allocation_may_equal_payroll_capacity": true,
+    "approved_net_can_equal_zero": true,
+    "cash_out": 0,
+    "invoice_settlement": "DEDICATED_NONCASH_DR_CONTRACTOR_PAYABLE_CR_AR_CUSTOMER_ON_THE_SAME_INVOICE",
+    "real_sales_payment_rows_created": 0,
+    "cash_installment_rows_created": 0,
+    "fictitious_minimum_cash_payment": false,
+    "offset_settles_once": true,
+    "lawful_reversal_required": true
+  },
+  "implementation_constraint": "Preserve the positive-cash installment contract. Derive a guarded zero-net completion through the accepted Native payroll flow and exact predecessor digests; do not satisfy its positive-cash guards with fake payment rows or bypass them.",
+  "required_future_cases": [
+    "Full payroll capacity allocation produces PAID and invoice AR reduction with zero cash or cash-installment rows",
+    "Same request replay creates no second offset",
+    "Changed invoice balance refuses stale completion atomically",
+    "Lawful zero-net payroll reversal reopens the same invoice and releases or retains allocations according to the owning reversal action",
+    "Existing positive-net and partial cash installments retain their contracts"
+  ],
+  "implementation_may_start_after": "ACTIVE_INTEGRATION_BLOCK_STABLE",
+  "implementation_started": false,
+  "actual_SQL_executed": 0,
+  "actual_ERP_calls": 0,
+  "actual_Native_cases": 0,
+  "actual_product_changes": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

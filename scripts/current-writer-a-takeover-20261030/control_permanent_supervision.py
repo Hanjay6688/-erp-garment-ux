@@ -11,7 +11,7 @@ from intake_common import GitBytes, exact, pin
 def check(root):
     with GitBytes(root,target.PREPARED_HEAD,target.PREPARED_TREE) as g:
         source=target.source(g)
-        exact(source['own_paths'],56,'PERMANENT_SUPERVISED_OWN_SOURCE56')
+        exact(source['own_paths'],57 if target.PARENT_RECEIPT is not None else 56,'PERMANENT_SUPERVISED_EXACT_OWN_SOURCE_PATHS')
     for name in ('HEAD','TREE','RUN','JOB'):
         exact(getattr(target,name),None,'PERMANENT_RUNTIME_STILL_UNARMED:'+name)
     try:target.intake(None,None,None)

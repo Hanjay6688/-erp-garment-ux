@@ -15,12 +15,13 @@ HEAD=None
 TREE=None
 RUN=None
 JOB=None
-PREPARED_HEAD='d1537f9ae27942b3f46728a54af32823629e5bd6'
-PREPARED_TREE='1fd8961e307cac5498beb43a035967d7d8900a9f'
-BASE='cb8aa092506a272da526aa55a1cfef4b2a6413c0'
-BASE_TREE='e47caf3ea3b739b713f6c9b9a0e0041f91c5ac58'
-PARENT_RUN=41315727305
-PARENT_JOB=124875223281
+PREPARED_HEAD='e805d9a6e57997fa3d9cf2e8f47f5922995b6a5f'
+PREPARED_TREE='171d01c77b2ab82184dd4676f87f8f68f8df2cb6'
+BASE='2cb8c9ac85b6111e8bb170de6c2ec5c44f7c798c'
+BASE_TREE='5c5111505dafc5a92a79de4d9b52e4d93e37500e'
+PARENT_RUN=41333643573
+PARENT_JOB=124928771868
+PARENT_RECEIPT=dict(bytes=20463,sha256='2d9731cf9cdaed8ed90c0e189e56663a54e3bdd28ba8e24741516c4d1a85d9ba')
 NS='scripts/current-final-s03-sku-s05-preparation/'
 MAIN='CP7_PERMANENT_S05_S03_SKU_NATIVE4_BROWSER2.json'
 NATIVE='CP7_PERMANENT_S05_S03_FINANCIAL_NATIVE4.json'
@@ -55,12 +56,26 @@ def browser_source_binding(g):
     return dict(actual_current_inputs_verified=19,explicit_current_caller_pin_routes=8,
         unchanged_browser_UI_and_fixture_inputs=11,original_manifest_recovered=True,actual_case_credit=0)
 
+def parent_receipt_source(g):
+    actual=literal(g,NS+'persistent_financial.py','PARENT_RECEIPT')
+    exact(actual,PARENT_RECEIPT,'PERMANENT_EXACT_ROOT_ACCEPTED_PARENT_RECEIPT_BINDING')
+    if actual is None:return None
+    raw=g.read(NS+'JOIN37_ROOT_ACTUAL_INTAKE.json')
+    exact(pin(raw),actual,'PERMANENT_EXACT_ORIGINAL_ROOT_ACCEPTED_PARENT_RECEIPT_BYTES')
+    value=strict(raw)
+    fields(value,dict(status='ROOT_VERIFIED_CURRENT_JOIN_RETAINED35_FRESH_S05_BROWSER2_ALL5',
+        head=BASE,tree=BASE_TREE,run_id=PARENT_RUN,job_id=PARENT_JOB,complete37_qualified=True,
+        package_all_five=True,fresh_cases=2,retained_cases=35,retained_cases_are_not_fresh=True,
+        candidate_case_coverage=37,failed_run_relabelled_PASS=False,production_go=False,
+        independent_acceptance=False),'PERMANENT_ACTUAL_PARENT_QUALIFICATION_BEFORE_OWN_RUNTIME')
+    return actual
+
 def source(g):
     declaration=strict(g.read(NS+'PREPARATION.json'))
     fields(declaration,dict(base_head=BASE,actual_new_Native_cases=0,production_go=False,
         independent_acceptance=False),'PERMANENT_SOURCE_PREPARATION_NOT_CASE_CREDIT')
     exact(g.git('rev-parse',BASE+'^{tree}').decode().strip(),BASE_TREE,'EXACT_CORRECTED_S05_SOURCE_PARENT_TREE')
-    base=g.entries(BASE);exact(len(base),14105,'PERMANENT_UNCHANGED_CORRECTED_FINANCIAL_BASE14105')
+    base=g.entries(BASE);exact(len(base),14107,'PERMANENT_UNCHANGED_SOURCE_RELEASE_FINANCIAL_BASE14107')
     for name,value in base.items():exact(g.tree.get(name),value,'PERMANENT_BASE_BLOB_AND_MODE:'+name)
     allowed=set(declaration['files'])|{NS+'PREPARATION.json'}
     require(all(name.startswith(('scripts/cp7_current_s03_sku_s05/',NS))
@@ -70,9 +85,8 @@ def source(g):
     current_browser=browser_source_binding(g)
     for name,value in dict(PARENT_HEAD=BASE,PARENT_TREE=BASE_TREE,PARENT_RUN=PARENT_RUN,PARENT_JOB=PARENT_JOB).items():
         exact(literal(g,NS+'persistent_financial.py',name),value,'PERMANENT_EXACT_ACTUAL_PARENT_BINDING:'+name)
-    if HEAD is None:
-        exact(literal(g,NS+'persistent_financial.py','PARENT_RECEIPT'),None,'PREPARED_PERMANENT_PARENT_ADMISSION_CLOSED')
-        exact(len(allowed),56,'EXACT_UNARMED_PERMANENT56_OWN_PATHS')
+    parent_receipt=parent_receipt_source(g)
+    exact(len(allowed),57 if parent_receipt is not None else 56,'EXACT_PERMANENT_OWN_PATHS_AND_OPTIONAL_ACTUAL_PARENT_RECEIPT')
     fields(declaration,dict(owning_job_and_real_WIB_guard_minutes=360,
         expected_parent_qualification='ROOT_VERIFIED_CURRENT_JOIN_RETAINED35_FRESH_S05_BROWSER2_ALL5',
         retained_parent_case_credit_is_not_fresh=True),'HONEST_PARENT_REUSE_AND_ACTUAL_JOB_BUDGET')
@@ -85,9 +99,10 @@ def source(g):
     require(match is not None,'PERMANENT_EXPLICIT_BROWSER_IDS_REQUIRED')
     brows=ast.literal_eval(match.group(1));exact(len(brows),2,'PERMANENT_EXACT_TWO_BROWSER_IDS')
     exact(len(set(native+brows)),6,'PERMANENT_EXACT_SIX_UNIQUE_SOURCE_IDS')
-    return dict(source_pins=len(declaration['files']),own_paths=len(allowed),unchanged_base=14105,
+    return dict(source_pins=len(declaration['files']),own_paths=len(allowed),unchanged_base=14107,
         expected_parent_head=BASE,expected_parent_run=PARENT_RUN,expected_parent_job=PARENT_JOB,
-        parent_root_acceptance_pending=HEAD is None,retained_parent_case_credit_is_not_fresh=True,
+        parent_root_acceptance_pending=parent_receipt is None,parent_root_receipt=parent_receipt,
+        retained_parent_case_credit_is_not_fresh=True,
         native_ids=native,browser_ids=brows,current_browser_source_binding=current_browser,
         source_manifest=pin(g.read(NS+'PREPARATION.json')),actual_case_credit=0)
 

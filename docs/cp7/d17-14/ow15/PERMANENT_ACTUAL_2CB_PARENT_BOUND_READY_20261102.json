@@ -1,0 +1,156 @@
+{
+  "status": "PERMANENT_ACTUAL_ROOT_ACCEPTED_2CB_PARENT_BOUND_READY_NOT_ACTUAL_CHILD_ACCEPTANCE",
+  "prepared_head": "e805d9a6e57997fa3d9cf2e8f47f5922995b6a5f",
+  "prepared_tree": "171d01c77b2ab82184dd4676f87f8f68f8df2cb6",
+  "parent_head": "2cb8c9ac85b6111e8bb170de6c2ec5c44f7c798c",
+  "parent_tree": "5c5111505dafc5a92a79de4d9b52e4d93e37500e",
+  "parent_run": 41333643573,
+  "parent_job": 124928771868,
+  "parent_root_receipt": {
+    "bytes": 20463,
+    "sha256": "2d9731cf9cdaed8ed90c0e189e56663a54e3bdd28ba8e24741516c4d1a85d9ba"
+  },
+  "unchanged_parent_blobs_and_modes": 14107,
+  "own_paths": 57,
+  "source_pins": 56,
+  "source_rebase": {
+    "own_paths_only": true,
+    "old_prepared_head": "d1537f9ae27942b3f46728a54af32823629e5bd6",
+    "old_base_failed_cb8_not_qualified": true
+  },
+  "new_root_parent_admission_control": {
+    "bytes": 1842,
+    "sha256": "aff63d2e4aff099e3f2a48acb537403f15abf9670be000243c273b807a077f10",
+    "result": {
+      "status": "ROOT_PERMANENT_ACTUAL_PARENT_SOURCE_CONTROLS_PASS",
+      "head": "6545d1cf1de90264fee6963d04d5a38c1ec8389b",
+      "tree": "171d01c77b2ab82184dd4676f87f8f68f8df2cb6",
+      "source": {
+        "source_pins": 56,
+        "own_paths": 57,
+        "unchanged_base": 14107,
+        "expected_parent_head": "2cb8c9ac85b6111e8bb170de6c2ec5c44f7c798c",
+        "expected_parent_run": 41333643573,
+        "expected_parent_job": 124928771868,
+        "parent_root_acceptance_pending": false,
+        "parent_root_receipt": {
+          "bytes": 20463,
+          "sha256": "2d9731cf9cdaed8ed90c0e189e56663a54e3bdd28ba8e24741516c4d1a85d9ba"
+        },
+        "retained_parent_case_credit_is_not_fresh": true,
+        "native_ids": [
+          "PERMANENT_S05_S03_NATIVE_EXPENSE_APPROVAL_ONCE_PAID_E05_REOPEN",
+          "PERMANENT_S05_S03_NATIVE_BOTH_CORRECTIONS_LINKED_INVERSES_NO_RECOGNITION",
+          "PERMANENT_S05_S03_NATIVE_FINISHED_PO_FG_COGS_COST_AND_CANCEL_EXACT",
+          "PERMANENT_S05_S03_NATIVE_OLD_ACCRUAL_LATER_BOOK_REOPEN_DATE_FLOOR"
+        ],
+        "browser_ids": [
+          "PERMANENT_S05_SKU_NORMAL_APP_DESKTOP_SOURCE_AND_LATE_REPLY",
+          "PERMANENT_S05_SKU_NORMAL_APP_MOBILE390_UNKNOWN_ZERO_AND_CURRENT_ACCESS"
+        ],
+        "current_browser_source_binding": {
+          "actual_current_inputs_verified": 19,
+          "explicit_current_caller_pin_routes": 8,
+          "unchanged_browser_UI_and_fixture_inputs": 11,
+          "original_manifest_recovered": true,
+          "actual_case_credit": 0
+        },
+        "source_manifest": {
+          "bytes": 11692,
+          "sha256": "267002d277e3f8b430dbc9d3aee0bd0896058096165784ff88b9919d5c608216"
+        },
+        "actual_case_credit": 0
+      },
+      "positive": 2,
+      "negative_controls": [
+        "missing",
+        "edited",
+        "unbound",
+        "own_runtime_unarmed_before_archive"
+      ],
+      "actual_ERP_cases": 0,
+      "actual_SQL_executed": 0,
+      "production_go": false,
+      "independent_acceptance": false
+    }
+  },
+  "complete_original_source_fence": {
+    "bytes": 1944,
+    "sha256": "ad1c771fb894ca30cc55c3caad94318ada6665a4a6dfc2ebf68bd0fe84d68071",
+    "result": {
+      "actual_Native_cases": 0,
+      "actual_browser_cases": 0,
+      "complete_package_engine": {
+        "complete_original_recovered": true,
+        "counted_changes": 2,
+        "derived_sha256": "1639b4a21068a2a9e048f982036940136829e906341fe8eba3f9127233cf2733",
+        "full_install_preuse_reinstall_used_backup_roles_full22_ALL_rows_sequences_CP6_advisors_Auth_package_checks_retained": true,
+        "original_sha256": "c420d894f8d5f16bddefeae73addb621507170f372a28e7d6e33d88c7eeb0be9"
+      },
+      "complete_unchanged_browser_source_derivations": 4,
+      "current_browser_source_binding": {
+        "actual_ERP_cases": 0,
+        "complete_original_manifest_recovered": true,
+        "current_inputs": 19,
+        "explicitly_routed_current_caller_pins": 8,
+        "production_go": false,
+        "status": "EXACT_CURRENT_PERMANENT_BROWSER_BINDING",
+        "unchanged_browser_UI_and_fixture_inputs": 11
+      },
+      "exact_job_and_WIB_guard_budget_seconds": 21600,
+      "exact_original_workflow_steps_retained": 67,
+      "independent_acceptance": false,
+      "original_single_attempt_and_real_day_behavior_unchanged": true,
+      "production_go": false,
+      "published_diagnostics_byte_exact": true,
+      "runtime_supervision": {
+        "actual_case_credit": 0,
+        "artifact_reserve_seconds": 600,
+        "job_seconds": 21600,
+        "own_probe_and_receipt_routes": true,
+        "restoration_reserve_seconds": 1200,
+        "status": "PERMANENT_SUPERVISION_EXACT_REUSE_SOURCE_PASS",
+        "unchanged_process_engine": true,
+        "work_seconds": 19800
+      },
+      "selected_persistent_financial_cases": 4,
+      "source_DB_network_guard": {
+        "attempts": [],
+        "network_nonGit_attempts": [],
+        "public_source_sha256": "1439d70810383db377c48e043df7fb6d487a1b2f1a995e8993a2c08590f9f797",
+        "self_controls": [
+          {
+            "api": "psycopg.connect",
+            "result": "DENIED_BEFORE_LIBPQ"
+          },
+          {
+            "api": "psycopg.Connection.connect",
+            "result": "DENIED_BEFORE_LIBPQ"
+          },
+          {
+            "api": "psycopg.AsyncConnection.connect",
+            "result": "DENIED_BEFORE_LIBPQ"
+          },
+          {
+            "original_connect_descriptors_restored": true
+          }
+        ]
+      },
+      "status": "PERMANENT_READER_SOURCE_AND_CALLER_CONTROLS_PASS_NOT_NATIVE",
+      "unchanged_financial_callback_ASTs": 11
+    },
+    "classification": "SOURCE_ONLY_BEFORE_RECEIPT_CONSTANT_BOUND; full actual child source graph must still pass CI before DB"
+  },
+  "local_actual_bound_source_admission": true,
+  "all19_current_browser_input_pins_verified": true,
+  "unchanged_browser_UI_fixture_inputs": 11,
+  "actual_child_head": null,
+  "actual_child_run": null,
+  "actual_child_job": null,
+  "workflow_activated": false,
+  "actual_child_ERP_cases": 0,
+  "prior_business_tests_rerun": false,
+  "scope_complete_CP7": false,
+  "production_go": false,
+  "independent_acceptance": false
+}
