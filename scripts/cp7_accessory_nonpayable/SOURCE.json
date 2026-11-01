@@ -20,6 +20,10 @@
       "bytes": 77,
       "sha256": "c8005a03755cd4d70a101d6bf5a37d46cbaeab63eadd36c5724d461389374322"
     },
+    "scripts/cp7_accessory_nonpayable/access_cases.py": {
+      "bytes": 19479,
+      "sha256": "fe3201e6c87e552abf3804fab8bc17425665bdbf8519826c013ab0b21e45e7b9"
+    },
     "scripts/cp7_accessory_nonpayable/admission.py": {
       "bytes": 4354,
       "sha256": "b22af7343f5cb231a83488356cb466046b15f21717f7a081e0f09ad404af3c36"
@@ -91,6 +95,10 @@
     "scripts/cp7_accessory_nonpayable/source.py": {
       "bytes": 3754,
       "sha256": "834ed30e4f1bcd2091840845bdd14b45bfc3dccc51db1c1a43ce0ca1bdaea168"
+    },
+    "scripts/cp7_accessory_nonpayable/test_access_preparation.py": {
+      "bytes": 3819,
+      "sha256": "a21287d2444f91004dc2c2db762528182e855696bb3043c818238f936fb228c3"
     },
     "scripts/cp7_accessory_nonpayable/test_catalog.mjs": {
       "bytes": 8617,

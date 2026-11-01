@@ -149,3 +149,26 @@ and were not rerun; their historical results are not new-tree runtime evidence.
 `LOCAL_NATIVE_INVERSE_PREPARATION_CONTROLS.json` records three new synthetic
 oracle/closed-parent controls and the one affected source summary control.
 These preparation and model results supply zero actual ERP case credit.
+
+`access_cases.py` prepares two real-Auth HTTP cases and two separate database
+session races. The real Auth cases use the unchanged existing Auth/PostgREST
+harness: OWNER save/read, ADMIN read-only, other-role/anonymous denial, replay,
+changed-intent/stale-timeline refusal and cancellation tombstones. A second
+case first caches a success, observes the actual PostgREST backend waiting on
+the exact FG/HPP lock holder, deactivates that one real Auth OWNER on the copy,
+then requires the same request to be denied after the wait without any effect.
+The access edit is an explicit administrative fixture, not role-editor UI proof.
+The two SQL races use separate real database backends with an administrative
+actor fixture: identical UUIDs must produce one immutable record and the same
+reply; distinct UUIDs from one preview must produce one save and one exact
+stale-timeline refusal. They supply no actual Auth HTTP credit.
+
+The complete all22 catalogue, every tracked table's full-row fingerprint and
+all sequence states, plus complete private date/request rows, are retained in
+original gzip evidence for each interval. Successful date commands may only
+append the declared date/request rows; every older row, physical fact, money
+row, role, BC source and sequence must remain unchanged. Factory admission
+still refuses before connections while the actual FREE3 receipt is missing.
+`LOCAL_ACCESS_PREPARATION_CONTROLS.json` records four new pure refusal/history/
+census controls. These cases have not run on ERP or Auth; their owning mode,
+complete restoration, cleanup and final acceptance remain required.
