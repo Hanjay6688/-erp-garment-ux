@@ -35,5 +35,57 @@
     "fix": "Attach supervision only in owning gate after unchanged pure validator returns.",
     "actual_ERP_runs": 0,
     "original_four_wiring_controls_reused": true
+  },
+  "actual_parent_mode_followup": {
+    "status": "SOURCE_CONTROLS_DISTINGUISH_UNARMED_AND_ACTUAL_ACCEPTED_PARENT",
+    "unique_new_pure_controls_PASS": 3,
+    "first_failures": 0,
+    "actual_parent_receipt_validation_mandatory": true,
+    "all_unbound_negative_factories_still_refuse_before_ERP": true,
+    "actual_bound_mode_never_calls_unbound_negative_factories": true,
+    "partial_or_invalid_receipt_refused": true,
+    "whole_natural_source_fence_before_database_still_mandatory": true,
+    "original_Native_SQL_callbacks_and_full_restoration_and_all5_unchanged": true,
+    "previous_date_SQL_and_lifecycle_and_process_tests_not_repeated": true,
+    "raw_log": {
+      "bytes": 101,
+      "sha256": "7d59a8fbca92ef540f42b6883247c3844892d23f501b6cf2621d0e535813fb81",
+      "text": "...\n----------------------------------------------------------------------\nRan 3 tests in 0.008s\n\nOK\n"
+    },
+    "actual_ERP_SQL_executed": 0,
+    "actual_Native_cases": 0,
+    "actual_Auth_HTTP_cases": 0,
+    "actual_browser_cases": 0,
+    "workflow_not_activated": true,
+    "production_go": false,
+    "independent_acceptance": false,
+    "whole_source_admission_and_original_connection_fence": {
+      "status": "EXACT_UNCHANGED_FREE_DATE_DE_AND_CLOSED_FREE_DATE_PREPARATION",
+      "own_paths": 38,
+      "guard": {
+        "attempts": [],
+        "network_nonGit_attempts": [],
+        "public_source_sha256": "1439d70810383db377c48e043df7fb6d487a1b2f1a995e8993a2c08590f9f797",
+        "self_controls": [
+          {
+            "api": "psycopg.connect",
+            "result": "DENIED_BEFORE_LIBPQ"
+          },
+          {
+            "api": "psycopg.Connection.connect",
+            "result": "DENIED_BEFORE_LIBPQ"
+          },
+          {
+            "api": "psycopg.AsyncConnection.connect",
+            "result": "DENIED_BEFORE_LIBPQ"
+          },
+          {
+            "original_connect_descriptors_restored": true
+          }
+        ]
+      },
+      "bytes": 7355,
+      "sha256": "f4eb6dc1380ecd528aa73cfa0d6464be78171513c90d8658c0548427c674405a"
+    }
   }
 }

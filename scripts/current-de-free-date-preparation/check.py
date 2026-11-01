@@ -11,6 +11,24 @@ def load(name,path):
     spec=importlib.util.spec_from_file_location(name,path)
     module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module);return module
 
+def parent_controls(admission,operations):
+    """Pending-entry negatives apply only to an explicitly unbound parent."""
+    bindings=(admission.PARENT_HEAD,admission.PARENT_RECEIPT)
+    if any(v is None for v in bindings)and not all(v is None for v in bindings):
+        raise ValueError('FREE_DATE_PARTIAL_ACTUAL_PARENT_BINDING_REFUSED')
+    if all(v is not None for v in bindings):
+        admission.parent_receipt()  # The complete actual receipt validator remains mandatory.
+        return dict(mode='ACTUAL_PARENT_RECEIPT_VALIDATED',closed_before_ERP_or_SQL=[],
+            unarmed_entry_controls_executed=False,actual_Native_cases=0)
+    closed=[]
+    for name,operation in operations:
+        try:operation()
+        except ValueError as error:
+            if str(error)!='FREE_DATE_DE_ACTUAL_NATIVE30_PARENT_INTAKE_PENDING':raise
+            closed.append(name)
+        else:raise ValueError('FREE_DATE_DE_PENDING_ENTRY_WAS_OPENED:'+name)
+    return dict(mode='EXPLICITLY_UNARMED_PARENT_ENTRY_CONTROLS',closed_before_ERP_or_SQL=closed,
+        unarmed_entry_controls_executed=True,actual_Native_cases=0)
 
 def controls():
     origin=json.loads((HERE/'ORIGIN.json').read_bytes())
@@ -67,7 +85,6 @@ def controls():
                 calls.append([name,key,len(node.args)])
     probe=load('free_date_DE_owning_runtime_pending_control',HERE/'probe.py')
     final=load('free_date_DE_owning_final_gate_pending_control',HERE/'final_gate.py')
-    closed=[]
     operations=(('parent_receipt',admission.parent_receipt),('whole_source_admission',admission.admitted),
         ('stage_parent_before_ERP',stage.parent),('stage_install_before_ERP_or_SQL',lambda:stage.install_delta(None,{})),
         ('whole_parent_before_ERP',product.parent),('whole_sources_before_ERP',product.sources),
@@ -80,17 +97,13 @@ def controls():
         ('owning_runtime_before_ERP_or_SQL',probe.runtime),
         ('canonical_DE30_fetch_before_any_GET',fetch.main),
         ('final_gate_before_any_report_file',lambda:final.gate(HERE/'ABSENT_REPORT_DIRECTORY','NOT_A_HEAD')))
-    for name,operation in operations:
-        try:operation()
-        except ValueError as error:
-            if str(error)!='FREE_DATE_DE_ACTUAL_NATIVE30_PARENT_INTAKE_PENDING':raise
-            closed.append(name)
-        else:raise ValueError('FREE_DATE_DE_PENDING_ENTRY_WAS_OPENED:'+name)
+    parent_mode=parent_controls(admission,operations)
     return dict(status='FREE_DATE_ON_COMPLETE_DE_SOURCE_AND_PENDING_CONTROLS_PASS_NOT_NATIVE',
         original_c43_files=len(origin['files']),stage_only_parent_and_contract_routes=2,
         original_SQL_and_lifecycle_statements_unchanged=True,Native_predicate_before_bytes=749,
         Native_predicate_after_bytes=822,predicate_derivation=predicate,
-        D1_E_changed_signature_overlap=False,closed_before_ERP_or_SQL=closed,
+        D1_E_changed_signature_overlap=False,closed_before_ERP_or_SQL=parent_mode['closed_before_ERP_or_SQL'],
+        actual_parent_admission_mode=parent_mode,
         prepared_Native3_source=native_source,
         whole_original_package_engine_derivation=engine,canonical_DE30_fetch_derivation=fetch_source,
         owning_workflow_data_only=workflow,actual_diagnostic_API_source_calls=calls,

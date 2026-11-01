@@ -127,4 +127,37 @@ class FREEDateProcessWiring(unittest.TestCase):
             with self.assertRaises(ValueError):control.receipt(p,bad,'control-head','control-run')
 
 
+class FREEDateActualParentModeControls(unittest.TestCase):
+    def test_unbound_parent_requires_every_pending_entry_to_refuse_before_any_work(self):
+        from types import SimpleNamespace
+        check=load('check');calls=[]
+        def pending():calls.append('pending');raise ValueError('FREE_DATE_DE_ACTUAL_NATIVE30_PARENT_INTAKE_PENDING')
+        admission=SimpleNamespace(PARENT_HEAD=None,PARENT_RECEIPT=None,parent_receipt=pending)
+        value=check.parent_controls(admission,[('parent_receipt',pending),('install_before_SQL',pending)])
+        self.assertEqual(value['closed_before_ERP_or_SQL'],['parent_receipt','install_before_SQL'])
+        self.assertTrue(value['unarmed_entry_controls_executed']);self.assertEqual(calls,['pending','pending'])
+        with self.assertRaisesRegex(ValueError,'PENDING_ENTRY_WAS_OPENED'):
+            check.parent_controls(admission,[('unexpectedly_open',lambda:{'MODEL_ONLY':True})])
+
+    def test_bound_parent_validates_actual_receipt_without_executing_unarmed_factories(self):
+        from types import SimpleNamespace
+        check=load('check');calls=[]
+        def accepted():calls.append('ACTUAL_RECEIPT_VALIDATOR');return{'labelled_synthetic_receipt':True}
+        def must_not_run():raise AssertionError('UNARMED_FACTORY_WAS_EXECUTED_AFTER_ACTUAL_BINDING')
+        admission=SimpleNamespace(PARENT_HEAD='a'*40,PARENT_RECEIPT={'MODEL_PIN':True},parent_receipt=accepted)
+        value=check.parent_controls(admission,[('unarmed_factory',must_not_run)])
+        self.assertEqual(calls,['ACTUAL_RECEIPT_VALIDATOR']);self.assertEqual(value['closed_before_ERP_or_SQL'],[])
+        self.assertFalse(value['unarmed_entry_controls_executed']);self.assertEqual(value['actual_Native_cases'],0)
+
+    def test_partial_or_invalid_actual_parent_cannot_bypass_receipt_validation(self):
+        from types import SimpleNamespace
+        check=load('check')
+        for head,receipt in((None,{'MODEL_PIN':True}),('a'*40,None)):
+            admission=SimpleNamespace(PARENT_HEAD=head,PARENT_RECEIPT=receipt,parent_receipt=lambda:None)
+            with self.subTest(head=head),self.assertRaisesRegex(ValueError,'PARTIAL_ACTUAL_PARENT'):
+                check.parent_controls(admission,[])
+        def invalid():raise ValueError('LABELLED_ACTUAL_RECEIPT_HASH_MISMATCH')
+        admission=SimpleNamespace(PARENT_HEAD='a'*40,PARENT_RECEIPT={'MODEL_PIN':True},parent_receipt=invalid)
+        with self.assertRaisesRegex(ValueError,'LABELLED_ACTUAL_RECEIPT_HASH_MISMATCH'):check.parent_controls(admission,[])
+
 if __name__=='__main__':unittest.main()
