@@ -116,17 +116,36 @@ scenarios, preserving narrow fixture failures and focused repairs. Actual Auth
 HTTP, real two-session races, desktop/mobile browser and complete ERP inventory/
 HPP/sales acceptance remain pending.
 
-Native case preparation now contains six first economic/date cases, still
-unexecuted: positive HPP with zero reimbursement and frozen history/replay;
+Native case preparation now contains eight economic/date/inverse cases, still
+unexecuted. The first six remain: positive HPP with zero reimbursement and frozen history/replay;
 explicit normal-policy reimbursement; normal pickup then Special GOOD;
 Special pickup then normal GOOD; missing category date refusing atomic GOOD;
 and sub-cent/no-initial-journal recost with cumulative cents and lawful invoice
 inverses. The exact existing physical constructor is bound privately to a fresh
 Mandor master; its code object, every original Native command and the complete
-product/source graph stay intact. Source checks pin six original fixture/runner
+product/source graph stay intact. Source checks pin seven original fixture/runner
 files to the actual public settings preparation. No posted physical or money
 row is seeded by these cases. A refused posting's actual sequence allocations
 are retained explicitly, without resets; only the outer full restore may prove
-all-sequence restoration. QC/rework inverse, actual Auth/two-session/normal-App
-settings checks and the owning qualifier are still required. None of these six
-prepared cases has actual ERP credit or bypasses the five unbound parent gates.
+all-sequence restoration. The two added Native cases prepare QC reversal after
+an actual late supplier invoice and rework reversal after a sub-cent start with
+no original accrual. They retain exact original journal lines and dates, require
+one opposite reversal with every account/party/PO/product dimension, preserve
+FG and frozen basis history, and require identical-key replay to change no row,
+catalogue or sequence. Each then corrects its posted supplier invoice through
+the existing owning inverse before a new invoice. Later cost revisions must not
+revive voided FG or its money; the separate active QC lot must still recost.
+Actual execution of these inverses, actual Auth/two-session/normal-App settings
+checks and the owning qualifier remain required. None of the eight prepared
+cases has actual ERP credit or bypasses the five unbound parent gates.
+
+`LOCAL_POST_INVERSE_COST_CONTROLS.json` preserves the reproduced PostgreSQL
+model failure: the next historical recost rejected a lawfully voided GOOD lot.
+The narrow private helper repair leaves such retained snapshots on the unchanged
+Native historical-cost path without a new active accrual. Four new targeted
+model controls pass for QC/rework reversals, active-lot recost, replay, zero-cost
+revision and immutable basis. The old 25 assertion bodies remain byte-identical
+and were not rerun; their historical results are not new-tree runtime evidence.
+`LOCAL_NATIVE_INVERSE_PREPARATION_CONTROLS.json` records three new synthetic
+oracle/closed-parent controls and the one affected source summary control.
+These preparation and model results supply zero actual ERP case credit.

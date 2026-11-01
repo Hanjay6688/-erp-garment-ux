@@ -23,6 +23,7 @@ ORIGINALS={
     'scripts/cp6_auditor_runner.py':(14911,'2c74439f7e919e2adb2484bc774bef4881e71237124f2e6b6dabdab141348ea7'),
     'scripts/cp7_accessory_standard_report/cases.py':(19581,'e025be1280630dfb89f62261163194ce072b6f6ad6d909b56ff6c82f75778e98'),
     'scripts/cp7_invoice_cases.py':(18588,'a6b2e46346b211c0934b8b43f30d9ecfeb161ba37ab4eff5fdf7f183fc810bb1'),
+    'scripts/cp7_qc_source_cases.py':(10188,'67fe6812924583a7789377f6a01525614d9d0fb2665a8d59ee113a794d076ed5'),
 }
 
 def source_controls():
@@ -48,8 +49,9 @@ def admitted_modules(cur,state):
     import cp6_bc_probe as bc
     import cp6_bd_probe as bd
     import cp7_invoice_cases as invoice
+    import cp7_qc_source_cases as qc
     from cp7_accessory_standard_report import cases as bom
-    return SimpleNamespace(bc=bc,bd=bd,invoice=invoice,bom=bom,product=product,control=helper.control)
+    return SimpleNamespace(bc=bc,bd=bd,invoice=invoice,qc=qc,bom=bom,product=product,control=helper.control)
 
 def contractor_constructor(bd,contractor):
     """Keep the original code object; bind one new fixture master explicitly."""
@@ -139,18 +141,20 @@ def prepare(cur,today,modules,*,special=True,transition=None,unit_cost='2',qty_p
             contractor_id=accessory['mandor'],Native_function_or_product_graph_changes=False))
     return physical
 
-def post_good(cur,modules,f):
+def post_good(cur,modules,f,*,good_qty=10,bs_qty=0):
     bd,bc=modules.bd,modules.bc
+    if type(good_qty)is not int or type(bs_qty)is not int or good_qty<=0 or bs_qty<0 or good_qty+bs_qty!=10:
+        raise ValueError('NONPAYABLE_NATIVE_EXACT_TEN_RECEIVED_PCS_REQUIRED')
     payload=dict(cutting_group_id=f['group'],destination_location_id=bd.chain.base.LOCATION,
         physical_at=bd.chain.production.at(f['good_day'],14).isoformat(),reason='Native actual company-funded GOOD',
-        good_qty_pcs=10,completion_mode='ALL_READY',lines=[dict(final_product_id=f['product'],qty_good_pcs=10,
-            qty_bs_pcs=0,source_laundry_receipt_line_id=f['receipt_line'],source_laundry_receipt_batch_size_line_id=f['receipt_size'])])
+        good_qty_pcs=good_qty,completion_mode='ALL_READY',lines=[dict(final_product_id=f['product'],qty_good_pcs=good_qty,
+            qty_bs_pcs=bs_qty,source_laundry_receipt_line_id=f['receipt_line'],source_laundry_receipt_batch_size_line_id=f['receipt_size'])])
     result=bd.chain.laundry_action(cur,'POST_FINAL_SKU',payload,bd.chain.base.group_version(cur,f['group']))
     bc.api.admin(cur)
-    lots=cur.execute("select id::text from erp.fg_lots where po_id=%s and product_id=%s and lot_origin='PRODUCTION'",
+    lots=cur.execute("select id::text,initial_qty_pcs from erp.fg_lots where po_id=%s and product_id=%s and lot_origin='PRODUCTION'",
         (f['po'],f['product'])).fetchall()
-    if len(lots)!=1:raise ValueError('NONPAYABLE_NATIVE_ONE_AUTHORITATIVE_GOOD_LOT_REQUIRED')
-    f.update(lot=lots[0][0],good=result,good_payload=payload)
+    if len(lots)!=1 or lots[0][1]!=good_qty:raise ValueError('NONPAYABLE_NATIVE_ONE_AUTHORITATIVE_GOOD_LOT_REQUIRED')
+    f.update(lot=lots[0][0],good=result,good_payload=payload,good_qty=good_qty)
     return result
 
 def observe(cur,modules,f):
@@ -182,8 +186,9 @@ def require_economics(value,f,*,nonpayable,hpp):
     D=Decimal;rows=value['snapshots']
     if len(rows)!=1:raise ValueError('NONPAYABLE_EXACT_SINGLE_BOM_COMPONENT_REQUIRED')
     row=rows[0];s,b=row['snapshot'],row['basis']
-    expected_qty=D(10)*D(f['qty_per_good']);reimbursement=D(0)if nonpayable else expected_qty*D(2)
-    if (D(str(s['total_hpp_cost']))!=D(hpp)or D(str(s['total_reimbursement']))!=reimbursement
+    expected_qty=D(f.get('good_qty',10))*D(f['qty_per_good']);reimbursement=D(0)if nonpayable else expected_qty*D(2)
+    if (D(str(s['good_qty_pcs']))!=D(f.get('good_qty',10))or D(str(s['qty_per_good_fg_base']))!=D(f['qty_per_good'])
+        or D(str(s['total_hpp_cost']))!=D(hpp)or D(str(s['total_reimbursement']))!=reimbursement
         or D(str(s['reimbursement_unit_rate_base_snapshot']))!=(D(0)if nonpayable else D(2))
         or b['nonpayable']is not nonpayable or b['contractor_id']!=f['contractor']
         or b['good_date']!=str(f['good_day'])or D(str(b['original_reimbursement_rate']))!=2

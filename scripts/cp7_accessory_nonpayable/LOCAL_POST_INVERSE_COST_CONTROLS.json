@@ -1,0 +1,120 @@
+{
+  "status": "FOUR_NEW_POST_INVERSE_POSTGRES_MODEL_CONTROLS_PASS_NOT_ERP_PROOF",
+  "exact_new_model_mode": "--only-post-inverse-recost",
+  "unique_new_model_controls_PASS": 4,
+  "actual_new_targeted_result": {
+    "bytes": 2001,
+    "sha256": "44b8297f9b554e39c13f5324156858a00d8af080b66b381bcbcefa64eee40fdc",
+    "raw": {
+      "status": "ISOLATED_POSTGRES_NONPAYABLE_NATIVE_FUNCTION_MODEL_PASS",
+      "scope": "ONLY_NEW_POST_INVERSE_RECOST_CONTROLS",
+      "engine": "PostgreSQL 17.5 on aarch64-unknown-linux-gnu, compiled by emcc (Emscripten gcc/clang-like replacement + linker emulating GNU ld) 3.1.74 (1092ec30a3fb1d46b1782ff1b4db5094d3d06ae5), 32-bit",
+      "checks": [
+        {
+          "name": "POST_QC_AND_REWORK_INVERSE_NEXT_CATEGORY_RECOST_NOT_BLOCKED",
+          "status": "PASS"
+        },
+        {
+          "name": "VOIDED_GOOD_ACCRUAL_REPLAY_CANNOT_REVIVE_MONEY_OR_ENTITLEMENTS",
+          "status": "PASS"
+        },
+        {
+          "name": "NEXT_ZERO_COST_REVISION_PRESERVES_VOIDED_ZERO_AND_ACTIVE_COST",
+          "status": "PASS"
+        },
+        {
+          "name": "VOIDED_AND_ACTIVE_GOOD_BASIS_HISTORY_REMAINS_IMMUTABLE",
+          "status": "PASS"
+        }
+      ],
+      "source_sha256": {
+        "policy.sql": "042c30ce6c8242b0626270d2a74f0433df4b5fc57cb8af0d4198a79a8f41cd20",
+        "basis.sql": "cfeb2a231d481f38e0967beaa417bf0c8f64aea9f376940cbf093d3be88ed8aa",
+        "native_derivation.py": "66f10fc8ea4f4096175c8c5839371ff3dd3587fb9f5a5ad2a02b7ac336759b16",
+        "native-before/ensure_snapshot.sql": "1634377e32f56f4bab27232be686df6585aee54655953f93b1597ae912cb93bc",
+        "native-before/initial_accrual.sql": "b10b63a72b2915cc5a6d1f3331fcbb4fe072c121112df31bbad8306856fcdacc",
+        "native-before/recost.sql": "b2151dcfc3b10659454fc8d7d63412f7affb5e698049e4ec67ff82531fc8faee",
+        "native-before/reverse_qc.sql": "3f044e3c1b575b8341f9490e51dc19bf11a3b1b915ddfb02493a5d285f05c566",
+        "native-before/reverse_rework.sql": "3436545141606c346544d15ed6dd6342b73d0a51b1a7208e54a32ff94b0654ac",
+        "native-before/rework_target.sql": "3dd30156e24e23cfee1834286dd4f20771b7ff3907f1431611d9f00c6bfcd340"
+      },
+      "actual_ERP_Native_cases": 0,
+      "actual_Auth_cases": 0,
+      "actual_browser_cases": 0,
+      "installed_on_candidate": false,
+      "full_stock_HPP_sales_pipeline_qualified": false,
+      "real_two_session_qualified": false,
+      "production_go": false,
+      "independent_acceptance": false
+    }
+  },
+  "preserved_before_fix_failures": {
+    "AFUI_VOIDED_RECOST_BEFORE_FIX.json": {
+      "bytes": 2148,
+      "sha256": "ceb878aa70623dbbe657a40411d7d77452146f59dadbedbf63b965dee0c40acf",
+      "raw": {
+        "status": "ISOLATED_MODEL_FIRST_FAILURE",
+        "error": "error: NONPAYABLE_RECOST_REQUIRES_COMPLETE_FROZEN_BASIS\n    at ye.Ve (file:///workspace/scratch/cf5f04e2b451/postgres-controls-afui.lZhfaK/node_modules/@electric-sql/pglite/dist/chunk-3WWIVTCY.js:1:17616)\n    at ye.nt (file:///workspace/scratch/cf5f04e2b451/postgres-controls-afui.lZhfaK/node_modules/@electric-sql/pglite/dist/chunk-3WWIVTCY.js:1:15003)\n    at ye.parse (file:///workspace/scratch/cf5f04e2b451/postgres-controls-afui.lZhfaK/node_modules/@electric-sql/pglite/dist/chunk-3WWIVTCY.js:1:13755)\n    at file:///workspace/scratch/cf5f04e2b451/postgres-controls-afui.lZhfaK/node_modules/@electric-sql/pglite/dist/index.js:3:191801\n    at wasm://wasm/021cbcb2:wasm-function[3707]:0x27cef1\n    at wasm://wasm/021cbcb2:wasm-function[3717]:0x27d268\n    at wasm://wasm/021cbcb2:wasm-function[9494]:0x509d72\n    at wasm://wasm/021cbcb2:wasm-function[175]:0x598a3\n    at invoke_v (file:///workspace/scratch/cf5f04e2b451/postgres-controls-afui.lZhfaK/node_modules/@electric-sql/pglite/dist/index.js:3:176458)\n    at wasm://wasm/021cbcb2:wasm-function[178]:0x5a0e8",
+        "completed_checks": [],
+        "source_sha256": {
+          "policy.sql": "042c30ce6c8242b0626270d2a74f0433df4b5fc57cb8af0d4198a79a8f41cd20",
+          "basis.sql": "e1297006e00898e4af8e58630a1d08ddca19d47dbed948841283e0ab1048da10",
+          "native_derivation.py": "66f10fc8ea4f4096175c8c5839371ff3dd3587fb9f5a5ad2a02b7ac336759b16",
+          "native-before/ensure_snapshot.sql": "1634377e32f56f4bab27232be686df6585aee54655953f93b1597ae912cb93bc",
+          "native-before/initial_accrual.sql": "b10b63a72b2915cc5a6d1f3331fcbb4fe072c121112df31bbad8306856fcdacc",
+          "native-before/recost.sql": "b2151dcfc3b10659454fc8d7d63412f7affb5e698049e4ec67ff82531fc8faee",
+          "native-before/reverse_qc.sql": "3f044e3c1b575b8341f9490e51dc19bf11a3b1b915ddfb02493a5d285f05c566",
+          "native-before/reverse_rework.sql": "3436545141606c346544d15ed6dd6342b73d0a51b1a7208e54a32ff94b0654ac",
+          "native-before/rework_target.sql": "3dd30156e24e23cfee1834286dd4f20771b7ff3907f1431611d9f00c6bfcd340"
+        },
+        "actual_ERP_Native_cases": 0,
+        "production_go": false
+      }
+    },
+    "AFUI_VOIDED_RECOST_VERIFIED_FIXTURE_BEFORE_FIX.json": {
+      "bytes": 2148,
+      "sha256": "ceb878aa70623dbbe657a40411d7d77452146f59dadbedbf63b965dee0c40acf",
+      "raw": {
+        "status": "ISOLATED_MODEL_FIRST_FAILURE",
+        "error": "error: NONPAYABLE_RECOST_REQUIRES_COMPLETE_FROZEN_BASIS\n    at ye.Ve (file:///workspace/scratch/cf5f04e2b451/postgres-controls-afui.lZhfaK/node_modules/@electric-sql/pglite/dist/chunk-3WWIVTCY.js:1:17616)\n    at ye.nt (file:///workspace/scratch/cf5f04e2b451/postgres-controls-afui.lZhfaK/node_modules/@electric-sql/pglite/dist/chunk-3WWIVTCY.js:1:15003)\n    at ye.parse (file:///workspace/scratch/cf5f04e2b451/postgres-controls-afui.lZhfaK/node_modules/@electric-sql/pglite/dist/chunk-3WWIVTCY.js:1:13755)\n    at file:///workspace/scratch/cf5f04e2b451/postgres-controls-afui.lZhfaK/node_modules/@electric-sql/pglite/dist/index.js:3:191801\n    at wasm://wasm/021cbcb2:wasm-function[3707]:0x27cef1\n    at wasm://wasm/021cbcb2:wasm-function[3717]:0x27d268\n    at wasm://wasm/021cbcb2:wasm-function[9494]:0x509d72\n    at wasm://wasm/021cbcb2:wasm-function[175]:0x598a3\n    at invoke_v (file:///workspace/scratch/cf5f04e2b451/postgres-controls-afui.lZhfaK/node_modules/@electric-sql/pglite/dist/index.js:3:176458)\n    at wasm://wasm/021cbcb2:wasm-function[178]:0x5a0e8",
+        "completed_checks": [],
+        "source_sha256": {
+          "policy.sql": "042c30ce6c8242b0626270d2a74f0433df4b5fc57cb8af0d4198a79a8f41cd20",
+          "basis.sql": "e1297006e00898e4af8e58630a1d08ddca19d47dbed948841283e0ab1048da10",
+          "native_derivation.py": "66f10fc8ea4f4096175c8c5839371ff3dd3587fb9f5a5ad2a02b7ac336759b16",
+          "native-before/ensure_snapshot.sql": "1634377e32f56f4bab27232be686df6585aee54655953f93b1597ae912cb93bc",
+          "native-before/initial_accrual.sql": "b10b63a72b2915cc5a6d1f3331fcbb4fe072c121112df31bbad8306856fcdacc",
+          "native-before/recost.sql": "b2151dcfc3b10659454fc8d7d63412f7affb5e698049e4ec67ff82531fc8faee",
+          "native-before/reverse_qc.sql": "3f044e3c1b575b8341f9490e51dc19bf11a3b1b915ddfb02493a5d285f05c566",
+          "native-before/reverse_rework.sql": "3436545141606c346544d15ed6dd6342b73d0a51b1a7208e54a32ff94b0654ac",
+          "native-before/rework_target.sql": "3dd30156e24e23cfee1834286dd4f20771b7ff3907f1431611d9f00c6bfcd340"
+        },
+        "actual_ERP_Native_cases": 0,
+        "production_go": false
+      }
+    }
+  },
+  "baseline_error": "NONPAYABLE_RECOST_REQUIRES_COMPLETE_FROZEN_BASIS",
+  "narrow_repair": "Return to unchanged Native historical-cost path for retained non-PRODUCTION lots; do not create an active accrual for voided GOOD.",
+  "original_25_financial_assertion_block_exact_unchanged": true,
+  "original_25_assertion_block_sha256": "c557320196c1c08ee6029569e34f41d5244d69d66786ec0853c382c8ac196760",
+  "original_25_not_rerun": true,
+  "old_results_remain_historical_not_new_tree_runtime_credit": true,
+  "new_runtime_source": {
+    "scripts/cp7_accessory_nonpayable/basis.sql": {
+      "bytes": 12754,
+      "sha256": "cfeb2a231d481f38e0967beaa417bf0c8f64aea9f376940cbf093d3be88ed8aa"
+    },
+    "scripts/cp7_accessory_nonpayable/test_costs.mjs": {
+      "bytes": 25136,
+      "sha256": "66b9722df8295b1568fc55cb03187a686bd5a5eb2671b0e3b515c1d1b816abbc"
+    }
+  },
+  "model_limits": "Synthetic tables and role/valuation/HPP-sync guards; actual PostgreSQL Native function bodies/derived SQL only. No actual ERP installation or Auth/session/browser.",
+  "actual_ERP_Native_cases": 0,
+  "actual_Auth_HTTP_cases": 0,
+  "actual_browser_cases": 0,
+  "actual_two_session_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

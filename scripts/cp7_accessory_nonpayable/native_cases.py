@@ -1,14 +1,14 @@
-"""Six first Native economic/date cases, prepared and unexecuted.
+"""Eight Native economic/date/inverse cases, prepared and unexecuted.
 
-No owning workflow or acceptance is supplied. QC/rework inverse, actual Auth,
-two-session access/locking and normal-App settings browsers remain separate
+No owning workflow or acceptance is supplied. Actual Auth, two-session
+access/locking and normal-App settings browsers remain separate
 required work. The caller must retain each real strict-group result and the
 complete outer backup/restore, all rows/sequences, Auth and all package gates.
 """
 from pathlib import Path
 import json,sys
 
-IDS=(
+FIRST_IDS=(
     'NONPAYABLE_NATIVE_POSITIVE_HPP_ZERO_REIMBURSEMENT_FROZEN_HISTORY_AND_REPLAY',
     'NONPAYABLE_NATIVE_EXPLICIT_NORMAL_POLICY_REIMBURSEMENT_REGRESSION',
     'NONPAYABLE_NATIVE_NORMAL_PICKUP_SPECIAL_GOOD_PHYSICAL_DATE',
@@ -16,6 +16,12 @@ IDS=(
     'NONPAYABLE_NATIVE_MISSING_CATEGORY_EFFECTIVE_DATE_ATOMIC_GOOD_REFUSAL',
     'NONPAYABLE_NATIVE_NO_INITIAL_JOURNAL_CUMULATIVE_CENTS_AND_LAWFUL_INVOICE_INVERSES',
 )
+if __name__=='__main__':
+    sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
+    from cp7_accessory_nonpayable.native_inverse_cases import IDS as INVERSE_IDS
+else:
+    from .native_inverse_cases import IDS as INVERSE_IDS
+IDS=FIRST_IDS+INVERSE_IDS
 
 def fixture_module():
     # This package import has no ERP graph, connections or default bindings.
@@ -24,10 +30,10 @@ def fixture_module():
 
 def source_controls():
     value=fixture_module().source_controls()
-    if len(IDS)!=6 or len(set(IDS))!=6:raise ValueError('NONPAYABLE_EXACT_FIRST_SIX_NATIVE_IDS_REQUIRED')
-    return dict(status='PREPARED_FIRST_SIX_NATIVE_CASES_NOT_EXECUTED',case_ids=list(IDS),
+    if len(IDS)!=8 or len(set(IDS))!=8:raise ValueError('NONPAYABLE_EXACT_EIGHT_NATIVE_IDS_REQUIRED')
+    return dict(status='PREPARED_EIGHT_NATIVE_CASES_NOT_EXECUTED',case_ids=list(IDS),
         fixture_sources=value,actual_Native_cases=0,actual_SQL_executed=0,production_go=False,
-        inverse_Auth_two_session_browser_qualification_complete=False)
+        inverse_source_prepared=True,inverse_Auth_two_session_browser_qualification_complete=False)
 
 def finish(cur,modules,before_findings,**observations):
     modules.bc.api.admin(cur)
@@ -147,6 +153,7 @@ def cumulative_cents_case(cur,today,state):
 def cases(cur,today,state):
     fixture_module().admitted_modules(cur,state)  # Parent gate before closures.
     source_controls()
+    from . import native_inverse_cases
     return [
         (IDS[0],lambda:ordinary_case(cur,today,state,history=True)),
         (IDS[1],lambda:ordinary_case(cur,today,state,initial_special=False)),
@@ -154,7 +161,7 @@ def cases(cur,today,state):
         (IDS[3],lambda:ordinary_case(cur,today,state,initial_special=True,transition=False)),
         (IDS[4],lambda:missing_date_case(cur,today,state)),
         (IDS[5],lambda:cumulative_cents_case(cur,today,state)),
-    ]
+    ]+native_inverse_cases.cases(cur,today,state)
 
 if __name__=='__main__':
     if sys.argv[1:]!=['--prepare']:raise SystemExit('READ_ONLY_PREPARATION_ONLY')

@@ -169,6 +169,10 @@ returns numeric language plpgsql volatile security definer set search_path='' as
 declare total_hpp numeric;total_reimbursement numeric;contractor uuid;
 begin
   perform erp.require_internal();
+  -- Native recost also visits retained snapshots of lawfully voided GOOD.
+  -- Their basis stays immutable, but no active company-funded HPP remains.
+  -- Use the unchanged Native historical-cost path without a new accrual.
+  if not exists(select 1 from erp.fg_lots l where l.id=p_lot and l.lot_origin='PRODUCTION') then return null;end if;
   if not exists(select 1 from cp7_accessory_nonpayable.good_bases_v1 b where b.lot_id=p_lot and b.nonpayable) then return null;end if;
   select sum(s.total_hpp_cost),sum(s.total_reimbursement) into total_hpp,total_reimbursement
     from erp.fg_accessory_cost_snapshots s where s.lot_id=p_lot;

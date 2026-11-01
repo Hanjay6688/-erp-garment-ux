@@ -9,6 +9,8 @@ import {fileURLToPath,pathToFileURL} from 'node:url'
 import {execFileSync} from 'node:child_process'
 import {createHash,randomUUID} from 'node:crypto'
 const here=dirname(fileURLToPath(import.meta.url)),root=resolve(here,'../..')
+const onlyPostInverse=process.argv.slice(3).includes('--only-post-inverse-recost')
+assert(process.argv.slice(3).every(x=>x==='--only-post-inverse-recost'),'UNDECLARED_MODEL_TEST_MODE')
 assert(process.env.PGLITE_MODULE)
 const {PGlite}=await import(pathToFileURL(resolve(process.env.PGLITE_MODULE)).href)
 const db=new PGlite(),q=(sql,args=[])=>db.query(sql,args)
@@ -159,6 +161,36 @@ try {
   // Converted rework targets remain outside this isolated model's claims.
   await db.exec(readFileSync(resolve(here,'native-before/rework_target.sql'),'utf8'))
   await db.exec(readFileSync(resolve(here,'native-before/reverse_qc.sql'),'utf8'))
+  if(onlyPostInverse) {
+    const live=await fixture({cost:'2'});await accrue(live)
+    const voidQC=await fixture({cost:'2'});await accrue(voidQC)
+    const voidRework=await fixture({cost:'0',rework:true});await accrue(voidRework)
+    assert.equal(await ledger(live.po,'WIP'),'2.00');assert.equal(await ledger(voidQC.po,'WIP'),'2.00')
+    assert.equal(await ledger(voidRework.po,'WIP'),'0')
+    await recost('3')
+    await q('select erp.reverse_qc($1,$2)',[voidQC.qc,'SYNTHETIC ACTUAL FUNCTION QC INVERSE'])
+    await q('select erp.reverse_rework_completion($1,$2)',[voidRework.rw,'SYNTHETIC ACTUAL FUNCTION REWORK INVERSE'])
+    const history=await val('select jsonb_agg(to_jsonb(b)order by snapshot_id)from cp7_accessory_nonpayable.good_bases_v1 b')
+    await test('POST_QC_AND_REWORK_INVERSE_NEXT_CATEGORY_RECOST_NOT_BLOCKED',async()=>{
+      await recost('4')
+      assert.equal(await ledger(live.po,'WIP'),'4.00')
+      for(const f of[voidQC,voidRework])assert.equal(await ledger(f.po,'WIP'),'0.00')
+    })
+    await test('VOIDED_GOOD_ACCRUAL_REPLAY_CANNOT_REVIVE_MONEY_OR_ENTITLEMENTS',async()=>{
+      const before=await counts()
+      for(const f of[voidQC,voidRework])await accrue(f)
+      assert.deepEqual(await counts(),before)
+      for(const f of[voidQC,voidRework])assert.equal(await val('select count(*)::integer from erp.contractor_accessory_reimbursement_entitlements where lot_id=$1',[f.lot]),0)
+    })
+    await test('NEXT_ZERO_COST_REVISION_PRESERVES_VOIDED_ZERO_AND_ACTIVE_COST',async()=>{
+      await recost('0')
+      for(const f of[live,voidQC,voidRework])assert.equal(await ledger(f.po,'WIP'),'0.00')
+    })
+    await test('VOIDED_AND_ACTIVE_GOOD_BASIS_HISTORY_REMAINS_IMMUTABLE',async()=>{
+      assert.deepEqual(await val('select jsonb_agg(to_jsonb(b)order by snapshot_id)from cp7_accessory_nonpayable.good_bases_v1 b'),history)
+      for(const f of[voidQC,voidRework])assert.equal(await val('select lot_origin from erp.fg_lots where id=$1',[f.lot]),'VOIDED_PRODUCTION')
+    })
+  } else {
   const special=await fixture()
   await db.exec(readFileSync(resolve(here,'native-before/initial_accrual.sql'),'utf8'))
   await test('ORIGINAL_NATIVE_REPRODUCES_POSITIVE_HPP_ZERO_REIMBURSE_REFUSAL',async()=>{const before=await counts();await assert.rejects(()=>accrue(special),/HPP snapshot has cost but zero Mandor reimbursement/);assert.deepEqual(await counts(),before)})
@@ -191,7 +223,8 @@ try {
   await test('QC_INVERSE_REVERSES_INITIAL_AND_RECOST',async()=>{await q('select erp.reverse_qc($1,$2)',[special.qc,'SYNTHETIC INVERSE']);assert.equal(await ledger(special.po,'WIP'),'0.00');assert.equal(await ledger(special.po,'ACCESSORY_REIMBURSE_VARIANCE'),'0.00')})
   await test('HALF_CENT_AND_ZERO_START_QC_INVERSES',async()=>{for(const f of[boundary,tiny]){await q('select erp.reverse_qc($1,$2)',[f.qc,'SYNTHETIC INVERSE']);assert.equal(await ledger(f.po,'WIP'),'0.00')}})
   await test('POLICY_USE_RELEASED_AFTER_LAWFUL_GOOD_INVERSE',async()=>{const seen=await val('select cp7_accessory_nonpayable.timeline_token_v1()');await q("select cp7_accessory_nonpayable.record_version_v1('2026-10-10',$1,$2,$3,'SYNTHETIC REVIEW AFTER INVERSE')",[C.event,randomUUID(),seen])})
-  const result={status:'ISOLATED_POSTGRES_NONPAYABLE_NATIVE_FUNCTION_MODEL_PASS',engine:await val('select version()'),checks,source_sha256:hashes,
+  }
+  const result={status:'ISOLATED_POSTGRES_NONPAYABLE_NATIVE_FUNCTION_MODEL_PASS',scope:onlyPostInverse?'ONLY_NEW_POST_INVERSE_RECOST_CONTROLS':'ORIGINAL_25_CONTROLS',engine:await val('select version()'),checks,source_sha256:hashes,
     actual_ERP_Native_cases:0,actual_Auth_cases:0,actual_browser_cases:0,installed_on_candidate:false,
     full_stock_HPP_sales_pipeline_qualified:false,real_two_session_qualified:false,production_go:false,independent_acceptance:false}
   if(process.argv[2])writeFileSync(resolve(process.argv[2]),JSON.stringify(result,null,2)+'\n')
