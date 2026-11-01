@@ -12,7 +12,7 @@
     },
     "scripts/cp7_current_s03_sku_s05/SOURCE.json": {
       "bytes": 763,
-      "sha256": "91d0f63b3775e3c5a790fc03b7e83d22c7fd1588e7e72828a0d243b780c058b7"
+      "sha256": "f451b5462236e50c0b8b0abf34fa92efef71d97f05f4d447ede0c8d4c08a0434"
     },
     "scripts/cp7_current_s03_sku_s05/__init__.py": {
       "bytes": 81,
@@ -31,8 +31,8 @@
       "sha256": "a6635b161ef04c9bb5077d5c00b3fdd1e496ab5a9ec9c2785ead25d24caa36ed"
     },
     "scripts/current-final-s03-sku-s05-preparation/LOCAL_CONTROLS.json": {
-      "bytes": 10730,
-      "sha256": "6ac8c9179c29de57aca425dd795e3fbefa22867da6d78b90c23a1c6e9782438e"
+      "bytes": 11872,
+      "sha256": "0d6e6540504a4e86a035e16955673a228989744d90c3695bb7b6f2530c9df504"
     },
     "scripts/current-final-s03-sku-s05-preparation/PERSISTENT_BROWSER_DERIVATIONS.json": {
       "bytes": 8892,
@@ -40,7 +40,7 @@
     },
     "scripts/current-final-s03-sku-s05-preparation/PERSISTENT_BROWSER_SOURCE.json": {
       "bytes": 2912,
-      "sha256": "4480bd30700b08896519a08b5bad2e2b8173e2581c414ded0299c7c3140d7298"
+      "sha256": "d37e6f50af5d78c3b708896b9f571fdd44e6b708d8a3fd7ff1fe9c778db9dfb4"
     },
     "scripts/current-final-s03-sku-s05-preparation/REPAIRED_CURRENT37_REBASE_ORIGIN.json": {
       "bytes": 15493,
@@ -179,8 +179,8 @@
       "sha256": "1377251ec3b9a1da2be79b279e71207d2564b2d38f0d341473ca6ef896c60364"
     },
     "scripts/current-final-s03-sku-s05-preparation/persistent_source.py": {
-      "bytes": 4631,
-      "sha256": "d9d209fef89599e2423478dc696dbe68d52aec4bbbd1c29cf5fce4273d0d36f4"
+      "bytes": 5826,
+      "sha256": "1a9529270e5a2048d6cbcab5ee8b4a2c2895b5cb8d83d89132c09065fce85b68"
     },
     "scripts/current-final-s03-sku-s05-preparation/probe.py": {
       "bytes": 3784,
@@ -207,8 +207,8 @@
       "sha256": "2c5ac6aa7f2e1538cfa05106ddba150cc6cbe3efb5b4b2960f38b5e26514d3bc"
     },
     "scripts/current-final-s03-sku-s05-preparation/test_composition.py": {
-      "bytes": 6181,
-      "sha256": "6f5e9e945e88ffe3915fb2257d45cb0c819503851387f3d7596df2806ebed1b5"
+      "bytes": 7663,
+      "sha256": "975d31b3d1eadbfe6f0fc2843051a4bff64717880e70d84f6b2021b4d87e4359"
     },
     "scripts/current-final-s03-sku-s05-preparation/test_focused_parent_receipt.py": {
       "bytes": 5526,

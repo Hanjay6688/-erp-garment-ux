@@ -9,6 +9,7 @@ BASE='2cb8c9ac85b6111e8bb170de6c2ec5c44f7c798c'
 TREE='5c5111505dafc5a92a79de4d9b52e4d93e37500e'
 PREFIXES=('scripts/cp7_current_s03_sku_s05/','scripts/current-final-s03-sku-s05-preparation/')
 WORKFLOW='.github/workflows/cp7-final-s03-sku-s05.yml'
+PRODUCT='scripts/cp7_current_s03_sku_s05/'
 
 
 def git(*args):
@@ -38,6 +39,23 @@ def raw(name):
     return full.read_bytes()
 
 
+def product_sources():
+    """Check the nested product manifest without importing any ERP graph."""
+    packed=raw(PRODUCT+'SOURCE.json');value=json.loads(packed)
+    required=dict(contract='cp7.current-s03-sku-s05.v1',actual_new_Native_cases=0,
+        actual_new_browser_cases=0,production_go=False,independent_acceptance=False)
+    for key,expected in required.items():
+        if type(value.get(key))is not type(expected)or value[key]!=expected:
+            raise ValueError('PERMANENT_NESTED_PRODUCT_MANIFEST_CONTRACT_CHANGED:'+key)
+    if set(value['files'])!={PRODUCT+n for n in('README.md','__init__.py','composition.py')}:
+        raise ValueError('PERMANENT_NESTED_PRODUCT_SOURCE_KEYS_CHANGED')
+    for name,expected in value['files'].items():
+        if sha256(raw(name)).hexdigest()!=expected:
+            raise ValueError('PERMANENT_NESTED_PRODUCT_SOURCE_CHANGED:'+name)
+    return dict(status='EXACT_THREE_NESTED_PRODUCT_SOURCE_PINS_BEFORE_ERP_IMPORT',
+        source_files=3,manifest_bytes=len(packed),manifest_sha256=sha256(packed).hexdigest(),actual_ERP_cases=0)
+
+
 def preflight(*,require_clean=True):
     manifest=str(HERE.relative_to(ROOT))+'/PREPARATION.json'
     declaration=json.loads(raw(manifest))
@@ -56,6 +74,7 @@ def preflight(*,require_clean=True):
         value=raw(name)
         if type(pin['bytes'])is not int or len(value)!=pin['bytes']or sha256(value).hexdigest()!=pin['sha256']:
             raise ValueError('PERMANENT_S05_OWN_SOURCE_CHANGED:'+name)
+    product=product_sources()
     physical={str(p.relative_to(ROOT))for prefix in PREFIXES for p in(ROOT/prefix).rglob('*')
         if p.is_file()and'__pycache__'not in p.parts and p.suffix!='.pyc'}
     if physical!={name for name in allowed if name.startswith(PREFIXES)}:
@@ -79,6 +98,7 @@ def preflight(*,require_clean=True):
                 raise ValueError('PERMANENT_S05_UNDECLARED_EXECUTABLE:'+name)
     return dict(status='EXACT_UNCHANGED_FINANCIAL_BASE_AND_CLOSED_PERMANENT_READER_SOURCES',
         base_head=BASE,base_tree=TREE,unchanged_base_blobs_and_modes=len(base),own_current_paths=len(allowed),
+        nested_product_sources=product,
         actual_cases=0,production_go=False,independent_acceptance=False)
 
 

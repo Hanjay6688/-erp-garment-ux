@@ -18,7 +18,7 @@
     "scripts/current-final-s03-sku-s05-preparation/persistent_browser_fixture.py": "6eca40b1f668cb6da9097d89e5959d858f644e453fc95f78613cedc3865d79b9",
     "scripts/current-final-s03-sku-s05-preparation/persistent_browser_prepare.py": "fd3fab4c42acc4cf8233a3223291bf7155d2d3caaf8c34b89a877f516bd708c8",
     "scripts/current-final-s03-sku-s05-preparation/persistent_financial.py": "1377251ec3b9a1da2be79b279e71207d2564b2d38f0d341473ca6ef896c60364",
-    "scripts/current-final-s03-sku-s05-preparation/persistent_source.py": "d9d209fef89599e2423478dc696dbe68d52aec4bbbd1c29cf5fce4273d0d36f4",
+    "scripts/current-final-s03-sku-s05-preparation/persistent_source.py": "1a9529270e5a2048d6cbcab5ee8b4a2c2895b5cb8d83d89132c09065fce85b68",
     "scripts/current-final-s03-sku-s05-preparation/probe.py": "fb66f362aae4e820b5c86fe7a9ffa580aaca32b2da7bfe652c03dbf71d2a0418",
     "scripts/current-s03-sku-s05-composite-qualification/response_waits.mjs": "28b01642e26378cb8e5aad96a9d2b2b10e252fbd19ce6151ee62cad7c4557034",
     "scripts/current-sku-pair-browser-qualification/evidence.mjs": "790083c4f578de04d54e943f58746ae73d269362e8337773a0847a293333213f",

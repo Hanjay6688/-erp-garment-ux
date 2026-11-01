@@ -220,5 +220,28 @@
       "sha256": "ad1c771fb894ca30cc55c3caad94318ada6665a4a6dfc2ebf68bd0fe84d68071"
     },
     "local_missing_psycopg_dependency_repaired_with_exact_CI_3_2_10_in_private_runtime": true
+  },
+  "actual_preDB_nested_README_pin_failure_and_narrow_fix": {
+    "failed_head": "60cbc27bcdaa52c0d852580c1b95bc0301a55471",
+    "failed_run": 41338539278,
+    "failed_job": 124943416257,
+    "failed_step": 65,
+    "error": "CURRENT_COMPOSITE_SOURCE_CHANGED:scripts/cp7_current_s03_sku_s05/README.md",
+    "database_started": false,
+    "actual_ERP_cases": 0,
+    "canonical": {
+      "artifact_id": 13096945284,
+      "bytes": 58093,
+      "sha256": "92ffddd64c543e02c20f0bd25c81a277e323a51699889e37ffa5e5612cd9eda1",
+      "members": 109,
+      "library_file_id": "libfile_0a73c1bf6c648191a90dd013b1a7cb43"
+    },
+    "fix": "Only current README digest in nested product manifest plus early closed three-source validation before ERP imports",
+    "new_pure_tests": 2,
+    "failures": 0,
+    "raw": "..\n----------------------------------------------------------------------\nRan 2 tests in 0.004s\n\nOK\n",
+    "command": "PYTHONPATH=scripts/current-final-s03-sku-s05-preparation python -B -m unittest test_composition.NestedManifestControls",
+    "Native4_browser2_SQL_UI_oracles_changed": false,
+    "old_business_tests_rerun": false
   }
 }
