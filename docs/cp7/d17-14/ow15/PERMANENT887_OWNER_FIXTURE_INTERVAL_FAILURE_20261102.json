@@ -1,0 +1,96 @@
+{
+  "status": "FIRST_ACTUAL_PERMANENT_READER_INTERVAL_SETUP_WRITE_PRESERVED_NARROW_FIX_SOURCE_ONLY",
+  "head": "887fb69c3ea95192fbd5ad3dbe63230189a0916e",
+  "tree": "3567695ca9f8baed4c592669f70e5f26b43b0704",
+  "run_id": 41339521839,
+  "job_id": 124946366351,
+  "run_attempt": 1,
+  "terminal_conclusion": "failure",
+  "first_actual_error": "PERMANENT_S05_READ_CHANGED_ALL22_ROWS_OR_ANY_SEQUENCE",
+  "financial_cases": {
+    "INCOMPLETE": 4
+  },
+  "fresh_case_credit": 0,
+  "browser_started": false,
+  "canonical": {
+    "artifact_id": 13098941324,
+    "bytes": 3840085,
+    "sha256": "64512d9a027b1829d6ed095e59a8cc3dfa1f481a2f11df5b559b797c35dad121",
+    "full_crc": true,
+    "safe_unique_paths": true,
+    "members": 127,
+    "library_file_id": "libfile_b06a2f4a514081918fe68a3ace1925f1"
+  },
+  "observed_restore": {
+    "native_every_case_full_boundary": true,
+    "native_complete_boundary": true,
+    "baseline_all22_all_rows_ALL_sequences": true,
+    "raw_public": true,
+    "roles": true,
+    "cp6": true,
+    "baseline_advisors": true,
+    "primary_unchanged": true,
+    "backup_restore": true,
+    "process_group_and_tree_empty": true
+  },
+  "diagnosis": {
+    "owner_factory": "cp7_master_cases.role_actor",
+    "owner_factory_source": {
+      "bytes": 45605,
+      "sha256": "e8340084c8a302391149a789ceb26126a0dc3ef132d4df3486e0c1b1235d8ef5"
+    },
+    "fixture_inserts_app_user": true,
+    "original_order": [
+      "snapshot_before",
+      "INSERT_owner_fixture",
+      "read",
+      "snapshot_after"
+    ],
+    "corrected_order": [
+      "INSERT_owner_fixture",
+      "snapshot_before",
+      "read",
+      "snapshot_after"
+    ],
+    "failed_original_did_not_retain_inner_reader_raw_difference": true,
+    "source_setup_write_proven": true,
+    "actual_reader_no_write_still_requires_successful_corrected_runtime": true
+  },
+  "source_fix": {
+    "original": {
+      "bytes": 10763,
+      "sha256": "1377251ec3b9a1da2be79b279e71207d2564b2d38f0d341473ca6ef896c60364"
+    },
+    "corrected": {
+      "bytes": 10901,
+      "sha256": "5ac05941799fec2fdb5a7b15bb4e41985d1b6a657c58b2ce68df77076db3342a"
+    },
+    "only_moved_owner_setup_and_explaining_comment": true,
+    "all_other_function_ASTs_exact": true,
+    "full22_rows_sequences_equality_guard_unchanged": true,
+    "financial_SQL_callbacks_UI_and_workflow_unchanged": true
+  },
+  "pure_controls": {
+    "before_fix": {
+      "bytes": 1638,
+      "sha256": "a581e7b7af6743cd974b8761fdcd54b7b8c4fc3e12580bda95bc113612aff665"
+    },
+    "after_fix": {
+      "bytes": 593,
+      "sha256": "eb8e65e62e52c0272cafd41141f17fdf4c031b65a8e8bd9bf451e95d3ee10603"
+    },
+    "unittest_methods": 3,
+    "positive": 1,
+    "negative": {
+      "actual_row_change": true,
+      "actual_sequence_change": true,
+      "actual_catalog_change": true,
+      "invalid_contract": true
+    },
+    "actual_ERP_cases": 0,
+    "DB_connections": 0,
+    "original_failure_reproduced": true
+  },
+  "production_go": false,
+  "independent_acceptance": false
+}
