@@ -1,0 +1,109 @@
+{
+  "status": "ONE_ACTUAL_FOCUSED_RUN_ACTIVE_ROOT_SOURCE_ONLY_INTAKE_PREPARED",
+  "date_utc": "2026-11-01",
+  "candidate": {
+    "head": "14486decb34b261f70a8a12800ae7980bab4cbdd",
+    "tree": "c626150f0d0cbc3e24ae5237efbec44f25cf74f2",
+    "branch": "astra-a/s05-css-followup-20261101",
+    "prepared_branch": "astra-a/s05-css-followup-prepared-20261101",
+    "run_id": 41310096963,
+    "job_id": 124858465060,
+    "run_attempt": 1
+  },
+  "latest_observation": {
+    "at_utc": "2026-11-01T13:19:58Z",
+    "steps1_to71": "success",
+    "step72": "in_progress",
+    "failures": 0
+  },
+  "retained": {
+    "root_head": "dd5011d1453f5d8ac75bb11520e0e2c7cf38459b",
+    "root_path": "docs/cp7/d17-14/ow15/CURRENT38_ROOT_RETAINED35_20261101.json",
+    "receipt_sha256": "4743e60ed6fdf33682a9e576ce180675923ed7287fda5a6372f56509a89f39c0",
+    "Native": 31,
+    "S03_real_Auth_browser": 4,
+    "original_run_id": 41291621885,
+    "original_conclusion": "failure",
+    "fresh_case_credit": 0
+  },
+  "fresh_planned": {
+    "Native": 0,
+    "S05_real_Auth_browser": 2
+  },
+  "retained_cases_are_not_fresh": true,
+  "candidate_coverage_if_all_pass": 37,
+  "source": {
+    "pins": 102,
+    "closed_current_scope_paths": 103,
+    "unchanged_CSS_candidate_parent_blobs": 14083,
+    "old_qualification_files_reviewed": 3,
+    "added_focused_paths": 16,
+    "Root_exact_public_source_check_PASS": true,
+    "independent_Root_reconstruction_equals_candidate_source_only_proof": true,
+    "CI_new_controls10_PASS": true,
+    "CI_complete_natural_source_graph_under_DB_and_network_fence_PASS_before_database": true
+  },
+  "workflow": {
+    "steps": 77,
+    "unchanged": 69,
+    "changed": [
+      62,
+      63,
+      69,
+      70,
+      73,
+      74,
+      75,
+      76
+    ],
+    "env_and_permissions_unchanged": true,
+    "job_minutes": 120,
+    "work_minutes_from_actual_job_start": 90,
+    "recovery_minutes": 20,
+    "artifact_minutes": 10,
+    "real_WIB_window": true,
+    "automatic_group_retries": false,
+    "old_full37_six_hour_guard_unchanged": true
+  },
+  "intake": {
+    "path": "scripts/current-writer-a-takeover-20261030/intake_s05_focused.py",
+    "source_check_PASS": true,
+    "artifact_id": null,
+    "terminal_acceptance_blocked_until_actual_artifact_pinned": true,
+    "requires_complete_canonical_zip_and_actual_allfive": true
+  },
+  "durable_original_archive": {
+    "bytes": 688425402,
+    "sha256": "3ee9b053a947e4dee14602dd07a9574191c6707813dfb27cbadfbc08b28e7b0c",
+    "transport_run_id": 41307389512,
+    "transport_job_id": 124850464728,
+    "transport_conclusion": "success",
+    "ERP_execution": false,
+    "Root_join_and_full_CRC_PASS": true,
+    "parts": [
+      {
+        "name": "original.part-0",
+        "library_file_id": "libfile_6e2f7ce9640c81918747c93b0956daf6",
+        "bytes": 268435456
+      },
+      {
+        "name": "original.part-1",
+        "library_file_id": "libfile_3071ee3cabd481918f3e6e3d16256069",
+        "bytes": 268435456
+      },
+      {
+        "name": "original.part-2",
+        "library_file_id": "libfile_60d0b2055aa481918e36eb11b56ec9df",
+        "bytes": 151554490
+      }
+    ],
+    "manifest_library_file_id": "libfile_7012015f5aa48191aec3904553e41c81"
+  },
+  "actual_new_ERP_acceptance_credit": 0,
+  "full_candidate_qualified": false,
+  "package_all_five": false,
+  "formal": "5/16",
+  "production_go": false,
+  "independent_acceptance": false,
+  "next": "Keep the same actual scoped run untouched and monitor it. Retain first bounded failure if any. On terminal success, pin actual artifact metadata, transport complete canonical bytes if needed and execute the prepared Root intake. Only then rebind/rebase the unarmed Permanent->DE->FREE descendants. Continue independent authorised source while CI runs."
+}
