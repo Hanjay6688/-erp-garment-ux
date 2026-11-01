@@ -1,0 +1,92 @@
+{
+  "contract": "cp7.accessory-good-nonpayable.v1",
+  "classification": "UNARMED_GOOD_DATE_NONPAYABLE_SOURCE_PREPARATION",
+  "base_head": "10ac4e74cfcc66db7d1f2b166f3da0fc479f127b",
+  "base_tree": "a0b0108113b9b4d43d57483f291383229a37d4ad",
+  "files": {
+    "scripts/cp7_accessory_nonpayable/NATIVE_ORIGIN.json": {
+      "bytes": 5332,
+      "sha256": "3da80b9272264cf822cf9e6374a1229112d297fb366e8463248fc9ce62687d57"
+    },
+    "scripts/cp7_accessory_nonpayable/__init__.py": {
+      "bytes": 77,
+      "sha256": "c8005a03755cd4d70a101d6bf5a37d46cbaeab63eadd36c5724d461389374322"
+    },
+    "scripts/cp7_accessory_nonpayable/admission.py": {
+      "bytes": 4354,
+      "sha256": "b22af7343f5cb231a83488356cb466046b15f21717f7a081e0f09ad404af3c36"
+    },
+    "scripts/cp7_accessory_nonpayable/basis.sql": {
+      "bytes": 12412,
+      "sha256": "e1297006e00898e4af8e58630a1d08ddca19d47dbed948841283e0ab1048da10"
+    },
+    "scripts/cp7_accessory_nonpayable/composition.py": {
+      "bytes": 14391,
+      "sha256": "5c0440f8c32727b283237bebf52dd947f39c4aeab809055e92235bc08b99593a"
+    },
+    "scripts/cp7_accessory_nonpayable/native-before/ensure_snapshot.sql": {
+      "bytes": 6941,
+      "sha256": "1634377e32f56f4bab27232be686df6585aee54655953f93b1597ae912cb93bc"
+    },
+    "scripts/cp7_accessory_nonpayable/native-before/initial_accrual.sql": {
+      "bytes": 3208,
+      "sha256": "b10b63a72b2915cc5a6d1f3331fcbb4fe072c121112df31bbad8306856fcdacc"
+    },
+    "scripts/cp7_accessory_nonpayable/native-before/recost.sql": {
+      "bytes": 4902,
+      "sha256": "b2151dcfc3b10659454fc8d7d63412f7affb5e698049e4ec67ff82531fc8faee"
+    },
+    "scripts/cp7_accessory_nonpayable/native-before/reverse_qc.sql": {
+      "bytes": 6196,
+      "sha256": "3f044e3c1b575b8341f9490e51dc19bf11a3b1b915ddfb02493a5d285f05c566"
+    },
+    "scripts/cp7_accessory_nonpayable/native-before/reverse_rework.sql": {
+      "bytes": 5115,
+      "sha256": "3436545141606c346544d15ed6dd6342b73d0a51b1a7208e54a32ff94b0654ac"
+    },
+    "scripts/cp7_accessory_nonpayable/native-before/rework_target.sql": {
+      "bytes": 939,
+      "sha256": "3dd30156e24e23cfee1834286dd4f20771b7ff3907f1431611d9f00c6bfcd340"
+    },
+    "scripts/cp7_accessory_nonpayable/native_derivation.py": {
+      "bytes": 7572,
+      "sha256": "66f10fc8ea4f4096175c8c5839371ff3dd3587fb9f5a5ad2a02b7ac336759b16"
+    },
+    "scripts/cp7_accessory_nonpayable/policy.sql": {
+      "bytes": 11807,
+      "sha256": "042c30ce6c8242b0626270d2a74f0433df4b5fc57cb8af0d4198a79a8f41cd20"
+    },
+    "scripts/cp7_accessory_nonpayable/ri_catalog.py": {
+      "bytes": 2200,
+      "sha256": "5ba62ba1cb2143186e6004a2d5f234df846bacea9ecb7ab1432f963b1f3bf10c"
+    },
+    "scripts/cp7_accessory_nonpayable/source.py": {
+      "bytes": 2987,
+      "sha256": "8c8f9c97acfb3bebc66887d423058102f849149ab624550e4a01581e22279988"
+    },
+    "scripts/cp7_accessory_nonpayable/test_catalog.mjs": {
+      "bytes": 8617,
+      "sha256": "ae8b915b4ae3caa8644d0d149810e68bd39aec685692d0bc4675c10ddbdf8f76"
+    },
+    "scripts/cp7_accessory_nonpayable/test_costs.mjs": {
+      "bytes": 22845,
+      "sha256": "cd54ca28d5c79b6aaef0763bf044527e4f1bc0eca1ae8f833b1ca5b3c9b0e10a"
+    },
+    "scripts/cp7_accessory_nonpayable/test_lifecycle.py": {
+      "bytes": 12811,
+      "sha256": "f948eb162d0a25c099043dfea452daa4e9553e5c8868e926de699659259f646a"
+    },
+    "scripts/cp7_accessory_nonpayable/test_policy.mjs": {
+      "bytes": 11250,
+      "sha256": "c8f8e2a7482641393d3a39b2142a0d2fb3b2d84dd95bf4a58ce68892464eeeed"
+    }
+  },
+  "actual_Native_cases": 0,
+  "actual_Auth_HTTP_cases": 0,
+  "actual_browser_cases": 0,
+  "owner_decision": "D17-20",
+  "GOOD_eligibility_policy_decided": true,
+  "Afui_GOOD_nonpayable_path_complete": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

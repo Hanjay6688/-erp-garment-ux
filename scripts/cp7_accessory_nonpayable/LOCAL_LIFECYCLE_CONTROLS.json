@@ -1,0 +1,51 @@
+{
+  "status": "SYNTHETIC_NONPAYABLE_ADMISSION_LIFECYCLE_12_CONTROLS_COVERED",
+  "controls": 12,
+  "first_execution": {
+    "tests": 12,
+    "passed": 10,
+    "failed": [
+      "test_full_inverse_removes_delta_before_parent",
+      "test_preuse_delta_inverse_restores_parent_before_parent_verification"
+    ],
+    "test_source_sha256": "c5b489c2d3c459f806493bac2ce9c29c6681cc68ede8c2b3e7005dddebd77dc0",
+    "first_failure": "Synthetic execute model incorrectly required prepare=False for the single constant DROP; product uses the normal psycopg default on that statement.",
+    "repair": "Model accepts prepare=None only for the exact single constant DROP. Multi-statement Native definitions still require prepare=False. No product SQL or permission rule changed."
+  },
+  "retained_passed_controls": [
+    "test_boolean_source_byte_count_refuses",
+    "test_coordinated_preuse_rebinding_does_not_rewrite_accepted_parent",
+    "test_duplicate_and_nonfinite_receipts_refuse",
+    "test_entire_lower_parent_source_change_refuses",
+    "test_install_verifies_parent_before_any_DDL_and_preserves_rows_sequences",
+    "test_native_metadata_change_refuses_before_install_DDL",
+    "test_raw_NULL_to_explicit_ACL_change_refuses_before_DDL",
+    "test_unarmed_install_verify_and_inverse_refuse_before_ERP_import_or_SQL",
+    "test_undeclared_old_role_grant_or_extra_parent_trigger_refuses",
+    "test_used_native_row_or_sequence_or_private_basis_refuses_before_inverse_DDL"
+  ],
+  "targeted_recheck": {
+    "tests": 2,
+    "passed": [
+      "test_full_inverse_removes_delta_before_parent",
+      "test_preuse_delta_inverse_restores_parent_before_parent_verification"
+    ],
+    "failed": [],
+    "elapsed_seconds": 0.015
+  },
+  "source_sha256": {
+    "admission.py": "b22af7343f5cb231a83488356cb466046b15f21717f7a081e0f09ad404af3c36",
+    "composition.py": "5c0440f8c32727b283237bebf52dd947f39c4aeab809055e92235bc08b99593a",
+    "ri_catalog.py": "5ba62ba1cb2143186e6004a2d5f234df846bacea9ecb7ab1432f963b1f3bf10c",
+    "native_derivation.py": "66f10fc8ea4f4096175c8c5839371ff3dd3587fb9f5a5ad2a02b7ac336759b16",
+    "test_lifecycle.py": "f948eb162d0a25c099043dfea452daa4e9553e5c8868e926de699659259f646a"
+  },
+  "old_financial_or_catalogue_cases_rerun": 0,
+  "actual_SQL_executed": 0,
+  "actual_ERP_Native_cases": 0,
+  "actual_Auth_HTTP_cases": 0,
+  "actual_browser_cases": 0,
+  "full_real_installer_lifecycle_qualified": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

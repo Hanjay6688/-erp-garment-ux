@@ -1,0 +1,24 @@
+{
+  "status": "PREPARED_NONPAYABLE_OWN_SOURCE_ADMISSION_PASS_NOT_PARENT_ACCEPTANCE",
+  "checked_source_tree": "f2ac84ff00bc4c42ed6b0d95430550cdb1f95776",
+  "read_only_preflight": {
+    "accepted_parent_bound": false,
+    "actual_Auth_HTTP_cases": 0,
+    "actual_Native_cases": 0,
+    "actual_SQL_executed": 0,
+    "actual_browser_cases": 0,
+    "base_head": "10ac4e74cfcc66db7d1f2b166f3da0fc479f127b",
+    "base_tree": "a0b0108113b9b4d43d57483f291383229a37d4ad",
+    "exact_counted_Native_derivations": 4,
+    "independent_acceptance": false,
+    "own_paths": 27,
+    "own_source_pins": 19,
+    "production_go": false,
+    "status": "NONPAYABLE_SOURCE_ONLY_ADMITTED_PARENT_ACCEPTANCE_PENDING",
+    "unchanged_parent_paths": 14219
+  },
+  "scope": "This receipt is added after the checked source tree. It changes no executable source and grants no Native, Auth or browser acceptance.",
+  "actual_Native_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

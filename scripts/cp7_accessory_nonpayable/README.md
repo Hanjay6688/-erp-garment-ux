@@ -36,14 +36,23 @@ reimbursement variance, with no payable entitlement. Zero/sub-cent starts have
 no manufactured zero journal. Their recost uses cumulative cents, retains
 Native dates and revision UUIDs, and prevents a later duplicate initial accrual.
 
-There is no installer or public RPC yet. Do not execute this source on the live
-candidate, hosted project or production. The isolated PostgreSQL controls use
-small labelled model tables and guard stubs, not an ERP installation.
+The private installation/inverse API is prepared in `composition.py`, behind
+unbound canonical FREE3 receipt identities in `admission.py`. It refuses before
+ERP imports or SQL while that receipt is absent. It validates the whole accepted
+parent source graph, exact Native predecessor bytes and metadata, all22 deltas,
+the exact 10 parent-side RI triggers and one policy-use trigger, unchanged
+existing rows/sequences, raw Native OID/owner/ACL, and private authority. The
+preuse inverse refuses any row or sequence change before DDL.
+
+There is no public RPC or settings UI integration yet. Do not execute this
+source on the live candidate, hosted project or production. The isolated
+PostgreSQL controls use small labelled model tables and guard stubs, not an ERP
+installation. No executable workflow has been added.
 
 Still required before this feature can be accepted:
 
-1. Bind an installer and source/admission controls to the actually accepted
-   final parent; preserve exact Native metadata and all22/data/sequence guards.
+1. Bind the prepared installer and source/admission controls to the actually
+   accepted FREE3 final parent; prove the full real installer lifecycle there.
 2. Add the ordinary owner settings/UI route for confirming effective dates and
    replay/recovery, and verify posted-use refusal messages in that route.
 3. Prove the complete real inventory/HPP/sales and zero-payable flow, real
@@ -67,3 +76,9 @@ in `LOCAL_COST_MODEL_FAILURES.json`; no CI ERP run was started for these models.
 
 No actual Native/Auth/browser acceptance is claimed by these model checks.
 `production_go=false`, `independent_acceptance=false`.
+
+`LOCAL_CATALOG_CONTROLS.json` adds 10 new isolated PostgreSQL catalogue and
+authority checks, including the complete unchanged all22 query set, exact RI
+edges, no seeded rows, role denial, and a full preuse DDL catalogue inverse.
+`LOCAL_LIFECYCLE_CONTROLS.json` separately records synthetic refusal/order
+controls and the narrow first harness correction; it is not actual ERP proof.
