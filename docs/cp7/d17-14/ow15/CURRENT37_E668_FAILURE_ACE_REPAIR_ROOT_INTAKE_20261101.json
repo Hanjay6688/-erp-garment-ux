@@ -1,0 +1,65 @@
+{
+  "status": "CURRENT37_TERMINAL_FAILURE_DIAGNOSED_AND_SINGLE_REPAIR_RUN_ACTIVE",
+  "recorded_at_utc": "2026-11-01T00:15:22Z",
+  "failed_candidate": {
+    "branch": "astra-a/s03-sku-product-join-20261031",
+    "head": "e6684b07f98d753b5f78b24c7af52cd981971c0c",
+    "tree": "8be456a10207882fbcaeb5c9c2706974ef355349",
+    "run_id": "41241493562",
+    "job_id": "124656157099",
+    "run_attempt": 1,
+    "conclusion": "failure",
+    "failed_step_exit_code": 124,
+    "worker_exit": 1,
+    "deadline_reached": false,
+    "first_failure_phase": "S03_BROWSER4",
+    "first_failure": "UI count assertion ran before the intercepted current-rights 403 response was delivered",
+    "cleanup_conclusion": "success",
+    "actual_case_credit": 0
+  },
+  "diagnostic_recovery": {
+    "source_artifact_id": "13061971453",
+    "source_artifact_bytes": 578096722,
+    "source_artifact_digest": "sha256:97410c29a8bb83ec0d585e362e1546856e7565e6ec310edfeecefbad2748615b",
+    "bounded_recovery_run_id": "41255477690",
+    "bounded_recovery_artifact_id": "13062698990",
+    "bounded_recovery_artifact_bytes": 128927,
+    "bounded_recovery_artifact_digest": "sha256:8812f3866014fe018e72a1c4c910c681c3f00930a852fbf1080c47c4d47e7eb2",
+    "ERP_or_database_execution": false,
+    "actual_case_credit": 0
+  },
+  "repair_candidate": {
+    "branch": "astra-a/s03-sku-product-join-20261031",
+    "head": "ace57bc877bec11e113b5c903a811e3bb4cba224",
+    "tree": "3ab793e094d00047b9c90447965483ae0503081a",
+    "parent": "2a29fbd357d4eb5407ea5de0f7d05b87613c57bf",
+    "original_failed_parent": "e6684b07f98d753b5f78b24c7af52cd981971c0c",
+    "run_id": "41255938821",
+    "run_status_at_intake": "in_progress",
+    "run_attempt": 1,
+    "published_with_lease_from": "e6684b07f98d753b5f78b24c7af52cd981971c0c",
+    "product_permission_policy_changed": false,
+    "current_rights_semantics_preserved": true,
+    "bounded_JSON_diagnostic_artifact_added": true
+  },
+  "local_source_controls": {
+    "python_source_and_orchestration_tests": 32,
+    "python_result": "PASS",
+    "real_loopback_RPC_requests": 9,
+    "loopback_result": "PASS",
+    "closed_source_preflight": "PASS",
+    "actual_Native_cases": 0,
+    "actual_browser_cases": 0
+  },
+  "activation": {
+    "actual_ids_armed": false,
+    "permanent_tree_changed": false,
+    "DE_tree_changed": false,
+    "FREE_tree_changed": false,
+    "hosted_or_production_changed": false,
+    "formal_acceptance": "5/16",
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "next": "Monitor only run 41255938821. Do not start a duplicate. Use its bounded diagnostic artifact if it fails; admit current37 only after terminal all-37/all-five/restoration evidence passes."
+}
