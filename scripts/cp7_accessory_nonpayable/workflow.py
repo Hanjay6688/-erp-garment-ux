@@ -72,6 +72,27 @@ def derive():
         steps=75,job_minutes=360,monotonic_job_start_before_checkout=True,real_WIB_policy_unchanged=True,
         runtime_dispatches=0,actual_ERP_cases=0,production_go=False,independent_acceptance=False)
 
+def admit_source(manifest):
+    """An active workflow is source only after exact parent acceptance."""
+    active=ROOT/WORKFLOW
+    if WORKFLOW not in manifest['files']:
+        if active.exists()or active.is_symlink():raise ValueError('NONPAYABLE_UNDECLARED_WORKFLOW_REFUSED')
+        return None
+    if not active.is_file():raise ValueError('NONPAYABLE_DECLARED_WORKFLOW_MISSING')
+    from . import admission
+    if any(p.is_symlink()for p in(active,*active.parents)):
+        raise ValueError('NONPAYABLE_WORKFLOW_SYMLINK_REFUSED')
+    raw=active.read_bytes()
+    if manifest['files'][WORKFLOW]!=admission.pin(raw):
+        raise ValueError('NONPAYABLE_EXACT_WORKFLOW_SOURCE_PIN_REQUIRED')
+    if raw!=(HERE/TEMPLATE).read_bytes():
+        raise ValueError('NONPAYABLE_WORKFLOW_MUST_EQUAL_REVIEWED_TEMPLATE')
+    receipt=admission.parent_receipt()
+    if receipt['head']!=manifest['base_head']or receipt['tree']!=manifest['base_tree']:
+        raise ValueError('NONPAYABLE_WORKFLOW_REQUIRES_EXACT_SOURCE_BASE_QUALIFICATION')
+    return dict(status='EXACT_AFUI_WORKFLOW_AND_ACTUAL_FREE3_PARENT_SOURCE',actual_ERP_cases=0)
+
+
 def source_control():
     text,proof=derive()
     if(HERE/TEMPLATE).is_symlink()or(HERE/TEMPLATE).read_bytes()!=text.encode():

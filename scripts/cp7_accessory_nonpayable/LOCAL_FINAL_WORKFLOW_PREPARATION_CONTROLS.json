@@ -89,5 +89,20 @@
   "actual_two_session_cases": 0,
   "actual_browser_cases": 0,
   "production_go": false,
-  "independent_acceptance": false
+  "independent_acceptance": false,
+  "new_closed_active_workflow_source_admission": {
+    "status": "THREE_NEW_PURE_CONTROLS_PASS_NOT_NATIVE",
+    "tests": 3,
+    "failures": 0,
+    "exit_code": 0,
+    "command": "PYTHONPATH=scripts python -B -m unittest cp7_accessory_nonpayable.test_workflow_preparation.WorkflowPreparationControls.test_unarmed_source_workflow_never_reads_parent cp7_accessory_nonpayable.test_workflow_preparation.WorkflowPreparationControls.test_missing_and_stray_workflow_refuse_before_parent cp7_accessory_nonpayable.test_workflow_preparation.WorkflowPreparationControls.test_exact_source_workflow_requires_actual_matching_parent",
+    "raw": "...\n----------------------------------------------------------------------\nRan 3 tests in 0.003s\n\nOK\n",
+    "actual_ERP_cases": 0,
+    "actual_SQL_executed": 0,
+    "requires_actual_FREE3_parent_matching_manifest_base": true,
+    "requires_explicit_pin_and_exact_template": true,
+    "all_product_financial_function_ASTs_unchanged_except_source_manifest": true,
+    "Native_SQL_oracles_UI_and_16_Root_validator_functions_unchanged": true,
+    "old_business_tests_not_rerun": true
+  }
 }

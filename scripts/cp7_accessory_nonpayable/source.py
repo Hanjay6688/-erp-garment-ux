@@ -8,7 +8,7 @@ import sys
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
 sys.path.insert(0, str(HERE.parent))
-from cp7_accessory_nonpayable import admission, composition, settings_stage, ui_derivation
+from cp7_accessory_nonpayable import admission, composition, settings_stage, ui_derivation, workflow
 
 PREPARED_BASE = '10ac4e74cfcc66db7d1f2b166f3da0fc479f127b'
 PREPARED_TREE = 'a0b0108113b9b4d43d57483f291383229a37d4ad'
@@ -57,7 +57,8 @@ def preflight():
             raise ValueError('NONPAYABLE_EXISTING_PARENT_BLOB_OR_MODE_CHANGED:' + name)
     added = set(after) - set(before)
     if not added or any(not name.startswith('scripts/cp7_accessory_nonpayable/')
-                        and name not in ui_derivation.ADDED for name in added):
+                        and name not in ui_derivation.ADDED
+                        and not(name == workflow.WORKFLOW and name in source['files'])for name in added):
         raise ValueError('NONPAYABLE_ONLY_DECLARED_ADDITIVE_COMPONENT_ALLOWED')
     if not set(source['files']).issubset(added):
         raise ValueError('NONPAYABLE_ALL_EXECUTABLE_SOURCE_MUST_BE_TRACKED_OWN_ADDITION')

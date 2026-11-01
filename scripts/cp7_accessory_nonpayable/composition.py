@@ -8,7 +8,7 @@ from pathlib import Path
 import importlib
 import json
 
-from . import admission, native_derivation, ri_catalog
+from . import admission, native_derivation, ri_catalog, workflow
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
@@ -66,11 +66,15 @@ def source_manifest():
     required = {str(path.relative_to(ROOT)) for path in HERE.rglob('*')
         if path.is_file() and (path.suffix in ('.py', '.sql', '.mjs')
             or path.name in ('NATIVE_ORIGIN.json', 'UI_ORIGIN.json', 'UI_SOURCE.json', 'afui15.workflow.yml.txt'))}
+    active_workflow = workflow.admit_source(value)
+    if active_workflow is not None:
+        required.add(workflow.WORKFLOW)
     if set(value['files']) != required:
         raise ValueError('NONPAYABLE_COMPLETE_OWN_SOURCE_MANIFEST_REQUIRED')
     for name, expected in value['files'].items():
         path = ROOT / name
-        if (not name.startswith('scripts/' + SCHEMA + '/') or '..' in Path(name).parts
+        if ((not name.startswith('scripts/' + SCHEMA + '/')
+                and not (name == workflow.WORKFLOW and active_workflow is not None)) or '..' in Path(name).parts
             or path.is_symlink() or admission.pin(path.read_bytes()) != admission.require_pin(expected)):
             raise ValueError('NONPAYABLE_OWN_SOURCE_CHANGED:' + name)
     native_derivation.derive(native_derivation.originals())

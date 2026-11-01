@@ -57,8 +57,8 @@
       "sha256": "40b457f54d0082ae969c0a6d55a33dfe90e27fb88674ef6ffbf908b78f5fa837"
     },
     "scripts/cp7_accessory_nonpayable/composition.py": {
-      "bytes": 14468,
-      "sha256": "edf70b88d1a46678f25fc77491569ebe622cd4fe3b37efdfde59c9915c1a9a95"
+      "bytes": 14691,
+      "sha256": "8b86794f24c54ac9e088399db8548cb6d88f32838ab44bd7e96a30583d0ee8ca"
     },
     "scripts/cp7_accessory_nonpayable/copy_context.py": {
       "bytes": 2636,
@@ -153,8 +153,8 @@
       "sha256": "89fd842b3e050056c30e7067ce5321363fce720a3adaffef72e1942b9f8cf9e5"
     },
     "scripts/cp7_accessory_nonpayable/source.py": {
-      "bytes": 3754,
-      "sha256": "834ed30e4f1bcd2091840845bdd14b45bfc3dccc51db1c1a43ce0ca1bdaea168"
+      "bytes": 3850,
+      "sha256": "4cdce1762a3d9b0c536cf55393d0569bb7082a04bc4fa432863518a2b3817cb2"
     },
     "scripts/cp7_accessory_nonpayable/test_access_preparation.py": {
       "bytes": 3819,
@@ -217,16 +217,16 @@
       "sha256": "15b88416b24a323bb7d51cc72207eb5dd6bff44a3c7ea340a9c1b29700564216"
     },
     "scripts/cp7_accessory_nonpayable/test_workflow_preparation.py": {
-      "bytes": 2551,
-      "sha256": "6073881fbdea57ba9aaff45b367ee66ad735254920585009a9081764266cbf6c"
+      "bytes": 5993,
+      "sha256": "5cdb1dc4ced7d615b000ec9aaba4d5a654121e7a31957a0badd94d880c278838"
     },
     "scripts/cp7_accessory_nonpayable/ui_derivation.py": {
       "bytes": 4417,
       "sha256": "ed03929567bf5e35599b9fccf6f0e126f57bf756c7959fc3283de68a9223d54d"
     },
     "scripts/cp7_accessory_nonpayable/workflow.py": {
-      "bytes": 6151,
-      "sha256": "c76d20992ba24586cade28a484a5d7b448044229b83697ac023693dd70c6fed0"
+      "bytes": 7277,
+      "sha256": "d13dcffff6c145cd50794749c41f3e383ed4437e1e3c236e28836d0eb71dfb0e"
     }
   },
   "actual_Native_cases": 0,
