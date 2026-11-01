@@ -115,7 +115,7 @@ def raw_browser_pair(z,before_name,after_name,source_catalog):
     exact(values[0],values[1],'S05_ACTUAL_RAW_REPORT_OR_REFUSAL_READ_HAS_ZERO_EFFECT')
     return originals
 
-def browser_assets(z,fresh,g):
+def browser_assets(z,fresh,g,*,source_path=OLD+'SOURCE.json'):
     """Verify the current originals declared by the unchanged browser source."""
     originals={}
     def declared(reference):
@@ -130,7 +130,7 @@ def browser_assets(z,fresh,g):
         'S05_ACTUAL_NATIVE_PREREQUISITES_NOT_UI_CREATION')
     run=prepared['fixtures']['variants']['po_id'].replace('-','').upper()
     require(re.fullmatch('[0-9A-F]{32}',run)is not None,'S05_EXACT_CURRENT_NATIVE_PO_ID')
-    raw_proofs={};screens=set();source_pin=pin(g.read(OLD+'SOURCE.json'))['sha256']
+    raw_proofs={};screens=set();source_pin=pin(g.read(source_path))['sha256']
     for row in fresh['browser']['cases'].values():
         mobile=row['viewport']==390;suffix='MOBILE390'if mobile else'DESKTOP'
         fields(row,dict(role='ADMIN'if mobile else'OWNER',viewport=390 if mobile else 1440,

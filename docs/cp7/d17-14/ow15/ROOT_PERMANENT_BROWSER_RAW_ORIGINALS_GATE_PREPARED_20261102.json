@@ -1,0 +1,48 @@
+{
+  "status": "ROOT_PERMANENT_CURRENT_BROWSER_RAW_ORIGINALS_GATE_PREPARED_NOT_ACTUAL_CHILD_ACCEPTANCE",
+  "active_head": "887fb69c3ea95192fbd5ad3dbe63230189a0916e",
+  "active_run": 41339521839,
+  "active_job": 124946366351,
+  "immutable_candidate_source_changed": false,
+  "actual_browser_fixture_originals": [
+    "S05_PERMANENT_BROWSER_FIXTURES.json",
+    "S05_PERMANENT_BROWSER_READER_STATE.json",
+    "S05_PERMANENT_BROWSER_SOURCE_CATALOG.json"
+  ],
+  "expected_existing_artifacts": {
+    "raw_full_current_censuses": 6,
+    "read_or_access_refusal_zero_effect_intervals": 3,
+    "desktop_and_mobile390": true,
+    "declared_PNGs_verified_by_path_bytes_and_signature": true
+  },
+  "independent_checks": [
+    "Every declared original byte count and SHA256",
+    "Current persistent-browser 19-input manifest SHA and actual Native fixture SHA",
+    "Full raw all22/all tracked table fingerprints/ALL sequence membership and type equality with actual source catalog",
+    "Every before and after read/refusal pair exactly equal",
+    "Every declared current screenshot retained in full canonical artifact"
+  ],
+  "Source_provenance": "Derived only from unchanged persistent_browser.py, persistent_browser.mjs and persistent_browser_fixture.py actual emitters; no added ERP or browser expectations.",
+  "narrow_Root_helper_change": "Existing S05 raw-asset intake accepts a Root-controlled source-manifest path; permanent calls it with PERSISTENT_BROWSER_SOURCE.json and retains all raw checks.",
+  "actual_existing_S05_canonical_archive_regression": {
+    "bytes": 409,
+    "sha256": "6a8bf54e908ae368890e164f26069004dce66d94969f26ea266aab7fe8a58eb7",
+    "result": {
+      "status": "ACTUAL_PRIOR_CANONICAL_BROWSER_ASSET_INTAKE_HELPER_REGRESSION_PASS_NOT_ERP_RERUN",
+      "positive": 1,
+      "negative": 1,
+      "exact_prior_qualified_assets_preserved": true,
+      "unique_PNGs": 10,
+      "complete_raw_census_originals": 6,
+      "wrong_manifest_refusal": "S05_BROWSER_CURRENT_SOURCE_AND_NATIVE_PREREQUISITE_BYTES/source_sha256:VALUE",
+      "actual_new_ERP_cases": 0,
+      "actual_browser_reruns": 0
+    }
+  },
+  "prior_actual_S05_qualified_receipt_preserved": true,
+  "valid_prior_S05_ERP_or_browser_cases_rerun": false,
+  "actual_new_ERP_cases": 0,
+  "actual_child_acceptance": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

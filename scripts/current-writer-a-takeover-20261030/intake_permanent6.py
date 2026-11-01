@@ -10,6 +10,7 @@ import argparse,ast,json,re,zipfile
 from intake_common import GitBytes,exact,fields,pin,require,safe_path
 from intake_sku27 import strict,literal,group,full_census,declared_files
 from intake_join37 import browser
+from intake_s05_focused import browser_assets
 
 HEAD='887fb69c3ea95192fbd5ad3dbe63230189a0916e'
 TREE='3567695ca9f8baed4c592669f70e5f26b43b0704'
@@ -180,6 +181,8 @@ def intake(root,path,metadata):
         exact(witness['before'],witness['after'],'PERMANENT_USED_REFUSAL_RAW_ZERO_EFFECT')
         used=full_census(witness['before']['actual_all22'],witness['before']['full_data_and_sequences'])
         browser(part['fresh_permanent_browser2']['browser'],browser_ids,g,NS+'persistent_browser.mjs','PERMANENT_REAL_AUTH_BROWSER2')
+        raw_browser_assets=browser_assets(z,part['fresh_permanent_browser2'],g,
+            source_path=NS+'PERSISTENT_BROWSER_SOURCE.json')
         exact(package['gate'],GATES,'PERMANENT_ALL_FIVE_PACKAGE_GATES')
         fields(package['run_identity'],dict(tool_head=HEAD,github_sha=HEAD,run_id=str(RUN),run_attempt='1'),
             'PERMANENT_EXACT_CURRENT_OWNING_RUN')
@@ -210,6 +213,7 @@ def intake(root,path,metadata):
             qualified_complete_sources=pin(json.dumps(graph,sort_keys=True,separators=(',',':')).encode()),
             qualified_parent37=dict(head=parent['head'],run_id=parent['run_id'],root_intake=pin(parent_raw)),
             actual_Native_cases=4,actual_browser_cases=2,complete6_qualified=True,package_all_five=True,
+            actual_current_browser_raw_assets=raw_browser_assets,
             fresh6_one_attempt=True,parent_qualification_uses_retained35=True,
             runtime_supervision=supervised,
             prior_runs_aggregated=False,retained_join37_fresh_case_credit=0,reader_remains_installed=True,
