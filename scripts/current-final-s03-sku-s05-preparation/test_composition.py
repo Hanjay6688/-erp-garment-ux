@@ -5,7 +5,7 @@ from hashlib import sha256
 from pathlib import Path
 from types import SimpleNamespace
 from unittest.mock import patch
-import importlib.util,json,unittest
+import importlib.util,json,sys,unittest
 
 ROOT=Path(__file__).resolve().parents[2]
 
@@ -113,5 +113,55 @@ class NestedManifestControls(unittest.TestCase):
         with patch.object(source,'raw',side_effect=extra_path):
             with self.assertRaisesRegex(ValueError,'NESTED_PRODUCT_SOURCE_KEYS_CHANGED'):
                 source.product_sources()
+
+class PermanentReadObservationControls(unittest.TestCase):
+    """A reader interval must exclude setup writes and catch actual changes."""
+    def setUp(self):
+        path=Path(__file__).resolve().parent/'persistent_financial.py'
+        spec=importlib.util.spec_from_file_location('permanent_read_interval_control',path)
+        self.module=importlib.util.module_from_spec(spec);spec.loader.exec_module(self.module)
+        self.data={'erp.app_users':[0,'no-owner-fixture'],'sequence:business':['7',True]}
+        self.catalog={str(i):{}for i in range(22)};self.events=[];self.mutation=None
+        def owner(cursor):
+            self.events.append('prepare_owner');self.data['erp.app_users']=[1,'owner-fixture'];return 'fixture-owner'
+        def snapshot(cursor):
+            self.events.append('observe_data');return deepcopy(self.data)
+        def execute(sql,args):
+            self.events.append('actual_read')
+            self.assertIn('select public.erp_cp7_get_accessory_standard_report_v1(',sql)
+            if self.mutation=='row':self.data['erp.app_users']=[2,'unexpected-reader-write']
+            if self.mutation=='sequence':self.data['sequence:business']=['8',True]
+            if self.mutation=='catalog':self.catalog['0']={'unexpected':'reader-DDL'}
+            version='wrong'if self.mutation=='response'else'cp7.accessory-standard-report.v1'
+            return SimpleNamespace(fetchone=lambda:({'contract_version':version,'business_DML':False},))
+        self.cursor=SimpleNamespace(execute=execute,connection=SimpleNamespace(
+            info=SimpleNamespace(transaction_status=SimpleNamespace(name='INTRANS'))))
+        hp=SimpleNamespace(owner=owner,auth=SimpleNamespace(actor=lambda cur,who:self.assertEqual(who,'fixture-owner')))
+        self.core=SimpleNamespace(f=SimpleNamespace(admin=lambda cur:None,hp=hp))
+        catalog=SimpleNamespace(_catalog_rows=lambda cur:deepcopy(self.catalog),_data=snapshot)
+        self.complete=SimpleNamespace(runtime=lambda:(None,None,None,None,catalog),verify=lambda cur,state:None)
+        helper=SimpleNamespace(control=SimpleNamespace(product_catalog=lambda cur:nullcontext()))
+        context=patch.dict(sys.modules,{'cp7_p21_current_chain_rehearsal_probe':SimpleNamespace(helper=helper)})
+        context.start();self.addCleanup(context.stop)
+
+    def test_owner_fixture_precedes_first_read_observation(self):
+        result=self.module.read_kept_reader(self.cursor,'2026-11-02',self.core,self.complete,{})
+        self.assertEqual(result['status'],'PASS')
+        self.assertEqual(self.events,['prepare_owner','observe_data','actual_read','observe_data'])
+        self.assertEqual(result['before'],result['after'])
+        self.assertEqual(result['before']['full_data_and_sequences']['erp.app_users'],[1,'owner-fixture'])
+
+    def test_actual_reader_row_sequence_and_catalog_changes_still_refuse(self):
+        for mutation in ('row','sequence','catalog'):
+            with self.subTest(mutation=mutation):
+                self.data={'erp.app_users':[0,'no-owner-fixture'],'sequence:business':['7',True]}
+                self.catalog={str(i):{}for i in range(22)};self.mutation=mutation
+                with self.assertRaisesRegex(ValueError,'PERMANENT_S05_READ_CHANGED_ALL22_ROWS_OR_ANY_SEQUENCE'):
+                    self.module.read_kept_reader(self.cursor,'2026-11-02',self.core,self.complete,{})
+
+    def test_invalid_reader_response_still_refuses(self):
+        self.mutation='response'
+        with self.assertRaisesRegex(ValueError,'PERMANENT_S05_ACTUAL_NORMAL_OWNER_READER_REQUIRED'):
+            self.module.read_kept_reader(self.cursor,'2026-11-02',self.core,self.complete,{})
 
 if __name__=='__main__':unittest.main()

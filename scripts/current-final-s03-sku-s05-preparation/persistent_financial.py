@@ -98,10 +98,12 @@ def read_kept_reader(cursor,today,core,complete,state):
     from cp7_p21_current_chain_rehearsal_probe import helper
     _,_,_,_,catalog=complete.runtime()
     core.f.admin(cursor)
+    # The retained owner factory INSERTs an isolated app user. Complete that
+    # setup before measuring the reader's no-write interval.
+    owner=core.f.hp.owner(cursor)
     with helper.control.product_catalog(cursor):
         complete.verify(cursor,state)
         before_catalog,before_data=catalog._catalog_rows(cursor),catalog._data(cursor)
-    owner=core.f.hp.owner(cursor)
     core.f.hp.auth.actor(cursor,owner)
     try:
         response=cursor.execute('select public.erp_cp7_get_accessory_standard_report_v1(%s,%s,null,null,%s,0,10)',

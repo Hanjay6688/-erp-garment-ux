@@ -572,5 +572,22 @@
     "materialized_before_source_fence": true,
     "prior_local_fence_refused_missing_Git_object_before_any_ERP": true,
     "planned_public_additional_parent_preserves_exact_Native_origin_reachability": true
+  },
+  "owner_interval_fixed_parent_rebase": {
+    "status": "SOURCE_ONLY_CURRENT_PERMANENT_NOT_ACTUAL_PARENT_ACCEPTANCE",
+    "previous_prepared_head": "76c5e244fe298b4e7dd0786a761e66b31c2fd45d",
+    "previous_prepared_tree": "7c6dd46aab213ffda5af8545d12a42260014ba1e",
+    "base_head": "065fff01bba869acca842e4008d87caf1e09b318",
+    "base_tree": "ed3cdf7d306be989bd46bf94f0305a7ece21d986",
+    "unchanged_parent_blobs_and_modes": 14164,
+    "own_paths": 94,
+    "parent_Native_callbacks_SQL_UI_unchanged": true,
+    "own_business_callbacks_SQL_oracles_unchanged": true,
+    "parent_qualification_pending": true,
+    "parent_receipt_bound": false,
+    "workflow_activated": false,
+    "actual_ERP_cases": 0,
+    "production_go": false,
+    "independent_acceptance": false
   }
 }
