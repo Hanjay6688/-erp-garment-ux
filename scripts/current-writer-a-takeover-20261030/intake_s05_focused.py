@@ -1,7 +1,7 @@
 """Exact canonical focused intake: fresh2 plus invariant retained35, never fresh37."""
-from pathlib import Path
+from pathlib import Path,PurePosixPath
 from hashlib import sha256,file_digest
-import argparse,ast,json,re,zipfile
+import argparse,ast,gzip,json,re,zipfile
 import intake_join37 as original_join
 import intake_join_layout as css_parent
 from intake_common import GitBytes,exact,fields,pin,require,safe_path
@@ -103,6 +103,58 @@ def check_source_release(part):
         'ACTUAL_OWN_COMMITTED_SOURCE_CONNECTION_CLOSED_BEFORE_TEMPLATE_COPY')
     require(type(value.get('backend_pid'))is int and value['backend_pid']>0,'ACTUAL_OWN_SOURCE_BACKEND_ID')
     return value
+
+def raw_browser_pair(z,before_name,after_name,source_catalog):
+    values=[];originals={}
+    for name in(before_name,after_name):
+        safe_path(name);packed=z.read(name);raw=gzip.decompress(packed);value=strict(raw)
+        exact(set(value),{'catalog_rows','data_and_sequences'},'S05_COMPLETE_UNPROJECTED_BROWSER_CENSUS_KEYS')
+        full_census(value['catalog_rows'],value['data_and_sequences'])
+        exact(value['catalog_rows'],source_catalog,'S05_EVERY_RAW_CENSUS_EQUALS_ACTUAL_FULL_SOURCE_CATALOG')
+        values.append(value);originals[name]=dict(compressed=pin(packed),raw=pin(raw))
+    exact(values[0],values[1],'S05_ACTUAL_RAW_REPORT_OR_REFUSAL_READ_HAS_ZERO_EFFECT')
+    return originals
+
+def browser_assets(z,fresh,g):
+    """Verify the current originals declared by the unchanged browser source."""
+    originals={}
+    def declared(reference):
+        name=reference['name'];safe_path(name)
+        require('/'not in name and'\\'not in name,'S05_CURRENT_BROWSER_ORIGINAL_SAFE_BASENAME')
+        raw=z.read(name);exact(pin(raw),{k:reference[k]for k in('bytes','sha256')},'S05_DECLARED_BROWSER_ORIGINAL_BYTES')
+        originals[name]=pin(raw);return raw
+    fixture_raw=declared(fresh['browser_fixture_original']);prepared=strict(fixture_raw)
+    declared(fresh['browser_reader_state_original'])
+    catalog=strict(declared(fresh['browser_source_raw_catalog_original']))
+    fields(prepared,dict(status='ACTUAL_NATIVE_BROWSER_PREREQUISITES_PREPARED',Native_case_credit=0,screen_creation_claim=False),
+        'S05_ACTUAL_NATIVE_PREREQUISITES_NOT_UI_CREATION')
+    run=prepared['fixtures']['variants']['po_id'].replace('-','').upper()
+    require(re.fullmatch('[0-9A-F]{32}',run)is not None,'S05_EXACT_CURRENT_NATIVE_PO_ID')
+    raw_proofs={};screens=set();source_pin=pin(g.read(OLD+'SOURCE.json'))['sha256']
+    for row in fresh['browser']['cases'].values():
+        mobile=row['viewport']==390;suffix='MOBILE390'if mobile else'DESKTOP'
+        fields(row,dict(role='ADMIN'if mobile else'OWNER',viewport=390 if mobile else 1440,
+            actual_normal_App_real_Auth_public_RPC=True,all_report_reads_full22_data_ALL_sequences_unchanged=True,
+            actual_Native_case_credit=0,fixture_screen_creation_claim=False,production_go=False,independent_acceptance=False),
+            'S05_CURRENT_NORMAL_APP_BROWSER_AND_COMPLETE_READ_NO_EFFECT')
+        fields(row['source'],dict(source_sha256=source_pin,actual_preparation_sha256=pin(fixture_raw)['sha256'],
+            Native_fixture_case_credit=0),'S05_BROWSER_CURRENT_SOURCE_AND_NATIVE_PREREQUISITE_BYTES')
+        prefix='S05_SKU_'+suffix+'_'+run
+        pairs=[('01_BEFORE_REPORT_READS','02_AFTER_REPORT_READS')]
+        if mobile:pairs.append(('03_BEFORE_ACCESS_REFUSAL','04_AFTER_ACCESS_REFUSAL'))
+        for before,after in pairs:
+            raw_proofs.update(raw_browser_pair(z,prefix+'_'+before+'_FULL_CURRENT_STATE.json.gz',
+                prefix+'_'+after+'_FULL_CURRENT_STATE.json.gz',catalog))
+        require(len(row['screenshots'])>=5,'S05_ALL_REQUIRED_BROWSER_VIEW_SCREENSHOTS_RETAINED')
+        for name in row['screenshots']:
+            path=PurePosixPath(name)
+            require(len(path.parts)==3 and path.parts[:2]==('cp6-proof','t3')and path.name.startswith(prefix+'_')
+                and path.suffix=='.png','S05_EXACT_CURRENT_BROWSER_PNG_PATH')
+            raw=z.read(path.name);require(raw.startswith(b'\x89PNG\r\n\x1a\n'),'S05_ACTUAL_CURRENT_BROWSER_PNG_BYTES')
+            originals[path.name]=pin(raw);screens.add(path.name)
+    exact(len(raw_proofs),6,'S05_ALL_SIX_ORIGINAL_RAW_CENSUSES_FOR_THREE_NO_EFFECT_INTERVALS')
+    return dict(complete_raw_census_originals=raw_proofs,current_originals_and_PNGs=originals,
+        unique_PNG_artifacts_verified=len(screens),actual_case_credit=0)
 
 def reader_source(g):
     raw=g.read(READER_MANIFEST,BASE)
@@ -256,6 +308,7 @@ def intake(root,path,metadata):
         fresh=part['fresh_S05_browser2']
         fields(fresh,dict(status='PASS',actual_browser_cases=2,actual_Native_cases=0),'COMPLETE_REAL_AUTH_BROWSER2')
         original_join.browser(fresh['browser'],ids,g,OLD+'browser.mjs','ACTUAL_FRESH_S05_BROWSER2')
+        raw_browser_assets=browser_assets(z,fresh,g)
         require(not any(fresh.get(k)for k in ('first_browser_failure','reader_cleanup_failure')),'NO_READER_OR_BROWSER_FAILURE')
         require(bool(fresh.get('reader_post_browser_inverse')),'ACTUAL_READER_POST_BROWSER_INVERSE')
         exact(len(fresh['copy_catalog_admissions']),1,'ONE_ACTUAL_BROWSER_COMMITTED_COPY')
@@ -292,6 +345,7 @@ def intake(root,path,metadata):
             actual_reader_product_source_maps=reader_maps,current_reader_graph_verified_before_database=True,
             package_all_five=True,package_gates=package['gate'],actual_used_refusal_raw_full_boundary=census,
             exact_original_foundation_setup=original_foundation,actual_own_source_connection_release=own_source_release,
+            actual_current_browser_raw_assets=raw_browser_assets,
             permanent_complete_assembly_qualified=False,global_writer_or_permission_or_lock_closure=False,
             Afui_positive_HPP_zero_reimbursement_coverage=False,production_go=False,independent_acceptance=False)
 

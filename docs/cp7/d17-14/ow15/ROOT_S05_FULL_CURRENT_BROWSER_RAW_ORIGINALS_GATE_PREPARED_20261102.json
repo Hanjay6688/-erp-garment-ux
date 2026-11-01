@@ -1,0 +1,53 @@
+{
+  "status": "ROOT_FOCUSED_S05_FULL_CURRENT_BROWSER_ORIGINALS_GATE_PREPARED_NOT_ACTUAL_ACCEPTANCE",
+  "actual_owning_head": "2cb8c9ac85b6111e8bb170de6c2ec5c44f7c798c",
+  "actual_owning_run": 41333643573,
+  "actual_owning_job": 124928771868,
+  "actual_artifact_binding": null,
+  "active_candidate_source_changed": false,
+  "required_declared_Native_fixture_reader_state_and_raw_source_catalog_originals": true,
+  "current_browser_source_and_Native_prerequisite_SHA_binding_required": true,
+  "desktop_and_mobile_current_raw_censuses": 6,
+  "independently_recomputed_no_effect_intervals": 3,
+  "every_raw_catalog_must_equal_unprojected_copy_source": true,
+  "all22_and_all_relation_fingerprints_and_all15_sequences_required": true,
+  "every_declared_current_screenshot_must_exist_with_PNG_signature_and_retained_bytes": true,
+  "reused_screenshot_names_count_as_one_artifact": true,
+  "new_pure_Root_controls": [
+    {
+      "status": "ROOT_S05_RAW_GZIP_NO_EFFECT_PAIR_CONTROL_PASS",
+      "positive": 1,
+      "negative": [
+        "money_changed",
+        "sequence_dropped",
+        "catalog_projected"
+      ],
+      "actual_ERP_cases": 0,
+      "labelled_synthetic_census": true,
+      "original_candidate_browser_source_and_oracles_unchanged": true
+    },
+    {
+      "status": "ROOT_S05_CURRENT_ASSET_REFERENCE_AND_SIX_CENSUS_MAPPING_CONTROL_PASS",
+      "positive": 1,
+      "negative": [
+        "missing_raw_original",
+        "wrong_source_binding",
+        "unsafe_image_path"
+      ],
+      "all_test_input_values_explicitly_synthetic": true,
+      "PNG_payloads_are_protocol_labels_not_browser_or_visual_evidence": true,
+      "actual_Native_cases": 0,
+      "actual_browser_cases": 0,
+      "actual_ERP_cases": 0,
+      "production_go": false,
+      "independent_acceptance": false
+    }
+  ],
+  "unique_new_pure_controls_PASS": 2,
+  "actual_ERP_SQL_executed": 0,
+  "actual_Native_cases": 0,
+  "actual_browser_cases": 0,
+  "actual_fresh_qualification_credit": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}
