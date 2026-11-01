@@ -39,7 +39,10 @@
     "scope_readme": {
       "path": "scripts/cp7_sku_pair_conversion/README.md",
       "sha256": "41786ad8f71edcc60faaa884e77de632f4674134ac310897f1598f776a15af8d",
-      "conflict_lines": [34, 37]
+      "conflict_lines": [
+        34,
+        37
+      ]
     },
     "reciprocal_pairing": {
       "path": "scripts/cp7_sku_pair_conversion/pairs.sql",
@@ -49,7 +52,10 @@
       "path": "scripts/cp7_sku_pair_conversion/conversion.sql",
       "sha256": "eece6fbed8cb13b73a49ec2e051478d6ba2a8b1002f6745b8c682db318595d72",
       "fifo_order_line": 97,
-      "stock_projection_lines": [110, 111]
+      "stock_projection_lines": [
+        110,
+        111
+      ]
     },
     "pairing_ui": {
       "path": "src/ConnectedSkuMasterPage.tsx",
@@ -72,7 +78,7 @@
     "source_after": "Preview and posting show source quantity, source value and source moving average before and after; no negative stock or negative value.",
     "journals": "Inventory reclassification remains balanced; no sales revenue, COGS, cash, receivable or payable entry is created.",
     "sales_COGS": "Later sales consume the authoritative post-conversion target valuation, not the old FIFO lot price.",
-    "swap_back": "A manual later reverse-direction conversion uses the then-current moving averages and a new request identity; exact original restoration is only expected when no intervening mix changes the averages.",
+    "swap_back": "A later manual reverse-direction conversion uses then-current moving averages and a new request. Pre-existing target stock can be mixed by the first conversion itself, so even without later external movements the manual swap-back need not restore the initial source value. Exact original restoration belongs to the lawful inverse of the original transaction, subject to its dependency guards.",
     "permissions_and_idempotency": "Retain current rights checks after waits, closed payloads, stale preview refusal, exact replay and changed-intent refusal."
   },
   "required_future_evidence_not_run_here": [
@@ -81,7 +87,7 @@
     "One- and two-piece cross-brand conversions conserve total FG value and journal balance",
     "Different color and size targets remain allowed while reciprocal pair is only a suggestion",
     "Concurrent sale/reservation and two-tab conversion cannot overspend source quantity or stale average",
-    "Manual swap-back with no intervening movement restores the expected source value; with intervening stock it uses the lawful then-current average",
+    "A manual swap-back with an empty or unchanged-average target can restore the starting source value; a different-cost existing target is mixed by the first conversion and a new reverse-direction conversion must use that resulting current average. Lawful original cancellation must restore its exact original value.",
     "Atomic reversal restores stock, value, average, journal and history",
     "Desktop and 390px UI display both stock and moving averages"
   ],
@@ -91,5 +97,6 @@
   "actual_Native_cases": 0,
   "actual_product_changes": 0,
   "production_go": false,
-  "independent_acceptance": false
+  "independent_acceptance": false,
+  "moving_average_arithmetic_clarification_record": "docs/cp7/d17-14/ow15/SKU_MOVING_AVERAGE_RESERVATION_AND_MANUAL_BACK_CONTRACT_20261102.json"
 }

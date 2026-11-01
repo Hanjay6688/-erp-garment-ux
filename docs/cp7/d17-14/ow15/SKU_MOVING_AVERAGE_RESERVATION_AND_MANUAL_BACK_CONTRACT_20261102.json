@@ -1,0 +1,76 @@
+{
+  "status": "SKU_MOVING_AVERAGE_READ_ONLY_VALUATION_CONTRACT_CLARIFIED_NOT_IMPLEMENTED",
+  "owner_policy": "Manual reverse-direction conversion is a new transaction at then-current moving averages. Exact inverse of the original transaction remains a distinct lawful cancellation path.",
+  "arithmetic_example": {
+    "source_before": {
+      "qty": "4",
+      "value": "80",
+      "average": "20"
+    },
+    "target_before": {
+      "qty": "1",
+      "value": "50",
+      "average": "50"
+    },
+    "forward": {
+      "qty": "1",
+      "value": "20",
+      "source_after": {
+        "qty": "3",
+        "value": "60",
+        "average": "20"
+      },
+      "target_after": {
+        "qty": "2",
+        "value": "70",
+        "average": "35"
+      }
+    },
+    "manual_swap_back": {
+      "qty": "1",
+      "value": "35",
+      "source_after": {
+        "qty": "4",
+        "value": "95",
+        "average": "23.75"
+      },
+      "target_after": {
+        "qty": "1",
+        "value": "35",
+        "average": "35"
+      }
+    },
+    "total_inventory_value_before_and_after": "130"
+  },
+  "conclusion": "Even with no later external movement, pre-existing target stock mixes during the first conversion. A new reverse-direction conversion therefore need not restore the original source cost. Future tests must not demand exact original restoration for this mixed-target example.",
+  "reservation_boundary": {
+    "physical_qty": "4",
+    "physical_value": "80",
+    "moving_average": "20",
+    "reserved_qty": "2",
+    "available_qty": "2",
+    "reservation_is_not_physical_outflow_or_inventory_revaluation": true,
+    "conversion_qty_must_not_exceed_available": true
+  },
+  "existing_historical_helper": {
+    "function": "erp.fg_unsourced_valuation_v1(uuid,timestamptz)",
+    "accepted_P00_definition_sha256": "a700081d50827ec399e5ba1f72394d66048edb0735021e11bf27905c5cfb7acf",
+    "source": "docs/cp7/evidence/p00/CP7_P00_CATALOGUE.json.gz",
+    "already_excludes_draft_reservation_as_physical_outflow": true,
+    "reuse_without_derivation": false,
+    "reason": "It is for unsourced FG, has SKU then model/size/model fallback and initial-quantity fallback, and has no conversion-specific location argument. It cannot be used directly as the authoritative selected-SKU/location/grade conversion valuation."
+  },
+  "current_conversion_source": {
+    "path": "scripts/cp7_sku_pair_conversion/conversion.sql",
+    "sha256": "eece6fbed8cb13b73a49ec2e051478d6ba2a8b1002f6745b8c682db318595d72"
+  },
+  "fractional_HPP_and_cumulative_cent_conservation_still_require_full_existing_Native_financial_binding": true,
+  "implementation_started": false,
+  "arithmetic_only_not_Native_or_ERP_credit": true,
+  "actual_ERP_calls": 0,
+  "actual_SQL_executed": 0,
+  "actual_Native_cases": 0,
+  "actual_product_changes": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}
