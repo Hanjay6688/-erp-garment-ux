@@ -41,6 +41,12 @@ def validate(main,package,backup,supervision,head,proof,p):
         restore_raw_public_equal=True,cp6_restored=True,baseline_advisors_equal=True,advisor_gate=True,
         used_guard_refused_before_DDL=True,production_go=False,independent_acceptance=False),'FOCUSED_FRESH2_AND_COMPLETE_RESTORE')
     if any(main.get(k)for k in ('error','restore_error','restore_traceback')):raise ValueError('FOCUSED_NO_RUNTIME_OR_RESTORE_ERRORS')
+    declaration=main['source_declaration']
+    p.fields(declaration,dict(current_reader_graph_checked_before_database=True),'COMPLETE_CURRENT_READER_SOURCE_BEFORE_DB')
+    reader=declaration['current_reader_installation']
+    p.exact(reader['parent'],declaration['current_installation'],'EXACT_NATURAL_READER_FINANCIAL_PARENT')
+    p.exact(reader['stage'],p.strict((ROOT/'scripts/cp7_s05_s03_sku_composition/SOURCE.json').read_bytes()),
+        'EXACT_CURRENT_READER_STAGE_PINS_IN_ACTUAL_SOURCE_GRAPH')
     p.exact(set(main['committed']),{CASE},'ONE_FOCUSED_OWNING_COMPONENT')
     component=main['committed'][CASE]
     foundation=load('focused_gate_original_foundation',HERE/'foundation.py')

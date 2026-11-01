@@ -1,5 +1,5 @@
 {
-  "status": "PREPARED_FOCUSED_FOUNDATION_CORRECTION_LOCAL_CONTROLS_PASS_NOT_ERP_ACCEPTANCE",
+  "status": "PREPARED_CURRENT_READER_CSS_SOURCE_BINDING_CORRECTION_NOT_RUNTIME_QUALIFICATION",
   "actual_new_ERP_cases": 0,
   "actual_Auth_cases": 0,
   "local_controls": {
@@ -32,6 +32,31 @@
       "bytes": 98,
       "sha256": "a626407facf1102b512cc38f00f6e7d889aa6280a5c03d1722ac6d1c4eb08dc5",
       "text": ".\n----------------------------------------------------------------------\nRan 1 test in 0.004s\n\nOK\n"
+    },
+    "READER_BINDING_NEW_CONTROLS.log": {
+      "bytes": 102,
+      "sha256": "98255317dbdec068621cfd1c730ebd962e38b6f8c534b73c2b3cbfc806ea738c",
+      "text": "....\n----------------------------------------------------------------------\nRan 4 tests in 0.033s\n\nOK\n"
+    },
+    "READER_ADMISSION_BEHAVIOR_CONTROL.log": {
+      "bytes": 98,
+      "sha256": "7736d71002a53937d2389943fc06802041d1905f7ac3600e8dddd8242664e150",
+      "text": ".\n----------------------------------------------------------------------\nRan 1 test in 0.056s\n\nOK\n"
+    },
+    "READER_GATE_AFFECTED_CONTROLS.log": {
+      "bytes": 2943,
+      "sha256": "a935632b3cc984f6bb56fe85ef6ba789701bbd52bc5a92f86353f1b01e5a5fa3",
+      "text": "EEEEE\n======================================================================\nERROR: test_followup (unittest.loader._FailedTest.test_followup)\n----------------------------------------------------------------------\nImportError: Failed to import test module: test_followup\nTraceback (most recent call last):\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/loader.py\", line 137, in loadTestsFromName\n    module = __import__(module_name)\n             ^^^^^^^^^^^^^^^^^^^^^^^\nModuleNotFoundError: No module named 'test_followup'\n\n\n======================================================================\nERROR: test_followup (unittest.loader._FailedTest.test_followup)\n----------------------------------------------------------------------\nImportError: Failed to import test module: test_followup\nTraceback (most recent call last):\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/loader.py\", line 137, in loadTestsFromName\n    module = __import__(module_name)\n             ^^^^^^^^^^^^^^^^^^^^^^^\nModuleNotFoundError: No module named 'test_followup'\n\n\n======================================================================\nERROR: test_followup (unittest.loader._FailedTest.test_followup)\n----------------------------------------------------------------------\nImportError: Failed to import test module: test_followup\nTraceback (most recent call last):\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/loader.py\", line 137, in loadTestsFromName\n    module = __import__(module_name)\n             ^^^^^^^^^^^^^^^^^^^^^^^\nModuleNotFoundError: No module named 'test_followup'\n\n\n======================================================================\nERROR: test_followup (unittest.loader._FailedTest.test_followup)\n----------------------------------------------------------------------\nImportError: Failed to import test module: test_followup\nTraceback (most recent call last):\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/loader.py\", line 137, in loadTestsFromName\n    module = __import__(module_name)\n             ^^^^^^^^^^^^^^^^^^^^^^^\nModuleNotFoundError: No module named 'test_followup'\n\n\n======================================================================\nERROR: test_followup (unittest.loader._FailedTest.test_followup)\n----------------------------------------------------------------------\nImportError: Failed to import test module: test_followup\nTraceback (most recent call last):\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/loader.py\", line 137, in loadTestsFromName\n    module = __import__(module_name)\n             ^^^^^^^^^^^^^^^^^^^^^^^\nModuleNotFoundError: No module named 'test_followup'\n\n\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nFAILED (errors=5)\n"
+    },
+    "READER_GATE_CORRECT_MODULE_CONTROLS.log": {
+      "bytes": 103,
+      "sha256": "fe66eb66a2b55fcf1d91af283c01c8809698e85e792f2a15113ec7f6b662da18",
+      "text": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.871s\n\nOK\n"
+    },
+    "READER_FINAL_GATE_NEGATIVE_CONTROL.log": {
+      "bytes": 98,
+      "sha256": "70e93564d0764ef0a87cb81eef0920beaaace971b28365ee0acd06f66cbe72d7",
+      "text": ".\n----------------------------------------------------------------------\nRan 1 test in 0.109s\n\nOK\n"
     }
   },
   "retained_Root_head": "dd5011d1453f5d8ac75bb11520e0e2c7cf38459b",
@@ -88,5 +113,39 @@
     "exact_original_seed_only_for_empty": true,
     "partial_foundation_refused": true,
     "all22_schemaACL_and_protected_role_rows_must_match": true
+  },
+  "second_scoped_attempt": {
+    "head": "cb8aa092506a272da526aa55a1cfef4b2a6413c0",
+    "run_id": 41315727305,
+    "job_id": 124875223281,
+    "artifact_id": 13088337710,
+    "conclusion": "failure",
+    "error": "S05_SOURCE_CHANGED: src/accessory-standard-report.css",
+    "actual_browser_cases": 0,
+    "actual_Native_case_credit": 0,
+    "complete_outer_restore": true,
+    "original_fixture_setup_actually_PASS": true,
+    "canonical_archive": {
+      "bytes": 6148333,
+      "sha256": "7b94a0adf7acf25f57ecaf0f14c4688f6e8b0b28eb69422c41149b6fcdb3045e",
+      "library_file_id": "libfile_8315efab9ebc8191b932aa3109422966"
+    },
+    "failed_run_relabelled_PASS": false
+  },
+  "reader_source_correction": {
+    "current_reader_manifest_css_hash_only": true,
+    "unchanged_other_reader_source_pins": 40,
+    "all_actual_reader_source_inputs_checked": 41,
+    "historical_manifests_unchanged": true,
+    "new_reader_binding_controls_PASS": 5,
+    "first_three_current_controls_reused": true,
+    "static_string_control_superseded_by_actual_admission_behavior": true,
+    "affected_existing_final_gate_controls_PASS": 5,
+    "first_module_loader_error_retained": true,
+    "old_foundation_controls_and_actual_setup_PASS_reused": true,
+    "full_reader_sources_called_under_fence_before_CI_database": true,
+    "actual_ERP_case_credit": 0,
+    "reader_SQL_and_Native_callback_changes": false,
+    "generated_bytecode_caught_by_closed_source_gate_before_publication": true
   }
 }

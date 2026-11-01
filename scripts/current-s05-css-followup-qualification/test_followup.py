@@ -53,6 +53,10 @@ def fixture():
         production_go=False,independent_acceptance=False,committed={gate.CASE:component},
         fixture_foundation_precheck=plan,baseline_role_cleanup=dict(baseline_roles_exact=True),baseline_restore=dict(unexplained=[],
             only_pg_cron_errors=True,database_owner_acl_and_settings_preserved=True))
+    main['source_declaration']=dict(current_reader_graph_checked_before_database=True,
+        current_installation={'synthetic_financial_parent':True},current_reader_installation=dict(
+            parent={'synthetic_financial_parent':True},
+            stage=json.loads((ROOT/'scripts/cp7_s05_s03_sku_composition/SOURCE.json').read_bytes())))
     package=dict(gate=dict(p.GATES),run_identity=dict(tool_head=head,github_sha=head,run_attempt='1',run_id='synthetic-only'))
     backup=dict(status='RESTORED_IDENTICAL',checks={k:True for k in
         ('restore_errors_only_pg_cron','catalog_explained','data_identical','engine_answer_present','engine_equal')},data={'differ':{}})

@@ -50,3 +50,18 @@ cutting compatibility trigger; every catalog class and protected role row must
 be unchanged afterwards. Only the unchanged SQL test usage overlay is allowed.
 The component owns the setup commit; Native fixture and browser assertions
 remain byte-identical. This setup has zero new case credit.
+
+The corrected-foundation attempt cb8 actually passed the original fixture setup,
+then failed inside the original current S05 reader's source guard: its own
+manifest still pinned the pre-layout CSS. Browser count stayed zero and the
+complete outer restore passed. The new correction changes exactly that single
+CSS digest in the ACTIVE composed reader manifest, with an exact reversible
+5351-byte derivation. Its other40 pins, reader SQL, Native callbacks and all
+historical manifests remain unchanged. Both the local guard and unmodified
+reader.sources() reproduce the old failure and accept the derived manifest.
+The complete natural reader.sources() is now mandatory under the import fence
+before database startup, as well as in actual source evidence and final gates.
+No late failure is reclassified as a successful browser. The original hard
+120-minute/real-WIB budget is unchanged; the next owning attempt waits for the
+next lawful window. The50c full37 fallback is superseded as runtime preparation
+because it also retains the stale active reader CSS pin.
