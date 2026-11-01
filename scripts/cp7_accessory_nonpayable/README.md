@@ -115,3 +115,18 @@ records 18 new protocol/DOM successes and coverage of the 10 ordinary settings
 scenarios, preserving narrow fixture failures and focused repairs. Actual Auth
 HTTP, real two-session races, desktop/mobile browser and complete ERP inventory/
 HPP/sales acceptance remain pending.
+
+Native case preparation now contains six first economic/date cases, still
+unexecuted: positive HPP with zero reimbursement and frozen history/replay;
+explicit normal-policy reimbursement; normal pickup then Special GOOD;
+Special pickup then normal GOOD; missing category date refusing atomic GOOD;
+and sub-cent/no-initial-journal recost with cumulative cents and lawful invoice
+inverses. The exact existing physical constructor is bound privately to a fresh
+Mandor master; its code object, every original Native command and the complete
+product/source graph stay intact. Source checks pin six original fixture/runner
+files to the actual public settings preparation. No posted physical or money
+row is seeded by these cases. A refused posting's actual sequence allocations
+are retained explicitly, without resets; only the outer full restore may prove
+all-sequence restoration. QC/rework inverse, actual Auth/two-session/normal-App
+settings checks and the owning qualifier are still required. None of these six
+prepared cases has actual ERP credit or bypasses the five unbound parent gates.
