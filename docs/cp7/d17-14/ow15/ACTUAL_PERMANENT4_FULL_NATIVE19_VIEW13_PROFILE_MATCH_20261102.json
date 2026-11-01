@@ -1,0 +1,180 @@
+{
+  "status": "ACTUAL_SAVED_PERMANENT4_FULL_NATIVE19_AND_VIEW13_PROFILE_MATCH",
+  "actual_head": "23e3e77d6dddd48a98d31c35822d637db2cee528",
+  "actual_tree": "0637e2f69fc24cd2a98260210e9c358222ae992b",
+  "actual_run_id": 41346386747,
+  "actual_job_id": 124966984224,
+  "artifact_id": 13101464593,
+  "archive": {
+    "bytes": 48925129,
+    "sha256": "95d7ccbe4be056c27968ba0c2c312dcce16a0608c3cca0406aa796535a09fa44",
+    "members": 134
+  },
+  "strict_Native4_original": {
+    "bytes": 205653484,
+    "sha256": "9da986f85d54b1da0d89034a3b64109366b8f1951c23ecce119868b04b8b6621"
+  },
+  "root_retained4": {
+    "bytes": 7661,
+    "sha256": "2d63531df996ff6e5fb9400ec2a0dc4a4e47283750f8c560e435819b54abf3af"
+  },
+  "actual_complete_product_sources": {
+    "bytes": 352866,
+    "sha256": "4afa5b6fa9e39ee509ca235f1af3ba62f238344763126b4fbd48d263bfcfc1b7"
+  },
+  "published_profile_source": {
+    "head": "a6ded9cd4ce23a6d59cd32e42ca9bb33d793f8cc",
+    "tree": "55da7c6ab29d9bfda68962be27da0db7ad931662",
+    "exact_profile_inputs": [
+      {
+        "path": "scripts/cp7_global_nonpo_native_graph_adapter/AUTHORITY.json",
+        "bytes": 71436,
+        "sha256": "193194184cdbfde1753677ad486d7010ada8ed9e6198f9a19e57c4b8587e3d78",
+        "git_blob": "2822c9c6ca0f765849c02d4f610fb9d6caab759f"
+      },
+      {
+        "path": "scripts/current-global-nonpo-actual19-profile-qualification/CAPTURE.json",
+        "bytes": 53674,
+        "sha256": "7bae0b9efd389ca70a66b322fafca54e05538ad7d5b42b4f5d68f46d962f48e0",
+        "git_blob": "be8282e2f8a78b68e47d2ca69fb45073549de1be"
+      },
+      {
+        "path": "scripts/current-global-nonpo-actual19-profile-qualification/ACTUAL_NATIVE_AUTHORITY.sql",
+        "bytes": 29335,
+        "sha256": "6be8df6f6fab74d702e2b96e1fdec40ae62e6f8ed176377c6f3a3f93049db4b4",
+        "git_blob": "ddc2eb8e9f7ae8402068e3838992e23616b4d1d4"
+      },
+      {
+        "path": "scripts/current-global-nonpo-actual19-profile-qualification/SOURCE.json",
+        "bytes": 6960,
+        "sha256": "d8b4bc5079007ce4cda0695177d9863193ddf55f4ac48704ce1011b50062dcec",
+        "git_blob": "f2ccc1793f11c68c7fdf2ca38802a5e1387d9200"
+      }
+    ],
+    "existing_published_source_reused": true,
+    "previous_profile_models_not_rerun": true,
+    "runtime_entry": null
+  },
+  "functions": 19,
+  "fields_each": 19,
+  "includes_exact_pg_get_functiondef": true,
+  "includes_exact_arguments_result_and_support": true,
+  "includes_full_expanded_EXECUTE_acl": true,
+  "Native_view": "erp.v_current_hpp",
+  "Native_view_fields": 13,
+  "observations": [
+    {
+      "case": "PERMANENT_S05_S03_NATIVE_EXPENSE_APPROVAL_ONCE_PAID_E05_REOPEN",
+      "boundary": "before",
+      "all_namespace_function_count": 2894,
+      "full19_profile": {
+        "bytes": 43681,
+        "sha256": "514c0177ea5d060c1cdbe9559d87d34cf51fda38b71f05293bb68a7cdd610bc7"
+      },
+      "view13_profile": {
+        "bytes": 1072,
+        "sha256": "bb9b3c2feaa2cc14278a47521387381f5683d3ac8bbb965322a71ef1aa48476f"
+      }
+    },
+    {
+      "case": "PERMANENT_S05_S03_NATIVE_EXPENSE_APPROVAL_ONCE_PAID_E05_REOPEN",
+      "boundary": "after",
+      "all_namespace_function_count": 2894,
+      "full19_profile": {
+        "bytes": 43681,
+        "sha256": "514c0177ea5d060c1cdbe9559d87d34cf51fda38b71f05293bb68a7cdd610bc7"
+      },
+      "view13_profile": {
+        "bytes": 1072,
+        "sha256": "bb9b3c2feaa2cc14278a47521387381f5683d3ac8bbb965322a71ef1aa48476f"
+      }
+    },
+    {
+      "case": "PERMANENT_S05_S03_NATIVE_BOTH_CORRECTIONS_LINKED_INVERSES_NO_RECOGNITION",
+      "boundary": "before",
+      "all_namespace_function_count": 2894,
+      "full19_profile": {
+        "bytes": 43681,
+        "sha256": "514c0177ea5d060c1cdbe9559d87d34cf51fda38b71f05293bb68a7cdd610bc7"
+      },
+      "view13_profile": {
+        "bytes": 1072,
+        "sha256": "bb9b3c2feaa2cc14278a47521387381f5683d3ac8bbb965322a71ef1aa48476f"
+      }
+    },
+    {
+      "case": "PERMANENT_S05_S03_NATIVE_BOTH_CORRECTIONS_LINKED_INVERSES_NO_RECOGNITION",
+      "boundary": "after",
+      "all_namespace_function_count": 2894,
+      "full19_profile": {
+        "bytes": 43681,
+        "sha256": "514c0177ea5d060c1cdbe9559d87d34cf51fda38b71f05293bb68a7cdd610bc7"
+      },
+      "view13_profile": {
+        "bytes": 1072,
+        "sha256": "bb9b3c2feaa2cc14278a47521387381f5683d3ac8bbb965322a71ef1aa48476f"
+      }
+    },
+    {
+      "case": "PERMANENT_S05_S03_NATIVE_FINISHED_PO_FG_COGS_COST_AND_CANCEL_EXACT",
+      "boundary": "before",
+      "all_namespace_function_count": 2894,
+      "full19_profile": {
+        "bytes": 43681,
+        "sha256": "514c0177ea5d060c1cdbe9559d87d34cf51fda38b71f05293bb68a7cdd610bc7"
+      },
+      "view13_profile": {
+        "bytes": 1072,
+        "sha256": "bb9b3c2feaa2cc14278a47521387381f5683d3ac8bbb965322a71ef1aa48476f"
+      }
+    },
+    {
+      "case": "PERMANENT_S05_S03_NATIVE_FINISHED_PO_FG_COGS_COST_AND_CANCEL_EXACT",
+      "boundary": "after",
+      "all_namespace_function_count": 2894,
+      "full19_profile": {
+        "bytes": 43681,
+        "sha256": "514c0177ea5d060c1cdbe9559d87d34cf51fda38b71f05293bb68a7cdd610bc7"
+      },
+      "view13_profile": {
+        "bytes": 1072,
+        "sha256": "bb9b3c2feaa2cc14278a47521387381f5683d3ac8bbb965322a71ef1aa48476f"
+      }
+    },
+    {
+      "case": "PERMANENT_S05_S03_NATIVE_OLD_ACCRUAL_LATER_BOOK_REOPEN_DATE_FLOOR",
+      "boundary": "before",
+      "all_namespace_function_count": 2894,
+      "full19_profile": {
+        "bytes": 43681,
+        "sha256": "514c0177ea5d060c1cdbe9559d87d34cf51fda38b71f05293bb68a7cdd610bc7"
+      },
+      "view13_profile": {
+        "bytes": 1072,
+        "sha256": "bb9b3c2feaa2cc14278a47521387381f5683d3ac8bbb965322a71ef1aa48476f"
+      }
+    },
+    {
+      "case": "PERMANENT_S05_S03_NATIVE_OLD_ACCRUAL_LATER_BOOK_REOPEN_DATE_FLOOR",
+      "boundary": "after",
+      "all_namespace_function_count": 2894,
+      "full19_profile": {
+        "bytes": 43681,
+        "sha256": "514c0177ea5d060c1cdbe9559d87d34cf51fda38b71f05293bb68a7cdd610bc7"
+      },
+      "view13_profile": {
+        "bytes": 1072,
+        "sha256": "bb9b3c2feaa2cc14278a47521387381f5683d3ac8bbb965322a71ef1aa48476f"
+      }
+    }
+  ],
+  "raw_NULL_vs_explicit_acl_inferred": false,
+  "raw_function_or_relation_acl_observed": false,
+  "metadata_compatibility_only": true,
+  "new_Native_Auth_browser_or_race_cases": 0,
+  "prior_profile_models_not_rerun": true,
+  "final_composite_accepted": false,
+  "global_writer_current_rights_and_phantom_lock_qualified": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

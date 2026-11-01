@@ -1,0 +1,95 @@
+{
+  "status": "CURRENT_PREPARED_DOWNSTREAM_CHANGED_FUNCTION_SETS_DISJOINT_FROM_NATIVE19_DEFINITIONS",
+  "profile_function_count": 19,
+  "sources": [
+    {
+      "component": "D1_E",
+      "head": "a71de0fba6d4a02a1db9acd471970c3df43d7ff5",
+      "tree": "a5ff3fa842e829187952c887dba579db693311b8",
+      "path": "scripts/cp7_credit_correction_de/native_delta.py",
+      "bytes": 7494,
+      "sha256": "d6157ad24dd22ca4810df12668090eb74a3382e6ceb3e4c0954a037a7016c664",
+      "selected_changed_signatures": [
+        "cp7_credit.initial_base_events_v1(uuid,uuid)",
+        "cp7_credit.initial_ordinal_input_v1(uuid,uuid)",
+        "cp7_credit._consumer_root_source_profile_v1(uuid,uuid,uuid,jsonb)",
+        "cp7_credit.assert_financial_materialization_provenance(jsonb)",
+        "cp7_credit.enforce_initial_return_closure_v1()",
+        "public.erp_cp7_correct_sales_return_v1(jsonb,uuid,text)",
+        "public.erp_cp7_get_sales_return_correction_v1(jsonb)"
+      ],
+      "Native19_definition_overlap": []
+    },
+    {
+      "component": "D1_E",
+      "head": "a71de0fba6d4a02a1db9acd471970c3df43d7ff5",
+      "tree": "a5ff3fa842e829187952c887dba579db693311b8",
+      "path": "scripts/cp7_credit_correction_de/e_native_delta.py",
+      "bytes": 11997,
+      "sha256": "314742c922fc82145f7caa8d4217296bf3f2408ceacbc4738d50d3b866d2bfe0",
+      "selected_changed_signatures": [
+        "public.erp_cp7_correct_note_v1(jsonb,uuid,text)",
+        "public.erp_cp7_get_note_correction_v2(uuid)",
+        "erp._cp7_current_credit_adjustment(uuid)",
+        "cp7_credit.current_materialized_objects(uuid,uuid,uuid)",
+        "cp7_credit.assert_current_source_plan_profile(uuid,uuid,uuid,jsonb)",
+        "cp7_credit.initial_base_events_v1(uuid,uuid)",
+        "cp7_credit.initial_ordinal_input_v1(uuid,uuid)",
+        "cp7_credit.consumer_incoming_funding_v1(uuid)",
+        "cp7_credit_incoming.incoming_applied_v1(uuid)",
+        "cp7_credit.consumer_selection_v1(jsonb)",
+        "cp7_credit.consumer_capture_sources_v1(jsonb)",
+        "cp7_credit.consumer_projection_v1(jsonb,jsonb)",
+        "cp7_credit.consumer_execute_v1(uuid)",
+        "cp7_credit.assert_consumer_closed_v1(uuid)",
+        "cp7_credit.consumer_native_invariant_v1(uuid)",
+        "cp7_credit.consumer_invoice_profile_v1(uuid)",
+        "cp7_credit.consumer_event_data_v1(uuid)",
+        "cp7_credit.consumer_quote_v1(jsonb)",
+        "cp7_credit.native_source_enter(text,uuid)"
+      ],
+      "Native19_definition_overlap": []
+    },
+    {
+      "component": "FREE",
+      "head": "44ac90b0c1d204e8a4af162bfe9de2177750eee3",
+      "tree": "89c75f47cae6b019810007efb5c6b1d5fa34b629",
+      "path": "scripts/cp7_special_free_date_on_de/composition.py",
+      "bytes": 7770,
+      "sha256": "ebe598411dc59d1475bbda64d0f5465b6c346a33ebd49437d043c90a9851cd8e",
+      "selected_changed_signatures": [
+        "erp.bc_free_basis_v1(uuid,uuid,timestamp with time zone)"
+      ],
+      "Native19_definition_overlap": [],
+      "observed_local_head": "44ac90b0c1d204e8a4af162bfe9de2177750eee3",
+      "canonical_public_head": "5c6daebe1184bffeb214a79c071d7ad081400d21",
+      "canonical_public_tree": "89c75f47cae6b019810007efb5c6b1d5fa34b629",
+      "actual_GitHub_commit_tree_API_verified": true
+    },
+    {
+      "component": "AFUI",
+      "head": "f6761a788ed4193a0d79f2f7ab0239eba9422350",
+      "path": "scripts/cp7_accessory_nonpayable/NATIVE_ORIGIN.json",
+      "bytes": 5332,
+      "sha256": "3da80b9272264cf822cf9e6374a1229112d297fb366e8463248fc9ce62687d57",
+      "all_six_original_Native_signatures_including_unchanged": [
+        "erp.ensure_fg_accessory_cost_snapshot(uuid)",
+        "erp.post_accessory_reimbursement_accrual(uuid)",
+        "erp.refresh_accessory_hpp_after_material_recost(uuid,text)",
+        "erp.reverse_qc(uuid,text)",
+        "erp.reverse_rework_completion(uuid,text)",
+        "erp.be_reverse_rework_target_v1(uuid,text)"
+      ],
+      "Native19_definition_overlap": [],
+      "observed_local_head": "f6761a788ed4193a0d79f2f7ab0239eba9422350",
+      "canonical_public_head": "098dbd8769cbbf6f0502750a7c2a770959e02385",
+      "canonical_public_tree": "b40ea64ea4cdcaaa0f28fc6d32645e783c0b0121",
+      "actual_GitHub_commit_tree_API_verified": true
+    }
+  ],
+  "function_definition_set_only_not_transitive_writer_or_permission_closure": true,
+  "metadata_and_full_catalog_after_each_actual_stage_still_required": true,
+  "actual_Native_Auth_browser_or_race_executions": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}
