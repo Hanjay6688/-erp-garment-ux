@@ -1,0 +1,44 @@
+{
+  "status": "ROOT_SOURCE_VERIFIED_AFUI_FIRST_NATIVE6_PREPARATION_ONLY",
+  "head": "e6261e6a58117c88cff79c19e958c41ba9ef2604",
+  "tree": "a2a511d7d0882493c9bdbe3df41d9c67ee6c1ab6",
+  "parent_preparation": "0da4d79a4f7201ef053d6de1eb155d990b4bfa4d",
+  "unchanged_prior_blobs": 14267,
+  "modified_prior_paths": [
+    "scripts/cp7_accessory_nonpayable/README.md",
+    "scripts/cp7_accessory_nonpayable/SOURCE.json"
+  ],
+  "added_paths": [
+    "scripts/cp7_accessory_nonpayable/LOCAL_NATIVE_PREPARATION_CONTROLS.json",
+    "scripts/cp7_accessory_nonpayable/native_cases.py",
+    "scripts/cp7_accessory_nonpayable/native_fixture.py",
+    "scripts/cp7_accessory_nonpayable/test_native_preparation.py"
+  ],
+  "source_pins": 29,
+  "unchanged_prior_source_pins": 26,
+  "prepared_Native_ids": [
+    "NONPAYABLE_NATIVE_POSITIVE_HPP_ZERO_REIMBURSEMENT_FROZEN_HISTORY_AND_REPLAY",
+    "NONPAYABLE_NATIVE_EXPLICIT_NORMAL_POLICY_REIMBURSEMENT_REGRESSION",
+    "NONPAYABLE_NATIVE_NORMAL_PICKUP_SPECIAL_GOOD_PHYSICAL_DATE",
+    "NONPAYABLE_NATIVE_SPECIAL_PICKUP_NORMAL_GOOD_PHYSICAL_DATE",
+    "NONPAYABLE_NATIVE_MISSING_CATEGORY_EFFECTIVE_DATE_ATOMIC_GOOD_REFUSAL",
+    "NONPAYABLE_NATIVE_NO_INITIAL_JOURNAL_CUMULATIVE_CENTS_AND_LAWFUL_INVOICE_INVERSES"
+  ],
+  "all_five_parent_admission_bindings_None": true,
+  "product_Native_SQL_UI_or_financial_derivations_changed": false,
+  "local_preparation_controls_PASS": 4,
+  "first_parse_error_and_local_test_setup_failure_retained": true,
+  "actual_ERP_Native_cases": 0,
+  "actual_Auth_HTTP_cases": 0,
+  "actual_two_session_cases": 0,
+  "actual_browser_cases": 0,
+  "owning_runtime_caller": false,
+  "remaining": [
+    "QC/rework inverse actual Native cases",
+    "actual Auth/access/lock two-session cases",
+    "normal-App settings browser cases",
+    "actual FREE3 Root admission and complete owning qualifier"
+  ],
+  "production_go": false,
+  "independent_acceptance": false
+}

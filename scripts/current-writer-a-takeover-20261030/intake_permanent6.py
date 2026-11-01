@@ -15,9 +15,12 @@ HEAD=None
 TREE=None
 RUN=None
 JOB=None
-PREPARED_HEAD='92a70c1fbe51208f098e82a27088649add4befd4'
-PREPARED_TREE='8a633067765c4717720fe7b067fa2f6b4a665179'
-BASE='6cb5bfe213fe3ce684244370dec092569705f6ff'
+PREPARED_HEAD='b18701f3a4fed852077d31ec40ad6005273a870b'
+PREPARED_TREE='2a66d06d042ffe4cc353b7dcf6baf27b5004178f'
+BASE='cb8aa092506a272da526aa55a1cfef4b2a6413c0'
+BASE_TREE='e47caf3ea3b739b713f6c9b9a0e0041f91c5ac58'
+PARENT_RUN=41315727305
+PARENT_JOB=124875223281
 NS='scripts/current-final-s03-sku-s05-preparation/'
 MAIN='CP7_PERMANENT_S05_S03_SKU_NATIVE4_BROWSER2.json'
 NATIVE='CP7_PERMANENT_S05_S03_FINANCIAL_NATIVE4.json'
@@ -29,13 +32,22 @@ def source(g):
     declaration=strict(g.read(NS+'PREPARATION.json'))
     fields(declaration,dict(base_head=BASE,actual_new_Native_cases=0,production_go=False,
         independent_acceptance=False),'PERMANENT_SOURCE_PREPARATION_NOT_CASE_CREDIT')
-    base=g.entries(BASE);exact(len(base),14070,'PERMANENT_UNCHANGED_REPAIRED_FINANCIAL_BASE14070')
+    exact(g.git('rev-parse',BASE+'^{tree}').decode().strip(),BASE_TREE,'EXACT_CORRECTED_S05_SOURCE_PARENT_TREE')
+    base=g.entries(BASE);exact(len(base),14105,'PERMANENT_UNCHANGED_CORRECTED_FINANCIAL_BASE14105')
     for name,value in base.items():exact(g.tree.get(name),value,'PERMANENT_BASE_BLOB_AND_MODE:'+name)
     allowed=set(declaration['files'])|{NS+'PREPARATION.json'}
     require(all(name.startswith(('scripts/cp7_current_s03_sku_s05/',NS))
         or name=='.github/workflows/cp7-final-s03-sku-s05.yml'for name in allowed),'PERMANENT_ONLY_OWN_SOURCE_SCOPE')
     exact(set(g.tree)-set(base),allowed,'PERMANENT_EXACT_CLOSED_ADDITIVE_SOURCE')
     for name,value in declaration['files'].items():g.verify_pin(name,value)
+    for name,value in dict(PARENT_HEAD=BASE,PARENT_TREE=BASE_TREE,PARENT_RUN=PARENT_RUN,PARENT_JOB=PARENT_JOB).items():
+        exact(literal(g,NS+'persistent_financial.py',name),value,'PERMANENT_EXACT_ACTUAL_PARENT_BINDING:'+name)
+    if HEAD is None:
+        exact(literal(g,NS+'persistent_financial.py','PARENT_RECEIPT'),None,'PREPARED_PERMANENT_PARENT_ADMISSION_CLOSED')
+        exact(len(allowed),56,'EXACT_UNARMED_PERMANENT56_OWN_PATHS')
+    fields(declaration,dict(owning_job_and_real_WIB_guard_minutes=360,
+        expected_parent_qualification='ROOT_VERIFIED_CURRENT_JOIN_RETAINED35_FRESH_S05_BROWSER2_ALL5',
+        retained_parent_case_credit_is_not_fresh=True),'HONEST_PARENT_REUSE_AND_ACTUAL_JOB_BUDGET')
     originals=list(literal(g,NS+'persistent_financial.py','ORIGINAL_IDS'))
     all_financial=list(literal(g,'scripts/current-s03-sku-native14-binding/retained-s03-f42e/cases.py','IDS'))
     require(len(originals)==4 and set(originals)<=set(all_financial),'PERMANENT_EXACT_FOUR_ORIGINAL_FINANCIAL_CALLBACKS')
@@ -45,7 +57,9 @@ def source(g):
     require(match is not None,'PERMANENT_EXPLICIT_BROWSER_IDS_REQUIRED')
     brows=ast.literal_eval(match.group(1));exact(len(brows),2,'PERMANENT_EXACT_TWO_BROWSER_IDS')
     exact(len(set(native+brows)),6,'PERMANENT_EXACT_SIX_UNIQUE_SOURCE_IDS')
-    return dict(source_pins=len(declaration['files']),own_paths=len(allowed),unchanged_base=14070,
+    return dict(source_pins=len(declaration['files']),own_paths=len(allowed),unchanged_base=14105,
+        expected_parent_head=BASE,expected_parent_run=PARENT_RUN,expected_parent_job=PARENT_JOB,
+        parent_root_acceptance_pending=HEAD is None,retained_parent_case_credit_is_not_fresh=True,
         native_ids=native,browser_ids=brows,source_manifest=pin(g.read(NS+'PREPARATION.json')),actual_case_credit=0)
 
 
@@ -121,14 +135,25 @@ def intake(root,path,metadata):
             database_owner_acl_and_settings_preserved=True),'PERMANENT_OUTER_RESTORE')
         graph=main['source_declaration']['current_installation'];maps=declared_files(g,graph)
         parent_raw=g.read(NS+'JOIN37_ROOT_ACTUAL_INTAKE.json');parent=strict(parent_raw)
-        fields(parent,dict(status='ROOT_VERIFIED_CURRENT_JOIN_NATIVE31_BROWSER6_ALL5',complete37_qualified=True,
-            package_all_five=True,prior_runs_aggregated=False),'PERMANENT_EXACT_QUALIFIED_PARENT37')
+        g.verify_pin(NS+'JOIN37_ROOT_ACTUAL_INTAKE.json',literal(g,NS+'persistent_financial.py','PARENT_RECEIPT'))
+        fields(parent,dict(status='ROOT_VERIFIED_CURRENT_JOIN_RETAINED35_FRESH_S05_BROWSER2_ALL5',
+            head=BASE,tree=BASE_TREE,run_id=PARENT_RUN,job_id=PARENT_JOB,complete37_qualified=True,
+            package_all_five=True,actual_Native_cases=0,actual_browser_cases=2,fresh_cases=2,
+            retained_Native_cases=31,retained_S03_browser_cases=4,retained_cases=35,
+            retained_cases_are_not_fresh=True,qualified_candidate_Native_coverage=31,
+            qualified_candidate_browser_coverage=6,candidate_case_coverage=37,fresh37_one_attempt=False,
+            prior_runs_aggregated=True,source_invariant_reuse=True,retained_original_run_conclusion='failure',
+            failed_run_relabelled_PASS=False,production_go=False,independent_acceptance=False),
+            'PERMANENT_EXACT_QUALIFIED_PARENT_RETAINED35_PLUS_FRESH2')
+        exact(pin(json.dumps(graph['financial_parent'],sort_keys=True,separators=(',',':')).encode()),
+            parent['qualified_financial_sources'],'PERMANENT_WHOLE_FINANCIAL_PARENT_EQUALS_ROOT_QUALIFIED_SOURCE')
         return dict(status='ROOT_VERIFIED_PERMANENT_S05_NATIVE4_BROWSER2_ALL5',head=HEAD,tree=TREE,
             run_id=RUN,job_id=JOB,artifact_id=metadata['artifact_id'],archive=dict(expected,members=len(names)),originals=pins,
             source_admission=admitted,actual_product_source_maps=maps,
             qualified_complete_sources=pin(json.dumps(graph,sort_keys=True,separators=(',',':')).encode()),
             qualified_parent37=dict(head=parent['head'],run_id=parent['run_id'],root_intake=pin(parent_raw)),
             actual_Native_cases=4,actual_browser_cases=2,complete6_qualified=True,package_all_five=True,
+            fresh6_one_attempt=True,parent_qualification_uses_retained35=True,
             runtime_supervision=supervised,
             prior_runs_aggregated=False,retained_join37_fresh_case_credit=0,reader_remains_installed=True,
             actual_used_refusal_raw_boundary=used,global_writer_or_permission_or_lock_closure=False,
