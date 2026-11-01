@@ -21,8 +21,8 @@ PARENT_HEAD=None
 PARENT_TREE=None
 PARENT_RUN=None
 PARENT_JOB=None
-PREPARED_HEAD='d5af3d05429cf280b44601e3bb3e88224ece24aa'
-PREPARED_TREE='e4da0273b1ee9bea27c1f087877d762fa6581bdc'
+PREPARED_HEAD='5c6daebe1184bffeb214a79c071d7ad081400d21'
+PREPARED_TREE='89c75f47cae6b019810007efb5c6b1d5fa34b629'
 PREPARED_BASE='fef0d838991df1ab3474382747ee3519d4c237eb'
 PREPARED_BASE_TREE='772cc0a80e1857bc03e6a544a39d5b5de3beb4c3'
 NS='scripts/current-de-free-date-preparation/'
@@ -67,6 +67,29 @@ def report_validator(g):
     return module,dict(selected_functions=[node.name for node in selected],
         exact_source=pin(g.read(NS+'final_gate.py')),actual_ERP_imports=0,actual_SQL_executed=0)
 
+
+def source_guard_derivation(g,origin):
+    guard=origin['source_preflight_origin']
+    fields(guard,dict(head='674a700096eab400e9b75700e4a2704f799d69b8',
+        path='scripts/current-complete-de-integration-preparation/source.py',bytes=4260,
+        sha256='8fcd679648b2cc0902562c39d00588594dbbf426ab8e40aabf2f4cbbde30dccb'),
+        'FREE3_EXACT_ORIGINAL_SOURCE_GUARD')
+    raw=g.read(guard['path'],guard['head']);exact(pin(raw),{k:guard[k]for k in('bytes','sha256')},
+        'FREE3_ORIGINAL_SOURCE_GUARD_BYTES')
+    text=raw.decode();exact(len(guard['changes']),12,'FREE3_SIX_ORIGINAL_AND_SIX_EXPLICIT_WORKFLOW_SOURCE_ROUTES')
+    for row in guard['changes']:
+        require(type(row['before'])is str and row['before']and type(row['after'])is str and row['after']
+            and type(row['count'])is int and row['count']>0,'FREE3_EXACT_TYPED_SOURCE_ROUTE')
+        exact(text.count(row['before']),row['count'],'FREE3_EXACT_SOURCE_GUARD_ROUTE_ANCHOR')
+        text=text.replace(row['before'],row['after'],row['count'])
+    exact(text.encode(),g.read(NS+'source.py'),'FREE3_ONLY_COUNTED_SOURCE_GUARD_CHANGES')
+    for row in reversed(guard['changes']):
+        exact(text.count(row['after']),row['count'],'FREE3_EXACT_SOURCE_ROUTE_REVERSE')
+        text=text.replace(row['after'],row['before'],row['count'])
+    exact(text.encode(),raw,'FREE3_ENTIRE_ORIGINAL_SOURCE_GUARD_RECOVERED')
+    exact(literal(g,NS+'source.py','WORKFLOW'),WORKFLOW,'FREE3_ONLY_THE_EXACT_WORKFLOW_PATH_ADMITTED')
+    return dict(original_source_guard=pin(raw),counted_source_routes=12,
+        entire_original_recovered=True,actual_case_credit=0)
 
 def source(g):
     base_head=PARENT_HEAD or PREPARED_BASE;base_tree=PARENT_TREE or PREPARED_BASE_TREE
@@ -119,10 +142,12 @@ def source(g):
             text=text.replace(change['before'],change['after'],change['count']);changes+=change['count']
         exact(text.encode(),g.read(name),'FREE3_ONLY_DECLARED_C43_PARENT_AND_CONTRACT_ROUTES:'+name)
     exact(changes,2,'FREE3_ONLY_TWO_DATE_STAGE_PARENT_AND_CONTRACT_ROUTES')
+    guard_source=source_guard_derivation(g,origin)
     _,validator=report_validator(g)
     return dict(source_pins=len(declaration['files']),own_paths=len(allowed),unchanged_base=len(base),
         Native_case_ids=IDS,original_C43_date_files=9,explicit_date_stage_routes=2,
         unchanged_Native_fixture_runner_sources=3,pure_report_validator=validator,
+        exact_reversible_source_guard_derivation=guard_source,
         source_manifest=pin(g.read(NS+'SOURCE.json')),actual_case_credit=0,
         parent_qualification_pending=PARENT_HEAD is None)
 

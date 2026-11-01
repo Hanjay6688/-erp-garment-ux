@@ -1,0 +1,156 @@
+{
+  "status": "AFUI_EXACT_ACTIVE_WORKFLOW_SOURCE_GUARD_PREPARED_NOT_QUALIFIED",
+  "head": "098dbd8769cbbf6f0502750a7c2a770959e02385",
+  "tree": "b40ea64ea4cdcaaa0f28fc6d32645e783c0b0121",
+  "local_same_tree_head": "f6761a788ed4193a0d79f2f7ab0239eba9422350",
+  "branch": "astra-a/afui-good-date-source-prepared-20261101",
+  "own_paths": 88,
+  "source_pins": 56,
+  "source_base_head": "10ac4e74cfcc66db7d1f2b166f3da0fc479f127b",
+  "all_five_actual_parent_bindings": null,
+  "workflow_activated": false,
+  "exact_workflow_exception_in_product_manifest_and_source_preflight_requires_actual_parent": true,
+  "requires_explicit_pin_exact_template_and_matching_parent_base": true,
+  "new_pure_tests": 3,
+  "new_pure_failures": 0,
+  "actual_static_qualification_entrypoint_and_workflow_source_fence": {
+    "bytes": 4665,
+    "sha256": "381926f79cd75503d1982a3e93b472b832a3d508684febf55e729e1f63c98806",
+    "result": {
+      "actual_entrypoint": {
+        "actual_Auth_HTTP_cases": 0,
+        "actual_Native_cases": 0,
+        "actual_SQL_executed": 0,
+        "actual_browser_cases": 0,
+        "actual_two_session_cases": 0,
+        "copy_authority": {
+          "actual_SQL_executed": 0,
+          "actual_case_credit": 0,
+          "all_raw22_authority_checks_unchanged": true,
+          "derived_sha256": "2f09aa3fee98e755e2c1267990f95abd67a4495c5f25f643056ea94aed0d4279",
+          "exact_copy_name_extension_count": 1,
+          "original_bytes": 3895,
+          "original_bytes_recovered": true,
+          "original_sha256": "cfdc3b899e335dd13a9456242ed5158b718ac5c56d9b1ebf06c4571eda2cc7a2",
+          "product_or_schema_or_RPC_grants_added": false
+        },
+        "independent_acceptance": false,
+        "production_go": false,
+        "source": {
+          "accepted_parent_bound": false,
+          "actual_Auth_HTTP_cases": 0,
+          "actual_Native_cases": 0,
+          "actual_SQL_executed": 0,
+          "actual_browser_cases": 0,
+          "base_head": "10ac4e74cfcc66db7d1f2b166f3da0fc479f127b",
+          "base_tree": "a0b0108113b9b4d43d57483f291383229a37d4ad",
+          "exact_counted_Native_derivations": 4,
+          "exact_counted_existing_UI_paths": 4,
+          "exact_settings_function_bodies": 6,
+          "independent_acceptance": false,
+          "new_UI_paths": 5,
+          "own_paths": 88,
+          "own_source_pins": 56,
+          "prepared_public_facade_functions": 2,
+          "production_go": false,
+          "status": "NONPAYABLE_SOURCE_ONLY_ADMITTED_PARENT_ACCEPTANCE_PENDING",
+          "unchanged_parent_paths": 14215
+        },
+        "status": "NONPAYABLE_STATIC_WHOLE_QUALIFIER_PREPARED_NOT_EXECUTED",
+        "whole_engine": {
+          "actual_SQL_executed": 0,
+          "actual_case_credit": 0,
+          "complete_original_engine_recovered": true,
+          "derived_sha256": "6a28293d5344a5bb8c50404f5c09e7578d5455a203646397a6d161242f5efc3b",
+          "exact_reversible_changes": 2,
+          "independent_acceptance": false,
+          "install_preuse_reinstall_used_backup_roles_all22_ALL_rows_ALL_sequences_CP6_advisors_Auth_package_checks_retained": true,
+          "original_bytes": 12667,
+          "original_sha256": "c420d894f8d5f16bddefeae73addb621507170f372a28e7d6e33d88c7eeb0be9",
+          "production_go": false
+        }
+      },
+      "workflow_source": {
+        "status": "AFUI15_WORKFLOW_DATA_ONLY_NOT_ACTIVATED",
+        "parent_derivation": {
+          "status": "FREE_DATE_NATIVE3_WORKFLOW_DATA_NOT_ACTIVATED",
+          "parent_derivation": {
+            "status": "DE30_WORKFLOW_DATA_ONLY_NOT_ACTIVATED",
+            "original_head": "a5944f25a5e3ba1f1f537a18abe923eb753f922f",
+            "original_path": ".github/workflows/cp7-final-s03-sku-s05.yml",
+            "original_bytes": 33918,
+            "original_sha256": "11d398b373b478f49c366cd611ab0cd67a9e2cc8361b7a49cdaa92cc116c8af5",
+            "unchanged_original_steps": 66,
+            "routed_original_steps": 7,
+            "new_pre_setup_real_clock_guards": 1,
+            "new_process_ownership_start_markers": 1,
+            "steps": 75,
+            "job_minutes": 360,
+            "original_policy_minutes": 210,
+            "runtime_dispatches": 0,
+            "actual_Native_cases": 0,
+            "production_go": false,
+            "independent_acceptance": false
+          },
+          "parent_template_sha256": "132407f34a650f5d20cafb819001d643c8bcd19357a324ce05fc25d04e773411",
+          "unchanged_parent_steps": 66,
+          "routed_parent_steps": 9,
+          "steps": 75,
+          "job_minutes": 360,
+          "real_clock_guard_unchanged": true,
+          "workflow_source_commit": "927ee03213a80e854fda30779d824c5c617644bd",
+          "workflow_source_is_not_actual_parent_acceptance": true,
+          "runtime_dispatches": 0,
+          "actual_Native_cases": 0,
+          "production_go": false,
+          "independent_acceptance": false
+        },
+        "parent_template_sha256": "a77b83f9a5430355fa517e1766a855fb7673b437f413bd77b8ee4d0602f23977",
+        "unchanged_parent_steps": 66,
+        "routed_parent_steps": 9,
+        "steps": 75,
+        "job_minutes": 360,
+        "monotonic_job_start_before_checkout": true,
+        "real_WIB_policy_unchanged": true,
+        "runtime_dispatches": 0,
+        "actual_ERP_cases": 0,
+        "production_go": false,
+        "independent_acceptance": false
+      },
+      "source_DB_guard": {
+        "attempts": [],
+        "self_controls": [
+          {
+            "api": "psycopg.connect",
+            "result": "DENIED_BEFORE_LIBPQ"
+          },
+          {
+            "api": "psycopg.Connection.connect",
+            "result": "DENIED_BEFORE_LIBPQ"
+          },
+          {
+            "api": "psycopg.AsyncConnection.connect",
+            "result": "DENIED_BEFORE_LIBPQ"
+          },
+          {
+            "original_connect_descriptors_restored": true
+          }
+        ],
+        "network_nonGit_attempts": [],
+        "public_source_sha256": "1439d70810383db377c48e043df7fb6d487a1b2f1a995e8993a2c08590f9f797"
+      },
+      "actual_ERP_cases": 0
+    }
+  },
+  "Root_all56pins88paths_and16_pure_validator_functions_source_check": true,
+  "composition_function_ASTs_unchanged_except_source_manifest": true,
+  "Native_SQL_economic_oracles_and_UI_unchanged": true,
+  "old_business_tests_not_rerun": true,
+  "shared_Git_shallow_fetch_conflict_handled_by_sequential_fetch_and_exact_public_object_before_Root_check": true,
+  "actual_ERP_cases": 0,
+  "actual_SQL_executed": 0,
+  "actual_Native_cases": 0,
+  "actual_browser_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}
