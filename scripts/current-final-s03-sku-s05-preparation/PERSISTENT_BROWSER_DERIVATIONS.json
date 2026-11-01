@@ -127,14 +127,14 @@
     },
     "persistent_browser_fixture.py": {
       "original_sha256": "850efdb3d1cc726118265bebf71bd208ae6324fc5af861c9a789b0de226c023d",
-      "derived_sha256": "6eca40b1f668cb6da9097d89e5959d858f644e453fc95f78613cedc3865d79b9",
-      "counted_change_groups": 2,
+      "derived_sha256": "71437d832dc536288c033f863e756d4326b7227b291693cdc1bcba60bbba6208",
+      "counted_change_groups": 3,
       "all_other_bytes_exact": true,
       "original_bytes_recovered": true,
       "source_commit": "1edd7b7fb6f7f02528cf09bcc352b72ea0e4a2c3",
       "source_path": "scripts/current-s03-sku-s05-composite-qualification/browser_fixture.py",
       "original_bytes": 4557,
-      "derived_bytes": 4574,
+      "derived_bytes": 4870,
       "changes": [
         {
           "before": "HERE/'source.py'",
@@ -144,6 +144,11 @@
         {
           "before": "S05_SKU_BROWSER_READER_STATE.json",
           "after": "S05_PERMANENT_BROWSER_READER_STATE.json",
+          "count": 1
+        },
+        {
+          "before": "    state = json.loads(state_raw)\n",
+          "after": "    state = json.loads(state_raw)\n    # This fixture runs in a fresh Python process. Rebind the frozen helper's\n    # catalog expectation from the exact reader state before its first use;\n    # the parent qualification process cannot share module globals with us.\n    helper.control.STATE = dict(installed_catalog=state['after'])\n",
           "count": 1
         }
       ],

@@ -1,0 +1,298 @@
+{
+  "status": "EXACT_BROWSER_ONLY_CALLER_SUCCESSOR_NOT_CASE_CREDIT",
+  "origin_head": "23e3e77d6dddd48a98d31c35822d637db2cee528",
+  "origin_tree": "0637e2f69fc24cd2a98260210e9c358222ae992b",
+  "financial_callback_source_changed": false,
+  "product_SQL_or_reader_changed": false,
+  "retained_Native_cases": 4,
+  "fresh_browser_cases": 2,
+  "actual_ERP_cases": 0,
+  "files": {
+    ".github/workflows/cp7-final-s03-sku-s05.yml": {
+      "original": {
+        "bytes": 34323,
+        "sha256": "8689ea2162fcae0f8d4e0caf31cb6cdced15cd628d5954e0243c5ecd58a5d7cf"
+      },
+      "derived": {
+        "bytes": 34335,
+        "sha256": "621b85f5ae559d720e32318c8df8cbad8b84d4b80cdd5010eb36bc0525598e22"
+      },
+      "changes": [
+        {
+          "before": "name: CP7 A permanent S05 on current S03 SKU Native4 browser2\n'on':\n  push:\n    branches:\n",
+          "after": "name: CP7 A permanent S05 retained financial4 fresh browser2\n'on':\n  push:\n    branches:\n",
+          "count": 1
+        },
+        {
+          "before": "  cancel-in-progress: false\njobs:\n  p21:\n    name: Permanent reader; unchanged financial4; real Auth normal App browser2; complete\n      restoration\n    runs-on: ubuntu-24.04\n    timeout-minutes: 360\n",
+          "after": "  cancel-in-progress: false\njobs:\n  p21:\n    name: Permanent reader; retained financial4; fresh real Auth App browser2; complete\n      restoration\n    runs-on: ubuntu-24.04\n    timeout-minutes: 360\n",
+          "count": 1
+        },
+        {
+          "before": "        \\ \\\\\\n  'postgresql://postgres:postgres@127.0.0.1:54322/cp6_rollback' \\\\\\n\\\n        \\  cp6_rollback supabase_db_cp5-local \\\"$RUNNER_TEMP/join-clone/CLONE_install\\\"\\\n        \\n\"\n    - name: Run actual permanent reader financial4 normal App browser2 and complete\n        outer restoration\n      working-directory: writer\n      run: 'python -u -B ''../auditor/scripts/current-final-s03-sku-s05-preparation/runtime_supervisor.py''\n",
+          "after": "        \\ \\\\\\n  'postgresql://postgres:postgres@127.0.0.1:54322/cp6_rollback' \\\\\\n\\\n        \\  cp6_rollback supabase_db_cp5-local \\\"$RUNNER_TEMP/join-clone/CLONE_install\\\"\\\n        \\n\"\n    - name: Run actual permanent reader retained financial4 fresh normal App browser2 and complete\n        outer restoration\n      working-directory: writer\n      run: 'python -u -B ''../auditor/scripts/current-final-s03-sku-s05-preparation/runtime_supervisor.py''\n",
+          "count": 1
+        }
+      ]
+    },
+    "scripts/current-final-s03-sku-s05-preparation/PERSISTENT_BROWSER_DERIVATIONS.json": {
+      "original": {
+        "bytes": 8892,
+        "sha256": "c736bc8977f93fd2cc47d4a8b0d6e6f5a6df9e2ed94e053a6c0632f550c6952f"
+      },
+      "derived": {
+        "bytes": 9351,
+        "sha256": "84a6374a42891eff8c6addda4aa79a53e995e2cecbb3536b9ae954100f61e215"
+      },
+      "changes": [
+        {
+          "before": "    },\n    \"persistent_browser_fixture.py\": {\n      \"original_sha256\": \"850efdb3d1cc726118265bebf71bd208ae6324fc5af861c9a789b0de226c023d\",\n      \"derived_sha256\": \"6eca40b1f668cb6da9097d89e5959d858f644e453fc95f78613cedc3865d79b9\",\n      \"counted_change_groups\": 2,\n      \"all_other_bytes_exact\": true,\n      \"original_bytes_recovered\": true,\n      \"source_commit\": \"1edd7b7fb6f7f02528cf09bcc352b72ea0e4a2c3\",\n      \"source_path\": \"scripts/current-s03-sku-s05-composite-qualification/browser_fixture.py\",\n      \"original_bytes\": 4557,\n      \"derived_bytes\": 4574,\n      \"changes\": [\n        {\n          \"before\": \"HERE/'source.py'\",\n",
+          "after": "    },\n    \"persistent_browser_fixture.py\": {\n      \"original_sha256\": \"850efdb3d1cc726118265bebf71bd208ae6324fc5af861c9a789b0de226c023d\",\n      \"derived_sha256\": \"71437d832dc536288c033f863e756d4326b7227b291693cdc1bcba60bbba6208\",\n      \"counted_change_groups\": 3,\n      \"all_other_bytes_exact\": true,\n      \"original_bytes_recovered\": true,\n      \"source_commit\": \"1edd7b7fb6f7f02528cf09bcc352b72ea0e4a2c3\",\n      \"source_path\": \"scripts/current-s03-sku-s05-composite-qualification/browser_fixture.py\",\n      \"original_bytes\": 4557,\n      \"derived_bytes\": 4870,\n      \"changes\": [\n        {\n          \"before\": \"HERE/'source.py'\",\n",
+          "count": 1
+        },
+        {
+          "before": "          \"before\": \"S05_SKU_BROWSER_READER_STATE.json\",\n          \"after\": \"S05_PERMANENT_BROWSER_READER_STATE.json\",\n          \"count\": 1\n        }\n      ],\n      \"actual_new_Native_cases\": 0,\n",
+          "after": "          \"before\": \"S05_SKU_BROWSER_READER_STATE.json\",\n          \"after\": \"S05_PERMANENT_BROWSER_READER_STATE.json\",\n          \"count\": 1\n        },\n        {\n          \"before\": \"    state = json.loads(state_raw)\\n\",\n          \"after\": \"    state = json.loads(state_raw)\\n    # This fixture runs in a fresh Python process. Rebind the frozen helper's\\n    # catalog expectation from the exact reader state before its first use;\\n    # the parent qualification process cannot share module globals with us.\\n    helper.control.STATE = dict(installed_catalog=state['after'])\\n\",\n          \"count\": 1\n        }\n      ],\n      \"actual_new_Native_cases\": 0,\n",
+          "count": 1
+        }
+      ]
+    },
+    "scripts/current-final-s03-sku-s05-preparation/PERSISTENT_BROWSER_SOURCE.json": {
+      "original": {
+        "bytes": 2912,
+        "sha256": "8adf6d792c5a81ea5b344eaed08f569b92af91c77d5a06c1976e0376b2802919"
+      },
+      "derived": {
+        "bytes": 2912,
+        "sha256": "8ba4759529a402c91a9addff9e2beb24b0a7a000a534900ab69f261e6558e2d7"
+      },
+      "changes": [
+        {
+          "before": "    \"PERMANENT_S05_SKU_NORMAL_APP_MOBILE390_UNKNOWN_ZERO_AND_CURRENT_ACCESS\"\n  ],\n  \"files\": {\n    \"scripts/current-final-s03-sku-s05-preparation/admission.py\": \"77594cf6445bdd9efa2a2759d556871c35b1e5c296654d75fa8a0a681ee60a43\",\n    \"scripts/current-final-s03-sku-s05-preparation/business_reader.py\": \"7418e5911669b7aa32eff324319176931a4ebf0ac85e560c7b615ad4468eda91\",\n    \"scripts/current-final-s03-sku-s05-preparation/component.py\": \"d971af03ac45a7d919e709773c2054594f2f4980a36b1f6e6a3b7ea93fdbe7a4\",\n    \"scripts/current-final-s03-sku-s05-preparation/controls.py\": \"9a7007fb5e2d1c3b96eada69b80496413c163f3c2925e2382a3cdcaff409e41f\",\n    \"scripts/current-final-s03-sku-s05-preparation/engine.py\": \"6a76f39582ae57635b6e8c70684d2459a68408393e71b3617c38d72e5415451c\",\n    \"scripts/current-final-s03-sku-s05-preparation/fetch_parent37.py\": \"96036d22842bc7e072699f8c17d2a254d5a0daa6106ea23e96af59c10dda10c8\",\n    \"scripts/current-final-s03-sku-s05-preparation/final_gate.py\": \"333dfa42f4971b14869a3bf02e58006320a4f8be706e1077c85b0ccc244f5a6a\",\n    \"scripts/current-final-s03-sku-s05-preparation/frozen_parent.py\": \"d179d2e9f36b1248f2f2d00736ad11391e703a1020390396ffe870e8edca857c\",\n    \"scripts/current-final-s03-sku-s05-preparation/parent_import.py\": \"e2d774f2699fababfef9d629dccf0a385cbb61231fa6b0373bb9badc4aff0d11\",\n    \"scripts/current-final-s03-sku-s05-preparation/persistent_browser.mjs\": \"92deacd23947796604a444a7fe0ed32304aa1c61288dc8d753775d69bc60110a\",\n    \"scripts/current-final-s03-sku-s05-preparation/persistent_browser_fixture.py\": \"6eca40b1f668cb6da9097d89e5959d858f644e453fc95f78613cedc3865d79b9\",\n    \"scripts/current-final-s03-sku-s05-preparation/persistent_browser_prepare.py\": \"fd3fab4c42acc4cf8233a3223291bf7155d2d3caaf8c34b89a877f516bd708c8\",\n    \"scripts/current-final-s03-sku-s05-preparation/persistent_financial.py\": \"5ac05941799fec2fdb5a7b15bb4e41985d1b6a657c58b2ce68df77076db3342a\",\n    \"scripts/current-final-s03-sku-s05-preparation/persistent_source.py\": \"1a9529270e5a2048d6cbcab5ee8b4a2c2895b5cb8d83d89132c09065fce85b68\",\n",
+          "after": "    \"PERMANENT_S05_SKU_NORMAL_APP_MOBILE390_UNKNOWN_ZERO_AND_CURRENT_ACCESS\"\n  ],\n  \"files\": {\n    \"scripts/current-final-s03-sku-s05-preparation/admission.py\": \"82658270baf82b934c6e7da023ffd6e7f628b2927a404ab1b72adf3867cb4d0c\",\n    \"scripts/current-final-s03-sku-s05-preparation/business_reader.py\": \"7418e5911669b7aa32eff324319176931a4ebf0ac85e560c7b615ad4468eda91\",\n    \"scripts/current-final-s03-sku-s05-preparation/component.py\": \"c17abe2a908dc7b2e7cf9f30c8e797e80e25b7de49d17c378ec85e80c8bad857\",\n    \"scripts/current-final-s03-sku-s05-preparation/controls.py\": \"51441db2350df7aa0ad4f56ad17b83d6be20c78170773b664655f1cb5585612d\",\n    \"scripts/current-final-s03-sku-s05-preparation/engine.py\": \"a436f7db004bee06a82545c33530e0dd019d23e7aeed8fcc9ca4f817f94b0111\",\n    \"scripts/current-final-s03-sku-s05-preparation/fetch_parent37.py\": \"7bcb163d3814a2403142b11f71f0e9c958247221fa81303670082a2dcb06c33f\",\n    \"scripts/current-final-s03-sku-s05-preparation/final_gate.py\": \"3293a5db4493df725c5ce7b25913abd529bc1ae7fc163ceca0272579d41e2a21\",\n    \"scripts/current-final-s03-sku-s05-preparation/frozen_parent.py\": \"d179d2e9f36b1248f2f2d00736ad11391e703a1020390396ffe870e8edca857c\",\n    \"scripts/current-final-s03-sku-s05-preparation/parent_import.py\": \"e2d774f2699fababfef9d629dccf0a385cbb61231fa6b0373bb9badc4aff0d11\",\n    \"scripts/current-final-s03-sku-s05-preparation/persistent_browser.mjs\": \"92deacd23947796604a444a7fe0ed32304aa1c61288dc8d753775d69bc60110a\",\n    \"scripts/current-final-s03-sku-s05-preparation/persistent_browser_fixture.py\": \"71437d832dc536288c033f863e756d4326b7227b291693cdc1bcba60bbba6208\",\n    \"scripts/current-final-s03-sku-s05-preparation/persistent_browser_prepare.py\": \"fd3fab4c42acc4cf8233a3223291bf7155d2d3caaf8c34b89a877f516bd708c8\",\n    \"scripts/current-final-s03-sku-s05-preparation/persistent_financial.py\": \"5ac05941799fec2fdb5a7b15bb4e41985d1b6a657c58b2ce68df77076db3342a\",\n    \"scripts/current-final-s03-sku-s05-preparation/persistent_source.py\": \"1a9529270e5a2048d6cbcab5ee8b4a2c2895b5cb8d83d89132c09065fce85b68\",\n",
+          "count": 1
+        }
+      ]
+    },
+    "scripts/current-final-s03-sku-s05-preparation/SUPERVISION_DERIVATIONS.json": {
+      "original": {
+        "bytes": 3746,
+        "sha256": "301486c72d2ca68b10c8b1345cfbaac5ab87d3c84191e9ca46f316e94ab515e9"
+      },
+      "derived": {
+        "bytes": 4559,
+        "sha256": "e586418edba644925039f9b51896296d1d84e71f86d823178f038d48d3ad5eb0"
+      },
+      "changes": [
+        {
+          "before": "      \"source_path\": \".github/workflows/cp7-final-s03-sku-s05.yml\",\n      \"original_bytes\": 33918,\n      \"original_sha256\": \"11d398b373b478f49c366cd611ab0cd67a9e2cc8361b7a49cdaa92cc116c8af5\",\n      \"derived_bytes\": 34323,\n      \"derived_sha256\": \"8689ea2162fcae0f8d4e0caf31cb6cdced15cd628d5954e0243c5ecd58a5d7cf\",\n      \"changes\": [\n        {\n          \"before\": \"  group: cp7-permanent-s05-${{ github.run_id }}\\n\",\n",
+          "after": "      \"source_path\": \".github/workflows/cp7-final-s03-sku-s05.yml\",\n      \"original_bytes\": 33918,\n      \"original_sha256\": \"11d398b373b478f49c366cd611ab0cd67a9e2cc8361b7a49cdaa92cc116c8af5\",\n      \"derived_bytes\": 34335,\n      \"derived_sha256\": \"621b85f5ae559d720e32318c8df8cbad8b84d4b80cdd5010eb36bc0525598e22\",\n      \"changes\": [\n        {\n          \"before\": \"  group: cp7-permanent-s05-${{ github.run_id }}\\n\",\n",
+          "count": 1
+        },
+        {
+          "before": "        {\n          \"before\": \"      run: if command -v supabase >/dev/null 2>&1 && test -d cp5-local; then supabase\\n        stop --workdir cp5-local --no-backup; fi\\n\",\n          \"after\": \"      run: |\\n        python -B ../auditor/scripts/current-final-s03-sku-s05-preparation/runtime_supervisor.py --allow-database-stop\\n        if command -v supabase >/dev/null 2>&1 && test -d cp5-local; then supabase stop --workdir cp5-local --no-backup; fi\\n\",\n          \"count\": 1\n        }\n      ]\n",
+          "after": "        {\n          \"before\": \"      run: if command -v supabase >/dev/null 2>&1 && test -d cp5-local; then supabase\\n        stop --workdir cp5-local --no-backup; fi\\n\",\n          \"after\": \"      run: |\\n        python -B ../auditor/scripts/current-final-s03-sku-s05-preparation/runtime_supervisor.py --allow-database-stop\\n        if command -v supabase >/dev/null 2>&1 && test -d cp5-local; then supabase stop --workdir cp5-local --no-backup; fi\\n\",\n          \"count\": 1\n        },\n        {\n          \"before\": \"name: CP7 A permanent S05 on current S03 SKU Native4 browser2\",\n          \"after\": \"name: CP7 A permanent S05 retained financial4 fresh browser2\",\n          \"count\": 1\n        },\n        {\n          \"before\": \"    name: Permanent reader; unchanged financial4; real Auth normal App browser2; complete\\n      restoration\",\n          \"after\": \"    name: Permanent reader; retained financial4; fresh real Auth App browser2; complete\\n      restoration\",\n          \"count\": 1\n        },\n        {\n          \"before\": \"Run actual permanent reader financial4 normal App browser2 and complete\\n        outer restoration\",\n          \"after\": \"Run actual permanent reader retained financial4 fresh normal App browser2 and complete\\n        outer restoration\",\n          \"count\": 1\n        }\n      ]\n",
+          "count": 1
+        }
+      ]
+    },
+    "scripts/current-final-s03-sku-s05-preparation/WORKFLOW_DERIVATION.json": {
+      "original": {
+        "bytes": 3265,
+        "sha256": "02bab700e269cc768337ad03d2cab8b888eba9cd1adec82e524bd6c76839dc15"
+      },
+      "derived": {
+        "bytes": 3335,
+        "sha256": "6061aaa11b8ceef6a7d4e69b5d812d06a3e9f452f9e79ed7bf3407e956586810"
+      },
+      "changes": [
+        {
+          "before": "    69,\n    71\n  ],\n  \"parent_root_intake_pending\": true,\n  \"actual_new_Native_cases\": 0,\n  \"actual_browser_cases\": 0,\n  \"production_go\": false,\n",
+          "after": "    69,\n    71\n  ],\n  \"parent_root_intake_pending\": false,\n  \"actual_new_Native_cases\": 0,\n  \"actual_browser_cases\": 0,\n  \"production_go\": false,\n",
+          "count": 1
+        },
+        {
+          "before": "    \"full_owning_pre_DB_and_runtime_WIB_guard_minutes\": 360,\n    \"private_policy\": \"scripts/current-final-s03-sku-s05-preparation/attempt_policy.py\",\n    \"all_actual_business_day_checks_and_single_attempt_unchanged\": true,\n    \"fresh_Native_cases\": 4,\n    \"fresh_browser_cases\": 2,\n    \"browser_case_timeout_minutes\": 10,\n    \"source_install_restore_or_financial_checks_removed\": 0\n  },\n  \"supervision_derivation\": \"SUPERVISION_DERIVATIONS.json\",\n  \"unchanged_step_indices_apply_to\": \"Reconstructed prior permanent workflow before the exact five supervision changes\"\n",
+          "after": "    \"full_owning_pre_DB_and_runtime_WIB_guard_minutes\": 360,\n    \"private_policy\": \"scripts/current-final-s03-sku-s05-preparation/attempt_policy.py\",\n    \"all_actual_business_day_checks_and_single_attempt_unchanged\": true,\n    \"fresh_Native_cases\": 0,\n    \"fresh_browser_cases\": 2,\n    \"browser_case_timeout_minutes\": 10,\n    \"source_install_restore_or_financial_checks_removed\": 0,\n    \"retained_Native_cases\": 4,\n    \"financial_groups_rerun\": false\n  },\n  \"supervision_derivation\": \"SUPERVISION_DERIVATIONS.json\",\n  \"unchanged_step_indices_apply_to\": \"Reconstructed prior permanent workflow before the exact five supervision changes\"\n",
+          "count": 1
+        }
+      ]
+    },
+    "scripts/current-final-s03-sku-s05-preparation/admission.py": {
+      "original": {
+        "bytes": 4199,
+        "sha256": "77594cf6445bdd9efa2a2759d556871c35b1e5c296654d75fa8a0a681ee60a43"
+      },
+      "derived": {
+        "bytes": 4401,
+        "sha256": "82658270baf82b934c6e7da023ffd6e7f628b2927a404ab1b72adf3867cb4d0c"
+      },
+      "changes": [
+        {
+          "before": "def admitted():\n    source=load('permanent_closed_whole_source_before_ERP',HERE/'persistent_source.py').preflight()\n    receipt=joined37()\n    backend=load('permanent_physical_SKU_before_current_composition',HERE/'frozen_parent.py').admitted()\n    with import_scope():\n        vendor=importlib.import_module('cp7_vendor_receivable.composition')\n",
+          "after": "def admitted():\n    source=load('permanent_closed_whole_source_before_ERP',HERE/'persistent_source.py').preflight()\n    receipt=joined37()\n    retained=load('permanent_actual_retained_financial4_before_ERP',HERE/'retained4.py')\n    retained.receipt()\n    backend=load('permanent_physical_SKU_before_current_composition',HERE/'frozen_parent.py').admitted()\n    with import_scope():\n        vendor=importlib.import_module('cp7_vendor_receivable.composition')\n",
+          "count": 1
+        },
+        {
+          "before": "        if(actual_complete['financial_parent']!=current_financial\n           or actual_complete['reader']['parent']!=current_financial):\n            raise ValueError('PERMANENT_S05_COMPLETE_READER_PARENT_SOURCE_CHANGED')\n    return dict(status='ACTUAL_JOIN37_AND_COMPLETE_PERMANENT_S05_SOURCE_ADMITTED',\n        current_source=source,current_installation=actual_complete,qualified_financial_installation=current_financial,\n        qualified_join37=receipt,retained_parent_chain_bound_by_entire_actual_join37_source=True,\n        physical_qualified_SKU_backend=backend,qualified_SKU_current_installation=actual_sku,\n",
+          "after": "        if(actual_complete['financial_parent']!=current_financial\n           or actual_complete['reader']['parent']!=current_financial):\n            raise ValueError('PERMANENT_S05_COMPLETE_READER_PARENT_SOURCE_CHANGED')\n    reuse=retained.invariant_sources(actual_complete)\n    return dict(status='ACTUAL_JOIN37_AND_COMPLETE_PERMANENT_S05_SOURCE_ADMITTED',retained_permanent_financial4=reuse,\n        current_source=source,current_installation=actual_complete,qualified_financial_installation=current_financial,\n        qualified_join37=receipt,retained_parent_chain_bound_by_entire_actual_join37_source=True,\n        physical_qualified_SKU_backend=backend,qualified_SKU_current_installation=actual_sku,\n",
+          "count": 1
+        }
+      ]
+    },
+    "scripts/current-final-s03-sku-s05-preparation/component.py": {
+      "original": {
+        "bytes": 7057,
+        "sha256": "d971af03ac45a7d919e709773c2054594f2f4980a36b1f6e6a3b7ea93fdbe7a4"
+      },
+      "derived": {
+        "bytes": 7267,
+        "sha256": "c17abe2a908dc7b2e7cf9f30c8e797e80e25b7de49d17c378ec85e80c8bad857"
+      },
+      "changes": [
+        {
+          "before": "\"\"\"Actual permanent-reader delta: financial4, committed Native use, browser2.\"\"\"\nfrom pathlib import Path\nimport importlib.util,os\n\n",
+          "after": "\"\"\"Retain actual unchanged financial4; run only missing browser2 and full restore.\"\"\"\nfrom pathlib import Path\nimport importlib.util,os\n\n",
+          "count": 1
+        },
+        {
+          "before": "    metadata=load('permanent_owning_readonly_system_metadata',HERE/'system_metadata.py')\n    with notes.phase('PERMANENT_READONLY_METADATA_BEFORE_NATIVE'):\n        report['read_only_system_metadata_before_native']=metadata.capture_pair(url,raw_receipt)\n    first=report['fresh_permanent_financial4']=dict(status='INCOMPLETE')\n    with notes.phase('PERMANENT_NATIVE4'):\n        load('permanent_four_original_financial_cases',HERE/'persistent_financial.py').exercise(\n            conn,cur,database,url,first,state,raw_parent_receipt=raw_receipt)\n    if first.get('status')!='PASS'or first.get('actual_Native_cases')!=4:\n        raise ValueError('PERMANENT_S05_ACTUAL_FINANCIAL4_REQUIRED')\n    witness=report['separate_committed_Native_use']=dict(status='INCOMPLETE')\n    with notes.phase('PERMANENT_NATIVE_COMMITTED_WITNESS_ZERO_CASE_CREDIT'):\n        committed_use(url,state,raw_receipt,witness)\n",
+          "after": "    metadata=load('permanent_owning_readonly_system_metadata',HERE/'system_metadata.py')\n    with notes.phase('PERMANENT_READONLY_METADATA_BEFORE_NATIVE'):\n        report['read_only_system_metadata_before_native']=metadata.capture_pair(url,raw_receipt)\n    retained=load('permanent_keep_actual_financial4_without_rerun',HERE/'retained4.py')\n    report['retained_permanent_financial4']=retained.invariant_sources(state['sources'])\n    report['retained4_original_admission']=retained.original_admission()\n    # The omitted strict group used to release this owning source connection.\n    # Release our own connection before the real witness and template copy.\n    report['source_connection_release']=retained.release_source(conn,cur)\n    witness=report['separate_committed_Native_use']=dict(status='INCOMPLETE')\n    with notes.phase('PERMANENT_NATIVE_COMMITTED_WITNESS_ZERO_CASE_CREDIT'):\n        committed_use(url,state,raw_receipt,witness)\n",
+          "count": 1
+        },
+        {
+          "before": "        raise ValueError('PERMANENT_S05_ACTUAL_NORMAL_APP_BROWSER2_REQUIRED')\n    with notes.phase('PERMANENT_READONLY_METADATA_AFTER_NATIVE_BROWSER'):\n        report['read_only_system_metadata_after_native_and_browser']=metadata.capture_pair(url,raw_receipt)\n    groups=(first['native']['cases'],second['browser']['cases'])\n    cases={key:dict(status=row['status'])for group in groups for key,row in group.items()}\n    if len(cases)!=6 or sum(map(len,groups))!=6 or any(row['status']!='PASS'for row in cases.values()):\n        raise ValueError('PERMANENT_S05_EXACT_SIX_FRESH_DELTA_CASES_REQUIRED')\n    report.update(status='PASS',business_cases=cases,business_counts={'PASS':6},actual_Native_cases=4,\n        actual_browser_cases=2,actual_Auth_HTTP_cases=0,actual_two_session_races=0,\n        used_guard_refused_before_DDL=True,retained_join37_fresh_case_credit=0,\n        global_writer_or_permission_or_lock_closure=False,Afui_positive_HPP_zero_reimbursement_coverage=False,\n",
+          "after": "        raise ValueError('PERMANENT_S05_ACTUAL_NORMAL_APP_BROWSER2_REQUIRED')\n    with notes.phase('PERMANENT_READONLY_METADATA_AFTER_NATIVE_BROWSER'):\n        report['read_only_system_metadata_after_native_and_browser']=metadata.capture_pair(url,raw_receipt)\n    cases={key:dict(status=row['status'])for key,row in second['browser']['cases'].items()}\n    if set(cases)!=set(report['retained_permanent_financial4']['missing_case_ids'])or any(row['status']!='PASS'for row in cases.values()):\n        raise ValueError('PERMANENT_S05_EXACT_TWO_MISSING_BROWSER_CASES_REQUIRED')\n    report.update(status='PASS',business_cases=cases,business_counts={'PASS':2},actual_Native_cases=0,\n        retained_Native_cases=4,retained_cases_are_not_fresh=True,candidate_case_coverage=6,\n        financial_groups_rerun=False,source_invariant_reuse=True,prior_runs_aggregated=True,\n        actual_browser_cases=2,actual_Auth_HTTP_cases=0,actual_two_session_races=0,\n        used_guard_refused_before_DDL=True,retained_join37_fresh_case_credit=0,\n        global_writer_or_permission_or_lock_closure=False,Afui_positive_HPP_zero_reimbursement_coverage=False,\n",
+          "count": 1
+        }
+      ]
+    },
+    "scripts/current-final-s03-sku-s05-preparation/controls.py": {
+      "original": {
+        "bytes": 9698,
+        "sha256": "9a7007fb5e2d1c3b96eada69b80496413c163f3c2925e2382a3cdcaff409e41f"
+      },
+      "derived": {
+        "bytes": 10968,
+        "sha256": "51441db2350df7aa0ad4f56ad17b83d6be20c78170773b664655f1cb5585612d"
+      },
+      "changes": [
+        {
+          "before": "BROWSER_BINDING_ORIGINAL=(2912,'651571e5d8e422d2090fc9b45a8710a35308f42cc4812ce4046a6c9d7e47ceff')\nBROWSER_ROUTED=frozenset('scripts/current-final-s03-sku-s05-preparation/'+n for n in(\n    'admission.py','component.py','controls.py','fetch_parent37.py','final_gate.py',\n    'persistent_financial.py','persistent_source.py','probe.py'))\n\ndef browser_binding(original,current,inputs):\n    \"\"\"Only eight declared current caller pins; recover every original byte.\"\"\"\n    if(len(original),sha256(original).hexdigest())!=BROWSER_BINDING_ORIGINAL:\n        raise ValueError('PERMANENT_EXACT_ORIGINAL_BROWSER_MANIFEST_REQUIRED')\n    before=json.loads(original);after=json.loads(current)\n",
+          "after": "BROWSER_BINDING_ORIGINAL=(2912,'651571e5d8e422d2090fc9b45a8710a35308f42cc4812ce4046a6c9d7e47ceff')\nBROWSER_ROUTED=frozenset('scripts/current-final-s03-sku-s05-preparation/'+n for n in(\n    'admission.py','component.py','controls.py','fetch_parent37.py','final_gate.py',\n    'persistent_financial.py','persistent_source.py','probe.py','engine.py'))\nBROWSER_OBSERVER='scripts/current-final-s03-sku-s05-preparation/persistent_browser_fixture.py'\n\ndef browser_binding(original,current,inputs):\n    \"\"\"Nine caller pins and one exact observer initialization; recover all bytes.\"\"\"\n    if(len(original),sha256(original).hexdigest())!=BROWSER_BINDING_ORIGINAL:\n        raise ValueError('PERMANENT_EXACT_ORIGINAL_BROWSER_MANIFEST_REQUIRED')\n    before=json.loads(original);after=json.loads(current)\n",
+          "count": 1
+        },
+        {
+          "before": "    text=original.decode();changes=[]\n    for name,old in before['files'].items():\n        actual=sha256(inputs[name]).hexdigest()\n        expected=actual if name in BROWSER_ROUTED else old\n        if after['files'][name]!=expected or actual!=expected:\n            raise ValueError('PERMANENT_BROWSER_UNDECLARED_OR_STALE_CURRENT_SOURCE:'+name)\n        if name in BROWSER_ROUTED:\n            a=json.dumps(name)+': '+json.dumps(old);b=json.dumps(name)+': '+json.dumps(actual)\n            if text.count(a)!=1:raise ValueError('PERMANENT_BROWSER_ONE_CURRENT_SOURCE_PIN_REQUIRED')\n            text=text.replace(a,b,1);changes.append((a,b))\n",
+          "after": "    text=original.decode();changes=[]\n    for name,old in before['files'].items():\n        actual=sha256(inputs[name]).hexdigest()\n        expected=actual if name in BROWSER_ROUTED or name==BROWSER_OBSERVER else old\n        if after['files'][name]!=expected or actual!=expected:\n            raise ValueError('PERMANENT_BROWSER_UNDECLARED_OR_STALE_CURRENT_SOURCE:'+name)\n        if name==BROWSER_OBSERVER:\n            anchor=\"    state = json.loads(state_raw)\\n\"\n            initialization=(\"    # This fixture runs in a fresh Python process. Rebind the frozen helper's\\n\"\n                \"    # catalog expectation from the exact reader state before its first use;\\n\"\n                \"    # the parent qualification process cannot share module globals with us.\\n\"\n                \"    helper.control.STATE = dict(installed_catalog=state['after'])\\n\")\n            text_input=inputs[name].decode()\n            if text_input.count(anchor+initialization)!=1:\n                raise ValueError('PERMANENT_EXACT_HASH_BOUND_OBSERVER_INITIALIZATION_REQUIRED')\n            original_input=text_input.replace(anchor+initialization,anchor,1).encode()\n            if sha256(original_input).hexdigest()!=old:\n                raise ValueError('PERMANENT_OBSERVER_ONLY_ORIGINAL_INITIALIZATION_ROUTE_ALLOWED')\n        if name in BROWSER_ROUTED or name==BROWSER_OBSERVER:\n            a=json.dumps(name)+': '+json.dumps(old);b=json.dumps(name)+': '+json.dumps(actual)\n            if text.count(a)!=1:raise ValueError('PERMANENT_BROWSER_ONE_CURRENT_SOURCE_PIN_REQUIRED')\n            text=text.replace(a,b,1);changes.append((a,b))\n",
+          "count": 1
+        },
+        {
+          "before": "        text=text.replace(b,a,1)\n    if text.encode()!=original:raise ValueError('PERMANENT_BROWSER_ORIGINAL_MANIFEST_NOT_RECOVERED')\n    return dict(status='EXACT_CURRENT_PERMANENT_BROWSER_BINDING',current_inputs=19,\n        explicitly_routed_current_caller_pins=8,unchanged_browser_UI_and_fixture_inputs=11,\n        complete_original_manifest_recovered=True,actual_ERP_cases=0,production_go=False)\n\ndef current_browser_binding():\n",
+          "after": "        text=text.replace(b,a,1)\n    if text.encode()!=original:raise ValueError('PERMANENT_BROWSER_ORIGINAL_MANIFEST_NOT_RECOVERED')\n    return dict(status='EXACT_CURRENT_PERMANENT_BROWSER_BINDING',current_inputs=19,\n        explicitly_routed_current_caller_pins=9,exact_observer_initialization_routes=1,\n        unchanged_browser_UI_and_fixture_inputs=9,\n        complete_original_manifest_recovered=True,actual_ERP_cases=0,production_go=False)\n\ndef current_browser_binding():\n",
+          "count": 1
+        },
+        {
+          "before": "\ndef controls():\n    current_browser=current_browser_binding()\n    policy_record=json.loads((HERE/'ATTEMPT_POLICY_DERIVATION.json').read_bytes())\n    original_policy=subprocess.check_output(['/usr/bin/git','-C',str(ROOT),'show',\n        policy_record['source_commit']+':'+policy_record['source_path']])\n",
+          "after": "\ndef controls():\n    current_browser=current_browser_binding()\n    focused_routes=load('permanent_exact_focused_caller_routes',HERE/'retained4.py').routes()\n    policy_record=json.loads((HERE/'ATTEMPT_POLICY_DERIVATION.json').read_bytes())\n    original_policy=subprocess.check_output(['/usr/bin/git','-C',str(ROOT),'show',\n        policy_record['source_commit']+':'+policy_record['source_path']])\n",
+          "count": 1
+        },
+        {
+          "before": "    if runtime['working-directory']!='writer'or 'final_gate.py'not in runtime['run']:\n        raise ValueError('PERMANENT_S05_EXACT_OWNING_PACKAGE_CWD_AND_FINAL_GATE_REQUIRED')\n    return dict(status='PERMANENT_READER_SOURCE_AND_CALLER_CONTROLS_PASS_NOT_NATIVE',\n        current_browser_source_binding=current_browser,\n        complete_unchanged_browser_source_derivations=len(declaration['files']),\n        unchanged_financial_callback_ASTs=financial['original_financial_callback_ASTs_unchanged'],\n        selected_persistent_financial_cases=4,complete_package_engine=engine_proof,\n",
+          "after": "    if runtime['working-directory']!='writer'or 'final_gate.py'not in runtime['run']:\n        raise ValueError('PERMANENT_S05_EXACT_OWNING_PACKAGE_CWD_AND_FINAL_GATE_REQUIRED')\n    return dict(status='PERMANENT_READER_SOURCE_AND_CALLER_CONTROLS_PASS_NOT_NATIVE',\n        current_browser_source_binding=current_browser,focused_browser_only_routes=focused_routes,\n        complete_unchanged_browser_source_derivations=len(declaration['files']),\n        unchanged_financial_callback_ASTs=financial['original_financial_callback_ASTs_unchanged'],\n        selected_persistent_financial_cases=4,complete_package_engine=engine_proof,\n",
+          "count": 1
+        }
+      ]
+    },
+    "scripts/current-final-s03-sku-s05-preparation/engine.py": {
+      "original": {
+        "bytes": 2050,
+        "sha256": "6a76f39582ae57635b6e8c70684d2459a68408393e71b3617c38d72e5415451c"
+      },
+      "derived": {
+        "bytes": 2350,
+        "sha256": "a436f7db004bee06a82545c33530e0dd019d23e7aeed8fcc9ca4f817f94b0111"
+      },
+      "changes": [
+        {
+          "before": "            report['actual_business_cases']=11\n            report['real_Auth_HTTP_qualified']=True\"\"\"\nCOUNTS_AFTER=\"\"\"report['actual_two_session_races']=0\n            report['actual_Native_cases']=4\n            report['actual_Auth_HTTP_cases']=0\n            report['actual_browser_cases']=2\n            report['actual_business_cases']=6\n            report['retained_join37_fresh_case_credit']=0\n            report['real_Auth_HTTP_qualified']=False\n            report['real_Auth_browser_claim']=True\"\"\"\n",
+          "after": "            report['actual_business_cases']=11\n            report['real_Auth_HTTP_qualified']=True\"\"\"\nCOUNTS_AFTER=\"\"\"report['actual_two_session_races']=0\n            report['actual_Native_cases']=0\n            report['actual_Auth_HTTP_cases']=0\n            report['actual_browser_cases']=2\n            report['actual_business_cases']=2\n            report['retained_Native_cases']=4\n            report['retained_cases_are_not_fresh']=True\n            report['candidate_case_coverage']=6\n            report['financial_groups_rerun']=False\n            report['source_invariant_reuse']=True\n            report['prior_runs_aggregated']=True\n            report['retained_join37_fresh_case_credit']=0\n            report['real_Auth_HTTP_qualified']=False\n            report['real_Auth_browser_claim']=True\"\"\"\n",
+          "count": 1
+        }
+      ]
+    },
+    "scripts/current-final-s03-sku-s05-preparation/fetch_parent37.py": {
+      "original": {
+        "bytes": 4752,
+        "sha256": "96036d22842bc7e072699f8c17d2a254d5a0daa6106ea23e96af59c10dda10c8"
+      },
+      "derived": {
+        "bytes": 4858,
+        "sha256": "7bcb163d3814a2403142b11f71f0e9c958247221fa81303670082a2dcb06c33f"
+      },
+      "changes": [
+        {
+          "before": "    out.write_text(json.dumps(result,indent=2)+'\\n');print(json.dumps(result))\n\n\nif __name__=='__main__':main()\n",
+          "after": "    out.write_text(json.dumps(result,indent=2)+'\\n');print(json.dumps(result))\n\n\nif __name__=='__main__':\n    main()\n    load('permanent_retained_financial4_originals_before_database',HERE/'fetch_retained4.py').main()\n",
+          "count": 1
+        }
+      ]
+    },
+    "scripts/current-final-s03-sku-s05-preparation/final_gate.py": {
+      "original": {
+        "bytes": 5551,
+        "sha256": "333dfa42f4971b14869a3bf02e58006320a4f8be706e1077c85b0ccc244f5a6a"
+      },
+      "derived": {
+        "bytes": 6370,
+        "sha256": "3293a5db4493df725c5ce7b25913abd529bc1ae7fc163ceca0272579d41e2a21"
+      },
+      "changes": [
+        {
+          "before": "        head,package['run_identity']['run_id'])\n    backup=p.strict((directory/'T3_BACKUP_RESTORE_DRILL.json').read_bytes())\n    p.fields(main,dict(status='PASS',qualification_commit=head,required_case_ids_pass=True,\n        actual_Native_cases=4,actual_browser_cases=2,actual_business_cases=6,\n        actual_Auth_HTTP_cases=0,actual_two_session_races=0,retained_join37_fresh_case_credit=0,\n        baseline_full22_all_rows_all_sequences_equal=True,restore_raw_public_equal=True,cp6_restored=True,\n        baseline_advisors_equal=True,advisor_gate=True,used_guard_refused_before_DDL=True,\n        production_go=False,independent_acceptance=False),'ACTUAL_PERMANENT_DELTA_AND_COMPLETE_RESTORE')\n    p.exact(set(main['committed']),{CASE},'ONE_ACTUAL_PERMANENT_DELTA')\n    part=main['committed'][CASE]\n    p.fields(part,dict(status='PASS',business_counts={'PASS':6},actual_Native_cases=4,actual_browser_cases=2,\n        retained_join37_fresh_case_credit=0,permanent_reader_remains_installed=True,\n        global_writer_or_permission_or_lock_closure=False,Afui_positive_HPP_zero_reimbursement_coverage=False),\n        'PERMANENT_DELTA_NO_RETAINED_OR_UNPROVEN_FRESH_CREDIT')\n    if len(part['business_cases'])!=6 or any(row['status']!='PASS'for row in part['business_cases'].values()):\n        raise ValueError('PERMANENT_S05_SIX_UNIQUE_FRESH_CASES_REQUIRED')\n    witness=part['separate_committed_Native_use']\n    p.fields(witness,dict(status='NATIVE_BUSINESS_COMMITTED',Native_case_credit=0,\n        used_inverse_guard_refused_before_DDL=True,reader_remains_installed=True),'ACTUAL_COMMITTED_USE_NOT_A_TEST_ROW')\n    p.exact(witness['before'],witness['after'],'ACTUAL_USED_REFUSAL_ALL22_ROWS_AND_ALL_SEQUENCES')\n    if len(witness['before']['actual_all22'])!=22:\n        raise ValueError('PERMANENT_S05_COMPLETE_RAW_ALL22_REQUIRED')\n    native=part['fresh_permanent_financial4']['native']\n    p.fields(native,dict(status='PASS',counts={'PASS':4},complete_boundary_restored=True),'ACTUAL_NATIVE4')\n    for row in native['cases'].values():\n        p.fields(row,dict(status='PASS',full_boundary_restored=True,public_schema_unchanged=True),'ACTUAL_STRICT_FINANCIAL_CASE')\n        read=row['permanent_S05_read']\n        p.fields(read,dict(status='PASS',reader_remained_installed=True,business_DML=False,all_fields_retained=True),'ACTUAL_PERSISTENT_PUBLIC_READ')\n        p.exact(read['before'],read['after'],'EVERY_PERSISTENT_READ_ALL22_ROWS_AND_ALL_SEQUENCES')\n    browser=part['fresh_permanent_browser2']['browser']\n    p.fields(browser,dict(status='RUN_COMPLETE',counts={'PASS':2},real_auth=True,jwt_signed_by_runtime=False,\n        host_exit=0,host_status='RUN_COMPLETE',console_errors=0,database_remaining=0,\n",
+          "after": "        head,package['run_identity']['run_id'])\n    backup=p.strict((directory/'T3_BACKUP_RESTORE_DRILL.json').read_bytes())\n    p.fields(main,dict(status='PASS',qualification_commit=head,required_case_ids_pass=True,\n        actual_Native_cases=0,actual_browser_cases=2,actual_business_cases=2,\n        retained_Native_cases=4,retained_cases_are_not_fresh=True,candidate_case_coverage=6,\n        financial_groups_rerun=False,source_invariant_reuse=True,prior_runs_aggregated=True,\n        actual_Auth_HTTP_cases=0,actual_two_session_races=0,retained_join37_fresh_case_credit=0,\n        baseline_full22_all_rows_all_sequences_equal=True,restore_raw_public_equal=True,cp6_restored=True,\n        baseline_advisors_equal=True,advisor_gate=True,used_guard_refused_before_DDL=True,\n        production_go=False,independent_acceptance=False),'ACTUAL_PERMANENT_DELTA_AND_COMPLETE_RESTORE')\n    p.exact(set(main['committed']),{CASE},'ONE_ACTUAL_PERMANENT_DELTA')\n    part=main['committed'][CASE]\n    p.fields(part,dict(status='PASS',business_counts={'PASS':2},actual_Native_cases=0,actual_browser_cases=2,\n        retained_Native_cases=4,retained_cases_are_not_fresh=True,candidate_case_coverage=6,\n        financial_groups_rerun=False,source_invariant_reuse=True,prior_runs_aggregated=True,\n        retained_join37_fresh_case_credit=0,permanent_reader_remains_installed=True,\n        global_writer_or_permission_or_lock_closure=False,Afui_positive_HPP_zero_reimbursement_coverage=False),\n        'PERMANENT_DELTA_NO_RETAINED_OR_UNPROVEN_FRESH_CREDIT')\n    spec=importlib.util.spec_from_file_location('permanent_exact_retained4_final_gate',HERE/'retained4.py')\n    retained=importlib.util.module_from_spec(spec);spec.loader.exec_module(retained)\n    reuse=retained.invariant_sources(main['source_declaration']['current_installation'])\n    p.exact(part['retained_permanent_financial4'],reuse,'ACTUAL_ROOT_RETAINED4_AND_WHOLE_CURRENT_SOURCE_IDENTITY')\n    p.exact(part['retained4_original_admission'],retained.original_admission(),'ACTUAL_FAILED_ORIGINAL_ARCHIVE_ADMITTED_BEFORE_DB')\n    p.exact(set(part['business_cases']),set(reuse['missing_case_ids']),'ONLY_TWO_MISSING_BROWSER_CASES_RUN')\n    if any(row['status']!='PASS'for row in part['business_cases'].values()):\n        raise ValueError('PERMANENT_S05_TWO_FRESH_BROWSER_CASES_REQUIRED')\n    p.fields(part['source_connection_release'],dict(cursor_closed=True,connection_closed=True,foreign_backends_terminated=0),\n        'OWN_SOURCE_CONNECTION_RELEASED_WITHOUT_TOUCHING_FOREIGN_BACKENDS')\n    witness=part['separate_committed_Native_use']\n    p.fields(witness,dict(status='NATIVE_BUSINESS_COMMITTED',Native_case_credit=0,\n        used_inverse_guard_refused_before_DDL=True,reader_remains_installed=True),'ACTUAL_COMMITTED_USE_NOT_A_TEST_ROW')\n    p.exact(witness['before'],witness['after'],'ACTUAL_USED_REFUSAL_ALL22_ROWS_AND_ALL_SEQUENCES')\n    if len(witness['before']['actual_all22'])!=22:\n        raise ValueError('PERMANENT_S05_COMPLETE_RAW_ALL22_REQUIRED')\n    # Financial4 remain the exact Root-validated old cases, never executed here.\n    browser=part['fresh_permanent_browser2']['browser']\n    p.fields(browser,dict(status='RUN_COMPLETE',counts={'PASS':2},real_auth=True,jwt_signed_by_runtime=False,\n        host_exit=0,host_status='RUN_COMPLETE',console_errors=0,database_remaining=0,\n",
+          "count": 1
+        },
+        {
+          "before": "    p.fields(backup,dict(status='RESTORED_IDENTICAL'),'ACTUAL_BACKUP_DRILL')\n    if not backup['checks']or any(type(value)is not bool or not value for value in backup['checks'].values()):\n        raise ValueError('PERMANENT_S05_ALL_TYPED_BACKUP_CHECKS_REQUIRED')\n    return dict(status='CURRENT_PERMANENT_S05_FINANCIAL4_BROWSER2_AND_ALL5_PASS',head=head,\n        actual_fresh_cases=6,retained_join37_fresh_case_credit=0,reader_remains_installed=True,\n        runtime_supervision=supervised,\n        production_go=False,independent_acceptance=False)\n\n",
+          "after": "    p.fields(backup,dict(status='RESTORED_IDENTICAL'),'ACTUAL_BACKUP_DRILL')\n    if not backup['checks']or any(type(value)is not bool or not value for value in backup['checks'].values()):\n        raise ValueError('PERMANENT_S05_ALL_TYPED_BACKUP_CHECKS_REQUIRED')\n    return dict(status='CURRENT_PERMANENT_S05_RETAINED4_FRESH_BROWSER2_AND_ALL5_PASS',head=head,\n        actual_fresh_cases=2,retained_Native_cases=4,retained_cases_are_not_fresh=True,candidate_case_coverage=6,\n        financial_groups_rerun=False,source_invariant_reuse=True,prior_runs_aggregated=True,retained_join37_fresh_case_credit=0,reader_remains_installed=True,\n        runtime_supervision=supervised,\n        production_go=False,independent_acceptance=False)\n\n",
+          "count": 1
+        }
+      ]
+    },
+    "scripts/current-final-s03-sku-s05-preparation/persistent_browser_fixture.py": {
+      "original": {
+        "bytes": 4574,
+        "sha256": "6eca40b1f668cb6da9097d89e5959d858f644e453fc95f78613cedc3865d79b9"
+      },
+      "derived": {
+        "bytes": 4870,
+        "sha256": "71437d832dc536288c033f863e756d4326b7227b291693cdc1bcba60bbba6208"
+      },
+      "changes": [
+        {
+          "before": "    if sha256(state_raw).hexdigest() != os.environ['S05_SKU_BROWSER_READER_STATE_SHA256']:\n        raise ValueError('S05_SKU_ORIGINAL_READER_STATE_CHANGED')\n    state = json.loads(state_raw)\n    with psycopg.connect(url, connect_timeout=10) as conn, conn.cursor() as cur:\n        if cur.execute('select current_database()').fetchone() != ('cp6_auditor_browser',):\n            raise ValueError('S05_SKU_ACTUAL_COPY_DATABASE_REQUIRED')\n",
+          "after": "    if sha256(state_raw).hexdigest() != os.environ['S05_SKU_BROWSER_READER_STATE_SHA256']:\n        raise ValueError('S05_SKU_ORIGINAL_READER_STATE_CHANGED')\n    state = json.loads(state_raw)\n    # This fixture runs in a fresh Python process. Rebind the frozen helper's\n    # catalog expectation from the exact reader state before its first use;\n    # the parent qualification process cannot share module globals with us.\n    helper.control.STATE = dict(installed_catalog=state['after'])\n    with psycopg.connect(url, connect_timeout=10) as conn, conn.cursor() as cur:\n        if cur.execute('select current_database()').fetchone() != ('cp6_auditor_browser',):\n            raise ValueError('S05_SKU_ACTUAL_COPY_DATABASE_REQUIRED')\n",
+          "count": 1
+        }
+      ]
+    },
+    "scripts/current-final-s03-sku-s05-preparation/test_focused_parent_receipt.py": {
+      "original": {
+        "bytes": 6645,
+        "sha256": "82090cb1c7a209063280eb943f3008bc546ccd2ac3e840c60adcefde1c127b1d"
+      },
+      "derived": {
+        "bytes": 6718,
+        "sha256": "a823394b676ead2a2124af11d719bd7986228705919cb7739d3a0b52e8e098c0"
+      },
+      "changes": [
+        {
+          "before": "\n    def test_exact_current_input_manifest_recovers_original_and_preserves_all_browser_oracles(self):\n        controls,original,current,inputs=self.inputs();value=controls.browser_binding(original,current,inputs)\n        self.assertEqual(value['current_inputs'],19);self.assertEqual(value['explicitly_routed_current_caller_pins'],8)\n        self.assertEqual(value['unchanged_browser_UI_and_fixture_inputs'],11)\n        self.assertTrue(value['complete_original_manifest_recovered']);self.assertEqual(value['actual_ERP_cases'],0)\n\n    def test_stale_caller_pin_changed_browser_bytes_extra_key_or_case_metadata_refuse(self):\n",
+          "after": "\n    def test_exact_current_input_manifest_recovers_original_and_preserves_all_browser_oracles(self):\n        controls,original,current,inputs=self.inputs();value=controls.browser_binding(original,current,inputs)\n        self.assertEqual(value['current_inputs'],19);self.assertEqual(value['explicitly_routed_current_caller_pins'],9)\n        self.assertEqual(value['unchanged_browser_UI_and_fixture_inputs'],9)\n        self.assertEqual(value['exact_observer_initialization_routes'],1)\n        self.assertTrue(value['complete_original_manifest_recovered']);self.assertEqual(value['actual_ERP_cases'],0)\n\n    def test_stale_caller_pin_changed_browser_bytes_extra_key_or_case_metadata_refuse(self):\n",
+          "count": 1
+        }
+      ]
+    }
+  }
+}

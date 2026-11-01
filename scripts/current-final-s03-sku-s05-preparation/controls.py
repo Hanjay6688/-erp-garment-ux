@@ -10,10 +10,11 @@ BROWSER_BINDING_ORIGIN='92a70c1fbe51208f098e82a27088649add4befd4'
 BROWSER_BINDING_ORIGINAL=(2912,'651571e5d8e422d2090fc9b45a8710a35308f42cc4812ce4046a6c9d7e47ceff')
 BROWSER_ROUTED=frozenset('scripts/current-final-s03-sku-s05-preparation/'+n for n in(
     'admission.py','component.py','controls.py','fetch_parent37.py','final_gate.py',
-    'persistent_financial.py','persistent_source.py','probe.py'))
+    'persistent_financial.py','persistent_source.py','probe.py','engine.py'))
+BROWSER_OBSERVER='scripts/current-final-s03-sku-s05-preparation/persistent_browser_fixture.py'
 
 def browser_binding(original,current,inputs):
-    """Only eight declared current caller pins; recover every original byte."""
+    """Nine caller pins and one exact observer initialization; recover all bytes."""
     if(len(original),sha256(original).hexdigest())!=BROWSER_BINDING_ORIGINAL:
         raise ValueError('PERMANENT_EXACT_ORIGINAL_BROWSER_MANIFEST_REQUIRED')
     before=json.loads(original);after=json.loads(current)
@@ -24,10 +25,22 @@ def browser_binding(original,current,inputs):
     text=original.decode();changes=[]
     for name,old in before['files'].items():
         actual=sha256(inputs[name]).hexdigest()
-        expected=actual if name in BROWSER_ROUTED else old
+        expected=actual if name in BROWSER_ROUTED or name==BROWSER_OBSERVER else old
         if after['files'][name]!=expected or actual!=expected:
             raise ValueError('PERMANENT_BROWSER_UNDECLARED_OR_STALE_CURRENT_SOURCE:'+name)
-        if name in BROWSER_ROUTED:
+        if name==BROWSER_OBSERVER:
+            anchor="    state = json.loads(state_raw)\n"
+            initialization=("    # This fixture runs in a fresh Python process. Rebind the frozen helper's\n"
+                "    # catalog expectation from the exact reader state before its first use;\n"
+                "    # the parent qualification process cannot share module globals with us.\n"
+                "    helper.control.STATE = dict(installed_catalog=state['after'])\n")
+            text_input=inputs[name].decode()
+            if text_input.count(anchor+initialization)!=1:
+                raise ValueError('PERMANENT_EXACT_HASH_BOUND_OBSERVER_INITIALIZATION_REQUIRED')
+            original_input=text_input.replace(anchor+initialization,anchor,1).encode()
+            if sha256(original_input).hexdigest()!=old:
+                raise ValueError('PERMANENT_OBSERVER_ONLY_ORIGINAL_INITIALIZATION_ROUTE_ALLOWED')
+        if name in BROWSER_ROUTED or name==BROWSER_OBSERVER:
             a=json.dumps(name)+': '+json.dumps(old);b=json.dumps(name)+': '+json.dumps(actual)
             if text.count(a)!=1:raise ValueError('PERMANENT_BROWSER_ONE_CURRENT_SOURCE_PIN_REQUIRED')
             text=text.replace(a,b,1);changes.append((a,b))
@@ -37,7 +50,8 @@ def browser_binding(original,current,inputs):
         text=text.replace(b,a,1)
     if text.encode()!=original:raise ValueError('PERMANENT_BROWSER_ORIGINAL_MANIFEST_NOT_RECOVERED')
     return dict(status='EXACT_CURRENT_PERMANENT_BROWSER_BINDING',current_inputs=19,
-        explicitly_routed_current_caller_pins=8,unchanged_browser_UI_and_fixture_inputs=11,
+        explicitly_routed_current_caller_pins=9,exact_observer_initialization_routes=1,
+        unchanged_browser_UI_and_fixture_inputs=9,
         complete_original_manifest_recovered=True,actual_ERP_cases=0,production_go=False)
 
 def current_browser_binding():
@@ -54,6 +68,7 @@ def load(name,path):
 
 def controls():
     current_browser=current_browser_binding()
+    focused_routes=load('permanent_exact_focused_caller_routes',HERE/'retained4.py').routes()
     policy_record=json.loads((HERE/'ATTEMPT_POLICY_DERIVATION.json').read_bytes())
     original_policy=subprocess.check_output(['/usr/bin/git','-C',str(ROOT),'show',
         policy_record['source_commit']+':'+policy_record['source_path']])
@@ -122,7 +137,7 @@ def controls():
     if runtime['working-directory']!='writer'or 'final_gate.py'not in runtime['run']:
         raise ValueError('PERMANENT_S05_EXACT_OWNING_PACKAGE_CWD_AND_FINAL_GATE_REQUIRED')
     return dict(status='PERMANENT_READER_SOURCE_AND_CALLER_CONTROLS_PASS_NOT_NATIVE',
-        current_browser_source_binding=current_browser,
+        current_browser_source_binding=current_browser,focused_browser_only_routes=focused_routes,
         complete_unchanged_browser_source_derivations=len(declaration['files']),
         unchanged_financial_callback_ASTs=financial['original_financial_callback_ASTs_unchanged'],
         selected_persistent_financial_cases=4,complete_package_engine=engine_proof,

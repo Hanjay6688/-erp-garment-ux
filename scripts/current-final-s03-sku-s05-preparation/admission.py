@@ -42,6 +42,8 @@ def import_scope():
 def admitted():
     source=load('permanent_closed_whole_source_before_ERP',HERE/'persistent_source.py').preflight()
     receipt=joined37()
+    retained=load('permanent_actual_retained_financial4_before_ERP',HERE/'retained4.py')
+    retained.receipt()
     backend=load('permanent_physical_SKU_before_current_composition',HERE/'frozen_parent.py').admitted()
     with import_scope():
         vendor=importlib.import_module('cp7_vendor_receivable.composition')
@@ -65,7 +67,8 @@ def admitted():
         if(actual_complete['financial_parent']!=current_financial
            or actual_complete['reader']['parent']!=current_financial):
             raise ValueError('PERMANENT_S05_COMPLETE_READER_PARENT_SOURCE_CHANGED')
-    return dict(status='ACTUAL_JOIN37_AND_COMPLETE_PERMANENT_S05_SOURCE_ADMITTED',
+    reuse=retained.invariant_sources(actual_complete)
+    return dict(status='ACTUAL_JOIN37_AND_COMPLETE_PERMANENT_S05_SOURCE_ADMITTED',retained_permanent_financial4=reuse,
         current_source=source,current_installation=actual_complete,qualified_financial_installation=current_financial,
         qualified_join37=receipt,retained_parent_chain_bound_by_entire_actual_join37_source=True,
         physical_qualified_SKU_backend=backend,qualified_SKU_current_installation=actual_sku,

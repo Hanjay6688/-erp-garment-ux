@@ -77,8 +77,9 @@ class CurrentBrowserBindingControls(unittest.TestCase):
 
     def test_exact_current_input_manifest_recovers_original_and_preserves_all_browser_oracles(self):
         controls,original,current,inputs=self.inputs();value=controls.browser_binding(original,current,inputs)
-        self.assertEqual(value['current_inputs'],19);self.assertEqual(value['explicitly_routed_current_caller_pins'],8)
-        self.assertEqual(value['unchanged_browser_UI_and_fixture_inputs'],11)
+        self.assertEqual(value['current_inputs'],19);self.assertEqual(value['explicitly_routed_current_caller_pins'],9)
+        self.assertEqual(value['unchanged_browser_UI_and_fixture_inputs'],9)
+        self.assertEqual(value['exact_observer_initialization_routes'],1)
         self.assertTrue(value['complete_original_manifest_recovered']);self.assertEqual(value['actual_ERP_cases'],0)
 
     def test_stale_caller_pin_changed_browser_bytes_extra_key_or_case_metadata_refuse(self):
