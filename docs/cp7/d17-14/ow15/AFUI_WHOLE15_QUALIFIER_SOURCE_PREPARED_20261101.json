@@ -1,0 +1,53 @@
+{
+  "status": "ROOT_SOURCE_VERIFIED_AFUI_WHOLE15_QUALIFIER_WIRED_PARENT_PENDING",
+  "head": "d07a11a4e7528211cd889185a50255d3ef0fcb37",
+  "tree": "bea8003d0be54e025b464965385e7b9789f29570",
+  "parent_preparation": "aaf2c918ca086fa040b417a027da317b14a234aa",
+  "source_pins": 50,
+  "all_39_prior_Runtime_Native_SQL_UI_and_business_case_source_pins_unchanged": true,
+  "five_actual_parent_bindings_None": true,
+  "planned_business_cases": {
+    "Native": 9,
+    "real_Auth_HTTP": 2,
+    "two_database_sessions": 2,
+    "normal_App_browser": 2
+  },
+  "unique_new_pure_qualification_preparation_controls_PASS": 15,
+  "first_failures": 0,
+  "exact_original_whole_package_engine_reversible_changes": 2,
+  "exact_copy_authority_fixed_third_copy_extension": 1,
+  "exact_process_supervisor_routes": 4,
+  "prior_process_controls_reused_without_repeating": 10,
+  "process_budgets_minutes": {
+    "job": 360,
+    "work": 330,
+    "recovery": 20,
+    "artifact": 10
+  },
+  "no_catalog_projection_no_product_grants_no_sequence_reset": true,
+  "complete_Native_case_sequence_witnesses": [
+    "erp.app_access_audit_id_seq",
+    "erp.audit_logs_id_seq",
+    "erp.cost_recalc_queue_id_seq",
+    "erp.production_pattern_audit_id_seq",
+    "erp.fg_stock_book_order_seq"
+  ],
+  "all_generated_ID_rows_or_exact_declared_failed_GOOD_allocation_ranges_required": true,
+  "complete_outer_ALL_sequences_restore_still_mandatory": true,
+  "committed_Native_GOOD_and_used_inverse_refusal_wired": true,
+  "committed_source_SQL_usage_overlay_removed_before_real_Auth": true,
+  "all_four_copy_authorities_preserved_exactly": true,
+  "actual_ERP_SQL_executed": 0,
+  "actual_ERP_Native_cases": 0,
+  "actual_Auth_HTTP_cases": 0,
+  "actual_two_session_cases": 0,
+  "actual_browser_cases": 0,
+  "remaining_before_activation": [
+    "Whole-package canonical-artifact final gate and workflow template",
+    "Actual accepted FREE3 parent rebase and exact Root receipt binding",
+    "Actual supervised full qualification and canonical Root intake"
+  ],
+  "workflow_activated": false,
+  "production_go": false,
+  "independent_acceptance": false
+}
