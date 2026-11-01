@@ -160,5 +160,65 @@
     "coordinated_parent_and_install_snapshot_mutation_refused": true,
     "all_used_guard_snapshots_in_component_binding": true,
     "actual_Native_cases": 0
+  },
+  "current_browser_binding_followup": {
+    "status": "PREPARED_EIGHT_EXACT_CURRENT_INPUT_PIN_ROUTES_NOT_QUALIFICATION",
+    "original_manifest_head": "92a70c1fbe51208f098e82a27088649add4befd4",
+    "original_manifest_bytes": 2912,
+    "original_manifest_sha256": "651571e5d8e422d2090fc9b45a8710a35308f42cc4812ce4046a6c9d7e47ceff",
+    "original_manifest_recovered_by_exact_inverse": true,
+    "only_declared_current_caller_pins": 8,
+    "unchanged_browser_UI_and_fixture_inputs": 11,
+    "new_pure_binding_controls_PASS": 2,
+    "only_two_affected_pending_state_controls_PASS": true,
+    "pending_state_controls_explicitly_model_unarmed_parent_even_when_actual_parent_later_bound": true,
+    "first_command_failure": "Test invocation lacked its module directory; no tests or ERP ran; corrected PYTHONPATH and ran the four intended controls once",
+    "raw_logs": {
+      "PERMANENT_CURRENT_BROWSER_BINDING_AND_AFFECTED_PENDING_CONTROLS.log": {
+        "bytes": 1951,
+        "sha256": "460ec26cae0eb4fe5dbafb93ad561a0d228ba0187c027dbe4f22acb2a012b378",
+        "text": "EEE\n======================================================================\nERROR: test_focused_parent_receipt (unittest.loader._FailedTest.test_focused_parent_receipt)\n----------------------------------------------------------------------\nImportError: Failed to import test module: test_focused_parent_receipt\nTraceback (most recent call last):\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/loader.py\", line 137, in loadTestsFromName\n    module = __import__(module_name)\n             ^^^^^^^^^^^^^^^^^^^^^^^\nModuleNotFoundError: No module named 'test_focused_parent_receipt'\n\n\n======================================================================\nERROR: test_focused_parent_receipt (unittest.loader._FailedTest.test_focused_parent_receipt)\n----------------------------------------------------------------------\nImportError: Failed to import test module: test_focused_parent_receipt\nTraceback (most recent call last):\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/loader.py\", line 137, in loadTestsFromName\n    module = __import__(module_name)\n             ^^^^^^^^^^^^^^^^^^^^^^^\nModuleNotFoundError: No module named 'test_focused_parent_receipt'\n\n\n======================================================================\nERROR: test_system_metadata (unittest.loader._FailedTest.test_system_metadata)\n----------------------------------------------------------------------\nImportError: Failed to import test module: test_system_metadata\nTraceback (most recent call last):\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/loader.py\", line 137, in loadTestsFromName\n    module = __import__(module_name)\n             ^^^^^^^^^^^^^^^^^^^^^^^\nModuleNotFoundError: No module named 'test_system_metadata'\n\n\n----------------------------------------------------------------------\nRan 3 tests in 0.000s\n\nFAILED (errors=3)\n"
+      },
+      "PERMANENT_CURRENT_BROWSER_BINDING_AND_AFFECTED_PENDING_CONTROLS_2.log": {
+        "bytes": 102,
+        "sha256": "5610bb341ae4df72930d9f88afd8d925eec567770a8ccf6387603ee214544c29",
+        "text": "....\n----------------------------------------------------------------------\nRan 4 tests in 0.020s\n\nOK\n"
+      }
+    },
+    "source_only_manifest_verification_now_precedes_long_installer": true,
+    "no_Native_or_browser_or_SQL_or_UI_oracle_changes": true,
+    "parent_receipt_None": true,
+    "workflow_not_activated": true,
+    "actual_ERP_cases": 0,
+    "production_go": false,
+    "independent_acceptance": false,
+    "full_original_three_entrypoint_source_fence": {
+      "status": "PERMANENT_READER_SOURCE_AND_CALLER_CONTROLS_PASS_NOT_NATIVE",
+      "guard": {
+        "attempts": [],
+        "network_nonGit_attempts": [],
+        "public_source_sha256": "1439d70810383db377c48e043df7fb6d487a1b2f1a995e8993a2c08590f9f797",
+        "self_controls": [
+          {
+            "api": "psycopg.connect",
+            "result": "DENIED_BEFORE_LIBPQ"
+          },
+          {
+            "api": "psycopg.Connection.connect",
+            "result": "DENIED_BEFORE_LIBPQ"
+          },
+          {
+            "api": "psycopg.AsyncConnection.connect",
+            "result": "DENIED_BEFORE_LIBPQ"
+          },
+          {
+            "original_connect_descriptors_restored": true
+          }
+        ]
+      },
+      "bytes": 1944,
+      "sha256": "ad1c771fb894ca30cc55c3caad94318ada6665a4a6dfc2ebf68bd0fe84d68071"
+    },
+    "local_missing_psycopg_dependency_repaired_with_exact_CI_3_2_10_in_private_runtime": true
   }
 }

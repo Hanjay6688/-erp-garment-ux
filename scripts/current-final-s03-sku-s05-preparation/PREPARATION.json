@@ -31,8 +31,8 @@
       "sha256": "a6635b161ef04c9bb5077d5c00b3fdd1e496ab5a9ec9c2785ead25d24caa36ed"
     },
     "scripts/current-final-s03-sku-s05-preparation/LOCAL_CONTROLS.json": {
-      "bytes": 6027,
-      "sha256": "02f00876a41967d5485088dea6a22d3fbcf68bcbebc94f7f9c0992c7a3964c1a"
+      "bytes": 10730,
+      "sha256": "6ac8c9179c29de57aca425dd795e3fbefa22867da6d78b90c23a1c6e9782438e"
     },
     "scripts/current-final-s03-sku-s05-preparation/PERSISTENT_BROWSER_DERIVATIONS.json": {
       "bytes": 8892,
@@ -40,15 +40,15 @@
     },
     "scripts/current-final-s03-sku-s05-preparation/PERSISTENT_BROWSER_SOURCE.json": {
       "bytes": 2912,
-      "sha256": "651571e5d8e422d2090fc9b45a8710a35308f42cc4812ce4046a6c9d7e47ceff"
+      "sha256": "c8e2fb8c10cdef7ffd68ad5e52d5de9309c6dcfdd959a22cda75b61eb63d4b19"
     },
     "scripts/current-final-s03-sku-s05-preparation/REPAIRED_CURRENT37_REBASE_ORIGIN.json": {
       "bytes": 15493,
       "sha256": "72cefd641f1b110acfbbaccb144a4f72828c38a258f794f4adc6e905752098db"
     },
     "scripts/current-final-s03-sku-s05-preparation/RETAINED35_PARENT_TRANSITION.json": {
-      "bytes": 2939,
-      "sha256": "0c1c8f8fe280f9b716306f8d9371666722de930e9f41a1cfff04963b2678de84"
+      "bytes": 5563,
+      "sha256": "d0ccfee2e97acd5c9ea517ae00aed5a334d2ed24b67938cf67466b361a71ceac"
     },
     "scripts/current-final-s03-sku-s05-preparation/REUSED_GLOBAL_FINITE19_PROFILE.json": {
       "bytes": 3392,
@@ -91,8 +91,8 @@
       "sha256": "d971af03ac45a7d919e709773c2054594f2f4980a36b1f6e6a3b7ea93fdbe7a4"
     },
     "scripts/current-final-s03-sku-s05-preparation/controls.py": {
-      "bytes": 6778,
-      "sha256": "aa9c6c22b655e96d5be158d01db334f79ccffb1cd9ddb79a324426a5cc14dabf"
+      "bytes": 9698,
+      "sha256": "9a7007fb5e2d1c3b96eada69b80496413c163f3c2925e2382a3cdcaff409e41f"
     },
     "scripts/current-final-s03-sku-s05-preparation/engine.py": {
       "bytes": 2050,
@@ -211,16 +211,16 @@
       "sha256": "6f5e9e945e88ffe3915fb2257d45cb0c819503851387f3d7596df2806ebed1b5"
     },
     "scripts/current-final-s03-sku-s05-preparation/test_focused_parent_receipt.py": {
-      "bytes": 3560,
-      "sha256": "4b868b483a1ce76b9b5e515e01b5d0d3ce3b699a79a8b4a7d1eec6f36e40eb2a"
+      "bytes": 5526,
+      "sha256": "36f8cb8c58f81980e1574046ff9d078ed95e29677fd2f4ed5eac2baa1f9749b2"
     },
     "scripts/current-final-s03-sku-s05-preparation/test_supervision_integration.py": {
       "bytes": 7490,
       "sha256": "79f2435c74f3ee957b05e3191663cfdf444c054796aaca5218e0a3c564bf6824"
     },
     "scripts/current-final-s03-sku-s05-preparation/test_system_metadata.py": {
-      "bytes": 4368,
-      "sha256": "32a5f95debbe559117dbaa54064d43b9f6438ebc4b05e11efdf7b7f0be3b4400"
+      "bytes": 4565,
+      "sha256": "573b100486b6d57ec786eec33b3365966a0d451ad4ade888b94d0733f098e8ce"
     }
   },
   "actual_new_Native_cases": 0,

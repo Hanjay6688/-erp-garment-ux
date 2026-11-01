@@ -26,8 +26,9 @@ def check(value):
 
 class FocusedParentProtocol(unittest.TestCase):
     def test_unarmed_parent_still_refuses_before_any_receipt_or_ERP_import(self):
-        self.assertIsNone(module.PARENT_RECEIPT)
-        with self.assertRaisesRegex(ValueError,'TERMINAL_JOIN37_INTAKE_PENDING'):module.qualified_receipt(b'{}')
+        with patch.object(module,'PARENT_RECEIPT',None):
+            self.assertIsNone(module.PARENT_RECEIPT)
+            with self.assertRaisesRegex(ValueError,'TERMINAL_JOIN37_INTAKE_PENDING'):module.qualified_receipt(b'{}')
 
     def test_synthetic_retained35_plus_fresh2_keeps_truthful_counts(self):
         value=sample();self.assertEqual(check(value),value)
@@ -50,5 +51,30 @@ class FocusedParentProtocol(unittest.TestCase):
             if isinstance(n,(ast.FunctionDef,ast.AsyncFunctionDef))}
         old=functions(before);new=functions((HERE/'persistent_financial.py').read_bytes())
         self.assertEqual(set(old),set(new));self.assertEqual([name for name in old if old[name]!=new[name]],['qualified_receipt'])
+
+class CurrentBrowserBindingControls(unittest.TestCase):
+    def inputs(self):
+        spec=importlib.util.spec_from_file_location('permanent_current_browser_pin_controls',HERE/'controls.py')
+        controls=importlib.util.module_from_spec(spec);spec.loader.exec_module(controls)
+        original=subprocess.check_output(['git','-C',str(ROOT),'show',controls.BROWSER_BINDING_ORIGIN+':'+controls.BROWSER_BINDING_PATH])
+        current=(ROOT/controls.BROWSER_BINDING_PATH).read_bytes();pins=json.loads(current)
+        return controls,original,current,{n:(ROOT/n).read_bytes()for n in pins['files']}
+
+    def test_exact_current_input_manifest_recovers_original_and_preserves_all_browser_oracles(self):
+        controls,original,current,inputs=self.inputs();value=controls.browser_binding(original,current,inputs)
+        self.assertEqual(value['current_inputs'],19);self.assertEqual(value['explicitly_routed_current_caller_pins'],8)
+        self.assertEqual(value['unchanged_browser_UI_and_fixture_inputs'],11)
+        self.assertTrue(value['complete_original_manifest_recovered']);self.assertEqual(value['actual_ERP_cases'],0)
+
+    def test_stale_caller_pin_changed_browser_bytes_extra_key_or_case_metadata_refuse(self):
+        controls,original,current,inputs=self.inputs()
+        for mode in('old_manifest','browser_bytes','extra_key','case_metadata'):
+            value=json.loads(current);data=dict(inputs)
+            if mode=='old_manifest':value=json.loads(original)
+            elif mode=='browser_bytes':data['scripts/current-final-s03-sku-s05-preparation/persistent_browser.mjs']+=b'\n'
+            elif mode=='extra_key':value['files']['scripts/undeclared.py']='0'*64
+            else:value['browser_case_ids']=[]
+            raw=(json.dumps(value,indent=2)+'\n').encode()
+            with self.subTest(mode=mode),self.assertRaises(ValueError):controls.browser_binding(original,raw,data)
 
 if __name__=='__main__':unittest.main()
