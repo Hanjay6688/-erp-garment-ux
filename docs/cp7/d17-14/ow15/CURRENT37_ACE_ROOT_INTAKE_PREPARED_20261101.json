@@ -1,0 +1,48 @@
+{
+  "status": "CURRENT37_ACE_ROOT_INTAKE_PREPARED_FAIL_CLOSED",
+  "recorded_at_utc": "2026-11-01T01:38:17Z",
+  "candidate": {
+    "branch": "astra-a/s03-sku-product-join-20261031",
+    "head": "ace57bc877bec11e113b5c903a811e3bb4cba224",
+    "tree": "3ab793e094d00047b9c90447965483ae0503081a",
+    "run_id": 41255938821,
+    "job_id": 124698984573,
+    "run_attempt": 1,
+    "observed_status": "in_progress",
+    "observed_step": 72,
+    "observed_step_name": "Run one actual current Native31 browser6 composite and complete outer restoration"
+  },
+  "root_intake": {
+    "path": "scripts/current-writer-a-takeover-20261030/intake_join37.py",
+    "source_files": 78,
+    "candidate_paths_over_base": 79,
+    "unchanged_base_blobs_and_modes": 14000,
+    "expected_actual_Native_cases": 31,
+    "expected_actual_browser_cases": 6,
+    "expected_actual_business_cases": 37,
+    "requires_terminal_success_metadata": true,
+    "requires_exact_canonical_archive_bytes": true,
+    "requires_archive_sha256_and_crc": true,
+    "requires_all_five_package_gates": true,
+    "requires_complete_outer_restoration": true,
+    "requires_worker_reaped_and_empty_process_tree": true
+  },
+  "local_source_control": {
+    "result": "PASS",
+    "status": "EXACT_CURRENT_JOIN_SOURCE_AND_37_IDS_ONLY",
+    "actual_new_cases": 0,
+    "database_started": false,
+    "browser_started": false,
+    "ERP_execution": false
+  },
+  "acceptance": {
+    "current37_qualified": false,
+    "actual_case_credit": 0,
+    "permanent_activated": false,
+    "DE_activated": false,
+    "FREE_activated": false,
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "next": "Monitor only run 41255938821. If terminal success, validate the exact canonical artifact with this intake before activating Permanent. If failure, preserve the first failure from the bounded diagnostic artifact and do not award partial case credit."
+}
