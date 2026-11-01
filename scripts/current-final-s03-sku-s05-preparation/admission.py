@@ -7,7 +7,7 @@ import importlib,importlib.util,json,os,sys
 HERE=Path(__file__).resolve().parent
 ROOT=HERE.parents[1]
 COMMON=ROOT/'scripts/current-s03-sku-s05-composite-qualification'
-MAIN='CP7_CURRENT_S03_SKU_S05_NATIVE31_BROWSER6.json'
+MAIN='CP7_CURRENT_S05_CSS_RETAIN35_BROWSER2.json'
 
 
 def load(name,path):

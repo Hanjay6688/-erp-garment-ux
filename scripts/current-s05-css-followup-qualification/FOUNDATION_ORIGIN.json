@@ -1,0 +1,41 @@
+{
+  "status": "EXACT_EXISTING_FIXTURE_SETUP_SOURCE_NOT_NEW_FINANCIAL_FIXTURE",
+  "source_commit": "50c77207e088af16988d7d91a5b06f72e8e30ecc",
+  "seed": "cp6_ao_ap_installed.seed",
+  "original_condition": "no erp.app_users",
+  "original_committed_witness": "scripts/current-s03-sku-native14-binding/retained-s03-f42e/native_runner.py",
+  "files": {
+    "scripts/cp6_ao_ap_installed.py": {
+      "bytes": 6076,
+      "sha256": "c5ff9f51bfeaa04c95f1f77f8b82ce5129d93965ea4d452c867135e48a57bd62"
+    },
+    "scripts/cp6_v2620e_counterexample_regression.py": {
+      "bytes": 33478,
+      "sha256": "63f14f6547eeef12b2deb443268c9a02c5dc3bffdea60254fe719c9eb38897ad"
+    },
+    "scripts/current-s03-sku-native14-binding/retained-s03-f42e/native_runner.py": {
+      "bytes": 8284,
+      "sha256": "c2124f5371c529ecbf7767381b55f4c799a2fe0829577d80aa3fbd443c4c9512"
+    },
+    "scripts/current-s03-sku-s05-composite-qualification/browser_prepare.py": {
+      "bytes": 5055,
+      "sha256": "d13aaee73897210f97dd95695a029e43380a32f1fd621b80557cdfe75de00c07"
+    },
+    "supabase/tests/cp3_r3_full_schema_seed.sql": {
+      "bytes": 15314,
+      "sha256": "e2c17320074e2dcadc4d69cbc1b4be5f7ea78708715cf9681dbe9b6a797f8edf"
+    },
+    "supabase/tests/cp3_r4_full_schema_seed.sql": {
+      "bytes": 10915,
+      "sha256": "0780eef40eba951060921559c6d015cabbaa29e056a6196413ced7b9f5238b43"
+    },
+    "supabase/tests/cp6_laundry_qc_concurrency_seed.sql": {
+      "bytes": 19123,
+      "sha256": "83a5853b35471708bb01cef232042593a6e68878dfeef90d34620584b04c0156"
+    }
+  },
+  "historical_cutting_compatibility_trigger": "trg_06_require_pattern_identity",
+  "trigger_suspension": "EXACT_ORIGINAL_SEED_ONLY_MUST_RESTORE",
+  "new_Native_case_credit": 0,
+  "production_go": false
+}

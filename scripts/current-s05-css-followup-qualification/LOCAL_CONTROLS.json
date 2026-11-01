@@ -1,0 +1,204 @@
+{
+  "status": "PREPARED_OWN_SOURCE_CONNECTION_RELEASE_AFTER_ACTUAL_READER49_COPY_FAILURE",
+  "actual_new_ERP_cases": 0,
+  "actual_Auth_cases": 0,
+  "local_controls": {
+    "first_batch_tests_PASS": 9,
+    "then_only_new_workflow_test_PASS": 1,
+    "unmodified_prior_tests_not_repeated_locally": true
+  },
+  "raw_control_logs": {
+    "FOCUSED_LOCAL_CONTROLS_FIRST.log": {
+      "bytes": 107,
+      "sha256": "7e23988b7ac5c1884dbe5b7140847b4b6f61c34ed6eb57bff7eef29387b7e49d",
+      "text": ".........\n----------------------------------------------------------------------\nRan 9 tests in 0.264s\n\nOK\n"
+    },
+    "FOCUSED_WORKFLOW_CONTROL.log": {
+      "bytes": 98,
+      "sha256": "4ce4b259b27650df250c38fd5fede04ece05e638aa348014a22d256979f7fd63",
+      "text": ".\n----------------------------------------------------------------------\nRan 1 test in 0.053s\n\nOK\n"
+    },
+    "FOUNDATION_NEW_CONTROLS.log": {
+      "bytes": 105,
+      "sha256": "1ae18a4dc90ab022731f0a0de41457e2ff3010a15a7a9b29d9618d7d16aab49f",
+      "text": ".......\n----------------------------------------------------------------------\nRan 7 tests in 0.472s\n\nOK\n"
+    },
+    "FOUNDATION_AFFECTED_CONTROLS.log": {
+      "bytes": 1202,
+      "sha256": "7cb3f754da85e0401da8345187a0f20b460944c1b48ceab1caf31a9ae1bc6052",
+      "text": "E.....\n======================================================================\nERROR: test_complete_engine_roundtrip_and_missing_count_anchor_refuses (test_followup.FocusedControls.test_complete_engine_roundtrip_and_missing_count_anchor_refuses)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/workspace/scratch/cf5f04e2b451/erp-s05-focused/scripts/current-s05-css-followup-qualification/test_followup.py\", line 95, in test_complete_engine_roundtrip_and_missing_count_anchor_refuses\n    text,proof=module.derive(raw);compile(text,'focused_synthetic_engine_control','exec')\n               ^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/cf5f04e2b451/erp-s05-focused/scripts/current-s05-css-followup-qualification/engine.py\", line 26, in derive\n    if text.count(INSTALL_BEFORE)!=1:raise ValueError('FOCUSED_FOUNDATION_PRECHECK_INSTALL_ANCHOR_REQUIRED')\n                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nValueError: FOCUSED_FOUNDATION_PRECHECK_INSTALL_ANCHOR_REQUIRED\n\n----------------------------------------------------------------------\nRan 6 tests in 0.923s\n\nFAILED (errors=1)\n"
+    },
+    "FOUNDATION_ENGINE_CORRECTION.log": {
+      "bytes": 98,
+      "sha256": "a626407facf1102b512cc38f00f6e7d889aa6280a5c03d1722ac6d1c4eb08dc5",
+      "text": ".\n----------------------------------------------------------------------\nRan 1 test in 0.004s\n\nOK\n"
+    },
+    "READER_BINDING_NEW_CONTROLS.log": {
+      "bytes": 102,
+      "sha256": "98255317dbdec068621cfd1c730ebd962e38b6f8c534b73c2b3cbfc806ea738c",
+      "text": "....\n----------------------------------------------------------------------\nRan 4 tests in 0.033s\n\nOK\n"
+    },
+    "READER_ADMISSION_BEHAVIOR_CONTROL.log": {
+      "bytes": 98,
+      "sha256": "7736d71002a53937d2389943fc06802041d1905f7ac3600e8dddd8242664e150",
+      "text": ".\n----------------------------------------------------------------------\nRan 1 test in 0.056s\n\nOK\n"
+    },
+    "READER_GATE_AFFECTED_CONTROLS.log": {
+      "bytes": 2943,
+      "sha256": "a935632b3cc984f6bb56fe85ef6ba789701bbd52bc5a92f86353f1b01e5a5fa3",
+      "text": "EEEEE\n======================================================================\nERROR: test_followup (unittest.loader._FailedTest.test_followup)\n----------------------------------------------------------------------\nImportError: Failed to import test module: test_followup\nTraceback (most recent call last):\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/loader.py\", line 137, in loadTestsFromName\n    module = __import__(module_name)\n             ^^^^^^^^^^^^^^^^^^^^^^^\nModuleNotFoundError: No module named 'test_followup'\n\n\n======================================================================\nERROR: test_followup (unittest.loader._FailedTest.test_followup)\n----------------------------------------------------------------------\nImportError: Failed to import test module: test_followup\nTraceback (most recent call last):\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/loader.py\", line 137, in loadTestsFromName\n    module = __import__(module_name)\n             ^^^^^^^^^^^^^^^^^^^^^^^\nModuleNotFoundError: No module named 'test_followup'\n\n\n======================================================================\nERROR: test_followup (unittest.loader._FailedTest.test_followup)\n----------------------------------------------------------------------\nImportError: Failed to import test module: test_followup\nTraceback (most recent call last):\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/loader.py\", line 137, in loadTestsFromName\n    module = __import__(module_name)\n             ^^^^^^^^^^^^^^^^^^^^^^^\nModuleNotFoundError: No module named 'test_followup'\n\n\n======================================================================\nERROR: test_followup (unittest.loader._FailedTest.test_followup)\n----------------------------------------------------------------------\nImportError: Failed to import test module: test_followup\nTraceback (most recent call last):\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/loader.py\", line 137, in loadTestsFromName\n    module = __import__(module_name)\n             ^^^^^^^^^^^^^^^^^^^^^^^\nModuleNotFoundError: No module named 'test_followup'\n\n\n======================================================================\nERROR: test_followup (unittest.loader._FailedTest.test_followup)\n----------------------------------------------------------------------\nImportError: Failed to import test module: test_followup\nTraceback (most recent call last):\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/loader.py\", line 137, in loadTestsFromName\n    module = __import__(module_name)\n             ^^^^^^^^^^^^^^^^^^^^^^^\nModuleNotFoundError: No module named 'test_followup'\n\n\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nFAILED (errors=5)\n"
+    },
+    "READER_GATE_CORRECT_MODULE_CONTROLS.log": {
+      "bytes": 103,
+      "sha256": "fe66eb66a2b55fcf1d91af283c01c8809698e85e792f2a15113ec7f6b662da18",
+      "text": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.871s\n\nOK\n"
+    },
+    "READER_FINAL_GATE_NEGATIVE_CONTROL.log": {
+      "bytes": 98,
+      "sha256": "70e93564d0764ef0a87cb81eef0920beaaace971b28365ee0acd06f66cbe72d7",
+      "text": ".\n----------------------------------------------------------------------\nRan 1 test in 0.109s\n\nOK\n"
+    }
+  },
+  "retained_Root_head": "dd5011d1453f5d8ac75bb11520e0e2c7cf38459b",
+  "retained_Root_receipt_sha256": "4743e60ed6fdf33682a9e576ce180675923ed7287fda5a6372f56509a89f39c0",
+  "retained_cases": 35,
+  "fresh_planned_cases": 2,
+  "retained_cases_are_not_fresh": true,
+  "whole_ERP_graph_local_runtime_check": false,
+  "whole_ERP_graph_fenced_check_required_before_CI_database": true,
+  "unchanged_generic_process_tree_supervisor_sha256": "6e750658b188a67dff4f0ed3100dd78740652d3193d055d8402ec5a9d77ee99b",
+  "original_full37_six_hour_window_unchanged": true,
+  "focused_job_minutes": 120,
+  "focused_worker_minutes": 90,
+  "recovery_minutes": 20,
+  "artifact_minutes": 10,
+  "workflow_steps": 77,
+  "unchanged_steps": 69,
+  "changed_steps": [
+    62,
+    63,
+    69,
+    70,
+    73,
+    74,
+    75,
+    76
+  ],
+  "environment_and_permissions_unchanged": true,
+  "production_go": false,
+  "independent_acceptance": false,
+  "failed_scoped_attempt": {
+    "head": "14486decb34b261f70a8a12800ae7980bab4cbdd",
+    "run_id": 41310096963,
+    "job_id": 124858465060,
+    "artifact_id": 13086358611,
+    "conclusion": "failure",
+    "actual_browser_cases": 0,
+    "error": "Z_EXPANDED_BASE_MATERIAL_MISSING",
+    "archive": {
+      "bytes": 1990873,
+      "sha256": "559089916067ef544b87731fb72151eafd4b43fa3579628565d4c180ee346dc2"
+    },
+    "failed_run_relabelled_PASS": false
+  },
+  "foundation_correction": {
+    "new_setup_controls_PASS": 7,
+    "affected_existing_gate_controls_PASS": 5,
+    "affected_engine_control_initially_failed_source_anchor": true,
+    "corrected_engine_control_only_rerun_PASS": 1,
+    "existing_other_controls_retained_not_repeated": true,
+    "local_actual_ERP_cases": 0,
+    "original_seed_source_files": 7,
+    "read_only_check_before_expensive_install": true,
+    "exact_original_seed_only_for_empty": true,
+    "partial_foundation_refused": true,
+    "all22_schemaACL_and_protected_role_rows_must_match": true
+  },
+  "second_scoped_attempt": {
+    "head": "cb8aa092506a272da526aa55a1cfef4b2a6413c0",
+    "run_id": 41315727305,
+    "job_id": 124875223281,
+    "artifact_id": 13088337710,
+    "conclusion": "failure",
+    "error": "S05_SOURCE_CHANGED: src/accessory-standard-report.css",
+    "actual_browser_cases": 0,
+    "actual_Native_case_credit": 0,
+    "complete_outer_restore": true,
+    "original_fixture_setup_actually_PASS": true,
+    "canonical_archive": {
+      "bytes": 6148333,
+      "sha256": "7b94a0adf7acf25f57ecaf0f14c4688f6e8b0b28eb69422c41149b6fcdb3045e",
+      "library_file_id": "libfile_8315efab9ebc8191b932aa3109422966"
+    },
+    "failed_run_relabelled_PASS": false
+  },
+  "reader_source_correction": {
+    "current_reader_manifest_css_hash_only": true,
+    "unchanged_other_reader_source_pins": 40,
+    "all_actual_reader_source_inputs_checked": 41,
+    "historical_manifests_unchanged": true,
+    "new_reader_binding_controls_PASS": 5,
+    "first_three_current_controls_reused": true,
+    "static_string_control_superseded_by_actual_admission_behavior": true,
+    "affected_existing_final_gate_controls_PASS": 5,
+    "first_module_loader_error_retained": true,
+    "old_foundation_controls_and_actual_setup_PASS_reused": true,
+    "full_reader_sources_called_under_fence_before_CI_database": true,
+    "actual_ERP_case_credit": 0,
+    "reader_SQL_and_Native_callback_changes": false,
+    "generated_bytecode_caught_by_closed_source_gate_before_publication": true
+  },
+  "source_connection_release": {
+    "unique_new_protocol_controls_PASS": 4,
+    "one_affected_complete_gate_control_PASS": true,
+    "first_failures": 0,
+    "source_foundation_committed_before_release": true,
+    "only_own_cursor_and_connection_closed": true,
+    "no_foreign_backend_termination": true,
+    "close_failure_refuses_and_connection_is_finally_closed": true,
+    "real_PostgreSQL_COPY_not_executed_locally": true,
+    "actual_ERP_cases": 0,
+    "log": {
+      "bytes": 103,
+      "sha256": "884ae734946814c0dbc2bd5af83098848b94b0f83df33bafe5ff150b0b096756",
+      "text": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.062s\n\nOK\n"
+    },
+    "CI_psycopg_version": "3.2.10",
+    "actual_CI_version_source_checked": "https://github.com/psycopg/psycopg/tree/3.2.10/psycopg/psycopg",
+    "Connection_exit_early_returns_when_closed": true,
+    "Cursor_close_resets_without_using_connection": true
+  },
+  "failed_reader49_attempt": {
+    "head": "49f8f1697e7777cf9542f131c7d3c5d135cc1ec7",
+    "tree": "179ef11defd62439371689ffaf766b5c83da4325",
+    "run_id": 41329176840,
+    "job_id": 124915457260,
+    "run_attempt": 1,
+    "conclusion": "failure",
+    "terminal_UTC": "2026-11-01T17:43:47Z",
+    "artifact_id": 13094142444,
+    "archive": {
+      "bytes": 12078007,
+      "sha256": "15deeba5891469ffd13936c98bcb854741e9edc2b24de67695849a8279de3dc0",
+      "members": 130,
+      "CRC": "PASS"
+    },
+    "durable_original_library_file_id": "libfile_6337bd0beacc8191886db217c30ff372",
+    "first_failure": "createdb: source database cp6_rollback is being accessed by other users",
+    "cause": "Owning component committed foundation but retained its outer source connection through browser copy",
+    "browser_cases_started": 0,
+    "fresh_qualified_cases": 0,
+    "retained35_rerun": false,
+    "original_qualified_parent_install_and_preuse_reinstall_passed": true,
+    "actual_Native_browser_prerequisite_and_reader_install_passed": true,
+    "complete_all22_rows_ALL_sequences_roles_CP6_advisors_Auth_restore": true,
+    "package_gates": {
+      "installed": true,
+      "primary_unchanged": true,
+      "backup_restore_drill": true,
+      "security_advisors": true,
+      "writer_runtime": false
+    },
+    "failure_not_relabelled_pass": true
+  }
+}

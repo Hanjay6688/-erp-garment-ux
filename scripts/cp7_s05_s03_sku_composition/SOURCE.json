@@ -42,7 +42,7 @@
     "src/ConnectedAccessoryStandardReportPage.tsx": "7ea45bfe0276eca864e67ae0dc0cacd3d9a114436533e6df5923d68cf63d4fab",
     "src/ConnectedAccessoryWorkspacePage.dom.test.tsx": "c9b40d1f0ef66c39b980e58cf009af77a633786c5ccaa9e8d8d502ba6e214c16",
     "src/ConnectedAccessoryWorkspacePage.tsx": "03ca854cce6aa089b9dd7fdaf767ffbcf591a332d861454813ffdd099fcec2ba",
-    "src/accessory-standard-report.css": "a9d62618178521d25fa392e6497e24ebc1e8146277b9cda33a9d76e7ea76d16a",
+    "src/accessory-standard-report.css": "0ca870ad603a4654d44b4f9b8905f4e91c47d26ff45947d8017d17a1b8b3bcdf",
     "src/accessory-workspace.css": "54b53c7fba6b85dd6dab3f964da265c648e722b8df7233226a46c252769ca0b5",
     "src/accessoryStandardReport.test.ts": "bc8513e1e33c009b77d15133e988447e02319206d1160c4245a349a6b6699c02",
     "src/accessoryStandardReport.ts": "8cafbfe6747c6e0604edd8ed146fac0ec7265c35a782ca3563e114c99b32240b",

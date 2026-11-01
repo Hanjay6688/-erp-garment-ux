@@ -1,3 +1,4 @@
+from hashlib import sha256
 """Labelled fixture/source models, never Native or ERP business proof."""
 from pathlib import Path
 from types import SimpleNamespace
@@ -90,10 +91,27 @@ class OwnerFixtureControls(unittest.TestCase):
         self.assertIn("report['actual_browser_cases']=0",engine)
         self.assertIs(scope['whole_current_engine_recovered'],True)
 
-    def test_focused_workflow_and_clock_match_and_original_full37_workflow_is_unchanged(self):
+    def test_focused_workflow_and_clock_match_and_full37_has_only_declared_runtime_changes(self):
         record=json.loads((HERE/'OWNER_FOCUS_WORKFLOW_DERIVATION.json').read_bytes())
         original=subprocess.check_output(['/usr/bin/git','-C',str(ROOT),'show',record['source_head']+':'+record['source_path']])
-        self.assertEqual(original,(ROOT/record['source_path']).read_bytes())
+        # The focused proof remains derived from its exact immutable original.
+        # The full37 workflow may evolve only by the recorded reversible runtime
+        # changes; this preserves the old byte boundary rather than dropping it.
+        successor=json.loads((HERE/'RUNTIME_WORKFLOW_DERIVATION.json').read_bytes())
+        self.assertEqual(len(original),successor['original_bytes'])
+        self.assertEqual(sha256(original).hexdigest(),successor['original_sha256'])
+        text=original.decode()
+        for change in successor['changes']:
+            self.assertEqual(text.count(change['before']),change['count'])
+            text=text.replace(change['before'],change['after'],change['count'])
+        observed=(ROOT/record['source_path']).read_bytes()
+        self.assertEqual(text.encode(),observed)
+        self.assertEqual(len(observed),successor['derived_bytes'])
+        self.assertEqual(sha256(observed).hexdigest(),successor['derived_sha256'])
+        for change in reversed(successor['changes']):
+            self.assertEqual(text.count(change['after']),change['count'])
+            text=text.replace(change['after'],change['before'],change['count'])
+        self.assertEqual(text.encode(),original)
         old=yaml.safe_load(original)['jobs']['p21']['steps']
         current=yaml.safe_load((ROOT/record['new_path']).read_bytes());job=current['jobs']['p21']
         self.assertEqual(current['on']['push']['branches'],['astra-a/s03-sku-owner-access-native1-20261031'])

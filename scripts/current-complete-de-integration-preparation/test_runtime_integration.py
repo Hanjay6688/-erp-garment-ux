@@ -2,6 +2,7 @@
 from pathlib import Path
 from contextlib import redirect_stdout
 from io import StringIO
+from hashlib import sha256
 from unittest.mock import patch
 import importlib.util,json,os,sys,tempfile,unittest,yaml
 
@@ -15,6 +16,56 @@ def load(name,path=None):
 
 
 class DEProcessWiring(unittest.TestCase):
+    def workflow_source_fixture(self,directory):
+        source=load('source');root=Path(directory)
+        here=root/'scripts/current-complete-de-integration-preparation';here.mkdir(parents=True)
+        data=b'qualification template bytes\n';(here/'native30.workflow.yml.txt').write_bytes(data)
+        active=root/source.WORKFLOW;active.parent.mkdir(parents=True)
+        declaration={'files':{source.WORKFLOW:{'bytes':len(data),'sha256':sha256(data).hexdigest()}}}
+        return source,root,here,active,data,declaration
+
+    def test_unarmed_workflow_source_never_reads_parent(self):
+        with tempfile.TemporaryDirectory()as directory:
+            source,root,here,active,data,declaration=self.workflow_source_fixture(directory)
+            with patch.object(source,'ROOT',root),patch.object(source,'HERE',here), \
+                 patch.object(source,'actual_parent_receipt')as parent:
+                self.assertIsNone(source.admit_workflow({'files':{}}));parent.assert_not_called()
+
+    def test_stray_or_missing_workflow_refuses_before_parent(self):
+        with tempfile.TemporaryDirectory()as directory:
+            source,root,here,active,data,declaration=self.workflow_source_fixture(directory)
+            with patch.object(source,'ROOT',root),patch.object(source,'HERE',here), \
+                 patch.object(source,'actual_parent_receipt')as parent:
+                active.write_bytes(data)
+                with self.assertRaisesRegex(ValueError,'UNDECLARED_WORKFLOW_REFUSED'):
+                    source.admit_workflow({'files':{}})
+                active.unlink()
+                with self.assertRaisesRegex(ValueError,'DECLARED_WORKFLOW_MISSING'):
+                    source.admit_workflow(declaration)
+                parent.assert_not_called()
+
+    def test_exact_workflow_still_requires_actual_matching_parent(self):
+        with tempfile.TemporaryDirectory()as directory:
+            source,root,here,active,data,declaration=self.workflow_source_fixture(directory);active.write_bytes(data)
+            with patch.object(source,'ROOT',root),patch.object(source,'HERE',here), \
+                 patch.object(source,'actual_parent_receipt')as parent:
+                parent.side_effect=ValueError('COMPLETE_DE_ACTUAL_PERMANENT_PARENT_INTAKE_PENDING')
+                with self.assertRaisesRegex(ValueError,'ACTUAL_PERMANENT_PARENT_INTAKE_PENDING'):
+                    source.admit_workflow(declaration)
+                parent.side_effect=None
+                for field in('head','tree'):
+                    receipt={'head':source.BASE,'tree':source.TREE};receipt[field]='wrong-parent'
+                    parent.return_value=receipt
+                    with self.assertRaisesRegex(ValueError,'EXACT_SOURCE_BASE_QUALIFICATION'):
+                        source.admit_workflow(declaration)
+                parent.return_value={'head':source.BASE,'tree':source.TREE}
+                self.assertEqual(source.admit_workflow(declaration)['actual_case_credit'],0)
+                (here/'native30.workflow.yml.txt').write_bytes(b'changed template')
+                parent.reset_mock()
+                with self.assertRaisesRegex(ValueError,'MUST_EQUAL_REVIEWED_TEMPLATE'):
+                    source.admit_workflow(declaration)
+                parent.assert_not_called()
+
     def test_source_workflow_and_real_window_agree(self):
         self.assertTrue(load('runtime_controls').source_controls()['process_engine_unchanged'])
         raw,proof=load('workflow').derive();workflow=yaml.safe_load(raw);job=workflow['jobs']['p21'];steps=job['steps']

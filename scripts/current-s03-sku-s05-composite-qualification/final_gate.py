@@ -10,6 +10,13 @@ def gate(directory,head):
     spec=importlib.util.spec_from_file_location('joined_final_typed_originals',HERE/'parents.py')
     p=importlib.util.module_from_spec(spec);spec.loader.exec_module(p)
     main=p.strict((directory/MAIN).read_bytes());package=p.strict((directory/'T3_PACKAGE_INSTALL.json').read_bytes())
+    supervision=p.strict((directory/'JOIN_RUNTIME_SUPERVISION.json').read_bytes())
+    p.fields(supervision,dict(status='WORKER_COMPLETED_AND_REAPED',qualification_commit=head,
+        worker_exit=0,deadline_reached=False,external_signal=None,orphaned_child=False,
+        process_group_empty=True,process_tree_empty=True,signals=[],actual_case_credit=0,production_go=False),
+        'COMPLETE_PROCESS_REAP_BEFORE_DATABASE_REMOVAL')
+    p.exact(supervision['github_run_id'],package['run_identity']['run_id'],'SUPERVISED_CURRENT_RUN')
+    p.exact(supervision['github_run_attempt'],'1','SUPERVISED_FIRST_ATTEMPT')
     p.fields(main,dict(status='PASS',qualification_commit=head,required_case_ids_pass=True,
         actual_Native_cases=31,actual_browser_cases=6,actual_business_cases=37,actual_Auth_HTTP_cases=0,
         actual_two_session_races=0,baseline_full22_all_rows_all_sequences_equal=True,

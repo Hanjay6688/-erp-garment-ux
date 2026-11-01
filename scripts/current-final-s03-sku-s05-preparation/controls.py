@@ -5,6 +5,46 @@ import importlib.util,json,subprocess,yaml
 
 HERE=Path(__file__).resolve().parent
 ROOT=HERE.parents[1]
+BROWSER_BINDING_PATH='scripts/current-final-s03-sku-s05-preparation/PERSISTENT_BROWSER_SOURCE.json'
+BROWSER_BINDING_ORIGIN='92a70c1fbe51208f098e82a27088649add4befd4'
+BROWSER_BINDING_ORIGINAL=(2912,'651571e5d8e422d2090fc9b45a8710a35308f42cc4812ce4046a6c9d7e47ceff')
+BROWSER_ROUTED=frozenset('scripts/current-final-s03-sku-s05-preparation/'+n for n in(
+    'admission.py','component.py','controls.py','fetch_parent37.py','final_gate.py',
+    'persistent_financial.py','persistent_source.py','probe.py'))
+
+def browser_binding(original,current,inputs):
+    """Only eight declared current caller pins; recover every original byte."""
+    if(len(original),sha256(original).hexdigest())!=BROWSER_BINDING_ORIGINAL:
+        raise ValueError('PERMANENT_EXACT_ORIGINAL_BROWSER_MANIFEST_REQUIRED')
+    before=json.loads(original);after=json.loads(current)
+    if(set(before['files'])!=set(after['files'])or len(before['files'])!=19
+        or set(inputs)!=set(before['files'])or not BROWSER_ROUTED<=set(before['files'])
+        or{k:v for k,v in before.items()if k!='files'}!={k:v for k,v in after.items()if k!='files'}):
+        raise ValueError('PERMANENT_BROWSER_BINDING_KEYS_OR_CASE_CONTRACT_CHANGED')
+    text=original.decode();changes=[]
+    for name,old in before['files'].items():
+        actual=sha256(inputs[name]).hexdigest()
+        expected=actual if name in BROWSER_ROUTED else old
+        if after['files'][name]!=expected or actual!=expected:
+            raise ValueError('PERMANENT_BROWSER_UNDECLARED_OR_STALE_CURRENT_SOURCE:'+name)
+        if name in BROWSER_ROUTED:
+            a=json.dumps(name)+': '+json.dumps(old);b=json.dumps(name)+': '+json.dumps(actual)
+            if text.count(a)!=1:raise ValueError('PERMANENT_BROWSER_ONE_CURRENT_SOURCE_PIN_REQUIRED')
+            text=text.replace(a,b,1);changes.append((a,b))
+    if text.encode()!=current:raise ValueError('PERMANENT_BROWSER_ONLY_COUNTED_CURRENT_PIN_ROUTES_ALLOWED')
+    for a,b in reversed(changes):
+        if text.count(b)!=1:raise ValueError('PERMANENT_BROWSER_EXACT_PIN_ROUTE_REVERSE_REQUIRED')
+        text=text.replace(b,a,1)
+    if text.encode()!=original:raise ValueError('PERMANENT_BROWSER_ORIGINAL_MANIFEST_NOT_RECOVERED')
+    return dict(status='EXACT_CURRENT_PERMANENT_BROWSER_BINDING',current_inputs=19,
+        explicitly_routed_current_caller_pins=8,unchanged_browser_UI_and_fixture_inputs=11,
+        complete_original_manifest_recovered=True,actual_ERP_cases=0,production_go=False)
+
+def current_browser_binding():
+    original=subprocess.check_output(['/usr/bin/git','-C',str(ROOT),'show',
+        BROWSER_BINDING_ORIGIN+':'+BROWSER_BINDING_PATH])
+    current=(ROOT/BROWSER_BINDING_PATH).read_bytes();value=json.loads(current)
+    return browser_binding(original,current,{name:(ROOT/name).read_bytes()for name in value['files']})
 
 
 def load(name,path):
@@ -13,6 +53,7 @@ def load(name,path):
 
 
 def controls():
+    current_browser=current_browser_binding()
     policy_record=json.loads((HERE/'ATTEMPT_POLICY_DERIVATION.json').read_bytes())
     original_policy=subprocess.check_output(['/usr/bin/git','-C',str(ROOT),'show',
         policy_record['source_commit']+':'+policy_record['source_path']])
@@ -60,15 +101,17 @@ def controls():
     if sha256(original).hexdigest()!=record['source_sha256']:
         raise ValueError('PERMANENT_S05_FROZEN_WORKFLOW_SOURCE_CHANGED')
     old=yaml.safe_load(original)['jobs']['p21']['steps']
+    supervision=load('permanent_exact_process_owner_reuse',HERE/'runtime_controls.py').verify()
+    prior_steps=yaml.safe_load(supervision.pop('prior_workflow'))['jobs']['p21']['steps']
     workflow=yaml.safe_load((ROOT/'.github/workflows/cp7-final-s03-sku-s05.yml').read_bytes())
     job=workflow['jobs']['p21'];steps=job['steps']
     for i in record['unchanged_step_indices']:
-        if steps[i]!=old[i]:raise ValueError('PERMANENT_S05_UNDECLARED_WORKFLOW_STEP_CHANGE:'+str(i))
+        if prior_steps[i]!=old[i]:raise ValueError('PERMANENT_S05_UNDECLARED_WORKFLOW_STEP_CHANGE:'+str(i))
     branch=record['branch']
     if workflow['on']['push']['branches']!=[branch]or job['if']!="github.ref == 'refs/heads/"+branch+"'":
         raise ValueError('PERMANENT_S05_EXACT_RUNTIME_BRANCH_REQUIRED')
     policy=load('permanent_exact_own_full_job_day_window',HERE/'attempt_policy.py')
-    if(job['timeout-minutes']!=120 or policy.JOB_BUDGET_SECONDS!=job['timeout-minutes']*60
+    if(job['timeout-minutes']!=360 or policy.JOB_BUDGET_SECONDS!=job['timeout-minutes']*60
        or job['env']['PERMANENT_S05_CONFIRM']!='cp6_rollback'):
         raise ValueError('PERMANENT_S05_DISPOSABLE_WINDOW_AND_CONFIRMATION_REQUIRED')
     start=next(i for i,s in enumerate(steps)if s.get('name')=='Start disposable database')
@@ -79,12 +122,14 @@ def controls():
     if runtime['working-directory']!='writer'or 'final_gate.py'not in runtime['run']:
         raise ValueError('PERMANENT_S05_EXACT_OWNING_PACKAGE_CWD_AND_FINAL_GATE_REQUIRED')
     return dict(status='PERMANENT_READER_SOURCE_AND_CALLER_CONTROLS_PASS_NOT_NATIVE',
+        current_browser_source_binding=current_browser,
         complete_unchanged_browser_source_derivations=len(declaration['files']),
         unchanged_financial_callback_ASTs=financial['original_financial_callback_ASTs_unchanged'],
         selected_persistent_financial_cases=4,complete_package_engine=engine_proof,
         exact_original_workflow_steps_retained=len(record['unchanged_step_indices']),
         exact_job_and_WIB_guard_budget_seconds=policy.JOB_BUDGET_SECONDS,
         original_single_attempt_and_real_day_behavior_unchanged=True,published_diagnostics_byte_exact=True,
+        runtime_supervision=supervision,
         actual_Native_cases=0,actual_browser_cases=0,production_go=False,independent_acceptance=False)
 
 

@@ -12,11 +12,12 @@ import ast,importlib.util,json
 
 HERE=Path(__file__).resolve().parent
 ROOT=HERE.parents[1]
-PARENT_HEAD='6cb5bfe213fe3ce684244370dec092569705f6ff'
-PARENT_TREE='260cc8e984ae41409b43c62256acbbbf6ee25071'
-PARENT_RUN=41222437891
+PARENT_HEAD='2cb8c9ac85b6111e8bb170de6c2ec5c44f7c798c'
+PARENT_TREE='5c5111505dafc5a92a79de4d9b52e4d93e37500e'
+PARENT_RUN=41333643573
+PARENT_JOB=124928771868
 # Populate only from the terminal canonical root intake. Pending means closed.
-PARENT_RECEIPT=None
+PARENT_RECEIPT={'bytes': 20463, 'sha256': '2d9731cf9cdaed8ed90c0e189e56663a54e3bdd28ba8e24741516c4d1a85d9ba'}
 LABEL='CP7_PERMANENT_S05_S03_FINANCIAL_NATIVE4'
 ORIGINAL_IDS=(
  'S03_NATIVE_EXPENSE_APPROVAL_ONCE_PAID_E05_REOPEN',
@@ -38,9 +39,14 @@ def qualified_receipt(raw):
         raise ValueError('PERMANENT_S05_CANONICAL_PARENT_INTAKE_CHANGED')
     strict=load('permanent_S05_duplicate_and_nonfinite_JSON_guard',ROOT/'scripts/current-s03-sku-s05-composite-qualification/parents.py').strict
     receipt=strict(raw)
-    required=dict(status='ROOT_VERIFIED_CURRENT_JOIN_NATIVE31_BROWSER6_ALL5',head=PARENT_HEAD,tree=PARENT_TREE,
-        run_id=PARENT_RUN,complete37_qualified=True,package_all_five=True,prior_runs_aggregated=False,
-        retained_SKU27_fresh_case_credit=0,production_go=False,independent_acceptance=False)
+    required=dict(status='ROOT_VERIFIED_CURRENT_JOIN_RETAINED35_FRESH_S05_BROWSER2_ALL5',head=PARENT_HEAD,tree=PARENT_TREE,
+        run_id=PARENT_RUN,job_id=PARENT_JOB,complete37_qualified=True,package_all_five=True,
+        actual_Native_cases=0,actual_browser_cases=2,fresh_cases=2,retained_Native_cases=31,
+        retained_S03_browser_cases=4,retained_cases=35,retained_cases_are_not_fresh=True,
+        qualified_candidate_Native_coverage=31,qualified_candidate_browser_coverage=6,candidate_case_coverage=37,
+        fresh37_one_attempt=False,prior_runs_aggregated=True,source_invariant_reuse=True,
+        retained_original_run_conclusion='failure',failed_run_relabelled_PASS=False,
+        production_go=False,independent_acceptance=False)
     for key,value in required.items():
         if type(receipt.get(key))is not type(value)or receipt[key]!=value:
             raise ValueError('PERMANENT_S05_ACTUAL_QUALIFIED_JOIN37_REQUIRED:'+key)

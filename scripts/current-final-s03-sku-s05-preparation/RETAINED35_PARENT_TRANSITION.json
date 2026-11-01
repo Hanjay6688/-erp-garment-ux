@@ -1,0 +1,143 @@
+{
+  "status": "RETAINED35_FRESH2_PARENT_PROTOCOL_BOUND_TO_ACTUAL_ROOT_ACCEPTED_ORIGINAL",
+  "original_preparation": "92a70c1fbe51208f098e82a27088649add4befd4",
+  "original_own_paths": 54,
+  "unchanged_original_own_paths": 49,
+  "modified_only_parent_protocol_or_binding_paths": {
+    "scripts/current-final-s03-sku-s05-preparation/admission.py": {
+      "original": {
+        "bytes": 4203,
+        "sha256": "8b872bceac6d4ce3f622cd1c4e5d5db430b3d3e69b2e67910906a61284189837"
+      },
+      "current": {
+        "bytes": 4199,
+        "sha256": "77594cf6445bdd9efa2a2759d556871c35b1e5c296654d75fa8a0a681ee60a43"
+      }
+    },
+    "scripts/current-final-s03-sku-s05-preparation/fetch_parent37.py": {
+      "original": {
+        "bytes": 4756,
+        "sha256": "a595f49e9fef9860363bfef19b856efa183896af049470627108241ad45ae6dd"
+      },
+      "current": {
+        "bytes": 4752,
+        "sha256": "96036d22842bc7e072699f8c17d2a254d5a0daa6106ea23e96af59c10dda10c8"
+      }
+    },
+    "scripts/current-final-s03-sku-s05-preparation/persistent_financial.py": {
+      "original": {
+        "bytes": 10210,
+        "sha256": "13ce1d073e935d6073b1d64e23b98fc37b09c41326d841c6aa094ce5cab6d38c"
+      },
+      "current": {
+        "bytes": 10763,
+        "sha256": "1377251ec3b9a1da2be79b279e71207d2564b2d38f0d341473ca6ef896c60364"
+      }
+    },
+    "scripts/current-final-s03-sku-s05-preparation/persistent_source.py": {
+      "original": {
+        "bytes": 4631,
+        "sha256": "a948f0abda10b7d3d879741dba11967a4ca37108fc6a0c20159de2cb111ee33c"
+      },
+      "current": {
+        "bytes": 4631,
+        "sha256": "d9d209fef89599e2423478dc696dbe68d52aec4bbbd1c29cf5fce4273d0d36f4"
+      }
+    }
+  },
+  "original_financial_function_ASTs_unchanged_except_qualified_receipt": true,
+  "original_Native4_and_browser2_oracles_and_product_bytes_unchanged": true,
+  "original_native_seeded_committed_witness_preserved": true,
+  "expected_parent_head": "2cb8c9ac85b6111e8bb170de6c2ec5c44f7c798c",
+  "expected_parent_tree": "5c5111505dafc5a92a79de4d9b52e4d93e37500e",
+  "expected_parent_run": 41333643573,
+  "expected_parent_job": 124928771868,
+  "parent_root_receipt": {
+    "bytes": 20463,
+    "sha256": "2d9731cf9cdaed8ed90c0e189e56663a54e3bdd28ba8e24741516c4d1a85d9ba"
+  },
+  "parent_qualification": "ROOT_VERIFIED_CURRENT_JOIN_RETAINED35_FRESH_S05_BROWSER2_ALL5",
+  "local_new_protocol_controls": {
+    "PASS": 4,
+    "retained_result_for_unchanged_protocol_logic": true,
+    "raw": {
+      "bytes": 102,
+      "sha256": "ccf7b54f144d3e9682c95e71a54d347376487292982197f61b4f9bb2d6f65cc8",
+      "text": "....\n----------------------------------------------------------------------\nRan 4 tests in 0.029s\n\nOK\n"
+    }
+  },
+  "old_stale_metadata_minutes120_corrected_to_actual360": true,
+  "actual_job_guard_and_timeout_minutes": 360,
+  "hard_budget_or_financial_restore_guard_changed": false,
+  "workflow_activated": false,
+  "actual_new_Native_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false,
+  "manifest_metadata_and_own_pins_rebound": true,
+  "current_browser_source_binding": {
+    "status": "PREPARED_EXACT_CURRENT_BROWSER_BINDING_NOT_QUALIFICATION",
+    "original_head": "92a70c1fbe51208f098e82a27088649add4befd4",
+    "original_manifest": {
+      "bytes": 2912,
+      "sha256": "651571e5d8e422d2090fc9b45a8710a35308f42cc4812ce4046a6c9d7e47ceff"
+    },
+    "routes": [
+      {
+        "path": "scripts/current-final-s03-sku-s05-preparation/admission.py",
+        "original": "8b872bceac6d4ce3f622cd1c4e5d5db430b3d3e69b2e67910906a61284189837",
+        "current": "77594cf6445bdd9efa2a2759d556871c35b1e5c296654d75fa8a0a681ee60a43"
+      },
+      {
+        "path": "scripts/current-final-s03-sku-s05-preparation/component.py",
+        "original": "8a4f67b9d3d188e8d9124260b5f6b2b16c7a5d7c5f9ce14c6169fea6fe0e94d7",
+        "current": "d971af03ac45a7d919e709773c2054594f2f4980a36b1f6e6a3b7ea93fdbe7a4"
+      },
+      {
+        "path": "scripts/current-final-s03-sku-s05-preparation/controls.py",
+        "original": "18d7fd8ff9af9d506eb0fb14f62d6c9439b094aee17533b926f19beaaf70099e",
+        "current": "9a7007fb5e2d1c3b96eada69b80496413c163f3c2925e2382a3cdcaff409e41f"
+      },
+      {
+        "path": "scripts/current-final-s03-sku-s05-preparation/fetch_parent37.py",
+        "original": "a595f49e9fef9860363bfef19b856efa183896af049470627108241ad45ae6dd",
+        "current": "96036d22842bc7e072699f8c17d2a254d5a0daa6106ea23e96af59c10dda10c8"
+      },
+      {
+        "path": "scripts/current-final-s03-sku-s05-preparation/final_gate.py",
+        "original": "87c141649720b92e7f7cd4c14f489a95249ba83f00d4322ba2f5718e2126cc78",
+        "current": "333dfa42f4971b14869a3bf02e58006320a4f8be706e1077c85b0ccc244f5a6a"
+      },
+      {
+        "path": "scripts/current-final-s03-sku-s05-preparation/persistent_financial.py",
+        "original": "bfac5595306c462074662701d7a678d1a25ee367b0252c95f5fa022a09ed19a4",
+        "current": "1377251ec3b9a1da2be79b279e71207d2564b2d38f0d341473ca6ef896c60364"
+      },
+      {
+        "path": "scripts/current-final-s03-sku-s05-preparation/persistent_source.py",
+        "original": "f2a89ff0fe5e1cb2332f763bbfacbd9b04aac95e14cbd3c97cae0d29019de3d7",
+        "current": "d9d209fef89599e2423478dc696dbe68d52aec4bbbd1c29cf5fce4273d0d36f4"
+      },
+      {
+        "path": "scripts/current-final-s03-sku-s05-preparation/probe.py",
+        "original": "df508fe5415eeae3e1bf21b4a02c66ece2c585dea92bfabf6f940f690a88b57e",
+        "current": "fb66f362aae4e820b5c86fe7a9ffa580aaca32b2da7bfe652c03dbf71d2a0418"
+      }
+    ],
+    "unchanged_browser_UI_and_fixture_inputs": 11,
+    "actual_ERP_cases": 0,
+    "workflow_activated": false
+  },
+  "own_source_rebase": {
+    "status": "ACTUAL_ROOT_ACCEPTED_2CB_PARENT_BOUND_WITH_OWN57_ONLY",
+    "prepared_source_head": "63df0519953c2ec2c2d5c6a9c4a23ee2be0a42fd",
+    "previous_base": "cb8aa092506a272da526aa55a1cfef4b2a6413c0",
+    "unchanged_current_parent_blobs_and_modes": 14107,
+    "own_paths": 57,
+    "parent_terminal_success_claim": true,
+    "actual_case_credit": 0,
+    "parent_root_receipt": {
+      "bytes": 20463,
+      "sha256": "2d9731cf9cdaed8ed90c0e189e56663a54e3bdd28ba8e24741516c4d1a85d9ba"
+    }
+  }
+}

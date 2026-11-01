@@ -10,7 +10,7 @@ from zoneinfo import ZoneInfo
 import json
 import sys
 
-JOB_BUDGET_SECONDS = 120 * 60
+JOB_BUDGET_SECONDS = 360 * 60
 WIB = ZoneInfo('Asia/Jakarta')
 
 

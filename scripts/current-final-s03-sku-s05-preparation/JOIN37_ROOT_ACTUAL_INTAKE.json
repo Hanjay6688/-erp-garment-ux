@@ -1,0 +1,420 @@
+{
+  "status": "ROOT_VERIFIED_CURRENT_JOIN_RETAINED35_FRESH_S05_BROWSER2_ALL5",
+  "head": "2cb8c9ac85b6111e8bb170de6c2ec5c44f7c798c",
+  "tree": "5c5111505dafc5a92a79de4d9b52e4d93e37500e",
+  "run_id": 41333643573,
+  "job_id": 124928771868,
+  "artifact_id": 13095548796,
+  "archive": {
+    "bytes": 29806135,
+    "sha256": "704d58e2e15d851375ca19f4be78eec2144d759e37544bed6576816e26f6d749",
+    "members": 147
+  },
+  "originals": {
+    "CP7_CURRENT_S05_CSS_RETAIN35_BROWSER2.json": {
+      "bytes": 100620875,
+      "sha256": "4247850627aa15c9f0b26d11d9e94d78e4ce3fa4c6b5e28475e5cf5a89429db2"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360429,
+      "sha256": "712910b8533997f5ef693b523f279383d776bf9b9fa6cc6bbdb5e43eb5805be0"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 1470,
+      "sha256": "36aa571c31a49279d5591b970d7f9d8f850a6aad04df5ef552af781e1396621f"
+    },
+    "S05_FOLLOWUP_SUPERVISION.json": {
+      "bytes": 599,
+      "sha256": "a70930b0bce0bcc3add7e56bc89329eb9071fd8ea89e0c2e90627029b4848130"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    }
+  },
+  "source_admission": {
+    "source_pins": 108,
+    "unchanged_product_parent_blobs": 14082,
+    "qualified_routing_files": 3,
+    "added_focused_paths": 21,
+    "current_reader_manifest": {
+      "contract": "cp7.s05-s03-sku-normal-app.v1",
+      "status": "SOURCE_PREPARED_ACTUAL_COMPOSITE_NOT_QUALIFIED",
+      "base_head": "bc89c9f19a362dfaf5c6bd149253f9235542fa75",
+      "new_public_reader_functions": 1,
+      "new_business_DML": false,
+      "actual_current_composite_cases": 0,
+      "files": {
+        "scripts/cp7_accessory_standard_report/README.md": "0603134bc85ad0c4f60d8e7db35e447b89ddb0a6177784f9cb82932423862137",
+        "scripts/cp7_accessory_standard_report/SOURCE.json": "63530f5c713a121f2bde3f63380113bc38e7e1e0fc148727e12ef9d0fea20e33",
+        "scripts/cp7_accessory_standard_report/__init__.py": "e1635547d97e5ffa944392fccbce74ec1eb88160d552d84b26781cdae531194a",
+        "scripts/cp7_accessory_standard_report/cases.py": "e025be1280630dfb89f62261163194ce072b6f6ad6d909b56ff6c82f75778e98",
+        "scripts/cp7_accessory_standard_report/preflight.py": "986f077c9430713c7735e4d63f8ffac22973aaadf8fd963a3d8dfaf1401833fd",
+        "scripts/cp7_accessory_standard_report/report.sql": "216f34d1225171543a743d272a2a9a15aeeda50658a32b53b0ea7ccc64b3702a",
+        "scripts/cp7_accessory_standard_report/stage.py": "c8ef2b9f092eca295f4dff1c9691173d9171ca485b6c8179f67700d98260095a",
+        "scripts/cp7_s03_sku_composition/NEW_CATALOG_IDENTITIES.json": "e49e4cb9c794d6ed98b831ae318e6d3c401a110d420cf932ee7011f7c971a578",
+        "scripts/cp7_s03_sku_composition/__init__.py": "7078a6a88cf48a6fc9f9de2a06c7367b3b264613682d9cdbb6dce37fe18f34ea",
+        "scripts/cp7_s03_sku_composition/catalog_contract.py": "f312de61b3c75087a51d7df712896627c02bb5d6473803bf6d2c90ad506d7c64",
+        "scripts/cp7_s03_sku_composition/choice.sql": "44499c6d6a06d1effc2be4f066168f5fa2fe9608b2ccb80d1d2d0b1dac0a8212",
+        "scripts/cp7_s03_sku_composition/composition.py": "edeca8f5875412f94b4a058a9b8c0960802665fd09926a1aa1ef109dda32635e",
+        "scripts/cp7_s03_sku_composition/installer_ddl.py": "e002ea2dd938fef5913c76974909f70de8bcb47874b7fd958c0aeef0e2993514",
+        "scripts/cp7_s03_sku_composition/native_delta.py": "a49242327798a59407739c2999fcf92408aeef9d88a1ae94fccc82bd189ac9ce",
+        "scripts/cp7_s03_sku_composition/readers.sql": "4ab82ff58033f4357251930504e6e9e75ecce9d8f1cc5b4e10f689940ce749e2",
+        "scripts/cp7_s05_s03_sku_composition/SOURCE_TRANSITION.json": "9cac6b781915f9c19e9a5c3c9e74a8565f8f482c82acefaadef522bbd957b9f8",
+        "scripts/cp7_s05_s03_sku_composition/__init__.py": "16eadc03569bf4dbf6065d748eb6a1ffdc066ec938e2983d0df32bb685116e48",
+        "scripts/cp7_s05_s03_sku_composition/stage.py": "380fbd15a107cf4f8048917e1424b20f5ab90b302f2d64c9d77b860669025911",
+        "scripts/cp7_s05_sku_composition/SOURCE_TRANSITION.json": "c83d863b289578d6a7ed3dd1e77827c1ab4fa81389efdc2ae4033b0855c27031",
+        "scripts/cp7_s05_sku_composition/__init__.py": "16eadc03569bf4dbf6065d748eb6a1ffdc066ec938e2983d0df32bb685116e48",
+        "scripts/cp7_s05_sku_composition/stage.py": "32fe6cc1db3112e601b780817bd7179943e4ba7e33da4ba90dd282cb310e6320",
+        "scripts/cp7_sku_pair_conversion/composition.py": "fa3e825b251252ae11c2b68eecd9e55562526b468f03a01ebc3d5213ed472be8",
+        "scripts/cp7_sku_pair_conversion/conversion.sql": "eece6fbed8cb13b73a49ec2e051478d6ba2a8b1002f6745b8c682db318595d72",
+        "scripts/cp7_sku_pair_conversion/native_delta.py": "ff479d17a8f039693723307088551a0eb6876e2bdd772da2b6dc6f60c55d82f8",
+        "scripts/cp7_sku_pair_conversion/pairs.sql": "05c7b67222b2a003ee4180872216a0837c747fcb145db88157317bad25b281c2",
+        "scripts/cp7_sku_pair_conversion/recovery.sql": "0bfb7d5bf64398470dcdd7f9e8e1ceed124c8db6e051433142f48dcb00ab8bd9",
+        "scripts/cp7_sku_pair_conversion/recovery_before/erp.bc_value_custody_v1.sql": "b9c1c7029802414f42f1a38dadce84d3c08fb2132dd24ef56b2bed87add3776d",
+        "scripts/cp7_sku_pair_conversion/recovery_before/erp.save_accessory_service_action_v1.sql": "6a4431e4d26e61dd3edf1cb5dc18aed407ce54ab49a673a410616aa828a2f644",
+        "scripts/cp7_sku_pair_conversion/recovery_delta.py": "8d4b4e56e497ca5160879f095b1f933cf00f3e858a377bc7da80f121c5dcd116",
+        "scripts/cp7_sku_pair_conversion/recovery_profile.json": "6b577f806e6feefc17be7715624db6c2ff58430b2eadea0a5824975061a61327",
+        "scripts/cp7_sku_pair_conversion/ri_catalog.py": "aa30eff7c258de3ced78067ed7fbe660bef4570c291946f9291d6363881a4f3e",
+        "src/AccessoryStandardReport.dom.test.tsx": "83746323aa3142f24a89619cd19bb74fcd2638517358b9b62366643ede7b891e",
+        "src/App.tsx": "cc1666b377d064a7ed6bdd0953afd3bd3c12faae2464329e0aba71377a87bb6c",
+        "src/ConnectedAccessoryStandardReportPage.tsx": "7ea45bfe0276eca864e67ae0dc0cacd3d9a114436533e6df5923d68cf63d4fab",
+        "src/ConnectedAccessoryWorkspacePage.dom.test.tsx": "c9b40d1f0ef66c39b980e58cf009af77a633786c5ccaa9e8d8d502ba6e214c16",
+        "src/ConnectedAccessoryWorkspacePage.tsx": "03ca854cce6aa089b9dd7fdaf767ffbcf591a332d861454813ffdd099fcec2ba",
+        "src/accessory-standard-report.css": "0ca870ad603a4654d44b4f9b8905f4e91c47d26ff45947d8017d17a1b8b3bcdf",
+        "src/accessory-workspace.css": "54b53c7fba6b85dd6dab3f964da265c648e722b8df7233226a46c252769ca0b5",
+        "src/accessoryStandardReport.test.ts": "bc8513e1e33c009b77d15133e988447e02319206d1160c4245a349a6b6699c02",
+        "src/accessoryStandardReport.ts": "8cafbfe6747c6e0604edd8ed146fac0ec7265c35a782ca3563e114c99b32240b",
+        "tests/fixtures/accessoryStandardReport.ts": "2013b59a6a93c9b5855f5ca54374f05bc0810c927dc64fc09512fd5af8ccc2b8"
+      },
+      "production_go": false,
+      "independent_acceptance": false
+    },
+    "current_reader_source_binding": {
+      "status": "EXACT_CURRENT_READER_CSS_BINDING_AND_ALL41_INPUTS",
+      "path": "scripts/cp7_s05_s03_sku_composition/SOURCE.json",
+      "original": {
+        "bytes": 5351,
+        "sha256": "344d0248e341826978e4aad76bb1c3311bba2e69ac87cb1ad07785c06df7c237"
+      },
+      "derived": {
+        "bytes": 5351,
+        "sha256": "69cc16f0883620ed68b19ecc71586f0184497e03622ee04e5acd68364505623c"
+      },
+      "counted_changes": 1,
+      "current_CSS_path": "src/accessory-standard-report.css",
+      "current_CSS_sha256": "0ca870ad603a4654d44b4f9b8905f4e91c47d26ff45947d8017d17a1b8b3bcdf",
+      "other_reader_source_pins_unchanged": 40,
+      "complete_original_recovered": true,
+      "historical_manifests_changed": false,
+      "reader_SQL_or_Native_changes": false,
+      "actual_reader_inputs_checked": 41,
+      "all_current_reader_source_pins_match": true,
+      "reader_function_sources": 5,
+      "actual_case_credit": 0
+    },
+    "foundation_setup_source": {
+      "status": "EXACT_ORIGINAL_FOUNDATION_SOURCE_AND_INCLUDE_CLOSURE",
+      "seed": "cp6_ao_ap_installed.seed",
+      "source_commit": "50c77207e088af16988d7d91a5b06f72e8e30ecc",
+      "files": {
+        "scripts/cp6_ao_ap_installed.py": {
+          "bytes": 6076,
+          "sha256": "c5ff9f51bfeaa04c95f1f77f8b82ce5129d93965ea4d452c867135e48a57bd62"
+        },
+        "scripts/cp6_v2620e_counterexample_regression.py": {
+          "bytes": 33478,
+          "sha256": "63f14f6547eeef12b2deb443268c9a02c5dc3bffdea60254fe719c9eb38897ad"
+        },
+        "scripts/current-s03-sku-native14-binding/retained-s03-f42e/native_runner.py": {
+          "bytes": 8284,
+          "sha256": "c2124f5371c529ecbf7767381b55f4c799a2fe0829577d80aa3fbd443c4c9512"
+        },
+        "scripts/current-s03-sku-s05-composite-qualification/browser_prepare.py": {
+          "bytes": 5055,
+          "sha256": "d13aaee73897210f97dd95695a029e43380a32f1fd621b80557cdfe75de00c07"
+        },
+        "supabase/tests/cp3_r3_full_schema_seed.sql": {
+          "bytes": 15314,
+          "sha256": "e2c17320074e2dcadc4d69cbc1b4be5f7ea78708715cf9681dbe9b6a797f8edf"
+        },
+        "supabase/tests/cp3_r4_full_schema_seed.sql": {
+          "bytes": 10915,
+          "sha256": "0780eef40eba951060921559c6d015cabbaa29e056a6196413ced7b9f5238b43"
+        },
+        "supabase/tests/cp6_laundry_qc_concurrency_seed.sql": {
+          "bytes": 19123,
+          "sha256": "83a5853b35471708bb01cef232042593a6e68878dfeef90d34620584b04c0156"
+        }
+      },
+      "Native_case_credit": 0
+    },
+    "prior_CSS_source": {
+      "manifest": {
+        "bytes": 13611,
+        "sha256": "137946a994d3a7f474a13d620f386d7d1dccf1eadbb7cc80b094343a43b87109"
+      },
+      "source_files": 86,
+      "unchanged_base_blobs_and_modes": 13999,
+      "reviewed_CSS_derivation": {
+        "path": "src/accessory-standard-report.css",
+        "original_sha256": "a9d62618178521d25fa392e6497e24ebc1e8146277b9cda33a9d76e7ea76d16a",
+        "derived_sha256": "0ca870ad603a4654d44b4f9b8905f4e91c47d26ff45947d8017d17a1b8b3bcdf",
+        "counted_changes": 4,
+        "complete_original_recovered": true,
+        "backend_or_reader_oracle_changed": false,
+        "actual_case_credit": 0
+      },
+      "current_paths": 87,
+      "case_ids": {
+        "S03_Native11": [
+          "S03_NATIVE_OWNER_FIELDS_READ_FULL_NO_EFFECT",
+          "S03_NATIVE_EXPENSE_APPROVAL_ONCE_PAID_E05_REOPEN",
+          "S03_NATIVE_TWO_EXACT_PERIODS_CENTS_AND_NATIVE_HPP",
+          "S03_NATIVE_P2_PAYROLL_POOL_COEXIST_AND_POLICY_FENCES",
+          "S03_NATIVE_OWNING_CANCEL_LATE_OUTPUT_AND_RESTORATION_FLOOR",
+          "S03_NATIVE_BOTH_CORRECTIONS_LINKED_INVERSES_NO_RECOGNITION",
+          "S03_NATIVE_STALE_REVIEW_UUID_RECOVERY_AND_APPEND_ONLY",
+          "S03_NATIVE_CLOSED_SOURCE_OPEN_OUTPUT_AND_CLOSED_CORRECTION",
+          "S03_NATIVE_ZERO_OUTPUT_SUCCESSOR_POLICY_RETAINS_OLD_INFO",
+          "S03_NATIVE_FINISHED_PO_FG_COGS_COST_AND_CANCEL_EXACT",
+          "S03_NATIVE_OLD_ACCRUAL_LATER_BOOK_REOPEN_DATE_FLOOR"
+        ],
+        "S03_reader3": [
+          "S03_READER_NATIVE_OWNED_ACTIVE_PERIODS_AND_DISJOINT_P2_UNCHANGED",
+          "S03_READER_NATIVE_CANCELLED_LIFETIME_AND_STALE_COMPOSITE_NO_EFFECT",
+          "S03_READER_NATIVE_EXACT_HELD_P1_BLOCKS_LEGACY_REPLACE_AND_CREATE"
+        ],
+        "SKU_Native7": [
+          "SKU29_PAIR_BIDIRECTIONAL_REPLACE_DELETE_NO_LEDGER",
+          "SKU29_NONPO_MULTILOT_FIFO_RESERVATION_VALUE_REPLAY",
+          "SKU29_ANY_ACTIVE_MODEL_SIZE_MANUAL_BACK_CURRENT_SOURCE_COST",
+          "SKU29_STALE_SOURCE_TARGET_RESERVATIONS_REFUSE_ZERO_EFFECT",
+          "SKU29_GROUP_REVERSE_ACTIVE_SALE_REFUSAL_THEN_RELEASE",
+          "SKU29_MIXED_PO_NONPO_NATIVE_LINEAGE_VALUE_CONSERVATION",
+          "SKU29_LEGACY_ACCESSORY_COST_AND_INVERSE_PRESERVED"
+        ],
+        "S05_Native10": [
+          "S05_NATIVE_CATEGORY_VARIANTS_PO",
+          "S05_NATIVE_HISTORICAL_BOM",
+          "S05_NATIVE_LATE_INVOICE_COST_REVISIONS",
+          "S05_NATIVE_ZERO_REIMBURSEMENT",
+          "S05_NATIVE_EMPTY_AND_NO_OUTPUT",
+          "S05_NATIVE_WIB_COHORTS",
+          "S05_NATIVE_NOTE_DRAFT_INVERSE",
+          "S05_NATIVE_QC_INVERSE",
+          "S05_NATIVE_REWORK_NONE_RECORDED_RECIPIENT",
+          "S05_NATIVE_CURRENT_ACCESS_PRIVATE_ACL"
+        ],
+        "S05_browser2": [
+          "S05_SKU_NORMAL_APP_DESKTOP_SOURCE_AND_LATE_REPLY",
+          "S05_SKU_NORMAL_APP_MOBILE390_UNKNOWN_ZERO_AND_CURRENT_ACCESS"
+        ],
+        "S03_browser4": [
+          "S03_BROWSER_OWNER_EXPENSE_CORRECT_REVERSE_DESKTOP",
+          "S03_BROWSER_OWNER_CARRY_ALLOCATE_CANCEL_MOBILE390",
+          "S03_BROWSER_ACTUAL_STALE_AND_LOST_REPLY_SAME_UUID",
+          "S03_BROWSER_CURRENT_AUTH_RIGHTS_AND_DELAYED_CONTEXT"
+        ]
+      },
+      "actual_case_credit": 0
+    },
+    "fresh_ids": [
+      "S05_SKU_NORMAL_APP_DESKTOP_SOURCE_AND_LATE_REPLY",
+      "S05_SKU_NORMAL_APP_MOBILE390_UNKNOWN_ZERO_AND_CURRENT_ACCESS"
+    ],
+    "actual_case_credit": 0
+  },
+  "retained_Root_head": "dd5011d1453f5d8ac75bb11520e0e2c7cf38459b",
+  "retained_Root_receipt": {
+    "bytes": 10877,
+    "sha256": "4743e60ed6fdf33682a9e576ce180675923ed7287fda5a6372f56509a89f39c0"
+  },
+  "retained_original_run_id": 41291621885,
+  "retained_original_run_conclusion": "failure",
+  "failed_run_relabelled_PASS": false,
+  "actual_Native_cases": 0,
+  "actual_browser_cases": 2,
+  "fresh_cases": 2,
+  "retained_Native_cases": 31,
+  "retained_S03_browser_cases": 4,
+  "retained_cases": 35,
+  "retained_cases_are_not_fresh": true,
+  "qualified_candidate_Native_coverage": 31,
+  "qualified_candidate_browser_coverage": 6,
+  "candidate_case_coverage": 37,
+  "complete37_qualified": true,
+  "fresh37_one_attempt": false,
+  "prior_runs_aggregated": true,
+  "source_invariant_reuse": true,
+  "qualified_financial_sources": {
+    "bytes": 173444,
+    "sha256": "be51f0247a24b192fd8d704b2bc3f8000f13d53e3b54d2d228ccf316096fe9b4"
+  },
+  "actual_product_source_maps": {
+    "file_maps": 66,
+    "pin_occurrences": 278,
+    "unique_paths": 155,
+    "exact_producer_namespace": true
+  },
+  "actual_reader_product_source_maps": {
+    "file_maps": 1,
+    "pin_occurrences": 41,
+    "unique_paths": 41,
+    "exact_producer_namespace": true
+  },
+  "current_reader_graph_verified_before_database": true,
+  "package_all_five": true,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "actual_used_refusal_raw_full_boundary": {
+    "tables": 692,
+    "sequences": 15,
+    "catalog_groups": 22
+  },
+  "exact_original_foundation_setup": {
+    "actual_original_seed_mode": "ORIGINAL_EMPTY_DATABASE_SEED_REQUIRED",
+    "setup_has_no_Native_case_credit": true,
+    "all22_catalog_and_protected_role_rows_unchanged": true,
+    "partial_or_foreign_foundation_refused": true
+  },
+  "actual_own_source_connection_release": {
+    "phase": "AFTER_FOUNDATION_COMMIT_BEFORE_READER_OR_COPY",
+    "database": "cp6_rollback",
+    "backend_pid": 1357,
+    "cursor_closed": true,
+    "connection_closed": true,
+    "foreign_backends_terminated": 0,
+    "actual_Native_case_credit": 0
+  },
+  "actual_current_browser_raw_assets": {
+    "complete_raw_census_originals": {
+      "S05_SKU_DESKTOP_24DE88B33325480DA6DEDE1231FBF86A_01_BEFORE_REPORT_READS_FULL_CURRENT_STATE.json.gz": {
+        "compressed": {
+          "bytes": 1830339,
+          "sha256": "66f3926f6b5ffb234ca850791aa701da123c700daf21385f36842776e0e4d1f5"
+        },
+        "raw": {
+          "bytes": 14658974,
+          "sha256": "e42f09d4314f73ceca15cdb8984a1360bd64b522ef7d7fc9965b881964991f7f"
+        }
+      },
+      "S05_SKU_DESKTOP_24DE88B33325480DA6DEDE1231FBF86A_02_AFTER_REPORT_READS_FULL_CURRENT_STATE.json.gz": {
+        "compressed": {
+          "bytes": 1830339,
+          "sha256": "66f3926f6b5ffb234ca850791aa701da123c700daf21385f36842776e0e4d1f5"
+        },
+        "raw": {
+          "bytes": 14658974,
+          "sha256": "e42f09d4314f73ceca15cdb8984a1360bd64b522ef7d7fc9965b881964991f7f"
+        }
+      },
+      "S05_SKU_MOBILE390_24DE88B33325480DA6DEDE1231FBF86A_01_BEFORE_REPORT_READS_FULL_CURRENT_STATE.json.gz": {
+        "compressed": {
+          "bytes": 1830345,
+          "sha256": "978db777e67b91c53d94d7cc8a0ececd04f78168f0f5b785ca881a9e8f48da9d"
+        },
+        "raw": {
+          "bytes": 14658974,
+          "sha256": "04d18124cef9c9caaed08d20b3cdbcad19618f5122c1d9548caa53a5ed1910fc"
+        }
+      },
+      "S05_SKU_MOBILE390_24DE88B33325480DA6DEDE1231FBF86A_02_AFTER_REPORT_READS_FULL_CURRENT_STATE.json.gz": {
+        "compressed": {
+          "bytes": 1830345,
+          "sha256": "978db777e67b91c53d94d7cc8a0ececd04f78168f0f5b785ca881a9e8f48da9d"
+        },
+        "raw": {
+          "bytes": 14658974,
+          "sha256": "04d18124cef9c9caaed08d20b3cdbcad19618f5122c1d9548caa53a5ed1910fc"
+        }
+      },
+      "S05_SKU_MOBILE390_24DE88B33325480DA6DEDE1231FBF86A_03_BEFORE_ACCESS_REFUSAL_FULL_CURRENT_STATE.json.gz": {
+        "compressed": {
+          "bytes": 1830343,
+          "sha256": "01285ed165bd38537bfd73b9271cfbaefa08fcf3be368a1c0830d21901d49b70"
+        },
+        "raw": {
+          "bytes": 14658974,
+          "sha256": "df3642821914fc397e19da7e47de1a51fd28d2e1c5d4f005784197cc722d90a2"
+        }
+      },
+      "S05_SKU_MOBILE390_24DE88B33325480DA6DEDE1231FBF86A_04_AFTER_ACCESS_REFUSAL_FULL_CURRENT_STATE.json.gz": {
+        "compressed": {
+          "bytes": 1830343,
+          "sha256": "01285ed165bd38537bfd73b9271cfbaefa08fcf3be368a1c0830d21901d49b70"
+        },
+        "raw": {
+          "bytes": 14658974,
+          "sha256": "df3642821914fc397e19da7e47de1a51fd28d2e1c5d4f005784197cc722d90a2"
+        }
+      }
+    },
+    "current_originals_and_PNGs": {
+      "S05_SKU_BROWSER_FIXTURES.json": {
+        "bytes": 111414,
+        "sha256": "9eb686698c3268930c6f17b3b600350da89c02ecd9b8353f8e513e52f14b8e4e"
+      },
+      "S05_SKU_BROWSER_READER_STATE.json": {
+        "bytes": 41589939,
+        "sha256": "e77da91e3f6da53f0076eb74f04702a264102e86fe510317f0346c0b2610f1ac"
+      },
+      "S05_SKU_BROWSER_SOURCE_CATALOG.json": {
+        "bytes": 19090084,
+        "sha256": "c49aac9198fa100c29a94e8d36ae7d295a12dc2855435b9f97b92ac4f4eff521"
+      },
+      "S05_SKU_DESKTOP_24DE88B33325480DA6DEDE1231FBF86A_VARIANTS.png": {
+        "bytes": 255560,
+        "sha256": "fbd448ac47b04089ad27c3fedd066cb961350afabfa238de36246a4da6f3e4c9"
+      },
+      "S05_SKU_DESKTOP_24DE88B33325480DA6DEDE1231FBF86A_ZERO.png": {
+        "bytes": 256548,
+        "sha256": "a4dae1cf78b376ac5da62298e4d91529499007c7c474fd6134d214921386e328"
+      },
+      "S05_SKU_DESKTOP_24DE88B33325480DA6DEDE1231FBF86A_EMPTY.png": {
+        "bytes": 256241,
+        "sha256": "b8306d767f2bf0267e58543fded76446d5d50f26c0e550db2acfe62d05c890b0"
+      },
+      "S05_SKU_DESKTOP_24DE88B33325480DA6DEDE1231FBF86A_NO_GOOD.png": {
+        "bytes": 262793,
+        "sha256": "644b228d5de1de781a3667eeeb58196427268371767985dbd5a913c2a221a88c"
+      },
+      "S05_SKU_DESKTOP_24DE88B33325480DA6DEDE1231FBF86A_SOURCES.png": {
+        "bytes": 541891,
+        "sha256": "01300cb9bc01585859d578a8c5b50668e8978e60b22eea94fdc2aef7de6058b5"
+      },
+      "S05_SKU_MOBILE390_24DE88B33325480DA6DEDE1231FBF86A_VARIANTS.png": {
+        "bytes": 154457,
+        "sha256": "aee36d23d9b21128c0caabdc711d98bdd75abdabd1a2fa6d58d3c981e6ee582d"
+      },
+      "S05_SKU_MOBILE390_24DE88B33325480DA6DEDE1231FBF86A_ZERO.png": {
+        "bytes": 154271,
+        "sha256": "24e45f5e0518cabd3540e22254b7f7afa89d17a7006e56fe79f75573f2487d17"
+      },
+      "S05_SKU_MOBILE390_24DE88B33325480DA6DEDE1231FBF86A_EMPTY.png": {
+        "bytes": 153898,
+        "sha256": "00cac7d2c79a39979e3c52aba763c128e8632bd105dad2134a19e1667d8994e0"
+      },
+      "S05_SKU_MOBILE390_24DE88B33325480DA6DEDE1231FBF86A_NO_GOOD.png": {
+        "bytes": 159213,
+        "sha256": "cebfd4f1832dd7eb4a9d55e2ad17bbfead80a83c1abbde85a4c31d015a5cd18d"
+      },
+      "S05_SKU_MOBILE390_24DE88B33325480DA6DEDE1231FBF86A_SOURCES.png": {
+        "bytes": 411684,
+        "sha256": "54f4dcfbf2bfb2214d67bd36ffd7c3b4971dbaed5bd462a82ffc974cac6dcdc0"
+      }
+    },
+    "unique_PNG_artifacts_verified": 10,
+    "actual_case_credit": 0
+  },
+  "permanent_complete_assembly_qualified": false,
+  "global_writer_or_permission_or_lock_closure": false,
+  "Afui_positive_HPP_zero_reimbursement_coverage": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

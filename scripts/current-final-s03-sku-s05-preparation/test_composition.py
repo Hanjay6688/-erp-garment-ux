@@ -87,4 +87,31 @@ class AssemblyControls(unittest.TestCase):
         changed['preinstall_data_and_sequences']['sequence']=9
         with self.assertRaisesRegex(ValueError,'COMPONENT_BINDING_CHANGED'):self.module.verify(object(),changed)
 
+class NestedManifestControls(unittest.TestCase):
+    def source(self):
+        path=Path(__file__).resolve().parent/'persistent_source.py'
+        spec=importlib.util.spec_from_file_location('current_nested_product_source_control',path)
+        result=importlib.util.module_from_spec(spec);spec.loader.exec_module(result);return result
+
+    def test_current_three_nested_sources_admit_without_ERP_import(self):
+        source=self.source();proof=source.product_sources()
+        self.assertEqual(proof['source_files'],3);self.assertEqual(proof['actual_ERP_cases'],0)
+
+    def test_stale_README_and_extra_manifest_path_refuse(self):
+        source=self.source();actual=source.raw
+        def changed_readme(name):
+            return actual(name)+b'changed README'if name==source.PRODUCT+'README.md'else actual(name)
+        with patch.object(source,'raw',side_effect=changed_readme):
+            with self.assertRaisesRegex(ValueError,'NESTED_PRODUCT_SOURCE_CHANGED:.*README'):
+                source.product_sources()
+        def extra_path(name):
+            raw=actual(name)
+            if name==source.PRODUCT+'SOURCE.json':
+                value=json.loads(raw);value['files']['scripts/unreviewed.py']='0'*64
+                return json.dumps(value).encode()
+            return raw
+        with patch.object(source,'raw',side_effect=extra_path):
+            with self.assertRaisesRegex(ValueError,'NESTED_PRODUCT_SOURCE_KEYS_CHANGED'):
+                source.product_sources()
+
 if __name__=='__main__':unittest.main()

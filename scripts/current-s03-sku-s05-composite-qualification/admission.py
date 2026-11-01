@@ -66,7 +66,7 @@ def admitted():
             if sha256((ROOT/name).read_bytes()).hexdigest()!=digest:raise ValueError('JOIN_NATURAL_CURRENT_STAGE_FILE_CHANGED:'+name)
     return dict(status='EXACT_CURRENT_PARENTS_AND_NATURAL_S03_ON_SKU_PRODUCT_SOURCE_ADMITTED',
         current_source=source,current_installation=current,qualified_SKU_parent=parents['SKU'],qualified_S03_parent=parents['S03'],
-        physical_qualified_SKU_backend=backend,current_UI_is_separately_bound_by_exact_joined_base=True,
+        physical_qualified_SKU_backend=backend,current_UI_is_separately_bound_by_exact_joined_base_and_reviewed_S05_css=True,
         qualified_SKU_current_installation=actual_sku,used_inverse_guard_before_DDL=True,
         product_sources_override=False,projected_source_graph=False,actual_composite_cases_credited=0,
         production_go=False,independent_acceptance=False)

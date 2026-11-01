@@ -24,7 +24,9 @@ class MetadataControls(unittest.TestCase):
                 self.assertEqual(path.read_bytes(),raw)
 
     def test_pending_parent_stops_before_client_import_or_source_loading(self):
-        with patch.object(metadata,'source',side_effect=AssertionError('TOO_EARLY')):
+        def pending(raw):raise ValueError('PERMANENT_S05_EXACT_TERMINAL_JOIN37_INTAKE_PENDING')
+        with patch.object(metadata,'load',return_value=SimpleNamespace(qualified_receipt=pending)),\
+             patch.object(metadata,'source',side_effect=AssertionError('TOO_EARLY')):
             with self.assertRaisesRegex(ValueError,'TERMINAL_JOIN37_INTAKE_PENDING'):
                 metadata.capture_pair('postgresql://postgres@127.0.0.1:54322/cp6_rollback',b'')
 

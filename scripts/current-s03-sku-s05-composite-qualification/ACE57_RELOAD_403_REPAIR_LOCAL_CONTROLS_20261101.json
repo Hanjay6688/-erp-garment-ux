@@ -1,0 +1,35 @@
+{
+  "status": "ACE57_EXPECTED_RELOAD_403_EVIDENCE_BINDING_REPAIR_SOURCE_CONTROLS_PASS_NOT_NATIVE",
+  "failed_run": "41255938821",
+  "failed_commit": "ace57bc877bec11e113b5c903a811e3bb4cba224",
+  "diagnosed_failure": "EXPECTED_CURRENT_RIGHTS_RELOAD_403_WAS_NOT_CAUSALLY_REGISTERED_IN_STRICT_CONSOLE_ORACLE",
+  "repair": {
+    "exact_save_response_wait_registered_before_click": true,
+    "exact_period_read_response_wait_registered_before_click": true,
+    "save_403_code_verified": "CP7_S03_OWNER_REQUIRED",
+    "reload_403_code_verified": "CP7_S03_OWNER_REQUIRED",
+    "both_exact_network_responses_registered": true,
+    "generic_console_allowlist_added": false,
+    "product_permission_policy_changed": false,
+    "financial_oracle_changed": false,
+    "automatic_retry_added": false
+  },
+  "controls": {
+    "node_syntax_check": "PASS",
+    "targeted_current_rights_source_control": "PASS",
+    "exact_all_derivations_recovered": "PASS",
+    "python_source_and_orchestration_tests": 32,
+    "python_result": "PASS",
+    "real_loopback_RPC_requests": 9,
+    "distinct_loopback_connections": 9,
+    "loopback_result": "REAL_LOOPBACK_RPC_TRANSPORT_CONTRACT_PASS",
+    "response_loss_without_retry": true,
+    "refusal_preserved": true,
+    "exact_payload_and_Auth_headers": true
+  },
+  "ERP_database_started": false,
+  "actual_Native_cases": 0,
+  "actual_browser_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

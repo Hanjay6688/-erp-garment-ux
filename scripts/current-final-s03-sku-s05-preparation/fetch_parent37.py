@@ -6,7 +6,7 @@ import importlib.util,json,os,shutil,subprocess,zipfile
 HERE=Path(__file__).resolve().parent
 ROOT=HERE.parents[1]
 REPOSITORY='Hanjay6688/-erp-garment-ux'
-MAIN='CP7_CURRENT_S03_SKU_S05_NATIVE31_BROWSER6.json'
+MAIN='CP7_CURRENT_S05_CSS_RETAIN35_BROWSER2.json'
 
 
 def load(name,path):

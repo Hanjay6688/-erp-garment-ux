@@ -551,5 +551,26 @@
   "actual_SQL_executed": 0,
   "workflow_activated": false,
   "production_go": false,
-  "independent_acceptance": false
+  "independent_acceptance": false,
+  "latest_closed_parent_rebase": {
+    "status": "ONLY_OWN94_REBASED_ON_ACTIVE_CURRENT_PERMANENT_NOT_QUALIFIED_PARENT",
+    "prepared_source_head": "871234317f7fdcb58bea9c621a5333e9cf61f464",
+    "current_parent_head": "887fb69c3ea95192fbd5ad3dbe63230189a0916e",
+    "current_parent_tree": "3567695ca9f8baed4c592669f70e5f26b43b0704",
+    "unchanged_parent_blobs_and_modes": 14164,
+    "parent_root_receipt": null,
+    "parent_qualification_pending": true,
+    "actual_Native_cases": 0,
+    "workflow_activated": false,
+    "previous_failed_preDB_parent": "60cbc27bcdaa52c0d852580c1b95bc0301a55471",
+    "previous_failure_was_nested_product_README_pin": true,
+    "actual_parent_qualification_still_pending": true
+  },
+  "local_exact_Native_origin_materialization": {
+    "head": "928246e5f62637c7c6457e57d73d0699196e3408",
+    "tree": "581303d5f0df8a6ae40f6d7ec0fab7c06678ed9a",
+    "materialized_before_source_fence": true,
+    "prior_local_fence_refused_missing_Git_object_before_any_ERP": true,
+    "planned_public_additional_parent_preserves_exact_Native_origin_reachability": true
+  }
 }

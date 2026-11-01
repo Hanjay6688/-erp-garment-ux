@@ -81,12 +81,17 @@
       "source_path": "scripts/current-s05-sku-composition-qualification/browser_fixture.py",
       "original_bytes": 4553,
       "original_sha256": "dfd35d7dd8de095aac7dcdb93cf2d0733877ee5ae1642d2f9898fd0c2efc3189",
-      "derived_bytes": 4557,
-      "derived_sha256": "850efdb3d1cc726118265bebf71bd208ae6324fc5af861c9a789b0de226c023d",
+      "derived_bytes": 4853,
+      "derived_sha256": "69f999eed1e4b262e0199e7918092e9a1a74d9f439fbfb3179b6a039bc2835ea",
       "changes": [
         {
           "before": "from cp7_s05_sku_composition import stage",
           "after": "from cp7_s05_s03_sku_composition import stage",
+          "count": 1
+        },
+        {
+          "before": "    state = json.loads(state_raw)\n    with psycopg.connect(url, connect_timeout=10) as conn, conn.cursor() as cur:",
+          "after": "    state = json.loads(state_raw)\n    # This fixture runs in a fresh Python process. Rebind the frozen helper's\n    # catalog expectation from the exact reader state before its first use;\n    # the parent qualification process cannot share module globals with us.\n    helper.control.STATE = dict(installed_catalog=state['after'])\n    with psycopg.connect(url, connect_timeout=10) as conn, conn.cursor() as cur:",
           "count": 1
         }
       ],
@@ -123,8 +128,8 @@
       "source_path": "scripts/current-attendance-choice-browser4-lawful-successor/cases.mjs",
       "original_bytes": 32333,
       "original_sha256": "abb98bc6e9605c1a2ba5152e27d36828372f9ddd31e1ccea6039eac211ff3738",
-      "derived_bytes": 32333,
-      "derived_sha256": "96b0ab47cd1f54924c8bf1c443a1ade6e87bcb62c55754388b502c29e636bef5",
+      "derived_bytes": 32885,
+      "derived_sha256": "85a8628bc0c822facf14a663d2aa1928db67becd7a1ea6b230a9470c80c9e5b8",
       "changes": [
         {
           "before": "scripts/current-attendance-choice-browser4-lawful-successor/fixture.py",
@@ -134,6 +139,16 @@
         {
           "before": "'./response_waits.mjs'",
           "after": "'./s03_response_waits.mjs'",
+          "count": 1
+        },
+        {
+          "before": " const endpoint='**/rest/v1/rpc/'+RPC.save;let deniedBoundary,actualRefusal\n await x.page.route(endpoint,async route=>{restoreRequired=true;await currentRole(x,backupOwner,'ADMIN');deniedBoundary=x.state('BEFORE_CURRENT_RIGHTS_SAVE');const actual=await route.fetch();actualRefusal={status:actual.status(),body:await actual.json()};assert.equal(actual.status(),403);assert.ok(String(actualRefusal.body.message).includes('CP7_S03_OWNER_REQUIRED'));x.expectedNetwork.push({url:route.request().url(),text:'Failed to load resource: the server responded with a status of 403 (Forbidden)',reason:'CURRENT_OWNER_ROLE_CHANGED_BY_BACKUP_OWNER_BEFORE_REAL_SAVE'});await route.fulfill({response:actual})})\n await x.choice().getByRole('button',{name:'Simpan pilihan biaya',exact:true}).click();await x.expect(x.choice().getByRole('region',{name:'Tinjauan perubahan biaya',exact:true})).toHaveCount(0);assert.ok(actualRefusal);equalCensus(deniedBoundary.census,x.state('AFTER_CURRENT_RIGHTS_DENIAL').census);await x.page.unroute(endpoint)\n",
+          "after": " // Change the database role after preview but before the real save. Do not put\n // the lawful transition inside a Playwright route handler: its audit/census\n // proof is intentionally substantial and the click would race the UI expect\n // timeout before the intercepted save response had even been delivered.\n restoreRequired=true;await currentRole(x,backupOwner,'ADMIN');const deniedBoundary=x.state('BEFORE_CURRENT_RIGHTS_SAVE')\n const currentRightsSave=x.page.waitForResponse(r=>isRpc(RPC.save)(r)&&args(r).p_action==='CHOOSE')\n await x.choice().getByRole('button',{name:'Simpan pilihan biaya',exact:true}).click();const actualRefusal=await denied(currentRightsSave,'CP7_S03_OWNER_REQUIRED');x.verifiedNetwork(actualRefusal.response,'CURRENT_OWNER_ROLE_CHANGED_BY_BACKUP_OWNER_BEFORE_REAL_SAVE')\n await x.expect(x.choice().getByRole('region',{name:'Tinjauan perubahan biaya',exact:true})).toHaveCount(0);equalCensus(deniedBoundary.census,x.state('AFTER_CURRENT_RIGHTS_DENIAL').census)\n",
+          "count": 1
+        },
+        {
+          "before": " const currentRightsSave=x.page.waitForResponse(r=>isRpc(RPC.save)(r)&&args(r).p_action==='CHOOSE')\n await x.choice().getByRole('button',{name:'Simpan pilihan biaya',exact:true}).click();const actualRefusal=await denied(currentRightsSave,'CP7_S03_OWNER_REQUIRED');x.verifiedNetwork(actualRefusal.response,'CURRENT_OWNER_ROLE_CHANGED_BY_BACKUP_OWNER_BEFORE_REAL_SAVE')\n",
+          "after": " const currentRightsSave=x.page.waitForResponse(r=>isRpc(RPC.save)(r)&&args(r).p_action==='CHOOSE')\n // A refused production mutation deliberately invokes its normal reload handler.\n // Register that exact period read before the click and prove its refusal too;\n // never hide an unbound 403 with a generic console allow-list.\n const currentRightsReload=x.page.waitForResponse(r=>isRpc(RPC.read)(r)&&args(r).p_period_start===f.day&&args(r).p_period_end===f.day&&args(r).p_offset===0&&args(r).p_limit===25)\n await x.choice().getByRole('button',{name:'Simpan pilihan biaya',exact:true}).click();const actualRefusal=await denied(currentRightsSave,'CP7_S03_OWNER_REQUIRED');x.verifiedNetwork(actualRefusal.response,'CURRENT_OWNER_ROLE_CHANGED_BY_BACKUP_OWNER_BEFORE_REAL_SAVE')\n const reloadRefusal=await denied(currentRightsReload,'CP7_S03_OWNER_REQUIRED');x.verifiedNetwork(reloadRefusal.response,'CURRENT_OWNER_ROLE_CHANGED_RELOAD_AFTER_REFUSED_REAL_SAVE')\n",
           "count": 1
         }
       ],
@@ -369,6 +384,22 @@
         {
           "before": "['node','scripts/cp6_auditor_browser_host.mjs']",
           "after": "['node','scripts/current-s03-sku-s05-composite-qualification/host.mjs']",
+          "count": 1
+        }
+      ],
+      "byte_exact_reversible": true
+    },
+    "attempt_policy.py": {
+      "source_commit": "b25eaae55a144aa03cc05f8f77109f5d0b02fbfb",
+      "source_path": "scripts/current-sku-managed-recovery-native27-qualification/attempt_policy.py",
+      "original_bytes": 2209,
+      "original_sha256": "87d89647ff0637d6449ba015352950715384807c5e3027233467935871804755",
+      "derived_bytes": 2209,
+      "derived_sha256": "5076f5ddb63b8c6b677c6141253d25734b295721aa8d483f116abc6ecd0136f8",
+      "changes": [
+        {
+          "before": "JOB_BUDGET_SECONDS = 210 * 60",
+          "after": "JOB_BUDGET_SECONDS = 360 * 60",
           "count": 1
         }
       ],

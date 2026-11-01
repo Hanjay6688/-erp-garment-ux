@@ -11,13 +11,13 @@ permissions:
   contents: read
   actions: read
 concurrency:
-  group: cp7-current-s03-sku-s05-${{ github.run_id }}
+  group: cp7-current-s03-sku-s05-${{ github.ref }}
   cancel-in-progress: false
 jobs:
   p21:
     name: Current installed SKU S03 S05 Native31; real Auth browser6; complete restoration
     runs-on: ubuntu-24.04
-    timeout-minutes: 210
+    timeout-minutes: 360
     env:
       PYTHONDONTWRITEBYTECODE: '1'
       CURRENT_ANALOG_FROZEN_SOURCE_ROOT: ${{ github.workspace }}/frozen
@@ -48,6 +48,13 @@ jobs:
       S05_SKU_CONFIRM: cp6_rollback
       JOIN_QUALIFIED_SKU_ROOT: ${{ github.workspace }}/qualified-sku090b
     steps:
+    - name: Record real monotonic job start before any setup
+      run: |
+        python - <<'PY'
+        import os,time
+        with open(os.environ['GITHUB_ENV'],'a') as stream:
+            stream.write('JOIN_JOB_START_MONOTONIC='+str(time.monotonic())+'\n')
+        PY
     - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       with:
         path: auditor
@@ -438,7 +445,7 @@ jobs:
 
         python -B scripts/current-s03-sku-s05-composite-qualification/probe.py --check
 
-        python -B scripts/current-sku-managed-recovery-native27-qualification/attempt_policy.py --require-window
+        python -B scripts/current-s03-sku-s05-composite-qualification/attempt_policy.py --require-window
 
         '
     - name: Start disposable database
@@ -522,7 +529,7 @@ jobs:
         if-no-files-found: error
     - name: Run one actual current Native31 browser6 composite and complete outer restoration
       working-directory: writer
-      run: 'python -u -B ''../auditor/scripts/current-s03-sku-s05-composite-qualification/probe.py'' --runtime
+      run: 'python -u -B ''../auditor/scripts/current-s03-sku-s05-composite-qualification/runtime_supervisor.py''
 
         python -B ''../auditor/scripts/current-s03-sku-s05-composite-qualification/final_gate.py''
 
@@ -545,11 +552,25 @@ jobs:
         \    print(json.dumps(dict(ow04_original_report_bytes=True,name=name,raw_bytes=len(raw),\n        raw_sha256=hashlib.sha256(raw).hexdigest(),gzip_bytes=len(packed),\n\
         \        gzip_sha256=hashlib.sha256(packed).hexdigest(),\n        gzip_base64=base64.b64encode(packed).decode('ascii'))),flush=True)\n\
         PY\n"
+    - name: Preserve bounded JSON diagnostics independently of large clone evidence
+      if: always()
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      with:
+        name: cp7-current-s03-sku-s05-37-bounded-diagnostics-${{ github.run_attempt }}
+        path: |
+          auditor/cp6-proof/t3/*.json
+          auditor/cp6-proof/t3/*.jsonl
+          auditor/cp6-proof/t3/**/*.json
+          auditor/cp6-proof/t3/**/*.jsonl
+        retention-days: 30
+        if-no-files-found: error
+        compression-level: 9
     - name: Remove disposable database
       if: always()
       working-directory: base
-      run: if command -v supabase >/dev/null 2>&1 && test -d cp5-local; then supabase stop --workdir cp5-local --no-backup;
-        fi
+      run: |-
+        python -B ../auditor/scripts/current-s03-sku-s05-composite-qualification/runtime_supervisor.py --allow-database-stop
+        if command -v supabase >/dev/null 2>&1 && test -d cp5-local; then supabase stop --workdir cp5-local --no-backup; fi
     - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
       if: always()
       with:

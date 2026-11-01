@@ -1,0 +1,48 @@
+{
+  "base_head": "50c77207e088af16988d7d91a5b06f72e8e30ecc",
+  "base_tree": "28295dd44a59f1832bebb86af24bd85df4471f4b",
+  "files": {
+    "scripts/current-s03-sku-s05-composite-qualification/source.py": {
+      "original_sha256": "ed9323fff3d5b7c61d6f112c42513f39caf02571b936c8cecbd041021d6d7643",
+      "derived_sha256": "5a7efc391967416a6a9133b00fc8b4775cd3e42ed1d6afa5037b9f6252239d06",
+      "changes": [
+        [
+          "LAYOUT='src/accessory-standard-report.css'\n",
+          "LAYOUT='src/accessory-standard-report.css'\nFOLLOWUP_PREFIX='scripts/current-s05-css-followup-qualification/'\nFOLLOWUP_WORKFLOW='.github/workflows/cp7-s05-css-followup.yml'\nREADER_MANIFEST='scripts/cp7_s05_s03_sku_composition/SOURCE.json'\n"
+        ],
+        [
+          "    if raw(LAYOUT)!=derived:raise ValueError('JOIN_EXACT_REVIEWED_S05_CSS_REQUIRED')\n",
+          "    if raw(LAYOUT)!=derived:raise ValueError('JOIN_EXACT_REVIEWED_S05_CSS_REQUIRED')\n    spec=importlib.util.spec_from_file_location('joined_exact_current_reader_CSS_pin',ROOT/FOLLOWUP_PREFIX/'reader_binding.py')\n    reader=importlib.util.module_from_spec(spec);spec.loader.exec_module(reader)\n    reader_derived,reader_proof=reader.derive(git('show',BASE+':'+READER_MANIFEST))\n    if raw(READER_MANIFEST)!=reader_derived:raise ValueError('JOIN_EXACT_CURRENT_READER_MANIFEST_DERIVATION_REQUIRED')\n    reviewed={LAYOUT:derived,READER_MANIFEST:reader_derived}\n"
+        ],
+        [
+          "        if name==LAYOUT:\n            expected=(entry[0],sha1(b'blob '+str(len(derived)).encode()+b'\\0'+derived).hexdigest())\n            if current.get(name)!=expected:raise ValueError('JOIN_COMMITTED_S05_CSS_DERIVATION_REQUIRED')\n",
+          "        if name in reviewed:\n            content=reviewed[name]\n            expected=(entry[0],sha1(b'blob '+str(len(content)).encode()+b'\\0'+content).hexdigest())\n            if current.get(name)!=expected:raise ValueError('JOIN_COMMITTED_REVIEWED_S05_DERIVATION_REQUIRED:'+name)\n"
+        ],
+        [
+          "    if any(not(name.startswith(PREFIX)or name in(WORKFLOW,FOCUSED_WORKFLOW,LAYOUT))for name in allowed):\n",
+          "    if any(not(name.startswith((PREFIX,FOLLOWUP_PREFIX))or name in(WORKFLOW,FOCUSED_WORKFLOW,LAYOUT,FOLLOWUP_WORKFLOW,READER_MANIFEST))for name in allowed):\n"
+        ],
+        [
+          "    if owned!={name for name in allowed if name.startswith(PREFIX)}:\n",
+          "    owned.update(str(p.relative_to(ROOT))for p in(ROOT/FOLLOWUP_PREFIX).rglob('*')if p.is_file()and'__pycache__'not in p.parts and p.suffix!='.pyc')\n    if owned!={name for name in allowed if name.startswith((PREFIX,FOLLOWUP_PREFIX))}:\n"
+        ],
+        [
+          "        unchanged_base_blobs_and_modes=len(base)-1,reviewed_S05_css_derivation=layout_proof,current_qualifier_files=len(allowed),\n",
+          "        unchanged_base_blobs_and_modes=len(base)-2,reviewed_S05_css_derivation=layout_proof,\n        reviewed_current_reader_manifest_derivation=reader_proof,current_qualifier_files=len(allowed),\n"
+        ]
+      ]
+    },
+    "scripts/current-s03-sku-s05-composite-qualification/freeze.py": {
+      "original_sha256": "e67c7061a94eed7f5596bb130d575fdfb303efc30800375d3e4e4cdf38ea1496",
+      "derived_sha256": "b47b6f82cefc2e767617d2d18ef281d4b6c2f3ad965d461d6579b732877f9602",
+      "changes": [
+        [
+          "    names={str(p.relative_to(ROOT))for p in HERE.rglob('*')if p.is_file()and p.name!='SOURCE.json'and'__pycache__'not in p.parts and p.suffix!='.pyc'}|{WORKFLOW,'.github/workflows/cp7-s03-sku-owner-access-native1.yml','src/accessory-standard-report.css'}\n",
+          "    names={str(p.relative_to(ROOT))for p in HERE.rglob('*')if p.is_file()and p.name!='SOURCE.json'and'__pycache__'not in p.parts and p.suffix!='.pyc'}|{WORKFLOW,'.github/workflows/cp7-s03-sku-owner-access-native1.yml','src/accessory-standard-report.css'}\n    names.update(str(p.relative_to(ROOT))for p in(ROOT/'scripts/current-s05-css-followup-qualification').rglob('*')if p.is_file()and'__pycache__'not in p.parts and p.suffix!='.pyc')\n    names.add('.github/workflows/cp7-s05-css-followup.yml')\n    names.add('scripts/cp7_s05_s03_sku_composition/SOURCE.json')\n"
+        ]
+      ]
+    }
+  },
+  "ERP_execution": false,
+  "actual_case_credit": 0
+}

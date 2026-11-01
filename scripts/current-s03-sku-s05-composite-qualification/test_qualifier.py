@@ -146,7 +146,7 @@ class SourceControls(unittest.TestCase):
             expected=dict(old[index])
             if expected.get('name')in record.get('historical_admission_steps_use_exact_physical_SKU_checkout',[]):
                 expected['working-directory']='qualified-sku090b'
-            for change in record.get('clone_output_path_changes',[]):
+            for change in record.get('clone_output_path_changes',[])+record.get('runtime_cleanup_guard_changes',[]):
                 if expected.get('name')==change['step_name']:
                     self.assertEqual(expected['run'].count(change['before']),1)
                     expected['run']=expected['run'].replace(change['before'],change['after'],1)
@@ -154,17 +154,34 @@ class SourceControls(unittest.TestCase):
         start=next(i for i,s in enumerate(steps)if s.get('name')=='Start disposable database')
         for marker in ('fetch_parents.py','test_rpc_transport.mjs','probe.py --check'):
             self.assertTrue(any(marker in s.get('run','')for s in steps[:start]))
-        actual=next(s for s in steps if 'probe.py\' --runtime' in s.get('run',''))
-        self.assertIn('final_gate.py',actual['run']);self.assertEqual(current['timeout-minutes'],210)
+        actual=next(s for s in steps if 'runtime_supervisor.py' in s.get('run',''))
+        self.assertIn('final_gate.py',actual['run']);self.assertEqual(current['timeout-minutes'],360)
         self.assertEqual(current['env']['JOIN_CONFIRM'],'cp6_rollback')
         self.assertEqual(current['env']['JOIN_QUALIFIED_SKU_ROOT'],'${{ github.workspace }}/qualified-sku090b')
-        runtime_index=next(i for i,s in enumerate(steps)if 'probe.py\' --runtime'in s.get('run',''))
+        runtime_index=next(i for i,s in enumerate(steps)if 'runtime_supervisor.py'in s.get('run',''))
         retained_index=next(i for i,s in enumerate(steps)if 'retain_clone.py'in s.get('run',''))
         self.assertGreater(retained_index,runtime_index)
         self.assertEqual(steps[retained_index]['if'],'always()')
         diagnostic_upload=next(i for i,s in enumerate(steps)if s.get('name')=='Preserve the pre-runtime diagnostic independently of runner survival')
         self.assertLess(diagnostic_upload,runtime_index)
         self.assertEqual(steps[diagnostic_upload]['with']['path'],'auditor/cp6-proof/t3/JOIN_PRE_RUNTIME_RESOURCE.json')
+
+    def test_current_rights_save_changes_role_before_request_and_waits_for_refusal(self):
+        text=(HERE/'s03_cases.mjs').read_text()
+        start=text.index("restoreRequired=true;await currentRole(x,backupOwner,'ADMIN');const deniedBoundary")
+        end=text.index("await x.shot('CURRENT_RIGHTS_REFUSED')",start)
+        block=text[start:end]
+        self.assertNotIn('.route(',block)
+        self.assertLess(block.index("currentRole(x,backupOwner,'ADMIN')"),block.index('waitForResponse'))
+        self.assertIn("const currentRightsReload=x.page.waitForResponse(r=>isRpc(RPC.read)(r)",block)
+        self.assertIn("args(r).p_period_start===f.day&&args(r).p_period_end===f.day&&args(r).p_offset===0&&args(r).p_limit===25",block)
+        self.assertLess(block.index('const currentRightsSave='),block.index("getByRole('button',{name:'Simpan pilihan biaya'"))
+        self.assertLess(block.index('const currentRightsReload='),block.index("getByRole('button',{name:'Simpan pilihan biaya'"))
+        self.assertLess(block.index("getByRole('button',{name:'Simpan pilihan biaya'"),block.index("await denied(currentRightsSave,'CP7_S03_OWNER_REQUIRED')"))
+        self.assertLess(block.index("await denied(currentRightsSave,'CP7_S03_OWNER_REQUIRED')"),block.index("await denied(currentRightsReload,'CP7_S03_OWNER_REQUIRED')"))
+        self.assertLess(block.index("await denied(currentRightsReload,'CP7_S03_OWNER_REQUIRED')"),block.index("getByRole('region',{name:'Tinjauan perubahan biaya'"))
+        self.assertEqual(block.count('x.verifiedNetwork('),2)
+        self.assertNotIn('expectedNetwork.push',block)
 
     def test_exact_historical_app_is_admitted_and_current_additions_remain_explicit(self):
         backend=load('frozen_parent')

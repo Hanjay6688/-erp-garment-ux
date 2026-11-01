@@ -1,0 +1,62 @@
+{
+  "status": "TERMINAL_FAILURE_DIAGNOSED_NO_CASE_CREDIT",
+  "qualification_commit": "e6684b07f98d753b5f78b24c7af52cd981971c0c",
+  "github_run_id": "41241493562",
+  "github_job_id": "124656157099",
+  "github_run_attempt": "1",
+  "run_conclusion": "failure",
+  "failed_step": "Run one actual current Native31 browser6 composite and complete outer restoration",
+  "failed_step_exit_code": 124,
+  "runtime_supervision": {
+    "status": "INCOMPLETE",
+    "worker_exit": 1,
+    "deadline_reached": false,
+    "external_signal": null,
+    "orphaned_child": true,
+    "process_group_empty": true,
+    "process_tree_empty": true,
+    "elapsed_seconds": 8667.703,
+    "actual_case_credit": 0,
+    "production_go": false
+  },
+  "first_failure": {
+    "phase": "S03_BROWSER4",
+    "exception": "AssertionError",
+    "locator": "section.attendance-choice / Tinjauan perubahan biaya",
+    "expected_count": 0,
+    "received_count": 1,
+    "source": "scripts/current-s03-sku-s05-composite-qualification/s03_cases.mjs:134",
+    "diagnosis": "The lawful role transition was awaited inside a Playwright route handler after the save click. Its audit and census proof had not completed when the five-second UI assertion expired, so the intercepted 403 response had not yet been delivered to the product. The evidence contains only the earlier ADMIN and OWNER transitions before the assertion failure, confirming that the intended second ADMIN transition was still unfinished. This is a qualification synchronization defect, not proof of a product permission leak."
+  },
+  "immutable_source_artifact": {
+    "artifact_id": "13061971453",
+    "name": "cp7-current-s03-sku-s05-37-1",
+    "size_in_bytes": 578096722,
+    "digest": "sha256:97410c29a8bb83ec0d585e362e1546856e7565e6ec310edfeecefbad2748615b",
+    "expired": false
+  },
+  "bounded_recovery": {
+    "workflow_run_id": "41255477690",
+    "workflow_commit": "81518f2419a1b895a1dc27e55afce8254d10bd2b",
+    "artifact_id": "13062698990",
+    "artifact_name": "cp7-run-41241493562-bounded-diagnostics",
+    "size_in_bytes": 128927,
+    "digest": "sha256:8812f3866014fe018e72a1c4c910c681c3f00930a852fbf1080c47c4d47e7eb2",
+    "erp_or_database_execution": false,
+    "actual_case_credit": 0
+  },
+  "repair": {
+    "product_permission_policy_changed": false,
+    "role_transition_after_preview_before_save_preserved": true,
+    "role_transition_completed_before_save_request": true,
+    "actual_403_response_awaited_before_UI_assertion": true,
+    "large_clone_evidence_retained_separately": true,
+    "bounded_JSON_diagnostic_artifact_added": true
+  },
+  "cleanup_step_conclusion": "success",
+  "cleanup_success_is_not_business_acceptance": true,
+  "actual_Native_cases_credited": 0,
+  "actual_browser_cases_credited": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

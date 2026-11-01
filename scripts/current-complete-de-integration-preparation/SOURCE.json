@@ -1,7 +1,7 @@
 {
   "classification": "CLOSED_D1_E_ON_COMPLETE_SOURCE_PREPARATION_NOT_QUALIFICATION",
-  "base_head": "04ed2fbc3f1fb24174ff7368bffbb2dff01f5423",
-  "base_tree": "66930111fa9826b0c18ed6cfd3b05ea225e4e62b",
+  "base_head": "887fb69c3ea95192fbd5ad3dbe63230189a0916e",
+  "base_tree": "3567695ca9f8baed4c592669f70e5f26b43b0704",
   "files": {
     "scripts/cp7_complete_credit_de/README.md": {
       "bytes": 2724,
@@ -208,16 +208,16 @@
       "sha256": "e2e70460b415d6f5fcbcbeccda7a800c2f8bde6515f8ce613fdb9eadadbe5e01"
     },
     "scripts/current-complete-de-integration-preparation/REPAIRED_PERMANENT_REBASE_ORIGIN.json": {
-      "bytes": 21662,
-      "sha256": "0b761883a0120dd50c97e6ca545d7a100535561d46bb76931a2dcf379193e9a2"
+      "bytes": 22753,
+      "sha256": "31866bf574a3fa3e3d2715924ddf2d8cd9f8779a2bd3f84d023c04cdf5c2e569"
     },
     "scripts/current-complete-de-integration-preparation/RUNTIME_DIAGNOSTICS_SOURCE.json": {
       "bytes": 859,
       "sha256": "305124921eccc5618d79d3e4abdb7db5627d4891d00d275192f76255b7586958"
     },
     "scripts/current-complete-de-integration-preparation/SUPERVISION_INTEGRATION_CONTROLS.json": {
-      "bytes": 771,
-      "sha256": "555d7c4aaefa73e529d239280c45ae8367c1c68454dcf08b8751cb01c6b7960e"
+      "bytes": 1603,
+      "sha256": "6898d489a414d2c2e0ea17bd7b3b4e358e0cec893b64493c4eee8e17f1157a3c"
     },
     "scripts/current-complete-de-integration-preparation/WITNESS_ORIGIN.json": {
       "bytes": 598,
@@ -352,8 +352,8 @@
       "sha256": "2570f8783d39b072f20d901585f5846d2fa4cbdc5973eee891ecb0517cdc229c"
     },
     "scripts/current-complete-de-integration-preparation/source.py": {
-      "bytes": 4260,
-      "sha256": "ed29060678bae2f8b56c220c632bb1b58c44771f652fe821a1f9c2eeb5ab7e02"
+      "bytes": 5793,
+      "sha256": "54aa71e4ed158eb25ea7b4ad68e0f527849e48460a2e2573cdb64a2fdd7eac2c"
     },
     "scripts/current-complete-de-integration-preparation/system_metadata.py": {
       "bytes": 3188,
@@ -364,8 +364,8 @@
       "sha256": "370180e095247cde42dda89d21f7b88df04585b4c6cdee6ec47381b7b07fe91b"
     },
     "scripts/current-complete-de-integration-preparation/test_runtime_integration.py": {
-      "bytes": 6056,
-      "sha256": "ee9ea63ee138c104ce1ef20e4c5871b4cfefe2c7079813e6af11fe88158e8464"
+      "bytes": 9372,
+      "sha256": "9058c430fa99ab57b70762c4f44cefd852242152513bb7bd9c047b45b3689c2e"
     },
     "scripts/current-complete-de-integration-preparation/witness.py": {
       "bytes": 3188,

@@ -132,5 +132,14 @@
       "before": "'../auditor/cp6-proof/t3/CLONE_install'",
       "after": "\"$RUNNER_TEMP/join-clone/CLONE_install\""
     }
+  ],
+  "runtime_cleanup_guard_changes": [
+    {
+      "step_name": "Remove disposable database",
+      "before": "if command -v supabase >/dev/null 2>&1 && test -d cp5-local; then supabase stop --workdir cp5-local --no-backup; fi",
+      "after": "python -B ../auditor/scripts/current-s03-sku-s05-composite-qualification/runtime_supervisor.py --allow-database-stop\nif command -v supabase >/dev/null 2>&1 && test -d cp5-local; then supabase stop --workdir cp5-local --no-backup; fi",
+      "count": 1,
+      "original_cleanup_body_preserved": true
+    }
   ]
 }

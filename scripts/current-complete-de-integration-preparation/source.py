@@ -1,14 +1,15 @@
 """Closed additive D1/E sources over the exact prepared complete parent."""
 from pathlib import Path
 from hashlib import sha256
-import json,os,subprocess
+import importlib.util,json,os,subprocess
 
 HERE=Path(__file__).resolve().parent
 ROOT=HERE.parents[1]
-BASE='04ed2fbc3f1fb24174ff7368bffbb2dff01f5423'
-TREE='66930111fa9826b0c18ed6cfd3b05ea225e4e62b'
+BASE='887fb69c3ea95192fbd5ad3dbe63230189a0916e'
+TREE='3567695ca9f8baed4c592669f70e5f26b43b0704'
 PREFIXES=('scripts/cp7_credit_correction_de/','scripts/cp7_complete_credit_de/',
     'scripts/current-complete-de-integration-preparation/')
+WORKFLOW='.github/workflows/cp7-current-complete-de-native30.yml'
 
 
 def git(*args):
@@ -35,6 +36,31 @@ def raw(name):
     return path.read_bytes()
 
 
+def actual_parent_receipt():
+    spec=importlib.util.spec_from_file_location('complete_DE_exact_parent_before_workflow',HERE/'admission.py')
+    module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
+    return module.parent_receipt()
+
+
+def admit_workflow(declaration):
+    """Only the exact declared template, after actual parent acceptance."""
+    path=ROOT/WORKFLOW
+    if WORKFLOW not in declaration['files']:
+        if path.exists()or path.is_symlink():raise ValueError('COMPLETE_DE_UNDECLARED_WORKFLOW_REFUSED')
+        return None
+    if not path.is_file():raise ValueError('COMPLETE_DE_DECLARED_WORKFLOW_MISSING')
+    data=raw(WORKFLOW)
+    if declaration['files'][WORKFLOW]!={'bytes':len(data),'sha256':sha256(data).hexdigest()}:
+        raise ValueError('COMPLETE_DE_EXACT_WORKFLOW_SOURCE_PIN_REQUIRED')
+    if data!=raw(str(HERE.relative_to(ROOT))+'/native30.workflow.yml.txt'):
+        raise ValueError('COMPLETE_DE_WORKFLOW_MUST_EQUAL_REVIEWED_TEMPLATE')
+    receipt=actual_parent_receipt()
+    if receipt['head']!=BASE or receipt['tree']!=TREE:
+        raise ValueError('COMPLETE_DE_WORKFLOW_REQUIRES_EXACT_SOURCE_BASE_QUALIFICATION')
+    return dict(status='EXACT_DECLARED_WORKFLOW_AND_ROOT_ACCEPTED_PARENT_SOURCE',
+        parent_head=BASE,parent_tree=TREE,actual_case_credit=0)
+
+
 def preflight(*,require_clean=True):
     manifest=str(HERE.relative_to(ROOT))+'/SOURCE.json';value=json.loads(raw(manifest))
     if(value['base_head']!=BASE or value['base_tree']!=TREE or value['actual_Native_cases']!=0
@@ -45,7 +71,8 @@ def preflight(*,require_clean=True):
     for name,pin in base.items():
         if current.get(name)!=pin:raise ValueError('COMPLETE_DE_PREPARED_PARENT_BLOB_OR_MODE_CHANGED:'+name)
     allowed=set(value['files'])|{manifest}
-    if any(not n.startswith(PREFIXES)for n in allowed):raise ValueError('COMPLETE_DE_ONLY_THREE_OWN_NAMESPACES_ALLOWED')
+    if any(not(n.startswith(PREFIXES)or n==WORKFLOW)for n in allowed):
+        raise ValueError('COMPLETE_DE_ONLY_THREE_OWN_NAMESPACES_AND_EXACT_WORKFLOW_ALLOWED')
     if set(current)-set(base)-allowed:raise ValueError('COMPLETE_DE_UNDECLARED_TRACKED_SOURCE')
     for name,pin in value['files'].items():
         data=raw(name)
@@ -53,7 +80,8 @@ def preflight(*,require_clean=True):
             raise ValueError('COMPLETE_DE_OWN_SOURCE_PIN_CHANGED:'+name)
     physical={str(p.relative_to(ROOT))for prefix in PREFIXES for p in(ROOT/prefix).rglob('*')
         if p.is_file()and'__pycache__'not in p.parts and p.suffix!='.pyc'}
-    if physical!=allowed:raise ValueError('COMPLETE_DE_CLOSED_OWN_SOURCE_REQUIRED')
+    if physical!=allowed-{WORKFLOW}:raise ValueError('COMPLETE_DE_CLOSED_OWN_SOURCE_REQUIRED')
+    workflow=admit_workflow(value)
     if require_clean:
         if(git('diff','--name-only','--no-ext-diff','HEAD','--').strip()
            or git('diff','--cached','--name-only','--no-ext-diff','--').strip()):
@@ -73,4 +101,5 @@ def preflight(*,require_clean=True):
                 raise ValueError('COMPLETE_DE_UNDECLARED_EXECUTABLE:'+name)
     return dict(status='EXACT_UNCHANGED_COMPLETE_PARENT_AND_CLOSED_D1_E_PREPARATION',
         base_head=BASE,base_tree=TREE,unchanged_parent_blobs_and_modes=len(base),own_paths=len(allowed),
+        explicit_workflow_source=workflow,
         actual_Native_cases=0,production_go=False,independent_acceptance=False)

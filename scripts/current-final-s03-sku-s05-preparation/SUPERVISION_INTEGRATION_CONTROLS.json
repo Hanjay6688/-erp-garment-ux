@@ -1,0 +1,33 @@
+{
+  "status": "PERMANENT_SUPERVISION_NEW_WIRING_CONTROLS_PASS",
+  "test_command_results": [
+    {
+      "command": "python -B -m unittest discover -s scripts/current-final-s03-sku-s05-preparation -p test_supervision_integration.py -v",
+      "tests": 6,
+      "failures": 0,
+      "exit_code": 0
+    },
+    {
+      "command": "python -B -m unittest discover -s scripts/current-final-s03-sku-s05-preparation -p test_attempt_policy.py -v",
+      "tests": 2,
+      "failures": 0,
+      "exit_code": 0
+    }
+  ],
+  "supervision_receipt_checks": {
+    "positive": 1,
+    "missing_fields_rejected": 17,
+    "changed_fields_rejected": 17,
+    "boolean_integer_substitutions_rejected": 5,
+    "missing_own_receipt_rejected": true
+  },
+  "old_process_engine_controls_reused": 10,
+  "process_engine_source": "e6684b07f98d753b5f78b24c7af52cd981971c0c",
+  "changed_routes": 3,
+  "workflow_changes": 5,
+  "actual_SQL_executed": 0,
+  "actual_ERP_cases": 0,
+  "actual_browser_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

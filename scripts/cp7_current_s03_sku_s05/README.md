@@ -25,5 +25,15 @@ The prepared persistence delta now retains four exact financial callbacks and
 the complete desktop/mobile normal-App journeys while the S05 reader stays
 installed. Every read compares all22, all business rows and all sequences.
 Only the private fixture dependency changes; no product module is overridden.
-The exact joined37 root intake is still pending, so both execution paths refuse
-before importing the ERP graph. No actual Native or browser credit is claimed.
+The exact joined37 parent is now Root-qualified at
+`2cb8c9ac85b6111e8bb170de6c2ec5c44f7c798c`, run `41333643573`,
+job `124928771868`, canonical artifact `13095548796`. Its 37-case coverage
+consists of 35 source-invariant retained cases and two fresh S05 browser cases;
+it is not a fresh 37-case run. The exact 20,463-byte Root receipt is retained
+in `current-final-s03-sku-s05-preparation/JOIN37_ROOT_ACTUAL_INTAKE.json`
+with SHA-256 `2d9731cf9cdaed8ed90c0e189e56663a54e3bdd28ba8e24741516c4d1a85d9ba`.
+Both execution paths still require that receipt, terminal API identities and
+the complete current source graph before importing the ERP runtime. This
+permanent assembly still needs its own four financial and two browser cases,
+all five package gates and complete restoration. Parent acceptance grants no
+fresh case credit to this child and does not open production.

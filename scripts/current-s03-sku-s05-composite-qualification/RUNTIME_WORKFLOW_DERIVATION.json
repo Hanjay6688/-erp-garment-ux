@@ -1,0 +1,51 @@
+{
+  "status": "EXACT_DECLARED_RUNTIME_WORKFLOW_SUCCESSOR_NOT_BUSINESS_ORACLE_CHANGE",
+  "source_head": "6cb5bfe213fe3ce684244370dec092569705f6ff",
+  "source_path": ".github/workflows/cp7-s03-sku-s05-composite.yml",
+  "original_bytes": 33313,
+  "original_sha256": "9b17c16a3a6ae749e8f21718162869716b91e64d17b1dbe832e48a3379b8f30e",
+  "derived_head": "230f37b4f8126154d073e3eef9304f5620716ef7",
+  "derived_bytes": 34249,
+  "derived_sha256": "7822d89bd191a5b7ed16c6e64f839313c4a1454bfcb6d693877bab5d06da2e0b",
+  "changes": [
+    {
+      "before": "  group: cp7-current-s03-sku-s05-${{ github.run_id }}\n",
+      "after": "  group: cp7-current-s03-sku-s05-${{ github.ref }}\n",
+      "count": 1
+    },
+    {
+      "before": "    timeout-minutes: 210\n",
+      "after": "    timeout-minutes: 360\n",
+      "count": 1
+    },
+    {
+      "before": "    steps:\n",
+      "after": "    steps:\n    - name: Record real monotonic job start before any setup\n      run: |\n        python - <<'PY'\n        import os,time\n        with open(os.environ['GITHUB_ENV'],'a') as stream:\n            stream.write('JOIN_JOB_START_MONOTONIC='+str(time.monotonic())+'\\n')\n        PY\n",
+      "count": 1
+    },
+    {
+      "before": "        python -B scripts/current-sku-managed-recovery-native27-qualification/attempt_policy.py --require-window\n",
+      "after": "        python -B scripts/current-s03-sku-s05-composite-qualification/attempt_policy.py --require-window\n",
+      "count": 1
+    },
+    {
+      "before": "      run: 'python -u -B ''../auditor/scripts/current-s03-sku-s05-composite-qualification/probe.py'' --runtime\n",
+      "after": "      run: 'python -u -B ''../auditor/scripts/current-s03-sku-s05-composite-qualification/runtime_supervisor.py''\n",
+      "count": 1
+    },
+    {
+      "before": "      run: if command -v supabase >/dev/null 2>&1 && test -d cp5-local; then supabase stop --workdir cp5-local --no-backup;\n        fi\n",
+      "after": "      run: |-\n        python -B ../auditor/scripts/current-s03-sku-s05-composite-qualification/runtime_supervisor.py --allow-database-stop\n        if command -v supabase >/dev/null 2>&1 && test -d cp5-local; then supabase stop --workdir cp5-local --no-backup; fi\n",
+      "count": 1
+    },
+    {
+      "before": "    - name: Remove disposable database\n",
+      "after": "    - name: Preserve bounded JSON diagnostics independently of large clone evidence\n      if: always()\n      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02\n      with:\n        name: cp7-current-s03-sku-s05-37-bounded-diagnostics-${{ github.run_attempt }}\n        path: |\n          auditor/cp6-proof/t3/*.json\n          auditor/cp6-proof/t3/*.jsonl\n          auditor/cp6-proof/t3/**/*.json\n          auditor/cp6-proof/t3/**/*.jsonl\n        retention-days: 30\n        if-no-files-found: error\n        compression-level: 9\n    - name: Remove disposable database\n",
+      "count": 1
+    }
+  ],
+  "full_original_recovered": true,
+  "original_owner_focus_workflow_changed": false,
+  "business_callbacks_changed": false,
+  "production_go": false
+}

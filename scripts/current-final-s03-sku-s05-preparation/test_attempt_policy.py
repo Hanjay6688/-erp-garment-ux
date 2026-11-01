@@ -24,19 +24,19 @@ class OwnWindow(unittest.TestCase):
         self.assertEqual(text.encode(),raw)
         job=yaml.safe_load((ROOT/'.github/workflows/cp7-final-s03-sku-s05.yml').read_bytes())['jobs']['p21']
         self.assertEqual(policy.JOB_BUDGET_SECONDS,job['timeout-minutes']*60)
-        self.assertEqual(policy.JOB_BUDGET_SECONDS,7200)
+        self.assertEqual(policy.JOB_BUDGET_SECONDS,21600)
         self.assertTrue(any('current-final-s03-sku-s05-preparation/attempt_policy.py'in s.get('run','')
             for s in job['steps']))
 
     def test_real_aware_WIB_window_refuses_boundary_in_all_clock_zones(self):
-        before=datetime(2026,10,31,14,59,59,tzinfo=timezone.utc)
+        before=datetime(2026,10,31,10,59,59,tzinfo=timezone.utc)
         boundary=before+timedelta(seconds=1)
         for hours in (-12,0,7,14):
             tz=timezone(timedelta(hours=hours))
             with self.subTest(hours=hours):
                 result=policy.require_window(before.astimezone(tz))
                 self.assertEqual(result['business_day'],'2026-10-31')
-                self.assertEqual(result['seconds_to_midnight'],7201)
+                self.assertEqual(result['seconds_to_midnight'],21601)
                 self.assertIs(result['product_clock_changed'],False)
                 self.assertIs(result['automatic_group_retry'],False)
                 with self.assertRaisesRegex(ValueError,'INSUFFICIENT_WIB_DAY_WINDOW'):

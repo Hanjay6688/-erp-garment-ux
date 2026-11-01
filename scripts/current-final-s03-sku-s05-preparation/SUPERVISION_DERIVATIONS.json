@@ -1,0 +1,71 @@
+{
+  "status": "EXACT_PROCESS_CONTROL_REUSE_PREPARED_NOT_ERP_QUALIFICATION",
+  "files": {
+    ".github/workflows/cp7-final-s03-sku-s05.yml": {
+      "source_commit": "04ed2fbc3f1fb24174ff7368bffbb2dff01f5423",
+      "source_path": ".github/workflows/cp7-final-s03-sku-s05.yml",
+      "original_bytes": 33918,
+      "original_sha256": "11d398b373b478f49c366cd611ab0cd67a9e2cc8361b7a49cdaa92cc116c8af5",
+      "derived_bytes": 34323,
+      "derived_sha256": "8689ea2162fcae0f8d4e0caf31cb6cdced15cd628d5954e0243c5ecd58a5d7cf",
+      "changes": [
+        {
+          "before": "  group: cp7-permanent-s05-${{ github.run_id }}\n",
+          "after": "  group: cp7-permanent-s05-single-owning-qualification\n",
+          "count": 1
+        },
+        {
+          "before": "    timeout-minutes: 120\n",
+          "after": "    timeout-minutes: 360\n",
+          "count": 1
+        },
+        {
+          "before": "    steps:\n",
+          "after": "    steps:\n    - name: Record monotonic job start before setup and admission\n      run: |\n        python - <<'PY'\n        import os,time\n        with open(os.environ['GITHUB_ENV'],'a') as stream:\n            stream.write('PERMANENT_JOB_START_MONOTONIC='+str(time.monotonic())+'\\n')\n        PY\n",
+          "count": 1
+        },
+        {
+          "before": "      run: 'python -u -B ''../auditor/scripts/current-final-s03-sku-s05-preparation/probe.py''\n        --runtime\n",
+          "after": "      run: 'python -u -B ''../auditor/scripts/current-final-s03-sku-s05-preparation/runtime_supervisor.py''\n",
+          "count": 1
+        },
+        {
+          "before": "      run: if command -v supabase >/dev/null 2>&1 && test -d cp5-local; then supabase\n        stop --workdir cp5-local --no-backup; fi\n",
+          "after": "      run: |\n        python -B ../auditor/scripts/current-final-s03-sku-s05-preparation/runtime_supervisor.py --allow-database-stop\n        if command -v supabase >/dev/null 2>&1 && test -d cp5-local; then supabase stop --workdir cp5-local --no-backup; fi\n",
+          "count": 1
+        }
+      ]
+    },
+    "scripts/current-final-s03-sku-s05-preparation/runtime_supervisor.py": {
+      "source_commit": "e6684b07f98d753b5f78b24c7af52cd981971c0c",
+      "source_path": "scripts/current-s03-sku-s05-composite-qualification/runtime_supervisor.py",
+      "original_bytes": 8899,
+      "original_sha256": "6e750658b188a67dff4f0ed3100dd78740652d3193d055d8402ec5a9d77ee99b",
+      "derived_bytes": 8918,
+      "derived_sha256": "0e90d602c72304dc44b041f93b71861f56798ba4410c6d738034f4981b9ffa8e",
+      "changes": [
+        {
+          "before": "OUT = ROOT/'cp6-proof/t3/JOIN_RUNTIME_SUPERVISION.json'\n",
+          "after": "OUT = ROOT/'cp6-proof/t3/PERMANENT_RUNTIME_SUPERVISION.json'\n",
+          "count": 1
+        },
+        {
+          "before": "    if os.environ.get('JOIN_CONFIRM') != 'cp6_rollback':\n",
+          "after": "    if os.environ.get('PERMANENT_S05_CONFIRM') != 'cp6_rollback':\n",
+          "count": 1
+        },
+        {
+          "before": "    job_start = float(os.environ['JOIN_JOB_START_MONOTONIC'])\n",
+          "after": "    job_start = float(os.environ['PERMANENT_JOB_START_MONOTONIC'])\n",
+          "count": 1
+        }
+      ]
+    }
+  },
+  "reason": "Reuse the proved process owner and restoration reserve to prevent the observed cancellation-versus-database-stop race. Full owning budget remains a maximum, not a delay or a promise of completion. All business, browser and restoration callbacks unchanged.",
+  "prior_control_evidence_commit": "e2214780348ace563e8ec7929035acb20fc77de0",
+  "unchanged_process_control_tests_reused": 10,
+  "actual_new_ERP_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}
