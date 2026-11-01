@@ -50,7 +50,16 @@
       "own_paths": 94,
       "base_head": "065fff01bba869acca842e4008d87caf1e09b318",
       "accepted_parent_bound": false,
-      "workflow_activated": false
+      "workflow_activated": false,
+      "actual_alias": {
+        "branch": "astra-a/current-complete-de-native30-20261031",
+        "head": "a71de0fba6d4a02a1db9acd471970c3df43d7ff5",
+        "tree": "a5ff3fa842e829187952c887dba579db693311b8",
+        "observed_at_UTC": "2026-11-01T21:32:40.824826+00:00",
+        "workflow_present": false,
+        "workflow_runs": 0,
+        "parent_root_binding": null
+      }
     },
     "FREE": {
       "head": "5c6daebe1184bffeb214a79c071d7ad081400d21",
@@ -78,5 +87,7 @@
     "not_full19_or_runtime_acceptance": true,
     "evidence": "GLOBAL19_AND_NATIVE32_SAVED_ACTUAL_COMPATIBILITY_20261102.json"
   },
-  "continuity": "Use this compact state and the newest estafet header. Savepoints are not stopping points. Check the existing run before any new work or tests."
+  "continuity": "Use this compact state and the newest estafet header. Savepoints are not stopping points. Check the existing run before any new work or tests.",
+  "operational_update_UTC": "2026-11-01T21:32:40.824826+00:00",
+  "current_qualification_observation_is_earlier_API_snapshot": true
 }

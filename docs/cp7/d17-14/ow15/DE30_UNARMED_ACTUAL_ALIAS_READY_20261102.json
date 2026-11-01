@@ -1,0 +1,21 @@
+{
+  "status": "DE30_ACTUAL_ALIAS_EXISTS_UNARMED_NO_WORKFLOW_OR_RUN",
+  "observed_at_UTC": "2026-11-01T21:32:40.824826+00:00",
+  "branch": "astra-a/current-complete-de-native30-20261031",
+  "head": "a71de0fba6d4a02a1db9acd471970c3df43d7ff5",
+  "tree": "a5ff3fa842e829187952c887dba579db693311b8",
+  "branch_was_absent_before_create": true,
+  "created_from_exact_existing_prepared_commit": true,
+  "exact_head_and_tree_confirmed_by_GitHub_commits_API": true,
+  "GitHub_branch_workflow_runs": 0,
+  "own_source_paths": 94,
+  "source_pins": 93,
+  "parent_root_binding": null,
+  "DE_workflow_present": false,
+  "actual_DE_Native_or_ERP_executions": 0,
+  "parent_Permanent_still_awaits_actual_Root_acceptance": true,
+  "intended_activation": "After actual Permanent Root acceptance, publish and verify DE96 prepared tree, then one leased fast-forward of this existing no-workflow alias to that verified tree. Do not create an empty commit or dispatch a duplicate run.",
+  "source_candidates_unchanged": true,
+  "production_go": false,
+  "independent_acceptance": false
+}
