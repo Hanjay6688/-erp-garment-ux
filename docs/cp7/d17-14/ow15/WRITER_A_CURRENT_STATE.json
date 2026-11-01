@@ -1,6 +1,6 @@
 {
   "contract": "writer-a.compact-current-state.v1",
-  "observed_at_UTC": "2026-11-01T21:46:05.146518+00:00",
+  "observed_at_UTC": "2026-11-01T21:58:21.450587+00:00",
   "integrator": "A",
   "A_B_division_preserved": true,
   "formal_CP7": "5/16",
@@ -8,29 +8,24 @@
   "production_go": false,
   "independent_acceptance": false,
   "current_qualification": {
-    "head": "23e3e77d6dddd48a98d31c35822d637db2cee528",
-    "tree": "0637e2f69fc24cd2a98260210e9c358222ae992b",
-    "run_id": 41346386747,
-    "job_id": 124966984224,
-    "status": "completed",
-    "conclusion": "failure",
-    "created_at": "2026-11-01T20:20:53Z",
-    "updated_at": "2026-11-01T21:30:44Z",
+    "head": "15a2170cea88cd03a4d1bcaa0873a969d495b9fa",
+    "tree": "3fe772a1314ae6bc7c4f36f72e3fda8738eb70fc",
+    "run_id": 41354607179,
+    "job_id": 124991886417,
+    "status": "in_progress",
+    "conclusion": null,
     "run_attempt": 1,
     "event": "push",
-    "successful_steps": 76,
-    "active_steps": [],
-    "failed_steps": [
-      {
-        "number": 70,
-        "cause": "FRESH_BROWSER_FIXTURE_HELPER_STATE_NOT_INITIALIZED"
-      }
-    ],
-    "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/41346386747"
+    "created_at": "2026-11-01T21:57:14Z",
+    "expected_fresh_Native_cases": 0,
+    "retained_Native_cases": 4,
+    "expected_fresh_browser_cases": 2,
+    "financial_groups_rerun": false,
+    "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/41354607179"
   },
-  "sole_readonly_monitor_cell": null,
+  "sole_readonly_monitor_cell": "1089",
   "new_qualified_cases": 0,
-  "Root_terminal_intake_pending": false,
+  "Root_terminal_intake_pending": true,
   "accepted_parent": {
     "head": "2cb8c9ac85b6111e8bb170de6c2ec5c44f7c798c",
     "run_id": 41333643573,
@@ -88,8 +83,8 @@
     "evidence": "GLOBAL19_AND_NATIVE32_SAVED_ACTUAL_COMPATIBILITY_20261102.json"
   },
   "continuity": "Use this compact state and the newest estafet header. Savepoints are not stopping points. Check the existing run before any new work or tests.",
-  "operational_update_UTC": "2026-11-01T21:46:05.146518+00:00",
-  "current_qualification_observation_is_earlier_API_snapshot": false,
+  "operational_update_UTC": "2026-11-01T21:58:21.450587+00:00",
+  "current_qualification_observation_is_earlier_API_snapshot": true,
   "retained_permanent_financial4": {
     "evidence": "CURRENT_PERMANENT23E_ROOT_RETAINED4_20261102.json",
     "retained_Native_cases": 4,
