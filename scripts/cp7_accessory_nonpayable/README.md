@@ -247,6 +247,34 @@ full no-effect observations prove refusal before DDL.
 
 `LOCAL_QUALIFIER_PREPARATION_CONTROLS.json` records fifteen new pure assembly,
 sequence-witness, exact-source, typed-result, closed-parent and supervision
-controls. The source runner is wired; actual acceptance remains pending. The
-whole-package artifact final gate and workflow template still need completion
-before any activation, followed by actual FREE3 rebase/admission and execution.
+controls. The source runner is wired; actual acceptance remains pending.
+
+`final_gate.py` now checks the complete owning packet against its original
+Native9 report, independently recomputed case/sequence boundaries, actual
+two-backend race replies, observed Auth lock wait and permission refusal,
+authority-preserved copies, Native GOOD prerequisite and exact used refusal,
+raw/gzip checksums, append-only date history, unchanged business fingerprints,
+real browser PNGs, process identity/reaping, restoration and all five package
+gates. It refuses before reading purported success files while FREE3 is absent.
+The raw observers use UTC consistently for JSON timestamp serialization;
+physical GOOD eligibility remains explicitly dated in Asia/Jakarta.
+
+`fetch_parent.py` recovers the original full canonical archive fetcher with
+twenty reversible label/receipt routes. Terminal run/job/head identity, complete
+archive size/SHA/ZIP CRC/safe paths and all five checks remain unchanged. Source
+derivation alone makes no canonical-parent GET and cannot grant acceptance.
+
+`workflow.py` and the pinned `afui15.workflow.yml.txt` supply reviewable data
+for one owning Afui15 job. All 75 steps retain their order, with nine bounded
+routes and 66 unchanged setup/restoration/artifact steps. The genuine six-hour
+WIB guard, earliest monotonic job start, 360-minute hard budget, permissions,
+single-job concurrency and stop-after-process-reaping guard remain intact.
+No executable workflow or Actions run is created by these preparations.
+
+`LOCAL_FINAL_WORKFLOW_PREPARATION_CONTROLS.json` records eight new pure packet,
+raw-census/race and workflow controls. It preserves the first source-cache
+prerequisite failure and the incorrect test assumption about the inherited
+manual event; only the affected control was repeated after correction. Existing
+financial, UI, Auth and Native model tests were not repeated. Actual accepted
+FREE3 rebase/binding, full ERP/Auth/browser execution and Root canonical intake
+are still mandatory. This component has zero actual fresh qualification credit.

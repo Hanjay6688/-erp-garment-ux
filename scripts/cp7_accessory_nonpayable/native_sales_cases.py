@@ -31,6 +31,7 @@ def require_cost_delta(before,after,total,*,produced=10,sold=4):
 def observe(cur,modules,f,sale,finish,command):
     from . import native_fixture
     modules.bc.api.admin(cur)
+    cur.execute("set local timezone='UTC'")
     projections=cur.execute("select to_jsonb(m),jsonb_build_object('id',id,'lot_id',lot_id,'product_id',product_id,"
         "'location_id',location_id,'quality_grade',quality_grade,'movement_type',movement_type,'source_type',source_type,"
         "'source_id',source_id,'reversal_of_id',reversal_of_id,'qty_signed',qty_signed,'physical_at',physical_at)"

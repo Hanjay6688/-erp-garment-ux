@@ -159,6 +159,7 @@ def post_good(cur,modules,f,*,good_qty=10,bs_qty=0):
 
 def observe(cur,modules,f):
     modules.bc.api.admin(cur)
+    cur.execute("set local timezone='UTC'")  # Stable JSON timestamps across committed-copy sessions.
     snapshots=cur.execute('select to_jsonb(s),to_jsonb(b),cp7_accessory_nonpayable.snapshot_identity_v1(s.id) '
         'from erp.fg_accessory_cost_snapshots s left join cp7_accessory_nonpayable.good_bases_v1 b on b.snapshot_id=s.id '
         'where s.lot_id=%s order by s.id',(f['lot'],)).fetchall()

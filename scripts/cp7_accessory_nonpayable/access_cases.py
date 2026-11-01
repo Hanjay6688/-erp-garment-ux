@@ -83,6 +83,7 @@ def denied(reply,code,sqlstate=None):
 
 def capture(cur,modules,state):
     modules.bc.api.admin(cur)
+    cur.execute("set local timezone='UTC'")  # Compare raw date JSON across distinct sessions without changing physical WIB dates.
     with modules.control.product_catalog(cur):
         modules.product.verify(cur,state);catalog=modules.product.runtime()[-1]
         groups=catalog._catalog_rows(cur);data=catalog._data(cur)

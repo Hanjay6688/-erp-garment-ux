@@ -31,6 +31,7 @@ def undo_invoice(cur,modules,document,made):
 def lot_state(cur,modules,f):
     from . import native_fixture
     modules.bc.api.admin(cur)
+    cur.execute("set local timezone='UTC'")
     # Preserve original journal lines and their real Native reversal records.
     # Snapshot revisions may continue after voiding; frozen basis may not.
     journals=cur.execute("""with own as (
