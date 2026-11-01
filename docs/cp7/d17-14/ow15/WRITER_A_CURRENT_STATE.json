@@ -1,0 +1,82 @@
+{
+  "contract": "writer-a.compact-current-state.v1",
+  "observed_at_UTC": "2026-11-01T20:51:13.795945+00:00",
+  "integrator": "A",
+  "A_B_division_preserved": true,
+  "formal_CP7": "5/16",
+  "CP7_complete": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "current_qualification": {
+    "head": "23e3e77d6dddd48a98d31c35822d637db2cee528",
+    "tree": "0637e2f69fc24cd2a98260210e9c358222ae992b",
+    "run_id": 41346386747,
+    "job_id": 124966984224,
+    "status": "in_progress",
+    "conclusion": null,
+    "created_at": "2026-11-01T20:20:53Z",
+    "updated_at": "2026-11-01T20:20:56Z",
+    "run_attempt": 1,
+    "event": "push",
+    "successful_steps": 69,
+    "active_steps": [
+      {
+        "number": 70,
+        "name": "Run actual permanent reader financial4 normal App browser2 and complete outer restoration"
+      }
+    ],
+    "failed_steps": [],
+    "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/41346386747"
+  },
+  "sole_readonly_monitor_cell": "977",
+  "new_qualified_cases": 0,
+  "Root_terminal_intake_pending": true,
+  "accepted_parent": {
+    "head": "2cb8c9ac85b6111e8bb170de6c2ec5c44f7c798c",
+    "run_id": 41333643573,
+    "job_id": 124928771868,
+    "receipt": {
+      "bytes": 20463,
+      "sha256": "2d9731cf9cdaed8ed90c0e189e56663a54e3bdd28ba8e24741516c4d1a85d9ba"
+    },
+    "evidence": "CURRENT_S05_RETAIN35_FRESH2_ROOT_ACTUAL_INTAKE_20261102.json",
+    "honest_fresh_cases": 2,
+    "retained_cases": 35,
+    "retained_cases_are_not_fresh": true
+  },
+  "next_prepared": {
+    "DE": {
+      "head": "a71de0fba6d4a02a1db9acd471970c3df43d7ff5",
+      "own_paths": 94,
+      "base_head": "065fff01bba869acca842e4008d87caf1e09b318",
+      "accepted_parent_bound": false,
+      "workflow_activated": false
+    },
+    "FREE": {
+      "head": "5c6daebe1184bffeb214a79c071d7ad081400d21",
+      "own_paths": 38,
+      "accepted_parent_bound": false,
+      "workflow_activated": false
+    },
+    "AFUI": {
+      "head": "098dbd8769cbbf6f0502750a7c2a770959e02385",
+      "own_paths": 88,
+      "accepted_parent_bound": false,
+      "workflow_activated": false
+    }
+  },
+  "remaining_gate_summary_not_full_scope_inventory": [
+    "Finish the single active Permanent run, verify full original and Root acceptance, then bind and run DE30 -> FREE3 -> AFUI15 once per actual changed candidate.",
+    "After the active integration block is stable: implement SKU moving average and FG Mandor purchases with chosen payroll week; apply and verify the prepared tab contrast correction.",
+    "Close the current global writer/current-rights/phantom-lock/command-hook and factory/combined acceptance obligations on the final integrated candidate."
+  ],
+  "saved_metadata_preflight": {
+    "global19_functions": 19,
+    "DE32_functions": 32,
+    "attributes_each": 17,
+    "DB_or_ERP_executions": 0,
+    "not_full19_or_runtime_acceptance": true,
+    "evidence": "GLOBAL19_AND_NATIVE32_SAVED_ACTUAL_COMPATIBILITY_20261102.json"
+  },
+  "continuity": "Use this compact state and the newest estafet header. Savepoints are not stopping points. Check the existing run before any new work or tests."
+}

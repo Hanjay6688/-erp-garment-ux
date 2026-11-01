@@ -69,14 +69,15 @@ def numeric(value):
     return result
 
 
-def validate(expected,snapshot):
+def validate(expected,snapshot,*,expected_count=32):
+    require(type(expected_count)is int and expected_count in(19,32),'SAVED_NATIVE_EXPLICIT_SUPPORTED_PROFILE_SIZE')
     typed('ACTUAL_READ_ONLY_ALL_NAMESPACE_SYSTEM_CRON_METADATA_NOT_WRITER_CLOSURE',snapshot['classification'],'classification')
     typed('cp6_rollback',snapshot['database'],'database');typed(0,snapshot['Native_cases'],'Native_cases')
     groups=snapshot['groups']
     for key in('roles','languages','routines'):typed('CAPTURED',groups[key]['status'],key+':status')
     roles={k:v['rolname']for k,v in indexed(groups['roles']['rows'],'oid').items()}
     languages={k:v['lanname']for k,v in indexed(groups['languages']['rows'],'oid').items()}
-    actual=indexed(groups['routines']['rows'],'signature');typed(32,len(expected),'expected32')
+    actual=indexed(groups['routines']['rows'],'signature');typed(expected_count,len(expected),'expected_procedure_count')
     require(set(expected)<=set(actual),'SAVED_NATIVE_EVERY_EXPECTED_PROCEDURE_REQUIRED')
     receipts={}
     for name,want in expected.items():
@@ -85,8 +86,8 @@ def validate(expected,snapshot):
         require(row['proowner']in roles and row['prolang']in languages,'SAVED_NATIVE_OWNER_AND_LANGUAGE_OID_REQUIRED')
         fields=dict(source_body=(body_sha,row['source_sha256']),owner=(want[1],roles[row['proowner']]),
             language=(want[2],languages[row['prolang']]),kind=(want[3],row['prokind']),
-            security_definer=(want[4],row['prosecdef']),strict=(want[5],row['proisstrict']),
-            leakproof=(want[6],row['proleakproof']),returns_set=(want[7],row['proretset']),
+            security_definer=(want[4],row['prosecdef']),leakproof=(want[5],row['proleakproof']),
+            strict=(want[6],row['proisstrict']),returns_set=(want[7],row['proretset']),
             volatility=(want[8],row['provolatile']),parallel=(want[9],row['proparallel']),
             cost=(numeric(want[10]),numeric(row['procost'])),rows=(numeric(want[11]),numeric(row['prorows'])),
             configuration=(config_digest(want[12]),row['config_sha256']),
@@ -96,12 +97,13 @@ def validate(expected,snapshot):
         for key,(before,after)in fields.items():typed(before,after,name+':'+key)
         receipts[name]=dict(actual_oid=row['oid'],source_body_sha256=body_sha,matched_fields=list(fields),
             actual_argument_defaults=row['pronargdefaults'],full19_not_claimed=True)
-    return dict(status='SAVED_ACTUAL_METADATA_NATIVE32_ATTRIBUTE_PREFLIGHT_PASS',routines=receipts,
-        functions=32,attributes_per_function=17,actual_ERP_cases=0,full19_and_installation_still_required=True,
+    return dict(status='SAVED_ACTUAL_METADATA_NATIVE'+str(expected_count)+'_ATTRIBUTE_PREFLIGHT_PASS',routines=receipts,
+        functions=expected_count,attributes_per_function=17,actual_ERP_cases=0,full19_and_installation_still_required=True,
+        raw_NULL_vs_explicit_ACL_not_inferred=True,
         global_writer_or_permission_or_lock_closure=False,production_go=False,independent_acceptance=False)
 
 
-def negative_controls(expected,snapshot):
+def negative_controls(expected,snapshot,*,expected_count=32):
     name=next(iter(expected));negative=[]
     for mode in('body','boolean_type','execute_ACL','configuration','missing_procedure','duplicate_procedure'):
         changed=deepcopy(snapshot);rows=changed['groups']['routines']['rows']
@@ -112,10 +114,28 @@ def negative_controls(expected,snapshot):
         elif mode=='configuration':row['config_sha256']='0'*64
         elif mode=='missing_procedure':rows.remove(row)
         else:rows.append(deepcopy(row))
-        try:validate(expected,changed)
+        try:validate(expected,changed,expected_count=expected_count)
         except ValueError as error:negative.append(dict(mode=mode,refused=str(error)))
         else:raise AssertionError('SAVED_NATIVE_CORRUPT_OBSERVATION_ACCEPTED:'+mode)
     return dict(positive=1,negative=negative,DB_connections=0,actual_ERP_cases=0)
+
+
+def boolean_schema_controls(expected,snapshot,*,expected_count=32):
+    """Distinguish full19 leakproof[5] from strict[6], including true values."""
+    name=next(iter(expected));observations=[]
+    for leakproof,strict_value in((False,True),(True,False)):
+        model=deepcopy(expected);changed=deepcopy(snapshot)
+        model[name][5]=leakproof;model[name][6]=strict_value
+        row=next(r for r in changed['groups']['routines']['rows']if r['signature']==name)
+        row['proleakproof']=leakproof;row['proisstrict']=strict_value
+        validate(model,changed,expected_count=expected_count)
+        observations.append(dict(leakproof=leakproof,strict=strict_value,status='MODEL_PASS'))
+    wrong_count=19 if expected_count==32 else 32
+    try:validate(expected,snapshot,expected_count=wrong_count)
+    except ValueError:pass
+    else:raise AssertionError('SAVED_NATIVE_OTHER_PROFILE_SIZE_ACCEPTED')
+    return dict(full19_indexes=dict(leakproof=5,strict=6),distinct_boolean_models=observations,
+        other_profile_size_refused=True,actual_ERP_cases=0)
 
 
 def archive_snapshot(path,metadata):
@@ -156,7 +176,9 @@ def main():
     snapshot,identity=archive_snapshot(args.archive,metadata);result=validate(expected,snapshot)
     result.update(actual_metadata_original=identity,expected_prepared_source=dict(head=args.de_head,tree=args.de_tree,
         manifest=source['source_manifest'],recorded_capture=pin(raw)),actual_snapshot=snapshot['snapshot'])
-    if args.negative_controls:result['explicit_corruption_controls']=negative_controls(expected,snapshot)
+    if args.negative_controls:
+        result['explicit_corruption_controls']=negative_controls(expected,snapshot)
+        result['boolean_schema_controls']=boolean_schema_controls(expected,snapshot)
     with args.output.open('x')as output:output.write(json.dumps(result,indent=2)+'\n')
     print(json.dumps({key:result[key]for key in('status','functions','attributes_per_function','actual_ERP_cases')}))
 

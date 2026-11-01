@@ -1,0 +1,1509 @@
+{
+  "status": "SAVED_ACTUAL_METADATA_NATIVE19_ATTRIBUTE_PREFLIGHT_PASS",
+  "routines": {
+    "cp7_credit.consumer_dependency_graph_v1(uuid)": {
+      "actual_oid": "37596",
+      "source_body_sha256": "c51a3bc2a924aa24a61422348d7e32517a862502b831c54079d1f8f4b7c04796",
+      "matched_fields": [
+        "source_body",
+        "owner",
+        "language",
+        "kind",
+        "security_definer",
+        "leakproof",
+        "strict",
+        "returns_set",
+        "volatility",
+        "parallel",
+        "cost",
+        "rows",
+        "configuration",
+        "argument_names",
+        "argument_modes",
+        "support",
+        "execute_ACL"
+      ],
+      "actual_argument_defaults": 0,
+      "full19_not_claimed": true
+    },
+    "cp7_credit.current_leaf_assignment(uuid)": {
+      "actual_oid": "36657",
+      "source_body_sha256": "43a35442609edd4d79f283211799be496c2f31e89db3e999176c557d27078950",
+      "matched_fields": [
+        "source_body",
+        "owner",
+        "language",
+        "kind",
+        "security_definer",
+        "leakproof",
+        "strict",
+        "returns_set",
+        "volatility",
+        "parallel",
+        "cost",
+        "rows",
+        "configuration",
+        "argument_names",
+        "argument_modes",
+        "support",
+        "execute_ACL"
+      ],
+      "actual_argument_defaults": 0,
+      "full19_not_claimed": true
+    },
+    "cp7_credit.initial_hpp_account_facts_v1()": {
+      "actual_oid": "37107",
+      "source_body_sha256": "fc0a3e5ac9adb31e395934b5b8ae355369871651dcf3a2fca34d8674295773ba",
+      "matched_fields": [
+        "source_body",
+        "owner",
+        "language",
+        "kind",
+        "security_definer",
+        "leakproof",
+        "strict",
+        "returns_set",
+        "volatility",
+        "parallel",
+        "cost",
+        "rows",
+        "configuration",
+        "argument_names",
+        "argument_modes",
+        "support",
+        "execute_ACL"
+      ],
+      "actual_argument_defaults": 0,
+      "full19_not_claimed": true
+    },
+    "cp7_credit.pg_jsonb_sha256(jsonb)": {
+      "actual_oid": "36244",
+      "source_body_sha256": "c5d51abf3325c3c259308c2206676321e139b0bba4c53e83e9b01672e7414f1d",
+      "matched_fields": [
+        "source_body",
+        "owner",
+        "language",
+        "kind",
+        "security_definer",
+        "leakproof",
+        "strict",
+        "returns_set",
+        "volatility",
+        "parallel",
+        "cost",
+        "rows",
+        "configuration",
+        "argument_names",
+        "argument_modes",
+        "support",
+        "execute_ACL"
+      ],
+      "actual_argument_defaults": 0,
+      "full19_not_claimed": true
+    },
+    "cp7_credit.source_first_nonpo_hpp_alignment_v1(jsonb)": {
+      "actual_oid": "37279",
+      "source_body_sha256": "a82fb111dd73ffbd9b56e9a9c1fb5c951684b33dcda6baee7566c467812e9804",
+      "matched_fields": [
+        "source_body",
+        "owner",
+        "language",
+        "kind",
+        "security_definer",
+        "leakproof",
+        "strict",
+        "returns_set",
+        "volatility",
+        "parallel",
+        "cost",
+        "rows",
+        "configuration",
+        "argument_names",
+        "argument_modes",
+        "support",
+        "execute_ACL"
+      ],
+      "actual_argument_defaults": 0,
+      "full19_not_claimed": true
+    },
+    "cp7_credit.source_hpp_lot_ids_v1(uuid)": {
+      "actual_oid": "37266",
+      "source_body_sha256": "2860a19234f397fb7bb2defe265072157cba2263572f44decb3b1db6da463b16",
+      "matched_fields": [
+        "source_body",
+        "owner",
+        "language",
+        "kind",
+        "security_definer",
+        "leakproof",
+        "strict",
+        "returns_set",
+        "volatility",
+        "parallel",
+        "cost",
+        "rows",
+        "configuration",
+        "argument_names",
+        "argument_modes",
+        "support",
+        "execute_ACL"
+      ],
+      "actual_argument_defaults": 0,
+      "full19_not_claimed": true
+    },
+    "erp.account_id(text)": {
+      "actual_oid": "22620",
+      "source_body_sha256": "0ae24f40576960c537a81cb9d7b44673ccd9d48cf2c197a519cadc8851d5aa96",
+      "matched_fields": [
+        "source_body",
+        "owner",
+        "language",
+        "kind",
+        "security_definer",
+        "leakproof",
+        "strict",
+        "returns_set",
+        "volatility",
+        "parallel",
+        "cost",
+        "rows",
+        "configuration",
+        "argument_names",
+        "argument_modes",
+        "support",
+        "execute_ACL"
+      ],
+      "actual_argument_defaults": 0,
+      "full19_not_claimed": true
+    },
+    "erp.be_allocation_extra_v1(uuid)": {
+      "actual_oid": "30293",
+      "source_body_sha256": "c8281604fdaf18416ebf3c10372818ee1403c6a88d5851d632585809d4a2d6fb",
+      "matched_fields": [
+        "source_body",
+        "owner",
+        "language",
+        "kind",
+        "security_definer",
+        "leakproof",
+        "strict",
+        "returns_set",
+        "volatility",
+        "parallel",
+        "cost",
+        "rows",
+        "configuration",
+        "argument_names",
+        "argument_modes",
+        "support",
+        "execute_ACL"
+      ],
+      "actual_argument_defaults": 0,
+      "full19_not_claimed": true
+    },
+    "erp.be_conversion_extra_v1(uuid)": {
+      "actual_oid": "30292",
+      "source_body_sha256": "a14a3c3609d4cf225a1c9c85d784771a04fa1663bc03681ac25da5a9ce3d191b",
+      "matched_fields": [
+        "source_body",
+        "owner",
+        "language",
+        "kind",
+        "security_definer",
+        "leakproof",
+        "strict",
+        "returns_set",
+        "volatility",
+        "parallel",
+        "cost",
+        "rows",
+        "configuration",
+        "argument_names",
+        "argument_modes",
+        "support",
+        "execute_ACL"
+      ],
+      "actual_argument_defaults": 0,
+      "full19_not_claimed": true
+    },
+    "erp.be_in_context_v1()": {
+      "actual_oid": "30237",
+      "source_body_sha256": "0926d4cd0d695268e560a94043d16ea52d4c81f32473b4a4a3440237745d38a4",
+      "matched_fields": [
+        "source_body",
+        "owner",
+        "language",
+        "kind",
+        "security_definer",
+        "leakproof",
+        "strict",
+        "returns_set",
+        "volatility",
+        "parallel",
+        "cost",
+        "rows",
+        "configuration",
+        "argument_names",
+        "argument_modes",
+        "support",
+        "execute_ACL"
+      ],
+      "actual_argument_defaults": 0,
+      "full19_not_claimed": true
+    },
+    "erp.be_nonpo_admitted_v1(uuid)": {
+      "actual_oid": "30320",
+      "source_body_sha256": "d32478fb76d3803166dd030d2dcf9fb06b5c0ff162f786140750a5101e4dd6c7",
+      "matched_fields": [
+        "source_body",
+        "owner",
+        "language",
+        "kind",
+        "security_definer",
+        "leakproof",
+        "strict",
+        "returns_set",
+        "volatility",
+        "parallel",
+        "cost",
+        "rows",
+        "configuration",
+        "argument_names",
+        "argument_modes",
+        "support",
+        "execute_ACL"
+      ],
+      "actual_argument_defaults": 0,
+      "full19_not_claimed": true
+    },
+    "erp.be_nonpo_in_sync_v1()": {
+      "actual_oid": "30321",
+      "source_body_sha256": "b97be444278280a1d9de33c864e35ab1a0cdd5d9004a021392ff0dc81ffd581a",
+      "matched_fields": [
+        "source_body",
+        "owner",
+        "language",
+        "kind",
+        "security_definer",
+        "leakproof",
+        "strict",
+        "returns_set",
+        "volatility",
+        "parallel",
+        "cost",
+        "rows",
+        "configuration",
+        "argument_names",
+        "argument_modes",
+        "support",
+        "execute_ACL"
+      ],
+      "actual_argument_defaults": 0,
+      "full19_not_claimed": true
+    },
+    "erp.be_nonpo_prepare_transfers_v1(date)": {
+      "actual_oid": "30322",
+      "source_body_sha256": "66963c4a209e3467f34e31f7dcdf62b2e91db51ad269ba9bc938baaea0ea90a8",
+      "matched_fields": [
+        "source_body",
+        "owner",
+        "language",
+        "kind",
+        "security_definer",
+        "leakproof",
+        "strict",
+        "returns_set",
+        "volatility",
+        "parallel",
+        "cost",
+        "rows",
+        "configuration",
+        "argument_names",
+        "argument_modes",
+        "support",
+        "execute_ACL"
+      ],
+      "actual_argument_defaults": 0,
+      "full19_not_claimed": true
+    },
+    "erp.be_nonpo_sync_all_v1(date,text,uuid,text)": {
+      "actual_oid": "30323",
+      "source_body_sha256": "c8b38d21f09719285de688141f0cc8f8306ecb261d21b62423ea9242ed9239df",
+      "matched_fields": [
+        "source_body",
+        "owner",
+        "language",
+        "kind",
+        "security_definer",
+        "leakproof",
+        "strict",
+        "returns_set",
+        "volatility",
+        "parallel",
+        "cost",
+        "rows",
+        "configuration",
+        "argument_names",
+        "argument_modes",
+        "support",
+        "execute_ACL"
+      ],
+      "actual_argument_defaults": 0,
+      "full19_not_claimed": true
+    },
+    "erp.be_propagate_nonpo_v1()": {
+      "actual_oid": "30629",
+      "source_body_sha256": "b5a15b8f5d4e4a3a7a1e251b19a9b2a6b72b51c9a33d15f151cae2fcd06b7cae",
+      "matched_fields": [
+        "source_body",
+        "owner",
+        "language",
+        "kind",
+        "security_definer",
+        "leakproof",
+        "strict",
+        "returns_set",
+        "volatility",
+        "parallel",
+        "cost",
+        "rows",
+        "configuration",
+        "argument_names",
+        "argument_modes",
+        "support",
+        "execute_ACL"
+      ],
+      "actual_argument_defaults": 0,
+      "full19_not_claimed": true
+    },
+    "erp.compute_non_po_product_hpp_book_v2620f(uuid)": {
+      "actual_oid": "25138",
+      "source_body_sha256": "35044776219a6916aad2b770ca3a89322c51319004fd9429ab19d611459b0160",
+      "matched_fields": [
+        "source_body",
+        "owner",
+        "language",
+        "kind",
+        "security_definer",
+        "leakproof",
+        "strict",
+        "returns_set",
+        "volatility",
+        "parallel",
+        "cost",
+        "rows",
+        "configuration",
+        "argument_names",
+        "argument_modes",
+        "support",
+        "execute_ACL"
+      ],
+      "actual_argument_defaults": 0,
+      "full19_not_claimed": true
+    },
+    "erp.compute_non_po_product_hpp_targets_v2620f(uuid)": {
+      "actual_oid": "25137",
+      "source_body_sha256": "8cb973a373559d2620d29918a3f589a4845251dc70c0a6ec595cf73e38bd549f",
+      "matched_fields": [
+        "source_body",
+        "owner",
+        "language",
+        "kind",
+        "security_definer",
+        "leakproof",
+        "strict",
+        "returns_set",
+        "volatility",
+        "parallel",
+        "cost",
+        "rows",
+        "configuration",
+        "argument_names",
+        "argument_modes",
+        "support",
+        "execute_ACL"
+      ],
+      "actual_argument_defaults": 0,
+      "full19_not_claimed": true
+    },
+    "erp.require_internal()": {
+      "actual_oid": "22880",
+      "source_body_sha256": "8a4b211d989a7837d53699f1d23c60e5d9febe2fe8c8a7737cc68bca2c1dc0b0",
+      "matched_fields": [
+        "source_body",
+        "owner",
+        "language",
+        "kind",
+        "security_definer",
+        "leakproof",
+        "strict",
+        "returns_set",
+        "volatility",
+        "parallel",
+        "cost",
+        "rows",
+        "configuration",
+        "argument_names",
+        "argument_modes",
+        "support",
+        "execute_ACL"
+      ],
+      "actual_argument_defaults": 0,
+      "full19_not_claimed": true
+    },
+    "erp.sync_non_po_product_hpp_to_gl_v2620f(uuid,date,text,uuid,text)": {
+      "actual_oid": "25140",
+      "source_body_sha256": "4f487083e54b4a342b71f94d4c1005db0666cd050b661d1c67c8d259436e9e7b",
+      "matched_fields": [
+        "source_body",
+        "owner",
+        "language",
+        "kind",
+        "security_definer",
+        "leakproof",
+        "strict",
+        "returns_set",
+        "volatility",
+        "parallel",
+        "cost",
+        "rows",
+        "configuration",
+        "argument_names",
+        "argument_modes",
+        "support",
+        "execute_ACL"
+      ],
+      "actual_argument_defaults": 0,
+      "full19_not_claimed": true
+    }
+  },
+  "functions": 19,
+  "attributes_per_function": 17,
+  "actual_ERP_cases": 0,
+  "full19_and_installation_still_required": true,
+  "raw_NULL_vs_explicit_ACL_not_inferred": true,
+  "global_writer_or_permission_or_lock_closure": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "profile_source": {
+    "head": "a6ded9cd4ce23a6d59cd32e42ca9bb33d793f8cc",
+    "tree": "55da7c6ab29d9bfda68962be27da0db7ad931662",
+    "exact_profile_inputs": [
+      {
+        "path": "scripts/cp7_global_nonpo_native_graph_adapter/AUTHORITY.json",
+        "bytes": 71436,
+        "sha256": "193194184cdbfde1753677ad486d7010ada8ed9e6198f9a19e57c4b8587e3d78",
+        "git_blob": "2822c9c6ca0f765849c02d4f610fb9d6caab759f"
+      },
+      {
+        "path": "scripts/current-global-nonpo-actual19-profile-qualification/CAPTURE.json",
+        "bytes": 53674,
+        "sha256": "7bae0b9efd389ca70a66b322fafca54e05538ad7d5b42b4f5d68f46d962f48e0",
+        "git_blob": "be8282e2f8a78b68e47d2ca69fb45073549de1be"
+      },
+      {
+        "path": "scripts/current-global-nonpo-actual19-profile-qualification/ACTUAL_NATIVE_AUTHORITY.sql",
+        "bytes": 29335,
+        "sha256": "6be8df6f6fab74d702e2b96e1fdec40ae62e6f8ed176377c6f3a3f93049db4b4",
+        "git_blob": "ddc2eb8e9f7ae8402068e3838992e23616b4d1d4"
+      },
+      {
+        "path": "scripts/current-global-nonpo-actual19-profile-qualification/SOURCE.json",
+        "bytes": 6960,
+        "sha256": "d8b4bc5079007ce4cda0695177d9863193ddf55f4ac48704ce1011b50062dcec",
+        "git_blob": "f2ccc1793f11c68c7fdf2ca38802a5e1387d9200"
+      }
+    ],
+    "existing_published_source_reused": true,
+    "previous_profile_models_not_rerun": true,
+    "runtime_entry": null
+  },
+  "actual_metadata_original": {
+    "head": "887fb69c3ea95192fbd5ad3dbe63230189a0916e",
+    "run_id": 41339521839,
+    "job_id": 124946366351,
+    "conclusion": "failure",
+    "artifact_id": 13098941324,
+    "archive": {
+      "bytes": 3840085,
+      "digest": "sha256:64512d9a027b1829d6ed095e59a8cc3dfa1f481a2f11df5b559b797c35dad121",
+      "members": 127
+    },
+    "failed_run_not_relabelled_PASS": true,
+    "business_case_credit": 0
+  },
+  "actual_snapshot": "7633:7633:",
+  "explicit_corruption_controls": {
+    "positive": 1,
+    "negative": [
+      {
+        "mode": "body",
+        "refused": "SAVED_NATIVE_METADATA_VALUE:cp7_credit.consumer_dependency_graph_v1(uuid):source_body:VALUE"
+      },
+      {
+        "mode": "boolean_type",
+        "refused": "SAVED_NATIVE_METADATA_TYPE:cp7_credit.consumer_dependency_graph_v1(uuid):security_definer"
+      },
+      {
+        "mode": "execute_ACL",
+        "refused": "SAVED_NATIVE_METADATA_VALUE:cp7_credit.consumer_dependency_graph_v1(uuid):execute_ACL/0/0:VALUE"
+      },
+      {
+        "mode": "configuration",
+        "refused": "SAVED_NATIVE_METADATA_VALUE:cp7_credit.consumer_dependency_graph_v1(uuid):configuration:VALUE"
+      },
+      {
+        "mode": "missing_procedure",
+        "refused": "SAVED_NATIVE_EVERY_EXPECTED_PROCEDURE_REQUIRED"
+      },
+      {
+        "mode": "duplicate_procedure",
+        "refused": "SAVED_NATIVE_METADATA_DUPLICATE_IDENTITY:signature"
+      }
+    ],
+    "DB_connections": 0,
+    "actual_ERP_cases": 0
+  },
+  "boolean_schema_controls": {
+    "full19_indexes": {
+      "leakproof": 5,
+      "strict": 6
+    },
+    "distinct_boolean_models": [
+      {
+        "leakproof": false,
+        "strict": true,
+        "status": "MODEL_PASS"
+      },
+      {
+        "leakproof": true,
+        "strict": false,
+        "status": "MODEL_PASS"
+      }
+    ],
+    "other_profile_size_refused": true,
+    "actual_ERP_cases": 0
+  },
+  "all_global_guards_and_command_hooks_remain_unqualified": true,
+  "classification": "ACTUAL_SAVED_GLOBAL19_SOURCE_COMPATIBILITY_NOT_FINAL_COMPOSITION_OR_WRITER_CLOSURE",
+  "implementation": [
+    {
+      "path": "scripts/current-writer-a-takeover-20261030/preflight_saved_native_metadata.py",
+      "bytes": 11433,
+      "sha256": "0623eeb307b9428b42432e1316d0c2913b66ccf0330a5de6773ccf453a2da8e0"
+    },
+    {
+      "path": "scripts/current-writer-a-takeover-20261030/preflight_saved_global_profile.py",
+      "bytes": 4528,
+      "sha256": "7c8d478e83b19832e19f15bea4fa972af294fce13c9f90b5cb1da326c765cbbc"
+    }
+  ],
+  "source_readonly_profile_exists_publicly": true,
+  "private_7ce_commit_not_needed_for_source_reuse": true,
+  "source_profile_runtime_still_unarmed": true,
+  "all_old_profile_source_and_model_results_reused": true,
+  "actual_original_library_file_id": "libfile_b06a2f4a514081918fe68a3ace1925f1",
+  "actual_Native32_regression": {
+    "status": "SAVED_ACTUAL_METADATA_NATIVE32_ATTRIBUTE_PREFLIGHT_PASS",
+    "routines": {
+      "cp7_credit._consumer_root_source_profile_v1(uuid,uuid,uuid,jsonb)": {
+        "actual_oid": "37911",
+        "source_body_sha256": "556473504cfbdef249944004c9bcc75cf680c7f94bc1486cc4914933e92c36ee",
+        "matched_fields": [
+          "source_body",
+          "owner",
+          "language",
+          "kind",
+          "security_definer",
+          "leakproof",
+          "strict",
+          "returns_set",
+          "volatility",
+          "parallel",
+          "cost",
+          "rows",
+          "configuration",
+          "argument_names",
+          "argument_modes",
+          "support",
+          "execute_ACL"
+        ],
+        "actual_argument_defaults": 0,
+        "full19_not_claimed": true
+      },
+      "cp7_credit._post_journal_bound(text,uuid,date,text,jsonb)": {
+        "actual_oid": "37361",
+        "source_body_sha256": "9072ded43dd75bbc167b4a86633f521cd7e64d0c5551a683acb325166799d333",
+        "matched_fields": [
+          "source_body",
+          "owner",
+          "language",
+          "kind",
+          "security_definer",
+          "leakproof",
+          "strict",
+          "returns_set",
+          "volatility",
+          "parallel",
+          "cost",
+          "rows",
+          "configuration",
+          "argument_names",
+          "argument_modes",
+          "support",
+          "execute_ACL"
+        ],
+        "actual_argument_defaults": 0,
+        "full19_not_claimed": true
+      },
+      "cp7_credit.assert_consumer_closed_v1(uuid)": {
+        "actual_oid": "37878",
+        "source_body_sha256": "345a4559bddc5b63de45140d179a92a75847504497d300e49d64c18dad82b682",
+        "matched_fields": [
+          "source_body",
+          "owner",
+          "language",
+          "kind",
+          "security_definer",
+          "leakproof",
+          "strict",
+          "returns_set",
+          "volatility",
+          "parallel",
+          "cost",
+          "rows",
+          "configuration",
+          "argument_names",
+          "argument_modes",
+          "support",
+          "execute_ACL"
+        ],
+        "actual_argument_defaults": 0,
+        "full19_not_claimed": true
+      },
+      "cp7_credit.assert_current_source_plan_profile(uuid,uuid,uuid,jsonb)": {
+        "actual_oid": "37165",
+        "source_body_sha256": "1d55a44f898d8291536341ad19c6f847df5086ebda7d487700674d953333e429",
+        "matched_fields": [
+          "source_body",
+          "owner",
+          "language",
+          "kind",
+          "security_definer",
+          "leakproof",
+          "strict",
+          "returns_set",
+          "volatility",
+          "parallel",
+          "cost",
+          "rows",
+          "configuration",
+          "argument_names",
+          "argument_modes",
+          "support",
+          "execute_ACL"
+        ],
+        "actual_argument_defaults": 0,
+        "full19_not_claimed": true
+      },
+      "cp7_credit.assert_financial_materialization_provenance(jsonb)": {
+        "actual_oid": "37167",
+        "source_body_sha256": "b5b0172c42aa3fbb37da2496bf9d6538ddf973899854b06ed0053466f9fa41fd",
+        "matched_fields": [
+          "source_body",
+          "owner",
+          "language",
+          "kind",
+          "security_definer",
+          "leakproof",
+          "strict",
+          "returns_set",
+          "volatility",
+          "parallel",
+          "cost",
+          "rows",
+          "configuration",
+          "argument_names",
+          "argument_modes",
+          "support",
+          "execute_ACL"
+        ],
+        "actual_argument_defaults": 0,
+        "full19_not_claimed": true
+      },
+      "cp7_credit.assert_simple_native_base_v1(uuid)": {
+        "actual_oid": "37163",
+        "source_body_sha256": "a6266494157071ddcb63bd7a0782056e20f3b3b07a2d5803fd6b1424758b1f95",
+        "matched_fields": [
+          "source_body",
+          "owner",
+          "language",
+          "kind",
+          "security_definer",
+          "leakproof",
+          "strict",
+          "returns_set",
+          "volatility",
+          "parallel",
+          "cost",
+          "rows",
+          "configuration",
+          "argument_names",
+          "argument_modes",
+          "support",
+          "execute_ACL"
+        ],
+        "actual_argument_defaults": 0,
+        "full19_not_claimed": true
+      },
+      "cp7_credit.consumer_capture_sources_v1(jsonb)": {
+        "actual_oid": "37852",
+        "source_body_sha256": "7ec7dbdaa7233c1cf2eead42041cc3ea5c509948a9969d8d3d7991fd5c3ef6ba",
+        "matched_fields": [
+          "source_body",
+          "owner",
+          "language",
+          "kind",
+          "security_definer",
+          "leakproof",
+          "strict",
+          "returns_set",
+          "volatility",
+          "parallel",
+          "cost",
+          "rows",
+          "configuration",
+          "argument_names",
+          "argument_modes",
+          "support",
+          "execute_ACL"
+        ],
+        "actual_argument_defaults": 0,
+        "full19_not_claimed": true
+      },
+      "cp7_credit.consumer_event_data_v1(uuid)": {
+        "actual_oid": "37834",
+        "source_body_sha256": "8027b43278714b584e051789522f149698ac5b4b80ebb627555773f14ada6c08",
+        "matched_fields": [
+          "source_body",
+          "owner",
+          "language",
+          "kind",
+          "security_definer",
+          "leakproof",
+          "strict",
+          "returns_set",
+          "volatility",
+          "parallel",
+          "cost",
+          "rows",
+          "configuration",
+          "argument_names",
+          "argument_modes",
+          "support",
+          "execute_ACL"
+        ],
+        "actual_argument_defaults": 0,
+        "full19_not_claimed": true
+      },
+      "cp7_credit.consumer_execute_v1(uuid)": {
+        "actual_oid": "37872",
+        "source_body_sha256": "dcc186b35ceae42a5b96eb7ff6a34acd6e43959c9d17c1d21d3d8118cd0ff439",
+        "matched_fields": [
+          "source_body",
+          "owner",
+          "language",
+          "kind",
+          "security_definer",
+          "leakproof",
+          "strict",
+          "returns_set",
+          "volatility",
+          "parallel",
+          "cost",
+          "rows",
+          "configuration",
+          "argument_names",
+          "argument_modes",
+          "support",
+          "execute_ACL"
+        ],
+        "actual_argument_defaults": 0,
+        "full19_not_claimed": true
+      },
+      "cp7_credit.consumer_incoming_funding_v1(uuid)": {
+        "actual_oid": "37836",
+        "source_body_sha256": "a0ace6b51e24de8e8ff8e0c1c1ebae5dd67171016822bde6aa25fd81a8748684",
+        "matched_fields": [
+          "source_body",
+          "owner",
+          "language",
+          "kind",
+          "security_definer",
+          "leakproof",
+          "strict",
+          "returns_set",
+          "volatility",
+          "parallel",
+          "cost",
+          "rows",
+          "configuration",
+          "argument_names",
+          "argument_modes",
+          "support",
+          "execute_ACL"
+        ],
+        "actual_argument_defaults": 0,
+        "full19_not_claimed": true
+      },
+      "cp7_credit.consumer_invoice_profile_v1(uuid)": {
+        "actual_oid": "37870",
+        "source_body_sha256": "ed66f799fb1d2d19fcdefe9828b328fefc5d18346b196631554d058ac95dafec",
+        "matched_fields": [
+          "source_body",
+          "owner",
+          "language",
+          "kind",
+          "security_definer",
+          "leakproof",
+          "strict",
+          "returns_set",
+          "volatility",
+          "parallel",
+          "cost",
+          "rows",
+          "configuration",
+          "argument_names",
+          "argument_modes",
+          "support",
+          "execute_ACL"
+        ],
+        "actual_argument_defaults": 0,
+        "full19_not_claimed": true
+      },
+      "cp7_credit.consumer_native_invariant_v1(uuid)": {
+        "actual_oid": "37850",
+        "source_body_sha256": "cda80dcaa38b630d30467b04d0bc55e90e1acc4998596b21e0fc2a40a6269f6c",
+        "matched_fields": [
+          "source_body",
+          "owner",
+          "language",
+          "kind",
+          "security_definer",
+          "leakproof",
+          "strict",
+          "returns_set",
+          "volatility",
+          "parallel",
+          "cost",
+          "rows",
+          "configuration",
+          "argument_names",
+          "argument_modes",
+          "support",
+          "execute_ACL"
+        ],
+        "actual_argument_defaults": 0,
+        "full19_not_claimed": true
+      },
+      "cp7_credit.consumer_projection_v1(jsonb,jsonb)": {
+        "actual_oid": "37857",
+        "source_body_sha256": "e8ad9ec57ccc391c7248f06a3f1b8858d23ed126eed3ad8979e62f63973c2f63",
+        "matched_fields": [
+          "source_body",
+          "owner",
+          "language",
+          "kind",
+          "security_definer",
+          "leakproof",
+          "strict",
+          "returns_set",
+          "volatility",
+          "parallel",
+          "cost",
+          "rows",
+          "configuration",
+          "argument_names",
+          "argument_modes",
+          "support",
+          "execute_ACL"
+        ],
+        "actual_argument_defaults": 0,
+        "full19_not_claimed": true
+      },
+      "cp7_credit.consumer_quote_v1(jsonb)": {
+        "actual_oid": "37865",
+        "source_body_sha256": "d0cdeaa9cb379690d5e0e445b3376a0616487c61fff31b17f0a2faed0cc4c77d",
+        "matched_fields": [
+          "source_body",
+          "owner",
+          "language",
+          "kind",
+          "security_definer",
+          "leakproof",
+          "strict",
+          "returns_set",
+          "volatility",
+          "parallel",
+          "cost",
+          "rows",
+          "configuration",
+          "argument_names",
+          "argument_modes",
+          "support",
+          "execute_ACL"
+        ],
+        "actual_argument_defaults": 0,
+        "full19_not_claimed": true
+      },
+      "cp7_credit.consumer_selection_v1(jsonb)": {
+        "actual_oid": "37848",
+        "source_body_sha256": "b8fbad1f5fd6c9b2bc556e3094429fa6c45505c0709754c40a77aa83b011aa03",
+        "matched_fields": [
+          "source_body",
+          "owner",
+          "language",
+          "kind",
+          "security_definer",
+          "leakproof",
+          "strict",
+          "returns_set",
+          "volatility",
+          "parallel",
+          "cost",
+          "rows",
+          "configuration",
+          "argument_names",
+          "argument_modes",
+          "support",
+          "execute_ACL"
+        ],
+        "actual_argument_defaults": 0,
+        "full19_not_claimed": true
+      },
+      "cp7_credit.current_materialized_objects(uuid,uuid,uuid)": {
+        "actual_oid": "36705",
+        "source_body_sha256": "1fea4c0e3e8a27d088b846385b00fa5f00d9e23a6a53b48977ef0a23ecf12419",
+        "matched_fields": [
+          "source_body",
+          "owner",
+          "language",
+          "kind",
+          "security_definer",
+          "leakproof",
+          "strict",
+          "returns_set",
+          "volatility",
+          "parallel",
+          "cost",
+          "rows",
+          "configuration",
+          "argument_names",
+          "argument_modes",
+          "support",
+          "execute_ACL"
+        ],
+        "actual_argument_defaults": 0,
+        "full19_not_claimed": true
+      },
+      "cp7_credit.enforce_initial_return_closure_v1()": {
+        "actual_oid": "37177",
+        "source_body_sha256": "146ea041343590115ddf491c54d6fa0a6847491987aefe97f1310a48eb7e2015",
+        "matched_fields": [
+          "source_body",
+          "owner",
+          "language",
+          "kind",
+          "security_definer",
+          "leakproof",
+          "strict",
+          "returns_set",
+          "volatility",
+          "parallel",
+          "cost",
+          "rows",
+          "configuration",
+          "argument_names",
+          "argument_modes",
+          "support",
+          "execute_ACL"
+        ],
+        "actual_argument_defaults": 0,
+        "full19_not_claimed": true
+      },
+      "cp7_credit.initial_base_events_v1(uuid,uuid)": {
+        "actual_oid": "37098",
+        "source_body_sha256": "bb7ab991dcbc605e970fb187b27b17c3d4fb87e158ad5b37fca763e978e7d5e2",
+        "matched_fields": [
+          "source_body",
+          "owner",
+          "language",
+          "kind",
+          "security_definer",
+          "leakproof",
+          "strict",
+          "returns_set",
+          "volatility",
+          "parallel",
+          "cost",
+          "rows",
+          "configuration",
+          "argument_names",
+          "argument_modes",
+          "support",
+          "execute_ACL"
+        ],
+        "actual_argument_defaults": 1,
+        "full19_not_claimed": true
+      },
+      "cp7_credit.initial_ordinal_input_v1(uuid,uuid)": {
+        "actual_oid": "37161",
+        "source_body_sha256": "0266a8839c404a2726bf7be1061a0d10c1473acba5ac5eba26b85ca6709ad5a1",
+        "matched_fields": [
+          "source_body",
+          "owner",
+          "language",
+          "kind",
+          "security_definer",
+          "leakproof",
+          "strict",
+          "returns_set",
+          "volatility",
+          "parallel",
+          "cost",
+          "rows",
+          "configuration",
+          "argument_names",
+          "argument_modes",
+          "support",
+          "execute_ACL"
+        ],
+        "actual_argument_defaults": 1,
+        "full19_not_claimed": true
+      },
+      "cp7_credit.native_source_enter(text,uuid)": {
+        "actual_oid": "37174",
+        "source_body_sha256": "d881bd8726de017722a48a3e18fa25323af56ec440b27350dbb4440e938652e5",
+        "matched_fields": [
+          "source_body",
+          "owner",
+          "language",
+          "kind",
+          "security_definer",
+          "leakproof",
+          "strict",
+          "returns_set",
+          "volatility",
+          "parallel",
+          "cost",
+          "rows",
+          "configuration",
+          "argument_names",
+          "argument_modes",
+          "support",
+          "execute_ACL"
+        ],
+        "actual_argument_defaults": 0,
+        "full19_not_claimed": true
+      },
+      "cp7_credit.source_native_snapshot_v1(uuid)": {
+        "actual_oid": "37269",
+        "source_body_sha256": "8af6772e8d13e5107c5d654fdd26bbf059ee29379178b982737022efe9e01bc1",
+        "matched_fields": [
+          "source_body",
+          "owner",
+          "language",
+          "kind",
+          "security_definer",
+          "leakproof",
+          "strict",
+          "returns_set",
+          "volatility",
+          "parallel",
+          "cost",
+          "rows",
+          "configuration",
+          "argument_names",
+          "argument_modes",
+          "support",
+          "execute_ACL"
+        ],
+        "actual_argument_defaults": 0,
+        "full19_not_claimed": true
+      },
+      "cp7_credit_incoming.incoming_applied_v1(uuid)": {
+        "actual_oid": "38336",
+        "source_body_sha256": "f89f137a19ea397271ee42e6b976b4d54904237f3e0df975cb02d1df68dd6c88",
+        "matched_fields": [
+          "source_body",
+          "owner",
+          "language",
+          "kind",
+          "security_definer",
+          "leakproof",
+          "strict",
+          "returns_set",
+          "volatility",
+          "parallel",
+          "cost",
+          "rows",
+          "configuration",
+          "argument_names",
+          "argument_modes",
+          "support",
+          "execute_ACL"
+        ],
+        "actual_argument_defaults": 0,
+        "full19_not_claimed": true
+      },
+      "cp7_note.command(jsonb,uuid,text)": {
+        "actual_oid": "32606",
+        "source_body_sha256": "f309cff8582a0205aa16b1d190fe5e68066219477a0ae40ab76986a635b6969a",
+        "matched_fields": [
+          "source_body",
+          "owner",
+          "language",
+          "kind",
+          "security_definer",
+          "leakproof",
+          "strict",
+          "returns_set",
+          "volatility",
+          "parallel",
+          "cost",
+          "rows",
+          "configuration",
+          "argument_names",
+          "argument_modes",
+          "support",
+          "execute_ACL"
+        ],
+        "actual_argument_defaults": 0,
+        "full19_not_claimed": true
+      },
+      "cp7_note.reverse_sale(uuid,text)": {
+        "actual_oid": "32598",
+        "source_body_sha256": "3f4139baa3695f62b5150b22b170c079ae3aaf2a198477c9ca6cf33e334953ad",
+        "matched_fields": [
+          "source_body",
+          "owner",
+          "language",
+          "kind",
+          "security_definer",
+          "leakproof",
+          "strict",
+          "returns_set",
+          "volatility",
+          "parallel",
+          "cost",
+          "rows",
+          "configuration",
+          "argument_names",
+          "argument_modes",
+          "support",
+          "execute_ACL"
+        ],
+        "actual_argument_defaults": 0,
+        "full19_not_claimed": true
+      },
+      "cp7_sales_return_correction.command(jsonb,uuid,text)": {
+        "actual_oid": "32765",
+        "source_body_sha256": "af622d7f710eedf0a637574d46fb3a3509ee86d4405eea61d7fac23c5c058a9f",
+        "matched_fields": [
+          "source_body",
+          "owner",
+          "language",
+          "kind",
+          "security_definer",
+          "leakproof",
+          "strict",
+          "returns_set",
+          "volatility",
+          "parallel",
+          "cost",
+          "rows",
+          "configuration",
+          "argument_names",
+          "argument_modes",
+          "support",
+          "execute_ACL"
+        ],
+        "actual_argument_defaults": 0,
+        "full19_not_claimed": true
+      },
+      "cp7_sales_return_correction.reverse_sales_return(uuid,text)": {
+        "actual_oid": "32760",
+        "source_body_sha256": "5296c2f9ed3e0d96593822d5fd65a60dea6a5938c75324babf8ea9decd6fe3bb",
+        "matched_fields": [
+          "source_body",
+          "owner",
+          "language",
+          "kind",
+          "security_definer",
+          "leakproof",
+          "strict",
+          "returns_set",
+          "volatility",
+          "parallel",
+          "cost",
+          "rows",
+          "configuration",
+          "argument_names",
+          "argument_modes",
+          "support",
+          "execute_ACL"
+        ],
+        "actual_argument_defaults": 0,
+        "full19_not_claimed": true
+      },
+      "erp._cp7_current_credit_adjustment(uuid)": {
+        "actual_oid": "36659",
+        "source_body_sha256": "6812bb7b925ca7630df858a9b16e048f002677c7bb8770c2f0e946067488ff9f",
+        "matched_fields": [
+          "source_body",
+          "owner",
+          "language",
+          "kind",
+          "security_definer",
+          "leakproof",
+          "strict",
+          "returns_set",
+          "volatility",
+          "parallel",
+          "cost",
+          "rows",
+          "configuration",
+          "argument_names",
+          "argument_modes",
+          "support",
+          "execute_ACL"
+        ],
+        "actual_argument_defaults": 0,
+        "full19_not_claimed": true
+      },
+      "erp.post_sales_return(uuid)": {
+        "actual_oid": "22842",
+        "source_body_sha256": "e1594707de7e086a58701aa2e4ac096ebba51b63d3020c2beef73463c444a7ec",
+        "matched_fields": [
+          "source_body",
+          "owner",
+          "language",
+          "kind",
+          "security_definer",
+          "leakproof",
+          "strict",
+          "returns_set",
+          "volatility",
+          "parallel",
+          "cost",
+          "rows",
+          "configuration",
+          "argument_names",
+          "argument_modes",
+          "support",
+          "execute_ACL"
+        ],
+        "actual_argument_defaults": 0,
+        "full19_not_claimed": true
+      },
+      "public.erp_cp7_correct_note_v1(jsonb,uuid,text)": {
+        "actual_oid": "32615",
+        "source_body_sha256": "55a7b8855a721235982e6cf24334c1a7fa80609bdc081acaedb3640153b33cfe",
+        "matched_fields": [
+          "source_body",
+          "owner",
+          "language",
+          "kind",
+          "security_definer",
+          "leakproof",
+          "strict",
+          "returns_set",
+          "volatility",
+          "parallel",
+          "cost",
+          "rows",
+          "configuration",
+          "argument_names",
+          "argument_modes",
+          "support",
+          "execute_ACL"
+        ],
+        "actual_argument_defaults": 0,
+        "full19_not_claimed": true
+      },
+      "public.erp_cp7_correct_sales_return_v1(jsonb,uuid,text)": {
+        "actual_oid": "32776",
+        "source_body_sha256": "d5b00d6b65ae5f68f0ce2817e6c64216137e9e696095441f2a3fb69162c782f3",
+        "matched_fields": [
+          "source_body",
+          "owner",
+          "language",
+          "kind",
+          "security_definer",
+          "leakproof",
+          "strict",
+          "returns_set",
+          "volatility",
+          "parallel",
+          "cost",
+          "rows",
+          "configuration",
+          "argument_names",
+          "argument_modes",
+          "support",
+          "execute_ACL"
+        ],
+        "actual_argument_defaults": 0,
+        "full19_not_claimed": true
+      },
+      "public.erp_cp7_get_note_correction_v2(uuid)": {
+        "actual_oid": "32790",
+        "source_body_sha256": "e452141a3eab7326971e606e46240ad2f02260e65ffab224d42a88df8cb192df",
+        "matched_fields": [
+          "source_body",
+          "owner",
+          "language",
+          "kind",
+          "security_definer",
+          "leakproof",
+          "strict",
+          "returns_set",
+          "volatility",
+          "parallel",
+          "cost",
+          "rows",
+          "configuration",
+          "argument_names",
+          "argument_modes",
+          "support",
+          "execute_ACL"
+        ],
+        "actual_argument_defaults": 0,
+        "full19_not_claimed": true
+      },
+      "public.erp_cp7_get_sales_return_correction_v1(jsonb)": {
+        "actual_oid": "32775",
+        "source_body_sha256": "ccafbc40c877922123ce1a6050b9eadfbf2c091877d9d786a39caa1b94be6419",
+        "matched_fields": [
+          "source_body",
+          "owner",
+          "language",
+          "kind",
+          "security_definer",
+          "leakproof",
+          "strict",
+          "returns_set",
+          "volatility",
+          "parallel",
+          "cost",
+          "rows",
+          "configuration",
+          "argument_names",
+          "argument_modes",
+          "support",
+          "execute_ACL"
+        ],
+        "actual_argument_defaults": 0,
+        "full19_not_claimed": true
+      }
+    },
+    "functions": 32,
+    "attributes_per_function": 17,
+    "actual_ERP_cases": 0,
+    "full19_and_installation_still_required": true,
+    "global_writer_or_permission_or_lock_closure": false,
+    "production_go": false,
+    "independent_acceptance": false,
+    "actual_metadata_original": {
+      "head": "887fb69c3ea95192fbd5ad3dbe63230189a0916e",
+      "run_id": 41339521839,
+      "job_id": 124946366351,
+      "conclusion": "failure",
+      "artifact_id": 13098941324,
+      "archive": {
+        "bytes": 3840085,
+        "digest": "sha256:64512d9a027b1829d6ed095e59a8cc3dfa1f481a2f11df5b559b797c35dad121",
+        "members": 127
+      },
+      "failed_run_not_relabelled_PASS": true,
+      "business_case_credit": 0
+    },
+    "expected_prepared_source": {
+      "head": "ee684bc71cef517168cdd4c66c633888799bbff6",
+      "tree": "a5ff3fa842e829187952c887dba579db693311b8",
+      "manifest": {
+        "bytes": 17908,
+        "sha256": "ff77360e6d9835500df829621ee3e02cb1936c7a2b36e1bdf6efbeffbae052ab"
+      },
+      "recorded_capture": {
+        "bytes": 173774,
+        "sha256": "c5c18ca3d68e373ecaef8ec992e168564e21f37d9a0ee190414322e1688de214"
+      }
+    },
+    "actual_snapshot": "7633:7633:",
+    "explicit_corruption_controls": {
+      "positive": 1,
+      "negative": [
+        {
+          "mode": "body",
+          "refused": "SAVED_NATIVE_METADATA_VALUE:cp7_credit._consumer_root_source_profile_v1(uuid,uuid,uuid,jsonb):source_body:VALUE"
+        },
+        {
+          "mode": "boolean_type",
+          "refused": "SAVED_NATIVE_METADATA_TYPE:cp7_credit._consumer_root_source_profile_v1(uuid,uuid,uuid,jsonb):security_definer"
+        },
+        {
+          "mode": "execute_ACL",
+          "refused": "SAVED_NATIVE_METADATA_VALUE:cp7_credit._consumer_root_source_profile_v1(uuid,uuid,uuid,jsonb):execute_ACL/0/0:VALUE"
+        },
+        {
+          "mode": "configuration",
+          "refused": "SAVED_NATIVE_METADATA_VALUE:cp7_credit._consumer_root_source_profile_v1(uuid,uuid,uuid,jsonb):configuration:VALUE"
+        },
+        {
+          "mode": "missing_procedure",
+          "refused": "SAVED_NATIVE_EVERY_EXPECTED_PROCEDURE_REQUIRED"
+        },
+        {
+          "mode": "duplicate_procedure",
+          "refused": "SAVED_NATIVE_METADATA_DUPLICATE_IDENTITY:signature"
+        }
+      ],
+      "DB_connections": 0,
+      "actual_ERP_cases": 0
+    },
+    "boolean_schema_controls": {
+      "full19_indexes": {
+        "leakproof": 5,
+        "strict": 6
+      },
+      "distinct_boolean_models": [
+        {
+          "leakproof": false,
+          "strict": true,
+          "status": "MODEL_PASS"
+        },
+        {
+          "leakproof": true,
+          "strict": false,
+          "status": "MODEL_PASS"
+        }
+      ],
+      "other_profile_size_refused": true,
+      "actual_ERP_cases": 0
+    }
+  },
+  "capture_order_correction": {
+    "primary_source": "scripts/cp7_ow04_restore_bundle.py: QUERIES.functions",
+    "original_order": "prosecdef,proleakproof,proisstrict,proretset",
+    "leakproof_index": 5,
+    "strict_index": 6,
+    "previous_Native32_observations_both_false": true,
+    "distinct_boolean_models_now_explicit": true
+  },
+  "limitations": [
+    "17 attributes per procedure checked from actual old887 metadata; raw complete pg_get_functiondef, argument/default/result rendering still require the actual final candidate guard.",
+    "Expanded EXECUTE ACL equivalence does not infer raw NULL versus explicit ACL equivalence.",
+    "No current-rights after waiting, transaction, global guard, command hook, Native dispatcher, or race acceptance."
+  ]
+}
