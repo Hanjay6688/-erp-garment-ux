@@ -1,0 +1,38 @@
+{
+  "classification": "COMPLETE_PERMANENT_CALLER_READONLY_METADATA_HOOKS_PREPARED_NOT_NATIVE",
+  "source_commit": "a83f87d76abbd3d94b5e75a50391d1d202b837c9",
+  "source_prefix": "scripts/current-global-system-cron-profile-preparation/",
+  "byte_exact_original_files": 11,
+  "queries": 27,
+  "hook_stages": [
+    "before_native4",
+    "after_native4_and_browser2"
+  ],
+  "databases": [
+    "local_cp6_rollback",
+    "local_postgres_scheduler"
+  ],
+  "all_reads_require_readonly_repeatable_read_pg_catalog_admin": true,
+  "each_snapshot_explicitly_rolled_back_and_connection_closed": true,
+  "separate_snapshots_are_not_atomic": true,
+  "SQL_unavailability_recorded_without_secrets": true,
+  "unavailable_metadata_does_not_grant_global_acceptance": true,
+  "qualification_actors_and_harness_overlays_may_be_observed": true,
+  "local_unittest_result": {
+    "tests": 11,
+    "PASS": 11,
+    "seconds": 0.045,
+    "composition_model_tests": 6,
+    "new_metadata_source_or_model_tests": 5
+  },
+  "old23_isolated_SQL_controls_reused": true,
+  "added4_actual_SQL_queries_previously_passed": true,
+  "parent37_receipt_still_pending": true,
+  "actual_new_Native_cases": 0,
+  "actual_browser_cases": 0,
+  "writer_closure": false,
+  "permission_closure": false,
+  "lockset_approved": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

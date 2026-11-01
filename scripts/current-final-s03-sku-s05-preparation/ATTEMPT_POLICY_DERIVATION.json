@@ -1,0 +1,22 @@
+{
+  "source_commit": "33988923ab3bad708b21f3c74002f1309a3644e1",
+  "source_path": "scripts/current-sku-managed-recovery-native27-qualification/attempt_policy.py",
+  "original_bytes": 2209,
+  "original_sha256": "87d89647ff0637d6449ba015352950715384807c5e3027233467935871804755",
+  "derived_bytes": 2209,
+  "derived_sha256": "5076f5ddb63b8c6b677c6141253d25734b295721aa8d483f116abc6ecd0136f8",
+  "changes": [
+    {
+      "before": "JOB_BUDGET_SECONDS = 210 * 60",
+      "after": "JOB_BUDGET_SECONDS = 360 * 60",
+      "count": 1
+    }
+  ],
+  "original_job_minutes": 210,
+  "own_job_minutes": 360,
+  "reason": "Full owning setup/install/runtime/restore budget with 330-minute work deadline, 20-minute restoration reserve and 10-minute artifact reserve; first-attempt real WIB guard and business callbacks unchanged.",
+  "financial_or_browser_callbacks_changed": 0,
+  "product_clock_changed": false,
+  "actual_Native_cases": 0,
+  "production_go": false
+}

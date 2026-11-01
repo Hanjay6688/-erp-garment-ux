@@ -1,0 +1,74 @@
+{
+  "status": "RETAINED35_FRESH2_PARENT_PROTOCOL_PREPARED_NOT_ACTUAL_ADMISSION",
+  "original_preparation": "92a70c1fbe51208f098e82a27088649add4befd4",
+  "original_own_paths": 54,
+  "unchanged_original_own_paths": 49,
+  "modified_only_parent_protocol_or_binding_paths": {
+    "scripts/current-final-s03-sku-s05-preparation/admission.py": {
+      "original": {
+        "bytes": 4203,
+        "sha256": "8b872bceac6d4ce3f622cd1c4e5d5db430b3d3e69b2e67910906a61284189837"
+      },
+      "current": {
+        "bytes": 4199,
+        "sha256": "77594cf6445bdd9efa2a2759d556871c35b1e5c296654d75fa8a0a681ee60a43"
+      }
+    },
+    "scripts/current-final-s03-sku-s05-preparation/fetch_parent37.py": {
+      "original": {
+        "bytes": 4756,
+        "sha256": "a595f49e9fef9860363bfef19b856efa183896af049470627108241ad45ae6dd"
+      },
+      "current": {
+        "bytes": 4752,
+        "sha256": "96036d22842bc7e072699f8c17d2a254d5a0daa6106ea23e96af59c10dda10c8"
+      }
+    },
+    "scripts/current-final-s03-sku-s05-preparation/persistent_financial.py": {
+      "original": {
+        "bytes": 10210,
+        "sha256": "13ce1d073e935d6073b1d64e23b98fc37b09c41326d841c6aa094ce5cab6d38c"
+      },
+      "current": {
+        "bytes": 10673,
+        "sha256": "9e4ddc0d6a3486dc9b8e28de6dabc7476c0f41e7645917a74453bed077196999"
+      }
+    },
+    "scripts/current-final-s03-sku-s05-preparation/persistent_source.py": {
+      "original": {
+        "bytes": 4631,
+        "sha256": "a948f0abda10b7d3d879741dba11967a4ca37108fc6a0c20159de2cb111ee33c"
+      },
+      "current": {
+        "bytes": 4631,
+        "sha256": "ba2e01a0f1ea0c6438f642a3241ebd28ba40e0b51384fdc0e45ca230d4d45a33"
+      }
+    }
+  },
+  "original_financial_function_ASTs_unchanged_except_qualified_receipt": true,
+  "original_Native4_and_browser2_oracles_and_product_bytes_unchanged": true,
+  "original_native_seeded_committed_witness_preserved": true,
+  "expected_parent_head": "cb8aa092506a272da526aa55a1cfef4b2a6413c0",
+  "expected_parent_tree": "e47caf3ea3b739b713f6c9b9a0e0041f91c5ac58",
+  "expected_parent_run": 41315727305,
+  "expected_parent_job": 124875223281,
+  "parent_root_receipt": null,
+  "parent_qualification": "PENDING_ACTUAL_TERMINAL_AND_CANONICAL_ROOT_INTAKE",
+  "local_new_protocol_controls": {
+    "PASS": 4,
+    "retained_result_for_unchanged_protocol_logic": true,
+    "raw": {
+      "bytes": 102,
+      "sha256": "ccf7b54f144d3e9682c95e71a54d347376487292982197f61b4f9bb2d6f65cc8",
+      "text": "....\n----------------------------------------------------------------------\nRan 4 tests in 0.029s\n\nOK\n"
+    }
+  },
+  "old_stale_metadata_minutes120_corrected_to_actual360": true,
+  "actual_job_guard_and_timeout_minutes": 360,
+  "hard_budget_or_financial_restore_guard_changed": false,
+  "workflow_activated": false,
+  "actual_new_Native_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false,
+  "manifest_metadata_and_own_pins_rebound": true
+}

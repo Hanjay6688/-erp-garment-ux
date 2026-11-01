@@ -1,0 +1,10 @@
+{
+  "classification": "LOCAL_CURSOR_MODEL_PRECONDITION_CONTROLS_NOT_NATIVE",
+  "tests": 6,
+  "result": "PASS",
+  "seconds": 0.002,
+  "actual_SQL_queries": 0,
+  "actual_ERP_Native_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

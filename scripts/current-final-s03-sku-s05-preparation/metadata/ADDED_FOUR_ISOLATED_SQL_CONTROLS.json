@@ -1,0 +1,18 @@
+{
+  "status": "ACTUAL_ISOLATED_POSTGRES_FOUR_ADDED_QUERY_SYNTAX_AND_SYNTHETIC_PROJECTION_CONTROLS_PASS",
+  "actual_catalog_queries_executed": 4,
+  "old23_query_controls_reused": true,
+  "actual_catalog_counts": {
+    "subscriptions": 0,
+    "subscription_relations": 0,
+    "replication_slots": 0,
+    "backend_activity": 0
+  },
+  "actual_live_backend_redaction_observed": false,
+  "explicitly_synthetic_SQL_projection_controls": 2,
+  "backend_query_configuration_and_subscription_connection_values_withheld_in_synthetic_projections": true,
+  "actual_ERP_Native_cases": 0,
+  "writer_closure": false,
+  "production_go": false,
+  "independent_acceptance": false
+}
