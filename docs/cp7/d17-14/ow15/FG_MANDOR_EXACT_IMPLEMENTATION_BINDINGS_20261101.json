@@ -1,0 +1,133 @@
+{
+  "status": "FG_MANDOR_EXACT_IMPLEMENTATION_BINDINGS_READY_NOT_IMPLEMENTED",
+  "classification": "READ_ONLY_SOURCE_BINDING_ON_CURRENT37_CANDIDATE_NO_PRODUCT_OR_RUNTIME_CHANGE",
+  "candidate": {
+    "head": "dad402b1a6eee7c4acdd776c8c6a1538c1a52f0a",
+    "tree": "d9d89babc816032fbdf06f1c961f7829a2cbab7c",
+    "current37_run": 41267825303,
+    "current37_job": 124734228589,
+    "observed_status": "in_progress"
+  },
+  "gate": {
+    "implementation_may_start_after": "CURRENT37_ROOT_ACCEPTED_AND_ACTIVE_INTEGRATION_STABLE",
+    "implementation_started": false,
+    "reason": "The owner sequenced FG Mandor after the active integration block is stable."
+  },
+  "exact_source_bindings": {
+    "sales_command": {
+      "path": "scripts/cp7-src/sales/commands.sql",
+      "sha256": "3b2e59b36ad86cd55a239ffd539fb71aaf90621661c083104108dcd6d8f93d97",
+      "bindings": [
+        "cp7_sales.command_access(text)",
+        "cp7_sales.command_allowed(text)",
+        "cp7_sales.apply_command(text,jsonb,uuid,text)",
+        "cp7_sales.command(text,jsonb,uuid,text)",
+        "public.erp_cp7_save_sale_v1(text,jsonb,uuid,text)"
+      ]
+    },
+    "sales_reader": {
+      "path": "scripts/cp7-src/sales/read.sql",
+      "sha256": "8cb9c0582c61297c782a3794ba533c247aedaa4cad218ec8ca2e83a556152bd5",
+      "binding": "public.erp_cp7_get_sales_v1(jsonb)"
+    },
+    "sales_form_options": {
+      "path": "scripts/cp7-src/sales/form.sql",
+      "sha256": "90db4a6705e6f403851672a0e58006d20451edc15b623a7b2e6dd14ff7f48dfa",
+      "bindings": [
+        "cp7_sales.form_options(jsonb)",
+        "public.erp_cp7_get_sales_form_v1(jsonb)"
+      ]
+    },
+    "payroll_installment_source": {
+      "path": "scripts/cp7-src/payroll/installments.sql",
+      "sha256": "743406d68778c3d2ba812ff189765f7e7b6cc1ba9a39fe30ef1ce55095a9fa8e",
+      "bindings": [
+        "cp7_installment.apply_command(text,jsonb,uuid,text)",
+        "cp7_installment.command(text,jsonb,uuid,text)",
+        "public.erp_cp7_save_payroll_installment_v1(text,jsonb,uuid,text)"
+      ]
+    },
+    "payroll_installment_derivation": {
+      "path": "scripts/cp7_installment_bundle.py",
+      "sha256": "b3c96e3f19c7f941ae8689ad0bbb5294c54bee469ed8310a0696f11b029823cb",
+      "derived_bindings": [
+        "cp7_installment.check_payment(uuid,numeric)",
+        "cp7_installment.final_payment(uuid,numeric)",
+        "cp7_installment.reopen_settlement(uuid,text)"
+      ],
+      "critical_rule": "These routines are generated from accepted Native payroll definitions at bundle time. Do not hand-edit a generated final-payment body or bypass its predecessor digest guards."
+    },
+    "accepted_payroll_source_derivation": {
+      "path": "scripts/cp7_settlement_bundle.py",
+      "sha256": "ef2817a5d9759802ccd8b19c4bf88fc92909389118b1d88d9870a56ac99a9ba9",
+      "bindings": [
+        "erp.post_payroll_payment(uuid)",
+        "erp.reverse_paid_payroll(uuid,text)",
+        "erp.cancel_unpaid_payroll(uuid,text)"
+      ]
+    }
+  },
+  "exact_ui_bindings": {
+    "sales_form": {
+      "path": "src/SalesDraftPanel.tsx",
+      "sha256": "26101d87ed1907ab6103bafe572f513171dd3da14aa2e76e78b5c173b6226bd2",
+      "change_boundary": "Add Toko/Mandor category and explicit contractor selection while retaining customer_id as the Native sale/AR identity."
+    },
+    "sales_transport": {
+      "path": "src/ConnectedSalesPage.tsx",
+      "sha256": "de7e3e7e04c3193be649cedd87f1162716b52020359a851ce7d680e2ee778bc4",
+      "change_boundary": "Keep useProductionMutation and erp_cp7_save_sale_v1 recovery/idempotency behavior."
+    },
+    "sales_contract": {
+      "path": "src/salesReadContract.ts",
+      "sha256": "f51e1de4b71bc85f459200040e67fbc13ca96d72e5207ecbd9a025aaeb09fa2b",
+      "change_boundary": "Expose explicit buyer category and contractor identity without weakening closed response parsing."
+    },
+    "payroll_host": {
+      "path": "src/ConnectedPayrollPage.tsx",
+      "sha256": "7c2eda2f0dd7ff8cd276c987ce4c5d0cb3abc556d5da8509e093299454e71a89",
+      "change_boundary": "Mount the invoice-card allocation panel on the exact selected payroll and contractor."
+    },
+    "source_card_pattern": {
+      "path": "src/PayrollKasbonPanel.tsx",
+      "sha256": "feeda406c493398bec514fc40c901e5182389fd3a324ec8fe4017e4c7f563ca6",
+      "reuse_only": "Reuse its explicit contractor binding, cards, draft-week allocation, stale-read retirement and useProductionMutation pattern; do not turn an FG invoice into a cash advance."
+    },
+    "final_payment_surface": {
+      "path": "src/PayrollInstallmentPanel.tsx",
+      "sha256": "07e4bba230b7d7a69eb6a0f73583697a3e66289a21c841a3524787658a4d563c",
+      "change_boundary": "Display the already-approved net payable; do not settle invoice AR on a partial cash installment."
+    }
+  },
+  "critical_accounting_binding": {
+    "observed_native_behavior": "erp.post_payroll_payment currently totals every deduction other than MATERIAL_KASBON and CASH_ADVANCE into PAYROLL_OTHER_DEDUCTION and credits OTHER_INCOME.",
+    "required_FG_behavior": "FG invoice deductions must be excluded from that generic total and settled exactly once through a dedicated noncash Dr CONTRACTOR_PAYABLE / Cr AR_CUSTOMER journal linked to the same sale invoice.",
+    "cash_behavior": "The payroll cash or bank journal remains the approved net amount only.",
+    "sales_payment_behavior": "Do not create erp.sales_payments because that table represents real cash sources.",
+    "stock_HPP_behavior": "erp.post_sale remains the single owner of sale posting, FG movement and COGS; payroll settlement creates no second stock, revenue or COGS effect."
+  },
+  "required_command_boundaries": [
+    "A protected contractor-to-customer-account link and sale-contractor sidecar; no name matching.",
+    "A dedicated allocation command with request UUID, exact payroll row_version/review token and exact sale review token.",
+    "Locks and revalidation over the payroll, contractor identity, sorted sale headers, allocations and account mappings before effects.",
+    "Draft allocation only reserves capacity; invoice AR changes only on the final PAID transition.",
+    "Individual final-payment reversal reopens the same settlement and keeps the allocation reserved; whole payroll reversal releases it.",
+    "Invoice return, payment or correction that changes open balance retires review and blocks stale settlement."
+  ],
+  "required_future_tests_not_run_here": [
+    "Manual week choice and partial carry-forward",
+    "300000 invoice against 2000000 payroll produces 1700000 cash out and 300000 AR settlement",
+    "Final installment settles once while earlier installments leave invoice AR unchanged",
+    "Cancellation, individual reversal and whole reversal",
+    "Invoice balance change before payroll payment",
+    "Exact replay, changed-intent refusal, double click and two-tab collision",
+    "Ordinary Toko sale stock/HPP/COGS regression",
+    "Desktop and mobile invoice-card popup"
+  ],
+  "actual_SQL_executed": 0,
+  "actual_ERP_calls": 0,
+  "actual_Native_cases": 0,
+  "actual_product_changes": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}
