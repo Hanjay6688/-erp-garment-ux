@@ -31,8 +31,8 @@
       "sha256": "a6635b161ef04c9bb5077d5c00b3fdd1e496ab5a9ec9c2785ead25d24caa36ed"
     },
     "scripts/current-final-s03-sku-s05-preparation/LOCAL_CONTROLS.json": {
-      "bytes": 15128,
-      "sha256": "38516b614c3c33576400a3e75d5264c857790ad35fbf738a975df82a10936381"
+      "bytes": 16927,
+      "sha256": "5214292041e2ec58e3eef931f2d576106ea28b4171db2fac1affcf6a47032c35"
     },
     "scripts/current-final-s03-sku-s05-preparation/PERSISTENT_BROWSER_DERIVATIONS.json": {
       "bytes": 8892,
@@ -211,8 +211,8 @@
       "sha256": "4d085bc490756f57740207886f125452db40af15758629091b99ec53a3f81b6e"
     },
     "scripts/current-final-s03-sku-s05-preparation/test_focused_parent_receipt.py": {
-      "bytes": 5526,
-      "sha256": "36f8cb8c58f81980e1574046ff9d078ed95e29677fd2f4ed5eac2baa1f9749b2"
+      "bytes": 6645,
+      "sha256": "82090cb1c7a209063280eb943f3008bc546ccd2ac3e840c60adcefde1c127b1d"
     },
     "scripts/current-final-s03-sku-s05-preparation/test_supervision_integration.py": {
       "bytes": 7490,
