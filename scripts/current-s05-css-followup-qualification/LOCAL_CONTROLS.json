@@ -1,5 +1,5 @@
 {
-  "status": "PREPARED_FOCUSED_SOURCE_AND_SYNTHETIC_GUARDS_PASS_NOT_ERP_ACCEPTANCE",
+  "status": "PREPARED_FOCUSED_FOUNDATION_CORRECTION_LOCAL_CONTROLS_PASS_NOT_ERP_ACCEPTANCE",
   "actual_new_ERP_cases": 0,
   "actual_Auth_cases": 0,
   "local_controls": {
@@ -17,6 +17,21 @@
       "bytes": 98,
       "sha256": "4ce4b259b27650df250c38fd5fede04ece05e638aa348014a22d256979f7fd63",
       "text": ".\n----------------------------------------------------------------------\nRan 1 test in 0.053s\n\nOK\n"
+    },
+    "FOUNDATION_NEW_CONTROLS.log": {
+      "bytes": 105,
+      "sha256": "1ae18a4dc90ab022731f0a0de41457e2ff3010a15a7a9b29d9618d7d16aab49f",
+      "text": ".......\n----------------------------------------------------------------------\nRan 7 tests in 0.472s\n\nOK\n"
+    },
+    "FOUNDATION_AFFECTED_CONTROLS.log": {
+      "bytes": 1202,
+      "sha256": "7cb3f754da85e0401da8345187a0f20b460944c1b48ceab1caf31a9ae1bc6052",
+      "text": "E.....\n======================================================================\nERROR: test_complete_engine_roundtrip_and_missing_count_anchor_refuses (test_followup.FocusedControls.test_complete_engine_roundtrip_and_missing_count_anchor_refuses)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/workspace/scratch/cf5f04e2b451/erp-s05-focused/scripts/current-s05-css-followup-qualification/test_followup.py\", line 95, in test_complete_engine_roundtrip_and_missing_count_anchor_refuses\n    text,proof=module.derive(raw);compile(text,'focused_synthetic_engine_control','exec')\n               ^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/cf5f04e2b451/erp-s05-focused/scripts/current-s05-css-followup-qualification/engine.py\", line 26, in derive\n    if text.count(INSTALL_BEFORE)!=1:raise ValueError('FOCUSED_FOUNDATION_PRECHECK_INSTALL_ANCHOR_REQUIRED')\n                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nValueError: FOCUSED_FOUNDATION_PRECHECK_INSTALL_ANCHOR_REQUIRED\n\n----------------------------------------------------------------------\nRan 6 tests in 0.923s\n\nFAILED (errors=1)\n"
+    },
+    "FOUNDATION_ENGINE_CORRECTION.log": {
+      "bytes": 98,
+      "sha256": "a626407facf1102b512cc38f00f6e7d889aa6280a5c03d1722ac6d1c4eb08dc5",
+      "text": ".\n----------------------------------------------------------------------\nRan 1 test in 0.004s\n\nOK\n"
     }
   },
   "retained_Root_head": "dd5011d1453f5d8ac75bb11520e0e2c7cf38459b",
@@ -46,5 +61,32 @@
   ],
   "environment_and_permissions_unchanged": true,
   "production_go": false,
-  "independent_acceptance": false
+  "independent_acceptance": false,
+  "failed_scoped_attempt": {
+    "head": "14486decb34b261f70a8a12800ae7980bab4cbdd",
+    "run_id": 41310096963,
+    "job_id": 124858465060,
+    "artifact_id": 13086358611,
+    "conclusion": "failure",
+    "actual_browser_cases": 0,
+    "error": "Z_EXPANDED_BASE_MATERIAL_MISSING",
+    "archive": {
+      "bytes": 1990873,
+      "sha256": "559089916067ef544b87731fb72151eafd4b43fa3579628565d4c180ee346dc2"
+    },
+    "failed_run_relabelled_PASS": false
+  },
+  "foundation_correction": {
+    "new_setup_controls_PASS": 7,
+    "affected_existing_gate_controls_PASS": 5,
+    "affected_engine_control_initially_failed_source_anchor": true,
+    "corrected_engine_control_only_rerun_PASS": 1,
+    "existing_other_controls_retained_not_repeated": true,
+    "local_actual_ERP_cases": 0,
+    "original_seed_source_files": 7,
+    "read_only_check_before_expensive_install": true,
+    "exact_original_seed_only_for_empty": true,
+    "partial_foundation_refused": true,
+    "all22_schemaACL_and_protected_role_rows_must_match": true
+  }
 }

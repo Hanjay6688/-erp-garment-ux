@@ -51,6 +51,7 @@ def parent_admission():return load('focused_natural_current_parent_admission',PA
 
 def admitted():
     proof=retained()
+    load('focused_foundation_before_any_ERP_import',HERE/'foundation.py').preflight()
     parent=parent_admission().admitted()
     p=load('focused_complete_financial_source_comparison',PARENT/'parents.py')
     p.exact(json_pin(parent['current_installation']),proof['receipt']['qualified_financial_sources'],

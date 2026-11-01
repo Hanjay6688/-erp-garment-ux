@@ -37,3 +37,16 @@ automatic whole-group retries stay disabled. The old full37 six-hour policy
 is not edited.
 
 Local controls are synthetic/source checks only, never ERP or Auth evidence.
+
+The first scoped attempt1448 failed before creating the first Native browser
+fixture: the skipped Native witness had also owned its committed foundation
+seed. The exact canonical failure and complete restoration remain retained.
+The correction adds a read-only readiness check before the full installer,
+then reuses cp6_ao_ap_installed.seed on the same empty-database condition as
+the original committed witness. Every original Python/SQL/include is pinned
+to50c bytes before ERP imports. Partial/foreign foundations are refused, never
+repaired. The original historical seed temporarily suspends only its existing
+cutting compatibility trigger; every catalog class and protected role row must
+be unchanged afterwards. Only the unchanged SQL test usage overlay is allowed.
+The component owns the setup commit; Native fixture and browser assertions
+remain byte-identical. This setup has zero new case credit.

@@ -21,6 +21,16 @@ def fixture():
     catalog['sequences']={f'erp.synthetic_{i}':[]for i in range(15)}
     data={'erp.synthetic':[0,'0'*64],**{'sequence:'+n:['0',False]for n in catalog['sequences']}}
     boundary=dict(actual_all22=catalog,full_data_and_sequences=data)
+    f=load('foundation');empty=dict(app_users=0,active_owner_roles=1,original_owner=0,required={n:False for n in f.REQUIRED})
+    ready=dict(app_users=1,active_owner_roles=1,original_owner=1,required={n:True for n in f.REQUIRED})
+    plan=dict(status='READ_ONLY_FOUNDATION_PRECHECK',mode='ORIGINAL_EMPTY_DATABASE_SEED_REQUIRED',
+        initial=empty,source=f.preflight(),database_mutated=False,Native_case_credit=0)
+    setup=dict(status='EXACT_RETAINED_FIXTURE_FOUNDATION_READY',source=plan['source'],mode=plan['mode'],initial=empty,
+        final=ready,seed=f.SEED,Native_case_credit=0,retained_cases_rerun=False,production_go=False,seed_called=True,
+        actual_all22_before=catalog,actual_all22_after=copy.deepcopy(catalog),all22_equal=True,
+        original_seed_schema_ACL_equal=True,protected_role_data_before={'erp.app_roles':[],'erp.app_role_permissions':[]},
+        protected_role_data_after={'erp.app_roles':[],'erp.app_role_permissions':[]},protected_role_data_equal=True,
+        only_existing_Native_SQL_harness_usage_overlay=True,connection_and_commit_owned_by_component=True)
     browser=dict(status='RUN_COMPLETE',counts={'PASS':2},planned_case_ids=ids,real_auth=True,
         jwt_signed_by_runtime=False,host_exit=0,host_status='RUN_COMPLETE',database_remaining=0,console_errors=0,
         auth_cleanup_failures=[],session_leaks=[],auth_counts=dict(before=[0,0,0,0],after=[0,0,0,0],restored=True),
@@ -33,7 +43,7 @@ def fixture():
         used_guard_refused_before_DDL=True,Afui_positive_HPP_zero_reimbursement_coverage=False,
         global_writer_or_permission_or_lock_closure=False,production_go=False,independent_acceptance=False,
         retained35=proof,fresh_S05_browser2=fresh,used_inverse_refusal_before=boundary,
-        used_inverse_refusal_after=copy.deepcopy(boundary))
+        used_inverse_refusal_after=copy.deepcopy(boundary),fixture_foundation=setup)
     head='f'*40
     main=dict(status='PASS',qualification_commit=head,required_case_ids=[gate.CASE],required_case_ids_pass=True,
         actual_Native_cases=0,actual_browser_cases=2,actual_business_cases=2,actual_Auth_HTTP_cases=0,actual_two_session_races=0,
@@ -41,7 +51,7 @@ def fixture():
         baseline_full22_all_rows_all_sequences_equal=True,restore_raw_public_equal=True,cp6_restored=True,
         baseline_advisors_equal=True,advisor_gate=True,used_guard_refused_before_DDL=True,
         production_go=False,independent_acceptance=False,committed={gate.CASE:component},
-        baseline_role_cleanup=dict(baseline_roles_exact=True),baseline_restore=dict(unexplained=[],
+        fixture_foundation_precheck=plan,baseline_role_cleanup=dict(baseline_roles_exact=True),baseline_restore=dict(unexplained=[],
             only_pg_cron_errors=True,database_owner_acl_and_settings_preserved=True))
     package=dict(gate=dict(p.GATES),run_identity=dict(tool_head=head,github_sha=head,run_attempt='1',run_id='synthetic-only'))
     backup=dict(status='RESTORED_IDENTICAL',checks={k:True for k in
@@ -83,8 +93,10 @@ class FocusedControls(unittest.TestCase):
     def test_complete_engine_roundtrip_and_missing_count_anchor_refuses(self):
         module=load('engine');raw=(ROOT/'scripts/current-vendor-receivable-qualification/probe.py').read_bytes()
         text,proof=module.derive(raw);compile(text,'focused_synthetic_engine_control','exec')
-        self.assertTrue(proof['complete_original_recovered']);self.assertEqual(proof['additional_counted_changes'],1)
+        self.assertTrue(proof['complete_original_recovered']);self.assertEqual(proof['additional_counted_changes'],2)
+        self.assertLess(text.index('runner.foundation_precheck'),text.index('product.parent().install,cur)'))
         with self.assertRaisesRegex(ValueError,'ANCHOR'):module.derive(raw.replace(b"report['actual_Native_cases']=7",b'changed',1))
+        with self.assertRaisesRegex(ValueError,'ANCHOR'):module.derive(raw.replace(b"'SINGLE_FULL_READONLY_PARENT_INSTALL'",b"'changed'",1))
 
     def test_real_WIB_window_accepts_above_full_job_and_refuses_exact_boundary(self):
         policy=load('attempt_policy')

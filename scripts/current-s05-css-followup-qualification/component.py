@@ -14,6 +14,9 @@ def load(name,path):
 def scheduler_quiet(url):
     return load('focused_unchanged_scheduler_cleanup',ROOT/'scripts/current-vendor-receivable-qualification/native_runner.py').scheduler_quiet(url)
 
+def foundation_precheck(cur):
+    return load('focused_original_fixture_readiness',HERE/'foundation.py').check_before_install(cur)
+
 def exercise(conn,cur,database,url,report,state):
     admission=load('focused_component_actual_retention',HERE/'admission.py');proof=admission.retained()
     p=load('focused_component_typed_truth',PARENT/'parents.py')
@@ -23,6 +26,9 @@ def exercise(conn,cur,database,url,report,state):
     from cp7_p21_current_chain_rehearsal_probe import helper
     report.update(status='INCOMPLETE',retained35=proof,actual_Native_cases=0,actual_browser_cases=0,
         retained_cases_are_not_fresh=True,production_go=False,independent_acceptance=False)
+    foundation=report['fixture_foundation']=dict(status='INCOMPLETE')
+    load('focused_original_committed_fixture_setup',HERE/'foundation.py').prepare(cur,product,state,helper.control,foundation)
+    conn.commit()  # The unchanged historical setup was committed by the omitted Native witness.
     fresh=report['fresh_S05_browser2']=dict(status='INCOMPLETE')
     load('focused_unchanged_real_Auth_S05_browser2',PARENT/'s05_browser.py').exercise(url,state,fresh)
     p.fields(fresh,dict(status='PASS',actual_browser_cases=2,actual_Native_cases=0),'COMPLETE_FRESH_S05_BROWSER2_REQUIRED')

@@ -22,7 +22,8 @@ def runtime():
         from cp7_s03_sku_composition import composition as product
         component=load('focused_only_missing_real_browsers',HERE/'component.py')
         engine.product=product
-        engine.runner=SimpleNamespace(CASE=component.CASE,exercise=component.exercise,scheduler_quiet=component.scheduler_quiet)
+        engine.runner=SimpleNamespace(CASE=component.CASE,exercise=component.exercise,scheduler_quiet=component.scheduler_quiet,
+            foundation_precheck=component.foundation_precheck)
         engine.IDS=(component.CASE,);engine.LABEL=LABEL
         engine.PRE_DUMP='/tmp/current_s05_css_followup_pre.dump'
         engine.OUT=ROOT/'cp6-proof/t3'/(LABEL+'.json')

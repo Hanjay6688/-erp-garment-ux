@@ -43,6 +43,26 @@ def validate(main,package,backup,supervision,head,proof,p):
     if any(main.get(k)for k in ('error','restore_error','restore_traceback')):raise ValueError('FOCUSED_NO_RUNTIME_OR_RESTORE_ERRORS')
     p.exact(set(main['committed']),{CASE},'ONE_FOCUSED_OWNING_COMPONENT')
     component=main['committed'][CASE]
+    foundation=load('focused_gate_original_foundation',HERE/'foundation.py')
+    precheck=main['fixture_foundation_precheck'];setup=component['fixture_foundation']
+    p.fields(precheck,dict(status='READ_ONLY_FOUNDATION_PRECHECK',database_mutated=False,Native_case_credit=0),
+        'READ_ONLY_FOUNDATION_CHECK_BEFORE_PARENT_INSTALL')
+    p.exact(precheck['source'],foundation.preflight(),'EXACT_ORIGINAL_FOUNDATION_INCLUDE_SOURCES')
+    p.exact(precheck['mode'],foundation.classify(precheck['initial']),'ONLY_ORIGINAL_EMPTY_OR_COMPLETE_FOUNDATION')
+    p.fields(setup,dict(status='EXACT_RETAINED_FIXTURE_FOUNDATION_READY',Native_case_credit=0,
+        retained_cases_rerun=False,production_go=False,seed=foundation.SEED,all22_equal=True,
+        original_seed_schema_ACL_equal=True,protected_role_data_equal=True,
+        only_existing_Native_SQL_harness_usage_overlay=True,connection_and_commit_owned_by_component=True),
+        'COMPLETE_ORIGINAL_FOUNDATION_BEFORE_ANY_NATIVE_BROWSER_FIXTURE')
+    p.exact(setup['source'],precheck['source'],'SAME_EXACT_FOUNDATION_SOURCE')
+    p.exact(setup['initial'],precheck['initial'],'NO_FOUNDATION_WRITES_DURING_PARENT_INSTALL')
+    p.exact(setup['mode'],precheck['mode'],'EXACT_PRECHECK_SETUP_MODE')
+    p.exact(setup['seed_called'],setup['mode']=='ORIGINAL_EMPTY_DATABASE_SEED_REQUIRED','SEED_ONCE_ONLY_FOR_EMPTY')
+    p.exact(foundation.classify(setup['final']),'ORIGINAL_FOUNDATION_ALREADY_PRESENT','ALL_REQUIRED_FIXTURE_MASTERS_AND_OWNER_READY')
+    p.exact(setup['actual_all22_before'],setup['actual_all22_after'],'FOUNDATION_ALL22_RAW_EQUALITY')
+    p.exact(set(setup['actual_all22_before']),set(ALL22),'FOUNDATION_COMPLETE_ALL22_CLASSES')
+    p.exact(setup['protected_role_data_before'],setup['protected_role_data_after'],'FOUNDATION_PROTECTED_ROLE_ROWS_EQUAL')
+    p.exact(set(setup['protected_role_data_before']),{'erp.app_roles','erp.app_role_permissions'},'BOTH_ACTUAL_ROLE_DATA_TABLES')
     p.fields(component,dict(status='PASS',business_counts={'PASS':2},actual_Native_cases=0,actual_browser_cases=2,
         retained_Native_cases=31,retained_S03_browser_cases=4,retained_case_count=35,candidate_case_coverage=37,
         used_guard_refused_before_DDL=True,retained_cases_are_not_fresh=True,
