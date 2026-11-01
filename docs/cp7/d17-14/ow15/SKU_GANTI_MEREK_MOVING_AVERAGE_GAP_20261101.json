@@ -1,0 +1,95 @@
+{
+  "status": "OWNER_MOVING_AVERAGE_REQUIREMENT_NOT_MET_BY_CURRENT_FIFO_VALUATION",
+  "classification": "READ_ONLY_SCOPE_RECONCILIATION_NO_ACTIVE_CANDIDATE_CHANGE",
+  "candidate": {
+    "head": "dad402b1a6eee7c4acdd776c8c6a1538c1a52f0a",
+    "tree": "d9d89babc816032fbdf06f1c961f7829a2cbab7c",
+    "current37_run": 41267825303,
+    "current37_job": 124734228589,
+    "observed_status": "in_progress"
+  },
+  "owner_requirement": {
+    "feature": "Ganti Merek SKU",
+    "pairing": "Reciprocal SKU pair configured once and visible from both sides",
+    "target": "Any active target SKU; different brand, color or size is allowed",
+    "display": "Real-time source and target stock plus moving-average value before posting",
+    "valuation": "MOVING_AVERAGE_NOT_FIFO",
+    "reverse_business_flow": "A later mistaken swap-back is a new lawful Ganti Merek transaction, not hidden automatic batch matching"
+  },
+  "current_implementation_that_is_already_present": {
+    "reciprocal_pair": true,
+    "single_pair_per_group": true,
+    "pair_change_clears_old_endpoints": true,
+    "any_active_target": true,
+    "source_and_target_stock_before_after": true,
+    "stale_revision_refusal": true,
+    "request_idempotency": true,
+    "two_tab_serialization": true,
+    "atomic_group_reverse": true,
+    "permission_recheck_after_waits": true,
+    "production_go": false
+  },
+  "exact_conflict": {
+    "readme_statement": "One request allocates FIFO by produced_at,id and explicitly says that no new FG average is created.",
+    "sql_statement": "cp7_sku_conversion.preview_v1 selects eligible source lots ordered by l.produced_at,l.id and sums each lot quantity multiplied by that lot's current hpp_per_pcs.",
+    "ui_statement": "The screen says that source stock is selected in sequence and shows only aggregate source value, not source/target moving averages.",
+    "conclusion": "Current37 may qualify its frozen FIFO/lot implementation, but that result cannot close the owner's later moving-average requirement."
+  },
+  "exact_source_bindings": {
+    "scope_readme": {
+      "path": "scripts/cp7_sku_pair_conversion/README.md",
+      "sha256": "41786ad8f71edcc60faaa884e77de632f4674134ac310897f1598f776a15af8d",
+      "conflict_lines": [34, 37]
+    },
+    "reciprocal_pairing": {
+      "path": "scripts/cp7_sku_pair_conversion/pairs.sql",
+      "sha256": "05c7b67222b2a003ee4180872216a0837c747fcb145db88157317bad25b281c2"
+    },
+    "conversion_engine": {
+      "path": "scripts/cp7_sku_pair_conversion/conversion.sql",
+      "sha256": "eece6fbed8cb13b73a49ec2e051478d6ba2a8b1002f6745b8c682db318595d72",
+      "fifo_order_line": 97,
+      "stock_projection_lines": [110, 111]
+    },
+    "pairing_ui": {
+      "path": "src/ConnectedSkuMasterPage.tsx",
+      "sha256": "780138485928511db7b18116fde43bbd98b01c9eb10e35bb0356ea85cf8c37f0"
+    },
+    "conversion_ui": {
+      "path": "src/ConnectedProductConversionPage.tsx",
+      "sha256": "4d7a14336047cfddf78f9e488250f74f961ce87bd221559feef1323f534b9dfb"
+    },
+    "conversion_contract": {
+      "path": "src/productConversion.ts",
+      "sha256": "cdc2ec8905ca7ff3ce16f1dc531cda491c2e5ebe1afd248d95328bdfcaf733e3"
+    }
+  },
+  "required_correction_after_active_integration_is_stable": {
+    "physical_lineage": "Deterministic lot allocation may remain solely to preserve exact stock lineage and reversibility; lot order must not choose the accounting valuation.",
+    "source_average": "Capture the weighted moving-average HPP of eligible source FG at the exact location, quality and physical time under the existing FG/HPP lock.",
+    "conversion_value": "Transferred inventory value equals quantity multiplied by the captured source moving average, rounded through one declared cent-conservation rule.",
+    "target_average": "Preview and posting show and preserve target quantity, target value and target moving average before and after the conversion.",
+    "source_after": "Preview and posting show source quantity, source value and source moving average before and after; no negative stock or negative value.",
+    "journals": "Inventory reclassification remains balanced; no sales revenue, COGS, cash, receivable or payable entry is created.",
+    "sales_COGS": "Later sales consume the authoritative post-conversion target valuation, not the old FIFO lot price.",
+    "swap_back": "A manual later reverse-direction conversion uses the then-current moving averages and a new request identity; exact original restoration is only expected when no intervening mix changes the averages.",
+    "permissions_and_idempotency": "Retain current rights checks after waits, closed payloads, stale preview refusal, exact replay and changed-intent refusal."
+  },
+  "required_future_evidence_not_run_here": [
+    "Two source lots with different HPP prove valuation uses weighted source average rather than oldest lot HPP",
+    "Existing target stock with a different average proves exact target average before and after",
+    "One- and two-piece cross-brand conversions conserve total FG value and journal balance",
+    "Different color and size targets remain allowed while reciprocal pair is only a suggestion",
+    "Concurrent sale/reservation and two-tab conversion cannot overspend source quantity or stale average",
+    "Manual swap-back with no intervening movement restores the expected source value; with intervening stock it uses the lawful then-current average",
+    "Atomic reversal restores stock, value, average, journal and history",
+    "Desktop and 390px UI display both stock and moving averages"
+  ],
+  "current37_credit_for_owner_average_scope": 0,
+  "actual_SQL_executed": 0,
+  "actual_ERP_calls": 0,
+  "actual_Native_cases": 0,
+  "actual_product_changes": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}
