@@ -1,0 +1,188 @@
+{
+  "status": "ACTUAL_CURRENT38_TERMINAL_FAILURE_BOUNDED_ORIGINALS_RETAINED",
+  "date_utc": "2026-11-01",
+  "candidate": {
+    "head": "08ef3bee814e6452b9193b53efc05d53abca2d9d",
+    "tree": "abf7e8b78bd56907ace9fb30211d956b63d68797",
+    "run_id": 41291621885,
+    "job_id": 124803871870,
+    "run_attempt": 1,
+    "conclusion": "failure",
+    "failure_step": 72
+  },
+  "canonical_archive": {
+    "artifact_id": 13082560860,
+    "bytes": 688425402,
+    "sha256": "3ee9b053a947e4dee14602dd07a9574191c6707813dfb27cbadfbc08b28e7b0c",
+    "downloaded": false
+  },
+  "bounded_archive": {
+    "artifact_id": 13082745421,
+    "bytes": 13844741,
+    "sha256": "cf571fe59109458c8b1adf882ebb77ac848485305a0f730f02e93f6e2580e8d7",
+    "CRC_verified": true,
+    "paths_verified": true,
+    "library_file_id": "libfile_b0aa0aacd33c8191a55ba95c44649411"
+  },
+  "main_status": "INCOMPLETE",
+  "first_aggregate_error": "S05_SKU_COMPLETE_FRESH_BROWSER2_REQUIRED",
+  "raw_subgroups": {
+    "fresh_S03_Native14": {
+      "status": "PASS",
+      "actual_Native_cases": 14
+    },
+    "fresh_SKU_Native7": {
+      "status": "PASS",
+      "actual_Native_cases": 7
+    },
+    "fresh_S05_Native10": {
+      "status": "PASS",
+      "actual_Native_cases": 10,
+      "actual_browser_cases": 0
+    },
+    "fresh_S03_browser4": {
+      "status": "PASS",
+      "actual_Native_cases": 0,
+      "actual_browser_cases": 4
+    },
+    "fresh_S05_browser2": {
+      "status": "INCOMPLETE"
+    },
+    "CP7_S03_ATTENDANCE_CHOICE_NATIVE11_CASES.json": {
+      "status": "PASS",
+      "counts": {
+        "PASS": 11
+      },
+      "missing": [],
+      "complete_boundary_restored": true
+    },
+    "CP7_S03_ATTENDANCE_CHOICE_READER_NATIVE3_CASES.json": {
+      "status": "PASS",
+      "counts": {
+        "PASS": 3
+      },
+      "missing": [],
+      "complete_boundary_restored": true
+    },
+    "CP7_S05_ON_SKU_NATIVE10_CASES.json": {
+      "status": "PASS",
+      "counts": {
+        "PASS": 10
+      },
+      "missing": [],
+      "complete_boundary_restored": true
+    },
+    "CP7_SKU_PAIR_CONVERSION_NATIVE7.json": {
+      "status": "PASS",
+      "counts": {
+        "PASS": 7
+      },
+      "missing": [],
+      "complete_boundary_restored": true
+    }
+  },
+  "restoration": {
+    "baseline_full22_all_rows_all_sequences_equal": true,
+    "restore_raw_public_equal": true,
+    "cp6_restored": true,
+    "baseline_advisors_equal": true,
+    "advisor_gate": true
+  },
+  "actual_package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "runtime_supervision": {
+    "status": "INCOMPLETE",
+    "deadline_reached": false,
+    "external_signal": null,
+    "orphaned_child": false,
+    "signals": [],
+    "worker_exit": 1,
+    "process_group_empty": true,
+    "process_tree_empty": true,
+    "actual_case_credit": 0,
+    "production_go": false,
+    "worker_pid": 11860,
+    "elapsed_seconds": 9478.287,
+    "job_budget_seconds": 21600,
+    "work_budget_seconds": 19800,
+    "recovery_reserve_seconds": 1200,
+    "artifact_reserve_seconds": 600,
+    "qualification_commit": "08ef3bee814e6452b9193b53efc05d53abca2d9d",
+    "github_run_id": "41291621885",
+    "github_run_attempt": "1"
+  },
+  "first_browser_failures": {
+    "S05_SKU_DESKTOP_8CEA71E86A09496DB0E82ACA8CEECD74_FIRST_FAILURE.json": {
+      "error": "locator.evaluate: Error: UNMEASURED_SKU_TEXT_SURFACE:{\"label\":\"Aksesori mandor vs standar\",\"tag\":\"SECTION\",\"classes\":\"panel asr-report\",\"backgroundImage\":\"linear-gradient(145deg, rgba(21, 26, 42, 0.91), rgba(14, 18, 29, 0.94))\",\"opacity\":\"1\"}\n    at eval (eval at evaluate (:311:30), <anonymous>:10:58)\n    at UtilityScript.evaluate (<anonymous>:313:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at readable (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-sku-pair-browser-qualification/evidence.mjs:72:29)\n    at visual (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-s03-sku-s05-composite-qualification/browser.mjs:70:51)\n    at async reportFor (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-s03-sku-s05-composite-qualification/browser.mjs:114:5)\n    at async journey (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-s03-sku-s05-composite-qualification/browser.mjs:123:67)\n    at async main (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-s03-sku-s05-composite-qualification/host.mjs:238:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-s03-sku-s05-composite-qualification/host.mjs:254:3",
+      "progress": {},
+      "routeErrors": [],
+      "console_errors": [],
+      "page_errors": []
+    },
+    "S05_SKU_MOBILE390_8CEA71E86A09496DB0E82ACA8CEECD74_FIRST_FAILURE.json": {
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n430 !== 390\n\n    at visual (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-s03-sku-s05-composite-qualification/browser.mjs:69:12)\n    at async reportFor (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-s03-sku-s05-composite-qualification/browser.mjs:114:5)\n    at async journey (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-s03-sku-s05-composite-qualification/browser.mjs:123:67)\n    at async main (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-s03-sku-s05-composite-qualification/host.mjs:238:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-s03-sku-s05-composite-qualification/host.mjs:254:3",
+      "progress": {},
+      "routeErrors": [],
+      "console_errors": [],
+      "page_errors": []
+    }
+  },
+  "originals": {
+    "CP7_S03_ATTENDANCE_CHOICE_NATIVE11_CASES.json": {
+      "bytes": 19492,
+      "sha256": "1adbda51daba4dd7777efdfdba44c07681a1ac9dfb587525f74bc119f3009469"
+    },
+    "CP7_S03_ATTENDANCE_CHOICE_READER_NATIVE3_CASES.json": {
+      "bytes": 13061,
+      "sha256": "e76152aef38254578262fd3ac847f863596219d882a19b633c934a6f6cf6224b"
+    },
+    "CP7_S05_ON_SKU_NATIVE10_CASES.json": {
+      "bytes": 255161,
+      "sha256": "363068543dd596fc44c60960da2a82437cb93b05f25cb31a77a123ca78ed9026"
+    },
+    "CP7_SKU_PAIR_CONVERSION_NATIVE7.json": {
+      "bytes": 17681,
+      "sha256": "dd2fba0d94035cd5b4c4a79a206bdf75c3356bb3ed081429738a4a2de5ff8a69"
+    },
+    "S05_SKU_DESKTOP_8CEA71E86A09496DB0E82ACA8CEECD74_FIRST_FAILURE.json": {
+      "bytes": 4353,
+      "sha256": "cd2a0aba49560ab3ba78d7a8f58ab5d7ed4ba179a49a66ef987a745836ff0065"
+    },
+    "S05_SKU_MOBILE390_8CEA71E86A09496DB0E82ACA8CEECD74_FIRST_FAILURE.json": {
+      "bytes": 3801,
+      "sha256": "11a5022e950973d1727dcd734da8eabe5545c690570421990ed1231aaf56de82"
+    },
+    "CP7_CURRENT_S03_SKU_S05_NATIVE31_BROWSER6.json": {
+      "bytes": 94366432,
+      "sha256": "7b97632eb8ef783d0864ec8d00f769940e07c05264c330a608ed19d2e28bebc0"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360437,
+      "sha256": "b54b58cec26567505f6651920cbd86f81c0e5c9eb602f0c9567cc0d4360b0147"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 1470,
+      "sha256": "cf50edb310607ef39ebbf1d3b3b6ae82dc403c784d2b2156cc4722789718bfb8"
+    },
+    "JOIN_RUNTIME_SUPERVISION.json": {
+      "bytes": 584,
+      "sha256": "47030d7c01c520dde9e7693fd3b7fdece368ed48018adbcd21c13767f5c618af"
+    },
+    "S05_SKU_BROWSER_FIXTURES.json": {
+      "bytes": 114541,
+      "sha256": "4201c30bfe1031b295c28bcfdea223cfbb08e06b87bd61e7ec8ca0c40843cdd9"
+    }
+  },
+  "aggregate_case_credit": 0,
+  "full37_qualified": false,
+  "package_all_five": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "formal_CP7C": false,
+  "next": "Repair only the proven S05 layout/contrast defects. Verify the CSS locally before considering one successor candidate. Keep all first failures and unchanged business evidence. No automatic failed-job rerun; do not arm Permanent/DE/FREE against this failed parent."
+}
