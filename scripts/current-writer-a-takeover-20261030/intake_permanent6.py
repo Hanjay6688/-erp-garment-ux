@@ -15,8 +15,8 @@ HEAD=None
 TREE=None
 RUN=None
 JOB=None
-PREPARED_HEAD='b18701f3a4fed852077d31ec40ad6005273a870b'
-PREPARED_TREE='2a66d06d042ffe4cc353b7dcf6baf27b5004178f'
+PREPARED_HEAD='d1537f9ae27942b3f46728a54af32823629e5bd6'
+PREPARED_TREE='1fd8961e307cac5498beb43a035967d7d8900a9f'
 BASE='cb8aa092506a272da526aa55a1cfef4b2a6413c0'
 BASE_TREE='e47caf3ea3b739b713f6c9b9a0e0041f91c5ac58'
 PARENT_RUN=41315727305
@@ -27,6 +27,33 @@ NATIVE='CP7_PERMANENT_S05_S03_FINANCIAL_NATIVE4.json'
 CASE='PERMANENT_S05_S03_SKU_NATIVE4_BROWSER2'
 GATES=dict(installed=True,primary_unchanged=True,backup_restore_drill=True,security_advisors=True,writer_runtime=True)
 
+def browser_source_binding(g):
+    path=NS+'PERSISTENT_BROWSER_SOURCE.json'
+    raw=g.read(path,'92a70c1fbe51208f098e82a27088649add4befd4')
+    exact(pin(raw),dict(bytes=2912,sha256='651571e5d8e422d2090fc9b45a8710a35308f42cc4812ce4046a6c9d7e47ceff'),
+        'PERMANENT_EXACT_ORIGINAL_BROWSER_INPUT_MANIFEST')
+    before=strict(raw);current=g.read(path);after=strict(current)
+    exact({k:v for k,v in before.items()if k!='files'},{k:v for k,v in after.items()if k!='files'},
+        'PERMANENT_BROWSER_CASE_AND_SOURCE_CONTRACT_UNCHANGED')
+    exact(set(before['files']),set(after['files']),'PERMANENT_EXACT_SAME_BROWSER_INPUT_NAMES')
+    exact(len(before['files']),19,'PERMANENT_ALL19_BROWSER_INPUTS')
+    routed={NS+n for n in('admission.py','component.py','controls.py','fetch_parent37.py','final_gate.py',
+        'persistent_financial.py','persistent_source.py','probe.py')}
+    require(routed<=set(before['files']),'PERMANENT_EXACT_EIGHT_ROUTED_CALLER_INPUTS')
+    text=raw.decode();changes=[]
+    for name,old in before['files'].items():
+        expected=pin(g.read(name))['sha256']if name in routed else old
+        exact(after['files'][name],expected,'PERMANENT_ONLY_EIGHT_CURRENT_CALLER_PIN_ROUTES:'+name)
+        g.verify_pin(name,expected)
+        if name in routed:
+            a=json.dumps(name)+': '+json.dumps(old);b=json.dumps(name)+': '+json.dumps(expected)
+            exact(text.count(a),1,'PERMANENT_ONE_BROWSER_INPUT_PIN');text=text.replace(a,b,1);changes.append((a,b))
+    exact(text.encode(),current,'PERMANENT_ONLY_COUNTED_BROWSER_MANIFEST_BYTES')
+    for a,b in reversed(changes):
+        exact(text.count(b),1,'PERMANENT_EXACT_BROWSER_PIN_REVERSE');text=text.replace(b,a,1)
+    exact(text.encode(),raw,'PERMANENT_COMPLETE_ORIGINAL_BROWSER_INPUT_MANIFEST_RECOVERED')
+    return dict(actual_current_inputs_verified=19,explicit_current_caller_pin_routes=8,
+        unchanged_browser_UI_and_fixture_inputs=11,original_manifest_recovered=True,actual_case_credit=0)
 
 def source(g):
     declaration=strict(g.read(NS+'PREPARATION.json'))
@@ -40,6 +67,7 @@ def source(g):
         or name=='.github/workflows/cp7-final-s03-sku-s05.yml'for name in allowed),'PERMANENT_ONLY_OWN_SOURCE_SCOPE')
     exact(set(g.tree)-set(base),allowed,'PERMANENT_EXACT_CLOSED_ADDITIVE_SOURCE')
     for name,value in declaration['files'].items():g.verify_pin(name,value)
+    current_browser=browser_source_binding(g)
     for name,value in dict(PARENT_HEAD=BASE,PARENT_TREE=BASE_TREE,PARENT_RUN=PARENT_RUN,PARENT_JOB=PARENT_JOB).items():
         exact(literal(g,NS+'persistent_financial.py',name),value,'PERMANENT_EXACT_ACTUAL_PARENT_BINDING:'+name)
     if HEAD is None:
@@ -60,7 +88,8 @@ def source(g):
     return dict(source_pins=len(declaration['files']),own_paths=len(allowed),unchanged_base=14105,
         expected_parent_head=BASE,expected_parent_run=PARENT_RUN,expected_parent_job=PARENT_JOB,
         parent_root_acceptance_pending=HEAD is None,retained_parent_case_credit_is_not_fresh=True,
-        native_ids=native,browser_ids=brows,source_manifest=pin(g.read(NS+'PREPARATION.json')),actual_case_credit=0)
+        native_ids=native,browser_ids=brows,current_browser_source_binding=current_browser,
+        source_manifest=pin(g.read(NS+'PREPARATION.json')),actual_case_credit=0)
 
 
 def supervision(value):

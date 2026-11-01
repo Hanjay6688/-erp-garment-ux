@@ -1,0 +1,99 @@
+{
+  "status": "ROOT_VERIFIED_CLOSED_PERMANENT_CURRENT_BROWSER_SOURCE_FOLLOWUP_NOT_RUNTIME",
+  "head": "d1537f9ae27942b3f46728a54af32823629e5bd6",
+  "tree": "1fd8961e307cac5498beb43a035967d7d8900a9f",
+  "local_same_tree_head": "63df0519953c2ec2c2d5c6a9c4a23ee2be0a42fd",
+  "branch": "astra-a/permanent-focused-parent-prepared-20261101",
+  "source_pins": 55,
+  "own_paths": 56,
+  "parent_still_failed_cb8": true,
+  "parent_receipt_None": true,
+  "workflow_activated": false,
+  "current_browser_manifest": {
+    "actual_ERP_cases": 0,
+    "complete_original_manifest_recovered": true,
+    "current_inputs": 19,
+    "explicitly_routed_current_caller_pins": 8,
+    "production_go": false,
+    "status": "EXACT_CURRENT_PERMANENT_BROWSER_BINDING",
+    "unchanged_browser_UI_and_fixture_inputs": 11
+  },
+  "new_pure_binding_controls_PASS": 2,
+  "two_affected_pending_state_controls_PASS": true,
+  "source_DB_network_guard": {
+    "attempts": [],
+    "network_nonGit_attempts": [],
+    "public_source_sha256": "1439d70810383db377c48e043df7fb6d487a1b2f1a995e8993a2c08590f9f797",
+    "self_controls": [
+      {
+        "api": "psycopg.connect",
+        "result": "DENIED_BEFORE_LIBPQ"
+      },
+      {
+        "api": "psycopg.Connection.connect",
+        "result": "DENIED_BEFORE_LIBPQ"
+      },
+      {
+        "api": "psycopg.AsyncConnection.connect",
+        "result": "DENIED_BEFORE_LIBPQ"
+      },
+      {
+        "original_connect_descriptors_restored": true
+      }
+    ]
+  },
+  "Root_source_check": {
+    "status": "EXACT_PERMANENT_SOURCE_AND_SIX_IDS_ONLY",
+    "source": {
+      "source_pins": 55,
+      "own_paths": 56,
+      "unchanged_base": 14105,
+      "expected_parent_head": "cb8aa092506a272da526aa55a1cfef4b2a6413c0",
+      "expected_parent_run": 41315727305,
+      "expected_parent_job": 124875223281,
+      "parent_root_acceptance_pending": true,
+      "retained_parent_case_credit_is_not_fresh": true,
+      "native_ids": [
+        "PERMANENT_S05_S03_NATIVE_EXPENSE_APPROVAL_ONCE_PAID_E05_REOPEN",
+        "PERMANENT_S05_S03_NATIVE_BOTH_CORRECTIONS_LINKED_INVERSES_NO_RECOGNITION",
+        "PERMANENT_S05_S03_NATIVE_FINISHED_PO_FG_COGS_COST_AND_CANCEL_EXACT",
+        "PERMANENT_S05_S03_NATIVE_OLD_ACCRUAL_LATER_BOOK_REOPEN_DATE_FLOOR"
+      ],
+      "browser_ids": [
+        "PERMANENT_S05_SKU_NORMAL_APP_DESKTOP_SOURCE_AND_LATE_REPLY",
+        "PERMANENT_S05_SKU_NORMAL_APP_MOBILE390_UNKNOWN_ZERO_AND_CURRENT_ACCESS"
+      ],
+      "current_browser_source_binding": {
+        "actual_current_inputs_verified": 19,
+        "explicit_current_caller_pin_routes": 8,
+        "unchanged_browser_UI_and_fixture_inputs": 11,
+        "original_manifest_recovered": true,
+        "actual_case_credit": 0
+      },
+      "source_manifest": {
+        "bytes": 11378,
+        "sha256": "12da91b9cd00af95ba30372ef9d73543e87343048981dfa2bdb4b0e7c9183221"
+      },
+      "actual_case_credit": 0
+    },
+    "actual_Native_cases": 0
+  },
+  "Root_actual_old_manifest_negative": {
+    "status": "ROOT_ACTUAL_OLD_BROWSER_MANIFEST_REFUSED_AS_CURRENT",
+    "original_manifest_was_exact_historical_blob": true,
+    "actual_prepared_head": "d1537f9ae27942b3f46728a54af32823629e5bd6",
+    "refusal": "PERMANENT_ONLY_EIGHT_CURRENT_CALLER_PIN_ROUTES:scripts/current-final-s03-sku-s05-preparation/admission.py:VALUE",
+    "actual_ERP_cases": 0,
+    "production_go": false
+  },
+  "Native_callbacks_browser_journeys_SQL_UI_bytes_unchanged": true,
+  "narrow_preparation_failures_preserved": [
+    "First test invocation omitted module PYTHONPATH; zero tests executed before corrected four controls PASS",
+    "Bare local runtime lacked the exact CI psycopg dependency; original source fence passed after installing pinned 3.2.10 in private tooling directory"
+  ],
+  "actual_ERP_SQL_executed": 0,
+  "actual_Native_cases": 0,
+  "actual_browser_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

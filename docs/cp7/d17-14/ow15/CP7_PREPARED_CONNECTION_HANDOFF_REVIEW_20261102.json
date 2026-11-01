@@ -1,0 +1,129 @@
+{
+  "status": "READ_ONLY_PREPARED_COMPONENT_HANDOFF_REVIEW_NOT_EXECUTION",
+  "review": [
+    {
+      "component": "Permanent",
+      "head": "d1537f9ae27942b3f46728a54af32823629e5bd6",
+      "path": "scripts/current-final-s03-sku-s05-preparation/persistent_financial.py",
+      "source": {
+        "bytes": 10673,
+        "sha256": "9e4ddc0d6a3486dc9b8e28de6dabc7476c0f41e7645917a74453bed077196999"
+      },
+      "actual_source_AST_order": {
+        "rollback": [
+          149,
+          4
+        ],
+        "cursor_close": [
+          149,
+          20
+        ],
+        "source_connection_close": [
+          149,
+          32
+        ],
+        "new_strict_group": [
+          166,
+          19
+        ]
+      },
+      "own_source_connection_is_closed_before_new_sessions": true,
+      "actual_case_credit": 0
+    },
+    {
+      "component": "DE30",
+      "head": "871234317f7fdcb58bea9c621a5333e9cf61f464",
+      "path": "scripts/current-complete-de-integration-preparation/component.py",
+      "source": {
+        "bytes": 5274,
+        "sha256": "8a4f1b1a4b8858c376442c1abb15064254915f06141aaa94cdd0bbb0ca4a0cf5"
+      },
+      "actual_source_AST_order": {
+        "rollback": [
+          46,
+          4
+        ],
+        "cursor_close": [
+          46,
+          20
+        ],
+        "source_connection_close": [
+          46,
+          32
+        ],
+        "new_strict_group": [
+          60,
+          23
+        ]
+      },
+      "own_source_connection_is_closed_before_new_sessions": true,
+      "actual_case_credit": 0
+    },
+    {
+      "component": "FREE3",
+      "head": "d5af3d05429cf280b44601e3bb3e88224ece24aa",
+      "path": "scripts/current-de-free-date-preparation/component.py",
+      "source": {
+        "bytes": 10169,
+        "sha256": "4fea2d66c65cb3a29b56a95b753f4e5ec7fa193e80fa777951b1f9eeae9d5342"
+      },
+      "actual_source_AST_order": {
+        "rollback": [
+          154,
+          4
+        ],
+        "cursor_close": [
+          154,
+          20
+        ],
+        "source_connection_close": [
+          154,
+          32
+        ],
+        "new_strict_group": [
+          165,
+          23
+        ]
+      },
+      "own_source_connection_is_closed_before_new_sessions": true,
+      "actual_case_credit": 0
+    },
+    {
+      "component": "Afui15",
+      "head": "3bd02a2dcbb9015fb677d9090ca3fd54af97f87f",
+      "path": "scripts/cp7_accessory_nonpayable/qualification_component.py",
+      "source": {
+        "bytes": 10155,
+        "sha256": "a1e6897a4b92f32f6deee689c78995085dd20bb58afb77a1796d79a992e73d48"
+      },
+      "actual_source_AST_order": {
+        "rollback": [
+          132,
+          4
+        ],
+        "cursor_close": [
+          132,
+          20
+        ],
+        "source_connection_close": [
+          132,
+          32
+        ],
+        "new_strict_group": [
+          140,
+          19
+        ]
+      },
+      "own_source_connection_is_closed_before_new_sessions": true,
+      "actual_case_credit": 0
+    }
+  ],
+  "actual_S05_reader49_connection_defect_fixed_separately_on_active_2cb": true,
+  "all_other_prepared_components_already_release_outer_handles_before_new_strict_sessions": true,
+  "actual_CI_pinned_psycopg_3_2_10_closed_context_exit_verified": true,
+  "no_product_or_oracle_changes_from_this_review": true,
+  "no_ERP_calls_or_New_tests_run_by_this_review": true,
+  "actual_case_credit": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}
