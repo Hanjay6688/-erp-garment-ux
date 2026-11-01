@@ -1,0 +1,126 @@
+{
+  "status": "LOCAL_S05_CSS_COUNTEREXAMPLE_AND_REPAIR_VERIFIED_NOT_ERP_ACCEPTANCE",
+  "date_utc": "2026-11-01",
+  "candidate_parent": {
+    "head": "08ef3bee814e6452b9193b53efc05d53abca2d9d",
+    "tree": "abf7e8b78bd56907ace9fb30211d956b63d68797",
+    "run_id": 41291621885,
+    "job_id": 124803871870,
+    "conclusion": "failure"
+  },
+  "actual_first_failure_root_record": {
+    "head": "9a31b79b5b06cca53cba4d3ef3aff9484ef40fc5",
+    "path": "docs/cp7/d17-14/ow15/CURRENT38_S05_LAYOUT_FIRST_FAILURE_20261101.json"
+  },
+  "evidence_archive": {
+    "bytes": 7936978,
+    "sha256": "95f325d4be3b8fbe0aba18cfe97f0ea0ea442aaa43b9e4b223bc36daab850e81",
+    "library_file_id": "libfile_3b46a781defc8191a2906cb1ce746658"
+  },
+  "local_browser": {
+    "engine": "143.0.7499.0",
+    "playwright": "1.62.1",
+    "chromium_package": "@sparticuz/chromium@143.0.4",
+    "not_the_actual_CI_browser": true
+  },
+  "local_renderer": {
+    "Auth": "fixture adapter only",
+    "RPC": "fixture adapter only",
+    "native_report_values": "exact retained PO-specific reports; synthetic empty intermediate navigation answer",
+    "actual_page_source_unchanged": true,
+    "globals": "all CSS imports from current main.tsx",
+    "shell": "structural app-shell/main-panel/page-wrap only; not full App",
+    "contract_version": "cp7.accessory-standard-report.v1"
+  },
+  "original_css_sha256": "a9d62618178521d25fa392e6497e24ebc1e8146277b9cda33a9d76e7ea76d16a",
+  "derived_css_sha256": "0ca870ad603a4654d44b4f9b8905f4e91c47d26ff45947d8017d17a1b8b3bcdf",
+  "exact_reversible_hunks": 4,
+  "counterexample": {
+    "desktop": "unchanged strict readable() refuses the original gradient",
+    "mobile390": {
+      "inner": 507,
+      "page": 507
+    },
+    "actual_failed_full_App_width": 430,
+    "local_component_width_is_not_exact_full_App_reproduction": true
+  },
+  "completed_local_visuals": {
+    "unique_CSS_cases": 24,
+    "widths": [
+      1440,
+      390,
+      320
+    ],
+    "reports": [
+      "variants",
+      "zero",
+      "empty",
+      "no_good"
+    ],
+    "sources_expanded_and_collapsed": true,
+    "minimum_text_contrast": 9.641138872204051,
+    "all_document_widths_equal_viewports": true
+  },
+  "prior_partial_local_run": {
+    "completed_desktop_cases": 8,
+    "following_mobile_context_setup_failed": true,
+    "reason": "standalone --single-process browser exits after its only context closes",
+    "desktop_cases_reused_without_rerun": true,
+    "fix": "one local browser process for each viewport; full ERP host unchanged"
+  },
+  "serialization_repair": {
+    "cause": "innerHTML omits the current selected option property",
+    "fix": "serialize actual controlled input/select properties before offline export",
+    "focused_followup_cases": 6,
+    "widths": [
+      1440,
+      390,
+      320
+    ],
+    "report": "variants",
+    "only_selected_form_rendering_rechecked": true
+  },
+  "local_environment_limitations": [
+    "Pinned CI browser download returned an invalid zero-length archive; no CI/browser PASS credited from it.",
+    "Standalone Chromium extraction attempted chown unsupported in this container; bundled regular files were extracted without changing ownership."
+  ],
+  "source_controls": {
+    "new_closed_CSS_admission_controls_PASS": 2,
+    "CSS_ownership_PASS": true,
+    "backend_SQL_changed": false,
+    "financial_or_report_oracles_changed": false,
+    "stock_HPP_or_reimbursement_posting_changed": false
+  },
+  "original_receipts": {
+    "LOCAL_RENDER_CONTROL.json": {
+      "bytes": 1071,
+      "sha256": "349041c4273bdec119310da38665ebbd0d6290590fd200f677baff940e8beccd"
+    },
+    "LOCAL_RENDER_SELECTED_CONTROL.json": {
+      "bytes": 1071,
+      "sha256": "42acdaf5cf11c9788351d438449e91b291fa1af0fff1115adab85c6266b94892"
+    },
+    "layout-control/LOCAL_VISUAL_CONTROL.json": {
+      "bytes": 8295,
+      "sha256": "e24f9f5497af4c077cbb23cd3a4f9fa80e4265469c4187f1cab9ca88ab8d31d1"
+    },
+    "layout-control/LOCAL_VISUAL_MOBILE_CONTROL.json": {
+      "bytes": 6945,
+      "sha256": "12964f57e7202f97bab36e0b8af738f436396d45e9d3b1ada22dad51d2b3b05b"
+    },
+    "layout-selected/LOCAL_VISUAL_SELECTED_CONTROL.json": {
+      "bytes": 4500,
+      "sha256": "d332b0c7e452ea6b784a32162cfa4a87e0ce212297301593beb203c2379c694a"
+    },
+    "bounded/S05_SKU_BROWSER_FIXTURES.json": {
+      "bytes": 114541,
+      "sha256": "4201c30bfe1031b295c28bcfdea223cfbb08e06b87bd61e7ec8ca0c40843cdd9"
+    }
+  },
+  "actual_Native_cases": 0,
+  "actual_real_Auth_browser_cases": 0,
+  "actual_two_session_cases": 0,
+  "complete37_qualified": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

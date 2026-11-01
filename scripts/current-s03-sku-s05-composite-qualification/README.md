@@ -17,8 +17,9 @@ The SKU backend lives in its exact physical 090b checkout. Historical Original
 fetchers execute there, and natural backend imports and complete source checks
 run there before the current S03/S05 packages are imported. Every imported
 parent has its actual original ROOT and source map. The current joined App
-lives in the candidate checkout and is independently bound to the unchanged
-b25 tree. Its two explicit S05 workspace substitutions are checked against
+lives in the candidate checkout and is independently bound to the b25 tree,
+with one closed, byte-reversible S05 CSS repair in `ui_layout.py`. Its two
+explicit S05 workspace substitutions are checked against
 the qualified SKU App. Historical menu admission deliberately still refuses
 the new App; its old results cannot stand in for the fresh combined browser6.
 No historical admission checker or frozen source is edited.
@@ -132,3 +133,18 @@ runner loss can still interrupt this protocol and never grants acceptance.
 Branch concurrency prevents overlapping composite jobs without cancelling one
 already running. All37 business callbacks, full22/ALL rows and sequences,
 original package restoration and all5 remain required and unchanged.
+
+Actual Current38 (08ef/run41291621885) completed Native31 and S03 browser4,
+but both S05 browsers failed their first visual check. The desktop measurement
+refused an unmeasured gradient; the actual mobile viewport expanded to430px.
+Outer all22/data/ALLsequences, roles, public, CP6 and advisor restoration passed;
+writer_runtime and aggregate acceptance did not. Root retains the exact bounded
+Originals. The successor changes only S05 CSS outside its own qualifier source:
+opaque measurable panels/controls and shrinking bounded labels, selects, lists
+and scroll containers. All14000 base paths are still checked:13999 byte-exact,
+one CSS file through four reversible hunks. Native SQL, readers, monetary
+oracles, browser assertions, business clock and all37/all5 gates are unchanged.
+Local component visuals and their first harness/setup failures are recorded in
+LOCAL_S05_LAYOUT_CONTROLS_20261101.json; they are not full-App/real-Auth credit.
+The real WIB six-hour admission window is retained; no successor is launched
+while that guard would refuse.
