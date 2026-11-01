@@ -1,6 +1,6 @@
 {
   "contract": "writer-a.compact-current-state.v1",
-  "observed_at_UTC": "2026-11-01T21:58:21.450587+00:00",
+  "observed_at_UTC": "2026-11-01T23:13:59.453608+00:00",
   "integrator": "A",
   "A_B_division_preserved": true,
   "formal_CP7": "5/16",
@@ -12,8 +12,8 @@
     "tree": "3fe772a1314ae6bc7c4f36f72e3fda8738eb70fc",
     "run_id": 41354607179,
     "job_id": 124991886417,
-    "status": "in_progress",
-    "conclusion": null,
+    "status": "completed",
+    "conclusion": "success",
     "run_attempt": 1,
     "event": "push",
     "created_at": "2026-11-01T21:57:14Z",
@@ -21,22 +21,57 @@
     "retained_Native_cases": 4,
     "expected_fresh_browser_cases": 2,
     "financial_groups_rerun": false,
-    "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/41354607179"
-  },
-  "sole_readonly_monitor_cell": "1089",
-  "new_qualified_cases": 0,
-  "Root_terminal_intake_pending": true,
-  "accepted_parent": {
-    "head": "2cb8c9ac85b6111e8bb170de6c2ec5c44f7c798c",
-    "run_id": 41333643573,
-    "job_id": 124928771868,
-    "receipt": {
-      "bytes": 20463,
-      "sha256": "2d9731cf9cdaed8ed90c0e189e56663a54e3bdd28ba8e24741516c4d1a85d9ba"
+    "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/41354607179",
+    "terminal_at": "2026-11-01T23:04:10Z",
+    "Root_accepted": true,
+    "actual_fresh_Native_cases": 0,
+    "actual_fresh_browser_cases": 2,
+    "candidate_case_coverage": 6,
+    "package_all_five": true,
+    "canonical_archive_library_file_id": "libfile_b7953797e6d88191986c649725deae2a",
+    "Root_receipt": {
+      "bytes": 11935,
+      "sha256": "8e3bd34eab2f65596c74171ac2c1f9611e101390dbbbb7dae3e001cf64ec9b46"
     },
-    "evidence": "CURRENT_S05_RETAIN35_FRESH2_ROOT_ACTUAL_INTAKE_20261102.json",
+    "Root_evidence": "CURRENT_PERMANENT15A_ROOT_ACTUAL_INTAKE_20261102.json"
+  },
+  "sole_readonly_monitor_cell": null,
+  "new_qualified_cases": 2,
+  "Root_terminal_intake_pending": false,
+  "accepted_parent": {
+    "head": "15a2170cea88cd03a4d1bcaa0873a969d495b9fa",
+    "tree": "3fe772a1314ae6bc7c4f36f72e3fda8738eb70fc",
+    "run_id": 41354607179,
+    "job_id": 124991886417,
+    "status": "completed",
+    "conclusion": "success",
+    "run_attempt": 1,
+    "event": "push",
+    "created_at": "2026-11-01T21:57:14Z",
+    "expected_fresh_Native_cases": 0,
+    "retained_Native_cases": 4,
+    "expected_fresh_browser_cases": 2,
+    "financial_groups_rerun": false,
+    "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/41354607179",
+    "terminal_at": "2026-11-01T23:04:10Z",
+    "Root_accepted": true,
+    "actual_fresh_Native_cases": 0,
+    "actual_fresh_browser_cases": 2,
+    "candidate_case_coverage": 6,
+    "package_all_five": true,
+    "canonical_archive_library_file_id": "libfile_b7953797e6d88191986c649725deae2a",
+    "Root_receipt": {
+      "bytes": 11935,
+      "sha256": "8e3bd34eab2f65596c74171ac2c1f9611e101390dbbbb7dae3e001cf64ec9b46"
+    },
+    "Root_evidence": "CURRENT_PERMANENT15A_ROOT_ACTUAL_INTAKE_20261102.json",
+    "receipt": {
+      "bytes": 11935,
+      "sha256": "8e3bd34eab2f65596c74171ac2c1f9611e101390dbbbb7dae3e001cf64ec9b46"
+    },
+    "evidence": "CURRENT_PERMANENT15A_ROOT_ACTUAL_INTAKE_20261102.json",
     "honest_fresh_cases": 2,
-    "retained_cases": 35,
+    "retained_cases": 4,
     "retained_cases_are_not_fresh": true
   },
   "next_prepared": {
@@ -54,7 +89,13 @@
         "workflow_present": false,
         "workflow_runs": 0,
         "parent_root_binding": null
-      }
+      },
+      "accepted_parent_bound_in_tree_plan": true,
+      "actual_runtime_started": false,
+      "planned_tree": "4046e032b8cee219f38238dc394ad0c9e2382976",
+      "planned_own_paths": 96,
+      "parent_head": "15a2170cea88cd03a4d1bcaa0873a969d495b9fa",
+      "parent_tree": "3fe772a1314ae6bc7c4f36f72e3fda8738eb70fc"
     },
     "FREE": {
       "head": "5c6daebe1184bffeb214a79c071d7ad081400d21",
@@ -70,7 +111,7 @@
     }
   },
   "remaining_gate_summary_not_full_scope_inventory": [
-    "Repair the exact browser observer initialization, preserve the four Root-validated financial cases by immutable source identity, qualify only browser2 plus a fresh complete package/restore, then bind and run DE30 -> FREE3 -> AFUI15 once per changed candidate.",
+    "Bind and check DE96 over the actual accepted Permanent15a parent; activate exactly one Native30 attempt; then qualify FREE3 and AFUI15 on their actual Root-accepted parents without repeating unchanged earlier tests.",
     "After the active integration block is stable: implement SKU moving average and FG Mandor purchases with chosen payroll week; apply and verify the prepared tab contrast correction.",
     "Close the current global writer/current-rights/phantom-lock/command-hook and factory/combined acceptance obligations on the final integrated candidate."
   ],
@@ -83,16 +124,28 @@
     "evidence": "GLOBAL19_AND_NATIVE32_SAVED_ACTUAL_COMPATIBILITY_20261102.json"
   },
   "continuity": "Use this compact state and the newest estafet header. Savepoints are not stopping points. Check the existing run before any new work or tests.",
-  "operational_update_UTC": "2026-11-01T21:58:21.450587+00:00",
-  "current_qualification_observation_is_earlier_API_snapshot": true,
+  "operational_update_UTC": "2026-11-01T23:13:59.453608+00:00",
+  "current_qualification_observation_is_earlier_API_snapshot": false,
   "retained_permanent_financial4": {
     "evidence": "CURRENT_PERMANENT23E_ROOT_RETAINED4_20261102.json",
     "retained_Native_cases": 4,
     "actual_new_Native_cases": 0,
-    "complete6_qualified": false,
-    "package_all_five": false,
+    "complete6_qualified": true,
+    "package_all_five": true,
     "source_invariant_reuse_required": true,
-    "missing_browser_cases": 2,
-    "canonical_archive_library_file_id": "libfile_416857433c4c8191bd7398f0ead82fb7"
+    "missing_browser_cases": 0,
+    "canonical_archive_library_file_id": "libfile_416857433c4c8191bd7398f0ead82fb7",
+    "completed_by": "CURRENT_PERMANENT15A_ROOT_ACTUAL_INTAKE_20261102.json",
+    "original_failed_run_remains_failure": true
+  },
+  "completed_readonly_monitor_cell": "1089",
+  "global_real_lock_primitives": {
+    "evidence": "GLOBAL_REAL_LOCK_PRIMITIVES_RETAIN7_FRESH2_ROOT_ACTUAL_INTAKE_20261102.json",
+    "retained_controls": 7,
+    "fresh_controls": 2,
+    "coverage": 9,
+    "ERP_Native_cases": 0,
+    "global_writer_or_current_rights_or_phantom_closure": false,
+    "function_DDL_not_blocked_by_relation_lock": true
   }
 }

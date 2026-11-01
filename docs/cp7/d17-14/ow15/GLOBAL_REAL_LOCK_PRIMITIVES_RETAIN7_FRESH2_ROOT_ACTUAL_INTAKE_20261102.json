@@ -1,0 +1,45 @@
+{
+  "status": "ROOT_VERIFIED_REAL_POSTGRES_LOCK_PRIMITIVES_RETAINED7_FRESH2_NOT_ERP_CLOSURE",
+  "retained_run_id": 41359313650,
+  "focused_run_id": 41359890063,
+  "fresh_cases": 2,
+  "retained_cases": 7,
+  "logical_primitive_coverage": 9,
+  "fresh9_one_attempt": false,
+  "prior_runs_aggregated": true,
+  "original_failed_run_relabelled_PASS": false,
+  "original_assertion_failure_root_cause_not_proven_from_its_missing_observations": true,
+  "current_followup_direct_pg_proc_and_both_backend_observations_verified": true,
+  "retained_probe_source_unchanged": {
+    "bytes": 9779,
+    "sha256": "074640e8923c1de68c47da5cc69a6aee918e42bedfffe2227e84823daa53099e"
+  },
+  "focused_originals": {
+    "GLOBAL_LOCK_DDL_FOCUSED2.json": {
+      "bytes": 3391,
+      "sha256": "e0d02c7bbfa59df4e1a4c6825da1d4a12197a578d668f000dd98df4dcd2ce31f"
+    },
+    "MODEL_POSTGRES_IMAGE.json": {
+      "bytes": 85,
+      "sha256": "f9d375894b3027322e3103b39aca9020a00f0de1be2162610e159da5a48a76d2"
+    },
+    "MODEL_SOURCE_IDENTITY.json": {
+      "bytes": 568,
+      "sha256": "4ca78124e3fc2b239fc3f36fe89485ef12debbee53433e99dc0340c11b937275"
+    }
+  },
+  "focused_archive": {
+    "bytes": 2001,
+    "sha256": "578ab8b791be480ff197aedd005d3e65b986f1a52631eb293555d1850f9d5945",
+    "members": 3
+  },
+  "postgres_image": "postgres@sha256:00bc86618629af00d2937fdc5a5d63db3ff8450acf52f0636ec813c7f4902929",
+  "real_distinct_backends_each_run": 2,
+  "row_and_sequence_and_cleanup_evidence_verified": true,
+  "function_DDL_gap_actually_demonstrated": true,
+  "table_barrier_alone_is_not_writer_or_catalog_closure": true,
+  "actual_ERP_or_Native_cases": 0,
+  "actual_global_adapter_installed_or_hooks_opened": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

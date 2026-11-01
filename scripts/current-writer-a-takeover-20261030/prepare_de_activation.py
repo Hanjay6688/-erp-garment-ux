@@ -18,7 +18,7 @@ RECEIPT=NS+'PERMANENT_PARENT_ROOT_ACTUAL_INTAKE.json'
 WORKFLOW=child.WORKFLOW
 # Populate only after the exact current Permanent canonical Root intake passes.
 # A plausible JSON status or an older passing receipt cannot arm this planner.
-ACTUAL_ACCEPTED_PARENT_RECEIPT=None
+ACTUAL_ACCEPTED_PARENT_RECEIPT={'bytes': 11935, 'sha256': '8e3bd34eab2f65596c74171ac2c1f9611e101390dbbbb7dae3e001cf64ec9b46'}
 
 # Exact bounded protocol route on the old unarmed DE caller. No financial,
 # SQL, reader, Native callback, privilege or runtime change is supplied.

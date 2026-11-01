@@ -1,0 +1,19 @@
+{
+  "head": "2c4c95399ec0f626df5d91a86371358f02637015",
+  "tree": "bed0cd80a9682eda8d56a4abcc5551bdb6b08d15",
+  "probe": {
+    "bytes": 9779,
+    "sha256": "074640e8923c1de68c47da5cc69a6aee918e42bedfffe2227e84823daa53099e"
+  },
+  "focused_probe": {
+    "bytes": 7527,
+    "sha256": "72a637bd84246f72940612fae06bea16e8279c207565481088f5dcb9ebfcecd5"
+  },
+  "source_manifest": {
+    "bytes": 944,
+    "sha256": "04dabb552718a4cca6fe5815248f00cb255df3280a00406f6804609302c803d4"
+  },
+  "actual_ERP_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

@@ -1,0 +1,129 @@
+{
+  "status": "PASS_FOCUSED_LOCK_DDL_AND_RELEASE2_NOT_ERP_CLOSURE",
+  "classification": "FOCUSED_REAL_POSTGRES_DDL_AND_RELEASE2_ONLY",
+  "retained_original_head": "33766513e53345b7e293c1378767960a1c6b219a",
+  "retained_original_run_id": 41359313650,
+  "retained_original_probe_sha256": "074640e8923c1de68c47da5cc69a6aee918e42bedfffe2227e84823daa53099e",
+  "retained7_rerun": false,
+  "actual_ERP_cases": 0,
+  "global_writer_current_rights_or_phantom_closure": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "cases": {
+    "FUNCTION_DDL_CAN_COMMIT_WHILE_OTHER_BACKEND_HOLDS_EXCLUSIVE_TABLE_LOCK": {
+      "status": "PASS",
+      "writer_new_function_result": 22,
+      "holder_result_before_release": 22,
+      "holder_visibility_observed_not_assumed": true,
+      "rows_and_sequence_unchanged": true,
+      "global_catalog_DDL_closure": false
+    },
+    "TRANSACTION_END_RELEASES_BARRIER": {
+      "status": "PASS",
+      "second_backend_acquired_after_release": true,
+      "rows_and_sequence_unchanged": true
+    }
+  },
+  "sessions": [
+    {
+      "database": "cp7_lock_modes",
+      "server_version_num": "170006",
+      "backend_pid": 148,
+      "isolation": "read committed"
+    },
+    {
+      "database": "cp7_lock_modes",
+      "server_version_num": "170006",
+      "backend_pid": 149,
+      "isolation": "read committed"
+    }
+  ],
+  "baseline": {
+    "rows": [
+      [
+        1,
+        "100.00"
+      ],
+      [
+        2,
+        "200.00"
+      ]
+    ],
+    "sequence": [
+      "11",
+      false
+    ]
+  },
+  "function_before": {
+    "oid": "16392",
+    "prosrc": " SELECT 11 ",
+    "result_type": "integer",
+    "volatility": "v",
+    "xmin": "740",
+    "definition_sha256": "632a58d95cbffbbc8db405cace548455bdd9b67c86debce294e16a8e5a89cd5c",
+    "call_result": 11,
+    "python_result_type": "int"
+  },
+  "function_DDL_observations": {
+    "writer_after_commit": {
+      "oid": "16392",
+      "prosrc": " SELECT 22 ",
+      "result_type": "integer",
+      "volatility": "v",
+      "xmin": "741",
+      "definition_sha256": "ddbe077028a321e07832644ee127bf973a6ee93444438f9ca82c5302cf2ca2d4",
+      "call_result": 22,
+      "python_result_type": "int"
+    },
+    "holder_before_release": {
+      "oid": "16392",
+      "prosrc": " SELECT 22 ",
+      "result_type": "integer",
+      "volatility": "v",
+      "xmin": "741",
+      "definition_sha256": "ddbe077028a321e07832644ee127bf973a6ee93444438f9ca82c5302cf2ca2d4",
+      "call_result": 22,
+      "python_result_type": "int"
+    },
+    "actual_holder_relation_locks": [
+      [
+        "ExclusiveLock",
+        true
+      ]
+    ],
+    "after_DDL_rows_and_sequence": {
+      "rows": [
+        [
+          1,
+          "100.00"
+        ],
+        [
+          2,
+          "200.00"
+        ]
+      ],
+      "sequence": [
+        "11",
+        false
+      ]
+    }
+  },
+  "function_after_holder_transaction_end": {
+    "oid": "16392",
+    "prosrc": " SELECT 22 ",
+    "result_type": "integer",
+    "volatility": "v",
+    "xmin": "741",
+    "definition_sha256": "ddbe077028a321e07832644ee127bf973a6ee93444438f9ca82c5302cf2ca2d4",
+    "call_result": 22,
+    "python_result_type": "int"
+  },
+  "counts": {
+    "PASS": 2
+  },
+  "original_function_restored": true,
+  "model_rows_and_sequence_unchanged": true,
+  "actual_distinct_backends": 2,
+  "owned_model_schema_removed": true,
+  "both_connections_closed": true
+}
