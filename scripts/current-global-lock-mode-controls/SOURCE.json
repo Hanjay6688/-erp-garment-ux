@@ -1,0 +1,18 @@
+{
+  "classification": "REAL_POSTGRES_17_6_TWO_SESSION_MODEL_NOT_ERP",
+  "expected_model_controls": 9,
+  "actual_ERP_cases": 0,
+  "global_writer_closure": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "files": {
+    "scripts/current-global-lock-mode-controls/probe.py": {
+      "bytes": 9779,
+      "sha256": "074640e8923c1de68c47da5cc69a6aee918e42bedfffe2227e84823daa53099e"
+    },
+    ".github/workflows/cp7-global-lock-mode-controls.yml": {
+      "bytes": 3402,
+      "sha256": "946bf2d90f98637afe183ff80ce7bb33d67f00d40976702587cd214841e22d09"
+    }
+  }
+}
