@@ -1,0 +1,36 @@
+{
+  "status": "ACTUAL_DE96_NESTED_PARENT_PIN_FIXED_SOURCE_PREFLIGHT_PASS",
+  "head": "a861af7e748c6ccf1178a45546d87f034bc493a8",
+  "tree": "ac946bb0333b512864d8d69909c166e2d6892522",
+  "own_source": {
+    "status": "EXACT_UNCHANGED_COMPLETE_PARENT_AND_CLOSED_D1_E_PREPARATION",
+    "base_head": "15a2170cea88cd03a4d1bcaa0873a969d495b9fa",
+    "base_tree": "3fe772a1314ae6bc7c4f36f72e3fda8738eb70fc",
+    "unchanged_parent_blobs_and_modes": 14169,
+    "own_paths": 96,
+    "explicit_workflow_source": {
+      "status": "EXACT_DECLARED_WORKFLOW_AND_ROOT_ACCEPTED_PARENT_SOURCE",
+      "parent_head": "15a2170cea88cd03a4d1bcaa0873a969d495b9fa",
+      "parent_tree": "3fe772a1314ae6bc7c4f36f72e3fda8738eb70fc",
+      "actual_case_credit": 0
+    },
+    "actual_Native_cases": 0,
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "Root_source_cli_pass": {
+    "command": "python -B scripts/current-writer-a-takeover-20261030/intake_complete_de30.py --source /workspace/scratch/cf5f04e2b451/erp-de --check-source",
+    "exit_code": 0,
+    "own_paths": 96,
+    "own_pins": 95,
+    "unchanged_parent_blobs_and_modes": 14169,
+    "unchanged_old_own_blobs_and_modes": 89,
+    "unchanged_Native30_callbacks": true,
+    "recorded_by_subsequent_preflight_UTC": "2026-11-01T23:18:52.354035+00:00"
+  },
+  "complete_natural_source_graph": "required_once_by_exact_owning_CI_before_database_start",
+  "prior_controls_retained": "DE96_ACTUAL15A_SOURCE_CONTROLS.json",
+  "source_controls_not_runtime_qualification": true,
+  "actual_ERP_cases": 0,
+  "observed_UTC": "2026-11-01T23:18:52.354035+00:00"
+}

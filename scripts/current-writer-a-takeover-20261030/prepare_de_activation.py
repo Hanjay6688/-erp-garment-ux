@@ -16,6 +16,7 @@ import intake_permanent_focused as parent
 NS=child.NS
 RECEIPT=NS+'PERMANENT_PARENT_ROOT_ACTUAL_INTAKE.json'
 WORKFLOW=child.WORKFLOW
+PRODUCT_MANIFEST=child.PRODUCT+'SOURCE.json'
 # Populate only after the exact current Permanent canonical Root intake passes.
 # A plausible JSON status or an older passing receipt cannot arm this planner.
 ACTUAL_ACCEPTED_PARENT_RECEIPT={'bytes': 11935, 'sha256': '8e3bd34eab2f65596c74171ac2c1f9611e101390dbbbb7dae3e001cf64ec9b46'}
@@ -44,6 +45,20 @@ def protocol_route(raw):
     compile(result,'DE-activation-retained4-fresh2-protocol-only','exec')
     return result.encode(),dict(before=PARENT_PROTOCOL_BEFORE,after=PARENT_PROTOCOL_AFTER,count=1,
         exact_original_recovered=True,financial_SQL_or_Native_callbacks_changed=False)
+
+
+def product_parent_pin_route(raw,before_admission,after_admission):
+    """Change only the already-declared parent's pin, with exact reversal."""
+    value=strict(raw);name=NS+'admission.py'
+    exact((json.dumps(value,indent=2)+'\n').encode(),raw,'DE_ACTIVATION_CANONICAL_ORIGINAL_PRODUCT_MANIFEST')
+    exact(value['files'][name],pin(before_admission),'DE_ACTIVATION_EXACT_OLD_NESTED_ADMISSION_PIN')
+    before=dict(value['files'][name]);after=pin(after_admission)
+    value['files'][name]=after
+    result=(json.dumps(value,indent=2)+'\n').encode()
+    value['files'][name]=before
+    exact((json.dumps(value,indent=2)+'\n').encode(),raw,'DE_ACTIVATION_ENTIRE_ORIGINAL_PRODUCT_MANIFEST_RECOVERED')
+    return result,dict(path=PRODUCT_MANIFEST,key=['files',name],before=before,after=after,
+        only_existing_parent_pin_changed=True,exact_original_recovered=True)
 
 
 def typed(value,expected,label):
@@ -114,13 +129,16 @@ def plan(root,prepared_head,prepared_tree,raw_receipt):
             for key,old,new in bindings:
                 values[name],route=literal_route(values[name],key,old,new);routes.append(dict(path=name,**route))
         values[NS+'admission.py'],protocol=protocol_route(values[NS+'admission.py'])
+        values[PRODUCT_MANIFEST],nested=product_parent_pin_route(values[PRODUCT_MANIFEST],
+            before[NS+'admission.py'],values[NS+'admission.py'])
         values[RECEIPT]=raw_receipt
         values[WORKFLOW]=values[NS+'native30.workflow.yml.txt']
         origin=strict(values[NS+'REPAIRED_PERMANENT_REBASE_ORIGIN.json'])
         origin['actual_permanent_parent_binding']=dict(head=receipt['head'],tree=receipt['tree'],
             run_id=receipt['run_id'],job_id=receipt['job_id'],receipt=pin(raw_receipt),
             source_preparation_not_DE_acceptance=True,unchanged_parent_blobs_and_modes=14169,
-            own_paths=96,own_source_pins=95,literal_routes=routes,parent_protocol_route=protocol,actual_DE_cases=0,
+            own_paths=96,own_source_pins=95,literal_routes=routes,parent_protocol_route=protocol,
+            nested_product_pin_route=nested,actual_DE_cases=0,
             production_go=False,independent_acceptance=False)
         values[NS+'REPAIRED_PERMANENT_REBASE_ORIGIN.json']=(json.dumps(origin,indent=2)+'\n').encode()
         declaration['base_head']=receipt['head'];declaration['base_tree']=receipt['tree']
@@ -131,8 +149,8 @@ def plan(root,prepared_head,prepared_tree,raw_receipt):
         values[NS+'SOURCE.json']=(json.dumps(declaration,indent=2)+'\n').encode()
         exact(len(values),96,'DE_ACTIVATION_EXACT_OWN96')
         changed=sorted(name for name in old_paths if values[name]!=before[name])
-        exact(changed,sorted(NS+n for n in('SOURCE.json','REPAIRED_PERMANENT_REBASE_ORIGIN.json','admission.py','source.py')),
-            'DE_ACTIVATION_ONLY_FOUR_OWN_BINDING_FILES_CHANGE')
+        exact(changed,sorted([PRODUCT_MANIFEST]+[NS+n for n in('SOURCE.json','REPAIRED_PERMANENT_REBASE_ORIGIN.json','admission.py','source.py')]),
+            'DE_ACTIVATION_ONLY_FOUR_OWN_BINDING_FILES_AND_ONE_NESTED_PARENT_PIN_CHANGE')
         elements=[]
         for name,raw in sorted(values.items()):
             item=dict(path=name,mode='100644',type='blob')
@@ -144,8 +162,9 @@ def plan(root,prepared_head,prepared_tree,raw_receipt):
         prepared_source_head=prepared_head,prepared_source_tree=prepared_tree,parent_head=receipt['head'],
         parent_tree=receipt['tree'],parent_root_receipt=pin(raw_receipt),
         source_before=original,unchanged_parent_blobs_and_modes=14169,own_paths=96,own_source_pins=95,
-        unchanged_own_files=90,changed_own_files=changed,new_paths=[RECEIPT,WORKFLOW],
-        literal_routes=routes,parent_protocol_route=protocol,workflow_bytes_equal_reviewed_template=True,actual_DE_cases=0,
+        unchanged_own_files=89,changed_own_files=changed,new_paths=[RECEIPT,WORKFLOW],
+        literal_routes=routes,parent_protocol_route=protocol,nested_product_pin_route=nested,
+        workflow_bytes_equal_reviewed_template=True,actual_DE_cases=0,
         must_materialize_check_entire_source_and_Root_gate_before_activation=True,
         production_go=False,independent_acceptance=False)
     return request,review

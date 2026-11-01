@@ -12,14 +12,14 @@ from intake_common import GitBytes,exact,fields,pin,require,safe_path
 from intake_sku27 import strict,literal,group,full_census,declared_files
 import execution_oid_edges
 
-HEAD=None
-TREE=None
-RUN=None
-JOB=None
-PARENT_HEAD=None
-PARENT_TREE=None
-PREPARED_HEAD='a71de0fba6d4a02a1db9acd471970c3df43d7ff5'
-PREPARED_TREE='a5ff3fa842e829187952c887dba579db693311b8'
+HEAD='a861af7e748c6ccf1178a45546d87f034bc493a8'
+TREE='ac946bb0333b512864d8d69909c166e2d6892522'
+RUN=41361511976
+JOB=125012678506
+PARENT_HEAD='15a2170cea88cd03a4d1bcaa0873a969d495b9fa'
+PARENT_TREE='3fe772a1314ae6bc7c4f36f72e3fda8738eb70fc'
+PREPARED_HEAD='a861af7e748c6ccf1178a45546d87f034bc493a8'
+PREPARED_TREE='ac946bb0333b512864d8d69909c166e2d6892522'
 PREPARED_BASE='065fff01bba869acca842e4008d87caf1e09b318'
 PREPARED_BASE_TREE='ed3cdf7d306be989bd46bf94f0305a7ece21d986'
 NS='scripts/current-complete-de-integration-preparation/'
@@ -37,7 +37,7 @@ ACTIVATION_SOURCE_TREE='a5ff3fa842e829187952c887dba579db693311b8'
 
 
 def actual_activation_source(g,declaration):
-    """Replay only four bindings/provenance files over the old closed own94."""
+    """Replay four binding files and their one nested product pin over own94."""
     import prepare_de_activation as planner
     receipt_path=NS+'PERMANENT_PARENT_ROOT_ACTUAL_INTAKE.json'
     raw=g.read(receipt_path);receipt=planner.accepted_parent(raw)
@@ -46,9 +46,9 @@ def actual_activation_source(g,declaration):
     with GitBytes(g.root,ACTIVATION_SOURCE_HEAD,ACTIVATION_SOURCE_TREE)as old:
         original=strict(old.read(NS+'SOURCE.json'));old_paths=set(original['files'])|{NS+'SOURCE.json'}
         exact(len(old_paths),94,'DE30_EXACT_OLD_CLOSED_OWN94')
-        changed={NS+n for n in('admission.py','source.py','SOURCE.json','REPAIRED_PERMANENT_REBASE_ORIGIN.json')}
+        changed={PRODUCT+'SOURCE.json'}|{NS+n for n in('admission.py','source.py','SOURCE.json','REPAIRED_PERMANENT_REBASE_ORIGIN.json')}
         for name in old_paths-changed:
-            exact(g.tree.get(name),old.tree[name],'DE30_ALL_NINETY_OTHER_OWN_BLOBS_AND_MODES_UNCHANGED:'+name)
+            exact(g.tree.get(name),old.tree[name],'DE30_ALL_EIGHTYNINE_OTHER_OWN_BLOBS_AND_MODES_UNCHANGED:'+name)
         routes=[];expected={name:old.read(name)for name in(NS+'admission.py',NS+'source.py')}
         for name,bindings in((NS+'admission.py',(
             ('PARENT_HEAD',None,PARENT_HEAD),('PARENT_RECEIPT',None,pin(raw)))),
@@ -58,12 +58,15 @@ def actual_activation_source(g,declaration):
                 expected[name],route=planner.literal_route(expected[name],key,before,after)
                 routes.append(dict(path=name,**route))
         expected[NS+'admission.py'],protocol=planner.protocol_route(expected[NS+'admission.py'])
+        expected[PRODUCT+'SOURCE.json'],nested=planner.product_parent_pin_route(old.read(PRODUCT+'SOURCE.json'),
+            old.read(NS+'admission.py'),expected[NS+'admission.py'])
         for name,value in expected.items():exact(g.read(name),value,'DE30_ONLY_EXACT_PARENT_BINDING_AND_PROTOCOL_ROUTES:'+name)
         origin=strict(old.read(NS+'REPAIRED_PERMANENT_REBASE_ORIGIN.json'))
         origin['actual_permanent_parent_binding']=dict(head=PARENT_HEAD,tree=PARENT_TREE,
             run_id=receipt['run_id'],job_id=receipt['job_id'],receipt=pin(raw),
             source_preparation_not_DE_acceptance=True,unchanged_parent_blobs_and_modes=14169,
-            own_paths=96,own_source_pins=95,literal_routes=routes,parent_protocol_route=protocol,actual_DE_cases=0,
+            own_paths=96,own_source_pins=95,literal_routes=routes,parent_protocol_route=protocol,
+            nested_product_pin_route=nested,actual_DE_cases=0,
             production_go=False,independent_acceptance=False)
         exact(g.read(NS+'REPAIRED_PERMANENT_REBASE_ORIGIN.json'),(json.dumps(origin,indent=2)+'\n').encode(),
             'DE30_ORIGINAL_PROVENANCE_RETAINED_WITH_ONLY_EXACT_ACTUAL_BINDING_APPEND')
@@ -74,8 +77,8 @@ def actual_activation_source(g,declaration):
             run_id=receipt['run_id'],job_id=receipt['job_id'],receipt=pin(raw)),'DE30_EXACT_ACTUAL_PARENT_QUALIFICATION_BINDING')
         exact(set(declaration['files']),set(original['files'])|{receipt_path,WORKFLOW},'DE30_ONLY_TWO_NEW_OWN_PATHS')
         exact(g.read(WORKFLOW),old.read(NS+'native30.workflow.yml.txt'),'DE30_OLD_REVIEWED_WORKFLOW_BYTES_UNCHANGED')
-    return dict(status='EXACT_OWN94_TO96_WITH_FOUR_REVERSED_BINDINGS_AND_PARENT_PROTOCOL_ONLY',
-        old_own_blobs_unchanged=90,actual_case_credit=0)
+    return dict(status='EXACT_OWN94_TO96_WITH_FOUR_REVERSED_BINDINGS_PARENT_PROTOCOL_AND_ONE_NESTED_PIN_ONLY',
+        old_own_blobs_unchanged=89,actual_case_credit=0)
 
 
 def source(g):

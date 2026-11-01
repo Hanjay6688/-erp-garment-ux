@@ -1,6 +1,6 @@
 {
   "contract": "writer-a.compact-current-state.v1",
-  "observed_at_UTC": "2026-11-01T23:13:59.453608+00:00",
+  "observed_at_UTC": "2026-11-01T23:19:51.003813+00:00",
   "integrator": "A",
   "A_B_division_preserved": true,
   "formal_CP7": "5/16",
@@ -8,36 +8,30 @@
   "production_go": false,
   "independent_acceptance": false,
   "current_qualification": {
-    "head": "15a2170cea88cd03a4d1bcaa0873a969d495b9fa",
-    "tree": "3fe772a1314ae6bc7c4f36f72e3fda8738eb70fc",
-    "run_id": 41354607179,
-    "job_id": 124991886417,
-    "status": "completed",
-    "conclusion": "success",
+    "head": "a861af7e748c6ccf1178a45546d87f034bc493a8",
+    "tree": "ac946bb0333b512864d8d69909c166e2d6892522",
+    "run_id": 41361511976,
+    "job_id": 125012678506,
+    "status": "in_progress",
+    "conclusion": null,
     "run_attempt": 1,
     "event": "push",
-    "created_at": "2026-11-01T21:57:14Z",
-    "expected_fresh_Native_cases": 0,
-    "retained_Native_cases": 4,
-    "expected_fresh_browser_cases": 2,
-    "financial_groups_rerun": false,
-    "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/41354607179",
-    "terminal_at": "2026-11-01T23:04:10Z",
-    "Root_accepted": true,
-    "actual_fresh_Native_cases": 0,
-    "actual_fresh_browser_cases": 2,
-    "candidate_case_coverage": 6,
-    "package_all_five": true,
-    "canonical_archive_library_file_id": "libfile_b7953797e6d88191986c649725deae2a",
-    "Root_receipt": {
-      "bytes": 11935,
-      "sha256": "8e3bd34eab2f65596c74171ac2c1f9611e101390dbbbb7dae3e001cf64ec9b46"
-    },
-    "Root_evidence": "CURRENT_PERMANENT15A_ROOT_ACTUAL_INTAKE_20261102.json"
+    "created_at": "2026-11-01T23:19:06Z",
+    "expected_fresh_Native_cases": 30,
+    "expected_D1_cases": 13,
+    "expected_E_cases": 17,
+    "actual_qualified_cases": 0,
+    "browser_cases": 0,
+    "retained_parent_fresh_case_credit": 0,
+    "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/41361511976",
+    "complete_source_graph_required_before_database": true,
+    "source_parent_and_Root_checks_PASS": true,
+    "last_API_stage": "6: materialize exact frozen inputs",
+    "current_observation_UTC": "2026-11-01T23:20:10.029Z"
   },
-  "sole_readonly_monitor_cell": null,
-  "new_qualified_cases": 2,
-  "Root_terminal_intake_pending": false,
+  "sole_readonly_monitor_cell": "1197",
+  "new_qualified_cases": 0,
+  "Root_terminal_intake_pending": true,
   "accepted_parent": {
     "head": "15a2170cea88cd03a4d1bcaa0873a969d495b9fa",
     "tree": "3fe772a1314ae6bc7c4f36f72e3fda8738eb70fc",
@@ -76,26 +70,31 @@
   },
   "next_prepared": {
     "DE": {
-      "head": "a71de0fba6d4a02a1db9acd471970c3df43d7ff5",
-      "own_paths": 94,
+      "head": "a861af7e748c6ccf1178a45546d87f034bc493a8",
+      "own_paths": 96,
       "base_head": "065fff01bba869acca842e4008d87caf1e09b318",
-      "accepted_parent_bound": false,
-      "workflow_activated": false,
+      "accepted_parent_bound": true,
+      "workflow_activated": true,
       "actual_alias": {
         "branch": "astra-a/current-complete-de-native30-20261031",
-        "head": "a71de0fba6d4a02a1db9acd471970c3df43d7ff5",
-        "tree": "a5ff3fa842e829187952c887dba579db693311b8",
-        "observed_at_UTC": "2026-11-01T21:32:40.824826+00:00",
-        "workflow_present": false,
-        "workflow_runs": 0,
-        "parent_root_binding": null
+        "head": "a861af7e748c6ccf1178a45546d87f034bc493a8",
+        "tree": "ac946bb0333b512864d8d69909c166e2d6892522",
+        "observed_at_UTC": "2026-11-01T23:19:51.003813+00:00",
+        "workflow_present": true,
+        "workflow_runs": 1,
+        "parent_root_binding": {
+          "bytes": 11935,
+          "sha256": "8e3bd34eab2f65596c74171ac2c1f9611e101390dbbbb7dae3e001cf64ec9b46"
+        }
       },
       "accepted_parent_bound_in_tree_plan": true,
       "actual_runtime_started": false,
-      "planned_tree": "4046e032b8cee219f38238dc394ad0c9e2382976",
       "planned_own_paths": 96,
       "parent_head": "15a2170cea88cd03a4d1bcaa0873a969d495b9fa",
-      "parent_tree": "3fe772a1314ae6bc7c4f36f72e3fda8738eb70fc"
+      "parent_tree": "3fe772a1314ae6bc7c4f36f72e3fda8738eb70fc",
+      "tree": "ac946bb0333b512864d8d69909c166e2d6892522",
+      "run_id": 41361511976,
+      "job_id": 125012678506
     },
     "FREE": {
       "head": "5c6daebe1184bffeb214a79c071d7ad081400d21",
@@ -124,7 +123,7 @@
     "evidence": "GLOBAL19_AND_NATIVE32_SAVED_ACTUAL_COMPATIBILITY_20261102.json"
   },
   "continuity": "Use this compact state and the newest estafet header. Savepoints are not stopping points. Check the existing run before any new work or tests.",
-  "operational_update_UTC": "2026-11-01T23:13:59.453608+00:00",
+  "operational_update_UTC": "2026-11-01T23:20:33.589132+00:00",
   "current_qualification_observation_is_earlier_API_snapshot": false,
   "retained_permanent_financial4": {
     "evidence": "CURRENT_PERMANENT23E_ROOT_RETAINED4_20261102.json",
@@ -147,5 +146,33 @@
     "ERP_Native_cases": 0,
     "global_writer_or_current_rights_or_phantom_closure": false,
     "function_DDL_not_blocked_by_relation_lock": true
+  },
+  "accepted_permanent_qualification": {
+    "head": "15a2170cea88cd03a4d1bcaa0873a969d495b9fa",
+    "tree": "3fe772a1314ae6bc7c4f36f72e3fda8738eb70fc",
+    "run_id": 41354607179,
+    "job_id": 124991886417,
+    "status": "completed",
+    "conclusion": "success",
+    "run_attempt": 1,
+    "event": "push",
+    "created_at": "2026-11-01T21:57:14Z",
+    "expected_fresh_Native_cases": 0,
+    "retained_Native_cases": 4,
+    "expected_fresh_browser_cases": 2,
+    "financial_groups_rerun": false,
+    "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/41354607179",
+    "terminal_at": "2026-11-01T23:04:10Z",
+    "Root_accepted": true,
+    "actual_fresh_Native_cases": 0,
+    "actual_fresh_browser_cases": 2,
+    "candidate_case_coverage": 6,
+    "package_all_five": true,
+    "canonical_archive_library_file_id": "libfile_b7953797e6d88191986c649725deae2a",
+    "Root_receipt": {
+      "bytes": 11935,
+      "sha256": "8e3bd34eab2f65596c74171ac2c1f9611e101390dbbbb7dae3e001cf64ec9b46"
+    },
+    "Root_evidence": "CURRENT_PERMANENT15A_ROOT_ACTUAL_INTAKE_20261102.json"
   }
 }

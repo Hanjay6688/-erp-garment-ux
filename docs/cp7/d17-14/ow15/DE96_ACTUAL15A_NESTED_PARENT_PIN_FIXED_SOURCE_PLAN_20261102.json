@@ -1,0 +1,140 @@
+{
+  "status": "DE96_ACTUAL_PARENT_BOUND_TREE_PLAN_ONLY_NOT_EXECUTED",
+  "prepared_source_head": "a71de0fba6d4a02a1db9acd471970c3df43d7ff5",
+  "prepared_source_tree": "a5ff3fa842e829187952c887dba579db693311b8",
+  "parent_head": "15a2170cea88cd03a4d1bcaa0873a969d495b9fa",
+  "parent_tree": "3fe772a1314ae6bc7c4f36f72e3fda8738eb70fc",
+  "parent_root_receipt": {
+    "bytes": 11935,
+    "sha256": "8e3bd34eab2f65596c74171ac2c1f9611e101390dbbbb7dae3e001cf64ec9b46"
+  },
+  "source_before": {
+    "source_pins": 93,
+    "own_paths": 94,
+    "unchanged_base": 14164,
+    "D1_ids": [
+      "D_POSITIVE_CREDIT_INCREMENT",
+      "D_AFTER_ACTIVE_APPLY",
+      "D_AFTER_REFUND_EXTRA_STAYS_CREDIT",
+      "D_MULTIFAMILY_ORDINAL",
+      "D_REPLAY_EXACT_UUID",
+      "D_STALE_REVIEW_NO_EFFECT",
+      "D_ACCESS_REVOKED_NO_EFFECT",
+      "D_SHORTFALL_NAMES_UNDO",
+      "D_ROOT_BOOK_FLOOR_REFUSAL",
+      "D_ATOMIC_POST_FAILURE_RESTORE",
+      "D_SECOND_REVISION_ORDINAL_HISTORY",
+      "D_AFTER_NAMED_UNDO_NO_FALSE_BLOCKER",
+      "E_UNIMPLEMENTED_INCOMING_CORRECTION_STAYS_GUARDED"
+    ],
+    "E_ids": [
+      "E_PRICE_INCREASE_80_NET550_AR470",
+      "E_PRICE_DECREASE_80_NET100_AR20",
+      "E_EXACT_FUNDED_80_PAID",
+      "E_BELOW_CARRIED_80_REFUSES_ATOMIC",
+      "E_SAME_UUID_AND_CHANGED_INTENT",
+      "E_SOURCE_D1_CHANGE_RETIRES_REVIEW",
+      "E_LATER_APPLY_20_CURRENT_LEAF",
+      "E_UNDO_ORIGINAL_80_AND_OLD_RECEIPT",
+      "E_NATIVE_POST_FAILURE_FULL_RESTORE",
+      "E_QUANTITY_CHANGE_REFUSES",
+      "E_ORIGINAL_DATE_CHANGE_REFUSES",
+      "E_CLOSED_ORIGINAL_BOOK_PAIR_REFUSES",
+      "E_SECOND_NOTE_REVISION_GUARDED",
+      "E_CURRENT_ACCESS_REVOKED_REFUSES",
+      "E_JOINT_PREFIX_AFTER_UNDO_120_MIN200_NOT150",
+      "E_LATER_NATIVE_REVERSE_REFUSES_ATOMIC",
+      "E_LATER_NATIVE_SALE_SAME_LOT_RECONCILES"
+    ],
+    "source_manifest": {
+      "bytes": 17908,
+      "sha256": "ff77360e6d9835500df829621ee3e02cb1936c7a2b36e1bdf6efbeffbae052ab"
+    },
+    "unchanged_business_source_files": 3,
+    "frozen_fixture_inputs": 4,
+    "recorded_predecessor_functions": 32,
+    "unchanged_global_metadata_source_files": 4,
+    "unchanged_raw_metadata_queries": 19,
+    "supplemental_exact_execution_oid_queries": 4,
+    "supplemental_exact_dispatch_oid_queries": 7,
+    "P0_dependency_functions": 6,
+    "P0_dependency_relations": 2,
+    "P0_privilege_queries": 4,
+    "actual_case_credit": 0,
+    "parent_qualification_pending": true
+  },
+  "unchanged_parent_blobs_and_modes": 14169,
+  "own_paths": 96,
+  "own_source_pins": 95,
+  "unchanged_own_files": 89,
+  "changed_own_files": [
+    "scripts/cp7_complete_credit_de/SOURCE.json",
+    "scripts/current-complete-de-integration-preparation/REPAIRED_PERMANENT_REBASE_ORIGIN.json",
+    "scripts/current-complete-de-integration-preparation/SOURCE.json",
+    "scripts/current-complete-de-integration-preparation/admission.py",
+    "scripts/current-complete-de-integration-preparation/source.py"
+  ],
+  "new_paths": [
+    "scripts/current-complete-de-integration-preparation/PERMANENT_PARENT_ROOT_ACTUAL_INTAKE.json",
+    ".github/workflows/cp7-current-complete-de-native30.yml"
+  ],
+  "literal_routes": [
+    {
+      "path": "scripts/current-complete-de-integration-preparation/admission.py",
+      "name": "PARENT_HEAD",
+      "before": "None",
+      "after": "'15a2170cea88cd03a4d1bcaa0873a969d495b9fa'",
+      "exact_original_recovered": true
+    },
+    {
+      "path": "scripts/current-complete-de-integration-preparation/admission.py",
+      "name": "PARENT_RECEIPT",
+      "before": "None",
+      "after": "{'bytes': 11935, 'sha256': '8e3bd34eab2f65596c74171ac2c1f9611e101390dbbbb7dae3e001cf64ec9b46'}",
+      "exact_original_recovered": true
+    },
+    {
+      "path": "scripts/current-complete-de-integration-preparation/source.py",
+      "name": "BASE",
+      "before": "'065fff01bba869acca842e4008d87caf1e09b318'",
+      "after": "'15a2170cea88cd03a4d1bcaa0873a969d495b9fa'",
+      "exact_original_recovered": true
+    },
+    {
+      "path": "scripts/current-complete-de-integration-preparation/source.py",
+      "name": "TREE",
+      "before": "'ed3cdf7d306be989bd46bf94f0305a7ece21d986'",
+      "after": "'3fe772a1314ae6bc7c4f36f72e3fda8738eb70fc'",
+      "exact_original_recovered": true
+    }
+  ],
+  "parent_protocol_route": {
+    "before": "    required=dict(status='ROOT_VERIFIED_PERMANENT_S05_NATIVE4_BROWSER2_ALL5',head=PARENT_HEAD,\n        complete6_qualified=True,actual_Native_cases=4,actual_browser_cases=2,\n        retained_join37_fresh_case_credit=0,package_all_five=True,prior_runs_aggregated=False,\n        production_go=False,independent_acceptance=False)",
+    "after": "    required=dict(status='ROOT_VERIFIED_PERMANENT_S05_RETAINED4_FRESH_BROWSER2_ALL5',head=PARENT_HEAD,\n        complete6_qualified=True,actual_Native_cases=0,actual_browser_cases=2,fresh_cases=2,\n        retained_Native_cases=4,retained_cases=4,retained_cases_are_not_fresh=True,candidate_case_coverage=6,\n        fresh6_one_attempt=False,prior_runs_aggregated=True,source_invariant_reuse=True,financial_groups_rerun=False,\n        retained_original_run_conclusion='failure',failed_run_relabelled_PASS=False,\n        retained_join37_fresh_case_credit=0,package_all_five=True,\n        production_go=False,independent_acceptance=False)",
+    "count": 1,
+    "exact_original_recovered": true,
+    "financial_SQL_or_Native_callbacks_changed": false
+  },
+  "nested_product_pin_route": {
+    "path": "scripts/cp7_complete_credit_de/SOURCE.json",
+    "key": [
+      "files",
+      "scripts/current-complete-de-integration-preparation/admission.py"
+    ],
+    "before": {
+      "bytes": 3418,
+      "sha256": "1cc6a1cc54d46c0409ee376d1a40bd19f768bfd47ace7fb6e0faa34f2f1c05aa"
+    },
+    "after": {
+      "bytes": 3853,
+      "sha256": "a96c54c53ec4b9bae0fefe72f53ae767549643cb1a1014ad631f795d94f5a097"
+    },
+    "only_existing_parent_pin_changed": true,
+    "exact_original_recovered": true
+  },
+  "workflow_bytes_equal_reviewed_template": true,
+  "actual_DE_cases": 0,
+  "must_materialize_check_entire_source_and_Root_gate_before_activation": true,
+  "production_go": false,
+  "independent_acceptance": false
+}

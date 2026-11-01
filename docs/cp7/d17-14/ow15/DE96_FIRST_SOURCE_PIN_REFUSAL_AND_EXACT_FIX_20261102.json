@@ -1,0 +1,20 @@
+{
+  "local_head": "a51aff4a0a27b999e825a8e69c8745da5c959402",
+  "tree": "ac946bb0333b512864d8d69909c166e2d6892522",
+  "payload_characters": 54353,
+  "changed_paths": [
+    "scripts/cp7_complete_credit_de/SOURCE.json",
+    "scripts/current-complete-de-integration-preparation/REPAIRED_PERMANENT_REBASE_ORIGIN.json",
+    "scripts/current-complete-de-integration-preparation/SOURCE.json"
+  ],
+  "actual_ERP_cases": 0,
+  "CI_started": false,
+  "first_source_failure": {
+    "head": "a431e77e9691e35293d5258514e1443c732e9655",
+    "tree": "4046e032b8cee219f38238dc394ad0c9e2382976",
+    "Root_error": "ROOT_SOURCE_PIN_CHANGED:scripts/current-complete-de-integration-preparation/admission.py/bytes:VALUE",
+    "stage": "Root source validation before workflow activation or database",
+    "not_runtime_failure": true
+  },
+  "observed_at_UTC": "2026-11-01T23:17:43.714393+00:00"
+}
