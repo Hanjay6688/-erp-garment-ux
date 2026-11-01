@@ -1,0 +1,78 @@
+name: CP7 transport one terminal canonical archive
+'on':
+  push:
+    branches:
+      - astra-a/recover-run-41241493562-20261101
+permissions:
+  actions: read
+  contents: read
+concurrency:
+  group: cp7-original-archive-transport
+  cancel-in-progress: false
+jobs:
+  transport:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - name: Verify terminal identity and split original ZIP bytes
+        id: split
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python -B scripts/current-original-archive-transport/archive_transport.py fetch-split \
+            --expected scripts/current-original-archive-transport/EXPECTED.json \
+            --directory "$RUNNER_TEMP/parts"
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          value = json.loads((Path(os.environ['RUNNER_TEMP'])/'parts/TRANSPORT_MANIFEST.json').read_bytes())
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as output:
+              output.write('count='+str(len(value['parts']))+'\n')
+              output.write('source_run='+str(value['original']['run_id'])+'\n')
+          PY
+      - name: Preserve exact transport manifest
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: cp7-original-${{ steps.split.outputs.source_run }}-manifest
+          path: ${{ runner.temp }}/parts/TRANSPORT_MANIFEST.json
+          if-no-files-found: error
+          retention-days: 30
+      - name: Preserve original part 0
+        if: fromJSON(steps.split.outputs.count) >= 1
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: cp7-original-${{ steps.split.outputs.source_run }}-part0
+          path: ${{ runner.temp }}/parts/original.part-0
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 30
+      - name: Preserve original part 1
+        if: fromJSON(steps.split.outputs.count) >= 2
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: cp7-original-${{ steps.split.outputs.source_run }}-part1
+          path: ${{ runner.temp }}/parts/original.part-1
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 30
+      - name: Preserve original part 2
+        if: fromJSON(steps.split.outputs.count) >= 3
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: cp7-original-${{ steps.split.outputs.source_run }}-part2
+          path: ${{ runner.temp }}/parts/original.part-2
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 30
+      - name: Preserve original part 3
+        if: fromJSON(steps.split.outputs.count) >= 4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: cp7-original-${{ steps.split.outputs.source_run }}-part3
+          path: ${{ runner.temp }}/parts/original.part-3
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 30
