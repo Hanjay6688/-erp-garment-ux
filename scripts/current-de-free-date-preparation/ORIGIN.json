@@ -108,6 +108,36 @@
         "before": "COMPLETE_DE_",
         "after": "FREE_DATE_DE_",
         "count": 15
+      },
+      {
+        "before": "import json,os,subprocess",
+        "after": "import importlib.util,json,os,subprocess",
+        "count": 1
+      },
+      {
+        "before": "    'scripts/cp7_current_de_free_date/','scripts/current-de-free-date-preparation/')",
+        "after": "    'scripts/cp7_current_de_free_date/','scripts/current-de-free-date-preparation/')\nWORKFLOW='.github/workflows/cp7-current-complete-de-free-date-native3.yml'",
+        "count": 1
+      },
+      {
+        "before": "def preflight(*,require_clean=True):",
+        "after": "def actual_parent_receipt():\n    spec=importlib.util.spec_from_file_location('FREE_date_exact_parent_before_workflow',HERE/'admission.py')\n    module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)\n    return module.parent_receipt()\n\n\ndef admit_workflow(declaration):\n    path=ROOT/WORKFLOW\n    if WORKFLOW not in declaration['files']:\n        if path.exists()or path.is_symlink():raise ValueError('FREE_DATE_DE_UNDECLARED_WORKFLOW_REFUSED')\n        return None\n    if not path.is_file():raise ValueError('FREE_DATE_DE_DECLARED_WORKFLOW_MISSING')\n    data=raw(WORKFLOW)\n    if declaration['files'][WORKFLOW]!={'bytes':len(data),'sha256':sha256(data).hexdigest()}:\n        raise ValueError('FREE_DATE_DE_EXACT_WORKFLOW_SOURCE_PIN_REQUIRED')\n    if data!=raw(str(HERE.relative_to(ROOT))+'/native3.workflow.yml.txt'):\n        raise ValueError('FREE_DATE_DE_WORKFLOW_MUST_EQUAL_REVIEWED_TEMPLATE')\n    receipt=actual_parent_receipt()\n    if receipt['head']!=BASE or receipt['tree']!=TREE:\n        raise ValueError('FREE_DATE_DE_WORKFLOW_REQUIRES_EXACT_SOURCE_BASE_QUALIFICATION')\n    return dict(status='EXACT_DECLARED_FREE_WORKFLOW_AND_ROOT_ACCEPTED_DE_PARENT_SOURCE',\n        parent_head=BASE,parent_tree=TREE,actual_case_credit=0)\n\n\ndef preflight(*,require_clean=True):",
+        "count": 1
+      },
+      {
+        "before": "    if any(not n.startswith(PREFIXES)for n in allowed):raise ValueError('FREE_DATE_DE_ONLY_THREE_OWN_NAMESPACES_ALLOWED')",
+        "after": "    if any(not(n.startswith(PREFIXES)or n==WORKFLOW)for n in allowed):\n        raise ValueError('FREE_DATE_DE_ONLY_OWN_NAMESPACES_AND_EXACT_WORKFLOW_ALLOWED')",
+        "count": 1
+      },
+      {
+        "before": "    if physical!=allowed:raise ValueError('FREE_DATE_DE_CLOSED_OWN_SOURCE_REQUIRED')",
+        "after": "    if physical!=allowed-{WORKFLOW}:raise ValueError('FREE_DATE_DE_CLOSED_OWN_SOURCE_REQUIRED')\n    workflow=admit_workflow(value)",
+        "count": 1
+      },
+      {
+        "before": "        base_head=BASE,base_tree=TREE,unchanged_parent_blobs_and_modes=len(base),own_paths=len(allowed),\n        actual_Native_cases=0,production_go=False,independent_acceptance=False)",
+        "after": "        base_head=BASE,base_tree=TREE,unchanged_parent_blobs_and_modes=len(base),own_paths=len(allowed),\n        explicit_workflow_source=workflow,\n        actual_Native_cases=0,production_go=False,independent_acceptance=False)",
+        "count": 1
       }
     ]
   }

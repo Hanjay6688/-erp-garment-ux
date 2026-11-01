@@ -1,7 +1,7 @@
 """Closed additive FREE date sources over the exact prepared complete DE parent."""
 from pathlib import Path
 from hashlib import sha256
-import json,os,subprocess
+import importlib.util,json,os,subprocess
 
 HERE=Path(__file__).resolve().parent
 ROOT=HERE.parents[1]
@@ -9,6 +9,7 @@ BASE='fef0d838991df1ab3474382747ee3519d4c237eb'
 TREE='772cc0a80e1857bc03e6a544a39d5b5de3beb4c3'
 PREFIXES=('scripts/current-special-free-date-boundary/','scripts/cp7_special_free_date_on_de/',
     'scripts/cp7_current_de_free_date/','scripts/current-de-free-date-preparation/')
+WORKFLOW='.github/workflows/cp7-current-complete-de-free-date-native3.yml'
 
 
 def git(*args):
@@ -35,6 +36,30 @@ def raw(name):
     return path.read_bytes()
 
 
+def actual_parent_receipt():
+    spec=importlib.util.spec_from_file_location('FREE_date_exact_parent_before_workflow',HERE/'admission.py')
+    module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
+    return module.parent_receipt()
+
+
+def admit_workflow(declaration):
+    path=ROOT/WORKFLOW
+    if WORKFLOW not in declaration['files']:
+        if path.exists()or path.is_symlink():raise ValueError('FREE_DATE_DE_UNDECLARED_WORKFLOW_REFUSED')
+        return None
+    if not path.is_file():raise ValueError('FREE_DATE_DE_DECLARED_WORKFLOW_MISSING')
+    data=raw(WORKFLOW)
+    if declaration['files'][WORKFLOW]!={'bytes':len(data),'sha256':sha256(data).hexdigest()}:
+        raise ValueError('FREE_DATE_DE_EXACT_WORKFLOW_SOURCE_PIN_REQUIRED')
+    if data!=raw(str(HERE.relative_to(ROOT))+'/native3.workflow.yml.txt'):
+        raise ValueError('FREE_DATE_DE_WORKFLOW_MUST_EQUAL_REVIEWED_TEMPLATE')
+    receipt=actual_parent_receipt()
+    if receipt['head']!=BASE or receipt['tree']!=TREE:
+        raise ValueError('FREE_DATE_DE_WORKFLOW_REQUIRES_EXACT_SOURCE_BASE_QUALIFICATION')
+    return dict(status='EXACT_DECLARED_FREE_WORKFLOW_AND_ROOT_ACCEPTED_DE_PARENT_SOURCE',
+        parent_head=BASE,parent_tree=TREE,actual_case_credit=0)
+
+
 def preflight(*,require_clean=True):
     manifest=str(HERE.relative_to(ROOT))+'/SOURCE.json';value=json.loads(raw(manifest))
     if(value['base_head']!=BASE or value['base_tree']!=TREE or value['actual_Native_cases']!=0
@@ -45,7 +70,8 @@ def preflight(*,require_clean=True):
     for name,pin in base.items():
         if current.get(name)!=pin:raise ValueError('FREE_DATE_DE_PREPARED_PARENT_BLOB_OR_MODE_CHANGED:'+name)
     allowed=set(value['files'])|{manifest}
-    if any(not n.startswith(PREFIXES)for n in allowed):raise ValueError('FREE_DATE_DE_ONLY_THREE_OWN_NAMESPACES_ALLOWED')
+    if any(not(n.startswith(PREFIXES)or n==WORKFLOW)for n in allowed):
+        raise ValueError('FREE_DATE_DE_ONLY_OWN_NAMESPACES_AND_EXACT_WORKFLOW_ALLOWED')
     if set(current)-set(base)-allowed:raise ValueError('FREE_DATE_DE_UNDECLARED_TRACKED_SOURCE')
     for name,pin in value['files'].items():
         data=raw(name)
@@ -53,7 +79,8 @@ def preflight(*,require_clean=True):
             raise ValueError('FREE_DATE_DE_OWN_SOURCE_PIN_CHANGED:'+name)
     physical={str(p.relative_to(ROOT))for prefix in PREFIXES for p in(ROOT/prefix).rglob('*')
         if p.is_file()and'__pycache__'not in p.parts and p.suffix!='.pyc'}
-    if physical!=allowed:raise ValueError('FREE_DATE_DE_CLOSED_OWN_SOURCE_REQUIRED')
+    if physical!=allowed-{WORKFLOW}:raise ValueError('FREE_DATE_DE_CLOSED_OWN_SOURCE_REQUIRED')
+    workflow=admit_workflow(value)
     if require_clean:
         if(git('diff','--name-only','--no-ext-diff','HEAD','--').strip()
            or git('diff','--cached','--name-only','--no-ext-diff','--').strip()):
@@ -73,4 +100,5 @@ def preflight(*,require_clean=True):
                 raise ValueError('FREE_DATE_DE_UNDECLARED_EXECUTABLE:'+name)
     return dict(status='EXACT_UNCHANGED_FREE_DATE_DE_AND_CLOSED_FREE_DATE_PREPARATION',
         base_head=BASE,base_tree=TREE,unchanged_parent_blobs_and_modes=len(base),own_paths=len(allowed),
+        explicit_workflow_source=workflow,
         actual_Native_cases=0,production_go=False,independent_acceptance=False)

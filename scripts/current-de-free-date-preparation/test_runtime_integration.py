@@ -2,6 +2,7 @@
 from pathlib import Path
 from contextlib import redirect_stdout
 from io import StringIO
+from hashlib import sha256
 from unittest.mock import patch
 import ast,importlib.util,json,os,subprocess,sys,tempfile,unittest,yaml
 
@@ -15,6 +16,60 @@ def load(name,path=None):
 
 
 class FREEDateProcessWiring(unittest.TestCase):
+    def workflow_source_fixture(self,directory):
+        source=load('source');root=Path(directory)
+        here=root/'scripts/current-de-free-date-preparation';here.mkdir(parents=True)
+        data=b'qualification template bytes\n';(here/'native3.workflow.yml.txt').write_bytes(data)
+        active=root/source.WORKFLOW;active.parent.mkdir(parents=True)
+        declaration={'files':{source.WORKFLOW:{'bytes':len(data),'sha256':sha256(data).hexdigest()}}}
+        return source,root,here,active,data,declaration
+
+    def test_unarmed_workflow_source_never_reads_parent(self):
+        with tempfile.TemporaryDirectory()as directory:
+            source,root,here,active,data,declaration=self.workflow_source_fixture(directory)
+            with patch.object(source,'ROOT',root),patch.object(source,'HERE',here), \
+                 patch.object(source,'actual_parent_receipt')as parent:
+                self.assertIsNone(source.admit_workflow({'files':{}}));parent.assert_not_called()
+
+    def test_stray_or_missing_workflow_refuses_before_parent(self):
+        with tempfile.TemporaryDirectory()as directory:
+            source,root,here,active,data,declaration=self.workflow_source_fixture(directory)
+            with patch.object(source,'ROOT',root),patch.object(source,'HERE',here), \
+                 patch.object(source,'actual_parent_receipt')as parent:
+                active.write_bytes(data)
+                with self.assertRaisesRegex(ValueError,'UNDECLARED_WORKFLOW_REFUSED'):
+                    source.admit_workflow({'files':{}})
+                active.unlink()
+                with self.assertRaisesRegex(ValueError,'DECLARED_WORKFLOW_MISSING'):
+                    source.admit_workflow(declaration)
+                parent.assert_not_called()
+
+    def test_exact_workflow_still_requires_actual_matching_parent(self):
+        with tempfile.TemporaryDirectory()as directory:
+            source,root,here,active,data,declaration=self.workflow_source_fixture(directory);active.write_bytes(data)
+            with patch.object(source,'ROOT',root),patch.object(source,'HERE',here), \
+                 patch.object(source,'actual_parent_receipt')as parent:
+                parent.side_effect=ValueError('FREE_DATE_DE_ACTUAL_NATIVE30_PARENT_INTAKE_PENDING')
+                with self.assertRaisesRegex(ValueError,'ACTUAL_NATIVE30_PARENT_INTAKE_PENDING'):
+                    source.admit_workflow(declaration)
+                parent.side_effect=None
+                for field in('head','tree'):
+                    receipt={'head':source.BASE,'tree':source.TREE};receipt[field]='wrong-parent'
+                    parent.return_value=receipt
+                    with self.assertRaisesRegex(ValueError,'EXACT_SOURCE_BASE_QUALIFICATION'):
+                        source.admit_workflow(declaration)
+                parent.return_value={'head':source.BASE,'tree':source.TREE}
+                self.assertEqual(source.admit_workflow(declaration)['actual_case_credit'],0)
+                parent.reset_mock()
+                bad={'files':{source.WORKFLOW:{'bytes':len(data),'sha256':'0'*64}}}
+                with self.assertRaisesRegex(ValueError,'EXACT_WORKFLOW_SOURCE_PIN_REQUIRED'):
+                    source.admit_workflow(bad)
+                parent.assert_not_called()
+                (here/'native3.workflow.yml.txt').write_bytes(b'changed template')
+                with self.assertRaisesRegex(ValueError,'MUST_EQUAL_REVIEWED_TEMPLATE'):
+                    source.admit_workflow(declaration)
+                parent.assert_not_called()
+
     def test_financial_validator_is_unchanged_and_supervision_stays_in_owning_gate(self):
         path='scripts/current-de-free-date-preparation/final_gate.py'
         old=subprocess.check_output(['/usr/bin/git','-C',str(ROOT),'show',

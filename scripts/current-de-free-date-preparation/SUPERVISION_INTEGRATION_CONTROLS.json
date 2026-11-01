@@ -87,5 +87,27 @@
       "bytes": 7355,
       "sha256": "f4eb6dc1380ecd528aa73cfa0d6464be78171513c90d8658c0548427c674405a"
     }
+  },
+  "new_closed_workflow_source_admission_controls": {
+    "status": "THREE_NEW_PURE_CONTROLS_PASS_NOT_NATIVE",
+    "tests": 3,
+    "failures": 0,
+    "exit_code": 0,
+    "working_directory": "scripts/current-de-free-date-preparation",
+    "command": "python -B -m unittest test_runtime_integration.FREEDateProcessWiring.test_unarmed_workflow_source_never_reads_parent test_runtime_integration.FREEDateProcessWiring.test_stray_or_missing_workflow_refuses_before_parent test_runtime_integration.FREEDateProcessWiring.test_exact_workflow_still_requires_actual_matching_parent",
+    "raw": "...\n----------------------------------------------------------------------\nRan 3 tests in 0.007s\n\nOK\n",
+    "actual_SQL_executed": 0,
+    "actual_ERP_cases": 0,
+    "old_process_controls_and_Native3_not_rerun": true,
+    "financial_validator_ASTs_unchanged": true,
+    "source_guard_exact_derivation": {
+      "original_bytes": 4260,
+      "original_sha256": "8fcd679648b2cc0902562c39d00588594dbbf426ab8e40aabf2f4cbbde30dccb",
+      "old_routes": 6,
+      "new_explicit_routes": 6,
+      "entire_original_recovered": true,
+      "first_control_refused_missing_route_metadata_before_ERP": true,
+      "first_error_file": "FREE_CLOSED_WORKFLOW_SOURCE_FENCE.json"
+    }
   }
 }

@@ -51,6 +51,10 @@ def controls():
         if text.count(change['before'])!=change['count']:raise ValueError('FREE_DATE_DE_EXACT_SOURCE_GUARD_ROUTE_REQUIRED')
         text=text.replace(change['before'],change['after'],change['count'])
     if text.encode()!=(HERE/'source.py').read_bytes():raise ValueError('FREE_DATE_DE_UNDECLARED_SOURCE_GUARD_CHANGE')
+    for change in reversed(guard['changes']):
+        if text.count(change['after'])!=change['count']:raise ValueError('FREE_DATE_DE_EXACT_SOURCE_GUARD_REVERSE_REQUIRED')
+        text=text.replace(change['after'],change['before'],change['count'])
+    if text.encode()!=raw:raise ValueError('FREE_DATE_DE_ORIGINAL_SOURCE_GUARD_NOT_RECOVERED')
     stage=load('free_date_DE_exact_single_predicate_stage',ROOT/'scripts/cp7_special_free_date_on_de/composition.py')
     before,after,predicate=stage.prepared()
     if len(before.encode())!=749 or len(after.encode())!=822:raise ValueError('FREE_DATE_DE_EXACT_PREDICATE_BYTES_REQUIRED')
