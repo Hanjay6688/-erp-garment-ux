@@ -1,98 +1,78 @@
-name: CP7 recover terminal runtime diagnostics
-on:
+name: CP7 transport exact failed Current38 Original without ERP
+'on':
   push:
     branches:
       - astra-a/recover-run-41241493562-20261101
-
 permissions:
   actions: read
   contents: read
-
 concurrency:
-  group: cp7-recover-run-41241493562
+  group: cp7-original-archive-transport
   cancel-in-progress: false
-
 jobs:
-  recover:
-    if: github.ref == 'refs/heads/astra-a/recover-run-41241493562-20261101'
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
+  transport:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
     steps:
-      - name: Download the immutable failed-run artifact without executing ERP
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - name: Verify terminal identity and split original ZIP bytes
+        id: split
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          set -euo pipefail
-          gh api \
-            -H 'Accept: application/vnd.github+json' \
-            -H 'X-GitHub-Api-Version: 2022-11-28' \
-            repos/Hanjay6688/-erp-garment-ux/actions/artifacts/13061971453/zip \
-            > "$RUNNER_TEMP/cp7-source.zip"
-      - name: Extract only bounded JSON diagnostics
-        env:
-          SOURCE_ZIP: ${{ runner.temp }}/cp7-source.zip
-        run: |
-          set -euo pipefail
+          python -B scripts/current-original-archive-transport/failed_current38.py fetch-split \
+            --expected scripts/current-original-archive-transport/EXPECTED.json \
+            --directory "$RUNNER_TEMP/parts"
           python - <<'PY'
-          from pathlib import Path, PurePosixPath
-          from hashlib import sha256
-          from zipfile import ZipFile
           import json, os
-
-          source = Path(os.environ['SOURCE_ZIP'])
-          destination = Path('recovered')
-          destination.mkdir()
-          per_file_limit = 16 * 1024 * 1024
-          total_limit = 128 * 1024 * 1024
-          total = 0
-          rows = []
-          with ZipFile(source) as archive:
-              for info in archive.infolist():
-                  path = PurePosixPath(info.filename)
-                  if info.is_dir() or path.suffix not in {'.json', '.jsonl'}:
-                      continue
-                  if path.is_absolute() or '..' in path.parts:
-                      raise ValueError('UNSAFE_ARCHIVE_PATH')
-                  reason = None
-                  if info.file_size > per_file_limit:
-                      reason = 'PER_FILE_LIMIT'
-                  elif total + info.file_size > total_limit:
-                      reason = 'TOTAL_LIMIT'
-                  if reason:
-                      rows.append(dict(path=info.filename, included=False, bytes=info.file_size, reason=reason))
-                      continue
-                  raw = archive.read(info)
-                  if len(raw) != info.file_size:
-                      raise ValueError('SHORT_ARCHIVE_READ')
-                  target = destination.joinpath(*path.parts)
-                  target.parent.mkdir(parents=True, exist_ok=True)
-                  target.write_bytes(raw)
-                  total += len(raw)
-                  rows.append(dict(path=info.filename, included=True, bytes=len(raw),
-                                   sha256=sha256(raw).hexdigest()))
-          index = dict(
-              status='BOUNDED_DIAGNOSTICS_RECOVERED_FROM_IMMUTABLE_FAILED_RUN_ARTIFACT',
-              source_run_id='41241493562',
-              source_job_id='124656157099',
-              source_artifact_id='13061971453',
-              source_artifact_digest='sha256:97410c29a8bb83ec0d585e362e1546856e7565e6ec310edfeecefbad2748615b',
-              source_qualification_commit='e6684b07f98d753b5f78b24c7af52cd981971c0c',
-              erp_or_database_execution=False,
-              actual_case_credit=0,
-              files=rows,
-          )
-          (destination/'RECOVERY_INDEX.json').write_text(json.dumps(index, indent=2)+'\n')
-          if not any(row.get('included') and row['path'].endswith('JOIN_RUNTIME_SUPERVISION.json') for row in rows):
-              raise ValueError('RUNTIME_SUPERVISION_RECEIPT_NOT_RECOVERED')
-          print(json.dumps(dict(included=sum(row.get('included', False) for row in rows),
-                                skipped=sum(not row.get('included', False) for row in rows),
-                                total_bytes=total)))
+          from pathlib import Path
+          value = json.loads((Path(os.environ['RUNNER_TEMP'])/'parts/TRANSPORT_MANIFEST.json').read_bytes())
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as output:
+              output.write('count='+str(len(value['parts']))+'\n')
+              output.write('source_run='+str(value['original']['run_id'])+'\n')
           PY
-      - name: Upload bounded diagnostics only
+      - name: Preserve exact transport manifest
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
-          name: cp7-run-41241493562-bounded-diagnostics
-          path: recovered
-          retention-days: 30
+          name: cp7-original-${{ steps.split.outputs.source_run }}-manifest
+          path: ${{ runner.temp }}/parts/TRANSPORT_MANIFEST.json
           if-no-files-found: error
-          compression-level: 9
+          retention-days: 30
+      - name: Preserve original part 0
+        if: fromJSON(steps.split.outputs.count) >= 1
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: cp7-original-${{ steps.split.outputs.source_run }}-part0
+          path: ${{ runner.temp }}/parts/original.part-0
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 30
+      - name: Preserve original part 1
+        if: fromJSON(steps.split.outputs.count) >= 2
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: cp7-original-${{ steps.split.outputs.source_run }}-part1
+          path: ${{ runner.temp }}/parts/original.part-1
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 30
+      - name: Preserve original part 2
+        if: fromJSON(steps.split.outputs.count) >= 3
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: cp7-original-${{ steps.split.outputs.source_run }}-part2
+          path: ${{ runner.temp }}/parts/original.part-2
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 30
+      - name: Preserve original part 3
+        if: fromJSON(steps.split.outputs.count) >= 4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: cp7-original-${{ steps.split.outputs.source_run }}-part3
+          path: ${{ runner.temp }}/parts/original.part-3
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 30

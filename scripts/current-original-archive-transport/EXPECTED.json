@@ -1,0 +1,14 @@
+{
+  "repository": "Hanjay6688/-erp-garment-ux",
+  "head": "08ef3bee814e6452b9193b53efc05d53abca2d9d",
+  "tree": "abf7e8b78bd56907ace9fb30211d956b63d68797",
+  "run_id": 41291621885,
+  "job_id": 124803871870,
+  "run_attempt": 1,
+  "artifact_id": 13082560860,
+  "artifact_name": "cp7-current-s03-sku-s05-37-1",
+  "archive": {
+    "bytes": 688425402,
+    "sha256": "3ee9b053a947e4dee14602dd07a9574191c6707813dfb27cbadfbc08b28e7b0c"
+  }
+}
