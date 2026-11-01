@@ -45,9 +45,9 @@ class NativePreparationControls(unittest.TestCase):
             with self.assertRaisesRegex(ValueError,'ACTUAL_FREE3_ROOT_INTAKE_PENDING'):
                 cases.cases(object(),date(2026,11,1),{})
 
-    def test_read_only_source_control_has_eight_unique_cases_and_no_runtime_credit(self):
+    def test_read_only_source_control_has_nine_unique_cases_and_no_runtime_credit(self):
         value=cases.source_controls()
-        self.assertEqual(len(set(value['case_ids'])),8);self.assertEqual(value['actual_Native_cases'],0)
+        self.assertEqual(len(set(value['case_ids'])),9);self.assertEqual(value['actual_Native_cases'],0)
         self.assertEqual(value['actual_SQL_executed'],0)
         self.assertFalse(value['inverse_Auth_two_session_browser_qualification_complete'])
         self.assertEqual(value['fixture_sources']['source_files'],7)

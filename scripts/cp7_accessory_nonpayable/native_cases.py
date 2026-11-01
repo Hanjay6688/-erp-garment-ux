@@ -1,4 +1,4 @@
-"""Eight Native economic/date/inverse cases, prepared and unexecuted.
+"""Nine Native economic/date/inverse/sales cases, prepared and unexecuted.
 
 No owning workflow or acceptance is supplied. Actual Auth, two-session
 access/locking and normal-App settings browsers remain separate
@@ -19,9 +19,11 @@ FIRST_IDS=(
 if __name__=='__main__':
     sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
     from cp7_accessory_nonpayable.native_inverse_cases import IDS as INVERSE_IDS
+    from cp7_accessory_nonpayable.native_sales_cases import IDS as SALES_IDS
 else:
     from .native_inverse_cases import IDS as INVERSE_IDS
-IDS=FIRST_IDS+INVERSE_IDS
+    from .native_sales_cases import IDS as SALES_IDS
+IDS=FIRST_IDS+INVERSE_IDS+SALES_IDS
 
 def fixture_module():
     # This package import has no ERP graph, connections or default bindings.
@@ -30,10 +32,12 @@ def fixture_module():
 
 def source_controls():
     value=fixture_module().source_controls()
-    if len(IDS)!=8 or len(set(IDS))!=8:raise ValueError('NONPAYABLE_EXACT_EIGHT_NATIVE_IDS_REQUIRED')
-    return dict(status='PREPARED_EIGHT_NATIVE_CASES_NOT_EXECUTED',case_ids=list(IDS),
+    from . import native_sales_cases
+    sales=native_sales_cases.source_controls()
+    if len(IDS)!=9 or len(set(IDS))!=9:raise ValueError('NONPAYABLE_EXACT_NINE_NATIVE_IDS_REQUIRED')
+    return dict(status='PREPARED_NINE_NATIVE_CASES_NOT_EXECUTED',case_ids=list(IDS),
         fixture_sources=value,actual_Native_cases=0,actual_SQL_executed=0,production_go=False,
-        inverse_source_prepared=True,inverse_Auth_two_session_browser_qualification_complete=False)
+        inverse_source_prepared=True,sales_source_prepared=sales,inverse_Auth_two_session_browser_qualification_complete=False)
 
 def finish(cur,modules,before_findings,**observations):
     modules.bc.api.admin(cur)
@@ -153,7 +157,7 @@ def cumulative_cents_case(cur,today,state):
 def cases(cur,today,state):
     fixture_module().admitted_modules(cur,state)  # Parent gate before closures.
     source_controls()
-    from . import native_inverse_cases
+    from . import native_inverse_cases,native_sales_cases
     return [
         (IDS[0],lambda:ordinary_case(cur,today,state,history=True)),
         (IDS[1],lambda:ordinary_case(cur,today,state,initial_special=False)),
@@ -161,7 +165,7 @@ def cases(cur,today,state):
         (IDS[3],lambda:ordinary_case(cur,today,state,initial_special=True,transition=False)),
         (IDS[4],lambda:missing_date_case(cur,today,state)),
         (IDS[5],lambda:cumulative_cents_case(cur,today,state)),
-    ]+native_inverse_cases.cases(cur,today,state)
+    ]+native_inverse_cases.cases(cur,today,state)+native_sales_cases.cases(cur,today,state)
 
 if __name__=='__main__':
     if sys.argv[1:]!=['--prepare']:raise SystemExit('READ_ONLY_PREPARATION_ONLY')

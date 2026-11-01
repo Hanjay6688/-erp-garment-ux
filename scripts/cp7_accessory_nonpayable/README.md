@@ -116,7 +116,7 @@ scenarios, preserving narrow fixture failures and focused repairs. Actual Auth
 HTTP, real two-session races, desktop/mobile browser and complete ERP inventory/
 HPP/sales acceptance remain pending.
 
-Native case preparation now contains eight economic/date/inverse cases, still
+Native case preparation now contains nine economic/date/inverse/sales cases, still
 unexecuted. The first six remain: positive HPP with zero reimbursement and frozen history/replay;
 explicit normal-policy reimbursement; normal pickup then Special GOOD;
 Special pickup then normal GOOD; missing category date refusing atomic GOOD;
@@ -136,7 +136,7 @@ catalogue or sequence. Each then corrects its posted supplier invoice through
 the existing owning inverse before a new invoice. Later cost revisions must not
 revive voided FG or its money; the separate active QC lot must still recost.
 Actual execution of these inverses, actual Auth/two-session/normal-App settings
-checks and the owning qualifier remain required. None of the eight prepared
+checks and the owning qualifier remain required. None of the nine prepared
 cases has actual ERP credit or bypasses the five unbound parent gates.
 
 `LOCAL_POST_INVERSE_COST_CONTROLS.json` preserves the reproduced PostgreSQL
@@ -195,3 +195,22 @@ census originals and first failures must be retained by the owning qualifier.
 `LOCAL_BROWSER_PREPARATION_CONTROLS.json` records five new pure oracle/closed-
 parent controls, not real browser execution. Source parse/admission is complete;
 actual wiring, browser journeys, restoration and acceptance remain pending.
+
+`native_sales_cases.py` adds the ninth prepared Native case, using the unchanged
+public Sales CREATE/POST/SALE_REVERSE commands and original PO finish facade.
+Ten real company-funded GOOD are finished with positive HPP and no accessory
+payable, then four are sold on credit for 200.00. Draft reservation must happen
+once, posting must recognize exact AR/revenue/FG/COGS without cash, and exact
+request replays must change no catalogue, row or sequence. A legal supplier
+invoice lowers accessory HPP by 10: sold COGS must fall by 4 and unsold FG by 6,
+with zero finished-PO WIP. Its owning inverse must restore all company GL.
+A later separate invoice raises HPP by 15: COGS rises by 6 and FG by 9, preserving
+the original physical facts, invoice commercial terms and frozen GOOD basis.
+After the second supplier inverse, the owning Sales reversal must restore all
+stock and company GL without manufacturing a payment, kasbon or entitlement.
+The full observations and actual reader values must be retained. These are
+predeclared oracles, not an actual ERP result. Four exact existing Sales/finish
+source files are pinned, and no engine body changes. The three new pure cost-
+conservation/closed-parent controls and affected source summary result are
+recorded in `LOCAL_NATIVE_SALES_PREPARATION_CONTROLS.json`, including the first
+cosmetic numeric-format comparison failure and its one focused correction.
