@@ -1,0 +1,83 @@
+{
+  "status": "ROOT_SOURCE_VERIFIED_AFUI15_FULL_CANONICAL_GATE_AND_WORKFLOW_DATA_PREPARED_NOT_QUALIFIED",
+  "head": "3bd02a2dcbb9015fb677d9090ca3fd54af97f87f",
+  "tree": "598e830f36a974a24506ed0e76b04fb3fab1dae9",
+  "parent_preparation": "d07a11a4e7528211cd889185a50255d3ef0fcb37",
+  "source_pins": 56,
+  "own_paths": 88,
+  "complete_public_tree_equals_checked_local_tree": true,
+  "changed_public_paths": [
+    "scripts/cp7_accessory_nonpayable/LOCAL_FINAL_WORKFLOW_PREPARATION_CONTROLS.json",
+    "scripts/cp7_accessory_nonpayable/README.md",
+    "scripts/cp7_accessory_nonpayable/SOURCE.json",
+    "scripts/cp7_accessory_nonpayable/access_cases.py",
+    "scripts/cp7_accessory_nonpayable/afui15.workflow.yml.txt",
+    "scripts/cp7_accessory_nonpayable/composition.py",
+    "scripts/cp7_accessory_nonpayable/fetch_parent.py",
+    "scripts/cp7_accessory_nonpayable/final_gate.py",
+    "scripts/cp7_accessory_nonpayable/native_fixture.py",
+    "scripts/cp7_accessory_nonpayable/native_inverse_cases.py",
+    "scripts/cp7_accessory_nonpayable/native_sales_cases.py",
+    "scripts/cp7_accessory_nonpayable/test_final_preparation.py",
+    "scripts/cp7_accessory_nonpayable/test_workflow_preparation.py",
+    "scripts/cp7_accessory_nonpayable/workflow.py"
+  ],
+  "five_actual_parent_bindings_None": true,
+  "planned_business_cases": {
+    "Native": 9,
+    "real_Auth_HTTP": 2,
+    "two_database_sessions": 2,
+    "normal_App_browser": 2
+  },
+  "unique_new_pure_preparation_controls_PASS": 8,
+  "first_preparation_failures_preserved": [
+    {
+      "stage": "original_source_cache_prerequisite",
+      "cause": "GIT_NO_LAZY_FETCH original canonical fetch source not locally materialized",
+      "repair": "Materialize exact public historical Git blob and verify unchanged original SHA; no source pin change",
+      "affected_derivation_only_repeated": true
+    },
+    {
+      "stage": "workflow_test_assumption",
+      "cause": "The inherited original workflow includes workflow_dispatch; the control incorrectly expected only push",
+      "repair": "Require exact original event keys and unchanged manual event; no workflow event change",
+      "affected_control_only_repeated": true
+    }
+  ],
+  "exact_canonical_fetch_reversible_routes": 20,
+  "complete_terminal_run_job_archive_original_checks_retained": true,
+  "independently_recomputed_raw_censuses_and_case_sequence_boundaries": true,
+  "raw_date_history_append_only_and_all_other_money_stock_access_sequences_unchanged": true,
+  "real_Auth_wait_and_two_actual_backend_facts_required": true,
+  "full_original_gzip_checksums_and_actual_PNGs_required": true,
+  "workflow_data_steps": 75,
+  "workflow_only_routed_steps": 9,
+  "workflow_unchanged_steps": 66,
+  "process_budgets_minutes": {
+    "job": 360,
+    "work": 330,
+    "recovery": 20,
+    "artifact": 10
+  },
+  "real_WIB_policy_and_financial_SQL_and_all_UI_unchanged": true,
+  "raw_observer_JSON_timezone": "UTC",
+  "physical_GOOD_business_timezone": "Asia/Jakarta",
+  "new_cli_static_source_check": {
+    "status": "NONPAYABLE_STATIC_WHOLE_QUALIFIER_PREPARED_NOT_EXECUTED",
+    "actual_SQL_executed": 0
+  },
+  "prior_valid_model_and_UI_tests_not_repeated": true,
+  "workflow_activated": false,
+  "actual_ERP_SQL_executed": 0,
+  "actual_ERP_Native_cases": 0,
+  "actual_Auth_HTTP_cases": 0,
+  "actual_two_session_cases": 0,
+  "actual_browser_cases": 0,
+  "remaining_before_activation": [
+    "Actual accepted FREE3 parent rebase and exact Root receipt/source binding",
+    "Explicit exact owning workflow admission after actual parent acceptance",
+    "Actual supervised full qualification and canonical Root intake"
+  ],
+  "production_go": false,
+  "independent_acceptance": false
+}
