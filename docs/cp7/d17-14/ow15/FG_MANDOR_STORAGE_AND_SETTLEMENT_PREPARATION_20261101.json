@@ -1,0 +1,104 @@
+{
+  "status": "FG_MANDOR_STORAGE_AND_SETTLEMENT_READER_PREPARATION_READY_NOT_IMPLEMENTED",
+  "classification": "READ_ONLY_ARCHITECTURE_PREPARATION_AFTER_SOURCE_EQUALITY_NOT_PRODUCT_OR_NATIVE_ACCEPTANCE",
+  "source_equality": {
+    "mapped_head": "651084161b76f7b38951fe0c22b725fe2b2a1dd3",
+    "current37_candidate_head": "dad402b1a6eee7c4acdd776c8c6a1538c1a52f0a",
+    "mapped_files_compared": 22,
+    "changed_mapped_files": [],
+    "result": "ALL_22_EXISTING_SALES_PAYROLL_AND_CREDIT_PATHS_BYTE_IDENTICAL"
+  },
+  "implementation_gate": {
+    "required_before_product_changes": "CURRENT37_ROOT_ACCEPTED_AND_ACTIVE_INTEGRATION_STABLE",
+    "current37_run": 41267825303,
+    "current37_job": 124734228589,
+    "observed_status": "in_progress",
+    "product_changes_started": false
+  },
+  "buyer_identity": {
+    "selection": "MANDOR_FROM_EXPLICIT_CONTRACTOR_MASTER_ID",
+    "name_matching": false,
+    "recommended_storage": [
+      "A protected one-to-one contractor/customer-account link supplies the existing sales customer_id without copying a name at command time.",
+      "A sale-contractor sidecar binds sale_id, contractor_id and the exact linked customer_id; the command refuses a missing, inactive or changed link.",
+      "Toko sales retain their current customer-only route and create no contractor sidecar."
+    ],
+    "reason": "The actual sales posting, FG movement lineage and AR journal are customer_id based. Making customer_id nullable or guessing a customer from contractor_name would fork the accepted stock/HPP/AR engine."
+  },
+  "allocation_model": {
+    "draft_effect": "RESERVATION_ONLY",
+    "receivable_effect_before_payroll_paid": "ZERO",
+    "cash_effect_before_payroll_paid": "ZERO",
+    "recommended_storage": [
+      "An immutable allocation identity links one posted sale invoice to one exact payroll and contractor with an exact two-decimal amount and request identity.",
+      "Append-only allocation events represent RESERVE, RELEASE, SETTLE and SETTLEMENT_REVERSE; current reservation and settlement state is derived, not silently overwritten.",
+      "A settlement-line fact links every settled allocation to the exact payroll noncash journal and its lawful reversal."
+    ],
+    "active_reservation_limit": "effective invoice open balance minus every active reservation on other payrolls",
+    "payroll_capacity_limit": "current payroll net payable after every other current deduction",
+    "partial_and_later_payroll": true
+  },
+  "payment_accounting": {
+    "when": "FINAL_NATIVE_PAID_TRANSITION_ONLY",
+    "journal": {
+      "debit": "CONTRACTOR_PAYABLE with contractor_id",
+      "credit": "AR_CUSTOMER with the invoice customer_id",
+      "cash_or_bank_line": false,
+      "other_income_line": false,
+      "cash_advance_line": false
+    },
+    "cash_payment": "Existing payroll cash/bank payment remains gross payable less all deductions, including the FG invoice deduction.",
+    "wage_cost": "Existing APPROVED payroll cost recognition remains unchanged and is not repeated at payment.",
+    "invoice_projection": "The exact linked settlement amount is added to effective paid/open-balance readers without creating an erp.sales_payments row.",
+    "single_recording": "Sale revenue, FG stock movement and COGS stay owned by existing sale posting; payroll creates only the noncash payable-to-AR settlement."
+  },
+  "existing_hook_points": {
+    "sales_posting": "erp.post_sale(uuid) remains the only stock/HPP/revenue posting owner",
+    "sales_effective_paid": "Current readers already separate raw erp.sales_payments from noncash effective-paid adjustments; add one explicit FG settlement projection rather than a fake cash payment.",
+    "payroll_final": "erp.post_payroll_payment(uuid) and cp7_installment.final_payment(uuid,numeric) must both invoke the same private FG settlement owner exactly once.",
+    "payroll_reopen": "cp7_installment.reopen_settlement(uuid,text) reverses the FG settlement while keeping the allocation reserved on the reopened APPROVED payroll.",
+    "payroll_full_reverse": "erp.reverse_paid_payroll(uuid,text) reverses the FG settlement and releases the allocation because the payroll becomes REVERSED.",
+    "unpaid_cancel": "erp.cancel_unpaid_payroll(uuid,text) releases reservations without any AR or GL effect."
+  },
+  "concurrency_and_idempotency": {
+    "lock_order": [
+      "exact payroll header",
+      "contractor advisory identity",
+      "sorted affected sale headers",
+      "sorted allocation/event rows",
+      "account mappings and exact journal rows"
+    ],
+    "revalidation_after_locks": [
+      "same contractor on payroll, sale sidecar and contractor/customer link",
+      "invoice still posted and effective open balance still covers all reservations",
+      "payroll status and remaining capacity",
+      "current permission and review token",
+      "unchanged request payload for the same request UUID"
+    ],
+    "double_click": "Exact request replay returns the same committed outcome; changed intent with the same UUID refuses.",
+    "two_tabs": "Serialized locks and aggregate re-read prevent over-allocation across payrolls."
+  },
+  "balance_change_and_correction": {
+    "return_or_other_payment": "May change invoice balance through the existing lawful writer. The allocation review becomes stale; final payroll settlement refuses before effect until the allocation is reduced or released.",
+    "posted_history": "No direct edit/delete of posted sale, payment, payroll settlement or settlement fact.",
+    "payroll_reversal": "Uses exact linked journal reversal and append-only settlement inverse; never creates compensating cash.",
+    "sale_reversal": "Refuses while an active paid FG settlement exists; owner must reverse the consuming payroll settlement first."
+  },
+  "required_future_evidence": [
+    "Mandor invoice 300000 allocated to a manually selected payroll 2000000; cash out 1700000 and exact invoice AR reduced 300000",
+    "partial allocation and remaining invoice balance on a later payroll",
+    "early payroll cash installment leaves invoice AR unchanged; final installment settles once",
+    "individual final-payment reversal reopens the same settlement and retains reservation",
+    "full paid-payroll reversal and unpaid cancellation release through lawful events",
+    "invoice return or other payment retires review and blocks stale over-settlement",
+    "same request replay, changed-intent refusal, double-click and two-tab collision",
+    "ordinary Toko sale regression and single stock/HPP/COGS/revenue posting",
+    "desktop and mobile source-card popup with invoice number, date, value, outstanding and every payroll allocation"
+  ],
+  "actual_SQL_executed": 0,
+  "actual_ERP_calls": 0,
+  "actual_Native_cases": 0,
+  "actual_product_changes": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}
