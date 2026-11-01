@@ -2,14 +2,16 @@
   "classification": "READONLY_PERMANENT_ON_CURRENT37_ACTIVATION_READINESS_NOT_ACTIVATION",
   "prepared_head": "92a70c1fbe51208f098e82a27088649add4befd4",
   "old_parent": "6cb5bfe213fe3ce684244370dec092569705f6ff",
-  "current_candidate": "ace57bc877bec11e113b5c903a811e3bb4cba224",
-  "current_candidate_tree": "3ab793e094d00047b9c90447965483ae0503081a",
+  "current_candidate": "dad402b1a6eee7c4acdd776c8c6a1538c1a52f0a",
+  "current_candidate_tree": "d9d89babc816032fbdf06f1c961f7829a2cbab7c",
   "source_own_paths": 54,
   "old_parent_paths": 14070,
-  "current_parent_paths": 14079,
-  "prospective_union_paths": 14133,
+  "current_parent_paths": 14081,
+  "prospective_union_paths": 14135,
   "parent_changed_paths": [
     ".github/workflows/cp7-s03-sku-s05-composite.yml",
+    "scripts/current-s03-sku-s05-composite-qualification/ACE57_RELOAD_403_REPAIR_LOCAL_CONTROLS_20261101.json",
+    "scripts/current-s03-sku-s05-composite-qualification/ACE57_TERMINAL_EXPECTED_RELOAD_403_FAILURE_20261101.json",
     "scripts/current-s03-sku-s05-composite-qualification/CANCELLED_6CB_ACTUAL_20261101.json",
     "scripts/current-s03-sku-s05-composite-qualification/DERIVATIONS.json",
     "scripts/current-s03-sku-s05-composite-qualification/E221_FIRST_PREFLIGHT_FAILURE_20261101.json",
@@ -70,11 +72,14 @@
         "RUN",
         "JOB"
       ],
-      "source_count": 14079
+      "source_count": 14081
     }
   ],
   "runtime_branch": "astra-a/current-s03-sku-s05-permanent-qualification-20261031",
-  "new_runtime_not_started": true,
+  "current37_run": 41267825303,
+  "current37_job": 124734228589,
+  "current37_observed_status": "in_progress",
+  "new_runtime_not_started": false,
   "duplicate_current37_not_started": true,
   "financial_or_browser_callbacks_changed": 0,
   "actual_ERP_calls": 0,

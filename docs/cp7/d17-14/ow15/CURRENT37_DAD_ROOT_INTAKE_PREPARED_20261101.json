@@ -1,0 +1,73 @@
+{
+  "status": "CURRENT37_DAD_ROOT_INTAKE_PREPARED_FAIL_CLOSED",
+  "recorded_at_utc": "2026-11-01T03:08:05Z",
+  "candidate": {
+    "branch": "astra-a/s03-sku-product-join-20261031",
+    "head": "dad402b1a6eee7c4acdd776c8c6a1538c1a52f0a",
+    "tree": "d9d89babc816032fbdf06f1c961f7829a2cbab7c",
+    "source_commit": "230f37b4f8126154d073e3eef9304f5620716ef7",
+    "run_id": 41267825303,
+    "job_id": 124734228589,
+    "run_attempt": 1,
+    "observed_status": "in_progress",
+    "observed_step": 3,
+    "observed_step_name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683"
+  },
+  "predecessor_terminal_failure": {
+    "head": "ace57bc877bec11e113b5c903a811e3bb4cba224",
+    "tree": "3ab793e094d00047b9c90447965483ae0503081a",
+    "run_id": 41255938821,
+    "job_id": 124698984573,
+    "conclusion": "failure",
+    "actual_case_credit": 0,
+    "product_permission_leak_observed": false,
+    "diagnosis": "The actual save and its automatic same-period reload were both correctly refused with 403 CP7_S03_OWNER_REQUIRED. The strict browser console oracle had causally registered only the save refusal.",
+    "bounded_artifact_id": 13067492719,
+    "bounded_artifact_digest": "sha256:37e61cb5eea6a407aef1d2ec276dbd7a2ede3da8051e1544604b5aff4f82998b",
+    "full_artifact_id": 13067482937,
+    "full_artifact_digest": "sha256:21a5aefd8fb7ca83e6ab99dcd917495f75cbfbdb885330b0566dbdc7d7a357b1",
+    "cleanup_and_outer_restoration_complete": true
+  },
+  "repair": {
+    "exact_save_refusal_awaited": true,
+    "exact_period_reload_refusal_awaited": true,
+    "both_exact_403_responses_causally_registered": true,
+    "generic_console_allowlist_added": false,
+    "product_permission_policy_changed": false,
+    "financial_oracle_changed": false,
+    "automatic_retry_added": false
+  },
+  "root_intake": {
+    "path": "scripts/current-writer-a-takeover-20261030/intake_join37.py",
+    "source_files": 80,
+    "candidate_paths_over_base": 81,
+    "unchanged_base_blobs_and_modes": 14000,
+    "expected_actual_Native_cases": 31,
+    "expected_actual_browser_cases": 6,
+    "expected_actual_business_cases": 37,
+    "requires_terminal_success_metadata": true,
+    "requires_exact_canonical_archive_bytes": true,
+    "requires_archive_sha256_and_crc": true,
+    "requires_all_five_package_gates": true,
+    "requires_complete_outer_restoration": true,
+    "requires_worker_reaped_and_empty_process_tree": true
+  },
+  "local_source_control": {
+    "result": "PASS",
+    "status": "EXACT_CURRENT_JOIN_SOURCE_AND_37_IDS_ONLY",
+    "actual_new_cases": 0,
+    "database_started": false,
+    "browser_started": false,
+    "ERP_execution": false
+  },
+  "acceptance": {
+    "current37_qualified": false,
+    "actual_case_credit": 0,
+    "permanent_activated": false,
+    "DE_activated": false,
+    "FREE_activated": false,
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "next": "Monitor only run 41267825303. If terminal success, validate its exact canonical artifact with this intake before activating Permanent. If failure, preserve the first failure from the bounded diagnostic artifact and award no partial case credit."
+}
