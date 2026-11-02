@@ -35,14 +35,14 @@ def accepted_parent(raw):
 
 def plan(root,prepared_head,prepared_tree,raw_receipt):
     receipt=accepted_parent(raw_receipt)
-    exact(prepared_tree,child.PREPARED_TREE,'AFUI_ACTIVATION_EXACT_REVIEWED_OWN88_AND_UI_TREE')
+    exact(prepared_tree,child.PREPARED_TREE,'AFUI_ACTIVATION_EXACT_REVIEWED_OWN89_AND_UI_TREE')
     require(all(v is None for v in(child.PARENT_HEAD,child.PARENT_TREE,child.PARENT_RUN,child.PARENT_JOB)),
         'AFUI_ACTIVATION_CHILD_STILL_UNARMED')
     with GitBytes(root,prepared_head,prepared_tree)as g:
         source=child.source(g);old_base=g.entries(child.PREPARED_BASE)
-        own=set(g.tree)-set(old_base);exact(len(own),88,'AFUI_ACTIVATION_EXACT_ORIGINAL_OWN88')
+        own=set(g.tree)-set(old_base);exact(len(own),89,'AFUI_ACTIVATION_EXACT_REPAIRED_OWN89')
         values={name:g.read(name)for name in sorted(own|child.UI_CHANGED)};before=dict(values)
-        base=g.entries(receipt['head']);exact(len(base),14305,'AFUI_ACTIVATION_ENTIRE_CURRENT_FREE3_PARENT14305')
+        base=g.entries(receipt['head']);exact(len(base),14306,'AFUI_ACTIVATION_ENTIRE_CURRENT_FREE41_PARENT14306')
         exact(g.git('rev-parse',receipt['head']+'^{tree}').decode().strip(),receipt['tree'],'AFUI_ACTIVATION_EXACT_CURRENT_PARENT_TREE')
         require(not(own|{RECEIPT,WORKFLOW})&set(base),'AFUI_ACTIVATION_ONLY_ADDITIVE_OWN_NAMESPACES')
         for name in child.UI_CHANGED:
@@ -57,11 +57,11 @@ def plan(root,prepared_head,prepared_tree,raw_receipt):
         # The existing manifest enumerates executable/template inputs. The
         # new JSON receipt is bound by the exact five admission literals.
         declaration['files']={name:pin(values[name])for name in sorted(set(declaration['files'])|{WORKFLOW})}
-        exact(len(declaration['files']),57,'AFUI_ACTIVATION_EXACT57_EXECUTABLE_AND_TEMPLATE_PINS')
+        exact(len(declaration['files']),58,'AFUI_ACTIVATION_EXACT58_EXECUTABLE_AND_TEMPLATE_PINS')
         values[NS+'SOURCE.json']=(json.dumps(declaration,indent=2)+'\n').encode()
         changed=sorted(name for name in before if values[name]!=before[name])
         exact(changed,sorted(NS+n for n in('admission.py','SOURCE.json')),'AFUI_ACTIVATION_ONLY_TWO_OWN_BINDING_FILES_CHANGE')
-        exact(len(values),94,'AFUI_ACTIVATION_EXACT_OWN90_PLUS_FOUR_EXISTING_UI_BLOBS')
+        exact(len(values),95,'AFUI_ACTIVATION_EXACT_OWN91_PLUS_FOUR_EXISTING_UI_BLOBS')
         elements=[]
         for name,raw in sorted(values.items()):
             item=dict(path=name,mode='100644',type='blob')
@@ -69,9 +69,9 @@ def plan(root,prepared_head,prepared_tree,raw_receipt):
             else:item['content']=raw.decode()
             elements.append(item)
     request=dict(repository_full_name='Hanjay6688/-erp-garment-ux',base_tree_sha=receipt['tree'],tree_elements=elements)
-    review=dict(status='AFUI90_ACTUAL_FREE3_BOUND_TREE_PLAN_ONLY_NOT_EXECUTED',prepared_source_head=prepared_head,
+    review=dict(status='AFUI91_ACTUAL_FREE41_BOUND_TREE_PLAN_ONLY_NOT_EXECUTED',prepared_source_head=prepared_head,
         prepared_source_tree=prepared_tree,parent_head=receipt['head'],parent_tree=receipt['tree'],parent_root_receipt=pin(raw_receipt),
-        source_before=source,unchanged_parent_paths=14301,own_paths=90,source_pins=57,unchanged_own_paths=86,
+        source_before=source,unchanged_parent_paths=14302,own_paths=91,source_pins=58,unchanged_own_paths=87,
         exact_original_UI_derivations_retained=4,new_UI_paths_retained=5,changed_own_paths=changed,
         new_paths=[RECEIPT,WORKFLOW],literal_routes=routes,workflow_equal_reviewed_template=True,
         actual_Afui_cases=0,financial_SQL_Native_callbacks_or_UI_changed=False,

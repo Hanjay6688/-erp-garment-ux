@@ -1,6 +1,6 @@
 {
   "contract": "writer-a.compact-current-state.v1",
-  "observed_at_UTC": "2026-11-02T05:01:36.604560+00:00",
+  "observed_at_UTC": "2026-11-02T05:44:49.369186+00:00",
   "integrator": "A",
   "A_B_division_preserved": true,
   "formal_CP7": "5/16",
@@ -115,10 +115,23 @@
       "source_DB_connection_attempts": 0
     },
     "AFUI": {
-      "head": "098dbd8769cbbf6f0502750a7c2a770959e02385",
-      "own_paths": 88,
+      "head": "8d2a1c5ad218e3592d9c57e61adb37d912190b50",
+      "own_paths": 89,
       "accepted_parent_bound": false,
-      "workflow_activated": false
+      "workflow_activated": false,
+      "tree": "a286b28031a5d5235a02339d12a1ce4acb85db3b",
+      "branch": "astra-a/afui89-domain-preflight-source-prepared-20261102",
+      "source_pins": 57,
+      "prepared_domain_preDB_CWD": "writer",
+      "actual_parent_bound": false,
+      "static_source_gate_PASS": true,
+      "actual_domain_API_natural_binding_pending": true,
+      "planned_bound_own_paths": 91,
+      "planned_bound_source_pins": 58,
+      "planned_tree_payload_paths": 95,
+      "expected_actual_FREE_parent_paths": 14306,
+      "evidence": "AFUI89_REAL_DOMAIN_PREFLIGHT_SOURCE_PREPARED_20261102.json",
+      "old_prepared_head": "098dbd8769cbbf6f0502750a7c2a770959e02385"
     },
     "FG_MANDOR": {
       "head": "63f9462d7d6b865d79bf2ffab0acfde56a7ac3b5",

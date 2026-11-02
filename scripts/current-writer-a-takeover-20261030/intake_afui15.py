@@ -22,8 +22,8 @@ PARENT_HEAD=None
 PARENT_TREE=None
 PARENT_RUN=None
 PARENT_JOB=None
-PREPARED_HEAD='098dbd8769cbbf6f0502750a7c2a770959e02385'
-PREPARED_TREE='b40ea64ea4cdcaaa0f28fc6d32645e783c0b0121'
+PREPARED_HEAD='8d2a1c5ad218e3592d9c57e61adb37d912190b50'
+PREPARED_TREE='a286b28031a5d5235a02339d12a1ce4acb85db3b'
 PREPARED_BASE='10ac4e74cfcc66db7d1f2b166f3da0fc479f127b'
 PREPARED_BASE_TREE='a0b0108113b9b4d43d57483f291383229a37d4ad'
 NS='scripts/cp7_accessory_nonpayable/'
@@ -129,6 +129,68 @@ def report_validator(g,parent):
     return gate,dict(exact_pure_sources=proofs,Native_ids=list(native_ids),HTTP_ids=list(access.HTTP_IDS),
         race_ids=list(access.RACE_IDS),browser_ids=list(browser_ids),actual_ERP_imports=0,actual_SQL_executed=0)
 
+def runtime_domain_preflight_source(g,declaration):
+    """Review exactly the prepared import/CWD/cleanup repair; zero case credit."""
+    origin_path=NS+'RUNTIME_DOMAIN_PREFLIGHT_ORIGIN.json'
+    original_head='098dbd8769cbbf6f0502750a7c2a770959e02385'
+    original_tree='b40ea64ea4cdcaaa0f28fc6d32645e783c0b0121'
+    expected_pins={"scripts/cp7_accessory_nonpayable/RUNTIME_DOMAIN_PREFLIGHT_ORIGIN.json":{"bytes":11588,"sha256":"347d47486114dc494db714780a83309936f5b18d2e413432c9f65699e962b753"},"scripts/cp7_accessory_nonpayable/afui15.workflow.yml.txt":{"bytes":33890,"sha256":"551e9f853a6307e791991926b714aa53578f95b69ee246e7c567ff213dc75799"},"scripts/cp7_accessory_nonpayable/composition.py":{"bytes":14747,"sha256":"e33a129629787ff093bd54a715cc9069df1d307d7a7dc446535faef3f0d048b5"},"scripts/cp7_accessory_nonpayable/native_fixture.py":{"bytes":18110,"sha256":"af4352bd06ea35cf463fe989933e6cce628f24918667edc425f72f72890d8962"},"scripts/cp7_accessory_nonpayable/qualification.py":{"bytes":4615,"sha256":"55f3cafc94c1a87c03f320dbce26e56953eb5c6bc93e52b9c68d6052bd530fe9"},"scripts/cp7_accessory_nonpayable/workflow.py":{"bytes":7781,"sha256":"bd8f5b3e730ca6e68416a8e09c5a5d6802387d20ebf6294954a27a9faac6d85e"}}
+    exact(len(expected_pins),6,'AFUI15_EXACT_FIVE_REPAIRED_SOURCE_FILES_AND_ORIGIN')
+    for name,value in expected_pins.items():g.verify_pin(name,value)
+    origin=strict(g.read(origin_path))
+    fields(origin,dict(classification='AFUI_EXACT_NATIVE_DOMAIN_API_PREFLIGHT_AND_WRITER_CWD_CLEANUP_PREPARATION_NOT_QUALIFICATION',
+        head=original_head,tree=original_tree,reversible_routes=12,modified_old_own_paths=6,
+        new_own_paths=1,unchanged_old_own_paths=82,own_paths=89,source_pins=57,
+        Native_financial_SQL_and_case_function_bodies_changed=False,
+        actual_original_domain_files_changed=0,actual_parent_still_unbound=True,
+        actual_Native_cases=0,production_go=False,independent_acceptance=False),
+        'AFUI15_EXACT_REVIEWED_DOMAIN_PREFLIGHT_ORIGIN')
+    exact(set(origin['files']),set(expected_pins)-{origin_path},'AFUI15_EXACT_FIVE_OWN_REPAIR_PATHS')
+    with GitBytes(g.root,original_head,original_tree)as old:
+        original=strict(old.read(NS+'SOURCE.json'));old_base=old.entries(PREPARED_BASE)
+        old_own=set(old.tree)-set(old_base)
+        exact(len(old_own),88,'AFUI15_EXACT_RETAINED_ORIGINAL_PREPARATION_OWN88')
+        changed=set(origin['files'])|{NS+'SOURCE.json'}
+        if PARENT_HEAD is not None:changed.add(NS+'admission.py')
+        for name in old_own-changed:
+            exact(g.tree.get(name),old.tree[name],'AFUI15_ALL_OTHER_ORIGINAL_OWN_BLOBS_MODES_UNCHANGED:'+name)
+        routes=0
+        for name,value in origin['files'].items():
+            raw=old.read(name);exact(pin(raw),value['before'],'AFUI15_EXACT_ORIGINAL_PREPARED_SOURCE:'+name)
+            actual=g.read(name);exact(pin(actual),value['after'],'AFUI15_EXACT_REPAIRED_PREPARED_SOURCE:'+name)
+            text=raw.decode()
+            for change in value['changes']:
+                exact(change['count'],1,'AFUI15_SINGLE_REVIEWED_ROUTE')
+                exact(text.count(change['before']),1,'AFUI15_EXACT_REPAIR_ANCHOR')
+                text=text.replace(change['before'],change['after'],1);routes+=1
+            exact(text.encode(),actual,'AFUI15_ONLY_EXACT_REPAIR_ROUTES:'+name)
+            for change in reversed(value['changes']):
+                exact(text.count(change['after']),1,'AFUI15_EXACT_REPAIR_REVERSE')
+                text=text.replace(change['after'],change['before'],1)
+            exact(text.encode(),raw,'AFUI15_ENTIRE_ORIGINAL_PREPARATION_RECOVERED:'+name)
+        exact(routes,12,'AFUI15_ONLY_TWELVE_REPAIR_ROUTES')
+        expected=dict(original);expected['files']=dict(original['files'],**expected_pins)
+        expected['runtime_domain_preflight']=dict(origin=origin_path,before_head=original_head,
+            before_tree=original_tree,actual_Native_cases=0)
+        if PARENT_HEAD is None:
+            exact(g.read(NS+'admission.py'),old.read(NS+'admission.py'),'AFUI15_PREPARED_PARENT_GATE_ENTIRELY_UNCHANGED')
+        else:
+            from prepare_de_activation import literal_route
+            receipt_raw=g.read(NS+'FREE3_PARENT_ROOT_ACTUAL_INTAKE.json')
+            raw=old.read(NS+'admission.py')
+            for key,value in(('PARENT_HEAD',PARENT_HEAD),('PARENT_TREE',PARENT_TREE),
+                ('PARENT_RUN',PARENT_RUN),('PARENT_JOB',PARENT_JOB),('PARENT_RECEIPT',pin(receipt_raw))):
+                raw,_=literal_route(raw,key,None,value)
+            exact(g.read(NS+'admission.py'),raw,'AFUI15_ONLY_EXACT_FIVE_ACTUAL_PARENT_BINDINGS')
+            expected['base_head']=PARENT_HEAD;expected['base_tree']=PARENT_TREE
+            exact(g.read(WORKFLOW),g.read(NS+'afui15.workflow.yml.txt'),'AFUI15_EXACT_PREPARED_WORKFLOW_ACTIVATION')
+            expected['files'][WORKFLOW]=pin(g.read(WORKFLOW))
+        exact(declaration,expected,'AFUI15_ONLY_REVIEWED_DOMAIN_PREFLIGHT_SOURCE_AND_OPTIONAL_ACTUAL_BINDINGS')
+    return dict(status='EXACT_AFUI_OWN88_TO89_DOMAIN_PREFLIGHT_SOURCE_REPAIR_ONLY',
+        original_head=original_head,original_tree=original_tree,reversible_routes=12,
+        unchanged_original_case_functions=True,actual_case_credit=0)
+
+
 def source(g):
     base_head=PARENT_HEAD or PREPARED_BASE;base_tree=PARENT_TREE or PREPARED_BASE_TREE
     exact(g.git('rev-parse',base_head+'^{tree}').decode().strip(),base_tree,'AFUI15_EXACT_WHOLE_PARENT_TREE')
@@ -156,7 +218,8 @@ def source(g):
     require(UI_ADDED<=added and all(n.startswith(NS)or n in UI_ADDED or n==WORKFLOW for n in added),
         'AFUI15_ONLY_ADDITIVE_OWN_SOURCE_AND_EXACT_UI_PATHS')
     required={n for n in added if n.startswith(NS)and(PurePosixPath(n).suffix in('.py','.sql','.mjs')
-        or PurePosixPath(n).name in('NATIVE_ORIGIN.json','UI_ORIGIN.json','UI_SOURCE.json','afui15.workflow.yml.txt'))}
+        or PurePosixPath(n).name in('NATIVE_ORIGIN.json','UI_ORIGIN.json','UI_SOURCE.json','afui15.workflow.yml.txt',
+            'RUNTIME_DOMAIN_PREFLIGHT_ORIGIN.json'))}
     if WORKFLOW in added:required.add(WORKFLOW)
     exact(set(declaration['files']),required,'AFUI15_COMPLETE_EXECUTABLE_AND_TEMPLATE_SOURCE_PINS')
     for name,value in declaration['files'].items():g.verify_pin(name,value)
@@ -166,9 +229,11 @@ def source(g):
     for name,value in ui['files'].items():g.verify_pin(name,value)
     for name in('PARENT_HEAD','PARENT_TREE','PARENT_RUN','PARENT_JOB'):
         exact(literal(g,NS+'admission.py',name),globals()[name],'AFUI15_EXACT_ACTUAL_PARENT_BINDING:'+name)
+    repaired=runtime_domain_preflight_source(g,declaration)if 'runtime_domain_preflight'in declaration else None
     if PARENT_HEAD is None:
         exact(literal(g,NS+'admission.py','PARENT_RECEIPT'),None,'AFUI15_PREPARED_RECEIPT_CLOSED')
-        exact(len(required),56,'AFUI15_PREPARED56_SOURCE_PINS');exact(len(added),88,'AFUI15_PREPARED88_OWN_PATHS')
+        exact(len(required),57 if repaired else 56,'AFUI15_EXACT_PREPARED_SOURCE_PIN_COUNT')
+        exact(len(added),89 if repaired else 88,'AFUI15_EXACT_PREPARED_OWN_PATH_COUNT')
         require(WORKFLOW not in g.tree,'AFUI15_NO_PREMATURE_EXECUTABLE_WORKFLOW')
     else:
         require(WORKFLOW in required,'AFUI15_ACTUAL_WORKFLOW_EXPLICITLY_DECLARED')
@@ -177,6 +242,7 @@ def source(g):
     return dict(source_pins=len(required),own_paths=len(added),unchanged_parent_paths=len(base)-4,
         source_manifest=pin(g.read(NS+'SOURCE.json')),UI_manifest=pin(g.read(NS+'UI_SOURCE.json')),
         exact_counted_UI_paths=4,new_UI_paths=5,pure_report_functions=pure,
+        runtime_domain_preflight_repair=repaired,
         parent_qualification_pending=PARENT_HEAD is None,actual_case_credit=0)
 
 def intake(root,path,metadata):
