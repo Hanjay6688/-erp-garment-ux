@@ -1,0 +1,31 @@
+{
+  "status": "AFUI91_ACTUAL_SOURCE_ONLY_ORIGINAL_BINDINGS_RETAINED_NOT_FULL15",
+  "head": "f4f16c6920d94c2b9ef22fa33c62144595a672ed",
+  "tree": "c2957cd8ee7c7ac00450a5cd636e39ff0e27675c",
+  "source_only_run_id": 41409274390,
+  "source_only_job_id": 125158339919,
+  "source_only_original_conclusion": "failure",
+  "original_wrapper_failure_preserved": true,
+  "actual_domain_API_bindings": 84,
+  "actual_DB_connections": 0,
+  "actual_SQL": 0,
+  "actual_Native_cases": 0,
+  "actual_Auth_HTTP_cases": 0,
+  "actual_browser_cases": 0,
+  "actual_two_session_cases": 0,
+  "source_only_CI_rerun": false,
+  "Root_receipt": {
+    "bytes": 7509,
+    "sha256": "658554dc171bdc274da5e2c6e9bcf4b1891b9e2b49d50b62dd6315159800c991"
+  },
+  "Root_evidence": "AFUI91_ROOT_ACTUAL_DOMAIN_SOURCE_RETAINED_20261102.json",
+  "archive": {
+    "bytes": 6536,
+    "sha256": "fa25e0c3e71ecc2295c45ffca037e55a2c89787cf0339ab6be831971b420818a",
+    "members": 5
+  },
+  "canonical_archive_library_file_id": "libfile_8af12631aa0c8191813e398c40db7391",
+  "runtime_activation_next": true,
+  "production_go": false,
+  "independent_acceptance": false
+}

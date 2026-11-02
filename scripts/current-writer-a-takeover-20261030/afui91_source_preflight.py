@@ -175,14 +175,17 @@ def final():
     modules={'cp6_bc_probe.py','cp6_bd_probe.py','cp7_invoice_cases.py','cp7_qc_source_cases.py',
         'cp6_auditor_runner.py','cp7_accessory_standard_report/cases.py'}
     exact(set(binding['actual_modules']),modules,'AFUI_EXACT_SIX_REAL_DOMAIN_MODULES')
+    frozen={'cp6_bc_probe.py','cp6_bd_probe.py','cp6_auditor_runner.py','cp7_invoice_cases.py'}
     for name,value in binding['actual_modules'].items():
-        actual=AUDITOR/'scripts'/name
+        declared_root=AUDITOR.parent/'qualified-sku090b'if name in frozen else AUDITOR
+        actual=declared_root/'scripts'/name
+        exact(actual.read_bytes(),(AUDITOR/'scripts'/name).read_bytes(),'AFUI_IDENTICAL_DECLARED_NATURAL_COPY_'+name)
         exact(value,dict(path=str(actual),**pin(actual.read_bytes())),'AFUI_EXACT_REAL_MODULE_'+name)
     if not binding['actual_call_bindings']:raise ValueError('AFUI_NO_REAL_CALLBACKS_BOUND')
     parent=json.loads((AUDITOR/NS/'FREE3_PARENT_ROOT_ACTUAL_INTAKE.json').read_bytes())
     exact(parent['head'],'91a7b46ed13c4ad6094114871a4a39fa6765d140','AFUI_ACTUAL_FREE45_PARENT')
-    exact(natural['parent_head'],parent['head'],'AFUI_RUNTIME_SAME_ACTUAL_PARENT')
-    exact(natural['parent_tree'],parent['tree'],'AFUI_RUNTIME_SAME_ACTUAL_PARENT_TREE')
+    exact(physical['source']['base_head'],parent['head'],'AFUI_SAME_ACTUAL_BOUND_PARENT')
+    exact(physical['source']['base_tree'],parent['tree'],'AFUI_SAME_ACTUAL_BOUND_PARENT_TREE')
     value=dict(status='EXACT_AFUI91_WRITER_CWD_DOMAIN_API_SOURCE_FENCE_PASS_NO_DATABASE',
         **identity(),root_source=root['source'],actual_domain_binding=binding,
         actual_parent_root_receipt=pin((AUDITOR/NS/'FREE3_PARENT_ROOT_ACTUAL_INTAKE.json').read_bytes()),

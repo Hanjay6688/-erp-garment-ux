@@ -14,10 +14,10 @@ from intake_common import GitBytes,exact,fields,pin,require,safe_path
 from intake_sku27 import strict,literal,full_census
 from current_graph_sources import declared_files
 
-HEAD=None
-TREE=None
-RUN=None
-JOB=None
+HEAD='f4f16c6920d94c2b9ef22fa33c62144595a672ed'
+TREE='c2957cd8ee7c7ac00450a5cd636e39ff0e27675c'
+RUN=41410071146
+JOB=125160850217
 PARENT_HEAD='91a7b46ed13c4ad6094114871a4a39fa6765d140'
 PARENT_TREE='01c4807d932af1d534477c4c182715b1378bd39b'
 PARENT_RUN=41399754004

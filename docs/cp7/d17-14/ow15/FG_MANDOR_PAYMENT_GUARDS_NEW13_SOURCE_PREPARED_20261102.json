@@ -1,0 +1,51 @@
+{
+  "status": "FG_MANDOR_PAYMENT_GUARD_SOURCE_PREPARED_RETAINED118_NEW13_MODELS_NOT_ERP_QUALIFICATION",
+  "observed_at_UTC": "2026-11-02T07:55:13.716154+00:00",
+  "head": "07d45bfd1ce975bc059e7fda35c2268c8d878b8b",
+  "tree": "7b21376619e1b0d483094e962c862ca24792741a",
+  "branch": "astra-a/fg-mandor-storage-source-prepared-20261102",
+  "own_paths": 45,
+  "source_pins": 44,
+  "private_tables": 15,
+  "private_functions": 31,
+  "new_guard_functions": 6,
+  "new_guard_triggers": 6,
+  "new_guard_model_controls": 13,
+  "first_guard_model_attempt_PASS": true,
+  "retained95_and_payment23_models_NOT_rerun": true,
+  "logical_model_control_coverage": 131,
+  "actual_Native_cases": 0,
+  "actual_Auth_cases": 0,
+  "actual_browser_cases": 0,
+  "actual_two_session_races": 0,
+  "Native_runtime_installed": false,
+  "public_RPC_or_popup_implemented": false,
+  "source_check_PASS": true,
+  "source_checker_blank_separator_fix": {
+    "original_prefix_last_two_bytes": "two line feeds",
+    "derived_prefix_last_byte": "one line feed",
+    "executable_prefix_changed": false,
+    "whole_original_model_control_bodies_rerun": false
+  },
+  "canonical": {
+    "bytes": 2615,
+    "sha256": "ae272a0ae112ccdaf77b218ecc0b7e2e18dff954f0b25a4c053535893b161990",
+    "members": 3,
+    "library_file_id": "libfile_ebc5d0659ae08191a4afd6dc7b65e63d"
+  },
+  "covered": [
+    "unowned FG journal and missing committed facts refused",
+    "protected journal line edits and source disguise refused",
+    "generic reversal and inverse-of-inverse refused",
+    "invoice correction and posted return refused until lawful payroll offset reversal",
+    "lawful payroll payment and reversal allowed",
+    "ordinary cash journals and work cleanup preserved"
+  ],
+  "limitations": [
+    "Reduced PGlite model with actual Native table column types and selected actual Native source bodies; Native constraints, providers and Auth use previously disclosed model boundaries",
+    "No actual complete ERP installation, stock/HPP verification, Native sale return engine, Auth, browser, two-backend race or independent acceptance",
+    "Final accepted parent catalog/profile review, installer, public commands and chosen-week popup remain pending"
+  ],
+  "production_go": false,
+  "independent_acceptance": false
+}
