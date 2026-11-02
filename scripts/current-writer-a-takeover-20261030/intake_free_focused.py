@@ -203,6 +203,7 @@ def intake(root,path,metadata):
             source_invariant_reuse=True,prior_runs_aggregated=True,financial_groups_rerun=False,
             retained_original_run_conclusion='failure',failed_run_relabelled_PASS=False,retained_root_receipt=ROOT_PIN,
             actual_new_committed_witness=True,actual_used_refusal_raw_boundary=boundary,
+            retained_actual_full22_case_boundaries=receipt['actual_full22_case_boundaries'],
             retained_DE30_fresh_case_credit=0,GOOD_eligibility_policy_decided=False,
             Afui_GOOD_nonpayable_path_complete=False,D_complete=False,E_complete=False,
             global_writer_or_permission_or_lock_closure=False,production_go=False,independent_acceptance=False)

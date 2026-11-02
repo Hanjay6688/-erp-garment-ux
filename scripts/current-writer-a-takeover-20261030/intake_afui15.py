@@ -176,13 +176,16 @@ def runtime_domain_preflight_source(g,declaration):
             exact(g.read(NS+'admission.py'),old.read(NS+'admission.py'),'AFUI15_PREPARED_PARENT_GATE_ENTIRELY_UNCHANGED')
         else:
             from prepare_de_activation import literal_route
+            from prepare_afui_activation import focused_parent_admission
             receipt_raw=g.read(NS+'FREE3_PARENT_ROOT_ACTUAL_INTAKE.json')
             raw=old.read(NS+'admission.py')
+            raw,_=focused_parent_admission(raw)
             for key,value in(('PARENT_HEAD',PARENT_HEAD),('PARENT_TREE',PARENT_TREE),
                 ('PARENT_RUN',PARENT_RUN),('PARENT_JOB',PARENT_JOB),('PARENT_RECEIPT',pin(receipt_raw))):
                 raw,_=literal_route(raw,key,None,value)
-            exact(g.read(NS+'admission.py'),raw,'AFUI15_ONLY_EXACT_FIVE_ACTUAL_PARENT_BINDINGS')
+            exact(g.read(NS+'admission.py'),raw,'AFUI15_ONLY_EXACT_FOCUSED_TYPED_RECEIPT_AND_FIVE_ACTUAL_PARENT_BINDINGS')
             expected['base_head']=PARENT_HEAD;expected['base_tree']=PARENT_TREE
+            expected['files'][NS+'admission.py']=pin(raw)
             exact(g.read(WORKFLOW),g.read(NS+'afui15.workflow.yml.txt'),'AFUI15_EXACT_PREPARED_WORKFLOW_ACTIVATION')
             expected['files'][WORKFLOW]=pin(g.read(WORKFLOW))
         exact(declaration,expected,'AFUI15_ONLY_REVIEWED_DOMAIN_PREFLIGHT_SOURCE_AND_OPTIONAL_ACTUAL_BINDINGS')
@@ -265,9 +268,12 @@ def intake(root,path,metadata):
         main=original(MAIN);native=original(RAW);package=original('T3_PACKAGE_INSTALL.json')
         backup=original('T3_BACKUP_RESTORE_DRILL.json');owned=original('AFUI_RUNTIME_SUPERVISION.json')
         parent_raw=g.read(NS+'FREE3_PARENT_ROOT_ACTUAL_INTAKE.json');parent=strict(parent_raw)
-        fields(parent,dict(status='ROOT_VERIFIED_CURRENT_COMPLETE_DE_FREE_DATE_NATIVE3_ALL5',head=PARENT_HEAD,
-            tree=PARENT_TREE,run_id=PARENT_RUN,job_id=PARENT_JOB,actual_Native_cases=3,complete3_qualified=True,
-            package_all_five=True,prior_runs_aggregated=False,retained_DE30_fresh_case_credit=0,
+        fields(parent,dict(status='ROOT_VERIFIED_CURRENT_COMPLETE_DE_FREE_DATE_RETAINED3_COMMITTED_ALL5',head=PARENT_HEAD,
+            tree=PARENT_TREE,run_id=PARENT_RUN,job_id=PARENT_JOB,actual_Native_cases=0,complete3_qualified=True,
+            retained_Native_cases=3,retained_cases_are_not_fresh=True,candidate_case_coverage=3,
+            source_invariant_reuse=True,financial_groups_rerun=False,actual_new_committed_witness=True,
+            retained_original_run_conclusion='failure',failed_run_relabelled_PASS=False,
+            package_all_five=True,prior_runs_aggregated=True,retained_DE30_fresh_case_credit=0,
             production_go=False,independent_acceptance=False),'AFUI15_ACTUAL_ACCEPTED_FREE3_ROOT_PARENT')
         exact(pin(parent_raw),literal(g,NS+'admission.py','PARENT_RECEIPT'),'AFUI15_EXACT_PARENT_ROOT_RECEIPT_BYTES')
         graph=main['source_declaration']['complete_sources'];maps=declared_files(g,graph)

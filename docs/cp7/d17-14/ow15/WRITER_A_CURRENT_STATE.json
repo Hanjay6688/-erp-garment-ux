@@ -1,6 +1,6 @@
 {
   "contract": "writer-a.compact-current-state.v1",
-  "observed_at_UTC": "2026-11-02T06:26:28.276851+00:00",
+  "observed_at_UTC": "2026-11-02T06:32:57.100661+00:00",
   "integrator": "A",
   "A_B_division_preserved": true,
   "formal_CP7": "5/16",
@@ -140,7 +140,11 @@
       "expected_actual_FREE_parent_paths": 14310,
       "evidence": "AFUI89_REAL_DOMAIN_PREFLIGHT_SOURCE_PREPARED_20261102.json",
       "old_prepared_head": "098dbd8769cbbf6f0502750a7c2a770959e02385",
-      "focused_parent_receipt_semantics_update_pending": true
+      "focused_parent_receipt_semantics_update_pending": false,
+      "focused_parent_semantics_source_prepared": true,
+      "actual_FREE45_workflow_data_compatibility_PASS": true,
+      "bound_admission_manifest_pin_update_prepared": true,
+      "focused_parent_preparation_evidence": "AFUI_FOCUSED_FREE45_PARENT_SOURCE_COMPATIBILITY_20261102.json"
     },
     "FG_MANDOR": {
       "head": "63f9462d7d6b865d79bf2ffab0acfde56a7ac3b5",
@@ -229,7 +233,7 @@
       "future_actual_parent_preDB_natural_graph_required": true
     }
   },
-  "continuity": "Continue sole focused FREE45 actual run41399754004/job125128803743 via monitor1756; Native3 retained, never rerun. Complete current committed-witness/all5 Root intake before Afui binding; prepare Afui focused-parent semantics safely while waiting.",
+  "continuity": "Continue sole focused FREE45 run via monitor1756; retained3/fresh0. Afui typed focused-parent admission, bound admission manifest pin and actual FREE45 workflow data now prepared; ACTUAL_ACCEPTED_FREE_RECEIPT still None. No premature activation.",
   "operational_update_UTC": "2026-11-02T04:18:24.706Z",
   "current_qualification_observation_is_earlier_API_snapshot": true,
   "retained_permanent_financial4": {

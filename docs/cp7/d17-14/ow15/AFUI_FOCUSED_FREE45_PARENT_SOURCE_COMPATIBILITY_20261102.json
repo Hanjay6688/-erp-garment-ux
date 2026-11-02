@@ -1,0 +1,55 @@
+{
+  "status": "AFUI_FOCUSED_PARENT_TYPED_SOURCE_AND_ACTUAL_FREE45_WORKFLOW_DATA_COMPATIBILITY_PASS_NOT_RUNTIME",
+  "actual_parent_accepted": false,
+  "ACTUAL_ACCEPTED_FREE_RECEIPT": null,
+  "all_five_child_parent_bindings_still_None": true,
+  "actual_failed_FREE41_Root_receipt_refused": true,
+  "derived_admission_still_closed": true,
+  "typed_parent_receipt_route": {
+    "before": "    expected = dict(status='ROOT_VERIFIED_CURRENT_COMPLETE_DE_FREE_DATE_NATIVE3_ALL5',\n        head=PARENT_HEAD, tree=PARENT_TREE, run_id=PARENT_RUN, job_id=PARENT_JOB,\n        actual_Native_cases=3, actual_business_cases=3, actual_browser_cases=0,\n        actual_Auth_HTTP_cases=0, actual_two_session_races=0, complete3_qualified=True,\n        package_all_five=True, prior_runs_aggregated=False, retained_DE30_fresh_case_credit=0,",
+    "after": "    expected = dict(status='ROOT_VERIFIED_CURRENT_COMPLETE_DE_FREE_DATE_RETAINED3_COMMITTED_ALL5',\n        head=PARENT_HEAD, tree=PARENT_TREE, run_id=PARENT_RUN, job_id=PARENT_JOB,\n        actual_Native_cases=0, actual_business_cases=0, actual_browser_cases=0,\n        actual_Auth_HTTP_cases=0, actual_two_session_races=0, complete3_qualified=True,\n        retained_Native_cases=3, retained_cases_are_not_fresh=True, candidate_case_coverage=3,\n        source_invariant_reuse=True, financial_groups_rerun=False, actual_new_committed_witness=True,\n        retained_original_run_conclusion='failure', failed_run_relabelled_PASS=False,\n        package_all_five=True, prior_runs_aggregated=True, retained_DE30_fresh_case_credit=0,",
+    "count": 1,
+    "retained_cases": 3,
+    "fresh_cases": 0,
+    "failed_origin_accepted": false,
+    "actual_parent_still_required": true
+  },
+  "actual_focused_FREE45_workflow": {
+    "bytes": 33872,
+    "sha256": "9288618f18de1d860398acdeadbb8e1ad4d2951913abddb84b73f9fe956e6ca8"
+  },
+  "prepared_Afui_template": {
+    "bytes": 33890,
+    "sha256": "551e9f853a6307e791991926b714aa53578f95b69ee246e7c567ff213dc75799"
+  },
+  "Afui_template_byte_identical": true,
+  "pure_workflow_derivation": {
+    "status": "AFUI15_WORKFLOW_DATA_ONLY_NOT_ACTIVATED",
+    "parent_derivation": {
+      "status": "EXACT_FOCUSED_FREE45_WORKFLOW_DATA_ONLY_NOT_PARENT_ACCEPTANCE",
+      "head": "91a7b46ed13c4ad6094114871a4a39fa6765d140",
+      "source": {
+        "bytes": 33872,
+        "sha256": "9288618f18de1d860398acdeadbb8e1ad4d2951913abddb84b73f9fe956e6ca8"
+      }
+    },
+    "parent_template_sha256": "9288618f18de1d860398acdeadbb8e1ad4d2951913abddb84b73f9fe956e6ca8",
+    "unchanged_parent_steps": 66,
+    "routed_parent_steps": 9,
+    "steps": 75,
+    "job_minutes": 360,
+    "monotonic_job_start_before_checkout": true,
+    "real_WIB_policy_unchanged": true,
+    "runtime_dispatches": 0,
+    "actual_ERP_cases": 0,
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "read_only_actual_parent_workflow_data_adapter_only": true,
+  "ERP_or_product_modules_replaced": false,
+  "actual_SQL_executed": 0,
+  "actual_Native_cases": 0,
+  "actual_Auth_HTTP_cases": 0,
+  "actual_browser_cases": 0,
+  "actual_two_session_races": 0
+}
