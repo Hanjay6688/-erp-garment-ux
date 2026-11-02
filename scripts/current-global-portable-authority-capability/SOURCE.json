@@ -1,0 +1,37 @@
+{
+  "classification": "PURE_PORTABLE_AUTHORITY_ACTUAL17_MODELED_METADATA_ONLY",
+  "product_public_head": "81cb32f3778274052da1a401f69138e64bc9ec2a",
+  "product_tree": "34f09a4d80c72b523bc3f6e6ffbc29e17d81ba43",
+  "actual_Native_cases": 0,
+  "production_go": false,
+  "files": {
+    "scripts/current-global-portable-authority-capability/probe.py": {
+      "bytes": 16475,
+      "sha256": "caa3a0f15dc820404d5ebc254fafb7c8532df280a806c4cc5dd3bcec20b31333"
+    },
+    "scripts/current-global-portable-authority-capability/SEMANTIC.sql": {
+      "bytes": 3251,
+      "sha256": "698a36a0b096f68d5b337c603f8c007ae648557ee78995b69cd0996af36020d6"
+    },
+    "scripts/current-global-portable-authority-capability/PRODUCT_SOURCE_PROOF.json": {
+      "bytes": 2426,
+      "sha256": "3913e9accb6e5477b2e86d7ee50b05bbd456a6b551d70c3e1949a139ec38430c"
+    },
+    ".github/workflows/cp7-global-portable-authority-capability.yml": {
+      "bytes": 3437,
+      "sha256": "f93928ffa9b8256cfb0519f177afffc7ae8eecfff46bcd75f46cd22d28bbaccf"
+    },
+    "scripts/current-global-catalog-bridge-capability/probe.py": {
+      "bytes": 13757,
+      "sha256": "c4b2db9f9fc9de5e7fc9c550651a522c69268cacb1411e42083a03002d3ad24b"
+    },
+    "scripts/cp7_ow04_restore_bundle.py": {
+      "bytes": 19828,
+      "sha256": "a1605193347cf5b3321a7bdbf8ff6c634df4f4c0a5113eb295e8c3ce44428e00"
+    },
+    "scripts/current-finance-combined-composition/disposable_start.py": {
+      "bytes": 2688,
+      "sha256": "523ec29f0566852f56627c7c9be791de215d09b55d8669c071024fd92aa8e257"
+    }
+  }
+}

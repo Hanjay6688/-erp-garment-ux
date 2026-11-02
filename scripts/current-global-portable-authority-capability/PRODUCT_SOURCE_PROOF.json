@@ -1,0 +1,56 @@
+{
+  "status": "PORTABLE_AUTHORITY_TWO_HASH_SOURCE_ROUTES_NOT_FINAL_PARENT_OR_RUNTIME",
+  "source_routes": 2,
+  "routes": {
+    "lock": {
+      "before": "authority_hash_:=encode(extensions.digest(convert_to((authority_-array[\n  'session_user','current_user','runtime_entry','required_final_parent',\n  'actual_Native_qualification_credit','production_go'])::text,'UTF8'),'sha256'),'hex');",
+      "after": "authority_hash_:=encode(extensions.digest(convert_to(\n  cp7_global_nonpo_envelope.semantic_authority_v1(authority_)::text,'UTF8'),'sha256'),'hex');",
+      "count": 1,
+      "original": {
+        "bytes": 7759,
+        "sha256": "0bbd875a4c6e59f48bcb15a059e887f7b45484acd04f70779e35b640ccb8cf3a"
+      },
+      "derived": {
+        "bytes": 7673,
+        "sha256": "60e37137fdeba6c86ac3ad7cda6537d5ffc17d5f449962cbb30ef59b13ce58dc"
+      }
+    },
+    "review": {
+      "before": "hash_:=encode(sha256(convert_to((authority_-array['session_user','current_user',\n  'runtime_entry','required_final_parent','actual_Native_qualification_credit','production_go'])::text,'UTF8')),'hex');",
+      "after": "hash_:=encode(sha256(convert_to(\n  cp7_global_nonpo_envelope.semantic_authority_v1(authority_)::text,'UTF8')),'hex');",
+      "count": 1,
+      "original": {
+        "bytes": 2956,
+        "sha256": "875e1924412175f962ca7610d18d7375537e85ac381ed4870dbba0a073ee5ff6"
+      },
+      "derived": {
+        "bytes": 2873,
+        "sha256": "e454af7216b64c1e6989eb204e59e4314e078e5a5c44ad8a0532dba6d83ed543"
+      }
+    }
+  },
+  "original_review": {
+    "bytes": 2956,
+    "sha256": "875e1924412175f962ca7610d18d7375537e85ac381ed4870dbba0a073ee5ff6"
+  },
+  "semantic_helper": {
+    "bytes": 3251,
+    "sha256": "698a36a0b096f68d5b337c603f8c007ae648557ee78995b69cd0996af36020d6"
+  },
+  "observed_OID_paths_removed_from_semantic_hash_only": [
+    "functions[].oid",
+    "new_private_functions[].oid",
+    "view.oid"
+  ],
+  "previous_six_session_or_admission_fields_excluded_unchanged": true,
+  "all_other_authority_fields_and_array_order_preserved": true,
+  "raw_graph_authority_and_observed_OIDs_unchanged": true,
+  "full_current_catalogue_profile_route_retained": true,
+  "old_lock_review_graph_and_models_bytes_unchanged": true,
+  "original_full_sources_recovered": true,
+  "actual_SQL_executed": 0,
+  "actual_Native_cases": 0,
+  "parent_gate_opened": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

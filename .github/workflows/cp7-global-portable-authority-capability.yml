@@ -1,0 +1,76 @@
+name: CP7 A portable authority metadata new3 only
+'on':
+  push:
+    branches:
+    - astra-a/global-portable-authority-capability-20261102
+    paths:
+    - .github/workflows/cp7-global-portable-authority-capability.yml
+    - scripts/current-global-portable-authority-capability/**
+permissions:
+  contents: read
+  packages: read
+concurrency:
+  group: cp7-global-portable-authority-capability-20261102
+  cancel-in-progress: false
+jobs:
+  capability:
+    if: github.ref == 'refs/heads/astra-a/global-portable-authority-capability-20261102'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      CAPABILITY_CONFIRM: cp7_global_portable_authority_only
+    steps:
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      with:
+        fetch-depth: 1
+        persist-credentials: false
+    - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+      with:
+        python-version: '3.12'
+    - uses: supabase/setup-cli@ab058987d8d6c725971f6cf9d0b5c98467e30bd1
+      with:
+        version: 2.116.0
+    - name: Check every sealed capability input before any database operation
+      run: 'mkdir -p cp7-proof
+
+        python -B scripts/current-global-portable-authority-capability/probe.py --check > cp7-proof/SOURCE_IDENTITY.json
+
+        python -m pip install --quiet ''psycopg[binary]==3.2.10''
+
+        '
+    - name: Start only the existing exact Supabase17 disposable profile
+      env:
+        GHCR_TOKEN: ${{ github.token }}
+      run: 'set -euo pipefail
+
+        printf ''%s'' "$GHCR_TOKEN" | docker login ghcr.io -u "$GITHUB_ACTOR" --password-stdin
+
+        mkdir cp5-local
+
+        supabase init --force --workdir cp5-local
+
+        mkdir -p cp5-local/supabase/.temp
+
+        echo ''17.6.1.165'' > cp5-local/supabase/.temp/postgres-version
+
+        sed -i ''0,/^enable_signup = true$/s//enable_signup = false/'' cp5-local/supabase/config.toml
+
+        python -u -B scripts/current-global-portable-authority-capability/probe.py --start
+
+        docker inspect supabase_db_cp5-local --format ''{{json .Config.Image}}'' > cp7-proof/ACTUAL_SUPABASE_POSTGRES_IMAGE.json
+
+        '
+    - name: Provision only isolated local maintenance authority
+      run: "set -euo pipefail\nmaintenance_password=\"$(openssl rand -hex 32)\"\nmaintenance_pgurl=\"postgresql://cp6_maintenance_admission:${maintenance_password}@127.0.0.1:54322/template1\"\necho \"::add-mask::$maintenance_password\"\necho \"::add-mask::$maintenance_pgurl\"\ndocker exec -i supabase_db_cp5-local psql -U supabase_admin -d template1 -X -v ON_ERROR_STOP=1 -v cp6_password=\"$maintenance_password\" <<'SQL'\ncreate role cp6_maintenance_admission login superuser noinherit\n  nocreatedb nocreaterole noreplication connection limit 4 password :'cp6_password';\nSQL\nprintf 'CP6_ADMISSION_CONTROL_PGURL=%s\\n' \"$maintenance_pgurl\" >> \"$GITHUB_ENV\"\n"
+    - name: Run only three new portable authority modeled metadata controls
+      run: python -u -B scripts/current-global-portable-authority-capability/probe.py --run
+    - name: Stop disposable containers and retain its log
+      if: always()
+      run: supabase stop --workdir cp5-local --no-backup > cp7-proof/STOP.log 2>&1
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      if: always()
+      with:
+        name: cp7-global-portable-authority3-${{ github.sha }}
+        path: cp7-proof/
+        retention-days: 30
