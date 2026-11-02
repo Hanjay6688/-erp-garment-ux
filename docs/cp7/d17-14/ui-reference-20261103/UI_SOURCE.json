@@ -59,8 +59,8 @@
         "sha256": "922a9e91f85269cb62b2d6d361c203659b3a4fc488e3bb78de20ea86dcbec42f"
       },
       "after": {
-        "bytes": 7222,
-        "sha256": "a4ecb3d979b1998364167fada13c01c0a217d6227daf25f1602ee28cfec68f44"
+        "bytes": 7153,
+        "sha256": "178e7110f525cc436e9c14cf0aae7b59b8262a301e96dc19ae07e04256acd7ad"
       }
     },
     "src/laundry.css": {
@@ -159,8 +159,8 @@
         "sha256": "924f150bd2f2b18d7df850db1be035a547321cf32b66a6fb3a97569739635eb6"
       },
       "after": {
-        "bytes": 35201,
-        "sha256": "e41b140858f4f630c704b856f2b30e0d59bc7ca954df19bd78868b4fafde5828"
+        "bytes": 35198,
+        "sha256": "501d9593116a3201a3b042b5f80ec37803f02c056df2b4a5dbed364a680acc3e"
       }
     },
     "src/ux-corrections.css": {
@@ -208,6 +208,7 @@
     ".github/workflows/ui-reference-capture.yml",
     "docs/cp7/d17-14/ui-reference-20261103/LOCAL_SOURCE_BUILD_CHECKS.json",
     "docs/cp7/d17-14/ui-reference-20261103/PALETTE_CONTRAST.json",
+    "docs/cp7/d17-14/ui-reference-20261103/POST_CAPTURE_CORRECTIONS.json",
     "docs/cp7/d17-14/ui-reference-20261103/README.md",
     "docs/cp7/d17-14/ui-reference-20261103/SHARED_THEME_SOURCE_CHANGES.json",
     "docs/cp7/d17-14/ui-reference-20261103/UI_INVENTORY.json",
@@ -234,8 +235,12 @@
       "sha256": "113ea5c256d3a37e6f5ffbe47cc494ec12666d4065fff5eb423beffb26f201c9"
     },
     "docs/cp7/d17-14/ui-reference-20261103/README.md": {
-      "bytes": 2495,
-      "sha256": "4a2ebe5cec983fc7bf29f8b75d3ae06e99f0d64c1fc6279ff9d77fe353b02cdc"
+      "bytes": 2924,
+      "sha256": "ae6130619b0dc5dbd8670958d2b652fc1733b6ccf9aa4d5de2a872d2a38a0ff9"
+    },
+    "docs/cp7/d17-14/ui-reference-20261103/POST_CAPTURE_CORRECTIONS.json": {
+      "bytes": 1706,
+      "sha256": "af1564a1866cc12480ca16a961d423b644bd222adcc527bdaad14aaacea37510"
     },
     "docs/cp7/d17-14/ui-reference-20261103/SHARED_THEME_SOURCE_CHANGES.json": {
       "bytes": 716305,
@@ -246,8 +251,8 @@
       "sha256": "38c7e72b2230bf72ce4100bb9c3a35208efd77093e02a123cc97d0571cf398e8"
     },
     "scripts/ui-reference/capture.mjs": {
-      "bytes": 12328,
-      "sha256": "070ffc1222ac2abb06693e102ac2c5cb5f18b5830ac0612bc1aa86fca6b99f4c"
+      "bytes": 13602,
+      "sha256": "aaae83bbab2f840d31cbdf9ac1531ee3fda34e8f92525cc4ae1378ce10945faa"
     },
     "scripts/ui-reference/inventory.py": {
       "bytes": 3081,
@@ -266,8 +271,8 @@
       "sha256": "57a2f0a9642031e61d68d517e0d22df4b19312a86893f918ba144c8fbdf62ee2"
     },
     "scripts/ui-reference/verify_source.mjs": {
-      "bytes": 3029,
-      "sha256": "79e1c1a8b461d40f229fc629be1e65a3513daca807f690e652ed548da7180a21"
+      "bytes": 3095,
+      "sha256": "000cc943636a04e5384fd72a35bcce92ee5ac7e18f7bb7a9c8c3b456cc5cee09"
     },
     "src/theme.css": {
       "bytes": 1051,

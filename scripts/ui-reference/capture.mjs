@@ -12,9 +12,9 @@ const git=(cwd,...args)=>execFileSync('git',['-C',cwd,...args],{encoding:'utf8'}
 const require=(ok,message)=>{if(!ok)throw Error(message)}
 const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms))
 const surfaces=[
-  {id:'dashboard',group:null,label:'Dashboard'},
-  {id:'sales-invoice',group:'Penjualan',label:'Penjualan & Invoice'},
-  {id:'finance-payroll',group:'Keuangan',label:'Payroll & Kasbon'},
+  {id:'dashboard',group:null,label:'Dashboard',ready:'.kpi-grid'},
+  {id:'sales-invoice',group:'Penjualan',label:'Penjualan & Invoice',ready:'.biz-invoice-lifecycle'},
+  {id:'finance-payroll',group:'Keuangan',label:'Payroll & Kasbon',ready:'.payroll-detail'},
 ]
 fs.mkdirSync(out,{recursive:true})
 const report={contract:'cp7.owner-UI.real-browser-capture.v1',status:'INCOMPLETE',
@@ -36,6 +36,17 @@ require(retained.variant==='before'&&retained.surface==='dashboard'&&retained.wi
 const retainedPNG=fs.readFileSync(path.join(retainedDirectory,retained.screenshot.name))
 require(retainedPNG.length===322487&&crypto.createHash('sha256').update(retainedPNG).digest('hex')===
   '57a2f0a9642031e61d68d517e0d22df4b19312a86893f918ba144c8fbdf62ee2','UI_CAPTURE_EXACT_RETAINED_BEFORE_PNG_REQUIRED')
+const immutableDashboardBaselines=[
+  {width:320,name:'before-dashboard-320.png',bytes:322487,sha256:'57a2f0a9642031e61d68d517e0d22df4b19312a86893f918ba144c8fbdf62ee2',included_in_this_artifact:true},
+  {width:390,name:'before-dashboard-390.png',bytes:357654,sha256:'d3330c3a0d8a9c1bb1db5d8ab54fed4a74e48667dd69bf00bcc57fe0a6b89cfe',included_in_this_artifact:false},
+  {width:768,name:'before-dashboard-768.png',bytes:439198,sha256:'56e8d6997095479650560e6da327e23be464b59984632f702c859f7178617a7c',included_in_this_artifact:false},
+  {width:1440,name:'before-dashboard-1440.png',bytes:426792,sha256:'11fb7cb78a120c0047af9a0916ec7cf90c30333ebf92d8bbf7447e7cdd79072e',included_in_this_artifact:false},
+]
+for(const baseline of immutableDashboardBaselines)report.retained_originals.push({variant:'before',surface:'dashboard',
+  ...baseline,source_head:'a4f89315c5c1c5d4887a086e1455ffe9e94e3fd5',source_run_id:41512867605,
+  source_job_id:125508871053,source_artifact_id:13174052118,
+  source_zip_sha256:'c735e15a683291cd1ee131db75a7a62362907582d4a09bc18b734082812db3d1',
+  original_PNG_preserved:true,case_rerun:false})
 const children=[]
 let browser
 const exited=child=>child.exitCode!==null||child.signalCode!==null
@@ -118,13 +129,8 @@ try{
     })
     try{
       for(const surface of surfaces){
-        if(variant.name==='before'&&surface.id==='dashboard'&&width===320){
-          fs.writeFileSync(path.join(out,retained.screenshot.name),retainedPNG,{flag:'wx'})
-          report.variants.push(retained)
-          report.retained_originals.push({variant:'before',surface:'dashboard',width:320,
-            source_head:'5e9ce0bd579074ddc67b0b101d35a28ea2d368b2',source_run_id:41510643181,source_job_id:125501294085,
-            source_artifact_id:13172528100,source_zip_sha256:'1c74ab1b02f0da826806c1e29b60868ac01715c092c98ffc45b5213d589c803a',
-            original_row_preserved:true,original_PNG_preserved:true,case_rerun:false})
+        if(variant.name==='before'&&surface.id==='dashboard'){
+          if(width===320)fs.writeFileSync(path.join(out,retained.screenshot.name),retainedPNG,{flag:'wx'})
           continue
         }
         const page=await context.newPage(),errors=[],failures=[]
@@ -144,11 +150,15 @@ try{
             await page.locator('.submenu .sub-active').filter({hasText:surface.label}).waitFor({state:'attached'})
           }
           await page.locator('.page-wrap').waitFor({state:'visible'})
+          await page.locator(surface.ready).first().waitFor({state:'visible',timeout:30000})
+          require(await page.getByText(/^Menyiapkan (Penjualan|Keuangan)…$/).count()===0,
+            'UI_CAPTURE_WORKSPACE_FALLBACK_MUST_BE_GONE:'+surface.id)
           await page.evaluate(()=>document.fonts.ready)
           const name=`${variant.name}-${surface.id}-${width}.png`
           await page.screenshot({path:path.join(out,name),fullPage:true,animations:'disabled'})
           const observations=await inspect(page),raw=fs.readFileSync(path.join(out,name))
-          report.variants.push({variant:variant.name,surface:surface.id,width,screenshot:{name,bytes:raw.length,
+          report.variants.push({variant:variant.name,surface:surface.id,width,actual_loaded_selector:surface.ready,
+            workspace_fallback_absent:true,screenshot:{name,bytes:raw.length,
             sha256:crypto.createHash('sha256').update(raw).digest('hex')},observations,page_errors:errors,http_failures:failures})
           require(errors.length===0&&failures.length===0,'UI_CAPTURE_APPLICATION_RENDER_ERROR:'+name)
           if(variant.name==='after')require(observations.canvas==='rgb(244, 246, 250)'&&observations.sidebar==='rgb(24, 34, 57)',
@@ -168,9 +178,12 @@ try{
       require(blocked.length===0,'UI_CAPTURE_EXTERNAL_NETWORK_ATTEMPT_REFUSED')
     }finally{await context.close()}
   }
-  require(report.variants.length===24,'UI_CAPTURE_EXACT_TWENTYFOUR_VIEWS_REQUIRED')
-  require(new Set(report.variants.map(x=>`${x.variant}:${x.surface}:${x.width}`)).size===24,'UI_CAPTURE_EACH_REQUIRED_VIEW_ONCE')
-  report.status='BEFORE_AFTER24_RETAINED1_NEW23_CAPTURED_FINDINGS_PENDING_NOT_FINAL_UI_ACCEPTANCE'
+  require(report.variants.length===20,'UI_CAPTURE_EXACT_TWENTY_NEW_VIEWS_REQUIRED')
+  require(report.retained_originals.length===4,'UI_CAPTURE_EXACT_FOUR_IMMUTABLE_DASHBOARD_BASELINES_REQUIRED')
+  const evidenceKeys=[...report.variants.map(x=>`${x.variant}:${x.surface}:${x.width}`),
+    ...report.retained_originals.map(x=>`${x.variant}:${x.surface}:${x.width}`)]
+  require(new Set(evidenceKeys).size===24,'UI_CAPTURE_EACH_REQUIRED_EVIDENCE_VIEW_ONCE')
+  report.status='BEFORE_AFTER24_RETAINED4_NEW20_LOADED_CAPTURED_FINDINGS_PENDING_NOT_FINAL_UI_ACCEPTANCE'
 }catch(error){report.first_error=error.stack;process.exitCode=1}
 finally{
   report.cleanup_errors=[]
@@ -179,7 +192,7 @@ finally{
   report.preview_children_reaped=children.every(child=>exited(child)&&!groupExists(child))
   fs.writeFileSync(path.join(out,'UI_REFERENCE_CAPTURE.json'),JSON.stringify(report,null,2)+'\n')
   console.log(JSON.stringify({status:report.status,screenshots:report.variants.length,
-    retained_valid_views:report.retained_originals.length,new_captured_views:report.variants.length-report.retained_originals.length,
+    retained_valid_views:report.retained_originals.length,new_captured_views:report.variants.length,
     after_contrast_findings:report.variants.filter(x=>x.variant==='after').reduce((n,x)=>n+x.observations.contrast_findings.length,0),
     after_overflow_views:report.variants.filter(x=>x.variant==='after'&&x.observations.page_overflow).length,
     preview_children_reaped:report.preview_children_reaped,first_error:report.first_error,

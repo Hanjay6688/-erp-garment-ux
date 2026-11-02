@@ -12,8 +12,8 @@
 }
 
 /* Headings: less oversized, more room for operational content. */
-h1 { font-size: clamp(30px, 3.25vw, 46px) !important; line-height: 1.04 !important; letter-spacing: -.04em !important; }
-.hero-copy.compact h1 { font-size: clamp(28px, 2.65vw, 38px) !important; }
+h1 { font-size: clamp(24px, 2.3vw, 32px); line-height: 1.2; letter-spacing: -.03em; }
+.hero-copy.compact h1 { font-size: clamp(24px, 2.1vw, 30px); }
 h2 { font-size: clamp(18px, 1.6vw, 21px) !important; line-height: 1.2; }
 .hero-copy { margin-bottom: 25px; }
 .hero-copy.compact { margin-bottom: 20px; }
@@ -150,8 +150,8 @@ table td { font-size: 13px; }
 
 @media (max-width: 620px) {
   :root { --text-micro: 13px; --text-small: 13px; --text-body: 15px; --text-control: 14px; }
-  h1 { font-size: clamp(29px, 9vw, 36px) !important; }
-  .hero-copy.compact h1 { font-size: clamp(27px, 8.5vw, 34px) !important; }
+  h1 { font-size: clamp(24px, 7.5vw, 30px); }
+  .hero-copy.compact h1 { font-size: clamp(23px, 7vw, 28px); }
   .submenu button { font-size: 13px !important; }
   .sku-size-preview { grid-template-columns: repeat(3, minmax(0,1fr)); }
   .sku-size-preview > span { padding: 8px 5px !important; }

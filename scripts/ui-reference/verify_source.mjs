@@ -28,7 +28,10 @@ for(const [name,reference]of Object.entries(manifest.new_files))exact(pin(fs.rea
 const checks=JSON.parse(fs.readFileSync('docs/cp7/d17-14/ui-reference-20261103/LOCAL_SOURCE_BUILD_CHECKS.json'))
 require(checks.source_ownership==='PASS'&&checks.access_ownership==='PASS'&&checks.CSS_ownership==='PASS'
   &&checks.TypeScript_compile==='PASS'&&checks.Vite_build==='PASS'&&checks.client_secret_scan==='PASS','UI_SOURCE_RETAINED_ACTUAL_LOCAL_CHECKS_REQUIRED')
-for(const [name,reference]of Object.entries(checks.current_UI_sources))exact(pin(fs.readFileSync(name)),reference,'UI_SOURCE_RETAINED_CHECK_INPUT_STILL_EXACT:'+name)
+for(const [name,reference]of Object.entries(checks.current_UI_sources)){
+  const expected=manifest.existing_UI_derivations[name]?.after??reference
+  exact(pin(fs.readFileSync(name)),expected,'UI_SOURCE_CURRENT_INPUT_EXACT:'+name)
+}
 console.log(JSON.stringify({status:'ISOLATED_UI_SOURCE_AND_RETAINED_LOCAL_CHECK_INPUTS_EXACT_NOT_UNIFIED_RUNTIME',
   changed_existing_UI_files:Object.keys(manifest.existing_UI_derivations).length,new_files:added.length,
   actual_financial_source_changes:0,old_financial_tests_rerun:false,unified_runtime_admission:false,
