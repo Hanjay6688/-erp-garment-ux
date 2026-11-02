@@ -1,6 +1,6 @@
 {
   "contract": "writer-a.compact-current-state.v1",
-  "observed_at_UTC": "2026-11-02T04:23:19.017Z",
+  "observed_at_UTC": "2026-11-02T04:30:30.085Z",
   "integrator": "A",
   "A_B_division_preserved": true,
   "formal_CP7": "5/16",
@@ -108,11 +108,16 @@
       "run_id": null,
       "job_id": null,
       "actual_Native_case_acceptance_pending": true,
-      "source_only_preflight_pending": true,
+      "source_only_preflight_pending": false,
       "owning_actual_run_pending": true,
       "failed_previous_head": "c73dea71ad8e15e828ea7f4a27937c5c9da5e839",
       "failed_previous_run_id": 41377735841,
-      "repair_origin": "scripts/current-de-free-date-preparation/RUNTIME_FIXTURE_BINDING_REPAIR.json"
+      "repair_origin": "scripts/current-de-free-date-preparation/RUNTIME_FIXTURE_BINDING_REPAIR.json",
+      "source_only_preflight_PASS": true,
+      "source_only_run_id": 41388223323,
+      "source_only_job_id": 125093689853,
+      "source_only_proof": "FREE41_ACTUAL_WRITER_CWD_SOURCE_PREFLIGHT_PASS_20261102.json",
+      "source_DB_connection_attempts": 0
     },
     "AFUI": {
       "head": "098dbd8769cbbf6f0502750a7c2a770959e02385",
@@ -180,7 +185,7 @@
     }
   },
   "remaining_gate_summary_not_full_scope_inventory": [
-    "Repair FREE fixture binding in actual writer CWD and cleanup; run source-only preflight before the next single Native3 qualification. C73 failed with zero Native cases; full database restoration proven, explicit DB stop not proven. AFUI15 waits for actual Root-accepted FREE3.",
+    "Exact repaired FREE41 source passed from actual writer CWD with unchanged fixtures and original DB/network fences, zero SQL/Native. Activate exactly one owning Native3 run on ad986, retain C73 failure, verify all terminal Originals. AFUI15 waits for actual Root-accepted FREE3.",
     "Implement current global scope and owning hooks using the prepared private envelope, qualify current rights/writer/phantom closure and final factory/combined obligations. Source preparation and isolated lock controls do not close these gates.",
     "After the active integration block is stable: finish SKU moving average and FG Mandor chosen-week payroll settlement/UI, and apply/verify prepared tab contrast."
   ],
@@ -332,7 +337,7 @@
     "branch": "astra-a/free41-source-binding-preflight-20261102",
     "expected_candidate": "ad986b9a9d432f2ffac2b961710c3852c6c2ef90",
     "expected_tree": "80bc5471330b89497991ba1e67615287b01e59c1",
-    "status": "FIRST_SOURCE_ONLY_SETUP_FAILED_REPAIR_PREPARED",
+    "status": "ROOT_VERIFIED_SOURCE_ONLY_PASS",
     "database_provisioned": false,
     "Native_cases": 0,
     "failed_run_id": 41387774848,
@@ -340,12 +345,23 @@
     "passed_immutable_gates_reused": true,
     "first_failure_preserved": true,
     "source_capacity_preflight_added": true,
-    "duplicate_Native_runs": 0
+    "duplicate_Native_runs": 0,
+    "run_id": 41388223323,
+    "job_id": 125093689853,
+    "conclusion": "success",
+    "head": "465e9bb6f50b66a30dbad3eab3c3497425641cc0",
+    "qualified_candidate": "ad986b9a9d432f2ffac2b961710c3852c6c2ef90",
+    "qualified_tree": "80bc5471330b89497991ba1e67615287b01e59c1",
+    "actual_Native_cases": 0,
+    "DB_connection_attempts": 0,
+    "evidence": "FREE41_ACTUAL_WRITER_CWD_SOURCE_PREFLIGHT_PASS_20261102.json"
   },
   "execution_environment": {
-    "local": "UNAVAILABLE_ENVIRONMENT_OFFLINE",
+    "local": "NEW_ENVIRONMENT_EXEC_AVAILABLE_ORIGINAL_SCRATCH_CWD_MISSING",
     "pending_mutation_cell1558": "FAILED_BEFORE_APPLY_PATCH",
     "cloud_GitHub_available": true,
-    "remote_prepared_source_persisted": true
+    "remote_prepared_source_persisted": true,
+    "old_working_directory": "/workspace/scratch/cf5f04e2b451",
+    "old_offset_source_not_yet_recovered": true
   }
 }

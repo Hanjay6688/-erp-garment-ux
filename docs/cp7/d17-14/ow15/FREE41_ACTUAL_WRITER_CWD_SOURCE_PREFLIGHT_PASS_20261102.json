@@ -1,0 +1,193 @@
+{
+  "status": "ROOT_VERIFIED_WRITER_CWD_COMPLETE_RUNTIME_SOURCE_ONLY_NOT_FREE_NATIVE_QUALIFICATION",
+  "observed_at_UTC": "2026-11-02T04:30:30.085Z",
+  "candidate": {
+    "head": "ad986b9a9d432f2ffac2b961710c3852c6c2ef90",
+    "tree": "80bc5471330b89497991ba1e67615287b01e59c1"
+  },
+  "source_only_CI": {
+    "run_id": 41388223323,
+    "job_id": 125093689853,
+    "head": "465e9bb6f50b66a30dbad3eab3c3497425641cc0",
+    "run_attempt": 1,
+    "event": "push",
+    "conclusion": "success",
+    "updated_at": "2026-11-02T04:26:08Z",
+    "artifact": {
+      "id": 13115828007,
+      "bytes": 9110,
+      "provider_digest": "sha256:99f0ccb36976af0691add8c307a71cc05b118001b4128e256b320fbfa3cc857b",
+      "expired": false
+    },
+    "final_original_log_JSON": {
+      "bytes": 4450,
+      "sha256": "934193e1241b21d130a5bddd2ab3c1d4cf7f8438753008433bbffdce233820ea"
+    }
+  },
+  "source_proof": {
+    "status": "EXACT_FREE41_WRITER_CWD_FIXTURE_API_SOURCE_FENCE_PASS_NO_DATABASE",
+    "head": "ad986b9a9d432f2ffac2b961710c3852c6c2ef90",
+    "tree": "80bc5471330b89497991ba1e67615287b01e59c1",
+    "root_source": {
+      "source_pins": 40,
+      "own_paths": 41,
+      "unchanged_base": 14265,
+      "Native_case_ids": [
+        "FREE_DATE_NATIVE_WIB_INCLUSIVE_LOOKUP_AND_NORMAL_PUBLIC_QUOTE",
+        "FREE_DATE_NATIVE_FINAL_DAY_POST_STOCK_GL_AND_EXACT_REPLAY",
+        "FREE_DATE_NATIVE_POSTED_HISTORY_AFTER_ELIGIBILITY_ENDS"
+      ],
+      "original_C43_date_files": 9,
+      "explicit_date_stage_routes": 2,
+      "unchanged_Native_fixture_runner_sources": 3,
+      "pure_report_validator": {
+        "selected_functions": [
+          "money",
+          "posted",
+          "case_boundary",
+          "validate"
+        ],
+        "exact_source": {
+          "bytes": 14818,
+          "sha256": "e88f6a9e04c0f27b951616949698f00c8ada1848bf9cd86987a0e9c4084813f5"
+        },
+        "actual_ERP_imports": 0,
+        "actual_SQL_executed": 0
+      },
+      "exact_reversible_source_guard_derivation": {
+        "original_source_guard": {
+          "bytes": 4260,
+          "sha256": "8fcd679648b2cc0902562c39d00588594dbbf426ab8e40aabf2f4cbbde30dccb"
+        },
+        "counted_source_routes": 12,
+        "entire_original_recovered": true,
+        "actual_case_credit": 0
+      },
+      "nested_product_source_closure": {
+        "manifests": [
+          "scripts/cp7_special_free_date_on_de/SOURCE.json",
+          "scripts/cp7_current_de_free_date/SOURCE.json"
+        ],
+        "source_pins": 16,
+        "actual_case_credit": 0
+      },
+      "runtime_fixture_binding_repair": {
+        "status": "EXACT_OWN40_TO41_FIXTURE_PREFLIGHT_AND_CLEANUP_REPAIR_ONLY",
+        "failed_head": "c73dea71ad8e15e828ea7f4a27937c5c9da5e839",
+        "failed_tree": "b171e37eb8a76d3764e60662f93f368f98f41883",
+        "retained_failed_candidate_source": {
+          "source_pins": 39,
+          "own_paths": 40,
+          "unchanged_base": 14265,
+          "Native_case_ids": [
+            "FREE_DATE_NATIVE_WIB_INCLUSIVE_LOOKUP_AND_NORMAL_PUBLIC_QUOTE",
+            "FREE_DATE_NATIVE_FINAL_DAY_POST_STOCK_GL_AND_EXACT_REPLAY",
+            "FREE_DATE_NATIVE_POSTED_HISTORY_AFTER_ELIGIBILITY_ENDS"
+          ],
+          "original_C43_date_files": 9,
+          "explicit_date_stage_routes": 2,
+          "unchanged_Native_fixture_runner_sources": 3,
+          "pure_report_validator": {
+            "selected_functions": [
+              "money",
+              "posted",
+              "case_boundary",
+              "validate"
+            ],
+            "exact_source": {
+              "bytes": 14818,
+              "sha256": "e88f6a9e04c0f27b951616949698f00c8ada1848bf9cd86987a0e9c4084813f5"
+            },
+            "actual_ERP_imports": 0,
+            "actual_SQL_executed": 0
+          },
+          "exact_reversible_source_guard_derivation": {
+            "original_source_guard": {
+              "bytes": 4260,
+              "sha256": "8fcd679648b2cc0902562c39d00588594dbbf426ab8e40aabf2f4cbbde30dccb"
+            },
+            "counted_source_routes": 12,
+            "entire_original_recovered": true,
+            "actual_case_credit": 0
+          },
+          "nested_product_source_closure": {
+            "manifests": [
+              "scripts/cp7_special_free_date_on_de/SOURCE.json",
+              "scripts/cp7_current_de_free_date/SOURCE.json"
+            ],
+            "source_pins": 16,
+            "actual_case_credit": 0
+          },
+          "runtime_fixture_binding_repair": null,
+          "source_manifest": {
+            "bytes": 7592,
+            "sha256": "0350e79569ae6250256053d55e29daf8e5dd10f500dc5efe6c273ee6b002dd8d"
+          },
+          "actual_case_credit": 0,
+          "parent_qualification_pending": false
+        },
+        "unchanged_old_own_blobs_and_modes": 34,
+        "reversible_routes": 12,
+        "Native_case_and_financial_function_bodies_unchanged": true,
+        "actual_case_credit": 0
+      },
+      "source_manifest": {
+        "bytes": 8082,
+        "sha256": "cd8ad1dc2c6ef70c9ab66aa8449d08d9d87266d29a510727bf09c2e29ac8a456"
+      },
+      "actual_case_credit": 0,
+      "parent_qualification_pending": false
+    },
+    "actual_fixture_binding": {
+      "status": "EXACT_OWNING_FREE3_FIXTURE_AND_STRICT_RUNNER_BOUND_BEFORE_SQL",
+      "actual_working_directory": "/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer",
+      "modules": {
+        "cp7_current_de_free_date/composition.py": {
+          "bytes": 6400,
+          "sha256": "4ad7ca90207d29acc0634d1952e0955167ef6d68835de59f04d56918ab35f4d6",
+          "path": "/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_current_de_free_date/composition.py"
+        },
+        "cp6_bc_probe.py": {
+          "bytes": 139394,
+          "sha256": "147de7092ba2284312ba376f8cae82bf05c0fbb77e28956f45966cdfa6c8adb1",
+          "path": "/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_bc_probe.py"
+        },
+        "cp6_auditor_runner.py": {
+          "bytes": 14911,
+          "sha256": "2c74439f7e919e2adb2484bc774bef4881e71237124f2e6b6dabdab141348ea7",
+          "path": "/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py"
+        }
+      },
+      "callable_API_bindings": 7,
+      "private_fixture_and_runner_aliases": true,
+      "canonical_module_cache_replaced": false,
+      "fixture_or_runner_original_files_changed": false,
+      "actual_original_output": "/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/cp6-proof/aw",
+      "actual_SQL_executed": 0,
+      "actual_Native_cases": 0
+    },
+    "physical_and_natural_database_fences_pass": true,
+    "whole_natural_product_graph_evaluated": true,
+    "actual_DB_connection_attempts": 0,
+    "actual_Native_cases": 0,
+    "actual_SQL_executed": 0,
+    "source_only": true,
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "prior_source_setup_failure_retained": {
+    "run_id": 41387774848,
+    "job_id": 125092327067,
+    "first_failure_remains_failure": true,
+    "passed_immutable_root_source_and_workflow_derivation_reused_from_original": true
+  },
+  "next_single_owning_Native3_run_authorized_by_owner": true,
+  "owning_Native_run_started": false,
+  "Native_case_credit": 0,
+  "retained_DE30_fresh_case_credit": 0,
+  "financial_SQL_and_Native_case_bodies_unchanged": true,
+  "production_go": false,
+  "independent_acceptance": false,
+  "formal_CP7": "5/16",
+  "CP7_complete": false
+}
