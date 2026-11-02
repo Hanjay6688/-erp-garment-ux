@@ -307,6 +307,19 @@ def check():
     assert proof==json.loads((HERE/'NATIVE_SALES_ROUTES_SOURCE_CONTROLS.json').read_bytes())
     assert set(definitions)=={'cp7_sales.form_options(jsonb)'} and proof['route']['count']==1 and proof['complete_original_recovered']is True
     assert value['private_functions']==value['schema_and_event_functions']+value['private_allocation_functions']+value['private_buyer_functions']+value['private_sale_identity_functions']+value['private_offset_functions']+value['private_payment_functions']+value['private_payment_guard_functions']+value['private_sales_command_functions']==34
+    spec=importlib.util.spec_from_file_location('mandor_exact_facade_install_source_only',HERE/'facade_install.py')
+    facade_install=importlib.util.module_from_spec(spec);spec.loader.exec_module(facade_install)
+    _,facade_proof=facade_install.derive()
+    assert facade_proof==json.loads((HERE/'FACADE_INSTALL_SOURCE_CONTROLS.json').read_bytes())
+    install_controls=json.loads((HERE/'FACADE_OWNERSHIP_MODEL_CONTROLS.json').read_bytes())
+    assert install_controls['status']=='MANDOR_NON_SUPERUSER_FACADE_INSTALL_RETAINED3_PLUS_PREUSE_INVERSE1_PASS_NOT_NATIVE'
+    assert len(install_controls['checks'])==4 and all(r['status']=='PASS'for r in install_controls['checks'])
+    assert install_controls['forward_SQL_unchanged_across_all_three_attempts']==facade_proof['derived_SQL']
+    assert install_controls['retained_three_NOT_rerun']is True and install_controls['old_158_SQL_and_40_client_controls_NOT_rerun']is True
+    assert install_controls['exact_facade_only_preuse_inverse_all22_and_raw_public_ACL']is True
+    assert install_controls['complete_Native_installer_or_final_parent_adoption']is False
+    for name,expected in install_controls['source_files'].items():
+        raw=(HERE/name).read_bytes();assert expected=={'bytes':len(raw),'sha256':sha256(raw).hexdigest()}
     return dict(status='FG_MANDOR_EXACT_STORAGE_PREPARATION_SOURCE_ONLY',unchanged_parent_blobs_and_modes=len(base),
         own_source_pins=len(value['files']),storage_model_controls=len(model['results']),parent_gate_closed=True,
         private_allocation_model_controls=len(allocation['results']),retained_storage_controls_NOT_rerun=True,
@@ -316,7 +329,9 @@ def check():
         private_payment_functions=4,retained_payment_model_controls=19,fresh_payment_model_controls=4,
         Native_payment_source_adapters=8,actual_payment_runtime_installed=False,
         private_payment_guard_functions=6,new_payment_guard_model_controls=13,Native_payment_guard_triggers=6,
-        public_facade_source_functions=6,public_facade_model_controls=9,public_facade_runtime_activated=False,
+        public_facade_source_functions=6,new_non_superuser_facade_install_logical_controls=4,
+        composed_final_facade_source_written=True,complete_Native_installer=False,
+        public_facade_model_controls=9,public_facade_runtime_activated=False,
         exact_display_model_controls=4,new_controlled_UI_paths=14,new_UI_parser_cases=8,new_UI_DOM_cases=7,
         UI_mounted_or_RPC_wired=True,parent_UI_paths_changed=8,reversible_parent_UI_hunks=17,
         controller_DOM_logical_cases=10,focused_changed_refresh_cases=1,parent_mount_regression_cases=17,

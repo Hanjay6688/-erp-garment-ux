@@ -3,6 +3,10 @@
   "base_head": "15a2170cea88cd03a4d1bcaa0873a969d495b9fa",
   "base_tree": "3fe772a1314ae6bc7c4f36f72e3fda8738eb70fc",
   "files": {
+    "scripts/cp7_mandor_shop/ACTUAL_CREATOR_ACL_REFERENCE.json": {
+      "bytes": 1569,
+      "sha256": "075d1ac6d476a662a1277d7822b5561d494a4d7f774a28d6fca2d6f2a74841d2"
+    },
     "scripts/cp7_mandor_shop/ALLOCATION_MODEL_CONTROLS.json": {
       "bytes": 4208,
       "sha256": "da5d51f90412db34247bcf10c35ebadc0d4e97418e1521b4211bb7515f384772"
@@ -39,6 +43,10 @@
       "bytes": 840,
       "sha256": "373763b898315c751ed1d8408e07b9a7c91ca76f16b7e53f4fe5c75edbfcbbec"
     },
+    "scripts/cp7_mandor_shop/FACADE_INSTALL_SOURCE_CONTROLS.json": {
+      "bytes": 4099,
+      "sha256": "1f2d9538ce2fad0c2abff0d169a027df9e314535d3356fae5c42b26ab691819a"
+    },
     "scripts/cp7_mandor_shop/FACADE_MODEL_CONTROLS.json": {
       "bytes": 4154,
       "sha256": "69b37b20ce6def65a6feabcefcce029a5625f322593d76915fdbeb840b040885"
@@ -46,6 +54,14 @@
     "scripts/cp7_mandor_shop/FACADE_MODEL_ORIGIN.json": {
       "bytes": 939,
       "sha256": "30e942874bc1796778fbaff0e003e4d69b32173a8dcec04d8403daf2bb257a36"
+    },
+    "scripts/cp7_mandor_shop/FACADE_OWNERSHIP_FIRST_FAILURE.json": {
+      "bytes": 2260,
+      "sha256": "4cd4f3ae6e5cd98438fa80b6ec590ebdf7f345e36445e5f7a3a0d701902fd313"
+    },
+    "scripts/cp7_mandor_shop/FACADE_OWNERSHIP_MODEL_CONTROLS.json": {
+      "bytes": 2337,
+      "sha256": "bd8589833da0d8f3a9d703f1973fef0cc6f8eb3e8e5ff885827968429d964ae5"
     },
     "scripts/cp7_mandor_shop/NATIVE_ALLOCATION_REFERENCE.json": {
       "bytes": 41819,
@@ -116,8 +132,8 @@
       "sha256": "ba3da6e7c3a7ca001ff55f87588dc2fa0e9d7e4d93ddf01f213176121e789c7d"
     },
     "scripts/cp7_mandor_shop/README.md": {
-      "bytes": 15772,
-      "sha256": "9133ad6457b9a287e179494631fae96bacb1d01f54d6fc3c212d97f19ee5ebd6"
+      "bytes": 17047,
+      "sha256": "ec034c258cf22494d62122b205988ede48b0887cf4b18a0cd66d536693c83554"
     },
     "scripts/cp7_mandor_shop/SALES_COMMAND_MODEL_ORIGIN.json": {
       "bytes": 960,
@@ -200,12 +216,16 @@
       "sha256": "5bfeb12b4103ca88f48b84a213098b33a90e7ead52398a5025213d9188e47617"
     },
     "scripts/cp7_mandor_shop/check_source.py": {
-      "bytes": 27326,
-      "sha256": "e3f32cf8aa1387a6445df4a5443e8d2e7805e4d6d78d28a7981df1c70c9aa41d"
+      "bytes": 28753,
+      "sha256": "57a88bad221a7d66043d902a63112d826881046ed132c32f12d41311e956dd12"
     },
     "scripts/cp7_mandor_shop/events.sql": {
       "bytes": 8216,
       "sha256": "9e2633af5d9ecff6220c37cdf8bb22a27ce71cbc03862c8aa40a1fadfd82a1d3"
+    },
+    "scripts/cp7_mandor_shop/facade-ownership-first2.mjs.txt": {
+      "bytes": 10144,
+      "sha256": "095963cbd831915e22f905e383790df609f33341cdc31d437ce081e1e8f135e9"
     },
     "scripts/cp7_mandor_shop/facade.sql": {
       "bytes": 2963,
@@ -219,9 +239,21 @@
       "bytes": 17170,
       "sha256": "31b17b17e2dbabc44bcc432db3f35e3a88b9fe460371e7b4db0bd9a7e80af259"
     },
+    "scripts/cp7_mandor_shop/facade_install.py": {
+      "bytes": 5819,
+      "sha256": "ac62dd5b978b53156c2de59e70459c1db7c12bbef9740b71f4229a23207ad1f5"
+    },
     "scripts/cp7_mandor_shop/facade_model.mjs": {
       "bytes": 21154,
       "sha256": "8fc452403206b0c5997c6ad2671ea4674ce04384f27fec4690c33768e27f9f6d"
+    },
+    "scripts/cp7_mandor_shop/facade_ownership_model.mjs": {
+      "bytes": 10348,
+      "sha256": "dbbf496400eab068edec41401a36678a196b5ff8eb711319eee1023be2d10cb2"
+    },
+    "scripts/cp7_mandor_shop/facade_privileges.sql": {
+      "bytes": 2895,
+      "sha256": "f5d614819deae1af4229e5c94f644d8954d3da931eba4fb7ea4e5e5593a86efe"
     },
     "scripts/cp7_mandor_shop/native_payment_routes.py": {
       "bytes": 6314,
@@ -349,5 +381,8 @@
   "parent_mount_regression_cases": 17,
   "private_sales_command_functions": 3,
   "Native_sales_source_adapters": 1,
-  "Native_total_source_adapters": 9
+  "Native_total_source_adapters": 9,
+  "non_superuser_facade_composition_prepared": true,
+  "new_non_superuser_facade_install_controls": 4,
+  "complete_Native_installer": false
 }

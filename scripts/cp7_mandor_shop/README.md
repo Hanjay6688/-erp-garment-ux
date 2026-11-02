@@ -1,3 +1,9 @@
+## Non-superuser facade composition (2 November 2026)
+
+`facade_install.derive()` composes the original six public facades and three private sales helpers. It installs the existing exact payroll display body before owner transfer, normalizes only the nine new function ACLs while postgres owns them, then transfers public ownership with temporary SET/CREATE authority and removes both temporary grants. Existing transaction bodies and all previous model inputs are unchanged. A final installer must use this composition, rather than execute facade/display/sales SQL separately.
+
+Four new installation controls are logical retained2 + retained1 + fresh inverse1, not a fresh four-case attempt. The original duplicate-column reader failure and the exact pre-use inverse dependency failure remain recorded. The corrected inverse drops only the six owned public functions under temporary SET, then uses explicit postgres-issued REVOKEs and drops the three new private sales helpers/role. It restores all22 and the public raw ACL in the isolated WASM18.6 model; no Native business, HTTP, browser or two-backend qualification follows from this result. Prior158 SQL models and client40 were not repeated. Actual final-parent adoption and a complete Native installer remain pending.
+
 Sales UI preparation: the existing invoice form now offers Toko/Mandor, keeps
 unsaved lines on category changes, classifies existing draft customers before
 save, and carries the explicit Mandor token inside the same durable SALES
