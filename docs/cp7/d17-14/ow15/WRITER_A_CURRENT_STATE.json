@@ -356,15 +356,15 @@
     },
     "GLOBAL_ENVELOPE": {
       "status": "GLOBAL_READONLY_GRAPH4_AND_PLATFORM_FENCE_SOURCE_PREPARED_NOT_NATIVE",
-      "head": "f55ba349cc9028ad402e64362c4e8748ffe16387",
+      "head": "41176f03a5201c1896d65c1079e54ac98c0cba17",
       "public_head": "f55ba349cc9028ad402e64362c4e8748ffe16387",
-      "tree": "9b556cd6e9f118e5cc8cedfb7d2e26ab027a73b9",
+      "tree": "9b2aeaa2dd9b51bd6a9d9873e99ef776e6c4d5cc",
       "local_head": "c1af5fee22aea89d77a06f2c7b58d0ef497df138",
       "branch": "astra-a/global-envelope-lock-source-prepared-20261102",
-      "source_pins": 31,
-      "own_paths": 32,
+      "source_pins": 32,
+      "own_paths": 33,
       "private_tables": 3,
-      "private_functions": 13,
+      "private_functions": 14,
       "prepared_owning_source_adapters": 8,
       "reversible_source_routes": 18,
       "global_guard_sites": 3,
@@ -485,6 +485,60 @@
         ],
         "production_go": false,
         "independent_acceptance": false
+      },
+      "source_routes": 2,
+      "profile_relation_platform_capability_observed": true,
+      "complete_installer": false,
+      "actual_parent_adoption": false,
+      "evidence": "GLOBAL_PROFILE_RELATION_SOURCE32_PREPARED_20261102.json",
+      "latest_input_source_review": {
+        "status": "SOURCE_REVIEW_ONLY_LITERAL13_AND_METADATA921_EXPANSION_NO_RUNTIME_CLOSURE",
+        "global_head": "41176f03a5201c1896d65c1079e54ac98c0cba17",
+        "global_tree": "9b2aeaa2dd9b51bd6a9d9873e99ef776e6c4d5cc",
+        "original_report": {
+          "bytes": 456316,
+          "sha256": "0f1b073b684eda4bf0780f22a11ebe38ee2e18d850b949235c45ab8265054faf"
+        },
+        "retained_native_body_facts": 2970,
+        "retained_first_incremental_body_facts": 21,
+        "new_changed_bodies_parsed": 2,
+        "new_body_identities": [
+          "cp7_global_catalog_fence.lock_relations_v1(text)",
+          "cp7_global_nonpo_envelope.lock_v1(text)"
+        ],
+        "literal_SQL_statements_bound": 13,
+        "literal_source_functions": 3,
+        "metadata_expressions": 921,
+        "metadata_expression_categories": {
+          "POLICY3": 114,
+          "POLICY4": 101,
+          "CHECK": 452,
+          "DEFAULT_OR_GENERATED": 252,
+          "VIEW": 1,
+          "RULE": 1
+        },
+        "candidate_function_count": 262,
+        "candidate_relation_count": 166,
+        "physical_relation_candidates": 165,
+        "view_candidates": 1,
+        "unresolved_function_count": 5,
+        "unresolved_function_identities": [
+          "cp7_global_catalog_fence.lock_relations_v1(text)",
+          "cp7_global_catalog_fence.lock_v1()",
+          "extensions.digest(bytea,text)",
+          "extensions.digest(text,text)",
+          "extensions.gen_random_uuid()"
+        ],
+        "actual_SQL_executed": 0,
+        "actual_Native_cases": 0,
+        "global_writer_or_permission_or_phantom_closure": false,
+        "production_go": false,
+        "independent_acceptance": false,
+        "remaining": [
+          "Bind complete fresh catalogue/current authority to sealed profile",
+          "Close actual operator/cast and opaque/platform dispatch inputs",
+          "Final accepted parent adoption and Native dirty/stale/rights/phantom coexistence"
+        ]
       }
     }
   },
@@ -510,8 +564,8 @@
     "actual_catalog_function_attributes_each": 19,
     "historical17_is_a_selected_projection_not_full_actual19": true
   },
-  "continuity": "No financial CI currently active. Afui100 b8c/300 schema capability verified; full15 awaits genuine2026-11-02T17:00Z window. Mandor1247 schema capability verified; business0. Globalf55/9b55 prepared source31pins/32paths contains8envelope+4readonly+1platformfn; platformca88 run41441132562/job125263004143 actual17new4PASS, raw22/ACL/64locks recomputed byRoot. Inputreview reuses2970bodies and parses22changed/new only, corrects actual firing-trigger identity fromquery-key(prefix) rather thanconstraint-childrow15.230function/165relation candidates remainNOTclosure; internal table owners and dynamic/view/default/RLS inputs stillneedclosing. Continue implementation; no oldaccepted or completedcapability reruns.",
-  "operational_update_UTC": "2026-11-02T12:45:59.969427+00:00",
+  "continuity": "No CI active. Afui100 b8c/300 full15 awaits genuine2026-11-02T17:00Z unchanged six-hour WIB policy; accepted old results not rerun. Global41176/9b2a source32/33paths/14fn now includes a sealed-profile data relation capability; actual17 retained1+fresh3 qualified on265687/run41450281470/job125293494362, first358 failure preserved. Root independently matched raw22 transition/final equality/ACL/43locks. Inputreview retains2970+21 body facts, parses only2changed bodies, binds13literal statements and921 metadata expressions;262fn/166relation candidates remain NOT closure. Next implement full catalogue/current-rights profile binding and final installer/adoption, then remaining Native financial/rights/phantom/UI gates; Mandor business and SKU moving-average remain open.",
+  "operational_update_UTC": "2026-11-02T13:16:58.233257+00:00",
   "current_qualification_observation_is_earlier_API_snapshot": false,
   "retained_permanent_financial4": {
     "evidence": "CURRENT_PERMANENT23E_ROOT_RETAINED4_20261102.json",
@@ -712,7 +766,9 @@
     "1937",
     "2044",
     "2100",
-    "2132"
+    "2132",
+    "2170",
+    "2182"
   ],
   "global_catalog_primitives": {
     "status": "ROOT_VERIFIED_REAL_PG17_CATALOG_PRIMITIVES_RETAINED4_FRESH3_NOT_ERP_CLOSURE",
@@ -929,6 +985,62 @@
     "production_go": false,
     "independent_acceptance": false,
     "canonical_library_file_id": "libfile_439e6ce7d0d48191bccdcbee0ac3e5e7",
+    "conclusion": "success",
+    "sole_readonly_monitor_cell": null
+  },
+  "current_platform_relation_capability": {
+    "status": "ROOT_VERIFIED_ACTUAL17_RELATION_CAPABILITY_RETAIN1_FRESH3_NOT_GLOBAL_RUNTIME",
+    "head": "26568709f946c1875c2f22f600a9167bb091dbe0",
+    "tree": "f23bb5f0f8e1c17d84820d0c53dd4e45d3977c6b",
+    "run_id": 41450281470,
+    "job_id": 125293494362,
+    "source": {
+      "source_pins": 11,
+      "new_paths": 9,
+      "unchanged_parent_paths": 14426,
+      "model_tables": 42,
+      "new_product_roles": 0,
+      "actual_ERP_imports": 0,
+      "actual_SQL_executed": 0
+    },
+    "first_archive": {
+      "bytes": 26994,
+      "sha256": "751c7504790b99c592778e1498cd574fa456155003bd5697c310acf67d21ca50"
+    },
+    "archive": {
+      "bytes": 36891,
+      "sha256": "31479ba31bb1da800cc33dbd3633b06724c004cefa1e6c8ba2f151f29f26cd7b"
+    },
+    "first_original_report": {
+      "member": "PLATFORM_RELATION_FENCE_NEW4.json",
+      "bytes": 607381,
+      "sha256": "184c955f9461317d0967ca0264115efb1252ea1d1649682cd4f53f6be9ed830e"
+    },
+    "original_report": {
+      "member": "PLATFORM_RELATION_FENCE_NEW4.json",
+      "bytes": 917947,
+      "sha256": "71456fe841fbedeec1cd4baf7ccfe5e772dd8420c906054820d1b879bcff5c90"
+    },
+    "retained_controls": 1,
+    "new_controls": 3,
+    "coverage": 4,
+    "first_attempt_remains_failure": true,
+    "all_four_are_NOT_fresh_one_attempt": true,
+    "actual_PostgreSQL": 170006,
+    "original_raw22_transitions_and_final_equality_independently_recomputed": true,
+    "raw_function_and_schema_ACLs_and_actual43_locks_independently_matched": true,
+    "relation_capability_for_other_owner_tables_observed": true,
+    "direct_postgres_DML_privileges_expanded": false,
+    "capability_DB_removed": true,
+    "global_roles_and_memberships_restored": true,
+    "modeled_owner_writer_and_rollback_are_source_bound_assertions_NOT_financial_inverse": true,
+    "actual_global_installer_or_parent_adoption": false,
+    "actual_Native_cases": 0,
+    "global_writer_or_permission_or_phantom_closure": false,
+    "production_go": false,
+    "independent_acceptance": false,
+    "first_canonical_library_file_id": "libfile_98a4e12fd7ec8191958bb64202ba15e6",
+    "canonical_library_file_id": "libfile_0ecb6d4b89c48191946669a8c2e7f5d4",
     "conclusion": "success",
     "sole_readonly_monitor_cell": null
   }

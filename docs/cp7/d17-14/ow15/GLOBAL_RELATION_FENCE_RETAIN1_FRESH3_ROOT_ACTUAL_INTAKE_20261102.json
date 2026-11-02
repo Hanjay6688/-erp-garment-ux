@@ -1,0 +1,56 @@
+{
+  "status": "ROOT_VERIFIED_ACTUAL17_RELATION_CAPABILITY_RETAIN1_FRESH3_NOT_GLOBAL_RUNTIME",
+  "head": "26568709f946c1875c2f22f600a9167bb091dbe0",
+  "tree": "f23bb5f0f8e1c17d84820d0c53dd4e45d3977c6b",
+  "run_id": 41450281470,
+  "job_id": 125293494362,
+  "source": {
+    "source_pins": 11,
+    "new_paths": 9,
+    "unchanged_parent_paths": 14426,
+    "model_tables": 42,
+    "new_product_roles": 0,
+    "actual_ERP_imports": 0,
+    "actual_SQL_executed": 0
+  },
+  "first_archive": {
+    "bytes": 26994,
+    "sha256": "751c7504790b99c592778e1498cd574fa456155003bd5697c310acf67d21ca50"
+  },
+  "archive": {
+    "bytes": 36891,
+    "sha256": "31479ba31bb1da800cc33dbd3633b06724c004cefa1e6c8ba2f151f29f26cd7b"
+  },
+  "first_original_report": {
+    "member": "PLATFORM_RELATION_FENCE_NEW4.json",
+    "bytes": 607381,
+    "sha256": "184c955f9461317d0967ca0264115efb1252ea1d1649682cd4f53f6be9ed830e"
+  },
+  "original_report": {
+    "member": "PLATFORM_RELATION_FENCE_NEW4.json",
+    "bytes": 917947,
+    "sha256": "71456fe841fbedeec1cd4baf7ccfe5e772dd8420c906054820d1b879bcff5c90"
+  },
+  "retained_controls": 1,
+  "new_controls": 3,
+  "coverage": 4,
+  "first_attempt_remains_failure": true,
+  "all_four_are_NOT_fresh_one_attempt": true,
+  "actual_PostgreSQL": 170006,
+  "original_raw22_transitions_and_final_equality_independently_recomputed": true,
+  "raw_function_and_schema_ACLs_and_actual43_locks_independently_matched": true,
+  "relation_capability_for_other_owner_tables_observed": true,
+  "direct_postgres_DML_privileges_expanded": false,
+  "capability_DB_removed": true,
+  "global_roles_and_memberships_restored": true,
+  "modeled_owner_writer_and_rollback_are_source_bound_assertions_NOT_financial_inverse": true,
+  "actual_global_installer_or_parent_adoption": false,
+  "actual_Native_cases": 0,
+  "global_writer_or_permission_or_phantom_closure": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "first_canonical_library_file_id": "libfile_98a4e12fd7ec8191958bb64202ba15e6",
+  "canonical_library_file_id": "libfile_0ecb6d4b89c48191946669a8c2e7f5d4",
+  "conclusion": "success",
+  "sole_readonly_monitor_cell": null
+}

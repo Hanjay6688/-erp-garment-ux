@@ -1,0 +1,49 @@
+{
+  "status": "SOURCE_REVIEW_ONLY_LITERAL13_AND_METADATA921_EXPANSION_NO_RUNTIME_CLOSURE",
+  "global_head": "41176f03a5201c1896d65c1079e54ac98c0cba17",
+  "global_tree": "9b2aeaa2dd9b51bd6a9d9873e99ef776e6c4d5cc",
+  "original_report": {
+    "bytes": 456316,
+    "sha256": "0f1b073b684eda4bf0780f22a11ebe38ee2e18d850b949235c45ab8265054faf"
+  },
+  "retained_native_body_facts": 2970,
+  "retained_first_incremental_body_facts": 21,
+  "new_changed_bodies_parsed": 2,
+  "new_body_identities": [
+    "cp7_global_catalog_fence.lock_relations_v1(text)",
+    "cp7_global_nonpo_envelope.lock_v1(text)"
+  ],
+  "literal_SQL_statements_bound": 13,
+  "literal_source_functions": 3,
+  "metadata_expressions": 921,
+  "metadata_expression_categories": {
+    "POLICY3": 114,
+    "POLICY4": 101,
+    "CHECK": 452,
+    "DEFAULT_OR_GENERATED": 252,
+    "VIEW": 1,
+    "RULE": 1
+  },
+  "candidate_function_count": 262,
+  "candidate_relation_count": 166,
+  "physical_relation_candidates": 165,
+  "view_candidates": 1,
+  "unresolved_function_count": 5,
+  "unresolved_function_identities": [
+    "cp7_global_catalog_fence.lock_relations_v1(text)",
+    "cp7_global_catalog_fence.lock_v1()",
+    "extensions.digest(bytea,text)",
+    "extensions.digest(text,text)",
+    "extensions.gen_random_uuid()"
+  ],
+  "actual_SQL_executed": 0,
+  "actual_Native_cases": 0,
+  "global_writer_or_permission_or_phantom_closure": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "remaining": [
+    "Bind complete fresh catalogue/current authority to sealed profile",
+    "Close actual operator/cast and opaque/platform dispatch inputs",
+    "Final accepted parent adoption and Native dirty/stale/rights/phantom coexistence"
+  ]
+}
