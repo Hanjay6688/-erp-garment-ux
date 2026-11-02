@@ -1,0 +1,47 @@
+{
+  "classification": "FIXED25_CATALOGUE_FINGERPRINT_ACTUAL17_MODEL_ONLY",
+  "exact_new_controls": 3,
+  "old_completed_controls_NOT_rerun": true,
+  "actual_ERP_parent_installation": false,
+  "actual_Native_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false,
+  "files": {
+    "scripts/current-global-catalogue-profile-capability/INVERSE.sql": {
+      "bytes": 105,
+      "sha256": "6e882ac028ef16c0616170835bea4d52d7cdbf3752ec129a2e17f466b6eb551d"
+    },
+    "scripts/current-global-catalogue-profile-capability/QUERIES25.json": {
+      "bytes": 13150,
+      "sha256": "e950c2a3a61e4e94b1a2178d1825304a47f2e75c4ab9c23768013f6f073a0b20"
+    },
+    "scripts/current-global-catalogue-profile-capability/FINGERPRINT.sql": {
+      "bytes": 17577,
+      "sha256": "fc69e7ca90289dc9f43b03ee1d1f84bc1a84b35fc71704004f9c0c615a6016f1"
+    },
+    "scripts/current-global-catalogue-profile-capability/SOURCE_PROOF.json": {
+      "bytes": 4223,
+      "sha256": "895800cb8a7c575fcc47cfd59ef3b56628e956fa641f82e60dcbe421ffb5c7af"
+    },
+    "scripts/current-global-catalogue-profile-capability/probe.py": {
+      "bytes": 12706,
+      "sha256": "0afd9e0ad418859ec494f7b84e6faa789074ecc1a126b8dcaf9e0c4e5f06c7a2"
+    },
+    ".github/workflows/cp7-global-catalogue-profile-capability.yml": {
+      "bytes": 3421,
+      "sha256": "37381311da6a4149773dc2b9458939bf7f06697a2a75485ad82d3e6b0491a82d"
+    },
+    "scripts/current-global-catalog-bridge-capability/probe.py": {
+      "bytes": 13757,
+      "sha256": "c4b2db9f9fc9de5e7fc9c550651a522c69268cacb1411e42083a03002d3ad24b"
+    },
+    "scripts/cp7_ow04_restore_bundle.py": {
+      "bytes": 19828,
+      "sha256": "a1605193347cf5b3321a7bdbf8ff6c634df4f4c0a5113eb295e8c3ce44428e00"
+    },
+    "scripts/current-finance-combined-composition/disposable_start.py": {
+      "bytes": 2688,
+      "sha256": "523ec29f0566852f56627c7c9be791de215d09b55d8669c071024fd92aa8e257"
+    }
+  }
+}
