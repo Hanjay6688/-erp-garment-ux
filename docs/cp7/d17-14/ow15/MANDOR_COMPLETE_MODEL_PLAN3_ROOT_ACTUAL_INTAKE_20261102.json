@@ -1,0 +1,62 @@
+{
+  "status": "ROOT_VERIFIED_ACTUAL17_COMPLETE_MANDOR_MODEL_PLAN3_NOT_NATIVE_BUSINESS",
+  "head": "297dc4586d428a93f29e20dbcc04228731fc0d9d",
+  "tree": "f96442bc60c5a219df969cfaa16ef9e5528e9079",
+  "run_id": 41463719530,
+  "job_id": 125339000446,
+  "module_head": "816f63735d4be2a882a78e01dfba4b284de429b3",
+  "source": {
+    "source_pins": 92,
+    "new_paths": 90,
+    "unchanged_parent_paths": 14442
+  },
+  "archive": {
+    "bytes": 195632,
+    "sha256": "4359cd01117fa12e635fe9ae63b1fd63804dd853ec68488ed115f06fd82a2602"
+  },
+  "original_report": {
+    "member": "MANDOR_COMPLETE_INSTALL_PLAN_NEW3.json",
+    "bytes": 3251155,
+    "sha256": "83ee8aaccad5983aee6f430a3edc105632a55b433542bd76926e45c720b42250"
+  },
+  "new_controls": 3,
+  "all_original_failed_attempts_remain_failed": true,
+  "complete_model_raw22_final_equality_and_40_function_ACLs_and_15_table_RLS_independently_matched": true,
+  "actual_model9_OIDs_raw_function_and_schema_ACLs_independently_matched": true,
+  "model_context_refusal_and_environment_cleanup_are_source_bound_NOT_financial_inverse": true,
+  "actual_Native_cases": 0,
+  "actual_final_parent_adoption": false,
+  "actual_Auth_HTTP_cases": 0,
+  "actual_browser_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false,
+  "canonical_library_file_id": "libfile_fec55967d5cc8191a33aefdb4325211b",
+  "conclusion": "success",
+  "sole_readonly_monitor_cell": null,
+  "preserved_failed_originals": [
+    {
+      "head": "5a065aceda52f05eacf503c1b93b7b755c6bbe6f",
+      "run_id": 41458949848,
+      "job_id": 125322739803,
+      "completed_controls": 0,
+      "error": "MODEL fixture omitted Native schema USAGE",
+      "canonical_library_file_id": "libfile_feaa9d9b5f5481919b942962b095533e"
+    },
+    {
+      "head": "0c2ff6331782ee4d04fa161cd7b3adb33c8e0f72",
+      "run_id": 41459966675,
+      "job_id": 125326196294,
+      "completed_controls": 0,
+      "error": "Undeclared intended public-schema API USAGE delta",
+      "canonical_library_file_id": "libfile_a8e1fcf7fc948191b099b1d2adfbfa7e"
+    },
+    {
+      "head": "440b092dc20153cbb21ac3f07acbb87edf830c16",
+      "run_id": 41461357343,
+      "job_id": 125330917440,
+      "completed_controls": 0,
+      "error": "Missing exact declared Native constraint-trigger pg_constraint rows",
+      "canonical_library_file_id": "libfile_0f470ab231608191a0f9544374c8ccb3"
+    }
+  ]
+}

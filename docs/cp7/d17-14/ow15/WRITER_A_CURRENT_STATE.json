@@ -240,11 +240,11 @@
     },
     "FG_MANDOR": {
       "status": "FG_MANDOR_NON_SUPERUSER_FACADE_COMPOSITION_SOURCE_AND_ACTUAL17_CAPABILITY_NOT_NATIVE_BUSINESS",
-      "head": "12479502c94c04b24fd1e599160377f9d9b28213",
-      "tree": "239fdbd62b7ac39324df3ce2ff703478f9902345",
+      "head": "816f63735d4be2a882a78e01dfba4b284de429b3",
+      "tree": "9a032abe2579defc1a054515023eb08d58899b86",
       "local_head": "3a61d6230c60c1c431603af252c290d41a21edfa",
       "branch": "astra-a/fg-mandor-storage-source-prepared-20261102",
-      "source_pins": 78,
+      "source_pins": 83,
       "private_functions": 34,
       "public_facade_functions": 6,
       "Native_source_adapters": 9,
@@ -339,7 +339,7 @@
       "actual_two_session_races": 0,
       "production_go": false,
       "independent_acceptance": false,
-      "own_paths": 79,
+      "own_paths": 84,
       "prior_SQL_model_coverage": 158,
       "new_facade_install_logical_models": 4,
       "old158_SQL_and40_client_controls_NOT_rerun": true,
@@ -352,19 +352,24 @@
         "sha256": "8b670893ebd2de1e104a59b9177e5dd57bd77c75f1317954db7f5e898f91456e",
         "library_file_id": "libfile_16dea3eb379c8191b052867fe15f3619"
       },
-      "complete_Native_installer_pending": true
+      "complete_Native_installer_pending": true,
+      "guarded_complete_installer_source_written": true,
+      "actual_model_stage_qualified": true,
+      "actual_parent_adoption": false,
+      "runtime_entry": null,
+      "evidence": "MANDOR_GUARDED83_INSTALLER_SOURCE_AND_MODEL3_20261102.json"
     },
     "GLOBAL_ENVELOPE": {
       "status": "GLOBAL_READONLY_GRAPH4_AND_PLATFORM_FENCE_SOURCE_PREPARED_NOT_NATIVE",
-      "head": "41176f03a5201c1896d65c1079e54ac98c0cba17",
+      "head": "da7aff99956c9bb36be8baeb4a65b344b4a07698",
       "public_head": "f55ba349cc9028ad402e64362c4e8748ffe16387",
-      "tree": "9b2aeaa2dd9b51bd6a9d9873e99ef776e6c4d5cc",
+      "tree": "99fa98f38de1a5fe76750b5a23bc07066ab6cccf",
       "local_head": "c1af5fee22aea89d77a06f2c7b58d0ef497df138",
       "branch": "astra-a/global-envelope-lock-source-prepared-20261102",
-      "source_pins": 32,
-      "own_paths": 33,
+      "source_pins": 35,
+      "own_paths": 36,
       "private_tables": 3,
-      "private_functions": 14,
+      "private_functions": 15,
       "prepared_owning_source_adapters": 8,
       "reversible_source_routes": 18,
       "global_guard_sites": 3,
@@ -486,11 +491,11 @@
         "production_go": false,
         "independent_acceptance": false
       },
-      "source_routes": 2,
+      "source_routes": 3,
       "profile_relation_platform_capability_observed": true,
       "complete_installer": false,
       "actual_parent_adoption": false,
-      "evidence": "GLOBAL_PROFILE_RELATION_SOURCE32_PREPARED_20261102.json",
+      "evidence": "GLOBAL35_COMPLETE_CATALOGUE_PROFILE_SOURCE_20261102.json",
       "latest_input_source_review": {
         "status": "SOURCE_REVIEW_ONLY_LITERAL13_AND_METADATA921_EXPANSION_NO_RUNTIME_CLOSURE",
         "global_head": "41176f03a5201c1896d65c1079e54ac98c0cba17",
@@ -539,13 +544,16 @@
           "Close actual operator/cast and opaque/platform dispatch inputs",
           "Final accepted parent adoption and Native dirty/stale/rights/phantom coexistence"
         ]
-      }
+      },
+      "catalogue_fingerprint_functions": 1,
+      "current_fixed25_catalogue_helper_model_qualified": true
     }
   },
   "remaining_gate_summary_not_full_scope_inventory": [
-    "Afui100 actualSupabase17 schema capability passes. Full15 business qualification waits for the unchanged genuine6hWIB window opening2026-11-02T17:00Z; originalsource84 retained, no duplicate job now.",
-    "Global fixed private platform catalog capability4 now passes actualSupabase17 with raw22/ACL/64locks independently matched. Graph4 exact source/full19 compatibility and eight owning adapters are prepared. Finish sealed-profile data-table lock authority, dynamic/default/view/RLS/trigger input closure and trusted bootstrap/outer cleanup, then final parent and actual Native global coexistence/races/all5.",
-    "Mandor1247 composition and actual17 schema capability pass; finish complete guarded Native installer/final-parent adoption and paid/partial/return/reversal/two-tab/Auth/browser business qualification. SKU moving-average economic path, tabcontrast and combined/factory/full CP7 acceptance remain open."
+    "Afui100 full15 awaits genuine2026-11-02T17:00Z under unchanged six-hour WIB policy. No financial CI active; do not repeat accepted originals.",
+    "Global source35 includes fixed25 catalogue profile binding, exact retained graph4 and eight owning adapters; actual17 catalogue and relation capabilities verified. Complete guarded installer, declared dispatch/input profile, exact final-parent adoption and Native dirty/stale/rights/phantom/outside qualification remain.",
+    "Mandor83 guarded complete installer and actual17 modeled complete-stage3 now verified. Actual ERP final-parent adoption, paid/partial/return/reversal/two-backend/Auth/browser business qualification remain zero.",
+    "SKU moving-average economic path is not implemented; tabcontrast, combined/factory/full scope and independent acceptance remain open."
   ],
   "saved_metadata_preflight": {
     "global19_functions": 19,
@@ -564,8 +572,8 @@
     "actual_catalog_function_attributes_each": 19,
     "historical17_is_a_selected_projection_not_full_actual19": true
   },
-  "continuity": "No CI active. Afui100 b8c/300 full15 awaits genuine2026-11-02T17:00Z unchanged six-hour WIB policy; accepted old results not rerun. Global41176/9b2a source32/33paths/14fn now includes a sealed-profile data relation capability; actual17 retained1+fresh3 qualified on265687/run41450281470/job125293494362, first358 failure preserved. Root independently matched raw22 transition/final equality/ACL/43locks. Inputreview retains2970+21 body facts, parses only2changed bodies, binds13literal statements and921 metadata expressions;262fn/166relation candidates remain NOT closure. Next implement full catalogue/current-rights profile binding and final installer/adoption, then remaining Native financial/rights/phantom/UI gates; Mandor business and SKU moving-average remain open.",
-  "operational_update_UTC": "2026-11-02T13:16:58.233257+00:00",
+  "continuity": "Continue implementation, not a stop point. No CI active. Global fixed25 actual17 new3 and Mandor complete modeled stage actual17 new3 verified against original raw archives by Root; no Native financial acceptance added. Three Mandor failed originals remain failed. Scratch checkouts disappeared14:28Z; published source and originals recovered into /workspace/erp-writer-a with one shared full Git object repository and separate worktrees. Do not rebuild history or rerun completed tests. Next close Global guarded installer/profile, prepare remaining actual Native cases, and activate Afui100 only at genuine17:00Z.",
+  "operational_update_UTC": "2026-11-02T14:47:50.484613+00:00",
   "current_qualification_observation_is_earlier_API_snapshot": false,
   "retained_permanent_financial4": {
     "evidence": "CURRENT_PERMANENT23E_ROOT_RETAINED4_20261102.json",
@@ -768,7 +776,12 @@
     "2100",
     "2132",
     "2170",
-    "2182"
+    "2182",
+    "2210",
+    "2243",
+    "2248",
+    "2255",
+    "2274"
   ],
   "global_catalog_primitives": {
     "status": "ROOT_VERIFIED_REAL_PG17_CATALOG_PRIMITIVES_RETAINED4_FRESH3_NOT_ERP_CLOSURE",
@@ -835,7 +848,11 @@
     "remote_prepared_source_persisted": true,
     "old_working_directory": "/workspace/scratch/cf5f04e2b451",
     "old_offset_source_not_yet_recovered": true,
-    "old_offset_source_rebuilt_verified_and_published": true
+    "old_offset_source_rebuilt_verified_and_published": true,
+    "recovered_working_root": "/workspace/erp-writer-a",
+    "shared_full_git_repository": "/workspace/erp-writer-a/repository",
+    "scratch_loss_observed_UTC": "2026-11-02T14:28:17Z",
+    "published_code_and_originals_recovered": true
   },
   "retained_FREE3": {
     "head": "ad986b9a9d432f2ffac2b961710c3852c6c2ef90",
@@ -1043,5 +1060,98 @@
     "canonical_library_file_id": "libfile_0ecb6d4b89c48191946669a8c2e7f5d4",
     "conclusion": "success",
     "sole_readonly_monitor_cell": null
+  },
+  "current_complete_mandor_model_capability": {
+    "status": "ROOT_VERIFIED_ACTUAL17_COMPLETE_MANDOR_MODEL_PLAN3_NOT_NATIVE_BUSINESS",
+    "head": "297dc4586d428a93f29e20dbcc04228731fc0d9d",
+    "tree": "f96442bc60c5a219df969cfaa16ef9e5528e9079",
+    "run_id": 41463719530,
+    "job_id": 125339000446,
+    "module_head": "816f63735d4be2a882a78e01dfba4b284de429b3",
+    "source": {
+      "source_pins": 92,
+      "new_paths": 90,
+      "unchanged_parent_paths": 14442
+    },
+    "archive": {
+      "bytes": 195632,
+      "sha256": "4359cd01117fa12e635fe9ae63b1fd63804dd853ec68488ed115f06fd82a2602"
+    },
+    "original_report": {
+      "member": "MANDOR_COMPLETE_INSTALL_PLAN_NEW3.json",
+      "bytes": 3251155,
+      "sha256": "83ee8aaccad5983aee6f430a3edc105632a55b433542bd76926e45c720b42250"
+    },
+    "new_controls": 3,
+    "all_original_failed_attempts_remain_failed": true,
+    "complete_model_raw22_final_equality_and_40_function_ACLs_and_15_table_RLS_independently_matched": true,
+    "actual_model9_OIDs_raw_function_and_schema_ACLs_independently_matched": true,
+    "model_context_refusal_and_environment_cleanup_are_source_bound_NOT_financial_inverse": true,
+    "actual_Native_cases": 0,
+    "actual_final_parent_adoption": false,
+    "actual_Auth_HTTP_cases": 0,
+    "actual_browser_cases": 0,
+    "production_go": false,
+    "independent_acceptance": false,
+    "canonical_library_file_id": "libfile_fec55967d5cc8191a33aefdb4325211b",
+    "conclusion": "success",
+    "sole_readonly_monitor_cell": null,
+    "preserved_failed_originals": [
+      {
+        "head": "5a065aceda52f05eacf503c1b93b7b755c6bbe6f",
+        "run_id": 41458949848,
+        "job_id": 125322739803,
+        "completed_controls": 0,
+        "error": "MODEL fixture omitted Native schema USAGE",
+        "canonical_library_file_id": "libfile_feaa9d9b5f5481919b942962b095533e"
+      },
+      {
+        "head": "0c2ff6331782ee4d04fa161cd7b3adb33c8e0f72",
+        "run_id": 41459966675,
+        "job_id": 125326196294,
+        "completed_controls": 0,
+        "error": "Undeclared intended public-schema API USAGE delta",
+        "canonical_library_file_id": "libfile_a8e1fcf7fc948191b099b1d2adfbfa7e"
+      },
+      {
+        "head": "440b092dc20153cbb21ac3f07acbb87edf830c16",
+        "run_id": 41461357343,
+        "job_id": 125330917440,
+        "completed_controls": 0,
+        "error": "Missing exact declared Native constraint-trigger pg_constraint rows",
+        "canonical_library_file_id": "libfile_0f470ab231608191a0f9544374c8ccb3"
+      }
+    ]
+  },
+  "current_fixed25_catalogue_capability": {
+    "status": "ROOT_VERIFIED_ACTUAL17_FIXED25_CATALOGUE_NEW3_RAW_PREIMAGES_AND_METADATA_NOT_GLOBAL_RUNTIME",
+    "head": "6774e244eade7bf6c07fc97df1e44afea203a6b0",
+    "tree": "0cf377f091b4476b47c2bb601e27211e07cff891",
+    "run_id": 41453242844,
+    "job_id": 125303395021,
+    "source": {
+      "source_pins": 9,
+      "new_paths": 7,
+      "unchanged_parent_paths": 14435
+    },
+    "archive": {
+      "bytes": 288710,
+      "sha256": "ca4b5cac21e16fcac0a257b3c3414a45e69f14d6b64712a57ad1b1754a4e357b"
+    },
+    "original_report": {
+      "member": "CATALOGUE_FINGERPRINT_NEW3.json",
+      "bytes": 4679816,
+      "sha256": "b5869a4aeeb356ec4f5c2d6b5448f80201d69e397007fa715afb599d1acccf6c"
+    },
+    "new_controls": 3,
+    "raw25_transition_preimages_SHA256_counts_and_final_independently_recomputed": true,
+    "data_and_sequence_restore_and_environment_cleanup_are_source_bound_NOT_financial_inverse": true,
+    "actual_Native_cases": 0,
+    "actual_final_parent_adoption": false,
+    "production_go": false,
+    "independent_acceptance": false,
+    "canonical_library_file_id": "libfile_80c38a8d5e8c8191b0a34c67745e4ee8",
+    "conclusion": "success",
+    "actual_ERP_business_qualification": false
   }
 }

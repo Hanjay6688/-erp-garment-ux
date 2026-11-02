@@ -1,0 +1,31 @@
+{
+  "status": "ROOT_VERIFIED_ACTUAL17_FIXED25_CATALOGUE_NEW3_RAW_PREIMAGES_AND_METADATA_NOT_GLOBAL_RUNTIME",
+  "head": "6774e244eade7bf6c07fc97df1e44afea203a6b0",
+  "tree": "0cf377f091b4476b47c2bb601e27211e07cff891",
+  "run_id": 41453242844,
+  "job_id": 125303395021,
+  "source": {
+    "source_pins": 9,
+    "new_paths": 7,
+    "unchanged_parent_paths": 14435
+  },
+  "archive": {
+    "bytes": 288710,
+    "sha256": "ca4b5cac21e16fcac0a257b3c3414a45e69f14d6b64712a57ad1b1754a4e357b"
+  },
+  "original_report": {
+    "member": "CATALOGUE_FINGERPRINT_NEW3.json",
+    "bytes": 4679816,
+    "sha256": "b5869a4aeeb356ec4f5c2d6b5448f80201d69e397007fa715afb599d1acccf6c"
+  },
+  "new_controls": 3,
+  "raw25_transition_preimages_SHA256_counts_and_final_independently_recomputed": true,
+  "data_and_sequence_restore_and_environment_cleanup_are_source_bound_NOT_financial_inverse": true,
+  "actual_Native_cases": 0,
+  "actual_final_parent_adoption": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "canonical_library_file_id": "libfile_80c38a8d5e8c8191b0a34c67745e4ee8",
+  "conclusion": "success",
+  "actual_ERP_business_qualification": false
+}

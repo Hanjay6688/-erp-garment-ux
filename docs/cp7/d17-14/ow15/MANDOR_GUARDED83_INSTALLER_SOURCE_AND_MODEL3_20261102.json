@@ -1,0 +1,23 @@
+{
+  "status": "GUARDED_MANDOR83_COMPLETE_INSTALLER_SOURCE_MODEL_CAPABILITY_NOT_NATIVE_ACCEPTANCE",
+  "head": "816f63735d4be2a882a78e01dfba4b284de429b3",
+  "tree": "9a032abe2579defc1a054515023eb08d58899b86",
+  "source_pins": 83,
+  "own_namespace_paths": 84,
+  "private_tables": 15,
+  "private_functions": 34,
+  "public_facades": 6,
+  "Native_adapters": 9,
+  "new_authorized_Sales_facade_dispatch_routes": 1,
+  "private_table_ACLs_owner_only": true,
+  "Native_existing_role_memberships_granted": 0,
+  "declared_existing_public_schema_delta": "Only new API USAGE; old raw entries/order preserved; original raw ACL restored after unused removal",
+  "Native_parent_constraint_rows_exactly_declared": 2,
+  "guarded_complete_installer_source_written": true,
+  "actual_model_installer_proof": "MANDOR_COMPLETE_MODEL_PLAN3_ROOT_ACTUAL_INTAKE_20261102.json",
+  "actual_parent_adoption": false,
+  "runtime_entry": null,
+  "actual_Native_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

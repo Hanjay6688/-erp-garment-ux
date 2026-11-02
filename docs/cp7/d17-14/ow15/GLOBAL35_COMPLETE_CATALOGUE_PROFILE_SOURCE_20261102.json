@@ -1,0 +1,20 @@
+{
+  "status": "GLOBAL35_FIXED25_CATALOGUE_PROFILE_SOURCE_NOT_COMPLETE_INSTALLER",
+  "head": "da7aff99956c9bb36be8baeb4a65b344b4a07698",
+  "tree": "99fa98f38de1a5fe76750b5a23bc07066ab6cccf",
+  "source_pins": 35,
+  "own_namespace_paths": 36,
+  "private_tables": 3,
+  "private_functions": 15,
+  "counted_platform_routes": 2,
+  "counted_catalogue_profile_routes": 1,
+  "original_all22_plus_dispatch_groups": 25,
+  "actual_helper_model_capability": "GLOBAL_FIXED25_CATALOGUE3_ROOT_ACTUAL_INTAKE_20261102.json",
+  "all_original_graph4_and_scope21_owning13_models_NOT_rerun": true,
+  "complete_guarded_installer": false,
+  "actual_parent_adoption": false,
+  "runtime_entry": null,
+  "actual_Native_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}
