@@ -1,0 +1,233 @@
+// Actual new private buyer SQL on one isolated PostgreSQL/WASM backend.
+// Native sales command_access is byte-exact; Auth/permission providers, audit,
+// and the remaining Native schema are explicit models. No ERP qualification.
+import assert from 'node:assert/strict';
+import {readFile,writeFile} from 'node:fs/promises';
+import {fileURLToPath,pathToFileURL} from 'node:url';
+import {createHash} from 'node:crypto';
+
+const [runtime,output]=process.argv.slice(2);
+assert(runtime&&output,'Explicit existing isolated runtime and new result path required');
+assert.equal(process.argv[4],'--sales-only','Only the new atomic sale and category controls execute');
+const {PGlite}=await import(pathToFileURL(runtime).href);
+const here=fileURLToPath(new URL('.',import.meta.url));
+const pin=raw=>({bytes:raw.length,sha256:createHash('sha256').update(raw).digest('hex')});
+const rawReference=await readFile(here+'NATIVE_BUYER_REFERENCE.json');
+const reference=JSON.parse(rawReference),signature='cp7_sales.command_access(text)';
+assert.equal(reference.head,'6e61506c10a18541c104b981bd438e78b175b5d1');
+assert.equal(reference.raw_original.sha256,'7607987b5a8a9100dddbfef5b39135b330eda329bf89b072b3839467cf7c7b86');
+const db=new PGlite(),results=[];
+const id=n=>'20000000-0000-4000-8000-'+String(n).padStart(12,'0');
+const actor=id(9001),first=id(1),sameName=id(2),renamed=id(3),disabled=id(4),
+ nonMandor=id(5),collision=id(6),nested=id(7),last=id(8),store=id(8001);
+let sequence=10000;
+const request=()=>id(++sequence);
+const permissions=['sales.invoice.view','finance.ar.view','sales.invoice.create','sales.invoice.edit_draft'];
+const scalar=async(sql,args=[])=>Object.values((await db.query(sql,args)).rows[0])[0];
+async function tx(body){
+ await db.exec('BEGIN');
+ try{const value=await body();await db.exec('COMMIT');return value;}
+ catch(error){await db.exec('ROLLBACK');throw error;}
+}
+async function refused(label,body,message,code='P0001'){
+ let error;try{await body();}catch(caught){error=caught;}
+ assert(error,label+': rejection required');assert.equal(error.code,code,label+': SQLSTATE');
+ assert(error.message.includes(message),label+': '+error.message);
+ results.push({label,result:'REFUSED_AS_REQUIRED',SQLSTATE:error.code,error:message});
+}
+const options=async(q='',after=null,limit=25,action='CREATE')=>scalar(
+ 'select cp7_mandor_shop.buyer_options($1,$2,$3,$4)',[action,q,after,limit]);
+const option=async(cid,action='CREATE')=>(await options('',null,25,action)).rows.find(x=>x.contractor_id===cid);
+const payload=(row,action='CREATE')=>({contract_version:'cp7.mandor-shop-buyer-command.v1',
+ sales_action:action,contractor_id:row.contractor_id,review_token:row.review_token});
+const command=(p,key=request())=>tx(()=>scalar('select cp7_mandor_shop.buyer_command($1::jsonb,$2)',[JSON.stringify(p),key]));
+const counts=async()=>(await db.query(`select
+ (select count(*)::int from erp.customers)customers,
+ (select count(*)::int from cp7_mandor_shop.contractor_accounts)accounts,
+ (select count(*)::int from cp7_mandor_shop.requests)requests,
+ (select count(*)::int from cp7_sales.command_context)native_contexts,
+ (select count(*)::int from cp7_mandor_shop.command_context)own_contexts,
+ (select count(*)::int from erp.sales_headers)sales,
+ (select count(*)::int from erp.journal_entries)journals`)).rows[0];
+try{
+ await db.exec(`
+  create role anon;create role authenticated;create role service_role;create role cp7_sales_read;
+  create schema erp;create schema auth;create schema extensions;create schema cp7_sales;
+  create function auth.uid()returns uuid language sql stable as $$
+   select nullif(current_setting('cp7_model.actor',true),'')::uuid $$;
+  create function auth.jwt()returns jsonb language sql stable as $$
+   select jsonb_build_object('role',coalesce(nullif(current_setting('cp7_model.jwt_role',true),''),'authenticated')) $$;
+  create function erp.get_my_access_v1()returns jsonb language sql stable as $$
+   select jsonb_build_object('allowed',true,'profile',jsonb_build_object('role_code','STAFF'),
+    'actor',auth.uid(),'permissions',coalesce(nullif(current_setting('cp7_model.permissions',true),''),'[]')::jsonb) $$;
+  create function erp.has_permission(text)returns boolean language sql stable as $$
+   select coalesce(nullif(current_setting('cp7_model.permissions',true),''),'[]')::jsonb?$1 $$;
+  create function extensions.digest(bytea,text)returns bytea language sql immutable as $$
+   select case when $2='sha256'then pg_catalog.sha256($1)else null end $$;
+  create table erp.app_permissions(id uuid primary key);
+  create table erp.app_role_permissions(id uuid primary key);
+  create table erp.app_roles(id uuid primary key);
+  create table erp.app_users(id uuid primary key);
+  create table erp.contractors(id uuid primary key default gen_random_uuid(),
+   contractor_code varchar(30)not null unique,contractor_name varchar(120)not null,
+   contractor_type varchar(30)not null default 'MANDOR',attendance_required boolean not null default true,
+   is_active boolean not null default true,notes text,created_at timestamptz not null default statement_timestamp(),
+   updated_at timestamptz not null default statement_timestamp());
+  create table erp.customers(id uuid primary key default gen_random_uuid(),
+   customer_code varchar(30)not null unique,customer_name varchar(150)not null,phone varchar(50),
+   address text,is_active boolean not null default true,created_at timestamptz not null default statement_timestamp(),
+   updated_at timestamptz not null default statement_timestamp());
+  create table cp7_sales.command_context(backend_pid integer not null,transaction_id bigint not null,
+   actor uuid not null,sale_id uuid,action text not null,primary key(backend_pid,transaction_id));
+  -- Remaining Native tables supply only the existing private schema's FK/type
+  -- targets. Their business machinery and audit implementation are not run.
+  create table erp.sales_headers(id uuid primary key,customer_id uuid,status varchar(20));
+  create table erp.payroll_settlements(id uuid primary key,contractor_id uuid,status varchar(20));
+  create table erp.payroll_deductions(id uuid primary key);
+  create table erp.journal_entries(id uuid primary key);
+  grant usage on schema erp,auth,cp7_sales to cp7_sales_read;
+ `);
+ await db.exec(reference.functions[signature][0]);
+ assert.equal(reference.functions[signature][1],'cp7_sales_read');
+ await db.exec('alter function cp7_sales.command_access(text)owner to cp7_sales_read');
+ const schema=await readFile(here+'schema.sql'),events=await readFile(here+'events.sql'),buyers=await readFile(here+'buyers.sql');
+ await db.exec(schema.toString());await db.exec(events.toString());await db.exec(buyers.toString());
+ await db.query("select set_config('cp7_model.actor',$1,false),set_config('cp7_model.permissions',$2,false)",[actor,JSON.stringify(permissions)]);
+ for(const [cid,code,name,type,active]of[
+  [first,'M1','Epi','MANDOR',true],[sameName,'M2','Epi','MANDOR',true],
+  [renamed,'M3','Before rename','MANDOR',true],[disabled,'M4','Inactive','MANDOR',false],
+  [nonMandor,'X5','Other contractor','LAUNDRY',true],[collision,'M6','Collision','MANDOR',true],
+  [nested,'M7','Nested','MANDOR',true],[last,'M8','Last','MANDOR',true]])
+  await db.query('insert into erp.contractors(id,contractor_code,contractor_name,contractor_type,is_active)values($1,$2,$3,$4,$5)',[cid,code,name,type,active]);
+ await db.query("insert into erp.customers(id,customer_code,customer_name)values($1,'STORE-1','Epi')",[store]);
+
+ const expectedColumns={};
+ for(const [table,declaration]of Object.entries(reference.columns)){
+  const actual=await scalar(`select jsonb_object_agg(a.attname,pg_catalog.format_type(a.atttypid,a.atttypmod))
+   from pg_attribute a where a.attrelid=$1::regclass and a.attnum>0 and not a.attisdropped`,[table]);
+  expectedColumns[table]=Object.fromEntries(Object.values(declaration).map(row=>[row[0],row[2]]));
+  assert.deepEqual(actual,expectedColumns[table]);
+ }
+
+ const salesReference=JSON.parse(await readFile(here+'NATIVE_SALES_COMMAND_REFERENCE.json'));
+ assert.equal(salesReference.functions_unchanged_in_actual_after_committed_E_use,true);
+ // Complete only the actual Native column types needed by the new source.
+ for(const table of ['erp.sales_headers','erp.sales_items','cp7_sales.requests']){
+  const declared=salesReference.columns[table],cols=Object.values(declared).sort((a,b)=>a[1]-b[1]);
+  assert(cols.length>0);
+  const existing=await scalar("select coalesce(jsonb_agg(attname),'[]')from pg_attribute where attrelid=to_regclass($1)and attnum>0 and not attisdropped",[table]);
+  if(!existing.length){const keys=table==='cp7_sales.requests'?'actor,request_id':'id';await db.exec('create table '+table+'('+cols.map(c=>'"'+c[0]+'" '+c[2]).join(',')+',primary key('+keys+'))');}
+  else for(const c of cols)if(!existing.includes(c[0]))await db.exec('alter table '+table+' add column "'+c[0]+'" '+c[2]);
+  const actual=await scalar('select jsonb_object_agg(attname,format_type(atttypid,atttypmod))from pg_attribute where attrelid=$1::regclass and attnum>0 and not attisdropped',[table]);
+  assert.deepEqual(actual,Object.fromEntries(cols.map(c=>[c[0],c[2]])));
+ }
+ await db.exec(`create role cp7_sales_write nologin;create role cp7_mandor_shop_api nologin noinherit;
+  grant usage on schema public,cp7_mandor_shop to cp7_mandor_shop_api;
+  create schema cp7_model;
+  create table cp7_model.native_applies(request_id uuid primary key,action text,payload jsonb,expected_version text);
+  create function erp.require_internal()returns void language plpgsql as $$begin
+   if not exists(select 1 from cp7_sales.command_context where backend_pid=pg_backend_pid()
+    and transaction_id=txid_current_if_assigned()and actor=auth.uid()and action in('CREATE','EDIT'))
+    then raise exception 'MODEL_EXACT_NATIVE_SALES_CONTEXT_REQUIRED';end if;end$$;
+  create function cp7_sales.apply_command(p_action text,p jsonb,p_request uuid,p_expected text)returns jsonb
+  language plpgsql security definer set search_path=''as $$declare ident uuid;version_ bigint;begin
+   perform erp.require_internal();
+   if coalesce(nullif(current_setting('cp7_model.fail_apply',true),''),'no')='yes'then raise exception 'MODEL_NATIVE_DRAFT_ENGINE_REFUSED';end if;
+   if p_action='CREATE'then
+    ident:=gen_random_uuid();version_:=1;
+    insert into erp.sales_headers(id,customer_id,status,sale_number,sale_date,row_version)
+      values(ident,(p->>'customer_id')::uuid,'DRAFT',p->>'sale_number',(p->>'sale_date')::timestamptz,1);
+   elsif p_action='EDIT'then
+    ident:=(p->>'sale_id')::uuid;
+    update erp.sales_headers set customer_id=(p->>'customer_id')::uuid,sale_number=p->>'sale_number',row_version=row_version+1
+      where id=ident and row_version=p_expected::bigint returning row_version into version_;
+    if not found then raise exception 'MODEL_NATIVE_SOURCE_VERSION_CHANGED';end if;
+   else raise exception 'MODEL_DRAFT_ACTION_ONLY';end if;
+   insert into cp7_model.native_applies values(p_request,p_action,p,p_expected);
+   return jsonb_build_object('sale_id',ident,'row_version',version_::text);
+  end$$;`);
+ for(const signature of ['cp7_sales.command(text,jsonb,uuid,text)','cp7_sales.validate_draft(jsonb,boolean)','cp7_sales.access_now()'])await db.exec(salesReference.functions[signature][0]);
+ await db.exec((await readFile(here+'sales_commands.sql')).toString());
+ await db.exec((await readFile(here+'sale_identity.sql')).toString());
+ const formDefinition=JSON.parse((await import('node:child_process')).execFileSync('python',['-B','-c',
+  "import importlib.util,json;from pathlib import Path;s=importlib.util.spec_from_file_location('sales_source_only','native_sales_routes.py');m=importlib.util.module_from_spec(s);s.loader.exec_module(m);r=json.loads(Path('NATIVE_SALES_COMMAND_REFERENCE.json').read_bytes());d,p=m.derive(r['functions']);print(json.dumps(d))"],{cwd:here,encoding:'utf8',env:{...process.env,PYTHONDONTWRITEBYTECODE:'1'}}));
+ await db.exec(formDefinition['cp7_sales.form_options(jsonb)']);
+ results.push({label:'Three new private owners, two public wrappers, exact Native command/validation/access and one derived store-picker function compile on the documented model',result:'PASS'});
+ const buyer=async contractor=>{const options=await scalar("select cp7_mandor_shop.buyer_options('CREATE','')");return options.rows.find(r=>r.contractor_id===contractor);};
+ const document=(selected,extra={})=>({sale_number:'MODEL-SALE-'+sequence,customer_id:selected.customer_id,
+  source_location_id:id(8002),sale_date:'2026-11-01T02:00:00Z',due_date:null,payment_terms:'Kredit',notes:null,
+  change_reason:'Owner chooses explicit Mandor before the original draft save',
+  items:[{product_id:id(8003),qty_pcs:'1',unit_price_snapshot:'300000.00',discount_amount:'0.00',notes:null}],
+  mandor_buyer:{contractor_id:selected.contractor_id,review_token:selected.review_token},...extra});
+ const counts=async()=>Object.fromEntries(await Promise.all([
+  ['customers','erp.customers'],['accounts','cp7_mandor_shop.contractor_accounts'],['own_requests','cp7_mandor_shop.requests'],
+  ['native_requests','cp7_sales.requests'],['headers','erp.sales_headers'],['applies','cp7_model.native_applies'],
+  ['buyer_context','cp7_mandor_shop.command_context'],['native_context','cp7_sales.command_context'],
+ ].map(async([key,table])=>[key,await scalar('select count(*)::int from '+table)])));
+ const save=(action,p,req=requestID(),expected=null)=>tx(()=>scalar('select public.erp_cp7_save_mandor_shop_sale_v1($1,$2::jsonb,$3,$4)',[action,JSON.stringify(p),req,expected]));
+ function requestID(){return request();}
+ const selected=await buyer(first),nativeRequest=requestID(),body=document(selected);
+ const made=await save('CREATE',body,nativeRequest);assert.equal(made.contract_version,'cp7.sales-outcome.v1');assert.equal(made.request_id,nativeRequest);assert.equal(made.action,'CREATE');
+ const mapped=await scalar('select customer_id::text from cp7_mandor_shop.contractor_accounts where contractor_id=$1',[first]);
+ const actualPayload=await scalar('select payload from cp7_model.native_applies where request_id=$1',[nativeRequest]);
+ assert.equal(actualPayload.customer_id,mapped);assert.equal(actualPayload.mandor_buyer,undefined);assert.deepEqual(actualPayload.items,body.items);
+ assert.equal(await scalar('select contractor_id::text from cp7_mandor_shop.draft_buyers where sale_id=$1',[made.sale_id]),first);
+ assert.equal(await scalar('select count(*)::int from cp7_mandor_shop.sales'),0);
+ const afterCreate=await counts();assert.equal(afterCreate.applies,1);assert.equal(afterCreate.native_context,0);assert.equal(afterCreate.buyer_context,0);
+ results.push({label:'One external Native CREATE intent atomically prepares the explicit customer and saves the same original draft payload; it creates no posted sale fact',result:'PASS'});
+ assert.deepEqual(await save('CREATE',body,nativeRequest),made);assert.deepEqual(await counts(),afterCreate);
+ results.push({label:'Exact replay reuses the complete external intent and creates no second customer, account, draft or Native apply',result:'PASS'});
+ await refused('Same external request rejects changed invoice lines before another Native apply',()=>save('CREATE',{...body,items:[{...body.items[0],qty_pcs:'2'}]},nativeRequest),'CP7_MANDOR_SHOP_REQUEST_CHANGED');assert.deepEqual(await counts(),afterCreate);
+ const freshLast=await buyer(last),invalid=document(freshLast,{items:[{...body.items[0],qty_pcs:'0'}]});
+ await refused('Original Native draft validation failure rolls back the new customer, account and both request layers',()=>save('CREATE',invalid),'CP7_SALES_DRAFT_LINE');assert.deepEqual(await counts(),afterCreate);
+ const validLast=document(await buyer(last));await db.query("select set_config('cp7_model.fail_apply','no',false)");
+ await refused('A Native draft engine refusal after buyer preparation rolls back the entire owner transaction',()=>tx(async()=>{
+  await db.query("select set_config('cp7_model.fail_apply','yes',true)");return scalar('select public.erp_cp7_save_mandor_shop_sale_v1($1,$2::jsonb,$3,null)',['CREATE',JSON.stringify(validLast),requestID()]);
+ }),'MODEL_NATIVE_DRAFT_ENGINE_REFUSED');assert.deepEqual(await counts(),afterCreate);
+ const fresh=await buyer(first);
+ await refused('An explicit customer that differs from the selected Mandor is refused atomically',()=>save('CREATE',document(fresh,{customer_id:store})),'CP7_MANDOR_SHOP_SALE_BUYER_MISMATCH');assert.deepEqual(await counts(),afterCreate);
+ const chosen=await scalar("select public.erp_cp7_get_mandor_shop_customer_buyer_v1('EDIT',$1)",[mapped]);
+ const ordinary=await scalar("select public.erp_cp7_get_mandor_shop_customer_buyer_v1('EDIT',$1)",[store]);
+ assert.equal(chosen.buyer_category,'MANDOR');assert.equal(chosen.mandor.contractor_id,first);assert.equal(chosen.customer_id,mapped);
+ assert.equal(ordinary.buyer_category,'TOKO');assert.equal(ordinary.mandor,null);
+ results.push({label:'Existing draft customer classification uses the immutable account UUID rather than the same visible Epi name',result:'PASS'});
+ for(const [cid,code]of[[id(8501),'STORE-2'],[id(8502),'STORE-3'],[id(8503),'MD-LOOKALIKE']])await db.query("insert into erp.customers(id,customer_code,customer_name)values($1,$2,'Epi')",[cid,code]);
+ const form=offset=>scalar('select cp7_sales.form_options($1::jsonb)',[JSON.stringify({kind:'CUSTOMER',physical_at:'2026-11-01T02:00:00Z',q:'Epi',offset,limit:2})]);
+ const page1=await form(0),page2=await form(2);assert.equal(page1.total,'4');assert.equal(page2.total,'4');assert.equal(page1.next_offset,2);assert.equal(page2.next_offset,null);
+ const ids=[...page1.rows,...page2.rows].map(r=>r.id);assert.equal(new Set(ids).size,4);assert(!ids.includes(mapped));assert(ids.includes(id(8503)));
+ results.push({label:'Native store eligibility filters explicit Mandor accounts before both pagination and global totals; an ordinary MD-like code remains a store',result:'PASS'});
+ await db.query("select set_config('cp7_model.permissions','[]',false)");
+ await refused('Current permission revocation refuses an already-committed external replay',()=>save('CREATE',body,nativeRequest),'CP7_SALES_ACCESS_DENIED','42501');
+ await db.query("select set_config('cp7_model.permissions',$1,false)",[JSON.stringify(permissions)]);
+ for(const signature of ['public.erp_cp7_get_mandor_shop_customer_buyer_v1(text,uuid)','public.erp_cp7_save_mandor_shop_sale_v1(text,jsonb,uuid,text)'])
+  for(const role of ['anon','authenticated','service_role'])assert.equal(await scalar("select has_function_privilege($1,$2,'EXECUTE')",[role,signature]),role==='authenticated');
+ assert.equal(await scalar("select has_function_privilege('cp7_sales_read','cp7_mandor_shop.is_mandor_customer(uuid)','EXECUTE')"),true);
+ assert.equal(await scalar("select has_function_privilege('cp7_sales_read','cp7_mandor_shop.save_sale(text,jsonb,uuid,text)','EXECUTE')"),false);
+ assert.equal(await scalar("select has_table_privilege('cp7_sales_read','cp7_mandor_shop.contractor_accounts','SELECT')"),false);
+ results.push({label:'Only authenticated executes the two narrow public wrappers; the internal read role receives only a membership predicate, never account-table or save access',result:'PASS'});
+ const separate=await buyer(nested),separateRequest=requestID();
+ await tx(()=>scalar('select cp7_mandor_shop.buyer_command($1::jsonb,$2)',[JSON.stringify({
+  contract_version:'cp7.mandor-shop-buyer-command.v1',sales_action:'CREATE',contractor_id:nested,review_token:separate.review_token,
+ }),separateRequest]));
+ const separateCounts=await counts();
+ await refused('A standalone buyer UUID cannot be repurposed as a different complete sales intent',()=>save('CREATE',document(separate),separateRequest),'CP7_MANDOR_SHOP_REQUEST_CHANGED');
+ assert.deepEqual(await counts(),separateCounts);
+ await refused('The atomic draft wrapper cannot dispatch POST or any payment action',()=>save('POST',body,requestID(),'1'),'CP7_MANDOR_SHOP_BUYER_ACTION_DENIED','42501');
+ const second=await buyer(sameName),edit=document(second,{sale_id:made.sale_id,review_token:'a'.repeat(32)});
+ const edited=await save('EDIT',edit,requestID(),'1');assert.equal(edited.sale_id,made.sale_id);assert.equal(edited.row_version,'2');
+ assert.equal(await scalar('select contractor_id::text from cp7_mandor_shop.draft_buyers where sale_id=$1',[made.sale_id]),sameName);
+ results.push({label:'An unchanged Native EDIT intent can switch an unposted draft to another explicitly selected same-name Mandor while retaining the sale identity',result:'PASS'});
+ const final=await counts();assert.equal(final.headers,1);assert.equal(final.applies,2);assert.equal(final.native_context,0);assert.equal(final.buyer_context,0);
+ const files={};for(const n of ['schema.sql','events.sql','buyers.sql','sale_identity.sql','sales_commands.sql','native_sales_routes.py','NATIVE_BUYER_REFERENCE.json','NATIVE_SALES_COMMAND_REFERENCE.json','sales_command_model.mjs','SALES_COMMAND_MODEL_ORIGIN.json'])files[n]=pin(await readFile(here+n));
+ const report={status:'FG_MANDOR_ATOMIC_NATIVE_SALES_INTENT_AND_CATEGORY_MODEL_CONTROLS_PASS_NOT_NATIVE',results,source_files:files,
+  new_private_functions:3,new_public_functions:2,changed_Native_functions:1,Native_form_exact_routes:1,
+  unchanged_actual_Native_command_and_validation_bodies:true,Native_draft_apply_engine_explicitly_modeled:true,
+  original_invoice_items_and_dates_passed_unchanged:true,prior144_models_NOT_rerun:true,
+  modeled_boundaries:['Native apply_command draft engine, base audit/defaults/constraints, internal admission and program profiles',
+   'Auth and permission providers are the existing buyer model; Native stock/HPP/posting/payment/return engines are not run',
+   'No actual complete ERP installation, Auth HTTP, desktop/mobile browser or two PostgreSQL sessions'],
+  actual_Native_cases:0,actual_Auth_HTTP_cases:0,actual_browser_cases:0,actual_two_session_races:0,
+  Native_runtime_or_sales_facade_activated:false,production_go:false,independent_acceptance:false};
+ await writeFile(output,JSON.stringify(report,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify({status:report.status,new_controls:results.length,actual_Native_cases:0}));
+}catch(error){process.stderr.write(JSON.stringify({status:'FG_MANDOR_ATOMIC_SALES_MODEL_FIRST_FAILURE',completed_new_controls:results,actual_Native_cases:0,error:String(error),SQLSTATE:error.code})+'\n');throw error;}
+finally{await db.close();}

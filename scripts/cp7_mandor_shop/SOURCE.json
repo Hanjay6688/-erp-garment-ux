@@ -67,9 +67,17 @@
       "bytes": 163019,
       "sha256": "ac1c83ee6f9c5a642a8b079c0f46cfab22a295d3566e2abd2f0b8c9b2846880d"
     },
+    "scripts/cp7_mandor_shop/NATIVE_SALES_COMMAND_REFERENCE.json": {
+      "bytes": 40270,
+      "sha256": "e07c1d12928f13e83aaeca9d5cd43c801e8e0d920e25e1e9f7603782bfb1d577"
+    },
     "scripts/cp7_mandor_shop/NATIVE_SALES_IDENTITY_REFERENCE.json": {
       "bytes": 19390,
       "sha256": "e5fb23ce498448b0497870efb74bf848021cd507d7a29cf54f350ea8804d9b17"
+    },
+    "scripts/cp7_mandor_shop/NATIVE_SALES_ROUTES_SOURCE_CONTROLS.json": {
+      "bytes": 1125,
+      "sha256": "f6efa052e007064e2aac1ae9d7cdb4cd252de552fb08dcf1ab5c2f159db0df29"
     },
     "scripts/cp7_mandor_shop/NATIVE_SCHEMA_REFERENCE.json": {
       "bytes": 45357,
@@ -108,8 +116,24 @@
       "sha256": "ba3da6e7c3a7ca001ff55f87588dc2fa0e9d7e4d93ddf01f213176121e789c7d"
     },
     "scripts/cp7_mandor_shop/README.md": {
-      "bytes": 14454,
-      "sha256": "780bdcdd69b72918ff593a2bc51542671ad93fddcfa5e6d1e34ad1276382e6a0"
+      "bytes": 15071,
+      "sha256": "57dd3719e9c0586ec51d9ec1d548978ecf7bc6786676ae5b47a14632faec8c9f"
+    },
+    "scripts/cp7_mandor_shop/SALES_COMMAND_MODEL_ORIGIN.json": {
+      "bytes": 960,
+      "sha256": "b779308a7422cc875ce8df5dfbbc9600e2d202ccfd42a5bb5ea00fbcf26bab97"
+    },
+    "scripts/cp7_mandor_shop/SALES_MODEL_CONTROLS.json": {
+      "bytes": 5666,
+      "sha256": "a911206e129360d7a97df9c2273afa9719df7041a043e2733bd4349955af3703"
+    },
+    "scripts/cp7_mandor_shop/SALES_MODEL_EDIT1.json": {
+      "bytes": 2834,
+      "sha256": "84282244c60fb995ba2d156cba8e969a21dac8f443650b414e3c7166c0693d62"
+    },
+    "scripts/cp7_mandor_shop/SALES_MODEL_RETAINED13.json": {
+      "bytes": 2941,
+      "sha256": "f379264c1fe764e561244877a04958c283096d54d4662d40cf5293dc32e4d858"
     },
     "scripts/cp7_mandor_shop/SALE_IDENTITY_MODEL_CONTROLS.json": {
       "bytes": 4221,
@@ -168,8 +192,8 @@
       "sha256": "5bfeb12b4103ca88f48b84a213098b33a90e7ead52398a5025213d9188e47617"
     },
     "scripts/cp7_mandor_shop/check_source.py": {
-      "bytes": 21437,
-      "sha256": "7147da417f0819ef4ab1ba0c1b377b951faf3ab54eac35c49ebc443d19df241f"
+      "bytes": 24054,
+      "sha256": "965d4dba25b45c3237caa06acbc9720385315aefc3ee6ce1600915d238e2c3ad"
     },
     "scripts/cp7_mandor_shop/events.sql": {
       "bytes": 8216,
@@ -194,6 +218,10 @@
     "scripts/cp7_mandor_shop/native_payment_routes.py": {
       "bytes": 6314,
       "sha256": "d9d3da26117ffe0ede2b4e434a74bdd619f162fb8c7f2616ce344625a012d532"
+    },
+    "scripts/cp7_mandor_shop/native_sales_routes.py": {
+      "bytes": 2117,
+      "sha256": "7302700947c5b25ede6d56ae8ebf6280913109d22ae084890397a5b5f60ddba1"
     },
     "scripts/cp7_mandor_shop/offset_model.mjs": {
       "bytes": 20399,
@@ -227,6 +255,18 @@
       "bytes": 15442,
       "sha256": "186fb48414c9f3d67b452b3d34ab866eb93f71e111e1d1055eafb2ecda7f85f7"
     },
+    "scripts/cp7_mandor_shop/sales-model-before-edit-fixture.mjs.txt": {
+      "bytes": 22437,
+      "sha256": "ed9867b62d9e9063239edfdd2c227086c7a450046875b29ae0541ce5b2e7c836"
+    },
+    "scripts/cp7_mandor_shop/sales_command_model.mjs": {
+      "bytes": 22789,
+      "sha256": "cc42f05ff7d1fc5d915d26432dfddd8de621d1c46b0ae889c9f1a1b8744c1a13"
+    },
+    "scripts/cp7_mandor_shop/sales_commands.sql": {
+      "bytes": 7153,
+      "sha256": "cb9da2234fa1834b83ccb2e552f0c1ed3f1595d24c04d97428ca67c1c5df2f3d"
+    },
     "scripts/cp7_mandor_shop/schema.sql": {
       "bytes": 12510,
       "sha256": "59c1b8e69555f6a8e0caf34e8d0ee18e27c1d4caaee8073c44225bbc4a687fd1"
@@ -237,7 +277,7 @@
     }
   },
   "schema_tables": 15,
-  "private_functions": 31,
+  "private_functions": 34,
   "storage_model_controls": 15,
   "public_commands_implemented": false,
   "Native_payment_hooks_implemented": false,
@@ -286,8 +326,8 @@
   "retained_118_model_controls_NOT_rerun": true,
   "protected_journal_and_invoice_guard_sources_written": true,
   "protected_journal_and_invoice_guards_installed": false,
-  "public_facade_functions": 4,
-  "public_facade_entrypoint_grants": 4,
+  "public_facade_functions": 6,
+  "public_facade_entrypoint_grants": 6,
   "new_public_facade_model_controls": 9,
   "public_facade_runtime_activated": false,
   "new_exact_display_model_controls": 4,
@@ -298,5 +338,8 @@
   "parent_UI_paths_changed": 5,
   "controller_DOM_logical_cases": 10,
   "focused_changed_refresh_cases": 1,
-  "parent_mount_regression_cases": 17
+  "parent_mount_regression_cases": 17,
+  "private_sales_command_functions": 3,
+  "Native_sales_source_adapters": 1,
+  "Native_total_source_adapters": 9
 }

@@ -194,7 +194,7 @@ def check():
         assert change['count']==1 and prefix.count(change['before'])==1
         prefix=prefix.replace(change['before'],change['after'],1)
     assert (HERE/'facade_model.mjs').read_text().startswith(prefix)
-    assert value['public_facade_functions']==4 and value['public_facade_entrypoint_grants']==4
+    assert value['public_facade_functions']==6 and value['public_facade_entrypoint_grants']==6
     display=json.loads((HERE/'FACADE_DISPLAY_MODEL_CONTROLS.json').read_bytes())
     assert display['status']=='FG_MANDOR_EXACT_PUBLIC_DISPLAY_CENTS_MODEL_CONTROLS_PASS_NOT_NATIVE'
     assert len(display['results'])==4 and all(row['result']=='PASS'for row in display['results'])
@@ -240,7 +240,35 @@ def check():
     assert existing['head']=='6e61506c10a18541c104b981bd438e78b175b5d1'and len(existing['functions'])==3
     assert existing['actual_new_Native_cases']==existing['actual_SQL_executed']==0
     assert controls['actual_Native_cases']==controls['actual_Auth_HTTP_cases']==controls['actual_browser_cases']==controls['actual_two_session_races']==0
-    assert value['private_functions']==value['schema_and_event_functions']+value['private_allocation_functions']+value['private_buyer_functions']+value['private_sale_identity_functions']+value['private_offset_functions']+value['private_payment_functions']+value['private_payment_guard_functions']==31
+    sales=json.loads((HERE/'SALES_MODEL_CONTROLS.json').read_bytes())
+    assert sales['status']=='FG_MANDOR_ATOMIC_SALES_RETAINED13_PLUS_FOCUSED_EDIT1_MODEL_PASS_NOT_NATIVE'
+    assert len(sales['retained_controls'])==13 and len(sales['fresh_controls'])==1
+    assert all(row['result']in('PASS','REFUSED_AS_REQUIRED')for row in sales['retained_controls']+sales['fresh_controls'])
+    assert sales['completed13_NOT_rerun']is True and sales['prior144_NOT_rerun']is True
+    assert sales['all14_fresh_one_attempt']is False
+    assert sales['actual_Native_cases']==sales['actual_Auth_HTTP_cases']==sales['actual_browser_cases']==sales['actual_two_session_races']==0
+    for name,expected in sales['source_files'].items():
+        raw=(HERE/name).read_bytes();assert {'bytes':len(raw),'sha256':sha256(raw).hexdigest()}==expected
+    original=(HERE/sales['first13_source']).read_bytes()
+    assert sales['first13_source_pin']=={'bytes':len(original),'sha256':sha256(original).hexdigest()}
+    origin=json.loads((HERE/'SALES_COMMAND_MODEL_ORIGIN.json').read_bytes())
+    raw=(ROOT/origin['parent_path']).read_bytes();assert origin['parent_source']=={'bytes':len(raw),'sha256':sha256(raw).hexdigest()}
+    prefix=raw[:origin['original_prefix_bytes']].decode()
+    for change in origin['source_routes']:
+        assert change['count']==1 and prefix.count(change['before'])==1
+        prefix=prefix.replace(change['before'],change['after'],1)
+    assert original.decode().startswith(prefix)
+    change=sales['model_prefix_route'];assert change['count']==1 and prefix.count(change['before'])==1
+    prefix=prefix.replace(change['before'],change['after'],1)
+    assert (HERE/'sales_command_model.mjs').read_text().startswith(prefix)
+    reference=json.loads((HERE/'NATIVE_SALES_COMMAND_REFERENCE.json').read_bytes())
+    assert reference['functions_unchanged_in_actual_after_committed_E_use']is True
+    spec=importlib.util.spec_from_file_location('fg_mandor_exact_sales_route_source',HERE/'native_sales_routes.py')
+    native_sales=importlib.util.module_from_spec(spec);spec.loader.exec_module(native_sales)
+    definitions,proof=native_sales.derive(reference['functions'])
+    assert proof==json.loads((HERE/'NATIVE_SALES_ROUTES_SOURCE_CONTROLS.json').read_bytes())
+    assert set(definitions)=={'cp7_sales.form_options(jsonb)'} and proof['route']['count']==1 and proof['complete_original_recovered']is True
+    assert value['private_functions']==value['schema_and_event_functions']+value['private_allocation_functions']+value['private_buyer_functions']+value['private_sale_identity_functions']+value['private_offset_functions']+value['private_payment_functions']+value['private_payment_guard_functions']+value['private_sales_command_functions']==34
     return dict(status='FG_MANDOR_EXACT_STORAGE_PREPARATION_SOURCE_ONLY',unchanged_parent_blobs_and_modes=len(base),
         own_source_pins=len(value['files']),storage_model_controls=len(model['results']),parent_gate_closed=True,
         private_allocation_model_controls=len(allocation['results']),retained_storage_controls_NOT_rerun=True,
@@ -250,13 +278,15 @@ def check():
         private_payment_functions=4,retained_payment_model_controls=19,fresh_payment_model_controls=4,
         Native_payment_source_adapters=8,actual_payment_runtime_installed=False,
         private_payment_guard_functions=6,new_payment_guard_model_controls=13,Native_payment_guard_triggers=6,
-        public_facade_source_functions=4,public_facade_model_controls=9,public_facade_runtime_activated=False,
+        public_facade_source_functions=6,public_facade_model_controls=9,public_facade_runtime_activated=False,
         exact_display_model_controls=4,new_controlled_UI_paths=8,new_UI_parser_cases=8,new_UI_DOM_cases=7,
         UI_mounted_or_RPC_wired=True,parent_UI_paths_changed=5,reversible_parent_UI_hunks=9,
         controller_DOM_logical_cases=10,focused_changed_refresh_cases=1,parent_mount_regression_cases=17,
         retained_67_controls_NOT_rerun=True,Native_paid_projection_integration=False,
         Native_header_trigger_source_written=True,Native_header_trigger_ERP_qualification=False,
         retained_allocation_controls_NOT_rerun=True,
+        private_sales_command_functions=3,retained_new_sales_controls=13,fresh_new_sales_controls=1,
+        Native_sales_form_source_adapters=1,Native_total_source_adapters=9,
         runtime_entry=None,ERP_imports=0,SQL_executed=0,actual_Native_cases=0,production_go=False,independent_acceptance=False)
 
 

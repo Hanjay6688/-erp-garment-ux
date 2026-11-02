@@ -1,3 +1,12 @@
+Atomic Sales preparation added 2 November: CREATE/EDIT can prepare the explicit
+Mandor customer and save the original Native draft in one transaction. No early
+buyer write is needed while invoice lines remain unsaved. Two new narrow public
+facades and one exact Native CUSTOMER eligibility route are source only. The
+first model retained 13 successes before an EDIT fixture used a CREATE token;
+only the corrected EDIT control ran next and passed. This is 14 logical model
+controls with a modeled Native draft engine, zero actual ERP/Auth/browser/race
+credit, and no complete installer or final-parent adoption yet.
+
 # Belanja FG mandor melalui payroll — persiapan A, belum diaktifkan
 
 Penyimpanan, pemilik perubahan status, pembaca kartu, perintah privat untuk
