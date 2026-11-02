@@ -1,0 +1,200 @@
+{
+  "status": "FG_MANDOR_PRIVATE_OFFSET_PROJECTION_MODEL_CONTROLS_PASS_NOT_NATIVE",
+  "source_files": {
+    "schema.sql": {
+      "bytes": 12510,
+      "sha256": "59c1b8e69555f6a8e0caf34e8d0ee18e27c1d4caaee8073c44225bbc4a687fd1"
+    },
+    "events.sql": {
+      "bytes": 8216,
+      "sha256": "9e2633af5d9ecff6220c37cdf8bb22a27ce71cbc03862c8aa40a1fadfd82a1d3"
+    },
+    "offset_projection.sql": {
+      "bytes": 11629,
+      "sha256": "51c8954eb3d66a280699dc0848b7d4aab3326dcf388a4f04ce7be385c36f71a2"
+    },
+    "offset_model.mjs": {
+      "bytes": 20399,
+      "sha256": "56b16a43b3ecc0d0927c2a5d17d650fb5b32819b243e0496a327eb81df7a98ee"
+    },
+    "NATIVE_OFFSET_REFERENCE.json": {
+      "bytes": 97316,
+      "sha256": "96e69c3f6671130efb3f79863533f1973c8d0cde93c2954e39a3c2b34c0471b6"
+    }
+  },
+  "postgres_version": "PostgreSQL 18.6 (PGlite 0.5.14) on wasm32-unknown-emscripten, compiled by emcc (Emscripten gcc/clang-like replacement + linker emulating GNU ld) 6.0.5 (1db513782be24469589d7cb8a1f1834e9a33f271), 32-bit",
+  "PGlite_version": "0.5.14",
+  "Node_version": "v24.22.1",
+  "new_private_functions": 3,
+  "results": [
+    {
+      "label": "Ten Native table column-type maps match actual accepted DE30 and all three new private functions compile",
+      "result": "PASS"
+    },
+    {
+      "label": "Two manually chosen weeks reserve the same invoice without paid projection or journal",
+      "result": "PASS"
+    },
+    {
+      "label": "A settled chosen-week part pays the same invoice exactly once through two noncash GL legs",
+      "result": "PASS"
+    },
+    {
+      "label": "Following-week remainder and repeated read sum to 300000 without a duplicated journal",
+      "result": "PASS"
+    },
+    {
+      "label": "One payroll journal serves two explicit invoices while each paid projection keeps its own amount",
+      "result": "PASS"
+    },
+    {
+      "label": "A posted ordinary shop invoice and an unknown invoice have no mandor offset",
+      "result": "PASS"
+    },
+    {
+      "label": "Deferred commit rejects missing SETTLE event before any financial fact survives",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "P0001",
+      "error": "EXACT_SETTLED_PREFIX_AND_NATIVE_DEDUCTION_REQUIRED"
+    },
+    {
+      "label": "Deferred commit rejects NULL customer leg and rolls back the whole settlement",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "P0001",
+      "error": "EXACT_NONCASH_OFFSET_LEGS_REQUIRED"
+    },
+    {
+      "label": "Posted snapshot actor must be the same owning command actor",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "P0001",
+      "error": "EXACT_OFFSET_ACCOUNT_COMMAND_REQUIRED"
+    },
+    {
+      "label": "Native cash account cannot be captured as an offset receivable",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "P0001",
+      "error": "ACTIVE_NONCASH_NATIVE_OFFSET_ACCOUNTS_REQUIRED"
+    },
+    {
+      "label": "OTHER_INCOME cannot share an offset account",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "P0001",
+      "error": "ACTIVE_NONCASH_NATIVE_OFFSET_ACCOUNTS_REQUIRED"
+    },
+    {
+      "label": "NULL customer dimension is not skipped by an aggregate",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "P0001",
+      "error": "EXACT_NONCASH_OFFSET_LEGS_REQUIRED"
+    },
+    {
+      "label": "NULL contractor dimension cannot pass the payable leg",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "P0001",
+      "error": "EXACT_NONCASH_OFFSET_LEGS_REQUIRED"
+    },
+    {
+      "label": "Wrong cash account cannot pass a posted offset proof",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "P0001",
+      "error": "EXACT_NONCASH_OFFSET_LEGS_REQUIRED"
+    },
+    {
+      "label": "A third zero-value GL leg is still an invalid offset",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "P0001",
+      "error": "EXACT_NONCASH_OFFSET_LEGS_REQUIRED"
+    },
+    {
+      "label": "Changed Native deduction amount requires review",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "P0001",
+      "error": "EXACT_SETTLED_PREFIX_AND_NATIVE_DEDUCTION_REQUIRED"
+    },
+    {
+      "label": "Cash-advance linkage cannot masquerade as an FG deduction",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "P0001",
+      "error": "EXACT_SETTLED_PREFIX_AND_NATIVE_DEDUCTION_REQUIRED"
+    },
+    {
+      "label": "Inactive invoice with an active offset requires lawful correction",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "P0001",
+      "error": "INACTIVE_INVOICE_ACTIVE_OFFSET_REVIEW_REQUIRED"
+    },
+    {
+      "label": "Unclaimed Native offset journal cannot mint an invoice payment",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "P0001",
+      "error": "UNCLAIMED_NATIVE_OFFSET_JOURNAL"
+    },
+    {
+      "label": "Later mapping and account activation changes do not rewrite historical posted account snapshots",
+      "result": "PASS"
+    },
+    {
+      "label": "Wrong reversal source type is rejected at commit atomically",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "P0001",
+      "error": "EXACT_NATIVE_OFFSET_REVERSAL_REQUIRED"
+    },
+    {
+      "label": "A cash leg cannot replace the exact historical inverse",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "P0001",
+      "error": "EXACT_INVERSE_OFFSET_LEGS_REQUIRED"
+    },
+    {
+      "label": "Lawful Native-shaped reversal removes only the settled part and restores its reservation",
+      "result": "PASS"
+    },
+    {
+      "label": "A new settlement after reopening remains valid while old inverse proof survives the payroll becoming PAID again",
+      "result": "PASS"
+    },
+    {
+      "label": "Full reversal releases the allocation and keeps the remaining posted invoice payment exactly",
+      "result": "PASS"
+    },
+    {
+      "label": "Historical posted account snapshot cannot be edited",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "P0001",
+      "error": "IMMUTABLE"
+    },
+    {
+      "label": "Paid projection executes in a read-only transaction and creates no event or journal",
+      "result": "PASS"
+    },
+    {
+      "label": "New table and functions expose no direct authenticated-role access",
+      "result": "PASS"
+    }
+  ],
+  "Native_model_tables": [
+    "erp.contractors",
+    "erp.customers",
+    "erp.sales_headers",
+    "erp.payroll_settlements",
+    "erp.payroll_deductions",
+    "erp.journal_entries",
+    "erp.journal_lines",
+    "erp.chart_accounts",
+    "erp.accounting_account_mappings",
+    "erp.cash_accounts"
+  ],
+  "Native_model_column_types_match_accepted_DE30": true,
+  "Native_constraints_Auth_and_posting_engines_modeled_or_not_run": true,
+  "retained_67_storage_allocation_buyer_identity_controls_NOT_rerun": true,
+  "previous_unpublished_19_offset_controls_NOT_reused_on_rebuilt_source": true,
+  "actual_Native_cases": 0,
+  "actual_Auth_HTTP_cases": 0,
+  "actual_browser_cases": 0,
+  "actual_two_session_races": 0,
+  "Native_payment_hooks_implemented": false,
+  "authoritative_Native_paid_projection_integrated": false,
+  "public_commands_or_runtime_activated": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

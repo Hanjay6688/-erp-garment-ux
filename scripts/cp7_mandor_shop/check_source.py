@@ -24,6 +24,9 @@ def check():
     assert all(current.get(name)==item for name,item in base.items()),'FG_MANDOR_PREPARED_PARENT_BLOB_OR_MODE_CHANGED'
     physical={str(p.relative_to(ROOT))for p in HERE.rglob('*')if p.is_file()and'__pycache__'not in p.parts}
     assert physical==set(value['files'])|{str(manifest.relative_to(ROOT))},'FG_MANDOR_CLOSED_OWN_SOURCE_REQUIRED'
+    assert set(current)-set(base)==physical,'FG_MANDOR_ONLY_COMMITTED_CLOSED_OWN_SOURCE_REQUIRED'
+    assert not git('diff','--name-only','HEAD','--').strip(),'FG_MANDOR_TRACKED_SOURCE_CHANGED'
+    assert not git('diff','--cached','--name-only','--').strip(),'FG_MANDOR_STAGED_SOURCE_CHANGED'
     for name,expected in value['files'].items():
         p=ROOT/name;assert p.is_file()and not p.is_symlink()and not p.stat().st_mode&0o111
         raw=p.read_bytes();assert {'bytes':len(raw),'sha256':sha256(raw).hexdigest()}==expected,('FG_MANDOR_SOURCE_PIN_CHANGED',name)
@@ -76,12 +79,28 @@ def check():
     raw=(HERE/'sale_identity.sql').read_bytes()
     assert syntax['source']=={'bytes':len(raw),'sha256':sha256(raw).hexdigest()}
     assert syntax['ERP_SQL_executed']==syntax['actual_Native_cases']==0
-    assert value['private_functions']==value['schema_and_event_functions']+value['private_allocation_functions']+value['private_buyer_functions']+value['private_sale_identity_functions']==18
+    offset=json.loads((HERE/'OFFSET_MODEL_CONTROLS.json').read_bytes())
+    assert offset['status']=='FG_MANDOR_PRIVATE_OFFSET_PROJECTION_MODEL_CONTROLS_PASS_NOT_NATIVE'
+    assert offset['retained_67_storage_allocation_buyer_identity_controls_NOT_rerun']is True
+    assert offset['previous_unpublished_19_offset_controls_NOT_reused_on_rebuilt_source']is True
+    assert offset['actual_Native_cases']==offset['actual_Auth_HTTP_cases']==offset['actual_browser_cases']==offset['actual_two_session_races']==0
+    assert offset['Native_payment_hooks_implemented']is False
+    assert offset['authoritative_Native_paid_projection_integrated']is False
+    for name,expected in offset['source_files'].items():
+        raw=(HERE/name).read_bytes();assert {'bytes':len(raw),'sha256':sha256(raw).hexdigest()}==expected
+    syntax=json.loads((HERE/'OFFSET_SQL_SYNTAX_CONTROLS.json').read_bytes())
+    raw=(HERE/'offset_projection.sql').read_bytes()
+    assert syntax['source']=={'bytes':len(raw),'sha256':sha256(raw).hexdigest()}
+    assert syntax['ERP_SQL_executed']==syntax['actual_Native_cases']==0
+    assert syntax['new_private_functions_compiled']==3 and syntax['new_private_tables_compiled']==1
+    assert value['private_functions']==value['schema_and_event_functions']+value['private_allocation_functions']+value['private_buyer_functions']+value['private_sale_identity_functions']+value['private_offset_functions']==21
     return dict(status='FG_MANDOR_EXACT_STORAGE_PREPARATION_SOURCE_ONLY',unchanged_parent_blobs_and_modes=len(base),
         own_source_pins=len(value['files']),storage_model_controls=len(model['results']),parent_gate_closed=True,
         private_allocation_model_controls=len(allocation['results']),retained_storage_controls_NOT_rerun=True,
         private_buyer_functions=6,private_buyer_model_controls=len(buyer['results']),
         private_sale_identity_functions=1,private_sale_identity_model_controls=len(identity['results']),
+        private_offset_functions=3,private_offset_model_controls=len(offset['results']),
+        retained_67_controls_NOT_rerun=True,Native_paid_projection_integration=False,
         Native_header_trigger_source_written=True,Native_header_trigger_ERP_qualification=False,
         retained_allocation_controls_NOT_rerun=True,
         runtime_entry=None,ERP_imports=0,SQL_executed=0,actual_Native_cases=0,production_go=False,independent_acceptance=False)

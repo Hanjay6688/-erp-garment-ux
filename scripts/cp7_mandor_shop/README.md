@@ -3,6 +3,7 @@
 Penyimpanan, pemilik perubahan status, pembaca kartu, perintah privat untuk
 pasang/lepas alokasi draft, persiapan identitas pembeli mandor serta penghubung
 identitas draft/posting sudah ditulis.
+Proyeksi privat pembayaran nonkas dan pemeriksa pasangan jurnal juga sudah ditulis.
 Modul ini belum mempunyai pemasang,
 perintah publik, sambungan pelunasan Native atau pop-up aplikasi.
 Gerbang parent dan runtime masih tertutup. Tidak ada
@@ -78,6 +79,26 @@ snapshot saat posting, penolakan perubahan pembeli posted, pembersihan konteks,
 master nonaktif dan transaksi toko tanpa fakta mandor. Auth dan pemeriksaan
 konteks Native dimodelkan; mesin transaksi Native dan browser belum dijalankan.
 Lima puluh pemeriksaan penyimpanan/alokasi/pembeli sebelumnya tetap dipakai.
+
+`offset_projection.sql` menyimpan snapshot akun pembayaran pada saat posting;
+perubahan pemetaan akun berikutnya tidak mengubah jurnal lama. Pemeriksa mewajibkan
+dua kaki jurnal nonkas yang persis, pembeli/invoice yang sama, potongan Native dan
+histori alokasi yang sesuai. Jurnal awal serta pembalikan diperiksa sebelum commit.
+Pembalikan memakai bentuk sumber Native `JOURNAL_REVERSAL`, jurnal berlawanan yang
+persis, dan kejadian REOPEN/REVERSE yang sah. Pembayaran ulang memakai jurnal baru;
+bukti pembalikan lama tetap sah setelah payroll kembali PAID. Pembaca saldo hanya
+menghitung penyelesaian aktif, menolak jurnal tanpa pemilik, dan meminta koreksi
+bila invoice tidak aktif masih mempunyai pembayaran offset.
+
+Perubahan offset lokal sebelumnya belum sempat dipublikasikan ketika lingkungan
+eksekusi hilang. Sumber ini dibangun ulang dari sumber publik yang tersimpan dan
+referensi katalog D/E yang diterima. `offset_model.mjs` lulus 28 pemeriksaan baru
+pada PG/WASM dengan tipe kolom 10 tabel Native yang dibandingkan terhadap katalog
+tersebut. Ini menguji kode privat dan pemicu sebelum commit; batasan Native, Auth,
+mesin jurnal/payroll/invoice, stok, HPP serta dua backend tidak dijalankan. Seluruh
+67 pemeriksaan terdahulu dipakai tanpa dijalankan ulang. Hasil 19 pemeriksaan pada
+sumber lokal yang hilang tidak dipakai sebagai bukti bagi sumber yang dibangun ulang.
+Fungsi privat ini belum dipasang ke proyeksi saldo Native dan belum memicu pembayaran.
 
 Pekerjaan berikutnya: pertahankan mesin Penjualan existing; hubungkan pilihan
 pembeli ke master mandor; turunkan sambungan Native dari definisi parent
