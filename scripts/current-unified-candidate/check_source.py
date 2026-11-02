@@ -71,7 +71,9 @@ def source():
     if preparation is not None:
         import ast
         prefix='scripts/current-mandor-shop-native-qualification/'
-        expected={prefix+n for n in('admission.py','native_fixture.py','oracle.py','cases.py','preflight.py','SOURCE_READINESS.json','READINESS.txt')}
+        expected={prefix+n for n in('admission.py','native_fixture.py','oracle.py','cases.py','preflight.py',
+            'assembly.py','component.py','package_engine.py','qualification.py','runtime_supervisor.py','final_gate.py',
+            'SOURCE_READINESS.json','READINESS.txt')}
         require(set(preparation['files'])==expected and all(n in m['files']for n in expected),'UNIFIED_EXACT_PREPARED_NATIVE6_NAMESPACE')
         require(preparation['actual_Native_cases']==0 and preparation['parent_root_adopted']is False,'UNIFIED_NATIVE6_PREPARATION_IS_NOT_ACCEPTANCE')
         tree=ast.parse((ROOT/prefix/'admission.py').read_bytes())

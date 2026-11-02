@@ -8,7 +8,8 @@ stock, COGS, approval, payment and reversals use existing public commands.
 from datetime import timedelta
 from decimal import Decimal
 from pathlib import Path
-import json,uuid
+from hashlib import sha256
+import gzip,json,uuid
 
 HERE=Path(__file__).resolve().parent
 ROOT=HERE.parents[1]
@@ -27,9 +28,11 @@ def local(cur):
 
 class Native:
     """A reviewed caller context, never a replacement for an ERP domain module."""
-    def __init__(self,modules,afui_fixture,finish,master,sales,draft,mandor,mandor_state):
+    def __init__(self,modules,afui_fixture,finish,master,sales,draft,mandor,mandor_state,*,scope='NATIVE6'):
         self.modules=modules;self.afui_fixture=afui_fixture;self.finish=finish
         self.master=master;self.sales=sales;self.draft=draft;self.mandor=mandor;self.state=mandor_state
+        require(scope in('NATIVE6','COMMITTED_USE'),'MANDOR_NATIVE_FIXED_OBSERVATION_SCOPE')
+        self.scope=scope;self.observation=0
 
     def admin(self,cur):
         # Refuse a remote or wrong database before even changing its session.
@@ -49,11 +52,25 @@ class Native:
             catalogue=self.modules.product.runtime()[-1]
             return dict(actual_all22=catalogue._catalog_rows(cur),full_data_and_sequences=catalogue._data(cur))
 
+    def original(self,label,value):
+        """Retain complete observations once; keep huge metadata out of logs."""
+        require(label in('REPLAY_BEFORE','REPLAY_AFTER','REFUSAL_BEFORE','REFUSAL_AFTER'),'MANDOR_NATIVE_FIXED_OBSERVATION_LABEL')
+        self.observation+=1
+        name=f'MANDOR_{self.scope}_{self.observation:04d}_{label}.json.gz'
+        raw=(json.dumps(value,sort_keys=True,separators=(',',':'),default=str)+'\n').encode()
+        packed=gzip.compress(raw,mtime=0);directory=ROOT/'cp6-proof/t3/MANDOR_NATIVE_ORIGINALS'
+        directory.mkdir(parents=True,exist_ok=True);path=directory/name
+        require(not path.exists(),'MANDOR_NATIVE_FIRST_ORIGINAL_OVERWRITE_REFUSED:'+name)
+        with path.open('xb')as output:output.write(packed)
+        return dict(path='MANDOR_NATIVE_ORIGINALS/'+name,raw=dict(bytes=len(raw),sha256=sha256(raw).hexdigest()),
+            compressed=dict(bytes=len(packed),sha256=sha256(packed).hexdigest()),complete_actual22_data_and_sequences=True)
+
     def replay(self,cur,operation,expected):
         before=self.boundary(cur);actual=operation();after=self.boundary(cur)
         require(actual==expected,'MANDOR_NATIVE_REPLAY_REPLY_CHANGED')
         require(after==before,'MANDOR_NATIVE_REPLAY_CHANGED_DATA_CATALOGUE_OR_SEQUENCE')
-        return dict(status='PASS',reply=actual,before=before,after=after)
+        return dict(status='PASS',reply=actual,before_original=self.original('REPLAY_BEFORE',before),
+            after_original=self.original('REPLAY_AFTER',after),full_observations_equal=True)
 
     def refusal(self,cur,operation,message):
         before=self.boundary(cur);cur.execute('savepoint mandor_native_expected_refusal')
@@ -70,7 +87,8 @@ class Native:
         require(primary==message,'MANDOR_NATIVE_UNEXPECTED_REFUSAL:'+str(primary))
         after=self.boundary(cur)
         require(before==after,'MANDOR_NATIVE_REFUSAL_CHANGED_DATA_CATALOGUE_OR_SEQUENCE')
-        return dict(status='PASS',SQLSTATE='P0001',message=primary,before=before,after=after)
+        return dict(status='PASS',SQLSTATE='P0001',message=primary,before_original=self.original('REFUSAL_BEFORE',before),
+            after_original=self.original('REFUSAL_AFTER',after),full_observations_equal=True)
 
     def physical(self,cur,today):
         self.admin(cur);local(cur)

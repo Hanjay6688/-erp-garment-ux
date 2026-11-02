@@ -893,10 +893,16 @@
     "scripts/current-mandor-shop-native-qualification/READINESS.txt",
     "scripts/current-mandor-shop-native-qualification/SOURCE_READINESS.json",
     "scripts/current-mandor-shop-native-qualification/admission.py",
+    "scripts/current-mandor-shop-native-qualification/assembly.py",
     "scripts/current-mandor-shop-native-qualification/cases.py",
+    "scripts/current-mandor-shop-native-qualification/component.py",
+    "scripts/current-mandor-shop-native-qualification/final_gate.py",
     "scripts/current-mandor-shop-native-qualification/native_fixture.py",
     "scripts/current-mandor-shop-native-qualification/oracle.py",
+    "scripts/current-mandor-shop-native-qualification/package_engine.py",
     "scripts/current-mandor-shop-native-qualification/preflight.py",
+    "scripts/current-mandor-shop-native-qualification/qualification.py",
+    "scripts/current-mandor-shop-native-qualification/runtime_supervisor.py",
     "scripts/current-unified-candidate/READINESS.txt",
     "scripts/current-unified-candidate/SOURCE.json",
     "scripts/current-unified-candidate/SOURCE_BOUNDARY_CHECKS.json",
@@ -934,20 +940,20 @@
       "sha256": "45f8a54ef6e02e02a20cb3686af32cfa4776691df24c85397a029154fc47752f"
     },
     "scripts/current-unified-candidate/check_source.py": {
-      "bytes": 5576,
-      "sha256": "2e077de1aede4a6ddc94c44fd8b2fb3170f1ece5dc8151a1de1355ef5d3766fd"
+      "bytes": 5710,
+      "sha256": "1edbb3676fb4a90c1800025f65ec8419168ad18456a670b50544af5aae12e667"
     },
     "src/accessory-workspace.css": {
       "bytes": 463,
       "sha256": "573966c363a38314bbab8f7dcc265b68436c0fef3283cf8ab7300bbe0c8485e6"
     },
     "scripts/current-mandor-shop-native-qualification/READINESS.txt": {
-      "bytes": 1572,
-      "sha256": "a2c7bbf146dc67ae538848e24de92ff8d89fcbbfc687442842856dd723b6d0e9"
+      "bytes": 2836,
+      "sha256": "882371af1858c9d0baf9994c6f8cdc7c014cb02aa4705f391ae0501728472ff5"
     },
     "scripts/current-mandor-shop-native-qualification/SOURCE_READINESS.json": {
-      "bytes": 12506,
-      "sha256": "502ffa76e3cb9133545e5882340a491d7739a6229696662b3b25f75543133071"
+      "bytes": 16099,
+      "sha256": "107ae6f14190f8ca2821f494dd861015a4909d4524611fa5f16b6bb0c8fdab06"
     },
     "scripts/current-mandor-shop-native-qualification/admission.py": {
       "bytes": 1447,
@@ -958,16 +964,40 @@
       "sha256": "aa8e2822418aa2149f59da90ca70435c58c2d2a23bc3ecbfc9a60027b9fbb7c8"
     },
     "scripts/current-mandor-shop-native-qualification/native_fixture.py": {
-      "bytes": 12575,
-      "sha256": "909da2285f68d9835f3273b60b35fbaa888510b6fabe4d5c7670f00b12ff244b"
+      "bytes": 14007,
+      "sha256": "a5294e457fe4c66cb3b211a32700295325e696f6a083a01b9fb8b69c89d7bf36"
     },
     "scripts/current-mandor-shop-native-qualification/oracle.py": {
       "bytes": 4712,
       "sha256": "17696a1e509cb32449571c3d3fc3bf29935bcb47ae80cfb9a483949b85d8cd0e"
     },
     "scripts/current-mandor-shop-native-qualification/preflight.py": {
-      "bytes": 7162,
-      "sha256": "1865cc12d32ca22bc57ee6b2f6f7d5e3063fb2ea91e752f3d8dec5ec6d1fbed4"
+      "bytes": 8643,
+      "sha256": "4e693aaf76de2daca25fc811541388ec6c35ecbbbb709a596cf0fdcb8294d409"
+    },
+    "scripts/current-mandor-shop-native-qualification/assembly.py": {
+      "bytes": 5812,
+      "sha256": "85270dd5545183cce10af520a644b9c7c6e6cf80a1bf3054ca3dc8d7a34c55a8"
+    },
+    "scripts/current-mandor-shop-native-qualification/component.py": {
+      "bytes": 6131,
+      "sha256": "2eeef97468250147d137231b1c7eacab465f94323ae37fc82d8945bf3f604371"
+    },
+    "scripts/current-mandor-shop-native-qualification/final_gate.py": {
+      "bytes": 9299,
+      "sha256": "5408f9aff375c2d8ce0756a30245f5b26ad45bad27915b8671e299c1a977cf9f"
+    },
+    "scripts/current-mandor-shop-native-qualification/package_engine.py": {
+      "bytes": 3549,
+      "sha256": "f977f82b18601d82894653f750cd107705fd761b4f2cc25dc1fb4696b365a038"
+    },
+    "scripts/current-mandor-shop-native-qualification/qualification.py": {
+      "bytes": 6892,
+      "sha256": "10f934a66ded8e409f7bc0eee0674047ad839133565ccdf40d7efd5bb3489ac7"
+    },
+    "scripts/current-mandor-shop-native-qualification/runtime_supervisor.py": {
+      "bytes": 2726,
+      "sha256": "2b5cbe0e86a20c9536e2909691dc6c66434c003dd7d25c52d779fee0f3e8939c"
     }
   },
   "old_standalone_source_fences_unchanged": true,
@@ -983,18 +1013,28 @@
       "scripts/current-mandor-shop-native-qualification/READINESS.txt",
       "scripts/current-mandor-shop-native-qualification/SOURCE_READINESS.json",
       "scripts/current-mandor-shop-native-qualification/admission.py",
+      "scripts/current-mandor-shop-native-qualification/assembly.py",
       "scripts/current-mandor-shop-native-qualification/cases.py",
+      "scripts/current-mandor-shop-native-qualification/component.py",
+      "scripts/current-mandor-shop-native-qualification/final_gate.py",
       "scripts/current-mandor-shop-native-qualification/native_fixture.py",
       "scripts/current-mandor-shop-native-qualification/oracle.py",
-      "scripts/current-mandor-shop-native-qualification/preflight.py"
+      "scripts/current-mandor-shop-native-qualification/package_engine.py",
+      "scripts/current-mandor-shop-native-qualification/preflight.py",
+      "scripts/current-mandor-shop-native-qualification/qualification.py",
+      "scripts/current-mandor-shop-native-qualification/runtime_supervisor.py"
     ],
-    "new_source_method_calls": 88,
+    "new_source_method_calls": 112,
     "new_source_oracle_calls": 22,
     "literal_RPC_calls": 8,
     "actual_SQL_executed": 0,
     "actual_Native_cases": 0,
     "parent_root_adopted": false,
     "owning_runtime_pending": true,
-    "Auth_browser_and_two_backend_qualification_pending": true
+    "Auth_browser_and_two_backend_qualification_pending": true,
+    "owning_assembly_source_prepared": true,
+    "owning_workflow_pending": true,
+    "complete_actual_observations_and_owning_packet_gate_prepared": true,
+    "prior_process_controls_reused_not_rerun": 10
   }
 }

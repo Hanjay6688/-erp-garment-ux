@@ -39,9 +39,13 @@ def check(raw,parser_path):
     for sig in list(functions)+plan['public_functions']:
         name,arguments=sig.split('(',1)
         if name.startswith('public.'):allowed.setdefault(name,set()).add(0 if arguments==')'else len(arguments[:-1].split(',')))
-    trees={name:ast.parse((HERE/name).read_bytes())for name in ['admission.py','native_fixture.py','oracle.py','cases.py','preflight.py']}
+    trees={name:ast.parse((HERE/name).read_bytes())for name in ['admission.py','native_fixture.py','oracle.py','cases.py','preflight.py',
+        'assembly.py','component.py','package_engine.py','qualification.py','runtime_supervisor.py','final_gate.py']}
     klass=next(n for n in trees['native_fixture.py'].body if isinstance(n,ast.ClassDef)and n.name=='Native')
     methods={n.name:signature(n)for n in klass.body if isinstance(n,ast.FunctionDef)}
+    assembly=next(n for n in trees['assembly.py'].body if isinstance(n,ast.ClassDef)and n.name=='Assembly')
+    assembly_methods={n.name:signature(n)for n in assembly.body if isinstance(n,ast.FunctionDef)}
+    mandor_methods={n.name:signature(n)for n in ast.parse((ROOT/'scripts/cp7_mandor_shop/composition.py').read_bytes()).body if isinstance(n,ast.FunctionDef)}
     oracles={n.name:signature(n)for n in trees['oracle.py'].body if isinstance(n,ast.FunctionDef)}
     method_calls=[];oracle_calls=[];rpcs=[];sql=[]
     for filename,tree in trees.items():
@@ -49,11 +53,15 @@ def check(raw,parser_path):
         for node in ast.walk(tree):
             if not isinstance(node,ast.Call):continue
             func=node.func
+            if isinstance(func,ast.Name)and func.id=='Native':
+                methods['__init__'].bind(None,*[None for _ in node.args],**{k.arg:None for k in node.keywords})
+                method_calls.append(dict(file=filename,line=node.lineno,name='Native.__init__'))
             if isinstance(func,ast.Attribute)and isinstance(func.value,ast.Name):
                 prefix=func.value.id
-                if prefix in('self','n','native')and func.attr in methods:
+                selected=assembly_methods if prefix=='product'or prefix=='self'and filename=='assembly.py'else methods
+                if prefix in('self','n','native','committed','product')and func.attr in selected:
                     require(not any(isinstance(x,ast.Starred)for x in node.args)and all(k.arg for k in node.keywords),'MANDOR_PREFLIGHT_EXPLICIT_NEW_METHOD_CALL')
-                    methods[func.attr].bind(None,*[None for _ in node.args],**{k.arg:None for k in node.keywords})
+                    selected[func.attr].bind(None,*[None for _ in node.args],**{k.arg:None for k in node.keywords})
                     method_calls.append(dict(file=filename,line=node.lineno,name=func.attr))
                     if func.attr=='public':
                         require(len(node.args)==4 and isinstance(node.args[1],ast.Constant)and type(node.args[1].value)is str,'MANDOR_PREFLIGHT_LITERAL_PUBLIC_RPC_QUERY')
@@ -67,6 +75,12 @@ def check(raw,parser_path):
                 elif prefix=='oracle'and func.attr in oracles:
                     oracles[func.attr].bind(*[None for _ in node.args],**{k.arg:None for k in node.keywords})
                     oracle_calls.append(dict(file=filename,line=node.lineno,name=func.attr))
+                elif prefix=='mandor'and func.attr in mandor_methods:
+                    mandor_methods[func.attr].bind(*[None for _ in node.args],**{k.arg:None for k in node.keywords})
+                    method_calls.append(dict(file=filename,line=node.lineno,name='mandor.'+func.attr))
+                elif prefix=='assembly'and func.attr=='Assembly':
+                    assembly_methods['__init__'].bind(None,*[None for _ in node.args],**{k.arg:None for k in node.keywords})
+                    method_calls.append(dict(file=filename,line=node.lineno,name='Assembly.__init__'))
             if isinstance(func,ast.Attribute)and func.attr=='execute'and node.args and isinstance(node.args[0],ast.Constant)and type(node.args[0].value)is str:
                 sql.append(node.args[0].value)
     sys.path.insert(0,str(parser_path));import pglast

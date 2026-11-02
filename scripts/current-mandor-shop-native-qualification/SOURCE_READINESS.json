@@ -6,8 +6,8 @@
       "sha256": "8d3d71deb031b22a205802f299ba685afc19ef87152c62bebe7fac3b17d8c139"
     },
     "native_fixture.py": {
-      "bytes": 12575,
-      "sha256": "909da2285f68d9835f3273b60b35fbaa888510b6fabe4d5c7670f00b12ff244b"
+      "bytes": 14007,
+      "sha256": "a5294e457fe4c66cb3b211a32700295325e696f6a083a01b9fb8b69c89d7bf36"
     },
     "oracle.py": {
       "bytes": 4712,
@@ -18,8 +18,32 @@
       "sha256": "aa8e2822418aa2149f59da90ca70435c58c2d2a23bc3ecbfc9a60027b9fbb7c8"
     },
     "preflight.py": {
-      "bytes": 7162,
-      "sha256": "1865cc12d32ca22bc57ee6b2f6f7d5e3063fb2ea91e752f3d8dec5ec6d1fbed4"
+      "bytes": 8643,
+      "sha256": "4e693aaf76de2daca25fc811541388ec6c35ecbbbb709a596cf0fdcb8294d409"
+    },
+    "assembly.py": {
+      "bytes": 5812,
+      "sha256": "85270dd5545183cce10af520a644b9c7c6e6cf80a1bf3054ca3dc8d7a34c55a8"
+    },
+    "component.py": {
+      "bytes": 6131,
+      "sha256": "2eeef97468250147d137231b1c7eacab465f94323ae37fc82d8945bf3f604371"
+    },
+    "package_engine.py": {
+      "bytes": 3549,
+      "sha256": "f977f82b18601d82894653f750cd107705fd761b4f2cc25dc1fb4696b365a038"
+    },
+    "qualification.py": {
+      "bytes": 6892,
+      "sha256": "10f934a66ded8e409f7bc0eee0674047ad839133565ccdf40d7efd5bb3489ac7"
+    },
+    "runtime_supervisor.py": {
+      "bytes": 2726,
+      "sha256": "2b5cbe0e86a20c9536e2909691dc6c66434c003dd7d25c52d779fee0f3e8939c"
+    },
+    "final_gate.py": {
+      "bytes": 9299,
+      "sha256": "5408f9aff375c2d8ce0756a30245f5b26ad45bad27915b8671e299c1a977cf9f"
     }
   },
   "base_source_head": "2135bdde920ea632f98671896cc5f0f8410845e9",
@@ -30,142 +54,162 @@
   "new_method_calls": [
     {
       "file": "native_fixture.py",
-      "line": 39,
-      "name": "admin"
-    },
-    {
-      "file": "native_fixture.py",
       "line": 42,
       "name": "admin"
     },
     {
       "file": "native_fixture.py",
-      "line": 46,
+      "line": 45,
       "name": "admin"
     },
     {
       "file": "native_fixture.py",
-      "line": 53,
-      "name": "boundary"
-    },
-    {
-      "file": "native_fixture.py",
-      "line": 53,
-      "name": "boundary"
-    },
-    {
-      "file": "native_fixture.py",
-      "line": 59,
-      "name": "boundary"
-    },
-    {
-      "file": "native_fixture.py",
-      "line": 67,
+      "line": 49,
       "name": "admin"
     },
     {
       "file": "native_fixture.py",
-      "line": 71,
+      "line": 69,
+      "name": "boundary"
+    },
+    {
+      "file": "native_fixture.py",
+      "line": 69,
       "name": "boundary"
     },
     {
       "file": "native_fixture.py",
       "line": 76,
+      "name": "boundary"
+    },
+    {
+      "file": "native_fixture.py",
+      "line": 84,
       "name": "admin"
     },
     {
       "file": "native_fixture.py",
-      "line": 85,
+      "line": 88,
+      "name": "boundary"
+    },
+    {
+      "file": "native_fixture.py",
+      "line": 94,
       "name": "admin"
     },
     {
       "file": "native_fixture.py",
-      "line": 96,
+      "line": 103,
       "name": "admin"
     },
     {
       "file": "native_fixture.py",
-      "line": 99,
-      "name": "public"
-    },
-    {
-      "file": "native_fixture.py",
-      "line": 113,
-      "name": "replay"
+      "line": 114,
+      "name": "admin"
     },
     {
       "file": "native_fixture.py",
       "line": 117,
-      "name": "replay"
-    },
-    {
-      "file": "native_fixture.py",
-      "line": 119,
-      "name": "invoice"
-    },
-    {
-      "file": "native_fixture.py",
-      "line": 124,
-      "name": "admin"
-    },
-    {
-      "file": "native_fixture.py",
-      "line": 143,
       "name": "public"
     },
     {
       "file": "native_fixture.py",
-      "line": 149,
+      "line": 131,
+      "name": "replay"
+    },
+    {
+      "file": "native_fixture.py",
+      "line": 135,
+      "name": "replay"
+    },
+    {
+      "file": "native_fixture.py",
+      "line": 137,
+      "name": "invoice"
+    },
+    {
+      "file": "native_fixture.py",
+      "line": 142,
+      "name": "admin"
+    },
+    {
+      "file": "native_fixture.py",
+      "line": 161,
+      "name": "public"
+    },
+    {
+      "file": "native_fixture.py",
+      "line": 167,
       "name": "payroll_document"
     },
     {
       "file": "native_fixture.py",
-      "line": 159,
+      "line": 177,
       "name": "public"
     },
     {
       "file": "native_fixture.py",
-      "line": 162,
+      "line": 180,
       "name": "workspace"
     },
     {
       "file": "native_fixture.py",
-      "line": 174,
+      "line": 192,
       "name": "replay"
     },
     {
       "file": "native_fixture.py",
-      "line": 178,
+      "line": 196,
       "name": "admin"
     },
     {
       "file": "native_fixture.py",
-      "line": 185,
+      "line": 203,
       "name": "admin"
     },
     {
       "file": "native_fixture.py",
-      "line": 185,
+      "line": 203,
       "name": "invoice"
     },
     {
       "file": "native_fixture.py",
-      "line": 109,
+      "line": 127,
       "name": "public"
     },
     {
       "file": "native_fixture.py",
-      "line": 153,
+      "line": 171,
       "name": "public"
     },
     {
       "file": "native_fixture.py",
-      "line": 172,
+      "line": 190,
       "name": "public"
     },
     {
       "file": "native_fixture.py",
-      "line": 193,
+      "line": 72,
+      "name": "original"
+    },
+    {
+      "file": "native_fixture.py",
+      "line": 73,
+      "name": "original"
+    },
+    {
+      "file": "native_fixture.py",
+      "line": 90,
+      "name": "original"
+    },
+    {
+      "file": "native_fixture.py",
+      "line": 91,
+      "name": "original"
+    },
+    {
+      "file": "native_fixture.py",
+      "line": 211,
       "name": "payroll_document"
     },
     {
@@ -467,6 +511,106 @@
       "file": "cases.py",
       "line": 105,
       "name": "public"
+    },
+    {
+      "file": "assembly.py",
+      "line": 44,
+      "name": "sources"
+    },
+    {
+      "file": "assembly.py",
+      "line": 61,
+      "name": "sources"
+    },
+    {
+      "file": "assembly.py",
+      "line": 70,
+      "name": "verify"
+    },
+    {
+      "file": "assembly.py",
+      "line": 72,
+      "name": "install_delta"
+    },
+    {
+      "file": "assembly.py",
+      "line": 83,
+      "name": "verify"
+    },
+    {
+      "file": "assembly.py",
+      "line": 95,
+      "name": "rollback_delta_preuse"
+    },
+    {
+      "file": "assembly.py",
+      "line": 75,
+      "name": "sources"
+    },
+    {
+      "file": "component.py",
+      "line": 43,
+      "name": "Native.__init__"
+    },
+    {
+      "file": "component.py",
+      "line": 48,
+      "name": "verify"
+    },
+    {
+      "file": "component.py",
+      "line": 86,
+      "name": "admin"
+    },
+    {
+      "file": "component.py",
+      "line": 89,
+      "name": "verify"
+    },
+    {
+      "file": "component.py",
+      "line": 92,
+      "name": "boundary"
+    },
+    {
+      "file": "component.py",
+      "line": 98,
+      "name": "boundary"
+    },
+    {
+      "file": "component.py",
+      "line": 57,
+      "name": "verify"
+    },
+    {
+      "file": "component.py",
+      "line": 93,
+      "name": "rollback_delta_preuse"
+    },
+    {
+      "file": "component.py",
+      "line": 104,
+      "name": "original"
+    },
+    {
+      "file": "component.py",
+      "line": 105,
+      "name": "original"
+    },
+    {
+      "file": "qualification.py",
+      "line": 63,
+      "name": "Assembly.__init__"
+    },
+    {
+      "file": "qualification.py",
+      "line": 82,
+      "name": "mandor.trusted_installer"
+    },
+    {
+      "file": "qualification.py",
+      "line": 96,
+      "name": "sources"
     }
   ],
   "new_oracle_calls": [
@@ -584,42 +728,42 @@
   "exact_public_RPC_calls": [
     {
       "file": "native_fixture.py",
-      "line": 99,
+      "line": 117,
       "name": "public.erp_cp7_get_mandor_shop_buyers_v1",
       "arity": 4,
       "parameters": 2
     },
     {
       "file": "native_fixture.py",
-      "line": 143,
+      "line": 161,
       "name": "public.erp_cp7_get_payroll_workspace_v1",
       "arity": 2,
       "parameters": 2
     },
     {
       "file": "native_fixture.py",
-      "line": 159,
+      "line": 177,
       "name": "public.erp_cp7_get_mandor_shop_payroll_v1",
       "arity": 2,
       "parameters": 1
     },
     {
       "file": "native_fixture.py",
-      "line": 109,
+      "line": 127,
       "name": "public.erp_cp7_save_mandor_shop_sale_v1",
       "arity": 4,
       "parameters": 3
     },
     {
       "file": "native_fixture.py",
-      "line": 153,
+      "line": 171,
       "name": "public.erp_cp7_save_payroll_v1",
       "arity": 4,
       "parameters": 4
     },
     {
       "file": "native_fixture.py",
-      "line": 172,
+      "line": 190,
       "name": "public.erp_cp7_save_mandor_shop_allocation_v1",
       "arity": 3,
       "parameters": 3
@@ -639,7 +783,7 @@
       "parameters": 3
     }
   ],
-  "fixed_observer_SQL_statements_parsed": 17,
+  "fixed_observer_SQL_statements_parsed": 20,
   "new_case_ids": [
     "FG_MANDOR_SELECTED_FOLLOWING_WEEK_300000_OFFSET_2000000_GROSS_1700000_NET_REPLAY",
     "FG_MANDOR_PARTIAL100000_REMAINDER200000_ON_SECOND_MANUALLY_SELECTED_WEEK",
@@ -655,5 +799,19 @@
   "actual_Native_cases": 0,
   "old_source84_or_model_or_financial_tests_rerun": false,
   "production_go": false,
-  "independent_acceptance": false
+  "independent_acceptance": false,
+  "new_supervision_source_derivation": {
+    "original_bytes": 8914,
+    "original_sha256": "af04570b8aecef5d7b0c9b1dfd5ab04942aec32fee8c2fdb908663108c97e149",
+    "derived_sha256": "868e1ae1746c788481c6c25d84caf6c392ac1574277f7cf9910d7aaab7475376",
+    "exact_reversible_routes": 4,
+    "original_bytes_recovered": true,
+    "prior_ten_process_controls_reused": true,
+    "original_360_330_20_10_minute_budgets_unchanged": true,
+    "actual_ERP_cases": 0,
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "owning_assembly_source_prepared": true,
+  "owning_actual_runtime_and_full_restoration_not_executed": true
 }
