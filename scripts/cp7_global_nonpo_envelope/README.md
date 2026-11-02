@@ -33,15 +33,30 @@ CASE-parentheses compile fix (zero cases had run). Exact73 column types come
 from the accepted DE30 original. Native owners, constraints, Auth/rights, barrier
 and inspector are explicitly modeled; none of the old actual lock controls or
 census was rerun. The four standalone graph helpers are separate, and the eight
-actual Native owning hooks and final-parent adoption are still absent.
+counted owning adapters and final-parent adoption remain uninstalled.
 
 The mechanism is backed by actual retained relation-lock primitives and catalog
 primitives (four retained plus three fresh). It is not yet an ERP lock profile.
 No function infers quiescence from an empty snapshot xip sublist.
 
+`review.sql` adds two private helpers. One actual sealed profile and exact
+Native authority are required; a dirty observation remains a refusal. The new
+private basis joins the existing D1/E review hash without adding public fields.
+`native_hooks.py` derives all eight owning functions through eighteen exact
+reversible routes over actual accepted DE30 definitions and all19 attributes.
+Barriers precede fresh reads, scope binding follows the actual Native work row,
+and completion precedes the original immutable receipt/work cleanup. Native
+propagation/transfer/global sync/FIFO/HPP/stock/journal engines are unchanged.
+
+Thirteen new controls passed on their first execution. Both original and derived
+eight functions compile against nine actual Native row-type maps in the model;
+every other pg_proc field, OID and raw ACL stays exact there. Actual business
+functions do not execute. The unchanged actual E public projection omits the
+new private global field. The prior21 scope controls were not rerun.
+
 Remaining: actual final-parent profile and complete source/call/trigger/FK/RLS
 review; actual Native integration of operation/backend/transaction/actor/request binding; fresh D1/E review
-and permission/period/source checks; the exact three guard and eight owning
+and permission/period/source checks; actual installation and validation of the three guard/eight owning
 function adaptations; full outside before/after proof before receipts close;
 actual persisted SKU then D1/E positive/inverse/dirty/stale/permission races;
 full package, backup/restore and independent acceptance. Native costing, global

@@ -51,18 +51,47 @@ def check():
     reference=json.loads((HERE/'NATIVE_SCOPE_WORK_REFERENCE.json').read_bytes())
     assert reference['head']=='6e61506c10a18541c104b981bd438e78b175b5d1'
     assert len(reference['columns'])==3 and sum(map(len,reference['columns'].values()))==73
-    sql='\n'.join((HERE/name).read_text()for name in('schema.sql','lock.sql','work_scope.sql'))
+    sql='\n'.join((HERE/name).read_text()for name in('schema.sql','lock.sql','work_scope.sql','review.sql'))
     functions=re.findall(r'^create function ([a-z0-9_.]+)\(',sql,re.M)
-    assert len(functions)==len(set(functions))==manifest['private_functions']==6
+    assert len(functions)==len(set(functions))==manifest['private_functions']==8
     tables=re.findall(r'^create table ([a-z0-9_.]+)\(',sql,re.M)
     assert len(tables)==len(set(tables))==manifest['private_tables']==3
     assert all(name.startswith('cp7_global_nonpo_envelope.')for name in functions+tables)
     writes=re.findall(r'^\s*(?:insert into|update|delete from)\s+([a-z0-9_.]+)',(HERE/'work_scope.sql').read_text(),re.M)
     assert set(writes)=={'cp7_global_nonpo_envelope.work_scopes_v1','cp7_global_nonpo_envelope.scope_completions_v1'}
+    hooks=json.loads((HERE/'OWNING_HOOK_MODEL_CONTROLS.json').read_bytes())
+    assert hooks['status']=='GLOBAL_PRIVATE_REVIEW_AND_EIGHT_OWNING_SOURCE_MODEL_CONTROLS_PASS_NOT_ERP'
+    assert len(hooks['results'])==13 and all(row['result']in('PASS','REFUSED_AS_REQUIRED')for row in hooks['results'])
+    assert hooks['actual_original_and_derived_owning_functions_compiled_on_model']==8
+    assert hooks['exact_reversible_owning_source_routes']==18 and hooks['guard_sites']==3
+    assert hooks['declared_Native_rowtype_maps']==9
+    assert hooks['all_Native_business_functions_NOT_executed']is True
+    assert hooks['old21_scope_models_and_old_actual_lock_and_catalog_controls_NOT_rerun']is True
+    assert hooks['actual_final_parent_installer_or_runtime_armed']is False
+    assert hooks['actual_Native_cases']==hooks['actual_Auth_HTTP_cases']==hooks['actual_two_session_races']==hooks['actual_browser_cases']==0
+    for name,expected in hooks['source_files'].items():
+        raw=(HERE/name).read_bytes();assert expected=={'bytes':len(raw),'sha256':sha256(raw).hexdigest()}
+    origin=json.loads((HERE/'OWNING_HOOK_MODEL_ORIGIN.json').read_bytes())
+    raw=(ROOT/origin['parent_path']).read_bytes()
+    assert origin['parent_source']=={'bytes':len(raw),'sha256':sha256(raw).hexdigest()}
+    prefix=raw[:origin['original_prefix_bytes']].decode()
+    for change in origin['source_routes']:
+        assert change['count']==1 and prefix.count(change['before'])==1
+        prefix=prefix.replace(change['before'],change['after'],1)
+    assert (HERE/'owning_hooks_model.mjs').read_text().startswith(prefix)
+    spec=importlib.util.spec_from_file_location('global_closed_counted_owning_source',HERE/'native_hooks.py')
+    owning=importlib.util.module_from_spec(spec);spec.loader.exec_module(owning)
+    definitions,routes=owning.derive(owning.originals())
+    assert routes==json.loads((HERE/'NATIVE_OWNING_ROUTES_SOURCE_CONTROLS.json').read_bytes())
+    assert len(definitions)==8 and routes['source_routes']==18 and routes['global_guard_sites']==3
+    assert routes['Native_propagation_transfer_sync_FIFO_HPP_journal_stock_engines_changed']==0
+    assert routes['public_fields_or_permissions_changed']==0 and routes['actual_SQL_executed']==0
     return dict(status='GLOBAL_PRIVATE_ENVELOPE_SOURCE_ONLY_NOT_RUNTIME_OR_PROFILE_QUALIFICATION',
         unchanged_parent_blobs_and_modes=len(base),own_source_pins=len(manifest['files']),
         parent_gate_closed=True,runtime_entry=None,profile_seed_statements=0,
         new_private_scope_functions=4,new_private_scope_tables=2,new_scope_model_controls=21,
+        new_private_review_functions=2,prepared_owning_source_adapters=8,reversible_owning_source_routes=18,
+        new_review_and_owning_model_controls=13,
         actual_owning_hooks=0,complete_installer=False,
         actual_ERP_SQL_executed=0,actual_Native_cases=0,production_go=False,independent_acceptance=False)
 

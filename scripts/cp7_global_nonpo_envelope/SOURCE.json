@@ -7,17 +7,33 @@
   "profile_seed_statements": 0,
   "actual_installer_or_owning_hooks": 0,
   "private_tables": 3,
-  "private_functions": 6,
+  "private_functions": 8,
   "production_go": false,
   "independent_acceptance": false,
   "files": {
+    "scripts/cp7_global_nonpo_envelope/NATIVE_OWNING_REFERENCE.json": {
+      "bytes": 81635,
+      "sha256": "c1e4a5c076a6d451aa85cba68f3f985fa84c12a2d81a77f63d84914ab25fd6b9"
+    },
+    "scripts/cp7_global_nonpo_envelope/NATIVE_OWNING_ROUTES_SOURCE_CONTROLS.json": {
+      "bytes": 13657,
+      "sha256": "e01a79639c1b3b828c0c511f2bc2fb6f0caba8bf887072fef0c09cdfc22f81d7"
+    },
     "scripts/cp7_global_nonpo_envelope/NATIVE_SCOPE_WORK_REFERENCE.json": {
       "bytes": 20187,
       "sha256": "382fa9cda10c71b8649834211c3d78f6edcfb81a337999556d2b3b93dc9cbef3"
     },
+    "scripts/cp7_global_nonpo_envelope/OWNING_HOOK_MODEL_CONTROLS.json": {
+      "bytes": 4032,
+      "sha256": "98dcffe7d7b368d86634cccc57bef4c38bceaac5e707f0010b698b3d5dc6196f"
+    },
+    "scripts/cp7_global_nonpo_envelope/OWNING_HOOK_MODEL_ORIGIN.json": {
+      "bytes": 1126,
+      "sha256": "414136dc15f73ca1be9f104afbe36404dac218aeaab851942d9f4707d202d6ff"
+    },
     "scripts/cp7_global_nonpo_envelope/README.md": {
-      "bytes": 3181,
-      "sha256": "3a42d24543a144f3ac8fe48f59e748c788e345a0b878d9b89da840b8c240d669"
+      "bytes": 4216,
+      "sha256": "f7f90636055a586eafd490ff8ef4692e1e5a6e19418125f37e28d0f71ef80a86"
     },
     "scripts/cp7_global_nonpo_envelope/SYNTAX_AND_SOURCE_CONTROLS.json": {
       "bytes": 2252,
@@ -36,12 +52,24 @@
       "sha256": "7d78a4a69ed5ee4fc79d654092a02c1aacbe58f67a486cf470489b3748f95331"
     },
     "scripts/cp7_global_nonpo_envelope/check_source.py": {
-      "bytes": 5164,
-      "sha256": "a73a511a7bbfd5f2a183fc5e588876ccc2c0d302a0a6f6c1ba88c4b27858908a"
+      "bytes": 7570,
+      "sha256": "d20466c1f91472e3d53441f7888bfe8a6089c6ebebe4fabf0eedd6c3be288bee"
     },
     "scripts/cp7_global_nonpo_envelope/lock.sql": {
       "bytes": 7185,
       "sha256": "2446da79ce58c29bbaaef9b126897322b29ff1504ed4d65f16be5d0150482c13"
+    },
+    "scripts/cp7_global_nonpo_envelope/native_hooks.py": {
+      "bytes": 6535,
+      "sha256": "0ce771ecc8817a96c687f17a0150cc2b55135baa0a1b338d50fe6e2da0c5cf9d"
+    },
+    "scripts/cp7_global_nonpo_envelope/owning_hooks_model.mjs": {
+      "bytes": 16806,
+      "sha256": "c5befbc343209ef4aa68d8dff26a38058275b905b8ee293aa0bbdb29aa33bd63"
+    },
+    "scripts/cp7_global_nonpo_envelope/review.sql": {
+      "bytes": 2956,
+      "sha256": "875e1924412175f962ca7610d18d7375537e85ac381ed4870dbba0a073ee5ff6"
     },
     "scripts/cp7_global_nonpo_envelope/schema.sql": {
       "bytes": 1906,
@@ -55,5 +83,8 @@
       "bytes": 13285,
       "sha256": "26762aceedd3de437b82fd4a0453c8248e0b2582bb66a9e3861ccdd7e5d77d9c"
     }
-  }
+  },
+  "prepared_owning_source_adapters": 8,
+  "counted_owning_source_routes": 18,
+  "global_guard_sites": 3
 }

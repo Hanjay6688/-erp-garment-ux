@@ -1,0 +1,105 @@
+{
+  "status": "GLOBAL_PRIVATE_REVIEW_AND_EIGHT_OWNING_SOURCE_MODEL_CONTROLS_PASS_NOT_ERP",
+  "results": [
+    {
+      "label": "Two new private review helpers compile and bind one sealed model profile, exact current authority hash and the read-only global basis",
+      "result": "PASS"
+    },
+    {
+      "label": "No duplicate or NULL root may masquerade as an explicit owning root domain",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "P0001",
+      "error": "CP7_GLOBAL_EXPLICIT_DISTINCT_ROOTS_REQUIRED"
+    },
+    {
+      "label": "No empty root domain is accepted",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "P0001",
+      "error": "CP7_GLOBAL_EXPLICIT_DISTINCT_ROOTS_REQUIRED"
+    },
+    {
+      "label": "Two profile rows require a new explicit installation decision",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "P0001",
+      "error": "CP7_GLOBAL_ONE_ACTUAL_FINAL_PARENT_PROFILE_REQUIRED"
+    },
+    {
+      "label": "Changed actual Native authority is not relabelled as a new matching source",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "P0001",
+      "error": "CP7_GLOBAL_FINAL_NATIVE_AUTHORITY_PROFILE_CHANGED"
+    },
+    {
+      "label": "An invalid authority flag refuses before a quote basis is returned",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "P0001",
+      "error": "CP7_GLOBAL_EXACT_CURRENT_NATIVE_AUTHORITY_REQUIRED"
+    },
+    {
+      "label": "A missing inspector status cannot silently pass the protocol",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "P0001",
+      "error": "CP7_GLOBAL_EXACT_READONLY_INSPECTION_REQUIRED"
+    },
+    {
+      "label": "A dirty global observation remains an explicit quote refusal; no Native repair or dispatcher executes",
+      "result": "PASS"
+    },
+    {
+      "label": "All eight exact original and derived owning bodies compile against actual declared Native row types; CREATE OR REPLACE preserves every other pg_proc attribute, OID and raw ACL in the model",
+      "result": "PASS"
+    },
+    {
+      "label": "The counted barrier precedes each fresh owner read; binding follows actual Native work insertion and completion precedes original receipt/work closure",
+      "result": "PASS"
+    },
+    {
+      "label": "Changed original body, owner or ACL is refused before any owning adapter can be applied",
+      "result": "PASS"
+    },
+    {
+      "label": "The unchanged actual public E projection never exposes the added private global source or finance facts",
+      "result": "PASS"
+    },
+    {
+      "label": "The two new review helpers grant no browser/service execution or public RPC",
+      "result": "PASS"
+    }
+  ],
+  "source_files": {
+    "review.sql": {
+      "bytes": 2956,
+      "sha256": "875e1924412175f962ca7610d18d7375537e85ac381ed4870dbba0a073ee5ff6"
+    },
+    "native_hooks.py": {
+      "bytes": 6535,
+      "sha256": "0ce771ecc8817a96c687f17a0150cc2b55135baa0a1b338d50fe6e2da0c5cf9d"
+    },
+    "NATIVE_OWNING_REFERENCE.json": {
+      "bytes": 81635,
+      "sha256": "c1e4a5c076a6d451aa85cba68f3f985fa84c12a2d81a77f63d84914ab25fd6b9"
+    },
+    "owning_hooks_model.mjs": {
+      "bytes": 16806,
+      "sha256": "c5befbc343209ef4aa68d8dff26a38058275b905b8ee293aa0bbdb29aa33bd63"
+    },
+    "OWNING_HOOK_MODEL_ORIGIN.json": {
+      "bytes": 1126,
+      "sha256": "414136dc15f73ca1be9f104afbe36404dac218aeaab851942d9f4707d202d6ff"
+    }
+  },
+  "actual_original_and_derived_owning_functions_compiled_on_model": 8,
+  "exact_reversible_owning_source_routes": 18,
+  "guard_sites": 3,
+  "declared_Native_rowtype_maps": 9,
+  "all_Native_business_functions_NOT_executed": true,
+  "Auth_rights_barrier_inspector_base_constraints_are_models": true,
+  "old21_scope_models_and_old_actual_lock_and_catalog_controls_NOT_rerun": true,
+  "actual_final_parent_installer_or_runtime_armed": false,
+  "actual_Native_cases": 0,
+  "actual_Auth_HTTP_cases": 0,
+  "actual_two_session_races": 0,
+  "actual_browser_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}
