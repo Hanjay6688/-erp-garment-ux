@@ -1,0 +1,53 @@
+{
+  "status": "FREE41_AD986_FAILED_AFTER_ACTUAL_STRICT_NATIVE3_PASS_ROOT_RETAINED3_NOT_ALL5",
+  "head": "ad986b9a9d432f2ffac2b961710c3852c6c2ef90",
+  "tree": "80bc5471330b89497991ba1e67615287b01e59c1",
+  "run_id": 41388877929,
+  "job_id": 125095681990,
+  "conclusion": "failure",
+  "artifact_id": 13119648673,
+  "archive": {
+    "bytes": 28320283,
+    "sha256": "8827d2262f51781fd7f3be977192ba7f315ee9d5b94444546121b723a9dbdc9d",
+    "members": 127
+  },
+  "canonical_archive_library_file_id": "libfile_6f5f43e42e1c8191b17e06ef230bc424",
+  "retained_Native_cases": 3,
+  "actual_fresh_Native_cases_for_future_successor": 0,
+  "complete3_qualified": false,
+  "package_all_five": false,
+  "failed_runtime_step": [
+    {
+      "name": "Run Native FREE date3 and complete outer restoration",
+      "status": "completed",
+      "conclusion": "failure",
+      "number": 71
+    }
+  ],
+  "explicit_disposable_removal": [
+    {
+      "name": "Remove disposable database",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 75
+    }
+  ],
+  "actual_business_cases_passed": 3,
+  "failed_component_grants_no_aggregate_credit": true,
+  "missing_committed_use_and_inverse_refusal": true,
+  "error": "FREE_DATE_NATIVE_ORIGINAL_ACTIVE_OWNER_REQUIRED_WITHOUT_PROMOTION",
+  "diagnosis": "Strict runner seeded the existing original foundation inside its rolled-back transaction. The separate committed connection omitted that unchanged seed, so its required active OWNER did not exist. Do not promote any existing user.",
+  "repair": "Call unchanged fixture api.seed only when Native app_users is empty, before the existing owner assertion and actual posting. Retain exact completed cases and run only missing witness.",
+  "Root_retained_receipt": {
+    "path": "FREE41_AD986_ROOT_RETAINED3_20261102.json",
+    "bytes": 9721,
+    "sha256": "7ddda623e3417b3c04d0db2d7f7ce309718a2128c0dfc4fa22f8d7ee0edeb375"
+  },
+  "actual_outer_restoration_verified": true,
+  "actual_backup_restore_verified": true,
+  "failed_worker_reaped": true,
+  "source_invariant_reuse_required": true,
+  "all_five_new_package_gates_still_required": true,
+  "production_go": false,
+  "independent_acceptance": false
+}

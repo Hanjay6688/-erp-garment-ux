@@ -1,0 +1,265 @@
+{
+  "status": "READ_ONLY_STATIC_DIAGNOSIS_NOT_IMPLEMENTED_NOT_TESTED",
+  "scope": "Bounded reviewer to Writer A. AGENTS.md, CLAUDE.md and A/B v2 read. No product edit, DB, tests, CI, push or other writer changes.",
+  "authority": {
+    "accepted_head": "6e61506c10a18541c104b981bd438e78b175b5d1",
+    "accepted_tree": "86f07de6e0be871d39110aa797ef26da4564e8e8",
+    "archive": "/workspace/scratch/cf5f04e2b451/evidence-private/accepted-de30/DE_6E615_SUCCESS_FULL_CANONICAL.zip",
+    "archive_sha256": "c554b7cc76f8eb22cd516dc0bf4ea831a546a09dab369df5ea0ccf1770c8f580",
+    "entry": "DE_GLOBAL_BEFORE_NATIVE30/CALLER_RAW_BOUNDARY_OBSERVATION.json",
+    "json_path": "before.actual_all22.functions[signature][0]",
+    "catalog_functions": 2979
+  },
+  "finding": "Accepted conversion is selected-lot/FIFO COSTING, not moving average. Correcting only preview or destination HPP cannot conserve source pool value and will be overwritten/rejected by recost and financial lineage checks.",
+  "native_functions": {
+    "cp7_sku_conversion.stock_v1(uuid,uuid)": {
+      "source": "scripts/cp7_sku_pair_conversion/conversion.sql:41; location/GRADE_A current available + active SALE_RESERVE = physical; no money",
+      "ddl_sha256": "ebf25d7bda693111d8411ad76ef89c46b4fc04b387cde8137eb5aef18c9012bb",
+      "identical_after_committed_E": true
+    },
+    "cp7_sku_conversion.revision_v1(uuid,uuid,uuid)": {
+      "source": "scripts/cp7_sku_pair_conversion/conversion.sql:52; fingerprints source/target/location, movements and current lot HPP",
+      "ddl_sha256": "a9d1ad4234a3d753cf78e4bbc1c0eeecd9cffbff93e7b3639f975e7499f1825b",
+      "identical_after_committed_E": true
+    },
+    "cp7_sku_conversion.preview_v1(jsonb)": {
+      "source": "scripts/cp7_sku_pair_conversion/conversion.sql:65; lines91-105 select oldest lots and sum rounded take_qty * each lot HPP",
+      "ddl_sha256": "620a107acffea3ec609dbc6cfd18f323a4d9dffd01ba636b8f5f7fdca71b175d",
+      "identical_after_committed_E": true
+    },
+    "cp7_sku_conversion.action_v1(text,jsonb,uuid)": {
+      "source": "scripts/cp7_sku_pair_conversion/conversion.sql:115; posts one Native child per FIFO allocation; separate REVERSE action",
+      "ddl_sha256": "93474ab10fcbcfe9913171790762377fad75c301611a65cb1897225a4f5824c9",
+      "identical_after_committed_E": true
+    },
+    "cp7_sku_conversion.workspace_v1(jsonb)": {
+      "source": "scripts/cp7_sku_pair_conversion/conversion.sql; per-location stock selection; targets unrestricted active SKUs, pair only recommended",
+      "ddl_sha256": "a5e5333f2c9a9ef3f21dbb56ad2b2ba8d0c76f78509dc0e9edbde7df35c26d0b",
+      "identical_after_committed_E": true
+    },
+    "erp.be_conversion_preview_v1(jsonb)": {
+      "source": "scripts/cp6_be_objects_conversion.sql:58 plus scripts/cp7_sku_pair_conversion/native_delta.py; selected-lot HPP quote; manual private context bypasses same-model/size only",
+      "ddl_sha256": "a6159f6a6d34c320367d2bc3b84b2ff44d4036dad12bd8ace252af0debdea818",
+      "identical_after_committed_E": true
+    },
+    "erp.be_post_conversion_v1(jsonb,uuid,text,uuid)": {
+      "source": "scripts/cp6_be_objects_conversion.sql; inserts selected-lot source then invokes post_product_conversion",
+      "ddl_sha256": "f902acefd85f1834303797986f61dd7063adac971507c011f616dfded0ed6102",
+      "identical_after_committed_E": true
+    },
+    "erp.post_product_conversion(uuid)": {
+      "source": "scripts/cp6_be_build.py:47 conversion() -> supabase/release/cp6-t3/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql:1353; Native current DDL is catalog authority",
+      "ddl_sha256": "02a99b016e67d72801671cd22da00a17cd066d250ca6d261d184365b0f76b426",
+      "identical_after_committed_E": true
+    },
+    "erp.lock_current_hpp_per_pcs(uuid)": {
+      "source": "Native catalog; one current HPP per lot, no location",
+      "ddl_sha256": "bf730329274036bf6c4ceaea20fe49b1e2f5ecf3e29b96b4e1da5efe16bb5981",
+      "identical_after_committed_E": true
+    },
+    "erp.propagate_conversion_hpp_for_po(uuid)": {
+      "source": "scripts/cp6_be_build.py propagation() from 20260909174713_erp_v2_6_20f_cp6_final_runtime_reliability.sql; latest physical source-lot HPP + linked extras",
+      "ddl_sha256": "1f2d3e67b880ff5cd9f2770b332f579b91740965b4b4bb4b1f32d191f3d882fb",
+      "identical_after_committed_E": true
+    },
+    "erp.be_propagate_nonpo_v1()": {
+      "source": "scripts/cp6_be_build.py:91 derives non-PO root traversal from same propagation function",
+      "ddl_sha256": "97d23a16a2e461e6e327f877ba6925d4bfbcb6f99481e070fb85c291c98cac61",
+      "identical_after_committed_E": true
+    },
+    "erp.be_nonpo_prepare_transfers_v1(date)": {
+      "source": "scripts/cp6_be_objects_nonpo.sql:31; current source-lot HPP versus original plus prior recost events, append FG-to-FG correction",
+      "ddl_sha256": "697c02f47c6c7a1d6884a6a49ff595a36b064ac6e2021c0b3c4609c89c534f5e",
+      "identical_after_committed_E": true
+    },
+    "erp.compute_po_hpp_gl_targets_v2620d(uuid)": {
+      "source": "scripts/cp6_be_build.py propagation() / Native catalog; current lot total_cost / qty_basis times owned/sold qty, PO dimension",
+      "ddl_sha256": "2e166752812af06d8f9922c4ad2d0583ddb4f11b9d735756e5ada98eabab8549",
+      "identical_after_committed_E": true
+    },
+    "erp.compute_non_po_product_hpp_targets_v2620f(uuid)": {
+      "source": "scripts/cp6_be_build.py:98; subtract conversions at source lot current cost; per-lot cent targets",
+      "ddl_sha256": "17c02f258d9782f56880b803fe89b2538a685fe0433e7e6638bb24e1bb2f6c4c",
+      "identical_after_committed_E": true
+    },
+    "erp.sync_po_hpp_to_gl(uuid,date)": {
+      "source": "Native catalog; target deltas, PO attribution and existing invoice-recost physical/economic/recognition-date policy",
+      "ddl_sha256": "fb7a970a5836507bce5bcb652510de38ec05ef95ea0fbb6584561879456abaed",
+      "identical_after_committed_E": true
+    },
+    "erp.sync_non_po_product_hpp_to_gl_v2620f(uuid,date,text,uuid,text)": {
+      "source": "Native catalog plus scripts/cp6_be_build.py; per-product target/book reconciliation",
+      "ddl_sha256": "5c7471588d902fbb721ee2634afb5fd551b6f57a524cc28085c04d2ae04fa47c",
+      "identical_after_committed_E": true
+    },
+    "erp.reverse_product_conversion(uuid,text)": {
+      "source": "scripts/cp6_be_build.py inverse plus scripts/cp7_sku_pair_conversion/native_delta.py; reverses original facts/journals, distinct from manual POST back",
+      "ddl_sha256": "abf94fa075ded62b95d661c505735c16f2e38aaf9e8cfd4df20f1c1aba2d6f02",
+      "identical_after_committed_E": true
+    },
+    "cp7_fg.positions(text,boolean)": {
+      "source": "scripts/cp7-src/fg/read.sql:3; lot/product/location/grade current available,reserved,physical",
+      "ddl_sha256": "750e99d4227d7827f1190ebe751edea7cd833c6b0f252b09e144db9708f7db5c",
+      "identical_after_committed_E": true
+    },
+    "cp7_fg.lot_value(uuid,numeric)": {
+      "source": "scripts/cp7-src/fg/bootstrap.sql:54; current corrected lot HPP * physical qty; UNKNOWN for missing/estimated/laundry/completeness",
+      "ddl_sha256": "b48a871a42eb0280db9c613778cd4337c0fb9f2301708b6836227c48cceb103e",
+      "identical_after_committed_E": true
+    },
+    "cp7_fg.workspace(jsonb)": {
+      "source": "scripts/cp7-src/fg/read.sql:26; each position valued using lot_value(lot,physical_qty)",
+      "ddl_sha256": "9037dda456a264b816c8c28159cf87993685dcfa787aa4d8d3787883bab959cd",
+      "identical_after_committed_E": true
+    },
+    "cp7_fg.corrected_ledger(jsonb)": {
+      "source": "scripts/cp7-src/fg/corrected-ledger.sql:45; line66 obtains current cost only by lot despite location-scoped card",
+      "ddl_sha256": "f8c4cd3399b5688e1d5396c82d20d773197efbe9375aa7795576001d1e09ad0e",
+      "identical_after_committed_E": true
+    },
+    "cp7_sku_conversion.recovery_graph_v1(uuid,numeric,boolean)": {
+      "source": "scripts/cp7_sku_pair_conversion/recovery.sql:24; lines82-97 repeat exact one-source HPP + extra graph, explicitly no average",
+      "ddl_sha256": "b317a0f7fe6f19a97e1086ff066fcc9867ca5a65909464eea0a32e1aef0e223f",
+      "identical_after_committed_E": true
+    },
+    "erp.run_v268_financial_report_checks()": {
+      "source": "Native catalog; DDL lines797-818 V2620F_CONVERSION_VALUE_LINEAGE_MISMATCH requires destination HPP = selected source HPP + linked extra and exact OUT/IN facts",
+      "ddl_sha256": "11f7fbd69b605998a64cad2943841d99bce914756459f9b6290b9f917ae854e9",
+      "identical_after_committed_E": true
+    },
+    "erp.fg_unsourced_valuation_v1(uuid,timestamp with time zone)": {
+      "source": "scripts/cp6_ax_functions.sql:49; existing weighted fallback for UNSOURCED goods only, no location/grade input; SKU identity->MODEL_SIZE->MODEL->owner and produced-qty fallback",
+      "ddl_sha256": "a700081d50827ec399e5ba1f72394d66048edb0735021e11bf27905c5cfb7acf",
+      "identical_after_committed_E": true
+    },
+    "public.erp_preview_fg_unsourced_value_v1(uuid,timestamp with time zone)": {
+      "source": "scripts/cp6_ax_functions.sql:372; exposes unsourced fallback; not found connected to accepted conversion UI",
+      "ddl_sha256": "7ab8f9f6bd839b592f486298661acc402af94d431f45e9f45eb3e0b398247c85",
+      "identical_after_committed_E": true
+    }
+  },
+  "ui": {
+    "commit": "6e61506c10a18541c104b981bd438e78b175b5d1",
+    "files": [
+      "src/ConnectedProductConversionPage.tsx:104",
+      "src/ConnectedProductConversionPage.tsx:113",
+      "src/ConnectedProductConversionPage.tsx:124",
+      "src/productConversion.ts:7",
+      "src/productConversion.ts:11",
+      "src/productConversion.ts:59"
+    ],
+    "observed": "UI shows per-location physical/available/reserved before, and preview transfer source_value. Contract has no source/target current inventory value or current average. Client does not compute a current average.",
+    "fallback_claim": "No conversion UI average-fallback/location claim verified. Separate actual Native unsourced fallback exists and is not suitable for brand conversion because it can cross locations, grades, versions/models and use produced quantity when no stock. Do not label that as current actual source/target cost."
+  },
+  "authoritative_data": [
+    {
+      "table": "erp.fg_stock_movements",
+      "fields": "product_id,lot_id,location_id,quality_grade,movement_type,qty_signed,unit_hpp_snapshot NUMERIC(18,6),physical_at,system_created_at,reversal_of_id,source_type/source_id,book_order",
+      "meaning": "Ledger quantity authority. Current physical = available plus unreversed active SALE_RESERVE; reservation is no value outflow. Native post_sale converts SALE_RESERVE to SALE, per accepted read.sql comment."
+    },
+    {
+      "table": "erp.fg_lots",
+      "fields": "product_id,po_id,initial_qty_pcs,cached_qty_pcs,produced_at,lot_origin,source_lot_id",
+      "meaning": "Physical lot/PO lineage; cached_qty is not location value. Single parent lot identity cannot by itself express multi-source average cost attribution."
+    },
+    {
+      "table": "erp.fg_inventory_balances",
+      "fields": "product_id,location_id,quality_grade,cached_qty_pcs",
+      "meaning": "Quantity cache/lock only. No monetary value or moving-average column."
+    },
+    {
+      "table": "erp.hpp_versions / erp.v_current_hpp",
+      "fields": "lot_id,version_no,cost_state,qty_basis_pcs,total_cost NUMERIC(24,6),hpp_per_pcs generated NUMERIC(18,6),is_current,supersedes_id,calculated_at",
+      "meaning": "Latest corrected per-LOT cost, not per-location remaining-stock cost. v_current_hpp takes highest current version. Do not reprice this whole lot solely to repair a conversion residual: it also reprices already-sold qty and other locations."
+    },
+    {
+      "table": "erp.hpp_version_components",
+      "fields": "hpp_version_id,source_type,source_id,qty_basis,unit_cost,total_cost",
+      "meaning": "Sourced cost components; Native conversion component currently FG_LOT selected source."
+    },
+    {
+      "table": "erp.product_conversions / erp.product_conversion_allocations / erp.be_conversion_sources_v1",
+      "fields": "header SKU/from/to/location/qty/status/date; allocation source_lot,destination_lot,qty,original_hpp_per_pcs,conversion_cost_allocated; BE selected source/origin/revision",
+      "meaning": "Immutable historical physical conversion facts plus original cost snapshot; do not overwrite for new manual back."
+    },
+    {
+      "table": "erp.sale_stock_allocations",
+      "fields": "sale_item_id,lot_id,location_id,qty_pcs,unit_hpp_snapshot,total_hpp",
+      "meaning": "Sales physical/cost allocations; actual PO/nonPO COGS target functions also recompute latest lot cost. Downstream consumption/return and recost must observe any new effective value layer."
+    },
+    {
+      "table": "erp.be_nonpo_transfer_events_v1 / erp.po_hpp_gl_events / erp.journal_entries / erp.journal_lines",
+      "fields": "append recost previous/target value and journal/economic date; PO target/book state and dated journals",
+      "meaning": "Existing correction-event pattern is reusable, but its conversion target formula is currently source-lot-only."
+    }
+  ],
+  "minimal_correct_design": [
+    "Keep physical lot choice/provenance and existing atomic lock/permission/idempotency framework. FIFO may select physical pieces, never their transfer price. Any active target remains selectable; reciprocal pair is convenience.",
+    "One server quote under the existing envelope for exact product_id + selected location_id + GRADE_A: all owned physical positions, including reserved pieces; Q=physical, R=reserved, A=Q-R, V=actual effective current value, average=V/Q. Sum the full scope before pagination/search. Unknown relevant cost is not zero or excluded. Empty target is explicitly EMPTY, not fabricated zero average. Recheck quote/version after lock before any effects.",
+    "For a new conversion q<=available, calculate transfer M from current source V/Q at full precision, round the transaction amount once to cents, then source (Q-q,V-M), target (Qt+q,Vt+M). Manual B-to-A uses a new request/event and the then-current B average; it never invokes REVERSE on A-to-B.",
+    "Required missing representation: append-only sourced valuation events/inputs and a rebuildable remaining-position valuation projection keyed by lot/location/grade (or equivalent exact custody slices). Retain physical lineage separately from weighted economic-source lineage. Each event pins source/target before-state, all financial contributors with cost-version IDs and rational weights, physical allocation refs, transferred exact amount, timestamps, and deterministic residuals. This is necessary, not optional UI data.",
+    "Let C be cost of physically picked fragments under the old lot view. Average transfer requires explicit source remaining-value adjustment C-M and destination adjustment M-C relative to physical carry-forward; their sum is zero. Example 2@10+2@30, pick one cheap piece: C=10,M=20; remaining old view70 must become60, destination10 must become20. Record this as sourced inventory value redistribution, never unsourced conversion_cost_total, cash, fake purchase, OTHER expense/income, or rewriting old HPP/movements. Per-position residual allocation must stay nonnegative and conserve all source contributions.",
+    "One shared effective valuation projection must feed conversion quote/post, location stock/card values and affected HPP/GL/COGS/returns. Existing lot_value(lot,qty) lacks enough location information. Reuse unaffected legacy readers/flows where possible, but subsequent use of affected stock must consume its actual residual value. Do not claim average conversion while ordinary readers still multiply remaining qty by the old lot HPP.",
+    "Current PO/nonPO propagation, transfer-recost target, recovery_graph and V2620F_CONVERSION_VALUE_LINEAGE_MISMATCH require a narrowly identified new average-event rule: prove weighted sourced target + legitimate linked extra/recovery, exact physical OUT/IN and aggregate/PO/nonPO value conservation. Retain legacy rule for existing conversions. Do not remove detectors or bypass mismatch checks.",
+    "Later HPP corrections append new valuation versions/events and GL DELTAS through recorded economic contributors, including contributors not physically picked. Replay valuation dependencies in event order with the original eligible contributor set/weights; do not include later receipts in an earlier average. Track FG/COGS/other custody disposition and existing physical/economic/recognition dates. Mixed PO/nonPO attribution must follow financial contributors, while original physical PO lineage stays intact. Repeated recost with unchanged source is zero-effect.",
+    "Rounding: authoritative group amount M; child amounts by deterministic cumulative apportionment (rounded cumulative ideal minus previously allocated cents), sum exactly M. Store total amounts and explicit residuals, never reconstruct from rounded 6-decimal unit HPP. Full depletion transfers all remaining value. Recost delta = new cumulative target minus prior posted cumulative target. Preserve raw precision separately only with an explicit reconciliation residual; no hidden cent tolerance accumulation."
+  ],
+  "focused_cases": [
+    {
+      "id": "MA_CANONICAL_FORWARD_MANUAL_BACK",
+      "setup": "A has 2@10+2@30=4pcs/80; B old1@50. Convert1 A->B then NEW1 B->A.",
+      "expected": "Forward A3/60 avg20, B2/70 avg35. Back A4/95 avg23.75, B1/35. Total130; prior documents/movements unchanged; no reversal. FIFO gives wrong forward10 or back50."
+    },
+    {
+      "id": "MA_LOCATION_AND_SAME_LOT_SPLIT",
+      "setup": "A selected L1 4pcs/80, L2 6pcs/600; also place one physical lot in both locations.",
+      "expected": "L1 quote20 and transfer1 value20; L2 stock/value/current effective cost unchanged. Changing a whole lot HPP to repair L1 fails this case."
+    },
+    {
+      "id": "MA_RESERVED_CONTRIBUTOR",
+      "setup": "A2@10 available plus A2@30 fully reserved at selected location.",
+      "expected": "Physical4,value80,avg20,available2; convert1@20, reservation remains2 and no reservation value outflow. Available-only denominator/value would produce10 and is wrong. Convert3 refused atomically."
+    },
+    {
+      "id": "MA_FULL_SCOPE_KNOWNNESS",
+      "setup": "Over25 source lots, high-cost contributor off page; missing/ESTIMATED/unpriced-cost physical contributor not selected by physical FIFO (including fully reserved).",
+      "expected": "Average includes all eligible known positions across pages. Unknown remains explicit/fail-closed under required quote contract; no skipped cost/zero fallback. OTHER location, other grade and different product excluded."
+    },
+    {
+      "id": "MA_EXISTING_FIXTURE_DISTINGUISHER",
+      "setup": "Current fixture: source3@10.01 +7@20.02, one cheap piece reserved; target4@30.03; q4.",
+      "expected": "Source physical10/value170.17, average17.017, transfer68.07 cents under recommended single-round policy, not existing60.06 FIFO. Source6/value102.10; target8/value188.19. Native/UI/GL targets agree."
+    },
+    {
+      "id": "MA_CENTS_FRAGMENTATION_FULL_DEPLETION",
+      "setup": "Pool3pcs/value1.00, q2 with multiple physical children; repeated partial conversions and complete depletion.",
+      "expected": "Group transfer0.67; children sum0.67 (not 0.66), remaining source0.33. Stable child split cannot alter group amount. Complete depletion leaves zero qty/zero value; repeated no-op recost adds no journals."
+    },
+    {
+      "id": "MA_LATER_UNPICKED_SOURCE_RECOST",
+      "setup": "Canonical forward1, then correct expensive A source2@30 to2@40; no later unrelated receipt in the original contributor set.",
+      "expected": "Latest corrected A original total100, transfer25, source3/value75; B2/value75. New back then costs37.50. Unpicked contributor correction reaches converted stock; original snapshots unchanged; delta journals only."
+    },
+    {
+      "id": "MA_MIXED_ORIGINS_DOWNSTREAM",
+      "setup": "Average spans PO1, PO2 and nonPO; then sale/return, location transfer and linked accessory recovery, followed by source correction.",
+      "expected": "Physical roots/lot/location lineage retained; each financial source contribution reconciles; FG+COGS+other equals sourced cost; conversion itself creates no cash, revenue or expense. Correct residual value follows downstream and original-allocation return."
+    },
+    {
+      "id": "MA_GUARDS_REPLAY_REVERSE",
+      "setup": "Change source/target stock, reservation, contributor HPP between quote and POST; concurrent operations, revoked permission, backdated capacity, duplicate request; cancellation versus manual back.",
+      "expected": "Fresh version/permission after waits, chronological nonnegative guard, zero partial effects on refusal, exact idempotent replay. Cancellation keeps protected inverse semantics and considers financial dependencies; manual back always new current-average POST."
+    }
+  ],
+  "existing_tests_are_fifo_not_average_proof": {
+    "file": "scripts/current-sku-pair-conversion-qualification/cases.py",
+    "observed": "multilots asserts60.06 and units10.01/20.02; arbitrary_target asserts manual-back30.03 from oldest target lot; result explicitly new_FG_average_created=False. These are prior FIFO semantics; replace under explicit owner policy with independent expected values, do not cite as moving-average evidence.",
+    "fixture": "scripts/current-sku-pair-conversion-qualification/fixture.py:122"
+  },
+  "unknowns_and_limits": [
+    "No existing per-location FG moving-average balance found in accepted catalog. The equivalently minimal representation and exact downstream binding need implementation design by A; a UI-only or post-only patch is conclusively insufficient.",
+    "Accepted Native amount fields mix NUMERIC(24,6), generated unit NUMERIC(18,6), and cent journals/per-lot targets. Final residual storage/target rounding policy must be fixed explicitly and qualified; proposed test values use single-rounded group cents.",
+    "Current contract asks current cost, but payload accepts a physical date; preserve existing chronological capacity and accounting-date rules. Define quote read-time/current-knowledge versus physical-time basis explicitly; do not reuse unsourced valuation fallback.",
+    "The linked financial-read qualification run and report integration were not inspected or touched. Parent A owns FREE41 diagnosis. No source implementation, DB execution, test result, independent acceptance or production-go is claimed."
+  ]
+}
