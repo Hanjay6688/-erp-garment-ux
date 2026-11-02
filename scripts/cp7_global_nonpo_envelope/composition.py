@@ -258,6 +258,27 @@ def install(cur,parent_receipt_raw,input_profile_raw):
         state['sha256']=digest(state);verify(cur,state);return state
 
 
+def verify_objects(cur,observed,plan):
+    """Verify only observed compiled source/ACLs; this grants no admission."""
+    with metadata_context(cur):
+        catalogue=all22(observed)
+        for sig,expected in plan['functions'].items():
+            row=cur.execute("select encode(sha256(convert_to(p.prosrc,'UTF8')),'hex'),pg_get_userbyid(p.proowner),l.lanname,p.provolatile::text,p.prosecdef,p.proretset,p.proconfig from pg_proc p join pg_language l on l.oid=p.prolang where p.oid=%s::regprocedure",(sig,)).fetchone()
+            require(row is not None and list(row)==[expected[k]for k in('body_sha256','owner','language','volatility','security_definer','returns_set','config')],'GLOBAL_EXACT_NEW_FUNCTION_SOURCE_AUTHORITY_REQUIRED:'+sig)
+            acl=catalogue['functions'][sig][18]
+            require({tuple(x)for x in acl}=={(expected['owner'],expected['owner'],'EXECUTE',False)}|({('postgres','supabase_admin','EXECUTE',False)}if expected['owner']=='supabase_admin'else set()),'GLOBAL_EXACT_NEW_FUNCTION_ACL_REQUIRED:'+sig)
+        for table in plan['tables']:
+            row=catalogue['relations'][table]
+            require(row[0]=='postgres'and row[3]is True and all(x[0]=='postgres'and x[1]=='postgres'for x in row[12]),'GLOBAL_PRIVATE_TABLE_OWNER_RLS_OR_ACL_CHANGED:'+table)
+        for schema in SCHEMAS:
+            owner='supabase_admin'if schema==SCHEMAS[2]else'postgres'
+            row=catalogue['schemas'][schema]
+            expected={(owner,owner,'USAGE',False),(owner,owner,'CREATE',False)}
+            if schema==SCHEMAS[2]:expected.add(('postgres',owner,'USAGE',False))
+            require(row[0]==owner and{tuple(x)for x in row[1]}==expected,'GLOBAL_PRIVATE_EXACT_SCHEMA_ACL_REQUIRED:'+schema)
+    return dict(source_functions=16,source_tables=3,actual_runtime_admission=False)
+
+
 def verify(cur,state):
     require(state.get('contract')==CONTRACT and state.get('sha256')==digest({k:v for k,v in state.items()if k!='sha256'}),'GLOBAL_INSTALL_STATE_CHANGED')
     require(state['sources']==sources(),'GLOBAL_INSTALLED_SOURCE_CHANGED')
@@ -266,15 +287,7 @@ def verify(cur,state):
         require(native_identity(cur,state['definitions'])==state['native_identity'],'GLOBAL_NATIVE_OID_RAW_AUTHORITY_CHANGED')
         rows=cur.execute('select to_jsonb(p)-\'sealed_at\'from cp7_global_nonpo_envelope.profiles p').fetchall()
         require(len(rows)==1 and rows[0][0]==({'id':state['profile_id']}|state['sealed']),'GLOBAL_SEALED_PROFILE_ROW_CHANGED')
-        catalogue=all22(state['after'])
-        for sig,expected in state['plan']['functions'].items():
-            row=cur.execute("select encode(sha256(convert_to(p.prosrc,'UTF8')),'hex'),pg_get_userbyid(p.proowner),l.lanname,p.provolatile::text,p.prosecdef,p.proretset,p.proconfig from pg_proc p join pg_language l on l.oid=p.prolang where p.oid=%s::regprocedure",(sig,)).fetchone()
-            require(row is not None and list(row)==[expected[k]for k in('body_sha256','owner','language','volatility','security_definer','returns_set','config')],'GLOBAL_EXACT_NEW_FUNCTION_SOURCE_AUTHORITY_REQUIRED:'+sig)
-            acl=catalogue['functions'][sig][18]
-            require({tuple(x)for x in acl}=={(expected['owner'],expected['owner'],'EXECUTE',False)}|({('postgres','supabase_admin','EXECUTE',False)}if expected['owner']=='supabase_admin'else set()),'GLOBAL_EXACT_NEW_FUNCTION_ACL_REQUIRED:'+sig)
-        for table in state['plan']['tables']:
-            row=catalogue['relations'][table]
-            require(row[0]=='postgres'and row[3]is True and all(x[0]=='postgres'and x[1]=='postgres'for x in row[12]),'GLOBAL_PRIVATE_TABLE_OWNER_RLS_OR_ACL_CHANGED:'+table)
+        verify_objects(cur,state['after'],state['plan'])
     return dict(contract=CONTRACT,new_private_functions=16,Native_adapters=8,full25_verified=True,
         actual_business_qualification=False,production_go=False,independent_acceptance=False)
 

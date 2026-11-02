@@ -168,8 +168,8 @@
       "sha256": "5611ef323a1d532d77429f55bce58cec46dd1333e4700dbe7323a3c0cb0b80cc"
     },
     "scripts/cp7_global_nonpo_envelope/composition.py": {
-      "bytes": 21133,
-      "sha256": "a9d2de7bde18e73c3e16de114b09dbc8ffd5aa0e88e2910193c72ce634c22c0e"
+      "bytes": 21834,
+      "sha256": "67f21a6b2d8ff2b90cc808d1e895dd8dcd124f462d8b3f2407628b780be5785d"
     },
     "scripts/cp7_global_nonpo_envelope/INSTALL_PLAN.json": {
       "bytes": 13421,
