@@ -1,13 +1,14 @@
 from pathlib import Path
-import importlib.util,json,zipfile
+import importlib.util,json,os
 
 HERE=Path(__file__).resolve().parent
 spec=importlib.util.spec_from_file_location('moving_average_reader_delta',HERE/'reader_delta.py')
 delta=importlib.util.module_from_spec(spec);spec.loader.exec_module(delta)
-archive=HERE.parents[2]/'evidence'/'DE_6E615_SUCCESS_FULL_CANONICAL.zip'
-with zipfile.ZipFile(archive)as z:
-    raw=json.loads(z.read('DE_GLOBAL_BEFORE_NATIVE30/CALLER_RAW_BOUNDARY_OBSERVATION.json'))
-originals={sig:raw['before']['actual_all22']['functions'][sig][0]for sig in delta.SIGNATURES}
+parent=Path(os.environ['CP7_SKU_PARENT_ORIGINALS'])/'CP7_SKU_MANAGED_RECOVERY_NATIVE27.json'
+raw=json.loads(parent.read_bytes())
+functions=raw['committed']['SKU_NATIVE7_COST5_RACES3_PERMISSION_WAITS7_RECOVERY_BUSY1_AUTH_BROWSER4'][
+    'Native_to_copy_handoff']['raw_current_catalog']['functions']
+originals={sig:functions[sig][0]for sig in delta.SIGNATURES}
 patched=delta.patched(originals)
 assert 'position_value_v2(x.product_id,x.location_id,x.quality_grade,x.physical_qty)'in patched[delta.SIGNATURES[0]]
 assert 'position_value_v2(pid,location,grade,1)'in patched[delta.SIGNATURES[1]]

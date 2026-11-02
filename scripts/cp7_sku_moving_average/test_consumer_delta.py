@@ -1,21 +1,14 @@
 from pathlib import Path
-import importlib.util,json,zipfile
+import importlib.util,json,os
 
 HERE=Path(__file__).resolve().parent
-EVIDENCE=HERE.parents[2]/'evidence'/'current39'/'sku-actual-native-before'
 spec=importlib.util.spec_from_file_location('moving_average_consumer_delta',HERE/'consumer_delta.py')
 delta=importlib.util.module_from_spec(spec);spec.loader.exec_module(delta)
-paths={
- delta.SIGNATURES[0]:EVIDENCE/'erp.post_sale(uuid).sql',
- delta.SIGNATURES[1]:EVIDENCE/'erp.post_sales_return(uuid).sql',
- delta.SIGNATURES[2]:EVIDENCE/'erp.compute_non_po_product_hpp_targets_v2620f(uuid).sql',
-}
-originals={sig:path.read_text()for sig,path in paths.items()}
-archive=HERE.parents[2]/'evidence'/'DE_6E615_SUCCESS_FULL_CANONICAL.zip'
-with zipfile.ZipFile(archive)as z:
-    raw=json.loads(z.read('DE_GLOBAL_BEFORE_NATIVE30/CALLER_RAW_BOUNDARY_OBSERVATION.json'))
-for sig in delta.SIGNATURES[3:]:
-    originals[sig]=raw['before']['actual_all22']['functions'][sig][0]
+parent=Path(os.environ['CP7_SKU_PARENT_ORIGINALS'])/'CP7_SKU_MANAGED_RECOVERY_NATIVE27.json'
+raw=json.loads(parent.read_bytes())
+functions=raw['committed']['SKU_NATIVE7_COST5_RACES3_PERMISSION_WAITS7_RECOVERY_BUSY1_AUTH_BROWSER4'][
+    'Native_to_copy_handoff']['raw_current_catalog']['functions']
+originals={sig:functions[sig][0]for sig in delta.SIGNATURES}
 patched=delta.patched(originals)
 assert set(patched)==set(delta.SIGNATURES)
 assert 'prepare_sale_values_v2(h.id)'in patched[delta.SIGNATURES[0]]
