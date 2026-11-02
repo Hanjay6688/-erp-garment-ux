@@ -1,0 +1,32 @@
+{
+  "file_maps": 137,
+  "pin_occurrences": 642,
+  "unique_paths": 206,
+  "exact_producer_namespace": true,
+  "current_D1_E_contract_bindings": [
+    "cp7.credit-correction-de.v1",
+    "cp7.note-credit-carry.v1"
+  ],
+  "historical_registry_changed": false,
+  "matching_hash_or_alternative_namespace_search": false,
+  "status": "ACTUAL_DE_GRAPH_EXACT_RELATIVE_PRODUCER_BINDINGS_PASS_NOT_NATIVE_RERUN",
+  "negative_controls": [
+    {
+      "case": "unknown-producer",
+      "result": "REFUSED",
+      "error": "ROOT_CURRENT_UNBOUND_SOURCE_PRODUCER:cp7.invalid-producer.v1"
+    },
+    {
+      "case": "changed-relative-fileset",
+      "result": "REFUSED",
+      "error": "ROOT_CURRENT_EXACT_D1_E_PRODUCER_FILESET:cp7.credit-correction-de.v1:VALUE"
+    },
+    {
+      "case": "wrong-source-digest",
+      "result": "REFUSED",
+      "error": "ROOT_SOURCE_DIGEST_CHANGED:scripts/cp7_credit_correction_de/review.sql"
+    }
+  ],
+  "actual_ERP_SQL_executed": 0,
+  "actual_Native_cases_rerun": 0
+}

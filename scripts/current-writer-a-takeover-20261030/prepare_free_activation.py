@@ -8,7 +8,7 @@ from prepare_de_activation import literal_route
 import intake_free3 as child
 import intake_complete_de30 as parent
 
-ACTUAL_ACCEPTED_DE_RECEIPT=None
+ACTUAL_ACCEPTED_DE_RECEIPT={'bytes': 19912, 'sha256': 'b63c44c459a36ad285c788890132ae4910569044f432e9851dff90f8061192e2'}
 NS=child.NS
 RECEIPT=NS+'DE30_PARENT_ROOT_ACTUAL_INTAKE.json'
 WORKFLOW=child.WORKFLOW

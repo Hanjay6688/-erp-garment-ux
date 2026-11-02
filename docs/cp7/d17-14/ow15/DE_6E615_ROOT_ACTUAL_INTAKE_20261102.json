@@ -1,0 +1,551 @@
+{
+  "status": "ROOT_VERIFIED_CURRENT_COMPLETE_D1_E_NATIVE30_ALL5",
+  "head": "6e61506c10a18541c104b981bd438e78b175b5d1",
+  "tree": "86f07de6e0be871d39110aa797ef26da4564e8e8",
+  "run_id": 41368001658,
+  "job_id": 125032204589,
+  "artifact_id": 13110856146,
+  "archive": {
+    "bytes": 15008704,
+    "sha256": "c554b7cc76f8eb22cd516dc0bf4ea831a546a09dab369df5ea0ccf1770c8f580",
+    "members": 130
+  },
+  "originals": {
+    "CP7_CURRENT_COMPLETE_D1_E_NATIVE30.json": {
+      "bytes": 175633443,
+      "sha256": "518c1ceefa37ba0a27511181e66c365b31b0980637398325220c602267a0b954"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360413,
+      "sha256": "0345d1c4bb3fd67c0f7db54d35e46d7684c8a300de16e62635374982a5b59309"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 1470,
+      "sha256": "2967df4b4aa63f29e5e03816a8be169b2035e6f48b2022268be1d94367d87415"
+    },
+    "DE_RUNTIME_SUPERVISION.json": {
+      "bytes": 601,
+      "sha256": "4346d75537555c2569c3694feb4d498800c8a9e25fb6ee2cd9aa4737382417e6"
+    },
+    "CP7_CURRENT_COMPLETE_D1_E_NATIVE30_CASES.json": {
+      "bytes": 46715,
+      "sha256": "0025ff03c58cc8a99a64128a4677db6f2cf32caaf68a917784900d6f5d2c0ff4"
+    },
+    "DE_GLOBAL_BEFORE_NATIVE30/CALLER_RAW_BOUNDARY_OBSERVATION.json": {
+      "bytes": 22185024,
+      "sha256": "7607987b5a8a9100dddbfef5b39135b330eda329bf89b072b3839467cf7c7b86"
+    },
+    "DE_GLOBAL_AFTER_COMMITTED_E_USE/CALLER_RAW_BOUNDARY_OBSERVATION.json": {
+      "bytes": 22185033,
+      "sha256": "2069e339e9f6c7b840280434dcd3bc4bab4aff6aaa820804193e71d659a9ba34"
+    }
+  },
+  "source_admission": {
+    "source_pins": 95,
+    "own_paths": 96,
+    "unchanged_base": 14169,
+    "D1_ids": [
+      "D_POSITIVE_CREDIT_INCREMENT",
+      "D_AFTER_ACTIVE_APPLY",
+      "D_AFTER_REFUND_EXTRA_STAYS_CREDIT",
+      "D_MULTIFAMILY_ORDINAL",
+      "D_REPLAY_EXACT_UUID",
+      "D_STALE_REVIEW_NO_EFFECT",
+      "D_ACCESS_REVOKED_NO_EFFECT",
+      "D_SHORTFALL_NAMES_UNDO",
+      "D_ROOT_BOOK_FLOOR_REFUSAL",
+      "D_ATOMIC_POST_FAILURE_RESTORE",
+      "D_SECOND_REVISION_ORDINAL_HISTORY",
+      "D_AFTER_NAMED_UNDO_NO_FALSE_BLOCKER",
+      "E_UNIMPLEMENTED_INCOMING_CORRECTION_STAYS_GUARDED"
+    ],
+    "E_ids": [
+      "E_PRICE_INCREASE_80_NET550_AR470",
+      "E_PRICE_DECREASE_80_NET100_AR20",
+      "E_EXACT_FUNDED_80_PAID",
+      "E_BELOW_CARRIED_80_REFUSES_ATOMIC",
+      "E_SAME_UUID_AND_CHANGED_INTENT",
+      "E_SOURCE_D1_CHANGE_RETIRES_REVIEW",
+      "E_LATER_APPLY_20_CURRENT_LEAF",
+      "E_UNDO_ORIGINAL_80_AND_OLD_RECEIPT",
+      "E_NATIVE_POST_FAILURE_FULL_RESTORE",
+      "E_QUANTITY_CHANGE_REFUSES",
+      "E_ORIGINAL_DATE_CHANGE_REFUSES",
+      "E_CLOSED_ORIGINAL_BOOK_PAIR_REFUSES",
+      "E_SECOND_NOTE_REVISION_GUARDED",
+      "E_CURRENT_ACCESS_REVOKED_REFUSES",
+      "E_JOINT_PREFIX_AFTER_UNDO_120_MIN200_NOT150",
+      "E_LATER_NATIVE_REVERSE_REFUSES_ATOMIC",
+      "E_LATER_NATIVE_SALE_SAME_LOT_RECONCILES"
+    ],
+    "source_manifest": {
+      "bytes": 18594,
+      "sha256": "b92daf69302e90ea11afafa19e95479ca6adf142ea5adf42404766ee162807d9"
+    },
+    "unchanged_business_source_files": 3,
+    "frozen_fixture_inputs": 4,
+    "recorded_predecessor_functions": 32,
+    "unchanged_global_metadata_source_files": 4,
+    "unchanged_raw_metadata_queries": 19,
+    "supplemental_exact_execution_oid_queries": 4,
+    "supplemental_exact_dispatch_oid_queries": 7,
+    "P0_dependency_functions": 6,
+    "P0_dependency_relations": 2,
+    "P0_privilege_queries": 4,
+    "actual_case_credit": 0,
+    "parent_qualification_pending": false
+  },
+  "actual_product_source_maps": {
+    "file_maps": 137,
+    "pin_occurrences": 642,
+    "unique_paths": 206,
+    "exact_producer_namespace": true,
+    "current_D1_E_contract_bindings": [
+      "cp7.credit-correction-de.v1",
+      "cp7.note-credit-carry.v1"
+    ],
+    "historical_registry_changed": false,
+    "matching_hash_or_alternative_namespace_search": false
+  },
+  "runtime_supervision": {
+    "status": "EXACT_DE30_SUPERVISION_REQUIRED_NOT_BUSINESS_ACCEPTANCE",
+    "run_id": 41368001658,
+    "worker_completed_before_database_stop": true,
+    "actual_case_credit": 0
+  },
+  "qualified_complete_DE_sources": {
+    "bytes": 358905,
+    "sha256": "70c72432e16c26eb673a37797274c8a61ebe60109c86f36daab8ae6f66736688"
+  },
+  "qualified_permanent6": {
+    "head": "15a2170cea88cd03a4d1bcaa0873a969d495b9fa",
+    "tree": "3fe772a1314ae6bc7c4f36f72e3fda8738eb70fc",
+    "root_intake": {
+      "bytes": 11935,
+      "sha256": "8e3bd34eab2f65596c74171ac2c1f9611e101390dbbbb7dae3e001cf64ec9b46"
+    }
+  },
+  "actual_Native_cases": 30,
+  "actual_D1_cases": 13,
+  "actual_E_cases": 17,
+  "actual_browser_cases": 0,
+  "actual_Auth_HTTP_cases": 0,
+  "actual_two_session_races": 0,
+  "package_all_five": true,
+  "prior_runs_aggregated": false,
+  "retained_permanent6_fresh_case_credit": 0,
+  "actual_used_refusal_raw_boundary": {
+    "tables": 700,
+    "sequences": 15,
+    "catalog_groups": 22
+  },
+  "read_only_system_metadata": {
+    "before_native30": {
+      "captured": {
+        "candidate": true,
+        "primary_scheduler": true
+      },
+      "query_count": 27,
+      "execution_metadata": {
+        "candidate": {
+          "query_count": 4,
+          "group_counts": {
+            "type_routine_oids": 2161,
+            "operator_routine_oids": 799,
+            "range_execution_oids": 6,
+            "transform_execution_oids": 0
+          },
+          "same_original_readonly_snapshot": true,
+          "provider_routine_calls": 0,
+          "positive_references": {
+            "classification": "POSITIVE_CATALOG_EXECUTION_REFERENCES_NOT_RUNTIME_REACHABILITY",
+            "edge_count": 12601,
+            "per_catalog": {
+              "pg_operator": 1795,
+              "pg_range": 9,
+              "pg_type": 10797
+            },
+            "distinct_target_routines": 1230,
+            "target_identity": "pg_proc OID within this same captured snapshot only",
+            "zero_sentinel_is_not_a_routine": true,
+            "distinct_reference_fields_preserved": true,
+            "edges_sha256": "b75284bc32ffd775875523cc1caaba8ee8799235e3f746eceae9622d85a505ec",
+            "unresolved": [
+              "INPUT_DEPENDENT_REACHABILITY",
+              "PROVIDER_BINARY_IMPLEMENTATIONS",
+              "RANGE_OPERATOR_CLASS_EXECUTION",
+              "AUTHORITY_AFTER_WAITS",
+              "WRITER_AND_PHANTOM_CLOSURE",
+              "ROUTINE_PLANNER_SUPPORT_IDENTITIES",
+              "AGGREGATE_SUPPORT_IDENTITIES",
+              "ACCESS_METHOD_AND_OPERATOR_FAMILY_DISPATCH",
+              "ACTUAL_CALLER_REACHABILITY"
+            ],
+            "routine_execution_observed": false,
+            "writer_closure": false,
+            "permission_closure": false,
+            "lockset_approved": false,
+            "actual_Native_case_credit": 0,
+            "production_go": false,
+            "independent_acceptance": false
+          },
+          "writer_closure": false,
+          "permission_closure": false,
+          "actual_Native_case_credit": 0
+        },
+        "primary_scheduler": {
+          "query_count": 4,
+          "group_counts": {
+            "type_routine_oids": 1287,
+            "operator_routine_oids": 799,
+            "range_execution_oids": 6,
+            "transform_execution_oids": 0
+          },
+          "same_original_readonly_snapshot": true,
+          "provider_routine_calls": 0,
+          "positive_references": {
+            "classification": "POSITIVE_CATALOG_EXECUTION_REFERENCES_NOT_RUNTIME_REACHABILITY",
+            "edge_count": 8231,
+            "per_catalog": {
+              "pg_operator": 1795,
+              "pg_range": 9,
+              "pg_type": 6427
+            },
+            "distinct_target_routines": 1230,
+            "target_identity": "pg_proc OID within this same captured snapshot only",
+            "zero_sentinel_is_not_a_routine": true,
+            "distinct_reference_fields_preserved": true,
+            "edges_sha256": "6cda86f295c503707787d874e6c7814057453c6d0790ce005284628e9c35fc2e",
+            "unresolved": [
+              "INPUT_DEPENDENT_REACHABILITY",
+              "PROVIDER_BINARY_IMPLEMENTATIONS",
+              "RANGE_OPERATOR_CLASS_EXECUTION",
+              "AUTHORITY_AFTER_WAITS",
+              "WRITER_AND_PHANTOM_CLOSURE",
+              "ROUTINE_PLANNER_SUPPORT_IDENTITIES",
+              "AGGREGATE_SUPPORT_IDENTITIES",
+              "ACCESS_METHOD_AND_OPERATOR_FAMILY_DISPATCH",
+              "ACTUAL_CALLER_REACHABILITY"
+            ],
+            "routine_execution_observed": false,
+            "writer_closure": false,
+            "permission_closure": false,
+            "lockset_approved": false,
+            "actual_Native_case_credit": 0,
+            "production_go": false,
+            "independent_acceptance": false
+          },
+          "writer_closure": false,
+          "permission_closure": false,
+          "actual_Native_case_credit": 0
+        }
+      },
+      "dispatch_metadata": {
+        "candidate": {
+          "query_count": 7,
+          "group_counts": {
+            "routine_support_oids": 6316,
+            "aggregate_support_oids": 157,
+            "access_method_oids": 7,
+            "operator_family_oids": 146,
+            "operator_class_oids": 177,
+            "family_operator_oids": 945,
+            "family_support_oids": 696
+          },
+          "same_original_readonly_snapshot": true,
+          "unresolved": [
+            "ACTUAL_CALLER_REACHABILITY",
+            "PLANNER_AND_INDEX_DISPATCH_SEMANTICS",
+            "PROVIDER_BINARY_IMPLEMENTATIONS",
+            "INPUT_DEPENDENT_CALLS",
+            "AUTHORITY_AFTER_WAITS",
+            "WRITER_AND_PHANTOM_CLOSURE"
+          ],
+          "routine_execution_observed": false,
+          "writer_closure": false,
+          "permission_closure": false,
+          "actual_Native_case_credit": 0
+        },
+        "primary_scheduler": {
+          "query_count": 7,
+          "group_counts": {
+            "routine_support_oids": 4010,
+            "aggregate_support_oids": 157,
+            "access_method_oids": 7,
+            "operator_family_oids": 146,
+            "operator_class_oids": 177,
+            "family_operator_oids": 945,
+            "family_support_oids": 696
+          },
+          "same_original_readonly_snapshot": true,
+          "unresolved": [
+            "ACTUAL_CALLER_REACHABILITY",
+            "PLANNER_AND_INDEX_DISPATCH_SEMANTICS",
+            "PROVIDER_BINARY_IMPLEMENTATIONS",
+            "INPUT_DEPENDENT_CALLS",
+            "AUTHORITY_AFTER_WAITS",
+            "WRITER_AND_PHANTOM_CLOSURE"
+          ],
+          "routine_execution_observed": false,
+          "writer_closure": false,
+          "permission_closure": false,
+          "actual_Native_case_credit": 0
+        }
+      },
+      "P0_dependencies": {
+        "candidate": {
+          "functions": 6,
+          "relations": 2,
+          "owner_roles": 1,
+          "full_rows_retained": true,
+          "identity_is_not_authority": true,
+          "identity_is_not_reachability": true,
+          "identity_is_not_lock_closure": true,
+          "actual_Native_case_credit": 0
+        },
+        "primary_scheduler": {
+          "status": "NOT_APPLICABLE_PRIMARY_SCHEDULER_DATABASE",
+          "actual_Native_case_credit": 0
+        }
+      },
+      "P0_privileges": {
+        "candidate": {
+          "group_counts": {
+            "functions": 540,
+            "tables": 180,
+            "columns": 21,
+            "column_privileges": 1890
+          },
+          "same_readonly_transaction_identity": true,
+          "catalog_cache_snapshot_alignment_proven": false,
+          "concurrent_acl_and_membership_changes_excluded": false,
+          "provider_function_calls": 0,
+          "permission_closure": false,
+          "lockset_approved": false,
+          "actual_Native_case_credit": 0
+        },
+        "primary_scheduler": {
+          "status": "NOT_APPLICABLE_PRIMARY_SCHEDULER_DATABASE",
+          "actual_Native_case_credit": 0
+        }
+      },
+      "separate_snapshots_not_atomic": true,
+      "writer_closure": false,
+      "permission_closure": false,
+      "lockset_approved": false,
+      "actual_Native_case_credit": 0
+    },
+    "after_native30_and_committed_use": {
+      "captured": {
+        "candidate": true,
+        "primary_scheduler": true
+      },
+      "query_count": 27,
+      "execution_metadata": {
+        "candidate": {
+          "query_count": 4,
+          "group_counts": {
+            "type_routine_oids": 2161,
+            "operator_routine_oids": 799,
+            "range_execution_oids": 6,
+            "transform_execution_oids": 0
+          },
+          "same_original_readonly_snapshot": true,
+          "provider_routine_calls": 0,
+          "positive_references": {
+            "classification": "POSITIVE_CATALOG_EXECUTION_REFERENCES_NOT_RUNTIME_REACHABILITY",
+            "edge_count": 12601,
+            "per_catalog": {
+              "pg_operator": 1795,
+              "pg_range": 9,
+              "pg_type": 10797
+            },
+            "distinct_target_routines": 1230,
+            "target_identity": "pg_proc OID within this same captured snapshot only",
+            "zero_sentinel_is_not_a_routine": true,
+            "distinct_reference_fields_preserved": true,
+            "edges_sha256": "b75284bc32ffd775875523cc1caaba8ee8799235e3f746eceae9622d85a505ec",
+            "unresolved": [
+              "INPUT_DEPENDENT_REACHABILITY",
+              "PROVIDER_BINARY_IMPLEMENTATIONS",
+              "RANGE_OPERATOR_CLASS_EXECUTION",
+              "AUTHORITY_AFTER_WAITS",
+              "WRITER_AND_PHANTOM_CLOSURE",
+              "ROUTINE_PLANNER_SUPPORT_IDENTITIES",
+              "AGGREGATE_SUPPORT_IDENTITIES",
+              "ACCESS_METHOD_AND_OPERATOR_FAMILY_DISPATCH",
+              "ACTUAL_CALLER_REACHABILITY"
+            ],
+            "routine_execution_observed": false,
+            "writer_closure": false,
+            "permission_closure": false,
+            "lockset_approved": false,
+            "actual_Native_case_credit": 0,
+            "production_go": false,
+            "independent_acceptance": false
+          },
+          "writer_closure": false,
+          "permission_closure": false,
+          "actual_Native_case_credit": 0
+        },
+        "primary_scheduler": {
+          "query_count": 4,
+          "group_counts": {
+            "type_routine_oids": 1287,
+            "operator_routine_oids": 799,
+            "range_execution_oids": 6,
+            "transform_execution_oids": 0
+          },
+          "same_original_readonly_snapshot": true,
+          "provider_routine_calls": 0,
+          "positive_references": {
+            "classification": "POSITIVE_CATALOG_EXECUTION_REFERENCES_NOT_RUNTIME_REACHABILITY",
+            "edge_count": 8231,
+            "per_catalog": {
+              "pg_operator": 1795,
+              "pg_range": 9,
+              "pg_type": 6427
+            },
+            "distinct_target_routines": 1230,
+            "target_identity": "pg_proc OID within this same captured snapshot only",
+            "zero_sentinel_is_not_a_routine": true,
+            "distinct_reference_fields_preserved": true,
+            "edges_sha256": "6cda86f295c503707787d874e6c7814057453c6d0790ce005284628e9c35fc2e",
+            "unresolved": [
+              "INPUT_DEPENDENT_REACHABILITY",
+              "PROVIDER_BINARY_IMPLEMENTATIONS",
+              "RANGE_OPERATOR_CLASS_EXECUTION",
+              "AUTHORITY_AFTER_WAITS",
+              "WRITER_AND_PHANTOM_CLOSURE",
+              "ROUTINE_PLANNER_SUPPORT_IDENTITIES",
+              "AGGREGATE_SUPPORT_IDENTITIES",
+              "ACCESS_METHOD_AND_OPERATOR_FAMILY_DISPATCH",
+              "ACTUAL_CALLER_REACHABILITY"
+            ],
+            "routine_execution_observed": false,
+            "writer_closure": false,
+            "permission_closure": false,
+            "lockset_approved": false,
+            "actual_Native_case_credit": 0,
+            "production_go": false,
+            "independent_acceptance": false
+          },
+          "writer_closure": false,
+          "permission_closure": false,
+          "actual_Native_case_credit": 0
+        }
+      },
+      "dispatch_metadata": {
+        "candidate": {
+          "query_count": 7,
+          "group_counts": {
+            "routine_support_oids": 6316,
+            "aggregate_support_oids": 157,
+            "access_method_oids": 7,
+            "operator_family_oids": 146,
+            "operator_class_oids": 177,
+            "family_operator_oids": 945,
+            "family_support_oids": 696
+          },
+          "same_original_readonly_snapshot": true,
+          "unresolved": [
+            "ACTUAL_CALLER_REACHABILITY",
+            "PLANNER_AND_INDEX_DISPATCH_SEMANTICS",
+            "PROVIDER_BINARY_IMPLEMENTATIONS",
+            "INPUT_DEPENDENT_CALLS",
+            "AUTHORITY_AFTER_WAITS",
+            "WRITER_AND_PHANTOM_CLOSURE"
+          ],
+          "routine_execution_observed": false,
+          "writer_closure": false,
+          "permission_closure": false,
+          "actual_Native_case_credit": 0
+        },
+        "primary_scheduler": {
+          "query_count": 7,
+          "group_counts": {
+            "routine_support_oids": 4010,
+            "aggregate_support_oids": 157,
+            "access_method_oids": 7,
+            "operator_family_oids": 146,
+            "operator_class_oids": 177,
+            "family_operator_oids": 945,
+            "family_support_oids": 696
+          },
+          "same_original_readonly_snapshot": true,
+          "unresolved": [
+            "ACTUAL_CALLER_REACHABILITY",
+            "PLANNER_AND_INDEX_DISPATCH_SEMANTICS",
+            "PROVIDER_BINARY_IMPLEMENTATIONS",
+            "INPUT_DEPENDENT_CALLS",
+            "AUTHORITY_AFTER_WAITS",
+            "WRITER_AND_PHANTOM_CLOSURE"
+          ],
+          "routine_execution_observed": false,
+          "writer_closure": false,
+          "permission_closure": false,
+          "actual_Native_case_credit": 0
+        }
+      },
+      "P0_dependencies": {
+        "candidate": {
+          "functions": 6,
+          "relations": 2,
+          "owner_roles": 1,
+          "full_rows_retained": true,
+          "identity_is_not_authority": true,
+          "identity_is_not_reachability": true,
+          "identity_is_not_lock_closure": true,
+          "actual_Native_case_credit": 0
+        },
+        "primary_scheduler": {
+          "status": "NOT_APPLICABLE_PRIMARY_SCHEDULER_DATABASE",
+          "actual_Native_case_credit": 0
+        }
+      },
+      "P0_privileges": {
+        "candidate": {
+          "group_counts": {
+            "functions": 540,
+            "tables": 180,
+            "columns": 21,
+            "column_privileges": 1890
+          },
+          "same_readonly_transaction_identity": true,
+          "catalog_cache_snapshot_alignment_proven": false,
+          "concurrent_acl_and_membership_changes_excluded": false,
+          "provider_function_calls": 0,
+          "permission_closure": false,
+          "lockset_approved": false,
+          "actual_Native_case_credit": 0
+        },
+        "primary_scheduler": {
+          "status": "NOT_APPLICABLE_PRIMARY_SCHEDULER_DATABASE",
+          "actual_Native_case_credit": 0
+        }
+      },
+      "separate_snapshots_not_atomic": true,
+      "writer_closure": false,
+      "permission_closure": false,
+      "lockset_approved": false,
+      "actual_Native_case_credit": 0
+    }
+  },
+  "readonly_raw_dependency_metadata": {
+    "before_native30": {
+      "status": "RAW_READONLY_METADATA_UNAVAILABLE",
+      "actual_Native_cases": 0,
+      "global_qualified": false
+    },
+    "after_committed_E_use": {
+      "status": "RAW_READONLY_METADATA_UNAVAILABLE",
+      "actual_Native_cases": 0,
+      "global_qualified": false
+    }
+  },
+  "D_complete": false,
+  "E_complete": false,
+  "global_writer_or_permission_or_lock_closure": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

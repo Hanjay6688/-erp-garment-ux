@@ -1,0 +1,27 @@
+{
+  "status": "SINGLE_OWNING_FREE3_PUSH_ACTIVE_NOT_YET_ACCEPTED",
+  "head": "c73dea71ad8e15e828ea7f4a27937c5c9da5e839",
+  "tree": "b171e37eb8a76d3764e60662f93f368f98f41883",
+  "branch": "astra-a/current-complete-de-free-date-native3-20261101",
+  "prepared_branch": "astra-a/current-free3-actual-de-parent-prepared-20261102",
+  "run_id": 41377735841,
+  "job_id": 125061575171,
+  "run_attempt": 1,
+  "event": "push",
+  "parent_head": "6e61506c10a18541c104b981bd438e78b175b5d1",
+  "parent_tree": "86f07de6e0be871d39110aa797ef26da4564e8e8",
+  "parent_root_receipt": {
+    "bytes": 19912,
+    "sha256": "b63c44c459a36ad285c788890132ae4910569044f432e9851dff90f8061192e2"
+  },
+  "whole_natural_graph_and_Root_source_checked_before_push": true,
+  "initial_create_only_ref_produced_no_workflow": true,
+  "unexecuted_owning_ref_rebound_to_parent_under_lease_before_actual_push": true,
+  "prepared_ref_retains_entire_same_commit": true,
+  "workflow_runs_for_head_observed": 1,
+  "financial_tests_rerun": false,
+  "actual_FREE_case_acceptance_pending": true,
+  "actual_new_accepted_Native_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

@@ -11,7 +11,8 @@ from types import ModuleType,SimpleNamespace
 from tempfile import TemporaryDirectory
 import argparse,ast,copy,gzip,json,re,stat,zipfile
 from intake_common import GitBytes,exact,fields,pin,require,safe_path
-from intake_sku27 import strict,literal,full_census,declared_files
+from intake_sku27 import strict,literal,full_census
+from current_graph_sources import declared_files
 
 HEAD=None
 TREE=None

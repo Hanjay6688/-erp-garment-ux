@@ -1,0 +1,19 @@
+{
+  "local_head": "c9e8264fff0a09f2005e7a6ab3d0c9edc5900abf",
+  "tree": "6d32ec6042c4d3e85b76de230a348bc19988fed6",
+  "public_parent": "15a2170cea88cd03a4d1bcaa0873a969d495b9fa",
+  "payload_characters": 19707,
+  "own_paths": 7,
+  "source_pins": 6,
+  "private_tables": 1,
+  "private_functions": 2,
+  "runtime_entry": null,
+  "actual_Native_cases": 0,
+  "public_head": "a007a33851769ccfe28062189c94b66732c040ca",
+  "branch": "astra-a/global-envelope-lock-source-prepared-20261102",
+  "workflow_activated": false,
+  "profile_seed_rows": 0,
+  "owning_hooks_written": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

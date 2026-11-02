@@ -11,16 +11,17 @@ from types import ModuleType,SimpleNamespace
 from zoneinfo import ZoneInfo
 import argparse,ast,json,re,zipfile
 from intake_common import GitBytes,exact,fields,pin,require,safe_path
-from intake_sku27 import strict,literal,group,full_census,declared_files
+from intake_sku27 import strict,literal,group,full_census
+from current_graph_sources import declared_files
 
-HEAD=None
-TREE=None
-RUN=None
-JOB=None
-PARENT_HEAD=None
-PARENT_TREE=None
-PARENT_RUN=None
-PARENT_JOB=None
+HEAD='c73dea71ad8e15e828ea7f4a27937c5c9da5e839'
+TREE='b171e37eb8a76d3764e60662f93f368f98f41883'
+RUN=41377735841
+JOB=125061575171
+PARENT_HEAD='6e61506c10a18541c104b981bd438e78b175b5d1'
+PARENT_TREE='86f07de6e0be871d39110aa797ef26da4564e8e8'
+PARENT_RUN=41368001658
+PARENT_JOB=125032204589
 PREPARED_HEAD='fe21e26e9ca1fb8428dc0b1f86f16b03de2c9fcb'
 PREPARED_TREE='aceccbf696165c85291d5d10a365ac262908f8a2'
 PREPARED_BASE='fef0d838991df1ab3474382747ee3519d4c237eb'

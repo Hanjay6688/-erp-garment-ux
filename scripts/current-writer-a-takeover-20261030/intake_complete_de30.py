@@ -9,7 +9,8 @@ from collections import defaultdict
 from types import ModuleType
 import argparse,ast,json,re,zipfile
 from intake_common import GitBytes,exact,fields,pin,require,safe_path
-from intake_sku27 import strict,literal,group,full_census,declared_files
+from intake_sku27 import strict,literal,group,full_census
+from current_graph_sources import declared_files
 import execution_oid_edges
 
 HEAD='6e61506c10a18541c104b981bd438e78b175b5d1'
