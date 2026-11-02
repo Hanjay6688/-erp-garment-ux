@@ -8,30 +8,30 @@
   "production_go": false,
   "independent_acceptance": false,
   "current_qualification": {
-    "status": "completed",
-    "head": "b8c572d28f944ad9a5947ffc164e134558ed6641",
-    "tree": "300254b48a70162356ce70c9416e2a4c1a33b62d",
-    "run_id": 41486910739,
-    "job_id": 125419579494,
+    "status": "ACTUAL_E068_OWNING_AFUI15_JOB_IN_PROGRESS_NOT_QUALIFIED",
+    "head": "e068e189b171d1e0c39003b271d1969133afd182",
+    "tree": "d06b27222530bc6fe28bfca9d83d053673422e81",
+    "branch": "astra-a/afui-good-nonpayable-20261102",
+    "run_id": 41509468425,
+    "job_id": 125497247344,
     "run_attempt": 1,
     "event": "push",
-    "activation_UTC": "2026-11-02T17:00:10Z",
-    "clock_and_six_hour_policy_unchanged": true,
-    "expected_Native_cases": 9,
-    "expected_HTTP_cases": 2,
-    "expected_two_session_cases": 2,
-    "expected_browser_cases": 2,
-    "actual_qualified_cases": 0,
-    "source_graph84_retained_without_rerun": true,
-    "production_go": false,
-    "independent_acceptance": false,
-    "conclusion": "failure",
+    "Root_terminal_intake_pending": true,
+    "conclusion": null,
     "actual_business_cases_qualified": 0,
-    "terminal_Root_intake": "AFUI_B8_ACTUAL_FIRST_FAILURE_ROOT_INTAKE_20261103.json"
+    "expected": {
+      "Native": 9,
+      "Auth_HTTP": 2,
+      "two_session": 2,
+      "browser": 2,
+      "total": 15,
+      "owning_full_restore": true,
+      "all_five": true
+    }
   },
-  "sole_readonly_monitor_cell": null,
+  "sole_readonly_monitor_cell": "2630",
   "new_qualified_cases": 0,
-  "Root_terminal_intake_pending": false,
+  "Root_terminal_intake_pending": true,
   "accepted_parent": {
     "head": "91a7b46ed13c4ad6094114871a4a39fa6765d140",
     "tree": "01c4807d932af1d534477c4c182715b1378bd39b",
@@ -569,8 +569,8 @@
     "historical17_is_a_selected_projection_not_full_actual19": true
   },
   "continuity": "Continue CP7. Afui100 b8c572 actual run41486910739/job125419579494 is active; sole monitor2470, activated17:00:10Z under genuine six-hour day guard. Do not duplicate. Unified2135bdde/tree22a391713 has Afui/Global/Mandor, accessory tab contrast and exact shared source fences. TypeScript7 compile and CSS69 pass; Native/Mandor business qualification, moving-average and combined final acceptance remain pending. Global0f93 DDL3 remains valid.",
-  "operational_update_UTC": "2026-11-02T19:14:25.802669+00:00",
-  "current_qualification_observation_is_earlier_API_snapshot": false,
+  "operational_update_UTC": "2026-11-02T19:27:19.732095+00:00",
+  "current_qualification_observation_is_earlier_API_snapshot": true,
   "retained_permanent_financial4": {
     "evidence": "CURRENT_PERMANENT23E_ROOT_RETAINED4_20261102.json",
     "retained_Native_cases": 4,
@@ -807,7 +807,8 @@
     "2308",
     "2353",
     "2388",
-    "2470"
+    "2470",
+    "2628"
   ],
   "global_catalog_primitives": {
     "status": "ROOT_VERIFIED_REAL_PG17_CATALOG_PRIMITIVES_RETAINED4_FRESH3_NOT_ERP_CLOSURE",
