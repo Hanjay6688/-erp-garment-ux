@@ -1,3 +1,11 @@
+## Fixed platform catalog fence preparation
+
+Actual Supabase PostgreSQL17 refused the old all-catalog SHARE barrier under the ordinary postgres owner with SQLSTATE42501. The old successful catalog primitive models used a superuser creator. Their lock semantics remain valid; they do not establish installation authority for the product owner.
+
+`platform_catalog_fence.sql` prepares one zero-argument private function owned by the existing platform supabase_admin. It may enumerate and SHARE NOWAIT lock only pg_catalog tables, returning relation identity/ACL metadata. Its only non-owner invoker is postgres. It creates no role and grants no catalog DML/MAINTAIN, browser or service access. Bootstrap must use declared trusted maintenance authority in an explicit transaction. `catalog_bridge.derive()` routes one exact block of the unchanged old lock source through this helper; ordinary postgres regains control with transaction locks retained. The existing relation barrier, XID review, Native lot order, authority comparison and eight owning adapters are unchanged.
+
+The source gate remains closed. Actual17 helper capability/ACL/inverse checks, a lawful bootstrap/outer-cleanup transition, final-parent profile adoption, complete current input/rights/writer/phantom closure and actual Native coexistence/all5 remain required. No old scope21/review13, catalog7 or relation9 controls were rerun for this source preparation.
+
 # Global envelope — closed preparation
 
 This implements the private lock primitive, without an installer, profile seed,

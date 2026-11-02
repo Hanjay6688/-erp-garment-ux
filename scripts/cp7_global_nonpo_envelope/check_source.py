@@ -86,12 +86,25 @@ def check():
     assert len(definitions)==8 and routes['source_routes']==18 and routes['global_guard_sites']==3
     assert routes['Native_propagation_transfer_sync_FIFO_HPP_journal_stock_engines_changed']==0
     assert routes['public_fields_or_permissions_changed']==0 and routes['actual_SQL_executed']==0
+    spec=importlib.util.spec_from_file_location('global_exact_platform_catalog_source_only',HERE/'catalog_bridge.py')
+    bridge=importlib.util.module_from_spec(spec);spec.loader.exec_module(bridge)
+    _,bridge_proof=bridge.derive()
+    assert bridge_proof==json.loads((HERE/'CATALOG_BRIDGE_SOURCE_CONTROLS.json').read_bytes())
+    platform=(HERE/'platform_catalog_fence.sql').read_text()
+    assert re.findall(r'^create function ([a-z0-9_.]+)\(',platform,re.M)==['cp7_global_catalog_fence.lock_v1']
+    assert 'grant execute on function cp7_global_catalog_fence.lock_v1()to postgres;'in platform
+    assert 'create role 'not in platform and 'alter default privileges'not in platform.lower()
+    assert 'grant maintain'not in platform.lower()and 'grant update'not in platform.lower()
+    assert 'cascade'not in bridge.inverse_sql().lower()and 'drop owned'not in bridge.inverse_sql().lower()
+    assert manifest['platform_catalog_fence_functions']==1 and manifest['platform_catalog_fence_owner']=='supabase_admin'
+    assert manifest['trusted_platform_bootstrap_and_cleanup_pending']is True
     return dict(status='GLOBAL_PRIVATE_ENVELOPE_SOURCE_ONLY_NOT_RUNTIME_OR_PROFILE_QUALIFICATION',
         unchanged_parent_blobs_and_modes=len(base),own_source_pins=len(manifest['files']),
         parent_gate_closed=True,runtime_entry=None,profile_seed_statements=0,
         new_private_scope_functions=4,new_private_scope_tables=2,new_scope_model_controls=21,
         new_private_review_functions=2,prepared_owning_source_adapters=8,reversible_owning_source_routes=18,
-        new_review_and_owning_model_controls=13,
+        new_review_and_owning_model_controls=13,platform_catalog_fence_source_functions=1,
+        counted_platform_lock_source_routes=1,actual_platform_capability_installed=False,
         actual_owning_hooks=0,complete_installer=False,
         actual_ERP_SQL_executed=0,actual_Native_cases=0,production_go=False,independent_acceptance=False)
 

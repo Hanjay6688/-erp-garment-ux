@@ -11,6 +11,10 @@
   "production_go": false,
   "independent_acceptance": false,
   "files": {
+    "scripts/cp7_global_nonpo_envelope/CATALOG_BRIDGE_SOURCE_CONTROLS.json": {
+      "bytes": 2667,
+      "sha256": "eb77eba67f0b45704328e5ffcab2dbc0e151a770b0e5bd72f11aec0c641ca8c2"
+    },
     "scripts/cp7_global_nonpo_envelope/NATIVE_OWNING_REFERENCE.json": {
       "bytes": 81635,
       "sha256": "c1e4a5c076a6d451aa85cba68f3f985fa84c12a2d81a77f63d84914ab25fd6b9"
@@ -31,9 +35,13 @@
       "bytes": 1126,
       "sha256": "414136dc15f73ca1be9f104afbe36404dac218aeaab851942d9f4707d202d6ff"
     },
+    "scripts/cp7_global_nonpo_envelope/PLATFORM_CATALOG_CAPABILITY_REQUIREMENT.json": {
+      "bytes": 1609,
+      "sha256": "3e04006d4984c047a48ab89a077de93839bace4621c623f8ae918ef8e8fc3c84"
+    },
     "scripts/cp7_global_nonpo_envelope/README.md": {
-      "bytes": 4216,
-      "sha256": "f7f90636055a586eafd490ff8ef4692e1e5a6e19418125f37e28d0f71ef80a86"
+      "bytes": 5644,
+      "sha256": "7d84e9b5239afda5d264716382ea48227fc773c71907ebda7eda73fa41d1a965"
     },
     "scripts/cp7_global_nonpo_envelope/SYNTAX_AND_SOURCE_CONTROLS.json": {
       "bytes": 2252,
@@ -51,9 +59,13 @@
       "bytes": 266,
       "sha256": "7d78a4a69ed5ee4fc79d654092a02c1aacbe58f67a486cf470489b3748f95331"
     },
+    "scripts/cp7_global_nonpo_envelope/catalog_bridge.py": {
+      "bytes": 3078,
+      "sha256": "88b7265a0138c51f1ef22ce98085ceec7b45cdef4fd6ca972e9a81506fc76335"
+    },
     "scripts/cp7_global_nonpo_envelope/check_source.py": {
-      "bytes": 7570,
-      "sha256": "d20466c1f91472e3d53441f7888bfe8a6089c6ebebe4fabf0eedd6c3be288bee"
+      "bytes": 8793,
+      "sha256": "2a077b5334e7fd2d00a7494ad07366295f70edf08bd718df5d97e101ce30e0b7"
     },
     "scripts/cp7_global_nonpo_envelope/lock.sql": {
       "bytes": 7185,
@@ -66,6 +78,10 @@
     "scripts/cp7_global_nonpo_envelope/owning_hooks_model.mjs": {
       "bytes": 16806,
       "sha256": "c5befbc343209ef4aa68d8dff26a38058275b905b8ee293aa0bbdb29aa33bd63"
+    },
+    "scripts/cp7_global_nonpo_envelope/platform_catalog_fence.sql": {
+      "bytes": 2863,
+      "sha256": "b44bd4a94a898afca0dc9360f14a595c2dcef1cc55a2a18347ebb6b84924e90e"
     },
     "scripts/cp7_global_nonpo_envelope/review.sql": {
       "bytes": 2956,
@@ -86,5 +102,8 @@
   },
   "prepared_owning_source_adapters": 8,
   "counted_owning_source_routes": 18,
-  "global_guard_sites": 3
+  "global_guard_sites": 3,
+  "platform_catalog_fence_functions": 1,
+  "platform_catalog_fence_owner": "supabase_admin",
+  "trusted_platform_bootstrap_and_cleanup_pending": true
 }
