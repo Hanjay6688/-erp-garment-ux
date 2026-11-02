@@ -156,7 +156,7 @@
     }
   },
   "continuity": "Use this compact state and the newest estafet header. Savepoints are not stopping points. Check the existing run before any new work or tests.",
-  "operational_update_UTC": "2026-11-02T01:00:23.285170+00:00",
+  "operational_update_UTC": "2026-11-02T01:36:24.792286+00:00",
   "current_qualification_observation_is_earlier_API_snapshot": false,
   "retained_permanent_financial4": {
     "evidence": "CURRENT_PERMANENT23E_ROOT_RETAINED4_20261102.json",
@@ -222,5 +222,22 @@
   "completed_readonly_monitor_cells": [
     "1089",
     "1197"
-  ]
+  ],
+  "global_catalog_primitives": {
+    "status": "ROOT_VERIFIED_REAL_PG17_CATALOG_PRIMITIVES_RETAINED4_FRESH3_NOT_ERP_CLOSURE",
+    "retained4_run": 41371274977,
+    "failed_focused0_run": 41372155092,
+    "fresh3_success_run": 41372699346,
+    "fresh3_head": "82f7894b1bb80e0fcff3813d32f96a851e4433c6",
+    "fresh3_tree": "525d3f2845265b6fdfe63774e015f9d4b322a89c",
+    "fresh_cases": 3,
+    "retained_cases": 4,
+    "logical_coverage": 7,
+    "fresh7_one_attempt": false,
+    "catalog64_SHARE_plus_no_other_permanent_transaction_ID_locks_proven_as_model_mechanism": true,
+    "actual_ERP_Native_cases": 0,
+    "actual_global_adapter_installed": false,
+    "global_closure": false,
+    "durable_success_canonical": "libfile_9bc86bff64f481918569534fe3f1338c"
+  }
 }

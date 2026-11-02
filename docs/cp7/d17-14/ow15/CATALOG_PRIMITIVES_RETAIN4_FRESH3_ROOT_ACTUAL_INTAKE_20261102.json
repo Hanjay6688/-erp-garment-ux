@@ -1,0 +1,69 @@
+{
+  "status": "ROOT_VERIFIED_REAL_PG17_CATALOG_PRIMITIVES_RETAINED4_FRESH3_NOT_ERP_CLOSURE",
+  "retained_run_id": 41371274977,
+  "failed_first_focused_run_id": 41372155092,
+  "focused_actual_success_run_id": 41372699346,
+  "focused_head": "82f7894b1bb80e0fcff3813d32f96a851e4433c6",
+  "focused_tree": "525d3f2845265b6fdfe63774e015f9d4b322a89c",
+  "fresh_cases": 3,
+  "retained_cases": 4,
+  "logical_primitive_coverage": 7,
+  "fresh7_one_attempt": false,
+  "prior_runs_aggregated": true,
+  "failed_runs_relabelled_PASS": false,
+  "retained_relation_primitive9_NOT_rerun": true,
+  "retained_catalog4_NOT_rerun": true,
+  "first4_raw_model_snapshots_not_retained_and_not_independently_recomputed": true,
+  "fresh3_raw_baseline_rows_sequence_function_OID_definition_ACL_equality_recomputed": true,
+  "exact_all64_catalog_ShareLocks_observed": true,
+  "preexisting_writer_XID_ExclusiveLock_and_refusal_observed": true,
+  "snapshot_xip_empty_is_NOT_quiescence": true,
+  "original_probe_unchanged": true,
+  "source_actual_public_head_and_tree_verified": true,
+  "reader_source": {
+    "bytes": 9592,
+    "sha256": "dbea348cba2a91e18c94356957c5899cb721c9d3efee0985d6b40346c2f1c6a7"
+  },
+  "old_archive": {
+    "bytes": 1801,
+    "sha256": "dfb4a2236ca78c1330ce99b28d3f2082d62113cff8f7d91bede777d117ccdab1"
+  },
+  "new_archive": {
+    "bytes": 2987,
+    "sha256": "8df3aa06abf667f8111ec7773ba2b8e0c7c0e7a9c301a8f6633321e811582c83"
+  },
+  "old_originals": {
+    "CATALOG_LOCK_BARRIER_NEW7.json": {
+      "bytes": 3445,
+      "sha256": "4cfe0226e3230ce9d04c3c17d408ef0e47f596f69c8d30a0e3fb34fe4faa6d71"
+    },
+    "MODEL_POSTGRES_IMAGE.json": {
+      "bytes": 85,
+      "sha256": "f9d375894b3027322e3103b39aca9020a00f0de1be2162610e159da5a48a76d2"
+    },
+    "MODEL_SOURCE_IDENTITY.json": {
+      "bytes": 545,
+      "sha256": "9402334561f98a89ebd634c1e8e3c0c59523a9a187dac6867423b19b4b753cdf"
+    }
+  },
+  "new_originals": {
+    "CATALOG_QUIESCENCE_FOCUSED3.json": {
+      "bytes": 11312,
+      "sha256": "b50a1a8d44c98687706a8fd1cd293812ccb291c10d27aaef1b1fc33660cd5fad"
+    },
+    "MODEL_POSTGRES_IMAGE.json": {
+      "bytes": 85,
+      "sha256": "f9d375894b3027322e3103b39aca9020a00f0de1be2162610e159da5a48a76d2"
+    },
+    "MODEL_SOURCE_IDENTITY.json": {
+      "bytes": 541,
+      "sha256": "cbee274d2e11ba906a7336b5ed3730b96b9bf2ab10e590de771060bcb729e7e5"
+    }
+  },
+  "actual_global_adapter_installed": false,
+  "actual_ERP_cases": 0,
+  "actual_Native_cases": 0,
+  "global_writer_closure": false,
+  "production_go": false,
+  "independent_acceptance": false
+}
