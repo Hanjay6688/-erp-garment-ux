@@ -1,6 +1,6 @@
 {
   "contract": "writer-a.compact-current-state.v1",
-  "observed_at_UTC": "2026-11-02T06:07:31.380805+00:00",
+  "observed_at_UTC": "2026-11-02T06:19:16.262728+00:00",
   "integrator": "A",
   "A_B_division_preserved": true,
   "formal_CP7": "5/16",
@@ -91,12 +91,12 @@
       "root_evidence": "DE_6E615_ROOT_ACTUAL_INTAKE_20261102.json"
     },
     "FREE": {
-      "head": "ad986b9a9d432f2ffac2b961710c3852c6c2ef90",
-      "own_paths": 41,
+      "head": "91a7b46ed13c4ad6094114871a4a39fa6765d140",
+      "own_paths": 45,
       "accepted_parent_bound": true,
-      "workflow_activated": true,
-      "tree": "80bc5471330b89497991ba1e67615287b01e59c1",
-      "source_pins": 40,
+      "workflow_activated": false,
+      "tree": "01c4807d932af1d534477c4c182715b1378bd39b",
+      "source_pins": 44,
       "all_sixteen_nested_source_pins_PASS": true,
       "activation_planner_nested_pin_updates": 4,
       "activation_planner_changed_old_own_files": 6,
@@ -105,12 +105,12 @@
       "run_id": 41388877929,
       "job_id": 125095681990,
       "actual_Native_case_acceptance_pending": true,
-      "source_only_preflight_pending": false,
+      "source_only_preflight_pending": true,
       "owning_actual_run_pending": false,
-      "failed_previous_head": "c73dea71ad8e15e828ea7f4a27937c5c9da5e839",
-      "failed_previous_run_id": 41377735841,
+      "failed_previous_head": "ad986b9a9d432f2ffac2b961710c3852c6c2ef90",
+      "failed_previous_run_id": 41388877929,
       "repair_origin": "scripts/current-de-free-date-preparation/RUNTIME_FIXTURE_BINDING_REPAIR.json",
-      "source_only_preflight_PASS": true,
+      "source_only_preflight_PASS": false,
       "source_only_run_id": 41388223323,
       "source_only_job_id": 125093689853,
       "source_only_proof": "FREE41_ACTUAL_WRITER_CWD_SOURCE_PREFLIGHT_PASS_20261102.json",
@@ -118,7 +118,10 @@
       "actual_strict_cases_passed": 3,
       "retained_Native_cases": 3,
       "conclusion": "failure",
-      "focused_committed_witness_successor_pending": true
+      "focused_committed_witness_successor_pending": true,
+      "actual_runtime_started": false,
+      "prepared_branch": "astra-a/free45-retained3-committed-prepared-20261102",
+      "evidence": "FREE45_RETAINED3_COMMITTED_WITNESS_SOURCE_PREPARED_20261102.json"
     },
     "AFUI": {
       "head": "8d2a1c5ad218e3592d9c57e61adb37d912190b50",
@@ -226,7 +229,7 @@
       "future_actual_parent_preDB_natural_graph_required": true
     }
   },
-  "continuity": "No active runtime. Preserve FREE41 failure and retained3; A prepares focused committed-witness successor without rerunning the three completed Native cases. Continue immediately after checkpoints.",
+  "continuity": "FREE45 prepared source is public and Root source checked; first verify full natural runtime plus original seed API from actual writer CWD without database. Then activate one focused committed-witness run, retaining completed Native3. Do not rerun Native3.",
   "operational_update_UTC": "2026-11-02T04:18:24.706Z",
   "current_qualification_observation_is_earlier_API_snapshot": true,
   "retained_permanent_financial4": {
