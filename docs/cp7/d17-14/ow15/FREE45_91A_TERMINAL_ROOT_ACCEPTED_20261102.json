@@ -1,0 +1,35 @@
+{
+  "status": "FREE45_ACTUAL_CANONICAL_ROOT_ACCEPTED_NOT_CP7_COMPLETE",
+  "observed_at_UTC": "2026-11-02T07:48:57.583642+00:00",
+  "archive": {
+    "bytes": 32506352,
+    "sha256": "805b8b359d2c43c402cb3181d402bd4ee679e8877ff4f4c89f416f18c3865daa"
+  },
+  "artifact_id": 13124670049,
+  "conclusion": "success",
+  "expired": false,
+  "head": "91a7b46ed13c4ad6094114871a4a39fa6765d140",
+  "job_id": 125128803743,
+  "run_attempt": 1,
+  "run_id": 41399754004,
+  "tree": "01c4807d932af1d534477c4c182715b1378bd39b",
+  "Root_receipt": {
+    "bytes": 11136,
+    "sha256": "680e161ba747bba2e12c01406fbdb69b38858031a52b44d0aafef9bd6674f350"
+  },
+  "Root_receipt_path": "FREE45_91A_ROOT_ACTUAL_INTAKE_20261102.json",
+  "canonical_archive_library_file_id": "libfile_785d1a86fe9c819191a3693729227200",
+  "canonical_members": 130,
+  "retained_Native_cases": 3,
+  "actual_new_Native_cases": 0,
+  "retained_cases_are_not_fresh": true,
+  "actual_new_committed_witness": true,
+  "package_all_five": true,
+  "full_restore_and_backup_restore": true,
+  "worker_reaped": true,
+  "financial_groups_rerun": false,
+  "original_failed_run_preserved": true,
+  "CP7_complete": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

@@ -8,7 +8,7 @@ from prepare_de_activation import literal_route
 import intake_afui15 as child
 import intake_free_focused as parent
 
-ACTUAL_ACCEPTED_FREE_RECEIPT=None
+ACTUAL_ACCEPTED_FREE_RECEIPT={'bytes': 11136, 'sha256': '680e161ba747bba2e12c01406fbdb69b38858031a52b44d0aafef9bd6674f350'}
 NS=child.NS
 RECEIPT=NS+'FREE3_PARENT_ROOT_ACTUAL_INTAKE.json'
 WORKFLOW=child.WORKFLOW

@@ -1,0 +1,12 @@
+{
+  "status": "SOURCE_ONLY_CLI_SELECTED_OLD_PREPARED_HEAD_NOT_BOUND_CANDIDATE",
+  "original_default_head": "8d2a1c5ad218e3592d9c57e61adb37d912190b50",
+  "actual_bound_local_head": "8846902c6c2ebd0931f23cdb37c82777ae553cf5",
+  "actual_bound_tree": "c2957cd8ee7c7ac00450a5cd636e39ff0e27675c",
+  "original_error": "AFUI15_SOURCE_IS_NOT_QUALIFICATION/base_head:VALUE",
+  "candidate_exercised_in_original_failed_command": false,
+  "corrected_selection": "GitBytes exact local candidate head and tree, same original source function and all assertions",
+  "financial_SQL_executed": 0,
+  "actual_ERP_cases": 0,
+  "source_assertions_changed": false
+}

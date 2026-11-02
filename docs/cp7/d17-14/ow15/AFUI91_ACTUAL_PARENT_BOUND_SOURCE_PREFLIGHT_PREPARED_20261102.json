@@ -1,0 +1,28 @@
+{
+  "status": "AFUI91_REAL_PARENT_SOURCE_ONLY_CALLER_PREPARED_NOT_EXECUTED",
+  "candidate_head": "f4f16c6920d94c2b9ef22fa33c62144595a672ed",
+  "candidate_tree": "c2957cd8ee7c7ac00450a5cd636e39ff0e27675c",
+  "branch": "astra-a/afui91-domain-source-preflight-20261102",
+  "prepared_branch": "astra-a/afui91-actual-free45-bound-prepared-20261102",
+  "source_only": true,
+  "steps": 12,
+  "original_source_capacity_and_four_archive_fetch_functions_reused": true,
+  "actual_ERP_cases": 0,
+  "source_workflow": {
+    "bytes": 6003,
+    "sha256": "fa0f707f682ee62352da185ab7c900cd150fe29009ba4dd20af71ed7ffecec59"
+  },
+  "source_caller": {
+    "bytes": 11865,
+    "sha256": "6024069d4ad03a8eb18dea5901a846e0bd7547d0580abf9b89bd5ee34df96c26"
+  },
+  "generation_count_diagnostic": {
+    "first_expected_step_count": 13,
+    "actual_reused_original_steps": 11,
+    "added_parent_canonical_step": 1,
+    "corrected_count": 12,
+    "workflow_or_business_execution_during_diagnostic": false
+  },
+  "production_go": false,
+  "independent_acceptance": false
+}

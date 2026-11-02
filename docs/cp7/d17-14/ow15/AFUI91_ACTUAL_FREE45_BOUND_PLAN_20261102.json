@@ -1,0 +1,219 @@
+{
+  "status": "AFUI91_ACTUAL_FOCUSED_FREE45_BOUND_TREE_PLAN_ONLY_NOT_EXECUTED",
+  "prepared_source_head": "8d2a1c5ad218e3592d9c57e61adb37d912190b50",
+  "prepared_source_tree": "a286b28031a5d5235a02339d12a1ce4acb85db3b",
+  "parent_head": "91a7b46ed13c4ad6094114871a4a39fa6765d140",
+  "parent_tree": "01c4807d932af1d534477c4c182715b1378bd39b",
+  "parent_root_receipt": {
+    "bytes": 11136,
+    "sha256": "680e161ba747bba2e12c01406fbdb69b38858031a52b44d0aafef9bd6674f350"
+  },
+  "source_before": {
+    "source_pins": 57,
+    "own_paths": 89,
+    "unchanged_parent_paths": 14215,
+    "source_manifest": {
+      "bytes": 10789,
+      "sha256": "952b22a9563966d128911a1dca2db8618ee9e9c4684e2326916185e142e5d13f"
+    },
+    "UI_manifest": {
+      "bytes": 2539,
+      "sha256": "bb1e1948a39fde11de1c16a1da0a880ca1390e5c634698821a6822a0a81cf649"
+    },
+    "exact_counted_UI_paths": 4,
+    "new_UI_paths": 5,
+    "pure_report_functions": {
+      "exact_pure_sources": {
+        "access_cases.py": {
+          "source": {
+            "bytes": 19642,
+            "sha256": "aeb719231c22e89b4c77b9ff85b2e85084066c2dc9919fcaf6ad01f4104c66de"
+          },
+          "functions": [
+            "require_changes",
+            "require_append"
+          ],
+          "data_imports_replaced_by_Root_values": [],
+          "actual_ERP_imports": 0,
+          "actual_SQL_executed": 0
+        },
+        "case_boundary.py": {
+          "source": {
+            "bytes": 7764,
+            "sha256": "40b457f54d0082ae969c0a6d55a33dfe90e27fb88674ef6ffbf908b78f5fa837"
+          },
+          "functions": [
+            "state",
+            "allocations",
+            "expected_refusal_gaps",
+            "validate"
+          ],
+          "data_imports_replaced_by_Root_values": [],
+          "actual_ERP_imports": 0,
+          "actual_SQL_executed": 0
+        },
+        "qualification_gate.py": {
+          "source": {
+            "bytes": 4826,
+            "sha256": "c0647aeb14b09cd179c7f977c2c60c70434dc3afcd91a66755229e5de353482c"
+          },
+          "functions": [
+            "rows",
+            "native",
+            "copies"
+          ],
+          "data_imports_replaced_by_Root_values": [],
+          "actual_ERP_imports": 0,
+          "actual_SQL_executed": 0
+        },
+        "native_fixture.py": {
+          "source": {
+            "bytes": 18110,
+            "sha256": "af4352bd06ea35cf463fe989933e6cce628f24918667edc425f72f72890d8962"
+          },
+          "functions": [
+            "require_economics"
+          ],
+          "data_imports_replaced_by_Root_values": [],
+          "actual_ERP_imports": 0,
+          "actual_SQL_executed": 0
+        },
+        "final_gate.py": {
+          "source": {
+            "bytes": 15834,
+            "sha256": "8eb2440bcf029a638544f90e2c1eaad5caf37f5e1765b5de6b108ab027285c7f"
+          },
+          "functions": [
+            "supervisor",
+            "artifact",
+            "compare_census",
+            "race_facts",
+            "assets",
+            "validate"
+          ],
+          "data_imports_replaced_by_Root_values": [
+            [
+              "admission"
+            ],
+            [
+              "access_cases"
+            ],
+            [
+              "admission"
+            ],
+            [
+              "admission",
+              "assembly",
+              "native_cases",
+              "access_cases",
+              "browser_prepare",
+              "case_boundary",
+              "qualification_gate",
+              "native_fixture"
+            ]
+          ],
+          "actual_ERP_imports": 0,
+          "actual_SQL_executed": 0
+        }
+      },
+      "Native_ids": [
+        "NONPAYABLE_NATIVE_POSITIVE_HPP_ZERO_REIMBURSEMENT_FROZEN_HISTORY_AND_REPLAY",
+        "NONPAYABLE_NATIVE_EXPLICIT_NORMAL_POLICY_REIMBURSEMENT_REGRESSION",
+        "NONPAYABLE_NATIVE_NORMAL_PICKUP_SPECIAL_GOOD_PHYSICAL_DATE",
+        "NONPAYABLE_NATIVE_SPECIAL_PICKUP_NORMAL_GOOD_PHYSICAL_DATE",
+        "NONPAYABLE_NATIVE_MISSING_CATEGORY_EFFECTIVE_DATE_ATOMIC_GOOD_REFUSAL",
+        "NONPAYABLE_NATIVE_NO_INITIAL_JOURNAL_CUMULATIVE_CENTS_AND_LAWFUL_INVOICE_INVERSES",
+        "NONPAYABLE_NATIVE_QC_INVERSE_AFTER_RECOST_AND_NEXT_LAWFUL_COST_REVISION",
+        "NONPAYABLE_NATIVE_REWORK_NO_INITIAL_JOURNAL_INVERSE_AND_ACTIVE_LOT_RECOST",
+        "NONPAYABLE_NATIVE_FINISHED_PO_FG_SALES_COGS_LATE_COST_AND_LAWFUL_INVERSES"
+      ],
+      "HTTP_ids": [
+        "NONPAYABLE_AUTH_HTTP_OWNER_ADMIN_DENIAL_REPLAY_CANCEL_AND_STALE_TIMELINE",
+        "NONPAYABLE_AUTH_HTTP_CACHED_REPLAY_OWNER_DEACTIVATED_DURING_REAL_LOCK_WAIT"
+      ],
+      "race_ids": [
+        "NONPAYABLE_TWO_SESSION_SAME_REQUEST_ONE_IMMUTABLE_DATE_AND_REPLY",
+        "NONPAYABLE_TWO_SESSION_DIFFERENT_REQUESTS_ONE_DATE_AND_ONE_STALE_TIMELINE"
+      ],
+      "browser_ids": [
+        "NONPAYABLE_BROWSER_DESKTOP_POSTED_USE_REFUSAL_LOST_REPLY_TWO_TABS",
+        "NONPAYABLE_BROWSER_MOBILE390_CANCEL_LATE_SAVE_OWNER_AND_ADMIN_READ_ONLY"
+      ],
+      "actual_ERP_imports": 0,
+      "actual_SQL_executed": 0
+    },
+    "runtime_domain_preflight_repair": {
+      "status": "EXACT_AFUI_OWN88_TO89_DOMAIN_PREFLIGHT_SOURCE_REPAIR_ONLY",
+      "original_head": "098dbd8769cbbf6f0502750a7c2a770959e02385",
+      "original_tree": "b40ea64ea4cdcaaa0f28fc6d32645e783c0b0121",
+      "reversible_routes": 12,
+      "unchanged_original_case_functions": true,
+      "actual_case_credit": 0
+    },
+    "parent_qualification_pending": true,
+    "actual_case_credit": 0
+  },
+  "unchanged_parent_paths": 14306,
+  "own_paths": 91,
+  "source_pins": 58,
+  "unchanged_own_paths": 87,
+  "exact_original_UI_derivations_retained": 4,
+  "new_UI_paths_retained": 5,
+  "changed_own_paths": [
+    "scripts/cp7_accessory_nonpayable/SOURCE.json",
+    "scripts/cp7_accessory_nonpayable/admission.py"
+  ],
+  "new_paths": [
+    "scripts/cp7_accessory_nonpayable/FREE3_PARENT_ROOT_ACTUAL_INTAKE.json",
+    ".github/workflows/cp7-afui-good-nonpayable.yml"
+  ],
+  "literal_routes": [
+    {
+      "name": "PARENT_HEAD",
+      "before": "None",
+      "after": "'91a7b46ed13c4ad6094114871a4a39fa6765d140'",
+      "exact_original_recovered": true
+    },
+    {
+      "name": "PARENT_TREE",
+      "before": "None",
+      "after": "'01c4807d932af1d534477c4c182715b1378bd39b'",
+      "exact_original_recovered": true
+    },
+    {
+      "name": "PARENT_RUN",
+      "before": "None",
+      "after": "41399754004",
+      "exact_original_recovered": true
+    },
+    {
+      "name": "PARENT_JOB",
+      "before": "None",
+      "after": "125128803743",
+      "exact_original_recovered": true
+    },
+    {
+      "name": "PARENT_RECEIPT",
+      "before": "None",
+      "after": "{'bytes': 11136, 'sha256': '680e161ba747bba2e12c01406fbdb69b38858031a52b44d0aafef9bd6674f350'}",
+      "exact_original_recovered": true
+    }
+  ],
+  "typed_parent_receipt_route": {
+    "before": "    expected = dict(status='ROOT_VERIFIED_CURRENT_COMPLETE_DE_FREE_DATE_NATIVE3_ALL5',\n        head=PARENT_HEAD, tree=PARENT_TREE, run_id=PARENT_RUN, job_id=PARENT_JOB,\n        actual_Native_cases=3, actual_business_cases=3, actual_browser_cases=0,\n        actual_Auth_HTTP_cases=0, actual_two_session_races=0, complete3_qualified=True,\n        package_all_five=True, prior_runs_aggregated=False, retained_DE30_fresh_case_credit=0,",
+    "after": "    expected = dict(status='ROOT_VERIFIED_CURRENT_COMPLETE_DE_FREE_DATE_RETAINED3_COMMITTED_ALL5',\n        head=PARENT_HEAD, tree=PARENT_TREE, run_id=PARENT_RUN, job_id=PARENT_JOB,\n        actual_Native_cases=0, actual_business_cases=0, actual_browser_cases=0,\n        actual_Auth_HTTP_cases=0, actual_two_session_races=0, complete3_qualified=True,\n        retained_Native_cases=3, retained_cases_are_not_fresh=True, candidate_case_coverage=3,\n        source_invariant_reuse=True, financial_groups_rerun=False, actual_new_committed_witness=True,\n        retained_original_run_conclusion='failure', failed_run_relabelled_PASS=False,\n        package_all_five=True, prior_runs_aggregated=True, retained_DE30_fresh_case_credit=0,",
+    "count": 1,
+    "retained_cases": 3,
+    "fresh_cases": 0,
+    "failed_origin_accepted": false,
+    "actual_parent_still_required": true
+  },
+  "parent_retained_Native_cases": 3,
+  "parent_actual_fresh_Native_cases": 0,
+  "workflow_equal_reviewed_template": true,
+  "actual_Afui_cases": 0,
+  "financial_SQL_Native_callbacks_or_UI_changed": false,
+  "must_materialize_check_entire_source_and_Root_gate_before_activation": true,
+  "production_go": false,
+  "independent_acceptance": false
+}

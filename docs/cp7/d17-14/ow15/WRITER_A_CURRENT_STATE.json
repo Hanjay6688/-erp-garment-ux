@@ -1,6 +1,6 @@
 {
   "contract": "writer-a.compact-current-state.v1",
-  "observed_at_UTC": "2026-11-02T07:20:54.648940+00:00",
+  "observed_at_UTC": "2026-11-02T07:53:41.712227+00:00",
   "integrator": "A",
   "A_B_division_preserved": true,
   "formal_CP7": "5/16",
@@ -12,8 +12,8 @@
     "tree": "01c4807d932af1d534477c4c182715b1378bd39b",
     "run_id": 41399754004,
     "job_id": 125128803743,
-    "status": "in_progress",
-    "conclusion": null,
+    "status": "completed",
+    "conclusion": "success",
     "run_attempt": 1,
     "event": "push",
     "created_at": "2026-11-02T06:24:57Z",
@@ -22,38 +22,49 @@
     "actual_qualified_cases": 0,
     "expected_new_committed_witness": true,
     "evidence": "FREE45_91A_ACTIVE_AFTER_ACTUAL_SOURCE_PREFLIGHT_20261102.json",
-    "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/41399754004"
+    "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/41399754004",
+    "Root_accepted": true,
+    "Root_evidence": "FREE45_91A_ROOT_ACTUAL_INTAKE_20261102.json",
+    "Root_receipt": {
+      "bytes": 11136,
+      "sha256": "680e161ba747bba2e12c01406fbdb69b38858031a52b44d0aafef9bd6674f350"
+    },
+    "actual_fresh_Native_cases": 0,
+    "actual_new_committed_witness": true,
+    "candidate_case_coverage": 3,
+    "package_all_five": true,
+    "canonical_archive_library_file_id": "libfile_785d1a86fe9c819191a3693729227200"
   },
-  "sole_readonly_monitor_cell": "1756",
+  "sole_readonly_monitor_cell": null,
   "new_qualified_cases": 30,
-  "Root_terminal_intake_pending": true,
+  "Root_terminal_intake_pending": false,
   "accepted_parent": {
-    "head": "6e61506c10a18541c104b981bd438e78b175b5d1",
-    "tree": "86f07de6e0be871d39110aa797ef26da4564e8e8",
-    "run_id": 41368001658,
-    "job_id": 125032204589,
-    "artifact_id": 13110856146,
+    "head": "91a7b46ed13c4ad6094114871a4a39fa6765d140",
+    "tree": "01c4807d932af1d534477c4c182715b1378bd39b",
+    "run_id": 41399754004,
+    "job_id": 125128803743,
     "status": "completed",
     "conclusion": "success",
     "run_attempt": 1,
     "event": "push",
+    "created_at": "2026-11-02T06:24:57Z",
+    "expected_fresh_Native_cases": 0,
+    "retained_Native_cases": 3,
+    "actual_qualified_cases": 0,
+    "expected_new_committed_witness": true,
+    "evidence": "FREE45_91A_ACTIVE_AFTER_ACTUAL_SOURCE_PREFLIGHT_20261102.json",
+    "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/41399754004",
     "Root_accepted": true,
-    "actual_fresh_Native_cases": 30,
-    "actual_D1_cases": 13,
-    "actual_E_cases": 17,
-    "actual_browser_cases": 0,
-    "actual_Auth_HTTP_cases": 0,
-    "actual_two_session_races": 0,
-    "package_all_five": true,
-    "canonical_archive_library_file_id": "libfile_08b7f78b6f9481918471e42923989415",
+    "Root_evidence": "FREE45_91A_ROOT_ACTUAL_INTAKE_20261102.json",
     "Root_receipt": {
-      "bytes": 19912,
-      "sha256": "b63c44c459a36ad285c788890132ae4910569044f432e9851dff90f8061192e2"
+      "bytes": 11136,
+      "sha256": "680e161ba747bba2e12c01406fbdb69b38858031a52b44d0aafef9bd6674f350"
     },
-    "Root_evidence": "DE_6E615_ROOT_ACTUAL_INTAKE_20261102.json",
-    "D_complete": false,
-    "E_complete": false,
-    "global_writer_or_permission_or_lock_closure": false
+    "actual_fresh_Native_cases": 0,
+    "actual_new_committed_witness": true,
+    "candidate_case_coverage": 3,
+    "package_all_five": true,
+    "canonical_archive_library_file_id": "libfile_785d1a86fe9c819191a3693729227200"
   },
   "next_prepared": {
     "DE": {
@@ -103,7 +114,7 @@
       "prepared_origin_head": "fe21e26e9ca1fb8428dc0b1f86f16b03de2c9fcb",
       "run_id": 41399754004,
       "job_id": 125128803743,
-      "actual_Native_case_acceptance_pending": true,
+      "actual_Native_case_acceptance_pending": false,
       "source_only_preflight_pending": false,
       "owning_actual_run_pending": false,
       "failed_previous_head": "ad986b9a9d432f2ffac2b961710c3852c6c2ef90",
@@ -116,35 +127,48 @@
       "source_DB_connection_attempts": 0,
       "actual_strict_cases_passed": 3,
       "retained_Native_cases": 3,
-      "conclusion": null,
-      "focused_committed_witness_successor_pending": true,
-      "actual_runtime_started": true,
+      "conclusion": "success",
+      "focused_committed_witness_successor_pending": false,
+      "actual_runtime_started": false,
       "prepared_branch": "astra-a/free45-retained3-committed-prepared-20261102",
-      "evidence": "FREE45_RETAINED3_COMMITTED_WITNESS_SOURCE_PREPARED_20261102.json"
+      "evidence": "FREE45_RETAINED3_COMMITTED_WITNESS_SOURCE_PREPARED_20261102.json",
+      "Root_accepted": true,
+      "root_evidence": "FREE45_91A_ROOT_ACTUAL_INTAKE_20261102.json",
+      "actual_new_committed_witness": true,
+      "package_all_five": true,
+      "actual_fresh_Native_cases": 0
     },
     "AFUI": {
-      "head": "8d2a1c5ad218e3592d9c57e61adb37d912190b50",
-      "own_paths": 89,
-      "accepted_parent_bound": false,
+      "head": "f4f16c6920d94c2b9ef22fa33c62144595a672ed",
+      "own_paths": 91,
+      "accepted_parent_bound": true,
       "workflow_activated": false,
-      "tree": "a286b28031a5d5235a02339d12a1ce4acb85db3b",
-      "branch": "astra-a/afui89-domain-preflight-source-prepared-20261102",
-      "source_pins": 57,
+      "tree": "c2957cd8ee7c7ac00450a5cd636e39ff0e27675c",
+      "branch": "astra-a/afui91-actual-free45-bound-prepared-20261102",
+      "source_pins": 58,
       "prepared_domain_preDB_CWD": "writer",
-      "actual_parent_bound": false,
+      "actual_parent_bound": true,
       "static_source_gate_PASS": true,
       "actual_domain_API_natural_binding_pending": true,
       "planned_bound_own_paths": 91,
       "planned_bound_source_pins": 58,
       "planned_tree_payload_paths": 95,
       "expected_actual_FREE_parent_paths": 14310,
-      "evidence": "AFUI89_REAL_DOMAIN_PREFLIGHT_SOURCE_PREPARED_20261102.json",
+      "evidence": "AFUI91_ACTUAL_PARENT_BOUND_SOURCE_PREFLIGHT_PREPARED_20261102.json",
       "old_prepared_head": "098dbd8769cbbf6f0502750a7c2a770959e02385",
       "focused_parent_receipt_semantics_update_pending": false,
       "focused_parent_semantics_source_prepared": true,
       "actual_FREE45_workflow_data_compatibility_PASS": true,
       "bound_admission_manifest_pin_update_prepared": true,
-      "focused_parent_preparation_evidence": "AFUI_FOCUSED_FREE45_PARENT_SOURCE_COMPATIBILITY_20261102.json"
+      "focused_parent_preparation_evidence": "AFUI_FOCUSED_FREE45_PARENT_SOURCE_COMPATIBILITY_20261102.json",
+      "actual_parent_available": true,
+      "activation_planner_bound_to_actual_receipt": true,
+      "planned_parent_root_receipt": {
+        "bytes": 11136,
+        "sha256": "680e161ba747bba2e12c01406fbdb69b38858031a52b44d0aafef9bd6674f350"
+      },
+      "source_only_preflight_pending": true,
+      "Root_entire_source_PASS": true
     },
     "FG_MANDOR": {
       "head": "3203c297414ab38bde7035db6d99f69d81d8ae12",
@@ -222,7 +246,7 @@
     }
   },
   "remaining_gate_summary_not_full_scope_inventory": [
-    "FREE41 actual strict Native3 passed; aggregate failed only separate committed-use fixture OWNER setup. Root retained all three original cases with full restoration. Prepare exact focused successor, preserve original seed/owner refusal, execute missing committed witness and all five new package gates. Afui waits for actual combined Root acceptance.",
+    "FREE45 actual Root acceptance passed: retained strict3 by exact source identity plus new committed witness and all five fresh package gates. Bind and preflight the prepared Afui91 on this real parent, then qualify its pending Native9, HTTP2, two-session2 and browser2.",
     "Implement current global scope and owning hooks using the prepared private envelope, qualify current rights/writer/phantom closure and final factory/combined obligations. Source preparation and isolated lock controls do not close these gates.",
     "After the active integration block is stable: finish SKU moving average and FG Mandor chosen-week payroll settlement/UI, and apply/verify prepared tab contrast."
   ],
@@ -241,9 +265,9 @@
       "future_actual_parent_preDB_natural_graph_required": true
     }
   },
-  "continuity": "Continue sole focused FREE45 run via monitor1756; retained3/fresh0. Afui typed focused-parent admission, bound admission manifest pin and actual FREE45 workflow data now prepared; ACTUAL_ACCEPTED_FREE_RECEIPT still None. No premature activation.",
+  "continuity": "FREE45 actual Root acceptance saved. Afui91 actual-bound candidate f4f16/c295 with Root exact source pass; first real writer-CWD domain/API preDB source-only CI next, then sole runtime activation on the same candidate only after actual source proof.",
   "operational_update_UTC": "2026-11-02T04:18:24.706Z",
-  "current_qualification_observation_is_earlier_API_snapshot": true,
+  "current_qualification_observation_is_earlier_API_snapshot": false,
   "retained_permanent_financial4": {
     "evidence": "CURRENT_PERMANENT23E_ROOT_RETAINED4_20261102.json",
     "retained_Native_cases": 4,
@@ -334,7 +358,8 @@
     "1385",
     "1485",
     "1620",
-    "1748"
+    "1748",
+    "1756"
   ],
   "global_catalog_primitives": {
     "status": "ROOT_VERIFIED_REAL_PG17_CATALOG_PRIMITIVES_RETAINED4_FRESH3_NOT_ERP_CLOSURE",
@@ -424,5 +449,33 @@
     "authoritative_position_value_layer_required": true,
     "reviewer_scope": "READ_ONLY",
     "integrator": "A"
+  },
+  "accepted_FREE_qualification": {
+    "head": "91a7b46ed13c4ad6094114871a4a39fa6765d140",
+    "tree": "01c4807d932af1d534477c4c182715b1378bd39b",
+    "run_id": 41399754004,
+    "job_id": 125128803743,
+    "status": "completed",
+    "conclusion": "success",
+    "run_attempt": 1,
+    "event": "push",
+    "created_at": "2026-11-02T06:24:57Z",
+    "expected_fresh_Native_cases": 0,
+    "retained_Native_cases": 3,
+    "actual_qualified_cases": 0,
+    "expected_new_committed_witness": true,
+    "evidence": "FREE45_91A_ACTIVE_AFTER_ACTUAL_SOURCE_PREFLIGHT_20261102.json",
+    "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/41399754004",
+    "Root_accepted": true,
+    "Root_evidence": "FREE45_91A_ROOT_ACTUAL_INTAKE_20261102.json",
+    "Root_receipt": {
+      "bytes": 11136,
+      "sha256": "680e161ba747bba2e12c01406fbdb69b38858031a52b44d0aafef9bd6674f350"
+    },
+    "actual_fresh_Native_cases": 0,
+    "actual_new_committed_witness": true,
+    "candidate_case_coverage": 3,
+    "package_all_five": true,
+    "canonical_archive_library_file_id": "libfile_785d1a86fe9c819191a3693729227200"
   }
 }

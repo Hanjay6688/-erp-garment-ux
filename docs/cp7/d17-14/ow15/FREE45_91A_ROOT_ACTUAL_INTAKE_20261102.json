@@ -1,0 +1,323 @@
+{
+  "status": "ROOT_VERIFIED_CURRENT_COMPLETE_DE_FREE_DATE_RETAINED3_COMMITTED_ALL5",
+  "head": "91a7b46ed13c4ad6094114871a4a39fa6765d140",
+  "tree": "01c4807d932af1d534477c4c182715b1378bd39b",
+  "run_id": 41399754004,
+  "job_id": 125128803743,
+  "artifact_id": 13124670049,
+  "archive": {
+    "bytes": 32506352,
+    "sha256": "805b8b359d2c43c402cb3181d402bd4ee679e8877ff4f4c89f416f18c3865daa",
+    "members": 130
+  },
+  "originals": {
+    "CP7_CURRENT_COMPLETE_DE_FREE_DATE_NATIVE3.json": {
+      "bytes": 235281567,
+      "sha256": "4d973cb7efbc56a55d868dad00a22a3fdc1ff42d5e3dfbb0cef15ca7548ae36f"
+    },
+    "CP7_CURRENT_COMPLETE_DE_FREE_DATE_NATIVE3_CASES.json": {
+      "bytes": 156942117,
+      "sha256": "7c0adb60db7a58270482dc157a126f5780331519b130b13f0d0d6da08dac83d6"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360420,
+      "sha256": "5d6d464bf932125b4e67f2c29d7df13918f2019bf9396b71436df624fc7c3c00"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 1470,
+      "sha256": "bddcafe531133524b25815ef164a268ad2353b106fc37aa42491beab41ef8bc8"
+    },
+    "FREE_DATE_RUNTIME_SUPERVISION.json": {
+      "bytes": 601,
+      "sha256": "33875f2cc42602162b0e9258ef837258b052ae2f47e6c41f24a80f184ee37d8e"
+    },
+    "FREE3_RETAINED_ORIGINAL_ADMISSION.json": {
+      "bytes": 886,
+      "sha256": "77645188b21382f841384d1909a0e2a6d94616d7a54319553fed6231df65e29c"
+    }
+  },
+  "source_admission": {
+    "status": "EXACT_FREE45_RETAINED3_AND_MISSING_COMMITTED_WITNESS_SOURCE_ONLY",
+    "own_paths": 45,
+    "source_pins": 44,
+    "unchanged_base": 14265,
+    "unchanged_original_own_paths": 33,
+    "reversible_routes": 20,
+    "original_source": {
+      "source_pins": 40,
+      "own_paths": 41,
+      "unchanged_base": 14265,
+      "Native_case_ids": [
+        "FREE_DATE_NATIVE_WIB_INCLUSIVE_LOOKUP_AND_NORMAL_PUBLIC_QUOTE",
+        "FREE_DATE_NATIVE_FINAL_DAY_POST_STOCK_GL_AND_EXACT_REPLAY",
+        "FREE_DATE_NATIVE_POSTED_HISTORY_AFTER_ELIGIBILITY_ENDS"
+      ],
+      "original_C43_date_files": 9,
+      "explicit_date_stage_routes": 2,
+      "unchanged_Native_fixture_runner_sources": 3,
+      "pure_report_validator": {
+        "selected_functions": [
+          "money",
+          "posted",
+          "case_boundary",
+          "validate"
+        ],
+        "exact_source": {
+          "bytes": 14818,
+          "sha256": "e88f6a9e04c0f27b951616949698f00c8ada1848bf9cd86987a0e9c4084813f5"
+        },
+        "actual_ERP_imports": 0,
+        "actual_SQL_executed": 0
+      },
+      "exact_reversible_source_guard_derivation": {
+        "original_source_guard": {
+          "bytes": 4260,
+          "sha256": "8fcd679648b2cc0902562c39d00588594dbbf426ab8e40aabf2f4cbbde30dccb"
+        },
+        "counted_source_routes": 12,
+        "entire_original_recovered": true,
+        "actual_case_credit": 0
+      },
+      "nested_product_source_closure": {
+        "manifests": [
+          "scripts/cp7_special_free_date_on_de/SOURCE.json",
+          "scripts/cp7_current_de_free_date/SOURCE.json"
+        ],
+        "source_pins": 16,
+        "actual_case_credit": 0
+      },
+      "runtime_fixture_binding_repair": {
+        "status": "EXACT_OWN40_TO41_FIXTURE_PREFLIGHT_AND_CLEANUP_REPAIR_ONLY",
+        "failed_head": "c73dea71ad8e15e828ea7f4a27937c5c9da5e839",
+        "failed_tree": "b171e37eb8a76d3764e60662f93f368f98f41883",
+        "retained_failed_candidate_source": {
+          "source_pins": 39,
+          "own_paths": 40,
+          "unchanged_base": 14265,
+          "Native_case_ids": [
+            "FREE_DATE_NATIVE_WIB_INCLUSIVE_LOOKUP_AND_NORMAL_PUBLIC_QUOTE",
+            "FREE_DATE_NATIVE_FINAL_DAY_POST_STOCK_GL_AND_EXACT_REPLAY",
+            "FREE_DATE_NATIVE_POSTED_HISTORY_AFTER_ELIGIBILITY_ENDS"
+          ],
+          "original_C43_date_files": 9,
+          "explicit_date_stage_routes": 2,
+          "unchanged_Native_fixture_runner_sources": 3,
+          "pure_report_validator": {
+            "selected_functions": [
+              "money",
+              "posted",
+              "case_boundary",
+              "validate"
+            ],
+            "exact_source": {
+              "bytes": 14818,
+              "sha256": "e88f6a9e04c0f27b951616949698f00c8ada1848bf9cd86987a0e9c4084813f5"
+            },
+            "actual_ERP_imports": 0,
+            "actual_SQL_executed": 0
+          },
+          "exact_reversible_source_guard_derivation": {
+            "original_source_guard": {
+              "bytes": 4260,
+              "sha256": "8fcd679648b2cc0902562c39d00588594dbbf426ab8e40aabf2f4cbbde30dccb"
+            },
+            "counted_source_routes": 12,
+            "entire_original_recovered": true,
+            "actual_case_credit": 0
+          },
+          "nested_product_source_closure": {
+            "manifests": [
+              "scripts/cp7_special_free_date_on_de/SOURCE.json",
+              "scripts/cp7_current_de_free_date/SOURCE.json"
+            ],
+            "source_pins": 16,
+            "actual_case_credit": 0
+          },
+          "runtime_fixture_binding_repair": null,
+          "source_manifest": {
+            "bytes": 7592,
+            "sha256": "0350e79569ae6250256053d55e29daf8e5dd10f500dc5efe6c273ee6b002dd8d"
+          },
+          "actual_case_credit": 0,
+          "parent_qualification_pending": false
+        },
+        "unchanged_old_own_blobs_and_modes": 34,
+        "reversible_routes": 12,
+        "Native_case_and_financial_function_bodies_unchanged": true,
+        "actual_case_credit": 0
+      },
+      "source_manifest": {
+        "bytes": 8082,
+        "sha256": "cd8ad1dc2c6ef70c9ab66aa8449d08d9d87266d29a510727bf09c2e29ac8a456"
+      },
+      "actual_case_credit": 0,
+      "parent_qualification_pending": false
+    },
+    "root_receipt": {
+      "bytes": 9721,
+      "sha256": "7ddda623e3417b3c04d0db2d7f7ce309718a2128c0dfc4fa22f8d7ee0edeb375"
+    },
+    "retained_Native_cases": 3,
+    "actual_Native_cases": 0,
+    "business_case_sources_and_original_assertions_unchanged": true,
+    "financial_groups_rerun": false,
+    "product_SQL_or_graph_changed": false,
+    "original_seed_API_unchanged": true,
+    "existing_actor_promoted": false,
+    "actual_ERP_cases": 0,
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "pure_report_validator": {
+    "selected_functions": [
+      "money",
+      "posted",
+      "case_boundary",
+      "validate"
+    ],
+    "exact_source": {
+      "bytes": 15583,
+      "sha256": "a8b8b8667ff334808798e5f3e3f41b008884b6891c6bcb89349498aebca9483e"
+    },
+    "actual_ERP_imports": 0,
+    "actual_SQL_executed": 0
+  },
+  "actual_product_source_maps": {
+    "file_maps": 276,
+    "pin_occurrences": 1300,
+    "unique_paths": 221,
+    "exact_producer_namespace": true,
+    "current_D1_E_contract_bindings": [
+      "cp7.credit-correction-de.v1",
+      "cp7.note-credit-carry.v1"
+    ],
+    "historical_registry_changed": false,
+    "matching_hash_or_alternative_namespace_search": false
+  },
+  "qualified_complete_DE_FREE_date_sources": {
+    "bytes": 721810,
+    "sha256": "ac2a6591c2a6f853872c5293ac3b1f1e850b513d7302e436909fffc62395364b"
+  },
+  "runtime_supervision": {
+    "status": "WORKER_COMPLETED_AND_REAPED",
+    "deadline_reached": false,
+    "external_signal": null,
+    "orphaned_child": false,
+    "signals": [],
+    "worker_exit": 0,
+    "process_group_empty": true,
+    "process_tree_empty": true,
+    "actual_case_credit": 0,
+    "production_go": false,
+    "worker_pid": 10909,
+    "elapsed_seconds": 4207.978,
+    "job_budget_seconds": 21600,
+    "work_budget_seconds": 19800,
+    "recovery_reserve_seconds": 1200,
+    "artifact_reserve_seconds": 600,
+    "qualification_commit": "91a7b46ed13c4ad6094114871a4a39fa6765d140",
+    "github_run_id": "41399754004",
+    "github_run_attempt": "1"
+  },
+  "actual_Native_cases": 0,
+  "actual_business_cases": 0,
+  "actual_browser_cases": 0,
+  "actual_Auth_HTTP_cases": 0,
+  "actual_two_session_races": 0,
+  "retained_Native_cases": 3,
+  "retained_cases_are_not_fresh": true,
+  "candidate_case_coverage": 3,
+  "complete3_qualified": true,
+  "package_all_five": true,
+  "source_invariant_reuse": true,
+  "prior_runs_aggregated": true,
+  "financial_groups_rerun": false,
+  "retained_original_run_conclusion": "failure",
+  "failed_run_relabelled_PASS": false,
+  "retained_root_receipt": {
+    "bytes": 9721,
+    "sha256": "7ddda623e3417b3c04d0db2d7f7ce309718a2128c0dfc4fa22f8d7ee0edeb375"
+  },
+  "actual_new_committed_witness": true,
+  "actual_used_refusal_raw_boundary": {
+    "tables": 700,
+    "sequences": 15,
+    "catalog_groups": 22
+  },
+  "retained_actual_full22_case_boundaries": {
+    "FREE_DATE_NATIVE_WIB_INCLUSIVE_LOOKUP_AND_NORMAL_PUBLIC_QUOTE": {
+      "before": {
+        "tables": 700,
+        "sequences": 15,
+        "catalog_groups": 22
+      },
+      "after": {
+        "tables": 700,
+        "sequences": 15,
+        "catalog_groups": 22
+      },
+      "audited_sequence_boundary": {
+        "classification": "AUDITED_NATIVE_SEQUENCE_CONSUMPTION_NOT_TRANSACTIONAL_RESTORE",
+        "audit_sequence_increments": 19,
+        "all_table_rows_restored": true,
+        "all22_catalog_exact": true,
+        "all_other_sequences_unchanged": true,
+        "rollback_sequence_values_unchanged": true,
+        "case_sequence_reset_performed": false,
+        "complete_outer_backup_sequence_restore_required": true
+      }
+    },
+    "FREE_DATE_NATIVE_FINAL_DAY_POST_STOCK_GL_AND_EXACT_REPLAY": {
+      "before": {
+        "tables": 700,
+        "sequences": 15,
+        "catalog_groups": 22
+      },
+      "after": {
+        "tables": 700,
+        "sequences": 15,
+        "catalog_groups": 22
+      },
+      "audited_sequence_boundary": {
+        "classification": "AUDITED_NATIVE_SEQUENCE_CONSUMPTION_NOT_TRANSACTIONAL_RESTORE",
+        "audit_sequence_increments": 25,
+        "all_table_rows_restored": true,
+        "all22_catalog_exact": true,
+        "all_other_sequences_unchanged": true,
+        "rollback_sequence_values_unchanged": true,
+        "case_sequence_reset_performed": false,
+        "complete_outer_backup_sequence_restore_required": true
+      }
+    },
+    "FREE_DATE_NATIVE_POSTED_HISTORY_AFTER_ELIGIBILITY_ENDS": {
+      "before": {
+        "tables": 700,
+        "sequences": 15,
+        "catalog_groups": 22
+      },
+      "after": {
+        "tables": 700,
+        "sequences": 15,
+        "catalog_groups": 22
+      },
+      "audited_sequence_boundary": {
+        "classification": "AUDITED_NATIVE_SEQUENCE_CONSUMPTION_NOT_TRANSACTIONAL_RESTORE",
+        "audit_sequence_increments": 25,
+        "all_table_rows_restored": true,
+        "all22_catalog_exact": true,
+        "all_other_sequences_unchanged": true,
+        "rollback_sequence_values_unchanged": true,
+        "case_sequence_reset_performed": false,
+        "complete_outer_backup_sequence_restore_required": true
+      }
+    }
+  },
+  "retained_DE30_fresh_case_credit": 0,
+  "GOOD_eligibility_policy_decided": false,
+  "Afui_GOOD_nonpayable_path_complete": false,
+  "D_complete": false,
+  "E_complete": false,
+  "global_writer_or_permission_or_lock_closure": false,
+  "production_go": false,
+  "independent_acceptance": false
+}
