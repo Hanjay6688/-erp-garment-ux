@@ -569,7 +569,7 @@
     "historical17_is_a_selected_projection_not_full_actual19": true
   },
   "continuity": "Continue CP7. Afui100 b8c572 actual run41486910739/job125419579494 is active; sole monitor2470, activated17:00:10Z under genuine six-hour day guard. Do not duplicate. Unified2135bdde/tree22a391713 has Afui/Global/Mandor, accessory tab contrast and exact shared source fences. TypeScript7 compile and CSS69 pass; Native/Mandor business qualification, moving-average and combined final acceptance remain pending. Global0f93 DDL3 remains valid.",
-  "operational_update_UTC": "2026-11-02T19:27:19.732095+00:00",
+  "operational_update_UTC": "2026-11-02T19:39:28.776885+00:00",
   "current_qualification_observation_is_earlier_API_snapshot": true,
   "retained_permanent_financial4": {
     "evidence": "CURRENT_PERMANENT23E_ROOT_RETAINED4_20261102.json",
@@ -1356,7 +1356,7 @@
     "owning_workflow_pending": true
   },
   "owner_UI_refinement": {
-    "status": "SHARED_THEME_SOURCE_IMPLEMENTED_LOCAL_BUILD_PASS_BROWSER_CAPTURE_NOT_YET_ACTIVATED",
+    "status": "ONE_VALID_BEFORE320_RETAINED_CAPTURE_STOPPED_ON_MENU_LOCATOR",
     "owner_handoff": {
       "library_file_id": "libfile_2c81e41399488191967a3c7751b24997",
       "sha256": "213f1bb0ffb376f51245b90bbef451b81b83a35710f076cf78d2bc457da11a53"
@@ -1374,11 +1374,26 @@
     "existing_stylesheets_remaining": 50,
     "local_commit": "97a0b667dd0e79a13575d7e46dae8a26f9a290fe",
     "local_tree": "d15ee827cfbbaac1ad728f54e82e08f63456c6d3",
-    "public_head": null,
+    "public_head": "5e9ce0bd579074ddc67b0b101d35a28ea2d368b2",
     "source_access_CSS_TypeScript_build_secret_scan": "PASS",
     "local_browser_download_failed": true,
     "Git_CLI_push_credentials_unavailable": true,
-    "connected_GitHub_plugin_publication_pending": true
+    "connected_GitHub_plugin_publication_pending": false,
+    "tree": "d15ee827cfbbaac1ad728f54e82e08f63456c6d3",
+    "run_id": 41510643181,
+    "job_id": 125501294085,
+    "readonly_monitor_cell": null,
+    "expected_visual_screenshots": 24,
+    "conclusion": "failure",
+    "valid_before_views": 1,
+    "valid_after_views": 0,
+    "canonical": {
+      "bytes": 319647,
+      "sha256": "1c74ab1b02f0da826806c1e29b60868ac01715c092c98ffc45b5213d589c803a",
+      "artifact_id": 13172528100,
+      "library_file_id": "libfile_1c8a0f026df481919492a7333b34eb30"
+    },
+    "capturer_correction_pending": true
   },
   "Afui_B8_failed_actual_qualification": {
     "status": "ACTUAL_AFUI_B8_FAILED_COMMON_FIXTURE_AND_PRIVATE_INFO_REVIEW_FULL_RESTORATION_VERIFIED",

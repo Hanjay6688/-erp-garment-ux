@@ -1,0 +1,230 @@
+{
+  "contract": "cp7.Root.UI5e9c.first-capture-intake.v1",
+  "observed_at_UTC": "2026-11-02T19:39:28.776885+00:00",
+  "status": "ONE_VALID_BEFORE320_RETAINED_CAPTURE_STOPPED_ON_MENU_LOCATOR",
+  "head": "5e9ce0bd579074ddc67b0b101d35a28ea2d368b2",
+  "tree": "d15ee827cfbbaac1ad728f54e82e08f63456c6d3",
+  "run_id": 41510643181,
+  "job_id": 125501294085,
+  "conclusion": "failure",
+  "canonical": {
+    "bytes": 319647,
+    "sha256": "1c74ab1b02f0da826806c1e29b60868ac01715c092c98ffc45b5213d589c803a",
+    "artifact_id": 13172528100,
+    "library_file_id": "libfile_1c8a0f026df481919492a7333b34eb30"
+  },
+  "first_error": "locator.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator('.nav-main').filter({ hasText: /^Penjualan(?:\\s|$)/ })\n\n    at /home/runner/work/-erp-garment-ux/-erp-garment-ux/after/scripts/ui-reference/capture.mjs:118:113",
+  "valid_captured_views": 1,
+  "retained_before": {
+    "variant": "before",
+    "surface": "dashboard",
+    "width": 320,
+    "screenshot": {
+      "name": "before-dashboard-320.png",
+      "bytes": 322487,
+      "sha256": "57a2f0a9642031e61d68d517e0d22df4b19312a86893f918ba144c8fbdf62ee2"
+    },
+    "observations": {
+      "viewport": {
+        "width": 320,
+        "height": 980
+      },
+      "body_width": 320,
+      "document_width": 320,
+      "canvas": "rgb(10, 12, 20)",
+      "sidebar": "rgba(11, 14, 24, 0.94)",
+      "page_overflow": false,
+      "samples": [
+        {
+          "selector": "h1",
+          "text": "Veni. Vidi. Vici. ERP",
+          "color": "rgb(244, 246, 251)",
+          "background": [
+            10,
+            12,
+            20
+          ],
+          "uniform_background": false,
+          "contrast": null,
+          "font_size": "29px",
+          "width": 288,
+          "height": 30.15625,
+          "disabled": false
+        },
+        {
+          "selector": ".hero-copy p",
+          "text": "Pantau uang, stok, HPP, dan aliran produksi tanpa membuka sepuluh laporan.",
+          "color": "rgb(157, 166, 186)",
+          "background": [
+            10,
+            12,
+            20
+          ],
+          "uniform_background": false,
+          "contrast": null,
+          "font_size": "14px",
+          "width": 288,
+          "height": 44.21875,
+          "disabled": false
+        },
+        {
+          "selector": ".top-title strong",
+          "text": "Ringkasan bisnis",
+          "color": "rgb(244, 246, 251)",
+          "background": [
+            10,
+            12,
+            20
+          ],
+          "uniform_background": false,
+          "contrast": null,
+          "font_size": "13.5px",
+          "width": 68.28125,
+          "height": 30,
+          "disabled": false
+        },
+        {
+          "selector": ".panel h2",
+          "text": "Penjualan, HPP & laba kotor",
+          "color": "rgb(244, 246, 251)",
+          "background": [
+            10,
+            12,
+            20
+          ],
+          "uniform_background": false,
+          "contrast": null,
+          "font_size": "18px",
+          "width": 254,
+          "height": 21.59375,
+          "disabled": false
+        },
+        {
+          "selector": ".panel h2",
+          "text": "6 hal hari ini",
+          "color": "rgb(244, 246, 251)",
+          "background": [
+            10,
+            12,
+            20
+          ],
+          "uniform_background": false,
+          "contrast": null,
+          "font_size": "18px",
+          "width": 133.828125,
+          "height": 21.59375,
+          "disabled": false
+        },
+        {
+          "selector": ".panel p",
+          "text": "Klik detail untuk menelusuri transaksi pembentuk angkanya.",
+          "color": "rgb(133, 143, 164)",
+          "background": [
+            10,
+            12,
+            20
+          ],
+          "uniform_background": false,
+          "contrast": null,
+          "font_size": "11.5px",
+          "width": 254,
+          "height": 24,
+          "disabled": false
+        },
+        {
+          "selector": ".primary-btn",
+          "text": "Input penjualan",
+          "color": "rgb(255, 255, 255)",
+          "background": [
+            14,
+            17.6,
+            28
+          ],
+          "uniform_background": false,
+          "contrast": null,
+          "font_size": "12.5px",
+          "width": 256,
+          "height": 42,
+          "disabled": false
+        },
+        {
+          "selector": ".soft-btn",
+          "text": "30 hari terakhir \u2304",
+          "color": "rgb(184, 192, 208)",
+          "background": [
+            15.879999999999999,
+            17.832,
+            25.64
+          ],
+          "uniform_background": false,
+          "contrast": null,
+          "font_size": "12.5px",
+          "width": 123.859375,
+          "height": 35,
+          "disabled": false
+        },
+        {
+          "selector": "input",
+          "text": "",
+          "color": "rgb(0, 0, 0)",
+          "background": [
+            22.595,
+            18.16,
+            25.72
+          ],
+          "uniform_background": false,
+          "contrast": null,
+          "font_size": "12.5px",
+          "width": 13,
+          "height": 13,
+          "disabled": false
+        },
+        {
+          "selector": "input",
+          "text": "",
+          "color": "rgb(0, 0, 0)",
+          "background": [
+            13.990000000000002,
+            16.515,
+            28.225
+          ],
+          "uniform_background": false,
+          "contrast": null,
+          "font_size": "12.5px",
+          "width": 13,
+          "height": 13,
+          "disabled": false
+        },
+        {
+          "selector": "input",
+          "text": "",
+          "color": "rgb(0, 0, 0)",
+          "background": [
+            13.990000000000002,
+            16.515,
+            28.225
+          ],
+          "uniform_background": false,
+          "contrast": null,
+          "font_size": "12.5px",
+          "width": 13,
+          "height": 13,
+          "disabled": false
+        }
+      ],
+      "contrast_findings": []
+    },
+    "page_errors": [],
+    "http_failures": []
+  },
+  "new_after_views": 0,
+  "page_errors": [],
+  "http_failures": [],
+  "preview_children_reaped": true,
+  "cleanup_errors": [],
+  "capturer_correction_pending": true,
+  "remaining_required_views": 23,
+  "actual_UI_final_acceptance": false,
+  "actual_financial_or_Auth_or_SQL_cases": 0,
+  "production_go": false
+}
