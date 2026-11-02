@@ -22,6 +22,9 @@ TABLES=tuple(SCHEMA+'.'+x for x in(
  'sale_allocation_values_v2','sale_allocation_attributions_v2','sale_allocation_components_v2',
  'sales_return_values_v2','sales_return_attributions_v2','sales_return_components_v2',
  'valuation_events_v2','component_events_v2'))
+INDEXES={SCHEMA+'.'+x for x in(
+ 'valuation_events_original_v2','valuation_events_recost_v2',
+ 'component_events_original_v2','component_events_reverse_v2')}
 FUNCTIONS=tuple(SCHEMA+'.'+x for x in(
  'status_component_reverse_v2()',
  'pool_components_v2(uuid,uuid,text)','pool_attribution_v2(uuid,uuid,text)','pool_quote_v2(uuid,uuid,text)',
@@ -90,6 +93,7 @@ def transition(before,after,definitions):
             if group=='functions'and key in definitions and old is not None and new is not None and new[0]==definitions[key]and old[1:]==new[1:]:continue
             if old is None and new is not None and group in('relations','columns','constraints','indexes','triggers','policies')and(
                 any(key==table or key.startswith(table+'.')for table in TABLES)
+                or(group=='indexes'and key in INDEXES)
                 or key.startswith(SCHEMA+'.valuation_')or key.startswith(SCHEMA+'.sale_allocation_')or key.startswith(SCHEMA+'.sales_return_')):continue
             if old is None and new is not None and group=='functions'and key in FUNCTIONS:continue
             if old is None and new is not None and group=='triggers'and key in EXISTING_TRIGGERS:continue

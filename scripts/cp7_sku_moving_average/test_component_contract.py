@@ -15,10 +15,17 @@ expected_functions={
  'prepare_sale_values_v2','sale_allocation_unit_v2','prepare_return_values_v2','return_item_unit_v2',
  'prepare_valuation_v2','finalize_valuation_v2','reverse_valuation_v2',
 }
+expected_indexes={
+ 'valuation_events_original_v2','valuation_events_recost_v2',
+ 'component_events_original_v2','component_events_reverse_v2',
+}
 for name in expected_tables:
     assert sql.count('create table cp7_sku_conversion.'+name+'(')==1,name
 for name in expected_functions:
     assert sql.count('create function cp7_sku_conversion.'+name+'(')==1,name
+for name in expected_indexes:
+    assert sql.count('create unique index '+name+' on cp7_sku_conversion.')==1,name
+assert sql.count('create unique index ')==len(expected_indexes)
 assert sql.count('$$')==2*len(expected_functions)
 assert sql.count('create trigger ')==len(expected_tables)+2
 assert 'create trigger sku_component_sale_reverse_v2 after update of status on erp.sales_headers'in sql
@@ -50,6 +57,8 @@ spec=importlib.util.spec_from_file_location('moving_average_composition',HERE/'c
 composition=(HERE/'composition.py').read_text()
 for name in expected_tables:assert repr(name)in composition,name
 for name in expected_functions:assert name+'('in composition,name
+for name in expected_indexes:assert repr(name)in composition,name
+assert "or(group=='indexes'and key in INDEXES)"in composition
 assert "EXISTING_TRIGGERS={'erp.sales_headers:sku_component_sale_reverse_v2','erp.sales_returns:sku_component_return_reverse_v2'}"in composition
 assert "READER_OWNERS={sig:'cp7_fg_read'for sig in reader_delta.SIGNATURES}"in composition
 assert composition.count("with reader_handover(cur),as_owner(cur,'postgres'):")==2
@@ -57,5 +66,6 @@ assert composition.count('with reader_function_ddl(cur,signature):cur.execute(')
 assert "raise ValueError('SKU_MOVAVG_READER_OWNER_CHANGED:'+signature)"in composition
 
 print({'status':'SKU_MOVAVG_COMPONENT_SOURCE_CONTRACT_PASS','tables':len(expected_tables),
-       'functions':len(expected_functions),'actual_sql':0,'production_go':False})
+       'functions':len(expected_functions),'indexes':len(expected_indexes),
+       'actual_sql':0,'production_go':False})
 
