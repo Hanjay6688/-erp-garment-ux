@@ -1361,14 +1361,14 @@
     "owning_workflow_pending": true
   },
   "owner_UI_refinement": {
-    "status": "BUSINESS_PAGES_THEME_CAPTURE_IN_PROGRESS_NOT_FINAL_ACCEPTANCE",
+    "status": "REPRESENTATIVE_PAYROLL_COLLISION_CORRECTION_ACTUAL_PASS_NOT_FINAL_UI_ACCEPTANCE",
     "owner_handoff": {
       "library_file_id": "libfile_2c81e41399488191967a3c7751b24997",
       "sha256": "213f1bb0ffb376f51245b90bbef451b81b83a35710f076cf78d2bc457da11a53"
     },
     "route_count": 48,
     "navigation_label_count": 47,
-    "stylesheet_count": 69,
+    "stylesheet_count": 70,
     "branch": "astra-a/ui-reference-theme-20261103",
     "base_head": "2c7a5a05516548667ec71faedcffb3591828100f",
     "implementation_timing": "Prepare theme/shared shell in isolated Writer A worktree while Afui runs; three representative screens before remaining families; integrate after active candidate result is clear",
@@ -1377,19 +1377,19 @@
     "owner_scope_separate_from_CP7_denominator": true,
     "existing_stylesheets_migrated": 20,
     "existing_stylesheets_remaining": 49,
-    "local_commit": "fbb36567c8796e66f2cb7fbd902fa2b582bd9516",
-    "local_tree": "d2000c461719915afbd3c6b67d8786b073f67742",
-    "public_head": "c5d5af2656eb17e622c1067ebea50f91fa39d5d9",
+    "local_commit": "f218ba6e5819c1a69277f153e0e8f6992cc8a45a",
+    "local_tree": "63ccec4853297cdef495f7544c13c65bf8c64684",
+    "public_head": "462099c6cc59fa93766c81db66ec820b6cd54055",
     "source_access_CSS_TypeScript_build_secret_scan": "PASS",
     "local_browser_download_failed": true,
     "Git_CLI_push_credentials_unavailable": true,
     "connected_GitHub_plugin_publication_pending": false,
-    "tree": "d2000c461719915afbd3c6b67d8786b073f67742",
-    "run_id": 41518263959,
-    "job_id": 125527306036,
+    "tree": "63ccec4853297cdef495f7544c13c65bf8c64684",
+    "run_id": 41519097592,
+    "job_id": 125530186985,
     "readonly_monitor_cell": null,
     "expected_visual_screenshots": 24,
-    "conclusion": null,
+    "conclusion": "success",
     "prior_a4f_capture": {
       "run_id": 41512867605,
       "job_id": 125508871053,
@@ -1424,6 +1424,43 @@
       },
       "actual_UI_final_acceptance": false
     },
+    "business_c5_capture": {
+      "run_id": 41518263959,
+      "job_id": 125527306036,
+      "conclusion": "success",
+      "new_loaded_views": 8,
+      "retained_valid_views": 16,
+      "sales_views_accepted_representatively": 4,
+      "payroll_desktop_collision_found": true,
+      "canonical": {
+        "bytes": 2645492,
+        "sha256": "963cea724838ad7e6f5ca4c94466fce447f36a2de7524eb9bc79ce49a3dd0f1c",
+        "artifact_id": 13176965944,
+        "library_file_id": "libfile_a1156f170cdc8191885e91dd6553d008"
+      }
+    },
+    "payroll_collision_4620_capture": {
+      "run_id": 41519097592,
+      "job_id": 125530186985,
+      "conclusion": "success",
+      "new_loaded_payroll_views": 4,
+      "retained_valid_views": 20,
+      "widths": [320, 390, 768, 1440],
+      "workspace_fallback_absent": true,
+      "overflow_views": 0,
+      "sample_contrast_findings": 0,
+      "page_or_http_errors": 0,
+      "actual_original_pngs_visually_reviewed": 4,
+      "desktop_collision_remaining": false,
+      "canonical": {
+        "bytes": 1500865,
+        "sha256": "be43682c9b7e33dff51f4e5fa4ca7704fc4046851100eb4ce3f55b748b077b21",
+        "artifact_id": 13177415953,
+        "library_file_id": "libfile_e4c1a6fe292c8191b43a8a97b29f57f9"
+      },
+      "actual_Mandor_popup_acceptance": false,
+      "actual_UI_final_acceptance": false
+    },
     "corrections": {
       "loaded_workspace_semantic_wait": true,
       "loading_fallback_refused": true,
@@ -1432,13 +1469,14 @@
       "immutable_dashboard_baselines_reused": 4,
       "business_pages_stylesheet_migrated_declarations": 425,
       "new_important_declarations": 0,
-      "valid_views_reused_for_next_capture": 16,
-      "new_views_required": 8,
+      "valid_views_reused_for_next_capture": 20,
+      "new_views_required": 4,
       "duplicate_valid_dashboard_baseline_reruns": 0
     },
     "source_access_CSS_TypeScript_build_secret_scan_after_correction": "PASS",
     "capturer_correction_pending": false,
-    "corrected_browser_capture_pending": true
+    "corrected_browser_capture_pending": false,
+    "representative_payroll_collision_correction_accepted": true
   },
   "Afui_B8_failed_actual_qualification": {
     "status": "ACTUAL_AFUI_B8_FAILED_COMMON_FIXTURE_AND_PRIVATE_INFO_REVIEW_FULL_RESTORATION_VERIFIED",
