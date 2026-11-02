@@ -22,7 +22,11 @@
     "retained_DE30_fresh_case_credit": 0,
     "whole_natural_source_graph_and_Root_source_PASS_before_push": true,
     "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/41377735841",
-    "evidence": "FREE40_C73_ACTIVE_ON_ACCEPTED_DE30_20261102.json"
+    "evidence": "FREE40_C73_ACTIVE_ON_ACCEPTED_DE30_20261102.json",
+    "latest_observed_UTC": "2026-11-02T03:10:11.974Z",
+    "active_step_names": [
+      "Run Native FREE date3 and complete outer restoration"
+    ]
   },
   "sole_readonly_monitor_cell": "1485",
   "new_qualified_cases": 30,
@@ -112,13 +116,13 @@
       "workflow_activated": false
     },
     "FG_MANDOR": {
-      "head": "9a557930a4bb3ac9f2becbac3ced3d26689f170d",
-      "tree": "f0e9af83cb3a652c59b4b72798715d588ebefbf9",
+      "head": "f175c32972a21051a90939ac4030cb7e0b0d83e5",
+      "tree": "7432d0a45497657cefa27a29ffd904f4c353bc4b",
       "branch": "astra-a/fg-mandor-storage-source-prepared-20261102",
-      "own_paths": 16,
-      "source_pins": 15,
+      "own_paths": 27,
+      "source_pins": 26,
       "private_tables": 13,
-      "private_functions": 11,
+      "private_functions": 18,
       "new_private_allocation_model_controls": 15,
       "retained_storage_model_controls_NOT_rerun": 15,
       "actual_Native_cases": 0,
@@ -126,7 +130,16 @@
       "workflow_activated": false,
       "public_commands_exposed": false,
       "private_allocation_owner_implemented": true,
-      "payment_invoice_settlement_and_UI_complete": false
+      "payment_invoice_settlement_and_UI_complete": false,
+      "private_buyer_model_controls": 20,
+      "private_sale_identity_model_controls": 17,
+      "Native_header_trigger_sources": 1,
+      "Native_header_trigger_ERP_qualified": false,
+      "private_buyer_identity_implemented": true,
+      "Native_header_identity_source_written": true,
+      "Native_payment_hooks_implemented": false,
+      "App_popup_implemented": false,
+      "evidence": "FG_MANDOR_BUYER_AND_NATIVE_HEADER_SOURCE_PREPARED_20261102.json"
     },
     "GLOBAL_ENVELOPE": {
       "local_head": "c9e8264fff0a09f2005e7a6ab3d0c9edc5900abf",
@@ -169,8 +182,8 @@
     }
   },
   "continuity": "Use this compact state and the newest estafet header. Savepoints are not stopping points. Check the existing run before any new work or tests.",
-  "operational_update_UTC": "2026-11-02T02:28:26.024397+00:00",
-  "current_qualification_observation_is_earlier_API_snapshot": false,
+  "operational_update_UTC": "2026-11-02T03:10:19.581495+00:00",
+  "current_qualification_observation_is_earlier_API_snapshot": true,
   "retained_permanent_financial4": {
     "evidence": "CURRENT_PERMANENT23E_ROOT_RETAINED4_20261102.json",
     "retained_Native_cases": 4,
