@@ -123,7 +123,28 @@ def check():
     assert history['prior95_NOT_rerun']is True and history['completed19_NOT_rerun_for_last4']is True
     assert history['last4_first_attempt_PASS']is True and history['all23_fresh_one_attempt']is False
     assert history['actual_Native_cases']==0
-    assert value['private_functions']==value['schema_and_event_functions']+value['private_allocation_functions']+value['private_buyer_functions']+value['private_sale_identity_functions']+value['private_offset_functions']+value['private_payment_functions']==25
+    guards=json.loads((HERE/'PAYMENT_GUARD_MODEL_CONTROLS.json').read_bytes())
+    assert guards['status']=='FG_MANDOR_PROTECTED_NATIVE_JOURNAL_AND_INVOICE_BOUNDARY_MODEL_CONTROLS_PASS_NOT_NATIVE'
+    assert len(guards['results'])==13 and all(row['result']in('PASS','REFUSED_AS_REQUIRED')for row in guards['results'])
+    assert guards['new_guard_functions_compiled']==guards['new_Native_table_triggers_compiled']==6
+    assert guards['Native_column_type_maps']==33 and guards['retained_95_and_payment23_controls_NOT_rerun']is True
+    assert guards['Native_function_or_payment_owner_sources_changed']is False
+    assert guards['actual_Native_cases']==guards['actual_Auth_HTTP_cases']==guards['actual_browser_cases']==guards['actual_two_session_races']==0
+    for name,expected in guards['source_files'].items():
+        raw=(HERE/name).read_bytes();assert {'bytes':len(raw),'sha256':sha256(raw).hexdigest()}==expected
+    guard_origin=json.loads((HERE/'PAYMENT_GUARD_MODEL_ORIGIN.json').read_bytes())
+    assert guard_origin['old19_and_last4_controls_NOT_rerun']is True
+    raw=(ROOT/guard_origin['parent_path']).read_bytes()
+    assert guard_origin['parent_source']=={'bytes':len(raw),'sha256':sha256(raw).hexdigest()}
+    prefix=raw[:guard_origin['original_prefix_bytes']].decode()
+    for change in guard_origin['source_routes']:
+        assert change['count']==1 and prefix.count(change['before'])==1
+        prefix=prefix.replace(change['before'],change['after'],1)
+    # The new test body starts after one newline; the old test block had one
+    # additional blank separator. Preserve every executable prefix byte.
+    assert prefix.endswith('\n\n')
+    assert (HERE/'payment_guard_model.mjs').read_text().startswith(prefix[:-1])
+    assert value['private_functions']==value['schema_and_event_functions']+value['private_allocation_functions']+value['private_buyer_functions']+value['private_sale_identity_functions']+value['private_offset_functions']+value['private_payment_functions']+value['private_payment_guard_functions']==31
     return dict(status='FG_MANDOR_EXACT_STORAGE_PREPARATION_SOURCE_ONLY',unchanged_parent_blobs_and_modes=len(base),
         own_source_pins=len(value['files']),storage_model_controls=len(model['results']),parent_gate_closed=True,
         private_allocation_model_controls=len(allocation['results']),retained_storage_controls_NOT_rerun=True,
@@ -132,6 +153,7 @@ def check():
         private_offset_functions=3,private_offset_model_controls=len(offset['results']),
         private_payment_functions=4,retained_payment_model_controls=19,fresh_payment_model_controls=4,
         Native_payment_source_adapters=8,actual_payment_runtime_installed=False,
+        private_payment_guard_functions=6,new_payment_guard_model_controls=13,Native_payment_guard_triggers=6,
         retained_67_controls_NOT_rerun=True,Native_paid_projection_integration=False,
         Native_header_trigger_source_written=True,Native_header_trigger_ERP_qualification=False,
         retained_allocation_controls_NOT_rerun=True,

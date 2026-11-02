@@ -1,0 +1,35 @@
+{
+  "status": "EXACT_EXISTING_PAYMENT_MODEL_SETUP_REUSED_ONLY_NEW_GUARD_CONTROLS",
+  "parent_path": "scripts/cp7_mandor_shop/payment_model.mjs",
+  "parent_head": "3203c297414ab38bde7035db6d99f69d81d8ae12",
+  "parent_source": {
+    "bytes": 30395,
+    "sha256": "4d966745cf4e8863f36d00e950bb64e6baa24e9e5564155154660743d1ca1cfd"
+  },
+  "original_prefix_bytes": 18160,
+  "source_routes": [
+    {
+      "before": "const remainingOnly=mode==='--remaining-only';assert(remainingOnly,'Retain completed19; run only remaining controls');",
+      "after": "assert(mode==='--guards-only','Only new Native-table boundary controls execute');",
+      "count": 1
+    },
+    {
+      "before": "assert.equal(reference.functions_unchanged_in_actual_after_committed_E_use,true);",
+      "after": "assert.equal(reference.functions_unchanged_in_actual_after_committed_E_use,true);\nconst guardReference=JSON.parse(await readFile(here+'NATIVE_PAYMENT_GUARD_REFERENCE.json'));\nassert.equal(guardReference.head,reference.head);",
+      "count": 1
+    },
+    {
+      "before": "Object.entries(reference.columns)",
+      "after": "Object.entries({...reference.columns,...guardReference.columns})",
+      "count": 1
+    },
+    {
+      "before": "['schema.sql','events.sql','allocation.sql','offset_projection.sql','payment_owner.sql']",
+      "after": "['schema.sql','events.sql','allocation.sql','offset_projection.sql','payment_owner.sql','payment_guards.sql']",
+      "count": 1
+    }
+  ],
+  "old19_and_last4_controls_NOT_rerun": true,
+  "Native_product_functions_or_payment_owner_changed": false,
+  "actual_Native_cases": 0
+}

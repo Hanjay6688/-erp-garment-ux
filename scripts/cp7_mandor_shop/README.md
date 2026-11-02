@@ -145,3 +145,18 @@ Masih diperlukan pemasang dan adopsi profil program akhir, penjagaan retur/korek
 invoice yang mempunyai offset aktif, sambungan pembeli/perintah publik/pop-up,
 serta bukti Native penuh, Auth, desktop/HP dan dua tab. Selama itu runtime dan
 perintah publik tetap tertutup.
+
+`payment_guards.sql` menyiapkan enam fungsi dan enam trigger pada tabel Native
+untuk jurnal FG, kaki jurnal, invoice dan retur. Jurnal/inverse harus berasal dari
+pemilik payroll yang tepat dan mempunyai fakta lengkap sebelum commit. Kaki jurnal
+posted tidak dapat diedit; sumber tidak dapat disamarkan, dan rantai pembalikan
+tidak dapat dipakai untuk membalik inverse lagi lewat jurnal umum. Retur/koreksi
+invois bersaldo offset aktif menunggu reversal payroll yang sah; perubahan status
+pembayaran biasa tetap diperbolehkan. Reservasi draft bukan pelunasan.
+
+Tiga belas pemeriksaan model pengaman lulus pada percobaan pertama, memakai
+33 peta tipe kolom Native dan badan fungsi Native lama pada tabel model. Pemeriksaan
+terarah baru ini memasang keenam trigger; 95 model lama serta 23 model pembayaran
+tetap dipakai, tidak diulang. Mesin retur, Auth, penjagaan Native dasar, stok/HPP
+dan dua backend tetap belum dijalankan. Pemasang/profil program akhir dan
+pembuktian Native dengan seluruh lapisan tetap diperlukan sebelum modul dibuka.

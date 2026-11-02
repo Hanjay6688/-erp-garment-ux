@@ -35,6 +35,10 @@
       "bytes": 97316,
       "sha256": "96e69c3f6671130efb3f79863533f1973c8d0cde93c2954e39a3c2b34c0471b6"
     },
+    "scripts/cp7_mandor_shop/NATIVE_PAYMENT_GUARD_REFERENCE.json": {
+      "bytes": 2578,
+      "sha256": "372f6af3b7ce3b9a5c4ab73ea3dc592c61e12bcec6568a3d6bfd7e80faf46fe7"
+    },
     "scripts/cp7_mandor_shop/NATIVE_PAYMENT_OWNER_REFERENCE.json": {
       "bytes": 163019,
       "sha256": "ac1c83ee6f9c5a642a8b079c0f46cfab22a295d3566e2abd2f0b8c9b2846880d"
@@ -55,6 +59,14 @@
       "bytes": 953,
       "sha256": "72c86cc18f21d07550ebdf2d16406f1502faf3ed5ef70e8a78708829d27c1779"
     },
+    "scripts/cp7_mandor_shop/PAYMENT_GUARD_MODEL_CONTROLS.json": {
+      "bytes": 5180,
+      "sha256": "173bd51a7b0a06c7c06cc546839cf374554e69422af5b40a4915f23e40e63dd7"
+    },
+    "scripts/cp7_mandor_shop/PAYMENT_GUARD_MODEL_ORIGIN.json": {
+      "bytes": 1605,
+      "sha256": "60187abb0c72f2232df771ad19cad51e759b41937dd62d7806efcdedcf0e67f6"
+    },
     "scripts/cp7_mandor_shop/PAYMENT_MODEL_CONTROLS.json": {
       "bytes": 7325,
       "sha256": "f1a5cd899f32b32f25b0e2b67d324df258fbb1ebfe46b339843773cfedf5656f"
@@ -72,8 +84,8 @@
       "sha256": "ba3da6e7c3a7ca001ff55f87588dc2fa0e9d7e4d93ddf01f213176121e789c7d"
     },
     "scripts/cp7_mandor_shop/README.md": {
-      "bytes": 10104,
-      "sha256": "021c76bfa7a5fb4fbce217aebd0177186b5a12d2b7513227825c7b28a4faa4a9"
+      "bytes": 11144,
+      "sha256": "fa047e399f8832d08f75ed98fe90afca996c39d011afd628ce8ab39212354c91"
     },
     "scripts/cp7_mandor_shop/SALE_IDENTITY_MODEL_CONTROLS.json": {
       "bytes": 4221,
@@ -116,8 +128,8 @@
       "sha256": "5bfeb12b4103ca88f48b84a213098b33a90e7ead52398a5025213d9188e47617"
     },
     "scripts/cp7_mandor_shop/check_source.py": {
-      "bytes": 11470,
-      "sha256": "064afe304ff23e64308d37a6b639815c5d74c73c0bdfa3993d14802bb2c757fe"
+      "bytes": 13359,
+      "sha256": "6ac84fabbc4f0627371f6e9bfcb37b8ddb2303982951a318c367464b9e15ea1d"
     },
     "scripts/cp7_mandor_shop/events.sql": {
       "bytes": 8216,
@@ -134,6 +146,14 @@
     "scripts/cp7_mandor_shop/offset_projection.sql": {
       "bytes": 11629,
       "sha256": "51c8954eb3d66a280699dc0848b7d4aab3326dcf388a4f04ce7be385c36f71a2"
+    },
+    "scripts/cp7_mandor_shop/payment_guard_model.mjs": {
+      "bytes": 24329,
+      "sha256": "d1752248991d4c0b39bae2b811ed0923ca389eb7bcef22a2f575e36708715dc8"
+    },
+    "scripts/cp7_mandor_shop/payment_guards.sql": {
+      "bytes": 10946,
+      "sha256": "0405c0a9c807ef0be3881c2a32c69a152e2a0614bc8efb1f5572ac715683d771"
     },
     "scripts/cp7_mandor_shop/payment_model.mjs": {
       "bytes": 30395,
@@ -161,7 +181,7 @@
     }
   },
   "schema_tables": 15,
-  "private_functions": 25,
+  "private_functions": 31,
   "storage_model_controls": 15,
   "public_commands_implemented": false,
   "Native_payment_hooks_implemented": false,
@@ -202,6 +222,12 @@
   "fresh_payment_model_controls": 4,
   "retained_95_model_controls_NOT_rerun": true,
   "Native_payment_or_authoritative_projection_installed": false,
-  "logical_model_control_coverage": 118,
-  "all_23_payment_controls_fresh_one_attempt": false
+  "logical_model_control_coverage": 131,
+  "all_23_payment_controls_fresh_one_attempt": false,
+  "private_payment_guard_functions": 6,
+  "Native_payment_guard_trigger_sources": 6,
+  "private_payment_guard_model_controls": 13,
+  "retained_118_model_controls_NOT_rerun": true,
+  "protected_journal_and_invoice_guard_sources_written": true,
+  "protected_journal_and_invoice_guards_installed": false
 }
