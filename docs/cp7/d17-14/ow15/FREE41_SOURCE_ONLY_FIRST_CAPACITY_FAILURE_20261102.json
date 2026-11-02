@@ -1,0 +1,28 @@
+{
+  "status": "FIRST_SOURCE_ONLY_SETUP_FAILED_NO_SPACE_LEFT_ON_DEVICE_BEFORE_DATABASE",
+  "run_id": 41387774848,
+  "job_id": 125092327067,
+  "head": "c152bacdcbbd8ef29f3dfcc383fef0f35c6338a7",
+  "artifact": {
+    "id": 13116231963,
+    "bytes": 1449,
+    "sha256": "00af4f9c480c49e30217c7b6bdc75009cf0791bb07c57e12bf52d44ff41a654b"
+  },
+  "passed": [
+    "Root immutable FREE41 source with 40 pins, 12 reversible routes and unchanged business functions",
+    "Exact workflow derivation including writer CWD and fixed database cleanup"
+  ],
+  "failed": "Materialize exact qualified backend: No space left on device",
+  "original_thirteen_source_roots_materialized_before_failure": true,
+  "actual_Native_cases": 0,
+  "database_provisioned": false,
+  "next": {
+    "controller_checkout": "sparse only Root reader folder",
+    "source_capacity_checked_before_copy": true,
+    "passed_immutable_gates_reused_from_actual_canonical_not_rerun": true,
+    "candidate_unchanged": true,
+    "full_natural_runtime_and_fixture_from_writer_still_pending": true
+  },
+  "production_go": false,
+  "independent_acceptance": false
+}

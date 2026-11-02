@@ -1,6 +1,6 @@
 {
   "contract": "writer-a.compact-current-state.v1",
-  "observed_at_UTC": "2026-11-02T04:18:24.706Z",
+  "observed_at_UTC": "2026-11-02T04:23:19.017Z",
   "integrator": "A",
   "A_B_division_preserved": true,
   "formal_CP7": "5/16",
@@ -332,9 +332,15 @@
     "branch": "astra-a/free41-source-binding-preflight-20261102",
     "expected_candidate": "ad986b9a9d432f2ffac2b961710c3852c6c2ef90",
     "expected_tree": "80bc5471330b89497991ba1e67615287b01e59c1",
-    "status": "PREPARED_NOT_RUNNING",
+    "status": "FIRST_SOURCE_ONLY_SETUP_FAILED_REPAIR_PREPARED",
     "database_provisioned": false,
-    "Native_cases": 0
+    "Native_cases": 0,
+    "failed_run_id": 41387774848,
+    "failed_job_id": 125092327067,
+    "passed_immutable_gates_reused": true,
+    "first_failure_preserved": true,
+    "source_capacity_preflight_added": true,
+    "duplicate_Native_runs": 0
   },
   "execution_environment": {
     "local": "UNAVAILABLE_ENVIRONMENT_OFFLINE",

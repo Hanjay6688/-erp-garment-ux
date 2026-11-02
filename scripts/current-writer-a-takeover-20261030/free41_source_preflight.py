@@ -60,6 +60,77 @@ def root_source():
         own_paths=41,source_pins=40,reversible_routes=12,actual_Native_cases=0)),flush=True)
 
 
+def retained_root_source():
+    """Reuse the actual passed immutable gates; the first setup failure stays failed."""
+    identity()
+    exact(pin((HERE/'intake_free3.py').read_bytes()),
+        dict(bytes=28035,sha256='232374b97102bb080433df85d7bd1008c93d8b36feaae1cd4dfd3afb12efe2e8'),
+        'EXACT_UNCHANGED_ROOT_READER_FOR_REUSE')
+    run=json.loads(subprocess.check_output(['gh','api','repos/'+REPO+'/actions/runs/41387774848']))
+    exact(run['head_sha'],'c152bacdcbbd8ef29f3dfcc383fef0f35c6338a7','RETAINED_EXACT_SOURCE_CI_HEAD')
+    exact(run['conclusion'],'failure','RETAINED_FIRST_SETUP_FAILURE_NOT_RELABELLED')
+    exact(run['run_attempt'],1,'RETAINED_EXACT_SOURCE_CI_ATTEMPT')
+    job=json.loads(subprocess.check_output(['gh','api','repos/'+REPO+'/actions/jobs/125092327067']))
+    steps={step['name']:step for step in job['steps']}
+    exact(steps['Verify Root immutable sources and exact workflow derivation first']['conclusion'],
+        'success','RETAINED_ACTUAL_IMMUTABLE_GATES_MUST_HAVE_PASSED')
+    exact(steps['Materialize every exact inherited source without database']['conclusion'],
+        'failure','RETAINED_ACTUAL_SETUP_FAILURE_PRESERVED')
+    raw=subprocess.check_output(['gh','api','repos/'+REPO+'/actions/artifacts/13116231963/zip'])
+    exact(pin(raw),dict(bytes=1449,sha256='00af4f9c480c49e30217c7b6bdc75009cf0791bb07c57e12bf52d44ff41a654b'),
+        'RETAINED_EXACT_ROOT_SOURCE_CANONICAL_ARCHIVE')
+    import io
+    with zipfile.ZipFile(io.BytesIO(raw))as archive:
+        exact(archive.namelist(),['ROOT_IMMUTABLE_SOURCE.json'],'RETAINED_EXACT_ONE_ROOT_SOURCE_MEMBER')
+        exact(archive.testzip(),None,'RETAINED_SOURCE_ARCHIVE_CRC')
+        original=archive.read('ROOT_IMMUTABLE_SOURCE.json')
+    value=json.loads(original)
+    exact(value['identity'],identity(),'RETAINED_EXACT_UNCHANGED_FREE41_IDENTITY')
+    exact(value['source']['own_paths'],41,'RETAINED_CLOSED_OWN41')
+    exact(value['source']['source_pins'],40,'RETAINED_FORTY_PINS')
+    exact(value['actual_Native_cases'],0,'RETAINED_ZERO_BUSINESS_CASES')
+    OUT.mkdir(parents=True,exist_ok=True)
+    (OUT/'ROOT_IMMUTABLE_SOURCE.json').write_bytes(original)
+    receipt=dict(status='ACTUAL_PASSED_ROOT_SOURCE_AND_WORKFLOW_GATES_REUSED_NOT_RERUN',
+        run_id=41387774848,job_id=125092327067,artifact_id=13116231963,archive=pin(raw),
+        original=pin(original),first_run_remains_failure=True,actual_new_checks=0,actual_Native_cases=0)
+    save('RETAINED_SOURCE_ONLY_CHECKS.json',receipt)
+    print(json.dumps(receipt),flush=True)
+
+
+def source_capacity():
+    """Check physical space and inodes for all exact worktrees before copying."""
+    identity()
+    roots=json.loads((AUDITOR/'scripts/current-finance-combined-composition/FROZEN_SOURCE_ROOTS.json').read_bytes())
+    source=json.loads((AUDITOR/'scripts/current-versioned-performance-native-qualification/SOURCE.json').read_bytes())
+    replacements={'${{ steps.qualified_heads.outputs.native }}':source['frozen_declaration']['head'],
+        '${{ steps.qualified_heads.outputs.B }}':source['B_frozen_head']}
+    heads={name:replacements.get(head,head)for name,head in roots.items()}
+    heads['qualified-sku090b']='090b85d3fcb738d3e694d4329d306f199a686eb8'
+    exact(len(heads),14,'SOURCE_CAPACITY_EXACT_FOURTEEN_WORKTREES')
+    filesystem=os.statvfs(AUDITOR)
+    needed_bytes=0;needed_files=0
+    for name,head in heads.items():
+        raw=subprocess.check_output(['/usr/bin/git','-C',str(AUDITOR),'ls-tree','-rlz',head])
+        for row in raw.split(b'\0'):
+            if not row:continue
+            metadata,path=row.split(b'\t',1);parts=metadata.split()
+            if parts[1]!=b'blob':raise ValueError('SOURCE_CAPACITY_REGULAR_BLOBS_REQUIRED')
+            size=int(parts[3]);needed_files+=1
+            needed_bytes+=((size+filesystem.f_frsize-1)//filesystem.f_frsize)*filesystem.f_frsize
+    minimum_bytes=needed_bytes+268435456;minimum_inodes=needed_files+10000
+    available_bytes=filesystem.f_bavail*filesystem.f_frsize
+    receipt=dict(status='EXACT_FOURTEEN_SOURCE_WORKTREE_RESOURCE_PREFLIGHT',
+        source_worktrees=14,planned_files=needed_files,planned_physical_file_bytes=needed_bytes,
+        minimum_free_bytes=minimum_bytes,minimum_free_inodes=minimum_inodes,
+        available_free_bytes=available_bytes,available_free_inodes=filesystem.f_favail,
+        actual_Native_cases=0)
+    save('SOURCE_RESOURCE_PREFLIGHT.json',receipt)
+    print(json.dumps(receipt),flush=True)
+    if available_bytes<minimum_bytes or filesystem.f_favail<minimum_inodes:
+        raise ValueError('SOURCE_WORKTREE_CAPACITY_INSUFFICIENT_BEFORE_ANY_COPY')
+
+
 def fetch_originals():
     identity()
     af=json.loads((AUDITOR/'scripts/current-finance-factory-progress-followup-qualification/CONFIG.json').read_bytes())
@@ -157,6 +228,7 @@ def final():
 
 if __name__=='__main__':
     parser=argparse.ArgumentParser()
-    parser.add_argument('--mode',choices=('root-source','fetch-originals','final'),required=True)
+    parser.add_argument('--mode',choices=('root-source','retained-root-source','source-capacity','fetch-originals','final'),required=True)
     args=parser.parse_args()
-    {'root-source':root_source,'fetch-originals':fetch_originals,'final':final}[args.mode]()
+    {'root-source':root_source,'retained-root-source':retained_root_source,'source-capacity':source_capacity,
+        'fetch-originals':fetch_originals,'final':final}[args.mode]()
