@@ -1,0 +1,45 @@
+{
+  "status": "SOURCE_DISPATCH_INPUTS_REVIEWED_ON_ACTUAL_NATIVE_GLOBAL_DDL_ORIGINAL_NOT_FINAL_RUNTIME_OR_BUSINESS",
+  "head": "0f93f50a70e45f0dbc6e71fd27ca0815ba598b2d",
+  "raw_review": {
+    "bytes": 481081,
+    "sha256": "f6e9bde2c3bec7b1ba15a4a7c983cf6b08504f0764a2e284330c7a7c91749c38"
+  },
+  "first_review_preserved": true,
+  "original_full25": {
+    "bytes": 14755737,
+    "sha256": "80856b7ec2cebf08318a21617091b73c6744161b72bb3be98bcb9ecd2b8109eb"
+  },
+  "selected_current_bodies": 264,
+  "reused_unchanged_actual_DE_body_projections": 239,
+  "new_body_projections": 25,
+  "physical_relation_candidates": 168,
+  "possible_write_relations": 17,
+  "additional_application_callbacks": 0,
+  "literal_dynamic_statements": 13,
+  "unknown_type_resolution": {
+    "source_url": "https://raw.githubusercontent.com/postgres/postgres/REL_17_6/src/include/catalog/pg_type.dat",
+    "bytes": 39283,
+    "sha256": "1129eecb660ba4b84b8ecd44dd94b1668be22e349bd81fb07c2c771cd0314606",
+    "exact_builtin_catalogue_records": {
+      "regoper": "{ oid => '2203', array_type_oid => '2208', descr => 'registered operator',\n  typname => 'regoper', typlen => '4', typbyval => 't', typcategory => 'N',\n  typinput => 'regoperin', typoutput => 'regoperout',\n  typreceive => 'regoperrecv', typsend => 'regopersend', typalign => 'i' }",
+      "regproc": "{ oid => '24', array_type_oid => '1008', descr => 'registered procedure',\n  typname => 'regproc', typlen => '4', typbyval => 't', typcategory => 'N',\n  typinput => 'regprocin', typoutput => 'regprocout',\n  typreceive => 'regprocrecv', typsend => 'regprocsend', typalign => 'i' }"
+    }
+  },
+  "source_projection_after_explicit_builtin_resolution_has_no_unresolved": true,
+  "only_digest_argument_site": {
+    "cp7_global_nonpo_envelope.lock_v1(text)": [
+      {
+        "call": "extensions.digest",
+        "arguments": 2,
+        "literal_algorithm": "sha256"
+      }
+    ]
+  },
+  "trusted_pinned_PostgreSQL_and_platform_extension_binary_integrity_is_assumed": true,
+  "final_composite_parent_not_yet_adopted": true,
+  "global_runtime_or_financial_qualification": false,
+  "old_tests_rerun": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

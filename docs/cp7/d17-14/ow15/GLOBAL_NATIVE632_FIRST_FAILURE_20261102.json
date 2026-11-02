@@ -1,0 +1,26 @@
+{
+  "status": "ORIGINAL_FIRST_ATTEMPT_FAILED_BEFORE_GLOBAL_STAGE_ZERO_CONTROLS",
+  "head": "6322c2b24f92b01183dfaf7ac74c4aae7f606bdc",
+  "tree": "2bab31fd65ca2f569414a880c1d54c5547446005",
+  "run_id": 41473419595,
+  "job_id": 125372622003,
+  "completed_controls": 0,
+  "retained_control_credit": 0,
+  "error_SQLSTATE": "42883",
+  "error": "function erp.bc_guard_zone_location_v1() does not exist",
+  "cause": "Probe called accepted CP7 parent installer on AB clone before existing committed AC..BF DDL bootstrap.",
+  "repair": "Call unchanged hash-checked committed release installer before opening the CP7 predecessor connection; preserve existing hosted schema usage; no old financial scenario dispatch.",
+  "canonical": {
+    "bytes": 1672699,
+    "sha256": "2545eb0d5d6c048f164bdeb55a25fdb67283a70896405641802577beb1cd1b61",
+    "artifact_id": 13156388167,
+    "library_file_id": "libfile_ff118e1bb0b48191a7bbcc9ad3b572e5"
+  },
+  "original_report": {
+    "bytes": 2175,
+    "sha256": "dc671f2e1daa962cfe3502d5ea028dbc3a48c8c24809b72a3daf79b7da744181"
+  },
+  "failed_attempt_relabelled_PASS": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

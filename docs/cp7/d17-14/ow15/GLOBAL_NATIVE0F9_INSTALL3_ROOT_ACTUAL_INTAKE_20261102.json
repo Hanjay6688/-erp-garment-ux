@@ -1,0 +1,76 @@
+{
+  "status": "ROOT_VERIFIED_ACTUAL_NATIVE_GLOBAL_INSTALL3_DDL_ONLY_NOT_RUNTIME_OR_BUSINESS",
+  "head": "0f93f50a70e45f0dbc6e71fd27ca0815ba598b2d",
+  "tree": "b75edbfb5d4f9bf8c4e65947af30ca259f213869",
+  "run_id": 41476731067,
+  "job_id": 125384144685,
+  "archive": {
+    "bytes": 9040006,
+    "sha256": "8975546df0f9863372e2ed7679bffa6ddf73408633a564b32f42e8ab3ea447d0"
+  },
+  "original_report": {
+    "bytes": 127617,
+    "sha256": "1a4e1df61281408a952113c55404ead674e3e729765b416850981a4704c618f5"
+  },
+  "install_plan": {
+    "bytes": 16095,
+    "sha256": "96ce9eee5c4e12f2669cb1e9636080632a5f84c043e1d01b6c14c1c72a288a40"
+  },
+  "source_pins": 48,
+  "unchanged_source_parent_blobs": 14410,
+  "actual_Native_parent_schema_used": true,
+  "modeled_Native_tables_or_callbacks": false,
+  "DDL_controls": 3,
+  "catalogue_delta": {
+    "columns": {
+      "added": 37,
+      "changed": 0
+    },
+    "constraints": {
+      "added": 15,
+      "changed": 0
+    },
+    "functions": {
+      "added": 16,
+      "changed": 8
+    },
+    "indexes": {
+      "added": 4,
+      "changed": 0
+    },
+    "relations": {
+      "added": 7,
+      "changed": 0
+    },
+    "schemas": {
+      "added": 3,
+      "changed": 0
+    },
+    "triggers": {
+      "added": 7,
+      "changed": 0
+    },
+    "type_implementation": {
+      "added": 6,
+      "changed": 0
+    },
+    "types": {
+      "added": 6,
+      "changed": 0
+    }
+  },
+  "exact_full25_stage_and_parent_rollbacks": true,
+  "existing_raw_eight_native_authorities_preserved": true,
+  "actual_business_cases": 0,
+  "actual_Auth_HTTP_cases": 0,
+  "actual_two_session_cases": 0,
+  "actual_browser_cases": 0,
+  "runtime_gate_opened": false,
+  "input_profile_seeded": false,
+  "explicit_unused_installer_inverse_qualified": false,
+  "global_dispatch_closure": false,
+  "financial_restore_or_full_CP7_credit": false,
+  "old_tests_rerun": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

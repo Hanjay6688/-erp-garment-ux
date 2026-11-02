@@ -1,0 +1,18 @@
+{
+  "status": "PREPARED_SOURCE_FENCE_PASS_RUNTIME_ADMISSION_CLOSED",
+  "head": "3a9cb100bb92c997c5dcd33b8cad743db546811a",
+  "tree": "2348b014f8cbb605d4743f82c966586fd02c8721",
+  "branch": "astra-a/unified-cp7-source-candidate-20261102",
+  "local_commit": "8712a47a9847c03f9e63aa94f6e8dbf280673198",
+  "base": "b8c572d28f944ad9a5947ffc164e134558ed6641",
+  "unchanged_parent_blobs": 14402,
+  "shared_UI_parent_paths": 8,
+  "new_paths": 144,
+  "all_Global42_and_Mandor84_module_bytes_exact": true,
+  "source_ownership_and_access_catalog_pass": true,
+  "existing_RPC_boundaries": 336,
+  "old_standalone_source_fences_unchanged": true,
+  "runtime_or_business_qualification": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

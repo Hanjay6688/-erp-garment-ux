@@ -1,7 +1,7 @@
 {
   "status": "GUARDED_COMPLETE_GLOBAL_SOURCE_PREPARED_NOT_ACTUAL_INSTALLATION_OR_BUSINESS",
-  "head": "f01fe9796c629f372e22fb2be40036b8c46c2290",
-  "tree": "6a0751be22f8d67b9f22c739c9253c0e8789dcbe",
+  "head": "58296c88256ad40401fa133174ef71380b0a3f5a",
+  "tree": "b1f1ce3f9536ef4d3067ac3a727ca2056cd1cfd6",
   "source_pins": 41,
   "own_paths": 42,
   "private_functions": 16,
@@ -15,8 +15,8 @@
   "exact_reversible_Native_routes": 18,
   "semantic_hash_routes": 2,
   "plan": {
-    "bytes": 13421,
-    "sha256": "380a2ae69f5b9718de5b5479209b119f1d5ebe0d6376b1565ea91bd7320d0375"
+    "bytes": 16095,
+    "sha256": "96ce9eee5c4e12f2669cb1e9636080632a5f84c043e1d01b6c14c1c72a288a40"
   },
   "real_parent_gate_refuses_before_cursor_use": true,
   "Native_OID_raw_ACL_and_schema_lease_checked": true,
@@ -26,5 +26,8 @@
   "actual_complete_stage_qualification_pending": true,
   "actual_Native_cases": 0,
   "production_go": false,
-  "independent_acceptance": false
+  "independent_acceptance": false,
+  "catalogue_column_rows": 37,
+  "table_columns": 32,
+  "index_columns": 5
 }

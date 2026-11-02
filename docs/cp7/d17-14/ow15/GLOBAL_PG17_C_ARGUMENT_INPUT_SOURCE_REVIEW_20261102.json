@@ -1,0 +1,208 @@
+{
+  "status": "SOURCE_LEVEL_ARGUMENT_OR_ENTROPY_C_CONTRACT_REVIEW_NOT_BINARY_EQUIVALENCE_OR_RUNTIME_CLOSURE",
+  "upstream_version": "PostgreSQL REL_17_6",
+  "references": {
+    "pgcrypto.c": {
+      "url": "https://raw.githubusercontent.com/postgres/postgres/REL_17_6/contrib/pgcrypto/pgcrypto.c",
+      "bytes": 10952,
+      "sha256": "5e57b17b1d8eabae794f86309b45ce228db9121d0358fa3a853b51f3a97687bb"
+    },
+    "openssl.c": {
+      "url": "https://raw.githubusercontent.com/postgres/postgres/REL_17_6/contrib/pgcrypto/openssl.c",
+      "bytes": 18063,
+      "sha256": "f3373498a3ccbda2dbe1638abd4697b6f864b531a3617366fb585947433540c8"
+    },
+    "px.c": {
+      "url": "https://raw.githubusercontent.com/postgres/postgres/REL_17_6/contrib/pgcrypto/px.c",
+      "bytes": 7770,
+      "sha256": "a1f8fe308802fdbe3e8e6a66f58bb269cbbb7856b697e206347890ad7d4fd8c6"
+    },
+    "uuid.c": {
+      "url": "https://raw.githubusercontent.com/postgres/postgres/REL_17_6/src/backend/utils/adt/uuid.c",
+      "bytes": 11527,
+      "sha256": "898f0b3491934a26622cbddcf90cd6cc80c81c967057ca36d832df6233de04d2"
+    },
+    "pg_strong_random.c": {
+      "url": "https://raw.githubusercontent.com/postgres/postgres/REL_17_6/src/port/pg_strong_random.c",
+      "bytes": 4024,
+      "sha256": "220ef91686fc566532866c52c623b5e990babb8c9f4d9723b8c7a4d01020288e"
+    }
+  },
+  "actual_DE30_reference": {
+    "bytes": 22185024,
+    "sha256": "7607987b5a8a9100dddbfef5b39135b330eda329bf89b072b3839467cf7c7b86"
+  },
+  "full19_actual_C_metadata": {
+    "extensions.digest(bytea,text)": [
+      "CREATE OR REPLACE FUNCTION extensions.digest(bytea, text)\n RETURNS bytea\n LANGUAGE c\n IMMUTABLE PARALLEL SAFE STRICT\nAS '$libdir/pgcrypto', $function$pg_digest$function$\n",
+      "supabase_admin",
+      "c",
+      "f",
+      false,
+      false,
+      true,
+      false,
+      "i",
+      "s",
+      "1",
+      "0",
+      null,
+      null,
+      null,
+      "bytea, text",
+      "bytea",
+      "-",
+      [
+        [
+          "PUBLIC",
+          "supabase_admin",
+          "EXECUTE",
+          false
+        ],
+        [
+          "cp7_capture",
+          "supabase_admin",
+          "EXECUTE",
+          false
+        ],
+        [
+          "cp7_plan_writer",
+          "supabase_admin",
+          "EXECUTE",
+          false
+        ],
+        [
+          "cp7_policy",
+          "supabase_admin",
+          "EXECUTE",
+          false
+        ],
+        [
+          "dashboard_user",
+          "supabase_admin",
+          "EXECUTE",
+          false
+        ],
+        [
+          "postgres",
+          "supabase_admin",
+          "EXECUTE",
+          true
+        ],
+        [
+          "supabase_admin",
+          "supabase_admin",
+          "EXECUTE",
+          false
+        ]
+      ]
+    ],
+    "extensions.digest(text,text)": [
+      "CREATE OR REPLACE FUNCTION extensions.digest(text, text)\n RETURNS bytea\n LANGUAGE c\n IMMUTABLE PARALLEL SAFE STRICT\nAS '$libdir/pgcrypto', $function$pg_digest$function$\n",
+      "supabase_admin",
+      "c",
+      "f",
+      false,
+      false,
+      true,
+      false,
+      "i",
+      "s",
+      "1",
+      "0",
+      null,
+      null,
+      null,
+      "text, text",
+      "bytea",
+      "-",
+      [
+        [
+          "PUBLIC",
+          "supabase_admin",
+          "EXECUTE",
+          false
+        ],
+        [
+          "dashboard_user",
+          "supabase_admin",
+          "EXECUTE",
+          false
+        ],
+        [
+          "postgres",
+          "supabase_admin",
+          "EXECUTE",
+          true
+        ],
+        [
+          "supabase_admin",
+          "supabase_admin",
+          "EXECUTE",
+          false
+        ]
+      ]
+    ],
+    "extensions.gen_random_uuid()": [
+      "CREATE OR REPLACE FUNCTION extensions.gen_random_uuid()\n RETURNS uuid\n LANGUAGE c\n PARALLEL SAFE\nAS '$libdir/pgcrypto', $function$pg_random_uuid$function$\n",
+      "supabase_admin",
+      "c",
+      "f",
+      false,
+      false,
+      false,
+      false,
+      "v",
+      "s",
+      "1",
+      "0",
+      null,
+      null,
+      null,
+      "",
+      "uuid",
+      "-",
+      [
+        [
+          "PUBLIC",
+          "supabase_admin",
+          "EXECUTE",
+          false
+        ],
+        [
+          "dashboard_user",
+          "supabase_admin",
+          "EXECUTE",
+          false
+        ],
+        [
+          "postgres",
+          "supabase_admin",
+          "EXECUTE",
+          true
+        ],
+        [
+          "supabase_admin",
+          "supabase_admin",
+          "EXECUTE",
+          false
+        ]
+      ]
+    ]
+  },
+  "contracts": {
+    "extensions.digest(bytea,text)": "Hashes supplied bytes using supplied digest name through OpenSSL; provider lookup, allocation/update/finish/free; reviewed path has no application-table or SPI access.",
+    "extensions.digest(text,text)": "Same pg_digest C entrypoint; input is supplied text representation, not a database row lookup.",
+    "extensions.gen_random_uuid()": "Delegates to core gen_random_uuid and pg_strong_random; consumes OpenSSL/OS entropy and sets UUIDv4 bits; reviewed path has no application-table lookup."
+  },
+  "runtime_conditions": [
+    "Actual server/image and extension identity remain pinned to the qualified Supabase17.6 profile.",
+    "All three full19 function rows remain exact and platform-owned; schema/role/ACL metadata is checked.",
+    "Source-level contracts do not establish binary equivalence; privileged platform integrity remains trusted.",
+    "Fresh actual Native full25 operator/cast/type dispatch review, final input profile and financial/race cases remain required."
+  ],
+  "actual_SQL_executed": 0,
+  "actual_Native_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}
