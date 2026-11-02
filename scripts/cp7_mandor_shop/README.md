@@ -6,8 +6,9 @@ parent receipt through the still-closed admission gate. It captures all22,
 checks all Native19 rows and column references, installs new objects as
 postgres, normalizes only new private ACLs, and replaces Native functions as
 their existing owners. Temporary CREATE is granted and revoked by each schema
-owner; no existing role membership is granted to postgres. Native OIDs, raw
-function/schema ACLs and the public raw ACL must remain exact. Removal refuses
+owner; no existing role membership is granted to postgres. Native OIDs and raw function/schema ACLs stay exact. The existing public
+schema gains only the declared new API role USAGE, preserving the previous
+raw entries and order; unused removal restores its original raw ACL exactly. Removal refuses
 owned rows and drops only declared objects explicitly; after use a full backup
 restore is required. Actual complete ERP installation remains unqualified.
 

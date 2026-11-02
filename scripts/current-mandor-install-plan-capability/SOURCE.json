@@ -12,12 +12,12 @@
       "sha256": "9c4eb92d22800a4e8f38c9905eecf29f1c29062e717131352d6958685da569b7"
     },
     "scripts/current-mandor-install-plan-capability/SOURCE_PROOF.json": {
-      "bytes": 809,
-      "sha256": "87e44baae8a6430252f3fdb6faf3ac019556b971489916092648a545189be5cf"
+      "bytes": 1086,
+      "sha256": "9e5e33bf07509644b2d49f7ccdde237fb519a7f86f0564422d1165ac119d4dd5"
     },
     "scripts/current-mandor-install-plan-capability/probe.py": {
-      "bytes": 18095,
-      "sha256": "7589e13d204f06c4ed0933bce58c7a13459b9285446ad27fd27fa262c53e572a"
+      "bytes": 18528,
+      "sha256": "beb75125d5cf3d5c9a4b06d2e6e0e69b9f99b14a75e5c554614a4646dfd6d76c"
     },
     "scripts/cp7_mandor_shop/sale_identity.sql": {
       "bytes": 5069,
@@ -212,8 +212,8 @@
       "sha256": "54c1e3d1ee40cc8f2e286c6ca8f9bfb0b914a7cfc8fd0791d18d83e537aa77ab"
     },
     "scripts/cp7_mandor_shop/composition.py": {
-      "bytes": 17024,
-      "sha256": "362d6be20b6268e9f4ef4d806218c473ca776d0b6ff03ec563055332d804ed17"
+      "bytes": 18615,
+      "sha256": "b7a1cb96ceba3d92ab49f9ba912329e604198161b1dac12c2a0671263c4f15bd"
     },
     "scripts/cp7_mandor_shop/SALES_MODEL_CONTROLS.json": {
       "bytes": 5666,
@@ -240,8 +240,8 @@
       "sha256": "41d50b8d82e48d8d0163195867eb66f0e464f2d4f1d2832d8cfde3dd617e7939"
     },
     "scripts/cp7_mandor_shop/INSTALLER_SOURCE_CONTROLS.json": {
-      "bytes": 992,
-      "sha256": "94d9ba95d4d39d3a68e95bceb82304df3b4faf0ce6624706a02d5c7061a2c4ea"
+      "bytes": 1350,
+      "sha256": "7ea98d69828d83dfe6c423a93670a018891101cb2a1a42e413001c87f150a7be"
     },
     "scripts/cp7_mandor_shop/OFFSET_SQL_SYNTAX_CONTROLS.json": {
       "bytes": 953,
@@ -316,8 +316,8 @@
       "sha256": "84282244c60fb995ba2d156cba8e969a21dac8f443650b414e3c7166c0693d62"
     },
     "scripts/cp7_mandor_shop/README.md": {
-      "bytes": 18473,
-      "sha256": "4b6133bb1dc9ec5dd2b3186445338a954ade83204258580752e92706a7f5a3bb"
+      "bytes": 18618,
+      "sha256": "a36beb33054a33e8905cda404ca51484455551e1952daec067759c22fbc55cad"
     },
     "scripts/cp7_mandor_shop/INSTALL_PLAN.json": {
       "bytes": 8163,
@@ -340,8 +340,8 @@
       "sha256": "60187abb0c72f2232df771ad19cad51e759b41937dd62d7806efcdedcf0e67f6"
     },
     "scripts/cp7_mandor_shop/SOURCE.json": {
-      "bytes": 17491,
-      "sha256": "d9265c133643b89f6cc4095f6292229bd0eefa8a2118affae1310597bf904039"
+      "bytes": 17492,
+      "sha256": "b605dcbfd8e96b9dea196c9e82f099753a3b4a124140433530d77b80cc75ee03"
     },
     "scripts/cp7_mandor_shop/SALES_MODEL_RETAINED13.json": {
       "bytes": 2941,

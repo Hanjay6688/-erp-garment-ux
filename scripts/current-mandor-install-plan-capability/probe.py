@@ -142,16 +142,21 @@ def run():
             plan=json.loads((product.HERE/'INSTALL_PLAN.json').read_bytes());definitions=product.native_payment_routes.derive(baseline['functions'])[0]|product.native_sales_routes.derive(baseline['functions'])[0]
             facades,dispatch=product.native_dispatch.derive(baseline['functions']);identity=product.native_identity(cur,definitions)
             public_acl=cur.execute("select nspacl::text from pg_namespace where nspname='public'").fetchone()[0]
+            public_items=cur.execute("select nspacl::text[] from pg_namespace where nspname='public'").fetchone()[0]
             with product.atomic(cur),product.metadata_context(cur):
                 product.trusted_installer(cur)
                 with product.as_role(cur,'postgres',{'postgres'}):
                     for name in product.ORDER:cur.execute((product.HERE/name).read_text(),prepare=False)
                     cur.execute(facades,prepare=False)
                 product.normalize_private(cur,plan);product.replace_native(cur,definitions,identity)
-                after=product.capture(cur);product.transition(baseline,after,definitions,plan)
+                after=product.capture(cur)
+                report['raw'].update(compiled_model_before_all22=baseline,compiled_model_after_all22=after)
+                product.transition(baseline,after,definitions,plan)
+                installed_public_acl=product.public_schema_transition(cur,public_items,baseline['schemas']['public'][0])
                 state=dict(contract=product.CONTRACT,sources=product.sources(),parent={'MODEL_ONLY':True,'accepted_parent':False},
                     before=baseline,after=after,originals={s:baseline['functions'][s][0]for s in definitions},definitions=definitions,
-                    native_identity=identity,raw_public_schema_acl=public_acl,dispatch_proof=dispatch,plan=plan)
+                    native_identity=identity,raw_public_schema_acl_before=public_acl,raw_public_schema_acl=installed_public_acl,
+                    dispatch_proof=dispatch,plan=plan)
                 state['sha256']=product.digest(state);verified=product.verify(cur,state)
             report['raw'].update(before_all22=baseline,installed_all22=after,original_Native_model_identity=identity,
                 original_public_raw_ACL=public_acl,gate_refusal=gate,verified=verified,

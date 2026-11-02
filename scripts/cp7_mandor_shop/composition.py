@@ -149,6 +149,15 @@ def normalize_private(cur,plan):
                 cur.execute(sql.SQL('revoke all on function {} from {}').format(sql.SQL(sig),grantee_sql))
             for role in plan['private_execute_grants'].get(sig,[]):
                 cur.execute(sql.SQL('grant execute on function {} to {}').format(sql.SQL(sig),sql.Identifier(role)))
+        for table in plan['tables']:
+            grantees=cur.execute("""select distinct a.grantee from pg_class c
+              cross join lateral aclexplode(coalesce(c.relacl,acldefault('r',c.relowner)))a
+              where c.oid=%s::regclass and a.grantee<>c.relowner""",(table,)).fetchall()
+            schema,name=table.split('.',1)
+            for grantee, in grantees:
+                role=cur.execute('select pg_get_userbyid(%s)',(grantee,)).fetchone()[0]if grantee else None
+                cur.execute(sql.SQL('revoke all on table {} from {}').format(sql.Identifier(schema,name),
+                    sql.Identifier(role)if grantee else sql.SQL('PUBLIC')))
         # Only the newly created private schema is normalized. Existing schema
         # grants and default privileges are never rewritten.
         grantees=cur.execute("""select distinct a.grantee from pg_namespace n
@@ -159,6 +168,14 @@ def normalize_private(cur,plan):
             cur.execute(sql.SQL('revoke all on schema {} from {}').format(sql.Identifier(SCHEMA),sql.Identifier(name)if grantee else sql.SQL('PUBLIC')))
         for role in(ROLE,'cp7_sales_read','cp7_payroll_write'):
             cur.execute(sql.SQL('grant usage on schema {} to {}').format(sql.Identifier(SCHEMA),sql.Identifier(role)))
+
+
+def public_schema_transition(cur,before_items,owner):
+    require(before_items is not None,'MANDOR_REVIEWED_EXPLICIT_PUBLIC_SCHEMA_ACL_REQUIRED')
+    raw,items=cur.execute("select nspacl::text,nspacl::text[] from pg_namespace where nspname='public'").fetchone()
+    require(items==before_items+[ROLE+'=U/'+owner],
+        'MANDOR_PUBLIC_RAW_ACL_ONLY_NEW_API_USAGE_MAY_BE_APPENDED')
+    return raw
 
 
 def transition(before,after,definitions,plan):
@@ -172,6 +189,10 @@ def transition(before,after,definitions,plan):
             if old==new:continue
             if group=='functions'and key in definitions and old is not None and new is not None:
                 require(new[0]==definitions[key]and new[1:]==old[1:],'MANDOR_ONLY_NATIVE_BODY_MAY_CHANGE:'+key);continue
+            if group=='schemas'and key=='public'and old is not None and new is not None:
+                expected={tuple(x)for x in old[1]}|{(ROLE,old[0],'USAGE',False)}
+                require(new[0]==old[0]and{tuple(x)for x in new[1]}==expected,
+                    'MANDOR_PUBLIC_SCHEMA_ONLY_DECLARED_NEW_API_USAGE_ALLOWED');continue
             require(old is None and new is not None,'MANDOR_EXISTING_UNDECLARED_CATALOG_CHANGE:'+group+':'+key)
             if group=='schemas'and key==SCHEMA:continue
             if group=='roles'and key==ROLE:continue
@@ -206,16 +227,18 @@ def install(cur,parent_receipt_raw):
                 require(before['columns'].get(key)==row,'MANDOR_CURRENT_NATIVE_COLUMN_PROFILE_CHANGED:'+key)
         identity=native_identity(cur,definitions)
         public_acl=cur.execute("select nspacl::text from pg_namespace where nspname='public'").fetchone()[0]
+        public_items=cur.execute("select nspacl::text[] from pg_namespace where nspname='public'").fetchone()[0]
+        require(public_items is not None,'MANDOR_REVIEWED_EXPLICIT_PUBLIC_SCHEMA_ACL_REQUIRED')
         with as_role(cur,'postgres',{'postgres'}):
             for name in ORDER:cur.execute((HERE/name).read_text(),prepare=False)
             cur.execute(facades,prepare=False)
         normalize_private(cur,plan);replace_native(cur,definitions,identity)
-        require(cur.execute("select nspacl::text from pg_namespace where nspname='public'").fetchone()[0]==public_acl,
-            'MANDOR_INSTALL_RAW_PUBLIC_SCHEMA_ACL_CHANGED')
+        installed_public_acl=public_schema_transition(cur,public_items,before['schemas']['public'][0])
         after=capture(cur);transition(before,after,definitions,plan)
         state=dict(contract=CONTRACT,sources=source,parent=parent,before=before,after=after,
             originals={sig:before['functions'][sig][0]for sig in definitions},definitions=definitions,
-            native_identity=identity,raw_public_schema_acl=public_acl,dispatch_proof=dispatch_proof,plan=plan)
+            native_identity=identity,raw_public_schema_acl_before=public_acl,raw_public_schema_acl=installed_public_acl,
+            dispatch_proof=dispatch_proof,plan=plan)
         state['sha256']=digest(state);verify(cur,state);return state
 
 
@@ -240,7 +263,7 @@ def verify(cur,state):
     for table in state['plan']['tables']:
         row=state['after']['relations'][table]
         require(row[0]=='postgres'and row[3]is True,'MANDOR_PRIVATE_TABLE_OWNER_OR_RLS_CHANGED:'+table)
-        require(not any(x[0]in('PUBLIC','anon','authenticated','service_role')for x in row[12]),'MANDOR_PRIVATE_TABLE_EXPOSED:'+table)
+        require(all(x[0]=='postgres'and x[1]=='postgres'for x in row[12]),'MANDOR_PRIVATE_TABLE_NONOWNER_GRANT:'+table)
     role=state['after']['roles'][ROLE]
     require(not any(role[i]for i in(0,1,2,3,4,5,6)),'MANDOR_API_ROLE_PRIVILEGES_CHANGED')
     for key,row in state['after']['memberships'].items():
@@ -270,7 +293,7 @@ def rollback_preuse(cur,state):
             cur.execute(sql.SQL('drop schema {}').format(sql.Identifier(SCHEMA)))
         require(capture(cur)==state['before'],'MANDOR_PREUSE_ALL22_NOT_EXACTLY_RESTORED')
         require(native_identity(cur,state['originals'])==state['native_identity'],'MANDOR_PREUSE_NATIVE_OID_RAW_ACL_CHANGED')
-        require(cur.execute("select nspacl::text from pg_namespace where nspname='public'").fetchone()[0]==state['raw_public_schema_acl'],
+        require(cur.execute("select nspacl::text from pg_namespace where nspname='public'").fetchone()[0]==state['raw_public_schema_acl_before'],
             'MANDOR_PREUSE_RAW_PUBLIC_SCHEMA_ACL_NOT_RESTORED')
         return dict(all22_and_Native_raw_authority_restored=True,used_rows_removed=False,
             cascade_or_DROP_OWNED_used=False,production_go=False,independent_acceptance=False)

@@ -1,7 +1,7 @@
 {
   "status": "COMPLETE_MANDOR_INSTALL_PLAN_MODEL_ONLY_GATE_NEVER_OPENED",
-  "prepared_module_head": "e0796c827e070939ffb568fbf89636e3dfb7c366",
-  "prepared_module_tree": "9470d610c3196a0662ce2550d6c7aaed2110c20b",
+  "prepared_module_head": "cf5ce1565db5beaa291560bedeed505539b17047",
+  "prepared_module_tree": "d102bdf45791a321048bb38cec1f121fb213d697",
   "module_source_pins": 83,
   "model_parent_tables": 45,
   "Native_source_definitions_reproduced_in_model": 11,
@@ -14,5 +14,10 @@
   "independent_acceptance": false,
   "first_5a065_setup_failure_preserved": true,
   "exact_Native_schema_USAGE_and_CREATE_ACL_reproduced_from_same_original": true,
-  "first_attempt_completed_controls": 0
+  "first_attempt_completed_controls": 0,
+  "second_0c2_attempt_failure_preserved": true,
+  "existing_public_schema_adds_only_declared_new_API_USAGE": true,
+  "all_previous_raw_ACL_entries_preserved": true,
+  "exact_original_raw_public_ACL_after_preuse_inverse": true,
+  "only_new_private_table_ACLs_normalized": true
 }

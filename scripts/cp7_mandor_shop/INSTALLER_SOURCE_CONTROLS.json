@@ -6,7 +6,7 @@
   "private_and_Native_custom_triggers": 27,
   "Native_source_adapter_functions": 9,
   "new_private_dispatch_source_routes": 1,
-  "all_fixed_literal_SQL_parse_count": 19,
+  "all_fixed_literal_SQL_parse_count": 22,
   "all_source_fragments_parse": true,
   "only_new_private_ACLs_normalized": true,
   "Native_existing_owner_schema_CREATE_lease_restored": true,
@@ -20,5 +20,9 @@
   "production_go": false,
   "independent_acceptance": false,
   "actual_Native_schema_column_map_is_nested_and_flattened_before_comparison": true,
-  "raw_public_schema_ACL_checked_on_install_verify_and_inverse": true
+  "raw_public_schema_ACL_checked_on_install_verify_and_inverse": true,
+  "existing_public_schema_delta": "Only the originally declared new API-role USAGE; original raw entries and ordering preserved, exact original raw ACL after unused removal",
+  "second_actual_model_attempt_refused_undeclared_public_schema_delta": true,
+  "all_fifteen_new_private_table_ACLs_owner_only": true,
+  "existing_Native_table_ACLs_unchanged": true
 }
