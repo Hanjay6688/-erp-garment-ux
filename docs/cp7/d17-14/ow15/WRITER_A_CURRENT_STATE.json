@@ -8,28 +8,26 @@
   "production_go": false,
   "independent_acceptance": false,
   "current_qualification": {
-    "head": "a861af7e748c6ccf1178a45546d87f034bc493a8",
-    "tree": "ac946bb0333b512864d8d69909c166e2d6892522",
-    "run_id": 41361511976,
-    "job_id": 125012678506,
+    "head": "6e61506c10a18541c104b981bd438e78b175b5d1",
+    "tree": "86f07de6e0be871d39110aa797ef26da4564e8e8",
+    "run_id": 41368001658,
+    "job_id": 125032204589,
     "status": "in_progress",
     "conclusion": null,
     "run_attempt": 1,
     "event": "push",
-    "created_at": "2026-11-01T23:19:06Z",
+    "created_at": "2026-11-02T00:35:57Z",
     "expected_fresh_Native_cases": 30,
     "expected_D1_cases": 13,
     "expected_E_cases": 17,
     "actual_qualified_cases": 0,
     "browser_cases": 0,
-    "retained_parent_fresh_case_credit": 0,
-    "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/41361511976",
-    "complete_source_graph_required_before_database": true,
-    "source_parent_and_Root_checks_PASS": true,
-    "last_API_stage": "71: actual original D1 E Native30 and complete outer restoration",
-    "current_observation_UTC": "2026-11-01T23:25:36.103Z"
+    "actual_runner_interface_preflight_PASS": true,
+    "preDB_full_natural_graph_and_runner_contract_required": true,
+    "original_SQL_or_callbacks_changed": false,
+    "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/41368001658"
   },
-  "sole_readonly_monitor_cell": "1197",
+  "sole_readonly_monitor_cell": "1275",
   "new_qualified_cases": 0,
   "Root_terminal_intake_pending": true,
   "accepted_parent": {
@@ -70,31 +68,31 @@
   },
   "next_prepared": {
     "DE": {
-      "head": "a861af7e748c6ccf1178a45546d87f034bc493a8",
+      "head": "6e61506c10a18541c104b981bd438e78b175b5d1",
       "own_paths": 96,
       "base_head": "065fff01bba869acca842e4008d87caf1e09b318",
       "accepted_parent_bound": true,
       "workflow_activated": true,
       "actual_alias": {
         "branch": "astra-a/current-complete-de-native30-20261031",
-        "head": "a861af7e748c6ccf1178a45546d87f034bc493a8",
-        "tree": "ac946bb0333b512864d8d69909c166e2d6892522",
-        "observed_at_UTC": "2026-11-01T23:19:51.003813+00:00",
+        "head": "6e61506c10a18541c104b981bd438e78b175b5d1",
+        "tree": "86f07de6e0be871d39110aa797ef26da4564e8e8",
+        "observed_at_UTC": "2026-11-02T00:38:02.309338+00:00",
         "workflow_present": true,
-        "workflow_runs": 1,
+        "workflow_runs": 2,
         "parent_root_binding": {
           "bytes": 11935,
           "sha256": "8e3bd34eab2f65596c74171ac2c1f9611e101390dbbbb7dae3e001cf64ec9b46"
         }
       },
       "accepted_parent_bound_in_tree_plan": true,
-      "actual_runtime_started": true,
+      "actual_runtime_started": false,
       "planned_own_paths": 96,
       "parent_head": "15a2170cea88cd03a4d1bcaa0873a969d495b9fa",
       "parent_tree": "3fe772a1314ae6bc7c4f36f72e3fda8738eb70fc",
-      "tree": "ac946bb0333b512864d8d69909c166e2d6892522",
-      "run_id": 41361511976,
-      "job_id": 125012678506
+      "tree": "86f07de6e0be871d39110aa797ef26da4564e8e8",
+      "run_id": 41368001658,
+      "job_id": 125032204589
     },
     "FREE": {
       "head": "fe21e26e9ca1fb8428dc0b1f86f16b03de2c9fcb",
@@ -113,6 +111,20 @@
       "own_paths": 88,
       "accepted_parent_bound": false,
       "workflow_activated": false
+    },
+    "FG_MANDOR": {
+      "head": "452c304fe5656578b29a423cc53520ce5055c5f8",
+      "tree": "ab6a617171a2e856d4bd08b27f1f9cfad45349b7",
+      "branch": "astra-a/fg-mandor-storage-source-prepared-20261102",
+      "own_paths": 11,
+      "source_pins": 10,
+      "private_tables": 13,
+      "private_functions": 4,
+      "isolated_storage_model_controls": 15,
+      "actual_Native_cases": 0,
+      "runtime_entry": null,
+      "workflow_activated": false,
+      "public_commands_and_UI_implemented": false
     }
   },
   "remaining_gate_summary_not_full_scope_inventory": [
@@ -129,7 +141,7 @@
     "evidence": "GLOBAL19_AND_NATIVE32_SAVED_ACTUAL_COMPATIBILITY_20261102.json"
   },
   "continuity": "Use this compact state and the newest estafet header. Savepoints are not stopping points. Check the existing run before any new work or tests.",
-  "operational_update_UTC": "2026-11-01T23:28:13.864020+00:00",
+  "operational_update_UTC": "2026-11-02T00:38:02.309338+00:00",
   "current_qualification_observation_is_earlier_API_snapshot": false,
   "retained_permanent_financial4": {
     "evidence": "CURRENT_PERMANENT23E_ROOT_RETAINED4_20261102.json",
@@ -180,5 +192,20 @@
       "sha256": "8e3bd34eab2f65596c74171ac2c1f9611e101390dbbbb7dae3e001cf64ec9b46"
     },
     "Root_evidence": "CURRENT_PERMANENT15A_ROOT_ACTUAL_INTAKE_20261102.json"
-  }
+  },
+  "failed_qualifications_preserved": [
+    {
+      "head": "a861af7e748c6ccf1178a45546d87f034bc493a8",
+      "run_id": 41361511976,
+      "job_id": 125012678506,
+      "conclusion": "failure",
+      "Native_cases": 0,
+      "evidence": "DE_A861_ACTUAL_FIRST_RUN_FAILURE_ROOT_INTAKE_20261102.json",
+      "canonical_archive_library_file_id": "libfile_d08353eebac08191a948ebb8eb8fca35"
+    }
+  ],
+  "completed_readonly_monitor_cells": [
+    "1089",
+    "1197"
+  ]
 }

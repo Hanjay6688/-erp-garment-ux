@@ -1,0 +1,55 @@
+{
+  "status": "REAL_CP6_STRICT_RUNNER_API_AND_ACTUAL_WRONG_FIXTURE_REFUSAL_SOURCE_PREFLIGHT_PASS",
+  "actual_runner_contract": {
+    "status": "ACTUAL_STRICT_RUNNER_AND_ORIGINAL_OUTPUT_API_ADMITTED_BEFORE_DATABASE",
+    "runner_source_files": {
+      "cp6_auditor_runner.py": {
+        "bytes": 14911,
+        "sha256": "2c74439f7e919e2adb2484bc774bef4881e71237124f2e6b6dabdab141348ea7"
+      },
+      "cp6_au_r1_probe.py": {
+        "bytes": 29829,
+        "sha256": "451d3d5cbf34fed8f6ba0bf6445cee08e5198d6979f1fd1fbc68f9e299d3724b"
+      }
+    },
+    "strict_group_parameters": [
+      "name",
+      "factory",
+      "verify"
+    ],
+    "public_state_parameters": [
+      "cur"
+    ],
+    "original_output_path": "/workspace/scratch/cf5f04e2b451/erp-de/cp6-proof/aw",
+    "business_fixture_is_not_the_strict_runner": true,
+    "actual_SQL_executed": 0,
+    "actual_Native_cases": 0
+  },
+  "actual_wrong_fixture_refused_before_SQL": "COMPLETE_DE_REAL_STRICT_RUNNER_API_REQUIRED:strict_group",
+  "source_DB_guard": {
+    "attempts": [],
+    "self_controls": [
+      {
+        "api": "psycopg.connect",
+        "result": "DENIED_BEFORE_LIBPQ"
+      },
+      {
+        "api": "psycopg.Connection.connect",
+        "result": "DENIED_BEFORE_LIBPQ"
+      },
+      {
+        "api": "psycopg.AsyncConnection.connect",
+        "result": "DENIED_BEFORE_LIBPQ"
+      },
+      {
+        "original_connect_descriptors_restored": true
+      }
+    ],
+    "network_nonGit_attempts": [],
+    "public_source_sha256": "1439d70810383db377c48e043df7fb6d487a1b2f1a995e8993a2c08590f9f797"
+  },
+  "ERP_SQL_executed": 0,
+  "Native_cases": 0,
+  "original_runner_body_changed": false,
+  "callback_bodies_changed": false
+}

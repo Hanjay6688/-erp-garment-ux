@@ -1,0 +1,206 @@
+{
+  "status": "ROOT_READONLY_ACTUAL_A861_FAILURE_BEFORE_FIRST_NATIVE30_ALL_OUTER_RESTORE_RETAINED",
+  "head": "a861af7e748c6ccf1178a45546d87f034bc493a8",
+  "tree": "ac946bb0333b512864d8d69909c166e2d6892522",
+  "run_id": 41361511976,
+  "job_id": 125012678506,
+  "run_conclusion": "failure",
+  "artifact": {
+    "artifact_id": 13107391269,
+    "bytes": 5836880,
+    "sha256": "61ed3baae5560bcdb962818e441773c08df9fc3b540b116f6200cbc71578a24f",
+    "local_path": "/workspace/scratch/cf5f04e2b451/evidence-private/current38/DE_A861_FAILED_FULL_CANONICAL.zip",
+    "members": 127
+  },
+  "durable_archive_library_file_id": "libfile_d08353eebac08191a948ebb8eb8fca35",
+  "main_original": {
+    "bytes": 58089570,
+    "sha256": "6163781597b94501930bd908e53e8fb4058d912b4019530248e92197d1af5ebb"
+  },
+  "error": "module 'cp7_ow04_native_source_fixture' has no attribute 'r1'",
+  "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-complete-de-integration-preparation/component.py\", line 58, in exercise\n    with bridge.fixture_imports(),exact_public_catalog(native,retain_raw=True)as public:\n                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/contextlib.py\", line 137, in __enter__\n    return next(self.gen)\n           ^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/qualified-sku090b/scripts/cp7_catalog_state.py\", line 51, in exact_public_catalog\n    original=runner.public_state\n             ^^^^^^^^^^^^^^^^^^^\nAttributeError: module 'cp7_ow04_native_source_fixture' has no attribute 'public_state'\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-vendor-receivable-qualification/probe.py\", line 111, in run_inner\n    with psycopg.connect(package.boundary.ADMIN)as conn,conn.cursor()as cur:\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-choice-finance-cron-qualification/phase_timing.py\", line 22, in measured\n    result = operation(*args, **kwargs)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-complete-de-integration-preparation/component.py\", line 61, in exercise\n    finally:retain(native,report)\n            ^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-complete-de-integration-preparation/component.py\", line 25, in retain\n    path=native.r1.OUT/name\n         ^^^^^^^^^\nAttributeError: module 'cp7_ow04_native_source_fixture' has no attribute 'r1'\n",
+  "original_Native_cases_run": 0,
+  "original_Native_cases_qualified": 0,
+  "observed_components": 1,
+  "required_case_ids_pass": false,
+  "all_restore_checks": {
+    "baseline_full22_all_rows_all_sequences_equal": true,
+    "restore_raw_public_equal": true,
+    "cp6_restored": true,
+    "baseline_advisors_equal": true,
+    "advisor_gate": true
+  },
+  "baseline_role_cleanup": {
+    "already_removed_by_preuse": [],
+    "removed_remaining": [
+      "cp7_accessory_standard_read",
+      "cp7_alert",
+      "cp7_attendance_read",
+      "cp7_attendance_write",
+      "cp7_audit_read",
+      "cp7_capture",
+      "cp7_credit_visible_read",
+      "cp7_credit_write",
+      "cp7_customer_history_read",
+      "cp7_cutover_read",
+      "cp7_cutover_write",
+      "cp7_cutting_read",
+      "cp7_cutting_write",
+      "cp7_erp_settings_read",
+      "cp7_fg_read",
+      "cp7_fg_write",
+      "cp7_finance_read",
+      "cp7_guard",
+      "cp7_hpp_pool_read",
+      "cp7_hpp_pool_write",
+      "cp7_installment_read",
+      "cp7_installment_write",
+      "cp7_invoice_read",
+      "cp7_invoice_write",
+      "cp7_journal_read",
+      "cp7_kasbon_read",
+      "cp7_kasbon_write",
+      "cp7_master_read",
+      "cp7_master_write",
+      "cp7_material_read",
+      "cp7_material_write",
+      "cp7_misc_read",
+      "cp7_misc_write",
+      "cp7_nota_write",
+      "cp7_obligation_read",
+      "cp7_payable_read",
+      "cp7_payroll_header",
+      "cp7_payroll_read",
+      "cp7_payroll_write",
+      "cp7_period_read",
+      "cp7_period_write",
+      "cp7_plan_writer",
+      "cp7_policy",
+      "cp7_procure_read",
+      "cp7_procure_write",
+      "cp7_public_routes",
+      "cp7_recost_read",
+      "cp7_recost_write",
+      "cp7_reminder",
+      "cp7_reminders_read",
+      "cp7_reminders_write",
+      "cp7_return_read",
+      "cp7_return_write",
+      "cp7_roster_write",
+      "cp7_sales_read",
+      "cp7_sales_write",
+      "cp7_transaction_source_read",
+      "cp7_warehouse_summary_read"
+    ],
+    "baseline_roles_exact": true
+  },
+  "baseline_restore": {
+    "exit": 1,
+    "error_count": 19,
+    "unexplained": [],
+    "only_pg_cron_errors": true,
+    "database_owner_acl_and_settings_preserved": true,
+    "platform_schema_authority_restored": [
+      "graphql",
+      "graphql_public"
+    ]
+  },
+  "process_supervision": {
+    "status": "INCOMPLETE",
+    "deadline_reached": false,
+    "external_signal": null,
+    "orphaned_child": false,
+    "signals": [],
+    "worker_exit": 1,
+    "process_group_empty": true,
+    "process_tree_empty": true,
+    "actual_case_credit": 0,
+    "production_go": false,
+    "worker_pid": 10715,
+    "elapsed_seconds": 2865.716,
+    "job_budget_seconds": 21600,
+    "work_budget_seconds": 19800,
+    "recovery_reserve_seconds": 1200,
+    "artifact_reserve_seconds": 600,
+    "qualification_commit": "a861af7e748c6ccf1178a45546d87f034bc493a8",
+    "github_run_id": "41361511976",
+    "github_run_attempt": "1"
+  },
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "actual_complete_source_and_preuse_inverse_reinstall_prefix": [
+    {
+      "phase": "SOURCE_ADMISSION",
+      "state": "COMPLETED",
+      "started_at_utc": "2026-11-01T23:25:36.021573+00:00",
+      "elapsed_ms": 20307.173,
+      "finished_at_utc": "2026-11-01T23:25:56.328799+00:00"
+    },
+    {
+      "phase": "BASELINE_ADVISORS",
+      "state": "COMPLETED",
+      "started_at_utc": "2026-11-01T23:25:57.390899+00:00",
+      "elapsed_ms": 1386.036,
+      "finished_at_utc": "2026-11-01T23:25:58.777003+00:00"
+    },
+    {
+      "phase": "BASELINE_DUMP",
+      "state": "COMPLETED",
+      "started_at_utc": "2026-11-01T23:26:01.817173+00:00",
+      "elapsed_ms": 1030.706,
+      "finished_at_utc": "2026-11-01T23:26:02.847969+00:00"
+    },
+    {
+      "phase": "ACTUAL_QUALIFIED_COMPLETE_PERMANENT_PARENT_INSTALL",
+      "state": "COMPLETED",
+      "started_at_utc": "2026-11-01T23:26:02.861398+00:00",
+      "elapsed_ms": 1722833.95,
+      "finished_at_utc": "2026-11-01T23:54:45.695405+00:00"
+    },
+    {
+      "phase": "FIRST_FINANCE_DELTA",
+      "state": "COMPLETED",
+      "started_at_utc": "2026-11-01T23:54:45.695472+00:00",
+      "elapsed_ms": 340312.039,
+      "finished_at_utc": "2026-11-02T00:00:26.007541+00:00"
+    },
+    {
+      "phase": "FINANCE_DELTA_PREUSE_INVERSE",
+      "state": "COMPLETED",
+      "started_at_utc": "2026-11-02T00:00:26.007615+00:00",
+      "elapsed_ms": 237711.784,
+      "finished_at_utc": "2026-11-02T00:04:23.719427+00:00"
+    },
+    {
+      "phase": "SECOND_FINANCE_DELTA",
+      "state": "COMPLETED",
+      "started_at_utc": "2026-11-02T00:04:23.719506+00:00",
+      "elapsed_ms": 335556.963,
+      "finished_at_utc": "2026-11-02T00:09:59.276503+00:00"
+    },
+    {
+      "phase": "ISOLATED_DIAGNOSTICS",
+      "state": "FAILED",
+      "started_at_utc": "2026-11-02T00:10:51.352777+00:00",
+      "error_type": "AttributeError",
+      "elapsed_ms": 69274.113,
+      "finished_at_utc": "2026-11-02T00:12:00.626946+00:00"
+    },
+    {
+      "phase": "BASELINE_RESTORE",
+      "state": "COMPLETED",
+      "started_at_utc": "2026-11-02T00:12:00.679787+00:00",
+      "elapsed_ms": 4245.361,
+      "finished_at_utc": "2026-11-02T00:12:04.925209+00:00"
+    }
+  ],
+  "failed_run_relabelled_PASS": false,
+  "retained_parent15a_still_valid": true,
+  "production_go": false,
+  "independent_acceptance": false
+}

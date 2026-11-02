@@ -1,0 +1,27 @@
+{
+  "status": "CALLER_REPAIRED_ONE_OWNING_DE30_PUSH_RUN_ACTIVE_NOT_QUALIFIED",
+  "qualification": {
+    "head": "6e61506c10a18541c104b981bd438e78b175b5d1",
+    "tree": "86f07de6e0be871d39110aa797ef26da4564e8e8",
+    "run_id": 41368001658,
+    "job_id": 125032204589,
+    "status": "in_progress",
+    "conclusion": null,
+    "run_attempt": 1,
+    "event": "push",
+    "created_at": "2026-11-02T00:35:57Z",
+    "expected_fresh_Native_cases": 30,
+    "expected_D1_cases": 13,
+    "expected_E_cases": 17,
+    "actual_qualified_cases": 0,
+    "browser_cases": 0,
+    "actual_runner_interface_preflight_PASS": true,
+    "preDB_full_natural_graph_and_runner_contract_required": true,
+    "original_SQL_or_callbacks_changed": false,
+    "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/41368001658"
+  },
+  "sole_readonly_monitor_cell": "1275",
+  "completed_old_monitor_cell": "1197",
+  "production_go": false,
+  "independent_acceptance": false
+}

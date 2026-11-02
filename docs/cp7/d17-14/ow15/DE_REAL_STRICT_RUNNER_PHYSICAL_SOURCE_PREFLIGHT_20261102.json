@@ -1,0 +1,16 @@
+{
+  "status": "EXACT_UNCHANGED_COMPLETE_PARENT_AND_CLOSED_D1_E_PREPARATION",
+  "base_head": "15a2170cea88cd03a4d1bcaa0873a969d495b9fa",
+  "base_tree": "3fe772a1314ae6bc7c4f36f72e3fda8738eb70fc",
+  "unchanged_parent_blobs_and_modes": 14169,
+  "own_paths": 96,
+  "explicit_workflow_source": {
+    "status": "EXACT_DECLARED_WORKFLOW_AND_ROOT_ACCEPTED_PARENT_SOURCE",
+    "parent_head": "15a2170cea88cd03a4d1bcaa0873a969d495b9fa",
+    "parent_tree": "3fe772a1314ae6bc7c4f36f72e3fda8738eb70fc",
+    "actual_case_credit": 0
+  },
+  "actual_Native_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

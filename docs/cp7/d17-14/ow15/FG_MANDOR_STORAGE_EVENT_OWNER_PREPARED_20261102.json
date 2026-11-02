@@ -1,0 +1,21 @@
+{
+  "status": "FG_MANDOR_PRIVATE_STORAGE_AND_EVENT_OWNER_PREPARED_NOT_NATIVE_OR_UI_COMPLETE",
+  "head": "452c304fe5656578b29a423cc53520ce5055c5f8",
+  "tree": "ab6a617171a2e856d4bd08b27f1f9cfad45349b7",
+  "branch": "astra-a/fg-mandor-storage-source-prepared-20261102",
+  "own_paths": 11,
+  "source_pins": 10,
+  "private_tables": 13,
+  "private_functions": 4,
+  "isolated_storage_model_controls": 15,
+  "actual_Native_cases": 0,
+  "runtime_entry": null,
+  "workflow_activated": false,
+  "public_commands_and_UI_implemented": false,
+  "base_accepted_head": "15a2170cea88cd03a4d1bcaa0873a969d495b9fa",
+  "unchanged_parent_blobs_and_modes": 14169,
+  "storage_model_sql_executed_only_on_isolated_PG_WASM": true,
+  "accounting_and_invoice_caps_and_two_tabs_and_App_not_yet_qualified": true,
+  "production_go": false,
+  "independent_acceptance": false
+}

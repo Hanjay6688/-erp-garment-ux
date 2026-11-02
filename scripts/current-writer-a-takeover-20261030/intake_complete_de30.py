@@ -12,14 +12,14 @@ from intake_common import GitBytes,exact,fields,pin,require,safe_path
 from intake_sku27 import strict,literal,group,full_census,declared_files
 import execution_oid_edges
 
-HEAD='a861af7e748c6ccf1178a45546d87f034bc493a8'
-TREE='ac946bb0333b512864d8d69909c166e2d6892522'
-RUN=41361511976
-JOB=125012678506
+HEAD='6e61506c10a18541c104b981bd438e78b175b5d1'
+TREE='86f07de6e0be871d39110aa797ef26da4564e8e8'
+RUN=41368001658
+JOB=125032204589
 PARENT_HEAD='15a2170cea88cd03a4d1bcaa0873a969d495b9fa'
 PARENT_TREE='3fe772a1314ae6bc7c4f36f72e3fda8738eb70fc'
-PREPARED_HEAD='a861af7e748c6ccf1178a45546d87f034bc493a8'
-PREPARED_TREE='ac946bb0333b512864d8d69909c166e2d6892522'
+PREPARED_HEAD='6e61506c10a18541c104b981bd438e78b175b5d1'
+PREPARED_TREE='86f07de6e0be871d39110aa797ef26da4564e8e8'
 PREPARED_BASE='065fff01bba869acca842e4008d87caf1e09b318'
 PREPARED_BASE_TREE='ed3cdf7d306be989bd46bf94f0305a7ece21d986'
 NS='scripts/current-complete-de-integration-preparation/'
@@ -38,6 +38,19 @@ ACTIVATION_SOURCE_TREE='a5ff3fa842e829187952c887dba579db693311b8'
 
 def actual_activation_source(g,declaration):
     """Replay four binding files and their one nested product pin over own94."""
+    if 'actual_A861_strict_runner_binding_repair'in strict(g.read(NS+'REPAIRED_PERMANENT_REBASE_ORIGIN.json')):
+        import repair_de_native_runner as repair
+        with GitBytes(g.root,repair.HEAD,repair.TREE)as old:
+            old_declaration=strict(old.read(NS+'SOURCE.json'))
+            original_activation=actual_activation_source(old,old_declaration)
+            values,correction=repair.corrected_values(old)
+            for name,expected in values.items():
+                exact(g.read(name),expected,'DE30_EXACT_SIX_FILE_STRICT_RUNNER_CALLER_REPAIR:'+name)
+                if expected==old.read(name):
+                    exact(g.tree.get(name),old.tree[name],'DE30_ALL_OTHER_OLD_CALLER_BLOBS_AND_MODES_UNCHANGED:'+name)
+        return dict(status='EXACT_ACTUAL_A861_CALLER_ONLY_STRICT_RUNNER_API_REPAIR',
+            original_activation=original_activation,caller_files_changed=6,own_paths=96,
+            actual_A861_failure_retained=True,Native_callbacks_or_SQL_changed=False,actual_case_credit=0)
     import prepare_de_activation as planner
     receipt_path=NS+'PERMANENT_PARENT_ROOT_ACTUAL_INTAKE.json'
     raw=g.read(receipt_path);receipt=planner.accepted_parent(raw)
