@@ -183,6 +183,11 @@ def transition(before,after,definitions,plan):
     fk={(row[9],key.split(':',1)[1])for key,row in after['constraints'].items()
         if key not in before['constraints']and key.startswith(SCHEMA+'.')and row[0]=='f'}
     custom_parent={(t['relation'],t['name'])for t in plan['triggers']if not t['relation'].startswith(SCHEMA+'.')}
+    constraint_parent={t['relation']+':'+t['name']:
+        ['t',t['deferrable'],t['initially_deferred'],True,True,0,True,None,None,t['relation'],
+         'TRIGGER'+(' DEFERRABLE'if t['deferrable']else' NOT DEFERRABLE')+
+         (' INITIALLY DEFERRED'if t['initially_deferred']else' INITIALLY IMMEDIATE')]
+        for t in plan['triggers']if t['constraint']and not t['relation'].startswith(SCHEMA+'.')}
     for group in before:
         for key in set(before[group])|set(after[group]):
             old,new=before[group].get(key),after[group].get(key)
@@ -196,6 +201,8 @@ def transition(before,after,definitions,plan):
             require(old is None and new is not None,'MANDOR_EXISTING_UNDECLARED_CATALOG_CHANGE:'+group+':'+key)
             if group=='schemas'and key==SCHEMA:continue
             if group=='roles'and key==ROLE:continue
+            if group=='constraints'and key in constraint_parent:
+                require(new==constraint_parent[key],'MANDOR_EXACT_DECLARED_PARENT_CONSTRAINT_TRIGGER_REQUIRED:'+key);continue
             # PostgreSQL's creator ADMIN membership is not an inherited or SET
             # capability. The facade's temporary postgres-issued SET grant has
             # already been removed; no such grant is admitted here.

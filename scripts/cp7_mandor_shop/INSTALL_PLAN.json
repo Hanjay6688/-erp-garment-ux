@@ -76,111 +76,192 @@
   "triggers": [
     {
       "relation": "cp7_mandor_shop.contractor_accounts",
-      "name": "immutable_accounts"
+      "name": "immutable_accounts",
+      "constraint": false,
+      "deferrable": false,
+      "initially_deferred": false
     },
     {
       "relation": "cp7_mandor_shop.sales",
-      "name": "immutable_sales"
+      "name": "immutable_sales",
+      "constraint": false,
+      "deferrable": false,
+      "initially_deferred": false
     },
     {
       "relation": "cp7_mandor_shop.payroll_identities",
-      "name": "immutable_payroll_identities"
+      "name": "immutable_payroll_identities",
+      "constraint": false,
+      "deferrable": false,
+      "initially_deferred": false
     },
     {
       "relation": "cp7_mandor_shop.requests",
-      "name": "immutable_requests"
+      "name": "immutable_requests",
+      "constraint": false,
+      "deferrable": false,
+      "initially_deferred": false
     },
     {
       "relation": "cp7_mandor_shop.allocations",
-      "name": "immutable_allocations"
+      "name": "immutable_allocations",
+      "constraint": false,
+      "deferrable": false,
+      "initially_deferred": false
     },
     {
       "relation": "cp7_mandor_shop.settlements",
-      "name": "immutable_settlements"
+      "name": "immutable_settlements",
+      "constraint": false,
+      "deferrable": false,
+      "initially_deferred": false
     },
     {
       "relation": "cp7_mandor_shop.settlement_lines",
-      "name": "immutable_settlement_lines"
+      "name": "immutable_settlement_lines",
+      "constraint": false,
+      "deferrable": false,
+      "initially_deferred": false
     },
     {
       "relation": "cp7_mandor_shop.settlement_reversals",
-      "name": "immutable_settlement_reversals"
+      "name": "immutable_settlement_reversals",
+      "constraint": false,
+      "deferrable": false,
+      "initially_deferred": false
     },
     {
       "relation": "cp7_mandor_shop.allocation_events",
-      "name": "immutable_allocation_events"
+      "name": "immutable_allocation_events",
+      "constraint": false,
+      "deferrable": false,
+      "initially_deferred": false
     },
     {
       "relation": "cp7_mandor_shop.draft_buyers",
-      "name": "exact_draft_buyer"
+      "name": "exact_draft_buyer",
+      "constraint": false,
+      "deferrable": false,
+      "initially_deferred": false
     },
     {
       "relation": "cp7_mandor_shop.sales",
-      "name": "exact_posted_sale"
+      "name": "exact_posted_sale",
+      "constraint": false,
+      "deferrable": false,
+      "initially_deferred": false
     },
     {
       "relation": "cp7_mandor_shop.payroll_identities",
-      "name": "exact_payroll_identity"
+      "name": "exact_payroll_identity",
+      "constraint": false,
+      "deferrable": false,
+      "initially_deferred": false
     },
     {
       "relation": "cp7_mandor_shop.deduction_links",
-      "name": "exact_native_deduction"
+      "name": "exact_native_deduction",
+      "constraint": false,
+      "deferrable": false,
+      "initially_deferred": false
     },
     {
       "relation": "cp7_mandor_shop.settlements",
-      "name": "exact_settlement_journal"
+      "name": "exact_settlement_journal",
+      "constraint": false,
+      "deferrable": false,
+      "initially_deferred": false
     },
     {
       "relation": "cp7_mandor_shop.settlement_reversals",
-      "name": "exact_settlement_reversal"
+      "name": "exact_settlement_reversal",
+      "constraint": false,
+      "deferrable": false,
+      "initially_deferred": false
     },
     {
       "relation": "cp7_mandor_shop.allocation_events",
-      "name": "apply_allocation_event"
+      "name": "apply_allocation_event",
+      "constraint": false,
+      "deferrable": false,
+      "initially_deferred": false
     },
     {
       "relation": "erp.sales_headers",
-      "name": "cp7_mandor_shop_sales_identity"
+      "name": "cp7_mandor_shop_sales_identity",
+      "constraint": false,
+      "deferrable": false,
+      "initially_deferred": false
     },
     {
       "relation": "cp7_mandor_shop.offset_accounts",
-      "name": "immutable_offset_accounts"
+      "name": "immutable_offset_accounts",
+      "constraint": false,
+      "deferrable": false,
+      "initially_deferred": false
     },
     {
       "relation": "cp7_mandor_shop.offset_accounts",
-      "name": "exact_offset_accounts"
+      "name": "exact_offset_accounts",
+      "constraint": false,
+      "deferrable": false,
+      "initially_deferred": false
     },
     {
       "relation": "cp7_mandor_shop.offset_accounts",
-      "name": "offset_proof_at_settlement_commit"
+      "name": "offset_proof_at_settlement_commit",
+      "constraint": true,
+      "deferrable": true,
+      "initially_deferred": true
     },
     {
       "relation": "cp7_mandor_shop.settlement_reversals",
-      "name": "offset_proof_at_reversal_commit"
+      "name": "offset_proof_at_reversal_commit",
+      "constraint": true,
+      "deferrable": true,
+      "initially_deferred": true
     },
     {
       "relation": "erp.journal_entries",
-      "name": "mandor_shop_journal_owner"
+      "name": "mandor_shop_journal_owner",
+      "constraint": false,
+      "deferrable": false,
+      "initially_deferred": false
     },
     {
       "relation": "erp.journal_lines",
-      "name": "mandor_shop_journal_line_owner"
+      "name": "mandor_shop_journal_line_owner",
+      "constraint": false,
+      "deferrable": false,
+      "initially_deferred": false
     },
     {
       "relation": "erp.journal_entries",
-      "name": "mandor_shop_journal_exact_at_commit"
+      "name": "mandor_shop_journal_exact_at_commit",
+      "constraint": true,
+      "deferrable": true,
+      "initially_deferred": true
     },
     {
       "relation": "erp.journal_lines",
-      "name": "mandor_shop_journal_lines_exact_at_commit"
+      "name": "mandor_shop_journal_lines_exact_at_commit",
+      "constraint": true,
+      "deferrable": true,
+      "initially_deferred": true
     },
     {
       "relation": "erp.sales_headers",
-      "name": "mandor_shop_invoice_offset_exposure"
+      "name": "mandor_shop_invoice_offset_exposure",
+      "constraint": false,
+      "deferrable": false,
+      "initially_deferred": false
     },
     {
       "relation": "erp.sales_returns",
-      "name": "mandor_shop_return_offset_exposure"
+      "name": "mandor_shop_return_offset_exposure",
+      "constraint": false,
+      "deferrable": false,
+      "initially_deferred": false
     }
   ],
   "private_execute_grants": {
