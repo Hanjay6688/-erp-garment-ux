@@ -1,0 +1,49 @@
+{
+  "status": "RETAIN_ONLY_FIRST_ACTUAL17_INSTALL_ACL_CONTROL_FIRST_JOB_REMAINS_FAILED",
+  "head": "358626fcc7be18041bda524d7f978b18129d1367",
+  "tree": "a497a9331aa32775c75e5df48a7f0e97de3e8b85",
+  "run_id": 41449609284,
+  "job_id": 125291260532,
+  "archive": {
+    "bytes": 26994,
+    "sha256": "751c7504790b99c592778e1498cd574fa456155003bd5697c310acf67d21ca50",
+    "library_file_id": "libfile_98a4e12fd7ec8191958bb64202ba15e6"
+  },
+  "original_report": {
+    "bytes": 607381,
+    "sha256": "184c955f9461317d0967ca0264115efb1252ea1d1649682cd4f53f6be9ed830e"
+  },
+  "retained_controls": 1,
+  "checks": [
+    {
+      "id": "EXACT_ONE_NEW_PRIVATE_RELATION_FUNCTION_NO_BROAD_DATA_OR_CATALOG_GRANTS",
+      "status": "PASS"
+    }
+  ],
+  "first_attempt_remains_failure": true,
+  "error": "unterminated quoted identifier at or near \"\"C\"\nLINE 5: ...         order by n.nspname collate \"C\",c.relname collate \"C\n                                                                     ^",
+  "capability_DB_removed": true,
+  "global_roles_and_memberships_restored": true,
+  "raw_baseline22_sha256": "7e4d012e2503ccf9ed6ebdce993e747937f535dc5e23373862f9cac28727c284",
+  "raw_installed22_sha256": "b2d6f90e949f485b31ff2e0179da919f4dc586f6e84cd9d8141534923a8d7235",
+  "function_definition_body": "\ndeclare targets_ jsonb;entry_ jsonb;actual_ jsonb;result_ jsonb;\nbegin\n if current_setting('transaction_isolation')<>'read committed'then\n  raise exception 'CP7_GLOBAL_FRESH_CURRENT_READ_COMMITTED_REQUIRED';end if;\n if coalesce(p_profile,'')!~'^[0-9a-f]{64}$'then\n  raise exception 'CP7_GLOBAL_EXACT_SEALED_PROFILE_REQUIRED';end if;\n -- No metadata is trusted before the complete catalog fence and a fresh\n -- permanent-XID review. Old catalog writers can release relation locks while\n -- their uncommitted tuple changes remain; a snapshot xip list is insufficient.\n if exists(select 1 from pg_catalog.pg_class c\n  join pg_catalog.pg_namespace n on n.oid=c.relnamespace\n  where n.nspname='pg_catalog'and c.relkind in('r','p')and not exists(\n   select 1 from pg_catalog.pg_locks l where l.pid=pg_backend_pid()\n    and l.locktype='relation'and l.relation=c.oid and l.mode='ShareLock'and l.granted))then\n  raise exception 'CP7_GLOBAL_COMPLETE_CATALOG_FENCE_REQUIRED_FIRST';end if;\n if exists(select 1 from pg_catalog.pg_locks where locktype='transactionid'\n  and mode='ExclusiveLock'and granted and pid is distinct from pg_backend_pid())then\n  raise exception using errcode='55P03',message='CP7_GLOBAL_PREEXISTING_TRANSACTION_REVIEW_AGAIN';end if;\n -- Every delegated relation acquisition takes this profile lock first, then\n -- the declared targets in C order. All acquisitions are NOWAIT.\n lock table cp7_global_nonpo_envelope.profiles in exclusive mode nowait;\n if(select count(*)from cp7_global_nonpo_envelope.profiles)<>1 then\n  raise exception 'CP7_GLOBAL_ONE_ACTUAL_FINAL_PARENT_PROFILE_REQUIRED';end if;\n select expected_relations into targets_ from cp7_global_nonpo_envelope.profiles where id=p_profile;\n if targets_ is null or jsonb_typeof(targets_)<>'array'or jsonb_array_length(targets_)<42\n  or jsonb_array_length(targets_)<>(select count(distinct (e->>0)||'.'||(e->>1))from jsonb_array_elements(targets_)e)then\n  raise exception 'CP7_GLOBAL_COMPLETE_EXACT_RELATION_PROFILE_REQUIRED';end if;\n for entry_ in select value from jsonb_array_elements(targets_)\n  order by(value->>0)collate \"C\",(value->>1)collate \"C\"loop\n  if jsonb_typeof(entry_)<>'array'or jsonb_array_length(entry_)<>8\n   or coalesce(entry_->>0,'')!~'^[a-z_][a-z0-9_]*$'\n   or coalesce(entry_->>1,'')!~'^[a-z_][a-z0-9_]*$'\n   or entry_->>0~'^pg_'or entry_->>0=any(array[\n    'information_schema','cron','auth','storage','_realtime','realtime','vault',\n    'supabase_functions','supabase_migrations','graphql','graphql_public','extensions',\n    'pgbouncer','cp7_global_catalog_fence'])\n   or coalesce(entry_->>2,'')not in('r','p')or coalesce(entry_->>3,'')not in('p','u')then\n   raise exception 'CP7_GLOBAL_TYPED_APPLICATION_RELATION_PROFILE_REQUIRED';end if;\n  execute format('lock table %I.%I in exclusive mode nowait',entry_->>0,entry_->>1);\n  select jsonb_build_array(n.nspname,c.relname,c.relkind::text,c.relpersistence::text,\n   pg_get_userbyid(c.relowner),c.relrowsecurity,c.relforcerowsecurity,\n   case when c.relacl is null then null else to_jsonb(array(\n    select a::text from unnest(c.relacl)a order by a::text collate \"C\"))end)\n  into actual_ from pg_catalog.pg_class c join pg_catalog.pg_namespace n on n.oid=c.relnamespace\n  where n.nspname=entry_->>0 and c.relname=entry_->>1;\n  if actual_ is distinct from entry_ then raise exception 'CP7_GLOBAL_RELATION_IDENTITY_OR_AUTHORITY_CHANGED';end if;\n end loop;\n -- Build the response from fresh actual catalog values in the original\n -- profile order; never relabel the expected projection as an observation.\n select jsonb_agg(jsonb_build_array(n.nspname,c.relname,c.relkind::text,c.relpersistence::text,\n  pg_get_userbyid(c.relowner),c.relrowsecurity,c.relforcerowsecurity,\n  case when c.relacl is null then null else to_jsonb(array(\n   select a::text from unnest(c.relacl)a order by a::text collate \"C\"))end)order by e.ordinality)\n into result_ from jsonb_array_elements(targets_)with ordinality e(value,ordinality)\n join pg_catalog.pg_namespace n on n.nspname=e.value->>0\n join pg_catalog.pg_class c on c.relnamespace=n.oid and c.relname=e.value->>1;\n if result_ is distinct from targets_ then raise exception 'CP7_GLOBAL_FINAL_RELATION_PROFILE_CHANGED';end if;\n return result_;\nend ",
+  "function_raw_ACL": "{supabase_admin=X/supabase_admin,postgres=X/supabase_admin}",
+  "schema_raw_ACL": "{supabase_admin=UC/supabase_admin,postgres=U/supabase_admin}",
+  "function_grants": [
+    [
+      "postgres",
+      "supabase_admin",
+      "EXECUTE",
+      false
+    ],
+    [
+      "supabase_admin",
+      "supabase_admin",
+      "EXECUTE",
+      false
+    ]
+  ],
+  "actual_Native_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

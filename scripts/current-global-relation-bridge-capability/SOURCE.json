@@ -1,6 +1,6 @@
 {
   "classification": "SEALED_PROFILE_RELATION_FENCE_ACTUAL17_MODEL_CAPABILITY_ONLY",
-  "exact_new_control_families": 4,
+  "exact_new_control_families": 3,
   "old_completed_controls_NOT_rerun": true,
   "actual_ERP_parent_installation": false,
   "actual_Native_cases": 0,
@@ -28,12 +28,12 @@
       "sha256": "20c2347e2ac4973196155d997f09ce1e25ad770e36dd0118c4bbad967e74cf42"
     },
     "scripts/current-global-relation-bridge-capability/probe.py": {
-      "bytes": 22211,
-      "sha256": "36f8b4c1dc560a7ff5449b956c131260caa4cd7d4734b9b5348e080ab25e5308"
+      "bytes": 20975,
+      "sha256": "c854d939109ddf1c26fe44a74ecad428fe26a3f351785d466bcf8a9eaaafe418"
     },
     ".github/workflows/cp7-global-relation-bridge-capability.yml": {
-      "bytes": 3402,
-      "sha256": "78d5b7748d6e1431bf3954e9ec1e4ad6799eed5276d6da2e72d5e2d37e180a17"
+      "bytes": 3417,
+      "sha256": "b4d007b94db40b4f6284be183f2cab6e3e1fa4496a376dc9c1f8d7c70f432780"
     },
     "scripts/current-global-catalog-bridge-capability/probe.py": {
       "bytes": 13757,
@@ -46,6 +46,12 @@
     "scripts/current-finance-combined-composition/disposable_start.py": {
       "bytes": 2688,
       "sha256": "523ec29f0566852f56627c7c9be791de215d09b55d8669c071024fd92aa8e257"
+    },
+    "scripts/current-global-relation-bridge-capability/RETAINED_FIRST_CONTROL.json": {
+      "bytes": 6041,
+      "sha256": "12107ec175bcad8f0e9c76754fc3caec88eb511402594b550e099abe1ec7428c"
     }
-  }
+  },
+  "retained_control_families": 1,
+  "all_four_are_NOT_fresh_in_one_attempt": true
 }

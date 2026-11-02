@@ -33,11 +33,11 @@ def source():
     require(manifest['classification']=='SEALED_PROFILE_RELATION_FENCE_ACTUAL17_MODEL_CAPABILITY_ONLY',
         'RELATION_CAPABILITY_ONLY_SCOPE_REQUIRED')
     expected={str((HERE/n).relative_to(ROOT))for n in
-        ('probe.py','BASE_FENCE.sql','RELATION_FENCE.sql','PROFILE_SCHEMA.sql','INVERSE.sql','SOURCE_PROOF.json')}
+        ('probe.py','BASE_FENCE.sql','RELATION_FENCE.sql','PROFILE_SCHEMA.sql','INVERSE.sql','SOURCE_PROOF.json','RETAINED_FIRST_CONTROL.json')}
     expected|={'.github/workflows/cp7-global-relation-bridge-capability.yml',
         'scripts/current-global-catalog-bridge-capability/probe.py',
         'scripts/cp7_ow04_restore_bundle.py','scripts/current-finance-combined-composition/disposable_start.py'}
-    require(set(manifest['files'])==expected,'RELATION_EXACT_TEN_SOURCE_INPUTS_REQUIRED')
+    require(set(manifest['files'])==expected,'RELATION_EXACT_ELEVEN_SOURCE_INPUTS_REQUIRED')
     for name,value in manifest['files'].items():
         p=ROOT/name
         require(p.is_file()and not p.is_symlink()and pin(p.read_bytes())==value,'RELATION_SOURCE_CHANGED:'+name)
@@ -45,9 +45,12 @@ def source():
     require(proof['new_relation_source']==pin((HERE/'RELATION_FENCE.sql').read_bytes())
         and proof['retained_catalog_source']==pin((HERE/'BASE_FENCE.sql').read_bytes())
         and proof['actual_profile_schema']==pin((HERE/'PROFILE_SCHEMA.sql').read_bytes()),'RELATION_EXACT_PREPARED_SQL_REQUIRED')
+    retained=json.loads((HERE/'RETAINED_FIRST_CONTROL.json').read_bytes())
+    require(retained['head']=='358626fcc7be18041bda524d7f978b18129d1367'and retained['retained_controls']==1
+        and retained['first_attempt_remains_failure']is True,'RELATION_EXACT_FIRST_CONTROL_RETENTION_REQUIRED')
     return dict(head=subprocess.check_output(['git','-C',str(ROOT),'rev-parse','HEAD'],text=True).strip(),
         tree=subprocess.check_output(['git','-C',str(ROOT),'rev-parse','HEAD^{tree}'],text=True).strip(),
-        source_pins=10,manifest=pin((HERE/'SOURCE.json').read_bytes()),all_profile_and_application_data_are_models=True,
+        source_pins=11,manifest=pin((HERE/'SOURCE.json').read_bytes()),all_profile_and_application_data_are_models=True,
         old_completed_controls_NOT_rerun=True,actual_Native_cases=0,production_go=False,independent_acceptance=False)
 
 
@@ -97,6 +100,8 @@ def run():
     uri=fixed_uri();all_queries=queries();created=False;model_role_created=False;roles_before=None
     OUT.mkdir(parents=True,exist_ok=True)
     report=dict(status='INCOMPLETE',source=identity,checks=[],raw={},
+        retained_control_families=1,retained_first_control=json.loads((HERE/'RETAINED_FIRST_CONTROL.json').read_bytes()),
+        first_attempt_remains_failure=True,all_four_are_NOT_fresh_in_one_attempt=True,
         model_profile_is_NOT_accepted_final_ERP_parent=True,all_42_application_tables_are_models=True,
         old_completed_catalog_Afui_Mandor_primitive_controls_NOT_rerun=True,
         actual_global_installer_or_parent_adoption=False,global_writer_or_permission_or_phantom_closure=False,
@@ -137,28 +142,12 @@ def run():
             base_function_before=cur.execute('select pg_get_functiondef(%s::regprocedure)',(BASE_SIGNATURE,)).fetchone()[0]
             cur.execute((HERE/'RELATION_FENCE.sql').read_text(),prepare=False)
             installed=capture(cur,all_queries)
-            for group in baseline:
-                added={SIGNATURE}if group=='functions'else set()
-                require(set(installed[group])-set(baseline[group])==added,'RELATION_ONLY_ONE_DECLARED_NEW_FUNCTION:'+group)
-                require(all(installed[group].get(k)==v for k,v in baseline[group].items()),'RELATION_EXISTING_CATALOG_CHANGED:'+group)
-            raw=cur.execute("""select p.prosrc,pg_get_userbyid(p.proowner),p.prosecdef,p.provolatile,p.proconfig,p.proacl::text,
-              n.nspacl::text from pg_proc p join pg_namespace n on n.oid=p.pronamespace where p.oid=%s::regprocedure""",(SIGNATURE,)).fetchone()
-            expected=re.search(r'create function cp7_global_catalog_fence\.lock_relations_v1\(p_profile text\).*?as \$\$(.*?)\$\$;',
-                (HERE/'RELATION_FENCE.sql').read_text(),re.S)
-            require(expected and raw[0]==expected[1]and raw[1:4]==('supabase_admin',True,'v')
-                and set(raw[4])=={'search_path=""','TimeZone=UTC'},'RELATION_EXACT_BODY_OWNER_AND_CONFIG_REQUIRED')
-            grants=cur.execute("""select case when a.grantee=0 then'PUBLIC'else pg_get_userbyid(a.grantee)end,
-              pg_get_userbyid(a.grantor),a.privilege_type,a.is_grantable
-              from pg_proc p cross join lateral aclexplode(p.proacl)a
-              where p.oid=%s::regprocedure order by 1,2,3,4""",(SIGNATURE,)).fetchall()
-            require(grants==[('postgres','supabase_admin','EXECUTE',False),('supabase_admin','supabase_admin','EXECUTE',False)],
-                'RELATION_ONLY_OWNER_AND_POSTGRES_EXECUTE_REQUIRED')
-            require(cur.execute('select current_user').fetchone()[0]=='cp6_maintenance_admission','RELATION_BOOTSTRAP_ROLE_NOT_RESET')
-            report['raw'].update(baseline_all22=baseline,installed_all22=installed,function_definition_body=raw[0],
-                function_raw_ACL=raw[5],schema_raw_ACL=raw[6],function_grants=[list(r)for r in grants],
+            report['raw'].update(baseline_all22=baseline,installed_all22=installed,
                 raw_public_before=public_before,actual_model_targets=targets,retained_catalog_function_before=base_function_before)
             conn.commit()
-            report['checks'].append(dict(id='EXACT_ONE_NEW_PRIVATE_RELATION_FUNCTION_NO_BROAD_DATA_OR_CATALOG_GRANTS',status='PASS'))
+            # Installation/ACL control is retained from the first canonical
+            # attempt. This successor runs only remaining control families 2-4.
+
         native_uri='postgresql://postgres:postgres@127.0.0.1:54322/'+NAME
         with psycopg.connect(native_uri)as native,native.cursor()as cur:
             configure(cur)
@@ -174,7 +163,8 @@ def run():
               join pg_class c on c.oid=l.relation join pg_namespace n on n.oid=c.relnamespace
               where l.pid=pg_backend_pid()and l.mode='ExclusiveLock'and l.granted
               and n.nspname in('cp7_relation_modeldata','cp7_global_nonpo_envelope')
-              order by n.nspname collate "C",c.relname collate "C"""
+              order by n.nspname collate "C",c.relname collate "C"
+              """
             ).fetchall()
             expected_locks=[['cp7_global_nonpo_envelope','profiles','ExclusiveLock',True]]+[r[:2]+['ExclusiveLock',True]for r in targets]
             require([list(r)for r in held]==expected_locks,'RELATION_EXACT_43_TRANSACTION_LOCKS_NOT_RETAINED')
@@ -256,7 +246,7 @@ def run():
             require(cur.execute('select current_user').fetchone()[0]=='cp6_maintenance_admission','RELATION_CLEANUP_ROLE_NOT_RESET')
             report['raw']['final_all22']=final;conn.commit()
             report['checks'].append(dict(id='DROP_ONLY_NEW_FUNCTION_RESTORES_ALL22_PUBLIC_AND_RETAINED_CATALOG_HELPER',status='PASS'))
-        report['status']='ACTUAL_SUPABASE17_SEALED_PROFILE_RELATION_FENCE_NEW4_PASS_NOT_GLOBAL_RUNTIME'
+        report['status']='ACTUAL_SUPABASE17_SEALED_PROFILE_RELATION_FENCE_RETAIN1_FRESH3_PASS_NOT_GLOBAL_RUNTIME'
     except BaseException as error:
         report.update(error_type=type(error).__name__,error=str(error),SQLSTATE=getattr(error,'sqlstate',None))
         (OUT/'RELATION_BRIDGE_FIRST_FAILURE.txt').write_text(traceback.format_exc());raise
@@ -274,7 +264,7 @@ def run():
                     report['global_roles_and_memberships_restored']=True
         finally:
             (OUT/'PLATFORM_RELATION_FENCE_NEW4.json').write_text(json.dumps(report,indent=2)+'\n')
-            print(json.dumps(dict(status=report['status'],completed_controls=len(report['checks']),actual_Native_cases=0)),flush=True)
+            print(json.dumps(dict(status=report['status'],fresh_completed_controls=len(report['checks']),retained_controls=1,actual_Native_cases=0)),flush=True)
 
 
 if __name__=='__main__':
