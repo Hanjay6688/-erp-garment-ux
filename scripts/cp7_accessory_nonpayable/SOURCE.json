@@ -121,8 +121,8 @@
       "sha256": "66f10fc8ea4f4096175c8c5839371ff3dd3587fb9f5a5ad2a02b7ac336759b16"
     },
     "scripts/cp7_accessory_nonpayable/native_fixture.py": {
-      "bytes": 20794,
-      "sha256": "0189e3e78cb1ae5eb6d71915b71efdb527e33edc74161d7c12d7a72ce46770c4"
+      "bytes": 20874,
+      "sha256": "013fdd93cfd4ef8fc6a68b8993206be4b5666ccf9974ac83a8c80d7f0f62bc57"
     },
     "scripts/cp7_accessory_nonpayable/native_inverse_cases.py": {
       "bytes": 14422,

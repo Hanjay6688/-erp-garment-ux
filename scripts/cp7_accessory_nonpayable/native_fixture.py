@@ -211,7 +211,8 @@ def prepare(cur,today,modules,*,special=True,transition=None,unit_cost='2',qty_p
     master_recipe(cur,modules,physical,qty=qty_per_good,rate='2',method='CATEGORY_MOVING_AVG')
     # A known process rate uses the original ordinary delivery path; no fake
     # final amount, posted row, tariff fallback or material stock is supplied.
-    bd.process_rate(cur,physical,'1')
+    # The current BD money contract accepts canonical two-decimal text only.
+    bd.process_rate(cur,physical,'1.00')
     delivery=bd.plain_delivery(cur,physical,10,11)
     received=bd.receive(cur,delivery,physical,10,13)
     bc.api.admin(cur)
