@@ -11,8 +11,8 @@
       "sha256": "0189e3e78cb1ae5eb6d71915b71efdb527e33edc74161d7c12d7a72ce46770c4"
     },
     "native_cases.py": {
-      "bytes": 10875,
-      "sha256": "22dfc1ea3c87f8e72a5405db5af5c76e0010ea6a64b2f06ab6bfd913dccd0b2b"
+      "bytes": 10939,
+      "sha256": "f0f0cc30b6369904cdfd4f0a8b6f14a36919d04f0f817841313fca76a338af38"
     },
     "native_inverse_cases.py": {
       "bytes": 14422,

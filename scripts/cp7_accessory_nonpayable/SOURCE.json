@@ -113,8 +113,8 @@
       "sha256": "3dd30156e24e23cfee1834286dd4f20771b7ff3907f1431611d9f00c6bfcd340"
     },
     "scripts/cp7_accessory_nonpayable/native_cases.py": {
-      "bytes": 10875,
-      "sha256": "22dfc1ea3c87f8e72a5405db5af5c76e0010ea6a64b2f06ab6bfd913dccd0b2b"
+      "bytes": 10939,
+      "sha256": "f0f0cc30b6369904cdfd4f0a8b6f14a36919d04f0f817841313fca76a338af38"
     },
     "scripts/cp7_accessory_nonpayable/native_derivation.py": {
       "bytes": 7572,
@@ -259,6 +259,10 @@
     "scripts/cp7_accessory_nonpayable/advisor_review.py": {
       "bytes": 4173,
       "sha256": "bd1090e42a4a2519a10c5f2872599703606f9b922026d347b6f873ca368df0df"
+    },
+    "scripts/cp7_accessory_nonpayable/FIXTURE_TIME_PREFLIGHT_RESULT.json": {
+      "bytes": 11652,
+      "sha256": "c65868a113450f7c9118540a08e3cce6a7bcbded4346a97f20ba1652027ffe86"
     }
   },
   "actual_Native_cases": 0,
@@ -290,7 +294,7 @@
     "preflight_result": {
       "path": "scripts/cp7_accessory_nonpayable/FIXTURE_TIME_PREFLIGHT_RESULT.json",
       "bytes": 11652,
-      "sha256": "ac853f5f470bc23fc08d63531e26d7414183dcdee19929965d37d97fc8e1220a"
+      "sha256": "c65868a113450f7c9118540a08e3cce6a7bcbded4346a97f20ba1652027ffe86"
     },
     "old_valid_Native_or_financial_or_model_suites_not_rerun": true,
     "deferred_constraints_flushed_before_every_case_rollback": true
@@ -316,5 +320,26 @@
     "unchanged_predecessor_reviewer_delegated": true,
     "actual_live_authority_and_final_gate_required": true,
     "no_warning_or_other_finding_whitelisted": true
+  },
+  "owner_acl_runtime_correction": {
+    "status": "SOURCE_CORRECTION_AFTER_ACTUAL_FIRST_CASE_PERMISSION_FAILURE_NOT_BUSINESS_CREDIT",
+    "failed_head": "75af247d7ea0bc0254d46bbb306d8563f14956c2",
+    "failed_run": 41525778487,
+    "failed_job": 125553012691,
+    "failed_case": "NONPAYABLE_NATIVE_POSITIVE_HPP_ZERO_REIMBURSEMENT_FROZEN_HISTORY_AND_REPLAY",
+    "existing_function": "erp.post_accessory_reimbursement_accrual(uuid)",
+    "existing_owner": "postgres",
+    "existing_execute_roles": [
+      "postgres",
+      "service_role"
+    ],
+    "previous_helper_wrongly_switched_to": "authenticated",
+    "corrected_call_authority": "existing postgres owner session via unchanged api.admin",
+    "temporary_function_or_schema_grants": 0,
+    "Native_product_function_body_changes": 0,
+    "actual_Native_cases": 0,
+    "full_restore_from_failed_run": true,
+    "production_go": false,
+    "independent_acceptance": false
   }
 }

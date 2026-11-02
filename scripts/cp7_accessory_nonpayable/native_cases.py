@@ -57,7 +57,7 @@ def ordinary_case(cur,today,state,*,initial_special=True,transition=None,history
     nonpayable=initial_special if transition is None else transition
     first=fixture.observe(cur,modules,f);fixture.require_economics(first,f,nonpayable=nonpayable,hpp='20')
     # Native accrual replay is exercised on this same lot; no new GOOD or note.
-    modules.bc.internal(cur,'post_accessory_reimbursement_accrual',f['lot'])
+    modules.bc.api.admin(cur);cur.execute('select erp.post_accessory_reimbursement_accrual(%s)',(f['lot'],))
     replay=fixture.observe(cur,modules,f)
     if replay!=first:raise ValueError('NONPAYABLE_NATIVE_ACCRUAL_REPLAY_CREATED_A_SECOND_EFFECT')
     history_proof=None
@@ -69,7 +69,7 @@ def ordinary_case(cur,today,state,*,initial_special=True,transition=None,history
             expected_version=current['version'],reason='Native later clear must preserve historical GOOD'))
         from datetime import timedelta
         confirmation=fixture.confirm_date(cur,modules,today+timedelta(days=1))
-        modules.bc.internal(cur,'post_accessory_reimbursement_accrual',f['lot'])
+        modules.bc.api.admin(cur);cur.execute('select erp.post_accessory_reimbursement_accrual(%s)',(f['lot'],))
         after=fixture.observe(cur,modules,f)
         if after!=first:raise ValueError('NONPAYABLE_LATER_POLICY_CHANGED_POSTED_GOOD_HISTORY')
         history_proof=dict(later_clear=confirmation,after=after,exact_history_unchanged=True)
