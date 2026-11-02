@@ -1,0 +1,52 @@
+{
+  "status": "FG_MANDOR_CONTROLLED_CARD_PARSERS_AND_DOM15_FIRST_PASS_NOT_BROWSER",
+  "new_parser_cases": 8,
+  "new_DOM_cases": 7,
+  "total_new_cases": 15,
+  "first_execution_PASS": true,
+  "exact_repository_lock_dependencies": true,
+  "lockfile": {
+    "bytes": 125971,
+    "sha256": "3f52c1eb326b53129977e78e7c95b14e0d0bebd8c8229e0cab96e88c85d88195"
+  },
+  "typecheck_command": "node node_modules/typescript/bin/tsc --project tsconfig.app.json --pretty false",
+  "typecheck_diagnostics": [],
+  "actual_test_result": {
+    "bytes": 5460,
+    "sha256": "7166ffd95d929c64a136bebd7d10b16f19c127f9667c80aa29bed3010c29691d"
+  },
+  "source_files": {
+    "src/MandorShopCards.tsx": {
+      "bytes": 9027,
+      "sha256": "727adc47c47960e7e94532803d7ca3517e0401d0bef8fded6fe054eabf38f80f"
+    },
+    "src/MandorShopCards.dom.test.tsx": {
+      "bytes": 6751,
+      "sha256": "1bd41aca9cae13c7e5e091a33352ce3169fc51338614ed7e6471837d0e238103"
+    },
+    "src/mandorShopContract.ts": {
+      "bytes": 8518,
+      "sha256": "98bdd926aa2d2e0e1adced0217be3f0bab83a70796e6954f5f1c21022461e363"
+    },
+    "src/mandorShopContract.test.ts": {
+      "bytes": 5539,
+      "sha256": "08a16729d2551cddd03621fdf1332607d5129c5beb8e221d3d98b1e77afed587"
+    },
+    "src/mandor-shop.css": {
+      "bytes": 2348,
+      "sha256": "dda10167d8f122e39dbf4c3ebeab0bc943435b046205f3f5ed49a7b38adc1cbd"
+    },
+    "tests/fixtures/mandorShop.ts": {
+      "bytes": 1396,
+      "sha256": "299a1ffe63b1c7161dfedc712ca64f9b0bd84c4fc66fbc278d3933194bb425d4"
+    }
+  },
+  "jsdom_dialog_methods_modeled_after_actual_dependency_inspection": true,
+  "UI_is_not_yet_mounted_or_RPC_wired": true,
+  "actual_Native_cases": 0,
+  "actual_Auth_HTTP_cases": 0,
+  "actual_browser_cases": 0,
+  "actual_two_session_races": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

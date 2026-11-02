@@ -1,0 +1,56 @@
+{
+  "status": "EXACT_MANDOR_NON_SUPERUSER_FACADE_COMPOSITION_SOURCE_NOT_NATIVE",
+  "source_inputs": {
+    "facade.sql": {
+      "bytes": 2963,
+      "sha256": "6881ccf3e14420a1779cc2f37811d1885a0d69223fc121f3c212d5bac94227d4"
+    },
+    "facade_display.sql": {
+      "bytes": 1187,
+      "sha256": "7432b03b1d62c7697dd7e9150499cb4f32e1e9a84b096ab1c8de86031eabed19"
+    },
+    "sales_commands.sql": {
+      "bytes": 7153,
+      "sha256": "cb9da2234fa1834b83ccb2e552f0c1ed3f1595d24c04d97428ca67c1c5df2f3d"
+    },
+    "facade_privileges.sql": {
+      "bytes": 2895,
+      "sha256": "f5d614819deae1af4229e5c94f644d8954d3da931eba4fb7ea4e5e5593a86efe"
+    }
+  },
+  "source_routes": [
+    {
+      "file": "facade.sql",
+      "before": "alter function public.erp_cp7_get_mandor_shop_buyers_v1(text,text,uuid,integer)owner to cp7_mandor_shop_api;\nalter function public.erp_cp7_prepare_mandor_shop_buyer_v1(jsonb,uuid)owner to cp7_mandor_shop_api;\nalter function public.erp_cp7_get_mandor_shop_payroll_v1(uuid,uuid)owner to cp7_mandor_shop_api;\nalter function public.erp_cp7_save_mandor_shop_allocation_v1(text,jsonb,uuid)owner to cp7_mandor_shop_api;\nrevoke all on function public.erp_cp7_get_mandor_shop_buyers_v1(text,text,uuid,integer),\n public.erp_cp7_prepare_mandor_shop_buyer_v1(jsonb,uuid),\n public.erp_cp7_get_mandor_shop_payroll_v1(uuid,uuid),\n public.erp_cp7_save_mandor_shop_allocation_v1(text,jsonb,uuid)from public,anon,authenticated,service_role;\ngrant execute on function public.erp_cp7_get_mandor_shop_buyers_v1(text,text,uuid,integer),\n public.erp_cp7_prepare_mandor_shop_buyer_v1(jsonb,uuid),\n public.erp_cp7_get_mandor_shop_payroll_v1(uuid,uuid),\n public.erp_cp7_save_mandor_shop_allocation_v1(text,jsonb,uuid)to authenticated;",
+      "after": "",
+      "count": 1,
+      "offset": 1801
+    },
+    {
+      "file": "sales_commands.sql",
+      "before": "alter function public.erp_cp7_get_mandor_shop_customer_buyer_v1(text,uuid)owner to cp7_mandor_shop_api;\nalter function public.erp_cp7_save_mandor_shop_sale_v1(text,jsonb,uuid,text)owner to cp7_mandor_shop_api;\nrevoke all on function public.erp_cp7_get_mandor_shop_customer_buyer_v1(text,uuid),\n public.erp_cp7_save_mandor_shop_sale_v1(text,jsonb,uuid,text)from public,anon,authenticated,service_role;\ngrant execute on function public.erp_cp7_get_mandor_shop_customer_buyer_v1(text,uuid),\n public.erp_cp7_save_mandor_shop_sale_v1(text,jsonb,uuid,text)to authenticated;",
+      "after": "",
+      "count": 1,
+      "offset": 6585
+    },
+    {
+      "file": "facade.sql",
+      "before": "create function public.erp_cp7_get_mandor_shop_payroll_v1(p_payroll uuid,p_after uuid default null)\nreturns jsonb language sql stable security definer set search_path=''as $$\n select cp7_mandor_shop.workspace(p_payroll,p_after)\n$$;",
+      "after": "create function public.erp_cp7_get_mandor_shop_payroll_v1(p_payroll uuid,p_after uuid default null)\nreturns jsonb language sql stable security definer set search_path=''as $$\n with snapshot as materialized(\n  select cp7_mandor_shop.workspace(p_payroll,p_after)as document\n )\n select jsonb_set(document,'{cards}',coalesce((\n  select jsonb_agg(jsonb_set(card,'{allocations}',coalesce((\n   select jsonb_agg(jsonb_set(assigned,'{allocation,amount}',\n     to_jsonb(assigned#>>'{allocation,amount}'))order by allocation_order)\n   from jsonb_array_elements(card->'allocations')with ordinality as allocation_rows(assigned,allocation_order)\n  ),'[]'::jsonb))order by card_order)\n  from jsonb_array_elements(document->'cards')with ordinality as cards(card,card_order)\n ),'[]'::jsonb))from snapshot\n$$;",
+      "count": 1
+    }
+  ],
+  "original_files_recovered": true,
+  "public_functions": 6,
+  "private_sales_functions": 3,
+  "all_nine_function_bodies_unchanged": true,
+  "payroll_display_body_from_exact_existing_projection": true,
+  "derived_SQL": {
+    "bytes": 11998,
+    "sha256": "448c3e922f52fa527f39968f28c21c5f01f85a829a04daf616069da5e9e1e854"
+  },
+  "actual_SQL_executed": 0,
+  "actual_Native_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

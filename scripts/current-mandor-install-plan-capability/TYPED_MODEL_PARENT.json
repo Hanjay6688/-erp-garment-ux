@@ -1,0 +1,2433 @@
+{
+  "status": "MODEL_ONLY_TYPED_PARENT_NOT_ACTUAL_ERP_INSTALLATION",
+  "actual_source": {
+    "bytes": 22185024,
+    "sha256": "7607987b5a8a9100dddbfef5b39135b330eda329bf89b072b3839467cf7c7b86"
+  },
+  "table_column_types": {
+    "erp.app_roles": {
+      "erp.app_roles:id": "uuid",
+      "erp.app_roles:role_code": "text",
+      "erp.app_roles:role_name": "text",
+      "erp.app_roles:description": "text",
+      "erp.app_roles:is_system": "boolean",
+      "erp.app_roles:is_protected": "boolean",
+      "erp.app_roles:is_active": "boolean",
+      "erp.app_roles:row_version": "bigint",
+      "erp.app_roles:created_by": "uuid",
+      "erp.app_roles:updated_by": "uuid",
+      "erp.app_roles:created_at": "timestamp with time zone",
+      "erp.app_roles:updated_at": "timestamp with time zone"
+    },
+    "erp.app_users": {
+      "erp.app_users:id": "uuid",
+      "erp.app_users:auth_user_id": "uuid",
+      "erp.app_users:full_name": "character varying(150)",
+      "erp.app_users:role": "character varying(20)",
+      "erp.app_users:is_active": "boolean",
+      "erp.app_users:created_at": "timestamp with time zone",
+      "erp.app_users:updated_at": "timestamp with time zone",
+      "erp.app_users:row_version": "bigint",
+      "erp.app_users:role_id": "uuid"
+    },
+    "erp.audit_logs": {
+      "erp.audit_logs:id": "bigint",
+      "erp.audit_logs:entity_type": "character varying(80)",
+      "erp.audit_logs:entity_id": "uuid",
+      "erp.audit_logs:action": "character varying(20)",
+      "erp.audit_logs:old_data": "jsonb",
+      "erp.audit_logs:new_data": "jsonb",
+      "erp.audit_logs:changed_by": "uuid",
+      "erp.audit_logs:change_reason": "text",
+      "erp.audit_logs:changed_at": "timestamp with time zone"
+    },
+    "erp.contractor_accessory_reimbursement_entitlements": {
+      "erp.contractor_accessory_reimbursement_entitlements:id": "uuid",
+      "erp.contractor_accessory_reimbursement_entitlements:snapshot_id": "uuid",
+      "erp.contractor_accessory_reimbursement_entitlements:contractor_id": "uuid",
+      "erp.contractor_accessory_reimbursement_entitlements:po_id": "uuid",
+      "erp.contractor_accessory_reimbursement_entitlements:lot_id": "uuid",
+      "erp.contractor_accessory_reimbursement_entitlements:product_id": "uuid",
+      "erp.contractor_accessory_reimbursement_entitlements:category_id": "uuid",
+      "erp.contractor_accessory_reimbursement_entitlements:physical_at": "timestamp with time zone",
+      "erp.contractor_accessory_reimbursement_entitlements:amount": "numeric(24,6)",
+      "erp.contractor_accessory_reimbursement_entitlements:payroll_status": "character varying(20)",
+      "erp.contractor_accessory_reimbursement_entitlements:created_at": "timestamp with time zone"
+    },
+    "erp.app_permissions": {
+      "erp.app_permissions:permission_key": "text",
+      "erp.app_permissions:module_key": "text",
+      "erp.app_permissions:module_label": "text",
+      "erp.app_permissions:action_key": "text",
+      "erp.app_permissions:action_label": "text",
+      "erp.app_permissions:description": "text",
+      "erp.app_permissions:high_risk": "boolean",
+      "erp.app_permissions:sort_order": "integer",
+      "erp.app_permissions:is_active": "boolean",
+      "erp.app_permissions:created_at": "timestamp with time zone"
+    },
+    "erp.app_role_permissions": {
+      "erp.app_role_permissions:role_id": "uuid",
+      "erp.app_role_permissions:permission_key": "text",
+      "erp.app_role_permissions:granted_by": "uuid",
+      "erp.app_role_permissions:granted_at": "timestamp with time zone"
+    },
+    "erp.attendance_hpp_pool_sources": {
+      "erp.attendance_hpp_pool_sources:id": "uuid",
+      "erp.attendance_hpp_pool_sources:pool_id": "uuid",
+      "erp.attendance_hpp_pool_sources:payroll_id": "uuid",
+      "erp.attendance_hpp_pool_sources:contractor_id": "uuid",
+      "erp.attendance_hpp_pool_sources:policy_version_id": "uuid",
+      "erp.attendance_hpp_pool_sources:original_debit_journal_line_id": "uuid",
+      "erp.attendance_hpp_pool_sources:contractor_role_snapshot": "character varying(30)",
+      "erp.attendance_hpp_pool_sources:attendance_required_snapshot": "boolean",
+      "erp.attendance_hpp_pool_sources:is_special_snapshot": "boolean",
+      "erp.attendance_hpp_pool_sources:attendance_amount": "numeric(20,2)",
+      "erp.attendance_hpp_pool_sources:created_at": "timestamp with time zone"
+    },
+    "erp.attendance_hpp_pools": {
+      "erp.attendance_hpp_pools:id": "uuid",
+      "erp.attendance_hpp_pools:pool_number": "character varying(90)",
+      "erp.attendance_hpp_pools:period_start": "date",
+      "erp.attendance_hpp_pools:period_end": "date",
+      "erp.attendance_hpp_pools:status": "character varying(20)",
+      "erp.attendance_hpp_pools:correction_of_pool_id": "uuid",
+      "erp.attendance_hpp_pools:numerator_amount": "numeric(20,2)",
+      "erp.attendance_hpp_pools:denominator_qty": "bigint",
+      "erp.attendance_hpp_pools:unit_cost_per_sewn_pcs": "numeric(28,12)",
+      "erp.attendance_hpp_pools:source_manifest": "jsonb",
+      "erp.attendance_hpp_pools:source_manifest_sha256": "character varying(64)",
+      "erp.attendance_hpp_pools:post_journal_entry_id": "uuid",
+      "erp.attendance_hpp_pools:cancellation_journal_entry_id": "uuid",
+      "erp.attendance_hpp_pools:reason": "text",
+      "erp.attendance_hpp_pools:cancellation_reason": "text",
+      "erp.attendance_hpp_pools:row_version": "bigint",
+      "erp.attendance_hpp_pools:created_by": "uuid",
+      "erp.attendance_hpp_pools:activated_by": "uuid",
+      "erp.attendance_hpp_pools:cancelled_by": "uuid",
+      "erp.attendance_hpp_pools:created_at": "timestamp with time zone",
+      "erp.attendance_hpp_pools:activated_at": "timestamp with time zone",
+      "erp.attendance_hpp_pools:cancelled_at": "timestamp with time zone"
+    },
+    "erp.bs_case_components": {
+      "erp.bs_case_components:id": "uuid",
+      "erp.bs_case_components:bs_case_id": "uuid",
+      "erp.bs_case_components:po_component_snapshot_id": "uuid",
+      "erp.bs_case_components:work_component_id": "uuid",
+      "erp.bs_case_components:completed_before_bs_qty": "integer",
+      "erp.bs_case_components:lifetime_newly_completed_qty": "integer",
+      "erp.bs_case_components:lifetime_paid_qty": "integer",
+      "erp.bs_case_components:notes": "text"
+    },
+    "erp.rework_component_lines": {
+      "erp.rework_component_lines:id": "uuid",
+      "erp.rework_component_lines:rework_order_id": "uuid",
+      "erp.rework_component_lines:bs_case_component_id": "uuid",
+      "erp.rework_component_lines:qty_performed": "integer",
+      "erp.rework_component_lines:qty_newly_payable": "integer",
+      "erp.rework_component_lines:rate_snapshot": "numeric(18,2)",
+      "erp.rework_component_lines:amount_payable": "numeric(20,2)",
+      "erp.rework_component_lines:notes": "text",
+      "erp.rework_component_lines:source_contractor_rate_id": "uuid",
+      "erp.rework_component_lines:source_po_component_snapshot_id": "uuid",
+      "erp.rework_component_lines:rate_basis": "character varying(30)",
+      "erp.rework_component_lines:bf_sku_version_id": "uuid"
+    },
+    "cp7_payroll.settlement_requests": {
+      "cp7_payroll.settlement_requests:actor": "uuid",
+      "cp7_payroll.settlement_requests:request_id": "uuid",
+      "cp7_payroll.settlement_requests:action": "text",
+      "cp7_payroll.settlement_requests:payload": "jsonb",
+      "cp7_payroll.settlement_requests:expected_version": "text",
+      "cp7_payroll.settlement_requests:response": "jsonb"
+    },
+    "erp.brands": {
+      "erp.brands:id": "uuid",
+      "erp.brands:brand_code": "character varying(30)",
+      "erp.brands:brand_name": "character varying(100)",
+      "erp.brands:is_active": "boolean",
+      "erp.brands:created_at": "timestamp with time zone",
+      "erp.brands:updated_at": "timestamp with time zone"
+    },
+    "cp7_sales.requests": {
+      "cp7_sales.requests:actor": "uuid",
+      "cp7_sales.requests:request_id": "uuid",
+      "cp7_sales.requests:action": "text",
+      "cp7_sales.requests:payload": "jsonb",
+      "cp7_sales.requests:expected_version": "text",
+      "cp7_sales.requests:response": "jsonb"
+    },
+    "erp.fg_inventory_balances": {
+      "erp.fg_inventory_balances:id": "uuid",
+      "erp.fg_inventory_balances:product_id": "uuid",
+      "erp.fg_inventory_balances:location_id": "uuid",
+      "erp.fg_inventory_balances:quality_grade": "character varying(20)",
+      "erp.fg_inventory_balances:cached_qty_pcs": "integer",
+      "erp.fg_inventory_balances:updated_at": "timestamp with time zone"
+    },
+    "erp.payroll_work_items": {
+      "erp.payroll_work_items:id": "uuid",
+      "erp.payroll_work_items:payroll_id": "uuid",
+      "erp.payroll_work_items:po_id": "uuid",
+      "erp.payroll_work_items:work_component_id": "uuid",
+      "erp.payroll_work_items:source_type": "character varying(20)",
+      "erp.payroll_work_items:source_id": "uuid",
+      "erp.payroll_work_items:qty_payable": "integer",
+      "erp.payroll_work_items:rate_snapshot": "numeric(18,2)",
+      "erp.payroll_work_items:amount": "numeric(20,2)"
+    },
+    "erp.payroll_attendance_items": {
+      "erp.payroll_attendance_items:id": "uuid",
+      "erp.payroll_attendance_items:payroll_id": "uuid",
+      "erp.payroll_attendance_items:worker_id": "uuid",
+      "erp.payroll_attendance_items:attendance_record_id": "uuid",
+      "erp.payroll_attendance_items:paid_fraction_snapshot": "numeric(6,4)",
+      "erp.payroll_attendance_items:daily_rate_snapshot": "numeric(18,2)",
+      "erp.payroll_attendance_items:amount": "numeric(20,2)",
+      "erp.payroll_attendance_items:worker_rate_version_id": "uuid",
+      "erp.payroll_attendance_items:attendance_date_snapshot": "date",
+      "erp.payroll_attendance_items:worker_name_snapshot": "text",
+      "erp.payroll_attendance_items:job_description_snapshot": "text"
+    },
+    "erp.cash_accounts": {
+      "erp.cash_accounts:id": "uuid",
+      "erp.cash_accounts:cash_account_code": "character varying(30)",
+      "erp.cash_accounts:cash_account_name": "character varying(120)",
+      "erp.cash_accounts:coa_account_id": "uuid",
+      "erp.cash_accounts:account_kind": "character varying(20)",
+      "erp.cash_accounts:is_active": "boolean"
+    },
+    "erp.chart_accounts": {
+      "erp.chart_accounts:id": "uuid",
+      "erp.chart_accounts:account_code": "character varying(30)",
+      "erp.chart_accounts:account_name": "character varying(150)",
+      "erp.chart_accounts:account_type": "character varying(20)",
+      "erp.chart_accounts:report_group": "character varying(40)",
+      "erp.chart_accounts:parent_account_id": "uuid",
+      "erp.chart_accounts:normal_balance": "character varying(10)",
+      "erp.chart_accounts:is_postable": "boolean",
+      "erp.chart_accounts:is_active": "boolean",
+      "erp.chart_accounts:created_at": "timestamp with time zone"
+    },
+    "erp.accounting_account_mappings": {
+      "erp.accounting_account_mappings:mapping_key": "character varying(50)",
+      "erp.accounting_account_mappings:account_id": "uuid",
+      "erp.accounting_account_mappings:notes": "text"
+    },
+    "erp.journal_lines": {
+      "erp.journal_lines:id": "uuid",
+      "erp.journal_lines:journal_entry_id": "uuid",
+      "erp.journal_lines:account_id": "uuid",
+      "erp.journal_lines:description": "text",
+      "erp.journal_lines:debit": "numeric(20,2)",
+      "erp.journal_lines:credit": "numeric(20,2)",
+      "erp.journal_lines:customer_id": "uuid",
+      "erp.journal_lines:vendor_id": "uuid",
+      "erp.journal_lines:contractor_id": "uuid",
+      "erp.journal_lines:po_id": "uuid",
+      "erp.journal_lines:product_id": "uuid"
+    },
+    "cp7_installment.accounts": {
+      "cp7_installment.accounts:payroll_id": "uuid",
+      "cp7_installment.accounts:approved_meaning": "jsonb",
+      "cp7_installment.accounts:approved_net": "numeric(20,2)",
+      "cp7_installment.accounts:payable_account_id": "uuid",
+      "cp7_installment.accounts:created_by": "uuid",
+      "cp7_installment.accounts:created_at": "timestamp with time zone"
+    },
+    "cp7_installment.command_context": {
+      "cp7_installment.command_context:backend_pid": "integer",
+      "cp7_installment.command_context:transaction_id": "bigint",
+      "cp7_installment.command_context:actor": "uuid",
+      "cp7_installment.command_context:request_id": "uuid",
+      "cp7_installment.command_context:action": "text",
+      "cp7_installment.command_context:payload": "jsonb",
+      "cp7_installment.command_context:expected_version": "text",
+      "cp7_installment.command_context:native_payment_id": "uuid"
+    },
+    "cp7_payroll.settlement_context": {
+      "cp7_payroll.settlement_context:backend_pid": "integer",
+      "cp7_payroll.settlement_context:transaction_id": "bigint",
+      "cp7_payroll.settlement_context:actor": "uuid",
+      "cp7_payroll.settlement_context:payroll_id": "uuid",
+      "cp7_payroll.settlement_context:action": "text"
+    },
+    "cp7_sales.command_context": {
+      "cp7_sales.command_context:backend_pid": "integer",
+      "cp7_sales.command_context:transaction_id": "bigint",
+      "cp7_sales.command_context:actor": "uuid",
+      "cp7_sales.command_context:sale_id": "uuid",
+      "cp7_sales.command_context:action": "text"
+    },
+    "cp7_installment.payments": {
+      "cp7_installment.payments:id": "uuid",
+      "cp7_installment.payments:payroll_id": "uuid",
+      "cp7_installment.payments:amount": "numeric(20,2)",
+      "cp7_installment.payments:payment_date": "date",
+      "cp7_installment.payments:cash_account_id": "uuid",
+      "cp7_installment.payments:cash_coa_id": "uuid",
+      "cp7_installment.payments:journal_id": "uuid",
+      "cp7_installment.payments:reversal_journal_id": "uuid",
+      "cp7_installment.payments:created_by": "uuid",
+      "cp7_installment.payments:request_id": "uuid",
+      "cp7_installment.payments:created_at": "timestamp with time zone"
+    },
+    "erp.bs_cases": {
+      "erp.bs_cases:id": "uuid",
+      "erp.bs_cases:bs_number": "character varying(60)",
+      "erp.bs_cases:po_id": "uuid",
+      "erp.bs_cases:cutting_group_id": "uuid",
+      "erp.bs_cases:qc_item_id": "uuid",
+      "erp.bs_cases:product_id": "uuid",
+      "erp.bs_cases:detected_at_stage": "character varying(20)",
+      "erp.bs_cases:cause_source": "character varying(20)",
+      "erp.bs_cases:untracked_type": "character varying(25)",
+      "erp.bs_cases:responsible_contractor_id": "uuid",
+      "erp.bs_cases:responsible_vendor_id": "uuid",
+      "erp.bs_cases:qty_pcs": "integer",
+      "erp.bs_cases:status": "character varying(20)",
+      "erp.bs_cases:physical_at": "timestamp with time zone",
+      "erp.bs_cases:notes": "text",
+      "erp.bs_cases:created_at": "timestamp with time zone",
+      "erp.bs_cases:updated_at": "timestamp with time zone",
+      "erp.bs_cases:row_version": "bigint",
+      "erp.bs_cases:source_laundry_receipt_line_id": "uuid",
+      "erp.bs_cases:source_laundry_bs_allocation_id": "uuid",
+      "erp.bs_cases:legacy_reference": "text"
+    },
+    "erp.payroll_deductions": {
+      "erp.payroll_deductions:id": "uuid",
+      "erp.payroll_deductions:payroll_id": "uuid",
+      "erp.payroll_deductions:deduction_type": "character varying(30)",
+      "erp.payroll_deductions:contractor_issue_item_id": "uuid",
+      "erp.payroll_deductions:bs_resolution_id": "uuid",
+      "erp.payroll_deductions:amount": "numeric(20,2)",
+      "erp.payroll_deductions:notes": "text",
+      "erp.payroll_deductions:opening_cash_advance_balance_id": "uuid"
+    },
+    "erp.sales_returns": {
+      "erp.sales_returns:id": "uuid",
+      "erp.sales_returns:return_number": "character varying(60)",
+      "erp.sales_returns:sale_id": "uuid",
+      "erp.sales_returns:customer_id": "uuid",
+      "erp.sales_returns:physical_at": "timestamp with time zone",
+      "erp.sales_returns:status": "character varying(20)",
+      "erp.sales_returns:notes": "text",
+      "erp.sales_returns:created_by": "uuid",
+      "erp.sales_returns:created_at": "timestamp with time zone"
+    },
+    "erp.journal_entries": {
+      "erp.journal_entries:id": "uuid",
+      "erp.journal_entries:journal_number": "character varying(70)",
+      "erp.journal_entries:transaction_date": "date",
+      "erp.journal_entries:posting_at": "timestamp with time zone",
+      "erp.journal_entries:source_type": "character varying(50)",
+      "erp.journal_entries:source_id": "uuid",
+      "erp.journal_entries:description": "text",
+      "erp.journal_entries:status": "character varying(20)",
+      "erp.journal_entries:reversal_of_id": "uuid",
+      "erp.journal_entries:created_by": "uuid",
+      "erp.journal_entries:created_at": "timestamp with time zone",
+      "erp.journal_entries:economic_date": "date",
+      "erp.journal_entries:period_shifted": "boolean"
+    },
+    "erp.products": {
+      "erp.products:id": "uuid",
+      "erp.products:sku": "character varying(100)",
+      "erp.products:model_id": "uuid",
+      "erp.products:brand_id": "uuid",
+      "erp.products:color_name": "character varying(100)",
+      "erp.products:size_id": "uuid",
+      "erp.products:product_name": "character varying(180)",
+      "erp.products:is_portal_visible": "boolean",
+      "erp.products:is_active": "boolean",
+      "erp.products:created_at": "timestamp with time zone",
+      "erp.products:updated_at": "timestamp with time zone",
+      "erp.products:identity_root_id": "uuid",
+      "erp.products:effective_from": "timestamp with time zone",
+      "erp.products:effective_to": "timestamp with time zone",
+      "erp.products:supersedes_product_id": "uuid"
+    },
+    "erp.sizes": {
+      "erp.sizes:id": "uuid",
+      "erp.sizes:size_code": "character varying(20)",
+      "erp.sizes:sort_order": "integer",
+      "erp.sizes:is_active": "boolean"
+    },
+    "erp.opening_subledger_balances": {
+      "erp.opening_subledger_balances:id": "uuid",
+      "erp.opening_subledger_balances:opening_item_id": "uuid",
+      "erp.opening_subledger_balances:party_type": "character varying(20)",
+      "erp.opening_subledger_balances:direction": "character varying(20)",
+      "erp.opening_subledger_balances:customer_id": "uuid",
+      "erp.opening_subledger_balances:supplier_id": "uuid",
+      "erp.opening_subledger_balances:vendor_id": "uuid",
+      "erp.opening_subledger_balances:contractor_id": "uuid",
+      "erp.opening_subledger_balances:original_amount": "numeric(20,2)",
+      "erp.opening_subledger_balances:settled_amount": "numeric(20,2)",
+      "erp.opening_subledger_balances:status": "character varying(20)",
+      "erp.opening_subledger_balances:created_at": "timestamp with time zone",
+      "erp.opening_subledger_balances:updated_at": "timestamp with time zone"
+    },
+    "erp.contractors": {
+      "erp.contractors:id": "uuid",
+      "erp.contractors:contractor_code": "character varying(30)",
+      "erp.contractors:contractor_name": "character varying(120)",
+      "erp.contractors:contractor_type": "character varying(30)",
+      "erp.contractors:attendance_required": "boolean",
+      "erp.contractors:is_active": "boolean",
+      "erp.contractors:notes": "text",
+      "erp.contractors:created_at": "timestamp with time zone",
+      "erp.contractors:updated_at": "timestamp with time zone"
+    },
+    "erp.payroll_reimbursements": {
+      "erp.payroll_reimbursements:id": "uuid",
+      "erp.payroll_reimbursements:payroll_id": "uuid",
+      "erp.payroll_reimbursements:amount": "numeric(20,2)",
+      "erp.payroll_reimbursements:description": "text",
+      "erp.payroll_reimbursements:source_type": "character varying(30)",
+      "erp.payroll_reimbursements:source_id": "uuid",
+      "erp.payroll_reimbursements:po_id": "uuid",
+      "erp.payroll_reimbursements:opening_payable_balance_id": "uuid",
+      "erp.payroll_reimbursements:opening_carry_entitlement_id": "uuid",
+      "erp.payroll_reimbursements:opening_carry_qty": "numeric(18,6)",
+      "erp.payroll_reimbursements:bc_credit_event_id": "uuid"
+    },
+    "erp.payroll_settlements": {
+      "erp.payroll_settlements:id": "uuid",
+      "erp.payroll_settlements:payroll_number": "character varying(60)",
+      "erp.payroll_settlements:contractor_id": "uuid",
+      "erp.payroll_settlements:period_start": "date",
+      "erp.payroll_settlements:period_end": "date",
+      "erp.payroll_settlements:status": "character varying(20)",
+      "erp.payroll_settlements:labor_total": "numeric(20,2)",
+      "erp.payroll_settlements:attendance_total": "numeric(20,2)",
+      "erp.payroll_settlements:reimburse_total": "numeric(20,2)",
+      "erp.payroll_settlements:deduction_total": "numeric(20,2)",
+      "erp.payroll_settlements:manual_adjustment": "numeric(20,2)",
+      "erp.payroll_settlements:net_payable": "numeric(20,2)",
+      "erp.payroll_settlements:settled_at": "timestamp with time zone",
+      "erp.payroll_settlements:notes": "text",
+      "erp.payroll_settlements:created_at": "timestamp with time zone",
+      "erp.payroll_settlements:updated_at": "timestamp with time zone",
+      "erp.payroll_settlements:payment_cash_account_id": "uuid",
+      "erp.payroll_settlements:payment_date": "date",
+      "erp.payroll_settlements:row_version": "bigint"
+    },
+    "erp.locations": {
+      "erp.locations:id": "uuid",
+      "erp.locations:location_code": "character varying(30)",
+      "erp.locations:location_name": "character varying(120)",
+      "erp.locations:location_type": "character varying(30)",
+      "erp.locations:is_active": "boolean",
+      "erp.locations:created_at": "timestamp with time zone"
+    },
+    "erp.sales_headers": {
+      "erp.sales_headers:id": "uuid",
+      "erp.sales_headers:sale_number": "character varying(60)",
+      "erp.sales_headers:customer_id": "uuid",
+      "erp.sales_headers:sale_date": "timestamp with time zone",
+      "erp.sales_headers:due_date": "date",
+      "erp.sales_headers:status": "character varying(20)",
+      "erp.sales_headers:payment_terms": "character varying(100)",
+      "erp.sales_headers:notes": "text",
+      "erp.sales_headers:created_by": "uuid",
+      "erp.sales_headers:created_at": "timestamp with time zone",
+      "erp.sales_headers:updated_at": "timestamp with time zone",
+      "erp.sales_headers:source_location_id": "uuid",
+      "erp.sales_headers:row_version": "bigint"
+    },
+    "erp.customers": {
+      "erp.customers:id": "uuid",
+      "erp.customers:customer_code": "character varying(30)",
+      "erp.customers:customer_name": "character varying(150)",
+      "erp.customers:phone": "character varying(50)",
+      "erp.customers:address": "text",
+      "erp.customers:is_active": "boolean",
+      "erp.customers:created_at": "timestamp with time zone",
+      "erp.customers:updated_at": "timestamp with time zone"
+    },
+    "cp7_credit.cohorts": {
+      "cp7_credit.cohorts:id": "uuid",
+      "cp7_credit.cohorts:family_id": "uuid",
+      "cp7_credit.cohorts:source_sale_id": "uuid",
+      "cp7_credit.cohorts:source_return_id": "uuid",
+      "cp7_credit.cohorts:customer_id": "uuid",
+      "cp7_credit.cohorts:ar_account_id": "uuid",
+      "cp7_credit.cohorts:source_ar_snapshot": "jsonb",
+      "cp7_credit.cohorts:credit_account_id": "uuid",
+      "cp7_credit.cohorts:credit_account_snapshot": "jsonb",
+      "cp7_credit.cohorts:initial_mode": "text",
+      "cp7_credit.cohorts:initial_net_amount": "cp7_credit.cent_amount",
+      "cp7_credit.cohorts:initial_plan_id": "uuid",
+      "cp7_credit.cohorts:source_sale_journal_id": "uuid",
+      "cp7_credit.cohorts:source_return_journal_id": "uuid",
+      "cp7_credit.cohorts:source_sale_sha256": "text",
+      "cp7_credit.cohorts:source_return_sha256": "text",
+      "cp7_credit.cohorts:actor": "uuid",
+      "cp7_credit.cohorts:request_id": "uuid",
+      "cp7_credit.cohorts:recorded_at": "timestamp with time zone",
+      "cp7_credit.cohorts:source_return_financial_state": "text",
+      "cp7_credit.cohorts:source_return_financial_proof": "jsonb"
+    },
+    "cp7_credit.component_journals": {
+      "cp7_credit.component_journals:part_id": "uuid",
+      "cp7_credit.component_journals:journal_id": "uuid",
+      "cp7_credit.component_journals:economic_date": "date",
+      "cp7_credit.component_journals:transaction_date": "date",
+      "cp7_credit.component_journals:lines_sha256_pg": "text",
+      "cp7_credit.component_journals:recorded_at": "timestamp with time zone"
+    },
+    "cp7_credit.component_parts": {
+      "cp7_credit.component_parts:id": "uuid",
+      "cp7_credit.component_parts:component_id": "uuid",
+      "cp7_credit.component_parts:ordinal": "bigint",
+      "cp7_credit.component_parts:amount": "cp7_credit.cent_amount"
+    },
+    "cp7_credit.consumption_events": {
+      "cp7_credit.consumption_events:id": "uuid",
+      "cp7_credit.consumption_events:cohort_id": "uuid",
+      "cp7_credit.consumption_events:event_kind": "text",
+      "cp7_credit.consumption_events:amount": "cp7_credit.cent_amount",
+      "cp7_credit.consumption_events:economic_date": "date",
+      "cp7_credit.consumption_events:transaction_date": "date",
+      "cp7_credit.consumption_events:target_sale_id": "uuid",
+      "cp7_credit.consumption_events:cash_account_id": "uuid",
+      "cp7_credit.consumption_events:restores_event_id": "uuid",
+      "cp7_credit.consumption_events:journal_id": "uuid",
+      "cp7_credit.consumption_events:source_sha256": "text",
+      "cp7_credit.consumption_events:lines_sha256_pg": "text",
+      "cp7_credit.consumption_events:actor": "uuid",
+      "cp7_credit.consumption_events:request_id": "uuid",
+      "cp7_credit.consumption_events:reason": "text",
+      "cp7_credit.consumption_events:recorded_at": "timestamp with time zone"
+    },
+    "cp7_credit.recognition_components": {
+      "cp7_credit.recognition_components:id": "uuid",
+      "cp7_credit.recognition_components:plan_id": "uuid",
+      "cp7_credit.recognition_components:ordinal": "integer",
+      "cp7_credit.recognition_components:economic_date": "date",
+      "cp7_credit.recognition_components:transaction_date": "date",
+      "cp7_credit.recognition_components:amount": "cp7_credit.cent_amount",
+      "cp7_credit.recognition_components:previous_economic_date": "date",
+      "cp7_credit.recognition_components:previous_transaction_date": "date",
+      "cp7_credit.recognition_components:corners": "jsonb",
+      "cp7_credit.recognition_components:kernel_component": "jsonb",
+      "cp7_credit.recognition_components:component_sha256_pg": "text"
+    },
+    "cp7_credit.recognition_plans": {
+      "cp7_credit.recognition_plans:id": "uuid",
+      "cp7_credit.recognition_plans:cohort_id": "uuid",
+      "cp7_credit.recognition_plans:plan_kind": "text",
+      "cp7_credit.recognition_plans:owning_action": "text",
+      "cp7_credit.recognition_plans:actor": "uuid",
+      "cp7_credit.recognition_plans:request_id": "uuid",
+      "cp7_credit.recognition_plans:request_ordinal": "integer",
+      "cp7_credit.recognition_plans:payload_sha256": "text",
+      "cp7_credit.recognition_plans:review_sha256": "text",
+      "cp7_credit.recognition_plans:family_root_sale_id": "uuid",
+      "cp7_credit.recognition_plans:before_events": "jsonb",
+      "cp7_credit.recognition_plans:added_events": "jsonb",
+      "cp7_credit.recognition_plans:kernel_result": "jsonb",
+      "cp7_credit.recognition_plans:kernel_version": "text",
+      "cp7_credit.recognition_plans:before_source_sha256": "text",
+      "cp7_credit.recognition_plans:after_source_sha256": "text",
+      "cp7_credit.recognition_plans:support_sha256_pg": "text",
+      "cp7_credit.recognition_plans:components_sha256_pg": "text",
+      "cp7_credit.recognition_plans:parts_sha256_pg": "text",
+      "cp7_credit.recognition_plans:net_amount": "cp7_credit.cent_amount",
+      "cp7_credit.recognition_plans:has_recognition_effect": "boolean",
+      "cp7_credit.recognition_plans:expected_component_count": "integer",
+      "cp7_credit.recognition_plans:expected_part_count": "bigint",
+      "cp7_credit.recognition_plans:recorded_at": "timestamp with time zone"
+    },
+    "cp7_credit.return_families": {
+      "cp7_credit.return_families:id": "uuid",
+      "cp7_credit.return_families:family_root_sale_id": "uuid",
+      "cp7_credit.return_families:family_ordinal": "bigint",
+      "cp7_credit.return_families:first_return_id": "uuid",
+      "cp7_credit.return_families:assignment_kind": "text",
+      "cp7_credit.return_families:assignment_proof": "jsonb",
+      "cp7_credit.return_families:source_sha256": "text",
+      "cp7_credit.return_families:actor": "uuid",
+      "cp7_credit.return_families:request_id": "uuid",
+      "cp7_credit.return_families:recorded_at": "timestamp with time zone"
+    }
+  },
+  "original_table_kinds": {
+    "erp.app_roles": "r",
+    "erp.app_users": "r",
+    "erp.audit_logs": "r",
+    "erp.contractor_accessory_reimbursement_entitlements": "r",
+    "erp.app_permissions": "r",
+    "erp.app_role_permissions": "r",
+    "erp.attendance_hpp_pool_sources": "r",
+    "erp.attendance_hpp_pools": "r",
+    "erp.bs_case_components": "r",
+    "erp.rework_component_lines": "r",
+    "cp7_payroll.settlement_requests": "r",
+    "erp.brands": "r",
+    "cp7_sales.requests": "r",
+    "erp.fg_inventory_balances": "r",
+    "erp.payroll_work_items": "r",
+    "erp.payroll_attendance_items": "r",
+    "erp.cash_accounts": "r",
+    "erp.chart_accounts": "r",
+    "erp.accounting_account_mappings": "r",
+    "erp.journal_lines": "r",
+    "cp7_installment.accounts": "r",
+    "cp7_installment.command_context": "r",
+    "cp7_payroll.settlement_context": "r",
+    "cp7_sales.command_context": "r",
+    "cp7_installment.payments": "r",
+    "erp.bs_cases": "r",
+    "erp.payroll_deductions": "r",
+    "erp.sales_returns": "r",
+    "erp.journal_entries": "r",
+    "erp.products": "r",
+    "erp.sizes": "r",
+    "erp.opening_subledger_balances": "r",
+    "erp.contractors": "r",
+    "erp.payroll_reimbursements": "r",
+    "erp.payroll_settlements": "r",
+    "erp.locations": "r",
+    "erp.sales_headers": "r",
+    "erp.customers": "r",
+    "cp7_credit.cohorts": "r",
+    "cp7_credit.component_journals": "r",
+    "cp7_credit.component_parts": "r",
+    "cp7_credit.consumption_events": "r",
+    "cp7_credit.recognition_components": "r",
+    "cp7_credit.recognition_plans": "r",
+    "cp7_credit.return_families": "r"
+  },
+  "schema_owners": {
+    "cp7_credit": "postgres",
+    "extensions": "postgres",
+    "cp7_installment": "cp7_installment_read",
+    "erp": "postgres",
+    "auth": "supabase_admin",
+    "public": "pg_database_owner",
+    "cp7_sales": "cp7_sales_read",
+    "cp7_payroll": "cp7_payroll_read"
+  },
+  "schema_owner_CREATE": {
+    "cp7_credit": true,
+    "extensions": true,
+    "cp7_installment": true,
+    "erp": true,
+    "auth": true,
+    "public": true,
+    "cp7_sales": true,
+    "cp7_payroll": false
+  },
+  "original_functions": {
+    "cp7_payroll.settlement_command(text,jsonb,uuid,text)": [
+      "CREATE OR REPLACE FUNCTION cp7_payroll.settlement_command(p_action text, p_payload jsonb, p_request uuid, p_expected text)\n RETURNS jsonb\n LANGUAGE plpgsql\n SET search_path TO ''\nAS $function$\ndeclare a jsonb;old cp7_payroll.settlement_requests;d jsonb;r jsonb;keys text[];\nbegin\n if current_setting('transaction_isolation')<>'read committed' then raise exception 'CP7_FRESH_ACCESS_REQUIRED';end if;\n a:=cp7_payroll.settlement_access(p_action);\n keys:=array['id','review_token','change_reason']||case when p_action='PAY' then array['payment_date','cash_account_id'] else '{}'::text[] end;\n if p_request is null or p_expected is null or p_expected!~'^[1-9][0-9]{0,18}$'\n  or jsonb_typeof(p_payload) is distinct from 'object' or not p_payload ?& keys\n  or exists(select 1 from jsonb_each(p_payload) e where e.key<>all(keys) or (jsonb_typeof(e.value)<>'string' and not(e.key='cash_account_id' and e.value='null'::jsonb)))\n  or coalesce(p_payload->>'id','')!~*'^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'\n  or coalesce(p_payload->>'review_token','')!~'^[a-f0-9]{32}$'\n  or length(btrim(p_payload->>'change_reason')) not between 5 and 1000\n  or (p_action='PAY' and coalesce(p_payload->>'payment_date','')!~'^[0-9]{4}-[0-9]{2}-[0-9]{2}$') then raise exception 'CP7_PAYROLL_FIELDS';end if;\n insert into cp7_payroll.settlement_requests values(auth.uid(),p_request,p_action,p_payload,p_expected,null) on conflict do nothing;\n select * into old from cp7_payroll.settlement_requests where actor=auth.uid() and request_id=p_request for update;\n if old.action<>p_action or old.payload is distinct from p_payload or old.expected_version is distinct from p_expected then raise exception 'CP7_PAYROLL_REQUEST_CHANGED';end if;\n if cp7_payroll.settlement_access(p_action) is distinct from a then raise exception using errcode='42501',message='CP7_PAYROLL_ACCESS_CHANGED';end if;\n if old.response is not null then return old.response;end if;\n insert into cp7_payroll.settlement_context values(pg_backend_pid(),txid_current(),auth.uid(),(p_payload->>'id')::uuid,p_action);\n d:=cp7_payroll.apply_settlement(p_action,p_payload,p_expected);\n delete from cp7_payroll.settlement_context where backend_pid=pg_backend_pid() and transaction_id=txid_current();\n if cp7_payroll.settlement_access(p_action) is distinct from a then raise exception using errcode='42501',message='CP7_PAYROLL_ACCESS_CHANGED';end if;\n r:=jsonb_build_object('contract_version','cp7.payroll-outcome.v1','kind','COMMITTED_OUTCOME','action',p_action,'request_id',p_request,'payroll_id',d->'id','status',d->'status','row_version',d->'row_version','review_token',d->'review_token');\n update cp7_payroll.settlement_requests set response=r where actor=auth.uid() and request_id=p_request;\n return r;\nend $function$\n",
+      "cp7_payroll_write",
+      "plpgsql",
+      "f",
+      false,
+      false,
+      false,
+      false,
+      "v",
+      "u",
+      "100",
+      "0",
+      [
+        "search_path=\"\""
+      ],
+      [
+        "p_action",
+        "p_payload",
+        "p_request",
+        "p_expected"
+      ],
+      null,
+      "p_action text, p_payload jsonb, p_request uuid, p_expected text",
+      "jsonb",
+      "-",
+      [
+        [
+          "cp7_payroll_write",
+          "cp7_payroll_write",
+          "EXECUTE",
+          false
+        ]
+      ]
+    ],
+    "cp7_installment.apply_command(text,jsonb,uuid,text)": [
+      "CREATE OR REPLACE FUNCTION cp7_installment.apply_command(p_action text, p jsonb, p_request uuid, p_expected text)\n RETURNS jsonb\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\n SET \"TimeZone\" TO 'Asia/Jakarta'\nAS $function$\ndeclare ident uuid:=(p->>'payroll_id')::uuid;h erp.payroll_settlements;a jsonb;d jsonb;cash jsonb;acct cp7_installment.accounts;payment cp7_installment.payments;\n amount numeric(20,2);remaining numeric(20,2);payment_id uuid;journal_id uuid;inverse_id uuid;pay_date date;native_action text;r record;\nbegin\n a:=cp7_installment.access_now(p_action);perform cp7_installment.validate(p_action,p,p_expected);\n if not exists(select 1 from cp7_installment.command_context c where c.backend_pid=pg_backend_pid()and c.transaction_id=txid_current()and c.actor=auth.uid()and c.request_id=p_request and c.action=p_action and c.payload=p and c.expected_version=p_expected)then raise exception using errcode='42501',message='CP7_INSTALLMENT_PRIVATE_CONTEXT_REQUIRED';end if;\n select * into h from erp.payroll_settlements where id=ident for update;\n if h.id is null then raise exception 'CP7_INSTALLMENT_PAYROLL_NOT_FOUND';end if;\n perform cp7_installment.require_context(ident);\n perform pg_advisory_xact_lock(hashtextextended(h.contractor_id::text,0));\n perform 1 from erp.payroll_work_items where payroll_id=ident order by id for update;\n perform 1 from erp.payroll_attendance_items where payroll_id=ident order by id for update;\n perform 1 from erp.payroll_reimbursements where payroll_id=ident order by id for update;\n perform 1 from erp.payroll_deductions where payroll_id=ident order by id for update;\n perform 1 from erp.opening_subledger_balances b where exists(select 1 from erp.payroll_deductions x where x.payroll_id=ident and x.opening_cash_advance_balance_id=b.id)or exists(select 1 from erp.payroll_reimbursements x where x.payroll_id=ident and x.opening_payable_balance_id=b.id)order by b.id for update;\n lock table erp.accounting_account_mappings in share mode;\n perform 1 from erp.cash_accounts c where c.id=(p->>'cash_account_id')::uuid or exists(select 1 from cp7_installment.payments x where x.payroll_id=ident and x.cash_account_id=c.id)order by c.id for share;\n perform 1 from erp.chart_accounts c where c.id in(select coa_account_id from erp.cash_accounts where id=(p->>'cash_account_id')::uuid union select cash_coa_id from cp7_installment.payments where payroll_id=ident union select account_id from erp.accounting_account_mappings where mapping_key='CONTRACTOR_PAYABLE')order by c.id for share;\n perform 1 from erp.journal_entries j where(j.source_id=ident and j.source_type like 'PAYROLL_%')or exists(select 1 from cp7_installment.payments x where x.payroll_id=ident and j.id in(x.journal_id,x.reversal_journal_id))order by j.id for update;\n perform 1 from erp.journal_lines l where exists(select 1 from erp.journal_entries j where j.id=l.journal_entry_id and((j.source_id=ident and j.source_type like 'PAYROLL_%')or exists(select 1 from cp7_installment.payments x where x.payroll_id=ident and j.id in(x.journal_id,x.reversal_journal_id))))order by l.id for update;\n if cp7_installment.access_now(p_action)is distinct from a then raise exception using errcode='42501',message='CP7_INSTALLMENT_ACCESS_CHANGED';end if;\n d:=cp7_installment.source(ident);\n if h.row_version::text is distinct from p_expected or d->>'review_token'is distinct from p->>'review_token'then raise exception 'CP7_INSTALLMENT_REVIEW_CHANGED';end if;\n perform set_config('app.change_reason',btrim(p->>'change_reason'),true);\n native_action:=case when p_action='REVERSE_PAYROLL'then case when h.status='PAID'then 'REVERSE'else 'CANCEL'end else 'PAY'end;\n -- Keep the accepted native admission predicates unchanged. This trusted apply\n -- creates their exact transaction-local payroll context after its own checks.\n insert into cp7_payroll.settlement_context values(pg_backend_pid(),txid_current(),auth.uid(),ident,native_action);\n if p_action='PAY'then\n  if h.status<>'APPROVED'or h.net_payable<=0 then raise exception 'CP7_INSTALLMENT_APPROVED_POSITIVE_PAYROLL_ONLY';end if;\n  cash:=cp7_installment.cash((p->>'cash_account_id')::uuid);\n  if cash is null or cash->'eligible'is distinct from 'true'::jsonb or cash->>'review_token'is distinct from p->>'cash_review_token'then raise exception 'CP7_INSTALLMENT_CASH_SOURCE_CHANGED';end if;\n  amount:=(p->>'amount')::numeric;\n  begin pay_date:=(p->>'payment_date')::date;exception when datetime_field_overflow or invalid_datetime_format then raise exception 'CP7_INSTALLMENT_PAYMENT_DATE';end;\n  if pay_date::text is distinct from p->>'payment_date'or pay_date>(statement_timestamp()at time zone 'Asia/Jakarta')::date then raise exception 'CP7_INSTALLMENT_PAYMENT_DATE';end if;\n  -- FIN01/D14-2: no installment may be dated before the payroll's latest payable source.\n  perform cp7_payroll.assert_payment_date(ident,pay_date);\n  if not(d->>'managed')::boolean then\n   insert into cp7_installment.accounts(payroll_id,approved_meaning,approved_net,payable_account_id,created_by)\n    values(ident,cp7_installment.meaning(ident),h.net_payable,erp.account_id('CONTRACTOR_PAYABLE'),auth.uid());\n  end if;\n  select * into acct from cp7_installment.accounts where payroll_id=ident;\n  if erp.account_id('CONTRACTOR_PAYABLE')is distinct from acct.payable_account_id then raise exception 'CP7_INSTALLMENT_PAYABLE_MAPPING_CHANGED';end if;\n  remaining:=(d->>'remaining_amount')::numeric;\n  perform cp7_installment.assert_payment_amount(ident,amount,false);\n  update erp.payroll_settlements set payment_date=pay_date,payment_cash_account_id=(p->>'cash_account_id')::uuid where id=ident;\n  payment_id:=gen_random_uuid();\n  update cp7_installment.command_context set native_payment_id=payment_id where backend_pid=pg_backend_pid()and transaction_id=txid_current();\n  if amount=remaining then\n   perform cp7_installment.final_payment(ident,amount);\n   select id into journal_id from erp.journal_entries where source_type='PAYROLL_INSTALLMENT'and source_id=payment_id and status='POSTED';\n  else\n   perform cp7_installment.check_payment(ident,amount);\n   journal_id:=erp.post_journal('PAYROLL_INSTALLMENT',payment_id,pay_date,'Cicilan payroll '||h.payroll_number,jsonb_build_array(\n    jsonb_build_object('mapping_key','CONTRACTOR_PAYABLE','debit',amount,'credit',0,'contractor_id',h.contractor_id),\n    jsonb_build_object('account_id',(cash->>'account_id')::uuid,'debit',0,'credit',amount,'contractor_id',h.contractor_id)));\n  end if;\n  if journal_id is null then raise exception 'CP7_INSTALLMENT_NATIVE_JOURNAL_MISSING';end if;\n  insert into cp7_installment.payments(id,payroll_id,amount,payment_date,cash_account_id,cash_coa_id,journal_id,created_by,request_id)\n   values(payment_id,ident,amount,pay_date,(p->>'cash_account_id')::uuid,(cash->>'account_id')::uuid,journal_id,auth.uid(),p_request);\n  insert into erp.audit_logs(entity_type,entity_id,action,new_data,changed_by,change_reason)values('payroll_settlements',ident,'POST',jsonb_build_object('lifecycle_action','PAY_INSTALLMENT','payment_id',payment_id,'amount',amount::text,'approved_net',h.net_payable::text,'approved_cost_unchanged',true),erp.current_app_user_id(),btrim(p->>'change_reason'));\n elsif p_action='REVERSE_PAYMENT'then\n  if not(d->>'managed')::boolean or h.status not in('APPROVED','PAID')then raise exception 'CP7_INSTALLMENT_MANAGED_ACTIVE_PAYROLL_ONLY';end if;\n  select * into payment from cp7_installment.payments where id=(p->>'payment_id')::uuid and payroll_id=ident for update;\n  if payment.id is null or payment.reversal_journal_id is not null then raise exception 'CP7_INSTALLMENT_ACTIVE_PAYMENT_REQUIRED';end if;\n  if h.status='PAID'then perform cp7_installment.reopen_settlement(ident,btrim(p->>'change_reason'));end if;\n  perform erp.reverse_journal(payment.journal_id,btrim(p->>'change_reason'));\n  select id into inverse_id from erp.journal_entries where reversal_of_id=payment.journal_id and status='POSTED';\n  if inverse_id is null then raise exception 'CP7_INSTALLMENT_NATIVE_INVERSE_MISSING';end if;\n  update cp7_installment.payments set reversal_journal_id=inverse_id where id=payment.id;payment_id:=payment.id;\n  update erp.payroll_settlements set status='APPROVED',settled_at=null,updated_at=statement_timestamp()where id=ident;\n elsif p_action='REVERSE_PAYROLL'then\n  if not(d->>'managed')::boolean or h.status not in('APPROVED','PAID')then raise exception 'CP7_INSTALLMENT_MANAGED_ACTIVE_PAYROLL_ONLY';end if;\n  -- Native owning-flow dependency guard runs before any cash effect.\n  if exists(select 1 from erp.attendance_hpp_pool_sources s join erp.attendance_hpp_pools hp on hp.id=s.pool_id where s.payroll_id=ident and hp.status='ACTIVE')then raise exception 'PAYROLL_CONSUMED_BY_ACTIVE_HPP_POOL: cancel the active attendance HPP pool first';end if;\n  for r in select * from cp7_installment.payments where payroll_id=ident and reversal_journal_id is null order by created_at desc,id desc loop\n   perform erp.reverse_journal(r.journal_id,btrim(p->>'change_reason'));\n   select id into inverse_id from erp.journal_entries where reversal_of_id=r.journal_id and status='POSTED';\n   if inverse_id is null then raise exception 'CP7_INSTALLMENT_NATIVE_INVERSE_MISSING';end if;\n   update cp7_installment.payments set reversal_journal_id=inverse_id where id=r.id;\n  end loop;\n  if h.status='PAID'then perform erp.reverse_paid_payroll(ident,btrim(p->>'change_reason'));else perform erp.cancel_unpaid_payroll(ident,btrim(p->>'change_reason'));end if;\n end if;\n delete from cp7_payroll.settlement_context where backend_pid=pg_backend_pid()and transaction_id=txid_current();\n if cp7_installment.access_now(p_action)is distinct from a then raise exception using errcode='42501',message='CP7_INSTALLMENT_ACCESS_CHANGED';end if;\n d:=cp7_installment.source(ident);\n return jsonb_build_object('payroll_id',ident,'payment_id',payment_id,'native_status',d->>'native_status','payment_state',d->>'payment_state','row_version',d->>'row_version','review_token',d->>'review_token');\nend $function$\n",
+      "postgres",
+      "plpgsql",
+      "f",
+      true,
+      false,
+      false,
+      false,
+      "v",
+      "u",
+      "100",
+      "0",
+      [
+        "search_path=\"\"",
+        "TimeZone=Asia/Jakarta"
+      ],
+      [
+        "p_action",
+        "p",
+        "p_request",
+        "p_expected"
+      ],
+      null,
+      "p_action text, p jsonb, p_request uuid, p_expected text",
+      "jsonb",
+      "-",
+      [
+        [
+          "cp7_installment_write",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "postgres",
+          "postgres",
+          "EXECUTE",
+          false
+        ]
+      ]
+    ],
+    "erp.post_payroll_payment(uuid)": [
+      "CREATE OR REPLACE FUNCTION erp.post_payroll_payment(p_payroll_id uuid)\n RETURNS void\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'erp', 'public', 'pg_temp'\nAS $function$\ndeclare\n  p erp.payroll_settlements%rowtype;\n  v_cash uuid;\n  v_material_deduction numeric(20,2):=0;\n  v_other_deduction numeric(20,2):=0;v_cash_advance numeric(20,2):=0;\n  v_expected_attendance numeric(20,2):=0;\n  v_actual_attendance numeric(20,2):=0;\n  v_attendance_journal_count bigint:=0;\n  r record;\nbegin\n  perform erp.require_internal();\n  select * into p from erp.payroll_settlements where id=p_payroll_id for update;\n  if p.id is null or p.status<>'APPROVED' then raise exception 'Payroll must be APPROVED'; end if;\n  perform erp.check_opening_cash_advance_payroll_v1(p.id);\n  perform erp.bb_check_opening_payable_payroll_v1(p.id);\n  perform erp._cp3_lock_business_period(p.period_start,p.period_end);\n  if p.net_payable<0 then raise exception 'Payroll net payable cannot be negative; carry deductions forward instead'; end if;\n  if p.payment_date is null then raise exception 'Payroll payment date is required'; end if;\n  if p.payment_date>((statement_timestamp() AT TIME ZONE 'Asia/Jakarta'::text))::date then raise exception 'Tanggal pembayaran payroll berada di masa depan'; end if;\n  if p.net_payable>0 then\n    select coa_account_id into v_cash from erp.cash_accounts where id=p.payment_cash_account_id and is_active=true;\n    if v_cash is null then raise exception 'Active payroll cash/bank account is required when cash payment is positive'; end if;\n  end if;\n\n  v_expected_attendance:=round(coalesce(p.attendance_total,0),2);\n  select count(distinct je.id),coalesce(sum(jl.debit),0)\n    into v_attendance_journal_count,v_actual_attendance\n  from erp.journal_entries je\n  join erp.journal_lines jl on jl.journal_entry_id=je.id\n  where je.source_type='PAYROLL_ATTENDANCE_ACCRUAL' and je.source_id=p.id and je.status='POSTED'\n    and jl.account_id=erp.account_id('WIP') and jl.debit>0;\n  if (v_expected_attendance=0 and v_attendance_journal_count<>0)\n     or (v_expected_attendance>0 and (v_attendance_journal_count<>1 or round(v_actual_attendance,2) is distinct from v_expected_attendance)) then\n    raise exception 'PAYROLL_APPROVAL_ACCRUAL_MISSING_OR_MISMATCH: expected attendance %, journal count %, WIP debit %',\n      v_expected_attendance,v_attendance_journal_count,round(v_actual_attendance,2);\n  end if;\n\n  select coalesce(sum(amount),0) into v_material_deduction\n  from erp.payroll_deductions where payroll_id=p.id and deduction_type='MATERIAL_KASBON';\n  select coalesce(sum(amount),0) into v_other_deduction\n  from erp.payroll_deductions where payroll_id=p.id and deduction_type not in('MATERIAL_KASBON','CASH_ADVANCE');\n  if v_material_deduction>0 then\n    perform erp.post_journal('PAYROLL_MATERIAL_DEDUCTION',p.id,p.payment_date,\n      'Physical material/accessory purchase deduction',jsonb_build_array(\n        jsonb_build_object('mapping_key','CONTRACTOR_PAYABLE','debit',v_material_deduction,'credit',0,'contractor_id',p.contractor_id),\n        jsonb_build_object('mapping_key','CONTRACTOR_RECEIVABLE','debit',0,'credit',v_material_deduction,'contractor_id',p.contractor_id)));\n  end if;\n  select coalesce(sum(amount),0) into v_cash_advance from erp.payroll_deductions\n    where payroll_id=p.id and deduction_type='CASH_ADVANCE';\n  if v_cash_advance>0 then\n    perform erp.post_journal('PAYROLL_CASH_ADVANCE_DEDUCTION',p.id,p.payment_date,'Pelunasan kasbon tunai melalui payroll',jsonb_build_array(\n      jsonb_build_object('mapping_key','CONTRACTOR_PAYABLE','debit',v_cash_advance,'credit',0,'contractor_id',p.contractor_id),\n      jsonb_build_object('mapping_key','CONTRACTOR_RECEIVABLE','debit',0,'credit',v_cash_advance,'contractor_id',p.contractor_id)));\n  end if;\n  if v_other_deduction>0 then\n    perform erp.post_journal('PAYROLL_OTHER_DEDUCTION',p.id,p.payment_date,\n      'BS/penalty/other payroll deduction',jsonb_build_array(\n        jsonb_build_object('mapping_key','CONTRACTOR_PAYABLE','debit',v_other_deduction,'credit',0,'contractor_id',p.contractor_id),\n        jsonb_build_object('mapping_key','OTHER_INCOME','debit',0,'credit',v_other_deduction,'contractor_id',p.contractor_id)));\n  end if;\n  if p.net_payable>0 then\n    perform erp.post_journal('PAYROLL_PAYMENT',p.id,p.payment_date,'Mandor payroll payment',jsonb_build_array(\n      jsonb_build_object('mapping_key','CONTRACTOR_PAYABLE','debit',p.net_payable,'credit',0,'contractor_id',p.contractor_id),\n      jsonb_build_object('account_id',v_cash,'debit',0,'credit',p.net_payable,'contractor_id',p.contractor_id)));\n  end if;\n\n  update erp.payroll_settlements set status='PAID',settled_at=statement_timestamp(),updated_at=statement_timestamp() where id=p.id;\n  update erp.opening_subledger_balances b set settled_amount=b.settled_amount+x.amount,\n    status=case when b.settled_amount+x.amount=b.original_amount then 'SETTLED' else 'PARTIAL' end,updated_at=statement_timestamp()\n  from(select opening_cash_advance_balance_id id,sum(amount) amount from erp.payroll_deductions\n    where payroll_id=p.id and deduction_type='CASH_ADVANCE' group by opening_cash_advance_balance_id) x where b.id=x.id;\n  -- BB (ALL-Y01): imported contractor payables paid by this payroll, then the dated floor of every opening balance it touched.\n  update erp.opening_subledger_balances b set settled_amount=b.settled_amount+x.amount,\n    status=case when b.settled_amount+x.amount=b.original_amount then 'SETTLED' else 'PARTIAL' end,updated_at=statement_timestamp()\n  from(select opening_payable_balance_id id,sum(amount) amount from erp.payroll_reimbursements\n    where payroll_id=p.id and source_type='OPENING_PAYABLE' group by opening_payable_balance_id) x where b.id=x.id;\n  for r in select z.id from(select opening_payable_balance_id id from erp.payroll_reimbursements where payroll_id=p.id and opening_payable_balance_id is not null\n      union select opening_cash_advance_balance_id from erp.payroll_deductions where payroll_id=p.id and opening_cash_advance_balance_id is not null) z order by z.id\n  loop perform erp.bb_assert_opening_balance_floor_v1(r.id,p.payment_date); end loop;\n\n  for r in select distinct pd.contractor_issue_item_id id from erp.payroll_deductions pd\n           where pd.payroll_id=p.id and pd.contractor_issue_item_id is not null\n  loop perform erp.refresh_contractor_issue_payroll_status(r.id); end loop;\n  update erp.contractor_accessory_reimbursement_entitlements e set payroll_status='SETTLED'\n  where e.id in(select pr.source_id from erp.payroll_reimbursements pr\n                where pr.payroll_id=p.id and pr.source_type='ACCESSORY_BOM' and pr.source_id is not null);\n  for r in\n    select distinct bc.id as bs_case_id from erp.bs_cases bc\n    where exists(select 1 from erp.payroll_work_items pwi where pwi.payroll_id=p.id and pwi.po_id=bc.po_id)\n       or exists(select 1 from erp.payroll_work_items pwi join erp.rework_component_lines rcl on rcl.id=pwi.source_id\n                 join erp.bs_case_components bcc on bcc.id=rcl.bs_case_component_id\n                 where pwi.payroll_id=p.id and bcc.bs_case_id=bc.id)\n  loop perform erp.rebuild_bs_component_counters(r.bs_case_id); end loop;\n\n  insert into erp.audit_logs(entity_type,entity_id,action,new_data,changed_by,change_reason)\n  values('payroll_settlements',p.id,'POST',\n    jsonb_build_object('lifecycle_action','PAY','payment_settlement_only',true,'attendance_accrual_created_at_payment',false),\n    erp.current_app_user_id(),'Payroll payment settled approved payable without recognizing attendance cost again');\nend;\n$function$\n",
+      "postgres",
+      "plpgsql",
+      "f",
+      true,
+      false,
+      false,
+      false,
+      "v",
+      "u",
+      "100",
+      "0",
+      [
+        "search_path=erp, public, pg_temp"
+      ],
+      [
+        "p_payroll_id"
+      ],
+      null,
+      "p_payroll_id uuid",
+      "void",
+      "-",
+      [
+        [
+          "authenticated",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "postgres",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "service_role",
+          "postgres",
+          "EXECUTE",
+          false
+        ]
+      ]
+    ],
+    "cp7_installment.final_payment(uuid,numeric)": [
+      "CREATE OR REPLACE FUNCTION cp7_installment.final_payment(p_payroll_id uuid, p_cash_amount numeric)\n RETURNS void\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\n SET \"TimeZone\" TO 'Asia/Jakarta'\nAS $function$\ndeclare\n  p erp.payroll_settlements%rowtype;\n  v_cash uuid;\n  v_material_deduction numeric(20,2):=0;\n  v_other_deduction numeric(20,2):=0;v_cash_advance numeric(20,2):=0;\n  v_expected_attendance numeric(20,2):=0;\n  v_actual_attendance numeric(20,2):=0;\n  v_attendance_journal_count bigint:=0;\n  r record;\nbegin\n  perform cp7_installment.require_context(p_payroll_id);\n  perform erp.require_internal();\n  select * into p from erp.payroll_settlements where id=p_payroll_id for update;\n  if p.id is null or p.status<>'APPROVED' then raise exception 'Payroll must be APPROVED'; end if;\n  perform erp.check_opening_cash_advance_payroll_v1(p.id);\n  perform erp.bb_check_opening_payable_payroll_v1(p.id);\n  perform erp._cp3_lock_business_period(p.period_start,p.period_end);\n  if p.net_payable<0 then raise exception 'Payroll net payable cannot be negative; carry deductions forward instead'; end if;\n  if p.payment_date is null then raise exception 'Payroll payment date is required'; end if;\n  if p.payment_date>((statement_timestamp() AT TIME ZONE 'Asia/Jakarta'::text))::date then raise exception 'Tanggal pembayaran payroll berada di masa depan'; end if;\n  if p.net_payable>0 then\n    select coa_account_id into v_cash from erp.cash_accounts where id=p.payment_cash_account_id and is_active=true;\n    if v_cash is null then raise exception 'Active payroll cash/bank account is required when cash payment is positive'; end if;\n  end if;\n\n  v_expected_attendance:=round(coalesce(p.attendance_total,0),2);\n  select count(distinct je.id),coalesce(sum(jl.debit),0)\n    into v_attendance_journal_count,v_actual_attendance\n  from erp.journal_entries je\n  join erp.journal_lines jl on jl.journal_entry_id=je.id\n  where je.source_type='PAYROLL_ATTENDANCE_ACCRUAL' and je.source_id=p.id and je.status='POSTED'\n    and jl.account_id=erp.account_id('WIP') and jl.debit>0;\n  if (v_expected_attendance=0 and v_attendance_journal_count<>0)\n     or (v_expected_attendance>0 and (v_attendance_journal_count<>1 or round(v_actual_attendance,2) is distinct from v_expected_attendance)) then\n    raise exception 'PAYROLL_APPROVAL_ACCRUAL_MISSING_OR_MISMATCH: expected attendance %, journal count %, WIP debit %',\n      v_expected_attendance,v_attendance_journal_count,round(v_actual_attendance,2);\n  end if;\n\n  perform cp7_installment.assert_payment_amount(p.id,p_cash_amount,true);\n  select coalesce(sum(amount),0) into v_material_deduction\n  from erp.payroll_deductions where payroll_id=p.id and deduction_type='MATERIAL_KASBON';\n  select coalesce(sum(amount),0) into v_other_deduction\n  from erp.payroll_deductions where payroll_id=p.id and deduction_type not in('MATERIAL_KASBON','CASH_ADVANCE');\n  if v_material_deduction>0 then\n    perform erp.post_journal('PAYROLL_MATERIAL_DEDUCTION',p.id,p.payment_date,\n      'Physical material/accessory purchase deduction',jsonb_build_array(\n        jsonb_build_object('mapping_key','CONTRACTOR_PAYABLE','debit',v_material_deduction,'credit',0,'contractor_id',p.contractor_id),\n        jsonb_build_object('mapping_key','CONTRACTOR_RECEIVABLE','debit',0,'credit',v_material_deduction,'contractor_id',p.contractor_id)));\n  end if;\n  select coalesce(sum(amount),0) into v_cash_advance from erp.payroll_deductions\n    where payroll_id=p.id and deduction_type='CASH_ADVANCE';\n  if v_cash_advance>0 then\n    perform erp.post_journal('PAYROLL_CASH_ADVANCE_DEDUCTION',p.id,p.payment_date,'Pelunasan kasbon tunai melalui payroll',jsonb_build_array(\n      jsonb_build_object('mapping_key','CONTRACTOR_PAYABLE','debit',v_cash_advance,'credit',0,'contractor_id',p.contractor_id),\n      jsonb_build_object('mapping_key','CONTRACTOR_RECEIVABLE','debit',0,'credit',v_cash_advance,'contractor_id',p.contractor_id)));\n  end if;\n  if v_other_deduction>0 then\n    perform erp.post_journal('PAYROLL_OTHER_DEDUCTION',p.id,p.payment_date,\n      'BS/penalty/other payroll deduction',jsonb_build_array(\n        jsonb_build_object('mapping_key','CONTRACTOR_PAYABLE','debit',v_other_deduction,'credit',0,'contractor_id',p.contractor_id),\n        jsonb_build_object('mapping_key','OTHER_INCOME','debit',0,'credit',v_other_deduction,'contractor_id',p.contractor_id)));\n  end if;\n  if p.net_payable>0 then\n    perform erp.post_journal('PAYROLL_INSTALLMENT',(select c.native_payment_id from cp7_installment.command_context c where c.backend_pid=pg_backend_pid() and c.transaction_id=txid_current() and c.actor=auth.uid()),p.payment_date,'Mandor payroll payment',jsonb_build_array(\n      jsonb_build_object('mapping_key','CONTRACTOR_PAYABLE','debit',p_cash_amount,'credit',0,'contractor_id',p.contractor_id),\n      jsonb_build_object('account_id',v_cash,'debit',0,'credit',p_cash_amount,'contractor_id',p.contractor_id)));\n  end if;\n\n  update erp.payroll_settlements set status='PAID',settled_at=statement_timestamp(),updated_at=statement_timestamp() where id=p.id;\n  update erp.opening_subledger_balances b set settled_amount=b.settled_amount+x.amount,\n    status=case when b.settled_amount+x.amount=b.original_amount then 'SETTLED' else 'PARTIAL' end,updated_at=statement_timestamp()\n  from(select opening_cash_advance_balance_id id,sum(amount) amount from erp.payroll_deductions\n    where payroll_id=p.id and deduction_type='CASH_ADVANCE' group by opening_cash_advance_balance_id) x where b.id=x.id;\n  -- BB (ALL-Y01): imported contractor payables paid by this payroll, then the dated floor of every opening balance it touched.\n  update erp.opening_subledger_balances b set settled_amount=b.settled_amount+x.amount,\n    status=case when b.settled_amount+x.amount=b.original_amount then 'SETTLED' else 'PARTIAL' end,updated_at=statement_timestamp()\n  from(select opening_payable_balance_id id,sum(amount) amount from erp.payroll_reimbursements\n    where payroll_id=p.id and source_type='OPENING_PAYABLE' group by opening_payable_balance_id) x where b.id=x.id;\n  for r in select z.id from(select opening_payable_balance_id id from erp.payroll_reimbursements where payroll_id=p.id and opening_payable_balance_id is not null\n      union select opening_cash_advance_balance_id from erp.payroll_deductions where payroll_id=p.id and opening_cash_advance_balance_id is not null) z order by z.id\n  loop perform erp.bb_assert_opening_balance_floor_v1(r.id,p.payment_date); end loop;\n\n  for r in select distinct pd.contractor_issue_item_id id from erp.payroll_deductions pd\n           where pd.payroll_id=p.id and pd.contractor_issue_item_id is not null\n  loop perform erp.refresh_contractor_issue_payroll_status(r.id); end loop;\n  update erp.contractor_accessory_reimbursement_entitlements e set payroll_status='SETTLED'\n  where e.id in(select pr.source_id from erp.payroll_reimbursements pr\n                where pr.payroll_id=p.id and pr.source_type='ACCESSORY_BOM' and pr.source_id is not null);\n  for r in\n    select distinct bc.id as bs_case_id from erp.bs_cases bc\n    where exists(select 1 from erp.payroll_work_items pwi where pwi.payroll_id=p.id and pwi.po_id=bc.po_id)\n       or exists(select 1 from erp.payroll_work_items pwi join erp.rework_component_lines rcl on rcl.id=pwi.source_id\n                 join erp.bs_case_components bcc on bcc.id=rcl.bs_case_component_id\n                 where pwi.payroll_id=p.id and bcc.bs_case_id=bc.id)\n  loop perform erp.rebuild_bs_component_counters(r.bs_case_id); end loop;\n\n  insert into erp.audit_logs(entity_type,entity_id,action,new_data,changed_by,change_reason)\n  values('payroll_settlements',p.id,'POST',\n    jsonb_build_object('lifecycle_action','PAY','payment_settlement_only',true,'attendance_accrual_created_at_payment',false),\n    erp.current_app_user_id(),'Payroll payment settled approved payable without recognizing attendance cost again');\nend;\n$function$\n",
+      "postgres",
+      "plpgsql",
+      "f",
+      true,
+      false,
+      false,
+      false,
+      "v",
+      "u",
+      "100",
+      "0",
+      [
+        "search_path=\"\"",
+        "TimeZone=Asia/Jakarta"
+      ],
+      [
+        "p_payroll_id",
+        "p_cash_amount"
+      ],
+      null,
+      "p_payroll_id uuid, p_cash_amount numeric",
+      "void",
+      "-",
+      [
+        [
+          "postgres",
+          "postgres",
+          "EXECUTE",
+          false
+        ]
+      ]
+    ],
+    "erp.reverse_paid_payroll(uuid,text)": [
+      "CREATE OR REPLACE FUNCTION erp.reverse_paid_payroll(p_payroll_id uuid, p_reason text)\n RETURNS void\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'erp', 'public', 'pg_temp'\nAS $function$\ndeclare\n  p erp.payroll_settlements%rowtype;\n  r record;\nbegin\n  perform erp.require_owner_admin();\n  if nullif(trim(p_reason),'') is null then raise exception 'Payroll reversal reason is required'; end if;\n  select * into p from erp.payroll_settlements where id=p_payroll_id for update;\n  if p.id is null then raise exception 'Payroll not found'; end if;\n  if p.status='REVERSED' then return; end if;\n  if p.status<>'PAID' then raise exception 'Only PAID payroll uses reverse_paid_payroll; unpaid payroll uses cancel_unpaid_payroll'; end if;\n  perform 1 from erp.opening_subledger_balances b where exists(select 1 from erp.payroll_deductions d\n    where d.payroll_id=p.id and d.opening_cash_advance_balance_id=b.id) or exists(select 1 from erp.payroll_reimbursements pr\n    where pr.payroll_id=p.id and pr.opening_payable_balance_id=b.id) order by b.id for update;\n  perform erp._cp3_lock_business_period(p.period_start,p.period_end);\n  perform cp7_attendance_choice.assert_payroll_unclaimed_v1(p.id);\n  if exists(\n    select 1 from erp.attendance_hpp_pool_sources s\n    join erp.attendance_hpp_pools hp on hp.id=s.pool_id\n    where s.payroll_id=p.id and hp.status='ACTIVE'\n  ) then\n    raise exception 'PAYROLL_CONSUMED_BY_ACTIVE_HPP_POOL: cancel the active attendance HPP pool first';\n  end if;\n\n  for r in\n    select je.id from erp.journal_entries je\n    where je.source_id=p.id\n      and je.source_type in ('PAYROLL_ATTENDANCE_ACCRUAL','PAYROLL_EXTRA_ACCRUAL','PAYROLL_MANUAL_REDUCTION',\n                             'PAYROLL_MATERIAL_DEDUCTION','PAYROLL_OTHER_DEDUCTION','PAYROLL_PAYMENT','PAYROLL_CASH_ADVANCE_DEDUCTION')\n      and je.status='POSTED'\n    order by je.posting_at desc,je.id desc\n  loop perform erp._cp3_r4_reverse_journal_internal(r.id,p_reason); end loop;\n\n  update erp.payroll_settlements set status='REVERSED',settled_at=null,updated_at=statement_timestamp() where id=p.id;\n  update erp.opening_subledger_balances b set settled_amount=b.settled_amount-x.amount,\n    status=case when b.settled_amount-x.amount=b.original_amount then 'SETTLED' when b.settled_amount-x.amount>0 then 'PARTIAL' else 'OPEN' end,\n    updated_at=statement_timestamp()\n  from(select opening_cash_advance_balance_id id,sum(amount) amount from erp.payroll_deductions\n    where payroll_id=p.id and deduction_type='CASH_ADVANCE' group by opening_cash_advance_balance_id) x where b.id=x.id;\n  -- BB (ALL-Y01): the imported contractor payables this payroll paid are open again.\n  update erp.opening_subledger_balances b set settled_amount=b.settled_amount-x.amount,\n    status=case when b.settled_amount-x.amount=b.original_amount then 'SETTLED' when b.settled_amount-x.amount>0 then 'PARTIAL' else 'OPEN' end,\n    updated_at=statement_timestamp()\n  from(select opening_payable_balance_id id,sum(amount) amount from erp.payroll_reimbursements\n    where payroll_id=p.id and source_type='OPENING_PAYABLE' group by opening_payable_balance_id) x where b.id=x.id;\n\n  for r in select distinct pd.contractor_issue_item_id id from erp.payroll_deductions pd\n           where pd.payroll_id=p.id and pd.contractor_issue_item_id is not null\n  loop perform erp.refresh_contractor_issue_payroll_status(r.id); end loop;\n  for r in select distinct pr.source_id id from erp.payroll_reimbursements pr\n           where pr.payroll_id=p.id and pr.source_type='ACCESSORY_BOM' and pr.source_id is not null\n  loop\n    update erp.contractor_accessory_reimbursement_entitlements e\n    set payroll_status=case\n      when exists(select 1 from erp.payroll_reimbursements pr2 join erp.payroll_settlements ps2 on ps2.id=pr2.payroll_id\n                  where pr2.source_type='ACCESSORY_BOM' and pr2.source_id=e.id and ps2.status='PAID') then 'SETTLED'\n      when exists(select 1 from erp.payroll_reimbursements pr2 join erp.payroll_settlements ps2 on ps2.id=pr2.payroll_id\n                  where pr2.source_type='ACCESSORY_BOM' and pr2.source_id=e.id and ps2.status<>'REVERSED') then 'ALLOCATED'\n      else 'UNALLOCATED' end\n    where e.id=r.id;\n  end loop;\n  for r in\n    select distinct bc.id as bs_case_id from erp.bs_cases bc\n    where exists(select 1 from erp.payroll_work_items pwi where pwi.payroll_id=p.id and pwi.po_id=bc.po_id)\n       or exists(select 1 from erp.payroll_work_items pwi join erp.rework_component_lines rcl on rcl.id=pwi.source_id\n                 join erp.bs_case_components bcc on bcc.id=rcl.bs_case_component_id\n                 where pwi.payroll_id=p.id and bcc.bs_case_id=bc.id)\n  loop perform erp.rebuild_bs_component_counters(r.bs_case_id); end loop;\n  insert into erp.audit_logs(entity_type,entity_id,action,new_data,changed_by,change_reason)\n  values('payroll_settlements',p.id,'REVERSE_PAID',jsonb_build_object('previous_status','PAID'),erp.current_app_user_id(),p_reason);\nend;\n$function$\n",
+      "postgres",
+      "plpgsql",
+      "f",
+      true,
+      false,
+      false,
+      false,
+      "v",
+      "u",
+      "100",
+      "0",
+      [
+        "search_path=erp, public, pg_temp"
+      ],
+      [
+        "p_payroll_id",
+        "p_reason"
+      ],
+      null,
+      "p_payroll_id uuid, p_reason text",
+      "void",
+      "-",
+      [
+        [
+          "authenticated",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "postgres",
+          "postgres",
+          "EXECUTE",
+          false
+        ]
+      ]
+    ],
+    "cp7_installment.reopen_settlement(uuid,text)": [
+      "CREATE OR REPLACE FUNCTION cp7_installment.reopen_settlement(p_payroll_id uuid, p_reason text)\n RETURNS void\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\n SET \"TimeZone\" TO 'Asia/Jakarta'\nAS $function$\ndeclare\n  p erp.payroll_settlements%rowtype;\n  r record;\nbegin\n  perform cp7_installment.require_context(p_payroll_id);\n  if nullif(trim(p_reason),'') is null then raise exception 'Payroll reversal reason is required'; end if;\n  select * into p from erp.payroll_settlements where id=p_payroll_id for update;\n  if p.id is null then raise exception 'Payroll not found'; end if;\n  if p.status='REVERSED' then return; end if;\n  if p.status<>'PAID' then raise exception 'Only PAID payroll uses reverse_paid_payroll; unpaid payroll uses cancel_unpaid_payroll'; end if;\n  perform 1 from erp.opening_subledger_balances b where exists(select 1 from erp.payroll_deductions d\n    where d.payroll_id=p.id and d.opening_cash_advance_balance_id=b.id) or exists(select 1 from erp.payroll_reimbursements pr\n    where pr.payroll_id=p.id and pr.opening_payable_balance_id=b.id) order by b.id for update;\n  perform erp._cp3_lock_business_period(p.period_start,p.period_end);\n\n  for r in\n    select je.id from erp.journal_entries je\n    where je.source_id=p.id\n      and je.source_type in ('PAYROLL_MATERIAL_DEDUCTION','PAYROLL_OTHER_DEDUCTION','PAYROLL_CASH_ADVANCE_DEDUCTION')\n      and je.status='POSTED'\n    order by je.posting_at desc,je.id desc\n  loop perform erp._cp3_r4_reverse_journal_internal(r.id,p_reason); end loop;\n\n  update erp.payroll_settlements set status='APPROVED',settled_at=null,updated_at=statement_timestamp() where id=p.id;\n  update erp.opening_subledger_balances b set settled_amount=b.settled_amount-x.amount,\n    status=case when b.settled_amount-x.amount=b.original_amount then 'SETTLED' when b.settled_amount-x.amount>0 then 'PARTIAL' else 'OPEN' end,\n    updated_at=statement_timestamp()\n  from(select opening_cash_advance_balance_id id,sum(amount) amount from erp.payroll_deductions\n    where payroll_id=p.id and deduction_type='CASH_ADVANCE' group by opening_cash_advance_balance_id) x where b.id=x.id;\n  -- BB (ALL-Y01): the imported contractor payables this payroll paid are open again.\n  update erp.opening_subledger_balances b set settled_amount=b.settled_amount-x.amount,\n    status=case when b.settled_amount-x.amount=b.original_amount then 'SETTLED' when b.settled_amount-x.amount>0 then 'PARTIAL' else 'OPEN' end,\n    updated_at=statement_timestamp()\n  from(select opening_payable_balance_id id,sum(amount) amount from erp.payroll_reimbursements\n    where payroll_id=p.id and source_type='OPENING_PAYABLE' group by opening_payable_balance_id) x where b.id=x.id;\n\n  for r in select distinct pd.contractor_issue_item_id id from erp.payroll_deductions pd\n           where pd.payroll_id=p.id and pd.contractor_issue_item_id is not null\n  loop perform erp.refresh_contractor_issue_payroll_status(r.id); end loop;\n  for r in select distinct pr.source_id id from erp.payroll_reimbursements pr\n           where pr.payroll_id=p.id and pr.source_type='ACCESSORY_BOM' and pr.source_id is not null\n  loop\n    update erp.contractor_accessory_reimbursement_entitlements e\n    set payroll_status=case\n      when exists(select 1 from erp.payroll_reimbursements pr2 join erp.payroll_settlements ps2 on ps2.id=pr2.payroll_id\n                  where pr2.source_type='ACCESSORY_BOM' and pr2.source_id=e.id and ps2.status='PAID') then 'SETTLED'\n      when exists(select 1 from erp.payroll_reimbursements pr2 join erp.payroll_settlements ps2 on ps2.id=pr2.payroll_id\n                  where pr2.source_type='ACCESSORY_BOM' and pr2.source_id=e.id and ps2.status<>'REVERSED') then 'ALLOCATED'\n      else 'UNALLOCATED' end\n    where e.id=r.id;\n  end loop;\n  for r in\n    select distinct bc.id as bs_case_id from erp.bs_cases bc\n    where exists(select 1 from erp.payroll_work_items pwi where pwi.payroll_id=p.id and pwi.po_id=bc.po_id)\n       or exists(select 1 from erp.payroll_work_items pwi join erp.rework_component_lines rcl on rcl.id=pwi.source_id\n                 join erp.bs_case_components bcc on bcc.id=rcl.bs_case_component_id\n                 where pwi.payroll_id=p.id and bcc.bs_case_id=bc.id)\n  loop perform erp.rebuild_bs_component_counters(r.bs_case_id); end loop;\n  insert into erp.audit_logs(entity_type,entity_id,action,new_data,changed_by,change_reason)\n  values('payroll_settlements',p.id,'UPDATE',jsonb_build_object('previous_status','PAID','lifecycle_action','REOPEN_INSTALLMENT_SETTLEMENT','approved_cost_unchanged',true),erp.current_app_user_id(),p_reason);\nend;\n$function$\n",
+      "postgres",
+      "plpgsql",
+      "f",
+      true,
+      false,
+      false,
+      false,
+      "v",
+      "u",
+      "100",
+      "0",
+      [
+        "search_path=\"\"",
+        "TimeZone=Asia/Jakarta"
+      ],
+      [
+        "p_payroll_id",
+        "p_reason"
+      ],
+      null,
+      "p_payroll_id uuid, p_reason text",
+      "void",
+      "-",
+      [
+        [
+          "postgres",
+          "postgres",
+          "EXECUTE",
+          false
+        ]
+      ]
+    ],
+    "erp.cancel_unpaid_payroll(uuid,text)": [
+      "CREATE OR REPLACE FUNCTION erp.cancel_unpaid_payroll(p_payroll_id uuid, p_reason text)\n RETURNS void\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'erp', 'public', 'pg_temp'\nAS $function$\ndeclare\n  p erp.payroll_settlements%rowtype;\n  r record;\nbegin\n  perform erp.require_owner_admin();\n  if nullif(trim(p_reason),'') is null then raise exception 'Cancellation reason is required'; end if;\n  select * into p from erp.payroll_settlements where id=p_payroll_id for update;\n  if p.id is null then raise exception 'Payroll not found'; end if;\n  if p.status='PAID' then raise exception 'Paid payroll requires a dedicated financial reversal, not unpaid cancellation'; end if;\n  if p.status='REVERSED' then return; end if;\n  if p.status not in ('DRAFT','CALCULATED','REVIEW','APPROVED') then raise exception 'Payroll cannot be cancelled in status %',p.status; end if;\n  perform erp._cp3_lock_business_period(p.period_start,p.period_end);\n  perform cp7_attendance_choice.assert_payroll_unclaimed_v1(p.id);\n\n  if exists(\n    select 1 from erp.attendance_hpp_pool_sources s\n    join erp.attendance_hpp_pools hp on hp.id=s.pool_id\n    where s.payroll_id=p.id and hp.status='ACTIVE'\n  ) then\n    raise exception 'PAYROLL_CONSUMED_BY_ACTIVE_HPP_POOL: cancel the active attendance HPP pool first';\n  end if;\n\n  for r in\n    select je.id from erp.journal_entries je\n    where je.source_id=p.id\n      and je.source_type in ('PAYROLL_ATTENDANCE_ACCRUAL','PAYROLL_EXTRA_ACCRUAL','PAYROLL_MANUAL_REDUCTION')\n      and je.status='POSTED'\n    order by je.posting_at desc,je.id desc\n  loop perform erp._cp3_r4_reverse_journal_internal(r.id,p_reason); end loop;\n\n  update erp.payroll_settlements set status='REVERSED',settled_at=null,updated_at=statement_timestamp() where id=p.id;\n  for r in select distinct pd.contractor_issue_item_id id from erp.payroll_deductions pd\n           where pd.payroll_id=p.id and pd.contractor_issue_item_id is not null\n  loop perform erp.refresh_contractor_issue_payroll_status(r.id); end loop;\n  for r in select distinct pr.source_id id from erp.payroll_reimbursements pr\n           where pr.payroll_id=p.id and pr.source_type='ACCESSORY_BOM' and pr.source_id is not null\n  loop\n    update erp.contractor_accessory_reimbursement_entitlements e\n    set payroll_status=case\n      when exists(select 1 from erp.payroll_reimbursements pr2 join erp.payroll_settlements ps2 on ps2.id=pr2.payroll_id\n                  where pr2.source_type='ACCESSORY_BOM' and pr2.source_id=e.id and ps2.status='PAID') then 'SETTLED'\n      when exists(select 1 from erp.payroll_reimbursements pr2 join erp.payroll_settlements ps2 on ps2.id=pr2.payroll_id\n                  where pr2.source_type='ACCESSORY_BOM' and pr2.source_id=e.id and ps2.status<>'REVERSED') then 'ALLOCATED'\n      else 'UNALLOCATED' end\n    where e.id=r.id;\n  end loop;\n  insert into erp.audit_logs(entity_type,entity_id,action,new_data,changed_by,change_reason)\n  values('payroll_settlements',p.id,'CANCEL_UNPAID',jsonb_build_object('previous_status',p.status),erp.current_app_user_id(),p_reason);\nend;\n$function$\n",
+      "postgres",
+      "plpgsql",
+      "f",
+      true,
+      false,
+      false,
+      false,
+      "v",
+      "u",
+      "100",
+      "0",
+      [
+        "search_path=erp, public, pg_temp"
+      ],
+      [
+        "p_payroll_id",
+        "p_reason"
+      ],
+      null,
+      "p_payroll_id uuid, p_reason text",
+      "void",
+      "-",
+      [
+        [
+          "authenticated",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "postgres",
+          "postgres",
+          "EXECUTE",
+          false
+        ]
+      ]
+    ],
+    "erp._cp7_current_credit_adjustment(uuid)": [
+      "CREATE OR REPLACE FUNCTION erp._cp7_current_credit_adjustment(p_sale uuid)\n RETURNS numeric\n LANGUAGE plpgsql\n STABLE SECURITY DEFINER\n SET search_path TO ''\n SET \"TimeZone\" TO 'UTC'\nAS $function$\ndeclare h erp.sales_headers;m record;i numeric;u numeric;\nbegin\n select *into strict h from erp.sales_headers where id=p_sale;\n -- Preserve inactive/DRAFT document financial semantics: own Native P only.\n if h.status not in('POSTED','PARTIAL_PAID','PAID')then return 0::numeric;end if;\n select *into strict m from cp7_credit.current_leaf_assignment(p_sale);\n -- Legacy invoices/ordinary returns have no OW04 participation. Preserve the\n -- Native payment projection without inventing family order or requiring a\n -- retrofit of old posted returns. A protected journal cannot exploit this\n -- fast path: every such actual journal must have its exact retained link.\n if exists(select 1 from erp.journal_entries j\n  where j.source_type='CP7_CUSTOMER_CREDIT_RECOGNITION'and not exists(\n   select 1 from cp7_credit.component_journals cj\n    join cp7_credit.component_parts q on q.id=cj.part_id\n    join cp7_credit.recognition_components cc on cc.id=q.component_id\n    join cp7_credit.recognition_plans p on p.id=cc.plan_id\n    join cp7_credit.cohorts c on c.id=p.cohort_id\n    join cp7_credit.return_families f on f.id=c.family_id\n   where cj.journal_id=j.id and q.id=j.source_id))\n  or exists(select 1 from erp.journal_entries j\n   where j.source_type='CP7_CUSTOMER_CREDIT_REFUND'and not exists(\n    select 1 from cp7_credit.consumption_events e\n     join cp7_credit.cohorts c on c.id=e.cohort_id\n     join cp7_credit.return_families f on f.id=c.family_id\n    where e.journal_id=j.id and e.id=j.source_id and e.event_kind='REFUND'))\n  or exists(select 1 from erp.journal_entries j where j.source_type in('CP7_CUSTOMER_CREDIT_APPLY','CP7_CUSTOMER_CREDIT_EVENT_REVERSE')\n   and not exists(select 1 from cp7_credit.consumption_events ce join cp7_credit.cohorts c on c.id=ce.cohort_id\n    join cp7_credit.return_families f on f.id=c.family_id where ce.journal_id=j.id and ce.id=j.source_id\n     and((j.source_type='CP7_CUSTOMER_CREDIT_APPLY'and ce.event_kind='APPLY'and ce.amount>0 and ce.restores_event_id is null)\n      or(j.source_type='CP7_CUSTOMER_CREDIT_EVENT_REVERSE'and ce.amount<0 and ce.restores_event_id is not null))))then\n  raise exception 'CP7_CREDIT_UNREPRESENTED_FINANCIAL_JOURNAL';end if;\n if not cp7_credit_note_carry_de.is_current_v1(p_sale)and not exists(select 1 from cp7_credit.return_families f where f.family_root_sale_id=m.root_sale_id)\n  and not exists(select 1 from cp7_credit.consumption_events e\n   where e.event_kind='APPLY'and cp7_credit_note_carry_de.effective_target_v1(e.id)=p_sale)then return 0::numeric;end if;\n if cp7_credit.payment_is_intermediate_v1(p_sale)then return cp7_credit.payment_intermediate_adjustment_v1(p_sale);end if;\n perform cp7_credit.assert_current_materialized_profile(p_sale,m.root_sale_id,m.current_leaf_id);\n -- Validator above proves ALL parts have actual journals; this join is not a\n -- silent filter permitting a partial pending plan to masquerade as actual I.\n select coalesce(sum(q.amount),0)into i\n  from cp7_credit.return_families f join cp7_credit.cohorts c on c.family_id=f.id\n  join cp7_credit.recognition_plans p on p.cohort_id=c.id\n  join cp7_credit.recognition_components cc on cc.plan_id=p.id\n  join cp7_credit.component_parts q on q.component_id=cc.id\n  join cp7_credit.component_journals j on j.part_id=q.id\n  where f.family_root_sale_id=m.root_sale_id;\n -- Signed restores are retained, not filtered away by amount/status. An\n -- advance-backed Native sales_payment is already P and is NOT another U.\n select coalesce(sum(e.amount),0)into u from cp7_credit.consumption_events e\n  where e.event_kind='APPLY'and cp7_credit_note_carry_de.effective_target_v1(e.id)=p_sale;\n return u-i;\nend $function$\n",
+      "postgres",
+      "plpgsql",
+      "f",
+      true,
+      false,
+      false,
+      false,
+      "s",
+      "u",
+      "100",
+      "0",
+      [
+        "search_path=\"\"",
+        "TimeZone=UTC"
+      ],
+      [
+        "p_sale"
+      ],
+      null,
+      "p_sale uuid",
+      "numeric",
+      "-",
+      [
+        [
+          "cp7_credit_visible_read",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "cp7_sales_read",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "postgres",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "service_role",
+          "postgres",
+          "EXECUTE",
+          false
+        ]
+      ]
+    ],
+    "cp7_sales.form_options(jsonb)": [
+      "CREATE OR REPLACE FUNCTION cp7_sales.form_options(p_query jsonb)\n RETURNS jsonb\n LANGUAGE plpgsql\n STABLE\n SET search_path TO ''\nAS $function$\ndeclare kind text;q text;at_time timestamptz;loc uuid;n integer;off integer;total bigint;rows jsonb;\nbegin\n if not cp7_sales.access_now() or not(erp.has_permission('sales.invoice.create') or erp.has_permission('sales.invoice.edit_draft')) then raise exception using errcode='42501',message='CP7_SALES_FORM_DENIED';end if;\n if jsonb_typeof(p_query) is distinct from 'object' or not p_query ?& array['kind','physical_at']\n  or exists(select 1 from jsonb_object_keys(p_query) k where k not in('kind','q','physical_at','location_id','offset','limit'))\n  or exists(select 1 from jsonb_each(p_query) e where e.key in('kind','q','physical_at','location_id') and jsonb_typeof(e.value) not in('string','null'))\n  or (p_query ? 'limit' and(jsonb_typeof(p_query->'limit')<>'number' or(p_query->>'limit')!~'^[0-9]{1,3}$'))\n  or (p_query ? 'offset' and(jsonb_typeof(p_query->'offset')<>'number' or(p_query->>'offset')!~'^[0-9]{1,7}$')) then raise exception 'CP7_SALES_FORM_QUERY';end if;\n kind:=p_query->>'kind';q:=btrim(coalesce(p_query->>'q',''));at_time:=(p_query->>'physical_at')::timestamptz;loc:=(p_query->>'location_id')::uuid;n:=coalesce((p_query->>'limit')::integer,25);off:=coalesce((p_query->>'offset')::integer,0);\n if kind is null or kind not in('CUSTOMER','STOCK') or length(q)>120 or n not between 1 and 100 or off not between 0 and 1000000 or at_time is null or at_time>statement_timestamp() then raise exception 'CP7_SALES_FORM_QUERY';end if;\n if kind='CUSTOMER' then\n  with eligible as materialized(select id,customer_code,customer_name from erp.customers where is_active and(q='' or strpos(lower(concat_ws(' ',customer_code,customer_name)),lower(q))>0)),\n  sliced as(select * from eligible order by customer_code,id limit n offset off)\n  select (select count(*) from eligible),coalesce((select jsonb_agg(jsonb_build_object('id',id,'code',customer_code,'name',customer_name) order by customer_code,id) from sliced),'[]') into total,rows;\n else\n  with positions as materialized(\n   select p.id as product_id,p.sku as product_sku,p.product_name,erp.bf_commercial_sku_at_v1(p.id,at_time) as commercial_sku,s.size_code,b.brand_name,l.id as location_id,l.location_name,x.cached_qty_pcs as available_qty\n   from erp.fg_inventory_balances x join erp.products p on p.id=x.product_id join erp.sizes s on s.id=p.size_id join erp.brands b on b.id=p.brand_id join erp.locations l on l.id=x.location_id\n   where x.quality_grade='GRADE_A' and x.cached_qty_pcs>0 and p.is_active and l.is_active and l.location_type='FG_WAREHOUSE' and(loc is null or l.id=loc)),\n  eligible as materialized(select * from positions where q='' or strpos(lower(concat_ws(' ',product_sku,commercial_sku,product_name,size_code,brand_name,location_name)),lower(q))>0),\n  sliced as(select * from eligible order by commercial_sku,size_code,product_id,location_id limit n offset off)\n  select (select count(*) from eligible),coalesce((select jsonb_agg(jsonb_build_object('product_id',product_id,'product_sku',product_sku,'product_name',product_name,'commercial_sku',commercial_sku,'size_code',size_code,'brand_name',brand_name,'location_id',location_id,'location_name',location_name,'available_qty',available_qty::text) order by commercial_sku,size_code,product_id,location_id) from sliced),'[]') into total,rows;\n end if;\n return jsonb_build_object('contract_version','cp7.sales-form-options.v1','kind',kind,'physical_at',at_time,'location_id',loc,'availability_basis','CURRENT_AVAILABLE_NOT_HISTORICAL_STOCK','rows',rows,'total',total::text,'offset',off,'limit',n,'next_offset',case when off+jsonb_array_length(rows)<total then off+jsonb_array_length(rows) else null end);\nend $function$\n",
+      "cp7_sales_read",
+      "plpgsql",
+      "f",
+      false,
+      false,
+      false,
+      false,
+      "s",
+      "u",
+      "100",
+      "0",
+      [
+        "search_path=\"\""
+      ],
+      [
+        "p_query"
+      ],
+      null,
+      "p_query jsonb",
+      "jsonb",
+      "-",
+      [
+        [
+          "cp7_sales_read",
+          "cp7_sales_read",
+          "EXECUTE",
+          false
+        ]
+      ]
+    ],
+    "cp7_sales.command(text,jsonb,uuid,text)": [
+      "CREATE OR REPLACE FUNCTION cp7_sales.command(p_action text, p_payload jsonb, p_request uuid, p_expected text)\n RETURNS jsonb\n LANGUAGE plpgsql\n SET search_path TO ''\nAS $function$\ndeclare a jsonb;old cp7_sales.requests;r jsonb;\nbegin\n if current_setting('transaction_isolation')<>'read committed' then raise exception 'CP7_FRESH_ACCESS_REQUIRED';end if;\n a:=cp7_sales.command_access(p_action);\n if p_request is null or (p_action='CREATE' and p_expected is not null) or(p_action<>'CREATE' and(p_expected is null or p_expected!~'^[1-9][0-9]{0,18}$')) then raise exception 'CP7_SALES_COMMAND_FIELDS';end if;\n if p_action in('CREATE','EDIT') then\n  perform cp7_sales.validate_draft(p_payload,p_action='EDIT');\n elsif p_action in('PAYMENT','PAYMENT_REVERSE') then\n  perform cp7_sales.validate_payment(p_payload,p_action='PAYMENT_REVERSE');\n elsif p_action in('RETURN','RETURN_REVERSE') then\n  perform cp7_sales.validate_return(p_payload,p_action='RETURN_REVERSE');\n else\n  if jsonb_typeof(p_payload) is distinct from 'object' or not p_payload ?& array['sale_id','review_token','change_reason']\n   or exists(select 1 from jsonb_each(p_payload) e where e.key not in('sale_id','review_token','change_reason') or jsonb_typeof(e.value)<>'string')\n   or coalesce(p_payload->>'sale_id','')!~*'^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'\n   or coalesce(p_payload->>'review_token','')!~'^[a-f0-9]{32}$'\n   or length(btrim(p_payload->>'change_reason')) not between 5 and 1000 then raise exception 'CP7_SALES_COMMAND_FIELDS';end if;\n end if;\n insert into cp7_sales.requests values(auth.uid(),p_request,p_action,p_payload,p_expected,null) on conflict do nothing;\n select * into old from cp7_sales.requests where actor=auth.uid() and request_id=p_request for update;\n if old.action<>p_action or old.payload is distinct from p_payload or old.expected_version is distinct from p_expected then raise exception 'CP7_SALES_REQUEST_CHANGED';end if;\n if cp7_sales.command_access(p_action) is distinct from a then raise exception using errcode='42501',message='CP7_SALES_ACCESS_CHANGED';end if;\n if old.response is not null then return old.response;end if;\n insert into cp7_sales.command_context values(pg_backend_pid(),txid_current(),auth.uid(),(p_payload->>'sale_id')::uuid,p_action);\n r:=cp7_sales.apply_command(p_action,p_payload,p_request,p_expected);\n delete from cp7_sales.command_context where backend_pid=pg_backend_pid() and transaction_id=txid_current();\n if cp7_sales.command_access(p_action) is distinct from a then raise exception using errcode='42501',message='CP7_SALES_ACCESS_CHANGED';end if;\n r:=r||jsonb_build_object('contract_version','cp7.sales-outcome.v1','kind','COMMITTED_OUTCOME','action',p_action,'request_id',p_request);\n update cp7_sales.requests set response=r where actor=auth.uid() and request_id=p_request;\n return r;\nend $function$\n",
+      "cp7_sales_write",
+      "plpgsql",
+      "f",
+      false,
+      false,
+      false,
+      false,
+      "v",
+      "u",
+      "100",
+      "0",
+      [
+        "search_path=\"\""
+      ],
+      [
+        "p_action",
+        "p_payload",
+        "p_request",
+        "p_expected"
+      ],
+      null,
+      "p_action text, p_payload jsonb, p_request uuid, p_expected text",
+      "jsonb",
+      "-",
+      [
+        [
+          "cp7_sales_write",
+          "cp7_sales_write",
+          "EXECUTE",
+          false
+        ]
+      ]
+    ],
+    "public.erp_cp7_save_sale_v1(text,jsonb,uuid,text)": [
+      "CREATE OR REPLACE FUNCTION public.erp_cp7_save_sale_v1(p_action text, p_payload jsonb, p_request uuid, p_expected text)\n RETURNS jsonb\n LANGUAGE sql\n SECURITY DEFINER\n SET search_path TO ''\nAS $function$select cp7_sales.command(p_action,p_payload,p_request,p_expected)$function$\n",
+      "cp7_sales_write",
+      "sql",
+      "f",
+      true,
+      false,
+      false,
+      false,
+      "v",
+      "u",
+      "100",
+      "0",
+      [
+        "search_path=\"\""
+      ],
+      [
+        "p_action",
+        "p_payload",
+        "p_request",
+        "p_expected"
+      ],
+      null,
+      "p_action text, p_payload jsonb, p_request uuid, p_expected text",
+      "jsonb",
+      "-",
+      [
+        [
+          "authenticated",
+          "cp7_sales_write",
+          "EXECUTE",
+          false
+        ],
+        [
+          "cp7_sales_write",
+          "cp7_sales_write",
+          "EXECUTE",
+          false
+        ],
+        [
+          "postgres",
+          "cp7_sales_write",
+          "EXECUTE",
+          false
+        ]
+      ]
+    ]
+  },
+  "mocked_helpers": {
+    "erp.post_journal(text,uuid,date,text,jsonb)": [
+      "CREATE OR REPLACE FUNCTION erp.post_journal(p_source_type text, p_source_id uuid, p_transaction_date date, p_description text, p_lines jsonb)\n RETURNS uuid\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'erp', 'public'\nAS $function$\ndeclare\n  v_entry_id uuid;\n  v_input_debit numeric;\n  v_input_credit numeric;\n  v_cent_lines jsonb := '[]'::jsonb;\n  v_number text;\n  v_debit numeric(20,2);\n  v_credit numeric(20,2);\n  r jsonb;\n  v_account_id uuid;\n  v_gl_date date;\n  v_ap_vendor_account uuid;\n  v_vendor_id uuid;\n  v_vendor_balance numeric(24,6);\n  v_vendor_delta numeric(24,6);\nbegin\n  perform erp.require_internal();\n  if jsonb_typeof(p_lines) is distinct from 'array' then\n    raise exception 'JOURNAL_LINES_ARRAY_REQUIRED';\n  end if;\n  if jsonb_array_length(p_lines)<2 then\n    raise exception 'Journal requires at least two lines';\n  end if;\n  -- Canonicalize each monetary line exactly as it will be stored. All balance\n  -- and vendor-admission checks below consume these same cent amounts.\n  for r in select * from jsonb_array_elements(p_lines) loop\n    if jsonb_typeof(r) is distinct from 'object' then\n      raise exception 'JOURNAL_LINE_OBJECT_REQUIRED';\n    end if;\n    v_input_debit:=coalesce((r->>'debit')::numeric,0);\n    v_input_credit:=coalesce((r->>'credit')::numeric,0);\n    if v_input_debit::text in('NaN','Infinity','-Infinity')\n       or v_input_credit::text in('NaN','Infinity','-Infinity')\n       or v_input_debit<0 or v_input_credit<0 then\n      raise exception 'JOURNAL_FINITE_NONNEGATIVE_MONEY_REQUIRED';\n    end if;\n    v_cent_lines:=v_cent_lines||jsonb_build_array(r||jsonb_build_object(\n      'debit',round(v_input_debit,2),'credit',round(v_input_credit,2)));\n  end loop;\n  p_lines:=v_cent_lines;\n  select coalesce(sum(coalesce((x->>'debit')::numeric,0)),0),coalesce(sum(coalesce((x->>'credit')::numeric,0)),0)\n  into v_debit,v_credit from jsonb_array_elements(p_lines) x;\n  if v_debit<>v_credit or v_debit<=0 then raise exception 'Journal is not balanced. Debit %, Credit %',v_debit,v_credit; end if;\n  if exists(select 1 from erp.journal_entries where source_type=p_source_type and source_id=p_source_id and status='POSTED') then\n    raise exception 'A posted journal already exists for this source';\n  end if;\n\n  -- Serialize journal posting with accounting close/reopen. A close that starts\n  -- first blocks this journal until the new closed-through date is visible; a\n  -- journal that starts first keeps the close waiting until this posting commits.\n  perform 1 from erp.accounting_period_control where singleton_id=1 for share;\n\n  -- Vendor AP is allowed to reach zero, but not become negative. Negative AP\n  -- means the company has a receivable/advance from the vendor and requires a\n  -- separate explicit workflow instead of silently crossing the account sign.\n  v_ap_vendor_account:=erp.account_id('AP_VENDOR');\n  for v_vendor_id in\n    select distinct nullif(x->>'vendor_id','')::uuid\n    from jsonb_array_elements(p_lines) x\n    where nullif(x->>'vendor_id','') is not null\n      and coalesce((x->>'debit')::numeric,0)>coalesce((x->>'credit')::numeric,0)\n      and (\n        (x ? 'mapping_key' and x->>'mapping_key'='AP_VENDOR')\n        or (x ? 'account_id' and nullif(x->>'account_id','')::uuid=v_ap_vendor_account)\n      )\n    order by 1\n  loop\n    perform pg_advisory_xact_lock(hashtextextended('VENDOR_AP|'||v_vendor_id::text,0));\n\n    select coalesce(sum(jl.credit-jl.debit),0)\n      into v_vendor_balance\n    from erp.journal_lines jl\n    join erp.journal_entries je on je.id=jl.journal_entry_id\n    where je.status in ('POSTED','REVERSED')\n      and jl.account_id=v_ap_vendor_account\n      and jl.vendor_id=v_vendor_id;\n\n    select coalesce(sum(\n      coalesce((x->>'credit')::numeric,0)-coalesce((x->>'debit')::numeric,0)\n    ),0)\n      into v_vendor_delta\n    from jsonb_array_elements(p_lines) x\n    where nullif(x->>'vendor_id','')::uuid=v_vendor_id\n      and (\n        (x ? 'mapping_key' and x->>'mapping_key'='AP_VENDOR')\n        or (x ? 'account_id' and nullif(x->>'account_id','')::uuid=v_ap_vendor_account)\n      );\n\n    if v_vendor_balance::text in('NaN','Infinity','-Infinity') or v_vendor_balance+v_vendor_delta < 0 then\n      raise exception 'Transaksi ini membuat hutang vendor menjadi negatif. Hutang saat ini %, perubahan %, hasil %. Reverse/koreksi pembayaran, claim, atau invoice terkait dulu; kelebihan bayar/claim vendor harus masuk workflow piutang vendor terpisah.',\n        round(v_vendor_balance,2),round(v_vendor_delta,2),round(v_vendor_balance+v_vendor_delta,2);\n    end if;\n  end loop;\n\n  v_gl_date:=erp.resolve_accounting_transaction_date(p_transaction_date);\n  v_number:='JRN-'||to_char((clock_timestamp() AT TIME ZONE 'Asia/Jakarta'),'YYYYMMDDHH24MISSMS')||'-'||substr(gen_random_uuid()::text,1,8);\n  insert into erp.journal_entries(journal_number,economic_date,transaction_date,posting_at,source_type,source_id,description,status,created_by)\n  values(v_number,p_transaction_date,v_gl_date,statement_timestamp(),p_source_type,p_source_id,p_description,'POSTED',erp.current_app_user_id()) returning id into v_entry_id;\n\n  for r in select * from jsonb_array_elements(p_lines) loop\n    if r?'account_id' then v_account_id:=(r->>'account_id')::uuid; else v_account_id:=erp.account_id(r->>'mapping_key'); end if;\n    insert into erp.journal_lines(journal_entry_id,account_id,description,debit,credit,customer_id,vendor_id,contractor_id,po_id,product_id)\n    values(v_entry_id,v_account_id,r->>'description',coalesce((r->>'debit')::numeric,0),coalesce((r->>'credit')::numeric,0),nullif(r->>'customer_id','')::uuid,nullif(r->>'vendor_id','')::uuid,nullif(r->>'contractor_id','')::uuid,nullif(r->>'po_id','')::uuid,nullif(r->>'product_id','')::uuid);\n  end loop;\n\n  insert into erp.account_daily_balances(balance_date,account_id,debit_total,credit_total)\n  select v_gl_date,jl.account_id,sum(jl.debit),sum(jl.credit) from erp.journal_lines jl where jl.journal_entry_id=v_entry_id group by jl.account_id\n  on conflict(balance_date,account_id) do update set debit_total=erp.account_daily_balances.debit_total+excluded.debit_total,credit_total=erp.account_daily_balances.credit_total+excluded.credit_total,updated_at=statement_timestamp();\n\n  if v_gl_date<>p_transaction_date then\n    insert into erp.audit_logs(entity_type,entity_id,action,new_data,changed_by,change_reason)\n    values('journal_entries',v_entry_id,'POST',jsonb_build_object('economic_date',p_transaction_date,'transaction_date',v_gl_date,'period_shifted',true,'source_type',p_source_type,'source_id',p_source_id),erp.current_app_user_id(),'Late/backdated posting moved to open accounting period');\n  end if;\n  return v_entry_id;\nend;\n$function$\n",
+      "postgres",
+      "plpgsql",
+      "f",
+      true,
+      false,
+      false,
+      false,
+      "v",
+      "u",
+      "100",
+      "0",
+      [
+        "search_path=erp, public"
+      ],
+      [
+        "p_source_type",
+        "p_source_id",
+        "p_transaction_date",
+        "p_description",
+        "p_lines"
+      ],
+      null,
+      "p_source_type text, p_source_id uuid, p_transaction_date date, p_description text, p_lines jsonb",
+      "uuid",
+      "-",
+      [
+        [
+          "postgres",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "service_role",
+          "postgres",
+          "EXECUTE",
+          false
+        ]
+      ]
+    ],
+    "cp7_credit.current_effective_paid(uuid)": [
+      "CREATE OR REPLACE FUNCTION cp7_credit.current_effective_paid(p_sale uuid)\n RETURNS numeric\n LANGUAGE plpgsql\n STABLE SECURITY DEFINER\n SET search_path TO ''\n SET \"TimeZone\" TO 'UTC'\nAS $function$\ndeclare paid numeric;adjustment numeric;\nbegin\n select coalesce(sum(amount),0)into paid from erp.sales_payments where sale_id=p_sale and status='POSTED';\n adjustment:=erp._cp7_current_credit_adjustment(p_sale);\n if paid+adjustment<0 and not cp7_credit.payment_is_intermediate_v1(p_sale)then raise exception 'CP7_CREDIT_NEGATIVE_EFFECTIVE_PAID';end if;\n return paid+adjustment;\nend $function$\n",
+      "postgres",
+      "plpgsql",
+      "f",
+      true,
+      false,
+      false,
+      false,
+      "s",
+      "u",
+      "100",
+      "0",
+      [
+        "search_path=\"\"",
+        "TimeZone=UTC"
+      ],
+      [
+        "p_sale"
+      ],
+      null,
+      "p_sale uuid",
+      "numeric",
+      "-",
+      [
+        [
+          "postgres",
+          "postgres",
+          "EXECUTE",
+          false
+        ]
+      ]
+    ],
+    "erp.sale_net_total(uuid)": [
+      "CREATE OR REPLACE FUNCTION erp.sale_net_total(p_sale_id uuid)\n RETURNS numeric\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO 'erp', 'public'\nAS $function$\nselect greatest(\n  coalesce((select sum(si.line_total) from erp.sales_items si where si.sale_id=$1),0)\n  -coalesce((select sum(sri.refund_amount) from erp.sales_return_items sri join erp.sales_returns sr on sr.id=sri.return_id where sr.sale_id=$1 and sr.status='POSTED'),0),\n0)::numeric\n$function$\n",
+      "postgres",
+      "sql",
+      "f",
+      true,
+      false,
+      false,
+      false,
+      "s",
+      "u",
+      "100",
+      "0",
+      [
+        "search_path=erp, public"
+      ],
+      [
+        "p_sale_id"
+      ],
+      null,
+      "p_sale_id uuid",
+      "numeric",
+      "-",
+      [
+        [
+          "postgres",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "service_role",
+          "postgres",
+          "EXECUTE",
+          false
+        ]
+      ]
+    ],
+    "erp.recalculate_payroll(uuid)": [
+      "CREATE OR REPLACE FUNCTION erp.recalculate_payroll(p_payroll_id uuid)\n RETURNS void\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'erp', 'public'\nAS $function$ DECLARE p erp.payroll_settlements%ROWTYPE;v_attendance_required boolean; BEGIN PERFORM erp.require_internal(); SELECT * INTO p FROM erp.payroll_settlements WHERE id=p_payroll_id FOR UPDATE; IF p.id IS NULL OR p.status NOT IN ('DRAFT','CALCULATED','REVIEW') THEN RAISE EXCEPTION 'Payroll cannot be recalculated in current status'; END IF; SELECT attendance_required INTO v_attendance_required FROM erp.contractors WHERE id=p.contractor_id; UPDATE erp.payroll_settlements SET labor_total=COALESCE((SELECT SUM(amount) FROM erp.payroll_work_items WHERE payroll_id=p_payroll_id),0),attendance_total=CASE WHEN v_attendance_required THEN COALESCE((SELECT SUM(amount) FROM erp.payroll_attendance_items WHERE payroll_id=p_payroll_id),0) ELSE 0 END,reimburse_total=COALESCE((SELECT SUM(amount) FROM erp.payroll_reimbursements WHERE payroll_id=p_payroll_id),0),deduction_total=COALESCE((SELECT SUM(amount) FROM erp.payroll_deductions WHERE payroll_id=p_payroll_id),0),status='CALCULATED' WHERE id=p_payroll_id; END; $function$\n",
+      "postgres",
+      "plpgsql",
+      "f",
+      true,
+      false,
+      false,
+      false,
+      "v",
+      "u",
+      "100",
+      "0",
+      [
+        "search_path=erp, public"
+      ],
+      [
+        "p_payroll_id"
+      ],
+      null,
+      "p_payroll_id uuid",
+      "void",
+      "-",
+      [
+        [
+          "authenticated",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "postgres",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "service_role",
+          "postgres",
+          "EXECUTE",
+          false
+        ]
+      ]
+    ],
+    "erp.require_internal()": [
+      "CREATE OR REPLACE FUNCTION erp.require_internal()\n RETURNS void\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\nAS $function$\ndeclare v_app_role text;v_jwt_role text;\nbegin\n if session_user in('postgres','supabase_admin') then return;end if;\n begin v_jwt_role:=coalesce(auth.jwt()->>'role','');exception when others then v_jwt_role:='';end;\n if v_jwt_role='service_role' then return;end if;\n -- R4-05 one context probe (scripts/cp7_internal_guard_bundle.py): without a private command context row of this\n -- backend and transaction no branch below admits; only the final role test decides. A transaction that has\n -- no transaction id yet has written no row (a context row carries the id of the transaction that wrote it).\n if txid_current_if_assigned() is null or not exists(select 1 from cp7_sales.command_context x where x.backend_pid=pg_backend_pid() and x.transaction_id=txid_current()\n  union all select 1 from erp.cutting_bridge_execution_context x where x.backend_pid=pg_backend_pid() and x.transaction_id=txid_current()\n  union all select 1 from erp.bs_resolution_execution_context x where x.backend_pid=pg_backend_pid() and x.transaction_id=txid_current()\n  union all select 1 from erp.cp6_laundry_qc_execution_context x where x.backend_pid=pg_backend_pid() and x.transaction_id=txid_current()\n  union all select 1 from cp7_procurement.execution_context x where x.backend_pid=pg_backend_pid() and x.transaction_id=txid_current()\n  union all select 1 from cp7_material.execution_context x where x.backend_pid=pg_backend_pid() and x.transaction_id=txid_current()\n  union all select 1 from cp7_supplier_return.execution_context x where x.backend_pid=pg_backend_pid() and x.transaction_id=txid_current()\n  union all select 1 from cp7_payroll.execution_context x where x.backend_pid=pg_backend_pid() and x.transaction_id=txid_current()\n  union all select 1 from cp7_payroll.settlement_context x where x.backend_pid=pg_backend_pid() and x.transaction_id=txid_current()\n  union all select 1 from cp7_attendance.command_context x where x.backend_pid=pg_backend_pid() and x.transaction_id=txid_current()\n  union all select 1 from cp7_credit.consumer_execution_context x where x.backend_pid=pg_backend_pid() and x.transaction_id=txid_current())then\n  if coalesce(erp.current_app_role(),'') not in('OWNER','ADMIN','STAFF') then raise exception 'Internal ERP access required';end if;\n  return;\n end if;\n if exists(select 1 from cp7_sales.command_context c where c.backend_pid=pg_backend_pid()\n  and c.transaction_id=txid_current() and case when c.backend_pid=pg_backend_pid()\n   and c.transaction_id=txid_current() and c.actor=auth.uid() and v_jwt_role='authenticated'\n   and c.action in('CREATE','EDIT','POST','CANCEL','PAYMENT','PAYMENT_REVERSE','RETURN','RETURN_REVERSE','SALE_REVERSE')\n   and not exists(select 1 from erp.cutting_bridge_execution_context before_sales where before_sales.backend_pid=pg_backend_pid() and before_sales.transaction_id=txid_current() union all select 1 from erp.bs_resolution_execution_context before_sales where before_sales.backend_pid=pg_backend_pid() and before_sales.transaction_id=txid_current() union all select 1 from erp.cp6_laundry_qc_execution_context before_sales where before_sales.backend_pid=pg_backend_pid() and before_sales.transaction_id=txid_current() union all select 1 from cp7_procurement.execution_context before_sales where before_sales.backend_pid=pg_backend_pid() and before_sales.transaction_id=txid_current() union all select 1 from cp7_material.execution_context before_sales where before_sales.backend_pid=pg_backend_pid() and before_sales.transaction_id=txid_current() union all select 1 from cp7_supplier_return.execution_context before_sales where before_sales.backend_pid=pg_backend_pid() and before_sales.transaction_id=txid_current() union all select 1 from cp7_payroll.execution_context before_sales where before_sales.backend_pid=pg_backend_pid() and before_sales.transaction_id=txid_current() union all select 1 from cp7_payroll.settlement_context before_sales where before_sales.backend_pid=pg_backend_pid() and before_sales.transaction_id=txid_current() union all select 1 from cp7_attendance.command_context before_sales where before_sales.backend_pid=pg_backend_pid() and before_sales.transaction_id=txid_current())\n   then cp7_sales.command_allowed(c.action) else false end) then return;end if;\n\n -- Keep indexable identity filters, and evaluate live scope permissions only\n -- for that exact candidate. SQL AND does not fix predicate evaluation order.\n -- Matched scope checks and the existing legacy fallback remain unchanged.\n if exists(select 1 from erp.cutting_bridge_execution_context c where c.backend_pid=pg_backend_pid()\n  and c.transaction_id=txid_current() and case when c.backend_pid=pg_backend_pid()\n   and c.transaction_id=txid_current() and c.actor_key=erp._idempotency_actor_key() and c.action='POST_CUTTING'\n   and c.permission_key='production.cutting.post' then erp.has_permission(c.permission_key) else false end) then return;end if;\n if exists(select 1 from erp.bs_resolution_execution_context c where c.backend_pid=pg_backend_pid()\n  and c.transaction_id=txid_current() and case when c.backend_pid=pg_backend_pid()\n   and c.transaction_id=txid_current() and c.actor_key=erp._idempotency_actor_key()\n   and c.permission_key in('production.bs_rework.create','production.bs_rework.post','production.bs_rework.reverse')\n   then erp.has_permission(c.permission_key) else false end) then return;end if;\n if exists(select 1 from erp.cp6_laundry_qc_execution_context c where c.backend_pid=pg_backend_pid()\n  and c.transaction_id=txid_current() and case when c.backend_pid=pg_backend_pid()\n   and c.transaction_id=txid_current() and c.actor_key=erp._idempotency_actor_key()\n   and ((c.action in('POST_DELIVERY','POST_RECEIPT','POST_FAILED_WASH') and c.permission_key='production.laundry.post')\n    or(c.action='POST_FINAL_SKU' and c.permission_key='production.final_sku.post')\n    or(c.action in('REVERSE_DELIVERY','REVERSE_RECEIPT') and c.permission_key='production.laundry.reverse')\n    or(c.action='REVERSE_FINAL_SKU' and c.permission_key='production.final_sku.reverse'))\n   then erp.has_permission(c.permission_key) else false end) then return;end if;\n -- Only a private, transaction/actor-bound public-command context extends the\n -- legacy internal-role guard. Caller-controlled GUCs cannot grant this path.\n if exists(select 1 from cp7_procurement.execution_context c where c.backend_pid=pg_backend_pid()\n  and c.transaction_id=txid_current() and case when c.backend_pid=pg_backend_pid()\n   and c.transaction_id=txid_current() and c.actor=auth.uid() and v_jwt_role='authenticated'\n   and ((c.action='SAVE_DRAFT' and c.permission_key='warehouse.procurement.create')\n    or(c.action='POST' and c.permission_key='warehouse.procurement.post'))\n   then erp.has_permission('warehouse.procurement.view') and erp.has_permission(c.permission_key) else false end) then return;end if;\n if exists(select 1 from cp7_material.execution_context c where c.backend_pid=pg_backend_pid()\n  and c.transaction_id=txid_current() and case when c.backend_pid=pg_backend_pid()\n   and c.transaction_id=txid_current() and c.actor=auth.uid() and v_jwt_role='authenticated'\n   and c.action in('SAVE_TRANSFER','POST_TRANSFER','REVERSE_TRANSFER','SAVE_COUNT','POST_COUNT','DELETE_COUNT','REVERSE_COUNT') and c.permission_key='warehouse.stock.adjust'\n   then erp.has_permission('warehouse.material.view') and erp.has_permission(c.permission_key) else false end) then return;end if;\n if exists(select 1 from cp7_supplier_return.execution_context c where c.backend_pid=pg_backend_pid()\n  and c.transaction_id=txid_current() and case when c.backend_pid=pg_backend_pid()\n   and c.transaction_id=txid_current() and c.actor=auth.uid() and v_jwt_role='authenticated'\n   and ((c.action='SAVE' and c.permission_key='warehouse.procurement.create')\n    or(c.action in('POST','REVERSE') and c.permission_key='warehouse.procurement.reverse'))\n   then erp.has_permission('warehouse.procurement.view') and erp.has_permission(c.permission_key) else false end) then return;end if;\n if exists(select 1 from cp7_payroll.execution_context c where c.backend_pid=pg_backend_pid()\n  and c.transaction_id=txid_current() and case when c.backend_pid=pg_backend_pid()\n   and c.transaction_id=txid_current() and c.actor=auth.uid() and v_jwt_role='authenticated'\n   and c.action='POST_NOTE' and c.permission_key='production.fg_handoff.post'\n   then erp.has_permission('production.fg_handoff.view') and erp.has_permission(c.permission_key) else false end) then return;end if;\n  if exists(select 1 from cp7_payroll.settlement_context c where c.backend_pid=pg_backend_pid()\n    and c.transaction_id=txid_current() and case when c.backend_pid=pg_backend_pid()\n     and c.transaction_id=txid_current() and c.actor=auth.uid() and v_jwt_role='authenticated'\n    then erp.has_permission('finance.payroll.view')\n    and(c.action not in('PREPARE','APPROVE','CANCEL','REVERSE') or erp.has_permission('finance.payroll.approve'))\n    and(c.action not in('PAY','REVERSE') or erp.has_permission('finance.payroll.pay'))\n    else false end) then return;end if;\n  if exists(select 1 from cp7_attendance.command_context c where c.backend_pid=pg_backend_pid()\n    and c.transaction_id=txid_current() and case when c.backend_pid=pg_backend_pid()\n     and c.transaction_id=txid_current() and c.actor=auth.uid() and v_jwt_role='authenticated'\n    then erp.has_permission('finance.attendance.view') and erp.has_permission(c.permission)\n    and(not c.owner_required or erp.current_app_role() in('OWNER','ADMIN'))\n    else false end) then return;end if;\n if exists(select 1 from cp7_sales.command_context c where c.backend_pid=pg_backend_pid()\n  and c.transaction_id=txid_current() and case when c.backend_pid=pg_backend_pid()\n   and c.transaction_id=txid_current() and c.actor=auth.uid() and v_jwt_role='authenticated'\n   and c.action in('CREATE','EDIT','POST','CANCEL','PAYMENT','PAYMENT_REVERSE','RETURN','RETURN_REVERSE','SALE_REVERSE')\n   then cp7_sales.command_allowed(c.action) else false end) then return;end if;\n if exists(select 1 from cp7_credit.consumer_execution_context c where c.backend_pid=pg_backend_pid()\n  and c.transaction_id=txid_current() and case when c.backend_pid=pg_backend_pid()\n   and c.transaction_id=txid_current() and c.actor=auth.uid() and v_jwt_role='authenticated'\n   and c.phase in('LOCKED','POSTING','MATERIALIZED','COMPLETE')\n   then cp7_credit.consumer_internal_allowed_v1() else false end) then return;end if;\n v_app_role:=erp.current_app_role();\n if coalesce(v_app_role,'') not in('OWNER','ADMIN','STAFF') then raise exception 'Internal ERP access required';end if;\nend $function$\n",
+      "postgres",
+      "plpgsql",
+      "f",
+      true,
+      false,
+      false,
+      false,
+      "v",
+      "u",
+      "100",
+      "0",
+      [
+        "search_path=\"\""
+      ],
+      null,
+      null,
+      "",
+      "void",
+      "-",
+      [
+        [
+          "postgres",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "service_role",
+          "postgres",
+          "EXECUTE",
+          false
+        ]
+      ]
+    ],
+    "erp._cp3_r4_reverse_journal_internal(uuid,text)": [
+      "CREATE OR REPLACE FUNCTION erp._cp3_r4_reverse_journal_internal(p_journal_entry_id uuid, p_reason text)\n RETURNS uuid\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'erp', 'public'\nAS $function$ DECLARE v_old erp.journal_entries%ROWTYPE;v_new_id uuid;v_lines jsonb; BEGIN PERFORM erp.require_internal(); SELECT * INTO v_old FROM erp.journal_entries WHERE id=p_journal_entry_id FOR UPDATE; IF v_old.id IS NULL OR v_old.status<>'POSTED' THEN RAISE EXCEPTION 'Only posted journal can be reversed'; END IF; SELECT jsonb_agg(jsonb_build_object('account_id',jl.account_id,'debit',jl.credit,'credit',jl.debit,'description','Reversal: '||COALESCE(jl.description,''),'customer_id',jl.customer_id,'vendor_id',jl.vendor_id,'contractor_id',jl.contractor_id,'po_id',jl.po_id,'product_id',jl.product_id)) INTO v_lines FROM erp.journal_lines jl WHERE jl.journal_entry_id=p_journal_entry_id; v_new_id:=erp.post_journal('JOURNAL_REVERSAL',p_journal_entry_id,erp._cp3_business_date(statement_timestamp()),'Reversal: '||v_old.description||' | '||p_reason,v_lines); UPDATE erp.journal_entries SET status='REVERSED' WHERE id=p_journal_entry_id; UPDATE erp.journal_entries SET reversal_of_id=p_journal_entry_id WHERE id=v_new_id; RETURN v_new_id; END; $function$\n",
+      "postgres",
+      "plpgsql",
+      "f",
+      true,
+      false,
+      false,
+      false,
+      "v",
+      "u",
+      "100",
+      "0",
+      [
+        "search_path=erp, public"
+      ],
+      [
+        "p_journal_entry_id",
+        "p_reason"
+      ],
+      null,
+      "p_journal_entry_id uuid, p_reason text",
+      "uuid",
+      "-",
+      [
+        [
+          "postgres",
+          "postgres",
+          "EXECUTE",
+          false
+        ]
+      ]
+    ],
+    "cp7_payroll.settlement_access(text)": [
+      "CREATE OR REPLACE FUNCTION cp7_payroll.settlement_access(p_action text)\n RETURNS jsonb\n LANGUAGE plpgsql\n STABLE SECURITY DEFINER\n SET search_path TO ''\nAS $function$\ndeclare a jsonb;\nbegin\n a:=cp7_payroll.access_now('PAYROLL');\n if p_action not in('PREPARE','APPROVE','PAY','CANCEL','REVERSE') or p_action is null\n  or(p_action in('PREPARE','APPROVE','CANCEL','REVERSE') and not erp.has_permission('finance.payroll.approve'))\n  or(p_action in('PAY','REVERSE') and not erp.has_permission('finance.payroll.pay')) then\n  raise exception using errcode='42501',message='CP7_PAYROLL_WRITE_DENIED';end if;\n return a;\nend $function$\n",
+      "cp7_payroll_read",
+      "plpgsql",
+      "f",
+      true,
+      false,
+      false,
+      false,
+      "s",
+      "u",
+      "100",
+      "0",
+      [
+        "search_path=\"\""
+      ],
+      [
+        "p_action"
+      ],
+      null,
+      "p_action text",
+      "jsonb",
+      "-",
+      [
+        [
+          "cp7_payroll_read",
+          "cp7_payroll_read",
+          "EXECUTE",
+          false
+        ],
+        [
+          "cp7_payroll_write",
+          "cp7_payroll_read",
+          "EXECUTE",
+          false
+        ],
+        [
+          "postgres",
+          "cp7_payroll_read",
+          "EXECUTE",
+          false
+        ]
+      ]
+    ],
+    "cp7_sales.command_access(text)": [
+      "CREATE OR REPLACE FUNCTION cp7_sales.command_access(p_action text)\n RETURNS jsonb\n LANGUAGE plpgsql\n STABLE SECURITY DEFINER\n SET search_path TO ''\nAS $function$\ndeclare a jsonb;\nbegin\n -- Read the complete current access once per invocation. access_now() already\n -- obtains that same document; invoking it here and then reading it again\n -- multiplies full permission-list reads in each native account/HPP guard.\n -- This is never a command/transaction cache: every post-wait guard invocation\n -- still reads current authority and calls the native fine permission checks.\n if auth.uid() is null or coalesce(auth.jwt()->>'role','')<>'authenticated' then raise exception using errcode='42501',message='CP7_SALES_ACCESS_DENIED';end if;\n a:=erp.get_my_access_v1();\n if a->'allowed' is distinct from 'true'::jsonb or not erp.has_permission('sales.invoice.view') then raise exception using errcode='42501',message='CP7_SALES_ACCESS_DENIED';end if;\n if not erp.has_permission('finance.ar.view') or p_action is null or p_action not in('CREATE','EDIT','POST','CANCEL','PAYMENT','PAYMENT_REVERSE','RETURN','RETURN_REVERSE','SALE_REVERSE')\n  or not erp.has_permission(case when p_action='POST' then 'sales.invoice.post' when p_action='CREATE' then 'sales.invoice.create' when p_action='PAYMENT' then 'sales.payment.create' when p_action='PAYMENT_REVERSE' then 'sales.payment.reverse' when p_action='RETURN' then 'sales.return.create' when p_action='RETURN_REVERSE' then 'sales.return.reverse' when p_action='SALE_REVERSE' then 'sales.invoice.reverse' else 'sales.invoice.edit_draft' end)\n  or(p_action in('PAYMENT','PAYMENT_REVERSE') and not erp.has_permission('sales.payment.view'))\n  or(p_action='PAYMENT' and not erp.has_permission('sales.payment.post'))\n  or(p_action in('RETURN','RETURN_REVERSE') and not erp.has_permission('sales.return.view'))\n  or(p_action='RETURN' and not erp.has_permission('sales.return.post'))\n then raise exception using errcode='42501',message='CP7_SALES_WRITE_DENIED';end if;\n if p_action in('PAYMENT_REVERSE','RETURN_REVERSE','SALE_REVERSE') and coalesce(a->'profile'->>'role_code','') not in('OWNER','ADMIN') then raise exception using errcode='42501',message='CP7_SALES_OWNER_ADMIN_REQUIRED';end if;\n return a;\nend $function$\n",
+      "cp7_sales_read",
+      "plpgsql",
+      "f",
+      true,
+      false,
+      false,
+      false,
+      "s",
+      "u",
+      "100",
+      "0",
+      [
+        "search_path=\"\""
+      ],
+      [
+        "p_action"
+      ],
+      null,
+      "p_action text",
+      "jsonb",
+      "-",
+      [
+        [
+          "cp7_sales_read",
+          "cp7_sales_read",
+          "EXECUTE",
+          false
+        ],
+        [
+          "cp7_sales_write",
+          "cp7_sales_read",
+          "EXECUTE",
+          false
+        ],
+        [
+          "postgres",
+          "cp7_sales_read",
+          "EXECUTE",
+          false
+        ]
+      ]
+    ],
+    "cp7_installment.meaning(uuid)": [
+      "CREATE OR REPLACE FUNCTION cp7_installment.meaning(p_id uuid)\n RETURNS jsonb\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO ''\n SET \"TimeZone\" TO 'UTC'\nAS $function$\n select jsonb_build_object('header',to_jsonb(p)-array['status','payment_date','payment_cash_account_id','settled_at','updated_at','row_version'],\n  'work',coalesce((select jsonb_agg(to_jsonb(i)order by i.id)from erp.payroll_work_items i where i.payroll_id=p.id),'[]'),\n  'attendance',coalesce((select jsonb_agg(to_jsonb(i)order by i.id)from erp.payroll_attendance_items i where i.payroll_id=p.id),'[]'),\n  'reimbursements',coalesce((select jsonb_agg(to_jsonb(i)order by i.id)from erp.payroll_reimbursements i where i.payroll_id=p.id),'[]'),\n  'deductions',coalesce((select jsonb_agg(to_jsonb(i)order by i.id)from erp.payroll_deductions i where i.payroll_id=p.id),'[]'))\n from erp.payroll_settlements p where p.id=p_id\n$function$\n",
+      "cp7_installment_read",
+      "sql",
+      "f",
+      true,
+      false,
+      false,
+      false,
+      "s",
+      "u",
+      "100",
+      "0",
+      [
+        "search_path=\"\"",
+        "TimeZone=UTC"
+      ],
+      [
+        "p_id"
+      ],
+      null,
+      "p_id uuid",
+      "jsonb",
+      "-",
+      [
+        [
+          "cp7_installment_read",
+          "cp7_installment_read",
+          "EXECUTE",
+          false
+        ],
+        [
+          "postgres",
+          "cp7_installment_read",
+          "EXECUTE",
+          false
+        ]
+      ]
+    ],
+    "cp7_installment.access_now(text)": [
+      "CREATE OR REPLACE FUNCTION cp7_installment.access_now(p_action text DEFAULT NULL::text)\n RETURNS jsonb\n LANGUAGE plpgsql\n STABLE SECURITY DEFINER\n SET search_path TO ''\nAS $function$\ndeclare a jsonb;\nbegin\n if auth.uid()is null or coalesce(auth.jwt()->>'role','')<>'authenticated' then raise exception using errcode='42501',message='CP7_INSTALLMENT_ACCESS_DENIED';end if;\n a:=erp.get_my_access_v1();\n if a->'allowed'is distinct from 'true'::jsonb or not erp.has_permission('finance.payroll.view')\n  or(p_action is not null and(p_action not in('PAY','REVERSE_PAYMENT','REVERSE_PAYROLL')or not erp.has_permission('finance.payroll.pay')))\n  or(p_action='REVERSE_PAYROLL'and not erp.has_permission('finance.payroll.approve'))then raise exception using errcode='42501',message='CP7_INSTALLMENT_ACCESS_DENIED';end if;\n return a;\nend $function$\n",
+      "cp7_installment_read",
+      "plpgsql",
+      "f",
+      true,
+      false,
+      false,
+      false,
+      "s",
+      "u",
+      "100",
+      "0",
+      [
+        "search_path=\"\""
+      ],
+      [
+        "p_action"
+      ],
+      null,
+      "p_action text DEFAULT NULL::text",
+      "jsonb",
+      "-",
+      [
+        [
+          "cp7_installment_read",
+          "cp7_installment_read",
+          "EXECUTE",
+          false
+        ],
+        [
+          "cp7_installment_write",
+          "cp7_installment_read",
+          "EXECUTE",
+          false
+        ],
+        [
+          "postgres",
+          "cp7_installment_read",
+          "EXECUTE",
+          false
+        ]
+      ]
+    ],
+    "erp.get_my_access_v1()": [
+      "CREATE OR REPLACE FUNCTION erp.get_my_access_v1()\n RETURNS jsonb\n LANGUAGE plpgsql\n STABLE SECURITY DEFINER\n SET search_path TO ''\nAS $function$\ndeclare v_auth_user_id uuid:=auth.uid();v_user erp.app_users%rowtype;v_role erp.app_roles%rowtype;\nbegin\n  if v_auth_user_id is null then\n    return jsonb_build_object('allowed',false,'reason','AUTH_REQUIRED');\n  end if;\n  select * into v_user from erp.app_users where auth_user_id=v_auth_user_id limit 1;\n  if v_user.id is null then\n    return jsonb_build_object('allowed',false,'reason','APP_USER_NOT_FOUND');\n  end if;\n  if not v_user.is_active then\n    return jsonb_build_object('allowed',false,'reason','APP_USER_INACTIVE');\n  end if;\n  select * into v_role from erp.app_roles where id=v_user.role_id;\n  if v_role.id is null then\n    return jsonb_build_object('allowed',false,'reason','APP_ROLE_NOT_FOUND');\n  end if;\n  if not v_role.is_active then\n    return jsonb_build_object('allowed',false,'reason','APP_ROLE_INACTIVE');\n  end if;\n  return jsonb_build_object(\n    'allowed',true,\n    'profile',jsonb_build_object(\n      'id',v_user.id,'auth_user_id',v_user.auth_user_id,'full_name',v_user.full_name,\n      'role_id',v_role.id,'role_code',v_role.role_code,'role_name',v_role.role_name,\n      'is_active',v_user.is_active,'row_version',v_user.row_version,\n      'role_row_version',v_role.row_version\n    ),\n    'permissions',erp.role_permission_keys(v_role.id),\n    'external_portals',jsonb_build_object('mandor','NOT CONNECTED','laundry','NOT CONNECTED','store','NOT CONNECTED')\n  );\nend\n$function$\n",
+      "postgres",
+      "plpgsql",
+      "f",
+      true,
+      false,
+      false,
+      false,
+      "s",
+      "u",
+      "100",
+      "0",
+      [
+        "search_path=\"\""
+      ],
+      null,
+      null,
+      "",
+      "jsonb",
+      "-",
+      [
+        [
+          "cp7_alert",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "cp7_attendance_read",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "cp7_attendance_write",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "cp7_capture",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "cp7_fg_read",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "cp7_fg_write",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "cp7_finance_read",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "cp7_installment_read",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "cp7_invoice_read",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "cp7_invoice_write",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "cp7_journal_read",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "cp7_material_read",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "cp7_material_write",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "cp7_misc_read",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "cp7_nota_write",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "cp7_obligation_read",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "cp7_payable_read",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "cp7_payroll_header",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "cp7_payroll_read",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "cp7_payroll_write",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "cp7_period_read",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "cp7_period_write",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "cp7_plan_writer",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "cp7_policy",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "cp7_procure_read",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "cp7_procure_write",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "cp7_recost_read",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "cp7_recost_write",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "cp7_reminder",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "cp7_return_read",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "cp7_return_write",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "cp7_roster_write",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "cp7_sales_read",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "cp7_transaction_source_read",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "postgres",
+          "postgres",
+          "EXECUTE",
+          false
+        ]
+      ]
+    ],
+    "erp.has_permission(text)": [
+      "CREATE OR REPLACE FUNCTION erp.has_permission(p_permission_key text)\n RETURNS boolean\n LANGUAGE plpgsql\n STABLE SECURITY DEFINER\n SET search_path TO ''\nAS $function$\ndeclare v_jwt_role text;v_allowed boolean:=false;\nbegin\n  begin\n    v_jwt_role:=coalesce(auth.jwt()->>'role','');\n  exception when others then\n    v_jwt_role:='';\n  end;\n  if v_jwt_role='service_role' then return true; end if;\n  select case\n    when r.is_protected and r.role_code='OWNER' then true\n    else exists(\n      select 1\n      from erp.app_role_permissions rp\n      join erp.app_permissions p on p.permission_key=rp.permission_key and p.is_active\n      where rp.role_id=r.id and rp.permission_key=p_permission_key\n    ) end\n  into v_allowed\n  from erp.app_users u\n  join erp.app_roles r on r.id=u.role_id and r.is_active\n  where u.auth_user_id=auth.uid() and u.is_active\n  limit 1;\n  return coalesce(v_allowed,false);\nend\n$function$\n",
+      "postgres",
+      "plpgsql",
+      "f",
+      true,
+      false,
+      false,
+      false,
+      "s",
+      "u",
+      "100",
+      "0",
+      [
+        "search_path=\"\""
+      ],
+      [
+        "p_permission_key"
+      ],
+      null,
+      "p_permission_key text",
+      "boolean",
+      "-",
+      [
+        [
+          "cp7_alert",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "cp7_attendance_read",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "cp7_attendance_write",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "cp7_capture",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "cp7_fg_read",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "cp7_fg_write",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "cp7_finance_read",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "cp7_installment_read",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "cp7_invoice_read",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "cp7_invoice_write",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "cp7_journal_read",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "cp7_material_read",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "cp7_material_write",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "cp7_misc_read",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "cp7_nota_write",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "cp7_obligation_read",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "cp7_payable_read",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "cp7_payroll_header",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "cp7_payroll_read",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "cp7_payroll_write",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "cp7_period_read",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "cp7_period_write",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "cp7_plan_writer",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "cp7_policy",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "cp7_procure_read",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "cp7_procure_write",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "cp7_recost_read",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "cp7_recost_write",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "cp7_reminder",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "cp7_return_read",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "cp7_return_write",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "cp7_roster_write",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "cp7_sales_read",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "cp7_transaction_source_read",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "postgres",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "service_role",
+          "postgres",
+          "EXECUTE",
+          false
+        ]
+      ]
+    ]
+  },
+  "fixture_roles": {
+    "authenticated": [
+      false,
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      -1,
+      null,
+      "8bde1accc48d17a8c329d2f1ebeb694dbf1942e7fd1b160f32fe8c19b370c80e"
+    ],
+    "cp7_alert": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      -1,
+      null,
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    ],
+    "cp7_attendance_read": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      -1,
+      null,
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    ],
+    "cp7_attendance_write": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      -1,
+      null,
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    ],
+    "cp7_capture": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      -1,
+      null,
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    ],
+    "cp7_credit_visible_read": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      -1,
+      null,
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    ],
+    "cp7_fg_read": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      -1,
+      null,
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    ],
+    "cp7_fg_write": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      -1,
+      null,
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    ],
+    "cp7_finance_read": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      -1,
+      null,
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    ],
+    "cp7_installment_read": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      -1,
+      null,
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    ],
+    "cp7_installment_write": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      -1,
+      null,
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    ],
+    "cp7_invoice_read": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      -1,
+      null,
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    ],
+    "cp7_invoice_write": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      -1,
+      null,
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    ],
+    "cp7_journal_read": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      -1,
+      null,
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    ],
+    "cp7_material_read": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      -1,
+      null,
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    ],
+    "cp7_material_write": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      -1,
+      null,
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    ],
+    "cp7_misc_read": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      -1,
+      null,
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    ],
+    "cp7_nota_write": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      -1,
+      null,
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    ],
+    "cp7_obligation_read": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      -1,
+      null,
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    ],
+    "cp7_payable_read": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      -1,
+      null,
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    ],
+    "cp7_payroll_header": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      -1,
+      null,
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    ],
+    "cp7_payroll_read": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      -1,
+      null,
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    ],
+    "cp7_payroll_write": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      -1,
+      null,
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    ],
+    "cp7_period_read": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      -1,
+      null,
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    ],
+    "cp7_period_write": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      -1,
+      null,
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    ],
+    "cp7_plan_writer": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      -1,
+      null,
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    ],
+    "cp7_policy": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      -1,
+      null,
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    ],
+    "cp7_procure_read": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      -1,
+      null,
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    ],
+    "cp7_procure_write": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      -1,
+      null,
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    ],
+    "cp7_recost_read": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      -1,
+      null,
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    ],
+    "cp7_recost_write": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      -1,
+      null,
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    ],
+    "cp7_reminder": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      -1,
+      null,
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    ],
+    "cp7_return_read": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      -1,
+      null,
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    ],
+    "cp7_return_write": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      -1,
+      null,
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    ],
+    "cp7_roster_write": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      -1,
+      null,
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    ],
+    "cp7_sales_read": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      -1,
+      null,
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    ],
+    "cp7_sales_write": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      -1,
+      null,
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    ],
+    "cp7_transaction_source_read": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      -1,
+      null,
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    ],
+    "postgres": [
+      false,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      -1,
+      null,
+      "bd9af0e5b32b81a5480f0ed93c746345b7e97b2f7b7fe393ec5b6abc2d203357"
+    ],
+    "service_role": [
+      false,
+      true,
+      false,
+      false,
+      false,
+      false,
+      true,
+      -1,
+      null,
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    ],
+    "supabase_admin": [
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      -1,
+      null,
+      "60c102bb231ad67d0a176028418e00e10453f7db6ef5af398d1106c47082134f"
+    ]
+  },
+  "modeled_domain": "cp7_credit.cent_amount",
+  "domain_constraints_NOT_reproduced": true,
+  "Native_constraints_defaults_generated_expressions_RLS_Auth_and_business_NOT_reproduced": true,
+  "actual_Native_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

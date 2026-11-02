@@ -1,0 +1,127 @@
+{
+  "status": "FG_MANDOR_NATIVE_HEADER_IDENTITY_MODEL_CONTROLS_PASS_NOT_NATIVE",
+  "source_files": {
+    "schema.sql": {
+      "bytes": 12510,
+      "sha256": "59c1b8e69555f6a8e0caf34e8d0ee18e27c1d4caaee8073c44225bbc4a687fd1"
+    },
+    "events.sql": {
+      "bytes": 8216,
+      "sha256": "9e2633af5d9ecff6220c37cdf8bb22a27ce71cbc03862c8aa40a1fadfd82a1d3"
+    },
+    "sale_identity.sql": {
+      "bytes": 5069,
+      "sha256": "98964804488c94f0ffee865068327a8b6fb37fc8b7c6e037e97af32525a672ea"
+    },
+    "sale_identity_model.mjs": {
+      "bytes": 15442,
+      "sha256": "186fb48414c9f3d67b452b3d34ab866eb93f71e111e1d1055eafb2ecda7f85f7"
+    },
+    "NATIVE_SALES_IDENTITY_REFERENCE.json": {
+      "bytes": 19390,
+      "sha256": "e5fb23ce498448b0497870efb74bf848021cd507d7a29cf54f350ea8804d9b17"
+    }
+  },
+  "results": [
+    {
+      "label": "Actual contractor/customer/Native-header column types and new trigger compile unchanged financial engines",
+      "result": "PASS"
+    },
+    {
+      "label": "Ordinary store headers acquire no mandor facts or new actor requirement",
+      "result": "PASS"
+    },
+    {
+      "label": "Native draft records explicit mandor identity without changing Native header values",
+      "result": "PASS"
+    },
+    {
+      "label": "Editing a draft may select another explicit mandor while posted identity is still absent",
+      "result": "PASS"
+    },
+    {
+      "label": "Switching a Native draft to a store clears only the editable mandor selection",
+      "result": "PASS"
+    },
+    {
+      "label": "Cancelling an unpaid Native draft clears its editable selection",
+      "result": "PASS"
+    },
+    {
+      "label": "First Native post stores one immutable explicit buyer snapshot and removes the draft selection",
+      "result": "PASS"
+    },
+    {
+      "label": "Repeated posted-header observation never duplicates its buyer fact",
+      "result": "PASS"
+    },
+    {
+      "label": "Lawful payment/reversal status observations retain posted names and identities after master changes",
+      "result": "PASS"
+    },
+    {
+      "label": "Posted buyer cannot change to another customer",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "P0001",
+      "error": "POSTED_BUYER_CHANGED"
+    },
+    {
+      "label": "Posted identity cannot be reopened as an editable draft",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "P0001",
+      "error": "POSTED_IDENTITY_CANNOT_RETURN_TO_DRAFT"
+    },
+    {
+      "label": "Inactive master cannot acquire a new Native draft",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "P0001",
+      "error": "ACTIVE_POSTING_BUYER_REQUIRED"
+    },
+    {
+      "label": "Inactive linked customer cannot acquire a new Native draft",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "P0001",
+      "error": "ACTIVE_POSTING_BUYER_REQUIRED"
+    },
+    {
+      "label": "New mandor identity requires a genuine modeled Native private scope",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "42501",
+      "error": "MODEL_NATIVE_SALES_SCOPE_REQUIRED"
+    },
+    {
+      "label": "New mandor identity cannot use an absent actor",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "42501",
+      "error": "NATIVE_SALE_ACTOR_REQUIRED"
+    },
+    {
+      "label": "Another private operation context cannot be overwritten",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "P0001",
+      "error": "NATIVE_SALE_CONTEXT_CONFLICT"
+    },
+    {
+      "label": "A matching caller-owned identity context survives the trigger for its owner to clear",
+      "result": "PASS"
+    }
+  ],
+  "final_counts": {
+    "headers": 5,
+    "drafts": 1,
+    "posted": 1,
+    "own_contexts": 0,
+    "native_contexts": 0,
+    "journals": 0
+  },
+  "model_scope": "One isolated PG/WASM backend; Native-scope gate and Auth modeled; Native invoice/stock/HPP/GL/returns not run",
+  "retained_storage_15_allocation_15_buyer_20_controls_NOT_rerun": true,
+  "Native_financial_functions_changed": 0,
+  "actual_Native_cases": 0,
+  "actual_Auth_HTTP_cases": 0,
+  "actual_browser_cases": 0,
+  "actual_two_session_races": 0,
+  "public_commands_or_runtime_activated": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

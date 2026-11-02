@@ -1,0 +1,67 @@
+{
+  "status": "MANDOR_NON_SUPERUSER_FACADE_INSTALL_RETAINED3_PLUS_PREUSE_INVERSE1_PASS_NOT_NATIVE",
+  "checks": [
+    {
+      "name": "ALL_NINE_ORIGINAL_BODIES_COMPILE_WITH_FINAL_DISPLAY_BEFORE_NON_SUPERUSER_OWNER_TRANSFER",
+      "status": "PASS"
+    },
+    {
+      "name": "ALL_SIX_PUBLIC_AND_ONLY_SIX_PRIVATE_ENTRYPOINTS_HAVE_EXACT_EFFECTIVE_EXECUTE_UNDER_ACTUAL_DEFAULTS",
+      "status": "PASS"
+    },
+    {
+      "name": "DEFAULTS_OTHER_FUNCTIONS_AND_TEMPORARY_SET_AND_PUBLIC_CREATE_AUTHORITY_REMAIN_CLOSED",
+      "status": "PASS"
+    },
+    {
+      "name": "FACADE_ONLY_PREUSE_INVERSE_RESTORES_ALL22_AND_RAW_PUBLIC_ACL_AS_NON_SUPERUSER",
+      "status": "PASS"
+    }
+  ],
+  "retained_controls": 3,
+  "fresh_focused_inverse_controls": 1,
+  "all_four_fresh_one_attempt": false,
+  "first_query_reader_failure_preserved": true,
+  "second_inverse_dependency_failure_preserved": true,
+  "forward_SQL_unchanged_across_all_three_attempts": {
+    "bytes": 11998,
+    "sha256": "448c3e922f52fa527f39968f28c21c5f01f85a829a04daf616069da5e9e1e854"
+  },
+  "old_158_SQL_and_40_client_controls_NOT_rerun": true,
+  "retained_three_NOT_rerun": true,
+  "source_files": {
+    "facade_install.py": {
+      "bytes": 5819,
+      "sha256": "ac62dd5b978b53156c2de59e70459c1db7c12bbef9740b71f4229a23207ad1f5"
+    },
+    "facade_privileges.sql": {
+      "bytes": 2895,
+      "sha256": "f5d614819deae1af4229e5c94f644d8954d3da931eba4fb7ea4e5e5593a86efe"
+    },
+    "facade_ownership_model.mjs": {
+      "bytes": 10348,
+      "sha256": "dbbf496400eab068edec41401a36678a196b5ff8eb711319eee1023be2d10cb2"
+    },
+    "ACTUAL_CREATOR_ACL_REFERENCE.json": {
+      "bytes": 1569,
+      "sha256": "075d1ac6d476a662a1277d7822b5561d494a4d7f774a28d6fca2d6f2a74841d2"
+    }
+  },
+  "creator_profile": {
+    "creator": "postgres",
+    "session_user": "postgres",
+    "superuser": false,
+    "bootstrap": "supabase_admin",
+    "version": "18.6"
+  },
+  "exact_facade_only_preuse_inverse_all22_and_raw_public_ACL": true,
+  "Native_business_functions_NOT_executed": true,
+  "base_tables_Auth_and_private_owners_are_models": true,
+  "complete_Native_installer_or_final_parent_adoption": false,
+  "actual_Native_cases": 0,
+  "actual_Auth_HTTP_cases": 0,
+  "actual_browser_cases": 0,
+  "actual_two_session_races": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

@@ -1,0 +1,162 @@
+{
+  "status": "FG_MANDOR_SALES_PARSER4_DOM10_FOCUSED_VISIBILITY1_PARENT37_PASS_NOT_NATIVE",
+  "new_parser_cases": 4,
+  "new_DOM_cases": 11,
+  "logical_new_client_cases": 15,
+  "parser_original_aggregate_status": false,
+  "parser4_retained_without_rerun": true,
+  "first_DOM_suite_loading_failure": "Two vi.hoisted declarations on one const line were misread by Vitest; no DOM case ran. Split the declarations, then run only DOM.",
+  "first_DOM_execution_cases": 10,
+  "first_DOM_execution_all_PASS": true,
+  "focused_classification_visibility_cases": 1,
+  "other14_new_client_cases_NOT_rerun": true,
+  "parent_changed_regression_cases": 37,
+  "parent_regression_first_PASS": true,
+  "prior_payroll_UI25_logical_cases_NOT_rerun": true,
+  "old_Native_or_SQL_models_NOT_rerun": true,
+  "source_before_final_visibility": {
+    "src/MandorShopBuyerPicker.tsx": {
+      "bytes": 7912,
+      "sha256": "8257f905b3723ba7e9c5765349973642bb2abcb5c4b1f87249879751eb40ac43"
+    },
+    "src/mandorShopSalesContract.ts": {
+      "bytes": 1950,
+      "sha256": "92fdf25e677c17225f3f304b9a12e56dec92f81ab578826b2414aa8be34d221a"
+    },
+    "src/mandorShopSalesContract.test.ts": {
+      "bytes": 2179,
+      "sha256": "44693e03c20ae508ed7463da6087f3b1f24e487724d6b1db561532e52f1e2294"
+    },
+    "src/MandorShopSalesDraft.dom.test.tsx": {
+      "bytes": 8107,
+      "sha256": "4fe057642533b7a78e625dcf88dfa6905bd2d8539309c1d7fe6046ede96383e1"
+    },
+    "src/MandorShopSalesPage.dom.test.tsx": {
+      "bytes": 6575,
+      "sha256": "34680ef791be90b920dabb753b316b7b30ec2aee633f1d9389982b781d88c2f9"
+    },
+    "tests/fixtures/mandorShopSales.ts": {
+      "bytes": 3065,
+      "sha256": "96464f30432b67c94d33447212f70d20e36e41df62675fcab1ef96de96bec9b5"
+    },
+    "src/SalesDraftPanel.tsx": {
+      "bytes": 19959,
+      "sha256": "fec2c9bd1cef81448e9fe5448a845e0811c20b470c0a87ae695f7b8d6e64c6ad"
+    },
+    "src/ConnectedSalesPage.tsx": {
+      "bytes": 27153,
+      "sha256": "fa577fe466c2622f5520b8550d41eff8885a8d43c5cfd3e9906427a85fa2d15d"
+    },
+    "src/SalesDraftPanel.dom.test.tsx": {
+      "bytes": 19492,
+      "sha256": "f4c9b0a9ff2a443ab2a13fad84281b755f3264ad203c022eaab9a2fc8555f194"
+    },
+    "src/types/database.preconnect.ts": {
+      "bytes": 32823,
+      "sha256": "5dcdda0b85cb96a5da716091d62c2bdd5111a18760eb6c0594d82e83ffd60bc9"
+    },
+    "scripts/check-source-ownership.mjs": {
+      "bytes": 25833,
+      "sha256": "a922650b687a44b1c6dec289a575770a768959ba5ddbacf5713a8903a555ee3a"
+    },
+    "scripts/check-access-catalog.mjs": {
+      "bytes": 45674,
+      "sha256": "02c78ae5cd03ad66c302803b1f805905ff713092469150cf02b7e2992cbf718a"
+    }
+  },
+  "bounded_visibility_routes": {
+    "src/SalesDraftPanel.tsx": {
+      "before": "!correction&&buyer.category==='TOKO'?picker('CUSTOMER'):null",
+      "after": "!correction&&buyer.category==='TOKO'&&buyer.ready?picker('CUSTOMER'):null",
+      "count": 1
+    },
+    "src/MandorShopSalesDraft.dom.test.tsx": {
+      "before": "wait fill('Cari mandor pembeli', 'Epi'); await click(button('Cari mandor')); await click(button('Mandor berikutnya'))\n  expect(button('M2 \u00b7 Epi')).toBeDefined(); await fill('Cari mandor pembeli', 'Belum dicari'); await click(button('Mandor sebelumnya'))\n  expect(client.rpc.mock.calls.at(-1)).toEqual(['erp_cp7_get_mandor_shop_buyers_v1', {p_sales_action: 'EDIT', p_query: 'Epi', p_after: null, p_limit: 25}])\n  expect(button('M1 \u00b7 Epi')).toBeDefined(); expect(button('M2 \u00b7 Epi')).toBeUndefined()\n})\n",
+      "after": "wait fill('Cari mandor pembeli', 'Epi'); await click(button('Cari mandor')); await click(button('Mandor berikutnya'))\n  expect(button('M2 \u00b7 Epi')).toBeDefined(); await fill('Cari mandor pembeli', 'Belum dicari'); await click(button('Mandor sebelumnya'))\n  expect(client.rpc.mock.calls.at(-1)).toEqual(['erp_cp7_get_mandor_shop_buyers_v1', {p_sales_action: 'EDIT', p_query: 'Epi', p_after: null, p_limit: 25}])\n  expect(button('M1 \u00b7 Epi')).toBeDefined(); expect(button('M2 \u00b7 Epi')).toBeUndefined()\n})\n\nit('holds the store picker until the existing draft buyer classification resolves without losing edited lines', async () => {\n  let finish!: (v: unknown) => void\n  client.rpc.mockImplementationOnce(() => new Promise(resolve => { finish = resolve }))\n  await mount(buyerCustomer); expect(container.querySelector('[aria-label=\"Pilih pelanggan invoice\"]')).toBeNull()\n  await fill('Jumlah invoice 1', '2'); expect(button('Simpan draft invoice').disabled).toBe(true)\n  await act(async () => finish({data: classification(buyerCustomer), error: null})); await flush()\n  expect(container.querySelector<HTMLInputElement>('input[value=MANDOR]')!.checked).toBe(true)\n  expect(input('Jumlah invoice 1').value).toBe('2'); expect(container.querySelector('[aria-label=\"Pilih pelanggan invoice\"]')).toBeNull()\n})\n",
+      "count": 1
+    }
+  },
+  "source_files": {
+    "scripts/check-access-catalog.mjs": {
+      "bytes": 45674,
+      "sha256": "02c78ae5cd03ad66c302803b1f805905ff713092469150cf02b7e2992cbf718a"
+    },
+    "scripts/check-source-ownership.mjs": {
+      "bytes": 25833,
+      "sha256": "a922650b687a44b1c6dec289a575770a768959ba5ddbacf5713a8903a555ee3a"
+    },
+    "src/ConnectedPayrollPage.tsx": {
+      "bytes": 21281,
+      "sha256": "0e242ff4ec7a530d8e0e1598779042da0ba02763b381a4153cc783905d7a83be"
+    },
+    "src/ConnectedSalesPage.tsx": {
+      "bytes": 27153,
+      "sha256": "fa577fe466c2622f5520b8550d41eff8885a8d43c5cfd3e9906427a85fa2d15d"
+    },
+    "src/MandorShopBuyerPicker.tsx": {
+      "bytes": 7912,
+      "sha256": "8257f905b3723ba7e9c5765349973642bb2abcb5c4b1f87249879751eb40ac43"
+    },
+    "src/MandorShopSalesDraft.dom.test.tsx": {
+      "bytes": 8906,
+      "sha256": "74001a1021bdcf85d9f673870a386432532c43813ee6fd1dbe3661a5287f250e"
+    },
+    "src/MandorShopSalesPage.dom.test.tsx": {
+      "bytes": 6575,
+      "sha256": "34680ef791be90b920dabb753b316b7b30ec2aee633f1d9389982b781d88c2f9"
+    },
+    "src/SalesDraftPanel.dom.test.tsx": {
+      "bytes": 19492,
+      "sha256": "f4c9b0a9ff2a443ab2a13fad84281b755f3264ad203c022eaab9a2fc8555f194"
+    },
+    "src/SalesDraftPanel.tsx": {
+      "bytes": 19972,
+      "sha256": "46ecf14904d360670150a0eff809ef9158ec496ac23cb7943763c9ca813967b8"
+    },
+    "src/mandorShopSalesContract.test.ts": {
+      "bytes": 2179,
+      "sha256": "44693e03c20ae508ed7463da6087f3b1f24e487724d6b1db561532e52f1e2294"
+    },
+    "src/mandorShopSalesContract.ts": {
+      "bytes": 1950,
+      "sha256": "92fdf25e677c17225f3f304b9a12e56dec92f81ab578826b2414aa8be34d221a"
+    },
+    "src/productionRecovery.ts": {
+      "bytes": 13634,
+      "sha256": "e7f1c1564237fd0c7769823ade3333079d7a28d1119384d3a61b480e1bf4f814"
+    },
+    "src/types/database.preconnect.ts": {
+      "bytes": 32823,
+      "sha256": "5dcdda0b85cb96a5da716091d62c2bdd5111a18760eb6c0594d82e83ffd60bc9"
+    },
+    "tests/fixtures/mandorShopSales.ts": {
+      "bytes": 3065,
+      "sha256": "96464f30432b67c94d33447212f70d20e36e41df62675fcab1ef96de96bec9b5"
+    }
+  },
+  "original_results": {
+    "MANDOR_SALES_UI_FIRST14.json": {
+      "bytes": 2558,
+      "sha256": "7cac75c56f5d6ec4805dddc9f2144c341f96402abc721b51284ce9009217320a"
+    },
+    "MANDOR_SALES_UI_DOM_ONLY10.json": {
+      "bytes": 4158,
+      "sha256": "ea11cc7d2572bdd12e22cf17143f191c630a2c1307cccdbcc6105b91b4d5e787"
+    },
+    "MANDOR_SALES_UI_CLASSIFICATION_ONLY1.json": {
+      "bytes": 3077,
+      "sha256": "b332e4c639ab8f9f190cb4d250b14a3498bb921ecce79e721d2658dab309ec4a"
+    },
+    "MANDOR_SALES_PARENT_REGRESSION37.json": {
+      "bytes": 14365,
+      "sha256": "5ba4630ea898aefc03b422f5b9e58fd34462cecb3f5aeb5618a4c4ab8c02ef59"
+    }
+  },
+  "actual_Native_cases": 0,
+  "actual_Auth_HTTP_cases": 0,
+  "actual_browser_cases": 0,
+  "actual_two_session_races": 0,
+  "full_product_installed": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

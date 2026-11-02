@@ -1,0 +1,74 @@
+{
+  "status": "FG_MANDOR_ATOMIC_SALES_MODEL_FIRST_FAILURE",
+  "completed_new_controls": [
+    {
+      "label": "Three new private owners, two public wrappers, exact Native command/validation/access and one derived store-picker function compile on the documented model",
+      "result": "PASS"
+    },
+    {
+      "label": "One external Native CREATE intent atomically prepares the explicit customer and saves the same original draft payload; it creates no posted sale fact",
+      "result": "PASS"
+    },
+    {
+      "label": "Exact replay reuses the complete external intent and creates no second customer, account, draft or Native apply",
+      "result": "PASS"
+    },
+    {
+      "label": "Same external request rejects changed invoice lines before another Native apply",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "P0001",
+      "error": "CP7_MANDOR_SHOP_REQUEST_CHANGED"
+    },
+    {
+      "label": "Original Native draft validation failure rolls back the new customer, account and both request layers",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "P0001",
+      "error": "CP7_SALES_DRAFT_LINE"
+    },
+    {
+      "label": "A Native draft engine refusal after buyer preparation rolls back the entire owner transaction",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "P0001",
+      "error": "MODEL_NATIVE_DRAFT_ENGINE_REFUSED"
+    },
+    {
+      "label": "An explicit customer that differs from the selected Mandor is refused atomically",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "P0001",
+      "error": "CP7_MANDOR_SHOP_SALE_BUYER_MISMATCH"
+    },
+    {
+      "label": "Existing draft customer classification uses the immutable account UUID rather than the same visible Epi name",
+      "result": "PASS"
+    },
+    {
+      "label": "Native store eligibility filters explicit Mandor accounts before both pagination and global totals; an ordinary MD-like code remains a store",
+      "result": "PASS"
+    },
+    {
+      "label": "Current permission revocation refuses an already-committed external replay",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "42501",
+      "error": "CP7_SALES_ACCESS_DENIED"
+    },
+    {
+      "label": "Only authenticated executes the two narrow public wrappers; the internal read role receives only a membership predicate, never account-table or save access",
+      "result": "PASS"
+    },
+    {
+      "label": "A standalone buyer UUID cannot be repurposed as a different complete sales intent",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "P0001",
+      "error": "CP7_MANDOR_SHOP_REQUEST_CHANGED"
+    },
+    {
+      "label": "The atomic draft wrapper cannot dispatch POST or any payment action",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "42501",
+      "error": "CP7_MANDOR_SHOP_BUYER_ACTION_DENIED"
+    }
+  ],
+  "actual_Native_cases": 0,
+  "error": "error: CP7_MANDOR_SHOP_REVIEW_CHANGED",
+  "SQLSTATE": "P0001"
+}

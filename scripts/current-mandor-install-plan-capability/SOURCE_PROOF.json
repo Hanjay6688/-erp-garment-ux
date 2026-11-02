@@ -1,0 +1,15 @@
+{
+  "status": "COMPLETE_MANDOR_INSTALL_PLAN_MODEL_ONLY_GATE_NEVER_OPENED",
+  "prepared_module_head": "e0796c827e070939ffb568fbf89636e3dfb7c366",
+  "prepared_module_tree": "9470d610c3196a0662ce2550d6c7aaed2110c20b",
+  "module_source_pins": 83,
+  "model_parent_tables": 45,
+  "Native_source_definitions_reproduced_in_model": 11,
+  "mocked_helpers": 12,
+  "original_complete_parent_NOT_reproduced": true,
+  "Native_constraints_defaults_generated_RLS_domain_Auth_and_financial_behavior_NOT_reproduced": true,
+  "old_completed_controls_NOT_rerun": true,
+  "actual_Native_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

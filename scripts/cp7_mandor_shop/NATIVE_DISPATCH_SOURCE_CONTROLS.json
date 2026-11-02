@@ -1,0 +1,32 @@
+{
+  "status": "ONE_EXISTING_AUTHORIZED_NATIVE_SALES_FACADE_DISPATCH_SOURCE_NOT_NATIVE",
+  "original_composition": {
+    "bytes": 11998,
+    "sha256": "448c3e922f52fa527f39968f28c21c5f01f85a829a04daf616069da5e9e1e854"
+  },
+  "derived_composition": {
+    "bytes": 12008,
+    "sha256": "64d51f4afcbacf6a3d575ec72f4fd785dce520c049b43550c85defb72b615fda"
+  },
+  "route": {
+    "before": " result_:=cp7_sales.command(p_action,native_,p_request,p_expected);",
+    "after": " result_:=public.erp_cp7_save_sale_v1(p_action,native_,p_request,p_expected);",
+    "count": 1
+  },
+  "complete_original_composition_recovered": true,
+  "current_Native_command_all19": {
+    "bytes": 3183,
+    "sha256": "a88602330f0b7c0f0c8560015387c991d6ec393f9ac0c70dd16e164b66cc45e0"
+  },
+  "current_Native_facade_all19": {
+    "bytes": 667,
+    "sha256": "c0b67b7bc66b99031757d80686471eef7d72c05f22ea5db4a1beca419e91b886"
+  },
+  "Native_command_and_facade_bodies_and_ACLs_unchanged": true,
+  "new_EXECUTE_or_role_grants": 0,
+  "only_new_private_save_sale_dispatch_changed": true,
+  "actual_SQL_executed": 0,
+  "actual_Native_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

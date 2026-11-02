@@ -1,0 +1,55 @@
+{
+  "status": "FG_MANDOR_PRIVATE_STORAGE_AND_EVENT_OWNER_SQL_SYNTAX_PARSED_NOT_ERP_EXECUTION",
+  "parser": {
+    "pglast": "7.20",
+    "PostgreSQL": [
+      17,
+      7
+    ]
+  },
+  "files": {
+    "schema.sql": {
+      "bytes": 12510,
+      "sha256": "59c1b8e69555f6a8e0caf34e8d0ee18e27c1d4caaee8073c44225bbc4a687fd1",
+      "SQL_statements": 58,
+      "function_declarations": 1,
+      "PLPGSQL_functions_parsed": [
+        {
+          "full_definition_sha256": "cd738f0d8d3aa526939b9c2c9b2af9934529f6be4bb78c0006bd881483d27448",
+          "PLPGSQL_parse_trees": 1
+        }
+      ]
+    },
+    "events.sql": {
+      "bytes": 8216,
+      "sha256": "9e2633af5d9ecff6220c37cdf8bb22a27ce71cbc03862c8aa40a1fadfd82a1d3",
+      "SQL_statements": 16,
+      "function_declarations": 3,
+      "PLPGSQL_functions_parsed": [
+        {
+          "function": "cp7_mandor_shop.require_context",
+          "full_definition_sha256": "4716fb5f09f005f21dc2483f80f35ac94bbc91aef5788b18ab361c4085d5001f",
+          "PLPGSQL_parse_trees": 1
+        },
+        {
+          "function": "cp7_mandor_shop.guard_identity",
+          "full_definition_sha256": "07e1ecc70c19fb7de33341f4863a7b68f0100ee9ef5de6de2bc23b87cdc91583",
+          "PLPGSQL_parse_trees": 1
+        },
+        {
+          "function": "cp7_mandor_shop.apply_allocation_event",
+          "full_definition_sha256": "5248813e8af183990106908ad9d818c6107a05ccd5d596067d9dd8332b27d3ce",
+          "PLPGSQL_parse_trees": 1
+        }
+      ]
+    }
+  },
+  "Native_schema_inputs": "FG_MANDOR_ACTUAL_NATIVE_STORAGE_INPUTS_15A.json",
+  "actual_SQL_executed": 0,
+  "actual_ERP_calls": 0,
+  "actual_Native_cases": 0,
+  "public_commands_or_Native_payment_hooks_implemented": false,
+  "installed_or_workflow_activated": false,
+  "observed_UTC": "2026-11-02T00:08:48.949758+00:00",
+  "events_parse_correction": "All three actual CREATE FUNCTION statements selected from AST, including a statement preceded by a comment; earlier schema parser proof reused."
+}

@@ -1,0 +1,99 @@
+{
+  "status": "FG_MANDOR_SALES_AND_PAYROLL_RECOVERY_AWARE_SOURCE_NOT_NATIVE_QUALIFIED",
+  "files": {
+    "scripts/check-access-catalog.mjs": {
+      "bytes": 45674,
+      "sha256": "02c78ae5cd03ad66c302803b1f805905ff713092469150cf02b7e2992cbf718a"
+    },
+    "scripts/check-source-ownership.mjs": {
+      "bytes": 25833,
+      "sha256": "a922650b687a44b1c6dec289a575770a768959ba5ddbacf5713a8903a555ee3a"
+    },
+    "src/ConnectedPayrollPage.tsx": {
+      "bytes": 21281,
+      "sha256": "0e242ff4ec7a530d8e0e1598779042da0ba02763b381a4153cc783905d7a83be"
+    },
+    "src/ConnectedSalesPage.tsx": {
+      "bytes": 27153,
+      "sha256": "fa577fe466c2622f5520b8550d41eff8885a8d43c5cfd3e9906427a85fa2d15d"
+    },
+    "src/MandorShopBuyerPicker.tsx": {
+      "bytes": 7912,
+      "sha256": "8257f905b3723ba7e9c5765349973642bb2abcb5c4b1f87249879751eb40ac43"
+    },
+    "src/MandorShopCards.dom.test.tsx": {
+      "bytes": 6751,
+      "sha256": "1bd41aca9cae13c7e5e091a33352ce3169fc51338614ed7e6471837d0e238103"
+    },
+    "src/MandorShopCards.tsx": {
+      "bytes": 9200,
+      "sha256": "0a58aa020ef22d77df1d8838b1c7c7a8d7e0cd4bccb9db87ce759e0a8b6a6f88"
+    },
+    "src/MandorShopPayrollPanel.dom.test.tsx": {
+      "bytes": 10794,
+      "sha256": "5d543e24b866fbc1973280a35580385d91e80785608e771815cb55b5eeaa287d"
+    },
+    "src/MandorShopPayrollPanel.tsx": {
+      "bytes": 9998,
+      "sha256": "dc33fbec5c314981298fc84cb970d7ce215455e82faa10966562592caecb42f3"
+    },
+    "src/MandorShopSalesDraft.dom.test.tsx": {
+      "bytes": 8906,
+      "sha256": "74001a1021bdcf85d9f673870a386432532c43813ee6fd1dbe3661a5287f250e"
+    },
+    "src/MandorShopSalesPage.dom.test.tsx": {
+      "bytes": 6575,
+      "sha256": "34680ef791be90b920dabb753b316b7b30ec2aee633f1d9389982b781d88c2f9"
+    },
+    "src/SalesDraftPanel.dom.test.tsx": {
+      "bytes": 19492,
+      "sha256": "f4c9b0a9ff2a443ab2a13fad84281b755f3264ad203c022eaab9a2fc8555f194"
+    },
+    "src/SalesDraftPanel.tsx": {
+      "bytes": 19972,
+      "sha256": "46ecf14904d360670150a0eff809ef9158ec496ac23cb7943763c9ca813967b8"
+    },
+    "src/mandor-shop.css": {
+      "bytes": 2348,
+      "sha256": "dda10167d8f122e39dbf4c3ebeab0bc943435b046205f3f5ed49a7b38adc1cbd"
+    },
+    "src/mandorShopContract.test.ts": {
+      "bytes": 5539,
+      "sha256": "08a16729d2551cddd03621fdf1332607d5129c5beb8e221d3d98b1e77afed587"
+    },
+    "src/mandorShopContract.ts": {
+      "bytes": 8518,
+      "sha256": "98bdd926aa2d2e0e1adced0217be3f0bab83a70796e6954f5f1c21022461e363"
+    },
+    "src/mandorShopSalesContract.test.ts": {
+      "bytes": 2179,
+      "sha256": "44693e03c20ae508ed7463da6087f3b1f24e487724d6b1db561532e52f1e2294"
+    },
+    "src/mandorShopSalesContract.ts": {
+      "bytes": 1950,
+      "sha256": "92fdf25e677c17225f3f304b9a12e56dec92f81ab578826b2414aa8be34d221a"
+    },
+    "src/productionRecovery.ts": {
+      "bytes": 13634,
+      "sha256": "e7f1c1564237fd0c7769823ade3333079d7a28d1119384d3a61b480e1bf4f814"
+    },
+    "src/types/database.preconnect.ts": {
+      "bytes": 32823,
+      "sha256": "5dcdda0b85cb96a5da716091d62c2bdd5111a18760eb6c0594d82e83ffd60bc9"
+    },
+    "tests/fixtures/mandorShop.ts": {
+      "bytes": 1396,
+      "sha256": "299a1ffe63b1c7161dfedc712ca64f9b0bd84c4fc66fbc278d3933194bb425d4"
+    },
+    "tests/fixtures/mandorShopSales.ts": {
+      "bytes": 3065,
+      "sha256": "96464f30432b67c94d33447212f70d20e36e41df62675fcab1ef96de96bec9b5"
+    }
+  },
+  "existing_UI_paths_changed": 8,
+  "new_UI_paths": 14,
+  "parent_derivations": "UI_PARENT_ORIGIN.json",
+  "actual_ERP_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

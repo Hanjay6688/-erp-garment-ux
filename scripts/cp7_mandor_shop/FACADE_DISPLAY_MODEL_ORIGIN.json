@@ -1,0 +1,22 @@
+{
+  "status": "EXACT_REUSED_PUBLIC_FACADE_MODEL_SETUP_NEW_DISPLAY_CONTROLS_ONLY",
+  "parent_head": "63d3b8d28668f7c8ba902ff5a2dabb07193bf8ec",
+  "parent_path": "scripts/cp7_mandor_shop/facade_model.mjs",
+  "parent_source": {
+    "bytes": 21154,
+    "sha256": "8fc452403206b0c5997c6ad2671ea4674ce04384f27fec4690c33768e27f9f6d"
+  },
+  "original_prefix_bytes": 12168,
+  "source_routes": [
+    {
+      "before": "assert.equal(process.argv[4],'--facade-only','Only the new browser facade controls execute');",
+      "after": "assert.equal(process.argv[4],'--display-only','Only new exact browser amount projection controls execute');",
+      "count": 1
+    }
+  ],
+  "prior_140_controls_NOT_rerun": true,
+  "Native_or_private_owner_bodies_changed": false,
+  "actual_Native_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

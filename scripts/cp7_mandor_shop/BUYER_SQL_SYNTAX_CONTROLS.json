@@ -1,0 +1,15 @@
+{
+  "status": "FG_MANDOR_PRIVATE_BUYER_SQL_SYNTAX_PASS_NOT_EXECUTION",
+  "source": {
+    "bytes": 10735,
+    "sha256": "5bfeb12b4103ca88f48b84a213098b33a90e7ead52398a5025213d9188e47617"
+  },
+  "parser": "pglast v7.20",
+  "SQL_statements": 18,
+  "private_functions": 6,
+  "PLpgSQL_definitions": 6,
+  "ERP_SQL_executed": 0,
+  "actual_Native_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

@@ -1,0 +1,36 @@
+{
+  "status": "EXACT_CONTROLLED_CARD_OPTIONAL_LOCK_AND_VIEW_ONLY_DRAFT_TEXT_ROUTES",
+  "path": "src/MandorShopCards.tsx",
+  "before": {
+    "bytes": 9027,
+    "sha256": "727adc47c47960e7e94532803d7ca3517e0401d0bef8fded6fe054eabf38f80f"
+  },
+  "after": {
+    "bytes": 9200,
+    "sha256": "0a58aa020ef22d77df1d8838b1c7c7a8d7e0cd4bccb9db87ce759e0a8b6a6f88"
+  },
+  "changes": [
+    {
+      "before": "  workspace: MandorShopWorkspace | null; ready: boolean; busy: boolean; error?: string",
+      "after": "  workspace: MandorShopWorkspace | null; ready: boolean; busy: boolean; writeLocked?: boolean; error?: string",
+      "count": 1
+    },
+    {
+      "before": "  const locked = busy || working || !data, writable = !locked && data?.can_change === true",
+      "after": "  const locked = busy || working || !data, writable = !locked && data?.can_change === true && !props.writeLocked",
+      "count": 1
+    },
+    {
+      "before": "    {data && !data.can_change ? <p>Payroll ini sudah dibekukan. Perubahan potongan mengikuti alur koreksi payroll.</p> : null}",
+      "after": "    {data && !data.can_change ? <p>{['APPROVED', 'PAID', 'REVERSED'].includes(data.status)\n      ? 'Payroll ini sudah dibekukan. Perubahan potongan mengikuti alur koreksi payroll.'\n      : 'Hak mengubah potongan diperlukan pada payroll ini.'}</p> : null}",
+      "count": 1
+    }
+  ],
+  "prior15_client_cases_NOT_rerun": true,
+  "optional_lock_undefined_preserves_original_writable_result": true,
+  "original_approved_readonly_sentence_preserved": true,
+  "new_lock_and_readonly_draft_paths_covered_by_controller_cases": true,
+  "actual_browser_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

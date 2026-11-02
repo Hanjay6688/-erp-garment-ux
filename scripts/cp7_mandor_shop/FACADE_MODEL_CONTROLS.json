@@ -1,0 +1,108 @@
+{
+  "status": "FG_MANDOR_NARROW_PUBLIC_FACADE_MODEL_CONTROLS_PASS_NOT_NATIVE",
+  "results": [
+    {
+      "label": "Four exact public definer functions compile under one NOLOGIN nonprivileged role; only authenticated can execute",
+      "result": "PASS"
+    },
+    {
+      "label": "Facade role has exactly four private entrypoints and no private table privileges; browsers have no direct private access",
+      "result": "PASS"
+    },
+    {
+      "label": "Public buyer picker keeps same-name mandors distinct and preparing/replaying the chosen buyer retains the same explicit customer identity",
+      "result": "PASS"
+    },
+    {
+      "label": "Public command installs one chosen-next-week draft allocation and exact request replay adds no duplicate deduction, settlement or journal",
+      "result": "PASS"
+    },
+    {
+      "label": "Public card exposes the actual allocated payroll/week, outstanding amount and remaining unallocated amount after authoritative reread",
+      "result": "PASS"
+    },
+    {
+      "label": "Public replay refuses changed request payload before any second allocation",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "P0001",
+      "error": "CP7_MANDOR_SHOP_REQUEST_CHANGED"
+    },
+    {
+      "label": "A revoked permission blocks a public workspace read",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "42501",
+      "error": "CP7_MANDOR_SHOP_ACCESS_DENIED"
+    },
+    {
+      "label": "A revoked permission blocks replay of a previously committed public allocation",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "42501",
+      "error": "CP7_MANDOR_SHOP_ACCESS_DENIED"
+    },
+    {
+      "label": "Public card release removes only the selected draft deduction, preserves release history and restores payroll capacity without settling the invoice",
+      "result": "PASS"
+    }
+  ],
+  "source_files": {
+    "schema.sql": {
+      "bytes": 12510,
+      "sha256": "59c1b8e69555f6a8e0caf34e8d0ee18e27c1d4caaee8073c44225bbc4a687fd1"
+    },
+    "events.sql": {
+      "bytes": 8216,
+      "sha256": "9e2633af5d9ecff6220c37cdf8bb22a27ce71cbc03862c8aa40a1fadfd82a1d3"
+    },
+    "allocation.sql": {
+      "bytes": 16985,
+      "sha256": "e57c96f8289ef95cbce60b337ccba57109c4428115448526f79ed82f42b3a0c2"
+    },
+    "buyers.sql": {
+      "bytes": 10735,
+      "sha256": "5bfeb12b4103ca88f48b84a213098b33a90e7ead52398a5025213d9188e47617"
+    },
+    "facade.sql": {
+      "bytes": 2963,
+      "sha256": "6881ccf3e14420a1779cc2f37811d1885a0d69223fc121f3c212d5bac94227d4"
+    },
+    "NATIVE_BUYER_REFERENCE.json": {
+      "bytes": 90591,
+      "sha256": "9439f43a5ba710a7e881199e94c399d6efb1c9354ad477148edee10cb4d079b5"
+    },
+    "NATIVE_ALLOCATION_REFERENCE.json": {
+      "bytes": 41819,
+      "sha256": "d8186788861fafe039af6e4745a92ed69fc8b27287e295cdd9af55bcfc36d9c2"
+    },
+    "facade_model.mjs": {
+      "bytes": 21154,
+      "sha256": "8fc452403206b0c5997c6ad2671ea4674ce04384f27fec4690c33768e27f9f6d"
+    },
+    "FACADE_MODEL_ORIGIN.json": {
+      "bytes": 939,
+      "sha256": "30e942874bc1796778fbaff0e003e4d69b32173a8dcec04d8403daf2bb257a36"
+    }
+  },
+  "public_functions_compiled": 4,
+  "private_entrypoint_grants": 4,
+  "facade_role": "cp7_mandor_shop_api",
+  "Native_master_context_column_type_maps": 3,
+  "unchanged_actual_Native_functions": [
+    "erp.recalculate_payroll(uuid)",
+    "cp7_installment.meaning(uuid)",
+    "cp7_sales.command_access(text)"
+  ],
+  "retained_131_controls_NOT_rerun": true,
+  "actual_native_function_or_private_owner_source_changes": 0,
+  "modeled_boundaries": [
+    "Reduced Native tables and constraints; generated payroll net uses the prior documented actual formula",
+    "Auth/JWT and permissions providers, customer defaults/audit and private Native internal context admission",
+    "Invoice paid/net projection; no full Native sales, payroll payment, stock, HPP, Auth HTTP, browser or two backends"
+  ],
+  "actual_Native_cases": 0,
+  "actual_Auth_HTTP_cases": 0,
+  "actual_browser_cases": 0,
+  "actual_two_session_races": 0,
+  "Native_runtime_or_public_facade_activated": false,
+  "production_go": false,
+  "independent_acceptance": false
+}
