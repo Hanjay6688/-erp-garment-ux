@@ -37,7 +37,7 @@ def exercise(conn,cur,database,url,report,state):
     from cp7_p21_current_chain_rehearsal_probe import helper
     from cp7_catalog_state import exact_public_catalog
     import cp6_bd_probe as financial_truth
-    native=work.native;product=work.product;control=helper.control
+    native=work.runner;product=work.product;control=helper.control
     report.update(status='INCOMPLETE',actual_Native_cases=0,actual_browser_cases=0,actual_Auth_HTTP_cases=0,
         actual_two_session_races=0,real_Auth=False,retained_permanent6_fresh_case_credit=0,
         reader_remains_installed=True,D_complete=False,E_complete=False,

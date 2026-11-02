@@ -43,6 +43,8 @@ def main():
             ROOT/'scripts/current-sku-managed-recovery-native27-qualification/source_context.py')
         with fence.fenced_source_read()as guard:
             engine,_=runtime();proof=engine.admitted()
+            _,runner_api=load('complete_DE_real_strict_runner_preDB_contract',HERE/'native_business.py').runner_contract()
+            proof['Native30_strict_runner_API']=runner_api
         print(json.dumps(dict(status=proof['status'],source_DB_guard=guard,actual_Native_cases=0,
             entire_natural_product_source_graph_evaluated=True,production_go=False)));return
     if os.environ.get('COMPLETE_DE_CONFIRM')!='cp6_rollback':

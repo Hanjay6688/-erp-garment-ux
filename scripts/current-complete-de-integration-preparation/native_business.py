@@ -7,7 +7,7 @@ from pathlib import Path
 from hashlib import sha256
 from types import SimpleNamespace
 from contextlib import contextmanager
-import ast,importlib,importlib.util,json,os,subprocess,sys
+import ast,importlib,importlib.util,inspect,json,os,subprocess,sys
 
 HERE=Path(__file__).resolve().parent
 ROOT=HERE.parents[1]
@@ -72,6 +72,36 @@ def fixture_imports():
     finally:sys.path[:]=before
 
 
+def inspect_runner_contract(runner):
+    """Inspect a module's exact API and original sources; no case execution."""
+    for name,parameters in(('strict_group',('name','factory','verify')),('public_state',('cur',))):
+        operation=getattr(runner,name,None)
+        if not callable(operation)or tuple(inspect.signature(operation).parameters)!=parameters:
+            raise ValueError('COMPLETE_DE_REAL_STRICT_RUNNER_API_REQUIRED:'+name)
+    first=getattr(runner,'r1',None)
+    if first is None or not isinstance(getattr(first,'OUT',None),Path):
+        raise ValueError('COMPLETE_DE_REAL_STRICT_RUNNER_ORIGINAL_OUTPUT_REQUIRED')
+    files={}
+    for module,name in((runner,'cp6_auditor_runner.py'),(first,'cp6_au_r1_probe.py')):
+        expected=(ROOT/'scripts'/name).read_bytes()
+        actual=Path(module.__file__).read_bytes()
+        if actual!=expected:
+            raise ValueError('COMPLETE_DE_STRICT_RUNNER_EXACT_FROZEN_SOURCE_REQUIRED:'+name)
+        files[name]=dict(bytes=len(actual),sha256=sha256(actual).hexdigest())
+    return dict(status='ACTUAL_STRICT_RUNNER_AND_ORIGINAL_OUTPUT_API_ADMITTED_BEFORE_DATABASE',
+        runner_source_files=files,strict_group_parameters=['name','factory','verify'],
+        public_state_parameters=['cur'],original_output_path=str(first.OUT),
+        business_fixture_is_not_the_strict_runner=True,actual_SQL_executed=0,actual_Native_cases=0)
+
+
+def runner_contract():
+    """Resolve the real runner under the owning natural import scope."""
+    admission=load('complete_DE_strict_runner_before_any_database',HERE/'admission.py')
+    with admission.import_scope(),fixture_imports():
+        runner=importlib.import_module('cp6_auditor_runner')
+    return runner,inspect_runner_contract(runner)
+
+
 def bind(state):
     # This exact pending-parent gate precedes even the first ERP import.
     receipt=load('complete_DE_Native_actual_parent_before_ERP',HERE/'admission.py').parent_receipt()
@@ -100,5 +130,5 @@ def bind(state):
         if tuple(name for name,_ in actual)!=ids or any(not callable(fn)for _,fn in actual):
             raise ValueError('COMPLETE_DE_NATIVE30_EXACT_ORIGINAL_CALLBACKS_REQUIRED')
         return actual
-    return SimpleNamespace(D1=d1,E=e,fixture=fixture,native=d1.native,product=product,IDS=ids,cases=cases,
+    return SimpleNamespace(D1=d1,E=e,fixture=fixture,native=d1.native,runner=runner_contract()[0],product=product,IDS=ids,cases=cases,
         source_control=origin,actual_Native_cases=0)
