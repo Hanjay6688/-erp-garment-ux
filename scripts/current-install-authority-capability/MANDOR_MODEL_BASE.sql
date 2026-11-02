@@ -1,0 +1,11 @@
+create schema erp;create schema auth;create schema cp7_mandor_shop;
+  revoke all on schema cp7_mandor_shop from public,anon,authenticated,service_role;
+  create table erp.customers(id uuid primary key,is_active boolean);
+  create table cp7_mandor_shop.contractor_accounts(contractor_id uuid,customer_id uuid);
+  create table cp7_mandor_shop.requests(actor uuid,request_id uuid,action text,payload jsonb,payload_sha256 text,response jsonb);
+  create function cp7_mandor_shop.buyer_options(text,text,uuid,integer)returns jsonb language sql stable security definer set search_path=''as $$select '{}'::jsonb$$;
+  create function cp7_mandor_shop.buyer_command(jsonb,uuid)returns jsonb language sql volatile security definer set search_path=''as $$select '{}'::jsonb$$;
+  create function cp7_mandor_shop.workspace(uuid,uuid)returns jsonb language sql stable security definer set search_path=''as $$select '{"cards":[]}'::jsonb$$;
+  create function cp7_mandor_shop.allocation_command(text,jsonb,uuid)returns jsonb language sql volatile security definer set search_path=''as $$select '{}'::jsonb$$;
+  revoke all on all functions in schema cp7_mandor_shop from public,anon,authenticated,service_role;
+  set search_path='';set timezone='UTC';

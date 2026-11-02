@@ -1,0 +1,85 @@
+{
+  "classification": "ISOLATED_ACTUAL_SUPABASE17_INSTALL_AUTHORITY_CAPABILITIES_NOT_ERP",
+  "original_Afui_head": "14d44c8d601bb9d94b87d4c7f1834d6c2a41f947",
+  "original_Afui_tree": "e1632822f61e0a5b5499f96104c02cec79cdd4ae",
+  "Mandor_source_prepared_public_head": "12479502c94c04b24fd1e599160377f9d9b28213",
+  "genuine_six_hour_financial_policy_unchanged": true,
+  "no_actual_parent_or_business_qualification": true,
+  "actual_Native_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false,
+  "files": {
+    ".github/workflows/cp7-install-authority-capability.yml": {
+      "bytes": 3627,
+      "sha256": "534f8ecd913578e77eb8d406323b76b0892a847a9400f71565a7712eb13a9527"
+    },
+    "scripts/cp7_accessory_nonpayable/ACTUAL_FUNCTION_DEFAULT_ACL_REFERENCE.json": {
+      "bytes": 1521,
+      "sha256": "c0409e9e66aa516ac34a05bfa62171d000b9be24fc5e95c965367b0160a881f1"
+    },
+    "scripts/cp7_accessory_nonpayable/basis.sql": {
+      "bytes": 12754,
+      "sha256": "cfeb2a231d481f38e0967beaa417bf0c8f64aea9f376940cbf093d3be88ed8aa"
+    },
+    "scripts/cp7_accessory_nonpayable/composition.py": {
+      "bytes": 14792,
+      "sha256": "18f2eb8feea6f6ace99330a3ff480cbeb171818ca71c24a7b1cfdd0f4a2b8fac"
+    },
+    "scripts/cp7_accessory_nonpayable/function_acl_capability.py": {
+      "bytes": 8455,
+      "sha256": "3c509e803b6e6a1f2e34c941010ab35dfa588a97275ccafb073b724a2565e8ba"
+    },
+    "scripts/cp7_accessory_nonpayable/policy.sql": {
+      "bytes": 11807,
+      "sha256": "042c30ce6c8242b0626270d2a74f0433df4b5fc57cb8af0d4198a79a8f41cd20"
+    },
+    "scripts/cp7_accessory_nonpayable/settings.sql": {
+      "bytes": 16348,
+      "sha256": "affee25285953f007d9bf0175ca33c891a54343310968c64be247ed61217f15e"
+    },
+    "scripts/cp7_accessory_nonpayable/settings_stage.py": {
+      "bytes": 16129,
+      "sha256": "683b840f4c4fbcf951e83529fe474a8a2b0258b58270552065c0de4cafb3cab6"
+    },
+    "scripts/cp7_accessory_nonpayable/test_settings.mjs": {
+      "bytes": 21839,
+      "sha256": "7f566fa6b3cc3ff9aae9b9c190d98e7e8c5f9d6bee33ac768076ef982b0ccc71"
+    },
+    "scripts/cp7_ow04_restore_bundle.py": {
+      "bytes": 19828,
+      "sha256": "a1605193347cf5b3321a7bdbf8ff6c634df4f4c0a5113eb295e8c3ce44428e00"
+    },
+    "scripts/current-finance-combined-composition/disposable_start.py": {
+      "bytes": 2688,
+      "sha256": "523ec29f0566852f56627c7c9be791de215d09b55d8669c071024fd92aa8e257"
+    },
+    "scripts/current-install-authority-capability/MANDOR_ACTUAL_CREATOR_ACL_REFERENCE.json": {
+      "bytes": 1569,
+      "sha256": "075d1ac6d476a662a1277d7822b5561d494a4d7f774a28d6fca2d6f2a74841d2"
+    },
+    "scripts/current-install-authority-capability/MANDOR_COMPOSED.sql": {
+      "bytes": 11998,
+      "sha256": "448c3e922f52fa527f39968f28c21c5f01f85a829a04daf616069da5e9e1e854"
+    },
+    "scripts/current-install-authority-capability/MANDOR_COMPOSITION_SOURCE.json": {
+      "bytes": 4580,
+      "sha256": "ada9f33a8f7da2976e856a18196400e97fea3d6a61a28d42463ee536217d2e78"
+    },
+    "scripts/current-install-authority-capability/MANDOR_EXPECTED_BODIES.json": {
+      "bytes": 14896,
+      "sha256": "dd7748693870a4721d6e4590678c7813a380b200d65bf1d09336fe7eb929841d"
+    },
+    "scripts/current-install-authority-capability/MANDOR_INVERSE.sql": {
+      "bytes": 1047,
+      "sha256": "afd7356bbceec044bd4596e0a3a5bf6dd99659479f23836a2b68aea23aa6d5e8"
+    },
+    "scripts/current-install-authority-capability/MANDOR_MODEL_BASE.sql": {
+      "bytes": 1232,
+      "sha256": "3df66ef429bafa7f8de3042799c3f2372aa89566ad562941574d89684a38cda7"
+    },
+    "scripts/current-install-authority-capability/probe.py": {
+      "bytes": 13502,
+      "sha256": "ad8f7beae0bce5ec492b93f6ca9cf20b12d4e0157f431804d62a16f78dbc527d"
+    }
+  }
+}
