@@ -1,0 +1,32 @@
+{
+  "status": "SINGLE_CURRENT_FREE41_NATIVE3_RUN_ACTIVE_AFTER_ACTUAL_WRITER_CWD_SOURCE_PASS",
+  "observed_at_UTC": "2026-11-02T04:32:31.050Z",
+  "head": "ad986b9a9d432f2ffac2b961710c3852c6c2ef90",
+  "tree": "80bc5471330b89497991ba1e67615287b01e59c1",
+  "run_id": 41388877929,
+  "job_id": 125095681990,
+  "event": "push",
+  "run_attempt": 1,
+  "status_at_observation": "in_progress",
+  "conclusion_at_observation": null,
+  "expected_fresh_Native_cases": 3,
+  "actual_qualified_Native_cases": 0,
+  "retained_DE30_fresh_case_credit": 0,
+  "own_paths": 41,
+  "source_pins": 40,
+  "source_preflight": {
+    "run_id": 41388223323,
+    "job_id": 125093689853,
+    "conclusion": "success",
+    "evidence": "FREE41_ACTUAL_WRITER_CWD_SOURCE_PREFLIGHT_PASS_20261102.json",
+    "actual_Native_cases": 0,
+    "DB_connection_attempts": 0
+  },
+  "previous_failed_run_retained": 41377735841,
+  "previous_failed_case_credit": 0,
+  "new_owning_runs_started": 1,
+  "duplicate_owning_runs_started": 0,
+  "production_go": false,
+  "independent_acceptance": false,
+  "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/41388877929"
+}
