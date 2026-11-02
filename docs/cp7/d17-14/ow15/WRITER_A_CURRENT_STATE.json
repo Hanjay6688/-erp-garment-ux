@@ -1,6 +1,6 @@
 {
   "contract": "writer-a.compact-current-state.v1",
-  "observed_at_UTC": "2026-11-02T09:42:44.368000+00:00",
+  "observed_at_UTC": "2026-11-02T10:58:40.185789+00:00",
   "integrator": "A",
   "A_B_division_preserved": true,
   "formal_CP7": "5/16",
@@ -9,43 +9,46 @@
   "independent_acceptance": false,
   "current_qualification": {
     "status": "in_progress",
-    "head": "47e9cfb66e8b2b493605bbb005537457f3ddcd86",
-    "tree": "b55f6b27ec3bb111b01e315cc0d77d3d606f7d5f",
-    "local_head": "904722de8446a1f593ecf5f023a049d4c1309c2f",
-    "run_id": 41419714664,
-    "job_id": 125192071600,
-    "created_at_UTC": "2026-11-02T09:19:39Z",
+    "head": "14d44c8d601bb9d94b87d4c7f1834d6c2a41f947",
+    "tree": "e1632822f61e0a5b5499f96104c02cec79cdd4ae",
+    "local_head": "9910d17d188d958b559ae48b90ff91d6f23b461b",
+    "run_id": 41432664076,
+    "job_id": 125234808451,
+    "created_at_UTC": "2026-11-02T10:55:39Z",
+    "observed_at_UTC": "2026-11-02T10:58:40.185789+00:00",
     "branch": "astra-a/afui-good-nonpayable-20261102",
     "run_attempt": 1,
     "event": "push",
-    "sole_readonly_monitor_cell": "1937",
+    "sole_readonly_monitor_cell": "2044",
     "actual_qualified_cases": 0,
     "Root_accepted": false,
     "expected_actual_Native_cases": 9,
     "expected_Auth_HTTP_cases": 2,
     "expected_two_session_races": 2,
     "expected_browser_cases": 2,
-    "prior_failed_original": "AFUI91_FIRST_ACTUAL_ROLE_OWNERSHIP_FAILURE_RESTORED_20261102.json",
-    "focused_role_model": {
-      "cases": 4,
-      "runtime": "PostgreSQL/WASM 18.6",
-      "actual_ERP_credit": 0,
-      "canonical": {
-        "bytes": 8292,
-        "sha256": "dd34639133bb97bcce1aa35b4b55d1573e7d0edbf22f9978687108582bd9c78a",
-        "library_file_id": "libfile_96df1e4f477c819181c3618550a3aa75"
-      }
-    },
-    "own_source_pins": 59,
-    "own_paths": 94,
+    "own_source_pins": 62,
+    "own_paths": 99,
     "unchanged_parent_paths": 14306,
     "financial_SQL_and_business_case_bodies_unchanged": true,
-    "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/41419714664",
+    "unchanged_settings_function_bodies": 6,
+    "previous_failure_evidence": "AFUI94_47E_FIRST_ACTUAL_FUNCTION_ACL_FAILURE_RESTORED_20261102.json",
+    "Root_source_evidence": "AFUI99_ROOT_NEW_FUNCTION_ACL_REPAIR_SOURCE_20261102.json",
+    "focused_new_ACL_model_controls": 3,
+    "old_four_role_models_and_old_settings_API_and_financial_cases_NOT_rerun": true,
+    "model_runtime": "PostgreSQL/WASM18.6",
+    "actual_PostgreSQL17_capability_pending": true,
+    "capability_before_full_parent_install": true,
+    "focused_model_and_Root_source_canonical": {
+      "bytes": 5981,
+      "sha256": "b83e399463d34ff0bc0146f6a0216da726e73ec31f95967fd98689696b2e0aab",
+      "library_file_id": "libfile_5191512acac48191b34890d42bf26345"
+    },
     "production_go": false,
     "independent_acceptance": false,
+    "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/41432664076",
     "conclusion": null
   },
-  "sole_readonly_monitor_cell": "1937",
+  "sole_readonly_monitor_cell": "2044",
   "new_qualified_cases": 0,
   "Root_terminal_intake_pending": true,
   "accepted_parent": {
@@ -149,13 +152,13 @@
       "actual_fresh_Native_cases": 0
     },
     "AFUI": {
-      "head": "47e9cfb66e8b2b493605bbb005537457f3ddcd86",
-      "own_paths": 94,
+      "head": "14d44c8d601bb9d94b87d4c7f1834d6c2a41f947",
+      "own_paths": 99,
       "accepted_parent_bound": true,
       "workflow_activated": true,
-      "tree": "b55f6b27ec3bb111b01e315cc0d77d3d606f7d5f",
+      "tree": "e1632822f61e0a5b5499f96104c02cec79cdd4ae",
       "branch": "astra-a/afui-good-nonpayable-20261102",
-      "source_pins": 58,
+      "source_pins": 62,
       "prepared_domain_preDB_CWD": "writer",
       "actual_parent_bound": true,
       "static_source_gate_PASS": true,
@@ -190,16 +193,16 @@
       },
       "Root_retained_domain_source_evidence": "AFUI91_ROOT_ACTUAL_DOMAIN_SOURCE_RETAINED_20261102.json",
       "source_only_CI_rerun": false,
-      "run_id": 41419714664,
-      "job_id": 125192071600,
+      "run_id": 41432664076,
+      "job_id": 125234808451,
       "actual_runtime_started": true,
       "actual_full15_pending": true,
-      "status": "AFUI94_NARROW_ROLE_TRANSFER_REPAIR_ACTUAL_FULL15_ACTIVE",
-      "local_head": "904722de8446a1f593ecf5f023a049d4c1309c2f",
-      "created_at_UTC": "2026-11-02T09:19:39Z",
+      "status": "AFUI99_NEW_FUNCTION_ACL_REPAIR_ACTUAL_FULL15_ACTIVE",
+      "local_head": "9910d17d188d958b559ae48b90ff91d6f23b461b",
+      "created_at_UTC": "2026-11-02T10:55:39Z",
       "run_attempt": 1,
       "event": "push",
-      "sole_readonly_monitor_cell": "1937",
+      "sole_readonly_monitor_cell": "2044",
       "actual_qualified_cases": 0,
       "Root_accepted": false,
       "expected_actual_Native_cases": 9,
@@ -217,12 +220,26 @@
           "library_file_id": "libfile_96df1e4f477c819181c3618550a3aa75"
         }
       },
-      "own_source_pins": 59,
+      "own_source_pins": 62,
       "unchanged_parent_paths": 14306,
       "financial_SQL_and_business_case_bodies_unchanged": true,
-      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/41419714664",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/41432664076",
       "production_go": false,
-      "independent_acceptance": false
+      "independent_acceptance": false,
+      "observed_at_UTC": "2026-11-02T10:58:40.185789+00:00",
+      "unchanged_settings_function_bodies": 6,
+      "previous_failure_evidence": "AFUI94_47E_FIRST_ACTUAL_FUNCTION_ACL_FAILURE_RESTORED_20261102.json",
+      "Root_source_evidence": "AFUI99_ROOT_NEW_FUNCTION_ACL_REPAIR_SOURCE_20261102.json",
+      "focused_new_ACL_model_controls": 3,
+      "old_four_role_models_and_old_settings_API_and_financial_cases_NOT_rerun": true,
+      "model_runtime": "PostgreSQL/WASM18.6",
+      "actual_PostgreSQL17_capability_pending": true,
+      "capability_before_full_parent_install": true,
+      "focused_model_and_Root_source_canonical": {
+        "bytes": 5981,
+        "sha256": "b83e399463d34ff0bc0146f6a0216da726e73ec31f95967fd98689696b2e0aab",
+        "library_file_id": "libfile_5191512acac48191b34890d42bf26345"
+      }
     },
     "FG_MANDOR": {
       "status": "FG_MANDOR_EXISTING_SALES_BUYER_AND_PAYROLL_UI_SOURCE_PREPARED_NOT_NATIVE",
@@ -324,29 +341,80 @@
       "independent_acceptance": false
     },
     "GLOBAL_ENVELOPE": {
-      "local_head": "c9e8264fff0a09f2005e7a6ab3d0c9edc5900abf",
-      "tree": "6d32ec6042c4d3e85b76de230a348bc19988fed6",
-      "public_parent": "15a2170cea88cd03a4d1bcaa0873a969d495b9fa",
-      "payload_characters": 19707,
-      "own_paths": 7,
-      "source_pins": 6,
-      "private_tables": 1,
-      "private_functions": 2,
-      "runtime_entry": null,
-      "actual_Native_cases": 0,
-      "public_head": "a007a33851769ccfe28062189c94b66732c040ca",
+      "status": "GLOBAL_EIGHT_OWNING_ADAPTERS_AND_PRIVATE_NATIVE_WORK_SCOPE_SOURCE_PREPARED_NOT_NATIVE",
+      "head": "79932d604a98e79a625b40c60506ed06756558fa",
+      "public_head": "79932d604a98e79a625b40c60506ed06756558fa",
+      "tree": "a3ac931b899481b70fe8253b4bbdcc51038aa431",
+      "local_head": "8f43596e060fbfd2ff9fc8e6bb3a1c13cd68f5de",
       "branch": "astra-a/global-envelope-lock-source-prepared-20261102",
+      "source_pins": 18,
+      "own_paths": 19,
+      "private_tables": 3,
+      "private_functions": 8,
+      "prepared_owning_source_adapters": 8,
+      "reversible_source_routes": 18,
+      "global_guard_sites": 3,
+      "actual_reference_function_attributes_each": 19,
+      "owning_hooks_written": true,
+      "actual_owning_hooks_installed": false,
       "workflow_activated": false,
+      "runtime_entry": null,
       "profile_seed_rows": 0,
-      "owning_hooks_written": false,
+      "complete_installer_pending": true,
+      "final_parent_profile_adoption_pending": true,
+      "current_rights_writer_and_phantom_closure_pending": true,
+      "actual_four_graph_helper_composition_pending": true,
+      "actual_Native_cases": 0,
+      "actual_Auth_HTTP_cases": 0,
+      "actual_two_session_races": 0,
+      "actual_browser_cases": 0,
+      "new_scope_model_controls": 21,
+      "new_review_and_owning_model_controls": 13,
+      "old_actual_lock_and_catalog_controls_and_census_NOT_rerun": true,
+      "scope_model_first_zero_case_SQL_failure_preserved": true,
+      "scope_model_after_syntax_21_canonical": {
+        "bytes": 16194,
+        "sha256": "952ab75fd7fc03a515950dfcc604803643b97ddf699cde1c4bb04ff3d5b01014",
+        "library_file_id": "libfile_c35c2c34a54c81918217b409040d611b"
+      },
+      "owning_model13_canonical": {
+        "bytes": 5502,
+        "sha256": "29d2c8adc09f327b22887bf59e27e0a397ce8299260ce8e5df47ab5f15ec22d1",
+        "library_file_id": "libfile_f81af67056788191ad8ba83291a4c2d9"
+      },
+      "source_manifest": {
+        "bytes": 3764,
+        "sha256": "0d9a3af99ee92fe2c5723c267b59f6a9f257f6cad4161716934a4fbe60865cc8"
+      },
+      "source_gate": {
+        "actual_ERP_SQL_executed": 0,
+        "actual_Native_cases": 0,
+        "actual_owning_hooks": 0,
+        "complete_installer": false,
+        "independent_acceptance": false,
+        "new_private_review_functions": 2,
+        "new_private_scope_functions": 4,
+        "new_private_scope_tables": 2,
+        "new_review_and_owning_model_controls": 13,
+        "new_scope_model_controls": 21,
+        "own_source_pins": 18,
+        "parent_gate_closed": true,
+        "prepared_owning_source_adapters": 8,
+        "production_go": false,
+        "profile_seed_statements": 0,
+        "reversible_owning_source_routes": 18,
+        "runtime_entry": null,
+        "status": "GLOBAL_PRIVATE_ENVELOPE_SOURCE_ONLY_NOT_RUNTIME_OR_PROFILE_QUALIFICATION",
+        "unchanged_parent_blobs_and_modes": 14169
+      },
       "production_go": false,
       "independent_acceptance": false
     }
   },
   "remaining_gate_summary_not_full_scope_inventory": [
-    "Afui94 repaired actual owning run 41419714664 is active (sole monitor1937). FREE45 is accepted; do not rerun its strict3 or DE30. Afui15 needs terminal canonical Root intake.",
-    "Implement current global scope and owning hooks using the prepared private envelope, qualify current rights/writer/phantom closure and final factory/combined obligations. Source preparation and isolated lock controls do not close these gates.",
-    "After the active integration block is stable: finish SKU moving average and FG Mandor chosen-week payroll settlement/UI, and apply/verify prepared tab contrast."
+    "Afui99 exact new-function ACL repair run41432664076 is active, sole monitor2044; inspect earlyPG17 capability and terminal canonical Root intake. Failed47e restored; DE30/FREE45 accepted and not repeated.",
+    "Global source contains private scope21 and eight exact owning adapters/review13. Finish exact four graph helper composition, complete Native input/rights/readset and writer/phantom proof, final-parent profile/installer and Native positive/inverse/races/all5.",
+    "Finish SKU moving-average economic path; finish Mandor final-parent installer including non-superuser facade ACL ordering, chosen-week paid partial/reversal/returns/two-tab/Auth/browser checks; apply/verify prepared tab contrast; then combined/factory/full scope acceptance."
   ],
   "saved_metadata_preflight": {
     "global19_functions": 19,
@@ -361,10 +429,12 @@
       "ERP_imports": 0,
       "actual_Native_cases": 0,
       "future_actual_parent_preDB_natural_graph_required": true
-    }
+    },
+    "actual_catalog_function_attributes_each": 19,
+    "historical17_is_a_selected_projection_not_full_actual19": true
   },
-  "continuity": "Sole Afui15 run41410071146/job125160850217 still monitored by1846 on immutable f4f16/c295. Mandor9335/413d3 has payroll popup mounted and durable allocation recovery wired in source, controller10 plus changed refresh1 plus parent-regression17 passed, prior15 client cases retained; Native/Auth/browser/tworaces still0. Next Sales category picker should defer mandor customer preparation into same existing Native CREATE/EDIT transaction/save intent, preserving unsaved draft fields and avoiding an extra buyer recovery writer. Then final-parent profile/installer and actual qualification.",
-  "operational_update_UTC": "2026-11-02T09:42:44.368000+00:00",
+  "continuity": "Sole Afui99 run41432664076/job125234808451 on public14d44/e163 is active; one monitor2044. Failed47e original restored and durable. New early actualPG17 ACL capability precedes full parent installation; no case credit yet. Global eight owning adapters and scope21/review13 prepared on79932/a3ac, no Native installer/adoption. Mandor6b9/a08 source and client40 prepared; Native installation/qualification pending. Continue global helper/readset/profile closure and lawful integration without rerunning accepted DE30/FREE45 or old models.",
+  "operational_update_UTC": "2026-11-02T10:58:40.185789+00:00",
   "current_qualification_observation_is_earlier_API_snapshot": false,
   "retained_permanent_financial4": {
     "evidence": "CURRENT_PERMANENT23E_ROOT_RETAINED4_20261102.json",
@@ -467,6 +537,53 @@
       "evidence": "AFUI91_FIRST_ACTUAL_ROLE_OWNERSHIP_FAILURE_RESTORED_20261102.json",
       "business_cases_started": false,
       "full_restore_PASS": true
+    },
+    {
+      "status": "AFUI94_ACTUAL_NEW_PUBLIC_FUNCTION_ACL_REFUSAL_RESTORED_ZERO_BUSINESS",
+      "head": "47e9cfb66e8b2b493605bbb005537457f3ddcd86",
+      "tree": "b55f6b27ec3bb111b01e315cc0d77d3d606f7d5f",
+      "run_id": 41419714664,
+      "job_id": 125192071600,
+      "conclusion": "failure",
+      "observed_at_UTC": "2026-11-02T10:58:40.185789+00:00",
+      "error": "GOOD_POLICY_DATE_FUNCTION_EXPOSURE_CHANGED:public.erp_cp7_get_good_policy_dates_v1(jsonb):cp7_procure_read",
+      "actual_business_cases": 0,
+      "installed_before_commit": false,
+      "baseline_full22_all_rows_all_sequences_equal": true,
+      "baseline_roles_exact": true,
+      "cp6_restored": true,
+      "baseline_advisors_equal": true,
+      "advisor_gate": true,
+      "baseline_restore": {
+        "exit": 1,
+        "error_count": 19,
+        "unexplained": [],
+        "only_pg_cron_errors": true,
+        "database_owner_acl_and_settings_preserved": true,
+        "platform_schema_authority_restored": [
+          "graphql",
+          "graphql_public"
+        ]
+      },
+      "writer_process_group_and_tree_empty": true,
+      "original_main_report": {
+        "bytes": 1980858,
+        "sha256": "a9d7565066026fca598957c7603ba52857602028df85dfdc0d4c76aae762dda4"
+      },
+      "original_main_member": {
+        "bytes": 2012146,
+        "sha256": "b674bb561d7b3e7bccb34561d2b8240e1ae68f64f62a7eb15f85e11da4438f7c"
+      },
+      "canonical": {
+        "bytes": 1980858,
+        "sha256": "a9d7565066026fca598957c7603ba52857602028df85dfdc0d4c76aae762dda4",
+        "artifact_id": 13134095881,
+        "library_file_id": "libfile_99402125aff88191b7eb9c880f7ca2e3"
+      },
+      "root_cause": "Global PUBLIC default EXECUTE and schema defaults remained because ACL work ran after ownership transfer and removal of temporary SET membership; cp7_procure_read had no authenticated membership. Only six new function ACLs are normalized before owner transfer.",
+      "production_go": false,
+      "independent_acceptance": false,
+      "evidence": "AFUI94_47E_FIRST_ACTUAL_FUNCTION_ACL_FAILURE_RESTORED_20261102.json"
     }
   ],
   "completed_readonly_monitor_cells": [
@@ -481,7 +598,8 @@
     "1748",
     "1756",
     "1828",
-    "1846"
+    "1846",
+    "1937"
   ],
   "global_catalog_primitives": {
     "status": "ROOT_VERIFIED_REAL_PG17_CATALOG_PRIMITIVES_RETAINED4_FRESH3_NOT_ERP_CLOSURE",
@@ -528,7 +646,7 @@
     "E_complete": false,
     "global_writer_or_permission_or_lock_closure": false
   },
-  "new_qualified_cases_scope": "actual accepted DE30 only; failed C73 FREE3 grants zero cases; repaired FREE41 prepared only",
+  "new_qualified_cases_scope": "Accepted DE30 and retained FREE3/permanent4 remain valid; failed47e gives0 new cases; activeAfui99 and source-only Global/Mandor give0 acceptance.",
   "current_run_qualified_cases": 0,
   "source_only_preflight": {
     "status": "ROOT_VERIFIED_FREE45_EXACT_WRITER_CWD_SOURCE_PREFLIGHT_PASS_NOT_NATIVE",

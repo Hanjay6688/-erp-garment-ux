@@ -1,0 +1,46 @@
+{
+  "status": "AFUI94_ACTUAL_NEW_PUBLIC_FUNCTION_ACL_REFUSAL_RESTORED_ZERO_BUSINESS",
+  "head": "47e9cfb66e8b2b493605bbb005537457f3ddcd86",
+  "tree": "b55f6b27ec3bb111b01e315cc0d77d3d606f7d5f",
+  "run_id": 41419714664,
+  "job_id": 125192071600,
+  "conclusion": "failure",
+  "observed_at_UTC": "2026-11-02T10:58:40.185789+00:00",
+  "error": "GOOD_POLICY_DATE_FUNCTION_EXPOSURE_CHANGED:public.erp_cp7_get_good_policy_dates_v1(jsonb):cp7_procure_read",
+  "actual_business_cases": 0,
+  "installed_before_commit": false,
+  "baseline_full22_all_rows_all_sequences_equal": true,
+  "baseline_roles_exact": true,
+  "cp6_restored": true,
+  "baseline_advisors_equal": true,
+  "advisor_gate": true,
+  "baseline_restore": {
+    "exit": 1,
+    "error_count": 19,
+    "unexplained": [],
+    "only_pg_cron_errors": true,
+    "database_owner_acl_and_settings_preserved": true,
+    "platform_schema_authority_restored": [
+      "graphql",
+      "graphql_public"
+    ]
+  },
+  "writer_process_group_and_tree_empty": true,
+  "original_main_report": {
+    "bytes": 1980858,
+    "sha256": "a9d7565066026fca598957c7603ba52857602028df85dfdc0d4c76aae762dda4"
+  },
+  "original_main_member": {
+    "bytes": 2012146,
+    "sha256": "b674bb561d7b3e7bccb34561d2b8240e1ae68f64f62a7eb15f85e11da4438f7c"
+  },
+  "canonical": {
+    "bytes": 1980858,
+    "sha256": "a9d7565066026fca598957c7603ba52857602028df85dfdc0d4c76aae762dda4",
+    "artifact_id": 13134095881,
+    "library_file_id": "libfile_99402125aff88191b7eb9c880f7ca2e3"
+  },
+  "root_cause": "Global PUBLIC default EXECUTE and schema defaults remained because ACL work ran after ownership transfer and removal of temporary SET membership; cp7_procure_read had no authenticated membership. Only six new function ACLs are normalized before owner transfer.",
+  "production_go": false,
+  "independent_acceptance": false
+}

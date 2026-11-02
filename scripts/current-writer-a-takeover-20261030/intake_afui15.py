@@ -14,10 +14,10 @@ from intake_common import GitBytes,exact,fields,pin,require,safe_path
 from intake_sku27 import strict,literal,full_census
 from current_graph_sources import declared_files
 
-HEAD='47e9cfb66e8b2b493605bbb005537457f3ddcd86'
-TREE='b55f6b27ec3bb111b01e315cc0d77d3d606f7d5f'
-RUN=41419714664
-JOB=125192071600
+HEAD='14d44c8d601bb9d94b87d4c7f1834d6c2a41f947'
+TREE='e1632822f61e0a5b5499f96104c02cec79cdd4ae'
+RUN=41432664076
+JOB=125234808451
 PARENT_HEAD='91a7b46ed13c4ad6094114871a4a39fa6765d140'
 PARENT_TREE='01c4807d932af1d534477c4c182715b1378bd39b'
 PARENT_RUN=41399754004
@@ -230,6 +230,38 @@ def runtime_domain_preflight_source(g,declaration):
         unchanged_original_case_functions=True,role_ownership_repair=role_repair,actual_case_credit=0)
 
 
+def function_acl_source(g,declaration):
+    """Exact six-new-function ACL repair; no business or Native case credit."""
+    expected={'scripts/cp7_accessory_nonpayable/ACTUAL_FUNCTION_DEFAULT_ACL_REFERENCE.json': {'bytes': 1521, 'sha256': 'c0409e9e66aa516ac34a05bfa62171d000b9be24fc5e95c965367b0160a881f1'}, 'scripts/cp7_accessory_nonpayable/FIRST_FUNCTION_ACL_FAILURE_AND_REPAIR.json': {'bytes': 1591, 'sha256': '03c87acb3ddd2fc754e2b059f46181fa4a9a321dcc49b005f797acb91a55212d'}, 'scripts/cp7_accessory_nonpayable/LOCAL_FUNCTION_DEFAULT_ACL_CONTROLS.json': {'bytes': 1400, 'sha256': '6b80b10add4bb3172a780f421d33b9e7ab5a866306993e94a72737bc6266c5a4'}, 'scripts/cp7_accessory_nonpayable/README.md': {'bytes': 20113, 'sha256': '5127cf0043b70eca7980f470519300920b0a4d9f24a08d4a1cf274cd13fd86c0'}, 'scripts/cp7_accessory_nonpayable/SOURCE.json': {'bytes': 11685, 'sha256': 'f7d8429fdd854a5a8fbb2172ee60c402f8a5fce5370b1250000525d27597a439'}, 'scripts/cp7_accessory_nonpayable/composition.py': {'bytes': 14792, 'sha256': '18f2eb8feea6f6ace99330a3ff480cbeb171818ca71c24a7b1cfdd0f4a2b8fac'}, 'scripts/cp7_accessory_nonpayable/function_acl_capability.py': {'bytes': 8455, 'sha256': '3c509e803b6e6a1f2e34c941010ab35dfa588a97275ccafb073b724a2565e8ba'}, 'scripts/cp7_accessory_nonpayable/runtime_supervisor.py': {'bytes': 2672, 'sha256': 'a7a6fc74fe43dd0f1e30a1b29729d3e625886b2370074044fce850c906073761'}, 'scripts/cp7_accessory_nonpayable/settings.sql': {'bytes': 16348, 'sha256': 'affee25285953f007d9bf0175ca33c891a54343310968c64be247ed61217f15e'}, 'scripts/cp7_accessory_nonpayable/test_function_acl.mjs': {'bytes': 7049, 'sha256': 'f2f9af1aa13d8f5c0088d2c688b0b04d80bddd2a2517d5aceaafc710f41d3c71'}}
+    for name,value in expected.items():g.verify_pin(name,value)
+    old_head='47e9cfb66e8b2b493605bbb005537457f3ddcd86'
+    old_tree='b55f6b27ec3bb111b01e315cc0d77d3d606f7d5f'
+    with GitBytes(g.root,old_head,old_tree)as old:
+        changed={name for name in expected if name in old.tree}
+        exact(changed,{NS+n for n in('settings.sql','composition.py','runtime_supervisor.py','README.md','SOURCE.json')},'AFUI99_EXACT_FIVE_CHANGED_SOURCE_PATHS')
+        for name,entry in old.tree.items():
+            if name not in changed:exact(g.tree.get(name),entry,'AFUI99_ALL_OTHER_47E_BLOBS_AND_MODES_UNCHANGED:'+name)
+        exact(set(g.tree)-set(old.tree),set(expected)-changed,'AFUI99_EXACT_FIVE_NEW_SOURCE_PATHS')
+        pattern=r"create function ([a-z0-9_.]+)\(([^)]*)\)\nreturns jsonb language (sql|plpgsql) (stable|volatile) security definer set search_path='' as \$\$(.*?)\$\$;"
+        bodies=re.findall(pattern,old.read(NS+'settings.sql').decode(),re.S)
+        exact(len(bodies),6,'AFUI99_EXACT_SIX_ORIGINAL_SETTINGS_BODIES')
+        exact(re.findall(pattern,g.read(NS+'settings.sql').decode(),re.S),bodies,'AFUI99_ALL_SIX_SIGNATURES_VOLATILITY_AND_BODIES_UNCHANGED')
+        prior=strict(old.read(NS+'SOURCE.json'))
+        retained=runtime_domain_preflight_source(old,prior)
+        expect=copy.deepcopy(prior)
+        for name in('settings.sql','composition.py','runtime_supervisor.py','ACTUAL_FUNCTION_DEFAULT_ACL_REFERENCE.json','function_acl_capability.py','test_function_acl.mjs'):
+            expect['files'][NS+name]=expected[NS+name]
+        exact(declaration,expect,'AFUI99_ONLY_EXACT_SIX_SOURCE_PIN_UPDATES')
+    controls=strict(g.read(NS+'LOCAL_FUNCTION_DEFAULT_ACL_CONTROLS.json'))
+    fields(controls,dict(status='ISOLATED_POSTGRES_NON_SUPERUSER_ACTUAL_DEFAULT_ACL_FOCUSED3_PASS_NOT_ERP',actual_ERP_Native_cases=0,actual_Auth_HTTP_cases=0,actual_browser_cases=0,production_go=False,independent_acceptance=False),'AFUI99_MODEL_ZERO_NATIVE_CREDIT')
+    exact(len(controls['checks']),3,'AFUI99_ONLY_THREE_NEW_FOCUSED_ACL_MODELS')
+    require(all(r.get('status')=='PASS'for r in controls['checks']),'AFUI99_THREE_NEW_ACL_MODEL_PASS')
+    for name,value in controls['source_sha256'].items():
+        exact(pin(g.read(NS+name))['sha256'],value,'AFUI99_MODEL_EXACT_SOURCE:'+name)
+    ast.parse(g.read(NS+'function_acl_capability.py'))
+    return retained,dict(status='ROOT_EXACT_AFUI94_TO99_NEW_FUNCTION_ACL_SOURCE_REPAIR_NOT_QUALIFICATION',original_head=old_head,original_tree=old_tree,reviewed_files=expected,unchanged_six_settings_bodies=True,focused_WASM18_6_controls=3,actual_PostgreSQL17_capability_pending=True,actual_case_credit=0)
+
+
 def source(g):
     base_head=PARENT_HEAD or PREPARED_BASE;base_tree=PARENT_TREE or PREPARED_BASE_TREE
     exact(g.git('rev-parse',base_head+'^{tree}').decode().strip(),base_tree,'AFUI15_EXACT_WHOLE_PARENT_TREE')
@@ -258,7 +290,7 @@ def source(g):
         'AFUI15_ONLY_ADDITIVE_OWN_SOURCE_AND_EXACT_UI_PATHS')
     required={n for n in added if n.startswith(NS)and(PurePosixPath(n).suffix in('.py','.sql','.mjs')
         or PurePosixPath(n).name in('NATIVE_ORIGIN.json','UI_ORIGIN.json','UI_SOURCE.json','afui15.workflow.yml.txt',
-            'RUNTIME_DOMAIN_PREFLIGHT_ORIGIN.json'))}
+            'RUNTIME_DOMAIN_PREFLIGHT_ORIGIN.json','ACTUAL_FUNCTION_DEFAULT_ACL_REFERENCE.json'))}
     if WORKFLOW in added:required.add(WORKFLOW)
     exact(set(declaration['files']),required,'AFUI15_COMPLETE_EXECUTABLE_AND_TEMPLATE_SOURCE_PINS')
     for name,value in declaration['files'].items():g.verify_pin(name,value)
@@ -268,7 +300,10 @@ def source(g):
     for name,value in ui['files'].items():g.verify_pin(name,value)
     for name in('PARENT_HEAD','PARENT_TREE','PARENT_RUN','PARENT_JOB'):
         exact(literal(g,NS+'admission.py',name),globals()[name],'AFUI15_EXACT_ACTUAL_PARENT_BINDING:'+name)
-    repaired=runtime_domain_preflight_source(g,declaration)if 'runtime_domain_preflight'in declaration else None
+    acl_repair=None
+    if NS+'ACTUAL_FUNCTION_DEFAULT_ACL_REFERENCE.json'in g.tree:
+        repaired,acl_repair=function_acl_source(g,declaration)
+    else:repaired=runtime_domain_preflight_source(g,declaration)if 'runtime_domain_preflight'in declaration else None
     if PARENT_HEAD is None:
         exact(literal(g,NS+'admission.py','PARENT_RECEIPT'),None,'AFUI15_PREPARED_RECEIPT_CLOSED')
         exact(len(required),57 if repaired else 56,'AFUI15_EXACT_PREPARED_SOURCE_PIN_COUNT')
@@ -281,7 +316,7 @@ def source(g):
     return dict(source_pins=len(required),own_paths=len(added),unchanged_parent_paths=len(base)-4,
         source_manifest=pin(g.read(NS+'SOURCE.json')),UI_manifest=pin(g.read(NS+'UI_SOURCE.json')),
         exact_counted_UI_paths=4,new_UI_paths=5,pure_report_functions=pure,
-        runtime_domain_preflight_repair=repaired,
+        runtime_domain_preflight_repair=repaired,new_function_ACL_repair=acl_repair,
         parent_qualification_pending=PARENT_HEAD is None,actual_case_credit=0)
 
 def intake(root,path,metadata):
