@@ -259,10 +259,6 @@
     "scripts/cp7_accessory_nonpayable/advisor_review.py": {
       "bytes": 4173,
       "sha256": "bd1090e42a4a2519a10c5f2872599703606f9b922026d347b6f873ca368df0df"
-    },
-    "scripts/cp7_accessory_nonpayable/FIXTURE_TIME_PREFLIGHT_RESULT.json": {
-      "bytes": 11652,
-      "sha256": "c65868a113450f7c9118540a08e3cce6a7bcbded4346a97f20ba1652027ffe86"
     }
   },
   "actual_Native_cases": 0,
