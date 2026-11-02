@@ -1,0 +1,113 @@
+{
+  "status": "FREE_DATE_SUPERVISION_NEW_WIRING_CONTROLS_PASS",
+  "command": "python -B -m unittest discover -s scripts/current-de-free-date-preparation -p test_runtime_integration.py -v",
+  "tests": 4,
+  "failures": 0,
+  "exit_code": 0,
+  "receipt_positive": 1,
+  "receipt_negative_controls": 39,
+  "unchanged_process_engine_and_real_WIB_policy": true,
+  "retained_workflow_generator_exact_commit": "927ee03213a80e854fda30779d824c5c617644bd",
+  "workflow_source_is_not_actual_parent_acceptance": true,
+  "generated_workflow_steps": 75,
+  "routed_parent_steps": 9,
+  "unchanged_parent_steps": 66,
+  "log_receipt_python_compiles": true,
+  "old_process_controls_reused": 10,
+  "old_FREE_SQL_and_audit_sequence_tests_reused": true,
+  "actual_SQL_executed": 0,
+  "actual_ERP_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false,
+  "additional_owner_gate_control": {
+    "command": "python -B -m unittest discover -s scripts/current-de-free-date-preparation -p test_runtime_integration.py -k financial_validator -v",
+    "tests": 1,
+    "failures": 0,
+    "exit_code": 0,
+    "four_financial_validator_ASTs_unchanged_from": "e686f804de40077465e40ef26d2f88d23fe18fab",
+    "good_owning_receipt_attached": true,
+    "wrong_head_refused_before_business_validation": true
+  },
+  "pre_runtime_source_defect": {
+    "head": "d8178ef26673cd1114a767fdf427d99bc6c22380",
+    "discovery": "Source inspection before Root intake or runtime activation",
+    "finding": "The new supervised local was referenced from the separate pure validate function; it belongs to the owning gate scope.",
+    "fix": "Attach supervision only in owning gate after unchanged pure validator returns.",
+    "actual_ERP_runs": 0,
+    "original_four_wiring_controls_reused": true
+  },
+  "actual_parent_mode_followup": {
+    "status": "SOURCE_CONTROLS_DISTINGUISH_UNARMED_AND_ACTUAL_ACCEPTED_PARENT",
+    "unique_new_pure_controls_PASS": 3,
+    "first_failures": 0,
+    "actual_parent_receipt_validation_mandatory": true,
+    "all_unbound_negative_factories_still_refuse_before_ERP": true,
+    "actual_bound_mode_never_calls_unbound_negative_factories": true,
+    "partial_or_invalid_receipt_refused": true,
+    "whole_natural_source_fence_before_database_still_mandatory": true,
+    "original_Native_SQL_callbacks_and_full_restoration_and_all5_unchanged": true,
+    "previous_date_SQL_and_lifecycle_and_process_tests_not_repeated": true,
+    "raw_log": {
+      "bytes": 101,
+      "sha256": "7d59a8fbca92ef540f42b6883247c3844892d23f501b6cf2621d0e535813fb81",
+      "text": "...\n----------------------------------------------------------------------\nRan 3 tests in 0.008s\n\nOK\n"
+    },
+    "actual_ERP_SQL_executed": 0,
+    "actual_Native_cases": 0,
+    "actual_Auth_HTTP_cases": 0,
+    "actual_browser_cases": 0,
+    "workflow_not_activated": true,
+    "production_go": false,
+    "independent_acceptance": false,
+    "whole_source_admission_and_original_connection_fence": {
+      "status": "EXACT_UNCHANGED_FREE_DATE_DE_AND_CLOSED_FREE_DATE_PREPARATION",
+      "own_paths": 38,
+      "guard": {
+        "attempts": [],
+        "network_nonGit_attempts": [],
+        "public_source_sha256": "1439d70810383db377c48e043df7fb6d487a1b2f1a995e8993a2c08590f9f797",
+        "self_controls": [
+          {
+            "api": "psycopg.connect",
+            "result": "DENIED_BEFORE_LIBPQ"
+          },
+          {
+            "api": "psycopg.Connection.connect",
+            "result": "DENIED_BEFORE_LIBPQ"
+          },
+          {
+            "api": "psycopg.AsyncConnection.connect",
+            "result": "DENIED_BEFORE_LIBPQ"
+          },
+          {
+            "original_connect_descriptors_restored": true
+          }
+        ]
+      },
+      "bytes": 7355,
+      "sha256": "f4eb6dc1380ecd528aa73cfa0d6464be78171513c90d8658c0548427c674405a"
+    }
+  },
+  "new_closed_workflow_source_admission_controls": {
+    "status": "THREE_NEW_PURE_CONTROLS_PASS_NOT_NATIVE",
+    "tests": 3,
+    "failures": 0,
+    "exit_code": 0,
+    "working_directory": "scripts/current-de-free-date-preparation",
+    "command": "python -B -m unittest test_runtime_integration.FREEDateProcessWiring.test_unarmed_workflow_source_never_reads_parent test_runtime_integration.FREEDateProcessWiring.test_stray_or_missing_workflow_refuses_before_parent test_runtime_integration.FREEDateProcessWiring.test_exact_workflow_still_requires_actual_matching_parent",
+    "raw": "...\n----------------------------------------------------------------------\nRan 3 tests in 0.007s\n\nOK\n",
+    "actual_SQL_executed": 0,
+    "actual_ERP_cases": 0,
+    "old_process_controls_and_Native3_not_rerun": true,
+    "financial_validator_ASTs_unchanged": true,
+    "source_guard_exact_derivation": {
+      "original_bytes": 4260,
+      "original_sha256": "8fcd679648b2cc0902562c39d00588594dbbf426ab8e40aabf2f4cbbde30dccb",
+      "old_routes": 6,
+      "new_explicit_routes": 6,
+      "entire_original_recovered": true,
+      "first_control_refused_missing_route_metadata_before_ERP": true,
+      "first_error_file": "FREE_CLOSED_WORKFLOW_SOURCE_FENCE.json"
+    }
+  }
+}

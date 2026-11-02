@@ -1,0 +1,40 @@
+{
+  "classification": "PREPARED_THREE_NATIVE_FREE_DATE_CASES_NOT_ACTUAL_EXECUTION",
+  "head": "13db04e03a060e3a1faaac9f7125d9a2e5578adb",
+  "case_ids": [
+    "FREE_DATE_NATIVE_WIB_INCLUSIVE_LOOKUP_AND_NORMAL_PUBLIC_QUOTE",
+    "FREE_DATE_NATIVE_FINAL_DAY_POST_STOCK_GL_AND_EXACT_REPLAY",
+    "FREE_DATE_NATIVE_POSTED_HISTORY_AFTER_ELIGIBILITY_ENDS"
+  ],
+  "unchanged_sources": {
+    "scripts/cp6_bc_probe.py": {
+      "bytes": 139394,
+      "sha256": "147de7092ba2284312ba376f8cae82bf05c0fbb77e28956f45966cdfa6c8adb1"
+    },
+    "scripts/cp6_auditor_runner.py": {
+      "bytes": 14911,
+      "sha256": "2c74439f7e919e2adb2484bc774bef4881e71237124f2e6b6dabdab141348ea7"
+    },
+    "scripts/cp6_v2620c_live_rollback_race.py": {
+      "bytes": 17213,
+      "sha256": "911b5081cfb9e3e1a0a217f5d3bcaff5ffbca7a51f724c76fc30520c490187d2"
+    }
+  },
+  "fixture_or_runner_changes": 0,
+  "owner_contract_sources": [
+    "docs/cp7/OWNER_DECISIONS_20261008.md",
+    "scripts/current-special-free-date-boundary/ACTUAL_REFERENCE.json",
+    "scripts/current-special-free-date-boundary/PREPARED.sql"
+  ],
+  "posting_route": "public.erp_save_accessory_issue_action_v1",
+  "quote_route": "public.erp_get_accessory_issue_workspace_v1",
+  "posted_free_lines_per_post": 1,
+  "paid_companion_lines": 0,
+  "mandatory_PO_or_FG_matching": false,
+  "product_clock_changed": false,
+  "actual_Native_cases": 0,
+  "actual_SQL_executed": 0,
+  "GOOD_eligibility_policy_decided": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

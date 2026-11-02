@@ -1,0 +1,211 @@
+{
+  "classification": "PREPARED_AUDITED_NATIVE_SEQUENCE_BOUNDARY_NOT_ACTUAL_ERP_ACCEPTANCE",
+  "created_at_UTC": "2026-10-31T19:47:00.167780+00:00",
+  "previous_prepared_head": "651084161b76f7b38951fe0c22b725fe2b2a1dd3",
+  "finding": "PostgreSQL rollback restores the audit rows but does not undo nextval consumption; requiring identical initial/final audit sequence for a business-writing case is invalid.",
+  "unchanged_Native_business_cases": 3,
+  "unchanged_business_source": {
+    "bytes": 15045,
+    "sha256": "804cd2862a426e11c883f7252c553059af7fdc919cb8a2de8fa3ee0917326575"
+  },
+  "component_and_gate": {
+    "component.py": {
+      "bytes": 10169,
+      "sha256": "4fea2d66c65cb3a29b56a95b753f4e5ec7fa193e80fa777951b1f9eeae9d5342"
+    },
+    "final_gate.py": {
+      "bytes": 14543,
+      "sha256": "76f77079586b34468e3ea9e749bd371a674306d60398d5a7e76b7b8f2b38d22d"
+    },
+    "README.md": {
+      "bytes": 5208,
+      "sha256": "accfd8fdefe7210cd39fd9173845e897d8615cb3ef10aaa307b91b6c5698a408"
+    }
+  },
+  "contract": {
+    "all22_catalog_exact": true,
+    "ALL_table_rows_exact_after_rollback": true,
+    "ALL_sequence_members_retained": true,
+    "only_native_audit_sequence_may_advance": true,
+    "every_advance_matches_contiguous_ids_actually_inserted_before_rollback": true,
+    "ALL_other_sequences_exact": true,
+    "rollback_must_not_mutate_sequence_values": true,
+    "case_sequence_reset_performed": false,
+    "used_inverse_ALL_rows_ALL_sequences_exact": true,
+    "full_outer_backup_restore_ALL_rows_ALL_sequences_exact": true,
+    "original_errors_preserved": true
+  },
+  "synthetic_report_control": {
+    "positive": 1,
+    "negative": 20,
+    "case_boundaries": [
+      {
+        "name": "Actual_audit_sequence_consumption_retained_without_reset_and_ALL_rows_rolled_back",
+        "result": "PASS"
+      },
+      {
+        "name": "Unrelated_nontransactional_sequence_advance",
+        "result": "REFUSED"
+      },
+      {
+        "name": "Audit_sequence_advance_without_inserted_audit_row",
+        "result": "REFUSED"
+      },
+      {
+        "name": "Original_model_business_error_preserved_after_rollback",
+        "result": "PASS"
+      },
+      {
+        "name": "Ended_model_transaction",
+        "result": "REFUSED"
+      }
+    ],
+    "source_DB_guard": {
+      "attempts": [],
+      "self_controls": [
+        {
+          "api": "psycopg.connect",
+          "result": "DENIED_BEFORE_LIBPQ"
+        },
+        {
+          "api": "psycopg.Connection.connect",
+          "result": "DENIED_BEFORE_LIBPQ"
+        },
+        {
+          "api": "psycopg.AsyncConnection.connect",
+          "result": "DENIED_BEFORE_LIBPQ"
+        },
+        {
+          "original_connect_descriptors_restored": true
+        }
+      ],
+      "network_nonGit_attempts": [],
+      "public_source_sha256": "1439d70810383db377c48e043df7fb6d487a1b2f1a995e8993a2c08590f9f797"
+    },
+    "model_source": {
+      "bytes": 19463,
+      "sha256": "dc9a5fb461a0b1a224ddbfa24bdd70004d6ebb964936495833575d643c7d82a8"
+    }
+  },
+  "PostgreSQL17_and_observer_controls": {
+    "classification": "POSTGRESQL17_MODEL_AND_PURE_OBSERVER_CONTROLS_NOT_ERP_NATIVE_ACCEPTANCE",
+    "status": "PASS",
+    "controls": [
+      {
+        "name": "Initially_uncalled_sequence",
+        "result": "PASS",
+        "verified": {
+          "classification": "AUDITED_NATIVE_SEQUENCE_CONSUMPTION_NOT_TRANSACTIONAL_RESTORE",
+          "audit_sequence_increments": 1,
+          "all_table_rows_restored": true,
+          "all22_catalog_exact": true,
+          "all_other_sequences_unchanged": true,
+          "rollback_sequence_values_unchanged": true,
+          "case_sequence_reset_performed": false,
+          "complete_outer_backup_sequence_restore_required": true
+        }
+      },
+      {
+        "name": "Called_sequence_with_rollback_gap",
+        "result": "PASS",
+        "verified": {
+          "classification": "AUDITED_NATIVE_SEQUENCE_CONSUMPTION_NOT_TRANSACTIONAL_RESTORE",
+          "audit_sequence_increments": 1,
+          "all_table_rows_restored": true,
+          "all22_catalog_exact": true,
+          "all_other_sequences_unchanged": true,
+          "rollback_sequence_values_unchanged": true,
+          "case_sequence_reset_performed": false,
+          "complete_outer_backup_sequence_restore_required": true
+        }
+      },
+      {
+        "name": "Two_contiguous_real_audit_rows",
+        "result": "PASS",
+        "verified": {
+          "classification": "AUDITED_NATIVE_SEQUENCE_CONSUMPTION_NOT_TRANSACTIONAL_RESTORE",
+          "audit_sequence_increments": 2,
+          "all_table_rows_restored": true,
+          "all22_catalog_exact": true,
+          "all_other_sequences_unchanged": true,
+          "rollback_sequence_values_unchanged": true,
+          "case_sequence_reset_performed": false,
+          "complete_outer_backup_sequence_restore_required": true
+        }
+      },
+      {
+        "name": "Unmatched_nextval_must_be_refused",
+        "result": "REFUSED",
+        "error": "FREE_DATE_CASE_AUDIT_ADVANCE_REQUIRES_EVERY_ACTUAL_INSERTED_ID"
+      },
+      {
+        "name": "Actual_observer_quotes_every_identifier_and_reads_all_sequences_without_writes",
+        "result": "PASS",
+        "query_count": 5
+      }
+    ],
+    "source_DB_guard": {
+      "attempts": [],
+      "self_controls": [
+        {
+          "api": "psycopg.connect",
+          "result": "DENIED_BEFORE_LIBPQ"
+        },
+        {
+          "api": "psycopg.Connection.connect",
+          "result": "DENIED_BEFORE_LIBPQ"
+        },
+        {
+          "api": "psycopg.AsyncConnection.connect",
+          "result": "DENIED_BEFORE_LIBPQ"
+        },
+        {
+          "original_connect_descriptors_restored": true
+        }
+      ],
+      "network_nonGit_attempts": [],
+      "public_source_sha256": "1439d70810383db377c48e043df7fb6d487a1b2f1a995e8993a2c08590f9f797"
+    },
+    "actual_ERP_SQL_executed": 0,
+    "actual_Native_cases": 0,
+    "case_sequence_resets": 0,
+    "source_pins": {
+      "component.py": {
+        "bytes": 10169,
+        "sha256": "4fea2d66c65cb3a29b56a95b753f4e5ec7fa193e80fa777951b1f9eeae9d5342"
+      },
+      "final_gate.py": {
+        "bytes": 14543,
+        "sha256": "76f77079586b34468e3ea9e749bd371a674306d60398d5a7e76b7b8f2b38d22d"
+      }
+    },
+    "PostgreSQL_model_source": {
+      "bytes": 3987,
+      "sha256": "fb28d048f3d9060e86b7bea2d3c41b4fe8465b4c568ff0b08ae9b19eb73df934"
+    },
+    "PostgreSQL_version": "PostgreSQL 17.5 on aarch64-unknown-linux-gnu, compiled by emcc (Emscripten gcc/clang-like replacement + linker emulating GNU ld) 3.1.74 (1092ec30a3fb1d46b1782ff1b4db5094d3d06ae5), 32-bit"
+  },
+  "existing_qualified_reference": {
+    "head": "090b85d3fcb738d3e694d4329d306f199a686eb8",
+    "source_archive": {
+      "name": "ERP_SKU_090b_Actual_20261031.zip",
+      "bytes": 94781660,
+      "sha256": "9ad923d20d0972b2a01df3ce3307bf03db537406ac89f99f700cf6d235bfc341",
+      "CRC_members": 170,
+      "status": "ORIGINAL_SIZE_SHA256_CRC_VERIFIED"
+    },
+    "census_member": "SKU_COST_DIRECT_PARTIAL_INVERSE_REFUSAL_56ed8452b5b0_FULL_CURRENT_CENSUS.json",
+    "observed_ALL_sequences": 15,
+    "audit_sequence_observed": [
+      "1609",
+      true
+    ],
+    "current_parent_acceptance_claim": false,
+    "root_receipt": "SKU_090B_ROOT_ACTUAL_INTAKE_20261031.json"
+  },
+  "actual_ERP_SQL_executed": 0,
+  "actual_Native_cases": 0,
+  "actual_browser_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

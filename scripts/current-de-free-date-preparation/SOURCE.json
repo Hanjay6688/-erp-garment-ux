@@ -1,0 +1,176 @@
+{
+  "classification": "CLOSED_DATE_ON_COMPLETE_DE_PREPARATION_NOT_QUALIFICATION",
+  "base_head": "6e61506c10a18541c104b981bd438e78b175b5d1",
+  "base_tree": "86f07de6e0be871d39110aa797ef26da4564e8e8",
+  "files": {
+    ".github/workflows/cp7-current-complete-de-free-date-native3.yml": {
+      "bytes": 33741,
+      "sha256": "a77b83f9a5430355fa517e1766a855fb7673b437f413bd77b8ee4d0602f23977"
+    },
+    "scripts/cp7_current_de_free_date/SOURCE.json": {
+      "bytes": 1114,
+      "sha256": "91223e406123ccf5d0a0f19b792e12d54d942e3bb4969af07695ace7b8815915"
+    },
+    "scripts/cp7_current_de_free_date/__init__.py": {
+      "bytes": 66,
+      "sha256": "bff4507b4aa2def5970d6ee3b6710ea1b5bc638068a1d8381456939a54f7e64c"
+    },
+    "scripts/cp7_current_de_free_date/composition.py": {
+      "bytes": 6400,
+      "sha256": "4ad7ca90207d29acc0634d1952e0955167ef6d68835de59f04d56918ab35f4d6"
+    },
+    "scripts/cp7_special_free_date_on_de/SOURCE.json": {
+      "bytes": 2328,
+      "sha256": "a7be8141a44afc3d44b3e085f5f5e525218afdcda9022f69d3cc4a0bffe605dc"
+    },
+    "scripts/cp7_special_free_date_on_de/__init__.py": {
+      "bytes": 78,
+      "sha256": "bb4a21df7d4d08c0d2c087ae5aa36bff27fecde5c06d01032a03125e5ab9f609"
+    },
+    "scripts/cp7_special_free_date_on_de/composition.py": {
+      "bytes": 7770,
+      "sha256": "ebe598411dc59d1475bbda64d0f5465b6c346a33ebd49437d043c90a9851cd8e"
+    },
+    "scripts/current-de-free-date-preparation/AUDIT_SEQUENCE_BOUNDARY_CONTROLS.json": {
+      "bytes": 7463,
+      "sha256": "ec7543cb247471f97f4838ee673a6404c961fb4802a781041dce3354bf5c41a9"
+    },
+    "scripts/current-de-free-date-preparation/DE30_PARENT_ROOT_ACTUAL_INTAKE.json": {
+      "bytes": 19912,
+      "sha256": "b63c44c459a36ad285c788890132ae4910569044f432e9851dff90f8061192e2"
+    },
+    "scripts/current-de-free-date-preparation/FREE_NATIVE3_SOURCE.json": {
+      "bytes": 1517,
+      "sha256": "ab02ce6e543428981a2eeb996bf16684ddab40b609d87996f59aa15bf5326017"
+    },
+    "scripts/current-de-free-date-preparation/ORIGIN.json": {
+      "bytes": 12328,
+      "sha256": "1600967603f2060f4113fe9c48260f49604be1ca32c3d5bf51f41bff0f16a3ab"
+    },
+    "scripts/current-de-free-date-preparation/README.md": {
+      "bytes": 5208,
+      "sha256": "accfd8fdefe7210cd39fd9173845e897d8615cb3ef10aaa307b91b6c5698a408"
+    },
+    "scripts/current-de-free-date-preparation/REPAIRED_DE_REBASE_ORIGIN.json": {
+      "bytes": 7934,
+      "sha256": "4f76de39386159836243ca7b8425de302dab28c234051459c3c7f8dac80b67d1"
+    },
+    "scripts/current-de-free-date-preparation/SUPERVISION_INTEGRATION_CONTROLS.json": {
+      "bytes": 5098,
+      "sha256": "3e2f2b5fbef02da5039c84422848d6afc6091b165de40872357982f295a9a22a"
+    },
+    "scripts/current-de-free-date-preparation/admission.py": {
+      "bytes": 3750,
+      "sha256": "d1a68e5317785961e13bcee6696783a878abce662fbb8e02e3bc462c2c756d74"
+    },
+    "scripts/current-de-free-date-preparation/attempt_policy.py": {
+      "bytes": 2209,
+      "sha256": "5076f5ddb63b8c6b677c6141253d25734b295721aa8d483f116abc6ecd0136f8"
+    },
+    "scripts/current-de-free-date-preparation/check.py": {
+      "bytes": 8757,
+      "sha256": "66573e79de9f07a1d55e67ecf6a1cfb549de7be5128dc58ff437820a2f7b83b5"
+    },
+    "scripts/current-de-free-date-preparation/component.py": {
+      "bytes": 10169,
+      "sha256": "4fea2d66c65cb3a29b56a95b753f4e5ec7fa193e80fa777951b1f9eeae9d5342"
+    },
+    "scripts/current-de-free-date-preparation/engine.py": {
+      "bytes": 1781,
+      "sha256": "0fe640c7b45ec5d51727bacc16fc3cd63b06e23873637c671d2fa65a91f2d286"
+    },
+    "scripts/current-de-free-date-preparation/fetch_parent.py": {
+      "bytes": 2949,
+      "sha256": "2504e6960b15411c0c6ef82929ca3a17899e697568b6423e6284ce06ca65e35f"
+    },
+    "scripts/current-de-free-date-preparation/final_gate.py": {
+      "bytes": 14818,
+      "sha256": "e88f6a9e04c0f27b951616949698f00c8ada1848bf9cd86987a0e9c4084813f5"
+    },
+    "scripts/current-de-free-date-preparation/native3.workflow.yml.txt": {
+      "bytes": 33741,
+      "sha256": "a77b83f9a5430355fa517e1766a855fb7673b437f413bd77b8ee4d0602f23977"
+    },
+    "scripts/current-de-free-date-preparation/native_free.py": {
+      "bytes": 15045,
+      "sha256": "804cd2862a426e11c883f7252c553059af7fdc919cb8a2de8fa3ee0917326575"
+    },
+    "scripts/current-de-free-date-preparation/probe.py": {
+      "bytes": 3677,
+      "sha256": "60d6fcf58f14a56814b2db09300480333708579e037329b58fc863da1ec190b2"
+    },
+    "scripts/current-de-free-date-preparation/retained_de_workflow.py": {
+      "bytes": 6369,
+      "sha256": "598b8b148504c79b2e0f7d43b314d5df2a209ab07a97359c731b3b07ae5acc07"
+    },
+    "scripts/current-de-free-date-preparation/runtime_controls.py": {
+      "bytes": 2735,
+      "sha256": "9841343a30c5046036e3323bc0a4df392df62b7468de72da6caaef02813062d4"
+    },
+    "scripts/current-de-free-date-preparation/runtime_supervisor.py": {
+      "bytes": 8914,
+      "sha256": "af04570b8aecef5d7b0c9b1dfd5ab04942aec32fee8c2fdb908663108c97e149"
+    },
+    "scripts/current-de-free-date-preparation/source.py": {
+      "bytes": 5794,
+      "sha256": "1ea6cda3827361911e6cb13193aa8486e02b892b89c5938676ca5ed2a84b46dd"
+    },
+    "scripts/current-de-free-date-preparation/test_lifecycle.py": {
+      "bytes": 13683,
+      "sha256": "6395f72cf536c7567b0accdab8104dc059ce706fe2bdc49ac1f612d93e108b41"
+    },
+    "scripts/current-de-free-date-preparation/test_runtime_integration.py": {
+      "bytes": 15323,
+      "sha256": "2ca69743380f24221d9e0c5bb14476e62ca19eb01ab3ffdc4534c71550b5a906"
+    },
+    "scripts/current-de-free-date-preparation/workflow.py": {
+      "bytes": 6251,
+      "sha256": "68779810dce660e1571e6e468dfdcf992d0e0255739b23c751569754d74b0edf"
+    },
+    "scripts/current-special-free-date-boundary/ACTUAL_REFERENCE.json": {
+      "bytes": 1417,
+      "sha256": "82cef356bb20c536ef881e1db5c88b4e92a41e6af7441e6e70f204a92a754e4b"
+    },
+    "scripts/current-special-free-date-boundary/LOCAL_POSTGRES_CONTROLS.json": {
+      "bytes": 3249,
+      "sha256": "f19bf10248115e439649ef46f1be150c083fcca1ef5f4bff5b771c4a3d0515cd"
+    },
+    "scripts/current-special-free-date-boundary/ORIGINAL.sql": {
+      "bytes": 749,
+      "sha256": "8d514efa74707dbc2f275a225f081095d1311558a9ef7819c8b8ef5aca98260e"
+    },
+    "scripts/current-special-free-date-boundary/PREPARED.sql": {
+      "bytes": 822,
+      "sha256": "24d125565c1a89a25ca8f77603b68664705aaa271a3d69493f33cc782017acd8"
+    },
+    "scripts/current-special-free-date-boundary/README.md": {
+      "bytes": 1441,
+      "sha256": "0d20d2d6eb1a607d24cb97c4a0fadbb81f5c7b55354bd420c286e4823273c716"
+    },
+    "scripts/current-special-free-date-boundary/SOURCE.json": {
+      "bytes": 1560,
+      "sha256": "11aef96c62d220c3f22550854635752311896fdf69f3ad2c2771f4ee461ee664"
+    },
+    "scripts/current-special-free-date-boundary/derive.py": {
+      "bytes": 1724,
+      "sha256": "09fc083f1c1eb4f7f6f129e7d47054392876b3c3b57e8850135055e35418a095"
+    },
+    "scripts/current-special-free-date-boundary/test_dates.mjs": {
+      "bytes": 6013,
+      "sha256": "64bea625dba59b8ef0065a11f18db815b1b95c31952b71c36d6182ed4bbee6c1"
+    }
+  },
+  "actual_parent_qualification": {
+    "head": "6e61506c10a18541c104b981bd438e78b175b5d1",
+    "tree": "86f07de6e0be871d39110aa797ef26da4564e8e8",
+    "run_id": 41368001658,
+    "job_id": 125032204589,
+    "receipt": {
+      "bytes": 19912,
+      "sha256": "b63c44c459a36ad285c788890132ae4910569044f432e9851dff90f8061192e2"
+    }
+  },
+  "actual_Native_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

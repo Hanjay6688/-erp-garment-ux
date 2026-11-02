@@ -1,0 +1,30 @@
+{
+  "contract": "cp7.current-complete-de-free-date.v1",
+  "status": "PREPARED_ACTUAL_COMPLETE_DE_ROOT_INTAKE_PENDING",
+  "files": {
+    "scripts/cp7_current_de_free_date/__init__.py": {
+      "bytes": 66,
+      "sha256": "bff4507b4aa2def5970d6ee3b6710ea1b5bc638068a1d8381456939a54f7e64c"
+    },
+    "scripts/cp7_current_de_free_date/composition.py": {
+      "bytes": 6400,
+      "sha256": "4ad7ca90207d29acc0634d1952e0955167ef6d68835de59f04d56918ab35f4d6"
+    },
+    "scripts/cp7_special_free_date_on_de/SOURCE.json": {
+      "bytes": 2328,
+      "sha256": "a7be8141a44afc3d44b3e085f5f5e525218afdcda9022f69d3cc4a0bffe605dc"
+    },
+    "scripts/current-de-free-date-preparation/admission.py": {
+      "bytes": 3750,
+      "sha256": "d1a68e5317785961e13bcee6696783a878abce662fbb8e02e3bc462c2c756d74"
+    },
+    "scripts/current-de-free-date-preparation/source.py": {
+      "bytes": 5794,
+      "sha256": "1ea6cda3827361911e6cb13193aa8486e02b892b89c5938676ca5ed2a84b46dd"
+    }
+  },
+  "actual_Native_cases": 0,
+  "GOOD_eligibility_policy_decided": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

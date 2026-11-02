@@ -1,0 +1,216 @@
+{
+  "classification": "SOURCE_ONLY_DATE21_PORT_TO_REPAIRED_PREPARED_COMPLETE_DE_NOT_PARENT_ACCEPTANCE",
+  "original_head": "ccdcd0a59634a6a4f6cc98b5e1a2060492bf0e19",
+  "original_base": "674a700096eab400e9b75700e4a2704f799d69b8",
+  "new_base": "fef0d838991df1ab3474382747ee3519d4c237eb",
+  "new_base_tree": "772cc0a80e1857bc03e6a544a39d5b5de3beb4c3",
+  "unchanged_new_parent_blobs_and_modes": 14181,
+  "original_own_paths": 21,
+  "base_path_overlap": [],
+  "unchanged_actual_binding_source_files": [
+    "scripts/cp7_current_s03_sku_s05/composition.py",
+    "scripts/cp7_complete_credit_de/composition.py"
+  ],
+  "files": [
+    {
+      "path": "scripts/cp7_current_de_free_date/SOURCE.json",
+      "mode": "100644",
+      "blob": "11ff66e005dfa9bd9647004e59d30ad76df91500",
+      "bytes": 1114,
+      "sha256": "c7d517f8e99194dba0c196d33af69157292d42cf3bff8b11892091e3c0d38cd1",
+      "changes": []
+    },
+    {
+      "path": "scripts/cp7_current_de_free_date/__init__.py",
+      "mode": "100644",
+      "blob": "e825e164a9b8c31c7f009a9f9e0261bfc4f522e4",
+      "bytes": 66,
+      "sha256": "bff4507b4aa2def5970d6ee3b6710ea1b5bc638068a1d8381456939a54f7e64c",
+      "changes": []
+    },
+    {
+      "path": "scripts/cp7_current_de_free_date/composition.py",
+      "mode": "100644",
+      "blob": "b1ba536d09ff0c8e345381958f3430f974675588",
+      "bytes": 6400,
+      "sha256": "4ad7ca90207d29acc0634d1952e0955167ef6d68835de59f04d56918ab35f4d6",
+      "changes": []
+    },
+    {
+      "path": "scripts/cp7_special_free_date_on_de/SOURCE.json",
+      "mode": "100644",
+      "blob": "098c14237086d048f350cc68d35dc8cdfcf3c6ca",
+      "bytes": 2328,
+      "sha256": "44da339665b163e41293f57d19be0ab65a6d6a51518e256c54f7b1459e1b893f",
+      "changes": []
+    },
+    {
+      "path": "scripts/cp7_special_free_date_on_de/__init__.py",
+      "mode": "100644",
+      "blob": "c8f6df222fdb3fe11c31350661355102ca15d3ef",
+      "bytes": 78,
+      "sha256": "bb4a21df7d4d08c0d2c087ae5aa36bff27fecde5c06d01032a03125e5ab9f609",
+      "changes": []
+    },
+    {
+      "path": "scripts/cp7_special_free_date_on_de/composition.py",
+      "mode": "100644",
+      "blob": "00fd9d4c4fce3f61d743d416bab3a212fd02ebf8",
+      "bytes": 7770,
+      "sha256": "ebe598411dc59d1475bbda64d0f5465b6c346a33ebd49437d043c90a9851cd8e",
+      "changes": []
+    },
+    {
+      "path": "scripts/current-de-free-date-preparation/ORIGIN.json",
+      "mode": "100644",
+      "blob": "99f34c0d80ca4c755499317e713fa6cb3e40781d",
+      "bytes": 5197,
+      "sha256": "d515a2ee338b6c3775be02e715293f2f1545da652d5860f39750b8f680e69d3d",
+      "changes": [],
+      "metadata_changes": [
+        "source_preflight_origin.changes[1].after",
+        "source_preflight_origin.changes[2].after"
+      ]
+    },
+    {
+      "path": "scripts/current-de-free-date-preparation/README.md",
+      "mode": "100644",
+      "blob": "9b421a07a15ad93b74d8b9cacc3b12c79208736c",
+      "bytes": 2091,
+      "sha256": "6c58191653ab098a0c930769de2a949a317170299e5d15713b119bf55eff7baa",
+      "changes": [
+        {
+          "before": "All14153 files/modes of prepared674 are preserved. This is a source base,",
+          "after": "All14181 files/modes of repaired preparedfef0 are preserved. This is a source base,",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "scripts/current-de-free-date-preparation/SOURCE.json",
+      "mode": "100644",
+      "blob": "3bd119904647a8216aa372f3eedfc1c79ae723ae",
+      "bytes": 3812,
+      "sha256": "25a90829c422d9058be1a1e732e9d683273f3fd032f1c136248e40d64f98a9f0",
+      "changes": []
+    },
+    {
+      "path": "scripts/current-de-free-date-preparation/admission.py",
+      "mode": "100644",
+      "blob": "524a59df0acc368e694e46eb05022b8faad645b3",
+      "bytes": 3622,
+      "sha256": "d50d42e788cf76534458a2bdc939944af6000748b590cc51860c067d8f57de26",
+      "changes": []
+    },
+    {
+      "path": "scripts/current-de-free-date-preparation/check.py",
+      "mode": "100644",
+      "blob": "792d05f3fe659938aeecaf9da05ff8477ddcf8fa",
+      "bytes": 5077,
+      "sha256": "6dbdd5c9b95758a308cce41d25824cfbf25776af86070c0c5f10f5b3c64487e3",
+      "changes": []
+    },
+    {
+      "path": "scripts/current-de-free-date-preparation/source.py",
+      "mode": "100644",
+      "blob": "165d6480e13a96b4a16eadcb3163f5c02ba226dd",
+      "bytes": 4324,
+      "sha256": "07d9c8bded8cec5e85a73e95a6d3deb1ac9f9b6cee14723528726f4810dbec63",
+      "changes": [
+        {
+          "before": "BASE='674a700096eab400e9b75700e4a2704f799d69b8'",
+          "after": "BASE='fef0d838991df1ab3474382747ee3519d4c237eb'",
+          "count": 1
+        },
+        {
+          "before": "TREE='02e0e9bf7254054f37ca5d08c706d4e4cc4b603a'",
+          "after": "TREE='772cc0a80e1857bc03e6a544a39d5b5de3beb4c3'",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "scripts/current-de-free-date-preparation/test_lifecycle.py",
+      "mode": "100644",
+      "blob": "b34aa08d30ad16ba56c9eef69753fd2cf6d79c04",
+      "bytes": 13683,
+      "sha256": "6395f72cf536c7567b0accdab8104dc059ce706fe2bdc49ac1f612d93e108b41",
+      "changes": []
+    },
+    {
+      "path": "scripts/current-special-free-date-boundary/ACTUAL_REFERENCE.json",
+      "mode": "100644",
+      "blob": "2c98a29b0374c0239160f84217ce56d128468e51",
+      "bytes": 1417,
+      "sha256": "82cef356bb20c536ef881e1db5c88b4e92a41e6af7441e6e70f204a92a754e4b",
+      "changes": []
+    },
+    {
+      "path": "scripts/current-special-free-date-boundary/LOCAL_POSTGRES_CONTROLS.json",
+      "mode": "100644",
+      "blob": "e1e03f639d90b052927a60d312d870abe1bae2e5",
+      "bytes": 3249,
+      "sha256": "f19bf10248115e439649ef46f1be150c083fcca1ef5f4bff5b771c4a3d0515cd",
+      "changes": []
+    },
+    {
+      "path": "scripts/current-special-free-date-boundary/ORIGINAL.sql",
+      "mode": "100644",
+      "blob": "9014ee0223c748382a4a3569a306c39cbde20bc1",
+      "bytes": 749,
+      "sha256": "8d514efa74707dbc2f275a225f081095d1311558a9ef7819c8b8ef5aca98260e",
+      "changes": []
+    },
+    {
+      "path": "scripts/current-special-free-date-boundary/PREPARED.sql",
+      "mode": "100644",
+      "blob": "e8df2b6ab2e7e055109d0f1728a367a7e1ea283f",
+      "bytes": 822,
+      "sha256": "24d125565c1a89a25ca8f77603b68664705aaa271a3d69493f33cc782017acd8",
+      "changes": []
+    },
+    {
+      "path": "scripts/current-special-free-date-boundary/README.md",
+      "mode": "100644",
+      "blob": "d4d48d72af9ccc4505eb14449e35b35f98ed8c1e",
+      "bytes": 1441,
+      "sha256": "0d20d2d6eb1a607d24cb97c4a0fadbb81f5c7b55354bd420c286e4823273c716",
+      "changes": []
+    },
+    {
+      "path": "scripts/current-special-free-date-boundary/SOURCE.json",
+      "mode": "100644",
+      "blob": "5dde12ec069666997d12a573742ab0d1e1ff6481",
+      "bytes": 1560,
+      "sha256": "11aef96c62d220c3f22550854635752311896fdf69f3ad2c2771f4ee461ee664",
+      "changes": []
+    },
+    {
+      "path": "scripts/current-special-free-date-boundary/derive.py",
+      "mode": "100644",
+      "blob": "dcd94a7d52bd3e49376b0f33a31bb42e8ad53cd5",
+      "bytes": 1724,
+      "sha256": "09fc083f1c1eb4f7f6f129e7d47054392876b3c3b57e8850135055e35418a095",
+      "changes": []
+    },
+    {
+      "path": "scripts/current-special-free-date-boundary/test_dates.mjs",
+      "mode": "100644",
+      "blob": "01863fa2d0bd978da3fa93cd67c1dbffa52f05b4",
+      "bytes": 6013,
+      "sha256": "64bea625dba59b8ef0065a11f18db815b1b95c31952b71c36d6182ed4bbee6c1",
+      "changes": []
+    }
+  ],
+  "original_date_SQL_and_product_compositions_changed": false,
+  "source_manifest_regenerated": true,
+  "source_preflight_origin_only_after_BASE_TREE_rebound": true,
+  "actual_accepted_DE30": null,
+  "reused_unchanged_lifecycle_models": 14,
+  "reused_unchanged_isolated_date_SQL_controls": 39,
+  "actual_new_SQL_executed": 0,
+  "actual_Native_cases": 0,
+  "workflow_activated": false,
+  "production_go": false,
+  "independent_acceptance": false
+}
