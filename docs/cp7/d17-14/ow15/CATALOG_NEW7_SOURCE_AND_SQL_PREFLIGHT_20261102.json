@@ -1,0 +1,65 @@
+{
+  "status": "CATALOG_NEW7_PYTHON_AND_LITERAL_PG17_SQL_PREFLIGHT_PASS_NOT_EXECUTION",
+  "Python_compiled": true,
+  "static_literal_SQL_statements_parsed": 31,
+  "literal_query_sha256": [
+    "6e50a7ed7c8c3dfca89065faf4d8c4cebfa493fefdfeb817c7fe65ccd9f50bd5",
+    "e0fba8703b84bc8eebcba9f2e9f74a807da596642006f1fdf1da28e0efd34769",
+    "734f2cc041cf1e2b3f4fba39ed9f56c266a6bef81bd284b86b2c29a5c27b3aab",
+    "61816c7ac274e9522f5e02bd77e07feacfe34a9c96b1bf282757c14d94929d82",
+    "aa22b9ad59851708382aeca1d97fdee1b8197df3bb480e18c15103db6728e43e",
+    "f71229aa7335a02d4e97b2ffe9a15c416990308f76b22aa4b0d43eebf44d8e60",
+    "ad35a7047db27982900596f8072e3283e1b8965cc4fcedfdba1305ca40a8552c",
+    "d8bd0d2e61f6eaa1ffdbe9f6247d2429a8f8bd819e2dddecd83f1802437aa68b",
+    "16397788f99d41c1a245bbd0b00eab0db6a3eb3a492c0960317c9239373465ff",
+    "cdc94a2f9ca5478f861b9283ff599f3d626184325a0b6c8a137b6db96f1affaa",
+    "f70f35b7abd808efb857552cf69b5f56491c156755d96071a2d5a9a6b3051b4f",
+    "f717a47bd736165b3a9903f5b6dcf3513f9f84315cf62b67275d4cdf5dcbd969",
+    "1f0eb945e072a47b02dd5db0373575dd65afc51eb15d2ae84603e4a53817770d",
+    "2dc2d65a0e8a4a6c5d8ca912672f52e40d6e147c8c98ccbcdca537078075218c",
+    "29c854700eb39a9844cd6204ffd4779bd76b381ce2ec19bc2497caf8e41aebe3",
+    "641ec08cdde0f108d5fcad86da574708c4ac9157d107cf959fb5fbd66771b50a",
+    "f84a2a2e3504c97dc9e6399ebc39a8424d1bbfe1f87cb753e17bcca34e448396",
+    "3cb81ad5388f2600d379338da12ce498dcdacf6b247200678c326c87462b2d24",
+    "e20b37289caebbc98c4b2e6ffdec7763515a0c958b95cf375f40d79fa5fd07e9",
+    "71e3bd0906db9ce6d94838b86e2555e94746331fce920ad4ba6089a8649065f0",
+    "cac4686728b2a8b1c80dfa83ff11dca2834f0d2aee9e648674f449ac3c901f43",
+    "2f2bb15cfe9a7499eb3375c264aa7fde0464cb0778dfac1d79cee09c7d39eb75",
+    "2f2bb15cfe9a7499eb3375c264aa7fde0464cb0778dfac1d79cee09c7d39eb75",
+    "a0ce7311bd55ba1c1b8cef75d5ca701f306fe57a9b83b5fd91834a4e727ac8d0",
+    "bc13071dd39e7eb0e48c031057c9b4bb53cc3562ec2ffc3820621e454e3b6732",
+    "bc13071dd39e7eb0e48c031057c9b4bb53cc3562ec2ffc3820621e454e3b6732",
+    "70ce658c329ded12c706993bbaced0cdfe68c29f039f5aab4f0ed2e001bfb1fe",
+    "58a101a0764c330ba851c58f4870f7c611d46fadbb421fb363e6c1e26f2ca177",
+    "df6929ef35c1f905785db0cb67a38e8d2e8f58a433cb44fd93b0600b3a7378ec",
+    "379411c9895729a775ed20a79d7f35ddef0bed8a8e201b6fadeddcc58089178a",
+    "b008beb9db76457dcf9733d8b0008ede527e4a30fbe9cc5b60a64d14bf530fc3"
+  ],
+  "source": {
+    "classification": "ISOLATED_REAL_PG17_CATALOG_BARRIER_CONTROLS_NOT_ERP",
+    "files": {
+      "scripts/current-global-catalog-lock-controls/probe.py": {
+        "bytes": 13374,
+        "sha256": "9d717a85019dbc76880edddaf1d3dd6b3ec856e644ac8e784c0ce27847b37981"
+      },
+      "scripts/current-global-catalog-lock-controls/README.md": {
+        "bytes": 1757,
+        "sha256": "61718d1c7e66e83c94cf51fc5a1f35dea8a395c609a5a5f24f905fdc27af7283"
+      },
+      ".github/workflows/cp7-global-catalog-lock-new7.yml": {
+        "bytes": 2382,
+        "sha256": "459e94792ae52bfeaaee06bff72753c135ff7830d3890d36758555641067551c"
+      }
+    },
+    "retained_primitive9_NOT_rerun": true,
+    "expected_new_cases": 7,
+    "actual_ERP_cases": 0,
+    "actual_Native_cases": 0,
+    "global_writer_closure": false,
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "actual_SQL_executed": 0,
+  "actual_Native_cases": 0,
+  "multiple_setup_statements_explicitly_unprepared": true
+}

@@ -1,0 +1,43 @@
+{
+  "status": "ACTUAL_OBSERVED_DE2979_INCREMENTAL_SYNTAX_CENSUS_NOT_NATIVE_OR_GLOBAL_ACCEPTANCE",
+  "report": {
+    "bytes": 6000014,
+    "sha256": "3ca5e335ceb2198e2e069ff8ddedf249991e2326215a157c4f2c17dd1458cfbf"
+  },
+  "actual_failed_prefix_source": {
+    "bytes": 22185024,
+    "sha256": "e6fe54f13a3e2f563dcadeee8570256b095dc412cd692a9794027b8b2765627f"
+  },
+  "retained_actual_accepted_parent": {
+    "bytes": 14658977,
+    "sha256": "39c88c4494b10e711b8e58116ea6013e00e1caae8f1d4f9b64fda9566e5c0789"
+  },
+  "retained_syntax_report": {
+    "bytes": 5694338,
+    "sha256": "56ce1474d6ece1e7c35a7b250ade71fd0838153d4f5efcfd614b7a30c1b40060"
+  },
+  "functions": 2979,
+  "reused_unchanged": 2869,
+  "new_or_changed": 110,
+  "direct_candidates": 96,
+  "transitive_candidates": 385,
+  "unresolved": 88,
+  "right_tables": [
+    "erp.app_permissions",
+    "erp.app_role_permissions",
+    "erp.app_roles",
+    "erp.app_users"
+  ],
+  "source_SQL_executed": 0,
+  "actual_Native_cases": 0,
+  "global_qualified": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "durable_archive": {
+    "library_file_id": "libfile_85caf132d0d08191a51649158494aee8",
+    "version": 0,
+    "bytes": 609316,
+    "sha256": "4dca9f83f9ae96dfc4bddcca2b64615c91491777c86a3b999e8a4405b23c531a"
+  },
+  "new110_have_explicit_unresolved_syntax_errors": false
+}
