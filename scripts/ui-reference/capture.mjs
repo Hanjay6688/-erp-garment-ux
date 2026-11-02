@@ -67,6 +67,18 @@ for(const reference of loadedReferences)report.retained_originals.push({...refer
   source_zip_sha256:'1d972386a73f4c0b7687c58ea948ad4aee8c2e8575b03755239fa228653a18c7',
   actual_loaded_selector:reference.surface==='sales-invoice'?'.biz-invoice-lifecycle':reference.surface==='finance-payroll'?'.payroll-detail':'.kpi-grid',
   workspace_fallback_absent:true,original_PNG_preserved:true,case_rerun:false})
+const acceptedSalesReferences=[
+  {variant:'after',surface:'sales-invoice',width:320,name:'after-sales-invoice-320.png',bytes:267875,sha256:'3450db27baecae276854fdd797b8151d4d8303721154c7cc7a05a56dcfdf92d9'},
+  {variant:'after',surface:'sales-invoice',width:390,name:'after-sales-invoice-390.png',bytes:274311,sha256:'92f8b4dc3bcf837c1e83d5d194c13543e38df97458e3ad8296dc7832bb82740d'},
+  {variant:'after',surface:'sales-invoice',width:768,name:'after-sales-invoice-768.png',bytes:294981,sha256:'7235aacc0c583b87491ea975d3cc92d670df92130db51cc9dc94ea127c229f7b'},
+  {variant:'after',surface:'sales-invoice',width:1440,name:'after-sales-invoice-1440.png',bytes:357439,sha256:'11dabb258f3abe1cd87043688df83bf1d2cf6bd6b810f883de1f6a2c15d3ddc7'},
+]
+for(const reference of acceptedSalesReferences)report.retained_originals.push({...reference,included_in_this_artifact:false,
+  source_head:'c5d5af2656eb17e622c1067ebea50f91fa39d5d9',source_run_id:41518263959,
+  source_job_id:125527306036,source_artifact_id:13176965944,
+  source_zip_sha256:'963cea724838ad7e6f5ca4c94466fce447f36a2de7524eb9bc79ce49a3dd0f1c',
+  actual_loaded_selector:'.biz-invoice-lifecycle',workspace_fallback_absent:true,
+  page_overflow:false,sample_contrast_findings:0,visually_inspected:true,original_PNG_preserved:true,case_rerun:false})
 const children=[]
 let browser
 const exited=child=>child.exitCode!==null||child.signalCode!==null
@@ -149,7 +161,7 @@ try{
     })
     try{
       for(const surface of surfaces){
-        if(variant.name==='before'||variant.name==='after'&&surface.id==='dashboard'){
+        if(variant.name==='before'||variant.name==='after'&&surface.id!=='finance-payroll'){
           if(variant.name==='before'&&surface.id==='dashboard'&&width===320)
             fs.writeFileSync(path.join(out,retained.screenshot.name),retainedPNG,{flag:'wx'})
           continue
@@ -199,12 +211,12 @@ try{
       require(blocked.length===0,'UI_CAPTURE_EXTERNAL_NETWORK_ATTEMPT_REFUSED')
     }finally{await context.close()}
   }
-  require(report.variants.length===8,'UI_CAPTURE_EXACT_EIGHT_NEW_BUSINESS_VIEWS_REQUIRED')
-  require(report.retained_originals.length===16,'UI_CAPTURE_EXACT_SIXTEEN_VALID_REFERENCES_REQUIRED')
+  require(report.variants.length===4,'UI_CAPTURE_EXACT_FOUR_NEW_PAYROLL_VIEWS_REQUIRED')
+  require(report.retained_originals.length===20,'UI_CAPTURE_EXACT_TWENTY_VALID_REFERENCES_REQUIRED')
   const evidenceKeys=[...report.variants.map(x=>`${x.variant}:${x.surface}:${x.width}`),
     ...report.retained_originals.map(x=>`${x.variant}:${x.surface}:${x.width}`)]
   require(new Set(evidenceKeys).size===24,'UI_CAPTURE_EACH_REQUIRED_EVIDENCE_VIEW_ONCE')
-  report.status='BEFORE_AFTER24_RETAINED16_NEW8_BUSINESS_THEME_CAPTURED_FINDINGS_PENDING_NOT_FINAL_UI_ACCEPTANCE'
+  report.status='BEFORE_AFTER24_RETAINED20_NEW4_PAYROLL_COLLISION_CAPTURED_FINDINGS_PENDING_NOT_FINAL_UI_ACCEPTANCE'
 }catch(error){report.first_error=error.stack;process.exitCode=1}
 finally{
   report.cleanup_errors=[]

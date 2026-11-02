@@ -49,6 +49,28 @@
     "new_after_form_views_required": 8,
     "duplicate_valid_views_rerun": 0
   },
+  "business_pages_capture_result": {
+    "run_id": 41518263959,
+    "job_id": 125527306036,
+    "artifact_id": 13176965944,
+    "canonical_bytes": 2645492,
+    "canonical_sha256": "963cea724838ad7e6f5ca4c94466fce447f36a2de7524eb9bc79ce49a3dd0f1c",
+    "new_views": 8,
+    "after_overflow_views": 0,
+    "after_sample_contrast_findings": 0,
+    "heading_range_px": "24-32",
+    "sales_views_visually_accepted": 4,
+    "payroll_desktop_collision_found": true,
+    "actual_UI_final_acceptance": false
+  },
+  "payroll_collision_followup": {
+    "owning_stylesheet": "src/ux-corrections.css",
+    "description_wraps": true,
+    "amount_track_minimum_px": 88,
+    "retained_valid_views": 20,
+    "new_payroll_after_views_required": 4,
+    "duplicate_valid_views_rerun": 0
+  },
   "actual_financial_or_Auth_cases": 0,
   "actual_Mandor_popup_acceptance": false,
   "actual_UI_final_acceptance": false,
