@@ -1,0 +1,49 @@
+name: Writer A isolated UI reference capture - no ERP database
+on:
+  push:
+    branches: [astra-a/ui-reference-theme-20261103]
+permissions:
+  contents: read
+concurrency:
+  group: writer-a-ui-reference-capture
+  cancel-in-progress: false
+jobs:
+  capture:
+    if: github.run_attempt == 1
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          path: after
+          fetch-depth: 2
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          path: before
+          ref: 2c7a5a05516548667ec71faedcffb3591828100f
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22'
+      - name: Install exact unchanged UI dependencies once
+        working-directory: after
+        run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Share identical lockfile dependencies with immutable before source
+        run: |
+          cmp before/package-lock.json after/package-lock.json
+          ln -s ../after/node_modules before/node_modules
+      - name: Admit the exact isolated UI source and retained local build checks
+        working-directory: after
+        run: node scripts/ui-reference/verify_source.mjs
+      - name: Install browser only - no Supabase or ERP services
+        working-directory: after
+        run: node_modules/.bin/playwright install --with-deps chromium
+      - name: Capture actual demo browser before and after at four widths
+        working-directory: after
+        run: node scripts/ui-reference/capture.mjs
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: writer-a-ui-reference-capture-${{ github.sha }}
+          path: ui-reference-proof/
+          retention-days: 30
+          if-no-files-found: warn

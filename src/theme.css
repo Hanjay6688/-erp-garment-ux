@@ -1,0 +1,48 @@
+/* Owner reference theme. Shared semantics, with a deliberately dark sidebar. */
+:root {
+  color-scheme: light;
+  --bg: #f4f6fa;
+  --panel: #ffffff;
+  --panel-2: #f8fafc;
+  --panel-3: #eef2f7;
+  --line: #e2e8f0;
+  --line-strong: #cbd5e1;
+  --line-soft: #edf1f6;
+  --control-border: #8490a3;
+  --text: #172033;
+  --muted: #5d687a;
+  --soft: #475569;
+  --blue: #4f46e5;
+  --blue-2: #4338ca;
+  --cyan: #0e7490;
+  --green: #166534;
+  --amber: #854d0e;
+  --red: #b91c1c;
+  --accent-bg: #eeedff;
+  --success-bg: #ecfdf3;
+  --warning-bg: #fff7e6;
+  --danger-bg: #fff1f2;
+  --disabled-bg: #e9edf3;
+  --on-accent: #ffffff;
+  --focus: #4f46e5;
+  --sidebar-bg: #182239;
+  --radius: 14px;
+  --shadow: 0 2px 12px rgb(23 32 51 / 5%);
+  --text-micro: 13px;
+  --text-small: 13px;
+  --text-body: 15px;
+  --text-control: 14px;
+  --text-number: 15px;
+}
+
+.sidebar, .cp7-sidebar {
+  --text: #f3f5fc;
+  --muted: #bdc8dd;
+  --soft: #d9e1f2;
+  --panel-2: #26324c;
+  --panel-3: #303e59;
+  --line: #36445e;
+  --line-strong: #73829e;
+  --focus: #c7d2fe;
+  color: var(--text);
+}

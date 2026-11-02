@@ -1,0 +1,116 @@
+{
+  "contract": "cp7.UI.actual-local-source-build-checks.v1",
+  "observed_at_UTC": "2026-11-02T18:54:22.478412+00:00",
+  "source_ownership": "PASS",
+  "runtime_files": 401,
+  "browser_RPC_boundaries": 336,
+  "access_ownership": "PASS",
+  "backend_permissions": 111,
+  "navigation_labels": 47,
+  "routes": 48,
+  "sensitive_actions": 21,
+  "CSS_ownership": "PASS",
+  "stylesheets": 70,
+  "TypeScript_compile": "PASS",
+  "TypeScript_version": "7.0.2",
+  "TypeScript_diagnostics": 0,
+  "Vite_build": "PASS",
+  "Vite_version": "8.2.2",
+  "transformed_modules": 2267,
+  "client_secret_scan": "PASS",
+  "build_preflight": "PASS",
+  "current_UI_sources": {
+    "src/auth/auth.css": {
+      "bytes": 3948,
+      "sha256": "cafa2ae5d7044f2ca85d170c6fdc02482779450b79345b1348f60fc4bcba98cf"
+    },
+    "src/brand-books.css": {
+      "bytes": 1882,
+      "sha256": "e6e45519b92534145371114d597a025ae6267137b55780c3c8abdbe9ba4de4cd"
+    },
+    "src/cp7/shell.css": {
+      "bytes": 10881,
+      "sha256": "726e2bfc01c3ddf2d28cbcddc3ab473e190e3adade07808b0fbf597d0d78e9ff"
+    },
+    "src/cutting-reminders.css": {
+      "bytes": 29999,
+      "sha256": "1c9b045b7302d56219c69284fc553d2231322e5d682324f829c64f8fa81b2cb3"
+    },
+    "src/enterprise-select.css": {
+      "bytes": 1927,
+      "sha256": "f59691a83221b468601b7f54e57fb67471c1f8a019a2826a725dd49ed2727dd6"
+    },
+    "src/global-readability.css": {
+      "bytes": 7222,
+      "sha256": "a4ecb3d979b1998364167fada13c01c0a217d6227daf25f1602ee28cfec68f44"
+    },
+    "src/laundry.css": {
+      "bytes": 48734,
+      "sha256": "c8d0f674ad222aa63c5b6b54751c36bfcb6dead608008a429ef6f8d240b8a3c2"
+    },
+    "src/layout-resilience.css": {
+      "bytes": 2863,
+      "sha256": "faa9f15d385e8d9aee2bbbcb7c8ccac0c7f4ee6d7e8d574fc57213839ab55de2"
+    },
+    "src/main.tsx": {
+      "bytes": 3214,
+      "sha256": "ff624793deccac8b975893e0dd5c0e125e9cf2e436baab59ae5dc462ca291623"
+    },
+    "src/mandor-shop.css": {
+      "bytes": 2372,
+      "sha256": "b9003c936c1a530a33e3e5cceb3a32b10410ee4bdc4846d567c0b4167d666486"
+    },
+    "src/movement-book.css": {
+      "bytes": 8472,
+      "sha256": "0419e9f533859aced02b26e691dd78a807c193bdcbf6f0c7faa60cd588c03250"
+    },
+    "src/payroll-connected.css": {
+      "bytes": 2199,
+      "sha256": "fb99984da64aa14e225c66cde024c0e50dbe3ab07eb0151dd8cdfe944318b061"
+    },
+    "src/procurement-connected.css": {
+      "bytes": 7827,
+      "sha256": "09cef223b7c389006f22c02861bc9cad5f3c35c88eaf0be3d50a28dd97aac5a5"
+    },
+    "src/procurement.css": {
+      "bytes": 88076,
+      "sha256": "5e85031eb61b4e9469212ea3342512469fdacca41947cffce004e458bfd051cb"
+    },
+    "src/quick-ui-layout-fixes.css": {
+      "bytes": 13452,
+      "sha256": "5093b14e7bdc139546db157918d50b5d8eedb3c2469eada2ca01f913b0736d1e"
+    },
+    "src/styles.css": {
+      "bytes": 35201,
+      "sha256": "e41b140858f4f630c704b856f2b30e0d59bc7ca954df19bd78868b4fafde5828"
+    },
+    "src/ux-corrections.css": {
+      "bytes": 40491,
+      "sha256": "cfcccdf55c686c01811cc7aad3e3787f1f0204f077030790c5008e0463289f6d"
+    },
+    "src/wip-control.css": {
+      "bytes": 11872,
+      "sha256": "9e8910cb6b017845d12c3468c98eb0059f8c611b80b437a73957c72bc8bd3543"
+    },
+    "src/wip-roll-operational.css": {
+      "bytes": 5214,
+      "sha256": "bf527521682cc048b768b1442319d07768d80df9006bf313711475d2e5862dde"
+    },
+    "src/workspace-refinements.css": {
+      "bytes": 8320,
+      "sha256": "0b24e960f6cd4e0b100da02f5525896c7e52b6299a9b4e57e7b0d39df101d984"
+    },
+    "src/theme.css": {
+      "bytes": 1051,
+      "sha256": "afa66b269105985edc3d5dcff124036ffe5bd43a5850dfe4ddcd9bf0ff44bcb4"
+    }
+  },
+  "local_browser_setup": {
+    "status": "DOWNLOAD_ARCHIVE_INVALID",
+    "actual_browser_cases": 0,
+    "actual_visual_acceptance": false
+  },
+  "financial_or_SQL_or_Auth_tests_rerun": false,
+  "actual_UI_final_acceptance": false,
+  "production_go": false
+}

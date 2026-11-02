@@ -1,0 +1,74 @@
+{
+  "status": "ACTUAL_SHARED_SOURCE_PALETTE_CONTRAST_PASS_NOT_COMPUTED_DOM_ACCEPTANCE",
+  "pairs": [
+    {
+      "foreground": "--text",
+      "background": "--panel",
+      "min": 4.5,
+      "ratio": 16.268480224545662
+    },
+    {
+      "foreground": "--muted",
+      "background": "--panel",
+      "min": 4.5,
+      "ratio": 5.6351858558248065
+    },
+    {
+      "foreground": "--soft",
+      "background": "--bg",
+      "min": 4.5,
+      "ratio": 7.003692609409408
+    },
+    {
+      "foreground": "--on-accent",
+      "background": "--blue",
+      "min": 4.5,
+      "ratio": 6.287528596095884
+    },
+    {
+      "foreground": "--blue",
+      "background": "--accent-bg",
+      "min": 4.5,
+      "ratio": 5.447126527731226
+    },
+    {
+      "foreground": "--green",
+      "background": "--success-bg",
+      "min": 4.5,
+      "ratio": 6.7605180086442935
+    },
+    {
+      "foreground": "--amber",
+      "background": "--warning-bg",
+      "min": 4.5,
+      "ratio": 6.426638468490423
+    },
+    {
+      "foreground": "--red",
+      "background": "--danger-bg",
+      "min": 4.5,
+      "ratio": 5.889675463818466
+    },
+    {
+      "foreground": "--cyan",
+      "background": "--panel",
+      "min": 4.5,
+      "ratio": 5.3577549124490425
+    },
+    {
+      "foreground": "--focus",
+      "background": "--panel",
+      "min": 3,
+      "ratio": 6.287528596095884
+    },
+    {
+      "foreground": "--control-border",
+      "background": "--panel",
+      "min": 3,
+      "ratio": 3.2311276477580173
+    }
+  ],
+  "remaining_legacy_module_and_computed_DOM_contrast_pending": true,
+  "actual_visual_acceptance": false,
+  "production_go": false
+}

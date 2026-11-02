@@ -1,0 +1,11 @@
+# Owner UI refinement — Writer A
+
+The 3 November owner handoff and both original reference images have been read. This branch starts from `2c7a5a05516548667ec71faedcffb3591828100f`; Writer A remains the sole integrator. The current Afui qualification and the unified financial candidate stay separate and immutable.
+
+This first implementation introduces the light semantic palette, navy sidebar context, readable shared typography, controls, and flat surfaces across 19 existing shared/Sales/Payroll/Mandor/CP7 stylesheets. It adds no `!important` declaration. The inventory covers all 48 routes, 47 navigation labels, and 69 original stylesheets. Fifty original stylesheet families, mobile bottom navigation, remaining states, and final visual acceptance are pending.
+
+The source receipt records every changed declaration. Existing source origin files remain intact; this branch declares the UI derivatives separately. It has no unified ERP runtime admission. No RPC, permission, transaction, SQL, stock, HPP, payroll formula or ledger code changes.
+
+Source ownership, access ownership, CSS ownership, TypeScript, Vite compilation and the client secret scan passed locally for the pinned inputs. The local Chromium download returned an invalid archive; no local screenshot or browser acceptance is claimed. The isolated capture workflow obtains an actual browser and compares the immutable before source with this branch at 320, 390, 768 and 1440 pixels using existing `DEMO_SIMULATION` data. It has no Supabase services, database, Auth or financial case credit.
+
+Screenshots and computed contrast/overflow findings are evidence for the next UI correction. Capturing 24 views does not close the owner UI scope. The connected dashboard still shows its honest unavailable-data state; no new KPI or fake connected financial number has been added. The connected Mandor popup needs its own subsequent visual and behavior review. Before/after evidence, changed origins, source checks and the remaining page families must be reconciled by A before integration.
