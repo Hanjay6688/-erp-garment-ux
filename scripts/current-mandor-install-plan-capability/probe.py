@@ -46,14 +46,20 @@ def setup(cur,fixture):
             sql.Identifier(role),sql.SQL('inherit'if row[1]else'noinherit'),sql.SQL('bypassrls'if row[6]else'nobypassrls')))
         created.append(role)
     for schema,owner in sorted(fixture['schema_owners'].items()):
-        if schema=='public':continue
-        require(not cur.execute('select 1 from pg_namespace where nspname=%s',(schema,)).fetchone(),
-            'MANDOR_CAP_EXISTING_MODEL_SCHEMA_REFUSED:'+schema)
-        cur.execute(sql.SQL('create schema {} authorization {}').format(sql.Identifier(schema),sql.Identifier(owner)))
-        cur.execute(sql.SQL('revoke all on schema {} from public').format(sql.Identifier(schema)))
-        if not fixture['schema_owner_CREATE'].get(schema,True):
-            cur.execute(sql.SQL('revoke create on schema {} from {}').format(sql.Identifier(schema),sql.Identifier(owner)))
-        cur.execute(sql.SQL('grant usage on schema {} to postgres').format(sql.Identifier(schema)))
+        if schema=='public':
+            cur.execute(sql.SQL('alter schema public owner to {}').format(sql.Identifier(owner)))
+        else:
+            require(not cur.execute('select 1 from pg_namespace where nspname=%s',(schema,)).fetchone(),
+                'MANDOR_CAP_EXISTING_MODEL_SCHEMA_REFUSED:'+schema)
+            cur.execute(sql.SQL('create schema {} authorization {}').format(sql.Identifier(schema),sql.Identifier(owner)))
+        # Reproduce the reviewed Native ACL, including USAGE for the function
+        # owner's row-type schema. CREATE alone does not provide type lookup.
+        with product.as_role(cur,owner,{owner}):
+            cur.execute(sql.SQL('revoke all on schema {} from public,{}').format(sql.Identifier(schema),sql.Identifier(owner)))
+            for grantee,grantor,privilege,option in fixture['schema_acl'].get(schema,[]):
+                require(grantor==owner and privilege in('USAGE','CREATE'),'MANDOR_CAP_REVIEWED_SCHEMA_GRANT_FORM:'+schema)
+                cur.execute(sql.SQL('grant {} on schema {} to {}{}').format(sql.SQL(privilege),sql.Identifier(schema),
+                    sql.SQL('PUBLIC')if grantee=='PUBLIC'else sql.Identifier(grantee),sql.SQL(' with grant option'if option else'')))
     # Initial model-row construction leases CREATE only for setup, then removes
     # it before any module capability observation.
     schema_leases=[]
