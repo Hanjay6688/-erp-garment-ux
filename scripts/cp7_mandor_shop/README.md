@@ -177,3 +177,15 @@ yang sudah dipakai model alokasi; 131 pemeriksaan lama tidak diulang. Ini belum
 Auth HTTP atau pemasangan ERP: provider izin/Auth, sebagian tabel/batasan dan
 saldo invoice masih model yang dinyatakan dalam bukti. Pop-up dan integrasi
 formulir Penjualan, pemasang/profil akhir serta kualifikasi lengkap tetap terbuka.
+
+`facade_display.sql` menormalisasi nominal alokasi bersarang menjadi teks desimal
+di PostgreSQL sebelum dikirim ke browser, tanpa mengubah field lain, urutan,
+review, pemilik fungsi atau izin. Empat model baru lulus pertama kali, termasuk
+nominal di atas batas integer aman JavaScript. 140 kontrol sebelumnya tidak diulang.
+
+Pop-up terkontrol dan parser klien sudah ditulis dalam enam file UI tambahan;
+belum dipasang ke halaman atau disambungkan RPC. Delapan kasus parser serta tujuh
+kasus DOM lulus pertama kali, dan typecheck tidak menghasilkan diagnostik. Cakupan
+ini menguji pilihan minggu/mandor, sen tepat, review ulang, pelepasan, data usang
+dan klik ganda pada komponen. Metode dialog jsdom dimodelkan setelah diperiksa pada
+dependensi yang benar; ini bukan bukti layout desktop/HP, Auth atau dua tab nyata.

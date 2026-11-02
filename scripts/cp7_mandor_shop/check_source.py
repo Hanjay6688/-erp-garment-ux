@@ -24,7 +24,14 @@ def check():
     assert all(current.get(name)==item for name,item in base.items()),'FG_MANDOR_PREPARED_PARENT_BLOB_OR_MODE_CHANGED'
     physical={str(p.relative_to(ROOT))for p in HERE.rglob('*')if p.is_file()and'__pycache__'not in p.parts}
     assert physical==set(value['files'])|{str(manifest.relative_to(ROOT))},'FG_MANDOR_CLOSED_OWN_SOURCE_REQUIRED'
-    assert set(current)-set(base)==physical,'FG_MANDOR_ONLY_COMMITTED_CLOSED_OWN_SOURCE_REQUIRED'
+    ui=json.loads((HERE/'UI_SOURCE.json').read_bytes())
+    assert ui['existing_UI_paths_changed']==0 and ui['new_UI_paths']==6
+    assert set(ui['files'])=={'src/MandorShopCards.tsx','src/MandorShopCards.dom.test.tsx',
+        'src/mandorShopContract.ts','src/mandorShopContract.test.ts','src/mandor-shop.css','tests/fixtures/mandorShop.ts'}
+    for name,expected in ui['files'].items():
+        p=ROOT/name;assert p.is_file()and not p.is_symlink()
+        raw=p.read_bytes();assert {'bytes':len(raw),'sha256':sha256(raw).hexdigest()}==expected
+    assert set(current)-set(base)==physical|set(ui['files']),'FG_MANDOR_ONLY_COMMITTED_CLOSED_OWN_SOURCE_REQUIRED'
     assert not git('diff','--name-only','HEAD','--').strip(),'FG_MANDOR_TRACKED_SOURCE_CHANGED'
     assert not git('diff','--cached','--name-only','--').strip(),'FG_MANDOR_STAGED_SOURCE_CHANGED'
     for name,expected in value['files'].items():
@@ -166,6 +173,29 @@ def check():
         prefix=prefix.replace(change['before'],change['after'],1)
     assert (HERE/'facade_model.mjs').read_text().startswith(prefix)
     assert value['public_facade_functions']==4 and value['public_facade_entrypoint_grants']==4
+    display=json.loads((HERE/'FACADE_DISPLAY_MODEL_CONTROLS.json').read_bytes())
+    assert display['status']=='FG_MANDOR_EXACT_PUBLIC_DISPLAY_CENTS_MODEL_CONTROLS_PASS_NOT_NATIVE'
+    assert len(display['results'])==4 and all(row['result']=='PASS'for row in display['results'])
+    assert display['new_public_functions']==display['new_roles']==display['new_grants']==0
+    assert display['public_read_projection_only']is True and display['prior_140_controls_NOT_rerun']is True
+    assert display['actual_native_function_or_private_owner_source_changes']==0
+    assert display['Native_runtime_or_public_facade_activated']is False
+    for name,expected in display['source_files'].items():
+        raw=(HERE/name).read_bytes();assert {'bytes':len(raw),'sha256':sha256(raw).hexdigest()}==expected
+    origin=json.loads((HERE/'FACADE_DISPLAY_MODEL_ORIGIN.json').read_bytes())
+    raw=(ROOT/origin['parent_path']).read_bytes()
+    assert origin['parent_source']=={'bytes':len(raw),'sha256':sha256(raw).hexdigest()}
+    prefix=raw[:origin['original_prefix_bytes']].decode()
+    for change in origin['source_routes']:
+        assert change['count']==1 and prefix.count(change['before'])==1
+        prefix=prefix.replace(change['before'],change['after'],1)
+    assert (HERE/'facade_display_model.mjs').read_text().startswith(prefix)
+    controls=json.loads((HERE/'UI_MODEL_CONTROLS.json').read_bytes())
+    assert controls['status']=='FG_MANDOR_CONTROLLED_CARD_PARSERS_AND_DOM15_FIRST_PASS_NOT_BROWSER'
+    assert controls['new_parser_cases']==8 and controls['new_DOM_cases']==7 and controls['total_new_cases']==15
+    assert controls['first_execution_PASS']is True and controls['UI_is_not_yet_mounted_or_RPC_wired']is True
+    assert controls['source_files']==ui['files']
+    assert controls['actual_Native_cases']==controls['actual_Auth_HTTP_cases']==controls['actual_browser_cases']==controls['actual_two_session_races']==0
     assert value['private_functions']==value['schema_and_event_functions']+value['private_allocation_functions']+value['private_buyer_functions']+value['private_sale_identity_functions']+value['private_offset_functions']+value['private_payment_functions']+value['private_payment_guard_functions']==31
     return dict(status='FG_MANDOR_EXACT_STORAGE_PREPARATION_SOURCE_ONLY',unchanged_parent_blobs_and_modes=len(base),
         own_source_pins=len(value['files']),storage_model_controls=len(model['results']),parent_gate_closed=True,
@@ -177,6 +207,8 @@ def check():
         Native_payment_source_adapters=8,actual_payment_runtime_installed=False,
         private_payment_guard_functions=6,new_payment_guard_model_controls=13,Native_payment_guard_triggers=6,
         public_facade_source_functions=4,public_facade_model_controls=9,public_facade_runtime_activated=False,
+        exact_display_model_controls=4,new_controlled_UI_paths=6,new_UI_parser_cases=8,new_UI_DOM_cases=7,
+        UI_mounted_or_RPC_wired=False,
         retained_67_controls_NOT_rerun=True,Native_paid_projection_integration=False,
         Native_header_trigger_source_written=True,Native_header_trigger_ERP_qualification=False,
         retained_allocation_controls_NOT_rerun=True,

@@ -1,0 +1,80 @@
+{
+  "status": "FG_MANDOR_EXACT_PUBLIC_DISPLAY_CENTS_MODEL_CONTROLS_PASS_NOT_NATIVE",
+  "results": [
+    {
+      "label": "Actual public read emits exact decimal strings for nested allocation amounts and retains the chosen payroll/week",
+      "result": "PASS"
+    },
+    {
+      "label": "The complete workspace, card order, allocation order, source review tokens and every other field remain unchanged",
+      "result": "PASS"
+    },
+    {
+      "label": "An allocation beyond JavaScript safe integer range keeps every cent through the public JSON response; display performs no journal posting",
+      "result": "PASS"
+    },
+    {
+      "label": "Read replacement preserves the exact narrow owner and browser execution privileges",
+      "result": "PASS"
+    }
+  ],
+  "source_files": {
+    "schema.sql": {
+      "bytes": 12510,
+      "sha256": "59c1b8e69555f6a8e0caf34e8d0ee18e27c1d4caaee8073c44225bbc4a687fd1"
+    },
+    "events.sql": {
+      "bytes": 8216,
+      "sha256": "9e2633af5d9ecff6220c37cdf8bb22a27ce71cbc03862c8aa40a1fadfd82a1d3"
+    },
+    "allocation.sql": {
+      "bytes": 16985,
+      "sha256": "e57c96f8289ef95cbce60b337ccba57109c4428115448526f79ed82f42b3a0c2"
+    },
+    "buyers.sql": {
+      "bytes": 10735,
+      "sha256": "5bfeb12b4103ca88f48b84a213098b33a90e7ead52398a5025213d9188e47617"
+    },
+    "facade.sql": {
+      "bytes": 2963,
+      "sha256": "6881ccf3e14420a1779cc2f37811d1885a0d69223fc121f3c212d5bac94227d4"
+    },
+    "facade_display.sql": {
+      "bytes": 1187,
+      "sha256": "7432b03b1d62c7697dd7e9150499cb4f32e1e9a84b096ab1c8de86031eabed19"
+    },
+    "NATIVE_BUYER_REFERENCE.json": {
+      "bytes": 90591,
+      "sha256": "9439f43a5ba710a7e881199e94c399d6efb1c9354ad477148edee10cb4d079b5"
+    },
+    "NATIVE_ALLOCATION_REFERENCE.json": {
+      "bytes": 41819,
+      "sha256": "d8186788861fafe039af6e4745a92ed69fc8b27287e295cdd9af55bcfc36d9c2"
+    },
+    "facade_display_model.mjs": {
+      "bytes": 17170,
+      "sha256": "31b17b17e2dbabc44bcc432db3f35e3a88b9fe460371e7b4db0bd9a7e80af259"
+    },
+    "FACADE_DISPLAY_MODEL_ORIGIN.json": {
+      "bytes": 840,
+      "sha256": "373763b898315c751ed1d8408e07b9a7c91ca76f16b7e53f4fe5c75edbfcbbec"
+    }
+  },
+  "new_public_functions": 0,
+  "new_roles": 0,
+  "new_grants": 0,
+  "public_read_projection_only": true,
+  "prior_140_controls_NOT_rerun": true,
+  "actual_native_function_or_private_owner_source_changes": 0,
+  "Native_runtime_or_public_facade_activated": false,
+  "modeled_boundaries": [
+    "Unchanged reduced Native table/Auth/permission/invoice/internal-context setup inherited from the facade model",
+    "No complete ERP installation, sales, payroll payment, stock/HPP, Auth HTTP, browser or two PostgreSQL sessions"
+  ],
+  "actual_Native_cases": 0,
+  "actual_Auth_HTTP_cases": 0,
+  "actual_browser_cases": 0,
+  "actual_two_session_races": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}
