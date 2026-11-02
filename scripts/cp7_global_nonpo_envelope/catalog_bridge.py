@@ -1,4 +1,4 @@
-"""Two bounded source routes to fixed platform fences; no SQL executor.
+"""Three bounded routes to platform fences and a catalogue profile; no executor.
 
 The old lock source and all old controls remain exact. Trusted capability
 bootstrap, final accepted parent and global runtime qualification remain gates.
@@ -44,17 +44,39 @@ def derive():
     data_after=" -- A fixed platform capability locks only the one sealed profile's\n -- declared application relations, including private internal-role tables.\n actual_:=cp7_global_catalog_fence.lock_relations_v1(p_profile);\n if actual_ is distinct from profile_.expected_relations then\n  raise exception 'CP7_GLOBAL_RELATION_IDENTITY_OR_AUTHORITY_CHANGED';end if;\n"
     if derived.count(data_before)!=1:raise ValueError('GLOBAL_RELATION_BRIDGE_EXACT_ORIGINAL_BLOCK_REQUIRED')
     derived=derived.replace(data_before,data_after,1)
-    restored=derived.replace(data_after,data_before,1).replace(after,before,1)
+    catalogue_check=""" -- Full current catalogue authority is sealed separately from the nineteen
+ -- known financial functions. Its fixed25 groups include all original22 plus
+ -- operator/cast/language dispatch. It changes neither data nor sequence state.
+ if pg_my_temp_schema()<>0 then
+  raise exception 'CP7_GLOBAL_TEMPORARY_NAMESPACE_REQUIRES_FRESH_CONNECTION';end if;
+ if profile_.actual_parent_root_receipt->>'contract'is distinct from'cp7.global-parent-and-catalogue-profile.v1'
+  or profile_.actual_parent_root_receipt#>>'{accepted_parent,head}'is distinct from profile_.parent_head
+  or profile_.actual_parent_root_receipt#>>'{accepted_parent,tree}'is distinct from profile_.parent_tree
+  or coalesce(profile_.actual_parent_root_receipt#>>'{accepted_parent,root_receipt_pin,sha256}','')!~'^[0-9a-f]{64}$'then
+  raise exception 'CP7_GLOBAL_ACTUAL_PARENT_AND_CATALOGUE_PROFILE_REQUIRED';end if;
+ actual_:=cp7_global_nonpo_envelope.catalogue_fingerprint_v1();
+ if actual_ is distinct from profile_.actual_parent_root_receipt->'catalogue_fingerprint'then
+  raise exception 'CP7_GLOBAL_COMPLETE_CURRENT_CATALOGUE_AUTHORITY_CHANGED';end if;
+
+"""
+    if derived.count(data_after)!=1:raise ValueError('GLOBAL_CATALOGUE_PROFILE_ONE_INSERTION_SITE_REQUIRED')
+    derived=derived.replace(data_after,catalogue_check+data_after,1)
+    restored=derived.replace(catalogue_check+data_after,data_before,1).replace(after,before,1)
     if restored.encode()!=raw:raise ValueError('GLOBAL_CATALOG_BRIDGE_COMPLETE_ORIGINAL_NOT_RECOVERED')
     platform=(HERE/'platform_catalog_fence.sql').read_bytes()
     if platform.count(b'create function ')!=1 or b'create function cp7_global_catalog_fence.lock_v1()'not in platform:
         raise ValueError('GLOBAL_CATALOG_BRIDGE_SINGLE_ZERO_ARGUMENT_CAPABILITY_REQUIRED')
     if b"execute format('lock table pg_catalog.%I in share mode nowait',entry_->>1)"not in platform:
         raise ValueError('GLOBAL_CATALOG_BRIDGE_FIXED_CATALOG_SCHEMA_ONLY')
-    return derived,dict(status='EXACT_TWO_ROUTE_PLATFORM_CATALOG_AND_RELATION_CAPABILITY_SOURCE_NOT_GLOBAL_RUNTIME',
+    return derived,dict(status='EXACT_THREE_ROUTE_PLATFORM_FENCES_AND_CATALOGUE_PROFILE_SOURCE_NOT_GLOBAL_RUNTIME',
         original_lock=ORIGINAL,derived_lock=pin(derived.encode()),platform_source=pin(platform),
         route=dict(before=before,after=after,count=1),
-        relation_route=dict(before=data_before,after=data_after,count=1),source_routes=2,
+        relation_route=dict(before=data_before,after=data_after,count=1),
+        catalogue_profile_route=dict(before=data_after,after=catalogue_check+data_after,count=1),source_routes=3,
+        catalogue_fingerprint_source=pin((HERE/'catalogue_fingerprint.sql').read_bytes()),
+        original_all22_plus_operator_cast_language_groups=25,
+        full_current_catalogue_checked_before_post_fence_source_graph_reads=True,
+        nonempty_current_backend_temporary_namespace_refused=True,
         fresh_catalog_metadata_after_early_XID_drain=True,original_later_XID_check_retained=True,
         complete_original_recovered=True,
         platform_helper='cp7_global_catalog_fence.lock_v1()',platform_helper_owner='supabase_admin',

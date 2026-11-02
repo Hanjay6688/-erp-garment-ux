@@ -81,3 +81,13 @@ function adaptations; full outside before/after proof before receipts close;
 actual persisted SKU then D1/E positive/inverse/dirty/stale/permission races;
 full package, backup/restore and independent acceptance. Native costing, global
 propagation, transfer, date, FIFO and posted-history guards are not replaced.
+
+The derived lock now has a third counted route: the immutable profile stores a
+wrapper containing the exact accepted parent receipt pin and a fresh fixed25
+catalogue fingerprint. The new stable read-only helper uses all original22
+queries plus operators, casts and languages, preserving every sorted key/value
+row. It hashes metadata only. The check follows the catalogue fence and early
+permanent-XID drain, precedes the source graph reads after the fence, and refuses a
+caller connection with a temporary namespace. Full final-parent installation,
+new helper ACL normalization and actual Native qualification remain pending.
+This source preparation claims no new business or financial acceptance.

@@ -1,12 +1,12 @@
 {
-  "status": "EXACT_TWO_ROUTE_PLATFORM_CATALOG_AND_RELATION_CAPABILITY_SOURCE_NOT_GLOBAL_RUNTIME",
+  "status": "EXACT_THREE_ROUTE_PLATFORM_FENCES_AND_CATALOGUE_PROFILE_SOURCE_NOT_GLOBAL_RUNTIME",
   "original_lock": {
     "bytes": 7185,
     "sha256": "2446da79ce58c29bbaaef9b126897322b29ff1504ed4d65f16be5d0150482c13"
   },
   "derived_lock": {
-    "bytes": 6635,
-    "sha256": "e0893375a4913654590b38c6fc299a82dfa6d9f073a4fdfcd0f9194898333f87"
+    "bytes": 7759,
+    "sha256": "0bbd875a4c6e59f48bcb15a059e887f7b45484acd04f70779e35b640ccb8cf3a"
   },
   "platform_source": {
     "bytes": 2863,
@@ -22,7 +22,19 @@
     "after": " -- A fixed platform capability locks only the one sealed profile's\n -- declared application relations, including private internal-role tables.\n actual_:=cp7_global_catalog_fence.lock_relations_v1(p_profile);\n if actual_ is distinct from profile_.expected_relations then\n  raise exception 'CP7_GLOBAL_RELATION_IDENTITY_OR_AUTHORITY_CHANGED';end if;\n",
     "count": 1
   },
-  "source_routes": 2,
+  "catalogue_profile_route": {
+    "before": " -- A fixed platform capability locks only the one sealed profile's\n -- declared application relations, including private internal-role tables.\n actual_:=cp7_global_catalog_fence.lock_relations_v1(p_profile);\n if actual_ is distinct from profile_.expected_relations then\n  raise exception 'CP7_GLOBAL_RELATION_IDENTITY_OR_AUTHORITY_CHANGED';end if;\n",
+    "after": " -- Full current catalogue authority is sealed separately from the nineteen\n -- known financial functions. Its fixed25 groups include all original22 plus\n -- operator/cast/language dispatch. It changes neither data nor sequence state.\n if pg_my_temp_schema()<>0 then\n  raise exception 'CP7_GLOBAL_TEMPORARY_NAMESPACE_REQUIRES_FRESH_CONNECTION';end if;\n if profile_.actual_parent_root_receipt->>'contract'is distinct from'cp7.global-parent-and-catalogue-profile.v1'\n  or profile_.actual_parent_root_receipt#>>'{accepted_parent,head}'is distinct from profile_.parent_head\n  or profile_.actual_parent_root_receipt#>>'{accepted_parent,tree}'is distinct from profile_.parent_tree\n  or coalesce(profile_.actual_parent_root_receipt#>>'{accepted_parent,root_receipt_pin,sha256}','')!~'^[0-9a-f]{64}$'then\n  raise exception 'CP7_GLOBAL_ACTUAL_PARENT_AND_CATALOGUE_PROFILE_REQUIRED';end if;\n actual_:=cp7_global_nonpo_envelope.catalogue_fingerprint_v1();\n if actual_ is distinct from profile_.actual_parent_root_receipt->'catalogue_fingerprint'then\n  raise exception 'CP7_GLOBAL_COMPLETE_CURRENT_CATALOGUE_AUTHORITY_CHANGED';end if;\n\n -- A fixed platform capability locks only the one sealed profile's\n -- declared application relations, including private internal-role tables.\n actual_:=cp7_global_catalog_fence.lock_relations_v1(p_profile);\n if actual_ is distinct from profile_.expected_relations then\n  raise exception 'CP7_GLOBAL_RELATION_IDENTITY_OR_AUTHORITY_CHANGED';end if;\n",
+    "count": 1
+  },
+  "source_routes": 3,
+  "catalogue_fingerprint_source": {
+    "bytes": 17577,
+    "sha256": "fc69e7ca90289dc9f43b03ee1d1f84bc1a84b35fc71704004f9c0c615a6016f1"
+  },
+  "original_all22_plus_operator_cast_language_groups": 25,
+  "full_current_catalogue_checked_before_post_fence_source_graph_reads": true,
+  "nonempty_current_backend_temporary_namespace_refused": true,
   "fresh_catalog_metadata_after_early_XID_drain": true,
   "original_later_XID_check_retained": true,
   "complete_original_recovered": true,

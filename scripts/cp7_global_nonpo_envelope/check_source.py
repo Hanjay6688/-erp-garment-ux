@@ -102,21 +102,30 @@ def check():
     assert re.findall(r'^create function ([a-z0-9_.]+)\(',relation_platform,re.M)==['cp7_global_catalog_fence.lock_relations_v1']
     assert 'grant execute on function cp7_global_catalog_fence.lock_relations_v1(text)to postgres;'in relation_platform
     assert bridge_proof['fresh_catalog_metadata_after_early_XID_drain']is True
-    assert bridge_proof['original_later_XID_check_retained']is True and bridge_proof['source_routes']==2
+    assert bridge_proof['original_later_XID_check_retained']is True and bridge_proof['source_routes']==3
     assert 'expected_relations into targets_'in relation_platform and 'COMPLETE_CATALOG_FENCE_REQUIRED_FIRST'in relation_platform
+    spec=importlib.util.spec_from_file_location('global_fixed25_catalogue_profile_source_only',HERE/'catalogue_profile.py')
+    catalogue=importlib.util.module_from_spec(spec);spec.loader.exec_module(catalogue)
+    catalogue_sql,catalogue_proof=catalogue.derive()
+    assert catalogue_sql.encode()==(HERE/'catalogue_fingerprint.sql').read_bytes()
+    assert catalogue_proof==json.loads((HERE/'CATALOGUE_PROFILE_SOURCE_CONTROLS.json').read_bytes())
+    assert catalogue_proof['original_all22_groups']==22 and catalogue_proof['total_groups']==25
+    assert manifest['catalogue_fingerprint_functions']==1
+    assert bridge_proof['full_current_catalogue_checked_before_post_fence_source_graph_reads']is True
     spec=importlib.util.spec_from_file_location('global_exact_readonly_graph_source_only',HERE/'readonly_graph.py')
     readonly=importlib.util.module_from_spec(spec);spec.loader.exec_module(readonly)
     assert readonly.source()==json.loads((HERE/'READONLY_GRAPH_SOURCE_CONTROLS.json').read_bytes())
     saved=json.loads((HERE/'READONLY_GRAPH_SAVED_DE30_COMPATIBILITY.json').read_bytes())
     assert len(saved)==2 and all(r['comparison']['actual_reference_functions']==r['comparison']['attributes_per_function']==19 and r['comparison']['view_equal']is True for r in saved.values())
-    assert manifest['readonly_graph_functions']==4 and manifest['private_functions']==manifest['envelope_private_functions']+manifest['readonly_graph_functions']+manifest['platform_catalog_fence_functions']==14
+    assert manifest['readonly_graph_functions']==4 and manifest['private_functions']==manifest['envelope_private_functions']+manifest['readonly_graph_functions']+manifest['platform_catalog_fence_functions']+manifest['catalogue_fingerprint_functions']==15
     return dict(status='GLOBAL_PRIVATE_ENVELOPE_SOURCE_ONLY_NOT_RUNTIME_OR_PROFILE_QUALIFICATION',
         unchanged_parent_blobs_and_modes=len(base),own_source_pins=len(manifest['files']),
         parent_gate_closed=True,runtime_entry=None,profile_seed_statements=0,
         new_private_scope_functions=4,new_private_scope_tables=2,new_scope_model_controls=21,
         new_private_review_functions=2,prepared_owning_source_adapters=8,reversible_owning_source_routes=18,
         new_review_and_owning_model_controls=13,readonly_graph_source_functions=4,
-        exact_retained_readonly_graph_source_files=5,total_private_functions=14,
+        exact_retained_readonly_graph_source_files=5,total_private_functions=15,
+        fresh_catalogue_fingerprint_source_functions=1,counted_fresh_catalogue_profile_source_routes=1,
         platform_catalog_fence_source_functions=2,
         counted_platform_lock_source_routes=2,actual_platform_capability_installed=False,
         actual_owning_hooks=0,complete_installer=False,
