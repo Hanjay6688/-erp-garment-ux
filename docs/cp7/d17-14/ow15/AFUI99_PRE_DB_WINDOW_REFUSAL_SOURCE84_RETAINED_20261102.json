@@ -1,0 +1,33 @@
+{
+  "status": "AFUI99_REAL_WIB_DAY_WINDOW_REFUSAL_BEFORE_DATABASE_ZERO_BUSINESS",
+  "head": "14d44c8d601bb9d94b87d4c7f1834d6c2a41f947",
+  "tree": "e1632822f61e0a5b5499f96104c02cec79cdd4ae",
+  "run_id": 41432664076,
+  "job_id": 125234808451,
+  "run_attempt": 1,
+  "conclusion": "failure",
+  "error": "SKU27_INSUFFICIENT_WIB_DAY_WINDOW_BEFORE_RUNTIME",
+  "error_at_UTC": "2026-11-02T11:00:20Z",
+  "database_started": false,
+  "actual_Native_cases": 0,
+  "actual_Auth_HTTP_cases": 0,
+  "actual_browser_cases": 0,
+  "financial_suite_executed": false,
+  "restoration_claim": false,
+  "source_graph_completed": true,
+  "source_graph_callbacks": 84,
+  "source_graph_original": {
+    "bytes": 12392,
+    "sha256": "767c5f4060a01aa0c206079c6492f3d999cf3c0dba0a176040d7371de0133f5f"
+  },
+  "canonical": {
+    "bytes": 58094,
+    "sha256": "5a8e110539239a572b9ee085a4e753d8fa25bd8c560c45a8e248702ab035b667",
+    "artifact_id": 13134798554,
+    "library_file_id": "libfile_450cbfa5e0c081919f7dc55357e97901"
+  },
+  "next_genuine_day_window_opens_UTC": "2026-11-02T17:00:00Z",
+  "clock_and_six_hour_policy_unchanged": true,
+  "production_go": false,
+  "independent_acceptance": false
+}

@@ -14,10 +14,10 @@ from intake_common import GitBytes,exact,fields,pin,require,safe_path
 from intake_sku27 import strict,literal,full_census
 from current_graph_sources import declared_files
 
-HEAD='14d44c8d601bb9d94b87d4c7f1834d6c2a41f947'
-TREE='e1632822f61e0a5b5499f96104c02cec79cdd4ae'
-RUN=41432664076
-JOB=125234808451
+HEAD='b8c572d28f944ad9a5947ffc164e134558ed6641'
+TREE='300254b48a70162356ce70c9416e2a4c1a33b62d'
+RUN=None
+JOB=None
 PARENT_HEAD='91a7b46ed13c4ad6094114871a4a39fa6765d140'
 PARENT_TREE='01c4807d932af1d534477c4c182715b1378bd39b'
 PARENT_RUN=41399754004
@@ -262,6 +262,32 @@ def function_acl_source(g,declaration):
     return retained,dict(status='ROOT_EXACT_AFUI94_TO99_NEW_FUNCTION_ACL_SOURCE_REPAIR_NOT_QUALIFICATION',original_head=old_head,original_tree=old_tree,reviewed_files=expected,unchanged_six_settings_bodies=True,focused_WASM18_6_controls=3,actual_PostgreSQL17_capability_pending=True,actual_case_credit=0)
 
 
+def postgres17_capability_source(g,declaration):
+    """One exact model-context repair; owning SQL and case oracles retained."""
+    expected={'scripts/cp7_accessory_nonpayable/FIRST_POSTGRES17_CAPABILITY_FAILURE_AND_REPAIR.json': {'bytes': 1799, 'sha256': 'f49231749c30877668612eaaed55b3eb942bc183405b3679b7f04c204e995750'}, 'scripts/cp7_accessory_nonpayable/README.md': {'bytes': 20857, 'sha256': '97b5fabd22a11b712767ed73e8b96e8b78fa443fc8ef7b3cee1a9c7411e4ee47'}, 'scripts/cp7_accessory_nonpayable/SOURCE.json': {'bytes': 11685, 'sha256': 'bdc3b456e26ed592cb5ac32f76bde67c8325292b9fd667a01f4e1f71c2109f05'}, 'scripts/cp7_accessory_nonpayable/function_acl_capability.py': {'bytes': 8532, 'sha256': '1233fb8248e43fd1806cb99fa87726ac152fd77bc24d489f9a3d3b3387d39887'}}
+    for name,value in expected.items():g.verify_pin(name,value)
+    old_head='14d44c8d601bb9d94b87d4c7f1834d6c2a41f947'
+    old_tree='e1632822f61e0a5b5499f96104c02cec79cdd4ae'
+    with GitBytes(g.root,old_head,old_tree)as old:
+        changed={n for n in expected if n in old.tree}
+        exact(changed,{NS+n for n in('function_acl_capability.py','SOURCE.json','README.md')},'AFUI100_EXACT_THREE_CHANGED_PATHS')
+        exact(set(g.tree)-set(old.tree),{NS+'FIRST_POSTGRES17_CAPABILITY_FAILURE_AND_REPAIR.json'},'AFUI100_EXACT_ONE_NEW_REPAIR_RECORD')
+        for name,entry in old.tree.items():
+            if name not in changed:exact(g.tree.get(name),entry,'AFUI100_ALL_OTHER_99_BLOBS_AND_MODES_UNCHANGED:'+name)
+        prior=strict(old.read(NS+'SOURCE.json'));retained,acl_repair=function_acl_source(old,prior)
+        record=strict(g.read(NS+'FIRST_POSTGRES17_CAPABILITY_FAILURE_AND_REPAIR.json'))
+        change=record['source_route'];exact(change['count'],1,'AFUI100_ONE_CONTEXT_ROUTE')
+        raw=old.read(NS+'function_acl_capability.py');text=raw.decode()
+        exact(text.count(change['before']),1,'AFUI100_EXACT_ORIGINAL_CONTEXT_ANCHOR')
+        exact(text.replace(change['before'],change['after'],1).encode(),g.read(NS+'function_acl_capability.py'),'AFUI100_ONLY_EXACT_EMPTY_PATH_AND_UTC_CONTEXT_INSERTION')
+        exact(change['after'],'            cur.execute("set local search_path=\'\';set local timezone=\'UTC\'")\n'+change['before'],'AFUI100_FIXED_OWNING_CONTEXT_ONLY')
+        expected_declaration=copy.deepcopy(prior);expected_declaration['files'][NS+'function_acl_capability.py']=expected[NS+'function_acl_capability.py']
+        exact(declaration,expected_declaration,'AFUI100_ONLY_ONE_SOURCE_PIN_CHANGED')
+    return retained,acl_repair,dict(status='ROOT_EXACT_AFUI99_TO100_PG17_CAPABILITY_CONTEXT_SOURCE_REPAIR_NOT_BUSINESS',
+        before_head=old_head,before_tree=old_tree,reviewed_files=expected,exact_reversible_routes=1,
+        settings_SQL_six_function_bodies_and_financial_case_oracles_unchanged=True,actual_case_credit=0)
+
+
 def source(g):
     base_head=PARENT_HEAD or PREPARED_BASE;base_tree=PARENT_TREE or PREPARED_BASE_TREE
     exact(g.git('rev-parse',base_head+'^{tree}').decode().strip(),base_tree,'AFUI15_EXACT_WHOLE_PARENT_TREE')
@@ -300,8 +326,10 @@ def source(g):
     for name,value in ui['files'].items():g.verify_pin(name,value)
     for name in('PARENT_HEAD','PARENT_TREE','PARENT_RUN','PARENT_JOB'):
         exact(literal(g,NS+'admission.py',name),globals()[name],'AFUI15_EXACT_ACTUAL_PARENT_BINDING:'+name)
-    acl_repair=None
-    if NS+'ACTUAL_FUNCTION_DEFAULT_ACL_REFERENCE.json'in g.tree:
+    acl_repair=None;capability_repair=None
+    if NS+'FIRST_POSTGRES17_CAPABILITY_FAILURE_AND_REPAIR.json'in g.tree:
+        repaired,acl_repair,capability_repair=postgres17_capability_source(g,declaration)
+    elif NS+'ACTUAL_FUNCTION_DEFAULT_ACL_REFERENCE.json'in g.tree:
         repaired,acl_repair=function_acl_source(g,declaration)
     else:repaired=runtime_domain_preflight_source(g,declaration)if 'runtime_domain_preflight'in declaration else None
     if PARENT_HEAD is None:
@@ -317,6 +345,7 @@ def source(g):
         source_manifest=pin(g.read(NS+'SOURCE.json')),UI_manifest=pin(g.read(NS+'UI_SOURCE.json')),
         exact_counted_UI_paths=4,new_UI_paths=5,pure_report_functions=pure,
         runtime_domain_preflight_repair=repaired,new_function_ACL_repair=acl_repair,
+        PostgreSQL17_capability_context_repair=capability_repair,
         parent_qualification_pending=PARENT_HEAD is None,actual_case_credit=0)
 
 def intake(root,path,metadata):

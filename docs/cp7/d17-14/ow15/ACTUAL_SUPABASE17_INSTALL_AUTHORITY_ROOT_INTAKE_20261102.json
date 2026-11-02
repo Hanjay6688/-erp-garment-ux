@@ -1,0 +1,55 @@
+{
+  "status": "ROOT_VERIFIED_ACTUAL_SUPABASE17_AFUI_FRESH_MANDOR_RETAINED_AND_UNSUPPORTED_GLOBAL_CAPABILITY_NOT_ERP",
+  "head": "adb03eaa3e06ad98243e6d15b9273f1fcd9c37dc",
+  "tree": "4fc70e1da0bc0ae1ca72f0b00fbca2d7001ca00c",
+  "run_id": 41438058379,
+  "job_id": 125252703138,
+  "first_failed_run_id": 41437248634,
+  "first_failed_job_id": 125250039172,
+  "source": {
+    "status": "ROOT_EXACT21_CAPABILITY_INPUTS_AND_UNCHANGED_AFUI100_PARENT_SOURCE",
+    "source_pins": 21,
+    "new_paths": 10,
+    "unchanged_parent_paths": 14410,
+    "only_fresh_capability": "AFUI",
+    "retained_Mandor_and_catalog_not_rerun": true,
+    "actual_ERP_imports": 0,
+    "actual_SQL_executed": 0
+  },
+  "first_archive": {
+    "bytes": 8631,
+    "sha256": "3cffb9cf3138ba973b651971e7d9cd968c830fe65329e89d76e1201825c3ba68"
+  },
+  "successor_archive": {
+    "bytes": 9239,
+    "sha256": "9453300702b8b8b5d68ece53b8193a8ed914caad6d69770760e9ed51c1b7bf56"
+  },
+  "first_original_report": {
+    "member": "cp7-proof/INSTALL_AUTHORITY_CAPABILITIES.json",
+    "bytes": 15710,
+    "sha256": "b4a2e5abbddeb452f953268c172887890276d329f44818c27f4a086b373fb712"
+  },
+  "successor_original_report": {
+    "member": "cp7-proof/INSTALL_AUTHORITY_CAPABILITIES.json",
+    "bytes": 19988,
+    "sha256": "e761a74e045eb3c2ff5d0f5645f4b910c52d6058b38e0fe16895996e37f228c3"
+  },
+  "actual_PostgreSQL_version_num": 170006,
+  "Afui_schema_capability": true,
+  "Mandor_schema_capability": true,
+  "fresh_Afui_observation": 1,
+  "retained_Mandor_observation": 1,
+  "retained_global_permission_refusal": 1,
+  "original_first_failure_preserved": true,
+  "raw_six_Afui_ACLs_independently_matched": true,
+  "raw_all22_capability_censuses_not_retained_or_independently_recomputed": true,
+  "capability_reports_are_source_bound_runtime_assertions_not_financial_cases": true,
+  "global_catalog_barrier_available_to_postgres": false,
+  "global_writer_or_permission_or_phantom_closure": false,
+  "full_Afui15_or_Mandor_Native_business_acceptance": false,
+  "actual_Native_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false,
+  "first_canonical_library_file_id": "libfile_507e8415b2f0819199d1ad318e47b562",
+  "successor_canonical_library_file_id": "libfile_043a154723a0819193b318d33457cd13"
+}

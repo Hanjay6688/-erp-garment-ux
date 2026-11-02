@@ -1,0 +1,684 @@
+{
+  "actual_Native_cases": 0,
+  "actual_domain_and_caller_binding": {
+    "actual_Native_cases": 0,
+    "actual_SQL_executed": 0,
+    "actual_call_bindings": [
+      {
+        "keywords": [],
+        "line": 128,
+        "operation": "modules.bd.chain.production.owner",
+        "positional": 1,
+        "source": "native_fixture.py"
+      },
+      {
+        "keywords": [],
+        "line": 133,
+        "operation": "modules.bc.api.admin",
+        "positional": 1,
+        "source": "native_fixture.py"
+      },
+      {
+        "keywords": [],
+        "line": 137,
+        "operation": "modules.bd.chain.production.owner",
+        "positional": 1,
+        "source": "native_fixture.py"
+      },
+      {
+        "keywords": [],
+        "line": 150,
+        "operation": "modules.bc.api.admin",
+        "positional": 1,
+        "source": "native_fixture.py"
+      },
+      {
+        "keywords": [
+          "stock_qty",
+          "cost",
+          "zones"
+        ],
+        "line": 155,
+        "operation": "bc.fixture",
+        "positional": 2,
+        "source": "native_fixture.py"
+      },
+      {
+        "keywords": [],
+        "line": 156,
+        "operation": "bc.api.admin",
+        "positional": 1,
+        "source": "native_fixture.py"
+      },
+      {
+        "keywords": [],
+        "line": 162,
+        "operation": "bc.policy",
+        "positional": 3,
+        "source": "native_fixture.py"
+      },
+      {
+        "keywords": [],
+        "line": 166,
+        "operation": "bc.api.admin",
+        "positional": 1,
+        "source": "native_fixture.py"
+      },
+      {
+        "keywords": [],
+        "line": 170,
+        "operation": "bd.sized_product",
+        "positional": 3,
+        "source": "native_fixture.py"
+      },
+      {
+        "keywords": [
+          "qty",
+          "rate",
+          "method"
+        ],
+        "line": 172,
+        "operation": "modules.bom.recipe",
+        "positional": 2,
+        "source": "native_fixture.py"
+      },
+      {
+        "keywords": [],
+        "line": 175,
+        "operation": "bd.process_rate",
+        "positional": 3,
+        "source": "native_fixture.py"
+      },
+      {
+        "keywords": [],
+        "line": 176,
+        "operation": "bd.plain_delivery",
+        "positional": 4,
+        "source": "native_fixture.py"
+      },
+      {
+        "keywords": [],
+        "line": 177,
+        "operation": "bd.receive",
+        "positional": 5,
+        "source": "native_fixture.py"
+      },
+      {
+        "keywords": [],
+        "line": 178,
+        "operation": "bc.api.admin",
+        "positional": 1,
+        "source": "native_fixture.py"
+      },
+      {
+        "keywords": [],
+        "line": 186,
+        "operation": "bc.note_call",
+        "positional": 3,
+        "source": "native_fixture.py"
+      },
+      {
+        "keywords": [],
+        "line": 208,
+        "operation": "bd.chain.laundry_action",
+        "positional": 4,
+        "source": "native_fixture.py"
+      },
+      {
+        "keywords": [],
+        "line": 209,
+        "operation": "bc.api.admin",
+        "positional": 1,
+        "source": "native_fixture.py"
+      },
+      {
+        "keywords": [],
+        "line": 217,
+        "operation": "modules.bc.api.admin",
+        "positional": 1,
+        "source": "native_fixture.py"
+      },
+      {
+        "keywords": [],
+        "line": 83,
+        "operation": "bd.two_size_fixture.__globals__.get",
+        "positional": 1,
+        "source": "native_fixture.py"
+      },
+      {
+        "keywords": [],
+        "line": 208,
+        "operation": "bd.chain.base.group_version",
+        "positional": 2,
+        "source": "native_fixture.py"
+      },
+      {
+        "keywords": [],
+        "line": 188,
+        "operation": "bc.local_at",
+        "positional": 2,
+        "source": "native_fixture.py"
+      },
+      {
+        "keywords": [],
+        "line": 240,
+        "operation": "modules.bc.stock",
+        "positional": 3,
+        "source": "native_fixture.py"
+      },
+      {
+        "keywords": [],
+        "line": 205,
+        "operation": "bd.chain.production.at",
+        "positional": 2,
+        "source": "native_fixture.py"
+      },
+      {
+        "keywords": [],
+        "line": 43,
+        "operation": "modules.bc.api.admin",
+        "positional": 1,
+        "source": "native_cases.py"
+      },
+      {
+        "keywords": [],
+        "line": 44,
+        "operation": "modules.bc.findings",
+        "positional": 1,
+        "source": "native_cases.py"
+      },
+      {
+        "keywords": [],
+        "line": 45,
+        "operation": "modules.bc.new_findings",
+        "positional": 2,
+        "source": "native_cases.py"
+      },
+      {
+        "keywords": [],
+        "line": 54,
+        "operation": "modules.bc.findings",
+        "positional": 1,
+        "source": "native_cases.py"
+      },
+      {
+        "keywords": [],
+        "line": 60,
+        "operation": "modules.bc.internal",
+        "positional": 3,
+        "source": "native_cases.py"
+      },
+      {
+        "keywords": [],
+        "line": 82,
+        "operation": "modules.bc.api.admin",
+        "positional": 1,
+        "source": "native_cases.py"
+      },
+      {
+        "keywords": [],
+        "line": 90,
+        "operation": "modules.bc.findings",
+        "positional": 1,
+        "source": "native_cases.py"
+      },
+      {
+        "keywords": [],
+        "line": 123,
+        "operation": "bc.findings",
+        "positional": 1,
+        "source": "native_cases.py"
+      },
+      {
+        "keywords": [],
+        "line": 68,
+        "operation": "modules.bc.svc",
+        "positional": 3,
+        "source": "native_cases.py"
+      },
+      {
+        "keywords": [],
+        "line": 71,
+        "operation": "modules.bc.internal",
+        "positional": 3,
+        "source": "native_cases.py"
+      },
+      {
+        "keywords": [],
+        "line": 83,
+        "operation": "modules.control.product_catalog",
+        "positional": 1,
+        "source": "native_cases.py"
+      },
+      {
+        "keywords": [],
+        "line": 84,
+        "operation": "modules.product.verify",
+        "positional": 2,
+        "source": "native_cases.py"
+      },
+      {
+        "keywords": [],
+        "line": 131,
+        "operation": "modules.invoice.payload",
+        "positional": 3,
+        "source": "native_cases.py"
+      },
+      {
+        "keywords": [
+          "p"
+        ],
+        "line": 133,
+        "operation": "modules.invoice.finalize",
+        "positional": 2,
+        "source": "native_cases.py"
+      },
+      {
+        "keywords": [],
+        "line": 134,
+        "operation": "bc.internal",
+        "positional": 3,
+        "source": "native_cases.py"
+      },
+      {
+        "keywords": [],
+        "line": 85,
+        "operation": "modules.product.runtime",
+        "positional": 0,
+        "source": "native_cases.py"
+      },
+      {
+        "keywords": [],
+        "line": 143,
+        "operation": "modules.invoice.reverse",
+        "positional": 3,
+        "source": "native_cases.py"
+      },
+      {
+        "keywords": [],
+        "line": 144,
+        "operation": "bc.internal",
+        "positional": 3,
+        "source": "native_cases.py"
+      },
+      {
+        "keywords": [],
+        "line": 132,
+        "operation": "bc.local_at",
+        "positional": 2,
+        "source": "native_cases.py"
+      },
+      {
+        "keywords": [],
+        "line": 67,
+        "operation": "modules.bc.ws",
+        "positional": 1,
+        "source": "native_cases.py"
+      },
+      {
+        "keywords": [],
+        "line": 33,
+        "operation": "modules.bc.api.admin",
+        "positional": 1,
+        "source": "native_sales_cases.py"
+      },
+      {
+        "keywords": [],
+        "line": 40,
+        "operation": "modules.bc.api.admin",
+        "positional": 1,
+        "source": "native_sales_cases.py"
+      },
+      {
+        "keywords": [],
+        "line": 78,
+        "operation": "bc.findings",
+        "positional": 1,
+        "source": "native_sales_cases.py"
+      },
+      {
+        "keywords": [],
+        "line": 82,
+        "operation": "bc.api.admin",
+        "positional": 1,
+        "source": "native_sales_cases.py"
+      },
+      {
+        "keywords": [],
+        "line": 85,
+        "operation": "modules.bd.lot_value",
+        "positional": 2,
+        "source": "native_sales_cases.py"
+      },
+      {
+        "keywords": [],
+        "line": 123,
+        "operation": "bc.api.admin",
+        "positional": 1,
+        "source": "native_sales_cases.py"
+      },
+      {
+        "keywords": [],
+        "line": 128,
+        "operation": "bc.internal",
+        "positional": 3,
+        "source": "native_sales_cases.py"
+      },
+      {
+        "keywords": [],
+        "line": 88,
+        "operation": "modules.bd.chain.base.create_customer",
+        "positional": 2,
+        "source": "native_sales_cases.py"
+      },
+      {
+        "keywords": [],
+        "line": 47,
+        "operation": "modules.bd.lot_value",
+        "positional": 2,
+        "source": "native_sales_cases.py"
+      },
+      {
+        "keywords": [],
+        "line": 90,
+        "operation": "modules.bd.chain.production.at",
+        "positional": 2,
+        "source": "native_sales_cases.py"
+      },
+      {
+        "keywords": [],
+        "line": 20,
+        "operation": "modules.invoice.payload",
+        "positional": 3,
+        "source": "native_inverse_cases.py"
+      },
+      {
+        "keywords": [
+          "p"
+        ],
+        "line": 22,
+        "operation": "modules.invoice.finalize",
+        "positional": 2,
+        "source": "native_inverse_cases.py"
+      },
+      {
+        "keywords": [],
+        "line": 23,
+        "operation": "modules.bc.internal",
+        "positional": 3,
+        "source": "native_inverse_cases.py"
+      },
+      {
+        "keywords": [],
+        "line": 27,
+        "operation": "modules.invoice.reverse",
+        "positional": 3,
+        "source": "native_inverse_cases.py"
+      },
+      {
+        "keywords": [],
+        "line": 28,
+        "operation": "modules.bc.internal",
+        "positional": 3,
+        "source": "native_inverse_cases.py"
+      },
+      {
+        "keywords": [],
+        "line": 33,
+        "operation": "modules.bc.api.admin",
+        "positional": 1,
+        "source": "native_inverse_cases.py"
+      },
+      {
+        "keywords": [],
+        "line": 99,
+        "operation": "modules.bc.findings",
+        "positional": 1,
+        "source": "native_inverse_cases.py"
+      },
+      {
+        "keywords": [
+          "key",
+          "version"
+        ],
+        "line": 108,
+        "operation": "modules.qc.reverse",
+        "positional": 2,
+        "source": "native_inverse_cases.py"
+      },
+      {
+        "keywords": [
+          "key",
+          "version"
+        ],
+        "line": 111,
+        "operation": "modules.qc.reverse",
+        "positional": 2,
+        "source": "native_inverse_cases.py"
+      },
+      {
+        "keywords": [],
+        "line": 128,
+        "operation": "bc.findings",
+        "positional": 1,
+        "source": "native_inverse_cases.py"
+      },
+      {
+        "keywords": [],
+        "line": 143,
+        "operation": "bd.chain.bs_action",
+        "positional": 3,
+        "source": "native_inverse_cases.py"
+      },
+      {
+        "keywords": [],
+        "line": 143,
+        "operation": "bc.api.admin",
+        "positional": 1,
+        "source": "native_inverse_cases.py"
+      },
+      {
+        "keywords": [],
+        "line": 146,
+        "operation": "bd.chain.bs_action",
+        "positional": 4,
+        "source": "native_inverse_cases.py"
+      },
+      {
+        "keywords": [],
+        "line": 148,
+        "operation": "bc.api.admin",
+        "positional": 1,
+        "source": "native_inverse_cases.py"
+      },
+      {
+        "keywords": [],
+        "line": 160,
+        "operation": "bd.chain.version",
+        "positional": 3,
+        "source": "native_inverse_cases.py"
+      },
+      {
+        "keywords": [
+          "key"
+        ],
+        "line": 162,
+        "operation": "bd.chain.bs_action",
+        "positional": 4,
+        "source": "native_inverse_cases.py"
+      },
+      {
+        "keywords": [],
+        "line": 162,
+        "operation": "bc.api.admin",
+        "positional": 1,
+        "source": "native_inverse_cases.py"
+      },
+      {
+        "keywords": [
+          "key"
+        ],
+        "line": 169,
+        "operation": "bd.chain.bs_action",
+        "positional": 4,
+        "source": "native_inverse_cases.py"
+      },
+      {
+        "keywords": [],
+        "line": 169,
+        "operation": "bc.api.admin",
+        "positional": 1,
+        "source": "native_inverse_cases.py"
+      },
+      {
+        "keywords": [],
+        "line": 134,
+        "operation": "bd.chain.production.at",
+        "positional": 2,
+        "source": "native_inverse_cases.py"
+      },
+      {
+        "keywords": [],
+        "line": 148,
+        "operation": "bd.chain.version",
+        "positional": 3,
+        "source": "native_inverse_cases.py"
+      },
+      {
+        "keywords": [],
+        "line": 21,
+        "operation": "modules.bc.local_at",
+        "positional": 2,
+        "source": "native_inverse_cases.py"
+      },
+      {
+        "keywords": [],
+        "line": 107,
+        "operation": "modules.qc.workspace",
+        "positional": 2,
+        "source": "native_inverse_cases.py"
+      },
+      {
+        "keywords": [],
+        "line": 59,
+        "operation": "bc.api.admin",
+        "positional": 1,
+        "source": "access_cases.py"
+      },
+      {
+        "keywords": [],
+        "line": 85,
+        "operation": "modules.bc.api.admin",
+        "positional": 1,
+        "source": "access_cases.py"
+      },
+      {
+        "keywords": [],
+        "line": 227,
+        "operation": "modules.bc.session",
+        "positional": 2,
+        "source": "access_cases.py"
+      },
+      {
+        "keywords": [],
+        "line": 229,
+        "operation": "modules.bc.api.admin",
+        "positional": 1,
+        "source": "access_cases.py"
+      },
+      {
+        "keywords": [],
+        "line": 87,
+        "operation": "modules.control.product_catalog",
+        "positional": 1,
+        "source": "access_cases.py"
+      },
+      {
+        "keywords": [],
+        "line": 88,
+        "operation": "modules.product.verify",
+        "positional": 2,
+        "source": "access_cases.py"
+      },
+      {
+        "keywords": [],
+        "line": 88,
+        "operation": "modules.product.runtime",
+        "positional": 0,
+        "source": "access_cases.py"
+      },
+      {
+        "keywords": [],
+        "line": 246,
+        "operation": "modules.bc.session",
+        "positional": 2,
+        "source": "access_cases.py"
+      }
+    ],
+    "actual_modules": {
+      "cp6_auditor_runner.py": {
+        "bytes": 14911,
+        "path": "/home/runner/work/-erp-garment-ux/-erp-garment-ux/qualified-sku090b/scripts/cp6_auditor_runner.py",
+        "sha256": "2c74439f7e919e2adb2484bc774bef4881e71237124f2e6b6dabdab141348ea7"
+      },
+      "cp6_bc_probe.py": {
+        "bytes": 139394,
+        "path": "/home/runner/work/-erp-garment-ux/-erp-garment-ux/qualified-sku090b/scripts/cp6_bc_probe.py",
+        "sha256": "147de7092ba2284312ba376f8cae82bf05c0fbb77e28956f45966cdfa6c8adb1"
+      },
+      "cp6_bd_probe.py": {
+        "bytes": 142782,
+        "path": "/home/runner/work/-erp-garment-ux/-erp-garment-ux/qualified-sku090b/scripts/cp6_bd_probe.py",
+        "sha256": "c3add21e66d4d5544bf4e4d046a9fa8d64dbcb0cb285551a92c2d7405156b31b"
+      },
+      "cp7_accessory_standard_report/cases.py": {
+        "bytes": 19581,
+        "path": "/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_accessory_standard_report/cases.py",
+        "sha256": "e025be1280630dfb89f62261163194ce072b6f6ad6d909b56ff6c82f75778e98"
+      },
+      "cp7_invoice_cases.py": {
+        "bytes": 18588,
+        "path": "/home/runner/work/-erp-garment-ux/-erp-garment-ux/qualified-sku090b/scripts/cp7_invoice_cases.py",
+        "sha256": "a6b2e46346b211c0934b8b43f30d9ecfeb161ba37ab4eff5fdf7f183fc810bb1"
+      },
+      "cp7_qc_source_cases.py": {
+        "bytes": 10188,
+        "path": "/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_qc_source_cases.py",
+        "sha256": "67fe6812924583a7789377f6a01525614d9d0fb2665a8d59ee113a794d076ed5"
+      }
+    },
+    "actual_original_output": "/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/cp6-proof/aw",
+    "actual_working_directory": "/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer",
+    "canonical_module_cache_replaced": false,
+    "constructor_chain_global_unchanged": true,
+    "constructor_signature_bound": true,
+    "original_domain_sources_changed": false,
+    "status": "EXACT_AFUI_NATURAL_DOMAIN_AND_CALLER_APIS_BOUND_BEFORE_SQL",
+    "strict_runner_API_bound": true
+  },
+  "entire_natural_product_source_graph_evaluated": true,
+  "production_go": false,
+  "source_DB_guard": {
+    "attempts": [],
+    "network_nonGit_attempts": [],
+    "public_source_sha256": "1439d70810383db377c48e043df7fb6d487a1b2f1a995e8993a2c08590f9f797",
+    "self_controls": [
+      {
+        "api": "psycopg.connect",
+        "result": "DENIED_BEFORE_LIBPQ"
+      },
+      {
+        "api": "psycopg.Connection.connect",
+        "result": "DENIED_BEFORE_LIBPQ"
+      },
+      {
+        "api": "psycopg.AsyncConnection.connect",
+        "result": "DENIED_BEFORE_LIBPQ"
+      },
+      {
+        "original_connect_descriptors_restored": true
+      }
+    ]
+  },
+  "status": "ACTUAL_FREE3_PARENT_AND_COMPLETE_NONPAYABLE_SOURCE_GRAPH_ADMITTED"
+}
