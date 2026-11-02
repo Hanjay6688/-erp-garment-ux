@@ -65,11 +65,24 @@ def check():
     assert repair['first_source']=={'bytes':len(original),'sha256':sha256(original).hexdigest()}
     assert repair['changed_source']=={'bytes':len(raw),'sha256':sha256(raw).hexdigest()}
     assert repair['first_model_is_not_PASS']is True and repair['Native_cases']==repair['ERP_installations']==0
-    assert value['private_functions']==value['schema_and_event_functions']+value['private_allocation_functions']+value['private_buyer_functions']==17
+    identity=json.loads((HERE/'SALE_IDENTITY_MODEL_CONTROLS.json').read_bytes())
+    assert identity['status']=='FG_MANDOR_NATIVE_HEADER_IDENTITY_MODEL_CONTROLS_PASS_NOT_NATIVE'
+    assert identity['retained_storage_15_allocation_15_buyer_20_controls_NOT_rerun']is True
+    assert identity['actual_Native_cases']==identity['actual_Auth_HTTP_cases']==identity['actual_browser_cases']==identity['actual_two_session_races']==0
+    assert identity['Native_financial_functions_changed']==0
+    for name,expected in identity['source_files'].items():
+        raw=(HERE/name).read_bytes();assert {'bytes':len(raw),'sha256':sha256(raw).hexdigest()}==expected
+    syntax=json.loads((HERE/'SALE_IDENTITY_SQL_SYNTAX_CONTROLS.json').read_bytes())
+    raw=(HERE/'sale_identity.sql').read_bytes()
+    assert syntax['source']=={'bytes':len(raw),'sha256':sha256(raw).hexdigest()}
+    assert syntax['ERP_SQL_executed']==syntax['actual_Native_cases']==0
+    assert value['private_functions']==value['schema_and_event_functions']+value['private_allocation_functions']+value['private_buyer_functions']+value['private_sale_identity_functions']==18
     return dict(status='FG_MANDOR_EXACT_STORAGE_PREPARATION_SOURCE_ONLY',unchanged_parent_blobs_and_modes=len(base),
         own_source_pins=len(value['files']),storage_model_controls=len(model['results']),parent_gate_closed=True,
         private_allocation_model_controls=len(allocation['results']),retained_storage_controls_NOT_rerun=True,
         private_buyer_functions=6,private_buyer_model_controls=len(buyer['results']),
+        private_sale_identity_functions=1,private_sale_identity_model_controls=len(identity['results']),
+        Native_header_trigger_source_written=True,Native_header_trigger_ERP_qualification=False,
         retained_allocation_controls_NOT_rerun=True,
         runtime_entry=None,ERP_imports=0,SQL_executed=0,actual_Native_cases=0,production_go=False,independent_acceptance=False)
 

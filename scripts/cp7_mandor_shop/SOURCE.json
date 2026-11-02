@@ -31,13 +31,25 @@
       "bytes": 90591,
       "sha256": "9439f43a5ba710a7e881199e94c399d6efb1c9354ad477148edee10cb4d079b5"
     },
+    "scripts/cp7_mandor_shop/NATIVE_SALES_IDENTITY_REFERENCE.json": {
+      "bytes": 19390,
+      "sha256": "e5fb23ce498448b0497870efb74bf848021cd507d7a29cf54f350ea8804d9b17"
+    },
     "scripts/cp7_mandor_shop/NATIVE_SCHEMA_REFERENCE.json": {
       "bytes": 45357,
       "sha256": "07a46166c6ae74d078ee643637cadccc74714ae5297c1151059ae00a786acf28"
     },
     "scripts/cp7_mandor_shop/README.md": {
-      "bytes": 5046,
-      "sha256": "30367e291875b77172db5351d4b9eb348de8336c3c35da35cefbb2cdf8adf26b"
+      "bytes": 6032,
+      "sha256": "bc113762c7cd36bbf0dae6b3070ef23fff676cba45046fc4b01f7753c87377c8"
+    },
+    "scripts/cp7_mandor_shop/SALE_IDENTITY_MODEL_CONTROLS.json": {
+      "bytes": 4221,
+      "sha256": "e19e963f22d9fb5a56f0e0db3ceb8504f3333b4c3117f227d74a8fd7d9184132"
+    },
+    "scripts/cp7_mandor_shop/SALE_IDENTITY_SQL_SYNTAX_CONTROLS.json": {
+      "bytes": 498,
+      "sha256": "41d50b8d82e48d8d0163195867eb66f0e464f2d4f1d2832d8cfde3dd617e7939"
     },
     "scripts/cp7_mandor_shop/SQL_SYNTAX_CONTROLS.json": {
       "bytes": 1986,
@@ -72,12 +84,20 @@
       "sha256": "5bfeb12b4103ca88f48b84a213098b33a90e7ead52398a5025213d9188e47617"
     },
     "scripts/cp7_mandor_shop/check_source.py": {
-      "bytes": 5685,
-      "sha256": "6e865a61f9804226af632c42c741033fa1aa92b4764703e46fa67b2f763c9b52"
+      "bytes": 6863,
+      "sha256": "c446fc960449202bf7cba7910b014eacc9153b5f55cd2f074aae663deee7abca"
     },
     "scripts/cp7_mandor_shop/events.sql": {
       "bytes": 8216,
       "sha256": "9e2633af5d9ecff6220c37cdf8bb22a27ce71cbc03862c8aa40a1fadfd82a1d3"
+    },
+    "scripts/cp7_mandor_shop/sale_identity.sql": {
+      "bytes": 5069,
+      "sha256": "98964804488c94f0ffee865068327a8b6fb37fc8b7c6e037e97af32525a672ea"
+    },
+    "scripts/cp7_mandor_shop/sale_identity_model.mjs": {
+      "bytes": 15442,
+      "sha256": "186fb48414c9f3d67b452b3d34ab866eb93f71e111e1d1055eafb2ecda7f85f7"
     },
     "scripts/cp7_mandor_shop/schema.sql": {
       "bytes": 12510,
@@ -89,7 +109,7 @@
     }
   },
   "schema_tables": 13,
-  "private_functions": 17,
+  "private_functions": 18,
   "storage_model_controls": 15,
   "public_commands_implemented": false,
   "Native_payment_hooks_implemented": false,
@@ -108,6 +128,12 @@
   "private_buyer_model_controls": 20,
   "retained_allocation_15_controls_NOT_rerun": true,
   "private_buyer_preparation_implemented": true,
-  "Native_sales_identity_hooks_implemented": false,
-  "saved_current_Native_buyer_reference_head": "6e61506c10a18541c104b981bd438e78b175b5d1"
+  "Native_sales_identity_hooks_implemented": true,
+  "saved_current_Native_buyer_reference_head": "6e61506c10a18541c104b981bd438e78b175b5d1",
+  "private_sale_identity_functions": 1,
+  "private_sale_identity_model_controls": 17,
+  "retained_buyer_20_controls_NOT_rerun": true,
+  "Native_sales_identity_hooks_qualified": false,
+  "Native_header_trigger_sources": 1,
+  "Native_invoice_stock_HPP_cash_functions_changed": 0
 }

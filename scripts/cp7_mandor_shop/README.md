@@ -1,7 +1,8 @@
 # Belanja FG mandor melalui payroll — persiapan A, belum diaktifkan
 
 Penyimpanan, pemilik perubahan status, pembaca kartu, perintah privat untuk
-pasang/lepas alokasi draft dan persiapan identitas pembeli mandor sudah ditulis.
+pasang/lepas alokasi draft, persiapan identitas pembeli mandor serta penghubung
+identitas draft/posting sudah ditulis.
 Modul ini belum mempunyai pemasang,
 perintah publik, sambungan pelunasan Native atau pop-up aplikasi.
 Gerbang parent dan runtime masih tertutup. Tidak ada
@@ -63,6 +64,20 @@ yang tepat sebelum diaktifkan. Model pertama tetap gagal. Model ini tidak
 menjalankan invoice, stok, HPP, payroll, pembayaran, Auth HTTP atau dua backend.
 Lima belas pemeriksaan alokasi dan lima belas pemeriksaan penyimpanan terdahulu
 tetap dipakai tanpa dijalankan ulang.
+
+`sale_identity.sql` menyiapkan satu trigger header Native yang hanya merekam
+identitas. Perubahan pilihan mandor/toko dan pembatalan membersihkan pilihan draft.
+Posting pertama menyimpan UUID mandor/pelanggan dan nama mandor pada saat posting.
+Pengamatan posting berulang, pembayaran, retur dan pembalikan tidak mengubah
+fakta pembeli yang sudah diposting. Fungsi invoice, stok, HPP, kas dan jurnal
+Native tidak ditulis ulang. Sumber trigger ini belum dipasang pada ERP.
+
+`sale_identity_model.mjs` lulus 17 pemeriksaan baru pada PG/WASM dengan tipe kolom
+header/master dari katalog D/E yang diterima. Model menguji perubahan pilihan,
+snapshot saat posting, penolakan perubahan pembeli posted, pembersihan konteks,
+master nonaktif dan transaksi toko tanpa fakta mandor. Auth dan pemeriksaan
+konteks Native dimodelkan; mesin transaksi Native dan browser belum dijalankan.
+Lima puluh pemeriksaan penyimpanan/alokasi/pembeli sebelumnya tetap dipakai.
 
 Pekerjaan berikutnya: pertahankan mesin Penjualan existing; hubungkan pilihan
 pembeli ke master mandor; turunkan sambungan Native dari definisi parent
