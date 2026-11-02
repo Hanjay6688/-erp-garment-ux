@@ -11,6 +11,10 @@
       "bytes": 686,
       "sha256": "7cc8bc6ace4920d9499cec32abe77b2d8cbdb973b6c43bc57d7a2a45be1e34e6"
     },
+    "scripts/cp7_mandor_shop/BROWSER_RPC_EXISTING_NATIVE3_REFERENCE.json": {
+      "bytes": 3536,
+      "sha256": "021bd1811fc191615440a7ef5b5cedc2266c11b1d080620ac9e5d8c2eb1fa5bc"
+    },
     "scripts/cp7_mandor_shop/BUYER_MODEL_CONTROLS.json": {
       "bytes": 5879,
       "sha256": "cf7de05e9765bd940b834c9e3e4c75f150f301e859118b8ed95254e707fbd5c4"
@@ -22,6 +26,10 @@
     "scripts/cp7_mandor_shop/BUYER_UUID_INTEGER_QUOTIENT_REPAIR.json": {
       "bytes": 709,
       "sha256": "8edbc0f08568c540f32631cbebc2855e5f3e4396acf2923f64be15802e8e8331"
+    },
+    "scripts/cp7_mandor_shop/CONTROLLED_UI_CONTROLLER_ROUTE.json": {
+      "bytes": 1697,
+      "sha256": "29ebf642ec8fd5b21bcc5da9a24c18205463c2c6d377a3b13f9b7f1ae30bc086"
     },
     "scripts/cp7_mandor_shop/FACADE_DISPLAY_MODEL_CONTROLS.json": {
       "bytes": 2904,
@@ -100,8 +108,8 @@
       "sha256": "ba3da6e7c3a7ca001ff55f87588dc2fa0e9d7e4d93ddf01f213176121e789c7d"
     },
     "scripts/cp7_mandor_shop/README.md": {
-      "bytes": 13144,
-      "sha256": "bb62492cdc5c362c9ff0504641e0dbb00ca89a7e494b96f2c85a27d5a41c4c56"
+      "bytes": 14454,
+      "sha256": "780bdcdd69b72918ff593a2bc51542671ad93fddcfa5e6d1e34ad1276382e6a0"
     },
     "scripts/cp7_mandor_shop/SALE_IDENTITY_MODEL_CONTROLS.json": {
       "bytes": 4221,
@@ -119,13 +127,21 @@
       "bytes": 3294,
       "sha256": "8f1c8d22a583eccbffa566272c0f945f1789c30617e40bb925fa695dc33c16ee"
     },
+    "scripts/cp7_mandor_shop/UI_CONTROLLER_MODEL_CONTROLS.json": {
+      "bytes": 4698,
+      "sha256": "9f3ec817cd505ecc0927b18fbf9149d33c45ac03a745c113bbcbada60bc69c42"
+    },
     "scripts/cp7_mandor_shop/UI_MODEL_CONTROLS.json": {
       "bytes": 1836,
       "sha256": "54c1e3d1ee40cc8f2e286c6ca8f9bfb0b914a7cfc8fd0791d18d83e537aa77ab"
     },
+    "scripts/cp7_mandor_shop/UI_PARENT_ORIGIN.json": {
+      "bytes": 20082,
+      "sha256": "05b64c234cfed2b7e520ba751029a8c70e52394546d7ee7e5245fd269971a8c7"
+    },
     "scripts/cp7_mandor_shop/UI_SOURCE.json": {
-      "bytes": 1127,
-      "sha256": "93124c0685af1c8e31dbfedb344e530f9e78dbb86e28ee86311e612c892cfa61"
+      "bytes": 2250,
+      "sha256": "89e120eeace303bea4c537690d380dacb2bb85d2f7b6b3fba0772ecfe88a8543"
     },
     "scripts/cp7_mandor_shop/__init__.py": {
       "bytes": 79,
@@ -152,8 +168,8 @@
       "sha256": "5bfeb12b4103ca88f48b84a213098b33a90e7ead52398a5025213d9188e47617"
     },
     "scripts/cp7_mandor_shop/check_source.py": {
-      "bytes": 17905,
-      "sha256": "c9f132ae590d13070cd2648934c1c0253832887feaf98956fd2462306c8768f0"
+      "bytes": 21437,
+      "sha256": "7147da417f0819ef4ab1ba0c1b377b951faf3ab54eac35c49ebc443d19df241f"
     },
     "scripts/cp7_mandor_shop/events.sql": {
       "bytes": 8216,
@@ -275,8 +291,12 @@
   "new_public_facade_model_controls": 9,
   "public_facade_runtime_activated": false,
   "new_exact_display_model_controls": 4,
-  "new_controlled_UI_paths": 6,
+  "new_controlled_UI_paths": 8,
   "new_UI_parser_cases": 8,
   "new_UI_DOM_cases": 7,
-  "UI_mounted_or_RPC_wired": false
+  "UI_mounted_or_RPC_wired": true,
+  "parent_UI_paths_changed": 5,
+  "controller_DOM_logical_cases": 10,
+  "focused_changed_refresh_cases": 1,
+  "parent_mount_regression_cases": 17
 }

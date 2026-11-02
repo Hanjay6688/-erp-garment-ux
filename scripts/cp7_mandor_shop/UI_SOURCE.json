@@ -1,33 +1,62 @@
 {
-  "status": "FG_MANDOR_CONTROLLED_CARD_UI_SOURCE_NOT_MOUNTED_OR_NATIVE_QUALIFIED",
+  "status": "FG_MANDOR_RECOVERY_AWARE_PAYROLL_CARD_UI_SOURCE_NOT_NATIVE_QUALIFIED",
   "files": {
-    "src/MandorShopCards.tsx": {
-      "bytes": 9027,
-      "sha256": "727adc47c47960e7e94532803d7ca3517e0401d0bef8fded6fe054eabf38f80f"
+    "scripts/check-access-catalog.mjs": {
+      "bytes": 45315,
+      "sha256": "5f9562bc7c4550414b8fe68ef6bca00dc8b7004d5d98f7c91be5f945747f05da"
+    },
+    "scripts/check-source-ownership.mjs": {
+      "bytes": 25622,
+      "sha256": "a8b757a383c4c4e6cf9b9ee60a0de5a0e979f2b573709691d1c02ec4dcdf6db8"
+    },
+    "src/ConnectedPayrollPage.tsx": {
+      "bytes": 21281,
+      "sha256": "0e242ff4ec7a530d8e0e1598779042da0ba02763b381a4153cc783905d7a83be"
     },
     "src/MandorShopCards.dom.test.tsx": {
       "bytes": 6751,
       "sha256": "1bd41aca9cae13c7e5e091a33352ce3169fc51338614ed7e6471837d0e238103"
     },
-    "src/mandorShopContract.ts": {
-      "bytes": 8518,
-      "sha256": "98bdd926aa2d2e0e1adced0217be3f0bab83a70796e6954f5f1c21022461e363"
+    "src/MandorShopCards.tsx": {
+      "bytes": 9200,
+      "sha256": "0a58aa020ef22d77df1d8838b1c7c7a8d7e0cd4bccb9db87ce759e0a8b6a6f88"
+    },
+    "src/MandorShopPayrollPanel.dom.test.tsx": {
+      "bytes": 10794,
+      "sha256": "5d543e24b866fbc1973280a35580385d91e80785608e771815cb55b5eeaa287d"
+    },
+    "src/MandorShopPayrollPanel.tsx": {
+      "bytes": 9998,
+      "sha256": "dc33fbec5c314981298fc84cb970d7ce215455e82faa10966562592caecb42f3"
+    },
+    "src/mandor-shop.css": {
+      "bytes": 2348,
+      "sha256": "dda10167d8f122e39dbf4c3ebeab0bc943435b046205f3f5ed49a7b38adc1cbd"
     },
     "src/mandorShopContract.test.ts": {
       "bytes": 5539,
       "sha256": "08a16729d2551cddd03621fdf1332607d5129c5beb8e221d3d98b1e77afed587"
     },
-    "src/mandor-shop.css": {
-      "bytes": 2348,
-      "sha256": "dda10167d8f122e39dbf4c3ebeab0bc943435b046205f3f5ed49a7b38adc1cbd"
+    "src/mandorShopContract.ts": {
+      "bytes": 8518,
+      "sha256": "98bdd926aa2d2e0e1adced0217be3f0bab83a70796e6954f5f1c21022461e363"
+    },
+    "src/productionRecovery.ts": {
+      "bytes": 13634,
+      "sha256": "e7f1c1564237fd0c7769823ade3333079d7a28d1119384d3a61b480e1bf4f814"
+    },
+    "src/types/database.preconnect.ts": {
+      "bytes": 32399,
+      "sha256": "f1ccee3b8aa26402d72f5cf8b7895374f3f3d0ba04797b7422f346aef894e140"
     },
     "tests/fixtures/mandorShop.ts": {
       "bytes": 1396,
       "sha256": "299a1ffe63b1c7161dfedc712ca64f9b0bd84c4fc66fbc278d3933194bb425d4"
     }
   },
-  "existing_UI_paths_changed": 0,
-  "new_UI_paths": 6,
+  "existing_UI_paths_changed": 5,
+  "new_UI_paths": 8,
+  "parent_derivations": "UI_PARENT_ORIGIN.json",
   "actual_ERP_cases": 0,
   "production_go": false,
   "independent_acceptance": false

@@ -21,17 +21,39 @@ def check():
                 metadata,path=line.split(b'\t',1);result[path.decode()]=metadata.decode()
         return result
     base,current=entries(value['base_head']),entries('HEAD')
-    assert all(current.get(name)==item for name,item in base.items()),'FG_MANDOR_PREPARED_PARENT_BLOB_OR_MODE_CHANGED'
+    ui=json.loads((HERE/'UI_SOURCE.json').read_bytes())
+    parent_ui=json.loads((HERE/'UI_PARENT_ORIGIN.json').read_bytes())
+    assert parent_ui['base_head']==value['base_head']and parent_ui['base_tree']==value['base_tree']
+    changed_ui=set(parent_ui['files'])
+    assert changed_ui=={'src/productionRecovery.ts','src/types/database.preconnect.ts','src/ConnectedPayrollPage.tsx',
+        'scripts/check-source-ownership.mjs','scripts/check-access-catalog.mjs'}
+    assert all(current.get(name)==item for name,item in base.items()if name not in changed_ui),'FG_MANDOR_PREPARED_PARENT_BLOB_OR_MODE_CHANGED'
+    ui_hunks=0
+    for name,record in parent_ui['files'].items():
+        raw=git('show',value['base_head']+':'+name)
+        assert record['before']=={'bytes':len(raw),'sha256':sha256(raw).hexdigest()}
+        text=raw.decode()
+        for change in record['changes']:
+            assert change['count']==1 and text.count(change['before'])==1
+            text=text.replace(change['before'],change['after'],1);ui_hunks+=1
+        assert text.encode()==(ROOT/name).read_bytes()
+        assert record['after']==ui['files'][name]
+        assert current[name].startswith('100644 blob ')
+        for change in reversed(record['changes']):
+            assert text.count(change['after'])==1
+            text=text.replace(change['after'],change['before'],1)
+        assert text.encode()==raw
+    assert ui_hunks==9
     physical={str(p.relative_to(ROOT))for p in HERE.rglob('*')if p.is_file()and'__pycache__'not in p.parts}
     assert physical==set(value['files'])|{str(manifest.relative_to(ROOT))},'FG_MANDOR_CLOSED_OWN_SOURCE_REQUIRED'
-    ui=json.loads((HERE/'UI_SOURCE.json').read_bytes())
-    assert ui['existing_UI_paths_changed']==0 and ui['new_UI_paths']==6
+    assert ui['existing_UI_paths_changed']==5 and ui['new_UI_paths']==8
     assert set(ui['files'])=={'src/MandorShopCards.tsx','src/MandorShopCards.dom.test.tsx',
-        'src/mandorShopContract.ts','src/mandorShopContract.test.ts','src/mandor-shop.css','tests/fixtures/mandorShop.ts'}
+        'src/mandorShopContract.ts','src/mandorShopContract.test.ts','src/mandor-shop.css','tests/fixtures/mandorShop.ts',
+        'src/MandorShopPayrollPanel.tsx','src/MandorShopPayrollPanel.dom.test.tsx'}|changed_ui
     for name,expected in ui['files'].items():
         p=ROOT/name;assert p.is_file()and not p.is_symlink()
         raw=p.read_bytes();assert {'bytes':len(raw),'sha256':sha256(raw).hexdigest()}==expected
-    assert set(current)-set(base)==physical|set(ui['files']),'FG_MANDOR_ONLY_COMMITTED_CLOSED_OWN_SOURCE_REQUIRED'
+    assert set(current)-set(base)==physical|(set(ui['files'])-set(base)),'FG_MANDOR_ONLY_COMMITTED_CLOSED_OWN_SOURCE_REQUIRED'
     assert not git('diff','--name-only','HEAD','--').strip(),'FG_MANDOR_TRACKED_SOURCE_CHANGED'
     assert not git('diff','--cached','--name-only','--').strip(),'FG_MANDOR_STAGED_SOURCE_CHANGED'
     for name,expected in value['files'].items():
@@ -194,7 +216,29 @@ def check():
     assert controls['status']=='FG_MANDOR_CONTROLLED_CARD_PARSERS_AND_DOM15_FIRST_PASS_NOT_BROWSER'
     assert controls['new_parser_cases']==8 and controls['new_DOM_cases']==7 and controls['total_new_cases']==15
     assert controls['first_execution_PASS']is True and controls['UI_is_not_yet_mounted_or_RPC_wired']is True
-    assert controls['source_files']==ui['files']
+    route=json.loads((HERE/'CONTROLLED_UI_CONTROLLER_ROUTE.json').read_bytes())
+    name=route['path'];assert name=='src/MandorShopCards.tsx'
+    assert route['before']==controls['source_files'][name]and route['after']==ui['files'][name]
+    text=(ROOT/name).read_text()
+    for change in reversed(route['changes']):
+        assert change['count']==1 and text.count(change['after'])==1
+        text=text.replace(change['after'],change['before'],1)
+    assert route['before']=={'bytes':len(text.encode()),'sha256':sha256(text.encode()).hexdigest()}
+    assert all(expected==ui['files'][name]for name,expected in controls['source_files'].items()if name!=route['path'])
+    controller=json.loads((HERE/'UI_CONTROLLER_MODEL_CONTROLS.json').read_bytes())
+    assert controller['first_controller_cases']==controller['controller_logical_case_coverage']==10
+    assert controller['first_controller_all_PASS']is True and controller['last_refresh_only_cases']==1 and controller['last_refresh_only_PASS']is True
+    assert controller['other_first_controller_cases_NOT_rerun']is True and controller['prior_UI15_not_rerun']is True
+    assert controller['parent_changed_mount_regression_cases']==17 and controller['parent_regression_first_PASS']is True
+    assert controller['source_files']==ui['files']and controller['full_product_installed']is False
+    for name,item in controller['one_bounded_parent_refresh_route'].items():
+        raw=(ROOT/name).read_bytes();assert item['after']=={'bytes':len(raw),'sha256':sha256(raw).hexdigest()}
+        change=item['change'];text=raw.decode();assert change['count']==1 and text.count(change['after'])==1
+        prior=text.replace(change['after'],change['before'],1).encode()
+        assert item['before']=={'bytes':len(prior),'sha256':sha256(prior).hexdigest()}
+    existing=json.loads((HERE/'BROWSER_RPC_EXISTING_NATIVE3_REFERENCE.json').read_bytes())
+    assert existing['head']=='6e61506c10a18541c104b981bd438e78b175b5d1'and len(existing['functions'])==3
+    assert existing['actual_new_Native_cases']==existing['actual_SQL_executed']==0
     assert controls['actual_Native_cases']==controls['actual_Auth_HTTP_cases']==controls['actual_browser_cases']==controls['actual_two_session_races']==0
     assert value['private_functions']==value['schema_and_event_functions']+value['private_allocation_functions']+value['private_buyer_functions']+value['private_sale_identity_functions']+value['private_offset_functions']+value['private_payment_functions']+value['private_payment_guard_functions']==31
     return dict(status='FG_MANDOR_EXACT_STORAGE_PREPARATION_SOURCE_ONLY',unchanged_parent_blobs_and_modes=len(base),
@@ -207,8 +251,9 @@ def check():
         Native_payment_source_adapters=8,actual_payment_runtime_installed=False,
         private_payment_guard_functions=6,new_payment_guard_model_controls=13,Native_payment_guard_triggers=6,
         public_facade_source_functions=4,public_facade_model_controls=9,public_facade_runtime_activated=False,
-        exact_display_model_controls=4,new_controlled_UI_paths=6,new_UI_parser_cases=8,new_UI_DOM_cases=7,
-        UI_mounted_or_RPC_wired=False,
+        exact_display_model_controls=4,new_controlled_UI_paths=8,new_UI_parser_cases=8,new_UI_DOM_cases=7,
+        UI_mounted_or_RPC_wired=True,parent_UI_paths_changed=5,reversible_parent_UI_hunks=9,
+        controller_DOM_logical_cases=10,focused_changed_refresh_cases=1,parent_mount_regression_cases=17,
         retained_67_controls_NOT_rerun=True,Native_paid_projection_integration=False,
         Native_header_trigger_source_written=True,Native_header_trigger_ERP_qualification=False,
         retained_allocation_controls_NOT_rerun=True,

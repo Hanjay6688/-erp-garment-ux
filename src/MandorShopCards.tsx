@@ -10,7 +10,7 @@ import './mandor-shop.css'
 type Form = { sale: string; token: string; action: 'RESERVE' | 'RELEASE'; allocation: string | null; amount: string; reviewed: boolean }
 export type MandorShopCardsProps = {
   open: boolean; payrollId: string; payrollNumber: string; contractorId: string; contractorName: string
-  workspace: MandorShopWorkspace | null; ready: boolean; busy: boolean; error?: string
+  workspace: MandorShopWorkspace | null; ready: boolean; busy: boolean; writeLocked?: boolean; error?: string
   onClose: () => void; onReload: () => Promise<unknown>; onNext: (after: string) => Promise<unknown>
   onReserve: (card: MandorShopCard, amount: string) => Promise<unknown>
   onRelease: (card: MandorShopCard, allocation: MandorShopAllocation) => Promise<unknown>
@@ -22,7 +22,7 @@ export default function MandorShopCards(props: MandorShopCardsProps) {
   const dialog = useRef<HTMLDialogElement>(null), title = useId(), sending = useRef(false)
   const [working, setWorking] = useState(false), [error, setError] = useState(''), [form, setForm] = useState<Form | null>(null)
   const data = ready && workspace?.payroll_id === payrollId && workspace.contractor_id === contractorId ? workspace : null
-  const locked = busy || working || !data, writable = !locked && data?.can_change === true
+  const locked = busy || working || !data, writable = !locked && data?.can_change === true && !props.writeLocked
   const selected = form && data?.cards.find(c => c.sale_id === form.sale && c.review_token === form.token)
   const assigned = selected?.allocations.find(a => a.id === form?.allocation && a.payroll_id === payrollId && a.state === 'RESERVED')
   const cents = form ? mandorShopCents(form.amount) : null
@@ -107,6 +107,8 @@ export default function MandorShopCards(props: MandorShopCardsProps) {
         <button type="button" onClick={() => setForm(null)}>Batal memilih tagihan</button>
       </fieldset>
     </section> : null}
-    {data && !data.can_change ? <p>Payroll ini sudah dibekukan. Perubahan potongan mengikuti alur koreksi payroll.</p> : null}
+    {data && !data.can_change ? <p>{['APPROVED', 'PAID', 'REVERSED'].includes(data.status)
+      ? 'Payroll ini sudah dibekukan. Perubahan potongan mengikuti alur koreksi payroll.'
+      : 'Hak mengubah potongan diperlukan pada payroll ini.'}</p> : null}
   </dialog>
 }

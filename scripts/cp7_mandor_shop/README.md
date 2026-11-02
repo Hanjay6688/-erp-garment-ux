@@ -183,9 +183,28 @@ di PostgreSQL sebelum dikirim ke browser, tanpa mengubah field lain, urutan,
 review, pemilik fungsi atau izin. Empat model baru lulus pertama kali, termasuk
 nominal di atas batas integer aman JavaScript. 140 kontrol sebelumnya tidak diulang.
 
-Pop-up terkontrol dan parser klien sudah ditulis dalam enam file UI tambahan;
-belum dipasang ke halaman atau disambungkan RPC. Delapan kasus parser serta tujuh
+Pada tahap awal, pop-up terkontrol dan parser klien ditulis dalam enam file UI
+tambahan. Delapan kasus parser serta tujuh
 kasus DOM lulus pertama kali, dan typecheck tidak menghasilkan diagnostik. Cakupan
 ini menguji pilihan minggu/mandor, sen tepat, review ulang, pelepasan, data usang
 dan klik ganda pada komponen. Metode dialog jsdom dimodelkan setelah diperiksa pada
 dependensi yang benar; ini bukan bukti layout desktop/HP, Auth atau dua tab nyata.
+
+Sumber controller sekarang terpasang pada halaman payroll terpilih dan memakai
+dua facade tadi, domain pemulihan baru khusus RESERVE/RELEASE, Web Locks existing
+serta pembuangan read yang sudah usang. Respons hilang menyimpan UUID/payload lama;
+replay tidak membuat potongan baru. Setelah sukses, payroll induk dan kartu harus
+dibaca ulang sebelum penulisan berikutnya. Tanpa Web Locks, kartu dapat dibaca
+tetapi tindakan pasang/lepas tidak ditawarkan. Tidak ada pinjaman aksi kasbon.
+
+Sepuluh kasus controller DOM lulus pertama kali. Sesudah peninjauan, tombol muat
+ulang diperketat agar memuat ulang induk juga; hanya satu kasus refresh terkait
+yang diperkuat dan dijalankan ulang. 17 regresi halaman payroll yang dipasangi
+komponen baru lulus pertama kali. 15 kasus parser/komponen lama dipertahankan
+melalui tiga perubahan UI terbatas yang dapat dibalik; jalur penguncian baru dan
+teks hak baca diuji oleh controller. Pemeriksa sumber, hak akses dan CSS lulus.
+Lima file parent diubah melalui sembilan hunk tepat; tiga deklarasi RPC pilihan
+absensi lama dipulihkan dari sumber Native D/E dan deklarasi Afui yang sudah ada,
+tanpa mengganti daftar pemilik dengan hitungan longgar. Semua ini masih kode
+persiapan: pemasang penuh, pilihan Toko/Mandor di Penjualan dan bukti ERP/Auth/
+browser/dua backend tetap diperlukan sebelum fitur diaktifkan.

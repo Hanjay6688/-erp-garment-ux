@@ -1,0 +1,118 @@
+{
+  "status": "EXACT_FIVE_PARENT_UI_ROUTES_FOR_SELECTED_PAYROLL_MANDOR_CARDS_ONLY",
+  "base_head": "15a2170cea88cd03a4d1bcaa0873a969d495b9fa",
+  "base_tree": "3fe772a1314ae6bc7c4f36f72e3fda8738eb70fc",
+  "files": {
+    "src/productionRecovery.ts": {
+      "before": {
+        "bytes": 13486,
+        "sha256": "130b165ae214708edd0c4055f4fda3d2084d5dc808172251f485d4c01d9a7689"
+      },
+      "after": {
+        "bytes": 13634,
+        "sha256": "e7f1c1564237fd0c7769823ade3333079d7a28d1119384d3a61b480e1bf4f814"
+      },
+      "changes": [
+        {
+          "before": "import type { Json } from './types/database.preconnect'\n\nexport const productionDomains = ['REMINDER', 'CUTOVER', 'MASTER_DATA', 'WORK_RATE', 'CUTTING_AUTO_PO', 'CUTTING_CORRECTION', 'CUTTING_RETURN', 'CUTTING_RETURN_REVERSAL', 'PICKUP_REVERSAL', 'MANDOR_CORRECTION', 'SEWING_COMPLETION', 'PO_FINISH', 'PLAN_APPLY', 'PLAN_APPLY_STAGED', 'PAYROLL_INSTALLMENT', 'PAYROLL_KASBON', 'FINANCE_MISC', 'HPP_RECOST', 'HPP_POOL', 'ATTENDANCE_PERIOD_CHOICE', 'FINANCE_PERIOD', 'SALES', 'ROSTER', 'PAYROLL', 'FG_NOTA', 'FG_BOOK', 'FG_ADJUSTMENT', 'MATERIAL_COUNT', 'SUPPLIER_RETURN', 'PURCHASE_INVOICE', 'SUPPLIER_PAYMENT', 'SUPPLIER_TRANSFER', 'MATERIALS', 'PROCUREMENT', 'SUPPLIER_CREDIT', 'SKU', 'BS', 'LAUNDRY_QC', 'CUTTING', 'PICKUP', 'WIP', 'INITIAL_IMPORT', 'POCKET_FABRIC', 'ACCESSORY_ISSUE', 'ACCESSORY_SERVICE', 'LAUNDRY_BD', 'PRODUCT_CONVERSION', 'RECEIPT_CORRECTION', 'MATERIAL_NAME'] as const\nexport type ProductionDomain = typeof productionDomains[number]\nexport type ProductionEnvelope = {\n  action: string; payload: Json; expectedVersion: number | null\n",
+          "after": "import type { Json } from './types/database.preconnect'\n\nexport const productionDomains = ['REMINDER', 'CUTOVER', 'MASTER_DATA', 'WORK_RATE', 'CUTTING_AUTO_PO', 'CUTTING_CORRECTION', 'CUTTING_RETURN', 'CUTTING_RETURN_REVERSAL', 'PICKUP_REVERSAL', 'MANDOR_CORRECTION', 'SEWING_COMPLETION', 'PO_FINISH', 'PLAN_APPLY', 'PLAN_APPLY_STAGED', 'PAYROLL_INSTALLMENT', 'PAYROLL_KASBON', 'MANDOR_SHOP_ALLOCATION', 'FINANCE_MISC', 'HPP_RECOST', 'HPP_POOL', 'ATTENDANCE_PERIOD_CHOICE', 'FINANCE_PERIOD', 'SALES', 'ROSTER', 'PAYROLL', 'FG_NOTA', 'FG_BOOK', 'FG_ADJUSTMENT', 'MATERIAL_COUNT', 'SUPPLIER_RETURN', 'PURCHASE_INVOICE', 'SUPPLIER_PAYMENT', 'SUPPLIER_TRANSFER', 'MATERIALS', 'PROCUREMENT', 'SUPPLIER_CREDIT', 'SKU', 'BS', 'LAUNDRY_QC', 'CUTTING', 'PICKUP', 'WIP', 'INITIAL_IMPORT', 'POCKET_FABRIC', 'ACCESSORY_ISSUE', 'ACCESSORY_SERVICE', 'LAUNDRY_BD', 'PRODUCT_CONVERSION', 'RECEIPT_CORRECTION', 'MATERIAL_NAME'] as const\nexport type ProductionDomain = typeof productionDomains[number]\nexport type ProductionEnvelope = {\n  action: string; payload: Json; expectedVersion: number | null\n",
+          "count": 1
+        },
+        {
+          "before": "  PLAN_APPLY_STAGED: 'Rencana Potongan dari analisis bertahap',\n  PAYROLL_INSTALLMENT: 'Pembayaran gaji di Payroll & Kasbon',\n  PAYROLL_KASBON: 'Kasbon tunai di Payroll & Kasbon',\n  FINANCE_MISC: 'Pendapatan & Biaya Lain',\n  HPP_RECOST: 'Hitung ulang HPP',\n  HPP_POOL: 'Pool HPP absensi di HPP & Rekalkulasi',\n",
+          "after": "  PLAN_APPLY_STAGED: 'Rencana Potongan dari analisis bertahap',\n  PAYROLL_INSTALLMENT: 'Pembayaran gaji di Payroll & Kasbon',\n  PAYROLL_KASBON: 'Kasbon tunai di Payroll & Kasbon',\n  MANDOR_SHOP_ALLOCATION: 'Tagihan belanja mandor di Payroll & Kasbon',\n  FINANCE_MISC: 'Pendapatan & Biaya Lain',\n  HPP_RECOST: 'Hitung ulang HPP',\n  HPP_POOL: 'Pool HPP absensi di HPP & Rekalkulasi',\n",
+          "count": 1
+        },
+        {
+          "before": "  PLAN_APPLY_STAGED: ['SAVE_DRAFT', 'APPLY'],\n  PAYROLL_INSTALLMENT: ['PAY', 'REVERSE_PAYMENT', 'REVERSE_PAYROLL'],\n  PAYROLL_KASBON: ['GIVE', 'ALLOCATE', 'CANCEL'],\n  FINANCE_MISC: ['SAVE', 'POST', 'REVERSE', 'CORRECT'],\n  HPP_RECOST: ['PROCESS_ELIGIBLE'],\n  HPP_POOL: ['CREATE', 'ACTIVATE', 'CANCEL'],\n",
+          "after": "  PLAN_APPLY_STAGED: ['SAVE_DRAFT', 'APPLY'],\n  PAYROLL_INSTALLMENT: ['PAY', 'REVERSE_PAYMENT', 'REVERSE_PAYROLL'],\n  PAYROLL_KASBON: ['GIVE', 'ALLOCATE', 'CANCEL'],\n  MANDOR_SHOP_ALLOCATION: ['RESERVE', 'RELEASE'],\n  FINANCE_MISC: ['SAVE', 'POST', 'REVERSE', 'CORRECT'],\n  HPP_RECOST: ['PROCESS_ELIGIBLE'],\n  HPP_POOL: ['CREATE', 'ACTIVATE', 'CANCEL'],\n",
+          "count": 1
+        }
+      ]
+    },
+    "src/types/database.preconnect.ts": {
+      "before": {
+        "bytes": 32157,
+        "sha256": "056b48d3e28c5597637df008030eb89dbfd3450c96cfe4bd0fd6342b68cb190e"
+      },
+      "after": {
+        "bytes": 32399,
+        "sha256": "f1ccee3b8aa26402d72f5cf8b7895374f3f3d0ba04797b7422f346aef894e140"
+      },
+      "changes": [
+        {
+          "before": "      erp_cp7_reopen_po_v1: { Args: { p_payload: Json; p_request: string }; Returns: Json }\n      erp_cp7_get_kasbon_v1: { Args: { p_contractor: string }; Returns: Json }\n      erp_cp7_save_kasbon_v1: { Args: { p_action: string; p_payload: Json; p_request: string; p_expected: string }; Returns: Json }\n      erp_cp7_return_cutting_fabric_v1: { Args: { p_payload: Json; p_request: string; p_expected: string }; Returns: Json }\n      erp_cp7_reverse_cutting_return_v1: { Args: { p_payload: Json; p_request: string; p_expected: string }; Returns: Json }\n      erp_cp7_get_sales_chain_v1: { Args: { p_sale: string }; Returns: Json }\n",
+          "after": "      erp_cp7_reopen_po_v1: { Args: { p_payload: Json; p_request: string }; Returns: Json }\n      erp_cp7_get_kasbon_v1: { Args: { p_contractor: string }; Returns: Json }\n      erp_cp7_save_kasbon_v1: { Args: { p_action: string; p_payload: Json; p_request: string; p_expected: string }; Returns: Json }\n      erp_cp7_get_mandor_shop_payroll_v1: { Args: { p_payroll: string; p_after?: string | null }; Returns: Json }\n      erp_cp7_save_mandor_shop_allocation_v1: { Args: { p_action: string; p_payload: Json; p_request: string }; Returns: Json }\n      erp_cp7_return_cutting_fabric_v1: { Args: { p_payload: Json; p_request: string; p_expected: string }; Returns: Json }\n      erp_cp7_reverse_cutting_return_v1: { Args: { p_payload: Json; p_request: string; p_expected: string }; Returns: Json }\n      erp_cp7_get_sales_chain_v1: { Args: { p_sale: string }; Returns: Json }\n",
+          "count": 1
+        }
+      ]
+    },
+    "src/ConnectedPayrollPage.tsx": {
+      "before": {
+        "bytes": 20865,
+        "sha256": "7c2eda2f0dd7ff8cd276c987ce4c5d0cb3abc556d5da8509e093299454e71a89"
+      },
+      "after": {
+        "bytes": 21281,
+        "sha256": "0e242ff4ec7a530d8e0e1598779042da0ba02763b381a4153cc783905d7a83be"
+      },
+      "changes": [
+        {
+          "before": "import ProductionRecoveryNotice from './ProductionRecoveryNotice'\nimport PayrollInstallmentPanel from './PayrollInstallmentPanel'\nimport PayrollKasbonPanel,{type KasbonFocus} from './PayrollKasbonPanel'\nimport type {InstallmentDocument} from './payrollInstallmentContract'\nimport {financialRecoveryBlocked,useFinancialRecoveryGate} from './useFinancialRecoveryGate'\nimport type {Json} from './types/database.preconnect'\n",
+          "after": "import ProductionRecoveryNotice from './ProductionRecoveryNotice'\nimport PayrollInstallmentPanel from './PayrollInstallmentPanel'\nimport PayrollKasbonPanel,{type KasbonFocus} from './PayrollKasbonPanel'\nimport MandorShopPayrollPanel from './MandorShopPayrollPanel'\nimport type {InstallmentDocument} from './payrollInstallmentContract'\nimport {financialRecoveryBlocked,useFinancialRecoveryGate} from './useFinancialRecoveryGate'\nimport type {Json} from './types/database.preconnect'\n",
+          "count": 1
+        },
+        {
+          "before": "    <div className=\"cpay-lines\">{detail.page.rows.map(v=>detail.section==='NOTES'?<Note key={v.id} value={v as NotaDocument}/>:<Line key={v.id} section={detail.section} value={v as PayrollLine}/>)}{!detail.page.rows.length?<p>Belum ada rincian dalam bagian ini.</p>:null}</div><Pager label=\"Rincian\" page={detail.page} busy={busy||mutation.busy} change={offset=>{requested.current.detailOffset=offset;void load()}}/>\n   </>:<p>Pilih mandor dan periode untuk menelusuri perhitungan serta nota sumber.</p>}</section></div>\n  <PayrollInstallmentPanel parentReady={Boolean(data&&(!selectedId||detail)&&!busy&&!blocked)}payrollId={selectedId}readRevision={readRevision}onRetire={retire}onReload={load}onTarget={onPaymentTarget}onSource={onPaymentSource}/>\n  {kasbonFocus&&!selectedId?<PayrollKasbonPanel contractorId={kasbonFocus.contractorId} payrollId={null} parentReady={Boolean(data&&!busy&&!blocked)} onChanged={load} focus={kasbonFocus}/>\n   :<PayrollKasbonPanel contractorId={detail?.document?.contractor_id??null} payrollId={selectedId} parentReady={Boolean(data&&detail&&!busy&&!blocked)} onChanged={load}/>}\n </section>\n",
+          "after": "    <div className=\"cpay-lines\">{detail.page.rows.map(v=>detail.section==='NOTES'?<Note key={v.id} value={v as NotaDocument}/>:<Line key={v.id} section={detail.section} value={v as PayrollLine}/>)}{!detail.page.rows.length?<p>Belum ada rincian dalam bagian ini.</p>:null}</div><Pager label=\"Rincian\" page={detail.page} busy={busy||mutation.busy} change={offset=>{requested.current.detailOffset=offset;void load()}}/>\n   </>:<p>Pilih mandor dan periode untuk menelusuri perhitungan serta nota sumber.</p>}</section></div>\n  <PayrollInstallmentPanel parentReady={Boolean(data&&(!selectedId||detail)&&!busy&&!blocked)}payrollId={selectedId}readRevision={readRevision}onRetire={retire}onReload={load}onTarget={onPaymentTarget}onSource={onPaymentSource}/>\n  <MandorShopPayrollPanel parentReady={Boolean(data&&detail&&!busy&&!blocked)} payrollId={selectedId} contractorId={detail?.document?.contractor_id??null} payrollNumber={detail?.document?.payroll_number??''} contractorName={detail?.document?.contractor_name??''} readRevision={readRevision} onRetire={retire} onReload={load} onTarget={onPaymentTarget}/>\n  {kasbonFocus&&!selectedId?<PayrollKasbonPanel contractorId={kasbonFocus.contractorId} payrollId={null} parentReady={Boolean(data&&!busy&&!blocked)} onChanged={load} focus={kasbonFocus}/>\n   :<PayrollKasbonPanel contractorId={detail?.document?.contractor_id??null} payrollId={selectedId} parentReady={Boolean(data&&detail&&!busy&&!blocked)} onChanged={load}/>}\n </section>\n",
+          "count": 1
+        }
+      ]
+    },
+    "scripts/check-source-ownership.mjs": {
+      "before": {
+        "bytes": 25243,
+        "sha256": "bba02cb2f7892c3f40ab88be4a887741362868bd34be2f2d80a1826cc9022649"
+      },
+      "after": {
+        "bytes": 25622,
+        "sha256": "a8b757a383c4c4e6cf9b9ee60a0de5a0e979f2b573709691d1c02ec4dcdf6db8"
+      },
+      "changes": [
+        {
+          "before": "  'src/WorkRatePanel.tsx:erp_cp7_save_work_rate_v1',\n  'src/PayrollKasbonPanel.tsx:erp_cp7_get_kasbon_v1',\n  'src/PayrollKasbonPanel.tsx:erp_cp7_save_kasbon_v1',\n  'src/SalesInvoiceDependencies.tsx:erp_cp7_get_sales_cash_v1',\n  'src/SalesInvoiceDependencies.tsx:erp_cp7_get_sales_returns_v1',\n  'src/TransactionSourceNavigation.tsx:erp_cp7_resolve_transaction_source_v1',\n",
+          "after": "  'src/WorkRatePanel.tsx:erp_cp7_save_work_rate_v1',\n  'src/PayrollKasbonPanel.tsx:erp_cp7_get_kasbon_v1',\n  'src/PayrollKasbonPanel.tsx:erp_cp7_save_kasbon_v1',\n  'src/MandorShopPayrollPanel.tsx:erp_cp7_get_mandor_shop_payroll_v1',\n  'src/MandorShopPayrollPanel.tsx:erp_cp7_save_mandor_shop_allocation_v1',\n  'src/attendancePeriodChoiceContract.ts:erp_cp7_get_attendance_choice_v1',\n  'src/attendancePeriodChoiceContract.ts:erp_cp7_preview_attendance_choice_v1',\n  'src/attendancePeriodChoiceContract.ts:erp_cp7_save_attendance_choice_v1',\n  'src/SalesInvoiceDependencies.tsx:erp_cp7_get_sales_cash_v1',\n  'src/SalesInvoiceDependencies.tsx:erp_cp7_get_sales_returns_v1',\n  'src/TransactionSourceNavigation.tsx:erp_cp7_resolve_transaction_source_v1',\n",
+          "count": 1
+        }
+      ]
+    },
+    "scripts/check-access-catalog.mjs": {
+      "before": {
+        "bytes": 44657,
+        "sha256": "6e277aa3e1dc9eb54e98a985f2b64359acce9e05afb246caebf6600c1a1aad14"
+      },
+      "after": {
+        "bytes": 45315,
+        "sha256": "5f9562bc7c4550414b8fe68ef6bca00dc8b7004d5d98f7c91be5f945747f05da"
+      },
+      "changes": [
+        {
+          "before": "for (const name of cp7PayrollBoundaries) assert.ok(rpcBoundaries.has(`src/ConnectedPayrollPage.tsx:${name}`))\nconst cp7InstallmentBoundaries = ['erp_cp7_get_payroll_installments_v1','erp_cp7_save_payroll_installment_v1']\nfor (const name of cp7InstallmentBoundaries) assert.ok(rpcBoundaries.has(`src/PayrollInstallmentPanel.tsx:${name}`))\nconst cp7PlanBoundaries=['erp_cp7_get_plan_options_v1','erp_cp7_save_plan_draft_v1','erp_cp7_preview_plan_action_v1','erp_cp7_apply_plan_action_v1','erp_cp7_read_plan_draft_v1','erp_cp7_read_plan_actual_v1',\n // plan v2 from a staged snapshot (contract v2 \u00a73), same panel and permissions\n 'erp_cp7_get_plan_options_v2','erp_cp7_save_plan_draft_v2','erp_cp7_preview_plan_action_v2','erp_cp7_apply_plan_action_v2','erp_cp7_read_plan_draft_v2']\n",
+          "after": "for (const name of cp7PayrollBoundaries) assert.ok(rpcBoundaries.has(`src/ConnectedPayrollPage.tsx:${name}`))\nconst cp7InstallmentBoundaries = ['erp_cp7_get_payroll_installments_v1','erp_cp7_save_payroll_installment_v1']\nfor (const name of cp7InstallmentBoundaries) assert.ok(rpcBoundaries.has(`src/PayrollInstallmentPanel.tsx:${name}`))\nconst cp7MandorShopBoundaries=['erp_cp7_get_mandor_shop_payroll_v1','erp_cp7_save_mandor_shop_allocation_v1']\nfor (const name of cp7MandorShopBoundaries) assert.ok(rpcBoundaries.has(`src/MandorShopPayrollPanel.tsx:${name}`))\nconst cp7PlanBoundaries=['erp_cp7_get_plan_options_v1','erp_cp7_save_plan_draft_v1','erp_cp7_preview_plan_action_v1','erp_cp7_apply_plan_action_v1','erp_cp7_read_plan_draft_v1','erp_cp7_read_plan_actual_v1',\n // plan v2 from a staged snapshot (contract v2 \u00a73), same panel and permissions\n 'erp_cp7_get_plan_options_v2','erp_cp7_save_plan_draft_v2','erp_cp7_preview_plan_action_v2','erp_cp7_apply_plan_action_v2','erp_cp7_read_plan_draft_v2']\n",
+          "count": 1
+        },
+        {
+          "before": "]\nassert.equal(new Set(cp7ScopedModelBoundaries).size,4)\nfor(const name of cp7ScopedModelBoundaries)assert.ok(rpcBoundaries.has(name),name)\nassert.equal(rpcBoundaries.size, cp7ScopedModelBoundaries.length + cp7BoundedSuccessorBoundaries.length + cp7ProductionSuccessorBoundaries.length + cp7ConsumerCreditBoundaries.length + cp7MandorCorrectionBoundaries.length + cp7SupplierTransferBoundaries.length + evidence.counts.browser_rpc_boundaries + 4 + cp7RecostBoundaries.length + cp7FinanceBoundaries.length + cp7PeriodBoundaries.length + cp7HppPoolBoundaries.length + cp7SalesBoundaries.length + cp7PaymentCorrectionBoundaries.length + cp7AttendanceBoundaries.length + cp7PayrollBoundaries.length + cp7InstallmentBoundaries.length + cp7NotaBoundaries.length + cp7FgBookBoundaries.length + cp7FgAdjustmentBoundaries.length + cp7FgBoundaries.length + cp7CountBoundaries.length + cp7CountSourceBoundaries.length + cp7ReturnBoundaries.length + cp7InvoiceBoundaries.length + cp7SupplierPaymentBoundaries.length + 19 + beRpcBoundaries.length + bfRpcBoundaries.length + cp7ProcurementBoundaries.length + cp7ReceiptCorrectionBoundaries.length + cp7MaterialNameBoundaries.length + cp7MaterialBoundaries.length + cp7FinanceOverviewBoundaries.length + cp7CustomerHistoryBoundaries.length + cp7HistoryBoundaries.length + cp7CuttingYieldBoundaries.length + cp7CuttingInputBoundaries.length + cp7CuttingLearningBoundaries.length + cp7PlanningBoundaries.length + cp7ProductionPlanningBoundaries.length + cp7AnalysisBoundaries.length + cp7ModelBoundaries.length + cp7ModelPolicyBoundaries.length + cp7ModelV2Boundaries.length + cp7PlanBoundaries.length + cp7ReportBoundaries.length + cp7StagedReportBoundaries.length + cp7StagedAiBoundaries.length + cp7StagedReminderBoundaries.length + cp7YieldPolicyBoundaries.length + cp7PolicyBoundaries.length + cp7RuleBoundaries.length + cp7ObligationReportBoundaries.length + cp7SourceOwningRecheckBoundaries.length + cp7TransactionDependencyBoundaries.length + cp7FabricBoundaries.length + cp7ErpSettingsBoundaries.length + cp7AuditBoundaries.length + cp7WarehouseSummaryBoundaries.length + cp7WaBoundaries.length + cp7FgReorderBoundaries.length + cp7MaterialReorderBoundaries.length + cp7ReturnSettlementBoundaries.length)\nassert.ok(rpcBoundaries.has('src/ConnectedInitialImportPage.tsx:erp_get_initial_import_workspace_v1'))\nassert.ok(rpcBoundaries.has('src/ConnectedInitialImportPage.tsx:erp_save_initial_import_action_v1'))\nassert.ok(rpcBoundaries.has('src/useLaundryQcWorkspace.ts:erp_get_laundry_qc_workspace_v1'))\n",
+          "after": "]\nassert.equal(new Set(cp7ScopedModelBoundaries).size,4)\nfor(const name of cp7ScopedModelBoundaries)assert.ok(rpcBoundaries.has(name),name)\nconst cp7AttendanceChoiceBoundaries=[\n  'src/attendancePeriodChoiceContract.ts:erp_cp7_get_attendance_choice_v1',\n  'src/attendancePeriodChoiceContract.ts:erp_cp7_preview_attendance_choice_v1',\n  'src/attendancePeriodChoiceContract.ts:erp_cp7_save_attendance_choice_v1',\n]\nfor(const name of cp7AttendanceChoiceBoundaries)assert.ok(rpcBoundaries.has(name),name)\nassert.equal(rpcBoundaries.size, cp7MandorShopBoundaries.length + cp7AttendanceChoiceBoundaries.length + cp7ScopedModelBoundaries.length + cp7BoundedSuccessorBoundaries.length + cp7ProductionSuccessorBoundaries.length + cp7ConsumerCreditBoundaries.length + cp7MandorCorrectionBoundaries.length + cp7SupplierTransferBoundaries.length + evidence.counts.browser_rpc_boundaries + 4 + cp7RecostBoundaries.length + cp7FinanceBoundaries.length + cp7PeriodBoundaries.length + cp7HppPoolBoundaries.length + cp7SalesBoundaries.length + cp7PaymentCorrectionBoundaries.length + cp7AttendanceBoundaries.length + cp7PayrollBoundaries.length + cp7InstallmentBoundaries.length + cp7NotaBoundaries.length + cp7FgBookBoundaries.length + cp7FgAdjustmentBoundaries.length + cp7FgBoundaries.length + cp7CountBoundaries.length + cp7CountSourceBoundaries.length + cp7ReturnBoundaries.length + cp7InvoiceBoundaries.length + cp7SupplierPaymentBoundaries.length + 19 + beRpcBoundaries.length + bfRpcBoundaries.length + cp7ProcurementBoundaries.length + cp7ReceiptCorrectionBoundaries.length + cp7MaterialNameBoundaries.length + cp7MaterialBoundaries.length + cp7FinanceOverviewBoundaries.length + cp7CustomerHistoryBoundaries.length + cp7HistoryBoundaries.length + cp7CuttingYieldBoundaries.length + cp7CuttingInputBoundaries.length + cp7CuttingLearningBoundaries.length + cp7PlanningBoundaries.length + cp7ProductionPlanningBoundaries.length + cp7AnalysisBoundaries.length + cp7ModelBoundaries.length + cp7ModelPolicyBoundaries.length + cp7ModelV2Boundaries.length + cp7PlanBoundaries.length + cp7ReportBoundaries.length + cp7StagedReportBoundaries.length + cp7StagedAiBoundaries.length + cp7StagedReminderBoundaries.length + cp7YieldPolicyBoundaries.length + cp7PolicyBoundaries.length + cp7RuleBoundaries.length + cp7ObligationReportBoundaries.length + cp7SourceOwningRecheckBoundaries.length + cp7TransactionDependencyBoundaries.length + cp7FabricBoundaries.length + cp7ErpSettingsBoundaries.length + cp7AuditBoundaries.length + cp7WarehouseSummaryBoundaries.length + cp7WaBoundaries.length + cp7FgReorderBoundaries.length + cp7MaterialReorderBoundaries.length + cp7ReturnSettlementBoundaries.length)\nassert.ok(rpcBoundaries.has('src/ConnectedInitialImportPage.tsx:erp_get_initial_import_workspace_v1'))\nassert.ok(rpcBoundaries.has('src/ConnectedInitialImportPage.tsx:erp_save_initial_import_action_v1'))\nassert.ok(rpcBoundaries.has('src/useLaundryQcWorkspace.ts:erp_get_laundry_qc_workspace_v1'))\n",
+          "count": 1
+        }
+      ]
+    }
+  },
+  "existing_parent_paths_changed": 5,
+  "new_public_RPC_boundaries": 2,
+  "existing_attendance_choice3_declarations_reused_from_actual_qualified_source": true,
+  "existing_ERP_function_bodies_changed": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}
