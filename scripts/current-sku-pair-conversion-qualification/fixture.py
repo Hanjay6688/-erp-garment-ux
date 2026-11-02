@@ -105,9 +105,9 @@ def opening(cur,product,qty,unit,day,location=None):
     assert len(lots)==1,('SKU29_OPENING_NATIVE_PROVENANCE',ident,lots)
     return lots[0][0]
 
-def reserve(cur,f,product,qty,at=None):
+def reserve(cur,f,product,qty,at=None,location=None):
     admin(cur);customer=BASE.create_customer(cur,'S29-'+uuid.uuid4().hex[:8])
-    p=dict(sale_number='S29-SALE-'+uuid.uuid4().hex[:12],customer_id=customer,source_location_id=f['location'],
+    p=dict(sale_number='S29-SALE-'+uuid.uuid4().hex[:12],customer_id=customer,source_location_id=location or f['location'],
       sale_date=at or f['reserve_at'],reason='SKU29 Native reservation',items=[dict(product_id=product,qty_pcs=qty,unit_price_snapshot='185000',discount_amount=0)])
     result=b.internal(cur,'save_sale_draft_v2',json.dumps(p),str(uuid.uuid4()),None);admin(cur)
     return result['sale_id']

@@ -187,9 +187,26 @@ def reservation_location_isolation(cur,today):
     assert (D(after['qty']),value(after))==(D(3),D(60)),after
     assert isolated_after==isolated,(isolated,isolated_after)
     f.cancel_reservation(cur,reservation)
+    # A one-lot ordinary sale needs no component correction row, but its
+    # economic value event must still receive an exact status inverse.
+    ordinary_before=sales_cmd.accounts(cur)
+    ordinary_sale=f.reserve(cur,x,x['source'],1,at=x['now'].isoformat(),location=other_location)
+    ordinary=dict(sale=ordinary_sale,tag='',destination=other_location)
+    post_payload,post_version=sales_cmd.review(cur,ordinary)
+    posted=sales_cmd.command(cur,'POST',post_payload,post_version);assert posted['status']=='POSTED',posted
+    f.owner(cur)
+    component_posts=cur.execute("select count(*)from cp7_sku_conversion.component_events_v2 where source_type='SALE'and source_id=%s and phase='POST'",(ordinary_sale,)).fetchone()[0]
+    value_posts=cur.execute("select count(*)from cp7_sku_conversion.valuation_events_v2 where source_type='SALE'and source_id=%s and phase='POST'",(ordinary_sale,)).fetchone()[0]
+    f.admin(cur);assert component_posts==0 and value_posts==1,(component_posts,value_posts)
+    isolated_sold=quote(cur,x['source'],other_location);assert (D(isolated_sold['qty']),value(isolated_sold))==(D(2),D(180)),isolated_sold
+    ordinary_reverse=sales_returns.reverse_sale(cur,ordinary);assert ordinary_reverse['status']=='REVERSED',ordinary_reverse
+    assert event_balance(cur,'SALE',ordinary_sale)==(0,0)
+    assert sales_cmd.accounts(cur)==ordinary_before
+    isolated_restored=quote(cur,x['source'],other_location);assert isolated_restored==isolated,(isolated,isolated_restored)
     return dict(status='PASS',group_id=moved['conversion_id'],reservation_id=reservation,
       active_reservation_included_in_pool=True,source_after_qty='3',source_after_value='60.00',
-      other_location_qty='3',other_location_value='270.00',other_location_unchanged=True)
+      other_location_qty='3',other_location_value='270.00',other_location_unchanged=True,
+      zero_component_sale_value_inverse_exact=True,ordinary_sale_id=ordinary_sale)
 
 def cases(cur,today):
     operations=(canonical_forward_back,exact_group_reverse,root_recost,sale_partial_return_reverse,reservation_location_isolation)

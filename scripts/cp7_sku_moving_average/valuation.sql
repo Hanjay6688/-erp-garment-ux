@@ -268,25 +268,36 @@ create policy component_events_deny_v2 on cp7_sku_conversion.component_events_v2
 
 create function cp7_sku_conversion.status_component_reverse_v2()returns trigger
 language plpgsql volatile security definer set search_path=''set timezone='UTC'as $$
-declare v_type text;v_id uuid;
+declare v_type text;v_id uuid;v_components boolean;v_values boolean;
 begin
  if old.status is not distinct from new.status or new.status is distinct from 'REVERSED'then return new;end if;
  if tg_table_schema<>'erp'or tg_table_name not in('sales_headers','sales_returns')then raise exception 'CP7_SKU_COMPONENT_TRIGGER_SCOPE';end if;
  v_type:=case when tg_table_name='sales_headers'then'SALE'else'SALES_RETURN'end;v_id:=new.id;
- if not exists(select 1 from cp7_sku_conversion.component_events_v2 where source_type=v_type and source_id=v_id and phase='POST')then return new;end if;
- if exists(select 1 from cp7_sku_conversion.component_events_v2 where source_type=v_type and source_id=v_id and phase='REVERSE')then
+ select exists(select 1 from cp7_sku_conversion.component_events_v2 where source_type=v_type and source_id=v_id and phase='POST')into v_components;
+ select exists(select 1 from cp7_sku_conversion.valuation_events_v2 where source_type=v_type and source_id=v_id and phase='POST')into v_values;
+ if not v_components and not v_values then return new;end if;
+ if exists(select 1 from cp7_sku_conversion.component_events_v2 where source_type=v_type and source_id=v_id and phase='REVERSE')
+ or exists(select 1 from cp7_sku_conversion.valuation_events_v2 where source_type=v_type and source_id=v_id and phase='REVERSE')then
   raise exception 'CP7_SKU_COMPONENT_ALREADY_REVERSED';end if;
- insert into cp7_sku_conversion.component_events_v2(id,group_id,source_type,source_id,line_no,phase,side,product_id,location_id,quality_grade,root_lot_id,units_delta,physical_at,economic_date,supersedes_event_id)
- select gen_random_uuid(),null,source_type,source_id,line_no,'REVERSE',side,product_id,location_id,quality_grade,root_lot_id,-units_delta,
-  statement_timestamp(),(statement_timestamp()at time zone 'Asia/Jakarta')::date,id
- from cp7_sku_conversion.component_events_v2 where source_type=v_type and source_id=v_id and phase='POST'order by line_no;
- insert into cp7_sku_conversion.valuation_events_v2(id,group_id,source_type,source_id,line_no,phase,side,product_id,location_id,quality_grade,qty_delta,effective_value_delta,legacy_value_delta,adjustment_delta,physical_at,economic_date,supersedes_event_id)
- select gen_random_uuid(),null,source_type,source_id,line_no,'REVERSE',side,product_id,location_id,quality_grade,-qty_delta,-effective_value_delta,-legacy_value_delta,-adjustment_delta,
-  statement_timestamp(),(statement_timestamp()at time zone 'Asia/Jakarta')::date,id
- from cp7_sku_conversion.valuation_events_v2 where source_type=v_type and source_id=v_id and phase='POST'order by line_no;
+ if v_components then
+  insert into cp7_sku_conversion.component_events_v2(id,group_id,source_type,source_id,line_no,phase,side,product_id,location_id,quality_grade,root_lot_id,units_delta,physical_at,economic_date,supersedes_event_id)
+  select gen_random_uuid(),null,source_type,source_id,line_no,'REVERSE',side,product_id,location_id,quality_grade,root_lot_id,-units_delta,
+   statement_timestamp(),(statement_timestamp()at time zone 'Asia/Jakarta')::date,id
+  from cp7_sku_conversion.component_events_v2 where source_type=v_type and source_id=v_id and phase='POST'order by line_no;
+ end if;
+ if v_values then
+  insert into cp7_sku_conversion.valuation_events_v2(id,group_id,source_type,source_id,line_no,phase,side,product_id,location_id,quality_grade,qty_delta,effective_value_delta,legacy_value_delta,adjustment_delta,physical_at,economic_date,supersedes_event_id)
+  select gen_random_uuid(),null,source_type,source_id,line_no,'REVERSE',side,product_id,location_id,quality_grade,-qty_delta,-effective_value_delta,-legacy_value_delta,-adjustment_delta,
+   statement_timestamp(),(statement_timestamp()at time zone 'Asia/Jakarta')::date,id
+  from cp7_sku_conversion.valuation_events_v2 where source_type=v_type and source_id=v_id and phase='POST'order by line_no;
+ end if;
  if exists(select 1 from cp7_sku_conversion.component_events_v2 where source_type=v_type and source_id=v_id
   group by product_id,location_id,quality_grade,root_lot_id having abs(sum(units_delta))>0.000000000001)then
   raise exception 'CP7_SKU_COMPONENT_STATUS_REVERSE_NOT_EXACT';end if;
+ if exists(select 1 from cp7_sku_conversion.valuation_events_v2 where source_type=v_type and source_id=v_id
+  group by product_id,location_id,quality_grade having abs(sum(qty_delta))>0.000000000001 or abs(sum(effective_value_delta))>0.001
+   or abs(sum(legacy_value_delta))>0.001 or abs(sum(adjustment_delta))>0.001)then
+  raise exception 'CP7_SKU_VALUE_STATUS_REVERSE_NOT_EXACT';end if;
  return new;
 end $$;
 create trigger sku_component_sale_reverse_v2 after update of status on erp.sales_headers

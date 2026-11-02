@@ -35,8 +35,11 @@ required=(
  'CP7_SKU_SALE_COMPONENT_QTY_NOT_CONSERVED',
  'CP7_SKU_RETURN_COMPONENT_QTY_NOT_CONSERVED',
  'CP7_SKU_COMPONENT_STATUS_REVERSE_NOT_EXACT',
+ 'CP7_SKU_VALUE_STATUS_REVERSE_NOT_EXACT',
+ 'if not v_components and not v_values then return new;end if;',
 )
 for token in required:assert token in sql,token
+assert "if not exists(select 1 from cp7_sku_conversion.component_events_v2 where source_type=v_type" not in sql
 assert 'source_type in(\'SKU_CONVERSION\',\'SALE\',\'SALES_RETURN\')'in sql
 assert "source_type in('SKU_CONVERSION','SALE','SALES_RETURN','RECOST')"in sql
 assert '\n+'not in sql
