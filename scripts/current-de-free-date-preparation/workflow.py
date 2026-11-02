@@ -46,8 +46,8 @@ def derive():
         **{'working-directory':'auditor'},
         run='set -euo pipefail\npython -B '+NS+'check.py --source\n')
     steps[64]=dict(name='Admit complete DE FREE date source graph under database network fence',
-        **{'working-directory':'auditor'},
-        run='python -B '+NS+'probe.py --check\npython -B '+NS+'attempt_policy.py --require-window\n')
+        **{'working-directory':'writer'},
+        run='python -B ../auditor/'+NS+'probe.py --check\npython -B ../auditor/'+NS+'attempt_policy.py --require-window\n')
     steps[69]=dict(name='Run Native FREE date3 and complete outer restoration',
         **{'working-directory':'writer'},
         run="python -u -B '../auditor/"+NS+"runtime_supervisor.py'\npython -B '../auditor/"+NS+"final_gate.py'\n")
@@ -60,7 +60,7 @@ def derive():
     if steps[72]['run'].count('for name in (')!=1:
         raise ValueError('FREE_DATE_EXACT_RAW_SUPERVISION_RETENTION_ROUTE_REQUIRED')
     steps[72]['run']=steps[72]['run'].replace('for name in (',"for name in ('FREE_DATE_RUNTIME_SUPERVISION.json',",1)
-    previous='current-complete-de-integration-preparation/runtime_supervisor.py'
+    previous='scripts/current-complete-de-integration-preparation/runtime_supervisor.py'
     if steps[73]['run'].count(previous)!=1:
         raise ValueError('FREE_DATE_EXACT_DATABASE_STOP_GUARD_ROUTE_REQUIRED')
     steps[73]['run']=steps[73]['run'].replace(previous,NS+'runtime_supervisor.py',1)

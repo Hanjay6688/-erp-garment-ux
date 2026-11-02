@@ -1,0 +1,160 @@
+{
+  "classification": "EXACT_C73_RUNTIME_FIXTURE_BINDING_AND_PREDB_PREFLIGHT_AND_CLEANUP_REPAIR_NOT_QUALIFICATION",
+  "head": "c73dea71ad8e15e828ea7f4a27937c5c9da5e839",
+  "tree": "b171e37eb8a76d3764e60662f93f368f98f41883",
+  "failed_actual": {
+    "run_id": 41377735841,
+    "job_id": 125061575171,
+    "artifact_id": 13114133867,
+    "archive_bytes": 1991842,
+    "archive_sha256": "8910179dd0a4eaaee9cd92c050ddd14ba8d73dc375d49576944e57f380cd35fe",
+    "canonical_archive_library_file_id": "libfile_5cc1e42773dc8191bc5264f53e2b85fe",
+    "conclusion": "failure",
+    "actual_Native_cases": 0
+  },
+  "files": {
+    "scripts/current-de-free-date-preparation/native_free.py": {
+      "before": {
+        "bytes": 15045,
+        "sha256": "804cd2862a426e11c883f7252c553059af7fdc919cb8a2de8fa3ee0917326575"
+      },
+      "after": {
+        "bytes": 17601,
+        "sha256": "ef17c94216892f2a40681eac8372a0bd1e6fddc52e7dbd5f3868a85145734792"
+      },
+      "changes": [
+        {
+          "before": "import ast, importlib, importlib.util, json, os, subprocess, uuid",
+          "after": "import ast, importlib, importlib.util, inspect, json, os, subprocess, uuid",
+          "count": 1
+        },
+        {
+          "before": "def bind(state):",
+          "after": "def runtime_modules():\n    \"\"\"Bind unchanged owning fixture/runner files without canonical cache reuse.\n\n    The complete inherited runtime can import its own historical fixtures.\n    Those canonical module-cache entries are not the owning fixture contract.\n    Fresh private aliases execute the exact pinned owning files, while their\n    ordinary dependency imports and the natural product graph stay unchanged.\n    This SAME function runs in the preDB fence and the actual Native caller.\n    \"\"\"\n    admission = load('free_date_runtime_actual_parent', HERE / 'admission.py')\n    admission.parent_receipt()\n    source_controls()\n    with admission.import_scope():\n        product = importlib.import_module('cp7_current_de_free_date.composition')\n        product.runtime()  # Include the real full inherited runtime import path.\n        bc = load('free_date_exact_owning_Native_fixture', ROOT / 'scripts/cp6_bc_probe.py')\n        runner = load('free_date_exact_owning_strict_runner', ROOT / 'scripts/cp6_auditor_runner.py')\n        modules = {}\n        for module, name in ((product, 'cp7_current_de_free_date/composition.py'),\n                             (bc, 'cp6_bc_probe.py'), (runner, 'cp6_auditor_runner.py')):\n            expected = ROOT / 'scripts' / name\n            actual = Path(module.__file__).resolve()\n            if actual != expected or actual.read_bytes() != expected.read_bytes():\n                raise ValueError('FREE_DATE_NATIVE_EXACT_NATURAL_MODULE_ORIGIN_REQUIRED:' + name)\n            raw = actual.read_bytes()\n            modules[name] = dict(bytes=len(raw), sha256=sha256(raw).hexdigest(), path=str(actual))\n        checks = ((bc.fixture, (None, None), dict(zones=False)),\n                  (bc.note_read, (None, {}), {}), (bc.note_call, (None, 'POST', {}), dict(key='source-only')),\n                  (bc.ledger, (None,), {}), (bc.stock, (None, 'source-only', 'source-only'), {}),\n                  (runner.strict_group, ('source-only', None, None), {}),\n                  (runner.public_state, (None,), {}))\n        for operation, args, kwargs in checks:\n            inspect.signature(operation).bind(*args, **kwargs)\n        if not callable(bc.api.admin) or not hasattr(bc.api.base, 'OPERATOR_AUTH'):\n            raise ValueError('FREE_DATE_NATIVE_REAL_FIXTURE_API_REQUIRED')\n        if runner.r1.OUT != ROOT / 'cp6-proof/aw':\n            raise ValueError('FREE_DATE_NATIVE_REAL_OWNING_ORIGINAL_OUTPUT_REQUIRED')\n        proof = dict(status='EXACT_OWNING_FREE3_FIXTURE_AND_STRICT_RUNNER_BOUND_BEFORE_SQL',\n                     actual_working_directory=str(Path.cwd()),\n                     modules=modules, callable_API_bindings=len(checks),\n                     private_fixture_and_runner_aliases=True, canonical_module_cache_replaced=False,\n                     fixture_or_runner_original_files_changed=False,\n                     actual_original_output=str(runner.r1.OUT), actual_SQL_executed=0, actual_Native_cases=0)\n    return product, bc, runner, proof\n\n\ndef bind(state):",
+          "count": 1
+        },
+        {
+          "before": "        product = importlib.import_module('cp7_current_de_free_date.composition')\n        bc = importlib.import_module('cp6_bc_probe')\n        runner = importlib.import_module('cp6_auditor_runner')\n        for module, name in ((product, 'cp7_current_de_free_date/composition.py'),\n                             (bc, 'cp6_bc_probe.py'), (runner, 'cp6_auditor_runner.py')):\n            if Path(module.__file__).resolve() != ROOT / 'scripts' / name:\n                raise ValueError('FREE_DATE_NATIVE_EXACT_NATURAL_MODULE_ORIGIN_REQUIRED:' + name)\n",
+          "after": "        product, bc, runner, bindings = runtime_modules()\n",
+          "count": 1
+        },
+        {
+          "before": "IDS=IDS, source_control=proof, actual_Native_cases=0)",
+          "after": "IDS=IDS, source_control=dict(proof, actual_runtime_bindings=bindings), actual_Native_cases=0)",
+          "count": 1
+        }
+      ],
+      "entire_original_recovered": true
+    },
+    "scripts/current-de-free-date-preparation/probe.py": {
+      "before": {
+        "bytes": 3677,
+        "sha256": "60d6fcf58f14a56814b2db09300480333708579e037329b58fc863da1ec190b2"
+      },
+      "after": {
+        "bytes": 3907,
+        "sha256": "b7b3a4fbca8bfe2321b40f96265906e50b50ff2415b7ad019b0ae617837653df"
+      },
+      "changes": [
+        {
+          "before": "        engine.admitted=admitted\n",
+          "after": "        engine.admitted=admitted\n        engine.native_fixture_binding=load('free_date_actual_preDB_and_runtime_fixture_binding',\n            HERE/'native_free.py').runtime_modules()[3]\n",
+          "count": 1
+        },
+        {
+          "before": "print(json.dumps(dict(status=proof['status'],source_DB_guard=guard,\n",
+          "after": "print(json.dumps(dict(status=proof['status'],source_DB_guard=guard,\n            actual_fixture_and_runner_binding=engine.native_fixture_binding,\n",
+          "count": 1
+        }
+      ],
+      "entire_original_recovered": true
+    },
+    "scripts/current-de-free-date-preparation/workflow.py": {
+      "before": {
+        "bytes": 6251,
+        "sha256": "68779810dce660e1571e6e468dfdcf992d0e0255739b23c751569754d74b0edf"
+      },
+      "after": {
+        "bytes": 6280,
+        "sha256": "5bbbfc673330602d65a913bfc7c66d2465be589c8e3b92159146e85ae718c750"
+      },
+      "changes": [
+        {
+          "before": "    previous='current-complete-de-integration-preparation/runtime_supervisor.py'",
+          "after": "    previous='scripts/current-complete-de-integration-preparation/runtime_supervisor.py'",
+          "count": 1
+        },
+        {
+          "before": "    steps[64]=dict(name='Admit complete DE FREE date source graph under database network fence',\n        **{'working-directory':'auditor'},\n        run='python -B '+NS+'probe.py --check\\npython -B '+NS+'attempt_policy.py --require-window\\n')",
+          "after": "    steps[64]=dict(name='Admit complete DE FREE date source graph under database network fence',\n        **{'working-directory':'writer'},\n        run='python -B ../auditor/'+NS+'probe.py --check\\npython -B ../auditor/'+NS+'attempt_policy.py --require-window\\n')",
+          "count": 1
+        }
+      ],
+      "entire_original_recovered": true
+    },
+    "scripts/current-de-free-date-preparation/native3.workflow.yml.txt": {
+      "before": {
+        "bytes": 33741,
+        "sha256": "a77b83f9a5430355fa517e1766a855fb7673b437f413bd77b8ee4d0602f23977"
+      },
+      "after": {
+        "bytes": 33754,
+        "sha256": "4cdb736463f73ece5f34d703f8886dfbe609d018e45c089727464796c4bd73ac"
+      },
+      "changes": [
+        {
+          "before": "      run: 'python -B ../auditor/scripts/scripts/current-de-free-date-preparation/runtime_supervisor.py",
+          "after": "      run: 'python -B ../auditor/scripts/current-de-free-date-preparation/runtime_supervisor.py",
+          "count": 1
+        },
+        {
+          "before": "    - name: Admit complete DE FREE date source graph under database network fence\n      working-directory: auditor\n      run: 'python -B scripts/current-de-free-date-preparation/probe.py --check\n\n        python -B scripts/current-de-free-date-preparation/attempt_policy.py --require-window\n\n        '\n",
+          "after": "    - name: Admit complete DE FREE date source graph under database network fence\n      working-directory: writer\n      run: 'python -B ../auditor/scripts/current-de-free-date-preparation/probe.py --check\n\n        python -B ../auditor/scripts/current-de-free-date-preparation/attempt_policy.py --require-window\n\n        '\n",
+          "count": 1
+        }
+      ],
+      "entire_original_recovered": true
+    },
+    ".github/workflows/cp7-current-complete-de-free-date-native3.yml": {
+      "before": {
+        "bytes": 33741,
+        "sha256": "a77b83f9a5430355fa517e1766a855fb7673b437f413bd77b8ee4d0602f23977"
+      },
+      "after": {
+        "bytes": 33754,
+        "sha256": "4cdb736463f73ece5f34d703f8886dfbe609d018e45c089727464796c4bd73ac"
+      },
+      "changes": [
+        {
+          "before": "      run: 'python -B ../auditor/scripts/scripts/current-de-free-date-preparation/runtime_supervisor.py",
+          "after": "      run: 'python -B ../auditor/scripts/current-de-free-date-preparation/runtime_supervisor.py",
+          "count": 1
+        },
+        {
+          "before": "    - name: Admit complete DE FREE date source graph under database network fence\n      working-directory: auditor\n      run: 'python -B scripts/current-de-free-date-preparation/probe.py --check\n\n        python -B scripts/current-de-free-date-preparation/attempt_policy.py --require-window\n\n        '\n",
+          "after": "    - name: Admit complete DE FREE date source graph under database network fence\n      working-directory: writer\n      run: 'python -B ../auditor/scripts/current-de-free-date-preparation/probe.py --check\n\n        python -B ../auditor/scripts/current-de-free-date-preparation/attempt_policy.py --require-window\n\n        '\n",
+          "count": 1
+        }
+      ],
+      "entire_original_recovered": true
+    }
+  },
+  "changed_old_own_paths": 6,
+  "new_own_paths": 1,
+  "unchanged_old_own_paths": 34,
+  "own_paths": 41,
+  "source_pins": 40,
+  "reversible_routes": 12,
+  "financial_SQL_and_Native_case_bodies_changed": false,
+  "fixture_or_runner_original_file_changes": 0,
+  "prior_product_source_graph_changed": false,
+  "workflow_changed_steps": [
+    64,
+    73
+  ],
+  "job_budget_seconds": 21600,
+  "preDB_fixture_binding_runs_in_exact_actual_writer_CWD": true,
+  "actual_Native_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

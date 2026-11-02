@@ -480,10 +480,10 @@ jobs:
 
         '
     - name: Admit complete DE FREE date source graph under database network fence
-      working-directory: auditor
-      run: 'python -B scripts/current-de-free-date-preparation/probe.py --check
+      working-directory: writer
+      run: 'python -B ../auditor/scripts/current-de-free-date-preparation/probe.py --check
 
-        python -B scripts/current-de-free-date-preparation/attempt_policy.py --require-window
+        python -B ../auditor/scripts/current-de-free-date-preparation/attempt_policy.py --require-window
 
         '
     - name: Start disposable database
@@ -593,7 +593,7 @@ jobs:
     - name: Remove disposable database
       if: always()
       working-directory: base
-      run: 'python -B ../auditor/scripts/scripts/current-de-free-date-preparation/runtime_supervisor.py
+      run: 'python -B ../auditor/scripts/current-de-free-date-preparation/runtime_supervisor.py
         --allow-database-stop
 
         if command -v supabase >/dev/null 2>&1 && test -d cp5-local; then supabase

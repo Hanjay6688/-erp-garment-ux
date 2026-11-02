@@ -31,6 +31,8 @@ def runtime():
         engine.OUT=ROOT/'cp6-proof/t3'/(engine.LABEL+'.json')
         def admitted():return dict(admission.admitted(),complete_engine_derivation=derivation)
         engine.admitted=admitted
+        engine.native_fixture_binding=load('free_date_actual_preDB_and_runtime_fixture_binding',
+            HERE/'native_free.py').runtime_modules()[3]
     return engine,admission
 
 
@@ -45,6 +47,7 @@ def main():
         with fence.fenced_source_read()as guard:
             engine,_=runtime();proof=engine.admitted()
         print(json.dumps(dict(status=proof['status'],source_DB_guard=guard,
+            actual_fixture_and_runner_binding=engine.native_fixture_binding,
             entire_natural_product_source_graph_evaluated=True,actual_Native_cases=0,
             production_go=False,independent_acceptance=False)));return
     if os.environ.get('FREE_DATE_CONFIRM')!='cp6_rollback':

@@ -10,7 +10,7 @@ from datetime import datetime, time, timedelta
 from decimal import Decimal
 from types import SimpleNamespace
 from zoneinfo import ZoneInfo
-import ast, importlib, importlib.util, json, os, subprocess, uuid
+import ast, importlib, importlib.util, inspect, json, os, subprocess, uuid
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
@@ -241,19 +241,59 @@ def history_case(cur, today, bc):
                 GOOD_eligibility_policy_decided=False, product_clock_changed=False)
 
 
+def runtime_modules():
+    """Bind unchanged owning fixture/runner files without canonical cache reuse.
+
+    The complete inherited runtime can import its own historical fixtures.
+    Those canonical module-cache entries are not the owning fixture contract.
+    Fresh private aliases execute the exact pinned owning files, while their
+    ordinary dependency imports and the natural product graph stay unchanged.
+    This SAME function runs in the preDB fence and the actual Native caller.
+    """
+    admission = load('free_date_runtime_actual_parent', HERE / 'admission.py')
+    admission.parent_receipt()
+    source_controls()
+    with admission.import_scope():
+        product = importlib.import_module('cp7_current_de_free_date.composition')
+        product.runtime()  # Include the real full inherited runtime import path.
+        bc = load('free_date_exact_owning_Native_fixture', ROOT / 'scripts/cp6_bc_probe.py')
+        runner = load('free_date_exact_owning_strict_runner', ROOT / 'scripts/cp6_auditor_runner.py')
+        modules = {}
+        for module, name in ((product, 'cp7_current_de_free_date/composition.py'),
+                             (bc, 'cp6_bc_probe.py'), (runner, 'cp6_auditor_runner.py')):
+            expected = ROOT / 'scripts' / name
+            actual = Path(module.__file__).resolve()
+            if actual != expected or actual.read_bytes() != expected.read_bytes():
+                raise ValueError('FREE_DATE_NATIVE_EXACT_NATURAL_MODULE_ORIGIN_REQUIRED:' + name)
+            raw = actual.read_bytes()
+            modules[name] = dict(bytes=len(raw), sha256=sha256(raw).hexdigest(), path=str(actual))
+        checks = ((bc.fixture, (None, None), dict(zones=False)),
+                  (bc.note_read, (None, {}), {}), (bc.note_call, (None, 'POST', {}), dict(key='source-only')),
+                  (bc.ledger, (None,), {}), (bc.stock, (None, 'source-only', 'source-only'), {}),
+                  (runner.strict_group, ('source-only', None, None), {}),
+                  (runner.public_state, (None,), {}))
+        for operation, args, kwargs in checks:
+            inspect.signature(operation).bind(*args, **kwargs)
+        if not callable(bc.api.admin) or not hasattr(bc.api.base, 'OPERATOR_AUTH'):
+            raise ValueError('FREE_DATE_NATIVE_REAL_FIXTURE_API_REQUIRED')
+        if runner.r1.OUT != ROOT / 'cp6-proof/aw':
+            raise ValueError('FREE_DATE_NATIVE_REAL_OWNING_ORIGINAL_OUTPUT_REQUIRED')
+        proof = dict(status='EXACT_OWNING_FREE3_FIXTURE_AND_STRICT_RUNNER_BOUND_BEFORE_SQL',
+                     actual_working_directory=str(Path.cwd()),
+                     modules=modules, callable_API_bindings=len(checks),
+                     private_fixture_and_runner_aliases=True, canonical_module_cache_replaced=False,
+                     fixture_or_runner_original_files_changed=False,
+                     actual_original_output=str(runner.r1.OUT), actual_SQL_executed=0, actual_Native_cases=0)
+    return product, bc, runner, proof
+
+
 def bind(state):
     admission = load('free_date_Native_actual_parent_before_ERP', HERE / 'admission.py')
     receipt = admission.parent_receipt()  # Before source/fixture/runner/ERP imports.
     load('free_date_Native_closed_physical_source', HERE / 'source.py').preflight()
     proof = source_controls()
     with admission.import_scope():
-        product = importlib.import_module('cp7_current_de_free_date.composition')
-        bc = importlib.import_module('cp6_bc_probe')
-        runner = importlib.import_module('cp6_auditor_runner')
-        for module, name in ((product, 'cp7_current_de_free_date/composition.py'),
-                             (bc, 'cp6_bc_probe.py'), (runner, 'cp6_auditor_runner.py')):
-            if Path(module.__file__).resolve() != ROOT / 'scripts' / name:
-                raise ValueError('FREE_DATE_NATIVE_EXACT_NATURAL_MODULE_ORIGIN_REQUIRED:' + name)
+        product, bc, runner, bindings = runtime_modules()
         accepted = product.qualified_parent_sources(receipt, state['predecessor']['sources'])
         if state['qualified_parent_sources'] != accepted or state['sources'] != product.sources():
             raise ValueError('FREE_DATE_NATIVE_ACTUAL_WHOLE_PARENT_AND_DATE_SOURCE_REQUIRED')
@@ -262,4 +302,4 @@ def bind(state):
                 (IDS[1], lambda: replay_case(cur, today, bc)),
                 (IDS[2], lambda: history_case(cur, today, bc))]
     return SimpleNamespace(product=product, fixture=bc, runner=runner, cases=cases,
-                           IDS=IDS, source_control=proof, actual_Native_cases=0)
+                           IDS=IDS, source_control=dict(proof, actual_runtime_bindings=bindings), actual_Native_cases=0)
