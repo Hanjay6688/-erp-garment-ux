@@ -30,10 +30,29 @@ def admitted(repo,here,product,derivation):
         if len(raw)!=pin['bytes']or sha256(raw).hexdigest()!=pin['sha256']:raise ValueError('SKU_MOVAVG_PARENT_ORIGINAL_CHANGED:'+name)
         proofs[name]=dict(bytes=len(raw),sha256=pin['sha256'])
     report=json.loads((originals/'CP7_SKU_MANAGED_RECOVERY_NATIVE27.json').read_bytes())
-    if report.get('status')!='PASS'or report.get('business_counts')!={'PASS':27}:raise ValueError('SKU_MOVAVG_PARENT_NOT_TERMINAL_NATIVE27')
+    expected_parent=dict(status='PASS',qualification_commit=parent['head'],required_case_ids_pass=True,
+      actual_Native_cases=12,base_Native_cases=7,cost_Native_cases=5,actual_two_session_races=3,
+      actual_Native_session_permission_waits=7,actual_Native_nonblocking_busy_cases=1,
+      actual_Auth_HTTP_cases=0,actual_browser_cases=4,actual_business_cases=27,
+      real_Auth_browser_claim=True,baseline_full22_all_rows_all_sequences_equal=True,
+      restore_raw_public_equal=True,cp6_restored=True,baseline_advisors_equal=True,advisor_gate=True,
+      production_go=False,independent_acceptance=False)
+    if any(type(report.get(key))is not type(value)or report[key]!=value for key,value in expected_parent.items()):
+        raise ValueError('SKU_MOVAVG_PARENT_NOT_TERMINAL_NATIVE27')
+    for name,count in(('CP7_SKU_PAIR_CONVERSION_NATIVE7.json',7),('CP7_SKU_GROUP_COST_NATIVE5.json',5)):
+        value=json.loads((originals/name).read_bytes())
+        if value.get('status')!='PASS'or value.get('counts')!={'PASS':count}or value.get('complete_boundary_restored')is not True:
+            raise ValueError('SKU_MOVAVG_PARENT_COMPONENT_NOT_TERMINAL:'+name)
     package=json.loads((originals/'T3_PACKAGE_INSTALL.json').read_bytes())
     if package.get('gate')!={'installed':True,'primary_unchanged':True,'backup_restore_drill':True,'security_advisors':True,'writer_runtime':True}:
         raise ValueError('SKU_MOVAVG_PARENT_PACKAGE_NOT_TERMINAL')
+    files=json.loads((originals/'T3_PACKAGE_FILES_INSTALL.json').read_bytes())
+    expected_keys=['A'+chr(n)for n in range(ord('C'),ord('Z')+1)]+['B'+chr(n)for n in range(ord('A'),ord('F')+1)]
+    if files.get('status')!='ALL_FILES_INSTALLED'or files.get('files')!=[dict(key=key,status='PASS')for key in expected_keys]:
+        raise ValueError('SKU_MOVAVG_PARENT_PACKAGE_FILES_NOT_TERMINAL')
+    backup=json.loads((originals/'T3_BACKUP_RESTORE_DRILL.json').read_bytes())
+    if backup.get('status')!='RESTORED_IDENTICAL'or not backup.get('checks')or not all(backup['checks'].values())or backup.get('data',{}).get('differ')!={}:
+        raise ValueError('SKU_MOVAVG_PARENT_BACKUP_NOT_IDENTICAL')
     current=product.sources();parent_sources=product.parent().sources()
     if current['predecessor']!=parent_sources or current['files']!=cfg['runtime_files']:raise ValueError('SKU_MOVAVG_RUNTIME_SOURCE_CHANGED')
     return dict(status='EXACT_ACCEPTED_SKU27_PARENT_AND_MOVAVG_CHILD_ADMITTED',qualification=source,
