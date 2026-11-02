@@ -1,0 +1,74 @@
+{
+  "status": "GLOBAL_PRIVATE_ENVELOPE_SQL_SYNTAX_AND_ACTUAL_RELATION_KEYS_ONLY_NOT_NATIVE",
+  "SQL_executed": 0,
+  "Native_cases": 0,
+  "files": {
+    "schema.sql": {
+      "bytes": 1906,
+      "sha256": "9cbb6f3c9d167e77c80e6c1047e4e497cf03bf10b7f59e839465a2c6cdaa56bd",
+      "SQL_statements": 9,
+      "PLpgSQL_functions": [
+        "cp7_global_nonpo_envelope.immutable_profile"
+      ]
+    },
+    "lock.sql": {
+      "bytes": 7185,
+      "sha256": "2446da79ce58c29bbaaef9b126897322b29ff1504ed4d65f16be5d0150482c13",
+      "SQL_statements": 3,
+      "PLpgSQL_functions": [
+        "cp7_global_nonpo_envelope.lock_v1"
+      ]
+    }
+  },
+  "required_actual_accepted15a_relation_keys": [
+    "cp7_credit.cohorts",
+    "cp7_credit.consumption_events",
+    "cp7_credit.return_families",
+    "cp7_note.revisions",
+    "erp.accounting_account_mappings",
+    "erp.accounting_period_control",
+    "erp.app_permissions",
+    "erp.app_role_permissions",
+    "erp.app_roles",
+    "erp.app_users",
+    "erp.bc_adjustment_purposes_v1",
+    "erp.bc_document_links_v1",
+    "erp.bc_documents_v1",
+    "erp.bc_lot_events_v1",
+    "erp.bc_outstanding_returns_v1",
+    "erp.bc_return_lots_v1",
+    "erp.be_conversion_cost_events_v1",
+    "erp.be_conversion_cost_sources_v1",
+    "erp.be_conversion_returns_v1",
+    "erp.be_conversion_sources_v1",
+    "erp.be_execution_context_v1",
+    "erp.be_nonpo_transfer_events_v1",
+    "erp.chart_accounts",
+    "erp.fg_inventory_balances",
+    "erp.fg_lots",
+    "erp.fg_stock_movements",
+    "erp.hpp_version_components",
+    "erp.hpp_versions",
+    "erp.journal_entries",
+    "erp.journal_lines",
+    "erp.material_adjustments",
+    "erp.non_po_hpp_gl_sync_events_v2620f",
+    "erp.opening_hpp_corrections",
+    "erp.opening_lot_hpp_gl_state",
+    "erp.po_hpp_gl_state",
+    "erp.product_conversion_allocations",
+    "erp.product_conversions",
+    "erp.sale_stock_allocations",
+    "erp.sales_headers",
+    "erp.sales_items",
+    "erp.sales_return_items",
+    "erp.sales_returns"
+  ],
+  "all42_relations_exist_in_actual_saved_parent": true,
+  "profile_seed_rows": 0,
+  "actual_installer_or_owning_hooks": 0,
+  "parent_gate_closed": true,
+  "runtime_entry": null,
+  "production_go": false,
+  "independent_acceptance": false
+}

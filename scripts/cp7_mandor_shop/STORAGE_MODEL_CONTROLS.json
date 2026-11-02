@@ -1,0 +1,104 @@
+{
+  "status": "FG_MANDOR_ISOLATED_STORAGE_MODEL_CONTROLS_PASS_NOT_NATIVE",
+  "PostgreSQL_model": "PostgreSQL 17.5 on aarch64-unknown-linux-gnu, compiled by emcc (Emscripten gcc/clang-like replacement + linker emulating GNU ld) 3.1.74 (1092ec30a3fb1d46b1782ff1b4db5094d3d06ae5), 32-bit",
+  "source_files": {
+    "schema.sql": {
+      "bytes": 12510,
+      "sha256": "59c1b8e69555f6a8e0caf34e8d0ee18e27c1d4caaee8073c44225bbc4a687fd1"
+    },
+    "events.sql": {
+      "bytes": 8216,
+      "sha256": "9e2633af5d9ecff6220c37cdf8bb22a27ce71cbc03862c8aa40a1fadfd82a1d3"
+    }
+  },
+  "Native_reference_input": {
+    "bytes": 45357,
+    "sha256": "07a46166c6ae74d078ee643637cadccc74714ae5297c1151059ae00a786acf28"
+  },
+  "results": [
+    {
+      "label": "Wrong mandor across invoice and selected payroll",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "23503"
+    },
+    {
+      "label": "Fractional cents are rejected before storage rounding",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "23514"
+    },
+    {
+      "label": "Initial reservation creates exactly one current projection",
+      "result": "PASS"
+    },
+    {
+      "label": "Duplicate active card for same invoice and payroll",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "23505"
+    },
+    {
+      "label": "A second initial event cannot restart the same allocation",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "23505"
+    },
+    {
+      "label": "Fact amount cannot be edited",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "P0001"
+    },
+    {
+      "label": "Native deduction amount must equal its immutable allocation",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "23503"
+    },
+    {
+      "label": "A stale predecessor cannot release a current reservation",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "23514"
+    },
+    {
+      "label": "One exact linked settlement advances the reservation",
+      "result": "PASS"
+    },
+    {
+      "label": "A paid allocation cannot settle twice",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "P0001"
+    },
+    {
+      "label": "A paid allocation cannot be released without reversal",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "P0001"
+    },
+    {
+      "label": "Linked reversal and reopening retains the reservation",
+      "result": "PASS"
+    },
+    {
+      "label": "Full settlement reversal releases the reservation",
+      "result": "PASS"
+    },
+    {
+      "label": "Cancellation releases an unpaid reservation through a new event",
+      "result": "PASS"
+    },
+    {
+      "label": "Authenticated browser role cannot read private facts directly",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "42501"
+    }
+  ],
+  "modeled_Native_tables": 6,
+  "only_referenced_Native_columns_modeled": true,
+  "synthetic_fixture_values": true,
+  "SQL_executed_on_isolated_model": true,
+  "actual_ERP_calls": 0,
+  "actual_Native_cases": 0,
+  "actual_Auth_HTTP_cases": 0,
+  "actual_two_session_races": 0,
+  "actual_browser_cases": 0,
+  "public_commands_or_Native_payment_hooks_implemented": false,
+  "invoice_balance_and_payroll_capacity_and_cash_accounting_not_qualified": true,
+  "workflow_activated": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

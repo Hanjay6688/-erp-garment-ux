@@ -1,0 +1,73 @@
+{
+  "status": "FG_MANDOR_ATOMIC_NATIVE_SALES_INTENT_AND_CATEGORY_MODEL_CONTROLS_PASS_NOT_NATIVE",
+  "results": [
+    {
+      "label": "An unchanged Native EDIT intent can switch an unposted draft to another explicitly selected same-name Mandor while retaining the sale identity",
+      "result": "PASS"
+    }
+  ],
+  "source_files": {
+    "schema.sql": {
+      "bytes": 12510,
+      "sha256": "59c1b8e69555f6a8e0caf34e8d0ee18e27c1d4caaee8073c44225bbc4a687fd1"
+    },
+    "events.sql": {
+      "bytes": 8216,
+      "sha256": "9e2633af5d9ecff6220c37cdf8bb22a27ce71cbc03862c8aa40a1fadfd82a1d3"
+    },
+    "buyers.sql": {
+      "bytes": 10735,
+      "sha256": "5bfeb12b4103ca88f48b84a213098b33a90e7ead52398a5025213d9188e47617"
+    },
+    "sale_identity.sql": {
+      "bytes": 5069,
+      "sha256": "98964804488c94f0ffee865068327a8b6fb37fc8b7c6e037e97af32525a672ea"
+    },
+    "sales_commands.sql": {
+      "bytes": 7153,
+      "sha256": "cb9da2234fa1834b83ccb2e552f0c1ed3f1595d24c04d97428ca67c1c5df2f3d"
+    },
+    "native_sales_routes.py": {
+      "bytes": 2117,
+      "sha256": "7302700947c5b25ede6d56ae8ebf6280913109d22ae084890397a5b5f60ddba1"
+    },
+    "NATIVE_BUYER_REFERENCE.json": {
+      "bytes": 90591,
+      "sha256": "9439f43a5ba710a7e881199e94c399d6efb1c9354ad477148edee10cb4d079b5"
+    },
+    "NATIVE_SALES_COMMAND_REFERENCE.json": {
+      "bytes": 40270,
+      "sha256": "e07c1d12928f13e83aaeca9d5cd43c801e8e0d920e25e1e9f7603782bfb1d577"
+    },
+    "sales_command_model.mjs": {
+      "bytes": 22789,
+      "sha256": "cc42f05ff7d1fc5d915d26432dfddd8de621d1c46b0ae889c9f1a1b8744c1a13"
+    },
+    "SALES_COMMAND_MODEL_ORIGIN.json": {
+      "bytes": 960,
+      "sha256": "b779308a7422cc875ce8df5dfbbc9600e2d202ccfd42a5bb5ea00fbcf26bab97"
+    }
+  },
+  "execution_scope": "EDIT_ONLY_ONE_NEW_CONTROL_WITH_REQUIRED_DRAFT_FIXTURE",
+  "prior13_sales_controls_NOT_rerun": true,
+  "new_private_functions": 3,
+  "new_public_functions": 2,
+  "changed_Native_functions": 1,
+  "Native_form_exact_routes": 1,
+  "unchanged_actual_Native_command_and_validation_bodies": true,
+  "Native_draft_apply_engine_explicitly_modeled": true,
+  "original_invoice_items_and_dates_passed_unchanged": true,
+  "prior144_models_NOT_rerun": true,
+  "modeled_boundaries": [
+    "Native apply_command draft engine, base audit/defaults/constraints, internal admission and program profiles",
+    "Auth and permission providers are the existing buyer model; Native stock/HPP/posting/payment/return engines are not run",
+    "No actual complete ERP installation, Auth HTTP, desktop/mobile browser or two PostgreSQL sessions"
+  ],
+  "actual_Native_cases": 0,
+  "actual_Auth_HTTP_cases": 0,
+  "actual_browser_cases": 0,
+  "actual_two_session_races": 0,
+  "Native_runtime_or_sales_facade_activated": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

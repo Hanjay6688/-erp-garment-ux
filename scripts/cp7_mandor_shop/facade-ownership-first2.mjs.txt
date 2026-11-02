@@ -1,0 +1,115 @@
+// Four new installation/authority controls only. No prior 158 financial/model
+// cases or 40 client cases execute. Native schemas/providers below are models.
+import assert from 'node:assert/strict';
+import {readFileSync,writeFileSync} from 'node:fs';
+import {dirname,resolve} from 'node:path';
+import {fileURLToPath,pathToFileURL} from 'node:url';
+import {execFileSync} from 'node:child_process';
+import {createHash} from 'node:crypto';
+
+const here=dirname(fileURLToPath(import.meta.url)),root=resolve(here,'../..');
+const [runtime,output]=process.argv.slice(2);assert(runtime&&output);
+const {PGlite}=await import(pathToFileURL(resolve(runtime)).href);
+const db=new PGlite(),q=(s,args=[])=>db.query(s,args);
+const scalar=async(s,args=[])=>Object.values((await q(s,args)).rows[0])[0];
+const python=(code,input)=>execFileSync('python',['-B','-c',code],{cwd:root,input,encoding:'utf8',maxBuffer:2**22});
+const queries=JSON.parse(python(`
+import ast,json,pathlib
+p=pathlib.Path('scripts/cp7_ow04_restore_bundle.py');nodes=[]
+for n in ast.parse(p.read_bytes()).body:
+ if isinstance(n,ast.FunctionDef)and n.name=='_acl':nodes.append(n)
+ if isinstance(n,ast.Assign)and any(isinstance(t,ast.Name)and t.id in('NAMESPACE','QUERIES')for t in n.targets):nodes.append(n)
+space={};exec(compile(ast.Module(body=nodes,type_ignores=[]),str(p)+':pure-query-strings','exec'),space)
+assert len(space['QUERIES'])==22
+print(json.dumps(space['QUERIES']))
+`));
+const capture=async()=>{
+ const value={};
+ for(const [group,sql]of Object.entries(queries)){
+  const rows=(await q(sql)).rows.map(r=>Object.values(r));
+  assert.equal(new Set(rows.map(r=>r[0])).size,rows.length);value[group]=Object.fromEntries(rows);
+ }
+ return value;
+};
+const builder="import sys,json;sys.path.insert(0,'scripts');from cp7_mandor_shop import facade_install as f;";
+const composed=python(builder+'print(f.derive()[0])');
+const bodies=JSON.parse(python(builder+'print(json.dumps(f.functions(f.derive()[0])))'));
+const publicSigs=JSON.parse(python(builder+'print(json.dumps(f.PUBLIC))'));
+const inverse=python(builder+'print(f.inverse_sql())');
+const reference=JSON.parse(readFileSync(resolve(here,'ACTUAL_CREATOR_ACL_REFERENCE.json')));
+const checks=[],test=async(name,fn)=>{await fn();checks.push({name,status:'PASS'});};
+let report;
+try{
+ await db.exec(`create role role_probe_session login superuser;
+  set session authorization role_probe_session;
+  alter role postgres rename to supabase_admin;
+  create role postgres login inherit nosuperuser createdb createrole replication bypassrls;
+  create role anon nologin;create role authenticated nologin;create role service_role nologin;
+  create role cp7_procure_read nologin noinherit nosuperuser nocreatedb nocreaterole noreplication bypassrls;
+  create role cp7_sales_read nologin noinherit nosuperuser nocreatedb nocreaterole noreplication nobypassrls;`);
+ const database=await scalar('select current_database()');assert(/^[a-z_0-9]+$/.test(database));
+ await db.exec('alter database '+database+' owner to postgres;grant all on schema public to postgres;set session authorization postgres');
+ await db.exec(`create schema erp;create schema auth;create schema cp7_mandor_shop;
+  revoke all on schema cp7_mandor_shop from public,anon,authenticated,service_role;
+  create table erp.customers(id uuid primary key,is_active boolean);
+  create table cp7_mandor_shop.contractor_accounts(contractor_id uuid,customer_id uuid);
+  create table cp7_mandor_shop.requests(actor uuid,request_id uuid,action text,payload jsonb,payload_sha256 text,response jsonb);
+  create function cp7_mandor_shop.buyer_options(text,text,uuid,integer)returns jsonb language sql stable security definer set search_path=''as $$select '{}'::jsonb$$;
+  create function cp7_mandor_shop.buyer_command(jsonb,uuid)returns jsonb language sql volatile security definer set search_path=''as $$select '{}'::jsonb$$;
+  create function cp7_mandor_shop.workspace(uuid,uuid)returns jsonb language sql stable security definer set search_path=''as $$select '{"cards":[]}'::jsonb$$;
+  create function cp7_mandor_shop.allocation_command(text,jsonb,uuid)returns jsonb language sql volatile security definer set search_path=''as $$select '{}'::jsonb$$;
+  revoke all on all functions in schema cp7_mandor_shop from public,anon,authenticated,service_role;
+  set search_path='';set timezone='UTC';`);
+ for(const [grantee,grantor,privilege,option]of reference.public_function_defaults){
+  assert.equal(grantor,'postgres');assert.equal(privilege,'EXECUTE');assert.equal(option,false);assert(/^[a-z_]+$/.test(grantee));
+  await db.exec('alter default privileges for role postgres in schema public grant execute on functions to '+grantee);
+ }
+ const profile=(await q("select current_user as creator,session_user,(select rolsuper from pg_roles where rolname=current_user)as superuser,pg_get_userbyid(10)as bootstrap,current_setting('server_version')as version")).rows[0];
+ assert.equal(profile.creator,'postgres');assert.equal(profile.session_user,'postgres');assert.equal(profile.superuser,false);assert.equal(profile.bootstrap,'supabase_admin');
+ const before=await capture(),publicBefore=await scalar("select nspacl::text from pg_namespace where nspname='public'");
+ await db.exec('begin');await db.exec(composed);const after=await capture();
+ await test('ALL_NINE_ORIGINAL_BODIES_COMPILE_WITH_FINAL_DISPLAY_BEFORE_NON_SUPERUSER_OWNER_TRANSFER',async()=>{
+  assert.equal(Object.keys(bodies).length,9);
+  for(const[sig,expected]of Object.entries(bodies)){
+   const row=(await q('select prosrc,pg_get_userbyid(proowner)as owner,prosecdef,provolatile,proconfig from pg_proc where oid=$1::regprocedure',[sig])).rows[0];
+   assert.equal(row.prosrc,expected.body);assert.equal(row.owner,sig.startsWith('public.')?'cp7_mandor_shop_api':'postgres');assert.equal(row.prosecdef,true);
+   assert.equal(row.provolatile,/\bstable\b/.test(expected.header)?'s':'v');assert(row.proconfig.includes('search_path=""'));
+  }
+ });
+ await test('ALL_SIX_PUBLIC_AND_ONLY_SIX_PRIVATE_ENTRYPOINTS_HAVE_EXACT_EFFECTIVE_EXECUTE_UNDER_ACTUAL_DEFAULTS',async()=>{
+  for(const sig of publicSigs)for(const role of ['anon','authenticated','service_role','cp7_procure_read','cp7_sales_read','cp7_mandor_shop_api'])
+   assert.equal(await scalar("select has_function_privilege($1,$2,'EXECUTE')",[role,sig]),role==='authenticated'||role==='cp7_mandor_shop_api',sig+':'+role);
+  const allowed=(await q("select p.oid::regprocedure::text as signature from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='cp7_mandor_shop'and has_function_privilege('cp7_mandor_shop_api',p.oid,'EXECUTE')order by 1")).rows.map(r=>r.signature);
+  assert.deepEqual(allowed,[
+   'cp7_mandor_shop.allocation_command(text,jsonb,uuid)',
+   'cp7_mandor_shop.buyer_command(jsonb,uuid)',
+   'cp7_mandor_shop.buyer_options(text,text,uuid,integer)',
+   'cp7_mandor_shop.customer_buyer(text,uuid)',
+   'cp7_mandor_shop.save_sale(text,jsonb,uuid,text)',
+   'cp7_mandor_shop.workspace(uuid,uuid)']);
+  for(const table of ['cp7_mandor_shop.requests','cp7_mandor_shop.contractor_accounts','erp.customers'])assert.equal(await scalar("select has_table_privilege('cp7_mandor_shop_api',$1,'SELECT,INSERT,UPDATE,DELETE,TRUNCATE,REFERENCES,TRIGGER')",[table]),false);
+ });
+ await test('DEFAULTS_OTHER_FUNCTIONS_AND_TEMPORARY_SET_AND_PUBLIC_CREATE_AUTHORITY_REMAIN_CLOSED',async()=>{
+  assert.deepEqual(after.default_privileges,before.default_privileges);
+  assert.equal(await scalar("select has_schema_privilege('cp7_mandor_shop_api','public','CREATE')"),false);
+  assert.equal(await scalar("select has_schema_privilege('cp7_mandor_shop_api','cp7_mandor_shop','CREATE')"),false);
+  assert.deepEqual((await q("select r.rolname,m.rolname,g.rolname,a.admin_option,a.inherit_option,a.set_option from pg_auth_members a join pg_roles r on r.oid=a.roleid join pg_roles m on m.oid=a.member join pg_roles g on g.oid=a.grantor where r.rolname='cp7_mandor_shop_api'")).rows.map(r=>Object.values(r)),[['cp7_mandor_shop_api','postgres','supabase_admin',true,false,false]]);
+  for(const[sig,row]of Object.entries(before.functions)){
+   assert.deepEqual(after.functions[sig].slice(0,18),row.slice(0,18));
+   if(!sig.startsWith('cp7_mandor_shop.'))assert.deepEqual(after.functions[sig],row);
+  }
+  const role=(await q("select rolsuper,rolinherit,rolcreatedb,rolcreaterole,rolcanlogin,rolreplication,rolbypassrls,rolconnlimit from pg_roles where rolname='cp7_mandor_shop_api'")).rows[0];
+  assert.deepEqual(Object.values(role),[false,false,false,false,false,false,false,0]);
+ });
+ await test('FACADE_ONLY_PREUSE_INVERSE_RESTORES_ALL22_AND_RAW_PUBLIC_ACL_AS_NON_SUPERUSER',async()=>{
+  await db.exec(inverse);assert.equal(await scalar('select current_user'),'postgres');assert.equal(await scalar("select rolsuper from pg_roles where rolname=current_user"),false);
+  assert.deepEqual(await capture(),before);assert.equal(await scalar("select nspacl::text from pg_namespace where nspname='public'"),publicBefore);await db.exec('commit');
+ });
+ report={status:'MANDOR_NON_SUPERUSER_FACADE_INSTALL_FOCUSED4_PASS_NOT_NATIVE',checks,creator_profile:profile,
+  source_files:Object.fromEntries(['facade_install.py','facade_privileges.sql','ACTUAL_CREATOR_ACL_REFERENCE.json','facade_ownership_model.mjs'].map(n=>{const r=readFileSync(resolve(here,n));return[n,{bytes:r.length,sha256:createHash('sha256').update(r).digest('hex')}];})),
+  old_158_SQL_and_40_client_controls_NOT_rerun:true,private_Native_business_functions_NOT_executed:true,
+  base_tables_Auth_and_private_entrypoint_providers_are_models:true,actual_Native_cases:0,actual_Auth_HTTP_cases:0,actual_browser_cases:0,actual_two_session_races:0,
+  complete_Native_installer_or_final_parent_adoption:false,production_go:false,independent_acceptance:false};
+}catch(error){report={status:'MANDOR_FACADE_OWNERSHIP_FIRST_FAILURE',checks,error:String(error),SQLSTATE:error.code,actual_Native_cases:0};throw error;}
+finally{writeFileSync(resolve(output),JSON.stringify(report,null,2)+'\n');await db.close();}
+process.stdout.write(JSON.stringify({status:report.status,new_controls:checks.length,actual_Native_cases:0})+'\n');

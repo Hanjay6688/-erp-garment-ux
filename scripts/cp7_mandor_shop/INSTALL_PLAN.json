@@ -1,0 +1,339 @@
+{
+  "contract": "cp7.mandor-shop-guarded-installation.v1",
+  "actual_parent_adoption": false,
+  "runtime_entry": null,
+  "SQL_order": [
+    "schema.sql",
+    "events.sql",
+    "buyers.sql",
+    "sale_identity.sql",
+    "allocation.sql",
+    "offset_projection.sql",
+    "payment_owner.sql",
+    "payment_guards.sql"
+  ],
+  "tables": [
+    "cp7_mandor_shop.allocation_events",
+    "cp7_mandor_shop.allocation_states",
+    "cp7_mandor_shop.allocations",
+    "cp7_mandor_shop.command_context",
+    "cp7_mandor_shop.contractor_accounts",
+    "cp7_mandor_shop.deduction_links",
+    "cp7_mandor_shop.draft_buyers",
+    "cp7_mandor_shop.offset_accounts",
+    "cp7_mandor_shop.payment_work",
+    "cp7_mandor_shop.payroll_identities",
+    "cp7_mandor_shop.requests",
+    "cp7_mandor_shop.sales",
+    "cp7_mandor_shop.settlement_lines",
+    "cp7_mandor_shop.settlement_reversals",
+    "cp7_mandor_shop.settlements"
+  ],
+  "private_functions": [
+    "cp7_mandor_shop.access_now(text)",
+    "cp7_mandor_shop.allocation_command(text,jsonb,uuid)",
+    "cp7_mandor_shop.apply_allocation_event()",
+    "cp7_mandor_shop.buyer_access(text)",
+    "cp7_mandor_shop.buyer_basis(uuid)",
+    "cp7_mandor_shop.buyer_command(jsonb,uuid)",
+    "cp7_mandor_shop.buyer_options(text,text,uuid,integer)",
+    "cp7_mandor_shop.buyer_review(text,jsonb,jsonb)",
+    "cp7_mandor_shop.customer_buyer(text,uuid)",
+    "cp7_mandor_shop.customer_code(uuid)",
+    "cp7_mandor_shop.deferred_payment_journal()",
+    "cp7_mandor_shop.guard_identity()",
+    "cp7_mandor_shop.guard_invoice_offset_exposure()",
+    "cp7_mandor_shop.guard_offset_accounts()",
+    "cp7_mandor_shop.guard_payment_journal()",
+    "cp7_mandor_shop.guard_payment_journal_line()",
+    "cp7_mandor_shop.has_active_offset(uuid)",
+    "cp7_mandor_shop.immutable_fact()",
+    "cp7_mandor_shop.invoice_basis(uuid)",
+    "cp7_mandor_shop.invoice_offset_paid(uuid)",
+    "cp7_mandor_shop.is_mandor_customer(uuid)",
+    "cp7_mandor_shop.lock_allocation_sources(uuid,uuid,text,jsonb)",
+    "cp7_mandor_shop.offset_proof(uuid)",
+    "cp7_mandor_shop.payment_begin(text,text,jsonb,uuid,text)",
+    "cp7_mandor_shop.payment_finish(uuid)",
+    "cp7_mandor_shop.payroll_basis(uuid)",
+    "cp7_mandor_shop.protected_journal(erp.journal_entries)",
+    "cp7_mandor_shop.require_context(text[])",
+    "cp7_mandor_shop.reverse_payroll_offsets(uuid,text)",
+    "cp7_mandor_shop.review_token(jsonb,jsonb,jsonb)",
+    "cp7_mandor_shop.sales_identity()",
+    "cp7_mandor_shop.save_sale(text,jsonb,uuid,text)",
+    "cp7_mandor_shop.settle_payroll(uuid)",
+    "cp7_mandor_shop.workspace(uuid,uuid)"
+  ],
+  "public_functions": [
+    "public.erp_cp7_get_mandor_shop_buyers_v1(text,text,uuid,integer)",
+    "public.erp_cp7_get_mandor_shop_customer_buyer_v1(text,uuid)",
+    "public.erp_cp7_get_mandor_shop_payroll_v1(uuid,uuid)",
+    "public.erp_cp7_prepare_mandor_shop_buyer_v1(jsonb,uuid)",
+    "public.erp_cp7_save_mandor_shop_allocation_v1(text,jsonb,uuid)",
+    "public.erp_cp7_save_mandor_shop_sale_v1(text,jsonb,uuid,text)"
+  ],
+  "triggers": [
+    {
+      "relation": "cp7_mandor_shop.contractor_accounts",
+      "name": "immutable_accounts",
+      "constraint": false,
+      "deferrable": false,
+      "initially_deferred": false
+    },
+    {
+      "relation": "cp7_mandor_shop.sales",
+      "name": "immutable_sales",
+      "constraint": false,
+      "deferrable": false,
+      "initially_deferred": false
+    },
+    {
+      "relation": "cp7_mandor_shop.payroll_identities",
+      "name": "immutable_payroll_identities",
+      "constraint": false,
+      "deferrable": false,
+      "initially_deferred": false
+    },
+    {
+      "relation": "cp7_mandor_shop.requests",
+      "name": "immutable_requests",
+      "constraint": false,
+      "deferrable": false,
+      "initially_deferred": false
+    },
+    {
+      "relation": "cp7_mandor_shop.allocations",
+      "name": "immutable_allocations",
+      "constraint": false,
+      "deferrable": false,
+      "initially_deferred": false
+    },
+    {
+      "relation": "cp7_mandor_shop.settlements",
+      "name": "immutable_settlements",
+      "constraint": false,
+      "deferrable": false,
+      "initially_deferred": false
+    },
+    {
+      "relation": "cp7_mandor_shop.settlement_lines",
+      "name": "immutable_settlement_lines",
+      "constraint": false,
+      "deferrable": false,
+      "initially_deferred": false
+    },
+    {
+      "relation": "cp7_mandor_shop.settlement_reversals",
+      "name": "immutable_settlement_reversals",
+      "constraint": false,
+      "deferrable": false,
+      "initially_deferred": false
+    },
+    {
+      "relation": "cp7_mandor_shop.allocation_events",
+      "name": "immutable_allocation_events",
+      "constraint": false,
+      "deferrable": false,
+      "initially_deferred": false
+    },
+    {
+      "relation": "cp7_mandor_shop.draft_buyers",
+      "name": "exact_draft_buyer",
+      "constraint": false,
+      "deferrable": false,
+      "initially_deferred": false
+    },
+    {
+      "relation": "cp7_mandor_shop.sales",
+      "name": "exact_posted_sale",
+      "constraint": false,
+      "deferrable": false,
+      "initially_deferred": false
+    },
+    {
+      "relation": "cp7_mandor_shop.payroll_identities",
+      "name": "exact_payroll_identity",
+      "constraint": false,
+      "deferrable": false,
+      "initially_deferred": false
+    },
+    {
+      "relation": "cp7_mandor_shop.deduction_links",
+      "name": "exact_native_deduction",
+      "constraint": false,
+      "deferrable": false,
+      "initially_deferred": false
+    },
+    {
+      "relation": "cp7_mandor_shop.settlements",
+      "name": "exact_settlement_journal",
+      "constraint": false,
+      "deferrable": false,
+      "initially_deferred": false
+    },
+    {
+      "relation": "cp7_mandor_shop.settlement_reversals",
+      "name": "exact_settlement_reversal",
+      "constraint": false,
+      "deferrable": false,
+      "initially_deferred": false
+    },
+    {
+      "relation": "cp7_mandor_shop.allocation_events",
+      "name": "apply_allocation_event",
+      "constraint": false,
+      "deferrable": false,
+      "initially_deferred": false
+    },
+    {
+      "relation": "erp.sales_headers",
+      "name": "cp7_mandor_shop_sales_identity",
+      "constraint": false,
+      "deferrable": false,
+      "initially_deferred": false
+    },
+    {
+      "relation": "cp7_mandor_shop.offset_accounts",
+      "name": "immutable_offset_accounts",
+      "constraint": false,
+      "deferrable": false,
+      "initially_deferred": false
+    },
+    {
+      "relation": "cp7_mandor_shop.offset_accounts",
+      "name": "exact_offset_accounts",
+      "constraint": false,
+      "deferrable": false,
+      "initially_deferred": false
+    },
+    {
+      "relation": "cp7_mandor_shop.offset_accounts",
+      "name": "offset_proof_at_settlement_commit",
+      "constraint": true,
+      "deferrable": true,
+      "initially_deferred": true
+    },
+    {
+      "relation": "cp7_mandor_shop.settlement_reversals",
+      "name": "offset_proof_at_reversal_commit",
+      "constraint": true,
+      "deferrable": true,
+      "initially_deferred": true
+    },
+    {
+      "relation": "erp.journal_entries",
+      "name": "mandor_shop_journal_owner",
+      "constraint": false,
+      "deferrable": false,
+      "initially_deferred": false
+    },
+    {
+      "relation": "erp.journal_lines",
+      "name": "mandor_shop_journal_line_owner",
+      "constraint": false,
+      "deferrable": false,
+      "initially_deferred": false
+    },
+    {
+      "relation": "erp.journal_entries",
+      "name": "mandor_shop_journal_exact_at_commit",
+      "constraint": true,
+      "deferrable": true,
+      "initially_deferred": true
+    },
+    {
+      "relation": "erp.journal_lines",
+      "name": "mandor_shop_journal_lines_exact_at_commit",
+      "constraint": true,
+      "deferrable": true,
+      "initially_deferred": true
+    },
+    {
+      "relation": "erp.sales_headers",
+      "name": "mandor_shop_invoice_offset_exposure",
+      "constraint": false,
+      "deferrable": false,
+      "initially_deferred": false
+    },
+    {
+      "relation": "erp.sales_returns",
+      "name": "mandor_shop_return_offset_exposure",
+      "constraint": false,
+      "deferrable": false,
+      "initially_deferred": false
+    }
+  ],
+  "private_execute_grants": {
+    "cp7_mandor_shop.buyer_options(text,text,uuid,integer)": [
+      "cp7_mandor_shop_api"
+    ],
+    "cp7_mandor_shop.buyer_command(jsonb,uuid)": [
+      "cp7_mandor_shop_api"
+    ],
+    "cp7_mandor_shop.workspace(uuid,uuid)": [
+      "cp7_mandor_shop_api"
+    ],
+    "cp7_mandor_shop.allocation_command(text,jsonb,uuid)": [
+      "cp7_mandor_shop_api"
+    ],
+    "cp7_mandor_shop.customer_buyer(text,uuid)": [
+      "cp7_mandor_shop_api"
+    ],
+    "cp7_mandor_shop.save_sale(text,jsonb,uuid,text)": [
+      "cp7_mandor_shop_api"
+    ],
+    "cp7_mandor_shop.is_mandor_customer(uuid)": [
+      "cp7_sales_read"
+    ],
+    "cp7_mandor_shop.payment_begin(text,text,jsonb,uuid,text)": [
+      "cp7_payroll_write"
+    ],
+    "cp7_mandor_shop.payment_finish(uuid)": [
+      "cp7_payroll_write"
+    ]
+  },
+  "source_fragments": {
+    "schema.sql": {
+      "bytes": 12510,
+      "sha256": "59c1b8e69555f6a8e0caf34e8d0ee18e27c1d4caaee8073c44225bbc4a687fd1"
+    },
+    "events.sql": {
+      "bytes": 8216,
+      "sha256": "9e2633af5d9ecff6220c37cdf8bb22a27ce71cbc03862c8aa40a1fadfd82a1d3"
+    },
+    "buyers.sql": {
+      "bytes": 10735,
+      "sha256": "5bfeb12b4103ca88f48b84a213098b33a90e7ead52398a5025213d9188e47617"
+    },
+    "sale_identity.sql": {
+      "bytes": 5069,
+      "sha256": "98964804488c94f0ffee865068327a8b6fb37fc8b7c6e037e97af32525a672ea"
+    },
+    "allocation.sql": {
+      "bytes": 16985,
+      "sha256": "e57c96f8289ef95cbce60b337ccba57109c4428115448526f79ed82f42b3a0c2"
+    },
+    "offset_projection.sql": {
+      "bytes": 11629,
+      "sha256": "51c8954eb3d66a280699dc0848b7d4aab3326dcf388a4f04ce7be385c36f71a2"
+    },
+    "payment_owner.sql": {
+      "bytes": 20924,
+      "sha256": "967f20999cf23bd6a76610300fb35f61fe01d733053db7fbefdf3da112902056"
+    },
+    "payment_guards.sql": {
+      "bytes": 10946,
+      "sha256": "0405c0a9c807ef0be3881c2a32c69a152e2a0614bc8efb1f5572ac715683d771"
+    },
+    "composed_facades_with_native_dispatch.sql": {
+      "bytes": 12008,
+      "sha256": "64d51f4afcbacf6a3d575ec72f4fd785dce520c049b43550c85defb72b615fda"
+    }
+  },
+  "new_Native_financial_function_bodies": 0,
+  "actual_SQL_executed": 0,
+  "actual_Native_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

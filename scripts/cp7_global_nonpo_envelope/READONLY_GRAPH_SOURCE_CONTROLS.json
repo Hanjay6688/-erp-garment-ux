@@ -1,0 +1,15 @@
+{
+  "status": "EXACT_RETAINED_GRAPH_HELPER4_SOURCE_NOT_FINAL_PARENT_OR_RUNTIME",
+  "origin_head": "a6ded9cd4ce23a6d59cd32e42ca9bb33d793f8cc",
+  "origin_tree": "55da7c6ab29d9bfda68962be27da0db7ad931662",
+  "exact_retained_files": 5,
+  "private_STABLE_helpers": 4,
+  "actual_reference_functions": 19,
+  "attributes_per_function": 19,
+  "final_accepted_parent_adopted": false,
+  "raw_ACLs_or_OIDs_inferred": false,
+  "actual_SQL_executed": 0,
+  "actual_Native_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

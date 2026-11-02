@@ -1,0 +1,37 @@
+{
+  "classification": "BOUNDED_PLATFORM_CATALOG_LOCK_CAPABILITY_SOURCE_REPAIR_NOT_GLOBAL_RUNTIME",
+  "actual_observation": {
+    "head": "018d3bc3fc2e1b5e2749cc25a466edf8df78c2d2",
+    "run_id": 41437248634,
+    "job_id": 125250039172,
+    "PostgreSQL": 170006,
+    "creator": "postgres",
+    "superuser": false,
+    "SQLSTATE": "42501",
+    "error": "permission denied for table pg_aggregate",
+    "catalogue_tables": 64
+  },
+  "chosen_source_repair": {
+    "platform_schema": "cp7_global_catalog_fence",
+    "function": "cp7_global_catalog_fence.lock_v1()",
+    "owner": "supabase_admin",
+    "arguments": 0,
+    "only_target_namespace": "pg_catalog",
+    "capability": "Enumerate actual catalog relations after pg_class/pg_namespace SHARE NOWAIT, lock each actual catalog table SHARE NOWAIT, return only relation identity/ACL metadata.",
+    "only_non_owner_EXECUTE": "postgres",
+    "new_roles": 0,
+    "new_browser_service_grants": 0,
+    "postgres_catalog_DML_or_MAINTAIN_grants": 0,
+    "ERP_financial_function_or_object_changes": 0
+  },
+  "required_before_product_adoption": [
+    "Actual Supabase17 new fixed-helper capability/ACL/inverse controls",
+    "Trusted maintenance bootstrap before Native owning runtime; declared separate catalog transition and exact outer cleanup",
+    "Actual accepted final parent and helper/profile full19/rawACL closure",
+    "Complete input/rights/writer/phantom closure and actual global Native coexistence/all5"
+  ],
+  "actual_global_installer_or_runtime_activated": false,
+  "actual_Native_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}
