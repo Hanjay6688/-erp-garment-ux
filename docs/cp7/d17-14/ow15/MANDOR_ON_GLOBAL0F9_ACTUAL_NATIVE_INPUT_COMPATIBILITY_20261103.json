@@ -1,0 +1,20 @@
+{
+  "status": "CURRENT_ACTUAL_NATIVE_SOURCE_INPUTS_MATCH_MANDOR_REFERENCES_NOT_INSTALL_OR_FINANCIAL_QUALIFICATION",
+  "actual_origin_head": "0f93f50a70e45f0dbc6e71fd27ca0815ba598b2d",
+  "actual_origin_run": 41476731067,
+  "actual_origin_job": 125384144685,
+  "raw_actual25": {
+    "bytes": 14755737,
+    "sha256": "80856b7ec2cebf08318a21617091b73c6744161b72bb3be98bcb9ecd2b8109eb"
+  },
+  "selected_function_full19_matches": 24,
+  "selected_column_matches": 338,
+  "reference_column_namespaces_normalized_explicitly": true,
+  "Native_adapters_unchanged_by_Global": true,
+  "actual_mandor_SQL_executed": 0,
+  "actual_business_cases": 0,
+  "actual_Afui_final_parent_and_profile_still_required": true,
+  "old_models_or_financial_tests_rerun": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

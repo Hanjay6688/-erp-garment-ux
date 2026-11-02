@@ -1,0 +1,20 @@
+{
+  "status": "UNIFIED_AFUI_GLOBAL_MANDOR_TYPESCRIPT7_COMPILE_PASS_NOT_BROWSER_OR_FINANCIAL_ACCEPTANCE",
+  "head": "2135bdde920ea632f98671896cc5f0f8410845e9",
+  "tree": "22a391713823141ad20363c796e0103526e6af8d",
+  "npm_ci_returncode": 0,
+  "npm_ci_packages": 142,
+  "package_lifecycle_scripts_run": false,
+  "lockfile_or_package_json_changed": false,
+  "typescript_version": "7.0.2",
+  "typescript_compile_returncode": 0,
+  "diagnostics": 0,
+  "CSS_ownership": "PASS_69_STYLESHEETS",
+  "access_and_source_ownership": "RETAIN_CURRENT_IDENTICAL_FILES_336_RPC_SOURCE_PASS",
+  "old_DOM_and_SQL_and_model_and_financial_tests_rerun": false,
+  "actual_browser_cases": 0,
+  "actual_Auth_HTTP_cases": 0,
+  "CP7_complete": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

@@ -1,0 +1,25 @@
+{
+  "status": "SOURCE_APPEARANCE_CONTRAST_AND_FOCUS_PASS_BROWSER_VISUAL_PENDING",
+  "ratios": {
+    "unselected_text": 14.78575520820998,
+    "selected_text": 11.290912167549513,
+    "focus_ring": 10.333105411196726
+  },
+  "target_min_height_px": 44,
+  "wrap_preserved": true,
+  "keyboard_focus_visible": true,
+  "CSS_ownership": "PASS_69_STYLESHEETS_NO_UNOWNED_SELECTOR_BRANCHES",
+  "old_SQL_and_financial_and_DOM_tests_rerun": false,
+  "actual_browser_visual_acceptance": false,
+  "tool_setup_failures_before_check": [
+    "POSTCSS_NOT_MATERIALIZED",
+    "CJS_DEPENDENCY_PARENT_NOT_NAMED_NODE_MODULES"
+  ],
+  "exact_lockfile_versions": {
+    "postcss": "8.5.26",
+    "nanoid": "3.3.18",
+    "picocolors": "1.1.1",
+    "source-map-js": "1.2.1"
+  },
+  "all_four_package_integrities_verified_SHA512": true
+}
