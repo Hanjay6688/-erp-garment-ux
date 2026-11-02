@@ -40,8 +40,8 @@
       "sha256": "3e04006d4984c047a48ab89a077de93839bace4621c623f8ae918ef8e8fc3c84"
     },
     "scripts/cp7_global_nonpo_envelope/README.md": {
-      "bytes": 10446,
-      "sha256": "a0cbaa8c4a7b331d8f8104f182045abe178042e4332aa9191c0a8c7d313ce684"
+      "bytes": 10613,
+      "sha256": "2acaf8c753b706581e7088e339bcd23ecce41bcd5ae9989e3a04a99dd66c126f"
     },
     "scripts/cp7_global_nonpo_envelope/READONLY_GRAPH_ORIGIN.json": {
       "bytes": 1730,
@@ -76,8 +76,8 @@
       "sha256": "9230497a1ddcc86727aa9da0a2dc4e268fff0344817787c183ad6ab138539868"
     },
     "scripts/cp7_global_nonpo_envelope/check_source.py": {
-      "bytes": 13382,
-      "sha256": "d67beaab98a57972bbfd55917ea645ed9b8914f9e636c1a42c0c2653079f800c"
+      "bytes": 13458,
+      "sha256": "72e073793e3d1ec564d05ff65f29ac83651c6349012baf925f18155b8df21eb7"
     },
     "scripts/cp7_global_nonpo_envelope/graph_helpers/AUTHORITY.json": {
       "bytes": 71436,
@@ -164,16 +164,16 @@
       "sha256": "698a36a0b096f68d5b337c603f8c007ae648557ee78995b69cd0996af36020d6"
     },
     "scripts/cp7_global_nonpo_envelope/build_install_plan.py": {
-      "bytes": 6444,
-      "sha256": "5611ef323a1d532d77429f55bce58cec46dd1333e4700dbe7323a3c0cb0b80cc"
+      "bytes": 6679,
+      "sha256": "a44d3f1942cbe650a7ddd26c49bcf936b1738be45f77d723d58711cdb4475214"
     },
     "scripts/cp7_global_nonpo_envelope/composition.py": {
-      "bytes": 21834,
-      "sha256": "67f21a6b2d8ff2b90cc808d1e895dd8dcd124f462d8b3f2407628b780be5785d"
+      "bytes": 21891,
+      "sha256": "aa5139dcc0a87445e4fbecd1af0aca9cdf70b9e53b5a6be523aebe86d38029e4"
     },
     "scripts/cp7_global_nonpo_envelope/INSTALL_PLAN.json": {
-      "bytes": 13421,
-      "sha256": "380a2ae69f5b9718de5b5479209b119f1d5ebe0d6376b1565ea91bd7320d0375"
+      "bytes": 16095,
+      "sha256": "96ce9eee5c4e12f2669cb1e9636080632a5f84c043e1d01b6c14c1c72a288a40"
     }
   },
   "prepared_owning_source_adapters": 8,
