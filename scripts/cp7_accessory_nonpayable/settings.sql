@@ -226,10 +226,16 @@ grant execute on function cp7_accessory_nonpayable.settings_workspace_v1(jsonb),
 
 -- The gated installer first verifies public's raw ACL is explicit, and checks
 -- it is restored exactly after this statement-only ownership grant.
+-- PostgreSQL 17 gives a non-superuser creator ADMIN, but no SET option.
+-- Grant SET only for these two ownership transfers, then remove our own grant.
+-- The bootstrap administrator's automatic ADMIN-only grant remains explicit
+-- in the complete catalogue transition; it conveys no inherited/SET access.
+grant cp7_good_policy_date to postgres with admin false, inherit false, set true;
 grant create on schema public to cp7_good_policy_date;
 alter function public.erp_cp7_get_good_policy_dates_v1(jsonb) owner to cp7_good_policy_date;
 alter function public.erp_cp7_save_good_policy_date_v1(jsonb,uuid,boolean) owner to cp7_good_policy_date;
 revoke create on schema public from cp7_good_policy_date;
+revoke cp7_good_policy_date from postgres granted by postgres;
 revoke all on function public.erp_cp7_get_good_policy_dates_v1(jsonb),
   public.erp_cp7_save_good_policy_date_v1(jsonb,uuid,boolean) from public,anon,authenticated,service_role;
 grant execute on function public.erp_cp7_get_good_policy_dates_v1(jsonb),

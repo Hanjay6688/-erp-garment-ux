@@ -1,3 +1,11 @@
+Current 2 November status: the actual FREE45 parent is bound. The first Afui15
+run failed during new-role ownership transfer before business cases; complete
+restoration passed. `FIRST_ROLE_OWNERSHIP_FAILURE_AND_REPAIR.json` preserves
+that failure. Four focused PostgreSQL/WASM 18.6 controls now cover the narrow
+non-superuser creator fix and exact catalogue inverse; actual Supabase PostgreSQL
+17 installation and all fifteen business cases still require the owning run.
+The earlier preparation entries below retain their historical scope.
+
 # D17-20: GOOD-date nonpayable accessory basis
 
 The owner selected `Tanggal GOOD (Recommended)` on 1 November 2026. The exact

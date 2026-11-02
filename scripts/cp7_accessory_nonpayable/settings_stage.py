@@ -74,6 +74,15 @@ def transition(before, after):
     schema = before['schemas'][SCHEMA]
     expected_schema = [schema[0], sorted(schema[1] + [[ROLE, 'postgres', 'USAGE', False]])]
     expected_role = [False, False, False, False, False, False, False, -1, None, sha256(b'').hexdigest()]
+    # Supabase's postgres is a CREATEROLE non-superuser. PostgreSQL 17 grants
+    # its creator ADMIN-only membership using the bootstrap administrator.
+    # A superuser creator (the explicit catalogue model) receives no such row.
+    creator = before['roles']['postgres']
+    automatic = {}
+    if creator[0] is False:
+        if creator[2] is not True or before['roles'].get('supabase_admin', [False])[0] is not True:
+            raise ValueError('GOOD_POLICY_DATE_EXACT_POSTGRES_CREATOR_AND_BOOTSTRAP_REQUIRED')
+        automatic[ROLE + ':postgres:supabase_admin'] = [True, False, False]
     for group in before:
         for key in set(before[group]) | set(after[group]):
             old, new = before[group].get(key), after[group].get(key)
@@ -83,6 +92,8 @@ def transition(before, after):
                 continue
             if old is None and new is not None:
                 if group == 'roles' and key == ROLE and new == expected_role:
+                    continue
+                if group == 'memberships' and key in automatic and new == automatic[key]:
                     continue
                 if group == 'functions' and key in PUBLIC | PRIVATE:
                     continue
@@ -107,6 +118,9 @@ def transition(before, after):
         raise ValueError('GOOD_POLICY_DATE_EXACT_TABLE_AND_INDEX_COLUMNS_REQUIRED')
     if set(after['roles']) - set(before['roles']) != {ROLE}:
         raise ValueError('GOOD_POLICY_DATE_EXACT_SINGLE_FACADE_ROLE_REQUIRED')
+    if {key: value for key, value in after['memberships'].items()
+        if key not in before['memberships']} != automatic:
+        raise ValueError('GOOD_POLICY_DATE_EXACT_ADMIN_ONLY_CREATOR_MEMBERSHIP_REQUIRED')
     added = {key: row for key, row in after['triggers'].items()
         if key not in before['triggers'] and not key.startswith(TABLE + ':')}
     if added != edges:

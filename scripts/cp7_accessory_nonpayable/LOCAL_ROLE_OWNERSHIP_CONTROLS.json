@@ -1,0 +1,43 @@
+{
+  "status": "ISOLATED_POSTGRES_NON_SUPERUSER_ROLE_OWNERSHIP_FOCUSED4_PASS_NOT_ERP",
+  "checks": [
+    {
+      "name": "EXACT_SETTINGS_SQL_TRANSFERS_TWO_PUBLIC_OWNERS_UNDER_NON_SUPERUSER_POSTGRES",
+      "status": "PASS"
+    },
+    {
+      "name": "ALL22_ADMITS_ONLY_BOOTSTRAP_ADMIN_ONLY_MEMBERSHIP_AND_EXISTING_DECLARED_STAGE_DELTA",
+      "status": "PASS"
+    },
+    {
+      "name": "ADDITIONAL_SET_INHERIT_OR_OTHER_MEMBER_REFUSED_WITHOUT_CHANGING_ORACLES",
+      "status": "PASS"
+    },
+    {
+      "name": "NON_SUPERUSER_PREUSE_INVERSE_RESTORES_EXACT_ALL22_WITH_NO_ROLE_MEMBERSHIP_LEFT",
+      "status": "PASS"
+    }
+  ],
+  "creator_profile": {
+    "creator": "postgres",
+    "superuser": false,
+    "createrole": true,
+    "bootstrap": "supabase_admin",
+    "version": "18.6"
+  },
+  "source_sha256": {
+    "policy.sql": "042c30ce6c8242b0626270d2a74f0433df4b5fc57cb8af0d4198a79a8f41cd20",
+    "basis.sql": "cfeb2a231d481f38e0967beaa417bf0c8f64aea9f376940cbf093d3be88ed8aa",
+    "settings.sql": "733367d1822d86bd7fea5e2fe9196417c042659232cb0fbe3e887d424dcca06f",
+    "settings_stage.py": "683b840f4c4fbcf951e83529fe474a8a2b0258b58270552065c0de4cafb3cab6",
+    "test_role_ownership.mjs": "4120db9e2467b1387f26eeaaa2e0e10bf525e8294e9ea336c0c880442d27504b"
+  },
+  "schema_auth_and_permissions_are_models": true,
+  "old_settings_API_or_financial_cases_rerun": 0,
+  "actual_ERP_Native_cases": 0,
+  "actual_Auth_HTTP_cases": 0,
+  "actual_browser_cases": 0,
+  "full_real_installer_lifecycle_qualified": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

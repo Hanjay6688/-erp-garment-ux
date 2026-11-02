@@ -153,12 +153,12 @@
       "sha256": "1f0e98b447e77b58fe6cc7209052fa92bfc5d0f5d680c479090415f7930de84e"
     },
     "scripts/cp7_accessory_nonpayable/settings.sql": {
-      "bytes": 15387,
-      "sha256": "93728f0995d23c77522d7bc303a8b39cd51d9a6e65c0ea3233e1322b47291fe3"
+      "bytes": 15839,
+      "sha256": "733367d1822d86bd7fea5e2fe9196417c042659232cb0fbe3e887d424dcca06f"
     },
     "scripts/cp7_accessory_nonpayable/settings_stage.py": {
-      "bytes": 15203,
-      "sha256": "89fd842b3e050056c30e7067ce5321363fce720a3adaffef72e1942b9f8cf9e5"
+      "bytes": 16129,
+      "sha256": "683b840f4c4fbcf951e83529fe474a8a2b0258b58270552065c0de4cafb3cab6"
     },
     "scripts/cp7_accessory_nonpayable/source.py": {
       "bytes": 3850,
@@ -215,6 +215,10 @@
     "scripts/cp7_accessory_nonpayable/test_qualification_preparation.py": {
       "bytes": 8018,
       "sha256": "cff2c553084c306556cd629e936f5edbfb99cd275ed81c7627fa87c872fe2490"
+    },
+    "scripts/cp7_accessory_nonpayable/test_role_ownership.mjs": {
+      "bytes": 6920,
+      "sha256": "4120db9e2467b1387f26eeaaa2e0e10bf525e8294e9ea336c0c880442d27504b"
     },
     "scripts/cp7_accessory_nonpayable/test_settings.mjs": {
       "bytes": 21839,
