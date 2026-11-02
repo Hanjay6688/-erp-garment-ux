@@ -23,6 +23,16 @@
         "sha256": "e6e45519b92534145371114d597a025ae6267137b55780c3c8abdbe9ba4de4cd"
       }
     },
+    "src/business-pages.css": {
+      "before": {
+        "bytes": 41314,
+        "sha256": "587e9f6f7e0ae819d4b058cab4a9bc03bd503b75be3595d10d1395f100680457"
+      },
+      "after": {
+        "bytes": 41388,
+        "sha256": "156df8dc471394e6ee66093f7b890b78bf5b04eb8a5f3b18102ededc02a71214"
+      }
+    },
     "src/cp7/shell.css": {
       "before": {
         "bytes": 10458,
@@ -206,6 +216,7 @@
   },
   "new_paths": [
     ".github/workflows/ui-reference-capture.yml",
+    "docs/cp7/d17-14/ui-reference-20261103/BUSINESS_PAGES_THEME_SOURCE_CHANGES.json",
     "docs/cp7/d17-14/ui-reference-20261103/LOCAL_SOURCE_BUILD_CHECKS.json",
     "docs/cp7/d17-14/ui-reference-20261103/PALETTE_CONTRAST.json",
     "docs/cp7/d17-14/ui-reference-20261103/POST_CAPTURE_CORRECTIONS.json",
@@ -226,6 +237,10 @@
       "bytes": 2096,
       "sha256": "8c697641eaa7440a161ec64759045fe39249d06aed5fcf3d5c6311e8f54e5b09"
     },
+    "docs/cp7/d17-14/ui-reference-20261103/BUSINESS_PAGES_THEME_SOURCE_CHANGES.json": {
+      "bytes": 103573,
+      "sha256": "97b657b3ea0b15654202e284b60614795b2566930be22c8b932650a48799aaf2"
+    },
     "docs/cp7/d17-14/ui-reference-20261103/LOCAL_SOURCE_BUILD_CHECKS.json": {
       "bytes": 3908,
       "sha256": "0d8dca774764b8d031aff609cc4f1c68dcfe2e109d9d4adfd916c472bc4c64c8"
@@ -235,12 +250,12 @@
       "sha256": "113ea5c256d3a37e6f5ffbe47cc494ec12666d4065fff5eb423beffb26f201c9"
     },
     "docs/cp7/d17-14/ui-reference-20261103/README.md": {
-      "bytes": 2924,
-      "sha256": "ae6130619b0dc5dbd8670958d2b652fc1733b6ccf9aa4d5de2a872d2a38a0ff9"
+      "bytes": 3563,
+      "sha256": "71f504202853fd50d6133c0ac6b6ebee9636cce8ab03876aa3f718b79b316084"
     },
     "docs/cp7/d17-14/ui-reference-20261103/POST_CAPTURE_CORRECTIONS.json": {
-      "bytes": 1706,
-      "sha256": "af1564a1866cc12480ca16a961d423b644bd222adcc527bdaad14aaacea37510"
+      "bytes": 2507,
+      "sha256": "798b971d5dce243ac326872ebb71fea204654f80a17fcd2f7fb034c64cf3cf10"
     },
     "docs/cp7/d17-14/ui-reference-20261103/SHARED_THEME_SOURCE_CHANGES.json": {
       "bytes": 716305,
@@ -251,16 +266,16 @@
       "sha256": "38c7e72b2230bf72ce4100bb9c3a35208efd77093e02a123cc97d0571cf398e8"
     },
     "scripts/ui-reference/capture.mjs": {
-      "bytes": 13602,
-      "sha256": "aaae83bbab2f840d31cbdf9ac1531ee3fda34e8f92525cc4ae1378ce10945faa"
+      "bytes": 16439,
+      "sha256": "1f14ceed7aee659702f8eedf61b39a4d7badc66352900a8d310ba4ac1b60e920"
     },
     "scripts/ui-reference/inventory.py": {
       "bytes": 3081,
       "sha256": "173fefb8b94080440f252a607846945109adf7450e663cbdbc89667cf9686cc0"
     },
     "scripts/ui-reference/prepare_theme.mjs": {
-      "bytes": 8124,
-      "sha256": "8a766766bf1ccc33eb1183a65d5c3b3b416042d174c031fa88cd756e6758d082"
+      "bytes": 9078,
+      "sha256": "ed5d788b7a6a29659dab04c2f6e5dad50cf6c3e6b6d579363b74454fbbbf0ad7"
     },
     "scripts/ui-reference/retained-before320/UI_REFERENCE_CAPTURE.json": {
       "bytes": 6413,

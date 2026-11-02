@@ -8,7 +8,8 @@ import postcss from 'postcss'
 
 const root = process.cwd()
 const base = JSON.parse(fs.readFileSync('docs/cp7/d17-14/ui-reference-20261103/UI_INVENTORY.json','utf8'))
-const files = [
+const businessPagesOnly=process.argv.includes('--business-pages')
+const files = businessPagesOnly ? ['src/business-pages.css'] : [
   'src/styles.css','src/auth/auth.css','src/brand-books.css','src/movement-book.css',
   'src/global-readability.css','src/procurement.css','src/laundry.css','src/workspace-refinements.css',
   'src/ux-corrections.css','src/wip-control.css','src/layout-resilience.css',
@@ -109,13 +110,27 @@ for(const file of files) {
     set('.cp7-shell',{color:'var(--text)',background:'var(--bg)'})
     set('.cp7-sidebar',{background:'var(--sidebar-bg)'})
   }
+  if(file==='src/business-pages.css') {
+    set('.biz-hero h1',{'font-size':'clamp(24px, 2.3vw, 32px)','line-height':'1.2'})
+    set('.biz-search',{'height':'44px'})
+    set('.biz-chart i.sales,.biz-performance footer i.sales',{background:'var(--blue)'})
+    set('.biz-chart i.hpp,.biz-performance footer i.hpp',{background:'var(--cyan)'})
+    sheet.walkDecls('color-scheme',d=>{if(d.value!=='light'){
+      changes.push({file,line:d.source.start.line,selector:d.parent.selector,property:d.prop,before:d.value,after:'light'})
+      d.value='light'
+    }})
+  }
   fs.writeFileSync(file,sheet.toString())
 }
 const main='src/main.tsx',before=fs.readFileSync(main,'utf8')
-if(before.includes("import './theme.css'"))throw Error('Theme import already exists')
-fs.writeFileSync(main,before.replace("import './styles.css'","import './theme.css'\nimport './styles.css'"))
-const receipt={contract:'cp7.UI.shared-theme-source-migration.v1',status:'SHARED_THEME_IMPLEMENTED_VISUAL_AND_REMAINING_FAMILIES_PENDING',
+if(!businessPagesOnly){
+  if(before.includes("import './theme.css'"))throw Error('Theme import already exists')
+  fs.writeFileSync(main,before.replace("import './styles.css'","import './theme.css'\nimport './styles.css'"))
+}
+const receipt={contract:businessPagesOnly?'cp7.UI.business-pages-theme-source-migration.v1':'cp7.UI.shared-theme-source-migration.v1',
+  status:businessPagesOnly?'BUSINESS_PAGES_THEME_IMPLEMENTED_VISUAL_RECHECK_PENDING':'SHARED_THEME_IMPLEMENTED_VISUAL_AND_REMAINING_FAMILIES_PENDING',
   base_head:base.base_head,files,changed_declarations:changes,source_only:true,new_important_declarations:0,
   existing_specificity_retained:true,financial_or_RPC_or_permission_changes:0,actual_visual_acceptance:false,CP7_complete:false,production_go:false}
-fs.writeFileSync('docs/cp7/d17-14/ui-reference-20261103/SHARED_THEME_SOURCE_CHANGES.json',JSON.stringify(receipt,null,2)+'\n')
+fs.writeFileSync(businessPagesOnly?'docs/cp7/d17-14/ui-reference-20261103/BUSINESS_PAGES_THEME_SOURCE_CHANGES.json':
+  'docs/cp7/d17-14/ui-reference-20261103/SHARED_THEME_SOURCE_CHANGES.json',JSON.stringify(receipt,null,2)+'\n')
 console.log(JSON.stringify({status:receipt.status,stylesheets:files.length,changed_declarations:changes.length,new_important_declarations:0,financial_source_changes:0}))

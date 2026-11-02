@@ -28,6 +28,27 @@
     "Vite_build": "PASS: 2267 modules",
     "client_secret_scan": "PASS"
   },
+  "loaded_capture_result": {
+    "run_id": 41517224634,
+    "job_id": 125523748264,
+    "artifact_id": 13176370866,
+    "canonical_bytes": 7104439,
+    "canonical_sha256": "1d972386a73f4c0b7687c58ea948ad4aee8c2e8575b03755239fa228653a18c7",
+    "new_loaded_views": 20,
+    "workspace_fallback_absent": true,
+    "after_overflow_views": 0,
+    "after_sample_contrast_findings": 16,
+    "remaining_heading_defect": "lazy business-pages.css kept Sales and Payroll h1 at 34-46.08px",
+    "actual_UI_final_acceptance": false
+  },
+  "business_pages_followup": {
+    "exact_inventoried_stylesheet": "src/business-pages.css",
+    "changed_declarations": 425,
+    "new_important_declarations": 0,
+    "retained_valid_views": 16,
+    "new_after_form_views_required": 8,
+    "duplicate_valid_views_rerun": 0
+  },
   "actual_financial_or_Auth_cases": 0,
   "actual_Mandor_popup_acceptance": false,
   "actual_UI_final_acceptance": false,

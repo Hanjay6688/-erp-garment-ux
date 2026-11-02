@@ -1,0 +1,3832 @@
+{
+  "contract": "cp7.UI.business-pages-theme-source-migration.v1",
+  "status": "BUSINESS_PAGES_THEME_IMPLEMENTED_VISUAL_RECHECK_PENDING",
+  "base_head": "2c7a5a05516548667ec71faedcffb3591828100f",
+  "files": [
+    "src/business-pages.css"
+  ],
+  "changed_declarations": [
+    {
+      "file": "src/business-pages.css",
+      "line": 1,
+      "selector": ".biz-hero>div:first-child>span,.biz-catalog header span,.biz-invoice-draft>header span,.biz-history-block>header span,.biz-master-detail>aside>header span,.biz-detail-head>div>span,.biz-ledger>header span,.biz-performance header span,.biz-finance-alerts header span,.biz-action-grid>header span,.biz-misc-form>header span,.biz-misc-preview>span,.biz-report-sheet>header span,.biz-close-gate>header span",
+      "property": "color",
+      "before": "#91a0ff",
+      "after": "var(--blue)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 1,
+      "selector": ".biz-hero>div:first-child>span,.biz-catalog header span,.biz-invoice-draft>header span,.biz-history-block>header span,.biz-master-detail>aside>header span,.biz-detail-head>div>span,.biz-ledger>header span,.biz-performance header span,.biz-finance-alerts header span,.biz-action-grid>header span,.biz-misc-form>header span,.biz-misc-preview>span,.biz-report-sheet>header span,.biz-close-gate>header span",
+      "property": "font-size",
+      "before": "9px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 1,
+      "selector": ".biz-hero p",
+      "property": "color",
+      "before": "#8f99ad",
+      "after": "var(--text)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 1,
+      "selector": ".biz-hero p",
+      "property": "font-size",
+      "before": "12px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 1,
+      "selector": ".biz-hero-rule",
+      "property": "border",
+      "before": "1px solid rgba(126,143,255,.18)",
+      "after": "1px solid var(--line)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 1,
+      "selector": ".biz-hero-rule",
+      "property": "background",
+      "before": "linear-gradient(145deg,rgba(105,122,236,.09),rgba(15,19,31,.92))",
+      "after": "var(--panel)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 1,
+      "selector": ".biz-hero-rule>svg",
+      "property": "color",
+      "before": "#8f9cff",
+      "after": "var(--blue)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 1,
+      "selector": ".biz-hero-rule small",
+      "property": "font-size",
+      "before": "8px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 1,
+      "selector": ".biz-hero-rule small",
+      "property": "color",
+      "before": "#7a86a4",
+      "after": "var(--blue)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 1,
+      "selector": ".biz-hero-rule strong",
+      "property": "font-size",
+      "before": "11px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 1,
+      "selector": ".biz-hero-rule em",
+      "property": "color",
+      "before": "#788398",
+      "after": "var(--text)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 1,
+      "selector": ".biz-hero-rule em",
+      "property": "font-size",
+      "before": "8.5px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 2,
+      "selector": ".biz-pill",
+      "property": "border",
+      "before": "1px solid #374154",
+      "after": "1px solid var(--line)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 2,
+      "selector": ".biz-pill",
+      "property": "background",
+      "before": "rgba(255,255,255,.025)",
+      "after": "var(--panel)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 2,
+      "selector": ".biz-pill",
+      "property": "color",
+      "before": "#a4afc0",
+      "after": "var(--text)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 2,
+      "selector": ".biz-pill",
+      "property": "font-size",
+      "before": "8px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 2,
+      "selector": ".biz-pill.good",
+      "property": "border-color",
+      "before": "rgba(87,209,162,.2)",
+      "after": "var(--line)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 2,
+      "selector": ".biz-pill.good",
+      "property": "background",
+      "before": "rgba(52,145,109,.08)",
+      "after": "var(--success-bg)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 2,
+      "selector": ".biz-pill.good",
+      "property": "color",
+      "before": "#82d8b5",
+      "after": "var(--green)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 2,
+      "selector": ".biz-pill.warn",
+      "property": "border-color",
+      "before": "rgba(235,186,96,.2)",
+      "after": "var(--line)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 2,
+      "selector": ".biz-pill.warn",
+      "property": "background",
+      "before": "rgba(133,91,32,.08)",
+      "after": "var(--warning-bg)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 2,
+      "selector": ".biz-pill.warn",
+      "property": "color",
+      "before": "#e6bb70",
+      "after": "var(--amber)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 2,
+      "selector": ".biz-pill.danger",
+      "property": "border-color",
+      "before": "rgba(238,116,139,.22)",
+      "after": "var(--line)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 2,
+      "selector": ".biz-pill.danger",
+      "property": "background",
+      "before": "rgba(140,49,66,.09)",
+      "after": "var(--danger-bg)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 2,
+      "selector": ".biz-pill.danger",
+      "property": "color",
+      "before": "#ed91a1",
+      "after": "var(--red)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 3,
+      "selector": ".biz-meta label>span,.biz-return-meta label>span,.biz-payment-form label>span,.biz-wide-field>span,.biz-review-card>label>span,.biz-inline-filters label>span,.biz-invoice-lines footer label>small,.biz-kind-choice+* label>span,.biz-report-controls label>span",
+      "property": "font-size",
+      "before": "8px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 3,
+      "selector": ".biz-meta label>span,.biz-return-meta label>span,.biz-payment-form label>span,.biz-wide-field>span,.biz-review-card>label>span,.biz-inline-filters label>span,.biz-invoice-lines footer label>small,.biz-kind-choice+* label>span,.biz-report-controls label>span",
+      "property": "color",
+      "before": "#778297",
+      "after": "var(--muted)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 3,
+      "selector": ".biz-meta input,.biz-meta select,.biz-return-meta input,.biz-return-meta select,.biz-payment-form input,.biz-payment-form select,.biz-wide-field textarea,.biz-review-card textarea,.biz-inline-filters select,.biz-inline-filters input,.biz-invoice-lines footer input,.biz-master-detail>aside>select,.biz-double-filter select,.biz-history-toolbar select,.biz-report-controls input",
+      "property": "border",
+      "before": "1px solid #333d4d",
+      "after": "1px solid var(--line)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 3,
+      "selector": ".biz-meta input,.biz-meta select,.biz-return-meta input,.biz-return-meta select,.biz-payment-form input,.biz-payment-form select,.biz-wide-field textarea,.biz-review-card textarea,.biz-inline-filters select,.biz-inline-filters input,.biz-invoice-lines footer input,.biz-master-detail>aside>select,.biz-double-filter select,.biz-history-toolbar select,.biz-report-controls input",
+      "property": "background",
+      "before": "#131a25",
+      "after": "var(--panel)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 3,
+      "selector": ".biz-meta input,.biz-meta select,.biz-return-meta input,.biz-return-meta select,.biz-payment-form input,.biz-payment-form select,.biz-wide-field textarea,.biz-review-card textarea,.biz-inline-filters select,.biz-inline-filters input,.biz-invoice-lines footer input,.biz-master-detail>aside>select,.biz-double-filter select,.biz-history-toolbar select,.biz-report-controls input",
+      "property": "color",
+      "before": "#d8e0ec",
+      "after": "var(--text)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 3,
+      "selector": ".biz-meta input,.biz-meta select,.biz-return-meta input,.biz-return-meta select,.biz-payment-form input,.biz-payment-form select,.biz-wide-field textarea,.biz-review-card textarea,.biz-inline-filters select,.biz-inline-filters input,.biz-invoice-lines footer input,.biz-master-detail>aside>select,.biz-double-filter select,.biz-history-toolbar select,.biz-report-controls input",
+      "property": "font-size",
+      "before": "10px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 3,
+      "selector": ".biz-meta input:focus,.biz-meta select:focus,.biz-return-meta input:focus,.biz-return-meta select:focus,.biz-payment-form input:focus,.biz-payment-form select:focus,.biz-wide-field textarea:focus,.biz-review-card textarea:focus,.biz-inline-filters input:focus,.biz-inline-filters select:focus,.biz-invoice-lines footer input:focus,.biz-master-detail>aside>select:focus,.biz-double-filter select:focus,.biz-history-toolbar select:focus,.biz-report-controls input:focus",
+      "property": "border-color",
+      "before": "#6579ca",
+      "after": "var(--line)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 3,
+      "selector": ".biz-meta input:focus,.biz-meta select:focus,.biz-return-meta input:focus,.biz-return-meta select:focus,.biz-payment-form input:focus,.biz-payment-form select:focus,.biz-wide-field textarea:focus,.biz-review-card textarea:focus,.biz-inline-filters input:focus,.biz-inline-filters select:focus,.biz-invoice-lines footer input:focus,.biz-master-detail>aside>select:focus,.biz-double-filter select:focus,.biz-history-toolbar select:focus,.biz-report-controls input:focus",
+      "property": "box-shadow",
+      "before": "0 0 0 3px rgba(85,107,194,.1)",
+      "after": "0 0 0 3px var(--accent-bg)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 4,
+      "selector": ".biz-catalog header strong,.biz-invoice-draft>header strong,.biz-history-block>header strong,.biz-ledger>header strong,.biz-action-grid>header strong,.biz-timeline>header strong",
+      "property": "font-size",
+      "before": "11px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 4,
+      "selector": ".biz-catalog header>svg,.biz-history-block>header>svg,.biz-action-grid>header>svg,.biz-timeline>header>svg",
+      "property": "color",
+      "before": "#8192c5",
+      "after": "var(--blue)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 4,
+      "selector": ".biz-search",
+      "property": "border",
+      "before": "1px solid #344052",
+      "after": "1px solid var(--line)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 4,
+      "selector": ".biz-search",
+      "property": "background",
+      "before": "#111923",
+      "after": "var(--panel)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 4,
+      "selector": ".biz-search",
+      "property": "color",
+      "before": "#708096",
+      "after": "var(--text)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 4,
+      "selector": ".biz-search input",
+      "property": "color",
+      "before": "#dbe2ec",
+      "after": "var(--text)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 4,
+      "selector": ".biz-search input",
+      "property": "font-size",
+      "before": "10px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 4,
+      "selector": ".biz-inline-filters label",
+      "property": "border",
+      "before": "1px solid #333d4d",
+      "after": "1px solid var(--line)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 4,
+      "selector": ".biz-inline-filters label",
+      "property": "background",
+      "before": "#131a25",
+      "after": "var(--panel)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 4,
+      "selector": ".biz-inline-filters b",
+      "property": "color",
+      "before": "#7f8a9e",
+      "after": "var(--text)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 4,
+      "selector": ".biz-inline-filters b",
+      "property": "font-size",
+      "before": "8px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 4,
+      "selector": ".biz-catalog-list>button",
+      "property": "border-top",
+      "before": "1px solid rgba(255,255,255,.05)",
+      "after": "1px solid var(--line)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 4,
+      "selector": ".biz-catalog-list>button",
+      "property": "background",
+      "before": "rgba(255,255,255,.01)",
+      "after": "var(--panel)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 4,
+      "selector": ".biz-catalog-list>button:hover",
+      "property": "background",
+      "before": "rgba(91,113,196,.08)",
+      "after": "var(--panel-3)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 4,
+      "selector": ".biz-catalog-list>button.added",
+      "property": "background",
+      "before": "rgba(78,105,198,.11)",
+      "after": "var(--panel)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 4,
+      "selector": ".biz-catalog-list>button.added",
+      "property": "box-shadow",
+      "before": "inset 3px 0 #7086dd",
+      "after": "var(--shadow)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 4,
+      "selector": ".biz-catalog-list>button>span",
+      "property": "background",
+      "before": "rgba(120,140,219,.1)",
+      "after": "var(--panel)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 4,
+      "selector": ".biz-catalog-list>button>span",
+      "property": "color",
+      "before": "#94a5df",
+      "after": "var(--blue)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 4,
+      "selector": ".biz-catalog-list>button>span",
+      "property": "font-size",
+      "before": "9px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 4,
+      "selector": ".biz-catalog-list strong",
+      "property": "font-size",
+      "before": "10.5px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 4,
+      "selector": ".biz-catalog-list small",
+      "property": "color",
+      "before": "#8390a4",
+      "after": "var(--muted)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 4,
+      "selector": ".biz-catalog-list small",
+      "property": "font-size",
+      "before": "8.5px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 4,
+      "selector": ".biz-catalog-list em",
+      "property": "color",
+      "before": "#667389",
+      "after": "var(--text)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 4,
+      "selector": ".biz-catalog-list em",
+      "property": "font-size",
+      "before": "8px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 4,
+      "selector": ".biz-catalog-list svg",
+      "property": "color",
+      "before": "#7c8dff",
+      "after": "var(--blue)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 5,
+      "selector": ".biz-danger-soft",
+      "property": "border",
+      "before": "1px solid rgba(238,116,139,.15)",
+      "after": "1px solid var(--line)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 5,
+      "selector": ".biz-danger-soft",
+      "property": "background",
+      "before": "rgba(133,47,64,.06)",
+      "after": "var(--danger-bg)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 5,
+      "selector": ".biz-danger-soft",
+      "property": "color",
+      "before": "#d48796",
+      "after": "var(--red)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 5,
+      "selector": ".biz-danger-soft",
+      "property": "font-size",
+      "before": "8.5px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 5,
+      "selector": ".biz-danger-soft:disabled",
+      "property": "opacity",
+      "before": ".35",
+      "after": "1",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 5,
+      "selector": ".biz-inline-notice",
+      "property": "border",
+      "before": "1px solid rgba(82,199,155,.18)",
+      "after": "1px solid var(--line)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 5,
+      "selector": ".biz-inline-notice",
+      "property": "background",
+      "before": "rgba(48,130,99,.07)",
+      "after": "var(--success-bg)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 5,
+      "selector": ".biz-inline-notice",
+      "property": "color",
+      "before": "#8dd5b9",
+      "after": "var(--green)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 5,
+      "selector": ".biz-inline-notice",
+      "property": "font-size",
+      "before": "8.5px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 5,
+      "selector": ".biz-invoice-lines>article",
+      "property": "border",
+      "before": "1px solid #303b4b",
+      "after": "1px solid var(--line)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 5,
+      "selector": ".biz-invoice-lines>article",
+      "property": "background",
+      "before": "#111824",
+      "after": "var(--panel)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 5,
+      "selector": ".biz-invoice-lines>article.invalid",
+      "property": "border-color",
+      "before": "rgba(235,112,133,.34)",
+      "after": "var(--line)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 5,
+      "selector": ".biz-invoice-lines>article.invalid",
+      "property": "box-shadow",
+      "before": "inset 3px 0 rgba(235,112,133,.7)",
+      "after": "var(--shadow)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 5,
+      "selector": ".biz-invoice-lines article>header",
+      "property": "border-bottom",
+      "before": "1px solid rgba(255,255,255,.055)",
+      "after": "1px solid var(--line)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 5,
+      "selector": ".biz-invoice-lines article>header>span",
+      "property": "background",
+      "before": "rgba(107,128,206,.1)",
+      "after": "var(--panel)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 5,
+      "selector": ".biz-invoice-lines article>header>span",
+      "property": "color",
+      "before": "#8fa0dc",
+      "after": "var(--blue)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 5,
+      "selector": ".biz-invoice-lines article>header>span",
+      "property": "font-size",
+      "before": "8px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 5,
+      "selector": ".biz-invoice-lines article>header strong",
+      "property": "font-size",
+      "before": "10.5px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 5,
+      "selector": ".biz-invoice-lines article>header small",
+      "property": "color",
+      "before": "#748196",
+      "after": "var(--muted)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 5,
+      "selector": ".biz-invoice-lines article>header small",
+      "property": "font-size",
+      "before": "8px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 5,
+      "selector": ".biz-invoice-lines article>header>b",
+      "property": "font-size",
+      "before": "10.5px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 5,
+      "selector": ".biz-invoice-lines article>header>button",
+      "property": "color",
+      "before": "#778397",
+      "after": "var(--text)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 5,
+      "selector": ".biz-invoice-lines article>header>button:hover",
+      "property": "background",
+      "before": "rgba(225,105,127,.08)",
+      "after": "var(--danger-bg)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 5,
+      "selector": ".biz-invoice-lines article>header>button:hover",
+      "property": "color",
+      "before": "#e18797",
+      "after": "var(--red)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 5,
+      "selector": ".biz-size-entry label",
+      "property": "border",
+      "before": "1px solid #2f3948",
+      "after": "1px solid var(--line)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 5,
+      "selector": ".biz-size-entry label",
+      "property": "background",
+      "before": "#151e2a",
+      "after": "var(--panel)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 5,
+      "selector": ".biz-size-entry label.invalid",
+      "property": "border-color",
+      "before": "rgba(234,112,134,.4)",
+      "after": "var(--line)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 5,
+      "selector": ".biz-size-entry label.invalid",
+      "property": "background",
+      "before": "rgba(116,41,55,.08)",
+      "after": "var(--danger-bg)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 5,
+      "selector": ".biz-size-entry label>span",
+      "property": "color",
+      "before": "#748096",
+      "after": "var(--muted)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 5,
+      "selector": ".biz-size-entry label>span",
+      "property": "font-size",
+      "before": "7.5px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 5,
+      "selector": ".biz-size-entry label>div",
+      "property": "border",
+      "before": "1px solid #344052",
+      "after": "1px solid var(--line)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 5,
+      "selector": ".biz-size-entry label>div",
+      "property": "background",
+      "before": "#101720",
+      "after": "var(--panel)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 5,
+      "selector": ".biz-size-entry input",
+      "property": "color",
+      "before": "#edf1f7",
+      "after": "var(--text)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 5,
+      "selector": ".biz-size-entry b",
+      "property": "color",
+      "before": "#7f8b9e",
+      "after": "var(--text)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 5,
+      "selector": ".biz-size-entry b",
+      "property": "font-size",
+      "before": "8px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 5,
+      "selector": ".biz-size-entry small",
+      "property": "color",
+      "before": "#68758a",
+      "after": "var(--muted)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 5,
+      "selector": ".biz-size-entry small",
+      "property": "font-size",
+      "before": "7.5px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 5,
+      "selector": ".biz-invoice-lines article>footer",
+      "property": "border-top",
+      "before": "1px solid rgba(255,255,255,.05)",
+      "after": "1px solid var(--line)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 5,
+      "selector": ".biz-invoice-lines footer span small",
+      "property": "color",
+      "before": "#708096",
+      "after": "var(--muted)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 5,
+      "selector": ".biz-invoice-lines footer span small",
+      "property": "font-size",
+      "before": "7.5px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 5,
+      "selector": ".biz-invoice-lines footer span strong",
+      "property": "font-size",
+      "before": "9.5px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 5,
+      "selector": ".biz-invoice-lines footer label>div",
+      "property": "border",
+      "before": "1px solid #344052",
+      "after": "1px solid var(--line)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 5,
+      "selector": ".biz-invoice-lines footer label>div",
+      "property": "background",
+      "before": "#151e2a",
+      "after": "var(--panel)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 5,
+      "selector": ".biz-invoice-lines footer label b",
+      "property": "color",
+      "before": "#778398",
+      "after": "var(--muted)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 5,
+      "selector": ".biz-invoice-lines footer label b",
+      "property": "font-size",
+      "before": "8px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 5,
+      "selector": ".biz-invoice-lines footer em",
+      "property": "color",
+      "before": "#e08c9b",
+      "after": "var(--red)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 5,
+      "selector": ".biz-invoice-lines footer em",
+      "property": "font-size",
+      "before": "8px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 5,
+      "selector": ".biz-empty",
+      "property": "color",
+      "before": "#67758c",
+      "after": "var(--text)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 5,
+      "selector": ".biz-empty strong",
+      "property": "color",
+      "before": "#a9b4c5",
+      "after": "var(--text)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 5,
+      "selector": ".biz-empty strong",
+      "property": "font-size",
+      "before": "11px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 5,
+      "selector": ".biz-empty small",
+      "property": "font-size",
+      "before": "8.5px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 6,
+      "selector": ".biz-review-card>span",
+      "property": "font-size",
+      "before": "8px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 6,
+      "selector": ".biz-review-card>span",
+      "property": "color",
+      "before": "#778398",
+      "after": "var(--muted)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 6,
+      "selector": ".biz-review-card h2",
+      "property": "color",
+      "before": "#ced7f5",
+      "after": "var(--blue)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 6,
+      "selector": ".biz-review-card>p",
+      "property": "color",
+      "before": "#778398",
+      "after": "var(--text)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 6,
+      "selector": ".biz-review-card>p",
+      "property": "font-size",
+      "before": "8.5px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 6,
+      "selector": ".biz-review-card>div article",
+      "property": "border",
+      "before": "1px solid #2f3948",
+      "after": "1px solid var(--line)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 6,
+      "selector": ".biz-review-card>div article",
+      "property": "background",
+      "before": "#121a25",
+      "after": "var(--panel)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 6,
+      "selector": ".biz-review-card article small",
+      "property": "color",
+      "before": "#6e7a8f",
+      "after": "var(--muted)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 6,
+      "selector": ".biz-review-card article small",
+      "property": "font-size",
+      "before": "7px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 6,
+      "selector": ".biz-review-card article strong",
+      "property": "font-size",
+      "before": "10px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 6,
+      "selector": ".biz-review-card>section",
+      "property": "border",
+      "before": "1px solid #2f3948",
+      "after": "1px solid var(--line)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 6,
+      "selector": ".biz-review-card>section",
+      "property": "background",
+      "before": "#101720",
+      "after": "var(--panel)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 6,
+      "selector": ".biz-review-card>section p",
+      "property": "color",
+      "before": "#8492a7",
+      "after": "var(--text)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 6,
+      "selector": ".biz-review-card>section p",
+      "property": "font-size",
+      "before": "8px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 6,
+      "selector": ".biz-review-card>section svg",
+      "property": "color",
+      "before": "#70caa8",
+      "after": "var(--green)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 6,
+      "selector": ".biz-guard",
+      "property": "border",
+      "before": "1px solid rgba(87,199,157,.17)",
+      "after": "1px solid var(--line)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 6,
+      "selector": ".biz-guard",
+      "property": "background",
+      "before": "rgba(47,128,96,.06)",
+      "after": "var(--success-bg)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 6,
+      "selector": ".biz-guard",
+      "property": "color",
+      "before": "#8bcfb4",
+      "after": "var(--green)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 6,
+      "selector": ".biz-guard",
+      "property": "font-size",
+      "before": "8.5px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 6,
+      "selector": ".biz-guard.warn",
+      "property": "border-color",
+      "before": "rgba(235,187,99,.2)",
+      "after": "var(--line)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 6,
+      "selector": ".biz-guard.warn",
+      "property": "background",
+      "before": "rgba(125,87,32,.07)",
+      "after": "var(--warning-bg)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 6,
+      "selector": ".biz-guard.warn",
+      "property": "color",
+      "before": "#dbb572",
+      "after": "var(--amber)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 6,
+      "selector": ".biz-guard.danger",
+      "property": "border-color",
+      "before": "rgba(235,112,134,.22)",
+      "after": "var(--line)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 6,
+      "selector": ".biz-guard.danger",
+      "property": "background",
+      "before": "rgba(129,43,59,.08)",
+      "after": "var(--danger-bg)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 6,
+      "selector": ".biz-guard.danger",
+      "property": "color",
+      "before": "#e292a1",
+      "after": "var(--red)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 6,
+      "selector": ".biz-guard strong",
+      "property": "font-size",
+      "before": "9px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 7,
+      "selector": ".biz-table-head",
+      "property": "background",
+      "before": "rgba(255,255,255,.018)",
+      "after": "var(--panel)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 7,
+      "selector": ".biz-table-head",
+      "property": "color",
+      "before": "#6e7a90",
+      "after": "var(--text)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 7,
+      "selector": ".biz-table-head",
+      "property": "font-size",
+      "before": "8px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 7,
+      "selector": ".biz-table>article",
+      "property": "border-top",
+      "before": "1px solid rgba(255,255,255,.05)",
+      "after": "1px solid var(--line)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 7,
+      "selector": ".biz-table>article",
+      "property": "font-size",
+      "before": "9px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 7,
+      "selector": ".biz-table article strong",
+      "property": "font-size",
+      "before": "9.5px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 7,
+      "selector": ".biz-table article small",
+      "property": "color",
+      "before": "#6e7a90",
+      "after": "var(--muted)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 7,
+      "selector": ".biz-table article small",
+      "property": "font-size",
+      "before": "8px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 7,
+      "selector": ".positive",
+      "property": "color",
+      "before": "#78d2b0",
+      "after": "var(--green)",
+      "important": true
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 7,
+      "selector": ".negative",
+      "property": "color",
+      "before": "#e88d9d",
+      "after": "var(--red)",
+      "important": true
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 8,
+      "selector": ".biz-metrics button.panel:hover",
+      "property": "border-color",
+      "before": "rgba(110,134,221,.35)",
+      "after": "var(--line)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 8,
+      "selector": ".biz-metrics span",
+      "property": "color",
+      "before": "#748197",
+      "after": "var(--muted)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 8,
+      "selector": ".biz-metrics span",
+      "property": "font-size",
+      "before": "8px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 8,
+      "selector": ".biz-metrics small",
+      "property": "color",
+      "before": "#6f7c91",
+      "after": "var(--muted)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 8,
+      "selector": ".biz-metrics small",
+      "property": "font-size",
+      "before": "8px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 8,
+      "selector": ".biz-metrics .good strong",
+      "property": "color",
+      "before": "#83d4b4",
+      "after": "var(--green)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 8,
+      "selector": ".biz-metrics .warn strong",
+      "property": "color",
+      "before": "#dfba75",
+      "after": "var(--amber)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 8,
+      "selector": ".biz-metrics .danger strong",
+      "property": "color",
+      "before": "#e594a2",
+      "after": "var(--red)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 9,
+      "selector": ".biz-master-detail>aside",
+      "property": "background",
+      "before": "linear-gradient(155deg,#182333,#131c28 58%,#111822)",
+      "after": "var(--panel)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 9,
+      "selector": ".biz-master-detail>aside>header",
+      "property": "border-bottom",
+      "before": "1px solid rgba(255,255,255,.065)",
+      "after": "1px solid var(--line)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 9,
+      "selector": ".biz-master-detail>aside>header strong",
+      "property": "font-size",
+      "before": "11px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 9,
+      "selector": ".biz-master-detail>aside>header>svg",
+      "property": "color",
+      "before": "#8393c7",
+      "after": "var(--blue)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 9,
+      "selector": ".biz-browser-list>button",
+      "property": "border-top",
+      "before": "1px solid rgba(255,255,255,.05)",
+      "after": "1px solid var(--line)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 9,
+      "selector": ".biz-browser-list>button",
+      "property": "background",
+      "before": "rgba(255,255,255,.008)",
+      "after": "var(--panel)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 9,
+      "selector": ".biz-browser-list>button:hover",
+      "property": "background",
+      "before": "rgba(99,120,195,.07)",
+      "after": "var(--panel-3)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 9,
+      "selector": ".biz-browser-list>button.active",
+      "property": "background",
+      "before": "linear-gradient(90deg,rgba(78,103,192,.2),rgba(55,73,130,.04))",
+      "after": "var(--accent-bg)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 9,
+      "selector": ".biz-browser-list>button.active",
+      "property": "box-shadow",
+      "before": "inset 3px 0 #7087dd",
+      "after": "var(--shadow)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 9,
+      "selector": ".biz-browser-list>button>span",
+      "property": "background",
+      "before": "rgba(115,135,210,.1)",
+      "after": "var(--panel)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 9,
+      "selector": ".biz-browser-list>button>span",
+      "property": "color",
+      "before": "#91a2dd",
+      "after": "var(--blue)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 9,
+      "selector": ".biz-browser-list>button>span",
+      "property": "font-size",
+      "before": "8px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 9,
+      "selector": ".biz-browser-list strong",
+      "property": "font-size",
+      "before": "10px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 9,
+      "selector": ".biz-browser-list small",
+      "property": "color",
+      "before": "#8190a4",
+      "after": "var(--muted)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 9,
+      "selector": ".biz-browser-list small",
+      "property": "font-size",
+      "before": "8.5px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 9,
+      "selector": ".biz-browser-list em",
+      "property": "color",
+      "before": "#69768b",
+      "after": "var(--text)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 9,
+      "selector": ".biz-browser-list em",
+      "property": "font-size",
+      "before": "8px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 9,
+      "selector": ".biz-browser-list>button>b",
+      "property": "font-size",
+      "before": "9px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 9,
+      "selector": ".biz-browser-list>button>svg",
+      "property": "color",
+      "before": "#77859a",
+      "after": "var(--text)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 9,
+      "selector": ".biz-detail-head p",
+      "property": "color",
+      "before": "#77859a",
+      "after": "var(--text)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 9,
+      "selector": ".biz-detail-head p",
+      "property": "font-size",
+      "before": "9px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 9,
+      "selector": ".biz-toggle button.active",
+      "property": "border-color",
+      "before": "#6579c8",
+      "after": "var(--line)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 9,
+      "selector": ".biz-toggle button.active",
+      "property": "background",
+      "before": "#465da7",
+      "after": "var(--accent-bg)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 9,
+      "selector": ".biz-toggle button.active",
+      "property": "color",
+      "before": "white",
+      "after": "var(--text)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 9,
+      "selector": ".biz-return-lines, .biz-journal-lines",
+      "property": "border",
+      "before": "1px solid #303b4a",
+      "after": "1px solid var(--line)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 9,
+      "selector": ".biz-return-lines>div, .biz-journal-lines>div",
+      "property": "background",
+      "before": "rgba(255,255,255,.018)",
+      "after": "var(--panel)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 9,
+      "selector": ".biz-return-lines>div, .biz-journal-lines>div",
+      "property": "color",
+      "before": "#6d798e",
+      "after": "var(--text)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 9,
+      "selector": ".biz-return-lines>div, .biz-journal-lines>div",
+      "property": "font-size",
+      "before": "7.5px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 9,
+      "selector": ".biz-return-lines>article, .biz-journal-lines>article",
+      "property": "border-top",
+      "before": "1px solid rgba(255,255,255,.05)",
+      "after": "1px solid var(--line)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 9,
+      "selector": ".biz-return-lines>article, .biz-journal-lines>article",
+      "property": "font-size",
+      "before": "9px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 9,
+      "selector": ".biz-return-lines article small",
+      "property": "color",
+      "before": "#6f7c91",
+      "after": "var(--muted)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 9,
+      "selector": ".biz-return-lines article small",
+      "property": "font-size",
+      "before": "8px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 9,
+      "selector": ".biz-allocation-table article.invalid,.biz-return-lines article.invalid",
+      "property": "background",
+      "before": "rgba(129,42,58,.07)",
+      "after": "var(--danger-bg)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 9,
+      "selector": ".biz-allocation-table article.invalid,.biz-return-lines article.invalid",
+      "property": "box-shadow",
+      "before": "inset 3px 0 #d87589",
+      "after": "var(--shadow)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 9,
+      "selector": ".biz-return-lines label",
+      "property": "border",
+      "before": "1px solid #364153",
+      "after": "1px solid var(--line)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 9,
+      "selector": ".biz-return-lines label",
+      "property": "background",
+      "before": "#151e2a",
+      "after": "var(--panel)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 9,
+      "selector": ".biz-return-lines label input",
+      "property": "color",
+      "before": "white",
+      "after": "var(--muted)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 9,
+      "selector": ".biz-return-lines label b",
+      "property": "color",
+      "before": "#7f8a9e",
+      "after": "var(--muted)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 9,
+      "selector": ".biz-return-lines label b",
+      "property": "font-size",
+      "before": "8px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 9,
+      "selector": ".biz-detail-actions>span",
+      "property": "color",
+      "before": "#6f7c91",
+      "after": "var(--muted)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 9,
+      "selector": ".biz-detail-actions>span",
+      "property": "font-size",
+      "before": "8.5px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 10,
+      "selector": ".biz-impact-grid article",
+      "property": "border",
+      "before": "1px solid #303b4a",
+      "after": "1px solid var(--line)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 10,
+      "selector": ".biz-impact-grid article",
+      "property": "background",
+      "before": "#111923",
+      "after": "var(--panel)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 10,
+      "selector": ".biz-impact-grid span",
+      "property": "color",
+      "before": "#718096",
+      "after": "var(--muted)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 10,
+      "selector": ".biz-impact-grid span",
+      "property": "font-size",
+      "before": "7.5px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 10,
+      "selector": ".biz-impact-grid small",
+      "property": "color",
+      "before": "#6f7c90",
+      "after": "var(--muted)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 10,
+      "selector": ".biz-impact-grid small",
+      "property": "font-size",
+      "before": "8px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 10,
+      "selector": ".biz-ar-equation",
+      "property": "border",
+      "before": "1px solid #303b4a",
+      "after": "1px solid var(--line)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 10,
+      "selector": ".biz-ar-equation",
+      "property": "background",
+      "before": "#111923",
+      "after": "var(--panel)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 10,
+      "selector": ".biz-ar-equation small",
+      "property": "color",
+      "before": "#6e7b90",
+      "after": "var(--muted)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 10,
+      "selector": ".biz-ar-equation small",
+      "property": "font-size",
+      "before": "7px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 10,
+      "selector": ".biz-ar-equation strong",
+      "property": "font-size",
+      "before": "11px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 10,
+      "selector": ".biz-ar-equation>i",
+      "property": "color",
+      "before": "#68758a",
+      "after": "var(--text)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 10,
+      "selector": ".biz-payment-form label>div",
+      "property": "border",
+      "before": "1px solid #333d4d",
+      "after": "1px solid var(--line)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 10,
+      "selector": ".biz-payment-form label>div",
+      "property": "background",
+      "before": "#131a25",
+      "after": "var(--panel)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 10,
+      "selector": ".biz-payment-form label>div>b",
+      "property": "color",
+      "before": "#7a879b",
+      "after": "var(--muted)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 10,
+      "selector": ".biz-payment-form label>div>b",
+      "property": "font-size",
+      "before": "8px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 11,
+      "selector": ".biz-period-tabs",
+      "property": "border",
+      "before": "1px solid #333d4d",
+      "after": "1px solid var(--line)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 11,
+      "selector": ".biz-period-tabs",
+      "property": "background",
+      "before": "#131a25",
+      "after": "var(--panel)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 11,
+      "selector": ".biz-period-tabs button",
+      "property": "color",
+      "before": "#758298",
+      "after": "var(--text)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 11,
+      "selector": ".biz-period-tabs button",
+      "property": "font-size",
+      "before": "8px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 11,
+      "selector": ".biz-period-tabs button.active",
+      "property": "background",
+      "before": "#2b3858",
+      "after": "var(--accent-bg)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 11,
+      "selector": ".biz-period-tabs button.active",
+      "property": "color",
+      "before": "#dbe3fb",
+      "after": "var(--text)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 11,
+      "selector": ".biz-timeline>article",
+      "property": "border-top",
+      "before": "1px solid rgba(255,255,255,.05)",
+      "after": "1px solid var(--line)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 11,
+      "selector": ".biz-timeline time",
+      "property": "color",
+      "before": "#718096",
+      "after": "var(--text)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 11,
+      "selector": ".biz-timeline time",
+      "property": "font-size",
+      "before": "8.5px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 11,
+      "selector": ".biz-timeline>article>i",
+      "property": "background",
+      "before": "rgba(91,111,190,.1)",
+      "after": "var(--panel)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 11,
+      "selector": ".biz-timeline>article>i",
+      "property": "color",
+      "before": "#8fa1dc",
+      "after": "var(--blue)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 11,
+      "selector": ".biz-timeline>article>i.return",
+      "property": "background",
+      "before": "rgba(134,47,65,.09)",
+      "after": "var(--danger-bg)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 11,
+      "selector": ".biz-timeline>article>i.return",
+      "property": "color",
+      "before": "#e08b9a",
+      "after": "var(--red)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 11,
+      "selector": ".biz-timeline>article>i.sale",
+      "property": "background",
+      "before": "rgba(45,130,97,.09)",
+      "after": "var(--success-bg)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 11,
+      "selector": ".biz-timeline>article>i.sale",
+      "property": "color",
+      "before": "#7fd1b0",
+      "after": "var(--green)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 11,
+      "selector": ".biz-timeline article>div span small",
+      "property": "color",
+      "before": "#738096",
+      "after": "var(--muted)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 11,
+      "selector": ".biz-timeline article>div span small",
+      "property": "font-size",
+      "before": "8px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 11,
+      "selector": ".biz-timeline article>div>strong",
+      "property": "font-size",
+      "before": "10px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 11,
+      "selector": ".biz-timeline article>div>em",
+      "property": "color",
+      "before": "#6c798e",
+      "after": "var(--text)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 11,
+      "selector": ".biz-timeline article>div>em",
+      "property": "font-size",
+      "before": "8px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 11,
+      "selector": ".biz-timeline article>b",
+      "property": "font-size",
+      "before": "10px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 12,
+      "selector": ".biz-modal",
+      "property": "border",
+      "before": "1px solid #3d495c",
+      "after": "1px solid var(--line)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 12,
+      "selector": ".biz-modal",
+      "property": "background",
+      "before": "#0e151f",
+      "after": "var(--panel)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 12,
+      "selector": ".biz-modal",
+      "property": "box-shadow",
+      "before": "0 30px 90px rgba(0,0,0,.56)",
+      "after": "var(--shadow)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 12,
+      "selector": ".biz-modal>header",
+      "property": "border-bottom",
+      "before": "1px solid #2c3746",
+      "after": "1px solid var(--line)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 12,
+      "selector": ".biz-modal>header",
+      "property": "background",
+      "before": "linear-gradient(110deg,rgba(75,98,177,.15),rgba(36,49,73,.06))",
+      "after": "var(--panel)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 12,
+      "selector": ".biz-modal>header span",
+      "property": "font-size",
+      "before": "8px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 12,
+      "selector": ".biz-modal>header span",
+      "property": "color",
+      "before": "#8494ba",
+      "after": "var(--blue)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 12,
+      "selector": ".biz-modal>header p",
+      "property": "color",
+      "before": "#77859a",
+      "after": "var(--text)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 12,
+      "selector": ".biz-modal>header p",
+      "property": "font-size",
+      "before": "9px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 12,
+      "selector": ".biz-modal>header>button",
+      "property": "border",
+      "before": "1px solid #384455",
+      "after": "1px solid var(--line)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 12,
+      "selector": ".biz-modal>header>button",
+      "property": "background",
+      "before": "#151e29",
+      "after": "var(--panel)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 12,
+      "selector": ".biz-modal>header>button",
+      "property": "color",
+      "before": "#a7b3c4",
+      "after": "var(--text)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 12,
+      "selector": ".biz-modal>footer",
+      "property": "border-top",
+      "before": "1px solid #2c3746",
+      "after": "1px solid var(--line)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 12,
+      "selector": ".biz-modal .primary-btn.danger",
+      "property": "border-color",
+      "before": "rgba(231,109,130,.3)",
+      "after": "var(--line)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 12,
+      "selector": ".biz-modal .primary-btn.danger",
+      "property": "background",
+      "before": "linear-gradient(145deg,#c65e72,#9f4256)",
+      "after": "var(--blue)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 13,
+      "selector": ".biz-performance header strong,.biz-finance-alerts header strong",
+      "property": "font-size",
+      "before": "12px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 13,
+      "selector": ".biz-performance header small",
+      "property": "color",
+      "before": "#6e7a90",
+      "after": "var(--muted)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 13,
+      "selector": ".biz-performance header small",
+      "property": "font-size",
+      "before": "8px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 13,
+      "selector": ".biz-finance-alerts header>svg",
+      "property": "color",
+      "before": "#dc8a99",
+      "after": "var(--red)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 13,
+      "selector": ".biz-chart",
+      "property": "background",
+      "before": "repeating-linear-gradient(to top,transparent 0,transparent 49px,rgba(255,255,255,.04) 50px)",
+      "after": "var(--panel)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 13,
+      "selector": ".biz-chart i.sales,.biz-performance footer i.sales",
+      "property": "background",
+      "before": "#7588f3",
+      "after": "var(--panel)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 13,
+      "selector": ".biz-chart i.hpp,.biz-performance footer i.hpp",
+      "property": "background",
+      "before": "#438996",
+      "after": "var(--panel)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 13,
+      "selector": ".biz-chart>article>span",
+      "property": "color",
+      "before": "#738097",
+      "after": "var(--muted)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 13,
+      "selector": ".biz-chart>article>span",
+      "property": "font-size",
+      "before": "8px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 13,
+      "selector": ".biz-performance>footer",
+      "property": "color",
+      "before": "#778398",
+      "after": "var(--text)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 13,
+      "selector": ".biz-performance>footer",
+      "property": "font-size",
+      "before": "8px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 13,
+      "selector": ".biz-performance footer strong",
+      "property": "font-size",
+      "before": "9px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 13,
+      "selector": ".biz-finance-alerts>button",
+      "property": "border-top",
+      "before": "1px solid rgba(255,255,255,.05)",
+      "after": "1px solid var(--line)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 13,
+      "selector": ".biz-finance-alerts>button:hover",
+      "property": "background",
+      "before": "rgba(255,255,255,.018)",
+      "after": "var(--panel-3)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 13,
+      "selector": ".biz-finance-alerts button>i",
+      "property": "background",
+      "before": "#7e8aa0",
+      "after": "var(--panel)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 13,
+      "selector": ".biz-finance-alerts button.warn>i",
+      "property": "background",
+      "before": "#e4b568",
+      "after": "var(--warning-bg)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 13,
+      "selector": ".biz-finance-alerts button.danger>i",
+      "property": "background",
+      "before": "#e37f91",
+      "after": "var(--danger-bg)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 13,
+      "selector": ".biz-finance-alerts button strong",
+      "property": "font-size",
+      "before": "9px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 13,
+      "selector": ".biz-finance-alerts button small",
+      "property": "color",
+      "before": "#6f7b90",
+      "after": "var(--muted)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 13,
+      "selector": ".biz-finance-alerts button small",
+      "property": "font-size",
+      "before": "8px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 13,
+      "selector": ".biz-finance-alerts button svg",
+      "property": "color",
+      "before": "#718097",
+      "after": "var(--text)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 13,
+      "selector": ".biz-action-grid>div>button",
+      "property": "border-right",
+      "before": "1px solid rgba(255,255,255,.05)",
+      "after": "1px solid var(--line)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 13,
+      "selector": ".biz-action-grid>div>button",
+      "property": "border-top",
+      "before": "1px solid rgba(255,255,255,.05)",
+      "after": "1px solid var(--line)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 13,
+      "selector": ".biz-action-grid>div>button:hover",
+      "property": "background",
+      "before": "rgba(88,109,188,.07)",
+      "after": "var(--panel-3)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 13,
+      "selector": ".biz-action-grid button>i",
+      "property": "background",
+      "before": "rgba(95,117,202,.1)",
+      "after": "var(--panel)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 13,
+      "selector": ".biz-action-grid button>i",
+      "property": "color",
+      "before": "#8fa1dc",
+      "after": "var(--blue)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 13,
+      "selector": ".biz-action-grid button strong",
+      "property": "font-size",
+      "before": "9.5px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 13,
+      "selector": ".biz-action-grid button small",
+      "property": "color",
+      "before": "#6f7c91",
+      "after": "var(--muted)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 13,
+      "selector": ".biz-action-grid button small",
+      "property": "font-size",
+      "before": "8px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 13,
+      "selector": ".biz-action-grid button>svg",
+      "property": "color",
+      "before": "#708096",
+      "after": "var(--text)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 14,
+      "selector": ".biz-cash-accounts>button.active",
+      "property": "border-color",
+      "before": "#687dcc",
+      "after": "var(--line)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 14,
+      "selector": ".biz-cash-accounts>button.active",
+      "property": "box-shadow",
+      "before": "inset 0 0 0 1px rgba(104,125,204,.25),var(--shadow)",
+      "after": "var(--shadow)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 14,
+      "selector": ".biz-cash-accounts header>span",
+      "property": "color",
+      "before": "#748197",
+      "after": "var(--muted)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 14,
+      "selector": ".biz-cash-accounts header>span",
+      "property": "font-size",
+      "before": "8px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 14,
+      "selector": ".biz-cash-accounts>button>strong",
+      "property": "font-size",
+      "before": "11px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 14,
+      "selector": ".biz-cash-accounts>button>div",
+      "property": "border-top",
+      "before": "1px solid rgba(255,255,255,.05)",
+      "after": "1px solid var(--line)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 14,
+      "selector": ".biz-cash-accounts>button>div",
+      "property": "color",
+      "before": "#758298",
+      "after": "var(--text)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 14,
+      "selector": ".biz-cash-accounts>button>div",
+      "property": "font-size",
+      "before": "8px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 14,
+      "selector": ".biz-cash-accounts>button>div b",
+      "property": "color",
+      "before": "#aeb9c9",
+      "after": "var(--text)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 14,
+      "selector": ".biz-cash-accounts>button>small",
+      "property": "color",
+      "before": "#67748a",
+      "after": "var(--muted)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 14,
+      "selector": ".biz-cash-accounts>button>small",
+      "property": "font-size",
+      "before": "8px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 14,
+      "selector": ".biz-ledger-rule>svg",
+      "property": "color",
+      "before": "#8193ca",
+      "after": "var(--blue)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 14,
+      "selector": ".biz-ledger-rule strong",
+      "property": "font-size",
+      "before": "9px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 14,
+      "selector": ".biz-ledger-rule small",
+      "property": "color",
+      "before": "#6e7a90",
+      "after": "var(--muted)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 14,
+      "selector": ".biz-ledger-rule small",
+      "property": "font-size",
+      "before": "8px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 15,
+      "selector": ".biz-date-audit article",
+      "property": "border",
+      "before": "1px solid #303b4a",
+      "after": "1px solid var(--line)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 15,
+      "selector": ".biz-date-audit article",
+      "property": "background",
+      "before": "#111923",
+      "after": "var(--panel)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 15,
+      "selector": ".biz-date-audit article>svg",
+      "property": "color",
+      "before": "#8498d1",
+      "after": "var(--blue)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 15,
+      "selector": ".biz-date-audit small",
+      "property": "color",
+      "before": "#6e7a90",
+      "after": "var(--muted)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 15,
+      "selector": ".biz-date-audit small",
+      "property": "font-size",
+      "before": "7px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 15,
+      "selector": ".biz-date-audit strong",
+      "property": "font-size",
+      "before": "9.5px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 15,
+      "selector": ".biz-date-audit em",
+      "property": "color",
+      "before": "#68758a",
+      "after": "var(--text)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 15,
+      "selector": ".biz-date-audit em",
+      "property": "font-size",
+      "before": "7.5px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 15,
+      "selector": ".biz-source-chain",
+      "property": "border",
+      "before": "1px solid #303b4a",
+      "after": "1px solid var(--line)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 15,
+      "selector": ".biz-source-chain",
+      "property": "background",
+      "before": "#101720",
+      "after": "var(--panel)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 15,
+      "selector": ".biz-source-chain>span",
+      "property": "color",
+      "before": "#6e7b90",
+      "after": "var(--muted)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 15,
+      "selector": ".biz-source-chain>span",
+      "property": "font-size",
+      "before": "7.5px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 15,
+      "selector": ".biz-source-chain article",
+      "property": "border",
+      "before": "1px solid #2f3a49",
+      "after": "1px solid var(--line)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 15,
+      "selector": ".biz-source-chain article",
+      "property": "background",
+      "before": "#151e2a",
+      "after": "var(--panel)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 15,
+      "selector": ".biz-source-chain article small",
+      "property": "color",
+      "before": "#718098",
+      "after": "var(--blue)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 15,
+      "selector": ".biz-source-chain article small",
+      "property": "font-size",
+      "before": "7px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 15,
+      "selector": ".biz-source-chain article strong",
+      "property": "font-size",
+      "before": "9px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 15,
+      "selector": ".biz-source-chain article em",
+      "property": "color",
+      "before": "#68758a",
+      "after": "var(--text)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 15,
+      "selector": ".biz-source-chain article em",
+      "property": "font-size",
+      "before": "7.5px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 15,
+      "selector": ".biz-source-chain>div>svg",
+      "property": "color",
+      "before": "#68758a",
+      "after": "var(--text)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 15,
+      "selector": ".biz-payroll-formula article.positive strong",
+      "property": "color",
+      "before": "#7fd2b1",
+      "after": "var(--green)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 15,
+      "selector": ".biz-payroll-formula article.negative strong",
+      "property": "color",
+      "before": "#e18b9a",
+      "after": "var(--red)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 15,
+      "selector": ".biz-payroll-rules article",
+      "property": "border",
+      "before": "1px solid #2f3948",
+      "after": "1px solid var(--line)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 15,
+      "selector": ".biz-payroll-rules article",
+      "property": "background",
+      "before": "#111923",
+      "after": "var(--panel)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 15,
+      "selector": ".biz-payroll-rules article>svg",
+      "property": "color",
+      "before": "#76cba9",
+      "after": "var(--green)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 15,
+      "selector": ".biz-payroll-rules strong",
+      "property": "font-size",
+      "before": "8.5px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 15,
+      "selector": ".biz-payroll-rules small",
+      "property": "color",
+      "before": "#68758a",
+      "after": "var(--muted)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 15,
+      "selector": ".biz-payroll-rules small",
+      "property": "font-size",
+      "before": "7.5px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 16,
+      "selector": ".biz-workspace-tabs button",
+      "property": "color",
+      "before": "#778398",
+      "after": "var(--text)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 16,
+      "selector": ".biz-workspace-tabs button",
+      "property": "font-size",
+      "before": "9px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 16,
+      "selector": ".biz-workspace-tabs button.active",
+      "property": "border-color",
+      "before": "#3a4659",
+      "after": "var(--line)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 16,
+      "selector": ".biz-workspace-tabs button.active",
+      "property": "background",
+      "before": "#1a2532",
+      "after": "var(--accent-bg)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 16,
+      "selector": ".biz-workspace-tabs button.active",
+      "property": "color",
+      "before": "#dbe2ed",
+      "after": "var(--text)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 16,
+      "selector": ".biz-misc-form header strong",
+      "property": "font-size",
+      "before": "12px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 16,
+      "selector": ".biz-misc-form header small",
+      "property": "color",
+      "before": "#6f7b90",
+      "after": "var(--muted)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 16,
+      "selector": ".biz-misc-form header small",
+      "property": "font-size",
+      "before": "8px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 16,
+      "selector": ".biz-kind-choice button",
+      "property": "border",
+      "before": "1px solid #333e4f",
+      "after": "1px solid var(--line)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 16,
+      "selector": ".biz-kind-choice button",
+      "property": "background",
+      "before": "#111923",
+      "after": "var(--panel)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 16,
+      "selector": ".biz-kind-choice button>svg",
+      "property": "color",
+      "before": "#758398",
+      "after": "var(--text)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 16,
+      "selector": ".biz-kind-choice button.active.good",
+      "property": "border-color",
+      "before": "rgba(79,193,149,.3)",
+      "after": "var(--line)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 16,
+      "selector": ".biz-kind-choice button.active.good",
+      "property": "background",
+      "before": "rgba(42,123,92,.08)",
+      "after": "var(--accent-bg)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 16,
+      "selector": ".biz-kind-choice button.active.danger",
+      "property": "border-color",
+      "before": "rgba(226,111,131,.3)",
+      "after": "var(--line)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 16,
+      "selector": ".biz-kind-choice button.active.danger",
+      "property": "background",
+      "before": "rgba(120,41,57,.08)",
+      "after": "var(--accent-bg)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 16,
+      "selector": ".biz-kind-choice strong",
+      "property": "font-size",
+      "before": "9.5px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 16,
+      "selector": ".biz-kind-choice small",
+      "property": "color",
+      "before": "#6d7a8f",
+      "after": "var(--muted)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 16,
+      "selector": ".biz-kind-choice small",
+      "property": "font-size",
+      "before": "8px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 16,
+      "selector": ".biz-misc-preview>h2",
+      "property": "color",
+      "before": "#ced8f7",
+      "after": "var(--blue)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 16,
+      "selector": ".biz-misc-preview>p",
+      "property": "color",
+      "before": "#748197",
+      "after": "var(--text)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 16,
+      "selector": ".biz-misc-preview>p",
+      "property": "font-size",
+      "before": "8.5px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 16,
+      "selector": ".biz-misc-preview>div",
+      "property": "border",
+      "before": "1px solid #303b4a",
+      "after": "1px solid var(--line)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 16,
+      "selector": ".biz-misc-preview article",
+      "property": "border-top",
+      "before": "1px solid rgba(255,255,255,.055)",
+      "after": "1px solid var(--line)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 16,
+      "selector": ".biz-misc-preview article small",
+      "property": "color",
+      "before": "#6e7a90",
+      "after": "var(--muted)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 16,
+      "selector": ".biz-misc-preview article small",
+      "property": "font-size",
+      "before": "7px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 16,
+      "selector": ".biz-misc-preview article strong",
+      "property": "font-size",
+      "before": "9.5px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 16,
+      "selector": ".biz-misc-preview article b",
+      "property": "font-size",
+      "before": "9px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 16,
+      "selector": ".biz-misc-preview>footer",
+      "property": "border",
+      "before": "1px solid rgba(79,192,149,.18)",
+      "after": "1px solid var(--line)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 16,
+      "selector": ".biz-misc-preview>footer",
+      "property": "background",
+      "before": "rgba(42,123,92,.06)",
+      "after": "var(--success-bg)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 16,
+      "selector": ".biz-misc-preview>footer",
+      "property": "color",
+      "before": "#84cfb1",
+      "after": "var(--green)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 16,
+      "selector": ".biz-misc-preview>footer",
+      "property": "font-size",
+      "before": "8px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 16,
+      "selector": ".biz-journal-lines>footer",
+      "property": "border-top",
+      "before": "1px solid #3a4556",
+      "after": "1px solid var(--line)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 16,
+      "selector": ".biz-journal-lines>footer",
+      "property": "background",
+      "before": "rgba(255,255,255,.018)",
+      "after": "var(--panel)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 16,
+      "selector": ".biz-journal-lines>footer",
+      "property": "font-size",
+      "before": "9px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 17,
+      "selector": ".biz-report-controls nav",
+      "property": "border",
+      "before": "1px solid #333d4d",
+      "after": "1px solid var(--line)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 17,
+      "selector": ".biz-report-controls nav",
+      "property": "background",
+      "before": "#131a25",
+      "after": "var(--panel)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 17,
+      "selector": ".biz-report-controls nav button",
+      "property": "color",
+      "before": "#768399",
+      "after": "var(--text)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 17,
+      "selector": ".biz-report-controls nav button",
+      "property": "font-size",
+      "before": "8.5px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 17,
+      "selector": ".biz-report-controls nav button.active",
+      "property": "background",
+      "before": "#2a3859",
+      "after": "var(--accent-bg)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 17,
+      "selector": ".biz-report-controls nav button.active",
+      "property": "color",
+      "before": "#dce4fc",
+      "after": "var(--text)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 17,
+      "selector": ".biz-report-sheet header p",
+      "property": "color",
+      "before": "#6e7a90",
+      "after": "var(--text)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 17,
+      "selector": ".biz-report-sheet header p",
+      "property": "font-size",
+      "before": "8px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 17,
+      "selector": ".biz-report-rows article",
+      "property": "border-top",
+      "before": "1px solid rgba(255,255,255,.045)",
+      "after": "1px solid var(--line)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 17,
+      "selector": ".biz-report-rows article.sub",
+      "property": "color",
+      "before": "#8793a7",
+      "after": "var(--text)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 17,
+      "selector": ".biz-report-rows article.total",
+      "property": "border",
+      "before": "1px solid #334052",
+      "after": "1px solid var(--line)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 17,
+      "selector": ".biz-report-rows article.total",
+      "property": "background",
+      "before": "#111923",
+      "after": "var(--panel)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 17,
+      "selector": ".biz-report-rows article span",
+      "property": "font-size",
+      "before": "9px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 17,
+      "selector": ".biz-report-rows article span small",
+      "property": "color",
+      "before": "#6c788d",
+      "after": "var(--muted)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 17,
+      "selector": ".biz-report-rows article span small",
+      "property": "font-size",
+      "before": "7.5px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 17,
+      "selector": ".biz-report-rows article strong",
+      "property": "font-size",
+      "before": "9.5px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 17,
+      "selector": ".biz-report-rows article.total strong",
+      "property": "font-size",
+      "before": "11px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 17,
+      "selector": ".biz-report-rows article.total strong",
+      "property": "color",
+      "before": "#d8e0ef",
+      "after": "var(--text)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 17,
+      "selector": ".biz-report-sheet>footer>svg",
+      "property": "color",
+      "before": "#82cdb0",
+      "after": "var(--green)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 17,
+      "selector": ".biz-report-sheet footer strong",
+      "property": "font-size",
+      "before": "9px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 17,
+      "selector": ".biz-report-sheet footer small",
+      "property": "color",
+      "before": "#6d798e",
+      "after": "var(--muted)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 17,
+      "selector": ".biz-report-sheet footer small",
+      "property": "font-size",
+      "before": "7.5px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 17,
+      "selector": ".biz-position-grid>section>span",
+      "property": "color",
+      "before": "#7a88a0",
+      "after": "var(--muted)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 17,
+      "selector": ".biz-position-grid>section>span",
+      "property": "font-size",
+      "before": "8px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 17,
+      "selector": ".biz-aging>header",
+      "property": "background",
+      "before": "rgba(255,255,255,.018)",
+      "after": "var(--panel)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 17,
+      "selector": ".biz-aging>header",
+      "property": "color",
+      "before": "#6c798f",
+      "after": "var(--text)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 17,
+      "selector": ".biz-aging>header",
+      "property": "font-size",
+      "before": "7.5px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 17,
+      "selector": ".biz-aging>article",
+      "property": "border-top",
+      "before": "1px solid rgba(255,255,255,.05)",
+      "after": "1px solid var(--line)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 17,
+      "selector": ".biz-aging>article",
+      "property": "font-size",
+      "before": "8.5px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 17,
+      "selector": ".biz-aging article small",
+      "property": "color",
+      "before": "#6b788d",
+      "after": "var(--muted)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 17,
+      "selector": ".biz-aging article small",
+      "property": "font-size",
+      "before": "7px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 17,
+      "selector": ".biz-aging article b",
+      "property": "font-size",
+      "before": "9px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 17,
+      "selector": ".biz-close-gate>header strong",
+      "property": "font-size",
+      "before": "12px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 17,
+      "selector": ".biz-close-gate>header>svg",
+      "property": "color",
+      "before": "#e28b9b",
+      "after": "var(--red)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 17,
+      "selector": ".biz-close-gate>div>article",
+      "property": "border-top",
+      "before": "1px solid rgba(255,255,255,.05)",
+      "after": "1px solid var(--line)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 17,
+      "selector": ".biz-close-gate article>i",
+      "property": "background",
+      "before": "rgba(255,255,255,.03)",
+      "after": "var(--panel)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 17,
+      "selector": ".biz-close-gate article>i",
+      "property": "color",
+      "before": "#7a879b",
+      "after": "var(--text)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 17,
+      "selector": ".biz-close-gate article.block>i",
+      "property": "background",
+      "before": "rgba(129,43,59,.08)",
+      "after": "var(--danger-bg)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 17,
+      "selector": ".biz-close-gate article.block>i",
+      "property": "color",
+      "before": "#e18b9b",
+      "after": "var(--red)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 17,
+      "selector": ".biz-close-gate article.warning>i",
+      "property": "background",
+      "before": "rgba(126,88,32,.08)",
+      "after": "var(--warning-bg)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 17,
+      "selector": ".biz-close-gate article.warning>i",
+      "property": "color",
+      "before": "#dbb572",
+      "after": "var(--amber)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 17,
+      "selector": ".biz-close-gate article.clear>i",
+      "property": "background",
+      "before": "rgba(45,126,94,.08)",
+      "after": "var(--success-bg)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 17,
+      "selector": ".biz-close-gate article.clear>i",
+      "property": "color",
+      "before": "#80cfaf",
+      "after": "var(--green)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 17,
+      "selector": ".biz-close-gate article strong",
+      "property": "font-size",
+      "before": "8.5px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 17,
+      "selector": ".biz-close-gate article small",
+      "property": "color",
+      "before": "#69768b",
+      "after": "var(--muted)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 17,
+      "selector": ".biz-close-gate article small",
+      "property": "font-size",
+      "before": "7.5px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 17,
+      "selector": ".biz-close-gate>section",
+      "property": "border",
+      "before": "1px solid #303b4a",
+      "after": "1px solid var(--line)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 17,
+      "selector": ".biz-close-gate>section",
+      "property": "background",
+      "before": "#111923",
+      "after": "var(--panel)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 17,
+      "selector": ".biz-close-gate>section span",
+      "property": "color",
+      "before": "#6f7c91",
+      "after": "var(--muted)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 17,
+      "selector": ".biz-close-gate>section span",
+      "property": "font-size",
+      "before": "7.5px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 17,
+      "selector": ".biz-close-gate>section>div",
+      "property": "background",
+      "before": "#222b38",
+      "after": "var(--panel)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 17,
+      "selector": ".biz-close-gate>section i",
+      "property": "background",
+      "before": "linear-gradient(90deg,#6075d7,#7ac8aa)",
+      "after": "var(--success-bg)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 17,
+      "selector": ".biz-close-gate>section small",
+      "property": "color",
+      "before": "#68758a",
+      "after": "var(--muted)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 17,
+      "selector": ".biz-close-gate>section small",
+      "property": "font-size",
+      "before": "7.5px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 17,
+      "selector": ".biz-block-note",
+      "property": "color",
+      "before": "#69768b",
+      "after": "var(--muted)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 17,
+      "selector": ".biz-block-note",
+      "property": "font-size",
+      "before": "7.5px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 17,
+      "selector": ".biz-close-summary article",
+      "property": "border",
+      "before": "1px solid #303b4a",
+      "after": "1px solid var(--line)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 17,
+      "selector": ".biz-close-summary article",
+      "property": "background",
+      "before": "#111923",
+      "after": "var(--panel)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 17,
+      "selector": ".biz-close-summary span",
+      "property": "color",
+      "before": "#6e7b90",
+      "after": "var(--muted)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 17,
+      "selector": ".biz-close-summary span",
+      "property": "font-size",
+      "before": "7px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 17,
+      "selector": ".biz-close-summary small",
+      "property": "color",
+      "before": "#68758a",
+      "after": "var(--muted)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 17,
+      "selector": ".biz-close-summary small",
+      "property": "font-size",
+      "before": "7.5px",
+      "after": "13px",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 19,
+      "selector": ".biz-browser-list>button",
+      "property": "border-right",
+      "before": "1px solid rgba(255,255,255,.05)",
+      "after": "1px solid var(--line)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 20,
+      "selector": ".biz-ar-equation>span:last-child",
+      "property": "border-top",
+      "before": "1px solid rgba(255,255,255,.05)",
+      "after": "1px solid var(--line)",
+      "important": false
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 1,
+      "selector": ".biz-hero h1",
+      "property": "font-size",
+      "before": "clamp(32px,3.2vw,47px)",
+      "after": "clamp(24px, 2.3vw, 32px)"
+    },
+    {
+      "file": "src/business-pages.css",
+      "selector": ".biz-hero h1",
+      "property": "line-height",
+      "before": null,
+      "after": "1.2"
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 21,
+      "selector": ".biz-hero h1",
+      "property": "font-size",
+      "before": "34px",
+      "after": "clamp(24px, 2.3vw, 32px)"
+    },
+    {
+      "file": "src/business-pages.css",
+      "selector": ".biz-hero h1",
+      "property": "line-height",
+      "before": null,
+      "after": "1.2"
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 4,
+      "selector": ".biz-search",
+      "property": "height",
+      "before": "42px",
+      "after": "44px"
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 13,
+      "selector": ".biz-chart i.sales,.biz-performance footer i.sales",
+      "property": "background",
+      "before": "var(--panel)",
+      "after": "var(--blue)"
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 13,
+      "selector": ".biz-chart i.hpp,.biz-performance footer i.hpp",
+      "property": "background",
+      "before": "var(--panel)",
+      "after": "var(--cyan)"
+    },
+    {
+      "file": "src/business-pages.css",
+      "line": 3,
+      "selector": ".biz-meta input,.biz-meta select,.biz-return-meta input,.biz-return-meta select,.biz-payment-form input,.biz-payment-form select,.biz-wide-field textarea,.biz-review-card textarea,.biz-inline-filters select,.biz-inline-filters input,.biz-invoice-lines footer input,.biz-master-detail>aside>select,.biz-double-filter select,.biz-history-toolbar select,.biz-report-controls input",
+      "property": "color-scheme",
+      "before": "dark",
+      "after": "light"
+    }
+  ],
+  "source_only": true,
+  "new_important_declarations": 0,
+  "existing_specificity_retained": true,
+  "financial_or_RPC_or_permission_changes": 0,
+  "actual_visual_acceptance": false,
+  "CP7_complete": false,
+  "production_go": false
+}

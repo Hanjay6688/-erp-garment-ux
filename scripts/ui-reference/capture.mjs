@@ -47,6 +47,26 @@ for(const baseline of immutableDashboardBaselines)report.retained_originals.push
   source_job_id:125508871053,source_artifact_id:13174052118,
   source_zip_sha256:'c735e15a683291cd1ee131db75a7a62362907582d4a09bc18b734082812db3d1',
   original_PNG_preserved:true,case_rerun:false})
+const loadedReferences=[
+  {variant:'before',surface:'sales-invoice',width:320,name:'before-sales-invoice-320.png',bytes:378786,sha256:'0e450e7efc478153050d9c273ed2dced2bd1fec902fb9f86accb01107e271f2d'},
+  {variant:'before',surface:'finance-payroll',width:320,name:'before-finance-payroll-320.png',bytes:446562,sha256:'0f7db466e51e6c6a07386d78263210adf978f46742884bf244ba8f464f128413'},
+  {variant:'before',surface:'sales-invoice',width:390,name:'before-sales-invoice-390.png',bytes:417863,sha256:'c7a230f051547da372edf965fe0226926813a23c30e3f7ebc1ae4755ca6749ef'},
+  {variant:'before',surface:'finance-payroll',width:390,name:'before-finance-payroll-390.png',bytes:491853,sha256:'961deb7f83abffb8ffa640bf2770a1947404509cecabc09c06d439a2b3453b31'},
+  {variant:'before',surface:'sales-invoice',width:768,name:'before-sales-invoice-768.png',bytes:544686,sha256:'cf5699f3e68058a2b096176a1e1ef3fb4cb567827e621613ac73330153e69f77'},
+  {variant:'before',surface:'finance-payroll',width:768,name:'before-finance-payroll-768.png',bytes:540152,sha256:'4236fb5a3f7e68d901c910bd4935b2d2dcfb87428ae15bd58cbf526833ba50f6'},
+  {variant:'before',surface:'sales-invoice',width:1440,name:'before-sales-invoice-1440.png',bytes:551902,sha256:'a5c699e0dd7e101a246d31dbf767424a73429fd02ce2be4297ff53a16e328502'},
+  {variant:'before',surface:'finance-payroll',width:1440,name:'before-finance-payroll-1440.png',bytes:674439,sha256:'8877e9bd1a90febe2d3424925a2e97792661148bb0d98892301f65c283269e11'},
+  {variant:'after',surface:'dashboard',width:320,name:'after-dashboard-320.png',bytes:138396,sha256:'426c709f7203642124df0202e18079477ece1dffab505056ef8250e84b6a171d'},
+  {variant:'after',surface:'dashboard',width:390,name:'after-dashboard-390.png',bytes:141252,sha256:'8602dee86fd84eac1692024f1daece0437c6a43c7d97e37d36cd53826ed10534'},
+  {variant:'after',surface:'dashboard',width:768,name:'after-dashboard-768.png',bytes:144734,sha256:'d9545e1c3eacc3b385c27c03d72cc948571b94eb480abbac221c648a78b20e3b'},
+  {variant:'after',surface:'dashboard',width:1440,name:'after-dashboard-1440.png',bytes:174276,sha256:'58300f9734330c01cc4ed9079d74db6465c202ed9d7a691eb0088539e684a1c9'},
+]
+for(const reference of loadedReferences)report.retained_originals.push({...reference,included_in_this_artifact:false,
+  source_head:'8bee8130e992a10da6a334d6de54a4b89e98a0c0',source_run_id:41517224634,
+  source_job_id:125523748264,source_artifact_id:13176370866,
+  source_zip_sha256:'1d972386a73f4c0b7687c58ea948ad4aee8c2e8575b03755239fa228653a18c7',
+  actual_loaded_selector:reference.surface==='sales-invoice'?'.biz-invoice-lifecycle':reference.surface==='finance-payroll'?'.payroll-detail':'.kpi-grid',
+  workspace_fallback_absent:true,original_PNG_preserved:true,case_rerun:false})
 const children=[]
 let browser
 const exited=child=>child.exitCode!==null||child.signalCode!==null
@@ -129,8 +149,9 @@ try{
     })
     try{
       for(const surface of surfaces){
-        if(variant.name==='before'&&surface.id==='dashboard'){
-          if(width===320)fs.writeFileSync(path.join(out,retained.screenshot.name),retainedPNG,{flag:'wx'})
+        if(variant.name==='before'||variant.name==='after'&&surface.id==='dashboard'){
+          if(variant.name==='before'&&surface.id==='dashboard'&&width===320)
+            fs.writeFileSync(path.join(out,retained.screenshot.name),retainedPNG,{flag:'wx'})
           continue
         }
         const page=await context.newPage(),errors=[],failures=[]
@@ -178,12 +199,12 @@ try{
       require(blocked.length===0,'UI_CAPTURE_EXTERNAL_NETWORK_ATTEMPT_REFUSED')
     }finally{await context.close()}
   }
-  require(report.variants.length===20,'UI_CAPTURE_EXACT_TWENTY_NEW_VIEWS_REQUIRED')
-  require(report.retained_originals.length===4,'UI_CAPTURE_EXACT_FOUR_IMMUTABLE_DASHBOARD_BASELINES_REQUIRED')
+  require(report.variants.length===8,'UI_CAPTURE_EXACT_EIGHT_NEW_BUSINESS_VIEWS_REQUIRED')
+  require(report.retained_originals.length===16,'UI_CAPTURE_EXACT_SIXTEEN_VALID_REFERENCES_REQUIRED')
   const evidenceKeys=[...report.variants.map(x=>`${x.variant}:${x.surface}:${x.width}`),
     ...report.retained_originals.map(x=>`${x.variant}:${x.surface}:${x.width}`)]
   require(new Set(evidenceKeys).size===24,'UI_CAPTURE_EACH_REQUIRED_EVIDENCE_VIEW_ONCE')
-  report.status='BEFORE_AFTER24_RETAINED4_NEW20_LOADED_CAPTURED_FINDINGS_PENDING_NOT_FINAL_UI_ACCEPTANCE'
+  report.status='BEFORE_AFTER24_RETAINED16_NEW8_BUSINESS_THEME_CAPTURED_FINDINGS_PENDING_NOT_FINAL_UI_ACCEPTANCE'
 }catch(error){report.first_error=error.stack;process.exitCode=1}
 finally{
   report.cleanup_errors=[]
