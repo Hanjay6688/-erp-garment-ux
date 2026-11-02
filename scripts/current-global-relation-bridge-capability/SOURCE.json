@@ -1,0 +1,51 @@
+{
+  "classification": "SEALED_PROFILE_RELATION_FENCE_ACTUAL17_MODEL_CAPABILITY_ONLY",
+  "exact_new_control_families": 4,
+  "old_completed_controls_NOT_rerun": true,
+  "actual_ERP_parent_installation": false,
+  "actual_Native_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false,
+  "files": {
+    "scripts/current-global-relation-bridge-capability/INVERSE.sql": {
+      "bytes": 107,
+      "sha256": "0018e8229db063cb5b2bb3d9645b529a5a8c9369ea6afcbcc8f8820784f4e651"
+    },
+    "scripts/current-global-relation-bridge-capability/PROFILE_SCHEMA.sql": {
+      "bytes": 1906,
+      "sha256": "9cbb6f3c9d167e77c80e6c1047e4e497cf03bf10b7f59e839465a2c6cdaa56bd"
+    },
+    "scripts/current-global-relation-bridge-capability/RELATION_FENCE.sql": {
+      "bytes": 5321,
+      "sha256": "792388496fc4d3dc46305a44aa986ec0594d33aaef9f65094fafaba898a0fd40"
+    },
+    "scripts/current-global-relation-bridge-capability/BASE_FENCE.sql": {
+      "bytes": 2863,
+      "sha256": "b44bd4a94a898afca0dc9360f14a595c2dcef1cc55a2a18347ebb6b84924e90e"
+    },
+    "scripts/current-global-relation-bridge-capability/SOURCE_PROOF.json": {
+      "bytes": 729,
+      "sha256": "20c2347e2ac4973196155d997f09ce1e25ad770e36dd0118c4bbad967e74cf42"
+    },
+    "scripts/current-global-relation-bridge-capability/probe.py": {
+      "bytes": 22211,
+      "sha256": "36f8b4c1dc560a7ff5449b956c131260caa4cd7d4734b9b5348e080ab25e5308"
+    },
+    ".github/workflows/cp7-global-relation-bridge-capability.yml": {
+      "bytes": 3402,
+      "sha256": "78d5b7748d6e1431bf3954e9ec1e4ad6799eed5276d6da2e72d5e2d37e180a17"
+    },
+    "scripts/current-global-catalog-bridge-capability/probe.py": {
+      "bytes": 13757,
+      "sha256": "c4b2db9f9fc9de5e7fc9c550651a522c69268cacb1411e42083a03002d3ad24b"
+    },
+    "scripts/cp7_ow04_restore_bundle.py": {
+      "bytes": 19828,
+      "sha256": "a1605193347cf5b3321a7bdbf8ff6c634df4f4c0a5113eb295e8c3ce44428e00"
+    },
+    "scripts/current-finance-combined-composition/disposable_start.py": {
+      "bytes": 2688,
+      "sha256": "523ec29f0566852f56627c7c9be791de215d09b55d8669c071024fd92aa8e257"
+    }
+  }
+}
