@@ -1,7 +1,7 @@
 {
   "status": "COMPLETE_MANDOR_INSTALL_PLAN_MODEL_ONLY_GATE_NEVER_OPENED",
-  "prepared_module_head": "cf5ce1565db5beaa291560bedeed505539b17047",
-  "prepared_module_tree": "d102bdf45791a321048bb38cec1f121fb213d697",
+  "prepared_module_head": "816f63735d4be2a882a78e01dfba4b284de429b3",
+  "prepared_module_tree": "9a032abe2579defc1a054515023eb08d58899b86",
   "module_source_pins": 83,
   "model_parent_tables": 45,
   "Native_source_definitions_reproduced_in_model": 11,
@@ -19,5 +19,8 @@
   "existing_public_schema_adds_only_declared_new_API_USAGE": true,
   "all_previous_raw_ACL_entries_preserved": true,
   "exact_original_raw_public_ACL_after_preuse_inverse": true,
-  "only_new_private_table_ACLs_normalized": true
+  "only_new_private_table_ACLs_normalized": true,
+  "third_440_failure_preserved": true,
+  "full_original_compiled_all22_review_completed_before_new_run": true,
+  "only_two_exact_declared_parent_constraint_trigger_rows_added_to_admission": true
 }

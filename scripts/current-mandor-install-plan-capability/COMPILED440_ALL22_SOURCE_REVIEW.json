@@ -1,0 +1,16 @@
+{
+  "status": "COMPLETE_ORIGINAL_COMPILED_MODEL_RAW22_REVIEW_NOT_NEW_RUNTIME",
+  "original_440_remains_failed": true,
+  "original_report_pin": {
+    "bytes": 1375922,
+    "sha256": "afc46588d93fdbacb8919c1e2d8d0c2c7595c5a16e7bfad20583c7744167a3f1"
+  },
+  "all22_transition_classified": true,
+  "all34private_and6public_function_ACLs_checked": true,
+  "all15private_table_owner_RLS_ACLs_checked": true,
+  "exact2parent_constraint_trigger_catalogue_rows_from_declared_source": true,
+  "actual_Native_cases": 0,
+  "SQL_executed": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

@@ -24,5 +24,8 @@
   "existing_public_schema_delta": "Only the originally declared new API-role USAGE; original raw entries and ordering preserved, exact original raw ACL after unused removal",
   "second_actual_model_attempt_refused_undeclared_public_schema_delta": true,
   "all_fifteen_new_private_table_ACLs_owner_only": true,
-  "existing_Native_table_ACLs_unchanged": true
+  "existing_Native_table_ACLs_unchanged": true,
+  "four_constraint_triggers_declared": true,
+  "two_Native_parent_constraint_rows_exactly_admitted": true,
+  "complete_original_440_compiled_all22_delta_reviewed_without_DB_rerun": true
 }

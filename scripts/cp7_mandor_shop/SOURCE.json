@@ -132,8 +132,8 @@
       "sha256": "ba3da6e7c3a7ca001ff55f87588dc2fa0e9d7e4d93ddf01f213176121e789c7d"
     },
     "scripts/cp7_mandor_shop/README.md": {
-      "bytes": 18618,
-      "sha256": "a36beb33054a33e8905cda404ca51484455551e1952daec067759c22fbc55cad"
+      "bytes": 18782,
+      "sha256": "9cbb02ed9725e277659c083bcdae8e7493115106e19692fc3cefcdc8d67cb35f"
     },
     "scripts/cp7_mandor_shop/SALES_COMMAND_MODEL_ORIGIN.json": {
       "bytes": 960,
@@ -324,16 +324,16 @@
       "sha256": "40b5346730f3d21e30d0dc1b1a318b310f3722a9874cd70d0f586f865a104232"
     },
     "scripts/cp7_mandor_shop/composition.py": {
-      "bytes": 18615,
-      "sha256": "b7a1cb96ceba3d92ab49f9ba912329e604198161b1dac12c2a0671263c4f15bd"
+      "bytes": 19211,
+      "sha256": "225f60263c651352e035a1aea3cc12484711fafee1e274162d4498da74807443"
     },
     "scripts/cp7_mandor_shop/INSTALL_PLAN.json": {
-      "bytes": 8163,
-      "sha256": "c605c563b769ca992c60430a59e29f6b92b3de0fb67e1e33ceeea37af94e5cb4"
+      "bytes": 10554,
+      "sha256": "3f79e8017990399f246bdb78a86599248cbd0a271afba2d6b035f2e3e9253d15"
     },
     "scripts/cp7_mandor_shop/INSTALLER_SOURCE_CONTROLS.json": {
-      "bytes": 1350,
-      "sha256": "7ea98d69828d83dfe6c423a93670a018891101cb2a1a42e413001c87f150a7be"
+      "bytes": 1537,
+      "sha256": "8cafbacc8e4d2025cb5eadc6a6188f1a696697c92964d25b0958464410e9483b"
     }
   },
   "schema_tables": 15,

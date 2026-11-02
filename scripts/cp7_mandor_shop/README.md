@@ -10,7 +10,9 @@ owner; no existing role membership is granted to postgres. Native OIDs and raw f
 schema gains only the declared new API role USAGE, preserving the previous
 raw entries and order; unused removal restores its original raw ACL exactly. Removal refuses
 owned rows and drops only declared objects explicitly; after use a full backup
-restore is required. Actual complete ERP installation remains unqualified.
+restore is required. The four declared constraint triggers also create catalogue constraint rows;
+the two on Native journal tables are admitted by exact names, flags and full
+metadata. Actual complete ERP installation remains unqualified.
 
 A new bounded source authority review found that private `save_sale` could not
 execute `cp7_sales.command` directly as postgres. `native_dispatch.py` derives
