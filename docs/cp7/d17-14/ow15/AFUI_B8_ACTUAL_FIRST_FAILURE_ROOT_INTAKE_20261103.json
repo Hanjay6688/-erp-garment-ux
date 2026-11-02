@@ -1,0 +1,104 @@
+{
+  "contract": "cp7.Root.Afui.B8.actual-first-failure-intake.v1",
+  "observed_at_UTC": "2026-11-02T19:14:25.802669+00:00",
+  "status": "ACTUAL_AFUI_B8_FAILED_COMMON_FIXTURE_AND_PRIVATE_INFO_REVIEW_FULL_RESTORATION_VERIFIED",
+  "head": "b8c572d28f944ad9a5947ffc164e134558ed6641",
+  "tree": "300254b48a70162356ce70c9416e2a4c1a33b62d",
+  "run_id": 41486910739,
+  "job_id": 125419579494,
+  "run_attempt": 1,
+  "conclusion": "failure",
+  "canonical": {
+    "bytes": 2265336,
+    "sha256": "10fdfd2bf75d06711ae1500b3bdff8c173179907bd1ccadbb4f3b8f9b866f653",
+    "artifact_id": 13170676547,
+    "library_file_id": "libfile_ff8b81d967fc81919854c575896629dc"
+  },
+  "originals": {
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360422,
+      "sha256": "c8d3ed40f63a53119cebe8e1ecf3ce47f088918db7eac3f925ca7aa2e91eaf42"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 1470,
+      "sha256": "18c641ba4f9101842ceb86faf270e247280b88addb054192f7d4c3bf280422a5"
+    },
+    "CP7_AFUI_GOOD_NONPAYABLE_FULL15_NATIVE9.json": {
+      "bytes": 50826,
+      "sha256": "576b47d4286c693499345607197f5fb5afe556dbf395db822a82a5fa38383f4b"
+    },
+    "AFUI_FUNCTION_ACL_CAPABILITY.json": {
+      "bytes": 2069,
+      "sha256": "25979c3bce99b8fe4e43fbd11a58270592a82520c962a48f543d0836a44d8be3"
+    },
+    "AFUI_RUNTIME_SUPERVISION.json": {
+      "bytes": 584,
+      "sha256": "498e1b3b00c5c7c4e1292b2b66d08a75798e6de1eaf623250f8d96bd685f38c2"
+    },
+    "CP7_AFUI_GOOD_NONPAYABLE_FULL15.json": {
+      "bytes": 5039454,
+      "sha256": "57742befacefa5f004705d86cf86b33fce880c8786dde139a3e41efe289f88f5"
+    }
+  },
+  "Native_planned": 9,
+  "Native_statuses": {
+    "INCOMPLETE": 9
+  },
+  "actual_Native_cases_pass": 0,
+  "actual_Auth_HTTP_cases": 0,
+  "actual_two_session_races": 0,
+  "actual_browser_cases": 0,
+  "common_setup_error": "BF_HISTORY: master baru hanya mulai sekarang atau mendatang",
+  "actual_Native_guard": "at_time < statement_timestamp()-interval '5 minutes'",
+  "wrong_fixture_input": "Retained S05 recipe supplied physical-day midnight for a newly created commercial master",
+  "Native_guard_and_financial_product_code_unchanged": true,
+  "own_fixture_fix_pending_actual_execution": true,
+  "all_nine_case_boundaries_restored": true,
+  "complete_group_boundary_restored": true,
+  "owning_full22_all_rows_all_sequences_restored": true,
+  "raw_public_restored": true,
+  "baseline_advisors_restored": true,
+  "backup_drill_status": "RESTORED_IDENTICAL",
+  "outer_package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "all_five": false,
+  "current_component_advisor_gate": false,
+  "unexplained_private_INFO": [
+    {
+      "name": "category_versions_v1",
+      "type": "table",
+      "schema": "cp7_accessory_nonpayable"
+    },
+    {
+      "name": "date_requests_v1",
+      "type": "table",
+      "schema": "cp7_accessory_nonpayable"
+    },
+    {
+      "name": "good_bases_v1",
+      "type": "table",
+      "schema": "cp7_accessory_nonpayable"
+    }
+  ],
+  "private_INFO_is_not_yet_accepted": true,
+  "worker_exit": 1,
+  "process_tree_empty": true,
+  "deadline_reached": false,
+  "monitor_2470_closed": true,
+  "successor_scope": [
+    "Use genuine SQL timestamps through unchanged master API; GOOD and later actions follow current master lawfully",
+    "Review exactly3 actual private default-deny INFOs with full live authority checks",
+    "Fail fast after first common-case error without marking blocked cases PASS"
+  ],
+  "complete15_qualified": false,
+  "package_all_five": false,
+  "accepted_as_Mandor_parent": false,
+  "CP7_complete": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

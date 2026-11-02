@@ -8,7 +8,7 @@
   "production_go": false,
   "independent_acceptance": false,
   "current_qualification": {
-    "status": "IN_PROGRESS_GENUINE_WIB_DAY_WINDOW",
+    "status": "completed",
     "head": "b8c572d28f944ad9a5947ffc164e134558ed6641",
     "tree": "300254b48a70162356ce70c9416e2a4c1a33b62d",
     "run_id": 41486910739,
@@ -24,11 +24,14 @@
     "actual_qualified_cases": 0,
     "source_graph84_retained_without_rerun": true,
     "production_go": false,
-    "independent_acceptance": false
+    "independent_acceptance": false,
+    "conclusion": "failure",
+    "actual_business_cases_qualified": 0,
+    "terminal_Root_intake": "AFUI_B8_ACTUAL_FIRST_FAILURE_ROOT_INTAKE_20261103.json"
   },
-  "sole_readonly_monitor_cell": "2470",
+  "sole_readonly_monitor_cell": null,
   "new_qualified_cases": 0,
-  "Root_terminal_intake_pending": true,
+  "Root_terminal_intake_pending": false,
   "accepted_parent": {
     "head": "91a7b46ed13c4ad6094114871a4a39fa6765d140",
     "tree": "01c4807d932af1d534477c4c182715b1378bd39b",
@@ -566,7 +569,7 @@
     "historical17_is_a_selected_projection_not_full_actual19": true
   },
   "continuity": "Continue CP7. Afui100 b8c572 actual run41486910739/job125419579494 is active; sole monitor2470, activated17:00:10Z under genuine six-hour day guard. Do not duplicate. Unified2135bdde/tree22a391713 has Afui/Global/Mandor, accessory tab contrast and exact shared source fences. TypeScript7 compile and CSS69 pass; Native/Mandor business qualification, moving-average and combined final acceptance remain pending. Global0f93 DDL3 remains valid.",
-  "operational_update_UTC": "2026-11-02T18:37:35.951774+00:00",
+  "operational_update_UTC": "2026-11-02T19:14:25.802669+00:00",
   "current_qualification_observation_is_earlier_API_snapshot": false,
   "retained_permanent_financial4": {
     "evidence": "CURRENT_PERMANENT23E_ROOT_RETAINED4_20261102.json",
@@ -803,7 +806,8 @@
     "2274",
     "2308",
     "2353",
-    "2388"
+    "2388",
+    "2470"
   ],
   "global_catalog_primitives": {
     "status": "ROOT_VERIFIED_REAL_PG17_CATALOG_PRIMITIVES_RETAINED4_FRESH3_NOT_ERP_CLOSURE",
@@ -1285,7 +1289,8 @@
     "evidence": "UNIFIED213_FRONTEND_COMPILE_20261103.json",
     "Mandor_Native6_owning_source_prepared": true,
     "actual_Mandor_business_cases": 0,
-    "owning_workflow_pending": true
+    "owning_workflow_pending": true,
+    "Afui_parent_qualification_failed_admission_stays_closed": true
   },
   "global_dispatch_input_source_review": {
     "evidence": "GLOBAL_COMPILED0F9_DISPATCH_INPUT_SOURCE_REVIEW_20261102.json",
@@ -1350,7 +1355,7 @@
     "owning_workflow_pending": true
   },
   "owner_UI_refinement": {
-    "status": "HANDOFF_AND_TWO_IMAGES_READ_ACTUAL_SOURCE_INVENTORY_WRITTEN",
+    "status": "SHARED_THEME_SOURCE_IMPLEMENTED_LOCAL_BUILD_PASS_BROWSER_CAPTURE_NOT_YET_ACTIVATED",
     "owner_handoff": {
       "library_file_id": "libfile_2c81e41399488191967a3c7751b24997",
       "sha256": "213f1bb0ffb376f51245b90bbef451b81b83a35710f076cf78d2bc457da11a53"
@@ -1361,8 +1366,35 @@
     "branch": "astra-a/ui-reference-theme-20261103",
     "base_head": "2c7a5a05516548667ec71faedcffb3591828100f",
     "implementation_timing": "Prepare theme/shared shell in isolated Writer A worktree while Afui runs; three representative screens before remaining families; integrate after active candidate result is clear",
-    "actual_UI_implementation": false,
+    "actual_UI_implementation": true,
     "actual_visual_acceptance": false,
-    "owner_scope_separate_from_CP7_denominator": true
+    "owner_scope_separate_from_CP7_denominator": true,
+    "existing_stylesheets_migrated": 19,
+    "existing_stylesheets_remaining": 50,
+    "local_commit": "97a0b667dd0e79a13575d7e46dae8a26f9a290fe",
+    "local_tree": "d15ee827cfbbaac1ad728f54e82e08f63456c6d3",
+    "public_head": null,
+    "source_access_CSS_TypeScript_build_secret_scan": "PASS",
+    "local_browser_download_failed": true,
+    "Git_CLI_push_credentials_unavailable": true,
+    "connected_GitHub_plugin_publication_pending": true
+  },
+  "Afui_B8_failed_actual_qualification": {
+    "status": "ACTUAL_AFUI_B8_FAILED_COMMON_FIXTURE_AND_PRIVATE_INFO_REVIEW_FULL_RESTORATION_VERIFIED",
+    "head": "b8c572d28f944ad9a5947ffc164e134558ed6641",
+    "run_id": 41486910739,
+    "job_id": 125419579494,
+    "canonical": {
+      "bytes": 2265336,
+      "sha256": "10fdfd2bf75d06711ae1500b3bdff8c173179907bd1ccadbb4f3b8f9b866f653",
+      "artifact_id": 13170676547,
+      "library_file_id": "libfile_ff8b81d967fc81919854c575896629dc"
+    },
+    "common_setup_error": "BF_HISTORY: master baru hanya mulai sekarang atau mendatang",
+    "actual_Native_cases_pass": 0,
+    "owning_full22_all_rows_all_sequences_restored": true,
+    "current_component_advisor_gate": false,
+    "all_five": false,
+    "monitor_2470_closed": true
   }
 }
