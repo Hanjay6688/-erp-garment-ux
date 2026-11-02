@@ -1,0 +1,30 @@
+{
+  "contract": "cp7.Root.Mandor-Native6.lawful-current-time-preparation.v1",
+  "observed_at_UTC": "2026-11-02T20:20:09.262937+00:00",
+  "status": "SOURCE_PREFLIGHT_PASS_RUNTIME_AND_BUSINESS_CLOSED",
+  "branch": "astra-a/unified-cp7-source-candidate-20261102",
+  "base_head": "4512d08229bccdc6a81aefc608c869626a92ecc8",
+  "public_head": "8813415e17dd7aa63c8ad2afadf3433bba65e6fc",
+  "local_head": "651416e688dcb9e7403beff5597522d8d855734d",
+  "tree": "c789744272f91264aa8796338c2595571022bd3f",
+  "source_preflight": {
+    "helper_calls": 121,
+    "oracle_calls": 27,
+    "literal_public_RPC_sites": 8,
+    "fixed_SQL_statements_parsed": 21
+  },
+  "fixture_corrections": {
+    "commercial_master_GOOD_and_sale_use_genuine_current_database_clock": true,
+    "earlier_pickup_and_receipt_lineage_retained": true,
+    "future_week_is_DRAFT_reserve_release_cancel_only": true,
+    "future_draft_payment_date_and_account_are_null": true,
+    "eligible_week_pays_same_invoice": true
+  },
+  "actual_SQL_executed": 0,
+  "actual_Native_cases": 0,
+  "accepted_parent_root_pin": null,
+  "runtime_entry": null,
+  "owning_workflow_pending": true,
+  "CP7_complete": false,
+  "production_go": false
+}

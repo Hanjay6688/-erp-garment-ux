@@ -1,0 +1,23 @@
+{
+  "contract": "cp7.Root.UI-c5.business-theme-activation.v1",
+  "observed_at_UTC": "2026-11-02T20:20:09.262937+00:00",
+  "status": "ACTUAL_UI_CAPTURE_IN_PROGRESS_NOT_ACCEPTED",
+  "branch": "astra-a/ui-reference-theme-20261103",
+  "base_head": "8bee8130e992a10da6a334d6de54a4b89e98a0c0",
+  "public_head": "c5d5af2656eb17e622c1067ebea50f91fa39d5d9",
+  "local_head": "fbb36567c8796e66f2cb7fbd902fa2b582bd9516",
+  "tree": "d2000c461719915afbd3c6b67d8786b073f67742",
+  "run_id": 41518263959,
+  "job_id": 125527306036,
+  "run_attempt": 1,
+  "business_pages_changed_declarations": 425,
+  "new_important_declarations": 0,
+  "local_source_and_build_checks": "PASS",
+  "actual_financial_source_changes": 0,
+  "retained_valid_views": 16,
+  "new_changed_after_views": 8,
+  "duplicate_valid_view_reruns": 0,
+  "conclusion": null,
+  "actual_UI_final_acceptance": false,
+  "production_go": false
+}

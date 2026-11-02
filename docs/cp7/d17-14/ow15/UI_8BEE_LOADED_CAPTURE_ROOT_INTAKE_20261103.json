@@ -1,0 +1,31 @@
+{
+  "contract": "cp7.Root.UI-8bee.loaded-capture-intake.v1",
+  "observed_at_UTC": "2026-11-02T20:20:09.262937+00:00",
+  "status": "LOADED_SCREEN_CAPTURE_VALID_BUT_VISUAL_CORRECTION_REQUIRED",
+  "head": "8bee8130e992a10da6a334d6de54a4b89e98a0c0",
+  "tree": "5391568273911d3e9468951bbf8f6f2ca49427d8",
+  "run_id": 41517224634,
+  "job_id": 125523748264,
+  "conclusion": "success",
+  "new_views": 20,
+  "retained_views": 4,
+  "workspace_fallback_absent": true,
+  "all_new_screenshot_hashes_verified": true,
+  "after_overflow_views": 0,
+  "after_sample_contrast_findings": 16,
+  "actual_heading_sizes": {
+    "dashboard_px": "24-32",
+    "sales_and_payroll_phone_px": 34,
+    "sales_and_payroll_desktop_max_px": 46.08
+  },
+  "canonical": {
+    "bytes": 7104439,
+    "sha256": "1d972386a73f4c0b7687c58ea948ad4aee8c2e8575b03755239fa228653a18c7",
+    "artifact_id": 13176370866,
+    "library_file_id": "libfile_f5182e2ae880819182a19b7c9a337be4"
+  },
+  "visual_acceptance_withheld": true,
+  "actual_Mandor_popup_acceptance": false,
+  "actual_UI_final_acceptance": false,
+  "production_go": false
+}
