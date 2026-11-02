@@ -1,0 +1,61 @@
+{
+  "status": "FG_MANDOR_PUBLIC4_DISPLAY4_AND_CONTROLLED_UI15_PREPARED_NOT_NATIVE",
+  "observed_at_UTC": "2026-11-02T08:24:38.262207+00:00",
+  "head": "2c79332ddf6d4b166d76111dc6b768d64b0f18a8",
+  "tree": "c769682e5ffed77b8b2e5315a49dd9f0ab7aa8fc",
+  "branch": "astra-a/fg-mandor-storage-source-prepared-20261102",
+  "own_script_paths": 55,
+  "script_source_pins": 54,
+  "added_UI_paths": 6,
+  "UI_source_pins": 6,
+  "total_added_paths": 61,
+  "private_tables": 15,
+  "private_functions": 31,
+  "public_facade_source_functions": 4,
+  "public_facade_private_entrypoint_grants": 4,
+  "actual_public_facade_activated": false,
+  "new_facade_models_first9_PASS": true,
+  "new_exact_cents_display_models_first4_PASS": true,
+  "prior_131_models_NOT_rerun": true,
+  "logical_SQL_model_control_coverage": 144,
+  "new_UI_parser_cases_first8_PASS": true,
+  "new_UI_DOM_cases_first7_PASS": true,
+  "typecheck_no_diagnostics": true,
+  "jsdom_dialog_methods_explicitly_modeled": true,
+  "UI_source_written": true,
+  "UI_mounted_or_RPC_wired": false,
+  "existing_parent_files_changed": 0,
+  "exact_native_or_private_owner_body_changes": 0,
+  "canonical_originals": [
+    {
+      "kind": "facade9",
+      "library_file_id": "libfile_252c8fab43b48191bea3437700e24d8f",
+      "bytes": 2397,
+      "sha256": "ff7d72bec1f08fc023752404bd11b8a3df143a3a432fc1034b0f21fa1260830f"
+    },
+    {
+      "kind": "display4",
+      "library_file_id": "libfile_846d24f6a4948191b82e24f3af5f9e38",
+      "bytes": 1988,
+      "sha256": "422ee8c3d133ca2d092eecbf3bb9faf24463b9fdd904682b5ed67a38faee0046"
+    },
+    {
+      "kind": "controlled_UI15",
+      "library_file_id": "libfile_fa7881157fe08191880b6404e574b430",
+      "bytes": 2248,
+      "sha256": "889cf55098bb58f4d4f91d5d4d1c995aad1d6a753cca10ee727cb197eebffcb6"
+    }
+  ],
+  "remaining": [
+    "Wire controllers to the existing production recovery and selected payroll; mount popup",
+    "Finish category Toko/Mandor in existing sales using the authoritative buyer identity",
+    "Review the actual accepted final Native profile and install complete component safely",
+    "Qualify actual Native economic paths, rights/Auth, two backends/tabs and desktop/mobile with unchanged sales stock/HPP"
+  ],
+  "actual_Native_cases": 0,
+  "actual_Auth_HTTP_cases": 0,
+  "actual_browser_cases": 0,
+  "actual_two_session_races": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

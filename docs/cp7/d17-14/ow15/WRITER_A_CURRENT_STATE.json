@@ -1,6 +1,6 @@
 {
   "contract": "writer-a.compact-current-state.v1",
-  "observed_at_UTC": "2026-11-02T08:02:21.352112+00:00",
+  "observed_at_UTC": "2026-11-02T08:24:38.262207+00:00",
   "integrator": "A",
   "A_B_division_preserved": true,
   "formal_CP7": "5/16",
@@ -178,11 +178,11 @@
       "actual_full15_pending": true
     },
     "FG_MANDOR": {
-      "head": "07d45bfd1ce975bc059e7fda35c2268c8d878b8b",
-      "tree": "7b21376619e1b0d483094e962c862ca24792741a",
+      "head": "2c79332ddf6d4b166d76111dc6b768d64b0f18a8",
+      "tree": "c769682e5ffed77b8b2e5315a49dd9f0ab7aa8fc",
       "branch": "astra-a/fg-mandor-storage-source-prepared-20261102",
-      "own_paths": 45,
-      "source_pins": 44,
+      "own_paths": 61,
+      "source_pins": 54,
       "private_tables": 15,
       "private_functions": 31,
       "new_private_allocation_model_controls": 15,
@@ -201,7 +201,7 @@
       "Native_header_identity_source_written": true,
       "Native_payment_hooks_implemented": false,
       "App_popup_implemented": false,
-      "evidence": "FG_MANDOR_PAYMENT_GUARDS_NEW13_SOURCE_PREPARED_20261102.json",
+      "evidence": "FG_MANDOR_PUBLIC4_DISPLAY4_CONTROLLED_UI15_PREPARED_20261102.json",
       "pending_unpublished_local_work": {
         "local_head": "cca36f1c83c39d6d585e3ec74eec15998d242ba1",
         "tree": "3822a4f6cb52279207d24467380cbb33f218c184",
@@ -220,7 +220,7 @@
       "private_offset_functions": 3,
       "private_offset_model_controls": 28,
       "retained_67_model_controls_NOT_rerun": true,
-      "logical_model_control_coverage": 131,
+      "logical_model_control_coverage": 144,
       "unpublished_local_offset_work_rebuilt_and_published": true,
       "authoritative_Native_paid_projection_integrated": false,
       "private_payment_functions": 4,
@@ -234,7 +234,17 @@
       "private_payment_guard_functions": 6,
       "Native_payment_guard_triggers": 6,
       "new_payment_guard_model_controls": 13,
-      "retained118_models_NOT_rerun": true
+      "retained118_models_NOT_rerun": true,
+      "UI_source_pins": 6,
+      "public_facade_source_functions": 4,
+      "public_facade_source_implemented": true,
+      "public_facade_runtime_activated": false,
+      "new_facade_model_controls": 9,
+      "new_exact_display_model_controls": 4,
+      "new_UI_parser_cases": 8,
+      "new_UI_DOM_cases": 7,
+      "popup_component_source_written": true,
+      "popup_mounted_or_RPC_wired": false
     },
     "GLOBAL_ENVELOPE": {
       "local_head": "c9e8264fff0a09f2005e7a6ab3d0c9edc5900abf",
@@ -276,7 +286,7 @@
       "future_actual_parent_preDB_natural_graph_required": true
     }
   },
-  "continuity": "Sole Afui91 full15 run41410071146/job125160850217 on f4f16/c295 monitored by1846. Source-only84 actual API bindings retained from immutable original after fixing Root final-wrapper path assumption; source run staysfailure and is NOTrerun. Work other CP7 safely during actualCI; inspect terminal canonical before acceptance. Mandor journal/invoice guards07d45/7b213 source-only saved.",
+  "continuity": "Sole actual Afui91 full15 run41410071146/job125160850217 continues on frozen f4f16/c295; monitor1846 only. Mandor source2c793/c769 now has four browser facades (first9 model PASS), exact-cent display (first4 PASS) and controlled popup/parser (first15 client PASS, typecheck clean), all unactivated. Continue recovery-aware controller/mount and sales Toko/Mandor, then final installer/native-profile and actual qualification. No prior tests rerun.",
   "operational_update_UTC": "2026-11-02T04:18:24.706Z",
   "current_qualification_observation_is_earlier_API_snapshot": false,
   "retained_permanent_financial4": {
