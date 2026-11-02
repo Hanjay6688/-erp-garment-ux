@@ -9,7 +9,7 @@ ROOT=HERE.parents[1]
 
 def check():
     manifest=HERE/'SOURCE.json';value=json.loads(manifest.read_bytes())
-    assert value['classification']=='CLOSED_FG_MANDOR_STORAGE_EVENT_PREPARATION_NOT_QUALIFICATION'
+    assert value['classification']=='CLOSED_FG_MANDOR_PRIVATE_ALLOCATION_PREPARATION_NOT_QUALIFICATION'
     assert value['actual_Native_cases']==0 and value['production_go']is False and value['independent_acceptance']is False
     env=dict(os.environ,GIT_NO_LAZY_FETCH='1',GIT_OPTIONAL_LOCKS='0')
     def git(*args):return subprocess.check_output(['/usr/bin/git','-C',str(ROOT),*args],env=env)
@@ -38,8 +38,19 @@ def check():
     assert model['actual_Native_cases']==0 and model['actual_Auth_HTTP_cases']==0 and model['actual_two_session_races']==0
     for name,expected in model['source_files'].items():
         raw=(HERE/name).read_bytes();assert {'bytes':len(raw),'sha256':sha256(raw).hexdigest()}==expected
+    allocation=json.loads((HERE/'ALLOCATION_MODEL_CONTROLS.json').read_bytes())
+    assert allocation['status']=='FG_MANDOR_PRIVATE_ALLOCATION_MODEL_CONTROLS_PASS_NOT_NATIVE'
+    assert allocation['retained_storage_15_controls_NOT_rerun']is True
+    assert allocation['actual_Native_cases']==allocation['actual_Auth_HTTP_cases']==allocation['actual_two_session_races']==allocation['actual_browser_cases']==0
+    for name,expected in allocation['source_files'].items():
+        raw=(HERE/name).read_bytes();assert {'bytes':len(raw),'sha256':sha256(raw).hexdigest()}==expected
+    syntax=json.loads((HERE/'ALLOCATION_SQL_SYNTAX_CONTROLS.json').read_bytes())
+    raw=(HERE/'allocation.sql').read_bytes()
+    assert syntax['source']=={'bytes':len(raw),'sha256':sha256(raw).hexdigest()}
+    assert syntax['ERP_SQL_executed']==0 and syntax['actual_Native_cases']==0
     return dict(status='FG_MANDOR_EXACT_STORAGE_PREPARATION_SOURCE_ONLY',unchanged_parent_blobs_and_modes=len(base),
         own_source_pins=len(value['files']),storage_model_controls=len(model['results']),parent_gate_closed=True,
+        private_allocation_model_controls=len(allocation['results']),retained_storage_controls_NOT_rerun=True,
         runtime_entry=None,ERP_imports=0,SQL_executed=0,actual_Native_cases=0,production_go=False,independent_acceptance=False)
 
 

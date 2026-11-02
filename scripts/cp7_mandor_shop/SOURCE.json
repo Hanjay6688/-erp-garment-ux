@@ -1,15 +1,27 @@
 {
-  "classification": "CLOSED_FG_MANDOR_STORAGE_EVENT_PREPARATION_NOT_QUALIFICATION",
+  "classification": "CLOSED_FG_MANDOR_PRIVATE_ALLOCATION_PREPARATION_NOT_QUALIFICATION",
   "base_head": "15a2170cea88cd03a4d1bcaa0873a969d495b9fa",
   "base_tree": "3fe772a1314ae6bc7c4f36f72e3fda8738eb70fc",
   "files": {
+    "scripts/cp7_mandor_shop/ALLOCATION_MODEL_CONTROLS.json": {
+      "bytes": 4208,
+      "sha256": "da5d51f90412db34247bcf10c35ebadc0d4e97418e1521b4211bb7515f384772"
+    },
+    "scripts/cp7_mandor_shop/ALLOCATION_SQL_SYNTAX_CONTROLS.json": {
+      "bytes": 686,
+      "sha256": "7cc8bc6ace4920d9499cec32abe77b2d8cbdb973b6c43bc57d7a2a45be1e34e6"
+    },
+    "scripts/cp7_mandor_shop/NATIVE_ALLOCATION_REFERENCE.json": {
+      "bytes": 41819,
+      "sha256": "d8186788861fafe039af6e4745a92ed69fc8b27287e295cdd9af55bcfc36d9c2"
+    },
     "scripts/cp7_mandor_shop/NATIVE_SCHEMA_REFERENCE.json": {
       "bytes": 45357,
       "sha256": "07a46166c6ae74d078ee643637cadccc74714ae5297c1151059ae00a786acf28"
     },
     "scripts/cp7_mandor_shop/README.md": {
-      "bytes": 2284,
-      "sha256": "cd1fed2b8620397308f81697e978b999a50e682e167433ba6a7269160a017f86"
+      "bytes": 3705,
+      "sha256": "3d9d4fdcdb2991315a113c81a79335db83f1e60fb8ac127ce44b48ac84e5890d"
     },
     "scripts/cp7_mandor_shop/SQL_SYNTAX_CONTROLS.json": {
       "bytes": 1986,
@@ -27,9 +39,17 @@
       "bytes": 1270,
       "sha256": "30591a4aaa3e46828550d21c0cc8a35123cb69579678240326f28200d34e8686"
     },
+    "scripts/cp7_mandor_shop/allocation.sql": {
+      "bytes": 16985,
+      "sha256": "e57c96f8289ef95cbce60b337ccba57109c4428115448526f79ed82f42b3a0c2"
+    },
+    "scripts/cp7_mandor_shop/allocation_model.mjs": {
+      "bytes": 16505,
+      "sha256": "ab7f1acd7500f6b43eac332be87adbfd6e07434cb1a0b6524e1ad6133669aeb3"
+    },
     "scripts/cp7_mandor_shop/check_source.py": {
-      "bytes": 3037,
-      "sha256": "9359e8fdd1f7449f5b152acdb1070e8edab72216eeef680dcdaf032e96d6bbe7"
+      "bytes": 4013,
+      "sha256": "39fd0a9f0582ea5a98721aef30fdc250f993ee4bae47c408c2dc0a9341cb7809"
     },
     "scripts/cp7_mandor_shop/events.sql": {
       "bytes": 8216,
@@ -54,5 +74,8 @@
   "runtime_entry": null,
   "actual_Native_cases": 0,
   "production_go": false,
-  "independent_acceptance": false
+  "independent_acceptance": false,
+  "private_allocation_model_controls": 15,
+  "retained_storage_model_controls_NOT_rerun": 15,
+  "public_commands_or_runtime_activated": false
 }
