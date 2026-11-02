@@ -24,6 +24,8 @@ jobs:
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
           node-version: '22'
+      - name: Fetch only the exact immutable baseline commit required by the source reader
+        run: git -C after fetch --no-tags --depth=1 origin 2c7a5a05516548667ec71faedcffb3591828100f
       - name: Install exact unchanged UI dependencies once
         working-directory: after
         run: npm ci --ignore-scripts --no-audit --no-fund

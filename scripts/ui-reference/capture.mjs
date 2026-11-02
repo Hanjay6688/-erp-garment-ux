@@ -11,7 +11,6 @@ const base='2c7a5a05516548667ec71faedcffb3591828100f'
 const git=(cwd,...args)=>execFileSync('git',['-C',cwd,...args],{encoding:'utf8'}).trim()
 const require=(ok,message)=>{if(!ok)throw Error(message)}
 const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms))
-const escape=value=>value.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')
 const surfaces=[
   {id:'dashboard',group:null,label:'Dashboard'},
   {id:'sales-invoice',group:'Penjualan',label:'Penjualan & Invoice'},
@@ -20,11 +19,23 @@ const surfaces=[
 fs.mkdirSync(out,{recursive:true})
 const report={contract:'cp7.owner-UI.real-browser-capture.v1',status:'INCOMPLETE',
   before_head:git(before,'rev-parse','HEAD'),after_head:git(root,'rev-parse','HEAD'),
-  variants:[],actual_financial_cases:0,actual_Auth_cases:0,actual_SQL_executed:0,
+  variants:[],retained_originals:[],actual_financial_cases:0,actual_Auth_cases:0,actual_SQL_executed:0,
   actual_Mandor_popup_acceptance:false,actual_UI_final_acceptance:false,production_go:false,
   note:'Screenshots use existing DEMO_SIMULATION only. Findings are retained; capture is not final visual acceptance.'}
 require(report.before_head===base,'UI_CAPTURE_EXACT_BEFORE_COMMIT_REQUIRED')
 if(process.env.GITHUB_SHA)require(report.after_head===process.env.GITHUB_SHA,'UI_CAPTURE_CURRENT_CANDIDATE_REQUIRED')
+const retainedDirectory=path.join(root,'scripts/ui-reference/retained-before320')
+const retainedRaw=fs.readFileSync(path.join(retainedDirectory,'UI_REFERENCE_CAPTURE.json'))
+require(crypto.createHash('sha256').update(retainedRaw).digest('hex')==='7d95bb1cd9efa30228a4753933607d5b3e8497ef42ba47d5fe614317383fab78',
+  'UI_CAPTURE_EXACT_FIRST_ORIGINAL_REPORT_REQUIRED')
+const retainedReport=JSON.parse(retainedRaw)
+require(retainedReport.before_head===base&&retainedReport.variants.length===1,'UI_CAPTURE_RETAINED_IMMUTABLE_BASE_REQUIRED')
+const retained=retainedReport.variants[0]
+require(retained.variant==='before'&&retained.surface==='dashboard'&&retained.width===320
+  &&retained.page_errors.length===0&&retained.http_failures.length===0,'UI_CAPTURE_ONLY_VALID_FIRST_BEFORE_VIEW_REUSED')
+const retainedPNG=fs.readFileSync(path.join(retainedDirectory,retained.screenshot.name))
+require(retainedPNG.length===322487&&crypto.createHash('sha256').update(retainedPNG).digest('hex')===
+  '57a2f0a9642031e61d68d517e0d22df4b19312a86893f918ba144c8fbdf62ee2','UI_CAPTURE_EXACT_RETAINED_BEFORE_PNG_REQUIRED')
 const children=[]
 let browser
 const exited=child=>child.exitCode!==null||child.signalCode!==null
@@ -107,6 +118,15 @@ try{
     })
     try{
       for(const surface of surfaces){
+        if(variant.name==='before'&&surface.id==='dashboard'&&width===320){
+          fs.writeFileSync(path.join(out,retained.screenshot.name),retainedPNG,{flag:'wx'})
+          report.variants.push(retained)
+          report.retained_originals.push({variant:'before',surface:'dashboard',width:320,
+            source_head:'5e9ce0bd579074ddc67b0b101d35a28ea2d368b2',source_run_id:41510643181,source_job_id:125501294085,
+            source_artifact_id:13172528100,source_zip_sha256:'1c74ab1b02f0da826806c1e29b60868ac01715c092c98ffc45b5213d589c803a',
+            original_row_preserved:true,original_PNG_preserved:true,case_rerun:false})
+          continue
+        }
         const page=await context.newPage(),errors=[],failures=[]
         page.on('pageerror',e=>errors.push(e.message))
         page.on('response',r=>{if(r.status()>=400)failures.push({status:r.status(),path:new URL(r.url()).pathname})})
@@ -115,7 +135,9 @@ try{
           await page.locator('.app-shell').waitFor({state:'visible'})
           if(surface.group){
             if(width<=860)await page.getByRole('button',{name:'Buka menu',exact:true}).click()
-            await page.locator('.nav-main').filter({hasText:new RegExp('^'+escape(surface.group)+'(?:\\s|$)')}).click()
+            const group=page.locator('.nav-main').filter({hasText:surface.group})
+            require(await group.count()===1,'UI_CAPTURE_UNIQUE_ACTUAL_GROUP_LABEL_REQUIRED:'+surface.group)
+            await group.click()
             const button=page.locator('.submenu button').filter({hasText:surface.label})
             require(await button.count()===1,'UI_CAPTURE_UNIQUE_ACTUAL_MENU_REQUIRED:'+surface.label)
             await button.click()
@@ -131,13 +153,24 @@ try{
           require(errors.length===0&&failures.length===0,'UI_CAPTURE_APPLICATION_RENDER_ERROR:'+name)
           if(variant.name==='after')require(observations.canvas==='rgb(244, 246, 250)'&&observations.sidebar==='rgb(24, 34, 57)',
             'UI_CAPTURE_ACTUAL_LIGHT_CANVAS_AND_NAVY_SIDEBAR_REQUIRED:'+name)
+        }catch(error){
+          report.failed_view={variant:variant.name,surface:surface.id,width,
+            actual_menu_text:await page.locator('.nav-main').allTextContents(),
+            actual_submenu_text:await page.locator('.submenu button').allTextContents()}
+          try{
+            const name=`FAILED-${variant.name}-${surface.id}-${width}.png`
+            await page.screenshot({path:path.join(out,name),fullPage:true,animations:'disabled'})
+            report.failed_view.screenshot=name
+          }catch(captureError){report.failed_view.screenshot_error=captureError.message}
+          throw error
         }finally{await page.close()}
       }
       require(blocked.length===0,'UI_CAPTURE_EXTERNAL_NETWORK_ATTEMPT_REFUSED')
     }finally{await context.close()}
   }
   require(report.variants.length===24,'UI_CAPTURE_EXACT_TWENTYFOUR_VIEWS_REQUIRED')
-  report.status='BEFORE_AFTER24_CAPTURED_FINDINGS_RETAINED_NOT_FINAL_UI_ACCEPTANCE'
+  require(new Set(report.variants.map(x=>`${x.variant}:${x.surface}:${x.width}`)).size===24,'UI_CAPTURE_EACH_REQUIRED_VIEW_ONCE')
+  report.status='BEFORE_AFTER24_RETAINED1_NEW23_CAPTURED_FINDINGS_PENDING_NOT_FINAL_UI_ACCEPTANCE'
 }catch(error){report.first_error=error.stack;process.exitCode=1}
 finally{
   report.cleanup_errors=[]
@@ -146,6 +179,7 @@ finally{
   report.preview_children_reaped=children.every(child=>exited(child)&&!groupExists(child))
   fs.writeFileSync(path.join(out,'UI_REFERENCE_CAPTURE.json'),JSON.stringify(report,null,2)+'\n')
   console.log(JSON.stringify({status:report.status,screenshots:report.variants.length,
+    retained_valid_views:report.retained_originals.length,new_captured_views:report.variants.length-report.retained_originals.length,
     after_contrast_findings:report.variants.filter(x=>x.variant==='after').reduce((n,x)=>n+x.observations.contrast_findings.length,0),
     after_overflow_views:report.variants.filter(x=>x.variant==='after'&&x.observations.page_overflow).length,
     preview_children_reaped:report.preview_children_reaped,first_error:report.first_error,

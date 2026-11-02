@@ -215,13 +215,15 @@
     "scripts/ui-reference/capture.mjs",
     "scripts/ui-reference/inventory.py",
     "scripts/ui-reference/prepare_theme.mjs",
+    "scripts/ui-reference/retained-before320/UI_REFERENCE_CAPTURE.json",
+    "scripts/ui-reference/retained-before320/before-dashboard-320.png",
     "scripts/ui-reference/verify_source.mjs",
     "src/theme.css"
   ],
   "new_files": {
     ".github/workflows/ui-reference-capture.yml": {
-      "bytes": 1905,
-      "sha256": "0d973431a5be524ec49afe6452116ba7f69f433da7d0c2cf838f180762700233"
+      "bytes": 2096,
+      "sha256": "8c697641eaa7440a161ec64759045fe39249d06aed5fcf3d5c6311e8f54e5b09"
     },
     "docs/cp7/d17-14/ui-reference-20261103/LOCAL_SOURCE_BUILD_CHECKS.json": {
       "bytes": 3908,
@@ -232,8 +234,8 @@
       "sha256": "113ea5c256d3a37e6f5ffbe47cc494ec12666d4065fff5eb423beffb26f201c9"
     },
     "docs/cp7/d17-14/ui-reference-20261103/README.md": {
-      "bytes": 2057,
-      "sha256": "b04311e853cf4faf269ba6250e034ab0b52c49ffab8b5912937ed0ed303ef623"
+      "bytes": 2495,
+      "sha256": "4a2ebe5cec983fc7bf29f8b75d3ae06e99f0d64c1fc6279ff9d77fe353b02cdc"
     },
     "docs/cp7/d17-14/ui-reference-20261103/SHARED_THEME_SOURCE_CHANGES.json": {
       "bytes": 716305,
@@ -244,8 +246,8 @@
       "sha256": "38c7e72b2230bf72ce4100bb9c3a35208efd77093e02a123cc97d0571cf398e8"
     },
     "scripts/ui-reference/capture.mjs": {
-      "bytes": 9610,
-      "sha256": "aa30de9bfe49f9fe5eb020bec3eddd6b58aec59307d7bf1076808fab58cf41d3"
+      "bytes": 12328,
+      "sha256": "070ffc1222ac2abb06693e102ac2c5cb5f18b5830ac0612bc1aa86fca6b99f4c"
     },
     "scripts/ui-reference/inventory.py": {
       "bytes": 3081,
@@ -254,6 +256,14 @@
     "scripts/ui-reference/prepare_theme.mjs": {
       "bytes": 8124,
       "sha256": "8a766766bf1ccc33eb1183a65d5c3b3b416042d174c031fa88cd756e6758d082"
+    },
+    "scripts/ui-reference/retained-before320/UI_REFERENCE_CAPTURE.json": {
+      "bytes": 6413,
+      "sha256": "7d95bb1cd9efa30228a4753933607d5b3e8497ef42ba47d5fe614317383fab78"
+    },
+    "scripts/ui-reference/retained-before320/before-dashboard-320.png": {
+      "bytes": 322487,
+      "sha256": "57a2f0a9642031e61d68d517e0d22df4b19312a86893f918ba144c8fbdf62ee2"
     },
     "scripts/ui-reference/verify_source.mjs": {
       "bytes": 3029,
@@ -269,5 +279,15 @@
   "actual_financial_source_changes": 0,
   "actual_UI_final_acceptance": false,
   "CP7_complete": false,
-  "production_go": false
+  "production_go": false,
+  "capture_successor": {
+    "previous_public_head": "5e9ce0bd579074ddc67b0b101d35a28ea2d368b2",
+    "previous_run": 41510643181,
+    "retained_before_dashboard_320": true,
+    "remaining_new_views": 23,
+    "application_inputs_and_successful_checks_unchanged": true,
+    "actual_menu_text_locator": true,
+    "first_error_screen_and_menu_diagnostics": true,
+    "exact_baseline_commit_fetch": true
+  }
 }
