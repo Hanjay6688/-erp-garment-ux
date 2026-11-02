@@ -1,0 +1,154 @@
+{
+  "status": "GLOBAL_NATIVE_WORK_SCOPE_BINDING_AND_OUTSIDE_MODEL_CONTROLS_PASS_NOT_ERP",
+  "results": [
+    {
+      "label": "Four new private scope functions and two tables compile against exact73 Native work-column types; all base constraints and providers remain modeled",
+      "result": "PASS"
+    },
+    {
+      "label": "No caller-supplied operation ID can replace missing actual Native owner work",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "P0001",
+      "error": "CP7_GLOBAL_EXACT_NATIVE_WORK_REQUIRED"
+    },
+    {
+      "label": "An unrelated operation UUID cannot use a real Native work row",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "P0001",
+      "error": "CP7_GLOBAL_EXACT_NATIVE_WORK_REQUIRED"
+    },
+    {
+      "label": "D1 requires its exact reviewed global basis before any scope is created",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "P0001",
+      "error": "CP7_GLOBAL_REVIEWED_BASIS_CHANGED"
+    },
+    {
+      "label": "A newly dirty global visit refuses before effects",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "P0001",
+      "error": "CP7_GLOBAL_CURRENT_NOOP_PROOF_REQUIRED"
+    },
+    {
+      "label": "Live Native rights are checked again after the barrier acquisition",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "42501",
+      "error": "MODEL_CURRENT_NATIVE_ACCESS_DENIED"
+    },
+    {
+      "label": "A second scope in the same backend and transaction is refused",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "P0001",
+      "error": "CP7_GLOBAL_NESTED_SCOPE_REFUSED"
+    },
+    {
+      "label": "Finish requires the actual Native completion phase",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "P0001",
+      "error": "CP7_GLOBAL_SAME_NATIVE_COMPLETION_REQUIRED"
+    },
+    {
+      "label": "Changed actual Native payload cannot complete an earlier scope",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "P0001",
+      "error": "CP7_GLOBAL_SAME_NATIVE_COMPLETION_REQUIRED"
+    },
+    {
+      "label": "Changing the active actor cannot borrow another actor scope",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "P0001",
+      "error": "CP7_GLOBAL_OWN_SCOPE_REQUIRED"
+    },
+    {
+      "label": "Revoked Native authority refuses completion",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "42501",
+      "error": "MODEL_CURRENT_NATIVE_ACCESS_DENIED"
+    },
+    {
+      "label": "One changed outside fact refuses instead of excluding or repairing it",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "P0001",
+      "error": "CP7_GLOBAL_OUTSIDE_CHANGED_OR_NOT_QUIESCENT"
+    },
+    {
+      "label": "A generic source operation cannot pretend to have a new UI review token",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "P0001",
+      "error": "CP7_GLOBAL_SOURCE_HAS_NO_NEW_UI_REVIEW_TOKEN"
+    },
+    {
+      "label": "D1 binds the actual Native request/root and closes with exact outside identity/fact equality; only the Native owner model advances its phase",
+      "result": "PASS"
+    },
+    {
+      "label": "E binds the actual Native request/root and closes with exact outside identity/fact equality; only the Native owner model advances its phase",
+      "result": "PASS"
+    },
+    {
+      "label": "SOURCE binds the actual Native request/root and closes with exact outside identity/fact equality; only the Native owner model advances its phase",
+      "result": "PASS"
+    },
+    {
+      "label": "A completed operation cannot manufacture another finish or duplicate proof",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "P0001",
+      "error": "CP7_GLOBAL_OWN_SCOPE_REQUIRED"
+    },
+    {
+      "label": "Completion history is immutable under UPDATE",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "P0001",
+      "error": "CP7_GLOBAL_COMPLETION_HISTORY_IMMUTABLE"
+    },
+    {
+      "label": "Completion history is immutable under DELETE",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "P0001",
+      "error": "CP7_GLOBAL_COMPLETION_HISTORY_IMMUTABLE"
+    },
+    {
+      "label": "Completion history is immutable under TRUNCATE",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "P0001",
+      "error": "CP7_GLOBAL_COMPLETION_HISTORY_IMMUTABLE"
+    },
+    {
+      "label": "All three browser/service roles lack table and scope-function access; no public entrypoint exists",
+      "result": "PASS"
+    }
+  ],
+  "source_files": {
+    "schema.sql": {
+      "bytes": 1906,
+      "sha256": "9cbb6f3c9d167e77c80e6c1047e4e497cf03bf10b7f59e839465a2c6cdaa56bd"
+    },
+    "work_scope.sql": {
+      "bytes": 10641,
+      "sha256": "fd379bef9aac477d77a5d7aa74a7d7ed32f9217f38d95a9af9f6c9e9f7b5505c"
+    },
+    "work_scope_model.mjs": {
+      "bytes": 13285,
+      "sha256": "26762aceedd3de437b82fd4a0453c8248e0b2582bb66a9e3861ccdd7e5d77d9c"
+    },
+    "NATIVE_SCOPE_WORK_REFERENCE.json": {
+      "bytes": 20187,
+      "sha256": "382fa9cda10c71b8649834211c3d78f6edcfb81a337999556d2b3b93dc9cbef3"
+    }
+  },
+  "runtime": "18.6",
+  "actual_Native_work_column_maps": 3,
+  "actual_Native_work_columns": 73,
+  "actual_Native_owner_lifecycles_and_barrier_and_inspector_and_current_rights_are_models": true,
+  "source_schema_and_lock_sql_unchanged": true,
+  "old_actual_lock_primitives_and_old_census_NOT_rerun": true,
+  "Native_owning_hooks_written": 0,
+  "complete_installer_provided": false,
+  "parent_gate_opened": false,
+  "actual_Native_cases": 0,
+  "actual_Auth_HTTP_cases": 0,
+  "actual_two_session_races": 0,
+  "actual_browser_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}
