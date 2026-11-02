@@ -1,0 +1,385 @@
+{
+  "contract": "cp7.global-guarded-installation.v1",
+  "actual_parent_adoption": false,
+  "source_sql": {
+    "schema.sql": {
+      "bytes": 1906,
+      "sha256": "9cbb6f3c9d167e77c80e6c1047e4e497cf03bf10b7f59e839465a2c6cdaa56bd"
+    },
+    "work_scope.sql": {
+      "bytes": 10641,
+      "sha256": "fd379bef9aac477d77a5d7aa74a7d7ed32f9217f38d95a9af9f6c9e9f7b5505c"
+    },
+    "graph_helpers/authority.sql": {
+      "bytes": 62241,
+      "sha256": "9685a0a6ca3d714197e17a5fc61c71297520fb2c3c26248d2f857311f057c4bb"
+    },
+    "graph_helpers/scope.sql": {
+      "bytes": 10246,
+      "sha256": "c24434d8ab62fd7b92ba1dc0706ee1d35ac06864700cc3ceeec36cf90fad1575"
+    },
+    "graph_helpers/capture.sql": {
+      "bytes": 8016,
+      "sha256": "90a03cbbd430f317c2e18c7e7f13743370e617756d2d2b1fe06179b2af3003cf"
+    },
+    "graph_helpers/inspect.sql": {
+      "bytes": 9510,
+      "sha256": "8f9461ce31e9973969040ae16029241253eb2ce1e0fde9ebba160db32b6cd782"
+    },
+    "semantic_authority.sql": {
+      "bytes": 3251,
+      "sha256": "698a36a0b096f68d5b337c603f8c007ae648557ee78995b69cd0996af36020d6"
+    },
+    "catalogue_fingerprint.sql": {
+      "bytes": 17577,
+      "sha256": "fc69e7ca90289dc9f43b03ee1d1f84bc1a84b35fc71704004f9c0c615a6016f1"
+    },
+    "derived_review.sql": {
+      "bytes": 2873,
+      "sha256": "e454af7216b64c1e6989eb204e59e4314e078e5a5c44ad8a0532dba6d83ed543"
+    },
+    "derived_lock.sql": {
+      "bytes": 7673,
+      "sha256": "60e37137fdeba6c86ac3ad7cda6537d5ffc17d5f449962cbb30ef59b13ce58dc"
+    },
+    "platform_catalog_fence.sql": {
+      "bytes": 2863,
+      "sha256": "b44bd4a94a898afca0dc9360f14a595c2dcef1cc55a2a18347ebb6b84924e90e"
+    },
+    "platform_relation_fence.sql": {
+      "bytes": 5321,
+      "sha256": "792388496fc4d3dc46305a44aa986ec0594d33aaef9f65094fafaba898a0fd40"
+    }
+  },
+  "functions": {
+    "cp7_global_nonpo_envelope.immutable_profile()": {
+      "file": "schema.sql",
+      "body_sha256": "9ad3c0e566a19ed3f92485c15e6354ae9978e64d26dfb3d3e40730a8d89a7517",
+      "owner": "postgres",
+      "language": "plpgsql",
+      "volatility": "v",
+      "security_definer": true,
+      "returns_set": false,
+      "config": [
+        "search_path=\"\""
+      ]
+    },
+    "cp7_global_nonpo_envelope.native_work_v1(text,uuid)": {
+      "file": "work_scope.sql",
+      "body_sha256": "7466dc12ec43c8b5a30daddccee31f9c7ca2a10f75ae80d2b74225be72c04261",
+      "owner": "postgres",
+      "language": "plpgsql",
+      "volatility": "v",
+      "security_definer": true,
+      "returns_set": false,
+      "config": [
+        "search_path=\"\"",
+        "TimeZone=UTC"
+      ]
+    },
+    "cp7_global_nonpo_envelope.bind_v1(text,uuid,text,text)": {
+      "file": "work_scope.sql",
+      "body_sha256": "06ddc96ddcb9bb5904631f9bb3f5f2c29c9703d9deeb6e3c4636b48f5ba6bf4f",
+      "owner": "postgres",
+      "language": "plpgsql",
+      "volatility": "v",
+      "security_definer": true,
+      "returns_set": false,
+      "config": [
+        "search_path=\"\"",
+        "TimeZone=UTC"
+      ]
+    },
+    "cp7_global_nonpo_envelope.finish_v1(text,uuid)": {
+      "file": "work_scope.sql",
+      "body_sha256": "c342851fa68bf8c973c0dd3c0da3b1dbd1d2b8608728a5a97d290a03b70a7d2a",
+      "owner": "postgres",
+      "language": "plpgsql",
+      "volatility": "v",
+      "security_definer": true,
+      "returns_set": false,
+      "config": [
+        "search_path=\"\"",
+        "TimeZone=UTC"
+      ]
+    },
+    "cp7_global_nonpo_envelope.immutable_completion_v1()": {
+      "file": "work_scope.sql",
+      "body_sha256": "7c4694d111355db0464632e32f24405ef82ee65c342b5b455aad3936169ae1f5",
+      "owner": "postgres",
+      "language": "plpgsql",
+      "volatility": "v",
+      "security_definer": true,
+      "returns_set": false,
+      "config": [
+        "search_path=\"\""
+      ]
+    },
+    "cp7_global_nonpo_native_graph.authority_v1()": {
+      "file": "graph_helpers/authority.sql",
+      "body_sha256": "44a3fb782d1e8acdf102a825425d5c8ee62dbb057ee4b56b2bb942ea95abfaa9",
+      "owner": "postgres",
+      "language": "sql",
+      "volatility": "s",
+      "security_definer": true,
+      "returns_set": false,
+      "config": [
+        "search_path=\"\""
+      ]
+    },
+    "cp7_global_nonpo_native_graph.scope_v1(uuid[])": {
+      "file": "graph_helpers/scope.sql",
+      "body_sha256": "a00f009f5b7e9e5413137b767d4e6d0c0d5d313644a9edca66ac33bb20f59a13",
+      "owner": "postgres",
+      "language": "plpgsql",
+      "volatility": "s",
+      "security_definer": true,
+      "returns_set": false,
+      "config": [
+        "search_path=\"\"",
+        "TimeZone=UTC"
+      ]
+    },
+    "cp7_global_nonpo_native_graph.capture_v1(jsonb,boolean)": {
+      "file": "graph_helpers/capture.sql",
+      "body_sha256": "9fbf83b23d96bd1f00481d82a2e008f7fe658daea99c82042cfa6b34de41ec65",
+      "owner": "postgres",
+      "language": "sql",
+      "volatility": "s",
+      "security_definer": true,
+      "returns_set": false,
+      "config": [
+        "search_path=\"\"",
+        "TimeZone=UTC"
+      ]
+    },
+    "cp7_global_nonpo_native_graph.inspect_v1(uuid[])": {
+      "file": "graph_helpers/inspect.sql",
+      "body_sha256": "e541becf57dda63db0e5df447fcf1f7f68b2e1594d8106bc030e9d9bf3fc5eca",
+      "owner": "postgres",
+      "language": "plpgsql",
+      "volatility": "s",
+      "security_definer": true,
+      "returns_set": false,
+      "config": [
+        "search_path=\"\"",
+        "TimeZone=UTC"
+      ]
+    },
+    "cp7_global_nonpo_envelope.semantic_authority_v1(jsonb)": {
+      "file": "semantic_authority.sql",
+      "body_sha256": "387c605fb98c8536d68ef1815cc9d1cc849408418f17242d60d0274a48284a43",
+      "owner": "postgres",
+      "language": "plpgsql",
+      "volatility": "i",
+      "security_definer": false,
+      "returns_set": false,
+      "config": [
+        "search_path=\"\""
+      ]
+    },
+    "cp7_global_nonpo_envelope.catalogue_fingerprint_v1()": {
+      "file": "catalogue_fingerprint.sql",
+      "body_sha256": "a2d2845ec47fa56eda2631175ad5a8bb8efb4482064a6c974971dd1163bf7719",
+      "owner": "postgres",
+      "language": "sql",
+      "volatility": "s",
+      "security_definer": true,
+      "returns_set": false,
+      "config": [
+        "search_path=\"\"",
+        "TimeZone=UTC"
+      ]
+    },
+    "cp7_global_nonpo_envelope.selected_profile_v1()": {
+      "file": "derived_review.sql",
+      "body_sha256": "fae53d119dfb819f73a769670263140f985d04efa0c0e756d47084d14c6a5bf0",
+      "owner": "postgres",
+      "language": "plpgsql",
+      "volatility": "s",
+      "security_definer": true,
+      "returns_set": false,
+      "config": [
+        "search_path=\"\""
+      ]
+    },
+    "cp7_global_nonpo_envelope.review_v1(uuid[])": {
+      "file": "derived_review.sql",
+      "body_sha256": "aa42d331cf794e57fe9555a015ac292da52b6f1f6b450332697eaf7f1fd3aa63",
+      "owner": "postgres",
+      "language": "plpgsql",
+      "volatility": "s",
+      "security_definer": true,
+      "returns_set": false,
+      "config": [
+        "search_path=\"\"",
+        "TimeZone=UTC"
+      ]
+    },
+    "cp7_global_nonpo_envelope.lock_v1(text)": {
+      "file": "derived_lock.sql",
+      "body_sha256": "19668c4f18618afef954cade8264035910bb8c505b5be12b3ea8888fffda125b",
+      "owner": "postgres",
+      "language": "plpgsql",
+      "volatility": "v",
+      "security_definer": true,
+      "returns_set": false,
+      "config": [
+        "search_path=\"\"",
+        "TimeZone=UTC"
+      ]
+    },
+    "cp7_global_catalog_fence.lock_v1()": {
+      "file": "platform_catalog_fence.sql",
+      "body_sha256": "b779def73cb55eef9c7de6557d88774717fbf1630eab21a12866b82becde7ecc",
+      "owner": "supabase_admin",
+      "language": "plpgsql",
+      "volatility": "v",
+      "security_definer": true,
+      "returns_set": false,
+      "config": [
+        "search_path=\"\"",
+        "TimeZone=UTC"
+      ]
+    },
+    "cp7_global_catalog_fence.lock_relations_v1(text)": {
+      "file": "platform_relation_fence.sql",
+      "body_sha256": "7d50dfecac1076f061d8b3df16e389675ec2a37f8db7b4b69681257b0278623d",
+      "owner": "supabase_admin",
+      "language": "plpgsql",
+      "volatility": "v",
+      "security_definer": true,
+      "returns_set": false,
+      "config": [
+        "search_path=\"\"",
+        "TimeZone=UTC"
+      ]
+    }
+  },
+  "tables": [
+    "cp7_global_nonpo_envelope.profiles",
+    "cp7_global_nonpo_envelope.scope_completions_v1",
+    "cp7_global_nonpo_envelope.work_scopes_v1"
+  ],
+  "columns": [
+    "cp7_global_nonpo_envelope.profiles:actual_parent_root_receipt",
+    "cp7_global_nonpo_envelope.profiles:expected_catalogs",
+    "cp7_global_nonpo_envelope.profiles:expected_relations",
+    "cp7_global_nonpo_envelope.profiles:id",
+    "cp7_global_nonpo_envelope.profiles:native_authority_sha256",
+    "cp7_global_nonpo_envelope.profiles:parent_head",
+    "cp7_global_nonpo_envelope.profiles:parent_tree",
+    "cp7_global_nonpo_envelope.profiles:sealed_at",
+    "cp7_global_nonpo_envelope.scope_completions_v1:actor",
+    "cp7_global_nonpo_envelope.scope_completions_v1:basis_sha256",
+    "cp7_global_nonpo_envelope.scope_completions_v1:native_binding",
+    "cp7_global_nonpo_envelope.scope_completions_v1:operation",
+    "cp7_global_nonpo_envelope.scope_completions_v1:operation_id",
+    "cp7_global_nonpo_envelope.scope_completions_v1:outside_after",
+    "cp7_global_nonpo_envelope.scope_completions_v1:outside_before",
+    "cp7_global_nonpo_envelope.scope_completions_v1:profile_id",
+    "cp7_global_nonpo_envelope.scope_completions_v1:proof",
+    "cp7_global_nonpo_envelope.scope_completions_v1:recorded_at",
+    "cp7_global_nonpo_envelope.scope_completions_v1:request_id",
+    "cp7_global_nonpo_envelope.work_scopes_v1:actor",
+    "cp7_global_nonpo_envelope.work_scopes_v1:authority",
+    "cp7_global_nonpo_envelope.work_scopes_v1:backend_pid",
+    "cp7_global_nonpo_envelope.work_scopes_v1:basis_sha256",
+    "cp7_global_nonpo_envelope.work_scopes_v1:lock_proof",
+    "cp7_global_nonpo_envelope.work_scopes_v1:native_binding",
+    "cp7_global_nonpo_envelope.work_scopes_v1:operation",
+    "cp7_global_nonpo_envelope.work_scopes_v1:operation_id",
+    "cp7_global_nonpo_envelope.work_scopes_v1:outside_before",
+    "cp7_global_nonpo_envelope.work_scopes_v1:profile_id",
+    "cp7_global_nonpo_envelope.work_scopes_v1:request_id",
+    "cp7_global_nonpo_envelope.work_scopes_v1:root_sales",
+    "cp7_global_nonpo_envelope.work_scopes_v1:transaction_id"
+  ],
+  "types": [
+    "cp7_global_nonpo_envelope.profiles",
+    "cp7_global_nonpo_envelope.profiles[]",
+    "cp7_global_nonpo_envelope.scope_completions_v1",
+    "cp7_global_nonpo_envelope.scope_completions_v1[]",
+    "cp7_global_nonpo_envelope.work_scopes_v1",
+    "cp7_global_nonpo_envelope.work_scopes_v1[]"
+  ],
+  "triggers": [
+    {
+      "name": "immutable_profile",
+      "relation": "cp7_global_nonpo_envelope.profiles",
+      "events": 24,
+      "timing": 2,
+      "row": true,
+      "function": "cp7_global_nonpo_envelope.immutable_profile"
+    },
+    {
+      "name": "immutable_completion",
+      "relation": "cp7_global_nonpo_envelope.scope_completions_v1",
+      "events": 24,
+      "timing": 2,
+      "row": true,
+      "function": "cp7_global_nonpo_envelope.immutable_completion_v1"
+    },
+    {
+      "name": "no_truncate_completion",
+      "relation": "cp7_global_nonpo_envelope.scope_completions_v1",
+      "events": 32,
+      "timing": 2,
+      "row": false,
+      "function": "cp7_global_nonpo_envelope.immutable_completion_v1"
+    }
+  ],
+  "index_relations": [
+    "cp7_global_nonpo_envelope.profiles_pkey",
+    "cp7_global_nonpo_envelope.scope_completions_v1_pkey",
+    "cp7_global_nonpo_envelope.work_scopes_v1_operation_id_key",
+    "cp7_global_nonpo_envelope.work_scopes_v1_pkey"
+  ],
+  "index_count": 4,
+  "constraint_count": 15,
+  "foreign_key_count": 1,
+  "native_adapter_sources": {
+    "cp7_credit_correction_de.quote_v1(jsonb)": {
+      "bytes": 12853,
+      "sha256": "a5b80cf1ef7f20988894a3037deb10a26d908ac336674e5c03a2e5116edc9984"
+    },
+    "cp7_credit_correction_de.prepare_v1(jsonb,uuid,text,jsonb)": {
+      "bytes": 4734,
+      "sha256": "b8b4d5d4d7fe32375eb4d68ce8606094a7a91319f4eec8c43f5a11c84acad3c7"
+    },
+    "cp7_credit_correction_de.finish_v1(jsonb)": {
+      "bytes": 1640,
+      "sha256": "90cd9a1bf2dc494c8ae9effd2f38378a2dba125ab7637d65bbbdfbafcbc4f904"
+    },
+    "cp7_credit_note_carry_de.basis_v1(uuid)": {
+      "bytes": 4612,
+      "sha256": "7efd016c9f3f8668b8afe226bacf0530a8068f42b444d752d991f87ef9338a4c"
+    },
+    "cp7_credit_note_carry_de.prepare_v1(jsonb,uuid,text,uuid,jsonb)": {
+      "bytes": 5376,
+      "sha256": "aac43833749bb55f705e28e8e2eb6f6f8aa42ad108633733f3db97dd977a4b21"
+    },
+    "cp7_credit_note_carry_de.finish_v1(jsonb)": {
+      "bytes": 1529,
+      "sha256": "9a620dfe35419b09e124406a6e6ddc423d38a8dbc4bcb5b61c1a8b58c61fe901"
+    },
+    "cp7_credit.source_request_enter_v1(text,jsonb,uuid,text)": {
+      "bytes": 10663,
+      "sha256": "de840f2e48d3195822cd4908b3d9332762fbc9388e62d76fb7ee1c1cebff779a"
+    },
+    "cp7_credit.source_request_finish_v1(uuid)": {
+      "bytes": 2276,
+      "sha256": "e25ab50812136fd48a920c0a4cc396f41ebd72d38a7ab0e47fadbe10c9cc480c"
+    }
+  },
+  "native_adapter_routes": 18,
+  "Native_adapters": 8,
+  "parser": {
+    "pglast": "v7.20",
+    "PostgreSQL_grammar": 170007
+  },
+  "actual_SQL_executed": 0,
+  "actual_Native_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

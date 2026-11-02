@@ -1,7 +1,7 @@
 """Physical preparation checks only; no DB/client import or Native operation."""
 from pathlib import Path
 from hashlib import sha256
-import importlib.util,json,os,subprocess,re
+import importlib.util,json,os,subprocess,re,sys
 
 HERE=Path(__file__).resolve().parent
 ROOT=HERE.parents[1]
@@ -123,6 +123,19 @@ def check():
     assert re.findall(r'^create function ([a-z0-9_.]+)\(',helper,re.M)==['cp7_global_nonpo_envelope.semantic_authority_v1']
     assert "language plpgsql immutable security invoker set search_path=''"in helper
     assert manifest['semantic_authority_functions']==1 and manifest['counted_semantic_hash_routes']==2
+    sys.path.insert(0,str(ROOT/'scripts'))
+    from cp7_global_nonpo_envelope import composition
+    installation=composition.sources()
+    assert installation['final_parent_head']is None and installation['runtime_entry']is None
+    assert installation['complete_input_profile_pin']is None
+    try:composition.install(None,b'{}',b'{}')
+    except ValueError as error:assert str(error)=='CP7_GLOBAL_ENVELOPE_ACTUAL_FINAL_PARENT_AND_OWNING_SCOPE_PENDING'
+    else:raise ValueError('GLOBAL_INSTALL_MUST_REFUSE_BEFORE_TOUCHING_CURSOR')
+    plan=json.loads((HERE/'INSTALL_PLAN.json').read_bytes())
+    assert plan['Native_adapters']==8 and plan['native_adapter_routes']==18
+    assert len(plan['functions'])==16 and len(plan['tables'])==3 and len(plan['triggers'])==3
+    assert len(plan['columns'])==32 and plan['constraint_count']==15 and plan['foreign_key_count']==1 and plan['index_count']==4
+    assert manifest['guarded_complete_installer_source_provided']is True
     spec=importlib.util.spec_from_file_location('global_exact_readonly_graph_source_only',HERE/'readonly_graph.py')
     readonly=importlib.util.module_from_spec(spec);spec.loader.exec_module(readonly)
     assert readonly.source()==json.loads((HERE/'READONLY_GRAPH_SOURCE_CONTROLS.json').read_bytes())
@@ -140,7 +153,8 @@ def check():
         fresh_catalogue_fingerprint_source_functions=1,counted_fresh_catalogue_profile_source_routes=1,
         platform_catalog_fence_source_functions=2,
         counted_platform_lock_source_routes=2,actual_platform_capability_installed=False,
-        actual_owning_hooks=0,complete_installer=False,
+        actual_owning_hooks=0,guarded_complete_installer_source_provided=True,
+        actual_complete_installer_qualified=False,actual_final_parent_adopted=False,
         actual_ERP_SQL_executed=0,actual_Native_cases=0,production_go=False,independent_acceptance=False)
 
 
