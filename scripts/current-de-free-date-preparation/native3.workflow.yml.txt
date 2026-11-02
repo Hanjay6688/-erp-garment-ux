@@ -481,9 +481,11 @@ jobs:
         '
     - name: Admit complete DE FREE date source graph under database network fence
       working-directory: writer
-      run: 'python -B ../auditor/scripts/current-de-free-date-preparation/probe.py --check
+      run: 'python -B ../auditor/scripts/current-de-free-date-preparation/probe.py
+        --check
 
-        python -B ../auditor/scripts/current-de-free-date-preparation/attempt_policy.py --require-window
+        python -B ../auditor/scripts/current-de-free-date-preparation/attempt_policy.py
+        --require-window
 
         '
     - name: Start disposable database

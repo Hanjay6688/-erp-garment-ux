@@ -98,8 +98,8 @@
         "sha256": "a77b83f9a5430355fa517e1766a855fb7673b437f413bd77b8ee4d0602f23977"
       },
       "after": {
-        "bytes": 33754,
-        "sha256": "4cdb736463f73ece5f34d703f8886dfbe609d018e45c089727464796c4bd73ac"
+        "bytes": 33770,
+        "sha256": "5b8360a78183ecdbafb60c51c8d6004afac9cd40a96587d229348a1818310342"
       },
       "changes": [
         {
@@ -109,7 +109,7 @@
         },
         {
           "before": "    - name: Admit complete DE FREE date source graph under database network fence\n      working-directory: auditor\n      run: 'python -B scripts/current-de-free-date-preparation/probe.py --check\n\n        python -B scripts/current-de-free-date-preparation/attempt_policy.py --require-window\n\n        '\n",
-          "after": "    - name: Admit complete DE FREE date source graph under database network fence\n      working-directory: writer\n      run: 'python -B ../auditor/scripts/current-de-free-date-preparation/probe.py --check\n\n        python -B ../auditor/scripts/current-de-free-date-preparation/attempt_policy.py --require-window\n\n        '\n",
+          "after": "    - name: Admit complete DE FREE date source graph under database network fence\n      working-directory: writer\n      run: 'python -B ../auditor/scripts/current-de-free-date-preparation/probe.py\n        --check\n\n        python -B ../auditor/scripts/current-de-free-date-preparation/attempt_policy.py\n        --require-window\n\n        '\n",
           "count": 1
         }
       ],
@@ -121,8 +121,8 @@
         "sha256": "a77b83f9a5430355fa517e1766a855fb7673b437f413bd77b8ee4d0602f23977"
       },
       "after": {
-        "bytes": 33754,
-        "sha256": "4cdb736463f73ece5f34d703f8886dfbe609d018e45c089727464796c4bd73ac"
+        "bytes": 33770,
+        "sha256": "5b8360a78183ecdbafb60c51c8d6004afac9cd40a96587d229348a1818310342"
       },
       "changes": [
         {
@@ -132,7 +132,7 @@
         },
         {
           "before": "    - name: Admit complete DE FREE date source graph under database network fence\n      working-directory: auditor\n      run: 'python -B scripts/current-de-free-date-preparation/probe.py --check\n\n        python -B scripts/current-de-free-date-preparation/attempt_policy.py --require-window\n\n        '\n",
-          "after": "    - name: Admit complete DE FREE date source graph under database network fence\n      working-directory: writer\n      run: 'python -B ../auditor/scripts/current-de-free-date-preparation/probe.py --check\n\n        python -B ../auditor/scripts/current-de-free-date-preparation/attempt_policy.py --require-window\n\n        '\n",
+          "after": "    - name: Admit complete DE FREE date source graph under database network fence\n      working-directory: writer\n      run: 'python -B ../auditor/scripts/current-de-free-date-preparation/probe.py\n        --check\n\n        python -B ../auditor/scripts/current-de-free-date-preparation/attempt_policy.py\n        --require-window\n\n        '\n",
           "count": 1
         }
       ],
