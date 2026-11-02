@@ -40,9 +40,9 @@
     "production_go": false,
     "independent_acceptance": false
   },
-  "sole_readonly_monitor_cell": null,
+  "sole_readonly_monitor_cell": "2353",
   "new_qualified_cases": 0,
-  "Root_terminal_intake_pending": false,
+  "Root_terminal_intake_pending": true,
   "accepted_parent": {
     "head": "91a7b46ed13c4ad6094114871a4a39fa6765d140",
     "tree": "01c4807d932af1d534477c4c182715b1378bd39b",
@@ -361,15 +361,15 @@
     },
     "GLOBAL_ENVELOPE": {
       "status": "GLOBAL_READONLY_GRAPH4_AND_PLATFORM_FENCE_SOURCE_PREPARED_NOT_NATIVE",
-      "head": "da7aff99956c9bb36be8baeb4a65b344b4a07698",
+      "head": "f01fe9796c629f372e22fb2be40036b8c46c2290",
       "public_head": "f55ba349cc9028ad402e64362c4e8748ffe16387",
-      "tree": "99fa98f38de1a5fe76750b5a23bc07066ab6cccf",
+      "tree": "6a0751be22f8d67b9f22c739c9253c0e8789dcbe",
       "local_head": "c1af5fee22aea89d77a06f2c7b58d0ef497df138",
       "branch": "astra-a/global-envelope-lock-source-prepared-20261102",
-      "source_pins": 35,
-      "own_paths": 36,
+      "source_pins": 41,
+      "own_paths": 42,
       "private_tables": 3,
-      "private_functions": 15,
+      "private_functions": 16,
       "prepared_owning_source_adapters": 8,
       "reversible_source_routes": 18,
       "global_guard_sites": 3,
@@ -495,7 +495,7 @@
       "profile_relation_platform_capability_observed": true,
       "complete_installer": false,
       "actual_parent_adoption": false,
-      "evidence": "GLOBAL35_COMPLETE_CATALOGUE_PROFILE_SOURCE_20261102.json",
+      "evidence": "GLOBAL42_GUARDED_COMPLETE_SOURCE_20261102.json",
       "latest_input_source_review": {
         "status": "SOURCE_REVIEW_ONLY_LITERAL13_AND_METADATA921_EXPANSION_NO_RUNTIME_CLOSURE",
         "global_head": "41176f03a5201c1896d65c1079e54ac98c0cba17",
@@ -546,12 +546,16 @@
         ]
       },
       "catalogue_fingerprint_functions": 1,
-      "current_fixed25_catalogue_helper_model_qualified": true
+      "current_fixed25_catalogue_helper_model_qualified": true,
+      "guarded_complete_installer_source_provided": true,
+      "actual_complete_installer_qualified": false,
+      "counted_semantic_hash_routes": 2,
+      "portable_authority_model3_Root_verified": true
     }
   },
   "remaining_gate_summary_not_full_scope_inventory": [
     "Afui100 full15 awaits genuine2026-11-02T17:00Z under unchanged six-hour WIB policy. No financial CI active; do not repeat accepted originals.",
-    "Global source35 includes fixed25 catalogue profile binding, exact retained graph4 and eight owning adapters; actual17 catalogue and relation capabilities verified. Complete guarded installer, declared dispatch/input profile, exact final-parent adoption and Native dirty/stale/rights/phantom/outside qualification remain.",
+    "Global source42 has complete guarded composition/full25 transition and rollback source, exact graph4/eight owning adapters and portable authority. Actual Native full-stage DDL capability is running. Dispatch/input closure, actual final profile/runtime adoption, explicit unused inverse, Native dirty/stale/rights/phantom/outside cases remain pending.",
     "Mandor83 guarded complete installer and actual17 modeled complete-stage3 now verified. Actual ERP final-parent adoption, paid/partial/return/reversal/two-backend/Auth/browser business qualification remain zero.",
     "SKU moving-average economic path is not implemented; tabcontrast, combined/factory/full scope and independent acceptance remain open."
   ],
@@ -572,8 +576,8 @@
     "actual_catalog_function_attributes_each": 19,
     "historical17_is_a_selected_projection_not_full_actual19": true
   },
-  "continuity": "Continue implementation, not a stop point. No CI active. Global fixed25 actual17 new3 and Mandor complete modeled stage actual17 new3 verified against original raw archives by Root; no Native financial acceptance added. Three Mandor failed originals remain failed. Scratch checkouts disappeared14:28Z; published source and originals recovered into /workspace/erp-writer-a with one shared full Git object repository and separate worktrees. Do not rebuild history or rerun completed tests. Next close Global guarded installer/profile, prepare remaining actual Native cases, and activate Afui100 only at genuine17:00Z.",
-  "operational_update_UTC": "2026-11-02T14:47:50.484613+00:00",
+  "continuity": "Continue implementation, not a stop point. One Global actual Native DDL capability job41473419595/job125372622003 is active, sole monitor2353. Do not duplicate it. Portable-authority model3 passed first execution and original raw preimages/final22/ACL refusals independently verified by Root; no ERP business acceptance added. Global complete guarded installer source42 now published f01fe9796c629f372e22fb2be40036b8c46c2290, gates remain closed. Continue dispatch/input closure while CI runs, then activate Afui100 only at genuine2026-11-02T17:00Z; original Afui branch still14d. Preserve original failed attempts and accepted DE/FREE/permanent evidence.",
+  "operational_update_UTC": "2026-11-02T15:39:55.968213+00:00",
   "current_qualification_observation_is_earlier_API_snapshot": false,
   "retained_permanent_financial4": {
     "evidence": "CURRENT_PERMANENT23E_ROOT_RETAINED4_20261102.json",
@@ -1153,5 +1157,50 @@
     "canonical_library_file_id": "libfile_80c38a8d5e8c8191b0a34c67745e4ee8",
     "conclusion": "success",
     "actual_ERP_business_qualification": false
+  },
+  "current_portable_authority_capability": {
+    "status": "ROOT_VERIFIED_PORTABLE_AUTHORITY_ACTUAL17_MODEL3_NOT_GLOBAL_RUNTIME_OR_BUSINESS",
+    "head": "091d8394a1be3de2fb805dcba3eae715345cad9b",
+    "tree": "3aaec0de113baf8f37f3ca0448f8a2a2439b8a3a",
+    "run_id": 41468884812,
+    "job_id": 125356915071,
+    "archive": {
+      "bytes": 34761,
+      "sha256": "ee1f20dc899d2bf7a538abb114919517a98f7c91b32c5a04b2b0d0214915cd01"
+    },
+    "original_report": {
+      "bytes": 806043,
+      "sha256": "8250026f08df48805b3f7b96abae08829160277d6dcee13e1c54ecd5d073c4b5"
+    },
+    "unchanged_parent_blobs": 14442,
+    "new_paths": 5,
+    "model_controls": 3,
+    "original_DB_preimages_recomputed": true,
+    "actual_model_DDL_sensitivity_controls": 7,
+    "synthetic_full19_cells_separately_labeled": true,
+    "actual_business_cases": 0,
+    "actual_Native_cases": 0,
+    "actual_parent_or_runtime_adoption": false,
+    "explicit_complete_installer_unused_inverse_qualified": false,
+    "financial_or_full_restore_credit": false,
+    "raw_complete_final22_equal": true,
+    "environment_cleanup_flags_are_not_financial_restore": true,
+    "old_tests_rerun": false,
+    "production_go": false,
+    "independent_acceptance": false,
+    "canonical_library_file_id": "libfile_04dfc9b468248191b180345154dee963",
+    "conclusion": "success"
+  },
+  "current_global_native_DDL_capability": {
+    "status": "in_progress",
+    "head": "6322c2b24f92b01183dfaf7ac74c4aae7f606bdc",
+    "tree": "2bab31fd65ca2f569414a880c1d54c5547446005",
+    "run_id": 41473419595,
+    "job_id": 125372622003,
+    "monitor_cell": "2353",
+    "actual_business_cases": 0,
+    "real_Global_runtime_gate_closed": true,
+    "profile_rows_seeded": 0,
+    "purpose": "Compile complete Global stage on actual accepted FREE schema; preserve actual source/full25 observations; roll back DDL. No old financial scenario dispatch."
   }
 }

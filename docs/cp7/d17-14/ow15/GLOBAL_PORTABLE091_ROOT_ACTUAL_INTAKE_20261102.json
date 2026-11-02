@@ -1,0 +1,31 @@
+{
+  "status": "ROOT_VERIFIED_PORTABLE_AUTHORITY_ACTUAL17_MODEL3_NOT_GLOBAL_RUNTIME_OR_BUSINESS",
+  "head": "091d8394a1be3de2fb805dcba3eae715345cad9b",
+  "tree": "3aaec0de113baf8f37f3ca0448f8a2a2439b8a3a",
+  "run_id": 41468884812,
+  "job_id": 125356915071,
+  "archive": {
+    "bytes": 34761,
+    "sha256": "ee1f20dc899d2bf7a538abb114919517a98f7c91b32c5a04b2b0d0214915cd01"
+  },
+  "original_report": {
+    "bytes": 806043,
+    "sha256": "8250026f08df48805b3f7b96abae08829160277d6dcee13e1c54ecd5d073c4b5"
+  },
+  "unchanged_parent_blobs": 14442,
+  "new_paths": 5,
+  "model_controls": 3,
+  "original_DB_preimages_recomputed": true,
+  "actual_model_DDL_sensitivity_controls": 7,
+  "synthetic_full19_cells_separately_labeled": true,
+  "actual_business_cases": 0,
+  "actual_Native_cases": 0,
+  "actual_parent_or_runtime_adoption": false,
+  "explicit_complete_installer_unused_inverse_qualified": false,
+  "financial_or_full_restore_credit": false,
+  "raw_complete_final22_equal": true,
+  "environment_cleanup_flags_are_not_financial_restore": true,
+  "old_tests_rerun": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

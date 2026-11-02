@@ -1,0 +1,30 @@
+{
+  "status": "GUARDED_COMPLETE_GLOBAL_SOURCE_PREPARED_NOT_ACTUAL_INSTALLATION_OR_BUSINESS",
+  "head": "f01fe9796c629f372e22fb2be40036b8c46c2290",
+  "tree": "6a0751be22f8d67b9f22c739c9253c0e8789dcbe",
+  "source_pins": 41,
+  "own_paths": 42,
+  "private_functions": 16,
+  "tables": 3,
+  "columns": 32,
+  "constraints": 15,
+  "indexes": 4,
+  "custom_triggers": 3,
+  "internal_FK_triggers": 4,
+  "Native_adapters": 8,
+  "exact_reversible_Native_routes": 18,
+  "semantic_hash_routes": 2,
+  "plan": {
+    "bytes": 13421,
+    "sha256": "380a2ae69f5b9718de5b5479209b119f1d5ebe0d6376b1565ea91bd7320d0375"
+  },
+  "real_parent_gate_refuses_before_cursor_use": true,
+  "Native_OID_raw_ACL_and_schema_lease_checked": true,
+  "existing_roles_only": true,
+  "unused_inverse_refuses_any_work_or_completion_rows": true,
+  "source_ownership_A_only": true,
+  "actual_complete_stage_qualification_pending": true,
+  "actual_Native_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}
