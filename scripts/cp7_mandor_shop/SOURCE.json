@@ -132,8 +132,8 @@
       "sha256": "ba3da6e7c3a7ca001ff55f87588dc2fa0e9d7e4d93ddf01f213176121e789c7d"
     },
     "scripts/cp7_mandor_shop/README.md": {
-      "bytes": 17047,
-      "sha256": "ec034c258cf22494d62122b205988ede48b0887cf4b18a0cd66d536693c83554"
+      "bytes": 18473,
+      "sha256": "4b6133bb1dc9ec5dd2b3186445338a954ade83204258580752e92706a7f5a3bb"
     },
     "scripts/cp7_mandor_shop/SALES_COMMAND_MODEL_ORIGIN.json": {
       "bytes": 960,
@@ -216,8 +216,8 @@
       "sha256": "5bfeb12b4103ca88f48b84a213098b33a90e7ead52398a5025213d9188e47617"
     },
     "scripts/cp7_mandor_shop/check_source.py": {
-      "bytes": 28753,
-      "sha256": "57a88bad221a7d66043d902a63112d826881046ed132c32f12d41311e956dd12"
+      "bytes": 29931,
+      "sha256": "982996c9c8fa75b6f4dc431c344516ce46e04b8c7bb035dae382caddd6c5a1b2"
     },
     "scripts/cp7_mandor_shop/events.sql": {
       "bytes": 8216,
@@ -314,6 +314,26 @@
     "scripts/cp7_mandor_shop/storage_model.mjs": {
       "bytes": 13580,
       "sha256": "1f523db6631c86c3c1b2d218591ca3501a55a9b799643e975e488ffa05875a11"
+    },
+    "scripts/cp7_mandor_shop/native_dispatch.py": {
+      "bytes": 2635,
+      "sha256": "b9653c34d5b0d105c5134bcc7fd5b8a5d5d53d9981ad5d1ae98ead5dcfbb6cc6"
+    },
+    "scripts/cp7_mandor_shop/NATIVE_DISPATCH_SOURCE_CONTROLS.json": {
+      "bytes": 1169,
+      "sha256": "40b5346730f3d21e30d0dc1b1a318b310f3722a9874cd70d0f586f865a104232"
+    },
+    "scripts/cp7_mandor_shop/composition.py": {
+      "bytes": 17024,
+      "sha256": "362d6be20b6268e9f4ef4d806218c473ca776d0b6ff03ec563055332d804ed17"
+    },
+    "scripts/cp7_mandor_shop/INSTALL_PLAN.json": {
+      "bytes": 8163,
+      "sha256": "c605c563b769ca992c60430a59e29f6b92b3de0fb67e1e33ceeea37af94e5cb4"
+    },
+    "scripts/cp7_mandor_shop/INSTALLER_SOURCE_CONTROLS.json": {
+      "bytes": 992,
+      "sha256": "94d9ba95d4d39d3a68e95bceb82304df3b4faf0ce6624706a02d5c7061a2c4ea"
     }
   },
   "schema_tables": 15,
@@ -384,5 +404,8 @@
   "Native_total_source_adapters": 9,
   "non_superuser_facade_composition_prepared": true,
   "new_non_superuser_facade_install_controls": 4,
-  "complete_Native_installer": false
+  "complete_Native_installer": false,
+  "guarded_complete_installer_source_written": true,
+  "existing_Native_facade_dispatch_source_routes": 1,
+  "actual_complete_installer_qualified": false
 }

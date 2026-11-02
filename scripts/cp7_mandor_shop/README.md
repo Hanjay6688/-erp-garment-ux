@@ -1,3 +1,25 @@
+## Guarded complete installer source (2 November 2026)
+
+`composition.py` now prepares the complete fifteen-table, 34-private-function,
+six-facade and nine-Native-adapter stage. It requires the exact final accepted
+parent receipt through the still-closed admission gate. It captures all22,
+checks all Native19 rows and column references, installs new objects as
+postgres, normalizes only new private ACLs, and replaces Native functions as
+their existing owners. Temporary CREATE is granted and revoked by each schema
+owner; no existing role membership is granted to postgres. Native OIDs, raw
+function/schema ACLs and the public raw ACL must remain exact. Removal refuses
+owned rows and drops only declared objects explicitly; after use a full backup
+restore is required. Actual complete ERP installation remains unqualified.
+
+A new bounded source authority review found that private `save_sale` could not
+execute `cp7_sales.command` directly as postgres. `native_dispatch.py` derives
+one call through the existing public SECURITY DEFINER Sales facade instead.
+The actual complete19 command/facade rows are checked; both Native bodies and
+ACLs remain unchanged, with no new EXECUTE grant. Earlier facade/model source
+and its completed evidence remain byte-exact. The changed dispatch, full owner
+leases, business effects, Auth, browser and two-backend behavior still require
+actual qualification on the final accepted parent.
+
 ## Non-superuser facade composition (2 November 2026)
 
 `facade_install.derive()` composes the original six public facades and three private sales helpers. It installs the existing exact payroll display body before owner transfer, normalizes only the nine new function ACLs while postgres owns them, then transfers public ownership with temporary SET/CREATE authority and removes both temporary grants. Existing transaction bodies and all previous model inputs are unchanged. A final installer must use this composition, rather than execute facade/display/sales SQL separately.

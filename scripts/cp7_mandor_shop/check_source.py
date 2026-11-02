@@ -320,6 +320,21 @@ def check():
     assert install_controls['complete_Native_installer_or_final_parent_adoption']is False
     for name,expected in install_controls['source_files'].items():
         raw=(HERE/name).read_bytes();assert expected=={'bytes':len(raw),'sha256':sha256(raw).hexdigest()}
+    import sys
+    sys.path.insert(0,str(ROOT/'scripts'))
+    dispatch=importlib.import_module('cp7_mandor_shop.native_dispatch')
+    _,dispatch_proof=dispatch.derive(reference['functions'])
+    assert dispatch_proof==json.loads((HERE/'NATIVE_DISPATCH_SOURCE_CONTROLS.json').read_bytes())
+    assert dispatch_proof['Native_command_and_facade_bodies_and_ACLs_unchanged']is True
+    assert dispatch_proof['new_EXECUTE_or_role_grants']==0
+    installer=importlib.import_module('cp7_mandor_shop.composition')
+    planned=installer.sources()
+    assert planned['actual_final_parent_admission']is None and planned['runtime_entry']is None
+    plan=json.loads((HERE/'INSTALL_PLAN.json').read_bytes())
+    assert len(plan['private_functions'])==34 and len(plan['public_functions'])==6 and len(plan['tables'])==15
+    assert len(plan['triggers'])==27 and len(plan['private_execute_grants'])==9
+    installation=json.loads((HERE/'INSTALLER_SOURCE_CONTROLS.json').read_bytes())
+    assert installation['actual_final_parent_admission']is False and installation['actual_SQL_executed']==0
     return dict(status='FG_MANDOR_EXACT_STORAGE_PREPARATION_SOURCE_ONLY',unchanged_parent_blobs_and_modes=len(base),
         own_source_pins=len(value['files']),storage_model_controls=len(model['results']),parent_gate_closed=True,
         private_allocation_model_controls=len(allocation['results']),retained_storage_controls_NOT_rerun=True,
@@ -331,6 +346,7 @@ def check():
         private_payment_guard_functions=6,new_payment_guard_model_controls=13,Native_payment_guard_triggers=6,
         public_facade_source_functions=6,new_non_superuser_facade_install_logical_controls=4,
         composed_final_facade_source_written=True,complete_Native_installer=False,
+        guarded_complete_installer_source_written=True,existing_Native_facade_dispatch_source_routes=1,
         public_facade_model_controls=9,public_facade_runtime_activated=False,
         exact_display_model_controls=4,new_controlled_UI_paths=14,new_UI_parser_cases=8,new_UI_DOM_cases=7,
         UI_mounted_or_RPC_wired=True,parent_UI_paths_changed=8,reversible_parent_UI_hunks=17,
