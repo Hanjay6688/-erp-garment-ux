@@ -8,6 +8,7 @@ mandatory before running the domain fixture. After actual parent admission,
 a fenced preDB import also inspects these same unchanged domain callbacks.
 """
 from datetime import timedelta
+from copy import deepcopy
 from decimal import Decimal,ROUND_HALF_UP
 from hashlib import sha256
 from pathlib import Path
@@ -150,8 +151,46 @@ def confirm_date(cur,modules,day):
     modules.bc.api.admin(cur)
     return dict(workspace=workspace,payload=payload,request_id=str(request),reply=reply)
 
+def actual_time(cur,expected_day):
+    """Use the database clock; never backdate a new commercial master."""
+    at,day=cur.execute("select statement_timestamp(),(statement_timestamp()at time zone'Asia/Jakarta')::date").fetchone()
+    if day!=expected_day:raise ValueError('NONPAYABLE_FIXTURE_GENUINE_WIB_DAY_CHANGED')
+    return at
+
+
+def master_recipe(cur,modules,f,qty='0.5',rate='2',empty=False,method='BOM_STANDARD'):
+    """The unchanged shared-master API shape with a genuine current timestamp.
+
+    Preserve complete membership and settings exactly as the retained S05
+    helper does. Only its historical midnight input is replaced; Native
+    BF_HISTORY and the actual commercial-master command remain in force.
+    """
+    modules.bc.api.admin(cur)
+    at=actual_time(cur,f['good_day'])
+    existing=cur.execute('select s.id::text,s.sku,s.revision,v.settings from erp.bf_sku_members_v1 m '
+        'join erp.bf_sku_versions_v1 v on v.id=m.version_id join erp.bf_skus_v1 s on s.id=v.sku_id '
+        'where m.product_root=%s and v.effective_to is null',(f['product'],)).fetchone()
+    roots=[f['product']];settings=dict(price=None,bom=[],work_rates=[],laundry_rates=[])
+    if existing:
+        roots=[r[0]for r in cur.execute('select m.product_root::text from erp.bf_sku_members_v1 m '
+            'join erp.bf_sku_versions_v1 v on v.id=m.version_id where v.sku_id=%s and v.effective_to is null '
+            'order by m.product_root',(existing[0],))]
+        settings=deepcopy(existing[3])
+    settings['bom']=[]if empty else[dict(category_id=f['accessory']['category'],qty_per_good_fg_base=qty,
+        hpp_method=method,hpp_standard_rate=rate if method=='BOM_STANDARD'else None,hpp_uom_code=f['accessory']['pcs'],
+        reimbursement_rate=rate,reimbursement_uom_code=f['accessory']['pcs'])]
+    group=modules.bom.master.group(cur,roots,at,sku=existing[1]if existing else None,gid=existing[0]if existing else None,
+        revision=existing[2]if existing else 0,settings=settings)
+    reply=modules.bom.master.save(cur,[group],at)
+    modules.bc.api.admin(cur)
+    f.setdefault('actual_master_recipe_commands',[]).append(dict(effective_from=at.isoformat(),reply=reply,
+        genuine_database_clock=True,Native_BF_HISTORY_guard_unchanged=True,complete_membership_preserved=True))
+    return reply
+
+
 def prepare(cur,today,modules,*,special=True,transition=None,unit_cost='2',qty_per_good='1',register_date=True):
     bc,bd=modules.bc,modules.bd
+    actual_time(cur,today)
     accessory=bc.fixture(cur,today,stock_qty=1000,cost=unit_cost,zones=False)
     bc.api.admin(cur)
     if cur.execute('select count(*)from erp.contractor_hpp_policy_versions where contractor_id=%s',
@@ -168,8 +207,8 @@ def prepare(cur,today,modules,*,special=True,transition=None,unit_cost='2',qty_p
             (physical['po'],)).fetchone()[0])!=accessory['mandor']:
         raise ValueError('NONPAYABLE_EXPLICIT_SAME_MANDOR_PHYSICAL_PO_REQUIRED')
     product=bd.sized_product(cur,bd.chain.base.SIZE,'NP-'+uuid.uuid4().hex[:8])
-    physical.update(product=product,contractor=accessory['mandor'],accessory=accessory)
-    modules.bom.recipe(cur,physical,qty=qty_per_good,rate='2',method='CATEGORY_MOVING_AVG')
+    physical.update(product=product,contractor=accessory['mandor'],accessory=accessory,good_day=today)
+    master_recipe(cur,modules,physical,qty=qty_per_good,rate='2',method='CATEGORY_MOVING_AVG')
     # A known process rate uses the original ordinary delivery path; no fake
     # final amount, posted row, tariff fallback or material stock is supplied.
     bd.process_rate(cur,physical,'1')
@@ -186,9 +225,12 @@ def prepare(cur,today,modules,*,special=True,transition=None,unit_cost='2',qty_p
     note=bc.note_call(cur,'POST',dict(id=None,expected_version=None,number='NP-'+uuid.uuid4().hex,
         contractor_id=accessory['mandor'],location_id=accessory['main'],po_id=physical['po'],
         physical_at=bc.local_at(physical['day'],10),reason='Native counted issue before GOOD',notes='',items=[line]))
-    good_day=physical['day']
+    # Cutting/pickup/receipt are genuinely earlier fixture events; the new
+    # commercial BOM is created now and GOOD follows it now. A transition
+    # therefore crosses real physical dates without backdating the master.
+    good_day=today
     if transition is not None:
-        good_day+=timedelta(days=1)
+        if not physical['day']<good_day:raise ValueError('NONPAYABLE_TRANSITION_REQUIRES_EARLIER_PICKUP_DATE')
         classification.append(policy(cur,modules,accessory['mandor'],good_day,transition))
     physical.update(receipt=received,receipt_size=rows[0][0],receipt_line=rows[0][1],delivery=delivery,
         good_day=good_day,classification=classification,category_date_confirmation=confirmation,note=note,
@@ -201,8 +243,9 @@ def post_good(cur,modules,f,*,good_qty=10,bs_qty=0):
     bd,bc=modules.bd,modules.bc
     if type(good_qty)is not int or type(bs_qty)is not int or good_qty<=0 or bs_qty<0 or good_qty+bs_qty!=10:
         raise ValueError('NONPAYABLE_NATIVE_EXACT_TEN_RECEIVED_PCS_REQUIRED')
+    good_at=actual_time(cur,f['good_day'])
     payload=dict(cutting_group_id=f['group'],destination_location_id=bd.chain.base.LOCATION,
-        physical_at=bd.chain.production.at(f['good_day'],14).isoformat(),reason='Native actual company-funded GOOD',
+        physical_at=good_at.isoformat(),reason='Native actual company-funded GOOD',
         good_qty_pcs=good_qty,completion_mode='ALL_READY',lines=[dict(final_product_id=f['product'],qty_good_pcs=good_qty,
             qty_bs_pcs=bs_qty,source_laundry_receipt_line_id=f['receipt_line'],source_laundry_receipt_batch_size_line_id=f['receipt_size'])])
     result=bd.chain.laundry_action(cur,'POST_FINAL_SKU',payload,bd.chain.base.group_version(cur,f['group']))

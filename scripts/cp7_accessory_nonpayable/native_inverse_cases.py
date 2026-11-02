@@ -131,7 +131,10 @@ def rework_inverse_case(cur,today,state):
     initial=lot_state(cur,modules,f);fixture.require_economics(initial['economics'],f,nonpayable=True,hpp='0.002')
     bs=cur.execute('select id::text from erp.bs_cases where cutting_group_id=%s and qc_item_id is not null',(f['group'],)).fetchall()
     if len(bs)!=1:raise ValueError('NONPAYABLE_REWORK_REQUIRES_ONE_NATIVE_FIVE_PCS_BS_SOURCE')
-    when=lambda hour:bd.chain.production.at(f['good_day'],hour)
+    times={}
+    def when(hour):
+        if hour not in times:times[hour]=fixture.actual_time(cur,f['good_day'])
+        return times[hour]
     bom=cur.execute('select erp.resolve_rework_accessory_bom_v1(%s,%s)::text',(bs[0][0],when(15))).fetchone()[0]
     items=cur.execute('select id::text from erp.accessory_bom_items where bom_version_id=%s and category_id=%s',
         (bom,f['accessory']['category'])).fetchall()

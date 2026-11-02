@@ -62,12 +62,13 @@ def ordinary_case(cur,today,state,*,initial_special=True,transition=None,history
     if replay!=first:raise ValueError('NONPAYABLE_NATIVE_ACCRUAL_REPLAY_CREATED_A_SECOND_EFFECT')
     history_proof=None
     if history:
-        # Today's later CLEAR has an explicitly confirmed date after the GOOD.
+        # The later CLEAR starts tomorrow, strictly after today's GOOD date.
         # Existing basis, entitlement absence and original accrual stay frozen.
         current=next(p for p in modules.bc.ws(cur)['policies']if p['key']=='ERP-DEC02')
         modules.bc.svc(cur,'SET_POLICY',dict(policy_key='ERP_DEC02',operation='CLEAR',
             expected_version=current['version'],reason='Native later clear must preserve historical GOOD'))
-        confirmation=fixture.confirm_date(cur,modules,today)
+        from datetime import timedelta
+        confirmation=fixture.confirm_date(cur,modules,today+timedelta(days=1))
         modules.bc.internal(cur,'post_accessory_reimbursement_accrual',f['lot'])
         after=fixture.observe(cur,modules,f)
         if after!=first:raise ValueError('NONPAYABLE_LATER_POLICY_CHANGED_POSTED_GOOD_HISTORY')

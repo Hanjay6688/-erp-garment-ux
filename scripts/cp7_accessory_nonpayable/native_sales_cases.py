@@ -87,7 +87,7 @@ def exercise(cur,today,state):
     actor=master.role_actor(cur,'OWNER');tag='NP-SALE-'+uuid.uuid4().hex[:10]
     customer=str(modules.bd.chain.base.create_customer(cur,tag))
     sale=dict(f,tag=tag,customer=customer,location=modules.bd.chain.base.LOCATION,actor=actor,
-        sale_at=modules.bd.chain.production.at(f['good_day'],16).isoformat())
+        sale_at=native_fixture.actual_time(cur,f['good_day']).isoformat())
     accounts_before=command.accounts(cur)
     create_payload=draft.payload(sale,qty='4',price='50',discount='0');create_key=uuid.uuid4()
     made=draft.create(cur,sale,p=create_payload,key=create_key,subject=actor)

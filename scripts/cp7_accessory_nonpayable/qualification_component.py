@@ -55,6 +55,8 @@ def full_case(cur,name,operation,state,control):
     cur.execute('savepoint afui_full_current_case');error=None;result=None;observed=None
     try:
         result=operation()
+        bc.api.admin(cur)
+        cur.execute('set constraints all immediate');cur.execute('set constraints all deferred')
         with control.product_catalog(cur):observed=case_boundary.capture_generated(cur,catalog,before)
     except Exception as caught:error=caught
     try:
@@ -133,7 +135,14 @@ def exercise(conn,cur,database,url,report,state):
     def verify(cursor):
         with control.product_catalog(cursor):return assembly.verify(cursor,state)
     def cases(cursor,today):
-        return[(name,lambda name=name,operation=operation:full_case(cursor,name,operation,state,control))
+        failed=[]
+        def one(name,operation):
+            if failed:return dict(status='INCOMPLETE',blocked_by_first_case=failed[0],
+                error='NONPAYABLE_REMAINING_CASES_NOT_RUN_AFTER_FIRST_FAILURE',actual_case_credit=0)
+            try:return full_case(cursor,name,operation,state,control)
+            except Exception:
+                failed.append(name);raise
+        return[(name,lambda name=name,operation=operation:one(name,operation))
             for name,operation in native_cases.cases(cursor,today,state)]
     try:
         with exact_public_catalog(native,retain_raw=True)as public:

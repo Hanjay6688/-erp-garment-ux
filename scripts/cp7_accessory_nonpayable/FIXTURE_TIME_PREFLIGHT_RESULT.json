@@ -1,0 +1,437 @@
+{
+  "status": "NEW_AFUI_GENUINE_TIME_FIXTURE_AND_EXACT_PRIVATE_ADVISOR_SOURCE_PREFLIGHT_PASS_NOT_BUSINESS",
+  "actual_native_original": {
+    "bytes": 14755737,
+    "sha256": "80856b7ec2cebf08318a21617091b73c6744161b72bb3be98bcb9ecd2b8109eb"
+  },
+  "actual_BF_history_definition_sha256": "93281ddd9af0d7d09759365453222c439ce01e1f5262aa8449b2189ce27b6b56",
+  "changed_source_files": {
+    "native_fixture.py": {
+      "bytes": 20794,
+      "sha256": "0189e3e78cb1ae5eb6d71915b71efdb527e33edc74161d7c12d7a72ce46770c4"
+    },
+    "native_cases.py": {
+      "bytes": 10875,
+      "sha256": "22dfc1ea3c87f8e72a5405db5af5c76e0010ea6a64b2f06ab6bfd913dccd0b2b"
+    },
+    "native_inverse_cases.py": {
+      "bytes": 14422,
+      "sha256": "35340e55196382cbafa5efd65f5d38e268fe062c43053bb224b43c4c37590e73"
+    },
+    "native_sales_cases.py": {
+      "bytes": 13155,
+      "sha256": "89aacb3f2395b0174d7f6c8478431ca8c88c241055953b383cdb303808f2ae2a"
+    },
+    "advisor_review.py": {
+      "bytes": 4173,
+      "sha256": "bd1090e42a4a2519a10c5f2872599703606f9b922026d347b6f873ca368df0df"
+    },
+    "qualification.py": {
+      "bytes": 4676,
+      "sha256": "6d7fc57756b166dbb8220cc0149a62b658e4e673117d73e010261ada3a1ecca4"
+    },
+    "qualification_component.py": {
+      "bytes": 10632,
+      "sha256": "d099f98bab3e2a3af43a778f8309fbd3c66a645d4a5b081d2cbb3236834013c5"
+    },
+    "final_gate.py": {
+      "bytes": 16314,
+      "sha256": "b0c5dabe76a8c914dde47a38f4cb5dfc952e6146aaaaed3fbbc721e4b1e3ad5e"
+    },
+    "fixture_time_preflight.py": {
+      "bytes": 6607,
+      "sha256": "a4892a9237766b4aca3ae52fca5e99c2d7f3b0249d784338802166b60da3bbd8"
+    }
+  },
+  "actual_helper_signatures_checked": [
+    {
+      "file": "native_fixture.py",
+      "line": 169,
+      "function": "actual_time"
+    },
+    {
+      "file": "native_fixture.py",
+      "line": 182,
+      "function": "modules.bom.master.group"
+    },
+    {
+      "file": "native_fixture.py",
+      "line": 184,
+      "function": "modules.bom.master.save"
+    },
+    {
+      "file": "native_fixture.py",
+      "line": 193,
+      "function": "actual_time"
+    },
+    {
+      "file": "native_fixture.py",
+      "line": 211,
+      "function": "master_recipe"
+    },
+    {
+      "file": "native_fixture.py",
+      "line": 246,
+      "function": "actual_time"
+    },
+    {
+      "file": "native_cases.py",
+      "line": 53,
+      "function": "fixture.admitted_modules"
+    },
+    {
+      "file": "native_cases.py",
+      "line": 55,
+      "function": "fixture.prepare"
+    },
+    {
+      "file": "native_cases.py",
+      "line": 56,
+      "function": "fixture.post_good"
+    },
+    {
+      "file": "native_cases.py",
+      "line": 58,
+      "function": "fixture.observe"
+    },
+    {
+      "file": "native_cases.py",
+      "line": 58,
+      "function": "fixture.require_economics"
+    },
+    {
+      "file": "native_cases.py",
+      "line": 61,
+      "function": "fixture.observe"
+    },
+    {
+      "file": "native_cases.py",
+      "line": 90,
+      "function": "fixture.admitted_modules"
+    },
+    {
+      "file": "native_cases.py",
+      "line": 92,
+      "function": "fixture.prepare"
+    },
+    {
+      "file": "native_cases.py",
+      "line": 123,
+      "function": "fixture.admitted_modules"
+    },
+    {
+      "file": "native_cases.py",
+      "line": 125,
+      "function": "fixture.prepare"
+    },
+    {
+      "file": "native_cases.py",
+      "line": 126,
+      "function": "fixture.post_good"
+    },
+    {
+      "file": "native_cases.py",
+      "line": 127,
+      "function": "fixture.observe"
+    },
+    {
+      "file": "native_cases.py",
+      "line": 127,
+      "function": "fixture.require_economics"
+    },
+    {
+      "file": "native_cases.py",
+      "line": 71,
+      "function": "fixture.confirm_date"
+    },
+    {
+      "file": "native_cases.py",
+      "line": 73,
+      "function": "fixture.observe"
+    },
+    {
+      "file": "native_cases.py",
+      "line": 136,
+      "function": "fixture.observe"
+    },
+    {
+      "file": "native_cases.py",
+      "line": 136,
+      "function": "fixture.require_economics"
+    },
+    {
+      "file": "native_cases.py",
+      "line": 98,
+      "function": "fixture.post_good"
+    },
+    {
+      "file": "native_cases.py",
+      "line": 146,
+      "function": "fixture.observe"
+    },
+    {
+      "file": "native_cases.py",
+      "line": 146,
+      "function": "fixture.require_economics"
+    },
+    {
+      "file": "native_inverse_cases.py",
+      "line": 99,
+      "function": "fixture.admitted_modules"
+    },
+    {
+      "file": "native_inverse_cases.py",
+      "line": 100,
+      "function": "fixture.prepare"
+    },
+    {
+      "file": "native_inverse_cases.py",
+      "line": 100,
+      "function": "fixture.post_good"
+    },
+    {
+      "file": "native_inverse_cases.py",
+      "line": 101,
+      "function": "fixture.require_economics"
+    },
+    {
+      "file": "native_inverse_cases.py",
+      "line": 103,
+      "function": "fixture.require_economics"
+    },
+    {
+      "file": "native_inverse_cases.py",
+      "line": 127,
+      "function": "fixture.admitted_modules"
+    },
+    {
+      "file": "native_inverse_cases.py",
+      "line": 129,
+      "function": "fixture.prepare"
+    },
+    {
+      "file": "native_inverse_cases.py",
+      "line": 130,
+      "function": "fixture.post_good"
+    },
+    {
+      "file": "native_inverse_cases.py",
+      "line": 131,
+      "function": "fixture.require_economics"
+    },
+    {
+      "file": "native_inverse_cases.py",
+      "line": 154,
+      "function": "fixture.require_economics"
+    },
+    {
+      "file": "native_inverse_cases.py",
+      "line": 159,
+      "function": "fixture.require_economics"
+    },
+    {
+      "file": "native_inverse_cases.py",
+      "line": 160,
+      "function": "fixture.require_economics"
+    },
+    {
+      "file": "native_inverse_cases.py",
+      "line": 177,
+      "function": "fixture.require_economics"
+    },
+    {
+      "file": "native_inverse_cases.py",
+      "line": 180,
+      "function": "fixture.require_economics"
+    },
+    {
+      "file": "native_inverse_cases.py",
+      "line": 195,
+      "function": "native_fixture.admitted_modules"
+    },
+    {
+      "file": "native_inverse_cases.py",
+      "line": 48,
+      "function": "native_fixture.observe"
+    },
+    {
+      "file": "native_inverse_cases.py",
+      "line": 136,
+      "function": "fixture.actual_time"
+    },
+    {
+      "file": "native_sales_cases.py",
+      "line": 73,
+      "function": "native_fixture.admitted_modules"
+    },
+    {
+      "file": "native_sales_cases.py",
+      "line": 79,
+      "function": "native_fixture.prepare"
+    },
+    {
+      "file": "native_sales_cases.py",
+      "line": 79,
+      "function": "native_fixture.post_good"
+    },
+    {
+      "file": "native_sales_cases.py",
+      "line": 80,
+      "function": "native_fixture.observe"
+    },
+    {
+      "file": "native_sales_cases.py",
+      "line": 80,
+      "function": "native_fixture.require_economics"
+    },
+    {
+      "file": "native_sales_cases.py",
+      "line": 110,
+      "function": "native_fixture.require_economics"
+    },
+    {
+      "file": "native_sales_cases.py",
+      "line": 114,
+      "function": "native_fixture.require_economics"
+    },
+    {
+      "file": "native_sales_cases.py",
+      "line": 120,
+      "function": "native_fixture.require_economics"
+    },
+    {
+      "file": "native_sales_cases.py",
+      "line": 140,
+      "function": "native_fixture.require_economics"
+    },
+    {
+      "file": "native_sales_cases.py",
+      "line": 159,
+      "function": "native_fixture.admitted_modules"
+    },
+    {
+      "file": "native_sales_cases.py",
+      "line": 45,
+      "function": "native_fixture.observe"
+    },
+    {
+      "file": "native_sales_cases.py",
+      "line": 90,
+      "function": "native_fixture.actual_time"
+    },
+    {
+      "file": "qualification.py",
+      "line": 38,
+      "function": "native_fixture.domain_modules"
+    },
+    {
+      "file": "qualification_component.py",
+      "line": 94,
+      "function": "native_fixture.observe"
+    },
+    {
+      "file": "final_gate.py",
+      "line": 182,
+      "function": "native_fixture.require_economics"
+    },
+    {
+      "file": "final_gate.py",
+      "line": 187,
+      "function": "native_fixture.require_economics"
+    }
+  ],
+  "new_SQL_statements_parsed": [
+    {
+      "file": "native_fixture.py",
+      "line": 156,
+      "sql": "select statement_timestamp(),(statement_timestamp()at time zone'Asia/Jakarta')::date"
+    },
+    {
+      "file": "native_fixture.py",
+      "line": 170,
+      "sql": "select s.id::text,s.sku,s.revision,v.settings from erp.bf_sku_members_v1 m join erp.bf_sku_versions_v1 v on v.id=m.version_id join erp.bf_skus_v1 s on s.id=v.sku_id where m.product_root=%s and v.effective_to is null"
+    },
+    {
+      "file": "native_fixture.py",
+      "line": 175,
+      "sql": "select m.product_root::text from erp.bf_sku_members_v1 m join erp.bf_sku_versions_v1 v on v.id=m.version_id where v.sku_id=%s and v.effective_to is null order by m.product_root"
+    },
+    {
+      "file": "native_sales_cases.py",
+      "line": 124,
+      "sql": "select id::text from erp.cost_recalc_queue where status='PENDING'or (status='FAILED'and attempt_count<3 and coalesce(next_attempt_at,statement_timestamp())<=statement_timestamp())order by id"
+    },
+    {
+      "file": "advisor_review.py",
+      "line": 39,
+      "sql": "select pg_get_userbyid(relowner),relrowsecurity,relforcerowsecurity from pg_class where oid=%s::regclass"
+    },
+    {
+      "file": "advisor_review.py",
+      "line": 41,
+      "sql": "select polname from pg_policy where polrelid=%s::regclass order by polname"
+    },
+    {
+      "file": "advisor_review.py",
+      "line": 42,
+      "sql": "select not exists(select 1 from pg_namespace n,lateral aclexplode(coalesce(n.nspacl,acldefault('n',n.nspowner)))a where n.nspname=%s and a.grantee=0)"
+    },
+    {
+      "file": "advisor_review.py",
+      "line": 45,
+      "sql": "select not exists(select 1 from pg_class c,lateral aclexplode(coalesce(c.relacl,acldefault('r',c.relowner)))a where c.oid=%s::regclass and a.grantee=0)"
+    },
+    {
+      "file": "advisor_review.py",
+      "line": 50,
+      "sql": "select has_schema_privilege(%s,%s,'USAGE')"
+    },
+    {
+      "file": "advisor_review.py",
+      "line": 51,
+      "sql": "select has_table_privilege(%s,%s,%s)"
+    },
+    {
+      "file": "qualification_component.py",
+      "line": 59,
+      "sql": "set constraints all immediate"
+    },
+    {
+      "file": "qualification_component.py",
+      "line": 59,
+      "sql": "set constraints all deferred"
+    },
+    {
+      "file": "qualification_component.py",
+      "line": 91,
+      "sql": "set constraints all immediate"
+    },
+    {
+      "file": "qualification_component.py",
+      "line": 91,
+      "sql": "set constraints all deferred"
+    },
+    {
+      "file": "qualification_component.py",
+      "line": 83,
+      "sql": "select(statement_timestamp()at time zone'Asia/Jakarta')::date"
+    }
+  ],
+  "parser": "v7.20",
+  "Native_BF_HISTORY_guard_unchanged": true,
+  "genuine_SQL_clock_source_required": true,
+  "Native_case_ids_and_oracles_unchanged": true,
+  "remaining_cases_blocked_after_first_failure_not_marked_PASS": true,
+  "private_advisor_scope": [
+    "cp7_accessory_nonpayable.category_versions_v1",
+    "cp7_accessory_nonpayable.date_requests_v1",
+    "cp7_accessory_nonpayable.good_bases_v1"
+  ],
+  "actual_SQL_executed": 0,
+  "actual_Native_cases": 0,
+  "actual_Auth_HTTP_cases": 0,
+  "actual_browser_cases": 0,
+  "old_Native_or_model_or_financial_suites_rerun": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

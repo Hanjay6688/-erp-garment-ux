@@ -19,9 +19,10 @@ def runtime():
         text,derivation=package_engine.derive(original.read_bytes())
         engine=ModuleType('afui_exact_original_whole_package_engine');engine.__file__=str(original)
         exec(compile(text,str(original),'exec'),engine.__dict__)
-        from cp7_accessory_nonpayable import assembly,native_fixture,qualification_component as component
+        from cp7_accessory_nonpayable import assembly,native_fixture,advisor_review,qualification_component as component
         engine.product=assembly
         engine.runner=SimpleNamespace(CASE=component.CASE,exercise=component.exercise,scheduler_quiet=component.scheduler_quiet)
+        engine.current_advisor=advisor_review
         engine.IDS=(component.CASE,);engine.LABEL=component.LABEL
         engine.PRE_DUMP='/tmp/current_afui_good_nonpayable_full_pre.dump'
         engine.OUT=ROOT/'cp6-proof/t3'/(component.LABEL+'.json')

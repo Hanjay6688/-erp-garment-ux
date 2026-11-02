@@ -81,8 +81,8 @@
       "sha256": "f98b163498d647f338260107909348b89b962c04b42e9881dc6400dac304a43b"
     },
     "scripts/cp7_accessory_nonpayable/final_gate.py": {
-      "bytes": 15834,
-      "sha256": "8eb2440bcf029a638544f90e2c1eaad5caf37f5e1765b5de6b108ab027285c7f"
+      "bytes": 16314,
+      "sha256": "b0c5dabe76a8c914dde47a38f4cb5dfc952e6146aaaaed3fbbc721e4b1e3ad5e"
     },
     "scripts/cp7_accessory_nonpayable/function_acl_capability.py": {
       "bytes": 8532,
@@ -113,24 +113,24 @@
       "sha256": "3dd30156e24e23cfee1834286dd4f20771b7ff3907f1431611d9f00c6bfcd340"
     },
     "scripts/cp7_accessory_nonpayable/native_cases.py": {
-      "bytes": 10820,
-      "sha256": "acfaa76e8b3cb4da091db28c38431cff91ea7df5535dddd760cb191e6fbaac28"
+      "bytes": 10875,
+      "sha256": "22dfc1ea3c87f8e72a5405db5af5c76e0010ea6a64b2f06ab6bfd913dccd0b2b"
     },
     "scripts/cp7_accessory_nonpayable/native_derivation.py": {
       "bytes": 7572,
       "sha256": "66f10fc8ea4f4096175c8c5839371ff3dd3587fb9f5a5ad2a02b7ac336759b16"
     },
     "scripts/cp7_accessory_nonpayable/native_fixture.py": {
-      "bytes": 18110,
-      "sha256": "af4352bd06ea35cf463fe989933e6cce628f24918667edc425f72f72890d8962"
+      "bytes": 20794,
+      "sha256": "0189e3e78cb1ae5eb6d71915b71efdb527e33edc74161d7c12d7a72ce46770c4"
     },
     "scripts/cp7_accessory_nonpayable/native_inverse_cases.py": {
-      "bytes": 14346,
-      "sha256": "548903bc7cbe31730b3fa48f28a2b22c93e391ce85848f00aaffc2e744d8007b"
+      "bytes": 14422,
+      "sha256": "35340e55196382cbafa5efd65f5d38e268fe062c43053bb224b43c4c37590e73"
     },
     "scripts/cp7_accessory_nonpayable/native_sales_cases.py": {
-      "bytes": 13158,
-      "sha256": "00f8f10a7d51e4cab2ef636594c732182645b960950de5bb9c550d2e47562280"
+      "bytes": 13155,
+      "sha256": "89aacb3f2395b0174d7f6c8478431ca8c88c241055953b383cdb303808f2ae2a"
     },
     "scripts/cp7_accessory_nonpayable/package_engine.py": {
       "bytes": 2825,
@@ -141,12 +141,12 @@
       "sha256": "042c30ce6c8242b0626270d2a74f0433df4b5fc57cb8af0d4198a79a8f41cd20"
     },
     "scripts/cp7_accessory_nonpayable/qualification.py": {
-      "bytes": 4615,
-      "sha256": "55f3cafc94c1a87c03f320dbce26e56953eb5c6bc93e52b9c68d6052bd530fe9"
+      "bytes": 4676,
+      "sha256": "6d7fc57756b166dbb8220cc0149a62b658e4e673117d73e010261ada3a1ecca4"
     },
     "scripts/cp7_accessory_nonpayable/qualification_component.py": {
-      "bytes": 10155,
-      "sha256": "a1e6897a4b92f32f6deee689c78995085dd20bb58afb77a1796d79a992e73d48"
+      "bytes": 10632,
+      "sha256": "d099f98bab3e2a3af43a778f8309fbd3c66a645d4a5b081d2cbb3236834013c5"
     },
     "scripts/cp7_accessory_nonpayable/qualification_gate.py": {
       "bytes": 4826,
@@ -251,6 +251,14 @@
     "scripts/cp7_accessory_nonpayable/workflow.py": {
       "bytes": 7781,
       "sha256": "bd8f5b3e730ca6e68416a8e09c5a5d6802387d20ebf6294954a27a9faac6d85e"
+    },
+    "scripts/cp7_accessory_nonpayable/fixture_time_preflight.py": {
+      "bytes": 6607,
+      "sha256": "a4892a9237766b4aca3ae52fca5e99c2d7f3b0249d784338802166b60da3bbd8"
+    },
+    "scripts/cp7_accessory_nonpayable/advisor_review.py": {
+      "bytes": 4173,
+      "sha256": "bd1090e42a4a2519a10c5f2872599703606f9b922026d347b6f873ca368df0df"
     }
   },
   "actual_Native_cases": 0,
@@ -267,5 +275,46 @@
     "before_head": "098dbd8769cbbf6f0502750a7c2a770959e02385",
     "before_tree": "b40ea64ea4cdcaaa0f28fc6d32645e783c0b0121",
     "actual_Native_cases": 0
+  },
+  "fixture_time_correction": {
+    "status": "SOURCE_PREFLIGHT_PASS_ACTUAL_AFUI15_REEXECUTION_PENDING",
+    "previous_failed_head": "b8c572d28f944ad9a5947ffc164e134558ed6641",
+    "previous_failed_run": 41486910739,
+    "Native_BF_HISTORY_five_minute_guard_unchanged": true,
+    "master_and_GOOD_use_genuine_SQL_timestamps": true,
+    "earlier_pickup_current_GOOD_transition_preserved": true,
+    "later_CLEAR_effective_tomorrow": true,
+    "helper_call_signatures_checked": 59,
+    "fixed_SQL_statements_parsed": 15,
+    "actual_SQL_executed": 0,
+    "preflight_result": {
+      "path": "scripts/cp7_accessory_nonpayable/FIXTURE_TIME_PREFLIGHT_RESULT.json",
+      "bytes": 11652,
+      "sha256": "ac853f5f470bc23fc08d63531e26d7414183dcdee19929965d37d97fc8e1220a"
+    },
+    "old_valid_Native_or_financial_or_model_suites_not_rerun": true,
+    "deferred_constraints_flushed_before_every_case_rollback": true
+  },
+  "private_advisor_review": {
+    "scope": [
+      "cp7_accessory_nonpayable.category_versions_v1",
+      "cp7_accessory_nonpayable.date_requests_v1",
+      "cp7_accessory_nonpayable.good_bases_v1"
+    ],
+    "owner": "postgres",
+    "RLS": true,
+    "FORCE_RLS": false,
+    "policies": [],
+    "PUBLIC_schema_and_table_ACLs_empty": true,
+    "all_privileges_denied_for": [
+      "anon",
+      "authenticated",
+      "service_role",
+      "cp7_alert",
+      "cp7_finance_read"
+    ],
+    "unchanged_predecessor_reviewer_delegated": true,
+    "actual_live_authority_and_final_gate_required": true,
+    "no_warning_or_other_finding_whitelisted": true
   }
 }

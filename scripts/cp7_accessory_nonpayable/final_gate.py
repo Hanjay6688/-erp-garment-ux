@@ -122,7 +122,7 @@ def assets(directory,part,installed_catalog):
         independently_recomputed_raw_census_intervals=len(censuses),no_projected_or_dropped_census_bytes=True)
 
 def validate(p,main,raw,package,backup,owned,head,*,source_graph,directory):
-    from cp7_accessory_nonpayable import admission,assembly,native_cases,access_cases,browser_prepare,case_boundary,qualification_gate,native_fixture
+    from cp7_accessory_nonpayable import admission,assembly,native_cases,access_cases,browser_prepare,case_boundary,qualification_gate,native_fixture,advisor_review
     receipt=admission.parent_receipt()
     p.fields(main,dict(status='PASS',qualification_commit=head,required_case_ids=[CASE],required_case_ids_pass=True,
         actual_Native_cases=9,actual_browser_cases=2,actual_business_cases=15,actual_Auth_HTTP_cases=2,
@@ -131,6 +131,12 @@ def validate(p,main,raw,package,backup,owned,head,*,source_graph,directory):
         cp6_restored=True,baseline_advisors_equal=True,advisor_gate=True,used_guard_refused_before_DDL=True,
         production_go=False,independent_acceptance=False),'NONPAYABLE_CURRENT_FIFTEEN_AND_COMPLETE_RESTORATION')
     p.exact(set(main['committed']),{CASE},'NONPAYABLE_ONE_CURRENT_COMPONENT')
+    advisor_review.require_closed(main['current_private_info_authority'])
+    review=main['advisor_disposition']
+    p.fields(review,dict(status='VERIFIED_AFUI_PRIVATE_DEFAULT_DENY_INFO',gate=True,unexplained=[]),
+        'NONPAYABLE_EXACT_REVIEWED_PRIVATE_DEFAULT_DENY_INFOS')
+    p.exact(sorted(row['metadata']['name']for row in review['reviewed_Afui_private_info']),list(advisor_review.TABLES),
+        'NONPAYABLE_EVERY_ACTUAL_AFUI_PRIVATE_INFO_REVIEWED_ONCE')
     p.fields(main['source_declaration'],dict(status='ACTUAL_FREE3_PARENT_AND_COMPLETE_NONPAYABLE_SOURCE_GRAPH_ADMITTED',
         parent_head=receipt['head'],parent_tree=receipt['tree'],parent_run=receipt['run_id']),
         'NONPAYABLE_EXACT_ACTUAL_ACCEPTED_FREE3_PARENT')
