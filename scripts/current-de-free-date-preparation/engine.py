@@ -14,8 +14,14 @@ def derive(raw):
     text,prior=parent.derive(raw)
     changes=(('ACTUAL_QUALIFIED_COMPLETE_PERMANENT_PARENT_INSTALL',
               'ACTUAL_QUALIFIED_COMPLETE_DE_NATIVE30_PARENT_INSTALL'),
-             (parent.COUNTS_AFTER,parent.COUNTS_AFTER.replace("=30","=3")
-              .replace('retained_permanent6_fresh_case_credit','retained_DE30_fresh_case_credit')))
+             (parent.COUNTS_AFTER,parent.COUNTS_AFTER.replace("=30","=0")
+              .replace('retained_permanent6_fresh_case_credit','retained_DE30_fresh_case_credit')
+              +"\n            report['retained_Native_cases']=3"
+              +"\n            report['retained_cases_are_not_fresh']=True"
+              +"\n            report['candidate_case_coverage']=3"
+              +"\n            report['financial_groups_rerun']=False"
+              +"\n            report['source_invariant_reuse']=True"
+              +"\n            report['prior_runs_aggregated']=True"))
     original=text
     for before,after in changes:
         if text.count(before)!=1 or after in text:

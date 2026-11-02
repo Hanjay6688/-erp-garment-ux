@@ -30,7 +30,7 @@ def derive():
         'scripts/current-special-free-date-boundary/**','scripts/cp7_special_free_date_on_de/**',
         'scripts/cp7_current_de_free_date/**'])
     value['concurrency']['group']='cp7-current-complete-de-free-date3-single-owning-qualification'
-    job=value['jobs']['p21'];job['name']='Native FREE date3; real posting and complete restoration'
+    job=value['jobs']['p21'];job['name']='Retain FREE3; missing committed witness and complete restoration'
     job['if']="github.ref == 'refs/heads/"+BRANCH+"'"
     job['env'].pop('COMPLETE_DE_CONFIRM');job['env']['FREE_DATE_CONFIRM']='cp6_rollback'
     steps=job['steps']
@@ -39,16 +39,16 @@ def derive():
     steps[0]['name']='Record monotonic FREE date job start before setup and admission'
     steps[0]['run']=steps[0]['run'].replace('DE_JOB_START_MONOTONIC','FREE_DATE_JOB_START_MONOTONIC',1)
     steps[2]['run']='python -B '+NS+'attempt_policy.py --require-window\n'
-    steps[62]=dict(name='Fetch canonical terminal DE30 root intake and original archive before database',
+    steps[62]=dict(name='Fetch canonical DE30 parent and Root retained FREE3 originals before database',
         **{'working-directory':'auditor'},env={'GH_TOKEN':'${{ github.token }}'},
-        run='python -B '+NS+'fetch_parent.py\n')
+        run='python -B '+NS+'fetch_parent.py\npython -B '+NS+'fetch_retained3.py\n')
     steps[63]=dict(name='Check Native FREE3 sources and pending-parent controls before database',
         **{'working-directory':'auditor'},
         run='set -euo pipefail\npython -B '+NS+'check.py --source\n')
     steps[64]=dict(name='Admit complete DE FREE date source graph under database network fence',
         **{'working-directory':'writer'},
         run='python -B ../auditor/'+NS+'probe.py --check\npython -B ../auditor/'+NS+'attempt_policy.py --require-window\n')
-    steps[69]=dict(name='Run Native FREE date3 and complete outer restoration',
+    steps[69]=dict(name='Run missing committed FREE witness; retain completed3 and restore completely',
         **{'working-directory':'writer'},
         run="python -u -B '../auditor/"+NS+"runtime_supervisor.py'\npython -B '../auditor/"+NS+"final_gate.py'\n")
     for before,after in(('CP7_CURRENT_COMPLETE_D1_E_NATIVE30','CP7_CURRENT_COMPLETE_DE_FREE_DATE_NATIVE3'),

@@ -4,8 +4,8 @@
   "base_tree": "86f07de6e0be871d39110aa797ef26da4564e8e8",
   "files": {
     ".github/workflows/cp7-current-complete-de-free-date-native3.yml": {
-      "bytes": 33770,
-      "sha256": "5b8360a78183ecdbafb60c51c8d6004afac9cd40a96587d229348a1818310342"
+      "bytes": 33872,
+      "sha256": "9288618f18de1d860398acdeadbb8e1ad4d2951913abddb84b73f9fe956e6ca8"
     },
     "scripts/cp7_current_de_free_date/SOURCE.json": {
       "bytes": 1114,
@@ -39,6 +39,10 @@
       "bytes": 19912,
       "sha256": "b63c44c459a36ad285c788890132ae4910569044f432e9851dff90f8061192e2"
     },
+    "scripts/current-de-free-date-preparation/FOCUSED_COMMITTED_ORIGIN.json": {
+      "bytes": 25424,
+      "sha256": "8a6dee4d49e3d045fce66b816eaa36e4b527b42391c3813ea05f61fad95677d9"
+    },
     "scripts/current-de-free-date-preparation/FREE_NATIVE3_SOURCE.json": {
       "bytes": 1517,
       "sha256": "ab02ce6e543428981a2eeb996bf16684ddab40b609d87996f59aa15bf5326017"
@@ -54,6 +58,14 @@
     "scripts/current-de-free-date-preparation/REPAIRED_DE_REBASE_ORIGIN.json": {
       "bytes": 7934,
       "sha256": "4f76de39386159836243ca7b8425de302dab28c234051459c3c7f8dac80b67d1"
+    },
+    "scripts/current-de-free-date-preparation/ROOT_RETAINED3.json": {
+      "bytes": 9721,
+      "sha256": "7ddda623e3417b3c04d0db2d7f7ce309718a2128c0dfc4fa22f8d7ee0edeb375"
+    },
+    "scripts/current-de-free-date-preparation/RUNTIME_FIXTURE_BINDING_REPAIR.json": {
+      "bytes": 11076,
+      "sha256": "e4ad30a2b4a4b65d65dff32f9ebbe24103623e0f8cabd93d4ad2cbeb00db6f20"
     },
     "scripts/current-de-free-date-preparation/SUPERVISION_INTEGRATION_CONTROLS.json": {
       "bytes": 5098,
@@ -72,32 +84,40 @@
       "sha256": "66573e79de9f07a1d55e67ecf6a1cfb549de7be5128dc58ff437820a2f7b83b5"
     },
     "scripts/current-de-free-date-preparation/component.py": {
-      "bytes": 10169,
-      "sha256": "4fea2d66c65cb3a29b56a95b753f4e5ec7fa193e80fa777951b1f9eeae9d5342"
+      "bytes": 11362,
+      "sha256": "d20ee2b228747c3ce3dc332e3afe5dcb762e0c054b78c9379eddf1d8b779c420"
     },
     "scripts/current-de-free-date-preparation/engine.py": {
-      "bytes": 1781,
-      "sha256": "0fe640c7b45ec5d51727bacc16fc3cd63b06e23873637c671d2fa65a91f2d286"
+      "bytes": 2195,
+      "sha256": "ca070675d08d504c5cf0c1d97953cc079c509945ea6f765fcae0d2fda4642d70"
     },
     "scripts/current-de-free-date-preparation/fetch_parent.py": {
       "bytes": 2949,
       "sha256": "2504e6960b15411c0c6ef82929ca3a17899e697568b6423e6284ce06ca65e35f"
     },
+    "scripts/current-de-free-date-preparation/fetch_retained3.py": {
+      "bytes": 4364,
+      "sha256": "eea54b75d33bebe78d8dc7d269426783bebc737baaad240c5ceb55d56a7de267"
+    },
     "scripts/current-de-free-date-preparation/final_gate.py": {
-      "bytes": 14818,
-      "sha256": "e88f6a9e04c0f27b951616949698f00c8ada1848bf9cd86987a0e9c4084813f5"
+      "bytes": 15583,
+      "sha256": "a8b8b8667ff334808798e5f3e3f41b008884b6891c6bcb89349498aebca9483e"
     },
     "scripts/current-de-free-date-preparation/native3.workflow.yml.txt": {
-      "bytes": 33770,
-      "sha256": "5b8360a78183ecdbafb60c51c8d6004afac9cd40a96587d229348a1818310342"
+      "bytes": 33872,
+      "sha256": "9288618f18de1d860398acdeadbb8e1ad4d2951913abddb84b73f9fe956e6ca8"
     },
     "scripts/current-de-free-date-preparation/native_free.py": {
       "bytes": 17601,
       "sha256": "ef17c94216892f2a40681eac8372a0bd1e6fddc52e7dbd5f3868a85145734792"
     },
     "scripts/current-de-free-date-preparation/probe.py": {
-      "bytes": 3907,
-      "sha256": "b7b3a4fbca8bfe2321b40f96265906e50b50ff2415b7ad019b0ae617837653df"
+      "bytes": 4758,
+      "sha256": "0248d743ff20f15be1dc37024e868012a20923bafc8236a5d164d2fac4ac0200"
+    },
+    "scripts/current-de-free-date-preparation/retained3.py": {
+      "bytes": 4894,
+      "sha256": "17d2ac3fa96590acc7744f7c5536517174605302c1671525ac7cd6b8a8ae3015"
     },
     "scripts/current-de-free-date-preparation/retained_de_workflow.py": {
       "bytes": 6369,
@@ -124,8 +144,8 @@
       "sha256": "2ca69743380f24221d9e0c5bb14476e62ca19eb01ab3ffdc4534c71550b5a906"
     },
     "scripts/current-de-free-date-preparation/workflow.py": {
-      "bytes": 6280,
-      "sha256": "5bbbfc673330602d65a913bfc7c66d2465be589c8e3b92159146e85ae718c750"
+      "bytes": 6347,
+      "sha256": "e0c0708f5f4e2a681e3ea0ffb2d229ddd966573a90f4950db6045613c48925b2"
     },
     "scripts/current-special-free-date-boundary/ACTUAL_REFERENCE.json": {
       "bytes": 1417,
@@ -158,10 +178,6 @@
     "scripts/current-special-free-date-boundary/test_dates.mjs": {
       "bytes": 6013,
       "sha256": "64bea625dba59b8ef0065a11f18db815b1b95c31952b71c36d6182ed4bbee6c1"
-    },
-    "scripts/current-de-free-date-preparation/RUNTIME_FIXTURE_BINDING_REPAIR.json": {
-      "bytes": 11076,
-      "sha256": "e4ad30a2b4a4b65d65dff32f9ebbe24103623e0f8cabd93d4ad2cbeb00db6f20"
     }
   },
   "actual_parent_qualification": {
@@ -182,5 +198,11 @@
     "before_head": "c73dea71ad8e15e828ea7f4a27937c5c9da5e839",
     "before_tree": "b171e37eb8a76d3764e60662f93f368f98f41883",
     "actual_Native_cases": 0
+  },
+  "focused_committed_witness_successor": {
+    "origin": "scripts/current-de-free-date-preparation/FOCUSED_COMMITTED_ORIGIN.json",
+    "retained_Native_cases": 3,
+    "actual_new_Native_cases": 0,
+    "financial_groups_rerun": false
   }
 }

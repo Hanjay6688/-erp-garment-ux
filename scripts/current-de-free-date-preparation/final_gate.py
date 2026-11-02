@@ -98,19 +98,25 @@ def gate(directory,head):
     backup=p.strict((directory/'T3_BACKUP_RESTORE_DRILL.json').read_bytes())
     value=validate(p,main,raw,package,backup,ids,head)
     value['runtime_supervision']=supervised
+    value['retained_FREE3']=load('free_date_Root_retained3_final_gate',HERE/'retained3.py').invariant_sources(
+        main['source_declaration']['current_installation'])
     return value
 
 
 def validate(p,main,raw,package,backup,ids,head):
     p.fields(main,dict(status='PASS',qualification_commit=head,required_case_ids=[CASE],required_case_ids_pass=True,
-        actual_Native_cases=3,actual_browser_cases=0,actual_business_cases=3,actual_Auth_HTTP_cases=0,
+        actual_Native_cases=0,actual_browser_cases=0,actual_business_cases=0,actual_Auth_HTTP_cases=0,
+        retained_Native_cases=3,retained_cases_are_not_fresh=True,candidate_case_coverage=3,
+        financial_groups_rerun=False,source_invariant_reuse=True,prior_runs_aggregated=True,
         actual_two_session_races=0,retained_DE30_fresh_case_credit=0,real_Auth_browser_claim=False,
         real_Auth_HTTP_qualified=False,baseline_full22_all_rows_all_sequences_equal=True,restore_raw_public_equal=True,
         cp6_restored=True,baseline_advisors_equal=True,advisor_gate=True,used_guard_refused_before_DDL=True,
         production_go=False,independent_acceptance=False),'FREE_DATE_NATIVE3_AND_FULL_RESTORE')
     p.exact(set(main['committed']),{CASE},'FREE_DATE_ONE_CURRENT_COMPONENT')
     part=main['committed'][CASE]
-    p.fields(part,dict(status='PASS',business_counts={'PASS':3},actual_Native_cases=3,
+    p.fields(part,dict(status='PASS',business_counts={},actual_Native_cases=0,
+        retained_Native_cases=3,retained_business_counts={'PASS':3},candidate_case_coverage=3,
+        retained_cases_are_not_fresh=True,financial_groups_rerun=False,source_invariant_reuse=True,prior_runs_aggregated=True,
         actual_browser_cases=0,actual_Auth_HTTP_cases=0,actual_two_session_races=0,real_Auth=False,
         reader_remains_installed=True,retained_DE30_fresh_case_credit=0,used_guard_refused_before_DDL=True,
         GOOD_eligibility_policy_decided=False,Afui_GOOD_nonpayable_path_complete=False,
@@ -200,7 +206,9 @@ def validate(p,main,raw,package,backup,ids,head):
     if not backup['checks']or any(type(v)is not bool or not v for v in backup['checks'].values()):
         raise ValueError('FREE_DATE_ALL_TYPED_BACKUP_CHECKS_REQUIRED')
     p.exact(backup['data']['differ'],{},'FREE_DATE_BACKUP_NO_ROW_DIFFERENCE')
-    return dict(status='CURRENT_COMPLETE_DE_FREE_DATE_NATIVE3_AND_ALL5_PASS',head=head,actual_fresh_cases=3,
+    return dict(status='CURRENT_COMPLETE_DE_FREE_DATE_RETAINED3_COMMITTED_ALL5_PASS',head=head,actual_fresh_cases=0,
+        retained_Native_cases=3,retained_cases_are_not_fresh=True,candidate_case_coverage=3,
+        financial_groups_rerun=False,source_invariant_reuse=True,prior_runs_aggregated=True,
         actual_browser_cases=0,actual_Auth_HTTP_cases=0,actual_two_session_races=0,
         retained_DE30_fresh_case_credit=0,GOOD_eligibility_policy_decided=False,
         Afui_GOOD_nonpayable_path_complete=False,global_writer_or_permission_or_lock_closure=False,

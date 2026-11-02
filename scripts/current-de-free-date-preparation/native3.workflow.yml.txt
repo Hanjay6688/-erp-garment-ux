@@ -18,7 +18,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   p21:
-    name: Native FREE date3; real posting and complete restoration
+    name: Retain FREE3; missing committed witness and complete restoration
     runs-on: ubuntu-24.04
     timeout-minutes: 360
     env:
@@ -464,12 +464,13 @@ jobs:
         GH_TOKEN: ${{ github.token }}
       run: python scripts/current-ow08-source-browser/fetch_money.py
       working-directory: qualified-sku090b
-    - name: Fetch canonical terminal DE30 root intake and original archive before
-        database
+    - name: Fetch canonical DE30 parent and Root retained FREE3 originals before database
       working-directory: auditor
       env:
         GH_TOKEN: ${{ github.token }}
       run: 'python -B scripts/current-de-free-date-preparation/fetch_parent.py
+
+        python -B scripts/current-de-free-date-preparation/fetch_retained3.py
 
         '
     - name: Check Native FREE3 sources and pending-parent controls before database
@@ -565,7 +566,7 @@ jobs:
         \ \\\n  'postgresql://postgres:postgres@127.0.0.1:54322/cp6_rollback' \\\n\
         \  cp6_rollback supabase_db_cp5-local \"$RUNNER_TEMP/join-clone/CLONE_install\"\
         \n"
-    - name: Run Native FREE date3 and complete outer restoration
+    - name: Run missing committed FREE witness; retain completed3 and restore completely
       working-directory: writer
       run: 'python -u -B ''../auditor/scripts/current-de-free-date-preparation/runtime_supervisor.py''
 

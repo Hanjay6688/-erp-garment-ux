@@ -1,0 +1,255 @@
+{
+  "classification": "FREE3_EXACT_RETAINED_CASES_AND_EMPTY_CLONE_ORIGINAL_SEED_COMMITTED_WITNESS_SUCCESSOR",
+  "origin_head": "ad986b9a9d432f2ffac2b961710c3852c6c2ef90",
+  "origin_tree": "80bc5471330b89497991ba1e67615287b01e59c1",
+  "Root_head": "3a26a27530525e0407be996e6ee2cbabe3314076",
+  "Root_tree": "f9d56f07f1d2ca329b658cde8afabe75d04cd240",
+  "Root_receipt": {
+    "bytes": 9721,
+    "sha256": "7ddda623e3417b3c04d0db2d7f7ce309718a2128c0dfc4fa22f8d7ee0edeb375"
+  },
+  "files": {
+    "scripts/current-de-free-date-preparation/component.py": {
+      "before": {
+        "bytes": 10169,
+        "sha256": "4fea2d66c65cb3a29b56a95b753f4e5ec7fa193e80fa777951b1f9eeae9d5342"
+      },
+      "after": {
+        "bytes": 11362,
+        "sha256": "d20ee2b228747c3ce3dc332e3afe5dcb762e0c054b78c9379eddf1d8b779c420"
+      },
+      "changes": [
+        {
+          "before": "        with control.product_catalog(cur):work.product.verify(cur,state)\n        work.fixture.api.admin(cur)\n        cur.execute('grant usage on schema erp to authenticated')  # Existing isolated SQL harness overlay.\n        today=cur.execute(\"select(statement_timestamp()at time zone'Asia/Jakarta')::date\").fetchone()[0]\n",
+          "after": "        with control.product_catalog(cur):work.product.verify(cur,state)\n        work.fixture.api.admin(cur)\n        # The original strict runner rolls its foundation back before this\n        # separate connection. Reuse its original seed ONLY on an empty clone;\n        # never promote an existing actor or change the original OWNER guard.\n        seeded=not cur.execute('select count(*)from erp.app_users').fetchone()[0]\n        if seeded:work.fixture.api.seed(cur)\n        cur.execute('grant usage on schema erp to authenticated')  # Existing isolated SQL harness overlay.\n        today=cur.execute(\"select(statement_timestamp()at time zone'Asia/Jakarta')::date\").fetchone()[0]\n",
+          "count": 1
+        },
+        {
+          "before": "        conn.commit()\n        result=dict(status='NATIVE_FREE_NOTE_COMMITTED',Native_case_credit=0,\n            actual_issue_id=actual['issue'],actual_response=actual['made'],physical_at=actual['at'],\n            posted_snapshot=actual['snapshot'],ledger_delta=actual['ledger_delta'],\n",
+          "after": "        conn.commit()\n        result=dict(status='NATIVE_FREE_NOTE_COMMITTED',Native_case_credit=0,\n            original_fixture_seeded_on_empty_clone=seeded,existing_actor_promoted=False,\n            actual_issue_id=actual['issue'],actual_response=actual['made'],physical_at=actual['at'],\n            posted_snapshot=actual['snapshot'],ledger_delta=actual['ledger_delta'],\n",
+          "count": 1
+        },
+        {
+          "before": "        return [(name,lambda operation=operation:full_case(cursor,operation,work,control))\n                for name,operation in work.cases(cursor,today)]\n    try:\n        with exact_public_catalog(native,retain_raw=True)as public:\n            with monitor.phase('FREE_DATE_NATIVE3_ORIGINAL_PUBLIC_ROUTES'):\n                actual=native.strict_group(LABEL,cases,verify)\n    finally:retain(native,report)\n    report.update(native=actual,public_catalog_observation=public,source_control=work.source_control)\n    if(actual.get('status')!='PASS'or actual.get('counts')!={'PASS':3}\n       or actual.get('planned_case_ids')!=list(work.IDS)or list(actual.get('cases',{}))!=list(work.IDS)\n",
+          "after": "        return [(name,lambda operation=operation:full_case(cursor,operation,work,control))\n                for name,operation in work.cases(cursor,today)]\n    # All three original strict cases already passed. Read their exact complete\n    # canonical bytes; do not call strict_group or any business callback again.\n    retained=load('free_date_Root_retained_actual_three',HERE/'retained3.py')\n    proof=retained.invariant_sources(state['sources'])\n    admission=retained.original_admission()\n    with monitor.phase('FREE_DATE_RETAIN_EXACT_NATIVE3_ORIGINALS_WITHOUT_RERUN'):\n        actual=retained.original_native(state['sources'])\n    report.update(native=actual,retained_FREE3=proof,retained3_original_admission=admission,\n        strict_group_originals=[dict(name=LABEL+'.json',**proof['original_native'])],\n        public_catalog_observation=dict(status='RETAINED_ORIGINAL_THREE_CASE_PUBLIC_BOUNDARIES',\n            actual_fresh_observation=False,original_native=proof['original_native']),\n        source_control=work.source_control)\n    if(actual.get('status')!='PASS'or actual.get('counts')!={'PASS':3}\n       or actual.get('planned_case_ids')!=list(work.IDS)or list(actual.get('cases',{}))!=list(work.IDS)\n",
+          "count": 1
+        },
+        {
+          "before": "    with monitor.phase('FREE_DATE_COMMITTED_NATIVE_USE_AND_USED_REFUSAL'):\n        report['separate_committed_Native_use']=committed_use(url,state,work,bridge,control,financial_truth)\n    report.update(status='PASS',actual_Native_cases=3,business_counts={'PASS':3},\n        used_guard_refused_before_DDL=True,full_outer_restore_and_all5_required=True)\n",
+          "after": "    with monitor.phase('FREE_DATE_COMMITTED_NATIVE_USE_AND_USED_REFUSAL'):\n        report['separate_committed_Native_use']=committed_use(url,state,work,bridge,control,financial_truth)\n    report.update(status='PASS',actual_Native_cases=0,business_counts={},\n        retained_Native_cases=3,retained_business_counts={'PASS':3},candidate_case_coverage=3,\n        retained_cases_are_not_fresh=True,financial_groups_rerun=False,source_invariant_reuse=True,prior_runs_aggregated=True,\n        used_guard_refused_before_DDL=True,full_outer_restore_and_all5_required=True)\n",
+          "count": 1
+        }
+      ]
+    },
+    "scripts/current-de-free-date-preparation/engine.py": {
+      "before": {
+        "bytes": 1781,
+        "sha256": "0fe640c7b45ec5d51727bacc16fc3cd63b06e23873637c671d2fa65a91f2d286"
+      },
+      "after": {
+        "bytes": 2195,
+        "sha256": "ca070675d08d504c5cf0c1d97953cc079c509945ea6f765fcae0d2fda4642d70"
+      },
+      "changes": [
+        {
+          "before": "    changes=(('ACTUAL_QUALIFIED_COMPLETE_PERMANENT_PARENT_INSTALL',\n              'ACTUAL_QUALIFIED_COMPLETE_DE_NATIVE30_PARENT_INSTALL'),\n             (parent.COUNTS_AFTER,parent.COUNTS_AFTER.replace(\"=30\",\"=3\")\n              .replace('retained_permanent6_fresh_case_credit','retained_DE30_fresh_case_credit')))\n    original=text\n    for before,after in changes:\n",
+          "after": "    changes=(('ACTUAL_QUALIFIED_COMPLETE_PERMANENT_PARENT_INSTALL',\n              'ACTUAL_QUALIFIED_COMPLETE_DE_NATIVE30_PARENT_INSTALL'),\n             (parent.COUNTS_AFTER,parent.COUNTS_AFTER.replace(\"=30\",\"=0\")\n              .replace('retained_permanent6_fresh_case_credit','retained_DE30_fresh_case_credit')\n              +\"\\n            report['retained_Native_cases']=3\"\n              +\"\\n            report['retained_cases_are_not_fresh']=True\"\n              +\"\\n            report['candidate_case_coverage']=3\"\n              +\"\\n            report['financial_groups_rerun']=False\"\n              +\"\\n            report['source_invariant_reuse']=True\"\n              +\"\\n            report['prior_runs_aggregated']=True\"))\n    original=text\n    for before,after in changes:\n",
+          "count": 1
+        }
+      ]
+    },
+    "scripts/current-de-free-date-preparation/probe.py": {
+      "before": {
+        "bytes": 3907,
+        "sha256": "b7b3a4fbca8bfe2321b40f96265906e50b50ff2415b7ad019b0ae617837653df"
+      },
+      "after": {
+        "bytes": 4758,
+        "sha256": "0248d743ff20f15be1dc37024e868012a20923bafc8236a5d164d2fac4ac0200"
+      },
+      "changes": [
+        {
+          "before": "        engine.PRE_DUMP='/tmp/current_complete_DE_FREE_date_full_pre.dump'\n        engine.OUT=ROOT/'cp6-proof/t3'/(engine.LABEL+'.json')\n        def admitted():return dict(admission.admitted(),complete_engine_derivation=derivation)\n        engine.admitted=admitted\n        engine.native_fixture_binding=load('free_date_actual_preDB_and_runtime_fixture_binding',\n            HERE/'native_free.py').runtime_modules()[3]\n    return engine,admission\n\n",
+          "after": "        engine.PRE_DUMP='/tmp/current_complete_DE_FREE_date_full_pre.dump'\n        engine.OUT=ROOT/'cp6-proof/t3'/(engine.LABEL+'.json')\n        retained=load('free_date_Root_retained3_preDB_source',HERE/'retained3.py')\n        def admitted():\n            proof=admission.admitted()\n            return dict(proof,complete_engine_derivation=derivation,\n                retained_FREE3=retained.invariant_sources(proof['current_installation']))\n        engine.admitted=admitted\n        _,fixture,_,engine.native_fixture_binding=load('free_date_actual_preDB_and_runtime_fixture_binding',\n            HERE/'native_free.py').runtime_modules()\n        # Bind the SAME original foundation API needed by the separate witness\n        # before any SQL; the actual owner assertion in setup stays unchanged.\n        import inspect\n        inspect.signature(fixture.api.seed).bind(None)\n        engine.committed_fixture_binding=dict(original_seed_API_signature=str(inspect.signature(fixture.api.seed)),\n            original_seed_module=fixture.api.seed.__module__,empty_app_users_required_before_seed=True,\n            existing_actor_promoted=False,actual_SQL_executed=0)\n    return engine,admission\n\n",
+          "count": 1
+        },
+        {
+          "before": "        print(json.dumps(dict(status=proof['status'],source_DB_guard=guard,\n            actual_fixture_and_runner_binding=engine.native_fixture_binding,\n            entire_natural_product_source_graph_evaluated=True,actual_Native_cases=0,\n            production_go=False,independent_acceptance=False)));return\n",
+          "after": "        print(json.dumps(dict(status=proof['status'],source_DB_guard=guard,\n            actual_fixture_and_runner_binding=engine.native_fixture_binding,\n            committed_fixture_binding=engine.committed_fixture_binding,retained_FREE3=proof['retained_FREE3'],\n            entire_natural_product_source_graph_evaluated=True,actual_Native_cases=0,\n            production_go=False,independent_acceptance=False)));return\n",
+          "count": 1
+        }
+      ]
+    },
+    "scripts/current-de-free-date-preparation/final_gate.py": {
+      "before": {
+        "bytes": 14818,
+        "sha256": "e88f6a9e04c0f27b951616949698f00c8ada1848bf9cd86987a0e9c4084813f5"
+      },
+      "after": {
+        "bytes": 15583,
+        "sha256": "a8b8b8667ff334808798e5f3e3f41b008884b6891c6bcb89349498aebca9483e"
+      },
+      "changes": [
+        {
+          "before": "    value=validate(p,main,raw,package,backup,ids,head)\n    value['runtime_supervision']=supervised\n    return value\n\n",
+          "after": "    value=validate(p,main,raw,package,backup,ids,head)\n    value['runtime_supervision']=supervised\n    value['retained_FREE3']=load('free_date_Root_retained3_final_gate',HERE/'retained3.py').invariant_sources(\n        main['source_declaration']['current_installation'])\n    return value\n\n",
+          "count": 1
+        },
+        {
+          "before": "def validate(p,main,raw,package,backup,ids,head):\n    p.fields(main,dict(status='PASS',qualification_commit=head,required_case_ids=[CASE],required_case_ids_pass=True,\n        actual_Native_cases=3,actual_browser_cases=0,actual_business_cases=3,actual_Auth_HTTP_cases=0,\n        actual_two_session_races=0,retained_DE30_fresh_case_credit=0,real_Auth_browser_claim=False,\n        real_Auth_HTTP_qualified=False,baseline_full22_all_rows_all_sequences_equal=True,restore_raw_public_equal=True,\n",
+          "after": "def validate(p,main,raw,package,backup,ids,head):\n    p.fields(main,dict(status='PASS',qualification_commit=head,required_case_ids=[CASE],required_case_ids_pass=True,\n        actual_Native_cases=0,actual_browser_cases=0,actual_business_cases=0,actual_Auth_HTTP_cases=0,\n        retained_Native_cases=3,retained_cases_are_not_fresh=True,candidate_case_coverage=3,\n        financial_groups_rerun=False,source_invariant_reuse=True,prior_runs_aggregated=True,\n        actual_two_session_races=0,retained_DE30_fresh_case_credit=0,real_Auth_browser_claim=False,\n        real_Auth_HTTP_qualified=False,baseline_full22_all_rows_all_sequences_equal=True,restore_raw_public_equal=True,\n",
+          "count": 1
+        },
+        {
+          "before": "    p.exact(set(main['committed']),{CASE},'FREE_DATE_ONE_CURRENT_COMPONENT')\n    part=main['committed'][CASE]\n    p.fields(part,dict(status='PASS',business_counts={'PASS':3},actual_Native_cases=3,\n        actual_browser_cases=0,actual_Auth_HTTP_cases=0,actual_two_session_races=0,real_Auth=False,\n        reader_remains_installed=True,retained_DE30_fresh_case_credit=0,used_guard_refused_before_DDL=True,\n",
+          "after": "    p.exact(set(main['committed']),{CASE},'FREE_DATE_ONE_CURRENT_COMPONENT')\n    part=main['committed'][CASE]\n    p.fields(part,dict(status='PASS',business_counts={},actual_Native_cases=0,\n        retained_Native_cases=3,retained_business_counts={'PASS':3},candidate_case_coverage=3,\n        retained_cases_are_not_fresh=True,financial_groups_rerun=False,source_invariant_reuse=True,prior_runs_aggregated=True,\n        actual_browser_cases=0,actual_Auth_HTTP_cases=0,actual_two_session_races=0,real_Auth=False,\n        reader_remains_installed=True,retained_DE30_fresh_case_credit=0,used_guard_refused_before_DDL=True,\n",
+          "count": 1
+        },
+        {
+          "before": "        raise ValueError('FREE_DATE_ALL_TYPED_BACKUP_CHECKS_REQUIRED')\n    p.exact(backup['data']['differ'],{},'FREE_DATE_BACKUP_NO_ROW_DIFFERENCE')\n    return dict(status='CURRENT_COMPLETE_DE_FREE_DATE_NATIVE3_AND_ALL5_PASS',head=head,actual_fresh_cases=3,\n        actual_browser_cases=0,actual_Auth_HTTP_cases=0,actual_two_session_races=0,\n        retained_DE30_fresh_case_credit=0,GOOD_eligibility_policy_decided=False,\n",
+          "after": "        raise ValueError('FREE_DATE_ALL_TYPED_BACKUP_CHECKS_REQUIRED')\n    p.exact(backup['data']['differ'],{},'FREE_DATE_BACKUP_NO_ROW_DIFFERENCE')\n    return dict(status='CURRENT_COMPLETE_DE_FREE_DATE_RETAINED3_COMMITTED_ALL5_PASS',head=head,actual_fresh_cases=0,\n        retained_Native_cases=3,retained_cases_are_not_fresh=True,candidate_case_coverage=3,\n        financial_groups_rerun=False,source_invariant_reuse=True,prior_runs_aggregated=True,\n        actual_browser_cases=0,actual_Auth_HTTP_cases=0,actual_two_session_races=0,\n        retained_DE30_fresh_case_credit=0,GOOD_eligibility_policy_decided=False,\n",
+          "count": 1
+        }
+      ]
+    },
+    "scripts/current-de-free-date-preparation/workflow.py": {
+      "before": {
+        "bytes": 6280,
+        "sha256": "5bbbfc673330602d65a913bfc7c66d2465be589c8e3b92159146e85ae718c750"
+      },
+      "after": {
+        "bytes": 6347,
+        "sha256": "e0c0708f5f4e2a681e3ea0ffb2d229ddd966573a90f4950db6045613c48925b2"
+      },
+      "changes": [
+        {
+          "before": "        'scripts/cp7_current_de_free_date/**'])\n    value['concurrency']['group']='cp7-current-complete-de-free-date3-single-owning-qualification'\n    job=value['jobs']['p21'];job['name']='Native FREE date3; real posting and complete restoration'\n    job['if']=\"github.ref == 'refs/heads/\"+BRANCH+\"'\"\n    job['env'].pop('COMPLETE_DE_CONFIRM');job['env']['FREE_DATE_CONFIRM']='cp6_rollback'\n",
+          "after": "        'scripts/cp7_current_de_free_date/**'])\n    value['concurrency']['group']='cp7-current-complete-de-free-date3-single-owning-qualification'\n    job=value['jobs']['p21'];job['name']='Retain FREE3; missing committed witness and complete restoration'\n    job['if']=\"github.ref == 'refs/heads/\"+BRANCH+\"'\"\n    job['env'].pop('COMPLETE_DE_CONFIRM');job['env']['FREE_DATE_CONFIRM']='cp6_rollback'\n",
+          "count": 1
+        },
+        {
+          "before": "    steps[0]['run']=steps[0]['run'].replace('DE_JOB_START_MONOTONIC','FREE_DATE_JOB_START_MONOTONIC',1)\n    steps[2]['run']='python -B '+NS+'attempt_policy.py --require-window\\n'\n    steps[62]=dict(name='Fetch canonical terminal DE30 root intake and original archive before database',\n        **{'working-directory':'auditor'},env={'GH_TOKEN':'${{ github.token }}'},\n        run='python -B '+NS+'fetch_parent.py\\n')\n    steps[63]=dict(name='Check Native FREE3 sources and pending-parent controls before database',\n        **{'working-directory':'auditor'},\n",
+          "after": "    steps[0]['run']=steps[0]['run'].replace('DE_JOB_START_MONOTONIC','FREE_DATE_JOB_START_MONOTONIC',1)\n    steps[2]['run']='python -B '+NS+'attempt_policy.py --require-window\\n'\n    steps[62]=dict(name='Fetch canonical DE30 parent and Root retained FREE3 originals before database',\n        **{'working-directory':'auditor'},env={'GH_TOKEN':'${{ github.token }}'},\n        run='python -B '+NS+'fetch_parent.py\\npython -B '+NS+'fetch_retained3.py\\n')\n    steps[63]=dict(name='Check Native FREE3 sources and pending-parent controls before database',\n        **{'working-directory':'auditor'},\n",
+          "count": 1
+        },
+        {
+          "before": "        **{'working-directory':'writer'},\n        run='python -B ../auditor/'+NS+'probe.py --check\\npython -B ../auditor/'+NS+'attempt_policy.py --require-window\\n')\n    steps[69]=dict(name='Run Native FREE date3 and complete outer restoration',\n        **{'working-directory':'writer'},\n        run=\"python -u -B '../auditor/\"+NS+\"runtime_supervisor.py'\\npython -B '../auditor/\"+NS+\"final_gate.py'\\n\")\n",
+          "after": "        **{'working-directory':'writer'},\n        run='python -B ../auditor/'+NS+'probe.py --check\\npython -B ../auditor/'+NS+'attempt_policy.py --require-window\\n')\n    steps[69]=dict(name='Run missing committed FREE witness; retain completed3 and restore completely',\n        **{'working-directory':'writer'},\n        run=\"python -u -B '../auditor/\"+NS+\"runtime_supervisor.py'\\npython -B '../auditor/\"+NS+\"final_gate.py'\\n\")\n",
+          "count": 1
+        }
+      ]
+    },
+    "scripts/current-de-free-date-preparation/native3.workflow.yml.txt": {
+      "before": {
+        "bytes": 33770,
+        "sha256": "5b8360a78183ecdbafb60c51c8d6004afac9cd40a96587d229348a1818310342"
+      },
+      "after": {
+        "bytes": 33872,
+        "sha256": "9288618f18de1d860398acdeadbb8e1ad4d2951913abddb84b73f9fe956e6ca8"
+      },
+      "changes": [
+        {
+          "before": "jobs:\n  p21:\n    name: Native FREE date3; real posting and complete restoration\n    runs-on: ubuntu-24.04\n    timeout-minutes: 360\n",
+          "after": "jobs:\n  p21:\n    name: Retain FREE3; missing committed witness and complete restoration\n    runs-on: ubuntu-24.04\n    timeout-minutes: 360\n",
+          "count": 1
+        },
+        {
+          "before": "      run: python scripts/current-ow08-source-browser/fetch_money.py\n      working-directory: qualified-sku090b\n    - name: Fetch canonical terminal DE30 root intake and original archive before\n        database\n      working-directory: auditor\n      env:\n        GH_TOKEN: ${{ github.token }}\n      run: 'python -B scripts/current-de-free-date-preparation/fetch_parent.py\n\n        '\n",
+          "after": "      run: python scripts/current-ow08-source-browser/fetch_money.py\n      working-directory: qualified-sku090b\n    - name: Fetch canonical DE30 parent and Root retained FREE3 originals before database\n      working-directory: auditor\n      env:\n        GH_TOKEN: ${{ github.token }}\n      run: 'python -B scripts/current-de-free-date-preparation/fetch_parent.py\n\n        python -B scripts/current-de-free-date-preparation/fetch_retained3.py\n\n        '\n",
+          "count": 1
+        },
+        {
+          "before": "        \\  cp6_rollback supabase_db_cp5-local \\\"$RUNNER_TEMP/join-clone/CLONE_install\\\"\\\n        \\n\"\n    - name: Run Native FREE date3 and complete outer restoration\n      working-directory: writer\n      run: 'python -u -B ''../auditor/scripts/current-de-free-date-preparation/runtime_supervisor.py''\n",
+          "after": "        \\  cp6_rollback supabase_db_cp5-local \\\"$RUNNER_TEMP/join-clone/CLONE_install\\\"\\\n        \\n\"\n    - name: Run missing committed FREE witness; retain completed3 and restore completely\n      working-directory: writer\n      run: 'python -u -B ''../auditor/scripts/current-de-free-date-preparation/runtime_supervisor.py''\n",
+          "count": 1
+        }
+      ]
+    },
+    ".github/workflows/cp7-current-complete-de-free-date-native3.yml": {
+      "before": {
+        "bytes": 33770,
+        "sha256": "5b8360a78183ecdbafb60c51c8d6004afac9cd40a96587d229348a1818310342"
+      },
+      "after": {
+        "bytes": 33872,
+        "sha256": "9288618f18de1d860398acdeadbb8e1ad4d2951913abddb84b73f9fe956e6ca8"
+      },
+      "changes": [
+        {
+          "before": "jobs:\n  p21:\n    name: Native FREE date3; real posting and complete restoration\n    runs-on: ubuntu-24.04\n    timeout-minutes: 360\n",
+          "after": "jobs:\n  p21:\n    name: Retain FREE3; missing committed witness and complete restoration\n    runs-on: ubuntu-24.04\n    timeout-minutes: 360\n",
+          "count": 1
+        },
+        {
+          "before": "      run: python scripts/current-ow08-source-browser/fetch_money.py\n      working-directory: qualified-sku090b\n    - name: Fetch canonical terminal DE30 root intake and original archive before\n        database\n      working-directory: auditor\n      env:\n        GH_TOKEN: ${{ github.token }}\n      run: 'python -B scripts/current-de-free-date-preparation/fetch_parent.py\n\n        '\n",
+          "after": "      run: python scripts/current-ow08-source-browser/fetch_money.py\n      working-directory: qualified-sku090b\n    - name: Fetch canonical DE30 parent and Root retained FREE3 originals before database\n      working-directory: auditor\n      env:\n        GH_TOKEN: ${{ github.token }}\n      run: 'python -B scripts/current-de-free-date-preparation/fetch_parent.py\n\n        python -B scripts/current-de-free-date-preparation/fetch_retained3.py\n\n        '\n",
+          "count": 1
+        },
+        {
+          "before": "        \\  cp6_rollback supabase_db_cp5-local \\\"$RUNNER_TEMP/join-clone/CLONE_install\\\"\\\n        \\n\"\n    - name: Run Native FREE date3 and complete outer restoration\n      working-directory: writer\n      run: 'python -u -B ''../auditor/scripts/current-de-free-date-preparation/runtime_supervisor.py''\n",
+          "after": "        \\  cp6_rollback supabase_db_cp5-local \\\"$RUNNER_TEMP/join-clone/CLONE_install\\\"\\\n        \\n\"\n    - name: Run missing committed FREE witness; retain completed3 and restore completely\n      working-directory: writer\n      run: 'python -u -B ''../auditor/scripts/current-de-free-date-preparation/runtime_supervisor.py''\n",
+          "count": 1
+        }
+      ]
+    }
+  },
+  "retained_Native_cases": 3,
+  "actual_new_Native_cases": 0,
+  "financial_groups_rerun": false,
+  "product_graph_or_business_case_bodies_changed": false,
+  "original_fixture_or_strict_runner_changed": false,
+  "existing_actor_promoted": false,
+  "all_five_new_package_gates_required": true,
+  "workflow_data_derivation": {
+    "status": "FREE_DATE_NATIVE3_WORKFLOW_DATA_NOT_ACTIVATED",
+    "parent_derivation": {
+      "status": "DE30_WORKFLOW_DATA_ONLY_NOT_ACTIVATED",
+      "original_head": "a5944f25a5e3ba1f1f537a18abe923eb753f922f",
+      "original_path": ".github/workflows/cp7-final-s03-sku-s05.yml",
+      "original_bytes": 33918,
+      "original_sha256": "11d398b373b478f49c366cd611ab0cd67a9e2cc8361b7a49cdaa92cc116c8af5",
+      "unchanged_original_steps": 66,
+      "routed_original_steps": 7,
+      "new_pre_setup_real_clock_guards": 1,
+      "new_process_ownership_start_markers": 1,
+      "steps": 75,
+      "job_minutes": 360,
+      "original_policy_minutes": 210,
+      "runtime_dispatches": 0,
+      "actual_Native_cases": 0,
+      "production_go": false,
+      "independent_acceptance": false
+    },
+    "parent_template_sha256": "132407f34a650f5d20cafb819001d643c8bcd19357a324ce05fc25d04e773411",
+    "unchanged_parent_steps": 66,
+    "routed_parent_steps": 9,
+    "steps": 75,
+    "job_minutes": 360,
+    "real_clock_guard_unchanged": true,
+    "workflow_source_commit": "927ee03213a80e854fda30779d824c5c617644bd",
+    "workflow_source_is_not_actual_parent_acceptance": true,
+    "runtime_dispatches": 0,
+    "actual_Native_cases": 0,
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "source_generator_first_failure": {
+    "status": "SOURCE_GENERATOR_FIRST_FAILURE_BEFORE_ANY_DATABASE_OR_RUNTIME",
+    "error": "AssertionError on an unfolded text anchor in folded YAML; data generator itself succeeded",
+    "actual_Native_cases": 0,
+    "source_mutations": [
+      "component.py",
+      "engine.py",
+      "probe.py",
+      "final_gate.py",
+      "workflow.py"
+    ],
+    "workflow_or_origin_or_manifest_written_before_failure": false,
+    "correction": "Validate parsed YAML data and exact full reversible bytes, without changing generated workflow"
+  },
+  "production_go": false,
+  "independent_acceptance": false,
+  "exact_counted_reversible_routes": 20,
+  "every_original_modified_file_byte_recovered": true
+}

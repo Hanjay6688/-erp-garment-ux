@@ -1,0 +1,284 @@
+{
+  "status": "ROOT_RETAINED_FREE3_NOT_AGGREGATE_PASS",
+  "head": "ad986b9a9d432f2ffac2b961710c3852c6c2ef90",
+  "tree": "80bc5471330b89497991ba1e67615287b01e59c1",
+  "run_id": 41388877929,
+  "job_id": 125095681990,
+  "artifact_id": 13119648673,
+  "archive": {
+    "bytes": 28320283,
+    "sha256": "8827d2262f51781fd7f3be977192ba7f315ee9d5b94444546121b723a9dbdc9d",
+    "members": 127
+  },
+  "originals": {
+    "CP7_CURRENT_COMPLETE_DE_FREE_DATE_NATIVE3.json": {
+      "bytes": 184041886,
+      "sha256": "3c3389477fed28fa09a5b483f8b7d52d2a543e6d41163de1e91776977a1342e0"
+    },
+    "CP7_CURRENT_COMPLETE_DE_FREE_DATE_NATIVE3_CASES.json": {
+      "bytes": 156942117,
+      "sha256": "7c0adb60db7a58270482dc157a126f5780331519b130b13f0d0d6da08dac83d6"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360427,
+      "sha256": "f9179d1ec96c378b2083b4af44c08775a69665150d084141cff02a0c197c67da"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 1470,
+      "sha256": "3a5734b43cfd0e80a58ff11e6acd3c51724730367c5491c425dd8eb194114388"
+    },
+    "FREE_DATE_RUNTIME_SUPERVISION.json": {
+      "bytes": 584,
+      "sha256": "398b41ab7cbae585e151ed4f6a37f9d672f746fddbcd6b2947fc908b0d1deb36"
+    }
+  },
+  "source_admission": {
+    "source_pins": 40,
+    "own_paths": 41,
+    "unchanged_base": 14265,
+    "Native_case_ids": [
+      "FREE_DATE_NATIVE_WIB_INCLUSIVE_LOOKUP_AND_NORMAL_PUBLIC_QUOTE",
+      "FREE_DATE_NATIVE_FINAL_DAY_POST_STOCK_GL_AND_EXACT_REPLAY",
+      "FREE_DATE_NATIVE_POSTED_HISTORY_AFTER_ELIGIBILITY_ENDS"
+    ],
+    "original_C43_date_files": 9,
+    "explicit_date_stage_routes": 2,
+    "unchanged_Native_fixture_runner_sources": 3,
+    "pure_report_validator": {
+      "selected_functions": [
+        "money",
+        "posted",
+        "case_boundary",
+        "validate"
+      ],
+      "exact_source": {
+        "bytes": 14818,
+        "sha256": "e88f6a9e04c0f27b951616949698f00c8ada1848bf9cd86987a0e9c4084813f5"
+      },
+      "actual_ERP_imports": 0,
+      "actual_SQL_executed": 0
+    },
+    "exact_reversible_source_guard_derivation": {
+      "original_source_guard": {
+        "bytes": 4260,
+        "sha256": "8fcd679648b2cc0902562c39d00588594dbbf426ab8e40aabf2f4cbbde30dccb"
+      },
+      "counted_source_routes": 12,
+      "entire_original_recovered": true,
+      "actual_case_credit": 0
+    },
+    "nested_product_source_closure": {
+      "manifests": [
+        "scripts/cp7_special_free_date_on_de/SOURCE.json",
+        "scripts/cp7_current_de_free_date/SOURCE.json"
+      ],
+      "source_pins": 16,
+      "actual_case_credit": 0
+    },
+    "runtime_fixture_binding_repair": {
+      "status": "EXACT_OWN40_TO41_FIXTURE_PREFLIGHT_AND_CLEANUP_REPAIR_ONLY",
+      "failed_head": "c73dea71ad8e15e828ea7f4a27937c5c9da5e839",
+      "failed_tree": "b171e37eb8a76d3764e60662f93f368f98f41883",
+      "retained_failed_candidate_source": {
+        "source_pins": 39,
+        "own_paths": 40,
+        "unchanged_base": 14265,
+        "Native_case_ids": [
+          "FREE_DATE_NATIVE_WIB_INCLUSIVE_LOOKUP_AND_NORMAL_PUBLIC_QUOTE",
+          "FREE_DATE_NATIVE_FINAL_DAY_POST_STOCK_GL_AND_EXACT_REPLAY",
+          "FREE_DATE_NATIVE_POSTED_HISTORY_AFTER_ELIGIBILITY_ENDS"
+        ],
+        "original_C43_date_files": 9,
+        "explicit_date_stage_routes": 2,
+        "unchanged_Native_fixture_runner_sources": 3,
+        "pure_report_validator": {
+          "selected_functions": [
+            "money",
+            "posted",
+            "case_boundary",
+            "validate"
+          ],
+          "exact_source": {
+            "bytes": 14818,
+            "sha256": "e88f6a9e04c0f27b951616949698f00c8ada1848bf9cd86987a0e9c4084813f5"
+          },
+          "actual_ERP_imports": 0,
+          "actual_SQL_executed": 0
+        },
+        "exact_reversible_source_guard_derivation": {
+          "original_source_guard": {
+            "bytes": 4260,
+            "sha256": "8fcd679648b2cc0902562c39d00588594dbbf426ab8e40aabf2f4cbbde30dccb"
+          },
+          "counted_source_routes": 12,
+          "entire_original_recovered": true,
+          "actual_case_credit": 0
+        },
+        "nested_product_source_closure": {
+          "manifests": [
+            "scripts/cp7_special_free_date_on_de/SOURCE.json",
+            "scripts/cp7_current_de_free_date/SOURCE.json"
+          ],
+          "source_pins": 16,
+          "actual_case_credit": 0
+        },
+        "runtime_fixture_binding_repair": null,
+        "source_manifest": {
+          "bytes": 7592,
+          "sha256": "0350e79569ae6250256053d55e29daf8e5dd10f500dc5efe6c273ee6b002dd8d"
+        },
+        "actual_case_credit": 0,
+        "parent_qualification_pending": false
+      },
+      "unchanged_old_own_blobs_and_modes": 34,
+      "reversible_routes": 12,
+      "Native_case_and_financial_function_bodies_unchanged": true,
+      "actual_case_credit": 0
+    },
+    "source_manifest": {
+      "bytes": 8082,
+      "sha256": "cd8ad1dc2c6ef70c9ab66aa8449d08d9d87266d29a510727bf09c2e29ac8a456"
+    },
+    "actual_case_credit": 0,
+    "parent_qualification_pending": false
+  },
+  "original_case_validator": {
+    "original_gate": {
+      "bytes": 14818,
+      "sha256": "e88f6a9e04c0f27b951616949698f00c8ada1848bf9cd86987a0e9c4084813f5"
+    },
+    "original_pure_gate": {
+      "selected_functions": [
+        "money",
+        "posted",
+        "case_boundary",
+        "validate"
+      ],
+      "exact_source": {
+        "bytes": 14818,
+        "sha256": "e88f6a9e04c0f27b951616949698f00c8ada1848bf9cd86987a0e9c4084813f5"
+      },
+      "actual_ERP_imports": 0,
+      "actual_SQL_executed": 0
+    },
+    "original_statement_range": [
+      5,
+      42
+    ],
+    "original_case_assertion_statements": 37,
+    "original_case_AST": {
+      "bytes": 21956,
+      "sha256": "e75fa14d296e52af1801c03475acde2849d495a4aaaee331808bdce11e26b84a"
+    },
+    "original_report_modified": false,
+    "synthetic_successful_report": false
+  },
+  "actual_product_source_maps": {
+    "file_maps": 276,
+    "pin_occurrences": 1300,
+    "unique_paths": 221,
+    "exact_producer_namespace": true,
+    "current_D1_E_contract_bindings": [
+      "cp7.credit-correction-de.v1",
+      "cp7.note-credit-carry.v1"
+    ],
+    "historical_registry_changed": false,
+    "matching_hash_or_alternative_namespace_search": false
+  },
+  "qualified_complete_DE_FREE_date_sources": {
+    "bytes": 721810,
+    "sha256": "ac2a6591c2a6f853872c5293ac3b1f1e850b513d7302e436909fffc62395364b"
+  },
+  "retained_Native_cases": 3,
+  "actual_new_Native_cases": 0,
+  "actual_new_browser_cases": 0,
+  "retained_cases_are_not_fresh": true,
+  "retained_case_ids": [
+    "FREE_DATE_NATIVE_WIB_INCLUSIVE_LOOKUP_AND_NORMAL_PUBLIC_QUOTE",
+    "FREE_DATE_NATIVE_FINAL_DAY_POST_STOCK_GL_AND_EXACT_REPLAY",
+    "FREE_DATE_NATIVE_POSTED_HISTORY_AFTER_ELIGIBILITY_ENDS"
+  ],
+  "actual_full22_case_boundaries": {
+    "FREE_DATE_NATIVE_WIB_INCLUSIVE_LOOKUP_AND_NORMAL_PUBLIC_QUOTE": {
+      "before": {
+        "tables": 700,
+        "sequences": 15,
+        "catalog_groups": 22
+      },
+      "after": {
+        "tables": 700,
+        "sequences": 15,
+        "catalog_groups": 22
+      },
+      "audited_sequence_boundary": {
+        "classification": "AUDITED_NATIVE_SEQUENCE_CONSUMPTION_NOT_TRANSACTIONAL_RESTORE",
+        "audit_sequence_increments": 19,
+        "all_table_rows_restored": true,
+        "all22_catalog_exact": true,
+        "all_other_sequences_unchanged": true,
+        "rollback_sequence_values_unchanged": true,
+        "case_sequence_reset_performed": false,
+        "complete_outer_backup_sequence_restore_required": true
+      }
+    },
+    "FREE_DATE_NATIVE_FINAL_DAY_POST_STOCK_GL_AND_EXACT_REPLAY": {
+      "before": {
+        "tables": 700,
+        "sequences": 15,
+        "catalog_groups": 22
+      },
+      "after": {
+        "tables": 700,
+        "sequences": 15,
+        "catalog_groups": 22
+      },
+      "audited_sequence_boundary": {
+        "classification": "AUDITED_NATIVE_SEQUENCE_CONSUMPTION_NOT_TRANSACTIONAL_RESTORE",
+        "audit_sequence_increments": 25,
+        "all_table_rows_restored": true,
+        "all22_catalog_exact": true,
+        "all_other_sequences_unchanged": true,
+        "rollback_sequence_values_unchanged": true,
+        "case_sequence_reset_performed": false,
+        "complete_outer_backup_sequence_restore_required": true
+      }
+    },
+    "FREE_DATE_NATIVE_POSTED_HISTORY_AFTER_ELIGIBILITY_ENDS": {
+      "before": {
+        "tables": 700,
+        "sequences": 15,
+        "catalog_groups": 22
+      },
+      "after": {
+        "tables": 700,
+        "sequences": 15,
+        "catalog_groups": 22
+      },
+      "audited_sequence_boundary": {
+        "classification": "AUDITED_NATIVE_SEQUENCE_CONSUMPTION_NOT_TRANSACTIONAL_RESTORE",
+        "audit_sequence_increments": 25,
+        "all_table_rows_restored": true,
+        "all22_catalog_exact": true,
+        "all_other_sequences_unchanged": true,
+        "rollback_sequence_values_unchanged": true,
+        "case_sequence_reset_performed": false,
+        "complete_outer_backup_sequence_restore_required": true
+      }
+    }
+  },
+  "retained_original_run_conclusion": "failure",
+  "failed_run_relabelled_PASS": false,
+  "package_all_five": false,
+  "complete3_qualified": false,
+  "actual_outer_restoration_verified": true,
+  "actual_backup_restore_verified": true,
+  "actual_primary_unchanged": true,
+  "actual_advisors_equal": true,
+  "failed_worker_reaped": true,
+  "missing_committed_use_and_inverse_refusal": true,
+  "missing_error": "FREE_DATE_NATIVE_ORIGINAL_ACTIVE_OWNER_REQUIRED_WITHOUT_PROMOTION",
+  "source_invariant_reuse_required": true,
+  "all_five_new_package_gates_still_required": true,
+  "production_go": false,
+  "independent_acceptance": false
+}

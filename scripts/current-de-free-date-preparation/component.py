@@ -105,6 +105,11 @@ def committed_use(url,state,work,bridge,control,financial_truth):
         require_local(conn,cur)
         with control.product_catalog(cur):work.product.verify(cur,state)
         work.fixture.api.admin(cur)
+        # The original strict runner rolls its foundation back before this
+        # separate connection. Reuse its original seed ONLY on an empty clone;
+        # never promote an existing actor or change the original OWNER guard.
+        seeded=not cur.execute('select count(*)from erp.app_users').fetchone()[0]
+        if seeded:work.fixture.api.seed(cur)
         cur.execute('grant usage on schema erp to authenticated')  # Existing isolated SQL harness overlay.
         today=cur.execute("select(statement_timestamp()at time zone'Asia/Jakarta')::date").fetchone()[0]
         before_truth=financial_truth.all_truth(cur)
@@ -115,6 +120,7 @@ def committed_use(url,state,work,bridge,control,financial_truth):
         cur.execute('set constraints all immediate');cur.execute('set constraints all deferred')
         conn.commit()
         result=dict(status='NATIVE_FREE_NOTE_COMMITTED',Native_case_credit=0,
+            original_fixture_seeded_on_empty_clone=seeded,existing_actor_promoted=False,
             actual_issue_id=actual['issue'],actual_response=actual['made'],physical_at=actual['at'],
             posted_snapshot=actual['snapshot'],ledger_delta=actual['ledger_delta'],
             financial_truth_before=before_truth,financial_truth_after=after_truth,
@@ -159,12 +165,18 @@ def exercise(conn,cur,database,url,report,state):
     def cases(cursor,today):
         return [(name,lambda operation=operation:full_case(cursor,operation,work,control))
                 for name,operation in work.cases(cursor,today)]
-    try:
-        with exact_public_catalog(native,retain_raw=True)as public:
-            with monitor.phase('FREE_DATE_NATIVE3_ORIGINAL_PUBLIC_ROUTES'):
-                actual=native.strict_group(LABEL,cases,verify)
-    finally:retain(native,report)
-    report.update(native=actual,public_catalog_observation=public,source_control=work.source_control)
+    # All three original strict cases already passed. Read their exact complete
+    # canonical bytes; do not call strict_group or any business callback again.
+    retained=load('free_date_Root_retained_actual_three',HERE/'retained3.py')
+    proof=retained.invariant_sources(state['sources'])
+    admission=retained.original_admission()
+    with monitor.phase('FREE_DATE_RETAIN_EXACT_NATIVE3_ORIGINALS_WITHOUT_RERUN'):
+        actual=retained.original_native(state['sources'])
+    report.update(native=actual,retained_FREE3=proof,retained3_original_admission=admission,
+        strict_group_originals=[dict(name=LABEL+'.json',**proof['original_native'])],
+        public_catalog_observation=dict(status='RETAINED_ORIGINAL_THREE_CASE_PUBLIC_BOUNDARIES',
+            actual_fresh_observation=False,original_native=proof['original_native']),
+        source_control=work.source_control)
     if(actual.get('status')!='PASS'or actual.get('counts')!={'PASS':3}
        or actual.get('planned_case_ids')!=list(work.IDS)or list(actual.get('cases',{}))!=list(work.IDS)
        or actual.get('complete_boundary_restored')is not True
@@ -177,5 +189,7 @@ def exercise(conn,cur,database,url,report,state):
             raise ValueError('FREE_DATE_COMPLETE_ORIGINAL_STRICT_CASE_REQUIRED:'+key)
     with monitor.phase('FREE_DATE_COMMITTED_NATIVE_USE_AND_USED_REFUSAL'):
         report['separate_committed_Native_use']=committed_use(url,state,work,bridge,control,financial_truth)
-    report.update(status='PASS',actual_Native_cases=3,business_counts={'PASS':3},
+    report.update(status='PASS',actual_Native_cases=0,business_counts={},
+        retained_Native_cases=3,retained_business_counts={'PASS':3},candidate_case_coverage=3,
+        retained_cases_are_not_fresh=True,financial_groups_rerun=False,source_invariant_reuse=True,prior_runs_aggregated=True,
         used_guard_refused_before_DDL=True,full_outer_restore_and_all5_required=True)

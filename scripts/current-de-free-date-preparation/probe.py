@@ -29,10 +29,21 @@ def runtime():
         engine.IDS=(component.CASE,);engine.LABEL='CP7_CURRENT_COMPLETE_DE_FREE_DATE_NATIVE3'
         engine.PRE_DUMP='/tmp/current_complete_DE_FREE_date_full_pre.dump'
         engine.OUT=ROOT/'cp6-proof/t3'/(engine.LABEL+'.json')
-        def admitted():return dict(admission.admitted(),complete_engine_derivation=derivation)
+        retained=load('free_date_Root_retained3_preDB_source',HERE/'retained3.py')
+        def admitted():
+            proof=admission.admitted()
+            return dict(proof,complete_engine_derivation=derivation,
+                retained_FREE3=retained.invariant_sources(proof['current_installation']))
         engine.admitted=admitted
-        engine.native_fixture_binding=load('free_date_actual_preDB_and_runtime_fixture_binding',
-            HERE/'native_free.py').runtime_modules()[3]
+        _,fixture,_,engine.native_fixture_binding=load('free_date_actual_preDB_and_runtime_fixture_binding',
+            HERE/'native_free.py').runtime_modules()
+        # Bind the SAME original foundation API needed by the separate witness
+        # before any SQL; the actual owner assertion in setup stays unchanged.
+        import inspect
+        inspect.signature(fixture.api.seed).bind(None)
+        engine.committed_fixture_binding=dict(original_seed_API_signature=str(inspect.signature(fixture.api.seed)),
+            original_seed_module=fixture.api.seed.__module__,empty_app_users_required_before_seed=True,
+            existing_actor_promoted=False,actual_SQL_executed=0)
     return engine,admission
 
 
@@ -48,6 +59,7 @@ def main():
             engine,_=runtime();proof=engine.admitted()
         print(json.dumps(dict(status=proof['status'],source_DB_guard=guard,
             actual_fixture_and_runner_binding=engine.native_fixture_binding,
+            committed_fixture_binding=engine.committed_fixture_binding,retained_FREE3=proof['retained_FREE3'],
             entire_natural_product_source_graph_evaluated=True,actual_Native_cases=0,
             production_go=False,independent_acceptance=False)));return
     if os.environ.get('FREE_DATE_CONFIRM')!='cp6_rollback':
