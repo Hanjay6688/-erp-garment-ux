@@ -91,3 +91,14 @@ permanent-XID drain, precedes the source graph reads after the fence, and refuse
 caller connection with a temporary namespace. Full final-parent installation,
 new helper ACL normalization and actual Native qualification remain pending.
 This source preparation claims no new business or financial acceptance.
+
+The portable authority projection now removes only observed OIDs at the three
+explicit function/private-helper/view paths, in addition to the same six
+session/admission fields excluded by the original source. It retains every
+other field and array order, including full19 function rows, owner, raw ACL,
+configuration, known-source flags and the full13 view row. Raw graph output
+still includes the actual OIDs. Two reversible hash-only routes derive from
+the original review and the catalogue-bridged lock without changing their
+original sources or models. The separate fixed25 current metadata fingerprint
+continues to bind the complete installed catalogue. Actual recreation/body/ACL
+sensitivity checks and final-parent composition remain required.

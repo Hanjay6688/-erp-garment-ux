@@ -7,7 +7,7 @@
   "profile_seed_statements": 0,
   "actual_installer_or_owning_hooks": 0,
   "private_tables": 3,
-  "private_functions": 15,
+  "private_functions": 16,
   "production_go": false,
   "independent_acceptance": false,
   "files": {
@@ -40,8 +40,8 @@
       "sha256": "3e04006d4984c047a48ab89a077de93839bace4621c623f8ae918ef8e8fc3c84"
     },
     "scripts/cp7_global_nonpo_envelope/README.md": {
-      "bytes": 8474,
-      "sha256": "46af26e8ebe65dbccaa5bbee0ef1b953b66a25f74db0bfc2b9288c194f465a11"
+      "bytes": 9226,
+      "sha256": "322aa2fc3ef7b26e7a7ad084e339f621d4849e2bf9577df96ab3aaf35dd6a2bf"
     },
     "scripts/cp7_global_nonpo_envelope/READONLY_GRAPH_ORIGIN.json": {
       "bytes": 1730,
@@ -76,8 +76,8 @@
       "sha256": "9230497a1ddcc86727aa9da0a2dc4e268fff0344817787c183ad6ab138539868"
     },
     "scripts/cp7_global_nonpo_envelope/check_source.py": {
-      "bytes": 11207,
-      "sha256": "cdc1b07ca8d3b892eb12ea082c50dbb628581b535ba1eae2f46774d1ef7e213e"
+      "bytes": 12305,
+      "sha256": "0631d68d8807515d0291a1aad9c21e1e42e85773d6d49cc7f70c5760ed20a079"
     },
     "scripts/cp7_global_nonpo_envelope/graph_helpers/AUTHORITY.json": {
       "bytes": 71436,
@@ -150,6 +150,18 @@
     "scripts/cp7_global_nonpo_envelope/CATALOGUE_PROFILE_SOURCE_CONTROLS.json": {
       "bytes": 3954,
       "sha256": "5146f3334010434d3f32ecf28a6cf9bb9e8f09025f5fb7884d788fad62165d40"
+    },
+    "scripts/cp7_global_nonpo_envelope/SEMANTIC_AUTHORITY_SOURCE_CONTROLS.json": {
+      "bytes": 2426,
+      "sha256": "3913e9accb6e5477b2e86d7ee50b05bbd456a6b551d70c3e1949a139ec38430c"
+    },
+    "scripts/cp7_global_nonpo_envelope/semantic_routes.py": {
+      "bytes": 3359,
+      "sha256": "a275a64b4cfe14dad2404d43f5713b25b0938411d5846573d11286e0236707b7"
+    },
+    "scripts/cp7_global_nonpo_envelope/semantic_authority.sql": {
+      "bytes": 3251,
+      "sha256": "698a36a0b096f68d5b337c603f8c007ae648557ee78995b69cd0996af36020d6"
     }
   },
   "prepared_owning_source_adapters": 8,
@@ -166,5 +178,7 @@
   "profile_bound_relation_capability_pending": true,
   "catalogue_fingerprint_functions": 1,
   "counted_catalogue_profile_routes": 1,
-  "current_all25_catalogue_profile_binding_pending": true
+  "current_all25_catalogue_profile_binding_pending": true,
+  "semantic_authority_functions": 1,
+  "counted_semantic_hash_routes": 2
 }
