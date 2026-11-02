@@ -1,0 +1,43 @@
+{
+  "contract": "cp7.Root.owner-UI-refinement-intake.v1",
+  "observed_at_UTC": "2026-11-02T18:37:35.951774+00:00",
+  "status": "HANDOFF_AND_TWO_IMAGES_READ_ACTUAL_SOURCE_INVENTORY_WRITTEN",
+  "owner_handoff": {
+    "library_file_id": "libfile_2c81e41399488191967a3c7751b24997",
+    "sha256": "213f1bb0ffb376f51245b90bbef451b81b83a35710f076cf78d2bc457da11a53"
+  },
+  "references": [
+    {
+      "library_file_id": "libfile_bd803f2016088191932a8e42a16b9d26",
+      "sha256": "7650b1d8bb940f26ddb7fe5807e3e1c3b218ffab60b57b882a80a17d7cd5996d"
+    },
+    {
+      "library_file_id": "libfile_3fae5120bf808191be0848d80d8c723b",
+      "sha256": "d6e1d6d07c799236c3aee0a5ab705bcd3e687b090054a42e79e1db65cba5b363"
+    }
+  ],
+  "images_visually_read": true,
+  "route_count": 48,
+  "navigation_label_count": 47,
+  "stylesheet_count": 69,
+  "source_inventory": {
+    "path": "docs/cp7/d17-14/ui-reference-20261103/UI_INVENTORY.json",
+    "bytes": 94295,
+    "sha256": "38c7e72b2230bf72ce4100bb9c3a35208efd77093e02a123cc97d0571cf398e8"
+  },
+  "worktree": "/workspace/erp-writer-a/ui",
+  "branch": "astra-a/ui-reference-theme-20261103",
+  "base_head": "2c7a5a05516548667ec71faedcffb3591828100f",
+  "base_tree": "349b0ed64c2fa1b719976ff286bfe2a98030a4c4",
+  "implementation_timing": "Prepare theme/shared shell in isolated Writer A worktree while Afui runs; three representative screens before remaining families; integrate after active candidate result is clear",
+  "owner_scope_separate_from_CP7_denominator": true,
+  "A_B_division_preserved": true,
+  "active_Afui_candidate_immutable": true,
+  "retained_financial_evidence_reused_if_sources_unchanged": true,
+  "changed_visual_surfaces_require_new_evidence": true,
+  "actual_UI_implementation": false,
+  "actual_visual_acceptance": false,
+  "actual_financial_source_changes": 0,
+  "CP7_complete": false,
+  "production_go": false
+}

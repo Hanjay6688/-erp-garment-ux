@@ -1,0 +1,129 @@
+{
+  "contract": "cp7.Root.Mandor.Native6.owning-source-preparation.v1",
+  "observed_at_UTC": "2026-11-02T18:37:35.951774+00:00",
+  "status": "SOURCE_PREPARATION_PUBLISHED_ACTUAL_PARENT_AND_RUNTIME_NOT_ADMITTED",
+  "head": "4512d08229bccdc6a81aefc608c869626a92ecc8",
+  "tree": "ddf597d889b2b03ff7b04cc92bcba4b76205be4e",
+  "local_commit": "c7ed404df25c9e49c3e366f48d6fd3be22b7c9bb",
+  "branch": "astra-a/unified-cp7-source-candidate-20261102",
+  "previous_head": "2c7a5a05516548667ec71faedcffb3591828100f",
+  "source_readiness": {
+    "path": "scripts/current-mandor-shop-native-qualification/SOURCE_READINESS.json",
+    "bytes": 16099,
+    "sha256": "107ae6f14190f8ca2821f494dd861015a4909d4524611fa5f16b6bb0c8fdab06"
+  },
+  "new_source_methods": 112,
+  "new_source_oracle_calls": 22,
+  "literal_RPC_sites": 8,
+  "source_gate": {
+    "status": "UNIFIED_AFUI_GLOBAL_MANDOR_SOURCE_FENCE_PASS_NOT_RUNTIME_OR_BUSINESS",
+    "unchanged_parent_blobs": 14401,
+    "new_paths": 157,
+    "Global_module_files": 42,
+    "Mandor_module_and_exact_UI_files": 104,
+    "parent_modified_paths": 9,
+    "old_standalone_source_fences_unchanged": true,
+    "actual_SQL_executed": 0
+  },
+  "prepared_files": {
+    "scripts/current-mandor-shop-native-qualification/READINESS.txt": {
+      "bytes": 2836,
+      "sha256": "882371af1858c9d0baf9994c6f8cdc7c014cb02aa4705f391ae0501728472ff5"
+    },
+    "scripts/current-mandor-shop-native-qualification/SOURCE_READINESS.json": {
+      "bytes": 16099,
+      "sha256": "107ae6f14190f8ca2821f494dd861015a4909d4524611fa5f16b6bb0c8fdab06"
+    },
+    "scripts/current-mandor-shop-native-qualification/admission.py": {
+      "bytes": 1447,
+      "sha256": "8d3d71deb031b22a205802f299ba685afc19ef87152c62bebe7fac3b17d8c139"
+    },
+    "scripts/current-mandor-shop-native-qualification/assembly.py": {
+      "bytes": 5812,
+      "sha256": "85270dd5545183cce10af520a644b9c7c6e6cf80a1bf3054ca3dc8d7a34c55a8"
+    },
+    "scripts/current-mandor-shop-native-qualification/cases.py": {
+      "bytes": 9896,
+      "sha256": "aa8e2822418aa2149f59da90ca70435c58c2d2a23bc3ecbfc9a60027b9fbb7c8"
+    },
+    "scripts/current-mandor-shop-native-qualification/component.py": {
+      "bytes": 6131,
+      "sha256": "2eeef97468250147d137231b1c7eacab465f94323ae37fc82d8945bf3f604371"
+    },
+    "scripts/current-mandor-shop-native-qualification/final_gate.py": {
+      "bytes": 9299,
+      "sha256": "5408f9aff375c2d8ce0756a30245f5b26ad45bad27915b8671e299c1a977cf9f"
+    },
+    "scripts/current-mandor-shop-native-qualification/native_fixture.py": {
+      "bytes": 14007,
+      "sha256": "a5294e457fe4c66cb3b211a32700295325e696f6a083a01b9fb8b69c89d7bf36"
+    },
+    "scripts/current-mandor-shop-native-qualification/oracle.py": {
+      "bytes": 4712,
+      "sha256": "17696a1e509cb32449571c3d3fc3bf29935bcb47ae80cfb9a483949b85d8cd0e"
+    },
+    "scripts/current-mandor-shop-native-qualification/package_engine.py": {
+      "bytes": 3549,
+      "sha256": "f977f82b18601d82894653f750cd107705fd761b4f2cc25dc1fb4696b365a038"
+    },
+    "scripts/current-mandor-shop-native-qualification/preflight.py": {
+      "bytes": 8643,
+      "sha256": "4e693aaf76de2daca25fc811541388ec6c35ecbbbb709a596cf0fdcb8294d409"
+    },
+    "scripts/current-mandor-shop-native-qualification/qualification.py": {
+      "bytes": 6892,
+      "sha256": "10f934a66ded8e409f7bc0eee0674047ad839133565ccdf40d7efd5bb3489ac7"
+    },
+    "scripts/current-mandor-shop-native-qualification/runtime_supervisor.py": {
+      "bytes": 2726,
+      "sha256": "2b5cbe0e86a20c9536e2909691dc6c66434c003dd7d25c52d779fee0f3e8939c"
+    }
+  },
+  "owning_assembly": true,
+  "full_backup_restore_and_role_cleanup_engine_retained": true,
+  "process_engine_prior_ten_controls_reused": true,
+  "process_budget_minutes": [
+    360,
+    330,
+    20,
+    10
+  ],
+  "original_observation_sidecars": true,
+  "complete_packet_gate_prepared": true,
+  "source_namespace_first_tool_cache_refusal": {
+    "status": "SOURCE_NAMESPACE_REFUSAL_NOT_BUSINESS_EXECUTION",
+    "reason": "Generated local Python bytecode was outside the exact source namespace",
+    "removed_generated_cache": [
+      "runtime_supervisor.cpython-312.pyc",
+      "package_engine.cpython-312.pyc"
+    ],
+    "source_validator_unchanged": true,
+    "actual_SQL_executed": 0,
+    "actual_business_case_credit": 0
+  },
+  "Afui_parent": {
+    "head": "b8c572d28f944ad9a5947ffc164e134558ed6641",
+    "tree": "300254b48a70162356ce70c9416e2a4c1a33b62d",
+    "run_id": 41486910739,
+    "job_id": 125419579494,
+    "Root_terminal_intake_pending": true
+  },
+  "accepted_parent_root_pin": null,
+  "runtime_entry": null,
+  "owning_workflow_pending": true,
+  "actual_Native_cases": 0,
+  "actual_Auth_HTTP_cases": 0,
+  "actual_browser_cases": 0,
+  "actual_two_session_races": 0,
+  "remaining": [
+    "Actual owning Native6/full restoration/all-five",
+    "Two-backend races and current rights",
+    "External balance/return correction and installment route",
+    "Auth HTTP and desktop/mobile popup",
+    "SKU moving-average economics",
+    "Final Global profile and combined acceptance"
+  ],
+  "CP7_complete": false,
+  "production_go": false,
+  "independent_acceptance": false
+}
