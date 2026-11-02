@@ -151,8 +151,69 @@ def source_guard_derivation(g,origin):
     return dict(original_source_guard=pin(raw),counted_source_routes=12,
         entire_original_recovered=True,actual_case_credit=0)
 
+def runtime_fixture_binding_repair(g,declaration):
+    """Admit one exact source repair; keep the failed C73 and all product pins."""
+    old_head='c73dea71ad8e15e828ea7f4a27937c5c9da5e839'
+    old_tree='b171e37eb8a76d3764e60662f93f368f98f41883'
+    origin_path=NS+'RUNTIME_FIXTURE_BINDING_REPAIR.json'
+    expected_pins={"scripts/current-de-free-date-preparation/native_free.py":{"bytes":17601,"sha256":"ef17c94216892f2a40681eac8372a0bd1e6fddc52e7dbd5f3868a85145734792"},"scripts/current-de-free-date-preparation/probe.py":{"bytes":3907,"sha256":"b7b3a4fbca8bfe2321b40f96265906e50b50ff2415b7ad019b0ae617837653df"},"scripts/current-de-free-date-preparation/workflow.py":{"bytes":6280,"sha256":"5bbbfc673330602d65a913bfc7c66d2465be589c8e3b92159146e85ae718c750"},"scripts/current-de-free-date-preparation/native3.workflow.yml.txt":{"bytes":33770,"sha256":"5b8360a78183ecdbafb60c51c8d6004afac9cd40a96587d229348a1818310342"},".github/workflows/cp7-current-complete-de-free-date-native3.yml":{"bytes":33770,"sha256":"5b8360a78183ecdbafb60c51c8d6004afac9cd40a96587d229348a1818310342"},"scripts/current-de-free-date-preparation/RUNTIME_FIXTURE_BINDING_REPAIR.json":{"bytes":11076,"sha256":"e4ad30a2b4a4b65d65dff32f9ebbe24103623e0f8cabd93d4ad2cbeb00db6f20"}}
+    exact(len(expected_pins),6,'FREE3_EXACT_FIVE_REPAIRED_FILES_AND_ONE_ORIGIN')
+    for name,value in expected_pins.items():g.verify_pin(name,value)
+    origin=strict(g.read(origin_path))
+    fields(origin,dict(classification='EXACT_C73_RUNTIME_FIXTURE_BINDING_AND_PREDB_PREFLIGHT_AND_CLEANUP_REPAIR_NOT_QUALIFICATION',
+        head=old_head,tree=old_tree,changed_old_own_paths=6,new_own_paths=1,
+        unchanged_old_own_paths=34,own_paths=41,source_pins=40,reversible_routes=12,
+        financial_SQL_and_Native_case_bodies_changed=False,fixture_or_runner_original_file_changes=0,
+        prior_product_source_graph_changed=False,workflow_changed_steps=[64,73],
+        job_budget_seconds=21600,preDB_fixture_binding_runs_in_exact_actual_writer_CWD=True,
+        actual_Native_cases=0,production_go=False,independent_acceptance=False),
+        'FREE3_EXACT_FAILED_C73_RUNTIME_SOURCE_REPAIR')
+    exact(set(origin['files']),set(expected_pins)-{origin_path},'FREE3_EXACT_FIVE_REPAIRED_SOURCE_PATHS')
+    with GitBytes(g.root,old_head,old_tree)as old:
+        retained=source(old)  # Preserve every existing own40/parent/origin/validator gate.
+        original=strict(old.read(NS+'SOURCE.json'))
+        old_paths=set(original['files'])|{NS+'SOURCE.json'}
+        changed=set(origin['files'])|{NS+'SOURCE.json'}
+        exact(len(old_paths-changed),34,'FREE3_THIRTYFOUR_UNCHANGED_OLD_OWN_FILES')
+        exact(set(g.tree)-set(old.tree),{origin_path},'FREE3_ONLY_ONE_NEW_REPAIR_ORIGIN')
+        for name in set(old.tree)-changed:
+            exact(g.tree.get(name),old.tree[name],'FREE3_ALL_OTHER_CURRENT_SOURCE_BLOBS_AND_MODES_UNCHANGED:'+name)
+        routes=0
+        for name,value in origin['files'].items():
+            original_raw=old.read(name);exact(pin(original_raw),value['before'],'FREE3_EXACT_FAILED_SOURCE_BYTES:'+name)
+            raw=g.read(name);exact(pin(raw),value['after'],'FREE3_EXACT_REPAIRED_SOURCE_BYTES:'+name)
+            exact(g.tree[name]['mode'],old.tree[name]['mode'],'FREE3_REPAIR_KEEPS_SOURCE_MODE:'+name)
+            text=original_raw.decode()
+            for change in value['changes']:
+                fields(change,dict(count=1),'FREE3_SINGLE_EXACT_REPAIR_ROUTE')
+                exact(text.count(change['before']),1,'FREE3_EXACT_REPAIR_BEFORE_ANCHOR')
+                text=text.replace(change['before'],change['after'],1);routes+=1
+            exact(text.encode(),raw,'FREE3_ONLY_REVIEWED_RUNTIME_REPAIR_ROUTES:'+name)
+            for change in reversed(value['changes']):
+                exact(text.count(change['after']),1,'FREE3_EXACT_REPAIR_REVERSE_ANCHOR')
+                text=text.replace(change['after'],change['before'],1)
+            exact(text.encode(),original_raw,'FREE3_ENTIRE_FAILED_ORIGINAL_RECOVERED:'+name)
+        exact(routes,12,'FREE3_ONLY_TWELVE_EXACT_REPAIR_ROUTES')
+        expected=dict(original)
+        expected['files']=dict(original['files'],**expected_pins)
+        expected['runtime_fixture_binding_repair']=dict(origin=origin_path,
+            before_head=old_head,before_tree=old_tree,actual_Native_cases=0)
+        exact(declaration,expected,'FREE3_ONLY_PINNED_FIXTURE_PREFLIGHT_AND_CLEANUP_MANIFEST_REPAIR')
+        def business_functions(raw,excluded):
+            return {node.name:ast.dump(node,include_attributes=False)for node in ast.parse(raw).body
+                if isinstance(node,ast.FunctionDef)and node.name not in excluded}
+        exact(business_functions(g.read(NS+'native_free.py'),{'bind','runtime_modules'}),
+              business_functions(old.read(NS+'native_free.py'),{'bind'}),
+              'FREE3_ALL_NATIVE_CASE_AND_FINANCIAL_FUNCTION_BODIES_UNCHANGED')
+    return dict(status='EXACT_OWN40_TO41_FIXTURE_PREFLIGHT_AND_CLEANUP_REPAIR_ONLY',
+        failed_head=old_head,failed_tree=old_tree,retained_failed_candidate_source=retained,
+        unchanged_old_own_blobs_and_modes=34,reversible_routes=12,
+        Native_case_and_financial_function_bodies_unchanged=True,actual_case_credit=0)
+
+
 def source(g):
     base_head=PARENT_HEAD or PREPARED_BASE;base_tree=PARENT_TREE or PREPARED_BASE_TREE
+    repaired=None
     declaration=strict(g.read(NS+'SOURCE.json'))
     fields(declaration,dict(classification='CLOSED_DATE_ON_COMPLETE_DE_PREPARATION_NOT_QUALIFICATION',
         base_head=base_head,base_tree=base_tree,actual_Native_cases=0,production_go=False,
@@ -171,8 +232,12 @@ def source(g):
         require(WORKFLOW not in g.tree,'FREE3_PREPARED_WORKFLOW_NOT_ACTIVATED')
     else:
         exact(len(base),14265,'FREE3_ACTUAL_ACCEPTED_CURRENT_DE_PARENT14265')
-        exact(len(allowed),40,'FREE3_EXACT_ACTIVATED_OWN40')
-        actual_activation_source(g,declaration)
+        if 'runtime_fixture_binding_repair' in declaration:
+            exact(len(allowed),41,'FREE3_EXACT_REPAIRED_OWN41')
+            repaired=runtime_fixture_binding_repair(g,declaration)
+        else:
+            exact(len(allowed),40,'FREE3_EXACT_ACTIVATED_OWN40')
+            actual_activation_source(g,declaration)
         exact(literal(g,NS+'admission.py','PARENT_HEAD'),PARENT_HEAD,'FREE3_ACTUAL_ACCEPTED_PARENT_HEAD')
         require(WORKFLOW in allowed,'FREE3_ACTUAL_WORKFLOW_MUST_BE_EXPLICITLY_DECLARED')
         exact(g.read(WORKFLOW),g.read(NS+'native3.workflow.yml.txt'),'FREE3_ACTUAL_WORKFLOW_EQUALS_REVIEWED_TEMPLATE')
@@ -212,7 +277,7 @@ def source(g):
         Native_case_ids=IDS,original_C43_date_files=9,explicit_date_stage_routes=2,
         unchanged_Native_fixture_runner_sources=3,pure_report_validator=validator,
         exact_reversible_source_guard_derivation=guard_source,
-        nested_product_source_closure=nested_source,
+        nested_product_source_closure=nested_source,runtime_fixture_binding_repair=repaired,
         source_manifest=pin(g.read(NS+'SOURCE.json')),actual_case_credit=0,
         parent_qualification_pending=PARENT_HEAD is None)
 

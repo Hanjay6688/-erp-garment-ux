@@ -1,0 +1,86 @@
+{
+  "status": "ACTUAL_FREE_C73_FAILED_ZERO_NATIVE_CASES_FULL_DATABASE_RESTORATION_PROVEN_CLEANUP_FAILED",
+  "observed_at_UTC": "2026-11-02T04:18:24.706Z",
+  "head": "c73dea71ad8e15e828ea7f4a27937c5c9da5e839",
+  "tree": "b171e37eb8a76d3764e60662f93f368f98f41883",
+  "run_id": 41377735841,
+  "job_id": 125061575171,
+  "run_attempt": 1,
+  "event": "push",
+  "conclusion": "failure",
+  "archive": {
+    "artifact_id": 13114133867,
+    "bytes": 1991842,
+    "sha256": "8910179dd0a4eaaee9cd92c050ddd14ba8d73dc375d49576944e57f380cd35fe",
+    "canonical_archive_library_file_id": "libfile_5cc1e42773dc8191bc5264f53e2b85fe",
+    "members": 126,
+    "uncompressed_bytes": 13493310,
+    "all_member_CRC_PASS": true,
+    "safe_unique_members": true
+  },
+  "first_failure": {
+    "message": "FREE_DATE_NATIVE_EXACT_NATURAL_MODULE_ORIGIN_REQUIRED:cp6_bc_probe.py",
+    "phase": "FREE_DATE_NATIVE_DIAGNOSTICS",
+    "before_any_Native_case": true,
+    "wrong_resolved_module_path_retained": false,
+    "auditor_CWD_source_check_had_not_exercised_actual_writer_CWD_fixture_binding": true
+  },
+  "actual_fresh_Native_cases": 0,
+  "observed_group_count_1_is_not_one_business_case": true,
+  "complete3_qualified": false,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "restoration": {
+    "full22": true,
+    "all_table_rows_and_sequences_exact": true,
+    "raw_public_state_exact": true,
+    "CP6_exact": true,
+    "roles_exact": true,
+    "advisors_same": true,
+    "actual_platform_schema_graphql_authority_restored": true,
+    "baseline_restore_exit": 1,
+    "only_pg_cron_errors": true,
+    "error_count": 19,
+    "unexplained": []
+  },
+  "runtime_supervision": {
+    "worker_exit": 1,
+    "deadline_reached": false,
+    "external_signal": null,
+    "signals": [],
+    "orphaned_child": false,
+    "process_group_empty": true,
+    "process_tree_empty": true,
+    "reported_exit124_is_failure_return_not_a_deadline": true
+  },
+  "cleanup": {
+    "database_stop_guard_command_failed": true,
+    "duplicated_scripts_path": true,
+    "python_exit": 2,
+    "supabase_stop_observed": false,
+    "disposable_database_explicit_stop_proven": false
+  },
+  "repaired_source_prepared": {
+    "head": "ad986b9a9d432f2ffac2b961710c3852c6c2ef90",
+    "tree": "80bc5471330b89497991ba1e67615287b01e59c1",
+    "own_paths": 41,
+    "source_pins": 40,
+    "reversible_routes": 12,
+    "changed_workflow_steps": [
+      64,
+      73
+    ],
+    "financial_SQL_and_Native_case_bodies_changed": false,
+    "source_only_CI_pending": true,
+    "actual_Native_cases": 0
+  },
+  "production_go": false,
+  "independent_acceptance": false,
+  "formal_CP7": "5/16",
+  "CP7_complete": false
+}
