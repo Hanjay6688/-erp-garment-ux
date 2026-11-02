@@ -1,0 +1,32 @@
+{
+  "contract": "cp7.Root.UI-8bee.loaded-capture-correction-activation.v1",
+  "observed_at_UTC": "2026-11-02T20:13:34.383496+00:00",
+  "status": "SOURCE_PUBLISHED_WORKFLOW_REGISTRATION_PENDING",
+  "branch": "astra-a/ui-reference-theme-20261103",
+  "base_head": "a4f89315c5c1c5d4887a086e1455ffe9e94e3fd5",
+  "public_head": "8bee8130e992a10da6a334d6de54a4b89e98a0c0",
+  "local_head": "6437118bab6ced1054f77d8e10aea398e1a9502e",
+  "tree": "5391568273911d3e9468951bbf8f6f2ca49427d8",
+  "source_and_local_build_checks": "PASS",
+  "actual_financial_source_changes": 0,
+  "corrections": {
+    "loaded_sales_selector": ".biz-invoice-lifecycle",
+    "loaded_payroll_selector": ".payroll-detail",
+    "loading_fallback_must_be_absent": true,
+    "heading_range_px": "24-32",
+    "sales_chart_colour": "#4f46e5",
+    "HPP_chart_colour": "#0e7490"
+  },
+  "evidence_plan": {
+    "retained_immutable_before_dashboard_views": 4,
+    "new_after_dashboard_views": 4,
+    "new_loaded_sales_and_payroll_views": 16,
+    "new_total": 20,
+    "duplicate_valid_dashboard_baseline_reruns": 0
+  },
+  "run_id": null,
+  "job_id": null,
+  "conclusion": null,
+  "actual_UI_final_acceptance": false,
+  "production_go": false
+}

@@ -1,6 +1,6 @@
 {
   "contract": "writer-a.compact-current-state.v1",
-  "observed_at_UTC": "2026-11-02T17:15:45.758404+00:00",
+  "observed_at_UTC": "2026-11-02T20:13:34.383496+00:00",
   "integrator": "A",
   "A_B_division_preserved": true,
   "formal_CP7": "5/16",
@@ -29,7 +29,8 @@
       "all_five": true
     }
   },
-  "sole_readonly_monitor_cell": "2630",
+  "sole_readonly_monitor_cell": null,
+  "current_qualification_monitor": "SAME_PINNED_GITHUB_RUN_READ_ONLY_API",
   "new_qualified_cases": 0,
   "Root_terminal_intake_pending": true,
   "accepted_parent": {
@@ -1356,7 +1357,7 @@
     "owning_workflow_pending": true
   },
   "owner_UI_refinement": {
-    "status": "ONE_VALID_BEFORE320_RETAINED_CAPTURE_STOPPED_ON_MENU_LOCATOR",
+    "status": "POST_CAPTURE_CORRECTION_PUBLISHED_BROWSER_RESULT_PENDING",
     "owner_handoff": {
       "library_file_id": "libfile_2c81e41399488191967a3c7751b24997",
       "sha256": "213f1bb0ffb376f51245b90bbef451b81b83a35710f076cf78d2bc457da11a53"
@@ -1372,28 +1373,47 @@
     "owner_scope_separate_from_CP7_denominator": true,
     "existing_stylesheets_migrated": 19,
     "existing_stylesheets_remaining": 50,
-    "local_commit": "97a0b667dd0e79a13575d7e46dae8a26f9a290fe",
-    "local_tree": "d15ee827cfbbaac1ad728f54e82e08f63456c6d3",
-    "public_head": "5e9ce0bd579074ddc67b0b101d35a28ea2d368b2",
+    "local_commit": "6437118bab6ced1054f77d8e10aea398e1a9502e",
+    "local_tree": "5391568273911d3e9468951bbf8f6f2ca49427d8",
+    "public_head": "8bee8130e992a10da6a334d6de54a4b89e98a0c0",
     "source_access_CSS_TypeScript_build_secret_scan": "PASS",
     "local_browser_download_failed": true,
     "Git_CLI_push_credentials_unavailable": true,
     "connected_GitHub_plugin_publication_pending": false,
-    "tree": "d15ee827cfbbaac1ad728f54e82e08f63456c6d3",
-    "run_id": 41510643181,
-    "job_id": 125501294085,
+    "tree": "5391568273911d3e9468951bbf8f6f2ca49427d8",
+    "run_id": null,
+    "job_id": null,
     "readonly_monitor_cell": null,
     "expected_visual_screenshots": 24,
-    "conclusion": "failure",
-    "valid_before_views": 1,
-    "valid_after_views": 0,
-    "canonical": {
-      "bytes": 319647,
-      "sha256": "1c74ab1b02f0da826806c1e29b60868ac01715c092c98ffc45b5213d589c803a",
-      "artifact_id": 13172528100,
-      "library_file_id": "libfile_1c8a0f026df481919492a7333b34eb30"
+    "conclusion": null,
+    "prior_a4f_capture": {
+      "run_id": 41512867605,
+      "job_id": 125508871053,
+      "conclusion": "success",
+      "screenshots": 24,
+      "actual_dashboard_views": 8,
+      "sales_and_payroll_loading_fallback_views": 16,
+      "after_overflow_views": 0,
+      "after_sample_contrast_findings": 0,
+      "canonical": {
+        "bytes": 3238318,
+        "sha256": "c735e15a683291cd1ee131db75a7a62362907582d4a09bc18b734082812db3d1",
+        "artifact_id": 13174052118,
+        "library_file_id": "libfile_891181524c1c8191b73b947c3ce34f31"
+      }
     },
-    "capturer_correction_pending": true
+    "corrections": {
+      "loaded_workspace_semantic_wait": true,
+      "loading_fallback_refused": true,
+      "heading_important_override_removed": true,
+      "distinct_sales_HPP_chart_series_restored": true,
+      "immutable_dashboard_baselines_reused": 4,
+      "new_views_required": 20,
+      "duplicate_valid_dashboard_baseline_reruns": 0
+    },
+    "source_access_CSS_TypeScript_build_secret_scan_after_correction": "PASS",
+    "capturer_correction_pending": false,
+    "corrected_browser_capture_pending": true
   },
   "Afui_B8_failed_actual_qualification": {
     "status": "ACTUAL_AFUI_B8_FAILED_COMMON_FIXTURE_AND_PRIVATE_INFO_REVIEW_FULL_RESTORATION_VERIFIED",

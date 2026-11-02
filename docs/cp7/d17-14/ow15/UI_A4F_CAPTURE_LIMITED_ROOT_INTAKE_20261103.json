@@ -1,0 +1,32 @@
+{
+  "contract": "cp7.Root.UI-a4f.capture-limited-intake.v1",
+  "observed_at_UTC": "2026-11-02T20:13:34.383496+00:00",
+  "status": "CAPTURE_SUCCEEDED_BUT_SALES_AND_PAYROLL_REMAIN_LOADING_NOT_FORM_PROOF",
+  "head": "a4f89315c5c1c5d4887a086e1455ffe9e94e3fd5",
+  "tree": "1b94a8d98b4923090448421361cca7843b073d8a",
+  "run_id": 41512867605,
+  "job_id": 125508871053,
+  "conclusion": "success",
+  "screenshots": 24,
+  "retained_original_views": 1,
+  "new_captured_views": 23,
+  "actual_dashboard_views": 8,
+  "sales_and_payroll_loading_fallback_views": 16,
+  "after_overflow_views": 0,
+  "after_sample_contrast_findings": 0,
+  "observed_visual_defects": [
+    "shared h1 !important produces oversized dashboard headings",
+    "HPP bar and legend series are white on the white chart panel"
+  ],
+  "canonical": {
+    "bytes": 3238318,
+    "sha256": "c735e15a683291cd1ee131db75a7a62362907582d4a09bc18b734082812db3d1",
+    "artifact_id": 13174052118,
+    "library_file_id": "libfile_891181524c1c8191b73b947c3ce34f31"
+  },
+  "loading_state_evidence_preserved": true,
+  "loading_views_counted_as_form_acceptance": false,
+  "actual_Mandor_popup_acceptance": false,
+  "actual_UI_final_acceptance": false,
+  "production_go": false
+}
