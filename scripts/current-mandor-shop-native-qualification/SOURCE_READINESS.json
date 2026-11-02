@@ -1,0 +1,659 @@
+{
+  "status": "NEW_MANDOR_NATIVE6_CALLER_SOURCE_PREFLIGHT_PASS_NOT_RUNTIME_OR_BUSINESS",
+  "new_source_files": {
+    "admission.py": {
+      "bytes": 1447,
+      "sha256": "8d3d71deb031b22a205802f299ba685afc19ef87152c62bebe7fac3b17d8c139"
+    },
+    "native_fixture.py": {
+      "bytes": 12575,
+      "sha256": "909da2285f68d9835f3273b60b35fbaa888510b6fabe4d5c7670f00b12ff244b"
+    },
+    "oracle.py": {
+      "bytes": 4712,
+      "sha256": "17696a1e509cb32449571c3d3fc3bf29935bcb47ae80cfb9a483949b85d8cd0e"
+    },
+    "cases.py": {
+      "bytes": 9896,
+      "sha256": "aa8e2822418aa2149f59da90ca70435c58c2d2a23bc3ecbfc9a60027b9fbb7c8"
+    },
+    "preflight.py": {
+      "bytes": 7162,
+      "sha256": "1865cc12d32ca22bc57ee6b2f6f7d5e3063fb2ea91e752f3d8dec5ec6d1fbed4"
+    }
+  },
+  "base_source_head": "2135bdde920ea632f98671896cc5f0f8410845e9",
+  "actual_original25": {
+    "bytes": 14755737,
+    "sha256": "80856b7ec2cebf08318a21617091b73c6744161b72bb3be98bcb9ecd2b8109eb"
+  },
+  "new_method_calls": [
+    {
+      "file": "native_fixture.py",
+      "line": 39,
+      "name": "admin"
+    },
+    {
+      "file": "native_fixture.py",
+      "line": 42,
+      "name": "admin"
+    },
+    {
+      "file": "native_fixture.py",
+      "line": 46,
+      "name": "admin"
+    },
+    {
+      "file": "native_fixture.py",
+      "line": 53,
+      "name": "boundary"
+    },
+    {
+      "file": "native_fixture.py",
+      "line": 53,
+      "name": "boundary"
+    },
+    {
+      "file": "native_fixture.py",
+      "line": 59,
+      "name": "boundary"
+    },
+    {
+      "file": "native_fixture.py",
+      "line": 67,
+      "name": "admin"
+    },
+    {
+      "file": "native_fixture.py",
+      "line": 71,
+      "name": "boundary"
+    },
+    {
+      "file": "native_fixture.py",
+      "line": 76,
+      "name": "admin"
+    },
+    {
+      "file": "native_fixture.py",
+      "line": 85,
+      "name": "admin"
+    },
+    {
+      "file": "native_fixture.py",
+      "line": 96,
+      "name": "admin"
+    },
+    {
+      "file": "native_fixture.py",
+      "line": 99,
+      "name": "public"
+    },
+    {
+      "file": "native_fixture.py",
+      "line": 113,
+      "name": "replay"
+    },
+    {
+      "file": "native_fixture.py",
+      "line": 117,
+      "name": "replay"
+    },
+    {
+      "file": "native_fixture.py",
+      "line": 119,
+      "name": "invoice"
+    },
+    {
+      "file": "native_fixture.py",
+      "line": 124,
+      "name": "admin"
+    },
+    {
+      "file": "native_fixture.py",
+      "line": 143,
+      "name": "public"
+    },
+    {
+      "file": "native_fixture.py",
+      "line": 149,
+      "name": "payroll_document"
+    },
+    {
+      "file": "native_fixture.py",
+      "line": 159,
+      "name": "public"
+    },
+    {
+      "file": "native_fixture.py",
+      "line": 162,
+      "name": "workspace"
+    },
+    {
+      "file": "native_fixture.py",
+      "line": 174,
+      "name": "replay"
+    },
+    {
+      "file": "native_fixture.py",
+      "line": 178,
+      "name": "admin"
+    },
+    {
+      "file": "native_fixture.py",
+      "line": 185,
+      "name": "admin"
+    },
+    {
+      "file": "native_fixture.py",
+      "line": 185,
+      "name": "invoice"
+    },
+    {
+      "file": "native_fixture.py",
+      "line": 109,
+      "name": "public"
+    },
+    {
+      "file": "native_fixture.py",
+      "line": 153,
+      "name": "public"
+    },
+    {
+      "file": "native_fixture.py",
+      "line": 172,
+      "name": "public"
+    },
+    {
+      "file": "native_fixture.py",
+      "line": 193,
+      "name": "payroll_document"
+    },
+    {
+      "file": "cases.py",
+      "line": 21,
+      "name": "admin"
+    },
+    {
+      "file": "cases.py",
+      "line": 27,
+      "name": "payroll_command"
+    },
+    {
+      "file": "cases.py",
+      "line": 28,
+      "name": "observe"
+    },
+    {
+      "file": "cases.py",
+      "line": 29,
+      "name": "payroll_command"
+    },
+    {
+      "file": "cases.py",
+      "line": 30,
+      "name": "replay"
+    },
+    {
+      "file": "cases.py",
+      "line": 35,
+      "name": "observe"
+    },
+    {
+      "file": "cases.py",
+      "line": 36,
+      "name": "payroll_command"
+    },
+    {
+      "file": "cases.py",
+      "line": 37,
+      "name": "observe"
+    },
+    {
+      "file": "cases.py",
+      "line": 39,
+      "name": "replay"
+    },
+    {
+      "file": "cases.py",
+      "line": 44,
+      "name": "physical"
+    },
+    {
+      "file": "cases.py",
+      "line": 44,
+      "name": "create_invoice"
+    },
+    {
+      "file": "cases.py",
+      "line": 45,
+      "name": "payroll"
+    },
+    {
+      "file": "cases.py",
+      "line": 46,
+      "name": "observe"
+    },
+    {
+      "file": "cases.py",
+      "line": 46,
+      "name": "allocation"
+    },
+    {
+      "file": "cases.py",
+      "line": 46,
+      "name": "observe"
+    },
+    {
+      "file": "cases.py",
+      "line": 56,
+      "name": "physical"
+    },
+    {
+      "file": "cases.py",
+      "line": 56,
+      "name": "create_invoice"
+    },
+    {
+      "file": "cases.py",
+      "line": 57,
+      "name": "payroll"
+    },
+    {
+      "file": "cases.py",
+      "line": 58,
+      "name": "allocation"
+    },
+    {
+      "file": "cases.py",
+      "line": 60,
+      "name": "payroll"
+    },
+    {
+      "file": "cases.py",
+      "line": 61,
+      "name": "workspace"
+    },
+    {
+      "file": "cases.py",
+      "line": 64,
+      "name": "allocation"
+    },
+    {
+      "file": "cases.py",
+      "line": 71,
+      "name": "physical"
+    },
+    {
+      "file": "cases.py",
+      "line": 71,
+      "name": "create_invoice"
+    },
+    {
+      "file": "cases.py",
+      "line": 71,
+      "name": "payroll"
+    },
+    {
+      "file": "cases.py",
+      "line": 72,
+      "name": "allocation"
+    },
+    {
+      "file": "cases.py",
+      "line": 72,
+      "name": "observe"
+    },
+    {
+      "file": "cases.py",
+      "line": 73,
+      "name": "allocation"
+    },
+    {
+      "file": "cases.py",
+      "line": 73,
+      "name": "observe"
+    },
+    {
+      "file": "cases.py",
+      "line": 75,
+      "name": "allocation"
+    },
+    {
+      "file": "cases.py",
+      "line": 75,
+      "name": "observe"
+    },
+    {
+      "file": "cases.py",
+      "line": 76,
+      "name": "payroll_command"
+    },
+    {
+      "file": "cases.py",
+      "line": 76,
+      "name": "observe"
+    },
+    {
+      "file": "cases.py",
+      "line": 85,
+      "name": "physical"
+    },
+    {
+      "file": "cases.py",
+      "line": 85,
+      "name": "create_invoice"
+    },
+    {
+      "file": "cases.py",
+      "line": 85,
+      "name": "payroll"
+    },
+    {
+      "file": "cases.py",
+      "line": 86,
+      "name": "allocation"
+    },
+    {
+      "file": "cases.py",
+      "line": 87,
+      "name": "payroll_command"
+    },
+    {
+      "file": "cases.py",
+      "line": 87,
+      "name": "observe"
+    },
+    {
+      "file": "cases.py",
+      "line": 94,
+      "name": "physical"
+    },
+    {
+      "file": "cases.py",
+      "line": 94,
+      "name": "create_invoice"
+    },
+    {
+      "file": "cases.py",
+      "line": 94,
+      "name": "payroll"
+    },
+    {
+      "file": "cases.py",
+      "line": 95,
+      "name": "refusal"
+    },
+    {
+      "file": "cases.py",
+      "line": 96,
+      "name": "workspace"
+    },
+    {
+      "file": "cases.py",
+      "line": 97,
+      "name": "allocation"
+    },
+    {
+      "file": "cases.py",
+      "line": 99,
+      "name": "refusal"
+    },
+    {
+      "file": "cases.py",
+      "line": 101,
+      "name": "admin"
+    },
+    {
+      "file": "cases.py",
+      "line": 103,
+      "name": "payroll"
+    },
+    {
+      "file": "cases.py",
+      "line": 105,
+      "name": "refusal"
+    },
+    {
+      "file": "cases.py",
+      "line": 112,
+      "name": "physical"
+    },
+    {
+      "file": "cases.py",
+      "line": 112,
+      "name": "admin"
+    },
+    {
+      "file": "cases.py",
+      "line": 117,
+      "name": "replay"
+    },
+    {
+      "file": "cases.py",
+      "line": 120,
+      "name": "replay"
+    },
+    {
+      "file": "cases.py",
+      "line": 133,
+      "name": "admin"
+    },
+    {
+      "file": "cases.py",
+      "line": 135,
+      "name": "admin"
+    },
+    {
+      "file": "cases.py",
+      "line": 81,
+      "name": "replay"
+    },
+    {
+      "file": "cases.py",
+      "line": 90,
+      "name": "replay"
+    },
+    {
+      "file": "cases.py",
+      "line": 95,
+      "name": "allocation"
+    },
+    {
+      "file": "cases.py",
+      "line": 99,
+      "name": "public"
+    },
+    {
+      "file": "cases.py",
+      "line": 105,
+      "name": "public"
+    }
+  ],
+  "new_oracle_calls": [
+    {
+      "file": "cases.py",
+      "line": 38,
+      "name": "payment"
+    },
+    {
+      "file": "cases.py",
+      "line": 47,
+      "name": "reservation"
+    },
+    {
+      "file": "cases.py",
+      "line": 49,
+      "name": "require"
+    },
+    {
+      "file": "cases.py",
+      "line": 50,
+      "name": "require"
+    },
+    {
+      "file": "cases.py",
+      "line": 59,
+      "name": "require"
+    },
+    {
+      "file": "cases.py",
+      "line": 62,
+      "name": "require"
+    },
+    {
+      "file": "cases.py",
+      "line": 63,
+      "name": "require"
+    },
+    {
+      "file": "cases.py",
+      "line": 65,
+      "name": "require"
+    },
+    {
+      "file": "cases.py",
+      "line": 74,
+      "name": "released"
+    },
+    {
+      "file": "cases.py",
+      "line": 77,
+      "name": "released"
+    },
+    {
+      "file": "cases.py",
+      "line": 78,
+      "name": "require"
+    },
+    {
+      "file": "cases.py",
+      "line": 79,
+      "name": "require"
+    },
+    {
+      "file": "cases.py",
+      "line": 88,
+      "name": "reversal"
+    },
+    {
+      "file": "cases.py",
+      "line": 124,
+      "name": "require"
+    },
+    {
+      "file": "cases.py",
+      "line": 125,
+      "name": "require"
+    },
+    {
+      "file": "cases.py",
+      "line": 126,
+      "name": "require"
+    },
+    {
+      "file": "cases.py",
+      "line": 141,
+      "name": "require"
+    },
+    {
+      "file": "cases.py",
+      "line": 49,
+      "name": "money"
+    },
+    {
+      "file": "cases.py",
+      "line": 50,
+      "name": "money"
+    },
+    {
+      "file": "cases.py",
+      "line": 59,
+      "name": "money"
+    },
+    {
+      "file": "cases.py",
+      "line": 62,
+      "name": "money"
+    },
+    {
+      "file": "cases.py",
+      "line": 65,
+      "name": "money"
+    }
+  ],
+  "exact_public_RPC_calls": [
+    {
+      "file": "native_fixture.py",
+      "line": 99,
+      "name": "public.erp_cp7_get_mandor_shop_buyers_v1",
+      "arity": 4,
+      "parameters": 2
+    },
+    {
+      "file": "native_fixture.py",
+      "line": 143,
+      "name": "public.erp_cp7_get_payroll_workspace_v1",
+      "arity": 2,
+      "parameters": 2
+    },
+    {
+      "file": "native_fixture.py",
+      "line": 159,
+      "name": "public.erp_cp7_get_mandor_shop_payroll_v1",
+      "arity": 2,
+      "parameters": 1
+    },
+    {
+      "file": "native_fixture.py",
+      "line": 109,
+      "name": "public.erp_cp7_save_mandor_shop_sale_v1",
+      "arity": 4,
+      "parameters": 3
+    },
+    {
+      "file": "native_fixture.py",
+      "line": 153,
+      "name": "public.erp_cp7_save_payroll_v1",
+      "arity": 4,
+      "parameters": 4
+    },
+    {
+      "file": "native_fixture.py",
+      "line": 172,
+      "name": "public.erp_cp7_save_mandor_shop_allocation_v1",
+      "arity": 3,
+      "parameters": 3
+    },
+    {
+      "file": "cases.py",
+      "line": 99,
+      "name": "public.erp_cp7_save_mandor_shop_allocation_v1",
+      "arity": 3,
+      "parameters": 3
+    },
+    {
+      "file": "cases.py",
+      "line": 105,
+      "name": "public.erp_cp7_save_mandor_shop_allocation_v1",
+      "arity": 3,
+      "parameters": 3
+    }
+  ],
+  "fixed_observer_SQL_statements_parsed": 17,
+  "new_case_ids": [
+    "FG_MANDOR_SELECTED_FOLLOWING_WEEK_300000_OFFSET_2000000_GROSS_1700000_NET_REPLAY",
+    "FG_MANDOR_PARTIAL100000_REMAINDER200000_ON_SECOND_MANUALLY_SELECTED_WEEK",
+    "FG_MANDOR_EXPLICIT_RELEASE_AND_UNPAID_CANCELLATION_RELEASE_ALLOCATION_WITHOUT_AR_PAYMENT",
+    "FG_MANDOR_NATIVE_PAID_REVERSAL_REOPENS_SAME_INVOICE_AND_RESTORES_PREAPPROVAL_BOOKS",
+    "FG_MANDOR_CURRENT_CAPACITY_WRONG_MANDOR_AND_STALE_REVIEW_REFUSE_WITHOUT_EFFECT",
+    "FG_MANDOR_ORDINARY_STORE_NATIVE_CREATE_POST_COGS_AND_STOCK_REGRESSION"
+  ],
+  "parser": "v7.20",
+  "accepted_Afui15_parent_root_pin": null,
+  "runtime_entry": null,
+  "actual_SQL_executed": 0,
+  "actual_Native_cases": 0,
+  "old_source84_or_model_or_financial_tests_rerun": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

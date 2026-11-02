@@ -67,6 +67,16 @@ def source():
     actual_new=all_paths-set(base)
     require(actual_new==set(m['new_paths']),'UNIFIED_EXACT_NEW_NAMESPACE_PATHS')
     require(len(m['components']['GLOBAL']['exact_files'])==42 and len(m['components']['MANDOR']['exact_files'])==104,'UNIFIED_COMPLETE_COMPONENT_AND_UI_FILE_COUNTS')
+    preparation=m.get('Mandor_native6_preparation')
+    if preparation is not None:
+        import ast
+        prefix='scripts/current-mandor-shop-native-qualification/'
+        expected={prefix+n for n in('admission.py','native_fixture.py','oracle.py','cases.py','preflight.py','SOURCE_READINESS.json','READINESS.txt')}
+        require(set(preparation['files'])==expected and all(n in m['files']for n in expected),'UNIFIED_EXACT_PREPARED_NATIVE6_NAMESPACE')
+        require(preparation['actual_Native_cases']==0 and preparation['parent_root_adopted']is False,'UNIFIED_NATIVE6_PREPARATION_IS_NOT_ACCEPTANCE')
+        tree=ast.parse((ROOT/prefix/'admission.py').read_bytes())
+        values={t.id:ast.literal_eval(n.value)for n in tree.body if isinstance(n,ast.Assign)and isinstance(n.value,ast.Constant)for t in n.targets if isinstance(t,ast.Name)}
+        require(values['PARENT_HEAD']==m['base']['head']and values['PARENT_ROOT_PIN']is None and values['RUNTIME_ENTRY']is None,'UNIFIED_PREPARED_NATIVE6_PARENT_GATE_MUST_STAY_CLOSED')
     return dict(status='UNIFIED_AFUI_GLOBAL_MANDOR_SOURCE_FENCE_PASS_NOT_RUNTIME_OR_BUSINESS',base=m['base'],
         unchanged_parent_blobs=len(base)-len(changed),shared_UI_parent_paths=len(shared),appearance_parent_paths=len(appearance),parent_modified_paths=len(changed),new_paths=len(actual_new),
         Global_module_files=42,Mandor_module_and_exact_UI_files=104,validator_files_composed=2,

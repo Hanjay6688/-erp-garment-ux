@@ -1,0 +1,9 @@
+WRITER A — NEW MANDOR NATIVE6 CALLERS PREPARED, NOT EXECUTED
+
+Six new actual-domain scenarios cover chosen payroll week, partial/remainder, release and unpaid cancellation, lawful paid reversal, wrong-mandor/current-capacity/stale refusals, and ordinary store stock/COGS regression. Positive scenarios flush all deferred constraints before strict case rollback. Replays/refusals compare full actual22, data and sequences. Financial findings must not increase.
+
+Fixture uses unchanged natural Afui production/GOOD/finish helpers and existing sales/payroll commands. Only a new empty DRAFT payroll period is extended to a manually selected Monday-Sunday week; the actual current WIB payment date is preserved. The owner example uses an explicit Native manual adjustment, whose expense recognition remains owned by Native APPROVE. No posted authoritative stock/HPP/sale/payroll/cash row is seeded. All helper entry points refuse a remote or wrong database.
+
+Preflight checked88new helper calls,22oracle calls,8literal public RPC calls and17fixed observer statements. Actual SQL/business/Auth/browser/race credit is ZERO. Afui full15/all-five Root receipt and owning caller are still pending; root pin and runtime entry remainNone, and the existing Mandor component admission remains unmodified/closed. No executable workflow has been activated.
+
+Still required: owning runtime/full restore/all-five, independent two-backend races, current rights, external balance/return correction paths, installment route, Auth HTTP, desktop/mobile pop-up, and final combined acceptance.
