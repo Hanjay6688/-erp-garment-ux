@@ -1,6 +1,6 @@
 {
   "contract": "writer-a.compact-current-state.v1",
-  "observed_at_UTC": "2026-11-02T06:32:57.100661+00:00",
+  "observed_at_UTC": "2026-11-02T07:20:54.648940+00:00",
   "integrator": "A",
   "A_B_division_preserved": true,
   "formal_CP7": "5/16",
@@ -147,13 +147,13 @@
       "focused_parent_preparation_evidence": "AFUI_FOCUSED_FREE45_PARENT_SOURCE_COMPATIBILITY_20261102.json"
     },
     "FG_MANDOR": {
-      "head": "63f9462d7d6b865d79bf2ffab0acfde56a7ac3b5",
-      "tree": "77784e16ddf9c1943e6752da154e05be56c5735c",
+      "head": "3203c297414ab38bde7035db6d99f69d81d8ae12",
+      "tree": "92c556effe30679bdc08cd0874571e6c87013017",
       "branch": "astra-a/fg-mandor-storage-source-prepared-20261102",
-      "own_paths": 32,
-      "source_pins": 31,
-      "private_tables": 14,
-      "private_functions": 21,
+      "own_paths": 40,
+      "source_pins": 39,
+      "private_tables": 15,
+      "private_functions": 25,
       "new_private_allocation_model_controls": 15,
       "retained_storage_model_controls_NOT_rerun": 15,
       "actual_Native_cases": 0,
@@ -170,7 +170,7 @@
       "Native_header_identity_source_written": true,
       "Native_payment_hooks_implemented": false,
       "App_popup_implemented": false,
-      "evidence": "FG_MANDOR_OFFSET_REBUILT_28MODEL_SOURCE_PREPARED_20261102.json",
+      "evidence": "FG_MANDOR_PAYMENT_OWNERS_RETAINED19_NEW4_SOURCE_PREPARED_20261102.json",
       "pending_unpublished_local_work": {
         "local_head": "cca36f1c83c39d6d585e3ec74eec15998d242ba1",
         "tree": "3822a4f6cb52279207d24467380cbb33f218c184",
@@ -189,9 +189,17 @@
       "private_offset_functions": 3,
       "private_offset_model_controls": 28,
       "retained_67_model_controls_NOT_rerun": true,
-      "logical_model_control_coverage": 95,
+      "logical_model_control_coverage": 118,
       "unpublished_local_offset_work_rebuilt_and_published": true,
-      "authoritative_Native_paid_projection_integrated": false
+      "authoritative_Native_paid_projection_integrated": false,
+      "private_payment_functions": 4,
+      "Native_payment_hook_sources_written": true,
+      "Native_source_adapters": 8,
+      "private_payment_model_controls": 23,
+      "retained_payment_model_controls": 19,
+      "new_payment_model_controls": 4,
+      "retained_95_controls_NOT_rerun": true,
+      "Native_runtime_installed": false
     },
     "GLOBAL_ENVELOPE": {
       "local_head": "c9e8264fff0a09f2005e7a6ab3d0c9edc5900abf",

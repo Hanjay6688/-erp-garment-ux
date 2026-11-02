@@ -1,0 +1,52 @@
+{
+  "status": "FG_MANDOR_PRIVATE_PAYMENT_OWNERS_NATIVE_ADAPTER_SOURCE_AND_RETAINED19_NEW4_MODELS_PREPARED_NOT_NATIVE",
+  "head": "3203c297414ab38bde7035db6d99f69d81d8ae12",
+  "tree": "92c556effe30679bdc08cd0874571e6c87013017",
+  "branch": "astra-a/fg-mandor-storage-source-prepared-20261102",
+  "own_paths": 40,
+  "source_pins": 39,
+  "private_tables": 15,
+  "private_functions": 25,
+  "new_private_payment_functions": 4,
+  "Native_source_adapters": 8,
+  "reversible_Native_routes": 17,
+  "actual_Native_cases": 0,
+  "actual_Auth_HTTP_cases": 0,
+  "actual_browser_cases": 0,
+  "actual_two_session_races": 0,
+  "Native_runtime_installed": false,
+  "authoritative_Native_paid_projection_integrated": false,
+  "public_commands_exposed": false,
+  "App_popup_implemented": false,
+  "old95_model_controls_NOT_rerun": true,
+  "completed19_model_controls_NOT_rerun_for_remaining4": true,
+  "retained_payment_model_controls": 19,
+  "new_payment_model_controls": 4,
+  "logical_model_control_coverage": 118,
+  "all23_fresh_one_attempt": false,
+  "original_failed_model_attempts_preserved": true,
+  "last4_first_attempt_PASS": true,
+  "model_limitations": [
+    "Native table constraints/triggers and defaults beyond reported model defaults",
+    "auth.uid/auth.jwt/get_my_access/has_permission",
+    "Native request/review admission and caller orchestration",
+    "internal and owner admission, business-period and source-dependency guards",
+    "invoice net and authoritative paid provider; actual credit materialization not installed",
+    "installment remaining amount and context provider"
+  ],
+  "original_evidence_archive": {
+    "bytes": 35541,
+    "sha256": "60884c0b9045a4e7d8dfd90bb5d488d3b54d877b823e0b2b8524f080e821d927",
+    "members": 13,
+    "library_file_id": "libfile_79653041e29881919e17f55361b90a1f"
+  },
+  "new_Source_check_actual_exit": 0,
+  "remaining_required": [
+    "Install/adopt all Native program profiles on actual final accepted parent.",
+    "Guard protected FG journal creation, direct edits and reversal; guard invoice returns/correction with active FG offsets through lawful reversal/review.",
+    "Connect existing sales buyer/category and chosen-week popup/public commands.",
+    "Actual Native/Auth/desktop/mobile/two-session qualification, stock/HPP/sales regressions and all5."
+  ],
+  "production_go": false,
+  "independent_acceptance": false
+}
