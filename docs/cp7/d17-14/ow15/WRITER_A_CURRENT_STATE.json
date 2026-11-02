@@ -1,6 +1,6 @@
 {
   "contract": "writer-a.compact-current-state.v1",
-  "observed_at_UTC": "2026-11-01T23:19:51.003813+00:00",
+  "observed_at_UTC": "2026-11-02T01:00:23.285170+00:00",
   "integrator": "A",
   "A_B_division_preserved": true,
   "formal_CP7": "5/16",
@@ -25,7 +25,11 @@
     "actual_runner_interface_preflight_PASS": true,
     "preDB_full_natural_graph_and_runner_contract_required": true,
     "original_SQL_or_callbacks_changed": false,
-    "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/41368001658"
+    "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/41368001658",
+    "observed_steps_completed": 70,
+    "active_step_names": [
+      "Run original current D1 E Native30 and complete outer restoration"
+    ]
   },
   "sole_readonly_monitor_cell": "1275",
   "new_qualified_cases": 0,
@@ -70,7 +74,7 @@
     "DE": {
       "head": "6e61506c10a18541c104b981bd438e78b175b5d1",
       "own_paths": 96,
-      "base_head": "065fff01bba869acca842e4008d87caf1e09b318",
+      "base_head": "15a2170cea88cd03a4d1bcaa0873a969d495b9fa",
       "accepted_parent_bound": true,
       "workflow_activated": true,
       "actual_alias": {
@@ -86,13 +90,14 @@
         }
       },
       "accepted_parent_bound_in_tree_plan": true,
-      "actual_runtime_started": false,
+      "actual_runtime_started": true,
       "planned_own_paths": 96,
       "parent_head": "15a2170cea88cd03a4d1bcaa0873a969d495b9fa",
       "parent_tree": "3fe772a1314ae6bc7c4f36f72e3fda8738eb70fc",
       "tree": "86f07de6e0be871d39110aa797ef26da4564e8e8",
       "run_id": 41368001658,
-      "job_id": 125032204589
+      "job_id": 125032204589,
+      "original_runtime_step_active": true
     },
     "FREE": {
       "head": "fe21e26e9ca1fb8428dc0b1f86f16b03de2c9fcb",
@@ -113,22 +118,25 @@
       "workflow_activated": false
     },
     "FG_MANDOR": {
-      "head": "452c304fe5656578b29a423cc53520ce5055c5f8",
-      "tree": "ab6a617171a2e856d4bd08b27f1f9cfad45349b7",
+      "head": "9a557930a4bb3ac9f2becbac3ced3d26689f170d",
+      "tree": "f0e9af83cb3a652c59b4b72798715d588ebefbf9",
       "branch": "astra-a/fg-mandor-storage-source-prepared-20261102",
-      "own_paths": 11,
-      "source_pins": 10,
+      "own_paths": 16,
+      "source_pins": 15,
       "private_tables": 13,
-      "private_functions": 4,
-      "isolated_storage_model_controls": 15,
+      "private_functions": 11,
+      "new_private_allocation_model_controls": 15,
+      "retained_storage_model_controls_NOT_rerun": 15,
       "actual_Native_cases": 0,
       "runtime_entry": null,
       "workflow_activated": false,
-      "public_commands_and_UI_implemented": false
+      "public_commands_exposed": false,
+      "private_allocation_owner_implemented": true,
+      "payment_invoice_settlement_and_UI_complete": false
     }
   },
   "remaining_gate_summary_not_full_scope_inventory": [
-    "Bind and check DE96 over the actual accepted Permanent15a parent; activate exactly one Native30 attempt; then qualify FREE3 and AFUI15 on their actual Root-accepted parents without repeating unchanged earlier tests.",
+    "Complete the one active actual DE30 run and verify its canonical Original/full Root gates; only then qualify FREE3 and AFUI15 on their actual Root-accepted parents without repeating unchanged earlier tests.",
     "After the active integration block is stable: implement SKU moving average and FG Mandor purchases with chosen payroll week; apply and verify the prepared tab contrast correction.",
     "Close the current global writer/current-rights/phantom-lock/command-hook and factory/combined acceptance obligations on the final integrated candidate."
   ],
@@ -138,10 +146,17 @@
     "attributes_each": 17,
     "DB_or_ERP_executions": 0,
     "not_full19_or_runtime_acceptance": true,
-    "evidence": "GLOBAL19_AND_NATIVE32_SAVED_ACTUAL_COMPATIBILITY_20261102.json"
+    "evidence": "GLOBAL19_AND_NATIVE32_SAVED_ACTUAL_COMPATIBILITY_20261102.json",
+    "downstream_strict_runner_static_bindings": {
+      "FREE": "PASS actual fe21 source",
+      "AFUI": "PASS actual 098 source",
+      "ERP_imports": 0,
+      "actual_Native_cases": 0,
+      "future_actual_parent_preDB_natural_graph_required": true
+    }
   },
   "continuity": "Use this compact state and the newest estafet header. Savepoints are not stopping points. Check the existing run before any new work or tests.",
-  "operational_update_UTC": "2026-11-02T00:38:02.309338+00:00",
+  "operational_update_UTC": "2026-11-02T01:00:23.285170+00:00",
   "current_qualification_observation_is_earlier_API_snapshot": false,
   "retained_permanent_financial4": {
     "evidence": "CURRENT_PERMANENT23E_ROOT_RETAINED4_20261102.json",

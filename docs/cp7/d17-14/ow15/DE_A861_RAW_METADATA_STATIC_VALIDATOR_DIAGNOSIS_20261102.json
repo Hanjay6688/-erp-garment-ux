@@ -1,0 +1,9 @@
+{
+  "classification": "OFFLINE_REUSE_ACTUAL_FAILED_A861_RAW_METADATA_BEFORE_CATALOG_NOT_QUALIFICATION",
+  "original_observation_status": "RAW_READONLY_METADATA_UNAVAILABLE",
+  "actual_functions": 2979,
+  "actual_SQL_executed": 0,
+  "actual_Native_cases": 0,
+  "global_qualified": false,
+  "saved_catalog_structural_check": "PASS"
+}

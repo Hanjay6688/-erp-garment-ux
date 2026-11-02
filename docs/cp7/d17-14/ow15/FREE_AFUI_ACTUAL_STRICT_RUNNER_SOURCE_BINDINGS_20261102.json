@@ -1,0 +1,133 @@
+{
+  "FREE": {
+    "status": "ACTUAL_PREPARED_FREE_STRICT_RUNNER_STATIC_BINDING_AND_API_PASS",
+    "head": "fe21e26e9ca1fb8428dc0b1f86f16b03de2c9fcb",
+    "source_pins": {
+      "scripts/current-de-free-date-preparation/component.py": {
+        "bytes": 10169,
+        "sha256": "4fea2d66c65cb3a29b56a95b753f4e5ec7fa193e80fa777951b1f9eeae9d5342"
+      },
+      "scripts/current-de-free-date-preparation/native_free.py": {
+        "bytes": 15045,
+        "sha256": "804cd2862a426e11c883f7252c553059af7fdc919cb8a2de8fa3ee0917326575"
+      },
+      "scripts/cp6_auditor_runner.py": {
+        "bytes": 14911,
+        "sha256": "2c74439f7e919e2adb2484bc774bef4881e71237124f2e6b6dabdab141348ea7"
+      },
+      "scripts/cp6_aw_probe.py": {
+        "bytes": 61996,
+        "sha256": "b67a896d3ddc593fb226598a1987d3716eed8684b311c5bd3c6ae1ac967f6532"
+      },
+      "scripts/cp6_au_r1_probe.py": {
+        "bytes": 29829,
+        "sha256": "451d3d5cbf34fed8f6ba0bf6445cee08e5198d6979f1fd1fbc68f9e299d3724b"
+      }
+    },
+    "bindings": [
+      {
+        "path": "scripts/current-de-free-date-preparation/component.py",
+        "symbol": "native",
+        "expression": "work.runner"
+      },
+      {
+        "path": "scripts/current-de-free-date-preparation/native_free.py",
+        "symbol": "runner",
+        "expression": "importlib.import_module('cp6_auditor_runner')"
+      }
+    ],
+    "actual_ERP_imports": 0,
+    "actual_SQL_executed": 0,
+    "parent_gates_bypassed": false,
+    "actual_Native_cases": 0,
+    "actual_Auth_HTTP_cases": 0,
+    "actual_browser_cases": 0,
+    "actual_two_session_races": 0,
+    "final_actual_parent_preDB_natural_graph_still_required": true,
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "AFUI": {
+    "status": "ACTUAL_PREPARED_AFUI_STRICT_RUNNER_STATIC_BINDING_AND_API_PASS",
+    "head": "098dbd8769cbbf6f0502750a7c2a770959e02385",
+    "source_pins": {
+      "scripts/cp7_accessory_nonpayable/qualification_component.py": {
+        "bytes": 10155,
+        "sha256": "a1e6897a4b92f32f6deee689c78995085dd20bb58afb77a1796d79a992e73d48"
+      },
+      "scripts/cp7_p21_current_chain_rehearsal_probe.py": {
+        "bytes": 47571,
+        "sha256": "113bda42019a4617dd904e37af86ba7bc3cd6577baeefa741c51867bf7af24f0"
+      },
+      "scripts/ow04-payment-used-restore-qualification/probe.py": {
+        "bytes": 22328,
+        "sha256": "f3c3e1be7ff9230a516427e97073199ed9fbf6220bcc8880f1d6a8c8483f181b"
+      },
+      "scripts/ow04-payment-source-qualification/source_probe.py": {
+        "bytes": 8226,
+        "sha256": "fe8faa04ba6445fc54ff6daeee05753e78a6a73212b24b9d240f4d1fe58d3dad"
+      },
+      "scripts/cp7_full_ow04_probe.py": {
+        "bytes": 10652,
+        "sha256": "f13f9002ab507c6b393f36ddd7fa30e6602a30a893616ca67ec4f79a07c9e13a"
+      },
+      "scripts/cp7_ow04_probe.py": {
+        "bytes": 15817,
+        "sha256": "22bf41a67d3a4e42c48cc753938d0e7d39885ebf773d0111b4a620b323ed5a36"
+      },
+      "scripts/cp7_f05_analysis_probe.py": {
+        "bytes": 49648,
+        "sha256": "d3135a9c00a81a3cd7db45f0e6d9013da19180d5b827f5f999a5a1f6aaa8bcf0"
+      },
+      "scripts/cp6_auditor_runner.py": {
+        "bytes": 14911,
+        "sha256": "2c74439f7e919e2adb2484bc774bef4881e71237124f2e6b6dabdab141348ea7"
+      },
+      "scripts/cp6_aw_probe.py": {
+        "bytes": 61996,
+        "sha256": "b67a896d3ddc593fb226598a1987d3716eed8684b311c5bd3c6ae1ac967f6532"
+      },
+      "scripts/cp6_au_r1_probe.py": {
+        "bytes": 29829,
+        "sha256": "451d3d5cbf34fed8f6ba0bf6445cee08e5198d6979f1fd1fbc68f9e299d3724b"
+      }
+    },
+    "bindings": [
+      {
+        "path": "scripts/cp7_accessory_nonpayable/qualification_component.py",
+        "symbol": "native",
+        "expression": "control.native"
+      },
+      {
+        "path": "scripts/cp7_accessory_nonpayable/qualification_component.py",
+        "symbol": "control",
+        "expression": "helper.control"
+      },
+      {
+        "path": "scripts/ow04-payment-source-qualification/source_probe.py",
+        "symbol": "native",
+        "expression": "previous.native"
+      },
+      {
+        "path": "scripts/cp7_full_ow04_probe.py",
+        "symbol": "native",
+        "expression": "core.native"
+      },
+      {
+        "path": "scripts/cp7_ow04_probe.py",
+        "symbol": "native",
+        "expression": "predecessor.native"
+      }
+    ],
+    "actual_ERP_imports": 0,
+    "actual_SQL_executed": 0,
+    "parent_gates_bypassed": false,
+    "actual_Native_cases": 0,
+    "actual_Auth_HTTP_cases": 0,
+    "actual_browser_cases": 0,
+    "actual_two_session_races": 0,
+    "final_actual_parent_preDB_natural_graph_still_required": true,
+    "production_go": false,
+    "independent_acceptance": false
+  }
+}

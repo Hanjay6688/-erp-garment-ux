@@ -1,0 +1,46 @@
+{
+  "status": "FG_MANDOR_PRIVATE_ALLOCATION_OWNER_PREPARED_MODEL_NOT_NATIVE_OR_UI_ACCEPTANCE",
+  "public_head": "9a557930a4bb3ac9f2becbac3ced3d26689f170d",
+  "tree": "f0e9af83cb3a652c59b4b72798715d588ebefbf9",
+  "local_head": "1528089d8265f6b504ae44f09daa7c3d63487a14",
+  "branch": "astra-a/fg-mandor-storage-source-prepared-20261102",
+  "leased_expected_parent": "452c304fe5656578b29a423cc53520ce5055c5f8",
+  "own_paths": 16,
+  "source_pins": 15,
+  "private_tables": 13,
+  "private_functions": 11,
+  "new_allocation_model_controls": 15,
+  "retained_storage_controls_NOT_rerun": 15,
+  "actual_Native_cases": 0,
+  "public_commands_exposed": false,
+  "runtime_entry": null,
+  "production_go": false,
+  "independent_acceptance": false,
+  "actual_owning_implementation": [
+    "explicit contractor identity",
+    "selected payroll week",
+    "invoice remainder minus reservations across all payrolls",
+    "draft payroll capacity and Native recalculation",
+    "immutable actor/request outcome and changed-payload refusal",
+    "source review token and NOWAIT locks",
+    "rights-table phantom protection and post-lock permission reread",
+    "editable-only release preserving allocation history",
+    "inactive invoice retains current reserved card"
+  ],
+  "actual_model_boundaries": [
+    "one PostgreSQL/WASM backend",
+    "Auth/permissions/invoice monetary projection modeled",
+    "exact accepted Native recalculation and meaning definitions reused",
+    "no real Native payment or invoice settlement",
+    "no Auth HTTP, browser or simultaneous two-session execution"
+  ],
+  "remaining": [
+    "actual final-parent owning installation and full source admission",
+    "sales category/master selection and posted buyer hook",
+    "actual noncash offset and common invoice paid projection",
+    "positive installments and zero cash completion",
+    "return/correction/cancellation and financial reversal hooks",
+    "desktop/mobile card popup and real simultaneous two-tab checks",
+    "full native stock/HPP/cash/AR/report reconciliation and ordinary store regression"
+  ]
+}
