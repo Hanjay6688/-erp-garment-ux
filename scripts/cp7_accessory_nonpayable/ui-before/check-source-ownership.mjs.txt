@@ -1,0 +1,422 @@
+import assert from 'node:assert/strict'
+import { readFileSync, readdirSync } from 'node:fs'
+import { dirname, extname, relative, resolve } from 'node:path'
+
+const root = resolve('src')
+const sourceExtensions = new Set(['.ts', '.tsx', '.css'])
+const sourceFiles = []
+
+function walk(directory) {
+  for (const entry of readdirSync(directory, { withFileTypes: true })) {
+    const file = resolve(directory, entry.name)
+    if (entry.isDirectory()) walk(file)
+    else if (sourceExtensions.has(extname(file))) sourceFiles.push(file)
+  }
+}
+
+walk(root)
+
+const sourceSet = new Set(sourceFiles)
+const dependencies = new Map(sourceFiles.map((file) => [file, []]))
+const importPattern = /(?:import|export)\s+(?:[^'";]*?\s+from\s+)?['"]([^'"]+)['"]|import\(\s*['"]([^'"]+)['"]\s*\)/g
+
+function resolveImport(importer, specifier) {
+  if (!specifier.startsWith('.')) return null
+  const candidate = resolve(dirname(importer), specifier)
+  for (const file of [
+    candidate,
+    `${candidate}.ts`,
+    `${candidate}.tsx`,
+    `${candidate}.css`,
+    resolve(candidate, 'index.ts'),
+    resolve(candidate, 'index.tsx'),
+  ]) {
+    if (sourceSet.has(file)) return file
+  }
+  return null
+}
+
+for (const file of sourceFiles) {
+  const source = readFileSync(file, 'utf8')
+  for (const match of source.matchAll(importPattern)) {
+    const dependency = resolveImport(file, match[1] ?? match[2])
+    if (dependency) dependencies.get(file).push(dependency)
+  }
+}
+
+const reachable = new Set()
+const pending = [resolve(root, 'main.tsx')]
+while (pending.length > 0) {
+  const file = pending.pop()
+  if (!file || reachable.has(file)) continue
+  reachable.add(file)
+  pending.push(...(dependencies.get(file) ?? []))
+}
+
+const isTestSource = (file) => /(?:\.test\.|\.d\.ts$)/.test(file)
+const orphaned = sourceFiles
+  .filter((file) => !isTestSource(file) && !reachable.has(file))
+  .map((file) => relative(process.cwd(), file))
+  .sort()
+
+assert.deepEqual(
+  orphaned,
+  [],
+  `Runtime source is not owned by the main import graph:\n${orphaned.join('\n')}`,
+)
+
+const unsafeRendering = /\b(?:innerHTML|insertAdjacentHTML|dangerouslySetInnerHTML|document\.write)\b/
+const dataReads = []
+const rpcOwnership = new Set()
+
+for (const file of sourceFiles.filter((candidate) => !isTestSource(candidate) && extname(candidate) !== '.css')) {
+  const source = readFileSync(file, 'utf8')
+  const name = relative(process.cwd(), file)
+  assert.equal(unsafeRendering.test(source), false, `Unsafe HTML rendering boundary in ${name}`)
+  assert.equal(/\.schema\s*\(/.test(source), false, `Direct schema boundary opened in ${name}`)
+  for (const match of source.matchAll(/\.from\s*\(\s*['"]([^'"]+)['"]\s*\)/g)) {
+    dataReads.push({ file: name, relation: match[1] })
+  }
+  const rpcInvocations = [...source.matchAll(/\.rpc\s*\(/g)]
+  const literalRpcInvocations = [...source.matchAll(/\.rpc\s*\(\s*['"]([^'"]+)['"]/g)]
+  assert.equal(
+    rpcInvocations.length,
+    literalRpcInvocations.length,
+    `Dynamic/unowned RPC name in ${name}`,
+  )
+  literalRpcInvocations.forEach((match) => rpcOwnership.add(`${name}:${match[1]}`))
+}
+
+assert.deepEqual(dataReads, [], 'Browser code must not read ERP tables/views directly')
+
+assert.deepEqual([...rpcOwnership].sort(), [
+  'src/nativeProductAnalog.ts:erp_cp7_read_product_analog_candidates_v1',
+  'src/nativeProductAnalogChoice.ts:erp_cp7_get_product_analog_choices_v1',
+  'src/nativeProductAnalogChoice.ts:erp_cp7_save_product_analog_choice_v1',
+  'src/NativeCuttingStatusPanel.tsx:erp_cp7_get_cutting_status_policy_request_v1',
+  'src/NativeCuttingStatusPanel.tsx:erp_cp7_get_cutting_status_v1',
+  'src/NativeCuttingStatusPanel.tsx:erp_cp7_save_cutting_status_policy_v1',
+  'src/NativeInitialAnalysisPanel.tsx:erp_cp7_request_staged_analysis_v1',
+  'src/nativeCuttingSuggestion.ts:erp_cp7_save_cutting_suggestion_v1',
+
+  'src/NativeFabricRecipePanel.tsx:erp_cp7_get_fabric_recipe_v1',
+  'src/NativeFabricRecipePanel.tsx:erp_cp7_save_fabric_recipe_v1',
+  'src/CuttingCorrectionPanel.tsx:erp_cp7_get_cutting_correction_v1',
+  'src/CuttingCorrectionPanel.tsx:erp_cp7_reopen_cutting_v1',
+  'src/CuttingFabricReturnPanel.tsx:erp_cp7_get_cutting_return_v1',
+  'src/CuttingFabricReturnPanel.tsx:erp_cp7_return_cutting_fabric_v1',
+  'src/CuttingFabricReturnReversalPanel.tsx:erp_cp7_get_cutting_return_reversal_v1',
+  'src/CuttingFabricReturnReversalPanel.tsx:erp_cp7_reverse_cutting_return_v1',
+  'src/PickupReversalPanel.tsx:erp_cp7_get_pickup_reversal_v1',
+  'src/PickupReversalPanel.tsx:erp_cp7_reverse_pickup_v1',
+  'src/SewingCompletionPanel.tsx:erp_cp7_get_sewing_completion_v1',
+  'src/SewingCompletionPanel.tsx:erp_cp7_save_sewing_completion_v1',
+  'src/PoFinishPanel.tsx:erp_cp7_list_po_finish_v1',
+  'src/PoFinishPanel.tsx:erp_cp7_get_po_finish_v1',
+  'src/PoFinishPanel.tsx:erp_cp7_finish_po_v1',
+  'src/PoFinishPanel.tsx:erp_cp7_get_po_reopen_v1',
+  'src/PoFinishPanel.tsx:erp_cp7_reopen_po_v1',
+  'src/ConnectedMasterPage.tsx:erp_cp7_get_master_v1',
+  'src/ConnectedMasterPage.tsx:erp_cp7_save_master_v1',
+  'src/CutoverPanel.tsx:erp_cp7_get_cutover_v1',
+  'src/CutoverPanel.tsx:erp_cp7_set_cutover_v1',
+  'src/ConnectedRemindersPage.tsx:erp_cp7_get_reminders_v1',
+  'src/ConnectedRemindersPage.tsx:erp_cp7_save_reminder_v1',
+  'src/SystemRemindersPanel.tsx:erp_cp7_get_alerts_v1',
+  'src/WaConnectionPanel.tsx:erp_cp7_get_wa_settings_v1',
+  'src/WaConnectionPanel.tsx:erp_cp7_save_wa_settings_v1',
+  'src/WaConnectionPanel.tsx:erp_cp7_set_wa_key_v1',
+  'src/WaConnectionPanel.tsx:erp_cp7_send_wa_test_v1',
+  'src/WaConnectionPanel.tsx:erp_cp7_resolve_wa_dispatch_v1',
+  'src/ConnectedAuditTrailPage.tsx:erp_cp7_get_audit_trail_v1',
+  'src/ConnectedCuttingPage.tsx:erp_cp7_get_cutting_auto_po_v1',
+  'src/ConnectedCuttingPage.tsx:erp_cp7_save_cutting_auto_po_v1',
+  'src/WorkRatePanel.tsx:erp_cp7_get_work_rates_v1',
+  'src/WorkRatePanel.tsx:erp_cp7_save_work_rate_v1',
+  'src/PayrollKasbonPanel.tsx:erp_cp7_get_kasbon_v1',
+  'src/PayrollKasbonPanel.tsx:erp_cp7_save_kasbon_v1',
+  'src/SalesInvoiceDependencies.tsx:erp_cp7_get_sales_cash_v1',
+  'src/SalesInvoiceDependencies.tsx:erp_cp7_get_sales_returns_v1',
+  'src/TransactionSourceNavigation.tsx:erp_cp7_resolve_transaction_source_v1',
+  'src/LaundryReceiptDependencies.tsx:erp_cp7_get_transaction_dependencies_v1',
+  'src/NativeObligationReportsPanel.tsx:erp_cp7_get_obligation_report_preview_v1',
+  'src/NativeObligationReportsPanel.tsx:erp_cp7_read_obligation_report_v1',
+  'src/NativeObligationReportsPanel.tsx:erp_cp7_publish_obligation_report_v1',
+  'src/NativeObligationReportsPanel.tsx:erp_cp7_get_obligation_report_request_v1',
+  'src/NativeObligationReportsPanel.tsx:erp_cp7_list_obligation_reports_v1',
+  'src/NativeAnalysisReportsPanel.tsx:erp_cp7_publish_report_v1',
+  'src/NativeAnalysisReportsPanel.tsx:erp_cp7_get_report_request_v1',
+  'src/NativeAnalysisReportsPanel.tsx:erp_cp7_read_report_v1',
+  'src/NativeRuleSourcePanel.tsx:erp_cp7_get_rule_conditions_v1',
+  'src/NativeRuleSourcePanel.tsx:erp_cp7_evaluate_rule_episodes_v1',
+  'src/NativeRuleSourcePanel.tsx:erp_cp7_get_rule_episode_request_v1',
+  'src/NativeRuleSourcePanel.tsx:erp_cp7_get_local_reminders_v1',
+  'src/NativeRuleSourcePanel.tsx:erp_cp7_save_local_binding_v1',
+  'src/NativeRuleSourcePanel.tsx:erp_cp7_claim_local_preview_v1',
+  'src/NativeRuleSourcePanel.tsx:erp_cp7_finish_local_preview_v1',
+  'src/NativeRuleSourcePanel.tsx:erp_cp7_resolve_local_preview_v1',
+  'src/NativeRuleSourcePanel.tsx:erp_cp7_get_local_reminder_request_v1',
+  'src/NativeReminderPolicyPanel.tsx:erp_cp7_get_reminder_policy_history_v1',
+  'src/NativeReminderPolicyPanel.tsx:erp_cp7_get_reminder_policy_v1',
+  'src/NativeReminderPolicyPanel.tsx:erp_cp7_get_reminder_policy_request_v1',
+  'src/NativeReminderPolicyPanel.tsx:erp_cp7_save_reminder_policy_v1',
+  'src/NativeAnalysisReportsPanel.tsx:erp_cp7_list_reports_v1',
+  'src/NativeAnalysisReportsPanel.tsx:erp_cp7_compare_reports_v1',
+  'src/NativeStagedReportsPanel.tsx:erp_cp7_publish_report_v2',
+  'src/NativeStagedReportsPanel.tsx:erp_cp7_compare_reports_v2',
+  'src/NativeStagedReportsPanel.tsx:erp_cp7_get_report_request_v2',
+  'src/NativeStagedReportsPanel.tsx:erp_cp7_step_report_v2',
+  'src/NativeStagedReportsPanel.tsx:erp_cp7_read_report_v2',
+  'src/NativeStagedReportsPanel.tsx:erp_cp7_read_report_section_v2',
+  'src/NativeStagedReportsPanel.tsx:erp_cp7_list_reports_v2',
+  'src/NativeStagedAiPanel.tsx:erp_cp7_get_staged_ai_brief_v1',
+  'src/NativeStagedAiPanel.tsx:erp_cp7_get_finance_report_v1',
+  'src/NativeStagedRemindersPanel.tsx:erp_cp7_step_reminder_conditions_v2',
+  'src/NativeStagedRemindersPanel.tsx:erp_cp7_read_reminder_conditions_v2',
+  'src/NativeStagedRemindersPanel.tsx:erp_cp7_get_reminder_obligations_v2',
+  'src/NativeStagedRemindersPanel.tsx:erp_cp7_recheck_reminder_v2',
+  'src/NativeStagedRemindersPanel.tsx:erp_cp7_get_reminder_workspace_v2',
+  'src/NativeStagedRemindersPanel.tsx:erp_cp7_save_reminder_policy_v2',
+  'src/NativeStagedRemindersPanel.tsx:erp_cp7_save_reminder_binding_v2',
+  'src/NativeStagedRemindersPanel.tsx:erp_cp7_claim_reminder_v2',
+  'src/NativeStagedRemindersPanel.tsx:erp_cp7_finish_reminder_v2',
+  'src/NativeStagedRemindersPanel.tsx:erp_cp7_resolve_reminder_claim_v2',
+  'src/NativeStagedRemindersPanel.tsx:erp_cp7_get_reminder_request_v2',
+  'src/NativeHistoryYieldPolicyPanel.tsx:erp_cp7_get_history_yield_policy_v1',
+  'src/NativeHistoryYieldPolicyPanel.tsx:erp_cp7_save_history_yield_policy_v1',
+  'src/NativePlanDraftPanel.tsx:erp_cp7_get_plan_options_v1',
+  'src/NativePlanDraftPanel.tsx:erp_cp7_save_plan_draft_v1',
+  'src/NativePlanDraftPanel.tsx:erp_cp7_preview_plan_action_v1',
+  'src/NativePlanDraftPanel.tsx:erp_cp7_apply_plan_action_v1',
+  'src/NativePlanDraftPanel.tsx:erp_cp7_read_plan_draft_v1',
+  'src/NativePlanDraftPanel.tsx:erp_cp7_get_plan_options_v2',
+  'src/NativePlanDraftPanel.tsx:erp_cp7_save_plan_draft_v2',
+  'src/NativePlanDraftPanel.tsx:erp_cp7_preview_plan_action_v2',
+  'src/NativePlanDraftPanel.tsx:erp_cp7_apply_plan_action_v2',
+  'src/NativePlanDraftPanel.tsx:erp_cp7_read_plan_draft_v2',
+  'src/NativePlanDraftPanel.tsx:erp_cp7_read_plan_actual_v1',
+  'src/NativeModelEvaluationPanel.tsx:erp_cp7_capture_model_evaluation_v1',
+  'src/NativeModelEvaluationPanel.tsx:erp_cp7_read_model_evaluation_v1',
+  'src/nativeModelPolicy.ts:erp_cp7_get_model_activation_policy_v1',
+  'src/nativeModelPolicy.ts:erp_cp7_save_model_activation_policy_v1',
+  'src/nativeModelEvaluationV2.ts:erp_cp7_capture_model_evaluation_v2',
+  'src/nativeModelEvaluationV2.ts:erp_cp7_read_model_evaluation_v2',
+  'src/nativeScopedModel.ts:erp_cp7_capture_model_evaluation_v3',
+  'src/nativeScopedModel.ts:erp_cp7_capture_model_history_v1',
+  'src/nativeScopedModel.ts:erp_cp7_read_model_evaluation_v3',
+  'src/nativeScopedModel.ts:erp_cp7_read_model_history_v1',
+  'src/NativeAnalysisPanel.tsx:erp_cp7_capture_analysis_v1',
+  'src/NativeAnalysisPanel.tsx:erp_cp7_capture_operational_analysis_v1',
+  'src/NativeAnalysisPanel.tsx:erp_cp7_read_analysis_v1',
+  'src/NativeAnalysisPanel.tsx:erp_cp7_request_analysis_job_v1',
+  'src/NativeAnalysisPanel.tsx:erp_cp7_request_operational_analysis_job_v1',
+  'src/NativeAnalysisPanel.tsx:erp_cp7_run_analysis_job_v1',
+  'src/NativeAnalysisPanel.tsx:erp_cp7_get_analysis_job_v1',
+  'src/NativeAnalysisPanel.tsx:erp_cp7_read_analysis_manifest_v1',
+  'src/NativeAnalysisPanel.tsx:erp_cp7_read_analysis_segment_v1',
+  'src/NativeAnalysisPanel.tsx:erp_cp7_request_staged_analysis_v1',
+  'src/NativeAnalysisPanel.tsx:erp_cp7_step_staged_analysis_v1',
+  'src/NativeAnalysisPanel.tsx:erp_cp7_get_staged_analysis_v1',
+  'src/NativeAnalysisPanel.tsx:erp_cp7_read_staged_analysis_pages_v1',
+  'src/NativeAnalysisPanel.tsx:erp_cp7_read_staged_analysis_page_v1',
+  'src/NativeAnalysisPanel.tsx:erp_cp7_staged_snapshot_freshness_v1',
+  'src/NativeAnalysisPanel.tsx:erp_cp7_check_staged_snapshot_v1',
+  'src/NativeAnalysisPanel.tsx:erp_cp7_get_analysis_attention_v1',
+  'src/NativeAnalysisPanel.tsx:erp_cp7_save_analysis_attention_v1',
+  'src/NativeAnalysisPanel.tsx:erp_cp7_get_analysis_attention_request_v1',
+  'src/NativeAnalysisPanel.tsx:erp_cp7_get_analysis_receivable_conditions_v1',
+  'src/NativeAnalysisPanel.tsx:erp_cp7_get_analysis_payable_conditions_v1',
+  'src/NativeAnalysisPanel.tsx:erp_cp7_evaluate_obligation_episodes_v1',
+  'src/NativeAnalysisPanel.tsx:erp_cp7_get_obligation_episode_request_v1',
+  'src/NativeAnalysisPanel.tsx:erp_cp7_get_obligation_episode_history_v1',
+  'src/NativeAnalysisPanel.tsx:erp_cp7_list_analysis_archives_v1',
+  'src/NativeProductionPlanningPanel.tsx:erp_cp7_capture_production_supply_v1',
+  'src/NativeProductionPlanningPanel.tsx:erp_cp7_read_production_supply_v1',
+  'src/NativeProductionPlanningPanel.tsx:erp_cp7_get_production_schedule_v1',
+  'src/NativeProductionPlanningPanel.tsx:erp_cp7_save_production_schedule_v1',
+  'src/NativeProductionPlanningPanel.tsx:erp_cp7_capture_netting_v1',
+  'src/NativeProductionPlanningPanel.tsx:erp_cp7_read_netting_v1',
+  'src/NativePlanningProfilePanel.tsx:erp_cp7_get_planning_profiles_v1',
+  'src/NativePlanningProfilePanel.tsx:erp_cp7_save_planning_profile_v1',
+  'src/NativePlanningProfilePanel.tsx:erp_cp7_capture_baseline_v1',
+  'src/NativePlanningProfilePanel.tsx:erp_cp7_read_baseline_v1',
+  'src/NativeDemandHistoryPanel.tsx:erp_cp7_capture_demand_history_v1',
+  'src/NativeCuttingYieldPanel.tsx:erp_cp7_capture_cutting_yield_v1',
+  'src/NativeCuttingYieldPanel.tsx:erp_cp7_read_cutting_yield_v1',
+  'src/NativeCuttingInputsPanel.tsx:erp_cp7_get_cutting_input_workspace_v1',
+  'src/NativeCuttingLearningPanel.tsx:erp_cp7_get_cutting_input_workspace_v1',
+  'src/NativeCuttingLearningPanel.tsx:erp_cp7_get_cutting_model_workspace_v1',
+  'src/NativeCuttingLearningPanel.tsx:erp_cp7_capture_cutting_model_v1',
+  'src/NativeCuttingLearningPanel.tsx:erp_cp7_get_cutting_model_request_v1',
+  'src/NativeCuttingLearningPanel.tsx:erp_cp7_capture_cutting_observation_v1',
+  'src/NativeCuttingLearningPanel.tsx:erp_cp7_get_cutting_observation_request_v1',
+  'src/NativeCuttingInputsPanel.tsx:erp_cp7_record_cutting_inputs_v1',
+  'src/NativeCuttingInputsPanel.tsx:erp_cp7_get_cutting_input_request_v1',
+  'src/NativeDemandHistoryPanel.tsx:erp_cp7_read_demand_history_v1',
+  'src/SalesDraftPanel.tsx:erp_cp7_get_sales_form_v1',
+  'src/SalesPaymentPanel.tsx:erp_cp7_get_sales_cash_v1',
+  'src/SalesPaymentCorrectionPanel.tsx:erp_cp7_get_sales_payment_correction_v1',
+  'src/SupplierPaymentCorrectionPanel.tsx:erp_cp7_get_supplier_payment_correction_v1',
+  'src/SupplierPaymentPanel.tsx:erp_cp7_correct_supplier_payment_v1',
+  'src/SupplierPaymentPanel.tsx:erp_cp7_create_supplier_payment_v1',
+  'src/SupplierPaymentCreatePanel.tsx:erp_cp7_get_supplier_payment_create_v1',
+  'src/SupplierTransferPanel.tsx:erp_cp7_get_supplier_transfer_v1',
+  'src/SupplierTransferPanel.tsx:erp_cp7_save_supplier_transfer_v1',
+  'src/MandorCorrectionPanel.tsx:erp_cp7_correct_mandor_v1',
+  'src/MandorCorrectionPanel.tsx:erp_cp7_get_mandor_correction_v1',
+  'src/MandorCorrectionPanel.tsx:erp_cp7_get_sewing_completion_v1',
+  'src/ConnectedSalesPage.tsx:erp_cp7_correct_sales_payment_v1',
+  'src/ConnectedSalesPage.tsx:erp_cp7_correct_sales_return_v1',
+  'src/SalesReturnCorrectionPanel.tsx:erp_cp7_get_sales_return_correction_v1',
+  'src/SalesReturnPanel.tsx:erp_cp7_get_sales_returns_v1',
+  'src/SalesReturnPanel.tsx:erp_cp7_get_sales_return_settlement_quote_v1',
+  'src/SalesCreditDependencies.tsx:erp_cp7_get_sales_credit_dependencies_v1',
+  'src/CustomerCreditPanel.tsx:erp_cp7_get_customer_credit_workspace_v1',
+  'src/CustomerCreditPanel.tsx:erp_cp7_get_customer_credit_review_v1',
+  'src/ConnectedSalesPage.tsx:erp_cp7_customer_credit_command_v1',
+  'src/ConnectedFinanceReportPage.tsx:erp_cp7_get_finance_report_v1',
+  'src/ConnectedCashLedgerPage.tsx:erp_cp7_get_finance_analysis_v1',
+  'src/ConnectedFinanceOverviewPage.tsx:erp_cp7_get_finance_report_v1',
+  'src/ConnectedReceivablesPage.tsx:erp_cp7_get_sales_v1',
+  'src/ConnectedCustomerHistoryPage.tsx:erp_cp7_get_customer_history_v1',
+  'src/ConnectedJournalPage.tsx:erp_cp7_get_journal_book_v1',
+  'src/MiscFinancePanel.tsx:erp_cp7_get_misc_finance_v1',
+  'src/MiscFinancePanel.tsx:erp_cp7_save_misc_finance_v1',
+  'src/MiscFinancePanel.tsx:erp_cp7_correct_misc_finance_v1',
+  'src/MiscFinancePanel.tsx:erp_cp7_get_misc_correction_history_v1',
+  'src/PayrollInstallmentPanel.tsx:erp_cp7_get_payroll_installments_v1',
+  'src/PayrollInstallmentPanel.tsx:erp_cp7_save_payroll_installment_v1',
+  'src/FinanceAnalysisPanel.tsx:erp_cp7_get_finance_analysis_v1',
+  'src/RecostQueuePanel.tsx:erp_cp7_get_recost_queue_v1',
+  'src/RecostQueuePanel.tsx:erp_cp7_process_recost_v1',
+  'src/FinancePeriodPanel.tsx:erp_cp7_get_period_control_v1',
+  'src/FinancePeriodPanel.tsx:erp_cp7_save_period_control_v1',
+  'src/AttendanceHppPoolPanel.tsx:erp_cp7_get_hpp_pools_v1',
+  'src/AttendanceHppPoolPanel.tsx:erp_cp7_save_hpp_pool_v1',
+  'src/ConnectedSalesPage.tsx:erp_cp7_get_sales_v1',
+  'src/ConnectedSalesPage.tsx:erp_cp7_save_sale_v1',
+  'src/ConnectedSalesPage.tsx:erp_cp7_settle_sales_return_v1',
+  'src/ConnectedSalesPage.tsx:erp_cp7_reverse_sales_chain_v1',
+  'src/SalesChainReversalPanel.tsx:erp_cp7_get_sales_chain_v1',
+  'src/ConnectedSalesPage.tsx:erp_cp7_get_note_correction_v2',
+  'src/ConnectedSalesPage.tsx:erp_cp7_correct_note_v1',
+  'src/ConnectedPayrollPage.tsx:erp_cp7_get_payroll_workspace_v1',
+  'src/ConnectedPayrollPage.tsx:erp_cp7_save_payroll_v1',
+  'src/ConnectedAttendancePage.tsx:erp_cp7_get_attendance_workspace_v1',
+  'src/ConnectedAttendancePage.tsx:erp_cp7_save_roster_v1',
+  'src/ConnectedAttendancePage.tsx:erp_cp7_get_attendance_entry_v1',
+  'src/ConnectedAttendancePage.tsx:erp_cp7_preview_attendance_v1',
+  'src/ConnectedAttendancePage.tsx:erp_cp7_save_attendance_v1',
+  'src/ConnectedNotaPage.tsx:erp_cp7_get_nota_workspace_v1',
+  'src/ConnectedNotaPage.tsx:erp_cp7_save_nota_v1',
+  'src/ConnectedFgAdjustmentPage.tsx:erp_cp7_get_fg_v1',
+  'src/ConnectedFgAdjustmentPage.tsx:erp_cp7_get_fg_adjustments_v1',
+  'src/ConnectedFgAdjustmentPage.tsx:erp_cp7_save_fg_adjustment_v1',
+  'src/ConnectedFgBookPage.tsx:erp_cp7_get_fg_book_v2',
+  'src/ConnectedFgBookPage.tsx:erp_cp7_get_fg_book_options_v1',
+  'src/ConnectedFgBookPage.tsx:erp_cp7_save_fg_book_v1',
+  'src/ConnectedFgStockPage.tsx:erp_cp7_get_fg_v1',
+  'src/ConnectedFgStockPage.tsx:erp_cp7_get_fg_ledger_v2',
+  'src/FgReorderPanel.tsx:erp_cp7_get_fg_reorder_v1',
+  'src/FgReorderPanel.tsx:erp_cp7_refresh_fg_reorder_v1',
+  'src/FgReorderPanel.tsx:erp_cp7_save_fg_reorder_manual_v1',
+  'src/FgReorderPanel.tsx:erp_cp7_save_stock_formula_settings_v1',
+  'src/MaterialReorderPanel.tsx:erp_cp7_get_material_reorder_v1',
+  'src/MaterialReorderPanel.tsx:erp_cp7_refresh_material_reorder_v1',
+  'src/MaterialReorderPanel.tsx:erp_cp7_save_material_reorder_v1',
+  'src/ConnectedMaterialCountPage.tsx:erp_cp7_get_materials_v1',
+  'src/ConnectedMaterialCountPage.tsx:erp_cp7_get_material_counts_v1',
+  'src/MaterialCountSourcePicker.tsx:erp_cp7_get_material_count_options_v1',
+  'src/MaterialCountSourcePicker.tsx:erp_cp7_get_material_locations_v1',
+  'src/ConnectedMaterialCountPage.tsx:erp_cp7_preview_material_count_v1',
+  'src/ConnectedMaterialCountPage.tsx:erp_cp7_save_material_count_v1',
+  'src/SupplierReturnPanel.tsx:erp_cp7_get_supplier_return_sources_v1',
+  'src/SupplierReturnPanel.tsx:erp_cp7_get_supplier_returns_v1',
+  'src/SupplierReturnPanel.tsx:erp_cp7_save_supplier_return_v1',
+  'src/SupplierReturnPanel.tsx:erp_cp7_get_procurement_options_v1',
+  'src/PurchaseInvoicePanel.tsx:erp_cp7_get_invoice_sources_v1',
+  'src/PurchaseInvoicePanel.tsx:erp_cp7_get_purchase_invoices_v1',
+  'src/PurchaseInvoicePanel.tsx:erp_cp7_save_purchase_invoice_v1',
+  'src/SupplierPaymentPanel.tsx:erp_cp7_get_supplier_payments_v1',
+  'src/SupplierPaymentPanel.tsx:erp_cp7_reverse_supplier_payment_v1',
+  'src/ConnectedMaterialsPage.tsx:erp_cp7_get_materials_v1',
+  'src/ConnectedMaterialsPage.tsx:erp_cp7_get_material_ledger_v2',
+  'src/ConnectedMaterialsPage.tsx:erp_cp7_get_material_transfers_v1',
+  'src/ConnectedMaterialsPage.tsx:erp_cp7_get_material_locations_v1',
+  'src/ConnectedMaterialsPage.tsx:erp_cp7_save_materials_v1',
+  'src/ConnectedProcurementPage.tsx:erp_cp7_get_procurement_v1',
+  'src/ConnectedProcurementPage.tsx:erp_cp7_get_procurement_options_v1',
+  'src/ConnectedProcurementPage.tsx:erp_cp7_get_procurement_uom_v1',
+  'src/ConnectedProcurementPage.tsx:erp_cp7_save_procurement_v1',
+  'src/ReceiptCorrectionPanel.tsx:erp_cp7_get_receipt_correction_v1',
+  'src/ReceiptCorrectionPanel.tsx:erp_cp7_correct_receipt_v1',
+  'src/ReceiptCorrectionPanel.tsx:erp_cp7_get_procurement_options_v1',
+  'src/MaterialNamePanel.tsx:erp_cp7_get_material_name_v1',
+  'src/MaterialNamePanel.tsx:erp_cp7_rename_material_v1',
+  'src/SkuWaveReferences.tsx:erp_get_sku_workspace_v1',
+  'src/SkuWaveReferences.tsx:erp_save_sku_action_v1',
+  'src/ConnectedSkuHppPage.tsx:erp_get_sku_hpp_v1',
+  'src/ConnectedSkuMasterPage.tsx:erp_get_sku_workspace_v1',
+  'src/ConnectedSkuMasterPage.tsx:erp_save_sku_action_v1',
+  'src/BeReworkTargetFields.tsx:erp_get_laundry_bd_workspace_v1',
+  'src/BeReworkTargetFields.tsx:erp_get_product_conversion_workspace_v1',
+  'src/ConnectedBsResolutionPage.tsx:erp_save_product_conversion_action_v1',
+  'src/ConnectedProductConversionPage.tsx:erp_get_accessory_service_workspace_v1',
+  'src/ConnectedProductConversionPage.tsx:erp_get_product_conversion_workspace_v1',
+  'src/ConnectedProductConversionPage.tsx:erp_save_product_conversion_action_v1',
+  'src/LaundryBdPanel.tsx:erp_save_product_conversion_action_v1',
+  'src/ConnectedAccessoryIssuePage.tsx:erp_get_accessory_issue_workspace_v1',
+  'src/ConnectedAccessoryIssuePage.tsx:erp_save_accessory_issue_action_v1',
+  'src/ConnectedAccessoryServicePage.tsx:erp_get_accessory_service_workspace_v1',
+  'src/ConnectedAccessoryServicePage.tsx:erp_save_accessory_service_action_v1',
+  'src/LaundryBdPanel.tsx:erp_get_laundry_bd_workspace_v1',
+  'src/ConnectedSupplierCreditPage.tsx:erp_get_supplier_credit_v1',
+  'src/ConnectedSupplierCreditPage.tsx:erp_save_supplier_credit_v1',
+  'src/ConnectedWarehouseSummaryPage.tsx:erp_cp7_get_warehouse_summary_v1',
+  'src/LaundrySkuHistory.tsx:erp_get_laundry_history_v1',
+  'src/LaundryBdPanel.tsx:erp_save_laundry_bd_action_v1',
+  'src/AccessControlPage.tsx:erp_deactivate_role_v1',
+  'src/AccessControlPage.tsx:erp_get_access_admin_v1',
+  'src/AccessControlPage.tsx:erp_save_app_user_v3',
+  'src/AccessControlPage.tsx:erp_save_role_v1',
+  'src/ConnectedCuttingPage.tsx:erp_get_cutting_workspace_v2',
+  'src/ConnectedCuttingPage.tsx:erp_save_cutting_group_before_sewing_v2',
+  'src/ConnectedPocketFabricPage.tsx:erp_get_pocket_fabric_workspace_v1',
+  'src/ConnectedPocketFabricPage.tsx:erp_get_pocket_periods_v1',
+  'src/ConnectedPocketFabricPage.tsx:erp_preview_pocket_fabric_period_v1',
+  'src/ConnectedPocketFabricPage.tsx:erp_save_pocket_fabric_action_v1',
+  'src/ConnectedInitialImportPage.tsx:erp_get_initial_import_workspace_v1',
+  'src/ConnectedInitialImportPage.tsx:erp_save_initial_import_action_v1',
+  'src/ConnectedErpSettingsPage.tsx:erp_cp7_get_erp_settings_v1',
+  'src/ConnectedErpSettingsPage.tsx:erp_save_accessory_service_action_v1',
+  'src/ConnectedErpSettingsPage.tsx:erp_save_laundry_bd_action_v1',
+  'src/ConnectedBsResolutionPage.tsx:erp_get_bs_resolution_workspace_v1',
+  'src/ConnectedBsResolutionPage.tsx:erp_cp7_resolve_transaction_source_v1',
+  'src/ConnectedBsResolutionPage.tsx:erp_save_bs_resolution_action_v1',
+  'src/ConnectedPatternFilter.tsx:erp_list_patterns_v1',
+  'src/ConnectedPickupPage.tsx:erp_get_cutting_pickup_queue_v1',
+  'src/ConnectedPickupPage.tsx:erp_save_cutting_pickup_v1',
+  'src/ConnectedWipStatusPage.tsx:erp_get_wip_control_v1',
+  'src/ConnectedWipStatusPage.tsx:erp_set_wip_control_flag_v1',
+  'src/CuttingPatternPicker.tsx:erp_list_patterns_v1',
+  'src/CuttingPatternPicker.tsx:erp_save_pattern_v1',
+  'src/PatternPage.tsx:erp_deactivate_pattern_v1',
+  'src/PatternPage.tsx:erp_list_patterns_v1',
+  'src/PatternPage.tsx:erp_save_pattern_v1',
+  'src/auth/AuthProvider.tsx:erp_get_my_access_v1',
+  'src/useLaundryQcWorkspace.ts:erp_get_laundry_qc_workspace_v1',
+  'src/useLaundryQcWorkspace.ts:erp_save_laundry_qc_action_v1',
+  'src/useLaundryQcWorkspace.ts:erp_search_final_sku_products_v1',
+  'src/useLaundryQcWorkspace.ts:erp_search_laundry_bs_products_v1',
+  'src/NativeProductionPlanningPanel.tsx:erp_cp7_request_staged_analysis_v1',
+  'src/nativeStagedSchedule.ts:erp_cp7_get_staged_production_schedule_v1',
+  'src/nativeStagedSchedule.ts:erp_cp7_save_staged_production_schedule_v1',
+  'src/nativeBoundedAnalysis.ts:erp_cp7_request_bounded_staged_analysis_v1',
+  'src/nativeBoundedQuantity.ts:erp_cp7_get_staged_analysis_v1',
+  'src/nativeBoundedQuantity.ts:erp_cp7_step_staged_analysis_v1',
+  'src/nativeBoundedQuantity.ts:erp_cp7_read_staged_analysis_pages_v1',
+  'src/nativeBoundedQuantity.ts:erp_cp7_read_staged_analysis_page_v1',
+  'src/nativeBoundedQuantity.ts:erp_cp7_check_staged_analysis_source_v1',
+].sort(), 'Browser RPC ownership drift')
+
+console.log(`Source ownership passed: ${reachable.size} runtime files, ${rpcOwnership.size} owned RPC boundaries, no orphan or direct table access.`)

@@ -1,0 +1,59 @@
+{
+  "status": "NORMAL_APP_BROWSER2_SOURCE_PREPARED_NOT_EXECUTED",
+  "unique_new_pure_source_oracle_controls_PASS": 5,
+  "first_failures": 0,
+  "controls_original": {
+    "bytes": 663,
+    "sha256": "68ffeba54bab471a8ce1e63c2e63e5510110b753895cc69ef702a0956803f3b3",
+    "raw": {
+      "status": "BROWSER2_SOURCE_PREPARATION_CONTROLS_PASS",
+      "checks": [
+        {
+          "name": "COMPLETE_BROWSER_CENSUS_AND_EXACT_APPEND_ONLY_DATE_REQUEST_ORACLE",
+          "status": "PASS"
+        },
+        {
+          "name": "BROWSER_ORACLE_REFUSES_MONEY_ACCESS_SEQUENCE_AND_CENSUS_OMISSION",
+          "status": "PASS"
+        },
+        {
+          "name": "BROWSER_ORACLE_REFUSES_ERASED_CHANGED_OR_DUPLICATE_POSTED_DATE_HISTORY",
+          "status": "PASS"
+        },
+        {
+          "name": "BROWSER_FACTORY_REFUSES_MISSING_ACTUAL_PARENT_BEFORE_UI_OR_AUTH",
+          "status": "PASS"
+        },
+        {
+          "name": "NATIVE_BROWSER_PREPARATION_REFUSES_CLOSED_PARENT_BEFORE_CURSOR_USE",
+          "status": "PASS"
+        }
+      ],
+      "actual_Native_cases": 0,
+      "actual_Auth_HTTP_cases": 0,
+      "actual_browser_cases": 0,
+      "production_go": false,
+      "independent_acceptance": false
+    }
+  },
+  "stderr": "",
+  "read_only_source_control": {
+    "bytes": 5776,
+    "sha256": "89ccd7b7a008105b90fa646a965eccc3e46e16fd0164e01aa353ecea847e0f63",
+    "status": "NONPAYABLE_NORMAL_APP_BROWSER2_SOURCE_PREPARED_NOT_EXECUTED",
+    "browser_case_ids": [
+      "NONPAYABLE_BROWSER_DESKTOP_POSTED_USE_REFUSAL_LOST_REPLY_TWO_TABS",
+      "NONPAYABLE_BROWSER_MOBILE390_CANCEL_LATE_SAVE_OWNER_AND_ADMIN_READ_ONLY"
+    ]
+  },
+  "parent_acceptance_bindings_all_None": true,
+  "actual_SQL_executed": 0,
+  "actual_ERP_Native_cases": 0,
+  "actual_Auth_HTTP_cases": 0,
+  "actual_two_session_cases": 0,
+  "actual_browser_cases": 0,
+  "real_browser_qualifier_not_yet_wired": true,
+  "source_only_no_ERP_or_Auth_or_browser_started": true,
+  "production_go": false,
+  "independent_acceptance": false
+}

@@ -1,0 +1,83 @@
+{
+  "status": "NATIVE9_FINISHED_PO_FG_SALES_COGS_SOURCE_PREPARED_NOT_EXECUTED",
+  "unique_new_sales_preparation_controls_PASS": 3,
+  "affected_existing_source_summary_control_PASS": 1,
+  "first_batch_three_PASS_one_cosmetic_Decimal_string_comparison_failure": true,
+  "correction": "Compare exact Decimal values instead of irrelevant -6 versus -6.00 formatting; no runtime financial SQL changed.",
+  "only_affected_numeric_control_rerun_PASS": 1,
+  "logs": {
+    "AFUI_NATIVE_SALES_PREPARATION_CONTROLS.log": {
+      "bytes": 1114,
+      "sha256": "e3b72e3d3e1f585c11c41ee2de7aa96d6acc58b334a43bd3df38d131d3e4497b",
+      "text": "F...\n======================================================================\nFAIL: test_finished_cost_correction_has_independent_sold_and_unsold_shares (cp7_accessory_nonpayable.test_native_sales_preparation.NativeSalesPreparationControls.test_finished_cost_correction_has_independent_sold_and_unsold_shares)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/workspace/scratch/cf5f04e2b451/erp-afui-good-date/scripts/cp7_accessory_nonpayable/test_native_sales_preparation.py\", line 9, in test_finished_cost_correction_has_independent_sold_and_unsold_shares\n    self.assertEqual(sales.require_cost_delta(before,dict(WIP='0',FG_INVENTORY='54',COGS='36'),'-10'),\nAssertionError: {'WIP': '0', 'FG_INVENTORY': '-6', 'COGS': '-4'} != {'WIP': '0', 'FG_INVENTORY': '-6.00', 'COGS': '-4.00'}\n- {'COGS': '-4', 'FG_INVENTORY': '-6', 'WIP': '0'}\n+ {'COGS': '-4.00', 'FG_INVENTORY': '-6.00', 'WIP': '0'}\n?             +++                      +++\n\n\n----------------------------------------------------------------------\nRan 4 tests in 0.037s\n\nFAILED (failures=1)\n"
+    },
+    "AFUI_NATIVE_SALES_DECIMAL_COMPARISON_CORRECTION.log": {
+      "bytes": 98,
+      "sha256": "fb184ea57734512b1f088f9181209901b9cd46df3eb7eaa2500ea9e48dde20b5",
+      "text": ".\n----------------------------------------------------------------------\nRan 1 test in 0.000s\n\nOK\n"
+    }
+  },
+  "read_only_Native9_source_control": {
+    "bytes": 1491,
+    "sha256": "df6b9fb0aedd22a94dd318debec8ff871f836de0e50dee8e05fb06d8c72f445a",
+    "raw": {
+      "actual_Native_cases": 0,
+      "actual_SQL_executed": 0,
+      "case_ids": [
+        "NONPAYABLE_NATIVE_POSITIVE_HPP_ZERO_REIMBURSEMENT_FROZEN_HISTORY_AND_REPLAY",
+        "NONPAYABLE_NATIVE_EXPLICIT_NORMAL_POLICY_REIMBURSEMENT_REGRESSION",
+        "NONPAYABLE_NATIVE_NORMAL_PICKUP_SPECIAL_GOOD_PHYSICAL_DATE",
+        "NONPAYABLE_NATIVE_SPECIAL_PICKUP_NORMAL_GOOD_PHYSICAL_DATE",
+        "NONPAYABLE_NATIVE_MISSING_CATEGORY_EFFECTIVE_DATE_ATOMIC_GOOD_REFUSAL",
+        "NONPAYABLE_NATIVE_NO_INITIAL_JOURNAL_CUMULATIVE_CENTS_AND_LAWFUL_INVOICE_INVERSES",
+        "NONPAYABLE_NATIVE_QC_INVERSE_AFTER_RECOST_AND_NEXT_LAWFUL_COST_REVISION",
+        "NONPAYABLE_NATIVE_REWORK_NO_INITIAL_JOURNAL_INVERSE_AND_ACTIVE_LOT_RECOST",
+        "NONPAYABLE_NATIVE_FINISHED_PO_FG_SALES_COGS_LATE_COST_AND_LAWFUL_INVERSES"
+      ],
+      "fixture_sources": {
+        "Native_body_changes": 0,
+        "actual_Native_cases": 0,
+        "original_parent": "0da4d79a4f7201ef053d6de1eb155d990b4bfa4d",
+        "posted_row_injection": false,
+        "source_files": 7,
+        "status": "EXACT_UNCHANGED_NATIVE_FIXTURE_AND_RUNNER_SOURCES"
+      },
+      "inverse_Auth_two_session_browser_qualification_complete": false,
+      "inverse_source_prepared": true,
+      "production_go": false,
+      "sales_source_prepared": {
+        "actual_Native_cases": 0,
+        "actual_SQL_executed": 0,
+        "case_ids": [
+          "NONPAYABLE_NATIVE_FINISHED_PO_FG_SALES_COGS_LATE_COST_AND_LAWFUL_INVERSES"
+        ],
+        "independent_acceptance": false,
+        "production_go": false,
+        "status": "NATIVE_FINISHED_PO_FG_SALES_COGS_SOURCE_PREPARED_NOT_EXECUTED",
+        "unchanged_original_source_files": 4
+      },
+      "status": "PREPARED_NINE_NATIVE_CASES_NOT_EXECUTED"
+    }
+  },
+  "produced_qty": 10,
+  "sold_qty": 4,
+  "credit_invoice_amount": "200.00",
+  "independent_accessory_HPP_reduction": "-10",
+  "expected_reduction_COGS": "-4",
+  "expected_reduction_unsold_FG": "-6",
+  "independent_accessory_HPP_increase": "15",
+  "expected_increase_COGS": "6",
+  "expected_increase_unsold_FG": "9",
+  "owning_supplier_invoice_inverses_and_public_SALE_REVERSE_required": true,
+  "unchanged_source_stock_money_engines": true,
+  "read_actual_Current38_queue_function_before_preparing_empty_queue_noeffect_control": true,
+  "first_eight_Native_case_oracles_unchanged": true,
+  "parent_acceptance_bindings_all_None": true,
+  "actual_SQL_executed": 0,
+  "actual_ERP_Native_cases": 0,
+  "actual_Auth_HTTP_cases": 0,
+  "actual_two_session_cases": 0,
+  "actual_browser_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

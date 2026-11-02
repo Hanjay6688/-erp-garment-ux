@@ -1,0 +1,69 @@
+{
+  "status": "EIGHT_NATIVE_CASES_SOURCE_PREPARED_NOT_ERP_QUALIFIED",
+  "new_inverse_cases": 2,
+  "total_prepared_Native_cases": 8,
+  "unique_new_oracle_and_closed_gate_controls_PASS": 3,
+  "changed_existing_source_summary_control_PASS": 1,
+  "later_only_two_affected_dimension_controls_PASS": 2,
+  "logs": {
+    "AFUI_NEW_NATIVE_INVERSE_PREPARATION_CONTROLS.log": {
+      "bytes": 102,
+      "sha256": "71f385628efaeed61b8ca36819a695a12058846f3539952fa581e781da33250f",
+      "text": "....\n----------------------------------------------------------------------\nRan 4 tests in 0.021s\n\nOK\n"
+    },
+    "AFUI_NEW_NATIVE_INVERSE_PARTY_DIMENSION_CONTROLS.log": {
+      "bytes": 100,
+      "sha256": "fe008aab760eb03ccac7578e2b84665b1b50b0d7f855b17a0c7a8d039435b658",
+      "text": "..\n----------------------------------------------------------------------\nRan 2 tests in 0.001s\n\nOK\n"
+    }
+  },
+  "preserves_first_six_case_oracles": true,
+  "seven_original_sources_pinned_to_public_settings_preparation": true,
+  "full_raw_journal_lines_and_reversals_recorded": true,
+  "reversal_asserts_account_and_all_party_PO_product_dimensions": true,
+  "actual_invoice_corrections_require_owning_Native_inverse": true,
+  "later_revision_must_not_revive_voided_cost": true,
+  "owning_runtime_caller_prepared": false,
+  "parent_acceptance_bindings_all_None": true,
+  "actual_ERP_Native_cases": 0,
+  "actual_Auth_HTTP_cases": 0,
+  "actual_browser_cases": 0,
+  "actual_two_session_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false,
+  "first_new_direct_CLI_preparation_failure": {
+    "error": "ImportError: attempted relative import with no known parent package",
+    "scope": "New Native8 --prepare CLI only; source admission already passed, no SQL or ERP started.",
+    "repair": "Bootstrap scripts path before importing inverse case IDs when invoked directly; package imports retain relative path."
+  },
+  "only_corrected_direct_CLI_preparation": {
+    "bytes": 1075,
+    "sha256": "7ad5e561aab7e6c04917028105281c39b453e8a6477e1407e6e330dec1a7b357",
+    "raw": {
+      "actual_Native_cases": 0,
+      "actual_SQL_executed": 0,
+      "case_ids": [
+        "NONPAYABLE_NATIVE_POSITIVE_HPP_ZERO_REIMBURSEMENT_FROZEN_HISTORY_AND_REPLAY",
+        "NONPAYABLE_NATIVE_EXPLICIT_NORMAL_POLICY_REIMBURSEMENT_REGRESSION",
+        "NONPAYABLE_NATIVE_NORMAL_PICKUP_SPECIAL_GOOD_PHYSICAL_DATE",
+        "NONPAYABLE_NATIVE_SPECIAL_PICKUP_NORMAL_GOOD_PHYSICAL_DATE",
+        "NONPAYABLE_NATIVE_MISSING_CATEGORY_EFFECTIVE_DATE_ATOMIC_GOOD_REFUSAL",
+        "NONPAYABLE_NATIVE_NO_INITIAL_JOURNAL_CUMULATIVE_CENTS_AND_LAWFUL_INVOICE_INVERSES",
+        "NONPAYABLE_NATIVE_QC_INVERSE_AFTER_RECOST_AND_NEXT_LAWFUL_COST_REVISION",
+        "NONPAYABLE_NATIVE_REWORK_NO_INITIAL_JOURNAL_INVERSE_AND_ACTIVE_LOT_RECOST"
+      ],
+      "fixture_sources": {
+        "Native_body_changes": 0,
+        "actual_Native_cases": 0,
+        "original_parent": "0da4d79a4f7201ef053d6de1eb155d990b4bfa4d",
+        "posted_row_injection": false,
+        "source_files": 7,
+        "status": "EXACT_UNCHANGED_NATIVE_FIXTURE_AND_RUNNER_SOURCES"
+      },
+      "inverse_Auth_two_session_browser_qualification_complete": false,
+      "inverse_source_prepared": true,
+      "production_go": false,
+      "status": "PREPARED_EIGHT_NATIVE_CASES_NOT_EXECUTED"
+    }
+  }
+}

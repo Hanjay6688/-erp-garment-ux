@@ -1,0 +1,48 @@
+{
+  "status": "AUTH_HTTP2_TWO_SESSION2_SOURCE_PREPARED_NOT_EXECUTED",
+  "unique_new_pure_preparation_controls_PASS": 4,
+  "first_failures": 0,
+  "preparation_log": {
+    "bytes": 102,
+    "sha256": "feabb4add9e2ca3374e538560634d1ec97dc4f4ce89aab12f3d726e36ea9b2f6",
+    "text": "....\n----------------------------------------------------------------------\nRan 4 tests in 0.001s\n\nOK\n"
+  },
+  "source_preparation": {
+    "status": "FOUR_ACCESS_CASES_SOURCE_PREPARED_NOT_EXECUTED",
+    "HTTP_case_ids": [
+      "NONPAYABLE_AUTH_HTTP_OWNER_ADMIN_DENIAL_REPLAY_CANCEL_AND_STALE_TIMELINE",
+      "NONPAYABLE_AUTH_HTTP_CACHED_REPLAY_OWNER_DEACTIVATED_DURING_REAL_LOCK_WAIT"
+    ],
+    "two_database_session_case_ids": [
+      "NONPAYABLE_TWO_SESSION_SAME_REQUEST_ONE_IMMUTABLE_DATE_AND_REPLY",
+      "NONPAYABLE_TWO_SESSION_DIFFERENT_REQUESTS_ONE_DATE_AND_ONE_STALE_TIMELINE"
+    ],
+    "additional_original_source_files": 2,
+    "Native_fixture_sources": {
+      "status": "EXACT_UNCHANGED_NATIVE_FIXTURE_AND_RUNNER_SOURCES",
+      "source_files": 7,
+      "original_parent": "0da4d79a4f7201ef053d6de1eb155d990b4bfa4d",
+      "Native_body_changes": 0,
+      "posted_row_injection": false,
+      "actual_Native_cases": 0
+    },
+    "actual_SQL_executed": 0,
+    "actual_Auth_HTTP_cases": 0,
+    "actual_two_session_cases": 0,
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "real_Auth_harness_unchanged": true,
+  "no_runtime_JWT_signing": true,
+  "no_role_promotion": true,
+  "raw_all22_and_all_data_sequence_census_retained_as_original_gzip": true,
+  "own_full_copy_restore_and_Auth_cleanup_required": true,
+  "parent_acceptance_bindings_all_None": true,
+  "actual_SQL_executed": 0,
+  "actual_ERP_Native_cases": 0,
+  "actual_Auth_HTTP_cases": 0,
+  "actual_two_session_cases": 0,
+  "actual_browser_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

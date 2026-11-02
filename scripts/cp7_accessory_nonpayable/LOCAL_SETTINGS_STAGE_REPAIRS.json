@@ -1,0 +1,19 @@
+{
+  "status": "NARROW_SETTINGS_STAGE_AND_SYNTHETIC_UI_REPAIRS_RETAINED",
+  "settings_stage_catalogue": {
+    "first_report": "AFUI_GOOD_DATE_SETTINGS_STAGE_CATALOG_FIRST_20261101.json",
+    "passed_before_failure": 0,
+    "error": "GOOD_POLICY_DATE_SETTINGS_UNDECLARED_CATALOG_CHANGE:columns:cp7_accessory_nonpayable.date_requests_v1_pkey:request_id",
+    "repair": "The all22 census includes index attributes. Declare exactly the five request-table columns and the two planned index columns; refuse every other added column. SQL, role, grants, financial code and API rules were unchanged.",
+    "new_checks_passed": 4
+  },
+  "source_manifest_only_financial_component_change": "The financial source validator now pins UI_ORIGIN.json and UI_SOURCE.json as additional source dependencies. Its financial SQL, counted Native derivations and catalogue transition are unchanged; earlier cost/catalogue model proofs remain bound to their explicitly recorded version.",
+  "unarmed_settings_entries_checked": 7,
+  "unarmed_refusal": "NONPAYABLE_ACTUAL_FREE3_ROOT_INTAKE_PENDING",
+  "ERP_import_or_SQL_before_refusal": 0,
+  "actual_ERP_Native_cases": 0,
+  "actual_Auth_HTTP_cases": 0,
+  "actual_browser_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

@@ -1,0 +1,250 @@
+{
+  "source_run_id": 41267825303,
+  "source_commit": "dad402b1a6eee7c4acdd776c8c6a1538c1a52f0a",
+  "source_artifact_id": 13075925217,
+  "source_artifact_sha256": "ae54ae20fb856ff2a115c98ccc383e1ccfbdd4daeedbec0174cb7924fdb35f2c",
+  "source_member": "S05_SKU_BROWSER_READER_STATE.json",
+  "actual_case_credit": 0,
+  "functions": {
+    "erp.ensure_fg_accessory_cost_snapshot(uuid)": {
+      "file": "native-before/ensure_snapshot.sql",
+      "metadata": [
+        "postgres",
+        "plpgsql",
+        "f",
+        true,
+        false,
+        false,
+        false,
+        "v",
+        "u",
+        "100",
+        "0",
+        [
+          "search_path=erp, public"
+        ],
+        [
+          "p_lot_id"
+        ],
+        null,
+        "p_lot_id uuid",
+        "void",
+        "-",
+        [
+          [
+            "postgres",
+            "postgres",
+            "EXECUTE",
+            false
+          ],
+          [
+            "service_role",
+            "postgres",
+            "EXECUTE",
+            false
+          ]
+        ]
+      ],
+      "bytes": 6941,
+      "sha256": "1634377e32f56f4bab27232be686df6585aee54655953f93b1597ae912cb93bc"
+    },
+    "erp.post_accessory_reimbursement_accrual(uuid)": {
+      "file": "native-before/initial_accrual.sql",
+      "metadata": [
+        "postgres",
+        "plpgsql",
+        "f",
+        true,
+        false,
+        false,
+        false,
+        "v",
+        "u",
+        "100",
+        "0",
+        [
+          "search_path=erp, public"
+        ],
+        [
+          "p_lot_id"
+        ],
+        null,
+        "p_lot_id uuid",
+        "void",
+        "-",
+        [
+          [
+            "postgres",
+            "postgres",
+            "EXECUTE",
+            false
+          ],
+          [
+            "service_role",
+            "postgres",
+            "EXECUTE",
+            false
+          ]
+        ]
+      ],
+      "bytes": 3208,
+      "sha256": "b10b63a72b2915cc5a6d1f3331fcbb4fe072c121112df31bbad8306856fcdacc"
+    },
+    "erp.refresh_accessory_hpp_after_material_recost(uuid,text)": {
+      "file": "native-before/recost.sql",
+      "metadata": [
+        "postgres",
+        "plpgsql",
+        "f",
+        true,
+        false,
+        false,
+        false,
+        "v",
+        "u",
+        "100",
+        "0",
+        [
+          "search_path=erp, public, pg_temp"
+        ],
+        [
+          "p_material_id",
+          "p_reason"
+        ],
+        null,
+        "p_material_id uuid, p_reason text DEFAULT 'Accessory historical moving-average recost'::text",
+        "integer",
+        "-",
+        [
+          [
+            "postgres",
+            "postgres",
+            "EXECUTE",
+            false
+          ],
+          [
+            "service_role",
+            "postgres",
+            "EXECUTE",
+            false
+          ]
+        ]
+      ],
+      "bytes": 4902,
+      "sha256": "b2151dcfc3b10659454fc8d7d63412f7affb5e698049e4ec67ff82531fc8faee"
+    },
+    "erp.reverse_qc(uuid,text)": {
+      "file": "native-before/reverse_qc.sql",
+      "metadata": [
+        "postgres",
+        "plpgsql",
+        "f",
+        true,
+        false,
+        false,
+        false,
+        "v",
+        "u",
+        "100",
+        "0",
+        [
+          "search_path=erp, public"
+        ],
+        [
+          "p_qc_id",
+          "p_reason"
+        ],
+        null,
+        "p_qc_id uuid, p_reason text",
+        "void",
+        "-",
+        [
+          [
+            "postgres",
+            "postgres",
+            "EXECUTE",
+            false
+          ]
+        ]
+      ],
+      "bytes": 6196,
+      "sha256": "3f044e3c1b575b8341f9490e51dc19bf11a3b1b915ddfb02493a5d285f05c566"
+    },
+    "erp.reverse_rework_completion(uuid,text)": {
+      "file": "native-before/reverse_rework.sql",
+      "metadata": [
+        "postgres",
+        "plpgsql",
+        "f",
+        true,
+        false,
+        false,
+        false,
+        "v",
+        "u",
+        "100",
+        "0",
+        [
+          "search_path=erp, public"
+        ],
+        [
+          "p_rework_order_id",
+          "p_reason"
+        ],
+        null,
+        "p_rework_order_id uuid, p_reason text",
+        "void",
+        "-",
+        [
+          [
+            "postgres",
+            "postgres",
+            "EXECUTE",
+            false
+          ]
+        ]
+      ],
+      "bytes": 5115,
+      "sha256": "3436545141606c346544d15ed6dd6342b73d0a51b1a7208e54a32ff94b0654ac"
+    },
+    "erp.be_reverse_rework_target_v1(uuid,text)": {
+      "file": "native-before/rework_target.sql",
+      "metadata": [
+        "postgres",
+        "plpgsql",
+        "f",
+        true,
+        false,
+        false,
+        false,
+        "v",
+        "u",
+        "100",
+        "0",
+        [
+          "search_path=\"\""
+        ],
+        [
+          "p_rework",
+          "p_reason"
+        ],
+        null,
+        "p_rework uuid, p_reason text",
+        "void",
+        "-",
+        [
+          [
+            "postgres",
+            "postgres",
+            "EXECUTE",
+            false
+          ]
+        ]
+      ],
+      "bytes": 939,
+      "sha256": "3dd30156e24e23cfee1834286dd4f20771b7ff3907f1431611d9f00c6bfcd340"
+    }
+  },
+  "source_member_sha256": "46ca686491c6ee3dede515a1448452e1313b990fb45402fd7b2ebab1a333c77f",
+  "status": "EXACT_CAPTURED_NATIVE_DEFINITIONS_FOR_FUTURE_COUNTED_DERIVATION"
+}

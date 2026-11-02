@@ -1,0 +1,108 @@
+{
+  "status": "WHOLE_AFUI15_FINAL_PACKET_AND_WORKFLOW_SOURCE_PREPARED_NOT_EXECUTED",
+  "unique_new_pure_preparation_controls_PASS": 8,
+  "packet_and_closed_parent": 4,
+  "raw_census_and_two_backend_facts": 2,
+  "workflow_ownership_and_closed_activation": 2,
+  "logs": {
+    "AFUI_FINAL_PACKET_PREPARATION_CONTROLS.log": {
+      "bytes": 102,
+      "sha256": "84ff24306afcf5e19892adf32493aa9bc9dbc8db16870c6155e8e03c23864a33",
+      "text": "....\n----------------------------------------------------------------------\nRan 4 tests in 0.015s\n\nOK\n"
+    },
+    "AFUI_RAW_CENSUS_AND_RACE_PACKET_CONTROLS.log": {
+      "bytes": 100,
+      "sha256": "30b7db73967acdb055ef826f6af2556d423ce2ebb08c1494e1a654e3b2b89a3a",
+      "text": "..\n----------------------------------------------------------------------\nRan 2 tests in 0.012s\n\nOK\n"
+    },
+    "AFUI_WORKFLOW_OWNERSHIP_PREPARATION_CONTROLS.log": {
+      "bytes": 893,
+      "sha256": "7e613702b50a30fda1ecb0956b6161b00891ded8969511ab678a0fa21c7f2602",
+      "text": "F.\n======================================================================\nFAIL: test_all_setup_restore_and_artifact_steps_keep_original_order_budget_and_ownership (cp7_accessory_nonpayable.test_workflow_preparation.WorkflowPreparationControls.test_all_setup_restore_and_artifact_steps_keep_original_order_budget_and_ownership)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/workspace/scratch/cf5f04e2b451/erp-afui-good-date/scripts/cp7_accessory_nonpayable/test_workflow_preparation.py\", line 21, in test_all_setup_restore_and_artifact_steps_keep_original_order_budget_and_ownership\n    self.assertEqual(set(value['on']),{'push'})\nAssertionError: Items in the first set but not the second:\n'workflow_dispatch'\n\n----------------------------------------------------------------------\nRan 2 tests in 0.475s\n\nFAILED (failures=1)\n"
+    },
+    "AFUI_WORKFLOW_OWNERSHIP_AFFECTED_CONTROL.log": {
+      "bytes": 98,
+      "sha256": "8c01189b3404f0b090a0cb18a445310f895e032878435d262fc3113ba358e9ce",
+      "text": ".\n----------------------------------------------------------------------\nRan 1 test in 0.416s\n\nOK\n"
+    }
+  },
+  "first_failures": [
+    {
+      "stage": "original_source_cache_prerequisite",
+      "cause": "GIT_NO_LAZY_FETCH original canonical fetch source not locally materialized",
+      "repair": "Materialize exact public historical Git blob and verify unchanged original SHA; no source pin change",
+      "affected_derivation_only_repeated": true
+    },
+    {
+      "stage": "workflow_test_assumption",
+      "cause": "The inherited original workflow includes workflow_dispatch; the control incorrectly expected only push",
+      "repair": "Require exact original event keys and unchanged manual event; no workflow event change",
+      "affected_control_only_repeated": true
+    }
+  ],
+  "canonical_fetch_derivation": {
+    "parent_derivation": {
+      "parent_derivation": {
+        "original_head": "a5944f25a5e3ba1f1f537a18abe923eb753f922f",
+        "original_path": "scripts/current-final-s03-sku-s05-preparation/fetch_parent37.py",
+        "original_bytes": 4756,
+        "original_sha256": "a595f49e9fef9860363bfef19b856efa183896af049470627108241ad45ae6dd",
+        "derived_sha256": "d1bef01e3a2b2f3466ac9facc603ff4b52e3781335fe112df5775f70ee3cb726",
+        "counted_replacement_rules": 22,
+        "original_source_recovered": true,
+        "actual_GitHub_GETs": 0,
+        "actual_Native_cases": 0
+      },
+      "parent_derived_sha256": "d1bef01e3a2b2f3466ac9facc603ff4b52e3781335fe112df5775f70ee3cb726",
+      "derived_sha256": "6f52d8ee89903745a8e6f6c755a718ef160f190135c7c69a9953f426dc2303f7",
+      "additional_counted_routes": 20,
+      "complete_original_fetcher_recovered": true,
+      "actual_GitHub_GETs": 0,
+      "actual_Native_cases": 0
+    },
+    "parent_derived_sha256": "6f52d8ee89903745a8e6f6c755a718ef160f190135c7c69a9953f426dc2303f7",
+    "derived_sha256": "2a4661eeb0f9d90516067bc093e7b2b924cfe5539d7bbb626b8f044b4fa0c851",
+    "additional_counted_routes": 20,
+    "original_full_fetcher_recovered": true,
+    "terminal_run_job_head_artifact_bytes_SHA_ZIP_CRC_paths_and_all5_checks_unchanged": true,
+    "actual_GitHub_GETs": 0,
+    "actual_ERP_cases": 0
+  },
+  "only_nine_workflow_steps_routed": true,
+  "unchanged_workflow_steps": 66,
+  "total_workflow_steps": 75,
+  "original_360_330_20_10_process_budgets_unchanged": true,
+  "all_setup_and_restore_steps_retained": true,
+  "raw_census_independently_verified": true,
+  "full_gzip_original_checksums_and_append_only_history": true,
+  "actual_two_backend_reply_and_single_effect_validation": true,
+  "actual_Auth_wait_and_postwait_refusal_validation": true,
+  "raw_observer_JSON_timezone": "UTC",
+  "physical_GOOD_business_timezone": "Asia/Jakarta",
+  "previous_financial_SQL_and_UI_sources_unchanged": true,
+  "previous_tests_not_blindly_repeated": true,
+  "five_actual_parent_bindings_all_None": true,
+  "workflow_not_activated": true,
+  "actual_ERP_SQL_executed": 0,
+  "actual_ERP_Native_cases": 0,
+  "actual_Auth_HTTP_cases": 0,
+  "actual_two_session_cases": 0,
+  "actual_browser_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false,
+  "new_closed_active_workflow_source_admission": {
+    "status": "THREE_NEW_PURE_CONTROLS_PASS_NOT_NATIVE",
+    "tests": 3,
+    "failures": 0,
+    "exit_code": 0,
+    "command": "PYTHONPATH=scripts python -B -m unittest cp7_accessory_nonpayable.test_workflow_preparation.WorkflowPreparationControls.test_unarmed_source_workflow_never_reads_parent cp7_accessory_nonpayable.test_workflow_preparation.WorkflowPreparationControls.test_missing_and_stray_workflow_refuse_before_parent cp7_accessory_nonpayable.test_workflow_preparation.WorkflowPreparationControls.test_exact_source_workflow_requires_actual_matching_parent",
+    "raw": "...\n----------------------------------------------------------------------\nRan 3 tests in 0.003s\n\nOK\n",
+    "actual_ERP_cases": 0,
+    "actual_SQL_executed": 0,
+    "requires_actual_FREE3_parent_matching_manifest_base": true,
+    "requires_explicit_pin_and_exact_template": true,
+    "all_product_financial_function_ASTs_unchanged_except_source_manifest": true,
+    "Native_SQL_oracles_UI_and_16_Root_validator_functions_unchanged": true,
+    "old_business_tests_not_rerun": true
+  }
+}

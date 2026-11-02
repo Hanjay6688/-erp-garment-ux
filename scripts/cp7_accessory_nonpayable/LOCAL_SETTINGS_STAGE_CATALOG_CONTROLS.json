@@ -1,0 +1,36 @@
+{
+  "status": "ISOLATED_POSTGRES_SETTINGS_STAGE_CATALOGUE_AND_BODY_PASS",
+  "checks": [
+    {
+      "name": "ACTUAL_ALL22_ACCEPTS_ONLY_EXACT_SETTINGS_ROLE_SCHEMA_GRANT_SIX_FUNCTIONS_TABLE_AND_RI",
+      "status": "PASS"
+    },
+    {
+      "name": "ALL_SIX_ACTUAL_PROSRC_OWNERS_LANGUAGES_VOLATILITY_SEARCH_PATHS_MATCH_SOURCE",
+      "status": "PASS"
+    },
+    {
+      "name": "UNDECLARED_OLD_GRANT_EXTRA_FUNCTION_AND_EXTRA_PARENT_TRIGGER_ARE_REFUSED",
+      "status": "PASS"
+    },
+    {
+      "name": "EXACT_STAGE_INVERSE_SOURCE_RESTORES_ALL22",
+      "status": "PASS"
+    }
+  ],
+  "source_sha256": {
+    "policy.sql": "042c30ce6c8242b0626270d2a74f0433df4b5fc57cb8af0d4198a79a8f41cd20",
+    "basis.sql": "e1297006e00898e4af8e58630a1d08ddca19d47dbed948841283e0ab1048da10",
+    "settings.sql": "93728f0995d23c77522d7bc303a8b39cd51d9a6e65c0ea3233e1322b47291fe3",
+    "settings_stage.py": "89fd842b3e050056c30e7067ce5321363fce720a3adaffef72e1942b9f8cf9e5",
+    "test_settings_catalog.mjs": "15b88416b24a323bb7d51cc72207eb5dd6bff44a3c7ea340a9c1b29700564216"
+  },
+  "model_setup_source": "scripts/cp7_accessory_nonpayable/test_settings.mjs:literal-schema-only",
+  "old_API_or_financial_cases_rerun": 0,
+  "actual_ERP_Native_cases": 0,
+  "actual_Auth_HTTP_cases": 0,
+  "actual_browser_cases": 0,
+  "full_real_installer_lifecycle_qualified": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

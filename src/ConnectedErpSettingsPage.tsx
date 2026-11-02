@@ -6,6 +6,7 @@ import { getUatSupabaseClient } from './lib/supabase'
 import { normalizeClientError } from './lib/clientError'
 import { useProductionMutation, type ProductionMutationHandlers } from './useProductionMutation'
 import ProductionRecoveryNotice from './ProductionRecoveryNotice'
+import GoodPolicyDatesPanel from './GoodPolicyDatesPanel'
 import Cp6PolicyReadiness from './Cp6PolicyReadiness'
 import { ownerChoice, policyValueText, type PolicyState } from './cp6Readiness'
 import { policyValue as accessoryPolicyValue, validateServiceResult, type AccessoryPolicyKey } from './accessoryService'
@@ -64,6 +65,10 @@ function Workspace({ onOpenImport }: { onOpenImport?: () => void }) {
   }, [client, beginAccessory, beginLaundry, finishAccessory, finishLaundry, accessoryCurrent, laundryCurrent])
   useEffect(() => { void load() }, [load])
   useEffect(() => () => { ++sequence.current }, [])
+  const [goodDateLocked, setGoodDateLocked] = useState(false)
+  const goodDateAccessLost = useCallback((message: string) => {
+    ++sequence.current; setData(null); setError(message)
+  }, [])
 
   const saved = (value: unknown, envelope: ProductionEnvelope) => {
     const r = value as Record<string, unknown>, p = envelope.payload as Record<string, Json>
@@ -93,7 +98,7 @@ function Workspace({ onOpenImport }: { onOpenImport?: () => void }) {
     else void laundry.run('SET_POLICY', laundryPolicyPayload(key as LauPolicyKey, operation, version, reason, value), null, laundryHandlers)
   }
   const busy = loading || accessory.busy || laundry.busy
-  const locked = (family: SettingsFamilyKey) => busy || data === null || (family === 'ACCESSORY' ? accessory.writerLocked : laundry.writerLocked)
+  const locked = (family: SettingsFamilyKey) => busy || goodDateLocked || data === null || (family === 'ACCESSORY' ? accessory.writerLocked : laundry.writerLocked)
   const recovery = (m: typeof accessory, handlers: ProductionMutationHandlers, page: string) => m.pending
     ? m.pending.action === 'SET_POLICY'
       ? <ProductionRecoveryNotice recovery={m} onReconcile={() => m.reconcile(handlers)} className="cset-alert" messageText={m.error ? settingsRefusalText(m.error) : undefined}
@@ -119,6 +124,10 @@ function Workspace({ onOpenImport }: { onOpenImport?: () => void }) {
       {policies.length ? <Cp6PolicyReadiness policies={policies}/> : null}
       {data.families.map(f => <Family key={f.family} family={f} canSeeValues={data.canSeeValues} names={names} choices={data.choices} locked={locked(f.family)}
         open={editing?.family === f.family ? editing.key : null} onEdit={key => { setDone(''); setEditing(key ? { family: f.family, key } : null) }} onSubmit={submit(f.family)}/>)}
+      {data.canSeeValues && data.families[0].visible ? <GoodPolicyDatesPanel key={`${runtime.projectRef}:${identity.profile.id}`}
+        client={client} scope={`${runtime.projectRef}:${identity.profile.id}`} actor={identity.profile.id}
+        canManage={data.families[0].canSet && !accessory.writerLocked && !laundry.writerLocked}
+        onAccessLost={goodDateAccessLost} onLockChange={setGoodDateLocked}/> : null}
     </>}
   </main>
 }

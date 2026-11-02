@@ -1,0 +1,193 @@
+{
+  "status": "ISOLATED_POSTGRES_GOOD_DATE_POLICY_FOUNDATION_PASS",
+  "engine": "PostgreSQL 17.5 on aarch64-unknown-linux-gnu, compiled by emcc (Emscripten gcc/clang-like replacement + linker emulating GNU ld) 3.1.74 (1092ec30a3fb1d46b1782ff1b4db5094d3d06ae5), 32-bit",
+  "source_sha256": "042c30ce6c8242b0626270d2a74f0433df4b5fc57cb8af0d4198a79a8f41cd20",
+  "owner_decision": "D17-20",
+  "checks": [
+    {
+      "name": "INSTALL_EMPTY_NO_CATEGORY_OR_DATE_INVENTED",
+      "status": "PASS"
+    },
+    {
+      "name": "SPECIAL_GOOD_REQUIRES_EXPLICIT_DATED_CATEGORY_SOURCE",
+      "status": "PASS"
+    },
+    {
+      "name": "ORDINARY_CONTRACTOR_REMAINS_PAYABLE_WITHOUT_FREE_POLICY",
+      "status": "PASS"
+    },
+    {
+      "name": "EXPLICIT_OWNER_DATE_REGISTRATION",
+      "status": "PASS"
+    },
+    {
+      "name": "EXACT_REPLAY_SAME_RESPONSE_NO_NEW_ROW",
+      "status": "PASS"
+    },
+    {
+      "name": "REQUEST_CHANGED_INTENT_REFUSED",
+      "status": "PASS"
+    },
+    {
+      "name": "STALE_TIMELINE_REFUSED",
+      "status": "PASS"
+    },
+    {
+      "name": "DUPLICATE_EFFECTIVE_DATE_REFUSED",
+      "status": "PASS"
+    },
+    {
+      "name": "WRONG_POLICY_EVENT_REFUSED",
+      "status": "PASS"
+    },
+    {
+      "name": "MISSING_EVENT_REFUSED",
+      "status": "PASS"
+    },
+    {
+      "name": "UNCONFIRMED_OLDER_GOOD_REFUSED",
+      "status": "PASS"
+    },
+    {
+      "name": "D17_20_SOURCE_EVENT_CLOCK_IS_NOT_EFFECTIVE_DATE",
+      "status": "PASS"
+    },
+    {
+      "name": "CHANGED_CURRENT_SETTING_CANNOT_GUESS_EFFECTIVE_DATE",
+      "status": "PASS"
+    },
+    {
+      "name": "HISTORICAL_GOOD_KEEPS_ITS_DATED_CATEGORY_VERSION",
+      "status": "PASS"
+    },
+    {
+      "name": "REPLAY_ANSWER_STAYS_IDENTICAL_AFTER_LATER_POLICY",
+      "status": "PASS"
+    },
+    {
+      "name": "WIB_GOOD_BOUNDARY:UTC:2026-10-31T16:59:59.999999Z:00000000-0000-4000-8000-000000000004",
+      "status": "PASS"
+    },
+    {
+      "name": "WIB_GOOD_BOUNDARY:UTC:2026-10-31T17:00:00Z:00000000-0000-4000-8000-000000000004",
+      "status": "PASS"
+    },
+    {
+      "name": "WIB_GOOD_BOUNDARY:UTC:2026-10-31T17:00:00Z:00000000-0000-4000-8000-000000000005",
+      "status": "PASS"
+    },
+    {
+      "name": "WIB_GOOD_BOUNDARY:UTC:2026-11-30T16:59:59.999999Z:00000000-0000-4000-8000-000000000005",
+      "status": "PASS"
+    },
+    {
+      "name": "WIB_GOOD_BOUNDARY:Asia/Jakarta:2026-10-31T16:59:59.999999Z:00000000-0000-4000-8000-000000000004",
+      "status": "PASS"
+    },
+    {
+      "name": "WIB_GOOD_BOUNDARY:Asia/Jakarta:2026-10-31T17:00:00Z:00000000-0000-4000-8000-000000000004",
+      "status": "PASS"
+    },
+    {
+      "name": "WIB_GOOD_BOUNDARY:Asia/Jakarta:2026-10-31T17:00:00Z:00000000-0000-4000-8000-000000000005",
+      "status": "PASS"
+    },
+    {
+      "name": "WIB_GOOD_BOUNDARY:Asia/Jakarta:2026-11-30T16:59:59.999999Z:00000000-0000-4000-8000-000000000005",
+      "status": "PASS"
+    },
+    {
+      "name": "WIB_GOOD_BOUNDARY:America/New_York:2026-10-31T16:59:59.999999Z:00000000-0000-4000-8000-000000000004",
+      "status": "PASS"
+    },
+    {
+      "name": "WIB_GOOD_BOUNDARY:America/New_York:2026-10-31T17:00:00Z:00000000-0000-4000-8000-000000000004",
+      "status": "PASS"
+    },
+    {
+      "name": "WIB_GOOD_BOUNDARY:America/New_York:2026-10-31T17:00:00Z:00000000-0000-4000-8000-000000000005",
+      "status": "PASS"
+    },
+    {
+      "name": "WIB_GOOD_BOUNDARY:America/New_York:2026-11-30T16:59:59.999999Z:00000000-0000-4000-8000-000000000005",
+      "status": "PASS"
+    },
+    {
+      "name": "WIB_GOOD_BOUNDARY:Pacific/Kiritimati:2026-10-31T16:59:59.999999Z:00000000-0000-4000-8000-000000000004",
+      "status": "PASS"
+    },
+    {
+      "name": "WIB_GOOD_BOUNDARY:Pacific/Kiritimati:2026-10-31T17:00:00Z:00000000-0000-4000-8000-000000000004",
+      "status": "PASS"
+    },
+    {
+      "name": "WIB_GOOD_BOUNDARY:Pacific/Kiritimati:2026-10-31T17:00:00Z:00000000-0000-4000-8000-000000000005",
+      "status": "PASS"
+    },
+    {
+      "name": "WIB_GOOD_BOUNDARY:Pacific/Kiritimati:2026-11-30T16:59:59.999999Z:00000000-0000-4000-8000-000000000005",
+      "status": "PASS"
+    },
+    {
+      "name": "EXPLICIT_EMPTY_CATEGORY_LIST_MEANS_NO_FREE_COMPONENTS",
+      "status": "PASS"
+    },
+    {
+      "name": "PENDING_GOOD_DATE_POLICY_REFUSES",
+      "status": "PASS"
+    },
+    {
+      "name": "INFINITE_GOOD_CLOCK_REFUSED",
+      "status": "PASS"
+    },
+    {
+      "name": "NULL_CONTRACTOR_REFUSED",
+      "status": "PASS"
+    },
+    {
+      "name": "UNKNOWN_CATEGORY_REFUSED",
+      "status": "PASS"
+    },
+    {
+      "name": "POLICY_UPDATE_REFUSED",
+      "status": "PASS"
+    },
+    {
+      "name": "POLICY_DELETE_REFUSED",
+      "status": "PASS"
+    },
+    {
+      "name": "POLICY_TRUNCATE_REFUSED",
+      "status": "PASS"
+    },
+    {
+      "name": "PRIVATE_SCHEMA_NOT_EXPOSED:anon",
+      "status": "PASS"
+    },
+    {
+      "name": "PRIVATE_SCHEMA_NOT_EXPOSED:authenticated",
+      "status": "PASS"
+    },
+    {
+      "name": "PRIVATE_SCHEMA_NOT_EXPOSED:service_role",
+      "status": "PASS"
+    },
+    {
+      "name": "OWNER_RECHECK_REQUIRED",
+      "status": "PASS"
+    },
+    {
+      "name": "PRIVATE_INTERNAL_CONTEXT_REQUIRED",
+      "status": "PASS"
+    }
+  ],
+  "actual_ERP_Native_cases": 0,
+  "actual_Auth_cases": 0,
+  "actual_browser_cases": 0,
+  "installed_on_candidate": false,
+  "initial_GOOD_accrual_qualified": false,
+  "recost_qualified": false,
+  "reversal_qualified": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

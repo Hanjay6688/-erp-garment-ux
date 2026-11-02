@@ -1,0 +1,376 @@
+{
+  "status": "NEW_SETTINGS_PROTOCOL_DOM18_PASS_AND_LEGACY_SETTINGS10_CONTROLS_COVERED",
+  "runs": [
+    {
+      "file": "AFUI_GOOD_DATE_UI_FIRST_20261101.json",
+      "bytes": 6137,
+      "sha256": "7bd5c3a3c3dfdf60e32bab058e63599948853aabb150271990a9fa834d9a7e31",
+      "success": true,
+      "total": 18,
+      "passed": 18,
+      "failed": 0,
+      "pending": 0,
+      "assertions": [
+        {
+          "name": "requires an explicit date and review, labels all inputs and reads once in StrictMode",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "name": "persists before send and retries the same request after a lost reply and remount",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "name": "cancels an unresolved request with the original payload and displays cancellation without a saved date",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "name": "reports an already saved result when cancellation arrives after commit",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "name": "clears review after editing and refuses to write without storage or a browser lock",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "name": "retains a mismatched success receipt and an uncertain replay after access loss",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "name": "releases only a definite initial refusal and requires a new read",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "name": "ignores late success after another tab changes the held request",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "name": "keeps admin read-only and corrupted recovery closed",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "name": "parses the actual PostgreSQL model workspace, source selection and stored result",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "name": "refuses malformed fields, boolean coercion, duplicate source identities and inconsistent cursors",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "name": "requires real calendar dates and finite exact version strings",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "name": "refuses unreviewed, unauthorized, unobserved and wrong-actor commands",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "name": "refuses a success that changes request, actor, effective date, source, version or reason",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "name": "keeps the durable request until its exact verified reply can be retired",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "name": "cancels with the original request and payload, without inventing a saved policy id or version",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "name": "retains malformed, changed and wrong-actor storage instead of overwriting or clearing it",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "name": "uses the two literal RPCs and preserves server errors for safe initial-refusal handling",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ]
+    },
+    {
+      "file": "AFUI_GOOD_DATE_SETTINGS_REGRESSION_FIRST_20261101.json",
+      "bytes": 5900,
+      "sha256": "b7bc87ccc3bb0eb5bfa90df283109c91f0ae509c151cd3360eec7ea0178cd435",
+      "success": false,
+      "total": 10,
+      "passed": 9,
+      "failed": 1,
+      "pending": 0,
+      "assertions": [
+        {
+          "name": "Pengaturan ERP (R3-03, owner D16-1) attaches the GOOD date panel and blocks both old policy editors while its request is unresolved",
+          "status": "failed",
+          "failureMessages": [
+            "Error: Tanggal berlaku GOOD belum dapat dipastikan. Baca ulang versi dan periksa permintaan tersimpan.\n    at fail (/workspace/scratch/cf5f04e2b451/erp-afui-good-date/src/nativeGoodPolicyDates.ts:28:32)\n    at uuid (/workspace/scratch/cf5f04e2b451/erp-afui-good-date/src/nativeGoodPolicyDates.ts:33:150)\n    at Module.parseGoodPolicyDates (/workspace/scratch/cf5f04e2b451/erp-afui-good-date/src/nativeGoodPolicyDates.ts:80:69)\n    at /workspace/scratch/cf5f04e2b451/erp-afui-good-date/src/ConnectedErpSettingsPage.dom.test.tsx:90:15\n    at file:///workspace/scratch/cf5f04e2b451/erp-afui-good-date/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///workspace/scratch/cf5f04e2b451/erp-afui-good-date/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///workspace/scratch/cf5f04e2b451/erp-afui-good-date/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///workspace/scratch/cf5f04e2b451/erp-afui-good-date/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///workspace/scratch/cf5f04e2b451/erp-afui-good-date/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20"
+          ]
+        },
+        {
+          "name": "Pengaturan ERP (R3-03, owner D16-1) lists every owner policy of both pages with the server status, the readiness texts and the read-only cutover date",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "name": "Pengaturan ERP (R3-03, owner D16-1) sets an accessory policy through the Aksesori writer with the read version, then reads again and frees both writers",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "name": "Pengaturan ERP (R3-03, owner D16-1) sets a laundry policy with the owner decision through the Laundry writer, and clears an accessory one without a value",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "name": "Pengaturan ERP (R3-03, owner D16-1) says a stale version in plain words, reads again and keeps no unsure request",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "name": "Pengaturan ERP (R3-03, owner D16-1) keeps an unanswered save with its UUID and reconciles it with the same UUID and payload",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "name": "Pengaturan ERP (R3-03, owner D16-1) shows statuses without values, names or edit controls to a reader who is not owner/admin",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "name": "Pengaturan ERP (R3-03, owner D16-1) refuses a reply that gives a value to a reader who may not see it, or misses a policy, and says so without figures",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "name": "Pengaturan ERP (R3-03, owner D16-1) names the missing family right and the denied read, and needs settings.erp.view to open",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "name": "Pengaturan ERP (R3-03, owner D16-1) keeps every save closed while the settings are being read again",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ]
+    },
+    {
+      "file": "AFUI_GOOD_DATE_SETTINGS_REGRESSION_UUID_20261101.json",
+      "bytes": 4966,
+      "sha256": "f175fd287812b14ae09f701e88321a45df637d2fcfccf6803583f5311d268623",
+      "success": false,
+      "total": 10,
+      "passed": 9,
+      "failed": 1,
+      "pending": 0,
+      "assertions": [
+        {
+          "name": "Pengaturan ERP (R3-03, owner D16-1) attaches the GOOD date panel and blocks both old policy editors while its request is unresolved",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "name": "Pengaturan ERP (R3-03, owner D16-1) lists every owner policy of both pages with the server status, the readiness texts and the read-only cutover date",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "name": "Pengaturan ERP (R3-03, owner D16-1) sets an accessory policy through the Aksesori writer with the read version, then reads again and frees both writers",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "name": "Pengaturan ERP (R3-03, owner D16-1) sets a laundry policy with the owner decision through the Laundry writer, and clears an accessory one without a value",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "name": "Pengaturan ERP (R3-03, owner D16-1) says a stale version in plain words, reads again and keeps no unsure request",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "name": "Pengaturan ERP (R3-03, owner D16-1) keeps an unanswered save with its UUID and reconciles it with the same UUID and payload",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected null not to be null\n    at /workspace/scratch/cf5f04e2b451/erp-afui-good-date/src/ConnectedErpSettingsPage.dom.test.tsx:205:89\n    at file:///workspace/scratch/cf5f04e2b451/erp-afui-good-date/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        },
+        {
+          "name": "Pengaturan ERP (R3-03, owner D16-1) shows statuses without values, names or edit controls to a reader who is not owner/admin",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "name": "Pengaturan ERP (R3-03, owner D16-1) refuses a reply that gives a value to a reader who may not see it, or misses a policy, and says so without figures",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "name": "Pengaturan ERP (R3-03, owner D16-1) names the missing family right and the denied read, and needs settings.erp.view to open",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "name": "Pengaturan ERP (R3-03, owner D16-1) keeps every save closed while the settings are being read again",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ]
+    },
+    {
+      "file": "AFUI_GOOD_DATE_SETTINGS_REGRESSION_RECOVERY_SCOPES_20261101.json",
+      "bytes": 4461,
+      "sha256": "fc5389cdc0926b0f392be1a810104b8958973fe079fae015aa0c92a346bbf730",
+      "success": true,
+      "total": 10,
+      "passed": 2,
+      "failed": 0,
+      "pending": 8,
+      "assertions": [
+        {
+          "name": "Pengaturan ERP (R3-03, owner D16-1) attaches the GOOD date panel and blocks both old policy editors while its request is unresolved",
+          "status": "skipped",
+          "failureMessages": []
+        },
+        {
+          "name": "Pengaturan ERP (R3-03, owner D16-1) lists every owner policy of both pages with the server status, the readiness texts and the read-only cutover date",
+          "status": "skipped",
+          "failureMessages": []
+        },
+        {
+          "name": "Pengaturan ERP (R3-03, owner D16-1) sets an accessory policy through the Aksesori writer with the read version, then reads again and frees both writers",
+          "status": "skipped",
+          "failureMessages": []
+        },
+        {
+          "name": "Pengaturan ERP (R3-03, owner D16-1) sets a laundry policy with the owner decision through the Laundry writer, and clears an accessory one without a value",
+          "status": "skipped",
+          "failureMessages": []
+        },
+        {
+          "name": "Pengaturan ERP (R3-03, owner D16-1) says a stale version in plain words, reads again and keeps no unsure request",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "name": "Pengaturan ERP (R3-03, owner D16-1) keeps an unanswered save with its UUID and reconciles it with the same UUID and payload",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "name": "Pengaturan ERP (R3-03, owner D16-1) shows statuses without values, names or edit controls to a reader who is not owner/admin",
+          "status": "skipped",
+          "failureMessages": []
+        },
+        {
+          "name": "Pengaturan ERP (R3-03, owner D16-1) refuses a reply that gives a value to a reader who may not see it, or misses a policy, and says so without figures",
+          "status": "skipped",
+          "failureMessages": []
+        },
+        {
+          "name": "Pengaturan ERP (R3-03, owner D16-1) names the missing family right and the denied read, and needs settings.erp.view to open",
+          "status": "skipped",
+          "failureMessages": []
+        },
+        {
+          "name": "Pengaturan ERP (R3-03, owner D16-1) keeps every save closed while the settings are being read again",
+          "status": "skipped",
+          "failureMessages": []
+        }
+      ]
+    },
+    {
+      "file": "AFUI_GOOD_DATE_SETTINGS_REGRESSION_ACCESSORY_SCOPES_20261101.json",
+      "bytes": 4461,
+      "sha256": "e4d3b1b363bc48013ecebd9263388b6e708e71578d00d6bc95aef8dcc42a2395",
+      "success": true,
+      "total": 10,
+      "passed": 2,
+      "failed": 0,
+      "pending": 8,
+      "assertions": [
+        {
+          "name": "Pengaturan ERP (R3-03, owner D16-1) attaches the GOOD date panel and blocks both old policy editors while its request is unresolved",
+          "status": "skipped",
+          "failureMessages": []
+        },
+        {
+          "name": "Pengaturan ERP (R3-03, owner D16-1) lists every owner policy of both pages with the server status, the readiness texts and the read-only cutover date",
+          "status": "skipped",
+          "failureMessages": []
+        },
+        {
+          "name": "Pengaturan ERP (R3-03, owner D16-1) sets an accessory policy through the Aksesori writer with the read version, then reads again and frees both writers",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "name": "Pengaturan ERP (R3-03, owner D16-1) sets a laundry policy with the owner decision through the Laundry writer, and clears an accessory one without a value",
+          "status": "skipped",
+          "failureMessages": []
+        },
+        {
+          "name": "Pengaturan ERP (R3-03, owner D16-1) says a stale version in plain words, reads again and keeps no unsure request",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "name": "Pengaturan ERP (R3-03, owner D16-1) keeps an unanswered save with its UUID and reconciles it with the same UUID and payload",
+          "status": "skipped",
+          "failureMessages": []
+        },
+        {
+          "name": "Pengaturan ERP (R3-03, owner D16-1) shows statuses without values, names or edit controls to a reader who is not owner/admin",
+          "status": "skipped",
+          "failureMessages": []
+        },
+        {
+          "name": "Pengaturan ERP (R3-03, owner D16-1) refuses a reply that gives a value to a reader who may not see it, or misses a policy, and says so without figures",
+          "status": "skipped",
+          "failureMessages": []
+        },
+        {
+          "name": "Pengaturan ERP (R3-03, owner D16-1) names the missing family right and the denied read, and needs settings.erp.view to open",
+          "status": "skipped",
+          "failureMessages": []
+        },
+        {
+          "name": "Pengaturan ERP (R3-03, owner D16-1) keeps every save closed while the settings are being read again",
+          "status": "skipped",
+          "failureMessages": []
+        }
+      ]
+    }
+  ],
+  "first_failure_cause": "The older shared Auth fixture used actor-1, which is not a UUID. The new integration fixture now consistently uses the actual SQL-model actor.",
+  "second_failure_cause": "Four legacy recovery assertions still named the older actor scope after the fixture identity changed. All four scope assertions were corrected, without changing the parser or recovery rules.",
+  "targeted_repairs": "The two recovery scenarios were checked; then the accessory save and stale-version scenarios were checked against their corrected scope. Unaffected successful assertions were retained.",
+  "source_sha256": {
+    "src/nativeGoodPolicyDates.ts": "bcb325f133e651ba7d0572cd5021cb071f9c7a49a9899e6c573709780706db36",
+    "src/GoodPolicyDatesPanel.tsx": "89034c7e6a058259e3559007822707a53994f6217db6c96b53ccef1a4237bddf",
+    "src/good-policy-dates.css": "f6deee83b211576641f6a536a282d12a3b89076eb55e9d6d02fd97ba1c6328e5",
+    "src/ConnectedErpSettingsPage.tsx": "d0dd71d4b1f7ff528fad411bbb133b80dfb52f137b64102174b758a4a2969659",
+    "scripts/check-source-ownership.mjs": "ca2a61951bebf846cbf0feb21177da5d4450469410ffd192ab747a9f64db4dc7"
+  },
+  "strict_mode_duplicate_reads": 0,
+  "actual_ERP_Native_cases": 0,
+  "actual_Auth_HTTP_cases": 0,
+  "actual_browser_cases": 0,
+  "real_two_tab_qualified": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

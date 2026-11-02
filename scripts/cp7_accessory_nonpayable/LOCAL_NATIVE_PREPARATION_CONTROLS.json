@@ -1,0 +1,45 @@
+{
+  "status": "FIRST_SIX_NATIVE_CASES_SOURCE_PREPARED_NOT_ERP_QUALIFIED",
+  "actual_ERP_Native_cases": 0,
+  "actual_Auth_HTTP_cases": 0,
+  "actual_browser_cases": 0,
+  "actual_two_session_cases": 0,
+  "unique_new_preparation_controls_PASS": 4,
+  "first_parse_error_caught_before_any_test_or_ERP": true,
+  "then_three_controls_PASS_one_global_binding_test_setup_failure": true,
+  "only_corrected_binding_control_rerun_PASS": 1,
+  "then_only_changed_public_origin_and_closed_gate_controls_PASS": 2,
+  "logs": {
+    "AFUI_NATIVE_PREPARATION_NEW_CONTROLS.log": {
+      "bytes": 1836,
+      "sha256": "2790ae51ab56c7c38da350674bd5cff46104ec7ee855ad031045b89506e34903",
+      "text": "Traceback (most recent call last):\n  File \"<frozen runpy>\", line 198, in _run_module_as_main\n  File \"<frozen runpy>\", line 88, in _run_code\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/__main__.py\", line 18, in <module>\n    main(module=None)\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/main.py\", line 104, in __init__\n    self.parseArgs(argv)\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/main.py\", line 153, in parseArgs\n    self.createTests()\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/main.py\", line 164, in createTests\n    self.test = self.testLoader.loadTestsFromNames(self.testNames,\n                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/loader.py\", line 207, in loadTestsFromNames\n    suites = [self.loadTestsFromName(name, module) for name in names]\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/loader.py\", line 137, in loadTestsFromName\n    module = __import__(module_name)\n             ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/cf5f04e2b451/erp-afui-good-date/scripts/cp7_accessory_nonpayable/test_native_preparation.py\", line 6, in <module>\n    from cp7_accessory_nonpayable import native_fixture as fixture,native_cases as cases\n  File \"/workspace/scratch/cf5f04e2b451/erp-afui-good-date/scripts/cp7_accessory_nonpayable/native_fixture.py\", line 65\n    if private.__code__is not original.__code__or bd.chain.production.CONTRACTOR==contractor:\n                              ^^^^^^^^\nSyntaxError: invalid syntax\n"
+    },
+    "AFUI_NATIVE_PREPARATION_CORRECTED_CONTROLS.log": {
+      "bytes": 978,
+      "sha256": "223b1e29a8e0ea1aa532d37b306bf6d5d9e2504b78e067b06baa8a9ee2873f8e",
+      "text": "F...\n======================================================================\nFAIL: test_existing_mandor_wrong_constructor_global_or_noncanonical_identity_refuses (cp7_accessory_nonpayable.test_native_preparation.NativePreparationControls.test_existing_mandor_wrong_constructor_global_or_noncanonical_identity_refuses) (mode='global')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/workspace/scratch/cf5f04e2b451/erp-afui-good-date/scripts/cp7_accessory_nonpayable/test_native_preparation.py\", line 31, in test_existing_mandor_wrong_constructor_global_or_noncanonical_identity_refuses\n    with self.subTest(mode=mode),self.assertRaises(ValueError):fixture.contractor_constructor(module,identity)\n                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ValueError not raised\n\n----------------------------------------------------------------------\nRan 4 tests in 0.041s\n\nFAILED (failures=1)\n"
+    },
+    "AFUI_NATIVE_PRIVATE_BINDING_CORRECTION.log": {
+      "bytes": 98,
+      "sha256": "fb184ea57734512b1f088f9181209901b9cd46df3eb7eaa2500ea9e48dde20b5",
+      "text": ".\n----------------------------------------------------------------------\nRan 1 test in 0.000s\n\nOK\n"
+    },
+    "AFUI_NATIVE_ACTUAL_PUBLIC_ORIGIN_AND_CLOSED_GATE.log": {
+      "bytes": 100,
+      "sha256": "b0efba1f37a079d5e5943aa8ae5e5d29bd83526fefeacd379e84a0f79c8cbce5",
+      "text": "..\n----------------------------------------------------------------------\nRan 2 tests in 0.025s\n\nOK\n"
+    }
+  },
+  "Native_fixture_constructor_code_object_unchanged": true,
+  "one_private_bound_master": "chain.production.CONTRACTOR",
+  "fresh_explicit_dated_Mandor_policy": true,
+  "fixture_originals_public_head": "0da4d79a4f7201ef053d6de1eb155d990b4bfa4d",
+  "fixture_original_source_files": 6,
+  "existing_financial_Native_derivation_or_UI_changes": false,
+  "parent_acceptance_bindings_all_None": true,
+  "owning_runtime_caller_prepared": false,
+  "QC_rework_inverse_Auth_two_tabs_and_browser_remain_required": true,
+  "production_go": false,
+  "independent_acceptance": false
+}

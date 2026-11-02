@@ -1,0 +1,152 @@
+{
+  "classification": "AFUI_EXACT_NATIVE_DOMAIN_API_PREFLIGHT_AND_WRITER_CWD_CLEANUP_PREPARATION_NOT_QUALIFICATION",
+  "head": "098dbd8769cbbf6f0502750a7c2a770959e02385",
+  "tree": "b40ea64ea4cdcaaa0f28fc6d32645e783c0b0121",
+  "files": {
+    "scripts/cp7_accessory_nonpayable/native_fixture.py": {
+      "before": {
+        "bytes": 14500,
+        "sha256": "3ae95f92bd5b56254f233232a223b0b262782bff2d1d56330c447d85964630b0"
+      },
+      "after": {
+        "bytes": 18110,
+        "sha256": "af4352bd06ea35cf463fe989933e6cce628f24918667edc425f72f72890d8962"
+      },
+      "changes": [
+        {
+          "before": "mandatory before loading the domain modules.",
+          "after": "mandatory before running the domain fixture. After actual parent admission,\na fenced preDB import also inspects these same unchanged domain callbacks.",
+          "count": 1
+        },
+        {
+          "before": "import json,subprocess,uuid",
+          "after": "import ast,inspect,json,subprocess,uuid",
+          "count": 1
+        },
+        {
+          "before": "def admitted_modules(cur,state):",
+          "after": "def domain_modules():\n    \"\"\"Inspect the real natural imports before SQL and in the actual caller.\"\"\"\n    from . import admission\n    admission.parent_receipt()\n    source_controls()\n    from . import settings_stage as product\n    from cp7_p21_current_chain_rehearsal_probe import helper\n    import cp6_bc_probe as bc\n    import cp6_bd_probe as bd\n    import cp7_invoice_cases as invoice\n    import cp7_qc_source_cases as qc\n    import cp6_auditor_runner as runner\n    from cp7_accessory_standard_report import cases as bom\n    modules=SimpleNamespace(bc=bc,bd=bd,invoice=invoice,qc=qc,bom=bom,product=product,control=helper.control)\n    actual={}\n    for module,name in((bc,'cp6_bc_probe.py'),(bd,'cp6_bd_probe.py'),\n            (invoice,'cp7_invoice_cases.py'),(qc,'cp7_qc_source_cases.py'),\n            (runner,'cp6_auditor_runner.py'),(bom,'cp7_accessory_standard_report/cases.py')):\n        path=Path(module.__file__).resolve();raw=path.read_bytes()\n        if raw!=(ROOT/'scripts'/name).read_bytes():\n            raise ValueError('NONPAYABLE_REAL_DOMAIN_MODULE_ORIGINAL_REQUIRED:'+name)\n        actual[name]=dict(path=str(path),bytes=len(raw),sha256=sha256(raw).hexdigest())\n    aliases=dict(modules=modules,bc=bc,bd=bd,invoice=invoice,qc=qc,bom=bom)\n    bindings=[]\n    def parts(node):\n        if isinstance(node,ast.Name):return [node.id]\n        if isinstance(node,ast.Attribute):\n            base=parts(node.value)\n            return base+[node.attr]if base else None\n        return None\n    for name in('native_fixture.py','native_cases.py','native_sales_cases.py','native_inverse_cases.py','access_cases.py'):\n        for node in ast.walk(ast.parse((HERE/name).read_bytes())):\n            if not isinstance(node,ast.Call):continue\n            route=parts(node.func)\n            if(not route or route[0]not in aliases or len(route)<2\n               or(route[0]=='modules'and route[1]not in('bc','bd','invoice','qc','bom','product','control'))):continue\n            if any(isinstance(arg,ast.Starred)for arg in node.args)or any(k.arg is None for k in node.keywords):\n                raise ValueError('NONPAYABLE_EXPLICIT_DOMAIN_CALL_ARGUMENT_CONTRACT_REQUIRED')\n            operation=aliases[route[0]]\n            for attribute in route[1:]:operation=getattr(operation,attribute)\n            inspect.signature(operation).bind(*[None for _ in node.args],**{k.arg:None for k in node.keywords})\n            bindings.append(dict(source=name,line=node.lineno,operation='.'.join(route),\n                positional=len(node.args),keywords=[k.arg for k in node.keywords]))\n    inspect.signature(bd.two_size_fixture).bind(None,None,'SOURCE_ONLY',size_quantities=[(None,10)])\n    if bd.two_size_fixture.__globals__.get('chain')is not bd.chain:\n        raise ValueError('NONPAYABLE_REAL_CONSTRUCTOR_GLOBAL_BINDING_REQUIRED')\n    if tuple(inspect.signature(runner.strict_group).parameters)!=('name','factory','verify'):\n        raise ValueError('NONPAYABLE_REAL_STRICT_RUNNER_API_REQUIRED')\n    inspect.signature(runner.public_state).bind(None)\n    if(not isinstance(runner.r1.OUT,Path)\n       or Path(runner.r1.__file__).read_bytes()!=(ROOT/'scripts/cp6_au_r1_probe.py').read_bytes()):\n        raise ValueError('NONPAYABLE_REAL_STRICT_RUNNER_ORIGINAL_OUTPUT_REQUIRED')\n    return modules,dict(status='EXACT_AFUI_NATURAL_DOMAIN_AND_CALLER_APIS_BOUND_BEFORE_SQL',\n        actual_working_directory=str(Path.cwd()),actual_modules=actual,actual_call_bindings=bindings,\n        constructor_signature_bound=True,constructor_chain_global_unchanged=True,\n        strict_runner_API_bound=True,actual_original_output=str(runner.r1.OUT),\n        canonical_module_cache_replaced=False,original_domain_sources_changed=False,\n        actual_SQL_executed=0,actual_Native_cases=0)\n\n\ndef admitted_modules(cur,state):",
+          "count": 1
+        },
+        {
+          "before": "    import cp6_bc_probe as bc\n    import cp6_bd_probe as bd\n    import cp7_invoice_cases as invoice\n    import cp7_qc_source_cases as qc\n    from cp7_accessory_standard_report import cases as bom\n    return SimpleNamespace(bc=bc,bd=bd,invoice=invoice,qc=qc,bom=bom,product=product,control=helper.control)",
+          "after": "    return domain_modules()[0]",
+          "count": 1
+        }
+      ],
+      "entire_original_recovered": true
+    },
+    "scripts/cp7_accessory_nonpayable/qualification.py": {
+      "before": {
+        "bytes": 4374,
+        "sha256": "16ca3d22b45b69b2326daa8c6c237d2ad5fd67f37262d29c532f0518e32d7c90"
+      },
+      "after": {
+        "bytes": 4615,
+        "sha256": "55f3cafc94c1a87c03f320dbce26e56953eb5c6bc93e52b9c68d6052bd530fe9"
+      },
+      "changes": [
+        {
+          "before": "        from cp7_accessory_nonpayable import assembly,qualification_component as component",
+          "after": "        from cp7_accessory_nonpayable import assembly,native_fixture,qualification_component as component",
+          "count": 1
+        },
+        {
+          "before": "        engine.admitted=admitted\n",
+          "after": "        engine.admitted=admitted\n        assembly.runtime()  # Include the complete real inherited import path.\n        engine.native_domain_binding=native_fixture.domain_modules()[1]\n",
+          "count": 1
+        },
+        {
+          "before": "print(json.dumps(dict(status=proof['status'],source_DB_guard=guard,\n",
+          "after": "print(json.dumps(dict(status=proof['status'],source_DB_guard=guard,\n            actual_domain_and_caller_binding=engine.native_domain_binding,\n",
+          "count": 1
+        }
+      ],
+      "entire_original_recovered": true
+    },
+    "scripts/cp7_accessory_nonpayable/workflow.py": {
+      "before": {
+        "bytes": 7277,
+        "sha256": "d13dcffff6c145cd50794749c41f3e383ed4437e1e3c236e28836d0eb71dfb0e"
+      },
+      "after": {
+        "bytes": 7781,
+        "sha256": "bd8f5b3e730ca6e68416a8e09c5a5d6802387d20ebf6294954a27a9faac6d85e"
+      },
+      "changes": [
+        {
+          "before": "    steps[64]=dict(name='Admit actual FREE3 and whole Afui graph under database network fence',\n        **{'working-directory':'auditor'},\n        run='python -B '+NS+'qualification.py --check\\npython -B scripts/current-de-free-date-preparation/attempt_policy.py --require-window\\n')",
+          "after": "    steps[64]=dict(name='Admit actual FREE3 and whole Afui graph under database network fence',\n        **{'working-directory':'writer'},\n        run='python -B ../auditor/'+NS+'qualification.py --check\\npython -B ../auditor/scripts/current-de-free-date-preparation/attempt_policy.py --require-window\\n')",
+          "count": 1
+        },
+        {
+          "before": "    steps[73]['run']=steps[73]['run'].replace(old,NS+'runtime_supervisor.py',1)\n",
+          "after": "    steps[73]['run']=steps[73]['run'].replace(old,NS+'runtime_supervisor.py',1)\n    # The unarmed historical base predates the actual FREE41 cleanup repair.\n    # Normalize only that exact old route; the accepted actual parent is clean.\n    broken='../auditor/scripts/'+NS+'runtime_supervisor.py'\n    if broken in steps[73]['run']:\n        if steps[73]['run'].count(broken)!=1:\n            raise ValueError('NONPAYABLE_EXACT_HISTORICAL_CLEANUP_REPAIR_REQUIRED')\n        steps[73]['run']=steps[73]['run'].replace(broken,'../auditor/'+NS+'runtime_supervisor.py',1)\n",
+          "count": 1
+        }
+      ],
+      "entire_original_recovered": true
+    },
+    "scripts/cp7_accessory_nonpayable/afui15.workflow.yml.txt": {
+      "before": {
+        "bytes": 33861,
+        "sha256": "2f2aaa6cabc27881353a1eec8bf52f052d5dc582ee07c367b4f7b6170c2faa93"
+      },
+      "after": {
+        "bytes": 33890,
+        "sha256": "551e9f853a6307e791991926b714aa53578f95b69ee246e7c567ff213dc75799"
+      },
+      "changes": [
+        {
+          "before": "    - name: Admit actual FREE3 and whole Afui graph under database network fence\n      working-directory: auditor\n      run: 'python -B scripts/cp7_accessory_nonpayable/qualification.py --check\n\n        python -B scripts/current-de-free-date-preparation/attempt_policy.py --require-window\n\n        '\n",
+          "after": "    - name: Admit actual FREE3 and whole Afui graph under database network fence\n      working-directory: writer\n      run: 'python -B ../auditor/scripts/cp7_accessory_nonpayable/qualification.py\n        --check\n\n        python -B ../auditor/scripts/current-de-free-date-preparation/attempt_policy.py\n        --require-window\n\n        '\n",
+          "count": 1
+        },
+        {
+          "before": "      run: 'python -B ../auditor/scripts/scripts/cp7_accessory_nonpayable/runtime_supervisor.py",
+          "after": "      run: 'python -B ../auditor/scripts/cp7_accessory_nonpayable/runtime_supervisor.py",
+          "count": 1
+        }
+      ],
+      "entire_original_recovered": true
+    },
+    "scripts/cp7_accessory_nonpayable/composition.py": {
+      "before": {
+        "bytes": 14691,
+        "sha256": "8b86794f24c54ac9e088399db8548cb6d88f32838ab44bd7e96a30583d0ee8ca"
+      },
+      "after": {
+        "bytes": 14747,
+        "sha256": "e33a129629787ff093bd54a715cc9069df1d307d7a7dc446535faef3f0d048b5"
+      },
+      "changes": [
+        {
+          "before": "            or path.name in ('NATIVE_ORIGIN.json', 'UI_ORIGIN.json', 'UI_SOURCE.json', 'afui15.workflow.yml.txt'))}",
+          "after": "            or path.name in ('NATIVE_ORIGIN.json', 'UI_ORIGIN.json', 'UI_SOURCE.json', 'afui15.workflow.yml.txt',\n                'RUNTIME_DOMAIN_PREFLIGHT_ORIGIN.json'))}",
+          "count": 1
+        }
+      ],
+      "entire_original_recovered": true
+    }
+  },
+  "reversible_routes": 12,
+  "modified_old_own_paths": 6,
+  "new_own_paths": 1,
+  "unchanged_old_own_paths": 82,
+  "own_paths": 89,
+  "source_pins": 57,
+  "Native_financial_SQL_and_case_function_bodies_changed": false,
+  "actual_original_domain_files_changed": 0,
+  "actual_parent_still_unbound": true,
+  "actual_Native_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false,
+  "first_static_manifest_refusal": {
+    "head": "218209760c59fea64ddcd838cacb8881f143339f",
+    "tree": "9c37fa87dbc2e2895c69742ca20011d9e788497e",
+    "error": "NONPAYABLE_COMPLETE_OWN_SOURCE_MANIFEST_REQUIRED",
+    "reason": "New origin must be explicitly included in the unchanged complete-source guard",
+    "actual_SQL_executed": 0,
+    "actual_Native_cases": 0
+  }
+}
