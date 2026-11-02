@@ -1,0 +1,38 @@
+{
+  "classification": "AFUI_FIRST_ACTUAL_POSTGRES17_CAPABILITY_AMBIENT_SEARCH_PATH_REPAIR_NOT_BUSINESS",
+  "original_capability_head": "018d3bc3fc2e1b5e2749cc25a466edf8df78c2d2",
+  "original_capability_tree": "f854965791b8f7a22bd4b862477a9e88d9d6ad14",
+  "run_id": 41437248634,
+  "job_id": 125250039172,
+  "conclusion": "failure",
+  "original_archive": {
+    "bytes": 8631,
+    "sha256": "3cffb9cf3138ba973b651971e7d9cd968c830fe65329e89d76e1201825c3ba68",
+    "artifact_id": 13137450822
+  },
+  "error": "GOOD_POLICY_DATE_SETTINGS_UNDECLARED_CATALOG_CHANGE:functions:erp_cp7_get_good_policy_dates_v1(jsonb)",
+  "cause": "Original all22 query strings format regprocedure names using current search_path. The model omitted the actual owning runtime empty search_path and UTC, yielding an unqualified public function key. No business engine or ACL oracle changes.",
+  "source_route": {
+    "before": "            queries=catalog_queries();before=capture(cur,queries)",
+    "after": "            cur.execute(\"set local search_path='';set local timezone='UTC'\")\n            queries=catalog_queries();before=capture(cur,queries)",
+    "count": 1
+  },
+  "before": {
+    "bytes": 8455,
+    "sha256": "3c509e803b6e6a1f2e34c941010ab35dfa588a97275ccafb073b724a2565e8ba"
+  },
+  "after": {
+    "bytes": 8532,
+    "sha256": "1233fb8248e43fd1806cb99fa87726ac152fd77bc24d489f9a3d3b3387d39887"
+  },
+  "actual_PostgreSQL": 170006,
+  "actual_ERP_cases": 0,
+  "actual_Native_cases": 0,
+  "capability_DB_removed": true,
+  "global_roles_and_memberships_restored": true,
+  "settings_SQL_and_six_bodies_and_all22_oracle_unchanged": true,
+  "old_Mandor_pass_and_global_catalog_refusal_NOT_to_be_rerun": true,
+  "financial_six_hour_day_policy_unchanged": true,
+  "production_go": false,
+  "independent_acceptance": false
+}

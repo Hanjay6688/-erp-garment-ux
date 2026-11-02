@@ -95,6 +95,7 @@ def run():
                     raise ValueError('AFUI_ACL_EXACT_ACTUAL_PUBLIC_EXECUTE_DEFAULT_REQUIRED')
                 cur.execute(sql.SQL('alter default privileges for role postgres in schema public grant execute on functions to {}').format(sql.Identifier(grantee)))
             for name in('policy.sql','basis.sql'):cur.execute((HERE/name).read_text(),prepare=False)
+            cur.execute("set local search_path='';set local timezone='UTC'")
             queries=catalog_queries();before=capture(cur,queries)
             raw_public=cur.execute("select nspacl::text from pg_namespace where nspname='public'").fetchone()[0]
             cur.execute((HERE/'settings.sql').read_text(),prepare=False)

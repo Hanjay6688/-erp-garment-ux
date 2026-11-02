@@ -1,3 +1,7 @@
+### First actual Supabase PostgreSQL17 capability result
+
+The isolated actual17 run41437248634/job125250039172 preserved its first failure: its all22 reader inherited a public search_path and formatted the new public function key without `public.`. The capability now sets the same empty search_path and UTC as the actual owning runtime before taking either catalog snapshot. Exact settings SQL, all six bodies and catalog/role exposure oracles remain unchanged. Its synthetic database was removed and global roles restored. The completed actual17 Mandor capability and actual catalog privilege refusal remain valid and will not be rerun. This repair does not alter the financial workflow six-hour WIB window or grant any business acceptance.
+
 Latest 2 November: the second actual owning run 41419714664 failed before
 business cases because PUBLIC/default EXECUTE survived public-function owner
 transfer. Its full restoration report passed. ACL normalization now occurs

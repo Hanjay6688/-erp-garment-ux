@@ -85,8 +85,8 @@
       "sha256": "8eb2440bcf029a638544f90e2c1eaad5caf37f5e1765b5de6b108ab027285c7f"
     },
     "scripts/cp7_accessory_nonpayable/function_acl_capability.py": {
-      "bytes": 8455,
-      "sha256": "3c509e803b6e6a1f2e34c941010ab35dfa588a97275ccafb073b724a2565e8ba"
+      "bytes": 8532,
+      "sha256": "1233fb8248e43fd1806cb99fa87726ac152fd77bc24d489f9a3d3b3387d39887"
     },
     "scripts/cp7_accessory_nonpayable/native-before/ensure_snapshot.sql": {
       "bytes": 6941,
