@@ -91,16 +91,17 @@ def masters(cur):
       back_at=(now-timedelta(seconds=30)).isoformat(),source=rows[0][0],target=target_rows[0][0],other=target_rows[1][0],
       source_roots=[p for p,_ in rows],target_roots=[p for p,_ in target_rows],groups=groups,location=BASE.LOCATION)
 
-def opening(cur,product,qty,unit,day):
+def opening(cur,product,qty,unit,day,location=None):
     admin(cur);ident=str(uuid.uuid4())
+    location=location or BASE.LOCATION
     cur.execute("insert into erp.opening_balance_headers(id,opening_number,opening_date,status,created_by)values(%s,%s,%s,'DRAFT',%s)",
       (ident,'S29-'+ident,day,BASE.OPERATOR_APP))
     cur.execute("insert into erp.opening_balance_items(opening_id,balance_type,product_id,location_id,qty,unit_cost_snapshot,quality_grade,hpp_input_method)values(%s,'FINISHED_GOODS',%s,%s,%s,%s,'GRADE_A','MANUAL')",
-      (ident,product,BASE.LOCATION,qty,str(unit)))
+      (ident,product,location,qty,str(unit)))
     b.internal(cur,'post_opening_balance',ident);admin(cur)
     # The opening posting has one item, so its new lot is identified by the
     # document's item provenance rather than a latest-created guess.
-    lots=cur.execute("select distinct m.lot_id::text from erp.fg_stock_movements m join erp.opening_balance_items i on i.id=m.source_id where m.source_type='OPENING_BALANCE_ITEM'and i.opening_id=%s and i.product_id=%s",(ident,product)).fetchall()
+    lots=cur.execute("select distinct m.lot_id::text from erp.fg_stock_movements m join erp.opening_balance_items i on i.id=m.source_id where m.source_type='OPENING_BALANCE_ITEM'and i.opening_id=%s and i.product_id=%s and i.location_id=%s",(ident,product,location)).fetchall()
     assert len(lots)==1,('SKU29_OPENING_NATIVE_PROVENANCE',ident,lots)
     return lots[0][0]
 

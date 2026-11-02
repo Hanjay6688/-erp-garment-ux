@@ -1,0 +1,65 @@
+{
+  "contract": "cp7.sku-moving-average-native5.v1",
+  "base_head": "8813415e17dd7aa63c8ad2afadf3433bba65e6fc",
+  "base_tree": "c789744272f91264aa8796338c2595571022bd3f",
+  "parent_source_head": "01ef15ad",
+  "qualified_parent": {
+    "head": "090b85d3fcb738d3e694d4329d306f199a686eb8",
+    "tree": "e04831b441bed987cd72ff738cf2a06a7c0ef0ae",
+    "run_id": 41167734749,
+    "job_id": 124438845597,
+    "artifact_id": 13031164777,
+    "archive": {
+      "bytes": 94781660,
+      "sha256": "9ad923d20d0972b2a01df3ce3307bf03db537406ac89f99f700cf6d235bfc341",
+      "members": 170
+    },
+    "originals": {
+      "CP7_SKU_MANAGED_RECOVERY_NATIVE27.json": {"bytes": 30376182, "sha256": "5e22077e71e34add6fd0627c89e9d21a2235f463818e45b233c7619bcfb0d48f"},
+      "CP7_SKU_PAIR_CONVERSION_NATIVE7.json": {"bytes": 21044, "sha256": "19416848a4247973e9302d669945baccd7a536210eadcffdef57d8206b7eda3e"},
+      "CP7_SKU_GROUP_COST_NATIVE5.json": {"bytes": 39067, "sha256": "49be026d74c011aed4195117fa6f8f85ee12cf1e7dfa8272430479e1e40dc839"},
+      "T3_PACKAGE_INSTALL.json": {"bytes": 360417, "sha256": "9afc5d5798b9ccc85c5c61c922e3cbfea75829aa2d790a8e4468149440cfd5e2"},
+      "T3_PACKAGE_FILES_INSTALL.json": {"bytes": 1806, "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"},
+      "T3_BACKUP_RESTORE_DRILL.json": {"bytes": 1470, "sha256": "bb7bd9fedafa7d1a72b7a7aed6431d82ca9d4de7bd2849df33c06d245b1f61c9"}
+    }
+  },
+  "parent_runtime_files": {
+    "scripts/cp7_sku_pair_conversion/composition.py": "fa3e825b251252ae11c2b68eecd9e55562526b468f03a01ebc3d5213ed472be8",
+    "scripts/cp7_sku_pair_conversion/conversion.sql": "eece6fbed8cb13b73a49ec2e051478d6ba2a8b1002f6745b8c682db318595d72",
+    "scripts/cp7_sku_pair_conversion/native_delta.py": "ff479d17a8f039693723307088551a0eb6876e2bdd772da2b6dc6f60c55d82f8",
+    "scripts/cp7_sku_pair_conversion/pairs.sql": "05c7b67222b2a003ee4180872216a0837c747fcb145db88157317bad25b281c2",
+    "scripts/cp7_sku_pair_conversion/ri_catalog.py": "aa30eff7c258de3ced78067ed7fbe660bef4570c291946f9291d6363881a4f3e"
+  },
+  "runtime_files": {
+    "scripts/cp7_sku_moving_average/README.md": "7a4124c9d7269b8d4cbcd2a29373df9c942bd014014fe7f6a1c81ce5a30872f0",
+    "scripts/cp7_sku_moving_average/COMPONENT_LEDGER_DESIGN.md": "74aafb413d2db0a46b07495b7c93eef3c2cd92fde75b3ab6b3725e9acf61bd67",
+    "scripts/cp7_sku_moving_average/component_oracle.py": "202f17cd1903fd4b741e99ad84ea897285788d78f41c5ff9a58174c4d9872179",
+    "scripts/cp7_sku_moving_average/valuation.sql": "7477e1c36535b82d80f6ea879b2490eac773831642d802e8902826f66a9df6dd",
+    "scripts/cp7_sku_moving_average/private_delta.py": "e57e89f8291a7b62ce1584b4f30b4927dadac9b5bbb17feefe1c97c6c8f4218e",
+    "scripts/cp7_sku_moving_average/consumer_delta.py": "73bc2c15f0d478136c96aacd19ae36fae5e673a4f3ff8e27ad185daa97b4093b",
+    "scripts/cp7_sku_moving_average/reader_delta.py": "45ed151c249e256ab566d802a550d4db75ee4292e4023e216a501f76cbde8898",
+    "scripts/cp7_sku_moving_average/qualification_cases.py": "7a3b2769decf107b5bcc3ef770e39affd83f3f1a7ab2c1b7ac2037eae1ae6bc8",
+    "scripts/cp7_sku_moving_average/composition.py": "af03c666f51c369abe50342311aeca6c69171b3980e8a70beb02687f748f150b",
+    "scripts/cp7_sku_moving_average/test_component_contract.py": "708201106b86cf89cc2676e02b851b37dd0d7d7523c54908dffd26249eedbf4b",
+    "scripts/cp7_sku_moving_average/test_private_delta.py": "9a0516279a1922de7c9f16cd93b5f6e4545caf4a1f73badb8a499f1863487551",
+    "scripts/cp7_sku_moving_average/test_consumer_delta.py": "6c385b1ba5ffeb43497c0f60112a8c97108094905a71f157e990dd0fdd00f06d",
+    "scripts/cp7_sku_moving_average/test_reader_delta.py": "97bbfb541eeccd990fce1d10b5bb061fac7da3f088cd2304f788970afe693197",
+    "scripts/cp7_sku_moving_average/test_qualification_cases.py": "590e4b4ca6d4cc2782fc391e4bb3cb58d267308d5dd8bfc916ca01638828754e"
+  },
+  "native_case_ids": [
+    "SKU_MOVAVG_CANONICAL_FORWARD20_MANUAL_BACK35_TOTAL130",
+    "SKU_MOVAVG_EXACT_GROUP_REVERSE_COMPONENT_AND_VALUE_INVERSE",
+    "SKU_MOVAVG_ROOT_RECOST_FOLLOWS_REMAINING_LINEAGE_TOTAL150",
+    "SKU_MOVAVG_SALE_PARTIAL_RETURN_AND_EXACT_REVERSAL",
+    "SKU_MOVAVG_RESERVATION_INCLUDED_AND_LOCATION_ISOLATED"
+  ],
+  "runner_derivation": {
+    "original_sha256": "c420d894f8d5f16bddefeae73addb621507170f372a28e7d6e33d88c7eeb0be9",
+    "derived_sha256": "1b994775a24d21e25b4788670d961344be9bee88a6e23a2db9d91173174b160e",
+    "counted_changes": 6,
+    "complete_install_preuse_used_guard_backup_restore_roles_data_sequences_advisors_retained": true,
+    "fresh_Auth_HTTP_races_browser_claim": false
+  },
+  "production_go": false,
+  "independent_acceptance": false
+}
