@@ -1,7 +1,7 @@
 """Physical preparation checks only; no DB/client import or Native operation."""
 from pathlib import Path
 from hashlib import sha256
-import importlib.util,json,os,subprocess
+import importlib.util,json,os,subprocess,re
 
 HERE=Path(__file__).resolve().parent
 ROOT=HERE.parents[1]
@@ -9,7 +9,7 @@ ROOT=HERE.parents[1]
 
 def check():
     p=HERE/'SOURCE.json';manifest=json.loads(p.read_bytes())
-    assert manifest['classification']=='CLOSED_GLOBAL_ENVELOPE_LOCK_PRIMITIVE_PREPARATION_NOT_QUALIFICATION'
+    assert manifest['classification']=='CLOSED_GLOBAL_ENVELOPE_LOCK_AND_NATIVE_SCOPE_PREPARATION_NOT_QUALIFICATION'
     assert manifest['runtime_entry']is None and manifest['actual_Native_cases']==0
     env=dict(os.environ,GIT_NO_LAZY_FETCH='1',GIT_OPTIONAL_LOCKS='0')
     def git(*args):return subprocess.check_output(['/usr/bin/git','-C',str(ROOT),*args],env=env)
@@ -38,9 +38,32 @@ def check():
     try:gate.parent()
     except ValueError as error:assert str(error)=='CP7_GLOBAL_ENVELOPE_ACTUAL_FINAL_PARENT_AND_OWNING_SCOPE_PENDING'
     else:raise ValueError('GLOBAL_ENVELOPE_PARENT_GATE_WAS_OPENED')
+    scope=json.loads((HERE/'WORK_SCOPE_MODEL_CONTROLS.json').read_bytes())
+    assert scope['status']=='GLOBAL_NATIVE_WORK_SCOPE_BINDING_AND_OUTSIDE_MODEL_CONTROLS_PASS_NOT_ERP'
+    assert len(scope['results'])==21 and all(row['result']in('PASS','REFUSED_AS_REQUIRED')for row in scope['results'])
+    assert scope['actual_Native_work_column_maps']==3 and scope['actual_Native_work_columns']==73
+    assert scope['actual_Native_owner_lifecycles_and_barrier_and_inspector_and_current_rights_are_models']is True
+    assert scope['old_actual_lock_primitives_and_old_census_NOT_rerun']is True
+    assert scope['Native_owning_hooks_written']==scope['actual_Native_cases']==scope['actual_Auth_HTTP_cases']==scope['actual_two_session_races']==scope['actual_browser_cases']==0
+    assert scope['complete_installer_provided']is False and scope['parent_gate_opened']is False
+    for name,expected in scope['source_files'].items():
+        raw=(HERE/name).read_bytes();assert expected=={'bytes':len(raw),'sha256':sha256(raw).hexdigest()}
+    reference=json.loads((HERE/'NATIVE_SCOPE_WORK_REFERENCE.json').read_bytes())
+    assert reference['head']=='6e61506c10a18541c104b981bd438e78b175b5d1'
+    assert len(reference['columns'])==3 and sum(map(len,reference['columns'].values()))==73
+    sql='\n'.join((HERE/name).read_text()for name in('schema.sql','lock.sql','work_scope.sql'))
+    functions=re.findall(r'^create function ([a-z0-9_.]+)\(',sql,re.M)
+    assert len(functions)==len(set(functions))==manifest['private_functions']==6
+    tables=re.findall(r'^create table ([a-z0-9_.]+)\(',sql,re.M)
+    assert len(tables)==len(set(tables))==manifest['private_tables']==3
+    assert all(name.startswith('cp7_global_nonpo_envelope.')for name in functions+tables)
+    writes=re.findall(r'^\s*(?:insert into|update|delete from)\s+([a-z0-9_.]+)',(HERE/'work_scope.sql').read_text(),re.M)
+    assert set(writes)=={'cp7_global_nonpo_envelope.work_scopes_v1','cp7_global_nonpo_envelope.scope_completions_v1'}
     return dict(status='GLOBAL_PRIVATE_ENVELOPE_SOURCE_ONLY_NOT_RUNTIME_OR_PROFILE_QUALIFICATION',
         unchanged_parent_blobs_and_modes=len(base),own_source_pins=len(manifest['files']),
         parent_gate_closed=True,runtime_entry=None,profile_seed_statements=0,
+        new_private_scope_functions=4,new_private_scope_tables=2,new_scope_model_controls=21,
+        actual_owning_hooks=0,complete_installer=False,
         actual_ERP_SQL_executed=0,actual_Native_cases=0,production_go=False,independent_acceptance=False)
 
 

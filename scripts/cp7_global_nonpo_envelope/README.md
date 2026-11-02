@@ -20,12 +20,27 @@ input relations, refuses any other granted permanent transaction-ID ExclusiveLoc
 lots in Native ID order, then rechecks exact Native authority. Existing caller
 request/CAS/pocket TRY/FG/FGBOOK order remains the caller's responsibility.
 
+`work_scope.sql` additionally prepares backend/transaction/actor/request binding
+from the three real Native work tables. D1/E require the exact reviewed global
+basis; generic SOURCE binds a fresh owned basis without claiming UI review.
+After the NOWAIT barrier, live Native access and work identity are rechecked.
+Completion requires the same owner/request/payload/version and Native completion
+phase, then exact outside identity and full fact equality. It changes no Native
+phase itself. Immutable private completion rows reject update/delete/truncate.
+
+Twenty-one new PostgreSQL/WASM18.6 model controls passed after one initial SQL
+CASE-parentheses compile fix (zero cases had run). Exact73 column types come
+from the accepted DE30 original. Native owners, constraints, Auth/rights, barrier
+and inspector are explicitly modeled; none of the old actual lock controls or
+census was rerun. The four standalone graph helpers are separate, and the eight
+actual Native owning hooks and final-parent adoption are still absent.
+
 The mechanism is backed by actual retained relation-lock primitives and catalog
 primitives (four retained plus three fresh). It is not yet an ERP lock profile.
 No function infers quiescence from an empty snapshot xip sublist.
 
 Remaining: actual final-parent profile and complete source/call/trigger/FK/RLS
-review; operation/backend/transaction/actor/request binding; fresh D1/E review
+review; actual Native integration of operation/backend/transaction/actor/request binding; fresh D1/E review
 and permission/period/source checks; the exact three guard and eight owning
 function adaptations; full outside before/after proof before receipts close;
 actual persisted SKU then D1/E positive/inverse/dirty/stale/permission races;
