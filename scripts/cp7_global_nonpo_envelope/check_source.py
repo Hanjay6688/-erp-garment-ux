@@ -53,7 +53,7 @@ def check():
     assert len(reference['columns'])==3 and sum(map(len,reference['columns'].values()))==73
     sql='\n'.join((HERE/name).read_text()for name in('schema.sql','lock.sql','work_scope.sql','review.sql'))
     functions=re.findall(r'^create function ([a-z0-9_.]+)\(',sql,re.M)
-    assert len(functions)==len(set(functions))==manifest['private_functions']==8
+    assert len(functions)==len(set(functions))==manifest['envelope_private_functions']==8
     tables=re.findall(r'^create table ([a-z0-9_.]+)\(',sql,re.M)
     assert len(tables)==len(set(tables))==manifest['private_tables']==3
     assert all(name.startswith('cp7_global_nonpo_envelope.')for name in functions+tables)
@@ -98,12 +98,20 @@ def check():
     assert 'cascade'not in bridge.inverse_sql().lower()and 'drop owned'not in bridge.inverse_sql().lower()
     assert manifest['platform_catalog_fence_functions']==1 and manifest['platform_catalog_fence_owner']=='supabase_admin'
     assert manifest['trusted_platform_bootstrap_and_cleanup_pending']is True
+    spec=importlib.util.spec_from_file_location('global_exact_readonly_graph_source_only',HERE/'readonly_graph.py')
+    readonly=importlib.util.module_from_spec(spec);spec.loader.exec_module(readonly)
+    assert readonly.source()==json.loads((HERE/'READONLY_GRAPH_SOURCE_CONTROLS.json').read_bytes())
+    saved=json.loads((HERE/'READONLY_GRAPH_SAVED_DE30_COMPATIBILITY.json').read_bytes())
+    assert len(saved)==2 and all(r['comparison']['actual_reference_functions']==r['comparison']['attributes_per_function']==19 and r['comparison']['view_equal']is True for r in saved.values())
+    assert manifest['readonly_graph_functions']==4 and manifest['private_functions']==manifest['envelope_private_functions']+manifest['readonly_graph_functions']+manifest['platform_catalog_fence_functions']==13
     return dict(status='GLOBAL_PRIVATE_ENVELOPE_SOURCE_ONLY_NOT_RUNTIME_OR_PROFILE_QUALIFICATION',
         unchanged_parent_blobs_and_modes=len(base),own_source_pins=len(manifest['files']),
         parent_gate_closed=True,runtime_entry=None,profile_seed_statements=0,
         new_private_scope_functions=4,new_private_scope_tables=2,new_scope_model_controls=21,
         new_private_review_functions=2,prepared_owning_source_adapters=8,reversible_owning_source_routes=18,
-        new_review_and_owning_model_controls=13,platform_catalog_fence_source_functions=1,
+        new_review_and_owning_model_controls=13,readonly_graph_source_functions=4,
+        exact_retained_readonly_graph_source_files=5,total_private_functions=13,
+        platform_catalog_fence_source_functions=1,
         counted_platform_lock_source_routes=1,actual_platform_capability_installed=False,
         actual_owning_hooks=0,complete_installer=False,
         actual_ERP_SQL_executed=0,actual_Native_cases=0,production_go=False,independent_acceptance=False)

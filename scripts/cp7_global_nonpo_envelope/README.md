@@ -1,3 +1,9 @@
+## Exact retained read-only graph source
+
+The four STABLE read-only helpers plus AUTHORITY.json are copied byte-for-byte from a6ded9cd4ce23a6d59cd32e42ca9bb33d793f8cc/tree55da7c6ab29d9bfda68962be27da0db7ad931662 into graph_helpers. `readonly_graph.source()` checks all five Git blob identities and source hashes, exact four private helper names, STABLE security-definer declarations and absence of writer/sequence/context/lock calls. The complete19 attributes of all19 referenced Native functions and the current-HPP view match both saved accepted DE30 observations before and after committed E. This is source/reference compatibility; the final actual parent is still not adopted. No old inspector/model/Native suite was repeated.
+
+The prepared source now declares8 private envelope functions,4 retained read-only graph functions and1 fixed platform-owned catalog fence (13 total), with3 envelope tables. None is an active Global installer or financial acceptance.
+
 ## Fixed platform catalog fence preparation
 
 Actual Supabase PostgreSQL17 refused the old all-catalog SHARE barrier under the ordinary postgres owner with SQLSTATE42501. The old successful catalog primitive models used a superuser creator. Their lock semantics remain valid; they do not establish installation authority for the product owner.

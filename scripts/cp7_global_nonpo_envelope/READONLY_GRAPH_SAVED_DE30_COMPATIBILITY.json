@@ -1,0 +1,32 @@
+{
+  "DE_GLOBAL_BEFORE_NATIVE30/CALLER_RAW_BOUNDARY_OBSERVATION.json": {
+    "source": {
+      "bytes": 22185024,
+      "sha256": "7607987b5a8a9100dddbfef5b39135b330eda329bf89b072b3839467cf7c7b86"
+    },
+    "comparison": {
+      "status": "SAVED_CURRENT_ALL19_NATIVE_FUNCTION_ATTRIBUTES_AND_VIEW_EQUAL_RETAINED_REFERENCE",
+      "actual_reference_functions": 19,
+      "attributes_per_function": 19,
+      "view_equal": true,
+      "fresh_Runtime_or_final_parent_adoption": false,
+      "actual_SQL_executed": 0,
+      "actual_Native_cases": 0
+    }
+  },
+  "DE_GLOBAL_AFTER_COMMITTED_E_USE/CALLER_RAW_BOUNDARY_OBSERVATION.json": {
+    "source": {
+      "bytes": 22185033,
+      "sha256": "2069e339e9f6c7b840280434dcd3bc4bab4aff6aaa820804193e71d659a9ba34"
+    },
+    "comparison": {
+      "status": "SAVED_CURRENT_ALL19_NATIVE_FUNCTION_ATTRIBUTES_AND_VIEW_EQUAL_RETAINED_REFERENCE",
+      "actual_reference_functions": 19,
+      "attributes_per_function": 19,
+      "view_equal": true,
+      "fresh_Runtime_or_final_parent_adoption": false,
+      "actual_SQL_executed": 0,
+      "actual_Native_cases": 0
+    }
+  }
+}
