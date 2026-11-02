@@ -144,6 +144,28 @@ def check():
     # additional blank separator. Preserve every executable prefix byte.
     assert prefix.endswith('\n\n')
     assert (HERE/'payment_guard_model.mjs').read_text().startswith(prefix[:-1])
+    facade=json.loads((HERE/'FACADE_MODEL_CONTROLS.json').read_bytes())
+    assert facade['status']=='FG_MANDOR_NARROW_PUBLIC_FACADE_MODEL_CONTROLS_PASS_NOT_NATIVE'
+    assert len(facade['results'])==9 and all(row['result']in('PASS','REFUSED_AS_REQUIRED')for row in facade['results'])
+    assert facade['public_functions_compiled']==facade['private_entrypoint_grants']==4
+    assert facade['facade_role']=='cp7_mandor_shop_api'and facade['Native_master_context_column_type_maps']==3
+    assert facade['retained_131_controls_NOT_rerun']is True
+    assert facade['actual_native_function_or_private_owner_source_changes']==0
+    assert facade['Native_runtime_or_public_facade_activated']is False
+    assert facade['actual_Native_cases']==facade['actual_Auth_HTTP_cases']==facade['actual_browser_cases']==facade['actual_two_session_races']==0
+    for name,expected in facade['source_files'].items():
+        raw=(HERE/name).read_bytes();assert {'bytes':len(raw),'sha256':sha256(raw).hexdigest()}==expected
+    facade_origin=json.loads((HERE/'FACADE_MODEL_ORIGIN.json').read_bytes())
+    assert facade_origin['all_prior_131_controls_NOT_rerun']is True
+    assert facade_origin['private_owners_or_actual_Native_function_bodies_changed']is False
+    raw=(ROOT/facade_origin['parent_path']).read_bytes()
+    assert facade_origin['parent_source']=={'bytes':len(raw),'sha256':sha256(raw).hexdigest()}
+    prefix=raw[:facade_origin['original_prefix_bytes']].decode()
+    for change in facade_origin['source_routes']:
+        assert change['count']==1 and prefix.count(change['before'])==1
+        prefix=prefix.replace(change['before'],change['after'],1)
+    assert (HERE/'facade_model.mjs').read_text().startswith(prefix)
+    assert value['public_facade_functions']==4 and value['public_facade_entrypoint_grants']==4
     assert value['private_functions']==value['schema_and_event_functions']+value['private_allocation_functions']+value['private_buyer_functions']+value['private_sale_identity_functions']+value['private_offset_functions']+value['private_payment_functions']+value['private_payment_guard_functions']==31
     return dict(status='FG_MANDOR_EXACT_STORAGE_PREPARATION_SOURCE_ONLY',unchanged_parent_blobs_and_modes=len(base),
         own_source_pins=len(value['files']),storage_model_controls=len(model['results']),parent_gate_closed=True,
@@ -154,6 +176,7 @@ def check():
         private_payment_functions=4,retained_payment_model_controls=19,fresh_payment_model_controls=4,
         Native_payment_source_adapters=8,actual_payment_runtime_installed=False,
         private_payment_guard_functions=6,new_payment_guard_model_controls=13,Native_payment_guard_triggers=6,
+        public_facade_source_functions=4,public_facade_model_controls=9,public_facade_runtime_activated=False,
         retained_67_controls_NOT_rerun=True,Native_paid_projection_integration=False,
         Native_header_trigger_source_written=True,Native_header_trigger_ERP_qualification=False,
         retained_allocation_controls_NOT_rerun=True,

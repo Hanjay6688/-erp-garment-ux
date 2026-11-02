@@ -4,8 +4,9 @@ Penyimpanan, pemilik perubahan status, pembaca kartu, perintah privat untuk
 pasang/lepas alokasi draft, persiapan identitas pembeli mandor serta penghubung
 identitas draft/posting sudah ditulis.
 Proyeksi privat pembayaran nonkas dan pemeriksa pasangan jurnal juga sudah ditulis.
-Modul ini belum mempunyai pemasang,
-perintah publik, sambungan pelunasan Native atau pop-up aplikasi.
+Modul ini belum mempunyai pemasang, sambungan pelunasan Native atau pop-up
+aplikasi yang diaktifkan. Sumber empat perintah publik sempit sudah disiapkan,
+tetapi belum dipasang.
 Gerbang parent dan runtime masih tertutup. Tidak ada
 penambahan kasus Native atau izin memakai produksi dari hasil model ini.
 
@@ -160,3 +161,19 @@ terarah baru ini memasang keenam trigger; 95 model lama serta 23 model pembayara
 tetap dipakai, tidak diulang. Mesin retur, Auth, penjagaan Native dasar, stok/HPP
 dan dua backend tetap belum dijalankan. Pemasang/profil program akhir dan
 pembuktian Native dengan seluruh lapisan tetap diperlukan sebelum modul dibuka.
+
+`facade.sql` menyiapkan empat pintu publik: pilihan mandor, persiapan identitas
+pembeli, kartu tagihan pada payroll terpilih, serta pasang/lepas kartu. Satu peran
+NOLOGIN tanpa hak istimewa hanya dapat memanggil empat pemilik privat yang sudah
+ada. Peran browser tidak memperoleh akses tabel/privat; peran anon dan service
+tidak mendapat hak menjalankan pintu publik ini. Pemeriksaan aktor, izin saat ini,
+sumber, review dan request tetap dilakukan pemilik privat existing.
+
+Sembilan pemeriksaan baru lulus pada percobaan pertama di PG/WASM: hak peran,
+pembeli bernama sama dengan UUID berbeda, minggu manual, kartu berisi alokasi
+dan minggunya, replay tanpa potongan ganda, perubahan payload, pencabutan izin,
+serta pelepasan draft. Setup memakai rumus kolom neto dan badan fungsi Native
+yang sudah dipakai model alokasi; 131 pemeriksaan lama tidak diulang. Ini belum
+Auth HTTP atau pemasangan ERP: provider izin/Auth, sebagian tabel/batasan dan
+saldo invoice masih model yang dinyatakan dalam bukti. Pop-up dan integrasi
+formulir Penjualan, pemasang/profil akhir serta kualifikasi lengkap tetap terbuka.

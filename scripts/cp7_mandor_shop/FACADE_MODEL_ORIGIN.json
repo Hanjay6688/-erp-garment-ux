@@ -1,0 +1,22 @@
+{
+  "status": "EXACT_REUSED_ALLOCATION_MODEL_SETUP_NEW_PUBLIC_FACADE_CONTROLS_ONLY",
+  "parent_head": "07d45bfd1ce975bc059e7fda35c2268c8d878b8b",
+  "parent_path": "scripts/cp7_mandor_shop/allocation_model.mjs",
+  "parent_source": {
+    "bytes": 16505,
+    "sha256": "ab7f1acd7500f6b43eac332be87adbfd6e07434cb1a0b6524e1ad6133669aeb3"
+  },
+  "original_prefix_bytes": 10266,
+  "source_routes": [
+    {
+      "before": "assert(runtime && output, 'Explicit existing isolated runtime and new output required');",
+      "after": "assert(runtime && output, 'Explicit existing isolated runtime and new output required');\nassert.equal(process.argv[4],'--facade-only','Only the new browser facade controls execute');",
+      "count": 1
+    }
+  ],
+  "all_prior_131_controls_NOT_rerun": true,
+  "private_owners_or_actual_Native_function_bodies_changed": false,
+  "actual_Native_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

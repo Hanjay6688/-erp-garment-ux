@@ -23,6 +23,14 @@
       "bytes": 709,
       "sha256": "8edbc0f08568c540f32631cbebc2855e5f3e4396acf2923f64be15802e8e8331"
     },
+    "scripts/cp7_mandor_shop/FACADE_MODEL_CONTROLS.json": {
+      "bytes": 4154,
+      "sha256": "69b37b20ce6def65a6feabcefcce029a5625f322593d76915fdbeb840b040885"
+    },
+    "scripts/cp7_mandor_shop/FACADE_MODEL_ORIGIN.json": {
+      "bytes": 939,
+      "sha256": "30e942874bc1796778fbaff0e003e4d69b32173a8dcec04d8403daf2bb257a36"
+    },
     "scripts/cp7_mandor_shop/NATIVE_ALLOCATION_REFERENCE.json": {
       "bytes": 41819,
       "sha256": "d8186788861fafe039af6e4745a92ed69fc8b27287e295cdd9af55bcfc36d9c2"
@@ -84,8 +92,8 @@
       "sha256": "ba3da6e7c3a7ca001ff55f87588dc2fa0e9d7e4d93ddf01f213176121e789c7d"
     },
     "scripts/cp7_mandor_shop/README.md": {
-      "bytes": 11144,
-      "sha256": "fa047e399f8832d08f75ed98fe90afca996c39d011afd628ce8ab39212354c91"
+      "bytes": 12326,
+      "sha256": "639daae744f678994b71b042b6bac098ae8f6bd2b433142ef946589a32bd10e6"
     },
     "scripts/cp7_mandor_shop/SALE_IDENTITY_MODEL_CONTROLS.json": {
       "bytes": 4221,
@@ -128,12 +136,20 @@
       "sha256": "5bfeb12b4103ca88f48b84a213098b33a90e7ead52398a5025213d9188e47617"
     },
     "scripts/cp7_mandor_shop/check_source.py": {
-      "bytes": 13359,
-      "sha256": "6ac84fabbc4f0627371f6e9bfcb37b8ddb2303982951a318c367464b9e15ea1d"
+      "bytes": 15277,
+      "sha256": "c7a84e8ca9debc878b8c32185ff0edd664086348d434653a4f934016a47daea3"
     },
     "scripts/cp7_mandor_shop/events.sql": {
       "bytes": 8216,
       "sha256": "9e2633af5d9ecff6220c37cdf8bb22a27ce71cbc03862c8aa40a1fadfd82a1d3"
+    },
+    "scripts/cp7_mandor_shop/facade.sql": {
+      "bytes": 2963,
+      "sha256": "6881ccf3e14420a1779cc2f37811d1885a0d69223fc121f3c212d5bac94227d4"
+    },
+    "scripts/cp7_mandor_shop/facade_model.mjs": {
+      "bytes": 21154,
+      "sha256": "8fc452403206b0c5997c6ad2671ea4674ce04384f27fec4690c33768e27f9f6d"
     },
     "scripts/cp7_mandor_shop/native_payment_routes.py": {
       "bytes": 6314,
@@ -229,5 +245,9 @@
   "private_payment_guard_model_controls": 13,
   "retained_118_model_controls_NOT_rerun": true,
   "protected_journal_and_invoice_guard_sources_written": true,
-  "protected_journal_and_invoice_guards_installed": false
+  "protected_journal_and_invoice_guards_installed": false,
+  "public_facade_functions": 4,
+  "public_facade_entrypoint_grants": 4,
+  "new_public_facade_model_controls": 9,
+  "public_facade_runtime_activated": false
 }
