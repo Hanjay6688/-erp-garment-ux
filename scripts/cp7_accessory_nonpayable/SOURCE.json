@@ -8,6 +8,10 @@
       "bytes": 33890,
       "sha256": "551e9f853a6307e791991926b714aa53578f95b69ee246e7c567ff213dc75799"
     },
+    "scripts/cp7_accessory_nonpayable/ACTUAL_FUNCTION_DEFAULT_ACL_REFERENCE.json": {
+      "bytes": 1521,
+      "sha256": "c0409e9e66aa516ac34a05bfa62171d000b9be24fc5e95c965367b0160a881f1"
+    },
     "scripts/cp7_accessory_nonpayable/NATIVE_ORIGIN.json": {
       "bytes": 5332,
       "sha256": "3da80b9272264cf822cf9e6374a1229112d297fb366e8463248fc9ce62687d57"
@@ -65,8 +69,8 @@
       "sha256": "40b457f54d0082ae969c0a6d55a33dfe90e27fb88674ef6ffbf908b78f5fa837"
     },
     "scripts/cp7_accessory_nonpayable/composition.py": {
-      "bytes": 14747,
-      "sha256": "e33a129629787ff093bd54a715cc9069df1d307d7a7dc446535faef3f0d048b5"
+      "bytes": 14792,
+      "sha256": "18f2eb8feea6f6ace99330a3ff480cbeb171818ca71c24a7b1cfdd0f4a2b8fac"
     },
     "scripts/cp7_accessory_nonpayable/copy_context.py": {
       "bytes": 2636,
@@ -79,6 +83,10 @@
     "scripts/cp7_accessory_nonpayable/final_gate.py": {
       "bytes": 15834,
       "sha256": "8eb2440bcf029a638544f90e2c1eaad5caf37f5e1765b5de6b108ab027285c7f"
+    },
+    "scripts/cp7_accessory_nonpayable/function_acl_capability.py": {
+      "bytes": 8455,
+      "sha256": "3c509e803b6e6a1f2e34c941010ab35dfa588a97275ccafb073b724a2565e8ba"
     },
     "scripts/cp7_accessory_nonpayable/native-before/ensure_snapshot.sql": {
       "bytes": 6941,
@@ -149,12 +157,12 @@
       "sha256": "5ba62ba1cb2143186e6004a2d5f234df846bacea9ecb7ab1432f963b1f3bf10c"
     },
     "scripts/cp7_accessory_nonpayable/runtime_supervisor.py": {
-      "bytes": 2565,
-      "sha256": "1f0e98b447e77b58fe6cc7209052fa92bfc5d0f5d680c479090415f7930de84e"
+      "bytes": 2672,
+      "sha256": "a7a6fc74fe43dd0f1e30a1b29729d3e625886b2370074044fce850c906073761"
     },
     "scripts/cp7_accessory_nonpayable/settings.sql": {
-      "bytes": 15839,
-      "sha256": "733367d1822d86bd7fea5e2fe9196417c042659232cb0fbe3e887d424dcca06f"
+      "bytes": 16348,
+      "sha256": "affee25285953f007d9bf0175ca33c891a54343310968c64be247ed61217f15e"
     },
     "scripts/cp7_accessory_nonpayable/settings_stage.py": {
       "bytes": 16129,
@@ -187,6 +195,10 @@
     "scripts/cp7_accessory_nonpayable/test_final_preparation.py": {
       "bytes": 4963,
       "sha256": "03d25bd5f45841fead1826403575f3b8db40edf9df67e1102af75a8f69535d68"
+    },
+    "scripts/cp7_accessory_nonpayable/test_function_acl.mjs": {
+      "bytes": 7049,
+      "sha256": "f2f9af1aa13d8f5c0088d2c688b0b04d80bddd2a2517d5aceaafc710f41d3c71"
     },
     "scripts/cp7_accessory_nonpayable/test_lifecycle.py": {
       "bytes": 12811,

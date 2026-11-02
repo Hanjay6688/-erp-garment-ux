@@ -1,3 +1,14 @@
+Latest 2 November: the second actual owning run 41419714664 failed before
+business cases because PUBLIC/default EXECUTE survived public-function owner
+transfer. Its full restoration report passed. ACL normalization now occurs
+while postgres still owns exactly the six NEW functions; intended grants are
+set before owner transfer. No existing routine or default privilege changes.
+Three new focused controls pass under the actual public defaults on a labelled
+PostgreSQL/WASM18.6 schema. A fast actual PostgreSQL17 capability guard now runs
+before the long full-parent installation, in one new fixed disposable DB with
+synthetic tables and full transaction rollback/global-role restoration. Its
+result gives no ERP/Auth/business credit. Earlier failed originals remain.
+
 Current 2 November status: the actual FREE45 parent is bound. The first Afui15
 run failed during new-role ownership transfer before business cases; complete
 restoration passed. `FIRST_ROLE_OWNERSHIP_FAILURE_AND_REPAIR.json` preserves

@@ -1,0 +1,26 @@
+{
+  "status": "AFUI94_FIRST_ACTUAL_PUBLIC_EXECUTE_FAILURE_RESTORED_BEFORE_BUSINESS_CASES",
+  "head": "47e9cfb66e8b2b493605bbb005537457f3ddcd86",
+  "tree": "b55f6b27ec3bb111b01e315cc0d77d3d606f7d5f",
+  "run_id": 41419714664,
+  "job_id": 125192071600,
+  "artifact_id": 13134095881,
+  "canonical": {
+    "bytes": 1980858,
+    "sha256": "a9d7565066026fca598957c7603ba52857602028df85dfdc0d4c76aae762dda4"
+  },
+  "actual_business_cases": 0,
+  "error": "GOOD_POLICY_DATE_FUNCTION_EXPOSURE_CHANGED:public.erp_cp7_get_good_policy_dates_v1(jsonb):cp7_procure_read",
+  "cause": "Public function ACL work followed ownership transfer after temporary SET access was removed. PUBLIC/default EXECUTE survived. The previous four ownership model controls did not check all effective function privileges.",
+  "full22_all_rows_all_sequences_roles_CP6_advisors_restore_reported_PASS": true,
+  "repair": "Normalize all grantees only on the six newly created functions while postgres still owns them; grant exactly the two intended private entrypoints/facade and authenticated public routes; transfer public ownership last.",
+  "six_function_bodies_and_financial_and_business_case_sources_unchanged": true,
+  "new_focused_model_controls": 3,
+  "new_focused_model_runtime": "PostgreSQL/WASM18.6",
+  "new_model_controls_all_PASS": true,
+  "prior_four_models_and_prior_API_or_financial_cases_NOT_rerun": true,
+  "actual_PostgreSQL17_failfast_capability_before_full_ERP_install": true,
+  "capability_uses_fixed_new_DB_synthetic_schema_and_rollback": true,
+  "production_go": false,
+  "independent_acceptance": false
+}

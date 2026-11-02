@@ -37,6 +37,8 @@ def main():
     if not sys.argv[1:]:
         from cp7_accessory_nonpayable import admission
         admission.parent_receipt()  # No worker or subreaper before acceptance.
+        from cp7_accessory_nonpayable import function_acl_capability
+        function_acl_capability.run()
     text,_=derive((ROOT/ORIGINAL).read_bytes())
     module=ModuleType('afui_exact_original_supervisor');module.__file__=str(HERE/'runtime_supervisor.py')
     exec(compile(text,module.__file__,'exec'),module.__dict__)

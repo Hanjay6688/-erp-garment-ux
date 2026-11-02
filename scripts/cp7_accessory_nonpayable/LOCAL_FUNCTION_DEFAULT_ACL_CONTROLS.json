@@ -1,0 +1,37 @@
+{
+  "status": "ISOLATED_POSTGRES_NON_SUPERUSER_ACTUAL_DEFAULT_ACL_FOCUSED3_PASS_NOT_ERP",
+  "checks": [
+    {
+      "name": "EXACT_SIX_NEW_FUNCTION_BODIES_AND_ALL_EFFECTIVE_ROLE_PRIVILEGES_UNDER_ACTUAL_DEFAULTS",
+      "status": "PASS"
+    },
+    {
+      "name": "DEFAULT_GRANTS_AND_RAW_PUBLIC_SCHEMA_ACL_REMAIN_EXACT_WITH_NO_TEMPORARY_SET_ACCESS",
+      "status": "PASS"
+    },
+    {
+      "name": "EXACT_ALL22_STAGE_TRANSITION_AND_PREUSE_INVERSE_WITH_AMBIENT_DEFAULTS",
+      "status": "PASS"
+    }
+  ],
+  "creator_profile": {
+    "creator": "postgres",
+    "superuser": false,
+    "createrole": true,
+    "bootstrap": "supabase_admin",
+    "version": "18.6"
+  },
+  "source_sha256": {
+    "settings.sql": "affee25285953f007d9bf0175ca33c891a54343310968c64be247ed61217f15e",
+    "settings_stage.py": "683b840f4c4fbcf951e83529fe474a8a2b0258b58270552065c0de4cafb3cab6",
+    "test_function_acl.mjs": "f2f9af1aa13d8f5c0088d2c688b0b04d80bddd2a2517d5aceaafc710f41d3c71",
+    "ACTUAL_FUNCTION_DEFAULT_ACL_REFERENCE.json": "c0409e9e66aa516ac34a05bfa62171d000b9be24fc5e95c965367b0160a881f1"
+  },
+  "initial_four_role_models_and_prior_settings_API_and_financial_cases_NOT_rerun": true,
+  "schema_Auth_providers_and_actual_parent_install_are_models": true,
+  "actual_ERP_Native_cases": 0,
+  "actual_Auth_HTTP_cases": 0,
+  "actual_browser_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

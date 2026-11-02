@@ -216,27 +216,37 @@ alter function cp7_accessory_nonpayable.settings_access_v1(boolean) owner to pos
 alter function cp7_accessory_nonpayable.settings_event_v1(uuid) owner to postgres;
 alter function cp7_accessory_nonpayable.settings_workspace_v1(jsonb) owner to postgres;
 alter function cp7_accessory_nonpayable.settings_save_v1(jsonb,uuid,boolean) owner to postgres;
-revoke all on function cp7_accessory_nonpayable.settings_access_v1(boolean),
-  cp7_accessory_nonpayable.settings_event_v1(uuid),cp7_accessory_nonpayable.settings_workspace_v1(jsonb),
-  cp7_accessory_nonpayable.settings_save_v1(jsonb,uuid,boolean)
-  from public,anon,authenticated,service_role,cp7_good_policy_date;
+-- Normalize only these six newly created functions while postgres still owns
+-- them. Schema/global default EXECUTE grants and PUBLIC must not survive the
+-- later owner transfer; no default privilege or existing routine is changed.
+do $settings_new_acl$declare item_ record;grantee_ text;begin
+ for item_ in select p.oid::regprocedure::text signature,x.grantee
+  from pg_proc p cross join lateral aclexplode(coalesce(p.proacl,acldefault('f',p.proowner)))x
+  where p.oid in(
+   'cp7_accessory_nonpayable.settings_access_v1(boolean)'::regprocedure,
+   'cp7_accessory_nonpayable.settings_event_v1(uuid)'::regprocedure,
+   'cp7_accessory_nonpayable.settings_workspace_v1(jsonb)'::regprocedure,
+   'cp7_accessory_nonpayable.settings_save_v1(jsonb,uuid,boolean)'::regprocedure,
+   'public.erp_cp7_get_good_policy_dates_v1(jsonb)'::regprocedure,
+   'public.erp_cp7_save_good_policy_date_v1(jsonb,uuid,boolean)'::regprocedure)
+   and x.grantee<>p.proowner loop
+  grantee_:=case when item_.grantee=0 then'PUBLIC'else quote_ident(pg_get_userbyid(item_.grantee))end;
+  execute format('revoke all on function %s from %s',item_.signature,grantee_);
+ end loop;
+end $settings_new_acl$;
 grant usage on schema cp7_accessory_nonpayable to cp7_good_policy_date;
 grant execute on function cp7_accessory_nonpayable.settings_workspace_v1(jsonb),
   cp7_accessory_nonpayable.settings_save_v1(jsonb,uuid,boolean) to cp7_good_policy_date;
+grant execute on function public.erp_cp7_get_good_policy_dates_v1(jsonb),
+  public.erp_cp7_save_good_policy_date_v1(jsonb,uuid,boolean) to authenticated;
 
--- The gated installer first verifies public's raw ACL is explicit, and checks
--- it is restored exactly after this statement-only ownership grant.
+-- The gated installer verifies public's raw ACL is explicit and restored.
 -- PostgreSQL 17 gives a non-superuser creator ADMIN, but no SET option.
--- Grant SET only for these two ownership transfers, then remove our own grant.
--- The bootstrap administrator's automatic ADMIN-only grant remains explicit
--- in the complete catalogue transition; it conveys no inherited/SET access.
+-- Ownership transfer needs SET temporarily; all ACL work above uses the actual
+-- creator/owner before that authority is relinquished.
 grant cp7_good_policy_date to postgres with admin false, inherit false, set true;
 grant create on schema public to cp7_good_policy_date;
 alter function public.erp_cp7_get_good_policy_dates_v1(jsonb) owner to cp7_good_policy_date;
 alter function public.erp_cp7_save_good_policy_date_v1(jsonb,uuid,boolean) owner to cp7_good_policy_date;
 revoke create on schema public from cp7_good_policy_date;
 revoke cp7_good_policy_date from postgres granted by postgres;
-revoke all on function public.erp_cp7_get_good_policy_dates_v1(jsonb),
-  public.erp_cp7_save_good_policy_date_v1(jsonb,uuid,boolean) from public,anon,authenticated,service_role;
-grant execute on function public.erp_cp7_get_good_policy_dates_v1(jsonb),
-  public.erp_cp7_save_good_policy_date_v1(jsonb,uuid,boolean) to authenticated;
