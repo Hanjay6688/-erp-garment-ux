@@ -1,3 +1,9 @@
+## Sealed-profile application relation capability
+
+The input review found internal tables owned by existing private API roles. A second fixed platform helper, lock_relations_v1(profile_id), obtains EXCLUSIVE NOWAIT locks only for the one existing private immutable profile's declared application relations. It accepts no schema/table/SQL argument, refuses platform namespaces, requires the complete catalog fence and a fresh permanent-XID review, compares actual raw metadata for every target and returns freshly queried metadata in profile order. It grants postgres no catalog or application DML/MAINTAIN privilege. Both helpers remain callable only by postgres.
+
+The exact private lock composition now has two reversible source routes. It also performs an early XID review and then refreshes catalog metadata before checking the profile, retaining the original later XID review. This avoids accepting metadata observed before a previously uncommitted catalog writer completes. The original lock SQL and old controls remain exact. Actual relation-helper controls, a complete guarded installer/outer cleanup and final-parent Native qualification remain pending.
+
 ## Exact retained read-only graph source
 
 The four STABLE read-only helpers plus AUTHORITY.json are copied byte-for-byte from a6ded9cd4ce23a6d59cd32e42ca9bb33d793f8cc/tree55da7c6ab29d9bfda68962be27da0db7ad931662 into graph_helpers. `readonly_graph.source()` checks all five Git blob identities and source hashes, exact four private helper names, STABLE security-definer declarations and absence of writer/sequence/context/lock calls. The complete19 attributes of all19 referenced Native functions and the current-HPP view match both saved accepted DE30 observations before and after committed E. This is source/reference compatibility; the final actual parent is still not adopted. No old inspector/model/Native suite was repeated.

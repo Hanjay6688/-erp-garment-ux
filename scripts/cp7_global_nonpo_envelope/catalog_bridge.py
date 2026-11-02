@@ -1,4 +1,4 @@
-"""One bounded source route to a fixed platform catalog fence; no SQL executor.
+"""Two bounded source routes to fixed platform fences; no SQL executor.
 
 The old lock source and all old controls remain exact. Trusted capability
 bootstrap, final accepted parent and global runtime qualification remain gates.
@@ -26,28 +26,50 @@ def derive():
     if pin(raw)!=ORIGINAL:raise ValueError('GLOBAL_CATALOG_BRIDGE_ORIGINAL_LOCK_CHANGED')
     text=raw.decode();start=text.index(' -- First freeze the identity universe')
     end=text.index('\n -- EXCLUSIVE also conflicts',start)
-    before=text[start:end];derived=text[:start]+AFTER+text[end:]
-    if derived.count(AFTER)!=1 or derived.replace(AFTER,before,1).encode()!=raw:
-        raise ValueError('GLOBAL_CATALOG_BRIDGE_COMPLETE_ORIGINAL_NOT_RECOVERED')
+    before=text[start:end]
+    # Catalog tuple writers may commit after the old observation but before the
+    # old later XID check. Drain before a fresh metadata read; keep that later
+    # original check as a second conservative boundary.
+    xid_start=text.index(' select coalesce(jsonb_agg(jsonb_build_array(pid,transactionid::text')
+    xid_end=text.index('\n -- Preserve the exact Native',xid_start)
+    early_xid=text[xid_start:xid_end]
+    read_start=before.index(' select coalesce(jsonb_agg(jsonb_build_array(n.nspname')
+    read_end=before.index(' if catalogs_ is distinct from profile_.expected_catalogs')
+    fresh=before[read_start:read_end]
+    after=AFTER[:AFTER.index(' if catalogs_ is distinct')]+early_xid+'\n'+fresh+AFTER[AFTER.index(' if catalogs_ is distinct'):]
+    derived=text[:start]+after+text[end:]
+    data_start=text.index(' -- EXCLUSIVE also conflicts')
+    data_end=text.index('\n -- Snapshot xip is NOT',data_start)
+    data_before=text[data_start:data_end]
+    data_after=" -- A fixed platform capability locks only the one sealed profile's\n -- declared application relations, including private internal-role tables.\n actual_:=cp7_global_catalog_fence.lock_relations_v1(p_profile);\n if actual_ is distinct from profile_.expected_relations then\n  raise exception 'CP7_GLOBAL_RELATION_IDENTITY_OR_AUTHORITY_CHANGED';end if;\n"
+    if derived.count(data_before)!=1:raise ValueError('GLOBAL_RELATION_BRIDGE_EXACT_ORIGINAL_BLOCK_REQUIRED')
+    derived=derived.replace(data_before,data_after,1)
+    restored=derived.replace(data_after,data_before,1).replace(after,before,1)
+    if restored.encode()!=raw:raise ValueError('GLOBAL_CATALOG_BRIDGE_COMPLETE_ORIGINAL_NOT_RECOVERED')
     platform=(HERE/'platform_catalog_fence.sql').read_bytes()
     if platform.count(b'create function ')!=1 or b'create function cp7_global_catalog_fence.lock_v1()'not in platform:
         raise ValueError('GLOBAL_CATALOG_BRIDGE_SINGLE_ZERO_ARGUMENT_CAPABILITY_REQUIRED')
     if b"execute format('lock table pg_catalog.%I in share mode nowait',entry_->>1)"not in platform:
         raise ValueError('GLOBAL_CATALOG_BRIDGE_FIXED_CATALOG_SCHEMA_ONLY')
-    return derived,dict(status='EXACT_ONE_ROUTE_PLATFORM_CATALOG_CAPABILITY_SOURCE_NOT_GLOBAL_RUNTIME',
+    return derived,dict(status='EXACT_TWO_ROUTE_PLATFORM_CATALOG_AND_RELATION_CAPABILITY_SOURCE_NOT_GLOBAL_RUNTIME',
         original_lock=ORIGINAL,derived_lock=pin(derived.encode()),platform_source=pin(platform),
-        route=dict(before=before,after=AFTER,count=1),complete_original_recovered=True,
+        route=dict(before=before,after=after,count=1),
+        relation_route=dict(before=data_before,after=data_after,count=1),source_routes=2,
+        fresh_catalog_metadata_after_early_XID_drain=True,original_later_XID_check_retained=True,
+        complete_original_recovered=True,
         platform_helper='cp7_global_catalog_fence.lock_v1()',platform_helper_owner='supabase_admin',
         allowed_external_invoker='postgres',new_roles=0,new_browser_or_service_grants=0,
         postgres_catalog_DML_or_MAINTAIN_grants=0,new_owning_or_financial_function_changes=0,
         old_scope21_and_review13_and_catalog_and_relation_controls_NOT_rerun=True,
         trusted_bootstrap_and_final_parent_and_global_qualification_pending=True,
+        relation_platform_source=pin((HERE/'platform_relation_fence.sql').read_bytes()),
         actual_SQL_executed=0,actual_Native_cases=0,production_go=False,independent_acceptance=False)
 
 
 def inverse_sql():
     """Exact unused removal after owning routes/full restore; no CASCADE."""
     return ('set local role supabase_admin;\n'
+        'drop function cp7_global_catalog_fence.lock_relations_v1(text);\n'
         'drop function cp7_global_catalog_fence.lock_v1();\n'
         'drop schema cp7_global_catalog_fence;\nreset role;\n')
 

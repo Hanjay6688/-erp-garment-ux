@@ -7,13 +7,13 @@
   "profile_seed_statements": 0,
   "actual_installer_or_owning_hooks": 0,
   "private_tables": 3,
-  "private_functions": 13,
+  "private_functions": 14,
   "production_go": false,
   "independent_acceptance": false,
   "files": {
     "scripts/cp7_global_nonpo_envelope/CATALOG_BRIDGE_SOURCE_CONTROLS.json": {
-      "bytes": 2667,
-      "sha256": "eb77eba67f0b45704328e5ffcab2dbc0e151a770b0e5bd72f11aec0c641ca8c2"
+      "bytes": 5623,
+      "sha256": "b8b91e06ab908b12ae300869294eff32a8e269c4e85b0a9e3b539e783a59a340"
     },
     "scripts/cp7_global_nonpo_envelope/NATIVE_OWNING_REFERENCE.json": {
       "bytes": 81635,
@@ -40,8 +40,8 @@
       "sha256": "3e04006d4984c047a48ab89a077de93839bace4621c623f8ae918ef8e8fc3c84"
     },
     "scripts/cp7_global_nonpo_envelope/README.md": {
-      "bytes": 6611,
-      "sha256": "e18769100ba1898cdb198b429e54653a7f868b3f6d1038adcdc2868949ae276e"
+      "bytes": 7774,
+      "sha256": "87f43c8af85c2d2fe279e05b96a3a2a5dbaca7da12e7f8918ff384a1f6961083"
     },
     "scripts/cp7_global_nonpo_envelope/READONLY_GRAPH_ORIGIN.json": {
       "bytes": 1730,
@@ -72,12 +72,12 @@
       "sha256": "7d78a4a69ed5ee4fc79d654092a02c1aacbe58f67a486cf470489b3748f95331"
     },
     "scripts/cp7_global_nonpo_envelope/catalog_bridge.py": {
-      "bytes": 3078,
-      "sha256": "88b7265a0138c51f1ef22ce98085ceec7b45cdef4fd6ca972e9a81506fc76335"
+      "bytes": 4927,
+      "sha256": "e314f43407ef5396dd05219981f8a690225a5b7c327737ae5ab5a2838a87035a"
     },
     "scripts/cp7_global_nonpo_envelope/check_source.py": {
-      "bytes": 9720,
-      "sha256": "aedc260470a8731a0e26ad548dd01b70fd3e0404a09f522846f321c38f70a079"
+      "bytes": 10355,
+      "sha256": "74cb522c4d2063dec86fbd1da6aa21138b6084ad3e2e7e5375a8bbcfdf3eefcb"
     },
     "scripts/cp7_global_nonpo_envelope/graph_helpers/AUTHORITY.json": {
       "bytes": 71436,
@@ -115,6 +115,10 @@
       "bytes": 2863,
       "sha256": "b44bd4a94a898afca0dc9360f14a595c2dcef1cc55a2a18347ebb6b84924e90e"
     },
+    "scripts/cp7_global_nonpo_envelope/platform_relation_fence.sql": {
+      "bytes": 5321,
+      "sha256": "792388496fc4d3dc46305a44aa986ec0594d33aaef9f65094fafaba898a0fd40"
+    },
     "scripts/cp7_global_nonpo_envelope/readonly_graph.py": {
       "bytes": 4565,
       "sha256": "f0e7aca895f4c95cddee2558fdc8639da6629e6ab06c5ba0f21387565f584efc"
@@ -139,11 +143,13 @@
   "prepared_owning_source_adapters": 8,
   "counted_owning_source_routes": 18,
   "global_guard_sites": 3,
-  "platform_catalog_fence_functions": 1,
+  "platform_catalog_fence_functions": 2,
   "platform_catalog_fence_owner": "supabase_admin",
   "trusted_platform_bootstrap_and_cleanup_pending": true,
   "envelope_private_functions": 8,
   "readonly_graph_functions": 4,
   "exact_retained_readonly_graph_origin": "READONLY_GRAPH_ORIGIN.json",
-  "final_readonly_graph_parent_adoption_pending": true
+  "final_readonly_graph_parent_adoption_pending": true,
+  "counted_platform_lock_routes": 2,
+  "profile_bound_relation_capability_pending": true
 }
