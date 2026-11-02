@@ -1,0 +1,36 @@
+{
+  "status": "PROPOSED_GLOBAL_INPUT_CANDIDATES_FROM_RETAINED_FACTS_NOT_RUNTIME_OR_BARRIER_CLOSURE",
+  "reused_native_body_facts": 2970,
+  "new_or_changed_bodies_parsed": 22,
+  "all_branch_reachable_function_candidates": 230,
+  "candidate_relations": 165,
+  "unresolved_reachable_functions": [
+    "cp7_credit.assert_current_materialized_profile(uuid,uuid,uuid)",
+    "cp7_global_catalog_fence.lock_v1()",
+    "cp7_global_nonpo_envelope.lock_v1(text)",
+    "extensions.digest(bytea,text)",
+    "extensions.digest(text,text)",
+    "extensions.gen_random_uuid()",
+    "ow04_source_proposal.locked_source_family(uuid)",
+    "ow04_source_proposal.verify_return_member_v1(uuid)"
+  ],
+  "relevant_trigger_bindings": 203,
+  "regular_actual_triggers": 870,
+  "trigger_firing_identity_from_key": true,
+  "old_child_constraint_row15_not_used_as_firing_relation": true,
+  "actual_SQL_executed": 0,
+  "actual_Native_cases": 0,
+  "global_writer_or_permission_or_phantom_closure": false,
+  "original_report": {
+    "bytes": 145157,
+    "sha256": "dc009ecbd07a84588594ca104af1f3135288619878d1ee38f5e663fe22660d7a"
+  },
+  "remaining_before_closure": [
+    "Expand current view/rewrite/default/check/RLS expressions and operator/cast dispatch as needed",
+    "Bound reachable dynamic/opaque cases and non-application inputs",
+    "Choose exact lawful relation-lock authority and final raw identity/ACL profile",
+    "Actual final parent adoption and Native dirty/stale/rights/phantom coexistence qualification"
+  ],
+  "production_go": false,
+  "independent_acceptance": false
+}

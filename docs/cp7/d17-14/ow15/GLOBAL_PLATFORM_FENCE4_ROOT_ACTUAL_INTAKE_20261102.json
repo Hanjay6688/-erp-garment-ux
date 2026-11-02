@@ -1,0 +1,41 @@
+{
+  "status": "ROOT_VERIFIED_ACTUAL_SUPABASE17_FIXED_CATALOG_FENCE4_RAW22_ACL_AND_LOCKS_NOT_GLOBAL_RUNTIME",
+  "head": "ca88d4a37936b24fd67a94deb79e8345091d9704",
+  "tree": "af091b98196f984da562270d83a2301a06db18d9",
+  "run_id": 41441132562,
+  "job_id": 125263004143,
+  "source": {
+    "status": "ROOT_FIXED_PLATFORM_FENCE_SOURCE_ONLY",
+    "source_pins": 7,
+    "new_paths": 6,
+    "unchanged_parent_paths": 14420,
+    "private_platform_owner": "supabase_admin",
+    "actual_ERP_imports": 0,
+    "actual_SQL_executed": 0
+  },
+  "archive": {
+    "bytes": 12275,
+    "sha256": "c4ac07353e64cd58f9af2ce03e70127cd5ff3fd35f6b8c65852d5b4a4874dbc2"
+  },
+  "original_report": {
+    "member": "PLATFORM_CATALOG_FENCE_FOCUSED4.json",
+    "bytes": 87172,
+    "sha256": "89ffd1beab6d2b2aea5afa19fe04618ef9887c150645995e779e2f7008457f06"
+  },
+  "actual_PostgreSQL": 170006,
+  "new_controls": 4,
+  "raw_all22_transition_and_final_equality_independently_recomputed": true,
+  "raw_function_and_schema_ACLs_independently_matched": true,
+  "actual_all64_same_backend_transaction_locks_independently_matched": true,
+  "platform_capability_for_postgres_observed": true,
+  "postgres_direct_catalog_privileges_expanded": false,
+  "capability_DB_removed": true,
+  "global_roles_and_memberships_restored": true,
+  "model_row_rollback_is_source_bound_assertion_not_financial_inverse": true,
+  "actual_global_installer_or_parent_adoption": false,
+  "actual_Native_cases": 0,
+  "global_writer_or_permission_or_phantom_closure": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "canonical_library_file_id": "libfile_439e6ce7d0d48191bccdcbee0ac3e5e7"
+}

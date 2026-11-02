@@ -1,6 +1,6 @@
 {
   "contract": "writer-a.compact-current-state.v1",
-  "observed_at_UTC": "2026-11-02T11:46:31.542044+00:00",
+  "observed_at_UTC": "2026-11-02T12:45:59.969427+00:00",
   "integrator": "A",
   "A_B_division_preserved": true,
   "formal_CP7": "5/16",
@@ -355,16 +355,16 @@
       "complete_Native_installer_pending": true
     },
     "GLOBAL_ENVELOPE": {
-      "status": "GLOBAL_EIGHT_OWNING_ADAPTERS_AND_PRIVATE_NATIVE_WORK_SCOPE_SOURCE_PREPARED_NOT_NATIVE",
-      "head": "79932d604a98e79a625b40c60506ed06756558fa",
-      "public_head": "79932d604a98e79a625b40c60506ed06756558fa",
-      "tree": "a3ac931b899481b70fe8253b4bbdcc51038aa431",
-      "local_head": "8f43596e060fbfd2ff9fc8e6bb3a1c13cd68f5de",
+      "status": "GLOBAL_READONLY_GRAPH4_AND_PLATFORM_FENCE_SOURCE_PREPARED_NOT_NATIVE",
+      "head": "f55ba349cc9028ad402e64362c4e8748ffe16387",
+      "public_head": "f55ba349cc9028ad402e64362c4e8748ffe16387",
+      "tree": "9b556cd6e9f118e5cc8cedfb7d2e26ab027a73b9",
+      "local_head": "c1af5fee22aea89d77a06f2c7b58d0ef497df138",
       "branch": "astra-a/global-envelope-lock-source-prepared-20261102",
-      "source_pins": 18,
-      "own_paths": 19,
+      "source_pins": 31,
+      "own_paths": 32,
       "private_tables": 3,
-      "private_functions": 8,
+      "private_functions": 13,
       "prepared_owning_source_adapters": 8,
       "reversible_source_routes": 18,
       "global_guard_sites": 3,
@@ -404,21 +404,27 @@
         "actual_ERP_SQL_executed": 0,
         "actual_Native_cases": 0,
         "actual_owning_hooks": 0,
+        "actual_platform_capability_installed": false,
         "complete_installer": false,
+        "counted_platform_lock_source_routes": 1,
+        "exact_retained_readonly_graph_source_files": 5,
         "independent_acceptance": false,
         "new_private_review_functions": 2,
         "new_private_scope_functions": 4,
         "new_private_scope_tables": 2,
         "new_review_and_owning_model_controls": 13,
         "new_scope_model_controls": 21,
-        "own_source_pins": 18,
+        "own_source_pins": 31,
         "parent_gate_closed": true,
+        "platform_catalog_fence_source_functions": 1,
         "prepared_owning_source_adapters": 8,
         "production_go": false,
         "profile_seed_statements": 0,
+        "readonly_graph_source_functions": 4,
         "reversible_owning_source_routes": 18,
         "runtime_entry": null,
         "status": "GLOBAL_PRIVATE_ENVELOPE_SOURCE_ONLY_NOT_RUNTIME_OR_PROFILE_QUALIFICATION",
+        "total_private_functions": 13,
         "unchanged_parent_blobs_and_modes": 14169
       },
       "production_go": false,
@@ -428,12 +434,63 @@
       "actual_catalogue_lock_error": "permission denied for table pg_aggregate",
       "no_privilege_expansion_or_silent_bypass": true,
       "catalogue_barrier_repair_pending": true,
-      "actual_capability_evidence": "ACTUAL_SUPABASE17_INSTALL_AUTHORITY_ROOT_INTAKE_20261102.json"
+      "actual_capability_evidence": "ACTUAL_SUPABASE17_INSTALL_AUTHORITY_ROOT_INTAKE_20261102.json",
+      "envelope_private_functions": 8,
+      "readonly_graph_functions": 4,
+      "platform_catalog_fence_functions": 1,
+      "exact_retained_graph_origin": "a6ded9cd4ce23a6d59cd32e42ca9bb33d793f8cc",
+      "exact_retained_graph_blobs": 5,
+      "all19_attributes_of19_Native_references_match_saved_DE30_before_and_after_E": true,
+      "old_scope21_review13_catalog7_relation9_and_census_controls_NOT_rerun": true,
+      "actual_fixed_platform_catalog_capability_PASS": true,
+      "actual_platform_capability_evidence": "GLOBAL_PLATFORM_FENCE4_ROOT_ACTUAL_INTAKE_20261102.json",
+      "ordinary_postgres_direct_catalog_privileges_unchanged": true,
+      "trusted_platform_bootstrap_and_outer_cleanup_pending": true,
+      "final_accepted_parent_adoption_pending": true,
+      "current_input_data_lock_authority_and_dynamic_dispatch_closure_pending": true,
+      "actual_PostgreSQL17_fixed_platform_catalogue_capability": true,
+      "actual_direct_catalogue_lock_SQLSTATE": "42501",
+      "new_source_review": {
+        "status": "PROPOSED_GLOBAL_INPUT_CANDIDATES_FROM_RETAINED_FACTS_NOT_RUNTIME_OR_BARRIER_CLOSURE",
+        "reused_native_body_facts": 2970,
+        "new_or_changed_bodies_parsed": 22,
+        "all_branch_reachable_function_candidates": 230,
+        "candidate_relations": 165,
+        "unresolved_reachable_functions": [
+          "cp7_credit.assert_current_materialized_profile(uuid,uuid,uuid)",
+          "cp7_global_catalog_fence.lock_v1()",
+          "cp7_global_nonpo_envelope.lock_v1(text)",
+          "extensions.digest(bytea,text)",
+          "extensions.digest(text,text)",
+          "extensions.gen_random_uuid()",
+          "ow04_source_proposal.locked_source_family(uuid)",
+          "ow04_source_proposal.verify_return_member_v1(uuid)"
+        ],
+        "relevant_trigger_bindings": 203,
+        "regular_actual_triggers": 870,
+        "trigger_firing_identity_from_key": true,
+        "old_child_constraint_row15_not_used_as_firing_relation": true,
+        "actual_SQL_executed": 0,
+        "actual_Native_cases": 0,
+        "global_writer_or_permission_or_phantom_closure": false,
+        "original_report": {
+          "bytes": 145157,
+          "sha256": "dc009ecbd07a84588594ca104af1f3135288619878d1ee38f5e663fe22660d7a"
+        },
+        "remaining_before_closure": [
+          "Expand current view/rewrite/default/check/RLS expressions and operator/cast dispatch as needed",
+          "Bound reachable dynamic/opaque cases and non-application inputs",
+          "Choose exact lawful relation-lock authority and final raw identity/ACL profile",
+          "Actual final parent adoption and Native dirty/stale/rights/phantom coexistence qualification"
+        ],
+        "production_go": false,
+        "independent_acceptance": false
+      }
     }
   },
   "remaining_gate_summary_not_full_scope_inventory": [
     "Afui100 actualSupabase17 schema capability passes. Full15 business qualification waits for the unchanged genuine6hWIB window opening2026-11-02T17:00Z; originalsource84 retained, no duplicate job now.",
-    "Global eight owning adapters plus scope21/review13 remain prepared. Actual17 proves catalogue SHARE locks are denied to nonsuperpostgres. Implement a narrow lawful catalogue-lock capability and exact source/input/profile/installer closure before Native global coexistence/races/all5.",
+    "Global fixed private platform catalog capability4 now passes actualSupabase17 with raw22/ACL/64locks independently matched. Graph4 exact source/full19 compatibility and eight owning adapters are prepared. Finish sealed-profile data-table lock authority, dynamic/default/view/RLS/trigger input closure and trusted bootstrap/outer cleanup, then final parent and actual Native global coexistence/races/all5.",
     "Mandor1247 composition and actual17 schema capability pass; finish complete guarded Native installer/final-parent adoption and paid/partial/return/reversal/two-tab/Auth/browser business qualification. SKU moving-average economic path, tabcontrast and combined/factory/full CP7 acceptance remain open."
   ],
   "saved_metadata_preflight": {
@@ -453,8 +510,8 @@
     "actual_catalog_function_attributes_each": 19,
     "historical17_is_a_selected_projection_not_full_actual19": true
   },
-  "continuity": "No financial qualification currently runs. Afui99 stopped before DB at the real6hWIB day-window gate; complete natural graph/source84 is retained. Afui100 b8c/300 has exact model-context fix and actualSupabase17 six-function ACL/preuse22 capability PASS (adb run41438058379); next financial admission after2026-11-02T17:00Z. Mandor1247/239f prepared composition has4logical installation models and retainedactual17 nine-function ACL/preuse22 PASS fromfailed018; Nativebusiness0. Actualglobal64-catalog SHARE barrier is unavailable to nonsuperpostgres(42501); do not claim closure. Continue bounded bridge/installer, helper/readset/writer closure, SKUaverage, Mandorqualification and fullcombined scope; no oldaccepted DE/FREE/permanent or completedcapability reruns.",
-  "operational_update_UTC": "2026-11-02T11:46:31.542044+00:00",
+  "continuity": "No financial CI currently active. Afui100 b8c/300 schema capability verified; full15 awaits genuine2026-11-02T17:00Z window. Mandor1247 schema capability verified; business0. Globalf55/9b55 prepared source31pins/32paths contains8envelope+4readonly+1platformfn; platformca88 run41441132562/job125263004143 actual17new4PASS, raw22/ACL/64locks recomputed byRoot. Inputreview reuses2970bodies and parses22changed/new only, corrects actual firing-trigger identity fromquery-key(prefix) rather thanconstraint-childrow15.230function/165relation candidates remainNOTclosure; internal table owners and dynamic/view/default/RLS inputs stillneedclosing. Continue implementation; no oldaccepted or completedcapability reruns.",
+  "operational_update_UTC": "2026-11-02T12:45:59.969427+00:00",
   "current_qualification_observation_is_earlier_API_snapshot": false,
   "retained_permanent_financial4": {
     "evidence": "CURRENT_PERMANENT23E_ROOT_RETAINED4_20261102.json",
@@ -654,7 +711,8 @@
     "1846",
     "1937",
     "2044",
-    "2100"
+    "2100",
+    "2132"
   ],
   "global_catalog_primitives": {
     "status": "ROOT_VERIFIED_REAL_PG17_CATALOG_PRIMITIVES_RETAINED4_FRESH3_NOT_ERP_CLOSURE",
@@ -830,5 +888,48 @@
     "sole_readonly_monitor_cell": null,
     "business_qualification": false,
     "successor_canonical_library_file_id": "libfile_043a154723a0819193b318d33457cd13"
+  },
+  "current_platform_catalog_capability": {
+    "status": "completed",
+    "head": "ca88d4a37936b24fd67a94deb79e8345091d9704",
+    "tree": "af091b98196f984da562270d83a2301a06db18d9",
+    "run_id": 41441132562,
+    "job_id": 125263004143,
+    "source": {
+      "status": "ROOT_FIXED_PLATFORM_FENCE_SOURCE_ONLY",
+      "source_pins": 7,
+      "new_paths": 6,
+      "unchanged_parent_paths": 14420,
+      "private_platform_owner": "supabase_admin",
+      "actual_ERP_imports": 0,
+      "actual_SQL_executed": 0
+    },
+    "archive": {
+      "bytes": 12275,
+      "sha256": "c4ac07353e64cd58f9af2ce03e70127cd5ff3fd35f6b8c65852d5b4a4874dbc2"
+    },
+    "original_report": {
+      "member": "PLATFORM_CATALOG_FENCE_FOCUSED4.json",
+      "bytes": 87172,
+      "sha256": "89ffd1beab6d2b2aea5afa19fe04618ef9887c150645995e779e2f7008457f06"
+    },
+    "actual_PostgreSQL": 170006,
+    "new_controls": 4,
+    "raw_all22_transition_and_final_equality_independently_recomputed": true,
+    "raw_function_and_schema_ACLs_independently_matched": true,
+    "actual_all64_same_backend_transaction_locks_independently_matched": true,
+    "platform_capability_for_postgres_observed": true,
+    "postgres_direct_catalog_privileges_expanded": false,
+    "capability_DB_removed": true,
+    "global_roles_and_memberships_restored": true,
+    "model_row_rollback_is_source_bound_assertion_not_financial_inverse": true,
+    "actual_global_installer_or_parent_adoption": false,
+    "actual_Native_cases": 0,
+    "global_writer_or_permission_or_phantom_closure": false,
+    "production_go": false,
+    "independent_acceptance": false,
+    "canonical_library_file_id": "libfile_439e6ce7d0d48191bccdcbee0ac3e5e7",
+    "conclusion": "success",
+    "sole_readonly_monitor_cell": null
   }
 }
