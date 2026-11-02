@@ -202,6 +202,9 @@ export type PreconnectDatabase = {
       erp_cp7_reopen_po_v1: { Args: { p_payload: Json; p_request: string }; Returns: Json }
       erp_cp7_get_kasbon_v1: { Args: { p_contractor: string }; Returns: Json }
       erp_cp7_save_kasbon_v1: { Args: { p_action: string; p_payload: Json; p_request: string; p_expected: string }; Returns: Json }
+      erp_cp7_get_mandor_shop_buyers_v1: { Args: { p_sales_action: string; p_query?: string; p_after?: string | null; p_limit?: number }; Returns: Json }
+      erp_cp7_get_mandor_shop_customer_buyer_v1: { Args: { p_sales_action: string; p_customer: string }; Returns: Json }
+      erp_cp7_save_mandor_shop_sale_v1: { Args: { p_action: string; p_payload: Json; p_request: string; p_expected: string | null }; Returns: Json }
       erp_cp7_get_mandor_shop_payroll_v1: { Args: { p_payroll: string; p_after?: string | null }; Returns: Json }
       erp_cp7_save_mandor_shop_allocation_v1: { Args: { p_action: string; p_payload: Json; p_request: string }; Returns: Json }
       erp_cp7_return_cutting_fabric_v1: { Args: { p_payload: Json; p_request: string; p_expected: string }; Returns: Json }

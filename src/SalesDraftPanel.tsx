@@ -1,4 +1,4 @@
-import {useEffect,useMemo,useRef,useState} from 'react'
+import {useCallback,useEffect,useMemo,useRef,useState} from 'react'
 import {useAuth} from './auth/AuthProvider'
 import {isConnectedRuntime} from './config/runtime'
 import {getUatSupabaseClient} from './lib/supabase'
@@ -8,6 +8,8 @@ import {formatReceiptDecimal as numberText} from './procurementContract'
 import {parseSalesFormOptions,salesQtyInput,salesMoneyInput,salesLineTotal,type SalesRead,type SalesFormOptions,type SalesCustomerOption,type SalesStockOption} from './salesReadContract'
 import type {Json} from './types/database.preconnect'
 import {dozensText,seriesTotal,splitSeriesDozens} from './sales/seriesDozens'
+import MandorShopBuyerPicker from './MandorShopBuyerPicker'
+import {salesBuyerCurrent,type BuyerFence,type SalesBuyerChoice} from './mandorShopSalesContract'
 type Detail=NonNullable<SalesRead['detail']>
 type Line={key:string;product_id:string;sku:string;series:string;size:string;qty:string;price:string;discount:string;notes:string|null;dozens:string;pieces:string;available:string|null}
 type SeriesInput={dozens:string;pieces:string;message:string}
@@ -20,10 +22,16 @@ const seriesKey=(brand:string,sku:string)=>`${sku} · ${brand}`
 const seriesGroups=(lines:Line[])=>{const groups=new Map<string,{line:Line;index:number}[]>();lines.forEach((line,index)=>groups.set(line.series,[...(groups.get(line.series)??[]),{line,index}]));return [...groups.entries()]}
 type Form={customer:SalesCustomerOption|null;location:{id:string;name:string}|null;number:string;at:string;originalAt:string|null;due:string;terms:string;notes:string;reason:string;lines:Line[]}
 type Kind='CUSTOMER'|'STOCK'
-export default function SalesDraftPanel({initial,locked,stale,onSave,onClose,correction=false}:{initial:Detail|null;locked:boolean;stale:boolean;correction?:boolean;onSave:(action:'CREATE'|'EDIT',document:Json,version:string|null)=>void;onClose:()=>void}){
+export default function SalesDraftPanel({initial,locked,stale,onSave,onClose,correction=false,readFence}:{initial:Detail|null;locked:boolean;stale:boolean;correction?:boolean;readFence?:BuyerFence;onSave:(action:'CREATE'|'EDIT',document:Json,version:string|null)=>void;onClose:()=>void}){
  const {runtime}=useAuth();if(!isConnectedRuntime(runtime))throw Error('Sesi penjualan belum siap.')
  const client=useMemo(()=>getUatSupabaseClient(runtime),[runtime])
  const [form,setForm]=useState<Form>(()=>({customer:initial?{id:initial.customer_id,code:'',name:initial.customer_name}:null,location:initial?.location_id?{id:initial.location_id,name:initial.location_name??''}:null,number:initial?.number??'',at:cp6WibDateTimeInput(initial?.physical_at),originalAt:initial?.physical_at??null,due:initial?.due_date??'',terms:initial?.payment_terms??'',notes:initial?.notes??'',reason:'',lines:initial?.items.map(i=>({key:i.id,product_id:i.product_id,sku:i.product_sku,series:seriesKey(i.brand_name,i.commercial_sku),size:i.size_code,qty:i.qty_pcs,price:i.financial?.unit_price??'',discount:i.financial?.discount??'',notes:i.notes,dozens:'',pieces:'',available:null}))??[]}))
+ const [buyer,setBuyer]=useState<SalesBuyerChoice>({category:'TOKO',mandor:null,ready:!initial||correction,ticket:null})
+ const changeBuyer=useCallback((next:SalesBuyerChoice,resetCustomer:boolean)=>{
+  setBuyer(next);setReviewed(false);
+  if(next.category==='MANDOR')setForm(f=>({...f,customer:next.mandor?.customer_id?{id:next.mandor.customer_id,code:next.mandor.code,name:next.mandor.name}:null}));
+  else if(resetCustomer)setForm(f=>({...f,customer:null}));
+ },[])
  const [seriesInput,setSeriesInput]=useState<Record<string,SeriesInput>>({})
  const [reviewed,setReviewed]=useState(false),[options,setOptions]=useState<Partial<Record<Kind,SalesFormOptions>>>({}),[query,setQuery]=useState({CUSTOMER:'',STOCK:''}),[loading,setLoading]=useState({CUSTOMER:false,STOCK:false}),[error,setError]=useState('')
  const sequences=useRef({CUSTOMER:0,STOCK:0}),queryUsed=useRef({CUSTOMER:'',STOCK:''}),seriesSeq=useRef(0),formRef=useRef(form);formRef.current=form
@@ -57,12 +65,12 @@ export default function SalesDraftPanel({initial,locked,stale,onSave,onClose,cor
   setLoading(v=>({...v,[kind]:true}));setOptions(v=>({...v,[kind]:undefined}));setError('')
   try{const r=await client.rpc('erp_cp7_get_sales_form_v1',{p_query:{kind,q,physical_at:at,location_id:loc,offset,limit:25}});if(s!==sequences.current[kind])return;if(r.error)throw r.error;const o=parseSalesFormOptions(r.data,kind,at,loc);if(o.offset!==offset||o.limit!==25)throw Error('Pilihan sumber berubah. Cari ulang sumber invoice.');setOptions(v=>({...v,[kind]:o}))}catch(e){if(s===sequences.current[kind])setError(normalizeClientError(e).message)}finally{if(s===sequences.current[kind])setLoading(v=>({...v,[kind]:false}))}
  }
- const amounts=form.lines.map(l=>salesLineTotal(l.qty,l.price,l.discount)),valid=!!at&&!!form.customer&&!!form.location&&form.number.trim().length>0&&form.reason.trim().length>=5&&form.lines.length>0&&form.lines.length<=100&&amounts.every(a=>a!==null)&&!seriesBusy
+ const amounts=form.lines.map(l=>salesLineTotal(l.qty,l.price,l.discount)),buyerValid=correction?!!form.customer:salesBuyerCurrent(buyer,readFence)&&(buyer.category==='MANDOR'?!!buyer.mandor:!!form.customer),valid=!!at&&buyerValid&&!!form.location&&form.number.trim().length>0&&form.reason.trim().length>=5&&form.lines.length>0&&form.lines.length<=100&&amounts.every(a=>a!==null)&&!seriesBusy
  const total=form.lines.length>0&&amounts.every(a=>a!==null)?amounts.reduce((n,a)=>n+BigInt(a!.replace('.','')),0n):null
  const blocked=locked||stale
  function save(){
   if(!valid||blocked||!reviewed)return
-  onSave(initial?'EDIT':'CREATE',{...(initial?{sale_id:initial.id,review_token:initial.review_token!}:{}),...(correction&&initial?{item_lineage:form.lines.map(l=>initial.items.some(i=>i.id===l.key)?l.key:null)}:{}),sale_number:form.number.trim(),customer_id:form.customer!.id,source_location_id:form.location!.id,sale_date:at!,due_date:form.due||null,payment_terms:form.terms||null,notes:form.notes||null,change_reason:form.reason.trim(),items:form.lines.map(l=>({product_id:l.product_id,qty_pcs:salesQtyInput(l.qty)!,unit_price_snapshot:salesMoneyInput(l.price)!,discount_amount:salesMoneyInput(l.discount)!,notes:l.notes}))},initial?.row_version??null)
+  onSave(initial?'EDIT':'CREATE',{...(initial?{sale_id:initial.id,review_token:initial.review_token!}:{}),...(correction&&initial?{item_lineage:form.lines.map(l=>initial.items.some(i=>i.id===l.key)?l.key:null)}:{}),sale_number:form.number.trim(),customer_id:!correction&&buyer.category==='MANDOR'?buyer.mandor!.customer_id:form.customer!.id,...(!correction&&buyer.category==='MANDOR'?{mandor_buyer:{contractor_id:buyer.mandor!.contractor_id,review_token:buyer.mandor!.review_token}}:{}),source_location_id:form.location!.id,sale_date:at!,due_date:form.due||null,payment_terms:form.terms||null,notes:form.notes||null,change_reason:form.reason.trim(),items:form.lines.map(l=>({product_id:l.product_id,qty_pcs:salesQtyInput(l.qty)!,unit_price_snapshot:salesMoneyInput(l.price)!,discount_amount:salesMoneyInput(l.discount)!,notes:l.notes}))},initial?.row_version??null)
  }
  const picker=(kind:Kind)=>{const candidate=options[kind],o=candidate&&at&&Date.parse(candidate.physical_at)===Date.parse(at)&&candidate.location_id===(kind==='STOCK'?location:null)?candidate:undefined;return <section className="cproc-line" aria-label={kind==='CUSTOMER'?'Pilih pelanggan invoice':'Pilih barang invoice'}>
   <div className="cproc-inline"><label>{kind==='CUSTOMER'?'Cari pelanggan':'Cari SKU, ukuran, atau gudang'}<input aria-label={kind==='CUSTOMER'?'Cari pelanggan draft':'Cari barang draft'} value={query[kind]} maxLength={120} onChange={e=>setQuery(v=>({...v,[kind]:e.target.value}))} onKeyDown={e=>{if(e.key==='Enter'){e.preventDefault();void search(kind)}}}/></label><button type="button" disabled={loading[kind]||!at} onClick={()=>void search(kind)}>{kind==='CUSTOMER'?'Cari pelanggan draft':'Cari barang draft'}</button></div>
@@ -77,7 +85,8 @@ export default function SalesDraftPanel({initial,locked,stale,onSave,onClose,cor
   {correction?<p>Isi jumlah dan nilai yang benar. Nota asal tetap tersimpan; pembetulan berlaku pada waktu kejadian asal dan memperbarui saldo setelahnya. Pembayaran dan retur yang masih sah dipertahankan. Jika pemeriksaan stok atau keuangan gagal, seluruh pembetulan batal.</p>:null}
   {stale?<p role="alert">Dokumen berubah. Tutup formulir, muat ulang, lalu periksa versi terbaru.</p>:null}{error?<p role="alert">{error}</p>:null}
   <fieldset disabled={blocked}><div className="cproc-grid"><label>Nomor invoice<input aria-label="Nomor draft invoice" readOnly={correction} required maxLength={60} value={form.number} onChange={e=>update({number:e.target.value})}/></label><label>Waktu invoice · WIB<input type="datetime-local" aria-label="Waktu draft invoice WIB" readOnly={correction} required value={form.at} onChange={e=>update({at:e.target.value})}/></label><label>Jatuh tempo<input type="date" aria-label="Jatuh tempo draft invoice" value={form.due} onChange={e=>update({due:e.target.value})}/></label><label>Syarat pembayaran<input aria-label="Syarat pembayaran draft" maxLength={100} value={form.terms} onChange={e=>update({terms:e.target.value})}/></label></div>
-   {!correction?picker('CUSTOMER'):null}<p>Pelanggan terpilih: <strong>{form.customer?.name??'Belum dipilih'}</strong></p>
+   {!correction?<MandorShopBuyerPicker action={initial?'EDIT':'CREATE'} initialCustomer={initial?.customer_id??null} choice={buyer} onChange={changeBuyer} locked={blocked} readFence={readFence}/>:null}
+   {!correction&&buyer.category==='TOKO'&&buyer.ready?picker('CUSTOMER'):null}<p>Pembeli terpilih: <strong>{!correction&&buyer.category==='MANDOR'?buyer.mandor?.name??'Belum dipilih':form.customer?.name??'Belum dipilih'}</strong></p>
    {picker('STOCK')}<p>Gudang invoice: <strong>{form.location?.name??'Pilih barang untuk menentukan gudang'}</strong>. Stok tersedia saat ini menjadi referensi; penyimpanan memeriksa stok pada tanggal transaksi.</p>
    {seriesGroups(form.lines).map(([series,members])=>{const lines=members.map(m=>m.line),total=seriesTotal(lines.map(l=>l.qty)),input=seriesInput[series]??{dozens:'',pieces:'',message:''};return <section className="cproc-line cproc-series" key={series} aria-label={`Seri ${series}`}>
     <h3>Seri {series} · {lines.length} ukuran ({lines.map(l=>l.size).join('/')})</h3>

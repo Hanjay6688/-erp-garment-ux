@@ -1,3 +1,13 @@
+Sales UI preparation: the existing invoice form now offers Toko/Mandor, keeps
+unsaved lines on category changes, classifies existing draft customers before
+save, and carries the explicit Mandor token inside the same durable SALES
+intent. Three new client RPC boundaries read identities/options and dispatch
+the atomic draft save. Fifteen new logical parser/DOM controls passed (4 retained
+parser, 10 DOM, one focused pending-classification visibility check), plus 37
+changed-parent store/correction/payment/return regressions. Native browser and
+complete ERP installation remain unqualified. Exact UI routes preserve earlier
+payroll-controller evidence without rerunning its 25 logical client cases.
+
 Atomic Sales preparation added 2 November: CREATE/EDIT can prepare the explicit
 Mandor customer and save the original Native draft in one transaction. No early
 buyer write is needed while invoice lines remain unsaved. Two new narrow public

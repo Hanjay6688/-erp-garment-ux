@@ -116,8 +116,8 @@
       "sha256": "ba3da6e7c3a7ca001ff55f87588dc2fa0e9d7e4d93ddf01f213176121e789c7d"
     },
     "scripts/cp7_mandor_shop/README.md": {
-      "bytes": 15071,
-      "sha256": "57dd3719e9c0586ec51d9ec1d548978ecf7bc6786676ae5b47a14632faec8c9f"
+      "bytes": 15772,
+      "sha256": "9133ad6457b9a287e179494631fae96bacb1d01f54d6fc3c212d97f19ee5ebd6"
     },
     "scripts/cp7_mandor_shop/SALES_COMMAND_MODEL_ORIGIN.json": {
       "bytes": 960,
@@ -160,12 +160,20 @@
       "sha256": "54c1e3d1ee40cc8f2e286c6ca8f9bfb0b914a7cfc8fd0791d18d83e537aa77ab"
     },
     "scripts/cp7_mandor_shop/UI_PARENT_ORIGIN.json": {
-      "bytes": 20082,
-      "sha256": "05b64c234cfed2b7e520ba751029a8c70e52394546d7ee7e5245fd269971a8c7"
+      "bytes": 44644,
+      "sha256": "ce9c1788497a0441568ceaf326fc606b5b87bc0104dc7fed27c164b8f157ccf3"
+    },
+    "scripts/cp7_mandor_shop/UI_SALES_MODEL_CONTROLS.json": {
+      "bytes": 7915,
+      "sha256": "de0fc05ed7fcfb0893bdec02ccdde40bab55dc085c02cdb9787cc324b9363808"
+    },
+    "scripts/cp7_mandor_shop/UI_SALES_PARENT_ORIGIN.json": {
+      "bytes": 36661,
+      "sha256": "c8b8afdd894bf814c7080f4c89a2cf7f1d336785c5f11b1d1de088130e0b8ae7"
     },
     "scripts/cp7_mandor_shop/UI_SOURCE.json": {
-      "bytes": 2250,
-      "sha256": "89e120eeace303bea4c537690d380dacb2bb85d2f7b6b3fba0772ecfe88a8543"
+      "bytes": 3626,
+      "sha256": "c49c3d9899f90db989f60c91ab924f69d6984bfca9edbe018fbbefcd1109e9ce"
     },
     "scripts/cp7_mandor_shop/__init__.py": {
       "bytes": 79,
@@ -192,8 +200,8 @@
       "sha256": "5bfeb12b4103ca88f48b84a213098b33a90e7ead52398a5025213d9188e47617"
     },
     "scripts/cp7_mandor_shop/check_source.py": {
-      "bytes": 24054,
-      "sha256": "965d4dba25b45c3237caa06acbc9720385315aefc3ee6ce1600915d238e2c3ad"
+      "bytes": 27326,
+      "sha256": "e3f32cf8aa1387a6445df4a5443e8d2e7805e4d6d78d28a7981df1c70c9aa41d"
     },
     "scripts/cp7_mandor_shop/events.sql": {
       "bytes": 8216,

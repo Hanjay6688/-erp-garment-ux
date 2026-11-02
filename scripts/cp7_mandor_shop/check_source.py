@@ -26,7 +26,8 @@ def check():
     assert parent_ui['base_head']==value['base_head']and parent_ui['base_tree']==value['base_tree']
     changed_ui=set(parent_ui['files'])
     assert changed_ui=={'src/productionRecovery.ts','src/types/database.preconnect.ts','src/ConnectedPayrollPage.tsx',
-        'scripts/check-source-ownership.mjs','scripts/check-access-catalog.mjs'}
+        'scripts/check-source-ownership.mjs','scripts/check-access-catalog.mjs',
+        'src/SalesDraftPanel.tsx','src/ConnectedSalesPage.tsx','src/SalesDraftPanel.dom.test.tsx'}
     assert all(current.get(name)==item for name,item in base.items()if name not in changed_ui),'FG_MANDOR_PREPARED_PARENT_BLOB_OR_MODE_CHANGED'
     ui_hunks=0
     for name,record in parent_ui['files'].items():
@@ -43,13 +44,15 @@ def check():
             assert text.count(change['after'])==1
             text=text.replace(change['after'],change['before'],1)
         assert text.encode()==raw
-    assert ui_hunks==9
+    assert ui_hunks==17
     physical={str(p.relative_to(ROOT))for p in HERE.rglob('*')if p.is_file()and'__pycache__'not in p.parts}
     assert physical==set(value['files'])|{str(manifest.relative_to(ROOT))},'FG_MANDOR_CLOSED_OWN_SOURCE_REQUIRED'
-    assert ui['existing_UI_paths_changed']==5 and ui['new_UI_paths']==8
+    assert ui['existing_UI_paths_changed']==8 and ui['new_UI_paths']==14
     assert set(ui['files'])=={'src/MandorShopCards.tsx','src/MandorShopCards.dom.test.tsx',
         'src/mandorShopContract.ts','src/mandorShopContract.test.ts','src/mandor-shop.css','tests/fixtures/mandorShop.ts',
-        'src/MandorShopPayrollPanel.tsx','src/MandorShopPayrollPanel.dom.test.tsx'}|changed_ui
+        'src/MandorShopPayrollPanel.tsx','src/MandorShopPayrollPanel.dom.test.tsx',
+        'src/MandorShopBuyerPicker.tsx','src/mandorShopSalesContract.ts','src/mandorShopSalesContract.test.ts',
+        'src/MandorShopSalesDraft.dom.test.tsx','src/MandorShopSalesPage.dom.test.tsx','tests/fixtures/mandorShopSales.ts'}|changed_ui
     for name,expected in ui['files'].items():
         p=ROOT/name;assert p.is_file()and not p.is_symlink()
         raw=p.read_bytes();assert {'bytes':len(raw),'sha256':sha256(raw).hexdigest()}==expected
@@ -230,7 +233,42 @@ def check():
     assert controller['first_controller_all_PASS']is True and controller['last_refresh_only_cases']==1 and controller['last_refresh_only_PASS']is True
     assert controller['other_first_controller_cases_NOT_rerun']is True and controller['prior_UI15_not_rerun']is True
     assert controller['parent_changed_mount_regression_cases']==17 and controller['parent_regression_first_PASS']is True
-    assert controller['source_files']==ui['files']and controller['full_product_installed']is False
+    assert controller['full_product_installed']is False and len(controller['source_files'])==13
+    sales_ui_origin=json.loads((HERE/'UI_SALES_PARENT_ORIGIN.json').read_bytes())
+    assert sales_ui_origin['parent_head']=='61205101b24726389ed1c0ba90d339808df7178e'
+    assert git('rev-parse',sales_ui_origin['parent_head']+'^{tree}').decode().strip()==sales_ui_origin['parent_tree']
+    assert set(sales_ui_origin['files'])=={'src/SalesDraftPanel.tsx','src/ConnectedSalesPage.tsx','src/SalesDraftPanel.dom.test.tsx',
+        'src/types/database.preconnect.ts','scripts/check-source-ownership.mjs','scripts/check-access-catalog.mjs'}
+    for name,item in sales_ui_origin['files'].items():
+        raw=git('show',sales_ui_origin['parent_head']+':'+name)
+        assert item['before']=={'bytes':len(raw),'sha256':sha256(raw).hexdigest()}
+        text=raw.decode()
+        for change in item['changes']:
+            assert change['count']==1 and text.count(change['before'])==1
+            text=text.replace(change['before'],change['after'],1)
+        assert text.encode()==(ROOT/name).read_bytes()and item['after']==ui['files'][name]
+        for change in reversed(item['changes']):
+            assert text.count(change['after'])==1;text=text.replace(change['after'],change['before'],1)
+        assert text.encode()==raw
+    for name,expected in controller['source_files'].items():
+        assert expected==(sales_ui_origin['files'][name]['before']if name in sales_ui_origin['files']else ui['files'][name])
+    sales_ui=json.loads((HERE/'UI_SALES_MODEL_CONTROLS.json').read_bytes())
+    assert sales_ui['status']=='FG_MANDOR_SALES_PARSER4_DOM10_FOCUSED_VISIBILITY1_PARENT37_PASS_NOT_NATIVE'
+    assert sales_ui['new_parser_cases']==4 and sales_ui['new_DOM_cases']==11 and sales_ui['logical_new_client_cases']==15
+    assert sales_ui['first_DOM_execution_cases']==10 and sales_ui['focused_classification_visibility_cases']==1
+    assert sales_ui['parser4_retained_without_rerun']is True and sales_ui['other14_new_client_cases_NOT_rerun']is True
+    assert sales_ui['parent_changed_regression_cases']==37 and sales_ui['parent_regression_first_PASS']is True
+    assert sales_ui['prior_payroll_UI25_logical_cases_NOT_rerun']is True
+    assert sales_ui['actual_Native_cases']==sales_ui['actual_Auth_HTTP_cases']==sales_ui['actual_browser_cases']==sales_ui['actual_two_session_races']==0
+    for name,expected in sales_ui['source_files'].items():assert expected==ui['files'][name]
+    for name,expected in sales_ui['source_before_final_visibility'].items():
+        text=(ROOT/name).read_text()
+        if name in sales_ui['bounded_visibility_routes']:
+            change=sales_ui['bounded_visibility_routes'][name]
+            assert change['count']==1 and text.count(change['after'])==1
+            text=text.replace(change['after'],change['before'],1)
+        raw=text.encode();assert expected=={'bytes':len(raw),'sha256':sha256(raw).hexdigest()}
+
     for name,item in controller['one_bounded_parent_refresh_route'].items():
         raw=(ROOT/name).read_bytes();assert item['after']=={'bytes':len(raw),'sha256':sha256(raw).hexdigest()}
         change=item['change'];text=raw.decode();assert change['count']==1 and text.count(change['after'])==1
@@ -279,14 +317,15 @@ def check():
         Native_payment_source_adapters=8,actual_payment_runtime_installed=False,
         private_payment_guard_functions=6,new_payment_guard_model_controls=13,Native_payment_guard_triggers=6,
         public_facade_source_functions=6,public_facade_model_controls=9,public_facade_runtime_activated=False,
-        exact_display_model_controls=4,new_controlled_UI_paths=8,new_UI_parser_cases=8,new_UI_DOM_cases=7,
-        UI_mounted_or_RPC_wired=True,parent_UI_paths_changed=5,reversible_parent_UI_hunks=9,
+        exact_display_model_controls=4,new_controlled_UI_paths=14,new_UI_parser_cases=8,new_UI_DOM_cases=7,
+        UI_mounted_or_RPC_wired=True,parent_UI_paths_changed=8,reversible_parent_UI_hunks=17,
         controller_DOM_logical_cases=10,focused_changed_refresh_cases=1,parent_mount_regression_cases=17,
         retained_67_controls_NOT_rerun=True,Native_paid_projection_integration=False,
         Native_header_trigger_source_written=True,Native_header_trigger_ERP_qualification=False,
         retained_allocation_controls_NOT_rerun=True,
         private_sales_command_functions=3,retained_new_sales_controls=13,fresh_new_sales_controls=1,
         Native_sales_form_source_adapters=1,Native_total_source_adapters=9,
+        sales_UI_parser_cases=4,sales_UI_DOM_cases=11,sales_UI_parent_regression_cases=37,
         runtime_entry=None,ERP_imports=0,SQL_executed=0,actual_Native_cases=0,production_go=False,independent_acceptance=False)
 
 
