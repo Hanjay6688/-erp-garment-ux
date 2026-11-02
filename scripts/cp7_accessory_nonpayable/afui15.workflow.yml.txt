@@ -487,10 +487,12 @@ jobs:
 
         '
     - name: Admit actual FREE3 and whole Afui graph under database network fence
-      working-directory: auditor
-      run: 'python -B scripts/cp7_accessory_nonpayable/qualification.py --check
+      working-directory: writer
+      run: 'python -B ../auditor/scripts/cp7_accessory_nonpayable/qualification.py
+        --check
 
-        python -B scripts/current-de-free-date-preparation/attempt_policy.py --require-window
+        python -B ../auditor/scripts/current-de-free-date-preparation/attempt_policy.py
+        --require-window
 
         '
     - name: Start disposable database
@@ -600,7 +602,7 @@ jobs:
     - name: Remove disposable database
       if: always()
       working-directory: base
-      run: 'python -B ../auditor/scripts/scripts/cp7_accessory_nonpayable/runtime_supervisor.py
+      run: 'python -B ../auditor/scripts/cp7_accessory_nonpayable/runtime_supervisor.py
         --allow-database-stop
 
         if command -v supabase >/dev/null 2>&1 && test -d cp5-local; then supabase

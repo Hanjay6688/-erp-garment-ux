@@ -19,7 +19,7 @@ def runtime():
         text,derivation=package_engine.derive(original.read_bytes())
         engine=ModuleType('afui_exact_original_whole_package_engine');engine.__file__=str(original)
         exec(compile(text,str(original),'exec'),engine.__dict__)
-        from cp7_accessory_nonpayable import assembly,qualification_component as component
+        from cp7_accessory_nonpayable import assembly,native_fixture,qualification_component as component
         engine.product=assembly
         engine.runner=SimpleNamespace(CASE=component.CASE,exercise=component.exercise,scheduler_quiet=component.scheduler_quiet)
         engine.IDS=(component.CASE,);engine.LABEL=component.LABEL
@@ -33,6 +33,8 @@ def runtime():
                 actual_Native_cases=0,actual_Auth_HTTP_cases=0,actual_browser_cases=0,
                 production_go=False,independent_acceptance=False)
         engine.admitted=admitted
+        assembly.runtime()  # Include the complete real inherited import path.
+        engine.native_domain_binding=native_fixture.domain_modules()[1]
     return engine,admission
 
 def main():
@@ -54,6 +56,7 @@ def main():
             ROOT/'scripts/current-sku-managed-recovery-native27-qualification/source_context.py')
         with fence.fenced_source_read()as guard:engine,_=runtime();proof=engine.admitted()
         print(json.dumps(dict(status=proof['status'],source_DB_guard=guard,
+            actual_domain_and_caller_binding=engine.native_domain_binding,
             entire_natural_product_source_graph_evaluated=True,actual_Native_cases=0,production_go=False),sort_keys=True));return
     if os.environ.get('AFUI_CONFIRM')!='cp6_rollback':raise ValueError('NONPAYABLE_EXPLICIT_DISPOSABLE_QUALIFICATION_REQUIRED')
     attempts=load('afui_unchanged_real_six_hour_WIB_single_attempt',ROOT/'scripts/current-de-free-date-preparation/attempt_policy.py')

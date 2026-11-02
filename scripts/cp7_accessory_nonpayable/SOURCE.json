@@ -29,8 +29,8 @@
       "sha256": "b22af7343f5cb231a83488356cb466046b15f21717f7a081e0f09ad404af3c36"
     },
     "scripts/cp7_accessory_nonpayable/afui15.workflow.yml.txt": {
-      "bytes": 33861,
-      "sha256": "2f2aaa6cabc27881353a1eec8bf52f052d5dc582ee07c367b4f7b6170c2faa93"
+      "bytes": 33890,
+      "sha256": "551e9f853a6307e791991926b714aa53578f95b69ee246e7c567ff213dc75799"
     },
     "scripts/cp7_accessory_nonpayable/assembly.py": {
       "bytes": 1528,
@@ -57,8 +57,8 @@
       "sha256": "40b457f54d0082ae969c0a6d55a33dfe90e27fb88674ef6ffbf908b78f5fa837"
     },
     "scripts/cp7_accessory_nonpayable/composition.py": {
-      "bytes": 14691,
-      "sha256": "8b86794f24c54ac9e088399db8548cb6d88f32838ab44bd7e96a30583d0ee8ca"
+      "bytes": 14747,
+      "sha256": "e33a129629787ff093bd54a715cc9069df1d307d7a7dc446535faef3f0d048b5"
     },
     "scripts/cp7_accessory_nonpayable/copy_context.py": {
       "bytes": 2636,
@@ -105,8 +105,8 @@
       "sha256": "66f10fc8ea4f4096175c8c5839371ff3dd3587fb9f5a5ad2a02b7ac336759b16"
     },
     "scripts/cp7_accessory_nonpayable/native_fixture.py": {
-      "bytes": 14500,
-      "sha256": "3ae95f92bd5b56254f233232a223b0b262782bff2d1d56330c447d85964630b0"
+      "bytes": 18110,
+      "sha256": "af4352bd06ea35cf463fe989933e6cce628f24918667edc425f72f72890d8962"
     },
     "scripts/cp7_accessory_nonpayable/native_inverse_cases.py": {
       "bytes": 14346,
@@ -125,8 +125,8 @@
       "sha256": "042c30ce6c8242b0626270d2a74f0433df4b5fc57cb8af0d4198a79a8f41cd20"
     },
     "scripts/cp7_accessory_nonpayable/qualification.py": {
-      "bytes": 4374,
-      "sha256": "16ca3d22b45b69b2326daa8c6c237d2ad5fd67f37262d29c532f0518e32d7c90"
+      "bytes": 4615,
+      "sha256": "55f3cafc94c1a87c03f320dbce26e56953eb5c6bc93e52b9c68d6052bd530fe9"
     },
     "scripts/cp7_accessory_nonpayable/qualification_component.py": {
       "bytes": 10155,
@@ -225,8 +225,12 @@
       "sha256": "ed03929567bf5e35599b9fccf6f0e126f57bf756c7959fc3283de68a9223d54d"
     },
     "scripts/cp7_accessory_nonpayable/workflow.py": {
-      "bytes": 7277,
-      "sha256": "d13dcffff6c145cd50794749c41f3e383ed4437e1e3c236e28836d0eb71dfb0e"
+      "bytes": 7781,
+      "sha256": "bd8f5b3e730ca6e68416a8e09c5a5d6802387d20ebf6294954a27a9faac6d85e"
+    },
+    "scripts/cp7_accessory_nonpayable/RUNTIME_DOMAIN_PREFLIGHT_ORIGIN.json": {
+      "bytes": 11588,
+      "sha256": "347d47486114dc494db714780a83309936f5b18d2e413432c9f65699e962b753"
     }
   },
   "actual_Native_cases": 0,
@@ -237,5 +241,11 @@
   "Afui_GOOD_nonpayable_path_complete": false,
   "production_go": false,
   "independent_acceptance": false,
-  "prepared_settings_public_RPCS": 2
+  "prepared_settings_public_RPCS": 2,
+  "runtime_domain_preflight": {
+    "origin": "scripts/cp7_accessory_nonpayable/RUNTIME_DOMAIN_PREFLIGHT_ORIGIN.json",
+    "before_head": "098dbd8769cbbf6f0502750a7c2a770959e02385",
+    "before_tree": "b40ea64ea4cdcaaa0f28fc6d32645e783c0b0121",
+    "actual_Native_cases": 0
+  }
 }

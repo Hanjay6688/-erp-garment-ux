@@ -4,14 +4,15 @@ Only the contractor master supplied to the unchanged physical constructor is
 bound privately. Every cutting, pickup, work, laundry, receipt, issue and GOOD
 fact still comes from the existing Native commands. No product/source graph
 is replaced. An actual accepted FREE3 parent and installed settings stage are
-mandatory before loading the domain modules.
+mandatory before running the domain fixture. After actual parent admission,
+a fenced preDB import also inspects these same unchanged domain callbacks.
 """
 from datetime import timedelta
 from decimal import Decimal,ROUND_HALF_UP
 from hashlib import sha256
 from pathlib import Path
 from types import FunctionType,SimpleNamespace
-import json,subprocess,uuid
+import ast,inspect,json,subprocess,uuid
 
 HERE=Path(__file__).resolve().parent
 ROOT=HERE.parents[1]
@@ -35,6 +36,66 @@ def source_controls():
     return dict(status='EXACT_UNCHANGED_NATIVE_FIXTURE_AND_RUNNER_SOURCES',source_files=len(ORIGINALS),
         original_parent=BASE,Native_body_changes=0,posted_row_injection=False,actual_Native_cases=0)
 
+def domain_modules():
+    """Inspect the real natural imports before SQL and in the actual caller."""
+    from . import admission
+    admission.parent_receipt()
+    source_controls()
+    from . import settings_stage as product
+    from cp7_p21_current_chain_rehearsal_probe import helper
+    import cp6_bc_probe as bc
+    import cp6_bd_probe as bd
+    import cp7_invoice_cases as invoice
+    import cp7_qc_source_cases as qc
+    import cp6_auditor_runner as runner
+    from cp7_accessory_standard_report import cases as bom
+    modules=SimpleNamespace(bc=bc,bd=bd,invoice=invoice,qc=qc,bom=bom,product=product,control=helper.control)
+    actual={}
+    for module,name in((bc,'cp6_bc_probe.py'),(bd,'cp6_bd_probe.py'),
+            (invoice,'cp7_invoice_cases.py'),(qc,'cp7_qc_source_cases.py'),
+            (runner,'cp6_auditor_runner.py'),(bom,'cp7_accessory_standard_report/cases.py')):
+        path=Path(module.__file__).resolve();raw=path.read_bytes()
+        if raw!=(ROOT/'scripts'/name).read_bytes():
+            raise ValueError('NONPAYABLE_REAL_DOMAIN_MODULE_ORIGINAL_REQUIRED:'+name)
+        actual[name]=dict(path=str(path),bytes=len(raw),sha256=sha256(raw).hexdigest())
+    aliases=dict(modules=modules,bc=bc,bd=bd,invoice=invoice,qc=qc,bom=bom)
+    bindings=[]
+    def parts(node):
+        if isinstance(node,ast.Name):return [node.id]
+        if isinstance(node,ast.Attribute):
+            base=parts(node.value)
+            return base+[node.attr]if base else None
+        return None
+    for name in('native_fixture.py','native_cases.py','native_sales_cases.py','native_inverse_cases.py','access_cases.py'):
+        for node in ast.walk(ast.parse((HERE/name).read_bytes())):
+            if not isinstance(node,ast.Call):continue
+            route=parts(node.func)
+            if(not route or route[0]not in aliases or len(route)<2
+               or(route[0]=='modules'and route[1]not in('bc','bd','invoice','qc','bom','product','control'))):continue
+            if any(isinstance(arg,ast.Starred)for arg in node.args)or any(k.arg is None for k in node.keywords):
+                raise ValueError('NONPAYABLE_EXPLICIT_DOMAIN_CALL_ARGUMENT_CONTRACT_REQUIRED')
+            operation=aliases[route[0]]
+            for attribute in route[1:]:operation=getattr(operation,attribute)
+            inspect.signature(operation).bind(*[None for _ in node.args],**{k.arg:None for k in node.keywords})
+            bindings.append(dict(source=name,line=node.lineno,operation='.'.join(route),
+                positional=len(node.args),keywords=[k.arg for k in node.keywords]))
+    inspect.signature(bd.two_size_fixture).bind(None,None,'SOURCE_ONLY',size_quantities=[(None,10)])
+    if bd.two_size_fixture.__globals__.get('chain')is not bd.chain:
+        raise ValueError('NONPAYABLE_REAL_CONSTRUCTOR_GLOBAL_BINDING_REQUIRED')
+    if tuple(inspect.signature(runner.strict_group).parameters)!=('name','factory','verify'):
+        raise ValueError('NONPAYABLE_REAL_STRICT_RUNNER_API_REQUIRED')
+    inspect.signature(runner.public_state).bind(None)
+    if(not isinstance(runner.r1.OUT,Path)
+       or Path(runner.r1.__file__).read_bytes()!=(ROOT/'scripts/cp6_au_r1_probe.py').read_bytes()):
+        raise ValueError('NONPAYABLE_REAL_STRICT_RUNNER_ORIGINAL_OUTPUT_REQUIRED')
+    return modules,dict(status='EXACT_AFUI_NATURAL_DOMAIN_AND_CALLER_APIS_BOUND_BEFORE_SQL',
+        actual_working_directory=str(Path.cwd()),actual_modules=actual,actual_call_bindings=bindings,
+        constructor_signature_bound=True,constructor_chain_global_unchanged=True,
+        strict_runner_API_bound=True,actual_original_output=str(runner.r1.OUT),
+        canonical_module_cache_replaced=False,original_domain_sources_changed=False,
+        actual_SQL_executed=0,actual_Native_cases=0)
+
+
 def admitted_modules(cur,state):
     from . import admission
     admission.parent_receipt()  # Refuse before domain imports or cursor use.
@@ -46,12 +107,7 @@ def admitted_modules(cur,state):
     if(connection.info.host not in('localhost','127.0.0.1')or connection.info.port!=54322
        or cur.execute('select current_database()').fetchone()!=('cp6_rollback',)):
         raise ValueError('NONPAYABLE_NATIVE_FIXTURE_LOCAL_DISPOSABLE_ONLY')
-    import cp6_bc_probe as bc
-    import cp6_bd_probe as bd
-    import cp7_invoice_cases as invoice
-    import cp7_qc_source_cases as qc
-    from cp7_accessory_standard_report import cases as bom
-    return SimpleNamespace(bc=bc,bd=bd,invoice=invoice,qc=qc,bom=bom,product=product,control=helper.control)
+    return domain_modules()[0]
 
 def contractor_constructor(bd,contractor):
     """Keep the original code object; bind one new fixture master explicitly."""

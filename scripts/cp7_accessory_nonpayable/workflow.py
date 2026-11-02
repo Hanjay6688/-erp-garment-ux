@@ -45,8 +45,8 @@ def derive():
         **{'working-directory':'auditor'},
         run='set -euo pipefail\npython -B '+NS+'workflow.py --check\npython -B '+NS+'qualification.py --check-static\n')
     steps[64]=dict(name='Admit actual FREE3 and whole Afui graph under database network fence',
-        **{'working-directory':'auditor'},
-        run='python -B '+NS+'qualification.py --check\npython -B scripts/current-de-free-date-preparation/attempt_policy.py --require-window\n')
+        **{'working-directory':'writer'},
+        run='python -B ../auditor/'+NS+'qualification.py --check\npython -B ../auditor/scripts/current-de-free-date-preparation/attempt_policy.py --require-window\n')
     steps[69]=dict(name='Run current Afui15 once with owning full restoration and packet gate',
         **{'working-directory':'writer'},
         run="python -u -B '../auditor/"+NS+"runtime_supervisor.py'\npython -B '../auditor/"+NS+"final_gate.py'\n")
@@ -59,6 +59,13 @@ def derive():
     old='scripts/current-de-free-date-preparation/runtime_supervisor.py'
     if steps[73]['run'].count(old)!=1:raise ValueError('NONPAYABLE_EXACT_OWNED_DATABASE_STOP_ROUTE_REQUIRED')
     steps[73]['run']=steps[73]['run'].replace(old,NS+'runtime_supervisor.py',1)
+    # The unarmed historical base predates the actual FREE41 cleanup repair.
+    # Normalize only that exact old route; the accepted actual parent is clean.
+    broken='../auditor/scripts/'+NS+'runtime_supervisor.py'
+    if broken in steps[73]['run']:
+        if steps[73]['run'].count(broken)!=1:
+            raise ValueError('NONPAYABLE_EXACT_HISTORICAL_CLEANUP_REPAIR_REQUIRED')
+        steps[73]['run']=steps[73]['run'].replace(broken,'../auditor/'+NS+'runtime_supervisor.py',1)
     steps[74]['with']['name']='cp7-afui-good-nonpayable-full15-${{ github.run_attempt }}'
     if [i for i in range(75)if steps[i]!=before[i]]!=list(ROUTED):
         raise ValueError('NONPAYABLE_ONLY_NINE_EXACT_WORKFLOW_STEP_ROUTES_ALLOWED')

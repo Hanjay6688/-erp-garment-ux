@@ -65,7 +65,8 @@ def source_manifest():
         raise ValueError('NONPAYABLE_EXACT_PREPARATION_SOURCE_REQUIRED')
     required = {str(path.relative_to(ROOT)) for path in HERE.rglob('*')
         if path.is_file() and (path.suffix in ('.py', '.sql', '.mjs')
-            or path.name in ('NATIVE_ORIGIN.json', 'UI_ORIGIN.json', 'UI_SOURCE.json', 'afui15.workflow.yml.txt'))}
+            or path.name in ('NATIVE_ORIGIN.json', 'UI_ORIGIN.json', 'UI_SOURCE.json', 'afui15.workflow.yml.txt',
+                'RUNTIME_DOMAIN_PREFLIGHT_ORIGIN.json'))}
     active_workflow = workflow.admit_source(value)
     if active_workflow is not None:
         required.add(workflow.WORKFLOW)
