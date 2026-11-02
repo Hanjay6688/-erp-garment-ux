@@ -14,10 +14,10 @@ from intake_common import GitBytes,exact,fields,pin,require,safe_path
 from intake_sku27 import strict,literal,full_census
 from current_graph_sources import declared_files
 
-HEAD='f4f16c6920d94c2b9ef22fa33c62144595a672ed'
-TREE='c2957cd8ee7c7ac00450a5cd636e39ff0e27675c'
-RUN=41410071146
-JOB=125160850217
+HEAD='47e9cfb66e8b2b493605bbb005537457f3ddcd86'
+TREE='b55f6b27ec3bb111b01e315cc0d77d3d606f7d5f'
+RUN=41419714664
+JOB=125192071600
 PARENT_HEAD='91a7b46ed13c4ad6094114871a4a39fa6765d140'
 PARENT_TREE='01c4807d932af1d534477c4c182715b1378bd39b'
 PARENT_RUN=41399754004
@@ -129,8 +129,40 @@ def report_validator(g,parent):
     return gate,dict(exact_pure_sources=proofs,Native_ids=list(native_ids),HTTP_ids=list(access.HTTP_IDS),
         race_ids=list(access.RACE_IDS),browser_ids=list(browser_ids),actual_ERP_imports=0,actual_SQL_executed=0)
 
+def role_ownership_source(g):
+    """Exact source review of the first actual role-transfer refusal repair."""
+    marker=NS+'test_role_ownership.mjs'
+    if marker not in g.tree:return None
+    expected={'scripts/cp7_accessory_nonpayable/FIRST_ROLE_OWNERSHIP_FAILURE_AND_REPAIR.json': {'bytes': 1244, 'sha256': 'a98b8439aaa30d77577a6183a82857e33b71daf24ed3d057823682c18c3f9ea9'}, 'scripts/cp7_accessory_nonpayable/LOCAL_ROLE_OWNERSHIP_CONTROLS.json': {'bytes': 1569, 'sha256': '82c53001d95c4e24140c038d3ceaee2c8571f14c7dee06152125d09151f802df'}, 'scripts/cp7_accessory_nonpayable/README.md': {'bytes': 19343, 'sha256': '0e9d15167ced7c9cbf97138689aff8be76d3542458707e98c156e0e87781cf1a'}, 'scripts/cp7_accessory_nonpayable/SOURCE.json': {'bytes': 11134, 'sha256': 'c29660509ad86385cb0ae08024afc6b507425111a40da0032f435d2ebfa80cfc'}, 'scripts/cp7_accessory_nonpayable/settings.sql': {'bytes': 15839, 'sha256': '733367d1822d86bd7fea5e2fe9196417c042659232cb0fbe3e887d424dcca06f'}, 'scripts/cp7_accessory_nonpayable/settings_stage.py': {'bytes': 16129, 'sha256': '683b840f4c4fbcf951e83529fe474a8a2b0258b58270552065c0de4cafb3cab6'}, 'scripts/cp7_accessory_nonpayable/test_role_ownership.mjs': {'bytes': 6920, 'sha256': '4120db9e2467b1387f26eeaaa2e0e10bf525e8294e9ea336c0c880442d27504b'}}
+    for name,value in expected.items():g.verify_pin(name,value)
+    original_head='f4f16c6920d94c2b9ef22fa33c62144595a672ed'
+    original_tree='c2957cd8ee7c7ac00450a5cd636e39ff0e27675c'
+    with GitBytes(g.root,original_head,original_tree)as old:
+        changed={name for name in expected if name in old.tree}
+        exact(changed,{NS+name for name in('settings.sql','settings_stage.py','README.md','SOURCE.json')},
+            'AFUI94_EXACT_FOUR_EXISTING_ROLE_REPAIR_SOURCE_PATHS')
+        for name,entry in old.tree.items():
+            if name not in changed:exact(g.tree.get(name),entry,'AFUI94_OTHER_F4_BLOB_AND_MODE_UNCHANGED:'+name)
+        exact(set(g.tree)-set(old.tree),set(expected)-changed,'AFUI94_EXACT_THREE_NEW_REPAIR_PATHS')
+        pattern=r"create function ([a-z0-9_.]+)\(([^)]*)\)\nreturns jsonb language (sql|plpgsql) (stable|volatile) security definer set search_path='' as \$\$(.*?)\$\$;"
+        original=re.findall(pattern,old.read(NS+'settings.sql').decode(),re.S)
+        exact(len(original),6,'AFUI94_EXACT_SIX_ORIGINAL_SETTINGS_FUNCTIONS')
+        exact(re.findall(pattern,g.read(NS+'settings.sql').decode(),re.S),original,
+            'AFUI94_ALL_SIX_FUNCTION_SIGNATURES_AND_BODIES_UNCHANGED')
+    controls=strict(g.read(NS+'LOCAL_ROLE_OWNERSHIP_CONTROLS.json'))
+    fields(controls,dict(status='ISOLATED_POSTGRES_NON_SUPERUSER_ROLE_OWNERSHIP_FOCUSED4_PASS_NOT_ERP',
+        actual_ERP_Native_cases=0,old_settings_API_or_financial_cases_rerun=0,
+        production_go=False,independent_acceptance=False),'AFUI94_MODEL_HAS_ZERO_ERP_CREDIT')
+    exact(len(controls['checks']),4,'AFUI94_EXACT_FOCUSED_FOUR_MODEL_CONTROLS')
+    require(all(row.get('status')=='PASS'for row in controls['checks']),'AFUI94_FOCUSED_MODEL_PASS')
+    return dict(status='ROOT_EXACT_AFUI91_TO94_ROLE_TRANSFER_SOURCE_REPAIR_ONLY',
+        original_head=original_head,original_tree=original_tree,reviewed_files=expected,
+        unchanged_six_settings_bodies=True,unchanged_financial_and_business_case_sources=True,
+        focused_model_runtime=controls['creator_profile'],focused_model_controls=4,actual_case_credit=0)
+
 def runtime_domain_preflight_source(g,declaration):
     """Review exactly the prepared import/CWD/cleanup repair; zero case credit."""
+    role_repair=role_ownership_source(g)
     origin_path=NS+'RUNTIME_DOMAIN_PREFLIGHT_ORIGIN.json'
     original_head='098dbd8769cbbf6f0502750a7c2a770959e02385'
     original_tree='b40ea64ea4cdcaaa0f28fc6d32645e783c0b0121'
@@ -152,6 +184,7 @@ def runtime_domain_preflight_source(g,declaration):
         exact(len(old_own),88,'AFUI15_EXACT_RETAINED_ORIGINAL_PREPARATION_OWN88')
         changed=set(origin['files'])|{NS+'SOURCE.json'}
         if PARENT_HEAD is not None:changed.add(NS+'admission.py')
+        if role_repair is not None:changed|={NS+name for name in('settings.sql','settings_stage.py','README.md')}
         for name in old_own-changed:
             exact(g.tree.get(name),old.tree[name],'AFUI15_ALL_OTHER_ORIGINAL_OWN_BLOBS_MODES_UNCHANGED:'+name)
         routes=0
@@ -188,10 +221,13 @@ def runtime_domain_preflight_source(g,declaration):
             expected['files'][NS+'admission.py']=pin(raw)
             exact(g.read(WORKFLOW),g.read(NS+'afui15.workflow.yml.txt'),'AFUI15_EXACT_PREPARED_WORKFLOW_ACTIVATION')
             expected['files'][WORKFLOW]=pin(g.read(WORKFLOW))
+        if role_repair is not None:
+            for name in('settings.sql','settings_stage.py','test_role_ownership.mjs'):
+                expected['files'][NS+name]=role_repair['reviewed_files'][NS+name]
         exact(declaration,expected,'AFUI15_ONLY_REVIEWED_DOMAIN_PREFLIGHT_SOURCE_AND_OPTIONAL_ACTUAL_BINDINGS')
     return dict(status='EXACT_AFUI_OWN88_TO89_DOMAIN_PREFLIGHT_SOURCE_REPAIR_ONLY',
         original_head=original_head,original_tree=original_tree,reversible_routes=12,
-        unchanged_original_case_functions=True,actual_case_credit=0)
+        unchanged_original_case_functions=True,role_ownership_repair=role_repair,actual_case_credit=0)
 
 
 def source(g):

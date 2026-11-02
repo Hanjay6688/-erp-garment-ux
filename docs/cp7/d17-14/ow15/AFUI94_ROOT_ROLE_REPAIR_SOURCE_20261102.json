@@ -1,0 +1,199 @@
+{
+  "status": "ROOT_INDEPENDENT_AFUI94_ROLE_REPAIR_SOURCE_PASS_NOT_RUNTIME",
+  "local_head": "904722de8446a1f593ecf5f023a049d4c1309c2f",
+  "tree": "b55f6b27ec3bb111b01e315cc0d77d3d606f7d5f",
+  "source": {
+    "source_pins": 59,
+    "own_paths": 94,
+    "unchanged_parent_paths": 14306,
+    "source_manifest": {
+      "bytes": 11134,
+      "sha256": "c29660509ad86385cb0ae08024afc6b507425111a40da0032f435d2ebfa80cfc"
+    },
+    "UI_manifest": {
+      "bytes": 2539,
+      "sha256": "bb1e1948a39fde11de1c16a1da0a880ca1390e5c634698821a6822a0a81cf649"
+    },
+    "exact_counted_UI_paths": 4,
+    "new_UI_paths": 5,
+    "pure_report_functions": {
+      "exact_pure_sources": {
+        "access_cases.py": {
+          "source": {
+            "bytes": 19642,
+            "sha256": "aeb719231c22e89b4c77b9ff85b2e85084066c2dc9919fcaf6ad01f4104c66de"
+          },
+          "functions": [
+            "require_changes",
+            "require_append"
+          ],
+          "data_imports_replaced_by_Root_values": [],
+          "actual_ERP_imports": 0,
+          "actual_SQL_executed": 0
+        },
+        "case_boundary.py": {
+          "source": {
+            "bytes": 7764,
+            "sha256": "40b457f54d0082ae969c0a6d55a33dfe90e27fb88674ef6ffbf908b78f5fa837"
+          },
+          "functions": [
+            "state",
+            "allocations",
+            "expected_refusal_gaps",
+            "validate"
+          ],
+          "data_imports_replaced_by_Root_values": [],
+          "actual_ERP_imports": 0,
+          "actual_SQL_executed": 0
+        },
+        "qualification_gate.py": {
+          "source": {
+            "bytes": 4826,
+            "sha256": "c0647aeb14b09cd179c7f977c2c60c70434dc3afcd91a66755229e5de353482c"
+          },
+          "functions": [
+            "rows",
+            "native",
+            "copies"
+          ],
+          "data_imports_replaced_by_Root_values": [],
+          "actual_ERP_imports": 0,
+          "actual_SQL_executed": 0
+        },
+        "native_fixture.py": {
+          "source": {
+            "bytes": 18110,
+            "sha256": "af4352bd06ea35cf463fe989933e6cce628f24918667edc425f72f72890d8962"
+          },
+          "functions": [
+            "require_economics"
+          ],
+          "data_imports_replaced_by_Root_values": [],
+          "actual_ERP_imports": 0,
+          "actual_SQL_executed": 0
+        },
+        "final_gate.py": {
+          "source": {
+            "bytes": 15834,
+            "sha256": "8eb2440bcf029a638544f90e2c1eaad5caf37f5e1765b5de6b108ab027285c7f"
+          },
+          "functions": [
+            "supervisor",
+            "artifact",
+            "compare_census",
+            "race_facts",
+            "assets",
+            "validate"
+          ],
+          "data_imports_replaced_by_Root_values": [
+            [
+              "admission"
+            ],
+            [
+              "access_cases"
+            ],
+            [
+              "admission"
+            ],
+            [
+              "admission",
+              "assembly",
+              "native_cases",
+              "access_cases",
+              "browser_prepare",
+              "case_boundary",
+              "qualification_gate",
+              "native_fixture"
+            ]
+          ],
+          "actual_ERP_imports": 0,
+          "actual_SQL_executed": 0
+        }
+      },
+      "Native_ids": [
+        "NONPAYABLE_NATIVE_POSITIVE_HPP_ZERO_REIMBURSEMENT_FROZEN_HISTORY_AND_REPLAY",
+        "NONPAYABLE_NATIVE_EXPLICIT_NORMAL_POLICY_REIMBURSEMENT_REGRESSION",
+        "NONPAYABLE_NATIVE_NORMAL_PICKUP_SPECIAL_GOOD_PHYSICAL_DATE",
+        "NONPAYABLE_NATIVE_SPECIAL_PICKUP_NORMAL_GOOD_PHYSICAL_DATE",
+        "NONPAYABLE_NATIVE_MISSING_CATEGORY_EFFECTIVE_DATE_ATOMIC_GOOD_REFUSAL",
+        "NONPAYABLE_NATIVE_NO_INITIAL_JOURNAL_CUMULATIVE_CENTS_AND_LAWFUL_INVOICE_INVERSES",
+        "NONPAYABLE_NATIVE_QC_INVERSE_AFTER_RECOST_AND_NEXT_LAWFUL_COST_REVISION",
+        "NONPAYABLE_NATIVE_REWORK_NO_INITIAL_JOURNAL_INVERSE_AND_ACTIVE_LOT_RECOST",
+        "NONPAYABLE_NATIVE_FINISHED_PO_FG_SALES_COGS_LATE_COST_AND_LAWFUL_INVERSES"
+      ],
+      "HTTP_ids": [
+        "NONPAYABLE_AUTH_HTTP_OWNER_ADMIN_DENIAL_REPLAY_CANCEL_AND_STALE_TIMELINE",
+        "NONPAYABLE_AUTH_HTTP_CACHED_REPLAY_OWNER_DEACTIVATED_DURING_REAL_LOCK_WAIT"
+      ],
+      "race_ids": [
+        "NONPAYABLE_TWO_SESSION_SAME_REQUEST_ONE_IMMUTABLE_DATE_AND_REPLY",
+        "NONPAYABLE_TWO_SESSION_DIFFERENT_REQUESTS_ONE_DATE_AND_ONE_STALE_TIMELINE"
+      ],
+      "browser_ids": [
+        "NONPAYABLE_BROWSER_DESKTOP_POSTED_USE_REFUSAL_LOST_REPLY_TWO_TABS",
+        "NONPAYABLE_BROWSER_MOBILE390_CANCEL_LATE_SAVE_OWNER_AND_ADMIN_READ_ONLY"
+      ],
+      "actual_ERP_imports": 0,
+      "actual_SQL_executed": 0
+    },
+    "runtime_domain_preflight_repair": {
+      "status": "EXACT_AFUI_OWN88_TO89_DOMAIN_PREFLIGHT_SOURCE_REPAIR_ONLY",
+      "original_head": "098dbd8769cbbf6f0502750a7c2a770959e02385",
+      "original_tree": "b40ea64ea4cdcaaa0f28fc6d32645e783c0b0121",
+      "reversible_routes": 12,
+      "unchanged_original_case_functions": true,
+      "role_ownership_repair": {
+        "status": "ROOT_EXACT_AFUI91_TO94_ROLE_TRANSFER_SOURCE_REPAIR_ONLY",
+        "original_head": "f4f16c6920d94c2b9ef22fa33c62144595a672ed",
+        "original_tree": "c2957cd8ee7c7ac00450a5cd636e39ff0e27675c",
+        "reviewed_files": {
+          "scripts/cp7_accessory_nonpayable/FIRST_ROLE_OWNERSHIP_FAILURE_AND_REPAIR.json": {
+            "bytes": 1244,
+            "sha256": "a98b8439aaa30d77577a6183a82857e33b71daf24ed3d057823682c18c3f9ea9"
+          },
+          "scripts/cp7_accessory_nonpayable/LOCAL_ROLE_OWNERSHIP_CONTROLS.json": {
+            "bytes": 1569,
+            "sha256": "82c53001d95c4e24140c038d3ceaee2c8571f14c7dee06152125d09151f802df"
+          },
+          "scripts/cp7_accessory_nonpayable/README.md": {
+            "bytes": 19343,
+            "sha256": "0e9d15167ced7c9cbf97138689aff8be76d3542458707e98c156e0e87781cf1a"
+          },
+          "scripts/cp7_accessory_nonpayable/SOURCE.json": {
+            "bytes": 11134,
+            "sha256": "c29660509ad86385cb0ae08024afc6b507425111a40da0032f435d2ebfa80cfc"
+          },
+          "scripts/cp7_accessory_nonpayable/settings.sql": {
+            "bytes": 15839,
+            "sha256": "733367d1822d86bd7fea5e2fe9196417c042659232cb0fbe3e887d424dcca06f"
+          },
+          "scripts/cp7_accessory_nonpayable/settings_stage.py": {
+            "bytes": 16129,
+            "sha256": "683b840f4c4fbcf951e83529fe474a8a2b0258b58270552065c0de4cafb3cab6"
+          },
+          "scripts/cp7_accessory_nonpayable/test_role_ownership.mjs": {
+            "bytes": 6920,
+            "sha256": "4120db9e2467b1387f26eeaaa2e0e10bf525e8294e9ea336c0c880442d27504b"
+          }
+        },
+        "unchanged_six_settings_bodies": true,
+        "unchanged_financial_and_business_case_sources": true,
+        "focused_model_runtime": {
+          "creator": "postgres",
+          "superuser": false,
+          "createrole": true,
+          "bootstrap": "supabase_admin",
+          "version": "18.6"
+        },
+        "focused_model_controls": 4,
+        "actual_case_credit": 0
+      },
+      "actual_case_credit": 0
+    },
+    "parent_qualification_pending": false,
+    "actual_case_credit": 0
+  },
+  "actual_ERP_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

@@ -1,0 +1,37 @@
+{
+  "status": "AFUI94_NARROW_ROLE_TRANSFER_REPAIR_ACTUAL_FULL15_ACTIVE",
+  "head": "47e9cfb66e8b2b493605bbb005537457f3ddcd86",
+  "tree": "b55f6b27ec3bb111b01e315cc0d77d3d606f7d5f",
+  "local_head": "904722de8446a1f593ecf5f023a049d4c1309c2f",
+  "run_id": 41419714664,
+  "job_id": 125192071600,
+  "created_at_UTC": "2026-11-02T09:19:39Z",
+  "branch": "astra-a/afui-good-nonpayable-20261102",
+  "run_attempt": 1,
+  "event": "push",
+  "sole_readonly_monitor_cell": "1937",
+  "actual_qualified_cases": 0,
+  "Root_accepted": false,
+  "expected_actual_Native_cases": 9,
+  "expected_Auth_HTTP_cases": 2,
+  "expected_two_session_races": 2,
+  "expected_browser_cases": 2,
+  "prior_failed_original": "AFUI91_FIRST_ACTUAL_ROLE_OWNERSHIP_FAILURE_RESTORED_20261102.json",
+  "focused_role_model": {
+    "cases": 4,
+    "runtime": "PostgreSQL/WASM 18.6",
+    "actual_ERP_credit": 0,
+    "canonical": {
+      "bytes": 8292,
+      "sha256": "dd34639133bb97bcce1aa35b4b55d1573e7d0edbf22f9978687108582bd9c78a",
+      "library_file_id": "libfile_96df1e4f477c819181c3618550a3aa75"
+    }
+  },
+  "own_source_pins": 59,
+  "own_paths": 94,
+  "unchanged_parent_paths": 14306,
+  "financial_SQL_and_business_case_bodies_unchanged": true,
+  "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/41419714664",
+  "production_go": false,
+  "independent_acceptance": false
+}

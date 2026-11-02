@@ -1,0 +1,40 @@
+{
+  "status": "AFUI91_FIRST_ACTUAL_INSTALL_REFUSAL_BEFORE_BUSINESS_CASES",
+  "head": "f4f16c6920d94c2b9ef22fa33c62144595a672ed",
+  "tree": "c2957cd8ee7c7ac00450a5cd636e39ff0e27675c",
+  "run_id": 41410071146,
+  "job_id": 125160850217,
+  "conclusion": "failure",
+  "artifact_id": 13128029611,
+  "canonical": {
+    "bytes": 1980672,
+    "sha256": "9f5eb2aa38b1f2928176993d3296cd65b2e130db03c8255460b6cbf16065a91e",
+    "library_file_id": "libfile_aa78a2e6840c8191ab889ac4209425e7"
+  },
+  "error": "must be able to SET ROLE \"cp7_good_policy_date\"",
+  "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-vendor-receivable-qualification/probe.py\", line 94, in run_inner\n    prior=measured(timings,'EXACT_BACKEND3194_PARENT_INSTALL',product.parent().install_delta,cur,prior)\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-choice-finance-cron-qualification/phase_timing.py\", line 22, in measured\n    result = operation(*args, **kwargs)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_accessory_nonpayable/assembly.py\", line 19, in install_delta\n    return settings.install_delta(cur,financial.install_delta(cur,qualified_FREE3))\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_accessory_nonpayable/settings_stage.py\", line 204, in install_delta\n    cur.execute((HERE / 'settings.sql').read_text(), prepare=False)\n  File \"/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.InsufficientPrivilege: must be able to SET ROLE \"cp7_good_policy_date\"\n",
+  "actual_business_cases": 0,
+  "installation_failed_before_commit": true,
+  "restoration": {
+    "baseline_role_cleanup": {
+      "already_removed_by_preuse": [],
+      "removed_remaining": [],
+      "baseline_roles_exact": true
+    },
+    "baseline_full22_all_rows_all_sequences_equal": true,
+    "restore_components": {
+      "erp_platform_auth_schema_acl": true,
+      "all_public_catalog_members_and_row_hashes": true,
+      "erp_public_auth_function_definitions_owners_acls": true
+    },
+    "restore_raw_public_equal": true,
+    "cp6_restored": true,
+    "baseline_advisors_equal": true,
+    "advisor_gate": true
+  },
+  "repair_scope": "Narrow new-role ownership transfer under actual PostgreSQL17 non-superuser postgres; retain financial SQL and all business oracles",
+  "old_FREE45_or_DE30_case_reruns": 0,
+  "CP7_complete": false,
+  "production_go": false,
+  "independent_acceptance": false
+}
