@@ -1,5 +1,5 @@
 {
-  "classification": "CLOSED_FG_MANDOR_PRIVATE_ALLOCATION_PREPARATION_NOT_QUALIFICATION",
+  "classification": "CLOSED_FG_MANDOR_PRIVATE_BUYER_AND_ALLOCATION_PREPARATION_NOT_QUALIFICATION",
   "base_head": "15a2170cea88cd03a4d1bcaa0873a969d495b9fa",
   "base_tree": "3fe772a1314ae6bc7c4f36f72e3fda8738eb70fc",
   "files": {
@@ -11,17 +11,33 @@
       "bytes": 686,
       "sha256": "7cc8bc6ace4920d9499cec32abe77b2d8cbdb973b6c43bc57d7a2a45be1e34e6"
     },
+    "scripts/cp7_mandor_shop/BUYER_MODEL_CONTROLS.json": {
+      "bytes": 5879,
+      "sha256": "cf7de05e9765bd940b834c9e3e4c75f150f301e859118b8ed95254e707fbd5c4"
+    },
+    "scripts/cp7_mandor_shop/BUYER_SQL_SYNTAX_CONTROLS.json": {
+      "bytes": 412,
+      "sha256": "e7e5e18b189a02084bf8153e829fa124bc3d017feb944686713b28c84e3f6c2c"
+    },
+    "scripts/cp7_mandor_shop/BUYER_UUID_INTEGER_QUOTIENT_REPAIR.json": {
+      "bytes": 709,
+      "sha256": "8edbc0f08568c540f32631cbebc2855e5f3e4396acf2923f64be15802e8e8331"
+    },
     "scripts/cp7_mandor_shop/NATIVE_ALLOCATION_REFERENCE.json": {
       "bytes": 41819,
       "sha256": "d8186788861fafe039af6e4745a92ed69fc8b27287e295cdd9af55bcfc36d9c2"
+    },
+    "scripts/cp7_mandor_shop/NATIVE_BUYER_REFERENCE.json": {
+      "bytes": 90591,
+      "sha256": "9439f43a5ba710a7e881199e94c399d6efb1c9354ad477148edee10cb4d079b5"
     },
     "scripts/cp7_mandor_shop/NATIVE_SCHEMA_REFERENCE.json": {
       "bytes": 45357,
       "sha256": "07a46166c6ae74d078ee643637cadccc74714ae5297c1151059ae00a786acf28"
     },
     "scripts/cp7_mandor_shop/README.md": {
-      "bytes": 3705,
-      "sha256": "3d9d4fdcdb2991315a113c81a79335db83f1e60fb8ac127ce44b48ac84e5890d"
+      "bytes": 5046,
+      "sha256": "30367e291875b77172db5351d4b9eb348de8336c3c35da35cefbb2cdf8adf26b"
     },
     "scripts/cp7_mandor_shop/SQL_SYNTAX_CONTROLS.json": {
       "bytes": 1986,
@@ -47,9 +63,17 @@
       "bytes": 16505,
       "sha256": "ab7f1acd7500f6b43eac332be87adbfd6e07434cb1a0b6524e1ad6133669aeb3"
     },
+    "scripts/cp7_mandor_shop/buyer_model.mjs": {
+      "bytes": 16813,
+      "sha256": "3fecc170726cf92ce031abf30b6a62b0b1e3ce13fca128e08e98bde3a57a9766"
+    },
+    "scripts/cp7_mandor_shop/buyers.sql": {
+      "bytes": 10735,
+      "sha256": "5bfeb12b4103ca88f48b84a213098b33a90e7ead52398a5025213d9188e47617"
+    },
     "scripts/cp7_mandor_shop/check_source.py": {
-      "bytes": 4013,
-      "sha256": "39fd0a9f0582ea5a98721aef30fdc250f993ee4bae47c408c2dc0a9341cb7809"
+      "bytes": 5685,
+      "sha256": "6e865a61f9804226af632c42c741033fa1aa92b4764703e46fa67b2f763c9b52"
     },
     "scripts/cp7_mandor_shop/events.sql": {
       "bytes": 8216,
@@ -65,7 +89,7 @@
     }
   },
   "schema_tables": 13,
-  "private_functions": 4,
+  "private_functions": 17,
   "storage_model_controls": 15,
   "public_commands_implemented": false,
   "Native_payment_hooks_implemented": false,
@@ -77,5 +101,13 @@
   "independent_acceptance": false,
   "private_allocation_model_controls": 15,
   "retained_storage_model_controls_NOT_rerun": 15,
-  "public_commands_or_runtime_activated": false
+  "public_commands_or_runtime_activated": false,
+  "schema_and_event_functions": 4,
+  "private_allocation_functions": 7,
+  "private_buyer_functions": 6,
+  "private_buyer_model_controls": 20,
+  "retained_allocation_15_controls_NOT_rerun": true,
+  "private_buyer_preparation_implemented": true,
+  "Native_sales_identity_hooks_implemented": false,
+  "saved_current_Native_buyer_reference_head": "6e61506c10a18541c104b981bd438e78b175b5d1"
 }

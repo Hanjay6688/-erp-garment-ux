@@ -9,7 +9,7 @@ ROOT=HERE.parents[1]
 
 def check():
     manifest=HERE/'SOURCE.json';value=json.loads(manifest.read_bytes())
-    assert value['classification']=='CLOSED_FG_MANDOR_PRIVATE_ALLOCATION_PREPARATION_NOT_QUALIFICATION'
+    assert value['classification']=='CLOSED_FG_MANDOR_PRIVATE_BUYER_AND_ALLOCATION_PREPARATION_NOT_QUALIFICATION'
     assert value['actual_Native_cases']==0 and value['production_go']is False and value['independent_acceptance']is False
     env=dict(os.environ,GIT_NO_LAZY_FETCH='1',GIT_OPTIONAL_LOCKS='0')
     def git(*args):return subprocess.check_output(['/usr/bin/git','-C',str(ROOT),*args],env=env)
@@ -48,9 +48,29 @@ def check():
     raw=(HERE/'allocation.sql').read_bytes()
     assert syntax['source']=={'bytes':len(raw),'sha256':sha256(raw).hexdigest()}
     assert syntax['ERP_SQL_executed']==0 and syntax['actual_Native_cases']==0
+    buyer=json.loads((HERE/'BUYER_MODEL_CONTROLS.json').read_bytes())
+    assert buyer['status']=='FG_MANDOR_PRIVATE_BUYER_MODEL_CONTROLS_PASS_NOT_NATIVE'
+    assert buyer['retained_storage_15_and_allocation_15_controls_NOT_rerun']is True
+    assert buyer['actual_Native_cases']==buyer['actual_Auth_HTTP_cases']==buyer['actual_browser_cases']==buyer['actual_two_session_races']==0
+    for name,expected in buyer['source_files'].items():
+        raw=(HERE/name).read_bytes();assert {'bytes':len(raw),'sha256':sha256(raw).hexdigest()}==expected
+    syntax=json.loads((HERE/'BUYER_SQL_SYNTAX_CONTROLS.json').read_bytes())
+    raw=(HERE/'buyers.sql').read_bytes()
+    assert syntax['source']=={'bytes':len(raw),'sha256':sha256(raw).hexdigest()}
+    assert syntax['ERP_SQL_executed']==syntax['actual_Native_cases']==0
+    repair=json.loads((HERE/'BUYER_UUID_INTEGER_QUOTIENT_REPAIR.json').read_bytes())
+    route=repair['counted_route'];text=raw.decode()
+    assert text.count(route['after'])==route['count']==1
+    original=text.replace(route['after'],route['before'],1).encode()
+    assert repair['first_source']=={'bytes':len(original),'sha256':sha256(original).hexdigest()}
+    assert repair['changed_source']=={'bytes':len(raw),'sha256':sha256(raw).hexdigest()}
+    assert repair['first_model_is_not_PASS']is True and repair['Native_cases']==repair['ERP_installations']==0
+    assert value['private_functions']==value['schema_and_event_functions']+value['private_allocation_functions']+value['private_buyer_functions']==17
     return dict(status='FG_MANDOR_EXACT_STORAGE_PREPARATION_SOURCE_ONLY',unchanged_parent_blobs_and_modes=len(base),
         own_source_pins=len(value['files']),storage_model_controls=len(model['results']),parent_gate_closed=True,
         private_allocation_model_controls=len(allocation['results']),retained_storage_controls_NOT_rerun=True,
+        private_buyer_functions=6,private_buyer_model_controls=len(buyer['results']),
+        retained_allocation_controls_NOT_rerun=True,
         runtime_entry=None,ERP_imports=0,SQL_executed=0,actual_Native_cases=0,production_go=False,independent_acceptance=False)
 
 

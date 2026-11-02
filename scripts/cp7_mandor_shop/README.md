@@ -1,7 +1,8 @@
 # Belanja FG mandor melalui payroll — persiapan A, belum diaktifkan
 
-Penyimpanan, pemilik perubahan status, pembaca kartu dan perintah privat untuk
-pasang/lepas alokasi draft sudah ditulis. Modul ini belum mempunyai pemasang,
+Penyimpanan, pemilik perubahan status, pembaca kartu, perintah privat untuk
+pasang/lepas alokasi draft dan persiapan identitas pembeli mandor sudah ditulis.
+Modul ini belum mempunyai pemasang,
 perintah publik, sambungan pelunasan Native atau pop-up aplikasi.
 Gerbang parent dan runtime masih tertutup. Tidak ada
 penambahan kasus Native atau izin memakai produksi dari hasil model ini.
@@ -43,6 +44,25 @@ Ini membuktikan SQL alokasi pada batas model tersebut, termasuk contoh upah
 2.000.000 dikurangi alokasi 300.000 menjadi pratinjau 1.700.000, tanpa jurnal.
 Token usang diuji berurutan pada satu backend; ini belum uji dua sesi/tab.
 Lima belas pemeriksaan penyimpanan lama tetap dipakai tanpa dijalankan ulang.
+
+`buyers.sql` mencari master mandor aktif dan menyiapkan satu identitas pelanggan
+Native per UUID mandor. Nama yang sama tidak menyatukan dua mandor atau pelanggan
+toko. Kode pelanggan mempertahankan seluruh 128 bit UUID dalam 28 karakter;
+tabrakan dengan kode pelanggan toko ditolak untuk ditinjau, bukan dipasang diam-diam.
+Persiapan memakai izin Penjualan existing, review sumber, penguncian NOWAIT,
+identitas request dan konteks Native privat. Perintah berulang memakai hasil
+tersimpan, mandor/sumber yang berubah membatalkan review, dan pelanggan nonaktif
+tidak diaktifkan lagi otomatis. Belum ada perintah publik atau sambungan formulir.
+
+`buyer_model.mjs` lulus 20 pemeriksaan baru dengan definisi persis
+`cp7_sales.command_access` dan tipe kolom master/konteks dari katalog D/E6e615
+yang diterima. Auth, penyedia izin, penjagaan konteks audit dan sebagian tabel
+Native dimodelkan secara eksplisit. Pengujian UUID nol/maksimum dan 100 identitas
+menangkap pembulatan pada pembagian awal; implementasi memakai hasil bagi bulat
+yang tepat sebelum diaktifkan. Model pertama tetap gagal. Model ini tidak
+menjalankan invoice, stok, HPP, payroll, pembayaran, Auth HTTP atau dua backend.
+Lima belas pemeriksaan alokasi dan lima belas pemeriksaan penyimpanan terdahulu
+tetap dipakai tanpa dijalankan ulang.
 
 Pekerjaan berikutnya: pertahankan mesin Penjualan existing; hubungkan pilihan
 pembeli ke master mandor; turunkan sambungan Native dari definisi parent

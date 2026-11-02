@@ -1,0 +1,177 @@
+{
+  "status": "FG_MANDOR_PRIVATE_BUYER_MODEL_CONTROLS_PASS_NOT_NATIVE",
+  "source_files": {
+    "schema.sql": {
+      "bytes": 12510,
+      "sha256": "59c1b8e69555f6a8e0caf34e8d0ee18e27c1d4caaee8073c44225bbc4a687fd1"
+    },
+    "events.sql": {
+      "bytes": 8216,
+      "sha256": "9e2633af5d9ecff6220c37cdf8bb22a27ce71cbc03862c8aa40a1fadfd82a1d3"
+    },
+    "buyers.sql": {
+      "bytes": 10735,
+      "sha256": "5bfeb12b4103ca88f48b84a213098b33a90e7ead52398a5025213d9188e47617"
+    },
+    "NATIVE_BUYER_REFERENCE.json": {
+      "bytes": 90591,
+      "sha256": "9439f43a5ba710a7e881199e94c399d6efb1c9354ad477148edee10cb4d079b5"
+    },
+    "buyer_model.mjs": {
+      "bytes": 16813,
+      "sha256": "3fecc170726cf92ce031abf30b6a62b0b1e3ce13fca128e08e98bde3a57a9766"
+    }
+  },
+  "exact_Native_command_access_definition": {
+    "bytes": 2252,
+    "sha256": "d0e6c67181f63c7cddf6119dcd36c339b122e9b1c955e13f2393d67f5dc121de"
+  },
+  "exact_Native_schema_column_types": {
+    "erp.contractors": {
+      "id": "uuid",
+      "contractor_code": "character varying(30)",
+      "contractor_name": "character varying(120)",
+      "contractor_type": "character varying(30)",
+      "attendance_required": "boolean",
+      "is_active": "boolean",
+      "notes": "text",
+      "created_at": "timestamp with time zone",
+      "updated_at": "timestamp with time zone"
+    },
+    "erp.customers": {
+      "id": "uuid",
+      "customer_code": "character varying(30)",
+      "customer_name": "character varying(150)",
+      "phone": "character varying(50)",
+      "address": "text",
+      "is_active": "boolean",
+      "created_at": "timestamp with time zone",
+      "updated_at": "timestamp with time zone"
+    },
+    "cp7_sales.command_context": {
+      "backend_pid": "integer",
+      "transaction_id": "bigint",
+      "actor": "uuid",
+      "sale_id": "uuid",
+      "action": "text"
+    }
+  },
+  "results": [
+    {
+      "label": "All Native contractor/customer/context column names and types match accepted DE6e615",
+      "result": "PASS"
+    },
+    {
+      "label": "UUID zero/max and 100 identities preserve all 128 bits in 28-character Native codes",
+      "result": "PASS"
+    },
+    {
+      "label": "Buyer search/paging is read-only and uses active MANDOR UUIDs even when names match",
+      "result": "PASS"
+    },
+    {
+      "label": "Preparing mandor buyer creates one explicit customer/account and cleans both private contexts",
+      "result": "PASS"
+    },
+    {
+      "label": "Exact request replay returns its immutable result without a second customer or account",
+      "result": "PASS"
+    },
+    {
+      "label": "Changed buyer intent cannot reuse a completed request",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "P0001",
+      "error": "REQUEST_CHANGED"
+    },
+    {
+      "label": "A stale review from before account creation cannot create a second customer",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "P0001",
+      "error": "REVIEW_CHANGED"
+    },
+    {
+      "label": "Another permitted draft action reuses the same immutable mandor/customer identity",
+      "result": "PASS"
+    },
+    {
+      "label": "Same mandor name and same ordinary store-customer name never merge identities",
+      "result": "PASS"
+    },
+    {
+      "label": "Changed master mandor invalidates the earlier buyer review",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "P0001",
+      "error": "REVIEW_CHANGED"
+    },
+    {
+      "label": "Inactive mandor cannot prepare a buyer",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "P0001",
+      "error": "ACTIVE_MANDOR_REQUIRED"
+    },
+    {
+      "label": "Non-MANDOR master cannot prepare a buyer",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "P0001",
+      "error": "ACTIVE_MANDOR_REQUIRED"
+    },
+    {
+      "label": "An inactive linked customer is not silently reactivated",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "P0001",
+      "error": "CUSTOMER_INACTIVE"
+    },
+    {
+      "label": "An ordinary customer with the generated code requires review instead of being linked",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "P0001",
+      "error": "ACCOUNT_CODE_COLLISION_REVIEW_REQUIRED"
+    },
+    {
+      "label": "An existing Native command context cannot be overwritten",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "P0001",
+      "error": "BUYER_NESTED_CONTEXT_REFUSED"
+    },
+    {
+      "label": "Current Native sales permission is required even for an exact replay",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "42501",
+      "error": "CP7_SALES_WRITE_DENIED"
+    },
+    {
+      "label": "Unsupported action cannot reuse Native sales authority",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "42501",
+      "error": "BUYER_ACTION_DENIED"
+    },
+    {
+      "label": "Unexpected buyer fields are refused",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "P0001",
+      "error": "BUYER_COMMAND_FIELDS"
+    },
+    {
+      "label": "Read committed is required before mutation",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "P0001",
+      "error": "CP7_FRESH_ACCESS_REQUIRED"
+    },
+    {
+      "label": "Private buyer functions are not exposed directly to the browser role",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "42501",
+      "error": "permission denied"
+    }
+  ],
+  "model_scope": "One isolated PG/WASM backend; Auth/permission providers, private-context audit guard and partial Native schema are explicit models",
+  "retained_storage_15_and_allocation_15_controls_NOT_rerun": true,
+  "Native_invoice_or_stock_or_payroll_ran": false,
+  "actual_Native_cases": 0,
+  "actual_Auth_HTTP_cases": 0,
+  "actual_browser_cases": 0,
+  "actual_two_session_races": 0,
+  "public_commands_or_runtime_activated": false,
+  "production_go": false,
+  "independent_acceptance": false
+}
