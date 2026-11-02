@@ -1,7 +1,7 @@
 """Only the three missing catalog/quiescence controls; retain the actual four.
 
 The failed original remains failed. Its four completed source-pinned cases are
-not executed here. A transaction snapshot, not a guessed relation-lock mode,
+not executed here. Permanent transaction-ID locks, not the snapshot xip sublist,
 must expose a preexisting uncommitted catalog writer before model effects.
 """
 from pathlib import Path
@@ -26,6 +26,14 @@ def require(value,message):
 def source():
     raw=(HERE/'probe.py').read_bytes()
     manifest=json.loads((HERE/'SOURCE.json').read_bytes())
+    origin=json.loads((HERE/'FOCUSED3_TXLOCK_REPAIR_ORIGIN.json').read_bytes())
+    current=Path(__file__).read_text()
+    for route in reversed(origin['routes']):
+        require(current.count(route['after'])==route['count'],'CATALOG_FOCUSED3_EXACT_REPAIR_REVERSE')
+        current=current.replace(route['after'],route['before'],route['count'])
+    recovered=current.encode()
+    require(dict(bytes=len(recovered),sha256=sha256(recovered).hexdigest())==origin['before'],
+        'CATALOG_FOCUSED3_ORIGINAL_209_SOURCE_MUST_BE_RECOVERED')
     require(manifest['retained_original_probe']==dict(bytes=len(raw),sha256=sha256(raw).hexdigest()),
         'CATALOG_FOCUSED3_ORIGINAL_PROBE_MUST_STAY_EXACT')
     spec=importlib.util.spec_from_file_location('catalog_original_source_check_ONLY',HERE/'probe.py')
@@ -73,12 +81,23 @@ def run():
             lock(guarded,('pg_proc',))
             visible=guarded.execute(sql.SQL('select {}.value()').format(q())).fetchone()[0]
             require(visible==1,'CATALOG_FOCUSED3_UNCOMMITTED_FUNCTION_MUST_STILL_BE_INVISIBLE')
+            actual_snapshot=guarded.execute('select pg_current_snapshot()::text').fetchone()[0]
             xips=[r[0]for r in guarded.execute('select pg_snapshot_xip(pg_current_snapshot())::text order by 1').fetchall()]
-            require(xid in xips,'CATALOG_FOCUSED3_AUTHORITATIVE_SNAPSHOT_MUST_CONTAIN_WRITER_XID')
+            txlocks=[list(r)for r in guarded.execute("select pid,transactionid::text,mode,granted,fastpath from pg_catalog.pg_locks where locktype='transactionid'and mode='ExclusiveLock'and granted and pid is distinct from pg_backend_pid()order by pid nulls first,transactionid::text").fetchall()]
+            report['preexisting_writer_observation']=dict(writer_pid=writer.info.backend_pid,
+                guarded_pid=guarded.info.backend_pid,writer_xid=xid,actual_snapshot=actual_snapshot,
+                snapshot_xip_sublist=xips,actual_other_granted_transaction_ID_locks=txlocks,
+                actual_pg_proc_relation_locks=relation_locks,
+                catalog_SHARE_alone_admitted=True,visible_function_result=visible)
+            require(any(row[0]==writer.info.backend_pid and int(row[1])==int(xid)%4294967296
+                and row[2:]==['ExclusiveLock',True,False]for row in txlocks),
+                'CATALOG_FOCUSED3_ACTUAL_PERMANENT_TRANSACTION_ID_LOCK_REQUIRED')
             before_refusal=snapshot();error=None
             try:
                 guarded.execute("""do $$begin
-                  if exists(select 1 from pg_catalog.pg_snapshot_xip(pg_catalog.pg_current_snapshot()))then
+                  if exists(select 1 from pg_catalog.pg_locks
+                    where locktype='transactionid'and mode='ExclusiveLock'and granted
+                     and pid is distinct from pg_backend_pid())then
                     raise exception using errcode='55P03',message='CATALOG_PREEXISTING_TRANSACTION_REVIEW_AGAIN';
                   end if;
                   raise exception 'CATALOG_FOCUSED3_UNSAFE_NO_QUIESCENCE_REFUSAL';
@@ -91,7 +110,8 @@ def run():
             report['cases'].append(dict(id=IDS[0],status='PASS',writer_pid=writer.info.backend_pid,
                 guarded_pid=guarded.info.backend_pid,writer_xid=xid,actual_pg_proc_relation_locks=relation_locks,
                 catalog_SHARE_alone_admitted=True,uncommitted_function_result_not_visible=visible,
-                actual_current_snapshot_in_progress_xids=xips,quiescence_refusal=error,
+                actual_snapshot=actual_snapshot,snapshot_xip_sublist=xips,
+                actual_other_granted_transaction_ID_locks=txlocks,quiescence_refusal=error,
                 actual_model_before_refusal=before_refusal,actual_model_after_rollback=after))
         catalogs=[r[0]for r in admin.execute("select c.relname from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname='pg_catalog'and c.relkind in('r','p')order by c.relname").fetchall()]
         require({'pg_proc','pg_authid','pg_auth_members','pg_cast','pg_operator','pg_type','pg_policy','pg_event_trigger'}<=set(catalogs),'CATALOG_FOCUSED3_REQUIRED_DISPATCH_AND_AUTHORITY_CATALOGS')
@@ -99,8 +119,11 @@ def run():
             lock(holder,catalogs)
             held=[r[0]for r in watch.execute("select c.relname from pg_locks l join pg_class c on c.oid=l.relation join pg_namespace n on n.oid=c.relnamespace where n.nspname='pg_catalog'and l.pid=%s and l.mode='ShareLock'and l.granted order by c.relname",(holder.info.backend_pid,)).fetchall()]
             require(held==catalogs,'CATALOG_FOCUSED3_ALL_CATALOG_LOCKS_MUST_ACTUALLY_BE_HELD')
-            xips=[r[0]for r in holder.execute('select pg_snapshot_xip(pg_current_snapshot())::text order by 1').fetchall()]
-            require(not xips,'CATALOG_FOCUSED3_EMPTY_REAL_PREEXISTING_XID_SNAPSHOT')
+            before_txlocks=[list(r)for r in holder.execute("select pid,transactionid::text,mode,granted,fastpath from pg_catalog.pg_locks where locktype='transactionid'and mode='ExclusiveLock'and granted and pid is distinct from pg_backend_pid()order by pid nulls first,transactionid::text").fetchall()]
+            report['all_catalog_barrier_observation']=dict(holder_pid=holder.info.backend_pid,
+                worker_pid=worker.info.backend_pid,expected_catalog_tables=catalogs,
+                actual_held_catalog_tables=held,actual_preexisting_transaction_ID_locks=before_txlocks)
+            require(not before_txlocks,'CATALOG_FOCUSED3_NO_OTHER_PERMANENT_TRANSACTION_ID_LOCKS')
             value=worker.execute(sql.SQL('select {}.value()').format(q())).fetchone()[0]
             worker.execute(sql.SQL("insert into {}.effects values(1,'allowed ordinary model DML')").format(q()))
             own_rows=[list(r)for r in worker.execute(sql.SQL('select *from {}.effects order by id').format(q())).fetchall()]
@@ -109,7 +132,7 @@ def run():
             require(after==baseline,'CATALOG_FOCUSED3_COMPLETE_BARRIER_PROBE_RESTORATION')
             report['cases'].append(dict(id=IDS[1],status='PASS',holder_pid=holder.info.backend_pid,
                 worker_pid=worker.info.backend_pid,catalog_tables=catalogs,actual_held_catalog_tables=held,
-                actual_preexisting_xids=xips,existing_function_result=value,actual_uncommitted_worker_rows=own_rows,
+                actual_preexisting_transaction_ID_locks=before_txlocks,existing_function_result=value,actual_uncommitted_worker_rows=own_rows,
                 actual_model_after_rollback=after))
         with connect()as conn:
             conn.execute("set local search_path=''");quoted=conn.execute("select current_setting('search_path')").fetchone()[0]
@@ -120,7 +143,7 @@ def run():
         final=snapshot();require(final==baseline,'CATALOG_FOCUSED3_FINAL_FULL_MODEL_BASELINE')
         require(tuple(r['id']for r in report['cases'])==IDS,'CATALOG_FOCUSED3_EXACT_NEW_THREE_IDS')
         report.update(status='PASS',actual_new_primitive_cases=3,model_final=final,
-            global_barrier_requires_no_preexisting_xids_in_addition_to_catalog_locks=True,
+            global_barrier_requires_no_other_permanent_transaction_ID_locks_in_addition_to_catalog_locks=True,
             catalog_SHARE_alone_does_NOT_close_preexisting_catalog_writer=True)
     except BaseException as error:
         report.update(status='FAIL',error_type=type(error).__name__,error=str(error)[:1000],

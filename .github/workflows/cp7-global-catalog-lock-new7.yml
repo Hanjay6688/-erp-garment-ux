@@ -1,4 +1,4 @@
-name: CP7 A catalog quiescence focused3 only
+name: CP7 A catalog transaction lock focused3 only
 'on':
   push:
     branches: [astra-a/global-catalog-lock-new7-20261102]
@@ -42,7 +42,7 @@ jobs:
           mkdir -p cp7-proof
           docker image inspect postgres@sha256:00bc86618629af00d2937fdc5a5d63db3ff8450acf52f0636ec813c7f4902929 --format '{{json .RepoDigests}}' > cp7-proof/MODEL_POSTGRES_IMAGE.json
           python -B scripts/current-global-catalog-lock-controls/focused3.py --check > cp7-proof/MODEL_SOURCE_IDENTITY.json
-      - name: Run only missing catalog quiescence3 without repeating actual retained4
+      - name: Run only missing catalog transaction lock3 without repeating actual retained4
         env:
           CATALOG_LOCK_CONFIRM: cp7_catalog_locks
           CATALOG_LOCK_URL: postgresql://postgres:catalog-only-local-not-erp@127.0.0.1:55441/cp7_catalog_locks

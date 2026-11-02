@@ -1,21 +1,25 @@
 {
   "classification": "ISOLATED_REAL_PG17_CATALOG_BARRIER_CONTROLS_NOT_ERP",
   "files": {
+    ".github/workflows/cp7-global-catalog-lock-new7.yml": {
+      "bytes": 2403,
+      "sha256": "ffb80f97a6681990ab498f22825541930fd074155fb29c580aa94bfd57ae06c9"
+    },
+    "scripts/current-global-catalog-lock-controls/FOCUSED3_TXLOCK_REPAIR_ORIGIN.json": {
+      "bytes": 5459,
+      "sha256": "ac144aa0a7b3a056759845da209a40b91a9cbf9df873d1ad51535aa92432ff1f"
+    },
+    "scripts/current-global-catalog-lock-controls/README.md": {
+      "bytes": 3786,
+      "sha256": "01359508af10ced77e441c78e1fb0ef62fdc46d6c2d187944d6d55ebdd5f2a52"
+    },
+    "scripts/current-global-catalog-lock-controls/focused3.py": {
+      "bytes": 13157,
+      "sha256": "aaa05e1b0ee53c30b07c16480a51055cecab707a222dcbf0ac36124fea8823d4"
+    },
     "scripts/current-global-catalog-lock-controls/probe.py": {
       "bytes": 13374,
       "sha256": "9d717a85019dbc76880edddaf1d3dd6b3ec856e644ac8e784c0ce27847b37981"
-    },
-    "scripts/current-global-catalog-lock-controls/focused3.py": {
-      "bytes": 10923,
-      "sha256": "de6380c9a45fda21c1689989d9cc1613dc444991e2af2526fbe4bae36ccf789c"
-    },
-    "scripts/current-global-catalog-lock-controls/README.md": {
-      "bytes": 2880,
-      "sha256": "714758b7e1fd3df84e7a377c4c8c4fc89264a3d169a5700d7145809a65280ab2"
-    },
-    ".github/workflows/cp7-global-catalog-lock-new7.yml": {
-      "bytes": 2391,
-      "sha256": "0c72e34030d56d1fe332ccff3f7d2e7b0cb94cbbebd697d7363f817847990a51"
     }
   },
   "retained_original_probe": {
@@ -31,5 +35,7 @@
   "actual_Native_cases": 0,
   "global_writer_closure": false,
   "production_go": false,
-  "independent_acceptance": false
+  "independent_acceptance": false,
+  "failed_first_focused_run": 41372155092,
+  "first_focused_completed_cases": 0
 }

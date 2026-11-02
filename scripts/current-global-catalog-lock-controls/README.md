@@ -44,3 +44,16 @@ and the actual PostgreSQL catalog source (ProcedureCreate/table_close)
 https://github.com/postgres/postgres/blob/REL_17_6/src/backend/catalog/pg_proc.c
 The in-progress-XID precondition is deliberately conservative; its installation
 and behavior within the complete ERP owning envelope remain unqualified.
+
+The first focused run 41372155092 completed zero cases: the guessed claim that
+every in-progress XID appears in snapshot xip was incorrect. PostgreSQL17 also
+encodes unfinished XIDs at or above xmax implicitly; an empty xip is not a quiet
+server. The correction preserves the original 209 source through eight counted
+reversible routes and records observations BEFORE assertions. It checks actual
+granted non-fastpath ExclusiveLock rows on permanent transaction IDs from
+pg_locks, excluding only its own backend and retaining pid=NULL prepared rows.
+The primary pg_locks documentation states these locks last until the transaction
+ends and that normal lock-manager rows are captured consistently:
+https://www.postgresql.org/docs/17/view-pg-locks.html
+The full ERP protocol remains closed until actual catalog/profile/owning-hook
+admission and combined tests; this is still only three isolated primitives.

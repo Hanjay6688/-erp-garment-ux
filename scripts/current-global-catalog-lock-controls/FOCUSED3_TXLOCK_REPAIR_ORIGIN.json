@@ -1,0 +1,56 @@
+{
+  "classification": "EXACT_CALLER_QUIESCENCE_GUARD_REPAIR_NOT_ERP_ORACLE_CHANGE",
+  "before_head": "20942e406049ea7470d4b9a96a4cbaca6987d9eb",
+  "before_tree": "61a9416c5195cea12fa9d6a64bef4bd4e53818aa",
+  "path": "scripts/current-global-catalog-lock-controls/focused3.py",
+  "before": {
+    "bytes": 10923,
+    "sha256": "de6380c9a45fda21c1689989d9cc1613dc444991e2af2526fbe4bae36ccf789c"
+  },
+  "routes": [
+    {
+      "before": "A transaction snapshot, not a guessed relation-lock mode,\nmust expose a preexisting uncommitted catalog writer before model effects.",
+      "after": "Permanent transaction-ID locks, not the snapshot xip sublist,\nmust expose a preexisting uncommitted catalog writer before model effects.",
+      "count": 1
+    },
+    {
+      "before": "    manifest=json.loads((HERE/'SOURCE.json').read_bytes())\n",
+      "after": "    manifest=json.loads((HERE/'SOURCE.json').read_bytes())\n    origin=json.loads((HERE/'FOCUSED3_TXLOCK_REPAIR_ORIGIN.json').read_bytes())\n    current=Path(__file__).read_text()\n    for route in reversed(origin['routes']):\n        require(current.count(route['after'])==route['count'],'CATALOG_FOCUSED3_EXACT_REPAIR_REVERSE')\n        current=current.replace(route['after'],route['before'],route['count'])\n    recovered=current.encode()\n    require(dict(bytes=len(recovered),sha256=sha256(recovered).hexdigest())==origin['before'],\n        'CATALOG_FOCUSED3_ORIGINAL_209_SOURCE_MUST_BE_RECOVERED')\n",
+      "count": 1
+    },
+    {
+      "before": "            xips=[r[0]for r in guarded.execute('select pg_snapshot_xip(pg_current_snapshot())::text order by 1').fetchall()]\n            require(xid in xips,'CATALOG_FOCUSED3_AUTHORITATIVE_SNAPSHOT_MUST_CONTAIN_WRITER_XID')\n",
+      "after": "            actual_snapshot=guarded.execute('select pg_current_snapshot()::text').fetchone()[0]\n            xips=[r[0]for r in guarded.execute('select pg_snapshot_xip(pg_current_snapshot())::text order by 1').fetchall()]\n            txlocks=[list(r)for r in guarded.execute(\"select pid,transactionid::text,mode,granted,fastpath from pg_catalog.pg_locks where locktype='transactionid'and mode='ExclusiveLock'and granted and pid is distinct from pg_backend_pid()order by pid nulls first,transactionid::text\").fetchall()]\n            report['preexisting_writer_observation']=dict(writer_pid=writer.info.backend_pid,\n                guarded_pid=guarded.info.backend_pid,writer_xid=xid,actual_snapshot=actual_snapshot,\n                snapshot_xip_sublist=xips,actual_other_granted_transaction_ID_locks=txlocks,\n                actual_pg_proc_relation_locks=relation_locks,\n                catalog_SHARE_alone_admitted=True,visible_function_result=visible)\n            require(any(row[0]==writer.info.backend_pid and int(row[1])==int(xid)%4294967296\n                and row[2:]==['ExclusiveLock',True,False]for row in txlocks),\n                'CATALOG_FOCUSED3_ACTUAL_PERMANENT_TRANSACTION_ID_LOCK_REQUIRED')\n",
+      "count": 1
+    },
+    {
+      "before": "                  if exists(select 1 from pg_catalog.pg_snapshot_xip(pg_catalog.pg_current_snapshot()))then",
+      "after": "                  if exists(select 1 from pg_catalog.pg_locks\n                    where locktype='transactionid'and mode='ExclusiveLock'and granted\n                     and pid is distinct from pg_backend_pid())then",
+      "count": 1
+    },
+    {
+      "before": "                actual_current_snapshot_in_progress_xids=xips,quiescence_refusal=error,",
+      "after": "                actual_snapshot=actual_snapshot,snapshot_xip_sublist=xips,\n                actual_other_granted_transaction_ID_locks=txlocks,quiescence_refusal=error,",
+      "count": 1
+    },
+    {
+      "before": "            xips=[r[0]for r in holder.execute('select pg_snapshot_xip(pg_current_snapshot())::text order by 1').fetchall()]\n            require(not xips,'CATALOG_FOCUSED3_EMPTY_REAL_PREEXISTING_XID_SNAPSHOT')\n",
+      "after": "            before_txlocks=[list(r)for r in holder.execute(\"select pid,transactionid::text,mode,granted,fastpath from pg_catalog.pg_locks where locktype='transactionid'and mode='ExclusiveLock'and granted and pid is distinct from pg_backend_pid()order by pid nulls first,transactionid::text\").fetchall()]\n            report['all_catalog_barrier_observation']=dict(holder_pid=holder.info.backend_pid,\n                worker_pid=worker.info.backend_pid,expected_catalog_tables=catalogs,\n                actual_held_catalog_tables=held,actual_preexisting_transaction_ID_locks=before_txlocks)\n            require(not before_txlocks,'CATALOG_FOCUSED3_NO_OTHER_PERMANENT_TRANSACTION_ID_LOCKS')\n",
+      "count": 1
+    },
+    {
+      "before": "                actual_preexisting_xids=xips,existing_function_result=value,actual_uncommitted_worker_rows=own_rows,",
+      "after": "                actual_preexisting_transaction_ID_locks=before_txlocks,existing_function_result=value,actual_uncommitted_worker_rows=own_rows,",
+      "count": 1
+    },
+    {
+      "before": "            global_barrier_requires_no_preexisting_xids_in_addition_to_catalog_locks=True,",
+      "after": "            global_barrier_requires_no_other_permanent_transaction_ID_locks_in_addition_to_catalog_locks=True,",
+      "count": 1
+    }
+  ],
+  "original_full_source_recovered": true,
+  "retained_catalog4_NOT_rerun": true,
+  "prior_focused_run_failed_before_any_completed_case": true,
+  "actual_Native_cases": 0
+}

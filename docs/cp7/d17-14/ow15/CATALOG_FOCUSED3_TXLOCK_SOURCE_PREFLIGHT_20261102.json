@@ -1,0 +1,81 @@
+{
+  "status": "EXACT_TXID_LOCK_QUIESCENCE_REPAIR_SOURCE_AND_SQL_PREFLIGHT_PASS_NOT_EXECUTION",
+  "recovered_original": {
+    "bytes": 10923,
+    "sha256": "de6380c9a45fda21c1689989d9cc1613dc444991e2af2526fbe4bae36ccf789c"
+  },
+  "routes": 8,
+  "literal_SQL_parsed": 26,
+  "query_sha256": [
+    "e0fba8703b84bc8eebcba9f2e9f74a807da596642006f1fdf1da28e0efd34769",
+    "734f2cc041cf1e2b3f4fba39ed9f56c266a6bef81bd284b86b2c29a5c27b3aab",
+    "61816c7ac274e9522f5e02bd77e07feacfe34a9c96b1bf282757c14d94929d82",
+    "810ff0667dbaa99d1a8f02bf21bad770a8354f1ab92080cc5eadffec3227366a",
+    "f71229aa7335a02d4e97b2ffe9a15c416990308f76b22aa4b0d43eebf44d8e60",
+    "d8bd0d2e61f6eaa1ffdbe9f6247d2429a8f8bd819e2dddecd83f1802437aa68b",
+    "16397788f99d41c1a245bbd0b00eab0db6a3eb3a492c0960317c9239373465ff",
+    "aa22b9ad59851708382aeca1d97fdee1b8197df3bb480e18c15103db6728e43e",
+    "8be55a933aec68eb1dc8887b5783be5414b97175c3b9f2329b34592c7d51c9fd",
+    "ed3c0cd29d14ff3c4287b4a235d3b509a77fef5dd694e03eb7c86234991458a1",
+    "71e3bd0906db9ce6d94838b86e2555e94746331fce920ad4ba6089a8649065f0",
+    "765ac533b3306c231b7219f28f0c173ba8f2c4ed53ea6361dfb389e47d511217",
+    "2f2bb15cfe9a7499eb3375c264aa7fde0464cb0778dfac1d79cee09c7d39eb75",
+    "2f2bb15cfe9a7499eb3375c264aa7fde0464cb0778dfac1d79cee09c7d39eb75",
+    "3cc830a4a939d815d7395b26151c0d1bad8d1d622636794924b6029695264c3a",
+    "30417500d7473d770aa4cd5551896e63e6c0dfbcc8a2f2028f9b2a2929c84781",
+    "8de08107e565797b426de51d528ef637667b6d1b4328909d24e14420e427ec2c",
+    "29c854700eb39a9844cd6204ffd4779bd76b381ce2ec19bc2497caf8e41aebe3",
+    "8de08107e565797b426de51d528ef637667b6d1b4328909d24e14420e427ec2c",
+    "6ab7a2b0aee48756ea1d9dad0e898cb202c195495aabd0181080d25bac501660",
+    "a0ce7311bd55ba1c1b8cef75d5ca701f306fe57a9b83b5fd91834a4e727ac8d0",
+    "379411c9895729a775ed20a79d7f35ddef0bed8a8e201b6fadeddcc58089178a",
+    "379411c9895729a775ed20a79d7f35ddef0bed8a8e201b6fadeddcc58089178a",
+    "df6929ef35c1f905785db0cb67a38e8d2e8f58a433cb44fd93b0600b3a7378ec",
+    "58a101a0764c330ba851c58f4870f7c611d46fadbb421fb363e6c1e26f2ca177",
+    "58a101a0764c330ba851c58f4870f7c611d46fadbb421fb363e6c1e26f2ca177"
+  ],
+  "source": {
+    "classification": "ISOLATED_REAL_PG17_CATALOG_BARRIER_CONTROLS_NOT_ERP",
+    "files": {
+      ".github/workflows/cp7-global-catalog-lock-new7.yml": {
+        "bytes": 2403,
+        "sha256": "ffb80f97a6681990ab498f22825541930fd074155fb29c580aa94bfd57ae06c9"
+      },
+      "scripts/current-global-catalog-lock-controls/FOCUSED3_TXLOCK_REPAIR_ORIGIN.json": {
+        "bytes": 5459,
+        "sha256": "ac144aa0a7b3a056759845da209a40b91a9cbf9df873d1ad51535aa92432ff1f"
+      },
+      "scripts/current-global-catalog-lock-controls/README.md": {
+        "bytes": 3786,
+        "sha256": "01359508af10ced77e441c78e1fb0ef62fdc46d6c2d187944d6d55ebdd5f2a52"
+      },
+      "scripts/current-global-catalog-lock-controls/focused3.py": {
+        "bytes": 13157,
+        "sha256": "aaa05e1b0ee53c30b07c16480a51055cecab707a222dcbf0ac36124fea8823d4"
+      },
+      "scripts/current-global-catalog-lock-controls/probe.py": {
+        "bytes": 13374,
+        "sha256": "9d717a85019dbc76880edddaf1d3dd6b3ec856e644ac8e784c0ce27847b37981"
+      }
+    },
+    "retained_original_probe": {
+      "bytes": 13374,
+      "sha256": "9d717a85019dbc76880edddaf1d3dd6b3ec856e644ac8e784c0ce27847b37981"
+    },
+    "retained_original_failed_run": 41371274977,
+    "retained_original_completed_cases": 4,
+    "retained_current_catalog4_NOT_rerun": true,
+    "retained_primitive9_NOT_rerun": true,
+    "expected_new_cases": 3,
+    "actual_ERP_cases": 0,
+    "actual_Native_cases": 0,
+    "global_writer_closure": false,
+    "production_go": false,
+    "independent_acceptance": false,
+    "failed_first_focused_run": 41372155092,
+    "first_focused_completed_cases": 0
+  },
+  "retained4_NOT_rerun": true,
+  "prior_focused_cases_completed": 0,
+  "Native_cases": 0
+}

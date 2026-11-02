@@ -1,0 +1,43 @@
+{
+  "status": "ACTUAL_FIRST_FOCUSED3_FAILED_ZERO_COMPLETED_CASES_PRESERVED",
+  "run_id": 41372155092,
+  "job_id": 125044714468,
+  "head": "20942e406049ea7470d4b9a96a4cbaca6987d9eb",
+  "tree": "61a9416c5195cea12fa9d6a64bef4bd4e53818aa",
+  "actual_completed_cases": 0,
+  "original_error": "CATALOG_FOCUSED3_AUTHORITATIVE_SNAPSHOT_MUST_CONTAIN_WRITER_XID",
+  "original_snapshot_and_xid_values_not_retained": true,
+  "specific_original_xmax_encoding_cause_not_claimed_proven": true,
+  "documented_inference": "An empty snapshot xip sublist is not proof of quiescence: unfinished transactions at or above snapshot xmax are implicitly invisible. The every-writer-must-be-explicit-xip assertion was invalid.",
+  "primary_references": [
+    "https://www.postgresql.org/docs/17/functions-info.html",
+    "https://www.postgresql.org/docs/17/view-pg-locks.html"
+  ],
+  "corrected_guard": "After catalog SHARE, refuse any OTHER granted permanent transaction-ID ExclusiveLock, including prepared pid=NULL entries; preserve raw observations before assertions.",
+  "canonical": {
+    "artifact_id": 13109641991,
+    "bytes": 1651,
+    "sha256": "40b87a1cde47247ef0fab6e20f208ddaa5776ef79734a791d57e5d40769b3a62",
+    "library_file_id": "libfile_4a0b245eadf48191825c266f8590db49",
+    "version": 0
+  },
+  "originals": {
+    "CATALOG_QUIESCENCE_FOCUSED3.json": {
+      "bytes": 1578,
+      "sha256": "83474a01ffefa55d55704d25431de945206878efe1c11a1f854ed1a648ddd9c7"
+    },
+    "MODEL_POSTGRES_IMAGE.json": {
+      "bytes": 85,
+      "sha256": "f9d375894b3027322e3103b39aca9020a00f0de1be2162610e159da5a48a76d2"
+    },
+    "MODEL_SOURCE_IDENTITY.json": {
+      "bytes": 541,
+      "sha256": "d6850cd62afe8ac7e43ddc17c5d110d9f51f9ea70577c9a699f8791199fdbdc2"
+    }
+  },
+  "retained_original_catalog4_NOT_rerun": true,
+  "actual_Native_cases": 0,
+  "global_writer_closure": false,
+  "production_go": false,
+  "independent_acceptance": false
+}
