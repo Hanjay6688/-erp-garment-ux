@@ -31,7 +31,7 @@
     "scripts/current-sku-pair-conversion-qualification/fixture.py"
   ],
   "files": {
-    ".github/workflows/cp7-sku-moving-average-native5.yml": "0ad5038721da9c8f2fb0ba645f8c54f57e28ded4699c3e060137ce95505f600d",
+    ".github/workflows/cp7-sku-moving-average-native5.yml": "4bc799ad72377988ddac317cc98aa03a355412c3bbc0e2b9c0a60b4c17341899",
     "scripts/cp7_sku_moving_average/.gitignore": "32dae3052f331ee34d628ef535709b301259a45df7c7522c4d35dcf49873f00b",
     "scripts/cp7_sku_moving_average/COMPONENT_LEDGER_DESIGN.md": "74aafb413d2db0a46b07495b7c93eef3c2cd92fde75b3ab6b3725e9acf61bd67",
     "scripts/cp7_sku_moving_average/README.md": "7a4124c9d7269b8d4cbcd2a29373df9c942bd014014fe7f6a1c81ce5a30872f0",
