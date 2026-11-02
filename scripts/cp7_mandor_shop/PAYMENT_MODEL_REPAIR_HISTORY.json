@@ -1,0 +1,202 @@
+{
+  "status": "PAYMENT_OWNER_PRE_NATIVE_MODEL_FAILURES_PRESERVED_AND_FOCUSED_REPAIR_VERIFIED",
+  "first_SQL_compile_failure": {
+    "status": "PAYMENT_OWNER_FIRST_MODEL_SQL_COMPILE_FAILURE_PRESERVED",
+    "SQLSTATE": "42601",
+    "first_error": "syntax error at end of input",
+    "failed_SQL_character_position": 17880,
+    "completed_new_controls": 0,
+    "actual_Native_cases": 0,
+    "actual_ERP_installations": 0,
+    "before": {
+      "bytes": 20921,
+      "sha256": "df1d56e540f2d7e095dfd46049adda6f733e49366aab658912ffbe1599537322"
+    },
+    "after": {
+      "bytes": 20924,
+      "sha256": "967f20999cf23bd6a76610300fb35f61fe01d733053db7fbefdf3da112902056"
+    },
+    "source_routes": [
+      {
+        "before": "or other_journals_<>case when other_>0 then 1 else 0 end",
+        "after": "or other_journals_<>(case when other_>0 then 1 else 0 end)",
+        "count": 1
+      },
+      {
+        "before": "or other_legs_<>case when other_>0 then 2 else 0 end then",
+        "after": "or other_legs_<>(case when other_>0 then 2 else 0 end)then",
+        "count": 1
+      }
+    ],
+    "cause": "Parenthesize both CASE expressions inside the PL/pgSQL IF comparison before behavioral execution",
+    "prior_95_model_controls_NOT_rerun": true,
+    "model_pass_claimed": false
+  },
+  "fixture_column_repair": {
+    "status": "PAYMENT_MODEL_NATIVE_FIXTURE_COLUMN_MISMATCH_PRESERVED_AND_REPAIRED",
+    "SQLSTATE": "42703",
+    "error": "column work_total of relation payroll_settlements does not exist",
+    "compiled_private_helpers": 4,
+    "compiled_Native_adapters": 8,
+    "completed_financial_controls": 0,
+    "actual_Native_cases": 0,
+    "production_SQL_changed": false,
+    "before": {
+      "bytes": 29042,
+      "sha256": "0d52beee0460f4a87cd5b2d9b27972253738e3045ff2b72f66a04efa9b5541bd"
+    },
+    "after": {
+      "bytes": 29040,
+      "sha256": "3912e098801848dc89586145396e05d84763dca4186f618dfd7ad8b1fee92227"
+    },
+    "changes": [
+      {
+        "before": "work_total",
+        "after": "labor_total",
+        "count": 2
+      },
+      {
+        "before": "reimbursement_total",
+        "after": "reimburse_total",
+        "count": 1
+      }
+    ],
+    "actual_reference_checked_insert_targets": [
+      {
+        "table": "erp.sales_headers",
+        "columns": [
+          "id",
+          "sale_number",
+          "customer_id",
+          "sale_date",
+          "status"
+        ]
+      },
+      {
+        "table": "erp.payroll_settlements",
+        "columns": [
+          "id",
+          "payroll_number",
+          "contractor_id",
+          "period_start",
+          "period_end",
+          "status",
+          "labor_total",
+          "attendance_total",
+          "reimburse_total",
+          "deduction_total",
+          "manual_adjustment",
+          "net_payable",
+          "row_version"
+        ]
+      },
+      {
+        "table": "erp.payroll_work_items",
+        "columns": [
+          "id",
+          "payroll_id",
+          "amount"
+        ]
+      },
+      {
+        "table": "erp.payroll_deductions",
+        "columns": [
+          "id",
+          "payroll_id",
+          "deduction_type",
+          "amount"
+        ]
+      },
+      {
+        "table": "erp.contractors",
+        "columns": [
+          "id",
+          "contractor_name",
+          "is_active",
+          "attendance_required"
+        ]
+      },
+      {
+        "table": "erp.customers",
+        "columns": [
+          "id",
+          "customer_name",
+          "is_active"
+        ]
+      },
+      {
+        "table": "erp.chart_accounts",
+        "columns": [
+          "id",
+          "account_code",
+          "is_active",
+          "is_postable"
+        ]
+      },
+      {
+        "table": "erp.accounting_account_mappings",
+        "columns": [
+          "mapping_key",
+          "account_id"
+        ]
+      },
+      {
+        "table": "erp.cash_accounts",
+        "columns": [
+          "id",
+          "coa_account_id",
+          "is_active"
+        ]
+      },
+      {
+        "table": "erp.accounting_period_control",
+        "columns": [
+          "singleton_id"
+        ]
+      },
+      {
+        "table": "erp.payroll_deductions",
+        "columns": [
+          "id",
+          "payroll_id",
+          "deduction_type",
+          "amount"
+        ]
+      }
+    ],
+    "stderr": {
+      "bytes": 22198,
+      "sha256": "11957b0869bc0bdfabafd71c99870108e09176eb90b99c493c1f530392ed3d6a"
+    },
+    "retained_95_previous_models_NOT_rerun": true
+  },
+  "remaining_only_model_repair": {
+    "status": "MODEL_LOCAL_PERMISSION_PROVIDER_REPAIR_AND_RETAINED19_REMAINING4_PREPARATION",
+    "before": {
+      "bytes": 29040,
+      "sha256": "3912e098801848dc89586145396e05d84763dca4186f618dfd7ad8b1fee92227"
+    },
+    "after": {
+      "bytes": 30395,
+      "sha256": "4d966745cf4e8863f36d00e950bb64e6baa24e9e5564155154660743d1ca1cfd"
+    },
+    "production_SQL_changed": false,
+    "retained19_dependency_source_pins_unchanged": true,
+    "prior_suite_failure_preserved": true,
+    "actual_Native_cases": 0,
+    "old_95_models_not_rerun": true
+  },
+  "original_evidence_archive": {
+    "bytes": 35541,
+    "sha256": "60884c0b9045a4e7d8dfd90bb5d488d3b54d877b823e0b2b8524f080e821d927",
+    "members": 13,
+    "library_file_id": "libfile_79653041e29881919e17f55361b90a1f"
+  },
+  "prior95_NOT_rerun": true,
+  "completed19_NOT_rerun_for_last4": true,
+  "last4_first_attempt_PASS": true,
+  "all23_fresh_one_attempt": false,
+  "actual_Native_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

@@ -1,0 +1,191 @@
+{
+  "status": "FG_MANDOR_PRIVATE_PAYMENT_OWNER_RETAINED19_NEW4_MODEL_CONTROLS_PASS_NOT_NATIVE",
+  "results": [
+    {
+      "label": "Model permission provider restores its default after a rolled-back LOCAL denial; production permissions are unchanged",
+      "result": "PASS"
+    },
+    {
+      "label": "Two selected invoices share one exact500000 noncash journal while each original invoice receives only its own amount",
+      "result": "PASS"
+    },
+    {
+      "label": "An ordinary payroll creates no FG work/context/request, allocation or offset journal",
+      "result": "PASS"
+    },
+    {
+      "label": "Only the existing internal payroll invoker receives begin/finish; browser roles and direct journal owners remain denied, work is empty",
+      "result": "PASS"
+    }
+  ],
+  "source_files": {
+    "schema.sql": {
+      "bytes": 12510,
+      "sha256": "59c1b8e69555f6a8e0caf34e8d0ee18e27c1d4caaee8073c44225bbc4a687fd1"
+    },
+    "events.sql": {
+      "bytes": 8216,
+      "sha256": "9e2633af5d9ecff6220c37cdf8bb22a27ce71cbc03862c8aa40a1fadfd82a1d3"
+    },
+    "allocation.sql": {
+      "bytes": 16985,
+      "sha256": "e57c96f8289ef95cbce60b337ccba57109c4428115448526f79ed82f42b3a0c2"
+    },
+    "offset_projection.sql": {
+      "bytes": 11629,
+      "sha256": "51c8954eb3d66a280699dc0848b7d4aab3326dcf388a4f04ce7be385c36f71a2"
+    },
+    "payment_owner.sql": {
+      "bytes": 20924,
+      "sha256": "967f20999cf23bd6a76610300fb35f61fe01d733053db7fbefdf3da112902056"
+    },
+    "native_payment_routes.py": {
+      "bytes": 6314,
+      "sha256": "d9d3da26117ffe0ede2b4e434a74bdd619f162fb8c7f2616ce344625a012d532"
+    },
+    "payment_model.mjs": {
+      "bytes": 30395,
+      "sha256": "4d966745cf4e8863f36d00e950bb64e6baa24e9e5564155154660743d1ca1cfd"
+    },
+    "NATIVE_PAYMENT_OWNER_REFERENCE.json": {
+      "bytes": 163019,
+      "sha256": "ac1c83ee6f9c5a642a8b079c0f46cfab22a295d3566e2abd2f0b8c9b2846880d"
+    },
+    "PAYMENT_RETAINED19_MODEL_CONTROLS.json": {
+      "bytes": 34870,
+      "sha256": "ba3da6e7c3a7ca001ff55f87588dc2fa0e9d7e4d93ddf01f213176121e789c7d"
+    }
+  },
+  "retained_controls": [
+    {
+      "label": "32 Native column-type maps match accepted DE30; four private helpers and eight exact Native adapters compile on the reduced model",
+      "result": "PASS"
+    },
+    {
+      "label": "Selected future payroll week reserves300000; invoice remains unpaid and net preview is1700000",
+      "result": "PASS"
+    },
+    {
+      "label": "Actual derived Native full-payment body posts cash1700000 and one noncash300000 invoice offset, with no OTHER_INCOME",
+      "result": "PASS"
+    },
+    {
+      "label": "A second Native full-pay attempt cannot post stock, invoice or payroll settlement again",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "P0001",
+      "error": "APPROVED_NATIVE_PAYROLL_MEANING_CHANGED"
+    },
+    {
+      "label": "Actual Native full reversal reverses original cash and FG journal, releases the card, and reopens the same invoice",
+      "result": "PASS"
+    },
+    {
+      "label": "Partial invoice settlement in chosen week leaves the separately selected next-week reservation unpaid",
+      "result": "PASS"
+    },
+    {
+      "label": "The remaining invoice100000 settles once in its independently selected payroll week",
+      "result": "PASS"
+    },
+    {
+      "label": "Net-zero payroll settles FG noncash without a cash account or a fictional cash journal",
+      "result": "PASS"
+    },
+    {
+      "label": "Ordinary OTHER50000 keeps its Native income posting while FG300000 is excluded from that same query",
+      "result": "PASS"
+    },
+    {
+      "label": "A cash installment500000 leaves the FG allocation reserved and does not settle the invoice early",
+      "result": "PASS"
+    },
+    {
+      "label": "Actual derived final-installment body posts remaining cash1200000 and the FG noncash offset once",
+      "result": "PASS"
+    },
+    {
+      "label": "Actual Native reopen body reverses FG settlement, restores reservation, and retains historical original/reversal facts",
+      "result": "PASS"
+    },
+    {
+      "label": "Repayment creates a new settlement journal; reversed old settlement remains valid history and is not counted twice",
+      "result": "PASS"
+    },
+    {
+      "label": "Actual unpaid cancellation releases reservation without any cash or invoice settlement journal",
+      "result": "PASS"
+    },
+    {
+      "label": "A changed invoice balance refuses stale over-allocation before any Native cash posting",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "P0001",
+      "error": "INVOICE_BALANCE_OR_PHYSICAL_DATE_CHANGED_REVIEW_REQUIRED"
+    },
+    {
+      "label": "Payment cannot settle an invoice before its actual WIB physical sale day",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "P0001",
+      "error": "INVOICE_BALANCE_OR_PHYSICAL_DATE_CHANGED_REVIEW_REQUIRED"
+    },
+    {
+      "label": "A missing authoritative paid-projection integration rolls back cash, offset journal and settlement together",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "P0001",
+      "error": "SAME_AUTHORITATIVE_INVOICE_PAID_PROJECTION_REQUIRED"
+    },
+    {
+      "label": "A direct Native call with FG cards but no explicit owning request cannot settle",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "42501",
+      "error": "OWNING_COMMAND_REQUIRED"
+    },
+    {
+      "label": "Permission loss at completion rolls back all new effects atomically",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "42501",
+      "error": "ACCESS_DENIED"
+    }
+  ],
+  "retained_model_controls": 19,
+  "fresh_model_controls": 4,
+  "retained_19_not_rerun": true,
+  "original_failed_suite_remains_failure": true,
+  "all23_fresh_one_attempt": false,
+  "runtime": {
+    "package": "@electric-sql/pglite",
+    "version": "0.5.14",
+    "postgres": "PostgreSQL 18.6 (PGlite 0.5.14) on wasm32-unknown-emscripten, compiled by emcc (Emscripten gcc/clang-like replacement + linker emulating GNU ld) 6.0.5 (1db513782be24469589d7cb8a1f1834e9a33f271), 32-bit"
+  },
+  "Native_column_type_maps": 32,
+  "new_private_functions_compiled": 4,
+  "Native_adapter_definitions_compiled": 8,
+  "exact_Native_definition_bodies_used": [
+    "post_journal",
+    "_cp3_r4_reverse_journal_internal",
+    "post_payroll_payment",
+    "final_payment",
+    "reverse_paid_payroll",
+    "reopen_settlement",
+    "cancel_unpaid_payroll",
+    "meaning",
+    "settlement_access",
+    "access_now"
+  ],
+  "modeled_boundaries": [
+    "Native table constraints/triggers and defaults beyond reported model defaults",
+    "auth.uid/auth.jwt/get_my_access/has_permission",
+    "Native request/review admission and caller orchestration",
+    "internal and owner admission, business-period and source-dependency guards",
+    "invoice net and authoritative paid provider; actual credit materialization not installed",
+    "installment remaining amount and context provider"
+  ],
+  "actual_Native_cases": 0,
+  "actual_Auth_HTTP_cases": 0,
+  "actual_browser_cases": 0,
+  "actual_two_session_races": 0,
+  "Native_stock_HPP_or_wage_approval_engine_executed": false,
+  "Native_runtime_or_public_RPC_activated": false,
+  "retained_95_previous_model_controls_NOT_rerun": true,
+  "production_go": false,
+  "independent_acceptance": false
+}

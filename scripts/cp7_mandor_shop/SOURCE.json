@@ -35,6 +35,10 @@
       "bytes": 97316,
       "sha256": "96e69c3f6671130efb3f79863533f1973c8d0cde93c2954e39a3c2b34c0471b6"
     },
+    "scripts/cp7_mandor_shop/NATIVE_PAYMENT_OWNER_REFERENCE.json": {
+      "bytes": 163019,
+      "sha256": "ac1c83ee6f9c5a642a8b079c0f46cfab22a295d3566e2abd2f0b8c9b2846880d"
+    },
     "scripts/cp7_mandor_shop/NATIVE_SALES_IDENTITY_REFERENCE.json": {
       "bytes": 19390,
       "sha256": "e5fb23ce498448b0497870efb74bf848021cd507d7a29cf54f350ea8804d9b17"
@@ -51,9 +55,25 @@
       "bytes": 953,
       "sha256": "72c86cc18f21d07550ebdf2d16406f1502faf3ed5ef70e8a78708829d27c1779"
     },
+    "scripts/cp7_mandor_shop/PAYMENT_MODEL_CONTROLS.json": {
+      "bytes": 7325,
+      "sha256": "f1a5cd899f32b32f25b0e2b67d324df258fbb1ebfe46b339843773cfedf5656f"
+    },
+    "scripts/cp7_mandor_shop/PAYMENT_MODEL_REPAIR_HISTORY.json": {
+      "bytes": 5519,
+      "sha256": "9de58e20570c3ada1119baffe1cf40e515a4dd7aec4112500bec0336c8299594"
+    },
+    "scripts/cp7_mandor_shop/PAYMENT_NATIVE_ROUTES_SOURCE_CONTROLS.json": {
+      "bytes": 14919,
+      "sha256": "3c4e8e79b0c9f050ca953af3366390142d306b0aa99d7485f000f4f7dcfc424f"
+    },
+    "scripts/cp7_mandor_shop/PAYMENT_RETAINED19_MODEL_CONTROLS.json": {
+      "bytes": 34870,
+      "sha256": "ba3da6e7c3a7ca001ff55f87588dc2fa0e9d7e4d93ddf01f213176121e789c7d"
+    },
     "scripts/cp7_mandor_shop/README.md": {
-      "bytes": 7585,
-      "sha256": "150af3d10e147f89de66a91f55c118703181f195e585c48ed4bdbe6b46c15f00"
+      "bytes": 10104,
+      "sha256": "021c76bfa7a5fb4fbce217aebd0177186b5a12d2b7513227825c7b28a4faa4a9"
     },
     "scripts/cp7_mandor_shop/SALE_IDENTITY_MODEL_CONTROLS.json": {
       "bytes": 4221,
@@ -96,12 +116,16 @@
       "sha256": "5bfeb12b4103ca88f48b84a213098b33a90e7ead52398a5025213d9188e47617"
     },
     "scripts/cp7_mandor_shop/check_source.py": {
-      "bytes": 8555,
-      "sha256": "25bbb809542d64a1daf4d5f57ad58c272f6db2d3b8c656a0acf48412d488dcac"
+      "bytes": 11470,
+      "sha256": "064afe304ff23e64308d37a6b639815c5d74c73c0bdfa3993d14802bb2c757fe"
     },
     "scripts/cp7_mandor_shop/events.sql": {
       "bytes": 8216,
       "sha256": "9e2633af5d9ecff6220c37cdf8bb22a27ce71cbc03862c8aa40a1fadfd82a1d3"
+    },
+    "scripts/cp7_mandor_shop/native_payment_routes.py": {
+      "bytes": 6314,
+      "sha256": "d9d3da26117ffe0ede2b4e434a74bdd619f162fb8c7f2616ce344625a012d532"
     },
     "scripts/cp7_mandor_shop/offset_model.mjs": {
       "bytes": 20399,
@@ -110,6 +134,14 @@
     "scripts/cp7_mandor_shop/offset_projection.sql": {
       "bytes": 11629,
       "sha256": "51c8954eb3d66a280699dc0848b7d4aab3326dcf388a4f04ce7be385c36f71a2"
+    },
+    "scripts/cp7_mandor_shop/payment_model.mjs": {
+      "bytes": 30395,
+      "sha256": "4d966745cf4e8863f36d00e950bb64e6baa24e9e5564155154660743d1ca1cfd"
+    },
+    "scripts/cp7_mandor_shop/payment_owner.sql": {
+      "bytes": 20924,
+      "sha256": "967f20999cf23bd6a76610300fb35f61fe01d733053db7fbefdf3da112902056"
     },
     "scripts/cp7_mandor_shop/sale_identity.sql": {
       "bytes": 5069,
@@ -128,8 +160,8 @@
       "sha256": "1f523db6631c86c3c1b2d218591ca3501a55a9b799643e975e488ffa05875a11"
     }
   },
-  "schema_tables": 14,
-  "private_functions": 21,
+  "schema_tables": 15,
+  "private_functions": 25,
   "storage_model_controls": 15,
   "public_commands_implemented": false,
   "Native_payment_hooks_implemented": false,
@@ -161,5 +193,15 @@
   "retained_67_controls_NOT_rerun": true,
   "previous_unpublished_19_offset_controls_reused": false,
   "private_offset_projection_implemented": true,
-  "authoritative_Native_paid_projection_integrated": false
+  "authoritative_Native_paid_projection_integrated": false,
+  "private_payment_functions": 4,
+  "Native_payment_hook_sources_written": true,
+  "Native_payment_source_adapter_functions": 8,
+  "private_payment_model_controls": 23,
+  "retained_payment_model_controls": 19,
+  "fresh_payment_model_controls": 4,
+  "retained_95_model_controls_NOT_rerun": true,
+  "Native_payment_or_authoritative_projection_installed": false,
+  "logical_model_control_coverage": 118,
+  "all_23_payment_controls_fresh_one_attempt": false
 }

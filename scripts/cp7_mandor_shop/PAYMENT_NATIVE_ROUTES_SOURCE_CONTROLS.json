@@ -1,0 +1,511 @@
+{
+  "status": "FG_MANDOR_EXACT_NATIVE_PAYMENT_ADAPTER_SOURCE_ONLY_NOT_APPLIED",
+  "changed_functions": {
+    "cp7_payroll.settlement_command(text,jsonb,uuid,text)": {
+      "before": {
+        "bytes": 2776,
+        "sha256": "2fef80f1284d0e0c33cf13b945c04bd0e56b9664eb9552d31dc00f00b88c1918"
+      },
+      "after": {
+        "bytes": 2934,
+        "sha256": "d2a3b7a1de69f5d5d21d427291b1ae2f3e04ca2d0d1171e10f6f3707f3a06317"
+      },
+      "routes": [
+        {
+          "before": " insert into cp7_payroll.settlement_context values(pg_backend_pid(),txid_current(),auth.uid(),(p_payload->>'id')::uuid,p_action);",
+          "after": " insert into cp7_payroll.settlement_context values(pg_backend_pid(),txid_current(),auth.uid(),(p_payload->>'id')::uuid,p_action);\n perform cp7_mandor_shop.payment_begin('PAYROLL',p_action,p_payload,p_request,p_expected);",
+          "count": 1
+        },
+        {
+          "before": " d:=cp7_payroll.apply_settlement(p_action,p_payload,p_expected);",
+          "after": " d:=cp7_payroll.apply_settlement(p_action,p_payload,p_expected);\n perform cp7_mandor_shop.payment_finish((p_payload->>'id')::uuid);",
+          "count": 1
+        }
+      ],
+      "original_owner_and_ACL": [
+        "cp7_payroll_write",
+        "plpgsql",
+        "f",
+        false,
+        false,
+        false,
+        false,
+        "v",
+        "u",
+        "100",
+        "0",
+        [
+          "search_path=\"\""
+        ],
+        [
+          "p_action",
+          "p_payload",
+          "p_request",
+          "p_expected"
+        ],
+        null,
+        "p_action text, p_payload jsonb, p_request uuid, p_expected text",
+        "jsonb",
+        "-",
+        [
+          [
+            "cp7_payroll_write",
+            "cp7_payroll_write",
+            "EXECUTE",
+            false
+          ]
+        ]
+      ],
+      "complete_original_recovered": true
+    },
+    "cp7_installment.apply_command(text,jsonb,uuid,text)": {
+      "before": {
+        "bytes": 10020,
+        "sha256": "875b962a0f3a74e4619097b17c9d28d2dae0bde1c2e2e08351eb78311b124e05"
+      },
+      "after": {
+        "bytes": 10155,
+        "sha256": "7a02d93c60d786f4453daf6ef33d0c4bde17350423d248ad62fd40758cf2d59e"
+      },
+      "routes": [
+        {
+          "before": " insert into cp7_payroll.settlement_context values(pg_backend_pid(),txid_current(),auth.uid(),ident,native_action);",
+          "after": " insert into cp7_payroll.settlement_context values(pg_backend_pid(),txid_current(),auth.uid(),ident,native_action);\n perform cp7_mandor_shop.payment_begin('INSTALLMENT',p_action,p,p_request,p_expected);",
+          "count": 1
+        },
+        {
+          "before": " delete from cp7_payroll.settlement_context where backend_pid=pg_backend_pid()and transaction_id=txid_current();",
+          "after": " perform cp7_mandor_shop.payment_finish(ident);\n delete from cp7_payroll.settlement_context where backend_pid=pg_backend_pid()and transaction_id=txid_current();",
+          "count": 1
+        }
+      ],
+      "original_owner_and_ACL": [
+        "postgres",
+        "plpgsql",
+        "f",
+        true,
+        false,
+        false,
+        false,
+        "v",
+        "u",
+        "100",
+        "0",
+        [
+          "search_path=\"\"",
+          "TimeZone=Asia/Jakarta"
+        ],
+        [
+          "p_action",
+          "p",
+          "p_request",
+          "p_expected"
+        ],
+        null,
+        "p_action text, p jsonb, p_request uuid, p_expected text",
+        "jsonb",
+        "-",
+        [
+          [
+            "cp7_installment_write",
+            "postgres",
+            "EXECUTE",
+            false
+          ],
+          [
+            "postgres",
+            "postgres",
+            "EXECUTE",
+            false
+          ]
+        ]
+      ],
+      "complete_original_recovered": true
+    },
+    "erp.post_payroll_payment(uuid)": {
+      "before": {
+        "bytes": 7594,
+        "sha256": "3ed74e090199067b4a1fd5c954f57abf9401dfdd48807437cc0aac1976a1b949"
+      },
+      "after": {
+        "bytes": 7746,
+        "sha256": "4ad5cb9adcbc967ee0dad3eebb1b30731555df63cc9ac76091e179e2e9f8da09"
+      },
+      "routes": [
+        {
+          "before": "  select coalesce(sum(amount),0) into v_other_deduction\n  from erp.payroll_deductions where payroll_id=p.id and deduction_type not in('MATERIAL_KASBON','CASH_ADVANCE');",
+          "after": "  select coalesce(sum(d.amount),0) into v_other_deduction\n  from erp.payroll_deductions d where d.payroll_id=p.id and d.deduction_type not in('MATERIAL_KASBON','CASH_ADVANCE')\n    and not exists(select 1 from cp7_mandor_shop.deduction_links fg where fg.deduction_id=d.id);",
+          "count": 1
+        },
+        {
+          "before": "  update erp.payroll_settlements set status='PAID',settled_at=statement_timestamp(),updated_at=statement_timestamp() where id=p.id;",
+          "after": "  update erp.payroll_settlements set status='PAID',settled_at=statement_timestamp(),updated_at=statement_timestamp() where id=p.id;\n  perform cp7_mandor_shop.settle_payroll(p.id);",
+          "count": 1
+        }
+      ],
+      "original_owner_and_ACL": [
+        "postgres",
+        "plpgsql",
+        "f",
+        true,
+        false,
+        false,
+        false,
+        "v",
+        "u",
+        "100",
+        "0",
+        [
+          "search_path=erp, public, pg_temp"
+        ],
+        [
+          "p_payroll_id"
+        ],
+        null,
+        "p_payroll_id uuid",
+        "void",
+        "-",
+        [
+          [
+            "authenticated",
+            "postgres",
+            "EXECUTE",
+            false
+          ],
+          [
+            "postgres",
+            "postgres",
+            "EXECUTE",
+            false
+          ],
+          [
+            "service_role",
+            "postgres",
+            "EXECUTE",
+            false
+          ]
+        ]
+      ],
+      "complete_original_recovered": true
+    },
+    "cp7_installment.final_payment(uuid,numeric)": {
+      "before": {
+        "bytes": 7926,
+        "sha256": "b7fcb5bd874a6b9e2a6394a0ab8c304abae426d508df8aa9b21006844b4888bc"
+      },
+      "after": {
+        "bytes": 8078,
+        "sha256": "8375db7d1406673f7125d5900e706c1221292c0946e6d42e77cad21f6870b1b9"
+      },
+      "routes": [
+        {
+          "before": "  select coalesce(sum(amount),0) into v_other_deduction\n  from erp.payroll_deductions where payroll_id=p.id and deduction_type not in('MATERIAL_KASBON','CASH_ADVANCE');",
+          "after": "  select coalesce(sum(d.amount),0) into v_other_deduction\n  from erp.payroll_deductions d where d.payroll_id=p.id and d.deduction_type not in('MATERIAL_KASBON','CASH_ADVANCE')\n    and not exists(select 1 from cp7_mandor_shop.deduction_links fg where fg.deduction_id=d.id);",
+          "count": 1
+        },
+        {
+          "before": "  update erp.payroll_settlements set status='PAID',settled_at=statement_timestamp(),updated_at=statement_timestamp() where id=p.id;",
+          "after": "  update erp.payroll_settlements set status='PAID',settled_at=statement_timestamp(),updated_at=statement_timestamp() where id=p.id;\n  perform cp7_mandor_shop.settle_payroll(p.id);",
+          "count": 1
+        }
+      ],
+      "original_owner_and_ACL": [
+        "postgres",
+        "plpgsql",
+        "f",
+        true,
+        false,
+        false,
+        false,
+        "v",
+        "u",
+        "100",
+        "0",
+        [
+          "search_path=\"\"",
+          "TimeZone=Asia/Jakarta"
+        ],
+        [
+          "p_payroll_id",
+          "p_cash_amount"
+        ],
+        null,
+        "p_payroll_id uuid, p_cash_amount numeric",
+        "void",
+        "-",
+        [
+          [
+            "postgres",
+            "postgres",
+            "EXECUTE",
+            false
+          ]
+        ]
+      ],
+      "complete_original_recovered": true
+    },
+    "erp.reverse_paid_payroll(uuid,text)": {
+      "before": {
+        "bytes": 4986,
+        "sha256": "124c53ec698c9f2a3ddb9591bc9c02db42daaf12973624156b3817a3ef0725dd"
+      },
+      "after": {
+        "bytes": 5052,
+        "sha256": "7a689efe5b5c1afc9824ada2db6ec252aba5e117ed788ee764a22fd597149a5b"
+      },
+      "routes": [
+        {
+          "before": "  update erp.payroll_settlements set status='REVERSED',settled_at=null,updated_at=statement_timestamp() where id=p.id;",
+          "after": "  update erp.payroll_settlements set status='REVERSED',settled_at=null,updated_at=statement_timestamp() where id=p.id;\n  perform cp7_mandor_shop.reverse_payroll_offsets(p.id,p_reason);",
+          "count": 1
+        }
+      ],
+      "original_owner_and_ACL": [
+        "postgres",
+        "plpgsql",
+        "f",
+        true,
+        false,
+        false,
+        false,
+        "v",
+        "u",
+        "100",
+        "0",
+        [
+          "search_path=erp, public, pg_temp"
+        ],
+        [
+          "p_payroll_id",
+          "p_reason"
+        ],
+        null,
+        "p_payroll_id uuid, p_reason text",
+        "void",
+        "-",
+        [
+          [
+            "authenticated",
+            "postgres",
+            "EXECUTE",
+            false
+          ],
+          [
+            "postgres",
+            "postgres",
+            "EXECUTE",
+            false
+          ]
+        ]
+      ],
+      "complete_original_recovered": true
+    },
+    "cp7_installment.reopen_settlement(uuid,text)": {
+      "before": {
+        "bytes": 4611,
+        "sha256": "6725a05650bb2be72ae40baf79e4172388aa5e73788af956957520970dc170e6"
+      },
+      "after": {
+        "bytes": 4677,
+        "sha256": "111bbfa0c8667c6cab9a781cb82b2ed046cc46e80eb38d0a8ce811db5ee0e144"
+      },
+      "routes": [
+        {
+          "before": "  update erp.payroll_settlements set status='APPROVED',settled_at=null,updated_at=statement_timestamp() where id=p.id;",
+          "after": "  update erp.payroll_settlements set status='APPROVED',settled_at=null,updated_at=statement_timestamp() where id=p.id;\n  perform cp7_mandor_shop.reverse_payroll_offsets(p.id,p_reason);",
+          "count": 1
+        }
+      ],
+      "original_owner_and_ACL": [
+        "postgres",
+        "plpgsql",
+        "f",
+        true,
+        false,
+        false,
+        false,
+        "v",
+        "u",
+        "100",
+        "0",
+        [
+          "search_path=\"\"",
+          "TimeZone=Asia/Jakarta"
+        ],
+        [
+          "p_payroll_id",
+          "p_reason"
+        ],
+        null,
+        "p_payroll_id uuid, p_reason text",
+        "void",
+        "-",
+        [
+          [
+            "postgres",
+            "postgres",
+            "EXECUTE",
+            false
+          ]
+        ]
+      ],
+      "complete_original_recovered": true
+    },
+    "erp.cancel_unpaid_payroll(uuid,text)": {
+      "before": {
+        "bytes": 3083,
+        "sha256": "4ac55a3c188a47fc0ad3211344ae614a6aace30027983394e4f5ad019c81edde"
+      },
+      "after": {
+        "bytes": 3149,
+        "sha256": "5f9d230f23e02270bae108149f7248ea4222c0eca40d0c484fe1c8baa1d1b915"
+      },
+      "routes": [
+        {
+          "before": "  update erp.payroll_settlements set status='REVERSED',settled_at=null,updated_at=statement_timestamp() where id=p.id;",
+          "after": "  update erp.payroll_settlements set status='REVERSED',settled_at=null,updated_at=statement_timestamp() where id=p.id;\n  perform cp7_mandor_shop.reverse_payroll_offsets(p.id,p_reason);",
+          "count": 1
+        }
+      ],
+      "original_owner_and_ACL": [
+        "postgres",
+        "plpgsql",
+        "f",
+        true,
+        false,
+        false,
+        false,
+        "v",
+        "u",
+        "100",
+        "0",
+        [
+          "search_path=erp, public, pg_temp"
+        ],
+        [
+          "p_payroll_id",
+          "p_reason"
+        ],
+        null,
+        "p_payroll_id uuid, p_reason text",
+        "void",
+        "-",
+        [
+          [
+            "authenticated",
+            "postgres",
+            "EXECUTE",
+            false
+          ],
+          [
+            "postgres",
+            "postgres",
+            "EXECUTE",
+            false
+          ]
+        ]
+      ],
+      "complete_original_recovered": true
+    },
+    "erp._cp7_current_credit_adjustment(uuid)": {
+      "before": {
+        "bytes": 3864,
+        "sha256": "781d4e1863edc7e6c6f3612b00bdad97c9aa087963ea8e14aab850de245553f3"
+      },
+      "after": {
+        "bytes": 3921,
+        "sha256": "6e48307aeab4987caf8b35b9b76a395d56081b7e2325416ef40ad63ff9363c19"
+      },
+      "routes": [
+        {
+          "before": "declare h erp.sales_headers;m record;i numeric;u numeric;",
+          "after": "declare h erp.sales_headers;m record;i numeric;u numeric;fg_ numeric;",
+          "count": 1
+        },
+        {
+          "before": " select *into strict h from erp.sales_headers where id=p_sale;",
+          "after": " select *into strict h from erp.sales_headers where id=p_sale;\n fg_:=cp7_mandor_shop.invoice_offset_paid(p_sale);",
+          "count": 1
+        },
+        {
+          "before": "return 0::numeric;",
+          "after": "return fg_;",
+          "count": 2
+        },
+        {
+          "before": "return cp7_credit.payment_intermediate_adjustment_v1(p_sale);",
+          "after": "return cp7_credit.payment_intermediate_adjustment_v1(p_sale)+fg_;",
+          "count": 1
+        },
+        {
+          "before": "return u-i;",
+          "after": "return u-i+fg_;",
+          "count": 1
+        }
+      ],
+      "original_owner_and_ACL": [
+        "postgres",
+        "plpgsql",
+        "f",
+        true,
+        false,
+        false,
+        false,
+        "s",
+        "u",
+        "100",
+        "0",
+        [
+          "search_path=\"\"",
+          "TimeZone=UTC"
+        ],
+        [
+          "p_sale"
+        ],
+        null,
+        "p_sale uuid",
+        "numeric",
+        "-",
+        [
+          [
+            "cp7_credit_visible_read",
+            "postgres",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_sales_read",
+            "postgres",
+            "EXECUTE",
+            false
+          ],
+          [
+            "postgres",
+            "postgres",
+            "EXECUTE",
+            false
+          ],
+          [
+            "service_role",
+            "postgres",
+            "EXECUTE",
+            false
+          ]
+        ]
+      ],
+      "complete_original_recovered": true
+    }
+  },
+  "source_routes": 17,
+  "original_cash_net_and_wage_expense_statements_unchanged": true,
+  "original_permission_idempotency_review_and_date_guards_unchanged": true,
+  "FG_excluded_from_OTHER_INCOME_in_both_payment_routes": true,
+  "same_authoritative_invoice_paid_projection_source_written": true,
+  "previous_DE_credit_semantics_and_all_return_branches_retained": true,
+  "final_parent_catalog_review_still_required": true,
+  "actual_Native_cases": 0,
+  "actual_SQL_executed": 0,
+  "runtime_activated": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

@@ -109,3 +109,39 @@ sambungan offset tersebut; persiapan sekarang belum memasang atau membuktikannya
 Pembayaran kas hanya sebesar upah bersih. Selesaikan jalur neto nol, cicilan,
 pembatalan/pembalikan, retur/perubahan saldo, tampilan desktop/HP dan dua tab sebelum
 mengaktifkan modul. Jangan membuat sales_payments atau kasbon tunai buatan.
+
+`payment_owner.sql` menyiapkan empat pemilik privat untuk awal/akhir perintah
+pembayaran, pelunasan nonkas dan pembalikannya. Identitas request diambil langsung
+dari konteks perintah Native payroll atau cicilan yang sama; tidak menebak request
+terakhir. Sumber invoice, mandor, potongan, hak akses serta akun dikunci dan ditinjau
+ulang. Cicilan kas yang belum terakhir tetap berupa reservasi. Pada PAID, pemilik
+memasang satu jurnal nonkas dan histori SETTLE; REOPEN mempertahankan reservasi,
+pembalikan penuh/pembatalan melepaskannya. Potongan Native historis tetap disimpan.
+Pembaca pembayaran invoice wajib berubah tepat sebesar kejadian FG; bila belum
+terhubung, seluruh transaksi ditolak. OTHER_INCOME diperiksa agar hanya memuat
+potongan biasa. Peran internal cp7_payroll_write hanya memperoleh begin/finish,
+karena perintah Native tersebut memakai hak pemanggil; browser tidak diberi akses.
+
+`native_payment_routes.py` menurunkan delapan definisi Native dengan 17 perubahan
+yang dapat dibalik persis. Query OTHER pada pembayaran penuh dan cicilan akhir
+mengecualikan jembatan FG. Semua jalur return proyeksi kredit lama dipertahankan
+dengan tambahan offset invoice yang sama. Rumus kas neto, pengakuan upah, hak
+akses, tanggal, review dan idempotensi Native tetap pada kode aslinya. Definisi
+parent akhir harus sama dengan katalog yang ditinjau; perubahan parent menolak
+pemasangan sampai ditinjau, bukan ditimpa. Sumber ini belum dipasang pada ERP.
+
+Model pembayaran baru mempunyai 23 pemeriksaan logis: 19 yang sudah selesai
+dipertahankan dari percobaan yang kemudian gagal pada pemulihan GUC izin model,
+lalu hanya empat pemeriksaan tersisa dijalankan. Empat sisanya lulus pertama kali.
+Dua kegagalan persiapan lebih awal (sintaks CASE SQL dan nama kolom fixture) tetap
+disimpan; tidak dilabel lulus. Model memakai tipe kolom 32 tabel dari katalog D/E,
+menjalankan badan definisi Native jurnal/pembayaran/reversal pada tabel model,
+dan memodelkan izin, konteks pemanggil, sumber saldo invoice serta beberapa
+penjagaan Native. Ini bukan pemasangan atau kualifikasi ERP, Auth, stok/HPP,
+pengakuan upah, browser maupun dua backend. Sebanyak 95 model sebelumnya tidak
+diulang. Jangan menjumlahkan cakupan model sebagai kasus Native baru.
+
+Masih diperlukan pemasang dan adopsi profil program akhir, penjagaan retur/koreksi
+invoice yang mempunyai offset aktif, sambungan pembeli/perintah publik/pop-up,
+serta bukti Native penuh, Auth, desktop/HP dan dua tab. Selama itu runtime dan
+perintah publik tetap tertutup.

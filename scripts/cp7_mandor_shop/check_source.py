@@ -93,13 +93,45 @@ def check():
     assert syntax['source']=={'bytes':len(raw),'sha256':sha256(raw).hexdigest()}
     assert syntax['ERP_SQL_executed']==syntax['actual_Native_cases']==0
     assert syntax['new_private_functions_compiled']==3 and syntax['new_private_tables_compiled']==1
-    assert value['private_functions']==value['schema_and_event_functions']+value['private_allocation_functions']+value['private_buyer_functions']+value['private_sale_identity_functions']+value['private_offset_functions']==21
+    payment=json.loads((HERE/'PAYMENT_MODEL_CONTROLS.json').read_bytes())
+    assert payment['status']=='FG_MANDOR_PRIVATE_PAYMENT_OWNER_RETAINED19_NEW4_MODEL_CONTROLS_PASS_NOT_NATIVE'
+    assert payment['retained_model_controls']==19 and payment['fresh_model_controls']==len(payment['results'])==4
+    assert payment['retained_19_not_rerun']is True and payment['original_failed_suite_remains_failure']is True
+    assert payment['all23_fresh_one_attempt']is False and payment['retained_95_previous_model_controls_NOT_rerun']is True
+    assert payment['actual_Native_cases']==payment['actual_Auth_HTTP_cases']==payment['actual_browser_cases']==payment['actual_two_session_races']==0
+    assert payment['Native_runtime_or_public_RPC_activated']is False
+    assert payment['Native_column_type_maps']==32 and payment['new_private_functions_compiled']==4 and payment['Native_adapter_definitions_compiled']==8
+    for name,expected in payment['source_files'].items():
+        raw=(HERE/name).read_bytes();assert {'bytes':len(raw),'sha256':sha256(raw).hexdigest()}==expected
+    retained=json.loads((HERE/'PAYMENT_RETAINED19_MODEL_CONTROLS.json').read_bytes())
+    assert retained['completed_controls_retained']==len(retained['results'])==19
+    assert retained['full_suite_pass']is False and retained['original_failure_relabelled_PASS']is False
+    assert retained['actual_Native_cases']==0
+    raw=retained['original_model_source'].encode()
+    assert retained['original_model_source_pin']=={'bytes':len(raw),'sha256':sha256(raw).hexdigest()}
+    for name,expected in retained['source_files'].items():
+        raw=(HERE/name).read_bytes();assert {'bytes':len(raw),'sha256':sha256(raw).hexdigest()}==expected
+    assert payment['retained_controls']==retained['results']
+    routes=json.loads((HERE/'PAYMENT_NATIVE_ROUTES_SOURCE_CONTROLS.json').read_bytes())
+    spec=importlib.util.spec_from_file_location('fg_mandor_exact_payment_route_source',HERE/'native_payment_routes.py')
+    native=importlib.util.module_from_spec(spec);spec.loader.exec_module(native)
+    reference=json.loads((HERE/'NATIVE_PAYMENT_OWNER_REFERENCE.json').read_bytes())
+    definitions,actual_routes=native.derive(reference['functions'])
+    assert routes==actual_routes and len(definitions)==8 and routes['source_routes']==17
+    assert routes['actual_Native_cases']==routes['actual_SQL_executed']==0
+    history=json.loads((HERE/'PAYMENT_MODEL_REPAIR_HISTORY.json').read_bytes())
+    assert history['prior95_NOT_rerun']is True and history['completed19_NOT_rerun_for_last4']is True
+    assert history['last4_first_attempt_PASS']is True and history['all23_fresh_one_attempt']is False
+    assert history['actual_Native_cases']==0
+    assert value['private_functions']==value['schema_and_event_functions']+value['private_allocation_functions']+value['private_buyer_functions']+value['private_sale_identity_functions']+value['private_offset_functions']+value['private_payment_functions']==25
     return dict(status='FG_MANDOR_EXACT_STORAGE_PREPARATION_SOURCE_ONLY',unchanged_parent_blobs_and_modes=len(base),
         own_source_pins=len(value['files']),storage_model_controls=len(model['results']),parent_gate_closed=True,
         private_allocation_model_controls=len(allocation['results']),retained_storage_controls_NOT_rerun=True,
         private_buyer_functions=6,private_buyer_model_controls=len(buyer['results']),
         private_sale_identity_functions=1,private_sale_identity_model_controls=len(identity['results']),
         private_offset_functions=3,private_offset_model_controls=len(offset['results']),
+        private_payment_functions=4,retained_payment_model_controls=19,fresh_payment_model_controls=4,
+        Native_payment_source_adapters=8,actual_payment_runtime_installed=False,
         retained_67_controls_NOT_rerun=True,Native_paid_projection_integration=False,
         Native_header_trigger_source_written=True,Native_header_trigger_ERP_qualification=False,
         retained_allocation_controls_NOT_rerun=True,
