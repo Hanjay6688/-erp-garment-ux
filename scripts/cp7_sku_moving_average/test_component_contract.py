@@ -51,6 +51,11 @@ composition=(HERE/'composition.py').read_text()
 for name in expected_tables:assert repr(name)in composition,name
 for name in expected_functions:assert name+'('in composition,name
 assert "EXISTING_TRIGGERS={'erp.sales_headers:sku_component_sale_reverse_v2','erp.sales_returns:sku_component_return_reverse_v2'}"in composition
+assert "READER_OWNERS={sig:'cp7_fg_read'for sig in reader_delta.SIGNATURES}"in composition
+assert composition.count("with reader_handover(cur),as_owner(cur,'postgres'):")==2
+assert composition.count('with reader_function_ddl(cur,signature):cur.execute(')==2
+assert "raise ValueError('SKU_MOVAVG_READER_OWNER_CHANGED:'+signature)"in composition
 
 print({'status':'SKU_MOVAVG_COMPONENT_SOURCE_CONTRACT_PASS','tables':len(expected_tables),
        'functions':len(expected_functions),'actual_sql':0,'production_go':False})
+

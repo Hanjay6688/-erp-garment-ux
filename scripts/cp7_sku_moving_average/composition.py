@@ -5,6 +5,9 @@ candidate requires its own exact parent pin and actual Native qualification.
 """
 from hashlib import sha256
 from pathlib import Path
+from contextlib import contextmanager
+from psycopg import sql
+from psycopg.pq import TransactionStatus
 from cp7_laundry_unknown_wash.composition import as_owner
 import cp7_sku_pair_conversion.composition as sku_parent
 from . import private_delta,consumer_delta,reader_delta
@@ -28,6 +31,40 @@ FUNCTIONS=tuple(SCHEMA+'.'+x for x in(
 VOLATILE={SCHEMA+'.'+x for x in('prepare_sale_values_v2(uuid)','prepare_return_values_v2(uuid)',
  'prepare_valuation_v2(uuid,jsonb)','finalize_valuation_v2(uuid)','reverse_valuation_v2(uuid)','status_component_reverse_v2()')}
 EXISTING_TRIGGERS={'erp.sales_headers:sku_component_sale_reverse_v2','erp.sales_returns:sku_component_return_reverse_v2'}
+READER_OWNERS={sig:'cp7_fg_read'for sig in reader_delta.SIGNATURES}
+
+@contextmanager
+def reader_handover(cur):
+    """Give postgres SET on only the verified reader owner for this transaction."""
+    granted=[]
+    for role in sorted(set(READER_OWNERS.values())):
+        if cur.execute("select pg_has_role('postgres',%s,'SET')and pg_has_role('postgres',%s,'USAGE')",(role,role)).fetchone()[0]:continue
+        if not cur.execute('select rolsuper from pg_roles where rolname=current_user').fetchone()[0]:
+            raise ValueError('SKU_MOVAVG_READER_HANDOVER_DENIED:'+role)
+        cur.execute(sql.SQL('grant {} to postgres with inherit true, set true').format(sql.Identifier(role)));granted.append(role)
+    try:yield
+    finally:
+        if cur.connection.info.transaction_status!=TransactionStatus.INERROR:
+            for role in granted:cur.execute(sql.SQL('revoke {} from postgres').format(sql.Identifier(role)))
+
+@contextmanager
+def reader_function_ddl(cur,signature):
+    """Replace a private FG reader as its existing function and schema owner."""
+    if signature not in READER_OWNERS:raise ValueError('SKU_MOVAVG_UNTRUSTED_READER_DDL')
+    owner=READER_OWNERS[signature]
+    actual,schema,schema_owner,create=cur.execute("""select pg_get_userbyid(p.proowner),n.nspname,pg_get_userbyid(n.nspowner),
+        has_schema_privilege(%s,n.oid,'CREATE')from pg_proc p join pg_namespace n on n.oid=p.pronamespace
+        where p.oid=%s::regprocedure""",(owner,signature)).fetchone()
+    if actual!=owner or schema_owner!=owner:raise ValueError('SKU_MOVAVG_READER_OWNER_CHANGED:'+signature)
+    previous=cur.execute('select current_user').fetchone()[0]
+    if previous!='postgres':raise ValueError('SKU_MOVAVG_UNTRUSTED_READER_INSTALLER')
+    cur.execute(sql.SQL('set local role {}').format(sql.Identifier(owner)))
+    if not create:cur.execute(sql.SQL('grant create on schema {} to {}').format(sql.Identifier(schema),sql.Identifier(owner)))
+    try:yield
+    finally:
+        if cur.connection.info.transaction_status!=TransactionStatus.INERROR:
+            if not create:cur.execute(sql.SQL('revoke create on schema {} from {}').format(sql.Identifier(schema),sql.Identifier(owner)))
+            cur.execute(sql.SQL('set local role {}').format(sql.Identifier(previous)))
 
 def parent():return sku_parent
 def runtime():return parent().runtime()
@@ -99,7 +136,7 @@ def install_delta(cur,prior):
         definitions=private_delta.patched({sig:originals[sig]for sig in private_delta.SIGNATURES})
         definitions.update(consumer_delta.patched({sig:originals[sig]for sig in consumer_delta.SIGNATURES}))
         definitions.update(reader_delta.patched({sig:originals[sig]for sig in reader_delta.SIGNATURES}))
-        with as_owner(cur,'postgres'):
+        with reader_handover(cur),as_owner(cur,'postgres'):
             cur.execute((HERE/'valuation.sql').read_text(),prepare=False)
             for table in TABLES:
                 cur.execute('alter table '+table+' owner to postgres')
@@ -107,7 +144,10 @@ def install_delta(cur,prior):
             for sig in FUNCTIONS:
                 cur.execute('alter function '+sig+' owner to postgres')
                 cur.execute('revoke all on function '+sig+' from public,anon,authenticated,service_role')
-            for definition in definitions.values():cur.execute(definition,prepare=False)
+            for signature,definition in definitions.items():
+                if signature in READER_OWNERS:
+                    with reader_function_ddl(cur,signature):cur.execute(definition,prepare=False)
+                else:cur.execute(definition,prepare=False)
         state=dict(sources=sources(),predecessor=prior,parent_proof=proof,parent_binding=binding(catalog,prior,proof),
             before=before,before_data=data,originals=originals,definitions=definitions,after=catalog._catalog_rows(cur),
             preuse_data_and_sequences=catalog._data(cur),preinstall_data_and_sequences=prior['preinstall_data_and_sequences'])
@@ -122,8 +162,11 @@ def rollback_delta_preuse(cur,state):
     with predecessor.atomic(cur):
         predecessor.predecessor.predecessor._locks(cur);verify(cur,state);catalog._lock_tables(cur)
         if catalog._data(cur)!=state['preuse_data_and_sequences']:raise ValueError(USED_ERROR)
-        with as_owner(cur,'postgres'):
-            for original in state['originals'].values():cur.execute(original,prepare=False)
+        with reader_handover(cur),as_owner(cur,'postgres'):
+            for signature,original in state['originals'].items():
+                if signature in READER_OWNERS:
+                    with reader_function_ddl(cur,signature):cur.execute(original,prepare=False)
+                else:cur.execute(original,prepare=False)
             cur.execute('drop trigger sku_component_return_reverse_v2 on erp.sales_returns')
             cur.execute('drop trigger sku_component_sale_reverse_v2 on erp.sales_headers')
             for sig in reversed(FUNCTIONS):cur.execute('drop function '+sig)
@@ -137,3 +180,4 @@ def rollback_preuse(cur,state):
     with predecessor.atomic(cur):
         delta=rollback_delta_preuse(cur,state)
         return dict(status='SKU_MOVAVG_FULL_PREUSE_RESTORE',delta=delta,parent=parent().rollback_preuse(cur,state['predecessor']))
+
