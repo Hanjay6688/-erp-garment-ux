@@ -5,17 +5,28 @@
       "bytes": 13374,
       "sha256": "9d717a85019dbc76880edddaf1d3dd6b3ec856e644ac8e784c0ce27847b37981"
     },
+    "scripts/current-global-catalog-lock-controls/focused3.py": {
+      "bytes": 10923,
+      "sha256": "de6380c9a45fda21c1689989d9cc1613dc444991e2af2526fbe4bae36ccf789c"
+    },
     "scripts/current-global-catalog-lock-controls/README.md": {
-      "bytes": 1757,
-      "sha256": "61718d1c7e66e83c94cf51fc5a1f35dea8a395c609a5a5f24f905fdc27af7283"
+      "bytes": 2880,
+      "sha256": "714758b7e1fd3df84e7a377c4c8c4fc89264a3d169a5700d7145809a65280ab2"
     },
     ".github/workflows/cp7-global-catalog-lock-new7.yml": {
-      "bytes": 2382,
-      "sha256": "459e94792ae52bfeaaee06bff72753c135ff7830d3890d36758555641067551c"
+      "bytes": 2391,
+      "sha256": "0c72e34030d56d1fe332ccff3f7d2e7b0cb94cbbebd697d7363f817847990a51"
     }
   },
+  "retained_original_probe": {
+    "bytes": 13374,
+    "sha256": "9d717a85019dbc76880edddaf1d3dd6b3ec856e644ac8e784c0ce27847b37981"
+  },
+  "retained_original_failed_run": 41371274977,
+  "retained_original_completed_cases": 4,
+  "retained_current_catalog4_NOT_rerun": true,
   "retained_primitive9_NOT_rerun": true,
-  "expected_new_cases": 7,
+  "expected_new_cases": 3,
   "actual_ERP_cases": 0,
   "actual_Native_cases": 0,
   "global_writer_closure": false,

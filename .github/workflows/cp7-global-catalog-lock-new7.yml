@@ -1,4 +1,4 @@
-name: CP7 A new catalog barrier primitives7 only
+name: CP7 A catalog quiescence focused3 only
 'on':
   push:
     branches: [astra-a/global-catalog-lock-new7-20261102]
@@ -41,15 +41,15 @@ jobs:
         run: |
           mkdir -p cp7-proof
           docker image inspect postgres@sha256:00bc86618629af00d2937fdc5a5d63db3ff8450acf52f0636ec813c7f4902929 --format '{{json .RepoDigests}}' > cp7-proof/MODEL_POSTGRES_IMAGE.json
-          python -B scripts/current-global-catalog-lock-controls/probe.py --check > cp7-proof/MODEL_SOURCE_IDENTITY.json
-      - name: Run only seven NEW catalog primitives without retained ERP or Native cases
+          python -B scripts/current-global-catalog-lock-controls/focused3.py --check > cp7-proof/MODEL_SOURCE_IDENTITY.json
+      - name: Run only missing catalog quiescence3 without repeating actual retained4
         env:
           CATALOG_LOCK_CONFIRM: cp7_catalog_locks
           CATALOG_LOCK_URL: postgresql://postgres:catalog-only-local-not-erp@127.0.0.1:55441/cp7_catalog_locks
-        run: python -B scripts/current-global-catalog-lock-controls/probe.py --run
+        run: python -B scripts/current-global-catalog-lock-controls/focused3.py --run
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
-          name: cp7-catalog-lock-new7-${{ github.sha }}
+          name: cp7-catalog-quiescence-focused3-${{ github.sha }}
           path: cp7-proof/
           retention-days: 30

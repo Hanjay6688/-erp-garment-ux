@@ -27,3 +27,20 @@ This is a disposable model database, not the ERP schema or Native financial
 flow. A successful primitive does not install a barrier, grant an app permission,
 close external/runtime writers, or qualify an ERP lock profile. The full current
 catalog and owning hooks still need final-parent admission and actual tests.
+
+The first exact run 41371274977 failed on its fifth guessed lock-mode assertion.
+Its first four real blocking cases remain valid and are not repeated. The
+original probe bytes are retained unchanged. focused3.py observes actual
+uncommitted function-DDL locks, an admitted catalog SHARE barrier, the old
+visible function value and the writer's authoritative in-progress XID. A fresh
+pg_current_snapshot/pg_snapshot_xip check must refuse before model effects.
+It also runs the two previously unexecuted controls, retaining full raw model
+baseline, before/after rows/sequence/function OID/definition/ACL. This is seven
+logical primitive controls across two runs, not a successful fresh seven-case run.
+
+Primary references: PostgreSQL17 system-information functions
+https://www.postgresql.org/docs/17/functions-info.html
+and the actual PostgreSQL catalog source (ProcedureCreate/table_close)
+https://github.com/postgres/postgres/blob/REL_17_6/src/backend/catalog/pg_proc.c
+The in-progress-XID precondition is deliberately conservative; its installation
+and behavior within the complete ERP owning envelope remain unqualified.
