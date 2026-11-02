@@ -50,6 +50,11 @@ def admitted_parent():
     with admission.parent_scope():
         from cp7_current_de_free_date import composition as parent
         graph=parent.sources();exact=admission.qualified_parent_sources(receipt,graph)
+        import cp6_t3_release_package as release
+        import inspect
+        require(pin(Path(release.__file__).read_bytes())==pin((ROOT/'scripts/cp6_t3_release_package.py').read_bytes()),'GLOBAL_NATIVE_EXACT_RELEASE_BOOTSTRAP_SOURCE_BEFORE_DB')
+        require(pin((release.RELEASE/'MANIFEST.json').read_bytes())==pin((ROOT/'supabase/release/cp6-t3/MANIFEST.json').read_bytes()),'GLOBAL_NATIVE_EXACT_RELEASE_MANIFEST_BEFORE_DB')
+        inspect.signature(release.install).bind(OUT/'GLOBAL_NATIVE_COMMITTED_RELEASE_DDL.json')
     return parent,admission,dict(head=receipt['head'],tree=receipt['tree'],run_id=receipt['run_id'],job_id=receipt['job_id'],
         accepted_original=pin((ROOT/'scripts/cp7_accessory_nonpayable/FREE3_PARENT_ROOT_ACTUAL_INTAKE.json').read_bytes()),
         exact_entire_parent_sources=exact,retained_cases_rerun=False)
@@ -79,9 +84,24 @@ def run():
         runtime_profile_and_explicit_unused_inverse_and_financial_qualification_pending=True,
         global_writer_or_permission_or_phantom_closure=False,production_go=False,independent_acceptance=False)
     try:
+        # The AB clone lacks BC..BF Native functions required by CP7. Use the
+        # existing committed release DDL installer first, exactly as the owning
+        # package does. Its hash/closed-admission checks remain intact; none of
+        # the old package financial scenario runners is dispatched here.
+        with scope.parent_scope():
+            import cp6_t3_release_package as release
+            require(pin(Path(release.__file__).read_bytes())==pin((ROOT/'scripts/cp6_t3_release_package.py').read_bytes()),'GLOBAL_NATIVE_EXACT_COMMITTED_RELEASE_INSTALLER_REQUIRED')
+            require(release.CLONE=='postgresql://postgres:postgres@127.0.0.1:54322/cp6_rollback','GLOBAL_NATIVE_RELEASE_ONLY_DISPOSABLE_CLONE')
+            bootstrap=release.install(OUT/'GLOBAL_NATIVE_COMMITTED_RELEASE_DDL.json')
+            require(bootstrap.get('status')=='ALL_FILES_INSTALLED'and len(bootstrap.get('files',[]))==30,'GLOBAL_NATIVE_COMPLETE_COMMITTED_RELEASE_DDL_REQUIRED')
+            report['committed_release_DDL_bootstrap']=dict(status=bootstrap['status'],files=len(bootstrap['files']),
+                module=pin(Path(release.__file__).read_bytes()),manifest=pin((release.RELEASE/'MANIFEST.json').read_bytes()),old_business_scenarios_dispatched=0)
         with scope.parent_scope(),psycopg.connect(uri,dbname='cp6_rollback')as conn,conn.cursor()as cur:
             product.trusted_installer(cur)
             require(cur.execute('select current_database(),current_setting(\'server_version_num\')::int').fetchone()==('cp6_rollback',170006),'GLOBAL_NATIVE_EXACT_SUPABASE17_DATABASE')
+            require(os.environ.get('CP6_FIXTURE_SCHEMA_PROFILE')=='HOSTED_USAGE'
+                and cur.execute("select has_schema_privilege('authenticated','erp','USAGE')").fetchone()==(True,),
+                'GLOBAL_NATIVE_EXISTING_HOSTED_SCHEMA_USAGE_MUST_BE_PRESERVED')
             before_parent=product.capture(cur)
             with product.as_role(cur,'supabase_admin'):
                 inherited=parent.install(cur)
@@ -98,9 +118,12 @@ def run():
             try:
                 with product.as_role(cur,'postgres'):
                     cur.execute('create schema cp7_global_nonpo_native_graph authorization postgres')
-                    for name in product.CORE_ORDER:cur.execute(texts[name],prepare=False)
+                    for name in product.CORE_ORDER:
+                        report['compiling_source_file']=name;cur.execute(texts[name],prepare=False)
                 for name in product.PLATFORM_ORDER:
+                    report['compiling_source_file']=name
                     with product.as_role(cur,'supabase_admin'):cur.execute(texts[name],prepare=False)
+                report.pop('compiling_source_file',None)
                 product.normalize_private(cur,plan);product.replace_native(cur,definitions,raw_identity)
                 after=product.capture(cur);report['raw']['compiled_global25']=save('GLOBAL_COMPILED_ON_NATIVE_PARENT25',after)
                 product.transition(before,after,definitions,plan);compiled=product.verify_objects(cur,after,plan)

@@ -25,7 +25,7 @@ def typename(value):
 def build():
     import pglast
     if pglast.__version__!='v7.20':raise ValueError('GLOBAL_INSTALL_PLAN_PINNED_PGLAST720_REQUIRED')
-    sources=composition.sql_sources();functions={};tables={};triggers=[];indexes=[];constraints=0;fks=0
+    sources=composition.sql_sources();functions={};tables={};triggers=[];indexes=[];index_columns=[];constraints=0;fks=0
     for filename,text in sources.items():
         parsed=json.loads(pglast.parser.parse_sql_json(text))
         if parsed['version']!=170007:raise ValueError('GLOBAL_INSTALL_PLAN_POSTGRES177_GRAMMAR_REQUIRED')
@@ -72,6 +72,7 @@ def build():
                         elif kind=='CONSTR_PRIMARY':index=r['relname']+'_pkey'
                         else:index=r['relname']+'_'+'_'.join(keys)+'_key'
                         indexes.append(r['schemaname']+'.'+index)
+                        index_columns.extend(r['schemaname']+'.'+index+':'+key for key in keys)
             if'CreateTrigStmt'in node:
                 value=node['CreateTrigStmt'];r=value['relation']
                 triggers.append(dict(name=value['trigname'],relation=r['schemaname']+'.'+r['relname'],
@@ -80,7 +81,8 @@ def build():
     definitions,proof=native_hooks.derive(native_hooks.originals())
     assert len(functions)==16 and len(tables)==3 and len(triggers)==3 and len(indexes)==4 and fks==1
     return dict(contract=composition.CONTRACT,actual_parent_adoption=False,source_sql={n:pin(t.encode())for n,t in sources.items()},
-        functions=functions,tables=sorted(tables),columns=sorted(c for cs in tables.values()for c in cs),
+        functions=functions,tables=sorted(tables),table_columns=sorted(c for cs in tables.values()for c in cs),
+        index_columns=sorted(index_columns),columns=sorted([c for cs in tables.values()for c in cs]+index_columns),
         types=sorted(x for n in tables for x in(n,n+'[]')),triggers=triggers,index_relations=sorted(indexes),
         index_count=len(indexes),constraint_count=constraints,foreign_key_count=fks,
         native_adapter_sources={n:pin(t.encode())for n,t in definitions.items()},

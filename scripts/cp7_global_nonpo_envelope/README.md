@@ -112,7 +112,9 @@ OID/raw ACL/schema identities, normalizes only new private objects and seals
 one actual accepted-parent/input profile. It adds no role or public API. The
 profile input is pinned independently from the admission module to avoid a
 circular hash. The plan enumerates16 functions,3 tables/32 columns,15 constraints,
-4 indexes,3 custom triggers and1 FK's4 internal triggers. Its unused inverse
+4 indexes (with5 catalogue column rows),3 custom triggers and1 FK's4 internal
+triggers. The full catalogue column plan has37 rows:32 table columns and5 index
+columns, because the original all22 column query includes indexes. Its unused inverse
 first takes the complete barrier, refuses any work/completion row, restores the
 original eight Native definitions and drops only declared objects. After use it
 requires full backup restoration. Actual parent, complete input review and runtime

@@ -2,8 +2,8 @@
   "classification": "ACTUAL_NATIVE_PARENT_GLOBAL_STAGE_DDL_ONLY_NOT_RUNTIME_OR_BUSINESS",
   "parent_head": "b8c572d28f944ad9a5947ffc164e134558ed6641",
   "parent_tree": "300254b48a70162356ce70c9416e2a4c1a33b62d",
-  "product_public_head": "f01fe9796c629f372e22fb2be40036b8c46c2290",
-  "product_tree": "6a0751be22f8d67b9f22c739c9253c0e8789dcbe",
+  "product_public_head": "58296c88256ad40401fa133174ef71380b0a3f5a",
+  "product_tree": "b1f1ce3f9536ef4d3067ac3a727ca2056cd1cfd6",
   "actual_business_cases": 0,
   "production_go": false,
   "files": {
@@ -12,8 +12,12 @@
       "sha256": "551e9f853a6307e791991926b714aa53578f95b69ee246e7c567ff213dc75799"
     },
     ".github/workflows/cp7-global-native-install-capability.yml": {
-      "bytes": 30334,
-      "sha256": "3fff5f8355ef442cfdbfa6a2e76f232ec2d96a7a3704a786a5040c7bdb42f455"
+      "bytes": 30381,
+      "sha256": "dcddeed8c677f686dbc92832603879454ed28c1991ac0a05aa67a14668f99cea"
+    },
+    "scripts/cp6_t3_release_package.py": {
+      "bytes": 23429,
+      "sha256": "29c207f3a3db70194fe3e45ec24c650b6534a5598525588b284df895f41e1358"
     },
     "scripts/cp7_global_nonpo_envelope/CATALOGUE_PROFILE_SOURCE_CONTROLS.json": {
       "bytes": 3954,
@@ -24,8 +28,8 @@
       "sha256": "00e3d24f99ad0fc7c9feaed71326330727454974d2b81353362bd97585bb61c7"
     },
     "scripts/cp7_global_nonpo_envelope/INSTALL_PLAN.json": {
-      "bytes": 13421,
-      "sha256": "380a2ae69f5b9718de5b5479209b119f1d5ebe0d6376b1565ea91bd7320d0375"
+      "bytes": 16095,
+      "sha256": "96ce9eee5c4e12f2669cb1e9636080632a5f84c043e1d01b6c14c1c72a288a40"
     },
     "scripts/cp7_global_nonpo_envelope/NATIVE_OWNING_REFERENCE.json": {
       "bytes": 81635,
@@ -52,8 +56,8 @@
       "sha256": "3e04006d4984c047a48ab89a077de93839bace4621c623f8ae918ef8e8fc3c84"
     },
     "scripts/cp7_global_nonpo_envelope/README.md": {
-      "bytes": 10446,
-      "sha256": "a0cbaa8c4a7b331d8f8104f182045abe178042e4332aa9191c0a8c7d313ce684"
+      "bytes": 10613,
+      "sha256": "2acaf8c753b706581e7088e339bcd23ecce41bcd5ae9989e3a04a99dd66c126f"
     },
     "scripts/cp7_global_nonpo_envelope/READONLY_GRAPH_ORIGIN.json": {
       "bytes": 1730,
@@ -73,7 +77,7 @@
     },
     "scripts/cp7_global_nonpo_envelope/SOURCE.json": {
       "bytes": 8656,
-      "sha256": "c3dc183072a3d2789cf2c253296cfc5f294e32fbd70281e0bcdd743941158469"
+      "sha256": "9dcdfea2fde027d54f2ef2888ca2d07154a89b072da458ef893cdcea5e652e09"
     },
     "scripts/cp7_global_nonpo_envelope/SYNTAX_AND_SOURCE_CONTROLS.json": {
       "bytes": 2252,
@@ -92,8 +96,8 @@
       "sha256": "e77645273331e4f13def8bbd830127fab1673c95e198796e789784dbfaa218fe"
     },
     "scripts/cp7_global_nonpo_envelope/build_install_plan.py": {
-      "bytes": 6444,
-      "sha256": "5611ef323a1d532d77429f55bce58cec46dd1333e4700dbe7323a3c0cb0b80cc"
+      "bytes": 6679,
+      "sha256": "a44d3f1942cbe650a7ddd26c49bcf936b1738be45f77d723d58711cdb4475214"
     },
     "scripts/cp7_global_nonpo_envelope/catalog_bridge.py": {
       "bytes": 6680,
@@ -108,12 +112,12 @@
       "sha256": "e34234eab2e4c36f8c63742a504569f954957241c0cbc679e9b420d12218b19e"
     },
     "scripts/cp7_global_nonpo_envelope/check_source.py": {
-      "bytes": 13382,
-      "sha256": "d67beaab98a57972bbfd55917ea645ed9b8914f9e636c1a42c0c2653079f800c"
+      "bytes": 13458,
+      "sha256": "72e073793e3d1ec564d05ff65f29ac83651c6349012baf925f18155b8df21eb7"
     },
     "scripts/cp7_global_nonpo_envelope/composition.py": {
-      "bytes": 21834,
-      "sha256": "67f21a6b2d8ff2b90cc808d1e895dd8dcd124f462d8b3f2407628b780be5785d"
+      "bytes": 21891,
+      "sha256": "aa5139dcc0a87445e4fbecd1af0aca9cdf70b9e53b5a6be523aebe86d38029e4"
     },
     "scripts/cp7_global_nonpo_envelope/graph_helpers/AUTHORITY.json": {
       "bytes": 71436,
@@ -183,9 +187,19 @@
       "bytes": 13285,
       "sha256": "26762aceedd3de437b82fd4a0453c8248e0b2582bb66a9e3861ccdd7e5d77d9c"
     },
+    "scripts/current-global-native-install-capability/FIRST_FAILURE.json": {
+      "bytes": 1165,
+      "sha256": "81cafb27d6ab0a5b447903282cc7178f0519d73eba258ec207ba8df813d28917"
+    },
     "scripts/current-global-native-install-capability/probe.py": {
-      "bytes": 10661,
-      "sha256": "360933d1acbabbb612dbedd6309c3dbd165dbf441b421a4bd92bbb4e6c28baca"
+      "bytes": 12895,
+      "sha256": "605b17ef88226ab084443a2e917318e08a9b76d37caca9f70d3effa247f25a5b"
+    },
+    "supabase/release/cp6-t3/MANIFEST.json": {
+      "bytes": 68647,
+      "sha256": "40795c3fce619c5795b427e9aa31836777b687f82eba4ab5654264d57564879f"
     }
-  }
+  },
+  "first_attempt": "FIRST_FAILURE.json",
+  "retained_control_credit": 0
 }

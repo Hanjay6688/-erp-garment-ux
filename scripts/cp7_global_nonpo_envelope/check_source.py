@@ -134,7 +134,8 @@ def check():
     plan=json.loads((HERE/'INSTALL_PLAN.json').read_bytes())
     assert plan['Native_adapters']==8 and plan['native_adapter_routes']==18
     assert len(plan['functions'])==16 and len(plan['tables'])==3 and len(plan['triggers'])==3
-    assert len(plan['columns'])==32 and plan['constraint_count']==15 and plan['foreign_key_count']==1 and plan['index_count']==4
+    assert len(plan['columns'])==37 and len(plan['table_columns'])==32 and len(plan['index_columns'])==5
+    assert plan['constraint_count']==15 and plan['foreign_key_count']==1 and plan['index_count']==4
     assert manifest['guarded_complete_installer_source_provided']is True
     spec=importlib.util.spec_from_file_location('global_exact_readonly_graph_source_only',HERE/'readonly_graph.py')
     readonly=importlib.util.module_from_spec(spec);spec.loader.exec_module(readonly)

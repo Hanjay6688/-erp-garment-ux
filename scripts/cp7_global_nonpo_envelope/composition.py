@@ -179,7 +179,8 @@ def transition(before,after,definitions,plan):
             if group=='schemas'and key in SCHEMAS:continue
             if group=='functions'and key in plan['functions']:continue
             if group=='relations'and(key in plan['tables']or right[1]=='i'and key in plan['index_relations']):continue
-            if group in('columns','constraints','triggers')and key.split(':',1)[0]in plan['tables']:continue
+            if group=='columns'and key in plan['columns']:continue
+            if group in('constraints','triggers')and key.split(':',1)[0]in plan['tables']:continue
             if group=='indexes'and key in plan['index_relations']:continue
             if group in('types','type_implementation')and key in plan['types']:continue
             raise ValueError('GLOBAL_UNDECLARED_NEW_CATALOGUE_OBJECT:'+group+':'+key)

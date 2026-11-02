@@ -49,6 +49,7 @@ jobs:
       JOIN_QUALIFIED_SKU_ROOT: ${{ github.workspace }}/qualified-sku090b
       PERMANENT_S05_CONFIRM: cp6_rollback
       GLOBAL_NATIVE_CONFIRM: cp6_rollback_metadata_only
+      CP6_FIXTURE_SCHEMA_PROFILE: HOSTED_USAGE
     steps:
     - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       with:
