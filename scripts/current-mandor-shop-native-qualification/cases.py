@@ -8,7 +8,7 @@ import json,uuid
 import oracle
 
 IDS=(
- 'FG_MANDOR_SELECTED_FOLLOWING_WEEK_300000_OFFSET_2000000_GROSS_1700000_NET_REPLAY',
+ 'FG_MANDOR_FUTURE_WEEK_DRAFT_RESERVE_RELEASE_THEN_ELIGIBLE_WEEK_300000_OFFSET_2000000_GROSS_1700000_NET_REPLAY',
  'FG_MANDOR_PARTIAL100000_REMAINDER200000_ON_SECOND_MANUALLY_SELECTED_WEEK',
  'FG_MANDOR_EXPLICIT_RELEASE_AND_UNPAID_CANCELLATION_RELEASE_ALLOCATION_WITHOUT_AR_PAYMENT',
  'FG_MANDOR_NATIVE_PAID_REVERSAL_REOPENS_SAME_INVOICE_AND_RESTORES_PREAPPROVAL_BOOKS',
@@ -42,13 +42,24 @@ def pay(n,cur,f,payroll,today,amount):
 
 def selected_week(n,cur,today):
     f,physical=n.physical(cur,today);sale=n.create_invoice(cur,f)
+    future=n.payroll(cur,f,today,back=-7)
+    before=n.observe(cur,f,future);future_allocation=n.allocation(cur,f,future,'300000.00');held=n.observe(cur,f,future)
+    future_draft=oracle.reservation(before,held,'300000.00')
+    oracle.require(oracle.money(held['payroll']['net_payable'])==D('1700000.00'),'MANDOR_NATIVE_FUTURE_DRAFT_OWNER_1700000_NET')
+    released=n.allocation(cur,f,future,None,release=future_allocation['reply']['allocation_id'])
+    after_release=n.observe(cur,f,future);future_release=oracle.released(held,after_release,'300000.00')
+    cancelled,cancel_call=n.payroll_command(cur,f,future,'CANCEL');future_after=n.observe(cur,f,future)
+    oracle.require(future_after['payroll']['status']=='REVERSED','MANDOR_NATIVE_FUTURE_UNPAID_DRAFT_CANCELLED')
     payroll=n.payroll(cur,f,today,back=7)
-    before=n.observe(cur,f,payroll);allocation=n.allocation(cur,f,payroll,'300000.00');held=n.observe(cur,f,payroll)
-    draft=oracle.reservation(before,held,'300000.00');approval=approved(n,cur,f,payroll)
+    eligible_before=n.observe(cur,f,payroll);allocation=n.allocation(cur,f,payroll,'300000.00');eligible_held=n.observe(cur,f,payroll)
+    eligible_draft=oracle.reservation(eligible_before,eligible_held,'300000.00');approval=approved(n,cur,f,payroll)
     payment=pay(n,cur,f,payroll,today,'300000.00')
     oracle.require(oracle.money(payment['after']['invoice']['outstanding'])==0,'MANDOR_NATIVE_FULL_SAME_INVOICE_SETTLEMENT')
     oracle.require(oracle.money(payment['after']['payroll']['net_payable'])==D('1700000.00'),'MANDOR_NATIVE_OWNER_1700000_NET')
-    return dict(status='PASS',physical=physical,sale=sale,allocation=allocation,reservation_equations=draft,approval=approval,payment=payment,
+    return dict(status='PASS',physical=physical,sale=sale,future_week=dict(payroll_id=future,allocation=future_allocation,
+        reservation_equations=future_draft,release=released,release_equations=future_release,cancel=cancelled,
+        cancel_replay=n.replay(cur,cancel_call,cancelled),paid=False),eligible_week=dict(payroll_id=payroll,
+        allocation=allocation,reservation_equations=eligible_draft,approval=approval,payment=payment),
         manual_adjustment_fixture_uses_unchanged_Native_expense_rules=True,actual_Auth_HTTP_or_browser_credit=False)
 
 

@@ -93,10 +93,10 @@ class Native:
     def physical(self,cur,today):
         self.admin(cur);local(cur)
         require(cur.execute("select(statement_timestamp()at time zone'Asia/Jakarta')::date").fetchone()==(today,),'MANDOR_NATIVE_GENUINE_WIB_DATE_REQUIRED')
-        # Backdated lawful physical facts permit a DIFFERENT manually chosen
-        # payroll week, while payment still uses the actual current WIB date.
-        physical_day=today-timedelta(days=14)
-        f=self.afui_fixture.prepare(cur,physical_day,self.modules)
+        # The corrected Afui fixture creates every new commercial master at
+        # the genuine database clock. Its pickup/receipt lineage remains an
+        # earlier physical fact, while GOOD and the sale happen today.
+        f=self.afui_fixture.prepare(cur,today,self.modules)
         self.afui_fixture.post_good(cur,self.modules,f)
         result=self.finish.finish_command(cur,self.finish.finish_workspace(cur,f['po']),
             reason='Actual Mandor invoice fixture: finish real production and GOOD before sale')
@@ -104,11 +104,16 @@ class Native:
         require(self.finish.po_state(cur,f['po'])['status']=='FINISHED','MANDOR_NATIVE_REAL_FINISHED_PO_REQUIRED')
         require(self.finish.po_wip_balance(cur,f['po'])==0,'MANDOR_NATIVE_FINISHED_PO_ZERO_WIP_REQUIRED')
         require(self.modules.bd.lot_value(cur,f['lot'])>0,'MANDOR_NATIVE_POSITIVE_KNOWN_FINISHED_HPP_REQUIRED')
+        sale_at,sale_day,after_good=cur.execute("select(statement_timestamp()at time zone'Asia/Jakarta'),"
+            "(statement_timestamp()at time zone'Asia/Jakarta')::date,statement_timestamp()>%s::timestamptz",
+            (f['good_payload']['physical_at'],)).fetchone()
+        require(sale_day==today and after_good is True,'MANDOR_NATIVE_SALE_MUST_FOLLOW_CURRENT_GOOD_AT_GENUINE_CLOCK')
         actor=self.master.role_actor(cur,'OWNER');tag='MANDOR-NATIVE-'+uuid.uuid4().hex[:12]
         sale=dict(f,actor=actor,tag=tag,location=self.modules.bd.chain.base.LOCATION,
-            sale_at=self.modules.bd.chain.production.at(f['good_day'],16).isoformat())
-        require(f['good_day']<today-timedelta(days=7),'MANDOR_NATIVE_PHYSICAL_INVOICE_WEEK_MUST_PRECEDE_CHOSEN_PAYROLL_WEEK')
-        return sale,dict(finished=result,physical_day=str(physical_day),actor=actor)
+            sale_at=sale_at.isoformat())
+        require(f['good_day']==today and f['day']<today,'MANDOR_NATIVE_EARLIER_PHYSICAL_LINEAGE_CURRENT_GOOD_REQUIRED')
+        return sale,dict(finished=result,physical_day=str(f['day']),good_day=str(f['good_day']),
+            sale_at=sale['sale_at'],genuine_database_clock=True,actor=actor)
 
     def create_invoice(self,cur,f,amount='300000.00'):
         self.admin(cur)
@@ -148,12 +153,17 @@ class Native:
         # Extend the newly created empty DRAFT to the explicitly selected whole
         # week. This changes no posted financial fact or authoritative source.
         require(cur.execute('select count(*)from erp.payroll_work_items where payroll_id=%s::uuid',(payroll,)).fetchone()==(0,),'MANDOR_NATIVE_EMPTY_DRAFT_WEEK_REQUIRED')
-        row=cur.execute("update erp.payroll_settlements set period_start=%s,period_end=%s where id=%s::uuid and status='DRAFT' returning id::text",(start,end,payroll)).fetchone()
+        row=cur.execute("update erp.payroll_settlements set period_start=%s,period_end=%s,"
+            "payment_date=case when %s then null else payment_date end,"
+            "payment_cash_account_id=case when %s then null else payment_cash_account_id end "
+            "where id=%s::uuid and status='DRAFT' returning id::text",(start,end,back<0,back<0,payroll)).fetchone()
         require(row==(payroll,),'MANDOR_NATIVE_ONLY_NEW_EMPTY_DRAFT_WEEK')
         self.modules.bc.boundary.historical.prior.set_open_period(cur,today)
-        row=cur.execute('select contractor_id::text,period_start::text,period_end::text,status from erp.payroll_settlements where id=%s::uuid',
+        row=cur.execute('select contractor_id::text,period_start::text,period_end::text,status,payment_date,payment_cash_account_id from erp.payroll_settlements where id=%s::uuid',
             (payroll,)).fetchone()
         require(row[0]==f['contractor']and row[3]=='DRAFT','MANDOR_NATIVE_EXPLICIT_SAME_MANDOR_DRAFT_PAYROLL')
+        require(row[1:3]==(str(start),str(end)),'MANDOR_NATIVE_EXPLICIT_SELECTED_WHOLE_WEEK')
+        if back<0:require(start>today and row[4:] == (None,None),'MANDOR_NATIVE_FUTURE_DRAFT_HAS_NO_PRETENDED_PAYMENT')
         require(row[1]!=f['sale_at'][:10],'MANDOR_NATIVE_MANUALLY_DISTINCT_PAYROLL_PERIOD')
         return payroll
 
