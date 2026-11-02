@@ -51,10 +51,10 @@ def root_source():
     import intake_free_focused as reader
     with reader.GitBytes(AUDITOR,HEAD,TREE)as g:
         value=reader.source(g)
-    exact(value['own_paths'],45,'ROOT_EXACT_OWN41')
-    exact(value['source_pins'],44,'ROOT_EXACT_FORTY_SOURCE_PINS')
+    exact(value['own_paths'],45,'ROOT_EXACT_OWN45')
+    exact(value['source_pins'],44,'ROOT_EXACT_FORTYFOUR_SOURCE_PINS')
     exact(value['unchanged_base'],14265,'ROOT_EXACT_ACCEPTED_DE_PARENT_BLOBS')
-    exact(value['reversible_routes'],20,'ROOT_EXACT_TWELVE_REPAIR_ROUTES')
+    exact(value['reversible_routes'],20,'ROOT_EXACT_TWENTY_REPAIR_ROUTES')
     save('ROOT_IMMUTABLE_SOURCE.json',dict(identity=identity(),source=value,actual_Native_cases=0))
     print(json.dumps(dict(status='ROOT_IMMUTABLE_FREE45_SOURCE_PASS_NO_DATABASE',**identity(),
         own_paths=45,source_pins=44,reversible_routes=20,actual_Native_cases=0)),flush=True)
@@ -164,7 +164,7 @@ def final():
         exact(guard['public_source_sha256'],
             '1439d70810383db377c48e043df7fb6d487a1b2f1a995e8993a2c08590f9f797',
             'EXACT_ORIGINAL_PUBLIC_DATABASE_FENCE_'+name)
-    exact(physical['source']['own_paths'],45,'PHYSICAL_CLOSED_OWN41')
+    exact(physical['source']['own_paths'],45,'PHYSICAL_CLOSED_OWN45')
     exact(physical['source']['unchanged_parent_blobs_and_modes'],14265,'PHYSICAL_UNCHANGED_DE_PARENT')
     exact(natural['entire_natural_product_source_graph_evaluated'],True,'ENTIRE_NATURAL_GRAPH')
     exact(natural['actual_Native_cases'],0,'SOURCE_CHECK_ZERO_BUSINESS_CASES')
