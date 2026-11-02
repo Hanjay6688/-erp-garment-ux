@@ -146,8 +146,16 @@ def run():
         synthetic_schema_Auth_and_private_entrypoints=True,old_business_API_financial_and_browser_cases_NOT_rerun=True,
         six_hour_original_financial_workflow_policy_unchanged=True,actual_ERP_cases=0,actual_Native_cases=0,
         actual_Auth_HTTP_cases=0,actual_browser_cases=0,production_go=False,independent_acceptance=False)
+    retained=json.loads((HERE/'RETAINED_MANDOR_AND_CATALOG_OBSERVATIONS.json').read_bytes())
+    require(retained['retained_completed_observations_NOT_rerun']is True and retained['original_failed_run_NOT_relabelled_PASS']is True,'CAPABILITY_EXACT_RETAINED_FIRST_RESULT_REQUIRED')
+    require(retained['run_id']==41437248634 and retained['job_id']==125250039172,'CAPABILITY_ONLY_EXACT_FIRST_OWNING_OBSERVATIONS')
+    require(retained['results']['MANDOR']['status']=='ACTUAL_SUPABASE17_MANDOR_NINE_FUNCTION_AUTHORITY_AND_PREUSE_ALL22_PASS_NOT_ERP','CAPABILITY_RETAINED_MANDOR_FIRST_PASS_REQUIRED')
+    require(retained['results']['GLOBAL_CATALOG_AUTHORITY']['SQLSTATE']=='42501','CAPABILITY_RETAINED_UNSUPPORTED_CATALOG_MUST_NOT_BECOME_PASS')
+    report['retained_observations']=retained
+    report['retained_Mandor_and_Global_NOT_rerun']=True
+    report['all_three_fresh_one_attempt']=False
     failures=[]
-    for name,call in(('AFUI',cap.run),('MANDOR',lambda:mandor(cap)),('GLOBAL_CATALOG_AUTHORITY',catalog_authority)):
+    for name,call in(('AFUI',cap.run),):
         try:report['results'][name]=call()
         except BaseException as error:
             report['results'][name]=dict(status='FAILED_CAPABILITY_NOT_ERP',error_type=type(error).__name__,error=str(error),SQLSTATE=getattr(error,'sqlstate',None))
@@ -156,7 +164,7 @@ def run():
             (OUT/'INSTALL_AUTHORITY_CAPABILITIES.json').write_text(json.dumps(report,indent=2)+'\n')
             print(json.dumps(dict(capability=name,status=report['results'][name]['status'],actual_Native_cases=0)),flush=True)
     report.update(status='ACTUAL_SUPABASE17_SCHEMA_CAPABILITIES_REPORTED_NOT_ERP'if not failures else'INCOMPLETE',failed_capabilities=failures,
-        all_runtime_capabilities_available=not failures and report['results']['GLOBAL_CATALOG_AUTHORITY'].get('all_catalogue_SHARE_locks_observed')is True)
+        all_runtime_capabilities_available=False,global_catalog_capability_unsupported=True)
     (OUT/'INSTALL_AUTHORITY_CAPABILITIES.json').write_text(json.dumps(report,indent=2)+'\n')
     require(not failures,'CAPABILITY_FIRST_FAILURES_PRESERVED:'+','.join(failures))
 

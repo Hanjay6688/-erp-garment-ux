@@ -61,7 +61,7 @@ jobs:
             nocreatedb nocreaterole noreplication connection limit 4 password :'cp6_password';
           SQL
           printf 'CP6_ADMISSION_CONTROL_PGURL=%s\n' "$maintenance_pgurl" >> "$GITHUB_ENV"
-      - name: Observe only new schema ACL inverse and catalog authority capabilities
+      - name: Run only remaining Afui17 capability; retain Mandor pass and catalog refusal
         run: python -u -B scripts/current-install-authority-capability/probe.py --run
       - name: Stop disposable containers and retain its log
         if: always()

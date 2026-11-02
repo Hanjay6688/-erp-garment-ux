@@ -10,12 +10,20 @@
   "independent_acceptance": false,
   "files": {
     ".github/workflows/cp7-install-authority-capability.yml": {
-      "bytes": 3627,
-      "sha256": "534f8ecd913578e77eb8d406323b76b0892a847a9400f71565a7712eb13a9527"
+      "bytes": 3633,
+      "sha256": "0bb80c01518a6538a68ce7c3976bf12ca10955f1a47aa15e04a651352b17f86a"
     },
     "scripts/cp7_accessory_nonpayable/ACTUAL_FUNCTION_DEFAULT_ACL_REFERENCE.json": {
       "bytes": 1521,
       "sha256": "c0409e9e66aa516ac34a05bfa62171d000b9be24fc5e95c965367b0160a881f1"
+    },
+    "scripts/cp7_accessory_nonpayable/FIRST_POSTGRES17_CAPABILITY_FAILURE_AND_REPAIR.json": {
+      "bytes": 1799,
+      "sha256": "f49231749c30877668612eaaed55b3eb942bc183405b3679b7f04c204e995750"
+    },
+    "scripts/cp7_accessory_nonpayable/SOURCE.json": {
+      "bytes": 11685,
+      "sha256": "bdc3b456e26ed592cb5ac32f76bde67c8325292b9fd667a01f4e1f71c2109f05"
     },
     "scripts/cp7_accessory_nonpayable/basis.sql": {
       "bytes": 12754,
@@ -26,8 +34,8 @@
       "sha256": "18f2eb8feea6f6ace99330a3ff480cbeb171818ca71c24a7b1cfdd0f4a2b8fac"
     },
     "scripts/cp7_accessory_nonpayable/function_acl_capability.py": {
-      "bytes": 8455,
-      "sha256": "3c509e803b6e6a1f2e34c941010ab35dfa588a97275ccafb073b724a2565e8ba"
+      "bytes": 8532,
+      "sha256": "1233fb8248e43fd1806cb99fa87726ac152fd77bc24d489f9a3d3b3387d39887"
     },
     "scripts/cp7_accessory_nonpayable/policy.sql": {
       "bytes": 11807,
@@ -77,9 +85,15 @@
       "bytes": 1232,
       "sha256": "3df66ef429bafa7f8de3042799c3f2372aa89566ad562941574d89684a38cda7"
     },
+    "scripts/current-install-authority-capability/RETAINED_MANDOR_AND_CATALOG_OBSERVATIONS.json": {
+      "bytes": 14848,
+      "sha256": "0f195a416f5039edcdf4b16990b1abddee2d26df30d3392f6fa3f9058cba0803"
+    },
     "scripts/current-install-authority-capability/probe.py": {
-      "bytes": 13502,
-      "sha256": "ad8f7beae0bce5ec492b93f6ca9cf20b12d4e0157f431804d62a16f78dbc527d"
+      "bytes": 14253,
+      "sha256": "f938478ef9c030f67ca66c8f5e172581ccf2525d2ec315dad93e1b2d22c29e48"
     }
-  }
+  },
+  "retained_Mandor_and_Global_NOT_rerun": true,
+  "only_new_actual_capability": "AFUI"
 }
