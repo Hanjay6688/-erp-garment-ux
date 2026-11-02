@@ -1,0 +1,39 @@
+{
+  "classification": "FIXED_PLATFORM_CATALOG_FENCE_ACTUAL17_CAPABILITY_ONLY_NOT_GLOBAL_RUNTIME",
+  "exact_new_controls": 4,
+  "old_Afui_Mandor_catalog_and_relation_controls_NOT_rerun": true,
+  "actual_global_parent_or_financial_qualification": false,
+  "actual_Native_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false,
+  "files": {
+    "scripts/current-global-catalog-bridge-capability/probe.py": {
+      "bytes": 13757,
+      "sha256": "c4b2db9f9fc9de5e7fc9c550651a522c69268cacb1411e42083a03002d3ad24b"
+    },
+    "scripts/current-global-catalog-bridge-capability/FENCE.sql": {
+      "bytes": 2863,
+      "sha256": "b44bd4a94a898afca0dc9360f14a595c2dcef1cc55a2a18347ebb6b84924e90e"
+    },
+    "scripts/current-global-catalog-bridge-capability/INVERSE.sql": {
+      "bytes": 131,
+      "sha256": "7f5ad1946a127be43a91ae7988e3fd8882fc5233f4a8ebf052c77cea54318107"
+    },
+    "scripts/current-global-catalog-bridge-capability/BRIDGE_SOURCE_PROOF.json": {
+      "bytes": 2667,
+      "sha256": "eb77eba67f0b45704328e5ffcab2dbc0e151a770b0e5bd72f11aec0c641ca8c2"
+    },
+    ".github/workflows/cp7-global-catalog-bridge-capability.yml": {
+      "bytes": 3382,
+      "sha256": "e71db4fad0ad55307478ace942b511792387067a88aa294bcdaecd00a3831fc7"
+    },
+    "scripts/cp7_ow04_restore_bundle.py": {
+      "bytes": 19828,
+      "sha256": "a1605193347cf5b3321a7bdbf8ff6c634df4f4c0a5113eb295e8c3ce44428e00"
+    },
+    "scripts/current-finance-combined-composition/disposable_start.py": {
+      "bytes": 2688,
+      "sha256": "523ec29f0566852f56627c7c9be791de215d09b55d8669c071024fd92aa8e257"
+    }
+  }
+}
