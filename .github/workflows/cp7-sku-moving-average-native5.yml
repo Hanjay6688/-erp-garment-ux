@@ -17,7 +17,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   p21:
-    name: Moving-average Native5 and complete restore
+    name: Moving-average finance Native5 and complete restore
     runs-on: ubuntu-24.04
     timeout-minutes: 120
     env:
