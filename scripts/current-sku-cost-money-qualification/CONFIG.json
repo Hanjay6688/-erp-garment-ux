@@ -1,0 +1,195 @@
+{
+  "actual_ERP_cases": 0,
+  "baseline_tree": "6ea23d78ecd7d4074f85efec150140668354a0ac",
+  "contract": "cp7.sku-cost-money-native19.v1",
+  "independent_acceptance": false,
+  "native_case_ids": [
+    "SKU_MOVAVG_CANONICAL_FORWARD20_MANUAL_BACK35_TOTAL130",
+    "SKU_MOVAVG_EXACT_GROUP_REVERSE_COMPONENT_AND_VALUE_INVERSE",
+    "SKU_MOVAVG_ROOT_RECOST_FOLLOWS_REMAINING_LINEAGE_TOTAL150",
+    "SKU_MOVAVG_SALE_PARTIAL_RETURN_AND_EXACT_REVERSAL",
+    "SKU_MOVAVG_RESERVATION_INCLUDED_AND_LOCATION_ISOLATED",
+    "SKU_MOVAVG_FRACTIONAL_RETURNS_INTERLEAVE_RECOST_AND_EARLIER_INVERSE",
+    "SKU_MONEY_NATIVE_LEGACY_PHYSICAL_OPENING_LATE_INVOICE_CURRENT_INVERSE",
+    "SKU_MONEY_NATIVE_LEGACY_PHYSICAL_CONVERTED_LATE_INVOICE_CURRENT_INVERSE",
+    "SKU_MONEY_NATIVE_SOLD_LATE_INVOICE_PARTIAL_RETURN_AND_BOTH_INVERSES",
+    "SKU_MONEY_NATIVE_BASE_CENT_BEFORE_OPENING_LOT_TRANSFER",
+    "SKU_MONEY_NATIVE_BASE_CENT_BEFORE_CONVERTED_LOT_TRANSFER",
+    "SKU_MONEY_NATIVE_BASE_CENT_AFTER_CONVERTED_LOT_TRANSFER",
+    "SKU_MONEY_NATIVE_RECOVERY_UNDER_PHYSICAL_FIRST_CHILD_LIMIT",
+    "SKU_MONEY_NATIVE_RECOVERY_EQUAL_PHYSICAL_FIRST_CHILD_LIMIT",
+    "SKU_MONEY_NATIVE_RECOVERY_OVER_PHYSICAL_FIRST_CHILD_LIMIT_REFUSED",
+    "SKU_MONEY_NATIVE_LEGACY_OTHER_LOT_STALE_RETURNS_REPLAY_INVERSE",
+    "SKU_MONEY_NATIVE_TWO_CHILD_CURRENT_REVISION_POST_COST_AND_INVERSE",
+    "SKU_MONEY_NATIVE_SIGNED_RECOVERY_BEFORE_OPENING_LOT_THEN_NATIVE_ZERO",
+    "SKU_MONEY_NATIVE_SIGNED_RECOVERY_BEFORE_CONVERTED_LOT_THEN_NATIVE_ZERO"
+  ],
+  "parent_runtime_files": {
+    "scripts/cp7_sku_moving_average/CATALOG_ADDITIONS.json": "0c30c91959615560312e1c80475323095e89437fb92a0b2ab8ef7dfca881ea72",
+    "scripts/cp7_sku_moving_average/COMPONENT_LEDGER_DESIGN.md": "69888806a8a5a2497ebfce09846400820adcab6080e4089488cae92fc9cb4a0a",
+    "scripts/cp7_sku_moving_average/README.md": "5f1433aa5ae3f86aec9e5c2103e992f853530ac7dd33283fb0046b1e40e9983d",
+    "scripts/cp7_sku_moving_average/catalog_additions.py": "fc5153f81b870e74b3c583c2c7a12bbc440e17f16223782d93edf154bd137bcb",
+    "scripts/cp7_sku_moving_average/component_oracle.py": "202f17cd1903fd4b741e99ad84ea897285788d78f41c5ff9a58174c4d9872179",
+    "scripts/cp7_sku_moving_average/composition.py": "da1f275fa0e91ecbbaa5bcedff65ba0391b162108cc9e91b98a5e2c9f746465f",
+    "scripts/cp7_sku_moving_average/consumer_delta.py": "958dd155969a85c75ed78b5d9bb4853f7c262739b91fc8bcdcdb3fff1fa6fa8a",
+    "scripts/cp7_sku_moving_average/credit_delta.py": "40db04666d22bd619cdba2a7e3e44b848ca55d8d73cf880f3ead7a9f1cf74945",
+    "scripts/cp7_sku_moving_average/prepare_consumer_model.py": "921de20da984a8a90ed7d7cdd67025d56454ebf69d0e16a343d30fef57ae7f1b",
+    "scripts/cp7_sku_moving_average/private_delta.py": "e57e89f8291a7b62ce1584b4f30b4927dadac9b5bbb17feefe1c97c6c8f4218e",
+    "scripts/cp7_sku_moving_average/qualification_cases.py": "a0c6733afa5aac70f3657f04e1b67e630416b251379021aa23b2ac62d34ff195",
+    "scripts/cp7_sku_moving_average/reader_access.py": "b93e519817a6031761bc9c9b2544c278aed9ca9b130258860380853be83babe1",
+    "scripts/cp7_sku_moving_average/reader_delta.py": "022dbea3058e6163753fcde95a46f68bcaf8547145c17f8780592a76fd68c38d",
+    "scripts/cp7_sku_moving_average/test_attribution_plan.mjs": "c2dbed99cb651ea925eedb7cc1457ddc2a272b950857e14c0775d523336f02d2",
+    "scripts/cp7_sku_moving_average/test_component_contract.py": "d984df9676ccfbf3c79fd8959542dfa1b13dab1aedbee99323817b3dd5366fe5",
+    "scripts/cp7_sku_moving_average/test_consumer_delta.py": "6847b8339cdc1dabffd6da2401d7267486745abd55a5f269bd6a39c53b8ad366",
+    "scripts/cp7_sku_moving_average/test_consumers_pg17.mjs": "798a9b8f11d8bdd3bdd4b4f1246a463ade32a335a9135a0478d8d4ee6b3e5b08",
+    "scripts/cp7_sku_moving_average/test_credit_delta.py": "5c81a84009c6d0371eba8d3d8906dd70fda4dabdaad90de2abaf1e20ecf7ab2b",
+    "scripts/cp7_sku_moving_average/test_credit_projection_pg17.mjs": "1d210889a0c2777fb245ce62c2bb62a300b7fccdf73fc047a05bd190c81a430f",
+    "scripts/cp7_sku_moving_average/test_preuse_package_contract.py": "f0653c8527c81840498708cac01ad8a02fdca4bd8ea4ea0f528cb46ed267ea1e",
+    "scripts/cp7_sku_moving_average/test_private_delta.py": "9a0516279a1922de7c9f16cd93b5f6e4545caf4a1f73badb8a499f1863487551",
+    "scripts/cp7_sku_moving_average/test_qualification_cases.py": "10304b3ef820dedfbc140b91bb0f0386388362524dd55e1ace85eaaa7db4c2ee",
+    "scripts/cp7_sku_moving_average/test_reader_capability.mjs": "1e28148e74f7d4bf380fcd70b9bdcecb28913995fe8c6a29eee57e242c8106b4",
+    "scripts/cp7_sku_moving_average/test_reader_delta.py": "51c9c69d78d2ef0e1675fff484659c6af5d796f652b07a99c290e2241858e7a4",
+    "scripts/cp7_sku_moving_average/valuation.sql": "f2868e334b1f85f6a568c3f5da51cb7f979867eb154058a8652e865222d83649"
+  },
+  "production_go": false,
+  "qualified_moving": {
+    "archive": {
+      "bytes": 1962102,
+      "members": 125,
+      "sha256": "92d51cbbbd14beb667be36cb9748fd7f6b8505c15c4cf0eabe2e51392586272e"
+    },
+    "artifact_id": 13245548832,
+    "head": "a8da698c034f3ac6a6ae62b57eecd91fc54c813b",
+    "job_id": 126003816789,
+    "originals": {
+      "CP7_SKU_MOVING_AVERAGE_NATIVE6.json": {
+        "bytes": 18493,
+        "sha256": "79e91ab0fefaf95f3f5195e20a37560684097b70172657382b0788c44638f73d"
+      },
+      "CP7_SKU_MOVING_AVERAGE_QUALIFICATION.json": {
+        "bytes": 2701632,
+        "sha256": "6cc54bef730b9bcc0ccaf33d34f5bbd6add380160c1fefc21faee253c8dcc045"
+      },
+      "T3_BACKUP_RESTORE_DRILL.json": {
+        "bytes": 1470,
+        "sha256": "fc530274239c62a48154124062b5c80a0c845eea477b1ea9afd9c86e02eb15af"
+      },
+      "T3_PACKAGE_FILES_INSTALL.json": {
+        "bytes": 1806,
+        "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+      },
+      "T3_PACKAGE_INSTALL.json": {
+        "bytes": 360409,
+        "sha256": "303e7dbfdc5098a04f59450d80771bfcad953ddddd51630a7d2364775e47c581"
+      }
+    },
+    "run_id": 41660989394,
+    "tree": "6ea23d78ecd7d4074f85efec150140668354a0ac"
+  },
+  "qualified_native27": {
+    "archive": {
+      "bytes": 94781660,
+      "members": 170,
+      "sha256": "9ad923d20d0972b2a01df3ce3307bf03db537406ac89f99f700cf6d235bfc341"
+    },
+    "artifact_id": 13031164777,
+    "head": "090b85d3fcb738d3e694d4329d306f199a686eb8",
+    "job_id": 124438845597,
+    "originals": {
+      "CP7_SKU_GROUP_COST_NATIVE5.json": {
+        "bytes": 39067,
+        "sha256": "49be026d74c011aed4195117fa6f8f85ee12cf1e7dfa8272430479e1e40dc839"
+      },
+      "CP7_SKU_MANAGED_RECOVERY_NATIVE27.json": {
+        "bytes": 30376182,
+        "sha256": "5e22077e71e34add6fd0627c89e9d21a2235f463818e45b233c7619bcfb0d48f"
+      },
+      "CP7_SKU_PAIR_CONVERSION_NATIVE7.json": {
+        "bytes": 21044,
+        "sha256": "19416848a4247973e9302d669945baccd7a536210eadcffdef57d8206b7eda3e"
+      },
+      "T3_BACKUP_RESTORE_DRILL.json": {
+        "bytes": 1470,
+        "sha256": "bb7bd9fedafa7d1a72b7a7aed6431d82ca9d4de7bd2849df33c06d245b1f61c9"
+      },
+      "T3_PACKAGE_FILES_INSTALL.json": {
+        "bytes": 1806,
+        "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+      },
+      "T3_PACKAGE_INSTALL.json": {
+        "bytes": 360417,
+        "sha256": "9afc5d5798b9ccc85c5c61c922e3cbfea75829aa2d790a8e4468149440cfd5e2"
+      }
+    },
+    "run_id": 41167734749,
+    "tree": "e04831b441bed987cd72ff738cf2a06a7c0ef0ae"
+  },
+  "retained_native_case_ids": [
+    "SKU_MOVAVG_CANONICAL_FORWARD20_MANUAL_BACK35_TOTAL130",
+    "SKU_MOVAVG_EXACT_GROUP_REVERSE_COMPONENT_AND_VALUE_INVERSE",
+    "SKU_MOVAVG_ROOT_RECOST_FOLLOWS_REMAINING_LINEAGE_TOTAL150",
+    "SKU_MOVAVG_SALE_PARTIAL_RETURN_AND_EXACT_REVERSAL",
+    "SKU_MOVAVG_RESERVATION_INCLUDED_AND_LOCATION_ISOLATED",
+    "SKU_MOVAVG_FRACTIONAL_RETURNS_INTERLEAVE_RECOST_AND_EARLIER_INVERSE"
+  ],
+  "runner_derivation": {
+    "additional_changes": 1,
+    "complete_install_preuse_used_guard_backup_restore_roles_data_sequences_advisors_retained": true,
+    "derived_sha256": "0135e37674c61c40234b784a7ec8ace6379654a11edaa5ef099b47fe80cf5bad",
+    "full_module_compile": true,
+    "original": {
+      "complete_install_preuse_used_guard_backup_restore_roles_data_sequences_advisors_retained": true,
+      "counted_changes": 6,
+      "derived_sha256": "1b994775a24d21e25b4788670d961344be9bee88a6e23a2db9d91173174b160e",
+      "fresh_Auth_HTTP_races_browser_claim": false,
+      "original_sha256": "c420d894f8d5f16bddefeae73addb621507170f372a28e7d6e33d88c7eeb0be9"
+    }
+  },
+  "runtime_files": {
+    "scripts/cp7_sku_cost_components/CATALOG_ADDITIONS.json": "330dc07c6d48e9a1599b84cd9e169fb4a74eddb5b45772873f0e30f8f4c06b31",
+    "scripts/cp7_sku_cost_components/README.md": "b77b1d039a1adc4b72a5c5845983181c98ba421c95d0c44b2300fd387b3385d9",
+    "scripts/cp7_sku_cost_components/SOURCE.json": "3abdd3fadbc0dcb873461dab4354baada7b4452edc8e73534ae4c538e3d72ae6",
+    "scripts/cp7_sku_cost_components/base_cent_cases.mjs.inc": "eeeeba3dbab43bc92c690c36ba6d01ac0d344fa8e2e7fde781b825af9baa5a18",
+    "scripts/cp7_sku_cost_components/base_forward_cases.mjs.inc": "72fcb6298dbc0861687c81175d6ffecf1e7e45612ad9a66260a40583683b3092",
+    "scripts/cp7_sku_cost_components/base_money.sql": "cdd8dc4742388690f9d83566ac5015ddb3322cae00b1fd0d99474eb0033d262d",
+    "scripts/cp7_sku_cost_components/base_money_cases.mjs.inc": "dc76a4265d4b3d5ff483c16c90c6d4f2a92a451eb864e0824609c0473cfb9cd9",
+    "scripts/cp7_sku_cost_components/base_money_delta.py": "b943979524c86bdbcf22daa703d2f9891be07bc292a020db822662cb878cc835",
+    "scripts/cp7_sku_cost_components/base_money_fixture.mjs.inc": "fe17a1d8a5e1b9123389b6aeab268427b4af883ff663994aa93692a7f2e31cc7",
+    "scripts/cp7_sku_cost_components/base_money_followup_cases.mjs.inc": "506ac318ed72e265d5f00c93f38bee4f37624781a25873443a8044a56f537610",
+    "scripts/cp7_sku_cost_components/catalog_additions.py": "4b272fe78d1cd8124c835e461ed5b830346ce36d3fbeaee5750f0ce93d65202c",
+    "scripts/cp7_sku_cost_components/cent_inverse_counterexamples.mjs.inc": "caa591d9ab7976890cea5387553ff75348d0e0f43955b9fb67d31d816aaefe1f",
+    "scripts/cp7_sku_cost_components/cent_ownership.py": "d6483135a059d2319d53adb3ab0b8dc7ed472e27c24cf3f4fa75efa345350a1e",
+    "scripts/cp7_sku_cost_components/chain_cases.mjs.inc": "425be6aba1aeecb3a96b5354a35990ce073c28cd448acd778bca73dadda26668",
+    "scripts/cp7_sku_cost_components/chain_repair_checks.mjs.inc": "9898434ca1c8e084dcaedd5543b7daa08e093610a545eef718343b3b1617c420",
+    "scripts/cp7_sku_cost_components/composition.py": "7ddfc7a3b825d35146a93643b1427be04c29ed49fd5debcbada00a26718868f0",
+    "scripts/cp7_sku_cost_components/cost_cases.mjs.inc": "670a13471483e386f70a52b4083e725939d1f1531d17f3ad72a31e6a2555bbdd",
+    "scripts/cp7_sku_cost_components/costs.sql": "999ce0516366efb0a2cdc59e0c90b7edf99717dc387fa51f972934e287c1e6c1",
+    "scripts/cp7_sku_cost_components/financial_delta.py": "5a99c9c6b301124605d86e621af12277b137a2eb20ee719b07d862abd44924a7",
+    "scripts/cp7_sku_cost_components/inverse_cases.mjs.inc": "eed5e1ce9967b9ed12570d5363255f91e7aa2999935d5c92a2585a3cf6d8489c",
+    "scripts/cp7_sku_cost_components/inverse_rebalance.sql": "8d681ce43fca746e1fd89d9a7ebbd351ad7979789f9f0f0c39952177f9d4e188",
+    "scripts/cp7_sku_cost_components/legacy.sql": "f814b6b172c2ed1a5838bd9e4281c28cb8b68707a3865e106ad72bcc8526b07f",
+    "scripts/cp7_sku_cost_components/legacy_cases.mjs.inc": "0b1119afaaf6bcda92acebaef89d8c2b65d218db75d0d5579546a8d34fb0fd86",
+    "scripts/cp7_sku_cost_components/legacy_delta.py": "5d095b410101dd1eeca452a5e87da8fd8f5351f48f8c60046469f788630a96c7",
+    "scripts/cp7_sku_cost_components/legacy_followup_cases.mjs.inc": "1af650f2136b558235742075addf9b86e9737d388d9601456673a91908497a1e",
+    "scripts/cp7_sku_cost_components/legacy_model_setup.mjs.inc": "fbf23cf09bda180ddda9025e805e9e92cd6367c1bec86ad4cd7609a0f33575a1",
+    "scripts/cp7_sku_cost_components/money.sql": "58ea892a29077535cbb417a3aac750a3b35996027d8d6b10851aa5030b92cc69",
+    "scripts/cp7_sku_cost_components/money_cases.mjs.inc": "5898f8702cede651abceba264d7b623a330ad79764865a3cc0ef713879509b24",
+    "scripts/cp7_sku_cost_components/money_credit_cases.mjs.inc": "ecbf65dfe93dd97ce3547ffd3468bcd8999d99021e9c786071a091dc383c82df",
+    "scripts/cp7_sku_cost_components/money_delta.py": "c97a14eae7f4028a79362a27de023a878e7e9930de250cff94df3fe9401a5d4f",
+    "scripts/cp7_sku_cost_components/money_history_case.mjs.inc": "150a8bbd914d3060e62220799f936b7d9364f9d439322059d8d0136fc0708043",
+    "scripts/cp7_sku_cost_components/oracle.py": "6a0627fa980634bb2b4b812d6f53848aed5b85a206915b465b665b627268ebf7",
+    "scripts/cp7_sku_cost_components/prepare_catalog.py": "48ef52a251d9d1c8be2fb3bbaa62ac5535323d3614606f51ad1ea19c971620b4",
+    "scripts/cp7_sku_cost_components/prepare_legacy_model.py": "9033aceab2525831dd234386f637898b270d965aeb701188a135fc3b164459f1",
+    "scripts/cp7_sku_cost_components/prepare_model.py": "e2f2b43b7dce96a529e7b837c923580d3fcdf4fe3d205dab9b37281ca44207dd",
+    "scripts/cp7_sku_cost_components/prepared_product.py": "786a8fede0530c1b8f1e3be6797d74ceef2c17dceda97e8a74f6381411ed2652",
+    "scripts/cp7_sku_cost_components/private_inverse_delta.py": "2129a0f9246f696e91cec760cf79fdb69d6a63fd315fbee9534fce5ab269d803",
+    "scripts/cp7_sku_cost_components/profile_catalog.mjs": "80d6fb996a5c2e4b7f9425410c18aa7186c99d4077c700abed4f6dab1481c03d",
+    "scripts/cp7_sku_cost_components/source_delta.py": "0efbe785782e94d2cb77a5d7f230c7e08cd63054a91465622bd2d269690d4a2f",
+    "scripts/cp7_sku_cost_components/source_rebalance.sql": "7a9ab4a887fe92b82eeb003989418b5ab4da57607fccefc365b2f2445bade765",
+    "scripts/cp7_sku_cost_components/test_catalog_transition.py": "099a035146a3b069a6ff38e7a81b7bc317a720953497cd60d1369c9d2e1cf667",
+    "scripts/cp7_sku_cost_components/test_cent_ownership.py": "59a292925abd4a7a9575a563a5355a912119ee9a6a2c665ba01ed012ab3b0a40",
+    "scripts/cp7_sku_cost_components/test_oracle.py": "c914ef44d60d49a8e9ebbd4f41ac8289c673bbddab333fcc0402f70ccebe69ef",
+    "scripts/cp7_sku_cost_components/valuation_delta.py": "9c509c96b49d3f236fed740437e10bab480b9a86957222786ac952b600291a2d"
+  },
+  "workflow_armed": false
+}
