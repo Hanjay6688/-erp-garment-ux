@@ -8,6 +8,7 @@ on:
       - '.github/workflows/ui-b-families-capture.yml'
 permissions:
   contents: read
+  actions: read
 concurrency:
   group: writer-b-ui-families
   cancel-in-progress: false
@@ -39,13 +40,20 @@ jobs:
           ln -s ../after/node_modules before/node_modules
       - name: Admit B exact UI successor and unchanged non-UI source
         working-directory: after
-        run: node scripts/ui-reference/verify-families.mjs
+        run: node scripts/ui-reference/verify-review.mjs
+      - name: Verify and retain exact original views without repeating them
+        working-directory: after
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh api repos/Hanjay6688/-erp-garment-ux/actions/artifacts/13218512902/zip > ../first-original.zip
+          python scripts/ui-reference/retain-first.py ../first-original.zip ../ui-family-proof
       - name: Install browser only - no Supabase or ERP service
         working-directory: after
         run: node_modules/.bin/playwright install --with-deps chromium
       - name: Capture actual routes, mobile navigation, Mandor dialog and CP7 states
         working-directory: after
-        run: node scripts/ui-reference/capture-families.mjs
+        run: node scripts/ui-reference/capture-review.mjs
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:

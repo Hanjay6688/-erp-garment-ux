@@ -27,7 +27,10 @@
 .cp7-controls select { display: block; color: var(--text); border: 1px solid var(--line); padding: 10px 36px 10px 12px; border-radius: 8px; background: var(--panel); min-height: 44px; max-width: 100%; font-size: .875rem; }
 .cp7-button { display: inline-flex; justify-content: center; align-items: center; gap: 9px; padding: 10px 15px; min-height: 44px; background: var(--panel); border: 1px solid var(--line); color: var(--text); border-radius: 8px; cursor: pointer; font-size: .875rem !important; text-decoration: none; }
 .cp7-button:hover:enabled { background: var(--panel-3); border-color: var(--line); }
-.cp7-primary { background: var(--blue); border-color: var(--line); }
+.cp7-button.cp7-primary { background: var(--blue); border-color: var(--line); color: var(--on-accent); }
+.cp7-button.cp7-primary:hover:enabled { background: var(--blue-2); color: var(--on-accent); }
+.cp7-sidebar { --cp7-muted: var(--muted); }
+.cp7-sidebar .cp7-back { color: var(--soft); }
 .cp7-shell button:disabled { cursor: not-allowed; opacity: 1; }
 .cp7-notice { background: var(--panel); border: 1px solid var(--line); border-left: 3px solid var(--line); border-radius: 8px; padding: 13px 16px; font-size: .875rem; margin-bottom: 22px; }
 .cp7-notice[data-state="STALE"], .cp7-notice[data-state="PARTIAL"] { background: var(--panel); border-color: var(--line); border-left-color: var(--line); }

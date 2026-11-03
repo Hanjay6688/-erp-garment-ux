@@ -274,3 +274,19 @@
   .compact-book-summary strong { font-size: 13px !important; }
   .compact-book-summary em { font-size: 13px !important; }
 }
+
+/* On tablets and phones, balances get a whole row rather than squeezed columns. */
+@media(max-width:860px){
+  .mutation-row.mutation-collapsible{grid-template-columns:minmax(0,1fr) minmax(0,1fr) 44px !important;gap:10px !important;padding:12px !important}
+  .mutation-row.mutation-collapsible .drag-grip,.mutation-row.mutation-collapsible .order-no,.mutation-row.mutation-collapsible .reorder{display:none !important}
+  .compact-identity{grid-column:1;grid-row:1}
+  .compact-transaction{grid-column:2;grid-row:1;padding-left:8px}
+  .compact-detail-toggle{grid-column:3;grid-row:1;width:44px;height:44px;min-height:44px}
+  .compact-book-summary{grid-column:1/-1;grid-row:2}
+  .compact-book-summary small,.compact-book-summary strong,.compact-book-summary em{white-space:normal;overflow-wrap:anywhere}
+  .compact-book-summary>span{padding:8px 4px !important;border-left:0 !important;border-top:1px solid var(--line) !important}
+  .mutation-row.mutation-collapsible.is-expanded .compact-details-grid{grid-column:1/-1;grid-template-columns:repeat(2,minmax(0,1fr))}
+  .compact-details-grid label,.compact-details-grid strong,.compact-details-grid .size-book-title,.compact-details-grid .total-book-title{white-space:normal;overflow-wrap:anywhere}
+}
+
+@media(max-width:860px){.mutation-toolbar{grid-template-columns:repeat(2,minmax(0,1fr))}.mutation-toolbar .compact-search,.mutation-toolbar .filter-dropdown,.mutation-toolbar .filter-trigger{min-width:0;max-width:100%}.mutation-toolbar .catalog-search input{min-width:0}}

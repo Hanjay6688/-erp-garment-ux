@@ -1,0 +1,12 @@
+✔ exact route/dialog/state/width matrix accepts 323 identities; WIP is not a popup (4.83948ms)
+✔ missing actual page view is refused (6.416455ms)
+✔ duplicate view cannot conceal missing identity (0.867564ms)
+✔ wrong state identity cannot satisfy same count (1.494486ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 200.3661

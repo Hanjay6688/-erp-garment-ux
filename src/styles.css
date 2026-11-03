@@ -265,3 +265,10 @@ h2 { margin:5px 0 4px; font-size:20px; letter-spacing:-.025em; font-weight:630; 
   .page-wrap :is(input:not([type=checkbox]):not([type=radio]), select, textarea) { font-size: 16px; }
   html { scroll-padding-bottom: calc(88px + env(safe-area-inset-bottom)); }
 }
+
+/* Narrow stock cards keep quantity and the open-detail control inside the card. */
+@media(max-width:360px){
+  .sku-browser-row{grid-template-columns:30px minmax(0,1fr) 64px 18px;gap:6px;padding:10px}
+  .sku-browser-row>div{min-width:0}
+  .sku-browser-row .sku-size-preview em{white-space:normal;overflow-wrap:anywhere}
+}
