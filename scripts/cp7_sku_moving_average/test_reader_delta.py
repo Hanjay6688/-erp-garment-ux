@@ -14,4 +14,9 @@ assert 'position_value_v2(x.product_id,x.location_id,x.quality_grade,x.physical_
 assert 'position_value_v2(pid,location,grade,1)'in patched[delta.SIGNATURES[1]]
 assert patched[delta.SIGNATURES[0]].count('cp7_fg.positions(q,zero)')==originals[delta.SIGNATURES[0]].count('cp7_fg.positions(q,zero)')
 assert 'CURRENT_RESTATED_MOVEMENT_SNAPSHOT'in patched[delta.SIGNATURES[1]]
-print({'status':'SKU_MOVAVG_FG_READER_TWO_EXACT_SUBSTITUTIONS','actual_sql':0,'production_go':False})
+assert "case when x.quality_grade='GRADE_A'then"in patched[delta.SIGNATURES[0]]
+assert "else cp7_fg.lot_value(x.lot_id,x.physical_qty)end"in patched[delta.SIGNATURES[0]]
+assert "case when grade='GRADE_A'then"in patched[delta.SIGNATURES[1]]
+assert "else cp7_fg.lot_value(lid,1)end"in patched[delta.SIGNATURES[1]]
+assert 'CURRENT_RESTATED_SKU_POOL_MOVEMENT_SNAPSHOT'in patched[delta.SIGNATURES[1]]
+print({'status':'SKU_MOVAVG_FG_READER_TWO_FUNCTIONS_THREE_EXACT_SUBSTITUTIONS','actual_sql':0,'production_go':False})

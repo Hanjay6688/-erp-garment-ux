@@ -38,8 +38,8 @@ mix PO and non-PO contributors; cents therefore follow economic roots even
 when FIFO chooses different physical lots. Aggregate product-only balancing
 is not accepted as a substitute.
 
-The source bindings and pure arithmetic oracle pass locally, but no SQL in
-this directory has been installed or executed against Native yet. Catalog
+The Native attempts and first failures remain retained separately. Source
+checks and isolated PostgreSQL preparation are not Native acceptance. Catalog
 authority, real posting/reversal/recost cases, concurrency, and exact restore
 remain mandatory. Until those actual gates pass, `production_go=false` and
 `independent_acceptance=false`.
@@ -68,12 +68,38 @@ This is a DDL expectation, not Native qualification or acceptance.
 The 639 exact rows cover 12 tables, 19 explicit/implicit indexes, 183 table
 and index columns, 132 constraints, 202 triggers (including both ends of
 47 foreign keys), 12 private functions, 24 row/array types, their 24
-implementation rows, and 12 deny policies. The other 13 catalogue groups
-must not change. Every added row must be present with its exact metadata;
+implementation rows, and 12 deny policies. The other catalogue groups remain exact except for one declared schema USAGE
+lease to the existing private FG reader role. Every added row must be present with its exact metadata;
 matching a name prefix is insufficient. Existing objects remain frozen
-except for the already declared, exact function-body substitutions.
+except for the already declared, exact function-body substitutions and that
+one exact reader schema lease.
 
 The pre-database controls reject each missing or altered expected row,
 undeclared additions in every catalogue group, changes to existing authority,
 and replacements of an all-22 group. The actual Native5 run, all used-state
 refusals, complete restoration, and the five package gates remain required.
+
+## FG reader integration preparation
+
+The current pool value is read through the existing ordinary FG public facades.
+Only the existing private cp7_fg_read role receives schema USAGE and EXECUTE
+on position_value_v2; private tables and all other new functions remain closed.
+The callee checks the current actor's finance.hpp.view before observing data.
+The unused inverse removes the exact schema lease and all22 must match again.
+
+Only GRADE_A positions use the pool; other grades retain their original Native
+lot reader. Unknown or depleted pools return UNKNOWN with null money, while
+unrelated accounting and permission errors propagate. A pool has no single
+HPP version. The client accepts the explicit pool basis/revision only on
+GRADE_A, keeps the original lot contract closed, and labels the current card
+unit cost as SKU HPP. No quantities or transaction commands are changed.
+
+The isolated PostgreSQL17 reader capability controls use explicitly modeled
+pool and actor-permission dependencies; they are not ERP or Auth acceptance.
+The Native canonical forward/back case now also requires both actual existing
+public FG readers to report source4/95 at23.75 and target1/35 at35. The private
+ledger observations use the original administrative observer; business commands
+and public reader checks retain the ordinary actor. The separate committed
+fixture removes its temporary Native ERP-schema overlay and verifies the full
+product catalog before committing. Actual Native and owning full restore remain
+mandatory before this preparation can be integrated.

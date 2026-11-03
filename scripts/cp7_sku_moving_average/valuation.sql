@@ -386,12 +386,21 @@ language plpgsql stable security definer set search_path=''as $$
 declare q jsonb;v numeric;
 begin
  perform erp.require_permission('finance.hpp.view');
- if p_qty<0 then raise exception 'CP7_SKU_POSITION_QTY_NEGATIVE';end if;
- q:=cp7_sku_conversion.pool_quote_v2(p_product,p_location,p_grade);
- if q->>'state'='EMPTY'and p_qty>0 then raise exception 'CP7_SKU_POSITION_VALUE_EMPTY_POOL';end if;
- v:=case when q->>'average'is null then 0 else(q->>'average')::numeric end;
- return jsonb_build_object('state',case when q->>'state'='EMPTY'then'EMPTY'else'KNOWN'end,'unit_cost',case when q->>'state'<>'EMPTY'then v::text end,
-  'value',round(p_qty*v,6)::text,'basis','SKU_LOCATION_GRADE_MOVING_AVERAGE_V2','pool_revision',q->>'revision','reserved_included',true);
+ if p_qty is null or p_qty<0 or p_qty::text in('NaN','Infinity','-Infinity')then raise exception 'CP7_SKU_POSITION_QTY_INVALID';end if;
+ begin
+  q:=cp7_sku_conversion.pool_quote_v2(p_product,p_location,p_grade);
+ exception when sqlstate 'P0001'then
+  if sqlerrm<>'CP7_SKU_POOL_HPP_UNKNOWN: seluruh komponen ekonomi termasuk reservasi harus diketahui'then raise;end if;
+  q:=jsonb_build_object('state','UNKNOWN');
+ end;
+ -- A depleted or incomplete pool has no current unit cost. Do not invent
+ -- zero, hide unrelated failures, or prevent the physical card from opening.
+ v:=case when q->>'state'='KNOWN'then(q->>'average')::numeric end;
+ return jsonb_build_object('state',case when v is null then'UNKNOWN'else'KNOWN'end,
+  'hpp_version_id',null,'hpp_version',null,'cost_state',null,'calculated_at',null,
+  'unit_cost',case when v is not null then round(v,6)::text end,
+  'value',case when v is not null then round(p_qty*v,6)::text end,
+  'basis','SKU_LOCATION_GRADE_MOVING_AVERAGE_V2','pool_revision',q->>'revision','reserved_included',true);
 end $$;
 
 create function cp7_sku_conversion.prepare_sale_values_v2(p_sale uuid) returns void

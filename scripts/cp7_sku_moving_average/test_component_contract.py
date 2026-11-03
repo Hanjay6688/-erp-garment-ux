@@ -73,20 +73,24 @@ def catalog_controls(source):
     # and array types, member keys with colons, and parent-side RI triggers.
     spec=importlib.util.spec_from_file_location('sku_exact_catalog_additions',HERE/'catalog_additions.py')
     profile=importlib.util.module_from_spec(spec);spec.loader.exec_module(profile)
+    spec=importlib.util.spec_from_file_location('sku_reader_access',HERE/'reader_access.py')
+    reader_access=importlib.util.module_from_spec(spec);spec.loader.exec_module(reader_access)
     names={'SCHEMA','TABLES','INDEXES','FUNCTIONS','EXISTING_TRIGGERS'}
     tree=ast.parse(source)
     selected=[node for node in tree.body if
         isinstance(node,ast.Assign) and any(isinstance(t,ast.Name) and t.id in names for t in node.targets)
         or isinstance(node,ast.FunctionDef) and node.name=='transition']
-    namespace={'catalog_additions':profile}
+    namespace={'catalog_additions':profile,'reader_access':reader_access}
     exec(compile(ast.Module(body=selected,type_ignores=[]),'actual_sku_catalog_transition','exec'),namespace)
     transition=namespace['transition'];additions=profile.expected()
     before={name:{}for name in profile.GROUPS}
+    before['schemas'][reader_access.SCHEMA]=deepcopy(reader_access.ORIGINAL_SCHEMA)
     existing='erp.existing_private_command(uuid)'
     before['functions'][existing]=['original body','existing owner',True,'same ACL']
     before['relations']['erp.existing_table']=['existing metadata']
     definitions={existing:'exact derived body'}
     after=deepcopy(additions)
+    after['schemas'][reader_access.SCHEMA]=deepcopy(reader_access.EXPECTED_SCHEMA)
     after['functions'][existing]=[definitions[existing],*before['functions'][existing][1:]]
     after['relations'].update(before['relations'])
     transition(before,after,definitions)
@@ -122,10 +126,20 @@ def catalog_controls(source):
     refused(candidate,'SKU_MOVAVG_UNDECLARED_CATALOG_DELTA:relations:erp.existing_table')
     candidate=deepcopy(after);candidate['foreign_group']=candidate.pop('schemas')
     refused(candidate,'SKU_MOVAVG_ALL22_REQUIRED')
+    for who,privilege in [('authenticated','USAGE'),('cp7_fg_read','CREATE'),('cp7_fg_write','USAGE')]:
+        candidate=deepcopy(after);candidate['schemas'][reader_access.SCHEMA][1].append([who,'postgres',privilege,False])
+        refused(candidate,'SKU_MOVAVG_READER_SCHEMA_ACCESS_CHANGED')
+    candidate=deepcopy(after);candidate['schemas'][reader_access.SCHEMA]=deepcopy(reader_access.ORIGINAL_SCHEMA)
+    # A missing lease must also fail; readers could not reach their callee.
+    refused(candidate,'SKU_MOVAVG_READER_SCHEMA_ACCESS_CHANGED')
+    assert reader_access.may_execute('cp7_fg_read',reader_access.FUNCTION)
+    assert not reader_access.may_execute('authenticated',reader_access.FUNCTION)
+    assert not reader_access.may_execute('cp7_fg_read','cp7_sku_conversion.prepare_sale_values_v2(uuid)')
     assert (missing,metadata,unknown)==(639,639,22)
     return dict(complete_profile_admitted=True,missing_object_refusals=missing,
         altered_metadata_refusals=metadata,unknown_group_object_refusals=unknown,
-        existing_authority_body_removal_refusals=4,wrong_22_group_refusals=1,actual_SQL=0)
+        existing_authority_body_removal_refusals=4,wrong_22_group_refusals=1,
+        undeclared_or_missing_schema_privilege_refusals=4,actual_SQL=0)
 
 catalog_result=catalog_controls(composition)
 print({'status':'SKU_MOVAVG_COMPONENT_SOURCE_CONTRACT_PASS','tables':len(expected_tables),

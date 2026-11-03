@@ -10,7 +10,7 @@ from psycopg import sql
 from psycopg.pq import TransactionStatus
 from cp7_laundry_unknown_wash.composition import as_owner
 import cp7_sku_pair_conversion.composition as sku_parent
-from . import private_delta,consumer_delta,reader_delta,catalog_additions
+from . import private_delta,consumer_delta,reader_delta,catalog_additions,reader_access
 
 HERE=Path(__file__).resolve().parent
 ROOT=HERE.parents[1]
@@ -73,7 +73,7 @@ def parent():return sku_parent
 def runtime():return parent().runtime()
 
 def sources():
-    names=('README.md','COMPONENT_LEDGER_DESIGN.md','component_oracle.py','valuation.sql','private_delta.py','consumer_delta.py','reader_delta.py','qualification_cases.py','composition.py','catalog_additions.py','CATALOG_ADDITIONS.json','test_component_contract.py','test_private_delta.py','test_consumer_delta.py','test_reader_delta.py','test_qualification_cases.py')
+    names=('README.md','COMPONENT_LEDGER_DESIGN.md','component_oracle.py','valuation.sql','private_delta.py','consumer_delta.py','reader_delta.py','reader_access.py','qualification_cases.py','composition.py','catalog_additions.py','CATALOG_ADDITIONS.json','test_component_contract.py','test_private_delta.py','test_consumer_delta.py','test_reader_delta.py','test_reader_capability.mjs','test_qualification_cases.py')
     return dict(contract=CONTRACT,predecessor=parent().sources(),
         files={str((HERE/n).relative_to(ROOT)):sha256((HERE/n).read_bytes()).hexdigest()for n in names},
         physical_FIFO_preserved=True,economic_valuation='SKU_LOCATION_GRADE_MOVING_AVERAGE',
@@ -87,6 +87,8 @@ def binding(catalog,prior,proof):
 def transition(before,after,definitions):
     additions=catalog_additions.expected()
     if set(before)!=set(after)or set(before)!=set(additions):raise ValueError('SKU_MOVAVG_ALL22_REQUIRED')
+    if not reader_access.schema_transition(before['schemas'].get(SCHEMA),after['schemas'].get(SCHEMA)):
+        raise ValueError('SKU_MOVAVG_READER_SCHEMA_ACCESS_CHANGED')
     if set(additions['functions'])!=set(FUNCTIONS):raise ValueError('SKU_MOVAVG_FUNCTION_SET_CHANGED')
     if {key for key,row in additions['relations'].items()if row[1]=='r'}!=set(TABLES):
         raise ValueError('SKU_MOVAVG_TABLE_SET_CHANGED')
@@ -97,6 +99,7 @@ def transition(before,after,definitions):
         for key in set(before[group])|set(after[group]):
             old,new=before[group].get(key),after[group].get(key)
             if old==new:continue
+            if group=='schemas'and key==reader_access.SCHEMA and reader_access.schema_transition(old,new):continue
             if group=='functions'and key in definitions and old is not None and new is not None and new[0]==definitions[key]and old[1:]==new[1:]:continue
             if old is None and key in additions[group]and new==additions[group][key]:continue
             raise ValueError('SKU_MOVAVG_UNDECLARED_CATALOG_DELTA:'+group+':'+key)
@@ -121,7 +124,8 @@ def verify(cur,state):
             if cur.execute("select has_table_privilege(%s,%s,'SELECT,INSERT,UPDATE,DELETE,TRUNCATE,REFERENCES,TRIGGER')",(role,table)).fetchone()[0]:
                 raise ValueError('SKU_MOVAVG_TABLE_EXPOSED:'+role+':'+table)
         for sig in FUNCTIONS:
-            if cur.execute("select has_function_privilege(%s,%s,'EXECUTE')",(role,sig)).fetchone()[0]:
+            actual=cur.execute("select has_function_privilege(%s,%s,'EXECUTE')",(role,sig)).fetchone()[0]
+            if actual is not reader_access.may_execute(role,sig):
                 raise ValueError('SKU_MOVAVG_FUNCTION_EXPOSED:'+role+':'+sig)
     for table in TABLES:
         owner,rls=cur.execute('select pg_get_userbyid(relowner),relrowsecurity from pg_class where oid=%s::regclass',(table,)).fetchone()
@@ -150,6 +154,7 @@ def install_delta(cur,prior):
             for sig in FUNCTIONS:
                 cur.execute('alter function '+sig+' owner to postgres')
                 cur.execute('revoke all on function '+sig+' from public,anon,authenticated,service_role')
+            reader_access.grant(cur)
             for signature,definition in definitions.items():
                 if signature in READER_OWNERS:
                     with reader_function_ddl(cur,signature):cur.execute(definition,prepare=False)
@@ -176,6 +181,7 @@ def rollback_delta_preuse(cur,state):
             cur.execute('drop trigger sku_component_return_reverse_v2 on erp.sales_returns')
             cur.execute('drop trigger sku_component_sale_reverse_v2 on erp.sales_headers')
             for sig in reversed(FUNCTIONS):cur.execute('drop function '+sig)
+            reader_access.revoke_schema(cur)
             for table in reversed(TABLES):cur.execute('drop table '+table+' cascade')
         if catalog._catalog_rows(cur)!=state['before']or catalog._data(cur)!=state['before_data']:
             raise ValueError('SKU_MOVAVG_PREDECESSOR_NOT_RESTORED')

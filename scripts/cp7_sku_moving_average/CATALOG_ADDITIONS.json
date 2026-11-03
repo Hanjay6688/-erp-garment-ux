@@ -2,8 +2,8 @@
   "contract": "cp7.sku-moving-average-catalogue-additions.v1",
   "classification": "EXPECTED_POSTGRES17_DDL_ONLY_NOT_ERP_QUALIFICATION",
   "valuation_source": {
-    "bytes": 60646,
-    "sha256": "288e5c8a1c170ddd731e669d8ec265821fbb18d0cdf86e54dc5a2027f2939504"
+    "bytes": 61085,
+    "sha256": "ddbe7c1632ebe2f09b5df66229c1d71d96ca5a10eed091e9ef836c261dd40679"
   },
   "catalogue_source_sha256": "a1605193347cf5b3321a7bdbf8ff6c634df4f4c0a5113eb295e8c3ce44428e00",
   "derived_with": {
@@ -22,7 +22,8 @@
       "erp.sales_return_items",
       "erp.sales_returns"
     ],
-    "financial_functions_executed": 0
+    "financial_functions_executed": 0,
+    "reader_capability": "ONLY cp7_fg_read USAGE schema and EXECUTE position_value_v2; no tables or other functions"
   },
   "groups": {
     "columns": {
@@ -4843,7 +4844,7 @@
         ]
       ],
       "cp7_sku_conversion.position_value_v2(uuid,uuid,text,numeric)": [
-        "CREATE OR REPLACE FUNCTION cp7_sku_conversion.position_value_v2(p_product uuid, p_location uuid, p_grade text, p_qty numeric)\n RETURNS jsonb\n LANGUAGE plpgsql\n STABLE SECURITY DEFINER\n SET search_path TO ''\nAS $function$\ndeclare q jsonb;v numeric;\nbegin\n perform erp.require_permission('finance.hpp.view');\n if p_qty<0 then raise exception 'CP7_SKU_POSITION_QTY_NEGATIVE';end if;\n q:=cp7_sku_conversion.pool_quote_v2(p_product,p_location,p_grade);\n if q->>'state'='EMPTY'and p_qty>0 then raise exception 'CP7_SKU_POSITION_VALUE_EMPTY_POOL';end if;\n v:=case when q->>'average'is null then 0 else(q->>'average')::numeric end;\n return jsonb_build_object('state',case when q->>'state'='EMPTY'then'EMPTY'else'KNOWN'end,'unit_cost',case when q->>'state'<>'EMPTY'then v::text end,\n  'value',round(p_qty*v,6)::text,'basis','SKU_LOCATION_GRADE_MOVING_AVERAGE_V2','pool_revision',q->>'revision','reserved_included',true);\nend $function$\n",
+        "CREATE OR REPLACE FUNCTION cp7_sku_conversion.position_value_v2(p_product uuid, p_location uuid, p_grade text, p_qty numeric)\n RETURNS jsonb\n LANGUAGE plpgsql\n STABLE SECURITY DEFINER\n SET search_path TO ''\nAS $function$\ndeclare q jsonb;v numeric;\nbegin\n perform erp.require_permission('finance.hpp.view');\n if p_qty is null or p_qty<0 or p_qty::text in('NaN','Infinity','-Infinity')then raise exception 'CP7_SKU_POSITION_QTY_INVALID';end if;\n begin\n  q:=cp7_sku_conversion.pool_quote_v2(p_product,p_location,p_grade);\n exception when sqlstate 'P0001'then\n  if sqlerrm<>'CP7_SKU_POOL_HPP_UNKNOWN: seluruh komponen ekonomi termasuk reservasi harus diketahui'then raise;end if;\n  q:=jsonb_build_object('state','UNKNOWN');\n end;\n -- A depleted or incomplete pool has no current unit cost. Do not invent\n -- zero, hide unrelated failures, or prevent the physical card from opening.\n v:=case when q->>'state'='KNOWN'then(q->>'average')::numeric end;\n return jsonb_build_object('state',case when v is null then'UNKNOWN'else'KNOWN'end,\n  'hpp_version_id',null,'hpp_version',null,'cost_state',null,'calculated_at',null,\n  'unit_cost',case when v is not null then round(v,6)::text end,\n  'value',case when v is not null then round(p_qty*v,6)::text end,\n  'basis','SKU_LOCATION_GRADE_MOVING_AVERAGE_V2','pool_revision',q->>'revision','reserved_included',true);\nend $function$\n",
         "postgres",
         "plpgsql",
         "f",
@@ -4869,6 +4870,12 @@
         "jsonb",
         "-",
         [
+          [
+            "cp7_fg_read",
+            "postgres",
+            "EXECUTE",
+            false
+          ],
           [
             "postgres",
             "postgres",

@@ -40,19 +40,19 @@ def canonical(cur,today):
     return x
 
 def quote(cur,product,location):
-    f.owner(cur)
+    f.admin(cur)
     value=cur.execute("select cp7_sku_conversion.pool_quote_v2(%s,%s,'GRADE_A')",(product,location)).fetchone()[0]
     f.admin(cur);return value
 
 def components(cur,product,location):
-    f.owner(cur)
+    f.admin(cur)
     rows=cur.execute("select root_lot_id::text,po_id::text,component_units::text,unit_value::text,value::text from cp7_sku_conversion.pool_components_v2(%s,%s,'GRADE_A')order by root_lot_id",(product,location)).fetchall()
     f.admin(cur);return rows
 
 def value(q):return D(q['value'])
 
 def event_balance(cur,source_type,source_id):
-    f.owner(cur)
+    f.admin(cur)
     component_residual=cur.execute("select count(*)from(select product_id,location_id,quality_grade,root_lot_id from cp7_sku_conversion.component_events_v2 where source_type=%s and source_id=%s group by product_id,location_id,quality_grade,root_lot_id having abs(sum(units_delta))>0.000000000001)x",(source_type,source_id)).fetchone()[0]
     valuation_residual=cur.execute("select count(*)from(select product_id,location_id,quality_grade from cp7_sku_conversion.valuation_events_v2 where source_type=%s and source_id=%s group by product_id,location_id,quality_grade having abs(sum(qty_delta))>0.000000000001 or abs(sum(effective_value_delta))>0.001 or abs(sum(legacy_value_delta))>0.001 or abs(sum(adjustment_delta))>0.001)x",(source_type,source_id)).fetchone()[0]
     f.admin(cur);return int(component_residual),int(valuation_residual)
@@ -67,6 +67,34 @@ def forward(cur,x):
     assert (D(target['qty']),value(target),D(target['average']))==(D(2),D(70),D(35)),target
     return result,preview
 
+def normal_fg_readers(cur,x):
+    """Read both current public facades with the original ordinary actor."""
+    found=[];offset=0
+    while True:
+        current=f.public(cur,'erp_cp7_get_fg_v1',json.dumps(dict(purpose='SUMMARY',limit=100,offset=offset)))
+        assert current['financial_captured']is True
+        found.extend(r for r in current['page']['rows']if r['product_id']in(x['source'],x['target'])
+            and r['location_id']==x['location']and r['quality_grade']=='GRADE_A')
+        offset=current['page']['next_offset']
+        if offset is None:break
+        assert offset<=10000,'SKU_FG_FIXTURE_UNEXPECTED_SIZE'
+    checked={}
+    for product,quantity,total,unit in((x['source'],D(4),D(95),D('23.75')),(x['target'],D(1),D(35),D(35))):
+        rows=[r for r in found if r['product_id']==product];assert rows
+        assert sum(D(r['physical_qty'])for r in rows)==quantity
+        assert sum(D(r['valuation']['value'])for r in rows)==total
+        for row in rows:
+            value=row['valuation'];assert value['state']=='KNOWN'and value['basis']=='SKU_LOCATION_GRADE_MOVING_AVERAGE_V2'
+            assert D(value['unit_cost'])==unit and value['reserved_included']is True
+        row=rows[0]
+        card=f.public(cur,'erp_cp7_get_fg_ledger_v2',json.dumps({k:row[k]for k in('product_id','lot_id','location_id','quality_grade')}))
+        assert card['financial_captured']is True and card['page']['rows']
+        for movement in card['page']['rows']:
+            assert movement['valuation']['basis']=='CURRENT_RESTATED_SKU_POOL_MOVEMENT_SNAPSHOT'
+            assert movement['valuation']['state']=='KNOWN'and D(movement['valuation']['unit_cost'])==unit
+        checked[product]=dict(physical_qty=str(quantity),value=str(total),unit_cost=str(unit),public_card_rows=len(card['page']['rows']))
+    return dict(status='PASS',ordinary_public_RPC=True,rows=checked,real_Auth_or_browser_credit=0)
+
 def canonical_forward_back(cur,today):
     x=canonical(cur,today);made,first=forward(cur,x)
     back=f.payload(x,1,source=x['target'],target=x['source'],at=x['back_at'])
@@ -77,14 +105,16 @@ def canonical_forward_back(cur,today):
     assert (D(source['qty']),value(source))==(D(4),D(95)),source
     assert (D(target['qty']),value(target))==(D(1),D(35)),target
     assert value(source)+value(target)==D(130)
-    f.owner(cur)
+    f.admin(cur)
     invalid=cur.execute("select count(*)from(select source_id,side,sum(units_delta)units from cp7_sku_conversion.component_events_v2 where source_type='SKU_CONVERSION'group by source_id,side having abs(sum(units_delta))>0.000000000001)x").fetchone()[0]
     wrong_accounts=cur.execute("select count(*)from erp.journal_lines l join erp.journal_entries j on j.id=l.journal_entry_id where j.source_type='SKU_MOVING_AVERAGE'and j.source_id in(%s,%s)and l.account_id<>erp.account_id('FG_INVENTORY')",(made['conversion_id'],result['conversion_id'])).fetchone()[0]
     f.admin(cur);assert invalid==0 and wrong_accounts==0
+    readers=normal_fg_readers(cur,x)
     return dict(status='PASS',forward_group=made['conversion_id'],manual_back_group=result['conversion_id'],
       forward_value='20.00',manual_back_value='35.00',final_source_value='95.00',final_target_value='35.00',
       total_value='130.00',physical_FIFO_preserved=True,component_pool_quantity_conserved=True,
-      correction_accounts=['FG_INVENTORY'],cash_AR_AP_revenue_COGS_created=False)
+      correction_accounts=['FG_INVENTORY'],cash_AR_AP_revenue_COGS_created=False,
+      actual_normal_FG_readers=readers)
 
 def exact_group_reverse(cur,today):
     x=canonical(cur,today);made,_=forward(cur,x)
@@ -92,7 +122,7 @@ def exact_group_reverse(cur,today):
     source=quote(cur,x['source'],x['location']);target=quote(cur,x['target'],x['location'])
     assert (D(source['qty']),value(source))==(D(4),D(80)),source
     assert (D(target['qty']),value(target))==(D(1),D(50)),target
-    f.owner(cur)
+    f.admin(cur)
     residual=cur.execute("select count(*)from(select side,root_lot_id,sum(units_delta)units from cp7_sku_conversion.component_events_v2 where group_id=%s group by side,root_lot_id having abs(sum(units_delta))>0.000000000001)x",(made['conversion_id'],)).fetchone()[0]
     value_residual=cur.execute("select coalesce(sum(effective_value_delta),0),coalesce(sum(adjustment_delta),0)from cp7_sku_conversion.valuation_events_v2 where group_id=%s",(made['conversion_id'],)).fetchone()
     f.admin(cur);assert residual==0 and tuple(map(D,value_residual))==(D(0),D(0))
@@ -102,7 +132,7 @@ def exact_group_reverse(cur,today):
 def root_recost(cur,today):
     x=canonical(cur,today);made,_=forward(cur,x)
     before=(components(cur,x['source'],x['location']),components(cur,x['target'],x['location']))
-    f.owner(cur);event_count=cur.execute('select count(*)from cp7_sku_conversion.component_events_v2').fetchone()[0];f.admin(cur)
+    f.admin(cur);event_count=cur.execute('select count(*)from cp7_sku_conversion.component_events_v2').fetchone()[0];f.admin(cur)
     correction=f.b.internal(cur,'post_opening_hpp_correction',x['lots'][1],D('40.00'),
       'Moving-average actual root recost lineage',today)
     f.admin(cur)
@@ -112,7 +142,7 @@ def root_recost(cur,today):
     assert value(source)+value(target)==D(150)
     after=(components(cur,x['source'],x['location']),components(cur,x['target'],x['location']))
     assert before!=after
-    f.owner(cur);assert cur.execute('select count(*)from cp7_sku_conversion.component_events_v2').fetchone()[0]==event_count;f.admin(cur)
+    f.admin(cur);assert cur.execute('select count(*)from cp7_sku_conversion.component_events_v2').fetchone()[0]==event_count;f.admin(cur)
     return dict(status='PASS',group_id=made['conversion_id'],correction_id=str(correction),source_value='75.00',
       target_value='75.00',total_value='150.00',root_recost_followed_remaining_lineage=True,
       append_only_component_events_unchanged=True)
@@ -125,7 +155,7 @@ def sale_partial_return_reverse(cur,today):
     post_payload,post_version=sales_cmd.review(cur,sf)
     posted=sales_cmd.command(cur,'POST',post_payload,post_version)
     assert posted['status']=='POSTED',posted
-    f.owner(cur)
+    f.admin(cur)
     sale_totals=cur.execute("select count(*),sum(qty_pcs)::text,sum(effective_value)::text,sum(legacy_value)::text from cp7_sku_conversion.sale_allocation_values_v2 where sale_id=%s",(sale,)).fetchone()
     sold_components=cur.execute("select sum(c.component_units)::text,sum(c.booked_value)::text from cp7_sku_conversion.sale_allocation_components_v2 c join cp7_sku_conversion.sale_allocation_values_v2 v using(sale_stock_allocation_id)where v.sale_id=%s",(sale,)).fetchone()
     f.admin(cur)
@@ -142,7 +172,7 @@ def sale_partial_return_reverse(cur,today):
     return_payload,return_version=sales_returns.payload(cur,sf,qty='1',refund='185000',destination=x['location'])
     returned=sales_cmd.command(cur,'RETURN',return_payload,return_version)
     return_id=returned['return_id']
-    f.owner(cur)
+    f.admin(cur)
     return_totals=cur.execute("select sum(qty_pcs)::text,sum(effective_value)::text from cp7_sku_conversion.sales_return_values_v2 where return_id=%s",(return_id,)).fetchone()
     remaining=cur.execute("with sold as(select c.root_lot_id,sum(c.component_units)units,sum(c.booked_value)value from cp7_sku_conversion.sale_allocation_components_v2 c join cp7_sku_conversion.sale_allocation_values_v2 v using(sale_stock_allocation_id)where v.sale_id=%s group by c.root_lot_id),returned as(select c.root_lot_id,sum(c.component_units)units,sum(c.booked_value)value from cp7_sku_conversion.sales_return_components_v2 c join cp7_sku_conversion.sales_return_values_v2 v using(sales_return_item_id)join erp.sales_returns h on h.id=v.return_id where v.sale_stock_allocation_id in(select sale_stock_allocation_id from cp7_sku_conversion.sale_allocation_values_v2 where sale_id=%s)and h.status='POSTED'group by c.root_lot_id)select coalesce(sum(s.units-coalesce(r.units,0)),0)::text,coalesce(sum(s.value-coalesce(r.value,0)),0)::text from sold s left join returned r using(root_lot_id)",(sale,sale)).fetchone()
     f.admin(cur)
@@ -194,7 +224,7 @@ def reservation_location_isolation(cur,today):
     ordinary=dict(sale=ordinary_sale,tag='',destination=other_location)
     post_payload,post_version=sales_cmd.review(cur,ordinary)
     posted=sales_cmd.command(cur,'POST',post_payload,post_version);assert posted['status']=='POSTED',posted
-    f.owner(cur)
+    f.admin(cur)
     component_posts=cur.execute("select count(*)from cp7_sku_conversion.component_events_v2 where source_type='SALE'and source_id=%s and phase='POST'",(ordinary_sale,)).fetchone()[0]
     value_posts=cur.execute("select count(*)from cp7_sku_conversion.valuation_events_v2 where source_type='SALE'and source_id=%s and phase='POST'",(ordinary_sale,)).fetchone()[0]
     f.admin(cur);assert component_posts==0 and value_posts==1,(component_posts,value_posts)

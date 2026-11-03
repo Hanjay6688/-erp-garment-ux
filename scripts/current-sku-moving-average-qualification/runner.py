@@ -45,7 +45,17 @@ def exercise(conn,cur,database,url,report,state):
         require_local(connection,cursor)
         if not cursor.execute('select count(*)from erp.app_users').fetchone()[0]:business.f.b.api.seed(cursor)
         today=cursor.execute("select(statement_timestamp()at time zone'Asia/Jakarta')::date").fetchone()[0]
-        fixture=business.canonical(cursor,today);business.forward(cursor,fixture);connection.commit()
+        # The unchanged Native owner helper introspects erp.current_app_role.
+        # Its temporary qualification-only usage never reaches committed copies.
+        had_usage=cursor.execute("select has_schema_privilege('authenticated','erp','USAGE')").fetchone()[0]
+        if not had_usage:cursor.execute('grant usage on schema erp to authenticated')
+        try:
+            fixture=business.canonical(cursor,today);business.forward(cursor,fixture)
+        finally:
+            if connection.info.transaction_status!=psycopg.pq.TransactionStatus.INERROR:
+                business.f.admin(cursor)
+                if not had_usage:cursor.execute('revoke usage on schema erp from authenticated')
+        product.verify(cursor,state);connection.commit()
         with control.product_catalog(cursor):
             _,_,_,_,catalog=product.runtime();before=catalog._catalog_rows(cursor);data=catalog._data(cursor)
             try:product.rollback_delta_preuse(cursor,state)
