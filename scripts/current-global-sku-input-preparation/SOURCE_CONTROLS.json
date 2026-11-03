@@ -1,0 +1,69 @@
+{
+  "status": "GLOBAL_SKU_NEW_SOURCE_PREREQUISITES_PASS_NOT_RUNTIME",
+  "SKU_head": "d31245e1e981f28fe07d3d5cfc7904471733439c",
+  "SKU_tree": "d782b4483899c120cd5c472fcb42fc87a0ef0668",
+  "controls": [
+    {
+      "label": "Complete source-derived nineteen rows and exact view match; no final-parent admission",
+      "result": "PASS"
+    },
+    {
+      "label": "Old SKU authority is not accepted as current",
+      "result": "REFUSED_AS_REQUIRED"
+    },
+    {
+      "label": "Changed owner",
+      "result": "REFUSED_AS_REQUIRED"
+    },
+    {
+      "label": "Changed SECURITY DEFINER",
+      "result": "REFUSED_AS_REQUIRED"
+    },
+    {
+      "label": "Changed raw ACL",
+      "result": "REFUSED_AS_REQUIRED"
+    },
+    {
+      "label": "Changed function configuration",
+      "result": "REFUSED_AS_REQUIRED"
+    },
+    {
+      "label": "Missing authority function",
+      "result": "REFUSED_AS_REQUIRED"
+    },
+    {
+      "label": "Changed current HPP view owner",
+      "result": "REFUSED_AS_REQUIRED"
+    },
+    {
+      "label": "Twenty-two names must be the actual original groups",
+      "result": "REFUSED_AS_REQUIRED"
+    }
+  ],
+  "parsed_statements": {
+    "authority": 3,
+    "scope": 3,
+    "capture": 3,
+    "inspect": 3
+  },
+  "readonly_helpers": 4,
+  "reversible_source_routes": 5,
+  "unchanged_Mandor_Native_adapters": 13,
+  "overlap_with_Global_reference_or_owning_functions": [],
+  "column_tables": 44,
+  "column_count": 463,
+  "column_original": {
+    "bytes": 30376182,
+    "sha256": "5e22077e71e34add6fd0627c89e9d21a2235f463818e45b233c7619bcfb0d48f"
+  },
+  "new_SKU_column_source": {
+    "bytes": 61085,
+    "sha256": "ddbe7c1632ebe2f09b5df66229c1d71d96ca5a10eed091e9ef836c261dd40679"
+  },
+  "actual_Native_cases": 0,
+  "actual_Auth_HTTP_cases": 0,
+  "actual_browser_cases": 0,
+  "parent_gate_opened": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

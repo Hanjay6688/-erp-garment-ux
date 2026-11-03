@@ -1,0 +1,126 @@
+{
+  "status": "MODELED_POSTGRES17_GLOBAL_SKU_GRAPH_CAPTURE_PASS_NOT_NATIVE",
+  "engine": "PostgreSQL 17.5 on aarch64-unknown-linux-gnu, compiled by emcc (Emscripten gcc/clang-like replacement + linker emulating GNU ld) 3.1.74 (1092ec30a3fb1d46b1782ff1b4db5094d3d06ae5), 32-bit",
+  "results": [
+    {
+      "label": "Four exact derived helpers compile against 44 model relations with all 463 declared column types",
+      "result": "PASS"
+    },
+    {
+      "label": "Complete relevant and outside closures are disjoint and cover support",
+      "result": "PASS"
+    },
+    {
+      "label": "Sharing a location creates no identity hub between disconnected pools",
+      "result": "PASS"
+    },
+    {
+      "label": "Historical reversal and superseded economic identities remain visible",
+      "result": "PASS"
+    },
+    {
+      "label": "All twelve new observations preserve every declared column and exact relevant/outside membership",
+      "result": "PASS"
+    },
+    {
+      "label": "Economic change detected in valuation_quotes_v2 that original capture omitted",
+      "result": "PASS"
+    },
+    {
+      "label": "Economic change detected in valuation_contributors_v2 that original capture omitted",
+      "result": "PASS"
+    },
+    {
+      "label": "Economic change detected in valuation_postings_v2 that original capture omitted",
+      "result": "PASS"
+    },
+    {
+      "label": "Economic change detected in valuation_attributions_v2 that original capture omitted",
+      "result": "PASS"
+    },
+    {
+      "label": "Economic change detected in sale_allocation_values_v2 that original capture omitted",
+      "result": "PASS"
+    },
+    {
+      "label": "Economic change detected in sale_allocation_attributions_v2 that original capture omitted",
+      "result": "PASS"
+    },
+    {
+      "label": "Economic change detected in sale_allocation_components_v2 that original capture omitted",
+      "result": "PASS"
+    },
+    {
+      "label": "Economic change detected in sales_return_values_v2 that original capture omitted",
+      "result": "PASS"
+    },
+    {
+      "label": "Economic change detected in sales_return_attributions_v2 that original capture omitted",
+      "result": "PASS"
+    },
+    {
+      "label": "Economic change detected in sales_return_components_v2 that original capture omitted",
+      "result": "PASS"
+    },
+    {
+      "label": "Economic change detected in valuation_events_v2 that original capture omitted",
+      "result": "PASS"
+    },
+    {
+      "label": "Economic change detected in component_events_v2 that original capture omitted",
+      "result": "PASS"
+    },
+    {
+      "label": "A historical economic predecessor expands the finite support closure",
+      "result": "PASS"
+    },
+    {
+      "label": "Full rowset observation preserves multiplicity instead of silently deduplicating",
+      "result": "PASS"
+    },
+    {
+      "label": "anon has no execution capability on any prepared graph helper",
+      "result": "PASS"
+    },
+    {
+      "label": "authenticated has no execution capability on any prepared graph helper",
+      "result": "PASS"
+    },
+    {
+      "label": "service_role has no execution capability on any prepared graph helper",
+      "result": "PASS"
+    }
+  ],
+  "source_helpers": {
+    "authority": {
+      "bytes": 65425,
+      "sha256": "652beb1808a4390b10d07f4504edf989d542498532e05bc41513009b8a0ef169"
+    },
+    "capture": {
+      "bytes": 12138,
+      "sha256": "373bda66b163283290147e5687939d721ab9303742da789ff0238334b7f40806"
+    },
+    "inspect": {
+      "bytes": 9510,
+      "sha256": "8f9461ce31e9973969040ae16029241253eb2ce1e0fde9ebba160db32b6cd782"
+    },
+    "scope": {
+      "bytes": 14450,
+      "sha256": "2d6086fa37c74f06ec735491fc5948a9bfd3ba5088626e12a6c84ccec4caacf0"
+    }
+  },
+  "modeled_callbacks": [
+    "cp7_credit.consumer_dependency_graph_v1",
+    "cp7_credit.source_hpp_lot_ids_v1",
+    "cp7_credit.initial_hpp_account_facts_v1",
+    "cp7_credit.pg_jsonb_sha256"
+  ],
+  "row_constraints_owners_RLS_Native_callbacks_and_business_transactions_are_not_tested": true,
+  "new_SKU_rowset_observations": 12,
+  "economic_mutation_regressions": 12,
+  "actual_Native_cases": 0,
+  "actual_Auth_HTTP_cases": 0,
+  "actual_browser_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

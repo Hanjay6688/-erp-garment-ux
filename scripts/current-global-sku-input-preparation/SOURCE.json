@@ -1,0 +1,69 @@
+{
+  "contract": "cp7.global-sku-closed-source-preparation.v1",
+  "base": {
+    "head": "c19211eede0a2ccbf7f9abfb97214ffcb39ceba1",
+    "tree": "b0ae193ff03c4d62800e178672b4a5dc9326b983"
+  },
+  "SKU_head": "d31245e1e981f28fe07d3d5cfc7904471733439c",
+  "SKU_tree": "d782b4483899c120cd5c472fcb42fc87a0ef0668",
+  "derived_helpers": {
+    "authority": {
+      "bytes": 65425,
+      "sha256": "652beb1808a4390b10d07f4504edf989d542498532e05bc41513009b8a0ef169"
+    },
+    "scope": {
+      "bytes": 14450,
+      "sha256": "2d6086fa37c74f06ec735491fc5948a9bfd3ba5088626e12a6c84ccec4caacf0"
+    },
+    "capture": {
+      "bytes": 12138,
+      "sha256": "373bda66b163283290147e5687939d721ab9303742da789ff0238334b7f40806"
+    },
+    "inspect": {
+      "bytes": 9510,
+      "sha256": "8f9461ce31e9973969040ae16029241253eb2ce1e0fde9ebba160db32b6cd782"
+    }
+  },
+  "files": {
+    "scripts/current-global-sku-input-preparation/MODEL_CONTROLS.json": {
+      "bytes": 4300,
+      "sha256": "025a7dc26a40945ec45e17b2e77264a0096065332a14d46389833f0737ce7f5b"
+    },
+    "scripts/current-global-sku-input-preparation/README.md": {
+      "bytes": 2734,
+      "sha256": "883e14f7c034c6cc7ee50cf6d60e6f254980693fa05f3f1d59a1ec2360ce6c92"
+    },
+    "scripts/current-global-sku-input-preparation/SKU_CONSUMER_REFERENCE.json": {
+      "bytes": 75733,
+      "sha256": "4663134d65051ea7648614c3c289ce27b5b668e8c413b8333ec7bfded22807c7"
+    },
+    "scripts/current-global-sku-input-preparation/SOURCE_CONTROLS.json": {
+      "bytes": 1893,
+      "sha256": "fc14cee5b0f1a8bafffea3f15d688639ecef6a8a20de25eeecef874cb81c4c4b"
+    },
+    "scripts/current-global-sku-input-preparation/check_source.py": {
+      "bytes": 3466,
+      "sha256": "2875a2ad7ef8b27ee6b70a5638734d4c5b9fd52179c19976fcba6d4d4112a3b6"
+    },
+    "scripts/current-global-sku-input-preparation/preflight.py": {
+      "bytes": 8050,
+      "sha256": "fcadddad7be51ddc399559d497045e5bc5504e5e1bdb1f8fde09f3c18d5bbdee"
+    },
+    "scripts/current-global-sku-input-preparation/routes.py": {
+      "bytes": 8494,
+      "sha256": "ad48076f7099d8b3b77a64b717776297c3cd660e64fbad8e799cad0f49d16525"
+    },
+    "scripts/current-global-sku-input-preparation/sku_edges.sql": {
+      "bytes": 4158,
+      "sha256": "a1512418a32435029a7be420368d10b6df46215545abc66eabc3ef0c5bd5ba7d"
+    },
+    "scripts/current-global-sku-input-preparation/test_graph_model.mjs": {
+      "bytes": 11879,
+      "sha256": "edee5c69a484dbf45f957898ede865a308fc8d2e88f915a14627272a2ca1bf11"
+    }
+  },
+  "runtime_entry": null,
+  "actual_Native_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}
