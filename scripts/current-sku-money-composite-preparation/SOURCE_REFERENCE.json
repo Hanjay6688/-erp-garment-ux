@@ -1,0 +1,75 @@
+{
+  "actual_ERP_cases": 0,
+  "candidate_head": "f1674ae84739f577571d68415beabfca3f3b832b",
+  "candidate_qualification_role": "UNQUALIFIED_CHILD_TO_BE_TESTED_IN_COMBINED_NATIVE19",
+  "candidate_tree": "ea43f84029993b385722fe8e202adefd2a745f7b",
+  "classification": "PREPARED_SOURCE_REFERENCE_NOT_ACTUAL_PARENT",
+  "files": {
+    "scripts/cp7_sku_cost_components/SOURCE.json": {
+      "bytes": 11937,
+      "sha256": "3abdd3fadbc0dcb873461dab4354baada7b4452edc8e73534ae4c538e3d72ae6"
+    },
+    "scripts/cp7_sku_cost_components/composition.py": {
+      "bytes": 6718,
+      "sha256": "7ddfc7a3b825d35146a93643b1427be04c29ed49fd5debcbada00a26718868f0"
+    },
+    "scripts/cp7_sku_moving_average/composition.py": {
+      "bytes": 14012,
+      "sha256": "da1f275fa0e91ecbbaa5bcedff65ba0391b162108cc9e91b98a5e2c9f746465f"
+    },
+    "scripts/current-sku-cost-money-qualification/CONFIG.json": {
+      "bytes": 14114,
+      "sha256": "f44fd2143b0b74435e6e16ad6677950bba4daab4ef03e1c60716299c116fd2fd"
+    },
+    "scripts/current-sku-cost-money-qualification/fetch_moving_parent.py": {
+      "bytes": 1638,
+      "sha256": "86d37cb94a989027c963c70a9ca02fa3cbbce51c27aff47b374f7641654fa6b6"
+    },
+    "scripts/current-sku-cost-money-qualification/native_preflight.py": {
+      "bytes": 8157,
+      "sha256": "eb15f3a0471370cc003ba5677233bdd0bf731e84ac59f4e11e5833a8929a0f77"
+    },
+    "scripts/current-sku-cost-money-qualification/runner.py": {
+      "bytes": 6118,
+      "sha256": "91c92eb8dd535e98f9b16a8c6dd57d7285abe56d277b77639511a71c79e86d3a"
+    },
+    "scripts/current-sku-moving-average-qualification/fetch_parent.py": {
+      "bytes": 1794,
+      "sha256": "408f92319a71c3add8be16d72fac7141cc328766f708c87c69df677c51e20a9f"
+    },
+    "scripts/current-sku-recovery-material-lock/runtime_source.py": {
+      "bytes": 5176,
+      "sha256": "1439d70810383db377c48e043df7fb6d487a1b2f1a995e8993a2c08590f9f797"
+    },
+    "scripts/current-vendor-receivable-qualification/probe.py": {
+      "bytes": 12667,
+      "sha256": "c420d894f8d5f16bddefeae73addb621507170f372a28e7d6e33d88c7eeb0be9"
+    }
+  },
+  "moving_deriver": {
+    "bytes": 2693,
+    "sha256": "86c42eb2caa7171cb94bdbd6c6e8e6680cab5faeaf27df99720c81426edf529f"
+  },
+  "native_case_ids": [
+    "SKU_MOVAVG_CANONICAL_FORWARD20_MANUAL_BACK35_TOTAL130",
+    "SKU_MOVAVG_EXACT_GROUP_REVERSE_COMPONENT_AND_VALUE_INVERSE",
+    "SKU_MOVAVG_ROOT_RECOST_FOLLOWS_REMAINING_LINEAGE_TOTAL150",
+    "SKU_MOVAVG_SALE_PARTIAL_RETURN_AND_EXACT_REVERSAL",
+    "SKU_MOVAVG_RESERVATION_INCLUDED_AND_LOCATION_ISOLATED",
+    "SKU_MOVAVG_FRACTIONAL_RETURNS_INTERLEAVE_RECOST_AND_EARLIER_INVERSE",
+    "SKU_MONEY_NATIVE_LEGACY_PHYSICAL_OPENING_LATE_INVOICE_CURRENT_INVERSE",
+    "SKU_MONEY_NATIVE_LEGACY_PHYSICAL_CONVERTED_LATE_INVOICE_CURRENT_INVERSE",
+    "SKU_MONEY_NATIVE_SOLD_LATE_INVOICE_PARTIAL_RETURN_AND_BOTH_INVERSES",
+    "SKU_MONEY_NATIVE_BASE_CENT_BEFORE_OPENING_LOT_TRANSFER",
+    "SKU_MONEY_NATIVE_BASE_CENT_BEFORE_CONVERTED_LOT_TRANSFER",
+    "SKU_MONEY_NATIVE_BASE_CENT_AFTER_CONVERTED_LOT_TRANSFER",
+    "SKU_MONEY_NATIVE_RECOVERY_UNDER_PHYSICAL_FIRST_CHILD_LIMIT",
+    "SKU_MONEY_NATIVE_RECOVERY_EQUAL_PHYSICAL_FIRST_CHILD_LIMIT",
+    "SKU_MONEY_NATIVE_RECOVERY_OVER_PHYSICAL_FIRST_CHILD_LIMIT_REFUSED",
+    "SKU_MONEY_NATIVE_LEGACY_OTHER_LOT_STALE_RETURNS_REPLAY_INVERSE",
+    "SKU_MONEY_NATIVE_TWO_CHILD_CURRENT_REVISION_POST_COST_AND_INVERSE",
+    "SKU_MONEY_NATIVE_SIGNED_RECOVERY_BEFORE_OPENING_LOT_THEN_NATIVE_ZERO",
+    "SKU_MONEY_NATIVE_SIGNED_RECOVERY_BEFORE_CONVERTED_LOT_THEN_NATIVE_ZERO"
+  ],
+  "production_go": false
+}

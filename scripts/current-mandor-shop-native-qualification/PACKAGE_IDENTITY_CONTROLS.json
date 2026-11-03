@@ -1,0 +1,38 @@
+{
+  "status": "OWNING_PACKAGE_IDENTITY_LOCAL_GIT_CONTROLS_PASS_NOT_ERP",
+  "tests_run": 4,
+  "result": "PASS",
+  "first_execution": false,
+  "cached_inherited_recorder_head_mismatch_reproduced": true,
+  "unchanged_recorder_pin": {
+    "bytes": 1869,
+    "sha256": "4876539c2ed0cffc674522f2a24ae73f2f52253f434bf949a53a3744018f2279"
+  },
+  "owning_HEAD_product_ref_and_GitHub_identity_preserved": true,
+  "prior_module_restored_after_success_and_original_error": true,
+  "changed_source_refused_before_package": true,
+  "files": {
+    "scripts/current-mandor-shop-native-qualification/package_identity.py": {
+      "bytes": 1892,
+      "sha256": "cb1731afcf14d0bff21fb66661dcfc3b75427e02cc2cafd501ce49e0c77c03f2"
+    },
+    "scripts/current-mandor-shop-native-qualification/test_package_identity.py": {
+      "bytes": 4249,
+      "sha256": "8b1192492f4956206bcb82ac4b1d3174fb16d0bdf3fe49373b6f5c68fbd95011"
+    },
+    "scripts/current-mandor-shop-native-qualification/qualification.py": {
+      "bytes": 7161,
+      "sha256": "3f4bf0cfccbf650240729e01909dcb39b3e88371e59ee14a3bffc5f05934de0b"
+    }
+  },
+  "actual_Native_cases": 0,
+  "actual_Auth_HTTP_cases": 0,
+  "actual_browser_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false,
+  "revalidated_after_owning_advisor_binding": true,
+  "prior_receipt": {
+    "bytes": 1251,
+    "sha256": "f3bbfde8b7e684e3a95cbcfc88612c206ca529598b8b32c99921ee5582fea2ca"
+  }
+}

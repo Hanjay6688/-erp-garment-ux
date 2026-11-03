@@ -1,0 +1,149 @@
+# Current Afui–Mandor parent with moving valuation and sourced money
+
+The earlier current-parent bridge selects six moving-average cases. The money
+successor adds source cents, sale and return components, late supplier charges,
+signed BC recovery, legacy conversion and exact unused inverses. Keeping that
+successor on its old standalone parent would omit the current Afui and Mandor
+installation. This additive preparation composes both layers with the complete
+current parent and selects all nineteen monetary callbacks.
+
+The reviewed standalone source is
+`f1674ae84739f577571d68415beabfca3f3b832b`, tree
+`ea43f84029993b385722fe8e202adefd2a745f7b`. Its 44 product files and the exact
+nineteen-case runner are unchanged. The current reviewed Mandor candidate `c296fd06167ddd177e1192c1008992e2a1e3d628`,
+tree `fdd36962a7de81482ccca02e6ff96597cfc20081`, is retained byte-for-byte, including
+its complete caller prerequisites and integrated theme/stock reader. The 23
+original moving-preparation files remain exact to their separate immutable
+source tree; they are not a second financial run. No active workflow or database
+connection is introduced.
+
+## Product and owning component
+
+The retained six reversible moving-parent substitutions select the actual
+Mandor assembly. Five reversible money substitutions then select that moving
+layer, distinguish its source contract, bind the complete nested parent state
+and verifier proof, and require the complete parent catalogue before any DDL.
+The seven other money functions, including financial verification and both
+inverses, remain exact. No reduced catalogue or old-parent receipt is made.
+
+The nineteen-case component has five exact routing changes: the injected
+product, frozen business/preflight/prefix files, and its separate output label.
+Every business assertion, actor/permission/date/source preflight, sequence
+prefix, full census and committed used refusal remains unchanged. All new
+Originals belong to this candidate. Existing accepted output is not rewritten.
+
+The whole-package source reuses the retained current-parent derivation and
+changes two labels. Its installation goes through the current Mandor and moving
+parent before the money delta. The trusted installation transaction, complete
+unused inverse/reinstall, used refusal, full outer backup restore, raw public
+state, all rows/sequences/roles, advisors and all five gates remain intact.
+Only new nineteen-case results may be counted as fresh. No previous Mandor,
+Auth, browser or concurrency cases are added to that count.
+
+## Closed actual admission
+
+All ten gates in `admission.py` remain `None`. The product and component loaders
+refuse before inspecting receipts, modules, files, Git or ERP when any gate is
+missing. Future adoption requires actual Root-accepted current Mandor17/all-five,
+the complete source-only money preflight, exact source graph and assembly pins,
+frozen head/tree identities, and one owning runtime entry. The money source
+preflight must explicitly report zero financial cases and an unqualified money
+candidate. It cannot claim a completed nineteen-case run or package acceptance.
+
+The source reference is preparation evidence, not an accepted child. The real
+Mandor parent must be reconciled against its reviewed terminal package before
+opening the gates. No accepted Root is created by these controls. The complete
+combined owning runtime, canonical artifact
+intake, supervision, final gate and inactive workflow now select this bridge.
+The previous six-case execution path must not be activated for money.
+
+## One financial qualification of the new money child
+
+The new money layer is the subject of the combined qualification, rather than
+an already accepted parent. Requiring standalone money19 first would run the
+same nineteen callbacks again on the current Mandor parent. The direct owning
+path instead requires the accepted Mandor17 parent and the unchanged, already
+accepted Native27/moving6 source foundations, then runs the complete nineteen
+money callbacks on the combined current parent. Their financial assertions,
+restoration, ordinary actors and all five final gates are unchanged.
+
+`SKU_MONEY_PREPARED_SOURCE_INTAKE.json` records a real read-only source admission
+under the original database/network fence. It contains the complete natural
+source graph and exact Native27/moving6 Original pins. It records zero Native,
+ERP, Auth and browser cases; it is not a financial Root receipt. Local and public
+Git commit identities are kept distinct; the source observation binds the exact
+shared tree. The owning workflow additionally requires the exact public frozen
+head and re-executes the full candidate source admission in a separate process
+before opening the database, comparing its entire output byte-for-byte.
+
+The standalone money preparation remains available, but its financial run is
+not a prerequisite of this direct owning path. A successful source preflight
+does not close any financial test. All nineteen fresh cases, complete owning
+restore and the final gate still have to pass in the combined run.
+
+## Complete owning execution path
+
+Eight execution modules are derived from the immutable old current-parent tree.
+Every complete original is recovered by reversing the declared routes. Accepted
+Mandor and candidate money sources stay in separate frozen worktrees. The
+Mandor canonical fetch retains exact terminal run/job/attempt, archive size/SHA,
+CRC and original-path checks. The candidate's original fetchers bind the actual
+Native27 and moving6 archives. Their complete source graphs and package proofs
+are checked before any database. All actual entry points refuse before files,
+Git, network or ERP when the required parent/source gates are incomplete.
+
+The 79-step inactive workflow preserves 67 original setup/rebuild/clone/recovery
+steps and routes the remaining twelve to this owning qualifier. Its actual
+six-hour WIB window, single attempt, 360/330/20/10 budgets and complete artifact
+upload remain unchanged. There is no file under `.github/workflows` for this
+candidate. The runtime scopes CLI arguments away from retained import-time
+guards and restores the caller's original argument object and contents.
+
+The final gate requires nineteen fresh cases, every native boundary restored,
+no leaked sessions/locks, unused inverse, committed used refusal, fully reaped
+worker, exact owning identity, complete source graph, original backup restore
+and all five package gates. It also reads the full prerequisite Original and
+requires it to equal the component's reported prerequisite document. All 23
+functions, 19 direct actor capabilities, permissions, ordinary authenticated
+database roles, eight account mappings, master/warehouse/PCS and actual date
+window must be present and valid. Source-only or modeled output earns no credit.
+
+Local controls exercise these routes with real temporary Git worktrees,
+full binary file retention and explicit archive/packet interface models. Their
+negative cases reject changed originals, privileged actors, missing/false
+capabilities, forged counts, false restore gates and unreaped processes. These
+controls execute no actual financial callback or network request.
+
+## What the controls prove
+
+The nine source/interface controls cover exact inverse derivations, unchanged
+financial and restore functions, complete nested Afui/Mandor state binding,
+catalogue refusal before DDL, closed/partial gates and obsolete evidence refusal.
+The full module-context control imports the real frozen product, both derived
+layers, all nineteen callbacks, their real preflight, and the complete package.
+It uses explicitly modeled admission and current-parent source interfaces under
+the original database/network fence. Original modules are never patched in
+place. The caller's working directory, argument list and declared gates are
+restored afterward.
+
+These are source and import-context controls only. They execute no financial
+transaction, permission check in PostgreSQL, Auth request, browser or recovery.
+Actual combined Native19, current permissions/concurrency, real Auth/browser,
+full restoration, final UI/Global integration and independent review remain
+required. Production stays closed.
+
+## Current Mandor and UI preparation, 4 November 2026
+
+All current Mandor source files are exact to the candidate above. Its 656 src
+files and unchanged build inputs retain the successful 175-case DOM check and
+regular build; these are reused by exact identity, not counted as new tests.
+The money preparation still uses its original eight reversible execution routes
+and unchanged nineteen monetary callbacks. Its own source fence checks the
+current parent and the retained moving namespace separately. The historical
+unified/Mandor source fences apply inside the separate frozen Mandor worktree,
+not over a root with these 51 additional preparation files.
+
+This preparation base is not a Mandor17 Root receipt. Actual parent/source gates
+stay unset, and all new money, real Auth/concurrency and full recovery results
+remain required. The separately reproduced automatic rework/redye pending-cost
+counterexample remains open and is not covered by these nineteen cases.

@@ -1,0 +1,97 @@
+{
+  "account_mappings": [
+    "MATERIAL_INVENTORY",
+    "FG_INVENTORY",
+    "COGS",
+    "WIP",
+    "OTHER_INCOME",
+    "OTHER_EXPENSE",
+    "AR_CUSTOMER",
+    "SALES_REVENUE"
+  ],
+  "actor_functions": {
+    "accessory_operator": [
+      "public.erp_get_accessory_service_workspace_v1(jsonb)",
+      "public.erp_save_accessory_service_action_v1(text,jsonb,uuid)",
+      "erp.save_material_purchase_draft_v2(jsonb,uuid,bigint)",
+      "erp.post_material_purchase_v2(uuid,uuid,bigint,text)"
+    ],
+    "conversion_and_owner_native": [
+      "public.erp_get_product_conversion_workspace_v1(jsonb)",
+      "public.erp_save_product_conversion_action_v1(text,jsonb,uuid)",
+      "public.erp_save_sku_action_v1(text,jsonb,uuid)",
+      "public.erp_cp7_get_fg_v1(jsonb)",
+      "public.erp_cp7_get_fg_ledger_v2(jsonb)",
+      "erp.post_opening_balance(uuid)",
+      "erp.save_sale_draft_v2(jsonb,uuid,bigint)",
+      "erp.cancel_sale_draft_v2(uuid,text,uuid,bigint)",
+      "erp.post_opening_hpp_correction(uuid,numeric,text,date)",
+      "erp.save_material_supplier_invoice_draft_v2(jsonb,uuid,bigint)",
+      "erp.post_material_supplier_invoice_v2(uuid,uuid,bigint,text)",
+      "erp.reverse_material_supplier_invoice_v2(uuid,text,uuid,bigint)"
+    ],
+    "sales_owner": [
+      "public.erp_cp7_get_sales_v1(jsonb)",
+      "public.erp_cp7_get_sales_returns_v1(jsonb)",
+      "public.erp_cp7_save_sale_v1(text,jsonb,uuid,text)"
+    ]
+  },
+  "actual_ERP_cases": 0,
+  "classification": "EXACT_NATIVE19_SOURCE_CONSTANTS_NOT_RUNTIME_ACCEPTANCE",
+  "permissions": {
+    "accessory_operator": [
+      "warehouse.accessory.view",
+      "warehouse.stock.adjust",
+      "finance.hpp.manage"
+    ],
+    "conversion_and_owner_native": [
+      "warehouse.brand_conversion.view",
+      "warehouse.brand_conversion.post",
+      "warehouse.brand_conversion.reverse",
+      "warehouse.stock.adjust",
+      "finance.hpp.view",
+      "finance.hpp.manage"
+    ],
+    "sales_owner": [
+      "finance.ar.view",
+      "sales.invoice.view",
+      "sales.invoice.create",
+      "sales.invoice.post",
+      "sales.invoice.reverse",
+      "sales.return.view",
+      "sales.return.create",
+      "sales.return.post",
+      "sales.return.reverse"
+    ]
+  },
+  "production_go": false,
+  "required_functions": [
+    "cp7_sku_conversion.legacy_source_revision_v4(uuid,uuid,text)",
+    "cp7_sku_conversion.reprice_document_money_v3(uuid,date,jsonb,jsonb,numeric)",
+    "erp.be_post_usage_v1(jsonb,uuid)",
+    "erp.be_source_revision_v1(uuid,uuid)",
+    "erp.cancel_sale_draft_v2(uuid,text,uuid,bigint)",
+    "erp.post_material_purchase_v2(uuid,uuid,bigint,text)",
+    "erp.post_material_supplier_invoice_v2(uuid,uuid,bigint,text)",
+    "erp.post_opening_balance(uuid)",
+    "erp.post_opening_hpp_correction(uuid,numeric,text,date)",
+    "erp.reverse_material_supplier_invoice_v2(uuid,text,uuid,bigint)",
+    "erp.save_material_purchase_draft_v2(jsonb,uuid,bigint)",
+    "erp.save_material_supplier_invoice_draft_v2(jsonb,uuid,bigint)",
+    "erp.save_sale_draft_v2(jsonb,uuid,bigint)",
+    "public.erp_cp7_get_fg_ledger_v2(jsonb)",
+    "public.erp_cp7_get_fg_v1(jsonb)",
+    "public.erp_cp7_get_sales_returns_v1(jsonb)",
+    "public.erp_cp7_get_sales_v1(jsonb)",
+    "public.erp_cp7_save_sale_v1(text,jsonb,uuid,text)",
+    "public.erp_get_accessory_service_workspace_v1(jsonb)",
+    "public.erp_get_product_conversion_workspace_v1(jsonb)",
+    "public.erp_save_accessory_service_action_v1(text,jsonb,uuid)",
+    "public.erp_save_product_conversion_action_v1(text,jsonb,uuid)",
+    "public.erp_save_sku_action_v1(text,jsonb,uuid)"
+  ],
+  "source": {
+    "bytes": 8157,
+    "sha256": "eb15f3a0471370cc003ba5677233bdd0bf731e84ac59f4e11e5833a8929a0f77"
+  }
+}

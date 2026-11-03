@@ -56,3 +56,22 @@ Mandor dan parent gabungan aktual; sensus sumber/input/izin/writer pada parent
 itu; pemasangan dan inverse aktual; D1/E positif, dirty, stale, permission,
 race, Auth, semua lima gate paket, dan pemulihan penuh. Tidak ada production GO
 atau klaim audit independen dari persiapan ini.
+
+## Dasar gabungan terkini, 4 November 2026
+
+Persiapan ini sekarang berada di atas kandidat SKU gabungan `5f099fa6`, tree
+`3fd1bdb763a6d22a5aa455f5aea3a853b9782e4d`. Seluruh 14.665 berkas parent tersebut
+tetap persis, termasuk prasyarat mandor terbaru, tema, pembaca stok dan jalur
+uji 19 transaksi SKU. Sebanyak 23 berkas pengamatan Global sebelumnya tetap
+persis dan diperiksa sebagai namespace sumber tersendiri.
+
+Bukti review historis di atas tetap dipertahankan. Kandidat biaya terkini
+`f1674ae8` mempunyai seluruh 44 berkas produk yang identik dengan `ae480ca4`.
+`CURRENT_SOURCE_IDENTITY.json` mengikat kedua tree, seluruh blob produk, dan
+rujukan kandidat SKU pada parent gabungan. Karena produk persis, 302 fungsi
+yang sudah ditelaah, 40 kontrol model, serta 41 kontrol penolakan tidak dihitung
+sebagai pengujian baru. Prasyarat kualifikasi yang berubah bukan hasil transaksi.
+
+Batas 244 tabel tetap batas bawah; sensus lengkap atas katalog gabungan aktual
+masih wajib. Semua gate, SQL pengamat, callback, installer dan izin tetap seperti
+sebelumnya. Tidak ada pemasangan, transaksi ERP, atau klaim penerimaan baru.

@@ -49,7 +49,7 @@
   .wip-queue-panel > .wip-queue-list::-webkit-scrollbar-thumb {
     border: 2px solid transparent;
     border-radius: 999px;
-    background: rgba(111, 134, 218, .52);
+    background: var(--panel);
     background-clip: padding-box;
   }
 
@@ -104,7 +104,7 @@
 .wip-roll-token-total > em {
   grid-area: pieces;
   margin: 0;
-  color: #e8edf5;
+  color: var(--text);
   font-size: 13px;
   font-style: normal;
   font-weight: 820;
@@ -116,8 +116,8 @@
 .wip-roll-token-total > strong {
   grid-area: yards;
   margin: 0;
-  color: #a9b9b1;
-  font-size: 10.5px;
+  color: var(--text);
+  font-size: 13px;
   font-weight: 720;
   line-height: 1;
   white-space: nowrap;
@@ -125,8 +125,8 @@
 
 .wip-roll-token-total > strong > small {
   margin-left: 2px;
-  color: #7e9188;
-  font-size: 6.5px;
+  color: var(--muted);
+  font-size: 13px;
 }
 
 .wip-roll-token-sizes {
@@ -151,8 +151,8 @@
 
 .wip-roll-token-sizes small {
   grid-area: label;
-  color: #748197;
-  font-size: 5.5px;
+  color: var(--muted);
+  font-size: 13px;
   letter-spacing: .025em;
   white-space: nowrap;
 }
@@ -161,8 +161,8 @@
   grid-area: value;
   justify-self: end;
   margin: 0;
-  color: #d7dee9;
-  font-size: 9px;
+  color: var(--text);
+  font-size: 13px;
   line-height: 1;
 }
 
@@ -174,8 +174,8 @@
 .wip-roll-token-body > .wip-roll-token-code {
   grid-column: 1;
   margin: 0;
-  color: #66748a;
-  font-size: 6px;
+  color: var(--text);
+  font-size: 13px;
   font-weight: 680;
   line-height: 1.2;
   letter-spacing: .02em;
@@ -202,7 +202,7 @@
   height: 23px;
   margin: 0;
   padding: 0 14px 0 2px;
-  font-size: 7.5px;
+  font-size: 13px;
   line-height: 1;
 }
 
@@ -232,7 +232,7 @@
 }
 
 .wip-roll-token-actions .wip-roll-split-btn strong {
-  font-size: 7px;
+  font-size: 13px;
   text-align: left;
 }
 

@@ -12,6 +12,7 @@ HERE=Path(__file__).resolve().parent
 ROOT=HERE.parents[1]
 MAIN='CP7_FG_MANDOR_NATIVE9.json'
 RAW='CP7_FG_MANDOR_NATIVE9_STRICT.json'
+PREREQUISITES='CP7_FG_MANDOR_NATIVE9_STRICT_PREREQUISITES.json'
 CASE='FG_MANDOR_NATIVE9_SELECTED_WEEK_PARTIAL_RELEASE_REVERSE_REFUSALS_STORE'
 
 
@@ -79,6 +80,10 @@ def gate(directory,head):
         'MANDOR_GATE_NINE_CURRENT_CASES_AND_COMPLETE_RESTORATION')
     p.exact(set(main['committed']),{CASE},'MANDOR_GATE_ONE_CURRENT_COMPONENT')
     part=main['committed'][CASE]
+    import runtime_prerequisites
+    prerequisites=p.strict((directory/PREREQUISITES).read_bytes())
+    p.exact(prerequisites,part['Native_prerequisites'],'MANDOR_GATE_COMPLETE_PREREQUISITE_ORIGINAL')
+    runtime_prerequisites.validate(prerequisites)
     p.fields(part,dict(status='PASS',actual_Native_cases=9,actual_Auth_HTTP_cases=2,actual_two_session_races=4,
         actual_browser_cases=2,strict_case_ids=list(cases.IDS),used_guard_refused_before_DDL=True,
         actual_Mandor_browser_acceptance_pending=False,
@@ -87,7 +92,8 @@ def gate(directory,head):
     p.fields(native,dict(status='PASS',planned_case_ids=list(cases.IDS),counts={'PASS':9},missing=[],
         complete_boundary_restored=True,production_go=False,independent_acceptance=False),'MANDOR_GATE_ORIGINAL_STRICT_NATIVE9')
     p.exact(set(native['cases']),set(cases.IDS),'MANDOR_GATE_EVERY_ACTUAL_NEW_CASE_PRESENT')
-    assets={};pairs=0
+    pairs,assets=observations(p,directory,prerequisites)
+    if pairs!=1:raise ValueError('MANDOR_GATE_COMPLETE_READ_ONLY_PREREQUISITE_CENSUS_PAIR')
     for name,row in native['cases'].items():
         p.fields(row,dict(status='PASS',full_boundary_restored=True,public_schema_unchanged=True,
             new_financial_findings={},actual_Auth_HTTP_cases=0,actual_browser_cases=0,actual_two_session_cases=0,

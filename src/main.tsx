@@ -13,6 +13,7 @@ import {
 } from './auth/InviteAcceptance'
 import { isUatRuntime, parseRuntimeConfig } from './config/runtime'
 import { getUatInviteSupabaseClient, getUatSupabaseClient } from './lib/supabase'
+import './theme.css'
 import './styles.css'
 import './auth/auth.css'
 import './brand-books.css'

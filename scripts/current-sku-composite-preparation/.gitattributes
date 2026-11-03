@@ -1,0 +1,2 @@
+# Preserve the exact accepted-source bytes, including its existing final blank.
+original_composition.py.txt whitespace=-blank-at-eof
