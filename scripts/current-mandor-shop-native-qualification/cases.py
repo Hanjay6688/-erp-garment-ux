@@ -57,11 +57,16 @@ def selected_week(n,cur,today):
     payment=pay(n,cur,f,payroll,today,'300000.00')
     oracle.require(oracle.money(payment['after']['invoice']['outstanding'])==0,'MANDOR_NATIVE_FULL_SAME_INVOICE_SETTLEMENT')
     oracle.require(oracle.money(payment['after']['payroll']['net_payable'])==D('1700000.00'),'MANDOR_NATIVE_OWNER_1700000_NET')
-    return dict(status='PASS',physical=physical,sale=sale,future_week=dict(payroll_id=future,allocation=future_allocation,
+    result=dict(status='PASS',physical=physical,sale=sale,future_week=dict(payroll_id=future,allocation=future_allocation,
         reservation_equations=future_draft,release=released,release_equations=future_release,cancel=cancelled,
         cancel_replay=n.replay(cur,cancel_call,cancelled),paid=False),eligible_week=dict(payroll_id=payroll,
         allocation=allocation,reservation_equations=eligible_draft,approval=approval,payment=payment),
         manual_adjustment_fixture_uses_unchanged_Native_expense_rules=True,actual_Auth_HTTP_or_browser_credit=False)
+    # A second committed physical fixture would repeat the same global Afui
+    # effective date. Keep the actual source for a distinct invoice from the
+    # remaining six GOOD PCS; never change an already-used policy date.
+    if n.scope=='COMMITTED_USE':result['remaining_GOOD_source_fixture']=dict(f)
+    return result
 
 
 def partial(n,cur,today):

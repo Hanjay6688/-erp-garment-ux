@@ -29,6 +29,12 @@ def check(raw,parser_path):
     native=load('mandor_access_inert_native_fixture',HERE/'native_fixture.py')
     access=load('mandor_access_inert_cases',source)
     require(len(access.RACE_IDS)==len(set(access.RACE_IDS))==4,'MANDOR_ACCESS_FOUR_DISTINCT_NEW_RACES')
+    prepared=next(n for n in tree.body if isinstance(n,ast.FunctionDef)and n.name=='prepare')
+    require(not any(isinstance(n,ast.Call)and isinstance(n.func,ast.Attribute)and n.func.attr=='physical'
+        for n in ast.walk(prepared)),'MANDOR_ACCESS_MUST_REUSE_GOOD_WITHOUT_DUPLICATE_GLOBAL_DATE')
+    policy=(ROOT/'scripts/cp7_accessory_nonpayable/policy.sql').read_bytes()
+    require(b'effective_from date not null unique'in policy and b'NONPAYABLE_EFFECTIVE_DATE_ALREADY_RECORDED'in policy,
+        'MANDOR_ACCESS_BIND_ACTUAL_UNIQUE_IMMUTABLE_AFUI_DATE_CONTRACT')
     signatures={}
     for signature in list(functions)+plan['public_functions']:
         name,args=signature.split('(',1)
@@ -71,7 +77,7 @@ def check(raw,parser_path):
         'MANDOR_ACCESS_NATIVE_AUDIT_SEQUENCE_DECLARED')
     # A hostile/wrong target must refuse before the first fixture mutation.
     from types import SimpleNamespace
-    ctx=access.Context.__new__(access.Context);queries=[]
+    ctx=access.Context.__new__(access.Context);ctx.mode='RACE';queries=[]
     class Cursor:
         def __init__(self,host,database,isolation):
             self.connection=SimpleNamespace(info=SimpleNamespace(host=host,port=54322))
@@ -93,7 +99,7 @@ def check(raw,parser_path):
     package=load('mandor_access_inert_package_engine',HERE/'package_engine.py')
     _,copy_proof=runtime.derive((ROOT/runtime.ORIGINAL).read_bytes())
     _,package_proof=package.derive((ROOT/package.ORIGINAL).read_bytes())
-    sources=['access_cases.py','access_runtime.py','access_gate.py','access_preflight.py']
+    sources=['access_cases.py','access_runtime.py','access_gate.py','access_preflight.py','http_cases.py','http_gate.py']
     for name in sources:compile((HERE/name).read_bytes(),str(HERE/name),'exec')
     component=ast.parse((HERE/'component.py').read_bytes())
     names=[]
@@ -105,8 +111,35 @@ def check(raw,parser_path):
                 inspect.signature(getattr(target,node.func.attr)).bind(*[None for _ in node.args],
                     **{k.arg:None for k in node.keywords})
                 names.append((node.lineno,owner+'.'+node.func.attr))
-    require([name for _,name in sorted(names)]==['access_cases.prepare','access_runtime.run'],
+    require([name for _,name in sorted(names)]==['access_cases.prepare','access_runtime.run','access_runtime.run_http'],
         'MANDOR_ACCESS_EXACT_COMMITTED_PREPARATION_THEN_OWNING_RUN')
+    http=load('mandor_access_inert_HTTP_cases',HERE/'http_cases.py')
+    require(len(http.HTTP_IDS)==len(set(http.HTTP_IDS))==2,'MANDOR_HTTP_TWO_UNIQUE_REAL_AUTH_CASES')
+    http_tree=ast.parse((HERE/'http_cases.py').read_bytes());http_calls=[]
+    # Named PostgREST arguments must match the current source facade itself.
+    definitions=pglast.parse_sql((ROOT/'scripts/cp7_mandor_shop/facade.sql').read_text())
+    arguments={}
+    for statement in definitions:
+        node=statement.stmt
+        if type(node).__name__=='CreateFunctionStmt':
+            name='.'.join(x.sval for x in node.funcname)
+            arguments[name.split('.')[-1]]={p.name for p in node.parameters or()}
+    for node in ast.walk(http_tree):
+        if not isinstance(node,ast.Call)or not isinstance(node.func,ast.Attribute):continue
+        if node.func.attr in('rpc','anon_rpc'):
+            require(len(node.args)==2 and isinstance(node.args[0],ast.Name)
+                and node.args[0].id in('READ','WRITE'),'MANDOR_HTTP_FIXED_CURRENT_RPC_ONLY')
+            name=getattr(http,node.args[0].id);body=node.args[1]
+            require(isinstance(body,ast.Call)and isinstance(body.func,ast.Name)and body.func.id=='dict'
+                and not body.args and {k.arg for k in body.keywords}==arguments[name],
+                'MANDOR_HTTP_NAMED_POSTGREST_ARGUMENTS_MATCH_ACTUAL_FACADE')
+            http_calls.append(dict(line=node.lineno,name=name,arguments=sorted(arguments[name])))
+        elif node.func.attr=='execute':
+            require(len(node.args)==2 and isinstance(node.args[0],ast.Constant)
+                and isinstance(node.args[1],ast.Tuple),'MANDOR_HTTP_FIXED_FIXTURE_SQL')
+            query=node.args[0].value;require(query.count('%s')==len(node.args[1].elts),'MANDOR_HTTP_EXACT_SQL_PARAMETER_TUPLE')
+            positions=iter(range(1,query.count('%s')+1))
+            pglast.parse_sql(re.sub('%s',lambda _:'$'+str(next(positions)),query))
     final=ast.parse((HERE/'final_gate.py').read_bytes())
     require(sum(isinstance(n,ast.Call)and isinstance(n.func,ast.Attribute)
         and isinstance(n.func.value,ast.Name)and n.func.value.id=='access_gate'and n.func.attr=='gate'
@@ -117,8 +150,10 @@ def check(raw,parser_path):
         exact_catalogue=ORIGINAL,case_ids=list(access.RACE_IDS),method_calls=calls,fixed_SQL=sql,public_RPC_calls=rpcs,
         actual_Native_status_source=sha256(recalculate.encode()).hexdigest(),
         actual_Native_audit_source=sha256(audit.encode()).hexdigest(),unsafe_copy_refusals=refused,
+        same_GOOD_reuse_without_second_global_date=True,actual_Afui_unique_date_source=sha256(policy).hexdigest(),
         actual_two_session_races=0,actual_Auth_HTTP_cases=0,actual_Native_cases=0,actual_browser_cases=0,
         owning_copy_source_integration_prepared=True,actual_copy_qualification_pending=True,
+        HTTP_case_ids=list(http.HTTP_IDS),named_HTTP_RPC_calls=http_calls,actual_HTTP_qualification_pending=True,
         copy_authority_derivation=copy_proof,whole_package_derivation=package_proof,
         production_go=False,independent_acceptance=False)
 

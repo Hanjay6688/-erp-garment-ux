@@ -20,7 +20,7 @@ def observation(p,directory,proof,expected_allowed):
     p.fields(proof,dict(status='PASS',actual_all22_groups=22,allowed_tables=sorted(expected_allowed)),
         'MANDOR_ACCESS_GATE_EXACT_PROOF_SCOPE')
     reference=proof['original'];name=reference['name']
-    require(type(name)is str and re.fullmatch(r'MANDOR_ACCESS_(SAME|COMPETING|RETRY|ACCESS_FIXTURE|CACHED_REVOKED)_[0-9a-f]{32}\.json\.gz',name),
+    require(type(name)is str and re.fullmatch(r'MANDOR_ACCESS_(SAME|COMPETING|RETRY|ACCESS_FIXTURE|CACHED_REVOKED|HTTP_READ_RIGHTS|HTTP_RESERVE|HTTP_REPLAY|HTTP_RELEASE|HTTP_RELEASE_REPLAY|HTTP_REVOKE_RESERVE|HTTP_ACTOR_REVOKED|HTTP_CACHED_REVOKED)_[0-9a-f]{32}\.json\.gz',name),
         'MANDOR_ACCESS_GATE_FIXED_ORIGINAL_NAME')
     path=directory/name;require(not path.is_symlink(),'MANDOR_ACCESS_GATE_NO_ORIGINAL_SYMLINK')
     packed=path.read_bytes();p.exact(dict(bytes=len(packed),sha256=sha256(packed).hexdigest()),

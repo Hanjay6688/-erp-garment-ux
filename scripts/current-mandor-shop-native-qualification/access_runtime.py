@@ -55,8 +55,9 @@ def copy_scope(modes,product,state):
     finally:modes.copy_db=previous
 
 
-def save(value):
-    path=ROOT/'cp6-proof/t3/MANDOR_SESSION4_ORIGINAL.json'
+def save(value,name='MANDOR_SESSION4_ORIGINAL.json'):
+    require(name in('MANDOR_SESSION4_ORIGINAL.json','MANDOR_HTTP2_ORIGINAL.json'),'MANDOR_FIXED_ACCESS_ORIGINAL_NAME')
+    path=ROOT/'cp6-proof/t3'/name
     raw=(json.dumps(value,sort_keys=True,default=str)+'\n').encode()
     require(not path.exists(),'MANDOR_FIRST_SESSION_ORIGINAL_OVERWRITE_REFUSED')
     path.parent.mkdir(parents=True,exist_ok=True)
@@ -82,4 +83,26 @@ def run(product,state,fixture,verify,report):
         and row.get('Native_or_schema_or_RPC_permissions_changed')is False
         for row in copies['actual_copy_admissions']),'MANDOR_FOUR_FRESH_AUTHORITY_PRESERVED_COPIES')
     report.update(actual_two_session_races=4,actual_business_cases=13,
-        actual_Mandor_Auth_browser_acceptance_pending=True)
+        actual_Mandor_browser_acceptance_pending=True)
+
+
+def run_http(product,state,fixture,verify,report):
+    admission.parent(product.parent_raw)
+    from assembly import FROZEN
+    import http_cases
+    modes=load('mandor_exact_original_real_HTTP_modes',FROZEN/'scripts/current-s03-sku-s05-composite-qualification/modes.py')
+    typed=load('mandor_qualified_HTTP_copy_gate',FROZEN/'scripts/cp7_accessory_nonpayable/qualification_gate.py')
+    adapter=SimpleNamespace(http_cases=lambda http,today:http_cases.http_cases(http,today,
+        product=product,state=state,fixture=fixture))
+    with copy_scope(modes,product,state)as copies:
+        report['http_copy_authority']=copies
+        actual=modes.run_http(adapter,verify,'mandor_current_HTTP2')
+        report['HTTP2_original']=save(actual,'MANDOR_HTTP2_ORIGINAL.json')
+        report['HTTP2_gate']=typed.copies(actual,http_cases.HTTP_IDS,mode='HTTP')
+    require(len(copies['actual_copy_admissions'])==1 and all(
+        row.get('all22_groups_equal_original_install')is True
+        and row.get('product_state_modified')is False
+        and row.get('Native_or_schema_or_RPC_permissions_changed')is False
+        for row in copies['actual_copy_admissions']),'MANDOR_ONE_REAL_AUTH_COPY_WITH_ORIGINAL_AUTHORITY')
+    report.update(actual_Auth_HTTP_cases=2,actual_business_cases=15,
+        actual_Mandor_browser_acceptance_pending=True)

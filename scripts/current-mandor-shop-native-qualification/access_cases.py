@@ -35,12 +35,21 @@ def require(value,message):
     if not value:raise ValueError(message)
 
 
-def prepare(native,cur,today):
-    """One actual posted invoice and unpaid future payroll, no case credit."""
+def prepare(native,cur,today,source_fixture,physical):
+    """A distinct invoice from remaining actual GOOD; no new global date."""
     native.admin(cur)
-    f,physical=native.physical(cur,today)
+    require(native.scope=='COMMITTED_USE'and physical['good_day']==str(today)
+        and physical['genuine_database_clock']is True,'MANDOR_ACCESS_CURRENT_COMMITTED_PHYSICAL_SOURCE')
+    f=dict(source_fixture,tag='MANDOR-ACCESS-'+uuid.uuid4().hex[:12])
+    require(f['actor']==physical['actor']and f['good_day']==today,'MANDOR_ACCESS_SAME_PHYSICAL_ACTOR_AND_GOOD')
+    available=native.sales.available(cur,f)
+    require(Decimal(available)==6,'MANDOR_ACCESS_EXACT_SIX_REMAINING_NATIVE_GOOD_PCS')
     sale=native.create_invoice(cur,f)
-    payroll=native.payroll(cur,f,today,back=-7)
+    require(f['sale']!=source_fixture['sale']and Decimal(native.sales.available(cur,f))==2,
+        'MANDOR_ACCESS_DISTINCT_INVOICE_CONSUMES_EXACT_FOUR_REMAINING_GOOD_PCS')
+    # The witness already owns next week's cancelled draft. Select the
+    # following full week explicitly, without altering that payroll history.
+    payroll=native.payroll(cur,f,today,back=-14)
     native.admin(cur)
     rows=cur.execute("select request_id::text,payload,response,actor::text from cp7_mandor_shop.requests "
         "where actor=%s::uuid and action='SALE_CREATE'and response->>'sale_id'=%s",
@@ -55,12 +64,13 @@ def prepare(native,cur,today):
     return dict(contract='cp7.mandor-shop-access-fixture.v1',actor=actor,sale_id=f['sale'],payroll_id=payroll,
         contractor_id=f['contractor'],physical=physical,Native_sale=sale,
         original_sale_request=dict(request_id=request,payload=payload,response=response),
+        same_GOOD_source_reused_without_policy_mutation=True,remaining_GOOD_PCS=2,
         actual_case_credit=0,production_go=False)
 
 
 class Context:
     def __init__(self,product,state,fixture,mode):
-        require(mode=='RACE','MANDOR_ACCESS_PREPARED_RACE_MODE_ONLY')
+        require(mode in('RACE','HTTP','BROWSER'),'MANDOR_ACCESS_FIXED_COPY_MODE_ONLY')
         require(fixture['contract']=='cp7.mandor-shop-access-fixture.v1','MANDOR_ACCESS_EXACT_COMMITTED_FIXTURE')
         self.product=product;self.state=state;self.fixture=fixture;self.mode=mode
         self.modules=product.domain_modules
@@ -69,7 +79,8 @@ class Context:
     def local(self,cur):
         info=cur.connection.info
         require(info.host in('127.0.0.1','localhost')and info.port==54322,'MANDOR_ACCESS_LOOPBACK_COPY_ONLY')
-        require(cur.execute('select current_database()').fetchone()==('cp6_auditor_race',),
+        database={'RACE':'cp6_auditor_race','HTTP':'cp6_auditor_http','BROWSER':'cp6_auditor_browser'}[self.mode]
+        require(cur.execute('select current_database()').fetchone()==(database,),
             'MANDOR_ACCESS_FIXED_FRESH_RACE_COPY_ONLY')
         require(cur.execute("select current_setting('transaction_isolation')").fetchone()==('read committed',),
             'MANDOR_ACCESS_FRESH_CURRENT_READ_COMMITTED')
@@ -107,6 +118,7 @@ class Context:
             allocation_states=states,requests=requests,deductions=deductions,payroll=list(payroll))
 
     def read(self,cur):
+        require(self.mode=='RACE','MANDOR_ACCESS_ADMINISTRATIVE_SESSION_IS_NOT_REAL_AUTH')
         self.admin(cur);self.modules.bc.session(cur,self.fixture['actor'])
         value=cur.execute('select public.erp_cp7_get_mandor_shop_payroll_v1(%s::uuid,null)',
             (self.fixture['payroll_id'],)).fetchone()[0]
@@ -121,12 +133,14 @@ class Context:
             sale_id=self.fixture['sale_id'],review_token=card['review_token'],amount='100000.00')
 
     def allocation(self,cur,body,request):
+        require(self.mode=='RACE','MANDOR_ACCESS_ADMINISTRATIVE_SESSION_IS_NOT_REAL_AUTH')
         self.admin(cur);self.modules.bc.session(cur,self.fixture['actor'])
         value=cur.execute('select public.erp_cp7_save_mandor_shop_allocation_v1(%s,%s::jsonb,%s::uuid)',
             ('RESERVE',json.dumps(body),request)).fetchone()[0]
         self.modules.bc.api.admin(cur);return value
 
     def sale_replay(self,cur):
+        require(self.mode=='RACE','MANDOR_ACCESS_ADMINISTRATIVE_SESSION_IS_NOT_REAL_AUTH')
         self.admin(cur);saved=self.fixture['original_sale_request'];intent=saved['payload']
         self.modules.bc.session(cur,self.fixture['actor'])
         value=cur.execute('select public.erp_cp7_save_mandor_shop_sale_v1(%s,%s::jsonb,%s::uuid,%s)',

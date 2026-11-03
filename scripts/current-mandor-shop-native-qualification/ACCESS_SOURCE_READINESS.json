@@ -1,25 +1,33 @@
 {
   "status": "MANDOR_ACCESS_FOUR_RACES_SOURCE_PREPARED_NOT_EXECUTED",
   "source": {
-    "bytes": 17093,
-    "sha256": "2162f2e79368ca68cf8c1dca14d69bb42ecec898f455d4b80748416f8b57f546"
+    "bytes": 18368,
+    "sha256": "9d3ecdea67138d0e0a8116f7160ecaaeade4d1fd04eff37c58dc494ccfcf6548"
   },
   "source_files": {
     "access_cases.py": {
-      "bytes": 17093,
-      "sha256": "2162f2e79368ca68cf8c1dca14d69bb42ecec898f455d4b80748416f8b57f546"
+      "bytes": 18368,
+      "sha256": "9d3ecdea67138d0e0a8116f7160ecaaeade4d1fd04eff37c58dc494ccfcf6548"
     },
     "access_runtime.py": {
-      "bytes": 4366,
-      "sha256": "2b5ca593523f0f7605f25515dba37fffb477dd4b7b4941f1aaea1a2f9367928d"
+      "bytes": 5830,
+      "sha256": "7c3255bb79d32d8fadcf5b2e925f93ab1b59085a6a8ce7c24a7be5fddfd3a9af"
     },
     "access_gate.py": {
-      "bytes": 9644,
-      "sha256": "79ea35eb909b5911c76b79986886a3106bf8145db955b2053627d3a0512e6435"
+      "bytes": 9778,
+      "sha256": "054fddf2028647dfdd4d5c0ff7ba8e7397fb5d5164bbfd99ab47d422ae83ad6e"
     },
     "access_preflight.py": {
-      "bytes": 8604,
-      "sha256": "7dce08084704f2a8f1428b45d9fecebe133e93bb57258deb00cec401df34d8e2"
+      "bytes": 11413,
+      "sha256": "d0b97d42a763af1db44e03d1d55c0b7aa795519709c4ee1e492bd95392da0729"
+    },
+    "http_cases.py": {
+      "bytes": 9464,
+      "sha256": "59665e1e8ab2e784313034b0b61584ecdf9c379e486aa436091f5aa5a7f82720"
+    },
+    "http_gate.py": {
+      "bytes": 4712,
+      "sha256": "7a9a67f025e958d58cedbf8e588ce64d2955539a3fdb997bc72b4b60f3fc44b7"
     }
   },
   "exact_catalogue": {
@@ -39,247 +47,242 @@
       "name": "admin"
     },
     {
-      "line": 41,
-      "owner": "Native",
-      "name": "physical"
-    },
-    {
-      "line": 42,
+      "line": 47,
       "owner": "Native",
       "name": "create_invoice"
     },
     {
-      "line": 43,
+      "line": 52,
       "owner": "Native",
       "name": "payroll"
     },
     {
-      "line": 44,
+      "line": 53,
       "owner": "Native",
       "name": "admin"
     },
     {
-      "line": 52,
+      "line": 61,
       "owner": "Native",
       "name": "observe"
-    },
-    {
-      "line": 197,
-      "owner": "Context",
-      "name": "observe"
-    },
-    {
-      "line": 236,
-      "owner": "Context",
-      "name": "observe"
-    },
-    {
-      "line": 251,
-      "owner": "Context",
-      "name": "observe"
-    },
-    {
-      "line": 78,
-      "owner": "Context",
-      "name": "local"
-    },
-    {
-      "line": 81,
-      "owner": "Context",
-      "name": "admin"
-    },
-    {
-      "line": 85,
-      "owner": "Context",
-      "name": "admin"
-    },
-    {
-      "line": 110,
-      "owner": "Context",
-      "name": "admin"
-    },
-    {
-      "line": 124,
-      "owner": "Context",
-      "name": "admin"
-    },
-    {
-      "line": 130,
-      "owner": "Context",
-      "name": "admin"
-    },
-    {
-      "line": 160,
-      "owner": "Context",
-      "name": "local"
-    },
-    {
-      "line": 179,
-      "owner": "Context",
-      "name": "verify"
-    },
-    {
-      "line": 179,
-      "owner": "Context",
-      "name": "body"
-    },
-    {
-      "line": 179,
-      "owner": "Context",
-      "name": "snapshot"
-    },
-    {
-      "line": 183,
-      "owner": "Context",
-      "name": "local"
-    },
-    {
-      "line": 184,
-      "owner": "Context",
-      "name": "allocation"
-    },
-    {
-      "line": 217,
-      "owner": "Context",
-      "name": "observe"
-    },
-    {
-      "line": 226,
-      "owner": "Context",
-      "name": "verify"
-    },
-    {
-      "line": 238,
-      "owner": "Context",
-      "name": "admin"
-    },
-    {
-      "line": 266,
-      "owner": "Context",
-      "name": "observe"
-    },
-    {
-      "line": 138,
-      "owner": "Context",
-      "name": "verify"
-    },
-    {
-      "line": 138,
-      "owner": "Context",
-      "name": "snapshot"
-    },
-    {
-      "line": 179,
-      "owner": "Context",
-      "name": "read"
-    },
-    {
-      "line": 208,
-      "owner": "Context",
-      "name": "allocation"
     },
     {
       "line": 211,
       "owner": "Context",
-      "name": "allocation"
+      "name": "observe"
     },
     {
-      "line": 232,
+      "line": 250,
+      "owner": "Context",
+      "name": "observe"
+    },
+    {
+      "line": 265,
+      "owner": "Context",
+      "name": "observe"
+    },
+    {
+      "line": 89,
+      "owner": "Context",
+      "name": "local"
+    },
+    {
+      "line": 92,
+      "owner": "Context",
+      "name": "admin"
+    },
+    {
+      "line": 96,
+      "owner": "Context",
+      "name": "admin"
+    },
+    {
+      "line": 122,
+      "owner": "Context",
+      "name": "admin"
+    },
+    {
+      "line": 137,
+      "owner": "Context",
+      "name": "admin"
+    },
+    {
+      "line": 144,
+      "owner": "Context",
+      "name": "admin"
+    },
+    {
+      "line": 174,
+      "owner": "Context",
+      "name": "local"
+    },
+    {
+      "line": 193,
+      "owner": "Context",
+      "name": "verify"
+    },
+    {
+      "line": 193,
       "owner": "Context",
       "name": "body"
     },
     {
-      "line": 228,
+      "line": 193,
       "owner": "Context",
-      "name": "sale_replay"
+      "name": "snapshot"
     },
     {
-      "line": 232,
+      "line": 197,
       "owner": "Context",
-      "name": "read"
+      "name": "local"
     },
     {
-      "line": 233,
+      "line": 198,
       "owner": "Context",
       "name": "allocation"
     },
     {
-      "line": 187,
+      "line": 231,
+      "owner": "Context",
+      "name": "observe"
+    },
+    {
+      "line": 240,
+      "owner": "Context",
+      "name": "verify"
+    },
+    {
+      "line": 252,
+      "owner": "Context",
+      "name": "admin"
+    },
+    {
+      "line": 280,
+      "owner": "Context",
+      "name": "observe"
+    },
+    {
+      "line": 152,
+      "owner": "Context",
+      "name": "verify"
+    },
+    {
+      "line": 152,
+      "owner": "Context",
+      "name": "snapshot"
+    },
+    {
+      "line": 193,
+      "owner": "Context",
+      "name": "read"
+    },
+    {
+      "line": 222,
+      "owner": "Context",
+      "name": "allocation"
+    },
+    {
+      "line": 225,
+      "owner": "Context",
+      "name": "allocation"
+    },
+    {
+      "line": 246,
+      "owner": "Context",
+      "name": "body"
+    },
+    {
+      "line": 242,
+      "owner": "Context",
+      "name": "sale_replay"
+    },
+    {
+      "line": 246,
+      "owner": "Context",
+      "name": "read"
+    },
+    {
+      "line": 247,
+      "owner": "Context",
+      "name": "allocation"
+    },
+    {
+      "line": 201,
       "owner": "Context",
       "name": "allocation"
     }
   ],
   "fixed_SQL": [
     {
-      "line": 161,
+      "line": 175,
       "parameters": 0
     },
     {
-      "line": 45,
+      "line": 54,
       "parameters": 2
     },
     {
-      "line": 92,
+      "line": 103,
       "parameters": 3
-    },
-    {
-      "line": 100,
-      "parameters": 1
-    },
-    {
-      "line": 239,
-      "parameters": 1
-    },
-    {
-      "line": 102,
-      "parameters": 1
     },
     {
       "line": 111,
       "parameters": 1
     },
     {
-      "line": 125,
+      "line": 253,
+      "parameters": 1
+    },
+    {
+      "line": 113,
+      "parameters": 1
+    },
+    {
+      "line": 123,
+      "parameters": 1
+    },
+    {
+      "line": 138,
       "parameters": 3
     },
     {
-      "line": 132,
+      "line": 146,
       "parameters": 4
     },
     {
-      "line": 160,
+      "line": 174,
       "parameters": 0
     },
     {
-      "line": 183,
+      "line": 197,
       "parameters": 0
     },
     {
-      "line": 238,
+      "line": 252,
       "parameters": 0
     },
     {
-      "line": 72,
+      "line": 83,
       "parameters": 0
     },
     {
-      "line": 74,
+      "line": 85,
       "parameters": 0
     },
     {
-      "line": 94,
+      "line": 105,
       "parameters": 1
     },
     {
-      "line": 96,
+      "line": 107,
       "parameters": 1
     },
     {
-      "line": 98,
+      "line": 109,
       "parameters": 1
     },
     {
-      "line": 104,
+      "line": 115,
       "parameters": 1
     }
   ],
@@ -300,12 +303,62 @@
   "actual_Native_status_source": "10338d6e9388b9bb5bf75826fbda546a23834f2ceca9281852bac6c6cd50d5a6",
   "actual_Native_audit_source": "664d87972029147c11919069c187798c3d2a617a342504a3c34c3eda068815df",
   "unsafe_copy_refusals": 3,
+  "same_GOOD_reuse_without_second_global_date": true,
+  "actual_Afui_unique_date_source": "042c30ce6c8242b0626270d2a74f0433df4b5fc57cb8af0d4198a79a8f41cd20",
   "actual_two_session_races": 0,
   "actual_Auth_HTTP_cases": 0,
   "actual_Native_cases": 0,
   "actual_browser_cases": 0,
   "owning_copy_source_integration_prepared": true,
   "actual_copy_qualification_pending": true,
+  "HTTP_case_ids": [
+    "MANDOR_REAL_AUTH_HTTP_OWNER_RESERVE_REPLAY_RELEASE_AND_CURRENT_ROLE_STALE_REFUSALS",
+    "MANDOR_REAL_AUTH_HTTP_CACHED_ALLOCATION_REFUSES_PENDING_AND_COMMITTED_ACCESS_REVOCATION"
+  ],
+  "named_HTTP_RPC_calls": [
+    {
+      "line": 55,
+      "name": "erp_cp7_save_mandor_shop_allocation_v1",
+      "arguments": [
+        "p_action",
+        "p_payload",
+        "p_request"
+      ]
+    },
+    {
+      "line": 84,
+      "name": "erp_cp7_get_mandor_shop_payroll_v1",
+      "arguments": [
+        "p_after",
+        "p_payroll"
+      ]
+    },
+    {
+      "line": 45,
+      "name": "erp_cp7_get_mandor_shop_payroll_v1",
+      "arguments": [
+        "p_after",
+        "p_payroll"
+      ]
+    },
+    {
+      "line": 86,
+      "name": "erp_cp7_get_mandor_shop_payroll_v1",
+      "arguments": [
+        "p_after",
+        "p_payroll"
+      ]
+    },
+    {
+      "line": 144,
+      "name": "erp_cp7_get_mandor_shop_payroll_v1",
+      "arguments": [
+        "p_after",
+        "p_payroll"
+      ]
+    }
+  ],
+  "actual_HTTP_qualification_pending": true,
   "copy_authority_derivation": {
     "original_bytes": 3895,
     "original_sha256": "cfdc3b899e335dd13a9456242ed5158b718ac5c56d9b1ebf06c4571eda2cc7a2",
@@ -321,7 +374,7 @@
       "bytes": 12667,
       "sha256": "c420d894f8d5f16bddefeae73addb621507170f372a28e7d6e33d88c7eeb0be9"
     },
-    "derived_sha256": "755e3cdf8b0bd53c173cfe524fdadfdae3ccdc7377e1a50206525fe92f020bc2",
+    "derived_sha256": "ed926ee562068b612162ddab8a141c9f290a018abfa736cc1f2ea24e6384cd53",
     "routes": [
       {
         "before": "prior=measured(timings,'SINGLE_FULL_READONLY_PARENT_INSTALL',readonly.install,cur)\n                prior=measured(timings,'EXACT_BACKEND3194_PARENT_INSTALL',product.parent().install_delta,cur,prior)",
@@ -335,7 +388,7 @@
       },
       {
         "before": "report['actual_two_session_races']=3\n            report['actual_Native_cases']=7\n            report['actual_Auth_HTTP_cases']=1\n            report['actual_browser_cases']=0\n            report['actual_business_cases']=11\n            report['real_Auth_HTTP_qualified']=True",
-        "after": "report['actual_two_session_races']=4\n            report['actual_Native_cases']=9\n            report['actual_Auth_HTTP_cases']=0\n            report['actual_browser_cases']=0\n            report['actual_business_cases']=13\n            report['real_Auth_HTTP_qualified']=False\n            report['actual_Mandor_Auth_browser_acceptance_pending']=True",
+        "after": "report['actual_two_session_races']=4\n            report['actual_Native_cases']=9\n            report['actual_Auth_HTTP_cases']=2\n            report['actual_browser_cases']=0\n            report['actual_business_cases']=15\n            report['real_Auth_HTTP_qualified']=True\n            report['actual_Mandor_browser_acceptance_pending']=True",
         "count": 1
       }
     ],

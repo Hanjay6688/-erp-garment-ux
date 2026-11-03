@@ -86,13 +86,20 @@ def exercise(product,trusted_connection,conn,cur,database,url,report,state):
     with psycopg.connect(url)as used,used.cursor()as cursor:
         local(cursor);verify(cursor)
         foundation=committed.committed_foundation(cursor)
+        # The unchanged physical fixture checks erp.current_app_role() in its
+        # ordinary OWNER session. Match the original Native-only setup grant,
+        # then remove our overlay before any committed Auth/race copy exists.
+        had_usage=cursor.execute("select has_schema_privilege('authenticated','erp','USAGE')").fetchone()[0]
+        if not had_usage:cursor.execute('grant usage on schema erp to authenticated')
         today=cursor.execute("select(statement_timestamp()at time zone'Asia/Jakarta')::date").fetchone()[0]
         before=committed.modules.bc.findings(cursor)
         witness=cases.selected_week(committed,cursor,today)
-        access_fixture=access_cases.prepare(committed,cursor,today)
+        access_fixture=access_cases.prepare(committed,cursor,today,
+            witness['remaining_GOOD_source_fixture'],witness['physical'])
         committed.admin(cursor);cursor.execute('set constraints all immediate')
         after=committed.modules.bc.findings(cursor)
         require(not committed.modules.bc.new_findings(before,after),'MANDOR_COMMITTED_USE_NEW_FINANCIAL_FINDINGS')
+        if not had_usage:cursor.execute('revoke usage on schema erp from authenticated')
         product.verify(cursor,state);used.commit()
     before_refusal=None;after_refusal=None
     with trusted_connection()as check,check.cursor()as cursor:
@@ -108,12 +115,14 @@ def exercise(product,trusted_connection,conn,cur,database,url,report,state):
     report.update(status='PASS',actual_Native_cases=9,strict_case_ids=list(cases.IDS),
         separate_committed_Native_use=dict(status='ACTUAL_MANDOR_INVOICE_OFFSET_AND_NET_PAYROLL_COMMITTED',
             native_case_credit=0,original_foundation=foundation,witness=witness,financial_findings_before=before,financial_findings_after=after,
+            Native_only_schema_usage_restored_before_commit=True,original_schema_usage=had_usage,
             actual_used_inverse_error=message,before_original=committed.original('REFUSAL_BEFORE',before_refusal),
             after_original=committed.original('REFUSAL_AFTER',after_refusal),used_guard_before_DDL=True),
         used_guard_refused_before_DDL=True,access_fixture_preparation=access_fixture,
-        actual_Mandor_Auth_browser_acceptance_pending=True)
+        actual_Mandor_browser_acceptance_pending=True)
     report['status']='INCOMPLETE'
     access_runtime.run(product,state,access_fixture,verify,report)
+    access_runtime.run_http(product,state,access_fixture,verify,report)
     report['status']='PASS'
 
 

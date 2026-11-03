@@ -71,17 +71,17 @@ def gate(directory,head):
     main,native,package,backup,owned=[docs[name]for name in(MAIN,RAW,'T3_PACKAGE_INSTALL.json',
         'T3_BACKUP_RESTORE_DRILL.json','MANDOR_RUNTIME_SUPERVISION.json')]
     p.fields(main,dict(status='PASS',qualification_commit=head,required_case_ids=[CASE],required_case_ids_pass=True,
-        actual_Native_cases=9,actual_Auth_HTTP_cases=0,actual_two_session_races=4,actual_browser_cases=0,
-        actual_business_cases=13,real_Auth_HTTP_qualified=False,real_Auth_browser_claim=False,
+        actual_Native_cases=9,actual_Auth_HTTP_cases=2,actual_two_session_races=4,actual_browser_cases=0,
+        actual_business_cases=15,real_Auth_HTTP_qualified=True,real_Auth_browser_claim=False,
         baseline_full22_all_rows_all_sequences_equal=True,restore_raw_public_equal=True,cp6_restored=True,
         baseline_advisors_equal=True,advisor_gate=True,used_guard_refused_before_DDL=True,
         full_combined_final_qualification=False,production_go=False,independent_acceptance=False),
         'MANDOR_GATE_NINE_CURRENT_CASES_AND_COMPLETE_RESTORATION')
     p.exact(set(main['committed']),{CASE},'MANDOR_GATE_ONE_CURRENT_COMPONENT')
     part=main['committed'][CASE]
-    p.fields(part,dict(status='PASS',actual_Native_cases=9,actual_Auth_HTTP_cases=0,actual_two_session_races=4,
+    p.fields(part,dict(status='PASS',actual_Native_cases=9,actual_Auth_HTTP_cases=2,actual_two_session_races=4,
         actual_browser_cases=0,strict_case_ids=list(cases.IDS),used_guard_refused_before_DDL=True,
-        actual_Mandor_Auth_browser_acceptance_pending=True,
+        actual_Mandor_browser_acceptance_pending=True,
         global_writer_or_permission_or_lock_closure=False,production_go=False,independent_acceptance=False),
         'MANDOR_GATE_NATIVE_ONLY_COMPONENT')
     p.fields(native,dict(status='PASS',planned_case_ids=list(cases.IDS),counts={'PASS':9},missing=[],
@@ -101,6 +101,7 @@ def gate(directory,head):
     if not any(r['name']==RAW for r in part['strict_group_originals']):raise ValueError('MANDOR_GATE_FIRST_STRICT_REPORT_REQUIRED')
     used=part['separate_committed_Native_use']
     p.fields(used,dict(status='ACTUAL_MANDOR_INVOICE_OFFSET_AND_NET_PAYROLL_COMMITTED',native_case_credit=0,
+        Native_only_schema_usage_restored_before_commit=True,
         actual_used_inverse_error='MANDOR_AFTER_USE_REQUIRES_FULL_BACKUP_RESTORE',used_guard_before_DDL=True),
         'MANDOR_GATE_ACTUAL_COMMITTED_USE_WITHOUT_EXTRA_CASE_CREDIT')
     foundation=used['original_foundation']
@@ -114,6 +115,8 @@ def gate(directory,head):
     pairs+=count;assets.update(found)
     import access_gate
     sessions=access_gate.gate(p,directory,part,qualification.FROZEN)
+    import http_gate
+    http=http_gate.gate(p,directory,part,qualification.FROZEN)
     p.exact(package['gate'],p.GATES,'MANDOR_GATE_ALL_FIVE_ACTUAL_PACKAGE_GATES')
     identity=package['run_identity'];run_id=identity['run_id']
     if type(run_id)is not str or re.fullmatch('[1-9][0-9]*',run_id)is None:raise ValueError('MANDOR_GATE_ACTUAL_RUN_ID_REQUIRED')
@@ -132,11 +135,12 @@ def gate(directory,head):
         engine=qualification.runtime()
         with engine.inherited_admission.parent_scope():sources=engine.admitted()
     p.exact(main['source_declaration'],sources,'MANDOR_GATE_COMPLETE_CURRENT_NATURAL_SOURCE_GRAPH')
-    return dict(status='CURRENT_MANDOR_NATIVE9_SESSION4_AND_ALL5_PASS_AUTH_BROWSER_PENDING',head=head,
-        actual_Native_cases=9,actual_business_cases=13,actual_Auth_HTTP_cases=0,actual_two_session_races=4,actual_browser_cases=0,session_gate=sessions,
+    return dict(status='CURRENT_MANDOR_NATIVE9_SESSION4_HTTP2_AND_ALL5_PASS_BROWSER_PENDING',head=head,
+        actual_Native_cases=9,actual_business_cases=15,actual_Auth_HTTP_cases=2,actual_two_session_races=4,actual_browser_cases=0,
+        session_gate=sessions,HTTP_gate=http,
         accepted_parent=dict(head=parent['head'],tree=parent['tree'],run_id=parent['run_id'],original=pin(raw_parent)),
         original_observation_pairs=pairs,raw_original_assets=assets,package_all_five=True,
-        actual_Mandor_Auth_browser_acceptance_pending=True,
+        actual_Mandor_browser_acceptance_pending=True,
         production_go=False,independent_acceptance=False)
 
 

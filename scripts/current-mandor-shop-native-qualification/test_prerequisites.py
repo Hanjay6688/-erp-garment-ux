@@ -76,6 +76,13 @@ class CommittedFoundationControls(unittest.TestCase):
         self.assertLess(prepare[0].lineno,business[0].lineno)
         self.assertIn('native_case_credit=0,original_foundation=foundation',
             (HERE/'component.py').read_text())
+        text=(HERE/'component.py').read_text()
+        self.assertLess(text.index("cursor.execute('grant usage on schema erp to authenticated')"),
+            text.index('witness=cases.selected_week'))
+        self.assertLess(text.index('access_fixture=access_cases.prepare'),
+            text.index("cursor.execute('revoke usage on schema erp from authenticated')"))
+        self.assertLess(text.index("cursor.execute('revoke usage on schema erp from authenticated')"),
+            text.index('product.verify(cursor,state);used.commit()'))
 
 
 if __name__=='__main__':unittest.main()
