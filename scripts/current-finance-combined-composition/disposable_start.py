@@ -44,12 +44,6 @@ def start(directory,*,run=subprocess.run,pause=sleep,environment=None):
         attempt['status']='FAILED';save()
         print((directory/attempt['start']['log']).read_text(errors='replace')[-8000:],flush=True)
         attempt['stop']=logged(STOP,directory/f'attempt-{number}-stop.log',env);save()
-        # A local bind conflict cannot be repaired by changing image registries.
-        # Retain the first start/cleanup logs and leave other listeners alone.
-        failure=(directory/attempt['start']['log']).read_text(errors='replace')
-        if 'failed to bind host port' in failure and 'address already in use' in failure:
-            receipt['status']='REFUSED_PORT_CONFLICT';save()
-            raise RuntimeError('DISPOSABLE_HOST_PORT_CONFLICT_NO_REGISTRY_RETRY')
         if number<4:pause(number*60)
     save();raise RuntimeError('DISPOSABLE_STARTUP_EXHAUSTED_FOUR_RETAINED_ATTEMPTS')
 

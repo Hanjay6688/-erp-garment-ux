@@ -1,5 +1,4 @@
 from contextlib import redirect_stdout
-import importlib.util
 import io
 import json
 from pathlib import Path
@@ -55,9 +54,7 @@ class StartupBoundaries(unittest.TestCase):
                 next_owner.bind(("0.0.0.0", port))
 
     def test_post_check_docker_bind_race_keeps_first_failure_without_retry(self):
-        path=Path(__file__).resolve().parents[1]/"current-finance-combined-composition/disposable_start.py"
-        spec=importlib.util.spec_from_file_location("startup_race_test",path)
-        module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
+        module=guard.startup_module()
         calls=[];delays=[]
         failure=b'failed to bind host port for 0.0.0.0:54322: address already in use\n'
         def run(command, **kwargs):
@@ -71,6 +68,21 @@ class StartupBoundaries(unittest.TestCase):
             self.assertEqual(calls,[module.START,module.STOP]);self.assertEqual(delays,[])
             self.assertEqual((proof/"attempt-1-start.log").read_bytes(),failure)
             self.assertEqual(json.loads((proof/"STARTUP_ATTEMPTS.json").read_text())["status"],"REFUSED_PORT_CONFLICT")
+
+    def test_derived_startup_preserves_registry_failover_and_original_file(self):
+        module=guard.startup_module();calls=[];delays=[]
+        def run(command, **kwargs):
+            if command==module.STOP:
+                kwargs["stdout"].write(b'stopped own attempt\n');return SimpleNamespace(returncode=0)
+            calls.append(kwargs["env"].get("SUPABASE_INTERNAL_IMAGE_REGISTRY"))
+            kwargs["stdout"].write(b'toomanyrequests\n' if len(calls)<3 else b'started\n')
+            return SimpleNamespace(returncode=1 if len(calls)<3 else 0)
+        with TemporaryDirectory() as folder, redirect_stdout(io.StringIO()):
+            report=module.start(Path(folder)/"attempts",run=run,pause=delays.append,environment={})
+        self.assertEqual(report["status"],"PASS")
+        self.assertEqual(calls,[None,"public.ecr.aws",None]);self.assertEqual(delays,[60,120])
+        self.assertTrue(module.DERIVATION["original_parent_file_unchanged"])
+        self.assertEqual(module.DERIVATION["bounded_changes"],1)
 
 
 if __name__ == "__main__":
