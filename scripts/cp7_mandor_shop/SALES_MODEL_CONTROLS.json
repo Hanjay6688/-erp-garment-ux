@@ -1,0 +1,143 @@
+{
+  "status": "FG_MANDOR_ATOMIC_SALES_RETAINED13_PLUS_FOCUSED_EDIT1_MODEL_PASS_NOT_NATIVE",
+  "retained_controls": [
+    {
+      "label": "Three new private owners, two public wrappers, exact Native command/validation/access and one derived store-picker function compile on the documented model",
+      "result": "PASS"
+    },
+    {
+      "label": "One external Native CREATE intent atomically prepares the explicit customer and saves the same original draft payload; it creates no posted sale fact",
+      "result": "PASS"
+    },
+    {
+      "label": "Exact replay reuses the complete external intent and creates no second customer, account, draft or Native apply",
+      "result": "PASS"
+    },
+    {
+      "label": "Same external request rejects changed invoice lines before another Native apply",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "P0001",
+      "error": "CP7_MANDOR_SHOP_REQUEST_CHANGED"
+    },
+    {
+      "label": "Original Native draft validation failure rolls back the new customer, account and both request layers",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "P0001",
+      "error": "CP7_SALES_DRAFT_LINE"
+    },
+    {
+      "label": "A Native draft engine refusal after buyer preparation rolls back the entire owner transaction",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "P0001",
+      "error": "MODEL_NATIVE_DRAFT_ENGINE_REFUSED"
+    },
+    {
+      "label": "An explicit customer that differs from the selected Mandor is refused atomically",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "P0001",
+      "error": "CP7_MANDOR_SHOP_SALE_BUYER_MISMATCH"
+    },
+    {
+      "label": "Existing draft customer classification uses the immutable account UUID rather than the same visible Epi name",
+      "result": "PASS"
+    },
+    {
+      "label": "Native store eligibility filters explicit Mandor accounts before both pagination and global totals; an ordinary MD-like code remains a store",
+      "result": "PASS"
+    },
+    {
+      "label": "Current permission revocation refuses an already-committed external replay",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "42501",
+      "error": "CP7_SALES_ACCESS_DENIED"
+    },
+    {
+      "label": "Only authenticated executes the two narrow public wrappers; the internal read role receives only a membership predicate, never account-table or save access",
+      "result": "PASS"
+    },
+    {
+      "label": "A standalone buyer UUID cannot be repurposed as a different complete sales intent",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "P0001",
+      "error": "CP7_MANDOR_SHOP_REQUEST_CHANGED"
+    },
+    {
+      "label": "The atomic draft wrapper cannot dispatch POST or any payment action",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "42501",
+      "error": "CP7_MANDOR_SHOP_BUYER_ACTION_DENIED"
+    }
+  ],
+  "fresh_controls": [
+    {
+      "label": "An unchanged Native EDIT intent can switch an unposted draft to another explicitly selected same-name Mandor while retaining the sale identity",
+      "result": "PASS"
+    }
+  ],
+  "first13_source": "sales-model-before-edit-fixture.mjs.txt",
+  "first13_source_pin": {
+    "bytes": 22437,
+    "sha256": "ed9867b62d9e9063239edfdd2c227086c7a450046875b29ae0541ce5b2e7c836"
+  },
+  "first13_original_error": "error: CP7_MANDOR_SHOP_REVIEW_CHANGED",
+  "first13_original_SQLSTATE": "P0001",
+  "all14_fresh_one_attempt": false,
+  "completed13_NOT_rerun": true,
+  "prior144_NOT_rerun": true,
+  "fixture_repair": "Read the EDIT action review token for EDIT; the first thirteen controls and all private/Native function bodies remain unchanged.",
+  "model_prefix_route": {
+    "before": "assert.equal(process.argv[4],'--sales-only','Only the new atomic sale and category controls execute');",
+    "after": "assert(['--sales-only','--edit-only'].includes(process.argv[4]),'Only the new atomic sale controls execute');\nconst editOnly=process.argv[4]==='--edit-only';",
+    "count": 1
+  },
+  "new_private_functions": 3,
+  "new_public_functions": 2,
+  "source_files": {
+    "schema.sql": {
+      "bytes": 12510,
+      "sha256": "59c1b8e69555f6a8e0caf34e8d0ee18e27c1d4caaee8073c44225bbc4a687fd1"
+    },
+    "events.sql": {
+      "bytes": 8216,
+      "sha256": "9e2633af5d9ecff6220c37cdf8bb22a27ce71cbc03862c8aa40a1fadfd82a1d3"
+    },
+    "buyers.sql": {
+      "bytes": 10735,
+      "sha256": "5bfeb12b4103ca88f48b84a213098b33a90e7ead52398a5025213d9188e47617"
+    },
+    "sale_identity.sql": {
+      "bytes": 5069,
+      "sha256": "98964804488c94f0ffee865068327a8b6fb37fc8b7c6e037e97af32525a672ea"
+    },
+    "sales_commands.sql": {
+      "bytes": 7153,
+      "sha256": "cb9da2234fa1834b83ccb2e552f0c1ed3f1595d24c04d97428ca67c1c5df2f3d"
+    },
+    "native_sales_routes.py": {
+      "bytes": 2117,
+      "sha256": "7302700947c5b25ede6d56ae8ebf6280913109d22ae084890397a5b5f60ddba1"
+    },
+    "NATIVE_BUYER_REFERENCE.json": {
+      "bytes": 90591,
+      "sha256": "9439f43a5ba710a7e881199e94c399d6efb1c9354ad477148edee10cb4d079b5"
+    },
+    "NATIVE_SALES_COMMAND_REFERENCE.json": {
+      "bytes": 40270,
+      "sha256": "e07c1d12928f13e83aaeca9d5cd43c801e8e0d920e25e1e9f7603782bfb1d577"
+    },
+    "sales_command_model.mjs": {
+      "bytes": 22789,
+      "sha256": "cc42f05ff7d1fc5d915d26432dfddd8de621d1c46b0ae889c9f1a1b8744c1a13"
+    },
+    "SALES_COMMAND_MODEL_ORIGIN.json": {
+      "bytes": 960,
+      "sha256": "b779308a7422cc875ce8df5dfbbc9600e2d202ccfd42a5bb5ea00fbcf26bab97"
+    }
+  },
+  "actual_Native_cases": 0,
+  "actual_Auth_HTTP_cases": 0,
+  "actual_browser_cases": 0,
+  "actual_two_session_races": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

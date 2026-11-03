@@ -1,0 +1,22 @@
+{
+  "status": "ACTUAL_ISOLATED_POSTGRES_WASM_OFFSET_SQL_COMPILE_AND_BEHAVIOUR_PASS_NOT_NATIVE",
+  "source": {
+    "bytes": 11629,
+    "sha256": "51c8954eb3d66a280699dc0848b7d4aab3326dcf388a4f04ce7be385c36f71a2"
+  },
+  "new_private_functions_compiled": 3,
+  "new_private_tables_compiled": 1,
+  "actual_model_controls": 28,
+  "model_original": {
+    "bytes": 7182,
+    "sha256": "a4d797c4687bad2a28bb41fb97621121fddd1a1ec6322b33ceb0fd7d55353a1a"
+  },
+  "postgres_version": "PostgreSQL 18.6 (PGlite 0.5.14) on wasm32-unknown-emscripten, compiled by emcc (Emscripten gcc/clang-like replacement + linker emulating GNU ld) 6.0.5 (1db513782be24469589d7cb8a1f1834e9a33f271), 32-bit",
+  "PGlite_version": "0.5.14",
+  "runtime_lock_sha256": "22ce0a67fb745daced734c2491e90e39f4bb98ee63bb63e36da0577b85ba7d5f",
+  "isolated_model_SQL_executed": true,
+  "ERP_SQL_executed": 0,
+  "actual_Native_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

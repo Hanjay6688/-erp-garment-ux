@@ -1,0 +1,58 @@
+{
+  "status": "EXACT_THREE_ROUTE_PLATFORM_FENCES_AND_CATALOGUE_PROFILE_SOURCE_NOT_GLOBAL_RUNTIME",
+  "original_lock": {
+    "bytes": 7185,
+    "sha256": "2446da79ce58c29bbaaef9b126897322b29ff1504ed4d65f16be5d0150482c13"
+  },
+  "derived_lock": {
+    "bytes": 7759,
+    "sha256": "0bbd875a4c6e59f48bcb15a059e887f7b45484acd04f70779e35b640ccb8cf3a"
+  },
+  "platform_source": {
+    "bytes": 2863,
+    "sha256": "b44bd4a94a898afca0dc9360f14a595c2dcef1cc55a2a18347ebb6b84924e90e"
+  },
+  "route": {
+    "before": " -- First freeze the identity universe used to enumerate all actual catalog\n -- tables. Old uncommitted catalog writers are checked by permanent XID locks.\n lock table pg_catalog.pg_class,pg_catalog.pg_namespace in share mode nowait;\n select coalesce(jsonb_agg(jsonb_build_array(n.nspname,c.relname,c.relkind::text,\n   c.relpersistence::text,pg_get_userbyid(c.relowner),c.relrowsecurity,c.relforcerowsecurity,\n   case when c.relacl is null then null else to_jsonb(array(\n    select a::text from unnest(c.relacl)a order by a::text collate \"C\"))end)\n   order by n.nspname collate \"C\",c.relname collate \"C\"),'[]'::jsonb)\n into catalogs_ from pg_catalog.pg_class c join pg_catalog.pg_namespace n on n.oid=c.relnamespace\n where n.nspname='pg_catalog'and c.relkind in('r','p');\n if catalogs_ is distinct from profile_.expected_catalogs then\n  raise exception 'CP7_GLOBAL_SYSTEM_CATALOG_IDENTITY_OR_AUTHORITY_CHANGED';end if;\n for entry_ in select value from jsonb_array_elements(catalogs_)loop\n  execute format('lock table %I.%I in share mode nowait',entry_->>0,entry_->>1);\n end loop;\n",
+    "after": " -- The platform helper has no input arguments and can lock only actual\n -- pg_catalog tables. Its locks remain on this backend/transaction after the\n -- SECURITY DEFINER call returns to the ordinary postgres owner.\n catalogs_:=cp7_global_catalog_fence.lock_v1();\n select coalesce(jsonb_agg(jsonb_build_array(pid,transactionid::text,mode,granted,fastpath)\n   order by pid nulls first,transactionid::text),'[]'::jsonb)into transactions_\n from pg_catalog.pg_locks where locktype='transactionid'and mode='ExclusiveLock'and granted\n  and pid is distinct from pg_backend_pid();\n if transactions_<>'[]'::jsonb then\n  raise exception using errcode='55P03',message='CP7_GLOBAL_PREEXISTING_TRANSACTION_REVIEW_AGAIN';end if;\n\n select coalesce(jsonb_agg(jsonb_build_array(n.nspname,c.relname,c.relkind::text,\n   c.relpersistence::text,pg_get_userbyid(c.relowner),c.relrowsecurity,c.relforcerowsecurity,\n   case when c.relacl is null then null else to_jsonb(array(\n    select a::text from unnest(c.relacl)a order by a::text collate \"C\"))end)\n   order by n.nspname collate \"C\",c.relname collate \"C\"),'[]'::jsonb)\n into catalogs_ from pg_catalog.pg_class c join pg_catalog.pg_namespace n on n.oid=c.relnamespace\n where n.nspname='pg_catalog'and c.relkind in('r','p');\n if catalogs_ is distinct from profile_.expected_catalogs then\n  raise exception 'CP7_GLOBAL_SYSTEM_CATALOG_IDENTITY_OR_AUTHORITY_CHANGED';end if;\n",
+    "count": 1
+  },
+  "relation_route": {
+    "before": " -- EXCLUSIVE also conflicts with existing FK/SELECT FOR UPDATE RowShareLock.\n -- Ordinary SELECT remains available. All acquisition is NOWAIT; callers keep\n -- their existing request/CAS, pocket TRY, FG and FGBOOK order before this call.\n for entry_ in select value from jsonb_array_elements(profile_.expected_relations)\n  order by (value->>0) collate \"C\",(value->>1) collate \"C\"loop\n  if jsonb_typeof(entry_)<>'array'or jsonb_array_length(entry_)<>8\n   or entry_->>2 not in('r','p')then raise exception 'CP7_GLOBAL_TYPED_RELATION_PROFILE_REQUIRED';end if;\n  execute format('lock table %I.%I in exclusive mode nowait',entry_->>0,entry_->>1);\n  select jsonb_build_array(n.nspname,c.relname,c.relkind::text,c.relpersistence::text,\n   pg_get_userbyid(c.relowner),c.relrowsecurity,c.relforcerowsecurity,\n   case when c.relacl is null then null else to_jsonb(array(\n    select a::text from unnest(c.relacl)a order by a::text collate \"C\"))end)\n  into actual_ from pg_catalog.pg_class c join pg_catalog.pg_namespace n on n.oid=c.relnamespace\n  where n.nspname=entry_->>0 and c.relname=entry_->>1;\n  if actual_ is distinct from entry_ then raise exception 'CP7_GLOBAL_RELATION_IDENTITY_OR_AUTHORITY_CHANGED';end if;\n end loop;\n",
+    "after": " -- A fixed platform capability locks only the one sealed profile's\n -- declared application relations, including private internal-role tables.\n actual_:=cp7_global_catalog_fence.lock_relations_v1(p_profile);\n if actual_ is distinct from profile_.expected_relations then\n  raise exception 'CP7_GLOBAL_RELATION_IDENTITY_OR_AUTHORITY_CHANGED';end if;\n",
+    "count": 1
+  },
+  "catalogue_profile_route": {
+    "before": " -- A fixed platform capability locks only the one sealed profile's\n -- declared application relations, including private internal-role tables.\n actual_:=cp7_global_catalog_fence.lock_relations_v1(p_profile);\n if actual_ is distinct from profile_.expected_relations then\n  raise exception 'CP7_GLOBAL_RELATION_IDENTITY_OR_AUTHORITY_CHANGED';end if;\n",
+    "after": " -- Full current catalogue authority is sealed separately from the nineteen\n -- known financial functions. Its fixed25 groups include all original22 plus\n -- operator/cast/language dispatch. It changes neither data nor sequence state.\n if pg_my_temp_schema()<>0 then\n  raise exception 'CP7_GLOBAL_TEMPORARY_NAMESPACE_REQUIRES_FRESH_CONNECTION';end if;\n if profile_.actual_parent_root_receipt->>'contract'is distinct from'cp7.global-parent-and-catalogue-profile.v1'\n  or profile_.actual_parent_root_receipt#>>'{accepted_parent,head}'is distinct from profile_.parent_head\n  or profile_.actual_parent_root_receipt#>>'{accepted_parent,tree}'is distinct from profile_.parent_tree\n  or coalesce(profile_.actual_parent_root_receipt#>>'{accepted_parent,root_receipt_pin,sha256}','')!~'^[0-9a-f]{64}$'then\n  raise exception 'CP7_GLOBAL_ACTUAL_PARENT_AND_CATALOGUE_PROFILE_REQUIRED';end if;\n actual_:=cp7_global_nonpo_envelope.catalogue_fingerprint_v1();\n if actual_ is distinct from profile_.actual_parent_root_receipt->'catalogue_fingerprint'then\n  raise exception 'CP7_GLOBAL_COMPLETE_CURRENT_CATALOGUE_AUTHORITY_CHANGED';end if;\n\n -- A fixed platform capability locks only the one sealed profile's\n -- declared application relations, including private internal-role tables.\n actual_:=cp7_global_catalog_fence.lock_relations_v1(p_profile);\n if actual_ is distinct from profile_.expected_relations then\n  raise exception 'CP7_GLOBAL_RELATION_IDENTITY_OR_AUTHORITY_CHANGED';end if;\n",
+    "count": 1
+  },
+  "source_routes": 3,
+  "catalogue_fingerprint_source": {
+    "bytes": 17577,
+    "sha256": "fc69e7ca90289dc9f43b03ee1d1f84bc1a84b35fc71704004f9c0c615a6016f1"
+  },
+  "original_all22_plus_operator_cast_language_groups": 25,
+  "full_current_catalogue_checked_before_post_fence_source_graph_reads": true,
+  "nonempty_current_backend_temporary_namespace_refused": true,
+  "fresh_catalog_metadata_after_early_XID_drain": true,
+  "original_later_XID_check_retained": true,
+  "complete_original_recovered": true,
+  "platform_helper": "cp7_global_catalog_fence.lock_v1()",
+  "platform_helper_owner": "supabase_admin",
+  "allowed_external_invoker": "postgres",
+  "new_roles": 0,
+  "new_browser_or_service_grants": 0,
+  "postgres_catalog_DML_or_MAINTAIN_grants": 0,
+  "new_owning_or_financial_function_changes": 0,
+  "old_scope21_and_review13_and_catalog_and_relation_controls_NOT_rerun": true,
+  "trusted_bootstrap_and_final_parent_and_global_qualification_pending": true,
+  "relation_platform_source": {
+    "bytes": 5321,
+    "sha256": "792388496fc4d3dc46305a44aa986ec0594d33aaef9f65094fafaba898a0fd40"
+  },
+  "actual_SQL_executed": 0,
+  "actual_Native_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

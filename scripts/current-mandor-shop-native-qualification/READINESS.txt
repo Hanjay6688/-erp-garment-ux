@@ -1,0 +1,11 @@
+WRITER A — MANDOR NATIVE9 PREPARED, NOT EXECUTED
+
+Retains the original six actual-domain scenarios and adds: active-offset return/correction refusal, lawful payroll reversal followed by real return/inverse and linked note correction; cash installments600000+1100000 with final300000 offset, reopen/repay and whole reversal; current allocation/AR permission refusals including cached payment replay, and zero-net payroll without cash.
+
+Fixture prerequisites corrected before the first runtime: sale review and mutation use the same explicit actor; positive payroll net cash is funded by the existing Native owner-capital helper before approval observations; zero net creates no cash funding or payment journal. All earlier genuine WIB/current GOOD/master constraints and future unpaid draft rules remain. No authoritative posted cash/stock/HPP/sale/payroll row is seeded.
+
+Two new private command guards check current AR rights before payroll/installment cached outcomes and refuse active-offset return/correction before Native business writes. Original table guards remain the final boundary. Five exact reversible command insertions preserve all prior transaction bodies, permissions, input validation, idempotency and outcomes; original owner/OID/raw ACL checks still apply. This source change requires actual Native9 and current-rights/two-backend/Auth/browser qualification; old modeled controls are not evidence for the new guards.
+
+The owning assembly and complete backup/restore, role cleanup, all22/all rows/all sequences/public/advisor gates remain. Nine exact case identities, original observation pairs, all five package gates and completed process reaping are mandatory. Source syntax/signature/SQL preparation is not ERP acceptance.
+
+PARENT_ROOT_PIN and RUNTIME_ENTRY remainNone. No Mandor workflow or financial run is activated until actual Afui15/all-five/full restoration is accepted and pinned. Runtime qualification, two-backend/current-rights races, Auth HTTP, desktop/mobile popup and final combined independent acceptance remain pending. production_go=false; independent_acceptance=false.

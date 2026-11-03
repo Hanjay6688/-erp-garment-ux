@@ -1,0 +1,132 @@
+{
+  "status": "FG_MANDOR_PRIVATE_ALLOCATION_MODEL_CONTROLS_PASS_NOT_NATIVE",
+  "source_files": {
+    "schema.sql": {
+      "bytes": 12510,
+      "sha256": "59c1b8e69555f6a8e0caf34e8d0ee18e27c1d4caaee8073c44225bbc4a687fd1"
+    },
+    "events.sql": {
+      "bytes": 8216,
+      "sha256": "9e2633af5d9ecff6220c37cdf8bb22a27ce71cbc03862c8aa40a1fadfd82a1d3"
+    },
+    "allocation.sql": {
+      "bytes": 16985,
+      "sha256": "e57c96f8289ef95cbce60b337ccba57109c4428115448526f79ed82f42b3a0c2"
+    },
+    "NATIVE_ALLOCATION_REFERENCE.json": {
+      "bytes": 41819,
+      "sha256": "d8186788861fafe039af6e4745a92ed69fc8b27287e295cdd9af55bcfc36d9c2"
+    }
+  },
+  "retained_storage_15_controls_NOT_rerun": true,
+  "actual_unchanged_native_definitions_reused": {
+    "erp.recalculate_payroll(uuid)": {
+      "bytes": 1186,
+      "sha256": "10338d6e9388b9bb5bf75826fbda546a23834f2ceca9281852bac6c6cd50d5a6"
+    },
+    "cp7_installment.meaning(uuid)": {
+      "bytes": 907,
+      "sha256": "7a0971db4348973388246cd6e2dbd56fc91064245280040efca6d72d16f35375"
+    }
+  },
+  "modeled_boundaries": [
+    "auth.uid/auth.jwt",
+    "get_my_access_v1/has_permission",
+    "Native invoice net and effective paid",
+    "Native require_internal with exact PREPARE context",
+    "Native tables reduced to required correctly typed columns"
+  ],
+  "results": [
+    {
+      "label": "Reserve selected week: 2,000,000 wage less 300,000 purchase = 1,700,000 preview, invoice still unpaid",
+      "result": "PASS"
+    },
+    {
+      "label": "Exact repeated request returns its immutable outcome without a second deduction",
+      "result": "PASS"
+    },
+    {
+      "label": "Same request cannot change amount",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "P0001",
+      "error": "REQUEST_CHANGED"
+    },
+    {
+      "label": "Stale second-tab review cannot reserve again",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "P0001",
+      "error": "REVIEW_CHANGED"
+    },
+    {
+      "label": "Cross-week reservation cannot exceed unallocated invoice remainder",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "P0001",
+      "error": "INVOICE_CAPACITY_CHANGED"
+    },
+    {
+      "label": "Remaining 200,000 may be reserved manually on a different payroll week",
+      "result": "PASS"
+    },
+    {
+      "label": "Payroll capacity limits the purchase deduction",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "P0001",
+      "error": "PAYROLL_CAPACITY_CHANGED"
+    },
+    {
+      "label": "Fractional cents are rejected before Native numeric rounding",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "P0001",
+      "error": "EXACT_POSITIVE_CENTS_REQUIRED"
+    },
+    {
+      "label": "Wrong mandor cannot use another mandor invoice",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "P0001",
+      "error": "WRONG_MANDOR"
+    },
+    {
+      "label": "Release removes the draft deduction while preserving immutable allocation and event history",
+      "result": "PASS"
+    },
+    {
+      "label": "An external invoice balance change invalidates an old review",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "P0001",
+      "error": "REVIEW_CHANGED"
+    },
+    {
+      "label": "An approved payroll cannot have its purchase deduction silently edited",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "P0001",
+      "error": "EDITABLE_PAYROLL_REQUIRED"
+    },
+    {
+      "label": "Current permissions are required even for an already committed request replay",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "42501",
+      "error": "ACCESS_DENIED"
+    },
+    {
+      "label": "A changed/reversed invoice keeps its outstanding reservation card available for lawful release",
+      "result": "PASS"
+    },
+    {
+      "label": "No journals or fake invoice payments; both private command contexts are empty",
+      "result": "PASS"
+    }
+  ],
+  "final_counts": {
+    "allocations": 2,
+    "events": 4,
+    "deductions": 0,
+    "requests": 4
+  },
+  "actual_Native_cases": 0,
+  "actual_Auth_HTTP_cases": 0,
+  "actual_two_session_races": 0,
+  "actual_browser_cases": 0,
+  "ERP_installed": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

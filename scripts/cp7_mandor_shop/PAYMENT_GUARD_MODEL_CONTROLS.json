@@ -1,0 +1,137 @@
+{
+  "status": "FG_MANDOR_PROTECTED_NATIVE_JOURNAL_AND_INVOICE_BOUNDARY_MODEL_CONTROLS_PASS_NOT_NATIVE",
+  "results": [
+    {
+      "label": "33 actual Native column-type maps, six new boundary functions and six Native-table triggers compile on the isolated model",
+      "result": "PASS"
+    },
+    {
+      "label": "An internal journal primitive cannot invent an FG source without the explicit payroll owner",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "42501",
+      "error": "OWNING_COMMAND_REQUIRED"
+    },
+    {
+      "label": "Even a valid owning context cannot COMMIT a protected FG journal without exact settlement, account and event facts",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "P0001",
+      "error": "PROTECTED_JOURNAL_EXACT_FACTS_REQUIRED_AT_COMMIT"
+    },
+    {
+      "label": "A lawful actual derived Native payroll payment satisfies all new deferred facts and settles the same invoice once",
+      "result": "PASS"
+    },
+    {
+      "label": "Posted FG journal legs cannot be edited through the Native table",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "P0001",
+      "error": "PROTECTED_JOURNAL_LEGS_IMMUTABLE"
+    },
+    {
+      "label": "Changing protected journal source type cannot disguise the offset",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "P0001",
+      "error": "PROTECTED_JOURNAL_IDENTITY_IMMUTABLE"
+    },
+    {
+      "label": "Generic Native journal reversal cannot bypass the owning payroll reversal",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "42501",
+      "error": "OWNING_COMMAND_REQUIRED"
+    },
+    {
+      "label": "Invoice correction with active FG settlement requires lawful payroll reversal first",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "P0001",
+      "error": "ACTIVE_OFFSET_REVERSE_PAYROLL_BEFORE_INVOICE_CORRECTION"
+    },
+    {
+      "label": "A draft sales return can be reviewed, but cannot post against an active FG settlement",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "P0001",
+      "error": "ACTIVE_OFFSET_REVERSE_PAYROLL_BEFORE_SALES_RETURN"
+    },
+    {
+      "label": "Lawful Native payroll reversal alone creates the exact protected inverse and immutable reversal history",
+      "result": "PASS"
+    },
+    {
+      "label": "After lawful offset reversal, the invoice-return boundary is released for the existing Native return engine",
+      "result": "PASS"
+    },
+    {
+      "label": "Protected inverse history cannot be reversed again through a generic journal call",
+      "result": "REFUSED_AS_REQUIRED",
+      "SQLSTATE": "42501",
+      "error": "OWNING_COMMAND_REQUIRED"
+    },
+    {
+      "label": "Ordinary Native payroll cash journals still pass without any FG context or protected settlement",
+      "result": "PASS"
+    }
+  ],
+  "source_files": {
+    "schema.sql": {
+      "bytes": 12510,
+      "sha256": "59c1b8e69555f6a8e0caf34e8d0ee18e27c1d4caaee8073c44225bbc4a687fd1"
+    },
+    "events.sql": {
+      "bytes": 8216,
+      "sha256": "9e2633af5d9ecff6220c37cdf8bb22a27ce71cbc03862c8aa40a1fadfd82a1d3"
+    },
+    "allocation.sql": {
+      "bytes": 16985,
+      "sha256": "e57c96f8289ef95cbce60b337ccba57109c4428115448526f79ed82f42b3a0c2"
+    },
+    "offset_projection.sql": {
+      "bytes": 11629,
+      "sha256": "51c8954eb3d66a280699dc0848b7d4aab3326dcf388a4f04ce7be385c36f71a2"
+    },
+    "payment_owner.sql": {
+      "bytes": 20924,
+      "sha256": "967f20999cf23bd6a76610300fb35f61fe01d733053db7fbefdf3da112902056"
+    },
+    "native_payment_routes.py": {
+      "bytes": 6314,
+      "sha256": "d9d3da26117ffe0ede2b4e434a74bdd619f162fb8c7f2616ce344625a012d532"
+    },
+    "NATIVE_PAYMENT_OWNER_REFERENCE.json": {
+      "bytes": 163019,
+      "sha256": "ac1c83ee6f9c5a642a8b079c0f46cfab22a295d3566e2abd2f0b8c9b2846880d"
+    },
+    "NATIVE_PAYMENT_GUARD_REFERENCE.json": {
+      "bytes": 2578,
+      "sha256": "372f6af3b7ce3b9a5c4ab73ea3dc592c61e12bcec6568a3d6bfd7e80faf46fe7"
+    },
+    "payment_guards.sql": {
+      "bytes": 10946,
+      "sha256": "0405c0a9c807ef0be3881c2a32c69a152e2a0614bc8efb1f5572ac715683d771"
+    },
+    "payment_guard_model.mjs": {
+      "bytes": 24329,
+      "sha256": "d1752248991d4c0b39bae2b811ed0923ca389eb7bcef22a2f575e36708715dc8"
+    },
+    "PAYMENT_GUARD_MODEL_ORIGIN.json": {
+      "bytes": 1605,
+      "sha256": "60187abb0c72f2232df771ad19cad51e759b41937dd62d7806efcdedcf0e67f6"
+    }
+  },
+  "new_guard_functions_compiled": 6,
+  "new_Native_table_triggers_compiled": 6,
+  "Native_column_type_maps": 33,
+  "retained_95_and_payment23_controls_NOT_rerun": true,
+  "Native_function_or_payment_owner_sources_changed": false,
+  "modeled_boundaries": [
+    "Native base-table constraints/triggers and generated defaults",
+    "Auth, permissions, internal/owner admission and Native review/caller contexts",
+    "invoice net/paid provider and credit materialization",
+    "Native approval, period, HPP/stock and sales-return engine"
+  ],
+  "actual_Native_cases": 0,
+  "actual_Auth_HTTP_cases": 0,
+  "actual_browser_cases": 0,
+  "actual_two_session_races": 0,
+  "real_sales_return_engine_executed": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

@@ -1,0 +1,17 @@
+{
+  "status": "FG_MANDOR_SALE_IDENTITY_HOOK_SYNTAX_PASS_NOT_EXECUTION",
+  "source": {
+    "bytes": 5069,
+    "sha256": "98964804488c94f0ffee865068327a8b6fb37fc8b7c6e037e97af32525a672ea"
+  },
+  "parser": "pglast v7.20",
+  "SQL_statements": 4,
+  "private_functions": 1,
+  "Native_header_triggers": 1,
+  "PLpgSQL_definitions": 1,
+  "Native_invoice_stock_HPP_cash_functions_changed": 0,
+  "actual_Native_cases": 0,
+  "ERP_SQL_executed": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

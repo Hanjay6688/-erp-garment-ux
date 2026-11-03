@@ -1,0 +1,1077 @@
+{
+  "contract": "cp7.unified-source-candidate.v1",
+  "status": "PREPARED_UNQUALIFIED",
+  "integrator": "WRITER_A",
+  "base": {
+    "head": "76b3f1e1bcce49cc405e55f92a733dcd0f360cad",
+    "tree": "b3182ae21e3981e91d6d3730ec4ffb33dce1afb4"
+  },
+  "components": {
+    "AFUI": {
+      "head": "76b3f1e1bcce49cc405e55f92a733dcd0f360cad",
+      "tree": "b3182ae21e3981e91d6d3730ec4ffb33dce1afb4",
+      "exact_files": {
+        "scripts/cp7_accessory_nonpayable/UI_ORIGIN.json": {
+          "bytes": 25394,
+          "sha256": "f4d21bda4221e2e7ec58d96d1dad03b08b2aba5ef2134365d6ce22f8a2b82b9c"
+        },
+        "scripts/cp7_accessory_nonpayable/ui-before/ConnectedErpSettingsPage.dom.test.tsx.txt": {
+          "bytes": 19000,
+          "sha256": "eea4cdce3854fe9d061d8f926b664606f93162df0e3446ccc928aa9249729b05"
+        },
+        "scripts/cp7_accessory_nonpayable/ui-before/ConnectedErpSettingsPage.tsx.txt": {
+          "bytes": 22681,
+          "sha256": "5d97515f8f788ab1c7755d7c1c8677c7c7b77867701f95a3ae667e4091d44487"
+        },
+        "scripts/cp7_accessory_nonpayable/ui-before/check-access-catalog.mjs.txt": {
+          "bytes": 44657,
+          "sha256": "6e277aa3e1dc9eb54e98a985f2b64359acce9e05afb246caebf6600c1a1aad14"
+        },
+        "scripts/cp7_accessory_nonpayable/ui-before/check-source-ownership.mjs.txt": {
+          "bytes": 25243,
+          "sha256": "bba02cb2f7892c3f40ab88be4a887741362868bd34be2f2d80a1826cc9022649"
+        },
+        "src/ConnectedErpSettingsPage.dom.test.tsx": {
+          "bytes": 21386,
+          "sha256": "cc76895152e45f0a30b584efedd8fd0fe61647173bca51898861bb35b8a821d8"
+        },
+        "src/ConnectedErpSettingsPage.tsx": {
+          "bytes": 23367,
+          "sha256": "d0dd71d4b1f7ff528fad411bbb133b80dfb52f137b64102174b758a4a2969659"
+        },
+        "src/GoodPolicyDatesPanel.dom.test.tsx": {
+          "bytes": 10471,
+          "sha256": "1ab765dbb012fc9c8bb714f3959336a07fa49731b0946c27239c72db022de604"
+        },
+        "src/GoodPolicyDatesPanel.tsx": {
+          "bytes": 12808,
+          "sha256": "89034c7e6a058259e3559007822707a53994f6217db6c96b53ccef1a4237bddf"
+        },
+        "src/good-policy-dates.css": {
+          "bytes": 876,
+          "sha256": "f6deee83b211576641f6a536a282d12a3b89076eb55e9d6d02fd97ba1c6328e5"
+        },
+        "src/nativeGoodPolicyDates.test.ts": {
+          "bytes": 6991,
+          "sha256": "35eb0f818fd8e26b4cc1fdf2206f39ac225e7696d71228a2474181046e6c2571"
+        },
+        "src/nativeGoodPolicyDates.ts": {
+          "bytes": 13900,
+          "sha256": "bcb325f133e651ba7d0572cd5021cb071f9c7a49a9899e6c573709780706db36"
+        }
+      }
+    },
+    "GLOBAL": {
+      "head": "58296c88256ad40401fa133174ef71380b0a3f5a",
+      "tree": "b1f1ce3f9536ef4d3067ac3a727ca2056cd1cfd6",
+      "exact_files": {
+        "scripts/cp7_global_nonpo_envelope/CATALOGUE_PROFILE_SOURCE_CONTROLS.json": {
+          "bytes": 3954,
+          "sha256": "5146f3334010434d3f32ecf28a6cf9bb9e8f09025f5fb7884d788fad62165d40"
+        },
+        "scripts/cp7_global_nonpo_envelope/CATALOG_BRIDGE_SOURCE_CONTROLS.json": {
+          "bytes": 7898,
+          "sha256": "00e3d24f99ad0fc7c9feaed71326330727454974d2b81353362bd97585bb61c7"
+        },
+        "scripts/cp7_global_nonpo_envelope/INSTALL_PLAN.json": {
+          "bytes": 16095,
+          "sha256": "96ce9eee5c4e12f2669cb1e9636080632a5f84c043e1d01b6c14c1c72a288a40"
+        },
+        "scripts/cp7_global_nonpo_envelope/NATIVE_OWNING_REFERENCE.json": {
+          "bytes": 81635,
+          "sha256": "c1e4a5c076a6d451aa85cba68f3f985fa84c12a2d81a77f63d84914ab25fd6b9"
+        },
+        "scripts/cp7_global_nonpo_envelope/NATIVE_OWNING_ROUTES_SOURCE_CONTROLS.json": {
+          "bytes": 13657,
+          "sha256": "e01a79639c1b3b828c0c511f2bc2fb6f0caba8bf887072fef0c09cdfc22f81d7"
+        },
+        "scripts/cp7_global_nonpo_envelope/NATIVE_SCOPE_WORK_REFERENCE.json": {
+          "bytes": 20187,
+          "sha256": "382fa9cda10c71b8649834211c3d78f6edcfb81a337999556d2b3b93dc9cbef3"
+        },
+        "scripts/cp7_global_nonpo_envelope/OWNING_HOOK_MODEL_CONTROLS.json": {
+          "bytes": 4032,
+          "sha256": "98dcffe7d7b368d86634cccc57bef4c38bceaac5e707f0010b698b3d5dc6196f"
+        },
+        "scripts/cp7_global_nonpo_envelope/OWNING_HOOK_MODEL_ORIGIN.json": {
+          "bytes": 1126,
+          "sha256": "414136dc15f73ca1be9f104afbe36404dac218aeaab851942d9f4707d202d6ff"
+        },
+        "scripts/cp7_global_nonpo_envelope/PLATFORM_CATALOG_CAPABILITY_REQUIREMENT.json": {
+          "bytes": 1609,
+          "sha256": "3e04006d4984c047a48ab89a077de93839bace4621c623f8ae918ef8e8fc3c84"
+        },
+        "scripts/cp7_global_nonpo_envelope/README.md": {
+          "bytes": 10613,
+          "sha256": "2acaf8c753b706581e7088e339bcd23ecce41bcd5ae9989e3a04a99dd66c126f"
+        },
+        "scripts/cp7_global_nonpo_envelope/READONLY_GRAPH_ORIGIN.json": {
+          "bytes": 1730,
+          "sha256": "ddf45b813abde3bd73c2947dca210b53612e8bef2a29e6cc6fa3b4fcc5ad4358"
+        },
+        "scripts/cp7_global_nonpo_envelope/READONLY_GRAPH_SAVED_DE30_COMPATIBILITY.json": {
+          "bytes": 1115,
+          "sha256": "46c1a8ad731bb644ee3c3dc89d11d61591767df6ead2d66d01562842b69198e1"
+        },
+        "scripts/cp7_global_nonpo_envelope/READONLY_GRAPH_SOURCE_CONTROLS.json": {
+          "bytes": 530,
+          "sha256": "e7efaed0f6b035d9e94ced9ff0f1adce60b4f1640a76ab7b1e6e70449d026847"
+        },
+        "scripts/cp7_global_nonpo_envelope/SEMANTIC_AUTHORITY_SOURCE_CONTROLS.json": {
+          "bytes": 2426,
+          "sha256": "3913e9accb6e5477b2e86d7ee50b05bbd456a6b551d70c3e1949a139ec38430c"
+        },
+        "scripts/cp7_global_nonpo_envelope/SOURCE.json": {
+          "bytes": 8656,
+          "sha256": "9dcdfea2fde027d54f2ef2888ca2d07154a89b072da458ef893cdcea5e652e09"
+        },
+        "scripts/cp7_global_nonpo_envelope/SYNTAX_AND_SOURCE_CONTROLS.json": {
+          "bytes": 2252,
+          "sha256": "fd4f45af2df0aa6bf8599612c7d240d61706cfa8f1e8a1ad0a6f3e73d12434ef"
+        },
+        "scripts/cp7_global_nonpo_envelope/WORK_SCOPE_MODEL_CONTROLS.json": {
+          "bytes": 5625,
+          "sha256": "e28d0d19ba1dbc0bb1397c1298cb2fdd11fb653fdcc23b2319e554cc49057d30"
+        },
+        "scripts/cp7_global_nonpo_envelope/WORK_SCOPE_MODEL_FIRST_FAILURE.json": {
+          "bytes": 1068,
+          "sha256": "69033736b4bb37754cea52ee9d41aa27e707da6bb127e916d2389adc4288de07"
+        },
+        "scripts/cp7_global_nonpo_envelope/admission.py": {
+          "bytes": 1739,
+          "sha256": "e77645273331e4f13def8bbd830127fab1673c95e198796e789784dbfaa218fe"
+        },
+        "scripts/cp7_global_nonpo_envelope/build_install_plan.py": {
+          "bytes": 6679,
+          "sha256": "a44d3f1942cbe650a7ddd26c49bcf936b1738be45f77d723d58711cdb4475214"
+        },
+        "scripts/cp7_global_nonpo_envelope/catalog_bridge.py": {
+          "bytes": 6680,
+          "sha256": "9230497a1ddcc86727aa9da0a2dc4e268fff0344817787c183ad6ab138539868"
+        },
+        "scripts/cp7_global_nonpo_envelope/catalogue_fingerprint.sql": {
+          "bytes": 17577,
+          "sha256": "fc69e7ca90289dc9f43b03ee1d1f84bc1a84b35fc71704004f9c0c615a6016f1"
+        },
+        "scripts/cp7_global_nonpo_envelope/catalogue_profile.py": {
+          "bytes": 4607,
+          "sha256": "e34234eab2e4c36f8c63742a504569f954957241c0cbc679e9b420d12218b19e"
+        },
+        "scripts/cp7_global_nonpo_envelope/check_source.py": {
+          "bytes": 13458,
+          "sha256": "72e073793e3d1ec564d05ff65f29ac83651c6349012baf925f18155b8df21eb7"
+        },
+        "scripts/cp7_global_nonpo_envelope/composition.py": {
+          "bytes": 21891,
+          "sha256": "aa5139dcc0a87445e4fbecd1af0aca9cdf70b9e53b5a6be523aebe86d38029e4"
+        },
+        "scripts/cp7_global_nonpo_envelope/graph_helpers/AUTHORITY.json": {
+          "bytes": 71436,
+          "sha256": "193194184cdbfde1753677ad486d7010ada8ed9e6198f9a19e57c4b8587e3d78"
+        },
+        "scripts/cp7_global_nonpo_envelope/graph_helpers/authority.sql": {
+          "bytes": 62241,
+          "sha256": "9685a0a6ca3d714197e17a5fc61c71297520fb2c3c26248d2f857311f057c4bb"
+        },
+        "scripts/cp7_global_nonpo_envelope/graph_helpers/capture.sql": {
+          "bytes": 8016,
+          "sha256": "90a03cbbd430f317c2e18c7e7f13743370e617756d2d2b1fe06179b2af3003cf"
+        },
+        "scripts/cp7_global_nonpo_envelope/graph_helpers/inspect.sql": {
+          "bytes": 9510,
+          "sha256": "8f9461ce31e9973969040ae16029241253eb2ce1e0fde9ebba160db32b6cd782"
+        },
+        "scripts/cp7_global_nonpo_envelope/graph_helpers/scope.sql": {
+          "bytes": 10246,
+          "sha256": "c24434d8ab62fd7b92ba1dc0706ee1d35ac06864700cc3ceeec36cf90fad1575"
+        },
+        "scripts/cp7_global_nonpo_envelope/lock.sql": {
+          "bytes": 7185,
+          "sha256": "2446da79ce58c29bbaaef9b126897322b29ff1504ed4d65f16be5d0150482c13"
+        },
+        "scripts/cp7_global_nonpo_envelope/native_hooks.py": {
+          "bytes": 6535,
+          "sha256": "0ce771ecc8817a96c687f17a0150cc2b55135baa0a1b338d50fe6e2da0c5cf9d"
+        },
+        "scripts/cp7_global_nonpo_envelope/owning_hooks_model.mjs": {
+          "bytes": 16806,
+          "sha256": "c5befbc343209ef4aa68d8dff26a38058275b905b8ee293aa0bbdb29aa33bd63"
+        },
+        "scripts/cp7_global_nonpo_envelope/platform_catalog_fence.sql": {
+          "bytes": 2863,
+          "sha256": "b44bd4a94a898afca0dc9360f14a595c2dcef1cc55a2a18347ebb6b84924e90e"
+        },
+        "scripts/cp7_global_nonpo_envelope/platform_relation_fence.sql": {
+          "bytes": 5321,
+          "sha256": "792388496fc4d3dc46305a44aa986ec0594d33aaef9f65094fafaba898a0fd40"
+        },
+        "scripts/cp7_global_nonpo_envelope/readonly_graph.py": {
+          "bytes": 4565,
+          "sha256": "f0e7aca895f4c95cddee2558fdc8639da6629e6ab06c5ba0f21387565f584efc"
+        },
+        "scripts/cp7_global_nonpo_envelope/review.sql": {
+          "bytes": 2956,
+          "sha256": "875e1924412175f962ca7610d18d7375537e85ac381ed4870dbba0a073ee5ff6"
+        },
+        "scripts/cp7_global_nonpo_envelope/schema.sql": {
+          "bytes": 1906,
+          "sha256": "9cbb6f3c9d167e77c80e6c1047e4e497cf03bf10b7f59e839465a2c6cdaa56bd"
+        },
+        "scripts/cp7_global_nonpo_envelope/semantic_authority.sql": {
+          "bytes": 3251,
+          "sha256": "698a36a0b096f68d5b337c603f8c007ae648557ee78995b69cd0996af36020d6"
+        },
+        "scripts/cp7_global_nonpo_envelope/semantic_routes.py": {
+          "bytes": 3359,
+          "sha256": "a275a64b4cfe14dad2404d43f5713b25b0938411d5846573d11286e0236707b7"
+        },
+        "scripts/cp7_global_nonpo_envelope/work_scope.sql": {
+          "bytes": 10641,
+          "sha256": "fd379bef9aac477d77a5d7aa74a7d7ed32f9217f38d95a9af9f6c9e9f7b5505c"
+        },
+        "scripts/cp7_global_nonpo_envelope/work_scope_model.mjs": {
+          "bytes": 13285,
+          "sha256": "26762aceedd3de437b82fd4a0453c8248e0b2582bb66a9e3861ccdd7e5d77d9c"
+        }
+      }
+    },
+    "MANDOR": {
+      "head": "d7f707d21dd669f51654a16ca52c224052b35dbb",
+      "tree": "0035ea0f08e60e4fabb4f4b42fb4fe4f949be704",
+      "exact_files": {
+        "scripts/cp7_mandor_shop/ACTUAL_CREATOR_ACL_REFERENCE.json": {
+          "bytes": 1569,
+          "sha256": "075d1ac6d476a662a1277d7822b5561d494a4d7f774a28d6fca2d6f2a74841d2"
+        },
+        "scripts/cp7_mandor_shop/ALLOCATION_MODEL_CONTROLS.json": {
+          "bytes": 4208,
+          "sha256": "da5d51f90412db34247bcf10c35ebadc0d4e97418e1521b4211bb7515f384772"
+        },
+        "scripts/cp7_mandor_shop/ALLOCATION_SQL_SYNTAX_CONTROLS.json": {
+          "bytes": 686,
+          "sha256": "7cc8bc6ace4920d9499cec32abe77b2d8cbdb973b6c43bc57d7a2a45be1e34e6"
+        },
+        "scripts/cp7_mandor_shop/BROWSER_RPC_EXISTING_NATIVE3_REFERENCE.json": {
+          "bytes": 3536,
+          "sha256": "021bd1811fc191615440a7ef5b5cedc2266c11b1d080620ac9e5d8c2eb1fa5bc"
+        },
+        "scripts/cp7_mandor_shop/BUYER_MODEL_CONTROLS.json": {
+          "bytes": 5879,
+          "sha256": "cf7de05e9765bd940b834c9e3e4c75f150f301e859118b8ed95254e707fbd5c4"
+        },
+        "scripts/cp7_mandor_shop/BUYER_SQL_SYNTAX_CONTROLS.json": {
+          "bytes": 412,
+          "sha256": "e7e5e18b189a02084bf8153e829fa124bc3d017feb944686713b28c84e3f6c2c"
+        },
+        "scripts/cp7_mandor_shop/BUYER_UUID_INTEGER_QUOTIENT_REPAIR.json": {
+          "bytes": 709,
+          "sha256": "8edbc0f08568c540f32631cbebc2855e5f3e4396acf2923f64be15802e8e8331"
+        },
+        "scripts/cp7_mandor_shop/COMMAND_GUARD_NATIVE_REFERENCE.json": {
+          "bytes": 43220,
+          "sha256": "94f04b17419a33b427e075281c9aeddb2f87960d0ad3c1b2557ca7a5e031806e"
+        },
+        "scripts/cp7_mandor_shop/CONTROLLED_UI_CONTROLLER_ROUTE.json": {
+          "bytes": 1697,
+          "sha256": "29ebf642ec8fd5b21bcc5da9a24c18205463c2c6d377a3b13f9b7f1ae30bc086"
+        },
+        "scripts/cp7_mandor_shop/FACADE_DISPLAY_MODEL_CONTROLS.json": {
+          "bytes": 2904,
+          "sha256": "4bdc13d12d620f86f292136ec6fd2e7b4da7e2c07670ab91b7ff57b4f489b642"
+        },
+        "scripts/cp7_mandor_shop/FACADE_DISPLAY_MODEL_ORIGIN.json": {
+          "bytes": 840,
+          "sha256": "373763b898315c751ed1d8408e07b9a7c91ca76f16b7e53f4fe5c75edbfcbbec"
+        },
+        "scripts/cp7_mandor_shop/FACADE_INSTALL_SOURCE_CONTROLS.json": {
+          "bytes": 4099,
+          "sha256": "1f2d9538ce2fad0c2abff0d169a027df9e314535d3356fae5c42b26ab691819a"
+        },
+        "scripts/cp7_mandor_shop/FACADE_MODEL_CONTROLS.json": {
+          "bytes": 4154,
+          "sha256": "69b37b20ce6def65a6feabcefcce029a5625f322593d76915fdbeb840b040885"
+        },
+        "scripts/cp7_mandor_shop/FACADE_MODEL_ORIGIN.json": {
+          "bytes": 939,
+          "sha256": "30e942874bc1796778fbaff0e003e4d69b32173a8dcec04d8403daf2bb257a36"
+        },
+        "scripts/cp7_mandor_shop/FACADE_OWNERSHIP_FIRST_FAILURE.json": {
+          "bytes": 2260,
+          "sha256": "4cd4f3ae6e5cd98438fa80b6ec590ebdf7f345e36445e5f7a3a0d701902fd313"
+        },
+        "scripts/cp7_mandor_shop/FACADE_OWNERSHIP_MODEL_CONTROLS.json": {
+          "bytes": 2337,
+          "sha256": "bd8589833da0d8f3a9d703f1973fef0cc6f8eb3e8e5ff885827968429d964ae5"
+        },
+        "scripts/cp7_mandor_shop/INSTALLER_SOURCE_CONTROLS.json": {
+          "bytes": 1537,
+          "sha256": "8cafbacc8e4d2025cb5eadc6a6188f1a696697c92964d25b0958464410e9483b"
+        },
+        "scripts/cp7_mandor_shop/INSTALL_PLAN.json": {
+          "bytes": 11285,
+          "sha256": "bcaf77cc7097b9d970c38bb3f5ea7765e274c218364924f37869b815843149a4"
+        },
+        "scripts/cp7_mandor_shop/NATIVE_ALLOCATION_REFERENCE.json": {
+          "bytes": 41819,
+          "sha256": "d8186788861fafe039af6e4745a92ed69fc8b27287e295cdd9af55bcfc36d9c2"
+        },
+        "scripts/cp7_mandor_shop/NATIVE_BUYER_REFERENCE.json": {
+          "bytes": 90591,
+          "sha256": "9439f43a5ba710a7e881199e94c399d6efb1c9354ad477148edee10cb4d079b5"
+        },
+        "scripts/cp7_mandor_shop/NATIVE_DISPATCH_SOURCE_CONTROLS.json": {
+          "bytes": 1169,
+          "sha256": "40b5346730f3d21e30d0dc1b1a318b310f3722a9874cd70d0f586f865a104232"
+        },
+        "scripts/cp7_mandor_shop/NATIVE_OFFSET_REFERENCE.json": {
+          "bytes": 97316,
+          "sha256": "96e69c3f6671130efb3f79863533f1973c8d0cde93c2954e39a3c2b34c0471b6"
+        },
+        "scripts/cp7_mandor_shop/NATIVE_PAYMENT_GUARD_REFERENCE.json": {
+          "bytes": 2578,
+          "sha256": "372f6af3b7ce3b9a5c4ab73ea3dc592c61e12bcec6568a3d6bfd7e80faf46fe7"
+        },
+        "scripts/cp7_mandor_shop/NATIVE_PAYMENT_OWNER_REFERENCE.json": {
+          "bytes": 163019,
+          "sha256": "ac1c83ee6f9c5a642a8b079c0f46cfab22a295d3566e2abd2f0b8c9b2846880d"
+        },
+        "scripts/cp7_mandor_shop/NATIVE_SALES_COMMAND_REFERENCE.json": {
+          "bytes": 40270,
+          "sha256": "e07c1d12928f13e83aaeca9d5cd43c801e8e0d920e25e1e9f7603782bfb1d577"
+        },
+        "scripts/cp7_mandor_shop/NATIVE_SALES_IDENTITY_REFERENCE.json": {
+          "bytes": 19390,
+          "sha256": "e5fb23ce498448b0497870efb74bf848021cd507d7a29cf54f350ea8804d9b17"
+        },
+        "scripts/cp7_mandor_shop/NATIVE_SALES_ROUTES_SOURCE_CONTROLS.json": {
+          "bytes": 1125,
+          "sha256": "f6efa052e007064e2aac1ae9d7cdb4cd252de552fb08dcf1ab5c2f159db0df29"
+        },
+        "scripts/cp7_mandor_shop/NATIVE_SCHEMA_REFERENCE.json": {
+          "bytes": 45357,
+          "sha256": "07a46166c6ae74d078ee643637cadccc74714ae5297c1151059ae00a786acf28"
+        },
+        "scripts/cp7_mandor_shop/OFFSET_MODEL_CONTROLS.json": {
+          "bytes": 7182,
+          "sha256": "a4d797c4687bad2a28bb41fb97621121fddd1a1ec6322b33ceb0fd7d55353a1a"
+        },
+        "scripts/cp7_mandor_shop/OFFSET_SQL_SYNTAX_CONTROLS.json": {
+          "bytes": 953,
+          "sha256": "72c86cc18f21d07550ebdf2d16406f1502faf3ed5ef70e8a78708829d27c1779"
+        },
+        "scripts/cp7_mandor_shop/PAYMENT_GUARD_MODEL_CONTROLS.json": {
+          "bytes": 5180,
+          "sha256": "173bd51a7b0a06c7c06cc546839cf374554e69422af5b40a4915f23e40e63dd7"
+        },
+        "scripts/cp7_mandor_shop/PAYMENT_GUARD_MODEL_ORIGIN.json": {
+          "bytes": 1605,
+          "sha256": "60187abb0c72f2232df771ad19cad51e759b41937dd62d7806efcdedcf0e67f6"
+        },
+        "scripts/cp7_mandor_shop/PAYMENT_MODEL_CONTROLS.json": {
+          "bytes": 7325,
+          "sha256": "f1a5cd899f32b32f25b0e2b67d324df258fbb1ebfe46b339843773cfedf5656f"
+        },
+        "scripts/cp7_mandor_shop/PAYMENT_MODEL_REPAIR_HISTORY.json": {
+          "bytes": 5519,
+          "sha256": "9de58e20570c3ada1119baffe1cf40e515a4dd7aec4112500bec0336c8299594"
+        },
+        "scripts/cp7_mandor_shop/PAYMENT_NATIVE_ROUTES_SOURCE_CONTROLS.json": {
+          "bytes": 14919,
+          "sha256": "3c4e8e79b0c9f050ca953af3366390142d306b0aa99d7485f000f4f7dcfc424f"
+        },
+        "scripts/cp7_mandor_shop/PAYMENT_RETAINED19_MODEL_CONTROLS.json": {
+          "bytes": 34870,
+          "sha256": "ba3da6e7c3a7ca001ff55f87588dc2fa0e9d7e4d93ddf01f213176121e789c7d"
+        },
+        "scripts/cp7_mandor_shop/README.md": {
+          "bytes": 19922,
+          "sha256": "84f34d3f869e11bdffcc81daeba2c11013d01b0ec112d1502236975fc7ec9a1c"
+        },
+        "scripts/cp7_mandor_shop/SALES_COMMAND_MODEL_ORIGIN.json": {
+          "bytes": 960,
+          "sha256": "b779308a7422cc875ce8df5dfbbc9600e2d202ccfd42a5bb5ea00fbcf26bab97"
+        },
+        "scripts/cp7_mandor_shop/SALES_MODEL_CONTROLS.json": {
+          "bytes": 5666,
+          "sha256": "a911206e129360d7a97df9c2273afa9719df7041a043e2733bd4349955af3703"
+        },
+        "scripts/cp7_mandor_shop/SALES_MODEL_EDIT1.json": {
+          "bytes": 2834,
+          "sha256": "84282244c60fb995ba2d156cba8e969a21dac8f443650b414e3c7166c0693d62"
+        },
+        "scripts/cp7_mandor_shop/SALES_MODEL_RETAINED13.json": {
+          "bytes": 2941,
+          "sha256": "f379264c1fe764e561244877a04958c283096d54d4662d40cf5293dc32e4d858"
+        },
+        "scripts/cp7_mandor_shop/SALE_IDENTITY_MODEL_CONTROLS.json": {
+          "bytes": 4221,
+          "sha256": "e19e963f22d9fb5a56f0e0db3ceb8504f3333b4c3117f227d74a8fd7d9184132"
+        },
+        "scripts/cp7_mandor_shop/SALE_IDENTITY_SQL_SYNTAX_CONTROLS.json": {
+          "bytes": 498,
+          "sha256": "41d50b8d82e48d8d0163195867eb66f0e464f2d4f1d2832d8cfde3dd617e7939"
+        },
+        "scripts/cp7_mandor_shop/SOURCE.json": {
+          "bytes": 18530,
+          "sha256": "0b4054a9bec5643f6696c9eb19990f20b490c412ee6f458c3f2350326f51fb71"
+        },
+        "scripts/cp7_mandor_shop/SQL_SYNTAX_CONTROLS.json": {
+          "bytes": 1986,
+          "sha256": "aec43c0400238901394018bb5f5c8f5782a40dec246b13592aea8f986477599d"
+        },
+        "scripts/cp7_mandor_shop/STORAGE_MODEL_CONTROLS.json": {
+          "bytes": 3294,
+          "sha256": "8f1c8d22a583eccbffa566272c0f945f1789c30617e40bb925fa695dc33c16ee"
+        },
+        "scripts/cp7_mandor_shop/UI_CONTROLLER_MODEL_CONTROLS.json": {
+          "bytes": 4698,
+          "sha256": "9f3ec817cd505ecc0927b18fbf9149d33c45ac03a745c113bbcbada60bc69c42"
+        },
+        "scripts/cp7_mandor_shop/UI_MODEL_CONTROLS.json": {
+          "bytes": 1836,
+          "sha256": "54c1e3d1ee40cc8f2e286c6ca8f9bfb0b914a7cfc8fd0791d18d83e537aa77ab"
+        },
+        "scripts/cp7_mandor_shop/UI_PARENT_ORIGIN.json": {
+          "bytes": 44644,
+          "sha256": "ce9c1788497a0441568ceaf326fc606b5b87bc0104dc7fed27c164b8f157ccf3"
+        },
+        "scripts/cp7_mandor_shop/UI_SALES_MODEL_CONTROLS.json": {
+          "bytes": 7915,
+          "sha256": "de0fc05ed7fcfb0893bdec02ccdde40bab55dc085c02cdb9787cc324b9363808"
+        },
+        "scripts/cp7_mandor_shop/UI_SALES_PARENT_ORIGIN.json": {
+          "bytes": 36661,
+          "sha256": "c8b8afdd894bf814c7080f4c89a2cf7f1d336785c5f11b1d1de088130e0b8ae7"
+        },
+        "scripts/cp7_mandor_shop/UI_SOURCE.json": {
+          "bytes": 3626,
+          "sha256": "c49c3d9899f90db989f60c91ab924f69d6984bfca9edbe018fbbefcd1109e9ce"
+        },
+        "scripts/cp7_mandor_shop/__init__.py": {
+          "bytes": 79,
+          "sha256": "24230738c7b6c7aae129b9a6312d7e4f0ce439f5680e5f47f69ccdaa20733a6e"
+        },
+        "scripts/cp7_mandor_shop/admission.py": {
+          "bytes": 1270,
+          "sha256": "30591a4aaa3e46828550d21c0cc8a35123cb69579678240326f28200d34e8686"
+        },
+        "scripts/cp7_mandor_shop/allocation.sql": {
+          "bytes": 16985,
+          "sha256": "e57c96f8289ef95cbce60b337ccba57109c4428115448526f79ed82f42b3a0c2"
+        },
+        "scripts/cp7_mandor_shop/allocation_model.mjs": {
+          "bytes": 16505,
+          "sha256": "ab7f1acd7500f6b43eac332be87adbfd6e07434cb1a0b6524e1ad6133669aeb3"
+        },
+        "scripts/cp7_mandor_shop/buyer_model.mjs": {
+          "bytes": 16813,
+          "sha256": "3fecc170726cf92ce031abf30b6a62b0b1e3ce13fca128e08e98bde3a57a9766"
+        },
+        "scripts/cp7_mandor_shop/buyers.sql": {
+          "bytes": 10735,
+          "sha256": "5bfeb12b4103ca88f48b84a213098b33a90e7ead52398a5025213d9188e47617"
+        },
+        "scripts/cp7_mandor_shop/check_source.py": {
+          "bytes": 30530,
+          "sha256": "a4715af221d0564b2a0f289d3195a8a58579c754070978ba1629375786848ed8"
+        },
+        "scripts/cp7_mandor_shop/command_guard_routes.py": {
+          "bytes": 3490,
+          "sha256": "aa1faae14fa41f0c2ed4c5c00d55f8cac112afd5fb36fecad10e3d2ff1548862"
+        },
+        "scripts/cp7_mandor_shop/command_guards.sql": {
+          "bytes": 3177,
+          "sha256": "3205333351a219586ecc52ce2fcf3ed6408430d39a45f8a03592a92e14c2c7dc"
+        },
+        "scripts/cp7_mandor_shop/composition.py": {
+          "bytes": 19409,
+          "sha256": "aff397f995bbb1e20ae651c5261b338e43b889e53632d9da4a424456d182736d"
+        },
+        "scripts/cp7_mandor_shop/events.sql": {
+          "bytes": 8216,
+          "sha256": "9e2633af5d9ecff6220c37cdf8bb22a27ce71cbc03862c8aa40a1fadfd82a1d3"
+        },
+        "scripts/cp7_mandor_shop/facade-ownership-first2.mjs.txt": {
+          "bytes": 10144,
+          "sha256": "095963cbd831915e22f905e383790df609f33341cdc31d437ce081e1e8f135e9"
+        },
+        "scripts/cp7_mandor_shop/facade.sql": {
+          "bytes": 2963,
+          "sha256": "6881ccf3e14420a1779cc2f37811d1885a0d69223fc121f3c212d5bac94227d4"
+        },
+        "scripts/cp7_mandor_shop/facade_display.sql": {
+          "bytes": 1187,
+          "sha256": "7432b03b1d62c7697dd7e9150499cb4f32e1e9a84b096ab1c8de86031eabed19"
+        },
+        "scripts/cp7_mandor_shop/facade_display_model.mjs": {
+          "bytes": 17170,
+          "sha256": "31b17b17e2dbabc44bcc432db3f35e3a88b9fe460371e7b4db0bd9a7e80af259"
+        },
+        "scripts/cp7_mandor_shop/facade_install.py": {
+          "bytes": 5819,
+          "sha256": "ac62dd5b978b53156c2de59e70459c1db7c12bbef9740b71f4229a23207ad1f5"
+        },
+        "scripts/cp7_mandor_shop/facade_model.mjs": {
+          "bytes": 21154,
+          "sha256": "8fc452403206b0c5997c6ad2671ea4674ce04384f27fec4690c33768e27f9f6d"
+        },
+        "scripts/cp7_mandor_shop/facade_ownership_model.mjs": {
+          "bytes": 10348,
+          "sha256": "dbbf496400eab068edec41401a36678a196b5ff8eb711319eee1023be2d10cb2"
+        },
+        "scripts/cp7_mandor_shop/facade_privileges.sql": {
+          "bytes": 2895,
+          "sha256": "f5d614819deae1af4229e5c94f644d8954d3da931eba4fb7ea4e5e5593a86efe"
+        },
+        "scripts/cp7_mandor_shop/native_dispatch.py": {
+          "bytes": 2635,
+          "sha256": "b9653c34d5b0d105c5134bcc7fd5b8a5d5d53d9981ad5d1ae98ead5dcfbb6cc6"
+        },
+        "scripts/cp7_mandor_shop/native_payment_routes.py": {
+          "bytes": 6314,
+          "sha256": "d9d3da26117ffe0ede2b4e434a74bdd619f162fb8c7f2616ce344625a012d532"
+        },
+        "scripts/cp7_mandor_shop/native_sales_routes.py": {
+          "bytes": 2117,
+          "sha256": "7302700947c5b25ede6d56ae8ebf6280913109d22ae084890397a5b5f60ddba1"
+        },
+        "scripts/cp7_mandor_shop/offset_model.mjs": {
+          "bytes": 20399,
+          "sha256": "56b16a43b3ecc0d0927c2a5d17d650fb5b32819b243e0496a327eb81df7a98ee"
+        },
+        "scripts/cp7_mandor_shop/offset_projection.sql": {
+          "bytes": 11629,
+          "sha256": "51c8954eb3d66a280699dc0848b7d4aab3326dcf388a4f04ce7be385c36f71a2"
+        },
+        "scripts/cp7_mandor_shop/payment_guard_model.mjs": {
+          "bytes": 24329,
+          "sha256": "d1752248991d4c0b39bae2b811ed0923ca389eb7bcef22a2f575e36708715dc8"
+        },
+        "scripts/cp7_mandor_shop/payment_guards.sql": {
+          "bytes": 10946,
+          "sha256": "0405c0a9c807ef0be3881c2a32c69a152e2a0614bc8efb1f5572ac715683d771"
+        },
+        "scripts/cp7_mandor_shop/payment_model.mjs": {
+          "bytes": 30395,
+          "sha256": "4d966745cf4e8863f36d00e950bb64e6baa24e9e5564155154660743d1ca1cfd"
+        },
+        "scripts/cp7_mandor_shop/payment_owner.sql": {
+          "bytes": 20924,
+          "sha256": "967f20999cf23bd6a76610300fb35f61fe01d733053db7fbefdf3da112902056"
+        },
+        "scripts/cp7_mandor_shop/sale_identity.sql": {
+          "bytes": 5069,
+          "sha256": "98964804488c94f0ffee865068327a8b6fb37fc8b7c6e037e97af32525a672ea"
+        },
+        "scripts/cp7_mandor_shop/sale_identity_model.mjs": {
+          "bytes": 15442,
+          "sha256": "186fb48414c9f3d67b452b3d34ab866eb93f71e111e1d1055eafb2ecda7f85f7"
+        },
+        "scripts/cp7_mandor_shop/sales-model-before-edit-fixture.mjs.txt": {
+          "bytes": 22437,
+          "sha256": "ed9867b62d9e9063239edfdd2c227086c7a450046875b29ae0541ce5b2e7c836"
+        },
+        "scripts/cp7_mandor_shop/sales_command_model.mjs": {
+          "bytes": 22789,
+          "sha256": "cc42f05ff7d1fc5d915d26432dfddd8de621d1c46b0ae889c9f1a1b8744c1a13"
+        },
+        "scripts/cp7_mandor_shop/sales_commands.sql": {
+          "bytes": 7153,
+          "sha256": "cb9da2234fa1834b83ccb2e552f0c1ed3f1595d24c04d97428ca67c1c5df2f3d"
+        },
+        "scripts/cp7_mandor_shop/schema.sql": {
+          "bytes": 12510,
+          "sha256": "59c1b8e69555f6a8e0caf34e8d0ee18e27c1d4caaee8073c44225bbc4a687fd1"
+        },
+        "scripts/cp7_mandor_shop/storage_model.mjs": {
+          "bytes": 13580,
+          "sha256": "1f523db6631c86c3c1b2d218591ca3501a55a9b799643e975e488ffa05875a11"
+        },
+        "src/ConnectedPayrollPage.tsx": {
+          "bytes": 21281,
+          "sha256": "0e242ff4ec7a530d8e0e1598779042da0ba02763b381a4153cc783905d7a83be"
+        },
+        "src/ConnectedSalesPage.tsx": {
+          "bytes": 27153,
+          "sha256": "fa577fe466c2622f5520b8550d41eff8885a8d43c5cfd3e9906427a85fa2d15d"
+        },
+        "src/MandorShopBuyerPicker.tsx": {
+          "bytes": 7912,
+          "sha256": "8257f905b3723ba7e9c5765349973642bb2abcb5c4b1f87249879751eb40ac43"
+        },
+        "src/MandorShopCards.dom.test.tsx": {
+          "bytes": 6751,
+          "sha256": "1bd41aca9cae13c7e5e091a33352ce3169fc51338614ed7e6471837d0e238103"
+        },
+        "src/MandorShopCards.tsx": {
+          "bytes": 9200,
+          "sha256": "0a58aa020ef22d77df1d8838b1c7c7a8d7e0cd4bccb9db87ce759e0a8b6a6f88"
+        },
+        "src/MandorShopPayrollPanel.dom.test.tsx": {
+          "bytes": 10794,
+          "sha256": "5d543e24b866fbc1973280a35580385d91e80785608e771815cb55b5eeaa287d"
+        },
+        "src/MandorShopPayrollPanel.tsx": {
+          "bytes": 9998,
+          "sha256": "dc33fbec5c314981298fc84cb970d7ce215455e82faa10966562592caecb42f3"
+        },
+        "src/MandorShopSalesDraft.dom.test.tsx": {
+          "bytes": 8906,
+          "sha256": "74001a1021bdcf85d9f673870a386432532c43813ee6fd1dbe3661a5287f250e"
+        },
+        "src/MandorShopSalesPage.dom.test.tsx": {
+          "bytes": 6575,
+          "sha256": "34680ef791be90b920dabb753b316b7b30ec2aee633f1d9389982b781d88c2f9"
+        },
+        "src/SalesDraftPanel.dom.test.tsx": {
+          "bytes": 19492,
+          "sha256": "f4c9b0a9ff2a443ab2a13fad84281b755f3264ad203c022eaab9a2fc8555f194"
+        },
+        "src/SalesDraftPanel.tsx": {
+          "bytes": 19972,
+          "sha256": "46ecf14904d360670150a0eff809ef9158ec496ac23cb7943763c9ca813967b8"
+        },
+        "src/mandor-shop.css": {
+          "bytes": 2348,
+          "sha256": "dda10167d8f122e39dbf4c3ebeab0bc943435b046205f3f5ed49a7b38adc1cbd"
+        },
+        "src/mandorShopContract.test.ts": {
+          "bytes": 5539,
+          "sha256": "08a16729d2551cddd03621fdf1332607d5129c5beb8e221d3d98b1e77afed587"
+        },
+        "src/mandorShopContract.ts": {
+          "bytes": 8518,
+          "sha256": "98bdd926aa2d2e0e1adced0217be3f0bab83a70796e6954f5f1c21022461e363"
+        },
+        "src/mandorShopSalesContract.test.ts": {
+          "bytes": 2179,
+          "sha256": "44693e03c20ae508ed7463da6087f3b1f24e487724d6b1db561532e52f1e2294"
+        },
+        "src/mandorShopSalesContract.ts": {
+          "bytes": 1950,
+          "sha256": "92fdf25e677c17225f3f304b9a12e56dec92f81ab578826b2414aa8be34d221a"
+        },
+        "src/productionRecovery.ts": {
+          "bytes": 13634,
+          "sha256": "e7f1c1564237fd0c7769823ade3333079d7a28d1119384d3a61b480e1bf4f814"
+        },
+        "src/types/database.preconnect.ts": {
+          "bytes": 32823,
+          "sha256": "5dcdda0b85cb96a5da716091d62c2bdd5111a18760eb6c0594d82e83ffd60bc9"
+        },
+        "tests/fixtures/mandorShop.ts": {
+          "bytes": 1396,
+          "sha256": "299a1ffe63b1c7161dfedc712ca64f9b0bd84c4fc66fbc278d3933194bb425d4"
+        },
+        "tests/fixtures/mandorShopSales.ts": {
+          "bytes": 3065,
+          "sha256": "96464f30432b67c94d33447212f70d20e36e41df62675fcab1ef96de96bec9b5"
+        }
+      }
+    }
+  },
+  "parent_overrides": [
+    "scripts/check-access-catalog.mjs",
+    "scripts/check-source-ownership.mjs",
+    "src/ConnectedPayrollPage.tsx",
+    "src/ConnectedSalesPage.tsx",
+    "src/SalesDraftPanel.dom.test.tsx",
+    "src/SalesDraftPanel.tsx",
+    "src/accessory-workspace.css",
+    "src/productionRecovery.ts",
+    "src/types/database.preconnect.ts"
+  ],
+  "validator_derivations": {
+    "scripts/check-access-catalog.mjs": {
+      "before": {
+        "bytes": 45455,
+        "sha256": "58bf2a296983f44b7ace6340a377ab1d1ee1ad1e71c2d1944246316cfc9ab748"
+      },
+      "after": {
+        "bytes": 46072,
+        "sha256": "a6a49409518465b42db6c7afb06ed0c4a58c497f948b2085e1109b9b17b2fb74"
+      },
+      "hunks": [
+        {
+          "start": 175,
+          "end": 175,
+          "before": "",
+          "after": "const cp7MandorShopBoundaries=['erp_cp7_get_mandor_shop_payroll_v1','erp_cp7_save_mandor_shop_allocation_v1']\nconst cp7MandorShopSalesBoundaries=['src/MandorShopBuyerPicker.tsx:erp_cp7_get_mandor_shop_buyers_v1','src/MandorShopBuyerPicker.tsx:erp_cp7_get_mandor_shop_customer_buyer_v1','src/ConnectedSalesPage.tsx:erp_cp7_save_mandor_shop_sale_v1']\nfor(const name of cp7MandorShopSalesBoundaries)assert.ok(rpcBoundaries.has(name))\nfor (const name of cp7MandorShopBoundaries) assert.ok(rpcBoundaries.has(`src/MandorShopPayrollPanel.tsx:${name}`))\n"
+        },
+        {
+          "start": 336,
+          "end": 337,
+          "before": "assert.equal(rpcBoundaries.size, cp7AttendanceChoiceBoundaries.length + cp7GoodPolicyDateBoundaries.length + cp7ScopedModelBoundaries.length + cp7BoundedSuccessorBoundaries.length + cp7ProductionSuccessorBoundaries.length + cp7ConsumerCreditBoundaries.length + cp7MandorCorrectionBoundaries.length + cp7SupplierTransferBoundaries.length + evidence.counts.browser_rpc_boundaries + 4 + cp7RecostBoundaries.length + cp7FinanceBoundaries.length + cp7PeriodBoundaries.length + cp7HppPoolBoundaries.length + cp7SalesBoundaries.length + cp7PaymentCorrectionBoundaries.length + cp7AttendanceBoundaries.length + cp7PayrollBoundaries.length + cp7InstallmentBoundaries.length + cp7NotaBoundaries.length + cp7FgBookBoundaries.length + cp7FgAdjustmentBoundaries.length + cp7FgBoundaries.length + cp7CountBoundaries.length + cp7CountSourceBoundaries.length + cp7ReturnBoundaries.length + cp7InvoiceBoundaries.length + cp7SupplierPaymentBoundaries.length + 19 + beRpcBoundaries.length + bfRpcBoundaries.length + cp7ProcurementBoundaries.length + cp7ReceiptCorrectionBoundaries.length + cp7MaterialNameBoundaries.length + cp7MaterialBoundaries.length + cp7FinanceOverviewBoundaries.length + cp7CustomerHistoryBoundaries.length + cp7HistoryBoundaries.length + cp7CuttingYieldBoundaries.length + cp7CuttingInputBoundaries.length + cp7CuttingLearningBoundaries.length + cp7PlanningBoundaries.length + cp7ProductionPlanningBoundaries.length + cp7AnalysisBoundaries.length + cp7ModelBoundaries.length + cp7ModelPolicyBoundaries.length + cp7ModelV2Boundaries.length + cp7PlanBoundaries.length + cp7ReportBoundaries.length + cp7StagedReportBoundaries.length + cp7StagedAiBoundaries.length + cp7StagedReminderBoundaries.length + cp7YieldPolicyBoundaries.length + cp7PolicyBoundaries.length + cp7RuleBoundaries.length + cp7ObligationReportBoundaries.length + cp7SourceOwningRecheckBoundaries.length + cp7TransactionDependencyBoundaries.length + cp7FabricBoundaries.length + cp7ErpSettingsBoundaries.length + cp7AuditBoundaries.length + cp7WarehouseSummaryBoundaries.length + cp7WaBoundaries.length + cp7FgReorderBoundaries.length + cp7MaterialReorderBoundaries.length + cp7ReturnSettlementBoundaries.length)\n",
+          "after": "assert.equal(rpcBoundaries.size, cp7MandorShopSalesBoundaries.length + cp7MandorShopBoundaries.length + cp7AttendanceChoiceBoundaries.length + cp7GoodPolicyDateBoundaries.length + cp7ScopedModelBoundaries.length + cp7BoundedSuccessorBoundaries.length + cp7ProductionSuccessorBoundaries.length + cp7ConsumerCreditBoundaries.length + cp7MandorCorrectionBoundaries.length + cp7SupplierTransferBoundaries.length + evidence.counts.browser_rpc_boundaries + 4 + cp7RecostBoundaries.length + cp7FinanceBoundaries.length + cp7PeriodBoundaries.length + cp7HppPoolBoundaries.length + cp7SalesBoundaries.length + cp7PaymentCorrectionBoundaries.length + cp7AttendanceBoundaries.length + cp7PayrollBoundaries.length + cp7InstallmentBoundaries.length + cp7NotaBoundaries.length + cp7FgBookBoundaries.length + cp7FgAdjustmentBoundaries.length + cp7FgBoundaries.length + cp7CountBoundaries.length + cp7CountSourceBoundaries.length + cp7ReturnBoundaries.length + cp7InvoiceBoundaries.length + cp7SupplierPaymentBoundaries.length + 19 + beRpcBoundaries.length + bfRpcBoundaries.length + cp7ProcurementBoundaries.length + cp7ReceiptCorrectionBoundaries.length + cp7MaterialNameBoundaries.length + cp7MaterialBoundaries.length + cp7FinanceOverviewBoundaries.length + cp7CustomerHistoryBoundaries.length + cp7HistoryBoundaries.length + cp7CuttingYieldBoundaries.length + cp7CuttingInputBoundaries.length + cp7CuttingLearningBoundaries.length + cp7PlanningBoundaries.length + cp7ProductionPlanningBoundaries.length + cp7AnalysisBoundaries.length + cp7ModelBoundaries.length + cp7ModelPolicyBoundaries.length + cp7ModelV2Boundaries.length + cp7PlanBoundaries.length + cp7ReportBoundaries.length + cp7StagedReportBoundaries.length + cp7StagedAiBoundaries.length + cp7StagedReminderBoundaries.length + cp7YieldPolicyBoundaries.length + cp7PolicyBoundaries.length + cp7RuleBoundaries.length + cp7ObligationReportBoundaries.length + cp7SourceOwningRecheckBoundaries.length + cp7TransactionDependencyBoundaries.length + cp7FabricBoundaries.length + cp7ErpSettingsBoundaries.length + cp7AuditBoundaries.length + cp7WarehouseSummaryBoundaries.length + cp7WaBoundaries.length + cp7FgReorderBoundaries.length + cp7MaterialReorderBoundaries.length + cp7ReturnSettlementBoundaries.length)\n"
+        }
+      ],
+      "other_component_input": {
+        "bytes": 45674,
+        "sha256": "02c78ae5cd03ad66c302803b1f805905ff713092469150cf02b7e2992cbf718a"
+      }
+    },
+    "scripts/check-source-ownership.mjs": {
+      "before": {
+        "bytes": 25610,
+        "sha256": "cdeb12e5a1da01308623bdf53b9d55080b9377c9aafb6ba21d7857d650c6bf01"
+      },
+      "after": {
+        "bytes": 25967,
+        "sha256": "295ca4cbadbf76a0d43e186255364075b148880dbf8c66e1ff63726f7668c816"
+      },
+      "hunks": [
+        {
+          "start": 137,
+          "end": 137,
+          "before": "",
+          "after": "  'src/MandorShopBuyerPicker.tsx:erp_cp7_get_mandor_shop_buyers_v1',\n  'src/MandorShopBuyerPicker.tsx:erp_cp7_get_mandor_shop_customer_buyer_v1',\n  'src/ConnectedSalesPage.tsx:erp_cp7_save_mandor_shop_sale_v1',\n  'src/MandorShopPayrollPanel.tsx:erp_cp7_get_mandor_shop_payroll_v1',\n  'src/MandorShopPayrollPanel.tsx:erp_cp7_save_mandor_shop_allocation_v1',\n  'src/attendancePeriodChoiceContract.ts:erp_cp7_get_attendance_choice_v1',\n  'src/attendancePeriodChoiceContract.ts:erp_cp7_preview_attendance_choice_v1',\n  'src/attendancePeriodChoiceContract.ts:erp_cp7_save_attendance_choice_v1',\n"
+        },
+        {
+          "start": 392,
+          "end": 395,
+          "before": "  'src/attendancePeriodChoiceContract.ts:erp_cp7_get_attendance_choice_v1',\n  'src/attendancePeriodChoiceContract.ts:erp_cp7_preview_attendance_choice_v1',\n  'src/attendancePeriodChoiceContract.ts:erp_cp7_save_attendance_choice_v1',\n",
+          "after": ""
+        }
+      ],
+      "other_component_input": {
+        "bytes": 25833,
+        "sha256": "a922650b687a44b1c6dec289a575770a768959ba5ddbacf5713a8903a555ee3a"
+      }
+    }
+  },
+  "appearance_derivations": {
+    "src/accessory-workspace.css": {
+      "before": {
+        "bytes": 217,
+        "sha256": "54b53c7fba6b85dd6dab3f964da265c648e722b8df7233226a46c252769ca0b5"
+      },
+      "after": {
+        "bytes": 463,
+        "sha256": "573966c363a38314bbab8f7dcc265b68436c0fef3283cf8ab7300bbe0c8485e6"
+      },
+      "hunks": [
+        {
+          "start": 0,
+          "end": 3,
+          "before": ".asw-tabs { display: flex; flex-wrap: wrap; gap: .65rem; }\n.asw-tabs button { max-width: 100%; white-space: normal; }\n.asw-tabs button[aria-pressed=\"true\"] { background: #263e46; color: #fff; border-color: #638c95; }\n",
+          "after": ".asw-tabs { display: flex; flex-wrap: wrap; gap: .65rem; }\n.asw-tabs button {\n  min-height: 44px;\n  max-width: 100%;\n  padding: .6rem .85rem;\n  border: 1px solid #627c96;\n  border-radius: .5rem;\n  background: #182231;\n  color: #f3f6fc;\n  white-space: normal;\n  cursor: pointer;\n}\n.asw-tabs button[aria-pressed=\"true\"] { background: #263e46; color: #fff; border-color: #85b7c0; }\n.asw-tabs button:focus-visible { outline: 2px solid #94dbe8; outline-offset: 2px; }\n"
+        }
+      ]
+    }
+  },
+  "new_UI_paths": [
+    "src/MandorShopBuyerPicker.tsx",
+    "src/MandorShopCards.dom.test.tsx",
+    "src/MandorShopCards.tsx",
+    "src/MandorShopPayrollPanel.dom.test.tsx",
+    "src/MandorShopPayrollPanel.tsx",
+    "src/MandorShopSalesDraft.dom.test.tsx",
+    "src/MandorShopSalesPage.dom.test.tsx",
+    "src/mandor-shop.css",
+    "src/mandorShopContract.test.ts",
+    "src/mandorShopContract.ts",
+    "src/mandorShopSalesContract.test.ts",
+    "src/mandorShopSalesContract.ts",
+    "tests/fixtures/mandorShop.ts",
+    "tests/fixtures/mandorShopSales.ts"
+  ],
+  "new_paths": [
+    "scripts/cp7_global_nonpo_envelope/CATALOGUE_PROFILE_SOURCE_CONTROLS.json",
+    "scripts/cp7_global_nonpo_envelope/CATALOG_BRIDGE_SOURCE_CONTROLS.json",
+    "scripts/cp7_global_nonpo_envelope/INSTALL_PLAN.json",
+    "scripts/cp7_global_nonpo_envelope/NATIVE_OWNING_REFERENCE.json",
+    "scripts/cp7_global_nonpo_envelope/NATIVE_OWNING_ROUTES_SOURCE_CONTROLS.json",
+    "scripts/cp7_global_nonpo_envelope/NATIVE_SCOPE_WORK_REFERENCE.json",
+    "scripts/cp7_global_nonpo_envelope/OWNING_HOOK_MODEL_CONTROLS.json",
+    "scripts/cp7_global_nonpo_envelope/OWNING_HOOK_MODEL_ORIGIN.json",
+    "scripts/cp7_global_nonpo_envelope/PLATFORM_CATALOG_CAPABILITY_REQUIREMENT.json",
+    "scripts/cp7_global_nonpo_envelope/README.md",
+    "scripts/cp7_global_nonpo_envelope/READONLY_GRAPH_ORIGIN.json",
+    "scripts/cp7_global_nonpo_envelope/READONLY_GRAPH_SAVED_DE30_COMPATIBILITY.json",
+    "scripts/cp7_global_nonpo_envelope/READONLY_GRAPH_SOURCE_CONTROLS.json",
+    "scripts/cp7_global_nonpo_envelope/SEMANTIC_AUTHORITY_SOURCE_CONTROLS.json",
+    "scripts/cp7_global_nonpo_envelope/SOURCE.json",
+    "scripts/cp7_global_nonpo_envelope/SYNTAX_AND_SOURCE_CONTROLS.json",
+    "scripts/cp7_global_nonpo_envelope/WORK_SCOPE_MODEL_CONTROLS.json",
+    "scripts/cp7_global_nonpo_envelope/WORK_SCOPE_MODEL_FIRST_FAILURE.json",
+    "scripts/cp7_global_nonpo_envelope/admission.py",
+    "scripts/cp7_global_nonpo_envelope/build_install_plan.py",
+    "scripts/cp7_global_nonpo_envelope/catalog_bridge.py",
+    "scripts/cp7_global_nonpo_envelope/catalogue_fingerprint.sql",
+    "scripts/cp7_global_nonpo_envelope/catalogue_profile.py",
+    "scripts/cp7_global_nonpo_envelope/check_source.py",
+    "scripts/cp7_global_nonpo_envelope/composition.py",
+    "scripts/cp7_global_nonpo_envelope/graph_helpers/AUTHORITY.json",
+    "scripts/cp7_global_nonpo_envelope/graph_helpers/authority.sql",
+    "scripts/cp7_global_nonpo_envelope/graph_helpers/capture.sql",
+    "scripts/cp7_global_nonpo_envelope/graph_helpers/inspect.sql",
+    "scripts/cp7_global_nonpo_envelope/graph_helpers/scope.sql",
+    "scripts/cp7_global_nonpo_envelope/lock.sql",
+    "scripts/cp7_global_nonpo_envelope/native_hooks.py",
+    "scripts/cp7_global_nonpo_envelope/owning_hooks_model.mjs",
+    "scripts/cp7_global_nonpo_envelope/platform_catalog_fence.sql",
+    "scripts/cp7_global_nonpo_envelope/platform_relation_fence.sql",
+    "scripts/cp7_global_nonpo_envelope/readonly_graph.py",
+    "scripts/cp7_global_nonpo_envelope/review.sql",
+    "scripts/cp7_global_nonpo_envelope/schema.sql",
+    "scripts/cp7_global_nonpo_envelope/semantic_authority.sql",
+    "scripts/cp7_global_nonpo_envelope/semantic_routes.py",
+    "scripts/cp7_global_nonpo_envelope/work_scope.sql",
+    "scripts/cp7_global_nonpo_envelope/work_scope_model.mjs",
+    "scripts/cp7_mandor_shop/ACTUAL_CREATOR_ACL_REFERENCE.json",
+    "scripts/cp7_mandor_shop/ALLOCATION_MODEL_CONTROLS.json",
+    "scripts/cp7_mandor_shop/ALLOCATION_SQL_SYNTAX_CONTROLS.json",
+    "scripts/cp7_mandor_shop/BROWSER_RPC_EXISTING_NATIVE3_REFERENCE.json",
+    "scripts/cp7_mandor_shop/BUYER_MODEL_CONTROLS.json",
+    "scripts/cp7_mandor_shop/BUYER_SQL_SYNTAX_CONTROLS.json",
+    "scripts/cp7_mandor_shop/BUYER_UUID_INTEGER_QUOTIENT_REPAIR.json",
+    "scripts/cp7_mandor_shop/COMMAND_GUARD_NATIVE_REFERENCE.json",
+    "scripts/cp7_mandor_shop/CONTROLLED_UI_CONTROLLER_ROUTE.json",
+    "scripts/cp7_mandor_shop/FACADE_DISPLAY_MODEL_CONTROLS.json",
+    "scripts/cp7_mandor_shop/FACADE_DISPLAY_MODEL_ORIGIN.json",
+    "scripts/cp7_mandor_shop/FACADE_INSTALL_SOURCE_CONTROLS.json",
+    "scripts/cp7_mandor_shop/FACADE_MODEL_CONTROLS.json",
+    "scripts/cp7_mandor_shop/FACADE_MODEL_ORIGIN.json",
+    "scripts/cp7_mandor_shop/FACADE_OWNERSHIP_FIRST_FAILURE.json",
+    "scripts/cp7_mandor_shop/FACADE_OWNERSHIP_MODEL_CONTROLS.json",
+    "scripts/cp7_mandor_shop/INSTALLER_SOURCE_CONTROLS.json",
+    "scripts/cp7_mandor_shop/INSTALL_PLAN.json",
+    "scripts/cp7_mandor_shop/NATIVE_ALLOCATION_REFERENCE.json",
+    "scripts/cp7_mandor_shop/NATIVE_BUYER_REFERENCE.json",
+    "scripts/cp7_mandor_shop/NATIVE_DISPATCH_SOURCE_CONTROLS.json",
+    "scripts/cp7_mandor_shop/NATIVE_OFFSET_REFERENCE.json",
+    "scripts/cp7_mandor_shop/NATIVE_PAYMENT_GUARD_REFERENCE.json",
+    "scripts/cp7_mandor_shop/NATIVE_PAYMENT_OWNER_REFERENCE.json",
+    "scripts/cp7_mandor_shop/NATIVE_SALES_COMMAND_REFERENCE.json",
+    "scripts/cp7_mandor_shop/NATIVE_SALES_IDENTITY_REFERENCE.json",
+    "scripts/cp7_mandor_shop/NATIVE_SALES_ROUTES_SOURCE_CONTROLS.json",
+    "scripts/cp7_mandor_shop/NATIVE_SCHEMA_REFERENCE.json",
+    "scripts/cp7_mandor_shop/OFFSET_MODEL_CONTROLS.json",
+    "scripts/cp7_mandor_shop/OFFSET_SQL_SYNTAX_CONTROLS.json",
+    "scripts/cp7_mandor_shop/PAYMENT_GUARD_MODEL_CONTROLS.json",
+    "scripts/cp7_mandor_shop/PAYMENT_GUARD_MODEL_ORIGIN.json",
+    "scripts/cp7_mandor_shop/PAYMENT_MODEL_CONTROLS.json",
+    "scripts/cp7_mandor_shop/PAYMENT_MODEL_REPAIR_HISTORY.json",
+    "scripts/cp7_mandor_shop/PAYMENT_NATIVE_ROUTES_SOURCE_CONTROLS.json",
+    "scripts/cp7_mandor_shop/PAYMENT_RETAINED19_MODEL_CONTROLS.json",
+    "scripts/cp7_mandor_shop/README.md",
+    "scripts/cp7_mandor_shop/SALES_COMMAND_MODEL_ORIGIN.json",
+    "scripts/cp7_mandor_shop/SALES_MODEL_CONTROLS.json",
+    "scripts/cp7_mandor_shop/SALES_MODEL_EDIT1.json",
+    "scripts/cp7_mandor_shop/SALES_MODEL_RETAINED13.json",
+    "scripts/cp7_mandor_shop/SALE_IDENTITY_MODEL_CONTROLS.json",
+    "scripts/cp7_mandor_shop/SALE_IDENTITY_SQL_SYNTAX_CONTROLS.json",
+    "scripts/cp7_mandor_shop/SOURCE.json",
+    "scripts/cp7_mandor_shop/SQL_SYNTAX_CONTROLS.json",
+    "scripts/cp7_mandor_shop/STORAGE_MODEL_CONTROLS.json",
+    "scripts/cp7_mandor_shop/UI_CONTROLLER_MODEL_CONTROLS.json",
+    "scripts/cp7_mandor_shop/UI_MODEL_CONTROLS.json",
+    "scripts/cp7_mandor_shop/UI_PARENT_ORIGIN.json",
+    "scripts/cp7_mandor_shop/UI_SALES_MODEL_CONTROLS.json",
+    "scripts/cp7_mandor_shop/UI_SALES_PARENT_ORIGIN.json",
+    "scripts/cp7_mandor_shop/UI_SOURCE.json",
+    "scripts/cp7_mandor_shop/__init__.py",
+    "scripts/cp7_mandor_shop/admission.py",
+    "scripts/cp7_mandor_shop/allocation.sql",
+    "scripts/cp7_mandor_shop/allocation_model.mjs",
+    "scripts/cp7_mandor_shop/buyer_model.mjs",
+    "scripts/cp7_mandor_shop/buyers.sql",
+    "scripts/cp7_mandor_shop/check_source.py",
+    "scripts/cp7_mandor_shop/command_guard_routes.py",
+    "scripts/cp7_mandor_shop/command_guards.sql",
+    "scripts/cp7_mandor_shop/composition.py",
+    "scripts/cp7_mandor_shop/events.sql",
+    "scripts/cp7_mandor_shop/facade-ownership-first2.mjs.txt",
+    "scripts/cp7_mandor_shop/facade.sql",
+    "scripts/cp7_mandor_shop/facade_display.sql",
+    "scripts/cp7_mandor_shop/facade_display_model.mjs",
+    "scripts/cp7_mandor_shop/facade_install.py",
+    "scripts/cp7_mandor_shop/facade_model.mjs",
+    "scripts/cp7_mandor_shop/facade_ownership_model.mjs",
+    "scripts/cp7_mandor_shop/facade_privileges.sql",
+    "scripts/cp7_mandor_shop/native_dispatch.py",
+    "scripts/cp7_mandor_shop/native_payment_routes.py",
+    "scripts/cp7_mandor_shop/native_sales_routes.py",
+    "scripts/cp7_mandor_shop/offset_model.mjs",
+    "scripts/cp7_mandor_shop/offset_projection.sql",
+    "scripts/cp7_mandor_shop/payment_guard_model.mjs",
+    "scripts/cp7_mandor_shop/payment_guards.sql",
+    "scripts/cp7_mandor_shop/payment_model.mjs",
+    "scripts/cp7_mandor_shop/payment_owner.sql",
+    "scripts/cp7_mandor_shop/sale_identity.sql",
+    "scripts/cp7_mandor_shop/sale_identity_model.mjs",
+    "scripts/cp7_mandor_shop/sales-model-before-edit-fixture.mjs.txt",
+    "scripts/cp7_mandor_shop/sales_command_model.mjs",
+    "scripts/cp7_mandor_shop/sales_commands.sql",
+    "scripts/cp7_mandor_shop/schema.sql",
+    "scripts/cp7_mandor_shop/storage_model.mjs",
+    "scripts/current-mandor-shop-native-qualification/READINESS.txt",
+    "scripts/current-mandor-shop-native-qualification/SOURCE_READINESS.json",
+    "scripts/current-mandor-shop-native-qualification/additional_cases.py",
+    "scripts/current-mandor-shop-native-qualification/admission.py",
+    "scripts/current-mandor-shop-native-qualification/assembly.py",
+    "scripts/current-mandor-shop-native-qualification/cases.py",
+    "scripts/current-mandor-shop-native-qualification/component.py",
+    "scripts/current-mandor-shop-native-qualification/final_gate.py",
+    "scripts/current-mandor-shop-native-qualification/native_fixture.py",
+    "scripts/current-mandor-shop-native-qualification/oracle.py",
+    "scripts/current-mandor-shop-native-qualification/package_engine.py",
+    "scripts/current-mandor-shop-native-qualification/preflight.py",
+    "scripts/current-mandor-shop-native-qualification/qualification.py",
+    "scripts/current-mandor-shop-native-qualification/runtime_supervisor.py",
+    "scripts/current-unified-candidate/READINESS.txt",
+    "scripts/current-unified-candidate/SOURCE.json",
+    "scripts/current-unified-candidate/SOURCE_BOUNDARY_CHECKS.json",
+    "scripts/current-unified-candidate/check_source.py",
+    "src/MandorShopBuyerPicker.tsx",
+    "src/MandorShopCards.dom.test.tsx",
+    "src/MandorShopCards.tsx",
+    "src/MandorShopPayrollPanel.dom.test.tsx",
+    "src/MandorShopPayrollPanel.tsx",
+    "src/MandorShopSalesDraft.dom.test.tsx",
+    "src/MandorShopSalesPage.dom.test.tsx",
+    "src/mandor-shop.css",
+    "src/mandorShopContract.test.ts",
+    "src/mandorShopContract.ts",
+    "src/mandorShopSalesContract.test.ts",
+    "src/mandorShopSalesContract.ts",
+    "tests/fixtures/mandorShop.ts",
+    "tests/fixtures/mandorShopSales.ts"
+  ],
+  "files": {
+    "scripts/check-access-catalog.mjs": {
+      "bytes": 46072,
+      "sha256": "a6a49409518465b42db6c7afb06ed0c4a58c497f948b2085e1109b9b17b2fb74"
+    },
+    "scripts/check-source-ownership.mjs": {
+      "bytes": 25967,
+      "sha256": "295ca4cbadbf76a0d43e186255364075b148880dbf8c66e1ff63726f7668c816"
+    },
+    "scripts/current-mandor-shop-native-qualification/READINESS.txt": {
+      "bytes": 2112,
+      "sha256": "10e6d5c2ceffd32e8042996831449a9a0947d96d9f1f979c629cfcd34771834b"
+    },
+    "scripts/current-mandor-shop-native-qualification/SOURCE_READINESS.json": {
+      "bytes": 28701,
+      "sha256": "9a2a642cde7bd62626b8d808caf63682cc7799844cd849140c490bdbdb0e84fb"
+    },
+    "scripts/current-mandor-shop-native-qualification/additional_cases.py": {
+      "bytes": 11438,
+      "sha256": "2fef6edab13d9b7fcf716fb85a5e8da08dc1d144713109950fc29cb8b9cedfa9"
+    },
+    "scripts/current-mandor-shop-native-qualification/admission.py": {
+      "bytes": 1447,
+      "sha256": "609db7cade09a03be8aa4777adac6e11fdf3fc5aec672e625ed96705381e3b6c"
+    },
+    "scripts/current-mandor-shop-native-qualification/assembly.py": {
+      "bytes": 5817,
+      "sha256": "e734356cace6a72b7f3614cd56170d9b1b1ad5645293b933693ae8f5eccd041a"
+    },
+    "scripts/current-mandor-shop-native-qualification/cases.py": {
+      "bytes": 11203,
+      "sha256": "de7be5c5448838817156ec548ae7d7bd392bc2ac9784db5d0b56e1b4931719da"
+    },
+    "scripts/current-mandor-shop-native-qualification/component.py": {
+      "bytes": 6404,
+      "sha256": "cdcb5c0f97d04d0486273dee06e3e18e1b735c1491aa583571030822b0456ae4"
+    },
+    "scripts/current-mandor-shop-native-qualification/final_gate.py": {
+      "bytes": 9257,
+      "sha256": "0d0cb47ef1e69d239d532af59e69f4a3a56a216630328eaf26a942791c1a47c6"
+    },
+    "scripts/current-mandor-shop-native-qualification/native_fixture.py": {
+      "bytes": 19906,
+      "sha256": "6ccc125e81dfa8d74bd9c551bcf02e0f5521c7d605e4b9eb4c4800659085b06b"
+    },
+    "scripts/current-mandor-shop-native-qualification/oracle.py": {
+      "bytes": 5845,
+      "sha256": "046702c7847e85d74c0f928e4d3db5dd86867272317f5618fbe7f3d444851230"
+    },
+    "scripts/current-mandor-shop-native-qualification/package_engine.py": {
+      "bytes": 3527,
+      "sha256": "9bffa0aa7d0337c74e844921f5a06ee2f825e1d7ecfe5b3dedcc430850288695"
+    },
+    "scripts/current-mandor-shop-native-qualification/preflight.py": {
+      "bytes": 9252,
+      "sha256": "5b5ac190d4f32c6262f09cc48f35da9537aa67cf0e11d516d4e729d2ec54381d"
+    },
+    "scripts/current-mandor-shop-native-qualification/qualification.py": {
+      "bytes": 6897,
+      "sha256": "d42d5ddd190a5c3e70b3e2e405733233cdb69d31de7798be9d0a93eeb234e761"
+    },
+    "scripts/current-mandor-shop-native-qualification/runtime_supervisor.py": {
+      "bytes": 2726,
+      "sha256": "2b5cbe0e86a20c9536e2909691dc6c66434c003dd7d25c52d779fee0f3e8939c"
+    },
+    "scripts/current-unified-candidate/READINESS.txt": {
+      "bytes": 1630,
+      "sha256": "67931f2c043c058dee3df910721c10db67a6624be6e0098e35f5425c8fa17e54"
+    },
+    "scripts/current-unified-candidate/SOURCE_BOUNDARY_CHECKS.json": {
+      "bytes": 574,
+      "sha256": "45f8a54ef6e02e02a20cb3686af32cfa4776691df24c85397a029154fc47752f"
+    },
+    "scripts/current-unified-candidate/check_source.py": {
+      "bytes": 5860,
+      "sha256": "ad353b187490b2f6094055dbb5c9b2ca5f51f1334e118b15adf9abe10cbed953"
+    },
+    "src/accessory-workspace.css": {
+      "bytes": 463,
+      "sha256": "573966c363a38314bbab8f7dcc265b68436c0fef3283cf8ab7300bbe0c8485e6"
+    }
+  },
+  "old_evidence_reused": true,
+  "runtime_admission": false,
+  "actual_Native_cases": 0,
+  "CP7_complete": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "Mandor_native9_preparation": {
+    "status": "SOURCE_PREFLIGHT_PASS_ACTUAL_RUN_NOT_ADMITTED",
+    "files": [
+      "scripts/current-mandor-shop-native-qualification/READINESS.txt",
+      "scripts/current-mandor-shop-native-qualification/SOURCE_READINESS.json",
+      "scripts/current-mandor-shop-native-qualification/additional_cases.py",
+      "scripts/current-mandor-shop-native-qualification/admission.py",
+      "scripts/current-mandor-shop-native-qualification/assembly.py",
+      "scripts/current-mandor-shop-native-qualification/cases.py",
+      "scripts/current-mandor-shop-native-qualification/component.py",
+      "scripts/current-mandor-shop-native-qualification/final_gate.py",
+      "scripts/current-mandor-shop-native-qualification/native_fixture.py",
+      "scripts/current-mandor-shop-native-qualification/oracle.py",
+      "scripts/current-mandor-shop-native-qualification/package_engine.py",
+      "scripts/current-mandor-shop-native-qualification/preflight.py",
+      "scripts/current-mandor-shop-native-qualification/qualification.py",
+      "scripts/current-mandor-shop-native-qualification/runtime_supervisor.py"
+    ],
+    "new_source_method_calls": 203,
+    "new_source_oracle_calls": 57,
+    "literal_RPC_calls": 15,
+    "actual_SQL_executed": 0,
+    "actual_Native_cases": 0,
+    "parent_root_adopted": false,
+    "owning_runtime_pending": true,
+    "Auth_browser_and_two_backend_qualification_pending": true,
+    "owning_assembly_source_prepared": true,
+    "owning_workflow_pending": true,
+    "complete_actual_observations_and_owning_packet_gate_prepared": true,
+    "prior_process_controls_reused_not_rerun": 10,
+    "fixed_observer_SQL_statements_parsed": 34,
+    "new_case_ids": [
+      "FG_MANDOR_FUTURE_WEEK_DRAFT_RESERVE_RELEASE_THEN_ELIGIBLE_WEEK_300000_OFFSET_2000000_GROSS_1700000_NET_REPLAY",
+      "FG_MANDOR_PARTIAL100000_REMAINDER200000_ON_SECOND_MANUALLY_SELECTED_WEEK",
+      "FG_MANDOR_EXPLICIT_RELEASE_AND_UNPAID_CANCELLATION_RELEASE_ALLOCATION_WITHOUT_AR_PAYMENT",
+      "FG_MANDOR_NATIVE_PAID_REVERSAL_REOPENS_SAME_INVOICE_AND_RESTORES_PREAPPROVAL_BOOKS",
+      "FG_MANDOR_CURRENT_CAPACITY_WRONG_MANDOR_AND_STALE_REVIEW_REFUSE_WITHOUT_EFFECT",
+      "FG_MANDOR_ORDINARY_STORE_NATIVE_CREATE_POST_COGS_AND_STOCK_REGRESSION",
+      "FG_MANDOR_ACTIVE_OFFSET_RETURN_CORRECTION_REFUSE_THEN_LAWFUL_REVERSE_AND_REAL_RETURN_CORRECTION",
+      "FG_MANDOR_INSTALLMENT_PARTIAL_FINAL_REOPEN_REPAY_AND_WHOLE_REVERSAL",
+      "FG_MANDOR_CURRENT_PERMISSION_REPLAY_REFUSAL_AND_ZERO_NET_NO_CASH"
+    ],
+    "new_private_command_guards": 2,
+    "exact_Native_command_insertions": 5,
+    "current_Afui_parent_source_observed_not_accepted": "76b3f1e1bcce49cc405e55f92a733dcd0f360cad"
+  },
+  "Global_standalone_source_fence_unchanged": true,
+  "Mandor_source_fence_includes_new_command_guards": true
+}

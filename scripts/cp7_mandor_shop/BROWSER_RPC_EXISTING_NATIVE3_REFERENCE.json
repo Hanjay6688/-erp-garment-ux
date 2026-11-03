@@ -1,0 +1,138 @@
+{
+  "status": "REUSED_ACTUAL_ACCEPTED_DE30_ATTENDANCE_CHOICE_PUBLIC3_NOT_FRESH_NATIVE",
+  "head": "6e61506c10a18541c104b981bd438e78b175b5d1",
+  "tree": "86f07de6e0be871d39110aa797ef26da4564e8e8",
+  "run_id": 41368001658,
+  "job_id": 125032204589,
+  "raw_member": "DE_GLOBAL_BEFORE_NATIVE30/CALLER_RAW_BOUNDARY_OBSERVATION.json",
+  "raw_pin": {
+    "bytes": 22185024,
+    "sha256": "7607987b5a8a9100dddbfef5b39135b330eda329bf89b072b3839467cf7c7b86"
+  },
+  "functions": {
+    "public.erp_cp7_preview_attendance_choice_v1(text,jsonb)": [
+      "CREATE OR REPLACE FUNCTION public.erp_cp7_preview_attendance_choice_v1(p_action text, p_payload jsonb)\n RETURNS jsonb\n LANGUAGE sql\n SECURITY DEFINER\n SET search_path TO ''\nAS $function$select cp7_attendance_choice.review_v1(p_action,p_payload)-'context'$function$\n",
+      "postgres",
+      "sql",
+      "f",
+      true,
+      false,
+      false,
+      false,
+      "v",
+      "u",
+      "100",
+      "0",
+      [
+        "search_path=\"\""
+      ],
+      [
+        "p_action",
+        "p_payload"
+      ],
+      null,
+      "p_action text, p_payload jsonb",
+      "jsonb",
+      "-",
+      [
+        [
+          "authenticated",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "postgres",
+          "postgres",
+          "EXECUTE",
+          false
+        ]
+      ]
+    ],
+    "public.erp_cp7_save_attendance_choice_v1(text,jsonb,uuid)": [
+      "CREATE OR REPLACE FUNCTION public.erp_cp7_save_attendance_choice_v1(p_action text, p_payload jsonb, p_request uuid)\n RETURNS jsonb\n LANGUAGE sql\n SECURITY DEFINER\n SET search_path TO ''\nAS $function$select cp7_attendance_choice.command_v1(p_action,p_payload,p_request)$function$\n",
+      "postgres",
+      "sql",
+      "f",
+      true,
+      false,
+      false,
+      false,
+      "v",
+      "u",
+      "100",
+      "0",
+      [
+        "search_path=\"\""
+      ],
+      [
+        "p_action",
+        "p_payload",
+        "p_request"
+      ],
+      null,
+      "p_action text, p_payload jsonb, p_request uuid",
+      "jsonb",
+      "-",
+      [
+        [
+          "authenticated",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "postgres",
+          "postgres",
+          "EXECUTE",
+          false
+        ]
+      ]
+    ],
+    "public.erp_cp7_get_attendance_choice_v1(date,date,integer,integer)": [
+      "CREATE OR REPLACE FUNCTION public.erp_cp7_get_attendance_choice_v1(p_period_start date, p_period_end date, p_offset integer DEFAULT 0, p_limit integer DEFAULT 25)\n RETURNS jsonb\n LANGUAGE sql\n SECURITY DEFINER\n SET search_path TO ''\nAS $function$select cp7_attendance_choice.workspace_v1(p_period_start,p_period_end,p_offset,p_limit)$function$\n",
+      "postgres",
+      "sql",
+      "f",
+      true,
+      false,
+      false,
+      false,
+      "v",
+      "u",
+      "100",
+      "0",
+      [
+        "search_path=\"\""
+      ],
+      [
+        "p_period_start",
+        "p_period_end",
+        "p_offset",
+        "p_limit"
+      ],
+      null,
+      "p_period_start date, p_period_end date, p_offset integer DEFAULT 0, p_limit integer DEFAULT 25",
+      "jsonb",
+      "-",
+      [
+        [
+          "authenticated",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "postgres",
+          "postgres",
+          "EXECUTE",
+          false
+        ]
+      ]
+    ]
+  },
+  "actual_new_Native_cases": 0,
+  "actual_SQL_executed": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

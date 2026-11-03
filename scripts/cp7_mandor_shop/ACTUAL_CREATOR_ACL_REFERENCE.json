@@ -1,0 +1,79 @@
+{
+  "classification": "SAVED_ACTUAL_ACCEPTED_DE30_CREATOR_AND_FUNCTION_DEFAULTS_NOT_FRESH_NATIVE",
+  "head": "6e61506c10a18541c104b981bd438e78b175b5d1",
+  "run_id": 41368001658,
+  "job_id": 125032204589,
+  "raw_member": "DE_GLOBAL_BEFORE_NATIVE30/CALLER_RAW_BOUNDARY_OBSERVATION.json",
+  "raw_pin": {
+    "bytes": 22185024,
+    "sha256": "7607987b5a8a9100dddbfef5b39135b330eda329bf89b072b3839467cf7c7b86"
+  },
+  "roles": {
+    "postgres": [
+      false,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      -1,
+      null,
+      "bd9af0e5b32b81a5480f0ed93c746345b7e97b2f7b7fe393ec5b6abc2d203357"
+    ],
+    "supabase_admin": [
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      -1,
+      null,
+      "60c102bb231ad67d0a176028418e00e10453f7db6ef5af398d1106c47082134f"
+    ],
+    "cp7_procure_read": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      -1,
+      null,
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    ]
+  },
+  "public_function_defaults": [
+    [
+      "anon",
+      "postgres",
+      "EXECUTE",
+      false
+    ],
+    [
+      "authenticated",
+      "postgres",
+      "EXECUTE",
+      false
+    ],
+    [
+      "postgres",
+      "postgres",
+      "EXECUTE",
+      false
+    ],
+    [
+      "service_role",
+      "postgres",
+      "EXECUTE",
+      false
+    ]
+  ],
+  "selected_schema_defaults_modeled_not_Auth_or_whole_ERP": true,
+  "actual_Native_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

@@ -1,0 +1,47 @@
+{
+  "status": "ORIGINAL_MODEL_READER_DUPLICATE_COLUMN_NAME_ERROR_NOT_FACADE_SQL_FAILURE",
+  "original_full_suite_pass": false,
+  "retained_completed_controls": [
+    {
+      "name": "ALL_NINE_ORIGINAL_BODIES_COMPILE_WITH_FINAL_DISPLAY_BEFORE_NON_SUPERUSER_OWNER_TRANSFER",
+      "status": "PASS"
+    },
+    {
+      "name": "ALL_SIX_PUBLIC_AND_ONLY_SIX_PRIVATE_ENTRYPOINTS_HAVE_EXACT_EFFECTIVE_EXECUTE_UNDER_ACTUAL_DEFAULTS",
+      "status": "PASS"
+    }
+  ],
+  "original_model_source": {
+    "bytes": 10144,
+    "sha256": "095963cbd831915e22f905e383790df609f33341cdc31d437ce081e1e8f135e9"
+  },
+  "original_model_file": "facade-ownership-first2.mjs.txt",
+  "first_error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\n+ actual - expected\n\n  [\n    [\n-     'cp7_mandor_shop_api',\n-     'postgres',\n      'supabase_admin',\n      true,\n      false,\n      false\n    ]\n",
+  "repair": {
+    "before": "select r.rolname,m.rolname,g.rolname,a.admin_option,a.inherit_option,a.set_option from pg_auth_members",
+    "after": "select r.rolname as role_name,m.rolname as member_name,g.rolname as grantor_name,a.admin_option,a.inherit_option,a.set_option from pg_auth_members",
+    "count": 1
+  },
+  "production_SQL_changed": false,
+  "retained_two_controls_NOT_rerun": true,
+  "actual_Native_cases": 0,
+  "second_failure": {
+    "error": "error: role \"cp7_mandor_shop_api\" cannot be dropped because some objects depend on it",
+    "completed_controls": [
+      {
+        "name": "DEFAULTS_OTHER_FUNCTIONS_AND_TEMPORARY_SET_AND_PUBLIC_CREATE_AUTHORITY_REMAIN_CLOSED",
+        "status": "PASS"
+      }
+    ],
+    "incomplete": true,
+    "SQLSTATE": "2BP01",
+    "cause": "DROP OWNED executed by facade role did not remove received privileges granted by postgres; original object-owner REVOKE is necessary before DROP ROLE.",
+    "repair": "Facade-only inverse uses exact owner-qualified drops with temporary SET, then RESET ROLE and exact postgres-issued schema/function REVOKEs. No DROP OWNED remains.",
+    "production_forward_SQL_changed": false,
+    "retained_three_NOT_rerun": true,
+    "first_failure_report": {
+      "bytes": 365,
+      "sha256": "c5e3a10c6a12e76ab67e6857e1cf14fa80c8f42cab4715d1bad3c090aa70788f"
+    }
+  }
+}

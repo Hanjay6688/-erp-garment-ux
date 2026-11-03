@@ -1,0 +1,21 @@
+{
+  "status": "FIRST_SCOPE_SQL_COMPILE_FAILURE_PRESERVED_BEFORE_NEW_CONTROLS",
+  "error": "error: syntax error at end of input",
+  "SQLSTATE": "42601",
+  "completed_controls": 0,
+  "first_source": {
+    "bytes": 10641,
+    "sha256": "de577d05f1e9fa58271b9fec6ea9bc02dd7d6cb72c4bfa833dd1a340288e5644"
+  },
+  "first_stderr": {
+    "bytes": 32917,
+    "sha256": "eafcd766f0254ed912a34e687bea0ae61511eba4178b75fdbe259c9a86f2346a"
+  },
+  "repair": "Parenthesize the SQL CASE expression in the PLpgSQL phase comparison; no old Native function, financial engine or prior control changed.",
+  "first_actual_execution_controls": 21,
+  "old_lock_and_catalog_primitives_and_old_census_NOT_rerun": true,
+  "actual_Native_cases": 0,
+  "production_go": false,
+  "source_scanner_first_failure": "The broad DML-word regex misread BEFORE UPDATE OR DELETE trigger syntax as an UPDATE target named or.",
+  "source_scanner_repair": "Count statement-leading INSERT/UPDATE/DELETE targets in the exact pinned source; all four private SQL bodies and the 21 model results remain unchanged."
+}

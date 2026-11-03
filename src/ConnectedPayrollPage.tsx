@@ -11,6 +11,7 @@ import {useProductionMutation,type ProductionMutationHandlers} from './useProduc
 import ProductionRecoveryNotice from './ProductionRecoveryNotice'
 import PayrollInstallmentPanel from './PayrollInstallmentPanel'
 import PayrollKasbonPanel,{type KasbonFocus} from './PayrollKasbonPanel'
+import MandorShopPayrollPanel from './MandorShopPayrollPanel'
 import type {InstallmentDocument} from './payrollInstallmentContract'
 import {financialRecoveryBlocked,useFinancialRecoveryGate} from './useFinancialRecoveryGate'
 import type {Json} from './types/database.preconnect'
@@ -97,6 +98,7 @@ function Workspace({initialPayrollId,kasbonFocus}:{initialPayrollId:string|null;
     <div className="cpay-lines">{detail.page.rows.map(v=>detail.section==='NOTES'?<Note key={v.id} value={v as NotaDocument}/>:<Line key={v.id} section={detail.section} value={v as PayrollLine}/>)}{!detail.page.rows.length?<p>Belum ada rincian dalam bagian ini.</p>:null}</div><Pager label="Rincian" page={detail.page} busy={busy||mutation.busy} change={offset=>{requested.current.detailOffset=offset;void load()}}/>
    </>:<p>Pilih mandor dan periode untuk menelusuri perhitungan serta nota sumber.</p>}</section></div>
   <PayrollInstallmentPanel parentReady={Boolean(data&&(!selectedId||detail)&&!busy&&!blocked)}payrollId={selectedId}readRevision={readRevision}onRetire={retire}onReload={load}onTarget={onPaymentTarget}onSource={onPaymentSource}/>
+  <MandorShopPayrollPanel parentReady={Boolean(data&&detail&&!busy&&!blocked)} payrollId={selectedId} contractorId={detail?.document?.contractor_id??null} payrollNumber={detail?.document?.payroll_number??''} contractorName={detail?.document?.contractor_name??''} readRevision={readRevision} onRetire={retire} onReload={load} onTarget={onPaymentTarget}/>
   {kasbonFocus&&!selectedId?<PayrollKasbonPanel contractorId={kasbonFocus.contractorId} payrollId={null} parentReady={Boolean(data&&!busy&&!blocked)} onChanged={load} focus={kasbonFocus}/>
    :<PayrollKasbonPanel contractorId={detail?.document?.contractor_id??null} payrollId={selectedId} parentReady={Boolean(data&&detail&&!busy&&!blocked)} onChanged={load}/>}
  </section>

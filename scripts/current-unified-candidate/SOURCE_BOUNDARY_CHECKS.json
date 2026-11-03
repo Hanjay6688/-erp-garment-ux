@@ -1,0 +1,11 @@
+{
+  "kind": "NEW_COMPOSITE_SOURCE_CHECK",
+  "initial_source_ownership_result": "FAILED_DUPLICATE_EXPECTED_ATTENDANCE_RPC_LINES_AFTER_THREE_WAY_COMPOSITION",
+  "corrected_duplicate_literal_lines": 3,
+  "source_ownership_returncode": 0,
+  "source_ownership_output": "Source ownership passed: 400 runtime files, 336 owned RPC boundaries, no orphan or direct table access.\n",
+  "access_catalog_returncode": 0,
+  "access_catalog_result": "336_RPC_BOUNDARIES_111_PERMISSIONS_47_NAV_48_ROUTES_21_SENSITIVE_ACTIONS",
+  "tests_rerun": false,
+  "runtime_or_business_credit": false
+}

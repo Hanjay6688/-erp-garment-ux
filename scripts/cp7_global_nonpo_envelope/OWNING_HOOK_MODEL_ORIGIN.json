@@ -1,0 +1,24 @@
+{
+  "status": "EXACT_REUSED_SCOPE_MODEL_SETUP_NEW_REVIEW_AND_OWNING_SOURCE_ONLY",
+  "parent_path": "scripts/cp7_global_nonpo_envelope/work_scope_model.mjs",
+  "parent_source": {
+    "bytes": 13285,
+    "sha256": "26762aceedd3de437b82fd4a0453c8248e0b2582bb66a9e3861ccdd7e5d77d9c"
+  },
+  "original_prefix_bytes": 6529,
+  "source_routes": [
+    {
+      "before": "const[runtime,output]=process.argv.slice(2);assert(runtime&&output);",
+      "after": "const[runtime,output]=process.argv.slice(2);assert(runtime&&output);\nassert.equal(process.argv[4],'--hooks-only','Only new review/owning source controls execute');",
+      "count": 1
+    },
+    {
+      "before": "to_jsonb(array_fill('model_relation'::text,array[42])),$1)",
+      "after": "to_jsonb(array_fill('model_relation'::text,array[42])),encode(sha256(convert_to('{\"known_functions_exact\":true,\"view\":{\"exact_known_source\":true},\"new_private_acl_closed\":true,\"model_only\":true}'::jsonb::text,'UTF8')),'hex'))",
+      "count": 1
+    }
+  ],
+  "prior21_scope_controls_NOT_rerun": true,
+  "Native_owning_lifecycle_NOT_executed": true,
+  "actual_Native_cases": 0
+}

@@ -6,8 +6,11 @@ import SalesDraftPanel from './SalesDraftPanel'
 import {parseSalesFormOptions,salesLineTotal,salesMoneyInput,type SalesRead} from './salesReadContract'
 import {recoveryIdentity} from '../tests/fixtures/productionRecovery'
 const client=vi.hoisted(()=>({rpc:vi.fn()}))
-vi.mock('./auth/AuthProvider',()=>({useAuth:()=>recoveryIdentity}))
-vi.mock('./lib/supabase',()=>({getUatSupabaseClient:()=>client}))
+const salesAuth={...recoveryIdentity,identity:{...recoveryIdentity.identity,permissions:[...recoveryIdentity.identity.permissions,'sales.invoice.view','sales.invoice.create','sales.invoice.edit_draft','finance.ar.view']}}
+vi.mock('./auth/AuthProvider',()=>({useAuth:()=>salesAuth}))
+// The new category reader has its own suite. These original store fixtures
+// retain their Native source counts while classifying their unchanged customer.
+vi.mock('./lib/supabase',()=>({getUatSupabaseClient:()=>({rpc:(name:string,...args:unknown[])=>name==='erp_cp7_get_mandor_shop_customer_buyer_v1'?Promise.resolve({data:{contract_version:'cp7.mandor-shop-customer-buyer.v1',sales_action:'EDIT',customer_id:id,buyer_category:'TOKO',mandor:null},error:null}):client.rpc(name,...args)})}))
 const id='11111111-1111-4111-8111-111111111111',product='22222222-2222-4222-8222-222222222222',other='33333333-3333-4333-8333-333333333333',at='2026-09-29T03:00:03.123Z'
 const stock={product_id:product,product_sku:'PHYSICAL-1',product_name:'Celana',commercial_sku:'SKU-HIST',size_code:'32',brand_name:'Vivo',location_id:id,location_name:'Gudang FG',available_qty:'30'}
 // Owner D14-5 series fixtures: three sizes, one size, five sizes, plus a longer SKU that only contains SKU-3 as text.

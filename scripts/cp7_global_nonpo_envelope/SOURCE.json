@@ -1,0 +1,197 @@
+{
+  "classification": "CLOSED_GLOBAL_ENVELOPE_LOCK_AND_NATIVE_SCOPE_PREPARATION_NOT_QUALIFICATION",
+  "base_head": "15a2170cea88cd03a4d1bcaa0873a969d495b9fa",
+  "base_tree": "3fe772a1314ae6bc7c4f36f72e3fda8738eb70fc",
+  "runtime_entry": null,
+  "actual_Native_cases": 0,
+  "profile_seed_statements": 0,
+  "actual_installer_or_owning_hooks": 0,
+  "private_tables": 3,
+  "private_functions": 16,
+  "production_go": false,
+  "independent_acceptance": false,
+  "files": {
+    "scripts/cp7_global_nonpo_envelope/CATALOG_BRIDGE_SOURCE_CONTROLS.json": {
+      "bytes": 7898,
+      "sha256": "00e3d24f99ad0fc7c9feaed71326330727454974d2b81353362bd97585bb61c7"
+    },
+    "scripts/cp7_global_nonpo_envelope/NATIVE_OWNING_REFERENCE.json": {
+      "bytes": 81635,
+      "sha256": "c1e4a5c076a6d451aa85cba68f3f985fa84c12a2d81a77f63d84914ab25fd6b9"
+    },
+    "scripts/cp7_global_nonpo_envelope/NATIVE_OWNING_ROUTES_SOURCE_CONTROLS.json": {
+      "bytes": 13657,
+      "sha256": "e01a79639c1b3b828c0c511f2bc2fb6f0caba8bf887072fef0c09cdfc22f81d7"
+    },
+    "scripts/cp7_global_nonpo_envelope/NATIVE_SCOPE_WORK_REFERENCE.json": {
+      "bytes": 20187,
+      "sha256": "382fa9cda10c71b8649834211c3d78f6edcfb81a337999556d2b3b93dc9cbef3"
+    },
+    "scripts/cp7_global_nonpo_envelope/OWNING_HOOK_MODEL_CONTROLS.json": {
+      "bytes": 4032,
+      "sha256": "98dcffe7d7b368d86634cccc57bef4c38bceaac5e707f0010b698b3d5dc6196f"
+    },
+    "scripts/cp7_global_nonpo_envelope/OWNING_HOOK_MODEL_ORIGIN.json": {
+      "bytes": 1126,
+      "sha256": "414136dc15f73ca1be9f104afbe36404dac218aeaab851942d9f4707d202d6ff"
+    },
+    "scripts/cp7_global_nonpo_envelope/PLATFORM_CATALOG_CAPABILITY_REQUIREMENT.json": {
+      "bytes": 1609,
+      "sha256": "3e04006d4984c047a48ab89a077de93839bace4621c623f8ae918ef8e8fc3c84"
+    },
+    "scripts/cp7_global_nonpo_envelope/README.md": {
+      "bytes": 10613,
+      "sha256": "2acaf8c753b706581e7088e339bcd23ecce41bcd5ae9989e3a04a99dd66c126f"
+    },
+    "scripts/cp7_global_nonpo_envelope/READONLY_GRAPH_ORIGIN.json": {
+      "bytes": 1730,
+      "sha256": "ddf45b813abde3bd73c2947dca210b53612e8bef2a29e6cc6fa3b4fcc5ad4358"
+    },
+    "scripts/cp7_global_nonpo_envelope/READONLY_GRAPH_SAVED_DE30_COMPATIBILITY.json": {
+      "bytes": 1115,
+      "sha256": "46c1a8ad731bb644ee3c3dc89d11d61591767df6ead2d66d01562842b69198e1"
+    },
+    "scripts/cp7_global_nonpo_envelope/READONLY_GRAPH_SOURCE_CONTROLS.json": {
+      "bytes": 530,
+      "sha256": "e7efaed0f6b035d9e94ced9ff0f1adce60b4f1640a76ab7b1e6e70449d026847"
+    },
+    "scripts/cp7_global_nonpo_envelope/SYNTAX_AND_SOURCE_CONTROLS.json": {
+      "bytes": 2252,
+      "sha256": "fd4f45af2df0aa6bf8599612c7d240d61706cfa8f1e8a1ad0a6f3e73d12434ef"
+    },
+    "scripts/cp7_global_nonpo_envelope/WORK_SCOPE_MODEL_CONTROLS.json": {
+      "bytes": 5625,
+      "sha256": "e28d0d19ba1dbc0bb1397c1298cb2fdd11fb653fdcc23b2319e554cc49057d30"
+    },
+    "scripts/cp7_global_nonpo_envelope/WORK_SCOPE_MODEL_FIRST_FAILURE.json": {
+      "bytes": 1068,
+      "sha256": "69033736b4bb37754cea52ee9d41aa27e707da6bb127e916d2389adc4288de07"
+    },
+    "scripts/cp7_global_nonpo_envelope/admission.py": {
+      "bytes": 1739,
+      "sha256": "e77645273331e4f13def8bbd830127fab1673c95e198796e789784dbfaa218fe"
+    },
+    "scripts/cp7_global_nonpo_envelope/catalog_bridge.py": {
+      "bytes": 6680,
+      "sha256": "9230497a1ddcc86727aa9da0a2dc4e268fff0344817787c183ad6ab138539868"
+    },
+    "scripts/cp7_global_nonpo_envelope/check_source.py": {
+      "bytes": 13458,
+      "sha256": "72e073793e3d1ec564d05ff65f29ac83651c6349012baf925f18155b8df21eb7"
+    },
+    "scripts/cp7_global_nonpo_envelope/graph_helpers/AUTHORITY.json": {
+      "bytes": 71436,
+      "sha256": "193194184cdbfde1753677ad486d7010ada8ed9e6198f9a19e57c4b8587e3d78"
+    },
+    "scripts/cp7_global_nonpo_envelope/graph_helpers/authority.sql": {
+      "bytes": 62241,
+      "sha256": "9685a0a6ca3d714197e17a5fc61c71297520fb2c3c26248d2f857311f057c4bb"
+    },
+    "scripts/cp7_global_nonpo_envelope/graph_helpers/capture.sql": {
+      "bytes": 8016,
+      "sha256": "90a03cbbd430f317c2e18c7e7f13743370e617756d2d2b1fe06179b2af3003cf"
+    },
+    "scripts/cp7_global_nonpo_envelope/graph_helpers/inspect.sql": {
+      "bytes": 9510,
+      "sha256": "8f9461ce31e9973969040ae16029241253eb2ce1e0fde9ebba160db32b6cd782"
+    },
+    "scripts/cp7_global_nonpo_envelope/graph_helpers/scope.sql": {
+      "bytes": 10246,
+      "sha256": "c24434d8ab62fd7b92ba1dc0706ee1d35ac06864700cc3ceeec36cf90fad1575"
+    },
+    "scripts/cp7_global_nonpo_envelope/lock.sql": {
+      "bytes": 7185,
+      "sha256": "2446da79ce58c29bbaaef9b126897322b29ff1504ed4d65f16be5d0150482c13"
+    },
+    "scripts/cp7_global_nonpo_envelope/native_hooks.py": {
+      "bytes": 6535,
+      "sha256": "0ce771ecc8817a96c687f17a0150cc2b55135baa0a1b338d50fe6e2da0c5cf9d"
+    },
+    "scripts/cp7_global_nonpo_envelope/owning_hooks_model.mjs": {
+      "bytes": 16806,
+      "sha256": "c5befbc343209ef4aa68d8dff26a38058275b905b8ee293aa0bbdb29aa33bd63"
+    },
+    "scripts/cp7_global_nonpo_envelope/platform_catalog_fence.sql": {
+      "bytes": 2863,
+      "sha256": "b44bd4a94a898afca0dc9360f14a595c2dcef1cc55a2a18347ebb6b84924e90e"
+    },
+    "scripts/cp7_global_nonpo_envelope/platform_relation_fence.sql": {
+      "bytes": 5321,
+      "sha256": "792388496fc4d3dc46305a44aa986ec0594d33aaef9f65094fafaba898a0fd40"
+    },
+    "scripts/cp7_global_nonpo_envelope/readonly_graph.py": {
+      "bytes": 4565,
+      "sha256": "f0e7aca895f4c95cddee2558fdc8639da6629e6ab06c5ba0f21387565f584efc"
+    },
+    "scripts/cp7_global_nonpo_envelope/review.sql": {
+      "bytes": 2956,
+      "sha256": "875e1924412175f962ca7610d18d7375537e85ac381ed4870dbba0a073ee5ff6"
+    },
+    "scripts/cp7_global_nonpo_envelope/schema.sql": {
+      "bytes": 1906,
+      "sha256": "9cbb6f3c9d167e77c80e6c1047e4e497cf03bf10b7f59e839465a2c6cdaa56bd"
+    },
+    "scripts/cp7_global_nonpo_envelope/work_scope.sql": {
+      "bytes": 10641,
+      "sha256": "fd379bef9aac477d77a5d7aa74a7d7ed32f9217f38d95a9af9f6c9e9f7b5505c"
+    },
+    "scripts/cp7_global_nonpo_envelope/work_scope_model.mjs": {
+      "bytes": 13285,
+      "sha256": "26762aceedd3de437b82fd4a0453c8248e0b2582bb66a9e3861ccdd7e5d77d9c"
+    },
+    "scripts/cp7_global_nonpo_envelope/catalogue_profile.py": {
+      "bytes": 4607,
+      "sha256": "e34234eab2e4c36f8c63742a504569f954957241c0cbc679e9b420d12218b19e"
+    },
+    "scripts/cp7_global_nonpo_envelope/catalogue_fingerprint.sql": {
+      "bytes": 17577,
+      "sha256": "fc69e7ca90289dc9f43b03ee1d1f84bc1a84b35fc71704004f9c0c615a6016f1"
+    },
+    "scripts/cp7_global_nonpo_envelope/CATALOGUE_PROFILE_SOURCE_CONTROLS.json": {
+      "bytes": 3954,
+      "sha256": "5146f3334010434d3f32ecf28a6cf9bb9e8f09025f5fb7884d788fad62165d40"
+    },
+    "scripts/cp7_global_nonpo_envelope/SEMANTIC_AUTHORITY_SOURCE_CONTROLS.json": {
+      "bytes": 2426,
+      "sha256": "3913e9accb6e5477b2e86d7ee50b05bbd456a6b551d70c3e1949a139ec38430c"
+    },
+    "scripts/cp7_global_nonpo_envelope/semantic_routes.py": {
+      "bytes": 3359,
+      "sha256": "a275a64b4cfe14dad2404d43f5713b25b0938411d5846573d11286e0236707b7"
+    },
+    "scripts/cp7_global_nonpo_envelope/semantic_authority.sql": {
+      "bytes": 3251,
+      "sha256": "698a36a0b096f68d5b337c603f8c007ae648557ee78995b69cd0996af36020d6"
+    },
+    "scripts/cp7_global_nonpo_envelope/build_install_plan.py": {
+      "bytes": 6679,
+      "sha256": "a44d3f1942cbe650a7ddd26c49bcf936b1738be45f77d723d58711cdb4475214"
+    },
+    "scripts/cp7_global_nonpo_envelope/composition.py": {
+      "bytes": 21891,
+      "sha256": "aa5139dcc0a87445e4fbecd1af0aca9cdf70b9e53b5a6be523aebe86d38029e4"
+    },
+    "scripts/cp7_global_nonpo_envelope/INSTALL_PLAN.json": {
+      "bytes": 16095,
+      "sha256": "96ce9eee5c4e12f2669cb1e9636080632a5f84c043e1d01b6c14c1c72a288a40"
+    }
+  },
+  "prepared_owning_source_adapters": 8,
+  "counted_owning_source_routes": 18,
+  "global_guard_sites": 3,
+  "platform_catalog_fence_functions": 2,
+  "platform_catalog_fence_owner": "supabase_admin",
+  "trusted_platform_bootstrap_and_cleanup_pending": true,
+  "envelope_private_functions": 8,
+  "readonly_graph_functions": 4,
+  "exact_retained_readonly_graph_origin": "READONLY_GRAPH_ORIGIN.json",
+  "final_readonly_graph_parent_adoption_pending": true,
+  "counted_platform_lock_routes": 2,
+  "profile_bound_relation_capability_pending": true,
+  "catalogue_fingerprint_functions": 1,
+  "counted_catalogue_profile_routes": 1,
+  "current_all25_catalogue_profile_binding_pending": true,
+  "semantic_authority_functions": 1,
+  "counted_semantic_hash_routes": 2,
+  "guarded_complete_installer_source_provided": true
+}
