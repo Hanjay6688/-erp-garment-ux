@@ -73,7 +73,7 @@ def parent():return sku_parent
 def runtime():return parent().runtime()
 
 def sources():
-    names=('README.md','COMPONENT_LEDGER_DESIGN.md','component_oracle.py','valuation.sql','private_delta.py','consumer_delta.py','reader_delta.py','reader_access.py','qualification_cases.py','composition.py','catalog_additions.py','CATALOG_ADDITIONS.json','test_component_contract.py','test_private_delta.py','test_consumer_delta.py','test_reader_delta.py','test_reader_capability.mjs','test_qualification_cases.py','test_preuse_package_contract.py')
+    names=('README.md','COMPONENT_LEDGER_DESIGN.md','component_oracle.py','valuation.sql','private_delta.py','consumer_delta.py','reader_delta.py','reader_access.py','qualification_cases.py','composition.py','catalog_additions.py','CATALOG_ADDITIONS.json','test_component_contract.py','test_private_delta.py','test_consumer_delta.py','test_reader_delta.py','test_reader_capability.mjs','test_qualification_cases.py','test_preuse_package_contract.py','test_attribution_plan.mjs')
     return dict(contract=CONTRACT,predecessor=parent().sources(),
         files={str((HERE/n).relative_to(ROOT)):sha256((HERE/n).read_bytes()).hexdigest()for n in names},
         physical_FIFO_preserved=True,economic_valuation='SKU_LOCATION_GRADE_MOVING_AVERAGE',

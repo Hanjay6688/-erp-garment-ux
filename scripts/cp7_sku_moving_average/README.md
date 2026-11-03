@@ -118,3 +118,18 @@ unchanged package assertion against the corrected receipt, and refuse used
 state before DDL or inexact catalog/row/sequence restoration. These controls run
 before database setup in the owning workflow. Collaborators are modeled; they
 do not replace the actual Native5/used-inverse/whole-package qualification.
+
+## PostgreSQL17 attribution planner correction
+
+The fdabda actual Native5 attempt reached all five scenarios; each refused the
+same unsupported FULL JOIN with a nullable PO identity predicate. Its complete
+case boundary and outer data/catalogue/role restoration passed; financial
+acceptance did not. The candidate now forms the complete distinct PO key set
+(including NULL) and uses two nullable LEFT JOINs. It invents no UUID sentinel,
+retains zero and one-sided scopes, and preserves exact source/target cents.
+
+Before the long ERP installation, a pinned PostgreSQL17/WASM check executes the
+exact candidate INSERT on synthetic rows. It reproduces the original planner
+refusal and covers seven NULL/mixed/one-sided/duplicate/empty/zero cases. This
+adds no Native acceptance. Only the one function's observed DDL definition and
+valuation source pin change in the 639-row catalogue-addition profile.

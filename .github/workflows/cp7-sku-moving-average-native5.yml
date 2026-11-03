@@ -414,6 +414,18 @@ jobs:
         src/nativeStagedAi.test.ts --maxWorkers=1 --reporter=json --outputFile=cp6-proof/t3/SKU_TARGETED_CLIENT.json
 
         npx tsc -b --pretty false'
+    - name: Plan and execute exact attribution SQL before the long ERP installation
+      working-directory: auditor
+      shell: bash
+      timeout-minutes: 5
+      run: |
+        set -euo pipefail
+        planner_root="$RUNNER_TEMP/cp7-sku-attribution-plan"
+        npm install --prefix "$planner_root" --ignore-scripts --no-audit --no-fund --no-package-lock @electric-sql/pglite@0.3.14
+        mkdir -p cp6-proof/t3
+        CP7_PGLITE_MODULE="$planner_root/node_modules/@electric-sql/pglite/dist/index.js" \
+          CP7_ATTRIBUTION_REPORT=cp6-proof/t3/SKU_ATTRIBUTION_SQL_PLAN.json \
+          node scripts/cp7_sku_moving_average/test_attribution_plan.mjs
     - name: Check parent SKU and moving-average successor sources before database
       working-directory: auditor
       run: 'python -B -m unittest discover -s scripts/cp7_sku_pair_conversion -p test_delta.py

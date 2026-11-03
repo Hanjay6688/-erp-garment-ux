@@ -720,7 +720,10 @@ begin
  with effective as(select po_id,sum(transfer_value)::numeric effective from cp7_sku_conversion.valuation_contributors_v2 where group_id=p_group group by po_id),
  legacy as(select l.po_id,round(sum(a.qty_pcs*a.original_hpp_per_pcs),2)::numeric legacy from cp7_sku_conversion.members_v1 m
   join erp.product_conversion_allocations a on a.conversion_id=m.conversion_id join erp.fg_lots l on l.id=a.source_lot_id where m.group_id=p_group group by l.po_id),
- joined as(select coalesce(e.po_id,l.po_id)po_id,coalesce(e.effective,0)effective,coalesce(l.legacy,0)legacy from effective e full join legacy l on l.po_id is not distinct from e.po_id),
+ keys as(select po_id from effective union select po_id from legacy),
+ joined as(select k.po_id,coalesce(e.effective,0)effective,coalesce(l.legacy,0)legacy from keys k
+  left join effective e on e.po_id is not distinct from k.po_id
+  left join legacy l on l.po_id is not distinct from k.po_id),
  numbered as(select row_number()over(order by po_id nulls last)::integer line_no,*from joined)
  insert into cp7_sku_conversion.valuation_attributions_v2(group_id,phase,side,line_no,po_id,product_id,effective_value_delta,legacy_value_delta,adjustment_delta)
  select p_group,'POST','SOURCE',line_no,po_id,q.source_product_id,-effective,-legacy,legacy-effective from numbered
