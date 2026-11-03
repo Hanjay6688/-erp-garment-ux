@@ -127,10 +127,17 @@ def contractor_constructor(bd,contractor):
 
 def policy(cur,modules,contractor,start,special):
     modules.bd.chain.production.owner(cur)
+    current=cur.execute(
+        'select p.id from erp.contractor_hpp_policy_versions p '
+        'where p.contractor_id=%s and %s>=p.effective_from '
+        'and(p.effective_to is null or %s<=p.effective_to) '
+        'order by p.effective_from desc,p.id desc limit 1',
+        (contractor,start,start)).fetchone()
+    expected=current[0]if current else None
     payload=dict(contractor_id=contractor,effective_from=str(start),is_special=special,
         attendance_required=False,reason='Native GOOD-date fixture: explicit dated Mandor classification')
-    result=cur.execute('select public.erp_set_contractor_hpp_policy_v1(%s::jsonb,%s,null)',
-        (json.dumps(payload),uuid.uuid4())).fetchone()[0]
+    result=cur.execute('select public.erp_set_contractor_hpp_policy_v1(%s::jsonb,%s,%s::uuid)',
+        (json.dumps(payload),uuid.uuid4(),expected)).fetchone()[0]
     modules.bc.api.admin(cur)
     return result
 

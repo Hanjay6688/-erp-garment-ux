@@ -121,8 +121,8 @@
       "sha256": "e300e25bc3ec3730a99c42913c04e6994debf78c3de53f7941bc7b8500b42077"
     },
     "scripts/cp7_accessory_nonpayable/native_fixture.py": {
-      "bytes": 21833,
-      "sha256": "031850b4367823dc074c64b2b35f40320401a9dc6d59bed886fc73b2a20dd37f"
+      "bytes": 22207,
+      "sha256": "c984ff3b8af580a26ffc3cfdcb575af0ad174e2c5e2c1f20d7f437f0f8aa2797"
     },
     "scripts/cp7_accessory_nonpayable/native_inverse_cases.py": {
       "bytes": 14422,
@@ -209,8 +209,8 @@
       "sha256": "e4a7f51d2d1db6e3fe886031a8416318e6514c6ad6ea6adb0cb6070d723530be"
     },
     "scripts/cp7_accessory_nonpayable/test_native_preparation.py": {
-      "bytes": 13658,
-      "sha256": "96ca04e48176f977a1f0596e3ae40f008500c29b32b601c517e4c98fc9ed5ddd"
+      "bytes": 15135,
+      "sha256": "8f523fb17436ad288e55865db25abbd75abb80bd3a843a4c692d15fb0c776311"
     },
     "scripts/cp7_accessory_nonpayable/test_native_sales_preparation.py": {
       "bytes": 1498,
@@ -506,6 +506,33 @@
       "actual_browser": 0
     },
     "qualification_case_ids_unchanged": true,
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "policy_transition_expected_id_correction": {
+    "status": "PREPARED_ACTUAL_NATIVE_VERIFICATION_PENDING",
+    "failed_head": "0900aacf13c6597415febbc52d44ca8e0581f0f6",
+    "failed_run": 41572350243,
+    "failed_job": 125707936122,
+    "failed_artifact": 13206279021,
+    "failed_artifact_sha256": "3d142262a7a5f8ec4fb32319eab429eb89fe5685861a89f47c004106933e31a9",
+    "actual_first_two_Native_cases_PASS": true,
+    "failed_case": "NONPAYABLE_NATIVE_NORMAL_PICKUP_SPECIAL_GOOD_PHYSICAL_DATE",
+    "first_error": "STALE_POLICY expected <NULL>, current 408f679a-74f6-4b52-8b26-bdbeb3af4ae0",
+    "actual_Native_case_credit": 2,
+    "correction": "Read the exact policy version effective on the requested date and pass it to the unchanged Native optimistic-concurrency argument",
+    "setter_function_body_unchanged": true,
+    "stale_guard_unchanged": true,
+    "new_policy_or_financial_rows": false,
+    "HPP_stock_journal_ACL_or_detector_changes": 0,
+    "idempotency_key_and_request_hash_unchanged": true,
+    "local_control": {
+      "status": "PASS",
+      "variants": 2,
+      "actual_ERP_SQL": 0,
+      "python_syntax": "PASS"
+    },
+    "actual_Native_verification": "PENDING",
     "production_go": false,
     "independent_acceptance": false
   }

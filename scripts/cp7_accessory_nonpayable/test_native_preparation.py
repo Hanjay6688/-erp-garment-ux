@@ -44,6 +44,29 @@ class NativePreparationControls(unittest.TestCase):
         self.assertEqual(value['new_financial_findings'],{})
         self.assertFalse(value['production_go']);self.assertFalse(value['independent_acceptance'])
 
+    def test_policy_uses_exact_effective_current_id_and_preserves_native_stale_guard(self):
+        contractor=str(uuid.uuid4());day=date(2026,11,3)
+        for current in(None,str(uuid.uuid4())):
+            calls=[];authority=[]
+            class Cursor:
+                def execute(self,sql,params=None):
+                    calls.append((sql,params))
+                    if sql.startswith('select p.id from erp.contractor_hpp_policy_versions'):
+                        return SimpleNamespace(fetchone=lambda:None if current is None else(current,))
+                    if sql.startswith('select public.erp_set_contractor_hpp_policy_v1'):
+                        return SimpleNamespace(fetchone=lambda:({'status':'SAVED'},))
+                    raise AssertionError(sql)
+            modules=SimpleNamespace(
+                bd=SimpleNamespace(chain=SimpleNamespace(production=SimpleNamespace(
+                    owner=lambda cur:authority.append('OWNER')))),
+                bc=SimpleNamespace(api=SimpleNamespace(admin=lambda cur:authority.append('ADMIN'))))
+            self.assertEqual(fixture.policy(Cursor(),modules,contractor,day,False),{'status':'SAVED'})
+            self.assertEqual(authority,['OWNER','ADMIN'])
+            self.assertEqual(calls[0][1],(contractor,day,day))
+            self.assertIn('p.effective_to is null or %s<=p.effective_to',calls[0][0])
+            self.assertEqual(calls[1][1][2],current)
+            self.assertIn('%s::uuid',calls[1][0])
+
     def test_private_master_binding_preserves_original_code_and_all_default_arguments(self):
         module=constructor();old_chain=module.chain;old_prod=old_chain.production
         identity=str(uuid.uuid4());private=fixture.contractor_constructor(module,identity)
