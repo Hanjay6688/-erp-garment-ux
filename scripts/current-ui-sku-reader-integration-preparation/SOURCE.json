@@ -27,24 +27,24 @@
   },
   "preparation_files": {
     "scripts/current-ui-sku-reader-integration-preparation/README.md": {
-      "bytes": 2423,
-      "sha256": "270def9975abc053ed3bbc3cff28f0cb2763d3c62723683b5b7e4a82fbde842a"
+      "bytes": 3346,
+      "sha256": "b7feb746d164197314de0246e65c6a7dfc3643549a8cd730d65843cf73107841"
     },
     "scripts/current-ui-sku-reader-integration-preparation/check_source.py": {
-      "bytes": 2319,
-      "sha256": "715d13ec18f9a01659f44dd83ef4ffe8e387f2d84b81b24c0025b23e23a9d700"
+      "bytes": 2831,
+      "sha256": "1a030e0b8097575f0a30f32484250df4c0f9828efbddd4f4ff9e5db0ff1c10e1"
     },
     "scripts/current-ui-sku-reader-integration-preparation/capture.test.tsx": {
       "bytes": 6496,
       "sha256": "a753b21e0f22798736b88b3cfb25f13854563acb4cc026a2369fd0ad742add04"
     },
     "scripts/current-ui-sku-reader-integration-preparation/visual.mjs": {
-      "bytes": 4472,
-      "sha256": "e5cfa4f488b25b191461d4d13eb367c342c0ea050aeb681a23a6b2a8b4014a21"
+      "bytes": 5024,
+      "sha256": "f42c996ef7cf1afc775a8ee2cb1f2078a7391fc7c2d5c6fed0acdd2b0cfaff9d"
     },
     ".github/workflows/cp7-a-ui-sku-reader.yml": {
-      "bytes": 2503,
-      "sha256": "eaf0d134481a447b0e8c85840d17dedd7ab0ab7ac5af27fd3c0998b3f3a27b32"
+      "bytes": 2532,
+      "sha256": "ee89196d1b6b010a847bd51839049eea8cd11f37b1e6c56aaca370333bfe3ffb"
     },
     "scripts/current-ui-sku-reader-integration-preparation/contrast.mjs": {
       "bytes": 2994,
@@ -57,5 +57,18 @@
   },
   "unified_runtime_admission": false,
   "actual_ERP_cases": 0,
-  "production_go": false
+  "production_go": false,
+  "layout_appenditions": {
+    "src/fg-connected.css": {
+      "before": {
+        "bytes": 1779,
+        "sha256": "4382016152a20877feb14c793d3f328b4955f4587227d302ec482479a8df27f1"
+      },
+      "append_text": "\n/* FG toolbars keep their blocks readable inside either stock column. */\n.cfg .record-tools{grid-template-columns:minmax(0,1fr);align-items:stretch}\n.cfg .record-tools .record-tools-order{display:flex}\n",
+      "after": {
+        "bytes": 1982,
+        "sha256": "ddf594f19c650624125465228696b547fc401642005f1e7da6b79cd6cb36df5a"
+      }
+    }
+  }
 }

@@ -39,6 +39,12 @@ try{
     const measured=await readable(panel);
     const controls=await panel.locator('button,input,select').evaluateAll(list=>list.filter(e=>e.getClientRects().length).map(e=>({label:e.getAttribute('aria-label')??e.textContent,width:e.getBoundingClientRect().width,parent:e.parentElement.getBoundingClientRect().width})));
     assert(controls.every(c=>c.width<=c.parent+1),JSON.stringify({mode,width,controls}));
+    const explanations=await panel.locator('.record-tools>small').evaluateAll(list=>list.map(el=>{
+     const box=el.getBoundingClientRect(),form=el.parentElement,style=getComputedStyle(form);
+     return{width:box.width,height:box.height,available:form.clientWidth-parseFloat(style.paddingLeft)-parseFloat(style.paddingRight)};
+    }));
+    result.toolbar_explanations=explanations;
+    assert(explanations.length>0&&explanations.every(row=>row.width>=row.available-1),'STOCK_TOOLBAR_EXPLANATION_SQUEEZED:'+JSON.stringify({mode,width,explanations}));
     const text=await panel.innerText();if(mode==='known')assert(text.includes('HPP SKU saat ini Rp23,75'));
     if(mode==='unknown'||mode==='operations')assert(!text.includes('Rp0'));
     if(mode==='operations')assert(!text.includes('Rp'));

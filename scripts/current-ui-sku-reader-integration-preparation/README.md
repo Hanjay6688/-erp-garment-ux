@@ -1,6 +1,6 @@
 # Current SKU value display on the completed B theme
 
-This prepared UI successor keeps all 75 accepted presentation derivations from
+This prepared UI successor keeps 74 presentation derivations byte-for-byte from
 `62124cd356c33927df7a871f50642e94f1a9580a` and imports exactly five reader/client
 files from SKU candidate `fea75841e26645f1892d880905231625b47e3065`. It accepts
 the closed SKU pool descriptor only for GRADE_A, retains the older lot contract,
@@ -33,4 +33,18 @@ source-over compositing, retaining the 4.5 contrast threshold and refusing
 unmeasured gradients, filters and blending. Six explicit model controls cover
 known colours, nested opacity, low contrast, gradients, filters and invisible
 text. Screenshots now precede assertions and all 32 states retain their result
-in a single run, including failures. Product and theme bytes are unchanged.
+in a single run, including failures. That measurement-only successor left all
+product and theme bytes unchanged.
+
+Run `41656967801` on `f916d8a094fee77947345a4fd1447b733b0e061b` passed all
+32 measurements, but human screenshot inspection found the ledger search
+explanation squeezed to one character per line at 1440 px. The generic
+`cproc-search` three-column layout remained inherited by the newer RecordTools
+form. This successor appends two scoped FG rules: the toolbar's blocks occupy
+one full-width column, and its order control retains a wrapping flex layout.
+Every prior byte of `fg-connected.css` remains; the source guard binds both
+the prior theme bytes and the exact append. All other 74 theme paths and the
+five reader donor files stay unchanged. The visual check now requires each
+toolbar explanation to occupy the available form width at every tested width.
+The first green measurement archive remains retained as the layout failure
+evidence; it is not considered visual acceptance.

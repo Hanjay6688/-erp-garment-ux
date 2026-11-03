@@ -6,6 +6,7 @@ on:
       - src/ConnectedFgStockPage.tsx
       - src/ConnectedFgStockPage.dom.test.tsx
       - src/fgContract.ts
+      - src/fg-connected.css
       - src/fgMovingAverageContract.test.ts
       - tests/fixtures/skuMovingAverageReaderPg17.json
       - scripts/current-ui-sku-reader-integration-preparation/**
