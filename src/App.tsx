@@ -641,7 +641,7 @@ function ErpApp() {
   }
 
   const mobileDestinations = [
-    { id: 'dashboard', label: 'Dashboard', navLabel: 'Dashboard', icon: <Icon name="dashboard"/> },
+    { id: 'dashboard', label: 'Beranda', navLabel: 'Dashboard', icon: <Icon name="dashboard"/> },
     { id: 'sales-invoice', label: 'Penjualan', navLabel: 'Penjualan & Invoice', icon: <Icon name="Penjualan"/> },
     { id: 'fg-summary', label: 'Stok FG', navLabel: 'Ringkasan Barang Jadi', icon: <Icon name="stock"/> },
     { id: 'finance-payroll', label: 'Payroll', navLabel: 'Payroll & Kasbon', icon: <Icon name="Keuangan"/> },

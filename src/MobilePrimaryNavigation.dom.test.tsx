@@ -26,7 +26,7 @@ const labels = () => Array.from(container.querySelectorAll('.mobile-primary-nav 
 
 it('admits only current permitted routes and retains the complete-menu entry for a restricted user', async () => {
   await act(async () => root.render(<App/>))
-  expect(labels()).toEqual(['Dashboard', 'Lainnya'])
+  expect(labels()).toEqual(['Beranda', 'Lainnya'])
   expect(container.querySelector('.kpi-grid')).toBeNull()
   expect(container.querySelector('.dashboard-unlinked')).not.toBeNull()
 })
@@ -34,9 +34,9 @@ it('admits only current permitted routes and retains the complete-menu entry for
 it('withdraws mobile destinations immediately when the current role loses permissions', async () => {
   identity(['dashboard.view', 'sales.invoice.view', 'warehouse.fg.view', 'finance.payroll.view'])
   await act(async () => root.render(<App/>))
-  expect(labels()).toEqual(['Dashboard', 'Penjualan', 'Stok FG', 'Payroll', 'Lainnya'])
+  expect(labels()).toEqual(['Beranda', 'Penjualan', 'Stok FG', 'Payroll', 'Lainnya'])
   identity(['dashboard.view']); await act(async () => root.render(<App/>))
-  expect(labels()).toEqual(['Dashboard', 'Lainnya'])
+  expect(labels()).toEqual(['Beranda', 'Lainnya'])
   expect(container.querySelectorAll('.mobile-primary-nav [aria-current=page]')).toHaveLength(1)
 })
 
