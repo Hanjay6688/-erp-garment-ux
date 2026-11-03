@@ -287,36 +287,39 @@ def fractional_return_scope(cur,today):
         if before is not None:assert sales_cmd.accounts(cur)==before
         return f.product_books(cur,x['source'])
 
-    x,sf,before,one,two=setup()
-    first,a=post(x,sf,two,'3.33');second,b=post(x,sf,two,'3.34')
-    f.admin(cur)
-    frozen=cur.execute('select jsonb_agg(to_jsonb(v)order by sales_return_item_id)from cp7_sku_conversion.sales_return_values_v2 v where return_id in(%s,%s)',(first,second)).fetchone()[0]
-    assert sales_returns.inverse(cur,sf,first)['return_status']=='REVERSED'
-    assert tuple(map(D,f.product_books(cur,x['source'])))==(D(10),D('3.33'),D('6.67'),D(0))
-    f.admin(cur)
-    assert cur.execute('select jsonb_agg(to_jsonb(v)order by sales_return_item_id)from cp7_sku_conversion.sales_return_values_v2 v where return_id in(%s,%s)',(first,second)).fetchone()[0]==frozen
-    assert event_balance(cur,'SALES_RETURN',first)==(0,0)
-    replacement,c=post(x,sf,two,'3.34')
-    assert tuple(map(D,undo_all(x,sf,[replacement,second],before)))==(D(10),D(10),D(0),D(0))
-    split=dict(sale_id=sf['sale'],returns=[a,b,c],earlier_inverse_current_book_exact=True,immutable_snapshots_unchanged=True,full_inverse_neutral=True)
+    with cur.connection.transaction(savepoint_name='sku_cent_split',force_rollback=True):
+        x,sf,before,one,two=setup()
+        first,a=post(x,sf,two,'3.33');second,b=post(x,sf,two,'3.34')
+        f.admin(cur)
+        frozen=cur.execute('select jsonb_agg(to_jsonb(v)order by sales_return_item_id)from cp7_sku_conversion.sales_return_values_v2 v where return_id in(%s,%s)',(first,second)).fetchone()[0]
+        assert sales_returns.inverse(cur,sf,first)['return_status']=='REVERSED'
+        assert tuple(map(D,f.product_books(cur,x['source'])))==(D(10),D('3.33'),D('6.67'),D(0))
+        f.admin(cur)
+        assert cur.execute('select jsonb_agg(to_jsonb(v)order by sales_return_item_id)from cp7_sku_conversion.sales_return_values_v2 v where return_id in(%s,%s)',(first,second)).fetchone()[0]==frozen
+        assert event_balance(cur,'SALES_RETURN',first)==(0,0)
+        replacement,c=post(x,sf,two,'3.34')
+        assert tuple(map(D,undo_all(x,sf,[replacement,second],before)))==(D(10),D(10),D(0),D(0))
+        split=dict(sale_id=sf['sale'],returns=[a,b,c],earlier_inverse_current_book_exact=True,immutable_snapshots_unchanged=True,full_inverse_neutral=True)
 
-    x,sf,before,one,two=setup()
-    batch,a=post(x,sf,two,'6.67',extra=one)
-    last,b=post(x,sf,two,'3.33')
-    assert tuple(map(D,f.product_books(cur,x['source'])))==(D(10),D(10),D(0),D(0))
-    undo_all(x,sf,[last,batch],before)
-    multi=dict(sale_id=sf['sale'],returns=[a,b],distinct_allocation_lines=True,full_inverse_neutral=True)
+    with cur.connection.transaction(savepoint_name='sku_cent_batch',force_rollback=True):
+        x,sf,before,one,two=setup()
+        batch,a=post(x,sf,two,'6.67',extra=one)
+        last,b=post(x,sf,two,'3.33')
+        assert tuple(map(D,f.product_books(cur,x['source'])))==(D(10),D(10),D(0),D(0))
+        undo_all(x,sf,[last,batch],before)
+        multi=dict(sale_id=sf['sale'],returns=[a,b],distinct_allocation_lines=True,full_inverse_neutral=True)
 
-    x,sf,before,one,two=setup()
-    first,a=post(x,sf,two,'3.33')
-    correction=f.b.internal(cur,'post_opening_hpp_correction',x['lots'][1],D('4.50'),
-        'Fractional return current-root HPP correction',today)
-    assert tuple(map(D,f.product_books(cur,x['source'])))==(D('12.32'),D('4.11'),D('8.21'),D(0))
-    second,b=post(x,sf,two,'4.10')
-    assert tuple(map(D,f.product_books(cur,x['source'])))==(D('12.32'),D('8.21'),D('4.11'),D(0))
-    restored=undo_all(x,sf,[second,first])
-    assert tuple(map(D,restored))==(D('12.32'),D('12.32'),D(0),D(0))
-    recost=dict(sale_id=sf['sale'],correction_id=str(correction),returns=[a,b],current_root_values_restored=restored)
+    with cur.connection.transaction(savepoint_name='sku_cent_recost',force_rollback=True):
+        x,sf,before,one,two=setup()
+        first,a=post(x,sf,two,'3.33')
+        correction=f.b.internal(cur,'post_opening_hpp_correction',x['lots'][1],D('4.50'),
+            'Fractional return current-root HPP correction',today)
+        assert tuple(map(D,f.product_books(cur,x['source'])))==(D('12.32'),D('4.11'),D('8.21'),D(0))
+        second,b=post(x,sf,two,'4.10')
+        assert tuple(map(D,f.product_books(cur,x['source'])))==(D('12.32'),D('8.21'),D('4.11'),D(0))
+        restored=undo_all(x,sf,[second,first])
+        assert tuple(map(D,restored))==(D('12.32'),D('12.32'),D(0),D(0))
+        recost=dict(sale_id=sf['sale'],correction_id=str(correction),returns=[a,b],current_root_values_restored=restored)
     return dict(status='PASS',split_and_earlier_inverse=split,multiple_allocations=multi,intervening_recost=recost,
         actual_public_sale_commands=True,snapshots_equal_current_FG_journal_deltas=True,no_direct_posted_financial_rows=True)
 
