@@ -84,7 +84,8 @@ after cost returns to zero still reverses the old value snapshot: modeled Native
 inverse postconditions plus the exact prepared inverse leave books 71/-1 or
 69/1 where current targets require 70/0. Those first observations are preserved.
 The Native inverse command itself has not been qualified by these models.
-Source-cent ownership still needs repair before integration.
+Those first failures remain retained below; later prepared repairs do not
+retroactively turn them into passes.
 
 The prepared inverse now retains every original historical correction, captures
 exact target/book state after the unchanged Native inverse, proves that source
@@ -116,5 +117,41 @@ An independent cent-custody design model now passes seven controls, including
 invoice-after-transfer, keeps unchanged-price replay free of monetary changes,
 clears every owned cent when a source returns to zero, transfers current values
 on inverse, and retains the complete source total across inventory and COGS.
-That monetary-ownership design is not yet connected to the prepared SQL; the
-fractional-source refusal remains an open product gap.
+The subsequent prepared SQL now connects that monetary ownership design.
+Actual fractional-source qualification remains open.
+
+One new private immutable monetary-event table and six private helpers retain
+exact signed source cents by current economic product. Cost custody includes
+sold units, so a later invoice follows both inventory and COGS. A transfer keeps
+its historical rounded amount; a later source-price change assigns the new total
+by cumulative current custody, and appends only the exact change. Returning a
+source to zero clears every owned amount. Original money, sale, return and cost
+snapshots are never rewritten. No extra stock piece is created.
+
+Seven reversible cost-function bindings and two valuation bindings connect
+current monetary units to transfers, source reconciliation, sales, returns and
+current inverse. The original source/book and Native physical/recovery guards
+remain. Credit verification computes its own target from raw monetary and
+custody facts; it does not call the official current-cost helper or trust its
+quoted component price. A deliberately corrupted official helper changes the
+official target but leaves the independently calculated credit target unchanged.
+
+The first full monetary model passed61 controls, including the existing40,
+two descendant chains, twelve current inverses, the economic-capacity refusal,
+and six fractional-price cases. It distinguishes4.01 before transfer (37/37.01)
+from2→4.01 after transfer (37.01/37), and negative -2→-4.01 (32.99/33), across
+both physical-lot choices. Same-price replay changes no rows; zeroing costs
+retains history and returns both values to35/35.
+
+Three additional cross-SKU sale/return cases passed on their first execution,
+including independently checked returns37,37 and32.99 after intervening cost
+changes. Source-price receipts were then flattened to avoid recursively nesting
+all old receipts. A focused second model reran those three affected scenarios
+and a new seven-price-history case: all four passed, with complete model-table
+restoration. Every price receipt stayed at depth3 and768–769bytes; old rows
+remained exact. These focused reruns supply no new credit for the skipped61.
+
+All these results use the explicit PG17.5 model providers. Real ERP, Auth,
+concurrent sessions, actual Native inverse/cost commands, complete source and
+ACL installation, legacy single-lot admission and used restore remain required.
+All eleven admission gates are still unset; no installer or workflow is armed.

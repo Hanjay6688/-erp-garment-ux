@@ -3,8 +3,8 @@
   "classification": "PREPARED_COST_COMPONENT_LAYER_NOT_ADMITTED",
   "files": {
     "scripts/cp7_sku_cost_components/README.md": {
-      "bytes": 7963,
-      "sha256": "9f8cdf34e258aa9cbc1e761a4e2586c6a3da6ca1f42fbbdfb736e137506a3a83"
+      "bytes": 10394,
+      "sha256": "4297461c215cdc7f645776c70b9c9b4bb90c03a0b9b3a1c51943bbeaf167e5bc"
     },
     "scripts/cp7_sku_cost_components/cent_inverse_counterexamples.mjs.inc": {
       "bytes": 3270,
@@ -42,13 +42,33 @@
       "bytes": 10437,
       "sha256": "8d681ce43fca746e1fd89d9a7ebbd351ad7979789f9f0f0c39952177f9d4e188"
     },
+    "scripts/cp7_sku_cost_components/money.sql": {
+      "bytes": 14540,
+      "sha256": "58ea892a29077535cbb417a3aac750a3b35996027d8d6b10851aa5030b92cc69"
+    },
+    "scripts/cp7_sku_cost_components/money_cases.mjs.inc": {
+      "bytes": 3034,
+      "sha256": "5898f8702cede651abceba264d7b623a330ad79764865a3cc0ef713879509b24"
+    },
+    "scripts/cp7_sku_cost_components/money_credit_cases.mjs.inc": {
+      "bytes": 5719,
+      "sha256": "ecbf65dfe93dd97ce3547ffd3468bcd8999d99021e9c786071a091dc383c82df"
+    },
+    "scripts/cp7_sku_cost_components/money_delta.py": {
+      "bytes": 11138,
+      "sha256": "ac5fa3c75f0ee16ad8016de1d33032641f9cbc8025a7c3863ebe1b9f9eca9a85"
+    },
+    "scripts/cp7_sku_cost_components/money_history_case.mjs.inc": {
+      "bytes": 1945,
+      "sha256": "150a8bbd914d3060e62220799f936b7d9364f9d439322059d8d0136fc0708043"
+    },
     "scripts/cp7_sku_cost_components/oracle.py": {
       "bytes": 10024,
       "sha256": "6a0627fa980634bb2b4b812d6f53848aed5b85a206915b465b665b627268ebf7"
     },
     "scripts/cp7_sku_cost_components/prepare_model.py": {
-      "bytes": 12686,
-      "sha256": "366aec081b6f6b8d196385ef175b3a05e3aa881652f768e861c006995beca7b9"
+      "bytes": 15503,
+      "sha256": "0e10c3820ea8803a9da47b8dbe6c3436db2201747be03ffc3251d8fd70f83aa0"
     },
     "scripts/cp7_sku_cost_components/private_inverse_delta.py": {
       "bytes": 1114,
@@ -87,6 +107,19 @@
     "installer_and_unused_inverse": null,
     "legacy_single_lot": null,
     "used_restore": null
+  },
+  "monetary_custody_preparation": {
+    "actual_ERP_cases": 0,
+    "first_additional_credit_cases": 3,
+    "first_full_model_controls": 61,
+    "focused_flat_receipt_model_business_cases": 4,
+    "immutable_private_tables_added": 1,
+    "independent_credit_reads_raw_money_and_units": true,
+    "prior_controls_not_relabelled_current_tree": true,
+    "private_helpers_added": 6,
+    "reversible_cost_functions": 7,
+    "reversible_valuation_functions": 2,
+    "root_product_lookup_index": true
   },
   "parent_public_head": "a8da698c034f3ac6a6ae62b57eecd91fc54c813b",
   "parent_tree": "6ea23d78ecd7d4074f85efec150140668354a0ac",

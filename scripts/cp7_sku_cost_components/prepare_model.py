@@ -14,6 +14,8 @@ COST_FUNCTIONS=('erp.be_conversion_extra_v1(uuid)','erp.be_allocation_extra_v1(u
 
 
 def prepare(destination):
+    if os.environ.get('CP7_COST_MONEY_CREDIT_ONLY')=='1'and not all(os.environ.get(k)=='1'for k in('CP7_COST_CHAIN_MODEL','CP7_COST_INVERSE_REPAIR','CP7_COST_MONEY')):
+        raise ValueError('COST_MONEY_CREDIT_ISOLATION_REQUIRES_COMPLETE_CHAIN_MONEY_INPUT')
     destination=Path(destination);destination.mkdir(parents=True,exist_ok=True)
     spec=importlib.util.spec_from_file_location('cost_prior_model',PREVIOUS/'prepare_consumer_model.py')
     prior=importlib.util.module_from_spec(spec);spec.loader.exec_module(prior);input=prior.prepare()
@@ -43,6 +45,14 @@ def prepare(destination):
         input['cost_ddl']+='\n'+(HERE/'source_rebalance.sql').read_text()
         input['source_rebalance_derivation']=source_routes
         input['cost_rebalance_enabled']=True
+    if os.environ.get('CP7_COST_MONEY')=='1':
+        if not input.get('cost_rebalance_enabled'):raise ValueError('COST_MONEY_REQUIRES_COMPLETE_SOURCE_REBALANCE')
+        from money_delta import definitions as money_definitions,credit_definitions as money_credit
+        money_cost,input['valuation_definitions'],money_routes=money_definitions(input['valuation_definitions'])
+        input['credit_definitions'],money_credit_routes=money_credit(input['credit_definitions'])
+        input['cost_ddl']+='\n'+(HERE/'money.sql').read_text()+'\n'+'\n'.join(money_cost.values())
+        input['money_derivations']=dict(cost=money_routes,credit=money_credit_routes)
+        input['cost_money_enabled']=True
     input['cost_source_manifest']={str(p.relative_to(HERE)):dict(bytes=len(p.read_bytes()),sha256=sha256(p.read_bytes()).hexdigest())
         for p in sorted(HERE.iterdir())if p.is_file()}
     input['cost_derivations']=dict(valuation=valuation_routes,consumer=consumer_routes,credit=credit_routes)
@@ -81,9 +91,10 @@ def prepare(destination):
  await query('select cp7_sku_conversion.finalize_costs_v3($1)',[x.group]);
  assert.deepEqual(await values(x.source),{hpp:60,fg:60,cogs:0,other:0});""",'zero cost root exists before any sale transfer or invoice')
     d.once(" const report={status:'POSTGRES17_EXACT_CONSUMER_SQL_CONTROLS_PASS_NOT_NATIVE'",(HERE/'cost_cases.mjs.inc').read_text()+"\n const report={status:'POSTGRES17_COST_SUCCESSOR_MODELED_CONTROLS_PASS_NOT_NATIVE'",'new cost regression and chain cases after original controls')
-    if os.environ.get('CP7_COST_CHAIN_MODEL')=='1':
-        d.once(" console.log(JSON.stringify({control:label,state:'ENTER'}));",
-            " if(!label.startsWith('CHAIN:'))return;\n console.log(JSON.stringify({control:label,state:'ENTER'}));",'isolated new chain controls, no repeated prior case credit')
+    if os.environ.get('CP7_COST_CHAIN_MODEL')=='1'or os.environ.get('CP7_COST_FULL_WITH_CHAINS')=='1':
+        if os.environ.get('CP7_COST_CHAIN_MODEL')=='1':
+            d.once(" console.log(JSON.stringify({control:label,state:'ENTER'}));",
+                " if(!label.startsWith('CHAIN:'))return;\n console.log(JSON.stringify({control:label,state:'ENTER'}));",'isolated new chain controls, no repeated prior case credit')
         d.once(" const report={status:'POSTGRES17_COST_SUCCESSOR_MODELED_CONTROLS_PASS_NOT_NATIVE'",
             (HERE/'chain_cases.mjs.inc').read_text()+"\n const report={costChainFindings,status:'POSTGRES17_COST_CHAIN_COUNTEREXAMPLES_CONFIRMED_NOT_ACCEPTED'",'retain first independently expected downstream failures')
         if os.environ.get('CP7_COST_REBALANCE')=='1':
@@ -110,6 +121,16 @@ def prepare(destination):
                     inverse_cases=isolated.source
                 d.once(" const report={costChainFindings,status:'POSTGRES17_COST_CHAIN_SOURCE_REBALANCE_MODELED_PASS_NOT_NATIVE'",
                     inverse_cases+"\n const report={costChainFindings,currentInverseFindings,status:'MODELED_CURRENT_VALUE_INVERSE_PASS_NOT_NATIVE'",'current inverse after positive negative zero and fractional cost, unchanged source facts and strict refusals')
+                if os.environ.get('CP7_COST_MONEY')=='1':
+                    d.once(" const report={costChainFindings,currentInverseFindings,status:'MODELED_CURRENT_VALUE_INVERSE_PASS_NOT_NATIVE'",
+                        (HERE/'money_cases.mjs.inc').read_text()+"\n const report={costChainFindings,currentInverseFindings,moneyFindings,status:'MODELED_SOURCE_CENT_CUSTODY_FULL_CONTROLS_PASS_NOT_NATIVE'",'independent fractional source expectations after complete consumer credit and inverse controls')
+                    if os.environ.get('CP7_COST_MONEY_CREDIT_ONLY')=='1':
+                        d.once(" console.log(JSON.stringify({control:label,state:'ENTER'}));",
+                            " if(!label.startsWith('CHAIN: MONEY CREDIT:'))return;\n console.log(JSON.stringify({control:label,state:'ENTER'}));",'execute only new cross-SKU monetary sale and credit cases')
+                        for variable,count in [('costChainFindings',2),('currentInverseFindings',12),('currentInverseFindings',13),('moneyFindings',6)]:
+                            d.once('assert.equal('+variable+'.length,'+str(count)+');','assert.equal('+variable+'.length,0 /* skipped '+str(count)+' */);','no borrowed skipped '+variable+' '+str(count))
+                        d.once(" const report={costChainFindings,currentInverseFindings,moneyFindings,status:'MODELED_SOURCE_CENT_CUSTODY_FULL_CONTROLS_PASS_NOT_NATIVE'",
+                            (HERE/'money_credit_cases.mjs.inc').read_text()+'\n'+(HERE/'money_history_case.mjs.inc').read_text()+"\n const report={moneyCreditFindings,status:'MODELED_CROSS_SKU_CENT_CREDIT_CONTROLS_PASS_NOT_NATIVE'",'independent raw credit guard, exact sale return, immutable price history and bounded receipt nesting')
             if os.environ.get('CP7_COST_CENT_COUNTER')=='1':
                 retained_counters=(HERE/'cent_inverse_counterexamples.mjs.inc').read_text()
                 current_counters=Derivation(retained_counters)
