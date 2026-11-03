@@ -111,6 +111,17 @@ def capture_observed(cur,modules,state):
     with modules.control.product_catalog(cur):
         return _capture_rows(cur,modules.product.runtime()[-1],state)
 
+def capture_browser_observed(cur,modules,state):
+    """Read the exact Auth/browser catalog without a Native process overlay.
+
+    This observer runs in a fresh process. The legacy Native control.STATE is
+    populated only by the installer in its own process and cannot be reused
+    here. Auth/browser copies carry the exact product ACLs; the complete raw22
+    equality in _capture_rows must pass directly, including the schema ACL.
+    """
+    modules.bc.api.admin(cur);cur.execute("set local timezone='UTC'")
+    return _capture_rows(cur,modules.product.runtime()[-1],state)
+
 def capture(cur,modules,state):
     modules.bc.api.admin(cur);cur.execute("set local timezone='UTC'")
     with modules.control.product_catalog(cur):

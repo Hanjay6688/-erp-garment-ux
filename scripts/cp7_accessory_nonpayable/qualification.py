@@ -48,6 +48,18 @@ def fixture_committed_identity_preflight():
     return dict(status='COLD_COPY_ORIGINAL_OWNER_SETUP_AND_INVALID_IDENTITY_REFUSALS_PASS',
         tests_run=5,existing_role_promotion=False,actual_SQL_executed=0,actual_Native_cases=0)
 
+def fixture_browser_observer_preflight():
+    """Reproduce the legacy cold-process failure and require exact raw22."""
+    import io,unittest
+    from cp7_accessory_nonpayable.test_browser_observer import BrowserObserverControls
+    output=io.StringIO();result=unittest.TextTestRunner(stream=output,verbosity=0).run(
+        unittest.defaultTestLoader.loadTestsFromTestCase(BrowserObserverControls))
+    if result.testsRun!=4 or not result.wasSuccessful()or result.skipped or result.expectedFailures:
+        raise ValueError('NONPAYABLE_COLD_BROWSER_OBSERVER_PREFLIGHT_FAILED:'+output.getvalue())
+    return dict(status='COLD_BROWSER_ORIGINAL_FAILURE_REPRODUCED_EXACT_RAW22_READER_PASS',tests_run=4,
+        inherited_process_STATE_required=False,Native_overlay_applied=False,
+        actual_SQL_executed=0,actual_Native_cases=0,actual_browser_cases=0)
+
 def runtime():
     from cp7_accessory_nonpayable import admission,source,package_engine
     admission.parent_receipt()  # Before any ERP import or runtime construction.
@@ -86,11 +98,13 @@ def main():
         actors=fixture_actor_preflight()
         browser_dates=fixture_browser_date_preflight()
         committed_identity=fixture_committed_identity_preflight()
+        browser_observer=fixture_browser_observer_preflight()
         _,engine=package_engine.derive((ROOT/package_engine.ORIGINAL).read_bytes())
         _,copies=copy_context.derive((ROOT/copy_context.ORIGINAL).read_bytes())
         print(json.dumps(dict(status='NONPAYABLE_STATIC_WHOLE_QUALIFIER_PREPARED_NOT_EXECUTED',source=static,
             whole_engine=engine,copy_authority=copies,fixture_actor_preflight=actors,fixture_browser_date_preflight=browser_dates,
             fixture_committed_identity_preflight=committed_identity,
+            fixture_browser_observer_preflight=browser_observer,
             actual_SQL_executed=0,actual_Native_cases=0,
             actual_Auth_HTTP_cases=0,actual_two_session_cases=0,actual_browser_cases=0,
             production_go=False,independent_acceptance=False),sort_keys=True));return

@@ -35,7 +35,7 @@ def main():
             raise ValueError('NONPAYABLE_BROWSER_ACTUAL_NATIVE_PREREQUISITE_REQUIRED')
         with psycopg.connect(url,connect_timeout=5)as conn,conn.cursor()as cur:
             cur.execute("set local statement_timeout='45s';set local lock_timeout='8s'")
-            modules=access_cases.browser_observation_context(cur,state);value=access_cases.capture_observed(cur,modules,state)
+            modules=access_cases.browser_observation_context(cur,state);value=access_cases.capture_browser_observed(cur,modules,state)
             actual=native_fixture.observe(cur,modules,prepared['fixture'])
             native_fixture.require_economics(actual,prepared['fixture'],nonpayable=True,hpp='20')
             value['active_good']=actual
