@@ -1,5 +1,6 @@
 """Separate local source preparation from complete environment admission."""
 from pathlib import Path
+from contextlib import contextmanager
 import argparse
 import importlib.util
 import json
@@ -11,11 +12,21 @@ sys.path.insert(0,str(ROOT/'scripts'))
 def load(name,path):
     spec=importlib.util.spec_from_file_location(name,path);module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module);return module
 
+@contextmanager
+def retained_arguments():
+    """Keep this command's options out of retained import-time CLI guards."""
+    original=sys.argv;contents=list(original)
+    sys.argv=original[:1]
+    try:yield
+    finally:
+        original[:]=contents
+        sys.argv=original
+
 def main():
     parser=argparse.ArgumentParser();mode=parser.add_mutually_exclusive_group(required=True)
     mode.add_argument('--source',action='store_true');mode.add_argument('--complete',action='store_true');args=parser.parse_args()
     fence=load('sku_money_no_database_source_fence',ROOT/'scripts/current-sku-managed-recovery-native27-qualification/source_context.py')
-    with fence.fenced_source_read()as guard:
+    with retained_arguments(),fence.fenced_source_read()as guard:
         if args.source:
             proof=load('sku_money_source_only',HERE/'admission.py').source_only(ROOT,HERE)
             business=load('sku_money_import_all_native_callbacks',HERE/'native_cases.py')

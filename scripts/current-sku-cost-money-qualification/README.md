@@ -21,11 +21,16 @@ does not claim full runtime admission. `check.py --complete` additionally loads
 the entire retained package graph and compares the complete parent source
 document; every archived dependency must already be present. It is mandatory
 before the disposable database starts.
+The command scopes its CLI options away from retained import-time entry guards,
+then restores the caller's original arguments on success or failure. The first
+unscoped refusal is retained as preparation evidence.
 
 The Native preflight checks all declared functions, both actor helpers and the
 sales actor, every named permission, OWNER/ADMIN inverse authority, active PCS,
 accounts, warehouse, real WIB day and fixture time margins together before
 running cases. It does not change the product clock or create posted facts.
+Actor failures are collected in separate savepoints; the full prerequisite
+report is saved on both success and refusal, before any business callback.
 Actual permission/revocation races and HTTP/Auth/browser evidence remain open.
 
 The runner retains the original strict-group reports, all22 catalogue groups,

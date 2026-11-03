@@ -39,6 +39,7 @@ def exercise(conn,cur,database,url,report,state):
         report['native_prerequisites']=preflight.check(cursor,today,business)
         destination=ROOT/'cp6-proof/t3';destination.mkdir(parents=True,exist_ok=True)
         (destination/(LABEL+'_PREFLIGHT.json')).write_text(json.dumps(report['native_prerequisites'],indent=2,default=str)+'\n')
+        if report['native_prerequisites']['status']!='PASS':raise ValueError(report['native_prerequisites'])
         operations=business.cases(cursor,today)
         assert tuple(key for key,_ in operations)==business.IDS
         return prefix.wrap(operations,SimpleNamespace(capture_current=lambda:business.n.capture(cursor)))

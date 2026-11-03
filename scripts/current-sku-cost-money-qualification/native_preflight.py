@@ -34,8 +34,10 @@ def check(cur,today,business):
     errors.extend('MISSING_FUNCTION:'+sig for sig,found in available.items()if not found)
     pcs=cur.execute("select unit_code from erp.uom_definitions where upper(unit_code)='PCS'and dimension='COUNT'and is_active").fetchall()
     if len(pcs)!=1:errors.append('ONE_ACTIVE_COUNT_PCS_REQUIRED')
-    accounts={code:cur.execute('select count(*)from erp.chart_accounts where account_code=%s',(code,)).fetchone()[0]for code in('4100','5100')}
-    errors.extend('ACCOUNT_NOT_UNIQUE:'+code for code,count in accounts.items()if count!=1)
+    accounts={code:cur.execute('select is_active,is_postable,account_type::text from erp.chart_accounts where account_code=%s',(code,)).fetchall()for code in('4100','5100')}
+    for code,rows in accounts.items():
+        if len(rows)!=1:errors.append('ACCOUNT_NOT_UNIQUE:'+code)
+        elif rows[0][:2]!=(True,True):errors.append('ACCOUNT_NOT_ACTIVE_POSTABLE:'+code)
     location=cur.execute('select is_active,location_type from erp.locations where id=%s',(f.BASE.LOCATION,)).fetchone()
     if location!=(True,'FG_WAREHOUSE'):errors.append('CANONICAL_ACTIVE_FG_WAREHOUSE_REQUIRED')
     actors={}
@@ -44,6 +46,9 @@ def check(cur,today,business):
         ('accessory_operator',lambda:n.bc.session(cur)),
         ('sales_owner',lambda:business.moving.sales_cmd.auth.actor(cur,None)),
     ):
+        # Each actor check must leave the original role, JWT and transaction
+        # usable even when a permission query or retained actor helper refuses.
+        cur.execute('savepoint money_prerequisite_actor')
         try:
             select_actor()
             permissions={key:cur.execute('select erp.has_permission(%s)',(key,)).fetchone()[0]for key in PERMISSIONS[name]}
@@ -51,7 +56,14 @@ def check(cur,today,business):
             errors.extend('ACTOR_PERMISSION:'+name+':'+key for key,value in permissions.items()if value is not True)
             if actors[name]['role']not in('OWNER','ADMIN'):
                 errors.append('NATIVE_INVOICE_POLICY_AND_INVERSES_REQUIRE_OWNER_ADMIN:'+name)
-        finally:f.admin(cur)
+        except Exception as error:
+            actors[name]=dict(status='REFUSED',error_type=type(error).__name__,
+                sqlstate=getattr(error,'sqlstate',None),error=str(error))
+            errors.append('ACTOR_CHECK_REFUSED:'+name)
+        finally:
+            cur.execute('rollback to savepoint money_prerequisite_actor')
+            cur.execute('release savepoint money_prerequisite_actor')
+            f.admin(cur)
     if n.capture(cur)!=before:errors.append('READ_ONLY_PREFLIGHT_CHANGED_CATALOG_ROWS_OR_SEQUENCES')
     proof=dict(status='PASS'if not errors else'REFUSED',errors=errors,functions=available,actors=actors,
         active_PCS=pcs,accounts=accounts,canonical_location=list(location)if location else None,
@@ -59,5 +71,4 @@ def check(cur,today,business):
         earliest_opening_day=str(today-timedelta(days=4)),material_receipt_day=str(today-timedelta(days=6)),
         posted_financial_fixtures='EXISTING_NATIVE_WRITERS_ONLY',source_graph='EXACT_QUALIFIED_PARENT_AND_ALL22_INSTALLATION',
         actual_ERP_cases=0,clock_changed=False)
-    if errors:raise ValueError(proof)
     return proof
