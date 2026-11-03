@@ -1,0 +1,28 @@
+{
+  "tested_source": "9955fb364458b4897178262e45e5ce7c669be245",
+  "proofs": [
+    {
+      "patch": "B_UI_SOURCE_REFUSAL_FINAL.patch.gz",
+      "base": "8678feba7652d1d483536d1baf82135030dc3548",
+      "status": "PASS_TEMPORARY_INDEX_ONLY_NO_A_WORKTREE_CHANGE",
+      "changed_files": [
+        "src/ConnectedInitialImportPage.tsx",
+        "src/ConnectedPocketFabricPage.tsx",
+        "src/initial-import.css"
+      ],
+      "after_blobs_equal_tested_source": true
+    },
+    {
+      "patch": "B_UI_CAPTION_ONLY_FROM_C3.patch.gz",
+      "base": "c3b90f9932e1a3d674dfa36e6c4395a3bc71a7bd",
+      "status": "PASS_TEMPORARY_INDEX_ONLY_NO_A_WORKTREE_CHANGE",
+      "changed_files": [
+        "src/ConnectedPocketFabricPage.tsx",
+        "src/initial-import.css"
+      ],
+      "after_blobs_equal_tested_source": true
+    }
+  ],
+  "A_worktree_touched": false,
+  "A_sole_integrator": true
+}

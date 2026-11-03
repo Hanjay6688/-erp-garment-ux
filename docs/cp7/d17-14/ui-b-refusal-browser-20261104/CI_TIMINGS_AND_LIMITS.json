@@ -1,0 +1,207 @@
+{
+  "observed_at_UTC": "2026-11-03T20:53:12.429759+00:00",
+  "first": {
+    "run": 41709294401,
+    "job": 126172834940,
+    "source": "c3b90f9932e1a3d674dfa36e6c4395a3bc71a7bd",
+    "conclusion": "success",
+    "started_at": "2026-11-03T20:05:24Z",
+    "completed_at": "2026-11-03T20:18:22Z",
+    "job_seconds": 778.0,
+    "steps": [
+      {
+        "number": 1,
+        "name": "Set up job",
+        "conclusion": "success",
+        "seconds": 0.0
+      },
+      {
+        "number": 2,
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success",
+        "seconds": 689.0
+      },
+      {
+        "number": 3,
+        "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+        "conclusion": "success",
+        "seconds": 1.0
+      },
+      {
+        "number": 4,
+        "name": "Fetch exact B proposal evidence base",
+        "conclusion": "success",
+        "seconds": 3.0
+      },
+      {
+        "number": 5,
+        "name": "Install unchanged pinned dependencies",
+        "conclusion": "success",
+        "seconds": 6.0
+      },
+      {
+        "number": 6,
+        "name": "Verify exact UI bytes and retained local54 scope",
+        "conclusion": "success",
+        "seconds": 0.0
+      },
+      {
+        "number": 7,
+        "name": "Check the five closed transport controls",
+        "conclusion": "success",
+        "seconds": 1.0
+      },
+      {
+        "number": 8,
+        "name": "Compile complete fixture graph and refuse product roots",
+        "conclusion": "success",
+        "seconds": 3.0
+      },
+      {
+        "number": 9,
+        "name": "Build the normal product and prove fixture absence",
+        "conclusion": "success",
+        "seconds": 14.0
+      },
+      {
+        "number": 10,
+        "name": "Install the browser only - no database or actual Auth",
+        "conclusion": "success",
+        "seconds": 17.0
+      },
+      {
+        "number": 11,
+        "name": "Capture28 refusal and recovery journeys with60 screenshots",
+        "conclusion": "success",
+        "seconds": 39.0
+      },
+      {
+        "number": 12,
+        "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+        "conclusion": "success",
+        "seconds": 2.0
+      },
+      {
+        "number": 23,
+        "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+        "conclusion": "success",
+        "seconds": 0.0
+      },
+      {
+        "number": 24,
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success",
+        "seconds": 0.0
+      },
+      {
+        "number": 25,
+        "name": "Complete job",
+        "conclusion": "success",
+        "seconds": 0.0
+      }
+    ]
+  },
+  "final": {
+    "run": 41713992028,
+    "job": 126189077464,
+    "source": "9955fb364458b4897178262e45e5ce7c669be245",
+    "conclusion": "success",
+    "started_at": "2026-11-03T20:35:37Z",
+    "completed_at": "2026-11-03T20:41:30Z",
+    "job_seconds": 353.0,
+    "steps": [
+      {
+        "number": 1,
+        "name": "Set up job",
+        "conclusion": "success",
+        "seconds": 0.0
+      },
+      {
+        "number": 2,
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success",
+        "seconds": 253.0
+      },
+      {
+        "number": 3,
+        "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+        "conclusion": "success",
+        "seconds": 0.0
+      },
+      {
+        "number": 4,
+        "name": "Fetch exact first browser and diagnostic source base",
+        "conclusion": "success",
+        "seconds": 2.0
+      },
+      {
+        "number": 5,
+        "name": "Install unchanged pinned dependencies",
+        "conclusion": "success",
+        "seconds": 6.0
+      },
+      {
+        "number": 6,
+        "name": "Verify caption fix local54 and retained unchanged transport5",
+        "conclusion": "success",
+        "seconds": 0.0
+      },
+      {
+        "number": 7,
+        "name": "Compile complete fixture graph and refuse product roots",
+        "conclusion": "success",
+        "seconds": 3.0
+      },
+      {
+        "number": 8,
+        "name": "Build the normal product and prove fixture absence",
+        "conclusion": "success",
+        "seconds": 14.0
+      },
+      {
+        "number": 9,
+        "name": "Install the browser only - no database or actual Auth",
+        "conclusion": "success",
+        "seconds": 19.0
+      },
+      {
+        "number": 10,
+        "name": "Capture28 refusal and recovery journeys with60 screenshots",
+        "conclusion": "success",
+        "seconds": 39.0
+      },
+      {
+        "number": 11,
+        "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+        "conclusion": "success",
+        "seconds": 3.0
+      },
+      {
+        "number": 21,
+        "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+        "conclusion": "success",
+        "seconds": 0.0
+      },
+      {
+        "number": 22,
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success",
+        "seconds": 0.0
+      },
+      {
+        "number": 23,
+        "name": "Complete job",
+        "conclusion": "success",
+        "seconds": 0.0
+      }
+    ]
+  },
+  "first_actual_git_fetch_seconds": 684.3309167,
+  "timing_reading": "C3 checkout689s, final checkout253s; browser capture39s for each; normal product build14s for each. No sparse checkout was enabled for either CI run. Different checkout times are observations, not an optimization result.",
+  "diagnostic": "One guarded B diagnostic ran; original progressed before cancellation, so cancel_requested=false and A_touched=false. Diagnostic active workflow retired in9955; original/source retained.",
+  "reason_for_successor_run": "Observed manual mobile caption defect was corrected; no blind retry or timeout increase.",
+  "timeout_minutes_unchanged": 25,
+  "underlying_checkout_network_or_server_cause": "UNPROVEN; logs localize wait to source fetch, not ERP runtime. Large repository historical-evidence tree is a size observation, not measured transferred bytes or proven root cause.",
+  "backend_jobs_started": 0,
+  "first_browser_automated_result": "SUCCESS retained unchanged; manual caption defect retained as separate finding."
+}

@@ -1,0 +1,102 @@
+{
+  "contract": "cp7.B.final-source-refusal-review.v1",
+  "reviewed_at_UTC": "2026-11-03T20:53:12.429759+00:00",
+  "source": "9955fb364458b4897178262e45e5ce7c669be245",
+  "tree": "a13d838450d025b0b4b4583c7a881d502b1ff7c3",
+  "run": 41713992028,
+  "job": 126189077464,
+  "original_report": {
+    "bytes": 108537,
+    "sha256": "7b453dc8e7c6c9cf4d89126d0d326f64d0909865a9e5fad25baac1e4050e5514"
+  },
+  "status": "PASS_REAL_COMPONENT_UI_WITH_DECLARED_DOUBLES_ONLY",
+  "read_journeys": 24,
+  "recovery_journeys": 4,
+  "screenshots": 60,
+  "widths": [
+    320,
+    390,
+    768,
+    1440
+  ],
+  "caption_boxes_checked": 240,
+  "protected_caption_bounds": "All4 h2/p boxes stay inside their own history panel across60 screenshots; horizontally scrolled table data may be clipped within its own scroll region.",
+  "minimum_text_contrast": 6.287528596095884,
+  "contrast_helper": "Unmodified A strict RGBA/group-opacity helper; threshold4.5; inactive controls explicitly exempt.",
+  "console_errors": 0,
+  "external_network": 0,
+  "document_overflow": 0,
+  "manual_review": {
+    "all60_thumbnail_sheets": [
+      320,
+      390,
+      768,
+      1440
+    ],
+    "full_details": [
+      "read-workspace-403-320-after.png",
+      "recovery-workspace-403-390-reopened.png",
+      "read-period-preview-401-1440-after.png"
+    ],
+    "findings": "Caption clipping seen in C3 no longer visible. Mobile labels wrap and stay inside panels; desktop remains readable. Recovery notice remains after reopen; old protected roll/value rows and previews are absent.",
+    "accepted_for": "This B UI fixture scope; reviewer B is not independent auditor."
+  },
+  "recovery": [
+    {
+      "kind": "recovery",
+      "target": "workspace",
+      "status": "PASS",
+      "width": 390,
+      "key": "recovery/workspace/401/390",
+      "source_status": 401,
+      "seconds": 1.975,
+      "pending_uuid": "c89e3ab4-d29b-4935-8696-320985138251",
+      "pending_payload_preserved": true,
+      "automatic_replay": 0
+    },
+    {
+      "kind": "recovery",
+      "target": "workspace",
+      "status": "PASS",
+      "width": 390,
+      "key": "recovery/workspace/403/390",
+      "source_status": 403,
+      "seconds": 2.009,
+      "pending_uuid": "55c05d2f-9546-415c-a7c0-5f13e1be1170",
+      "pending_payload_preserved": true,
+      "automatic_replay": 0
+    },
+    {
+      "kind": "recovery",
+      "target": "workspace",
+      "status": "PASS",
+      "width": 1440,
+      "key": "recovery/workspace/401/1440",
+      "source_status": 401,
+      "seconds": 2.12,
+      "pending_uuid": "6607a325-b0fa-4eea-b3af-3d30dfdad92d",
+      "pending_payload_preserved": true,
+      "automatic_replay": 0
+    },
+    {
+      "kind": "recovery",
+      "target": "workspace",
+      "status": "PASS",
+      "width": 1440,
+      "key": "recovery/workspace/403/1440",
+      "source_status": 403,
+      "seconds": 2.044,
+      "pending_uuid": "5dd568c6-a075-4b1e-9715-42414f0e153a",
+      "pending_payload_preserved": true,
+      "automatic_replay": 0
+    }
+  ],
+  "actual_Auth": 0,
+  "actual_SQL": 0,
+  "actual_financial_backend": 0,
+  "backend_idempotence_claim": false,
+  "A_adoption": false,
+  "formal": "5/16",
+  "production_go": false,
+  "independent_acceptance": false
+}

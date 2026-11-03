@@ -1,0 +1,59 @@
+{
+  "recorded_at_UTC": "2026-11-03T20:53:12.429759+00:00",
+  "originals": [
+    {
+      "file_name": "UI_B_C3B90_REFUSAL_RECOVERY_FIRST_ORIGINAL_20261104.zip",
+      "bytes": 8787165,
+      "sha256": "504ef20da5b354100752d2fea8caccbb8f829f479aaa2211fa48622a6a86074c",
+      "members": 67,
+      "CRC": "PASS",
+      "run": 41709294401,
+      "job": 126172834940,
+      "artifact": 13266909957,
+      "source": "c3b90f9932e1a3d674dfa36e6c4395a3bc71a7bd",
+      "attempt": 1,
+      "meaning": "AUTOMATIC_SUCCESS_VISUAL_CAPTION_DEFECT_RETAINED",
+      "library_file_id": "libfile_cd6fb7a3ef8081918b7da2902ac8577a",
+      "url": "https://chatgpt.com/library?file_id=libfile_cd6fb7a3ef8081918b7da2902ac8577a&account_id=personal"
+    },
+    {
+      "file_name": "B_CHECKOUT_FIRST_DIAGNOSTIC_ORIGINAL_20261104.zip",
+      "bytes": 5041,
+      "sha256": "5031b94cbaafea57b442eaaf3029fdcb981a5de1d445caaa1c80b87bdb067390",
+      "members": 4,
+      "CRC": "PASS",
+      "run": 41711215014,
+      "job": null,
+      "artifact": 13266733546,
+      "source": "f801eba47ef38fbf43999b124149b40b66ef0b5a",
+      "attempt": 1,
+      "meaning": "DIAGNOSTIC_ONLY_NO_CANCELLATION",
+      "library_file_id": "libfile_bba999f806948191b82e890fb54be94d",
+      "url": "https://chatgpt.com/library?file_id=libfile_bba999f806948191b82e890fb54be94d&account_id=personal"
+    },
+    {
+      "file_name": "UI_B_9955F_CAPTION_FINAL_ORIGINAL_20261104.zip",
+      "bytes": 8831557,
+      "sha256": "96df4dc2a4fa8ed83d5d817a920f945f431ceba7bebfe91c4d1657e8acd117e1",
+      "members": 66,
+      "CRC": "PASS",
+      "run": 41713992028,
+      "job": 126189077464,
+      "artifact": 13268274023,
+      "source": "9955fb364458b4897178262e45e5ce7c669be245",
+      "attempt": 1,
+      "meaning": "FINAL_BROWSER_SUCCESS_MANUALLY_REVIEWED",
+      "library_file_id": "libfile_b06726e232cc81919ad0eeb8c1d01de0",
+      "url": "https://chatgpt.com/library?file_id=libfile_b06726e232cc81919ad0eeb8c1d01de0&account_id=personal"
+    }
+  ],
+  "preview": {
+    "file_name": "B_UI_REFUSAL_RECOVERY_PREVIEW_20261104.png",
+    "bytes": 373075,
+    "sha256": "7fa9af36e5e253c5341140394c2a17bdf762dabc50bd546c221f0f23c34770b7",
+    "library_file_id": "libfile_121e350a78cc8191b36bab305db9f084",
+    "url": "https://chatgpt.com/library?file_id=libfile_121e350a78cc8191b36bab305db9f084&account_id=personal",
+    "derivation": "Exact three original390 recovery screenshots laid out with honest fixture labels. Original screenshots remain in final ZIP."
+  },
+  "historical_evidence_rewritten": false
+}

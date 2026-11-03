@@ -1,0 +1,58 @@
+{
+  "source": "9955fb364458b4897178262e45e5ce7c669be245",
+  "tree": "a13d838450d025b0b4b4583c7a881d502b1ff7c3",
+  "status": "LOCAL_SOURCE_CLOSURE_PASS_PROPOSAL_NOT_ACTIVATED",
+  "full_tree": {
+    "tracked_files": 14681,
+    "uncompressed_bytes": 1021517180
+  },
+  "materialized_sparse_tree": {
+    "tracked_files": 6923,
+    "uncompressed_bytes": 123345774
+  },
+  "unit_warning": "Uncompressed file sizes, not Git pack/network bytes. Node_modules, dist, and untracked files excluded.",
+  "patterns": [
+    ".github/workflows",
+    "contracts",
+    "docs/cp7/d17-14/ui-b-refusal-browser-20261104",
+    "docs/cp7/d17-14/ui-b-source-refusal-20261103",
+    "docs/evidence",
+    "public",
+    "scripts",
+    "src",
+    "supabase/migrations",
+    "tests"
+  ],
+  "first_failure": "TS18003 missing contracts/cp7 input in own sparse worktree; first log preserved. Restored contracts directory; no product config/typecheck disabled.",
+  "final_normal_build": "Complete build log ends in successful postbuild client-secret scan; source/access/CSS/TypeScript/Vite checks retained. Exit code from prior tool session was not retained; claim is based on complete log.",
+  "fixture_preflight": {
+    "status": "PASS",
+    "graph_modules": 51,
+    "server_reaped": true,
+    "database_calls": 0
+  },
+  "worktree_tree_and_index_unchanged": true,
+  "main_B_worktree_not_sparse": true,
+  "proposal_patch": "SPARSE_SOURCE_CLOSURE_ONLY_PROPOSAL.patch.gz",
+  "official_pinned_checkout_sources": [
+    {
+      "url": "https://github.com/actions/checkout/blob/11bd71901bbe5b1630ceea73d27597364c9af683/action.yml",
+      "retrieved_source": {
+        "bytes": 4593,
+        "sha256": "5349b6eea0a1797a9a993c48db9d95b33d27ee1b6227ceced0c9cbf8e655c939"
+      }
+    },
+    {
+      "url": "https://github.com/actions/checkout/blob/11bd71901bbe5b1630ceea73d27597364c9af683/src/git-source-provider.ts",
+      "retrieved_source": {
+        "bytes": 11050,
+        "sha256": "b1bf57713d94302decc7f440a1cd7daa24f205ddf677c52debeb654a5565d1a7"
+      }
+    }
+  ],
+  "change_proposed": "Pinned actions/checkout sparse paths automatically select blob:none; matching explicit base fetch also requests blob:none. All build and source checks stay enabled.",
+  "actual_network_savings_measured": false,
+  "new_browser_or_financial_CI_started_for_proposal": false,
+  "followup": "Optional future UI-runner adoption requires one measured checkout. Do not relabel final9955 run as sparse or assert speed improvement.",
+  "production_go": false
+}

@@ -1,0 +1,46 @@
+{
+  "source": "9955fb364458b4897178262e45e5ce7c669be245",
+  "source_tree": "a13d838450d025b0b4b4583c7a881d502b1ff7c3",
+  "A_UI_base": "8678feba7652d1d483536d1baf82135030dc3548",
+  "product_files": {
+    "src/ConnectedInitialImportPage.tsx": {
+      "before": {
+        "bytes": 49791,
+        "sha256": "f059f535b15b6ac956fb82de5050ad9ab30f1ac419c31e2ae5f6090fcbaba061"
+      },
+      "after": {
+        "bytes": 49886,
+        "sha256": "70affea52cf20ecfc6fa5bdc23e3ad7ea3fee460a5be8e9db7468c933c067f40"
+      }
+    },
+    "src/ConnectedPocketFabricPage.tsx": {
+      "before": {
+        "bytes": 24111,
+        "sha256": "565cabf63761bbe2a9d14a1b4c08da04e562f7a858ecf8a97a26685b9b0b1443"
+      },
+      "after": {
+        "bytes": 25037,
+        "sha256": "ab45b1358ed942838aa3451b7766e1e7febda88fcc0f5556e9afbac3a46f2547"
+      }
+    },
+    "src/initial-import.css": {
+      "before": {
+        "bytes": 3559,
+        "sha256": "3fb831a7bb5fd03eea8d310cf983ae5cc5b20722763b792270e473f6747e7e0a"
+      },
+      "after": {
+        "bytes": 4142,
+        "sha256": "10756c488710c2705e44000c16ed3f5b1afafca40437e3aa37c3690491a208e0"
+      }
+    }
+  },
+  "complete_patch": "B_UI_SOURCE_REFUSAL_FINAL.patch.gz",
+  "complete_patch_uncompressed_sha256": "8b7f43624f810e23a94d54e6139e4aef2cc71c52cd9b89f774170dfd3bd962b0",
+  "caption_only_when_C3_already_adopted": "B_UI_CAPTION_ONLY_FROM_C3.patch.gz",
+  "caption_patch_uncompressed_sha256": "a08b64db072644168af620ab5a1aa3e6cc55aef6dd3287a4467d3e1842d1f1de",
+  "prior_b26_patch": "Pre-caption predecessor only; do not use as final combined patch.",
+  "A_sole_integrator": true,
+  "A_adoption": false,
+  "formal": "5/16",
+  "production_go": false
+}

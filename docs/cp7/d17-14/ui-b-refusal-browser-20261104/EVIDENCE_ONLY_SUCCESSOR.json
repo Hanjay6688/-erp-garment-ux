@@ -1,0 +1,101 @@
+{
+  "contract": "cp7.B.UI-evidence-only-successor.v1",
+  "created_at_UTC": "2026-11-03T20:53:12.429759+00:00",
+  "parent_tested_source": "9955fb364458b4897178262e45e5ce7c669be245",
+  "parent_tree": "a13d838450d025b0b4b4583c7a881d502b1ff7c3",
+  "branch": "astra-b/ui-source-refusal-browser-20261104",
+  "runtime_and_scripts_and_workflows_unchanged": true,
+  "only_added_paths_under": "docs/cp7/d17-14/ui-b-refusal-browser-20261104",
+  "A_UI_base": "8678feba7652d1d483536d1baf82135030dc3548",
+  "new_files": {
+    "docs/cp7/d17-14/ui-b-refusal-browser-20261104/APPLICATION_FINAL.json": {
+      "bytes": 1693,
+      "sha256": "0d9993d305402e63b8ce81cb941583be40e296fbcb6f8c98b7a67af0ceffcdbc"
+    },
+    "docs/cp7/d17-14/ui-b-refusal-browser-20261104/B_UI_CAPTION_ONLY_FROM_C3.patch.gz": {
+      "bytes": 1837,
+      "sha256": "d664b8a1711855ddfb573012ec2ad499302da773f2a12766eb1ac1d8eeba0c5a"
+    },
+    "docs/cp7/d17-14/ui-b-refusal-browser-20261104/B_UI_SOURCE_REFUSAL_FINAL.patch.gz": {
+      "bytes": 4175,
+      "sha256": "e3884315da0c60fabad65990237c85e799e62e4cf30f84a2937431d40f52b891"
+    },
+    "docs/cp7/d17-14/ui-b-refusal-browser-20261104/CI_FINAL_JOBS.json.gz": {
+      "bytes": 1055,
+      "sha256": "05b79d06bdb033da4fbb75a324744b582cdd0ee77389195d41bce7322a17d00c"
+    },
+    "docs/cp7/d17-14/ui-b-refusal-browser-20261104/CI_FIRST_DECODED_JOB.log.gz": {
+      "bytes": 19285,
+      "sha256": "fe75350ad6617cfd088a4e2459d3aa9b2cbcb51fc1e8582e3c17124eb63f5789"
+    },
+    "docs/cp7/d17-14/ui-b-refusal-browser-20261104/CI_FIRST_JOBS.json.gz": {
+      "bytes": 1086,
+      "sha256": "5fa33e7099cafc8367604d63c74b1e991dd38494f6e6959cb7b85c60a60215f7"
+    },
+    "docs/cp7/d17-14/ui-b-refusal-browser-20261104/CI_TIMINGS_AND_LIMITS.json": {
+      "bytes": 6434,
+      "sha256": "43acf646e7754f04163d66648b8ca9911706e284597c744f6166761c7dcacddc"
+    },
+    "docs/cp7/d17-14/ui-b-refusal-browser-20261104/DIAGNOSTIC_ORIGINAL_OUTCOME.json.gz": {
+      "bytes": 196,
+      "sha256": "829058f0d0d797960bb829caeb0de4a8b6d32b5d25879139edcd9211df9938f5"
+    },
+    "docs/cp7/d17-14/ui-b-refusal-browser-20261104/FINAL_BROWSER_REPORT.json.gz": {
+      "bytes": 4900,
+      "sha256": "61c18876da5d949545eb255ade35bef235ac71cb96e1481526123983041b6631"
+    },
+    "docs/cp7/d17-14/ui-b-refusal-browser-20261104/FINAL_BROWSER_REVIEW.json": {
+      "bytes": 3227,
+      "sha256": "9c0e2cf5fb7a493776b9ccf9eb3b8e287073b8a2ea8f5c6dd699081750233b02"
+    },
+    "docs/cp7/d17-14/ui-b-refusal-browser-20261104/FINAL_PREFLIGHT.json.gz": {
+      "bytes": 3257,
+      "sha256": "a26cfe879027cd1b8a86a9b9e2957ba34e3509385948522eadee4a0a002b8454"
+    },
+    "docs/cp7/d17-14/ui-b-refusal-browser-20261104/FINAL_PRODUCT_BUILD_ABSENCE.json.gz": {
+      "bytes": 9380,
+      "sha256": "b0268d76aa092b7e1f3acc440579a6f82f5b249bf10315e76ad9a3bb3cb1b38d"
+    },
+    "docs/cp7/d17-14/ui-b-refusal-browser-20261104/HANDOFF_B_TO_A_FINAL.md": {
+      "bytes": 6409,
+      "sha256": "f1cef218d8b6aabd8fe4b55ad201dd29cebf8dbe31f5ccff6f54b38afce64a93"
+    },
+    "docs/cp7/d17-14/ui-b-refusal-browser-20261104/ORIGINAL_ARCHIVE_RECEIPTS.json": {
+      "bytes": 2543,
+      "sha256": "555fdbd227f4bcd3f10e19c61501ac12d50dd4015364f39092c559a74ac28185"
+    },
+    "docs/cp7/d17-14/ui-b-refusal-browser-20261104/PATCH_APPLICATION_DRY_RUN.json": {
+      "bytes": 886,
+      "sha256": "9ca65b7c971ac7b03b7dc08e647e9d03973dc72da0dfe47ca3a208d698e528d7"
+    },
+    "docs/cp7/d17-14/ui-b-refusal-browser-20261104/SPARSE_FINAL_PREFLIGHT.json.gz": {
+      "bytes": 3297,
+      "sha256": "f065e2c38cc3a5889a8ff4146f50d7f21b927d4452942fb466989f85ef5ebd92"
+    },
+    "docs/cp7/d17-14/ui-b-refusal-browser-20261104/SPARSE_MISSING_CONTRACTS_FIRST.log.gz": {
+      "bytes": 717,
+      "sha256": "15606e0dfd8778e735e34b3b4ed5ba44b5d15581cc4884291927e107d3c5900e"
+    },
+    "docs/cp7/d17-14/ui-b-refusal-browser-20261104/SPARSE_SOURCE_CLOSURE_LOCAL.json": {
+      "bytes": 2501,
+      "sha256": "9233cb6f9a9e60daec1065c4d8e7eec1d46f68dba59b99b87ebffd02d11622f8"
+    },
+    "docs/cp7/d17-14/ui-b-refusal-browser-20261104/SPARSE_SOURCE_CLOSURE_ONLY_PROPOSAL.patch.gz": {
+      "bytes": 487,
+      "sha256": "f1e30e7e319d325092bc906004b10256e01e5f60f85d7f8a888c64f4d4e269d1"
+    },
+    "docs/cp7/d17-14/ui-b-refusal-browser-20261104/SPARSE_WITH_CONTRACTS_BUILD.log.gz": {
+      "bytes": 4266,
+      "sha256": "21e872560a10fb39cc4beb104843b0a7fafb7ba66df92da76b5ffa084d1262af"
+    }
+  },
+  "self_excluded_to_avoid_circular_hash": "docs/cp7/d17-14/ui-b-refusal-browser-20261104/EVIDENCE_ONLY_SUCCESSOR.json",
+  "historical_evidence_rewritten": false,
+  "actual_Auth": 0,
+  "actual_SQL": 0,
+  "backend_gate_opened": false,
+  "A_adoption": false,
+  "formal": "5/16",
+  "production_go": false,
+  "independent_acceptance": false
+}
