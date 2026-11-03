@@ -1,0 +1,111 @@
+{
+  "status": "MANDOR_PARENT_AND_WORKFLOW_SOURCE_CONTROLS_PASS_NOT_RUNTIME",
+  "parent_controls": 9,
+  "workflow_controls": 4,
+  "actual_GitHub_parent_artifact_GETs": 0,
+  "workflow_dispatches": 0,
+  "actual_Native_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false,
+  "first_source_dependency_failure": "EXACT_HISTORICAL_GIT_OBJECT_NOT_MATERIALIZED_LOCALLY; resolved by exact original fetch",
+  "workflow": {
+    "status": "MANDOR17_WORKFLOW_DATA_ONLY_NOT_ACTIVATED",
+    "original_template": {
+      "bytes": 33890,
+      "sha256": "551e9f853a6307e791991926b714aa53578f95b69ee246e7c567ff213dc75799"
+    },
+    "unchanged_parent_steps": 67,
+    "routed_parent_steps": 8,
+    "new_parent_and_artifact_steps": 4,
+    "total_steps": 79,
+    "real_360_minute_job_and_WIB_clock_policy_unchanged": true,
+    "process_supervision_330_20_10_retained": true,
+    "original_checkout_base_database_and_clone_unchanged": true,
+    "original_full_package_and_restore_entry_retained": true,
+    "named_job_cases": {
+      "Native": 9,
+      "sessions": 4,
+      "HTTP": 2,
+      "browser": 2
+    },
+    "activation_requires_actual_parent_intake_component_and_unified_source_rebinding": true,
+    "workflow_dispatches": 0,
+    "actual_Native_cases": 0,
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "parent_fetch": {
+    "status": "MANDOR_AFUI15_CANONICAL_FETCH_SOURCE_PREPARED_NOT_EXECUTED",
+    "parent_derivation": {
+      "parent_derivation": {
+        "parent_derivation": {
+          "original_head": "a5944f25a5e3ba1f1f537a18abe923eb753f922f",
+          "original_path": "scripts/current-final-s03-sku-s05-preparation/fetch_parent37.py",
+          "original_bytes": 4756,
+          "original_sha256": "a595f49e9fef9860363bfef19b856efa183896af049470627108241ad45ae6dd",
+          "derived_sha256": "d1bef01e3a2b2f3466ac9facc603ff4b52e3781335fe112df5775f70ee3cb726",
+          "counted_replacement_rules": 22,
+          "original_source_recovered": true,
+          "actual_GitHub_GETs": 0,
+          "actual_Native_cases": 0
+        },
+        "parent_derived_sha256": "d1bef01e3a2b2f3466ac9facc603ff4b52e3781335fe112df5775f70ee3cb726",
+        "derived_sha256": "6f52d8ee89903745a8e6f6c755a718ef160f190135c7c69a9953f426dc2303f7",
+        "additional_counted_routes": 20,
+        "complete_original_fetcher_recovered": true,
+        "actual_GitHub_GETs": 0,
+        "actual_Native_cases": 0
+      },
+      "parent_derived_sha256": "6f52d8ee89903745a8e6f6c755a718ef160f190135c7c69a9953f426dc2303f7",
+      "derived_sha256": "2a4661eeb0f9d90516067bc093e7b2b924cfe5539d7bbb626b8f044b4fa0c851",
+      "additional_counted_routes": 20,
+      "original_full_fetcher_recovered": true,
+      "terminal_run_job_head_artifact_bytes_SHA_ZIP_CRC_paths_and_all5_checks_unchanged": true,
+      "actual_GitHub_GETs": 0,
+      "actual_ERP_cases": 0
+    },
+    "original_sha256": "2a4661eeb0f9d90516067bc093e7b2b924cfe5539d7bbb626b8f044b4fa0c851",
+    "derived_sha256": "28dc2c71b9bb88fa72b5049de75561edf2856a4c2b216dedc6c1da9683412153",
+    "exact_routes": 23,
+    "original_full_fetcher_recovered": true,
+    "unchanged_terminal_run_job_attempt_head_archive_size_SHA_CRC_member_path_and_Original_checks": true,
+    "actual_GitHub_GETs": 0,
+    "actual_Native_cases": 0,
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "files": {
+    "scripts/current-mandor-shop-native-qualification/fetch_parent.py": {
+      "bytes": 3827,
+      "sha256": "13d26d91984f0068d40e480a921faf9f14f99cc8a5c6f4678c998e26627f74a5"
+    },
+    "scripts/current-mandor-shop-native-qualification/materialize_parent.py": {
+      "bytes": 1986,
+      "sha256": "06aacf91f9fd88304e3f7f44a613cd9dbb97275af02342fb67d3c330c170e8d2"
+    },
+    "scripts/current-mandor-shop-native-qualification/parent_artifacts.py": {
+      "bytes": 4886,
+      "sha256": "a16555b3552c98de661f12911f35890b795e495845321cde4ae3d21a2a95e3a4"
+    },
+    "scripts/current-mandor-shop-native-qualification/test_parent_preparation.py": {
+      "bytes": 3467,
+      "sha256": "c2d8cd3c19ed77fe48df169579f426156bc75f24b479d677e64eadd73a843320"
+    },
+    "scripts/current-mandor-shop-native-qualification/test_parent_artifacts.py": {
+      "bytes": 4627,
+      "sha256": "35a81f924e33459637ffc9457378783267bf79c9ac37a334ebd19b64fea38d16"
+    },
+    "scripts/current-mandor-shop-native-qualification/workflow.py": {
+      "bytes": 7895,
+      "sha256": "6b2add4ffe47e641dfe96fbe4655e7d29639570217677be2b2b6a7d2786810ad"
+    },
+    "scripts/current-mandor-shop-native-qualification/test_workflow.py": {
+      "bytes": 4323,
+      "sha256": "fc96d7ea4a385b4bc19a6ffa26433970d5382431741480710d07d9fcb110af95"
+    },
+    "scripts/current-mandor-shop-native-qualification/mandor17.workflow.yml.txt": {
+      "bytes": 34828,
+      "sha256": "a29ba9cf681c11f38d4057e8446abf96f33f3e223b7b55810d9830cffec61902"
+    }
+  }
+}

@@ -77,7 +77,10 @@ def source():
             'SOURCE_READINESS.json','READINESS.txt','test_prerequisites.py','access_cases.py','access_preflight.py',
             'access_runtime.py','access_gate.py','ACCESS_SOURCE_READINESS.json','http_cases.py','http_gate.py',
             'browser.mjs','browser_observer.py','browser_preflight.py','browser_gate.py',
-            'package_identity.py','test_package_identity.py','PACKAGE_IDENTITY_CONTROLS.json')}
+            'package_identity.py','test_package_identity.py','PACKAGE_IDENTITY_CONTROLS.json',
+            'fetch_parent.py','materialize_parent.py','parent_artifacts.py','test_parent_preparation.py',
+            'test_parent_artifacts.py','workflow.py','test_workflow.py','mandor17.workflow.yml.txt',
+            'PARENT_WORKFLOW_CONTROLS.json')}
         require(set(preparation['files'])==expected and all(n in m['files']for n in expected),'UNIFIED_EXACT_PREPARED_NATIVE9_NAMESPACE')
         require(preparation['actual_Native_cases']==0 and preparation['parent_root_adopted']is False,'UNIFIED_NATIVE9_PREPARATION_IS_NOT_ACCEPTANCE')
         require(preparation['actual_two_session_races']==0 and len(preparation['new_race_ids'])==4,
@@ -91,6 +94,13 @@ def source():
             'UNIFIED_MANDOR_OWNING_PACKAGE_IDENTITY_CONTROLS')
         for name,expected_pin in provenance['files'].items():
             require(pin((ROOT/name).read_bytes())==expected_pin,'UNIFIED_MANDOR_IDENTITY_SOURCE_CHANGED:'+name)
+        launch=json.loads((ROOT/prefix/'PARENT_WORKFLOW_CONTROLS.json').read_bytes())
+        require(launch['status']=='MANDOR_PARENT_AND_WORKFLOW_SOURCE_CONTROLS_PASS_NOT_RUNTIME'
+            and launch['parent_controls']==9 and launch['workflow_controls']==4
+            and launch['actual_Native_cases']==launch['workflow_dispatches']==0,
+            'UNIFIED_MANDOR_CLOSED_PARENT_WORKFLOW_CONTROLS')
+        for name,expected_pin in launch['files'].items():
+            require(pin((ROOT/name).read_bytes())==expected_pin,'UNIFIED_MANDOR_LAUNCH_SOURCE_CHANGED:'+name)
     return dict(status='UNIFIED_AFUI_GLOBAL_MANDOR_SOURCE_FENCE_PASS_NOT_RUNTIME_OR_BUSINESS',base=m['base'],
         unchanged_parent_blobs=len(base)-len(changed),shared_UI_parent_paths=len(shared),appearance_parent_paths=len(appearance),parent_modified_paths=len(changed),new_paths=len(actual_new),
         Global_module_files=42,Mandor_module_and_exact_UI_files=109,validator_files_composed=2,
