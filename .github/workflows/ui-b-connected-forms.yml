@@ -1,0 +1,54 @@
+name: Writer B actual connected components - isolated UI doubles only
+on:
+  push:
+    branches: [astra-b/ui-connected-forms-20261103]
+    paths:
+      - 'src/ConnectedPocketFabricPage.tsx'
+      - 'src/ConnectedInitialImportPage.tsx'
+      - 'src/initial-import.css'
+      - 'scripts/ui-reference/connected-ui/**'
+      - '.github/workflows/ui-b-connected-forms.yml'
+permissions:
+  contents: read
+concurrency:
+  group: writer-b-connected-forms
+  cancel-in-progress: false
+jobs:
+  capture:
+    if: github.run_attempt == 1
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          path: after
+          fetch-depth: 2
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22'
+      - name: Fetch exact prior B UI source
+        run: git -C after fetch --no-tags --depth=1 origin bb826c3b74ce962b507df92e7f94861f339165c1
+      - name: Install unchanged pinned dependencies once
+        working-directory: after
+        run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Admit UI-only changes and exact transport doubles
+        working-directory: after
+        run: node scripts/ui-reference/connected-ui/verify.mjs
+      - name: Compile aliases and refuse product roots and fixture production build
+        working-directory: after
+        run: node scripts/ui-reference/connected-ui/preflight.mjs
+      - name: Install browser only - no database or actual Auth
+        working-directory: after
+        run: node_modules/.bin/playwright install --with-deps chromium
+      - name: Capture real components at four widths and reopen pending UI
+        working-directory: after
+        run: node scripts/ui-reference/connected-ui/capture.mjs
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: writer-b-connected-ui-${{ github.sha }}
+          path: |
+            ui-connected-proof/
+            ui-connected-preflight/
+          retention-days: 30
+          if-no-files-found: warn

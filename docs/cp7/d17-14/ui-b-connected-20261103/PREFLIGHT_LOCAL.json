@@ -1,0 +1,52 @@
+{
+  "checks": [
+    {
+      "target": "/scripts/ui-reference/connected-ui/fixture.html",
+      "status": 200
+    },
+    {
+      "target": "/src/ConnectedPocketFabricPage.tsx",
+      "status": 200
+    },
+    {
+      "target": "/src/useProductionMutation.ts",
+      "status": 200
+    },
+    {
+      "target": "/src/ConnectedInitialImportPage.tsx",
+      "status": 200
+    },
+    {
+      "target": "/src/CutoverPanel.tsx",
+      "status": 200
+    },
+    {
+      "target": "/",
+      "status": 403
+    },
+    {
+      "target": "/index.html",
+      "status": 403
+    },
+    {
+      "target": "/cp7-preview",
+      "status": 403
+    },
+    {
+      "target": "/src/auth/AuthProvider.tsx",
+      "status": 403
+    },
+    {
+      "target": "/src/lib/supabase.ts",
+      "status": 403
+    },
+    {
+      "fixture_production_build": "REFUSED"
+    }
+  ],
+  "product_root_enabled": false,
+  "database_calls": 0,
+  "status": "PASS",
+  "server_started": true,
+  "server_reaped": true
+}

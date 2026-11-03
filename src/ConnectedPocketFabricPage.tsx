@@ -186,6 +186,7 @@ function PocketWorkspace() {
     <p className="initial-import-help">Nilai pengeluaran tercatat sebagai biaya periode. Untuk memasukkannya ke HPP celana, lihat pembagian periode lalu sahkan. Pengambilan per mandor tetap tidak perlu dirinci.</p>
     <ProductionRecoveryNotice recovery={mutation} onReconcile={() => reconcile(handlers)} className="initial-import-message"/>
     {error && <p role="alert" className="initial-import-message">{error}</p>}
+    {!workspace && !error && <p role="status" className="initial-import-help">Menyiapkan data kain kantong…</p>}
     <form className="panel initial-import-toolbar" onSubmit={e => { e.preventDefault(); queryRef.current = query.trim(); void load() }}>
       <label>Cari bahan, roll, tanggal atau ID periode<input aria-label="Cari kain kantong" maxLength={120} value={query} onChange={e => setQuery(e.target.value)}/></label><button disabled={mutation.busy}>Cari</button>
       {workspace && <span>{workspace.rolls.length} dari {workspace.roll_count} stok roll. Persempit pencarian bila belum terlihat.</span>}
@@ -203,7 +204,7 @@ function PocketWorkspace() {
       </div>
       {delta !== null && delta >= 0n && <p>Pengurangan: <strong>{fixed(`${delta / 1000000n}.${(delta % 1000000n).toString().padStart(6,'0')}`)} {selected?.unit_code}</strong>. Isi sisa 0 jika seluruh roll sudah dikeluarkan.</p>}
       <button className="primary" type="button" disabled={locked || !valid} onClick={() => { if (selected) void act('POST', { roll_id:selected.id, location_id:selected.location_id, expected_revision:selected.revision, mode, quantity:amount, date, reason:reason.trim() }) }}>Sahkan pengurangan stok</button>
-      {!workspace?.rolls.length && <p>Belum ada stok kain kantong yang cocok. Cari bahannya atau tambahkan jenis kain kantong di bawah.</p>}
+      {workspace?.rolls.length === 0 && <p>Belum ada stok kain kantong yang cocok. Cari bahannya atau tambahkan jenis kain kantong di bawah.</p>}
     </div>
     <details className="panel"><summary>Tambahkan jenis kain kantong</summary><p>Pilih master bahan yang khusus dipakai untuk kantong. Bahan yang sudah terkait potongan produksi perlu master tersendiri.</p>
       <div className="initial-import-toolbar"><label>Bahan<select aria-label="Bahan kain kantong" disabled={locked} value={material} onChange={e => setMaterial(e.target.value)}><option value="">Pilih bahan</option>{workspace?.materials.map(m => <option key={m.id} value={m.id}>{m.sku} · {m.name}</option>)}</select></label><button type="button" disabled={locked || !workspace?.materials.some(m => m.id === material)} onClick={() => void act('REGISTER', { material_id:material, reason:'Ditetapkan sebagai kain kantong untuk pemakaian bersama' })}>Tetapkan sebagai kain kantong</button></div>
@@ -224,7 +225,7 @@ function PocketWorkspace() {
       </div>}
     </section>}
     {workspace?.opening_history && <BePocketHistory data={workspace.opening_history} locked={locked} canCorrect={canAllocate} onCorrect={p => void act('CORRECT_OPENING_USAGE', p)}/>}
-    <section className="panel initial-import-table"><h2>Riwayat pembagian periode</h2><p>{workspace?.periods.length ?? 0} dari {workspace?.period_count ?? workspace?.periods.length ?? 0} alokasi. Cari tanggal atau ID periode untuk menemukannya. Pembatalan mengembalikan biaya periode dan menghitung ulang HPP; stok tetap.</p>
+    <section className="panel initial-import-table"><h2>Riwayat pembagian periode</h2><p>{workspace ? `${workspace.periods.length} dari ${workspace.period_count ?? workspace.periods.length} alokasi.` : 'Jumlah alokasi belum tersedia.'} Cari tanggal atau ID periode untuk menemukannya. Pembatalan mengembalikan biaya periode dan menghitung ulang HPP; stok tetap.</p>
       <table><thead><tr><th>Periode</th><th>Hasil jahit</th><th>Nilai terkini</th><th>Status</th><th>Tindakan</th></tr></thead><tbody>{workspace?.periods.map(p => <tr key={p.id}>
         <td>{p.period_start} — {p.period_end}</td><td>{p.quantity} pcs</td><td>Rp {p.current_amount.replace('.',',')}</td><td>{p.status==='ACTIVE'?'Aktif':'Dibatalkan'}</td>
         <td>{canAllocate && p.status==='ACTIVE' && <button type="button" disabled={locked} onClick={() => { setCancelling(p); setCancelReason('') }}>Batalkan alokasi {p.period_start}</button>}</td>

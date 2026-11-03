@@ -36,3 +36,6 @@
 
 /* Unknown-price actions remain legible while disabled; pricing still requires explicit review. */
 .initial-import [aria-label="Cuci gagal harga belum diketahui"] button:disabled { opacity: 1; border-style: dashed; }
+
+/* Theme foreground for primary actions; disabled guards remain native. */
+.initial-import button.primary{color:var(--on-accent)}

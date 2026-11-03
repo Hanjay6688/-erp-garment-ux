@@ -1,0 +1,12 @@
+{
+  "status": "PASS",
+  "compiled_product_files": 149,
+  "absent_test_only_markers": [
+    "__writerBUI",
+    "KKT-FIXTURE-001",
+    "AWAL-FIXTURE-UI",
+    "UNDECLARED_UI_FIXTURE_STATE",
+    "FIXTURE_CONFIG_SERVE_ONLY"
+  ],
+  "normal_product_config_unchanged": true
+}

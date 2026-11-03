@@ -1,0 +1,42 @@
+{
+  "contract": "cp7.B.connected-form-UI-only.v1",
+  "base": "bb826c3b74ce962b507df92e7f94861f339165c1",
+  "latest_A_context_version": "352",
+  "A_owns": "Afui/SKU/global/backend and final integration; no A DB/job launched here",
+  "scope": "Close actual component UI coverage for Pocket Fabric and Initial Import with an explicit test-only Auth/RPC double. Existing parsers, recovery hook, permissions and RPC contracts unchanged.",
+  "matrix": {
+    "widths": [
+      320,
+      390,
+      768,
+      1440
+    ],
+    "forms": [
+      "pocket",
+      "import"
+    ],
+    "states": [
+      "ready",
+      "long",
+      "empty",
+      "loading",
+      "error",
+      "pending",
+      "denied",
+      "revoked"
+    ],
+    "supplemental": [
+      "pocket period read preview",
+      "actual CSV file preview without write",
+      "pending envelope reopened for both forms"
+    ]
+  },
+  "expected_views": 80,
+  "first_product_failure": "Actual pending pocket read showed0of0 and a known-empty stock message. Rendering now distinguishes not yet available from actual empty. First failed regression preserved.",
+  "runtime_changes": "Two page render sections and primary button text color only. Controller prefixes must match base exactly.",
+  "fixture_isolation": "Dedicated serve-only config, real Auth/client source and product roots refused, external HTTP blocked, unknown RPCs rejected. Not shipped by normal Vite config/build.",
+  "actual_Auth": 0,
+  "actual_SQL": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}
