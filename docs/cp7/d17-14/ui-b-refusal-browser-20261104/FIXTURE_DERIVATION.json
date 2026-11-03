@@ -1,0 +1,109 @@
+{
+  "donor": "d3165377af56191ee51a44ce6dbaaf9fb5cbf1c4",
+  "exact_reused_files": {
+    "scripts/ui-reference/connected-ui/vite.config.mjs": {
+      "donor": {
+        "bytes": 1430,
+        "sha256": "8ad58e29f20dfae4de5ba304bfe069cb2ad4bc90de0f47d029fef4c3e0183fb5"
+      },
+      "current": {
+        "bytes": 1430,
+        "sha256": "8ad58e29f20dfae4de5ba304bfe069cb2ad4bc90de0f47d029fef4c3e0183fb5"
+      }
+    },
+    "scripts/ui-reference/connected-ui/fixture.html": {
+      "donor": {
+        "bytes": 286,
+        "sha256": "9b79b2a70485607e1ac28729390bfc114b2dbe217d315206c609fc0061c88a85"
+      },
+      "current": {
+        "bytes": 286,
+        "sha256": "9b79b2a70485607e1ac28729390bfc114b2dbe217d315206c609fc0061c88a85"
+      }
+    },
+    "scripts/ui-reference/connected-ui/server.mjs": {
+      "donor": {
+        "bytes": 2080,
+        "sha256": "f61901d9412489cc20f7b37dbaee066e32100e35e0db26ec38663847614793e0"
+      },
+      "current": {
+        "bytes": 2080,
+        "sha256": "f61901d9412489cc20f7b37dbaee066e32100e35e0db26ec38663847614793e0"
+      }
+    },
+    "scripts/ui-reference/connected-ui/auth.ts": {
+      "donor": {
+        "bytes": 238,
+        "sha256": "3de507c5950bf58ac01dc54c5c8ee10d525d0f1fefa632b6678ff241ddc1e31b"
+      },
+      "current": {
+        "bytes": 238,
+        "sha256": "3de507c5950bf58ac01dc54c5c8ee10d525d0f1fefa632b6678ff241ddc1e31b"
+      }
+    },
+    "scripts/ui-reference/connected-ui/data.ts": {
+      "donor": {
+        "bytes": 3146,
+        "sha256": "3b60648c77334da7bb7d6103808d179925d34be6e1a5e98686735667ec9d1df2"
+      },
+      "current": {
+        "bytes": 3146,
+        "sha256": "3b60648c77334da7bb7d6103808d179925d34be6e1a5e98686735667ec9d1df2"
+      }
+    },
+    "scripts/ui-reference/connected-ui/preflight.mjs": {
+      "donor": {
+        "bytes": 3208,
+        "sha256": "1349c8f00a4c074b45d9abcf82be10b884d5ec99ff9f361a2b629e063a792ffc"
+      },
+      "current": {
+        "bytes": 3208,
+        "sha256": "1349c8f00a4c074b45d9abcf82be10b884d5ec99ff9f361a2b629e063a792ffc"
+      }
+    }
+  },
+  "derived_files": {
+    "scripts/ui-reference/connected-ui/client.ts": {
+      "donor": {
+        "bytes": 1598,
+        "sha256": "095823ca1c26caf2093065c043d1fe4500ba0887ecc6b7fb71438491a3e31ad0"
+      },
+      "current": {
+        "bytes": 2373,
+        "sha256": "92e24372b7801bdc91a8f67ac4314cc587478d3ca8efa7f9c1cf192cdd68f4c1"
+      }
+    },
+    "scripts/ui-reference/connected-ui/fixture.tsx": {
+      "donor": {
+        "bytes": 816,
+        "sha256": "c8bccc320b1bf14683258aa96c0559f39edaef811788d6ba39dd5a48ea686ba5"
+      },
+      "current": {
+        "bytes": 919,
+        "sha256": "a5e7e301ace11440cc7b0ebc2831e4110eda7c8e16adad01d555ae3bb5a189ca"
+      }
+    },
+    "scripts/ui-reference/connected-ui/state.ts": {
+      "donor": {
+        "bytes": 1473,
+        "sha256": "51b47e22d848edcc8312d86e54dd2e8f11293cff89f63dbdbb0dcd29d93a707d"
+      },
+      "current": {
+        "bytes": 2586,
+        "sha256": "74096d3839aa4b7d3c10b97ad030b58ba8fcac67db41834683d8f122606bb533"
+      }
+    },
+    "scripts/ui-reference/connected-ui/frame.css": {
+      "donor": {
+        "bytes": 213,
+        "sha256": "8cfae5f0267189e207a6c0494bd795f6c7352a2a96ea37c3c06817d90766cb0d"
+      },
+      "current": {
+        "bytes": 212,
+        "sha256": "fab7633489613a26614a33e676aa4ba320937129a9ebb6d711a21d8436acbbf9"
+      },
+      "change": "Removed one extra EOF newline to keep added-file whitespace clean."
+    }
+  },
+  "changes": "Only closed source-refusal/lost-response controls, plus four fixture debug methods; Auth provider state remains unchanged. Server and full graph preflight reused exactly. Contrast helper remains original A RGBA/group-opacity implementation."
+}

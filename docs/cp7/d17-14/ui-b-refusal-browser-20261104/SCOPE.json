@@ -1,0 +1,19 @@
+{
+  "contract": "cp7.B.source-refusal-browser-prepared.v1",
+  "owner": "B UI only; A sole integrator",
+  "A_context_read_version": "372",
+  "A_UI_base": "8678feba7652d1d483536d1baf82135030dc3548",
+  "B_proposal_base": "e1eab85d271d0a6c888162e195ddb08169d1bdb6",
+  "actual_prepared_B_product_changes": 3,
+  "retained_local_tests": 54,
+  "retained_test_product_bytes_identical": true,
+  "new_transport_controls": 5,
+  "new_browser_scenarios": 28,
+  "expected_screenshots": 60,
+  "matrix": "24 = three read paths x401/403 x320/390/768/1440;4 = lost save reply then refusal/reopen x401/403 x390/1440",
+  "claims": "Real components and recovery storage with declared synthetic Auth/RPC; actual HTTP/Auth/SQL/backend idempotence not claimed. No production/adoption by A.",
+  "A_live_database_workflow_not_touched": true,
+  "formal": "5/16",
+  "production_go": false,
+  "independent_acceptance": false
+}

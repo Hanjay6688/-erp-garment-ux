@@ -1,0 +1,127 @@
+{
+  "contract": "cp7.B.prepared-refusal-browser-source.v1",
+  "base": "e1eab85d271d0a6c888162e195ddb08169d1bdb6",
+  "base_tree": "08b1c9d5cb8c1d98849fc399c54b3e9fd572d2f1",
+  "UI_changes": {
+    "src/ConnectedPocketFabricPage.tsx": {
+      "before": {
+        "bytes": 24111,
+        "sha256": "565cabf63761bbe2a9d14a1b4c08da04e562f7a858ecf8a97a26685b9b0b1443"
+      },
+      "after": {
+        "bytes": 24767,
+        "sha256": "1f04d2d1c09b17c9264c3f46bbfda5f387c5c4d82f0760b69dd1d7d921f069d7"
+      }
+    },
+    "src/ConnectedInitialImportPage.tsx": {
+      "before": {
+        "bytes": 49791,
+        "sha256": "f059f535b15b6ac956fb82de5050ad9ab30f1ac419c31e2ae5f6090fcbaba061"
+      },
+      "after": {
+        "bytes": 49886,
+        "sha256": "70affea52cf20ecfc6fa5bdc23e3ad7ea3fee460a5be8e9db7468c933c067f40"
+      }
+    },
+    "src/initial-import.css": {
+      "before": {
+        "bytes": 3559,
+        "sha256": "3fb831a7bb5fd03eea8d310cf983ae5cc5b20722763b792270e473f6747e7e0a"
+      },
+      "after": {
+        "bytes": 3690,
+        "sha256": "b923ebec05fc4e8e28849cfc43ab3ccc336b64b3025fdd4a9f47fd90a1234e42"
+      }
+    }
+  },
+  "new_files": {
+    ".github/workflows/ui-b-source-refusal-browser.yml": {
+      "bytes": 2966,
+      "sha256": "b7263a52283a700607bbe173dc4bb4869e01bec879e53f2c9212fae77134d9eb"
+    },
+    "docs/cp7/d17-14/ui-b-refusal-browser-20261104/FIXTURE_DERIVATION.json": {
+      "bytes": 3749,
+      "sha256": "3dcc29bc610f9cefe7270f68750e2f6a416f769b6389f063b98a2b4e33391b15"
+    },
+    "docs/cp7/d17-14/ui-b-refusal-browser-20261104/LOCAL_PREFLIGHT_FINAL.json.gz": {
+      "bytes": 3271,
+      "sha256": "d8dc2cce83bb429797dd7bc866208a7f7c2a71562ee64ca8f02266f1b48a2937"
+    },
+    "docs/cp7/d17-14/ui-b-refusal-browser-20261104/LOCAL_PREFLIGHT_FIRST.json.gz": {
+      "bytes": 3295,
+      "sha256": "f6ccf41d8f8e4926d2777949f025465f94e8b8e72140212771d90586c57bafb5"
+    },
+    "docs/cp7/d17-14/ui-b-refusal-browser-20261104/LOCAL_TRANSPORT_FIRST.json.gz": {
+      "bytes": 676,
+      "sha256": "93ba48c9f935ff3c218b208797af983c8cc0ad6ed72623fe7557daa53e86b33f"
+    },
+    "docs/cp7/d17-14/ui-b-refusal-browser-20261104/SCOPE.json": {
+      "bytes": 897,
+      "sha256": "13dfde175d9508642946c4ea97c19a3e21a2cf4ecf44d209b3bf1f0e86bfb011"
+    },
+    "scripts/ui-b-source-refusal-browser/capture.mjs": {
+      "bytes": 10850,
+      "sha256": "669c7d9a384681728b606bf1812469bedf5bb5eaea4223ddd9d33afb5e63cb8b"
+    },
+    "scripts/ui-b-source-refusal-browser/product-build-proof.mjs": {
+      "bytes": 970,
+      "sha256": "0d149f1c39187aef0af661708ff3f14963684e232fa3bd09c1d5aadc9f48afd5"
+    },
+    "scripts/ui-b-source-refusal-browser/transport.contract.test.ts": {
+      "bytes": 2314,
+      "sha256": "175ab71556f786ad55978fbb195c89f9047ba6d037d7710dab73f0d227a29a9e"
+    },
+    "scripts/ui-b-source-refusal-browser/verify.mjs": {
+      "bytes": 2403,
+      "sha256": "65e214d9c25750c971ce496a0052ccfebb1559010e8f6c705e637ccddacb85f3"
+    },
+    "scripts/ui-b-source-refusal-browser/vitest.config.mjs": {
+      "bytes": 169,
+      "sha256": "31c25d3053d2e18fa0955be7bd7617e9edbf70577195def65dd463c801a2686f"
+    },
+    "scripts/ui-reference/connected-ui/auth.ts": {
+      "bytes": 238,
+      "sha256": "3de507c5950bf58ac01dc54c5c8ee10d525d0f1fefa632b6678ff241ddc1e31b"
+    },
+    "scripts/ui-reference/connected-ui/client.ts": {
+      "bytes": 2373,
+      "sha256": "92e24372b7801bdc91a8f67ac4314cc587478d3ca8efa7f9c1cf192cdd68f4c1"
+    },
+    "scripts/ui-reference/connected-ui/data.ts": {
+      "bytes": 3146,
+      "sha256": "3b60648c77334da7bb7d6103808d179925d34be6e1a5e98686735667ec9d1df2"
+    },
+    "scripts/ui-reference/connected-ui/fixture.html": {
+      "bytes": 286,
+      "sha256": "9b79b2a70485607e1ac28729390bfc114b2dbe217d315206c609fc0061c88a85"
+    },
+    "scripts/ui-reference/connected-ui/fixture.tsx": {
+      "bytes": 919,
+      "sha256": "a5e7e301ace11440cc7b0ebc2831e4110eda7c8e16adad01d555ae3bb5a189ca"
+    },
+    "scripts/ui-reference/connected-ui/frame.css": {
+      "bytes": 212,
+      "sha256": "fab7633489613a26614a33e676aa4ba320937129a9ebb6d711a21d8436acbbf9"
+    },
+    "scripts/ui-reference/connected-ui/preflight.mjs": {
+      "bytes": 3208,
+      "sha256": "1349c8f00a4c074b45d9abcf82be10b884d5ec99ff9f361a2b629e063a792ffc"
+    },
+    "scripts/ui-reference/connected-ui/server.mjs": {
+      "bytes": 2080,
+      "sha256": "f61901d9412489cc20f7b37dbaee066e32100e35e0db26ec38663847614793e0"
+    },
+    "scripts/ui-reference/connected-ui/state.ts": {
+      "bytes": 2586,
+      "sha256": "74096d3839aa4b7d3c10b97ad030b58ba8fcac67db41834683d8f122606bb533"
+    },
+    "scripts/ui-reference/connected-ui/vite.config.mjs": {
+      "bytes": 1430,
+      "sha256": "8ad58e29f20dfae4de5ba304bfe069cb2ad4bc90de0f47d029fef4c3e0183fb5"
+    }
+  },
+  "actual_Auth": 0,
+  "actual_SQL": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}
