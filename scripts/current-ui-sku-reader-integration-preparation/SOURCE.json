@@ -27,8 +27,8 @@
   },
   "preparation_files": {
     "scripts/current-ui-sku-reader-integration-preparation/README.md": {
-      "bytes": 3346,
-      "sha256": "b7feb746d164197314de0246e65c6a7dfc3643549a8cd730d65843cf73107841"
+      "bytes": 3672,
+      "sha256": "a1d3dd979901baf18e7d9f4feed3882b99d95666a5ebc26546619c4947863fb9"
     },
     "scripts/current-ui-sku-reader-integration-preparation/check_source.py": {
       "bytes": 2831,
@@ -39,8 +39,8 @@
       "sha256": "a753b21e0f22798736b88b3cfb25f13854563acb4cc026a2369fd0ad742add04"
     },
     "scripts/current-ui-sku-reader-integration-preparation/visual.mjs": {
-      "bytes": 5024,
-      "sha256": "f42c996ef7cf1afc775a8ee2cb1f2078a7391fc7c2d5c6fed0acdd2b0cfaff9d"
+      "bytes": 5663,
+      "sha256": "6ce811f2fc0ddb7eadae6d688daba8232b7e80a90a80f5f5ef29b907a4d5a0a8"
     },
     ".github/workflows/cp7-a-ui-sku-reader.yml": {
       "bytes": 2532,
@@ -64,10 +64,10 @@
         "bytes": 1779,
         "sha256": "4382016152a20877feb14c793d3f328b4955f4587227d302ec482479a8df27f1"
       },
-      "append_text": "\n/* FG toolbars keep their blocks readable inside either stock column. */\n.cfg .record-tools{grid-template-columns:minmax(0,1fr);align-items:stretch}\n.cfg .record-tools .record-tools-order{display:flex}\n",
+      "append_text": "\n/* FG toolbars keep their blocks readable inside either stock column. */\n.cfg .record-tools{grid-template-columns:minmax(0,1fr);align-items:stretch}\n.cfg .record-tools .record-tools-order{display:flex}\n.cfg .record-tools-order select{min-width:min(100%,12rem)}\n",
       "after": {
-        "bytes": 1982,
-        "sha256": "ddf594f19c650624125465228696b547fc401642005f1e7da6b79cd6cb36df5a"
+        "bytes": 2041,
+        "sha256": "fae9fe62ad2ed4195fda6d1d73da4d15bdf22d7e663ce0e3df52472003b5e266"
       }
     }
   }

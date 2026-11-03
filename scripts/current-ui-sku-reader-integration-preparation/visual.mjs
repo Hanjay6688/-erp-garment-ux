@@ -39,6 +39,12 @@ try{
     const measured=await readable(panel);
     const controls=await panel.locator('button,input,select').evaluateAll(list=>list.filter(e=>e.getClientRects().length).map(e=>({label:e.getAttribute('aria-label')??e.textContent,width:e.getBoundingClientRect().width,parent:e.parentElement.getBoundingClientRect().width})));
     assert(controls.every(c=>c.width<=c.parent+1),JSON.stringify({mode,width,controls}));
+    const selections=await panel.locator('select').evaluateAll(list=>list.filter(el=>el.getClientRects().length).map(el=>{
+     const style=getComputedStyle(el),context=document.createElement('canvas').getContext('2d');context.font=style.font;
+     return{label:el.getAttribute('aria-label'),width:el.clientWidth,required:context.measureText(el.selectedOptions[0]?.textContent??'').width+parseFloat(style.paddingLeft)+parseFloat(style.paddingRight)+24};
+    }));
+    result.selected_text=selections;
+    assert(selections.every(row=>row.width>=row.required),'STOCK_TOOLBAR_SELECTED_TEXT_CLIPPED:'+JSON.stringify({mode,width,selections}));
     const explanations=await panel.locator('.record-tools>small').evaluateAll(list=>list.map(el=>{
      const box=el.getBoundingClientRect(),form=el.parentElement,style=getComputedStyle(form);
      return{width:box.width,height:box.height,available:form.clientWidth-parseFloat(style.paddingLeft)-parseFloat(style.paddingRight)};

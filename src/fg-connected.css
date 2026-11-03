@@ -3,3 +3,4 @@
 /* FG toolbars keep their blocks readable inside either stock column. */
 .cfg .record-tools{grid-template-columns:minmax(0,1fr);align-items:stretch}
 .cfg .record-tools .record-tools-order{display:flex}
+.cfg .record-tools-order select{min-width:min(100%,12rem)}

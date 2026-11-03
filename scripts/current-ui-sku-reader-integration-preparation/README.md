@@ -40,11 +40,15 @@ Run `41656967801` on `f916d8a094fee77947345a4fd1447b733b0e061b` passed all
 32 measurements, but human screenshot inspection found the ledger search
 explanation squeezed to one character per line at 1440 px. The generic
 `cproc-search` three-column layout remained inherited by the newer RecordTools
-form. This successor appends two scoped FG rules: the toolbar's blocks occupy
+form. This successor appends scoped FG rules: the toolbar's blocks occupy
 one full-width column, and its order control retains a wrapping flex layout.
 Every prior byte of `fg-connected.css` remains; the source guard binds both
 the prior theme bytes and the exact append. All other 74 theme paths and the
 five reader donor files stay unchanged. The visual check now requires each
 toolbar explanation to occupy the available form width at every tested width.
 The first green measurement archive remains retained as the layout failure
-evidence; it is not considered visual acceptance.
+evidence; it is not considered visual acceptance. Run `41657801869` on
+`2c641f81e14c3338108167c2e4929ab2cc0e58a7` then passed 32 cases and repaired
+desktop layout, but screenshot inspection found the order selection clipped
+at 320 px. A minimum selection width now wraps that control onto the next line
+when needed; a canvas text-width check includes padding and arrow allowance.
