@@ -14,6 +14,8 @@ COST_FUNCTIONS=('erp.be_conversion_extra_v1(uuid)','erp.be_allocation_extra_v1(u
 
 
 def prepare(destination):
+    if os.environ.get('CP7_COST_BASE_MONEY_MORE_ONLY')=='1'and not all(os.environ.get(k)=='1'for k in('CP7_COST_BASE_CENT_ONLY','CP7_COST_BASE_MONEY')):
+        raise ValueError('BASE_MONEY_FOLLOWUP_REQUIRES_ISOLATED_BASE_MONEY_MODE')
     if os.environ.get('CP7_COST_BASE_CENT_ONLY')=='1'and os.environ.get('CP7_COST_MONEY_CREDIT_ONLY')!='1':
         raise ValueError('BASE_CENT_COUNTER_REQUIRES_COMPLETE_ISOLATED_MONEY_INPUT')
     if os.environ.get('CP7_COST_MONEY_CREDIT_ONLY')=='1'and not all(os.environ.get(k)=='1'for k in('CP7_COST_CHAIN_MODEL','CP7_COST_INVERSE_REPAIR','CP7_COST_MONEY')):
@@ -55,6 +57,16 @@ def prepare(destination):
         input['cost_ddl']+='\n'+(HERE/'money.sql').read_text()+'\n'+'\n'.join(money_cost.values())
         input['money_derivations']=dict(cost=money_routes,credit=money_credit_routes)
         input['cost_money_enabled']=True
+    if os.environ.get('CP7_COST_BASE_MONEY')=='1':
+        if not input.get('cost_money_enabled'):raise ValueError('BASE_MONEY_REQUIRES_COMPLETE_COST_MONEY_LAYER')
+        from base_money_delta import definitions as base_definitions
+        table='cp7_sku_conversion.execution_v1'
+        input['columns'][table]=sorted([v for k,v in catalog['columns'].items()if k.startswith(table+':')],key=lambda v:v[1])
+        if not input['columns'][table]:raise ValueError('BASE_MONEY_EXACT_EXECUTION_TABLE_REQUIRED')
+        input['valuation_definitions'],input['definitions'],input['credit_definitions'],input['base_money_derivations']=base_definitions(
+            input['valuation_definitions'],input['definitions'],input['credit_definitions'])
+        input['cost_ddl']+='\n'+(HERE/'base_money.sql').read_text()
+        input['base_money_enabled']=True
     input['cost_source_manifest']={str(p.relative_to(HERE)):dict(bytes=len(p.read_bytes()),sha256=sha256(p.read_bytes()).hexdigest())
         for p in sorted(HERE.iterdir())if p.is_file()}
     input['cost_derivations']=dict(valuation=valuation_routes,consumer=consumer_routes,credit=credit_routes)
@@ -92,6 +104,10 @@ def prepare(destination):
  await query('update erp.fg_lots set source_lot_id=$1 where id=$2',[x.root10,x.converted]);
  await query('select cp7_sku_conversion.finalize_costs_v3($1)',[x.group]);
  assert.deepEqual(await values(x.source),{hpp:60,fg:60,cogs:0,other:0});""",'zero cost root exists before any sale transfer or invoice')
+    if input.get('base_money_enabled'):
+        d.once(" await query('select cp7_sku_conversion.finalize_costs_v3($1)',[x.group]);",
+            " await query('select cp7_sku_conversion.finalize_costs_v3($1)',[x.group]);\n"+(HERE/'base_money_fixture.mjs.inc').read_text(),
+            'explicit retained historical fixture monetary postconditions, not a production backfill')
     d.once(" const report={status:'POSTGRES17_EXACT_CONSUMER_SQL_CONTROLS_PASS_NOT_NATIVE'",(HERE/'cost_cases.mjs.inc').read_text()+"\n const report={status:'POSTGRES17_COST_SUCCESSOR_MODELED_CONTROLS_PASS_NOT_NATIVE'",'new cost regression and chain cases after original controls')
     if os.environ.get('CP7_COST_CHAIN_MODEL')=='1'or os.environ.get('CP7_COST_FULL_WITH_CHAINS')=='1':
         if os.environ.get('CP7_COST_CHAIN_MODEL')=='1':
@@ -150,9 +166,19 @@ def prepare(destination):
                'no borrowed prior credit-case execution')
         d.once('assert.equal(moneyCreditFindings.length,4);','assert.equal(moneyCreditFindings.length,0 /* skipped 4 */);',
                'no borrowed prior receipt-history execution')
+        cases='base_money_cases.mjs.inc'if input.get('base_money_enabled')else'base_cent_cases.mjs.inc'
+        status='MODELED_BASE_SOURCE_MONEY_REPAIR_CONTROLS_PASS_NOT_NATIVE'if input.get('base_money_enabled')else'MODELED_BASE_SOURCE_CENT_COUNTEREXAMPLES_CONFIRMED_NOT_ACCEPTED'
+        if os.environ.get('CP7_COST_BASE_MONEY_MORE_ONLY')=='1':
+            if not input.get('base_money_enabled'):raise ValueError('BASE_MONEY_FOLLOWUP_REQUIRES_COMPLETE_BASE_MONEY_INPUT')
+            cases='base_money_followup_cases.mjs.inc'
+            status='MODELED_BASE_MONEY_CREDIT_AND_REFUSALS_PASS_NOT_NATIVE'
         d.once(" const report={moneyCreditFindings,status:'MODELED_CROSS_SKU_CENT_CREDIT_CONTROLS_PASS_NOT_NATIVE'",
-            (HERE/'base_cent_cases.mjs.inc').read_text()+"\n const report={baseCentFindings,status:'MODELED_BASE_SOURCE_CENT_COUNTEREXAMPLES_CONFIRMED_NOT_ACCEPTED'",
+            (HERE/cases).read_text()+"\n const report={baseCentFindings,status:"+json.dumps(status),
             'retain exact source conservation failures before proposing another change')
+    if input.get('base_money_enabled')and 'async function modelNativeInverse(child,physicalSource)'in d.source:
+        d.once(' async function modelNativeInverse(child,physicalSource){',
+            " async function modelNativeInverse(child,physicalSource){\n  await query(\"insert into cp7_sku_conversion.execution_v1(backend_pid,transaction_id,group_id,mode)values(pg_backend_pid(),txid_current(),$1,'REVERSE')\",[child.group]);",
+            'explicit original owning execution-table postcondition before modeled Native inverse')
     if d.inverse()!=original.decode():raise ValueError('COST_MODEL_HARNESS_NOT_REVERSIBLE')
     (destination/'test_cost_successor.mjs').write_text(d.source)
     print(json.dumps(dict(status='COMPLETE_COST_MODEL_PREPARED',typed_tables=len(input['columns']),

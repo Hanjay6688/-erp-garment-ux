@@ -1,5 +1,19 @@
 {
   "actual_ERP_cases": 0,
+  "base_monetary_custody_preparation": {
+    "actual_ERP_cases": 0,
+    "existing_physical_opening_guard_unchanged": true,
+    "existing_private_execution_context_only": true,
+    "first_PLpgSQL_alias_failure_preserved": true,
+    "focused_base_cases": 5,
+    "focused_followup_cases": 8,
+    "historical_fixture_postconditions_not_production_backfill": true,
+    "independent_credit_reads_raw_base_money_and_custody": true,
+    "new_private_helpers": 10,
+    "new_private_tables": 1,
+    "older_61_controls_not_relabelled_current_tree": true,
+    "product_repair_admitted": false
+  },
   "base_source_cent_counterexamples": {
     "actual_ERP_cases": 0,
     "descendant_source_delta": ".01",
@@ -14,12 +28,32 @@
   "classification": "PREPARED_COST_COMPONENT_LAYER_NOT_ADMITTED",
   "files": {
     "scripts/cp7_sku_cost_components/README.md": {
-      "bytes": 11459,
-      "sha256": "0dfc1a9ae7317a459bd511a4fefbbf1eda89659b10ac269a2cce1a95b51b8fe8"
+      "bytes": 13628,
+      "sha256": "5e9e105c0c95dadb23b034d7002d5cd7c4b220a8a831ca0f9d494d92990bb203"
     },
     "scripts/cp7_sku_cost_components/base_cent_cases.mjs.inc": {
       "bytes": 2463,
       "sha256": "eeeeba3dbab43bc92c690c36ba6d01ac0d344fa8e2e7fde781b825af9baa5a18"
+    },
+    "scripts/cp7_sku_cost_components/base_money.sql": {
+      "bytes": 14781,
+      "sha256": "60f5cb3a18bf821ad9c4ed95dece27ef06dc47fdcbdeb31a35242eae6f755495"
+    },
+    "scripts/cp7_sku_cost_components/base_money_cases.mjs.inc": {
+      "bytes": 3937,
+      "sha256": "dc76a4265d4b3d5ff483c16c90c6d4f2a92a451eb864e0824609c0473cfb9cd9"
+    },
+    "scripts/cp7_sku_cost_components/base_money_delta.py": {
+      "bytes": 11712,
+      "sha256": "1bcfa36e139ab03c3865ca5d017892b4b42868e931b86083fcfb17a64973193b"
+    },
+    "scripts/cp7_sku_cost_components/base_money_fixture.mjs.inc": {
+      "bytes": 1044,
+      "sha256": "db3b2c12033d8c69c645418f482e563980bbe3082d2c54780efbfa807c07d202"
+    },
+    "scripts/cp7_sku_cost_components/base_money_followup_cases.mjs.inc": {
+      "bytes": 8472,
+      "sha256": "ddda50eaeee6c3b360467e177a7549c4e7242f0565d3b75a35da41b998654868"
     },
     "scripts/cp7_sku_cost_components/cent_inverse_counterexamples.mjs.inc": {
       "bytes": 3270,
@@ -82,8 +116,8 @@
       "sha256": "6a0627fa980634bb2b4b812d6f53848aed5b85a206915b465b665b627268ebf7"
     },
     "scripts/cp7_sku_cost_components/prepare_model.py": {
-      "bytes": 16683,
-      "sha256": "409cee55d50a265eaf046ae75cd3e355d09e023e50ee14e56bd452725aa0415c"
+      "bytes": 19213,
+      "sha256": "2499929329a42d566f363d0965290350fb0ef62b9c1d86a211c7058c767bc3a0"
     },
     "scripts/cp7_sku_cost_components/private_inverse_delta.py": {
       "bytes": 1114,

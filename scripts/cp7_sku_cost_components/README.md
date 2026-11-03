@@ -154,7 +154,7 @@ remained exact. These focused reruns supply no new credit for the skipped61.
 All these results use the explicit PG17.5 model providers. Real ERP, Auth,
 concurrent sessions, actual Native inverse/cost commands, complete source and
 ACL installation, legacy single-lot admission and used restore remain required.
-All eleven admission gates are still unset; no installer or workflow is armed.
+All twelve admission gates are still unset; no installer or workflow is armed.
 
 The next targeted review reproduced the analogous base-HPP gap using unchanged
 prepared product functions. After the first SKU conversion, a root-unit change
@@ -171,3 +171,35 @@ case label did not pass the inherited CHAIN filter; the read-only postcondition
 probe then inferred an integer parameter. The label and explicit numeric cast
 were corrected, with both first outputs retained. No product function or money
 assertion changed and none of the skipped prior cases received fresh credit.
+
+The prepared base-HPP successor now records immutable base units and cents
+per original root and economic product, including sold custody. It preserves
+the quoted cents on transfer, allocates a corrected source total cumulatively
+over current owners, and returns current cents on inverse. Pool, inventory,
+COGS, sale and return readers use that ownership. The independent credit
+projection reads raw base rows and independently checks source and custody.
+The original physical-opening refusal and exact source/book guard remain.
+An existing private execution row permits only the Native command's exact
+intermediate physical movement; it is not a general bypass or a new GUC.
+Historical converted custody cannot be silently initialized. The retained
+model explicitly supplies three historical origin/transfer postconditions;
+these are not production backfill or permission evidence.
+
+Five focused base cases now pass with exact prepared opening corrections:
+30→30.01 gives60.02/70; 30→29.99 gives59.99/69.99; a later50→50.01 correction
+gives35.01/35 after the child transfer. Pricing before transfer gives35/35.01;
+both physical choices invert to70.01/0. Same-price opening requests retain
+the Native refusal and restore every modeled table. A first local failure
+was an ambiguous PL/pgSQL record/row alias; its complete input and output
+remain preserved before the alias-only correction.
+
+Eight additional cases passed with identical product SQL: five sale/return/
+credit scenarios, fresh-origin replay and bounded price history, unchanged
+physical-opening/raw-source-corruption refusals, and immutable private rows.
+Returns35.01,34.99,35.01,10 and37.02 cover positive, negative, early, zero and
+combined base/cost changes. Deliberately adding1 to the official base-price
+helper does not change independent credit targets; the exact function and
+all rows restore afterward. These are thirteen new business controls plus
+their setup/restore checks, not a fresh run of the older61 or actual ERP cases.
+The new initializer, source corrections, inverse transition and all permissions
+still require full actual qualification. All twelve admission gates remain null.
