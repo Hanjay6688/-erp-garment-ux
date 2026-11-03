@@ -10,7 +10,7 @@ from psycopg import sql
 from psycopg.pq import TransactionStatus
 from cp7_laundry_unknown_wash.composition import as_owner
 import cp7_sku_pair_conversion.composition as sku_parent
-from . import private_delta,consumer_delta,reader_delta
+from . import private_delta,consumer_delta,reader_delta,catalog_additions
 
 HERE=Path(__file__).resolve().parent
 ROOT=HERE.parents[1]
@@ -73,7 +73,7 @@ def parent():return sku_parent
 def runtime():return parent().runtime()
 
 def sources():
-    names=('README.md','COMPONENT_LEDGER_DESIGN.md','component_oracle.py','valuation.sql','private_delta.py','consumer_delta.py','reader_delta.py','qualification_cases.py','composition.py','test_component_contract.py','test_private_delta.py','test_consumer_delta.py','test_reader_delta.py','test_qualification_cases.py')
+    names=('README.md','COMPONENT_LEDGER_DESIGN.md','component_oracle.py','valuation.sql','private_delta.py','consumer_delta.py','reader_delta.py','qualification_cases.py','composition.py','catalog_additions.py','CATALOG_ADDITIONS.json','test_component_contract.py','test_private_delta.py','test_consumer_delta.py','test_reader_delta.py','test_qualification_cases.py')
     return dict(contract=CONTRACT,predecessor=parent().sources(),
         files={str((HERE/n).relative_to(ROOT)):sha256((HERE/n).read_bytes()).hexdigest()for n in names},
         physical_FIFO_preserved=True,economic_valuation='SKU_LOCATION_GRADE_MOVING_AVERAGE',
@@ -85,18 +85,20 @@ def binding(catalog,prior,proof):
         preinstall=prior['preinstall_data_and_sequences'],preuse=prior['preuse_data_and_sequences'],proof=proof))
 
 def transition(before,after,definitions):
-    if set(before)!=set(after)or len(before)!=22:raise ValueError('SKU_MOVAVG_ALL22_REQUIRED')
+    additions=catalog_additions.expected()
+    if set(before)!=set(after)or set(before)!=set(additions):raise ValueError('SKU_MOVAVG_ALL22_REQUIRED')
+    if set(additions['functions'])!=set(FUNCTIONS):raise ValueError('SKU_MOVAVG_FUNCTION_SET_CHANGED')
+    if {key for key,row in additions['relations'].items()if row[1]=='r'}!=set(TABLES):
+        raise ValueError('SKU_MOVAVG_TABLE_SET_CHANGED')
     for group in before:
+        added=set(after[group])-set(before[group]);expected=set(additions[group])
+        if added-expected:raise ValueError('SKU_MOVAVG_UNDECLARED_CATALOG_DELTA:'+group+':'+sorted(added-expected)[0])
+        if expected-added:raise ValueError('SKU_MOVAVG_MISSING_CATALOG_ADDITION:'+group+':'+sorted(expected-added)[0])
         for key in set(before[group])|set(after[group]):
             old,new=before[group].get(key),after[group].get(key)
             if old==new:continue
             if group=='functions'and key in definitions and old is not None and new is not None and new[0]==definitions[key]and old[1:]==new[1:]:continue
-            if old is None and new is not None and group in('relations','columns','constraints','indexes','triggers','policies')and(
-                any(key==table or key.startswith(table+'.')for table in TABLES)
-                or(group in('relations','indexes')and key in INDEXES)
-                or key.startswith(SCHEMA+'.valuation_')or key.startswith(SCHEMA+'.sale_allocation_')or key.startswith(SCHEMA+'.sales_return_')):continue
-            if old is None and new is not None and group=='functions'and key in FUNCTIONS:continue
-            if old is None and new is not None and group=='triggers'and key in EXISTING_TRIGGERS:continue
+            if old is None and key in additions[group]and new==additions[group][key]:continue
             raise ValueError('SKU_MOVAVG_UNDECLARED_CATALOG_DELTA:'+group+':'+key)
     if set(after['functions'])-set(before['functions'])!=set(FUNCTIONS):raise ValueError('SKU_MOVAVG_FUNCTION_SET_CHANGED')
 

@@ -56,3 +56,24 @@ Canonical arithmetic:
 Physical-time, economic-date, rights-after-waits, stale revision,
 idempotency, two-tab serialization, and full restore obligations remain those
 of the qualified parent and may only be tightened here.
+
+## Exact catalogue preparation
+
+`CATALOG_ADDITIONS.json` pins the expected additions from the unchanged
+`valuation.sql` using the original all-22 catalogue queries. It was derived
+on an isolated PostgreSQL 17.5 engine (`@electric-sql/pglite@0.3.14`) with
+empty UUID-key dependency tables. No ERP fixture or financial function ran.
+This is a DDL expectation, not Native qualification or acceptance.
+
+The 639 exact rows cover 12 tables, 19 explicit/implicit indexes, 183 table
+and index columns, 132 constraints, 202 triggers (including both ends of
+47 foreign keys), 12 private functions, 24 row/array types, their 24
+implementation rows, and 12 deny policies. The other 13 catalogue groups
+must not change. Every added row must be present with its exact metadata;
+matching a name prefix is insufficient. Existing objects remain frozen
+except for the already declared, exact function-body substitutions.
+
+The pre-database controls reject each missing or altered expected row,
+undeclared additions in every catalogue group, changes to existing authority,
+and replacements of an all-22 group. The actual Native5 run, all used-state
+refusals, complete restoration, and the five package gates remain required.

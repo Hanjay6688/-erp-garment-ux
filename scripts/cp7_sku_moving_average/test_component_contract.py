@@ -1,5 +1,6 @@
 from pathlib import Path
 import ast,importlib.util
+from copy import deepcopy
 
 HERE=Path(__file__).resolve().parent
 sql=(HERE/'valuation.sql').read_text()
@@ -58,50 +59,76 @@ composition=(HERE/'composition.py').read_text()
 for name in expected_tables:assert repr(name)in composition,name
 for name in expected_functions:assert name+'('in composition,name
 for name in expected_indexes:assert repr(name)in composition,name
-assert "or(group in('relations','indexes')and key in INDEXES)"in composition
+assert 'key.startswith(' not in composition
+assert 'catalog_additions.expected()' in composition
 assert "EXISTING_TRIGGERS={'erp.sales_headers:sku_component_sale_reverse_v2','erp.sales_returns:sku_component_return_reverse_v2'}"in composition
 assert "READER_OWNERS={sig:'cp7_fg_read'for sig in reader_delta.SIGNATURES}"in composition
 assert composition.count("with reader_handover(cur),as_owner(cur,'postgres'):")==2
 assert composition.count('with reader_function_ddl(cur,signature):cur.execute(')==2
 assert "raise ValueError('SKU_MOVAVG_READER_OWNER_CHANGED:'+signature)"in composition
 
-def catalog_index_controls(source):
-    # Exercise the actual transition function without importing ERP or SQL.
-    # PostgreSQL reports an index in both relation and index catalog groups.
+def catalog_controls(source):
+    # Execute the actual installer boundary without importing ERP or SQL.
+    # The full 639-object profile includes implicit PK/UNIQUE indexes, row
+    # and array types, member keys with colons, and parent-side RI triggers.
+    spec=importlib.util.spec_from_file_location('sku_exact_catalog_additions',HERE/'catalog_additions.py')
+    profile=importlib.util.module_from_spec(spec);spec.loader.exec_module(profile)
     names={'SCHEMA','TABLES','INDEXES','FUNCTIONS','EXISTING_TRIGGERS'}
     tree=ast.parse(source)
     selected=[node for node in tree.body if
         isinstance(node,ast.Assign) and any(isinstance(t,ast.Name) and t.id in names for t in node.targets)
         or isinstance(node,ast.FunctionDef) and node.name=='transition']
-    namespace={}
+    namespace={'catalog_additions':profile}
     exec(compile(ast.Module(body=selected,type_ignores=[]),'actual_sku_catalog_transition','exec'),namespace)
-    groups=('functions','relations','indexes','columns','constraints','triggers','policies')+tuple(
-        'unchanged_group_'+str(i)for i in range(15))
-    def catalogs(group,key):
-        before={name:{}for name in groups}
-        after={name:{}for name in groups}
-        after['functions']={name:['declared-new-function']for name in namespace['FUNCTIONS']}
-        after[group][key]=['declared-index']
-        return before,after
-    admitted=refused=0
-    for group in('relations','indexes'):
-        for key in sorted(namespace['INDEXES']):
-            namespace['transition'](*catalogs(group,key),{})
-            admitted+=1
-    controls=[(group,'cp7_sku_conversion.component_unreviewed_v2')for group in('relations','indexes')]
-    controls.extend((group,'cp7_sku_conversion.component_events_reverse_v2')for group in groups
-        if group not in('relations','indexes'))
-    for group,key in controls:
-        try:namespace['transition'](*catalogs(group,key),{})
-        except ValueError as error:
-            assert str(error)=='SKU_MOVAVG_UNDECLARED_CATALOG_DELTA:'+group+':'+key,str(error)
-            refused+=1
-        else:raise AssertionError('UNDECLARED_INDEX_CATALOG_ADMITTED:'+group+':'+key)
-    return dict(known_index_group_pairs=admitted,foreign_name_or_group_refusals=refused,actual_SQL=0)
+    transition=namespace['transition'];additions=profile.expected()
+    before={name:{}for name in profile.GROUPS}
+    existing='erp.existing_private_command(uuid)'
+    before['functions'][existing]=['original body','existing owner',True,'same ACL']
+    before['relations']['erp.existing_table']=['existing metadata']
+    definitions={existing:'exact derived body'}
+    after=deepcopy(additions)
+    after['functions'][existing]=[definitions[existing],*before['functions'][existing][1:]]
+    after['relations'].update(before['relations'])
+    transition(before,after,definitions)
 
-index_controls=catalog_index_controls(composition)
+    def refused(candidate,expected_prefix,baseline=before,derived=definitions):
+        try:transition(baseline,candidate,derived)
+        except ValueError as error:
+            assert str(error).startswith(expected_prefix),(expected_prefix,str(error))
+        else:raise AssertionError('UNDECLARED_OR_INCOMPLETE_CATALOG_ADMITTED')
+
+    missing=metadata=unknown=0
+    for group,rows in additions.items():
+        for key in rows:
+            candidate={name:dict(values)for name,values in after.items()}
+            del candidate[group][key]
+            refused(candidate,'SKU_MOVAVG_MISSING_CATALOG_ADDITION:'+group+':'+key)
+            missing+=1
+            candidate[group][key]=['tampered authority or definition',*rows[key][1:]]
+            refused(candidate,'SKU_MOVAVG_UNDECLARED_CATALOG_DELTA:'+group+':'+key)
+            metadata+=1
+        candidate={name:dict(values)for name,values in after.items()}
+        candidate[group]['cp7_sku_conversion.valuation_unreviewed_v2']=['unreviewed']
+        refused(candidate,'SKU_MOVAVG_UNDECLARED_CATALOG_DELTA:'+group+':')
+        unknown+=1
+
+    candidate=deepcopy(after);candidate['functions'][existing][1]='new owner'
+    refused(candidate,'SKU_MOVAVG_UNDECLARED_CATALOG_DELTA:functions:'+existing)
+    candidate=deepcopy(after);candidate['functions'][existing][0]='different derived body'
+    refused(candidate,'SKU_MOVAVG_UNDECLARED_CATALOG_DELTA:functions:'+existing)
+    candidate=deepcopy(after);del candidate['relations']['erp.existing_table']
+    refused(candidate,'SKU_MOVAVG_UNDECLARED_CATALOG_DELTA:relations:erp.existing_table')
+    candidate=deepcopy(after);candidate['relations']['erp.existing_table']=['changed metadata']
+    refused(candidate,'SKU_MOVAVG_UNDECLARED_CATALOG_DELTA:relations:erp.existing_table')
+    candidate=deepcopy(after);candidate['foreign_group']=candidate.pop('schemas')
+    refused(candidate,'SKU_MOVAVG_ALL22_REQUIRED')
+    assert (missing,metadata,unknown)==(639,639,22)
+    return dict(complete_profile_admitted=True,missing_object_refusals=missing,
+        altered_metadata_refusals=metadata,unknown_group_object_refusals=unknown,
+        existing_authority_body_removal_refusals=4,wrong_22_group_refusals=1,actual_SQL=0)
+
+catalog_result=catalog_controls(composition)
 print({'status':'SKU_MOVAVG_COMPONENT_SOURCE_CONTRACT_PASS','tables':len(expected_tables),
        'functions':len(expected_functions),'indexes':len(expected_indexes),
-       'index_catalog_controls':index_controls,
+       'exact_catalog_controls':catalog_result,
        'actual_sql':0,'production_go':False})
-
