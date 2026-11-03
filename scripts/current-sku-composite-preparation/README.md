@@ -70,3 +70,32 @@ Root files, immutable parent/child worktrees, the current source manifest, one
 owning entry, complete artifact retention, and the unchanged genuine WIB window
 and supervision. The proposed runtime refuses while those actual inputs remain
 unavailable; source and local Git controls are not business acceptance.
+
+## Canonical artifacts and inactive execution chain
+
+The reviewable workflow retains all 79 Mandor setup/recovery steps: 67 remain
+unchanged and 12 select this owning qualifier. The complete database rebuild,
+clone, package backup/restore, original process supervisor and 360/330/20/10
+minute budgets remain unchanged. Only the actual six-hour WIB window is valid.
+No file under `.github/workflows` is added by this preparation.
+
+Both accepted Root receipts are required before any Git materialization or
+canonical artifact GET. The exact retained fetcher independently binds each
+run, job, first attempt, head, archive byte count/SHA, CRC, complete member
+paths and main Original. The Mandor receipt uses
+`qualified_current_Mandor_sources`; the SKU receipt uses
+`qualified_SKU_moving_average_sources`. Those fields must contain the reviewed
+actual source graphs. Prepared/model reports cannot populate either receipt.
+The frozen accepted Mandor qualifier still fetches and admits its actual Afui
+parent through its unchanged entry.
+
+The original full-file copy helpers preserve prerequisite bytes in all three
+frozen checkouts and retain every changed/new output separately, including on
+failure. Existing conflicting bytes and symlinks are refused. Reports remain
+complete artifact files; console output contains bounded hashes and lengths,
+never full report bodies or large encoded archives. The final gate checks all
+six fresh cases, their original complete native report, no remaining locks or
+sessions, the unused inverse and committed used refusal, all five package
+gates, owning source/identity, full restoration and a completely reaped worker.
+This still does not close concurrency, current permissions, actual Auth/HTTP/
+browser follow-ups, independent audit or final UI/Global integration.

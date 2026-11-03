@@ -30,6 +30,18 @@ def source():
         base[name]=blob
     prefix=str(HERE.relative_to(ROOT))+'/'
     expected={prefix+name for name in manifest['files']}|{prefix+'SOURCE.json'}
+    workflow='.github/workflows/cp7-sku-current-parent-native6.yml'
+    if manifest['active_workflow_added']:
+        import sku_current_parent_runtime as runtime
+        runtime.actual_inputs()
+        active=ROOT/workflow
+        require(active.is_file()and not active.is_symlink()
+            and admission.pin(active.read_bytes())==manifest.get('active_workflow_source'),
+            'SKU_COMPOSITE_EXACT_ACTIVE_WORKFLOW_PIN')
+        expected.add(workflow)
+    else:
+        require(manifest.get('active_workflow_source')is None and not(ROOT/workflow).exists(),
+            'SKU_COMPOSITE_NO_UNDECLARED_ACTIVE_WORKFLOW')
     paths={p.decode()for p in git('ls-files','-z','--cached','--others','--exclude-standard').split(b'\0')if p}
     require(paths-set(base)==expected,'SKU_COMPOSITE_EXACT_OWN_NAMESPACE')
     if manifest['actual_parent_adopted']:
@@ -39,7 +51,7 @@ def source():
     else:receipt=None;parent_state='ALL_TEN_GATES_UNSET'
     return dict(status='SKU_CURRENT_PARENT_OWNING_SOURCE_FENCE_PASS_NOT_ERP',source_manifest=own,
         unchanged_base_files=len(base),own_files=len(expected),actual_parent_gate_state=parent_state,
-        actual_parent_receipt=receipt,active_workflow_added=False,actual_composite_cases=0,
+        actual_parent_receipt=receipt,active_workflow_added=manifest['active_workflow_added'],actual_composite_cases=0,
         actual_Auth_HTTP_cases=0,actual_browser_cases=0,production_go=False,independent_acceptance=False)
 
 
