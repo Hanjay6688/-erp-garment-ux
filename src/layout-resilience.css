@@ -91,9 +91,9 @@
 }
 
 .biz-browser-list > button > .biz-pill.neutral {
-  border-color: #374154;
-  background: rgba(255, 255, 255, .025);
-  color: #a4afc0;
+  border-color: var(--line);
+  background: var(--panel);
+  color: var(--text);
 }
 
 .biz-browser-list > button {

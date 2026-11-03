@@ -2,7 +2,7 @@
   "status": "OWNING_PACKAGE_IDENTITY_LOCAL_GIT_CONTROLS_PASS_NOT_ERP",
   "tests_run": 4,
   "result": "PASS",
-  "first_execution": true,
+  "first_execution": false,
   "cached_inherited_recorder_head_mismatch_reproduced": true,
   "unchanged_recorder_pin": {
     "bytes": 1869,
@@ -21,13 +21,18 @@
       "sha256": "8b1192492f4956206bcb82ac4b1d3174fb16d0bdf3fe49373b6f5c68fbd95011"
     },
     "scripts/current-mandor-shop-native-qualification/qualification.py": {
-      "bytes": 7045,
-      "sha256": "51461eeaeb94f22f5ac01ffbd5b1331c548d8d4db4a4f5534bb0a924b056b7cf"
+      "bytes": 7161,
+      "sha256": "3f4bf0cfccbf650240729e01909dcb39b3e88371e59ee14a3bffc5f05934de0b"
     }
   },
   "actual_Native_cases": 0,
   "actual_Auth_HTTP_cases": 0,
   "actual_browser_cases": 0,
   "production_go": false,
-  "independent_acceptance": false
+  "independent_acceptance": false,
+  "revalidated_after_owning_advisor_binding": true,
+  "prior_receipt": {
+    "bytes": 1251,
+    "sha256": "f3bbfde8b7e684e3a95cbcfc88612c206ca529598b8b32c99921ee5582fea2ca"
+  }
 }

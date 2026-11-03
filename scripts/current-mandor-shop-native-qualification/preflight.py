@@ -40,7 +40,8 @@ def check(raw,parser_path):
         name,arguments=sig.split('(',1)
         if name.startswith('public.'):allowed.setdefault(name,set()).add(0 if arguments==')'else len(arguments[:-1].split(',')))
     trees={name:ast.parse((HERE/name).read_bytes())for name in ['admission.py','native_fixture.py','oracle.py','cases.py','additional_cases.py','preflight.py',
-        'assembly.py','component.py','package_engine.py','qualification.py','runtime_supervisor.py','final_gate.py','test_prerequisites.py']}
+        'assembly.py','component.py','package_engine.py','qualification.py','runtime_supervisor.py','final_gate.py','test_prerequisites.py',
+        'advisor_review.py','test_advisor_preparation.py']}
     klass=next(n for n in trees['native_fixture.py'].body if isinstance(n,ast.ClassDef)and n.name=='Native')
     methods={n.name:signature(n)for n in klass.body if isinstance(n,ast.FunctionDef)}
     assembly=next(n for n in trees['assembly.py'].body if isinstance(n,ast.ClassDef)and n.name=='Assembly')
@@ -102,6 +103,13 @@ def check(raw,parser_path):
     output=io.StringIO();suite=unittest.defaultTestLoader.loadTestsFromModule(controls)
     result=unittest.TextTestRunner(stream=output,verbosity=1).run(suite)
     require(result.wasSuccessful()and result.testsRun==6,'MANDOR_PREFLIGHT_COLD_COPY_PREREQUISITES:'+output.getvalue())
+    spec=importlib.util.spec_from_file_location('mandor_new_advisor_prerequisites',HERE/'test_advisor_preparation.py')
+    advisor_controls=importlib.util.module_from_spec(spec);spec.loader.exec_module(advisor_controls)
+    advisor_output=io.StringIO()
+    advisor_result=unittest.TextTestRunner(stream=advisor_output,verbosity=1).run(
+        unittest.defaultTestLoader.loadTestsFromModule(advisor_controls))
+    require(advisor_result.wasSuccessful()and advisor_result.testsRun==10 and not advisor_result.skipped
+        and not advisor_result.expectedFailures,'MANDOR_PREFLIGHT_COMPLETE_ADVISOR_PREREQUISITES:'+advisor_output.getvalue())
     import access_preflight
     access=access_preflight.check(raw,parser_path)
     source_names=list(trees)+list(access['source_files'])
@@ -111,6 +119,8 @@ def check(raw,parser_path):
         new_method_calls=method_calls,new_oracle_calls=oracle_calls,exact_public_RPC_calls=rpcs,
         fixed_observer_SQL_statements_parsed=len(sql),new_case_ids=list(ids),parser=pglast.__version__,
         cold_copy_prerequisite_controls=dict(status='PASS',tests=result.testsRun,actual_Native_cases=0),
+        complete_advisor_prerequisite_controls=dict(status='PASS',tests=advisor_result.testsRun,actual_Native_cases=0,
+            actual_advisor_SQL_executed=0,inherited_Afui_tables=3,new_Mandor_tables=15),
         access_source_prerequisites=access,
         accepted_Afui15_parent_root_pin=None,runtime_entry=None,actual_SQL_executed=0,actual_Native_cases=0,
         old_source84_or_model_or_financial_tests_rerun=False,production_go=False,independent_acceptance=False)

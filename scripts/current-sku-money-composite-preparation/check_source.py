@@ -13,8 +13,8 @@ assembly=importlib.util.module_from_spec(spec);spec.loader.exec_module(assembly)
 def check():
     own=assembly.source_manifest();manifest=json.loads((HERE/'SOURCE.json').read_bytes())
     require=assembly.require;root=assembly.ROOT
-    require(manifest['base']==dict(public_head='92f099e63ae46b1adac51cc7900811e9ea201437',
-        tree='8e48277b86c0325ae15793cd4d6b5094033c8c0e'),'SKU_MONEY_COMPOSITE_EXACT_PREPARATION_BASE')
+    require(manifest['base']==dict(public_head='c296fd06167ddd177e1192c1008992e2a1e3d628',
+        tree='fdd36962a7de81482ccca02e6ff96597cfc20081'),'SKU_MONEY_COMPOSITE_EXACT_PREPARATION_BASE')
     parent=set()
     for item in assembly.git(root,'ls-tree','-rz',manifest['base']['tree']).split(b'\0'):
         if not item:continue
@@ -23,6 +23,22 @@ def check():
             'SKU_MONEY_COMPOSITE_REGULAR_PARENT_SOURCE:'+name)
         raw=path.read_bytes();require(sha1(b'blob '+str(len(raw)).encode()+b'\0'+raw).hexdigest()==blob,
             'SKU_MONEY_COMPOSITE_UNDECLARED_PARENT_CHANGE:'+name)
+    current_mandor_files=len(parent)
+    retained=manifest['retained_moving_preparation']
+    require(retained['tree']=='8e48277b86c0325ae15793cd4d6b5094033c8c0e'
+        and retained['namespace']=='scripts/current-sku-composite-preparation/',
+        'SKU_MONEY_RETAINED_MOVING_SOURCE_IDENTITY')
+    expected_retained={}
+    for item in assembly.git(root,'ls-tree','-rz',retained['tree'],'--',retained['namespace']).split(b'\0'):
+        if not item:continue
+        metadata,name=item.split(b'\t',1);mode,kind,blob=metadata.decode().split();name=name.decode()
+        require(kind=='blob'and mode=='100644'and name not in parent,'SKU_MONEY_RETAINED_MOVING_REGULAR_ADDITION')
+        path=root/name;raw=assembly.git(root,'show',retained['tree']+':'+name)
+        require(path.is_file()and not path.is_symlink()and path.read_bytes()==raw,
+            'SKU_MONEY_RETAINED_MOVING_SOURCE_CHANGED:'+name)
+        expected_retained[name]=dict(blob=blob,pin=assembly.admission.pin(raw));parent.add(name)
+    require(len(expected_retained)==23 and expected_retained==retained['files'],
+        'SKU_MONEY_RETAINED_COMPLETE_MOVING_NAMESPACE')
     execution=assembly.load('current_money_exact_execution_source_routes',HERE/'execution_routes.py').check()
     require(execution==manifest['execution'],'SKU_MONEY_COMPOSITE_EXACT_EXECUTION_DERIVATIONS')
     previous=list(sys.path)
@@ -51,7 +67,8 @@ def check():
             'SKU_MONEY_COMPOSITE_PREPARATION_ALL_GATES_CLOSED')
         receipt=None;gate_state='ALL_TEN_GATES_UNSET'
     return dict(status='CURRENT_MANDOR_MOVING_MONEY_SOURCE_BRIDGE_PASS_NOT_ERP',source=own,
-        unchanged_parent_files=len(parent),own_files=len(expected),moving_routes=6,money_routes=5,
+        unchanged_parent_files=current_mandor_files,retained_moving_preparation_files=len(expected_retained),
+        current_reviewed_UI_preserved=True,own_files=len(expected),moving_routes=6,money_routes=5,
         whole_current_parent_state_bound=True,parent_state_projection=False,
         active_workflow_added=manifest['active_workflow_added'],actual_parent_gate_state=gate_state,
         actual_parent_receipt=receipt,execution=execution,workflow=workflow_proof,

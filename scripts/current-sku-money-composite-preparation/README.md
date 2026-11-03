@@ -10,8 +10,12 @@ current parent and selects all nineteen monetary callbacks.
 The reviewed standalone source is
 `f1674ae84739f577571d68415beabfca3f3b832b`, tree
 `ea43f84029993b385722fe8e202adefd2a745f7b`. Its 44 product files and the exact
-nineteen-case runner are unchanged. The old current-parent candidate remains
-byte-identical. No active workflow or database connection is introduced.
+nineteen-case runner are unchanged. The current reviewed Mandor candidate `c296fd06167ddd177e1192c1008992e2a1e3d628`,
+tree `fdd36962a7de81482ccca02e6ff96597cfc20081`, is retained byte-for-byte, including
+its complete caller prerequisites and integrated theme/stock reader. The 23
+original moving-preparation files remain exact to their separate immutable
+source tree; they are not a second financial run. No active workflow or database
+connection is introduced.
 
 ## Product and owning component
 
@@ -127,3 +131,19 @@ transaction, permission check in PostgreSQL, Auth request, browser or recovery.
 Actual combined Native19, current permissions/concurrency, real Auth/browser,
 full restoration, final UI/Global integration and independent review remain
 required. Production stays closed.
+
+## Current Mandor and UI preparation, 4 November 2026
+
+All current Mandor source files are exact to the candidate above. Its 656 src
+files and unchanged build inputs retain the successful 175-case DOM check and
+regular build; these are reused by exact identity, not counted as new tests.
+The money preparation still uses its original eight reversible execution routes
+and unchanged nineteen monetary callbacks. Its own source fence checks the
+current parent and the retained moving namespace separately. The historical
+unified/Mandor source fences apply inside the separate frozen Mandor worktree,
+not over a root with these 51 additional preparation files.
+
+This preparation base is not a Mandor17 Root receipt. Actual parent/source gates
+stay unset, and all new money, real Auth/concurrency and full recovery results
+remain required. The separately reproduced automatic rework/redye pending-cost
+counterexample remains open and is not covered by these nineteen cases.

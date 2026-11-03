@@ -1,0 +1,85 @@
+{
+  "status": "MANDOR_COMPLETE_ADVISOR_PREREQUISITES_PASS_NOT_ERP",
+  "source_tests_run": 10,
+  "PG17_negative_authority_mutations_refused": 25,
+  "exact_read_only_observer_queries": 8,
+  "closed_Mandor_tables": 15,
+  "inherited_Afui_tables": 3,
+  "actual_ERP_cases": 0,
+  "actual_Auth_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false,
+  "first_counterexample": "Old owning reviewer refuses the three retained actual Afui76 INFO findings; fifteen new Mandor tables also require review.",
+  "first_model_failure": "Two analysis query bindings were swapped by breadth-first AST order; source-line ordering fixes only the model. Product observer and all refusal criteria unchanged.",
+  "ordinary_product_SQL_or_permissions_changed": false,
+  "all_owning_financial_cases_and_restore_guards_unchanged": true,
+  "unchanged_parent_reviewer_called_on_complete_original_and_unclassified_remainder": true,
+  "files": {
+    "scripts/current-mandor-shop-native-qualification/advisor_review.py": {
+      "bytes": 8140,
+      "sha256": "4bfe15aedd3d61228f7f59b8b863b6109b8c8d6779797ccf0e9b9f4fe9da17e8"
+    },
+    "scripts/current-mandor-shop-native-qualification/test_advisor_preparation.py": {
+      "bytes": 8658,
+      "sha256": "d92eae09d75c6d6a67a5650413e02f46076ed5a51413c197b7acc2bdba1c177d"
+    },
+    "scripts/current-mandor-shop-native-qualification/preflight.py": {
+      "bytes": 10968,
+      "sha256": "ea789817b7ec0c48ca3fb702c5f1a8045853438f87302ea38d81f89595a5069d"
+    },
+    "scripts/current-mandor-shop-native-qualification/qualification.py": {
+      "bytes": 7161,
+      "sha256": "3f4bf0cfccbf650240729e01909dcb39b3e88371e59ee14a3bffc5f05934de0b"
+    },
+    "scripts/cp7_mandor_shop/INSTALL_PLAN.json": {
+      "bytes": 13274,
+      "sha256": "341f2cbd4a0e361bee275f9e66a15c5362a8cee9d3ba91e619b95f376aa7098a"
+    },
+    "scripts/cp7_accessory_nonpayable/advisor_review.py": {
+      "bytes": 4173,
+      "sha256": "bd1090e42a4a2519a10c5f2872599703606f9b922026d347b6f873ca368df0df"
+    }
+  },
+  "private_retained_evidence": {
+    "AFUI76_ACTUAL_ADVISOR_FIELDS.json": {
+      "bytes": 83670,
+      "sha256": "7e050b2818eee633b7c3d46de9970f960855db34282019a4f600d32c485ed7d1"
+    },
+    "ADVISOR_PREREQUISITE_FIRST_COUNTEREXAMPLE.json": {
+      "bytes": 2813,
+      "sha256": "8b6d663a2aaf313abeba6c15737db534e01596306bb0337976c477c7a7140aae"
+    },
+    "ADVISOR_SOURCE_FIRST.log": {
+      "bytes": 1949,
+      "sha256": "e9d95d168d2ce58c8a7278c71f0961ced7cae7f64d4cccfebcb04c1f9d0fde8f"
+    },
+    "ADVISOR_PG17_INPUT_FIRST.json": {
+      "bytes": 2322,
+      "sha256": "021e28c4c8a3562b6783657b144ac3921cb4e637027b0bfb5e49f3dea96bfcb7"
+    },
+    "ADVISOR_PG17_CAPTURE_FIRST.json": {
+      "bytes": 138626,
+      "sha256": "9065e8a66cf751e1d7b0e42ef63f4be2649d0f83c7cfae3cd093a003e03d1cf0"
+    },
+    "ADVISOR_PG17_ORACLE_FIRST_FAILURE.json": {
+      "bytes": 11761,
+      "sha256": "c10c4d169e81db5e5dbd64122f7e041ea704cfbf56e99d787e8fef9d260d0cfc"
+    },
+    "ADVISOR_PG17_INPUT.json": {
+      "bytes": 2395,
+      "sha256": "663cce001bcf7a855e8b768a5a3c18f5adf2b515e802749179855f6abf65b28d"
+    },
+    "ADVISOR_PG17_CAPTURE_SECOND.json": {
+      "bytes": 155410,
+      "sha256": "6b47cdc7959d6852146672a6ca4bab7db2d0c8bdf3853d6b404c78b4f436fb3d"
+    },
+    "ADVISOR_PG17_ORACLE_SECOND.json": {
+      "bytes": 4887,
+      "sha256": "a810d0a3b831438595625dec44cf719977d2582484680adf471721cb4ce6078a"
+    },
+    "ADVISOR_ALL_SOURCE_PREREQUISITES_FIRST.log": {
+      "bytes": 182,
+      "sha256": "359616a82b2109470c39b01dff1b40a12f351b66b556922236274214d2fd9794"
+    }
+  }
+}

@@ -6,7 +6,7 @@
 .native-planning input,.native-planning select,.native-planning textarea{min-width:0;width:100%;font:inherit;border:1px solid var(--line);border-radius:8px;background:var(--panel-2);color:var(--text);padding:10px}
 .native-planning textarea{min-height:86px;resize:vertical}.native-planning-reason{grid-column:1/-1}
 .native-planning button{min-height:42px;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--panel-2);color:var(--text);font:inherit;cursor:pointer}
-.native-planning button:disabled{opacity:.55;cursor:default}.native-planning-result{margin-top:18px;padding-top:14px;border-top:1px solid var(--line)}
+.native-planning button:disabled{opacity:1;cursor:default}.native-planning-result{margin-top:18px;padding-top:14px;border-top:1px solid var(--line)}
 .native-planning-result dl{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 .native-planning-result dl>div{padding:12px;background:var(--panel-2);border-radius:9px}.native-planning-result dt{color:var(--muted);font-size:13px}
 .native-planning-result dd{margin:8px 0 0;font-size:20px;font-weight:650;overflow-wrap:anywhere}

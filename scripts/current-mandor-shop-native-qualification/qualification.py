@@ -59,7 +59,7 @@ def runtime_inherited(raw,parent):
     require(Path(mandor.__file__).resolve()==ROOT/'scripts/cp7_mandor_shop/composition.py',
         'MANDOR_NATIVE_CURRENT_MANDOR_MODULE_REQUIRED')
     from cp7_accessory_nonpayable import assembly as afui,native_fixture as physical
-    import assembly,component,package_engine,package_identity
+    import assembly,component,package_engine,package_identity,advisor_review
     product=assembly.Assembly(afui,physical,mandor,raw)
     original=FROZEN/package_engine.ORIGINAL
     text,engine_proof=package_engine.derive(original.read_bytes())
@@ -85,6 +85,7 @@ def runtime_inherited(raw,parent):
         return connection
 
     engine.product=product;engine.runner=component.runner(product,trusted_connection)
+    engine.current_advisor=advisor_review
     engine.IDS=(component.CASE,);engine.LABEL=component.LABEL
     engine.REPO=ROOT;engine.PRE_DUMP='/tmp/current_mandor_native9_full_pre.dump'
     engine.OUT=ROOT/'cp6-proof/t3'/(component.LABEL+'.json')
@@ -95,6 +96,7 @@ def runtime_inherited(raw,parent):
         return dict(status='ACTUAL_AFUI15_PARENT_AND_UNIFIED_MANDOR_CALLER_SOURCE_ADMITTED',parent=parent,
             complete_sources=product.sources(),unified_source_fence=fence,whole_engine_derivation=engine_proof,
             owning_package_identity_source=package_identity.source(),
+            owning_advisor_source=advisor_review.source(),
             actual_Native_cases=0,actual_Auth_HTTP_cases=0,actual_browser_cases=0,production_go=False,independent_acceptance=False)
     engine.admitted=admitted
     return engine

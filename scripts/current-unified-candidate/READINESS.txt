@@ -7,3 +7,15 @@ This candidate is not runtime or financial acceptance. The standalone installers
 Native9 preparation retains the original six scenarios and adds lawful real return/correction, installment reopen/repay/reversal and current-rights/zero-net flows. All fixture actors, positive cash funding, explicit WIB dates, RPC signatures and SQL syntax are checked before runtime. Source-only evidence earns zero Native, Auth, race or browser credit. The Afui parent receipt and owning runtime entry remain unset until the actual Afui15/all-five/full restoration is independently accepted.
 
 Remaining acceptance includes actual financial lifecycles, partial allocation, selected payroll week, balance changes, reversals, race/idempotency, desktop/mobile, combined restoration and independent acceptance. Checkpoints remain save points; CP7 is incomplete.
+
+4 Nov 2026 — Reviewed theme and current stock reader integrated.
+The previous paragraph describes the historical pre-theme composition. Current
+src exactly matches reviewed UI 8678feba/tree6ff52aa4 (79 changed source paths),
+plus its exact stock-reader fixture. The old component/UI receipts remain byte
+identical and are checked through explicitly verified pre-theme presentation
+bytes; they do not claim current CSS is unchanged. All other Mandor preparation,
+SQL, rights, financial fixtures, recovery and workflows remain exact to 53123248.
+The theme source fence checks every current src file separately. Previously
+retained visual receipts are donor fixture evidence, not connected ERP or current
+financial acceptance. Actual Afui15 and all-five full restoration still gate
+Mandor17 admission; both runtime and production admission remain closed.

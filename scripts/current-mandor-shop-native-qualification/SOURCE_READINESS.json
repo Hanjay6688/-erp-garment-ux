@@ -22,8 +22,8 @@
       "sha256": "2fef6edab13d9b7fcf716fb85a5e8da08dc1d144713109950fc29cb8b9cedfa9"
     },
     "preflight.py": {
-      "bytes": 10060,
-      "sha256": "4fc5bf4d81f1180b81a88dabd973820ae2635ef4b8e444fc9865de008c0206e5"
+      "bytes": 10968,
+      "sha256": "ea789817b7ec0c48ca3fb702c5f1a8045853438f87302ea38d81f89595a5069d"
     },
     "assembly.py": {
       "bytes": 5817,
@@ -38,8 +38,8 @@
       "sha256": "3a4cc90a8fbebfb7a9a29c10d3fcc288b7db554d7f0c499e6bcb9b1433b3f0b8"
     },
     "qualification.py": {
-      "bytes": 6897,
-      "sha256": "d42d5ddd190a5c3e70b3e2e405733233cdb69d31de7798be9d0a93eeb234e761"
+      "bytes": 7161,
+      "sha256": "3f4bf0cfccbf650240729e01909dcb39b3e88371e59ee14a3bffc5f05934de0b"
     },
     "runtime_supervisor.py": {
       "bytes": 2726,
@@ -52,6 +52,14 @@
     "test_prerequisites.py": {
       "bytes": 4879,
       "sha256": "a4266a73cefdffe5a027105d5a7340c46c0ce0273bdc231aabe7c53be6dbf41e"
+    },
+    "advisor_review.py": {
+      "bytes": 8140,
+      "sha256": "4bfe15aedd3d61228f7f59b8b863b6109b8c8d6779797ccf0e9b9f4fe9da17e8"
+    },
+    "test_advisor_preparation.py": {
+      "bytes": 8658,
+      "sha256": "d92eae09d75c6d6a67a5650413e02f46076ed5a51413c197b7acc2bdba1c177d"
     },
     "access_cases.py": {
       "bytes": 18914,
@@ -1128,7 +1136,7 @@
     },
     {
       "file": "qualification.py",
-      "line": 96,
+      "line": 97,
       "name": "sources"
     },
     {
@@ -1551,7 +1559,7 @@
       "parameters": 3
     }
   ],
-  "fixed_observer_SQL_statements_parsed": 39,
+  "fixed_observer_SQL_statements_parsed": 47,
   "new_case_ids": [
     "FG_MANDOR_FUTURE_WEEK_DRAFT_RESERVE_RELEASE_THEN_ELIGIBLE_WEEK_300000_OFFSET_2000000_GROSS_1700000_NET_REPLAY",
     "FG_MANDOR_PARTIAL100000_REMAINDER200000_ON_SECOND_MANUALLY_SELECTED_WEEK",
@@ -1568,6 +1576,14 @@
     "status": "PASS",
     "tests": 6,
     "actual_Native_cases": 0
+  },
+  "complete_advisor_prerequisite_controls": {
+    "status": "PASS",
+    "tests": 10,
+    "actual_Native_cases": 0,
+    "actual_advisor_SQL_executed": 0,
+    "inherited_Afui_tables": 3,
+    "new_Mandor_tables": 15
   },
   "access_source_prerequisites": {
     "status": "MANDOR_ACCESS_FOUR_RACES_SOURCE_PREPARED_NOT_EXECUTED",

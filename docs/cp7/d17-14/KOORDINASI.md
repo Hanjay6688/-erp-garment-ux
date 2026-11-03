@@ -5733,3 +5733,13 @@ Riwayat gagal paralel lokal B11 tetap disimpan. Penghambat B untuk paket ini
 sudah tertutup; sisa CP7 adalah tugas A/integrasi/auditor dan kebijakan vendor
 yang belum dijawab. Peta16 OPEN_WORK dan sambungan tahap berikutnya ikut
 disimpan. Formal5/16, independent_acceptance=false, production_go=false.
+
+
+## 4 Nov 2026 — A, penggabungan tema selesai ke kandidat mandor
+
+A menggabungkan tepat 79 berkas src dan satu fixture pembaca stok dari kandidat UI
+8678feba ke kandidat mandor 53123248. Tema B diteruskan; pembaca stok baru tetap
+menampilkan kelengkapan HPP. App.tsx termasuk perubahan bersama oleh integrator.
+Tidak ada perubahan SQL, hak transaksi, fixture keuangan, recovery atau workflow
+aktif. Bukti visual donor dipakai hanya karena seluruh src dan input build sama;
+uji UI saat penggabungan terpisah dari penerimaan Afui/Mandor/SKU/Global.

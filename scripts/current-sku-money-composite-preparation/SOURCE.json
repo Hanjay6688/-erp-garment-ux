@@ -7,8 +7,8 @@
   "actual_parent_adopted": false,
   "all_admission_values_unset": true,
   "base": {
-    "public_head": "92f099e63ae46b1adac51cc7900811e9ea201437",
-    "tree": "8e48277b86c0325ae15793cd4d6b5094033c8c0e"
+    "public_head": "c296fd06167ddd177e1192c1008992e2a1e3d628",
+    "tree": "fdd36962a7de81482ccca02e6ff96597cfc20081"
   },
   "contract": "cp7.current-mandor-moving-money-direct-qualification-preparation.v1",
   "derivations": {
@@ -173,8 +173,8 @@
       "sha256": "ec7d6121a64286af4cbf77c333bde8f6ebd6cb069cdaf8b02dc8fb4e6ffd26b6"
     },
     "README.md": {
-      "bytes": 7909,
-      "sha256": "a5429a06e2b19b64835d08b19246c2fe6332bf5177841afc73e5ad14538082b9"
+      "bytes": 9192,
+      "sha256": "8e72ac5f6e5981b1af211bc6f2877918dcff304ea9fa8f0376f11e490f4b0232"
     },
     "SKU_MONEY_PREPARED_SOURCE_INTAKE.json": {
       "bytes": 368964,
@@ -197,8 +197,8 @@
       "sha256": "ca6829e41a08c20ac8f53148a2e163050a4bfe7e1ca3277b73d9a892a83b63a6"
     },
     "check_source.py": {
-      "bytes": 3661,
-      "sha256": "b91b7eb5a19de7b857019cfe1f8ccb167dbcd6a58bc872f98545a5d2a4f9e160"
+      "bytes": 4906,
+      "sha256": "f60f65d8ba9b51322ca1a4ea2b8a7467af36520ad27f8af68214c4ca5ff1261a"
     },
     "component.py": {
       "bytes": 3335,
@@ -278,5 +278,172 @@
     }
   },
   "independent_acceptance": false,
-  "production_go": false
+  "production_go": false,
+  "retained_moving_preparation": {
+    "files": {
+      "scripts/current-sku-composite-preparation/.gitattributes": {
+        "blob": "d031e2f8ae1a95b2b633d4b4e982c942d79aacb3",
+        "pin": {
+          "bytes": 133,
+          "sha256": "b5cfa8eeb56ff2f632d6b40c1dbfa7695f27d7b6b91d6d0e357ae153852ba11a"
+        }
+      },
+      "scripts/current-sku-composite-preparation/README.md": {
+        "blob": "9418e6aa390e6fd3b9e268adb389cec9f6220d90",
+        "pin": {
+          "bytes": 6444,
+          "sha256": "6727a53877e7fa7a9fb8479fdd2fa4d4202de5a1933d283ada7aa356b38751cf"
+        }
+      },
+      "scripts/current-sku-composite-preparation/SOURCE.json": {
+        "blob": "0012f2a317c7bcce45fe67bbfaf69c1897657234",
+        "pin": {
+          "bytes": 4741,
+          "sha256": "24a1009e1efb0044b62a323a0cdd9dc4737dc8d45d61a767c554474e5b2f5195"
+        }
+      },
+      "scripts/current-sku-composite-preparation/check_source.py": {
+        "blob": "7b2af46d3f86afd837700109e7a4ae8f0abdde4a",
+        "pin": {
+          "bytes": 3096,
+          "sha256": "56e274cfd5a22fabe55b7bcf69786685bd7410d14260461171d88cb11f559772"
+        }
+      },
+      "scripts/current-sku-composite-preparation/original_composition.py.txt": {
+        "blob": "41be233d1bb8f579646b91d33fd2b0ad10ba3a0f",
+        "pin": {
+          "bytes": 14012,
+          "sha256": "da1f275fa0e91ecbbaa5bcedff65ba0391b162108cc9e91b98a5e2c9f746465f"
+        }
+      },
+      "scripts/current-sku-composite-preparation/original_runner.py.txt": {
+        "blob": "4d3079a2becd3b38a2f912914e9cd0a7c3cc90ce",
+        "pin": {
+          "bytes": 4275,
+          "sha256": "86223b628bd9a7ab296826624d7f54af7c965af6230ba191ff82795fc4199423"
+        }
+      },
+      "scripts/current-sku-composite-preparation/sku-current-parent-native6.workflow.yml.txt": {
+        "blob": "e0e33ff15b4115da5f4a7a48fc3e92d3f4d373e6",
+        "pin": {
+          "bytes": 33723,
+          "sha256": "20bf3fa9474ea463a29bed6ab892f06b2072fbdd341452580c7304ace518c231"
+        }
+      },
+      "scripts/current-sku-composite-preparation/sku_current_parent_admission.py": {
+        "blob": "5af1ed76165e09214a728264f688f8dcf0e6a7b3",
+        "pin": {
+          "bytes": 2488,
+          "sha256": "fe3e8c2984115c4b5080f38601ce658e1d712ecee48412dd40b388d805194f08"
+        }
+      },
+      "scripts/current-sku-composite-preparation/sku_current_parent_artifacts.py": {
+        "blob": "23a0694b0a528d9d8b04b571e678ec5c5dda5987",
+        "pin": {
+          "bytes": 4111,
+          "sha256": "5fff05a7f4c315eda06dbd2ce313dea780a894a69f77d76eb3e29de0b06358fd"
+        }
+      },
+      "scripts/current-sku-composite-preparation/sku_current_parent_assembly.py": {
+        "blob": "a329c88d02cb92fc3ecb3d8ab9d80ab1e88b7c40",
+        "pin": {
+          "bytes": 5392,
+          "sha256": "dc3611001d76f95e15e8e22bdf530b5c9604d2fca3b8cbf4353651d920638ec4"
+        }
+      },
+      "scripts/current-sku-composite-preparation/sku_current_parent_component.py": {
+        "blob": "e19a904e92d81247b4bb5d80d71ad1592671a2d0",
+        "pin": {
+          "bytes": 2975,
+          "sha256": "c5c7e26e45947d0bfc24c7db5fa65e25b366bd57da7b01b903584cfd5e2c960c"
+        }
+      },
+      "scripts/current-sku-composite-preparation/sku_current_parent_derive.py": {
+        "blob": "fea9cf1435d108b6e42f9656d2c75221290fb03c",
+        "pin": {
+          "bytes": 2693,
+          "sha256": "86c42eb2caa7171cb94bdbd6c6e8e6680cab5faeaf27df99720c81426edf529f"
+        }
+      },
+      "scripts/current-sku-composite-preparation/sku_current_parent_fetch.py": {
+        "blob": "82211e323090ad429854356829836ef36d4b3c4f",
+        "pin": {
+          "bytes": 4386,
+          "sha256": "51ca3c5a2f9122b0c51aa17fd0fe0da0a29aaf917786175f8b2515a3c6129389"
+        }
+      },
+      "scripts/current-sku-composite-preparation/sku_current_parent_final_gate.py": {
+        "blob": "4c4db2ba3f730840a6c9de3b6c14fe9fad195935",
+        "pin": {
+          "bytes": 8043,
+          "sha256": "fd12610077e12425377b70176164e11419cca55e2a068ef10e824566e6e33653"
+        }
+      },
+      "scripts/current-sku-composite-preparation/sku_current_parent_materialize.py": {
+        "blob": "090908da3f8550599380e79261fa702a94f445ed",
+        "pin": {
+          "bytes": 2149,
+          "sha256": "3c2129031ef5da2d353f21c724d46fb959319893d13148f7de000841b3e2ff05"
+        }
+      },
+      "scripts/current-sku-composite-preparation/sku_current_parent_package.py": {
+        "blob": "e6eca8969738a4cffe75f1c5c3b3950f618fcf57",
+        "pin": {
+          "bytes": 2837,
+          "sha256": "9e216e5face39f4c6eebfe75ab9bea1474fe2c6e1ae5855b41d21372e59a974a"
+        }
+      },
+      "scripts/current-sku-composite-preparation/sku_current_parent_receipts.py": {
+        "blob": "8fc2b4a8049f1b3f00adc775088ee8a095c87fb9",
+        "pin": {
+          "bytes": 2076,
+          "sha256": "f91e94dc271596be7a83a1bb09b90b0410cc1d2f42110bc949466029dba2e575"
+        }
+      },
+      "scripts/current-sku-composite-preparation/sku_current_parent_runtime.py": {
+        "blob": "c52854782f6e2f86e13188dd2653775293badb65",
+        "pin": {
+          "bytes": 7576,
+          "sha256": "acc7af781b2e1e3d30ccbb8b591193e3ff15b3a1441471d523d39dae14e042cb"
+        }
+      },
+      "scripts/current-sku-composite-preparation/sku_current_parent_supervisor.py": {
+        "blob": "04dded9015d5314ee1e6a67d5e784d79233de186",
+        "pin": {
+          "bytes": 2246,
+          "sha256": "2d5c961d997f62987061547743a4f4ba6d2aea74d0a29b3d5f588ee9f7ab8038"
+        }
+      },
+      "scripts/current-sku-composite-preparation/sku_current_parent_workflow.py": {
+        "blob": "f12aee829f6aed96968c50bc94d93be14279273e",
+        "pin": {
+          "bytes": 6903,
+          "sha256": "10e0fe84f9e0090427c802dfbe8d200d8312abdcbbc329a6f598b92a316a9192"
+        }
+      },
+      "scripts/current-sku-composite-preparation/test_bridge.py": {
+        "blob": "45e070bc883a01e3459239af74ff2543063c960c",
+        "pin": {
+          "bytes": 7860,
+          "sha256": "e53bd9438da9e72e74eccbad415ca6309431c73ca912611679365657f38b5cc6"
+        }
+      },
+      "scripts/current-sku-composite-preparation/test_execution_preparation.py": {
+        "blob": "daf086c28a46b615043cd6fbe37581b90bb33651",
+        "pin": {
+          "bytes": 17238,
+          "sha256": "a1174de74c8f1d2b7d044fa35aed9e4d2c4fafd744c8e7fc37214f4ec46cb195"
+        }
+      },
+      "scripts/current-sku-composite-preparation/test_owning_preparation.py": {
+        "blob": "00548f6b57d218643f8c28aff4f7c58b026846f8",
+        "pin": {
+          "bytes": 8481,
+          "sha256": "8edd4cfb9c6f9e9e3d4c01ac1bb46d10fbb9c303859047feacbb5a6b76886b6a"
+        }
+      }
+    },
+    "namespace": "scripts/current-sku-composite-preparation/",
+    "tree": "8e48277b86c0325ae15793cd4d6b5094033c8c0e"
+  }
 }

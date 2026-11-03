@@ -1,17 +1,13 @@
 .native-bounded-quantity {
-  --surface: #fff;
-  --text: #24352e;
-  --soft: #33473d;
-  --muted: #53655b;
-  --line: #cfd8d3;
-  --border: #cfd8d3;
+  --surface: var(--panel);
+  --border: var(--line);
   min-width: 0;
   max-width: 100%;
   box-sizing: border-box;
   padding: 16px;
   border: 1px solid var(--line);
   border-radius: 12px;
-  background: #f8faf9;
+  background: var(--panel);
   color: var(--text);
 }
 .native-bounded-quantity > header,
@@ -31,14 +27,14 @@
 .native-bounded-quantity button {
   min-height: 40px;
   padding: 8px 12px;
-  border: 1px solid #9aafa2;
+  border: 1px solid var(--control-border);
   border-radius: 8px;
-  background: #fff;
-  color: #24352e;
+  background: var(--panel);
+  color: var(--text);
   white-space: normal;
 }
-.native-bounded-quantity button:disabled { opacity: .6; cursor: default; }
-.native-bounded-quantity [role=alert] { color: #922b25; }
+.native-bounded-quantity button:disabled { opacity: 1; cursor: default; }
+.native-bounded-quantity [role=alert] { color: var(--text); }
 .native-bounded-quantity .responsive-table { max-width: 100%; overflow: auto; }
 .native-bounded-quantity .responsive-table table {
   width: 100%;
@@ -55,10 +51,10 @@
   letter-spacing: normal;
   text-transform: none;
   font-size: 14px;
-  color: #24352e;
+  color: var(--text);
   font-variant-numeric: tabular-nums;
 }
-.native-bounded-quantity .responsive-table th { font-size: 12px; color: #41564b; }
+.native-bounded-quantity .responsive-table th { font-size: 13px; color: var(--text); }
 @media (max-width: 680px) {
   .native-bounded-quantity { padding: 12px; }
   .native-bounded-quantity .responsive-table { overflow: visible; }
@@ -73,7 +69,7 @@
     content: attr(data-label);
     display: block;
     margin-bottom: 4px;
-    color: #41564b;
+    color: var(--muted);
     font-size: 13px;
     font-weight: 700;
   }
@@ -100,9 +96,9 @@
   width: 100%;
   box-sizing: border-box;
   padding: 10px;
-  color: #24352e;
-  background: #fff;
-  border: 1px solid #9aafa2;
+  color: var(--text);
+  background: var(--panel);
+  border: 1px solid var(--control-border);
   border-radius: 6px;
 }
 .native-bounded-quantity .native-analog-choice .native-analog-review {

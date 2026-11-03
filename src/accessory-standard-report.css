@@ -1,21 +1,21 @@
-.panel.asr-report { min-width: 0; max-width: 100%; padding: 20px; background: #111522; color: #f4f6fb; overflow-wrap: anywhere; }
+.panel.asr-report { min-width: 0; max-width: 100%; padding: 20px; background: var(--panel); color: var(--text); overflow-wrap: anywhere; }
 .asr-report .asr-filters { display: flex; flex-wrap: wrap; gap: 12px; align-items: end; margin: 16px 0; }
 .asr-report label { display: grid; min-width: 0; gap: 5px; font-weight: 600; }
-.asr-report input, .asr-report select { min-width: 0; max-width: 100%; padding: 8px; border: 1px solid #64748b; border-radius: 8px; background: #0a0c14; color: #f4f6fb; color-scheme: dark; font: inherit; }
+.asr-report input, .asr-report select { min-width: 0; max-width: 100%; padding: 8px; border: 1px solid var(--control-border); border-radius: 8px; background: var(--panel); color: var(--text); color-scheme: light; font: inherit; }
 .asr-report select { width: 100%; }
-.asr-report button { min-height: 40px; max-width: 100%; padding: 8px 12px; border: 1px solid #64748b; border-radius: 8px; background: #202b42; color: #f4f6fb; white-space: normal; overflow-wrap: anywhere; }
+.asr-report button { min-height: 40px; max-width: 100%; padding: 8px 12px; border: 1px solid var(--control-border); border-radius: 8px; background: var(--panel); color: var(--text); white-space: normal; overflow-wrap: anywhere; }
 .asr-report .asr-contractors ul { display: flex; flex-wrap: wrap; gap: 8px; padding: 0; list-style: none; }
 .asr-report .asr-contractors li { min-width: 0; max-width: 100%; }
-.asr-report button[aria-pressed="true"] { outline: 2px solid currentColor; outline-offset: 2px; background: #294258; font-weight: 700; }
+.asr-report button[aria-pressed="true"] { outline: 2px solid currentColor; outline-offset: 2px; background: var(--panel); font-weight: 700; }
 .asr-report .asr-po { max-width: 38rem; margin: 16px 0; }
 .asr-report .asr-scroll { min-width: 0; max-width: 100%; overflow-x: auto; }
 .asr-report table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
 .asr-report caption { text-align: left; padding: 8px 0; font-weight: 600; }
-.asr-report th, .asr-report td { text-align: left; padding: 10px; border-bottom: 1px solid #d1d5db; vertical-align: top; min-width: 120px; }
+.asr-report th, .asr-report td { text-align: left; padding: 10px; border-bottom: 1px solid var(--line); vertical-align: top; min-width: 120px; }
 .asr-report th small { display: block; max-width: 260px; font-weight: 400; }
-.asr-report .asr-source { margin-top: 16px; padding: 12px; border: 1px solid #d1d5db; border-radius: 8px; }
+.asr-report .asr-source { margin-top: 16px; padding: 12px; border: 1px solid var(--line); border-radius: 8px; }
 .asr-report summary { cursor: pointer; font-weight: 600; min-height: 32px; }
-.asr-report article { padding: 12px 0; border-top: 1px solid #d1d5db; }
+.asr-report article { padding: 12px 0; border-top: 1px solid var(--line); }
 .asr-report dl { display: grid; grid-template-columns: minmax(130px, 1fr) minmax(0, 3fr); gap: 5px 12px; font-size: .9rem; }
 .asr-report dt { font-weight: 600; }
 .asr-report dd { margin: 0; overflow-wrap: anywhere; }

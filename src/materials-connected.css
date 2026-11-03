@@ -1,9 +1,9 @@
 .cmat-tabs { display: flex; gap: 10px; flex-wrap: wrap; }
-.cproc.cmat .cmat-tabs button[aria-pressed="true"] { background: #293f5b; border-color: #819adc; color: #fff; }
+.cproc.cmat .cmat-tabs button[aria-pressed="true"] { background: var(--panel); border-color: var(--control-border); color: var(--text); }
 .cmat-totals { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; }
 .cmat-totals article { display: grid; gap: 10px; }
 .cmat-totals strong { font-size: 30px; font-variant-numeric: tabular-nums; }
-.cmat-roll { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; border-top: 1px solid #354159; padding: 18px 0; overflow-wrap: anywhere; }
+.cmat-roll { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; border-top: 1px solid var(--line); padding: 18px 0; overflow-wrap: anywhere; }
 .cmat-roll small { display: block; }
 .cmat-roll .cproc-inline, .cmat-value { grid-column: 1 / -1; }
 .cmat-quantity { text-align: right; font-variant-numeric: tabular-nums; }
