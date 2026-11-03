@@ -11,7 +11,8 @@ from valuation_delta import Derivation
 HERE=Path(__file__).resolve().parent
 PARENT=HERE.parent/'cp7_sku_moving_average'
 PINS={'consumer_delta.py':'958dd155969a85c75ed78b5d9bb4853f7c262739b91fc8bcdcdb3fff1fa6fa8a',
-      'credit_delta.py':'40db04666d22bd619cdba2a7e3e44b848ca55d8d73cf880f3ead7a9f1cf74945'}
+      'credit_delta.py':'40db04666d22bd619cdba2a7e3e44b848ca55d8d73cf880f3ead7a9f1cf74945',
+      'private_delta.py':'e57e89f8291a7b62ce1584b4f30b4927dadac9b5bbb17feefe1c97c6c8f4218e'}
 
 
 def parent(name):

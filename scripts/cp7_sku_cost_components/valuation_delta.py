@@ -141,7 +141,12 @@ def derive():
     save(name,d)
 
     name='reverse_valuation_v2';d=edit(name)
+    d.once("v_lines jsonb:='[]'::jsonb;r record;", "v_lines jsonb:='[]'::jsonb;r record;v_inverse_before jsonb;",'current inverse proof state')
+    d.once(' v_delta:=-p.correction_value;', ' v_inverse_before:=cp7_sku_conversion.capture_group_inverse_v3(p_group);\n v_delta:=-p.correction_value;',
+        'require exact books after retained Native inverse and before historical correction')
     d.once('end $$;'," perform cp7_sku_conversion.reverse_costs_v3('SKU_CONVERSION',p_group);\nend $$;",'append exact inverse cost events')
+    d.once('end $$;', ' perform cp7_sku_conversion.rebalance_group_inverse_v3(p_group,v_inverse_before);\nend $$;',
+        'zero source change and balanced current inverse after immutable historical reversal')
     save(name,d)
 
     name='status_component_reverse_v2';d=edit(name)

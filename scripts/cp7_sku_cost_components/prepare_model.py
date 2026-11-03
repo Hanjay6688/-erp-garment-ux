@@ -30,7 +30,13 @@ def prepare(destination):
     input['definitions'],consumer_routes=derive_consumers({sig:catalog['functions'][sig][0]for sig in parent('consumer_delta.py').SIGNATURES})
     input['credit_definitions'],credit_routes=derive_credit({sig:catalog['functions'][sig][0]for sig in parent('credit_delta.py').SIGNATURES})
     input['valuation_definitions'],valuation_routes=derive()
+    from private_inverse_delta import derive as derive_inverse_action,SIGNATURE as inverse_signature
+    originals={sig:catalog['functions'][sig][0]for sig in parent('private_delta.py').SIGNATURES}
+    inverse_action,inverse_routes=derive_inverse_action(originals)
+    input['private_inverse_definition']={inverse_signature:inverse_action}
+    input['private_inverse_routes']=inverse_routes
     input['cost_ddl']=(HERE/'costs.sql').read_text()
+    input['cost_ddl']+='\n'+(HERE/'inverse_rebalance.sql').read_text()
     if os.environ.get('CP7_COST_REBALANCE')=='1':
         from source_delta import derive as derive_source,SIGNATURE
         input['cost_functions'][SIGNATURE],source_routes=derive_source(catalog['functions'][SIGNATURE][0])
@@ -93,9 +99,27 @@ def prepare(destination):
     complete_modeled_rows_restored:true,product_fix_admitted:false,actual_ERP_cases:0});"""
             d.once(old,(HERE/'chain_repair_checks.mjs.inc').read_text().rstrip(),'same independent expected 37 per SKU now requires successful exact journals')
             d.once("status:'POSTGRES17_COST_CHAIN_COUNTEREXAMPLES_CONFIRMED_NOT_ACCEPTED'","status:'POSTGRES17_COST_CHAIN_SOURCE_REBALANCE_MODELED_PASS_NOT_NATIVE'",'explicit local repair status, no actual acceptance')
-            if os.environ.get('CP7_COST_CENT_COUNTER')=='1':
+            if os.environ.get('CP7_COST_INVERSE_REPAIR')=='1':
+                inverse_cases=(HERE/'inverse_cases.mjs.inc').read_text()
+                if os.environ.get('CP7_COST_CAPACITY_ONLY')=='1':
+                    isolated=Derivation(inverse_cases)
+                    isolated.once('for(const physicalSource of[x.root50,x.converted])','for(const physicalSource of[])','skip already executed twelve current-value inverse controls')
+                    isolated.once('assert.equal(currentInverseFindings.length,12);','assert.equal(currentInverseFindings.length,0);','no borrowed inverse execution credit')
+                    isolated.once('assert.equal(currentInverseFindings.length,13);','assert.equal(currentInverseFindings.length,1);','only the economic capacity refusal executes')
+                    if isolated.inverse()!=inverse_cases:raise ValueError('COST_INVERSE_CASE_ISOLATION_NOT_REVERSIBLE')
+                    inverse_cases=isolated.source
                 d.once(" const report={costChainFindings,status:'POSTGRES17_COST_CHAIN_SOURCE_REBALANCE_MODELED_PASS_NOT_NATIVE'",
-                    (HERE/'cent_inverse_counterexamples.mjs.inc').read_text()+"\n const report={costChainFindings,remainingCostGaps,status:'MODELED_SOURCE_CENTS_AND_CURRENT_INVERSE_GAPS_CONFIRMED_NOT_ACCEPTED'",'retain new source penny and current inverse gaps without relaxing any money guard')
+                    inverse_cases+"\n const report={costChainFindings,currentInverseFindings,status:'MODELED_CURRENT_VALUE_INVERSE_PASS_NOT_NATIVE'",'current inverse after positive negative zero and fractional cost, unchanged source facts and strict refusals')
+            if os.environ.get('CP7_COST_CENT_COUNTER')=='1':
+                retained_counters=(HERE/'cent_inverse_counterexamples.mjs.inc').read_text()
+                current_counters=Derivation(retained_counters)
+                current_counters.once('assert.equal(Number(book.find(b=>b.product_id===x.target).fg),inverseBook);',
+                    'assert.equal(Number(book.find(b=>b.product_id===x.target).fg),70);','current inverse repairs retained source book counterexample')
+                current_counters.once('assert.equal(Number(book.find(b=>b.product_id===child.product).fg),70-inverseBook);',
+                    'assert.equal(Number(book.find(b=>b.product_id===child.product).fg),0);','current inverse clears descendant book')
+                if current_counters.inverse()!=retained_counters:raise ValueError('COST_RETAINED_COUNTER_DERIVATION_NOT_REVERSIBLE')
+                d.once(" const report={costChainFindings,status:'POSTGRES17_COST_CHAIN_SOURCE_REBALANCE_MODELED_PASS_NOT_NATIVE'",
+                    current_counters.source+"\n const report={costChainFindings,remainingCostGaps,status:'MODELED_SOURCE_CENTS_STILL_REFUSED_CURRENT_INVERSE_REPAIRED_NOT_NATIVE'",'source penny guard unchanged, current inverse checked against the repaired expected values')
     if d.inverse()!=original.decode():raise ValueError('COST_MODEL_HARNESS_NOT_REVERSIBLE')
     (destination/'test_cost_successor.mjs').write_text(d.source)
     print(json.dumps(dict(status='COMPLETE_COST_MODEL_PREPARED',typed_tables=len(input['columns']),

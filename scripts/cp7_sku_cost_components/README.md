@@ -77,11 +77,36 @@ an explicit postcondition model, not an actual WIP/accessory command. Two
 descendant models now pass 36/36→37/37→35/35, preserve old cost facts, create no
 facts on unchanged replay, and refuse equal-and-opposite pre-existing drift.
 
-Two further gaps are deliberately still blocking adoption. A source correction
+Two further gaps were retained before the next repair. A source correction
 of 2.01 split between the two SKUs is independently rounded to 2.02; the exact
 source guard refuses rather than inventing a cent. Reversing the second group
 after cost returns to zero still reverses the old value snapshot: modeled Native
 inverse postconditions plus the exact prepared inverse leave books 71/-1 or
 69/1 where current targets require 70/0. Those first observations are preserved.
 The Native inverse command itself has not been qualified by these models.
-Source-cent ownership and current-value inverse need repair before integration.
+Source-cent ownership still needs repair before integration.
+
+The prepared inverse now retains every original historical correction, captures
+exact target/book state after the unchanged Native inverse, proves that source
+HPP and cost facts stay unchanged, and requires zero total source and book
+change before a balanced current-value redistribution. One private immutable
+proof table records the before/after state. Twelve modeled inverses pass across
+two physical-lot choices and current costs 0, 2, 4, -2, -4 and 4.02. They also
+refuse missing Native inverses, opposite pre-existing book drift and repeated
+private inverses without side effects. These remain modeled Native postconditions,
+not execution of the real Native inverse command or its authority lifecycle.
+
+A separate economic-capacity guard is bound after the original private/Native
+preconditions and before any Native member inverse. The exact prepared guard
+passes those twelve valid cases. A separate first successful refusal case posts
+the exact sale SQL against another physical lot: the original child remains
+unused, but its economic components are partly sold, so reversal refuses before
+any inverse mutation. The private action binding is reversibly prepared; it has
+not been executed as an authenticated ERP command.
+
+First failures are retained: an ambiguous SQL alias, a negative fixture that
+incorrectly retained USAGE instead of starting as RECOVERY, a missing loader pin
+before execution, and a sale fixture whose reservation date differed from its
+header. The last fixture alone was corrected and rerun with the twelve already
+executed inverses skipped; no fresh credit is borrowed for skipped cases.
+All eleven admission gates remain unset, including real current-value inverse.
