@@ -4,7 +4,7 @@ from hashlib import sha256
 import json,re
 
 HERE=Path(__file__).resolve().parent
-COUNTS=dict(columns=107,constraints=59,functions=31,indexes=17,relations=25,triggers=96,type_implementation=16,types=16)
+COUNTS=dict(columns=117,constraints=66,functions=32,indexes=18,relations=27,triggers=109,type_implementation=18,types=18)
 GROUPS=('schemas','relations','columns','constraints','indexes','triggers','functions','aggregates','types','enums',
  'sequences','policies','extensions','roles','memberships','event_triggers','rules','inheritance','default_privileges',
  'database_authority','type_implementation','sequence_ownership')
@@ -36,7 +36,7 @@ def expected(product):
     for sig,row in profile['replacement_functions'].items():
         if row[1:]!=profile['replacement_before'][sig][1:]:raise ValueError('SKU_MONEY_EXISTING_AUTHORITY_CHANGED:'+sig)
     tables=tuple(re.findall(r'^create table ([\w.]+)\(',product['ddl'],re.M))
-    if len(tables)!=8 or set(tables)!={k for k,v in profile['groups']['relations'].items()if v[1]=='r'}:
+    if len(tables)!=9 or set(tables)!={k for k,v in profile['groups']['relations'].items()if v[1]=='r'}:
         raise ValueError('SKU_MONEY_TABLE_SET_CHANGED')
     return profile,tables
 

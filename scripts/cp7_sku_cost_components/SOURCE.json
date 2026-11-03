@@ -35,24 +35,24 @@
     "actual_ERP_cases": 0,
     "actual_used_restore": false,
     "all_catalog_groups": 22,
-    "changed_functions": 22,
+    "changed_functions": 26,
     "existing_metadata_attributes_preserved": 18,
     "explicit_empty_PG17_inverse_exact": true,
     "negative_catalog_controls": 16,
-    "new_private_functions": 31,
-    "new_private_tables": 8,
-    "replacement_definitions": 26,
+    "new_private_functions": 32,
+    "new_private_tables": 9,
+    "replacement_definitions": 30,
     "status": "PREPARED_EXACT_PARENT_INSTALL_AND_UNUSED_INVERSE_NOT_ACTUAL_ERP",
     "workflow_armed": false
   },
   "files": {
     "scripts/cp7_sku_cost_components/CATALOG_ADDITIONS.json": {
-      "bytes": 647130,
-      "sha256": "d33d1b55ab2533c8e0914e1c67f313783063b0d3b803340f7f01553ca248e275"
+      "bytes": 692634,
+      "sha256": "f20c1d95d429c9d05c2d9f941e19471e263271c33832e6e2da116052edffd22e"
     },
     "scripts/cp7_sku_cost_components/README.md": {
-      "bytes": 16540,
-      "sha256": "cc2672e832fb27a9e2fa195826c2082dfe1ff6a126bca8763450569673e365f8"
+      "bytes": 19051,
+      "sha256": "92668d3fd3ae3ee35165e73eaeee4ea4d3d7bb8168c3ea31d3a18027406dd821"
     },
     "scripts/cp7_sku_cost_components/base_cent_cases.mjs.inc": {
       "bytes": 2463,
@@ -83,8 +83,8 @@
       "sha256": "506ac318ed72e265d5f00c93f38bee4f37624781a25873443a8044a56f537610"
     },
     "scripts/cp7_sku_cost_components/catalog_additions.py": {
-      "bytes": 3714,
-      "sha256": "e5eeae46ec4551a3bf0688c974a2e621c16a956c926c56d2e171c24d72e898ab"
+      "bytes": 3715,
+      "sha256": "4b272fe78d1cd8124c835e461ed5b830346ce36d3fbeaee5750f0ce93d65202c"
     },
     "scripts/cp7_sku_cost_components/cent_inverse_counterexamples.mjs.inc": {
       "bytes": 3270,
@@ -126,6 +126,26 @@
       "bytes": 10437,
       "sha256": "8d681ce43fca746e1fd89d9a7ebbd351ad7979789f9f0f0c39952177f9d4e188"
     },
+    "scripts/cp7_sku_cost_components/legacy.sql": {
+      "bytes": 3038,
+      "sha256": "f814b6b172c2ed1a5838bd9e4281c28cb8b68707a3865e106ad72bcc8526b07f"
+    },
+    "scripts/cp7_sku_cost_components/legacy_cases.mjs.inc": {
+      "bytes": 12122,
+      "sha256": "0b1119afaaf6bcda92acebaef89d8c2b65d218db75d0d5579546a8d34fb0fd86"
+    },
+    "scripts/cp7_sku_cost_components/legacy_delta.py": {
+      "bytes": 10528,
+      "sha256": "5d095b410101dd1eeca452a5e87da8fd8f5351f48f8c60046469f788630a96c7"
+    },
+    "scripts/cp7_sku_cost_components/legacy_followup_cases.mjs.inc": {
+      "bytes": 4633,
+      "sha256": "1af650f2136b558235742075addf9b86e9737d388d9601456673a91908497a1e"
+    },
+    "scripts/cp7_sku_cost_components/legacy_model_setup.mjs.inc": {
+      "bytes": 4377,
+      "sha256": "fbf23cf09bda180ddda9025e805e9e92cd6367c1bec86ad4cd7609a0f33575a1"
+    },
     "scripts/cp7_sku_cost_components/money.sql": {
       "bytes": 14540,
       "sha256": "58ea892a29077535cbb417a3aac750a3b35996027d8d6b10851aa5030b92cc69"
@@ -151,16 +171,20 @@
       "sha256": "6a0627fa980634bb2b4b812d6f53848aed5b85a206915b465b665b627268ebf7"
     },
     "scripts/cp7_sku_cost_components/prepare_catalog.py": {
-      "bytes": 2936,
-      "sha256": "957b3d76e39eeb2f0db8ec14caf5c3bfe0f3454d695930814400165bb910d8da"
+      "bytes": 3042,
+      "sha256": "48ef52a251d9d1c8be2fb3bbaa62ac5535323d3614606f51ad1ea19c971620b4"
+    },
+    "scripts/cp7_sku_cost_components/prepare_legacy_model.py": {
+      "bytes": 7242,
+      "sha256": "9033aceab2525831dd234386f637898b270d965aeb701188a135fc3b164459f1"
     },
     "scripts/cp7_sku_cost_components/prepare_model.py": {
       "bytes": 24528,
       "sha256": "e2f2b43b7dce96a529e7b837c923580d3fcdf4fe3d205dab9b37281ca44207dd"
     },
     "scripts/cp7_sku_cost_components/prepared_product.py": {
-      "bytes": 2921,
-      "sha256": "95e3a4eedef071b8b74cac7d08783d5a6c27246935df5e29ff6ba951f4a8e401"
+      "bytes": 3153,
+      "sha256": "786a8fede0530c1b8f1e3be6797d74ceef2c17dceda97e8a74f6381411ed2652"
     },
     "scripts/cp7_sku_cost_components/private_inverse_delta.py": {
       "bytes": 1231,
@@ -208,6 +232,24 @@
     "installer_and_unused_inverse": null,
     "legacy_single_lot": null,
     "used_restore": null
+  },
+  "legacy_preparation": {
+    "actual_Auth_HTTP_cases": 0,
+    "actual_ERP_cases": 0,
+    "actual_two_session_races": 0,
+    "automatic_rework_redye_and_outer_context_model": true,
+    "exact_original_Native_bodies": true,
+    "existing_catalog_groups": 22,
+    "first_fixture_failure_financial_credit": 0,
+    "first_known_source_read_custody_failure_preserved": true,
+    "first_outer_context_default_failure_preserved": true,
+    "first_unchanged_product_counter_preserved": true,
+    "focused_business_checks": 11,
+    "full_unfiltered_checks": 91,
+    "original_Native_replay_namespace_preserved": true,
+    "original_physical_selection_preserved": true,
+    "production_go": false,
+    "status": "MODELED_NATIVE_LEGACY_BODIES_PASS_NOT_ERP"
   },
   "monetary_custody_preparation": {
     "actual_ERP_cases": 0,

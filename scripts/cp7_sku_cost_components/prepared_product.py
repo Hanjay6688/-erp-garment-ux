@@ -7,11 +7,11 @@ catalogue. Every original-source guard remains in its owning derivation.
 from hashlib import sha256
 from pathlib import Path
 import json
-from . import valuation_delta,financial_delta,source_delta,money_delta,base_money_delta,private_inverse_delta
+from . import valuation_delta,financial_delta,source_delta,money_delta,base_money_delta,private_inverse_delta,legacy_delta
 
 HERE=Path(__file__).resolve().parent
 PARENT=HERE.parent/'cp7_sku_moving_average'
-SQL_FILES=('costs.sql','inverse_rebalance.sql','source_rebalance.sql','money.sql','base_money.sql')
+SQL_FILES=('costs.sql','inverse_rebalance.sql','source_rebalance.sql','money.sql','base_money.sql','legacy.sql')
 
 
 def parent_original_signatures():
@@ -30,13 +30,16 @@ def derive(current_catalog,parent_originals):
     money,valuation,money_routes=money_delta.definitions(valuation)
     credit,money_credit_routes=money_delta.credit_definitions(credit)
     valuation,consumers,credit,base_routes=base_money_delta.definitions(valuation,consumers,credit)
+    legacy,legacy_routes=legacy_delta.derive(current_catalog,private)
     parent_profile=json.loads((PARENT/'CATALOG_ADDITIONS.json').read_bytes())['groups']['functions']
     definitions=dict(consumers)|dict(credit)|{private_inverse_delta.SIGNATURE:private,source_delta.SIGNATURE:source}
     for name,definition in valuation.items():
         keys=[sig for sig in parent_profile if sig.startswith(name+'(')]
         if len(keys)!=1:raise ValueError('SKU_MONEY_EXACT_PARENT_SIGNATURE_REQUIRED:'+name)
         definitions[keys[0]]=definition
+    definitions.update(legacy)
     ddl='\n'.join((HERE/name).read_text()for name in SQL_FILES[:4])+'\n'+'\n'.join(money.values())+'\n'+(HERE/SQL_FILES[4]).read_text()
+    ddl=legacy_delta.bind_base_transition(ddl)+'\n'+(HERE/SQL_FILES[5]).read_text()
     return dict(ddl=ddl,definitions=definitions,derivations=dict(consumer=consumer_routes,credit=credit_routes,
-        valuation=valuation_routes,private=private_routes,source=source_routes,money=money_routes,money_credit=money_credit_routes,base=base_routes),
+        valuation=valuation_routes,private=private_routes,source=source_routes,money=money_routes,money_credit=money_credit_routes,base=base_routes,legacy=legacy_routes),
         source_files={name:dict(bytes=len((HERE/name).read_bytes()),sha256=sha256((HERE/name).read_bytes()).hexdigest())for name in SQL_FILES})

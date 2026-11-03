@@ -17,6 +17,10 @@
       "bytes": 10437,
       "sha256": "8d681ce43fca746e1fd89d9a7ebbd351ad7979789f9f0f0c39952177f9d4e188"
     },
+    "legacy.sql": {
+      "bytes": 3038,
+      "sha256": "f814b6b172c2ed1a5838bd9e4281c28cb8b68707a3865e106ad72bcc8526b07f"
+    },
     "money.sql": {
       "bytes": 14540,
       "sha256": "58ea892a29077535cbb417a3aac750a3b35996027d8d6b10851aa5030b92cc69"
@@ -27,8 +31,8 @@
     }
   },
   "derived_ddl": {
-    "bytes": 82822,
-    "sha256": "8702341cc9b6b196fcc6c6e7881f12af38d5c8d65c38ee99ce7fea530cb358c2"
+    "bytes": 86354,
+    "sha256": "4aa24fef8e1c71a14911b460ebce9cc344ff1887c747e72ce00a489bfb40bae2"
   },
   "derived_replacements": {
     "cp7_credit.initial_hpp_projection_v1(jsonb)": {
@@ -48,8 +52,8 @@
       "sha256": "90f7b78062a8dc8c5a815cd93228ba148a2630a48e1fd3f5d018b11d84b79835"
     },
     "cp7_sku_conversion.action_v1(text,jsonb,uuid)": {
-      "bytes": 8795,
-      "sha256": "9021ccefdb9286426f4550f1f06dd3ad7124dcd15efe775f123310c9069f0506"
+      "bytes": 8956,
+      "sha256": "db8ab9228d00e1b67959d139e06228630784ca06349ea55d216cd7adc30e16a8"
     },
     "cp7_sku_conversion.finalize_valuation_v2(uuid)": {
       "bytes": 7584,
@@ -99,9 +103,25 @@
       "bytes": 3312,
       "sha256": "5cf78bb914b79e516d8211f834c33693f17dc30df68498c577d36b308faaa4c5"
     },
+    "erp.be_conversion_preview_v1(jsonb)": {
+      "bytes": 4737,
+      "sha256": "c58f30fe9be8538f792f882d6d92485c98997ffea31f794c3a48de213922a8bc"
+    },
+    "erp.be_post_conversion_v1(jsonb,uuid,text,uuid)": {
+      "bytes": 4557,
+      "sha256": "1f6d5a08fc69f62bde7ef7bb4caa93df9c018dcb26bc4004611fa0ecf189e900"
+    },
     "erp.be_reconcile_cost_document_v1(uuid,date)": {
       "bytes": 3340,
       "sha256": "6d9673d3cf8c6c746fb39bc9fe437b0f272c27a357d77818e58d58bd0791fa8f"
+    },
+    "erp.be_reverse_conversion_v1(uuid,text)": {
+      "bytes": 3361,
+      "sha256": "b3651bdb846656556dcd7f5778f8b4c5f8f91a8bd945171544d9550aea7d4efc"
+    },
+    "erp.be_source_revision_v1(uuid,uuid)": {
+      "bytes": 638,
+      "sha256": "1554bd9b5a71bbcbab3c6f42106a17c929883b5cdd51c9273a124898138f824b"
     },
     "erp.compute_non_po_product_hpp_targets_v2620f(uuid)": {
       "bytes": 4333,
@@ -1850,47 +1870,194 @@
         "-",
         null,
         null
+      ],
+      "cp7_sku_conversion.legacy_groups_v4:group_id": [
+        "group_id",
+        1,
+        "uuid",
+        true,
+        "",
+        "",
+        "p",
+        "",
+        null,
+        null,
+        null,
+        "-",
+        null,
+        null
+      ],
+      "cp7_sku_conversion.legacy_groups_v4:source_lot_id": [
+        "source_lot_id",
+        2,
+        "uuid",
+        true,
+        "",
+        "",
+        "p",
+        "",
+        null,
+        null,
+        null,
+        "-",
+        null,
+        null
+      ],
+      "cp7_sku_conversion.legacy_groups_v4:origin_kind": [
+        "origin_kind",
+        3,
+        "text",
+        true,
+        "",
+        "",
+        "x",
+        "",
+        null,
+        null,
+        null,
+        "\"default\"",
+        null,
+        null
+      ],
+      "cp7_sku_conversion.legacy_groups_v4:rework_id": [
+        "rework_id",
+        4,
+        "uuid",
+        false,
+        "",
+        "",
+        "p",
+        "",
+        null,
+        null,
+        null,
+        "-",
+        null,
+        null
+      ],
+      "cp7_sku_conversion.legacy_groups_v4:original_preview": [
+        "original_preview",
+        5,
+        "jsonb",
+        true,
+        "",
+        "",
+        "x",
+        "",
+        null,
+        null,
+        null,
+        "-",
+        null,
+        null
+      ],
+      "cp7_sku_conversion.legacy_groups_v4:native_request_id": [
+        "native_request_id",
+        6,
+        "uuid",
+        true,
+        "",
+        "",
+        "p",
+        "",
+        null,
+        null,
+        null,
+        "-",
+        null,
+        null
+      ],
+      "cp7_sku_conversion.legacy_groups_v4:admission_backend_pid": [
+        "admission_backend_pid",
+        7,
+        "integer",
+        true,
+        "",
+        "",
+        "p",
+        "",
+        null,
+        null,
+        null,
+        "-",
+        null,
+        null
+      ],
+      "cp7_sku_conversion.legacy_groups_v4:admission_transaction_id": [
+        "admission_transaction_id",
+        8,
+        "bigint",
+        true,
+        "",
+        "",
+        "p",
+        "",
+        null,
+        null,
+        null,
+        "-",
+        null,
+        null
+      ],
+      "cp7_sku_conversion.legacy_groups_v4:recorded_at": [
+        "recorded_at",
+        9,
+        "timestamp with time zone",
+        true,
+        "",
+        "",
+        "p",
+        "",
+        null,
+        null,
+        null,
+        "-",
+        null,
+        "statement_timestamp()"
+      ],
+      "cp7_sku_conversion.legacy_groups_v4_pkey:group_id": [
+        "group_id",
+        1,
+        "uuid",
+        false,
+        "",
+        "",
+        "p",
+        "",
+        null,
+        null,
+        null,
+        "-",
+        null,
+        null
       ]
     },
     "constraints": {
-      "cp7_sku_conversion.cost_events_v3:cost_events_v3_location_id_fkey": [
-        "f",
+      "cp7_sku_conversion.cost_events_v3:cost_events_v3_phase_check": [
+        "c",
         false,
         false,
         true,
         true,
         0,
-        true,
+        false,
         null,
-        "erp.locations_pkey",
+        null,
         "cp7_sku_conversion.cost_events_v3",
-        "FOREIGN KEY (location_id) REFERENCES erp.locations(id)"
+        "CHECK ((phase = ANY (ARRAY['POST'::text, 'REVERSE'::text])))"
       ],
-      "cp7_sku_conversion.cost_events_v3:cost_events_v3_root_lot_id_fkey": [
-        "f",
+      "cp7_sku_conversion.cost_events_v3:cost_events_v3_source_type_check": [
+        "c",
         false,
         false,
         true,
         true,
         0,
-        true,
-        null,
-        "erp.fg_lots_pkey",
-        "cp7_sku_conversion.cost_events_v3",
-        "FOREIGN KEY (root_lot_id) REFERENCES erp.fg_lots(id)"
-      ],
-      "cp7_sku_conversion.cost_events_v3:cost_events_v3_supersedes_event_id_fkey": [
-        "f",
         false,
-        false,
-        true,
-        true,
-        0,
-        true,
         null,
-        "cp7_sku_conversion.cost_events_v3_pkey",
+        null,
         "cp7_sku_conversion.cost_events_v3",
-        "FOREIGN KEY (supersedes_event_id) REFERENCES cp7_sku_conversion.cost_events_v3(id)"
+        "CHECK ((source_type = ANY (ARRAY['SKU_CONVERSION'::text, 'SALE'::text, 'SALES_RETURN'::text])))"
       ],
       "cp7_sku_conversion.cost_events_v3:cost_events_v3_line_no_check": [
         "c",
@@ -1904,19 +2071,6 @@
         null,
         "cp7_sku_conversion.cost_events_v3",
         "CHECK ((line_no > 0))"
-      ],
-      "cp7_sku_conversion.cost_events_v3:cost_events_v3_phase_check": [
-        "c",
-        false,
-        false,
-        true,
-        true,
-        0,
-        false,
-        null,
-        null,
-        "cp7_sku_conversion.cost_events_v3",
-        "CHECK ((phase = ANY (ARRAY['POST'::text, 'REVERSE'::text])))"
       ],
       "cp7_sku_conversion.cost_events_v3:cost_events_v3_side_check": [
         "c",
@@ -2022,19 +2176,6 @@
         "cp7_sku_conversion.cost_events_v3",
         "UNIQUE (supersedes_event_id)"
       ],
-      "cp7_sku_conversion.cost_events_v3:cost_events_v3_source_type_check": [
-        "c",
-        false,
-        false,
-        true,
-        true,
-        0,
-        false,
-        null,
-        null,
-        "cp7_sku_conversion.cost_events_v3",
-        "CHECK ((source_type = ANY (ARRAY['SKU_CONVERSION'::text, 'SALE'::text, 'SALES_RETURN'::text])))"
-      ],
       "cp7_sku_conversion.cost_events_v3:cost_events_v3_product_id_fkey": [
         "f",
         false,
@@ -2048,8 +2189,8 @@
         "cp7_sku_conversion.cost_events_v3",
         "FOREIGN KEY (product_id) REFERENCES erp.products(id)"
       ],
-      "cp7_sku_conversion.cost_contributors_v3:cost_contributors_v3_group_id_root_lot_id_key": [
-        "u",
+      "cp7_sku_conversion.cost_events_v3:cost_events_v3_location_id_fkey": [
+        "f",
         false,
         false,
         true,
@@ -2057,11 +2198,11 @@
         0,
         true,
         null,
-        "cp7_sku_conversion.cost_contributors_v3_group_id_root_lot_id_key",
-        "cp7_sku_conversion.cost_contributors_v3",
-        "UNIQUE (group_id, root_lot_id)"
+        "erp.locations_pkey",
+        "cp7_sku_conversion.cost_events_v3",
+        "FOREIGN KEY (location_id) REFERENCES erp.locations(id)"
       ],
-      "cp7_sku_conversion.cost_contributors_v3:cost_contributors_v3_root_lot_id_fkey": [
+      "cp7_sku_conversion.cost_events_v3:cost_events_v3_root_lot_id_fkey": [
         "f",
         false,
         false,
@@ -2071,10 +2212,10 @@
         true,
         null,
         "erp.fg_lots_pkey",
-        "cp7_sku_conversion.cost_contributors_v3",
+        "cp7_sku_conversion.cost_events_v3",
         "FOREIGN KEY (root_lot_id) REFERENCES erp.fg_lots(id)"
       ],
-      "cp7_sku_conversion.cost_contributors_v3:cost_contributors_v3_hpp_version_id_fkey": [
+      "cp7_sku_conversion.cost_events_v3:cost_events_v3_supersedes_event_id_fkey": [
         "f",
         false,
         false,
@@ -2083,9 +2224,22 @@
         0,
         true,
         null,
-        "erp.hpp_versions_pkey",
+        "cp7_sku_conversion.cost_events_v3_pkey",
+        "cp7_sku_conversion.cost_events_v3",
+        "FOREIGN KEY (supersedes_event_id) REFERENCES cp7_sku_conversion.cost_events_v3(id)"
+      ],
+      "cp7_sku_conversion.cost_contributors_v3:cost_contributors_v3_po_id_fkey": [
+        "f",
+        false,
+        false,
+        true,
+        true,
+        0,
+        true,
+        null,
+        "erp.production_orders_pkey",
         "cp7_sku_conversion.cost_contributors_v3",
-        "FOREIGN KEY (hpp_version_id) REFERENCES erp.hpp_versions(id)"
+        "FOREIGN KEY (po_id) REFERENCES erp.production_orders(id)"
       ],
       "cp7_sku_conversion.cost_contributors_v3:cost_contributors_v3_line_no_check": [
         "c",
@@ -2099,6 +2253,19 @@
         null,
         "cp7_sku_conversion.cost_contributors_v3",
         "CHECK ((line_no > 0))"
+      ],
+      "cp7_sku_conversion.cost_contributors_v3:cost_contributors_v3_hpp_version_id_fkey": [
+        "f",
+        false,
+        false,
+        true,
+        true,
+        0,
+        true,
+        null,
+        "erp.hpp_versions_pkey",
+        "cp7_sku_conversion.cost_contributors_v3",
+        "FOREIGN KEY (hpp_version_id) REFERENCES erp.hpp_versions(id)"
       ],
       "cp7_sku_conversion.cost_contributors_v3:cost_contributors_v3_pool_component_units_check": [
         "c",
@@ -2152,8 +2319,8 @@
         "cp7_sku_conversion.cost_contributors_v3",
         "PRIMARY KEY (group_id, line_no)"
       ],
-      "cp7_sku_conversion.cost_contributors_v3:cost_contributors_v3_po_id_fkey": [
-        "f",
+      "cp7_sku_conversion.cost_contributors_v3:cost_contributors_v3_group_id_root_lot_id_key": [
+        "u",
         false,
         false,
         true,
@@ -2161,9 +2328,9 @@
         0,
         true,
         null,
-        "erp.production_orders_pkey",
+        "cp7_sku_conversion.cost_contributors_v3_group_id_root_lot_id_key",
         "cp7_sku_conversion.cost_contributors_v3",
-        "FOREIGN KEY (po_id) REFERENCES erp.production_orders(id)"
+        "UNIQUE (group_id, root_lot_id)"
       ],
       "cp7_sku_conversion.cost_contributors_v3:cost_contributors_v3_group_id_fkey": [
         "f",
@@ -2177,6 +2344,32 @@
         "cp7_sku_conversion.valuation_quotes_v2_pkey",
         "cp7_sku_conversion.cost_contributors_v3",
         "FOREIGN KEY (group_id) REFERENCES cp7_sku_conversion.valuation_quotes_v2(group_id)"
+      ],
+      "cp7_sku_conversion.cost_contributors_v3:cost_contributors_v3_root_lot_id_fkey": [
+        "f",
+        false,
+        false,
+        true,
+        true,
+        0,
+        true,
+        null,
+        "erp.fg_lots_pkey",
+        "cp7_sku_conversion.cost_contributors_v3",
+        "FOREIGN KEY (root_lot_id) REFERENCES erp.fg_lots(id)"
+      ],
+      "cp7_sku_conversion.sale_cost_components_v3:sale_cost_components_v3_pkey": [
+        "p",
+        false,
+        false,
+        true,
+        true,
+        0,
+        true,
+        null,
+        "cp7_sku_conversion.sale_cost_components_v3_pkey",
+        "cp7_sku_conversion.sale_cost_components_v3",
+        "PRIMARY KEY (sale_stock_allocation_id, line_no)"
       ],
       "cp7_sku_conversion.sale_cost_components_v3:sale_cost_components_v3_line_no_check": [
         "c",
@@ -2203,19 +2396,6 @@
         null,
         "cp7_sku_conversion.sale_cost_components_v3",
         "CHECK ((component_units > (0)::numeric))"
-      ],
-      "cp7_sku_conversion.sale_cost_components_v3:sale_cost_components_v3_pkey": [
-        "p",
-        false,
-        false,
-        true,
-        true,
-        0,
-        true,
-        null,
-        "cp7_sku_conversion.sale_cost_components_v3_pkey",
-        "cp7_sku_conversion.sale_cost_components_v3",
-        "PRIMARY KEY (sale_stock_allocation_id, line_no)"
       ],
       "cp7_sku_conversion.sale_cost_components_v3:sale_cost_components_v3_sale_stock_allocation_id_root_lot_i_key": [
         "u",
@@ -2360,19 +2540,6 @@
         "cp7_sku_conversion.return_cost_components_v3",
         "FOREIGN KEY (po_id) REFERENCES erp.production_orders(id)"
       ],
-      "cp7_sku_conversion.group_inverse_rebalances_v3:group_inverse_rebalances_v3_pkey": [
-        "p",
-        false,
-        false,
-        true,
-        true,
-        0,
-        true,
-        null,
-        "cp7_sku_conversion.group_inverse_rebalances_v3_pkey",
-        "cp7_sku_conversion.group_inverse_rebalances_v3",
-        "PRIMARY KEY (group_id)"
-      ],
       "cp7_sku_conversion.group_inverse_rebalances_v3:group_inverse_rebalances_v3_group_id_fkey": [
         "f",
         false,
@@ -2385,6 +2552,19 @@
         "cp7_sku_conversion.valuation_quotes_v2_pkey",
         "cp7_sku_conversion.group_inverse_rebalances_v3",
         "FOREIGN KEY (group_id) REFERENCES cp7_sku_conversion.valuation_quotes_v2(group_id)"
+      ],
+      "cp7_sku_conversion.group_inverse_rebalances_v3:group_inverse_rebalances_v3_pkey": [
+        "p",
+        false,
+        false,
+        true,
+        true,
+        0,
+        true,
+        null,
+        "cp7_sku_conversion.group_inverse_rebalances_v3_pkey",
+        "cp7_sku_conversion.group_inverse_rebalances_v3",
+        "PRIMARY KEY (group_id)"
       ],
       "cp7_sku_conversion.group_inverse_rebalances_v3:group_inverse_rebalances_v3_journal_id_fkey": [
         "f",
@@ -2399,19 +2579,6 @@
         "cp7_sku_conversion.group_inverse_rebalances_v3",
         "FOREIGN KEY (journal_id) REFERENCES erp.journal_entries(id)"
       ],
-      "cp7_sku_conversion.cost_source_rebalances_v3:cost_source_rebalances_v3_pkey": [
-        "p",
-        false,
-        false,
-        true,
-        true,
-        0,
-        true,
-        null,
-        "cp7_sku_conversion.cost_source_rebalances_v3_pkey",
-        "cp7_sku_conversion.cost_source_rebalances_v3",
-        "PRIMARY KEY (id)"
-      ],
       "cp7_sku_conversion.cost_source_rebalances_v3:cost_source_rebalances_v3_document_id_fkey": [
         "f",
         false,
@@ -2425,6 +2592,19 @@
         "cp7_sku_conversion.cost_source_rebalances_v3",
         "FOREIGN KEY (document_id) REFERENCES erp.bc_documents_v1(id)"
       ],
+      "cp7_sku_conversion.cost_source_rebalances_v3:cost_source_rebalances_v3_pkey": [
+        "p",
+        false,
+        false,
+        true,
+        true,
+        0,
+        true,
+        null,
+        "cp7_sku_conversion.cost_source_rebalances_v3_pkey",
+        "cp7_sku_conversion.cost_source_rebalances_v3",
+        "PRIMARY KEY (id)"
+      ],
       "cp7_sku_conversion.cost_source_rebalances_v3:cost_source_rebalances_v3_journal_id_fkey": [
         "f",
         false,
@@ -2437,32 +2617,6 @@
         "erp.journal_entries_pkey",
         "cp7_sku_conversion.cost_source_rebalances_v3",
         "FOREIGN KEY (journal_id) REFERENCES erp.journal_entries(id)"
-      ],
-      "cp7_sku_conversion.cost_money_events_v3:cost_money_events_v3_kind_check": [
-        "c",
-        false,
-        false,
-        true,
-        true,
-        0,
-        false,
-        null,
-        null,
-        "cp7_sku_conversion.cost_money_events_v3",
-        "CHECK ((kind = ANY (ARRAY['ORIGIN'::text, 'TRANSFER'::text, 'SOURCE_PRICE'::text, 'INVERSE_TRANSFER'::text, 'INVERSE_ORIGIN'::text])))"
-      ],
-      "cp7_sku_conversion.cost_money_events_v3:cost_money_events_v3_amount_delta_check": [
-        "c",
-        false,
-        false,
-        true,
-        true,
-        0,
-        false,
-        null,
-        null,
-        "cp7_sku_conversion.cost_money_events_v3",
-        "CHECK (((amount_delta)::text <> ALL (ARRAY['NaN'::text, 'Infinity'::text, '-Infinity'::text])))"
       ],
       "cp7_sku_conversion.cost_money_events_v3:cost_money_events_v3_pkey": [
         "p",
@@ -2490,19 +2644,6 @@
         "cp7_sku_conversion.cost_money_events_v3",
         "UNIQUE (kind, source_id, root_lot_id, product_id, revision)"
       ],
-      "cp7_sku_conversion.cost_money_events_v3:cost_money_events_v3_root_lot_id_fkey": [
-        "f",
-        false,
-        false,
-        true,
-        true,
-        0,
-        true,
-        null,
-        "erp.fg_lots_pkey",
-        "cp7_sku_conversion.cost_money_events_v3",
-        "FOREIGN KEY (root_lot_id) REFERENCES erp.fg_lots(id)"
-      ],
       "cp7_sku_conversion.cost_money_events_v3:cost_money_events_v3_product_id_fkey": [
         "f",
         false,
@@ -2516,7 +2657,7 @@
         "cp7_sku_conversion.cost_money_events_v3",
         "FOREIGN KEY (product_id) REFERENCES erp.products(id)"
       ],
-      "cp7_sku_conversion.base_money_events_v4:base_money_events_v4_root_lot_id_fkey": [
+      "cp7_sku_conversion.cost_money_events_v3:cost_money_events_v3_root_lot_id_fkey": [
         "f",
         false,
         false,
@@ -2526,10 +2667,10 @@
         true,
         null,
         "erp.fg_lots_pkey",
-        "cp7_sku_conversion.base_money_events_v4",
+        "cp7_sku_conversion.cost_money_events_v3",
         "FOREIGN KEY (root_lot_id) REFERENCES erp.fg_lots(id)"
       ],
-      "cp7_sku_conversion.base_money_events_v4:base_money_events_v4_kind_check": [
+      "cp7_sku_conversion.cost_money_events_v3:cost_money_events_v3_kind_check": [
         "c",
         false,
         false,
@@ -2539,8 +2680,21 @@
         false,
         null,
         null,
-        "cp7_sku_conversion.base_money_events_v4",
-        "CHECK ((kind = ANY (ARRAY['ORIGIN'::text, 'TRANSFER'::text, 'SOURCE_PRICE'::text, 'INVERSE_TRANSFER'::text])))"
+        "cp7_sku_conversion.cost_money_events_v3",
+        "CHECK ((kind = ANY (ARRAY['ORIGIN'::text, 'TRANSFER'::text, 'SOURCE_PRICE'::text, 'INVERSE_TRANSFER'::text, 'INVERSE_ORIGIN'::text])))"
+      ],
+      "cp7_sku_conversion.cost_money_events_v3:cost_money_events_v3_amount_delta_check": [
+        "c",
+        false,
+        false,
+        true,
+        true,
+        0,
+        false,
+        null,
+        null,
+        "cp7_sku_conversion.cost_money_events_v3",
+        "CHECK (((amount_delta)::text <> ALL (ARRAY['NaN'::text, 'Infinity'::text, '-Infinity'::text])))"
       ],
       "cp7_sku_conversion.base_money_events_v4:base_money_events_v4_units_delta_check": [
         "c",
@@ -2555,6 +2709,19 @@
         "cp7_sku_conversion.base_money_events_v4",
         "CHECK (((units_delta)::text <> ALL (ARRAY['NaN'::text, 'Infinity'::text, '-Infinity'::text])))"
       ],
+      "cp7_sku_conversion.base_money_events_v4:base_money_events_v4_kind_check": [
+        "c",
+        false,
+        false,
+        true,
+        true,
+        0,
+        false,
+        null,
+        null,
+        "cp7_sku_conversion.base_money_events_v4",
+        "CHECK ((kind = ANY (ARRAY['ORIGIN'::text, 'TRANSFER'::text, 'SOURCE_PRICE'::text, 'INVERSE_TRANSFER'::text])))"
+      ],
       "cp7_sku_conversion.base_money_events_v4:base_money_events_v4_amount_delta_check": [
         "c",
         false,
@@ -2567,19 +2734,6 @@
         null,
         "cp7_sku_conversion.base_money_events_v4",
         "CHECK (((amount_delta)::text <> ALL (ARRAY['NaN'::text, 'Infinity'::text, '-Infinity'::text])))"
-      ],
-      "cp7_sku_conversion.base_money_events_v4:base_money_events_v4_product_id_fkey": [
-        "f",
-        false,
-        false,
-        true,
-        true,
-        0,
-        true,
-        null,
-        "erp.products_pkey",
-        "cp7_sku_conversion.base_money_events_v4",
-        "FOREIGN KEY (product_id) REFERENCES erp.products(id)"
       ],
       "cp7_sku_conversion.base_money_events_v4:base_money_events_v4_check": [
         "c",
@@ -2619,6 +2773,123 @@
         "cp7_sku_conversion.base_money_events_v4_kind_source_id_root_lot_id_product_id_key",
         "cp7_sku_conversion.base_money_events_v4",
         "UNIQUE (kind, source_id, root_lot_id, product_id)"
+      ],
+      "cp7_sku_conversion.base_money_events_v4:base_money_events_v4_root_lot_id_fkey": [
+        "f",
+        false,
+        false,
+        true,
+        true,
+        0,
+        true,
+        null,
+        "erp.fg_lots_pkey",
+        "cp7_sku_conversion.base_money_events_v4",
+        "FOREIGN KEY (root_lot_id) REFERENCES erp.fg_lots(id)"
+      ],
+      "cp7_sku_conversion.base_money_events_v4:base_money_events_v4_product_id_fkey": [
+        "f",
+        false,
+        false,
+        true,
+        true,
+        0,
+        true,
+        null,
+        "erp.products_pkey",
+        "cp7_sku_conversion.base_money_events_v4",
+        "FOREIGN KEY (product_id) REFERENCES erp.products(id)"
+      ],
+      "cp7_sku_conversion.legacy_groups_v4:legacy_groups_v4_group_id_fkey": [
+        "f",
+        false,
+        false,
+        true,
+        true,
+        0,
+        true,
+        null,
+        "cp7_sku_conversion.valuation_quotes_v2_pkey",
+        "cp7_sku_conversion.legacy_groups_v4",
+        "FOREIGN KEY (group_id) REFERENCES cp7_sku_conversion.valuation_quotes_v2(group_id)"
+      ],
+      "cp7_sku_conversion.legacy_groups_v4:legacy_groups_v4_original_preview_check": [
+        "c",
+        false,
+        false,
+        true,
+        true,
+        0,
+        false,
+        null,
+        null,
+        "cp7_sku_conversion.legacy_groups_v4",
+        "CHECK ((jsonb_typeof(original_preview) = 'object'::text))"
+      ],
+      "cp7_sku_conversion.legacy_groups_v4:legacy_groups_v4_origin_kind_check": [
+        "c",
+        false,
+        false,
+        true,
+        true,
+        0,
+        false,
+        null,
+        null,
+        "cp7_sku_conversion.legacy_groups_v4",
+        "CHECK ((origin_kind = ANY (ARRAY['FG'::text, 'REWORK'::text, 'REDYE'::text])))"
+      ],
+      "cp7_sku_conversion.legacy_groups_v4:legacy_groups_v4_rework_id_fkey": [
+        "f",
+        false,
+        false,
+        true,
+        true,
+        0,
+        true,
+        null,
+        "erp.rework_orders_pkey",
+        "cp7_sku_conversion.legacy_groups_v4",
+        "FOREIGN KEY (rework_id) REFERENCES erp.rework_orders(id)"
+      ],
+      "cp7_sku_conversion.legacy_groups_v4:legacy_groups_v4_check": [
+        "c",
+        false,
+        false,
+        true,
+        true,
+        0,
+        false,
+        null,
+        null,
+        "cp7_sku_conversion.legacy_groups_v4",
+        "CHECK (((origin_kind = 'FG'::text) = (rework_id IS NULL)))"
+      ],
+      "cp7_sku_conversion.legacy_groups_v4:legacy_groups_v4_pkey": [
+        "p",
+        false,
+        false,
+        true,
+        true,
+        0,
+        true,
+        null,
+        "cp7_sku_conversion.legacy_groups_v4_pkey",
+        "cp7_sku_conversion.legacy_groups_v4",
+        "PRIMARY KEY (group_id)"
+      ],
+      "cp7_sku_conversion.legacy_groups_v4:legacy_groups_v4_source_lot_id_fkey": [
+        "f",
+        false,
+        false,
+        true,
+        true,
+        0,
+        true,
+        null,
+        "erp.fg_lots_pkey",
+        "cp7_sku_conversion.legacy_groups_v4",
+        "FOREIGN KEY (source_lot_id) REFERENCES erp.fg_lots(id)"
       ]
     },
     "database_authority": {},
@@ -2627,6 +2898,39 @@
     "event_triggers": {},
     "extensions": {},
     "functions": {
+      "cp7_sku_conversion.post_sale_costs_v3(uuid)": [
+        "CREATE OR REPLACE FUNCTION cp7_sku_conversion.post_sale_costs_v3(p_sale uuid)\n RETURNS void\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\n SET \"TimeZone\" TO 'UTC'\nAS $function$\nbegin\n perform erp.require_internal();\n insert into cp7_sku_conversion.cost_events_v3(id,source_type,source_id,line_no,phase,side,product_id,location_id,quality_grade,root_lot_id,units_delta,physical_at,economic_date)\n select gen_random_uuid(),'SALE',p_sale,row_number()over(order by v.product_id,v.location_id,c.root_lot_id)::integer,'POST','POOL',\n v.product_id,v.location_id,v.quality_grade,c.root_lot_id,-sum(c.component_units),h.sale_date,(h.sale_date at time zone 'Asia/Jakarta')::date\n from cp7_sku_conversion.sale_cost_components_v3 c join cp7_sku_conversion.sale_allocation_values_v2 v using(sale_stock_allocation_id)\n join erp.sales_headers h on h.id=v.sale_id where v.sale_id=p_sale group by v.product_id,v.location_id,v.quality_grade,c.root_lot_id,h.sale_date;\nend $function$\n",
+        "postgres",
+        "plpgsql",
+        "f",
+        true,
+        false,
+        false,
+        false,
+        "v",
+        "u",
+        "100",
+        "0",
+        [
+          "search_path=\"\"",
+          "TimeZone=UTC"
+        ],
+        [
+          "p_sale"
+        ],
+        null,
+        "p_sale uuid",
+        "void",
+        "-",
+        [
+          [
+            "postgres",
+            "postgres",
+            "EXECUTE",
+            false
+          ]
+        ]
+      ],
       "cp7_sku_conversion.cost_root_v3(uuid)": [
         "CREATE OR REPLACE FUNCTION cp7_sku_conversion.cost_root_v3(p_lot uuid)\n RETURNS TABLE(root_lot_id uuid, po_id uuid, hpp_version_id uuid, unit_value numeric, source_revision jsonb)\n LANGUAGE plpgsql\n STABLE SECURITY DEFINER\n SET search_path TO ''\nAS $function$\ndeclare r record;n integer;\nbegin\n select count(*)into n from erp.product_conversion_allocations a where a.destination_lot_id=p_lot;\n if n<>1 then raise exception 'CP7_SKU_COST_ROOT_ALLOCATION_NOT_UNIQUE';end if;\n select a.*,c.status conversion_status,l.po_id,h.id version_id,h.cost_state,\n  erp.be_allocation_extra_v1(a.id)extra\n into strict r from erp.product_conversion_allocations a\n join erp.product_conversions c on c.id=a.conversion_id\n join erp.fg_lots l on l.id=a.destination_lot_id\n left join erp.hpp_versions h on h.lot_id=l.id and h.is_current where a.destination_lot_id=p_lot;\n if r.qty_pcs<=0 or r.extra is null or r.extra::text in('NaN','Infinity','-Infinity')\n  or r.version_id is null or r.cost_state='ESTIMATED' or r.conversion_status not in('POSTED','REVERSED')\n  or erp.bd_lot_laundry_unknown_v1(p_lot)\n  or(r.po_id is not null and not exists(select 1 from erp.get_hpp_completeness(r.po_id)c where c.pending_reason_count=0))then\n  raise exception 'CP7_SKU_POOL_HPP_UNKNOWN: seluruh komponen ekonomi termasuk reservasi harus diketahui';end if;\n return query select p_lot,r.po_id,r.version_id,(r.extra/r.qty_pcs)::numeric,\n  jsonb_build_object('allocation',to_jsonb(r),'sources',(select coalesce(jsonb_agg(to_jsonb(s)order by s.document_id),'[]')\n   from erp.be_conversion_cost_sources_v1 s where s.conversion_id=r.conversion_id),\n   'events',(select coalesce(jsonb_agg(to_jsonb(e)order by e.id),'[]')from erp.be_conversion_cost_events_v1 e\n    join erp.be_conversion_cost_sources_v1 s on s.document_id=e.document_id where s.conversion_id=r.conversion_id));\nend $function$\n",
         "postgres",
@@ -2671,39 +2975,6 @@
           ]
         ]
       ],
-      "cp7_sku_conversion.post_sale_costs_v3(uuid)": [
-        "CREATE OR REPLACE FUNCTION cp7_sku_conversion.post_sale_costs_v3(p_sale uuid)\n RETURNS void\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\n SET \"TimeZone\" TO 'UTC'\nAS $function$\nbegin\n perform erp.require_internal();\n insert into cp7_sku_conversion.cost_events_v3(id,source_type,source_id,line_no,phase,side,product_id,location_id,quality_grade,root_lot_id,units_delta,physical_at,economic_date)\n select gen_random_uuid(),'SALE',p_sale,row_number()over(order by v.product_id,v.location_id,c.root_lot_id)::integer,'POST','POOL',\n v.product_id,v.location_id,v.quality_grade,c.root_lot_id,-sum(c.component_units),h.sale_date,(h.sale_date at time zone 'Asia/Jakarta')::date\n from cp7_sku_conversion.sale_cost_components_v3 c join cp7_sku_conversion.sale_allocation_values_v2 v using(sale_stock_allocation_id)\n join erp.sales_headers h on h.id=v.sale_id where v.sale_id=p_sale group by v.product_id,v.location_id,v.quality_grade,c.root_lot_id,h.sale_date;\nend $function$\n",
-        "postgres",
-        "plpgsql",
-        "f",
-        true,
-        false,
-        false,
-        false,
-        "v",
-        "u",
-        "100",
-        "0",
-        [
-          "search_path=\"\"",
-          "TimeZone=UTC"
-        ],
-        [
-          "p_sale"
-        ],
-        null,
-        "p_sale uuid",
-        "void",
-        "-",
-        [
-          [
-            "postgres",
-            "postgres",
-            "EXECUTE",
-            false
-          ]
-        ]
-      ],
       "cp7_sku_conversion.post_return_costs_v3(uuid)": [
         "CREATE OR REPLACE FUNCTION cp7_sku_conversion.post_return_costs_v3(p_return uuid)\n RETURNS void\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\n SET \"TimeZone\" TO 'UTC'\nAS $function$\nbegin\n perform erp.require_internal();\n insert into cp7_sku_conversion.cost_events_v3(id,source_type,source_id,line_no,phase,side,product_id,location_id,quality_grade,root_lot_id,units_delta,physical_at,economic_date)\n select gen_random_uuid(),'SALES_RETURN',p_return,row_number()over(order by v.product_id,v.location_id,c.root_lot_id)::integer,'POST','POOL',\n v.product_id,v.location_id,v.quality_grade,c.root_lot_id,sum(c.component_units),h.physical_at,(h.physical_at at time zone 'Asia/Jakarta')::date\n from cp7_sku_conversion.return_cost_components_v3 c join cp7_sku_conversion.sales_return_values_v2 v using(sales_return_item_id)\n join erp.sales_returns h on h.id=v.return_id where v.return_id=p_return group by v.product_id,v.location_id,v.quality_grade,c.root_lot_id,h.physical_at;\nend $function$\n",
         "postgres",
@@ -2727,6 +2998,38 @@
         null,
         "p_return uuid",
         "void",
+        "-",
+        [
+          [
+            "postgres",
+            "postgres",
+            "EXECUTE",
+            false
+          ]
+        ]
+      ],
+      "cp7_sku_conversion.cost_source_products_v3(uuid)": [
+        "CREATE OR REPLACE FUNCTION cp7_sku_conversion.cost_source_products_v3(p_document uuid)\n RETURNS uuid[]\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO ''\nAS $function$\n with recursive affected(lot_id,path,depth)as(\n  select a.destination_lot_id,array[a.destination_lot_id],0\n  from erp.be_conversion_cost_sources_v1 s join erp.product_conversion_allocations a on a.conversion_id=s.conversion_id\n  join erp.fg_lots l on l.id=a.destination_lot_id and l.po_id is null where s.document_id=p_document\n  union all\n  select a.destination_lot_id,r.path||a.destination_lot_id,r.depth+1 from affected r\n  join erp.product_conversion_allocations a on a.source_lot_id=r.lot_id\n  join erp.product_conversions c on c.id=a.conversion_id and c.status='POSTED'\n  where a.destination_lot_id is not null and not a.destination_lot_id=any(r.path)and r.depth<128\n ),products as(\n  select l.product_id from erp.fg_lots l where l.id in(select lot_id from affected)\n  union select e.product_id from cp7_sku_conversion.component_events_v2 e where e.root_lot_id in(select lot_id from affected)\n  union select e.product_id from cp7_sku_conversion.cost_events_v3 e where e.root_lot_id in(select lot_id from affected)\n  union select v.product_id from cp7_sku_conversion.sale_allocation_components_v2 c\n   join cp7_sku_conversion.sale_allocation_values_v2 v using(sale_stock_allocation_id)where c.root_lot_id in(select lot_id from affected)\n  union select v.product_id from cp7_sku_conversion.sales_return_components_v2 c\n   join cp7_sku_conversion.sales_return_values_v2 v using(sales_return_item_id)where c.root_lot_id in(select lot_id from affected)\n  union select v.product_id from cp7_sku_conversion.sale_cost_components_v3 c\n   join cp7_sku_conversion.sale_allocation_values_v2 v using(sale_stock_allocation_id)where c.root_lot_id in(select lot_id from affected)\n  union select v.product_id from cp7_sku_conversion.return_cost_components_v3 c\n   join cp7_sku_conversion.sales_return_values_v2 v using(sales_return_item_id)where c.root_lot_id in(select lot_id from affected)\n )select coalesce(array_agg(product_id order by product_id),'{}'::uuid[])from products\n$function$\n",
+        "postgres",
+        "sql",
+        "f",
+        true,
+        false,
+        false,
+        false,
+        "s",
+        "u",
+        "100",
+        "0",
+        [
+          "search_path=\"\""
+        ],
+        [
+          "p_document"
+        ],
+        null,
+        "p_document uuid",
+        "uuid[]",
         "-",
         [
           [
@@ -2856,74 +3159,6 @@
         ],
         null,
         "p_group uuid, p_before jsonb",
-        "void",
-        "-",
-        [
-          [
-            "postgres",
-            "postgres",
-            "EXECUTE",
-            false
-          ]
-        ]
-      ],
-      "cp7_sku_conversion.cost_source_products_v3(uuid)": [
-        "CREATE OR REPLACE FUNCTION cp7_sku_conversion.cost_source_products_v3(p_document uuid)\n RETURNS uuid[]\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO ''\nAS $function$\n with recursive affected(lot_id,path,depth)as(\n  select a.destination_lot_id,array[a.destination_lot_id],0\n  from erp.be_conversion_cost_sources_v1 s join erp.product_conversion_allocations a on a.conversion_id=s.conversion_id\n  join erp.fg_lots l on l.id=a.destination_lot_id and l.po_id is null where s.document_id=p_document\n  union all\n  select a.destination_lot_id,r.path||a.destination_lot_id,r.depth+1 from affected r\n  join erp.product_conversion_allocations a on a.source_lot_id=r.lot_id\n  join erp.product_conversions c on c.id=a.conversion_id and c.status='POSTED'\n  where a.destination_lot_id is not null and not a.destination_lot_id=any(r.path)and r.depth<128\n ),products as(\n  select l.product_id from erp.fg_lots l where l.id in(select lot_id from affected)\n  union select e.product_id from cp7_sku_conversion.component_events_v2 e where e.root_lot_id in(select lot_id from affected)\n  union select e.product_id from cp7_sku_conversion.cost_events_v3 e where e.root_lot_id in(select lot_id from affected)\n  union select v.product_id from cp7_sku_conversion.sale_allocation_components_v2 c\n   join cp7_sku_conversion.sale_allocation_values_v2 v using(sale_stock_allocation_id)where c.root_lot_id in(select lot_id from affected)\n  union select v.product_id from cp7_sku_conversion.sales_return_components_v2 c\n   join cp7_sku_conversion.sales_return_values_v2 v using(sales_return_item_id)where c.root_lot_id in(select lot_id from affected)\n  union select v.product_id from cp7_sku_conversion.sale_cost_components_v3 c\n   join cp7_sku_conversion.sale_allocation_values_v2 v using(sale_stock_allocation_id)where c.root_lot_id in(select lot_id from affected)\n  union select v.product_id from cp7_sku_conversion.return_cost_components_v3 c\n   join cp7_sku_conversion.sales_return_values_v2 v using(sales_return_item_id)where c.root_lot_id in(select lot_id from affected)\n )select coalesce(array_agg(product_id order by product_id),'{}'::uuid[])from products\n$function$\n",
-        "postgres",
-        "sql",
-        "f",
-        true,
-        false,
-        false,
-        false,
-        "s",
-        "u",
-        "100",
-        "0",
-        [
-          "search_path=\"\""
-        ],
-        [
-          "p_document"
-        ],
-        null,
-        "p_document uuid",
-        "uuid[]",
-        "-",
-        [
-          [
-            "postgres",
-            "postgres",
-            "EXECUTE",
-            false
-          ]
-        ]
-      ],
-      "cp7_sku_conversion.rebalance_cost_source_v3(uuid,date,jsonb,numeric)": [
-        "CREATE OR REPLACE FUNCTION cp7_sku_conversion.rebalance_cost_source_v3(p_document uuid, p_date date, p_before jsonb, p_source_delta numeric)\n RETURNS void\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\n SET \"TimeZone\" TO 'UTC'\nAS $function$\ndeclare products uuid[];product uuid;row jsonb;target jsonb;book jsonb;proof jsonb:='[]';lines jsonb:='[]';\n old_events jsonb;delta numeric;target_change numeric:=0;book_change numeric:=0;redistribution numeric:=0;event_change numeric;\n event_id uuid;journal uuid;new_events jsonb;\nbegin\n perform erp.require_internal();perform pg_advisory_xact_lock(hashtextextended('FG_HPP_SALES_V2620C',0));\n if p_before->>'document_id'is distinct from p_document::text\n  or(p_before->>'backend_pid')::integer is distinct from pg_backend_pid()\n  or(p_before->>'transaction_id')::bigint is distinct from txid_current()\n  or p_source_delta is null or p_source_delta<>round(p_source_delta,2)\n  or p_source_delta::text in('NaN','Infinity','-Infinity')then raise exception 'CP7_SKU_COST_SOURCE_PROOF_REQUIRED';end if;\n products:=cp7_sku_conversion.cost_source_products_v3(p_document);\n if to_jsonb(products)is distinct from p_before->'products'then raise exception 'CP7_SKU_COST_SOURCE_SCOPE_CHANGED';end if;\n select coalesce(jsonb_agg(to_jsonb(e)order by e.id),'[]')into old_events from erp.be_conversion_cost_events_v1 e\n where e.document_id=p_document and e.id in(select(value->>'id')::uuid from jsonb_array_elements(p_before->'cost_events'));\n if old_events is distinct from p_before->'cost_events'then raise exception 'CP7_SKU_COST_SOURCE_HISTORY_CHANGED';end if;\n select coalesce(sum(e.target_amount-e.previous_amount),0),coalesce(jsonb_agg(to_jsonb(e)order by e.id),'[]')into event_change,new_events\n from erp.be_conversion_cost_events_v1 e where e.document_id=p_document\n  and e.id not in(select(value->>'id')::uuid from jsonb_array_elements(p_before->'cost_events'));\n if event_change is distinct from p_source_delta then raise exception 'CP7_SKU_COST_SOURCE_EVENT_DELTA_NOT_EXACT';end if;\n -- Retain physical recost and its own immutable source entries. The later\n -- original sync call sees no further physical change and distributes FG/COGS.\n perform cp7_sku_conversion.reprice_document_money_v3(p_document,p_date,p_before->'cost_money_state',new_events,p_source_delta);\n perform erp.be_nonpo_prepare_transfers_v1(p_date);\n foreach product in array products loop\n  select value into strict row from jsonb_array_elements(p_before->'before')where(value->>'product_id')::uuid=product;\n  select to_jsonb(t)into strict target from erp.compute_non_po_product_hpp_targets_v2620f(product)t;\n  select to_jsonb(b)into strict book from erp.compute_non_po_product_hpp_book_v2620f(product)b;\n  target_change:=target_change+(target->>'hpp_total_cost')::numeric-(row->'target'->>'hpp_total_cost')::numeric;\n  book_change:=book_change+(book->>'hpp_total_cost')::numeric-(row->'book'->>'hpp_total_cost')::numeric;\n  delta:=(target->>'hpp_total_cost')::numeric-(book->>'hpp_total_cost')::numeric;\n  redistribution:=redistribution+delta;\n  proof:=proof||jsonb_build_array(jsonb_build_object('product_id',product,'target',target,'book',book,'source_reallocation',delta));\n  if delta<>0 then lines:=lines||jsonb_build_array(jsonb_build_object('mapping_key','FG_INVENTORY','product_id',product,\n   'debit',greatest(delta,0),'credit',greatest(-delta,0)));end if;\n end loop;\n if target_change is distinct from p_source_delta or book_change is distinct from p_source_delta or redistribution<>0 then\n  raise exception 'CP7_SKU_COST_SOURCE_TOTAL_NOT_EXACT: source %, target change %, book change %, redistribution %',p_source_delta,target_change,book_change,redistribution;end if;\n if jsonb_array_length(lines)>0 then\n  event_id:=gen_random_uuid();\n  journal:=erp.post_journal('SKU_SOURCED_COST_REALLOCATION',event_id,p_date,'Pembagian biaya sumber mengikuti nilai SKU yang memiliki',lines);\n  insert into cp7_sku_conversion.cost_source_rebalances_v3(id,document_id,source_delta,before_proof,after_proof,journal_id,economic_date)\n  values(event_id,p_document,p_source_delta,p_before,jsonb_build_object('after_native_physical',proof,'new_source_events',new_events),journal,p_date);\n end if;\nend $function$\n",
-        "postgres",
-        "plpgsql",
-        "f",
-        true,
-        false,
-        false,
-        false,
-        "v",
-        "u",
-        "100",
-        "0",
-        [
-          "search_path=\"\"",
-          "TimeZone=UTC"
-        ],
-        [
-          "p_document",
-          "p_date",
-          "p_before",
-          "p_source_delta"
-        ],
-        null,
-        "p_document uuid, p_date date, p_before jsonb, p_source_delta numeric",
         "void",
         "-",
         [
@@ -3377,6 +3612,74 @@
           ]
         ]
       ],
+      "cp7_sku_conversion.rebalance_cost_source_v3(uuid,date,jsonb,numeric)": [
+        "CREATE OR REPLACE FUNCTION cp7_sku_conversion.rebalance_cost_source_v3(p_document uuid, p_date date, p_before jsonb, p_source_delta numeric)\n RETURNS void\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\n SET \"TimeZone\" TO 'UTC'\nAS $function$\ndeclare products uuid[];product uuid;row jsonb;target jsonb;book jsonb;proof jsonb:='[]';lines jsonb:='[]';\n old_events jsonb;delta numeric;target_change numeric:=0;book_change numeric:=0;redistribution numeric:=0;event_change numeric;\n event_id uuid;journal uuid;new_events jsonb;\nbegin\n perform erp.require_internal();perform pg_advisory_xact_lock(hashtextextended('FG_HPP_SALES_V2620C',0));\n if p_before->>'document_id'is distinct from p_document::text\n  or(p_before->>'backend_pid')::integer is distinct from pg_backend_pid()\n  or(p_before->>'transaction_id')::bigint is distinct from txid_current()\n  or p_source_delta is null or p_source_delta<>round(p_source_delta,2)\n  or p_source_delta::text in('NaN','Infinity','-Infinity')then raise exception 'CP7_SKU_COST_SOURCE_PROOF_REQUIRED';end if;\n products:=cp7_sku_conversion.cost_source_products_v3(p_document);\n if to_jsonb(products)is distinct from p_before->'products'then raise exception 'CP7_SKU_COST_SOURCE_SCOPE_CHANGED';end if;\n select coalesce(jsonb_agg(to_jsonb(e)order by e.id),'[]')into old_events from erp.be_conversion_cost_events_v1 e\n where e.document_id=p_document and e.id in(select(value->>'id')::uuid from jsonb_array_elements(p_before->'cost_events'));\n if old_events is distinct from p_before->'cost_events'then raise exception 'CP7_SKU_COST_SOURCE_HISTORY_CHANGED';end if;\n select coalesce(sum(e.target_amount-e.previous_amount),0),coalesce(jsonb_agg(to_jsonb(e)order by e.id),'[]')into event_change,new_events\n from erp.be_conversion_cost_events_v1 e where e.document_id=p_document\n  and e.id not in(select(value->>'id')::uuid from jsonb_array_elements(p_before->'cost_events'));\n if event_change is distinct from p_source_delta then raise exception 'CP7_SKU_COST_SOURCE_EVENT_DELTA_NOT_EXACT';end if;\n -- Retain physical recost and its own immutable source entries. The later\n -- original sync call sees no further physical change and distributes FG/COGS.\n perform cp7_sku_conversion.reprice_document_money_v3(p_document,p_date,p_before->'cost_money_state',new_events,p_source_delta);\n perform erp.be_nonpo_prepare_transfers_v1(p_date);\n foreach product in array products loop\n  select value into strict row from jsonb_array_elements(p_before->'before')where(value->>'product_id')::uuid=product;\n  select to_jsonb(t)into strict target from erp.compute_non_po_product_hpp_targets_v2620f(product)t;\n  select to_jsonb(b)into strict book from erp.compute_non_po_product_hpp_book_v2620f(product)b;\n  target_change:=target_change+(target->>'hpp_total_cost')::numeric-(row->'target'->>'hpp_total_cost')::numeric;\n  book_change:=book_change+(book->>'hpp_total_cost')::numeric-(row->'book'->>'hpp_total_cost')::numeric;\n  delta:=(target->>'hpp_total_cost')::numeric-(book->>'hpp_total_cost')::numeric;\n  redistribution:=redistribution+delta;\n  proof:=proof||jsonb_build_array(jsonb_build_object('product_id',product,'target',target,'book',book,'source_reallocation',delta));\n  if delta<>0 then lines:=lines||jsonb_build_array(jsonb_build_object('mapping_key','FG_INVENTORY','product_id',product,\n   'debit',greatest(delta,0),'credit',greatest(-delta,0)));end if;\n end loop;\n if target_change is distinct from p_source_delta or book_change is distinct from p_source_delta or redistribution<>0 then\n  raise exception 'CP7_SKU_COST_SOURCE_TOTAL_NOT_EXACT: source %, target change %, book change %, redistribution %',p_source_delta,target_change,book_change,redistribution;end if;\n if jsonb_array_length(lines)>0 then\n  event_id:=gen_random_uuid();\n  journal:=erp.post_journal('SKU_SOURCED_COST_REALLOCATION',event_id,p_date,'Pembagian biaya sumber mengikuti nilai SKU yang memiliki',lines);\n  insert into cp7_sku_conversion.cost_source_rebalances_v3(id,document_id,source_delta,before_proof,after_proof,journal_id,economic_date)\n  values(event_id,p_document,p_source_delta,p_before,jsonb_build_object('after_native_physical',proof,'new_source_events',new_events),journal,p_date);\n end if;\nend $function$\n",
+        "postgres",
+        "plpgsql",
+        "f",
+        true,
+        false,
+        false,
+        false,
+        "v",
+        "u",
+        "100",
+        "0",
+        [
+          "search_path=\"\"",
+          "TimeZone=UTC"
+        ],
+        [
+          "p_document",
+          "p_date",
+          "p_before",
+          "p_source_delta"
+        ],
+        null,
+        "p_document uuid, p_date date, p_before jsonb, p_source_delta numeric",
+        "void",
+        "-",
+        [
+          [
+            "postgres",
+            "postgres",
+            "EXECUTE",
+            false
+          ]
+        ]
+      ],
+      "cp7_sku_conversion.prepare_base_money_v4(jsonb)": [
+        "CREATE OR REPLACE FUNCTION cp7_sku_conversion.prepare_base_money_v4(p_preview jsonb)\n RETURNS void\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\nAS $function$\ndeclare c record;\nbegin\n perform erp.require_internal();perform pg_advisory_xact_lock(hashtextextended('FG_HPP_SALES_V2620C',0));\n for c in select *from cp7_sku_conversion.pool_components_v2((p_preview->>'source_product_id')::uuid,\n  (p_preview->>'location_id')::uuid,'GRADE_A')where po_id is null and component_units>0 loop\n  perform cp7_sku_conversion.ensure_base_money_v4(c.root_lot_id);\n end loop;\nend $function$\n",
+        "postgres",
+        "plpgsql",
+        "f",
+        true,
+        false,
+        false,
+        false,
+        "v",
+        "u",
+        "100",
+        "0",
+        [
+          "search_path=\"\""
+        ],
+        [
+          "p_preview"
+        ],
+        null,
+        "p_preview jsonb",
+        "void",
+        "-",
+        [
+          [
+            "postgres",
+            "postgres",
+            "EXECUTE",
+            false
+          ]
+        ]
+      ],
       "cp7_sku_conversion.base_money_cells_v4(uuid)": [
         "CREATE OR REPLACE FUNCTION cp7_sku_conversion.base_money_cells_v4(p_root uuid)\n RETURNS TABLE(product_id uuid, units numeric, amount numeric)\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO ''\nAS $function$\n select e.product_id,sum(e.units_delta)::numeric,sum(e.amount_delta)::numeric\n from cp7_sku_conversion.base_money_events_v4 e where e.root_lot_id=p_root group by e.product_id\n$function$\n",
         "postgres",
@@ -3407,38 +3710,6 @@
         ],
         "p_root uuid",
         "TABLE(product_id uuid, units numeric, amount numeric)",
-        "-",
-        [
-          [
-            "postgres",
-            "postgres",
-            "EXECUTE",
-            false
-          ]
-        ]
-      ],
-      "cp7_sku_conversion.base_scope_correction_v4(uuid)": [
-        "CREATE OR REPLACE FUNCTION cp7_sku_conversion.base_scope_correction_v4(p_product uuid)\n RETURNS numeric\n LANGUAGE plpgsql\n STABLE SECURITY DEFINER\n SET search_path TO ''\nAS $function$\ndeclare c record;answer numeric:=0;\nbegin\n for c in select e.root_lot_id,sum(e.units_delta)units,sum(e.amount_delta)amount,h.hpp_per_pcs\n  from cp7_sku_conversion.base_money_events_v4 e join erp.hpp_versions h on h.lot_id=e.root_lot_id and h.is_current\n  where e.product_id=p_product group by e.root_lot_id,h.hpp_per_pcs loop\n  perform cp7_sku_conversion.base_current_unit_v4(c.root_lot_id,p_product);\n  perform cp7_sku_conversion.base_transition_value_v4(c.root_lot_id,p_product);\n  answer:=answer+c.amount-c.units*c.hpp_per_pcs;\n end loop;\n return answer;\nend $function$\n",
-        "postgres",
-        "plpgsql",
-        "f",
-        true,
-        false,
-        false,
-        false,
-        "s",
-        "u",
-        "100",
-        "0",
-        [
-          "search_path=\"\""
-        ],
-        [
-          "p_product"
-        ],
-        null,
-        "p_product uuid",
-        "numeric",
         "-",
         [
           [
@@ -3521,7 +3792,7 @@
         ]
       ],
       "cp7_sku_conversion.base_transition_value_v4(uuid,uuid)": [
-        "CREATE OR REPLACE FUNCTION cp7_sku_conversion.base_transition_value_v4(p_root uuid, p_product uuid)\n RETURNS numeric\n LANGUAGE plpgsql\n STABLE SECURITY DEFINER\n SET search_path TO ''\nAS $function$\ndeclare owned numeric;physical numeric;difference numeric;expected numeric;native_unit numeric;unit numeric;\nbegin\n if not exists(select 1 from cp7_sku_conversion.base_money_events_v4 where root_lot_id=p_root)then return 0;end if;\n unit:=cp7_sku_conversion.base_current_unit_v4(p_root,p_product);\n select coalesce(sum(c.units),0)into owned from cp7_sku_conversion.base_money_cells_v4(p_root)c where c.product_id=p_product;\n select coalesce(sum(c.units),0)into physical from cp7_sku_conversion.base_raw_custody_v4(p_root)c where c.product_id=p_product;\n difference:=physical-owned;\n if difference=0 then return 0;end if;\n -- Only the existing private owning command may observe its intermediate\n -- Native physical transfer before the economic component hook. A GUC, role\n -- name, arbitrary backend or historical group cannot manufacture this lease.\n select coalesce(sum(case when e.mode='POST'and pc.status='POSTED'then -a.qty_pcs\n  when e.mode='REVERSE'and pc.status='REVERSED'then a.qty_pcs else 0 end),0)into expected\n from cp7_sku_conversion.execution_v1 e\n join cp7_sku_conversion.valuation_quotes_v2 q on q.group_id=e.group_id\n join erp.product_conversions pc on exists(select 1 from cp7_sku_conversion.members_v1 m\n   where m.group_id=e.group_id and m.conversion_id=pc.id)\n  or(e.mode='POST'and pc.from_product_id=q.source_product_id and pc.to_product_id=q.target_product_id\n   and pc.to_product_id=e.target_id and pc.location_id=q.location_id and pc.location_id=e.location_id\n   and pc.qty_pcs=e.qty and pc.physical_at=e.physical_at\n   and exists(select 1 from erp.be_execution_context_v1 b where b.backend_pid=e.backend_pid\n    and b.transaction_id=e.transaction_id and b.request_id=pc.id))\n join erp.product_conversion_allocations a on a.conversion_id=pc.id\n join erp.fg_lots l on l.id=a.source_lot_id\n where e.backend_pid=pg_backend_pid()and e.transaction_id=txid_current()\n  and a.source_lot_id=p_root and l.product_id=p_product\n  and(exists(select 1 from cp7_sku_conversion.members_v1 m where m.group_id=e.group_id and m.conversion_id=pc.id)\n   or(a.source_lot_id=e.source_lot_id and a.qty_pcs=e.qty));\n if difference is distinct from expected or expected=0 then raise exception 'CP7_SKU_BASE_MONEY_CUSTODY_NOT_EXACT';end if;\n select h.hpp_per_pcs into strict native_unit from erp.hpp_versions h where h.lot_id=p_root and h.is_current;\n return difference*(native_unit-unit);\nend $function$\n",
+        "CREATE OR REPLACE FUNCTION cp7_sku_conversion.base_transition_value_v4(p_root uuid, p_product uuid)\n RETURNS numeric\n LANGUAGE plpgsql\n STABLE SECURITY DEFINER\n SET search_path TO ''\nAS $function$\ndeclare owned numeric;physical numeric;difference numeric;expected numeric;native_unit numeric;unit numeric;\nbegin\n if not exists(select 1 from cp7_sku_conversion.base_money_events_v4 where root_lot_id=p_root)then return 0;end if;\n unit:=cp7_sku_conversion.base_current_unit_v4(p_root,p_product);\n select coalesce(sum(c.units),0)into owned from cp7_sku_conversion.base_money_cells_v4(p_root)c where c.product_id=p_product;\n select coalesce(sum(c.units),0)into physical from cp7_sku_conversion.base_raw_custody_v4(p_root)c where c.product_id=p_product;\n difference:=physical-owned;\n if difference=0 then return 0;end if;\n -- Only the existing private owning command may observe its intermediate\n -- Native physical transfer before the economic component hook. A GUC, role\n -- name, arbitrary backend or historical group cannot manufacture this lease.\n select coalesce(sum(case when e.mode='POST'and pc.status='POSTED'then -a.qty_pcs\n  when e.mode='REVERSE'and pc.status='REVERSED'then a.qty_pcs else 0 end),0)into expected\n from cp7_sku_conversion.execution_v1 e\n join cp7_sku_conversion.valuation_quotes_v2 q on q.group_id=e.group_id\n join erp.product_conversions pc on exists(select 1 from cp7_sku_conversion.members_v1 m\n   where m.group_id=e.group_id and m.conversion_id=pc.id)\n  or(e.mode='POST'and pc.from_product_id=q.source_product_id and pc.to_product_id=q.target_product_id\n   and pc.to_product_id=e.target_id and pc.location_id=q.location_id and pc.location_id=e.location_id\n   and pc.qty_pcs=e.qty and pc.physical_at=e.physical_at\n   and exists(select 1 from erp.be_execution_context_v1 b where b.backend_pid=e.backend_pid\n    and b.transaction_id=e.transaction_id and(b.request_id=pc.id or exists(\n     select 1 from cp7_sku_conversion.legacy_groups_v4 g\n     join erp.be_conversion_sources_v1 s on s.conversion_id=g.group_id\n     where g.group_id=pc.id and g.group_id=e.group_id and g.source_lot_id=e.source_lot_id\n      and g.admission_backend_pid=e.backend_pid and g.admission_transaction_id=e.transaction_id\n      and g.native_request_id=b.request_id and s.source_lot_id=g.source_lot_id\n      and s.origin_kind=g.origin_kind and s.rework_id is not distinct from g.rework_id))))\n join erp.product_conversion_allocations a on a.conversion_id=pc.id\n join erp.fg_lots l on l.id=a.source_lot_id\n where e.backend_pid=pg_backend_pid()and e.transaction_id=txid_current()\n  and a.source_lot_id=p_root and l.product_id=p_product\n  and(exists(select 1 from cp7_sku_conversion.members_v1 m where m.group_id=e.group_id and m.conversion_id=pc.id)\n   or(a.source_lot_id=e.source_lot_id and a.qty_pcs=e.qty));\n if difference is distinct from expected or expected=0 then raise exception 'CP7_SKU_BASE_MONEY_CUSTODY_NOT_EXACT';end if;\n select h.hpp_per_pcs into strict native_unit from erp.hpp_versions h where h.lot_id=p_root and h.is_current;\n return difference*(native_unit-unit);\nend $function$\n",
         "postgres",
         "plpgsql",
         "f",
@@ -3542,6 +3813,38 @@
         ],
         null,
         "p_root uuid, p_product uuid",
+        "numeric",
+        "-",
+        [
+          [
+            "postgres",
+            "postgres",
+            "EXECUTE",
+            false
+          ]
+        ]
+      ],
+      "cp7_sku_conversion.base_scope_correction_v4(uuid)": [
+        "CREATE OR REPLACE FUNCTION cp7_sku_conversion.base_scope_correction_v4(p_product uuid)\n RETURNS numeric\n LANGUAGE plpgsql\n STABLE SECURITY DEFINER\n SET search_path TO ''\nAS $function$\ndeclare c record;answer numeric:=0;\nbegin\n for c in select e.root_lot_id,sum(e.units_delta)units,sum(e.amount_delta)amount,h.hpp_per_pcs\n  from cp7_sku_conversion.base_money_events_v4 e join erp.hpp_versions h on h.lot_id=e.root_lot_id and h.is_current\n  where e.product_id=p_product group by e.root_lot_id,h.hpp_per_pcs loop\n  perform cp7_sku_conversion.base_current_unit_v4(c.root_lot_id,p_product);\n  perform cp7_sku_conversion.base_transition_value_v4(c.root_lot_id,p_product);\n  answer:=answer+c.amount-c.units*c.hpp_per_pcs;\n end loop;\n return answer;\nend $function$\n",
+        "postgres",
+        "plpgsql",
+        "f",
+        true,
+        false,
+        false,
+        false,
+        "s",
+        "u",
+        "100",
+        "0",
+        [
+          "search_path=\"\""
+        ],
+        [
+          "p_product"
+        ],
+        null,
+        "p_product uuid",
         "numeric",
         "-",
         [
@@ -3574,38 +3877,6 @@
         ],
         null,
         "p_root uuid",
-        "void",
-        "-",
-        [
-          [
-            "postgres",
-            "postgres",
-            "EXECUTE",
-            false
-          ]
-        ]
-      ],
-      "cp7_sku_conversion.prepare_base_money_v4(jsonb)": [
-        "CREATE OR REPLACE FUNCTION cp7_sku_conversion.prepare_base_money_v4(p_preview jsonb)\n RETURNS void\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\nAS $function$\ndeclare c record;\nbegin\n perform erp.require_internal();perform pg_advisory_xact_lock(hashtextextended('FG_HPP_SALES_V2620C',0));\n for c in select *from cp7_sku_conversion.pool_components_v2((p_preview->>'source_product_id')::uuid,\n  (p_preview->>'location_id')::uuid,'GRADE_A')where po_id is null and component_units>0 loop\n  perform cp7_sku_conversion.ensure_base_money_v4(c.root_lot_id);\n end loop;\nend $function$\n",
-        "postgres",
-        "plpgsql",
-        "f",
-        true,
-        false,
-        false,
-        false,
-        "v",
-        "u",
-        "100",
-        "0",
-        [
-          "search_path=\"\""
-        ],
-        [
-          "p_preview"
-        ],
-        null,
-        "p_preview jsonb",
         "void",
         "-",
         [
@@ -3706,6 +3977,40 @@
         null,
         "p_root uuid, p_date date, p_before jsonb",
         "void",
+        "-",
+        [
+          [
+            "postgres",
+            "postgres",
+            "EXECUTE",
+            false
+          ]
+        ]
+      ],
+      "cp7_sku_conversion.legacy_source_revision_v4(uuid,uuid,text)": [
+        "CREATE OR REPLACE FUNCTION cp7_sku_conversion.legacy_source_revision_v4(p_lot uuid, p_location uuid, p_native text)\n RETURNS text\n LANGUAGE plpgsql\n STABLE SECURITY DEFINER\n SET search_path TO ''\nAS $function$\ndeclare v_product uuid;v_pool jsonb;v_error text;\nbegin\n -- Only the private admitted child translates its already checked combined\n -- revision back to the original Native physical revision.\n if exists(select 1 from cp7_sku_conversion.execution_v1 e\n  join cp7_sku_conversion.valuation_quotes_v2 q on q.group_id=e.group_id\n  join erp.fg_lots l on l.id=e.source_lot_id and l.product_id=q.source_product_id\n  where e.backend_pid=pg_backend_pid()and e.transaction_id=txid_current()and e.mode='POST'\n   and e.source_lot_id=p_lot and e.location_id=p_location and q.location_id=e.location_id\n   and q.target_product_id=e.target_id)then return p_native;end if;\n select product_id into v_product from erp.fg_lots where id=p_lot;\n if v_product is null then return p_native;end if;\n begin\n  v_pool:=cp7_sku_conversion.pool_quote_v2(v_product,p_location,'GRADE_A');\n exception when raise_exception then\n  get stacked diagnostics v_error=MESSAGE_TEXT;\n  if v_error not like 'CP7_SKU_POOL_HPP_UNKNOWN:%'then raise;end if;\n  -- A read of an unknown lot remains possible. Posting still executes the\n  -- exact pool quote and refuses unknown value; no unknown price is invented.\n  v_pool:=jsonb_build_object('revision','UNKNOWN');\n end;\n if v_pool->>'revision'<>'UNKNOWN'then\n  -- A known preview must also admit the existing raw custody, before a new\n  -- opaque revision can be handed to a client. Non-unknown failures propagate.\n  perform cp7_sku_conversion.base_scope_correction_v4(v_product);\n end if;\n return md5(jsonb_build_object('native',p_native,'source_value',v_pool->>'revision')::text);\nend $function$\n",
+        "postgres",
+        "plpgsql",
+        "f",
+        true,
+        false,
+        false,
+        false,
+        "s",
+        "u",
+        "100",
+        "0",
+        [
+          "search_path=\"\""
+        ],
+        [
+          "p_lot",
+          "p_location",
+          "p_native"
+        ],
+        null,
+        "p_lot uuid, p_location uuid, p_native text",
+        "text",
         "-",
         [
           [
@@ -3848,6 +4153,14 @@
       ],
       "cp7_sku_conversion.base_money_events_root_product_v4": [
         "CREATE INDEX base_money_events_root_product_v4 ON cp7_sku_conversion.base_money_events_v4 USING btree (root_lot_id, product_id)",
+        true,
+        true,
+        true,
+        false,
+        false
+      ],
+      "cp7_sku_conversion.legacy_groups_v4_pkey": [
+        "CREATE UNIQUE INDEX legacy_groups_v4_pkey ON cp7_sku_conversion.legacy_groups_v4 USING btree (group_id)",
         true,
         true,
         true,
@@ -4123,6 +4436,70 @@
         false,
         false,
         "n",
+        null,
+        true,
+        null,
+        null,
+        null,
+        [
+          [
+            "postgres",
+            "postgres",
+            "DELETE",
+            false
+          ],
+          [
+            "postgres",
+            "postgres",
+            "INSERT",
+            false
+          ],
+          [
+            "postgres",
+            "postgres",
+            "MAINTAIN",
+            false
+          ],
+          [
+            "postgres",
+            "postgres",
+            "REFERENCES",
+            false
+          ],
+          [
+            "postgres",
+            "postgres",
+            "SELECT",
+            false
+          ],
+          [
+            "postgres",
+            "postgres",
+            "TRIGGER",
+            false
+          ],
+          [
+            "postgres",
+            "postgres",
+            "TRUNCATE",
+            false
+          ],
+          [
+            "postgres",
+            "postgres",
+            "UPDATE",
+            false
+          ]
+        ]
+      ],
+      "cp7_sku_conversion.cost_contributors_v3": [
+        "postgres",
+        "r",
+        "p",
+        true,
+        false,
+        false,
+        "d",
         null,
         true,
         null,
@@ -4564,70 +4941,6 @@
         ]
       ],
       "cp7_sku_conversion.cost_events_v3": [
-        "postgres",
-        "r",
-        "p",
-        true,
-        false,
-        false,
-        "d",
-        null,
-        true,
-        null,
-        null,
-        null,
-        [
-          [
-            "postgres",
-            "postgres",
-            "DELETE",
-            false
-          ],
-          [
-            "postgres",
-            "postgres",
-            "INSERT",
-            false
-          ],
-          [
-            "postgres",
-            "postgres",
-            "MAINTAIN",
-            false
-          ],
-          [
-            "postgres",
-            "postgres",
-            "REFERENCES",
-            false
-          ],
-          [
-            "postgres",
-            "postgres",
-            "SELECT",
-            false
-          ],
-          [
-            "postgres",
-            "postgres",
-            "TRIGGER",
-            false
-          ],
-          [
-            "postgres",
-            "postgres",
-            "TRUNCATE",
-            false
-          ],
-          [
-            "postgres",
-            "postgres",
-            "UPDATE",
-            false
-          ]
-        ]
-      ],
-      "cp7_sku_conversion.cost_contributors_v3": [
         "postgres",
         "r",
         "p",
@@ -5458,6 +5771,134 @@
             false
           ]
         ]
+      ],
+      "cp7_sku_conversion.legacy_groups_v4": [
+        "postgres",
+        "r",
+        "p",
+        true,
+        false,
+        false,
+        "d",
+        null,
+        true,
+        null,
+        null,
+        null,
+        [
+          [
+            "postgres",
+            "postgres",
+            "DELETE",
+            false
+          ],
+          [
+            "postgres",
+            "postgres",
+            "INSERT",
+            false
+          ],
+          [
+            "postgres",
+            "postgres",
+            "MAINTAIN",
+            false
+          ],
+          [
+            "postgres",
+            "postgres",
+            "REFERENCES",
+            false
+          ],
+          [
+            "postgres",
+            "postgres",
+            "SELECT",
+            false
+          ],
+          [
+            "postgres",
+            "postgres",
+            "TRIGGER",
+            false
+          ],
+          [
+            "postgres",
+            "postgres",
+            "TRUNCATE",
+            false
+          ],
+          [
+            "postgres",
+            "postgres",
+            "UPDATE",
+            false
+          ]
+        ]
+      ],
+      "cp7_sku_conversion.legacy_groups_v4_pkey": [
+        "postgres",
+        "i",
+        "p",
+        false,
+        false,
+        false,
+        "n",
+        null,
+        true,
+        null,
+        null,
+        null,
+        [
+          [
+            "postgres",
+            "postgres",
+            "DELETE",
+            false
+          ],
+          [
+            "postgres",
+            "postgres",
+            "INSERT",
+            false
+          ],
+          [
+            "postgres",
+            "postgres",
+            "MAINTAIN",
+            false
+          ],
+          [
+            "postgres",
+            "postgres",
+            "REFERENCES",
+            false
+          ],
+          [
+            "postgres",
+            "postgres",
+            "SELECT",
+            false
+          ],
+          [
+            "postgres",
+            "postgres",
+            "TRIGGER",
+            false
+          ],
+          [
+            "postgres",
+            "postgres",
+            "TRUNCATE",
+            false
+          ],
+          [
+            "postgres",
+            "postgres",
+            "UPDATE",
+            false
+          ]
+        ]
       ]
     },
     "roles": {},
@@ -5603,6 +6044,24 @@
         false,
         "cp7_sku_conversion.immutable_v1()",
         "CREATE TRIGGER base_money_events_immutable_v4 BEFORE DELETE OR UPDATE ON cp7_sku_conversion.base_money_events_v4 FOR EACH ROW EXECUTE FUNCTION cp7_sku_conversion.immutable_v1()",
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "cp7_sku_conversion.legacy_groups_v4:legacy_groups_immutable_v4": [
+        false,
+        "O",
+        27,
+        0,
+        "",
+        [],
+        false,
+        false,
+        "cp7_sku_conversion.immutable_v1()",
+        "CREATE TRIGGER legacy_groups_immutable_v4 BEFORE DELETE OR UPDATE ON cp7_sku_conversion.legacy_groups_v4 FOR EACH ROW EXECUTE FUNCTION cp7_sku_conversion.immutable_v1()",
         null,
         null,
         null,
@@ -7193,6 +7652,222 @@
         "erp.products",
         null,
         "cp7_sku_conversion.base_money_events_v4"
+      ],
+      "cp7_sku_conversion.valuation_quotes_v2:cp7_sku_conversion.legacy_groups_v4:legacy_groups_v4_group_id_fkey:\"RI_FKey_noaction_del\"():9": [
+        true,
+        "O",
+        9,
+        0,
+        "",
+        [],
+        false,
+        false,
+        "\"RI_FKey_noaction_del\"()",
+        null,
+        null,
+        null,
+        "legacy_groups_v4_group_id_fkey",
+        "cp7_sku_conversion.legacy_groups_v4",
+        null,
+        "cp7_sku_conversion.legacy_groups_v4"
+      ],
+      "cp7_sku_conversion.valuation_quotes_v2:cp7_sku_conversion.legacy_groups_v4:legacy_groups_v4_group_id_fkey:\"RI_FKey_noaction_upd\"():17": [
+        true,
+        "O",
+        17,
+        0,
+        "",
+        [],
+        false,
+        false,
+        "\"RI_FKey_noaction_upd\"()",
+        null,
+        null,
+        null,
+        "legacy_groups_v4_group_id_fkey",
+        "cp7_sku_conversion.legacy_groups_v4",
+        null,
+        "cp7_sku_conversion.legacy_groups_v4"
+      ],
+      "cp7_sku_conversion.legacy_groups_v4:cp7_sku_conversion.legacy_groups_v4:legacy_groups_v4_group_id_fkey:\"RI_FKey_check_ins\"():5": [
+        true,
+        "O",
+        5,
+        0,
+        "",
+        [],
+        false,
+        false,
+        "\"RI_FKey_check_ins\"()",
+        null,
+        null,
+        null,
+        "legacy_groups_v4_group_id_fkey",
+        "cp7_sku_conversion.valuation_quotes_v2",
+        null,
+        "cp7_sku_conversion.legacy_groups_v4"
+      ],
+      "cp7_sku_conversion.legacy_groups_v4:cp7_sku_conversion.legacy_groups_v4:legacy_groups_v4_group_id_fkey:\"RI_FKey_check_upd\"():17": [
+        true,
+        "O",
+        17,
+        0,
+        "",
+        [],
+        false,
+        false,
+        "\"RI_FKey_check_upd\"()",
+        null,
+        null,
+        null,
+        "legacy_groups_v4_group_id_fkey",
+        "cp7_sku_conversion.valuation_quotes_v2",
+        null,
+        "cp7_sku_conversion.legacy_groups_v4"
+      ],
+      "erp.fg_lots:cp7_sku_conversion.legacy_groups_v4:legacy_groups_v4_source_lot_id_fkey:\"RI_FKey_noaction_del\"():9": [
+        true,
+        "O",
+        9,
+        0,
+        "",
+        [],
+        false,
+        false,
+        "\"RI_FKey_noaction_del\"()",
+        null,
+        null,
+        null,
+        "legacy_groups_v4_source_lot_id_fkey",
+        "cp7_sku_conversion.legacy_groups_v4",
+        null,
+        "cp7_sku_conversion.legacy_groups_v4"
+      ],
+      "erp.fg_lots:cp7_sku_conversion.legacy_groups_v4:legacy_groups_v4_source_lot_id_fkey:\"RI_FKey_noaction_upd\"():17": [
+        true,
+        "O",
+        17,
+        0,
+        "",
+        [],
+        false,
+        false,
+        "\"RI_FKey_noaction_upd\"()",
+        null,
+        null,
+        null,
+        "legacy_groups_v4_source_lot_id_fkey",
+        "cp7_sku_conversion.legacy_groups_v4",
+        null,
+        "cp7_sku_conversion.legacy_groups_v4"
+      ],
+      "cp7_sku_conversion.legacy_groups_v4:cp7_sku_conversion.legacy_groups_v4:legacy_groups_v4_source_lot_id_fkey:\"RI_FKey_check_ins\"():5": [
+        true,
+        "O",
+        5,
+        0,
+        "",
+        [],
+        false,
+        false,
+        "\"RI_FKey_check_ins\"()",
+        null,
+        null,
+        null,
+        "legacy_groups_v4_source_lot_id_fkey",
+        "erp.fg_lots",
+        null,
+        "cp7_sku_conversion.legacy_groups_v4"
+      ],
+      "cp7_sku_conversion.legacy_groups_v4:cp7_sku_conversion.legacy_groups_v4:legacy_groups_v4_source_lot_id_fkey:\"RI_FKey_check_upd\"():17": [
+        true,
+        "O",
+        17,
+        0,
+        "",
+        [],
+        false,
+        false,
+        "\"RI_FKey_check_upd\"()",
+        null,
+        null,
+        null,
+        "legacy_groups_v4_source_lot_id_fkey",
+        "erp.fg_lots",
+        null,
+        "cp7_sku_conversion.legacy_groups_v4"
+      ],
+      "erp.rework_orders:cp7_sku_conversion.legacy_groups_v4:legacy_groups_v4_rework_id_fkey:\"RI_FKey_noaction_del\"():9": [
+        true,
+        "O",
+        9,
+        0,
+        "",
+        [],
+        false,
+        false,
+        "\"RI_FKey_noaction_del\"()",
+        null,
+        null,
+        null,
+        "legacy_groups_v4_rework_id_fkey",
+        "cp7_sku_conversion.legacy_groups_v4",
+        null,
+        "cp7_sku_conversion.legacy_groups_v4"
+      ],
+      "erp.rework_orders:cp7_sku_conversion.legacy_groups_v4:legacy_groups_v4_rework_id_fkey:\"RI_FKey_noaction_upd\"():17": [
+        true,
+        "O",
+        17,
+        0,
+        "",
+        [],
+        false,
+        false,
+        "\"RI_FKey_noaction_upd\"()",
+        null,
+        null,
+        null,
+        "legacy_groups_v4_rework_id_fkey",
+        "cp7_sku_conversion.legacy_groups_v4",
+        null,
+        "cp7_sku_conversion.legacy_groups_v4"
+      ],
+      "cp7_sku_conversion.legacy_groups_v4:cp7_sku_conversion.legacy_groups_v4:legacy_groups_v4_rework_id_fkey:\"RI_FKey_check_ins\"():5": [
+        true,
+        "O",
+        5,
+        0,
+        "",
+        [],
+        false,
+        false,
+        "\"RI_FKey_check_ins\"()",
+        null,
+        null,
+        null,
+        "legacy_groups_v4_rework_id_fkey",
+        "erp.rework_orders",
+        null,
+        "cp7_sku_conversion.legacy_groups_v4"
+      ],
+      "cp7_sku_conversion.legacy_groups_v4:cp7_sku_conversion.legacy_groups_v4:legacy_groups_v4_rework_id_fkey:\"RI_FKey_check_upd\"():17": [
+        true,
+        "O",
+        17,
+        0,
+        "",
+        [],
+        false,
+        false,
+        "\"RI_FKey_check_upd\"()",
+        null,
+        null,
+        null,
+        "legacy_groups_v4_rework_id_fkey",
+        "erp.rework_orders",
+        null,
+        "cp7_sku_conversion.legacy_groups_v4"
       ]
     },
     "type_implementation": {
@@ -7490,6 +8165,44 @@
         0,
         "-",
         "cp7_sku_conversion.base_money_events_v4",
+        "-",
+        "array_subscript_handler(internal)",
+        "array_in(cstring,oid,integer)",
+        "array_out(anyarray)",
+        "array_recv(internal,oid,integer)",
+        "array_send(anyarray)",
+        "-",
+        "-",
+        "array_typanalyze(internal)"
+      ],
+      "cp7_sku_conversion.legacy_groups_v4": [
+        -1,
+        false,
+        ",",
+        "d",
+        "x",
+        0,
+        "cp7_sku_conversion.legacy_groups_v4",
+        "-",
+        "cp7_sku_conversion.legacy_groups_v4[]",
+        "-",
+        "record_in(cstring,oid,integer)",
+        "record_out(record)",
+        "record_recv(internal,oid,integer)",
+        "record_send(record)",
+        "-",
+        "-",
+        "-"
+      ],
+      "cp7_sku_conversion.legacy_groups_v4[]": [
+        -1,
+        false,
+        ",",
+        "d",
+        "x",
+        0,
+        "-",
+        "cp7_sku_conversion.legacy_groups_v4",
         "-",
         "array_subscript_handler(internal)",
         "array_in(cstring,oid,integer)",
@@ -7805,6 +8518,44 @@
             false
           ]
         ]
+      ],
+      "cp7_sku_conversion.legacy_groups_v4": [
+        "postgres",
+        "c",
+        "C",
+        false,
+        true,
+        false,
+        null,
+        null,
+        "-",
+        [
+          [
+            "postgres",
+            "postgres",
+            "CREATE",
+            false
+          ]
+        ]
+      ],
+      "cp7_sku_conversion.legacy_groups_v4[]": [
+        "postgres",
+        "b",
+        "A",
+        false,
+        true,
+        false,
+        null,
+        null,
+        "-",
+        [
+          [
+            "postgres",
+            "postgres",
+            "CREATE",
+            false
+          ]
+        ]
       ]
     }
   },
@@ -7947,7 +8698,7 @@
       ]
     ],
     "cp7_sku_conversion.action_v1(text,jsonb,uuid)": [
-      "CREATE OR REPLACE FUNCTION cp7_sku_conversion.action_v1(p_action text, p_payload jsonb, p_request uuid)\n RETURNS jsonb\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\n SET \"TimeZone\" TO 'UTC'\nAS $function$\ndeclare a text:=upper(btrim(coalesce(p_action,'')));v jsonb;prior jsonb;part jsonb;child_payload jsonb;child jsonb;\n ids jsonb:='[]'::jsonb;destinations jsonb:='[]'::jsonb;child_id uuid;v_group_id uuid;i int:=0;r record;\nbegin\n perform erp.require_permission('warehouse.brand_conversion.view');\n if a not in('POST','REVERSE','POST_USAGE','SAVE_REWORK','SAVE_REDYE','SET_REDYE_PRICE')then raise exception 'BE_ACTION_UNKNOWN: tindakan tidak dikenal';end if;\n if not(a='POST'and p_payload?'source_product_id')and not(a='REVERSE'and exists(select 1 from cp7_sku_conversion.members_v1 where conversion_id=(p_payload->>'conversion_id')::uuid))then\n  return erp.save_product_conversion_action_v1(p_action,p_payload,p_request);end if;\n perform erp.require_permission('warehouse.brand_conversion.view');perform erp.require_permission(case when a='REVERSE'then 'warehouse.brand_conversion.reverse'else 'warehouse.brand_conversion.post'end);\n if a='REVERSE'then perform erp.require_owner_admin();end if;perform erp.require_internal();\n if p_request is null or jsonb_typeof(p_payload)is distinct from 'object'or octet_length(p_payload::text)>30000 then raise exception 'CP7_SKU_CONVERSION_REQUEST';end if;\n prior:=erp._idempotency_begin('cp7_sku_conversion_v1',p_request,erp._request_hash(jsonb_build_object('action',a,'payload',p_payload)));\n perform erp.require_permission('warehouse.brand_conversion.view');perform erp.require_permission(case when a='REVERSE'then 'warehouse.brand_conversion.reverse'else 'warehouse.brand_conversion.post'end);\n if a='REVERSE'then perform erp.require_owner_admin();end if;perform erp.require_internal();\n if prior is not null then return prior;end if;\n perform erp.pocket_period_lock_v1();perform pg_advisory_xact_lock(hashtextextended('FG_HPP_SALES_V2620C',0));\n perform erp.require_permission('warehouse.brand_conversion.view');perform erp.require_permission(case when a='REVERSE'then 'warehouse.brand_conversion.reverse'else 'warehouse.brand_conversion.post'end);\n if a='REVERSE'then perform erp.require_owner_admin();end if;perform erp.require_internal();\n if a='POST'then\n  if not(p_payload?'expected_version')then raise exception 'CP7_SKU_PREVIEW_REQUIRED';end if;\n  v:=cp7_sku_conversion.preview_v1(p_payload);\n  perform erp.require_permission('warehouse.brand_conversion.view');perform erp.require_permission('warehouse.brand_conversion.post');perform erp.require_internal();\n  insert into cp7_sku_conversion.groups_v1(request_id,actor,payload)values(p_request,erp.current_app_user_id(),p_payload);\n  perform cp7_sku_conversion.prepare_valuation_v2(p_request,v);\n  insert into cp7_sku_conversion.execution_v1(backend_pid,transaction_id,group_id,mode)values(pg_backend_pid(),txid_current(),p_request,'POST');\n  for part in select value from jsonb_array_elements(v->'allocations')with ordinality as parts(value,ordinal)order by ordinal loop\n   i:=i+1;child_id:=case when i=1 then p_request else gen_random_uuid()end;\n   update cp7_sku_conversion.execution_v1 set source_lot_id=(part->>'source_lot_id')::uuid,target_id=(v->>'target_product_id')::uuid,\n    location_id=(v->>'location_id')::uuid,qty=(part->>'qty_pcs')::int,physical_at=(v->>'physical_at')::timestamptz\n    where backend_pid=pg_backend_pid()and transaction_id=txid_current();\n   child_payload:=jsonb_build_object('source_lot_id',part->'source_lot_id','target_product_id',v->'target_product_id','location_id',v->'location_id',\n    'qty_pcs',part->'qty_pcs','physical_at',v->'physical_at','reason',p_payload->'reason','expected_version',part->'source_revision');\n   if i=1 and p_payload?'expected_returns'then child_payload:=child_payload||jsonb_build_object('expected_returns',p_payload->'expected_returns');end if;\n   child:=erp.save_product_conversion_action_v1('POST',child_payload,child_id);\n   insert into cp7_sku_conversion.members_v1 values(child_id,p_request,i);\n   ids:=ids||jsonb_build_array(child_id);destinations:=destinations||jsonb_build_array(child->'destination_lot_id');\n  end loop;\n  perform cp7_sku_conversion.finalize_valuation_v2(p_request);\n  v:=v||jsonb_build_object('conversion_id',p_request,'destination_lot_id',destinations->0,'conversion_ids',ids,'destination_lot_ids',destinations,'status','POSTED');\n else\n  perform erp._cp3_assert_closed_json_object(p_payload,array['conversion_id','reason'],array['conversion_id','reason'],'pembatalan konversi');\n  perform erp.bc_text_v1(p_payload,'reason',true,1000);\n  select m.group_id into strict v_group_id from cp7_sku_conversion.members_v1 m where m.conversion_id=(p_payload->>'conversion_id')::uuid;\n  -- Validate every member before invoking any Native inverse. A rollback of\n  -- an earlier member cannot undo Native audit or stock-book nextval calls.\n  -- Keep the original BE and Native guards below as the posting authority.\n  perform 1 from erp.product_conversions c join cp7_sku_conversion.members_v1 m on m.conversion_id=c.id\n   where m.group_id=v_group_id order by c.id for update of c;\n  perform erp.require_permission('warehouse.brand_conversion.view');perform erp.require_permission('warehouse.brand_conversion.reverse');\n  perform erp.require_owner_admin();perform erp.require_internal();\n  if exists(select 1 from cp7_sku_conversion.members_v1 m where m.group_id=v_group_id\n   and not exists(select 1 from erp.be_conversion_sources_v1 s where s.conversion_id=m.conversion_id))then\n   raise exception 'BE_DOCUMENT_NOT_FOUND';end if;\n  if exists(select 1 from cp7_sku_conversion.members_v1 m join erp.be_conversion_cost_sources_v1 s on s.conversion_id=m.conversion_id\n   join erp.bc_documents_v1 d on d.id=s.document_id where m.group_id=v_group_id and d.status='POSTED')then\n   raise exception 'BE_REVERSE_DEPENDANTS: batalkan dahulu sumber biaya/pemulihan';end if;\n  if exists(select 1 from cp7_sku_conversion.members_v1 m join erp.be_conversion_returns_v1 s on s.conversion_id=m.conversion_id\n   join erp.bc_return_lots_v1 l on l.outstanding_id=s.outstanding_id join erp.bc_documents_v1 d on d.id=l.document_id\n   where m.group_id=v_group_id and d.status='POSTED')then\n   raise exception 'BE_REVERSE_DEPENDANTS: batalkan dahulu penerimaan bongkaran';end if;\n  if exists(select 1 from cp7_sku_conversion.members_v1 m join erp.product_conversions c on c.id=m.conversion_id\n   where m.group_id=v_group_id and c.status not in('POSTED','REVERSED'))then\n   raise exception 'Hanya conversion/rebrand POSTED yang dapat direverse';end if;\n  if exists(select 1 from cp7_sku_conversion.members_v1 m join erp.product_conversions c on c.id=m.conversion_id\n   join erp.product_conversion_allocations a on a.conversion_id=c.id where m.group_id=v_group_id and c.status='POSTED'\n   and erp.fg_lot_has_active_downstream(a.destination_lot_id,'REBRAND_IN','PRODUCT_CONVERSION',c.id))then\n   raise exception 'Hasil conversion/rebrand masih dipakai transaksi downstream aktif. Reverse transaksi downstream terlebih dahulu.';end if;\n  if exists(select 1 from cp7_sku_conversion.members_v1 m join erp.product_conversions c on c.id=m.conversion_id\n   where m.group_id=v_group_id and c.status='POSTED'\n   and (select coalesce(sum(a.qty_pcs*a.original_hpp_per_pcs),0)::numeric(24,6)from erp.product_conversion_allocations a where a.conversion_id=c.id)>0.005\n   and not exists(select 1 from erp.journal_entries j where j.source_type='PRODUCT_CONVERSION'and j.source_id=c.id and j.status='POSTED'))then\n   raise exception 'Jurnal conversion/rebrand tidak ditemukan; reversal dibatalkan agar nilai persediaan tidak rusak';end if;\n  perform cp7_sku_conversion.assert_group_inverse_capacity_v3(v_group_id);\n  insert into cp7_sku_conversion.execution_v1(backend_pid,transaction_id,group_id,mode)values(pg_backend_pid(),txid_current(),v_group_id,'REVERSE');\n  for r in select m.conversion_id from cp7_sku_conversion.members_v1 m where m.group_id=v_group_id order by line_no desc loop\n   child:=erp.save_product_conversion_action_v1('REVERSE',jsonb_build_object('conversion_id',r.conversion_id,'reason',p_payload->'reason'),\n     case when r.conversion_id=(p_payload->>'conversion_id')::uuid then p_request else gen_random_uuid()end);\n   ids:=ids||jsonb_build_array(r.conversion_id);\n  end loop;\n  perform cp7_sku_conversion.reverse_valuation_v2(v_group_id);\n  v:=jsonb_build_object('conversion_id',p_payload->'conversion_id','conversion_ids',ids,'status','REVERSED');\n end if;\n delete from cp7_sku_conversion.execution_v1 where backend_pid=pg_backend_pid()and transaction_id=txid_current();\n return erp._idempotency_complete('cp7_sku_conversion_v1',p_request,v||jsonb_build_object('request_id',p_request,'action',a));\nend $function$\n",
+      "CREATE OR REPLACE FUNCTION cp7_sku_conversion.action_v1(p_action text, p_payload jsonb, p_request uuid)\n RETURNS jsonb\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\n SET \"TimeZone\" TO 'UTC'\nAS $function$\ndeclare a text:=upper(btrim(coalesce(p_action,'')));v jsonb;prior jsonb;part jsonb;child_payload jsonb;child jsonb;\n ids jsonb:='[]'::jsonb;destinations jsonb:='[]'::jsonb;child_id uuid;v_group_id uuid;i int:=0;r record;\nbegin\n perform erp.require_permission('warehouse.brand_conversion.view');\n if a not in('POST','REVERSE','POST_USAGE','SAVE_REWORK','SAVE_REDYE','SET_REDYE_PRICE')then raise exception 'BE_ACTION_UNKNOWN: tindakan tidak dikenal';end if;\n if not(a='POST'and p_payload?'source_product_id')and not(a='REVERSE'and exists(select 1 from cp7_sku_conversion.members_v1 m where conversion_id=(p_payload->>'conversion_id')::uuid\n   and not exists(select 1 from cp7_sku_conversion.legacy_groups_v4 g where g.group_id=m.group_id)))then\n  return erp.save_product_conversion_action_v1(p_action,p_payload,p_request);end if;\n perform erp.require_permission('warehouse.brand_conversion.view');perform erp.require_permission(case when a='REVERSE'then 'warehouse.brand_conversion.reverse'else 'warehouse.brand_conversion.post'end);\n if a='REVERSE'then perform erp.require_owner_admin();end if;perform erp.require_internal();\n if p_request is null or jsonb_typeof(p_payload)is distinct from 'object'or octet_length(p_payload::text)>30000 then raise exception 'CP7_SKU_CONVERSION_REQUEST';end if;\n prior:=erp._idempotency_begin('cp7_sku_conversion_v1',p_request,erp._request_hash(jsonb_build_object('action',a,'payload',p_payload)));\n perform erp.require_permission('warehouse.brand_conversion.view');perform erp.require_permission(case when a='REVERSE'then 'warehouse.brand_conversion.reverse'else 'warehouse.brand_conversion.post'end);\n if a='REVERSE'then perform erp.require_owner_admin();end if;perform erp.require_internal();\n if prior is not null then return prior;end if;\n perform erp.pocket_period_lock_v1();perform pg_advisory_xact_lock(hashtextextended('FG_HPP_SALES_V2620C',0));\n perform erp.require_permission('warehouse.brand_conversion.view');perform erp.require_permission(case when a='REVERSE'then 'warehouse.brand_conversion.reverse'else 'warehouse.brand_conversion.post'end);\n if a='REVERSE'then perform erp.require_owner_admin();end if;perform erp.require_internal();\n if a='POST'then\n  if not(p_payload?'expected_version')then raise exception 'CP7_SKU_PREVIEW_REQUIRED';end if;\n  v:=cp7_sku_conversion.preview_v1(p_payload);\n  perform erp.require_permission('warehouse.brand_conversion.view');perform erp.require_permission('warehouse.brand_conversion.post');perform erp.require_internal();\n  insert into cp7_sku_conversion.groups_v1(request_id,actor,payload)values(p_request,erp.current_app_user_id(),p_payload);\n  perform cp7_sku_conversion.prepare_valuation_v2(p_request,v);\n  insert into cp7_sku_conversion.execution_v1(backend_pid,transaction_id,group_id,mode)values(pg_backend_pid(),txid_current(),p_request,'POST');\n  for part in select value from jsonb_array_elements(v->'allocations')with ordinality as parts(value,ordinal)order by ordinal loop\n   i:=i+1;child_id:=case when i=1 then p_request else gen_random_uuid()end;\n   update cp7_sku_conversion.execution_v1 set source_lot_id=(part->>'source_lot_id')::uuid,target_id=(v->>'target_product_id')::uuid,\n    location_id=(v->>'location_id')::uuid,qty=(part->>'qty_pcs')::int,physical_at=(v->>'physical_at')::timestamptz\n    where backend_pid=pg_backend_pid()and transaction_id=txid_current();\n   child_payload:=jsonb_build_object('source_lot_id',part->'source_lot_id','target_product_id',v->'target_product_id','location_id',v->'location_id',\n    'qty_pcs',part->'qty_pcs','physical_at',v->'physical_at','reason',p_payload->'reason','expected_version',erp.be_source_revision_v1((part->>'source_lot_id')::uuid,(v->>'location_id')::uuid));\n   if i=1 and p_payload?'expected_returns'then child_payload:=child_payload||jsonb_build_object('expected_returns',p_payload->'expected_returns');end if;\n   child:=erp.save_product_conversion_action_v1('POST',child_payload,child_id);\n   insert into cp7_sku_conversion.members_v1 values(child_id,p_request,i);\n   ids:=ids||jsonb_build_array(child_id);destinations:=destinations||jsonb_build_array(child->'destination_lot_id');\n  end loop;\n  perform cp7_sku_conversion.finalize_valuation_v2(p_request);\n  v:=v||jsonb_build_object('conversion_id',p_request,'destination_lot_id',destinations->0,'conversion_ids',ids,'destination_lot_ids',destinations,'status','POSTED');\n else\n  perform erp._cp3_assert_closed_json_object(p_payload,array['conversion_id','reason'],array['conversion_id','reason'],'pembatalan konversi');\n  perform erp.bc_text_v1(p_payload,'reason',true,1000);\n  select m.group_id into strict v_group_id from cp7_sku_conversion.members_v1 m where m.conversion_id=(p_payload->>'conversion_id')::uuid;\n  -- Validate every member before invoking any Native inverse. A rollback of\n  -- an earlier member cannot undo Native audit or stock-book nextval calls.\n  -- Keep the original BE and Native guards below as the posting authority.\n  perform 1 from erp.product_conversions c join cp7_sku_conversion.members_v1 m on m.conversion_id=c.id\n   where m.group_id=v_group_id order by c.id for update of c;\n  perform erp.require_permission('warehouse.brand_conversion.view');perform erp.require_permission('warehouse.brand_conversion.reverse');\n  perform erp.require_owner_admin();perform erp.require_internal();\n  if exists(select 1 from cp7_sku_conversion.members_v1 m where m.group_id=v_group_id\n   and not exists(select 1 from erp.be_conversion_sources_v1 s where s.conversion_id=m.conversion_id))then\n   raise exception 'BE_DOCUMENT_NOT_FOUND';end if;\n  if exists(select 1 from cp7_sku_conversion.members_v1 m join erp.be_conversion_cost_sources_v1 s on s.conversion_id=m.conversion_id\n   join erp.bc_documents_v1 d on d.id=s.document_id where m.group_id=v_group_id and d.status='POSTED')then\n   raise exception 'BE_REVERSE_DEPENDANTS: batalkan dahulu sumber biaya/pemulihan';end if;\n  if exists(select 1 from cp7_sku_conversion.members_v1 m join erp.be_conversion_returns_v1 s on s.conversion_id=m.conversion_id\n   join erp.bc_return_lots_v1 l on l.outstanding_id=s.outstanding_id join erp.bc_documents_v1 d on d.id=l.document_id\n   where m.group_id=v_group_id and d.status='POSTED')then\n   raise exception 'BE_REVERSE_DEPENDANTS: batalkan dahulu penerimaan bongkaran';end if;\n  if exists(select 1 from cp7_sku_conversion.members_v1 m join erp.product_conversions c on c.id=m.conversion_id\n   where m.group_id=v_group_id and c.status not in('POSTED','REVERSED'))then\n   raise exception 'Hanya conversion/rebrand POSTED yang dapat direverse';end if;\n  if exists(select 1 from cp7_sku_conversion.members_v1 m join erp.product_conversions c on c.id=m.conversion_id\n   join erp.product_conversion_allocations a on a.conversion_id=c.id where m.group_id=v_group_id and c.status='POSTED'\n   and erp.fg_lot_has_active_downstream(a.destination_lot_id,'REBRAND_IN','PRODUCT_CONVERSION',c.id))then\n   raise exception 'Hasil conversion/rebrand masih dipakai transaksi downstream aktif. Reverse transaksi downstream terlebih dahulu.';end if;\n  if exists(select 1 from cp7_sku_conversion.members_v1 m join erp.product_conversions c on c.id=m.conversion_id\n   where m.group_id=v_group_id and c.status='POSTED'\n   and (select coalesce(sum(a.qty_pcs*a.original_hpp_per_pcs),0)::numeric(24,6)from erp.product_conversion_allocations a where a.conversion_id=c.id)>0.005\n   and not exists(select 1 from erp.journal_entries j where j.source_type='PRODUCT_CONVERSION'and j.source_id=c.id and j.status='POSTED'))then\n   raise exception 'Jurnal conversion/rebrand tidak ditemukan; reversal dibatalkan agar nilai persediaan tidak rusak';end if;\n  perform cp7_sku_conversion.assert_group_inverse_capacity_v3(v_group_id);\n  insert into cp7_sku_conversion.execution_v1(backend_pid,transaction_id,group_id,mode)values(pg_backend_pid(),txid_current(),v_group_id,'REVERSE');\n  for r in select m.conversion_id from cp7_sku_conversion.members_v1 m where m.group_id=v_group_id order by line_no desc loop\n   child:=erp.save_product_conversion_action_v1('REVERSE',jsonb_build_object('conversion_id',r.conversion_id,'reason',p_payload->'reason'),\n     case when r.conversion_id=(p_payload->>'conversion_id')::uuid then p_request else gen_random_uuid()end);\n   ids:=ids||jsonb_build_array(r.conversion_id);\n  end loop;\n  perform cp7_sku_conversion.reverse_valuation_v2(v_group_id);\n  v:=jsonb_build_object('conversion_id',p_payload->'conversion_id','conversion_ids',ids,'status','REVERSED');\n end if;\n delete from cp7_sku_conversion.execution_v1 where backend_pid=pg_backend_pid()and transaction_id=txid_current();\n return erp._idempotency_complete('cp7_sku_conversion_v1',p_request,v||jsonb_build_object('request_id',p_request,'action',a));\nend $function$\n",
       "postgres",
       "plpgsql",
       "f",
@@ -8428,6 +9179,73 @@
         ]
       ]
     ],
+    "erp.be_conversion_preview_v1(jsonb)": [
+      "CREATE OR REPLACE FUNCTION erp.be_conversion_preview_v1(p_payload jsonb)\n RETURNS jsonb\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\nAS $function$\ndeclare l erp.fg_lots%rowtype;s erp.products%rowtype;t erp.products%rowtype;v_location uuid;v_qty integer;\n v_at timestamptz;v_current numeric;v_dated numeric;v_hpp numeric;v_cost jsonb;v_source_pool jsonb;v_target_pool jsonb;\nbegin\n perform erp.require_permission('warehouse.brand_conversion.view');\n perform erp._cp3_assert_closed_json_object(p_payload,\n   array['source_lot_id','target_product_id','location_id','qty_pcs','physical_at','reason','expected_version'],\n   array['source_lot_id','target_product_id','location_id','qty_pcs','physical_at','reason','expected_version','expected_returns'],'konversi');\n perform erp.pocket_period_lock_v1();\n select * into l from erp.fg_lots where id=erp.bd_uuid_v1(p_payload,'source_lot_id',true);\n if l.id is null then raise exception 'BE_SOURCE_NOT_FOUND: lot sumber tidak ditemukan';end if;\n select * into s from erp.products where id=l.product_id for share;\n select * into t from erp.products where id=erp.bd_uuid_v1(p_payload,'target_product_id',true) for share;\n if t.id is null or not t.is_active then raise exception 'BE_TARGET_NOT_ACTIVE: SKU tujuan tidak aktif';end if;\n if t.id=s.id then raise exception 'BE_SAME_SKU: pilih SKU tujuan yang berbeda';end if;\n if not cp7_sku_conversion.manual_allocation_v1(l.id,t.id,(p_payload->>'location_id')::uuid,(p_payload->>'qty_pcs')::int,(p_payload->>'physical_at')::timestamptz) and (t.model_id is distinct from s.model_id or t.size_id is distinct from s.size_id) then\n   raise exception 'BE_DIMENSION_MISMATCH: model konstruksi dan ukuran harus tetap';end if;\n v_location:=erp.bd_uuid_v1(p_payload,'location_id',true);\n v_qty:=erp.bd_qty_v1(p_payload->'qty_pcs','qty_pcs');\n v_at:=erp.bd_at_v1(p_payload->>'physical_at','physical_at');\n perform erp.bc_text_v1(p_payload,'reason',true,1000);\n if v_at<l.produced_at then raise exception 'BE_BEFORE_SOURCE: waktu konversi sebelum lot tersedia';end if;\n if v_at<s.effective_from then\n  raise exception 'SKU % belum berlaku pada tanggal/jam transaksi %. Berlaku mulai %.',s.sku,v_at,s.effective_from;\n end if;\n if v_at<t.effective_from then\n  raise exception 'SKU % belum berlaku pada tanggal/jam transaksi %. Berlaku mulai %.',t.sku,v_at,t.effective_from;\n end if;\n if t.effective_to is not null and v_at>=t.effective_to then\n  raise exception 'Versi SKU % sudah berakhir pada %. Gunakan versi SKU yang berlaku pada tanggal/jam transaksi.',t.sku,t.effective_to;\n end if;\n if jsonb_typeof(p_payload->'expected_version') is distinct from 'string'\n   or p_payload->>'expected_version' is distinct from erp.be_source_revision_v1(l.id,v_location) then\n   raise exception 'STALE_VERSION: stok atau HPP sumber berubah; muat ulang';end if;\n select coalesce(sum(m.qty_signed),0),coalesce(sum(m.qty_signed) filter(where m.physical_at<=v_at),0)\n   into v_current,v_dated from erp.fg_stock_movements m\n   where m.lot_id=l.id and m.location_id=v_location and m.quality_grade='GRADE_A';\n if v_qty>least(v_current,v_dated) then raise exception 'BE_SOURCE_CAPACITY: jumlah melebihi stok sumber pada tanggalnya';end if;\n select hpp_per_pcs into v_hpp from erp.v_current_hpp where lot_id=l.id;\n if v_hpp is null then raise exception 'BE_SOURCE_HPP_UNKNOWN: nilai sumber belum diketahui';end if;\n v_cost:=case when erp.has_permission('finance.hpp.view') then\n   jsonb_build_object('source_unit_hpp',v_hpp::text,'source_value',round(v_hpp*v_qty,2)::text) else '{}'::jsonb end;\n if not cp7_sku_conversion.manual_allocation_v1(l.id,t.id,v_location,v_qty,v_at)then\n  v_source_pool:=cp7_sku_conversion.pool_quote_v2(s.id,v_location,'GRADE_A');\n  v_target_pool:=cp7_sku_conversion.pool_quote_v2(t.id,v_location,'GRADE_A');\n  if (v_source_pool->>'qty')::numeric<v_qty then raise exception 'CP7_SKU_INSUFFICIENT_VALUE_POOL: stok fisik bernilai tidak cukup';end if;\n  if erp.has_permission('finance.hpp.view')then\n   v_cost:=jsonb_build_object('source_unit_hpp',v_source_pool->>'average',\n    'source_value',round(v_qty*(v_source_pool->>'average')::numeric,2)::text,\n    'native_physical_value',round(v_hpp*v_qty,2)::text,'basis','SKU_LOCATION_GRADE_MOVING_AVERAGE_V2');\n  end if;\n end if;\n return jsonb_build_object('source_lot_id',l.id,'source_product_id',s.id,'target_product_id',t.id,\n   'source_sku',s.sku,'target_sku',t.sku,'location_id',v_location,'qty_pcs',v_qty,'physical_at',v_at,\n   'source_revision',p_payload->>'expected_version','cost',v_cost)\n  ||case when v_source_pool is null then '{}'::jsonb else jsonb_build_object(\n   'source_value_revision',v_source_pool->>'revision','target_value_revision',v_target_pool->>'revision')end;\nend;$function$\n",
+      "postgres",
+      "plpgsql",
+      "f",
+      true,
+      false,
+      false,
+      false,
+      "v",
+      "u",
+      "100",
+      "0",
+      [
+        "search_path=\"\""
+      ],
+      [
+        "p_payload"
+      ],
+      null,
+      "p_payload jsonb",
+      "jsonb",
+      "-",
+      [
+        [
+          "postgres",
+          "postgres",
+          "EXECUTE",
+          false
+        ]
+      ]
+    ],
+    "erp.be_post_conversion_v1(jsonb,uuid,text,uuid)": [
+      "CREATE OR REPLACE FUNCTION erp.be_post_conversion_v1(p_payload jsonb, p_request uuid, p_origin text DEFAULT 'FG'::text, p_rework uuid DEFAULT NULL::uuid)\n RETURNS jsonb\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\nAS $function$\ndeclare v jsonb;l erp.fg_lots%rowtype;r jsonb;i integer:=0;v_return uuid;v_qty numeric;v_material uuid;v_dest uuid;v_legacy boolean;v_original_preview jsonb;v_native_request uuid;\nbegin\n perform erp.require_permission('warehouse.brand_conversion.post');\n if not erp.be_in_context_v1() then raise exception 'BE_FACADE_REQUIRED';end if;\n perform pg_advisory_xact_lock(hashtextextended('FG_HPP_SALES_V2620C',0));\n select * into l from erp.fg_lots where id=erp.bd_uuid_v1(p_payload,'source_lot_id',true) for update;\n v:=erp.be_conversion_preview_v1(p_payload);\n v_legacy:=not cp7_sku_conversion.manual_allocation_v1(l.id,(v->>'target_product_id')::uuid,\n  (v->>'location_id')::uuid,(v->>'qty_pcs')::int,(v->>'physical_at')::timestamptz);\n if v_legacy then\n  if exists(select 1 from cp7_sku_conversion.execution_v1 where backend_pid=pg_backend_pid()and transaction_id=txid_current())then\n   raise exception 'CP7_SKU_LEGACY_EXECUTION_CONFLICT';end if;\n  select request_id into strict v_native_request from erp.be_execution_context_v1\n   where backend_pid=pg_backend_pid()and transaction_id=txid_current();\n  v_original_preview:=v;\n  insert into cp7_sku_conversion.groups_v1(request_id,actor,payload)values(p_request,erp.current_app_user_id(),p_payload);\n  perform cp7_sku_conversion.prepare_valuation_v2(p_request,v);\n  insert into cp7_sku_conversion.legacy_groups_v4(group_id,source_lot_id,origin_kind,rework_id,original_preview,\n   native_request_id,admission_backend_pid,admission_transaction_id)\n  values(p_request,l.id,p_origin,p_rework,v,v_native_request,pg_backend_pid(),txid_current());\n  insert into cp7_sku_conversion.execution_v1(backend_pid,transaction_id,group_id,mode,source_lot_id,target_id,location_id,qty,physical_at)\n  values(pg_backend_pid(),txid_current(),p_request,'POST',l.id,(v->>'target_product_id')::uuid,\n   (v->>'location_id')::uuid,(v->>'qty_pcs')::int,(v->>'physical_at')::timestamptz);\n  v:=jsonb_set(v,'{source_revision}',to_jsonb(erp.be_source_revision_v1(l.id,(v->>'location_id')::uuid)));\n end if;\n insert into erp.product_conversions(id,conversion_number,from_product_id,to_product_id,location_id,qty_pcs,conversion_type,\n   physical_at,status,conversion_cost_total,notes,created_by)\n values(p_request,'BE-'||p_request::text,l.product_id,(v->>'target_product_id')::uuid,(v->>'location_id')::uuid,\n   (v->>'qty_pcs')::int,'REBRAND',(v->>'physical_at')::timestamptz,'DRAFT',0,btrim(p_payload->>'reason'),erp.current_app_user_id());\n insert into erp.be_conversion_sources_v1(conversion_id,source_lot_id,origin_kind,rework_id,source_revision,created_by)\n values(p_request,l.id,p_origin,p_rework,v->>'source_revision',erp.current_app_user_id());\n perform erp.post_product_conversion(p_request);\n if p_payload ? 'expected_returns' then\n   if jsonb_typeof(p_payload->'expected_returns') is distinct from 'array' or jsonb_array_length(p_payload->'expected_returns')>100 then\n     raise exception 'BE_RETURN_LINES: maksimal 100 baris bongkaran';end if;\n   for r in select value from jsonb_array_elements(p_payload->'expected_returns') loop\n     perform erp._cp3_assert_closed_json_object(r,array['material_id','qty','holder'],array['material_id','qty','holder'],'bongkaran');\n     v_material:=erp.bc_uuid_v1(r,'material_id',true);v_qty:=erp.bc_parse_qty_v1(v_material,r->'qty','qty');\n     insert into erp.bc_outstanding_returns_v1(source_kind,owner_kind,material_id,qty_expected,holder,reference)\n     values('CONVERSION','COMPANY',v_material,v_qty,erp.bc_text_v1(r,'holder',true,120),'BE-'||p_request::text) returning id into v_return;\n     i:=i+1;insert into erp.be_conversion_returns_v1(outstanding_id,conversion_id,line_no) values(v_return,p_request,i);\n   end loop;\n end if;\n if v_legacy then\n  insert into cp7_sku_conversion.members_v1(conversion_id,group_id,line_no)values(p_request,p_request,1);\n  perform cp7_sku_conversion.finalize_valuation_v2(p_request);\n  delete from cp7_sku_conversion.execution_v1 where backend_pid=pg_backend_pid()and transaction_id=txid_current()and group_id=p_request;\n  v:=v_original_preview;\n end if;\n select destination_lot_id into strict v_dest from erp.product_conversion_allocations where conversion_id=p_request;\n return v||jsonb_build_object('conversion_id',p_request,'destination_lot_id',v_dest,'status','POSTED','pending_returns',i);\nend;$function$\n",
+      "postgres",
+      "plpgsql",
+      "f",
+      true,
+      false,
+      false,
+      false,
+      "v",
+      "u",
+      "100",
+      "0",
+      [
+        "search_path=\"\""
+      ],
+      [
+        "p_payload",
+        "p_request",
+        "p_origin",
+        "p_rework"
+      ],
+      null,
+      "p_payload jsonb, p_request uuid, p_origin text DEFAULT 'FG'::text, p_rework uuid DEFAULT NULL::uuid",
+      "jsonb",
+      "-",
+      [
+        [
+          "postgres",
+          "postgres",
+          "EXECUTE",
+          false
+        ]
+      ]
+    ],
     "erp.be_reconcile_cost_document_v1(uuid,date)": [
       "CREATE OR REPLACE FUNCTION erp.be_reconcile_cost_document_v1(p_document uuid, p_date date)\n RETURNS void\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\nAS $function$\ndeclare s erp.be_conversion_cost_sources_v1%rowtype;c erp.product_conversions%rowtype;l erp.fg_lots%rowtype;\n r record;v_target numeric;v_before numeric;v_delta numeric;v_journal uuid;v_own boolean;v_event uuid;\n v_sku_before jsonb;v_sku_delta numeric:=0;\nbegin\n perform erp.require_internal();\n select * into s from erp.be_conversion_cost_sources_v1 where document_id=p_document;\n if s.document_id is null then return;end if;\n perform pg_advisory_xact_lock(hashtextextended('FG_HPP_SALES_V2620C',0));\n select * into c from erp.product_conversions where id=s.conversion_id for update;\n select * into l from erp.fg_lots where id=(select source_lot_id from erp.be_conversion_sources_v1 where conversion_id=c.id);\n if c.status<>'POSTED' then raise exception 'BE_COST_SOURCE_NOT_POSTED';end if;\n if l.po_id is null then v_sku_before:=cp7_sku_conversion.capture_cost_source_v3(p_document);end if;\n v_own:=not erp.be_in_context_v1();\n if v_own then insert into erp.be_execution_context_v1 values(pg_backend_pid(),txid_current(),gen_random_uuid());end if;\n for r in select p.adjustment_id,p.account_id,d.status from erp.bc_adjustment_purposes_v1 p\n    join erp.bc_documents_v1 d on d.id=p.document_id where p.document_id=p_document order by p.adjustment_id loop\n   v_target:=case when r.status='POSTED' then -(erp._cp6_material_adjustment_revaluation_state(r.adjustment_id)->>'current_value')::numeric else 0 end;\n   if (s.kind='USAGE' and v_target<0) or (s.kind='RECOVERY' and v_target>0) then raise exception 'BE_COST_DIRECTION';end if;\n   select coalesce(sum(target_amount-previous_amount),0) into v_before from erp.be_conversion_cost_events_v1 where adjustment_id=r.adjustment_id;\n   v_delta:=v_target-v_before;\n   if v_delta<>0 then\n     v_event:=gen_random_uuid();\n     v_journal:=erp.post_journal('BE_CONVERSION_SOURCED_COST',v_event,p_date,'Biaya/pemulihan konversi dari dokumen '||p_document::text,\n       jsonb_build_array(jsonb_build_object('mapping_key',case when l.po_id is null then 'FG_INVENTORY' else 'WIP' end,\n         'po_id',l.po_id,'product_id',case when l.po_id is null then c.to_product_id end,'debit',greatest(v_delta,0),'credit',greatest(-v_delta,0)),\n         jsonb_build_object('account_id',r.account_id,'debit',greatest(-v_delta,0),'credit',greatest(v_delta,0))));\n     insert into erp.be_conversion_cost_events_v1(id,document_id,adjustment_id,previous_amount,target_amount,journal_id,economic_date,created_by)\n     values(v_event,p_document,r.adjustment_id,v_before,v_target,v_journal,p_date,erp.current_app_user_id());\n     v_sku_delta:=v_sku_delta+v_delta;\n   end if;\n end loop;\n if l.po_id is null then\n   perform cp7_sku_conversion.rebalance_cost_source_v3(p_document,p_date,v_sku_before,v_sku_delta);\n   perform erp.be_nonpo_sync_all_v1(p_date,'BE_COST_SOURCE',p_document,'Biaya/pemulihan konversi non-PO');\n else\n   perform erp.propagate_conversion_hpp_for_po(l.po_id);\n   perform erp.sync_po_hpp_to_gl(l.po_id,p_date);\n   perform erp.assert_po_hpp_target_book_v2620e(l.po_id);\n end if;\n if v_own then delete from erp.be_execution_context_v1 where backend_pid=pg_backend_pid() and transaction_id=txid_current();end if;\nend;$function$\n",
       "postgres",
@@ -8451,6 +9269,72 @@
       null,
       "p_document uuid, p_date date",
       "void",
+      "-",
+      [
+        [
+          "postgres",
+          "postgres",
+          "EXECUTE",
+          false
+        ]
+      ]
+    ],
+    "erp.be_reverse_conversion_v1(uuid,text)": [
+      "CREATE OR REPLACE FUNCTION erp.be_reverse_conversion_v1(p_conversion uuid, p_reason text)\n RETURNS void\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\nAS $function$\ndeclare v_legacy uuid;v_own boolean:=false;v_revalue boolean:=false;v_status text;\nbegin\n perform erp.require_permission('warehouse.brand_conversion.reverse');perform erp.require_owner_admin();\n perform pg_advisory_xact_lock(hashtextextended('FG_HPP_SALES_V2620C',0));\n if not exists(select 1 from erp.be_conversion_sources_v1 where conversion_id=p_conversion) then raise exception 'BE_DOCUMENT_NOT_FOUND';end if;\n if exists(select 1 from erp.be_conversion_cost_sources_v1 s join erp.bc_documents_v1 d on d.id=s.document_id\n     where s.conversion_id=p_conversion and d.status='POSTED') then raise exception 'BE_REVERSE_DEPENDANTS: batalkan dahulu sumber biaya/pemulihan';end if;\n if exists(select 1 from erp.be_conversion_returns_v1 s join erp.bc_return_lots_v1 l on l.outstanding_id=s.outstanding_id\n     join erp.bc_documents_v1 d on d.id=l.document_id where s.conversion_id=p_conversion and d.status='POSTED') then\n   raise exception 'BE_REVERSE_DEPENDANTS: batalkan dahulu penerimaan bongkaran';end if;\n select g.group_id into v_legacy from cp7_sku_conversion.legacy_groups_v4 g where g.group_id=p_conversion;\n if v_legacy is not null then\n  if (select count(*)from cp7_sku_conversion.members_v1 where group_id=v_legacy)<>1\n   or not exists(select 1 from cp7_sku_conversion.members_v1 m\n    join cp7_sku_conversion.legacy_groups_v4 g on g.group_id=m.group_id\n    join erp.be_conversion_sources_v1 s on s.conversion_id=m.conversion_id\n    where m.group_id=v_legacy and m.conversion_id=p_conversion and m.line_no=1\n     and s.source_lot_id=g.source_lot_id and s.origin_kind=g.origin_kind and s.rework_id is not distinct from g.rework_id)then\n   raise exception 'CP7_SKU_LEGACY_MEMBER_NOT_EXACT';end if;\n  if exists(select 1 from cp7_sku_conversion.execution_v1 where backend_pid=pg_backend_pid()and transaction_id=txid_current())then\n   if not exists(select 1 from cp7_sku_conversion.execution_v1 where backend_pid=pg_backend_pid()and transaction_id=txid_current()\n    and group_id=v_legacy and mode='REVERSE')then raise exception 'CP7_SKU_LEGACY_EXECUTION_CONFLICT';end if;\n  else\n   select status into strict v_status from erp.product_conversions where id=p_conversion for update;\n   if v_status='REVERSED'then\n    if not exists(select 1 from cp7_sku_conversion.valuation_postings_v2 where group_id=v_legacy and phase='REVERSE')then\n     raise exception 'CP7_SKU_LEGACY_REVERSE_NOT_EXACT';end if;\n   else\n    perform cp7_sku_conversion.assert_group_inverse_capacity_v3(v_legacy);v_revalue:=true;\n   end if;\n   insert into cp7_sku_conversion.execution_v1(backend_pid,transaction_id,group_id,mode)\n   values(pg_backend_pid(),txid_current(),v_legacy,'REVERSE');v_own:=true;\n  end if;\n end if;\n perform erp.reverse_product_conversion(p_conversion,p_reason);\n update erp.bc_outstanding_returns_v1 set status='CANCELLED' where id in(select outstanding_id from erp.be_conversion_returns_v1 where conversion_id=p_conversion);\n if v_own then\n  if v_revalue then perform cp7_sku_conversion.reverse_valuation_v2(v_legacy);end if;\n  delete from cp7_sku_conversion.execution_v1 where backend_pid=pg_backend_pid()and transaction_id=txid_current()and group_id=v_legacy;\n end if;\nend;$function$\n",
+      "postgres",
+      "plpgsql",
+      "f",
+      true,
+      false,
+      false,
+      false,
+      "v",
+      "u",
+      "100",
+      "0",
+      [
+        "search_path=\"\""
+      ],
+      [
+        "p_conversion",
+        "p_reason"
+      ],
+      null,
+      "p_conversion uuid, p_reason text",
+      "void",
+      "-",
+      [
+        [
+          "postgres",
+          "postgres",
+          "EXECUTE",
+          false
+        ]
+      ]
+    ],
+    "erp.be_source_revision_v1(uuid,uuid)": [
+      "CREATE OR REPLACE FUNCTION erp.be_source_revision_v1(p_lot uuid, p_location uuid)\n RETURNS text\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO ''\nAS $function$\n select cp7_sku_conversion.legacy_source_revision_v4(p_lot,p_location,md5(jsonb_build_object('lot',p_lot,'location',p_location,\n   'hpp',(select hv.id from erp.hpp_versions hv where hv.lot_id=p_lot and hv.is_current),\n   'movements',coalesce((select jsonb_agg(jsonb_build_array(m.id,m.qty_signed,extract(epoch from m.physical_at)) order by m.id)\n      from erp.fg_stock_movements m where m.lot_id=p_lot and m.location_id=p_location),'[]'::jsonb))::text))\n$function$\n",
+      "postgres",
+      "sql",
+      "f",
+      true,
+      false,
+      false,
+      false,
+      "s",
+      "u",
+      "100",
+      "0",
+      [
+        "search_path=\"\""
+      ],
+      [
+        "p_lot",
+        "p_location"
+      ],
+      null,
+      "p_lot uuid, p_location uuid",
+      "text",
       "-",
       [
         [
@@ -9400,6 +10284,73 @@
         ]
       ]
     ],
+    "erp.be_conversion_preview_v1(jsonb)": [
+      "CREATE OR REPLACE FUNCTION erp.be_conversion_preview_v1(p_payload jsonb)\n RETURNS jsonb\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\nAS $function$\ndeclare l erp.fg_lots%rowtype;s erp.products%rowtype;t erp.products%rowtype;v_location uuid;v_qty integer;\n v_at timestamptz;v_current numeric;v_dated numeric;v_hpp numeric;v_cost jsonb;\nbegin\n perform erp.require_permission('warehouse.brand_conversion.view');\n perform erp._cp3_assert_closed_json_object(p_payload,\n   array['source_lot_id','target_product_id','location_id','qty_pcs','physical_at','reason','expected_version'],\n   array['source_lot_id','target_product_id','location_id','qty_pcs','physical_at','reason','expected_version','expected_returns'],'konversi');\n perform erp.pocket_period_lock_v1();\n select * into l from erp.fg_lots where id=erp.bd_uuid_v1(p_payload,'source_lot_id',true);\n if l.id is null then raise exception 'BE_SOURCE_NOT_FOUND: lot sumber tidak ditemukan';end if;\n select * into s from erp.products where id=l.product_id for share;\n select * into t from erp.products where id=erp.bd_uuid_v1(p_payload,'target_product_id',true) for share;\n if t.id is null or not t.is_active then raise exception 'BE_TARGET_NOT_ACTIVE: SKU tujuan tidak aktif';end if;\n if t.id=s.id then raise exception 'BE_SAME_SKU: pilih SKU tujuan yang berbeda';end if;\n if not cp7_sku_conversion.manual_allocation_v1(l.id,t.id,(p_payload->>'location_id')::uuid,(p_payload->>'qty_pcs')::int,(p_payload->>'physical_at')::timestamptz) and (t.model_id is distinct from s.model_id or t.size_id is distinct from s.size_id) then\n   raise exception 'BE_DIMENSION_MISMATCH: model konstruksi dan ukuran harus tetap';end if;\n v_location:=erp.bd_uuid_v1(p_payload,'location_id',true);\n v_qty:=erp.bd_qty_v1(p_payload->'qty_pcs','qty_pcs');\n v_at:=erp.bd_at_v1(p_payload->>'physical_at','physical_at');\n perform erp.bc_text_v1(p_payload,'reason',true,1000);\n if v_at<l.produced_at then raise exception 'BE_BEFORE_SOURCE: waktu konversi sebelum lot tersedia';end if;\n if v_at<s.effective_from then\n  raise exception 'SKU % belum berlaku pada tanggal/jam transaksi %. Berlaku mulai %.',s.sku,v_at,s.effective_from;\n end if;\n if v_at<t.effective_from then\n  raise exception 'SKU % belum berlaku pada tanggal/jam transaksi %. Berlaku mulai %.',t.sku,v_at,t.effective_from;\n end if;\n if t.effective_to is not null and v_at>=t.effective_to then\n  raise exception 'Versi SKU % sudah berakhir pada %. Gunakan versi SKU yang berlaku pada tanggal/jam transaksi.',t.sku,t.effective_to;\n end if;\n if jsonb_typeof(p_payload->'expected_version') is distinct from 'string'\n   or p_payload->>'expected_version' is distinct from erp.be_source_revision_v1(l.id,v_location) then\n   raise exception 'STALE_VERSION: stok atau HPP sumber berubah; muat ulang';end if;\n select coalesce(sum(m.qty_signed),0),coalesce(sum(m.qty_signed) filter(where m.physical_at<=v_at),0)\n   into v_current,v_dated from erp.fg_stock_movements m\n   where m.lot_id=l.id and m.location_id=v_location and m.quality_grade='GRADE_A';\n if v_qty>least(v_current,v_dated) then raise exception 'BE_SOURCE_CAPACITY: jumlah melebihi stok sumber pada tanggalnya';end if;\n select hpp_per_pcs into v_hpp from erp.v_current_hpp where lot_id=l.id;\n if v_hpp is null then raise exception 'BE_SOURCE_HPP_UNKNOWN: nilai sumber belum diketahui';end if;\n v_cost:=case when erp.has_permission('finance.hpp.view') then\n   jsonb_build_object('source_unit_hpp',v_hpp::text,'source_value',round(v_hpp*v_qty,2)::text) else '{}'::jsonb end;\n return jsonb_build_object('source_lot_id',l.id,'source_product_id',s.id,'target_product_id',t.id,\n   'source_sku',s.sku,'target_sku',t.sku,'location_id',v_location,'qty_pcs',v_qty,'physical_at',v_at,\n   'source_revision',p_payload->>'expected_version','cost',v_cost);\nend;$function$\n",
+      "postgres",
+      "plpgsql",
+      "f",
+      true,
+      false,
+      false,
+      false,
+      "v",
+      "u",
+      "100",
+      "0",
+      [
+        "search_path=\"\""
+      ],
+      [
+        "p_payload"
+      ],
+      null,
+      "p_payload jsonb",
+      "jsonb",
+      "-",
+      [
+        [
+          "postgres",
+          "postgres",
+          "EXECUTE",
+          false
+        ]
+      ]
+    ],
+    "erp.be_post_conversion_v1(jsonb,uuid,text,uuid)": [
+      "CREATE OR REPLACE FUNCTION erp.be_post_conversion_v1(p_payload jsonb, p_request uuid, p_origin text DEFAULT 'FG'::text, p_rework uuid DEFAULT NULL::uuid)\n RETURNS jsonb\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\nAS $function$\ndeclare v jsonb;l erp.fg_lots%rowtype;r jsonb;i integer:=0;v_return uuid;v_qty numeric;v_material uuid;v_dest uuid;\nbegin\n perform erp.require_permission('warehouse.brand_conversion.post');\n if not erp.be_in_context_v1() then raise exception 'BE_FACADE_REQUIRED';end if;\n perform pg_advisory_xact_lock(hashtextextended('FG_HPP_SALES_V2620C',0));\n select * into l from erp.fg_lots where id=erp.bd_uuid_v1(p_payload,'source_lot_id',true) for update;\n v:=erp.be_conversion_preview_v1(p_payload);\n insert into erp.product_conversions(id,conversion_number,from_product_id,to_product_id,location_id,qty_pcs,conversion_type,\n   physical_at,status,conversion_cost_total,notes,created_by)\n values(p_request,'BE-'||p_request::text,l.product_id,(v->>'target_product_id')::uuid,(v->>'location_id')::uuid,\n   (v->>'qty_pcs')::int,'REBRAND',(v->>'physical_at')::timestamptz,'DRAFT',0,btrim(p_payload->>'reason'),erp.current_app_user_id());\n insert into erp.be_conversion_sources_v1(conversion_id,source_lot_id,origin_kind,rework_id,source_revision,created_by)\n values(p_request,l.id,p_origin,p_rework,v->>'source_revision',erp.current_app_user_id());\n perform erp.post_product_conversion(p_request);\n if p_payload ? 'expected_returns' then\n   if jsonb_typeof(p_payload->'expected_returns') is distinct from 'array' or jsonb_array_length(p_payload->'expected_returns')>100 then\n     raise exception 'BE_RETURN_LINES: maksimal 100 baris bongkaran';end if;\n   for r in select value from jsonb_array_elements(p_payload->'expected_returns') loop\n     perform erp._cp3_assert_closed_json_object(r,array['material_id','qty','holder'],array['material_id','qty','holder'],'bongkaran');\n     v_material:=erp.bc_uuid_v1(r,'material_id',true);v_qty:=erp.bc_parse_qty_v1(v_material,r->'qty','qty');\n     insert into erp.bc_outstanding_returns_v1(source_kind,owner_kind,material_id,qty_expected,holder,reference)\n     values('CONVERSION','COMPANY',v_material,v_qty,erp.bc_text_v1(r,'holder',true,120),'BE-'||p_request::text) returning id into v_return;\n     i:=i+1;insert into erp.be_conversion_returns_v1(outstanding_id,conversion_id,line_no) values(v_return,p_request,i);\n   end loop;\n end if;\n select destination_lot_id into strict v_dest from erp.product_conversion_allocations where conversion_id=p_request;\n return v||jsonb_build_object('conversion_id',p_request,'destination_lot_id',v_dest,'status','POSTED','pending_returns',i);\nend;$function$\n",
+      "postgres",
+      "plpgsql",
+      "f",
+      true,
+      false,
+      false,
+      false,
+      "v",
+      "u",
+      "100",
+      "0",
+      [
+        "search_path=\"\""
+      ],
+      [
+        "p_payload",
+        "p_request",
+        "p_origin",
+        "p_rework"
+      ],
+      null,
+      "p_payload jsonb, p_request uuid, p_origin text DEFAULT 'FG'::text, p_rework uuid DEFAULT NULL::uuid",
+      "jsonb",
+      "-",
+      [
+        [
+          "postgres",
+          "postgres",
+          "EXECUTE",
+          false
+        ]
+      ]
+    ],
     "erp.be_reconcile_cost_document_v1(uuid,date)": [
       "CREATE OR REPLACE FUNCTION erp.be_reconcile_cost_document_v1(p_document uuid, p_date date)\n RETURNS void\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\nAS $function$\ndeclare s erp.be_conversion_cost_sources_v1%rowtype;c erp.product_conversions%rowtype;l erp.fg_lots%rowtype;\n r record;v_target numeric;v_before numeric;v_delta numeric;v_journal uuid;v_own boolean;v_event uuid;\nbegin\n perform erp.require_internal();\n select * into s from erp.be_conversion_cost_sources_v1 where document_id=p_document;\n if s.document_id is null then return;end if;\n perform pg_advisory_xact_lock(hashtextextended('FG_HPP_SALES_V2620C',0));\n select * into c from erp.product_conversions where id=s.conversion_id for update;\n select * into l from erp.fg_lots where id=(select source_lot_id from erp.be_conversion_sources_v1 where conversion_id=c.id);\n if c.status<>'POSTED' then raise exception 'BE_COST_SOURCE_NOT_POSTED';end if;\n v_own:=not erp.be_in_context_v1();\n if v_own then insert into erp.be_execution_context_v1 values(pg_backend_pid(),txid_current(),gen_random_uuid());end if;\n for r in select p.adjustment_id,p.account_id,d.status from erp.bc_adjustment_purposes_v1 p\n    join erp.bc_documents_v1 d on d.id=p.document_id where p.document_id=p_document order by p.adjustment_id loop\n   v_target:=case when r.status='POSTED' then -(erp._cp6_material_adjustment_revaluation_state(r.adjustment_id)->>'current_value')::numeric else 0 end;\n   if (s.kind='USAGE' and v_target<0) or (s.kind='RECOVERY' and v_target>0) then raise exception 'BE_COST_DIRECTION';end if;\n   select coalesce(sum(target_amount-previous_amount),0) into v_before from erp.be_conversion_cost_events_v1 where adjustment_id=r.adjustment_id;\n   v_delta:=v_target-v_before;\n   if v_delta<>0 then\n     v_event:=gen_random_uuid();\n     v_journal:=erp.post_journal('BE_CONVERSION_SOURCED_COST',v_event,p_date,'Biaya/pemulihan konversi dari dokumen '||p_document::text,\n       jsonb_build_array(jsonb_build_object('mapping_key',case when l.po_id is null then 'FG_INVENTORY' else 'WIP' end,\n         'po_id',l.po_id,'product_id',case when l.po_id is null then c.to_product_id end,'debit',greatest(v_delta,0),'credit',greatest(-v_delta,0)),\n         jsonb_build_object('account_id',r.account_id,'debit',greatest(-v_delta,0),'credit',greatest(v_delta,0))));\n     insert into erp.be_conversion_cost_events_v1(id,document_id,adjustment_id,previous_amount,target_amount,journal_id,economic_date,created_by)\n     values(v_event,p_document,r.adjustment_id,v_before,v_target,v_journal,p_date,erp.current_app_user_id());\n   end if;\n end loop;\n if l.po_id is null then\n   perform erp.be_nonpo_sync_all_v1(p_date,'BE_COST_SOURCE',p_document,'Biaya/pemulihan konversi non-PO');\n else\n   perform erp.propagate_conversion_hpp_for_po(l.po_id);\n   perform erp.sync_po_hpp_to_gl(l.po_id,p_date);\n   perform erp.assert_po_hpp_target_book_v2620e(l.po_id);\n end if;\n if v_own then delete from erp.be_execution_context_v1 where backend_pid=pg_backend_pid() and transaction_id=txid_current();end if;\nend;$function$\n",
       "postgres",
@@ -9423,6 +10374,72 @@
       null,
       "p_document uuid, p_date date",
       "void",
+      "-",
+      [
+        [
+          "postgres",
+          "postgres",
+          "EXECUTE",
+          false
+        ]
+      ]
+    ],
+    "erp.be_reverse_conversion_v1(uuid,text)": [
+      "CREATE OR REPLACE FUNCTION erp.be_reverse_conversion_v1(p_conversion uuid, p_reason text)\n RETURNS void\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\nAS $function$\nbegin\n perform erp.require_permission('warehouse.brand_conversion.reverse');perform erp.require_owner_admin();\n perform pg_advisory_xact_lock(hashtextextended('FG_HPP_SALES_V2620C',0));\n if not exists(select 1 from erp.be_conversion_sources_v1 where conversion_id=p_conversion) then raise exception 'BE_DOCUMENT_NOT_FOUND';end if;\n if exists(select 1 from erp.be_conversion_cost_sources_v1 s join erp.bc_documents_v1 d on d.id=s.document_id\n     where s.conversion_id=p_conversion and d.status='POSTED') then raise exception 'BE_REVERSE_DEPENDANTS: batalkan dahulu sumber biaya/pemulihan';end if;\n if exists(select 1 from erp.be_conversion_returns_v1 s join erp.bc_return_lots_v1 l on l.outstanding_id=s.outstanding_id\n     join erp.bc_documents_v1 d on d.id=l.document_id where s.conversion_id=p_conversion and d.status='POSTED') then\n   raise exception 'BE_REVERSE_DEPENDANTS: batalkan dahulu penerimaan bongkaran';end if;\n perform erp.reverse_product_conversion(p_conversion,p_reason);\n update erp.bc_outstanding_returns_v1 set status='CANCELLED' where id in(select outstanding_id from erp.be_conversion_returns_v1 where conversion_id=p_conversion);\nend;$function$\n",
+      "postgres",
+      "plpgsql",
+      "f",
+      true,
+      false,
+      false,
+      false,
+      "v",
+      "u",
+      "100",
+      "0",
+      [
+        "search_path=\"\""
+      ],
+      [
+        "p_conversion",
+        "p_reason"
+      ],
+      null,
+      "p_conversion uuid, p_reason text",
+      "void",
+      "-",
+      [
+        [
+          "postgres",
+          "postgres",
+          "EXECUTE",
+          false
+        ]
+      ]
+    ],
+    "erp.be_source_revision_v1(uuid,uuid)": [
+      "CREATE OR REPLACE FUNCTION erp.be_source_revision_v1(p_lot uuid, p_location uuid)\n RETURNS text\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO ''\nAS $function$\n select md5(jsonb_build_object('lot',p_lot,'location',p_location,\n   'hpp',(select hv.id from erp.hpp_versions hv where hv.lot_id=p_lot and hv.is_current),\n   'movements',coalesce((select jsonb_agg(jsonb_build_array(m.id,m.qty_signed,extract(epoch from m.physical_at)) order by m.id)\n      from erp.fg_stock_movements m where m.lot_id=p_lot and m.location_id=p_location),'[]'::jsonb))::text)\n$function$\n",
+      "postgres",
+      "sql",
+      "f",
+      true,
+      false,
+      false,
+      false,
+      "s",
+      "u",
+      "100",
+      "0",
+      [
+        "search_path=\"\""
+      ],
+      [
+        "p_lot",
+        "p_location"
+      ],
+      null,
+      "p_lot uuid, p_location uuid",
+      "text",
       "-",
       [
         [

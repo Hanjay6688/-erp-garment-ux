@@ -6,7 +6,7 @@ import ast,json,os,sys
 HERE=Path(__file__).resolve().parent
 ROOT=HERE.parents[1]
 sys.path.insert(0,str(ROOT/'scripts'))
-from cp7_sku_cost_components import prepared_product,financial_delta
+from cp7_sku_cost_components import prepared_product,financial_delta,legacy_delta
 
 
 def prepare(destination):
@@ -16,6 +16,7 @@ def prepare(destination):
     originals={sig:catalog['functions'][sig][0]for sig in prepared_product.parent_original_signatures()}
     product=prepared_product.derive(catalog,originals)
     baseline={sig:catalog['functions'][sig].copy()for sig in (*originals,'erp.be_reconcile_cost_document_v1(uuid,date)')}
+    baseline.update({sig:catalog['functions'][sig].copy()for sig in legacy_delta.ORIGINALS})
     for name in('consumer_delta.py','credit_delta.py','private_delta.py'):
         module=financial_delta.parent(name)
         for sig,definition in module.patched({s:originals[s]for s in module.SIGNATURES}).items():baseline[sig][0]=definition

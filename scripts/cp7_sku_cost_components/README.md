@@ -246,3 +246,39 @@ refuse without changed rows. The complete80 model controls pass again with
 this exact SQL, as does a fresh22-group metadata/ACL/explicit-inverse profile.
 These are model checks, not fresh ERP or Auth acceptance. The initial reversible
 harness refusal and unchanged-product forward counter remain preserved.
+
+The prepared legacy bridge now covers the selected single physical lot through
+the unchanged Native facade, including automatic rework and redye. Its private
+immutable admission binds the source lot, origin, original review, Native request,
+backend and transaction. It preserves physical allocation, permissions, date
+guards, expected returns, idempotency and Native post/reverse bodies. Economic
+valuation and current inverse are recorded around those bodies. Existing SKU
+groups retain their outer valuation and two-child admission; they do not create
+nested legacy groups. Source review revisions include every economic source;
+known pools also validate raw custody before exposing a revision. Unknown HPP
+can retain an opaque read revision but remains a posting refusal.
+
+The unchanged-product counter first stopped on an invalid model cache fixture;
+that output is retained and receives zero financial-counter credit. The corrected
+fixture then reproduced both monetary failures: the opening-lot path refused a
+legitimate Native transfer, while the converted-lot path produced60/10 instead
+of35/35. Exact Native bodies now produce35/35 on either path, current37/37 after
+cost4, and current inverse74/0. Original expected returns cancel, replay does
+not add money, and automatic rework/redye preserve an existing outer context.
+
+The first follow-up exposed a missing original DEFAULTfalse in the model
+context fixture; the next exposed a real known-source read-admission gap. Both
+failures remain unchanged. The fixture default and custody-read validation were
+corrected separately without changing financial expectations. Four focused
+business controls then passed. The complete current unfiltered model passed91
+checks, including all80 earlier controls and11 legacy controls. Original Native
+facade, movement, conversion and rework bodies execute in this PG17.5 model;
+authority, idempotency, journals and historical monetary origins still use
+explicit model providers. Actual ERP, Auth and concurrent-session credit is zero.
+
+The exact current DDL profile now adds nine private tables and32 private helpers
+and replaces30 function definitions (26 bodies change). All22 catalogue groups,
+18 existing non-body metadata attributes, private ACLs and the explicit unused
+inverse pass. All twelve acceptance gates remain null. The next qualification
+must exercise the real ERP dependency graph, source costs, selected-lot paths,
+current inverses, installation and owning full restoration before any adoption.
