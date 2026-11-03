@@ -110,3 +110,11 @@ before execution, and a sale fixture whose reservation date differed from its
 header. The last fixture alone was corrected and rerun with the twelve already
 executed inverses skipped; no fresh credit is borrowed for skipped cases.
 All eleven admission gates remain unset, including real current-value inverse.
+
+An independent cent-custody design model now passes seven controls, including
+403 signed source-price totals. It distinguishes invoice-before-transfer from
+invoice-after-transfer, keeps unchanged-price replay free of monetary changes,
+clears every owned cent when a source returns to zero, transfers current values
+on inverse, and retains the complete source total across inventory and COGS.
+That monetary-ownership design is not yet connected to the prepared SQL; the
+fractional-source refusal remains an open product gap.

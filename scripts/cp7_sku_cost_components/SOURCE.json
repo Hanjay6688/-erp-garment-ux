@@ -3,12 +3,16 @@
   "classification": "PREPARED_COST_COMPONENT_LAYER_NOT_ADMITTED",
   "files": {
     "scripts/cp7_sku_cost_components/README.md": {
-      "bytes": 7438,
-      "sha256": "b51af04eabde5e8e455c2b611596f83adedc2d6b0bd19d313aa28a14e8bc8314"
+      "bytes": 7963,
+      "sha256": "9f8cdf34e258aa9cbc1e761a4e2586c6a3da6ca1f42fbbdfb736e137506a3a83"
     },
     "scripts/cp7_sku_cost_components/cent_inverse_counterexamples.mjs.inc": {
       "bytes": 3270,
       "sha256": "caa591d9ab7976890cea5387553ff75348d0e0f43955b9fb67d31d816aaefe1f"
+    },
+    "scripts/cp7_sku_cost_components/cent_ownership.py": {
+      "bytes": 3899,
+      "sha256": "d6483135a059d2319d53adb3ab0b8dc7ed472e27c24cf3f4fa75efa345350a1e"
     },
     "scripts/cp7_sku_cost_components/chain_cases.mjs.inc": {
       "bytes": 4450,
@@ -57,6 +61,10 @@
     "scripts/cp7_sku_cost_components/source_rebalance.sql": {
       "bytes": 8954,
       "sha256": "7a9ab4a887fe92b82eeb003989418b5ab4da57607fccefc365b2f2445bade765"
+    },
+    "scripts/cp7_sku_cost_components/test_cent_ownership.py": {
+      "bytes": 3678,
+      "sha256": "59a292925abd4a7a9575a563a5355a912119ee9a6a2c665ba01ed012ab3b0a40"
     },
     "scripts/cp7_sku_cost_components/test_oracle.py": {
       "bytes": 7355,
