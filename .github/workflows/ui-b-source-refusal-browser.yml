@@ -27,19 +27,14 @@ jobs:
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
           node-version: '22'
-      - name: Fetch exact B proposal evidence base
-        run: git -C after fetch --no-tags --depth=1 origin e1eab85d271d0a6c888162e195ddb08169d1bdb6
+      - name: Fetch exact first browser and diagnostic source base
+        run: git -C after fetch --no-tags --depth=1 origin f801eba47ef38fbf43999b124149b40b66ef0b5a
       - name: Install unchanged pinned dependencies
         working-directory: after
         run: npm ci --ignore-scripts --no-audit --no-fund
-      - name: Verify exact UI bytes and retained local54 scope
+      - name: Verify caption fix local54 and retained unchanged transport5
         working-directory: after
-        run: node scripts/ui-b-source-refusal-browser/verify.mjs
-      - name: Check the five closed transport controls
-        working-directory: after
-        run: |
-          mkdir ../ui-refusal-transport-proof
-          node_modules/.bin/vitest run --config scripts/ui-b-source-refusal-browser/vitest.config.mjs --reporter=json --outputFile=../ui-refusal-transport-proof/TRANSPORT.json
+        run: node scripts/ui-b-source-refusal-browser/verify-v2.mjs
       - name: Compile complete fixture graph and refuse product roots
         working-directory: after
         env:
@@ -63,7 +58,6 @@ jobs:
           name: writer-b-source-refusal-${{ github.sha }}
           path: |
             ui-refusal-browser-proof/
-            ui-refusal-transport-proof/
             ui-refusal-preflight/
             ui-refusal-product-proof/
           retention-days: 30

@@ -1,0 +1,14 @@
+{
+  "run": 41709294401,
+  "job": 126172834940,
+  "expected_head": "c3b90f9932e1a3d674dfa36e6c4395a3bc71a7bd",
+  "A_touched": false,
+  "cancel_requested": false,
+  "actual_browser_cases": 0,
+  "scope": "Diagnostic itself executed no product/browser cases; original run was already past checkout. No cancellation was attempted.",
+  "retired_after_use": true,
+  "observed_original_status_at_diagnostic": "in_progress",
+  "observed_original_conclusion_at_diagnostic": null,
+  "original_final_status": "COMPLETED",
+  "original_final_conclusion": "SUCCESS"
+}

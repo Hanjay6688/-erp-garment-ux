@@ -1,0 +1,39 @@
+{
+  "source": "c3b90f9932e1a3d674dfa36e6c4395a3bc71a7bd",
+  "run": 41709294401,
+  "job": 126172834940,
+  "artifact": 13266909957,
+  "original_bytes": 8787165,
+  "original_sha256": "504ef20da5b354100752d2fea8caccbb8f829f479aaa2211fa48622a6a86074c",
+  "CI_conclusion": "SUCCESS",
+  "automatic_cases": 28,
+  "screenshots": 60,
+  "visual_acceptance": false,
+  "first_observed_visual_defect": "At320px, scrolling the period table to its action also scrolls the enclosing panel heading and help text horizontally out of view; this persists after source refusal. Page overflow and data-retirement assertions still passed.",
+  "witness": {
+    "case": "read/workspace/403/320",
+    "stage": "after",
+    "name": "read-workspace-403-320-after.png",
+    "bytes": 133466,
+    "sha256": "09e0de72023ea5e8657fed122f629c557e68a83be053e5b615912b9827588b27",
+    "observed": {
+      "width": 320,
+      "document": 320,
+      "identity": "AUTHORIZED",
+      "violations": [],
+      "probe": {
+        "enabled": true,
+        "kind": "read",
+        "target": "workspace",
+        "status": 403,
+        "armed": true
+      }
+    },
+    "minimum_contrast": 6.287528596095884,
+    "text_nodes": 39,
+    "inactive_control_exemptions": 7
+  },
+  "successor_fix": "Wrap only table data in a local scroll region; keep section headings, explanations and controls outside it. Add caption bounding-box assertions before and after all28journeys.",
+  "first_original_preserved": true,
+  "production_go": false
+}

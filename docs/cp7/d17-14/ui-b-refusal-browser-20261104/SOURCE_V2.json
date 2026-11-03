@@ -1,0 +1,81 @@
+{
+  "contract": "cp7.B.table-caption-UI-successor.v1",
+  "base": "f801eba47ef38fbf43999b124149b40b66ef0b5a",
+  "base_tree": "6339cd5bc2b8bfe50927e5c44201a00eaf7282a8",
+  "browser_predecessor": "c3b90f9932e1a3d674dfa36e6c4395a3bc71a7bd",
+  "UI_changes": {
+    "src/ConnectedPocketFabricPage.tsx": {
+      "before": {
+        "bytes": 24767,
+        "sha256": "1f04d2d1c09b17c9264c3f46bbfda5f387c5c4d82f0760b69dd1d7d921f069d7"
+      },
+      "after": {
+        "bytes": 25037,
+        "sha256": "ab45b1358ed942838aa3451b7766e1e7febda88fcc0f5556e9afbac3a46f2547"
+      }
+    },
+    "src/initial-import.css": {
+      "before": {
+        "bytes": 3690,
+        "sha256": "b923ebec05fc4e8e28849cfc43ab3ccc336b64b3025fdd4a9f47fd90a1234e42"
+      },
+      "after": {
+        "bytes": 4142,
+        "sha256": "10756c488710c2705e44000c16ed3f5b1afafca40437e3aa37c3690491a208e0"
+      }
+    }
+  },
+  "new_files": {
+    ".github/workflows/ui-b-source-refusal-browser.yml": {
+      "bytes": 2632,
+      "sha256": "9c658114002ac78f5aa6756486f8ada75dcc82d4f82e1e5df102c3c811b86154"
+    },
+    "scripts/ui-b-source-refusal-browser/capture.mjs": {
+      "bytes": 11407,
+      "sha256": "8d5c5056c5c815b4f4c9eba93e56242f76b04750ed7768cf15c1953c7a59447b"
+    },
+    "scripts/ui-b-source-refusal-browser/verify-v2.mjs": {
+      "bytes": 2535,
+      "sha256": "52780b0c67c9fbfbc75146b9d7ba83169340fe1ac68ba7a8e98924d4546ec449"
+    },
+    "docs/cp7/d17-14/ui-b-refusal-browser-20261104/CAPTION_FIX54_FIRST.json.gz": {
+      "bytes": 3248,
+      "sha256": "6b5d6e71996783e6c3496bcbf22a4719749d37b5ff6a9e8f0189ddeaf1d822bc"
+    },
+    "docs/cp7/d17-14/ui-b-refusal-browser-20261104/CAPTION_FIX54_FIRST.log.gz": {
+      "bytes": 131,
+      "sha256": "9166d8330320c42c2d571e1717a7ca4eb8791af0376bb6ab0fd3fd497fade1bb"
+    },
+    "docs/cp7/d17-14/ui-b-refusal-browser-20261104/CAPTION_TYPECHECK_FIRST.log.gz": {
+      "bytes": 20,
+      "sha256": "f61f27bd17de546264aa58f40f3aafaac7021e0ef69c17f6b1b4cd7664a037ec"
+    },
+    "docs/cp7/d17-14/ui-b-refusal-browser-20261104/RETAINED_C3_TRANSPORT5.json.gz": {
+      "bytes": 663,
+      "sha256": "54fa8bdafdb696ac6c5c517651315c7fa176c3cdf8d4babbbef2583a963d76b4"
+    },
+    "docs/cp7/d17-14/ui-b-refusal-browser-20261104/CHECKOUT_DIAGNOSTIC_SOURCE.yml.gz": {
+      "bytes": 1932,
+      "sha256": "aa2876e320859b26ce21bbbeac4f1cdb07b1df8be1c9c50bfcda40a009b49efc"
+    },
+    "docs/cp7/d17-14/ui-b-refusal-browser-20261104/FIRST_C3_VISUAL_FINDING.json": {
+      "bytes": 1485,
+      "sha256": "42813b89b5bbd215301aa6b49b31faae2e5bfb7d9cd2a9a4fded29251af66cd7"
+    },
+    "docs/cp7/d17-14/ui-b-refusal-browser-20261104/CHECKOUT_DIAGNOSTIC_OUTCOME.json": {
+      "bytes": 553,
+      "sha256": "4c491fc6fbb1a77e0ec4023bcac26a8882e401bde1fec09c64fa2aba9dd38a01"
+    }
+  },
+  "deleted_files": {
+    ".github/workflows/ui-b-checkout-diagnostic.yml": {
+      "bytes": 4632,
+      "sha256": "782e6a20f438fd07c87b7ab62d90a31041da53d1f264f02c050b2b9466abdf74"
+    }
+  },
+  "transport_sources_unchanged_from_C3": true,
+  "actual_Auth": 0,
+  "actual_SQL": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

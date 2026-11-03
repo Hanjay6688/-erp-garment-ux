@@ -25,9 +25,10 @@ async function take(page,c,stage){
  const name=`${c.kind}-${c.target}-${c.status}-${c.width}-${stage}.png`
  await page.screenshot({path:path.join(out,name),fullPage:true,animations:'disabled'})
  const b=fs.readFileSync(path.join(out,name)),shot={case:key(c),stage,name,bytes:b.length,sha256:sha(b)};report.screenshots.push(shot)
- const observed=await page.evaluate(()=>({width:innerWidth,document:document.documentElement.scrollWidth,identity:window.__writerBUI.identityStatus(),violations:window.__writerBUI.violations,probe:window.__writerBUI.probeMeta()}))
+ const observed=await page.evaluate(()=>({width:innerWidth,document:document.documentElement.scrollWidth,identity:window.__writerBUI.identityStatus(),violations:window.__writerBUI.violations,probe:window.__writerBUI.probeMeta(),caption_boxes:[...document.querySelectorAll('.initial-import-table')].flatMap(panel=>{const b=panel.getBoundingClientRect();return [...panel.children].filter(e=>e.matches('h2,p')).map(e=>{const r=e.getBoundingClientRect();return {tag:e.tagName,text:e.textContent.slice(0,80),left:r.left,right:r.right,panel_left:b.left,panel_right:b.right}})})}))
  Object.assign(shot,{observed});require(observed.width===c.width&&observed.document<=c.width,'DOCUMENT_OVERFLOW:'+name)
  require(observed.identity==='AUTHORIZED'&&observed.violations.length===0,'PROVIDER_OR_TRANSPORT_CHANGED:'+name)
+ require(observed.caption_boxes.length===4&&observed.caption_boxes.every(c=>c.left>=c.panel_left-1&&c.right<=c.panel_right+1),'HISTORY_CAPTIONS_MUST_STAY_VISIBLE_DURING_TABLE_SCROLL:'+name)
  const contrast=await readable(page.locator('.fixture-workspace'))
  Object.assign(shot,{minimum_contrast:Math.min(...contrast.rows.map(r=>r.ratio)),text_nodes:contrast.rows.length,inactive_control_exemptions:contrast.exempt.length})
  flush()
@@ -97,7 +98,7 @@ try{
     require((await saves(page)).length===0,'REOPEN_NO_AUTOMATIC_DUPLICATE_WRITE')
    }else require((await saves(page)).length===0,'READ_CASE_MUST_NOT_WRITE')
    require(report.failures.length===failBefore&&report.console_errors.length===consoleBefore,'BROWSER_ERROR_DURING_CASE')
-   report.cases.push({...c,key:key(c),status:'PASS',seconds:Number(((performance.now()-started)/1000).toFixed(3)),pending_uuid:pending?.id??null,pending_payload_preserved:Boolean(pending),automatic_replay:0})
+   report.cases.push({...c,key:key(c),source_status:c.status,status:'PASS',seconds:Number(((performance.now()-started)/1000).toFixed(3)),pending_uuid:pending?.id??null,pending_payload_preserved:Boolean(pending),automatic_replay:0})
    console.log(JSON.stringify({completed:report.cases.length,total:28,case:key(c)}));flush()
   }catch(error){report.failures.push({case:key(c),error:error.stack});try{await page.screenshot({path:path.join(out,'FAILED-'+key(c).replaceAll('/','-')+'.png'),fullPage:true})}catch{}flush();if(report.failures.length>=3)throw Error('THREE_FAILURES_STOP_FOR_DIAGNOSIS')}
   finally{await context.close()}
