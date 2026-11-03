@@ -11,7 +11,7 @@ permissions:
   actions: read
 concurrency:
   group: writer-b-ui-families
-  cancel-in-progress: ${{ github.event.head_commit.message == 'fix(ui-test): wait for hidden active navigation marker' }}
+  cancel-in-progress: ${{ github.event.head_commit.message == 'B UI harness recovery' }}
 jobs:
   capture:
     if: github.run_attempt == 1
@@ -40,7 +40,7 @@ jobs:
           ln -s ../after/node_modules before/node_modules
       - name: Admit B exact UI successor and unchanged non-UI source
         working-directory: after
-        run: node scripts/ui-reference/verify-harness.mjs
+        run: node scripts/ui-reference/verify-harness-final.mjs
       - name: Verify and retain exact original views without repeating them
         working-directory: after
         env:
