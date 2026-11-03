@@ -1,7 +1,7 @@
 """A narrow parent-interface derivation; no SQL, import, or connection here."""
 from hashlib import sha256
 
-ORIGINAL_SHA256 = "3238c49153741f561b7b01dfc9b504526437c48c26603d68e2bb148c462c5787"
+ORIGINAL_SHA256 = "da1f275fa0e91ecbbaa5bcedff65ba0391b162108cc9e91b98a5e2c9f746465f"
 CONTRACT = "cp7.sku-moving-average-on-current-mandor.v1"
 REPLACEMENTS = (
     ("import cp7_sku_pair_conversion.composition as sku_parent", "sku_parent = _CURRENT_PARENT"),

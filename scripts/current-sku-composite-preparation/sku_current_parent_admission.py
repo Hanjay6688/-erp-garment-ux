@@ -26,7 +26,7 @@ def admitted(parent_raw, sku_raw):
     constants = (PARENT_HEAD, PARENT_TREE, PARENT_ROOT_PIN, PARENT_SOURCE_PIN, PARENT_MODULE_PIN,
                  SKU_HEAD, SKU_TREE, SKU_ROOT_PIN, SKU_SOURCE_PIN, RUNTIME_ENTRY)
     if any(value is None for value in constants):
-        raise ValueError("SKU_COMPOSITE_ACTUAL_MANDOR17_SKU5_ROOT_AND_OWNING_ENTRY_PENDING")
+        raise ValueError("SKU_COMPOSITE_ACTUAL_MANDOR17_SKU6_ROOT_AND_OWNING_ENTRY_PENDING")
     if pin(parent_raw) != PARENT_ROOT_PIN or pin(sku_raw) != SKU_ROOT_PIN:
         raise ValueError("SKU_COMPOSITE_EXACT_ROOT_ORIGINALS_REQUIRED")
     parent, sku = json.loads(parent_raw), json.loads(sku_raw)
@@ -35,8 +35,8 @@ def admitted(parent_raw, sku_raw):
         actual_browser_cases=2, actual_business_cases=17, complete17_qualified=True,
         package_all_five=True, prior_runs_aggregated=False, assembly_source=PARENT_MODULE_PIN, production_go=False,
         independent_acceptance=False)
-    expected_sku = dict(status="ROOT_VERIFIED_CURRENT_SKU_MOVAVG_NATIVE5_ALL5", head=SKU_HEAD, tree=SKU_TREE,
-        actual_Native_cases=5, complete5_qualified=True, package_all_five=True,
+    expected_sku = dict(status="ROOT_VERIFIED_CURRENT_SKU_MOVAVG_NATIVE6_ALL5", head=SKU_HEAD, tree=SKU_TREE,
+        actual_Native_cases=6, complete6_qualified=True, package_all_five=True,
         prior_runs_aggregated=False, production_go=False, independent_acceptance=False)
     for value, expected in ((parent, expected_parent), (sku, expected_sku)):
         for key, item in expected.items():

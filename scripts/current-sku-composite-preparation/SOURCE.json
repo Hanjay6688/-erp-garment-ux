@@ -2,34 +2,32 @@
   "contract": "cp7.current-mandor-SKU-parent-bridge-preparation.v1",
   "base_head": "c4a5ad4c47038fed6197a162a5771a114b089ab8",
   "base_tree": "a71cf72d8b4ed9fa5015c4558a983af79e15e246",
-  "source_SKU_candidate": "7eed9983544cd4856a5eb90ff99d4839567d8c49",
-  "source_SKU_tree": "50a31942858fe52ac793d0014dde05062abb5142",
-  "source_SKU_actual_Native5_acceptance": false,
-  "source_composition_identical_to_1d6": true,
+  "source_SKU_candidate": "fea75841e26645f1892d880905231625b47e3065",
+  "source_SKU_tree": "13c9608a14cf5d137feb84c8bac99954c0c7af50",
   "files": {
     "README.md": {
-      "bytes": 2365,
-      "sha256": "51df76315112b166e7a98769bd4078e9483930a77af69185fef20fa4241ac569"
+      "bytes": 2921,
+      "sha256": "bb97904fb452c6c4fcc8e4f97039a394f24392c3db5fcc18dfc03d606cc78962"
     },
     "original_composition.py.txt": {
-      "bytes": 13619,
-      "sha256": "3238c49153741f561b7b01dfc9b504526437c48c26603d68e2bb148c462c5787"
+      "bytes": 14012,
+      "sha256": "da1f275fa0e91ecbbaa5bcedff65ba0391b162108cc9e91b98a5e2c9f746465f"
     },
     "sku_current_parent_admission.py": {
       "bytes": 2445,
-      "sha256": "92d9ba78b9a3489e3f5c3c76c1bce24cf75055b87577a41541134cd7e4584f5b"
+      "sha256": "7ea0170af1fc13091d4e8fdb853b671464792c98b5ad83bd2dd13fdd5af22986"
     },
     "sku_current_parent_assembly.py": {
-      "bytes": 4335,
-      "sha256": "ebbca748b0af5547d886b7e8c243b876dbbf38f10821d6ce533d43c178ce2c8c"
+      "bytes": 4351,
+      "sha256": "0d4a787136d2bdad01c5a44d771571520ad7104b0002e50bb550b404fd6265e2"
     },
     "sku_current_parent_derive.py": {
       "bytes": 2693,
-      "sha256": "cb6d7bcfb9258731b601a6bd0244138405bb3164059d4b57980db1acc5c38b2b"
+      "sha256": "86c42eb2caa7171cb94bdbd6c6e8e6680cab5faeaf27df99720c81426edf529f"
     },
     "test_bridge.py": {
-      "bytes": 5090,
-      "sha256": "bd875f6afa0cd84d5d45244eb63ca6d426d0722d833912c86f6a899e9dbf92af"
+      "bytes": 7860,
+      "sha256": "e53bd9438da9e72e74eccbad415ca6309431c73ca912611679365657f38b5cc6"
     },
     ".gitattributes": {
       "bytes": 133,
@@ -37,7 +35,7 @@
     }
   },
   "local_controls": {
-    "explicit_model_tests_pass": 6,
+    "explicit_model_tests_pass": 7,
     "actual_ERP_tests": 0,
     "source_derived_replacements": 6,
     "complete_original_recovered": true
@@ -46,5 +44,7 @@
   "all_admission_values_unset": true,
   "actual_composite_cases": 0,
   "independent_acceptance": false,
-  "production_go": false
+  "production_go": false,
+  "source_SKU_actual_Native6_acceptance": false,
+  "source_composition_identical_to_fea758": true
 }

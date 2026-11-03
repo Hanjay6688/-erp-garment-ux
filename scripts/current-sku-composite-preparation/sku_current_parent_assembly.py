@@ -48,7 +48,7 @@ def load_prepared(parent, sku_module, parent_raw, sku_raw):
     expected = FROZEN_SKU / "scripts/cp7_sku_moving_average"
     require(Path(sku_module.__file__).resolve() == expected / "composition.py",
             "SKU_COMPOSITE_EXACT_FROZEN_CHILD_MODULE_REQUIRED")
-    for name in ("private_delta", "consumer_delta", "reader_delta", "catalog_additions", "reader_access"):
+    for name in ("private_delta", "consumer_delta", "reader_delta", "credit_delta", "catalog_additions", "reader_access"):
         require(Path(getattr(sku_module, name).__file__).resolve() == expected / (name + ".py"),
                 "SKU_COMPOSITE_EXACT_FROZEN_CHILD_DEPENDENCY_REQUIRED:" + name)
     env = dict(os.environ, GIT_NO_LAZY_FETCH="1")

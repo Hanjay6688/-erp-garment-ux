@@ -1,12 +1,12 @@
 """Explicit source/interface models only; zero actual ERP qualification."""
 import ast
-from contextlib import nullcontext
+from contextlib import nullcontext, ExitStack
 from copy import deepcopy
 from hashlib import sha256
 from pathlib import Path
 from types import SimpleNamespace
 import unittest
-from unittest.mock import Mock
+from unittest.mock import Mock, patch
 import sku_current_parent_admission as admission
 import sku_current_parent_assembly as assembly
 import sku_current_parent_derive as derive
@@ -23,6 +23,38 @@ def functions(*names):
 
 
 class CurrentParentBridge(unittest.TestCase):
+    def test_only_complete_six_case_child_receipt_can_pass_modeled_gate(self):
+        # Explicit receipt-interface model. This is not a Root receipt or ERP
+        # qualification, and every module gate is restored after this control.
+        parent = dict(status="ROOT_VERIFIED_CURRENT_MANDOR17_ALL5", head="modeled-parent", tree="modeled-parent-tree",
+            actual_Native_cases=9, actual_Native_session_cases=4, actual_Auth_HTTP_cases=2,
+            actual_browser_cases=2, actual_business_cases=17, complete17_qualified=True,
+            package_all_five=True, prior_runs_aggregated=False, assembly_source={"model": True},
+            production_go=False, independent_acceptance=False)
+        sku = dict(status="ROOT_VERIFIED_CURRENT_SKU_MOVAVG_NATIVE6_ALL5", head="modeled-child", tree="modeled-child-tree",
+            actual_Native_cases=6, complete6_qualified=True, package_all_five=True,
+            prior_runs_aggregated=False, production_go=False, independent_acceptance=False)
+        parent_raw, sku_raw = admission.canonical(parent), admission.canonical(sku)
+        values = dict(PARENT_HEAD=parent['head'], PARENT_TREE=parent['tree'],
+            PARENT_ROOT_PIN=admission.pin(parent_raw), PARENT_SOURCE_PIN={"model": True},
+            PARENT_MODULE_PIN=parent['assembly_source'], SKU_HEAD=sku['head'], SKU_TREE=sku['tree'],
+            SKU_ROOT_PIN=admission.pin(sku_raw), SKU_SOURCE_PIN={"model": True}, RUNTIME_ENTRY="modeled-entry")
+        with ExitStack() as stack:
+            for name, value in values.items(): stack.enter_context(patch.object(admission, name, value))
+            self.assertEqual(admission.admitted(parent_raw, sku_raw)['actual_composite_cases'], 0)
+            old = dict(sku, status="ROOT_VERIFIED_CURRENT_SKU_MOVAVG_NATIVE5_ALL5", actual_Native_cases=5)
+            old.pop('complete6_qualified'); old['complete5_qualified'] = True
+            old_raw = admission.canonical(old)
+            with patch.object(admission, 'SKU_ROOT_PIN', admission.pin(old_raw)):
+                with self.assertRaisesRegex(ValueError, 'ACTUAL_COMPLETE_PARENT_OR_CHILD_REQUIRED'):
+                    admission.admitted(parent_raw, old_raw)
+            for key, value in [('actual_Native_cases', 5), ('complete6_qualified', False), ('package_all_five', False), ('prior_runs_aggregated', True)]:
+                changed_raw = admission.canonical(dict(sku, **{key: value}))
+                with patch.object(admission, 'SKU_ROOT_PIN', admission.pin(changed_raw)):
+                    with self.assertRaisesRegex(ValueError, 'ACTUAL_COMPLETE_PARENT_OR_CHILD_REQUIRED'):
+                        admission.admitted(parent_raw, changed_raw)
+        self.assertTrue(all(getattr(admission, name) is None for name in values))
+
     def test_closed_gate_does_not_inspect_modules_or_open_files(self):
         class Untouchable:
             def __getattribute__(self, name):
