@@ -43,3 +43,30 @@ full restoration of its captured originals are unchanged. The accepted child
 receipt must cover six cases including partial-return cent allocation; an older
 five-case receipt is refused. The exact credit dependency path is also checked.
 Actual child qualification is still pending; no admission value is filled here.
+
+## Owning package preparation
+
+The new unarmed entry keeps accepted Mandor and SKU sources in separate frozen
+worktrees. It verifies the complete parent through its unchanged owning source
+fence; it never edits that accepted fence to tolerate this new namespace. The
+assembly path now points into `../qualified-mandor-parent`. Each of the ten
+admission fields must be present before reading intake files or importing ERP.
+The source manifest distinguishes all-closed preparation from a future fully
+bound actual-parent state; partially filled admission is refused.
+
+Three reversible routes in the full package select the actual Mandor parent,
+its trusted installation connector, and only the new SKU case counts. Three
+routes in the original child component select the combined assembly, exact
+frozen case source and separate output label. All financial assertions, unused
+inverse/reinstall, committed used refusal, complete restore, roles, sequences,
+public state and advisor checks remain source-equivalent. The current parent's
+complete Afui/Mandor advisor reviewer is inherited explicitly.
+
+This prepares a current-parent Native6 package only. Prior Mandor cases are not
+counted as fresh, and it claims no concurrent, real Auth, HTTP or browser tests.
+Those follow-ups and final UI/global integration remain required. No active
+workflow or real database run is added. Activation must supply exact accepted
+Root files, immutable parent/child worktrees, the current source manifest, one
+owning entry, complete artifact retention, and the unchanged genuine WIB window
+and supervision. The proposed runtime refuses while those actual inputs remain
+unavailable; source and local Git controls are not business acceptance.

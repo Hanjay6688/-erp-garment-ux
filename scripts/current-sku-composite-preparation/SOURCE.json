@@ -5,40 +5,68 @@
   "source_SKU_candidate": "fea75841e26645f1892d880905231625b47e3065",
   "source_SKU_tree": "13c9608a14cf5d137feb84c8bac99954c0c7af50",
   "files": {
+    ".gitattributes": {
+      "bytes": 133,
+      "sha256": "b5cfa8eeb56ff2f632d6b40c1dbfa7695f27d7b6b91d6d0e357ae153852ba11a"
+    },
     "README.md": {
-      "bytes": 2921,
-      "sha256": "bb97904fb452c6c4fcc8e4f97039a394f24392c3db5fcc18dfc03d606cc78962"
+      "bytes": 4642,
+      "sha256": "5d571eb026086e49282259c6fb46e95742cd2c1c98d26b06b95d8c8ac78e3bab"
+    },
+    "check_source.py": {
+      "bytes": 2442,
+      "sha256": "e050756677542a0123823049a28fa934d756c3a9080c1898296c0292033525bb"
     },
     "original_composition.py.txt": {
       "bytes": 14012,
       "sha256": "da1f275fa0e91ecbbaa5bcedff65ba0391b162108cc9e91b98a5e2c9f746465f"
     },
+    "original_runner.py.txt": {
+      "bytes": 4275,
+      "sha256": "86223b628bd9a7ab296826624d7f54af7c965af6230ba191ff82795fc4199423"
+    },
     "sku_current_parent_admission.py": {
-      "bytes": 2445,
-      "sha256": "7ea0170af1fc13091d4e8fdb853b671464792c98b5ad83bd2dd13fdd5af22986"
+      "bytes": 2488,
+      "sha256": "fe3e8c2984115c4b5080f38601ce658e1d712ecee48412dd40b388d805194f08"
     },
     "sku_current_parent_assembly.py": {
-      "bytes": 4351,
-      "sha256": "0d4a787136d2bdad01c5a44d771571520ad7104b0002e50bb550b404fd6265e2"
+      "bytes": 5392,
+      "sha256": "dc3611001d76f95e15e8e22bdf530b5c9604d2fca3b8cbf4353651d920638ec4"
+    },
+    "sku_current_parent_component.py": {
+      "bytes": 2975,
+      "sha256": "c5c7e26e45947d0bfc24c7db5fa65e25b366bd57da7b01b903584cfd5e2c960c"
     },
     "sku_current_parent_derive.py": {
       "bytes": 2693,
       "sha256": "86c42eb2caa7171cb94bdbd6c6e8e6680cab5faeaf27df99720c81426edf529f"
     },
+    "sku_current_parent_package.py": {
+      "bytes": 2837,
+      "sha256": "9e216e5face39f4c6eebfe75ab9bea1474fe2c6e1ae5855b41d21372e59a974a"
+    },
+    "sku_current_parent_runtime.py": {
+      "bytes": 7576,
+      "sha256": "acc7af781b2e1e3d30ccbb8b591193e3ff15b3a1441471d523d39dae14e042cb"
+    },
     "test_bridge.py": {
       "bytes": 7860,
       "sha256": "e53bd9438da9e72e74eccbad415ca6309431c73ca912611679365657f38b5cc6"
     },
-    ".gitattributes": {
-      "bytes": 133,
-      "sha256": "b5cfa8eeb56ff2f632d6b40c1dbfa7695f27d7b6b91d6d0e357ae153852ba11a"
+    "test_owning_preparation.py": {
+      "bytes": 8481,
+      "sha256": "8edd4cfb9c6f9e9e3d4c01ac1bb46d10fbb9c303859047feacbb5a6b76886b6a"
     }
   },
   "local_controls": {
-    "explicit_model_tests_pass": 7,
+    "explicit_model_tests_pass": 17,
     "actual_ERP_tests": 0,
     "source_derived_replacements": 6,
-    "complete_original_recovered": true
+    "complete_original_recovered": true,
+    "owning_package_exact_routes": 3,
+    "child_component_exact_routes": 3,
+    "frozen_parent_Git_checks": true,
+    "inherited_current_parent_advisor_selected": true
   },
   "actual_parent_adopted": false,
   "all_admission_values_unset": true,
@@ -46,5 +74,9 @@
   "independent_acceptance": false,
   "production_go": false,
   "source_SKU_actual_Native6_acceptance": false,
-  "source_composition_identical_to_fea758": true
+  "source_composition_identical_to_fea758": true,
+  "owning_package_prepared": true,
+  "active_workflow_added": false,
+  "current_parent_directory": "../qualified-mandor-parent",
+  "owning_runtime_scope": "CURRENT_PARENT_SKU_NATIVE6_ONLY"
 }

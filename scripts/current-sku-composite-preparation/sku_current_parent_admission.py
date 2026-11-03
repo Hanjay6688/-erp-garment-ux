@@ -22,11 +22,15 @@ def canonical(value):
     return json.dumps(value, sort_keys=True, separators=(",", ":"), allow_nan=False).encode()
 
 
-def admitted(parent_raw, sku_raw):
+def require_ready():
     constants = (PARENT_HEAD, PARENT_TREE, PARENT_ROOT_PIN, PARENT_SOURCE_PIN, PARENT_MODULE_PIN,
                  SKU_HEAD, SKU_TREE, SKU_ROOT_PIN, SKU_SOURCE_PIN, RUNTIME_ENTRY)
     if any(value is None for value in constants):
         raise ValueError("SKU_COMPOSITE_ACTUAL_MANDOR17_SKU6_ROOT_AND_OWNING_ENTRY_PENDING")
+
+
+def admitted(parent_raw, sku_raw):
+    require_ready()
     if pin(parent_raw) != PARENT_ROOT_PIN or pin(sku_raw) != SKU_ROOT_PIN:
         raise ValueError("SKU_COMPOSITE_EXACT_ROOT_ORIGINALS_REQUIRED")
     parent, sku = json.loads(parent_raw), json.loads(sku_raw)

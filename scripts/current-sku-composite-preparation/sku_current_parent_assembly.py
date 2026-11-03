@@ -17,7 +17,8 @@ import sku_current_parent_derive as derive
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
 FROZEN_SKU = ROOT.parent / "qualified-sku-moving-average"
-EXPECTED_PARENT_MODULE = ROOT / "scripts/current-mandor-shop-native-qualification/assembly.py"
+FROZEN_PARENT = ROOT.parent / "qualified-mandor-parent"
+EXPECTED_PARENT_MODULE = FROZEN_PARENT / "scripts/current-mandor-shop-native-qualification/assembly.py"
 
 
 def require(value, message):
@@ -28,8 +29,22 @@ def require(value, message):
 def source_manifest():
     raw = (HERE / "SOURCE.json").read_bytes()
     manifest = json.loads(raw)
-    require(manifest["actual_parent_adopted"] is False and manifest["production_go"] is False,
-            "SKU_COMPOSITE_PREPARED_NAMESPACE_ONLY")
+    require(manifest['contract']=='cp7.current-mandor-SKU-parent-bridge-preparation.v1',
+            'SKU_COMPOSITE_EXACT_SOURCE_CONTRACT')
+    names=('PARENT_HEAD','PARENT_TREE','PARENT_ROOT_PIN','PARENT_SOURCE_PIN','PARENT_MODULE_PIN',
+           'SKU_HEAD','SKU_TREE','SKU_ROOT_PIN','SKU_SOURCE_PIN','RUNTIME_ENTRY')
+    unset=[getattr(admission,name)is None for name in names]
+    require(all(unset)or not any(unset),'SKU_COMPOSITE_NO_PARTIAL_ADMISSION')
+    require(manifest['actual_parent_adopted']is(not any(unset))
+            and manifest['all_admission_values_unset']is all(unset)
+            and type(manifest['actual_composite_cases'])is int and manifest['actual_composite_cases']==0
+            and manifest['production_go']is False,
+            'SKU_COMPOSITE_UNQUALIFIED_SOURCE_AND_ACTUAL_PARENT_GATE_STATE')
+    if not any(unset):
+        require(manifest['source_SKU_candidate']==admission.SKU_HEAD
+                and manifest['source_SKU_tree']==admission.SKU_TREE
+                and manifest['source_SKU_actual_Native6_acceptance']is True,
+                'SKU_COMPOSITE_MANIFEST_EXACT_ACCEPTED_CHILD')
     for name, reference in manifest["files"].items():
         path = HERE / name
         require(path.is_file() and not path.is_symlink() and admission.pin(path.read_bytes()) == reference,
