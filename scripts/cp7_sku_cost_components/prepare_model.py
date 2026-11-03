@@ -14,6 +14,8 @@ COST_FUNCTIONS=('erp.be_conversion_extra_v1(uuid)','erp.be_allocation_extra_v1(u
 
 
 def prepare(destination):
+    if os.environ.get('CP7_COST_BASE_CENT_ONLY')=='1'and os.environ.get('CP7_COST_MONEY_CREDIT_ONLY')!='1':
+        raise ValueError('BASE_CENT_COUNTER_REQUIRES_COMPLETE_ISOLATED_MONEY_INPUT')
     if os.environ.get('CP7_COST_MONEY_CREDIT_ONLY')=='1'and not all(os.environ.get(k)=='1'for k in('CP7_COST_CHAIN_MODEL','CP7_COST_INVERSE_REPAIR','CP7_COST_MONEY')):
         raise ValueError('COST_MONEY_CREDIT_ISOLATION_REQUIRES_COMPLETE_CHAIN_MONEY_INPUT')
     destination=Path(destination);destination.mkdir(parents=True,exist_ok=True)
@@ -141,6 +143,16 @@ def prepare(destination):
                 if current_counters.inverse()!=retained_counters:raise ValueError('COST_RETAINED_COUNTER_DERIVATION_NOT_REVERSIBLE')
                 d.once(" const report={costChainFindings,status:'POSTGRES17_COST_CHAIN_SOURCE_REBALANCE_MODELED_PASS_NOT_NATIVE'",
                     current_counters.source+"\n const report={costChainFindings,remainingCostGaps,status:'MODELED_SOURCE_CENTS_STILL_REFUSED_CURRENT_INVERSE_REPAIRED_NOT_NATIVE'",'source penny guard unchanged, current inverse checked against the repaired expected values')
+    if os.environ.get('CP7_COST_BASE_CENT_ONLY')=='1':
+        d.once("if(!label.startsWith('CHAIN: MONEY CREDIT:'))return;","if(!label.startsWith('CHAIN: BASE CENT:'))return;",
+               'isolate only new base-source cent counterexamples')
+        d.once('assert.equal(moneyCreditFindings.length,3);','assert.equal(moneyCreditFindings.length,0 /* skipped 3 */);',
+               'no borrowed prior credit-case execution')
+        d.once('assert.equal(moneyCreditFindings.length,4);','assert.equal(moneyCreditFindings.length,0 /* skipped 4 */);',
+               'no borrowed prior receipt-history execution')
+        d.once(" const report={moneyCreditFindings,status:'MODELED_CROSS_SKU_CENT_CREDIT_CONTROLS_PASS_NOT_NATIVE'",
+            (HERE/'base_cent_cases.mjs.inc').read_text()+"\n const report={baseCentFindings,status:'MODELED_BASE_SOURCE_CENT_COUNTEREXAMPLES_CONFIRMED_NOT_ACCEPTED'",
+            'retain exact source conservation failures before proposing another change')
     if d.inverse()!=original.decode():raise ValueError('COST_MODEL_HARNESS_NOT_REVERSIBLE')
     (destination/'test_cost_successor.mjs').write_text(d.source)
     print(json.dumps(dict(status='COMPLETE_COST_MODEL_PREPARED',typed_tables=len(input['columns']),

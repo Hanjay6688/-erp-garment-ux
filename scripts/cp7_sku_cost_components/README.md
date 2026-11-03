@@ -155,3 +155,19 @@ All these results use the explicit PG17.5 model providers. Real ERP, Auth,
 concurrent sessions, actual Native inverse/cost commands, complete source and
 ACL installation, legacy single-lot admission and used restore remain required.
 All eleven admission gates are still unset; no installer or workflow is armed.
+
+The next targeted review reproduced the analogous base-HPP gap using unchanged
+prepared product functions. After the first SKU conversion, a root-unit change
+30→30.01 has exact source delta0.02 but independently rounded SKU targets add
+0.03. A30→29.99 change removes only0.01 instead of0.02. After another conversion,
+a50→50.01 root correction adds0.02 across two owners instead of0.01. The exact
+prepared opening-HPP command refuses all three with its existing source guard;
+every modeled table returns unchanged. These are confirmed counterexamples,
+not passed corrections. Base-source cent ownership is an additional open gate,
+so all twelve gates are now unset.
+
+Two narrow local harness failures preceded those observations: the first new
+case label did not pass the inherited CHAIN filter; the read-only postcondition
+probe then inferred an integer parameter. The label and explicit numeric cast
+were corrected, with both first outputs retained. No product function or money
+assertion changed and none of the skipped prior cases received fresh credit.

@@ -1,10 +1,25 @@
 {
   "actual_ERP_cases": 0,
+  "base_source_cent_counterexamples": {
+    "actual_ERP_cases": 0,
+    "descendant_source_delta": ".01",
+    "descendant_target_delta": ".02",
+    "negative_source_delta": "-.02",
+    "negative_target_delta": "-.01",
+    "positive_source_delta": ".02",
+    "positive_target_delta": ".03",
+    "product_repair_admitted": false,
+    "unchanged_source_guard_refused_all": true
+  },
   "classification": "PREPARED_COST_COMPONENT_LAYER_NOT_ADMITTED",
   "files": {
     "scripts/cp7_sku_cost_components/README.md": {
-      "bytes": 10394,
-      "sha256": "4297461c215cdc7f645776c70b9c9b4bb90c03a0b9b3a1c51943bbeaf167e5bc"
+      "bytes": 11459,
+      "sha256": "0dfc1a9ae7317a459bd511a4fefbbf1eda89659b10ac269a2cce1a95b51b8fe8"
+    },
+    "scripts/cp7_sku_cost_components/base_cent_cases.mjs.inc": {
+      "bytes": 2463,
+      "sha256": "eeeeba3dbab43bc92c690c36ba6d01ac0d344fa8e2e7fde781b825af9baa5a18"
     },
     "scripts/cp7_sku_cost_components/cent_inverse_counterexamples.mjs.inc": {
       "bytes": 3270,
@@ -67,8 +82,8 @@
       "sha256": "6a0627fa980634bb2b4b812d6f53848aed5b85a206915b465b665b627268ebf7"
     },
     "scripts/cp7_sku_cost_components/prepare_model.py": {
-      "bytes": 15503,
-      "sha256": "0e10c3820ea8803a9da47b8dbe6c3436db2201747be03ffc3251d8fd70f83aa0"
+      "bytes": 16683,
+      "sha256": "409cee55d50a265eaf046ae75cd3e355d09e023e50ee14e56bd452725aa0415c"
     },
     "scripts/cp7_sku_cost_components/private_inverse_delta.py": {
       "bytes": 1114,
@@ -97,6 +112,7 @@
   },
   "gates": {
     "Native_cost5": null,
+    "base_source_cents": null,
     "catalog_and_ACL": null,
     "current_parent_composite": null,
     "current_value_inverse": null,
