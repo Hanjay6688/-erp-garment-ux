@@ -26,10 +26,11 @@ COUNTS_BEFORE="""report['actual_two_session_races']=3
 COUNTS_AFTER="""report['actual_two_session_races']=4
             report['actual_Native_cases']=9
             report['actual_Auth_HTTP_cases']=2
-            report['actual_browser_cases']=0
-            report['actual_business_cases']=15
+            report['actual_browser_cases']=2
+            report['actual_business_cases']=17
             report['real_Auth_HTTP_qualified']=True
-            report['actual_Mandor_browser_acceptance_pending']=True"""
+            report['real_Auth_browser_claim']=True
+            report['actual_Mandor_browser_acceptance_pending']=False"""
 
 
 def derive(raw):

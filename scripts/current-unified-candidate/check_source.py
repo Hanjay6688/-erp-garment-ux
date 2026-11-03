@@ -75,7 +75,8 @@ def source():
         expected={prefix+n for n in('admission.py','native_fixture.py','oracle.py','cases.py','additional_cases.py','preflight.py',
             'assembly.py','component.py','package_engine.py','qualification.py','runtime_supervisor.py','final_gate.py',
             'SOURCE_READINESS.json','READINESS.txt','test_prerequisites.py','access_cases.py','access_preflight.py',
-            'access_runtime.py','access_gate.py','ACCESS_SOURCE_READINESS.json','http_cases.py','http_gate.py')}
+            'access_runtime.py','access_gate.py','ACCESS_SOURCE_READINESS.json','http_cases.py','http_gate.py',
+            'browser.mjs','browser_observer.py','browser_preflight.py','browser_gate.py')}
         require(set(preparation['files'])==expected and all(n in m['files']for n in expected),'UNIFIED_EXACT_PREPARED_NATIVE9_NAMESPACE')
         require(preparation['actual_Native_cases']==0 and preparation['parent_root_adopted']is False,'UNIFIED_NATIVE9_PREPARATION_IS_NOT_ACCEPTANCE')
         require(preparation['actual_two_session_races']==0 and len(preparation['new_race_ids'])==4,

@@ -123,6 +123,7 @@ def exercise(product,trusted_connection,conn,cur,database,url,report,state):
     report['status']='INCOMPLETE'
     access_runtime.run(product,state,access_fixture,verify,report)
     access_runtime.run_http(product,state,access_fixture,verify,report)
+    access_runtime.run_browser(product,state,access_fixture,verify,report)
     report['status']='PASS'
 
 

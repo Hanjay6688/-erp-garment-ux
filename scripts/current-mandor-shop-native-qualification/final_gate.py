@@ -71,8 +71,8 @@ def gate(directory,head):
     main,native,package,backup,owned=[docs[name]for name in(MAIN,RAW,'T3_PACKAGE_INSTALL.json',
         'T3_BACKUP_RESTORE_DRILL.json','MANDOR_RUNTIME_SUPERVISION.json')]
     p.fields(main,dict(status='PASS',qualification_commit=head,required_case_ids=[CASE],required_case_ids_pass=True,
-        actual_Native_cases=9,actual_Auth_HTTP_cases=2,actual_two_session_races=4,actual_browser_cases=0,
-        actual_business_cases=15,real_Auth_HTTP_qualified=True,real_Auth_browser_claim=False,
+        actual_Native_cases=9,actual_Auth_HTTP_cases=2,actual_two_session_races=4,actual_browser_cases=2,
+        actual_business_cases=17,real_Auth_HTTP_qualified=True,real_Auth_browser_claim=True,
         baseline_full22_all_rows_all_sequences_equal=True,restore_raw_public_equal=True,cp6_restored=True,
         baseline_advisors_equal=True,advisor_gate=True,used_guard_refused_before_DDL=True,
         full_combined_final_qualification=False,production_go=False,independent_acceptance=False),
@@ -80,8 +80,8 @@ def gate(directory,head):
     p.exact(set(main['committed']),{CASE},'MANDOR_GATE_ONE_CURRENT_COMPONENT')
     part=main['committed'][CASE]
     p.fields(part,dict(status='PASS',actual_Native_cases=9,actual_Auth_HTTP_cases=2,actual_two_session_races=4,
-        actual_browser_cases=0,strict_case_ids=list(cases.IDS),used_guard_refused_before_DDL=True,
-        actual_Mandor_browser_acceptance_pending=True,
+        actual_browser_cases=2,strict_case_ids=list(cases.IDS),used_guard_refused_before_DDL=True,
+        actual_Mandor_browser_acceptance_pending=False,
         global_writer_or_permission_or_lock_closure=False,production_go=False,independent_acceptance=False),
         'MANDOR_GATE_NATIVE_ONLY_COMPONENT')
     p.fields(native,dict(status='PASS',planned_case_ids=list(cases.IDS),counts={'PASS':9},missing=[],
@@ -117,6 +117,8 @@ def gate(directory,head):
     sessions=access_gate.gate(p,directory,part,qualification.FROZEN)
     import http_gate
     http=http_gate.gate(p,directory,part,qualification.FROZEN)
+    import browser_gate
+    browser=browser_gate.gate(p,directory,part,qualification.FROZEN)
     p.exact(package['gate'],p.GATES,'MANDOR_GATE_ALL_FIVE_ACTUAL_PACKAGE_GATES')
     identity=package['run_identity'];run_id=identity['run_id']
     if type(run_id)is not str or re.fullmatch('[1-9][0-9]*',run_id)is None:raise ValueError('MANDOR_GATE_ACTUAL_RUN_ID_REQUIRED')
@@ -135,12 +137,12 @@ def gate(directory,head):
         engine=qualification.runtime()
         with engine.inherited_admission.parent_scope():sources=engine.admitted()
     p.exact(main['source_declaration'],sources,'MANDOR_GATE_COMPLETE_CURRENT_NATURAL_SOURCE_GRAPH')
-    return dict(status='CURRENT_MANDOR_NATIVE9_SESSION4_HTTP2_AND_ALL5_PASS_BROWSER_PENDING',head=head,
-        actual_Native_cases=9,actual_business_cases=15,actual_Auth_HTTP_cases=2,actual_two_session_races=4,actual_browser_cases=0,
-        session_gate=sessions,HTTP_gate=http,
+    return dict(status='CURRENT_MANDOR_NATIVE9_SESSION4_HTTP2_BROWSER2_AND_ALL5_PASS',head=head,
+        actual_Native_cases=9,actual_business_cases=17,actual_Auth_HTTP_cases=2,actual_two_session_races=4,actual_browser_cases=2,
+        session_gate=sessions,HTTP_gate=http,browser_gate=browser,
         accepted_parent=dict(head=parent['head'],tree=parent['tree'],run_id=parent['run_id'],original=pin(raw_parent)),
         original_observation_pairs=pairs,raw_original_assets=assets,package_all_five=True,
-        actual_Mandor_browser_acceptance_pending=True,
+        actual_Mandor_browser_acceptance_pending=False,
         production_go=False,independent_acceptance=False)
 
 

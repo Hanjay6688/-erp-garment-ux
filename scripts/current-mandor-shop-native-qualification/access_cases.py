@@ -6,6 +6,7 @@ The caller must supply the exact product/state and a separately committed Native
 fixture; source preparation alone never opens that caller's admission.
 """
 from concurrent.futures import ThreadPoolExecutor
+from contextlib import contextmanager
 from hashlib import sha256
 from decimal import Decimal
 from pathlib import Path
@@ -63,6 +64,7 @@ def prepare(native,cur,today,source_fixture,physical):
         'MANDOR_ACCESS_UNPAID_DRAFT_FIXTURE_REQUIRED')
     return dict(contract='cp7.mandor-shop-access-fixture.v1',actor=actor,sale_id=f['sale'],payroll_id=payroll,
         contractor_id=f['contractor'],physical=physical,Native_sale=sale,
+        payroll_number=current['payroll']['payroll_number'],sale_number=sale['payload']['sale_number'],
         original_sale_request=dict(request_id=request,payload=payload,response=response),
         same_GOOD_source_reused_without_policy_mutation=True,remaining_GOOD_PCS=2,
         actual_case_credit=0,production_go=False)
@@ -88,13 +90,23 @@ class Context:
     def admin(self,cur):
         self.local(cur);self.modules.bc.api.admin(cur)
 
+    @contextmanager
+    def catalog_scope(self,cur):
+        # Only the SQL race runner adds the historical Native schema overlay.
+        # HTTP/browser copies must equal product ACLs directly. In particular
+        # a separate browser observer cannot inherit control.STATE.
+        if self.mode=='RACE':
+            with self.modules.control.product_catalog(cur):yield
+        else:yield
+
     def verify(self,cur):
         self.admin(cur)
-        with self.modules.control.product_catalog(cur):self.product.verify(cur,self.state)
+        with self.catalog_scope(cur):self.product.verify(cur,self.state)
 
     def snapshot(self,cur):
         self.admin(cur)
-        with self.modules.control.product_catalog(cur):
+        cur.execute("set local timezone='UTC'")
+        with self.catalog_scope(cur):
             catalog=self.product.runtime()[-1]
             actual=catalog._catalog_rows(cur)
             require(actual==self.state['after'],'MANDOR_ACCESS_EXACT_INSTALLED_ALL22')

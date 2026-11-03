@@ -99,8 +99,10 @@ def check(raw,parser_path):
     package=load('mandor_access_inert_package_engine',HERE/'package_engine.py')
     _,copy_proof=runtime.derive((ROOT/runtime.ORIGINAL).read_bytes())
     _,package_proof=package.derive((ROOT/package.ORIGINAL).read_bytes())
-    sources=['access_cases.py','access_runtime.py','access_gate.py','access_preflight.py','http_cases.py','http_gate.py']
-    for name in sources:compile((HERE/name).read_bytes(),str(HERE/name),'exec')
+    sources=['access_cases.py','access_runtime.py','access_gate.py','access_preflight.py','http_cases.py','http_gate.py',
+        'browser.mjs','browser_observer.py','browser_preflight.py','browser_gate.py']
+    for name in sources:
+        if name.endswith('.py'):compile((HERE/name).read_bytes(),str(HERE/name),'exec')
     component=ast.parse((HERE/'component.py').read_bytes())
     names=[]
     for node in ast.walk(component):
@@ -111,7 +113,7 @@ def check(raw,parser_path):
                 inspect.signature(getattr(target,node.func.attr)).bind(*[None for _ in node.args],
                     **{k.arg:None for k in node.keywords})
                 names.append((node.lineno,owner+'.'+node.func.attr))
-    require([name for _,name in sorted(names)]==['access_cases.prepare','access_runtime.run','access_runtime.run_http'],
+    require([name for _,name in sorted(names)]==['access_cases.prepare','access_runtime.run','access_runtime.run_http','access_runtime.run_browser'],
         'MANDOR_ACCESS_EXACT_COMMITTED_PREPARATION_THEN_OWNING_RUN')
     http=load('mandor_access_inert_HTTP_cases',HERE/'http_cases.py')
     require(len(http.HTTP_IDS)==len(set(http.HTTP_IDS))==2,'MANDOR_HTTP_TWO_UNIQUE_REAL_AUTH_CASES')
@@ -144,6 +146,8 @@ def check(raw,parser_path):
     require(sum(isinstance(n,ast.Call)and isinstance(n.func,ast.Attribute)
         and isinstance(n.func.value,ast.Name)and n.func.value.id=='access_gate'and n.func.attr=='gate'
         for n in ast.walk(final))==1,'MANDOR_ACCESS_OWNING_ORIGINAL_GATE_REQUIRED')
+    import browser_preflight
+    browser=browser_preflight.check()
     return dict(status='MANDOR_ACCESS_FOUR_RACES_SOURCE_PREPARED_NOT_EXECUTED',
         source=dict(bytes=len(source.read_bytes()),sha256=sha256(source.read_bytes()).hexdigest()),
         source_files={name:dict(bytes=len((HERE/name).read_bytes()),sha256=sha256((HERE/name).read_bytes()).hexdigest())for name in sources},
@@ -154,6 +158,7 @@ def check(raw,parser_path):
         actual_two_session_races=0,actual_Auth_HTTP_cases=0,actual_Native_cases=0,actual_browser_cases=0,
         owning_copy_source_integration_prepared=True,actual_copy_qualification_pending=True,
         HTTP_case_ids=list(http.HTTP_IDS),named_HTTP_RPC_calls=http_calls,actual_HTTP_qualification_pending=True,
+        browser_source_prerequisites=browser,
         copy_authority_derivation=copy_proof,whole_package_derivation=package_proof,
         production_go=False,independent_acceptance=False)
 

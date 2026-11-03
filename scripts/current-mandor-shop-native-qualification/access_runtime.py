@@ -3,7 +3,7 @@ from contextlib import contextmanager
 from hashlib import sha256
 from pathlib import Path
 from types import ModuleType,SimpleNamespace
-import importlib.util,json,subprocess
+import importlib.util,json,os,subprocess
 import admission,access_cases
 
 HERE=Path(__file__).resolve().parent
@@ -56,7 +56,8 @@ def copy_scope(modes,product,state):
 
 
 def save(value,name='MANDOR_SESSION4_ORIGINAL.json'):
-    require(name in('MANDOR_SESSION4_ORIGINAL.json','MANDOR_HTTP2_ORIGINAL.json'),'MANDOR_FIXED_ACCESS_ORIGINAL_NAME')
+    require(name in('MANDOR_SESSION4_ORIGINAL.json','MANDOR_HTTP2_ORIGINAL.json','MANDOR_BROWSER_FIXTURE.json',
+        'MANDOR_BROWSER_STATE.json','MANDOR_BROWSER2_ORIGINAL.json'),'MANDOR_FIXED_ACCESS_ORIGINAL_NAME')
     path=ROOT/'cp6-proof/t3'/name
     raw=(json.dumps(value,sort_keys=True,default=str)+'\n').encode()
     require(not path.exists(),'MANDOR_FIRST_SESSION_ORIGINAL_OVERWRITE_REFUSED')
@@ -106,3 +107,45 @@ def run_http(product,state,fixture,verify,report):
         for row in copies['actual_copy_admissions']),'MANDOR_ONE_REAL_AUTH_COPY_WITH_ORIGINAL_AUTHORITY')
     report.update(actual_Auth_HTTP_cases=2,actual_business_cases=15,
         actual_Mandor_browser_acceptance_pending=True)
+
+
+@contextmanager
+def browser_environment(report):
+    changes=dict(MANDOR_BROWSER_CONFIRM='cp6_auditor_browser',
+        MANDOR_BROWSER_FIXTURE_SHA256=report['browser_fixture_original']['sha256'],
+        MANDOR_BROWSER_STATE_SHA256=report['browser_state_original']['sha256'],
+        AUDITOR_BROWSER_CASE_TIMEOUT_MS='600000')
+    old={name:os.environ.get(name)for name in changes};os.environ.update(changes)
+    try:yield
+    finally:
+        for name,value in old.items():
+            if value is None:os.environ.pop(name,None)
+            else:os.environ[name]=value
+
+
+def run_browser(product,state,fixture,verify,report):
+    admission.parent(product.parent_raw)
+    from assembly import FROZEN
+    import browser_preflight
+    modes=load('mandor_exact_original_browser_copy_modes',FROZEN/'scripts/current-s03-sku-s05-composite-qualification/modes.py')
+    typed=load('mandor_qualified_browser_copy_gate',FROZEN/'scripts/cp7_accessory_nonpayable/qualification_gate.py')
+    # The original host must build THIS candidate's exact normal App. Its
+    # source stays byte-exact; only the pre-existing candidate-root slot moves.
+    require(modes.AUDITOR==FROZEN,'MANDOR_BROWSER_EXACT_ORIGINAL_HOST_ROOT')
+    modes.AUDITOR=ROOT
+    host='scripts/current-s03-sku-s05-composite-qualification/host.mjs'
+    require((ROOT/host).read_bytes()==(FROZEN/host).read_bytes(),'MANDOR_BROWSER_ORIGINAL_HOST_UNCHANGED')
+    report['browser_fixture_original']=save(fixture,'MANDOR_BROWSER_FIXTURE.json')
+    report['browser_state_original']=save(state,'MANDOR_BROWSER_STATE.json')
+    with copy_scope(modes,product,state)as copies:
+        report['browser_copy_authority']=copies
+        with browser_environment(report):actual=modes.run_browser(HERE/'browser.mjs',verify,'mandor_current_browser2')
+        report['browser2_original']=save(actual,'MANDOR_BROWSER2_ORIGINAL.json')
+        report['browser2_gate']=typed.copies(actual,browser_preflight.IDS,mode='BROWSER')
+    require(len(copies['actual_copy_admissions'])==1 and all(
+        row.get('all22_groups_equal_original_install')is True
+        and row.get('product_state_modified')is False
+        and row.get('Native_or_schema_or_RPC_permissions_changed')is False
+        for row in copies['actual_copy_admissions']),'MANDOR_ONE_ACTUAL_BROWSER_COPY_WITH_PRODUCT_AUTHORITY')
+    report.update(actual_browser_cases=2,actual_business_cases=17,
+        actual_Mandor_browser_acceptance_pending=False,real_Auth_browser_claim=True)
