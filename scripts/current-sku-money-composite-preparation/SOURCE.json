@@ -1,0 +1,81 @@
+{
+  "active_workflow_added": false,
+  "actual_Auth_HTTP_cases": 0,
+  "actual_browser_cases": 0,
+  "actual_composite_cases": 0,
+  "actual_parent_adopted": false,
+  "all_admission_values_unset": true,
+  "base": {
+    "public_head": "92f099e63ae46b1adac51cc7900811e9ea201437",
+    "tree": "8e48277b86c0325ae15793cd4d6b5094033c8c0e"
+  },
+  "contract": "cp7.current-mandor-moving-money-bridge-preparation.v1",
+  "derivations": {
+    "money": {
+      "actual_Native_cases": 0,
+      "counted_changes": 5,
+      "derived_sha256": "6b5d188d43c75128a0b0562d5d948d0dd03e3a3a6a91c4def0862f673e013f7f",
+      "independent_acceptance": false,
+      "original_bytes": 6718,
+      "original_recovered_exactly": true,
+      "original_sha256": "7ddfc7a3b825d35146a93643b1427be04c29ed49fd5debcbada00a26718868f0",
+      "production_go": false
+    },
+    "moving": {
+      "actual_Native_cases": 0,
+      "counted_changes": 6,
+      "derived_sha256": "c72fe581f195ded0e7b1317df70683b439d7d88e357cea838acbc40d937aa97c",
+      "original_recovered_exactly": true,
+      "original_sha256": "da1f275fa0e91ecbbaa5bcedff65ba0391b162108cc9e91b98a5e2c9f746465f",
+      "production_go": false
+    }
+  },
+  "files": {
+    "README.md": {
+      "bytes": 4239,
+      "sha256": "282a40c80ba2bebf9c68b046efb2c9a7f31efdaaa5de2885e1c78076fad0e5fc"
+    },
+    "SOURCE_REFERENCE.json": {
+      "bytes": 2757,
+      "sha256": "5c9fc7fda2b84580fd415596c3735d2e6283f7813a9da3406bf22d64a604cbeb"
+    },
+    "admission.py": {
+      "bytes": 3097,
+      "sha256": "c37090fb7cabe09eed3e22b900c473b5131c67b2b4bd8252ba399ca6099020ed"
+    },
+    "assembly.py": {
+      "bytes": 7881,
+      "sha256": "da12111aa84038fb0489d8c22e2b6e48c6c42661386d6235c53e4323bff3f436"
+    },
+    "check_source.py": {
+      "bytes": 2396,
+      "sha256": "0c55971a2de954c0316cac7643f1a7e895b8342464af6e8b6aa5b0e159626288"
+    },
+    "component.py": {
+      "bytes": 3335,
+      "sha256": "4b94140c5c766b25302713b67a5bcc821c9199016d7783c926517666336e19bc"
+    },
+    "control_module_context.py": {
+      "bytes": 7288,
+      "sha256": "6522154f63166fc2e23ed46b50c69569ed6bd79c3e143e19f24e786ecd6ad443"
+    },
+    "derive.py": {
+      "bytes": 2587,
+      "sha256": "7bbbb2a2625bd0771ef2c7860f83b1bdb1da6066ce9d7a309d81dfa89cd0d88b"
+    },
+    "package.py": {
+      "bytes": 2010,
+      "sha256": "a1da58839417cac35330d8d474b932651134e2708772183d7e0261a184815eef"
+    },
+    "test_bridge.py": {
+      "bytes": 7975,
+      "sha256": "554ed66bdd1e1dbef8117117f48fec7aa84f05cf2b6ddaf084813db46dd29955"
+    },
+    "test_owning.py": {
+      "bytes": 4003,
+      "sha256": "ead53c15c227f6355b237f4b5825f775fc8332f34461a0ef6e0f133c23c93e9f"
+    }
+  },
+  "independent_acceptance": false,
+  "production_go": false
+}
