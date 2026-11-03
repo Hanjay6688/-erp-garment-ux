@@ -36,7 +36,7 @@
   }
 
   .wip-queue-head > div > span {
-    font-size: 7px;
+    font-size: 13px;
   }
 
   .wip-queue-head h2 {
@@ -50,7 +50,7 @@
 
   .wip-queue-head > .selection-pill {
     padding: 5px 6px;
-    font-size: 7px;
+    font-size: 13px;
   }
 
   .wip-queue-panel > .wip-queue-tabs {
@@ -64,7 +64,7 @@
     min-height: 27px;
     padding: 0 4px;
     border-radius: 6px;
-    font-size: 7px;
+    font-size: 13px;
   }
 
   .wip-queue-panel > .wip-search {
@@ -82,7 +82,7 @@
   }
 
   .wip-search input {
-    font-size: 9px;
+    font-size: 13px;
   }
 
   .wip-queue-panel > .wip-queue-list {
@@ -109,17 +109,17 @@
   }
 
   .wip-queue-status {
-    font-size: 6.5px;
+    font-size: 13px;
   }
 
   .wip-queue-card-main > strong {
     margin-top: 4px;
-    font-size: 11px;
+    font-size: 13px;
   }
 
   .wip-queue-card-main > small {
     margin-top: 2px;
-    font-size: 8px;
+    font-size: 13px;
   }
 
   .wip-queue-card-meta {
@@ -129,12 +129,12 @@
   }
 
   .wip-queue-card-meta small {
-    font-size: 6px;
+    font-size: 13px;
   }
 
   .wip-queue-card-meta strong {
     margin-top: 2px;
-    font-size: 8px;
+    font-size: 13px;
     line-height: 1.25;
   }
 
@@ -145,17 +145,17 @@
   }
 
   .wip-queue-card-numbers b {
-    font-size: 9px;
+    font-size: 13px;
   }
 
   .wip-queue-card-numbers small {
-    font-size: 6px;
+    font-size: 13px;
   }
 
   .wip-queue-card-numbers > em {
     grid-column: 1 / -1;
     justify-self: start;
-    font-size: 6.5px;
+    font-size: 13px;
   }
 
   .wip-queue-card-main > p {
@@ -169,15 +169,15 @@
   }
 
   .wip-queue-card-main > p small {
-    font-size: 5.8px;
+    font-size: 13px;
   }
 
   .wip-queue-card-main > p strong {
-    font-size: 8px;
+    font-size: 13px;
   }
 
   .wip-queue-card-main > p em {
-    font-size: 6px;
+    font-size: 13px;
   }
 
   .wip-queue-card > footer {
@@ -193,7 +193,7 @@
     width: 100%;
     min-height: 24px;
     justify-content: center;
-    font-size: 7px;
+    font-size: 13px;
   }
 
   .wip-queue-card > footer button .icon {
@@ -213,7 +213,7 @@
   .wip-queue-panel > .wip-queue-list::-webkit-scrollbar-thumb {
     border: 2px solid transparent;
     border-radius: 999px;
-    background: rgba(111, 134, 218, .48);
+    background: var(--panel);
     background-clip: padding-box;
   }
 }
@@ -234,23 +234,23 @@
 }
 
 .wip-roll-tray-head > div > span {
-  font-size: 6.8px;
+  font-size: 13px;
 }
 
 .wip-roll-tray-head strong {
   margin-top: 3px;
-  font-size: 10.5px;
+  font-size: 13px;
 }
 
 .wip-roll-tray-head small {
   margin-top: 2px;
-  font-size: 7.5px;
+  font-size: 13px;
   line-height: 1.3;
 }
 
 .wip-roll-tray-head > span {
   padding: 5px 7px;
-  font-size: 7px;
+  font-size: 13px;
 }
 
 .wip-roll-token-grid {
@@ -272,7 +272,7 @@
   border-radius: 10px;
   overflow: hidden;
   transform: none;
-  box-shadow: 0 7px 18px rgba(0, 0, 0, .17), inset 0 1px rgba(255, 255, 255, .025);
+  box-shadow: var(--shadow);
 }
 
 .wip-roll-token-grid > .wip-roll-token:hover {
@@ -306,7 +306,7 @@
 }
 
 .wip-roll-token-total > span {
-  font-size: 6.2px;
+  font-size: 13px;
   letter-spacing: .06em;
 }
 
@@ -316,12 +316,12 @@
 }
 
 .wip-roll-token-total > strong > small {
-  font-size: 7px;
+  font-size: 13px;
 }
 
 .wip-roll-token-total > em {
   margin-top: 3px;
-  font-size: 6px;
+  font-size: 13px;
 }
 
 .wip-roll-token-sizes {
@@ -335,27 +335,27 @@
 }
 
 .wip-roll-token-sizes small {
-  font-size: 5.8px;
+  font-size: 13px;
   letter-spacing: .04em;
 }
 
 .wip-roll-token-sizes strong {
   margin-top: 2px;
-  font-size: 10.5px;
+  font-size: 13px;
 }
 
 .wip-roll-token-sizes em {
   margin-top: 1px;
-  font-size: 6px;
+  font-size: 13px;
 }
 
 .wip-roll-token-body > .wip-roll-token-code {
   grid-column: 1 / -1;
   overflow: hidden;
-  color: #909db1;
+  color: var(--text);
   text-overflow: ellipsis;
   white-space: nowrap;
-  font-size: 7px;
+  font-size: 13px;
   line-height: 1.2;
   letter-spacing: .035em;
 }
@@ -390,7 +390,7 @@
 }
 
 .wip-roll-token-actions .roll-batch-quick::before {
-  font-size: 5.8px;
+  font-size: 13px;
   letter-spacing: .06em;
 }
 
@@ -401,7 +401,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  font-size: 8px;
+  font-size: 13px;
 }
 
 .wip-roll-token-actions .roll-batch-quick > svg {
@@ -434,12 +434,12 @@
 }
 
 .wip-roll-token-actions .wip-roll-split-btn strong {
-  font-size: 8px;
+  font-size: 13px;
 }
 
 .wip-roll-token-actions .wip-roll-split-btn small {
   margin-top: 1px;
-  font-size: 6px;
+  font-size: 13px;
 }
 
 .wip-roll-token-actions .wip-roll-drag-handle {
@@ -450,10 +450,10 @@
   min-height: 0;
   padding: 0;
   border: 0;
-  border-left: 1px solid rgba(111, 134, 218, .28);
+  border-left: 1px solid var(--line);
   border-radius: 0;
-  background: rgba(78, 99, 170, .1);
-  color: #7484ae;
+  background: var(--panel);
+  color: var(--blue);
   display: grid;
   grid-template-columns: 1fr;
   place-items: center;
@@ -462,8 +462,8 @@
 
 .wip-roll-token-actions .wip-roll-drag-handle:hover,
 .wip-roll-token-actions .wip-roll-drag-handle:active {
-  border-left-color: rgba(131, 154, 238, .6);
-  background: rgba(91, 118, 214, .22);
+  border-left-color: var(--line);
+  background: var(--panel-3);
 }
 
 .wip-roll-token-actions .wip-roll-drag-handle > .icon {
@@ -573,7 +573,7 @@
     position: sticky;
     top: 0;
     z-index: 4;
-    background: linear-gradient(105deg, rgba(30, 39, 64, .96), rgba(13, 19, 28, .96));
+    background: var(--panel);
     backdrop-filter: blur(12px);
   }
 
@@ -597,8 +597,8 @@
     grid-column: 2;
     justify-self: start;
     text-align: left;
-    color: #bdd8cb;
-    font-size: 10.5px;
+    color: var(--text);
+    font-size: 13px;
   }
 
   .wh-master-detail.rolls .wh-stock-browser-row > .wh-stock-health-badge {
@@ -633,7 +633,7 @@
   .wh-master-detail.rolls > .wh-detail::-webkit-scrollbar-thumb {
     border: 2px solid transparent;
     border-radius: 999px;
-    background: rgba(111, 134, 218, .5);
+    background: var(--panel);
     background-clip: padding-box;
   }
 }

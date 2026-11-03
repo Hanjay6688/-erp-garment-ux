@@ -92,7 +92,7 @@ function SettingsPage({onNavigate}:{onNavigate:OperationsAdminProps['onNavigate'
     setEditing(false);setNotice(`Versi pengaturan baru dijadwalkan efektif ${dateLabel(effectiveDate)}. Simulasi ini belum menulis backend.`);setReason('')
   }
   return <>
-    <AdminHero eyebrow="PENGATURAN & AUDIT · SYSTEM POLICY" title="Pengaturan ERP yang bisa dipertanggungjawabkan" description="Rancang kebijakan operasional, nomor dokumen, dan akses dengan versi efektif. Nilai contoh di layar ini belum menjadi kebijakan aktif sampai adapter backend tersambung." icon={Settings2}>
+    <AdminHero eyebrow="PENGATURAN & AUDIT · SYSTEM POLICY" title="Pengaturan ERP" description="Rancang kebijakan operasional, nomor dokumen, dan akses dengan versi efektif. Nilai contoh di layar ini belum menjadi kebijakan aktif sampai adapter backend tersambung." icon={Settings2}>
       <aside><Settings2/><div><small>CONTOH SETTING VERSION</small><strong>Fixture v12 · efektif 29 Agu</strong><em>Bukan versi pengaturan dari backend.</em></div></aside>
     </AdminHero>
     <AdminTabs active="admin-settings" onNavigate={onNavigate}/>

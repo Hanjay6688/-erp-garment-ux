@@ -2,7 +2,7 @@
 .supplier-credit button { max-width: 100%; white-space: normal; }
 .supplier-credit-table { max-width: 100%; overflow-x: auto; }
 .supplier-credit-table table { min-width: 560px; }
-.supplier-credit article { padding: 12px 0; border-bottom: 1px solid #2c3e58; }
+.supplier-credit article { padding: 12px 0; border-bottom: 1px solid var(--line); }
 .supplier-credit article h3 { margin: 0 0 8px; font-size: 16px; }
 .supplier-credit fieldset { min-inline-size: 0; display: grid; gap: 14px; border: 0; padding: 0; }
 .supplier-credit fieldset label { display: grid; gap: 6px; }

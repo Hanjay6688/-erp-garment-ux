@@ -920,6 +920,7 @@
     "scripts/current-mandor-shop-native-qualification/PACKAGE_IDENTITY_CONTROLS.json",
     "scripts/current-mandor-shop-native-qualification/PARENT_WORKFLOW_CONTROLS.json",
     "scripts/current-mandor-shop-native-qualification/READINESS.txt",
+    "scripts/current-mandor-shop-native-qualification/RUNTIME_PREREQUISITE_CONTROLS.json",
     "scripts/current-mandor-shop-native-qualification/SOURCE_READINESS.json",
     "scripts/current-mandor-shop-native-qualification/access_cases.py",
     "scripts/current-mandor-shop-native-qualification/access_gate.py",
@@ -948,18 +949,22 @@
     "scripts/current-mandor-shop-native-qualification/parent_artifacts.py",
     "scripts/current-mandor-shop-native-qualification/preflight.py",
     "scripts/current-mandor-shop-native-qualification/qualification.py",
+    "scripts/current-mandor-shop-native-qualification/runtime_prerequisites.py",
     "scripts/current-mandor-shop-native-qualification/runtime_supervisor.py",
     "scripts/current-mandor-shop-native-qualification/test_advisor_preparation.py",
     "scripts/current-mandor-shop-native-qualification/test_package_identity.py",
     "scripts/current-mandor-shop-native-qualification/test_parent_artifacts.py",
     "scripts/current-mandor-shop-native-qualification/test_parent_preparation.py",
     "scripts/current-mandor-shop-native-qualification/test_prerequisites.py",
+    "scripts/current-mandor-shop-native-qualification/test_runtime_prerequisites.py",
     "scripts/current-mandor-shop-native-qualification/test_workflow.py",
     "scripts/current-mandor-shop-native-qualification/workflow.py",
     "scripts/current-unified-candidate/READINESS.txt",
     "scripts/current-unified-candidate/SOURCE.json",
     "scripts/current-unified-candidate/SOURCE_BOUNDARY_CHECKS.json",
+    "scripts/current-unified-candidate/THEMED_SOURCE.json",
     "scripts/current-unified-candidate/check_source.py",
+    "scripts/current-unified-candidate/themed_source.py",
     "src/MandorShopBuyerPicker.tsx",
     "src/MandorShopCards.dom.test.tsx",
     "src/MandorShopCards.tsx",
@@ -967,16 +972,18 @@
     "src/MandorShopPayrollPanel.tsx",
     "src/MandorShopSalesDraft.dom.test.tsx",
     "src/MandorShopSalesPage.dom.test.tsx",
+    "src/MobilePrimaryNavigation.dom.test.tsx",
+    "src/MobilePrimaryNavigation.tsx",
+    "src/fgMovingAverageContract.test.ts",
     "src/mandor-shop.css",
     "src/mandorShopContract.test.ts",
     "src/mandorShopContract.ts",
     "src/mandorShopSalesContract.test.ts",
     "src/mandorShopSalesContract.ts",
+    "src/theme.css",
     "tests/fixtures/mandorShop.ts",
     "tests/fixtures/mandorShopSales.ts",
-    "scripts/current-mandor-shop-native-qualification/runtime_prerequisites.py",
-    "scripts/current-mandor-shop-native-qualification/test_runtime_prerequisites.py",
-    "scripts/current-mandor-shop-native-qualification/RUNTIME_PREREQUISITE_CONTROLS.json"
+    "tests/fixtures/skuMovingAverageReaderPg17.json"
   ],
   "files": {
     "scripts/check-access-catalog.mjs": {
@@ -1048,20 +1055,20 @@
       "sha256": "a4266a73cefdffe5a027105d5a7340c46c0ce0273bdc231aabe7c53be6dbf41e"
     },
     "scripts/current-unified-candidate/READINESS.txt": {
-      "bytes": 1630,
-      "sha256": "67931f2c043c058dee3df910721c10db67a6624be6e0098e35f5425c8fa17e54"
+      "bytes": 2485,
+      "sha256": "ab6e41160c24efd5682c3226bdcddf4df970ef863b0b2cb7359691c80018573b"
     },
     "scripts/current-unified-candidate/SOURCE_BOUNDARY_CHECKS.json": {
       "bytes": 574,
       "sha256": "45f8a54ef6e02e02a20cb3686af32cfa4776691df24c85397a029154fc47752f"
     },
     "scripts/current-unified-candidate/check_source.py": {
-      "bytes": 9176,
-      "sha256": "0bbee77f0f23efe2432a2e975f794d0d9f3e1eba4f2667abd78a4869ba9df6e9"
+      "bytes": 9966,
+      "sha256": "26089a7c16cf5ed9ea714925e3e83b059a3e903808183886fa6c2a018337bafd"
     },
     "src/accessory-workspace.css": {
-      "bytes": 463,
-      "sha256": "573966c363a38314bbab8f7dcc265b68436c0fef3283cf8ab7300bbe0c8485e6"
+      "bytes": 517,
+      "sha256": "6fa3cd34ba77e9e6a37d214270188c346eedc72af2818941528c85f1722f4b4e"
     },
     "scripts/current-mandor-shop-native-qualification/access_cases.py": {
       "bytes": 18914,
@@ -1178,6 +1185,18 @@
     "scripts/current-mandor-shop-native-qualification/RUNTIME_PREREQUISITE_CONTROLS.json": {
       "bytes": 4734,
       "sha256": "7980a21e1c8a39fceb0d0c56560abd83888f8bbff2dd93732acec35d19250be8"
+    },
+    "docs/cp7/d17-14/KOORDINASI.md": {
+      "bytes": 390687,
+      "sha256": "e79592c4f46d599b0dc27f19206befd4c39483366c8c4b863f1d8efdfb03cba2"
+    },
+    "scripts/current-unified-candidate/THEMED_SOURCE.json": {
+      "bytes": 27348,
+      "sha256": "6329930ed0ff8b05fea1cfab2b3d1737d52743e9a542be8fc83eee62676e56af"
+    },
+    "scripts/current-unified-candidate/themed_source.py": {
+      "bytes": 5381,
+      "sha256": "61af60b5e1c8e185c605e90ba682a5bef45f9b19b00c9b395d9e560992ed795e"
     }
   },
   "old_evidence_reused": true,
@@ -1319,5 +1338,9 @@
     }
   },
   "Global_standalone_source_fence_unchanged": true,
-  "Mandor_source_fence_includes_new_command_guards": true
+  "Mandor_source_fence_includes_new_command_guards": true,
+  "UI_integration": {
+    "manifest": "scripts/current-unified-candidate/THEMED_SOURCE.json",
+    "status": "EXACT_REVIEWED_UI_ON_CURRENT_MANDOR_SOURCE_NOT_ERP_ACCEPTANCE"
+  }
 }

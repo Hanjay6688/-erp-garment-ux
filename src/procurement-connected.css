@@ -6,14 +6,14 @@
 .cproc h3 { font-size: 16px; }
 .cmisc h3, .cmisc p, .cmisc .cproc-receipt { overflow-wrap: anywhere; }
 .cmisc .cproc-layout > * { min-width: 0; }
-.cproc p, .cproc small { line-height: 1.6; color: #adb7cc; }
+.cproc p, .cproc small { line-height: 1.6; color: var(--muted); }
 .cproc label { display: grid; gap: 7px; font-size: 13px; font-weight: 600; }
-.cproc input, .cproc select { width: 100%; min-width: 0; min-height: 42px; border: 1px solid #46516a; border-radius: 9px; padding: 9px 11px; background: #101827; color: var(--text); font: inherit; color-scheme: dark; }
-.cproc input::placeholder { color: #a2adc2; }
-.cproc input:focus-visible, .cproc select:focus-visible, .cproc button:focus-visible { outline: 2px solid #247c72; outline-offset: 3px; }
+.cproc input, .cproc select { width: 100%; min-width: 0; min-height: 42px; border: 1px solid var(--line); border-radius: 9px; padding: 9px 11px; background: var(--panel); color: var(--text); font: inherit; color-scheme: dark; }
+.cproc input::placeholder { color: var(--muted); }
+.cproc input:focus-visible, .cproc select:focus-visible, .cproc button:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; }
 .cproc button { min-height: 42px; cursor: pointer; font: inherit; font-size: 13px; }
-.cproc button:not(.primary-btn):not(.cproc-receipt) { border: 1px solid #46516a; border-radius: 9px; padding: 9px 13px; background: #1c2639; color: #e1e7f4; }
-.cproc button:disabled { cursor: not-allowed; opacity: .52; }
+.cproc button:not(.primary-btn):not(.cproc-receipt) { border: 1px solid var(--line); border-radius: 9px; padding: 9px 13px; background: var(--blue); color: var(--on-accent); }
+.cproc button:disabled { cursor: not-allowed; opacity: 1; }
 .cproc fieldset { border: 0; padding: 0; margin: 0; min-width: 0; display: grid; gap: 18px; }
 .cproc-heading, .cproc-inline, .cproc-actions, .cproc-pagination { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
 .cproc-heading { justify-content: space-between; align-items: flex-start; }
@@ -22,27 +22,27 @@
 .cproc-picker { display: grid; gap: 8px; }
 .cproc-picker .cproc-inline { flex-wrap: nowrap; gap: 6px; }
 .cproc-picker input { flex: 1; width: 80px; }
-.cproc-line { padding: 18px; background: #131c2c; border: 1px solid #354159; border-radius: 12px; display: grid; gap: 16px; }
-.cproc-help { font-size: 12px; }
+.cproc-line { padding: 18px; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; display: grid; gap: 16px; }
+.cproc-help { font-size: 13px; }
 .cproc-rolls { display: grid; gap: 12px; }
 .cproc-rolls label { flex: 1; min-width: 130px; }
 .cproc-layout { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(300px, .9fr); gap: 18px; align-items: start; }
-.cproc-receipt { display: flex; justify-content: space-between; gap: 16px; width: 100%; text-align: left; padding: 16px 10px; border: 1px solid transparent; border-bottom-color: #354159; background: transparent; color: var(--text); overflow-wrap: anywhere; }
-.cproc-receipt[aria-pressed="true"] { background: #1d3040; border-color: #4d8090; border-radius: 9px; }
-.cproc-receipt:hover { background: #202c40; }
+.cproc-receipt { display: flex; justify-content: space-between; gap: 16px; width: 100%; text-align: left; padding: 16px 10px; border: 1px solid transparent; border-bottom-color: var(--line); background: transparent; color: var(--text); overflow-wrap: anywhere; }
+.cproc-receipt[aria-pressed="true"] { background: var(--panel); border-color: var(--line); border-radius: 9px; }
+.cproc-receipt:hover { background: var(--panel-3); }
 .cproc-receipt small, .cproc-item small { display: block; }
-.cproc-status { display: inline-flex; border-radius: 20px; padding: 5px 10px; background: #f0f3f6; font-size: 11px; font-weight: 700; white-space: nowrap; align-self: start; }
-.cproc-status.posted { color: #226052; background: #e9f5ef; }
-.cproc-status.draft { color: #7e6024; background: #fff5dd; }
-.cproc-status.reversed { color: #874944; background: #fbeeed; }
-.cproc-item { padding: 18px 0; border-top: 1px solid #354159; overflow-wrap: anywhere; }
+.cproc-status { display: inline-flex; border-radius: 20px; padding: 5px 10px; background: var(--panel); font-size: 13px; font-weight: 700; white-space: nowrap; align-self: start; }
+.cproc-status.posted { color: var(--green); background: var(--panel); }
+.cproc-status.draft { color: var(--amber); background: var(--panel); }
+.cproc-status.reversed { color: var(--red); background: var(--panel); }
+.cproc-item { padding: 18px 0; border-top: 1px solid var(--line); overflow-wrap: anywhere; }
 .cproc-item details { margin-top: 10px; }
 .cproc-item li { padding: 3px; font-size: 13px; }
-.cproc-total { display: grid; gap: 5px; border: 1px solid #335d59; border-radius: 12px; background: #16302f; padding: 18px; color: #e0f1e9; }
-.cproc-total strong { font-size: 24px; color: #8be0ba; }
+.cproc-total { display: grid; gap: 5px; border: 1px solid var(--line); border-radius: 12px; background: var(--panel); padding: 18px; color: var(--text); }
+.cproc-total strong { font-size: 24px; color: var(--green); }
 .cproc.ccash .cproc-total strong { overflow-wrap: anywhere; }
 .cproc-review { display: grid; gap: 12px; padding-top: 22px; }
-.cproc-pagination { padding-top: 20px; font-size: 12px; }
+.cproc-pagination { padding-top: 20px; font-size: 13px; }
 @media (max-width: 1000px) { .cproc-layout { grid-template-columns: 1fr; } }
 @media (max-width: 640px) { .cproc-grid, .cproc-search { grid-template-columns: 1fr; } .cproc .panel { padding: 16px; } .cproc-line { padding: 12px; } .cproc-receipt { flex-wrap: wrap; } }
 
@@ -52,32 +52,32 @@
 .cproc .cproc-check input[type="checkbox"] { width: 18px; min-height: 18px; height: 18px; flex: 0 0 18px; padding: 0; }
 
 .cproc-returns { margin-top: 1.25rem; min-width: 0; }
-.cproc-return-detail { margin-top: 20px; border: 1px solid #354159; border-radius: 12px; padding: 18px; overflow-wrap: anywhere; }
+.cproc-return-detail { margin-top: 20px; border: 1px solid var(--line); border-radius: 12px; padding: 18px; overflow-wrap: anywhere; }
 
-.cperiod-control textarea, .crecost-control textarea { box-sizing: border-box; width: 100%; min-width: 0; min-height: 84px; resize: vertical; border: 1px solid #46516a; border-radius: 9px; padding: 9px 11px; background: #101827; color: var(--text); font: inherit; color-scheme: dark; }
-.cperiod-control textarea:focus-visible, .crecost-control textarea:focus-visible { outline: 2px solid #247c72; outline-offset: 3px; }
+.cperiod-control textarea, .crecost-control textarea { box-sizing: border-box; width: 100%; min-width: 0; min-height: 84px; resize: vertical; border: 1px solid var(--line); border-radius: 9px; padding: 9px 11px; background: var(--panel); color: var(--text); font: inherit; color-scheme: dark; }
+.cperiod-control textarea:focus-visible, .crecost-control textarea:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; }
 
 .cproc.crecost-control fieldset { display: grid; }
 
 /* Sales draft series (owner D14-5, compact like the UX demo): sizes side by side, one short price row per size. */
 .cproc-sr { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 .cproc-size-cell { position: relative; }
-.cproc-series .cproc-series-total { margin: 0; color: #e0f1e9; font-weight: 600; }
+.cproc-series .cproc-series-total { margin: 0; color: var(--text); font-weight: 600; }
 .cproc-size-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 10px; }
-.cproc-size-cell { display: grid; gap: 4px; padding: 10px; border: 1px solid #354159; border-radius: 10px; background: #101827; min-width: 0; }
-.cproc-size-cell label span { font-size: 12px; color: #adb7cc; }
+.cproc-size-cell { display: grid; gap: 4px; padding: 10px; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); min-width: 0; }
+.cproc-size-cell label span { font-size: 13px; color: var(--muted); }
 .cproc-size-cell input { text-align: center; font-size: 16px; font-weight: 700; }
-.cproc-size-cell small { font-size: 11px; line-height: 1.3; }
-.cproc-size-cell.over { border-color: #b4645c; }
-.cproc-size-cell.over small { color: #f0a29a; }
+.cproc-size-cell small { font-size: 13px; line-height: 1.3; }
+.cproc-size-cell.over { border-color: var(--line); }
+.cproc-size-cell.over small { color: var(--red); }
 .cproc-size-prices { display: grid; gap: 8px; }
 .cproc-size-prices-head, .cproc-size-price { display: grid; grid-template-columns: 3.2rem minmax(0, 1fr) minmax(0, 1fr); gap: 8px; align-items: center; }
-.cproc-size-prices-head { font-size: 11px; color: #adb7cc; }
+.cproc-size-prices-head { font-size: 13px; color: var(--text); }
 .cproc-size-prices-head .cproc-wide-only { display: none; }
-.cproc-size-price { padding-bottom: 8px; border-bottom: 1px solid #263248; }
+.cproc-size-price { padding-bottom: 8px; border-bottom: 1px solid var(--line); }
 .cproc-size-price > strong { font-size: 13px; }
 .cproc-size-price .cproc-size-note { grid-column: 2 / -1; }
-.cproc-size-price .cproc-size-amount { grid-column: 1 / 3; font-size: 12px; color: #adb7cc; }
+.cproc-size-price .cproc-size-amount { grid-column: 1 / 3; font-size: 13px; color: var(--text); }
 .cproc-size-price button { justify-self: end; min-height: 34px; padding: 6px 10px; }
 .cproc-series details .cproc-inline { margin-top: 8px; }
 .cproc-series details .cproc-inline label { flex: 1; min-width: 90px; }
@@ -89,4 +89,4 @@
   .cproc-size-prices-head .cproc-wide-only { display: block; }
 }
 /* Owner D16-5: "Laporan" and "Tutup Buku" tabs on the merged finance page. */
-.cfinance-tabs{display:flex;gap:6px;flex-wrap:wrap}.cfinance-tabs button{border:1px solid #d9ccc4;border-radius:999px;padding:6px 12px;background:#fff;font-weight:800;font-size:12px}.cfinance-tabs button[aria-selected=true]{background:#2f2621;color:#fff;border-color:#2f2621}
+.cfinance-tabs{display:flex;gap:6px;flex-wrap:wrap}.cfinance-tabs button{border:1px solid var(--line);border-radius:999px;padding:6px 12px;background:var(--panel);font-weight:800;font-size:13px}.cfinance-tabs button[aria-selected=true]{background:var(--accent-bg);color:var(--text);border-color:var(--line)}
