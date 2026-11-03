@@ -23,6 +23,31 @@ def fixture_actor_preflight():
     return dict(status='OBSERVER_PRIVATE_READ_AND_ORDINARY_OWNER_COMMAND_CONTROL_PASS',
         tests_run=1,effective_policy_variants=2,actual_SQL_executed=0,actual_Native_cases=0)
 
+def fixture_browser_date_preflight():
+    """Refuse a success fixture that collides with immutable posted GOOD."""
+    import io,unittest
+    from cp7_accessory_nonpayable.test_native_preparation import NativePreparationControls
+    name='test_browser_save_dates_follow_posted_good_without_relabeling_physical_day'
+    output=io.StringIO()
+    result=unittest.TextTestRunner(stream=output,verbosity=0).run(
+        unittest.TestSuite([NativePreparationControls(name)]))
+    if result.testsRun!=1 or not result.wasSuccessful() or result.skipped or result.expectedFailures:
+        raise ValueError('NONPAYABLE_FIXTURE_BROWSER_DATE_PREFLIGHT_FAILED:'+output.getvalue())
+    return dict(status='FUTURE_BROWSER_SAVE_DATE_PRESERVES_POSTED_GOOD_DAY',
+        tests_run=1,calendar_variants=4,actual_SQL_executed=0,actual_browser_cases=0)
+
+def fixture_committed_identity_preflight():
+    """Refuse the missing cold-copy foundation before the long owning run."""
+    import io,unittest
+    from cp7_accessory_nonpayable.test_committed_preparation import CommittedPreparationControls
+    output=io.StringIO()
+    result=unittest.TextTestRunner(stream=output,verbosity=0).run(
+        unittest.defaultTestLoader.loadTestsFromTestCase(CommittedPreparationControls))
+    if result.testsRun!=5 or not result.wasSuccessful()or result.skipped or result.expectedFailures:
+        raise ValueError('NONPAYABLE_COMMITTED_IDENTITY_PREFLIGHT_FAILED:'+output.getvalue())
+    return dict(status='COLD_COPY_ORIGINAL_OWNER_SETUP_AND_INVALID_IDENTITY_REFUSALS_PASS',
+        tests_run=5,existing_role_promotion=False,actual_SQL_executed=0,actual_Native_cases=0)
+
 def runtime():
     from cp7_accessory_nonpayable import admission,source,package_engine
     admission.parent_receipt()  # Before any ERP import or runtime construction.
@@ -59,10 +84,14 @@ def main():
     if args.check_static:
         static=source.preflight()
         actors=fixture_actor_preflight()
+        browser_dates=fixture_browser_date_preflight()
+        committed_identity=fixture_committed_identity_preflight()
         _,engine=package_engine.derive((ROOT/package_engine.ORIGINAL).read_bytes())
         _,copies=copy_context.derive((ROOT/copy_context.ORIGINAL).read_bytes())
         print(json.dumps(dict(status='NONPAYABLE_STATIC_WHOLE_QUALIFIER_PREPARED_NOT_EXECUTED',source=static,
-            whole_engine=engine,copy_authority=copies,fixture_actor_preflight=actors,actual_SQL_executed=0,actual_Native_cases=0,
+            whole_engine=engine,copy_authority=copies,fixture_actor_preflight=actors,fixture_browser_date_preflight=browser_dates,
+            fixture_committed_identity_preflight=committed_identity,
+            actual_SQL_executed=0,actual_Native_cases=0,
             actual_Auth_HTTP_cases=0,actual_two_session_cases=0,actual_browser_cases=0,
             production_go=False,independent_acceptance=False),sort_keys=True));return
     admission.parent_receipt()

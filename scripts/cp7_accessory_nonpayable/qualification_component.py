@@ -117,6 +117,27 @@ def full_case(cur,name,operation,state,control):
     result['actual_full22_case_boundary']=boundary
     return result
 
+def committed_identity(cur,bc):
+    """Recreate the ordinary foundation only in an empty disposable copy.
+
+    strict_group rolls its foundation back. A new committed connection must
+    supply that same original prerequisite; it cannot inherit those rows.
+    Existing users/roles are never promoted or repaired by this helper.
+    """
+    bc.api.admin(cur)
+    count=cur.execute('select count(*) from erp.app_users').fetchone()[0]
+    if type(count)is not int or count<0:raise ValueError('NONPAYABLE_EXACT_FIXTURE_USER_COUNT_REQUIRED')
+    if count==0:bc.api.seed(cur)
+    bc.api.admin(cur)
+    actors=cur.execute('select u.is_active,r.role_code,r.is_active from erp.app_users u '
+        'join erp.app_roles r on r.id=u.role_id where u.auth_user_id=%s',
+        (bc.api.base.OPERATOR_AUTH,)).fetchall()
+    if actors!=[(True,'OWNER',True)]:
+        raise ValueError('NONPAYABLE_COMMITTED_ORIGINAL_ACTIVE_OWNER_REQUIRED_WITHOUT_PROMOTION')
+    return dict(status='ORIGINAL_ORDINARY_OWNER_FOUNDATION_READY',initial_app_users=count,
+        unchanged_original_foundation_loaded=count==0,existing_actor_or_role_promoted=False,
+        product_permission_grants_added=False,actual_case_credit=0)
+
 def committed_prerequisite(url,state,report,control):
     from . import assembly,browser_prepare,native_fixture
     import psycopg
@@ -127,8 +148,10 @@ def committed_prerequisite(url,state,report,control):
         bc.api.admin(cur)
         had=cur.execute("select has_schema_privilege('authenticated','erp','USAGE')").fetchone()[0]
         if not had:cur.execute('grant usage on schema erp to authenticated')
+        identity=committed_identity(cur,bc)
         today=cur.execute("select(statement_timestamp()at time zone'Asia/Jakarta')::date").fetchone()[0]
         prepared=browser_prepare.prepare(cur,today,state)
+        prepared['committed_fixture_identity']=identity
         bc.api.admin(cur)
         if not had:cur.execute('revoke usage on schema erp from authenticated')
         # The committed source for Auth/browser copies has exact product ACLs.

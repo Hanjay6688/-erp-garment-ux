@@ -53,16 +53,16 @@
       "sha256": "cfeb2a231d481f38e0967beaa417bf0c8f64aea9f376940cbf093d3be88ed8aa"
     },
     "scripts/cp7_accessory_nonpayable/browser.mjs": {
-      "bytes": 17494,
-      "sha256": "94f8532fc9bef632c4ac09e5b78e5bda4a2520e484720ac91187d34fbdc4d7ce"
+      "bytes": 17927,
+      "sha256": "da16c81a8f8637ea559fc50f64649ab50344e099b23215f995fe746202309c8f"
     },
     "scripts/cp7_accessory_nonpayable/browser_fixture.py": {
       "bytes": 3419,
       "sha256": "9c19428c8d64f334d6a7b9ed1fbbe192c00bda95114305bda58722a43bfe6a69"
     },
     "scripts/cp7_accessory_nonpayable/browser_prepare.py": {
-      "bytes": 2372,
-      "sha256": "e5dbc0d327e109895a2c1362cd2817e15bd74405eb240fc8c0e695c4e57654c1"
+      "bytes": 2421,
+      "sha256": "d5deab27dc7f98d6ecb2424c17555b7ae109555fe2abc4a58764f4b9073474cb"
     },
     "scripts/cp7_accessory_nonpayable/case_boundary.py": {
       "bytes": 7764,
@@ -141,12 +141,12 @@
       "sha256": "042c30ce6c8242b0626270d2a74f0433df4b5fc57cb8af0d4198a79a8f41cd20"
     },
     "scripts/cp7_accessory_nonpayable/qualification.py": {
-      "bytes": 5587,
-      "sha256": "ee227950297be8a80ad907703ea386e5b6206765d5f976dd9ba1ac14a3b51a04"
+      "bytes": 7472,
+      "sha256": "5804f698bf73580de1b71809bc3fedf04e2bc5ce7f0fcb4d776c05b763a0ce19"
     },
     "scripts/cp7_accessory_nonpayable/qualification_component.py": {
-      "bytes": 13465,
-      "sha256": "ebe958f644c45ad5212e11b15442437ff212f68549d9bf413022b904c51f621d"
+      "bytes": 14760,
+      "sha256": "5772013d46ee7a80129c7304a25f3d5ad6e962e260a65920ed0806e14f8f37ba"
     },
     "scripts/cp7_accessory_nonpayable/qualification_gate.py": {
       "bytes": 4826,
@@ -209,8 +209,8 @@
       "sha256": "e4a7f51d2d1db6e3fe886031a8416318e6514c6ad6ea6adb0cb6070d723530be"
     },
     "scripts/cp7_accessory_nonpayable/test_native_preparation.py": {
-      "bytes": 15602,
-      "sha256": "b458b022df221fb3c262e290c38918c8a0ca36735471586f3912c04281efe9a6"
+      "bytes": 17421,
+      "sha256": "300d42c551296e1ee4abc29ef769895c0de09f0d69faf1eb9e9e9043c4821525"
     },
     "scripts/cp7_accessory_nonpayable/test_native_sales_preparation.py": {
       "bytes": 1498,
@@ -263,6 +263,10 @@
     "scripts/cp7_accessory_nonpayable/native-before/note_action.sql": {
       "bytes": 10268,
       "sha256": "4346b5e5bc58d97d1b1d0cb6bfb9b5c0b62689853aeffded6f012bbd6d4e2045"
+    },
+    "scripts/cp7_accessory_nonpayable/test_committed_preparation.py": {
+      "bytes": 3761,
+      "sha256": "56fe6bbbc4888746af5f81ec38c155abbc42965bb0a4c01cb8a4237878c45489"
     }
   },
   "actual_Native_cases": 0,
@@ -589,5 +593,34 @@
       "qualification_runtime_AST_unchanged": true,
       "existing_source_ownership_and_all_financial_restore_checks_unchanged": true
     }
+  },
+  "browser_future_date_fixture_correction": {
+    "status": "PREPARED_SOURCE_CORRECTION_NOT_ACTIVE_OR_BROWSER_ACCEPTANCE",
+    "parent_head": "76b3f1e1bcce49cc405e55f92a733dcd0f360cad",
+    "cause": "Desktop expected SAVED on the same physical GOOD day used by its preceding immutable-history refusal.",
+    "correction": "Keep original physical GOOD day; explicit desktop review is next day; existing mobile journey uses the following day.",
+    "before_database_gate": "qualification.fixture_browser_date_preflight",
+    "exact_parent_fixture_rejected_before_DB": true,
+    "calendar_variants": 4,
+    "actual_SQL_executed": 0,
+    "actual_browser_cases": 0,
+    "product_SQL_or_Native_economic_oracles_changed": false,
+    "browser_readiness_corrections": [
+      "Reload the real workspace after definite posted-GOOD rejection before filling the next independent operation.",
+      "Pending cross-tab storage invalidation removes the editor; require zero date inputs and the retry control, matching the existing panel contract."
+    ],
+    "actual_browser_execution_pending": true
+  },
+  "committed_fixture_identity_correction": {
+    "first_failed_head": "76b3f1e1bcce49cc405e55f92a733dcd0f360cad",
+    "first_failed_run": 41596005356,
+    "first_failed_job": 125783405360,
+    "actual_Native9_original_status": "PASS",
+    "first_failure": "Internal ERP access required in committed prerequisite after strict foundation rollback",
+    "unchanged_original_foundation_only_when_app_users_empty": true,
+    "existing_actor_or_role_promotion": false,
+    "invalid_existing_actor_refused_before_business_fixture": true,
+    "preDB_controls": 5,
+    "new_actual_case_credit": 0
   }
 }
