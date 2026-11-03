@@ -12,6 +12,7 @@ ROOT=HERE.parents[1]
 sys.path.insert(0,str(ROOT/'scripts'));sys.path.insert(0,str(HERE))
 import routes
 import po_routes
+import install_routes
 
 
 def check():
@@ -67,10 +68,19 @@ def check():
         and reviewed['selected_source_projection_has_no_unresolved']is True
         and reviewed['complete_input_review']is False and reviewed['actual_final_parent_adopted']is False,
         'GLOBAL_SKU_PO_EXPECTATION_CANNOT_ADOPT_ACTUAL_INPUT_PROFILE')
+    _,installer=install_routes.derive()
+    install_controls=json.loads((HERE/'INSTALL_ROUTE_CONTROLS.json').read_bytes())
+    routes.require(installer['derived']==manifest['prepared_installer']
+        and install_controls['derived_installer']==installer['derived']
+        and install_controls['status']=='GLOBAL_SKU_PO_INSTALLER_BINDING_CONTROLS_PASS_NOT_RUNTIME'
+        and install_controls['tests_run']==7 and install_controls['exit_code']==0,
+        'GLOBAL_SKU_PO_INSTALLER_SOURCE_CONTROLS_REQUIRED')
+    install_routes.check_sources()
     return dict(status='GLOBAL_SKU_PREPARATION_EXACT_SOURCE_FENCE_PASS_NOT_RUNTIME',
         unchanged_prepared_parent_files=len(parent),own_paths=len(expected),
         source_prerequisite_controls=len(report['controls']),new_graph_model_checks=len(model['results']),
         new_PO_source_controls=7,new_PO_observation_model_checks=41,
+        new_installer_binding_controls=7,prepared_installer_replacements=7,
         prepared_source_body_projection_count=reviewed['selected_source_functions'],
         prepared_physical_relation_candidates=len(reviewed['physical_relation_candidates']),
         current_parent_ROOT_adopted=False,owning_runtime_installed=False,actual_Native_cases=0,

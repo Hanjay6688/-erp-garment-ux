@@ -78,3 +78,21 @@ pertama tersimpan sebagai bukti terpisah; `INPUT_REVIEW_CONTROLS.json` memuat
 pin dan ringkasan yang tidak membuka admission. Perbaikan planner SKU setelah
 `fdabda` mengubah satu fungsi finalisasi di luar 277 fungsi yang dijangkau;
 profil final tetap harus diambil ulang dari parent gabungan yang diterima.
+
+## Penghubung pemasangan yang tetap tertutup
+
+`install_routes.py` menurunkan satu modul installer terisolasi melalui tujuh
+penggantian sumber yang dapat dibalik. Sumber installer asli tidak diubah dan
+modul yang sudah diimpor tidak diganti. Penyedia SQL memakai empat helper SKU/PO,
+pemeriksaan referensi tetap membandingkan seluruh 19 atribut dari 19 fungsi,
+dan segel mengikat manifest asli serta manifest tambahan. Satu rencana baru
+dipakai oleh pemeriksaan sumber, pemasangan dan segel; parser pembuat rencana
+asli tetap persis. Hanya hash tiga body helper berubah. Semua 16 fungsi,
+tiga tabel, constraints, trigger, ACL/owner dan delapan adapter Native tetap.
+
+Tujuh pemeriksaan baru lolos, termasuk kegagalan sebelum akses cursor ketika
+parent belum diterima, penolakan promosi gate secara diam-diam, penolakan
+perubahan byte rencana walau JSON bermakna sama, dan tidak berubahnya seluruh
+fungsi transaksi/metadata/rollback asli. Belum ada pemasangan atau pengujian
+keuangan global. `load_prepared()` sengaja menolak bila konstanta admission
+diubah; adopsi final memerlukan integrasi terpisah setelah bukti parent lengkap.

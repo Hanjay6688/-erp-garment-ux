@@ -29,9 +29,17 @@
       "bytes": 10222,
       "sha256": "7ce6cc90dbeaf8c46bfdfdda6d13d981706d7cdbed531e26431d155dce70ff55"
     },
+    "scripts/current-global-sku-input-preparation/INSTALL_ROUTE_CONTROLS.json": {
+      "bytes": 1321,
+      "sha256": "0c22928a15a213670133949697506810967dfbb0205816afe2ca5311eca09846"
+    },
     "scripts/current-global-sku-input-preparation/MODEL_CONTROLS.json": {
       "bytes": 4300,
       "sha256": "025a7dc26a40945ec45e17b2e77264a0096065332a14d46389833f0737ce7f5b"
+    },
+    "scripts/current-global-sku-input-preparation/PO_INSTALL_PLAN.json": {
+      "bytes": 16096,
+      "sha256": "f8d946d235e3aaa8858ccd3ae17560fccbc32a086ac33f6a55e2e29ac6ad95de"
     },
     "scripts/current-global-sku-input-preparation/PO_MODEL_CONTROLS.json": {
       "bytes": 6555,
@@ -42,8 +50,8 @@
       "sha256": "988c19ab48f156f5734ccffa26be07a78ac2ac1bd2c1b93814fb7e67742156e5"
     },
     "scripts/current-global-sku-input-preparation/README.md": {
-      "bytes": 5215,
-      "sha256": "575123ee61eb7c6ad5b6af968c5a5c9d45bf02569ff50485050669aaec8b808f"
+      "bytes": 6345,
+      "sha256": "8824c26f6097d9ef342b9c8d3ac780594705d0fdbef34f25ed955e5ba229fdf0"
     },
     "scripts/current-global-sku-input-preparation/SKU_CONSUMER_REFERENCE.json": {
       "bytes": 75733,
@@ -54,8 +62,12 @@
       "sha256": "fc14cee5b0f1a8bafffea3f15d688639ecef6a8a20de25eeecef874cb81c4c4b"
     },
     "scripts/current-global-sku-input-preparation/check_source.py": {
-      "bytes": 5211,
-      "sha256": "9e73d2e1799782d0a39162b1d01a001698c4cf2966a98013010e62354ab81004"
+      "bytes": 5854,
+      "sha256": "635c11d648eb9754525d1314a2027bc6c70f7d53d110527d9a28cef977872122"
+    },
+    "scripts/current-global-sku-input-preparation/install_routes.py": {
+      "bytes": 6592,
+      "sha256": "f030482ee4caeed82d340fc58817f9604b1d3c26998afe759f92b62aeef801d6"
     },
     "scripts/current-global-sku-input-preparation/po_capture_ctes.sql": {
       "bytes": 6267,
@@ -85,6 +97,10 @@
       "bytes": 11879,
       "sha256": "edee5c69a484dbf45f957898ede865a308fc8d2e88f915a14627272a2ca1bf11"
     },
+    "scripts/current-global-sku-input-preparation/test_install_routes.py": {
+      "bytes": 4035,
+      "sha256": "151ce76e748c3557269e775a3b6344c1322eba3b74df4e5e1cfd170d33f9f286"
+    },
     "scripts/current-global-sku-input-preparation/test_po_model.mjs": {
       "bytes": 15508,
       "sha256": "f6eb2f2c6b2271bbd121348a70801f69dcc74054fb61b16af43e8686ba5143d9"
@@ -111,5 +127,9 @@
       "bytes": 9510,
       "sha256": "8f9461ce31e9973969040ae16029241253eb2ce1e0fde9ebba160db32b6cd782"
     }
+  },
+  "prepared_installer": {
+    "bytes": 21702,
+    "sha256": "772e5b50803caf4abb80978b9679bc992f17418ec7f5ee9bf70e90f50675702b"
   }
 }

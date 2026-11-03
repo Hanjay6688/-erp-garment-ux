@@ -1,0 +1,34 @@
+{
+  "status": "GLOBAL_SKU_PO_INSTALLER_BINDING_CONTROLS_PASS_NOT_RUNTIME",
+  "command": "python -B scripts/current-global-sku-input-preparation/test_install_routes.py",
+  "exit_code": 0,
+  "tests_run": 7,
+  "test_ids": [
+    "test_only_three_helper_bodies_change_in_the_complete_plan",
+    "test_seven_routes_preserve_every_signature_and_all_other_function_bodies",
+    "test_prepared_sources_bind_the_new_plan_and_both_manifests",
+    "test_actual_install_refuses_before_any_cursor_attribute",
+    "test_preparation_cannot_silently_promote_an_admission_constant",
+    "test_changed_plan_bytes_refuse_even_when_json_semantics_are_unchanged",
+    "test_loading_does_not_replace_original_module_functions_or_globals"
+  ],
+  "observed_unittest_output": ".......\nRan 7 tests in 0.664s\nOK",
+  "derived_installer": {
+    "bytes": 21702,
+    "sha256": "772e5b50803caf4abb80978b9679bc992f17418ec7f5ee9bf70e90f50675702b"
+  },
+  "original_installer": {
+    "bytes": 21891,
+    "sha256": "aa5139dcc0a87445e4fbecd1af0aca9cdf70b9e53b5a6be523aebe86d38029e4"
+  },
+  "route_groups": 5,
+  "counted_replacements": 7,
+  "changed_new_function_bodies": 3,
+  "new_functions": 16,
+  "new_tables": 3,
+  "Native_adapters": 8,
+  "actual_Native_cases": 0,
+  "actual_SQL_executed": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}
