@@ -49,7 +49,7 @@
     "scripts/cp7_sku_pair_conversion/ri_catalog.py": "aa30eff7c258de3ced78067ed7fbe660bef4570c291946f9291d6363881a4f3e"
   },
   "runtime_files": {
-    "scripts/cp7_sku_moving_average/README.md": "be07b954347a05c557d8b4d422f1a99222c9399afd3df1632112492234718d67",
+    "scripts/cp7_sku_moving_average/README.md": "c17e401354a217dcdb7298d47888b7df62070c325111635994beb5724923badb",
     "scripts/cp7_sku_moving_average/COMPONENT_LEDGER_DESIGN.md": "74aafb413d2db0a46b07495b7c93eef3c2cd92fde75b3ab6b3725e9acf61bd67",
     "scripts/cp7_sku_moving_average/component_oracle.py": "202f17cd1903fd4b741e99ad84ea897285788d78f41c5ff9a58174c4d9872179",
     "scripts/cp7_sku_moving_average/valuation.sql": "ddbe7c1632ebe2f09b5df66229c1d71d96ca5a10eed091e9ef836c261dd40679",
@@ -58,7 +58,7 @@
     "scripts/cp7_sku_moving_average/reader_delta.py": "022dbea3058e6163753fcde95a46f68bcaf8547145c17f8780592a76fd68c38d",
     "scripts/cp7_sku_moving_average/reader_access.py": "b93e519817a6031761bc9c9b2544c278aed9ca9b130258860380853be83babe1",
     "scripts/cp7_sku_moving_average/qualification_cases.py": "cf38dbd441c17eb5b0f42788529f4e6dddaccd2916aab18d374ffb4d0bbfbe81",
-    "scripts/cp7_sku_moving_average/composition.py": "737af7eee3e852f14b3bf2168c06051285b6a5993683716716ac58854ffdbe38",
+    "scripts/cp7_sku_moving_average/composition.py": "6e6bb9e34159e977dd97867076d5bc18ce8db12a210f4a37a56158e5a263abbc",
     "scripts/cp7_sku_moving_average/catalog_additions.py": "97de4b6e0f51765bf0219c0c064cab207dce4952094e9ebbca094a9d96fa8ce4",
     "scripts/cp7_sku_moving_average/CATALOG_ADDITIONS.json": "0b07b870eb123de2a155f297a253113db1ca3320877fce078a44d450a095a730",
     "scripts/cp7_sku_moving_average/test_component_contract.py": "def0c5a3b3200ef17dce149546c462fac79d72f18089e2b784096142253cad35",
@@ -66,7 +66,8 @@
     "scripts/cp7_sku_moving_average/test_consumer_delta.py": "97b9b6ed5b535744a37809e50531b344bea485f165e24f557128e97f0b311693",
     "scripts/cp7_sku_moving_average/test_reader_delta.py": "51c9c69d78d2ef0e1675fff484659c6af5d796f652b07a99c290e2241858e7a4",
     "scripts/cp7_sku_moving_average/test_reader_capability.mjs": "1e28148e74f7d4bf380fcd70b9bdcecb28913995fe8c6a29eee57e242c8106b4",
-    "scripts/cp7_sku_moving_average/test_qualification_cases.py": "590e4b4ca6d4cc2782fc391e4bb3cb58d267308d5dd8bfc916ca01638828754e"
+    "scripts/cp7_sku_moving_average/test_qualification_cases.py": "590e4b4ca6d4cc2782fc391e4bb3cb58d267308d5dd8bfc916ca01638828754e",
+    "scripts/cp7_sku_moving_average/test_preuse_package_contract.py": "f0653c8527c81840498708cac01ad8a02fdca4bd8ea4ea0f528cb46ed267ea1e"
   },
   "native_case_ids": [
     "SKU_MOVAVG_CANONICAL_FORWARD20_MANUAL_BACK35_TOTAL130",

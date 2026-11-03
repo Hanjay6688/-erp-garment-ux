@@ -428,6 +428,8 @@ jobs:
 
         python -B scripts/cp7_sku_moving_average/test_reader_delta.py
 
+        python -B scripts/cp7_sku_moving_average/test_preuse_package_contract.py
+
         python -B scripts/cp7_sku_moving_average/component_oracle.py
 
         python -B scripts/cp7_sku_moving_average/test_qualification_cases.py

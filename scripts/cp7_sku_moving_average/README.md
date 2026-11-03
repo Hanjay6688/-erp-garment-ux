@@ -103,3 +103,18 @@ and public reader checks retain the ordinary actor. The separate committed
 fixture removes its temporary Native ERP-schema overlay and verifies the full
 product catalog before committing. Actual Native and owning full restore remain
 mandatory before this preparation can be integrated.
+# Owning package inverse receipt
+
+Run `41621518177` installed the moving-average delta and restored the exact
+unused parent, then stopped before any Native case because the inverse receipt
+omitted the owning package's required `used_guard_before_DDL` field. Complete
+outer catalog/data/sequence/role/public/advisor restoration and the backup drill
+were identical. The original failure is retained; it is not Native acceptance.
+
+The inverse now emits that Boolean only after its existing locked whole-data
+guard, exact restoration and parent verification finish. No guard or DDL was
+changed. Five focused controls reproduce the old caller failure, run the exact
+unchanged package assertion against the corrected receipt, and refuse used
+state before DDL or inexact catalog/row/sequence restoration. These controls run
+before database setup in the owning workflow. Collaborators are modeled; they
+do not replace the actual Native5/used-inverse/whole-package qualification.
