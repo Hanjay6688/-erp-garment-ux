@@ -321,8 +321,8 @@
       "sha256": "98964804488c94f0ffee865068327a8b6fb37fc8b7c6e037e97af32525a672ea"
     },
     "allocation.sql": {
-      "bytes": 16985,
-      "sha256": "e57c96f8289ef95cbce60b337ccba57109c4428115448526f79ed82f42b3a0c2"
+      "bytes": 17249,
+      "sha256": "250dadca8ff8d1873aa7489648aa723ecb4bedea943e56a08c59c2e944dd79d2"
     },
     "offset_projection.sql": {
       "bytes": 11629,
@@ -337,8 +337,8 @@
       "sha256": "0405c0a9c807ef0be3881c2a32c69a152e2a0614bc8efb1f5572ac715683d771"
     },
     "composed_facades_with_native_dispatch.sql": {
-      "bytes": 12008,
-      "sha256": "64d51f4afcbacf6a3d575ec72f4fd785dce520c049b43550c85defb72b615fda"
+      "bytes": 12279,
+      "sha256": "4fae993f72961292620f88073feafad66d59f895f93ea854e9ae7dd76eba8116"
     },
     "command_guards.sql": {
       "bytes": 3177,
@@ -356,5 +356,47 @@
     "existing_payment_body_extended": 1,
     "old_Native_business_statements_removed": 0,
     "current_runtime_qualified": false
+  },
+  "replay_guard_preparation": {
+    "status": "TWO_PRIVATE_REPLAY_PERMISSION_LOCK_ROUTES_PREPARED_NOT_RUNTIME",
+    "routes": [
+      {
+        "file": "allocation.sql",
+        "before": " if old_.actor is not null then\n",
+        "after": " if old_.actor is not null then\n  lock table erp.app_permissions,erp.app_role_permissions,erp.app_roles,erp.app_users in share mode nowait;\n  if cp7_mandor_shop.access_now(p_action)is distinct from a_ then\n   raise exception using errcode='42501',message='CP7_MANDOR_SHOP_ACCESS_CHANGED';end if;\n",
+        "count": 1,
+        "original": {
+          "bytes": 16985,
+          "sha256": "e57c96f8289ef95cbce60b337ccba57109c4428115448526f79ed82f42b3a0c2"
+        },
+        "derived": {
+          "bytes": 17249,
+          "sha256": "250dadca8ff8d1873aa7489648aa723ecb4bedea943e56a08c59c2e944dd79d2"
+        }
+      },
+      {
+        "file": "composed_facades_with_native_dispatch.sql",
+        "before": " if old_.actor is not null then\n",
+        "after": " if old_.actor is not null then\n  lock table erp.app_permissions,erp.app_role_permissions,erp.app_roles,erp.app_users in share mode nowait;\n  if cp7_mandor_shop.buyer_access(p_action)is distinct from access_ then\n   raise exception using errcode='42501',message='CP7_MANDOR_SHOP_ACCESS_CHANGED';end if;\n",
+        "count": 1,
+        "original": {
+          "bytes": 12008,
+          "sha256": "64d51f4afcbacf6a3d575ec72f4fd785dce520c049b43550c85defb72b615fda"
+        },
+        "derived": {
+          "bytes": 12279,
+          "sha256": "4fae993f72961292620f88073feafad66d59f895f93ea854e9ae7dd76eba8116"
+        }
+      }
+    ],
+    "exact_original_inputs_recovered": true,
+    "permission_tables_locked_before_cached_outcome": true,
+    "fresh_business_paths_unchanged": true,
+    "new_function_identities": 0,
+    "new_roles_or_grants": 0,
+    "actual_Native_cases": 0,
+    "actual_two_session_races": 0,
+    "production_go": false,
+    "independent_acceptance": false
   }
 }

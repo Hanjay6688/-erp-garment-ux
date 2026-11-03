@@ -31,6 +31,10 @@
       "bytes": 709,
       "sha256": "8edbc0f08568c540f32631cbebc2855e5f3e4396acf2923f64be15802e8e8331"
     },
+    "scripts/cp7_mandor_shop/COMMAND_GUARD_NATIVE_REFERENCE.json": {
+      "bytes": 43220,
+      "sha256": "94f04b17419a33b427e075281c9aeddb2f87960d0ad3c1b2557ca7a5e031806e"
+    },
     "scripts/cp7_mandor_shop/CONTROLLED_UI_CONTROLLER_ROUTE.json": {
       "bytes": 1697,
       "sha256": "29ebf642ec8fd5b21bcc5da9a24c18205463c2c6d377a3b13f9b7f1ae30bc086"
@@ -63,6 +67,14 @@
       "bytes": 2337,
       "sha256": "bd8589833da0d8f3a9d703f1973fef0cc6f8eb3e8e5ff885827968429d964ae5"
     },
+    "scripts/cp7_mandor_shop/INSTALLER_SOURCE_CONTROLS.json": {
+      "bytes": 1537,
+      "sha256": "8cafbacc8e4d2025cb5eadc6a6188f1a696697c92964d25b0958464410e9483b"
+    },
+    "scripts/cp7_mandor_shop/INSTALL_PLAN.json": {
+      "bytes": 13274,
+      "sha256": "341f2cbd4a0e361bee275f9e66a15c5362a8cee9d3ba91e619b95f376aa7098a"
+    },
     "scripts/cp7_mandor_shop/NATIVE_ALLOCATION_REFERENCE.json": {
       "bytes": 41819,
       "sha256": "d8186788861fafe039af6e4745a92ed69fc8b27287e295cdd9af55bcfc36d9c2"
@@ -70,6 +82,10 @@
     "scripts/cp7_mandor_shop/NATIVE_BUYER_REFERENCE.json": {
       "bytes": 90591,
       "sha256": "9439f43a5ba710a7e881199e94c399d6efb1c9354ad477148edee10cb4d079b5"
+    },
+    "scripts/cp7_mandor_shop/NATIVE_DISPATCH_SOURCE_CONTROLS.json": {
+      "bytes": 1169,
+      "sha256": "40b5346730f3d21e30d0dc1b1a318b310f3722a9874cd70d0f586f865a104232"
     },
     "scripts/cp7_mandor_shop/NATIVE_OFFSET_REFERENCE.json": {
       "bytes": 97316,
@@ -132,8 +148,8 @@
       "sha256": "ba3da6e7c3a7ca001ff55f87588dc2fa0e9d7e4d93ddf01f213176121e789c7d"
     },
     "scripts/cp7_mandor_shop/README.md": {
-      "bytes": 19922,
-      "sha256": "84f34d3f869e11bdffcc81daeba2c11013d01b0ec112d1502236975fc7ec9a1c"
+      "bytes": 20621,
+      "sha256": "b8f2acb737a8c6b3b480659b3b45b4352140bc77e4b986fd05da11dcfe9d36f4"
     },
     "scripts/cp7_mandor_shop/SALES_COMMAND_MODEL_ORIGIN.json": {
       "bytes": 960,
@@ -216,8 +232,20 @@
       "sha256": "5bfeb12b4103ca88f48b84a213098b33a90e7ead52398a5025213d9188e47617"
     },
     "scripts/cp7_mandor_shop/check_source.py": {
-      "bytes": 30530,
-      "sha256": "a4715af221d0564b2a0f289d3195a8a58579c754070978ba1629375786848ed8"
+      "bytes": 31121,
+      "sha256": "04b85fe387b8ad6fbb670b80f2cca09fbeb571b18c25eedf9b311ab1ca142a07"
+    },
+    "scripts/cp7_mandor_shop/command_guard_routes.py": {
+      "bytes": 3490,
+      "sha256": "aa1faae14fa41f0c2ed4c5c00d55f8cac112afd5fb36fecad10e3d2ff1548862"
+    },
+    "scripts/cp7_mandor_shop/command_guards.sql": {
+      "bytes": 3177,
+      "sha256": "3205333351a219586ecc52ce2fcf3ed6408430d39a45f8a03592a92e14c2c7dc"
+    },
+    "scripts/cp7_mandor_shop/composition.py": {
+      "bytes": 19831,
+      "sha256": "68efd8582d268bce206ccf55f1e8c5ad5eda89b11289ed53590844b1f17234f8"
     },
     "scripts/cp7_mandor_shop/events.sql": {
       "bytes": 8216,
@@ -255,6 +283,10 @@
       "bytes": 2895,
       "sha256": "f5d614819deae1af4229e5c94f644d8954d3da931eba4fb7ea4e5e5593a86efe"
     },
+    "scripts/cp7_mandor_shop/native_dispatch.py": {
+      "bytes": 2635,
+      "sha256": "b9653c34d5b0d105c5134bcc7fd5b8a5d5d53d9981ad5d1ae98ead5dcfbb6cc6"
+    },
     "scripts/cp7_mandor_shop/native_payment_routes.py": {
       "bytes": 6314,
       "sha256": "d9d3da26117ffe0ede2b4e434a74bdd619f162fb8c7f2616ce344625a012d532"
@@ -287,6 +319,10 @@
       "bytes": 20924,
       "sha256": "967f20999cf23bd6a76610300fb35f61fe01d733053db7fbefdf3da112902056"
     },
+    "scripts/cp7_mandor_shop/replay_routes.py": {
+      "bytes": 2663,
+      "sha256": "e53eb7d5de9687aedae36e17b3ec9ecb5174b3102ec3ec0b250ed672266dc765"
+    },
     "scripts/cp7_mandor_shop/sale_identity.sql": {
       "bytes": 5069,
       "sha256": "98964804488c94f0ffee865068327a8b6fb37fc8b7c6e037e97af32525a672ea"
@@ -315,37 +351,9 @@
       "bytes": 13580,
       "sha256": "1f523db6631c86c3c1b2d218591ca3501a55a9b799643e975e488ffa05875a11"
     },
-    "scripts/cp7_mandor_shop/native_dispatch.py": {
-      "bytes": 2635,
-      "sha256": "b9653c34d5b0d105c5134bcc7fd5b8a5d5d53d9981ad5d1ae98ead5dcfbb6cc6"
-    },
-    "scripts/cp7_mandor_shop/NATIVE_DISPATCH_SOURCE_CONTROLS.json": {
-      "bytes": 1169,
-      "sha256": "40b5346730f3d21e30d0dc1b1a318b310f3722a9874cd70d0f586f865a104232"
-    },
-    "scripts/cp7_mandor_shop/composition.py": {
-      "bytes": 19409,
-      "sha256": "aff397f995bbb1e20ae651c5261b338e43b889e53632d9da4a424456d182736d"
-    },
-    "scripts/cp7_mandor_shop/INSTALL_PLAN.json": {
-      "bytes": 11285,
-      "sha256": "bcaf77cc7097b9d970c38bb3f5ea7765e274c218364924f37869b815843149a4"
-    },
-    "scripts/cp7_mandor_shop/INSTALLER_SOURCE_CONTROLS.json": {
-      "bytes": 1537,
-      "sha256": "8cafbacc8e4d2025cb5eadc6a6188f1a696697c92964d25b0958464410e9483b"
-    },
-    "scripts/cp7_mandor_shop/command_guards.sql": {
-      "bytes": 3177,
-      "sha256": "3205333351a219586ecc52ce2fcf3ed6408430d39a45f8a03592a92e14c2c7dc"
-    },
-    "scripts/cp7_mandor_shop/command_guard_routes.py": {
-      "bytes": 3490,
-      "sha256": "aa1faae14fa41f0c2ed4c5c00d55f8cac112afd5fb36fecad10e3d2ff1548862"
-    },
-    "scripts/cp7_mandor_shop/COMMAND_GUARD_NATIVE_REFERENCE.json": {
-      "bytes": 43220,
-      "sha256": "94f04b17419a33b427e075281c9aeddb2f87960d0ad3c1b2557ca7a5e031806e"
+    "scripts/cp7_mandor_shop/test_replay_routes.py": {
+      "bytes": 2378,
+      "sha256": "671fc36ee09d9aa16ec2cf6c5d188b40bdc9af8719868e908344d73f52f2612e"
     }
   },
   "schema_tables": 15,

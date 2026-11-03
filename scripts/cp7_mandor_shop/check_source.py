@@ -340,6 +340,12 @@ def check():
     payment_defs,_=native.derive(original_functions)
     guarded,guard_proof=guard_routes.derive(original_functions,payment_defs)
     assert len(guarded)==5 and guard_proof['new_Native_function_identities']==4
+    replay=importlib.import_module('cp7_mandor_shop.replay_routes')
+    dispatched,_=dispatch.derive(reference['functions'])
+    replay_sql,replay_proof=replay.derive((HERE/'allocation.sql').read_bytes(),dispatched)
+    assert len(replay_proof['routes'])==2 and replay_proof['new_roles_or_grants']==0
+    assert plan['replay_guard_preparation']==replay_proof
+    assert all(plan['source_fragments'][n]=={'bytes':len(t.encode()),'sha256':sha256(t.encode()).hexdigest()}for n,t in replay_sql.items())
     installation=json.loads((HERE/'INSTALLER_SOURCE_CONTROLS.json').read_bytes())
     assert installation['actual_final_parent_admission']is False and installation['actual_SQL_executed']==0
     return dict(status='FG_MANDOR_EXACT_STORAGE_PREPARATION_SOURCE_ONLY',unchanged_parent_blobs_and_modes=len(base),
@@ -363,6 +369,7 @@ def check():
         retained_allocation_controls_NOT_rerun=True,
         private_sales_command_functions=3,retained_new_sales_controls=13,fresh_new_sales_controls=1,
         Native_sales_form_source_adapters=1,Native_total_source_adapters=13,
+        private_cached_replay_permission_lock_routes=2,actual_replay_races_qualified=False,
         sales_UI_parser_cases=4,sales_UI_DOM_cases=11,sales_UI_parent_regression_cases=37,
         runtime_entry=None,ERP_imports=0,SQL_executed=0,actual_Native_cases=0,production_go=False,independent_acceptance=False)
 
