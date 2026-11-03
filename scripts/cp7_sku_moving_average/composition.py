@@ -93,7 +93,7 @@ def transition(before,after,definitions):
             if group=='functions'and key in definitions and old is not None and new is not None and new[0]==definitions[key]and old[1:]==new[1:]:continue
             if old is None and new is not None and group in('relations','columns','constraints','indexes','triggers','policies')and(
                 any(key==table or key.startswith(table+'.')for table in TABLES)
-                or(group=='indexes'and key in INDEXES)
+                or(group in('relations','indexes')and key in INDEXES)
                 or key.startswith(SCHEMA+'.valuation_')or key.startswith(SCHEMA+'.sale_allocation_')or key.startswith(SCHEMA+'.sales_return_')):continue
             if old is None and new is not None and group=='functions'and key in FUNCTIONS:continue
             if old is None and new is not None and group=='triggers'and key in EXISTING_TRIGGERS:continue
