@@ -120,8 +120,12 @@ def derive():
   from cp7_sku_conversion.pool_cost_components_v3((p_preview->>'source_product_id')::uuid,(p_preview->>'location_id')::uuid,'GRADE_A')c
  ), ranked as(""",'cost ownership follows conversion even while zero')
     d.many('over(order by line_no','over(order by kind,line_no',2,'conversion combined cents order')
+    d.once('sum(transfer_raw_value)over() total_raw_value',
+        "sum(transfer_raw_value)over() total_raw_value,\n   bool_or(transfer_raw_value<0)over() signed_components,\n   row_number()over(order by kind,line_no) component_position,count(*)over() component_count",
+        'signed contributor cents must not scale positive base value by a net-of-recovery denominator')
     d.once('case when v_transfer=0 then 0 else round(cumulative_value*v_transfer/nullif(total_raw_value,0),2)end',
-        'case when total_raw_value=0 then round(cumulative_value,2)else round(cumulative_value*v_transfer/total_raw_value,2)end','signed conversion costs')
+        'case when signed_components then case when component_position=component_count then v_transfer else round(cumulative_value,2)end\n    when total_raw_value=0 then round(cumulative_value,2)else round(cumulative_value*v_transfer/total_raw_value,2)end',
+        'signed cumulative raw cents preserve base ownership and assign only the final quoted residual')
     d.once(" )\n insert into cp7_sku_conversion.valuation_contributors_v2(group_id,line_no,root_lot_id,po_id,hpp_version_id,pool_component_units,transfer_units,unit_value,contributed_value,transfer_value)\n select p_group,line_no,root_lot_id,po_id,hpp_version_id,pool_component_units,transfer_units,unit_value,contributed_value,transfer_share from shares order by line_no;",
         """ ),saved_base as(
   insert into cp7_sku_conversion.valuation_contributors_v2(group_id,line_no,root_lot_id,po_id,hpp_version_id,pool_component_units,transfer_units,unit_value,contributed_value,transfer_value)

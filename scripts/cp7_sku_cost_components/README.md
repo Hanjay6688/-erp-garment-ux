@@ -282,3 +282,22 @@ and replaces30 function definitions (26 bodies change). All22 catalogue groups,
 inverse pass. All twelve acceptance gates remain null. The next qualification
 must exercise the real ERP dependency graph, source costs, selected-lot paths,
 current inverses, installation and owning full restoration before any adoption.
+
+An additional early-cost review found a signed-contributor rounding defect.
+With recovery-2.01 before transfer, normalizing positive base contributors by
+the rounded net transfer moved an unrelated base cent: root50 split24.99/25.01.
+A later-3.01 recovery therefore produced33.48/33.51 instead of33.49/33.50,
+although its own equal0.5 cost units and-1.51/-1.50 cents were correct. The first
+failure and complete contributor observation are retained. Signed transfers now
+round cumulative raw contributor values and assign the final quoted remainder;
+they do not scale positive base by the net-of-recovery denominator. Nonnegative
+allocation retains its previous formula and all Native recovery limits remain.
+
+Seven focused early-cost cases pass with the original expected values, using
+both exact selected physical paths for2,2.01 and-2.01, later signed3.01, zeroing
+and current inverse, plus a two-child conversion with existing cost2. The full
+unfiltered91 model also passes with this repair; the updated22-group profile
+and16 adversarial metadata controls pass. A pre-execution environment-name
+failure and a negative model fixture incorrectly declared USAGE were corrected
+separately and retained with zero product-counter credit. These checks still
+supply no actual ERP, Auth, concurrent-session or used-restoration acceptance.

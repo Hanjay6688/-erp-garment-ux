@@ -47,12 +47,12 @@
   },
   "files": {
     "scripts/cp7_sku_cost_components/CATALOG_ADDITIONS.json": {
-      "bytes": 692634,
-      "sha256": "f20c1d95d429c9d05c2d9f941e19471e263271c33832e6e2da116052edffd22e"
+      "bytes": 692916,
+      "sha256": "330dc07c6d48e9a1599b84cd9e169fb4a74eddb5b45772873f0e30f8f4c06b31"
     },
     "scripts/cp7_sku_cost_components/README.md": {
-      "bytes": 19051,
-      "sha256": "92668d3fd3ae3ee35165e73eaeee4ea4d3d7bb8168c3ea31d3a18027406dd821"
+      "bytes": 20386,
+      "sha256": "b77b1d039a1adc4b72a5c5845983181c98ba421c95d0c44b2300fd387b3385d9"
     },
     "scripts/cp7_sku_cost_components/base_cent_cases.mjs.inc": {
       "bytes": 2463,
@@ -215,8 +215,8 @@
       "sha256": "c914ef44d60d49a8e9ebbd4f41ac8289c673bbddab333fcc0402f70ccebe69ef"
     },
     "scripts/cp7_sku_cost_components/valuation_delta.py": {
-      "bytes": 16649,
-      "sha256": "9bb4593c44c20ec45088d816785c42cd4a0cf2bd5d7a1714f7e8374c23c86845"
+      "bytes": 17231,
+      "sha256": "9c509c96b49d3f236fed740437e10bab480b9a86957222786ac952b600291a2d"
     }
   },
   "gates": {
@@ -276,5 +276,17 @@
   },
   "parent_public_head": "a8da698c034f3ac6a6ae62b57eecd91fc54c813b",
   "parent_tree": "6ea23d78ecd7d4074f85efec150140668354a0ac",
-  "production_go": false
+  "production_go": false,
+  "signed_early_cost_preparation": {
+    "actual_ERP_cases": 0,
+    "business_controls": 7,
+    "complete_regression_checks": 91,
+    "exact_Native_physical_paths": 2,
+    "first_failure_and_raw_contributors_retained": true,
+    "negative_cost_kind_fixture_failure_retained": true,
+    "nonnegative_allocation_formula_unchanged": true,
+    "positive_base_cents_not_normalized_by_signed_net_total": true,
+    "production_go": false,
+    "status": "MODELED_NATIVE_EARLY_COST_ORDER_NOT_ERP"
+  }
 }
