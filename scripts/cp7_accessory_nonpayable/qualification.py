@@ -60,6 +60,17 @@ def fixture_browser_observer_preflight():
         inherited_process_STATE_required=False,Native_overlay_applied=False,
         actual_SQL_executed=0,actual_Native_cases=0,actual_browser_cases=0)
 
+def fixture_case_output_preflight():
+    """Verify exact complete files and bounded receipts before provisioning."""
+    import io,unittest
+    from cp7_accessory_nonpayable.test_case_output import CaseOutputControls
+    output=io.StringIO();result=unittest.TextTestRunner(stream=output,verbosity=0).run(
+        unittest.defaultTestLoader.loadTestsFromTestCase(CaseOutputControls))
+    if result.testsRun!=6 or not result.wasSuccessful()or result.skipped or result.expectedFailures:
+        raise ValueError('NONPAYABLE_COMPLETE_CASE_OUTPUT_PREFLIGHT_FAILED:'+output.getvalue())
+    return dict(status='COMPLETE_ORIGINAL_CASE_BYTES_BOUNDED_CONSOLE_AND_UNCHANGED_RESULTS_PASS',
+        tests_run=6,routed_print_sites=3,actual_SQL_executed=0,actual_Native_cases=0)
+
 def runtime():
     from cp7_accessory_nonpayable import admission,source,package_engine
     admission.parent_receipt()  # Before any ERP import or runtime construction.
@@ -69,7 +80,7 @@ def runtime():
         text,derivation=package_engine.derive(original.read_bytes())
         engine=ModuleType('afui_exact_original_whole_package_engine');engine.__file__=str(original)
         exec(compile(text,str(original),'exec'),engine.__dict__)
-        from cp7_accessory_nonpayable import assembly,native_fixture,advisor_review,qualification_component as component
+        from cp7_accessory_nonpayable import assembly,native_fixture,advisor_review,case_output,qualification_component as component
         engine.product=assembly
         engine.runner=SimpleNamespace(CASE=component.CASE,exercise=component.exercise,scheduler_quiet=component.scheduler_quiet)
         engine.current_advisor=advisor_review
@@ -85,7 +96,9 @@ def runtime():
                 production_go=False,independent_acceptance=False)
         engine.admitted=admitted
         assembly.runtime()  # Include the complete real inherited import path.
-        engine.native_domain_binding=native_fixture.domain_modules()[1]
+        modules,engine.native_domain_binding=native_fixture.domain_modules()
+        case_output.binding(modules.control.native,'native')
+        case_output.sources()
     return engine,admission
 
 def main():
@@ -99,12 +112,14 @@ def main():
         browser_dates=fixture_browser_date_preflight()
         committed_identity=fixture_committed_identity_preflight()
         browser_observer=fixture_browser_observer_preflight()
+        case_output=fixture_case_output_preflight()
         _,engine=package_engine.derive((ROOT/package_engine.ORIGINAL).read_bytes())
         _,copies=copy_context.derive((ROOT/copy_context.ORIGINAL).read_bytes())
         print(json.dumps(dict(status='NONPAYABLE_STATIC_WHOLE_QUALIFIER_PREPARED_NOT_EXECUTED',source=static,
             whole_engine=engine,copy_authority=copies,fixture_actor_preflight=actors,fixture_browser_date_preflight=browser_dates,
             fixture_committed_identity_preflight=committed_identity,
             fixture_browser_observer_preflight=browser_observer,
+            fixture_case_output_preflight=case_output,
             actual_SQL_executed=0,actual_Native_cases=0,
             actual_Auth_HTTP_cases=0,actual_two_session_cases=0,actual_browser_cases=0,
             production_go=False,independent_acceptance=False),sort_keys=True));return

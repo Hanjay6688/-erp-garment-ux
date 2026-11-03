@@ -192,7 +192,7 @@ def browser_environment(report):
             else:os.environ[name]=value
 
 def exercise(conn,cur,database,url,report,state):
-    from . import admission,assembly,native_cases,access_cases,browser_prepare,copy_context,qualification_gate
+    from . import admission,assembly,native_cases,access_cases,browser_prepare,copy_context,qualification_gate,case_output
     admission.parent_receipt()  # Before ERP graph, connection or fixture use.
     from cp7_p21_current_chain_rehearsal_probe import helper
     from cp7_catalog_state import exact_public_catalog
@@ -200,7 +200,7 @@ def exercise(conn,cur,database,url,report,state):
     with control.product_catalog(cur):assembly.verify(cur,state)
     report.update(status='INCOMPLETE',actual_Native_cases=0,actual_Auth_HTTP_cases=0,actual_two_session_races=0,
         actual_browser_cases=0,retained_FREE3_fresh_case_credit=0,production_go=False,independent_acceptance=False,
-        global_writer_or_permission_or_lock_closure=False)
+        global_writer_or_permission_or_lock_closure=False,case_output_source=case_output.sources())
     conn.rollback();cur.close();conn.close()
     def verify(cursor):
         with control.product_catalog(cursor):return assembly.verify(cursor,state)
@@ -215,7 +215,7 @@ def exercise(conn,cur,database,url,report,state):
         return[(name,lambda name=name,operation=operation:one(name,operation))
             for name,operation in native_cases.cases(cursor,today,state)]
     try:
-        with exact_public_catalog(native,retain_raw=True)as public:
+        with exact_public_catalog(native,retain_raw=True)as public,case_output.scope(native,'native'):
             actual=native.strict_group(NATIVE_LABEL,cases,verify)
     finally:retain(native,report)
     report.update(native=actual,public_catalog_observation=public)
@@ -225,7 +225,7 @@ def exercise(conn,cur,database,url,report,state):
     modes=load('afui_unchanged_original_real_Auth_and_browser_modes',ROOT/'scripts/current-s03-sku-s05-composite-qualification/modes.py')
     adapter=SimpleNamespace(http_cases=lambda http,today:access_cases.http_cases(http,today,state=state),
         races=lambda tools,today:access_cases.races(tools,today,state=state))
-    with copy_context.scope(modes,state)as copies:
+    with copy_context.scope(modes,state)as copies,case_output.scope(modes,'copies'):
         report['copy_authority']=copies
         report['http']=modes.run_http(adapter,verify,'afui_dates_http2')
         report['HTTP2_gate']=qualification_gate.copies(report['http'],access_cases.HTTP_IDS,mode='HTTP')

@@ -1,3 +1,26 @@
+### 3 November: terminal cancellation and bounded case output
+
+Run41612220870/job125836684170 at8416 ended11:40:24UTC with job failure,
+step71 cancelled and all artifact/cleanup steps skipped. No artifact exists;
+actual cases and restoration cannot be accepted. The first cancellation stays
+recorded. GitHub also reported repeated tsc and eslint-compact regex timeouts.
+The authenticated log connector twice closed its transport; the unauthenticated
+log endpoint returned403. The final cancellation cause remains unproven.
+
+Three exact per-case print sites now stream their complete original JSON bytes
+to exclusive AFUI_CASE_STDOUT files and print only a sub2KB hash/size receipt.
+Original strict Native/copy results, all group files, financial oracles,
+transactions, dates, Auth masks and cleanup stay unchanged. The exact original
+callable is checked before binding and restored after success or failure.
+The six new controls retain exact bytes including large integers, decimals,
+Unicode and duplicate rows; refuse overwrite/symlink/source/callable changes;
+preserve encoder failure; compare original and routed copy results/refusals.
+An initial source import typo was corrected before any control or ERP case ran.
+This closes the unbounded per-case console path, not the unproven cancellation.
+The prepared cold browser observer correction is retained. A fresh actual full15,
+all five package gates and complete restoration remain required. The genuine
+six-hour WIB window and360/330/20/10 budgets are unchanged.
+
 ### First actual Supabase PostgreSQL17 capability result
 
 The isolated actual17 run41437248634/job125250039172 preserved its first failure: its all22 reader inherited a public search_path and formatted the new public function key without `public.`. The capability now sets the same empty search_path and UTC as the actual owning runtime before taking either catalog snapshot. Exact settings SQL, all six bodies and catalog/role exposure oracles remain unchanged. Its synthetic database was removed and global roles restored. The completed actual17 Mandor capability and actual catalog privilege refusal remain valid and will not be rerun. This repair does not alter the financial workflow six-hour WIB window or grant any business acceptance.

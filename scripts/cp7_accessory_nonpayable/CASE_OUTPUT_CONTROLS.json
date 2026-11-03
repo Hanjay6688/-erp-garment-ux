@@ -1,0 +1,30 @@
+{
+  "status": "AFUI_COMPLETE_CASE_FILES_BOUNDED_CONSOLE_SOURCE_ONLY",
+  "originals": {
+    "native": {
+      "path": "scripts/cp6_auditor_runner.py",
+      "original_bytes": 14911,
+      "original_sha256": "2c74439f7e919e2adb2484bc774bef4881e71237124f2e6b6dabdab141348ea7",
+      "routed_print_sites": 2,
+      "complete_original_source_recovered": true,
+      "case_results_group_persistence_oracles_and_cleanup_unchanged": true
+    },
+    "copies": {
+      "path": "scripts/current-s03-sku-s05-composite-qualification/modes.py",
+      "original_bytes": 23300,
+      "original_sha256": "5f4f45edcc99d24987908369fbec687f8373c6ffb37ce01d5e0fe63d79c6afb4",
+      "routed_print_sites": 1,
+      "complete_original_source_recovered": true,
+      "case_results_group_persistence_oracles_and_cleanup_unchanged": true
+    }
+  },
+  "routed_print_sites": 3,
+  "actual_Native_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false,
+  "controls_passed": 6,
+  "initial_source_import_error": "Missing whitespace before is; corrected before tests executed",
+  "actual_cancel_cause_unproven": true,
+  "prior_8416_artifacts": 0,
+  "prior_8416_restoration_verified": false
+}
