@@ -76,7 +76,8 @@ def source():
             'assembly.py','component.py','package_engine.py','qualification.py','runtime_supervisor.py','final_gate.py',
             'SOURCE_READINESS.json','READINESS.txt','test_prerequisites.py','access_cases.py','access_preflight.py',
             'access_runtime.py','access_gate.py','ACCESS_SOURCE_READINESS.json','http_cases.py','http_gate.py',
-            'browser.mjs','browser_observer.py','browser_preflight.py','browser_gate.py')}
+            'browser.mjs','browser_observer.py','browser_preflight.py','browser_gate.py',
+            'package_identity.py','test_package_identity.py','PACKAGE_IDENTITY_CONTROLS.json')}
         require(set(preparation['files'])==expected and all(n in m['files']for n in expected),'UNIFIED_EXACT_PREPARED_NATIVE9_NAMESPACE')
         require(preparation['actual_Native_cases']==0 and preparation['parent_root_adopted']is False,'UNIFIED_NATIVE9_PREPARATION_IS_NOT_ACCEPTANCE')
         require(preparation['actual_two_session_races']==0 and len(preparation['new_race_ids'])==4,
@@ -84,6 +85,12 @@ def source():
         tree=ast.parse((ROOT/prefix/'admission.py').read_bytes())
         values={t.id:ast.literal_eval(n.value)for n in tree.body if isinstance(n,ast.Assign)and isinstance(n.value,ast.Constant)for t in n.targets if isinstance(t,ast.Name)}
         require(values['PARENT_HEAD']==m['base']['head']and values['PARENT_ROOT_PIN']is None and values['RUNTIME_ENTRY']is None,'UNIFIED_PREPARED_NATIVE9_PARENT_GATE_MUST_STAY_CLOSED')
+        provenance=json.loads((ROOT/prefix/'PACKAGE_IDENTITY_CONTROLS.json').read_bytes())
+        require(provenance['status']=='OWNING_PACKAGE_IDENTITY_LOCAL_GIT_CONTROLS_PASS_NOT_ERP'
+            and provenance['tests_run']==4 and provenance['actual_Native_cases']==0,
+            'UNIFIED_MANDOR_OWNING_PACKAGE_IDENTITY_CONTROLS')
+        for name,expected_pin in provenance['files'].items():
+            require(pin((ROOT/name).read_bytes())==expected_pin,'UNIFIED_MANDOR_IDENTITY_SOURCE_CHANGED:'+name)
     return dict(status='UNIFIED_AFUI_GLOBAL_MANDOR_SOURCE_FENCE_PASS_NOT_RUNTIME_OR_BUSINESS',base=m['base'],
         unchanged_parent_blobs=len(base)-len(changed),shared_UI_parent_paths=len(shared),appearance_parent_paths=len(appearance),parent_modified_paths=len(changed),new_paths=len(actual_new),
         Global_module_files=42,Mandor_module_and_exact_UI_files=109,validator_files_composed=2,
