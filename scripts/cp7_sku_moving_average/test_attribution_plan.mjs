@@ -12,13 +12,13 @@ const failed=" joined as(select coalesce(e.po_id,l.po_id)po_id,coalesce(e.effect
 const fixed=" keys as(select po_id from effective union select po_id from legacy),\n joined as(select k.po_id,coalesce(e.effective,0)effective,coalesce(l.legacy,0)legacy from keys k\n  left join effective e on e.po_id is not distinct from k.po_id\n  left join legacy l on l.po_id is not distinct from k.po_id),\n";
 assert.equal(ddl.split(fixed).length,2);assert(!ddl.includes(failed));
 const old=ddl.replace(fixed,failed);
-assert.equal(createHash('sha256').update(old).digest('hex'),'ddbe7c1632ebe2f09b5df66229c1d71d96ca5a10eed091e9ef836c261dd40679');
 const extract=sql=>{
  const fn=sql.split('create function cp7_sku_conversion.finalize_valuation_v2(p_group uuid) returns void');assert.equal(fn.length,2);
  const start=fn[1].indexOf(' with effective as('),end=fn[1].indexOf('\n for r in select *from cp7_sku_conversion.valuation_attributions_v2',start);
  assert(start>=0&&end>start);return fn[1].slice(start,end);
 };
 const statement=extract(ddl),oldStatement=extract(old);
+assert.equal(createHash('sha256').update(oldStatement).digest('hex'),'2c66015ec8b2d774b41d1fa0a1d8cad75268bbcff51e7c959a8c689f2b482701');
 const db=new PGlite(),results=[];
 const id=n=>'72000000-0000-4000-8000-'+String(n).padStart(12,'0');
 const group=id(1),source=id(2),target=id(3),poA=id(10),poB=id(11),poC=id(12),zero='00000000-0000-0000-0000-000000000000';

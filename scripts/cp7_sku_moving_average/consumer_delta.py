@@ -7,6 +7,8 @@ SIGNATURES=(
  'erp.compute_po_hpp_gl_targets_v2620d(uuid)',
  'erp.sync_non_po_product_hpp_to_gl_v2620f(uuid,date,text,uuid,text)',
  'erp.sync_po_hpp_to_gl(uuid,date)',
+ 'erp.post_opening_hpp_correction(uuid,numeric,text,date)',
+ 'erp.sync_opening_lot_hpp_to_gl(uuid,date)',
 )
 
 NONPO_TARGET="""CREATE OR REPLACE FUNCTION erp.compute_non_po_product_hpp_targets_v2620f(p_product_id uuid)
@@ -33,6 +35,8 @@ physical as(
  select root_lot_id,units from physical
  union all select e.root_lot_id,e.units_delta from cp7_sku_conversion.component_events_v2 e
  join erp.fg_lots root on root.id=e.root_lot_id and root.po_id is null where e.product_id=p_product_id
+ and(e.source_type<>'SALE'or exists(select 1 from erp.sales_headers sh where sh.id=e.source_id and sh.status in('POSTED','PARTIAL_PAID','PAID','REVERSED')))
+  and(e.source_type<>'SALES_RETURN'or exists(select 1 from erp.sales_returns rh where rh.id=e.source_id and rh.status in('POSTED','REVERSED')))
 ), owned as(
  select coalesce(sum(x.units*h.hpp_per_pcs),0)::numeric value from(
   select root_lot_id,sum(units)::numeric units from component_entries group by root_lot_id)x
@@ -56,10 +60,23 @@ physical as(
  join erp.sales_returns r on r.id=v.return_id and r.status='POSTED'
  join erp.fg_lots root on root.id=c.root_lot_id and root.po_id is null
  join erp.hpp_versions h on h.lot_id=c.root_lot_id and h.is_current where v.product_id=p_product_id
+), legacy_sold as(
+ select coalesce(sum(a.qty_pcs*h.hpp_per_pcs),0)::numeric value
+ from erp.sale_stock_allocations a join erp.sales_items i on i.id=a.sale_item_id
+ join erp.sales_headers sh on sh.id=i.sale_id and sh.status in('POSTED','PARTIAL_PAID','PAID')
+ join erp.fg_lots root on root.id=a.lot_id and root.po_id is null and root.product_id=p_product_id
+ join erp.hpp_versions h on h.lot_id=root.id and h.is_current
+ where not exists(select 1 from cp7_sku_conversion.sale_allocation_values_v2 v where v.sale_stock_allocation_id=a.id)
+), legacy_returned as(
+ select coalesce(sum(i.qty_pcs*h.hpp_per_pcs),0)::numeric value
+ from erp.sales_return_items i join erp.sales_returns rh on rh.id=i.return_id and rh.status='POSTED'
+ join erp.fg_lots root on root.id=i.lot_id and root.po_id is null and root.product_id=p_product_id
+ join erp.hpp_versions h on h.lot_id=root.id and h.is_current
+ where not exists(select 1 from cp7_sku_conversion.sales_return_values_v2 v where v.sales_return_item_id=i.id)
 ), cents as(
  select round(n.value+a.value,2)::numeric hpp,round(o.value,2)::numeric fg,
-  round(greatest(s.value-r.value,0),2)::numeric cogs from native_total n cross join conversion_adjustment a
-  cross join owned o cross join sold s cross join returned r
+  round(greatest(s.value+ls.value-r.value-lr.value,0),2)::numeric cogs from native_total n cross join conversion_adjustment a
+  cross join owned o cross join sold s cross join returned r cross join legacy_sold ls cross join legacy_returned lr
 )
 select hpp,fg,cogs,(hpp-fg-cogs)::numeric from cents
 $function$
@@ -85,6 +102,8 @@ with base as(
  select root_lot_id,units from physical
  union all select e.root_lot_id,e.units_delta from cp7_sku_conversion.component_events_v2 e
  join erp.fg_lots root on root.id=e.root_lot_id and root.po_id=p_po_id
+ and(e.source_type<>'SALE'or exists(select 1 from erp.sales_headers sh where sh.id=e.source_id and sh.status in('POSTED','PARTIAL_PAID','PAID','REVERSED')))
+  and(e.source_type<>'SALES_RETURN'or exists(select 1 from erp.sales_returns rh where rh.id=e.source_id and rh.status in('POSTED','REVERSED')))
 ), owned as(
  select coalesce(sum(x.units*h.hpp_per_pcs),0)::numeric value from(
   select root_lot_id,sum(units)::numeric units from component_entries group by root_lot_id)x
@@ -103,9 +122,22 @@ with base as(
  join erp.sales_returns r on r.id=v.return_id and r.status='POSTED'
  join erp.fg_lots root on root.id=c.root_lot_id and root.po_id=p_po_id
  join erp.hpp_versions h on h.lot_id=c.root_lot_id and h.is_current
+), legacy_sold as(
+ select coalesce(sum(a.qty_pcs*h.hpp_per_pcs),0)::numeric value
+ from erp.sale_stock_allocations a join erp.sales_items i on i.id=a.sale_item_id
+ join erp.sales_headers sh on sh.id=i.sale_id and sh.status in('POSTED','PARTIAL_PAID','PAID')
+ join erp.fg_lots root on root.id=a.lot_id and root.po_id=p_po_id
+ join erp.hpp_versions h on h.lot_id=root.id and h.is_current
+ where not exists(select 1 from cp7_sku_conversion.sale_allocation_values_v2 v where v.sale_stock_allocation_id=a.id)
+), legacy_returned as(
+ select coalesce(sum(i.qty_pcs*h.hpp_per_pcs),0)::numeric value
+ from erp.sales_return_items i join erp.sales_returns rh on rh.id=i.return_id and rh.status='POSTED'
+ join erp.fg_lots root on root.id=i.lot_id and root.po_id=p_po_id
+ join erp.hpp_versions h on h.lot_id=root.id and h.is_current
+ where not exists(select 1 from cp7_sku_conversion.sales_return_values_v2 v where v.sales_return_item_id=i.id)
 ), cents as(
  select b.qty,round(b.raw_total,2)::numeric hpp,round(o.value,2)::numeric fg,
-  round(greatest(s.value-r.value,0),2)::numeric cogs from base b cross join owned o cross join sold s cross join returned r
+  round(greatest(s.value+ls.value-r.value-lr.value,0),2)::numeric cogs from base b cross join owned o cross join sold s cross join returned r cross join legacy_sold ls cross join legacy_returned lr
 )
 select qty,hpp,fg,cogs,(hpp-fg-cogs)::numeric from cents
 $function$
@@ -124,7 +156,7 @@ def first(text,before,after,count,label):
     return text.replace(before,after,1)
 
 def patched(originals):
-    if set(originals)!=set(SIGNATURES):raise ValueError('SKU_MOVAVG_EXACT_CONSUMER_FOUR_REQUIRED')
+    if set(originals)!=set(SIGNATURES):raise ValueError('SKU_MOVAVG_EXACT_CONSUMER_SET_REQUIRED')
     result={}
 
     sig=SIGNATURES[0];text=originals[sig]
@@ -180,7 +212,10 @@ def patched(originals):
     from cp7_sku_conversion.sales_return_attributions_v2 a
     join cp7_sku_conversion.sales_return_values_v2 v using(sales_return_item_id)
     where v.return_id=h.id and a.po_id is null
-    order by v.product_id"""
+    union select fl.product_id from erp.sales_return_items i join erp.fg_lots fl on fl.id=i.lot_id
+    where i.return_id=h.id and fl.po_id is null
+      and not exists(select 1 from cp7_sku_conversion.sales_return_values_v2 v where v.sales_return_item_id=i.id)
+    order by product_id"""
     text=many(text,return_nonpo_old,return_nonpo_new,3,'return nonpo economic scopes')
     return_po_old="""    select distinct fl.po_id
     from erp.sales_return_items i join erp.fg_lots fl on fl.id=i.lot_id
@@ -188,7 +223,11 @@ def patched(originals):
     return_po_new="""    select distinct a.po_id
     from cp7_sku_conversion.sales_return_attributions_v2 a
     join cp7_sku_conversion.sales_return_values_v2 v using(sales_return_item_id)
-    where v.return_id=h.id and a.po_id is not null order by a.po_id"""
+    where v.return_id=h.id and a.po_id is not null
+    union select fl.po_id from erp.sales_return_items i join erp.fg_lots fl on fl.id=i.lot_id
+    where i.return_id=h.id and fl.po_id is not null
+      and not exists(select 1 from cp7_sku_conversion.sales_return_values_v2 v where v.sales_return_item_id=i.id)
+    order by po_id"""
     text=many(text,return_po_old,return_po_new,2,'return PO economic scopes')
     result[sig]=text
 
@@ -224,5 +263,91 @@ def patched(originals):
       "  perform pg_advisory_xact_lock(hashtextextended('FG_HPP_SALES_V2620C',0));\n  select * into t from erp.compute_po_hpp_gl_targets_v2620d(p_po_id);",
       "  perform pg_advisory_xact_lock(hashtextextended('FG_HPP_SALES_V2620C',0));\n  if v_guard<>'1'then\n   perform set_config('cp7.sku_po_sync_expanding','1',true);\n   for v_scope in\n    with related_sales as(select distinct v.sale_id from cp7_sku_conversion.sale_allocation_components_v2 c\n      join cp7_sku_conversion.sale_allocation_values_v2 v using(sale_stock_allocation_id)where c.po_id=p_po_id),\n    related_returns as(select distinct v.return_id from cp7_sku_conversion.sales_return_components_v2 c\n      join cp7_sku_conversion.sales_return_values_v2 v using(sales_return_item_id)where c.po_id=p_po_id),\n    scopes as(\n      select c.po_id from cp7_sku_conversion.sale_allocation_components_v2 c join cp7_sku_conversion.sale_allocation_values_v2 v using(sale_stock_allocation_id)\n       where v.sale_id in(select sale_id from related_sales)\n      union select c.po_id from cp7_sku_conversion.sales_return_components_v2 c join cp7_sku_conversion.sales_return_values_v2 v using(sales_return_item_id)\n       where v.return_id in(select return_id from related_returns)\n      union select c2.po_id from cp7_sku_conversion.valuation_contributors_v2 c1 join cp7_sku_conversion.valuation_contributors_v2 c2 using(group_id)where c1.po_id=p_po_id)\n    select distinct po_id from scopes where po_id is not null and po_id<>p_po_id order by po_id\n   loop\n    perform erp.sync_po_hpp_to_gl(v_scope.po_id,p_effective_date);\n   end loop;\n   for v_scope in\n    with related_sales as(select distinct v.sale_id from cp7_sku_conversion.sale_allocation_components_v2 c\n      join cp7_sku_conversion.sale_allocation_values_v2 v using(sale_stock_allocation_id)where c.po_id=p_po_id),\n    related_returns as(select distinct v.return_id from cp7_sku_conversion.sales_return_components_v2 c\n      join cp7_sku_conversion.sales_return_values_v2 v using(sales_return_item_id)where c.po_id=p_po_id),\n    scopes as(\n      select v.product_id from cp7_sku_conversion.sale_allocation_components_v2 c join cp7_sku_conversion.sale_allocation_values_v2 v using(sale_stock_allocation_id)\n       where c.po_id is null and v.sale_id in(select sale_id from related_sales)\n      union select v.product_id from cp7_sku_conversion.sales_return_components_v2 c join cp7_sku_conversion.sales_return_values_v2 v using(sales_return_item_id)\n       where c.po_id is null and v.return_id in(select return_id from related_returns))\n    select distinct product_id from scopes order by product_id\n   loop\n    perform erp.sync_non_po_product_hpp_to_gl_v2620f(v_scope.product_id,p_effective_date,'SKU_COMPONENT_SCOPE',p_po_id,'Mixed PO/non-PO component redistribution');\n   end loop;\n   perform set_config('cp7.sku_po_sync_expanding',v_guard,true);\n  end if;\n  select * into t from erp.compute_po_hpp_gl_targets_v2620d(p_po_id);",
       'PO mixed component scopes')
+    result[sig]=text
+    sig=SIGNATURES[6];text=originals[sig]
+    text=once(text,
+      "v_corr uuid;v_no text;",
+      "v_corr uuid;v_no text;v_scope record;",
+      'opening correction component scope declaration')
+    text=once(text,
+      "  perform erp.assert_non_po_product_hpp_target_book_v2620f(l.product_id);",
+      """  -- Prove every affected source/book scope before changing the root HPP.
+  -- An equal aggregate must never hide pre-existing opposite discrepancies.
+  for v_scope in
+    select l.product_id product_id
+    union select e.product_id from cp7_sku_conversion.component_events_v2 e
+      where e.root_lot_id=l.id and e.source_type='SKU_CONVERSION'
+    order by product_id
+  loop
+    perform erp.assert_non_po_product_hpp_target_book_v2620f(v_scope.product_id);
+  end loop;""",
+      'opening correction exact source books before root version change')
+    result[sig]=text
+
+    sig=SIGNATURES[7];text=originals[sig]
+    text=once(text,
+      "  v_net_sold_qty numeric; v_actual_cogs numeric; v_expense numeric; v_income numeric;",
+      "  v_net_sold_qty numeric; v_actual_cogs numeric; v_expense numeric; v_income numeric;\n  v_scope record;v_scope_delta numeric;v_lines jsonb:='[]'::jsonb;",
+      'opening source component declarations')
+    old="""  select t.hpp_total_cost-b.hpp_total_cost into v_source_delta
+  from erp.compute_non_po_product_hpp_targets_v2620f(l.product_id) t
+  cross join lateral erp.compute_non_po_product_hpp_book_v2620f(l.product_id) b;
+  if v_source_delta is distinct from v_expected_delta then
+    raise exception 'OPENING_SOURCE_CHANGE_NOT_EXACT: product %, pending lot basis %, target/book source delta %',
+      l.product_id,v_expected_delta,v_source_delta;
+  end if;
+  if v_source_delta<>0 then
+    perform erp.post_journal('OPENING_HPP_SOURCE_V2620G',h.id,p_effective_date,
+      'Source lot basis correction for '||l.lot_number||' / HPP version '||h.id,
+      jsonb_build_array(
+        jsonb_build_object('mapping_key','FG_INVENTORY',
+          'debit',greatest(v_source_delta,0),'credit',greatest(-v_source_delta,0),'product_id',l.product_id),
+        jsonb_build_object('mapping_key','OPENING_EQUITY',
+          'debit',greatest(-v_source_delta,0),'credit',greatest(v_source_delta,0))
+      ));
+  end if;"""
+    new="""  -- Root basis remains exact. Its source delta follows the economic
+  -- component owners, which may include another product after conversion.
+  v_source_delta:=0;
+  for v_scope in
+    select l.product_id product_id
+    union select e.product_id from cp7_sku_conversion.component_events_v2 e
+      where e.root_lot_id=l.id and e.source_type='SKU_CONVERSION'
+    order by product_id
+  loop
+    select t.hpp_total_cost-b.hpp_total_cost into v_scope_delta
+    from erp.compute_non_po_product_hpp_targets_v2620f(v_scope.product_id) t
+    cross join lateral erp.compute_non_po_product_hpp_book_v2620f(v_scope.product_id) b;
+    if v_scope_delta is null then raise exception 'OPENING_COMPONENT_SOURCE_UNKNOWN';end if;
+    v_source_delta:=v_source_delta+v_scope_delta;
+    if v_scope_delta<>0 then
+      v_lines:=v_lines||jsonb_build_array(jsonb_build_object('mapping_key','FG_INVENTORY',
+        'debit',greatest(v_scope_delta,0),'credit',greatest(-v_scope_delta,0),'product_id',v_scope.product_id));
+    end if;
+  end loop;
+  if v_source_delta is distinct from v_expected_delta then
+    raise exception 'OPENING_SOURCE_CHANGE_NOT_EXACT: product %, pending lot basis %, target/book source delta %',
+      l.product_id,v_expected_delta,v_source_delta;
+  end if;
+  if v_source_delta<>0 then
+    v_lines:=v_lines||jsonb_build_array(jsonb_build_object('mapping_key','OPENING_EQUITY',
+      'debit',greatest(-v_source_delta,0),'credit',greatest(v_source_delta,0)));
+  end if;
+  if jsonb_array_length(v_lines)>0 then
+    perform erp.post_journal('OPENING_HPP_SOURCE_V2620G',h.id,p_effective_date,
+      'Source lot basis correction for '||l.lot_number||' / HPP version '||h.id,v_lines);
+  end if;"""
+    text=once(text,old,new,'opening basis distributed to exact economic owners')
+    text=once(text,
+      "  perform erp.assert_non_po_product_hpp_target_book_v2620f(l.product_id);",
+      """  for v_scope in
+    select l.product_id product_id
+    union select e.product_id from cp7_sku_conversion.component_events_v2 e
+      where e.root_lot_id=l.id and e.source_type='SKU_CONVERSION'
+    order by product_id
+  loop
+    perform erp.assert_non_po_product_hpp_target_book_v2620f(v_scope.product_id);
+  end loop;""",
+      'opening correction every economic source/book verified')
     result[sig]=text
     return result

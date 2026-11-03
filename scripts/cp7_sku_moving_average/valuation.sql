@@ -321,6 +321,8 @@ language sql stable security definer set search_path=''as $$
   union all
   select e.root_lot_id,e.units_delta from cp7_sku_conversion.component_events_v2 e
   where e.product_id=p_product and e.location_id=p_location and e.quality_grade=p_grade
+  and(e.source_type<>'SALE'or exists(select 1 from erp.sales_headers sh where sh.id=e.source_id and sh.status in('POSTED','PARTIAL_PAID','PAID','REVERSED')))
+  and(e.source_type<>'SALES_RETURN'or exists(select 1 from erp.sales_returns rh where rh.id=e.source_id and rh.status in('POSTED','REVERSED')))
  ), totals as(
   select root_lot_id,sum(units)::numeric units from entries group by root_lot_id
   having abs(sum(units))>0.000000000001
@@ -405,7 +407,7 @@ end $$;
 
 create function cp7_sku_conversion.prepare_sale_values_v2(p_sale uuid) returns void
 language plpgsql volatile security definer set search_path='' set timezone='UTC' as $$
-declare pool record;a record;q jsonb;v_average numeric;v_effective numeric(24,2);v_prior numeric(24,2);v_total_effective numeric(24,2);v_total_legacy numeric(24,2);v_qty integer;v_line integer:=0;
+declare pool record;v_allocation record;q jsonb;v_average numeric;v_effective numeric(24,2);v_prior numeric(24,2);v_total_effective numeric(24,2);v_total_legacy numeric(24,2);v_qty integer;v_line integer:=0;
 begin
  perform erp.require_internal();
  if exists(select 1 from cp7_sku_conversion.sale_allocation_values_v2 where sale_id=p_sale)then raise exception 'CP7_SKU_SALE_VALUE_ALREADY_PREPARED';end if;
@@ -415,34 +417,30 @@ begin
   q:=cp7_sku_conversion.pool_quote_v2(pool.product_id,pool.location_id,'GRADE_A');
   if(q->>'qty')::numeric<pool.qty then raise exception 'CP7_SKU_SALE_VALUE_POOL_SHORT';end if;
   v_average:=(q->>'average')::numeric;v_prior:=0;v_total_legacy:=0;v_line:=v_line+1;
-  for a in select a.id,i.product_id,a.lot_id,a.location_id,a.qty_pcs,h.hpp_per_pcs,
+  for v_allocation in select a.id,i.product_id,a.lot_id,a.location_id,a.qty_pcs,h.hpp_per_pcs,
       sum(a.qty_pcs)over(order by a.id rows unbounded preceding)::numeric cumulative_qty
     from erp.sale_stock_allocations a join erp.sales_items i on i.id=a.sale_item_id
     join erp.hpp_versions h on h.lot_id=a.lot_id and h.is_current
     where i.sale_id=p_sale and i.product_id=pool.product_id and a.location_id=pool.location_id order by a.id loop
-   v_effective:=round(a.cumulative_qty*v_average,2)-v_prior;v_prior:=v_prior+v_effective;
+   v_effective:=round(v_allocation.cumulative_qty*v_average,2)-v_prior;v_prior:=v_prior+v_effective;
    insert into cp7_sku_conversion.sale_allocation_values_v2(sale_stock_allocation_id,sale_id,product_id,lot_id,location_id,quality_grade,qty_pcs,effective_value,legacy_value,effective_unit_value,pool_revision)
-   values(a.id,p_sale,a.product_id,a.lot_id,a.location_id,'GRADE_A',a.qty_pcs,v_effective,round(a.qty_pcs*a.hpp_per_pcs,2),v_effective/a.qty_pcs,q->>'revision');
-   v_total_legacy:=v_total_legacy+round(a.qty_pcs*a.hpp_per_pcs,2);
+   values(v_allocation.id,p_sale,v_allocation.product_id,v_allocation.lot_id,v_allocation.location_id,'GRADE_A',v_allocation.qty_pcs,v_effective,round(v_allocation.qty_pcs*v_allocation.hpp_per_pcs,2),v_effective/v_allocation.qty_pcs,q->>'revision');
+   v_total_legacy:=v_total_legacy+round(v_allocation.qty_pcs*v_allocation.hpp_per_pcs,2);
   end loop;
   v_qty:=pool.qty;v_total_effective:=round(v_qty*v_average,2);
   if v_prior is distinct from v_total_effective then raise exception 'CP7_SKU_SALE_CENT_APPORTIONMENT';end if;
-  with component_intervals as(
-   select c.root_lot_id,c.po_id,c.unit_value,c.component_units*pool.qty/(q->>'qty')::numeric desired_units,
-    sum(c.component_units*pool.qty/(q->>'qty')::numeric)over(order by c.root_lot_id rows unbounded preceding)component_end,
-    coalesce(sum(c.component_units*pool.qty/(q->>'qty')::numeric)over(order by c.root_lot_id rows between unbounded preceding and 1 preceding),0)component_start
-   from cp7_sku_conversion.pool_components_v2(pool.product_id,pool.location_id,'GRADE_A')c
-  ), allocation_intervals as(
-   select v.sale_stock_allocation_id,v.qty_pcs,v.effective_value,
-    sum(v.qty_pcs)over(order by v.sale_stock_allocation_id rows unbounded preceding)::numeric allocation_end,
-    coalesce(sum(v.qty_pcs)over(order by v.sale_stock_allocation_id rows between unbounded preceding and 1 preceding),0)::numeric allocation_start
+  -- Every physical allocation carries the same economic pool mix. Cutting
+  -- consecutive root intervals would return a different HPP for each FIFO lot.
+  with matrix as(
+   select v.sale_stock_allocation_id,c.root_lot_id,c.po_id,c.unit_value,
+    (round(v.qty_pcs*sum(c.component_units)over(partition by v.sale_stock_allocation_id
+      order by c.root_lot_id rows unbounded preceding)/(q->>'qty')::numeric,12)
+     -round(v.qty_pcs*coalesce(sum(c.component_units)over(partition by v.sale_stock_allocation_id
+      order by c.root_lot_id rows between unbounded preceding and 1 preceding),0)/(q->>'qty')::numeric,12))::numeric component_units,
+    v.effective_value
    from cp7_sku_conversion.sale_allocation_values_v2 v
+   cross join cp7_sku_conversion.pool_components_v2(pool.product_id,pool.location_id,'GRADE_A')c
    where v.sale_id=p_sale and v.product_id=pool.product_id and v.location_id=pool.location_id
-  ), matrix as(
-   select a.sale_stock_allocation_id,c.root_lot_id,c.po_id,c.unit_value,
-    greatest(least(a.allocation_end,c.component_end)-greatest(a.allocation_start,c.component_start),0)::numeric component_units,
-    a.effective_value
-   from allocation_intervals a cross join component_intervals c
   ), raw as(
    select *,component_units*unit_value raw_value,
     sum(component_units*unit_value)over(partition by sale_stock_allocation_id order by root_lot_id rows unbounded preceding)cumulative_raw,

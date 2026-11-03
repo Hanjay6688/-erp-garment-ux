@@ -133,3 +133,37 @@ exact candidate INSERT on synthetic rows. It reproduces the original planner
 refusal and covers seven NULL/mixed/one-sided/duplicate/empty/zero cases. This
 adds no Native acceptance. Only the one function's observed DDL definition and
 valuation source pin change in the 639-row catalogue-addition profile.
+
+## Component consumer closure after the retained 8168 attempt
+
+The original `8168125136b79373693d3f186f02f9e23e6da8c5` run
+`41633865632` passed the canonical forward/manual-back and exact inverse
+cases. Root recost refused a source delta of 15 against the root basis change
+of 20; both sale-dependent cases refused a PL/pgSQL record/SQL-alias collision.
+All five results and complete successful restoration remain in the original
+artifact `13231162946`; the attempt is incomplete and is not an accepted parent.
+
+The successor binds eight existing Native consumer bodies. Opening correction
+checks each affected product's complete target/book before changing the root
+version, apportions the source journal across its economic component owners,
+requires their exact sum to equal the opening basis delta, and checks every
+affected target/book afterward. The physical-conversion correction refusal,
+permissions, locks, immutable source history and minor-unit guard remain intact.
+
+Sale preparation uses a distinct loop variable and gives every physical
+allocation the proportional root mix. Consecutive root intervals must not
+assign different economics to otherwise equivalent returned pieces. Pending
+sale/return components remain non-authoritative until their header is posted;
+posted reversals append their exact inverse. Both PO and non-PO targets retain
+a disjoint fallback for pre-installation Native sale/return histories. Returning
+an old allocation retains its original Native source scopes.
+
+The early PostgreSQL17 controls execute the exact candidate preparation,
+source-target and opening-correction SQL, plus the full `erp.post_sale` body
+with explicit synthetic authority, book/journal and known-HPP providers. They
+check the real reservation -> source/book -> status -> journal order, positive
+and negative source controls, proportional partial return, reversal, preserved
+legacy COGS and a one-lot sale. These are modeled SQL controls with zero Native,
+Auth, HTTP or browser credit. They run before the long ERP installation. The
+actual five business cases, used-state refusal, all-22/all-row/all-sequence
+restore and owning package gates remain required.

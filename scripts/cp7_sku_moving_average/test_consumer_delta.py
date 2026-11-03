@@ -41,5 +41,15 @@ assert 'perform erp.sync_po_hpp_to_gl(v_scope.po_id,p_effective_date)'in nonpo_s
 po_sync=patched[delta.SIGNATURES[5]]
 assert "cp7.sku_po_sync_expanding"in po_sync and 'related_sales as'in po_sync and 'related_returns as'in po_sync
 assert "perform erp.sync_non_po_product_hpp_to_gl_v2620f(v_scope.product_id"in po_sync
-print({'status':'SKU_MOVAVG_NATIVE_CONSUMER_SIX_EXACT_SUBSTITUTIONS',
+print({'status':'SKU_MOVAVG_NATIVE_CONSUMER_EIGHT_EXACT_SUBSTITUTIONS',
        'actual_sql':0,'po_consumer_source_bound':True,'production_go':False})
+
+opening=patched[delta.SIGNATURES[6]]
+assert opening.index('for v_scope in')<opening.index('update erp.hpp_versions set is_current=false')
+assert "and not exists(select 1 from cp7_sku_conversion.sales_return_values_v2"in returned
+sync_opening=patched[delta.SIGNATURES[7]]
+assert "v_source_delta is distinct from v_expected_delta"in sync_opening
+assert sync_opening.count("e.root_lot_id=l.id and e.source_type='SKU_CONVERSION'")==2
+assert "v_source_delta:=v_source_delta+v_scope_delta"in sync_opening
+assert "legacy_sold as("in target and "legacy_returned as("in target
+assert "legacy_sold as("in po and "legacy_returned as("in po
