@@ -100,7 +100,7 @@ def gate(directory,head):
         with engine.inherited_admission.parent_scope():sources=engine.admitted()
     p.exact(docs[MAIN]['source_declaration'],sources,'SKU_COMPOSITE_GATE_COMPLETE_NATURAL_SOURCE_GRAPH')
     return dict(status='CURRENT_MANDOR_PARENT_SKU_MONEY_NATIVE19_AND_ALL5_PASS',head=head,**result,
-        accepted_sources=receipt,parent_root=admission.pin(parent_raw),SKU_root=admission.pin(sku_raw),
+        accepted_sources=receipt,parent_root=admission.pin(parent_raw),candidate_source_preflight=admission.pin(sku_raw),
         originals={n:admission.pin(v)for n,v in raw.items()},
         concurrent_current_permission_Auth_browser_followups_pending=True,full_combined_final_qualification=False)
 

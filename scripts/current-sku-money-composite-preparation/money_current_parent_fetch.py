@@ -1,4 +1,4 @@
-"""Fetch both exact accepted canonical archives; every gate precedes GET.
+"""Fetch accepted Mandor and retained Native27/moving6 archives; every gate precedes GET.
 
 Reuse the complete retained fetcher through reversible binding routes only.
 This preparation has no accepted receipts and cannot issue a network request.
@@ -6,7 +6,7 @@ This preparation has no accepted receipts and cannot issue a network request.
 from hashlib import sha256
 from pathlib import Path
 from types import ModuleType,SimpleNamespace
-import importlib.util,json
+import importlib.util,json,subprocess,sys
 from money_execution_bindings import admission
 import money_current_parent_runtime as runtime
 
@@ -17,9 +17,7 @@ KINDS={
     'MANDOR':dict(file='MANDOR17_PARENT_ROOT_ACTUAL_INTAKE.json',main='CP7_FG_MANDOR_NATIVE9.json',
         label='SKU_CURRENT_MANDOR17',folder='sku-current-mandor17',archive='QUALIFIED_MANDOR17.zip',
         output='SKU_CURRENT_MANDOR17_ORIGINAL_ADMISSION.json',sources='qualified_current_Mandor_sources'),
-    'SKU':dict(file='SKU_MONEY19_CHILD_ROOT_ACTUAL_INTAKE.json',main='CP7_SKU_COST_MONEY_QUALIFICATION.json',
-        label='SKU_CURRENT_MONEY19',folder='sku-current-money19',archive='QUALIFIED_MONEY19.zip',
-        output='SKU_CURRENT_MONEY19_ORIGINAL_ADMISSION.json',sources='qualified_SKU_cost_money_sources'),
+    # The money child awaits its first financial qualification; source intake is separate.
 }
 
 
@@ -62,17 +60,21 @@ def derive(kind):
 def main():
     parent_raw,sku_raw,_=runtime.actual_inputs()
     for kind,raw,head,reference in (
-        ('MANDOR',parent_raw,admission.PARENT_HEAD,admission.PARENT_ROOT_PIN),
-        ('SKU',sku_raw,admission.SKU_HEAD,admission.SKU_ROOT_PIN)):
+        ('MANDOR',parent_raw,admission.PARENT_HEAD,admission.PARENT_ROOT_PIN),):
         receipt=json.loads(raw)
         def exact(data,accepted=raw,value=receipt):
             runtime.actual_inputs()
             if data!=accepted:raise ValueError('SKU_COMPOSITE_ROOT_BYTES_CHANGED_BEFORE_FETCH')
             return value
         text,_=derive(kind)
-        module=ModuleType('sku_canonical_actual_'+kind);module.__file__=str(HERE/'derived_'+kind+'_fetch.py')
+        module=ModuleType('sku_canonical_actual_'+kind);module.__file__=str(HERE/('derived_'+kind+'_fetch.py'))
         module._ACTUAL_ROOT_BINDING=SimpleNamespace(PARENT_HEAD=head,PARENT_ROOT_PIN=reference,parent=exact)
         exec(compile(text,module.__file__,'exec'),module.__dict__);module.main()
+    runtime.frozen(runtime.FROZEN_SKU,admission.SKU_HEAD,admission.SKU_TREE)
+    # These fetch the already accepted Native27 and moving6 inputs, not another money run.
+    for entry in ('scripts/current-sku-moving-average-qualification/fetch_parent.py',
+                  'scripts/current-sku-cost-money-qualification/fetch_moving_parent.py'):
+        subprocess.run([sys.executable,'-B',str(runtime.FROZEN_SKU/entry)],cwd=runtime.FROZEN_SKU,check=True)
 
 
 if __name__=='__main__':main()

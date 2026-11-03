@@ -67,7 +67,7 @@ class OwningMoneyPreparation(unittest.TestCase):
             for missing in a.GATES]
         for values in candidates:
             with self.subTest(values=values),patch.multiple(a,**values):
-                with self.assertRaisesRegex(ValueError,'ACTUAL_MANDOR17_MONEY19_AND_OWNING_ENTRY_PENDING'):
+                with self.assertRaisesRegex(ValueError,'ACTUAL_MANDOR17_CANDIDATE_SOURCE_AND_OWNING_ENTRY_PENDING'):
                     self.component.load_prepared(self.bridge,Forbidden(),Forbidden(),Forbidden(),Forbidden())
 
 

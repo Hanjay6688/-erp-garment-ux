@@ -53,12 +53,12 @@ class CurrentMoneyBridge(unittest.TestCase):
     def test_closed_and_partial_gates_refuse_before_any_receipt_or_module_access(self):
         a=assembly.admission
         self.assertTrue(all(getattr(a,name)is None for name in a.GATES))
-        with self.assertRaisesRegex(ValueError,'ACTUAL_MANDOR17_MONEY19_AND_OWNING_ENTRY_PENDING'):
+        with self.assertRaisesRegex(ValueError,'ACTUAL_MANDOR17_CANDIDATE_SOURCE_AND_OWNING_ENTRY_PENDING'):
             assembly.load_prepared(Forbidden(),Forbidden(),Forbidden(),Forbidden())
         for missing in a.GATES:
             values={name:None if name==missing else 'explicit gate model'for name in a.GATES}
             with self.subTest(missing=missing),patch.multiple(a,**values):
-                with self.assertRaisesRegex(ValueError,'ACTUAL_MANDOR17_MONEY19_AND_OWNING_ENTRY_PENDING'):
+                with self.assertRaisesRegex(ValueError,'ACTUAL_MANDOR17_CANDIDATE_SOURCE_AND_OWNING_ENTRY_PENDING'):
                     assembly.load_prepared(Forbidden(),Forbidden(),Forbidden(),Forbidden())
 
     def test_whole_nested_mandor_and_moving_state_is_bound(self):
@@ -91,32 +91,62 @@ class CurrentMoneyBridge(unittest.TestCase):
             run(Forbidden(),dict(after=expected))
         self.assertEqual(seen,['lock','verify'])
 
-    def test_gate_refuses_old_six_case_or_aggregate_or_synthetic_evidence(self):
+    def test_source_preflight_never_grants_actual_financial_case_credit(self):
         a=assembly.admission;cases=self.reference['native_case_ids']
-        # In-memory protocol examples only. No accepted Root file is created.
+        # In-memory protocol models only. No actual-parent Root is written.
         parent=dict(status='ROOT_VERIFIED_CURRENT_MANDOR17_ALL5',head='model-parent',tree='model-parent-tree',
             actual_Native_cases=9,actual_Native_session_cases=4,actual_Auth_HTTP_cases=2,actual_browser_cases=2,
             actual_business_cases=17,complete17_qualified=True,package_all_five=True,prior_runs_aggregated=False,
-            assembly_source={'model_only':True},production_go=False,independent_acceptance=False,
-            qualified_current_Mandor_sources={'explicit_protocol_model':True})
-        money=dict(status='ROOT_VERIFIED_CURRENT_SKU_MONEY_NATIVE19_ALL5',head='model-child',tree='model-child-tree',
-            actual_Native_cases=19,actual_Auth_HTTP_cases=0,actual_browser_cases=0,complete19_qualified=True,
-            native_case_ids=cases,package_all_five=True,prior_runs_aggregated=False,production_go=False,
-            independent_acceptance=False,qualified_SKU_cost_money_sources={'explicit_protocol_model':True})
+            assembly_source={'explicit_module_model':True},production_go=False,independent_acceptance=False,
+            qualified_current_Mandor_sources={'explicit_parent_source_model':True})
+        current=dict(status='EXACT_NATIVE27_MOVING6_AND_MONEY19_GRAPH_ADMITTED',case_ids=cases,
+            actual_Native_case_ids=cases,actual_ERP_cases=0,production_go=False,independent_acceptance=False,
+            parents=dict(status='EXACT_NATIVE27_AND_MOVING_NATIVE6_PARENTS',actual_new_cases=0),
+            current_installation={'explicit_unqualified_source_model':True})
+        guard=dict(attempts=[],network_nonGit_attempts=[],public_source_sha256=a.SOURCE_FENCE_SHA256,
+            self_controls=[dict(api=name,result='DENIED_BEFORE_LIBPQ')for name in
+                ('psycopg.connect','psycopg.Connection.connect','psycopg.AsyncConnection.connect')]+
+                [dict(original_connect_descriptors_restored=True)])
+        money=dict(status='EXACT_PREPARED_MONEY19_SOURCE_NO_RUNTIME_CREDIT',declared_candidate_head='model-child',
+            candidate_tree='model-child-tree',identity_basis='IMMUTABLE_TREE_AND_COMPLETE_SOURCE_GRAPH_NOT_EXECUTED_PUBLIC_COMMIT',
+            accepted_parent_requirements_preserved=['actual Native27 and all five gates','actual moving Native6 and all five gates'],
+            candidate_money_financially_qualified=False,actual_ERP_cases=0,actual_Native_cases=0,actual_Auth_HTTP_cases=0,
+            actual_browser_cases=0,production_go=False,independent_acceptance=False,
+            complete_candidate_source_admission=current,network_database_guard=guard)
         def controls(candidate):
             pr,mr=a.canonical(parent),a.canonical(candidate)
             values=dict(PARENT_HEAD=parent['head'],PARENT_TREE=parent['tree'],PARENT_ROOT_PIN=a.pin(pr),
                 PARENT_SOURCE_PIN=a.pin(a.canonical(parent['qualified_current_Mandor_sources'])),
-                PARENT_MODULE_PIN=parent['assembly_source'],SKU_HEAD=money['head'],SKU_TREE=money['tree'],
-                SKU_ROOT_PIN=a.pin(mr),SKU_SOURCE_PIN=a.pin(a.canonical(money['qualified_SKU_cost_money_sources'])),
-                RUNTIME_ENTRY='explicit protocol model only')
+                PARENT_MODULE_PIN=parent['assembly_source'],SKU_HEAD=money['declared_candidate_head'],
+                SKU_TREE=money['candidate_tree'],SKU_SOURCE_PREFLIGHT_PIN=a.pin(mr),
+                SKU_SOURCE_PIN=a.pin(a.canonical(current['current_installation'])),
+                RUNTIME_ENTRY='explicit source-admission interface model only')
             return pr,mr,values
-        mutations=[dict(actual_Native_cases=6),dict(prior_runs_aggregated=True),dict(package_all_five=False),
-            dict(synthetic_receipt_not_an_actual_qualification=True),dict(native_case_ids=cases[:-1]),
-            dict(qualified_SKU_cost_money_sources={'changed':True})]
-        for changed in mutations:
-            pr,mr,values=controls(dict(money,**changed))
-            with self.subTest(changed=list(changed)),patch.multiple(a,**values),self.assertRaises(ValueError):
+        pr,mr,values=controls(money)
+        with patch.multiple(a,**values):
+            receipt=a.admitted(pr,mr,cases)
+            self.assertEqual(receipt['actual_composite_cases'],0)
+            self.assertFalse(receipt['candidate_money_financially_qualified'])
+            self.assertTrue(receipt['fresh_complete_money19_still_required'])
+        mutations=[(['actual_Native_cases'],19),(['actual_ERP_cases'],19),(['actual_Native_cases'],False),
+            (['candidate_money_financially_qualified'],True),(['complete19_qualified'],True),
+            (['package_all_five'],True),(['prior_runs_aggregated'],True),
+            (['status'],'ROOT_VERIFIED_CURRENT_SKU_MONEY_NATIVE19_ALL5'),
+            (['synthetic_receipt_not_an_actual_qualification'],True),
+            (['complete_candidate_source_admission','case_ids'],cases[:6]),
+            (['complete_candidate_source_admission','actual_Native_case_ids'],cases[:-1]),
+            (['complete_candidate_source_admission','actual_ERP_cases'],19),
+            (['complete_candidate_source_admission','parents','actual_new_cases'],6),
+            (['complete_candidate_source_admission','current_installation'],{'changed':True}),
+            (['network_database_guard','attempts'],['unexpected database attempt']),
+            (['network_database_guard','self_controls'],[]),
+            (['network_database_guard','public_source_sha256'],'changed')]
+        for path,value in mutations:
+            candidate=deepcopy(money);target=candidate
+            for key in path[:-1]:target=target[key]
+            target[path[-1]]=value
+            pr,mr,values=controls(candidate)
+            with self.subTest(path=path),patch.multiple(a,**values),self.assertRaises(ValueError):
                 a.admitted(pr,mr,cases)
         self.assertTrue(all(getattr(a,name)is None for name in a.GATES))
 

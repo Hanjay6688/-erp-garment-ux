@@ -18,7 +18,7 @@ ENTRY='scripts/current-sku-money-composite-preparation/money_current_parent_runt
 BRANCH='refs/heads/astra-a/sku-current-parent-money-native19-20261104'
 LABEL='CP7_SKU_CURRENT_PARENT_MONEY_QUALIFICATION'
 PARENT_FILE=HERE/'MANDOR17_PARENT_ROOT_ACTUAL_INTAKE.json'
-SKU_FILE=HERE/'SKU_MONEY19_CHILD_ROOT_ACTUAL_INTAKE.json'
+SKU_FILE=HERE/'SKU_MONEY_PREPARED_SOURCE_INTAKE.json'
 
 
 def require(value,message):
@@ -31,7 +31,7 @@ def load(name,path):
 
 
 def actual_inputs():
-    # No file access, module inspection or Git before both actual Root gates.
+    # No file access, module inspection or Git before the actual Mandor Root and exact candidate source gates.
     admission.require_ready()
     require(admission.RUNTIME_ENTRY==ENTRY,'SKU_COMPOSITE_EXACT_OWNING_RUNTIME_ENTRY_REQUIRED')
     parent_raw=PARENT_FILE.read_bytes();sku_raw=SKU_FILE.read_bytes()

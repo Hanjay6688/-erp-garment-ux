@@ -59,8 +59,8 @@ jobs:
         path: auditor
         fetch-depth: 0
         persist-credentials: 'false'
-    - name: Materialize exact accepted Mandor, SKU and Afui trees without fetch or
-        rewrite
+    - name: Materialize exact Mandor, candidate money and Afui trees without fetch
+        or rewrite
       working-directory: auditor
       run: 'python -B scripts/current-sku-money-composite-preparation/money_current_parent_materialize.py
 
@@ -474,8 +474,8 @@ jobs:
       run: 'python -B scripts/cp7_accessory_nonpayable/fetch_parent.py
 
         '
-    - name: Fetch exact accepted Afui, Mandor17 and money Native19 canonical archives
-        before database
+    - name: Fetch exact accepted Afui, Mandor17, Native27 and moving6 inputs before
+        database
       working-directory: auditor
       env:
         GH_TOKEN: ${{ github.token }}
@@ -505,6 +505,9 @@ jobs:
     - name: Admit complete current-parent SKU graph under database network fence
       working-directory: writer
       run: 'set -euo pipefail
+
+        python -B ../auditor/scripts/current-sku-money-composite-preparation/candidate_source.py
+        --check
 
         python -B ../auditor/scripts/current-sku-money-composite-preparation/money_current_parent_runtime.py
         --check

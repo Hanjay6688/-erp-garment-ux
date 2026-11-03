@@ -1,4 +1,4 @@
-"""Materialize the exact accepted Mandor/SKU trees and their actual Afui parent."""
+"""Materialize the accepted Mandor, candidate money and actual Afui parent trees."""
 from pathlib import Path
 import json,os,subprocess,sys
 from money_execution_bindings import admission

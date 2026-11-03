@@ -45,7 +45,7 @@ def derive(kind):
         ('cp7-sku-current-parent-native6','cp7-sku-current-parent-money-native19'),
         ('sku-current-parent-native6.workflow.yml.txt','sku-current-parent-money-native19.workflow.yml.txt'),
         ('cp7-current-parent-sku6-single-owning-qualification','cp7-current-parent-money19-single-owning-qualification'),
-        ('SKU6_CHILD_ROOT_ACTUAL_INTAKE.json','SKU_MONEY19_CHILD_ROOT_ACTUAL_INTAKE.json'),
+        ('SKU6_CHILD_ROOT_ACTUAL_INTAKE.json','SKU_MONEY_PREPARED_SOURCE_INTAKE.json'),
         ('SKU_CURRENT_SKU6','SKU_CURRENT_MONEY19'),
         ('sku-current-sku6','sku-current-money19'),
         ('QUALIFIED_SKU6.zip','QUALIFIED_MONEY19.zip'),
@@ -58,6 +58,7 @@ def derive(kind):
     ):
         if before in text:route(before,after,None)
     if kind=='runtime':
+        route('before both actual Root gates','before the actual Mandor Root and exact candidate source gates')
         route('import money_current_parent_admission as admission\nimport money_current_parent_assembly as assembly\n'
               'import money_current_parent_package as package_derivation\nimport money_current_parent_component as component',
               'from money_execution_bindings import admission,assembly,package_derivation,component,retained_arguments')
@@ -74,10 +75,39 @@ def derive(kind):
         if 'import money_current_parent_admission as admission' in text:
             route('import money_current_parent_admission as admission','from money_execution_bindings import admission')
     if kind=='fetch':
+        route('Fetch both exact accepted canonical archives; every gate precedes GET.',
+              'Fetch accepted Mandor and retained Native27/moving6 archives; every gate precedes GET.')
         route("else'6'","else'19'")
+        route("str(HERE/'derived_'+kind+'_fetch.py')","str(HERE/('derived_'+kind+'_fetch.py'))")
+        route('import importlib.util,json','import importlib.util,json,subprocess,sys')
+        route("    'SKU':dict(file='SKU_MONEY_PREPARED_SOURCE_INTAKE.json',main='CP7_SKU_COST_MONEY_QUALIFICATION.json',\n"
+              "        label='SKU_CURRENT_MONEY19',folder='sku-current-money19',archive='QUALIFIED_MONEY19.zip',\n"
+              "        output='SKU_CURRENT_MONEY19_ORIGINAL_ADMISSION.json',sources='qualified_SKU_cost_money_sources'),\n",
+              '    # The money child awaits its first financial qualification; source intake is separate.\n')
+        route("        ('MANDOR',parent_raw,admission.PARENT_HEAD,admission.PARENT_ROOT_PIN),\n"
+              "        ('SKU',sku_raw,admission.SKU_HEAD,admission.SKU_ROOT_PIN)):",
+              "        ('MANDOR',parent_raw,admission.PARENT_HEAD,admission.PARENT_ROOT_PIN),):")
+        route("        exec(compile(text,module.__file__,'exec'),module.__dict__);module.main()",
+              "        exec(compile(text,module.__file__,'exec'),module.__dict__);module.main()\n"
+              "    runtime.frozen(runtime.FROZEN_SKU,admission.SKU_HEAD,admission.SKU_TREE)\n"
+              "    # These fetch the already accepted Native27 and moving6 inputs, not another money run.\n"
+              "    for entry in ('scripts/current-sku-moving-average-qualification/fetch_parent.py',\n"
+              "                  'scripts/current-sku-cost-money-qualification/fetch_moving_parent.py'):\n"
+              "        subprocess.run([sys.executable,'-B',str(runtime.FROZEN_SKU/entry)],cwd=runtime.FROZEN_SKU,check=True)")
+    if kind=='materialize':
+        route('Materialize the exact accepted Mandor/SKU trees and their actual Afui parent.',
+              'Materialize the accepted Mandor, candidate money and actual Afui parent trees.')
     if kind=='receipts':
         route("'CP7_SKU_CURRENT_PARENT_MONEY_NATIVE19.json',",
               "'CP7_SKU_CURRENT_PARENT_MONEY_NATIVE19.json','CP7_SKU_CURRENT_PARENT_MONEY_NATIVE19_PREFLIGHT.json',")
+    if kind=='workflow':
+        route('Materialize exact accepted Mandor, SKU and Afui trees without fetch or rewrite',
+              'Materialize exact Mandor, candidate money and Afui trees without fetch or rewrite')
+        route('Fetch exact accepted Afui, Mandor17 and money Native19 canonical archives before database',
+              'Fetch exact accepted Afui, Mandor17, Native27 and moving6 inputs before database')
+        route("run='set -euo pipefail\\npython -B ../auditor/'+NS+'money_current_parent_runtime.py --check\\n'",
+              "run='set -euo pipefail\\npython -B ../auditor/'+NS+'candidate_source.py --check\\n'\n"
+              "            'python -B ../auditor/'+NS+'money_current_parent_runtime.py --check\\n'")
     if kind=='final_gate':
         route('six actual current-parent cases','nineteen actual current-parent money cases')
         route('SIX','NINETEEN',None)
@@ -94,6 +124,7 @@ def derive(kind):
         route("part=main['committed'][component.CASE]",
               "part=main['committed'][component.CASE]\n    money_gate.validate_preflight(p,part,docs[PREFLIGHT])")
         route("names=(MAIN,NATIVE,'T3_PACKAGE_INSTALL.json'","names=(MAIN,NATIVE,PREFLIGHT,'T3_PACKAGE_INSTALL.json'")
+        route('SKU_root=admission.pin(sku_raw)','candidate_source_preflight=admission.pin(sku_raw)')
     compile(text,'current-money-derived-'+kind,'exec')
     restored=text
     for item in reversed(routes):

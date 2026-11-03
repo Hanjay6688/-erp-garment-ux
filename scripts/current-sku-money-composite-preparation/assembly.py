@@ -1,7 +1,8 @@
 """Compose Afui/Mandor, moving valuation and money without projecting any state.
 
 All accepted sources remain in their own immutable worktrees. No module is
-patched in place. This loader cannot run before both actual Root receipts.
+patched in place. This loader requires the actual current Mandor Root and the
+exact source-only money candidate preflight. The combined financial run is new.
 """
 from pathlib import Path
 from types import ModuleType
@@ -46,6 +47,8 @@ def prepared_sources():
     files={name:git(ROOT,'show',tree+':'+name)for name in reference['files']}
     require({n:admission.pin(v)for n,v in files.items()}==reference['files'],
         'SKU_MONEY_COMPOSITE_EXACT_CANDIDATE_SOURCE_REQUIRED')
+    require(reference['files']['scripts/current-sku-recovery-material-lock/runtime_source.py']['sha256']==admission.SOURCE_FENCE_SHA256,
+        'SKU_MONEY_COMPOSITE_EXACT_RETAINED_SOURCE_FENCE')
     cfg=json.loads(files['scripts/current-sku-cost-money-qualification/CONFIG.json'])
     require(reference['native_case_ids']==cfg['native_case_ids']and len(set(cfg['native_case_ids']))==19,
         'SKU_MONEY_COMPOSITE_ALL_NINETEEN_SOURCE_CASES_REQUIRED')
@@ -64,7 +67,7 @@ def prepared_sources():
 
 def source_manifest():
     raw=(HERE/'SOURCE.json').read_bytes();manifest=json.loads(raw)
-    require(manifest['contract']=='cp7.current-mandor-moving-money-bridge-preparation.v1'
+    require(manifest['contract']=='cp7.current-mandor-moving-money-direct-qualification-preparation.v1'
         and manifest['actual_composite_cases']==0 and manifest['production_go']is False,
         'SKU_MONEY_COMPOSITE_EXACT_PREPARATION_MANIFEST')
     closed=[getattr(admission,name)is None for name in admission.GATES]
@@ -80,7 +83,7 @@ def source_manifest():
     require(manifest['derivations']==proof,'SKU_MONEY_COMPOSITE_EXACT_DERIVATIONS_REQUIRED')
     if not any(closed):
         require(admission.SKU_HEAD==reference['candidate_head']and admission.SKU_TREE==reference['candidate_tree'],
-            'SKU_MONEY_COMPOSITE_ACCEPTED_CHILD_MUST_MATCH_REVIEWED_SOURCE')
+            'SKU_MONEY_COMPOSITE_CANDIDATE_MUST_MATCH_REVIEWED_SOURCE')
     return admission.pin(raw)
 
 
@@ -118,7 +121,7 @@ def load_prepared(parent,money_module,parent_raw,money_raw):
         require(admission.pin(admission.canonical(parent.sources()))==admission.PARENT_SOURCE_PIN,
             'SKU_MONEY_COMPOSITE_COMPLETE_CURRENT_PARENT_SOURCE_GRAPH_CHANGED')
         require(admission.pin(admission.canonical(money_module.sources()))==admission.SKU_SOURCE_PIN,
-            'SKU_MONEY_COMPOSITE_COMPLETE_ACCEPTED_MONEY_SOURCE_GRAPH_CHANGED')
+            'SKU_MONEY_COMPOSITE_COMPLETE_CANDIDATE_MONEY_SOURCE_GRAPH_CHANGED')
         return dict(receipt=receipt,preparation_source=own,derivations=derivations,parent_state_projection=False,
             actual_composite_cases=0,production_go=False)
     bridge_sources()

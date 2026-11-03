@@ -9,6 +9,7 @@ import ast,io,json,os,subprocess,sys,unittest,zipfile
 from money_execution_bindings import admission
 import money_gate_support as gate_support
 import execution_routes
+import candidate_source
 import money_current_parent_artifacts as artifacts
 import money_current_parent_fetch as fetch
 import money_current_parent_final_gate as final
@@ -69,6 +70,49 @@ def modeled_packet():
 
 
 class ExecutionPreparation(unittest.TestCase):
+    def test_child_fetches_existing_native27_and_moving6_without_a_money_financial_run(self):
+        parent=b'{"explicit_parent_fetch_interface_model":true}'
+        with patch.object(runtime,'actual_inputs',return_value=(parent,b'candidate source model',{})),\
+             patch.object(runtime,'frozen')as frozen,patch.object(fetch,'derive',return_value=('def main():pass',{})),\
+             patch.object(subprocess,'run')as call:
+            fetch.main()
+        frozen.assert_called_once_with(runtime.FROZEN_SKU,admission.SKU_HEAD,admission.SKU_TREE)
+        self.assertEqual(set(fetch.KINDS),{'MANDOR'})
+        self.assertEqual(call.call_count,2)
+        expected=['scripts/current-sku-moving-average-qualification/fetch_parent.py',
+            'scripts/current-sku-cost-money-qualification/fetch_moving_parent.py']
+        for actual,entry in zip(call.call_args_list,expected):
+            self.assertEqual(actual.args,([sys.executable,'-B',str(runtime.FROZEN_SKU/entry)],))
+            self.assertEqual(actual.kwargs,dict(cwd=runtime.FROZEN_SKU,check=True))
+
+    def test_complete_candidate_source_recheck_requires_exact_full_bytes(self):
+        value={'explicit_source_protocol_model':True,'actual_ERP_cases':0}
+        raw=(json.dumps(value,sort_keys=True,separators=(',',':'))+'\n').encode()
+        with patch.object(runtime,'actual_inputs',return_value=(b'modeled parent',raw,{})),\
+             patch.object(runtime,'frozen'),patch.object(candidate_source,'observe',return_value=(value,{})):
+            self.assertEqual(candidate_source.check_frozen()[2],raw)
+            with self.assertRaisesRegex(ValueError,'FIXED_FROZEN_SOURCE_CHECKOUT_REQUIRED'):
+                candidate_source.check_frozen('/explicitly-wrong-model-checkout')
+            value['extra_unbound_source']='changed'
+            with self.assertRaisesRegex(ValueError,'COMPLETE_CANDIDATE_SOURCE_PREFLIGHT_CHANGED'):
+                candidate_source.check_frozen()
+
+    def test_candidate_collector_restores_search_path_after_import_refusal(self):
+        before=list(sys.path)
+        ref=json.loads((HERE/'SOURCE_REFERENCE.json').read_bytes())
+        def git(root,*args):
+            if args==('rev-parse','HEAD^{tree}'):return ref['candidate_tree']
+            if args==('rev-parse','HEAD'):return 'explicit-local-head-model'
+            if args==('status','--porcelain','--untracked-files=no'):return ''
+            raise AssertionError(args)
+        def modeled_load(name,path):
+            sys.path.insert(0,'EXPLICIT_TEST_IMPORT_SIDE_EFFECT')
+            raise RuntimeError('explicit source import refusal')
+        with patch.object(candidate_source,'git',side_effect=git),patch.object(candidate_source,'load',side_effect=modeled_load):
+            with self.assertRaisesRegex(RuntimeError,'explicit source import refusal'):
+                candidate_source.observe('/source-interface-model-only')
+        self.assertEqual(sys.path,before)
+
     def test_exact_execution_derivations_and_prerequisite_constants(self):
         proof=execution_routes.check()
         self.assertEqual(set(proof['files']),set(execution_routes.KINDS))
@@ -80,7 +124,7 @@ class ExecutionPreparation(unittest.TestCase):
     def test_runtime_option_context_restores_arguments_after_closed_refusal(self):
         args=['money_current_parent_runtime.py','--check','unrelated-option']
         with patch.object(sys,'argv',args):
-            with self.assertRaisesRegex(ValueError,'ACTUAL_MANDOR17_MONEY19_AND_OWNING_ENTRY_PENDING'):
+            with self.assertRaisesRegex(ValueError,'ACTUAL_MANDOR17_CANDIDATE_SOURCE_AND_OWNING_ENTRY_PENDING'):
                 runtime.runtime()
             self.assertIs(sys.argv,args)
             self.assertEqual(args,['money_current_parent_runtime.py','--check','unrelated-option'])
@@ -114,11 +158,11 @@ class ExecutionPreparation(unittest.TestCase):
         with patch.object(Path,'read_bytes',side_effect=AssertionError('premature file read')),\
             patch.object(subprocess,'check_output',side_effect=AssertionError('premature subprocess')),\
             patch.object(sys,'argv',['supervisor']):
-            for call in(fetch.main,materialize.materialize,artifacts.prepare,supervisor.main,
+            for call in(fetch.main,materialize.materialize,artifacts.prepare,supervisor.main,candidate_source.check_frozen,
                 lambda:final.gate(Path('/not-an-original'),'not-accepted')):
-                with self.subTest(entry=repr(call)),self.assertRaisesRegex(ValueError,'ACTUAL_MANDOR17_MONEY19_AND_OWNING_ENTRY_PENDING'):call()
+                with self.subTest(entry=repr(call)),self.assertRaisesRegex(ValueError,'ACTUAL_MANDOR17_CANDIDATE_SOURCE_AND_OWNING_ENTRY_PENDING'):call()
 
-    def test_both_canonical_fetch_bindings_retain_all_original_checks(self):
+    def test_actual_mandor_canonical_fetch_retains_all_original_checks(self):
         for kind in fetch.KINDS:
             text,proof=fetch.derive(kind)
             self.assertEqual(proof['exact_routes'],21);self.assertTrue(proof['complete_original_recovered'])
@@ -128,7 +172,7 @@ class ExecutionPreparation(unittest.TestCase):
             self.assertIn(repr(fetch.KINDS[kind]['main']),text)
             self.assertIn("metadata['digest']!='sha256:'+expected['sha256']",text)
 
-    def test_each_canonical_binding_resolves_only_its_own_modeled_archive(self):
+    def test_actual_parent_binding_resolves_only_its_own_modeled_archive(self):
         # Actual GETs zero: api is an explicit in-memory interface model.
         for kind,item in fetch.KINDS.items():
             with self.subTest(kind=kind),TemporaryDirectory()as directory:
@@ -241,6 +285,7 @@ class ExecutionPreparation(unittest.TestCase):
         self.assertFalse((workflow.ROOT/workflow.WORKFLOW).exists())
         self.assertEqual((HERE/workflow.TEMPLATE).read_text(),text)
         self.assertNotIn('gzip_base64',b[76]['run']);self.assertEqual(b[-1]['if'],'always()')
+        self.assertLess(b[67]['run'].index('candidate_source.py --check'),b[67]['run'].index('money_current_parent_runtime.py --check'))
         self.assertEqual(b[68:72],a[68:72]);self.assertEqual(new['permissions'],old['permissions'])
 
     def test_typed_final_packet_model_has_no_current_ERP_or_browser_credit(self):
@@ -249,8 +294,8 @@ class ExecutionPreparation(unittest.TestCase):
         self.assertEqual(result['actual_browser_cases'],0);self.assertEqual(result['actual_Auth_HTTP_cases'],0)
         self.assertTrue(all(getattr(admission,name)is None for name in(
             'PARENT_HEAD','PARENT_TREE','PARENT_ROOT_PIN','PARENT_SOURCE_PIN','PARENT_MODULE_PIN',
-            'SKU_HEAD','SKU_TREE','SKU_ROOT_PIN','SKU_SOURCE_PIN','RUNTIME_ENTRY')))
-        with self.assertRaisesRegex(ValueError,'ACTUAL_MANDOR17_MONEY19_AND_OWNING_ENTRY_PENDING'):
+            'SKU_HEAD','SKU_TREE','SKU_SOURCE_PREFLIGHT_PIN','SKU_SOURCE_PIN','RUNTIME_ENTRY')))
+        with self.assertRaisesRegex(ValueError,'ACTUAL_MANDOR17_CANDIDATE_SOURCE_AND_OWNING_ENTRY_PENDING'):
             final.gate(Path('/not-an-original'),'explicit-model-head')
 
     def test_packet_gate_refuses_false_green_recovery_identity_counts_and_orphans(self):

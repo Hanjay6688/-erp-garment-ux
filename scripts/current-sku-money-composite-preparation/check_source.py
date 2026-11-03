@@ -44,7 +44,7 @@ def check():
             runtime=assembly.load('current_money_exact_bound_runtime_intake',HERE/'money_current_parent_runtime.py')
             _,_,receipt=runtime.actual_inputs()
         finally:sys.path[:]=previous
-        gate_state='EXACT_ACTUAL_ROOTS_BOUND_COMPOSITE_NOT_YET_QUALIFIED'
+        gate_state='EXACT_CURRENT_MANDOR_ROOT_AND_UNQUALIFIED_MONEY_SOURCE_BOUND'
     else:
         require(manifest['active_workflow_added']is False
             and all(getattr(assembly.admission,name)is None for name in assembly.admission.GATES),

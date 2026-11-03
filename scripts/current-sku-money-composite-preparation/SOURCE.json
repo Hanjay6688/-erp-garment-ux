@@ -10,7 +10,7 @@
     "public_head": "92f099e63ae46b1adac51cc7900811e9ea201437",
     "tree": "8e48277b86c0325ae15793cd4d6b5094033c8c0e"
   },
-  "contract": "cp7.current-mandor-moving-money-bridge-preparation.v1",
+  "contract": "cp7.current-mandor-moving-money-direct-qualification-preparation.v1",
   "derivations": {
     "money": {
       "actual_Native_cases": 0,
@@ -55,8 +55,8 @@
         "actual_ERP_cases": 0,
         "complete_original_recovered": true,
         "derived": {
-          "bytes": 4398,
-          "sha256": "f657c762b513951673aeb3dac043d57dc6baadffd0803722b8fac859dae8548c"
+          "bytes": 4596,
+          "sha256": "e5d4033abda157ec254cfb645cffa73d8206d5fce1591831ba16e47e2459ecf7"
         },
         "original": {
           "bytes": 4386,
@@ -64,15 +64,15 @@
         },
         "original_tree": "8e48277b86c0325ae15793cd4d6b5094033c8c0e",
         "production_go": false,
-        "route_groups": 9,
-        "route_occurrences": 11
+        "route_groups": 15,
+        "route_occurrences": 17
       },
       "final_gate": {
         "actual_ERP_cases": 0,
         "complete_original_recovered": true,
         "derived": {
-          "bytes": 7572,
-          "sha256": "0a104c7587e6da10f63a5c31f2834fc30f81e4aecdf3b0588f3b3ad5233d5e7d"
+          "bytes": 7590,
+          "sha256": "893b39f9d88d134a3262f88c743e6085aad3967fc72dd0bc00a236c54dd9b60d"
         },
         "original": {
           "bytes": 8043,
@@ -80,15 +80,15 @@
         },
         "original_tree": "8e48277b86c0325ae15793cd4d6b5094033c8c0e",
         "production_go": false,
-        "route_groups": 17,
-        "route_occurrences": 28
+        "route_groups": 18,
+        "route_occurrences": 29
       },
       "materialize": {
         "actual_ERP_cases": 0,
         "complete_original_recovered": true,
         "derived": {
-          "bytes": 2131,
-          "sha256": "bee591f9bd89351a3b34875d793b8ae4ac0f9c79e3251dfb13d29ac7c8871f89"
+          "bytes": 2132,
+          "sha256": "388e3fd0d6bac6953ac6f9c0e69f441b834533d7a520b690eebb03186aec9554"
         },
         "original": {
           "bytes": 2149,
@@ -96,8 +96,8 @@
         },
         "original_tree": "8e48277b86c0325ae15793cd4d6b5094033c8c0e",
         "production_go": false,
-        "route_groups": 3,
-        "route_occurrences": 5
+        "route_groups": 4,
+        "route_occurrences": 6
       },
       "receipts": {
         "actual_ERP_cases": 0,
@@ -119,8 +119,8 @@
         "actual_ERP_cases": 0,
         "complete_original_recovered": true,
         "derived": {
-          "bytes": 7614,
-          "sha256": "308dd5243209a65678d1c1731a5ec3cfb8799f30b486c51b51e0ca4c2ce6e0c2"
+          "bytes": 7643,
+          "sha256": "1a0771625539cdc90274cd33de3a4622d4814134fb65ede7ec0c682500ed5d1c"
         },
         "original": {
           "bytes": 7576,
@@ -128,8 +128,8 @@
         },
         "original_tree": "8e48277b86c0325ae15793cd4d6b5094033c8c0e",
         "production_go": false,
-        "route_groups": 15,
-        "route_occurrences": 24
+        "route_groups": 16,
+        "route_occurrences": 25
       },
       "supervisor": {
         "actual_ERP_cases": 0,
@@ -151,8 +151,8 @@
         "actual_ERP_cases": 0,
         "complete_original_recovered": true,
         "derived": {
-          "bytes": 7004,
-          "sha256": "6ba8113c51b54ad590c195fbb15cb25ab749df829939bfbac2f6c9e8d7a3ded9"
+          "bytes": 7069,
+          "sha256": "2f7b58036f3eff183b885dbd4d5ac4612b22aed019fdb328972e87c91a1df0f8"
         },
         "original": {
           "bytes": 6903,
@@ -160,8 +160,8 @@
         },
         "original_tree": "8e48277b86c0325ae15793cd4d6b5094033c8c0e",
         "production_go": false,
-        "route_groups": 11,
-        "route_occurrences": 26
+        "route_groups": 14,
+        "route_occurrences": 29
       }
     },
     "production_go": false,
@@ -173,24 +173,32 @@
       "sha256": "ec7d6121a64286af4cbf77c333bde8f6ebd6cb069cdaf8b02dc8fb4e6ffd26b6"
     },
     "README.md": {
-      "bytes": 6184,
-      "sha256": "9c87b38d94ac07515bebffaa4f38b6a960a246efc77583353567daa8f595162a"
+      "bytes": 7909,
+      "sha256": "a5429a06e2b19b64835d08b19246c2fe6332bf5177841afc73e5ad14538082b9"
+    },
+    "SKU_MONEY_PREPARED_SOURCE_INTAKE.json": {
+      "bytes": 368964,
+      "sha256": "55c13119aef4a9307b1638864b8eec3199e574a8876c26aa3254aa0920b1a8cb"
     },
     "SOURCE_REFERENCE.json": {
-      "bytes": 2942,
-      "sha256": "edbf9380f67b60090853b15a4d2378830a442cb315254b173a5a81b424f906ba"
+      "bytes": 3585,
+      "sha256": "a4a6fb15e7477c2e97b66f8add9f8f49352dc2859e1847e641211e1199dbc8fd"
     },
     "admission.py": {
-      "bytes": 3097,
-      "sha256": "c37090fb7cabe09eed3e22b900c473b5131c67b2b4bd8252ba399ca6099020ed"
+      "bytes": 5388,
+      "sha256": "ebd1c9eeda7c37012191468c841ffe1d4d162f7ef659bf11fbbc3359819d6d82"
     },
     "assembly.py": {
-      "bytes": 7881,
-      "sha256": "da12111aa84038fb0489d8c22e2b6e48c6c42661386d6235c53e4323bff3f436"
+      "bytes": 8170,
+      "sha256": "fbae83edd0e42c8d650b61a5229760c27b64da3ca030dc89ad3567563d46dcdd"
+    },
+    "candidate_source.py": {
+      "bytes": 5405,
+      "sha256": "ca6829e41a08c20ac8f53148a2e163050a4bfe7e1ca3277b73d9a892a83b63a6"
     },
     "check_source.py": {
-      "bytes": 3653,
-      "sha256": "a2c2cfbe6d21af222a85f2c526b02de1a4e115465c03f10fe84ab6ed329822a3"
+      "bytes": 3661,
+      "sha256": "b91b7eb5a19de7b857019cfe1f8ccb167dbcd6a58bc872f98545a5d2a4f9e160"
     },
     "component.py": {
       "bytes": 3335,
@@ -205,40 +213,40 @@
       "sha256": "7bbbb2a2625bd0771ef2c7860f83b1bdb1da6066ce9d7a309d81dfa89cd0d88b"
     },
     "execution_routes.py": {
-      "bytes": 8920,
-      "sha256": "f89e53fbe0b25a995fef2d086696d231033ad135d517c5199c523e49b353d248"
+      "bytes": 11961,
+      "sha256": "d4a255b1316e2251e22f0584befa972e29e24c47b4e106a90203e664f56ae2d3"
     },
     "money_current_parent_artifacts.py": {
       "bytes": 4122,
       "sha256": "4923072e22e0582da6457d8a9ed8391053bf6f57f4481e7136b7004c81f706d3"
     },
     "money_current_parent_fetch.py": {
-      "bytes": 4398,
-      "sha256": "f657c762b513951673aeb3dac043d57dc6baadffd0803722b8fac859dae8548c"
+      "bytes": 4596,
+      "sha256": "e5d4033abda157ec254cfb645cffa73d8206d5fce1591831ba16e47e2459ecf7"
     },
     "money_current_parent_final_gate.py": {
-      "bytes": 7572,
-      "sha256": "0a104c7587e6da10f63a5c31f2834fc30f81e4aecdf3b0588f3b3ad5233d5e7d"
+      "bytes": 7590,
+      "sha256": "893b39f9d88d134a3262f88c743e6085aad3967fc72dd0bc00a236c54dd9b60d"
     },
     "money_current_parent_materialize.py": {
-      "bytes": 2131,
-      "sha256": "bee591f9bd89351a3b34875d793b8ae4ac0f9c79e3251dfb13d29ac7c8871f89"
+      "bytes": 2132,
+      "sha256": "388e3fd0d6bac6953ac6f9c0e69f441b834533d7a520b690eebb03186aec9554"
     },
     "money_current_parent_receipts.py": {
       "bytes": 2184,
       "sha256": "e19c16b4c5786e2e798eb8fff5f07b0ab6642101ea3607f3c6de9f4c164ff2df"
     },
     "money_current_parent_runtime.py": {
-      "bytes": 7614,
-      "sha256": "308dd5243209a65678d1c1731a5ec3cfb8799f30b486c51b51e0ca4c2ce6e0c2"
+      "bytes": 7643,
+      "sha256": "1a0771625539cdc90274cd33de3a4622d4814134fb65ede7ec0c682500ed5d1c"
     },
     "money_current_parent_supervisor.py": {
       "bytes": 2274,
       "sha256": "232b020be549b58ece0521ebf6e785b62615126e6ef9b064260cd6c8d54847af"
     },
     "money_current_parent_workflow.py": {
-      "bytes": 7004,
-      "sha256": "6ba8113c51b54ad590c195fbb15cb25ab749df829939bfbac2f6c9e8d7a3ded9"
+      "bytes": 7069,
+      "sha256": "2f7b58036f3eff183b885dbd4d5ac4612b22aed019fdb328972e87c91a1df0f8"
     },
     "money_execution_bindings.py": {
       "bytes": 859,
@@ -253,20 +261,20 @@
       "sha256": "a1da58839417cac35330d8d474b932651134e2708772183d7e0261a184815eef"
     },
     "sku-current-parent-money-native19.workflow.yml.txt": {
-      "bytes": 33889,
-      "sha256": "2715494e7954661370ec0afbdcf4e013616b635427466ee7e70ae8a56eb88f2d"
+      "bytes": 33997,
+      "sha256": "baa5fd02b024837856276f9e7136ca555c2bb6bb9255b0c5f0c2068322494e5d"
     },
     "test_bridge.py": {
-      "bytes": 7975,
-      "sha256": "554ed66bdd1e1dbef8117117f48fec7aa84f05cf2b6ddaf084813db46dd29955"
+      "bytes": 10287,
+      "sha256": "b7f0a42372d1fda25af01cf2fc19a9469d9bf8dd703440eef6a6a4e84d9f505b"
     },
     "test_execution.py": {
-      "bytes": 21569,
-      "sha256": "d99e4ac058728e38d49332e5d635241c216c50c91b87a49761077f052d612347"
+      "bytes": 24736,
+      "sha256": "812efcdce8a0e38b1f04592a31e6724da7abc8920f2a9b3af894e7f5f400d9df"
     },
     "test_owning.py": {
-      "bytes": 4003,
-      "sha256": "ead53c15c227f6355b237f4b5825f775fc8332f34461a0ef6e0f133c23c93e9f"
+      "bytes": 4012,
+      "sha256": "b765a9361733fa771f4942d25070eb0bb5bac60c0117765756d708461ceaf415"
     }
   },
   "independent_acceptance": false,

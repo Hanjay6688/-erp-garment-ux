@@ -1,6 +1,7 @@
 {
   "actual_ERP_cases": 0,
   "candidate_head": "f1674ae84739f577571d68415beabfca3f3b832b",
+  "candidate_qualification_role": "UNQUALIFIED_CHILD_TO_BE_TESTED_IN_COMBINED_NATIVE19",
   "candidate_tree": "ea43f84029993b385722fe8e202adefd2a745f7b",
   "classification": "PREPARED_SOURCE_REFERENCE_NOT_ACTUAL_PARENT",
   "files": {
@@ -20,6 +21,10 @@
       "bytes": 14114,
       "sha256": "f44fd2143b0b74435e6e16ad6677950bba4daab4ef03e1c60716299c116fd2fd"
     },
+    "scripts/current-sku-cost-money-qualification/fetch_moving_parent.py": {
+      "bytes": 1638,
+      "sha256": "86d37cb94a989027c963c70a9ca02fa3cbbce51c27aff47b374f7641654fa6b6"
+    },
     "scripts/current-sku-cost-money-qualification/native_preflight.py": {
       "bytes": 8157,
       "sha256": "eb15f3a0471370cc003ba5677233bdd0bf731e84ac59f4e11e5833a8929a0f77"
@@ -27,6 +32,14 @@
     "scripts/current-sku-cost-money-qualification/runner.py": {
       "bytes": 6118,
       "sha256": "91c92eb8dd535e98f9b16a8c6dd57d7285abe56d277b77639511a71c79e86d3a"
+    },
+    "scripts/current-sku-moving-average-qualification/fetch_parent.py": {
+      "bytes": 1794,
+      "sha256": "408f92319a71c3add8be16d72fac7141cc328766f708c87c69df677c51e20a9f"
+    },
+    "scripts/current-sku-recovery-material-lock/runtime_source.py": {
+      "bytes": 5176,
+      "sha256": "1439d70810383db377c48e043df7fb6d487a1b2f1a995e8993a2c08590f9f797"
     },
     "scripts/current-vendor-receivable-qualification/probe.py": {
       "bytes": 12667,

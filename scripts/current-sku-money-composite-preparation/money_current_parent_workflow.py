@@ -36,10 +36,10 @@ def derive():
     require(steps[0]['run'].count('MANDOR_NATIVE_JOB_START_MONOTONIC')==1,'SKU_COMPOSITE_ONE_REAL_JOB_CLOCK')
     steps[0]['name']='Record actual current-parent SKU job start before setup and admission'
     steps[0]['run']=steps[0]['run'].replace('MANDOR_NATIVE_JOB_START_MONOTONIC','SKU_CURRENT_PARENT_MONEY_JOB_START_MONOTONIC',1)
-    steps[2]=dict(name='Materialize exact accepted Mandor, SKU and Afui trees without fetch or rewrite',
+    steps[2]=dict(name='Materialize exact Mandor, candidate money and Afui trees without fetch or rewrite',
         **{'working-directory':'auditor'},run='python -B '+NS+'money_current_parent_materialize.py\n')
     steps[3]['name']='Require genuine six-hour WIB window before current-parent SKU setup'
-    steps[64]=dict(name='Fetch exact accepted Afui, Mandor17 and money Native19 canonical archives before database',
+    steps[64]=dict(name='Fetch exact accepted Afui, Mandor17, Native27 and moving6 inputs before database',
         **{'working-directory':'auditor'},env={'GH_TOKEN':'${{ github.token }}'},
         run='set -euo pipefail\npython -B ../qualified-mandor-parent/scripts/current-mandor-shop-native-qualification/fetch_parent.py\n'
             'python -B '+NS+'money_current_parent_fetch.py\n')
@@ -49,7 +49,8 @@ def derive():
     steps[66]=dict(name='Copy exact prerequisites into all three frozen trees before runtime admission',
         **{'working-directory':'auditor'},run='python -B '+NS+'money_current_parent_artifacts.py --prepare\n')
     steps[67]=dict(name='Admit complete current-parent SKU graph under database network fence',
-        **{'working-directory':'writer'},run='set -euo pipefail\npython -B ../auditor/'+NS+'money_current_parent_runtime.py --check\n'
+        **{'working-directory':'writer'},run='set -euo pipefail\npython -B ../auditor/'+NS+'candidate_source.py --check\n'
+            'python -B ../auditor/'+NS+'money_current_parent_runtime.py --check\n'
             'python -B ../auditor/scripts/current-de-free-date-preparation/attempt_policy.py --require-window\n')
     steps[72]=dict(name='Run current-parent SKU money Native19 once with owning restoration and final gate',
         **{'working-directory':'writer'},run='set -euo pipefail\npython -u -B ../auditor/'+NS+'money_current_parent_supervisor.py\n'

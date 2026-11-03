@@ -40,26 +40,53 @@ Auth, browser or concurrency cases are added to that count.
 
 All ten gates in `admission.py` remain `None`. The product and component loaders
 refuse before inspecting receipts, modules, files, Git or ERP when any gate is
-missing. Future adoption requires actual Root-accepted current Mandor17/all-five
-and standalone money Native19/all-five Originals, exact source graph and assembly
-pins, frozen head/tree identities, and one owning runtime entry. Six-case,
-aggregated, synthetic and incomplete receipts cannot satisfy that requirement.
+missing. Future adoption requires actual Root-accepted current Mandor17/all-five,
+the complete source-only money preflight, exact source graph and assembly pins,
+frozen head/tree identities, and one owning runtime entry. The money source
+preflight must explicitly report zero financial cases and an unqualified money
+candidate. It cannot claim a completed nineteen-case run or package acceptance.
 
-The source reference is preparation evidence, not an accepted child. After real
-qualification, its head/tree and file graph must be reconciled against the
-reviewed terminal package before opening the gates. No accepted Root is created
-by these controls. The complete combined owning runtime, canonical artifact
+The source reference is preparation evidence, not an accepted child. The real
+Mandor parent must be reconciled against its reviewed terminal package before
+opening the gates. No accepted Root is created by these controls. The complete
+combined owning runtime, canonical artifact
 intake, supervision, final gate and inactive workflow now select this bridge.
 The previous six-case execution path must not be activated for money.
+
+## One financial qualification of the new money child
+
+The new money layer is the subject of the combined qualification, rather than
+an already accepted parent. Requiring standalone money19 first would run the
+same nineteen callbacks again on the current Mandor parent. The direct owning
+path instead requires the accepted Mandor17 parent and the unchanged, already
+accepted Native27/moving6 source foundations, then runs the complete nineteen
+money callbacks on the combined current parent. Their financial assertions,
+restoration, ordinary actors and all five final gates are unchanged.
+
+`SKU_MONEY_PREPARED_SOURCE_INTAKE.json` records a real read-only source admission
+under the original database/network fence. It contains the complete natural
+source graph and exact Native27/moving6 Original pins. It records zero Native,
+ERP, Auth and browser cases; it is not a financial Root receipt. Local and public
+Git commit identities are kept distinct; the source observation binds the exact
+shared tree. The owning workflow additionally requires the exact public frozen
+head and re-executes the full candidate source admission in a separate process
+before opening the database, comparing its entire output byte-for-byte.
+
+The standalone money preparation remains available, but its financial run is
+not a prerequisite of this direct owning path. A successful source preflight
+does not close any financial test. All nineteen fresh cases, complete owning
+restore and the final gate still have to pass in the combined run.
 
 ## Complete owning execution path
 
 Eight execution modules are derived from the immutable old current-parent tree.
 Every complete original is recovered by reversing the declared routes. Accepted
-Mandor and money sources stay in separate frozen worktrees. Their exact terminal
-run/job/attempt, archive size/SHA, CRC, original paths and full source graphs are
-checked before any database. All actual entry points refuse before files, Git,
-network or ERP when the actual Root gates are incomplete.
+Mandor and candidate money sources stay in separate frozen worktrees. The
+Mandor canonical fetch retains exact terminal run/job/attempt, archive size/SHA,
+CRC and original-path checks. The candidate's original fetchers bind the actual
+Native27 and moving6 archives. Their complete source graphs and package proofs
+are checked before any database. All actual entry points refuse before files,
+Git, network or ERP when the required parent/source gates are incomplete.
 
 The 79-step inactive workflow preserves 67 original setup/rebuild/clone/recovery
 steps and routes the remaining twelve to this owning qualifier. Its actual
@@ -77,7 +104,7 @@ functions, 19 direct actor capabilities, permissions, ordinary authenticated
 database roles, eight account mappings, master/warehouse/PCS and actual date
 window must be present and valid. Source-only or modeled output earns no credit.
 
-Fifteen local controls exercise these routes with real temporary Git worktrees,
+Local controls exercise these routes with real temporary Git worktrees,
 full binary file retention and explicit archive/packet interface models. Their
 negative cases reject changed originals, privileged actors, missing/false
 capabilities, forged counts, false restore gates and unreaped processes. These
