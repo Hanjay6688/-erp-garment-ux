@@ -11,6 +11,7 @@ HERE=Path(__file__).resolve().parent
 ROOT=HERE.parents[1]
 sys.path.insert(0,str(ROOT/'scripts'));sys.path.insert(0,str(HERE))
 import routes
+import po_routes
 
 
 def check():
@@ -47,9 +48,31 @@ def check():
         and model['source_helpers']==proof['derived_helpers']and len(model['results'])==22
         and all(c['result']=='PASS'for c in model['results'])and model['actual_Native_cases']==0,
         'GLOBAL_SKU_EXACT_NEW_MODEL_EVIDENCE_REQUIRED')
+    _,po_proof=po_routes.derive()
+    routes.require(po_proof['derived_helpers']==manifest['po_derived_helpers'],
+        'GLOBAL_SKU_PO_EXACT_DERIVED_HELPERS')
+    po_source=json.loads((HERE/'PO_SOURCE_CONTROLS.json').read_bytes())
+    po_model=json.loads((HERE/'PO_MODEL_CONTROLS.json').read_bytes())
+    reviewed=json.loads((HERE/'INPUT_REVIEW_CONTROLS.json').read_bytes())
+    routes.require(po_source['status']=='GLOBAL_SKU_PO_SOURCE_PREREQUISITES_PASS_NOT_RUNTIME'
+        and po_source['source_helpers']==po_proof['derived_helpers']
+        and len(po_source['controls'])==7 and all(x['result']=='PASS'for x in po_source['controls']),
+        'GLOBAL_SKU_PO_SOURCE_PREREQUISITES_REQUIRED')
+    routes.require(po_model['status']=='MODELED_POSTGRES17_GLOBAL_SKU_PO_OBSERVATIONS_PASS_NOT_NATIVE'
+        and po_model['source_helpers']==po_proof['derived_helpers']and len(po_model['results'])==41
+        and all(x['result']=='PASS'for x in po_model['results'])and po_model['actual_Native_cases']==0,
+        'GLOBAL_SKU_PO_NEW_MODEL_EVIDENCE_REQUIRED')
+    routes.require(reviewed['classification']=='PREPARED_SOURCE_REVIEW_NOT_ACTUAL_INPUT_PROFILE'
+        and reviewed['graph_source_routes']==po_proof['derived_helpers']
+        and reviewed['selected_source_projection_has_no_unresolved']is True
+        and reviewed['complete_input_review']is False and reviewed['actual_final_parent_adopted']is False,
+        'GLOBAL_SKU_PO_EXPECTATION_CANNOT_ADOPT_ACTUAL_INPUT_PROFILE')
     return dict(status='GLOBAL_SKU_PREPARATION_EXACT_SOURCE_FENCE_PASS_NOT_RUNTIME',
         unchanged_prepared_parent_files=len(parent),own_paths=len(expected),
         source_prerequisite_controls=len(report['controls']),new_graph_model_checks=len(model['results']),
+        new_PO_source_controls=7,new_PO_observation_model_checks=41,
+        prepared_source_body_projection_count=reviewed['selected_source_functions'],
+        prepared_physical_relation_candidates=len(reviewed['physical_relation_candidates']),
         current_parent_ROOT_adopted=False,owning_runtime_installed=False,actual_Native_cases=0,
         production_go=False,independent_acceptance=False)
 

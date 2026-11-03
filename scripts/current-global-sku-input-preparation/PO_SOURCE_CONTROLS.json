@@ -1,0 +1,65 @@
+{
+  "status": "GLOBAL_SKU_PO_SOURCE_PREREQUISITES_PASS_NOT_RUNTIME",
+  "original_catalogue": {
+    "bytes": 14755737,
+    "sha256": "80856b7ec2cebf08318a21617091b73c6744161b72bb3be98bcb9ecd2b8109eb"
+  },
+  "prepared_SKU_column_source": {
+    "bytes": 61085,
+    "sha256": "ddbe7c1632ebe2f09b5df66229c1d71d96ca5a10eed091e9ef836c261dd40679"
+  },
+  "source_helpers": {
+    "authority": {
+      "bytes": 65425,
+      "sha256": "652beb1808a4390b10d07f4504edf989d542498532e05bc41513009b8a0ef169"
+    },
+    "scope": {
+      "bytes": 14695,
+      "sha256": "743bcf9d6c128930843a257e2d92d48aa716f786e63b8af065bad80a8eddb4c5"
+    },
+    "capture": {
+      "bytes": 22441,
+      "sha256": "07a635c62465a0fe4b8087f8f9b39c7665b8a3553ce72582f031c9dcb13b3a8c"
+    },
+    "inspect": {
+      "bytes": 9510,
+      "sha256": "8f9461ce31e9973969040ae16029241253eb2ce1e0fde9ebba160db32b6cd782"
+    }
+  },
+  "controls": [
+    {
+      "label": "Exact immutable actual25 and prepared SKU column maps",
+      "result": "PASS"
+    },
+    {
+      "label": "Five source routes recover all prior helpers byte for byte",
+      "result": "PASS"
+    },
+    {
+      "label": "Original authority, inspector and all refusals remain exact",
+      "result": "PASS"
+    },
+    {
+      "label": "Four helpers retain three private source statements each",
+      "result": "PASS"
+    },
+    {
+      "label": "PO observer contains no writer, lock, sequence or session-setting call",
+      "result": "PASS"
+    },
+    {
+      "label": "All thirty-one new rowsets retain full rows and stable multiplicity",
+      "result": "PASS"
+    },
+    {
+      "label": "Direct PO identity captures saved state without requiring a surviving lot",
+      "result": "PASS"
+    }
+  ],
+  "column_tables": 71,
+  "column_count": 733,
+  "complete_input_or_final_parent_admission": false,
+  "actual_Native_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

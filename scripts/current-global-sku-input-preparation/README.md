@@ -40,3 +40,41 @@ oleh SKU; integrasi exact-route ke installer; transaksi Native D1/E dengan SKU
 tersimpan, inverse, dirty/stale/permission/race; keseluruhan paket dan restorasi.
 Daftar 12 tabel baru atau minimum 42 tabel lama bukan bukti cakupan lengkap.
 Tidak ada production GO atau klaim pemeriksaan independen.
+
+## Sumber PO yang ikut dijangkau SKU
+
+Review tambahan memakai metadata full25 asli dari pemeriksaan pemasangan Global
+`0f93f50`, bukan katalog SKU27 yang mendahului DE30. Sumber kandidat SKU dan
+helper global diterapkan hanya sebagai ekspektasi yang belum diterima. Parser
+asli menelusuri 277 fungsi, trigger, FK, RLS, default, check, view, domain,
+operator, cast dan 13 kueri dinamis yang batas literalnya sudah dipin. Pada
+perluasan PO terakhir, 275 hasil pembacaan sumber dipakai kembali karena definisi
+dan bahasa masih persis; hanya dua helper baru diparse. Hasilnya memuat 197
+kandidat relasi fisik dan 21 relasi yang mungkin ditulis. Jalur sumber tidak
+menyisakan target tak dikenal; daftar ini belum menjadi profil input aktual.
+
+`po_routes.py` menambahkan lima perubahan sumber yang bisa dibalik atas helper
+SKU sebelumnya. Tiga hubungan identitas mengikat PO, keadaan lot, peristiwa HPP
+dan jurnalnya meski dimensi jurnal kosong. Pengamatan memakai identitas PO
+langsung, lalu menambahkan 31 rowset lengkap untuk sumber dan hasil PO. Cakupan
+meliputi batch potong bersama, bahan dan pembalikannya, sumber kantong historis,
+rekalkulasi biaya, jurnal beserta pembalikan, akun dan konteks tanggal invoice.
+Bahan, lokasi dan akun tidak menghubungkan identitas PO yang terpisah. Seluruh
+kolom, cap waktu, status historis dan multiplicity dipertahankan.
+
+Pemeriksaan baru memakai 71 tabel/733 tipe kolom dari metadata asli dan DDL SKU.
+41 kasus model lolos, termasuk tiga perubahan cap waktu yang tidak terlihat
+oleh pengamat lama, PO tanpa lot tersisa, dan riwayat pembalikan. Kegagalan
+pertama berupa teks fixture yang melewati batas varchar(10) disimpan; fixture
+diperpendek dan validasi panjang ditambahkan. Tidak ada transaksi Native,
+Auth, RLS atau race yang diklaim dari model ini. Pemeriksa lama, penolakannya,
+Native sync dan seluruh sumber parent tetap persis. Sync PO memang dapat
+memperbarui cap waktu meski uang tetap; bukti outside wajib menangkap dan
+menolak perubahan itu, bukan menghapus cap waktunya.
+
+Gunakan `prepare_po.py` dengan full25 asli yang dipin dan jalankan
+`test_po_model.mjs` memakai input yang dihasilkannya. Hasil lengkap dan kegagalan
+pertama tersimpan sebagai bukti terpisah; `INPUT_REVIEW_CONTROLS.json` memuat
+pin dan ringkasan yang tidak membuka admission. Perbaikan planner SKU setelah
+`fdabda` mengubah satu fungsi finalisasi di luar 277 fungsi yang dijangkau;
+profil final tetap harus diambil ulang dari parent gabungan yang diterima.

@@ -1,0 +1,213 @@
+{
+  "status": "MODELED_POSTGRES17_GLOBAL_SKU_PO_OBSERVATIONS_PASS_NOT_NATIVE",
+  "engine": "PostgreSQL 17.5 on aarch64-unknown-linux-gnu, compiled by emcc (Emscripten gcc/clang-like replacement + linker emulating GNU ld) 3.1.74 (1092ec30a3fb1d46b1782ff1b4db5094d3d06ae5), 32-bit",
+  "results": [
+    {
+      "label": "Exact new helper SQL compiles against all 71 real column maps; no modeled financial writer",
+      "result": "PASS"
+    },
+    {
+      "label": "SKU economic links reach the outside PO and its undimensioned event journal",
+      "result": "PASS"
+    },
+    {
+      "label": "Shared material and location do not connect unrelated POs; shared batch input is still observed",
+      "result": "PASS"
+    },
+    {
+      "label": "Reversal history, cancelled sources and saved pocket pools without current destinations remain visible",
+      "result": "PASS"
+    },
+    {
+      "label": "All 31 new observations contain every physical column, with no money-only or timestamp projection",
+      "result": "PASS"
+    },
+    {
+      "label": "Full PO basis detects changed orders.target_qty_pcs",
+      "result": "PASS"
+    },
+    {
+      "label": "Full PO basis detects changed cutting_groups.notes",
+      "result": "PASS"
+    },
+    {
+      "label": "Full PO basis detects changed cutting_batches.notes",
+      "result": "PASS"
+    },
+    {
+      "label": "Full PO basis detects changed cutting_rolls.qty_consumed",
+      "result": "PASS"
+    },
+    {
+      "label": "Full PO basis detects changed cutting_yields.qty_pcs",
+      "result": "PASS"
+    },
+    {
+      "label": "Full PO basis detects changed cutting_corrections.qty_delta_pcs",
+      "result": "PASS"
+    },
+    {
+      "label": "Full PO basis detects changed qc_items.qty_good_pcs",
+      "result": "PASS"
+    },
+    {
+      "label": "Full PO basis detects changed sewing_events.qty_signed",
+      "result": "PASS"
+    },
+    {
+      "label": "Full PO basis detects changed lot_states.hpp_per_pcs",
+      "result": "PASS"
+    },
+    {
+      "label": "Full PO basis detects changed material_states.material_value",
+      "result": "PASS"
+    },
+    {
+      "label": "Full PO basis detects changed hpp_events.fg_delta",
+      "result": "PASS"
+    },
+    {
+      "label": "Full PO basis detects changed pocket_destinations.source_snapshot",
+      "result": "PASS"
+    },
+    {
+      "label": "Full PO basis detects changed pocket_pools.denominator",
+      "result": "PASS"
+    },
+    {
+      "label": "Full PO basis detects changed pocket_events.ledger_delta",
+      "result": "PASS"
+    },
+    {
+      "label": "Full PO basis detects changed pocket_sources.original_amount",
+      "result": "PASS"
+    },
+    {
+      "label": "Full PO basis detects changed pocket_usages.original_amount",
+      "result": "PASS"
+    },
+    {
+      "label": "Full PO basis detects changed pocket_usage_events.new_amount",
+      "result": "PASS"
+    },
+    {
+      "label": "Full PO basis detects changed adjustments.notes",
+      "result": "PASS"
+    },
+    {
+      "label": "Full PO basis detects changed adjustment_items.qty_signed",
+      "result": "PASS"
+    },
+    {
+      "label": "Full PO basis detects changed adjustment_purposes.purpose",
+      "result": "PASS"
+    },
+    {
+      "label": "Full PO basis detects changed adjustment_revaluations.ledger_delta",
+      "result": "PASS"
+    },
+    {
+      "label": "Full PO basis detects changed contractor_issues.notes",
+      "result": "PASS"
+    },
+    {
+      "label": "Full PO basis detects changed contractor_issue_items.unit_cost_snapshot",
+      "result": "PASS"
+    },
+    {
+      "label": "Full PO basis detects changed material_movements.unit_cost_snapshot",
+      "result": "PASS"
+    },
+    {
+      "label": "Full PO basis detects changed material_revaluations.delta_amount",
+      "result": "PASS"
+    },
+    {
+      "label": "Full PO basis detects changed materials.material_type",
+      "result": "PASS"
+    },
+    {
+      "label": "Full PO basis detects changed input_journals.description",
+      "result": "PASS"
+    },
+    {
+      "label": "Full PO basis detects changed input_journal_lines.debit",
+      "result": "PASS"
+    },
+    {
+      "label": "Full PO basis detects changed account_mappings.notes",
+      "result": "PASS"
+    },
+    {
+      "label": "Full PO basis detects changed accounts.account_name",
+      "result": "PASS"
+    },
+    {
+      "label": "Full PO basis detects changed invoice_context.invoice_date",
+      "result": "PASS"
+    },
+    {
+      "label": "Timestamp-only change in po_hpp_gl_lot_state_v1 is detected; previous observer omitted it",
+      "result": "PASS"
+    },
+    {
+      "label": "Timestamp-only change in po_hpp_gl_material_state_v1 is detected; previous observer omitted it",
+      "result": "PASS"
+    },
+    {
+      "label": "Timestamp-only change in po_hpp_gl_events is detected; previous observer omitted it",
+      "result": "PASS"
+    },
+    {
+      "label": "Direct PO identity retains saved state even when no surviving lot selects it",
+      "result": "PASS"
+    },
+    {
+      "label": "PO full-row observation preserves duplicate multiplicity",
+      "result": "PASS"
+    }
+  ],
+  "source_helpers": {
+    "authority": {
+      "bytes": 65425,
+      "sha256": "652beb1808a4390b10d07f4504edf989d542498532e05bc41513009b8a0ef169"
+    },
+    "capture": {
+      "bytes": 22441,
+      "sha256": "07a635c62465a0fe4b8087f8f9b39c7665b8a3553ce72582f031c9dcb13b3a8c"
+    },
+    "inspect": {
+      "bytes": 9510,
+      "sha256": "8f9461ce31e9973969040ae16029241253eb2ce1e0fde9ebba160db32b6cd782"
+    },
+    "scope": {
+      "bytes": 14695,
+      "sha256": "743bcf9d6c128930843a257e2d92d48aa716f786e63b8af065bad80a8eddb4c5"
+    }
+  },
+  "modeled_callbacks": [
+    "cp7_credit.consumer_dependency_graph_v1",
+    "cp7_credit.source_hpp_lot_ids_v1",
+    "cp7_credit.initial_hpp_account_facts_v1",
+    "cp7_credit.pg_jsonb_sha256"
+  ],
+  "column_tables": 71,
+  "column_count": 733,
+  "new_PO_rowset_observations": 31,
+  "new_PO_identity_edges": 3,
+  "row_constraints_owners_RLS_Native_callbacks_and_business_transactions_are_not_tested": true,
+  "actual_Native_cases": 0,
+  "actual_Auth_HTTP_cases": 0,
+  "actual_browser_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false,
+  "retained_first_failure": {
+    "original": {
+      "bytes": 1418,
+      "sha256": "1c7f662fccffa61a8477ed6d5c23045b0df18049126570a73a9223cb9dfb738f"
+    },
+    "error": "22001 fixture text exceeds character varying(10)",
+    "controls_before_failure": 1,
+    "financial_cases_executed": 0
+  }
+}
