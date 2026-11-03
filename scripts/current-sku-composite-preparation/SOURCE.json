@@ -1,0 +1,50 @@
+{
+  "contract": "cp7.current-mandor-SKU-parent-bridge-preparation.v1",
+  "base_head": "c4a5ad4c47038fed6197a162a5771a114b089ab8",
+  "base_tree": "a71cf72d8b4ed9fa5015c4558a983af79e15e246",
+  "source_SKU_candidate": "7eed9983544cd4856a5eb90ff99d4839567d8c49",
+  "source_SKU_tree": "50a31942858fe52ac793d0014dde05062abb5142",
+  "source_SKU_actual_Native5_acceptance": false,
+  "source_composition_identical_to_1d6": true,
+  "files": {
+    "README.md": {
+      "bytes": 2365,
+      "sha256": "51df76315112b166e7a98769bd4078e9483930a77af69185fef20fa4241ac569"
+    },
+    "original_composition.py.txt": {
+      "bytes": 13619,
+      "sha256": "3238c49153741f561b7b01dfc9b504526437c48c26603d68e2bb148c462c5787"
+    },
+    "sku_current_parent_admission.py": {
+      "bytes": 2445,
+      "sha256": "92d9ba78b9a3489e3f5c3c76c1bce24cf75055b87577a41541134cd7e4584f5b"
+    },
+    "sku_current_parent_assembly.py": {
+      "bytes": 4335,
+      "sha256": "ebbca748b0af5547d886b7e8c243b876dbbf38f10821d6ce533d43c178ce2c8c"
+    },
+    "sku_current_parent_derive.py": {
+      "bytes": 2693,
+      "sha256": "cb6d7bcfb9258731b601a6bd0244138405bb3164059d4b57980db1acc5c38b2b"
+    },
+    "test_bridge.py": {
+      "bytes": 5090,
+      "sha256": "bd875f6afa0cd84d5d45244eb63ca6d426d0722d833912c86f6a899e9dbf92af"
+    },
+    ".gitattributes": {
+      "bytes": 133,
+      "sha256": "b5cfa8eeb56ff2f632d6b40c1dbfa7695f27d7b6b91d6d0e357ae153852ba11a"
+    }
+  },
+  "local_controls": {
+    "explicit_model_tests_pass": 6,
+    "actual_ERP_tests": 0,
+    "source_derived_replacements": 6,
+    "complete_original_recovered": true
+  },
+  "actual_parent_adopted": false,
+  "all_admission_values_unset": true,
+  "actual_composite_cases": 0,
+  "independent_acceptance": false,
+  "production_go": false
+}
