@@ -1,5 +1,24 @@
 WRITER A — MANDOR NATIVE9 + SESSION4 + HTTP2 + BROWSER2 PREPARED, NOT EXECUTED
 
+3 November advisor prerequisite: the owning engine previously retained the old
+private-work reviewer, omitting the exact Afui reviewer selected by its parent.
+The retained actual Afui76 security delta reproduces three unexplained INFOs on
+that old route. The Mandor installation also creates fifteen RLS-enabled tables
+with no policies; those objects require their own exact authority review.
+The owning engine now composes the unchanged frozen Afui reviewer with a narrow
+Mandor reviewer. It reads live owner, RLS/force-RLS, policies, exact five schema
+USAGE leases, every nonowner table and column ACL, and all declared roles' table
+privileges. Only the fifteen named private RLS-without-policy INFOs can be
+explained. Warnings, unknown objects, duplicate findings, changed permissions
+and a false inherited gate stay refused. Complete original deltas are retained.
+Ten source/model controls pass. Eight exact read-only observer queries were
+parsed and run on synthetic PostgreSQL17.5 roles/tables: all fifteen closed
+tables pass and twenty-five permission/owner/RLS changes refuse. The first
+analysis-model run swapped two query bindings because AST traversal is breadth
+first; that failure is retained, then source-line ordering fixes the model.
+Product SQL, privileges and all financial case oracles are unchanged. These
+controls provide zero actual Mandor ERP/Auth cases or security acceptance.
+
 Retains the original six actual-domain scenarios and adds: active-offset return/correction refusal, lawful payroll reversal followed by real return/inverse and linked note correction; cash installments600000+1100000 with final300000 offset, reopen/repay and whole reversal; current allocation/AR permission refusals including cached payment replay, and zero-net payroll without cash.
 
 Fixture prerequisites corrected before the first runtime: sale review and mutation use the same explicit actor; positive payroll net cash is funded by the existing Native owner-capital helper before approval observations; zero net creates no cash funding or payment journal. The second committed invoice reuses four of the first fixture's six remaining GOOD PCS, without recording a duplicate global Afui policy date. Its payroll uses the following future week, preserving the first witness's cancelled week. The unchanged Native OWNER helper requires a temporary private-schema usage overlay; this is removed and the complete product authority reverified before committing any source for Auth/race/browser copies. The separate committed witness now reloads the unchanged original foundation only when the local copy has zero app users, then requires the original active OWNER and role. Existing invalid identities are refused without promotion or grants. Six cold-copy prerequisite controls run in source preflight. All earlier genuine WIB/current GOOD/master constraints and future unpaid draft rules remain. No authoritative posted cash/stock/HPP/sale/payroll row is seeded.
