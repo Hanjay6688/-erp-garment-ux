@@ -9,6 +9,7 @@ SNAPSHOT = 'erp.ensure_fg_accessory_cost_snapshot(uuid)'
 ACCRUAL = 'erp.post_accessory_reimbursement_accrual(uuid)'
 RECOST = 'erp.refresh_accessory_hpp_after_material_recost(uuid,text)'
 REWORK = 'erp.reverse_rework_completion(uuid,text)'
+NOTE = 'erp.save_accessory_issue_action_v1(text,jsonb,uuid)'
 
 
 def originals():
@@ -90,6 +91,7 @@ def derive(actual):
         '        and exists(select 1 from cp7_accessory_nonpayable.good_bases_v1 np_basis where np_basis.lot_id=sn.lot_id and np_basis.nonpayable)\n'
         '      order by je.posting_at,je.id\n'
         '    loop perform erp.reverse_journal(v_journal,p_reason);end loop;')]
+    changes[NOTE] = [("  if v_action='POST' then v_native:=erp.post_contractor_material_issue_v2(v_id,p_client_request_id,(v_native->>'row_version')::bigint,v_reason);end if;", "  if v_action='POST' then v_native:=erp.post_contractor_material_issue_v2(v_id,p_client_request_id,(v_native->>'row_version')::bigint,v_reason);end if;\n  -- A zero collectible is already settled; use the Native status projection\n  -- before committing the same note request, without a payment or new journal.\n  perform erp.refresh_contractor_issue_payroll_status(i.id)\n    from erp.contractor_material_issue_items i\n    where i.issue_id=v_id and erp.bc_note_item_collectible_v1(i.id)<=0\n      and i.payroll_status is distinct from 'SETTLED'\n    order by i.id;")]
     result, proofs = {}, {}
     for name,pairs in changes.items():
         text = actual[name]
@@ -121,3 +123,4 @@ if __name__=='__main__':
     else:
         print(json.dumps(dict(status='EXACT_COUNTED_NONPAYABLE_NATIVE_DERIVATIONS',proof=proof,
             actual_ERP_execution=0,production_go=False),sort_keys=True))
+

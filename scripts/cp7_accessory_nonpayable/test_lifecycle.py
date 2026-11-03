@@ -170,7 +170,7 @@ class AdmissionAndLifecycle(unittest.TestCase):
         self.assertEqual(state['before_data'], prior['preuse_data_and_sequences'])
         self.assertEqual(state['preuse_data_and_sequences'], dict(state['before_data'],
             **{table: c.EMPTY for table in c.TABLES}))
-        self.assertEqual(cur.events.count('MODEL_NATIVE_DDL'), 4)
+        self.assertEqual(cur.events.count('MODEL_NATIVE_DDL'), 5)
 
     def test_preuse_delta_inverse_restores_parent_before_parent_verification(self):
         fixture = self.fixture()
@@ -245,3 +245,4 @@ class AdmissionAndLifecycle(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+

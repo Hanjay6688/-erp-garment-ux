@@ -226,6 +226,17 @@ def prepare(cur,today,modules,*,special=True,transition=None,unit_cost='2',qty_p
     note=bc.note_call(cur,'POST',dict(id=None,expected_version=None,number='NP-'+uuid.uuid4().hex,
         contractor_id=accessory['mandor'],location_id=accessory['main'],po_id=physical['po'],
         physical_at=bc.local_at(physical['day'],10),reason='Native counted issue before GOOD',notes='',items=[line]))
+    bc.api.admin(cur)
+    note_rows=cur.execute('select id::text,total_receivable,erp.bc_note_item_collectible_v1(id),payroll_status '
+        'from erp.contractor_material_issue_items where issue_id=%s order by id',(note['id'],)).fetchall()
+    note_lines=[dict(id=i,total_receivable=str(total),collectible=str(collectible),payroll_status=status)
+        for i,total,collectible,status in note_rows]
+    expected_note_amount=Decimal(0)if special else Decimal(6)
+    expected_note_status='SETTLED'if special else'UNALLOCATED'
+    if(len(note_rows)!=1 or Decimal(note_rows[0][1])!=expected_note_amount
+        or Decimal(note_rows[0][2])!=expected_note_amount or note_rows[0][3]!=expected_note_status):
+        raise ValueError('NONPAYABLE_NATIVE_NOTE_COLLECTIBLE_STATUS_ORACLE_FAILED:'+json.dumps(
+            dict(expected_amount=str(expected_note_amount),expected_status=expected_note_status,actual=note_lines),sort_keys=True))
     # Cutting/pickup/receipt are genuinely earlier fixture events; the new
     # commercial BOM is created now and GOOD follows it now. A transition
     # therefore crosses real physical dates without backdating the master.
@@ -234,7 +245,7 @@ def prepare(cur,today,modules,*,special=True,transition=None,unit_cost='2',qty_p
         if not physical['day']<good_day:raise ValueError('NONPAYABLE_TRANSITION_REQUIRES_EARLIER_PICKUP_DATE')
         classification.append(policy(cur,modules,accessory['mandor'],good_day,transition))
     physical.update(receipt=received,receipt_size=rows[0][0],receipt_line=rows[0][1],delivery=delivery,
-        good_day=good_day,classification=classification,category_date_confirmation=confirmation,note=note,
+        good_day=good_day,classification=classification,category_date_confirmation=confirmation,note=note,note_actual_lines=note_lines,
         qty_per_good=qty_per_good,unit_cost=unit_cost,constructor_binding=dict(
             original_code_object_unchanged=True,only_bound_master='chain.production.CONTRACTOR',
             contractor_id=accessory['mandor'],Native_function_or_product_graph_changes=False))

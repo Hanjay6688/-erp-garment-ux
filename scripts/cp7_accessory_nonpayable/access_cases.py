@@ -5,6 +5,7 @@ each committed race copy and own real Auth cleanup. No connection, ERP import,
 fake JWT signing, role promotion or execution occurs on module load.
 """
 from concurrent.futures import ThreadPoolExecutor
+from contextlib import ExitStack
 from datetime import timedelta
 from hashlib import sha256
 from pathlib import Path
@@ -43,7 +44,7 @@ def source_controls():
         Native_fixture_sources=fixture,actual_SQL_executed=0,actual_Auth_HTTP_cases=0,
         actual_two_session_cases=0,production_go=False,independent_acceptance=False)
 
-def context(cur,state,mode):
+def _context(cur,state,mode):
     from . import admission,native_fixture,settings_stage
     admission.parent_receipt()  # Before domain imports, cursor or tool use.
     source_controls()
@@ -57,8 +58,18 @@ def context(cur,state,mode):
     import cp6_bc_probe as bc
     import cp7_master_cases as master
     bc.api.admin(cur)
-    with helper.control.product_catalog(cur):settings_stage.verify(cur,state)
     return SimpleNamespace(bc=bc,master=master,product=settings_stage,control=helper.control)
+
+def context(cur,state,mode):
+    modules=_context(cur,state,mode)
+    with modules.control.product_catalog(cur):modules.product.verify(cur,state)
+    return modules
+
+def browser_observation_context(cur,state):
+    # The owning copy is fully verified before/after the journey. The caller
+    # also pins the exact committed state bytes; capture_observed rechecks
+    # every raw catalog member against that state on every observation.
+    return _context(cur,state,'BROWSER')
 
 def payload(workspace,day,reason):
     return dict(contract_version='cp7.good-policy-date-command.v1',actor=workspace['actor'],
@@ -81,16 +92,30 @@ def denied(reply,code,sqlstate=None):
         raise ValueError('NONPAYABLE_EXACT_HTTP_REFUSAL_REQUIRED:'+json.dumps(reply,default=str)[:1500])
     return reply
 
-def capture(cur,modules,state):
-    modules.bc.api.admin(cur)
-    cur.execute("set local timezone='UTC'")  # Compare raw date JSON across distinct sessions without changing physical WIB dates.
-    with modules.control.product_catalog(cur):
-        modules.product.verify(cur,state);catalog=modules.product.runtime()[-1]
-        groups=catalog._catalog_rows(cur);data=catalog._data(cur)
-    if len(groups)!=22:raise ValueError('NONPAYABLE_ACCESS_FULL_RAW_ALL22_REQUIRED')
+def _capture_rows(cur,catalog,state):
+    groups=catalog._catalog_rows(cur)
+    if len(groups)!=22 or groups!=state['after']:
+        raise ValueError('NONPAYABLE_OBSERVATION_EXACT_INSTALLED_ALL22_REQUIRED')
+    data=catalog._data(cur)
     return dict(catalog=groups,data_and_all_sequences=data,
         date_versions=[r[0]for r in cur.execute('select to_jsonb(v)from cp7_accessory_nonpayable.category_versions_v1 v order by id').fetchall()],
         date_requests=[r[0]for r in cur.execute('select to_jsonb(r)from cp7_accessory_nonpayable.date_requests_v1 r order by request_id').fetchall()])
+
+def capture_observed(cur,modules,state):
+    """Complete read-only census within an already admitted observation scope.
+
+    No source-binding recomputation inside a live HTTP lock wait or bounded
+    browser census. Full source/copy verification still brackets both flows.
+    """
+    modules.bc.api.admin(cur);cur.execute("set local timezone='UTC'")
+    with modules.control.product_catalog(cur):
+        return _capture_rows(cur,modules.product.runtime()[-1],state)
+
+def capture(cur,modules,state):
+    modules.bc.api.admin(cur);cur.execute("set local timezone='UTC'")
+    with modules.control.product_catalog(cur):
+        modules.product.verify(cur,state)
+        return _capture_rows(cur,modules.product.runtime()[-1],state)
 
 def require_changes(before,after,allowed=()):
     a,b=before['data_and_all_sequences'],after['data_and_all_sequences']
@@ -126,6 +151,7 @@ def http_capture(http,state):
         modules=context(cur,state,'HTTP');value=capture(cur,modules,state);conn.rollback();return value
 
 def http_matrix(http,today,state):
+    review_day=today+timedelta(days=1)
     owner=http.login('OWNER','afui-date-owner');admin=http.login('ADMIN','afui-date-admin')
     auditor=http.login('AUDITOR_VIEW_ONLY','afui-date-auditor');warehouse=http.login('GUDANG','afui-date-warehouse')
     before=http_capture(http,state)
@@ -136,17 +162,17 @@ def http_matrix(http,today,state):
         for role,user in(('AUDITOR_VIEW_ONLY',auditor),('GUDANG',warehouse))}
     anon=http.anon_rpc(READ,dict(p_payload=PAGE))
     if anon.get('status',0)<400:raise ValueError('NONPAYABLE_ANONYMOUS_DATE_WORKSPACE_MUST_REFUSE')
-    admin_denied=denied(send(admin,payload(admin_workspace,today,'Admin cannot confirm GOOD date'),uuid.uuid4()),
+    admin_denied=denied(send(admin,payload(admin_workspace,review_day,'Admin cannot confirm GOOD date'),uuid.uuid4()),
         'NONPAYABLE_OWNER_DATE_REQUIRED','42501')
     reads_proof=retain('HTTP_ROLE_MATRIX',before,http_capture(http,state))
-    request=uuid.uuid4();body=payload(workspace,today,'Actual Auth owner explicitly confirms GOOD date')
+    request=uuid.uuid4();body=payload(workspace,review_day,'Actual Auth owner explicitly confirms GOOD date')
     first=ok(send(owner,body,request))
     if first['status']!='SAVED'or first['request_id']!=str(request):raise ValueError('NONPAYABLE_REAL_HTTP_DATE_SAVE_REQUIRED')
     saved=http_capture(http,state);save_proof=retain('HTTP_OWNER_SAVE',before,saved,ALLOWED_DATE_TABLES)
     versions=[r for r in saved['date_versions']if r['request_id']==str(request)]
     ledger=[r for r in saved['date_requests']if r['request_id']==str(request)]
     if (len(versions)!=1 or len(ledger)!=1 or ledger[0]['response']!=first or ledger[0]['request_body']!=body
-        or versions[0]['id']!=first['id']or versions[0]['effective_from']!=str(today)
+        or versions[0]['id']!=first['id']or versions[0]['effective_from']!=str(review_day)
         or str(versions[0]['source_version'])!=workspace['current_source']['version']):
         raise ValueError('NONPAYABLE_REAL_HTTP_SAVE_MUST_HAVE_ONE_EXACT_DATE_AND_REQUEST')
     require_append(before,saved,'date_versions','id',[first['id']])
@@ -154,7 +180,7 @@ def http_matrix(http,today,state):
     replay=ok(send(owner,body,request));late_cancel=ok(send(owner,body,request,cancel=True))
     changed=denied(send(owner,dict(body,reason='Changed intent on existing request'),request),
         'NONPAYABLE_DATE_REQUEST_INTENT_CHANGED','P0001')
-    stale=denied(send(owner,dict(body,effective_from=str(today+timedelta(days=1))),uuid.uuid4()),
+    stale=denied(send(owner,dict(body,effective_from=str(review_day+timedelta(days=1))),uuid.uuid4()),
         'NONPAYABLE_TIMELINE_STALE','P0001')
     if replay!=first or late_cancel!=first:raise ValueError('NONPAYABLE_REAL_REPLAY_AND_LATE_CANCEL_MUST_RETURN_ORIGINAL_SUCCESS')
     replay_proof=retain('HTTP_REPLAY_STALE_AND_CHANGED_INTENT',saved,http_capture(http,state))
@@ -179,14 +205,15 @@ def http_matrix(http,today,state):
 def http_revoke_wait(http,today,state):
     owner=http.login('OWNER','afui-date-wait-owner')
     workspace=ok(owner.rpc(READ,dict(p_payload=PAGE)))
-    body=payload(workspace,today+timedelta(days=1),'Actual Auth cached request permission wait')
+    body=payload(workspace,today+timedelta(days=2),'Actual Auth cached request permission wait')
     request=uuid.uuid4();cached=ok(send(owner,body,request))
     if cached['status']!='SAVED':raise ValueError('NONPAYABLE_REAL_CACHED_DATE_REQUIRED')
-    # Only this one HTTP request can wait on this dedicated copy. Its actual
-    # PostgREST backend must be observed blocked by our exact holder PID.
     observed=None;answer=None;proof=None;access_fixture=None
-    with http.connect(connect_timeout=5)as holder,holder.cursor()as hcur:
-        modules=context(hcur,state,'HTTP')
+    with ExitStack()as scope:
+        holder=scope.enter_context(http.connect(connect_timeout=5));hcur=scope.enter_context(holder.cursor())
+        observer=scope.enter_context(http.connect(connect_timeout=5));cur=scope.enter_context(observer.cursor())
+        modules=context(hcur,state,'HTTP');holder.commit()
+        watch=context(cur,state,'HTTP');observer.commit()
         holder_pid=hcur.execute('select pg_backend_pid()').fetchone()[0]
         hcur.execute("select pg_advisory_xact_lock(hashtextextended('FG_HPP_SALES_V2620C',0))")
         with ThreadPoolExecutor(max_workers=1)as pool:
@@ -194,26 +221,25 @@ def http_revoke_wait(http,today,state):
             try:
                 deadline=monotonic()+8
                 while monotonic()<deadline:
-                    with http.connect(connect_timeout=5)as conn,conn.cursor()as cur:
-                        context(cur,state,'HTTP')
-                        rows=cur.execute("select pid,wait_event_type,wait_event,query from pg_stat_activity "
-                            "where datname='cp6_auditor_http'and %s=any(pg_blocking_pids(pid)) "
-                            "and query ilike '%%erp_cp7_save_good_policy_date_v1%%'",(holder_pid,)).fetchall()
-                        conn.rollback()
-                    if len(rows)==1:observed=dict(pid=rows[0][0],wait_event_type=rows[0][1],wait_event=rows[0][2],actual_query=rows[0][3]);break
+                    watch.bc.api.admin(cur)
+                    rows=cur.execute("select pid,wait_event_type,wait_event,query from pg_stat_activity "
+                        "where datname='cp6_auditor_http'and %s=any(pg_blocking_pids(pid)) "
+                        "and query ilike '%%erp_cp7_save_good_policy_date_v1%%'",(holder_pid,)).fetchall()
+                    observer.rollback()
+                    if len(rows)==1:
+                        observed=dict(pid=rows[0][0],wait_event_type=rows[0][1],wait_event=rows[0][2],actual_query=rows[0][3]);break
                     if future.done():raise ValueError('NONPAYABLE_CACHED_REPLAY_RETURNED_BEFORE_REAL_WAIT')
                     sleep(.1)
                 if observed is None:raise ValueError('NONPAYABLE_ACTUAL_HTTP_BACKEND_LOCK_WAIT_REQUIRED')
-                with http.connect(connect_timeout=5)as conn,conn.cursor()as cur:
-                    context(cur,state,'HTTP')
-                    row=cur.execute("select u.id::text,u.is_active,r.role_code from erp.app_users u "
-                        "join erp.app_roles r on r.id=u.role_id where u.auth_user_id=%s for update of u",(owner.auth_user_id,)).fetchone()
-                    if row is None or row[1:]!=(True,'OWNER'):raise ValueError('NONPAYABLE_EXACT_REAL_AUTH_OWNER_ACCESS_FIXTURE_REQUIRED')
-                    cur.execute('update erp.app_users set is_active=false where id=%s',(row[0],));conn.commit()
-                    access_fixture=dict(app_user_id=row[0],auth_user_id=owner.auth_user_id,role='OWNER',before_active=True,after_active=False)
-                revoked=http_capture(http,state)
+                watch.bc.api.admin(cur)
+                row=cur.execute("select u.id::text,u.is_active,r.role_code from erp.app_users u "
+                    "join erp.app_roles r on r.id=u.role_id where u.auth_user_id=%s for update of u",(owner.auth_user_id,)).fetchone()
+                if row is None or row[1:]!=(True,'OWNER'):raise ValueError('NONPAYABLE_EXACT_REAL_AUTH_OWNER_ACCESS_FIXTURE_REQUIRED')
+                cur.execute('update erp.app_users set is_active=false where id=%s',(row[0],));observer.commit()
+                access_fixture=dict(app_user_id=row[0],auth_user_id=owner.auth_user_id,role='OWNER',before_active=True,after_active=False)
+                revoked=capture_observed(cur,watch,state);observer.rollback()
             finally:
-                holder.rollback()  # Always release before joining the HTTP worker.
+                holder.rollback()  # Release before joining, including any failed observation.
             answer=denied(future.result(timeout=25),'NONPAYABLE_SETTINGS_DENIED','42501')
             proof=retain('HTTP_REVOKED_CACHED_REPLAY',revoked,http_capture(http,state))
     return dict(status='PASS',real_Auth_HTTP=True,cached_original=cached,holder_pid=holder_pid,
@@ -232,15 +258,21 @@ def race(tools,today,state,*,same_request):
     with tools.connect(connect_timeout=5)as conn,conn.cursor()as cur:
         modules=context(cur,state,'RACE');subject=modules.master.role_actor(cur,'OWNER')
         workspace=sql_read(cur,modules,subject)
-        body=payload(workspace,today,'Two real sessions confirm one reviewed GOOD date')
+        body=payload(workspace,today+timedelta(days=1),'Two real sessions confirm one reviewed GOOD date')
         before=capture(cur,modules,state);conn.commit()
     barrier=Barrier(2);request=str(uuid.uuid4());requests=[request,request if same_request else str(uuid.uuid4())]
-    def worker(key):
-        from psycopg import Error
-        with tools.connect(connect_timeout=5)as conn,conn.cursor()as cur:
+    with ExitStack()as scope:
+        prepared=[]
+        for key in requests:
+            conn=scope.enter_context(tools.connect(connect_timeout=5));cur=scope.enter_context(conn.cursor())
             modules=context(cur,state,'RACE')
-            cur.execute("set local lock_timeout='8s';set local statement_timeout='15s'")
             backend=cur.execute('select pg_backend_pid()').fetchone()[0]
+            conn.commit()
+            prepared.append((conn,cur,modules,backend,key))
+        def worker(item):
+            from psycopg import Error
+            conn,cur,modules,backend,key=item
+            cur.execute("set local lock_timeout='8s';set local statement_timeout='15s'")
             barrier.wait(timeout=8)
             try:
                 modules.bc.session(cur,subject)
@@ -248,8 +280,8 @@ def race(tools,today,state,*,same_request):
                 conn.commit();return dict(ok=True,result=value,backend_pid=backend,request_id=key)
             except Error as error:
                 conn.rollback();return dict(ok=False,sqlstate=error.sqlstate,message=error.diag.message_primary,backend_pid=backend,request_id=key)
-    with ThreadPoolExecutor(max_workers=2)as pool:
-        pending=[pool.submit(worker,key)for key in requests];results=[p.result(timeout=25)for p in pending]
+        with ThreadPoolExecutor(max_workers=2)as pool:
+            pending=[pool.submit(worker,item)for item in prepared];results=[p.result(timeout=25)for p in pending]
     winners=[r for r in results if r['ok']];losers=[r for r in results if not r['ok']]
     if len({r['backend_pid']for r in results})!=2:raise ValueError('NONPAYABLE_TWO_DISTINCT_ACTUAL_DATABASE_SESSIONS_REQUIRED')
     if same_request:
@@ -285,3 +317,4 @@ def races(tools,today,*,state):
     admission.parent_receipt()
     return[(RACE_IDS[0],lambda:race(tools,today,state,same_request=True)),
            (RACE_IDS[1],lambda:race(tools,today,state,same_request=False))]
+

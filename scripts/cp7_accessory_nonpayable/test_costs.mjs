@@ -20,7 +20,8 @@ const C={owner:id(1),special:id(2),ordinary:id(3),catA:id(4),catB:id(5),event:id
   productA:id(9),productB:id(10),bomA:id(11),bomB:id(12),itemA:id(13),itemB:id(14),material:id(15)}
 const files=['policy.sql','basis.sql','native_derivation.py','native-before/ensure_snapshot.sql','native-before/initial_accrual.sql','native-before/recost.sql','native-before/reverse_qc.sql','native-before/reverse_rework.sql','native-before/rework_target.sql']
 const hashes=Object.fromEntries(files.map(f=>[f,createHash('sha256').update(readFileSync(resolve(here,f))).digest('hex')]))
-const derived=execFileSync('python',['-B',resolve(here,'native_derivation.py'),'--sql'],{cwd:root,encoding:'utf8',maxBuffer:1024*1024})
+// This isolated cost model retains its original four bodies; note status is exercised by actual Native cases.
+const derived=execFileSync('python',['-B','-c',"import sys;sys.path.insert(0,'scripts');from cp7_accessory_nonpayable import native_derivation as n;d,_=n.derive(n.originals());print(';\\n'.join(d[k]for k in(n.SNAPSHOT,n.ACCRUAL,n.RECOST,n.REWORK))+';')"],{cwd:root,encoding:'utf8',maxBuffer:1024*1024})
 const scratch=mkdtempSync(join(tmpdir(),'cp7-afui-native-')),derivedFile=join(scratch,'derived.sql')
 let clashes
 try {
@@ -234,3 +235,4 @@ try {
   if(process.argv[2])writeFileSync(resolve(process.argv[2]),JSON.stringify(result,null,2)+'\n')
   throw error
 }finally{await db.close()}
+

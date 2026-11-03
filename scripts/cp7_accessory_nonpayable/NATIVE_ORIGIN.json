@@ -243,6 +243,54 @@
       ],
       "bytes": 939,
       "sha256": "3dd30156e24e23cfee1834286dd4f20771b7ff3907f1431611d9f00c6bfcd340"
+    },
+    "erp.save_accessory_issue_action_v1(text,jsonb,uuid)": {
+      "file": "native-before/note_action.sql",
+      "metadata": [
+        "postgres",
+        "plpgsql",
+        "f",
+        true,
+        false,
+        false,
+        false,
+        "v",
+        "u",
+        "100",
+        "0",
+        [
+          "search_path=\"\"",
+          "TimeZone=UTC"
+        ],
+        [
+          "p_action",
+          "p_payload",
+          "p_client_request_id"
+        ],
+        null,
+        "p_action text, p_payload jsonb, p_client_request_id uuid",
+        "jsonb",
+        "-",
+        [
+          [
+            "postgres",
+            "postgres",
+            "EXECUTE",
+            false
+          ]
+        ]
+      ],
+      "bytes": 10268,
+      "sha256": "4346b5e5bc58d97d1b1d0cb6bfb9b5c0b62689853aeffded6f012bbd6d4e2045",
+      "captured_from": {
+        "run_id": 41399754004,
+        "job_id": 125128803743,
+        "commit": "91a7b46ed13c4ad6094114871a4a39fa6765d140",
+        "artifact_id": 13124670049,
+        "artifact_sha256": "805b8b359d2c43c402cb3181d402bd4ee679e8877ff4f4c89f416f18c3865daa",
+        "member": "CP7_CURRENT_COMPLETE_DE_FREE_DATE_NATIVE3_CASES.json",
+        "path": "cases[first].actual_full22_case_boundary.before.actual_all22.functions"
+      }
     }
   },
   "source_member_sha256": "46ca686491c6ee3dede515a1448452e1313b990fb45402fd7b2ebab1a333c77f",

@@ -13,8 +13,8 @@
       "sha256": "c0409e9e66aa516ac34a05bfa62171d000b9be24fc5e95c965367b0160a881f1"
     },
     "scripts/cp7_accessory_nonpayable/NATIVE_ORIGIN.json": {
-      "bytes": 5332,
-      "sha256": "3da80b9272264cf822cf9e6374a1229112d297fb366e8463248fc9ce62687d57"
+      "bytes": 6618,
+      "sha256": "c7a885d533488c55a6973fa0d349b402c193a8955fa9c3d39a054152c1c33de0"
     },
     "scripts/cp7_accessory_nonpayable/RUNTIME_DOMAIN_PREFLIGHT_ORIGIN.json": {
       "bytes": 11588,
@@ -33,8 +33,8 @@
       "sha256": "c8005a03755cd4d70a101d6bf5a37d46cbaeab63eadd36c5724d461389374322"
     },
     "scripts/cp7_accessory_nonpayable/access_cases.py": {
-      "bytes": 19642,
-      "sha256": "aeb719231c22e89b4c77b9ff85b2e85084066c2dc9919fcaf6ad01f4104c66de"
+      "bytes": 20876,
+      "sha256": "b92b41ad81734d4370eb7abdcf67b013423cc1a865850a4e8080a8b4651f33b3"
     },
     "scripts/cp7_accessory_nonpayable/admission.py": {
       "bytes": 4829,
@@ -57,8 +57,8 @@
       "sha256": "94f8532fc9bef632c4ac09e5b78e5bda4a2520e484720ac91187d34fbdc4d7ce"
     },
     "scripts/cp7_accessory_nonpayable/browser_fixture.py": {
-      "bytes": 3399,
-      "sha256": "fa89b578c416fb752e6a60860035c20bedbacff240db92df05b38887a656e850"
+      "bytes": 3419,
+      "sha256": "9c19428c8d64f334d6a7b9ed1fbbe192c00bda95114305bda58722a43bfe6a69"
     },
     "scripts/cp7_accessory_nonpayable/browser_prepare.py": {
       "bytes": 2372,
@@ -117,12 +117,12 @@
       "sha256": "cb2c8025c9573f7f6fb2aac62706c7fea396e38de6a6699105a3dddde01039e6"
     },
     "scripts/cp7_accessory_nonpayable/native_derivation.py": {
-      "bytes": 7572,
-      "sha256": "66f10fc8ea4f4096175c8c5839371ff3dd3587fb9f5a5ad2a02b7ac336759b16"
+      "bytes": 8382,
+      "sha256": "e300e25bc3ec3730a99c42913c04e6994debf78c3de53f7941bc7b8500b42077"
     },
     "scripts/cp7_accessory_nonpayable/native_fixture.py": {
-      "bytes": 20874,
-      "sha256": "013fdd93cfd4ef8fc6a68b8993206be4b5666ccf9974ac83a8c80d7f0f62bc57"
+      "bytes": 21833,
+      "sha256": "031850b4367823dc074c64b2b35f40320401a9dc6d59bed886fc73b2a20dd37f"
     },
     "scripts/cp7_accessory_nonpayable/native_inverse_cases.py": {
       "bytes": 14422,
@@ -145,8 +145,8 @@
       "sha256": "6d7fc57756b166dbb8220cc0149a62b658e4e673117d73e010261ada3a1ecca4"
     },
     "scripts/cp7_accessory_nonpayable/qualification_component.py": {
-      "bytes": 12307,
-      "sha256": "5d31c64f79a690b2b67ea35221af4e6aa583f7f30949161c5d000b2a248f7bd4"
+      "bytes": 13465,
+      "sha256": "ebe958f644c45ad5212e11b15442437ff212f68549d9bf413022b904c51f621d"
     },
     "scripts/cp7_accessory_nonpayable/qualification_gate.py": {
       "bytes": 4826,
@@ -173,8 +173,8 @@
       "sha256": "4cdce1762a3d9b0c536cf55393d0569bb7082a04bc4fa432863518a2b3817cb2"
     },
     "scripts/cp7_accessory_nonpayable/test_access_preparation.py": {
-      "bytes": 3819,
-      "sha256": "a21287d2444f91004dc2c2db762528182e855696bb3043c818238f936fb228c3"
+      "bytes": 12356,
+      "sha256": "9d4ee6534fcfbc0e9c3efc37638e5da2b556b1fbaa03bf19bbbe8edd0f7dd82c"
     },
     "scripts/cp7_accessory_nonpayable/test_browser_preparation.mjs": {
       "bytes": 3917,
@@ -189,8 +189,8 @@
       "sha256": "80b319049726b676e4629d478b1505aabce2444527662c95f8c593251a8abeb2"
     },
     "scripts/cp7_accessory_nonpayable/test_costs.mjs": {
-      "bytes": 25136,
-      "sha256": "66b9722df8295b1568fc55cb03187a686bd5a5eb2671b0e3b515c1d1b816abbc"
+      "bytes": 25415,
+      "sha256": "b1be6c8d955355b501912fb5e4d3ab1849dd25eb855982870dfe9f82ed846bf7"
     },
     "scripts/cp7_accessory_nonpayable/test_final_preparation.py": {
       "bytes": 4963,
@@ -201,16 +201,16 @@
       "sha256": "f2f9af1aa13d8f5c0088d2c688b0b04d80bddd2a2517d5aceaafc710f41d3c71"
     },
     "scripts/cp7_accessory_nonpayable/test_lifecycle.py": {
-      "bytes": 12811,
-      "sha256": "f948eb162d0a25c099043dfea452daa4e9553e5c8868e926de699659259f646a"
+      "bytes": 12812,
+      "sha256": "5a498251719218f086d0fac71bbed0d8d6de4c5ab66a72eafffec537d8c3630a"
     },
     "scripts/cp7_accessory_nonpayable/test_native_inverse_preparation.py": {
       "bytes": 4148,
       "sha256": "e4a7f51d2d1db6e3fe886031a8416318e6514c6ad6ea6adb0cb6070d723530be"
     },
     "scripts/cp7_accessory_nonpayable/test_native_preparation.py": {
-      "bytes": 11875,
-      "sha256": "670a47847d5c302b760afc679a0cb21485ce2bf4ffd901adb224368aee72cb57"
+      "bytes": 13658,
+      "sha256": "96ca04e48176f977a1f0596e3ae40f008500c29b32b601c517e4c98fc9ed5ddd"
     },
     "scripts/cp7_accessory_nonpayable/test_native_sales_preparation.py": {
       "bytes": 1498,
@@ -259,6 +259,10 @@
     "scripts/cp7_accessory_nonpayable/advisor_review.py": {
       "bytes": 4173,
       "sha256": "bd1090e42a4a2519a10c5f2872599703606f9b922026d347b6f873ca368df0df"
+    },
+    "scripts/cp7_accessory_nonpayable/native-before/note_action.sql": {
+      "bytes": 10268,
+      "sha256": "4346b5e5bc58d97d1b1d0cb6bfb9b5c0b62689853aeffded6f012bbd6d4e2045"
     }
   },
   "actual_Native_cases": 0,
@@ -395,8 +399,8 @@
     "independent_acceptance": false,
     "local_controls": {
       "status": "PASS",
-      "unique_controls": 5,
-      "elapsed_seconds": 0.014,
+      "unique_controls": 6,
+      "elapsed_seconds": 0.016,
       "command": "PYTHONPATH=afui/next/source/scripts python -B -m unittest cp7_accessory_nonpayable.test_native_preparation.FailedNativeObservationControls -v",
       "actual_ERP_SQL": 0,
       "original_test_class_AST_unchanged": true,
@@ -405,11 +409,104 @@
         "test_failed_world_is_written_before_rollback_and_original_failure_survives",
         "test_aborted_sql_transaction_is_never_queried",
         "test_capture_error_is_retained_without_masking_the_primary_failure",
+        "test_raw_row_failure_keeps_fingerprints_and_original_error_without_more_queries",
         "test_capture_or_disk_failure_does_not_replace_original_or_prevent_rollback",
         "test_success_path_does_not_take_an_extra_failed_world_snapshot"
       ],
       "original_component_AST_unchanged_except_failure_observation": true
     },
-    "prepared_without_changing_active_run": 41556041719
+    "prepared_without_changing_active_run": 41556041719,
+    "raw_business_rows": "Explicit to_jsonb text rows from changed erp/public/cp7_* tables; numeric lexemes preserved",
+    "full_data_and_sequences": "Complete original table fingerprints and every sequence; not mislabelled as raw row values",
+    "platform_Auth_credentials_not_copied": true
+  },
+  "zero_collectible_note_status_correction": {
+    "status": "PREPARED_ACTUAL_NATIVE_VERIFICATION_PENDING",
+    "failed_head": "2e09159ae2199f591f802bfe07ad224385b11c1a",
+    "failed_run": 41556041719,
+    "failed_job": 125655052107,
+    "artifact_id": 13198908422,
+    "artifact_sha256": "e81213c6c122960f9a76959510420c193c4c6e8da944c7b5a3c8ff1db1022e4e",
+    "actual_financial_findings_before": {},
+    "actual_new_financial_findings": {
+      "run_integrity_checks:KASBON_STATUS_MISMATCH": 1
+    },
+    "actual_case_credit": 0,
+    "fix": "Same Native note save/post command refreshes only zero-collectible non-settled lines through the existing Native projection",
+    "new_money_or_payment_or_stock_effect": false,
+    "Native_status_helper_body_unchanged": true,
+    "financial_detector_unchanged": true,
+    "old_four_derived_economic_bodies_unchanged": true,
+    "old_cost_model_SQL_scope_unchanged": true,
+    "new_case_ids": 0,
+    "actual_Native_verification": "PENDING",
+    "production_go": false,
+    "independent_acceptance": false,
+    "local_preflight": {
+      "status": "PASS",
+      "changed_lifecycle_controls": 2,
+      "elapsed_seconds": 0.014,
+      "Native_derived_definitions": 5,
+      "Native_note_counted_changes": 1,
+      "all_original_bytes_recovered": true,
+      "old_four_economic_bodies_byte_identical": true,
+      "old_cost_model_SQL_byte_identical": true,
+      "old_cost_model_SQL_sha256": "3e34b2907415ced0a057744e7bcd47925ad1a09f26d6ab154afc97e93c0fabc7",
+      "old_financial_models_repeated": false,
+      "new_failure_observation_controls": 6,
+      "python_syntax": "PASS",
+      "changed_JavaScript_syntax": "PASS",
+      "actual_ERP_SQL": 0,
+      "actual_Native_case_credit": 0,
+      "actual_note_status_query_verification": "PENDING_OWNING_NATIVE_WORKFLOW"
+    },
+    "full_restoration": {
+      "cp6_restored": true,
+      "baseline_advisors_equal": true,
+      "baseline_full22_all_rows_all_sequences_equal": true,
+      "restore_raw_public_equal": true,
+      "advisor_gate": true,
+      "backup_restore": "RESTORED_IDENTICAL",
+      "tables": 407,
+      "rows": 1860,
+      "data_differ": {},
+      "catalog_differ": {},
+      "supervisor_deadline_reached": false,
+      "supervisor_orphaned_child": false,
+      "process_group_empty": true,
+      "process_tree_empty": true,
+      "worker_exit": 1,
+      "workflow_step_exit": 124,
+      "workflow_exit_not_relabelled": true
+    }
+  },
+  "observation_and_wait_preparation": {
+    "status": "SOURCE_CORRECTION_BEFORE_UNEXECUTED_AUTH_RACE_BROWSER_CASES",
+    "reason": "Keep full source preparation outside live 8/25-second windows and choose dates after the committed GOOD",
+    "HTTP_write_review_offsets_days": [
+      1,
+      2
+    ],
+    "two_session_review_offset_days": 1,
+    "lock_observation_seconds": 8,
+    "future_result_seconds": 25,
+    "worker_statement_seconds": 15,
+    "real_timeout_values_widened": false,
+    "real_HTTP_request_not_mocked_in_owning_workflow": true,
+    "browser_census": "Exact complete raw22 equality against SHA-pinned committed state plus full data fingerprints and all sequences",
+    "full_source_and_copy_verification_before_after_unchanged": true,
+    "local_controls": {
+      "status": "PASS",
+      "unique_controls": 3,
+      "elapsed_seconds": 0.005,
+      "command": "PYTHONPATH=afui/next/source/scripts python -B -m unittest cp7_accessory_nonpayable.test_access_preparation.ObservationAndWaitPreparationControls -v",
+      "actual_SQL": 0,
+      "actual_Auth_HTTP": 0,
+      "actual_two_session": 0,
+      "actual_browser": 0
+    },
+    "qualification_case_ids_unchanged": true,
+    "production_go": false,
+    "independent_acceptance": false
   }
 }

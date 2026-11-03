@@ -63,6 +63,20 @@ def retain_failed_case(cur,name,error,before,modules,catalog):
             with modules.control.product_catalog(cur):
                 value['after_operation']=dict(actual_all22=catalog._catalog_rows(cur),
                     full_data_and_sequences=catalog._data(cur))
+                after=value['after_operation']
+                after['raw_business_table_scope']='CHANGED_ERP_PUBLIC_CP7_TABLES_COMPLETE_JSONB_TEXT_ROWS'
+                after['raw_business_rows']={}
+                # _data supplies complete table fingerprints, not row values.
+                # Retain exact numeric JSON text for changed business tables;
+                # keep platform/Auth fingerprints without copying credentials.
+                with catalog._catalog(cur):
+                    for key,fingerprint in sorted(after['full_data_and_sequences'].items()):
+                        if key.startswith('sequence:')or before['full_data_and_sequences'].get(key)==fingerprint:continue
+                        schema,separator,table=key.partition('.')
+                        if not separator or not(schema in('erp','public')or schema.startswith('cp7_')):continue
+                        query=catalog.sql.SQL('select to_jsonb(r)::text from {} r order by to_jsonb(r)::text').format(
+                            catalog.sql.Identifier(schema,table))
+                        after['raw_business_rows'][key]=[r[0]for r in cur.execute(query).fetchall()]
         else:
             value['observation_unavailable']='FAILED_TRANSACTION_NOT_QUERYABLE:'+status
     except Exception as capture_error:

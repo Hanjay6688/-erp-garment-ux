@@ -87,12 +87,17 @@ class FailedNativeObservationControls(unittest.TestCase):
         self.temporary=TemporaryDirectory();self.addCleanup(self.temporary.cleanup)
         self.events=[]
         self.before=dict(actual_all22={str(i):[]for i in range(22)},
-            full_data_and_sequences={'ledger':[],'sequence:journal':['1',True]})
-        self.after_data={'ledger':[{'debit':'20.00','credit':'0.00'}],
-            'sequence:journal':['2',True]}
+            full_data_and_sequences={'erp.ledger':[0,'before-hash'],'erp.unchanged':[1,'same-hash'],
+                'auth.users':[0,'before-auth-hash'],'sequence:erp.journal':['1',True]})
+        self.after_data={'erp.ledger':[1,'after-hash'],'erp.unchanged':[1,'same-hash'],
+            'auth.users':[1,'after-auth-hash'],'sequence:erp.journal':['2',True]}
+        self.raw_row='{"debit": 123456789012.123456, "credit": 0.00}'
+        class SQL(str):
+            def format(self,identifier):return SQL(self.replace('{}',identifier))
         def rows(cur):self.events.append('catalog');return self.before['actual_all22']
         def data(cur):self.events.append('data');return self.after_data
-        self.catalog=SimpleNamespace(_catalog_rows=rows,_data=data)
+        self.catalog=SimpleNamespace(_catalog_rows=rows,_data=data,_catalog=lambda cur:nullcontext(),
+            sql=SimpleNamespace(SQL=SQL,Identifier=lambda *parts:'.'.join('"'+p+'"'for p in parts)))
         self.bc=ModuleType('cp6_bc_probe')
         self.bc.api=SimpleNamespace(admin=lambda cur:self.events.append('admin'))
         self.control=SimpleNamespace(product_catalog=lambda cur:nullcontext())
@@ -120,6 +125,9 @@ class FailedNativeObservationControls(unittest.TestCase):
 
     def execute(self,sql):
         self.events.append(sql)
+        if str(sql).startswith('select to_jsonb'):
+            self.assertIn('"erp"."ledger"',sql)
+            return SimpleNamespace(fetchall=lambda:[(self.raw_row,)])
 
     def failure_path(self):
         return self.component.ROOT/'cp6-proof/t3/AFUI_NATIVE_FIRST_FAILURE_TEST.json'
@@ -129,7 +137,7 @@ class FailedNativeObservationControls(unittest.TestCase):
         def execute(sql):
             if sql.startswith('rollback to savepoint'):
                 self.assertTrue(self.failure_path().is_file(),'Failed state was not saved before rollback')
-            self.execute(sql)
+            return self.execute(sql)
         self.cursor.execute=execute
         def operation():self.events.append('operation');raise error
         with self.assertRaises(ValueError)as caught:
@@ -140,6 +148,8 @@ class FailedNativeObservationControls(unittest.TestCase):
         self.assertEqual(saved['before'],self.before)
         self.assertEqual(saved['after_operation']['full_data_and_sequences'],self.after_data)
         self.assertEqual(saved['after_operation']['actual_all22'],self.before['actual_all22'])
+        self.assertEqual(saved['after_operation']['raw_business_rows'],{'erp.ledger':[self.raw_row]})
+        self.assertEqual(saved['after_operation']['full_data_and_sequences']['auth.users'],[1,'after-auth-hash'])
         self.assertEqual(saved['actual_case_credit'],0);self.assertFalse(saved['production_go'])
         self.assertLess(self.events.index('operation'),self.events.index('data'))
         self.assertLess(self.events.index('data'),self.events.index('rollback to savepoint afui_full_current_case'))
@@ -164,6 +174,20 @@ class FailedNativeObservationControls(unittest.TestCase):
         self.assertEqual(saved['error'],'PRIMARY')
         self.assertEqual(saved['observation_error'],dict(error_type='RuntimeError',error='read failed'))
         self.assertNotIn('after_operation',saved)
+
+    def test_raw_row_failure_keeps_fingerprints_and_original_error_without_more_queries(self):
+        error=ValueError('PRIMARY')
+        def execute(sql):
+            self.events.append(sql)
+            if str(sql).startswith('select to_jsonb'):raise RuntimeError('row read failed')
+        self.cursor.execute=execute
+        result=self.component.retain_failed_case(self.cursor,'TEST',error,self.before,self.modules,self.catalog)
+        self.assertIsNotNone(result);self.assertEqual(str(error),'PRIMARY')
+        saved=json.loads(self.failure_path().read_text())
+        self.assertEqual(saved['after_operation']['full_data_and_sequences'],self.after_data)
+        self.assertEqual(saved['after_operation']['raw_business_rows'],{})
+        self.assertEqual(saved['observation_error']['error'],'row read failed')
+        self.assertEqual(len([e for e in self.events if str(e).startswith('select to_jsonb')]),1)
 
     def test_capture_or_disk_failure_does_not_replace_original_or_prevent_rollback(self):
         error=ValueError('PRIMARY')
