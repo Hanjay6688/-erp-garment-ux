@@ -451,7 +451,11 @@ jobs:
 
         python -B scripts/cp7_sku_moving_average/test_qualification_cases.py
 
-        python -B -m unittest discover -s scripts/current-sku-moving-average-qualification -p test_derive.py'
+        python -B -m unittest discover -s scripts/current-sku-moving-average-qualification -p test_derive.py
+
+        python -B -m unittest discover -s scripts/current-finance-combined-composition -p test_disposable_start.py
+
+        python -B -m unittest discover -s scripts/current-sku-moving-average-qualification -p test_startup_preflight.py'
     - name: Admit exact SKU27 parent and declared moving-average child before database
       working-directory: auditor
       run: python -B scripts/current-sku-moving-average-qualification/check.py
@@ -492,7 +496,7 @@ jobs:
 
         # Retain every startup attempt; ECR is used once before returning to GHCR.
 
-        python ../auditor/scripts/current-finance-combined-composition/disposable_start.py
+        python ../auditor/scripts/current-sku-moving-average-qualification/startup_preflight.py
 
         '
     - name: Rebuild to v2.6.20, align with hosted, continue the frozen path to AB
