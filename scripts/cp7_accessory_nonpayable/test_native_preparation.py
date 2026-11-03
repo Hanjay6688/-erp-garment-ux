@@ -3,7 +3,7 @@ from datetime import date
 from contextlib import ExitStack
 from types import ModuleType,SimpleNamespace
 from unittest.mock import patch
-import builtins,unittest,uuid
+import builtins,json,unittest,uuid
 from cp7_accessory_nonpayable import native_fixture as fixture,native_cases as cases
 
 def constructor():
@@ -14,6 +14,33 @@ def constructor():
     return module
 
 class NativePreparationControls(unittest.TestCase):
+    def test_financial_failure_retains_actual_detector_delta_and_completed_economics(self):
+        cursor=object();before={'existing:OLD':2};after={'existing:OLD':2,'current:NEW':1}
+        admin=[]
+        bc=SimpleNamespace(api=SimpleNamespace(admin=lambda cur:admin.append(cur)),
+            findings=lambda cur:after,new_findings=lambda old,new:{'current:NEW':1})
+        observations=dict(lot='actual-lot',booked={'WIP':'20','CONTRACTOR_PAYABLE':'0'},
+            physical_date=date(2026,11,3),expected_reimbursement='0')
+        with self.assertRaises(ValueError)as caught:
+            cases.finish(cursor,SimpleNamespace(bc=bc),before,**observations)
+        code,detail=str(caught.exception).split(':',1)
+        self.assertEqual(code,'NONPAYABLE_NATIVE_NEW_FINANCIAL_INTEGRITY_FINDINGS')
+        self.assertEqual(json.loads(detail),dict(financial_findings_before=before,
+            financial_findings_after=after,new_financial_findings={'current:NEW':1},
+            completed_observations=dict(observations,physical_date='2026-11-03')))
+        self.assertEqual(admin,[cursor])
+
+    def test_financial_success_preserves_observations_and_no_new_findings_gate(self):
+        before={'existing:OLD':2};after={'existing:OLD':2}
+        bc=SimpleNamespace(api=SimpleNamespace(admin=lambda cur:None),findings=lambda cur:after,
+            new_findings=lambda old,new:{})
+        value=cases.finish(object(),SimpleNamespace(bc=bc),before,booked={'WIP':'20'})
+        self.assertEqual(value['status'],'PASS');self.assertEqual(value['booked'],{'WIP':'20'})
+        self.assertEqual(value['financial_findings_before'],before)
+        self.assertEqual(value['financial_findings_after'],after)
+        self.assertEqual(value['new_financial_findings'],{})
+        self.assertFalse(value['production_go']);self.assertFalse(value['independent_acceptance'])
+
     def test_private_master_binding_preserves_original_code_and_all_default_arguments(self):
         module=constructor();old_chain=module.chain;old_prod=old_chain.production
         identity=str(uuid.uuid4());private=fixture.contractor_constructor(module,identity)

@@ -42,8 +42,16 @@ def source_controls():
 def finish(cur,modules,before_findings,**observations):
     modules.bc.api.admin(cur)
     after=modules.bc.findings(cur)
-    if modules.bc.new_findings(before_findings,after):
-        raise ValueError('NONPAYABLE_NATIVE_NEW_FINANCIAL_INTEGRITY_FINDINGS')
+    new=modules.bc.new_findings(before_findings,after)
+    if new:
+        # The strict runner retains exception text before rolling the case
+        # back. Preserve the actual detector deltas and completed economic
+        # observations there so a failed case can be diagnosed from its first
+        # immutable Original without rerunning an unchanged scenario.
+        detail=dict(financial_findings_before=before_findings,financial_findings_after=after,
+            new_financial_findings=new,completed_observations=observations)
+        raise ValueError('NONPAYABLE_NATIVE_NEW_FINANCIAL_INTEGRITY_FINDINGS:'+json.dumps(
+            detail,sort_keys=True,default=str,allow_nan=False))
     return dict(status='PASS',**observations,financial_findings_before=before_findings,
         financial_findings_after=after,new_financial_findings={},actual_Auth_HTTP_credit=0,
         actual_browser_credit=0,actual_two_session_credit=0,full_outer_restore_and_all5_required=True,

@@ -113,8 +113,8 @@
       "sha256": "3dd30156e24e23cfee1834286dd4f20771b7ff3907f1431611d9f00c6bfcd340"
     },
     "scripts/cp7_accessory_nonpayable/native_cases.py": {
-      "bytes": 10939,
-      "sha256": "f0f0cc30b6369904cdfd4f0a8b6f14a36919d04f0f817841313fca76a338af38"
+      "bytes": 11495,
+      "sha256": "cb2c8025c9573f7f6fb2aac62706c7fea396e38de6a6699105a3dddde01039e6"
     },
     "scripts/cp7_accessory_nonpayable/native_derivation.py": {
       "bytes": 7572,
@@ -209,8 +209,8 @@
       "sha256": "e4a7f51d2d1db6e3fe886031a8416318e6514c6ad6ea6adb0cb6070d723530be"
     },
     "scripts/cp7_accessory_nonpayable/test_native_preparation.py": {
-      "bytes": 3497,
-      "sha256": "7faee0883c2cfe31506b600df3c50cdc72923c5e78b0aff0c3687ea341144282"
+      "bytes": 5357,
+      "sha256": "e4eca8bfc5ed002050ddff587fca3917a19959a4b643e48071c131644026ca45"
     },
     "scripts/cp7_accessory_nonpayable/test_native_sales_preparation.py": {
       "bytes": 1498,
@@ -316,6 +316,26 @@
     "unchanged_predecessor_reviewer_delegated": true,
     "actual_live_authority_and_final_gate_required": true,
     "no_warning_or_other_finding_whitelisted": true
+  },
+  "financial_failure_diagnostic": {
+    "status": "ACTUAL_16C_FIRST_FINANCIAL_FAILURE_RETAINS_ONLY_GENERIC_ERROR_DIAGNOSTIC_CAPTURE_CORRECTED",
+    "failed_head": "16c41abae612deebc9da4c9b20b3cdbcf91b07c2",
+    "failed_run": 41537219322,
+    "failed_job": 125592011437,
+    "failed_artifact": 13190660113,
+    "failed_archive_bytes": 2263313,
+    "failed_archive_sha256": "a20d1933784bfef8a9e86ec14e9ebe15fa7d4ea3ccf7d5c03d0530a8d8ad03b5",
+    "first_error": "NONPAYABLE_NATIVE_NEW_FINANCIAL_INTEGRITY_FINDINGS",
+    "specific_detector_cause": "NOT_RETAINED_BY_PREVIOUS_CALLER_UNKNOWN_UNTIL_ACTUAL_REPRODUCTION",
+    "full_restore_identical": true,
+    "diagnostic_retains_actual_before_after_delta_and_completed_economics": true,
+    "new_local_diagnostic_controls_PASS": 2,
+    "prior_fixture_preflight_retained_as_historical_evidence": true,
+    "financial_detector_or_oracle_changes": 0,
+    "product_SQL_or_ACL_changes": 0,
+    "actual_Native_case_credit": 0,
+    "production_go": false,
+    "independent_acceptance": false
   },
   "owner_acl_runtime_correction": {
     "status": "SOURCE_CORRECTION_AFTER_ACTUAL_FIRST_CASE_PERMISSION_FAILURE_NOT_BUSINESS_CREDIT",
