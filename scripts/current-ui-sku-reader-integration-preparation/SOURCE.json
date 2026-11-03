@@ -1,0 +1,53 @@
+{
+  "contract": "cp7.A.themed-SKU-reader-preparation.v1",
+  "theme_base_commit": "62124cd356c33927df7a871f50642e94f1a9580a",
+  "theme_base_tree": "6967ca9b48594c84a2f40d2e45f4a8ab5249c782",
+  "reader_donor": "fea75841e26645f1892d880905231625b47e3065",
+  "reader_files": {
+    "src/ConnectedFgStockPage.tsx": {
+      "bytes": 14112,
+      "sha256": "f101d021fd86db52645142e21d2b831c65e43d7c8dc4561211e039adcddff91a"
+    },
+    "src/fgContract.ts": {
+      "bytes": 11675,
+      "sha256": "8dbef76737f06e77e830a8cebbb5619d729379da2332fc694aa9a07713ded0ae"
+    },
+    "src/ConnectedFgStockPage.dom.test.tsx": {
+      "bytes": 23845,
+      "sha256": "d5e64abf1decc94dad5416aaff96a3dd88ac49cccdbfc69a3bb09ab0f4be7eac"
+    },
+    "src/fgMovingAverageContract.test.ts": {
+      "bytes": 4225,
+      "sha256": "2a6a5f10fa2d302e74c37805c211653257da9442913b075a56155e5a3e73c478"
+    },
+    "tests/fixtures/skuMovingAverageReaderPg17.json": {
+      "bytes": 971,
+      "sha256": "217eb1818ec5ae2ce456926fa312f383d3e46d5c2e77e31c4e00a92e2fe23939"
+    }
+  },
+  "preparation_files": {
+    "scripts/current-ui-sku-reader-integration-preparation/README.md": {
+      "bytes": 1718,
+      "sha256": "409757940d2fd734006b471b3d0ee3fdeba21620226575ed39807e7b675f3678"
+    },
+    "scripts/current-ui-sku-reader-integration-preparation/check_source.py": {
+      "bytes": 2319,
+      "sha256": "715d13ec18f9a01659f44dd83ef4ffe8e387f2d84b81b24c0025b23e23a9d700"
+    },
+    "scripts/current-ui-sku-reader-integration-preparation/capture.test.tsx": {
+      "bytes": 6496,
+      "sha256": "a753b21e0f22798736b88b3cfb25f13854563acb4cc026a2369fd0ad742add04"
+    },
+    "scripts/current-ui-sku-reader-integration-preparation/visual.mjs": {
+      "bytes": 4182,
+      "sha256": "9229ab3cd54db33a1402fc83868fbdb58901ce5be71b0c29ba499cb55f1ad772"
+    },
+    ".github/workflows/cp7-a-ui-sku-reader.yml": {
+      "bytes": 2304,
+      "sha256": "f65c504c2c73999a6ace67f5f06db9411e8728563b3f6cb8ca9a00b4e07c352c"
+    }
+  },
+  "unified_runtime_admission": false,
+  "actual_ERP_cases": 0,
+  "production_go": false
+}

@@ -4,10 +4,11 @@ import type { RecordPageOrder } from './RecordTools'
 export type FgPurpose = 'SUMMARY' | 'CARD' | 'MOVEMENTS'
 export type FgPosition = { product_id:string; product_sku:string; commercial_sku:string; product_name:string; size_code:string; brand_name:string; lot_id:string|null; lot_number:string|null; location_id:string; location_name:string; quality_grade:string }
 type Balances = { available_qty:string; reserved_qty:string; physical_qty:string; quality:'KNOWN'|'CONFLICT' }
-type Valuation = { state:'KNOWN'|'UNKNOWN'; hpp_version_id:string|null; hpp_version:string|null; cost_state:string|null; calculated_at:string|null; unit_cost:string|null; value:string|null; basis:'CURRENT_RESTATED_LOT_VALUE' }
+type ValuationFacts = { state:'KNOWN'|'UNKNOWN'; hpp_version_id:string|null; hpp_version:string|null; cost_state:string|null; calculated_at:string|null; unit_cost:string|null; value:string|null }
+type Valuation = ValuationFacts & ({basis:'CURRENT_RESTATED_LOT_VALUE'}|{basis:'SKU_LOCATION_GRADE_MOVING_AVERAGE_V2';pool_revision:string|null;reserved_included:true})
 export type FgRow = FgPosition & Balances & { last_movement_at:string; valuation?:Valuation }
 export type FgWorkspace = { contract_version:'cp7.fg-workspace.v1'; purpose:FgPurpose; read_at:string; knowledge:'CURRENT'; quantity_basis:'PHYSICAL_EQUALS_AVAILABLE_PLUS_ACTIVE_RESERVATION'; financial_captured:boolean; capabilities:{card:boolean}; unit_code:'PCS'; totals:Balances; page:MaterialPage<FgRow> }
-export type FgMovement = { id:string; physical_at:string; recorded_at:string; movement_type:string; source_type:string; source_id:string|null; reversal_of_id:string|null; customer_name:string|null; notes:string|null; book_order:string; commercial_sku_at_transaction:string; qty_signed:string; reservation_delta:string; physical_delta:string; available_balance:string; reserved_balance:string; physical_balance:string; valuation?:{state:'KNOWN'|'UNKNOWN';unit_cost:string|null;basis:'CURRENT_RESTATED_MOVEMENT_SNAPSHOT'}; original_physical_delta?:string;correction_count?:string;correction_recorded_at?:string|null;audit_movements?:FgAuditMovement[] }
+export type FgMovement = { id:string; physical_at:string; recorded_at:string; movement_type:string; source_type:string; source_id:string|null; reversal_of_id:string|null; customer_name:string|null; notes:string|null; book_order:string; commercial_sku_at_transaction:string; qty_signed:string; reservation_delta:string; physical_delta:string; available_balance:string; reserved_balance:string; physical_balance:string; valuation?:{state:'KNOWN'|'UNKNOWN';unit_cost:string|null;basis:'CURRENT_RESTATED_MOVEMENT_SNAPSHOT'|'CURRENT_RESTATED_SKU_POOL_MOVEMENT_SNAPSHOT'}; original_physical_delta?:string;correction_count?:string;correction_recorded_at?:string|null;audit_movements?:FgAuditMovement[] }
 export type FgAuditMovement={id:string;physical_at:string;recorded_at:string;lot_id:string|null;source_type:string;source_id:string|null;reversal_of_id:string|null;available_delta:string;reservation_delta:string}
 /** OW-09: movements of one position searched, filtered by type and ordered over the whole card before paging. */
 export type FgMovementList = { q:string; movement_type:string|null; order:RecordPageOrder }
@@ -62,8 +63,14 @@ export function parseFgWorkspace(v:unknown,finance:boolean,purpose:FgPurpose):Fg
     const r=closed(v,[...positionKeys,'available_qty','reserved_qty','physical_qty','quality','last_movement_at'],finance?['valuation']:[])
     position(r);balances(r);if(!instant(r.last_movement_at))fail()
     if(finance){
-      const x=closed(r.valuation,['state','hpp_version_id','hpp_version','cost_state','calculated_at','unit_cost','value','basis'])
-      if(!nullableId(x.hpp_version_id)||x.hpp_version!==null&&!whole(x.hpp_version)||!nullableText(x.cost_state)||x.calculated_at!==null&&!instant(x.calculated_at)||x.basis!=='CURRENT_RESTATED_LOT_VALUE')fail()
+      const base=closed(r.valuation,['state','hpp_version_id','hpp_version','cost_state','calculated_at','unit_cost','value','basis'],['pool_revision','reserved_included'])
+      const pooled=base.basis==='SKU_LOCATION_GRADE_MOVING_AVERAGE_V2'
+      const x=closed(r.valuation,['state','hpp_version_id','hpp_version','cost_state','calculated_at','unit_cost','value','basis',...(pooled?['pool_revision','reserved_included']:[])])
+      if(!nullableId(x.hpp_version_id)||x.hpp_version!==null&&!whole(x.hpp_version)||!nullableText(x.cost_state)||x.calculated_at!==null&&!instant(x.calculated_at)||!pooled&&x.basis!=='CURRENT_RESTATED_LOT_VALUE')fail()
+      if(pooled){
+        if(r.quality_grade!=='GRADE_A'||x.reserved_included!==true||[x.hpp_version_id,x.hpp_version,x.cost_state,x.calculated_at].some(v=>v!==null))fail()
+        if(x.pool_revision!==null&&(!text(x.pool_revision)||!/^[0-9a-f]{32}$/.test(x.pool_revision))||x.state==='KNOWN'&&x.pool_revision===null)fail()
+      }
       if(x.state==='KNOWN'){if(!decimal(x.unit_cost)||!decimal(x.value))fail()}
       else if(x.state!=='UNKNOWN'||x.unit_cost!==null||x.value!==null)fail()
     }
@@ -89,7 +96,7 @@ export function parseFgLedger(v:unknown,finance:boolean,purpose:'CARD'|'MOVEMENT
       }
       if(available!==BigInt(String(r.qty_signed))||reserved!==BigInt(String(r.reservation_delta)))fail()
     }
-    if(finance){const f=closed(r.valuation,['state','unit_cost','basis']);if(f.basis!=='CURRENT_RESTATED_MOVEMENT_SNAPSHOT'||(f.state==='KNOWN'?!decimal(f.unit_cost):f.state!=='UNKNOWN'||f.unit_cost!==null))fail()}
+    if(finance){const f=closed(r.valuation,['state','unit_cost','basis']);const pooled=f.basis==='CURRENT_RESTATED_SKU_POOL_MOVEMENT_SNAPSHOT';if(pooled?(!corrected||(w.position as FgPosition).quality_grade!=='GRADE_A'):f.basis!=='CURRENT_RESTATED_MOVEMENT_SNAPSHOT')fail();if(f.state==='KNOWN'?!decimal(f.unit_cost):f.state!=='UNKNOWN'||f.unit_cost!==null)fail()}
     return r.id
   },list);return w as unknown as FgLedger
 }

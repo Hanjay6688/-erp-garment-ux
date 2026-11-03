@@ -1,0 +1,56 @@
+name: CP7 A themed SKU reader visual preparation
+on:
+  push:
+    branches: [astra-a/ui-sku-reader-prepared-20261103]
+    paths:
+      - src/ConnectedFgStockPage.tsx
+      - src/ConnectedFgStockPage.dom.test.tsx
+      - src/fgContract.ts
+      - src/fgMovingAverageContract.test.ts
+      - tests/fixtures/skuMovingAverageReaderPg17.json
+      - scripts/current-ui-sku-reader-integration-preparation/**
+      - .github/workflows/cp7-a-ui-sku-reader.yml
+  workflow_dispatch: {}
+permissions:
+  contents: read
+concurrency:
+  group: cp7-a-ui-sku-reader-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  isolated-ui:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    env:
+      CP7_UI_FG_CAPTURE_DIRECTORY: ${{ github.workspace }}/ui-fg-proof
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 2
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24'
+          cache: npm
+      - name: Verify the exact completed theme and reader derivation
+        run: python -B scripts/current-ui-sku-reader-integration-preparation/check_source.py
+      - run: npm ci
+      - name: Reader and DOM controls
+        run: |
+          mkdir -p ui-fg-proof
+          npx vitest run src/fgMovingAverageContract.test.ts src/ConnectedFgStockPage.dom.test.tsx --reporter=default --reporter=json --outputFile=ui-fg-proof/FG_READER_DOM.json
+      - name: Build and source access CSS checks
+        run: npm run build
+      - name: Capture actual component markup for isolated states
+        run: npx vitest run scripts/current-ui-sku-reader-integration-preparation/capture.test.tsx
+      - name: Install pinned browser engine
+        run: node node_modules/playwright/cli.js install --with-deps chromium
+      - name: Measure all four widths and retain screenshots
+        run: node scripts/current-ui-sku-reader-integration-preparation/visual.mjs
+      - name: Retain the first result including failures
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: CP7_A_UI_SKU_READER_FIRST_RESULT
+          path: ui-fg-proof
+          if-no-files-found: error
+          retention-days: 30
