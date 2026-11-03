@@ -1,0 +1,15 @@
+{
+  "source": "c3b90f9932e1a3d674dfa36e6c4395a3bc71a7bd",
+  "run": 41709294401,
+  "job": 126172834940,
+  "observed_at": "2026-11-03T20:15:13Z",
+  "checkout_started_at": "2026-11-03T20:05:25Z",
+  "observed_status": "IN_PROGRESS_AT_CHECKOUT_ONLY",
+  "all_product_steps": "PENDING",
+  "job_logs_read": "404 BlobNotFound while job is running; preserved as an unavailable-log observation, not a product test failure.",
+  "diagnostic_scope": "No checkout or database. Verify exact B head/branch/run/job, preserve status. Cancel only if checkout step2 remains active for600seconds and all product steps3..12 remain pending. Retrieve first terminal logs. Do not cancel any A job or activate another UI test run.",
+  "original_source_frozen": true,
+  "actual_browser_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

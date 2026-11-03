@@ -1,0 +1,79 @@
+name: Writer B inspect only its stalled UI checkout
+on:
+  push:
+    branches: [astra-b/ui-source-refusal-browser-20261104]
+    paths: ['.github/workflows/ui-b-checkout-diagnostic.yml']
+permissions:
+  contents: read
+  actions: write
+concurrency:
+  group: writer-b-checkout-diagnostic
+  cancel-in-progress: false
+jobs:
+  inspect:
+    if: github.run_attempt == 1
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Preserve exact B checkout status and retrieve its first logs
+        env:
+          GH_DIAGNOSTIC_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import datetime,json,os,pathlib,time,urllib.request,urllib.error,urllib.parse
+          repo='Hanjay6688/-erp-garment-ux';run=41709294401;job=126172834940
+          expected='c3b90f9932e1a3d674dfa36e6c4395a3bc71a7bd'
+          assert os.environ['GITHUB_REPOSITORY']==repo
+          out=pathlib.Path('checkout-diagnostic');out.mkdir(exist_ok=False)
+          class SafeRedirect(urllib.request.HTTPRedirectHandler):
+              def redirect_request(self,req,fp,code,msg,headers,newurl):
+                  r=super().redirect_request(req,fp,code,msg,headers,newurl)
+                  if r is not None and urllib.parse.urlparse(newurl).hostname!='api.github.com':
+                      r.remove_header('Authorization')
+                  return r
+          opener=urllib.request.build_opener(SafeRedirect())
+          def request(path,method='GET'):
+              url='https://api.github.com/repos/'+repo+path
+              req=urllib.request.Request(url,data=b'' if method=='POST' else None,method=method,
+                  headers={'Authorization':'Bearer '+os.environ['GH_DIAGNOSTIC_TOKEN'],'Accept':'application/vnd.github+json','Cache-Control':'no-cache','X-GitHub-Api-Version':'2022-11-28'})
+              with opener.open(req,timeout=30) as r:return r.read()
+          def read(path):return json.loads(request(path))
+          detail=read('/actions/runs/'+str(run));jobs=read('/actions/runs/'+str(run)+'/jobs?filter=latest&per_page=100')
+          (out/'RUN_BEFORE.json').write_text(json.dumps(detail,indent=2)+'\n')
+          (out/'JOBS_BEFORE.json').write_text(json.dumps(jobs,indent=2)+'\n')
+          assert detail['head_sha']==expected and detail['head_branch']=='astra-b/ui-source-refusal-browser-20261104'
+          j=next(j for j in jobs['jobs'] if j['id']==job)
+          active=next((s for s in j['steps'] if s['status']=='in_progress'),None)
+          record={'run':run,'job':job,'expected_head':expected,'A_touched':False,'cancel_requested':False,'actual_browser_cases':0}
+          if detail['status']!='completed' and active and active['number']==2 and active['name'].startswith('Run actions/checkout@'):
+              start=datetime.datetime.fromisoformat(active['started_at'].replace('Z','+00:00'))
+              seconds=(datetime.datetime.now(datetime.timezone.utc)-start).total_seconds()
+              record['checkout_seconds']=seconds
+              assert all(s['status']=='pending' for s in j['steps'] if 3<=s['number']<=12)
+              if seconds>=600:
+                  request('/actions/runs/'+str(run)+'/cancel','POST');record['cancel_requested']=True
+                  print('Requested cancellation of exact B checkout after',round(seconds),'seconds; no product test started.',flush=True)
+          for attempt in range(18):
+              detail=read('/actions/runs/'+str(run))
+              if detail['status']=='completed':break
+              if not record['cancel_requested']:break
+              print('Waiting for actual cancellation status:',detail['status'],flush=True);time.sleep(5)
+          (out/'RUN_AFTER.json').write_text(json.dumps(detail,indent=2)+'\n')
+          record['terminal_status']=detail['status'];record['conclusion']=detail['conclusion']
+          if detail['status']=='completed':
+              for attempt in range(12):
+                  try:
+                      raw=request('/actions/jobs/'+str(job)+'/logs');(out/'FIRST_CHECKOUT_JOB.log').write_bytes(raw);record['log_bytes']=len(raw);break
+                  except urllib.error.HTTPError as error:
+                      if error.code!=404:raise
+                      time.sleep(5)
+          (out/'DIAGNOSTIC.json').write_text(json.dumps(record,indent=2)+'\n');print(json.dumps(record),flush=True)
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: writer-b-checkout-diagnostic-${{ github.sha }}
+          path: checkout-diagnostic/
+          retention-days: 30
+          if-no-files-found: warn
