@@ -1,6 +1,8 @@
 /* Compile/probe in the same process as the local fixture server. No browser/DB. */
 import fs from 'node:fs'
 import path from 'node:path'
+import {init,parse} from 'es-module-lexer'
+import crypto from 'node:crypto'
 import {execFileSync} from 'node:child_process'
 import {server,stopAll,children} from './server.mjs'
 const out=path.resolve(process.env.UI_PREFLIGHT_DIR??'../ui-connected-preflight');fs.mkdirSync(out,{recursive:false})
@@ -12,6 +14,17 @@ try{
   if(target.startsWith('/src/')){if(!source.includes('/scripts/ui-reference/connected-ui/auth.ts')||source.includes('/src/auth/AuthProvider.tsx'))throw Error('EXACT_TEST_AUTH_ALIAS:'+target)}
   report.checks.push({target,status:response.status})
  }
+ const queue=['/scripts/ui-reference/connected-ui/fixture.tsx'],seen=new Set(),graph=[]
+ while(queue.length){
+  const target=queue.shift();if(seen.has(target))continue;seen.add(target);if(seen.size>300)throw Error('FIXTURE_MODULE_GRAPH_LIMIT')
+  const response=await fetch(running.url+target);if(!response.ok)throw Error('FIXTURE_GRAPH_HTTP:'+target+':'+response.status)
+  const text=await response.text();graph.push({target,bytes:Buffer.byteLength(text),sha256:crypto.createHash('sha256').update(text).digest('hex')})
+  if(!/javascript/.test(response.headers.get('content-type')??''))continue
+  await init;const [dependencies]=parse(text)
+  for(const dependency of dependencies){if(!dependency.n)continue;const resolved=new URL(dependency.n,running.url+target);if(resolved.origin!==running.url)throw Error('EXTERNAL_GRAPH_DEPENDENCY');queue.push(resolved.pathname+resolved.search)}
+ }
+ if(!graph.some(n=>n.target.split('?')[0]==='/tests/fixtures/productionRecovery.ts'))throw Error('SHARED_FIXTURE_SEED_NOT_VERIFIED')
+ report.module_graph=graph;report.graph_modules=graph.length
  for(const target of ['/','/index.html','/cp7-preview','/src/auth/AuthProvider.tsx','/src/lib/supabase.ts']){const response=await fetch(running.url+target);if(response.status!==403)throw Error('PRODUCT_ROOT_MUST_BE_REFUSED:'+target);report.checks.push({target,status:403})}
  try{execFileSync(process.execPath,['node_modules/vite/bin/vite.js','build','--config','scripts/ui-reference/connected-ui/vite.config.mjs','--mode','writer-b-connected-ui-fixture'],{stdio:'pipe'});throw Error('FIXTURE_MUST_NOT_BUILD')}
  catch(error){if(!String(error.stderr).includes('FIXTURE_CONFIG_SERVE_ONLY'))throw error;report.checks.push({fixture_production_build:'REFUSED'})}

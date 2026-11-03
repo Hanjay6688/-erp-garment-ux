@@ -33,7 +33,7 @@ jobs:
         run: npm ci --ignore-scripts --no-audit --no-fund
       - name: Admit UI-only changes and exact transport doubles
         working-directory: after
-        run: node scripts/ui-reference/connected-ui/verify.mjs
+        run: node scripts/ui-reference/connected-ui/verify-v2.mjs
       - name: Compile aliases and refuse product roots and fixture production build
         working-directory: after
         run: node scripts/ui-reference/connected-ui/preflight.mjs

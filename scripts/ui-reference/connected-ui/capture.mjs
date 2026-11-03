@@ -81,13 +81,15 @@ try{
  const running=await server(process.cwd(),4188,'connected',out);child=running.child
  browser=await chromium.launch({headless:true})
  for(const width of config.widths)for(const form of config.forms)for(const state of config.states){
-  const context=await browser.newContext({viewport:{width,height:980},locale:'id-ID',timezoneId:'Asia/Jakarta',reducedMotion:'reduce'}),page=await context.newPage()
+  const context=await browser.newContext({viewport:{width,height:980},locale:'id-ID',timezoneId:'Asia/Jakarta',reducedMotion:'reduce'}),page=await context.newPage();page.setDefaultTimeout(10000)
   page.on('pageerror',error=>report.failures.push({form,state,width,page_error:error.message}))
   page.on('console',message=>{if(message.type()==='error')report.console_errors.push({form,state,width,text:message.text()})})
   page.on('response',response=>{if(response.status()>=400)report.failures.push({form,state,width,http:response.status(),path:new URL(response.url()).pathname})})
   await context.route('**/*',route=>{const u=new URL(route.request().url());if(['data:','blob:'].includes(u.protocol)||u.origin===running.url)return route.continue();report.failures.push({external_network_refused:u.host+u.pathname});return route.abort('blockedbyclient')})
   try{
+   const failuresBefore=report.failures.length,consoleBefore=report.console_errors.length
    await page.goto(running.url+'/scripts/ui-reference/connected-ui/fixture.html?form='+form+'&state='+state,{waitUntil:'networkidle'})
+   require(report.failures.length===failuresBefore&&report.console_errors.length===consoleBefore,'FIXTURE_BOOTSTRAP_RESOURCE_ERROR')
    await page.locator('.fixture-workspace h1').waitFor({state:'visible'})
    if(['ready','long','pending','revoked'].includes(state))await prepare(page,form)
    if(state==='empty')await page.waitForFunction(()=>{const s=document.querySelector('select');return s&&!s.disabled},undefined,{timeout:10000})

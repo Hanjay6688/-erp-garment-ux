@@ -1,0 +1,15 @@
+{
+  "source": "2ce9d8ec422190c7096f55331e68f0b6545d7424",
+  "run": 41641552705,
+  "job": 125936053635,
+  "artifact": 13232838563,
+  "workflow_result": "FAILURE",
+  "original_bytes": 2561,
+  "original_sha256": "ec502f775f4332f7f0623816d4c6aabf9d2c6030e4d5ddfe7b823632dcdec1bf",
+  "actual_views": 0,
+  "first_failure": "HTTP403 for /tests/fixtures/productionRecovery.ts blocked fixture bootstrap; original preflight compiled direct modules but omitted the full imported dependency graph.",
+  "fix": "Exact seed module exception; full ESM dependency graph compiled/fetched before browser, original Auth/client and product root still refused; resource errors stop immediately.",
+  "runtime_UI_changed": false,
+  "actual_backend_acceptance": false,
+  "production_go": false
+}
