@@ -277,3 +277,14 @@ absensi lama dipulihkan dari sumber Native D/E dan deklarasi Afui yang sudah ada
 tanpa mengganti daftar pemilik dengan hitungan longgar. Semua ini masih kode
 persiapan: pemasang penuh, pilihan Toko/Mandor di Penjualan dan bukti ERP/Auth/
 browser/dua backend tetap diperlukan sebelum fitur diaktifkan.
+
+
+Dua jalur replay privat tambahan sekarang diturunkan lewat `replay_routes.py`:
+hasil alokasi tersimpan dan hasil penyimpanan draft Penjualan mandor. Sebelum
+mengembalikan hasil lama, masing-masing mengambil SHARE NOWAIT pada empat tabel
+izin lalu meninjau ulang akses aksi yang sama. Pencabutan izin yang masih dalam
+transaksi akan meminta coba lagi; izin yang sudah dicabut tetap menolak. Jalur
+bisnis baru, rumus, UUID, payload dan hasil lama tidak diubah. Dua sisipan dapat
+dibalik ke byte sumber lama; seluruh sumber/model terdahulu tetap persis.
+Tidak ada fungsi, peran atau grant baru. Kualifikasi dua backend aktual untuk
+hasil tersimpan dan pencabutan izin tetap wajib sebelum penerimaan.

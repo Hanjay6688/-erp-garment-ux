@@ -9,7 +9,7 @@ from contextlib import contextmanager
 from hashlib import sha256
 from pathlib import Path
 import ast,json,re
-from . import admission,facade_install,native_dispatch,native_payment_routes,native_sales_routes,command_guard_routes
+from . import admission,facade_install,native_dispatch,native_payment_routes,native_sales_routes,command_guard_routes,replay_routes
 
 HERE=Path(__file__).resolve().parent
 ROOT=HERE.parents[1]
@@ -229,6 +229,10 @@ def install(cur,parent_receipt_raw):
         payment,_=native_payment_routes.derive(before['functions']);sales,_=native_sales_routes.derive(before['functions'])
         guards,guard_proof=command_guard_routes.derive(before['functions'],payment)
         definitions=payment|sales|guards;facades,dispatch_proof=native_dispatch.derive(before['functions'])
+        replay_sql,replay_proof=replay_routes.derive((HERE/'allocation.sql').read_bytes(),facades)
+        for name,text in replay_sql.items():
+            require(plan['source_fragments'][name]==pin(text.encode()),'MANDOR_REPLAY_EXACT_INSTALLATION_PLAN:'+name)
+        facades=replay_sql['composed_facades_with_native_dispatch.sql']
         reference=json.loads((HERE/'NATIVE_SCHEMA_REFERENCE.json').read_bytes())
         for columns in reference['columns'].values():
             for key,row in columns.items():
@@ -238,7 +242,7 @@ def install(cur,parent_receipt_raw):
         public_items=cur.execute("select nspacl::text[] from pg_namespace where nspname='public'").fetchone()[0]
         require(public_items is not None,'MANDOR_REVIEWED_EXPLICIT_PUBLIC_SCHEMA_ACL_REQUIRED')
         with as_role(cur,'postgres',{'postgres'}):
-            for name in ORDER:cur.execute((HERE/name).read_text(),prepare=False)
+            for name in ORDER:cur.execute(replay_sql[name]if name in replay_sql else(HERE/name).read_text(),prepare=False)
             cur.execute(facades,prepare=False)
         normalize_private(cur,plan);replace_native(cur,definitions,identity)
         installed_public_acl=public_schema_transition(cur,public_items,before['schemas']['public'][0])
@@ -246,7 +250,7 @@ def install(cur,parent_receipt_raw):
         state=dict(contract=CONTRACT,sources=source,parent=parent,before=before,after=after,
             originals={sig:before['functions'][sig][0]for sig in definitions},definitions=definitions,
             native_identity=identity,raw_public_schema_acl_before=public_acl,raw_public_schema_acl=installed_public_acl,
-            dispatch_proof=dispatch_proof,command_guard_proof=guard_proof,plan=plan)
+            dispatch_proof=dispatch_proof,command_guard_proof=guard_proof,replay_guard_proof=replay_proof,plan=plan)
         state['sha256']=digest(state);verify(cur,state);return state
 
 

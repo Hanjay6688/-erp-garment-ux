@@ -67,7 +67,7 @@ def source():
     all_paths={n.decode()for n in git('ls-files','-z','--cached','--others','--exclude-standard').split(b'\0')if n}
     actual_new=all_paths-set(base)
     require(actual_new==set(m['new_paths']),'UNIFIED_EXACT_NEW_NAMESPACE_PATHS')
-    require(len(m['components']['GLOBAL']['exact_files'])==42 and len(m['components']['MANDOR']['exact_files'])==107,'UNIFIED_COMPLETE_COMPONENT_AND_UI_FILE_COUNTS')
+    require(len(m['components']['GLOBAL']['exact_files'])==42 and len(m['components']['MANDOR']['exact_files'])==109,'UNIFIED_COMPLETE_COMPONENT_AND_UI_FILE_COUNTS')
     preparation=m.get('Mandor_native9_preparation')
     if preparation is not None:
         import ast
@@ -82,7 +82,7 @@ def source():
         require(values['PARENT_HEAD']==m['base']['head']and values['PARENT_ROOT_PIN']is None and values['RUNTIME_ENTRY']is None,'UNIFIED_PREPARED_NATIVE9_PARENT_GATE_MUST_STAY_CLOSED')
     return dict(status='UNIFIED_AFUI_GLOBAL_MANDOR_SOURCE_FENCE_PASS_NOT_RUNTIME_OR_BUSINESS',base=m['base'],
         unchanged_parent_blobs=len(base)-len(changed),shared_UI_parent_paths=len(shared),appearance_parent_paths=len(appearance),parent_modified_paths=len(changed),new_paths=len(actual_new),
-        Global_module_files=42,Mandor_module_and_exact_UI_files=107,validator_files_composed=2,
+        Global_module_files=42,Mandor_module_and_exact_UI_files=109,validator_files_composed=2,
         Global_standalone_source_fence_unchanged=True,Mandor_source_fence_includes_new_command_guards=True,
         actual_SQL_executed=0,actual_Native_cases=0,
         runtime_admission=False,CP7_complete=False,production_go=False,independent_acceptance=False)

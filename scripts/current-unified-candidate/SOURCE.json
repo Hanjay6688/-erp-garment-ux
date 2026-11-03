@@ -236,8 +236,8 @@
       }
     },
     "MANDOR": {
-      "head": "d7f707d21dd669f51654a16ca52c224052b35dbb",
-      "tree": "0035ea0f08e60e4fabb4f4b42fb4fe4f949be704",
+      "head": "c614051953040087ea8bac37b6030478e1f64e9b",
+      "tree": "9b18943d90b5471125821cc45ddaa68ecceac467",
       "exact_files": {
         "scripts/cp7_mandor_shop/ACTUAL_CREATOR_ACL_REFERENCE.json": {
           "bytes": 1569,
@@ -308,8 +308,8 @@
           "sha256": "8cafbacc8e4d2025cb5eadc6a6188f1a696697c92964d25b0958464410e9483b"
         },
         "scripts/cp7_mandor_shop/INSTALL_PLAN.json": {
-          "bytes": 11285,
-          "sha256": "bcaf77cc7097b9d970c38bb3f5ea7765e274c218364924f37869b815843149a4"
+          "bytes": 13274,
+          "sha256": "341f2cbd4a0e361bee275f9e66a15c5362a8cee9d3ba91e619b95f376aa7098a"
         },
         "scripts/cp7_mandor_shop/NATIVE_ALLOCATION_REFERENCE.json": {
           "bytes": 41819,
@@ -384,8 +384,8 @@
           "sha256": "ba3da6e7c3a7ca001ff55f87588dc2fa0e9d7e4d93ddf01f213176121e789c7d"
         },
         "scripts/cp7_mandor_shop/README.md": {
-          "bytes": 19922,
-          "sha256": "84f34d3f869e11bdffcc81daeba2c11013d01b0ec112d1502236975fc7ec9a1c"
+          "bytes": 20621,
+          "sha256": "b8f2acb737a8c6b3b480659b3b45b4352140bc77e4b986fd05da11dcfe9d36f4"
         },
         "scripts/cp7_mandor_shop/SALES_COMMAND_MODEL_ORIGIN.json": {
           "bytes": 960,
@@ -412,8 +412,8 @@
           "sha256": "41d50b8d82e48d8d0163195867eb66f0e464f2d4f1d2832d8cfde3dd617e7939"
         },
         "scripts/cp7_mandor_shop/SOURCE.json": {
-          "bytes": 18530,
-          "sha256": "0b4054a9bec5643f6696c9eb19990f20b490c412ee6f458c3f2350326f51fb71"
+          "bytes": 18857,
+          "sha256": "5a082162d25d16b4901b179e561b559c19e9f34f8dd1cbbb6bbcaa4b55c32cc7"
         },
         "scripts/cp7_mandor_shop/SQL_SYNTAX_CONTROLS.json": {
           "bytes": 1986,
@@ -472,8 +472,8 @@
           "sha256": "5bfeb12b4103ca88f48b84a213098b33a90e7ead52398a5025213d9188e47617"
         },
         "scripts/cp7_mandor_shop/check_source.py": {
-          "bytes": 30530,
-          "sha256": "a4715af221d0564b2a0f289d3195a8a58579c754070978ba1629375786848ed8"
+          "bytes": 31121,
+          "sha256": "04b85fe387b8ad6fbb670b80f2cca09fbeb571b18c25eedf9b311ab1ca142a07"
         },
         "scripts/cp7_mandor_shop/command_guard_routes.py": {
           "bytes": 3490,
@@ -484,8 +484,8 @@
           "sha256": "3205333351a219586ecc52ce2fcf3ed6408430d39a45f8a03592a92e14c2c7dc"
         },
         "scripts/cp7_mandor_shop/composition.py": {
-          "bytes": 19409,
-          "sha256": "aff397f995bbb1e20ae651c5261b338e43b889e53632d9da4a424456d182736d"
+          "bytes": 19831,
+          "sha256": "68efd8582d268bce206ccf55f1e8c5ad5eda89b11289ed53590844b1f17234f8"
         },
         "scripts/cp7_mandor_shop/events.sql": {
           "bytes": 8216,
@@ -559,6 +559,10 @@
           "bytes": 20924,
           "sha256": "967f20999cf23bd6a76610300fb35f61fe01d733053db7fbefdf3da112902056"
         },
+        "scripts/cp7_mandor_shop/replay_routes.py": {
+          "bytes": 2663,
+          "sha256": "e53eb7d5de9687aedae36e17b3ec9ecb5174b3102ec3ec0b250ed672266dc765"
+        },
         "scripts/cp7_mandor_shop/sale_identity.sql": {
           "bytes": 5069,
           "sha256": "98964804488c94f0ffee865068327a8b6fb37fc8b7c6e037e97af32525a672ea"
@@ -586,6 +590,10 @@
         "scripts/cp7_mandor_shop/storage_model.mjs": {
           "bytes": 13580,
           "sha256": "1f523db6631c86c3c1b2d218591ca3501a55a9b799643e975e488ffa05875a11"
+        },
+        "scripts/cp7_mandor_shop/test_replay_routes.py": {
+          "bytes": 2378,
+          "sha256": "671fc36ee09d9aa16ec2cf6c5d188b40bdc9af8719868e908344d73f52f2612e"
         },
         "src/ConnectedPayrollPage.tsx": {
           "bytes": 21281,
@@ -898,6 +906,7 @@
     "scripts/cp7_mandor_shop/payment_guards.sql",
     "scripts/cp7_mandor_shop/payment_model.mjs",
     "scripts/cp7_mandor_shop/payment_owner.sql",
+    "scripts/cp7_mandor_shop/replay_routes.py",
     "scripts/cp7_mandor_shop/sale_identity.sql",
     "scripts/cp7_mandor_shop/sale_identity_model.mjs",
     "scripts/cp7_mandor_shop/sales-model-before-edit-fixture.mjs.txt",
@@ -905,6 +914,7 @@
     "scripts/cp7_mandor_shop/sales_commands.sql",
     "scripts/cp7_mandor_shop/schema.sql",
     "scripts/cp7_mandor_shop/storage_model.mjs",
+    "scripts/cp7_mandor_shop/test_replay_routes.py",
     "scripts/current-mandor-shop-native-qualification/READINESS.txt",
     "scripts/current-mandor-shop-native-qualification/SOURCE_READINESS.json",
     "scripts/current-mandor-shop-native-qualification/additional_cases.py",
@@ -1018,7 +1028,7 @@
     },
     "scripts/current-unified-candidate/check_source.py": {
       "bytes": 5884,
-      "sha256": "5b93cc0476f5bcc3d459fd70c964e0767d8dbe8c800eef55fafc90120940bded"
+      "sha256": "032e09fc7f050bc852c228645c43a77216e8c1b723c3bd9ded50c8c9d267a642"
     },
     "src/accessory-workspace.css": {
       "bytes": 463,
