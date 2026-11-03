@@ -2,7 +2,8 @@
 from hashlib import sha256
 from pathlib import Path
 import re
-from valuation_delta import Derivation
+try:from .valuation_delta import Derivation
+except ImportError:from valuation_delta import Derivation
 
 HERE=Path(__file__).resolve().parent
 PINS={'costs.sql':'999ce0516366efb0a2cdc59e0c90b7edf99717dc387fa51f972934e287c1e6c1',

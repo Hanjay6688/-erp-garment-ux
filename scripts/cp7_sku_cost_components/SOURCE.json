@@ -2,17 +2,22 @@
   "actual_ERP_cases": 0,
   "base_monetary_custody_preparation": {
     "actual_ERP_cases": 0,
+    "current_owner_custody_checked_before_source_capture": true,
+    "enrolled_PO_provenance_changes_refused": true,
+    "enrollment_preview_values_preserved": true,
     "existing_physical_opening_guard_unchanged": true,
     "existing_private_execution_context_only": true,
     "first_PLpgSQL_alias_failure_preserved": true,
     "focused_base_cases": 5,
     "focused_followup_cases": 8,
+    "full_unfiltered_model_checks": 80,
     "historical_fixture_postconditions_not_production_backfill": true,
     "independent_credit_reads_raw_base_money_and_custody": true,
     "new_private_helpers": 10,
     "new_private_tables": 1,
     "older_61_controls_not_relabelled_current_tree": true,
-    "product_repair_admitted": false
+    "product_repair_admitted": false,
+    "unknown_source_refusal_order_preserved": true
   },
   "base_source_cent_counterexamples": {
     "actual_ERP_cases": 0,
@@ -26,34 +31,56 @@
     "unchanged_source_guard_refused_all": true
   },
   "classification": "PREPARED_COST_COMPONENT_LAYER_NOT_ADMITTED",
+  "composition_preparation": {
+    "actual_ERP_cases": 0,
+    "actual_used_restore": false,
+    "all_catalog_groups": 22,
+    "changed_functions": 22,
+    "existing_metadata_attributes_preserved": 18,
+    "explicit_empty_PG17_inverse_exact": true,
+    "negative_catalog_controls": 16,
+    "new_private_functions": 31,
+    "new_private_tables": 8,
+    "replacement_definitions": 26,
+    "status": "PREPARED_EXACT_PARENT_INSTALL_AND_UNUSED_INVERSE_NOT_ACTUAL_ERP",
+    "workflow_armed": false
+  },
   "files": {
+    "scripts/cp7_sku_cost_components/CATALOG_ADDITIONS.json": {
+      "bytes": 646428,
+      "sha256": "07562a925fc378052ef7f7662b1de0104f8b258decf2885375f44937a4688957"
+    },
     "scripts/cp7_sku_cost_components/README.md": {
-      "bytes": 13628,
-      "sha256": "5e9e105c0c95dadb23b034d7002d5cd7c4b220a8a831ca0f9d494d92990bb203"
+      "bytes": 15760,
+      "sha256": "de24f36307604c346dd25ca920b318c56b5524a6dada20fb5a5762911f10c416"
     },
     "scripts/cp7_sku_cost_components/base_cent_cases.mjs.inc": {
       "bytes": 2463,
       "sha256": "eeeeba3dbab43bc92c690c36ba6d01ac0d344fa8e2e7fde781b825af9baa5a18"
     },
     "scripts/cp7_sku_cost_components/base_money.sql": {
-      "bytes": 14781,
-      "sha256": "60f5cb3a18bf821ad9c4ed95dece27ef06dc47fdcbdeb31a35242eae6f755495"
+      "bytes": 15312,
+      "sha256": "6e748622d72980d88e8deb75e791f131df3ec9d787234908e2773fcc99a6ad14"
     },
     "scripts/cp7_sku_cost_components/base_money_cases.mjs.inc": {
       "bytes": 3937,
       "sha256": "dc76a4265d4b3d5ff483c16c90c6d4f2a92a451eb864e0824609c0473cfb9cd9"
     },
     "scripts/cp7_sku_cost_components/base_money_delta.py": {
-      "bytes": 11712,
-      "sha256": "1bcfa36e139ab03c3865ca5d017892b4b42868e931b86083fcfb17a64973193b"
+      "bytes": 12611,
+      "sha256": "b943979524c86bdbcf22daa703d2f9891be07bc292a020db822662cb878cc835"
     },
     "scripts/cp7_sku_cost_components/base_money_fixture.mjs.inc": {
-      "bytes": 1044,
-      "sha256": "db3b2c12033d8c69c645418f482e563980bbe3082d2c54780efbfa807c07d202"
+      "bytes": 2269,
+      "sha256": "fe17a1d8a5e1b9123389b6aeab268427b4af883ff663994aa93692a7f2e31cc7"
     },
     "scripts/cp7_sku_cost_components/base_money_followup_cases.mjs.inc": {
-      "bytes": 8472,
-      "sha256": "ddda50eaeee6c3b360467e177a7549c4e7242f0565d3b75a35da41b998654868"
+      "bytes": 11622,
+      "sha256": "506ac318ed72e265d5f00c93f38bee4f37624781a25873443a8044a56f537610"
+    },
+    "scripts/cp7_sku_cost_components/catalog_additions.py": {
+      "bytes": 3714,
+      "sha256": "e5eeae46ec4551a3bf0688c974a2e621c16a956c926c56d2e171c24d72e898ab"
     },
     "scripts/cp7_sku_cost_components/cent_inverse_counterexamples.mjs.inc": {
       "bytes": 3270,
@@ -71,6 +98,10 @@
       "bytes": 2878,
       "sha256": "9898434ca1c8e084dcaedd5543b7daa08e093610a545eef718343b3b1617c420"
     },
+    "scripts/cp7_sku_cost_components/composition.py": {
+      "bytes": 6718,
+      "sha256": "7ddfc7a3b825d35146a93643b1427be04c29ed49fd5debcbada00a26718868f0"
+    },
     "scripts/cp7_sku_cost_components/cost_cases.mjs.inc": {
       "bytes": 11386,
       "sha256": "670a13471483e386f70a52b4083e725939d1f1531d17f3ad72a31e6a2555bbdd"
@@ -80,8 +111,8 @@
       "sha256": "999ce0516366efb0a2cdc59e0c90b7edf99717dc387fa51f972934e287c1e6c1"
     },
     "scripts/cp7_sku_cost_components/financial_delta.py": {
-      "bytes": 9476,
-      "sha256": "c91f36988066902291e34ade09614aeba2d7943cd959b792c3eea56aa481f7a2"
+      "bytes": 9539,
+      "sha256": "5a99c9c6b301124605d86e621af12277b137a2eb20ee719b07d862abd44924a7"
     },
     "scripts/cp7_sku_cost_components/inverse_cases.mjs.inc": {
       "bytes": 8133,
@@ -104,8 +135,8 @@
       "sha256": "ecbf65dfe93dd97ce3547ffd3468bcd8999d99021e9c786071a091dc383c82df"
     },
     "scripts/cp7_sku_cost_components/money_delta.py": {
-      "bytes": 11138,
-      "sha256": "ac5fa3c75f0ee16ad8016de1d33032641f9cbc8025a7c3863ebe1b9f9eca9a85"
+      "bytes": 11201,
+      "sha256": "c97a14eae7f4028a79362a27de023a878e7e9930de250cff94df3fe9401a5d4f"
     },
     "scripts/cp7_sku_cost_components/money_history_case.mjs.inc": {
       "bytes": 1945,
@@ -115,21 +146,37 @@
       "bytes": 10024,
       "sha256": "6a0627fa980634bb2b4b812d6f53848aed5b85a206915b465b665b627268ebf7"
     },
+    "scripts/cp7_sku_cost_components/prepare_catalog.py": {
+      "bytes": 2936,
+      "sha256": "957b3d76e39eeb2f0db8ec14caf5c3bfe0f3454d695930814400165bb910d8da"
+    },
     "scripts/cp7_sku_cost_components/prepare_model.py": {
-      "bytes": 19213,
-      "sha256": "2499929329a42d566f363d0965290350fb0ef62b9c1d86a211c7058c767bc3a0"
+      "bytes": 21272,
+      "sha256": "5baeedf7c868d2da38a1c37a58edf1e1a7cc854431cb6f7b816187d1663c4027"
+    },
+    "scripts/cp7_sku_cost_components/prepared_product.py": {
+      "bytes": 2921,
+      "sha256": "95e3a4eedef071b8b74cac7d08783d5a6c27246935df5e29ff6ba951f4a8e401"
     },
     "scripts/cp7_sku_cost_components/private_inverse_delta.py": {
-      "bytes": 1114,
-      "sha256": "647d5de5ed5f406107219a7fe506aa318ab11ff83ac5a04151c017947a3b9423"
+      "bytes": 1231,
+      "sha256": "2129a0f9246f696e91cec760cf79fdb69d6a63fd315fbee9534fce5ab269d803"
+    },
+    "scripts/cp7_sku_cost_components/profile_catalog.mjs": {
+      "bytes": 7682,
+      "sha256": "80d6fb996a5c2e4b7f9425410c18aa7186c99d4077c700abed4f6dab1481c03d"
     },
     "scripts/cp7_sku_cost_components/source_delta.py": {
-      "bytes": 1964,
-      "sha256": "a4872031ce104c6f49668debc22bcc0d2a060e8d28196f9b70b6df3d5094882d"
+      "bytes": 2027,
+      "sha256": "0efbe785782e94d2cb77a5d7f230c7e08cd63054a91465622bd2d269690d4a2f"
     },
     "scripts/cp7_sku_cost_components/source_rebalance.sql": {
       "bytes": 8954,
       "sha256": "7a9ab4a887fe92b82eeb003989418b5ab4da57607fccefc365b2f2445bade765"
+    },
+    "scripts/cp7_sku_cost_components/test_catalog_transition.py": {
+      "bytes": 3409,
+      "sha256": "099a035146a3b069a6ff38e7a81b7bc317a720953497cd60d1369c9d2e1cf667"
     },
     "scripts/cp7_sku_cost_components/test_cent_ownership.py": {
       "bytes": 3678,

@@ -1,8 +1,8 @@
 # Sourced conversion costs alongside SKU moving-average pieces
 
-Prepared only. No installer, database entry, accepted parent or workflow is
-introduced here. The prior six-case candidate remains unchanged and its
-adoption remains blocked until the full financial scope is qualified.
+Prepared only. An exact-parent installer and unused inverse are now provided;
+no workflow or database entry is armed. The prior six-case candidate remains
+unchanged and adoption stays blocked until the full financial scope qualifies.
 
 The exact current projection loses a later cost attached to a converted lot.
 In the retained PostgreSQL 17 counterexample an unsold pool is worth 70; the
@@ -203,3 +203,35 @@ all rows restore afterward. These are thirteen new business controls plus
 their setup/restore checks, not a fresh run of the older61 or actual ERP cases.
 The new initializer, source corrections, inverse transition and all permissions
 still require full actual qualification. All twelve admission gates remain null.
+
+The next preparation validates every current root owner before initialization
+or source capture, refuses a changed PO provenance, and requires the source
+preview's quantity, value and transfer cents to remain exact after enrollment.
+A subcent source that cannot satisfy that contract is refused atomically.
+The original pool/return unknown-HPP refusal order is retained. Three mixed-PO
+model fixtures now establish their PO origins before enrolling non-PO roots;
+two old raw-HPP source-guard fixtures explicitly supply matching monetary
+postconditions. No book or expected financial amount was relaxed.
+
+The complete unfiltered PG17 model then passed80 checks on its first run:
+all prior61, four monetary-credit/history cases, five base-transfer/inverse
+cases and ten base-credit/history/refusal cases. Every scenario rolls back,
+including deliberately inconsistent custody with an unrelated private execution
+row. Both official and independent credit paths refuse that inconsistency.
+These model providers still supply no ERP/Auth or Native inverse-command credit.
+
+The separate DDL profile executes the exact same product SQL in an empty PG17
+engine. It adds eight private RLS tables and31 private functions, records all22
+catalogue groups including both foreign-key trigger ends, and preserves all18
+metadata/authority attributes of each existing function. All four modeled app/
+reader roles lack access to the new objects. Explicit removal of every new
+object and restoration of original functions reproduce the entire original
+catalogue. Sixteen adversarial metadata/ACL changes are refused by the admission
+checker. No financial function executes in that profile.
+
+The prepared composition requires the exact verified moving-average parent,
+original definitions, full declared source hashes and that fixed DDL profile.
+Its unused inverse checks all data and sequences before any destructive DDL;
+any use requires the owning full-backup restoration. Actual whole-ERP install,
+used restore, legacy single-lot routing and current-parent/Auth/race proofs are
+still open. All twelve acceptance gates remain unset.

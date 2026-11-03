@@ -1,6 +1,7 @@
 """Keep the complete Native cost command and add bounded source redistribution."""
 from hashlib import sha256
-from valuation_delta import Derivation
+try:from .valuation_delta import Derivation
+except ImportError:from valuation_delta import Derivation
 
 SIGNATURE='erp.be_reconcile_cost_document_v1(uuid,date)'
 ORIGINAL_SHA256='fdaf4b1384fa7a4840359cbc7c1e94b588979e2cd364a2b2e9da9f03662492ad'

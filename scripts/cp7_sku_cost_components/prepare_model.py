@@ -14,6 +14,8 @@ COST_FUNCTIONS=('erp.be_conversion_extra_v1(uuid)','erp.be_allocation_extra_v1(u
 
 
 def prepare(destination):
+    if os.environ.get('CP7_COST_BASE_FULL')=='1'and(not all(os.environ.get(k)=='1'for k in('CP7_COST_BASE_MONEY','CP7_COST_FULL_WITH_CHAINS','CP7_COST_INVERSE_REPAIR'))or any(os.environ.get(k)=='1'for k in('CP7_COST_CHAIN_MODEL','CP7_COST_MONEY_CREDIT_ONLY','CP7_COST_BASE_CENT_ONLY'))):
+        raise ValueError('BASE_MONEY_FULL_REQUIRES_UNFILTERED_COMPLETE_INPUT')
     if os.environ.get('CP7_COST_BASE_MONEY_MORE_ONLY')=='1'and not all(os.environ.get(k)=='1'for k in('CP7_COST_BASE_CENT_ONLY','CP7_COST_BASE_MONEY')):
         raise ValueError('BASE_MONEY_FOLLOWUP_REQUIRES_ISOLATED_BASE_MONEY_MODE')
     if os.environ.get('CP7_COST_BASE_CENT_ONLY')=='1'and os.environ.get('CP7_COST_MONEY_CREDIT_ONLY')!='1':
@@ -105,9 +107,16 @@ def prepare(destination):
  await query('select cp7_sku_conversion.finalize_costs_v3($1)',[x.group]);
  assert.deepEqual(await values(x.source),{hpp:60,fg:60,cogs:0,other:0});""",'zero cost root exists before any sale transfer or invoice')
     if input.get('base_money_enabled'):
+        d.once('const control = async (label, operation) => {','let initializeBaseFixture=async()=>{};\nconst control = async (label, operation) => {',
+               'isolated coherent base-money starting facts for each scenario')
+        d.once('try { await operation();','try { await initializeBaseFixture(label); await operation();',
+               'fixture provenance established before each control, full rollback retained')
         d.once(" await query('select cp7_sku_conversion.finalize_costs_v3($1)',[x.group]);",
             " await query('select cp7_sku_conversion.finalize_costs_v3($1)',[x.group]);\n"+(HERE/'base_money_fixture.mjs.inc').read_text(),
             'explicit retained historical fixture monetary postconditions, not a production backfill')
+        d.many("  await query('update erp.hpp_versions set total_cost=80 where id=$1',[x.hpp30]);",
+               "  await query('update erp.hpp_versions set total_cost=80 where id=$1',[x.hpp30]);\n  await modelBaseSourcePostcondition(x.root30,80);",2,
+               'two original exact-source refusal fixtures retain complete monetary source postconditions')
     d.once(" const report={status:'POSTGRES17_EXACT_CONSUMER_SQL_CONTROLS_PASS_NOT_NATIVE'",(HERE/'cost_cases.mjs.inc').read_text()+"\n const report={status:'POSTGRES17_COST_SUCCESSOR_MODELED_CONTROLS_PASS_NOT_NATIVE'",'new cost regression and chain cases after original controls')
     if os.environ.get('CP7_COST_CHAIN_MODEL')=='1'or os.environ.get('CP7_COST_FULL_WITH_CHAINS')=='1':
         if os.environ.get('CP7_COST_CHAIN_MODEL')=='1':
@@ -159,6 +168,13 @@ def prepare(destination):
                 if current_counters.inverse()!=retained_counters:raise ValueError('COST_RETAINED_COUNTER_DERIVATION_NOT_REVERSIBLE')
                 d.once(" const report={costChainFindings,status:'POSTGRES17_COST_CHAIN_SOURCE_REBALANCE_MODELED_PASS_NOT_NATIVE'",
                     current_counters.source+"\n const report={costChainFindings,remainingCostGaps,status:'MODELED_SOURCE_CENTS_STILL_REFUSED_CURRENT_INVERSE_REPAIRED_NOT_NATIVE'",'source penny guard unchanged, current inverse checked against the repaired expected values')
+    if os.environ.get('CP7_COST_BASE_FULL')=='1':
+        combined=(HERE/'money_credit_cases.mjs.inc').read_text()+'\n'+(HERE/'money_history_case.mjs.inc').read_text()
+        combined+='\n'+(HERE/'base_money_cases.mjs.inc').read_text().replace('baseCentFindings','baseCoreFindings')
+        combined+='\n'+(HERE/'base_money_followup_cases.mjs.inc').read_text().replace('baseCentFindings','baseFollowupFindings')
+        d.once(" const report={costChainFindings,currentInverseFindings,moneyFindings,status:'MODELED_SOURCE_CENT_CUSTODY_FULL_CONTROLS_PASS_NOT_NATIVE'",
+               combined+"\n const report={costChainFindings,currentInverseFindings,moneyFindings,moneyCreditFindings,baseCoreFindings,baseFollowupFindings,status:'MODELED_COMPLETE_BASE_AND_COST_MONEY_CONTROLS_PASS_NOT_NATIVE'",
+               'unfiltered full prior controls plus monetary credit and new base-custody regressions')
     if os.environ.get('CP7_COST_BASE_CENT_ONLY')=='1':
         d.once("if(!label.startsWith('CHAIN: MONEY CREDIT:'))return;","if(!label.startsWith('CHAIN: BASE CENT:'))return;",
                'isolate only new base-source cent counterexamples')

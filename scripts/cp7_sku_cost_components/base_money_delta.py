@@ -2,7 +2,8 @@
 from hashlib import sha256
 from pathlib import Path
 import re
-from valuation_delta import Derivation,PARENT,PARENT_SHA256
+try:from .valuation_delta import Derivation,PARENT,PARENT_SHA256
+except ImportError:from valuation_delta import Derivation,PARENT,PARENT_SHA256
 
 HERE=Path(__file__).resolve().parent
 
@@ -18,9 +19,10 @@ def definitions(valuation,consumers,credit):
         if d.inverse()!=before:raise ValueError('BASE_MONEY_VALUATION_NOT_REVERSIBLE:'+name)
         result[name]=d.source.replace('create function ','create or replace function ',1)
         routes[name]=[r[2]for r in d.routes]
+    pool_unit="(case when h.id is null or h.cost_state='ESTIMATED'then h.hpp_per_pcs else cp7_sku_conversion.base_current_unit_v4(t.root_lot_id,p_product)end)"
     apply('cp7_sku_conversion.pool_components_v2',[
-        ('h.hpp_per_pcs unit_value','cp7_sku_conversion.base_current_unit_v4(t.root_lot_id,p_product)unit_value','current owned base money'),
-        ('t.units*h.hpp_per_pcs','t.units*cp7_sku_conversion.base_current_unit_v4(t.root_lot_id,p_product)','pool uses the same cent owner')])
+        ('h.hpp_per_pcs unit_value',pool_unit+'unit_value','current owned base money; retain the original unknown-source refusal'),
+        ('t.units*h.hpp_per_pcs','t.units*'+pool_unit,'pool uses the same cent owner')])
     apply('cp7_sku_conversion.owned_scope_value_v2',[
         ('sum(x.units*h.hpp_per_pcs)',"sum(x.units*cp7_sku_conversion.base_current_unit_v4(x.root_lot_id,p_product)\n +case when p_po is null then cp7_sku_conversion.base_transition_value_v4(x.root_lot_id,p_product)else 0 end)",
          'retain exact physical Native intermediate values only in owning execution context')])
@@ -30,7 +32,7 @@ def definitions(valuation,consumers,credit):
         ('if v_legacy then select a.qty_pcs into strict v_sold from erp.sale_stock_allocations a where a.id=p_allocation;end if;',
          'if v_legacy then select a.qty_pcs,l.product_id into strict v_sold,v_product from erp.sale_stock_allocations a join erp.fg_lots l on l.id=a.lot_id where a.id=p_allocation;end if;',
          'legacy return keeps its physical product'),
-        ("'hpp_per_pcs',h.hpp_per_pcs", "'hpp_per_pcs',cp7_sku_conversion.base_current_unit_v4(p.root_lot_id,v_product)",'return current monetary base')])
+        ("'hpp_per_pcs',h.hpp_per_pcs", "'hpp_per_pcs',case when h.id is null or h.cost_state='ESTIMATED'then h.hpp_per_pcs else cp7_sku_conversion.base_current_unit_v4(p.root_lot_id,v_product)end",'return current monetary base after the unchanged unknown-root refusal')])
     apply('cp7_sku_conversion.prepare_return_values_v2',[
         ('sum(c.component_units*h.hpp_per_pcs)','sum(c.component_units*cp7_sku_conversion.base_current_unit_v4(c.root_lot_id,v.product_id))',
          'earlier items of the same return use current base custody')])
@@ -39,8 +41,15 @@ def definitions(valuation,consumers,credit):
          "'base_money',(select coalesce(jsonb_agg(to_jsonb(m)order by m.id),'[]')from cp7_sku_conversion.base_money_events_v4 m\n   where m.root_lot_id in(select root_lot_id from cp7_sku_conversion.pool_components_v2(p_product,p_location,p_grade))),\n  'events',(select coalesce(jsonb_agg(to_jsonb(e)order by e.recorded_at,e.id),'[]'::jsonb)from cp7_sku_conversion.valuation_events_v2 e",
          'complete base monetary history is part of the source revision')])
     apply('cp7_sku_conversion.prepare_valuation_v2',[
+        ('v_revision text;','v_revision text;v_enrolled jsonb;','enrollment must preserve the admitted preview value'),
         (' v_transfer:=round(v_qty*(s->>\'average\')::numeric,2);',
-         " perform cp7_sku_conversion.prepare_base_money_v4(p_preview);\n v_transfer:=round(v_qty*(s->>'average')::numeric,2);",
+         """ perform cp7_sku_conversion.prepare_base_money_v4(p_preview);
+ v_enrolled:=cp7_sku_conversion.pool_quote_v2((p_preview->>'source_product_id')::uuid,(p_preview->>'location_id')::uuid,'GRADE_A');
+ if v_enrolled->'qty'is distinct from s->'qty'or v_enrolled->'value'is distinct from s->'value'
+  or v_enrolled->'base_value'is distinct from s->'base_value'
+  or round(v_qty*(v_enrolled->>'average')::numeric,2)is distinct from round(v_qty*(s->>'average')::numeric,2)then
+  raise exception 'CP7_SKU_BASE_ENROLLMENT_PREVIEW_VALUE_CHANGED';end if;
+ v_transfer:=round(v_qty*(s->>'average')::numeric,2);""",
          'enroll only known unused roots after the unchanged stale-preview check')])
     apply('cp7_sku_conversion.finalize_valuation_v2',[
         (' perform cp7_sku_conversion.finalize_costs_v3(p_group);',

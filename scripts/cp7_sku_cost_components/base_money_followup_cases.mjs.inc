@@ -89,4 +89,36 @@
   assert.equal(acl.length,3);assert(acl.every(r=>r.access===false));
   baseCentFindings.push({mode:'IMMUTABLE_PRIVATE_BASE_MONEY_AND_CONVERTED_ORIGIN_REFUSAL',model_role_acl:acl,complete_rollback:true,actual_ERP_cases:0});
  });
- assert.equal(baseCentFindings.length,8);assert.deepEqual(await costSnapshot(),costBaseline);
+ await control('CHAIN: BASE CENT: changed PO provenance and unrelated execution cannot conceal custody drift',async()=>{
+  const before=await costSnapshot();await db.exec('savepoint base_provenance');
+  await query('update erp.fg_lots set po_id=$1 where id=$2',[x.po,x.root30]);
+  await assert.rejects(()=>query('select cp7_sku_conversion.ensure_base_money_v4($1)',[x.root30]),e=>e.message.includes('CP7_SKU_BASE_MONEY_PO_PROVENANCE_CHANGED'));
+  await db.exec('rollback to savepoint base_provenance');assert.deepEqual(await costSnapshot(),before);
+  await db.exec('savepoint base_custody');
+  for(const[product,units,line]of[[x.source,-.1,991],[x.target,.1,992]])await insert('cp7_sku_conversion.component_events_v2',{
+   id:id(++serial),group_id:x.group,source_type:'SKU_CONVERSION',source_id:x.group,line_no:line,phase:'POST',side:'SOURCE',
+   product_id:product,location_id:x.location,quality_grade:'GRADE_A',root_lot_id:x.root30,units_delta:units,
+   physical_at:'2026-01-01T00:00:00Z',economic_date:'2026-01-01'});
+  await query("insert into cp7_sku_conversion.execution_v1(backend_pid,transaction_id,group_id,mode)values(pg_backend_pid(),txid_current(),$1,'POST')",[x.group]);
+  for(const[sql,args,message]of[
+   ['select cp7_sku_conversion.ensure_base_money_v4($1)',[x.root30],'CP7_SKU_BASE_MONEY_CUSTODY_NOT_EXACT'],
+   ["select cp7_credit.initial_hpp_targets_v1($1,null,'[]',false)",[x.source],'CP7_CREDIT_RAW_BASE_MONEY_NOT_EXACT']]){
+   await db.exec('savepoint custody_probe');await assert.rejects(()=>query(sql,args),e=>e.message.includes(message));
+   await db.exec('rollback to savepoint custody_probe');
+  }
+  await db.exec('rollback to savepoint base_custody');assert.deepEqual(await costSnapshot(),before);
+  baseCentFindings.push({mode:'PO_PROVENANCE_AND_CUSTODY_DRIFT_REFUSALS',unrelated_private_execution_row_cannot_bypass:true,independent_credit_refused:true,complete_rollback:true,actual_ERP_cases:0});
+ });
+ await control('CHAIN: BASE CENT: first enrollment cannot silently change the admitted source preview',async()=>{
+  await query('update erp.hpp_versions set total_cost=270.001 where id=$1',[x.hpp90]);
+  const source=await scalar('select cp7_sku_conversion.pool_quote_v2($1,$2)',[x.outside,x.location]);
+  const target=await scalar('select cp7_sku_conversion.pool_quote_v2($1,$2)',[x.target,x.location]);
+  const group=id(99881);await insert('cp7_sku_conversion.groups_v1',{request_id:group});
+  const preview={qty_pcs:1,source_product_id:x.outside,target_product_id:x.target,location_id:x.location,
+   physical_at:'2026-01-03T00:00:00Z',source_value_revision:source.revision,target_value_revision:target.revision};
+  const before=await costSnapshot();await db.exec('savepoint base_preview');
+  await assert.rejects(()=>query('select cp7_sku_conversion.prepare_valuation_v2($1,$2)',[group,preview]),e=>e.message.includes('CP7_SKU_BASE_ENROLLMENT_PREVIEW_VALUE_CHANGED'));
+  await db.exec('rollback to savepoint base_preview');assert.deepEqual(await costSnapshot(),before);
+  baseCentFindings.push({mode:'SUBCENT_SOURCE_ENROLLMENT_PREVIEW_REFUSED',source_total:270.001,complete_rollback:true,actual_ERP_cases:0});
+ });
+ assert.equal(baseCentFindings.length,10);assert.deepEqual(await costSnapshot(),costBaseline);

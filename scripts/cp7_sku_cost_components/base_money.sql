@@ -46,6 +46,8 @@ language plpgsql stable security definer set search_path=''as $$
 declare h record;c record;qty numeric;amount numeric;
 begin
  select v.*,l.po_id into strict h from erp.fg_lots l join erp.hpp_versions v on v.lot_id=l.id and v.is_current where l.id=p_root;
+ if h.po_id is not null and exists(select 1 from cp7_sku_conversion.base_money_events_v4 where root_lot_id=p_root)then
+  raise exception 'CP7_SKU_BASE_MONEY_PO_PROVENANCE_CHANGED';end if;
  if h.po_id is not null or not exists(select 1 from cp7_sku_conversion.base_money_events_v4 where root_lot_id=p_root)then
   return h.hpp_per_pcs;end if;
  select sum(x.units),sum(x.amount)into qty,amount from cp7_sku_conversion.base_money_cells_v4(p_root)x;
@@ -101,14 +103,19 @@ end $$;
 
 create function cp7_sku_conversion.ensure_base_money_v4(p_root uuid)returns void
 language plpgsql volatile security definer set search_path=''as $$
-declare r record;
+declare r record;cell record;
 begin
  perform erp.require_internal();perform pg_advisory_xact_lock(hashtextextended('FG_HPP_SALES_V2620C',0));
  select l.*,h.id hpp_id,h.qty_basis_pcs,h.total_cost,h.cost_state into strict r
  from erp.fg_lots l join erp.hpp_versions h on h.lot_id=l.id and h.is_current where l.id=p_root;
- if r.po_id is not null then return;end if;
+ if r.po_id is not null then perform cp7_sku_conversion.base_current_unit_v4(p_root,r.product_id);return;end if;
  if exists(select 1 from cp7_sku_conversion.base_money_events_v4 where root_lot_id=p_root)then
-  perform cp7_sku_conversion.base_current_unit_v4(p_root,r.product_id);return;end if;
+  perform cp7_sku_conversion.base_current_unit_v4(p_root,r.product_id);
+  for cell in select product_id from cp7_sku_conversion.base_money_cells_v4(p_root)
+   union select product_id from cp7_sku_conversion.base_raw_custody_v4(p_root)loop
+   perform cp7_sku_conversion.base_transition_value_v4(p_root,cell.product_id);
+  end loop;
+  return;end if;
  if r.lot_origin in('CONVERSION','VOIDED_PRODUCTION')or r.qty_basis_pcs<=0 or r.qty_basis_pcs<>r.initial_qty_pcs
   or r.total_cost<0 or r.total_cost::text in('NaN','Infinity','-Infinity')or r.cost_state='ESTIMATED'
   or exists(select 1 from cp7_sku_conversion.component_events_v2 where root_lot_id=p_root and source_type='SKU_CONVERSION')

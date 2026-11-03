@@ -6,7 +6,8 @@ target or its cost-scope helper. Native permission/book/date checks stay intact.
 from hashlib import sha256
 from pathlib import Path
 import importlib.util
-from valuation_delta import Derivation
+try:from .valuation_delta import Derivation
+except ImportError:from valuation_delta import Derivation
 
 HERE=Path(__file__).resolve().parent
 PARENT=HERE.parent/'cp7_sku_moving_average'
