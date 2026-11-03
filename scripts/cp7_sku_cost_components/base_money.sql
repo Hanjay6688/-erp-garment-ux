@@ -76,12 +76,21 @@ begin
  -- name, arbitrary backend or historical group cannot manufacture this lease.
  select coalesce(sum(case when e.mode='POST'and pc.status='POSTED'then -a.qty_pcs
   when e.mode='REVERSE'and pc.status='REVERSED'then a.qty_pcs else 0 end),0)into expected
- from cp7_sku_conversion.execution_v1 e join cp7_sku_conversion.members_v1 m on m.group_id=e.group_id
- join erp.product_conversions pc on pc.id=m.conversion_id
+ from cp7_sku_conversion.execution_v1 e
+ join cp7_sku_conversion.valuation_quotes_v2 q on q.group_id=e.group_id
+ join erp.product_conversions pc on exists(select 1 from cp7_sku_conversion.members_v1 m
+   where m.group_id=e.group_id and m.conversion_id=pc.id)
+  or(e.mode='POST'and pc.from_product_id=q.source_product_id and pc.to_product_id=q.target_product_id
+   and pc.to_product_id=e.target_id and pc.location_id=q.location_id and pc.location_id=e.location_id
+   and pc.qty_pcs=e.qty and pc.physical_at=e.physical_at
+   and exists(select 1 from erp.be_execution_context_v1 b where b.backend_pid=e.backend_pid
+    and b.transaction_id=e.transaction_id and b.request_id=pc.id))
  join erp.product_conversion_allocations a on a.conversion_id=pc.id
  join erp.fg_lots l on l.id=a.source_lot_id
  where e.backend_pid=pg_backend_pid()and e.transaction_id=txid_current()
-  and a.source_lot_id=p_root and l.product_id=p_product;
+  and a.source_lot_id=p_root and l.product_id=p_product
+  and(exists(select 1 from cp7_sku_conversion.members_v1 m where m.group_id=e.group_id and m.conversion_id=pc.id)
+   or(a.source_lot_id=e.source_lot_id and a.qty_pcs=e.qty));
  if difference is distinct from expected or expected=0 then raise exception 'CP7_SKU_BASE_MONEY_CUSTODY_NOT_EXACT';end if;
  select h.hpp_per_pcs into strict native_unit from erp.hpp_versions h where h.lot_id=p_root and h.is_current;
  return difference*(native_unit-unit);

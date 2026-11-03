@@ -6,8 +6,8 @@
   "original_sha256": "5e22077e71e34add6fd0627c89e9d21a2235f463818e45b233c7619bcfb0d48f",
   "source_files": {
     "base_money.sql": {
-      "bytes": 15312,
-      "sha256": "6e748622d72980d88e8deb75e791f131df3ec9d787234908e2773fcc99a6ad14"
+      "bytes": 16005,
+      "sha256": "cdd8dc4742388690f9d83566ac5015ddb3322cae00b1fd0d99474eb0033d262d"
     },
     "costs.sql": {
       "bytes": 17529,
@@ -27,8 +27,8 @@
     }
   },
   "derived_ddl": {
-    "bytes": 82129,
-    "sha256": "85000effce1aee070dee31c8c081f04c5d9a5f6b1098058f7cc55f47bf900cd4"
+    "bytes": 82822,
+    "sha256": "8702341cc9b6b196fcc6c6e7881f12af38d5c8d65c38ee99ce7fea530cb358c2"
   },
   "derived_replacements": {
     "cp7_credit.initial_hpp_projection_v1(jsonb)": {
@@ -3417,6 +3417,38 @@
           ]
         ]
       ],
+      "cp7_sku_conversion.base_scope_correction_v4(uuid)": [
+        "CREATE OR REPLACE FUNCTION cp7_sku_conversion.base_scope_correction_v4(p_product uuid)\n RETURNS numeric\n LANGUAGE plpgsql\n STABLE SECURITY DEFINER\n SET search_path TO ''\nAS $function$\ndeclare c record;answer numeric:=0;\nbegin\n for c in select e.root_lot_id,sum(e.units_delta)units,sum(e.amount_delta)amount,h.hpp_per_pcs\n  from cp7_sku_conversion.base_money_events_v4 e join erp.hpp_versions h on h.lot_id=e.root_lot_id and h.is_current\n  where e.product_id=p_product group by e.root_lot_id,h.hpp_per_pcs loop\n  perform cp7_sku_conversion.base_current_unit_v4(c.root_lot_id,p_product);\n  perform cp7_sku_conversion.base_transition_value_v4(c.root_lot_id,p_product);\n  answer:=answer+c.amount-c.units*c.hpp_per_pcs;\n end loop;\n return answer;\nend $function$\n",
+        "postgres",
+        "plpgsql",
+        "f",
+        true,
+        false,
+        false,
+        false,
+        "s",
+        "u",
+        "100",
+        "0",
+        [
+          "search_path=\"\""
+        ],
+        [
+          "p_product"
+        ],
+        null,
+        "p_product uuid",
+        "numeric",
+        "-",
+        [
+          [
+            "postgres",
+            "postgres",
+            "EXECUTE",
+            false
+          ]
+        ]
+      ],
       "cp7_sku_conversion.base_raw_custody_v4(uuid)": [
         "CREATE OR REPLACE FUNCTION cp7_sku_conversion.base_raw_custody_v4(p_root uuid)\n RETURNS TABLE(product_id uuid, units numeric)\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO ''\nAS $function$\n with entries as(\n  select l.product_id,(case when l.lot_origin='VOIDED_PRODUCTION'or(l.lot_origin='CONVERSION'and not exists(\n   select 1 from erp.product_conversion_allocations a join erp.product_conversions c on c.id=a.conversion_id\n   where a.destination_lot_id=l.id and c.status='POSTED'))then 0 else l.initial_qty_pcs end\n   -coalesce((select sum(a.qty_pcs)from erp.product_conversion_allocations a\n    join erp.product_conversions c on c.id=a.conversion_id where a.source_lot_id=l.id and c.status='POSTED'),0))::numeric units\n  from erp.fg_lots l where l.id=p_root\n  union all select e.product_id,e.units_delta from cp7_sku_conversion.component_events_v2 e\n   where e.root_lot_id=p_root and e.source_type='SKU_CONVERSION'\n )select e.product_id,sum(e.units)::numeric from entries e group by e.product_id\n$function$\n",
         "postgres",
@@ -3489,7 +3521,7 @@
         ]
       ],
       "cp7_sku_conversion.base_transition_value_v4(uuid,uuid)": [
-        "CREATE OR REPLACE FUNCTION cp7_sku_conversion.base_transition_value_v4(p_root uuid, p_product uuid)\n RETURNS numeric\n LANGUAGE plpgsql\n STABLE SECURITY DEFINER\n SET search_path TO ''\nAS $function$\ndeclare owned numeric;physical numeric;difference numeric;expected numeric;native_unit numeric;unit numeric;\nbegin\n if not exists(select 1 from cp7_sku_conversion.base_money_events_v4 where root_lot_id=p_root)then return 0;end if;\n unit:=cp7_sku_conversion.base_current_unit_v4(p_root,p_product);\n select coalesce(sum(c.units),0)into owned from cp7_sku_conversion.base_money_cells_v4(p_root)c where c.product_id=p_product;\n select coalesce(sum(c.units),0)into physical from cp7_sku_conversion.base_raw_custody_v4(p_root)c where c.product_id=p_product;\n difference:=physical-owned;\n if difference=0 then return 0;end if;\n -- Only the existing private owning command may observe its intermediate\n -- Native physical transfer before the economic component hook. A GUC, role\n -- name, arbitrary backend or historical group cannot manufacture this lease.\n select coalesce(sum(case when e.mode='POST'and pc.status='POSTED'then -a.qty_pcs\n  when e.mode='REVERSE'and pc.status='REVERSED'then a.qty_pcs else 0 end),0)into expected\n from cp7_sku_conversion.execution_v1 e join cp7_sku_conversion.members_v1 m on m.group_id=e.group_id\n join erp.product_conversions pc on pc.id=m.conversion_id\n join erp.product_conversion_allocations a on a.conversion_id=pc.id\n join erp.fg_lots l on l.id=a.source_lot_id\n where e.backend_pid=pg_backend_pid()and e.transaction_id=txid_current()\n  and a.source_lot_id=p_root and l.product_id=p_product;\n if difference is distinct from expected or expected=0 then raise exception 'CP7_SKU_BASE_MONEY_CUSTODY_NOT_EXACT';end if;\n select h.hpp_per_pcs into strict native_unit from erp.hpp_versions h where h.lot_id=p_root and h.is_current;\n return difference*(native_unit-unit);\nend $function$\n",
+        "CREATE OR REPLACE FUNCTION cp7_sku_conversion.base_transition_value_v4(p_root uuid, p_product uuid)\n RETURNS numeric\n LANGUAGE plpgsql\n STABLE SECURITY DEFINER\n SET search_path TO ''\nAS $function$\ndeclare owned numeric;physical numeric;difference numeric;expected numeric;native_unit numeric;unit numeric;\nbegin\n if not exists(select 1 from cp7_sku_conversion.base_money_events_v4 where root_lot_id=p_root)then return 0;end if;\n unit:=cp7_sku_conversion.base_current_unit_v4(p_root,p_product);\n select coalesce(sum(c.units),0)into owned from cp7_sku_conversion.base_money_cells_v4(p_root)c where c.product_id=p_product;\n select coalesce(sum(c.units),0)into physical from cp7_sku_conversion.base_raw_custody_v4(p_root)c where c.product_id=p_product;\n difference:=physical-owned;\n if difference=0 then return 0;end if;\n -- Only the existing private owning command may observe its intermediate\n -- Native physical transfer before the economic component hook. A GUC, role\n -- name, arbitrary backend or historical group cannot manufacture this lease.\n select coalesce(sum(case when e.mode='POST'and pc.status='POSTED'then -a.qty_pcs\n  when e.mode='REVERSE'and pc.status='REVERSED'then a.qty_pcs else 0 end),0)into expected\n from cp7_sku_conversion.execution_v1 e\n join cp7_sku_conversion.valuation_quotes_v2 q on q.group_id=e.group_id\n join erp.product_conversions pc on exists(select 1 from cp7_sku_conversion.members_v1 m\n   where m.group_id=e.group_id and m.conversion_id=pc.id)\n  or(e.mode='POST'and pc.from_product_id=q.source_product_id and pc.to_product_id=q.target_product_id\n   and pc.to_product_id=e.target_id and pc.location_id=q.location_id and pc.location_id=e.location_id\n   and pc.qty_pcs=e.qty and pc.physical_at=e.physical_at\n   and exists(select 1 from erp.be_execution_context_v1 b where b.backend_pid=e.backend_pid\n    and b.transaction_id=e.transaction_id and b.request_id=pc.id))\n join erp.product_conversion_allocations a on a.conversion_id=pc.id\n join erp.fg_lots l on l.id=a.source_lot_id\n where e.backend_pid=pg_backend_pid()and e.transaction_id=txid_current()\n  and a.source_lot_id=p_root and l.product_id=p_product\n  and(exists(select 1 from cp7_sku_conversion.members_v1 m where m.group_id=e.group_id and m.conversion_id=pc.id)\n   or(a.source_lot_id=e.source_lot_id and a.qty_pcs=e.qty));\n if difference is distinct from expected or expected=0 then raise exception 'CP7_SKU_BASE_MONEY_CUSTODY_NOT_EXACT';end if;\n select h.hpp_per_pcs into strict native_unit from erp.hpp_versions h where h.lot_id=p_root and h.is_current;\n return difference*(native_unit-unit);\nend $function$\n",
         "postgres",
         "plpgsql",
         "f",
@@ -3510,38 +3542,6 @@
         ],
         null,
         "p_root uuid, p_product uuid",
-        "numeric",
-        "-",
-        [
-          [
-            "postgres",
-            "postgres",
-            "EXECUTE",
-            false
-          ]
-        ]
-      ],
-      "cp7_sku_conversion.base_scope_correction_v4(uuid)": [
-        "CREATE OR REPLACE FUNCTION cp7_sku_conversion.base_scope_correction_v4(p_product uuid)\n RETURNS numeric\n LANGUAGE plpgsql\n STABLE SECURITY DEFINER\n SET search_path TO ''\nAS $function$\ndeclare c record;answer numeric:=0;\nbegin\n for c in select e.root_lot_id,sum(e.units_delta)units,sum(e.amount_delta)amount,h.hpp_per_pcs\n  from cp7_sku_conversion.base_money_events_v4 e join erp.hpp_versions h on h.lot_id=e.root_lot_id and h.is_current\n  where e.product_id=p_product group by e.root_lot_id,h.hpp_per_pcs loop\n  perform cp7_sku_conversion.base_current_unit_v4(c.root_lot_id,p_product);\n  perform cp7_sku_conversion.base_transition_value_v4(c.root_lot_id,p_product);\n  answer:=answer+c.amount-c.units*c.hpp_per_pcs;\n end loop;\n return answer;\nend $function$\n",
-        "postgres",
-        "plpgsql",
-        "f",
-        true,
-        false,
-        false,
-        false,
-        "s",
-        "u",
-        "100",
-        "0",
-        [
-          "search_path=\"\""
-        ],
-        [
-          "p_product"
-        ],
-        null,
-        "p_product uuid",
         "numeric",
         "-",
         [

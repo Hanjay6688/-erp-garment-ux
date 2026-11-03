@@ -47,20 +47,24 @@
   },
   "files": {
     "scripts/cp7_sku_cost_components/CATALOG_ADDITIONS.json": {
-      "bytes": 646428,
-      "sha256": "07562a925fc378052ef7f7662b1de0104f8b258decf2885375f44937a4688957"
+      "bytes": 647130,
+      "sha256": "d33d1b55ab2533c8e0914e1c67f313783063b0d3b803340f7f01553ca248e275"
     },
     "scripts/cp7_sku_cost_components/README.md": {
-      "bytes": 15760,
-      "sha256": "de24f36307604c346dd25ca920b318c56b5524a6dada20fb5a5762911f10c416"
+      "bytes": 16540,
+      "sha256": "cc2672e832fb27a9e2fa195826c2082dfe1ff6a126bca8763450569673e365f8"
     },
     "scripts/cp7_sku_cost_components/base_cent_cases.mjs.inc": {
       "bytes": 2463,
       "sha256": "eeeeba3dbab43bc92c690c36ba6d01ac0d344fa8e2e7fde781b825af9baa5a18"
     },
+    "scripts/cp7_sku_cost_components/base_forward_cases.mjs.inc": {
+      "bytes": 4008,
+      "sha256": "72fcb6298dbc0861687c81175d6ffecf1e7e45612ad9a66260a40583683b3092"
+    },
     "scripts/cp7_sku_cost_components/base_money.sql": {
-      "bytes": 15312,
-      "sha256": "6e748622d72980d88e8deb75e791f131df3ec9d787234908e2773fcc99a6ad14"
+      "bytes": 16005,
+      "sha256": "cdd8dc4742388690f9d83566ac5015ddb3322cae00b1fd0d99474eb0033d262d"
     },
     "scripts/cp7_sku_cost_components/base_money_cases.mjs.inc": {
       "bytes": 3937,
@@ -151,8 +155,8 @@
       "sha256": "957b3d76e39eeb2f0db8ec14caf5c3bfe0f3454d695930814400165bb910d8da"
     },
     "scripts/cp7_sku_cost_components/prepare_model.py": {
-      "bytes": 21272,
-      "sha256": "5baeedf7c868d2da38a1c37a58edf1e1a7cc854431cb6f7b816187d1663c4027"
+      "bytes": 24528,
+      "sha256": "e2f2b43b7dce96a529e7b837c923580d3fcdf4fe3d205dab9b37281ca44207dd"
     },
     "scripts/cp7_sku_cost_components/prepared_product.py": {
       "bytes": 2921,
@@ -217,6 +221,16 @@
     "reversible_cost_functions": 7,
     "reversible_valuation_functions": 2,
     "root_product_lookup_index": true
+  },
+  "native_forward_order_preparation": {
+    "actual_ERP_cases": 0,
+    "exact_Native_sync_before_member": true,
+    "first_preparation_failure": "COST_MODEL_HARNESS_NOT_REVERSIBLE",
+    "first_unchanged_product_counter_preserved": true,
+    "full_model_checks": 80,
+    "pending_identity_refusals": 15,
+    "physical_lot_paths": 2,
+    "production_go": false
   },
   "parent_public_head": "a8da698c034f3ac6a6ae62b57eecd91fc54c813b",
   "parent_tree": "6ea23d78ecd7d4074f85efec150140668354a0ac",

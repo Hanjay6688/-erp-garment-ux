@@ -188,9 +188,36 @@ def prepare(destination):
             if not input.get('base_money_enabled'):raise ValueError('BASE_MONEY_FOLLOWUP_REQUIRES_COMPLETE_BASE_MONEY_INPUT')
             cases='base_money_followup_cases.mjs.inc'
             status='MODELED_BASE_MONEY_CREDIT_AND_REFUSALS_PASS_NOT_NATIVE'
+        if os.environ.get('CP7_COST_BASE_FORWARD')=='1':
+            if not input.get('base_money_enabled'):raise ValueError('BASE_NATIVE_FORWARD_REQUIRES_BASE_MONEY')
+            cases='base_forward_cases.mjs.inc'
+            status='MODELED_NATIVE_FORWARD_ORDER_COUNTER_NOT_ACCEPTED'if os.environ.get('CP7_COST_BASE_FORWARD_COUNTER')=='1'else'MODELED_NATIVE_FORWARD_ORDER_REPAIR_NOT_NATIVE'
         d.once(" const report={moneyCreditFindings,status:'MODELED_CROSS_SKU_CENT_CREDIT_CONTROLS_PASS_NOT_NATIVE'",
             (HERE/cases).read_text()+"\n const report={baseCentFindings,status:"+json.dumps(status),
             'retain exact source conservation failures before proposing another change')
+    if os.environ.get('CP7_COST_BASE_FORWARD')=='1':
+        d.once("  await insert('cp7_sku_conversion.members_v1',{group_id:group,conversion_id:conversion});",
+               '  // Native action inserts the member only after its complete physical post returns.',
+               'Native posting synchronizes books before the owning action inserts its member')
+        d.once("  await insert('erp.product_conversions',{id:conversion,from_product_id:x.target,to_product_id:product,status:'POSTED',physical_at:'2026-01-03T00:00:00Z'});",
+               "  await insert('erp.product_conversions',{id:conversion,from_product_id:x.target,to_product_id:product,location_id:x.location,qty_pcs:1,status:'POSTED',physical_at:'2026-01-03T00:00:00Z'});",
+               'full Native source target location quantity and date identity in the physical postcondition')
+        d.once("  const physicalValue=Number(await scalar('select hpp_per_pcs from erp.hpp_versions where lot_id=$1 and is_current',[physicalSource]));",
+               """  await query("insert into cp7_sku_conversion.execution_v1(backend_pid,transaction_id,group_id,mode,source_lot_id,target_id,location_id,qty,physical_at)values(pg_backend_pid(),txid_current(),$1,'POST',$2,$3,$4,1,'2026-01-03T00:00:00Z')",[group,physicalSource,product,x.location]);
+  await query('insert into erp.be_execution_context_v1(backend_pid,transaction_id,request_id)values(pg_backend_pid(),txid_current(),$1)',[conversion]);
+  const physicalValue=Number(await scalar('select hpp_per_pcs from erp.hpp_versions where lot_id=$1 and is_current',[physicalSource]));""",
+               'exact existing private and Native execution-table postconditions before Native physical posting')
+        d.once("  await query('select cp7_sku_conversion.finalize_valuation_v2($1)',[group]);",
+               """  if(!baseForwardCounter&&physicalSource===x.root50)await checkPendingNativeIdentity(physicalSource,group,conversion);
+  await query("select erp.be_nonpo_sync_all_v1('2026-01-03','PRODUCT_CONVERSION',$1,'Native physical post before member')",[conversion]);
+  await query('delete from erp.be_execution_context_v1 where backend_pid=pg_backend_pid()and transaction_id=txid_current()');
+  await insert('cp7_sku_conversion.members_v1',{group_id:group,conversion_id:conversion});
+  await query('select cp7_sku_conversion.finalize_valuation_v2($1)',[group]);
+  await query('delete from cp7_sku_conversion.execution_v1 where backend_pid=pg_backend_pid()and transaction_id=txid_current()');""",
+               'same exact Native book sync in the real before-member order, then economic finalize')
+        d.once(' const baseForwardCounter=true;',
+               ' const baseForwardCounter='+('true'if os.environ.get('CP7_COST_BASE_FORWARD_COUNTER')=='1'else'false')+';',
+               'explicit first counter versus repaired expected outcome')
     if input.get('base_money_enabled')and 'async function modelNativeInverse(child,physicalSource)'in d.source:
         d.once(' async function modelNativeInverse(child,physicalSource){',
             " async function modelNativeInverse(child,physicalSource){\n  await query(\"insert into cp7_sku_conversion.execution_v1(backend_pid,transaction_id,group_id,mode)values(pg_backend_pid(),txid_current(),$1,'REVERSE')\",[child.group]);",

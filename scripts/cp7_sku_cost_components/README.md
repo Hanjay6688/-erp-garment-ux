@@ -235,3 +235,14 @@ Its unused inverse checks all data and sequences before any destructive DDL;
 any use requires the owning full-backup restoration. Actual whole-ERP install,
 used restore, legacy single-lot routing and current-parent/Auth/race proofs are
 still open. All twelve acceptance gates remain unset.
+
+A source-order review then reproduced a separate forward-posting refusal. The
+unchanged Native physical function synchronizes books before its owning action
+inserts the member. The monetary transition guard now recognizes that pending
+child only through both private execution records, the exact admitted quote,
+source, target, location, quantity, time and allocation. Existing-member inverse
+handling remains. Two focused physical-lot cases pass35/35;15 wrong identities
+refuse without changed rows. The complete80 model controls pass again with
+this exact SQL, as does a fresh22-group metadata/ACL/explicit-inverse profile.
+These are model checks, not fresh ERP or Auth acceptance. The initial reversible
+harness refusal and unchanged-product forward counter remain preserved.
