@@ -1,0 +1,16 @@
+{
+  "public_head": "ae480ca43d750a6abe41681fc6f90e6ad81a9135",
+  "tree": "84b82de57207948d3e747432d387ce038de55204",
+  "manifest": {
+    "bytes": 11937,
+    "sha256": "3abdd3fadbc0dcb873461dab4354baada7b4452edc8e73534ae4c538e3d72ae6"
+  },
+  "profile": {
+    "bytes": 692916,
+    "sha256": "330dc07c6d48e9a1599b84cd9e169fb4a74eddb5b45772873f0e30f8f4c06b31"
+  },
+  "actual_ERP_cases": 0,
+  "runtime_admission": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

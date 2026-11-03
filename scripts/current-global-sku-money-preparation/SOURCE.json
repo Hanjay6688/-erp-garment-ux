@@ -1,0 +1,95 @@
+{
+  "contract": "cp7.global-sku-money-closed-preparation.v1",
+  "base": {
+    "public_head": "4d641eef01fe28dbc302731c646be949c01eb4bf",
+    "tree": "37185c4964430e8cbe027b1c97fa176c6717235e"
+  },
+  "runtime_entry": null,
+  "actual_ERP_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false,
+  "derived_helpers": {
+    "authority": {
+      "bytes": 67198,
+      "sha256": "bbe1126792da78c709facf71d5ac6603f120e929e93f239813b0ec5432c4db3d"
+    },
+    "scope": {
+      "bytes": 17700,
+      "sha256": "28af91d9505a7643be95c7a03cd2d415ee25d77697c2021c9d600a0f24dccfc2"
+    },
+    "capture": {
+      "bytes": 25514,
+      "sha256": "6711a755a28dc4b6cb636518aedec3e2a0230ab3c760c4f8520579582cd12b3b"
+    },
+    "inspect": {
+      "bytes": 9510,
+      "sha256": "8f9461ce31e9973969040ae16029241253eb2ce1e0fde9ebba160db32b6cd782"
+    }
+  },
+  "prepared_installer": {
+    "bytes": 21716,
+    "sha256": "4d4f98c5b88dbf96cbbfa9dbb846ea02be404b57f4f7602bb1e1433d54b8f46f"
+  },
+  "files": {
+    "scripts/current-global-sku-money-preparation/CALLBACK_SOURCE_REVIEW.json": {
+      "bytes": 20465,
+      "sha256": "b29240d10eea97c64e25251a42cdbcccbf73d7620ebd0f6ca64209f844378f2a"
+    },
+    "scripts/current-global-sku-money-preparation/INPUT_REVIEW_CONTROLS.json": {
+      "bytes": 12502,
+      "sha256": "eb0b9e497fbb6953b2840d943e1d3820a930fe63e1f956e588f46a3923cecb43"
+    },
+    "scripts/current-global-sku-money-preparation/INSTALL_PLAN.json": {
+      "bytes": 16096,
+      "sha256": "59bc7785b3db28a97df5eb187b490fffacfc25321b5d9179d01a2e077d0cbce1"
+    },
+    "scripts/current-global-sku-money-preparation/MODEL_CONTROLS.json": {
+      "bytes": 6466,
+      "sha256": "4f37add5ad776291390ed6fbd9ce92cde44bab7bfe56e363df8e3b7771b8034e"
+    },
+    "scripts/current-global-sku-money-preparation/README.md": {
+      "bytes": 3718,
+      "sha256": "7fe3baa95cb2b8d14c312dce89943a6dc4736b2e5331aa75c6453afc55119e58"
+    },
+    "scripts/current-global-sku-money-preparation/SKU_SOURCE.json": {
+      "bytes": 478,
+      "sha256": "040dc9de28c00810b4032edf384cc5b043349a15d2fc4fbc9e935fafb27f1e5b"
+    },
+    "scripts/current-global-sku-money-preparation/SOURCE_CONTROLS.json": {
+      "bytes": 11903,
+      "sha256": "ca0200127ec577bc084c705d1bd7ea80c291e3601e62c784f29830a505f39655"
+    },
+    "scripts/current-global-sku-money-preparation/callback_preflight.py": {
+      "bytes": 4370,
+      "sha256": "b5726de9e0a38ba202e4f397bf1d607c1dee0c95af891652105139a90d6c5490"
+    },
+    "scripts/current-global-sku-money-preparation/check_source.py": {
+      "bytes": 3813,
+      "sha256": "375dc169a335749074a6c978b1fdcdd57c89b3bccca1e23c09a8da9c25b30f43"
+    },
+    "scripts/current-global-sku-money-preparation/install_routes.py": {
+      "bytes": 6739,
+      "sha256": "7635faec064f6382e8cb853bf2e0e752f285b214e6de4b8bf344a9fd51e04e66"
+    },
+    "scripts/current-global-sku-money-preparation/money_edges.sql": {
+      "bytes": 3005,
+      "sha256": "f045fd35d4dbb10cfae4a89bcbdea1b46f469e8a7650441f3c419054e55255b9"
+    },
+    "scripts/current-global-sku-money-preparation/preflight.py": {
+      "bytes": 6207,
+      "sha256": "ce9e136fc9c23cb3aeedc1ca9182c507527ff8e745ec9f76284b692a16db86df"
+    },
+    "scripts/current-global-sku-money-preparation/routes.py": {
+      "bytes": 7616,
+      "sha256": "82cff319bd9fd76dec3068f2eefb1adb8eea7f3c396242138b74dc0f2af4b03a"
+    },
+    "scripts/current-global-sku-money-preparation/test_install_routes.py": {
+      "bytes": 6377,
+      "sha256": "7336921e54bc7ef3be075fb0b38a681758c9cd039acc52be45b9a799eb3a94d1"
+    },
+    "scripts/current-global-sku-money-preparation/test_model.mjs": {
+      "bytes": 13405,
+      "sha256": "c43b015e27770062fefecf864cae2fa012886fbd4cc54319211b575c1b562889"
+    }
+  }
+}

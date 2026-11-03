@@ -1,0 +1,263 @@
+{
+  "status": "GLOBAL_MONEY_SOURCE_PREREQUISITES_PASS_NOT_RUNTIME",
+  "source": {
+    "public_head": "ae480ca43d750a6abe41681fc6f90e6ad81a9135",
+    "tree": "84b82de57207948d3e747432d387ce038de55204",
+    "manifest": {
+      "bytes": 11937,
+      "sha256": "3abdd3fadbc0dcb873461dab4354baada7b4452edc8e73534ae4c538e3d72ae6"
+    },
+    "profile": {
+      "bytes": 692916,
+      "sha256": "330dc07c6d48e9a1599b84cd9e169fb4a74eddb5b45772873f0e30f8f4c06b31"
+    },
+    "actual_ERP_cases": 0,
+    "runtime_admission": false,
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "original_catalogue": {
+    "bytes": 14755737,
+    "sha256": "80856b7ec2cebf08318a21617091b73c6744161b72bb3be98bcb9ecd2b8109eb"
+  },
+  "source_helpers": {
+    "authority": {
+      "bytes": 67198,
+      "sha256": "bbe1126792da78c709facf71d5ac6603f120e929e93f239813b0ec5432c4db3d"
+    },
+    "scope": {
+      "bytes": 17700,
+      "sha256": "28af91d9505a7643be95c7a03cd2d415ee25d77697c2021c9d600a0f24dccfc2"
+    },
+    "capture": {
+      "bytes": 25514,
+      "sha256": "6711a755a28dc4b6cb636518aedec3e2a0230ab3c760c4f8520579582cd12b3b"
+    },
+    "inspect": {
+      "bytes": 9510,
+      "sha256": "8f9461ce31e9973969040ae16029241253eb2ce1e0fde9ebba160db32b6cd782"
+    }
+  },
+  "negative_controls": [
+    {
+      "label": "Former moving-average monetary authority",
+      "result": "REFUSED_AS_REQUIRED",
+      "error": "GLOBAL_MONEY_CURRENT_FULL19_CHANGED:erp.compute_non_po_product_hpp_targets_v2620f(uuid)"
+    },
+    {
+      "label": "erp.compute_non_po_product_hpp_targets_v2620f(uuid): attribute 0",
+      "result": "REFUSED_AS_REQUIRED",
+      "error": "GLOBAL_MONEY_CURRENT_FULL19_CHANGED:erp.compute_non_po_product_hpp_targets_v2620f(uuid)"
+    },
+    {
+      "label": "erp.compute_non_po_product_hpp_targets_v2620f(uuid): attribute 1",
+      "result": "REFUSED_AS_REQUIRED",
+      "error": "GLOBAL_MONEY_CURRENT_FULL19_CHANGED:erp.compute_non_po_product_hpp_targets_v2620f(uuid)"
+    },
+    {
+      "label": "erp.compute_non_po_product_hpp_targets_v2620f(uuid): attribute 2",
+      "result": "REFUSED_AS_REQUIRED",
+      "error": "GLOBAL_MONEY_CURRENT_FULL19_CHANGED:erp.compute_non_po_product_hpp_targets_v2620f(uuid)"
+    },
+    {
+      "label": "erp.compute_non_po_product_hpp_targets_v2620f(uuid): attribute 3",
+      "result": "REFUSED_AS_REQUIRED",
+      "error": "GLOBAL_MONEY_CURRENT_FULL19_CHANGED:erp.compute_non_po_product_hpp_targets_v2620f(uuid)"
+    },
+    {
+      "label": "erp.compute_non_po_product_hpp_targets_v2620f(uuid): attribute 4",
+      "result": "REFUSED_AS_REQUIRED",
+      "error": "GLOBAL_MONEY_CURRENT_FULL19_CHANGED:erp.compute_non_po_product_hpp_targets_v2620f(uuid)"
+    },
+    {
+      "label": "erp.compute_non_po_product_hpp_targets_v2620f(uuid): attribute 5",
+      "result": "REFUSED_AS_REQUIRED",
+      "error": "GLOBAL_MONEY_CURRENT_FULL19_CHANGED:erp.compute_non_po_product_hpp_targets_v2620f(uuid)"
+    },
+    {
+      "label": "erp.compute_non_po_product_hpp_targets_v2620f(uuid): attribute 6",
+      "result": "REFUSED_AS_REQUIRED",
+      "error": "GLOBAL_MONEY_CURRENT_FULL19_CHANGED:erp.compute_non_po_product_hpp_targets_v2620f(uuid)"
+    },
+    {
+      "label": "erp.compute_non_po_product_hpp_targets_v2620f(uuid): attribute 7",
+      "result": "REFUSED_AS_REQUIRED",
+      "error": "GLOBAL_MONEY_CURRENT_FULL19_CHANGED:erp.compute_non_po_product_hpp_targets_v2620f(uuid)"
+    },
+    {
+      "label": "erp.compute_non_po_product_hpp_targets_v2620f(uuid): attribute 8",
+      "result": "REFUSED_AS_REQUIRED",
+      "error": "GLOBAL_MONEY_CURRENT_FULL19_CHANGED:erp.compute_non_po_product_hpp_targets_v2620f(uuid)"
+    },
+    {
+      "label": "erp.compute_non_po_product_hpp_targets_v2620f(uuid): attribute 9",
+      "result": "REFUSED_AS_REQUIRED",
+      "error": "GLOBAL_MONEY_CURRENT_FULL19_CHANGED:erp.compute_non_po_product_hpp_targets_v2620f(uuid)"
+    },
+    {
+      "label": "erp.compute_non_po_product_hpp_targets_v2620f(uuid): attribute 10",
+      "result": "REFUSED_AS_REQUIRED",
+      "error": "GLOBAL_MONEY_CURRENT_FULL19_CHANGED:erp.compute_non_po_product_hpp_targets_v2620f(uuid)"
+    },
+    {
+      "label": "erp.compute_non_po_product_hpp_targets_v2620f(uuid): attribute 11",
+      "result": "REFUSED_AS_REQUIRED",
+      "error": "GLOBAL_MONEY_CURRENT_FULL19_CHANGED:erp.compute_non_po_product_hpp_targets_v2620f(uuid)"
+    },
+    {
+      "label": "erp.compute_non_po_product_hpp_targets_v2620f(uuid): attribute 12",
+      "result": "REFUSED_AS_REQUIRED",
+      "error": "GLOBAL_MONEY_CURRENT_FULL19_CHANGED:erp.compute_non_po_product_hpp_targets_v2620f(uuid)"
+    },
+    {
+      "label": "erp.compute_non_po_product_hpp_targets_v2620f(uuid): attribute 13",
+      "result": "REFUSED_AS_REQUIRED",
+      "error": "GLOBAL_MONEY_CURRENT_FULL19_CHANGED:erp.compute_non_po_product_hpp_targets_v2620f(uuid)"
+    },
+    {
+      "label": "erp.compute_non_po_product_hpp_targets_v2620f(uuid): attribute 14",
+      "result": "REFUSED_AS_REQUIRED",
+      "error": "GLOBAL_MONEY_CURRENT_FULL19_CHANGED:erp.compute_non_po_product_hpp_targets_v2620f(uuid)"
+    },
+    {
+      "label": "erp.compute_non_po_product_hpp_targets_v2620f(uuid): attribute 15",
+      "result": "REFUSED_AS_REQUIRED",
+      "error": "GLOBAL_MONEY_CURRENT_FULL19_CHANGED:erp.compute_non_po_product_hpp_targets_v2620f(uuid)"
+    },
+    {
+      "label": "erp.compute_non_po_product_hpp_targets_v2620f(uuid): attribute 16",
+      "result": "REFUSED_AS_REQUIRED",
+      "error": "GLOBAL_MONEY_CURRENT_FULL19_CHANGED:erp.compute_non_po_product_hpp_targets_v2620f(uuid)"
+    },
+    {
+      "label": "erp.compute_non_po_product_hpp_targets_v2620f(uuid): attribute 17",
+      "result": "REFUSED_AS_REQUIRED",
+      "error": "GLOBAL_MONEY_CURRENT_FULL19_CHANGED:erp.compute_non_po_product_hpp_targets_v2620f(uuid)"
+    },
+    {
+      "label": "erp.compute_non_po_product_hpp_targets_v2620f(uuid): attribute 18",
+      "result": "REFUSED_AS_REQUIRED",
+      "error": "GLOBAL_MONEY_CURRENT_FULL19_CHANGED:erp.compute_non_po_product_hpp_targets_v2620f(uuid)"
+    },
+    {
+      "label": "erp.sync_non_po_product_hpp_to_gl_v2620f(uuid,date,text,uuid,text): attribute 0",
+      "result": "REFUSED_AS_REQUIRED",
+      "error": "GLOBAL_MONEY_CURRENT_FULL19_CHANGED:erp.sync_non_po_product_hpp_to_gl_v2620f(uuid,date,text,uuid,text)"
+    },
+    {
+      "label": "erp.sync_non_po_product_hpp_to_gl_v2620f(uuid,date,text,uuid,text): attribute 1",
+      "result": "REFUSED_AS_REQUIRED",
+      "error": "GLOBAL_MONEY_CURRENT_FULL19_CHANGED:erp.sync_non_po_product_hpp_to_gl_v2620f(uuid,date,text,uuid,text)"
+    },
+    {
+      "label": "erp.sync_non_po_product_hpp_to_gl_v2620f(uuid,date,text,uuid,text): attribute 2",
+      "result": "REFUSED_AS_REQUIRED",
+      "error": "GLOBAL_MONEY_CURRENT_FULL19_CHANGED:erp.sync_non_po_product_hpp_to_gl_v2620f(uuid,date,text,uuid,text)"
+    },
+    {
+      "label": "erp.sync_non_po_product_hpp_to_gl_v2620f(uuid,date,text,uuid,text): attribute 3",
+      "result": "REFUSED_AS_REQUIRED",
+      "error": "GLOBAL_MONEY_CURRENT_FULL19_CHANGED:erp.sync_non_po_product_hpp_to_gl_v2620f(uuid,date,text,uuid,text)"
+    },
+    {
+      "label": "erp.sync_non_po_product_hpp_to_gl_v2620f(uuid,date,text,uuid,text): attribute 4",
+      "result": "REFUSED_AS_REQUIRED",
+      "error": "GLOBAL_MONEY_CURRENT_FULL19_CHANGED:erp.sync_non_po_product_hpp_to_gl_v2620f(uuid,date,text,uuid,text)"
+    },
+    {
+      "label": "erp.sync_non_po_product_hpp_to_gl_v2620f(uuid,date,text,uuid,text): attribute 5",
+      "result": "REFUSED_AS_REQUIRED",
+      "error": "GLOBAL_MONEY_CURRENT_FULL19_CHANGED:erp.sync_non_po_product_hpp_to_gl_v2620f(uuid,date,text,uuid,text)"
+    },
+    {
+      "label": "erp.sync_non_po_product_hpp_to_gl_v2620f(uuid,date,text,uuid,text): attribute 6",
+      "result": "REFUSED_AS_REQUIRED",
+      "error": "GLOBAL_MONEY_CURRENT_FULL19_CHANGED:erp.sync_non_po_product_hpp_to_gl_v2620f(uuid,date,text,uuid,text)"
+    },
+    {
+      "label": "erp.sync_non_po_product_hpp_to_gl_v2620f(uuid,date,text,uuid,text): attribute 7",
+      "result": "REFUSED_AS_REQUIRED",
+      "error": "GLOBAL_MONEY_CURRENT_FULL19_CHANGED:erp.sync_non_po_product_hpp_to_gl_v2620f(uuid,date,text,uuid,text)"
+    },
+    {
+      "label": "erp.sync_non_po_product_hpp_to_gl_v2620f(uuid,date,text,uuid,text): attribute 8",
+      "result": "REFUSED_AS_REQUIRED",
+      "error": "GLOBAL_MONEY_CURRENT_FULL19_CHANGED:erp.sync_non_po_product_hpp_to_gl_v2620f(uuid,date,text,uuid,text)"
+    },
+    {
+      "label": "erp.sync_non_po_product_hpp_to_gl_v2620f(uuid,date,text,uuid,text): attribute 9",
+      "result": "REFUSED_AS_REQUIRED",
+      "error": "GLOBAL_MONEY_CURRENT_FULL19_CHANGED:erp.sync_non_po_product_hpp_to_gl_v2620f(uuid,date,text,uuid,text)"
+    },
+    {
+      "label": "erp.sync_non_po_product_hpp_to_gl_v2620f(uuid,date,text,uuid,text): attribute 10",
+      "result": "REFUSED_AS_REQUIRED",
+      "error": "GLOBAL_MONEY_CURRENT_FULL19_CHANGED:erp.sync_non_po_product_hpp_to_gl_v2620f(uuid,date,text,uuid,text)"
+    },
+    {
+      "label": "erp.sync_non_po_product_hpp_to_gl_v2620f(uuid,date,text,uuid,text): attribute 11",
+      "result": "REFUSED_AS_REQUIRED",
+      "error": "GLOBAL_MONEY_CURRENT_FULL19_CHANGED:erp.sync_non_po_product_hpp_to_gl_v2620f(uuid,date,text,uuid,text)"
+    },
+    {
+      "label": "erp.sync_non_po_product_hpp_to_gl_v2620f(uuid,date,text,uuid,text): attribute 12",
+      "result": "REFUSED_AS_REQUIRED",
+      "error": "GLOBAL_MONEY_CURRENT_FULL19_CHANGED:erp.sync_non_po_product_hpp_to_gl_v2620f(uuid,date,text,uuid,text)"
+    },
+    {
+      "label": "erp.sync_non_po_product_hpp_to_gl_v2620f(uuid,date,text,uuid,text): attribute 13",
+      "result": "REFUSED_AS_REQUIRED",
+      "error": "GLOBAL_MONEY_CURRENT_FULL19_CHANGED:erp.sync_non_po_product_hpp_to_gl_v2620f(uuid,date,text,uuid,text)"
+    },
+    {
+      "label": "erp.sync_non_po_product_hpp_to_gl_v2620f(uuid,date,text,uuid,text): attribute 14",
+      "result": "REFUSED_AS_REQUIRED",
+      "error": "GLOBAL_MONEY_CURRENT_FULL19_CHANGED:erp.sync_non_po_product_hpp_to_gl_v2620f(uuid,date,text,uuid,text)"
+    },
+    {
+      "label": "erp.sync_non_po_product_hpp_to_gl_v2620f(uuid,date,text,uuid,text): attribute 15",
+      "result": "REFUSED_AS_REQUIRED",
+      "error": "GLOBAL_MONEY_CURRENT_FULL19_CHANGED:erp.sync_non_po_product_hpp_to_gl_v2620f(uuid,date,text,uuid,text)"
+    },
+    {
+      "label": "erp.sync_non_po_product_hpp_to_gl_v2620f(uuid,date,text,uuid,text): attribute 16",
+      "result": "REFUSED_AS_REQUIRED",
+      "error": "GLOBAL_MONEY_CURRENT_FULL19_CHANGED:erp.sync_non_po_product_hpp_to_gl_v2620f(uuid,date,text,uuid,text)"
+    },
+    {
+      "label": "erp.sync_non_po_product_hpp_to_gl_v2620f(uuid,date,text,uuid,text): attribute 17",
+      "result": "REFUSED_AS_REQUIRED",
+      "error": "GLOBAL_MONEY_CURRENT_FULL19_CHANGED:erp.sync_non_po_product_hpp_to_gl_v2620f(uuid,date,text,uuid,text)"
+    },
+    {
+      "label": "erp.sync_non_po_product_hpp_to_gl_v2620f(uuid,date,text,uuid,text): attribute 18",
+      "result": "REFUSED_AS_REQUIRED",
+      "error": "GLOBAL_MONEY_CURRENT_FULL19_CHANGED:erp.sync_non_po_product_hpp_to_gl_v2620f(uuid,date,text,uuid,text)"
+    },
+    {
+      "label": "Wrong group name with unchanged count",
+      "result": "REFUSED_AS_REQUIRED",
+      "error": "GLOBAL_MONEY_EXACT_ALL22_NAMES"
+    },
+    {
+      "label": "Changed HPP view owner",
+      "result": "REFUSED_AS_REQUIRED",
+      "error": "GLOBAL_MONEY_CURRENT_HPP_VIEW_CHANGED"
+    }
+  ],
+  "parsed_statements": {
+    "authority": 3,
+    "scope": 3,
+    "capture": 3,
+    "inspect": 3
+  },
+  "column_tables": 80,
+  "column_count": 813,
+  "new_full_rowsets": 9,
+  "new_identity_edges": 24,
+  "all_original_eight_admission_gates_unset": true,
+  "complete_actual_input_profile": false,
+  "actual_ERP_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

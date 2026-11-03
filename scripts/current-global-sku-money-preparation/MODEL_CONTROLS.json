@@ -1,0 +1,204 @@
+{
+  "status": "MODELED_POSTGRES17_GLOBAL_MONEY_GRAPH_CAPTURE_PASS_NOT_ERP",
+  "engine": "PostgreSQL 17.5 on aarch64-unknown-linux-gnu, compiled by emcc (Emscripten gcc/clang-like replacement + linker emulating GNU ld) 3.1.74 (1092ec30a3fb1d46b1782ff1b4db5094d3d06ae5), 32-bit",
+  "results": [
+    {
+      "label": "Four derived helpers compile with exact 80 table and 813 column types",
+      "result": "PASS"
+    },
+    {
+      "label": "Disjoint relevant and outside components cover support without shared location or account hubs",
+      "result": "PASS"
+    },
+    {
+      "label": "Zero-money sources, reversed costs, old events and automatic legacy origins remain in the closure",
+      "result": "PASS"
+    },
+    {
+      "label": "All nine monetary observations retain every column and exact domain membership",
+      "result": "PASS"
+    },
+    {
+      "label": "Detect cost_contributors_v3.transfer_units previously omitted by the observer",
+      "result": "PASS"
+    },
+    {
+      "label": "Detect sale_cost_components_v3.booked_value previously omitted by the observer",
+      "result": "PASS"
+    },
+    {
+      "label": "Detect return_cost_components_v3.booked_value previously omitted by the observer",
+      "result": "PASS"
+    },
+    {
+      "label": "Detect cost_events_v3.units_delta previously omitted by the observer",
+      "result": "PASS"
+    },
+    {
+      "label": "Detect group_inverse_rebalances_v3.before_proof previously omitted by the observer",
+      "result": "PASS"
+    },
+    {
+      "label": "Detect cost_source_rebalances_v3.source_delta previously omitted by the observer",
+      "result": "PASS"
+    },
+    {
+      "label": "Detect cost_money_events_v3.amount_delta previously omitted by the observer",
+      "result": "PASS"
+    },
+    {
+      "label": "Detect base_money_events_v4.amount_delta previously omitted by the observer",
+      "result": "PASS"
+    },
+    {
+      "label": "Detect legacy_groups_v4.original_preview previously omitted by the observer",
+      "result": "PASS"
+    },
+    {
+      "label": "Retain temporal-only change base_money_events_v4.economic_date",
+      "result": "PASS"
+    },
+    {
+      "label": "Retain temporal-only change base_money_events_v4.recorded_at",
+      "result": "PASS"
+    },
+    {
+      "label": "Retain temporal-only change cost_events_v3.physical_at",
+      "result": "PASS"
+    },
+    {
+      "label": "Retain temporal-only change cost_events_v3.economic_date",
+      "result": "PASS"
+    },
+    {
+      "label": "Retain temporal-only change cost_events_v3.recorded_at",
+      "result": "PASS"
+    },
+    {
+      "label": "Retain temporal-only change cost_money_events_v3.economic_date",
+      "result": "PASS"
+    },
+    {
+      "label": "Retain temporal-only change cost_money_events_v3.recorded_at",
+      "result": "PASS"
+    },
+    {
+      "label": "Retain temporal-only change cost_source_rebalances_v3.economic_date",
+      "result": "PASS"
+    },
+    {
+      "label": "Retain temporal-only change cost_source_rebalances_v3.recorded_at",
+      "result": "PASS"
+    },
+    {
+      "label": "Retain temporal-only change group_inverse_rebalances_v3.economic_date",
+      "result": "PASS"
+    },
+    {
+      "label": "Retain temporal-only change group_inverse_rebalances_v3.recorded_at",
+      "result": "PASS"
+    },
+    {
+      "label": "Retain temporal-only change legacy_groups_v4.recorded_at",
+      "result": "PASS"
+    },
+    {
+      "label": "Follow exact historical/source identity cost_events_v3.supersedes_event_id to its disconnected economic component",
+      "result": "PASS"
+    },
+    {
+      "label": "Follow exact historical/source identity cost_money_events_v3.source_id to its disconnected economic component",
+      "result": "PASS"
+    },
+    {
+      "label": "Follow exact historical/source identity base_money_events_v4.source_id to its disconnected economic component",
+      "result": "PASS"
+    },
+    {
+      "label": "Preserve duplicate multiplicity in base_money_events_v4",
+      "result": "PASS"
+    },
+    {
+      "label": "Preserve duplicate multiplicity in cost_contributors_v3",
+      "result": "PASS"
+    },
+    {
+      "label": "Preserve duplicate multiplicity in cost_events_v3",
+      "result": "PASS"
+    },
+    {
+      "label": "Preserve duplicate multiplicity in cost_money_events_v3",
+      "result": "PASS"
+    },
+    {
+      "label": "Preserve duplicate multiplicity in cost_source_rebalances_v3",
+      "result": "PASS"
+    },
+    {
+      "label": "Preserve duplicate multiplicity in group_inverse_rebalances_v3",
+      "result": "PASS"
+    },
+    {
+      "label": "Preserve duplicate multiplicity in legacy_groups_v4",
+      "result": "PASS"
+    },
+    {
+      "label": "Preserve duplicate multiplicity in return_cost_components_v3",
+      "result": "PASS"
+    },
+    {
+      "label": "Preserve duplicate multiplicity in sale_cost_components_v3",
+      "result": "PASS"
+    },
+    {
+      "label": "anon has no execution capability on prepared helpers",
+      "result": "PASS"
+    },
+    {
+      "label": "authenticated has no execution capability on prepared helpers",
+      "result": "PASS"
+    },
+    {
+      "label": "service_role has no execution capability on prepared helpers",
+      "result": "PASS"
+    }
+  ],
+  "input": {
+    "bytes": 453690,
+    "sha256": "a6db2fb74b510c0edad3bbc57a0ee238e57492f6b1905a6e79a6243b8d2bd23a"
+  },
+  "source_helpers": {
+    "authority": {
+      "bytes": 67198,
+      "sha256": "bbe1126792da78c709facf71d5ac6603f120e929e93f239813b0ec5432c4db3d"
+    },
+    "capture": {
+      "bytes": 25514,
+      "sha256": "6711a755a28dc4b6cb636518aedec3e2a0230ab3c760c4f8520579582cd12b3b"
+    },
+    "inspect": {
+      "bytes": 9510,
+      "sha256": "8f9461ce31e9973969040ae16029241253eb2ce1e0fde9ebba160db32b6cd782"
+    },
+    "scope": {
+      "bytes": 17700,
+      "sha256": "28af91d9505a7643be95c7a03cd2d415ee25d77697c2021c9d600a0f24dccfc2"
+    }
+  },
+  "modeled_callbacks": [
+    "cp7_credit.consumer_dependency_graph_v1",
+    "cp7_credit.source_hpp_lot_ids_v1",
+    "cp7_credit.initial_hpp_account_facts_v1",
+    "cp7_credit.pg_jsonb_sha256"
+  ],
+  "column_tables": 80,
+  "column_count": 813,
+  "new_full_rowsets": 9,
+  "new_identity_edges": 24,
+  "row_constraints_owners_RLS_Native_callbacks_and_business_transactions_are_not_tested": true,
+  "actual_ERP_cases": 0,
+  "actual_Auth_HTTP_cases": 0,
+  "actual_browser_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}
