@@ -3,7 +3,7 @@ from contextlib import redirect_stdout
 from decimal import Decimal
 from pathlib import Path
 from tempfile import TemporaryDirectory
-from types import ModuleType,SimpleNamespace
+from types import CodeType,FunctionType,ModuleType,SimpleNamespace
 from unittest.mock import patch
 import ast,io,json,sys,traceback,unittest
 from cp7_accessory_nonpayable import case_output as output
@@ -12,10 +12,30 @@ from cp7_accessory_nonpayable import case_output as output
 class CaseOutputControls(unittest.TestCase):
     def module(self,kind):
         path=output.ROOT/output.SOURCES[kind][0]
-        original,_,_=output.derive(kind,path.read_bytes())
         module=ModuleType('modeled_owning_'+kind);module.__file__=str(path)
-        exec(compile(ast.Module(body=[original],type_ignores=[]),str(path),'exec'),module.__dict__)
+        name=output.SOURCES[kind][3]
+        original=[v for v in compile(path.read_bytes(),str(path),'exec',dont_inherit=True).co_consts
+            if isinstance(v,CodeType)and v.co_name==name]
+        self.assertEqual(len(original),1)
+        node=next(n for n in ast.parse(path.read_bytes()).body if isinstance(n,ast.FunctionDef)and n.name==name)
+        defaults=tuple(ast.literal_eval(v)for v in node.args.defaults)
+        setattr(module,name,FunctionType(original[0],module.__dict__,name,defaults or None))
         return module
+
+    def test_complete_module_bytecode_matches_original_import_and_derived_source(self):
+        for kind,spec in output.SOURCES.items():
+            path=output.ROOT/spec[0];raw=path.read_bytes();old,new,proof=output.derive(kind,raw)
+            original=getattr(self.module(kind),spec[3])
+            self.assertEqual(output.function_code(old,str(path),spec[3]),original.__code__)
+            before='print(json.dumps(dict(group='+spec[4]+',case=key,**row),default=str),flush=True)'
+            derived=raw.decode().replace(before,output.HELPER+'('+spec[4]+',key,row)')
+            actual=[v for v in compile(derived,str(path),'exec',dont_inherit=True).co_consts
+                if isinstance(v,CodeType)and v.co_name==spec[3]]
+            self.assertEqual([output.function_code(new,str(path),spec[3])],actual)
+            self.assertTrue(proof['complete_module_compiler_context_preserved'])
+            node=next(n for n in old.body if isinstance(n,ast.FunctionDef)and n.name==spec[3])
+            with self.assertRaisesRegex(ValueError,'COMPLETE_MODULE_REQUIRED'):
+                output.function_code(node,str(path),spec[3])
 
     def test_full_original_json_bytes_and_small_console_receipt(self):
         row=dict(status='PASS',complete_all22={'unchanged_source':'\n"ERP\\x🙂'*180000},
@@ -49,7 +69,7 @@ class CaseOutputControls(unittest.TestCase):
         for kind,spec in output.SOURCES.items():
             raw=(output.ROOT/spec[0]).read_bytes();old,new,proof=output.derive(kind,raw)
             self.assertEqual(proof['routed_print_sites'],spec[5]);self.assertTrue(proof['complete_original_source_recovered'])
-            self.assertEqual(old.name,new.name)
+            self.assertIsInstance(old,ast.Module);self.assertIsInstance(new,ast.Module)
             with self.assertRaisesRegex(ValueError,'EXACT_ORIGINAL_SOURCE'):output.derive(kind,raw+b'\n')
 
     def test_owning_callable_and_helper_restored_after_success_and_original_failure(self):

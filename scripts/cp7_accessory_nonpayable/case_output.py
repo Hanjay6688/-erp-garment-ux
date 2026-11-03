@@ -44,8 +44,9 @@ def derive(kind,raw):
     require(ast.dump(ast.Module(body=[n for n in original.body if n is not old[0]],type_ignores=[]))==
         ast.dump(ast.Module(body=[n for n in changed.body if n is not new[0]],type_ignores=[])),
         'AFUI_CASE_OUTPUT_ONLY_SELECTED_FUNCTION_CHANGED')
-    return old[0],new[0],dict(path=path,original_bytes=size,original_sha256=digest,
+    return original,changed,dict(path=path,original_bytes=size,original_sha256=digest,
         routed_print_sites=count,complete_original_source_recovered=True,
+        complete_module_compiler_context_preserved=True,
         case_results_group_persistence_oracles_and_cleanup_unchanged=True)
 
 
@@ -83,9 +84,12 @@ def retain(group,case,row):
     return receipt
 
 
-def function_code(node,filename):
-    compiled=compile(ast.Module(body=[node],type_ignores=[]),filename,'exec')
-    values=[x for x in compiled.co_consts if isinstance(x,CodeType)and x.co_name==node.name]
+def function_code(module,filename,name):
+    # Imports elsewhere in the module affect Python's call bytecode. Compile
+    # the exact complete module without executing its imports or statements.
+    require(isinstance(module,ast.Module),'AFUI_CASE_OUTPUT_COMPLETE_MODULE_REQUIRED')
+    compiled=compile(module,filename,'exec',dont_inherit=True)
+    values=[x for x in compiled.co_consts if isinstance(x,CodeType)and x.co_name==name]
     require(len(values)==1,'AFUI_CASE_OUTPUT_EXACT_FUNCTION_CODE')
     return values[0]
 
@@ -96,7 +100,7 @@ def binding(module,kind):
         'AFUI_CASE_OUTPUT_OWNING_SOURCE_PATH_REQUIRED')
     old,new,proof=derive(kind,path.read_bytes());original=getattr(module,expected[3])
     require(original.__globals__ is module.__dict__ and original.__code__.co_filename==str(path)
-        and original.__code__==function_code(old,str(path))and HELPER not in module.__dict__,
+        and original.__code__==function_code(old,str(path),expected[3])and HELPER not in module.__dict__,
         'AFUI_CASE_OUTPUT_UNCHANGED_ORIGINAL_CALLABLE_REQUIRED')
     return original,new,proof
 
@@ -104,7 +108,7 @@ def binding(module,kind):
 @contextmanager
 def scope(module,kind):
     original,new,proof=binding(module,kind);name=SOURCES[kind][3]
-    adapted=FunctionType(function_code(new,original.__code__.co_filename),module.__dict__,
+    adapted=FunctionType(function_code(new,original.__code__.co_filename,name),module.__dict__,
         original.__name__,original.__defaults__,original.__closure__)
     adapted.__kwdefaults__=original.__kwdefaults__
     module.__dict__[HELPER]=retain;setattr(module,name,adapted)

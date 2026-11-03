@@ -1,3 +1,21 @@
+### 3 November: preserve complete module compilation context
+
+Run41679871902/job126070382521 at17dd failed at the fenced pre-database
+admission, before database creation and all fifteen actual cases. The original
+log and artifact are retained; this is not another transaction hang. Python3.12
+compiles imported-module calls differently when only a function AST is supplied.
+The old comparison therefore rejected the exact naturally imported function.
+
+The observer now compiles each complete exact original/derived module without
+executing it and selects its one owning code object. Original-byte pins, code
+identity, function globals, filename, defaults and restoration remain checked.
+The seven output controls now create their fixture from whole-module bytecode;
+the additional regression compares both the original and derived source contexts.
+A first local fixture omission of optional defaults was retained and corrected.
+The fenced real pre-database admission also loads and binds both Native and copy
+runners before any database provisioning. Product SQL, financial cases, grants,
+three output routes, genuine WIB dates and all runtime budgets remain unchanged.
+
 ### 3 November: terminal cancellation and bounded case output
 
 Run41612220870/job125836684170 at8416 ended11:40:24UTC with job failure,

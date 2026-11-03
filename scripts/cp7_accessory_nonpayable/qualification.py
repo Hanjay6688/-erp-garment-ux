@@ -66,10 +66,10 @@ def fixture_case_output_preflight():
     from cp7_accessory_nonpayable.test_case_output import CaseOutputControls
     output=io.StringIO();result=unittest.TextTestRunner(stream=output,verbosity=0).run(
         unittest.defaultTestLoader.loadTestsFromTestCase(CaseOutputControls))
-    if result.testsRun!=6 or not result.wasSuccessful()or result.skipped or result.expectedFailures:
+    if result.testsRun!=7 or not result.wasSuccessful()or result.skipped or result.expectedFailures:
         raise ValueError('NONPAYABLE_COMPLETE_CASE_OUTPUT_PREFLIGHT_FAILED:'+output.getvalue())
     return dict(status='COMPLETE_ORIGINAL_CASE_BYTES_BOUNDED_CONSOLE_AND_UNCHANGED_RESULTS_PASS',
-        tests_run=6,routed_print_sites=3,actual_SQL_executed=0,actual_Native_cases=0)
+        tests_run=7,routed_print_sites=3,actual_SQL_executed=0,actual_Native_cases=0)
 
 def fixture_progress_preflight():
     """Bound diagnostics and preserve original failures and restoration."""
@@ -109,6 +109,8 @@ def runtime():
         assembly.runtime()  # Include the complete real inherited import path.
         modules,engine.native_domain_binding=native_fixture.domain_modules()
         case_output.binding(modules.control.native,'native')
+        copies=component.load('afui_preDB_original_copy_modes',ROOT/case_output.SOURCES['copies'][0])
+        case_output.binding(copies,'copies')
         case_output.sources()
     return engine,admission
 
