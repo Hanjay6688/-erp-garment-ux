@@ -80,7 +80,8 @@ def source():
             'package_identity.py','test_package_identity.py','PACKAGE_IDENTITY_CONTROLS.json',
             'fetch_parent.py','materialize_parent.py','parent_artifacts.py','test_parent_preparation.py',
             'test_parent_artifacts.py','workflow.py','test_workflow.py','mandor17.workflow.yml.txt',
-            'PARENT_WORKFLOW_CONTROLS.json','advisor_review.py','test_advisor_preparation.py','ADVISOR_SOURCE_READINESS.json')}
+            'PARENT_WORKFLOW_CONTROLS.json','advisor_review.py','test_advisor_preparation.py','ADVISOR_SOURCE_READINESS.json',
+            'runtime_prerequisites.py','test_runtime_prerequisites.py','RUNTIME_PREREQUISITE_CONTROLS.json')}
         require(set(preparation['files'])==expected and all(n in m['files']for n in expected),'UNIFIED_EXACT_PREPARED_NATIVE9_NAMESPACE')
         require(preparation['actual_Native_cases']==0 and preparation['parent_root_adopted']is False,'UNIFIED_NATIVE9_PREPARATION_IS_NOT_ACCEPTANCE')
         require(preparation['actual_two_session_races']==0 and len(preparation['new_race_ids'])==4,
@@ -108,6 +109,14 @@ def source():
             'UNIFIED_MANDOR_COMPLETE_ADVISOR_PREREQUISITES')
         for name,expected_pin in advisor['files'].items():
             require(pin((ROOT/name).read_bytes())==expected_pin,'UNIFIED_MANDOR_ADVISOR_SOURCE_CHANGED:'+name)
+        caller=json.loads((ROOT/prefix/'RUNTIME_PREREQUISITE_CONTROLS.json').read_bytes())
+        require(caller['status']=='MANDOR_DIRECT_CALLER_PREREQUISITES_CONTROLS_PASS_NOT_ERP'
+            and caller['protocol_tests']==6 and caller['direct_functions']==12
+            and caller['current_permissions']==14 and caller['active_account_mappings']==8
+            and caller['actual_ERP_cases']==caller['actual_Auth_cases']==0,
+            'UNIFIED_MANDOR_DIRECT_CALLER_PREREQUISITES')
+        for name,expected_pin in caller['files'].items():
+            require(pin((ROOT/name).read_bytes())==expected_pin,'UNIFIED_MANDOR_CALLER_SOURCE_CHANGED:'+name)
     return dict(status='UNIFIED_AFUI_GLOBAL_MANDOR_SOURCE_FENCE_PASS_NOT_RUNTIME_OR_BUSINESS',base=m['base'],
         unchanged_parent_blobs=len(base)-len(changed),shared_UI_parent_paths=len(shared),appearance_parent_paths=len(appearance),parent_modified_paths=len(changed),new_paths=len(actual_new),
         Global_module_files=42,Mandor_module_and_exact_UI_files=109,validator_files_composed=2,

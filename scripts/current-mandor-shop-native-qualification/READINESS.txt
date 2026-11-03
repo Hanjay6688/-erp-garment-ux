@@ -40,3 +40,13 @@ PARENT_ROOT_PIN and RUNTIME_ENTRY remainNone. No Mandor workflow or financial ru
 Owning workflow source is now prepared as mandor17.workflow.yml.txt, not an active GitHub trigger. It retains the original75-step Afui prerequisite chain through67 exact unchanged steps,8 explicit owning routes and4 new parent/artifact steps (79 total). The real360-minute job,330/20/10 supervision, six-hour genuine WIB window, single branch, cancel-in-progress=false, fixed actions, DB rebuild/clone, owning package/restore and full artifact upload remain. Exact parent materialization and canonical Afui15 archive intake precede DB setup and are refused while Root intake is absent. Historical input bytes are copied into the frozen parent without overwrite; every new/changed parent output is retained intact in a separate namespace even after failure. Original JSON is never projected or normalized. Native strict/first-attempt/gate filenames are checked against their actual producers.
 
 Nine source/real-file/Git preparation controls and four workflow ordering/output/shell controls pass. The first fetch-source check lacked an exact historical Git object in this filtered local checkout; fetching that exact original supplied its unchanged4756-byte pinned body. A source-generation substring collision was replaced by exact quoted JSON filename routes before workflow validation. No GitHub artifact fetcher, workflow dispatch or ERP operation was executed by these preparation controls. Activation still requires actual accepted Afui head/tree/run/job/Root pins, rebinding component and unified source gates to that parent, declaring the one active workflow path, and a valid real WIB window. Prepared source is not acceptance.
+2026-11-04: Direct caller prerequisites now run before the first Native9 callback.
+They collect missing ordinary OWNER capabilities, 12 exact direct public functions,
+14 permissions, eight active/postable mappings, FG warehouse, PCS and genuine WIB
+posting day in one pass. No actor or permission is created by this observation.
+The original seeded actor must have authenticated current_user AND session_user.
+Both complete catalog/data/sequence observations are retained as immutable original
+files and resolved again by the final packet reader. Six local protocol controls
+passed; these are not ERP cases. Existing SOURCE_READINESS remains historical;
+RUNTIME_PREREQUISITE_CONTROLS records this new source delta separately.
+The owning actual Afui15 Root and Mandor17 runtime gates remain closed.

@@ -10,6 +10,7 @@ from hashlib import sha256
 from types import SimpleNamespace
 import importlib.util,json
 import admission,cases,access_cases,access_runtime
+import runtime_prerequisites
 from native_fixture import Native,local,require
 
 HERE=Path(__file__).resolve().parent
@@ -61,7 +62,12 @@ def exercise(product,trusted_connection,conn,cur,database,url,report,state):
     def verify(cursor):
         with control.product_catalog(cursor):return product.verify(cursor,state)
     def factory(cursor,today):
-        verify(cursor);return cases.cases(context(product,state),cursor,today)
+        verify(cursor);native_context=context(product,state)
+        prerequisites=runtime_prerequisites.check(cursor,today,native_context)
+        report['Native_prerequisites']=prerequisites
+        runtime_prerequisites.save(ROOT/'cp6-proof/t3'/(NATIVE_LABEL+'_PREREQUISITES.json'),prerequisites)
+        runtime_prerequisites.validate(prerequisites)
+        return cases.cases(native_context,cursor,today)
     observed=native.strict_group(NATIVE_LABEL,factory,verify)
     originals=[]
     for name in(NATIVE_LABEL+'.json',NATIVE_LABEL+'_BUSINESS_DAY_FIRST_ATTEMPT.json'):

@@ -1,0 +1,107 @@
+{
+  "status": "MANDOR_DIRECT_CALLER_PREREQUISITES_CONTROLS_PASS_NOT_ERP",
+  "protocol_tests": 6,
+  "direct_functions": 12,
+  "current_permissions": 14,
+  "active_account_mappings": 8,
+  "exact_existing_catalogue": {
+    "bytes": 30376182,
+    "sha256": "5e22077e71e34add6fd0627c89e9d21a2235f463818e45b233c7619bcfb0d48f"
+  },
+  "new_function_plan": {
+    "bytes": 13274,
+    "sha256": "341f2cbd4a0e361bee275f9e66a15c5362a8cee9d3ba91e619b95f376aa7098a"
+  },
+  "complete_direct_call_coverage": {
+    "public.erp_cp7_correct_note_v1(jsonb,uuid,text)": "accepted_actual_Native27_catalogue",
+    "public.erp_cp7_get_mandor_shop_buyers_v1(text,text,uuid,integer)": "exact_new_Mandor_INSTALL_PLAN",
+    "public.erp_cp7_get_mandor_shop_payroll_v1(uuid,uuid)": "exact_new_Mandor_INSTALL_PLAN",
+    "public.erp_cp7_get_payroll_installments_v1(jsonb)": "accepted_actual_Native27_catalogue",
+    "public.erp_cp7_get_payroll_workspace_v1(text,jsonb)": "accepted_actual_Native27_catalogue",
+    "public.erp_cp7_get_sales_returns_v1(jsonb)": "accepted_actual_Native27_catalogue",
+    "public.erp_cp7_get_sales_v1(jsonb)": "accepted_actual_Native27_catalogue",
+    "public.erp_cp7_save_mandor_shop_allocation_v1(text,jsonb,uuid)": "exact_new_Mandor_INSTALL_PLAN",
+    "public.erp_cp7_save_mandor_shop_sale_v1(text,jsonb,uuid,text)": "exact_new_Mandor_INSTALL_PLAN",
+    "public.erp_cp7_save_payroll_installment_v1(text,jsonb,uuid,text)": "accepted_actual_Native27_catalogue",
+    "public.erp_cp7_save_payroll_v1(text,jsonb,uuid,text)": "accepted_actual_Native27_catalogue",
+    "public.erp_cp7_save_sale_v1(text,jsonb,uuid,text)": "accepted_actual_Native27_catalogue"
+  },
+  "observer_columns_verified": {
+    "erp.accounting_account_mappings": [
+      "mapping_key",
+      "account_id"
+    ],
+    "erp.chart_accounts": [
+      "id",
+      "is_active",
+      "is_postable"
+    ],
+    "erp.locations": [
+      "id",
+      "is_active",
+      "location_type"
+    ],
+    "erp.uom_definitions": [
+      "unit_code",
+      "dimension",
+      "is_active"
+    ],
+    "erp.accounting_period_control": [
+      "singleton_id",
+      "closed_through"
+    ]
+  },
+  "observer_SQL_statements_parsed": 12,
+  "observer_SQL": [
+    "savepoint mandor_native_prerequisite_actor",
+    "rollback to savepoint mandor_native_prerequisite_actor",
+    "release savepoint mandor_native_prerequisite_actor",
+    "select is_active,location_type from erp.locations where id=%s",
+    "select unit_code from erp.uom_definitions where upper(unit_code)='PCS'and dimension='COUNT'and is_active",
+    "select closed_through from erp.accounting_period_control where singleton_id=1",
+    "select(statement_timestamp()at time zone'Asia/Jakarta')::date",
+    "select a.is_active,a.is_postable from erp.accounting_account_mappings m left join erp.chart_accounts a on a.id=m.account_id where m.mapping_key=%s",
+    "select to_regprocedure(%s)is not null",
+    "select current_user,session_user,erp.current_app_role()::text",
+    "select erp.has_permission(%s)",
+    "select has_schema_privilege(current_user,'public','USAGE')and has_function_privilege(current_user,%s,'EXECUTE')"
+  ],
+  "parser": "v7.20",
+  "ordinary_database_current_user_and_session_user_required": true,
+  "all_missing_categories_collected": true,
+  "original_actor_abort_rolled_back": true,
+  "complete_original_census_reader_exercised": true,
+  "catalogue_rows_and_sequence_drift_each_refused": true,
+  "forged_packet_mutations_refused": 13,
+  "privileged_or_wrong_actor_identities_refused": 4,
+  "first_original_replacement_refused": true,
+  "protocol_stderr": {
+    "bytes": 1350,
+    "sha256": "cf3a935281ec2760052772a75a9adae72736dcfc67156d896b29803aa77dbab9"
+  },
+  "original_Native9_cases_or_product_SQL_changed": false,
+  "original_source_readiness_report_retained_as_historical": true,
+  "files": {
+    "scripts/current-mandor-shop-native-qualification/runtime_prerequisites.py": {
+      "bytes": 8078,
+      "sha256": "282b13f9d2b6bfe89b30a88adb117d8eceeea97d09a8f7ce8ba502ed15d33d58"
+    },
+    "scripts/current-mandor-shop-native-qualification/test_runtime_prerequisites.py": {
+      "bytes": 10212,
+      "sha256": "c55310b1bb7051403ecb9dbabdac41c083e7ee48f36b75d15c9b321f8c16236e"
+    },
+    "scripts/current-mandor-shop-native-qualification/component.py": {
+      "bytes": 7956,
+      "sha256": "31b7626e2488fd4371daa2bf21254583b86299673b91130eb0736778126f5044"
+    },
+    "scripts/current-mandor-shop-native-qualification/final_gate.py": {
+      "bytes": 10604,
+      "sha256": "593c3073fe8e2539a037c7762839b14bb63b7d1903bdf10926c5fda87ec80edf"
+    }
+  },
+  "actual_ERP_cases": 0,
+  "actual_Auth_cases": 0,
+  "actual_SQL_executed_against_ERP": 0,
+  "parent_root_adopted": false,
+  "production_go": false
+}
