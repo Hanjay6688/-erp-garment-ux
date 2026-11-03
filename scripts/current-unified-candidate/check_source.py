@@ -74,7 +74,7 @@ def source():
         prefix='scripts/current-mandor-shop-native-qualification/'
         expected={prefix+n for n in('admission.py','native_fixture.py','oracle.py','cases.py','additional_cases.py','preflight.py',
             'assembly.py','component.py','package_engine.py','qualification.py','runtime_supervisor.py','final_gate.py',
-            'SOURCE_READINESS.json','READINESS.txt')}
+            'SOURCE_READINESS.json','READINESS.txt','test_prerequisites.py')}
         require(set(preparation['files'])==expected and all(n in m['files']for n in expected),'UNIFIED_EXACT_PREPARED_NATIVE9_NAMESPACE')
         require(preparation['actual_Native_cases']==0 and preparation['parent_root_adopted']is False,'UNIFIED_NATIVE9_PREPARATION_IS_NOT_ACCEPTANCE')
         tree=ast.parse((ROOT/prefix/'admission.py').read_bytes())

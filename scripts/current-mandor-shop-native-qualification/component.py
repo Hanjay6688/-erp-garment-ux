@@ -85,6 +85,7 @@ def exercise(product,trusted_connection,conn,cur,database,url,report,state):
     committed=context(product,state,scope='COMMITTED_USE')
     with psycopg.connect(url)as used,used.cursor()as cursor:
         local(cursor);verify(cursor)
+        foundation=committed.committed_foundation(cursor)
         today=cursor.execute("select(statement_timestamp()at time zone'Asia/Jakarta')::date").fetchone()[0]
         before=committed.modules.bc.findings(cursor)
         witness=cases.selected_week(committed,cursor,today)
@@ -105,7 +106,7 @@ def exercise(product,trusted_connection,conn,cur,database,url,report,state):
         check.rollback()
     report.update(status='PASS',actual_Native_cases=9,strict_case_ids=list(cases.IDS),
         separate_committed_Native_use=dict(status='ACTUAL_MANDOR_INVOICE_OFFSET_AND_NET_PAYROLL_COMMITTED',
-            native_case_credit=0,witness=witness,financial_findings_before=before,financial_findings_after=after,
+            native_case_credit=0,original_foundation=foundation,witness=witness,financial_findings_before=before,financial_findings_after=after,
             actual_used_inverse_error=message,before_original=committed.original('REFUSAL_BEFORE',before_refusal),
             after_original=committed.original('REFUSAL_AFTER',after_refusal),used_guard_before_DDL=True),
         used_guard_refused_before_DDL=True,actual_Mandor_Auth_browser_race_acceptance_pending=True)

@@ -7,7 +7,7 @@ remains closed until its successful original is independently accepted.
 """
 from pathlib import Path
 from hashlib import sha256
-import argparse,ast,importlib.util,inspect,json,re,sys
+import argparse,ast,importlib.util,inspect,io,json,re,sys,unittest
 
 HERE=Path(__file__).resolve().parent
 ROOT=HERE.parents[1]
@@ -40,7 +40,7 @@ def check(raw,parser_path):
         name,arguments=sig.split('(',1)
         if name.startswith('public.'):allowed.setdefault(name,set()).add(0 if arguments==')'else len(arguments[:-1].split(',')))
     trees={name:ast.parse((HERE/name).read_bytes())for name in ['admission.py','native_fixture.py','oracle.py','cases.py','additional_cases.py','preflight.py',
-        'assembly.py','component.py','package_engine.py','qualification.py','runtime_supervisor.py','final_gate.py']}
+        'assembly.py','component.py','package_engine.py','qualification.py','runtime_supervisor.py','final_gate.py','test_prerequisites.py']}
     klass=next(n for n in trees['native_fixture.py'].body if isinstance(n,ast.ClassDef)and n.name=='Native')
     methods={n.name:signature(n)for n in klass.body if isinstance(n,ast.FunctionDef)}
     assembly=next(n for n in trees['assembly.py'].body if isinstance(n,ast.ClassDef)and n.name=='Assembly')
@@ -97,11 +97,17 @@ def check(raw,parser_path):
         and admission['PARENT_TREE']=='b3182ae21e3981e91d6d3730ec4ffb33dce1afb4'
         and admission['PARENT_RUN']==41596005356 and admission['PARENT_JOB']==125783405360,
         'MANDOR_PREFLIGHT_EXACT_CURRENT_UNACCEPTED_AFUI_SOURCE_PARENT')
+    spec=importlib.util.spec_from_file_location('mandor_new_prerequisite_controls',HERE/'test_prerequisites.py')
+    controls=importlib.util.module_from_spec(spec);spec.loader.exec_module(controls)
+    output=io.StringIO();suite=unittest.defaultTestLoader.loadTestsFromModule(controls)
+    result=unittest.TextTestRunner(stream=output,verbosity=1).run(suite)
+    require(result.wasSuccessful()and result.testsRun==6,'MANDOR_PREFLIGHT_COLD_COPY_PREREQUISITES:'+output.getvalue())
     return dict(status='NEW_MANDOR_NATIVE9_CALLER_SOURCE_PREFLIGHT_PASS_NOT_RUNTIME_OR_BUSINESS',
         new_source_files={name:dict(bytes=len((HERE/name).read_bytes()),sha256=sha256((HERE/name).read_bytes()).hexdigest())for name in trees},
         base_source_head=admission['PARENT_HEAD'],previous_preparation_head='3a8b1606c93f62b0f788903f80da3b253276c474',actual_original25=ACTUAL25,
         new_method_calls=method_calls,new_oracle_calls=oracle_calls,exact_public_RPC_calls=rpcs,
         fixed_observer_SQL_statements_parsed=len(sql),new_case_ids=list(ids),parser=pglast.__version__,
+        cold_copy_prerequisite_controls=dict(status='PASS',tests=result.testsRun,actual_Native_cases=0),
         accepted_Afui15_parent_root_pin=None,runtime_entry=None,actual_SQL_executed=0,actual_Native_cases=0,
         old_source84_or_model_or_financial_tests_rerun=False,production_go=False,independent_acceptance=False)
 

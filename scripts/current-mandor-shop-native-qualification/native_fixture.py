@@ -39,6 +39,25 @@ class Native:
         # Refuse a remote or wrong database before even changing its session.
         local(cur);self.modules.bc.api.admin(cur)
 
+    def committed_foundation(self,cur):
+        """Recreate the original foundation after strict_group rolls it back.
+
+        The ordinary fixture can seed only an empty local copy. Existing
+        users and roles must already be valid; this never promotes them.
+        """
+        self.admin(cur);api=self.modules.bc.api
+        count=cur.execute('select count(*) from erp.app_users').fetchone()[0]
+        require(type(count)is int and count>=0,'MANDOR_NATIVE_EXACT_FIXTURE_USER_COUNT_REQUIRED')
+        if count==0:api.seed(cur)
+        self.admin(cur)
+        rows=cur.execute('select u.is_active,r.role_code,r.is_active from erp.app_users u '
+            'join erp.app_roles r on r.id=u.role_id where u.auth_user_id=%s',
+            (api.base.OPERATOR_AUTH,)).fetchall()
+        require(rows==[(True,'OWNER',True)],'MANDOR_NATIVE_ORIGINAL_ACTIVE_OWNER_REQUIRED_WITHOUT_PROMOTION')
+        return dict(status='ORIGINAL_ORDINARY_OWNER_FOUNDATION_READY',initial_app_users=count,
+            unchanged_original_foundation_loaded=count==0,existing_actor_or_role_promoted=False,
+            product_permission_grants_added=False,actual_case_credit=0)
+
     def public(self,cur,query,args,actor):
         self.admin(cur);local(cur)
         self.sales.auth.actor(cur,actor)

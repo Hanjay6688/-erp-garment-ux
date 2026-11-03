@@ -103,6 +103,12 @@ def gate(directory,head):
     p.fields(used,dict(status='ACTUAL_MANDOR_INVOICE_OFFSET_AND_NET_PAYROLL_COMMITTED',native_case_credit=0,
         actual_used_inverse_error='MANDOR_AFTER_USE_REQUIRES_FULL_BACKUP_RESTORE',used_guard_before_DDL=True),
         'MANDOR_GATE_ACTUAL_COMMITTED_USE_WITHOUT_EXTRA_CASE_CREDIT')
+    foundation=used['original_foundation']
+    p.fields(foundation,dict(status='ORIGINAL_ORDINARY_OWNER_FOUNDATION_READY',existing_actor_or_role_promoted=False,
+        product_permission_grants_added=False,actual_case_credit=0),'MANDOR_GATE_ORIGINAL_COMMITTED_FOUNDATION')
+    initial=foundation['initial_app_users']
+    if type(initial)is not int or initial<0:raise ValueError('MANDOR_GATE_EXACT_INITIAL_USER_COUNT')
+    p.exact(foundation['unchanged_original_foundation_loaded'],initial==0,'MANDOR_GATE_EMPTY_COPY_ONLY_ORIGINAL_SEED')
     count,found=observations(p,directory,used)
     if count<2:raise ValueError('MANDOR_GATE_COMMITTED_USE_REPLAY_AND_USED_REFUSAL_ORIGINALS_REQUIRED')
     pairs+=count;assets.update(found)
