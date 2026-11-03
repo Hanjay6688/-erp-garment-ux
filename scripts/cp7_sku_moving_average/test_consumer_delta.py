@@ -25,9 +25,10 @@ target=patched[delta.SIGNATURES[2]]
 assert 'sale_allocation_components_v2'in target and 'sales_return_components_v2'in target
 assert 'component_events_v2'in target and 'conversion_adjustment'in target
 assert "root.po_id is null"in target and '(hpp-fg-cogs)::numeric'in target
+assert 'cp7_sku_conversion.owned_scope_value_v2(p_product_id,null)'in target
 po=patched[delta.SIGNATURES[3]]
 assert 'sale_allocation_components_v2'in po and 'sales_return_components_v2'in po
-assert 'component_events_v2'in po and 'root.po_id=p_po_id'in po
+assert 'cp7_sku_conversion.owned_scope_value_v2(null,p_po_id)'in po and 'root.po_id=p_po_id'in po
 assert '(hpp-fg-cogs)::numeric'in po
 sale=patched[delta.SIGNATURES[0]]
 assert sale.index('prepare_sale_values_v2(h.id)')<sale.index('assert_non_po_product_hpp_target_book_v2620f')

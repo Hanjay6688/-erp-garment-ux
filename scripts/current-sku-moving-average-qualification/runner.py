@@ -9,7 +9,7 @@ from cp7_catalog_state import exact_public_catalog
 
 HERE=Path(__file__).resolve().parent
 ROOT=HERE.parents[1]
-LABEL='CP7_SKU_MOVING_AVERAGE_NATIVE5'
+LABEL='CP7_SKU_MOVING_AVERAGE_NATIVE6'
 
 def load(name,path):
     spec=importlib.util.spec_from_file_location(name,path);module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module);return module

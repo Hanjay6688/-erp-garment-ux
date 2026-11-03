@@ -21,7 +21,7 @@ from cp7_sku_moving_average import composition as product
 component=load('sku_movavg_native_component',HERE/'runner.py')
 native_parent=load('sku_movavg_scheduler_quiet',ROOT/'scripts/current-vendor-receivable-qualification/native_runner.py')
 engine.product=product
-engine.runner=SimpleNamespace(CASE='SKU_MOVING_AVERAGE_NATIVE5_AND_USED_INVERSE',exercise=component.exercise,scheduler_quiet=native_parent.scheduler_quiet)
+engine.runner=SimpleNamespace(CASE='SKU_MOVING_AVERAGE_NATIVE6_AND_USED_INVERSE',exercise=component.exercise,scheduler_quiet=native_parent.scheduler_quiet)
 engine.IDS=(engine.runner.CASE,)
 engine.LABEL='CP7_SKU_MOVING_AVERAGE_QUALIFICATION'
 engine.PRE_DUMP='/tmp/sku_moving_average_pre.dump'

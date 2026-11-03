@@ -31,6 +31,7 @@ def prepare():
         'erp.non_po_hpp_gl_sync_events_v2620f', 'erp.be_conversion_sources_v1',
         'erp.journal_entries', 'cp7_sku_conversion.groups_v1',
         'cp7_sku_conversion.members_v1',
+        'erp.fg_inventory_balances', 'erp.sales_payments',
     )
     columns = {table: sorted([v for k, v in catalog['columns'].items()
                              if k.startswith(table + ':')], key=lambda v: v[1])
@@ -40,6 +41,16 @@ def prepare():
                 parent_sha256=sha256(raw).hexdigest(), columns=columns,
                 definitions=definitions,
                 old_opening_sync=catalog['functions']['erp.sync_opening_lot_hpp_to_gl(uuid,date)'][0],
+                native_return_helpers={sig: catalog['functions'][sig][0] for sig in (
+                    'erp.sale_net_total(uuid)',
+                    'erp.post_fg_movement(uuid,uuid,uuid,text,text,integer,numeric,uuid,text,uuid,timestamp with time zone,text,boolean)',
+                    'erp.assert_fg_chronological_nonnegative(uuid,uuid,uuid,text)',
+                )},
+                inventory_unique=catalog['indexes']['erp.fg_inventory_balances_product_id_location_id_quality_grade_key'][0],
+                transaction_uniques=[catalog['indexes'][name][0] for name in (
+                    'erp.sale_stock_allocations_sale_item_id_lot_id_location_id_key',
+                    'erp.uq_sales_return_item_allocation',
+                )],
                 assert_nonpo=catalog['functions']['erp.assert_non_po_product_hpp_target_book_v2620f(uuid)'][0],
                 actual_Native_cases=0, production_go=False, independent_acceptance=False)
 

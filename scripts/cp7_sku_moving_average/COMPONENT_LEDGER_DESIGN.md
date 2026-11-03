@@ -40,3 +40,12 @@ their PO or non-PO attribution even when FIFO picked another physical lot.
 The SQL successor is not ready for actual installation until its pool quote,
 conversion, sales, returns, readers, PO/non-PO targets, propagation, and
 reversal all derive from this projection. `production_go=false`.
+
+Return item currency snapshots are apportioned from the current FG target
+change in each financial scope. The unrounded owned-root projection is shared
+with both official target functions. Before an item is prepared, previously
+prepared items of that same draft are included explicitly; other drafts remain
+non-authoritative. PO scope spans products and warehouses, while non-PO scope
+is one product across warehouses. Component units still restore the selected
+sale allocation's original mix. Historical snapshots and inverse events stay
+immutable; current journals continue to use the existing target/book deltas.

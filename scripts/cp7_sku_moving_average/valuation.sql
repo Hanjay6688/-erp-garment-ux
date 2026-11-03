@@ -518,18 +518,41 @@ begin
  return coalesce(v,erp.lock_current_hpp_per_pcs(p_lot),0);
 end $$;
 
+-- The same unrounded owned-root value feeds the official FG targets and
+-- return snapshots. PO scope spans products; non-PO scope is one product.
+create function cp7_sku_conversion.owned_scope_value_v2(p_product uuid,p_po uuid)returns numeric
+language sql stable security definer set search_path=''as $$
+with physical as(
+ select l.id root_lot_id,(coalesce(sum(m.qty_signed),0)+coalesce(sum(abs(m.qty_signed))filter(
+  where m.movement_type='SALE_RESERVE'and not exists(select 1 from erp.fg_stock_movements rv where rv.reversal_of_id=m.id)),0))::numeric units
+ from erp.fg_lots l left join erp.fg_stock_movements m on m.lot_id=l.id
+ where ((p_po is null and l.po_id is null and l.product_id=p_product)or l.po_id=p_po)
+  and l.lot_origin<>'VOIDED_PRODUCTION'group by l.id
+), component_entries as(
+ select root_lot_id,units from physical
+ union all select e.root_lot_id,e.units_delta from cp7_sku_conversion.component_events_v2 e
+ join erp.fg_lots root on root.id=e.root_lot_id
+ where ((p_po is null and root.po_id is null and e.product_id=p_product)or root.po_id=p_po)
+ and(e.source_type<>'SALE'or exists(select 1 from erp.sales_headers sh where sh.id=e.source_id and sh.status in('POSTED','PARTIAL_PAID','PAID','REVERSED')))
+ and(e.source_type<>'SALES_RETURN'or exists(select 1 from erp.sales_returns rh where rh.id=e.source_id and rh.status in('POSTED','REVERSED')))
+)
+select coalesce(sum(x.units*h.hpp_per_pcs),0)::numeric from(
+ select root_lot_id,sum(units)::numeric units from component_entries group by root_lot_id)x
+join erp.hpp_versions h on h.lot_id=x.root_lot_id and h.is_current
+$$;
+
 create function cp7_sku_conversion.prepare_return_values_v2(p_return uuid)returns void
 language plpgsql volatile security definer set search_path=''set timezone='UTC'as $$
-declare r record;v_prior_qty integer;v_prior_value numeric(24,2);v_value numeric(24,2);v_legacy numeric(24,2);v_line integer:=0;pool record;
+declare r record;v_prior_qty integer;v_value numeric(24,2);v_legacy numeric(24,2);v_line integer:=0;pool record;v_components jsonb;
 begin
  perform erp.require_internal();
  if exists(select 1 from cp7_sku_conversion.sales_return_values_v2 where return_id=p_return)then raise exception 'CP7_SKU_RETURN_VALUE_ALREADY_PREPARED';end if;
  for r in select i.id,i.return_id,i.sale_stock_allocation_id,i.product_id,i.lot_id,i.location_id,i.quality_grade,i.qty_pcs,
-   a.qty_pcs sold_qty,a.effective_value sold_value,h.hpp_per_pcs
+   a.qty_pcs sold_qty,h.hpp_per_pcs
   from erp.sales_return_items i join cp7_sku_conversion.sale_allocation_values_v2 a on a.sale_stock_allocation_id=i.sale_stock_allocation_id
   join erp.hpp_versions h on h.lot_id=i.lot_id and h.is_current
   where i.return_id=p_return order by i.sale_stock_allocation_id,i.id loop
-  select coalesce(sum(v.qty_pcs),0),coalesce(sum(v.effective_value),0)into v_prior_qty,v_prior_value
+  select coalesce(sum(v.qty_pcs),0)into v_prior_qty
    from cp7_sku_conversion.sales_return_values_v2 v join erp.sales_returns h on h.id=v.return_id
    where v.sale_stock_allocation_id=r.sale_stock_allocation_id and(h.status='POSTED'or h.id=p_return);
   if v_prior_qty+r.qty_pcs>r.sold_qty then raise exception 'CP7_SKU_RETURN_VALUE_EXCEEDS_SALE_ALLOCATION';end if;
@@ -537,38 +560,48 @@ begin
    left join erp.hpp_versions h on h.lot_id=c.root_lot_id and h.is_current
    where c.sale_stock_allocation_id=r.sale_stock_allocation_id and(h.id is null or h.hpp_per_pcs is null or h.cost_state='ESTIMATED'
     or erp.bd_lot_laundry_unknown_v1(c.root_lot_id)))then raise exception 'CP7_SKU_RETURN_COMPONENT_HPP_UNKNOWN';end if;
-  with prior as(
-   select c.root_lot_id,sum(c.component_units)::numeric units
-   from cp7_sku_conversion.sales_return_components_v2 c join cp7_sku_conversion.sales_return_values_v2 v using(sales_return_item_id)
-   join erp.sales_returns h on h.id=v.return_id
-   where v.sale_stock_allocation_id=r.sale_stock_allocation_id and(h.status='POSTED'or h.id=p_return)group by c.root_lot_id
-  )select round(coalesce(sum(((v_prior_qty+r.qty_pcs)*c.component_units/r.sold_qty-coalesce(p.units,0))*h.hpp_per_pcs),0),2)
-   into v_value from cp7_sku_conversion.sale_allocation_components_v2 c
-   join erp.hpp_versions h on h.lot_id=c.root_lot_id and h.is_current
-   left join prior p on p.root_lot_id=c.root_lot_id where c.sale_stock_allocation_id=r.sale_stock_allocation_id;
-  v_legacy:=round(r.qty_pcs*r.hpp_per_pcs,2);
-  insert into cp7_sku_conversion.sales_return_values_v2(sales_return_item_id,return_id,sale_stock_allocation_id,product_id,lot_id,location_id,quality_grade,qty_pcs,effective_value,legacy_value,effective_unit_value)
-  values(r.id,p_return,r.sale_stock_allocation_id,r.product_id,r.lot_id,r.location_id,r.quality_grade,r.qty_pcs,v_value,v_legacy,v_value/r.qty_pcs);
+  -- Pending rows of this draft are included explicitly, while the shared
+  -- owned projection excludes draft effects. Every financial scope therefore
+  -- receives exactly its current cumulative FG target change, including the
+  -- cent carried from earlier returns, other allocations, reversals or recost.
   with prior as(
    select c.root_lot_id,sum(c.component_units)::numeric units
    from cp7_sku_conversion.sales_return_components_v2 c join cp7_sku_conversion.sales_return_values_v2 v using(sales_return_item_id)
    join erp.sales_returns h on h.id=v.return_id
    where v.sale_stock_allocation_id=r.sale_stock_allocation_id and(h.status='POSTED'or h.id=p_return)group by c.root_lot_id
   ), raw as(
-   select c.root_lot_id,c.po_id,(v_prior_qty+r.qty_pcs)*c.component_units/r.sold_qty-coalesce(p.units,0)component_units,h.hpp_per_pcs
+   select c.root_lot_id,c.po_id,((v_prior_qty+r.qty_pcs)*c.component_units/r.sold_qty-coalesce(p.units,0))::numeric(30,12) component_units,h.hpp_per_pcs
    from cp7_sku_conversion.sale_allocation_components_v2 c join erp.hpp_versions h on h.lot_id=c.root_lot_id and h.is_current
    left join prior p on p.root_lot_id=c.root_lot_id where c.sale_stock_allocation_id=r.sale_stock_allocation_id
+  ), scoped as(
+   select po_id,sum(component_units*hpp_per_pcs)::numeric added_value from raw where component_units>0 group by po_id
+  ), before_values as(
+   select k.po_id,k.added_value,cp7_sku_conversion.owned_scope_value_v2(r.product_id,k.po_id)
+    +coalesce((select sum(c.component_units*h.hpp_per_pcs)
+      from cp7_sku_conversion.sales_return_components_v2 c join cp7_sku_conversion.sales_return_values_v2 v using(sales_return_item_id)
+      join erp.hpp_versions h on h.lot_id=c.root_lot_id and h.is_current
+      where v.return_id=p_return and c.po_id is not distinct from k.po_id
+       and(k.po_id is not null or v.product_id=r.product_id)),0)::numeric before_value
+   from scoped k
+  ), scope_cents as(
+   select po_id,added_value,round(before_value+added_value,2)-round(before_value,2)effective_value from before_values
   ), ranked as(
-   select *,sum(component_units*hpp_per_pcs)over(order by root_lot_id rows unbounded preceding)cumulative_raw,
-    sum(component_units*hpp_per_pcs)over()total_raw from raw where component_units>0
+   select c.*,k.effective_value,k.added_value,
+    sum(c.component_units*c.hpp_per_pcs)over(partition by c.po_id order by c.root_lot_id rows unbounded preceding)cumulative_raw
+   from raw c join scope_cents k on k.po_id is not distinct from c.po_id where c.component_units>0
   ), targets as(
-   select *,case when v_value=0 then 0 else round(cumulative_raw*v_value/nullif(total_raw,0),2)end cumulative_target from ranked
+   select *,case when effective_value=0 then 0 else round(cumulative_raw*effective_value/nullif(added_value,0),2)end cumulative_target from ranked
   ), shares as(
-   select row_number()over(order by root_lot_id)::integer line_no,*,
-    cumulative_target-coalesce(lag(cumulative_target)over(order by root_lot_id),0)booked_value from targets
-  )
+   select row_number()over(order by root_lot_id)::integer line_no,root_lot_id,po_id,component_units,
+    cumulative_target-coalesce(lag(cumulative_target)over(partition by po_id order by root_lot_id),0)booked_value from targets
+  )select coalesce(jsonb_agg(to_jsonb(shares)order by line_no),'[]'::jsonb),coalesce(sum(booked_value),0)
+    into v_components,v_value from shares;
+  v_legacy:=round(r.qty_pcs*r.hpp_per_pcs,2);
+  insert into cp7_sku_conversion.sales_return_values_v2(sales_return_item_id,return_id,sale_stock_allocation_id,product_id,lot_id,location_id,quality_grade,qty_pcs,effective_value,legacy_value,effective_unit_value)
+  values(r.id,p_return,r.sale_stock_allocation_id,r.product_id,r.lot_id,r.location_id,r.quality_grade,r.qty_pcs,v_value,v_legacy,v_value/r.qty_pcs);
   insert into cp7_sku_conversion.sales_return_components_v2(sales_return_item_id,line_no,root_lot_id,po_id,component_units,booked_value)
-  select r.id,line_no,root_lot_id,po_id,component_units,booked_value from shares order by line_no;
+  select r.id,c.line_no,c.root_lot_id,c.po_id,c.component_units,c.booked_value
+   from jsonb_to_recordset(v_components)as c(line_no integer,root_lot_id uuid,po_id uuid,component_units numeric,booked_value numeric)order by c.line_no;
   if abs(r.qty_pcs-coalesce((select sum(c.component_units)from cp7_sku_conversion.sales_return_components_v2 c where c.sales_return_item_id=r.id),0))>0.000000000001
    or v_value is distinct from(select sum(c.booked_value)from cp7_sku_conversion.sales_return_components_v2 c where c.sales_return_item_id=r.id)then
    raise exception 'CP7_SKU_RETURN_COMPONENT_MISMATCH';end if;

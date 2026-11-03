@@ -29,6 +29,7 @@ IDS=(
  'SKU_MOVAVG_ROOT_RECOST_FOLLOWS_REMAINING_LINEAGE_TOTAL150',
  'SKU_MOVAVG_SALE_PARTIAL_RETURN_AND_EXACT_REVERSAL',
  'SKU_MOVAVG_RESERVATION_INCLUDED_AND_LOCATION_ISOLATED',
+ 'SKU_MOVAVG_FRACTIONAL_RETURNS_INTERLEAVE_RECOST_AND_EARLIER_INVERSE',
 )
 
 def canonical(cur,today):
@@ -238,6 +239,80 @@ def reservation_location_isolation(cur,today):
       other_location_qty='3',other_location_value='270.00',other_location_unchanged=True,
       zero_component_sale_value_inverse_exact=True,ordinary_sale_id=ordinary_sale)
 
+def fractional_return_scope(cur,today):
+    def setup():
+        x= f.masters(cur)
+        x['lots']=[f.opening(cur,x['source'],1,'3.32',today-timedelta(days=3)),
+                   f.opening(cur,x['source'],2,'3.34',today-timedelta(days=2))]
+        before=sales_cmd.accounts(cur)
+        sale=f.reserve(cur,x,x['source'],3,at=x['now'].isoformat())
+        sf=dict(sale=sale,tag='',destination=x['location'])
+        payload,version=sales_cmd.review(cur,sf)
+        assert sales_cmd.command(cur,'POST',payload,version)['status']=='POSTED'
+        sf['allocations']=sales_returns.read(cur,sf)['page']['rows']
+        assert sorted(row['allocated_qty']for row in sf['allocations'])==['1','2']
+        one=next(row['allocation_id']for row in sf['allocations']if row['allocated_qty']=='1')
+        two=next(row['allocation_id']for row in sf['allocations']if row['allocated_qty']=='2')
+        assert tuple(map(D,f.product_books(cur,x['source'])))==(D(10),D(0),D(10),D(0))
+        return x,sf,before,one,two
+
+    def post(x,sf,allocation,expected,extra=None):
+        before=sales_cmd.accounts(cur)
+        payload,version=sales_returns.payload(cur,sf,qty='1',refund='185000',allocation=allocation,destination=x['location'])
+        if extra is not None:
+            payload['items'].append(dict(payload['items'][0],allocation_id=extra))
+        returned=sales_cmd.command(cur,'RETURN',payload,version)
+        ident=returned['return_id'];f.admin(cur)
+        snapshot=cur.execute('select sum(effective_value)from cp7_sku_conversion.sales_return_values_v2 where return_id=%s',(ident,)).fetchone()[0]
+        delta=sales_cmd.delta(before,sales_cmd.accounts(cur))
+        assert D(snapshot)==D(expected),('RETURN_SNAPSHOT_CENTS',snapshot,expected)
+        assert delta[sales_cmd.mapping(cur,'FG_INVENTORY')]==D(expected),(snapshot,delta)
+        f.product_books(cur,x['source'])
+        return ident,dict(return_id=ident,snapshot_value=str(snapshot),FG_journal_delta=str(delta[sales_cmd.mapping(cur,'FG_INVENTORY')]))
+
+    def undo_all(x,sf,returns,before=None):
+        for ident in returns:
+            assert sales_returns.inverse(cur,sf,ident)['return_status']=='REVERSED'
+            assert event_balance(cur,'SALES_RETURN',ident)==(0,0)
+            f.product_books(cur,x['source'])
+        assert sales_returns.reverse_sale(cur,sf)['status']=='REVERSED'
+        assert event_balance(cur,'SALE',sf['sale'])==(0,0)
+        if before is not None:assert sales_cmd.accounts(cur)==before
+        return f.product_books(cur,x['source'])
+
+    x,sf,before,one,two=setup()
+    first,a=post(x,sf,two,'3.33');second,b=post(x,sf,two,'3.34')
+    f.admin(cur)
+    frozen=cur.execute('select jsonb_agg(to_jsonb(v)order by sales_return_item_id)from cp7_sku_conversion.sales_return_values_v2 v where return_id in(%s,%s)',(first,second)).fetchone()[0]
+    assert sales_returns.inverse(cur,sf,first)['return_status']=='REVERSED'
+    assert tuple(map(D,f.product_books(cur,x['source'])))==(D(10),D('3.33'),D('6.67'),D(0))
+    f.admin(cur)
+    assert cur.execute('select jsonb_agg(to_jsonb(v)order by sales_return_item_id)from cp7_sku_conversion.sales_return_values_v2 v where return_id in(%s,%s)',(first,second)).fetchone()[0]==frozen
+    assert event_balance(cur,'SALES_RETURN',first)==(0,0)
+    replacement,c=post(x,sf,two,'3.34')
+    assert tuple(map(D,undo_all(x,sf,[replacement,second],before)))==(D(10),D(10),D(0),D(0))
+    split=dict(sale_id=sf['sale'],returns=[a,b,c],earlier_inverse_current_book_exact=True,immutable_snapshots_unchanged=True,full_inverse_neutral=True)
+
+    x,sf,before,one,two=setup()
+    batch,a=post(x,sf,two,'6.67',extra=one)
+    last,b=post(x,sf,two,'3.33')
+    assert tuple(map(D,f.product_books(cur,x['source'])))==(D(10),D(10),D(0),D(0))
+    undo_all(x,sf,[last,batch],before)
+    multi=dict(sale_id=sf['sale'],returns=[a,b],distinct_allocation_lines=True,full_inverse_neutral=True)
+
+    x,sf,before,one,two=setup()
+    first,a=post(x,sf,two,'3.33')
+    correction=f.b.internal(cur,'post_opening_hpp_correction',x['lots'][1],D('4.50'),
+        'Fractional return current-root HPP correction',today)
+    assert tuple(map(D,f.product_books(cur,x['source'])))==(D('12.32'),D('4.11'),D('8.21'),D(0))
+    second,b=post(x,sf,two,'4.10')
+    assert tuple(map(D,f.product_books(cur,x['source'])))==(D('12.32'),D('8.21'),D('4.11'),D(0))
+    restored=undo_all(x,sf,[second,first])
+    assert tuple(map(D,restored))==(D('12.32'),D('12.32'),D(0),D(0))
+    recost=dict(sale_id=sf['sale'],correction_id=str(correction),returns=[a,b],current_root_values_restored=restored)
+    return dict(status='PASS',split_and_earlier_inverse=split,multiple_allocations=multi,intervening_recost=recost,
+        actual_public_sale_commands=True,snapshots_equal_current_FG_journal_deltas=True,no_direct_posted_financial_rows=True)
+
 def cases(cur,today):
-    operations=(canonical_forward_back,exact_group_reverse,root_recost,sale_partial_return_reverse,reservation_location_isolation)
+    operations=(canonical_forward_back,exact_group_reverse,root_recost,sale_partial_return_reverse,reservation_location_isolation,fractional_return_scope)
     return [(name,lambda operation=operation:operation(cur,today))for name,operation in zip(IDS,operations)]

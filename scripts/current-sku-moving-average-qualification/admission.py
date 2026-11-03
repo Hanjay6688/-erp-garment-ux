@@ -8,7 +8,7 @@ import subprocess
 
 def admitted(repo,here,product,derivation):
     cfg=json.loads((here/'CONFIG.json').read_bytes());source=json.loads((here/'SOURCE.json').read_bytes())
-    if cfg['contract']!='cp7.sku-moving-average-native5.v1':raise ValueError('SKU_MOVAVG_CONTRACT_CHANGED')
+    if cfg['contract']!='cp7.sku-moving-average-native6.v1':raise ValueError('SKU_MOVAVG_CONTRACT_CHANGED')
     for path,digest in source['files'].items():
         if sha256((repo/path).read_bytes()).hexdigest()!=digest:raise ValueError('SKU_MOVAVG_SOURCE_CHANGED:'+path)
     def git(*args):return subprocess.check_output(['git','-C',str(repo),*args])
@@ -22,7 +22,7 @@ def admitted(repo,here,product,derivation):
     if derivation!=cfg['runner_derivation']:raise ValueError('SKU_MOVAVG_RUNNER_DERIVATION_CHANGED')
     tree=ast.parse((repo/'scripts/cp7_sku_moving_average/qualification_cases.py').read_text())
     ids=next(ast.literal_eval(n.value)for n in tree.body if isinstance(n,ast.Assign)and any(isinstance(t,ast.Name)and t.id=='IDS'for t in n.targets))
-    if list(ids)!=cfg['native_case_ids']or len(set(ids))!=5:raise ValueError('SKU_MOVAVG_CASE_PLAN_CHANGED')
+    if list(ids)!=cfg['native_case_ids']or len(set(ids))!=6:raise ValueError('SKU_MOVAVG_CASE_PLAN_CHANGED')
     originals=Path(os.environ['CP7_SKU_PARENT_ORIGINALS'])
     parent=cfg['qualified_parent'];proofs={}
     for name,pin in parent['originals'].items():

@@ -10,7 +10,7 @@ const here = dirname(fileURLToPath(import.meta.url));
 const input = JSON.parse(await readFile(process.env.CP7_CONSUMER_MODEL_INPUT, 'utf8'));
 assert.equal(input.classification, 'MODELED_EXACT_CONSUMER_SQL_NOT_NATIVE_ERP');
 const ddl = await readFile(join(here, 'valuation.sql'), 'utf8');
-const db = new PGlite(), results = [];
+const db = new PGlite(), results = [], fractionalObservations = [];
 const id = n => '73000000-0000-4000-8000-' + String(n).padStart(12, '0');
 const x = Object.fromEntries(['source','target','outside','location','otherLocation','root10','root30',
  'root50','converted','root90','group','conversion','allocation','hpp10','hpp30','hpp50','hppConverted','hpp90',
@@ -57,6 +57,41 @@ async function returnSetup() {
  await insert('erp.sales_return_items',{id:x.returnItem,return_id:x.returned,sale_stock_allocation_id:x.saleA,
   product_id:x.target,lot_id:x.root50,location_id:x.location,quality_grade:'GRADE_A',qty_pcs:1});
 }
+async function fractionalSale() {
+ await query('update erp.hpp_versions set total_cost=10 where id=$1',[x.hpp90]);
+ await query("update erp.fg_stock_movements set unit_hpp_snapshot=10::numeric/3 where lot_id=$1 and movement_type='OPENING'",[x.root90]);
+ await query('update public.model_book set fg=10,cogs=0,other_value=0 where product_id=$1',[x.outside]);
+ await insert('erp.sales_headers',{id:x.sale,status:'DRAFT',sale_date:'2026-01-02T00:00:00Z',source_location_id:x.location,customer_id:id(900)});
+ for(const [item,allocation,quantity]of[[x.saleItem,x.saleA,1],[id(700),x.saleB,2]]) {
+  await insert('erp.sales_items',{id:item,sale_id:x.sale,product_id:x.outside,qty_pcs:quantity,unit_price_snapshot:185000,discount_amount:0});
+  await insert('erp.sale_stock_allocations',{id:allocation,sale_item_id:item,lot_id:x.root90,location_id:x.location,qty_pcs:quantity});
+  await insert('erp.fg_stock_movements',{id:id(++serial),lot_id:x.root90,product_id:x.outside,
+   location_id:x.location,quality_grade:'GRADE_A',qty_signed:-quantity,movement_type:'SALE_RESERVE',
+   customer_id:id(900),source_type:'SALE_ITEM',source_id:item,
+   physical_at:'2026-01-02T00:00:00Z',system_created_at:'2026-01-02T00:00:00Z'});
+ }
+ await query('select erp.post_sale($1)',[x.sale]);
+ assert.equal(Number(await scalar('select effective_value from cp7_sku_conversion.sale_allocation_values_v2 where sale_stock_allocation_id=$1',[x.saleB])),6.67);
+ await query('update erp.fg_lots set cached_qty_pcs=0,produced_at=$1 where id=$2',['2026-01-01T00:00:00Z',x.root90]);
+}
+async function fractionalReturn(label, sequence, allocations, destination=x.location) {
+ const returned=id(2000+sequence);
+ await insert('erp.sales_returns',{id:returned,sale_id:x.sale,customer_id:id(900),status:'DRAFT',physical_at:'2026-01-03T00:00:00Z'});
+ for(let i=0;i<allocations.length;i++) {
+  const [allocation,quantity]=allocations[i];
+  await insert('erp.sales_return_items',{id:id(3000+sequence*10+i),return_id:returned,sale_stock_allocation_id:allocation,
+   product_id:x.outside,lot_id:x.root90,location_id:destination,quality_grade:'GRADE_A',qty_pcs:quantity,refund_amount:185000*quantity});
+ }
+ await query('select erp.post_sales_return($1)',[returned]);
+ const amounts=(await query('select effective_value::text value from cp7_sku_conversion.sales_return_values_v2 where return_id=$1 order by sales_return_item_id',[returned])).rows.map(r=>Number(r.value));
+ const target=await values(x.outside),book=(await query('select fg::text,cogs::text from public.model_book where product_id=$1',[x.outside])).rows[0];
+ const journal=await scalar("select lines from public.model_journal where source_type='SALES_RETURN'and source_id=$1",[returned]);
+ const inventory=journal.filter(r=>r.mapping_key==='FG_INVENTORY').reduce((sum,r)=>sum+r.debit-r.credit,0);
+ const snapshot=Number(await scalar('select sum(effective_value)::text from cp7_sku_conversion.sales_return_values_v2 where return_id=$1',[returned]));
+ assert.equal(snapshot,inventory,'Return snapshots must equal the exact Native FG journal delta');
+ await query('select erp.assert_non_po_product_hpp_target_book_v2620f($1)',[x.outside]);
+ const observed={label,returned,amounts,snapshot,target,book,journal};fractionalObservations.push(observed);return observed;
+}
 let engine,serial=1000;
 try {
  engine=await scalar('select version()');assert.match(engine,/^PostgreSQL 17\./);
@@ -100,7 +135,20 @@ try {
  create view erp.v_current_hpp as select id hpp_version_id,lot_id,hpp_per_pcs from erp.hpp_versions where is_current;
  `);
  await db.exec(ddl);
- for(const sig of ['erp.post_sale(uuid)','erp.compute_non_po_product_hpp_targets_v2620f(uuid)',
+ await db.exec(input.inventory_unique);
+ for(const definition of input.transaction_uniques)await db.exec(definition);
+ for(const definition of Object.values(input.native_return_helpers))await db.exec(definition);
+ // Credit policy and journal storage remain explicit model providers. The
+ // Native return, movement and cumulative HPP/journal calculations are exact.
+ await db.exec(`create schema cp7_credit;
+ create function cp7_credit.native_return_enter(uuid)returns void language plpgsql as $$begin return;end$$;
+ create function cp7_credit.native_return_guard(uuid,numeric,numeric,numeric)returns numeric language sql as $$select $4$$;
+ create function cp7_credit.post_return_journal(text,uuid,date,text,jsonb)returns uuid language sql as $$select erp.post_journal($1,$2,$3,$4,$5)$$;
+ create function cp7_credit.flush_opening_return_hpp_v1(uuid)returns void language plpgsql as $$begin return;end$$;
+ create function cp7_credit.native_return_complete(uuid,numeric,numeric)returns numeric language sql as $$select 0::numeric$$;
+ create function cp7_credit.native_return_leave(uuid)returns void language plpgsql as $$begin return;end$$;
+ `);
+ for(const sig of ['erp.post_sale(uuid)','erp.post_sales_return(uuid)','erp.compute_non_po_product_hpp_targets_v2620f(uuid)',
   'erp.compute_po_hpp_gl_targets_v2620d(uuid)',
   'erp.sync_non_po_product_hpp_to_gl_v2620f(uuid,date,text,uuid,text)',
   'erp.post_opening_hpp_correction(uuid,numeric,text,date)',
@@ -108,7 +156,7 @@ try {
  await db.exec(input.assert_nonpo);
  await db.exec(input.old_opening_sync.replace('erp.sync_opening_lot_hpp_to_gl(', 'erp.failed_opening_sync('));
  for(const product of[x.source,x.target,x.outside])await insert('erp.products',{id:product});
- for(const location of[x.location,x.otherLocation])await insert('erp.locations',{id:location});
+ for(const location of[x.location,x.otherLocation])await insert('erp.locations',{id:location,is_active:true,location_type:'FG_WAREHOUSE'});
  await insert('erp.production_orders',{id:x.po});
  for(const[lot,product,qty,cost,hpp,origin]of[
   [x.root10,x.source,2,10,x.hpp10,'OPENING'],[x.root30,x.source,2,30,x.hpp30,'OPENING'],
@@ -217,13 +265,98 @@ try {
   assert.equal(await scalar("select count(*)from cp7_sku_conversion.component_events_v2 where source_type='SALE'and source_id=$1",[x.sale]),0);
   assert.deepEqual(await values(x.target),{hpp:70,fg:70,cogs:0,other:0});
  });
- const report={status:'POSTGRES17_EXACT_CONSUMER_SQL_CONTROLS_PASS_NOT_NATIVE',engine,results,
+ await control('Two one-piece returns preserve the same cents as a batched two-piece return using exact Native journals',async()=>{
+  await fractionalSale();await db.exec('savepoint sold');
+  const first=await fractionalReturn('split first',1,[[x.saleB,1]]);
+  const second=await fractionalReturn('split second',2,[[x.saleB,1]],x.otherLocation);
+  assert.deepEqual([first.snapshot,second.snapshot],[3.33,3.34]);
+  assert.deepEqual(second.target,{hpp:10,fg:6.67,cogs:3.33,other:0});
+  await db.exec('rollback to savepoint sold');
+  const batch=await fractionalReturn('same two pieces batched',3,[[x.saleB,2]]);
+  assert.equal(batch.snapshot,6.67);assert.deepEqual(batch.target,second.target);
+ });
+ await control('Two legal draft allocations carry the pending scope cent into the next line',async()=>{
+  await fractionalSale();
+  const result=await fractionalReturn('one document two allocations',4,[[x.saleA,1],[x.saleB,1]]);
+  assert.deepEqual(result.amounts,[3.33,3.34]);assert.equal(result.snapshot,6.67);
+ });
+ await control('Interleaved allocations share the official financial scope cent rather than losing or duplicating it',async()=>{
+  await fractionalSale();
+  const a=await fractionalReturn('interleaved B1',5,[[x.saleB,1]]);
+  const b=await fractionalReturn('interleaved A1',6,[[x.saleA,1]]);
+  const c=await fractionalReturn('interleaved B2',7,[[x.saleB,1]]);
+  assert.deepEqual([a.snapshot,b.snapshot,c.snapshot],[3.33,3.34,3.33]);
+  assert.deepEqual(c.target,{hpp:10,fg:10,cogs:0,other:0});
+ });
+ await control('A root recost between returns does not charge previous returned stock to the next return',async()=>{
+  await fractionalSale();await fractionalReturn('before recost',8,[[x.saleB,1]]);
+  await query("select erp.post_opening_hpp_correction($1,4.5,'MODEL return recost','2026-01-03')",[x.root90]);
+  assert.deepEqual(await values(x.outside),{hpp:13.5,fg:4.5,cogs:9,other:0});
+  await query('select erp.assert_non_po_product_hpp_target_book_v2620f($1)',[x.outside]);
+  const result=await fractionalReturn('after recost',9,[[x.saleB,1]]);
+  assert.equal(result.snapshot,4.5);assert.deepEqual(result.target,{hpp:13.5,fg:9,cogs:4.5,other:0});
+ });
+ await control('After an earlier return is reversed, replacement cents use remaining actual stock without rewriting history',async()=>{
+  await fractionalSale();const first=await fractionalReturn('before inverse first',10,[[x.saleB,1]]);
+  await fractionalReturn('before inverse second',11,[[x.saleB,1]]);
+  const frozen=await scalar('select jsonb_agg(to_jsonb(v)order by sales_return_item_id)from cp7_sku_conversion.sales_return_values_v2 v');
+  // Explicit inverse provider: exact status trigger and exact physical writer,
+  // with the cumulative book modeled here. This is not Native reversal credit.
+  await query("update erp.sales_returns set status='REVERSED'where id=$1",[first.returned]);
+  await query("select erp.post_fg_movement($1,$2,$3,'GRADE_A','MODEL_RETURN_INVERSE',-1,3.33,$4,'MODEL_RETURN_INVERSE',$5,'2026-01-04T00:00:00Z','modeled inverse',false)",[x.outside,x.root90,x.location,id(900),first.returned]);
+  await query('update public.model_book b set fg=t.fg_value,cogs=t.cogs_value,other_value=t.other_out_value from erp.compute_non_po_product_hpp_targets_v2620f($1)t where b.product_id=$1',[x.outside]);
+  assert.deepEqual(await values(x.outside),{hpp:10,fg:3.33,cogs:6.67,other:0});
+  assert.deepEqual(await scalar('select jsonb_agg(to_jsonb(v)order by sales_return_item_id)from cp7_sku_conversion.sales_return_values_v2 v'),frozen);
+  const replacement=await fractionalReturn('after inverse replacement',12,[[x.saleB,1]]);
+  assert.equal(replacement.snapshot,3.34);assert.deepEqual(replacement.target,{hpp:10,fg:6.67,cogs:3.33,other:0});
+ });
+
+ await control('Mixed PO and non-PO return components preserve each official scope cent including stock in another product',async()=>{
+  await query("update erp.fg_lots set po_id=$1,lot_origin='PRODUCTION'where id=$2",[x.po,x.root30]);
+  await query('update erp.hpp_versions set total_cost=60.02 where id=$1',[x.hpp30]);
+  await saleSetup();await query('select cp7_sku_conversion.prepare_sale_values_v2($1)',[x.sale]);
+  await movement(x.root50,x.target,-1,'SALE_OUT');await movement(x.converted,x.target,-1,'SALE_OUT');
+  await query("update erp.sales_headers set status='POSTED'where id=$1",[x.sale]);
+  for(const [n,allocation,lot]of[[1,x.saleA,x.root50],[2,x.saleB,x.converted]]) {
+   const beforeNonpo=(await values(x.target)).fg;
+   const beforePo=Number(await scalar('select fg_value from erp.compute_po_hpp_gl_targets_v2620d($1)',[x.po]));
+   const returned=id(800+n),item=id(810+n);
+   await insert('erp.sales_returns',{id:returned,status:'DRAFT',physical_at:'2026-01-03T00:00:00Z'});
+   await insert('erp.sales_return_items',{id:item,return_id:returned,sale_stock_allocation_id:allocation,
+    product_id:x.target,lot_id:lot,location_id:x.location,quality_grade:'GRADE_A',qty_pcs:1});
+   await query('select cp7_sku_conversion.prepare_return_values_v2($1)',[returned]);
+   const attribution=(await query('select po_id,effective_value::text value from cp7_sku_conversion.sales_return_attributions_v2 where sales_return_item_id=$1',[item])).rows;
+   await movement(lot,x.target,1,'SALE_RETURN');
+   await query("update erp.sales_returns set status='POSTED'where id=$1",[returned]);
+   const afterNonpo=(await values(x.target)).fg;
+   const afterPo=Number(await scalar('select fg_value from erp.compute_po_hpp_gl_targets_v2620d($1)',[x.po]));
+   assert.equal(Number(attribution.find(r=>r.po_id===null).value),Number((afterNonpo-beforeNonpo).toFixed(2)));
+   assert.equal(Number(attribution.find(r=>r.po_id===x.po).value),Number((afterPo-beforePo).toFixed(2)));
+   assert.deepEqual(attribution.map(r=>Number(r.value)).sort((a,b)=>a-b),[7.5,27.5]);
+  }
+ });
+ await control('Known zero HPP returns preserve explicit zero while refund journals remain valid',async()=>{
+  await fractionalSale();
+  await query('update erp.hpp_versions set total_cost=0 where id=$1',[x.hpp90]);
+  await query('update public.model_book set fg=0,cogs=0 where product_id=$1',[x.outside]);
+  const result=await fractionalReturn('known zero HPP',13,[[x.saleB,1]]);
+  assert.equal(result.snapshot,0);assert.deepEqual(result.target,{hpp:0,fg:0,cogs:0,other:0});
+ });
+ await control('Unknown root HPP refuses before any prepared value or posted effect',async()=>{
+  await fractionalSale();await query("update erp.hpp_versions set cost_state='ESTIMATED'where id=$1",[x.hpp90]);
+  const before=await scalar('select jsonb_build_object(\'returns\',(select count(*)from erp.sales_returns),\'values\',(select count(*)from cp7_sku_conversion.sales_return_values_v2),\'movements\',(select count(*)from erp.fg_stock_movements),\'journals\',(select count(*)from public.model_journal))');
+  await db.exec('savepoint unknown_return');
+  await assert.rejects(()=>fractionalReturn('unknown must refuse',14,[[x.saleB,1]]),e=>e.message.includes('CP7_SKU_RETURN_COMPONENT_HPP_UNKNOWN'));
+  await db.exec('rollback to savepoint unknown_return');
+  assert.deepEqual(await scalar('select jsonb_build_object(\'returns\',(select count(*)from erp.sales_returns),\'values\',(select count(*)from cp7_sku_conversion.sales_return_values_v2),\'movements\',(select count(*)from erp.fg_stock_movements),\'journals\',(select count(*)from public.model_journal))'),before);
+ });
+ const report={status:'POSTGRES17_EXACT_CONSUMER_SQL_CONTROLS_PASS_NOT_NATIVE',engine,results,fractionalObservations,
   valuation_source:{bytes:Buffer.byteLength(ddl),sha256:createHash('sha256').update(ddl).digest('hex')},
-  model_providers:['authority helpers','book and journal storage','known laundry/PO completeness','admitted conversion and sync context','current root HPP lookup'],
+  model_providers:['authority helpers','credit policy enter/guard/complete/leave and opening flush','inverse cumulative book only in explicitly labeled inverse control','book and journal storage','known laundry/PO completeness','admitted conversion and sync context','current root HPP lookup'],
   actual_Native_cases:0,actual_Auth_HTTP_cases:0,production_go:false,independent_acceptance:false};
  if(process.env.CP7_CONSUMER_MODEL_REPORT)await writeFile(process.env.CP7_CONSUMER_MODEL_REPORT,JSON.stringify(report,null,2)+'\n');
  console.log(JSON.stringify({status:report.status,checks:results.length,actual_Native_cases:0}));
 }catch(error){
- if(process.env.CP7_CONSUMER_MODEL_REPORT)await writeFile(process.env.CP7_CONSUMER_MODEL_REPORT,JSON.stringify({status:'FAILED',engine,results,error:{message:error.message,SQLSTATE:error.code??null,context:error.where??null},actual_Native_cases:0},null,2)+'\n');
+ if(process.env.CP7_CONSUMER_MODEL_REPORT)await writeFile(process.env.CP7_CONSUMER_MODEL_REPORT,JSON.stringify({status:'FAILED',engine,results,fractionalObservations,error:{message:error.message,SQLSTATE:error.code??null,context:error.where??null},actual_Native_cases:0},null,2)+'\n');
  console.error(JSON.stringify({status:'FAILED',checks:results.length,message:error.message,SQLSTATE:error.code??null,context:error.where??null}));process.exitCode=1;
 }finally{await db.close();}

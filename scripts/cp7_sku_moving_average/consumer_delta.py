@@ -26,21 +26,8 @@ with native_lots as(
  from erp.fg_lots fl left join erp.hpp_versions hv on hv.lot_id=fl.id and hv.is_current
  where fl.product_id=p_product_id and fl.po_id is null and fl.lot_origin<>'VOIDED_PRODUCTION'
 ), native_total as(select coalesce(sum(raw_total),0)::numeric value from native_lots),
-physical as(
- select l.id root_lot_id,(coalesce(sum(m.qty_signed),0)+coalesce(sum(abs(m.qty_signed))filter(
-  where m.movement_type='SALE_RESERVE'and not exists(select 1 from erp.fg_stock_movements rv where rv.reversal_of_id=m.id)),0))::numeric units
- from erp.fg_lots l left join erp.fg_stock_movements m on m.lot_id=l.id
- where l.product_id=p_product_id and l.po_id is null and l.lot_origin<>'VOIDED_PRODUCTION'group by l.id
-), component_entries as(
- select root_lot_id,units from physical
- union all select e.root_lot_id,e.units_delta from cp7_sku_conversion.component_events_v2 e
- join erp.fg_lots root on root.id=e.root_lot_id and root.po_id is null where e.product_id=p_product_id
- and(e.source_type<>'SALE'or exists(select 1 from erp.sales_headers sh where sh.id=e.source_id and sh.status in('POSTED','PARTIAL_PAID','PAID','REVERSED')))
-  and(e.source_type<>'SALES_RETURN'or exists(select 1 from erp.sales_returns rh where rh.id=e.source_id and rh.status in('POSTED','REVERSED')))
-), owned as(
- select coalesce(sum(x.units*h.hpp_per_pcs),0)::numeric value from(
-  select root_lot_id,sum(units)::numeric units from component_entries group by root_lot_id)x
- join erp.hpp_versions h on h.lot_id=x.root_lot_id and h.is_current
+owned as(
+ select cp7_sku_conversion.owned_scope_value_v2(p_product_id,null)::numeric value
 ), conversion_adjustment as(
  select coalesce(sum(e.units_delta*h.hpp_per_pcs),0)::numeric value from cp7_sku_conversion.component_events_v2 e
  join erp.fg_lots root on root.id=e.root_lot_id and root.po_id is null
@@ -93,21 +80,8 @@ with base as(
   (coalesce(sum(hv.total_cost),0)+erp.be_po_extra_v1(p_po_id))::numeric raw_total
  from erp.fg_lots fl left join erp.hpp_versions hv on hv.lot_id=fl.id and hv.is_current
  where fl.po_id=p_po_id and fl.lot_origin='PRODUCTION'
-), physical as(
- select l.id root_lot_id,(coalesce(sum(m.qty_signed),0)+coalesce(sum(abs(m.qty_signed))filter(
-  where m.movement_type='SALE_RESERVE'and not exists(select 1 from erp.fg_stock_movements rv where rv.reversal_of_id=m.id)),0))::numeric units
- from erp.fg_lots l left join erp.fg_stock_movements m on m.lot_id=l.id
- where l.po_id=p_po_id and l.lot_origin<>'VOIDED_PRODUCTION'group by l.id
-), component_entries as(
- select root_lot_id,units from physical
- union all select e.root_lot_id,e.units_delta from cp7_sku_conversion.component_events_v2 e
- join erp.fg_lots root on root.id=e.root_lot_id and root.po_id=p_po_id
- and(e.source_type<>'SALE'or exists(select 1 from erp.sales_headers sh where sh.id=e.source_id and sh.status in('POSTED','PARTIAL_PAID','PAID','REVERSED')))
-  and(e.source_type<>'SALES_RETURN'or exists(select 1 from erp.sales_returns rh where rh.id=e.source_id and rh.status in('POSTED','REVERSED')))
 ), owned as(
- select coalesce(sum(x.units*h.hpp_per_pcs),0)::numeric value from(
-  select root_lot_id,sum(units)::numeric units from component_entries group by root_lot_id)x
- join erp.hpp_versions h on h.lot_id=x.root_lot_id and h.is_current
+ select cp7_sku_conversion.owned_scope_value_v2(null,p_po_id)::numeric value
 ), sold as(
  select coalesce(sum(c.component_units*h.hpp_per_pcs),0)::numeric value
  from cp7_sku_conversion.sale_allocation_components_v2 c

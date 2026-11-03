@@ -19,11 +19,11 @@ class MovingAverageQualificationSource(unittest.TestCase):
         self.assertIn("cases[runner.CASE]['actual_Native_cases']",code)
         compile(code,'vendor-probe-derived','exec')
 
-    def test_five_declared_cases_and_runner_obligations(self):
+    def test_six_declared_cases_and_runner_obligations(self):
         tree=ast.parse((ROOT/'scripts/cp7_sku_moving_average/qualification_cases.py').read_text())
         ids=next(ast.literal_eval(n.value)for n in tree.body if isinstance(n,ast.Assign)and any(isinstance(t,ast.Name)and t.id=='IDS'for t in n.targets))
         self.assertEqual(len(ids),len(set(ids)))
-        self.assertEqual(len(ids),5)
+        self.assertEqual(len(ids),6)
         runner=(HERE/'runner.py').read_text()
         for token in('native.strict_group','product.verify','rollback_delta_preuse','product.USED_ERROR','exact_public_catalog'):
             self.assertIn(token,runner)

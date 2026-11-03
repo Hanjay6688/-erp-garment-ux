@@ -29,6 +29,7 @@ FUNCTIONS=tuple(SCHEMA+'.'+x for x in(
  'status_component_reverse_v2()',
  'pool_components_v2(uuid,uuid,text)','pool_attribution_v2(uuid,uuid,text)','pool_quote_v2(uuid,uuid,text)',
  'position_value_v2(uuid,uuid,text,numeric)','prepare_sale_values_v2(uuid)','sale_allocation_unit_v2(uuid,uuid)',
+ 'owned_scope_value_v2(uuid,uuid)',
  'prepare_return_values_v2(uuid)','return_item_unit_v2(uuid,uuid,numeric)','prepare_valuation_v2(uuid,jsonb)',
  'finalize_valuation_v2(uuid)','reverse_valuation_v2(uuid)'))
 VOLATILE={SCHEMA+'.'+x for x in('prepare_sale_values_v2(uuid)','prepare_return_values_v2(uuid)',

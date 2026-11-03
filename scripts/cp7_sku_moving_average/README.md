@@ -65,7 +65,7 @@ on an isolated PostgreSQL 17.5 engine (`@electric-sql/pglite@0.3.14`) with
 empty UUID-key dependency tables. No ERP fixture or financial function ran.
 This is a DDL expectation, not Native qualification or acceptance.
 
-The 639 exact rows cover 12 tables, 19 explicit/implicit indexes, 183 table
+The 640 exact rows cover 12 tables, 19 explicit/implicit indexes, 183 table
 and index columns, 132 constraints, 202 triggers (including both ends of
 47 foreign keys), 12 private functions, 24 row/array types, their 24
 implementation rows, and 12 deny policies. The other catalogue groups remain exact except for one declared schema USAGE
@@ -76,7 +76,7 @@ one exact reader schema lease.
 
 The pre-database controls reject each missing or altered expected row,
 undeclared additions in every catalogue group, changes to existing authority,
-and replacements of an all-22 group. The actual Native5 run, all used-state
+and replacements of an all-22 group. The actual Native6 run, all used-state
 refusals, complete restoration, and the five package gates remain required.
 
 ## FG reader integration preparation
@@ -117,7 +117,7 @@ changed. Five focused controls reproduce the old caller failure, run the exact
 unchanged package assertion against the corrected receipt, and refuse used
 state before DDL or inexact catalog/row/sequence restoration. These controls run
 before database setup in the owning workflow. Collaborators are modeled; they
-do not replace the actual Native5/used-inverse/whole-package qualification.
+do not replace the actual Native6/used-inverse/whole-package qualification.
 
 ## PostgreSQL17 attribution planner correction
 
@@ -167,3 +167,29 @@ legacy COGS and a one-lot sale. These are modeled SQL controls with zero Native,
 Auth, HTTP or browser credit. They run before the long ERP installation. The
 actual five business cases, used-state refusal, all-22/all-row/all-sequence
 restore and owning package gates remain required.
+
+## Fractional return scope cents (3 Nov 2026, successor pending qualification)
+
+The first added model incorrectly treated item snapshots as the journal
+authority. The exact Native return body already posts cumulative target/book
+deltas: two returns posted 3.33 and 3.34 correctly. The demonstrated issue is
+that immutable item snapshots both stored 3.33. That first report and the
+corrected exact-body counterexample remain retained separately.
+
+Return snapshots now use the same unrounded owned-root projection as the
+official FG target, with current draft items added explicitly. Rounding occurs
+within each financial scope (PO across products, or non-PO per product), before
+root cents are apportioned. This preserves the cent after another allocation,
+warehouse change, an earlier inverse, or a current root recost. Current prior
+stock is valued at current HPP; historical item rows are never rewritten.
+
+The new private read helper adds one exact catalogue row; the return function's
+other 18 authority attributes and the other 638 catalogue rows are unchanged.
+No table, column, permission grant, transaction oracle or restore gate changes.
+The 25-table early model includes the exact sale/return allocation unique
+indexes and exact Native sale, return, FG movement and chronology bodies,
+with explicit authority/credit/book provider models. It earns zero actual
+Native or Auth credit. A new sixth Native case exercises actual public sale
+commands, mixed-cent return allocations, earlier-return reversal, root recost,
+immutable snapshots, exact current books and final inverse. The five earlier
+Native cases and all complete-package restoration obligations remain required.

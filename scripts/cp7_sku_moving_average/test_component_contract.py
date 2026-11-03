@@ -15,6 +15,7 @@ expected_functions={
  'status_component_reverse_v2','pool_components_v2','pool_attribution_v2','pool_quote_v2','position_value_v2',
  'prepare_sale_values_v2','sale_allocation_unit_v2','prepare_return_values_v2','return_item_unit_v2',
  'prepare_valuation_v2','finalize_valuation_v2','reverse_valuation_v2',
+ 'owned_scope_value_v2',
 }
 expected_indexes={
  'valuation_events_original_v2','valuation_events_recost_v2',
@@ -69,7 +70,7 @@ assert "raise ValueError('SKU_MOVAVG_READER_OWNER_CHANGED:'+signature)"in compos
 
 def catalog_controls(source):
     # Execute the actual installer boundary without importing ERP or SQL.
-    # The full 639-object profile includes implicit PK/UNIQUE indexes, row
+    # The full 640-object profile includes implicit PK/UNIQUE indexes, row
     # and array types, member keys with colons, and parent-side RI triggers.
     spec=importlib.util.spec_from_file_location('sku_exact_catalog_additions',HERE/'catalog_additions.py')
     profile=importlib.util.module_from_spec(spec);spec.loader.exec_module(profile)
@@ -135,7 +136,7 @@ def catalog_controls(source):
     assert reader_access.may_execute('cp7_fg_read',reader_access.FUNCTION)
     assert not reader_access.may_execute('authenticated',reader_access.FUNCTION)
     assert not reader_access.may_execute('cp7_fg_read','cp7_sku_conversion.prepare_sale_values_v2(uuid)')
-    assert (missing,metadata,unknown)==(639,639,22)
+    assert (missing,metadata,unknown)==(640,640,22)
     return dict(complete_profile_admitted=True,missing_object_refusals=missing,
         altered_metadata_refusals=metadata,unknown_group_object_refusals=unknown,
         existing_authority_body_removal_refusals=4,wrong_22_group_refusals=1,

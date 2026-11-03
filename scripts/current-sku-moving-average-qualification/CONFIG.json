@@ -1,5 +1,5 @@
 {
-  "contract": "cp7.sku-moving-average-native5.v1",
+  "contract": "cp7.sku-moving-average-native6.v1",
   "base_head": "8813415e17dd7aa63c8ad2afadf3433bba65e6fc",
   "base_tree": "c789744272f91264aa8796338c2595571022bd3f",
   "parent_source_head": "01ef15ad",
@@ -49,35 +49,36 @@
     "scripts/cp7_sku_pair_conversion/ri_catalog.py": "aa30eff7c258de3ced78067ed7fbe660bef4570c291946f9291d6363881a4f3e"
   },
   "runtime_files": {
-    "scripts/cp7_sku_moving_average/README.md": "04e6d8a3571f396bc12c57cfe93c6c8636612b37dc3dcf42e9bcb99b2445713a",
-    "scripts/cp7_sku_moving_average/COMPONENT_LEDGER_DESIGN.md": "74aafb413d2db0a46b07495b7c93eef3c2cd92fde75b3ab6b3725e9acf61bd67",
+    "scripts/cp7_sku_moving_average/README.md": "ad2dcd456cf031cbd22e2f0782bf3f23f452998749906fe3d4c36f6fb20ebc63",
+    "scripts/cp7_sku_moving_average/COMPONENT_LEDGER_DESIGN.md": "69888806a8a5a2497ebfce09846400820adcab6080e4089488cae92fc9cb4a0a",
     "scripts/cp7_sku_moving_average/component_oracle.py": "202f17cd1903fd4b741e99ad84ea897285788d78f41c5ff9a58174c4d9872179",
-    "scripts/cp7_sku_moving_average/valuation.sql": "6cbb91fa09a62e08dbd1ab585a3dd5299fa6dfac374c186e6920cb919f000764",
+    "scripts/cp7_sku_moving_average/valuation.sql": "32ee558de6d90e36755f3cb9e831434f5691218f2b0226c63c8bec6e7cb561d2",
     "scripts/cp7_sku_moving_average/private_delta.py": "e57e89f8291a7b62ce1584b4f30b4927dadac9b5bbb17feefe1c97c6c8f4218e",
-    "scripts/cp7_sku_moving_average/consumer_delta.py": "a7f019f102c5ff1639288c4eceb9e8096ba24be48b5cca16beed5d97ce762184",
+    "scripts/cp7_sku_moving_average/consumer_delta.py": "958dd155969a85c75ed78b5d9bb4853f7c262739b91fc8bcdcdb3fff1fa6fa8a",
     "scripts/cp7_sku_moving_average/reader_delta.py": "022dbea3058e6163753fcde95a46f68bcaf8547145c17f8780592a76fd68c38d",
     "scripts/cp7_sku_moving_average/reader_access.py": "b93e519817a6031761bc9c9b2544c278aed9ca9b130258860380853be83babe1",
-    "scripts/cp7_sku_moving_average/qualification_cases.py": "cf38dbd441c17eb5b0f42788529f4e6dddaccd2916aab18d374ffb4d0bbfbe81",
-    "scripts/cp7_sku_moving_average/composition.py": "3238c49153741f561b7b01dfc9b504526437c48c26603d68e2bb148c462c5787",
-    "scripts/cp7_sku_moving_average/catalog_additions.py": "97de4b6e0f51765bf0219c0c064cab207dce4952094e9ebbca094a9d96fa8ce4",
-    "scripts/cp7_sku_moving_average/CATALOG_ADDITIONS.json": "586145575bf3e460d9fd9a006e3cc4db830323a050a28277198dfc2a844a5521",
-    "scripts/cp7_sku_moving_average/test_component_contract.py": "def0c5a3b3200ef17dce149546c462fac79d72f18089e2b784096142253cad35",
+    "scripts/cp7_sku_moving_average/qualification_cases.py": "8a29c57bd9117a3fc7dfa8a27d29673e1756a782cabbdc94ceba6c8632e0ae7c",
+    "scripts/cp7_sku_moving_average/composition.py": "32b0223875c8ad2fe549cba0c92231e04299e5a741cb8a172fa7a15b3b52a61f",
+    "scripts/cp7_sku_moving_average/catalog_additions.py": "c16ad2f9e47876b755873e894d3b296907272b60414eef8751cf0540eeea55ab",
+    "scripts/cp7_sku_moving_average/CATALOG_ADDITIONS.json": "2b71bb52ab97638408b99e287f6973b6219a3e3592b19d46c213cca16275b23a",
+    "scripts/cp7_sku_moving_average/test_component_contract.py": "6dd4ab5c9aed018b7eeeab2e7fecf38ea20fb1b2a9a9208cdf5217c95cde9ecc",
     "scripts/cp7_sku_moving_average/test_private_delta.py": "9a0516279a1922de7c9f16cd93b5f6e4545caf4a1f73badb8a499f1863487551",
-    "scripts/cp7_sku_moving_average/test_consumer_delta.py": "425f8c6369dc45123776d12dd860fb171793fbc2033627f0452595e0fd07da2b",
+    "scripts/cp7_sku_moving_average/test_consumer_delta.py": "6847b8339cdc1dabffd6da2401d7267486745abd55a5f269bd6a39c53b8ad366",
     "scripts/cp7_sku_moving_average/test_reader_delta.py": "51c9c69d78d2ef0e1675fff484659c6af5d796f652b07a99c290e2241858e7a4",
     "scripts/cp7_sku_moving_average/test_reader_capability.mjs": "1e28148e74f7d4bf380fcd70b9bdcecb28913995fe8c6a29eee57e242c8106b4",
-    "scripts/cp7_sku_moving_average/test_qualification_cases.py": "590e4b4ca6d4cc2782fc391e4bb3cb58d267308d5dd8bfc916ca01638828754e",
+    "scripts/cp7_sku_moving_average/test_qualification_cases.py": "861940f98696e04f4d2de84c12b29ce7ff44afbb7952fe843ce41447d61a8e9b",
     "scripts/cp7_sku_moving_average/test_preuse_package_contract.py": "f0653c8527c81840498708cac01ad8a02fdca4bd8ea4ea0f528cb46ed267ea1e",
     "scripts/cp7_sku_moving_average/test_attribution_plan.mjs": "c2dbed99cb651ea925eedb7cc1457ddc2a272b950857e14c0775d523336f02d2",
-    "scripts/cp7_sku_moving_average/prepare_consumer_model.py": "ed125bd3cf8341cb257061019263f496f3acc765ad1d1fc493379846437e74c0",
-    "scripts/cp7_sku_moving_average/test_consumers_pg17.mjs": "de841f1a81df60c4925e55d201309985bbf33eb7e7fff165cd8bc1c512b5ecce"
+    "scripts/cp7_sku_moving_average/prepare_consumer_model.py": "0d7955c99a91b8a252291fe9a1f1b35377a06fb2ebc503f0474ac0390e1174a4",
+    "scripts/cp7_sku_moving_average/test_consumers_pg17.mjs": "23d24a1be401fbe91374caeb0437e2b3a15500047af491eb3e1a48bd056798f2"
   },
   "native_case_ids": [
     "SKU_MOVAVG_CANONICAL_FORWARD20_MANUAL_BACK35_TOTAL130",
     "SKU_MOVAVG_EXACT_GROUP_REVERSE_COMPONENT_AND_VALUE_INVERSE",
     "SKU_MOVAVG_ROOT_RECOST_FOLLOWS_REMAINING_LINEAGE_TOTAL150",
     "SKU_MOVAVG_SALE_PARTIAL_RETURN_AND_EXACT_REVERSAL",
-    "SKU_MOVAVG_RESERVATION_INCLUDED_AND_LOCATION_ISOLATED"
+    "SKU_MOVAVG_RESERVATION_INCLUDED_AND_LOCATION_ISOLATED",
+    "SKU_MOVAVG_FRACTIONAL_RETURNS_INTERLEAVE_RECOST_AND_EARLIER_INVERSE"
   ],
   "runner_derivation": {
     "original_sha256": "c420d894f8d5f16bddefeae73addb621507170f372a28e7d6e33d88c7eeb0be9",

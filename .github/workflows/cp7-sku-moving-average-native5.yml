@@ -1,4 +1,4 @@
-name: CP7 A SKU moving average Native5
+name: CP7 A SKU moving average Native6
 'on':
   push:
     branches:
@@ -17,7 +17,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   p21:
-    name: Moving-average finance Native5 and complete restore
+    name: Moving-average finance Native6 and complete restore
     runs-on: ubuntu-24.04
     timeout-minutes: 120
     env:
@@ -526,14 +526,14 @@ jobs:
       run: "set -euo pipefail\nmkdir -p '../auditor/cp6-proof/t3'\nbash scripts/clone-cp6-disposable-database.sh \\\n  'postgresql://postgres:postgres@127.0.0.1:54322/postgres'\
         \ \\\n  'postgresql://postgres:postgres@127.0.0.1:54322/template1' \\\n  'postgresql://postgres:postgres@127.0.0.1:54322/cp6_rollback'\
         \ \\\n  cp6_rollback supabase_db_cp5-local '../auditor/cp6-proof/t3/CLONE_install'\n"
-    - name: Run actual SKU moving-average Native5 and complete restoration
+    - name: Run actual SKU moving-average Native6 and complete restoration
       working-directory: writer
       run: python '../auditor/scripts/current-sku-moving-average-qualification/probe.py'
     - name: Preserve exact original JSON report bytes in a bounded compressed log receipt
       if: always()
       working-directory: auditor
       run: "python - <<'PY'\nimport base64,gzip,hashlib,json\nfrom pathlib import Path\nroot=Path('cp6-proof/t3')\nfor name\
-        \ in ('CP7_SKU_MOVING_AVERAGE_QUALIFICATION.json','CP7_SKU_MOVING_AVERAGE_NATIVE5.json','CP7_SKU_MOVING_AVERAGE_NATIVE5_BUSINESS_DAY_FIRST_ATTEMPT.json','T3_PACKAGE_INSTALL.json','T3_BACKUP_RESTORE_DRILL.json','T3_PACKAGE_FILES_INSTALL.json'):\n\
+        \ in ('CP7_SKU_MOVING_AVERAGE_QUALIFICATION.json','CP7_SKU_MOVING_AVERAGE_NATIVE6.json','CP7_SKU_MOVING_AVERAGE_NATIVE6_BUSINESS_DAY_FIRST_ATTEMPT.json','T3_PACKAGE_INSTALL.json','T3_BACKUP_RESTORE_DRILL.json','T3_PACKAGE_FILES_INSTALL.json'):\n\
         \    path=root/name\n    if not path.is_file():\n        continue\n    raw=path.read_bytes();packed=gzip.compress(raw,mtime=0)\n\
         \    print(json.dumps(dict(ow04_original_report_bytes=True,name=name,raw_bytes=len(raw),\n        raw_sha256=hashlib.sha256(raw).hexdigest(),gzip_bytes=len(packed),\n\
         \        gzip_sha256=hashlib.sha256(packed).hexdigest(),\n        gzip_base64=base64.b64encode(packed).decode('ascii'))),flush=True)\n\
@@ -546,7 +546,7 @@ jobs:
     - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
       if: always()
       with:
-        name: cp7-a-sku-moving-average-native5-${{ github.run_attempt }}
+        name: cp7-a-sku-moving-average-native6-${{ github.run_attempt }}
         path: auditor/cp6-proof/t3
         retention-days: 30
         if-no-files-found: error
