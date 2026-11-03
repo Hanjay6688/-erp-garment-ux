@@ -62,7 +62,9 @@ class WorkflowPreparationControls(unittest.TestCase):
         text,proof=workflow.derive();value=yaml.safe_load(text)
         prior,_=workflow.load('afui_control_original_FREE3_workflow',
             workflow.ROOT/'scripts/current-de-free-date-preparation/workflow.py').derive()
-        original=yaml.safe_load(prior);job=value['jobs']['p21'];steps=job['steps']
+        original=yaml.safe_load(prior);job=value['jobs']['p21'];all_steps=job['steps']
+        self.assertEqual(len(all_steps),78)
+        steps=[s for i,s in enumerate(all_steps)if i not in workflow.ADDED]
         self.assertEqual([i for i in range(75)if steps[i]!=original['jobs']['p21']['steps'][i]],list(workflow.ROUTED))
         self.assertEqual(job['timeout-minutes'],360)
         self.assertIn('AFUI_JOB_START_MONOTONIC',steps[0]['run'])
@@ -75,7 +77,13 @@ class WorkflowPreparationControls(unittest.TestCase):
         from . import ui_derivation
         self.assertEqual(set(value['on']['push']['paths']),
             {workflow.WORKFLOW,workflow.NS+'**'}|ui_derivation.CHANGED|ui_derivation.ADDED)
-        self.assertIn('runtime_supervisor.py',steps[69]['run']);self.assertIn('final_gate.py',steps[69]['run'])
+        self.assertEqual(steps[69]['uses'],'./auditor/'+workflow.NS)
+        self.assertEqual(steps[69]['with'],{'mode':'runtime'})
+        self.assertEqual(all_steps[65]['with']['ref'],workflow.UPLOADER)
+        self.assertFalse(all_steps[65]['with']['persist-credentials'])
+        self.assertEqual(all_steps[66]['with'],{'mode':'preflight'})
+        self.assertEqual(all_steps[67],original['jobs']['p21']['steps'][65])
+        self.assertIn('final_gate.py',all_steps[72]['run'])
         self.assertIn('--allow-database-stop',steps[73]['run'])
         self.assertEqual(proof['runtime_dispatches'],0)
 

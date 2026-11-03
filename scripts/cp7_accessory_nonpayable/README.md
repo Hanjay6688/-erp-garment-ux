@@ -1,3 +1,36 @@
+### 4 November: retain complete case Originals during the owning run
+
+Run41684390745/job126086157087 at a16e ended after the runner received an
+external shutdown signal. All nine Native PASS receipts appeared in its log,
+but the complete Original files, full fifteen-case packet and restoration
+could not be recovered. The internal work deadline was not reached. No claim
+is made about the shutdown's origin, and the partial log grants no acceptance.
+
+A local Node action now runs the unchanged Python supervisor and uploads each
+completed immutable AFUI_CASE_STDOUT Original while the worker continues. It
+uses the same pinned official actions/upload-artifact distribution as the final
+packet, in a separately checked checkout. Every copied byte and SHA is checked;
+partial files, symlinks and overwrites refuse. Each artifact records this exact
+head/run/attempt and explicitly gives zero financial/restoration credit. The
+existing final packet and full15/all-five gate remain mandatory.
+
+An actual transport preflight uploads a small source-only packet before the
+original database creation. Runtime refuses unless that same run's upload
+returned an artifact ID and digest. Artifact credentials stay out of the
+financial child. Failed uploads are recorded once while the original worker
+continues its cleanup; they refuse the action. Runner signals are forwarded to
+the retained supervisor. Upload subprocesses have bounded deadlines and are
+reaped; the original 360/330/20/10 process budgets and genuine WIB policy remain.
+The new 78-step workflow retains 66 original steps, nine declared owning routes
+and three added checkout/transport/final-gate steps. No financial case, SQL,
+permission, fixture, date, census, source, inverse or restore oracle is reduced.
+
+Eight local transport/process controls exercise exact large bytes, upload
+before worker exit, failed transport with worker cleanup, nonzero exit, signals
+through the actual retained Python supervisor, hung uploader reaping, unsafe
+paths, secret exclusion and malformed output. These controls execute no ERP
+transaction or GitHub upload. The real transport still has to pass before DB.
+
 ### 3 November: preserve complete module compilation context
 
 Run41679871902/job126070382521 at17dd failed at the fenced pre-database

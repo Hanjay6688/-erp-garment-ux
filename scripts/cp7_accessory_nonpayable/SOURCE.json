@@ -5,8 +5,8 @@
   "base_tree": "01c4807d932af1d534477c4c182715b1378bd39b",
   "files": {
     ".github/workflows/cp7-afui-good-nonpayable.yml": {
-      "bytes": 33890,
-      "sha256": "551e9f853a6307e791991926b714aa53578f95b69ee246e7c567ff213dc75799"
+      "bytes": 34564,
+      "sha256": "36b62d3b9207be6aae8c4b6b07a13396ccd6747690187bd9825254a27b4192fb"
     },
     "scripts/cp7_accessory_nonpayable/ACTUAL_FUNCTION_DEFAULT_ACL_REFERENCE.json": {
       "bytes": 1521,
@@ -41,8 +41,8 @@
       "sha256": "16a38f3479385ce358699ba08e15a3222fbf15d1010de872c250eb3dcc37d0b0"
     },
     "scripts/cp7_accessory_nonpayable/afui15.workflow.yml.txt": {
-      "bytes": 33890,
-      "sha256": "551e9f853a6307e791991926b714aa53578f95b69ee246e7c567ff213dc75799"
+      "bytes": 34564,
+      "sha256": "36b62d3b9207be6aae8c4b6b07a13396ccd6747690187bd9825254a27b4192fb"
     },
     "scripts/cp7_accessory_nonpayable/assembly.py": {
       "bytes": 1528,
@@ -69,8 +69,8 @@
       "sha256": "40b457f54d0082ae969c0a6d55a33dfe90e27fb88674ef6ffbf908b78f5fa837"
     },
     "scripts/cp7_accessory_nonpayable/composition.py": {
-      "bytes": 14792,
-      "sha256": "18f2eb8feea6f6ace99330a3ff480cbeb171818ca71c24a7b1cfdd0f4a2b8fac"
+      "bytes": 14805,
+      "sha256": "7f104b08057ea022168a803a36f92efcbeea3dcc37ec26f98013b4eff5424714"
     },
     "scripts/cp7_accessory_nonpayable/copy_context.py": {
       "bytes": 2636,
@@ -241,16 +241,16 @@
       "sha256": "15b88416b24a323bb7d51cc72207eb5dd6bff44a3c7ea340a9c1b29700564216"
     },
     "scripts/cp7_accessory_nonpayable/test_workflow_preparation.py": {
-      "bytes": 5993,
-      "sha256": "5cdb1dc4ced7d615b000ec9aaba4d5a654121e7a31957a0badd94d880c278838"
+      "bytes": 6487,
+      "sha256": "66a8c96a4120596fdc463735ac811ed00a903f30b48d77d56e65aa42a5e78838"
     },
     "scripts/cp7_accessory_nonpayable/ui_derivation.py": {
       "bytes": 4417,
       "sha256": "ed03929567bf5e35599b9fccf6f0e126f57bf756c7959fc3283de68a9223d54d"
     },
     "scripts/cp7_accessory_nonpayable/workflow.py": {
-      "bytes": 7781,
-      "sha256": "bd8f5b3e730ca6e68416a8e09c5a5d6802387d20ebf6294954a27a9faac6d85e"
+      "bytes": 9139,
+      "sha256": "2afc3fada656798b4bf4cfdaaf953ae12573d3c5a28b1b940711ae1dcac3a433"
     },
     "scripts/cp7_accessory_nonpayable/fixture_time_preflight.py": {
       "bytes": 6607,
@@ -287,6 +287,18 @@
     "scripts/cp7_accessory_nonpayable/test_progress.py": {
       "bytes": 2752,
       "sha256": "8c83889a8ebbaa69427b35d26a9b07cbcf4d499d753996686a2d2ab03316484c"
+    },
+    "scripts/cp7_accessory_nonpayable/action.yml": {
+      "bytes": 267,
+      "sha256": "9cd9801bd98de3aa5f6119d1a5c6bcae3481bfa3f8ec6dc7526c9817f32d86ff"
+    },
+    "scripts/cp7_accessory_nonpayable/durable_action.mjs": {
+      "bytes": 13171,
+      "sha256": "062c583fe46e7775732b8c081c55f7a099efc945ef4628c0e07561f662244ca1"
+    },
+    "scripts/cp7_accessory_nonpayable/durable_action.test.mjs": {
+      "bytes": 8180,
+      "sha256": "56bf73da3b9189ddf981ff6a8ea45344d38b1c6fbb5612e733856e3b66b1b831"
     }
   },
   "actual_Native_cases": 0,

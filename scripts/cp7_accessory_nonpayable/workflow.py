@@ -11,6 +11,8 @@ WORKFLOW='.github/workflows/cp7-afui-good-nonpayable.yml'
 BRANCH='astra-a/afui-good-nonpayable-20261102'
 TEMPLATE='afui15.workflow.yml.txt'
 ROUTED=(0,2,62,63,64,69,72,73,74)
+ADDED=(65,66,72)
+UPLOADER='ea165f8d65b6e75b540449e92b4886f43607fa02'
 
 def load(name,path):
     spec=importlib.util.spec_from_file_location(name,path)
@@ -43,13 +45,13 @@ def derive():
         run='python -B '+NS+'fetch_parent.py\n')
     steps[63]=dict(name='Check complete Afui source and prepared owning workflow before database',
         **{'working-directory':'auditor'},
-        run='set -euo pipefail\npython -B '+NS+'workflow.py --check\npython -B '+NS+'qualification.py --check-static\n')
+        run='set -euo pipefail\npython -B '+NS+'workflow.py --check\n'
+            'python -B '+NS+'qualification.py --check-static\nnode --test '+NS+'durable_action.test.mjs\n')
     steps[64]=dict(name='Admit actual FREE3 and whole Afui graph under database network fence',
         **{'working-directory':'writer'},
         run='python -B ../auditor/'+NS+'qualification.py --check\npython -B ../auditor/scripts/current-de-free-date-preparation/attempt_policy.py --require-window\n')
-    steps[69]=dict(name='Run current Afui15 once with owning full restoration and packet gate',
-        **{'working-directory':'writer'},
-        run="python -u -B '../auditor/"+NS+"runtime_supervisor.py'\npython -B '../auditor/"+NS+"final_gate.py'\n")
+    steps[69]=dict(name='Run current Afui15 once and retain complete Originals during owning restoration',
+        uses='./auditor/'+NS,**{'with':{'mode':'runtime'}})
     for old,new in(('CP7_CURRENT_COMPLETE_DE_FREE_DATE_NATIVE3','CP7_AFUI_GOOD_NONPAYABLE_FULL15'),
         ('FREE_DATE_FINAL_GATE','AFUI_FINAL_GATE'),('DE30_PARENT_ORIGINAL_ADMISSION','FREE3_PARENT_ORIGINAL_ADMISSION'),
         ('FREE_DATE_RUNTIME_SUPERVISION','AFUI_RUNTIME_SUPERVISION')):
@@ -72,11 +74,28 @@ def derive():
     if(job['timeout-minutes']!=360 or steps[1]!=before[1]or value['permissions']!=original['permissions']
         or value['concurrency'].get('cancel-in-progress')is not False):
         raise ValueError('NONPAYABLE_ORIGINAL_BUDGET_CHECKOUT_AUTHORITY_AND_SINGLE_JOB_GUARDS_REQUIRED')
+    # Pin the same official uploader already used by the final packet. The
+    # preflight upload must succeed before the original database provisioning.
+    if steps[74]['uses']!='actions/upload-artifact@'+UPLOADER:
+        raise ValueError('NONPAYABLE_SAME_EXACT_OFFICIAL_UPLOADER_REQUIRED')
+    routed_parent_steps=deepcopy(steps)
+    steps[65:65]=[
+        dict(name='Checkout the exact official complete-original uploader',uses=steps[1]['uses'],
+            **{'with':{'repository':'actions/upload-artifact','ref':UPLOADER,
+                'path':'afui-artifact-uploader','persist-credentials':False,'fetch-depth':1}}),
+        dict(name='Confirm actual artifact transport before creating the database',
+            uses='./auditor/'+NS,**{'with':{'mode':'preflight'}})]
+    steps.insert(72,dict(name='Require complete Afui15 and full restoration in the final packet gate',
+        **{'working-directory':'writer'},run='python -B ../auditor/'+NS+'final_gate.py\n'))
+    if len(steps)!=78 or [step for i,step in enumerate(steps)if i not in ADDED]!=routed_parent_steps:
+        raise ValueError('NONPAYABLE_THREE_EXACT_RETENTION_STEPS_REQUIRED')
     text=yaml.safe_dump(value,sort_keys=False,allow_unicode=True)
     if yaml.safe_load(text)!=value:raise ValueError('NONPAYABLE_EXACT_WORKFLOW_YAML_ROUNDTRIP_REQUIRED')
     return text,dict(status='AFUI15_WORKFLOW_DATA_ONLY_NOT_ACTIVATED',parent_derivation=prior,
         parent_template_sha256=sha256(raw.encode()).hexdigest(),unchanged_parent_steps=66,routed_parent_steps=9,
-        steps=75,job_minutes=360,monotonic_job_start_before_checkout=True,real_WIB_policy_unchanged=True,
+        steps=78,added_transport_steps=3,monotonic_job_start_before_checkout=True,job_minutes=360,
+        official_uploader=UPLOADER,complete_original_upload_before_database=True,
+        runtime_supervisor_and_full_final_gate_retained=True,real_WIB_policy_unchanged=True,
         runtime_dispatches=0,actual_ERP_cases=0,production_go=False,independent_acceptance=False)
 
 def admit_source(manifest):
