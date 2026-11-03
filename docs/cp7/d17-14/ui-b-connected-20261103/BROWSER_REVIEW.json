@@ -1,0 +1,146 @@
+{
+  "status": "PASS_UI_FIXTURE_VISUAL_REVIEW_BY_WRITER_B",
+  "source": "81e5a313a8ed25105fafd781bdb99bf296dee975",
+  "tree": "0e301aa65ae2be6c0708c131d14e6573d4ba5ca0",
+  "run": 41644508539,
+  "job": 125946200449,
+  "conclusion": "SUCCESS",
+  "views": 80,
+  "newly_executed_views": 28,
+  "retained_individually_verified_views": 52,
+  "per_width": {
+    "320": 20,
+    "390": 20,
+    "768": 20,
+    "1440": 20
+  },
+  "per_form": {
+    "pocket": 40,
+    "import": 40
+  },
+  "states": [
+    "ready",
+    "long",
+    "empty",
+    "loading",
+    "error",
+    "pending",
+    "denied",
+    "revoked"
+  ],
+  "extras": [
+    "pocket/period-preview",
+    "import/CSV-preview",
+    "both/pending-reopened"
+  ],
+  "reopen_checks": [
+    {
+      "form": "pocket",
+      "width": 320,
+      "uuid": "818a8f6f-ee30-480d-9c19-1cf1d6299551",
+      "same_payload": true,
+      "automatic_replay_count": 0,
+      "backend_idempotence_claim": false
+    },
+    {
+      "form": "pocket",
+      "width": 390,
+      "uuid": "ae9c6cd2-e4e5-4465-b398-d3bd64b12fbd",
+      "same_payload": true,
+      "automatic_replay_count": 0,
+      "backend_idempotence_claim": false
+    },
+    {
+      "form": "pocket",
+      "width": 768,
+      "uuid": "262019e9-1118-4ce7-b922-cbd544dea28c",
+      "same_payload": true,
+      "automatic_replay_count": 0,
+      "backend_idempotence_claim": false
+    },
+    {
+      "form": "import",
+      "width": 320,
+      "uuid": "4621243e-5aea-4b8c-bf2b-d6caa2d2232b",
+      "same_payload": true,
+      "automatic_replay_count": 0,
+      "backend_idempotence_claim": false
+    },
+    {
+      "form": "import",
+      "width": 390,
+      "uuid": "17327cb7-3382-4556-a357-fe636e40960a",
+      "same_payload": true,
+      "automatic_replay_count": 0,
+      "backend_idempotence_claim": false
+    },
+    {
+      "form": "import",
+      "width": 768,
+      "uuid": "3c458767-d671-443f-86bb-c849755d6c75",
+      "same_payload": true,
+      "automatic_replay_count": 0,
+      "backend_idempotence_claim": false
+    },
+    {
+      "form": "pocket",
+      "width": 1440,
+      "uuid": "55518c13-3034-48e9-a1ba-ae1f3b040678",
+      "same_payload": true,
+      "automatic_replay_count": 0,
+      "backend_idempotence_claim": false
+    },
+    {
+      "form": "import",
+      "width": 1440,
+      "uuid": "ea224f79-c9e5-4ee6-9de7-c39d6d18e4b8",
+      "same_payload": true,
+      "automatic_replay_count": 0,
+      "backend_idempotence_claim": false
+    }
+  ],
+  "console_errors": [],
+  "page_network_assertion_failures": [],
+  "document_overflows": 0,
+  "sampled_contrast_findings": 0,
+  "contrast_samples": 2012,
+  "manual_review": {
+    "contact_sheets": 8,
+    "identities_in_contact_sheets": 80,
+    "full_size_detail_views": [
+      "pocket-ready-320",
+      "import-ready-320",
+      "import-pending-320-first-failure",
+      "pocket-pending-reopened-320",
+      "pocket-loading-320",
+      "import-pending-reopened-390",
+      "import-CSV-preview-1440",
+      "pocket-period-preview-1440"
+    ],
+    "reviewer": "WRITER_B_AUTHOR_NOT_INDEPENDENT_AUDITOR",
+    "notes": [
+      "Unknown counts are unavailable, not zero; genuine empty arrays may show zero.",
+      "Long tables scroll locally; document remains within viewport.",
+      "Recovery notice and locked controls remain visible after reload.",
+      "Primary foreground uses existing theme on-accent token."
+    ],
+    "whole_accessibility_audit": false
+  },
+  "test_reuse": {
+    "DOM_tests": 45,
+    "source": "2ce9d8ec422190c7096f55331e68f0b6545d7424",
+    "entire_src_identical": true,
+    "build_typecheck": "PASS",
+    "product_build_artifacts_scanned": 149
+  },
+  "server_reaped": true,
+  "cleanup_errors": [],
+  "actual_Auth_cases": 0,
+  "actual_SQL_executed": 0,
+  "actual_financial_backend_cases": 0,
+  "backend_reconcile_completion_tested": false,
+  "formal": "5/16",
+  "production_go": false,
+  "independent_acceptance": false,
+  "prior328": "Historical UI-family evidence on its original source; not a new run on this candidate."
+}

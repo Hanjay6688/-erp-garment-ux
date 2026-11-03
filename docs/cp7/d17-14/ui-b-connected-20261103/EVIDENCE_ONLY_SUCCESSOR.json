@@ -1,0 +1,58 @@
+{
+  "contract": "cp7.B.evidence-only-successor.v1",
+  "tested_source": "81e5a313a8ed25105fafd781bdb99bf296dee975",
+  "tested_tree": "0e301aa65ae2be6c0708c131d14e6573d4ba5ca0",
+  "src_tree": "863496931f0897038f1b4dbf4c4464b4597db936",
+  "runtime_fixture_workflow_dependencies_unchanged": true,
+  "changes": "Only new evidence documents under B own namespace; no historical file modified. SOURCE_V3 remains the declaration for tested source, not a claim that a later docs commit ran CI.",
+  "evidence_files": {
+    "docs/cp7/d17-14/ui-b-connected-20261103/APPLICATION.json": {
+      "bytes": 1061,
+      "sha256": "a63f82d381ea4f11b46bed725e117260d9f539fae06181f6d671b441e96a3005"
+    },
+    "docs/cp7/d17-14/ui-b-connected-20261103/APPLICATION_CHECK.json": {
+      "bytes": 243,
+      "sha256": "db6d6880c27b2d4f55394e24970fa3305a2c65ab93b78070893f8b000e2d3acd"
+    },
+    "docs/cp7/d17-14/ui-b-connected-20261103/BROWSER_REVIEW.json": {
+      "bytes": 3997,
+      "sha256": "c9c740dd896d1355dd2bd118c090be02404fa05f33bf7bc66dc225739fe96f59"
+    },
+    "docs/cp7/d17-14/ui-b-connected-20261103/CONNECTED_UI_ONLY.patch.gz": {
+      "bytes": 2432,
+      "sha256": "dfd4b88c2c8c413ab89cf9dd30c0e0c5ba678665132f49e3ff5b3fc3e024cc31"
+    },
+    "docs/cp7/d17-14/ui-b-connected-20261103/FINAL_BROWSER_REPORT.json.gz": {
+      "bytes": 28100,
+      "sha256": "9d39060a322378fb335ab4fc0d0eea98449ad91036b02416b7c2ffb47757454c"
+    },
+    "docs/cp7/d17-14/ui-b-connected-20261103/FINAL_PREFLIGHT.json.gz": {
+      "bytes": 3258,
+      "sha256": "b33789416ad58a30c4fd0a57b30b0b525a527daa049be7fd8a1f6d8566e47cba"
+    },
+    "docs/cp7/d17-14/ui-b-connected-20261103/HANDOFF_CONNECTED_FORMS_B_20261103.md": {
+      "bytes": 7473,
+      "sha256": "25d1959eabbe63c1b7d4eb5ca812f8bab68b145601662fcf22ac9f32c6e13c03"
+    },
+    "docs/cp7/d17-14/ui-b-connected-20261103/JOB_STEPS.json.gz": {
+      "bytes": 1047,
+      "sha256": "ba28e347c3060921090848f89f0607533dbcfa0382cd59a5d998d5fc7954df19"
+    },
+    "docs/cp7/d17-14/ui-b-connected-20261103/ORIGINALS.json": {
+      "bytes": 1837,
+      "sha256": "37f0ff7c1b3a86629b2ba7ea1fe91b224c5e48bf17677471f320413850d0226d"
+    },
+    "docs/cp7/d17-14/ui-b-connected-20261103/RETAINED52_RECEIPT.json.gz": {
+      "bytes": 19332,
+      "sha256": "6c119d0323c5c41aa1b272220fd3e9e5a5e939d4269be41c7f3ed9013fe978c4"
+    },
+    "docs/cp7/d17-14/ui-b-connected-20261103/RUNTIME_REUSE.json": {
+      "bytes": 313,
+      "sha256": "2b421c89fe0b1597ef2dbd5e7c9303f7e89a50bb15b96e581bd8020d60510080"
+    }
+  },
+  "A_sole_integrator": true,
+  "formal": "5/16",
+  "production_go": false,
+  "independent_acceptance": false
+}

@@ -1,0 +1,26 @@
+{
+  "source": "81e5a313a8ed25105fafd781bdb99bf296dee975",
+  "base": "bb826c3b74ce962b507df92e7f94861f339165c1",
+  "files": [
+    {
+      "path": "src/ConnectedInitialImportPage.tsx",
+      "before": "f059f535b15b6ac956fb82de5050ad9ab30f1ac419c31e2ae5f6090fcbaba061",
+      "after": "70affea52cf20ecfc6fa5bdc23e3ad7ea3fee460a5be8e9db7468c933c067f40"
+    },
+    {
+      "path": "src/ConnectedPocketFabricPage.tsx",
+      "before": "565cabf63761bbe2a9d14a1b4c08da04e562f7a858ecf8a97a26685b9b0b1443",
+      "after": "9161408282a8a56179c7a41f7c77e9f194b7cb78732baaf5cac17bc44c54ce87"
+    },
+    {
+      "path": "src/initial-import.css",
+      "before": "3fb831a7bb5fd03eea8d310cf983ae5cc5b20722763b792270e473f6747e7e0a",
+      "after": "b923ebec05fc4e8e28849cfc43ab3ccc336b64b3025fdd4a9f47fd90a1234e42"
+    }
+  ],
+  "patch_raw_sha256": "342a7599a672d86492243edcebe864ae0c91e8668928b40b08f22de24067259e",
+  "base_UI_handoff": "bb826c3b74ce962b507df92e7f94861f339165c1",
+  "A_sole_integrator": true,
+  "production_go": false,
+  "runtime_UI_same_as_first_2ce9": true
+}

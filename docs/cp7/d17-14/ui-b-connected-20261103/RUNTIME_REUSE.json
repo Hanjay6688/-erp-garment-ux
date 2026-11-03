@@ -1,0 +1,8 @@
+{
+  "status": "EXACT_UI_RUNTIME_REUSE",
+  "build_and_DOM45_source": "2ce9d8ec422190c7096f55331e68f0b6545d7424",
+  "browser_device_successor": "81e5a313a8ed25105fafd781bdb99bf296dee975",
+  "src_tree": "863496931f0897038f1b4dbf4c4464b4597db936",
+  "all_src_identical": true,
+  "no_repeated_business_DB_job": true
+}

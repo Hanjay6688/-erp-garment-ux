@@ -1,0 +1,53 @@
+{
+  "originals": [
+    {
+      "name": "UI_CONNECTED_2CE9_FIRST_FAILURE_ORIGINAL_20261103.zip",
+      "source": "2ce9d8ec422190c7096f55331e68f0b6545d7424",
+      "run": 41641552705,
+      "job": 125936053635,
+      "attempt": 1,
+      "artifact": 13232838563,
+      "conclusion": "FAILURE",
+      "individual_views": 0,
+      "bytes": 2561,
+      "sha256": "ec502f775f4332f7f0623816d4c6aabf9d2c6030e4d5ddfe7b823632dcdec1bf",
+      "CRC_verified": true,
+      "library_file_id": "libfile_467d3ba66410819198d6cf6c9ba3e892"
+    },
+    {
+      "name": "UI_CONNECTED_6599_SECOND_ORIGINAL_20261103.zip",
+      "source": "65991506ef0fee90341fb40d95bab41e02cbaa5e",
+      "run": 41642954385,
+      "job": 125940822601,
+      "attempt": 1,
+      "artifact": 13234240500,
+      "conclusion": "FAILURE",
+      "individual_views": 52,
+      "bytes": 6279286,
+      "sha256": "1ee5b2ed06f2588b971d1ce920057bbdd31d174ce1a7417039086659c366010b",
+      "CRC_verified": true,
+      "library_file_id": "libfile_a21e8eb840308191bb68b7cb5ec2d2cf"
+    },
+    {
+      "name": "UI_CONNECTED_81E5_FINAL_ORIGINAL_20261103.zip",
+      "source": "81e5a313a8ed25105fafd781bdb99bf296dee975",
+      "run": 41644508539,
+      "job": 125946200449,
+      "attempt": 1,
+      "artifact": 13235191080,
+      "conclusion": "SUCCESS",
+      "individual_views": 80,
+      "bytes": 8954858,
+      "sha256": "a8a148c74c6f9411721532ae7469dbd91f24f9bdefdf9873193d454ea4c78984",
+      "CRC_verified": true,
+      "library_file_id": "libfile_115e1a275f3c8191afabcf954df220ad"
+    }
+  ],
+  "preview": {
+    "name": "UI_B_CONNECTED_DESKTOP_HP_20261103.png",
+    "library_file_id": "libfile_ac17617f90088191b97c2fa36ed46f11",
+    "sha256": "ffe1297f1b7bf8530fbb743c63abba56ce5e3c8503d12ff83c0fb8433720df61"
+  },
+  "failed_runs_remain_failed": true,
+  "not_backend_acceptance": true
+}
