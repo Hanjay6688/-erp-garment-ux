@@ -80,3 +80,7 @@
 @media(max-width:980px){.bsr-resolution-picker>div{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:720px){.bsr-susulan-formula{grid-template-columns:1fr}.bsr-resolution-picker{padding:11px 12px}}
 @media(max-width:480px){.bsr-resolution-picker>div{grid-template-columns:1fr}}
+
+/* Case status follows source details in normal flow, so long sources stay readable. */
+.bsr-case-list>button>.bsr-status{position:static;grid-column:2/-1;grid-row:2;justify-self:start;max-width:100%;white-space:normal;overflow-wrap:anywhere}
+.bsr-case-list>button>svg{grid-column:3;grid-row:1}

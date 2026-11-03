@@ -272,3 +272,15 @@ h2 { margin:5px 0 4px; font-size:20px; letter-spacing:-.025em; font-weight:630; 
   .sku-browser-row>div{min-width:0}
   .sku-browser-row .sku-size-preview em{white-space:normal;overflow-wrap:anywhere}
 }
+
+/* Keep compact filter labels and chevrons within their two-column controls. */
+@media(max-width:360px){
+  .stock-filter-row .multi-filter,.mutation-toolbar .multi-filter{min-width:0;max-width:100%}
+  .stock-filter-row .filter-trigger,.mutation-toolbar .filter-trigger{min-width:0;max-width:100%;gap:5px;padding:0 8px}
+  .stock-filter-row .filter-trigger>.icon:first-child,.mutation-toolbar .filter-trigger>.icon:first-child{display:none}
+  .stock-filter-row .filter-trigger>b,.mutation-toolbar .filter-trigger>b{padding:3px 4px;min-width:0}
+  .stock-filter-row .filter-trigger>span,.mutation-toolbar .filter-trigger>span{min-width:0;overflow:hidden;text-overflow:ellipsis}
+  .stock-filter-row .filter-trigger>.icon:last-child,.mutation-toolbar .filter-trigger>.icon:last-child{flex-shrink:0}
+}
+
+@media(max-width:860px){.sku-browser-row .sku-size-preview em{white-space:normal;overflow-wrap:anywhere}}

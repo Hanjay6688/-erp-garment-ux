@@ -1,0 +1,33 @@
+{
+  "contract": "cp7.B.targeted-visual-polish.v1",
+  "base_browser_source": "de7098079a1aa06dd36b393f1ee3042d459d233d",
+  "base_run": 41613755256,
+  "base_job": 125842184910,
+  "base_result": "SUCCESS",
+  "base_views": 323,
+  "base_console_errors": 0,
+  "base_overflow_views": 0,
+  "base_sampled_contrast_findings": 0,
+  "remaining_visual_findings": [
+    "Narrow filter chevrons exceed button box at320",
+    "Stock dozen/piece conversions overlap adjacent sizes at390",
+    "BS status positioned over long source text",
+    "HPP cost auto-column squeezes SKU identity at320"
+  ],
+  "fix_scope": [
+    "src/styles.css",
+    "src/bs-rework.css",
+    "src/hpp.css"
+  ],
+  "retained_views": 310,
+  "new_route_views": 13,
+  "new_interaction_views": [
+    "Mutation details320",
+    "Mutation details768",
+    "Stock filter sheet320"
+  ],
+  "final_expected_union": 326,
+  "no_TS_SQL_RPC_permission_financial_formula_change": true,
+  "production_go": false,
+  "independent_acceptance": false
+}

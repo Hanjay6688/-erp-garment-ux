@@ -25,3 +25,7 @@
    their phone layouts are restated here; columns may shrink to the screen instead of widening the page. */
 @media(max-width:900px){.hpp-sku-summary{grid-template-columns:minmax(0,1fr)}.hpp-sku-rule{grid-column:auto}.hpp-lot-picker{grid-template-columns:repeat(2,minmax(0,1fr))}.hpp-lot-picker>div{grid-column:1/-1}}
 @media(max-width:700px){.hpp-size-summary{grid-template-columns:repeat(3,minmax(0,1fr))}.hpp-lot-picker{grid-template-columns:minmax(0,1fr)}.hpp-lot-picker>div{grid-column:auto}}
+
+/* Unit cost uses its own row; long costs must not squeeze the SKU identity away. */
+.hpp-sku-list>button{grid-template-columns:30px minmax(0,1fr)}
+.hpp-sku-list .hpp-lot-cost{grid-column:2;grid-row:2;flex-wrap:wrap;min-width:0}
