@@ -28,9 +28,18 @@ unscoped refusal is retained as preparation evidence.
 The Native preflight checks all declared functions, both actor helpers and the
 sales actor, every named permission, OWNER/ADMIN inverse authority, active PCS,
 accounts, warehouse, real WIB day and fixture time margins together before
-running cases. It does not change the product clock or create posted facts.
+running cases. The complete direct surface is 23 existing/private signatures
+and 19 actor-specific call capabilities, including schema USAGE and function
+EXECUTE. The eight required accounting mappings, canonical product master and
+earliest opening day are checked in the same read-only pass. An existing
+function alone does not establish that its actual fixture actor can call it.
+It does not change the product clock or create posted facts.
 Actor failures are collected in separate savepoints; the full prerequisite
 report is saved on both success and refusal, before any business callback.
+Three protocol-model controls cover simultaneous independent failures, a missing
+function without attempting its capability lookup, and recovery from an aborted
+actor query before the remaining actors and final full census. These controls
+do not evaluate PostgreSQL privileges or earn ERP case credit.
 Actual permission/revocation races and HTTP/Auth/browser evidence remain open.
 
 The runner retains the original strict-group reports, all22 catalogue groups,
