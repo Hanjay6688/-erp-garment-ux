@@ -62,7 +62,8 @@ physical as(
   cross join owned o cross join sold s cross join returned r
 )
 select hpp,fg,cogs,(hpp-fg-cogs)::numeric from cents
-$function$"""
+$function$
+"""
 
 PO_TARGET="""CREATE OR REPLACE FUNCTION erp.compute_po_hpp_gl_targets_v2620d(p_po_id uuid)
  RETURNS TABLE(base_output_qty integer, hpp_total_cost numeric, fg_value numeric, cogs_value numeric, other_out_value numeric)
@@ -107,7 +108,8 @@ with base as(
   round(greatest(s.value-r.value,0),2)::numeric cogs from base b cross join owned o cross join sold s cross join returned r
 )
 select qty,hpp,fg,cogs,(hpp-fg-cogs)::numeric from cents
-$function$"""
+$function$
+"""
 
 def once(text,before,after,label):
     if text.count(before)!=1:raise ValueError('SKU_MOVAVG_CONSUMER_PREDECESSOR_CHANGED:'+label)

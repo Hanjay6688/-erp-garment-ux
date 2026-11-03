@@ -11,6 +11,12 @@ functions=raw['committed']['SKU_NATIVE7_COST5_RACES3_PERMISSION_WAITS7_RECOVERY_
 originals={sig:functions[sig][0]for sig in delta.SIGNATURES}
 patched=delta.patched(originals)
 assert set(patched)==set(delta.SIGNATURES)
+# PostgreSQL's pg_get_functiondef terminates the closing dollar quote with
+# one newline. Keep the two full replacements canonical without relaxing
+# the installer's byte-exact definition/owner/ACL comparison.
+for sig in delta.SIGNATURES:
+    assert patched[sig].endswith('$function$\n'),sig
+    assert not patched[sig].endswith('$function$\n\n'),sig
 assert 'prepare_sale_values_v2(h.id)'in patched[delta.SIGNATURES[0]]
 assert 'sale_allocation_unit_v2(a.id,a.lot_id)'in patched[delta.SIGNATURES[0]]
 assert 'prepare_return_values_v2(h.id)'in patched[delta.SIGNATURES[1]]
