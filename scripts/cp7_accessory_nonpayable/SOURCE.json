@@ -141,12 +141,12 @@
       "sha256": "042c30ce6c8242b0626270d2a74f0433df4b5fc57cb8af0d4198a79a8f41cd20"
     },
     "scripts/cp7_accessory_nonpayable/qualification.py": {
-      "bytes": 9434,
-      "sha256": "7b836d55007b8658128e77dcc2e7d40412f692c21180dcc91e271ab8902d7c1a"
+      "bytes": 10352,
+      "sha256": "e993619472fc65ca10883932e16597d26dd4dac9ba17d58be66b6aa9ce9b73c7"
     },
     "scripts/cp7_accessory_nonpayable/qualification_component.py": {
-      "bytes": 14882,
-      "sha256": "d395c4409485a6a4b092c0b74692af1769bafa0b6048289c8728525d89f36405"
+      "bytes": 15196,
+      "sha256": "c6c87cee1f6543eac07f6bc327f29dc9f3a9f6e358237d494b413f54926691a5"
     },
     "scripts/cp7_accessory_nonpayable/qualification_gate.py": {
       "bytes": 4826,
@@ -279,6 +279,14 @@
     "scripts/cp7_accessory_nonpayable/test_case_output.py": {
       "bytes": 6766,
       "sha256": "4bcbcfa56979791a794226f2b145ce4524cff6b455d95c15926c4a7fa6317bef"
+    },
+    "scripts/cp7_accessory_nonpayable/progress.py": {
+      "bytes": 1466,
+      "sha256": "2ad65c77b9ddb3d5706aa073e11b45716821a4b1b8f79a5f0194bab774922914"
+    },
+    "scripts/cp7_accessory_nonpayable/test_progress.py": {
+      "bytes": 2752,
+      "sha256": "8c83889a8ebbaa69427b35d26a9b07cbcf4d499d753996686a2d2ab03316484c"
     }
   },
   "actual_Native_cases": 0,
@@ -643,5 +651,13 @@
     "actual_Native_cases": 0,
     "actual_browser_cases": 0,
     "running_candidate_8416_unchanged": true
+  },
+  "bounded_progress_preparation": {
+    "report": "PROGRESS_CONTROLS.json",
+    "diagnostic_phase_sites": 7,
+    "new_controls": 4,
+    "prior_controls_reused": 17,
+    "new_timers_or_workers": 0,
+    "business_acceptance": false
   }
 }

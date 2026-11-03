@@ -192,7 +192,7 @@ def browser_environment(report):
             else:os.environ[name]=value
 
 def exercise(conn,cur,database,url,report,state):
-    from . import admission,assembly,native_cases,access_cases,browser_prepare,copy_context,qualification_gate,case_output
+    from . import admission,assembly,native_cases,access_cases,browser_prepare,copy_context,qualification_gate,case_output,progress
     admission.parent_receipt()  # Before ERP graph, connection or fixture use.
     from cp7_p21_current_chain_rehearsal_probe import helper
     from cp7_catalog_state import exact_public_catalog
@@ -209,33 +209,37 @@ def exercise(conn,cur,database,url,report,state):
         def one(name,operation):
             if failed:return dict(status='INCOMPLETE',blocked_by_first_case=failed[0],
                 error='NONPAYABLE_REMAINING_CASES_NOT_RUN_AFTER_FIRST_FAILURE',actual_case_credit=0)
-            try:return full_case(cursor,name,operation,state,control)
+            try:
+                with progress.phase('NATIVE_CASE',name):return full_case(cursor,name,operation,state,control)
             except Exception:
                 failed.append(name);raise
         return[(name,lambda name=name,operation=operation:one(name,operation))
             for name,operation in native_cases.cases(cursor,today,state)]
     try:
-        with exact_public_catalog(native,retain_raw=True)as public,case_output.scope(native,'native'):
+        with exact_public_catalog(native,retain_raw=True)as public,case_output.scope(native,'native'),progress.phase('NATIVE_GROUP'):
             actual=native.strict_group(NATIVE_LABEL,cases,verify)
     finally:retain(native,report)
     report.update(native=actual,public_catalog_observation=public)
     report['Native9_gate']=qualification_gate.native(actual,native_cases.IDS)
     report['actual_Native_cases']=9
-    committed_prerequisite(url,state,report,control)
+    with progress.phase('COMMITTED_PREREQUISITE'):committed_prerequisite(url,state,report,control)
     modes=load('afui_unchanged_original_real_Auth_and_browser_modes',ROOT/'scripts/current-s03-sku-s05-composite-qualification/modes.py')
     adapter=SimpleNamespace(http_cases=lambda http,today:access_cases.http_cases(http,today,state=state),
         races=lambda tools,today:access_cases.races(tools,today,state=state))
     with copy_context.scope(modes,state)as copies,case_output.scope(modes,'copies'):
         report['copy_authority']=copies
-        report['http']=modes.run_http(adapter,verify,'afui_dates_http2')
-        report['HTTP2_gate']=qualification_gate.copies(report['http'],access_cases.HTTP_IDS,mode='HTTP')
-        report['actual_Auth_HTTP_cases']=2
-        report['races']=modes.run_races(adapter,verify,'afui_dates_session2')
-        report['session2_gate']=qualification_gate.copies(report['races'],access_cases.RACE_IDS,mode='RACE')
-        report['actual_two_session_races']=2
-        with browser_environment(report):report['browser']=modes.run_browser(HERE/'browser.mjs',verify,'afui_dates_browser2')
-        report['browser2_gate']=qualification_gate.copies(report['browser'],browser_prepare.IDS,mode='BROWSER')
-        report['actual_browser_cases']=2
+        with progress.phase('HTTP_GROUP'):
+            report['http']=modes.run_http(adapter,verify,'afui_dates_http2')
+            report['HTTP2_gate']=qualification_gate.copies(report['http'],access_cases.HTTP_IDS,mode='HTTP')
+            report['actual_Auth_HTTP_cases']=2
+        with progress.phase('SESSION_GROUP'):
+            report['races']=modes.run_races(adapter,verify,'afui_dates_session2')
+            report['session2_gate']=qualification_gate.copies(report['races'],access_cases.RACE_IDS,mode='RACE')
+            report['actual_two_session_races']=2
+        with progress.phase('BROWSER_GROUP'):
+            with browser_environment(report):report['browser']=modes.run_browser(HERE/'browser.mjs',verify,'afui_dates_browser2')
+            report['browser2_gate']=qualification_gate.copies(report['browser'],browser_prepare.IDS,mode='BROWSER')
+            report['actual_browser_cases']=2
     if(len(report['copy_authority']['actual_copy_admissions'])!=4
         or any(row.get('all22_groups_equal_original_install')is not True
             or row.get('product_state_modified')is not False

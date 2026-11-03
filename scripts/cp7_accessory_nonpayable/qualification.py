@@ -71,6 +71,17 @@ def fixture_case_output_preflight():
     return dict(status='COMPLETE_ORIGINAL_CASE_BYTES_BOUNDED_CONSOLE_AND_UNCHANGED_RESULTS_PASS',
         tests_run=6,routed_print_sites=3,actual_SQL_executed=0,actual_Native_cases=0)
 
+def fixture_progress_preflight():
+    """Bound diagnostics and preserve original failures and restoration."""
+    import io,unittest
+    from cp7_accessory_nonpayable.test_progress import ProgressControls
+    output=io.StringIO();result=unittest.TextTestRunner(stream=output,verbosity=0).run(
+        unittest.defaultTestLoader.loadTestsFromTestCase(ProgressControls))
+    if result.testsRun!=4 or not result.wasSuccessful()or result.skipped or result.expectedFailures:
+        raise ValueError('NONPAYABLE_BOUNDED_PROGRESS_PREFLIGHT_FAILED:'+output.getvalue())
+    return dict(status='BOUNDED_PHASE_RECEIPTS_PRESERVE_RESULTS_ERRORS_AND_CLEANUP',tests_run=4,
+        new_timers_or_workers=0,actual_SQL_executed=0,actual_Native_cases=0)
+
 def runtime():
     from cp7_accessory_nonpayable import admission,source,package_engine
     admission.parent_receipt()  # Before any ERP import or runtime construction.
@@ -113,6 +124,7 @@ def main():
         committed_identity=fixture_committed_identity_preflight()
         browser_observer=fixture_browser_observer_preflight()
         case_output=fixture_case_output_preflight()
+        progress=fixture_progress_preflight()
         _,engine=package_engine.derive((ROOT/package_engine.ORIGINAL).read_bytes())
         _,copies=copy_context.derive((ROOT/copy_context.ORIGINAL).read_bytes())
         print(json.dumps(dict(status='NONPAYABLE_STATIC_WHOLE_QUALIFIER_PREPARED_NOT_EXECUTED',source=static,
@@ -120,6 +132,7 @@ def main():
             fixture_committed_identity_preflight=committed_identity,
             fixture_browser_observer_preflight=browser_observer,
             fixture_case_output_preflight=case_output,
+            fixture_progress_preflight=progress,
             actual_SQL_executed=0,actual_Native_cases=0,
             actual_Auth_HTTP_cases=0,actual_two_session_cases=0,actual_browser_cases=0,
             production_go=False,independent_acceptance=False),sort_keys=True));return
@@ -137,10 +150,11 @@ def main():
     engine,admission=runtime();engine.admitted()
     with admission.parent_scope():
         import cp6_auditor_business_day as business_day
+        from cp7_accessory_nonpayable import progress
         original=engine.package._writer_runtime
         try:
             engine.package._writer_runtime=lambda browser_mode=False:engine.run()
-            with attempts.single_attempt(business_day):engine.package.run('install')
+            with attempts.single_attempt(business_day),progress.phase('WHOLE_PACKAGE'):engine.package.run('install')
         finally:engine.package._writer_runtime=original
 
 if __name__=='__main__':
