@@ -443,6 +443,8 @@ jobs:
 
         python -B scripts/cp7_sku_moving_average/test_consumer_delta.py
 
+        python -B scripts/cp7_sku_moving_average/test_credit_delta.py
+
         python -B scripts/cp7_sku_moving_average/test_reader_delta.py
 
         python -B scripts/cp7_sku_moving_average/test_preuse_package_contract.py

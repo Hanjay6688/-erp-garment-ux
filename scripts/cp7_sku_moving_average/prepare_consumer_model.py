@@ -21,6 +21,10 @@ def prepare():
     delta = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(delta)
     definitions = delta.patched({sig: catalog['functions'][sig][0] for sig in delta.SIGNATURES})
+    spec = importlib.util.spec_from_file_location('early_credit_delta', HERE / 'credit_delta.py')
+    credit = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(credit)
+    credit_originals = {sig: catalog['functions'][sig][0] for sig in credit.SIGNATURES}
     tables = (
         'erp.products', 'erp.locations', 'erp.production_orders', 'erp.fg_lots',
         'erp.hpp_versions', 'erp.fg_stock_movements', 'erp.sale_stock_allocations',
@@ -32,6 +36,9 @@ def prepare():
         'erp.journal_entries', 'cp7_sku_conversion.groups_v1',
         'cp7_sku_conversion.members_v1',
         'erp.fg_inventory_balances', 'erp.sales_payments',
+        'erp.journal_lines', 'erp.po_hpp_gl_state', 'erp.chart_accounts',
+        'erp.accounting_account_mappings', 'erp.po_wip_close_events',
+        'erp.be_conversion_cost_sources_v1', 'erp.be_conversion_cost_events_v1',
     )
     columns = {table: sorted([v for k, v in catalog['columns'].items()
                              if k.startswith(table + ':')], key=lambda v: v[1])
@@ -40,11 +47,26 @@ def prepare():
     return dict(classification='MODELED_EXACT_CONSUMER_SQL_NOT_NATIVE_ERP',
                 parent_sha256=sha256(raw).hexdigest(), columns=columns,
                 definitions=definitions,
+                credit_definitions=credit.patched(credit_originals),
+                credit_originals=credit_originals,
+                credit_cent_domain='create domain cp7_credit.cent_amount as numeric '+catalog['constraints'][
+                    'cp7_credit.cent_amount:cent_amount_check'][-1]+';',
+                native_credit_helpers={sig: catalog['functions'][sig][0] for sig in (
+                    'cp7_credit.initial_hpp_account_facts_v1()',
+                    'cp7_credit.account_by_mapping_v1(text)',
+                    'cp7_credit.initial_line_semantics_v1(jsonb)',
+                    'cp7_credit.initial_po_hpp_book_v1(uuid,uuid,uuid,uuid,uuid)',
+                    'cp7_credit.initial_po_hpp_lifecycle_amount_v1(uuid,uuid,uuid,uuid)',
+                    'cp7_credit.pg_jsonb_sha256(jsonb)',
+                    'cp7_credit.cent_text(cp7_credit.cent_amount)',
+                )},
                 old_opening_sync=catalog['functions']['erp.sync_opening_lot_hpp_to_gl(uuid,date)'][0],
                 native_return_helpers={sig: catalog['functions'][sig][0] for sig in (
                     'erp.sale_net_total(uuid)',
                     'erp.post_fg_movement(uuid,uuid,uuid,text,text,integer,numeric,uuid,text,uuid,timestamp with time zone,text,boolean)',
                     'erp.assert_fg_chronological_nonnegative(uuid,uuid,uuid,text)',
+                    'erp.reverse_sales_return(uuid,text)',
+                    'erp.reverse_fg_movement(uuid,text)',
                 )},
                 inventory_unique=catalog['indexes']['erp.fg_inventory_balances_product_id_location_id_quality_grade_key'][0],
                 transaction_uniques=[catalog['indexes'][name][0] for name in (

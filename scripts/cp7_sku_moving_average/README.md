@@ -65,9 +65,9 @@ on an isolated PostgreSQL 17.5 engine (`@electric-sql/pglite@0.3.14`) with
 empty UUID-key dependency tables. No ERP fixture or financial function ran.
 This is a DDL expectation, not Native qualification or acceptance.
 
-The 640 exact rows cover 12 tables, 19 explicit/implicit indexes, 183 table
+The 642 exact rows cover 12 tables, 19 explicit/implicit indexes, 183 table
 and index columns, 132 constraints, 202 triggers (including both ends of
-47 foreign keys), 12 private functions, 24 row/array types, their 24
+47 foreign keys), 15 private functions, 24 row/array types, their 24
 implementation rows, and 12 deny policies. The other catalogue groups remain exact except for one declared schema USAGE
 lease to the existing private FG reader role. Every added row must be present with its exact metadata;
 matching a name prefix is insufficient. Existing objects remain frozen
@@ -193,3 +193,54 @@ Native or Auth credit. A new sixth Native case exercises actual public sale
 commands, mixed-cent return allocations, earlier-return reversal, root recost,
 immutable snapshots, exact current books and final inverse. The five earlier
 Native cases and all complete-package restoration obligations remain required.
+
+
+## Credit HPP projection after the 7eed actual failure
+
+Run `41644713451` closed the root-recost case in addition to the two earlier
+conversion cases. Sale/return stopped at `CP7_CREDIT_HPP_CANONICAL_TARGET_MISMATCH`:
+its retained pre-posting credit proof still calculated physical lot costs.
+The fifth case restored quantity/value/average correctly but compared an old
+revision against the legitimately changed immutable sale/inverse history.
+All five case boundaries and the complete outer restoration passed. Actual
+acceptance remains incomplete (three business cases passed, two incomplete).
+The first original archive is retained, not replaced by a rerun.
+
+`credit_delta.py` admits four byte-exact retained functions. The independent
+canonical target now derives owned, sold, returned and conversion amounts from
+raw economic components, with the disjoint physical fallback for older sales.
+It never copies the official target into its own proof. A shared read-only
+allocation plan is used before posting and by immutable return preparation;
+it applies allocation capacity, known current root HPP, integer quantity and
+12-decimal root-unit conservation checks before calculating scope cents.
+
+The pre-posting sealer includes both physical and economic PO/non-PO scopes,
+locks every contributing root and all HPP versions before period acquisition,
+and re-reads the allocation plan and lock set after waits. Support hashes and
+opening-state proofs include cross-product roots and component provenance.
+The existing physical-lot profile remains exact for Native completion guards.
+Every old refusal, actual target/book comparison, conserved journal vector,
+account mapping and authority attribute is preserved. No registered-credit
+source-mutation guard is relaxed. The new Native fixtures are unpaid sales
+with empty recognition; their inverse route does not enter the separate bounded
+cohort/incoming-credit reconciliation extension.
+
+Two further private read helpers make 15 functions / 642 exact added rows.
+The other 639 pre-existing added rows are unchanged, the altered return body
+retains all 18 other attributes, and each of the four credit functions retains
+all 18 authority attributes. Existing definitions restore before helper drops.
+The revision check now requires a changed revision after real sale/inverse
+history and exact equality of every other quote field; the untouched warehouse
+comparison during conversion still requires whole-quote equality.
+
+The 32-table PostgreSQL17 model additionally executes the exact retained and
+candidate credit HPP proof, account/line semantics, and Native sale/return/
+physical-inverse bodies. It reproduces the old canonical refusal, checks the
+actual Native HPP journal against the customer-bound sealed plan, split and
+multi-allocation cents, current-root recost, earlier inverse and replacement,
+known-zero versus unknown, mixed PO/non-PO scopes, legacy allocations, unexplained
+book cents and cross-product support. Monetary credit lifecycle, authority and
+journal storage remain explicit model providers. The first model failures are
+retained (alias collision, incomplete synthetic sale attributes and omitted
+customer binding); correcting them adds no actual Native acceptance. Actual
+Native6 and all five full-package gates are still required.

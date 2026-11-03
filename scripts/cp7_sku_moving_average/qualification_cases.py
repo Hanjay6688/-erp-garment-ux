@@ -233,11 +233,18 @@ def reservation_location_isolation(cur,today):
     ordinary_reverse=sales_returns.reverse_sale(cur,ordinary);assert ordinary_reverse['status']=='REVERSED',ordinary_reverse
     assert event_balance(cur,'SALE',ordinary_sale)==(0,0)
     assert sales_cmd.accounts(cur)==ordinary_before
-    isolated_restored=quote(cur,x['source'],other_location);assert isolated_restored==isolated,(isolated,isolated_restored)
+    isolated_restored=quote(cur,x['source'],other_location)
+    fields={'qty','basis','state','value','average','revision','adjustment','base_value','reserved_included'}
+    assert set(isolated_restored)==set(isolated)==fields
+    assert {k:isolated_restored[k]for k in fields-{'revision'}}=={k:isolated[k]for k in fields-{'revision'}},(isolated,isolated_restored)
+    # A posted sale and its inverse are immutable new history. Value and stock
+    # return exactly; the source revision must change so an old quote is stale.
+    assert isolated_restored['revision']!=isolated['revision']
     return dict(status='PASS',group_id=moved['conversion_id'],reservation_id=reservation,
       active_reservation_included_in_pool=True,source_after_qty='3',source_after_value='60.00',
       other_location_qty='3',other_location_value='270.00',other_location_unchanged=True,
-      zero_component_sale_value_inverse_exact=True,ordinary_sale_id=ordinary_sale)
+      zero_component_sale_value_inverse_exact=True,ordinary_sale_id=ordinary_sale,
+      post_inverse_source_revision_changed=True,all_eight_other_quote_fields_identical=True)
 
 def fractional_return_scope(cur,today):
     def setup():

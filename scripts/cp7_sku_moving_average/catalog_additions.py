@@ -19,7 +19,7 @@ GROUPS = (
     'type_implementation', 'sequence_ownership',
 )
 COUNTS = dict(relations=31, columns=183, constraints=132, indexes=19,
-              triggers=202, functions=13, types=24, policies=12,
+              triggers=202, functions=15, types=24, policies=12,
               type_implementation=24)
 
 

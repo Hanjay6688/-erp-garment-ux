@@ -10,7 +10,7 @@ from psycopg import sql
 from psycopg.pq import TransactionStatus
 from cp7_laundry_unknown_wash.composition import as_owner
 import cp7_sku_pair_conversion.composition as sku_parent
-from . import private_delta,consumer_delta,reader_delta,catalog_additions,reader_access
+from . import private_delta,consumer_delta,reader_delta,credit_delta,catalog_additions,reader_access
 
 HERE=Path(__file__).resolve().parent
 ROOT=HERE.parents[1]
@@ -30,6 +30,7 @@ FUNCTIONS=tuple(SCHEMA+'.'+x for x in(
  'pool_components_v2(uuid,uuid,text)','pool_attribution_v2(uuid,uuid,text)','pool_quote_v2(uuid,uuid,text)',
  'position_value_v2(uuid,uuid,text,numeric)','prepare_sale_values_v2(uuid)','sale_allocation_unit_v2(uuid,uuid)',
  'owned_scope_value_v2(uuid,uuid)',
+ 'return_components_v2(uuid,numeric,uuid)','hpp_scope_lot_ids_v2(uuid,uuid)',
  'prepare_return_values_v2(uuid)','return_item_unit_v2(uuid,uuid,numeric)','prepare_valuation_v2(uuid,jsonb)',
  'finalize_valuation_v2(uuid)','reverse_valuation_v2(uuid)'))
 VOLATILE={SCHEMA+'.'+x for x in('prepare_sale_values_v2(uuid)','prepare_return_values_v2(uuid)',
@@ -74,7 +75,7 @@ def parent():return sku_parent
 def runtime():return parent().runtime()
 
 def sources():
-    names=('README.md','COMPONENT_LEDGER_DESIGN.md','component_oracle.py','valuation.sql','private_delta.py','consumer_delta.py','reader_delta.py','reader_access.py','qualification_cases.py','composition.py','catalog_additions.py','CATALOG_ADDITIONS.json','test_component_contract.py','test_private_delta.py','test_consumer_delta.py','test_reader_delta.py','test_reader_capability.mjs','test_qualification_cases.py','test_preuse_package_contract.py','test_attribution_plan.mjs','prepare_consumer_model.py','test_consumers_pg17.mjs')
+    names=('README.md','COMPONENT_LEDGER_DESIGN.md','component_oracle.py','valuation.sql','private_delta.py','consumer_delta.py','reader_delta.py','credit_delta.py','reader_access.py','qualification_cases.py','composition.py','catalog_additions.py','CATALOG_ADDITIONS.json','test_component_contract.py','test_private_delta.py','test_consumer_delta.py','test_credit_delta.py','test_reader_delta.py','test_reader_capability.mjs','test_qualification_cases.py','test_preuse_package_contract.py','test_attribution_plan.mjs','prepare_consumer_model.py','test_consumers_pg17.mjs','test_credit_projection_pg17.mjs')
     return dict(contract=CONTRACT,predecessor=parent().sources(),
         files={str((HERE/n).relative_to(ROOT)):sha256((HERE/n).read_bytes()).hexdigest()for n in names},
         physical_FIFO_preserved=True,economic_valuation='SKU_LOCATION_GRADE_MOVING_AVERAGE',
@@ -132,7 +133,7 @@ def verify(cur,state):
         owner,rls=cur.execute('select pg_get_userbyid(relowner),relrowsecurity from pg_class where oid=%s::regclass',(table,)).fetchone()
         if owner!='postgres'or not rls:raise ValueError('SKU_MOVAVG_RLS_REQUIRED:'+table)
     return dict(status='SKU_MOVAVG_CONVERSION_CORE_EXACT_SOURCE_ALL22',physical_FIFO_preserved=True,
-        Native_private_changed_functions=list(private_delta.SIGNATURES),Native_financial_changed_functions=list(consumer_delta.SIGNATURES),Native_reader_changed_functions=list(reader_delta.SIGNATURES),new_private_functions=len(FUNCTIONS),
+        Native_private_changed_functions=list(private_delta.SIGNATURES),Native_financial_changed_functions=list(consumer_delta.SIGNATURES),Native_reader_changed_functions=list(reader_delta.SIGNATURES),Native_credit_changed_functions=list(credit_delta.SIGNATURES),new_private_functions=len(FUNCTIONS),
         actual_SQL=0,financial_consumers_complete=False,formal_acceptance_unchanged=True,
         production_go=False,independent_acceptance=False)
 
@@ -142,11 +143,12 @@ def install_delta(cur,prior):
         predecessor.predecessor.predecessor._locks(cur)
         proof=parent().verify(cur,prior)
         before=catalog._catalog_rows(cur);data=catalog._data(cur)
-        capture=private_delta.SIGNATURES+consumer_delta.SIGNATURES+reader_delta.SIGNATURES
+        capture=private_delta.SIGNATURES+consumer_delta.SIGNATURES+reader_delta.SIGNATURES+credit_delta.SIGNATURES
         originals={sig:before['functions'][sig][0]for sig in capture}
         definitions=private_delta.patched({sig:originals[sig]for sig in private_delta.SIGNATURES})
         definitions.update(consumer_delta.patched({sig:originals[sig]for sig in consumer_delta.SIGNATURES}))
         definitions.update(reader_delta.patched({sig:originals[sig]for sig in reader_delta.SIGNATURES}))
+        definitions.update(credit_delta.patched({sig:originals[sig]for sig in credit_delta.SIGNATURES}))
         with reader_handover(cur),as_owner(cur,'postgres'):
             cur.execute((HERE/'valuation.sql').read_text(),prepare=False)
             for table in TABLES:

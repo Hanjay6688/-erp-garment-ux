@@ -5,6 +5,7 @@ import {readFile, writeFile} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
 import {dirname, join} from 'node:path';
 import {fileURLToPath} from 'node:url';
+import {runCreditControls} from './test_credit_projection_pg17.mjs';
 const {PGlite} = await import(process.env.CP7_PGLITE_MODULE);
 const here = dirname(fileURLToPath(import.meta.url));
 const input = JSON.parse(await readFile(process.env.CP7_CONSUMER_MODEL_INPUT, 'utf8'));
@@ -23,8 +24,9 @@ async function insert(table, row) {
   +Object.keys(row).map((_,i)=>'$'+(i+1)).join(',')+')',Object.values(row));
 }
 const control = async (label, operation) => {
+ console.log(JSON.stringify({control:label,state:'ENTER'}));
  await db.exec('begin');
- try { await operation(); results.push({label,result:'PASS'}); }
+ try { await operation(); results.push({label,result:'PASS'}); console.log(JSON.stringify({control:label,state:'PASS'})); }
  finally { await db.exec('rollback'); }
 };
 async function movement(lot,product,quantity,type='OPENING',unit=0) {
@@ -350,13 +352,15 @@ try {
   await db.exec('rollback to savepoint unknown_return');
   assert.deepEqual(await scalar('select jsonb_build_object(\'returns\',(select count(*)from erp.sales_returns),\'values\',(select count(*)from cp7_sku_conversion.sales_return_values_v2),\'movements\',(select count(*)from erp.fg_stock_movements),\'journals\',(select count(*)from public.model_journal))'),before);
  });
- const report={status:'POSTGRES17_EXACT_CONSUMER_SQL_CONTROLS_PASS_NOT_NATIVE',engine,results,fractionalObservations,
+ const creditObservations=await runCreditControls({db,input,x,id,query,scalar,insert,movement,control,
+  saleSetup,postSaleModel,returnSetup,fractionalSale,fractionalReturn,values});
+ const report={status:'POSTGRES17_EXACT_CONSUMER_SQL_CONTROLS_PASS_NOT_NATIVE',engine,results,fractionalObservations,creditObservations,
   valuation_source:{bytes:Buffer.byteLength(ddl),sha256:createHash('sha256').update(ddl).digest('hex')},
-  model_providers:['authority helpers','credit policy enter/guard/complete/leave and opening flush','inverse cumulative book only in explicitly labeled inverse control','book and journal storage','known laundry/PO completeness','admitted conversion and sync context','current root HPP lookup'],
+  model_providers:['authority helpers','credit policy lifecycle (the added credit controls execute exact initial HPP projection, proof and line semantics)','inverse cumulative book only in explicitly labeled inverse control','book and journal storage','known laundry/PO completeness','admitted conversion and sync context','current root HPP lookup'],
   actual_Native_cases:0,actual_Auth_HTTP_cases:0,production_go:false,independent_acceptance:false};
  if(process.env.CP7_CONSUMER_MODEL_REPORT)await writeFile(process.env.CP7_CONSUMER_MODEL_REPORT,JSON.stringify(report,null,2)+'\n');
  console.log(JSON.stringify({status:report.status,checks:results.length,actual_Native_cases:0}));
 }catch(error){
- if(process.env.CP7_CONSUMER_MODEL_REPORT)await writeFile(process.env.CP7_CONSUMER_MODEL_REPORT,JSON.stringify({status:'FAILED',engine,results,fractionalObservations,error:{message:error.message,SQLSTATE:error.code??null,context:error.where??null},actual_Native_cases:0},null,2)+'\n');
+ if(process.env.CP7_CONSUMER_MODEL_REPORT)await writeFile(process.env.CP7_CONSUMER_MODEL_REPORT,JSON.stringify({status:'FAILED',engine,results,fractionalObservations,error:{message:error.message,SQLSTATE:error.code??null,context:error.where??null,detail:error.detail??null},actual_Native_cases:0},null,2)+'\n');
  console.error(JSON.stringify({status:'FAILED',checks:results.length,message:error.message,SQLSTATE:error.code??null,context:error.where??null}));process.exitCode=1;
 }finally{await db.close();}
