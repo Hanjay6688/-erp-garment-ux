@@ -26,10 +26,17 @@ def prepare(destination):
         if not input['columns'][table]:raise ValueError('COST_TYPED_TABLE_MISSING:'+table)
     input['cost_functions']={sig:catalog['functions'][sig][0]for sig in COST_FUNCTIONS}
     input['cost_function_originals']={sig:catalog['functions'][sig]for sig in COST_FUNCTIONS}
+    input['po_extra_original']=catalog['functions']['erp.be_po_extra_v1(uuid)']
     input['definitions'],consumer_routes=derive_consumers({sig:catalog['functions'][sig][0]for sig in parent('consumer_delta.py').SIGNATURES})
     input['credit_definitions'],credit_routes=derive_credit({sig:catalog['functions'][sig][0]for sig in parent('credit_delta.py').SIGNATURES})
     input['valuation_definitions'],valuation_routes=derive()
     input['cost_ddl']=(HERE/'costs.sql').read_text()
+    if os.environ.get('CP7_COST_REBALANCE')=='1':
+        from source_delta import derive as derive_source,SIGNATURE
+        input['cost_functions'][SIGNATURE],source_routes=derive_source(catalog['functions'][SIGNATURE][0])
+        input['cost_ddl']+='\n'+(HERE/'source_rebalance.sql').read_text()
+        input['source_rebalance_derivation']=source_routes
+        input['cost_rebalance_enabled']=True
     input['cost_source_manifest']={str(p.relative_to(HERE)):dict(bytes=len(p.read_bytes()),sha256=sha256(p.read_bytes()).hexdigest())
         for p in sorted(HERE.iterdir())if p.is_file()}
     input['cost_derivations']=dict(valuation=valuation_routes,consumer=consumer_routes,credit=credit_routes)
@@ -68,10 +75,32 @@ def prepare(destination):
  await query('select cp7_sku_conversion.finalize_costs_v3($1)',[x.group]);
  assert.deepEqual(await values(x.source),{hpp:60,fg:60,cogs:0,other:0});""",'zero cost root exists before any sale transfer or invoice')
     d.once(" const report={status:'POSTGRES17_EXACT_CONSUMER_SQL_CONTROLS_PASS_NOT_NATIVE'",(HERE/'cost_cases.mjs.inc').read_text()+"\n const report={status:'POSTGRES17_COST_SUCCESSOR_MODELED_CONTROLS_PASS_NOT_NATIVE'",'new cost regression and chain cases after original controls')
+    if os.environ.get('CP7_COST_CHAIN_MODEL')=='1':
+        d.once(" console.log(JSON.stringify({control:label,state:'ENTER'}));",
+            " if(!label.startsWith('CHAIN:'))return;\n console.log(JSON.stringify({control:label,state:'ENTER'}));",'isolated new chain controls, no repeated prior case credit')
+        d.once(" const report={status:'POSTGRES17_COST_SUCCESSOR_MODELED_CONTROLS_PASS_NOT_NATIVE'",
+            (HERE/'chain_cases.mjs.inc').read_text()+"\n const report={costChainFindings,status:'POSTGRES17_COST_CHAIN_COUNTEREXAMPLES_CONFIRMED_NOT_ACCEPTED'",'retain first independently expected downstream failures')
+        if os.environ.get('CP7_COST_REBALANCE')=='1':
+            old="""   const before=await costSnapshot();let failure;
+   await db.exec('savepoint cost_chain_reprice');
+   try{await costReconcile(4);}catch(error){failure={message:error.message,code:error.code,where:error.where};}
+   await db.exec('rollback to savepoint cost_chain_reprice');
+   assert.deepEqual(await costSnapshot(),before,'Failed later cost correction must restore every modeled table');
+   assert(failure?.message.includes('NON_PO_HPP_SOURCE_VALUE_MISMATCH'),JSON.stringify(failure));
+   assert(failure.message.includes('target total 37.00, book total '+expectedBook),failure.message);
+   costChainFindings.push({caseName,physicalSource,physicalValue:child.physicalValue,
+    expectedBefore:{originalProduct:36,descendantProduct:36},expectedAfter:{originalProduct:37,descendantProduct:37},failure,
+    complete_modeled_rows_restored:true,product_fix_admitted:false,actual_ERP_cases:0});"""
+            d.once(old,(HERE/'chain_repair_checks.mjs.inc').read_text().rstrip(),'same independent expected 37 per SKU now requires successful exact journals')
+            d.once("status:'POSTGRES17_COST_CHAIN_COUNTEREXAMPLES_CONFIRMED_NOT_ACCEPTED'","status:'POSTGRES17_COST_CHAIN_SOURCE_REBALANCE_MODELED_PASS_NOT_NATIVE'",'explicit local repair status, no actual acceptance')
+            if os.environ.get('CP7_COST_CENT_COUNTER')=='1':
+                d.once(" const report={costChainFindings,status:'POSTGRES17_COST_CHAIN_SOURCE_REBALANCE_MODELED_PASS_NOT_NATIVE'",
+                    (HERE/'cent_inverse_counterexamples.mjs.inc').read_text()+"\n const report={costChainFindings,remainingCostGaps,status:'MODELED_SOURCE_CENTS_AND_CURRENT_INVERSE_GAPS_CONFIRMED_NOT_ACCEPTED'",'retain new source penny and current inverse gaps without relaxing any money guard')
     if d.inverse()!=original.decode():raise ValueError('COST_MODEL_HARNESS_NOT_REVERSIBLE')
     (destination/'test_cost_successor.mjs').write_text(d.source)
     print(json.dumps(dict(status='COMPLETE_COST_MODEL_PREPARED',typed_tables=len(input['columns']),
-        unchanged_native_cost_functions=len(COST_FUNCTIONS),changed_valuation_functions=len(input['valuation_definitions']),
+        unchanged_native_cost_functions=len(COST_FUNCTIONS)-(1 if input.get('cost_rebalance_enabled')else 0),
+        derived_native_cost_functions=1 if input.get('cost_rebalance_enabled')else 0,changed_valuation_functions=len(input['valuation_definitions']),
         input_bytes=out.stat().st_size,input_sha256=sha256(out.read_bytes()).hexdigest(),actual_ERP_cases=0)))
 
 

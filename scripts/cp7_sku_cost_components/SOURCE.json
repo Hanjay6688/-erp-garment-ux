@@ -3,12 +3,24 @@
   "classification": "PREPARED_COST_COMPONENT_LAYER_NOT_ADMITTED",
   "files": {
     "scripts/cp7_sku_cost_components/README.md": {
-      "bytes": 4443,
-      "sha256": "29f7dbd7f948752c8519fa10c98dfeab4d79d391ae36192f94e8596049266064"
+      "bytes": 5760,
+      "sha256": "d43ffc0ba70b29f1cb489a57f5d115efb9e5efd3dc60503c05b7c1ff66904ba8"
+    },
+    "scripts/cp7_sku_cost_components/cent_inverse_counterexamples.mjs.inc": {
+      "bytes": 3270,
+      "sha256": "caa591d9ab7976890cea5387553ff75348d0e0f43955b9fb67d31d816aaefe1f"
+    },
+    "scripts/cp7_sku_cost_components/chain_cases.mjs.inc": {
+      "bytes": 4450,
+      "sha256": "425be6aba1aeecb3a96b5354a35990ce073c28cd448acd778bca73dadda26668"
+    },
+    "scripts/cp7_sku_cost_components/chain_repair_checks.mjs.inc": {
+      "bytes": 2878,
+      "sha256": "9898434ca1c8e084dcaedd5543b7daa08e093610a545eef718343b3b1617c420"
     },
     "scripts/cp7_sku_cost_components/cost_cases.mjs.inc": {
-      "bytes": 8160,
-      "sha256": "359e666fb4fefa53095d77e4c3b7b22db8c32b2c51ed5789c5ad14f7c8e45fd8"
+      "bytes": 11386,
+      "sha256": "670a13471483e386f70a52b4083e725939d1f1531d17f3ad72a31e6a2555bbdd"
     },
     "scripts/cp7_sku_cost_components/costs.sql": {
       "bytes": 17529,
@@ -23,8 +35,16 @@
       "sha256": "6a0627fa980634bb2b4b812d6f53848aed5b85a206915b465b665b627268ebf7"
     },
     "scripts/cp7_sku_cost_components/prepare_model.py": {
-      "bytes": 6998,
-      "sha256": "e6568f7f7427bf58ea69664631e2a2d3b191253ed054f4c85cba3598c841fb7b"
+      "bytes": 10075,
+      "sha256": "cfd56b8661ab326329b750b14d2e1095530fb5311ec8bab301fb420b91ba0add"
+    },
+    "scripts/cp7_sku_cost_components/source_delta.py": {
+      "bytes": 1964,
+      "sha256": "a4872031ce104c6f49668debc22bcc0d2a060e8d28196f9b70b6df3d5094882d"
+    },
+    "scripts/cp7_sku_cost_components/source_rebalance.sql": {
+      "bytes": 8954,
+      "sha256": "7a9ab4a887fe92b82eeb003989418b5ab4da57607fccefc365b2f2445bade765"
     },
     "scripts/cp7_sku_cost_components/test_oracle.py": {
       "bytes": 7355,
@@ -39,7 +59,9 @@
     "Native_cost5": null,
     "catalog_and_ACL": null,
     "current_parent_composite": null,
+    "current_value_inverse": null,
     "descendant_recost": null,
+    "fractional_source_cents": null,
     "fresh_races_and_auth": null,
     "global": null,
     "installer_and_unused_inverse": null,

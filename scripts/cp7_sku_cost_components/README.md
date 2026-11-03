@@ -61,8 +61,27 @@ inverse, and the existing first-part recovery limit. The legacy single-lot
 conversion path also needs explicit admission and economic transfer; it currently
 delegates around the SKU group hooks. No claim is made that it already works.
 
-The next concrete gate is later cost recost after an economic transfer to a
-second SKU. Native currently posts source cost and physical transfer journals;
-the prepared cost projection alone does not prove that all economic custody
-scopes receive the corresponding source entries. That chain must be checked and
-repaired before this prepared layer can be installed in the owning candidate.
+The first two descendant counterexamples are retained: after another SKU takes
+half the economic cost, later cost 2→4 produced target 37 but book 38 or 36,
+depending on the selected physical lot. The prepared source hook now proves
+every affected book before writing, retains the Native cost and physical recost
+entries, verifies the exact new source events and delta, and posts only a
+balanced redistribution between the affected products. Equal-and-opposite old
+book errors refuse before any source write. One immutable source-proof table
+and three private helpers support four reversible bindings in the original
+Native cost command. Seven other cost bodies remain byte-identical.
+
+With that hook, 40 full modeled controls pass, including signed recovery,
+unchanged Native negative-lot refusal and a mixed-PO projection. The PO case is
+an explicit postcondition model, not an actual WIP/accessory command. Two
+descendant models now pass 36/36→37/37→35/35, preserve old cost facts, create no
+facts on unchanged replay, and refuse equal-and-opposite pre-existing drift.
+
+Two further gaps are deliberately still blocking adoption. A source correction
+of 2.01 split between the two SKUs is independently rounded to 2.02; the exact
+source guard refuses rather than inventing a cent. Reversing the second group
+after cost returns to zero still reverses the old value snapshot: modeled Native
+inverse postconditions plus the exact prepared inverse leave books 71/-1 or
+69/1 where current targets require 70/0. Those first observations are preserved.
+The Native inverse command itself has not been qualified by these models.
+Source-cent ownership and current-value inverse need repair before integration.

@@ -1,6 +1,7 @@
  // All original consumers and credit controls above remain unchanged. These
  // cases execute the same eight retained Native cost bodies as the first
- // failing counterexample. Authority and material valuation remain models.
+ // failing counterexample, with the explicitly derived bounded source hook
+ // only when enabled in the pinned input. Authority/material valuation are models.
  for(const definition of Object.values(input.cost_functions))await db.exec(definition);
  await db.exec(`create table public.model_material_value(value numeric not null);
  insert into public.model_material_value values(2);
@@ -98,6 +99,42 @@
   assert.equal(Number((await scalar('select cp7_sku_conversion.pool_quote_v2($1,$2)',[x.target,x.otherLocation])).value),37);
   assert.deepEqual(await scalar('select to_jsonb(v)from cp7_sku_conversion.sales_return_values_v2 v where return_id=$1',[first.returned]),firstFact);
   await costBook();
+ });
+ await control('Signed Native recovery cost remains negative while the total sale and return values stay correct',async()=>{
+  await query("update erp.be_conversion_cost_sources_v1 set kind='RECOVERY'where document_id=$1",[costDocument]);
+  await costReconcile(-2);await costSale(1);await costBook();
+  assert.deepEqual(await values(x.target),{hpp:68,fg:34,cogs:34,other:0});
+  assert.equal(Number(await scalar('select booked_value from cp7_sku_conversion.sale_cost_components_v3')), -1);
+  const returned=await costReturn(1);assert.equal(returned.value,34);await costBook();
+  assert.deepEqual(await values(x.target),{hpp:68,fg:68,cogs:0,other:0});
+ });
+ await control('Unchanged Native propagation refuses a negative physical lot even when the average pool could absorb it',async()=>{
+  await query("update erp.be_conversion_cost_sources_v1 set kind='RECOVERY'where document_id=$1",[costDocument]);
+  const before=await costSnapshot();await db.exec('savepoint unchanged_native_recovery_floor');
+  await assert.rejects(()=>costReconcile(-11),e=>e.message.includes('BE_RECOVERY_EXCEEDS_VALUE'));
+  await db.exec('rollback to savepoint unchanged_native_recovery_floor');assert.deepEqual(await costSnapshot(),before);
+ });
+ await control('Mixed PO cost projection keeps the real cost PO and independent credit source totals',async()=>{
+  // Explicit PO Native postcondition model: this does not execute the PO
+  // accessory command, WIP journal, permission or completeness lifecycle.
+  await db.exec(input.po_extra_original[0]);
+  await query("update erp.fg_lots set po_id=$1,lot_origin='PRODUCTION'where id=$2",[x.po,x.root10]);
+  await query('update erp.fg_lots set po_id=$1 where id=$2',[x.po,x.converted]);
+  await insert('erp.be_conversion_cost_events_v1',{id:id(99400),document_id:costDocument,adjustment_id:costAdjustment,
+   previous_amount:0,target_amount:2,economic_date:'2026-01-03'});
+  await query('update erp.hpp_versions set total_cost=12 where id=$1',[x.hppConverted]);
+  assert.equal(Number((await costPool()).value),72);
+  await saleSetup();await query('select cp7_sku_conversion.prepare_sale_values_v2($1)',[x.sale]);
+  await movement(x.root50,x.target,-1,'SALE_OUT');await movement(x.converted,x.target,-1,'SALE_OUT');
+  await query("update erp.sales_headers set status='POSTED'where id=$1",[x.sale]);
+  const po=(await query('select *from erp.compute_po_hpp_gl_targets_v2620d($1)',[x.po])).rows[0];
+  assert.deepEqual(Object.fromEntries(Object.entries(po).map(([k,v])=>[k,Number(v)])),
+   {base_output_qty:2,hpp_total_cost:22,fg_value:15,cogs_value:7,other_out_value:0});
+  assert.deepEqual(await values(x.target),{hpp:65,fg:0,cogs:65,other:0});
+  const canonical=await scalar("select cp7_credit.initial_hpp_targets_v1(null,$1,'[]'::jsonb,false)->'target'",[x.po]);
+  assert.deepEqual(canonical,Object.fromEntries(Object.entries(po).map(([k,v])=>[k,Number(v)])));
+  const costRows=await scalar('select jsonb_agg(to_jsonb(c)order by c.sale_stock_allocation_id)from cp7_sku_conversion.sale_cost_components_v3 c');
+  assert.equal(costRows.length,2);assert(costRows.every(c=>c.po_id===x.po&&Number(c.booked_value)===1));
  });
  assert.deepEqual(await costSnapshot(),costBaseline,'Every modeled table must be restored after every cost control');
  results.push({label:'Complete modeled rows restored across retained and new cost tables',result:'PASS'});
