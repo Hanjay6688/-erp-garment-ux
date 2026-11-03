@@ -8,8 +8,8 @@ installation. This additive preparation composes both layers with the complete
 current parent and selects all nineteen monetary callbacks.
 
 The reviewed standalone source is
-`52bbe74fef35867acbcb92c9205f4c9096f72dbf`, tree
-`a9859f3512a9ea03be60f461772807aaa7f0aa39`. Its 44 product files and the exact
+`f1674ae84739f577571d68415beabfca3f3b832b`, tree
+`ea43f84029993b385722fe8e202adefd2a745f7b`. Its 44 product files and the exact
 nineteen-case runner are unchanged. The old current-parent candidate remains
 byte-identical. No active workflow or database connection is introduced.
 
@@ -48,9 +48,40 @@ aggregated, synthetic and incomplete receipts cannot satisfy that requirement.
 The source reference is preparation evidence, not an accepted child. After real
 qualification, its head/tree and file graph must be reconciled against the
 reviewed terminal package before opening the gates. No accepted Root is created
-by these controls. A complete combined owning runtime, canonical artifact intake,
-supervision, final gate and inactive workflow are still to be connected to this
-bridge. The previous six-case execution path must not be activated for money.
+by these controls. The complete combined owning runtime, canonical artifact
+intake, supervision, final gate and inactive workflow now select this bridge.
+The previous six-case execution path must not be activated for money.
+
+## Complete owning execution path
+
+Eight execution modules are derived from the immutable old current-parent tree.
+Every complete original is recovered by reversing the declared routes. Accepted
+Mandor and money sources stay in separate frozen worktrees. Their exact terminal
+run/job/attempt, archive size/SHA, CRC, original paths and full source graphs are
+checked before any database. All actual entry points refuse before files, Git,
+network or ERP when the actual Root gates are incomplete.
+
+The 79-step inactive workflow preserves 67 original setup/rebuild/clone/recovery
+steps and routes the remaining twelve to this owning qualifier. Its actual
+six-hour WIB window, single attempt, 360/330/20/10 budgets and complete artifact
+upload remain unchanged. There is no file under `.github/workflows` for this
+candidate. The runtime scopes CLI arguments away from retained import-time
+guards and restores the caller's original argument object and contents.
+
+The final gate requires nineteen fresh cases, every native boundary restored,
+no leaked sessions/locks, unused inverse, committed used refusal, fully reaped
+worker, exact owning identity, complete source graph, original backup restore
+and all five package gates. It also reads the full prerequisite Original and
+requires it to equal the component's reported prerequisite document. All 23
+functions, 19 direct actor capabilities, permissions, ordinary authenticated
+database roles, eight account mappings, master/warehouse/PCS and actual date
+window must be present and valid. Source-only or modeled output earns no credit.
+
+Fifteen local controls exercise these routes with real temporary Git worktrees,
+full binary file retention and explicit archive/packet interface models. Their
+negative cases reject changed originals, privileged actors, missing/false
+capabilities, forged counts, false restore gates and unreaped processes. These
+controls execute no actual financial callback or network request.
 
 ## What the controls prove
 

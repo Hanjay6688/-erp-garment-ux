@@ -1,7 +1,7 @@
 {
   "actual_ERP_cases": 0,
-  "candidate_head": "52bbe74fef35867acbcb92c9205f4c9096f72dbf",
-  "candidate_tree": "a9859f3512a9ea03be60f461772807aaa7f0aa39",
+  "candidate_head": "f1674ae84739f577571d68415beabfca3f3b832b",
+  "candidate_tree": "ea43f84029993b385722fe8e202adefd2a745f7b",
   "classification": "PREPARED_SOURCE_REFERENCE_NOT_ACTUAL_PARENT",
   "files": {
     "scripts/cp7_sku_cost_components/SOURCE.json": {
@@ -19,6 +19,10 @@
     "scripts/current-sku-cost-money-qualification/CONFIG.json": {
       "bytes": 14114,
       "sha256": "f44fd2143b0b74435e6e16ad6677950bba4daab4ef03e1c60716299c116fd2fd"
+    },
+    "scripts/current-sku-cost-money-qualification/native_preflight.py": {
+      "bytes": 8157,
+      "sha256": "eb15f3a0471370cc003ba5677233bdd0bf731e84ac59f4e11e5833a8929a0f77"
     },
     "scripts/current-sku-cost-money-qualification/runner.py": {
       "bytes": 6118,
