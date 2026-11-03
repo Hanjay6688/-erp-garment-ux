@@ -1,0 +1,19 @@
+{
+  "contract": "cp7.B.detail-visual-correction.v1",
+  "base_source": "e8e27293be3c03c67b82648d0328e3b3282d9d14",
+  "base_run": 41615213976,
+  "base_mechanical_result": "SUCCESS",
+  "visual_finding": "Expanded mutation cards320 inherit72px label grid, causing amounts to exceed card. New CSS stacks label/value/conversion below860px. Stock filter labels320 use two rows so labels remain whole.",
+  "unchanged_financial_JS": true,
+  "retained_views": 322,
+  "replacement_views": 4,
+  "new_expanded_views": [
+    390,
+    1440
+  ],
+  "fresh_views": 6,
+  "expected_union": 328,
+  "first_results_preserved": true,
+  "production_go": false,
+  "independent_acceptance": false
+}

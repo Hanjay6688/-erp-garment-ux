@@ -290,3 +290,8 @@
 }
 
 @media(max-width:860px){.mutation-toolbar{grid-template-columns:repeat(2,minmax(0,1fr))}.mutation-toolbar .compact-search,.mutation-toolbar .filter-dropdown,.mutation-toolbar .filter-trigger{min-width:0;max-width:100%}.mutation-toolbar .catalog-search input{min-width:0}}
+
+@media(max-width:860px){
+  .compact-details-grid .book-step,.compact-details-grid .total-book-step{display:block;text-align:left}
+  .compact-details-grid .book-step strong,.compact-details-grid .book-step small,.compact-details-grid .total-book-step strong,.compact-details-grid .total-book-step small{max-width:100%;text-align:left;white-space:normal;overflow-wrap:anywhere}
+}
