@@ -22,20 +22,20 @@
       "sha256": "2fef6edab13d9b7fcf716fb85a5e8da08dc1d144713109950fc29cb8b9cedfa9"
     },
     "preflight.py": {
-      "bytes": 9872,
-      "sha256": "c6435abaa2b463bb055682513740e0085c13f3666d60174eeefbec789681a74f"
+      "bytes": 10060,
+      "sha256": "4fc5bf4d81f1180b81a88dabd973820ae2635ef4b8e444fc9865de008c0206e5"
     },
     "assembly.py": {
       "bytes": 5817,
       "sha256": "e734356cace6a72b7f3614cd56170d9b1b1ad5645293b933693ae8f5eccd041a"
     },
     "component.py": {
-      "bytes": 6493,
-      "sha256": "347dbe5aff49f473185cb4bdbcd9c79be7c4b591e6184baeb320baf89b40fde2"
+      "bytes": 6764,
+      "sha256": "735440498a54c56d6a34c313a55070c9196efd06ea473a2b9e52ec77a55f4d45"
     },
     "package_engine.py": {
-      "bytes": 3527,
-      "sha256": "9bffa0aa7d0337c74e844921f5a06ee2f825e1d7ecfe5b3dedcc430850288695"
+      "bytes": 3523,
+      "sha256": "63b07b8b2c97b29572cd8aadabf243b793bb074a279ca84b8d69ac984d226383"
     },
     "qualification.py": {
       "bytes": 6897,
@@ -46,12 +46,28 @@
       "sha256": "2b5cbe0e86a20c9536e2909691dc6c66434c003dd7d25c52d779fee0f3e8939c"
     },
     "final_gate.py": {
-      "bytes": 9795,
-      "sha256": "4ca422ae89fe9d3ab5cb0fd459fac6f052ad082a4ab671a25f5f1aec23cac575"
+      "bytes": 9894,
+      "sha256": "2078bccbbc21473da5055767628e3881aeb393e5ec3d6581ac939e488390a7e8"
     },
     "test_prerequisites.py": {
       "bytes": 4338,
       "sha256": "8ec49cc58581d89131260a0fa04760beaa0a7a4d5f116b48520d3d7a055af411"
+    },
+    "access_cases.py": {
+      "bytes": 17093,
+      "sha256": "2162f2e79368ca68cf8c1dca14d69bb42ecec898f455d4b80748416f8b57f546"
+    },
+    "access_runtime.py": {
+      "bytes": 4366,
+      "sha256": "2b5ca593523f0f7605f25515dba37fffb477dd4b7b4941f1aaea1a2f9367928d"
+    },
+    "access_gate.py": {
+      "bytes": 9644,
+      "sha256": "79ea35eb909b5911c76b79986886a3106bf8145db955b2053627d3a0512e6435"
+    },
+    "access_preflight.py": {
+      "bytes": 8604,
+      "sha256": "7dce08084704f2a8f1428b45d9fecebe133e93bb57258deb00cec401df34d8e2"
     }
   },
   "base_source_head": "76b3f1e1bcce49cc405e55f92a733dcd0f360cad",
@@ -1038,22 +1054,22 @@
     },
     {
       "file": "component.py",
-      "line": 92,
+      "line": 93,
       "name": "admin"
     },
     {
       "file": "component.py",
-      "line": 95,
+      "line": 96,
       "name": "verify"
     },
     {
       "file": "component.py",
-      "line": 98,
+      "line": 99,
       "name": "boundary"
     },
     {
       "file": "component.py",
-      "line": 104,
+      "line": 105,
       "name": "boundary"
     },
     {
@@ -1063,17 +1079,17 @@
     },
     {
       "file": "component.py",
-      "line": 99,
+      "line": 100,
       "name": "rollback_delta_preuse"
     },
     {
       "file": "component.py",
-      "line": 110,
+      "line": 111,
       "name": "original"
     },
     {
       "file": "component.py",
-      "line": 111,
+      "line": 112,
       "name": "original"
     },
     {
@@ -1528,6 +1544,360 @@
     "status": "PASS",
     "tests": 6,
     "actual_Native_cases": 0
+  },
+  "access_source_prerequisites": {
+    "status": "MANDOR_ACCESS_FOUR_RACES_SOURCE_PREPARED_NOT_EXECUTED",
+    "source": {
+      "bytes": 17093,
+      "sha256": "2162f2e79368ca68cf8c1dca14d69bb42ecec898f455d4b80748416f8b57f546"
+    },
+    "source_files": {
+      "access_cases.py": {
+        "bytes": 17093,
+        "sha256": "2162f2e79368ca68cf8c1dca14d69bb42ecec898f455d4b80748416f8b57f546"
+      },
+      "access_runtime.py": {
+        "bytes": 4366,
+        "sha256": "2b5ca593523f0f7605f25515dba37fffb477dd4b7b4941f1aaea1a2f9367928d"
+      },
+      "access_gate.py": {
+        "bytes": 9644,
+        "sha256": "79ea35eb909b5911c76b79986886a3106bf8145db955b2053627d3a0512e6435"
+      },
+      "access_preflight.py": {
+        "bytes": 8604,
+        "sha256": "7dce08084704f2a8f1428b45d9fecebe133e93bb57258deb00cec401df34d8e2"
+      }
+    },
+    "exact_catalogue": {
+      "bytes": 14755737,
+      "sha256": "80856b7ec2cebf08318a21617091b73c6744161b72bb3be98bcb9ecd2b8109eb"
+    },
+    "case_ids": [
+      "MANDOR_TWO_BACKEND_SAME_UUID_BUSY_THEN_ONE_EXACT_ALLOCATION_REPLAY",
+      "MANDOR_TWO_BACKEND_COMPETING_UUID_BUSY_THEN_STALE_WITHOUT_SECOND_DEDUCTION",
+      "MANDOR_TWO_BACKEND_CACHED_ALLOCATION_REFUSES_PENDING_AND_COMMITTED_ACCESS_REVOCATION",
+      "MANDOR_TWO_BACKEND_CACHED_SALE_REFUSES_PENDING_AND_COMMITTED_ACCESS_REVOCATION"
+    ],
+    "method_calls": [
+      {
+        "line": 40,
+        "owner": "Native",
+        "name": "admin"
+      },
+      {
+        "line": 41,
+        "owner": "Native",
+        "name": "physical"
+      },
+      {
+        "line": 42,
+        "owner": "Native",
+        "name": "create_invoice"
+      },
+      {
+        "line": 43,
+        "owner": "Native",
+        "name": "payroll"
+      },
+      {
+        "line": 44,
+        "owner": "Native",
+        "name": "admin"
+      },
+      {
+        "line": 52,
+        "owner": "Native",
+        "name": "observe"
+      },
+      {
+        "line": 197,
+        "owner": "Context",
+        "name": "observe"
+      },
+      {
+        "line": 236,
+        "owner": "Context",
+        "name": "observe"
+      },
+      {
+        "line": 251,
+        "owner": "Context",
+        "name": "observe"
+      },
+      {
+        "line": 78,
+        "owner": "Context",
+        "name": "local"
+      },
+      {
+        "line": 81,
+        "owner": "Context",
+        "name": "admin"
+      },
+      {
+        "line": 85,
+        "owner": "Context",
+        "name": "admin"
+      },
+      {
+        "line": 110,
+        "owner": "Context",
+        "name": "admin"
+      },
+      {
+        "line": 124,
+        "owner": "Context",
+        "name": "admin"
+      },
+      {
+        "line": 130,
+        "owner": "Context",
+        "name": "admin"
+      },
+      {
+        "line": 160,
+        "owner": "Context",
+        "name": "local"
+      },
+      {
+        "line": 179,
+        "owner": "Context",
+        "name": "verify"
+      },
+      {
+        "line": 179,
+        "owner": "Context",
+        "name": "body"
+      },
+      {
+        "line": 179,
+        "owner": "Context",
+        "name": "snapshot"
+      },
+      {
+        "line": 183,
+        "owner": "Context",
+        "name": "local"
+      },
+      {
+        "line": 184,
+        "owner": "Context",
+        "name": "allocation"
+      },
+      {
+        "line": 217,
+        "owner": "Context",
+        "name": "observe"
+      },
+      {
+        "line": 226,
+        "owner": "Context",
+        "name": "verify"
+      },
+      {
+        "line": 238,
+        "owner": "Context",
+        "name": "admin"
+      },
+      {
+        "line": 266,
+        "owner": "Context",
+        "name": "observe"
+      },
+      {
+        "line": 138,
+        "owner": "Context",
+        "name": "verify"
+      },
+      {
+        "line": 138,
+        "owner": "Context",
+        "name": "snapshot"
+      },
+      {
+        "line": 179,
+        "owner": "Context",
+        "name": "read"
+      },
+      {
+        "line": 208,
+        "owner": "Context",
+        "name": "allocation"
+      },
+      {
+        "line": 211,
+        "owner": "Context",
+        "name": "allocation"
+      },
+      {
+        "line": 232,
+        "owner": "Context",
+        "name": "body"
+      },
+      {
+        "line": 228,
+        "owner": "Context",
+        "name": "sale_replay"
+      },
+      {
+        "line": 232,
+        "owner": "Context",
+        "name": "read"
+      },
+      {
+        "line": 233,
+        "owner": "Context",
+        "name": "allocation"
+      },
+      {
+        "line": 187,
+        "owner": "Context",
+        "name": "allocation"
+      }
+    ],
+    "fixed_SQL": [
+      {
+        "line": 161,
+        "parameters": 0
+      },
+      {
+        "line": 45,
+        "parameters": 2
+      },
+      {
+        "line": 92,
+        "parameters": 3
+      },
+      {
+        "line": 100,
+        "parameters": 1
+      },
+      {
+        "line": 239,
+        "parameters": 1
+      },
+      {
+        "line": 102,
+        "parameters": 1
+      },
+      {
+        "line": 111,
+        "parameters": 1
+      },
+      {
+        "line": 125,
+        "parameters": 3
+      },
+      {
+        "line": 132,
+        "parameters": 4
+      },
+      {
+        "line": 160,
+        "parameters": 0
+      },
+      {
+        "line": 183,
+        "parameters": 0
+      },
+      {
+        "line": 238,
+        "parameters": 0
+      },
+      {
+        "line": 72,
+        "parameters": 0
+      },
+      {
+        "line": 74,
+        "parameters": 0
+      },
+      {
+        "line": 94,
+        "parameters": 1
+      },
+      {
+        "line": 96,
+        "parameters": 1
+      },
+      {
+        "line": 98,
+        "parameters": 1
+      },
+      {
+        "line": 104,
+        "parameters": 1
+      }
+    ],
+    "public_RPC_calls": [
+      {
+        "name": "public.erp_cp7_get_mandor_shop_payroll_v1",
+        "arity": 2
+      },
+      {
+        "name": "public.erp_cp7_save_mandor_shop_allocation_v1",
+        "arity": 3
+      },
+      {
+        "name": "public.erp_cp7_save_mandor_shop_sale_v1",
+        "arity": 4
+      }
+    ],
+    "actual_Native_status_source": "10338d6e9388b9bb5bf75826fbda546a23834f2ceca9281852bac6c6cd50d5a6",
+    "actual_Native_audit_source": "664d87972029147c11919069c187798c3d2a617a342504a3c34c3eda068815df",
+    "unsafe_copy_refusals": 3,
+    "actual_two_session_races": 0,
+    "actual_Auth_HTTP_cases": 0,
+    "actual_Native_cases": 0,
+    "actual_browser_cases": 0,
+    "owning_copy_source_integration_prepared": true,
+    "actual_copy_qualification_pending": true,
+    "copy_authority_derivation": {
+      "original_bytes": 3895,
+      "original_sha256": "cfdc3b899e335dd13a9456242ed5158b718ac5c56d9b1ebf06c4571eda2cc7a2",
+      "derived_sha256": "2f09aa3fee98e755e2c1267990f95abd67a4495c5f25f643056ea94aed0d4279",
+      "exact_copy_name_extension_count": 1,
+      "original_bytes_recovered": true,
+      "all_raw22_authority_checks_unchanged": true,
+      "product_or_schema_or_RPC_grants_added": false,
+      "actual_case_credit": 0
+    },
+    "whole_package_derivation": {
+      "original": {
+        "bytes": 12667,
+        "sha256": "c420d894f8d5f16bddefeae73addb621507170f372a28e7d6e33d88c7eeb0be9"
+      },
+      "derived_sha256": "755e3cdf8b0bd53c173cfe524fdadfdae3ccdc7377e1a50206525fe92f020bc2",
+      "routes": [
+        {
+          "before": "prior=measured(timings,'SINGLE_FULL_READONLY_PARENT_INSTALL',readonly.install,cur)\n                prior=measured(timings,'EXACT_BACKEND3194_PARENT_INSTALL',product.parent().install_delta,cur,prior)",
+          "after": "prior=measured(timings,'ACTUAL_QUALIFIED_AFUI15_PARENT_INSTALL',product.parent().install,cur)",
+          "count": 1
+        },
+        {
+          "before": "with psycopg.connect(package.boundary.ADMIN)as conn,conn.cursor()as cur:\n            try:\n                report['install_boundary_lock']",
+          "after": "with trusted_installer_connection()as conn,conn.cursor()as cur:\n            try:\n                report['install_boundary_lock']",
+          "count": 1
+        },
+        {
+          "before": "report['actual_two_session_races']=3\n            report['actual_Native_cases']=7\n            report['actual_Auth_HTTP_cases']=1\n            report['actual_browser_cases']=0\n            report['actual_business_cases']=11\n            report['real_Auth_HTTP_qualified']=True",
+          "after": "report['actual_two_session_races']=4\n            report['actual_Native_cases']=9\n            report['actual_Auth_HTTP_cases']=0\n            report['actual_browser_cases']=0\n            report['actual_business_cases']=13\n            report['real_Auth_HTTP_qualified']=False\n            report['actual_Mandor_Auth_browser_acceptance_pending']=True",
+          "count": 1
+        }
+      ],
+      "original_engine_fully_recovered": true,
+      "normal_business_connection_unchanged": true,
+      "only_install_transaction_uses_fixed_local_trusted_maintenance": true,
+      "full_restore_role_cleanup_all22_rows_sequences_public_and_advisors_unchanged": true,
+      "actual_SQL_executed": 0,
+      "actual_Native_cases": 0,
+      "actual_Auth_HTTP_cases": 0,
+      "production_go": false,
+      "independent_acceptance": false
+    },
+    "production_go": false,
+    "independent_acceptance": false
   },
   "accepted_Afui15_parent_root_pin": null,
   "runtime_entry": null,

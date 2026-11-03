@@ -102,12 +102,16 @@ def check(raw,parser_path):
     output=io.StringIO();suite=unittest.defaultTestLoader.loadTestsFromModule(controls)
     result=unittest.TextTestRunner(stream=output,verbosity=1).run(suite)
     require(result.wasSuccessful()and result.testsRun==6,'MANDOR_PREFLIGHT_COLD_COPY_PREREQUISITES:'+output.getvalue())
+    import access_preflight
+    access=access_preflight.check(raw,parser_path)
+    source_names=list(trees)+list(access['source_files'])
     return dict(status='NEW_MANDOR_NATIVE9_CALLER_SOURCE_PREFLIGHT_PASS_NOT_RUNTIME_OR_BUSINESS',
-        new_source_files={name:dict(bytes=len((HERE/name).read_bytes()),sha256=sha256((HERE/name).read_bytes()).hexdigest())for name in trees},
+        new_source_files={name:dict(bytes=len((HERE/name).read_bytes()),sha256=sha256((HERE/name).read_bytes()).hexdigest())for name in source_names},
         base_source_head=admission['PARENT_HEAD'],previous_preparation_head='3a8b1606c93f62b0f788903f80da3b253276c474',actual_original25=ACTUAL25,
         new_method_calls=method_calls,new_oracle_calls=oracle_calls,exact_public_RPC_calls=rpcs,
         fixed_observer_SQL_statements_parsed=len(sql),new_case_ids=list(ids),parser=pglast.__version__,
         cold_copy_prerequisite_controls=dict(status='PASS',tests=result.testsRun,actual_Native_cases=0),
+        access_source_prerequisites=access,
         accepted_Afui15_parent_root_pin=None,runtime_entry=None,actual_SQL_executed=0,actual_Native_cases=0,
         old_source84_or_model_or_financial_tests_rerun=False,production_go=False,independent_acceptance=False)
 

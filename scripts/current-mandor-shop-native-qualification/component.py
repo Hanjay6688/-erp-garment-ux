@@ -9,7 +9,7 @@ from pathlib import Path
 from hashlib import sha256
 from types import SimpleNamespace
 import importlib.util,json
-import admission,cases
+import admission,cases,access_cases,access_runtime
 from native_fixture import Native,local,require
 
 HERE=Path(__file__).resolve().parent
@@ -89,6 +89,7 @@ def exercise(product,trusted_connection,conn,cur,database,url,report,state):
         today=cursor.execute("select(statement_timestamp()at time zone'Asia/Jakarta')::date").fetchone()[0]
         before=committed.modules.bc.findings(cursor)
         witness=cases.selected_week(committed,cursor,today)
+        access_fixture=access_cases.prepare(committed,cursor,today)
         committed.admin(cursor);cursor.execute('set constraints all immediate')
         after=committed.modules.bc.findings(cursor)
         require(not committed.modules.bc.new_findings(before,after),'MANDOR_COMMITTED_USE_NEW_FINANCIAL_FINDINGS')
@@ -109,7 +110,11 @@ def exercise(product,trusted_connection,conn,cur,database,url,report,state):
             native_case_credit=0,original_foundation=foundation,witness=witness,financial_findings_before=before,financial_findings_after=after,
             actual_used_inverse_error=message,before_original=committed.original('REFUSAL_BEFORE',before_refusal),
             after_original=committed.original('REFUSAL_AFTER',after_refusal),used_guard_before_DDL=True),
-        used_guard_refused_before_DDL=True,actual_Mandor_Auth_browser_race_acceptance_pending=True)
+        used_guard_refused_before_DDL=True,access_fixture_preparation=access_fixture,
+        actual_Mandor_Auth_browser_acceptance_pending=True)
+    report['status']='INCOMPLETE'
+    access_runtime.run(product,state,access_fixture,verify,report)
+    report['status']='PASS'
 
 
 def runner(product,trusted_connection):
