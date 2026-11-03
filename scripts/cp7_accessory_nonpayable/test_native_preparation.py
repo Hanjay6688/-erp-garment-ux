@@ -1,9 +1,12 @@
 """Private fixture binding/parent gate controls; zero actual ERP case credit."""
 from datetime import date
-from contextlib import ExitStack
+from contextlib import ExitStack,nullcontext
 from types import ModuleType,SimpleNamespace
-from unittest.mock import patch
-import builtins,json,unittest,uuid
+from unittest.mock import Mock,patch
+from importlib.util import module_from_spec,spec_from_file_location
+from pathlib import Path
+from tempfile import TemporaryDirectory
+import builtins,json,sys,unittest,uuid
 from cp7_accessory_nonpayable import native_fixture as fixture,native_cases as cases
 
 def constructor():
@@ -78,5 +81,106 @@ class NativePreparationControls(unittest.TestCase):
         self.assertEqual(value['actual_SQL_executed'],0)
         self.assertFalse(value['inverse_Auth_two_session_browser_qualification_complete'])
         self.assertEqual(value['fixture_sources']['source_files'],7)
+
+class FailedNativeObservationControls(unittest.TestCase):
+    def setUp(self):
+        self.temporary=TemporaryDirectory();self.addCleanup(self.temporary.cleanup)
+        self.events=[]
+        self.before=dict(actual_all22={str(i):[]for i in range(22)},
+            full_data_and_sequences={'ledger':[],'sequence:journal':['1',True]})
+        self.after_data={'ledger':[{'debit':'20.00','credit':'0.00'}],
+            'sequence:journal':['2',True]}
+        def rows(cur):self.events.append('catalog');return self.before['actual_all22']
+        def data(cur):self.events.append('data');return self.after_data
+        self.catalog=SimpleNamespace(_catalog_rows=rows,_data=data)
+        self.bc=ModuleType('cp6_bc_probe')
+        self.bc.api=SimpleNamespace(admin=lambda cur:self.events.append('admin'))
+        self.control=SimpleNamespace(product_catalog=lambda cur:nullcontext())
+        package=ModuleType('_afui_failure_observation_test');package.__path__=[]
+        assembly=ModuleType(package.__name__+'.assembly')
+        assembly.runtime=lambda:(None,None,None,None,self.catalog)
+        boundary=ModuleType(package.__name__+'.case_boundary')
+        boundary.capture_generated=Mock(return_value={'observed':'passed-operation'})
+        boundary.validate=Mock(return_value={'status':'PASS'})
+        native=ModuleType(package.__name__+'.native_cases')
+        native.boundary=Mock(return_value=self.before)
+        package.assembly=assembly;package.case_boundary=boundary;package.native_cases=native
+        self.modules=SimpleNamespace(bc=self.bc,control=self.control)
+        self.boundary=boundary
+        self.patches=patch.dict(sys.modules,{package.__name__:package,
+            assembly.__name__:assembly,boundary.__name__:boundary,native.__name__:native,
+            'cp6_bc_probe':self.bc})
+        self.patches.start();self.addCleanup(self.patches.stop)
+        spec=spec_from_file_location(package.__name__+'.qualification_component',
+            Path(__file__).with_name('qualification_component.py'))
+        self.component=module_from_spec(spec);spec.loader.exec_module(self.component)
+        self.component.ROOT=Path(self.temporary.name)
+        self.cursor=SimpleNamespace(connection=SimpleNamespace(info=SimpleNamespace(
+            transaction_status=SimpleNamespace(name='INTRANS'))),execute=self.execute)
+
+    def execute(self,sql):
+        self.events.append(sql)
+
+    def failure_path(self):
+        return self.component.ROOT/'cp6-proof/t3/AFUI_NATIVE_FIRST_FAILURE_TEST.json'
+
+    def test_failed_world_is_written_before_rollback_and_original_failure_survives(self):
+        error=ValueError('ACTUAL_FINANCIAL_ORACLE_FAILURE')
+        def execute(sql):
+            if sql.startswith('rollback to savepoint'):
+                self.assertTrue(self.failure_path().is_file(),'Failed state was not saved before rollback')
+            self.execute(sql)
+        self.cursor.execute=execute
+        def operation():self.events.append('operation');raise error
+        with self.assertRaises(ValueError)as caught:
+            self.component.full_case(self.cursor,'TEST',operation,{},self.control)
+        self.assertIs(caught.exception,error)
+        self.assertEqual(str(error),'ACTUAL_FINANCIAL_ORACLE_FAILURE')
+        saved=json.loads(self.failure_path().read_text())
+        self.assertEqual(saved['before'],self.before)
+        self.assertEqual(saved['after_operation']['full_data_and_sequences'],self.after_data)
+        self.assertEqual(saved['after_operation']['actual_all22'],self.before['actual_all22'])
+        self.assertEqual(saved['actual_case_credit'],0);self.assertFalse(saved['production_go'])
+        self.assertLess(self.events.index('operation'),self.events.index('data'))
+        self.assertLess(self.events.index('data'),self.events.index('rollback to savepoint afui_full_current_case'))
+        self.assertEqual(self.events[-1],'release savepoint afui_full_current_case')
+        self.boundary.capture_generated.assert_not_called()
+
+    def test_aborted_sql_transaction_is_never_queried(self):
+        self.cursor.connection.info.transaction_status.name='INERROR'
+        original=self.component.retain_failed_case(self.cursor,'TEST',ValueError('PRIMARY'),
+            self.before,self.modules,self.catalog)
+        self.assertIsNotNone(original);self.assertEqual(self.events,[])
+        saved=json.loads(self.failure_path().read_text())
+        self.assertEqual(saved['observation_unavailable'],'FAILED_TRANSACTION_NOT_QUERYABLE:INERROR')
+        self.assertNotIn('after_operation',saved)
+
+    def test_capture_error_is_retained_without_masking_the_primary_failure(self):
+        error=ValueError('PRIMARY')
+        self.catalog._data=Mock(side_effect=RuntimeError('read failed'))
+        original=self.component.retain_failed_case(self.cursor,'TEST',error,self.before,self.modules,self.catalog)
+        self.assertIsNotNone(original);self.assertEqual(str(error),'PRIMARY')
+        saved=json.loads(self.failure_path().read_text())
+        self.assertEqual(saved['error'],'PRIMARY')
+        self.assertEqual(saved['observation_error'],dict(error_type='RuntimeError',error='read failed'))
+        self.assertNotIn('after_operation',saved)
+
+    def test_capture_or_disk_failure_does_not_replace_original_or_prevent_rollback(self):
+        error=ValueError('PRIMARY')
+        self.catalog._data=Mock(side_effect=RuntimeError('read failed'))
+        with patch.object(self.component,'save',side_effect=OSError('disk unavailable')):
+            with self.assertRaises(ValueError)as caught:
+                self.component.full_case(self.cursor,'TEST',lambda:(_ for _ in ()).throw(error),{},self.control)
+        self.assertIs(caught.exception,error);self.assertEqual(str(error),'PRIMARY')
+        self.assertEqual(self.events[-2:],['rollback to savepoint afui_full_current_case',
+            'release savepoint afui_full_current_case'])
+        self.assertTrue(any('SAVE_FAILED:disk unavailable'in note for note in error.__notes__))
+
+    def test_success_path_does_not_take_an_extra_failed_world_snapshot(self):
+        with patch.object(self.component,'retain_failed_case')as failed:
+            result=self.component.full_case(self.cursor,'TEST',lambda:{'status':'PASS'},{},self.control)
+        self.assertEqual(result['status'],'PASS');failed.assert_not_called()
+        self.assertFalse(self.failure_path().exists())
+
 
 if __name__=='__main__':unittest.main()

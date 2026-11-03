@@ -145,8 +145,8 @@
       "sha256": "6d7fc57756b166dbb8220cc0149a62b658e4e673117d73e010261ada3a1ecca4"
     },
     "scripts/cp7_accessory_nonpayable/qualification_component.py": {
-      "bytes": 10632,
-      "sha256": "d099f98bab3e2a3af43a778f8309fbd3c66a645d4a5b081d2cbb3236834013c5"
+      "bytes": 12307,
+      "sha256": "5d31c64f79a690b2b67ea35221af4e6aa583f7f30949161c5d000b2a248f7bd4"
     },
     "scripts/cp7_accessory_nonpayable/qualification_gate.py": {
       "bytes": 4826,
@@ -209,8 +209,8 @@
       "sha256": "e4a7f51d2d1db6e3fe886031a8416318e6514c6ad6ea6adb0cb6070d723530be"
     },
     "scripts/cp7_accessory_nonpayable/test_native_preparation.py": {
-      "bytes": 5357,
-      "sha256": "e4eca8bfc5ed002050ddff587fca3917a19959a4b643e48071c131644026ca45"
+      "bytes": 11875,
+      "sha256": "670a47847d5c302b760afc679a0cb21485ce2bf4ffd901adb224368aee72cb57"
     },
     "scripts/cp7_accessory_nonpayable/test_native_sales_preparation.py": {
       "bytes": 1498,
@@ -376,5 +376,40 @@
     "full_restore_from_failed_run": true,
     "production_go": false,
     "independent_acceptance": false
+  },
+  "failed_transaction_observation": {
+    "status": "PREPARED_READ_ONLY_FAILURE_CAPTURE_NOT_EXECUTED_ON_ERP",
+    "reason": "Retain the full failed transaction before rollback, supplementing actual detector maps and completed monetary observations",
+    "predecessor": "2e09159ae2199f591f802bfe07ad224385b11c1a",
+    "valid_transaction": "INTRANS_FULL_RAW_CATALOG_ROWS_AND_ALL_SEQUENCES",
+    "aborted_transaction": "NO_SQL_AFTER_INERROR",
+    "primary_error_preserved": true,
+    "mandatory_rollback_preserved": true,
+    "acceptance_rules_unchanged": true,
+    "success_path_extra_SQL": 0,
+    "actual_Native_cases": 0,
+    "actual_Auth_HTTP_cases": 0,
+    "actual_two_session_cases": 0,
+    "actual_browser_cases": 0,
+    "production_go": false,
+    "independent_acceptance": false,
+    "local_controls": {
+      "status": "PASS",
+      "unique_controls": 5,
+      "elapsed_seconds": 0.014,
+      "command": "PYTHONPATH=afui/next/source/scripts python -B -m unittest cp7_accessory_nonpayable.test_native_preparation.FailedNativeObservationControls -v",
+      "actual_ERP_SQL": 0,
+      "original_test_class_AST_unchanged": true,
+      "own_source_set_unchanged": 64,
+      "test_ids": [
+        "test_failed_world_is_written_before_rollback_and_original_failure_survives",
+        "test_aborted_sql_transaction_is_never_queried",
+        "test_capture_error_is_retained_without_masking_the_primary_failure",
+        "test_capture_or_disk_failure_does_not_replace_original_or_prevent_rollback",
+        "test_success_path_does_not_take_an_extra_failed_world_snapshot"
+      ],
+      "original_component_AST_unchanged_except_failure_observation": true
+    },
+    "prepared_without_changing_active_run": 41556041719
   }
 }

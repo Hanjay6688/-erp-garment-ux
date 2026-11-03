@@ -46,6 +46,37 @@ def local(conn,cur,url):
         or cur.execute('select current_database()').fetchone()!=('cp6_rollback',)):
         raise ValueError('NONPAYABLE_WHOLE_QUALIFIER_EXACT_LOCAL_DISPOSABLE_ONLY')
 
+def retain_failed_case(cur,name,error,before,modules,catalog):
+    """Preserve a valid failed transaction before the mandatory rollback.
+
+    A SQL error leaves PostgreSQL INERROR; never query that transaction or
+    replace the original failure with a secondary diagnostic failure.
+    """
+    value=dict(status='FAILED_NATIVE_CASE_OBSERVATION_NOT_ACCEPTANCE',case_id=name,
+        error_type=type(error).__name__,error=str(error),before=before,
+        actual_case_credit=0,production_go=False,independent_acceptance=False)
+    try:
+        status=cur.connection.info.transaction_status.name
+        value['transaction_status']=status
+        if status=='INTRANS':
+            modules.bc.api.admin(cur)
+            with modules.control.product_catalog(cur):
+                value['after_operation']=dict(actual_all22=catalog._catalog_rows(cur),
+                    full_data_and_sequences=catalog._data(cur))
+        else:
+            value['observation_unavailable']='FAILED_TRANSACTION_NOT_QUERYABLE:'+status
+    except Exception as capture_error:
+        value['observation_error']=dict(error_type=type(capture_error).__name__,error=str(capture_error))
+    original=None
+    try:
+        original=save('AFUI_NATIVE_FIRST_FAILURE_'+name+'.json',value)
+        note='AFUI_NATIVE_FAILED_TRANSACTION_ORIGINAL:'+json.dumps(original,sort_keys=True)
+    except Exception as save_error:
+        note='AFUI_NATIVE_FAILURE_OBSERVATION_SAVE_FAILED:'+str(save_error)
+    try:error.add_note(note)
+    except Exception:pass  # The mandatory rollback and original failure take priority.
+    return original
+
 def full_case(cur,name,operation,state,control):
     from . import assembly,case_boundary,native_cases
     # Use the unchanged Native fixture's administrative actor; no new grants.
@@ -58,7 +89,9 @@ def full_case(cur,name,operation,state,control):
         bc.api.admin(cur)
         cur.execute('set constraints all immediate');cur.execute('set constraints all deferred')
         with control.product_catalog(cur):observed=case_boundary.capture_generated(cur,catalog,before)
-    except Exception as caught:error=caught
+    except Exception as caught:
+        error=caught
+        retain_failed_case(cur,name,caught,before,modules,catalog)
     try:
         cur.execute('rollback to savepoint afui_full_current_case');cur.execute('release savepoint afui_full_current_case')
     except Exception as caught:raise ValueError('NONPAYABLE_STRICT_CASE_TRANSACTION_BOUNDARY_LOST; original='+str(error))from caught
@@ -174,3 +207,4 @@ def exercise(conn,cur,database,url,report,state):
         raise ValueError('NONPAYABLE_FOUR_FRESH_COMPLETE_AUTHORITY_PRESERVED_COPIES_REQUIRED')
     report.update(status='PASS',actual_business_cases=15,used_guard_refused_before_DDL=True,
         full_outer_backup_all22_data_ALL_sequences_roles_CP6_advisors_Auth_restore_and_all5_still_required=True)
+
