@@ -1,0 +1,14 @@
+{
+  "status": "TYPESCRIPT_BUILD_AND_DOM_SOURCE_EXACT_REUSE",
+  "validated_TypeScript_and_DOM_source": "422328f1aa1c3c8d972e9a1a36a751b71bfc7308",
+  "current_UI_source": "cad5bf3508bbfa27a2f29537827788ab27f1c42a",
+  "all_changed_src_paths_since_compilation": [
+    "src/bs-rework.css",
+    "src/hpp.css",
+    "src/movement-book.css",
+    "src/styles.css"
+  ],
+  "all_src_TS_TSX_identical": true,
+  "CSS_Vite_build_and_client_scan": "PASS on current CSS",
+  "not_a_claim_that_CSS_is_unchanged": true
+}

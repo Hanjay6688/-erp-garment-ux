@@ -1,0 +1,98 @@
+{
+  "contract": "cp7.B.UI-original-receipts.v1",
+  "archives": [
+    {
+      "source": "402594251803b23a7d244de0d9cc03c98ac81759",
+      "run": 41608730540,
+      "job": 125824983279,
+      "artifact": 13218512902,
+      "workflow_result": "FAILURE",
+      "file_name": "UI_B_4025_FAMILY_CAPTURE_FIRST_20261103.zip",
+      "bytes": 51250492,
+      "sha256": "8a6b2fd7c6c504b0d9686834f57e84dcac6c9c11a02c99d176d9a01f6436e3e0",
+      "library_file_id": "libfile_9db153a716f48191944400ac82c85e84",
+      "url": "https://chatgpt.com/library?file_id=libfile_9db153a716f48191944400ac82c85e84&account_id=personal",
+      "run_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/41608730540",
+      "members": 274,
+      "report": "UI_FAMILY_CAPTURE.json",
+      "view_identities": 263
+    },
+    {
+      "source": "422328f1aa1c3c8d972e9a1a36a751b71bfc7308",
+      "run": 41612431068,
+      "job": 125837402154,
+      "artifact": 13220675640,
+      "workflow_result": "CANCELLED",
+      "file_name": "UI_B_4223_CANCELLED_HARNESS_ORIGINAL_20261103.zip",
+      "bytes": 4352767,
+      "sha256": "f7ce8c0d501a740ab9646a821a27ea2e2d603f4ed3632834e0ee759ee15e3dd1",
+      "library_file_id": "libfile_dc0b1f48bd3081918e4c60a135d5eb53",
+      "url": "https://chatgpt.com/library?file_id=libfile_dc0b1f48bd3081918e4c60a135d5eb53&account_id=personal",
+      "run_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/41612431068",
+      "members": 19,
+      "note": "Partial cancelled Original:17PNG, no final report. Not acceptance."
+    },
+    {
+      "source": "de7098079a1aa06dd36b393f1ee3042d459d233d",
+      "run": 41613755256,
+      "job": 125842184910,
+      "artifact": 13220396976,
+      "workflow_result": "SUCCESS",
+      "file_name": "UI_B_DE709_FAMILY_REVIEW_ORIGINAL_20261103.zip",
+      "bytes": 38227206,
+      "sha256": "e646b9cf6e4115e5fb4a971b5bc067099b15cd1a5b1df41b027c319b6578e762",
+      "library_file_id": "libfile_c5637233c670819181ad374f1fe00067",
+      "url": "https://chatgpt.com/library?file_id=libfile_c5637233c670819181ad374f1fe00067&account_id=personal",
+      "run_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/41613755256",
+      "members": 212,
+      "report": "UI_FAMILY_REVIEW_CAPTURE.json",
+      "view_identities": 323
+    },
+    {
+      "source": "e8e27293be3c03c67b82648d0328e3b3282d9d14",
+      "run": 41615213976,
+      "job": 125846852533,
+      "artifact": 13221695309,
+      "workflow_result": "SUCCESS",
+      "file_name": "UI_B_E8E27_FINAL_POLISH_ORIGINAL_20261103.zip",
+      "bytes": 4441630,
+      "sha256": "29b5b1ec93aebe1181cf961efd1369decb9f4eb42d9ad8d7592c09c6c5ce1aec",
+      "library_file_id": "libfile_dd25cab7051c8191a09f88d5f6fa780d",
+      "url": "https://chatgpt.com/library?file_id=libfile_dd25cab7051c8191a09f88d5f6fa780d&account_id=personal",
+      "run_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/41615213976",
+      "members": 20,
+      "report": "UI_FAMILY_POLISH_CAPTURE.json",
+      "view_identities": 326
+    },
+    {
+      "source": "cad5bf3508bbfa27a2f29537827788ab27f1c42a",
+      "run": 41616312864,
+      "job": 125850523944,
+      "artifact": 13221397161,
+      "workflow_result": "SUCCESS",
+      "file_name": "UI_B_CAD5_FINAL_DETAIL_ORIGINAL_20261103.zip",
+      "bytes": 1395669,
+      "sha256": "f9601b4d5f2f3de242166ee1f8762ef779e7e66fec3018780014d3e4a1470a32",
+      "library_file_id": "libfile_5a1424dc5bf48191a4b9e29db4513370",
+      "url": "https://chatgpt.com/library?file_id=libfile_5a1424dc5bf48191a4b9e29db4513370&account_id=personal",
+      "run_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/41616312864",
+      "members": 11,
+      "report": "UI_FAMILY_DETAIL_CAPTURE.json",
+      "view_identities": 328
+    }
+  ],
+  "preview": {
+    "file_name": "UI_B_DESKTOP_HP_20261103.png",
+    "bytes": 635967,
+    "sha256": "6151500d1994a0f13a2527c756dba365cf798b2250fedea1377abd6f04016cdd",
+    "library_file_id": "libfile_f9e8e1855cf8819192f2abf9080019bf",
+    "url": "https://chatgpt.com/library?file_id=libfile_f9e8e1855cf8819192f2abf9080019bf&account_id=personal",
+    "type": "Screenshot composite, not an Original archive",
+    "sources": [
+      "402594251803b23a7d244de0d9cc03c98ac81759",
+      "de7098079a1aa06dd36b393f1ee3042d459d233d",
+      "e8e27293be3c03c67b82648d0328e3b3282d9d14",
+      "cad5bf3508bbfa27a2f29537827788ab27f1c42a"
+    ]
+  }
+}

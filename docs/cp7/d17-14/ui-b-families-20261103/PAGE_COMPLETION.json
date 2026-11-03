@@ -1,0 +1,861 @@
+{
+  "source": "cad5bf3508bbfa27a2f29537827788ab27f1c42a",
+  "pages": [
+    {
+      "id": "dashboard",
+      "group": null,
+      "label": "Dashboard",
+      "widths": [
+        320,
+        390,
+        768,
+        1440
+      ],
+      "status": "DEMO_UI_REVIEWED",
+      "screenshot_names": [
+        "after-dashboard-320.png",
+        "after-dashboard-390.png",
+        "after-dashboard-768.png",
+        "after-dashboard-1440.png"
+      ]
+    },
+    {
+      "id": "cutting-roll",
+      "group": "Produksi",
+      "label": "Buat Potongan",
+      "widths": [
+        320,
+        390,
+        768,
+        1440
+      ],
+      "status": "DEMO_UI_REVIEWED",
+      "screenshot_names": [
+        "after-cutting-roll-320.png",
+        "after-cutting-roll-390.png",
+        "after-cutting-roll-768.png",
+        "after-cutting-roll-1440.png"
+      ]
+    },
+    {
+      "id": "mandor-wip",
+      "group": "Produksi",
+      "label": "Bagi Potongan",
+      "widths": [
+        320,
+        390,
+        768,
+        1440
+      ],
+      "status": "DEMO_UI_REVIEWED",
+      "screenshot_names": [
+        "after-mandor-wip-320.png",
+        "after-mandor-wip-390.png",
+        "after-mandor-wip-768.png",
+        "after-mandor-wip-1440.png"
+      ]
+    },
+    {
+      "id": "sewing-wip",
+      "group": "Produksi",
+      "label": "WIP & Sewing",
+      "widths": [
+        320,
+        390,
+        768,
+        1440
+      ],
+      "status": "DEMO_UI_REVIEWED",
+      "screenshot_names": [
+        "after-sewing-wip-320.png",
+        "after-sewing-wip-390.png",
+        "after-sewing-wip-768.png",
+        "after-sewing-wip-1440.png"
+      ]
+    },
+    {
+      "id": "laundry",
+      "group": "Produksi",
+      "label": "Laundry",
+      "widths": [
+        320,
+        390,
+        768,
+        1440
+      ],
+      "status": "DEMO_UI_REVIEWED",
+      "screenshot_names": [
+        "after-laundry-320.png",
+        "after-laundry-390.png",
+        "after-laundry-768.png",
+        "after-laundry-1440.png"
+      ]
+    },
+    {
+      "id": "qc",
+      "group": "Produksi",
+      "label": "QC & Final SKU",
+      "widths": [
+        320,
+        390,
+        768,
+        1440
+      ],
+      "status": "DEMO_UI_REVIEWED",
+      "screenshot_names": [
+        "after-qc-320.png",
+        "after-qc-390.png",
+        "after-qc-768.png",
+        "after-qc-1440.png"
+      ]
+    },
+    {
+      "id": "fg-handoff",
+      "group": "Produksi",
+      "label": "Susun Nota FG",
+      "widths": [
+        320,
+        390,
+        768,
+        1440
+      ],
+      "status": "DEMO_UI_REVIEWED",
+      "screenshot_names": [
+        "after-fg-handoff-320.png",
+        "after-fg-handoff-390.png",
+        "after-fg-handoff-768.png",
+        "after-fg-handoff-1440.png"
+      ]
+    },
+    {
+      "id": "bs-rework",
+      "group": "Produksi",
+      "label": "Barang BS & Rework",
+      "widths": [
+        320,
+        390,
+        768,
+        1440
+      ],
+      "status": "DEMO_UI_REVIEWED",
+      "screenshot_names": [
+        "after-bs-rework-320.png",
+        "after-bs-rework-390.png",
+        "after-bs-rework-768.png",
+        "after-bs-rework-1440.png"
+      ]
+    },
+    {
+      "id": "warehouse-dashboard",
+      "group": "Gudang",
+      "label": "Ringkasan Gudang",
+      "widths": [
+        320,
+        390,
+        768,
+        1440
+      ],
+      "status": "DEMO_UI_REVIEWED",
+      "screenshot_names": [
+        "after-warehouse-dashboard-320.png",
+        "after-warehouse-dashboard-390.png",
+        "after-warehouse-dashboard-768.png",
+        "after-warehouse-dashboard-1440.png"
+      ]
+    },
+    {
+      "id": "procurement",
+      "group": "Gudang",
+      "label": "Pembelian & Penerimaan",
+      "widths": [
+        320,
+        390,
+        768,
+        1440
+      ],
+      "status": "DEMO_UI_REVIEWED",
+      "screenshot_names": [
+        "after-procurement-320.png",
+        "after-procurement-390.png",
+        "after-procurement-768.png",
+        "after-procurement-1440.png"
+      ]
+    },
+    {
+      "id": "materials-rolls",
+      "group": "Gudang",
+      "label": "Bahan & Roll",
+      "widths": [
+        320,
+        390,
+        768,
+        1440
+      ],
+      "status": "DEMO_UI_REVIEWED",
+      "screenshot_names": [
+        "after-materials-rolls-320.png",
+        "after-materials-rolls-390.png",
+        "after-materials-rolls-768.png",
+        "after-materials-rolls-1440.png"
+      ]
+    },
+    {
+      "id": "pocket-fabric",
+      "group": "Gudang",
+      "label": "Kain kantong",
+      "widths": [
+        320,
+        390,
+        768,
+        1440
+      ],
+      "status": "SIGN_IN_BOUNDARY_REVIEWED_FULL_CONNECTED_FORM_NOT_EXERCISED",
+      "screenshot_names": [
+        "after-pocket-fabric-320.png",
+        "after-pocket-fabric-390.png",
+        "after-pocket-fabric-768.png",
+        "after-pocket-fabric-1440.png"
+      ]
+    },
+    {
+      "id": "accessories",
+      "group": "Gudang",
+      "label": "Aksesori",
+      "widths": [
+        320,
+        390,
+        768,
+        1440
+      ],
+      "status": "DEMO_UI_REVIEWED",
+      "screenshot_names": [
+        "after-accessories-320.png",
+        "after-accessories-390.png",
+        "after-accessories-768.png",
+        "after-accessories-1440.png"
+      ]
+    },
+    {
+      "id": "fg-summary",
+      "group": "Gudang",
+      "label": "Ringkasan Barang Jadi",
+      "widths": [
+        320,
+        390,
+        768,
+        1440
+      ],
+      "status": "DEMO_UI_REVIEWED",
+      "screenshot_names": [
+        "after-fg-summary-320.png",
+        "after-fg-summary-390.png",
+        "after-fg-summary-768.png",
+        "after-fg-summary-1440.png"
+      ]
+    },
+    {
+      "id": "movements-vivo",
+      "group": "Gudang",
+      "label": "Mutasi Barang Jadi \u00b7 Vivo",
+      "widths": [
+        320,
+        390,
+        768,
+        1440
+      ],
+      "status": "DEMO_UI_REVIEWED",
+      "screenshot_names": [
+        "after-movements-vivo-320.png",
+        "after-movements-vivo-390.png",
+        "after-movements-vivo-768.png",
+        "after-movements-vivo-1440.png"
+      ]
+    },
+    {
+      "id": "movements-widie",
+      "group": "Gudang",
+      "label": "Mutasi Barang Jadi \u00b7 Widie",
+      "widths": [
+        320,
+        390,
+        768,
+        1440
+      ],
+      "status": "DEMO_UI_REVIEWED",
+      "screenshot_names": [
+        "after-movements-widie-320.png",
+        "after-movements-widie-390.png",
+        "after-movements-widie-768.png",
+        "after-movements-widie-1440.png"
+      ]
+    },
+    {
+      "id": "stock-card",
+      "group": "Gudang",
+      "label": "Kartu Stok FG",
+      "widths": [
+        320,
+        390,
+        768,
+        1440
+      ],
+      "status": "DEMO_UI_REVIEWED",
+      "screenshot_names": [
+        "after-stock-card-320.png",
+        "after-stock-card-390.png",
+        "after-stock-card-768.png",
+        "after-stock-card-1440.png"
+      ]
+    },
+    {
+      "id": "stock-adjustment",
+      "group": "Gudang",
+      "label": "Stock Adjustment",
+      "widths": [
+        320,
+        390,
+        768,
+        1440
+      ],
+      "status": "DEMO_UI_REVIEWED",
+      "screenshot_names": [
+        "after-stock-adjustment-320.png",
+        "after-stock-adjustment-390.png",
+        "after-stock-adjustment-768.png",
+        "after-stock-adjustment-1440.png"
+      ]
+    },
+    {
+      "id": "brand-conversion",
+      "group": "Gudang",
+      "label": "Ganti Merek",
+      "widths": [
+        320,
+        390,
+        768,
+        1440
+      ],
+      "status": "DEMO_UI_REVIEWED",
+      "screenshot_names": [
+        "after-brand-conversion-320.png",
+        "after-brand-conversion-390.png",
+        "after-brand-conversion-768.png",
+        "after-brand-conversion-1440.png"
+      ]
+    },
+    {
+      "id": "sales-invoice",
+      "group": "Penjualan",
+      "label": "Penjualan & Invoice",
+      "widths": [
+        320,
+        390,
+        768,
+        1440
+      ],
+      "status": "DEMO_UI_REVIEWED",
+      "screenshot_names": [
+        "after-sales-invoice-320.png",
+        "after-sales-invoice-390.png",
+        "after-sales-invoice-768.png",
+        "after-sales-invoice-1440.png"
+      ]
+    },
+    {
+      "id": "sales-allocation",
+      "group": "Penjualan",
+      "label": "Semua Invoice",
+      "widths": [
+        320,
+        390,
+        768,
+        1440
+      ],
+      "status": "DEMO_UI_REVIEWED",
+      "screenshot_names": [
+        "after-sales-allocation-320.png",
+        "after-sales-allocation-390.png",
+        "after-sales-allocation-768.png",
+        "after-sales-allocation-1440.png"
+      ]
+    },
+    {
+      "id": "sales-returns",
+      "group": "Penjualan",
+      "label": "Retur Penjualan",
+      "widths": [
+        320,
+        390,
+        768,
+        1440
+      ],
+      "status": "DEMO_UI_REVIEWED",
+      "screenshot_names": [
+        "after-sales-returns-320.png",
+        "after-sales-returns-390.png",
+        "after-sales-returns-768.png",
+        "after-sales-returns-1440.png"
+      ]
+    },
+    {
+      "id": "sales-payments",
+      "group": "Penjualan",
+      "label": "Pembayaran Pelanggan",
+      "widths": [
+        320,
+        390,
+        768,
+        1440
+      ],
+      "status": "DEMO_UI_REVIEWED",
+      "screenshot_names": [
+        "after-sales-payments-320.png",
+        "after-sales-payments-390.png",
+        "after-sales-payments-768.png",
+        "after-sales-payments-1440.png"
+      ]
+    },
+    {
+      "id": "sales-history",
+      "group": "Penjualan",
+      "label": "Riwayat Pelanggan",
+      "widths": [
+        320,
+        390,
+        768,
+        1440
+      ],
+      "status": "DEMO_UI_REVIEWED",
+      "screenshot_names": [
+        "after-sales-history-320.png",
+        "after-sales-history-390.png",
+        "after-sales-history-768.png",
+        "after-sales-history-1440.png"
+      ]
+    },
+    {
+      "id": "finance-overview",
+      "group": "Keuangan",
+      "label": "Ringkasan Keuangan",
+      "widths": [
+        320,
+        390,
+        768,
+        1440
+      ],
+      "status": "DEMO_UI_REVIEWED",
+      "screenshot_names": [
+        "after-finance-overview-320.png",
+        "after-finance-overview-390.png",
+        "after-finance-overview-768.png",
+        "after-finance-overview-1440.png"
+      ]
+    },
+    {
+      "id": "finance-cash",
+      "group": "Keuangan",
+      "label": "Kas & Bank",
+      "widths": [
+        320,
+        390,
+        768,
+        1440
+      ],
+      "status": "DEMO_UI_REVIEWED",
+      "screenshot_names": [
+        "after-finance-cash-320.png",
+        "after-finance-cash-390.png",
+        "after-finance-cash-768.png",
+        "after-finance-cash-1440.png"
+      ]
+    },
+    {
+      "id": "finance-ap",
+      "group": "Keuangan",
+      "label": "Hutang Supplier & Vendor",
+      "widths": [
+        320,
+        390,
+        768,
+        1440
+      ],
+      "status": "DEMO_UI_REVIEWED",
+      "screenshot_names": [
+        "after-finance-ap-320.png",
+        "after-finance-ap-390.png",
+        "after-finance-ap-768.png",
+        "after-finance-ap-1440.png"
+      ]
+    },
+    {
+      "id": "finance-ar",
+      "group": "Keuangan",
+      "label": "Piutang Pelanggan",
+      "widths": [
+        320,
+        390,
+        768,
+        1440
+      ],
+      "status": "DEMO_UI_REVIEWED",
+      "screenshot_names": [
+        "after-finance-ar-320.png",
+        "after-finance-ar-390.png",
+        "after-finance-ar-768.png",
+        "after-finance-ar-1440.png"
+      ]
+    },
+    {
+      "id": "finance-payroll",
+      "group": "Keuangan",
+      "label": "Payroll & Kasbon",
+      "widths": [
+        320,
+        390,
+        768,
+        1440
+      ],
+      "status": "DEMO_UI_REVIEWED",
+      "screenshot_names": [
+        "after-finance-payroll-320.png",
+        "after-finance-payroll-390.png",
+        "after-finance-payroll-768.png",
+        "after-finance-payroll-1440.png"
+      ]
+    },
+    {
+      "id": "operations-attendance",
+      "group": "Keuangan",
+      "label": "Absensi & Rate Harian",
+      "widths": [
+        320,
+        390,
+        768,
+        1440
+      ],
+      "status": "DEMO_UI_REVIEWED",
+      "screenshot_names": [
+        "after-operations-attendance-320.png",
+        "after-operations-attendance-390.png",
+        "after-operations-attendance-768.png",
+        "after-operations-attendance-1440.png"
+      ]
+    },
+    {
+      "id": "contractor-issue",
+      "group": "Keuangan",
+      "label": "Nota Ambil Aksesori",
+      "widths": [
+        320,
+        390,
+        768,
+        1440
+      ],
+      "status": "DEMO_UI_REVIEWED",
+      "screenshot_names": [
+        "after-contractor-issue-320.png",
+        "after-contractor-issue-390.png",
+        "after-contractor-issue-768.png",
+        "after-contractor-issue-1440.png"
+      ]
+    },
+    {
+      "id": "hpp",
+      "group": "Keuangan",
+      "label": "HPP & Rekalkulasi",
+      "widths": [
+        320,
+        390,
+        768,
+        1440
+      ],
+      "status": "DEMO_UI_REVIEWED",
+      "screenshot_names": [
+        "after-hpp-320.png",
+        "after-hpp-390.png",
+        "after-hpp-768.png",
+        "after-hpp-1440.png"
+      ]
+    },
+    {
+      "id": "finance-journal",
+      "group": "Keuangan",
+      "label": "Jurnal & Transaksi Lain",
+      "widths": [
+        320,
+        390,
+        768,
+        1440
+      ],
+      "status": "DEMO_UI_REVIEWED",
+      "screenshot_names": [
+        "after-finance-journal-320.png",
+        "after-finance-journal-390.png",
+        "after-finance-journal-768.png",
+        "after-finance-journal-1440.png"
+      ]
+    },
+    {
+      "id": "finance-reports",
+      "group": "Keuangan",
+      "label": "Laporan & Tutup Buku",
+      "widths": [
+        320,
+        390,
+        768,
+        1440
+      ],
+      "status": "DEMO_UI_REVIEWED",
+      "screenshot_names": [
+        "after-finance-reports-320.png",
+        "after-finance-reports-390.png",
+        "after-finance-reports-768.png",
+        "after-finance-reports-1440.png"
+      ]
+    },
+    {
+      "id": "master-fabric",
+      "group": "Master Data",
+      "label": "Kain & Benchmark",
+      "widths": [
+        320,
+        390,
+        768,
+        1440
+      ],
+      "status": "DEMO_UI_REVIEWED",
+      "screenshot_names": [
+        "after-master-fabric-320.png",
+        "after-master-fabric-390.png",
+        "after-master-fabric-768.png",
+        "after-master-fabric-1440.png"
+      ]
+    },
+    {
+      "id": "master-accessory",
+      "group": "Master Data",
+      "label": "Aksesori & Harga Mandor",
+      "widths": [
+        320,
+        390,
+        768,
+        1440
+      ],
+      "status": "DEMO_UI_REVIEWED",
+      "screenshot_names": [
+        "after-master-accessory-320.png",
+        "after-master-accessory-390.png",
+        "after-master-accessory-768.png",
+        "after-master-accessory-1440.png"
+      ]
+    },
+    {
+      "id": "master-products",
+      "group": "Master Data",
+      "label": "Produk & SKU",
+      "widths": [
+        320,
+        390,
+        768,
+        1440
+      ],
+      "status": "DEMO_UI_REVIEWED",
+      "screenshot_names": [
+        "after-master-products-320.png",
+        "after-master-products-390.png",
+        "after-master-products-768.png",
+        "after-master-products-1440.png"
+      ]
+    },
+    {
+      "id": "master-customers",
+      "group": "Master Data",
+      "label": "Pelanggan",
+      "widths": [
+        320,
+        390,
+        768,
+        1440
+      ],
+      "status": "DEMO_UI_REVIEWED",
+      "screenshot_names": [
+        "after-master-customers-320.png",
+        "after-master-customers-390.png",
+        "after-master-customers-768.png",
+        "after-master-customers-1440.png"
+      ]
+    },
+    {
+      "id": "master-partners",
+      "group": "Master Data",
+      "label": "Supplier & Vendor",
+      "widths": [
+        320,
+        390,
+        768,
+        1440
+      ],
+      "status": "DEMO_UI_REVIEWED",
+      "screenshot_names": [
+        "after-master-partners-320.png",
+        "after-master-partners-390.png",
+        "after-master-partners-768.png",
+        "after-master-partners-1440.png"
+      ]
+    },
+    {
+      "id": "master-workforce",
+      "group": "Master Data",
+      "label": "Mandor",
+      "widths": [
+        320,
+        390,
+        768,
+        1440
+      ],
+      "status": "DEMO_UI_REVIEWED",
+      "screenshot_names": [
+        "after-master-workforce-320.png",
+        "after-master-workforce-390.png",
+        "after-master-workforce-768.png",
+        "after-master-workforce-1440.png"
+      ]
+    },
+    {
+      "id": "master-locations",
+      "group": "Master Data",
+      "label": "Gudang & Lokasi",
+      "widths": [
+        320,
+        390,
+        768,
+        1440
+      ],
+      "status": "DEMO_UI_REVIEWED",
+      "screenshot_names": [
+        "after-master-locations-320.png",
+        "after-master-locations-390.png",
+        "after-master-locations-768.png",
+        "after-master-locations-1440.png"
+      ]
+    },
+    {
+      "id": "master-pattern",
+      "group": "Master Data",
+      "label": "Pola",
+      "widths": [
+        320,
+        390,
+        768,
+        1440
+      ],
+      "status": "DEMO_UI_REVIEWED",
+      "screenshot_names": [
+        "after-master-pattern-320.png",
+        "after-master-pattern-390.png",
+        "after-master-pattern-768.png",
+        "after-master-pattern-1440.png"
+      ]
+    },
+    {
+      "id": "admin-reminders",
+      "group": "Pengaturan & Audit",
+      "label": "Reminder",
+      "widths": [
+        320,
+        390,
+        768,
+        1440
+      ],
+      "status": "DEMO_UI_REVIEWED",
+      "screenshot_names": [
+        "after-admin-reminders-320.png",
+        "after-admin-reminders-390.png",
+        "after-admin-reminders-768.png",
+        "after-admin-reminders-1440.png"
+      ]
+    },
+    {
+      "id": "admin-access",
+      "group": "Pengaturan & Audit",
+      "label": "Pengguna & Hak Akses",
+      "widths": [
+        320,
+        390,
+        768,
+        1440
+      ],
+      "status": "DEMO_UI_REVIEWED",
+      "screenshot_names": [
+        "after-admin-access-320.png",
+        "after-admin-access-390.png",
+        "after-admin-access-768.png",
+        "after-admin-access-1440.png"
+      ]
+    },
+    {
+      "id": "admin-settings",
+      "group": "Pengaturan & Audit",
+      "label": "Pengaturan ERP",
+      "widths": [
+        320,
+        390,
+        768,
+        1440
+      ],
+      "status": "DEMO_UI_REVIEWED",
+      "screenshot_names": [
+        "after-admin-settings-320.png",
+        "after-admin-settings-390.png",
+        "after-admin-settings-768.png",
+        "after-admin-settings-1440.png"
+      ]
+    },
+    {
+      "id": "admin-import",
+      "group": "Pengaturan & Audit",
+      "label": "Impor data awal",
+      "widths": [
+        320,
+        390,
+        768,
+        1440
+      ],
+      "status": "SIGN_IN_BOUNDARY_REVIEWED_FULL_CONNECTED_FORM_NOT_EXERCISED",
+      "screenshot_names": [
+        "after-admin-import-320.png",
+        "after-admin-import-390.png",
+        "after-admin-import-768.png",
+        "after-admin-import-1440.png"
+      ]
+    },
+    {
+      "id": "admin-audit",
+      "group": "Pengaturan & Audit",
+      "label": "Audit Trail",
+      "widths": [
+        320,
+        390,
+        768,
+        1440
+      ],
+      "status": "DEMO_UI_REVIEWED",
+      "screenshot_names": [
+        "after-admin-audit-320.png",
+        "after-admin-audit-390.png",
+        "after-admin-audit-768.png",
+        "after-admin-audit-1440.png"
+      ]
+    }
+  ],
+  "menu_target_count": 47,
+  "full_DEMO_page_count": 45,
+  "sign_in_boundaries": 2,
+  "remaining_B_known_defects_in_exercised_UI": [],
+  "remaining_integration": [
+    "A reconcile existing theme and B UI patch with latest Afui source",
+    "Connected Auth/backend visual check, including full pocket-fabric and initial-import forms"
+  ],
+  "production_go": false,
+  "independent_acceptance": false
+}

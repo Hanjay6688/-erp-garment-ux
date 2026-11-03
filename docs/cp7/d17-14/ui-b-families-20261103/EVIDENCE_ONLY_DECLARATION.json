@@ -1,0 +1,30 @@
+{
+  "contract": "cp7.B.evidence-only-successor.v1",
+  "tested_runtime_source": "cad5bf3508bbfa27a2f29537827788ab27f1c42a",
+  "tested_tree": "f5e7bc3e2c32824050c40a519459e31f86259a9a",
+  "tested_src_tree": "fe09780b35277fb5e103cc2066481c2e2ca2eb0a",
+  "new_evidence_paths": {
+    "HANDOFF_UI_FAMILIES_B_20261103.md": "9191141cfdbcac053ef52f0b7ebc5940f22c5b88f0cfd35a184a870881f5a238",
+    "APPLICATION_MANIFEST.json": "1338bae1637acc17e71bf0538bc9766f429723fe91e644e553aef62579158855",
+    "APPLICATION_CHECK.json": "0015e00921c53d8f2cec67f792ed9cacb16d3e7934e324c3a317a49df57ebc57",
+    "UI_RUNTIME_ONLY.patch.gz": "45280da58c187b4d4f94a67b1714ba4ce353fb6fa23fef75822d51e8cc4e8509",
+    "A_EXISTING_THEME_PREREQUISITE.patch.gz": "f7eb975c1efe7ad0e6a84641aa1634ff0fa13cc187ec9ec05ab540ad58d19394",
+    "THEME_PREREQUISITES.json": "181e0c21c3d997aafc671577ab31ae52ff45d3165bca8caec589b3ad4846dd9c",
+    "ORIGINALS.json": "6233be2a3119db9ffe24f2a58a6e748ff252fe29965ce65d21e39dd58f703995",
+    "PAGE_COMPLETION.json": "2c32e759b749609841299f055293e1f73550c92f33bee81a0841856e84b3ae6f",
+    "BROWSER_REVIEW.json": "1d5e644c863cb70223245b42587700969ad5ec36031ef365fa4b561f603c2081",
+    "CI_RECEIPTS.json": "ddf2ee626e46c9d7bfd4f0e44a80f8d7dc17a1ff3c61d2c548a949f35d1d9025",
+    "VIEW_ORIGINS.json.gz": "86fffdb4cec6ca8a5a71d46ad29a216df5fa7e048a86b2fa18c5c6acce9c51b6",
+    "RUNTIME_SOURCE_REUSE.json": "152a9a7f76b579b63bbb0fb3275ffd9ac660435aa159744f237cd3764b2b9dbc",
+    "RUNNER_REVIEW_BOUNDARIES.json": "232dff403171ba097dfa478541267a6256c6ec7d212a85b790e625eb1738e252",
+    "de7098_BROWSER_REPORT.json.gz": "4b1c6a512606a1116a9fa40c614ff1da938bcb311134bcaea50552acb1075a22",
+    "e8e272_BROWSER_REPORT.json.gz": "7445a810cd9179bf1f77c73a5dcc3ec6bd09e8babcfbf439246f00a56bbfb3ad",
+    "cad5bf_BROWSER_REPORT.json.gz": "250c17b62f6aed2cfc055d80757970062961c59db081643907875a4dd188ba8e",
+    "review-local/POLISH_VITE_SCAN_PASS.txt.gz": "fabc8f72a1263ecce7dae5695ee67e4688449c31de4601065bf3737ad20bdbde",
+    "review-local/DETAIL_VITE_SCAN_PASS.txt.gz": "68193d699a07774a966b22ebb0282e88422d1d37fbf3ac72a3f6ac5d7a161ac9"
+  },
+  "runtime_code_change": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "source_admission_target": "Frozen cad5bf3; historical source admission is not relabeled for documentation-only HEAD."
+}

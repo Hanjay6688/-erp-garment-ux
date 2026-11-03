@@ -1,0 +1,142 @@
+{
+  "source_owner": "A",
+  "A_theme_source": "462099c6cc59fa93766c81db66ec820b6cd54055",
+  "A_theme_base": "2c7a5a05516548667ec71faedcffb3591828100f",
+  "existing_A_UI_files": [
+    {
+      "path": "src/auth/auth.css",
+      "before_sha256": "f5a5e9db66292c5134483d3d429d99e2af8a4fdf09aafb1b17b3a10472b6b2e1",
+      "A_theme_sha256": "cafa2ae5d7044f2ca85d170c6fdc02482779450b79345b1348f60fc4bcba98cf",
+      "B_further_changes": false
+    },
+    {
+      "path": "src/brand-books.css",
+      "before_sha256": "398089c148e82dccdabb829f482b60a70dbb68d019db176d85f8fe6f0e921861",
+      "A_theme_sha256": "e6e45519b92534145371114d597a025ae6267137b55780c3c8abdbe9ba4de4cd",
+      "B_further_changes": false
+    },
+    {
+      "path": "src/business-pages.css",
+      "before_sha256": "587e9f6f7e0ae819d4b058cab4a9bc03bd503b75be3595d10d1395f100680457",
+      "A_theme_sha256": "156df8dc471394e6ee66093f7b890b78bf5b04eb8a5f3b18102ededc02a71214",
+      "B_further_changes": false
+    },
+    {
+      "path": "src/cp7/shell.css",
+      "before_sha256": "d0b03ea4c7e9cd6e994447eb89327d48feffc3ff990d79badea46781d03d1bfb",
+      "A_theme_sha256": "726e2bfc01c3ddf2d28cbcddc3ab473e190e3adade07808b0fbf597d0d78e9ff",
+      "B_further_changes": true
+    },
+    {
+      "path": "src/cutting-reminders.css",
+      "before_sha256": "b586f616ae2277ab24e9835446e24b1a5b2d45586820da7350d837f7a4498066",
+      "A_theme_sha256": "1c9b045b7302d56219c69284fc553d2231322e5d682324f829c64f8fa81b2cb3",
+      "B_further_changes": false
+    },
+    {
+      "path": "src/enterprise-select.css",
+      "before_sha256": "1ee624fe7d9ab423ae3140e94aa1a31108689d5ab3b7fb91fe1a0cff7b81c4bb",
+      "A_theme_sha256": "f59691a83221b468601b7f54e57fb67471c1f8a019a2826a725dd49ed2727dd6",
+      "B_further_changes": false
+    },
+    {
+      "path": "src/global-readability.css",
+      "before_sha256": "922a9e91f85269cb62b2d6d361c203659b3a4fc488e3bb78de20ea86dcbec42f",
+      "A_theme_sha256": "178e7110f525cc436e9c14cf0aae7b59b8262a301e96dc19ae07e04256acd7ad",
+      "B_further_changes": false
+    },
+    {
+      "path": "src/laundry.css",
+      "before_sha256": "dd874e2a13892b293b8a7f7dc47b661c9b856e47952d9e7d9d8035f6b94e5ce4",
+      "A_theme_sha256": "c8d0f674ad222aa63c5b6b54751c36bfcb6dead608008a429ef6f8d240b8a3c2",
+      "B_further_changes": false
+    },
+    {
+      "path": "src/layout-resilience.css",
+      "before_sha256": "908b306c30f86c97f575185300d9fc72d53f85e81d68d556f4f6e2628be1cea4",
+      "A_theme_sha256": "faa9f15d385e8d9aee2bbbcb7c8ccac0c7f4ee6d7e8d574fc57213839ab55de2",
+      "B_further_changes": false
+    },
+    {
+      "path": "src/main.tsx",
+      "before_sha256": "45a0a56eaf88abe4685260b8b5a04221f2ff0d95d8d798c60004d7d5bb612986",
+      "A_theme_sha256": "ff624793deccac8b975893e0dd5c0e125e9cf2e436baab59ae5dc462ca291623",
+      "B_further_changes": false
+    },
+    {
+      "path": "src/mandor-shop.css",
+      "before_sha256": "dda10167d8f122e39dbf4c3ebeab0bc943435b046205f3f5ed49a7b38adc1cbd",
+      "A_theme_sha256": "b9003c936c1a530a33e3e5cceb3a32b10410ee4bdc4846d567c0b4167d666486",
+      "B_further_changes": true
+    },
+    {
+      "path": "src/movement-book.css",
+      "before_sha256": "0d404eef4cca1d5f6e9d3991e8413fc0f8d653aadd0ffad79b960ffba2d461f9",
+      "A_theme_sha256": "0419e9f533859aced02b26e691dd78a807c193bdcbf6f0c7faa60cd588c03250",
+      "B_further_changes": true
+    },
+    {
+      "path": "src/payroll-connected.css",
+      "before_sha256": "3a86e044471923bd4980de1fb273694d2991d218148fb9fb8007555ce3b50414",
+      "A_theme_sha256": "fb99984da64aa14e225c66cde024c0e50dbe3ab07eb0151dd8cdfe944318b061",
+      "B_further_changes": false
+    },
+    {
+      "path": "src/procurement-connected.css",
+      "before_sha256": "8ec4cbbbfbec0171415188dc8ce3667962b4e585343578726531f132a30d522e",
+      "A_theme_sha256": "09cef223b7c389006f22c02861bc9cad5f3c35c88eaf0be3d50a28dd97aac5a5",
+      "B_further_changes": false
+    },
+    {
+      "path": "src/procurement.css",
+      "before_sha256": "928092046529ecb9ce7a357d5e9b39a57a263acac8fa1c80d951e6eba99dd0f3",
+      "A_theme_sha256": "5e85031eb61b4e9469212ea3342512469fdacca41947cffce004e458bfd051cb",
+      "B_further_changes": false
+    },
+    {
+      "path": "src/quick-ui-layout-fixes.css",
+      "before_sha256": "23a1d0d3901455350a17eb76e2aa180253ed18c92ce8b47553dd1c7f0fb0924d",
+      "A_theme_sha256": "5093b14e7bdc139546db157918d50b5d8eedb3c2469eada2ca01f913b0736d1e",
+      "B_further_changes": false
+    },
+    {
+      "path": "src/styles.css",
+      "before_sha256": "924f150bd2f2b18d7df850db1be035a547321cf32b66a6fb3a97569739635eb6",
+      "A_theme_sha256": "501d9593116a3201a3b042b5f80ec37803f02c056df2b4a5dbed364a680acc3e",
+      "B_further_changes": true
+    },
+    {
+      "path": "src/theme.css",
+      "before_sha256": null,
+      "A_theme_sha256": "afa66b269105985edc3d5dcff124036ffe5bd43a5850dfe4ddcd9bf0ff44bcb4",
+      "B_further_changes": true
+    },
+    {
+      "path": "src/ux-corrections.css",
+      "before_sha256": "44d7012f1df833947b140303052f283b5fab8c5299a47f253830b8d94c22ec92",
+      "A_theme_sha256": "d3852cbf4ac7e808adb77afc5e61d99545f52ff9dbbb256aa087685c8654ef8f",
+      "B_further_changes": false
+    },
+    {
+      "path": "src/wip-control.css",
+      "before_sha256": "8639c19dcd3d06d1002bf246b6e36f58b3dfc7084c39e02b21337d943ee11a89",
+      "A_theme_sha256": "9e8910cb6b017845d12c3468c98eb0059f8c611b80b437a73957c72bc8bd3543",
+      "B_further_changes": false
+    },
+    {
+      "path": "src/wip-roll-operational.css",
+      "before_sha256": "21828a17d94899a4c9a4066e5683e6176f30df24348631a8d21ad14572dd2c5d",
+      "A_theme_sha256": "bf527521682cc048b768b1442319d07768d80df9006bf313711475d2e5862dde",
+      "B_further_changes": false
+    },
+    {
+      "path": "src/workspace-refinements.css",
+      "before_sha256": "c8a744029aaeca203026f83d66f1acbf4da7e1894e4e403b074b4bfd2a2831a0",
+      "A_theme_sha256": "0b24e960f6cd4e0b100da02f5525896c7e52b6299a9b4e57e7b0d39df101d984",
+      "B_further_changes": false
+    }
+  ],
+  "patch_sha256": "bd03d1b3515e458fb0c970953f2be74689a72b91461bfecbbef7e4a56ac4ac23",
+  "note": "Existing A work, not a new theme. If active Afui has not adopted it, reconcile these UI-only hunks first, including the single main.tsx theme import. Then apply B UI successor. Preserve newer A main/runtime protections; never replace the whole older runtime.",
+  "isolated_prerequisite_patch_check": "PASS"
+}

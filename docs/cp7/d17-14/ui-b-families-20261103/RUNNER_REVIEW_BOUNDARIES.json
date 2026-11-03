@@ -1,0 +1,23 @@
+{
+  "source": "de7098079a1aa06dd36b393f1ee3042d459d233d",
+  "test_harness_failure_history": [
+    {
+      "source": "422328f1aa1c3c8d972e9a1a36a751b71bfc7308",
+      "run": 41612431068,
+      "job": 125837402154,
+      "result": "CANCELLED",
+      "cause": "Hidden mobile role after actual navigation;17PNG partial Original retained; no completed report, no acceptance."
+    },
+    {
+      "source": "8256358f2ed3fe699aca971998307ea422cfe85d",
+      "run": 41613542782,
+      "result": "FAILURE",
+      "cause": "Workflow YAML plain-scalar colon in conditional cancellation message; no browser job or artifact. Corrected before next candidate; YAML preflight passed."
+    }
+  ],
+  "visual_polish_pending": [
+    "Filter chevrons320 on stock-card/movement books",
+    "BS case status in normal flow all widths"
+  ],
+  "production_go": false
+}
