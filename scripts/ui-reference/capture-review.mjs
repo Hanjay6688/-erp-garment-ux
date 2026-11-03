@@ -124,7 +124,9 @@ async function navigate(page,surface,width){
     if(!await item.isVisible())await page.locator('.sidebar .nav-main').filter({hasText:surface.group}).click()
     require(await item.count()===1,'EXACT_UNIQUE_REAL_NAV_ITEM:'+surface.label)
     await item.click()
-    await page.locator('.submenu').getByRole('button',{name:'• '+surface.label,exact:true}).waitFor({state:'attached'})
+    const marker=page.locator('.submenu button.sub-active').filter({hasText:surface.label})
+    await marker.waitFor({state:'attached',timeout:5000})
+    require((await marker.textContent()).trim()==='• '+surface.label,'EXACT_ACTIVE_DOM_MARKER_AFTER_DRAWER_CLOSE')
   }
   await page.waitForFunction(()=>{
     const panel=document.querySelector('.page-wrap')
@@ -134,8 +136,10 @@ async function navigate(page,surface,width){
 async function guarded(page,key,operation){
   try{await operation()}catch(error){
     const failure={key,error:error.stack};report.failures.push(failure)
+    fs.writeFileSync(path.join(out,'UI_FAMILY_REVIEW_PARTIAL.json'),JSON.stringify(report,null,2)+'\n')
     try{await page.screenshot({path:path.join(out,'FAILED-'+key+'.png'),fullPage:true})}catch{}
     console.error(JSON.stringify({failed:key,error:error.message}))
+    if(report.failures.length>=3)throw Error('THREE_REAL_FAILURES_STOP_CAPTURE_FOR_DIAGNOSIS')
     try{await page.goto(new URL(page.url()).origin,{waitUntil:'networkidle'})}catch{}
   }
 }

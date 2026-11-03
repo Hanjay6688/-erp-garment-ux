@@ -1,0 +1,13 @@
+{
+  "contract": "cp7.B.harness-hidden-navigation-correction.v1",
+  "superseded_source": "422328f1aa1c3c8d972e9a1a36a751b71bfc7308",
+  "superseded_run": 41612431068,
+  "job": 125837402154,
+  "cause": "getByRole defaults to visible accessibility tree. Mobile drawer hides after click, so waiting for attached role cannot resolve. Use exact visible role to click, then active DOM marker to confirm navigation.",
+  "runtime_UI_change": false,
+  "reused_original": 13218512902,
+  "same_fresh_views": 209,
+  "recovery": "New own-branch run cancels only writer-b-ui-families stale run using exact commit-message condition. No financial/A job shares this concurrency group. Preserve original logs/artifacts; superseded run is not an accepted test.",
+  "fail_fast": "Stop after three failures and write partial report; do not spend25 minutes repeating navigation failures.",
+  "production_go": false
+}
