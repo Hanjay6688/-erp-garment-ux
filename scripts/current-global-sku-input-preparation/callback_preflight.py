@@ -15,7 +15,7 @@ sys.path.insert(0,str(ROOT/'scripts'))
 
 PINS={
  'actual':(14755737,'80856b7ec2cebf08318a21617091b73c6744161b72bb3be98bcb9ecd2b8109eb'),
- 'prior':(561405,'1a174be747a9184f497f4b017bf4315ee5f9362f87437b6092491309a2def3ac'),
+ 'prior':(592423,'449631b4be097251072fc28f9760c26ebb8f095c1268292e678054ed007ed782'),
  'original_dispatch_inputs.py':(18374,'583a87ba25ed6ebf83b281c435a90336ec8b4031128e68707bdb07edf410846a'),
  'scan_saved_writer_census.py':(13782,'69adaed6494ea81cc93ed304718eda7a94131052a81ae3dbc2c8a6d54b4e045c'),
  'intake_common.py':(6518,'698216cfb4c31e8c93167e1b67f52f0b7532e5906ac8a09584b0a32c728b41e9'),
@@ -73,17 +73,22 @@ def requirements():
         'COMPOSITE_CALLBACK_SOURCE_REVIEW_CANNOT_ADOPT_PARENT')
     require(report['installation_SQL']=={n:pin(t.encode())for n,t in current_source_expectations().items()},
         'COMPOSITE_CALLBACK_CURRENT_INSTALLATION_SQL_CHANGED')
+    reviewed=json.loads((HERE/'INPUT_REVIEW_CONTROLS.json').read_bytes())
+    require(report['prior_source_review']==dict(bytes=PINS['prior'][0],sha256=PINS['prior'][1])
+        ==reviewed['full_source_review'],'COMPOSITE_CALLBACK_CURRENT_SKU_SOURCE_REVIEW_CHANGED')
     names=report['required_relation_lower_bound']
     require(type(names)is list and all(type(n)is str for n in names)and names==sorted(set(names))
-        and len(names)==209 and len(report['new_physical_relation_candidates'])==12,
+        and len(names)==221 and len(report['new_physical_relation_candidates'])==12,
         'COMPOSITE_CALLBACK_EXACT_PREPARED_RELATION_LOWER_BOUND')
+    require(set(names)==set(reviewed['physical_relation_candidates'])|set(report['new_physical_relation_candidates']),
+        'COMPOSITE_CALLBACK_COMPLETE_CURRENT_SKU_AND_MANDOR_INPUTS_REQUIRED')
     require(len(report['additional_firing_triggers'])==4 and len(report['additional_parent_side_foreign_keys'])==2
         and len(report['new_callback_sources'])==6,'COMPOSITE_CALLBACK_COMPLETE_PREPARED_CALLBACK_SET')
     return report
 
 
 def require_input_relations(profile):
-    """Reject the known incomplete197 profile before any installer cursor use.
+    """Reject the known incomplete197 and209 profiles before any installer cursor use.
 
     Passing this lower bound does not certify metadata, privileges, concurrency,
     financial behavior, complete input coverage or the actual accepted parent.
@@ -93,7 +98,7 @@ def require_input_relations(profile):
         'GLOBAL_COMPOSITE_DISTINCT_SORTED_INPUT_RELATIONS_REQUIRED')
     missing=set(report['required_relation_lower_bound'])-set(names)
     require(not missing,'GLOBAL_COMPOSITE_CALLBACK_INPUT_RELATIONS_MISSING:'+','.join(sorted(missing)))
-    return dict(required_relation_lower_bound=209,complete_input_review=False,actual_final_parent_adopted=False)
+    return dict(required_relation_lower_bound=221,complete_input_review=False,actual_final_parent_adopted=False)
 
 
 def declared(parser,texts,typename):

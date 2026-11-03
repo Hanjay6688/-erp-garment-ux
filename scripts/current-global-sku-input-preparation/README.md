@@ -1,4 +1,29 @@
-# Persiapan pengamatan global untuk SKU moving average
+# Posisi terkini: sumber SKU Native6 dan batas input gabungan
+
+Persiapan sekarang mengikat SKU `fea75841e26645f1892d880905231625b47e3065`:
+delapan konsumen Native dan empat pembuktian kredit, dengan seluruh 19 atribut
+asli tiap fungsi. Perhitungan target non-PO berubah; tiga helper pengamatan
+selain authority tetap sama persis. Pengamatan stok/PO tetap baca-saja.
+
+Review sumber terbaru menjangkau 286 fungsi dan 209 calon tabel fisik; 272
+hasil parse dipakai kembali hanya bila definisi dan bahasa persis, 14 body
+lain diparse. Dua belas tabel tambahan berasal dari laundry yang kini ikut
+menentukan keadaan komponen. Tidak ada target sumber yang belum dikenal.
+Empat trigger dan dua FK Mandor menambah 12 tabel berbeda, sehingga batas
+bawah input gabungan menjadi 221. Ini tetap bukan profil lengkap aktual.
+Daftar 197 maupun 209 saja harus ditolak sebelum cursor pemasangan dipakai.
+
+Kontrol model PostgreSQL17 untuk graf stok (22) dan pengamatan PO (41) lulus
+pada sumber terkini. Semua admission tetap kosong; hasil Afui, Mandor, SKU,
+parent gabungan, input aktual, transaksi Native/race/Auth dan pemulihan lengkap
+masih wajib sebelum pengamanan global bisa diaktifkan. Pemeriksaan pertama
+lokal atas cache berhenti karena hash tersalin terpotong; hash dipulihkan dari
+record lama yang sudah dipin sebelum review dijalankan. Parser dan penolakan
+tidak diubah. Bukti pertama tetap disimpan.
+
+## Riwayat persiapan dan alasan desain
+
+### Persiapan pengamatan global untuk SKU moving average
 
 Sumber terpisah di atas kandidat Mandor `c19211e`. Pemasangan aktual,
 workflow keuangan, perubahan izin produk, dan adopsi parent final masih tertutup.

@@ -5,8 +5,8 @@
     "sha256": "80856b7ec2cebf08318a21617091b73c6744161b72bb3be98bcb9ecd2b8109eb"
   },
   "prior_source_review": {
-    "bytes": 561405,
-    "sha256": "1a174be747a9184f497f4b017bf4315ee5f9362f87437b6092491309a2def3ac"
+    "bytes": 592423,
+    "sha256": "449631b4be097251072fc28f9760c26ebb8f095c1268292e678054ed007ed782"
   },
   "installation_SQL": {
     "scripts/cp7_mandor_shop/schema.sql": {
@@ -418,6 +418,7 @@
     "cp7_installment.requests",
     "cp7_kasbon.advances",
     "cp7_kasbon.command_context",
+    "cp7_laundry_unknown_wash.prices_v1",
     "cp7_mandor_shop.allocation_events",
     "cp7_mandor_shop.allocation_states",
     "cp7_mandor_shop.command_context",
@@ -493,6 +494,9 @@
     "erp.bc_outstanding_returns_v1",
     "erp.bc_return_lots_v1",
     "erp.bd_execution_context_v1",
+    "erp.bd_laundry_invoice_lines_v1",
+    "erp.bd_laundry_invoices_v1",
+    "erp.bd_laundry_priced_lines_v1",
     "erp.be_conversion_cost_events_v1",
     "erp.be_conversion_cost_sources_v1",
     "erp.be_conversion_returns_v1",
@@ -501,6 +505,8 @@
     "erp.be_nonpo_transfer_events_v1",
     "erp.be_pocket_source_events_v1",
     "erp.be_pocket_usage_v1",
+    "erp.be_redye_price_events_v1",
+    "erp.be_redye_services_v1",
     "erp.bf_context_v1",
     "erp.bf_supplier_credit_moves_v1",
     "erp.bs_resolution_execution_context",
@@ -532,6 +538,11 @@
     "erp.journal_entries",
     "erp.journal_lines",
     "erp.laundry_cost_accrual_events",
+    "erp.laundry_deliveries",
+    "erp.laundry_delivery_lines",
+    "erp.laundry_failed_wash_attempts",
+    "erp.laundry_receipt_lines",
+    "erp.laundry_receipts",
     "erp.laundry_vendors",
     "erp.locations",
     "erp.material_adjustment_items",
@@ -561,6 +572,7 @@
     "erp.production_orders",
     "erp.products",
     "erp.qc_inspection_items",
+    "erp.rework_orders",
     "erp.sale_stock_allocations",
     "erp.sales_headers",
     "erp.sales_items",

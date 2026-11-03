@@ -93,8 +93,8 @@
   ],
   "source_helpers": {
     "authority": {
-      "bytes": 65425,
-      "sha256": "652beb1808a4390b10d07f4504edf989d542498532e05bc41513009b8a0ef169"
+      "bytes": 65666,
+      "sha256": "582a58000354d5e333b4aa5b73dd7461bdaba70457a6c50c14f27541247dec64"
     },
     "capture": {
       "bytes": 12138,

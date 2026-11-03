@@ -2,12 +2,12 @@
   "contract": "cp7.global-sku-source-prerequisite.v1",
   "status": "PREPARED_UNQUALIFIED",
   "SKU": {
-    "head": "d31245e1e981f28fe07d3d5cfc7904471733439c",
-    "tree": "d782b4483899c120cd5c472fcb42fc87a0ef0668",
+    "head": "fea75841e26645f1892d880905231625b47e3065",
+    "tree": "13c9608a14cf5d137feb84c8bac99954c0c7af50",
     "consumer_source": {
       "path": "scripts/cp7_sku_moving_average/consumer_delta.py",
-      "bytes": 17701,
-      "sha256": "4645e944237a6f6461e8b8a8b811ee79d329499b0c5b8f72f8d422d26928384c"
+      "bytes": 23341,
+      "sha256": "958dd155969a85c75ed78b5d9bb4853f7c262739b91fc8bcdcdb3fff1fa6fa8a"
     },
     "base_original": {
       "head": "090b85d3fcb738d3e694d4329d306f199a686eb8",
@@ -46,6 +46,11 @@
           "sha256": "bb7bd9fedafa7d1a72b7a7aed6431d82ca9d4de7bd2849df33c06d245b1f61c9"
         }
       }
+    },
+    "credit_source": {
+      "path": "scripts/cp7_sku_moving_average/credit_delta.py",
+      "bytes": 15550,
+      "sha256": "40db04666d22bd619cdba2a7e3e44b848ca55d8d73cf880f3ead7a9f1cf74945"
     }
   },
   "functions": {
@@ -287,6 +292,217 @@
         ],
         [
           "service_role",
+          "postgres",
+          "EXECUTE",
+          false
+        ]
+      ]
+    ],
+    "erp.post_opening_hpp_correction(uuid,numeric,text,date)": [
+      "CREATE OR REPLACE FUNCTION erp.post_opening_hpp_correction(p_lot_id uuid, p_new_hpp numeric, p_reason text, p_effective_date date DEFAULT ((statement_timestamp() AT TIME ZONE 'Asia/Jakarta'::text))::date)\n RETURNS uuid\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'erp', 'public'\nAS $function$\ndeclare l erp.fg_lots%rowtype;v_old_id uuid;v_old_hpp numeric(20,6);v_ver integer;v_new_id uuid;v_corr uuid;v_no text;\nbegin\n  perform erp.require_owner_admin();\n  perform pg_advisory_xact_lock(hashtextextended('FG_HPP_SALES_V2620C',0));\n  if nullif(trim(p_reason),'') is null then raise exception 'Alasan koreksi HPP opening wajib diisi'; end if;\n  if p_new_hpp is null or p_new_hpp<0 then raise exception 'HPP opening hasil koreksi tidak boleh negatif'; end if;\n  select * into l from erp.fg_lots where id=p_lot_id for update;\n  if l.id is null or l.lot_origin<>'OPENING' then raise exception 'Koreksi HPP opening hanya untuk lot saldo awal'; end if;\n  if exists(select 1 from erp.product_conversion_allocations pca join erp.product_conversions pc on pc.id=pca.conversion_id where pca.source_lot_id=l.id and pc.status='POSTED') then\n    raise exception 'Lot opening sudah pernah dipakai conversion/rebrand. Reverse/correct conversion tersebut dulu sebelum mengubah HPP opening.';\n  end if;\n  perform erp.assert_non_po_product_hpp_target_book_v2620f(l.product_id);\n  select hpp_version_id,hpp_per_pcs into v_old_id,v_old_hpp from erp.v_current_hpp where lot_id=l.id;\n  if v_old_id is null then raise exception 'Current HPP lot opening tidak ditemukan'; end if;\n  if abs(v_old_hpp-p_new_hpp)<=0.000001 then raise exception 'HPP baru sama dengan HPP current (%)',v_old_hpp; end if;\n  select coalesce(max(version_no),0)+1 into v_ver from erp.hpp_versions where lot_id=l.id;\n  update erp.hpp_versions set is_current=false where lot_id=l.id and is_current=true;\n  insert into erp.hpp_versions(lot_id,version_no,cost_state,qty_basis_pcs,total_cost,is_current,supersedes_id,calculation_reason,created_by)\n  values(l.id,v_ver,'ADJUSTED',l.initial_qty_pcs,l.initial_qty_pcs*p_new_hpp,true,v_old_id,'Controlled opening HPP correction: '||p_reason,erp.current_app_user_id()) returning id into v_new_id;\n  v_no:='OHPP-'||to_char((clock_timestamp() AT TIME ZONE 'Asia/Jakarta'),'YYYYMMDDHH24MISSMS')||'-'||substr(gen_random_uuid()::text,1,6);\n  insert into erp.opening_hpp_corrections(correction_number,lot_id,previous_hpp_snapshot,corrected_hpp,effective_date,reason,hpp_version_id,created_by)\n  values(v_no,l.id,v_old_hpp,p_new_hpp,p_effective_date,p_reason,v_new_id,erp.current_app_user_id()) returning id into v_corr;\n  perform erp.sync_opening_lot_hpp_to_gl(l.id,p_effective_date);\n  insert into erp.audit_logs(entity_type,entity_id,action,new_data,changed_by,change_reason)\n  values('fg_lots',l.id,'UPDATE',jsonb_build_object('correction_id',v_corr,'previous_hpp',v_old_hpp,'corrected_hpp',p_new_hpp),erp.current_app_user_id(),p_reason);\n  return v_corr;\nend;$function$\n",
+      "postgres",
+      "plpgsql",
+      "f",
+      true,
+      false,
+      false,
+      false,
+      "v",
+      "u",
+      "100",
+      "0",
+      [
+        "search_path=erp, public"
+      ],
+      [
+        "p_lot_id",
+        "p_new_hpp",
+        "p_reason",
+        "p_effective_date"
+      ],
+      null,
+      "p_lot_id uuid, p_new_hpp numeric, p_reason text, p_effective_date date DEFAULT ((statement_timestamp() AT TIME ZONE 'Asia/Jakarta'::text))::date",
+      "uuid",
+      "-",
+      [
+        [
+          "authenticated",
+          "postgres",
+          "EXECUTE",
+          false
+        ],
+        [
+          "postgres",
+          "postgres",
+          "EXECUTE",
+          false
+        ]
+      ]
+    ],
+    "erp.sync_opening_lot_hpp_to_gl(uuid,date)": [
+      "CREATE OR REPLACE FUNCTION erp.sync_opening_lot_hpp_to_gl(p_lot_id uuid, p_effective_date date DEFAULT ((statement_timestamp() AT TIME ZONE 'Asia/Jakarta'::text))::date)\n RETURNS void\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'erp', 'public'\nAS $function$\ndeclare\n  l erp.fg_lots%rowtype; s erp.opening_lot_hpp_gl_state%rowtype;\n  h erp.hpp_versions%rowtype; v_baseline numeric; v_source_delta numeric;\n  v_expected_delta numeric; v_current_qty numeric; v_base_fg numeric;\n  v_net_sold_qty numeric; v_actual_cogs numeric; v_expense numeric; v_income numeric;\nbegin\n  perform erp.require_internal();\n  perform pg_advisory_xact_lock(hashtextextended('FG_HPP_SALES_V2620C',0));\n  select * into l from erp.fg_lots where id=p_lot_id for update;\n  if l.id is null or l.lot_origin<>'OPENING' then return; end if;\n  select * into h from erp.hpp_versions where lot_id=l.id and is_current;\n  if h.id is null then raise exception 'Opening current HPP is missing'; end if;\n  select fm.unit_hpp_snapshot into v_baseline from erp.fg_stock_movements fm\n  where fm.lot_id=l.id and fm.movement_type='OPENING'\n  order by fm.physical_at,fm.system_created_at,fm.id limit 1;\n  if v_baseline is null then raise exception 'Opening lot % has no source movement',l.lot_number; end if;\n  if exists(select 1 from erp.product_conversion_allocations a\n    join erp.product_conversions c on c.id=a.conversion_id\n    where a.source_lot_id=l.id and c.status='POSTED') then\n    if exists(select 1 from erp.product_conversion_allocations a\n      join erp.product_conversions c on c.id=a.conversion_id\n      where a.source_lot_id=l.id and c.status='POSTED' and not erp.be_nonpo_admitted_v1(c.id)) then\n      raise exception 'Opening HPP conversion requires a sourced descendant correction workflow';\n    end if;\n    perform erp.be_nonpo_prepare_transfers_v1(p_effective_date);\n  end if;\n  select * into s from erp.opening_lot_hpp_gl_state where lot_id=l.id for update;\n  v_expected_delta:=round(h.total_cost,2)\n    -round(l.initial_qty_pcs*coalesce(s.current_hpp,v_baseline),2);\n  select t.hpp_total_cost-b.hpp_total_cost into v_source_delta\n  from erp.compute_non_po_product_hpp_targets_v2620f(l.product_id) t\n  cross join lateral erp.compute_non_po_product_hpp_book_v2620f(l.product_id) b;\n  if v_source_delta is distinct from v_expected_delta then\n    raise exception 'OPENING_SOURCE_CHANGE_NOT_EXACT: product %, pending lot basis %, target/book source delta %',\n      l.product_id,v_expected_delta,v_source_delta;\n  end if;\n  if v_source_delta<>0 then\n    perform erp.post_journal('OPENING_HPP_SOURCE_V2620G',h.id,p_effective_date,\n      'Source lot basis correction for '||l.lot_number||' / HPP version '||h.id,\n      jsonb_build_array(\n        jsonb_build_object('mapping_key','FG_INVENTORY',\n          'debit',greatest(v_source_delta,0),'credit',greatest(-v_source_delta,0),'product_id',l.product_id),\n        jsonb_build_object('mapping_key','OPENING_EQUITY',\n          'debit',greatest(-v_source_delta,0),'credit',greatest(v_source_delta,0))\n      ));\n  end if;\n  perform erp.sync_non_po_product_hpp_to_gl_v2620f(l.product_id,p_effective_date,\n    'OPENING_HPP_LIFECYCLE_V2620G',h.id,'Exact rounded opening source and cumulative physical lifecycle');\n  perform erp.assert_non_po_product_hpp_target_book_v2620f(l.product_id);\n\n  -- Preserve the historical raw revaluation diagnostics and trigger-activation\n  -- contract. These projections are not used as monetary posting authority:\n  -- actual journals and F's cumulative source/target/book checks are.\n  -- DRAFT reservations reduce sellable qty, not company ownership.\n  select coalesce(sum(fm.qty_signed),0),coalesce(sum(fm.qty_signed*fm.unit_hpp_snapshot),0)\n    into v_current_qty,v_base_fg from erp.fg_stock_movements fm where fm.lot_id=l.id;\n  select v_current_qty+coalesce(sum(abs(fm.qty_signed)),0),\n    v_base_fg+coalesce(sum(abs(fm.qty_signed)*fm.unit_hpp_snapshot),0)\n    into v_current_qty,v_base_fg from erp.fg_stock_movements fm\n    where fm.lot_id=l.id and fm.movement_type='SALE_RESERVE'\n      and not exists(select 1 from erp.fg_stock_movements rv where rv.reversal_of_id=fm.id);\n  select coalesce(sum(a.qty_pcs),0),coalesce(sum(a.qty_pcs*a.unit_hpp_snapshot),0)\n    into v_net_sold_qty,v_actual_cogs from erp.sale_stock_allocations a\n    join erp.sales_items i on i.id=a.sale_item_id join erp.sales_headers sh on sh.id=i.sale_id\n    where a.lot_id=l.id and sh.status in('POSTED','PARTIAL_PAID','PAID');\n  select v_net_sold_qty-coalesce(sum(i.qty_pcs),0),v_actual_cogs-coalesce(sum(i.qty_pcs*i.unit_hpp_snapshot),0)\n    into v_net_sold_qty,v_actual_cogs from erp.sales_return_items i\n    join erp.sales_returns rh on rh.id=i.return_id where i.lot_id=l.id and rh.status='POSTED';\n  select coalesce(sum(case when i.qty_signed<0 then -i.qty_signed*(h.hpp_per_pcs-i.unit_hpp_snapshot) else 0 end),0),\n    coalesce(sum(case when i.qty_signed>0 then i.qty_signed*(h.hpp_per_pcs-i.unit_hpp_snapshot) else 0 end),0)\n    into v_expense,v_income from erp.fg_adjustment_items i\n    join erp.fg_adjustments a on a.id=i.adjustment_id where i.lot_id=l.id and a.status='POSTED';\n  insert into erp.opening_lot_hpp_gl_state(lot_id,current_hpp,fg_revaluation,cogs_revaluation,\n    expense_revaluation,income_revaluation,equity_revaluation,updated_at)\n  values(l.id,h.hpp_per_pcs,v_current_qty*h.hpp_per_pcs-v_base_fg,\n    v_net_sold_qty*h.hpp_per_pcs-v_actual_cogs,v_expense,v_income,\n    l.initial_qty_pcs*(h.hpp_per_pcs-v_baseline),statement_timestamp())\n  on conflict(lot_id) do update set current_hpp=excluded.current_hpp,\n    fg_revaluation=excluded.fg_revaluation,cogs_revaluation=excluded.cogs_revaluation,\n    expense_revaluation=excluded.expense_revaluation,income_revaluation=excluded.income_revaluation,\n    equity_revaluation=excluded.equity_revaluation,updated_at=statement_timestamp();\nend\n$function$\n",
+      "postgres",
+      "plpgsql",
+      "f",
+      true,
+      false,
+      false,
+      false,
+      "v",
+      "u",
+      "100",
+      "0",
+      [
+        "search_path=erp, public"
+      ],
+      [
+        "p_lot_id",
+        "p_effective_date"
+      ],
+      null,
+      "p_lot_id uuid, p_effective_date date DEFAULT ((statement_timestamp() AT TIME ZONE 'Asia/Jakarta'::text))::date",
+      "void",
+      "-",
+      [
+        [
+          "postgres",
+          "postgres",
+          "EXECUTE",
+          false
+        ]
+      ]
+    ],
+    "cp7_credit.initial_hpp_targets_v1(uuid,uuid,jsonb,boolean)": [
+      "CREATE OR REPLACE FUNCTION cp7_credit.initial_hpp_targets_v1(p_product uuid, p_po uuid, p_items jsonb, p_after boolean)\n RETURNS jsonb\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO ''\n SET \"TimeZone\" TO 'UTC'\nAS $function$\n with requested as(\n  select (x->>'lot_id')::uuid lot_id,sum((x->>'qty_pcs')::numeric)qty\n  from jsonb_array_elements(p_items)x group by (x->>'lot_id')::uuid\n ),lot_source as(\n  select fl.id lot_id,fl.product_id,fl.po_id,fl.lot_origin,fl.initial_qty_pcs,\n   to_jsonb(fl)lot_source,to_jsonb(hv)hpp_source,\n   case when coalesce(hv.qty_basis_pcs,0)>0 then hv.total_cost/hv.qty_basis_pcs else 0 end::numeric unit_raw,\n   case when p_po is not null then case when fl.lot_origin='PRODUCTION' then coalesce(hv.total_cost,0)else 0 end\n    else (case when fl.lot_origin<>'CONVERSION'or exists(select 1 from erp.product_conversion_allocations a\n      join erp.product_conversions c on c.id=a.conversion_id where a.destination_lot_id=fl.id and c.status='POSTED')\n      then coalesce(hv.total_cost,0)else 0 end)-coalesce((select sum(a.qty_pcs*(hv.total_cost/nullif(hv.qty_basis_pcs,0)))\n       from erp.product_conversion_allocations a join erp.product_conversions c on c.id=a.conversion_id\n       where a.source_lot_id=fl.id and c.status='POSTED'),0)end::numeric raw_total\n  from erp.fg_lots fl left join erp.hpp_versions hv on hv.lot_id=fl.id and hv.is_current\n  where (p_po is not null and fl.po_id=p_po and fl.lot_origin in('PRODUCTION','CONVERSION'))\n   or(p_po is null and fl.po_id is null and fl.product_id=p_product and fl.lot_origin<>'VOIDED_PRODUCTION')\n ),facts as(\n  select l.*,coalesce(q.qty,0)::numeric requested_qty,m.owned_qty,s.sold_qty,r.returned_qty,\n   (m.owned_qty+case when p_after then coalesce(q.qty,0)else 0 end)::numeric owned_after,\n   (s.sold_qty-r.returned_qty-case when p_after then coalesce(q.qty,0)else 0 end)::numeric net_sold_after\n  from lot_source l left join requested q on q.lot_id=l.lot_id\n  cross join lateral(select(coalesce(sum(m.qty_signed),0)+coalesce(sum(abs(m.qty_signed))filter(\n   where m.movement_type='SALE_RESERVE'and not exists(select 1 from erp.fg_stock_movements rv where rv.reversal_of_id=m.id)),0))::numeric owned_qty\n   from erp.fg_stock_movements m where m.lot_id=l.lot_id)m\n  cross join lateral(select coalesce(sum(a.qty_pcs),0)::numeric sold_qty from erp.sale_stock_allocations a\n   join erp.sales_items i on i.id=a.sale_item_id join erp.sales_headers h on h.id=i.sale_id\n   where a.lot_id=l.lot_id and h.status in('POSTED','PARTIAL_PAID','PAID'))s\n  cross join lateral(select coalesce(sum(i.qty_pcs),0)::numeric returned_qty from erp.sales_return_items i\n   join erp.sales_returns h on h.id=i.return_id where i.lot_id=l.lot_id and h.status='POSTED')r\n ),extra as(select case when p_po is null then 0 else erp.be_po_extra_v1(p_po)end::numeric amount),cents as(\n  select round(f.raw_total,2)::numeric hpp,round(f.raw_total-greatest(f.owned_after,0)*f.unit_raw,2)::numeric total_out,\n   round(greatest(f.net_sold_after,0)*f.unit_raw,2)::numeric cogs from facts f where p_po is null\n  union all\n  select round(coalesce(sum(f.raw_total),0)+(select amount from extra),2)::numeric,\n   round(coalesce(sum(f.raw_total),0)+(select amount from extra)-coalesce(sum(greatest(f.owned_after,0)*f.unit_raw),0),2)::numeric,\n   round(coalesce(sum(greatest(f.net_sold_after,0)*f.unit_raw),0),2)::numeric\n  from facts f having p_po is not null\n ),target as(\n  select coalesce(sum(hpp),0)::numeric hpp_total_cost,coalesce(sum(hpp-total_out),0)::numeric fg_value,\n   coalesce(sum(cogs),0)::numeric cogs_value,coalesce(sum(total_out-cogs),0)::numeric other_out_value from cents\n )select jsonb_build_object('target',to_jsonb(t)||case when p_po is null then'{}'::jsonb else jsonb_build_object(\n   'base_output_qty',(select coalesce(sum(initial_qty_pcs),0)from facts where lot_origin='PRODUCTION'))end,\n  'lots',(select coalesce(jsonb_agg(to_jsonb(f)order by f.lot_id),'[]')from facts f),\n  'po_extra',(select amount from extra),'conversions',(select coalesce(jsonb_agg(jsonb_build_object(\n   'allocation',to_jsonb(a),'conversion',to_jsonb(c))order by a.id),'[]')from erp.product_conversion_allocations a\n   join erp.product_conversions c on c.id=a.conversion_id where a.source_lot_id in(select lot_id from facts)\n    or a.destination_lot_id in(select lot_id from facts)))from target t\n$function$\n",
+      "postgres",
+      "sql",
+      "f",
+      true,
+      false,
+      false,
+      false,
+      "s",
+      "u",
+      "100",
+      "0",
+      [
+        "search_path=\"\"",
+        "TimeZone=UTC"
+      ],
+      [
+        "p_product",
+        "p_po",
+        "p_items",
+        "p_after"
+      ],
+      null,
+      "p_product uuid, p_po uuid, p_items jsonb, p_after boolean",
+      "jsonb",
+      "-",
+      [
+        [
+          "postgres",
+          "postgres",
+          "EXECUTE",
+          false
+        ]
+      ]
+    ],
+    "cp7_credit.initial_hpp_projection_v1(jsonb)": [
+      "CREATE OR REPLACE FUNCTION cp7_credit.initial_hpp_projection_v1(p_legacy jsonb)\n RETURNS jsonb\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\n SET \"TimeZone\" TO 'UTC'\nAS $function$\ndeclare x jsonb;a record;r record;t record;b record;cost numeric;owned numeric;sold numeric;returned numeric;\n hpp numeric:=0;items jsonb:='[]';groups jsonb:='[]';lines jsonb:='[]';group_amount numeric;\n products uuid[];pos uuid[];lots uuid[];versions uuid[];fresh_lots uuid[];fresh_versions uuid[];\n before_profile jsonb;after_profile jsonb;before_target jsonb;after_target jsonb;actual_book jsonb;saved_state jsonb;account_facts jsonb;source_support jsonb;opening_source jsonb;\n delta_fg numeric;delta_cogs numeric;delta_other numeric;fg_account uuid;cogs_account uuid;expense_account uuid;income_account uuid;\nbegin\n select array_agg(distinct i.product_id order by i.product_id),array_agg(distinct fl.po_id order by fl.po_id)filter(where fl.po_id is not null)\n into products,pos from jsonb_array_elements(p_legacy->'items')as draft_item(value)join erp.sale_stock_allocations sa on sa.id=(draft_item.value->>'allocation_id')::uuid\n  join erp.sales_items i on i.id=sa.sale_item_id join erp.fg_lots fl on fl.id=sa.lot_id;\n pos:=coalesce(pos,'{}'::uuid[]);\n select coalesce(array_agg(id order by id),'{}'::uuid[])into lots from erp.fg_lots where product_id=any(products)or po_id=any(pos);\n select coalesce(array_agg(id order by id),'{}'::uuid[])into versions from erp.hpp_versions where lot_id=any(lots);\n perform 1 from erp.locations where id in(select(value->>'location_id')::uuid from jsonb_array_elements(p_legacy->'items'))order by id for share;\n perform 1 from erp.fg_inventory_balances inv where exists(select 1 from jsonb_array_elements(p_legacy->'items')draft_item\n  join erp.sale_stock_allocations sa on sa.id=(draft_item->>'allocation_id')::uuid join erp.sales_items si on si.id=sa.sale_item_id\n  where inv.product_id=si.product_id and inv.location_id=(draft_item->>'location_id')::uuid and inv.quality_grade=draft_item->>'quality_grade')\n  order by inv.product_id,inv.location_id,inv.quality_grade for update;\n -- Include PO siblings even when another product owns them. Never acquire\n -- newly discovered earlier-order rows from the completion callback.\n perform 1 from erp.fg_lots where id=any(lots)order by id for update;\n perform 1 from erp.hpp_versions where id=any(versions)order by id for share;\n perform 1 from erp.opening_lot_hpp_gl_state where lot_id=any(lots)order by lot_id for update;\n perform 1 from erp.opening_hpp_corrections where lot_id=any(lots)order by id for share;\n perform 1 from erp.po_hpp_gl_state where po_id=any(pos)order by po_id for update;\n select coalesce(array_agg(id order by id),'{}'::uuid[])into fresh_lots from erp.fg_lots where product_id=any(products)or po_id=any(pos);\n select coalesce(array_agg(id order by id),'{}'::uuid[])into fresh_versions from erp.hpp_versions where lot_id=any(fresh_lots);\n if fresh_lots is distinct from lots or fresh_versions is distinct from versions then raise exception 'CP7_CREDIT_HPP_LOCK_SET_CHANGED';end if;\n account_facts:=cp7_credit.initial_hpp_account_facts_v1();\n fg_account:=cp7_credit.account_by_mapping_v1('FG_INVENTORY');cogs_account:=cp7_credit.account_by_mapping_v1('COGS');\n expense_account:=cp7_credit.account_by_mapping_v1('OTHER_EXPENSE');income_account:=cp7_credit.account_by_mapping_v1('OTHER_INCOME');\n if exists(select 1 from jsonb_array_elements(account_facts->'mappings')as mapped(value)where(mapped.value->>'account_id')::uuid is distinct from\n  case mapped.value->>'mapping_key'when'FG_INVENTORY'then fg_account when'COGS'then cogs_account when'OTHER_EXPENSE'then expense_account else income_account end)then\n  raise exception 'CP7_CREDIT_HPP_ACCOUNT_SOURCE_CHANGED';end if;\n for x in select value from jsonb_array_elements(p_legacy->'items')loop\n  select sa.*,i.sale_id,i.product_id,fl.po_id,fl.lot_origin,hv.id hpp_id,hv.total_cost,hv.qty_basis_pcs,hv.hpp_per_pcs current_unit_snapshot into strict a\n   from erp.sale_stock_allocations sa join erp.sales_items i on i.id=sa.sale_item_id join erp.fg_lots fl on fl.id=sa.lot_id\n   join erp.hpp_versions hv on hv.lot_id=fl.id and hv.is_current where sa.id=(x->>'allocation_id')::uuid;\n  if a.sale_id<>(p_legacy->>'sale_id')::uuid or a.qty_basis_pcs<=0 or a.lot_origin='VOIDED_PRODUCTION'\n   or not exists(select 1 from erp.locations where id=(x->>'location_id')::uuid and is_active and location_type='FG_WAREHOUSE')then\n   raise exception 'CP7_CREDIT_RETURN_SOURCE_OR_DESTINATION_CHANGED';end if;\n  if a.total_cost::text in('NaN','Infinity','-Infinity')or a.current_unit_snapshot::text in('NaN','Infinity','-Infinity')then\n   raise exception 'CP7_CREDIT_NONFINITE_HPP_SOURCE';end if;\n  cost:=a.total_cost/a.qty_basis_pcs;\n  if cost<0 then raise exception 'CP7_CREDIT_NEGATIVE_HPP_SOURCE';end if;\n  select coalesce(sum(m.qty_signed),0)+coalesce(sum(abs(m.qty_signed))filter(where m.movement_type='SALE_RESERVE'\n   and not exists(select 1 from erp.fg_stock_movements rv where rv.reversal_of_id=m.id)),0)into owned\n   from erp.fg_stock_movements m where m.lot_id=a.lot_id;\n  select coalesce(sum(sa.qty_pcs),0)into sold from erp.sale_stock_allocations sa join erp.sales_items si on si.id=sa.sale_item_id\n   join erp.sales_headers sh on sh.id=si.sale_id where sa.lot_id=a.lot_id and sh.status in('POSTED','PARTIAL_PAID','PAID');\n  select coalesce(sum(ri.qty_pcs),0)into returned from erp.sales_return_items ri join erp.sales_returns rr on rr.id=ri.return_id\n   where ri.lot_id=a.lot_id and rr.status='POSTED';\n  -- Preserve the retained Native allocation refusal before the extra HPP\n  -- target checks; a prior completed return consumes this same allocation.\n  if (x->>'qty_pcs')::numeric>a.qty_pcs-coalesce((select sum(ri.qty_pcs)from erp.sales_return_items ri join erp.sales_returns rr on rr.id=ri.return_id\n    where rr.status='POSTED'and ri.sale_stock_allocation_id=a.id),0)then raise exception 'AH_RETURN_EXCEEDS_ORIGINAL_ALLOCATION';end if;\n  if owned<0 or sold-returned<(select sum((v->>'qty_pcs')::numeric)from jsonb_array_elements(p_legacy->'items')v\n   join erp.sale_stock_allocations s on s.id=(v->>'allocation_id')::uuid where s.lot_id=a.lot_id)then raise exception 'CP7_CREDIT_RETURN_QTY_SOURCE_INVALID';end if;\n  items:=items||jsonb_build_array(x||jsonb_build_object('product_id',a.product_id,'lot_id',a.lot_id,'po_id',a.po_id,\n   'hpp_version_id',a.hpp_id,'unit_hpp_raw',cost::text,'unit_hpp_snapshot',a.current_unit_snapshot::text));\n end loop;\n for r in select distinct case when z->>'po_id'is null then(z->>'product_id')::uuid end product_id,\n  (z->>'po_id')::uuid po_id from jsonb_array_elements(items)z\n  order by po_id nulls first,product_id loop\n  saved_state:=null;\n  source_support:=cp7_credit.initial_hpp_support_v1(r.product_id,r.po_id);\n  opening_source:=cp7_credit.initial_opening_hpp_source_v1(r.product_id,r.po_id);\n  if r.po_id is null then\n   select *into strict t from erp.compute_non_po_product_hpp_targets_v2620f(r.product_id);\n   select coalesce(sum(l.debit-l.credit)filter(where l.account_id=fg_account),0)fg_value,\n    coalesce(sum(l.debit-l.credit)filter(where l.account_id=cogs_account),0)cogs_value,\n    coalesce(sum(l.debit-l.credit)filter(where l.account_id in(expense_account,income_account)),0)other_out_value\n   into b from erp.journal_lines l join erp.journal_entries j on j.id=l.journal_entry_id left join erp.journal_entries o on o.id=j.reversal_of_id\n    where l.product_id=r.product_id and l.po_id is null and j.status in('POSTED','REVERSED')\n     and(j.source_type<>'PRODUCT_CONVERSION'or erp.be_nonpo_admitted_v1(j.source_id))\n     and(j.source_type<>'JOURNAL_REVERSAL'or o.source_type is distinct from'PRODUCT_CONVERSION'or erp.be_nonpo_admitted_v1(o.source_id));\n   if round(t.fg_value,2)<>b.fg_value or round(t.cogs_value,2)<>b.cogs_value or round(t.other_out_value,2)<>b.other_out_value then\n    raise exception 'CP7_CREDIT_HPP_TARGET_BOOK_NOT_RECONCILED';end if;\n   actual_book:=to_jsonb(b)||jsonb_build_object('hpp_total_cost',b.fg_value+b.cogs_value+b.other_out_value);\n  else\n   -- PO groups are emitted once, and the source is the actual Native book\n   -- reader's safe private equivalent, not the possibly stale cache alone.\n   select *into strict t from erp.compute_po_hpp_gl_targets_v2620d(r.po_id);\n   select to_jsonb(st)into strict saved_state from erp.po_hpp_gl_state st where st.po_id=r.po_id;\n   if t.base_output_qty is distinct from(saved_state->>'base_output_qty')::integer\n    or t.hpp_total_cost is distinct from(saved_state->>'hpp_total_cost')::numeric\n    or t.fg_value is distinct from(saved_state->>'fg_value')::numeric or t.cogs_value is distinct from(saved_state->>'cogs_value')::numeric\n    or t.other_out_value is distinct from(saved_state->>'other_out_value')::numeric then\n    raise exception 'CP7_CREDIT_HPP_TARGET_BOOK_NOT_RECONCILED';end if;\n   actual_book:=cp7_credit.initial_po_hpp_book_v1(r.po_id,fg_account,cogs_account,expense_account,income_account);\n   select (actual_book->>'hpp_total_cost')::numeric hpp_total_cost,(actual_book->>'fg_value')::numeric fg_value,\n    (actual_book->>'cogs_value')::numeric cogs_value,(actual_book->>'other_out_value')::numeric other_out_value into b;\n   if round(t.hpp_total_cost,2)<>b.hpp_total_cost or round(t.fg_value,2)<>b.fg_value or round(t.cogs_value,2)<>b.cogs_value\n    or round(t.other_out_value,2)<>b.other_out_value then raise exception 'CP7_CREDIT_HPP_TARGET_BOOK_NOT_RECONCILED';end if;\n  end if;\n  before_profile:=cp7_credit.initial_hpp_targets_v1(r.product_id,r.po_id,items,false);\n  after_profile:=cp7_credit.initial_hpp_targets_v1(r.product_id,r.po_id,items,true);\n  before_target:=before_profile->'target';after_target:=after_profile->'target';\n  if before_target is distinct from to_jsonb(t)then raise exception 'CP7_CREDIT_HPP_CANONICAL_TARGET_MISMATCH';end if;\n  if exists(select 1 from jsonb_array_elements(before_profile->'lots')f where(f->>'unit_raw')::text in('NaN','Infinity','-Infinity')\n   or(f->>'raw_total')::text in('NaN','Infinity','-Infinity')or(f->>'unit_raw')::numeric<0\n   or(f->>'owned_qty')::numeric<0 or(f->>'sold_qty')::numeric-(f->>'returned_qty')::numeric<(f->>'requested_qty')::numeric)then\n   raise exception 'CP7_CREDIT_RETURN_QTY_SOURCE_INVALID';end if;\n  delta_fg:=(after_target->>'fg_value')::numeric-b.fg_value;\n  delta_cogs:=(after_target->>'cogs_value')::numeric-b.cogs_value;\n  delta_other:=(after_target->>'other_out_value')::numeric-b.other_out_value;\n  if cp7_credit.initial_hpp_support_v1(r.product_id,r.po_id)is distinct from source_support then\n   raise exception 'CP7_CREDIT_HPP_SUPPORT_CHANGED_DURING_READ';end if;\n  if cp7_credit.initial_opening_hpp_source_v1(r.product_id,r.po_id)is distinct from opening_source then\n   raise exception 'CP7_CREDIT_OPENING_HPP_SOURCE_CHANGED_DURING_READ';end if;\n  if delta_fg+delta_cogs+delta_other<>0 or(after_target->>'hpp_total_cost')::numeric<>(before_target->>'hpp_total_cost')::numeric\n   or r.po_id is not null and(delta_fg<0 or delta_cogs>0)then raise exception 'CP7_CREDIT_HPP_VECTOR_NOT_CONSERVED';end if;\n  group_amount:=greatest(delta_fg,0)+greatest(delta_cogs,0)+greatest(delta_other,0);hpp:=hpp+group_amount;\n  groups:=groups||jsonb_build_array(jsonb_build_object('product_id',case when r.po_id is null then r.product_id end,'po_id',r.po_id,\n   'amount',cp7_credit.cent_text(group_amount),'before_target',before_target,'after_target',after_target,'before_book',actual_book,'before_saved_state',saved_state,\n   'before_profile',before_profile,'after_profile',after_profile,'source_support',source_support,'opening_source',opening_source,\n   'delta',jsonb_build_object('fg_value',delta_fg,'cogs_value',delta_cogs,'other_out_value',delta_other)));\n  for x in select *from jsonb_array_elements(jsonb_build_array(\n   jsonb_build_object('mapping_key','FG_INVENTORY','signed_amount',delta_fg),jsonb_build_object('mapping_key','COGS','signed_amount',delta_cogs),\n   jsonb_build_object('mapping_key',case when delta_other>0 then'OTHER_EXPENSE'else'OTHER_INCOME'end,'signed_amount',delta_other)))loop\n   if(x->>'signed_amount')::numeric<>0 then lines:=lines||jsonb_build_array(jsonb_strip_nulls(jsonb_build_object(\n    'mapping_key',x->>'mapping_key','debit',greatest((x->>'signed_amount')::numeric,0),'credit',greatest(-(x->>'signed_amount')::numeric,0),\n    'product_id',case when r.po_id is null then r.product_id end,'po_id',r.po_id)));end if;\n  end loop;\n end loop;\n -- The existing source-bound NO_JOURNAL reader proves physical snapshot0.\n -- Do not silently widen it for positive-cost stock with a zero cent vector.\n if hpp=0 and(select coalesce(sum((v->>'refund_amount')::numeric),0)from jsonb_array_elements(items)v)=0\n  and exists(select 1 from jsonb_array_elements(items)v where(v->>'unit_hpp_snapshot')::numeric>0)then\n  raise exception 'CP7_CREDIT_POSITIVE_HPP_ZERO_VECTOR_UNPROVEN';end if;\n return jsonb_build_object('items',items,'groups',groups,'hpp_amount',cp7_credit.cent_text(hpp),'lines',lines,\n  'locked_lot_ids',to_jsonb(lots),'locked_hpp_version_ids',to_jsonb(versions),'account_facts',account_facts);\nend $function$\n",
+      "postgres",
+      "plpgsql",
+      "f",
+      true,
+      false,
+      false,
+      false,
+      "v",
+      "u",
+      "100",
+      "0",
+      [
+        "search_path=\"\"",
+        "TimeZone=UTC"
+      ],
+      [
+        "p_legacy"
+      ],
+      null,
+      "p_legacy jsonb",
+      "jsonb",
+      "-",
+      [
+        [
+          "postgres",
+          "postgres",
+          "EXECUTE",
+          false
+        ]
+      ]
+    ],
+    "cp7_credit.initial_hpp_support_v1(uuid,uuid)": [
+      "CREATE OR REPLACE FUNCTION cp7_credit.initial_hpp_support_v1(p_product uuid, p_po uuid)\n RETURNS jsonb\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO ''\n SET \"TimeZone\" TO 'UTC'\nAS $function$\n with lots as(select fl.id from erp.fg_lots fl where(p_po is not null and fl.po_id=p_po)\n  or(p_po is null and fl.po_id is null and fl.product_id=p_product)),conversions as(\n  select a.conversion_id id from erp.product_conversion_allocations a where a.source_lot_id in(select id from lots)\n   or a.destination_lot_id in(select id from lots)\n  union select s.conversion_id from erp.be_conversion_sources_v1 s where s.source_lot_id in(select id from lots)\n ),book_ids as(\n  select l.journal_entry_id id from erp.journal_lines l where(p_po is not null and l.po_id=p_po)\n   or(p_po is null and l.po_id is null and l.product_id=p_product)\n  union select e.id from erp.journal_entries e left join erp.journal_entries o on o.id=e.reversal_of_id\n   where(e.source_type in('SALE','SALES_RETURN')or(e.source_type='JOURNAL_REVERSAL'and o.source_type in('SALE','SALES_RETURN')))\n    and((coalesce(o.source_type,e.source_type)='SALE'and exists(select 1 from erp.sale_stock_allocations a\n      join erp.sales_items i on i.id=a.sale_item_id where i.sale_id=coalesce(o.source_id,e.source_id)and a.lot_id in(select id from lots)))\n     or(coalesce(o.source_type,e.source_type)='SALES_RETURN'and exists(select 1 from erp.sales_return_items i\n      where i.return_id=coalesce(o.source_id,e.source_id)and i.lot_id in(select id from lots))))\n  union select e.journal_entry_id from erp.po_wip_close_events e where p_po is not null and e.po_id=p_po\n ),support(kind,identity,fact)as(\n  select 'LOT',l.id::text,to_jsonb(l)from erp.fg_lots l where l.id in(select id from lots)\n  union all select 'HPP',h.id::text,to_jsonb(h)from erp.hpp_versions h where h.lot_id in(select id from lots)\n  union all select 'MOVEMENT',m.id::text,to_jsonb(m)from erp.fg_stock_movements m where m.lot_id in(select id from lots)\n  union all select 'ALLOCATION',a.id::text,jsonb_build_object('allocation',to_jsonb(a),'item',to_jsonb(i),'sale',to_jsonb(h))\n   from erp.sale_stock_allocations a join erp.sales_items i on i.id=a.sale_item_id join erp.sales_headers h on h.id=i.sale_id\n   where a.lot_id in(select id from lots)and h.status in('POSTED','PARTIAL_PAID','PAID')\n  union all select 'RETURN',i.id::text,jsonb_build_object('item',to_jsonb(i),'return',to_jsonb(h))\n   from erp.sales_return_items i join erp.sales_returns h on h.id=i.return_id where i.lot_id in(select id from lots)and h.status<>'DRAFT'\n  union all select 'CONVERSION',c.id::text,to_jsonb(c)from erp.product_conversions c where c.id in(select id from conversions)\n  union all select 'CONVERSION_ALLOCATION',a.id::text,to_jsonb(a)from erp.product_conversion_allocations a where a.conversion_id in(select id from conversions)\n  union all select 'CONVERSION_SOURCE',s.conversion_id::text,to_jsonb(s)from erp.be_conversion_sources_v1 s where s.conversion_id in(select id from conversions)\n  union all select 'COST_SOURCE',s.document_id::text,to_jsonb(s)from erp.be_conversion_cost_sources_v1 s where s.conversion_id in(select id from conversions)\n  union all select 'COST_EVENT',e.id::text,to_jsonb(e)from erp.be_conversion_cost_events_v1 e join erp.be_conversion_cost_sources_v1 s\n   on s.document_id=e.document_id where s.conversion_id in(select id from conversions)\n  union all select 'JOURNAL',j.id::text,to_jsonb(j)from erp.journal_entries j where j.id in(select id from book_ids)\n  union all select 'JOURNAL_LINE',l.id::text,to_jsonb(l)from erp.journal_lines l where l.journal_entry_id in(select id from book_ids)\n  union all select 'RESIDUAL_CLOSE',e.journal_entry_id::text,to_jsonb(e)from erp.po_wip_close_events e where p_po is not null and e.po_id=p_po\n )select jsonb_build_object('sha256',cp7_credit.pg_jsonb_sha256(coalesce(jsonb_agg(\n   jsonb_build_array(kind,identity,fact)order by kind,identity,fact),'[]')),'row_count',count(*))from support\n$function$\n",
+      "postgres",
+      "sql",
+      "f",
+      true,
+      false,
+      false,
+      false,
+      "s",
+      "u",
+      "100",
+      "0",
+      [
+        "search_path=\"\"",
+        "TimeZone=UTC"
+      ],
+      [
+        "p_product",
+        "p_po"
+      ],
+      null,
+      "p_product uuid, p_po uuid",
+      "jsonb",
+      "-",
+      [
+        [
+          "postgres",
+          "postgres",
+          "EXECUTE",
+          false
+        ]
+      ]
+    ],
+    "cp7_credit.initial_opening_hpp_source_v1(uuid,uuid)": [
+      "CREATE OR REPLACE FUNCTION cp7_credit.initial_opening_hpp_source_v1(p_product uuid, p_po uuid)\n RETURNS jsonb\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO ''\n SET \"TimeZone\" TO 'UTC'\nAS $function$\n with lots as(select l.id from erp.fg_lots l where l.lot_origin='OPENING'\n  and((p_po is null and l.po_id is null and l.product_id=p_product)or(p_po is not null and l.po_id=p_po)))\n select jsonb_build_object('states',(select coalesce(jsonb_agg(to_jsonb(s)order by s.lot_id),'[]')\n  from erp.opening_lot_hpp_gl_state s where s.lot_id in(select id from lots)),\n  'corrections',(select coalesce(jsonb_agg(to_jsonb(c)order by c.id),'[]')from erp.opening_hpp_corrections c where c.lot_id in(select id from lots)))\n$function$\n",
+      "postgres",
+      "sql",
+      "f",
+      true,
+      false,
+      false,
+      false,
+      "s",
+      "u",
+      "100",
+      "0",
+      [
+        "search_path=\"\"",
+        "TimeZone=UTC"
+      ],
+      [
+        "p_product",
+        "p_po"
+      ],
+      null,
+      "p_product uuid, p_po uuid",
+      "jsonb",
+      "-",
+      [
+        [
+          "postgres",
           "postgres",
           "EXECUTE",
           false

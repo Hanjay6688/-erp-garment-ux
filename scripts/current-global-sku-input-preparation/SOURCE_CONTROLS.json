@@ -1,7 +1,7 @@
 {
   "status": "GLOBAL_SKU_NEW_SOURCE_PREREQUISITES_PASS_NOT_RUNTIME",
-  "SKU_head": "d31245e1e981f28fe07d3d5cfc7904471733439c",
-  "SKU_tree": "d782b4483899c120cd5c472fcb42fc87a0ef0668",
+  "SKU_head": "fea75841e26645f1892d880905231625b47e3065",
+  "SKU_tree": "13c9608a14cf5d137feb84c8bac99954c0c7af50",
   "controls": [
     {
       "label": "Complete source-derived nineteen rows and exact view match; no final-parent admission",
@@ -57,8 +57,8 @@
     "sha256": "5e22077e71e34add6fd0627c89e9d21a2235f463818e45b233c7619bcfb0d48f"
   },
   "new_SKU_column_source": {
-    "bytes": 61085,
-    "sha256": "ddbe7c1632ebe2f09b5df66229c1d71d96ca5a10eed091e9ef836c261dd40679"
+    "bytes": 66797,
+    "sha256": "f2868e334b1f85f6a568c3f5da51cb7f979867eb154058a8652e865222d83649"
   },
   "actual_Native_cases": 0,
   "actual_Auth_HTTP_cases": 0,

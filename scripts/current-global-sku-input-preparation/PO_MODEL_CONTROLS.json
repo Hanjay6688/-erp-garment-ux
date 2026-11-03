@@ -169,8 +169,8 @@
   ],
   "source_helpers": {
     "authority": {
-      "bytes": 65425,
-      "sha256": "652beb1808a4390b10d07f4504edf989d542498532e05bc41513009b8a0ef169"
+      "bytes": 65666,
+      "sha256": "582a58000354d5e333b4aa5b73dd7461bdaba70457a6c50c14f27541247dec64"
     },
     "capture": {
       "bytes": 22441,
@@ -200,14 +200,5 @@
   "actual_Auth_HTTP_cases": 0,
   "actual_browser_cases": 0,
   "production_go": false,
-  "independent_acceptance": false,
-  "retained_first_failure": {
-    "original": {
-      "bytes": 1418,
-      "sha256": "1c7f662fccffa61a8477ed6d5c23045b0df18049126570a73a9223cb9dfb738f"
-    },
-    "error": "22001 fixture text exceeds character varying(10)",
-    "controls_before_failure": 1,
-    "financial_cases_executed": 0
-  }
+  "independent_acceptance": false
 }

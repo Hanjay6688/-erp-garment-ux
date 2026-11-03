@@ -10,16 +10,16 @@
     }
   },
   "full_source_review": {
-    "bytes": 561405,
-    "sha256": "1a174be747a9184f497f4b017bf4315ee5f9362f87437b6092491309a2def3ac"
+    "bytes": 592423,
+    "sha256": "449631b4be097251072fc28f9760c26ebb8f095c1268292e678054ed007ed782"
   },
   "source_fact_cache": {
-    "bytes": 250263,
-    "sha256": "82d7a85d3d32950bfa39c4306d16fa81cc17651c77546b244911cb46b73fdae0"
+    "bytes": 257775,
+    "sha256": "8b1225b9aacbefd549873354388d0a5a2eeff23cbb9bba4d3478f51fd5531288"
   },
-  "selected_source_functions": 277,
-  "exact_source_projections_reused": 275,
-  "new_source_bodies_parsed": 2,
+  "selected_source_functions": 286,
+  "exact_source_projections_reused": 272,
+  "new_source_bodies_parsed": 14,
   "physical_relation_candidates": [
     "cp7_analysis_jobs.documents",
     "cp7_attendance.command_context",
@@ -77,6 +77,7 @@
     "cp7_installment.requests",
     "cp7_kasbon.advances",
     "cp7_kasbon.command_context",
+    "cp7_laundry_unknown_wash.prices_v1",
     "cp7_material.execution_context",
     "cp7_misc.command_context",
     "cp7_misc_correction.links",
@@ -142,6 +143,9 @@
     "erp.bc_outstanding_returns_v1",
     "erp.bc_return_lots_v1",
     "erp.bd_execution_context_v1",
+    "erp.bd_laundry_invoice_lines_v1",
+    "erp.bd_laundry_invoices_v1",
+    "erp.bd_laundry_priced_lines_v1",
     "erp.be_conversion_cost_events_v1",
     "erp.be_conversion_cost_sources_v1",
     "erp.be_conversion_returns_v1",
@@ -150,6 +154,8 @@
     "erp.be_nonpo_transfer_events_v1",
     "erp.be_pocket_source_events_v1",
     "erp.be_pocket_usage_v1",
+    "erp.be_redye_price_events_v1",
+    "erp.be_redye_services_v1",
     "erp.bf_context_v1",
     "erp.bf_supplier_credit_moves_v1",
     "erp.bs_resolution_execution_context",
@@ -181,6 +187,11 @@
     "erp.journal_entries",
     "erp.journal_lines",
     "erp.laundry_cost_accrual_events",
+    "erp.laundry_deliveries",
+    "erp.laundry_delivery_lines",
+    "erp.laundry_failed_wash_attempts",
+    "erp.laundry_receipt_lines",
+    "erp.laundry_receipts",
     "erp.laundry_vendors",
     "erp.locations",
     "erp.material_adjustment_items",
@@ -208,6 +219,7 @@
     "erp.production_orders",
     "erp.products",
     "erp.qc_inspection_items",
+    "erp.rework_orders",
     "erp.sale_stock_allocations",
     "erp.sales_headers",
     "erp.sales_items",
@@ -244,8 +256,8 @@
   ],
   "graph_source_routes": {
     "authority": {
-      "bytes": 65425,
-      "sha256": "652beb1808a4390b10d07f4504edf989d542498532e05bc41513009b8a0ef169"
+      "bytes": 65666,
+      "sha256": "582a58000354d5e333b4aa5b73dd7461bdaba70457a6c50c14f27541247dec64"
     },
     "scope": {
       "bytes": 14695,
@@ -260,13 +272,13 @@
       "sha256": "8f9461ce31e9973969040ae16029241253eb2ce1e0fde9ebba160db32b6cd782"
     }
   },
-  "metadata_expression_sources": 1164,
+  "metadata_expression_sources": 1265,
   "actual_trigger_firing_sources": 218,
   "bounded_literal_dynamic_statements": 13,
   "selected_source_projection_has_no_unresolved": true,
   "complete_input_review": false,
   "actual_final_parent_adopted": false,
-  "current_SKU_reference_head": "d31245e1e981f28fe07d3d5cfc7904471733439c",
+  "current_SKU_reference_head": "fea75841e26645f1892d880905231625b47e3065",
   "remaining": [
     "Accepted complete Afui and SKU originals with all five package gates and full restoration",
     "Actual combined Mandor parent and current source/metadata profile",
@@ -275,5 +287,19 @@
   ],
   "actual_Native_cases": 0,
   "production_go": false,
-  "independent_acceptance": false
+  "independent_acceptance": false,
+  "additional_relations_from_current_SKU": [
+    "cp7_laundry_unknown_wash.prices_v1",
+    "erp.bd_laundry_invoice_lines_v1",
+    "erp.bd_laundry_invoices_v1",
+    "erp.bd_laundry_priced_lines_v1",
+    "erp.be_redye_price_events_v1",
+    "erp.be_redye_services_v1",
+    "erp.laundry_deliveries",
+    "erp.laundry_delivery_lines",
+    "erp.laundry_failed_wash_attempts",
+    "erp.laundry_receipt_lines",
+    "erp.laundry_receipts",
+    "erp.rework_orders"
+  ]
 }

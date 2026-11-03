@@ -7,13 +7,13 @@ from copy import deepcopy
 from hashlib import sha256
 from pathlib import Path
 from types import ModuleType
-import ast,json,re,subprocess
+import ast,json,os,re,subprocess
 
 HERE=Path(__file__).resolve().parent
 ROOT=HERE.parents[1]
 GLOBAL=ROOT/'scripts/cp7_global_nonpo_envelope'
-SKU_HEAD='d31245e1e981f28fe07d3d5cfc7904471733439c'
-SKU_TREE='d782b4483899c120cd5c472fcb42fc87a0ef0668'
+SKU_HEAD='fea75841e26645f1892d880905231625b47e3065'
+SKU_TREE='13c9608a14cf5d137feb84c8bac99954c0c7af50'
 OVERLAP=('erp.compute_non_po_product_hpp_targets_v2620f(uuid)',
     'erp.sync_non_po_product_hpp_to_gl_v2620f(uuid,date,text,uuid,text)')
 TABLES={
@@ -39,7 +39,7 @@ def require(value,message):
 def pin(raw):return dict(bytes=len(raw),sha256=sha256(raw).hexdigest())
 
 
-def git(*args):return subprocess.check_output(['git','-C',str(ROOT),*args])
+def git(*args):return subprocess.check_output(['git','-C',str(ROOT),*args],env=dict(os.environ,GIT_NO_LAZY_FETCH='1'))
 
 
 def expected_authority():
@@ -49,14 +49,23 @@ def expected_authority():
         'GLOBAL_SKU_PREPARATION_NOT_ACCEPTANCE')
     require(reference['SKU']['head']==SKU_HEAD and reference['SKU']['tree']==SKU_TREE
         and git('rev-parse',SKU_HEAD+'^{tree}').decode().strip()==SKU_TREE,'GLOBAL_SKU_EXACT_SOURCE_TREE')
-    source=reference['SKU']['consumer_source'];raw=git('show',SKU_HEAD+':'+source['path'])
-    require(pin(raw)=={k:source[k]for k in('bytes','sha256')},'GLOBAL_SKU_EXACT_CONSUMER_SOURCE')
-    parsed=ast.parse(raw)
-    require(not any(isinstance(n,(ast.Import,ast.ImportFrom))for n in ast.walk(parsed)),
-        'GLOBAL_SKU_ONLY_INERT_DERIVATION_MODULE')
-    consumer=ModuleType('global_exact_SKU_consumer_derivation');exec(compile(parsed,source['path'],'exec'),consumer.__dict__)
-    actual=reference['functions'];require(set(actual)==set(consumer.SIGNATURES),'GLOBAL_SKU_COMPLETE_SIX_ORIGINALS')
-    derived=consumer.patched({s:row[0]for s,row in actual.items()})
+    actual=reference['functions'];derived={};origins={}
+    for key,count in (('consumer_source',8),('credit_source',4)):
+        source=reference['SKU'][key];raw=git('show',SKU_HEAD+':'+source['path'])
+        require(pin(raw)=={k:source[k]for k in('bytes','sha256')},'GLOBAL_SKU_EXACT_DERIVATION_SOURCE:'+key)
+        parsed=ast.parse(raw)
+        imports=[n for n in ast.walk(parsed)if isinstance(n,(ast.Import,ast.ImportFrom))]
+        require((not imports if key=='consumer_source'else len(imports)==1 and
+            isinstance(imports[0],ast.ImportFrom)and imports[0].module=='hashlib'and imports[0].level==0 and
+            len(imports[0].names)==1 and imports[0].names[0].name=='sha256'and imports[0].names[0].asname is None),
+            'GLOBAL_SKU_ONLY_CLOSED_DERIVATION_MODULE:'+key)
+        module=ModuleType('global_exact_SKU_'+key);exec(compile(parsed,source['path'],'exec'),module.__dict__)
+        signatures=set(module.SIGNATURES)
+        require(len(signatures)==count and signatures<=set(actual)and not signatures&set(derived),
+            'GLOBAL_SKU_COMPLETE_EIGHT_CONSUMER_FOUR_CREDIT_ORIGINALS')
+        require(all(len(actual[s])==19 for s in signatures),'GLOBAL_SKU_ALL_ORIGINAL_ATTRIBUTES_REQUIRED')
+        derived.update(module.patched({s:actual[s][0]for s in signatures}));origins.update({s:source for s in signatures})
+    require(set(actual)==set(derived),'GLOBAL_SKU_EXACT_TWELVE_ORIGINALS')
     authority=json.loads((GLOBAL/'graph_helpers/AUTHORITY.json').read_bytes())
     retained=authority['actual_source_profile']['functions']
     require(set(actual)&set(retained)==set(OVERLAP),'GLOBAL_SKU_EXACT_TWO_REFERENCED_CHANGES')
@@ -69,7 +78,7 @@ def expected_authority():
         require(len(definition.split('$function$'))==3,'GLOBAL_SKU_UNAMBIGUOUS_BODY')
         expected[signature][0]=definition
         known[signature].update(prosrc_sha256=sha256(body.encode()).hexdigest(),
-            source_function_sha256=sha256(definition.encode()).hexdigest(),source=source['path'],
+            source_function_sha256=sha256(definition.encode()).hexdigest(),source=origins[signature]['path'],
             source_kind='EXACT_PREPARED_SKU_DERIVATION_NOT_FINAL_PARENT')
     return expected,known,authority
 

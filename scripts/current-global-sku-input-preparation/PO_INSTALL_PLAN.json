@@ -11,8 +11,8 @@
       "sha256": "fd379bef9aac477d77a5d7aa74a7d7ed32f9217f38d95a9af9f6c9e9f7b5505c"
     },
     "graph_helpers/authority.sql": {
-      "bytes": 65425,
-      "sha256": "652beb1808a4390b10d07f4504edf989d542498532e05bc41513009b8a0ef169"
+      "bytes": 65666,
+      "sha256": "582a58000354d5e333b4aa5b73dd7461bdaba70457a6c50c14f27541247dec64"
     },
     "graph_helpers/scope.sql": {
       "bytes": 14695,
@@ -117,7 +117,7 @@
     },
     "cp7_global_nonpo_native_graph.authority_v1()": {
       "file": "graph_helpers/authority.sql",
-      "body_sha256": "c80bd9d294278d992e564049044b3c2e2a2b84bde92a84a96cc63edcdc19335e",
+      "body_sha256": "b61b5b9d92ee1d3334ffc8e7464e5bdd46a137ab95e989d9da6ac37616982b2d",
       "owner": "postgres",
       "language": "sql",
       "volatility": "s",

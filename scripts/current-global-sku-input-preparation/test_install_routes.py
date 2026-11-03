@@ -69,23 +69,27 @@ class InstallationBinding(unittest.TestCase):
         self.assertEqual(admission,routes.admission.__dict__)
         self.assertNotIn(module.__name__,sys.modules)
 
-    def test_original_197_profile_refuses_before_any_cursor_attribute(self):
+    def test_prior_197_and_current_209_profiles_refuse_before_any_cursor_attribute(self):
         module,_=routes.load_prepared();report=routes.callback_preflight.requirements()
         names=sorted(set(report['required_relation_lower_bound'])-set(report['new_physical_relation_candidates']))
-        self.assertEqual(len(names),197)
+        self.assertEqual(len(names),209)
+        reviewed=json.loads((routes.HERE/'INPUT_REVIEW_CONTROLS.json').read_bytes())
+        prior_names=sorted(set(names)-set(reviewed['additional_relations_from_current_SKU']))
+        self.assertEqual(len(prior_names),197)
         # Explicit admission model only to reach the new independent pre-DB
         # assertion. No real admission constant, receipt or database is used.
         modeled=SimpleNamespace(**{name:getattr(routes.admission,name)for name in
             ('PARENT_HEAD','PARENT_TREE','PARENT_ROOT_RECEIPT','PARENT_RUN','PARENT_JOB',
              'PARENT_ROOT_CONTRACT','INPUT_PROFILE_PIN','RUNTIME_ENTRY')})
-        modeled.runtime_admission=lambda *args:({},dict(relations=names))
         module.admission=modeled
-        with self.assertRaisesRegex(ValueError,'GLOBAL_COMPOSITE_CALLBACK_INPUT_RELATIONS_MISSING:'):
-            module.install(ForbiddenCursor(),b'model',b'model')
+        for candidate in (prior_names,names):
+            modeled.runtime_admission=lambda *args:({},dict(relations=candidate))
+            with self.subTest(relations=len(candidate)),self.assertRaisesRegex(ValueError,'GLOBAL_COMPOSITE_CALLBACK_INPUT_RELATIONS_MISSING:'):
+                module.install(ForbiddenCursor(),b'model',b'model')
 
     def test_each_new_callback_relation_is_required_and_extra_actual_inputs_are_allowed(self):
         report=routes.callback_preflight.requirements();names=report['required_relation_lower_bound']
-        for name in report['new_physical_relation_candidates']:
+        for name in names:
             with self.subTest(name=name),self.assertRaisesRegex(ValueError,'GLOBAL_COMPOSITE_CALLBACK_INPUT_RELATIONS_MISSING:'):
                 routes.callback_preflight.require_input_relations(dict(relations=[n for n in names if n!=name]))
         result=routes.callback_preflight.require_input_relations(dict(relations=sorted(names+['erp.additional_reviewed_input'])))

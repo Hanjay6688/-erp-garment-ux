@@ -9,16 +9,11 @@
   "distinct_controls_passed": 10,
   "aggregate_exit_code": 0,
   "execution_summary": {
-    "first_run_tests": 10,
-    "first_run_passed": 9,
-    "first_run_test_model_errors": 1,
-    "first_run_model_error": "ModeledAdmission missing PARENT_HEAD before intended pre-DB assertion",
-    "targeted_recheck_tests": 1,
-    "targeted_recheck_passed": 1,
-    "unchanged_nine_controls_not_repeated": true,
-    "new_callback_source_pin_refusal_subcontrols_passed": 2,
-    "targeted_changed_pin_control_recheck_tests": 1,
-    "targeted_changed_pin_control_recheck_passed": 1
+    "current_source_complete_run_tests": 10,
+    "current_source_complete_run_passed": 10,
+    "current_source_complete_run_log": "NATIVE6_INSTALL_BINDING_PREREQUISITES_READY.log",
+    "first_local_preparation_failure": "pglast path missing while regenerating plan; premature test attempt refused stale pins, retained in NATIVE6_INSTALL_BINDING_FIRST.log",
+    "old_missing_admission_model_failure_remains_in_prior_evidence": true
   },
   "previous_seven_route_evidence": {
     "bytes": 1321,
@@ -67,5 +62,13 @@
   "actual_Native_cases": 0,
   "production_go": false,
   "independent_acceptance": false,
-  "callback_code_and_review_must_be_explicitly_source_pinned": true
+  "callback_code_and_review_must_be_explicitly_source_pinned": true,
+  "previous_binding_control_evidence": {
+    "bytes": 2844,
+    "sha256": "e147e296f41f94f643142faa22f2aca3a2d2094b82c9e259eeaa0b4a8e107f9e"
+  },
+  "known_incomplete_209_input_profile_refused_before_cursor": true,
+  "required_relation_lower_bound": 221,
+  "all_221_required_inputs_individually_required": true,
+  "current_SKU_source_head": "fea75841e26645f1892d880905231625b47e3065"
 }
