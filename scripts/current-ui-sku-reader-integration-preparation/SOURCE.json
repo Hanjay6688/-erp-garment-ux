@@ -27,8 +27,8 @@
   },
   "preparation_files": {
     "scripts/current-ui-sku-reader-integration-preparation/README.md": {
-      "bytes": 1718,
-      "sha256": "409757940d2fd734006b471b3d0ee3fdeba21620226575ed39807e7b675f3678"
+      "bytes": 2423,
+      "sha256": "270def9975abc053ed3bbc3cff28f0cb2763d3c62723683b5b7e4a82fbde842a"
     },
     "scripts/current-ui-sku-reader-integration-preparation/check_source.py": {
       "bytes": 2319,
@@ -39,12 +39,20 @@
       "sha256": "a753b21e0f22798736b88b3cfb25f13854563acb4cc026a2369fd0ad742add04"
     },
     "scripts/current-ui-sku-reader-integration-preparation/visual.mjs": {
-      "bytes": 4182,
-      "sha256": "9229ab3cd54db33a1402fc83868fbdb58901ce5be71b0c29ba499cb55f1ad772"
+      "bytes": 4472,
+      "sha256": "e5cfa4f488b25b191461d4d13eb367c342c0ea050aeb681a23a6b2a8b4014a21"
     },
     ".github/workflows/cp7-a-ui-sku-reader.yml": {
-      "bytes": 2304,
-      "sha256": "f65c504c2c73999a6ace67f5f06db9411e8728563b3f6cb8ca9a00b4e07c352c"
+      "bytes": 2503,
+      "sha256": "eaf0d134481a447b0e8c85840d17dedd7ab0ab7ac5af27fd3c0998b3f3a27b32"
+    },
+    "scripts/current-ui-sku-reader-integration-preparation/contrast.mjs": {
+      "bytes": 2994,
+      "sha256": "545f4a8d45eb39739ced6a88382deb275169a910b6cb9b1008d9327cc797d104"
+    },
+    "scripts/current-ui-sku-reader-integration-preparation/test_contrast.mjs": {
+      "bytes": 2384,
+      "sha256": "7c9f91c45ccf792d871f0c2459a790120ca6a41f9624340570ffae8ae923cc21"
     }
   },
   "unified_runtime_admission": false,

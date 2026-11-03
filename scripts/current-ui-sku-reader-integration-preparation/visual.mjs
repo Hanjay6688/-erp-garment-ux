@@ -5,7 +5,7 @@ import{resolve,dirname}from'node:path';
 import{fileURLToPath}from'node:url';
 import{createHash}from'node:crypto';
 import assert from'node:assert/strict';
-import{readable}from'../current-sku-pair-browser-qualification/evidence.mjs';
+import{readable}from'./contrast.mjs';
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'../..');
 const directory=process.env.CP7_UI_FG_CAPTURE_DIRECTORY;assert(directory);
 const modes=['known','unknown','empty','loading','error','pending','operations'],widths=[320,390,768,1440];
@@ -28,7 +28,13 @@ try{
    const panel=page.locator('section.cfg');await panel.waitFor({state:'visible'});
    for(const expanded of mode==='known'?[false,true]:[false]){
     if(expanded)await panel.locator('details').evaluateAll(list=>list.forEach(el=>{el.open=true}));
+    const file=`${mode}-${width}${expanded?'-details':''}.png`;
+    const result={mode,width,expanded,status:'INCOMPLETE',screenshot:file};report.cases.push(result);
+    try{
+    // Retain the visible first result even when a measurement refuses it.
+    await page.screenshot({path:resolve(directory,file),fullPage:true});
     const size=await page.evaluate(()=>({inner:innerWidth,document:document.documentElement.scrollWidth}));
+    result.size=size;
     assert.equal(size.inner,width);assert(size.document<=width,JSON.stringify({mode,width,expanded,size}));
     const measured=await readable(panel);
     const controls=await panel.locator('button,input,select').evaluateAll(list=>list.filter(e=>e.getClientRects().length).map(e=>({label:e.getAttribute('aria-label')??e.textContent,width:e.getBoundingClientRect().width,parent:e.parentElement.getBoundingClientRect().width})));
@@ -36,12 +42,12 @@ try{
     const text=await panel.innerText();if(mode==='known')assert(text.includes('HPP SKU saat ini Rp23,75'));
     if(mode==='unknown'||mode==='operations')assert(!text.includes('Rp0'));
     if(mode==='operations')assert(!text.includes('Rp'));
-    const file=`${mode}-${width}${expanded?'-details':''}.png`;await page.screenshot({path:resolve(directory,file),fullPage:true});
-    report.cases.push({mode,width,expanded,status:'PASS',size,minimum_contrast:Math.min(...measured.rows.map(r=>r.ratio)),measured_text_nodes:measured.rows.length,screenshot:file});
+    Object.assign(result,{status:'PASS',minimum_contrast:Math.min(...measured.rows.map(r=>r.ratio)),measured_text_nodes:measured.rows.length});
+    }catch(error){result.error=String(error.stack??error);}
    }
   }}finally{await context.close();}
  }
- assert.equal(report.cases.length,32);report.status='PASS';
+ assert.equal(report.cases.length,32);assert.equal(report.cases.filter(row=>row.status!=='PASS').length,0,'INCOMPLETE_VISUAL_CASES');report.status='PASS';
 }catch(error){report.error=String(error.stack??error);throw error;}
 finally{writeFileSync(resolve(directory,'FG_VISUAL_CAPTURE.json'),JSON.stringify(report,null,2)+'\n');await browser.close();}
 console.log(JSON.stringify({status:report.status,cases:report.cases.length,actual_ERP_cases:0}));

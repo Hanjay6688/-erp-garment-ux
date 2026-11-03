@@ -32,7 +32,9 @@ jobs:
           node-version: '24'
           cache: npm
       - name: Verify the exact completed theme and reader derivation
-        run: python -B scripts/current-ui-sku-reader-integration-preparation/check_source.py
+        run: |
+          git fetch --no-tags --depth=1 origin 62124cd356c33927df7a871f50642e94f1a9580a
+          python -B scripts/current-ui-sku-reader-integration-preparation/check_source.py
       - run: npm ci
       - name: Reader and DOM controls
         run: |
@@ -45,7 +47,9 @@ jobs:
       - name: Install pinned browser engine
         run: node node_modules/playwright/cli.js install --with-deps chromium
       - name: Measure all four widths and retain screenshots
-        run: node scripts/current-ui-sku-reader-integration-preparation/visual.mjs
+        run: |
+          node scripts/current-ui-sku-reader-integration-preparation/test_contrast.mjs
+          node scripts/current-ui-sku-reader-integration-preparation/visual.mjs
       - name: Retain the first result including failures
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
