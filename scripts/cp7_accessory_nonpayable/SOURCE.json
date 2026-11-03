@@ -121,8 +121,8 @@
       "sha256": "e300e25bc3ec3730a99c42913c04e6994debf78c3de53f7941bc7b8500b42077"
     },
     "scripts/cp7_accessory_nonpayable/native_fixture.py": {
-      "bytes": 22207,
-      "sha256": "c984ff3b8af580a26ffc3cfdcb575af0ad174e2c5e2c1f20d7f437f0f8aa2797"
+      "bytes": 22314,
+      "sha256": "0af3d02c9b994a5865591682943ee4e1fcf240f4a30f1d6a54038989463c86ab"
     },
     "scripts/cp7_accessory_nonpayable/native_inverse_cases.py": {
       "bytes": 14422,
@@ -141,8 +141,8 @@
       "sha256": "042c30ce6c8242b0626270d2a74f0433df4b5fc57cb8af0d4198a79a8f41cd20"
     },
     "scripts/cp7_accessory_nonpayable/qualification.py": {
-      "bytes": 4676,
-      "sha256": "6d7fc57756b166dbb8220cc0149a62b658e4e673117d73e010261ada3a1ecca4"
+      "bytes": 5587,
+      "sha256": "ee227950297be8a80ad907703ea386e5b6206765d5f976dd9ba1ac14a3b51a04"
     },
     "scripts/cp7_accessory_nonpayable/qualification_component.py": {
       "bytes": 13465,
@@ -209,8 +209,8 @@
       "sha256": "e4a7f51d2d1db6e3fe886031a8416318e6514c6ad6ea6adb0cb6070d723530be"
     },
     "scripts/cp7_accessory_nonpayable/test_native_preparation.py": {
-      "bytes": 15135,
-      "sha256": "8f523fb17436ad288e55865db25abbd75abb80bd3a843a4c692d15fb0c776311"
+      "bytes": 15602,
+      "sha256": "b458b022df221fb3c262e290c38918c8a0ca36735471586f3912c04281efe9a6"
     },
     "scripts/cp7_accessory_nonpayable/test_native_sales_preparation.py": {
       "bytes": 1498,
@@ -535,5 +535,59 @@
     "actual_Native_verification": "PENDING",
     "production_go": false,
     "independent_acceptance": false
+  },
+  "policy_private_read_authority_correction": {
+    "status": "PREPARED_WHILE_7065_OWNING_RUNTIME_REMAINS_ACTIVE",
+    "predecessor": "7065f3bf332b61d3210d1a4630326f78a00d7eda",
+    "active_run": 41585088908,
+    "active_job": 125748587305,
+    "source_proven_cause": "The new private policy lookup runs after the exact ordinary OWNER session; the table has no authenticated SELECT grant or policy",
+    "actual_original_reference": {
+      "head": "0900aacf13c6597415febbc52d44ca8e0581f0f6",
+      "run": 41572350243,
+      "job": 125707936122,
+      "artifact": 13206279021,
+      "sha256": "3d142262a7a5f8ec4fb32319eab429eb89fe5685861a89f47c004106933e31a9",
+      "original": "CP7_AFUI_GOOD_NONPAYABLE_FULL15_NATIVE9.json",
+      "table": "erp.contractor_hpp_policy_versions"
+    },
+    "ordinary_owner_source": {
+      "head": "0da4d79a4f7201ef053d6de1eb155d990b4bfa4d",
+      "file": "scripts/cp6_z_expanded_integrity_audit.py",
+      "function": "as_owner",
+      "current_user": "authenticated",
+      "session_user": "authenticated"
+    },
+    "correction": "Read the exact effective policy ID as the existing fixture observer; then restore the unchanged ordinary OWNER before invoking the unchanged public RPC",
+    "new_grants_or_RLS_policies": 0,
+    "product_SQL_changes": 0,
+    "financial_detector_changes": 0,
+    "policy_interval_or_expected_id_changes": 0,
+    "same_request_and_optimistic_guard_unchanged": true,
+    "local_control": {
+      "status": "PASS",
+      "variants": 2,
+      "old_source_counterexample": "FAIL_PRIVATE_TABLE_READ_UNDER_OWNER",
+      "actual_ERP_SQL": 0,
+      "new_source_result": "PASS_TWO_EFFECTIVE_ID_VARIANTS_AND_EXPLICIT_READ_WRITE_AUTHORITY",
+      "elapsed_seconds": 0.0
+    },
+    "actual_Native_verification": "PENDING_TERMINAL_OWNING_RUN",
+    "production_go": false,
+    "independent_acceptance": false,
+    "pre_database_gate": {
+      "entrypoint": "qualification.py --check-static",
+      "owning_workflow_step": 65,
+      "existing_workflow_unchanged": true,
+      "control": "test_policy_reads_private_version_as_observer_then_writes_as_ordinary_owner",
+      "old_exact_7065_source": "REFUSED_BEFORE_DATABASE",
+      "corrected_source": "PASS",
+      "tests_run": 1,
+      "effective_policy_variants": 2,
+      "skips_and_expected_failures_refused": true,
+      "actual_SQL_executed": 0,
+      "qualification_runtime_AST_unchanged": true,
+      "existing_source_ownership_and_all_financial_restore_checks_unchanged": true
+    }
   }
 }

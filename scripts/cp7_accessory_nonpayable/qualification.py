@@ -10,6 +10,19 @@ def load(name,path):
     spec=importlib.util.spec_from_file_location(name,path)
     module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module);return module
 
+def fixture_actor_preflight():
+    """Refuse the private-read regression before provisioning any database."""
+    import io,unittest
+    from cp7_accessory_nonpayable.test_native_preparation import NativePreparationControls
+    name='test_policy_reads_private_version_as_observer_then_writes_as_ordinary_owner'
+    output=io.StringIO()
+    result=unittest.TextTestRunner(stream=output,verbosity=0).run(
+        unittest.TestSuite([NativePreparationControls(name)]))
+    if result.testsRun!=1 or not result.wasSuccessful() or result.skipped or result.expectedFailures:
+        raise ValueError('NONPAYABLE_FIXTURE_ACTOR_PREFLIGHT_FAILED:'+output.getvalue())
+    return dict(status='OBSERVER_PRIVATE_READ_AND_ORDINARY_OWNER_COMMAND_CONTROL_PASS',
+        tests_run=1,effective_policy_variants=2,actual_SQL_executed=0,actual_Native_cases=0)
+
 def runtime():
     from cp7_accessory_nonpayable import admission,source,package_engine
     admission.parent_receipt()  # Before any ERP import or runtime construction.
@@ -45,10 +58,11 @@ def main():
     from cp7_accessory_nonpayable import admission,source,package_engine,copy_context
     if args.check_static:
         static=source.preflight()
+        actors=fixture_actor_preflight()
         _,engine=package_engine.derive((ROOT/package_engine.ORIGINAL).read_bytes())
         _,copies=copy_context.derive((ROOT/copy_context.ORIGINAL).read_bytes())
         print(json.dumps(dict(status='NONPAYABLE_STATIC_WHOLE_QUALIFIER_PREPARED_NOT_EXECUTED',source=static,
-            whole_engine=engine,copy_authority=copies,actual_SQL_executed=0,actual_Native_cases=0,
+            whole_engine=engine,copy_authority=copies,fixture_actor_preflight=actors,actual_SQL_executed=0,actual_Native_cases=0,
             actual_Auth_HTTP_cases=0,actual_two_session_cases=0,actual_browser_cases=0,
             production_go=False,independent_acceptance=False),sort_keys=True));return
     admission.parent_receipt()

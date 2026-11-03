@@ -44,24 +44,30 @@ class NativePreparationControls(unittest.TestCase):
         self.assertEqual(value['new_financial_findings'],{})
         self.assertFalse(value['production_go']);self.assertFalse(value['independent_acceptance'])
 
-    def test_policy_uses_exact_effective_current_id_and_preserves_native_stale_guard(self):
+    def test_policy_reads_private_version_as_observer_then_writes_as_ordinary_owner(self):
         contractor=str(uuid.uuid4());day=date(2026,11,3)
         for current in(None,str(uuid.uuid4())):
-            calls=[];authority=[]
+            calls=[];authority=[];session={'role':'OWNER'}
+            def admin(cur):
+                authority.append('ADMIN');session['role']='ADMIN'
+            def owner(cur):
+                authority.append('OWNER');session['role']='OWNER'
             class Cursor:
-                def execute(self,sql,params=None):
-                    calls.append((sql,params))
+                def execute(cursor,sql,params=None):
+                    calls.append((sql,params,session['role']))
                     if sql.startswith('select p.id from erp.contractor_hpp_policy_versions'):
+                        self.assertEqual(session['role'],'ADMIN','Private policy table has no ordinary OWNER SELECT')
                         return SimpleNamespace(fetchone=lambda:None if current is None else(current,))
                     if sql.startswith('select public.erp_set_contractor_hpp_policy_v1'):
+                        self.assertEqual(session['role'],'OWNER','Policy mutation must use the ordinary OWNER facade')
                         return SimpleNamespace(fetchone=lambda:({'status':'SAVED'},))
                     raise AssertionError(sql)
             modules=SimpleNamespace(
-                bd=SimpleNamespace(chain=SimpleNamespace(production=SimpleNamespace(
-                    owner=lambda cur:authority.append('OWNER')))),
-                bc=SimpleNamespace(api=SimpleNamespace(admin=lambda cur:authority.append('ADMIN'))))
+                bd=SimpleNamespace(chain=SimpleNamespace(production=SimpleNamespace(owner=owner))),
+                bc=SimpleNamespace(api=SimpleNamespace(admin=admin)))
             self.assertEqual(fixture.policy(Cursor(),modules,contractor,day,False),{'status':'SAVED'})
-            self.assertEqual(authority,['OWNER','ADMIN'])
+            self.assertEqual(authority,['ADMIN','OWNER','ADMIN'])
+            self.assertEqual([call[2]for call in calls],['ADMIN','OWNER'])
             self.assertEqual(calls[0][1],(contractor,day,day))
             self.assertIn('p.effective_to is null or %s<=p.effective_to',calls[0][0])
             self.assertEqual(calls[1][1][2],current)

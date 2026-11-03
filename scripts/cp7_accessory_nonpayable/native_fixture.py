@@ -126,7 +126,8 @@ def contractor_constructor(bd,contractor):
     return private
 
 def policy(cur,modules,contractor,start,special):
-    modules.bd.chain.production.owner(cur)
+    # The observer can read the private table; the command still uses OWNER.
+    modules.bc.api.admin(cur)
     current=cur.execute(
         'select p.id from erp.contractor_hpp_policy_versions p '
         'where p.contractor_id=%s and %s>=p.effective_from '
@@ -136,6 +137,7 @@ def policy(cur,modules,contractor,start,special):
     expected=current[0]if current else None
     payload=dict(contractor_id=contractor,effective_from=str(start),is_special=special,
         attendance_required=False,reason='Native GOOD-date fixture: explicit dated Mandor classification')
+    modules.bd.chain.production.owner(cur)
     result=cur.execute('select public.erp_set_contractor_hpp_policy_v1(%s::jsonb,%s,%s::uuid)',
         (json.dumps(payload),uuid.uuid4(),expected)).fetchone()[0]
     modules.bc.api.admin(cur)
