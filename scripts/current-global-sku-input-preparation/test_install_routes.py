@@ -1,5 +1,6 @@
 """New exact installer bindings only; no Native, DDL or old graph tests."""
 from pathlib import Path
+from types import SimpleNamespace
 from unittest.mock import patch
 import ast,json,sys,unittest
 
@@ -26,8 +27,8 @@ class InstallationBinding(unittest.TestCase):
             self.assertEqual({k:v for k,v in plan['functions'][sig].items()if k!='body_sha256'},
                 {k:v for k,v in prior['functions'][sig].items()if k!='body_sha256'})
 
-    def test_seven_routes_preserve_every_signature_and_all_other_function_bodies(self):
-        source,proof=routes.derive();self.assertEqual(proof['counted_replacements'],7)
+    def test_eight_routes_preserve_every_signature_and_all_other_function_bodies(self):
+        source,proof=routes.derive();self.assertEqual(proof['counted_replacements'],8)
         before={n.name:n for n in ast.parse(routes.exact_original()).body if isinstance(n,ast.FunctionDef)}
         after={n.name:n for n in ast.parse(source).body if isinstance(n,ast.FunctionDef)}
         self.assertEqual(set(before),set(after))
@@ -67,6 +68,44 @@ class InstallationBinding(unittest.TestCase):
         self.assertTrue(all(routes.original.__dict__[k]is v for k,v in before.items()))
         self.assertEqual(admission,routes.admission.__dict__)
         self.assertNotIn(module.__name__,sys.modules)
+
+    def test_original_197_profile_refuses_before_any_cursor_attribute(self):
+        module,_=routes.load_prepared();report=routes.callback_preflight.requirements()
+        names=sorted(set(report['required_relation_lower_bound'])-set(report['new_physical_relation_candidates']))
+        self.assertEqual(len(names),197)
+        # Explicit admission model only to reach the new independent pre-DB
+        # assertion. No real admission constant, receipt or database is used.
+        modeled=SimpleNamespace(**{name:getattr(routes.admission,name)for name in
+            ('PARENT_HEAD','PARENT_TREE','PARENT_ROOT_RECEIPT','PARENT_RUN','PARENT_JOB',
+             'PARENT_ROOT_CONTRACT','INPUT_PROFILE_PIN','RUNTIME_ENTRY')})
+        modeled.runtime_admission=lambda *args:({},dict(relations=names))
+        module.admission=modeled
+        with self.assertRaisesRegex(ValueError,'GLOBAL_COMPOSITE_CALLBACK_INPUT_RELATIONS_MISSING:'):
+            module.install(ForbiddenCursor(),b'model',b'model')
+
+    def test_each_new_callback_relation_is_required_and_extra_actual_inputs_are_allowed(self):
+        report=routes.callback_preflight.requirements();names=report['required_relation_lower_bound']
+        for name in report['new_physical_relation_candidates']:
+            with self.subTest(name=name),self.assertRaisesRegex(ValueError,'GLOBAL_COMPOSITE_CALLBACK_INPUT_RELATIONS_MISSING:'):
+                routes.callback_preflight.require_input_relations(dict(relations=[n for n in names if n!=name]))
+        result=routes.callback_preflight.require_input_relations(dict(relations=sorted(names+['erp.additional_reviewed_input'])))
+        self.assertFalse(result['complete_input_review']);self.assertFalse(result['actual_final_parent_adopted'])
+
+    def test_changed_callback_source_and_malformed_relations_refuse(self):
+        for profile in ({},dict(relations='erp.journal_entries'),dict(relations=[1]),dict(relations=['b','a']),dict(relations=['a','a'])):
+            with self.subTest(profile=profile),self.assertRaisesRegex(ValueError,'GLOBAL_COMPOSITE_DISTINCT_SORTED_INPUT_RELATIONS_REQUIRED'):
+                routes.callback_preflight.require_input_relations(profile)
+        source=routes.callback_preflight.current_source_expectations();source['scripts/cp7_mandor_shop/payment_guards.sql']+='\n'
+        with patch.object(routes.callback_preflight,'current_source_expectations',return_value=source):
+            with self.assertRaisesRegex(ValueError,'COMPOSITE_CALLBACK_CURRENT_INSTALLATION_SQL_CHANGED'):
+                routes.callback_preflight.requirements()
+        read=Path.read_bytes;manifest_path=routes.HERE/'SOURCE.json'
+        for filename in ('callback_preflight.py','CALLBACK_SOURCE_REVIEW.json'):
+            manifest=json.loads(read(manifest_path));manifest['files'].pop(str((routes.HERE/filename).relative_to(routes.ROOT)))
+            def changed(path):return json.dumps(manifest).encode()if path==manifest_path else read(path)
+            with self.subTest(unpinned=filename),patch.object(Path,'read_bytes',changed):
+                with self.assertRaisesRegex(ValueError,'GLOBAL_PO_INSTALL_ALL_PROVIDER_SOURCES_MUST_BE_PINNED'):
+                    routes.load_prepared()
 
 
 if __name__=='__main__':unittest.main()

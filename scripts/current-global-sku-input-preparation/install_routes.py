@@ -11,6 +11,7 @@ HERE=Path(__file__).resolve().parent
 ROOT=HERE.parents[1]
 sys.path.insert(0,str(ROOT/'scripts'));sys.path.insert(0,str(HERE))
 import po_routes
+import callback_preflight
 from cp7_global_nonpo_envelope import composition as original
 from cp7_global_nonpo_envelope import admission,build_install_plan
 
@@ -55,7 +56,7 @@ def check_sources():
         and manifest['runtime_entry']is None and manifest['actual_Native_cases']==0,
         'GLOBAL_PO_INSTALL_PREPARATION_ONLY')
     required={str((HERE/n).relative_to(ROOT))for n in ('install_routes.py','PO_INSTALL_PLAN.json',
-        'po_routes.py','routes.py','po_capture_ctes.sql')}
+        'po_routes.py','routes.py','po_capture_ctes.sql','callback_preflight.py','CALLBACK_SOURCE_REVIEW.json')}
     base.require(required<=set(manifest['files']),'GLOBAL_PO_INSTALL_ALL_PROVIDER_SOURCES_MUST_BE_PINNED')
     for name,expected in manifest['files'].items():
         path=ROOT/name
@@ -66,6 +67,7 @@ def check_sources():
         'GLOBAL_PO_INSTALL_CLOSED_PLAN_REQUIRED')
     base.require(plan['source_sql']=={n:base.pin(t.encode())for n,t in sql_sources().items()},
         'GLOBAL_PO_INSTALL_SOURCE_PLAN_MISMATCH')
+    callback_preflight.requirements()
     return manifest
 
 
@@ -96,15 +98,17 @@ def derive():
         'own_source_fence_before_any_cursor_use')
     change("manifest=pin((HERE/'SOURCE.json').read_bytes())",'manifest=_prepared_manifest_pin()',1,
         'seal_original_and_prepared_source_manifests')
+    before='    source=sources();parent,inputs=admission.runtime_admission(parent_receipt_raw,input_profile_raw)\n'
+    change(before,before+'    _prepared_input_relations(inputs)\n',1,'callback_input_lower_bound_before_cursor')
     recovered=source
     for route in reversed(routes):
         base.require(recovered.count(route['after'])==route['count'],'GLOBAL_PO_INSTALL_INVERSE_ROUTE')
         recovered=recovered.replace(route['after'],route['before'])
-    base.require(recovered.encode()==raw and sum(r['count']for r in routes)==7,
+    base.require(recovered.encode()==raw and sum(r['count']for r in routes)==8,
         'GLOBAL_PO_INSTALL_ORIGINAL_NOT_RECOVERED')
     return source,dict(status='GLOBAL_SKU_PO_EXACT_INSTALLER_SOURCE_PREPARED_GATE_CLOSED',
         original=base.pin(raw),derived=base.pin(source.encode()),routes=routes,
-        counted_replacements=7,route_groups=5,original_installer_recovered=True,
+        counted_replacements=8,route_groups=6,original_installer_recovered=True,
         admission_or_transaction_restore_or_ownership_code_changed=False,
         actual_Native_cases=0,production_go=False,independent_acceptance=False)
 
@@ -119,6 +123,6 @@ def load_prepared():
     module.__package__='cp7_global_nonpo_envelope';module.__file__=original.__file__
     module.__dict__.update(_prepared_sql_sources=sql_sources,_prepared_plan_path=lambda:PLAN,
         _prepared_compare_current=base.current_reference,_prepared_check_sources=check_sources,
-        _prepared_manifest_pin=manifest_pin)
+        _prepared_manifest_pin=manifest_pin,_prepared_input_relations=callback_preflight.require_input_relations)
     exec(compile(source,module.__file__+'::prepared_SKU_PO','exec'),module.__dict__)
     return module,proof

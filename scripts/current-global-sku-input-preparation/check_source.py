@@ -73,14 +73,17 @@ def check():
     routes.require(installer['derived']==manifest['prepared_installer']
         and install_controls['derived_installer']==installer['derived']
         and install_controls['status']=='GLOBAL_SKU_PO_INSTALLER_BINDING_CONTROLS_PASS_NOT_RUNTIME'
-        and install_controls['tests_run']==7 and install_controls['exit_code']==0,
+        and install_controls['distinct_controls_passed']==10 and install_controls['aggregate_exit_code']==0,
         'GLOBAL_SKU_PO_INSTALLER_SOURCE_CONTROLS_REQUIRED')
     install_routes.check_sources()
+    callbacks=install_routes.callback_preflight.requirements()
     return dict(status='GLOBAL_SKU_PREPARATION_EXACT_SOURCE_FENCE_PASS_NOT_RUNTIME',
         unchanged_prepared_parent_files=len(parent),own_paths=len(expected),
         source_prerequisite_controls=len(report['controls']),new_graph_model_checks=len(model['results']),
         new_PO_source_controls=7,new_PO_observation_model_checks=41,
-        new_installer_binding_controls=7,prepared_installer_replacements=7,
+        installer_binding_controls_passed=10,prepared_installer_replacements=8,
+        additional_Mandor_journal_triggers=4,additional_Mandor_journal_foreign_keys=2,
+        additional_callback_relation_candidates=12,prepared_relation_lower_bound=len(callbacks['required_relation_lower_bound']),
         prepared_source_body_projection_count=reviewed['selected_source_functions'],
         prepared_physical_relation_candidates=len(reviewed['physical_relation_candidates']),
         current_parent_ROOT_adopted=False,owning_runtime_installed=False,actual_Native_cases=0,

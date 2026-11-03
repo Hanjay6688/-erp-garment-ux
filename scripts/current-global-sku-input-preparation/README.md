@@ -1,7 +1,7 @@
 # Persiapan pengamatan global untuk SKU moving average
 
-Sumber terpisah di atas kandidat Mandor `c19211e`. Tidak ada installer,
-workflow keuangan, perubahan izin produk, atau adopsi parent final di sini.
+Sumber terpisah di atas kandidat Mandor `c19211e`. Pemasangan aktual,
+workflow keuangan, perubahan izin produk, dan adopsi parent final masih tertutup.
 Gate unified pada parent sengaja tetap membatasi namespace lama. Persiapan ini
 memiliki fence sendiri; integrasi final wajib mengikat ulang sumber dan bukti.
 
@@ -81,7 +81,7 @@ profil final tetap harus diambil ulang dari parent gabungan yang diterima.
 
 ## Penghubung pemasangan yang tetap tertutup
 
-`install_routes.py` menurunkan satu modul installer terisolasi melalui tujuh
+`install_routes.py` menurunkan satu modul installer terisolasi melalui delapan
 penggantian sumber yang dapat dibalik. Sumber installer asli tidak diubah dan
 modul yang sudah diimpor tidak diganti. Penyedia SQL memakai empat helper SKU/PO,
 pemeriksaan referensi tetap membandingkan seluruh 19 atribut dari 19 fungsi,
@@ -90,9 +90,34 @@ dipakai oleh pemeriksaan sumber, pemasangan dan segel; parser pembuat rencana
 asli tetap persis. Hanya hash tiga body helper berubah. Semua 16 fungsi,
 tiga tabel, constraints, trigger, ACL/owner dan delapan adapter Native tetap.
 
-Tujuh pemeriksaan baru lolos, termasuk kegagalan sebelum akses cursor ketika
+Sepuluh pemeriksaan lolos, termasuk kegagalan sebelum akses cursor ketika
 parent belum diterima, penolakan promosi gate secara diam-diam, penolakan
 perubahan byte rencana walau JSON bermakna sama, dan tidak berubahnya seluruh
 fungsi transaksi/metadata/rollback asli. Belum ada pemasangan atau pengujian
 keuangan global. `load_prepared()` sengaja menolak bila konstanta admission
 diubah; adopsi final memerlukan integrasi terpisah setelah bukti parent lengkap.
+
+## Callback Mandor pada jurnal global
+
+Nama 13 fungsi Native Mandor dan lima fungsi Afui tidak bertabrakan dengan
+fungsi SKU atau fungsi yang dipilih review global sebelumnya. Namun pemasangan
+Mandor menambah empat trigger jurnal/baris jurnal, termasuk dua constraint
+trigger tertunda, serta dua FK yang merujuk jurnal. `callback_preflight.py`
+memparse SQL pemasangan yang sebenarnya, termasuk dua perubahan replay dan
+komposisi facade, lalu memakai parser sumber asli untuk enam callback baru.
+Satu fungsi yang sudah tercakup dipakai kembali. Tidak ada katalog aktual yang
+dibuat-buat, koneksi database, ataupun klaim pemasangan dari pemeriksaan ini.
+
+Jalur ini menambah 12 kandidat tabel input: fakta offset dan settlement Mandor,
+konteks pembayaran, serta payroll dan deduksinya. Batas bawah input menjadi
+209 tabel. Satu route tambahan pada installer menolak profil 197 tabel lama
+sebelum menyentuh cursor, setelah admission asli memeriksa bukti parent. Semua
+12 penghilangan diuji; input tambahan hasil review aktual tetap diperbolehkan.
+Lulus batas bawah ini tidak berarti profil lengkap atau parent telah diterima.
+Metadata, RLS, owner, ACL, dispatch dan seluruh callback tetap harus diperiksa
+lagi pada katalog gabungan aktual yang sudah diterima.
+
+Run pemeriksaan pertama mencatat sembilan kontrol lolos dan satu kesalahan
+model pengujian karena konstanta admission tidak disediakan. Model dilengkapi
+dengan konstanta asli tanpa mengubah gate produk; hanya kontrol yang gagal
+dijalankan kembali dan lolos. Tidak ada transaksi Native dalam pemeriksaan ini.
