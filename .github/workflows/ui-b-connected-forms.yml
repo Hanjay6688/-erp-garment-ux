@@ -10,6 +10,7 @@ on:
       - '.github/workflows/ui-b-connected-forms.yml'
 permissions:
   contents: read
+  actions: read
 concurrency:
   group: writer-b-connected-forms
   cancel-in-progress: false
@@ -33,16 +34,25 @@ jobs:
         run: npm ci --ignore-scripts --no-audit --no-fund
       - name: Admit UI-only changes and exact transport doubles
         working-directory: after
-        run: node scripts/ui-reference/connected-ui/verify-v2.mjs
+        run: node scripts/ui-reference/connected-ui/verify-v3.mjs
       - name: Compile aliases and refuse product roots and fixture production build
         working-directory: after
         run: node scripts/ui-reference/connected-ui/preflight.mjs
       - name: Install browser only - no database or actual Auth
         working-directory: after
         run: node_modules/.bin/playwright install --with-deps chromium
-      - name: Capture real components at four widths and reopen pending UI
+      - name: Retain 52 verified views from the unchanged source inputs
         working-directory: after
-        run: node scripts/ui-reference/connected-ui/capture.mjs
+        env:
+          GH_TOKEN: ${{ github.token }}
+          UI_RETAIN_ARCHIVE: ../writer-b-6599-original.zip
+        run: |
+          gh api /repos/Hanjay6688/-erp-garment-ux/actions/artifacts/13234240500/zip > ../writer-b-6599-original.zip.partial
+          mv ../writer-b-6599-original.zip.partial ../writer-b-6599-original.zip
+          python3 scripts/ui-reference/connected-ui/retain-v2.py
+      - name: Capture only 28 missing views and reopen pending UI
+        working-directory: after
+        run: node scripts/ui-reference/connected-ui/capture-v3.mjs
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:

@@ -1,0 +1,18 @@
+{
+  "source": "65991506ef0fee90341fb40d95bab41e02cbaa5e",
+  "run": 41642954385,
+  "job": 125940822601,
+  "artifact": 13234240500,
+  "conclusion": "FAILURE",
+  "original_bytes": 6279286,
+  "original_sha256": "1ee5b2ed06f2588b971d1ce920057bbdd31d174ce1a7417039086659c366010b",
+  "valid_individual_views": 52,
+  "uncompleted_views": 28,
+  "cause": "Harness expected the import save button to remain disabled; existing recovery observer intentionally retires the workspace and removes that button.",
+  "failures": "Import pending at 320/390/768, locator.isDisabled timed out. No console errors or visual findings in 52 captured views. Server reaped.",
+  "successor_policy": "Preserve original FAILURE. Reuse individually hashed views only if all production source, fixture inputs and pinned dependencies are unchanged. Correct oracle checks retired editor, locked batch selector and recovery action; preserve UUID/double-click/reopen assertions. Capture only 28 missing identities.",
+  "actual_Auth": 0,
+  "actual_SQL": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}
