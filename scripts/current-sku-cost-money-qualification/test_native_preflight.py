@@ -26,6 +26,7 @@ class CursorModel:
         self.location=(True,'FG_WAREHOUSE');self.master=(True,)*5
         self.mappings={key:[(True,True)]for key in subject.ACCOUNT_MAPPINGS}
         self.period=[(TODAY-timedelta(days=12),)]
+        self.database_roles={name:('authenticated','authenticated')for name in subject.ACTOR_FUNCTIONS}
 
     def execute(self,sql,params=()):
         text=' '.join(sql.split());self.seen.append((self.actor,text,params))
@@ -49,7 +50,7 @@ class CursorModel:
         elif text.startswith('select has_schema_privilege(current_user,'):
             self.rows=[((self.actor,params[1])not in self.denied,)]
         elif text=='select erp.current_app_role()::text':self.rows=[('OWNER',)]
-        elif text=='select current_user,session_user':self.rows=[('authenticated','authenticated')]
+        elif text=='select current_user,session_user':self.rows=[self.database_roles[self.actor]]
         else:raise AssertionError('unmodeled query: '+text)
         return self
 
@@ -78,6 +79,19 @@ def business(cursor,changed_census=False):
 
 
 class PrerequisiteAggregation(unittest.TestCase):
+    def test_superuser_or_maintenance_context_cannot_pass_as_a_business_actor(self):
+        cur=CursorModel()
+        for name,role in zip(subject.ACTOR_FUNCTIONS,('postgres','service_role','cp6_maintenance_admission')):
+            cur.database_roles[name]=(role,role)
+        fixtures,selected,captures=business(cur)
+        proof=subject.check(cur,TODAY,fixtures)
+        self.assertEqual(proof['status'],'REFUSED')
+        self.assertEqual(set(proof['errors']),{'ORDINARY_AUTHENTICATED_ACTOR_REQUIRED:'+name for name in subject.ACTOR_FUNCTIONS})
+        self.assertEqual(selected,list(subject.ACTOR_FUNCTIONS));self.assertEqual(len(captures),2)
+        self.assertEqual(cur.actor,'admin');self.assertEqual(cur.savepoints,[])
+        self.assertTrue(all(row['role']=='OWNER'for row in proof['actors'].values()))
+        self.assertTrue(all(v for row in proof['actors'].values()for v in row['direct_call_capabilities'].values()))
+
     def test_complete_direct_call_surface_is_checked_for_all_three_actors(self):
         cur=CursorModel();fixtures,selected,captures=business(cur)
         proof=subject.check(cur,TODAY,fixtures)

@@ -33,12 +33,18 @@ and 19 actor-specific call capabilities, including schema USAGE and function
 EXECUTE. The eight required accounting mappings, canonical product master and
 earliest opening day are checked in the same read-only pass. An existing
 function alone does not establish that its actual fixture actor can call it.
+Every actor must have PostgreSQL `current_user = authenticated`; an OWNER/ADMIN
+application claim with a superuser, service or maintenance database role is
+refused before the first business callback. The complete database-role pair
+remains in the prerequisite Original for later verification.
 It does not change the product clock or create posted facts.
 Actor failures are collected in separate savepoints; the full prerequisite
 report is saved on both success and refusal, before any business callback.
-Three protocol-model controls cover simultaneous independent failures, a missing
+Four protocol-model controls cover simultaneous independent failures, a missing
 function without attempting its capability lookup, and recovery from an aborted
-actor query before the remaining actors and final full census. These controls
+actor query before the remaining actors and final full census, and privileged
+database contexts masquerading as business actors. The same explicit three-actor
+protocol input passes the previous check and is refused by this check. These controls
 do not evaluate PostgreSQL privileges or earn ERP case credit.
 Actual permission/revocation races and HTTP/Auth/browser evidence remain open.
 

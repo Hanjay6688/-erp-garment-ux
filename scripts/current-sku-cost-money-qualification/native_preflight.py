@@ -100,6 +100,8 @@ def check(cur,today,business):
             actors[name]=dict(role=cur.execute('select erp.current_app_role()::text').fetchone()[0],
                 database_role=cur.execute('select current_user,session_user').fetchone(),
                 permissions=permissions,direct_call_capabilities=capability)
+            if actors[name]['database_role'][0]!='authenticated':
+                errors.append('ORDINARY_AUTHENTICATED_ACTOR_REQUIRED:'+name)
             errors.extend('ACTOR_PERMISSION:'+name+':'+key for key,value in permissions.items()if value is not True)
             errors.extend('ACTOR_FUNCTION_CAPABILITY:'+name+':'+sig for sig,value in capability.items()if value is not True)
             if actors[name]['role']not in('OWNER','ADMIN'):
