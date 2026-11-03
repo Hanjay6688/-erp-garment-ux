@@ -10,7 +10,8 @@
     "allocation.sql",
     "offset_projection.sql",
     "payment_owner.sql",
-    "payment_guards.sql"
+    "payment_guards.sql",
+    "command_guards.sql"
   ],
   "tables": [
     "cp7_mandor_shop.allocation_events",
@@ -56,10 +57,12 @@
     "cp7_mandor_shop.payment_begin(text,text,jsonb,uuid,text)",
     "cp7_mandor_shop.payment_finish(uuid)",
     "cp7_mandor_shop.payroll_basis(uuid)",
+    "cp7_mandor_shop.payroll_current_access(text,text,uuid)",
     "cp7_mandor_shop.protected_journal(erp.journal_entries)",
     "cp7_mandor_shop.require_context(text[])",
     "cp7_mandor_shop.reverse_payroll_offsets(uuid,text)",
     "cp7_mandor_shop.review_token(jsonb,jsonb,jsonb)",
+    "cp7_mandor_shop.sale_change_preflight(text,uuid)",
     "cp7_mandor_shop.sales_identity()",
     "cp7_mandor_shop.save_sale(text,jsonb,uuid,text)",
     "cp7_mandor_shop.settle_payroll(uuid)",
@@ -291,6 +294,13 @@
     ],
     "cp7_mandor_shop.payment_finish(uuid)": [
       "cp7_payroll_write"
+    ],
+    "cp7_mandor_shop.payroll_current_access(text,text,uuid)": [
+      "cp7_payroll_write",
+      "cp7_installment_write"
+    ],
+    "cp7_mandor_shop.sale_change_preflight(text,uuid)": [
+      "cp7_sales_write"
     ]
   },
   "source_fragments": {
@@ -329,11 +339,22 @@
     "composed_facades_with_native_dispatch.sql": {
       "bytes": 12008,
       "sha256": "64d51f4afcbacf6a3d575ec72f4fd785dce520c049b43550c85defb72b615fda"
+    },
+    "command_guards.sql": {
+      "bytes": 3177,
+      "sha256": "3205333351a219586ecc52ce2fcf3ed6408430d39a45f8a03592a92e14c2c7dc"
     }
   },
   "new_Native_financial_function_bodies": 0,
   "actual_SQL_executed": 0,
   "actual_Native_cases": 0,
   "production_go": false,
-  "independent_acceptance": false
+  "independent_acceptance": false,
+  "command_guard_preparation": {
+    "new_private_functions": 2,
+    "new_Native_identities": 4,
+    "existing_payment_body_extended": 1,
+    "old_Native_business_statements_removed": 0,
+    "current_runtime_qualified": false
+  }
 }

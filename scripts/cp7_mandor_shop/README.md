@@ -1,3 +1,22 @@
+## Current command safeguards (3 November 2026)
+
+Two additional private guards run before transaction writes and before cached
+payment outcomes. Payroll and installment replay require current AR access
+when the payroll has Mandor history. Active-offset returns and note corrections
+refuse before Native stock/cash/journal writes, while the original table guards
+remain in place for other Native entry paths. Same-request lawful sale/correction
+replay still returns its original result after the original access checks.
+
+The complete installer now has36 private functions,6 public facades and13
+Native body adapters. Five exact guard insertions preserve the complete prior
+Native bodies; four add newly reviewed identities and one extends the existing
+payroll adapter. Only the new private schema/function grants change. Full actual
+function metadata, owner/OID/raw ACL and inverse checks remain mandatory.
+
+This is preparation, not runtime acceptance. The new guard bodies and expanded
+Native9 flows have source checks only; old model controls were not rerun or
+credited to the new guards. Afui acceptance still gates actual installation.
+
 ## Guarded complete installer source (2 November 2026)
 
 `composition.py` now prepares the complete fifteen-table, 34-private-function,

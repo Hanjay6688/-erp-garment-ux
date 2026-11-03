@@ -9,7 +9,7 @@ from contextlib import contextmanager
 from hashlib import sha256
 from pathlib import Path
 import ast,json,re
-from . import admission,facade_install,native_dispatch,native_payment_routes,native_sales_routes
+from . import admission,facade_install,native_dispatch,native_payment_routes,native_sales_routes,command_guard_routes
 
 HERE=Path(__file__).resolve().parent
 ROOT=HERE.parents[1]
@@ -17,7 +17,7 @@ SCHEMA='cp7_mandor_shop'
 ROLE='cp7_mandor_shop_api'
 CONTRACT='cp7.mandor-shop-guarded-installation.v1'
 ORDER=('schema.sql','events.sql','buyers.sql','sale_identity.sql','allocation.sql',
-       'offset_projection.sql','payment_owner.sql','payment_guards.sql')
+       'offset_projection.sql','payment_owner.sql','payment_guards.sql','command_guards.sql')
 ORIGINAL_QUERIES=dict(bytes=19828,sha256='a1605193347cf5b3321a7bdbf8ff6c634df4f4c0a5113eb295e8c3ce44428e00')
 
 
@@ -166,7 +166,7 @@ def normalize_private(cur,plan):
         for grantee, in grantees:
             name=cur.execute('select pg_get_userbyid(%s)',(grantee,)).fetchone()[0]if grantee else None
             cur.execute(sql.SQL('revoke all on schema {} from {}').format(sql.Identifier(SCHEMA),sql.Identifier(name)if grantee else sql.SQL('PUBLIC')))
-        for role in(ROLE,'cp7_sales_read','cp7_payroll_write'):
+        for role in(ROLE,'cp7_sales_read','cp7_payroll_write','cp7_sales_write','cp7_installment_write'):
             cur.execute(sql.SQL('grant usage on schema {} to {}').format(sql.Identifier(SCHEMA),sql.Identifier(role)))
 
 
@@ -216,7 +216,7 @@ def transition(before,after,definitions,plan):
             if group in('relations','columns','constraints','indexes','types','type_implementation','policies')and key.startswith(SCHEMA+'.'):continue
             raise ValueError('MANDOR_UNDECLARED_NEW_CATALOG_OBJECT:'+group+':'+key)
     require(set(after['functions'])-set(before['functions'])==set(plan['private_functions']+plan['public_functions']),
-        'MANDOR_EXACT_NEW40_FUNCTION_SET_REQUIRED')
+        'MANDOR_EXACT_NEW42_FUNCTION_SET_REQUIRED')
 
 
 def install(cur,parent_receipt_raw):
@@ -224,10 +224,11 @@ def install(cur,parent_receipt_raw):
     with atomic(cur),metadata_context(cur):
         trusted_installer(cur);before=capture(cur);plan=json.loads((HERE/'INSTALL_PLAN.json').read_bytes())
         require(SCHEMA not in before['schemas']and ROLE not in before['roles'],'MANDOR_EXISTING_MODULE_REFUSE_TO_TOUCH')
-        # All nine source adapters independently demand the complete actual19
+        # All thirteen source adapters demand the complete actual19
         # parent rows they were reviewed against, not only a text anchor.
         payment,_=native_payment_routes.derive(before['functions']);sales,_=native_sales_routes.derive(before['functions'])
-        definitions=payment|sales;facades,dispatch_proof=native_dispatch.derive(before['functions'])
+        guards,guard_proof=command_guard_routes.derive(before['functions'],payment)
+        definitions=payment|sales|guards;facades,dispatch_proof=native_dispatch.derive(before['functions'])
         reference=json.loads((HERE/'NATIVE_SCHEMA_REFERENCE.json').read_bytes())
         for columns in reference['columns'].values():
             for key,row in columns.items():
@@ -245,7 +246,7 @@ def install(cur,parent_receipt_raw):
         state=dict(contract=CONTRACT,sources=source,parent=parent,before=before,after=after,
             originals={sig:before['functions'][sig][0]for sig in definitions},definitions=definitions,
             native_identity=identity,raw_public_schema_acl_before=public_acl,raw_public_schema_acl=installed_public_acl,
-            dispatch_proof=dispatch_proof,plan=plan)
+            dispatch_proof=dispatch_proof,command_guard_proof=guard_proof,plan=plan)
         state['sha256']=digest(state);verify(cur,state);return state
 
 
@@ -275,7 +276,7 @@ def verify(cur,state):
     require(not any(role[i]for i in(0,1,2,3,4,5,6)),'MANDOR_API_ROLE_PRIVILEGES_CHANGED')
     for key,row in state['after']['memberships'].items():
         if key.split(':')[0]==ROLE:require(not row[1]and not row[2],'MANDOR_TEMPORARY_ROLE_SET_OR_INHERIT_NOT_REMOVED')
-    return dict(contract=CONTRACT,new_private_functions=34,new_public_facades=6,Native_adapters=9,
+    return dict(contract=CONTRACT,new_private_functions=36,new_public_facades=6,Native_adapters=13,
         all22_verified=True,Native_OID_and_raw_ACL_preserved=True,actual_business_qualification=False,
         production_go=False,independent_acceptance=False)
 

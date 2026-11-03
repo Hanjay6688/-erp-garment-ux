@@ -306,7 +306,7 @@ def check():
     definitions,proof=native_sales.derive(reference['functions'])
     assert proof==json.loads((HERE/'NATIVE_SALES_ROUTES_SOURCE_CONTROLS.json').read_bytes())
     assert set(definitions)=={'cp7_sales.form_options(jsonb)'} and proof['route']['count']==1 and proof['complete_original_recovered']is True
-    assert value['private_functions']==value['schema_and_event_functions']+value['private_allocation_functions']+value['private_buyer_functions']+value['private_sale_identity_functions']+value['private_offset_functions']+value['private_payment_functions']+value['private_payment_guard_functions']+value['private_sales_command_functions']==34
+    assert value['private_functions']==value['schema_and_event_functions']+value['private_allocation_functions']+value['private_buyer_functions']+value['private_sale_identity_functions']+value['private_offset_functions']+value['private_payment_functions']+value['private_payment_guard_functions']+value['private_sales_command_functions']+value['private_command_guard_functions']==36
     spec=importlib.util.spec_from_file_location('mandor_exact_facade_install_source_only',HERE/'facade_install.py')
     facade_install=importlib.util.module_from_spec(spec);spec.loader.exec_module(facade_install)
     _,facade_proof=facade_install.derive()
@@ -331,8 +331,15 @@ def check():
     planned=installer.sources()
     assert planned['actual_final_parent_admission']is None and planned['runtime_entry']is None
     plan=json.loads((HERE/'INSTALL_PLAN.json').read_bytes())
-    assert len(plan['private_functions'])==34 and len(plan['public_functions'])==6 and len(plan['tables'])==15
-    assert len(plan['triggers'])==27 and len(plan['private_execute_grants'])==9
+    assert len(plan['private_functions'])==36 and len(plan['public_functions'])==6 and len(plan['tables'])==15
+    assert len(plan['triggers'])==27 and len(plan['private_execute_grants'])==11
+    guard_routes=importlib.import_module('cp7_mandor_shop.command_guard_routes')
+    guard_reference=json.loads((HERE/'COMMAND_GUARD_NATIVE_REFERENCE.json').read_bytes())
+    payment_reference=json.loads((HERE/'NATIVE_PAYMENT_OWNER_REFERENCE.json').read_bytes())
+    original_functions=payment_reference['functions']|guard_reference['functions']
+    payment_defs,_=native.derive(original_functions)
+    guarded,guard_proof=guard_routes.derive(original_functions,payment_defs)
+    assert len(guarded)==5 and guard_proof['new_Native_function_identities']==4
     installation=json.loads((HERE/'INSTALLER_SOURCE_CONTROLS.json').read_bytes())
     assert installation['actual_final_parent_admission']is False and installation['actual_SQL_executed']==0
     return dict(status='FG_MANDOR_EXACT_STORAGE_PREPARATION_SOURCE_ONLY',unchanged_parent_blobs_and_modes=len(base),
@@ -355,7 +362,7 @@ def check():
         Native_header_trigger_source_written=True,Native_header_trigger_ERP_qualification=False,
         retained_allocation_controls_NOT_rerun=True,
         private_sales_command_functions=3,retained_new_sales_controls=13,fresh_new_sales_controls=1,
-        Native_sales_form_source_adapters=1,Native_total_source_adapters=9,
+        Native_sales_form_source_adapters=1,Native_total_source_adapters=13,
         sales_UI_parser_cases=4,sales_UI_DOM_cases=11,sales_UI_parent_regression_cases=37,
         runtime_entry=None,ERP_imports=0,SQL_executed=0,actual_Native_cases=0,production_go=False,independent_acceptance=False)
 
