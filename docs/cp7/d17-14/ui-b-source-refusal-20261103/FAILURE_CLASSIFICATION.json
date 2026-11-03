@@ -1,0 +1,26 @@
+{
+  "FIRST_BEFORE": {
+    "total": 8,
+    "passed": 2,
+    "failed": 6,
+    "confirmed_product_failures": 2,
+    "fixture_pre_click_blocks": 4,
+    "cause_of_fixture_blocks": "Missing browser Locks API double made period controls intentionally disabled. Use the same lock fixture as existing DOM tests. Assertions and product code unchanged.",
+    "source_copy": "FIRST_HARNESS_SOURCE_RECONSTRUCTED.tsx.gz (reconstructed by reversing only the two-line fixture adjustment)"
+  },
+  "SECOND_BEFORE_LOCKS_FIXED": {
+    "total": 8,
+    "passed": 2,
+    "failed": 6,
+    "confirmed_product_failures": 6,
+    "cases": "workspace / next-period page / period preview, each401and403; Auth provider stays AUTHORIZED",
+    "actual_Auth": 0,
+    "actual_SQL": 0
+  },
+  "after": {
+    "combined_unique_local_tests": 54,
+    "execution": "50 passed, followed by4 new cases on byte-identical three-file proposal;8 previous cases skipped in the filtered extra run",
+    "before_failures_not_reclassified": true,
+    "proposal_not_adopted_by_A": true
+  }
+}

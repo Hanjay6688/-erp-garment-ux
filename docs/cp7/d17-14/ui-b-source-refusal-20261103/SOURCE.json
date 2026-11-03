@@ -1,0 +1,150 @@
+{
+  "contract": "cp7.B.local-source-refusal-proposal-and-SKU-visual-review.v1",
+  "base": "8678feba7652d1d483536d1baf82135030dc3548",
+  "base_tree": "6ff52aa488c61051e3238fe6683f13c5c64ffca8",
+  "src_tree": "601afd5adbb167991b018eb24688d5ecb8fb3173",
+  "src_files": 656,
+  "new_files": {
+    "docs/cp7/d17-14/ui-b-source-refusal-20261103/APPLICATION.json": {
+      "bytes": 1404,
+      "sha256": "8be09b592216e56cd8d2389494947efcd192e533c0d2cb85fff399ac517d614a"
+    },
+    "docs/cp7/d17-14/ui-b-source-refusal-20261103/BASELINE8_VALID_HARNESS_SOURCE.tsx.gz": {
+      "bytes": 2737,
+      "sha256": "129e4c5a7059936d063720830b5f166d148466393ac163924c9bd4b4155f18b5"
+    },
+    "docs/cp7/d17-14/ui-b-source-refusal-20261103/COMBINED50.json.gz": {
+      "bytes": 3128,
+      "sha256": "0808bf6f1b87fcc88ae411d01e633e7729102af407ced4e885cff16097cf7b31"
+    },
+    "docs/cp7/d17-14/ui-b-source-refusal-20261103/COMBINED50.log.gz": {
+      "bytes": 119,
+      "sha256": "2ec4fcd68f537a7c3c85b4d3e7ba912f5225aa95b11dc17da49dd23faf45a697"
+    },
+    "docs/cp7/d17-14/ui-b-source-refusal-20261103/COMBINED_PROPOSAL_CHECK.json": {
+      "bytes": 1437,
+      "sha256": "0d251b322336c96aba0fe780b36ef86057a0329022d23e68f8fda8c63d8f1974"
+    },
+    "docs/cp7/d17-14/ui-b-source-refusal-20261103/COMBINED_TYPECHECK.log.gz": {
+      "bytes": 20,
+      "sha256": "f61f27bd17de546264aa58f40f3aafaac7021e0ef69c17f6b1b4cd7664a037ec"
+    },
+    "docs/cp7/d17-14/ui-b-source-refusal-20261103/EXTRA4.json.gz": {
+      "bytes": 742,
+      "sha256": "15b7f96473f515692097984cc3acddbb5f002dcd4fe1a2e95b2737384ef2849f"
+    },
+    "docs/cp7/d17-14/ui-b-source-refusal-20261103/EXTRA4.log.gz": {
+      "bytes": 116,
+      "sha256": "e366c1a82619c783e3c78c42a9a04f8b317ad02cd035cb31414eeaa5f9627944"
+    },
+    "docs/cp7/d17-14/ui-b-source-refusal-20261103/EXTRA4_CHECK.json": {
+      "bytes": 340,
+      "sha256": "c539d22524883755ecd5eb92e54f3430587cfea803305d2148a7cd473d12f804"
+    },
+    "docs/cp7/d17-14/ui-b-source-refusal-20261103/FAILURE_CLASSIFICATION.json": {
+      "bytes": 1039,
+      "sha256": "cabd64d3b624003564128dfee714e2c77e86de669abb04ad698cf47afd21b455"
+    },
+    "docs/cp7/d17-14/ui-b-source-refusal-20261103/FIRST_BEFORE.json.gz": {
+      "bytes": 916,
+      "sha256": "42f6244a3394215cb7439dac45d1e38ee942ad0f9aa79f8332ebfa4f415273e8"
+    },
+    "docs/cp7/d17-14/ui-b-source-refusal-20261103/FIRST_BEFORE.log.gz": {
+      "bytes": 121,
+      "sha256": "62fe5d1a8f5ea9c156d2799c033c70fe945f644965dff25ce912dd235202b812"
+    },
+    "docs/cp7/d17-14/ui-b-source-refusal-20261103/FIRST_HARNESS_SOURCE_RECONSTRUCTED.tsx.gz": {
+      "bytes": 2653,
+      "sha256": "0776805a454308a6b6cc1fb5d8075c2eb42b89d2f8cb84c77d92cc637e9a3749"
+    },
+    "docs/cp7/d17-14/ui-b-source-refusal-20261103/HANDOFF_B_SOURCE_REFUSAL_AND_SKU_REVIEW_20261103.md": {
+      "bytes": 8070,
+      "sha256": "2a24861a341daf899a3308ce2a5094ddc430052ea9ded6843769a2d955a1fd48"
+    },
+    "docs/cp7/d17-14/ui-b-source-refusal-20261103/PROPOSAL_CHECK.json": {
+      "bytes": 723,
+      "sha256": "b17badb384614e20c4a6eb37ee0ce2d15b8ae1f09153b67ddec94f954c6d5b34"
+    },
+    "docs/cp7/d17-14/ui-b-source-refusal-20261103/PROPOSED_EXISTING41.json.gz": {
+      "bytes": 2750,
+      "sha256": "5c57c8070abb2dca921156a3de85a476446be476ced1a0dcad3b62239bcb10f8"
+    },
+    "docs/cp7/d17-14/ui-b-source-refusal-20261103/PROPOSED_EXISTING41.log.gz": {
+      "bytes": 128,
+      "sha256": "2861b2c83097a242904e424f1ddf85374c75127bd78dee83c63199e90b78932f"
+    },
+    "docs/cp7/d17-14/ui-b-source-refusal-20261103/PROPOSED_TARGETED8.json.gz": {
+      "bytes": 673,
+      "sha256": "738ff4e3e10b4d1479fb3d4459fce7485561f8793aa00869dfbd33805d8e0b01"
+    },
+    "docs/cp7/d17-14/ui-b-source-refusal-20261103/PROPOSED_TARGETED8.log.gz": {
+      "bytes": 126,
+      "sha256": "8daebebd44648c453fac6ad8e6add5c7a01a76f45bf45b287b68ef50b2ce4eeb"
+    },
+    "docs/cp7/d17-14/ui-b-source-refusal-20261103/PROPOSED_TYPECHECK.log.gz": {
+      "bytes": 20,
+      "sha256": "f61f27bd17de546264aa58f40f3aafaac7021e0ef69c17f6b1b4cd7664a037ec"
+    },
+    "docs/cp7/d17-14/ui-b-source-refusal-20261103/SAVED_PROOFS.json": {
+      "bytes": 548,
+      "sha256": "a06cbde21d1bbc261778e309f4d0c719a6b6fdff63d27dd773892bad62476f70"
+    },
+    "docs/cp7/d17-14/ui-b-source-refusal-20261103/SECOND_BEFORE_LOCKS_FIXED.json.gz": {
+      "bytes": 869,
+      "sha256": "b47e8047b7ecb902e5e7304100d423af4935fef60fa009295b8f504f64646ed6"
+    },
+    "docs/cp7/d17-14/ui-b-source-refusal-20261103/SECOND_BEFORE_LOCKS_FIXED.log.gz": {
+      "bytes": 132,
+      "sha256": "6725ba09bd490b790b704b8bb701ffe545b61337ec4565ded7fe3a25e49a53b2"
+    },
+    "docs/cp7/d17-14/ui-b-source-refusal-20261103/SKU_RETAINED_VISUAL_REVIEW.json": {
+      "bytes": 31458,
+      "sha256": "b1a51a31732c80e787d99010202eddbdd0170464613cdaaf455b09b745391d28"
+    },
+    "scripts/ui-b-source-refusal-review/B_LOADING_THEME_PREREQUISITE.patch.gz": {
+      "bytes": 2432,
+      "sha256": "dfd4b88c2c8c413ab89cf9dd30c0e0c5ba678665132f49e3ff5b3fc3e024cc31"
+    },
+    "scripts/ui-b-source-refusal-review/PROPOSED_A_COMBINED_UI.patch.gz": {
+      "bytes": 3375,
+      "sha256": "1c1bb40e4127503a9ce76e773dc6aa2217f5b2c323161f557c2897ea4dc180d5"
+    },
+    "scripts/ui-b-source-refusal-review/PROPOSED_A_POCKET_SOURCE_REFUSAL.patch.gz": {
+      "bytes": 1158,
+      "sha256": "f95669bef6394dbed90935532a77996655648e177e3d08fc6742050c31b93706"
+    },
+    "scripts/ui-b-source-refusal-review/revocation_BEFORE.case.tsx": {
+      "bytes": 8205,
+      "sha256": "396860d2373e0533ce43a9f6ed5a7f2b9166c9a85f5ffbaab05643bad92c5af8"
+    },
+    "scripts/ui-b-source-refusal-review/unknown-loading.case.tsx": {
+      "bytes": 1190,
+      "sha256": "9304a51643c3bb8c981c66be71c137c5da0896ff8d8245d5172759910a997b63"
+    },
+    "scripts/ui-b-source-refusal-review/verify.mjs": {
+      "bytes": 1385,
+      "sha256": "08ec24d82c8f4ea9dd18c59cf1f89bb95add32e6bc178d0a2743db29a5027a0f"
+    },
+    "scripts/ui-b-source-refusal-review/vitest-combined.config.mjs": {
+      "bytes": 380,
+      "sha256": "0a20da2450cdcd3d56e466ac91962910f3d81ada2b8f60a25f0a4b45b15be825"
+    },
+    "scripts/ui-b-source-refusal-review/vitest.config.mjs": {
+      "bytes": 227,
+      "sha256": "74442f466b69bfb85dcc39cdba26e420258fa086802f99f2d741dd0f8bf358b2"
+    }
+  },
+  "claim": {
+    "combined_proposal_unique_local_tests": 54,
+    "new_browser_runs": 0,
+    "retained_original_visual_cases": 32,
+    "actual_Auth": 0,
+    "actual_SQL": 0,
+    "adopted_by_A": false,
+    "product_patch_committed_to_src": false
+  },
+  "A_sole_integrator": true,
+  "formal": "5/16",
+  "production_go": false,
+  "independent_acceptance": false
+}

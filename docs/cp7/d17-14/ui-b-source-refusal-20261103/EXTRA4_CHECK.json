@@ -1,0 +1,13 @@
+{
+  "classification": "FOUR_NEW_RACE_AND_MODAL_CONTROLS_ON_IDENTICAL_COMPOSITE_PROPOSAL",
+  "repeated_previous_50": false,
+  "actual_Auth": 0,
+  "actual_SQL": 0,
+  "exit": 0,
+  "passed": 4,
+  "skipped_previously_run": 8,
+  "failed": 0,
+  "status": "PASS_FOUR_NEW_LOCAL_CONTROLS",
+  "all_product_source_restored": true,
+  "seconds": 4.434
+}

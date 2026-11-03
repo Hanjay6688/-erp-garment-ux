@@ -1,0 +1,1338 @@
+{
+  "classification": "B_ADDITIONAL_VISUAL_REVIEW_OF_RETAINED_A_ORIGINAL_NOT_A_NEW_BROWSER_RUN",
+  "source": "8678feba7652d1d483536d1baf82135030dc3548",
+  "tree": "6ff52aa488c61051e3238fe6683f13c5c64ffca8",
+  "run": 41658644243,
+  "job": 125995665057,
+  "artifact": 13239669983,
+  "original_bytes": 3948952,
+  "original_sha256": "11dd127cbd4d65b1c7ca71f3db87ce0d0c5fc87154c6f73c76812ad0c578a287",
+  "original_Library_file_id": "libfile_21ac2d0b4f90819194639dafd32ccb73",
+  "retained_automated_cases": 32,
+  "new_browser_runs": 0,
+  "new_CI_runs": 0,
+  "B_review": {
+    "contact_sheets": 4,
+    "screenshot_identities_reviewed": 32,
+    "focused_original_crops": [
+      "known-320-details.png",
+      "operations-390.png",
+      "unknown-1440.png",
+      "pending-390.png"
+    ],
+    "full_size_all32_individually_reviewed": false,
+    "new_observed_visual_defects": 0,
+    "notes": [
+      "Order selection and toolbar explanations fit at all four measured widths.",
+      "Unknown HPP remains explicitly unavailable, not zero.",
+      "Operations-only cards contain stock quantities without monetary values.",
+      "Read errors, loading, empty stock and pending state remain distinguishable.",
+      "Original screenshot pixels are unchanged; SHA pins added for provenance."
+    ],
+    "reviewer": "WRITER_B_NOT_INDEPENDENT_AUDITOR"
+  },
+  "minimum_measured_contrast": 5.208347819737491,
+  "cases": [
+    {
+      "mode": "known",
+      "width": 320,
+      "expanded": false,
+      "status": "PASS",
+      "screenshot": "known-320.png",
+      "size": {
+        "inner": 320,
+        "document": 320
+      },
+      "selected_text": [
+        {
+          "label": "Urutkan halaman barang jadi",
+          "width": 252,
+          "required": 159.796875
+        },
+        {
+          "label": "Urutkan mutasi posisi FG",
+          "width": 218,
+          "required": 159.796875
+        },
+        {
+          "label": "Jenis mutasi FG",
+          "width": 218,
+          "required": 139.375
+        }
+      ],
+      "toolbar_explanations": [
+        {
+          "width": 254,
+          "height": 60,
+          "available": 254
+        },
+        {
+          "width": 220,
+          "height": 100,
+          "available": 220
+        }
+      ],
+      "minimum_contrast": 5.6351858558248065,
+      "measured_text_nodes": 72,
+      "PNG_bytes": 177969,
+      "PNG_sha256": "6540f84a82d6c186955928c7f98f4b09e767d47053f8ac7aeb1a97a012b9e04c",
+      "PNG_size": [
+        320,
+        3194
+      ]
+    },
+    {
+      "mode": "known",
+      "width": 320,
+      "expanded": true,
+      "status": "PASS",
+      "screenshot": "known-320-details.png",
+      "size": {
+        "inner": 320,
+        "document": 320
+      },
+      "selected_text": [
+        {
+          "label": "Urutkan halaman barang jadi",
+          "width": 252,
+          "required": 159.796875
+        },
+        {
+          "label": "Urutkan mutasi posisi FG",
+          "width": 218,
+          "required": 159.796875
+        },
+        {
+          "label": "Jenis mutasi FG",
+          "width": 218,
+          "required": 139.375
+        }
+      ],
+      "toolbar_explanations": [
+        {
+          "width": 254,
+          "height": 60,
+          "available": 254
+        },
+        {
+          "width": 220,
+          "height": 100,
+          "available": 220
+        }
+      ],
+      "minimum_contrast": 5.6351858558248065,
+      "measured_text_nodes": 72,
+      "PNG_bytes": 182783,
+      "PNG_sha256": "b3d1e2e403848a566cb6beaa5912b804da4e1c225636852d9cb5eb0de0e7bcba",
+      "PNG_size": [
+        320,
+        3270
+      ]
+    },
+    {
+      "mode": "unknown",
+      "width": 320,
+      "expanded": false,
+      "status": "PASS",
+      "screenshot": "unknown-320.png",
+      "size": {
+        "inner": 320,
+        "document": 320
+      },
+      "selected_text": [
+        {
+          "label": "Urutkan halaman barang jadi",
+          "width": 252,
+          "required": 159.796875
+        },
+        {
+          "label": "Urutkan mutasi posisi FG",
+          "width": 218,
+          "required": 159.796875
+        },
+        {
+          "label": "Jenis mutasi FG",
+          "width": 218,
+          "required": 139.375
+        }
+      ],
+      "toolbar_explanations": [
+        {
+          "width": 254,
+          "height": 60,
+          "available": 254
+        },
+        {
+          "width": 220,
+          "height": 100,
+          "available": 220
+        }
+      ],
+      "minimum_contrast": 5.6351858558248065,
+      "measured_text_nodes": 72,
+      "PNG_bytes": 177252,
+      "PNG_sha256": "233c1aac83ef12dd8c6990451cd2c8504b2f831cc85ba7c87d3a27c42965cde4",
+      "PNG_size": [
+        320,
+        3214
+      ]
+    },
+    {
+      "mode": "empty",
+      "width": 320,
+      "expanded": false,
+      "status": "PASS",
+      "screenshot": "empty-320.png",
+      "size": {
+        "inner": 320,
+        "document": 320
+      },
+      "selected_text": [
+        {
+          "label": "Urutkan halaman barang jadi",
+          "width": 252,
+          "required": 159.796875
+        }
+      ],
+      "toolbar_explanations": [
+        {
+          "width": 254,
+          "height": 60,
+          "available": 254
+        }
+      ],
+      "minimum_contrast": 5.6351858558248065,
+      "measured_text_nodes": 32,
+      "PNG_bytes": 88775,
+      "PNG_sha256": "50bfb8c7c1e5e45da290b1f564416353f9299dff1c27a1032e36d1050656839c",
+      "PNG_size": [
+        320,
+        1635
+      ]
+    },
+    {
+      "mode": "loading",
+      "width": 320,
+      "expanded": false,
+      "status": "PASS",
+      "screenshot": "loading-320.png",
+      "size": {
+        "inner": 320,
+        "document": 320
+      },
+      "selected_text": [
+        {
+          "label": "Urutkan halaman barang jadi",
+          "width": 252,
+          "required": 159.796875
+        }
+      ],
+      "toolbar_explanations": [
+        {
+          "width": 254,
+          "height": 60,
+          "available": 254
+        }
+      ],
+      "minimum_contrast": 5.208347819737491,
+      "measured_text_nodes": 11,
+      "PNG_bytes": 58653,
+      "PNG_sha256": "5c6d366775ce1620fd507e8c3d9fe2e91c9e1073dcc1f31b7819c474d359a2a2",
+      "PNG_size": [
+        320,
+        1160
+      ]
+    },
+    {
+      "mode": "error",
+      "width": 320,
+      "expanded": false,
+      "status": "PASS",
+      "screenshot": "error-320.png",
+      "size": {
+        "inner": 320,
+        "document": 320
+      },
+      "selected_text": [
+        {
+          "label": "Urutkan halaman barang jadi",
+          "width": 252,
+          "required": 159.796875
+        }
+      ],
+      "toolbar_explanations": [
+        {
+          "width": 254,
+          "height": 60,
+          "available": 254
+        }
+      ],
+      "minimum_contrast": 5.6351858558248065,
+      "measured_text_nodes": 15,
+      "PNG_bytes": 55653,
+      "PNG_sha256": "dba26da162d6e9da03aa9026ac8f978c81b2fb504244d45d935f680a67a344a3",
+      "PNG_size": [
+        320,
+        1082
+      ]
+    },
+    {
+      "mode": "pending",
+      "width": 320,
+      "expanded": false,
+      "status": "PASS",
+      "screenshot": "pending-320.png",
+      "size": {
+        "inner": 320,
+        "document": 320
+      },
+      "selected_text": [
+        {
+          "label": "Urutkan halaman barang jadi",
+          "width": 252,
+          "required": 159.796875
+        }
+      ],
+      "toolbar_explanations": [
+        {
+          "width": 254,
+          "height": 60,
+          "available": 254
+        }
+      ],
+      "minimum_contrast": 5.6351858558248065,
+      "measured_text_nodes": 45,
+      "PNG_bytes": 113034,
+      "PNG_sha256": "99c8b9b0bae16c4c389d73cf4a146cc2c1f24bcd70ff6be8af0c5088026beb2d",
+      "PNG_size": [
+        320,
+        2109
+      ]
+    },
+    {
+      "mode": "operations",
+      "width": 320,
+      "expanded": false,
+      "status": "PASS",
+      "screenshot": "operations-320.png",
+      "size": {
+        "inner": 320,
+        "document": 320
+      },
+      "selected_text": [
+        {
+          "label": "Urutkan halaman barang jadi",
+          "width": 252,
+          "required": 159.796875
+        },
+        {
+          "label": "Urutkan mutasi posisi FG",
+          "width": 218,
+          "required": 159.796875
+        },
+        {
+          "label": "Jenis mutasi FG",
+          "width": 218,
+          "required": 139.375
+        }
+      ],
+      "toolbar_explanations": [
+        {
+          "width": 254,
+          "height": 60,
+          "available": 254
+        },
+        {
+          "width": 220,
+          "height": 100,
+          "available": 220
+        }
+      ],
+      "minimum_contrast": 5.6351858558248065,
+      "measured_text_nodes": 69,
+      "PNG_bytes": 167542,
+      "PNG_sha256": "babeb4136c749abeecfef44911c735eb6d8fa6d50a68943711a826492bf582e9",
+      "PNG_size": [
+        320,
+        3093
+      ]
+    },
+    {
+      "mode": "known",
+      "width": 390,
+      "expanded": false,
+      "status": "PASS",
+      "screenshot": "known-390.png",
+      "size": {
+        "inner": 390,
+        "document": 390
+      },
+      "selected_text": [
+        {
+          "label": "Urutkan halaman barang jadi",
+          "width": 322,
+          "required": 159.796875
+        },
+        {
+          "label": "Urutkan mutasi posisi FG",
+          "width": 288,
+          "required": 159.796875
+        },
+        {
+          "label": "Jenis mutasi FG",
+          "width": 288,
+          "required": 139.375
+        }
+      ],
+      "toolbar_explanations": [
+        {
+          "width": 324,
+          "height": 40,
+          "available": 324
+        },
+        {
+          "width": 290,
+          "height": 80,
+          "available": 290
+        }
+      ],
+      "minimum_contrast": 5.6351858558248065,
+      "measured_text_nodes": 72,
+      "PNG_bytes": 173895,
+      "PNG_sha256": "281734129473f89c7cb25063fdc3268a7713b4f167aee771317e9afa36dc4564",
+      "PNG_size": [
+        390,
+        2960
+      ]
+    },
+    {
+      "mode": "known",
+      "width": 390,
+      "expanded": true,
+      "status": "PASS",
+      "screenshot": "known-390-details.png",
+      "size": {
+        "inner": 390,
+        "document": 390
+      },
+      "selected_text": [
+        {
+          "label": "Urutkan halaman barang jadi",
+          "width": 322,
+          "required": 159.796875
+        },
+        {
+          "label": "Urutkan mutasi posisi FG",
+          "width": 288,
+          "required": 159.796875
+        },
+        {
+          "label": "Jenis mutasi FG",
+          "width": 288,
+          "required": 139.375
+        }
+      ],
+      "toolbar_explanations": [
+        {
+          "width": 324,
+          "height": 40,
+          "available": 324
+        },
+        {
+          "width": 290,
+          "height": 80,
+          "available": 290
+        }
+      ],
+      "minimum_contrast": 5.6351858558248065,
+      "measured_text_nodes": 72,
+      "PNG_bytes": 178683,
+      "PNG_sha256": "fccb5c70c84904d8277919f7e0d48b359f00fd811940cf8f8b8db400b48387ed",
+      "PNG_size": [
+        390,
+        3016
+      ]
+    },
+    {
+      "mode": "unknown",
+      "width": 390,
+      "expanded": false,
+      "status": "PASS",
+      "screenshot": "unknown-390.png",
+      "size": {
+        "inner": 390,
+        "document": 390
+      },
+      "selected_text": [
+        {
+          "label": "Urutkan halaman barang jadi",
+          "width": 322,
+          "required": 159.796875
+        },
+        {
+          "label": "Urutkan mutasi posisi FG",
+          "width": 288,
+          "required": 159.796875
+        },
+        {
+          "label": "Jenis mutasi FG",
+          "width": 288,
+          "required": 139.375
+        }
+      ],
+      "toolbar_explanations": [
+        {
+          "width": 324,
+          "height": 40,
+          "available": 324
+        },
+        {
+          "width": 290,
+          "height": 80,
+          "available": 290
+        }
+      ],
+      "minimum_contrast": 5.6351858558248065,
+      "measured_text_nodes": 72,
+      "PNG_bytes": 173056,
+      "PNG_sha256": "195f8ef44dcd6bb5d7582202dd95cd8afe8f7237e359472424beb13a0778679d",
+      "PNG_size": [
+        390,
+        2960
+      ]
+    },
+    {
+      "mode": "empty",
+      "width": 390,
+      "expanded": false,
+      "status": "PASS",
+      "screenshot": "empty-390.png",
+      "size": {
+        "inner": 390,
+        "document": 390
+      },
+      "selected_text": [
+        {
+          "label": "Urutkan halaman barang jadi",
+          "width": 322,
+          "required": 159.796875
+        }
+      ],
+      "toolbar_explanations": [
+        {
+          "width": 324,
+          "height": 40,
+          "available": 324
+        }
+      ],
+      "minimum_contrast": 5.6351858558248065,
+      "measured_text_nodes": 32,
+      "PNG_bytes": 82245,
+      "PNG_sha256": "82e28e37fe1bb2c99943aece27b629043f8581e2910c3e8f80258a37670a9def",
+      "PNG_size": [
+        390,
+        1479
+      ]
+    },
+    {
+      "mode": "loading",
+      "width": 390,
+      "expanded": false,
+      "status": "PASS",
+      "screenshot": "loading-390.png",
+      "size": {
+        "inner": 390,
+        "document": 390
+      },
+      "selected_text": [
+        {
+          "label": "Urutkan halaman barang jadi",
+          "width": 322,
+          "required": 159.796875
+        }
+      ],
+      "toolbar_explanations": [
+        {
+          "width": 324,
+          "height": 40,
+          "available": 324
+        }
+      ],
+      "minimum_contrast": 5.208347819737491,
+      "measured_text_nodes": 11,
+      "PNG_bytes": 57261,
+      "PNG_sha256": "0fba6c6a1fa6b04a0f2ecc47a9e06925015270d18be719937ffb2c770d9b5e96",
+      "PNG_size": [
+        390,
+        1044
+      ]
+    },
+    {
+      "mode": "error",
+      "width": 390,
+      "expanded": false,
+      "status": "PASS",
+      "screenshot": "error-390.png",
+      "size": {
+        "inner": 390,
+        "document": 390
+      },
+      "selected_text": [
+        {
+          "label": "Urutkan halaman barang jadi",
+          "width": 322,
+          "required": 159.796875
+        }
+      ],
+      "toolbar_explanations": [
+        {
+          "width": 324,
+          "height": 40,
+          "available": 324
+        }
+      ],
+      "minimum_contrast": 5.6351858558248065,
+      "measured_text_nodes": 15,
+      "PNG_bytes": 54575,
+      "PNG_sha256": "f81250e03c55c92d8be27a9444b693b35ede3fb5f448cd1e0a5dbfa02e1bc129",
+      "PNG_size": [
+        390,
+        990
+      ]
+    },
+    {
+      "mode": "pending",
+      "width": 390,
+      "expanded": false,
+      "status": "PASS",
+      "screenshot": "pending-390.png",
+      "size": {
+        "inner": 390,
+        "document": 390
+      },
+      "selected_text": [
+        {
+          "label": "Urutkan halaman barang jadi",
+          "width": 322,
+          "required": 159.796875
+        }
+      ],
+      "toolbar_explanations": [
+        {
+          "width": 324,
+          "height": 40,
+          "available": 324
+        }
+      ],
+      "minimum_contrast": 5.6351858558248065,
+      "measured_text_nodes": 45,
+      "PNG_bytes": 107105,
+      "PNG_sha256": "e1e9ab9447d937f938e53d15f5d31117e8474adb7f1d23ee33591be25bc9d634",
+      "PNG_size": [
+        390,
+        1929
+      ]
+    },
+    {
+      "mode": "operations",
+      "width": 390,
+      "expanded": false,
+      "status": "PASS",
+      "screenshot": "operations-390.png",
+      "size": {
+        "inner": 390,
+        "document": 390
+      },
+      "selected_text": [
+        {
+          "label": "Urutkan halaman barang jadi",
+          "width": 322,
+          "required": 159.796875
+        },
+        {
+          "label": "Urutkan mutasi posisi FG",
+          "width": 288,
+          "required": 159.796875
+        },
+        {
+          "label": "Jenis mutasi FG",
+          "width": 288,
+          "required": 139.375
+        }
+      ],
+      "toolbar_explanations": [
+        {
+          "width": 324,
+          "height": 40,
+          "available": 324
+        },
+        {
+          "width": 290,
+          "height": 80,
+          "available": 290
+        }
+      ],
+      "minimum_contrast": 5.6351858558248065,
+      "measured_text_nodes": 69,
+      "PNG_bytes": 163154,
+      "PNG_sha256": "f72d32cfe08400e8a221398dda70d5a23d7c12da187b1a4497fdf1247f7d6b78",
+      "PNG_size": [
+        390,
+        2879
+      ]
+    },
+    {
+      "mode": "known",
+      "width": 768,
+      "expanded": false,
+      "status": "PASS",
+      "screenshot": "known-768.png",
+      "size": {
+        "inner": 768,
+        "document": 768
+      },
+      "selected_text": [
+        {
+          "label": "Urutkan halaman barang jadi",
+          "width": 338,
+          "required": 159.796875
+        },
+        {
+          "label": "Urutkan mutasi posisi FG",
+          "width": 341,
+          "required": 159.796875
+        },
+        {
+          "label": "Jenis mutasi FG",
+          "width": 269,
+          "required": 139.375
+        }
+      ],
+      "toolbar_explanations": [
+        {
+          "width": 675.9375,
+          "height": 20,
+          "available": 676
+        },
+        {
+          "width": 629.9375,
+          "height": 40,
+          "available": 630
+        }
+      ],
+      "minimum_contrast": 5.6351858558248065,
+      "measured_text_nodes": 72,
+      "PNG_bytes": 179155,
+      "PNG_sha256": "eb97bb795b57424630adeb93219c0afd31a45fe05cd01525512bf0426ea2af0a",
+      "PNG_size": [
+        768,
+        2331
+      ]
+    },
+    {
+      "mode": "known",
+      "width": 768,
+      "expanded": true,
+      "status": "PASS",
+      "screenshot": "known-768-details.png",
+      "size": {
+        "inner": 768,
+        "document": 768
+      },
+      "selected_text": [
+        {
+          "label": "Urutkan halaman barang jadi",
+          "width": 338,
+          "required": 159.796875
+        },
+        {
+          "label": "Urutkan mutasi posisi FG",
+          "width": 341,
+          "required": 159.796875
+        },
+        {
+          "label": "Jenis mutasi FG",
+          "width": 269,
+          "required": 139.375
+        }
+      ],
+      "toolbar_explanations": [
+        {
+          "width": 675.9375,
+          "height": 20,
+          "available": 676
+        },
+        {
+          "width": 629.9375,
+          "height": 40,
+          "available": 630
+        }
+      ],
+      "minimum_contrast": 5.6351858558248065,
+      "measured_text_nodes": 72,
+      "PNG_bytes": 184190,
+      "PNG_sha256": "3f014f3aab075e03f06d5860b85626033ede51a18be30ce2aa802061344530d0",
+      "PNG_size": [
+        768,
+        2387
+      ]
+    },
+    {
+      "mode": "unknown",
+      "width": 768,
+      "expanded": false,
+      "status": "PASS",
+      "screenshot": "unknown-768.png",
+      "size": {
+        "inner": 768,
+        "document": 768
+      },
+      "selected_text": [
+        {
+          "label": "Urutkan halaman barang jadi",
+          "width": 338,
+          "required": 159.796875
+        },
+        {
+          "label": "Urutkan mutasi posisi FG",
+          "width": 341,
+          "required": 159.796875
+        },
+        {
+          "label": "Jenis mutasi FG",
+          "width": 269,
+          "required": 139.375
+        }
+      ],
+      "toolbar_explanations": [
+        {
+          "width": 675.9375,
+          "height": 20,
+          "available": 676
+        },
+        {
+          "width": 629.9375,
+          "height": 40,
+          "available": 630
+        }
+      ],
+      "minimum_contrast": 5.6351858558248065,
+      "measured_text_nodes": 72,
+      "PNG_bytes": 178408,
+      "PNG_sha256": "c1a781500ef14db915fec4b41bfc2d0442d66af925b28460084e45bef026e32c",
+      "PNG_size": [
+        768,
+        2331
+      ]
+    },
+    {
+      "mode": "empty",
+      "width": 768,
+      "expanded": false,
+      "status": "PASS",
+      "screenshot": "empty-768.png",
+      "size": {
+        "inner": 768,
+        "document": 768
+      },
+      "selected_text": [
+        {
+          "label": "Urutkan halaman barang jadi",
+          "width": 338,
+          "required": 159.796875
+        }
+      ],
+      "toolbar_explanations": [
+        {
+          "width": 675.9375,
+          "height": 20,
+          "available": 676
+        }
+      ],
+      "minimum_contrast": 5.6351858558248065,
+      "measured_text_nodes": 32,
+      "PNG_bytes": 87120,
+      "PNG_sha256": "400c12ebb76e9a414f92c59d92bc97087ad7b54961b3008d1fc43eb091d22ebc",
+      "PNG_size": [
+        768,
+        1207
+      ]
+    },
+    {
+      "mode": "loading",
+      "width": 768,
+      "expanded": false,
+      "status": "PASS",
+      "screenshot": "loading-768.png",
+      "size": {
+        "inner": 768,
+        "document": 768
+      },
+      "selected_text": [
+        {
+          "label": "Urutkan halaman barang jadi",
+          "width": 338,
+          "required": 159.796875
+        }
+      ],
+      "toolbar_explanations": [
+        {
+          "width": 675.9375,
+          "height": 20,
+          "available": 676
+        }
+      ],
+      "minimum_contrast": 5.208347819737491,
+      "measured_text_nodes": 11,
+      "PNG_bytes": 58055,
+      "PNG_sha256": "bd7d4d50416b763d5781c440d642108bc0cee24a9051f02cdb26b931b4f74515",
+      "PNG_size": [
+        768,
+        900
+      ]
+    },
+    {
+      "mode": "error",
+      "width": 768,
+      "expanded": false,
+      "status": "PASS",
+      "screenshot": "error-768.png",
+      "size": {
+        "inner": 768,
+        "document": 768
+      },
+      "selected_text": [
+        {
+          "label": "Urutkan halaman barang jadi",
+          "width": 338,
+          "required": 159.796875
+        }
+      ],
+      "toolbar_explanations": [
+        {
+          "width": 675.9375,
+          "height": 20,
+          "available": 676
+        }
+      ],
+      "minimum_contrast": 5.6351858558248065,
+      "measured_text_nodes": 15,
+      "PNG_bytes": 55257,
+      "PNG_sha256": "40612efbf9050b4ae60bdcf257b1b136f051a0b1993f980373827daa23899a3c",
+      "PNG_size": [
+        768,
+        900
+      ]
+    },
+    {
+      "mode": "pending",
+      "width": 768,
+      "expanded": false,
+      "status": "PASS",
+      "screenshot": "pending-768.png",
+      "size": {
+        "inner": 768,
+        "document": 768
+      },
+      "selected_text": [
+        {
+          "label": "Urutkan halaman barang jadi",
+          "width": 338,
+          "required": 159.796875
+        }
+      ],
+      "toolbar_explanations": [
+        {
+          "width": 675.9375,
+          "height": 20,
+          "available": 676
+        }
+      ],
+      "minimum_contrast": 5.6351858558248065,
+      "measured_text_nodes": 45,
+      "PNG_bytes": 113169,
+      "PNG_sha256": "7570094e9b0002daf0d75d0b79c4d7a54116ed1503d3aeda19ffbc643406ab74",
+      "PNG_size": [
+        768,
+        1624
+      ]
+    },
+    {
+      "mode": "operations",
+      "width": 768,
+      "expanded": false,
+      "status": "PASS",
+      "screenshot": "operations-768.png",
+      "size": {
+        "inner": 768,
+        "document": 768
+      },
+      "selected_text": [
+        {
+          "label": "Urutkan halaman barang jadi",
+          "width": 338,
+          "required": 159.796875
+        },
+        {
+          "label": "Urutkan mutasi posisi FG",
+          "width": 341,
+          "required": 159.796875
+        },
+        {
+          "label": "Jenis mutasi FG",
+          "width": 269,
+          "required": 139.375
+        }
+      ],
+      "toolbar_explanations": [
+        {
+          "width": 675.9375,
+          "height": 20,
+          "available": 676
+        },
+        {
+          "width": 629.9375,
+          "height": 40,
+          "available": 630
+        }
+      ],
+      "minimum_contrast": 5.6351858558248065,
+      "measured_text_nodes": 69,
+      "PNG_bytes": 168075,
+      "PNG_sha256": "67ca16ba20842ec54664f8de59445f201c9ae9621fcbd637f0c6b2ce26b75bfa",
+      "PNG_size": [
+        768,
+        2250
+      ]
+    },
+    {
+      "mode": "known",
+      "width": 1440,
+      "expanded": false,
+      "status": "PASS",
+      "screenshot": "known-1440.png",
+      "size": {
+        "inner": 1440,
+        "document": 1440
+      },
+      "selected_text": [
+        {
+          "label": "Urutkan halaman barang jadi",
+          "width": 311,
+          "required": 138.4599609375
+        },
+        {
+          "label": "Urutkan mutasi posisi FG",
+          "width": 314,
+          "required": 138.4599609375
+        },
+        {
+          "label": "Jenis mutasi FG",
+          "width": 227,
+          "required": 121.8671875
+        }
+      ],
+      "toolbar_explanations": [
+        {
+          "width": 1028,
+          "height": 20,
+          "available": 1028
+        },
+        {
+          "width": 410.859375,
+          "height": 60,
+          "available": 411
+        }
+      ],
+      "minimum_contrast": 5.6351858558248065,
+      "measured_text_nodes": 72,
+      "PNG_bytes": 193625,
+      "PNG_sha256": "1b5556e2ad2f29cf55d26893dc01785fe3c4153741a9ee6ad3301cb97d46a6a0",
+      "PNG_size": [
+        1440,
+        1843
+      ]
+    },
+    {
+      "mode": "known",
+      "width": 1440,
+      "expanded": true,
+      "status": "PASS",
+      "screenshot": "known-1440-details.png",
+      "size": {
+        "inner": 1440,
+        "document": 1440
+      },
+      "selected_text": [
+        {
+          "label": "Urutkan halaman barang jadi",
+          "width": 311,
+          "required": 138.4599609375
+        },
+        {
+          "label": "Urutkan mutasi posisi FG",
+          "width": 314,
+          "required": 138.4599609375
+        },
+        {
+          "label": "Jenis mutasi FG",
+          "width": 227,
+          "required": 121.8671875
+        }
+      ],
+      "toolbar_explanations": [
+        {
+          "width": 1028,
+          "height": 20,
+          "available": 1028
+        },
+        {
+          "width": 410.859375,
+          "height": 60,
+          "available": 411
+        }
+      ],
+      "minimum_contrast": 5.6351858558248065,
+      "measured_text_nodes": 72,
+      "PNG_bytes": 199060,
+      "PNG_sha256": "debbdc90d39437deb713a8e9621cd34edbd617f051205a884df3b30ef122b27e",
+      "PNG_size": [
+        1440,
+        1899
+      ]
+    },
+    {
+      "mode": "unknown",
+      "width": 1440,
+      "expanded": false,
+      "status": "PASS",
+      "screenshot": "unknown-1440.png",
+      "size": {
+        "inner": 1440,
+        "document": 1440
+      },
+      "selected_text": [
+        {
+          "label": "Urutkan halaman barang jadi",
+          "width": 311,
+          "required": 138.4599609375
+        },
+        {
+          "label": "Urutkan mutasi posisi FG",
+          "width": 314,
+          "required": 138.4599609375
+        },
+        {
+          "label": "Jenis mutasi FG",
+          "width": 227,
+          "required": 121.8671875
+        }
+      ],
+      "toolbar_explanations": [
+        {
+          "width": 1028,
+          "height": 20,
+          "available": 1028
+        },
+        {
+          "width": 410.859375,
+          "height": 60,
+          "available": 411
+        }
+      ],
+      "minimum_contrast": 5.6351858558248065,
+      "measured_text_nodes": 72,
+      "PNG_bytes": 192853,
+      "PNG_sha256": "787ea425da47d897f86489ca3ef378685bed688289db9bb4fa7f7be38316a6cc",
+      "PNG_size": [
+        1440,
+        1843
+      ]
+    },
+    {
+      "mode": "empty",
+      "width": 1440,
+      "expanded": false,
+      "status": "PASS",
+      "screenshot": "empty-1440.png",
+      "size": {
+        "inner": 1440,
+        "document": 1440
+      },
+      "selected_text": [
+        {
+          "label": "Urutkan halaman barang jadi",
+          "width": 311,
+          "required": 138.4599609375
+        }
+      ],
+      "toolbar_explanations": [
+        {
+          "width": 1028,
+          "height": 20,
+          "available": 1028
+        }
+      ],
+      "minimum_contrast": 5.6351858558248065,
+      "measured_text_nodes": 32,
+      "PNG_bytes": 96336,
+      "PNG_sha256": "5ae9192563da7ff666a7f4b483562db11878755a3693367490fe63016b99146d",
+      "PNG_size": [
+        1440,
+        925
+      ]
+    },
+    {
+      "mode": "loading",
+      "width": 1440,
+      "expanded": false,
+      "status": "PASS",
+      "screenshot": "loading-1440.png",
+      "size": {
+        "inner": 1440,
+        "document": 1440
+      },
+      "selected_text": [
+        {
+          "label": "Urutkan halaman barang jadi",
+          "width": 311,
+          "required": 138.4599609375
+        }
+      ],
+      "toolbar_explanations": [
+        {
+          "width": 1028,
+          "height": 20,
+          "available": 1028
+        }
+      ],
+      "minimum_contrast": 5.208347819737491,
+      "measured_text_nodes": 11,
+      "PNG_bytes": 68672,
+      "PNG_sha256": "c6d1db690c6f5920913bbdae0bd987ef7fbc3eb700a65d2253552f7fb07a1db9",
+      "PNG_size": [
+        1440,
+        900
+      ]
+    },
+    {
+      "mode": "error",
+      "width": 1440,
+      "expanded": false,
+      "status": "PASS",
+      "screenshot": "error-1440.png",
+      "size": {
+        "inner": 1440,
+        "document": 1440
+      },
+      "selected_text": [
+        {
+          "label": "Urutkan halaman barang jadi",
+          "width": 311,
+          "required": 138.4599609375
+        }
+      ],
+      "toolbar_explanations": [
+        {
+          "width": 1028,
+          "height": 20,
+          "available": 1028
+        }
+      ],
+      "minimum_contrast": 5.6351858558248065,
+      "measured_text_nodes": 15,
+      "PNG_bytes": 66076,
+      "PNG_sha256": "b8164a6d62834ba022cbbfd824eee30cce3b76e68f79ca0d239bac2a4a3ce805",
+      "PNG_size": [
+        1440,
+        900
+      ]
+    },
+    {
+      "mode": "pending",
+      "width": 1440,
+      "expanded": false,
+      "status": "PASS",
+      "screenshot": "pending-1440.png",
+      "size": {
+        "inner": 1440,
+        "document": 1440
+      },
+      "selected_text": [
+        {
+          "label": "Urutkan halaman barang jadi",
+          "width": 311,
+          "required": 138.4599609375
+        }
+      ],
+      "toolbar_explanations": [
+        {
+          "width": 1028,
+          "height": 20,
+          "available": 1028
+        }
+      ],
+      "minimum_contrast": 5.6351858558248065,
+      "measured_text_nodes": 45,
+      "PNG_bytes": 122593,
+      "PNG_sha256": "0b5e83b2ed709248f53d13ce77b7f7b624008f14866e0d0dd2566f53354748ab",
+      "PNG_size": [
+        1440,
+        1318
+      ]
+    },
+    {
+      "mode": "operations",
+      "width": 1440,
+      "expanded": false,
+      "status": "PASS",
+      "screenshot": "operations-1440.png",
+      "size": {
+        "inner": 1440,
+        "document": 1440
+      },
+      "selected_text": [
+        {
+          "label": "Urutkan halaman barang jadi",
+          "width": 311,
+          "required": 138.4599609375
+        },
+        {
+          "label": "Urutkan mutasi posisi FG",
+          "width": 314,
+          "required": 138.4599609375
+        },
+        {
+          "label": "Jenis mutasi FG",
+          "width": 227,
+          "required": 121.8671875
+        }
+      ],
+      "toolbar_explanations": [
+        {
+          "width": 1028,
+          "height": 20,
+          "available": 1028
+        },
+        {
+          "width": 410.859375,
+          "height": 60,
+          "available": 411
+        }
+      ],
+      "minimum_contrast": 5.6351858558248065,
+      "measured_text_nodes": 69,
+      "PNG_bytes": 182725,
+      "PNG_sha256": "6b5f5aa6f99efd652fc7fe7280ff96041ebc9d19062f132d9a5f1e1988ee2005",
+      "PNG_size": [
+        1440,
+        1791
+      ]
+    }
+  ],
+  "actual_Auth_cases": 0,
+  "actual_ERP_cases": 0,
+  "actual_full_App_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

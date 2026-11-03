@@ -1,0 +1,28 @@
+{
+  "classification": "LOCAL_PROPOSED_READ_REFUSAL_DISPLAY_FIX_NOT_ADOPTED",
+  "base": "8678feba7652d1d483536d1baf82135030dc3548",
+  "original_sha256": "565cabf63761bbe2a9d14a1b4c08da04e562f7a858ecf8a97a26685b9b0b1443",
+  "proposed_sha256": "f3fc2851bb3ee07760edfb3641eee3dab260fc137ea61e1dc3222e9c6c660a37",
+  "actual_Auth": 0,
+  "actual_SQL": 0,
+  "stages": [
+    {
+      "name": "PROPOSED_TARGETED8",
+      "exit": 0,
+      "seconds": 2.783
+    },
+    {
+      "name": "PROPOSED_EXISTING41",
+      "exit": 0,
+      "seconds": 7.098
+    },
+    {
+      "name": "PROPOSED_TYPECHECK",
+      "exit": 0,
+      "seconds": 8.871
+    }
+  ],
+  "source_restored": true,
+  "status": "PASS_LOCAL_PROPOSAL_ONLY",
+  "seconds": 18.773
+}

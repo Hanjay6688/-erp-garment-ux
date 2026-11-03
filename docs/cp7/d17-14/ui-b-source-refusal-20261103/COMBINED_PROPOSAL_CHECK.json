@@ -1,0 +1,40 @@
+{
+  "classification": "LOCAL_COMPOSITE_UI_PROPOSAL_NOT_ADOPTED_BY_A",
+  "base": "8678feba7652d1d483536d1baf82135030dc3548",
+  "stages": [
+    {
+      "name": "COMBINED50",
+      "exit": 0,
+      "seconds": 14.469
+    },
+    {
+      "name": "COMBINED_TYPECHECK",
+      "exit": 0,
+      "seconds": 19.595
+    }
+  ],
+  "actual_Auth": 0,
+  "actual_SQL": 0,
+  "production_go": false,
+  "independent_acceptance": false,
+  "source": {
+    "src/ConnectedPocketFabricPage.tsx": {
+      "before_sha256": "565cabf63761bbe2a9d14a1b4c08da04e562f7a858ecf8a97a26685b9b0b1443",
+      "after_sha256": "1f04d2d1c09b17c9264c3f46bbfda5f387c5c4d82f0760b69dd1d7d921f069d7"
+    },
+    "src/ConnectedInitialImportPage.tsx": {
+      "before_sha256": "f059f535b15b6ac956fb82de5050ad9ab30f1ac419c31e2ae5f6090fcbaba061",
+      "after_sha256": "70affea52cf20ecfc6fa5bdc23e3ad7ea3fee460a5be8e9db7468c933c067f40"
+    },
+    "src/initial-import.css": {
+      "before_sha256": "3fb831a7bb5fd03eea8d310cf983ae5cc5b20722763b792270e473f6747e7e0a",
+      "after_sha256": "b923ebec05fc4e8e28849cfc43ab3ccc336b64b3025fdd4a9f47fd90a1234e42"
+    }
+  },
+  "protected_remaining_src_identical": true,
+  "complete_src_file_count": 656,
+  "parsers_writers_payload_guards_recovery_identical": true,
+  "combined_patch_sha256": "b26e77ba2a624bb6ea2dd054ad645c61ae40a985f51ec8e52a4f76fe9ec319bc",
+  "status": "PASS_LOCAL_COMPOSITE_PROPOSAL_ONLY",
+  "all_product_source_restored": true
+}
