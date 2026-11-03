@@ -1,0 +1,263 @@
+{
+  "contract": "cp7.B.actual-navigation-visual-coverage.v1",
+  "base_head": "462099c6cc59fa93766c81db66ec820b6cd54055",
+  "widths": [
+    320,
+    390,
+    768,
+    1440
+  ],
+  "surfaces": [
+    {
+      "id": "dashboard",
+      "group": null,
+      "label": "Dashboard"
+    },
+    {
+      "id": "cutting-roll",
+      "group": "Produksi",
+      "label": "Buat Potongan"
+    },
+    {
+      "id": "mandor-wip",
+      "group": "Produksi",
+      "label": "Bagi Potongan"
+    },
+    {
+      "id": "sewing-wip",
+      "group": "Produksi",
+      "label": "WIP & Sewing"
+    },
+    {
+      "id": "laundry",
+      "group": "Produksi",
+      "label": "Laundry"
+    },
+    {
+      "id": "qc",
+      "group": "Produksi",
+      "label": "QC & Final SKU"
+    },
+    {
+      "id": "fg-handoff",
+      "group": "Produksi",
+      "label": "Susun Nota FG"
+    },
+    {
+      "id": "bs-rework",
+      "group": "Produksi",
+      "label": "Barang BS & Rework"
+    },
+    {
+      "id": "warehouse-dashboard",
+      "group": "Gudang",
+      "label": "Ringkasan Gudang"
+    },
+    {
+      "id": "procurement",
+      "group": "Gudang",
+      "label": "Pembelian & Penerimaan"
+    },
+    {
+      "id": "materials-rolls",
+      "group": "Gudang",
+      "label": "Bahan & Roll"
+    },
+    {
+      "id": "pocket-fabric",
+      "group": "Gudang",
+      "label": "Kain kantong"
+    },
+    {
+      "id": "accessories",
+      "group": "Gudang",
+      "label": "Aksesori"
+    },
+    {
+      "id": "fg-summary",
+      "group": "Gudang",
+      "label": "Ringkasan Barang Jadi"
+    },
+    {
+      "id": "movements-vivo",
+      "group": "Gudang",
+      "label": "Mutasi Barang Jadi \u00b7 Vivo"
+    },
+    {
+      "id": "movements-widie",
+      "group": "Gudang",
+      "label": "Mutasi Barang Jadi \u00b7 Widie"
+    },
+    {
+      "id": "stock-card",
+      "group": "Gudang",
+      "label": "Kartu Stok FG"
+    },
+    {
+      "id": "stock-adjustment",
+      "group": "Gudang",
+      "label": "Stock Adjustment"
+    },
+    {
+      "id": "brand-conversion",
+      "group": "Gudang",
+      "label": "Ganti Merek"
+    },
+    {
+      "id": "sales-invoice",
+      "group": "Penjualan",
+      "label": "Penjualan & Invoice"
+    },
+    {
+      "id": "sales-allocation",
+      "group": "Penjualan",
+      "label": "Semua Invoice"
+    },
+    {
+      "id": "sales-returns",
+      "group": "Penjualan",
+      "label": "Retur Penjualan"
+    },
+    {
+      "id": "sales-payments",
+      "group": "Penjualan",
+      "label": "Pembayaran Pelanggan"
+    },
+    {
+      "id": "sales-history",
+      "group": "Penjualan",
+      "label": "Riwayat Pelanggan"
+    },
+    {
+      "id": "finance-overview",
+      "group": "Keuangan",
+      "label": "Ringkasan Keuangan"
+    },
+    {
+      "id": "finance-cash",
+      "group": "Keuangan",
+      "label": "Kas & Bank"
+    },
+    {
+      "id": "finance-ap",
+      "group": "Keuangan",
+      "label": "Hutang Supplier & Vendor"
+    },
+    {
+      "id": "finance-ar",
+      "group": "Keuangan",
+      "label": "Piutang Pelanggan"
+    },
+    {
+      "id": "finance-payroll",
+      "group": "Keuangan",
+      "label": "Payroll & Kasbon"
+    },
+    {
+      "id": "operations-attendance",
+      "group": "Keuangan",
+      "label": "Absensi & Rate Harian"
+    },
+    {
+      "id": "contractor-issue",
+      "group": "Keuangan",
+      "label": "Nota Ambil Aksesori"
+    },
+    {
+      "id": "hpp",
+      "group": "Keuangan",
+      "label": "HPP & Rekalkulasi"
+    },
+    {
+      "id": "finance-journal",
+      "group": "Keuangan",
+      "label": "Jurnal & Transaksi Lain"
+    },
+    {
+      "id": "finance-reports",
+      "group": "Keuangan",
+      "label": "Laporan & Tutup Buku"
+    },
+    {
+      "id": "master-fabric",
+      "group": "Master Data",
+      "label": "Kain & Benchmark"
+    },
+    {
+      "id": "master-accessory",
+      "group": "Master Data",
+      "label": "Aksesori & Harga Mandor"
+    },
+    {
+      "id": "master-products",
+      "group": "Master Data",
+      "label": "Produk & SKU"
+    },
+    {
+      "id": "master-customers",
+      "group": "Master Data",
+      "label": "Pelanggan"
+    },
+    {
+      "id": "master-partners",
+      "group": "Master Data",
+      "label": "Supplier & Vendor"
+    },
+    {
+      "id": "master-workforce",
+      "group": "Master Data",
+      "label": "Mandor"
+    },
+    {
+      "id": "master-locations",
+      "group": "Master Data",
+      "label": "Gudang & Lokasi"
+    },
+    {
+      "id": "master-pattern",
+      "group": "Master Data",
+      "label": "Pola"
+    },
+    {
+      "id": "admin-reminders",
+      "group": "Pengaturan & Audit",
+      "label": "Reminder"
+    },
+    {
+      "id": "admin-access",
+      "group": "Pengaturan & Audit",
+      "label": "Pengguna & Hak Akses"
+    },
+    {
+      "id": "admin-settings",
+      "group": "Pengaturan & Audit",
+      "label": "Pengaturan ERP"
+    },
+    {
+      "id": "admin-import",
+      "group": "Pengaturan & Audit",
+      "label": "Impor data awal"
+    },
+    {
+      "id": "admin-audit",
+      "group": "Pengaturan & Audit",
+      "label": "Audit Trail"
+    }
+  ],
+  "before_surfaces": [
+    "dashboard",
+    "sales-invoice",
+    "finance-payroll",
+    "stock-card",
+    "laundry",
+    "bs-rework",
+    "master-products",
+    "admin-settings"
+  ],
+  "catalog_only_redirect": {
+    "id": "admin-period-close",
+    "target": "finance-reports",
+    "tab": "PERIOD"
+  },
+  "actual_backend_or_Auth_cases": 0
+}

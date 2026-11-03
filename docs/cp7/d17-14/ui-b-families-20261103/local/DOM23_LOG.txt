@@ -1,0 +1,23 @@
+Error: Not implemented: window.scrollTo
+    at module.exports (/workspace/scratch/b6947bc7a657/erp-b-ui-20261103/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at /workspace/scratch/b6947bc7a657/erp-b-ui-20261103/node_modules/jsdom/lib/jsdom/browser/Window.js:960:7
+    at /workspace/scratch/b6947bc7a657/erp-b-ui-20261103/src/App.tsx:550:12
+    at Object.react_stack_bottom_frame (/workspace/scratch/b6947bc7a657/erp-b-ui-20261103/node_modules/react-dom/cjs/react-dom-client.development.js:25989:20)
+    at runWithFiberInDEV (/workspace/scratch/b6947bc7a657/erp-b-ui-20261103/node_modules/react-dom/cjs/react-dom-client.development.js:874:13)
+    at commitHookEffectListMount (/workspace/scratch/b6947bc7a657/erp-b-ui-20261103/node_modules/react-dom/cjs/react-dom-client.development.js:13249:29)
+    at commitHookPassiveMountEffects (/workspace/scratch/b6947bc7a657/erp-b-ui-20261103/node_modules/react-dom/cjs/react-dom-client.development.js:13336:11)
+    at commitPassiveMountOnFiber (/workspace/scratch/b6947bc7a657/erp-b-ui-20261103/node_modules/react-dom/cjs/react-dom-client.development.js:15484:13)
+    at recursivelyTraversePassiveMountEffects (/workspace/scratch/b6947bc7a657/erp-b-ui-20261103/node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+    at commitPassiveMountOnFiber (/workspace/scratch/b6947bc7a657/erp-b-ui-20261103/node_modules/react-dom/cjs/react-dom-client.development.js:15476:11) undefined
+Error: Not implemented: window.scrollTo
+    at module.exports (/workspace/scratch/b6947bc7a657/erp-b-ui-20261103/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+    at /workspace/scratch/b6947bc7a657/erp-b-ui-20261103/node_modules/jsdom/lib/jsdom/browser/Window.js:960:7
+    at /workspace/scratch/b6947bc7a657/erp-b-ui-20261103/src/App.tsx:550:12
+    at Object.react_stack_bottom_frame (/workspace/scratch/b6947bc7a657/erp-b-ui-20261103/node_modules/react-dom/cjs/react-dom-client.development.js:25989:20)
+    at runWithFiberInDEV (/workspace/scratch/b6947bc7a657/erp-b-ui-20261103/node_modules/react-dom/cjs/react-dom-client.development.js:874:13)
+    at commitHookEffectListMount (/workspace/scratch/b6947bc7a657/erp-b-ui-20261103/node_modules/react-dom/cjs/react-dom-client.development.js:13249:29)
+    at commitHookPassiveMountEffects (/workspace/scratch/b6947bc7a657/erp-b-ui-20261103/node_modules/react-dom/cjs/react-dom-client.development.js:13336:11)
+    at commitPassiveMountOnFiber (/workspace/scratch/b6947bc7a657/erp-b-ui-20261103/node_modules/react-dom/cjs/react-dom-client.development.js:15484:13)
+    at recursivelyTraversePassiveMountEffects (/workspace/scratch/b6947bc7a657/erp-b-ui-20261103/node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+    at commitPassiveMountOnFiber (/workspace/scratch/b6947bc7a657/erp-b-ui-20261103/node_modules/react-dom/cjs/react-dom-client.development.js:15476:11) undefined
+JSON report written to /workspace/scratch/b6947bc7a657/ui-local-dom.json

@@ -12,7 +12,7 @@
 
 .user-access-actions button {
   padding: 7px 9px;
-  font-size: 12px;
+  font-size: 13px;
 }
 
 @media (max-width: 520px) {
@@ -24,15 +24,15 @@
 /* The shell is dark while this workspace uses light cards. Own foreground
    colors here so role, user, and audit facts cannot disappear on white. */
 .access-hero h1 {
-  color: #f6f1ed;
+  color: var(--text);
 }
 
 .access-hero span {
-  color: #d3aa8e;
+  color: var(--text);
 }
 
 .access-hero p {
-  color: #b6aaac;
+  color: var(--text);
 }
 
 .access-panel,
@@ -52,13 +52,13 @@
 .role-editor input,
 .role-editor textarea {
   color: #352b26;
-  background: #fff;
+  background: var(--panel);
 }
 
 .access-panel input::placeholder,
 .role-editor input::placeholder,
 .role-editor textarea::placeholder {
-  color: #8c7f78;
+  color: var(--muted);
   opacity: 1;
 }
 
@@ -78,7 +78,7 @@
 .user-list small,
 .audit-panel article small,
 .permission-matrix label small {
-  font-size: 11px;
+  font-size: 13px;
 }
 
 .access-mode-banner {
@@ -92,15 +92,15 @@
 }
 
 .access-mode-banner.manage {
-  border-color: #b9dfc8;
-  background: #eaf6ef;
-  color: #276343;
+  border-color: var(--line);
+  background: var(--panel);
+  color: var(--text);
 }
 
 .access-mode-banner.view {
-  border-color: #e4c783;
-  background: #fff7e5;
-  color: #694d17;
+  border-color: var(--line);
+  background: var(--panel);
+  color: var(--text);
 }
 
 .access-mode-banner > svg {
@@ -115,7 +115,7 @@
 
 .access-mode-banner small {
   color: inherit;
-  font-size: 12px;
+  font-size: 13px;
   line-height: 1.4;
 }
 
@@ -125,7 +125,7 @@
 .role-editor button:focus-visible,
 .role-editor input:focus-visible,
 .role-editor textarea:focus-visible {
-  outline: 3px solid rgba(75, 105, 178, .28);
+  outline: 3px solid var(--focus);
   outline-offset: 2px;
 }
 
@@ -136,16 +136,16 @@
 }
 
 .audit-panel > div > p {
-  color: #71655f;
+  color: var(--text);
 }
 
 .permission-dependency-warning {
   margin: 0 20px 16px;
   padding: 11px 13px;
-  border: 1px solid #e4c783;
+  border: 1px solid var(--line);
   border-radius: 11px;
-  background: #fff7e5;
-  color: #694d17;
+  background: var(--warning-bg);
+  color: var(--amber);
   display: flex;
   align-items: flex-start;
   gap: 9px;
@@ -162,7 +162,7 @@
 }
 
 .permission-dependency-warning small {
-  color: #7b622e;
+  color: var(--amber);
   line-height: 1.4;
 }
 

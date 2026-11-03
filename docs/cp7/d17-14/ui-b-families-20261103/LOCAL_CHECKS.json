@@ -1,0 +1,15 @@
+{
+  "status": "PASS_LOCAL_SOURCE_ACCESS_CSS_TYPECHECK_BUILD_SECRET_SCAN_DOM23",
+  "DOM": 23,
+  "source": "402 runtime /336 RPC",
+  "access": "111 permissions /47 navigation /48 routes /21 sensitive actions",
+  "CSS_stylesheets": 70,
+  "TypeScript": "PASS",
+  "Vite": "PASS",
+  "new_financial_or_Auth_or_SQL_cases": 0,
+  "actual_visual_acceptance": false,
+  "production_go": false,
+  "first_failure": "local/FIRST_ACCESS_CHECK_FAILURE.txt",
+  "resolution": "Retained the four existing checked dark access-page text declarations; source oracle unchanged.",
+  "local_browser_install": "FAILED_INVALID_DOWNLOAD_ARCHIVE; isolated existing UI Actions runner used instead"
+}

@@ -28,6 +28,9 @@
   --sidebar-bg: #182239;
   --radius: 14px;
   --shadow: 0 2px 12px rgb(23 32 51 / 5%);
+  --surface: var(--panel);
+  --surface-2: var(--panel-2);
+  --border: var(--line);
   --text-micro: 13px;
   --text-small: 13px;
   --text-body: 15px;

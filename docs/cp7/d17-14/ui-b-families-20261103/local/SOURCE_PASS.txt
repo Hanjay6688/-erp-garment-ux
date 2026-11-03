@@ -1,0 +1,1 @@
+Source ownership passed: 402 runtime files, 336 owned RPC boundaries, no orphan or direct table access.
