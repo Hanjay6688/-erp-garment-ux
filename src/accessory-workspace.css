@@ -3,12 +3,12 @@
   min-height: 44px;
   max-width: 100%;
   padding: .6rem .85rem;
-  border: 1px solid #627c96;
+  border: 1px solid var(--control-border);
   border-radius: .5rem;
-  background: #182231;
-  color: #f3f6fc;
+  background: var(--panel);
+  color: var(--text);
   white-space: normal;
   cursor: pointer;
 }
-.asw-tabs button[aria-pressed="true"] { background: #263e46; color: #fff; border-color: #85b7c0; }
-.asw-tabs button:focus-visible { outline: 2px solid #94dbe8; outline-offset: 2px; }
+.asw-tabs button[aria-pressed="true"] { background: var(--panel); color: var(--text); border-color: var(--control-border); }
+.asw-tabs button:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }

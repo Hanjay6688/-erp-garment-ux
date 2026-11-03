@@ -1,4 +1,5 @@
 import {TransactionSourceProvider} from './TransactionSourceNavigation'
+import MobilePrimaryNavigation from './MobilePrimaryNavigation'
 import { alignSizeQuantities } from './sizeQuantities'
 import { Fragment, lazy, Suspense, useEffect, useMemo, useRef, useState } from 'react'
 import type { ClipboardEvent as ReactClipboardEvent, CSSProperties, KeyboardEvent as ReactKeyboardEvent, PointerEvent as ReactPointerEvent, ReactNode } from 'react'
@@ -474,6 +475,31 @@ function ErpApp() {
   const [expanded, setExpanded] = useState<NavSection | null>(null)
   const [adminExpanded,setAdminExpanded] = useState(false)
   const [mobileNav, setMobileNav] = useState(false)
+  const mobileMenuRef = useRef<HTMLElement>(null)
+  useEffect(() => {
+    if (!mobileNav || !window.matchMedia('(max-width: 860px)').matches) return
+    const menu = mobileMenuRef.current, previous = document.activeElement
+    if (!menu) return
+    const controls = () => Array.from(menu.querySelectorAll<HTMLElement>('button:not(:disabled), a[href]'))
+      .filter(element => element.getClientRects().length > 0)
+    controls()[0]?.focus()
+    const keydown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') { event.preventDefault(); setMobileNav(false) }
+      if (event.key !== 'Tab') return
+      const items = controls(), first = items[0], last = items[items.length - 1]
+      if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus() }
+      else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus() }
+    }
+    menu.addEventListener('keydown', keydown)
+    const media = window.matchMedia('(max-width: 860px)')
+    const resize = () => { if (!media.matches) setMobileNav(false) }
+    media.addEventListener('change', resize)
+    return () => {
+      menu.removeEventListener('keydown', keydown)
+      media.removeEventListener('change', resize)
+      if (previous instanceof HTMLElement && previous.isConnected) previous.focus()
+    }
+  }, [mobileNav])
   const [movements, setMovements] = useState(chronologicalMovements)
   const [vivoBookBrands, setVivoBookBrands] = useState<string[]>(['Vivo'])
   const [widieBookBrands, setWidieBookBrands] = useState<string[]>(['Widie'])
@@ -614,8 +640,15 @@ function ErpApp() {
     setMobileNav(false)
   }
 
+  const mobileDestinations = [
+    { id: 'dashboard', label: 'Beranda', navLabel: 'Dashboard', icon: <Icon name="dashboard"/> },
+    { id: 'sales-invoice', label: 'Penjualan', navLabel: 'Penjualan & Invoice', icon: <Icon name="Penjualan"/> },
+    { id: 'fg-summary', label: 'Stok FG', navLabel: 'Ringkasan Barang Jadi', icon: <Icon name="stock"/> },
+    { id: 'finance-payroll', label: 'Payroll', navLabel: 'Payroll & Kasbon', icon: <Icon name="Keuangan"/> },
+  ].filter(item => canSeeNavLabel(item.navLabel) && (demoAccess || isPageAllowed(accessBundle, item.id)) && !isScreenHidden(runtime.mode, item.id))
+
   return <TransactionSourceProvider scope={invoiceSourceScope} epoch={sourceEpoch} onNavigate={route=>{if(!accessBundle||!isPageAllowed(accessBundle,route))throw Error('Hak membuka transaksi asal belum diberikan.');setInvoiceSource(null);setPageState(route as Page);setMobileNav(false)}}><div className="app-shell">
-    <aside className={`sidebar ${mobileNav ? 'sidebar-open' : ''}`}>
+    <aside ref={mobileMenuRef} className={`sidebar ${mobileNav ? 'sidebar-open' : ''}`}>
       <div className="brand-row"><div className="brand-mark"><Icon name="brand" /></div><div><strong>ATELIER</strong><span>GARMENT ERP</span></div><button className="nav-close" aria-label="Tutup menu" onClick={() => setMobileNav(false)}>×</button></div>
       <div className="nav-caption">MENU UTAMA</div>
       {canSeeNavLabel('Dashboard') && <button className={`nav-main ${page === 'dashboard' ? 'active' : ''}`} onClick={() => { setPage('dashboard'); setExpanded(null); setAdminExpanded(false); setMobileNav(false) }}><Icon name="dashboard" /><span>Dashboard</span></button>}
@@ -637,6 +670,8 @@ function ErpApp() {
       </div>}
       <RuntimeEnvironmentCard/>
     </aside>
+    {mobileNav && <button type="button" className="mobile-nav-backdrop" tabIndex={-1}
+      aria-label="Tutup menu lengkap" onClick={() => setMobileNav(false)}/>}
 
     <main className="main-panel">
       <header className="topbar"><button className="mobile-menu" aria-label="Buka menu" onClick={() => setMobileNav(true)}><Icon name="menu" /></button><div className="top-title"><div className="top-icon"><Icon name="dashboard" /></div><div><strong>{title}</strong><span>{page === 'dashboard' ? 'Satu layar untuk keputusan hari ini' : 'Cepat, jelas, dan aman buat operasional'}</span></div></div><div className="top-actions"><RuntimeBadge/><button className="round-btn" aria-label="Cari"><Icon name="search" /></button><RuntimeIdentity/></div></header>
@@ -780,6 +815,9 @@ function ErpApp() {
         </>}
       </div>
     </main>
+    <MobilePrimaryNavigation items={mobileDestinations} current={page} menuOpen={mobileNav}
+      onNavigate={id => { setPage(id as Page); setExpanded(null); setAdminExpanded(false); setMobileNav(false) }}
+      onMore={() => setMobileNav(true)}/>
   </div></TransactionSourceProvider>
 }
 
