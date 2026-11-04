@@ -189,16 +189,16 @@
       "sha256": "13c803c6d4bc67a696bb9a623b0be811cc5296e6c159b898212d4befff5ad574"
     },
     "scripts/current-mandor-afui-preparation/README.md": {
-      "bytes": 3732,
-      "sha256": "ddd7175af2cf77c079614e2d0f34bf18aa0a9e0d1cbb2e78cd8be792443a7151"
+      "bytes": 5267,
+      "sha256": "dcf6ed166ef86f7fc16d6585767ee40073d4956a787604c1d1c275c629206077"
     },
     "scripts/current-mandor-afui-preparation/check_source.py": {
       "bytes": 6229,
       "sha256": "adc54300fc931f443ed5137285c37fd83856836785484fcfc4e3a0a94b0a8022"
     },
     "scripts/current-mandor-afui-preparation/output_binding.py": {
-      "bytes": 8084,
-      "sha256": "2e3b28c053650d3af0cec8b7094bdc109219d9998f54de3edc9c7093fc50c794"
+      "bytes": 8639,
+      "sha256": "bbcbc0aae228f6f8ba76c7074902704765a84b3350b52af4ac8393b75080e414"
     },
     "scripts/current-mandor-afui-preparation/report_io.py": {
       "bytes": 5533,
@@ -231,6 +231,42 @@
     "scripts/current-mandor-shop-native-qualification/qualification.py": {
       "bytes": 7510,
       "sha256": "700ee4b322076ff76c73ed30e144fc33edfef00c834ab4a5d2a569fd255f628f"
+    },
+    "scripts/current-mandor-afui-preparation/workflow.py": {
+      "bytes": 8384,
+      "sha256": "4374fd366468838722b924b996bc2edfc40bb90cf06b6f6404924189935c6239"
+    },
+    "scripts/current-mandor-afui-preparation/current-mandor82.workflow.yml.txt": {
+      "bytes": 35773,
+      "sha256": "614ab9b700f91946390ebe22cd95f7fca43823d7662dcfe98d295221b9d9f6e0"
+    },
+    "scripts/current-mandor-afui-preparation/durable_action.mjs": {
+      "bytes": 14481,
+      "sha256": "2b768b5d0c48024cee1dd49675c314bf5dd9f20bda9193f61b5da17427e94d7e"
+    },
+    "scripts/current-mandor-afui-preparation/WORKFLOW_TRANSPORT_PREPARATION_CONTROLS.json": {
+      "bytes": 1081,
+      "sha256": "3e03c14da78b07d948ae83bf54704ea6792ae9bfd180c4a37c0e66e85d5e2262"
+    },
+    "scripts/current-mandor-afui-preparation/transport.py": {
+      "bytes": 4480,
+      "sha256": "ecff0a705c39e718ff419462f0b51ca1c702d2aa58296139c49eb26d1a7f475d"
+    },
+    "scripts/current-mandor-afui-preparation/action.yml": {
+      "bytes": 267,
+      "sha256": "9cd9801bd98de3aa5f6119d1a5c6bcae3481bfa3f8ec6dc7526c9817f32d86ff"
+    },
+    "scripts/current-mandor-afui-preparation/durable_action.test.mjs": {
+      "bytes": 12355,
+      "sha256": "469bfa0fca41a1cbb066f44f9fe03feae6df141a4978d18945e0f60adf548f84"
+    },
+    "scripts/current-mandor-afui-preparation/test_workflow.py": {
+      "bytes": 4529,
+      "sha256": "751c67f23873c1f24e059faafe5328a8fc4d2011192676469a3039f2947a7cc7"
+    },
+    "scripts/current-mandor-afui-preparation/receipts.py": {
+      "bytes": 3126,
+      "sha256": "99cbdc2ed31ec9b8e6c6ba333f799c430d989c32337a3ecac66436495dcf6bb7"
     }
   },
   "financial_assertions_and_owning_recovery_unchanged": true,
@@ -239,5 +275,13 @@
   "actual_ERP_cases": 0,
   "actual_Auth_cases": 0,
   "production_go": false,
-  "independent_acceptance": false
+  "independent_acceptance": false,
+  "current_Mandor82_workflow_prepared": true,
+  "current_complete_Original_transport_prepared": true,
+  "current_Mandor82_workflow_and_transport_control_methods": {
+    "Python": 12,
+    "Node": 11
+  },
+  "actual_parent_adopted": false,
+  "actual_successor_source_fence_rebinding_pending": true
 }

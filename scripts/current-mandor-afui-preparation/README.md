@@ -55,3 +55,27 @@ to the parent output globals. Private binding now preserves the wrapper code
 while rebinding that one function cell to the owning output namespace. The
 corrected controls cover both Native and copy modes; the first failure stays
 with the proof. No Mandor financial case was run during this preparation.
+
+
+The current workflow and live Original transport are now prepared separately
+from the historical75-step template. The exact current Afui78-step chain is
+retained with67 unchanged steps, eleven owning routes and four parent/receipt
+additions, producing82 steps. The real official-uploader preflight, all database
+rebuild/clone stages, final full artifact upload and360/330/20/10 budgets stay
+unchanged. The template is data only; actual Afui15 Root adoption, both admission
+families and deliberate successor source-fence rebinding still precede activation.
+
+The complete current Afui Node transport is recovered by reversing fourteen
+explicit location, clock, filename and fixed-directory routes. The original
+single worker and one watcher remain. It observes immutable current Mandor case,
+access and packet Originals in two fixed proof directories. Mutable R1 Native
+group reports at the proof root are explicitly ignored. Only the existing
+post-group complete copier publishes their exact finished bytes into the case
+directory; a later conflicting file cannot replace the first Original.
+
+Eleven local Node transport/process controls and twelve Python source/output/
+workflow controls pass. New controls verify root-versus-case publication timing,
+first-conflict preservation, immutable file receipts, source mutation refusal
+and exact current78-to82 workflow shape. Partial transport evidence still earns
+zero financial, restoration, Auth or ERP acceptance credit. No financial workflow
+was added or run during this preparation.

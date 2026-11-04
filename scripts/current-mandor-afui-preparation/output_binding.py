@@ -87,7 +87,15 @@ def frozen_source(name):
 
 
 def copy_exact(source, target):
-    return frozen_source('complete_original_io.py').copy_exact(source, target, 'MANDOR_NATIVE_FIRST_STRICT_ORIGINAL_CHANGED')
+    complete = frozen_source('complete_original_io.py')
+    receipt = complete.copy_exact(source, target, 'MANDOR_NATIVE_FIRST_STRICT_ORIGINAL_CHANGED')
+    # The mutable R1 report becomes publishable only after strict_group has
+    # returned and this existing complete-copy operation retains its bytes.
+    if Path(target).name in ('CP7_FG_MANDOR_NATIVE9_STRICT.json', 'CP7_FG_MANDOR_NATIVE9_STRICT_BUSINESS_DAY_FIRST_ATTEMPT.json'):
+        output = ROOT / 'cp6-proof/t3/MANDOR_CASE_STDOUT'
+        output.mkdir(parents=True, exist_ok=True)
+        complete.copy_exact(target, output / Path(target).name, 'MANDOR_COMPLETED_STRICT_GROUP_PUBLICATION_CONFLICT')
+    return receipt
 
 
 def finish_exclusive(partial, target, conflict):
