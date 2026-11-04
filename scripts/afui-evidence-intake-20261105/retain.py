@@ -164,8 +164,13 @@ def core():
             del value, packed, line
     save(out / 'DIAGNOSTIC_SELECTED_SHORT_LOG_LINES.json', dict(classification='DIAGNOSTIC_EXCERPT_NOT_COMPLETE_ORIGINAL',
         lines=diagnostic[-500:], skipped_long_lines=long_lines, source_complete_log=actual, financial_acceptance_credit=0))
+    complete_log = out / 'COMPLETE_SOURCE_JOB.log.original.gz'
+    with original.open('rb') as source, complete_log.open('xb') as target:
+        with gzip.GzipFile(filename='', fileobj=target, mode='wb', compresslevel=6, mtime=0) as compressed:
+            require(copy_stream(source, compressed) == actual, 'COMPLETE_SOURCE_JOB_LOG_BYTES_CHANGED')
     save(out / 'CORE_MANIFEST.json', dict(classification='EXACT_COMPLETE_ORIGINAL_REPORTS_FROM_COMPLETED_SOURCE_JOB_LOG',
         source_run_id=RUN, source_job_id=JOB, source_head=HEAD, source_attempt=1, source_log=actual,
+        source_log_original=dict(retained_name=complete_log.name, original=actual, gzip=pin(complete_log)),
         selected_complete_originals=selected, financial_acceptance_credit=0, ERP_commands_executed=0))
     require({v['original_name'] for v in selected} == wanted, 'BOTH_COMPLETE_SOURCE_LOG_ORIGINAL_REPORTS_REQUIRED')
     require(sum(p.stat().st_size for p in out.iterdir()) < 450 * 1024 * 1024, 'CONNECTOR_SIZED_CORE_REQUIRED')
