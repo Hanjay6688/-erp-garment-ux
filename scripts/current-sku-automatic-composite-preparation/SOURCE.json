@@ -29,6 +29,10 @@
       "bytes": 845,
       "sha256": "2d4f1d5bbd9f1a0632f6fc5a8e2600d2a549c2f3766d95ad72aec074f8e3f1f8"
     },
+    "BROWSER_COPY_PREPARATION_CONTROLS.json": {
+      "bytes": 1034,
+      "sha256": "d9f2cd0918824d02cfdc627e80ad7acfbe14734634e335bdc50b13f71446ac15"
+    },
     "BROWSER_RUNTIME_PREPARATION_CONTROLS.json": {
       "bytes": 1838,
       "sha256": "423b2199769658e5a44b5832ec9a256176f2ccce447405b894a72b1a24635484"
@@ -54,8 +58,8 @@
       "sha256": "f5474148bc4d3cb872585b48978e747081d9f4ab562a30f6e4e84089cc9d4e8a"
     },
     "README.md": {
-      "bytes": 17406,
-      "sha256": "3725716eb2c9d372cacabc2c9f3498db15dd7b195cb411fd440e1dd0c4f89c47"
+      "bytes": 18590,
+      "sha256": "16b1beaa5f3d177afb29de38fd076394130d89f517ae00b5a1657bc0865a45c2"
     },
     "SOURCE_INTAKE_PREPARATION_CONTROLS.json": {
       "bytes": 760,
@@ -80,6 +84,10 @@
     "browser.mjs": {
       "bytes": 22320,
       "sha256": "032dcce2ee53ff656314d7e2c732e417a409af01472d7463a8cf580a3a1ca71b"
+    },
+    "browser_access.py": {
+      "bytes": 4964,
+      "sha256": "0f75ce15b791f1f407dda1b8397f23ca9ecdfc3c21c54aa05bb6092d43ba1bfb"
     },
     "browser_binding.py": {
       "bytes": 8622,
@@ -130,8 +138,8 @@
       "sha256": "4a9013f131303a249f299820550e95c8ef41f0cb288b5f31d9f1db9e535ba57e"
     },
     "module_scope.py": {
-      "bytes": 3469,
-      "sha256": "4edb216895bd86fe64f1ef184f0e76b123bdd9e10878117e19bfbc612527eadd"
+      "bytes": 4957,
+      "sha256": "5127582f45cea53689f76777cdcb6b7ffdf31efed85d63e92ad26406f939935b"
     },
     "money_binding.py": {
       "bytes": 6337,
@@ -162,8 +170,8 @@
       "sha256": "5535ce276253d5ce6f10157cc825e75499ef2e2cf6b225dac3213317e6cb1966"
     },
     "qualification.py": {
-      "bytes": 11745,
-      "sha256": "99f73ad9b3b25c798dc35334ada6ff8186fadc2fde5402f0ad0dc27d746ca0dd"
+      "bytes": 11888,
+      "sha256": "ec9d691aa8bb7f1a9c2df8bc73682639cf3b3ebdbad5e3b039831ff2e386e3e9"
     },
     "report_io.py": {
       "bytes": 6395,
@@ -174,8 +182,8 @@
       "sha256": "744ad23ae4c4c97253bb33e22904b567d400571e8107cf2ba8f157a5e1b0f800"
     },
     "source_intake.py": {
-      "bytes": 6689,
-      "sha256": "2b21ea1a119179ebea555207da98fe44edaf50dcc6a5da186ca6c561cd684a88"
+      "bytes": 6891,
+      "sha256": "4ce962fbb95f4e5dfa1eddadf7e1a7cc1f49ebc6fce7712fd6e57b3b31f4936c"
     },
     "test_advisor_model.mjs": {
       "bytes": 3604,
@@ -188,6 +196,10 @@
     "test_bridge.py": {
       "bytes": 6489,
       "sha256": "7a3ad363fab256adb673b80bef5ef7428dc2f506669cdd3a339d0c9721833805"
+    },
+    "test_browser_access.py": {
+      "bytes": 2124,
+      "sha256": "70e4904cbcda358eb5ba358508a5213af7a16accd7f9b548f306ffa71c85473d"
     },
     "test_browser_binding.py": {
       "bytes": 6606,
@@ -218,8 +230,8 @@
       "sha256": "a81b36fb904e651e53bb1db86218ecec71cef660d11ca8a7cb5b38d82acbc86a"
     },
     "test_qualification.py": {
-      "bytes": 13662,
-      "sha256": "9174e101212582e1dbe42a62d4519de200f441e1f3dfd5601819613d74eade42"
+      "bytes": 14825,
+      "sha256": "7d5c3cb9708364ddc81d22c6f239745e5f1906e0efbae645cb302cca1673e2fc"
     },
     "test_report_io.py": {
       "bytes": 6149,
@@ -277,5 +289,11 @@
   "current_real_App_browser_journeys_prepared": true,
   "browser_binding_journey_control_methods": 4,
   "mandatory_preDB_browser_fixture_binding_prepared": true,
-  "current_browser_copy_runtime_and_final_packet_pending": true
+  "current_browser_copy_runtime_and_final_packet_pending": false,
+  "real_browser_copy_runtime_prepared": true,
+  "explicit_browser_plan_adoption_pending": true,
+  "browser_copy_controls": 2,
+  "owning_import_controls": 10,
+  "scoped_inherited_bare_modules": 15,
+  "current_browser_final_packet_integration_pending": true
 }

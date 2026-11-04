@@ -102,6 +102,7 @@ def runtime():
     reference = assembly.prepared_sources()[0]
     frozen(assembly.FROZEN_AUTO, reference['automatic_source']['public_head'], reference['automatic_source']['tree'])
     qualifier = FROZEN_PARENT / 'scripts/current-mandor-shop-native-qualification'
+    import_closure = modules.require_import_closure(qualifier)
     with inherited_scope():
         inherited = load('automatic_actual_accepted_Mandor_entry', qualifier / 'qualification.py').runtime()
         with inherited.inherited_admission.parent_scope():
@@ -149,6 +150,7 @@ def runtime():
                                 receipt=receipt, owning_source=source, parent_source=inherited.admitted(),
                                 complete_combined_sources=product.sources(), private_money_binding=binding_proof,
                                 package_derivation=package_proof, component_derivation=component_proof,
+                                actual_inherited_import_closure=import_closure,
                                 complete_case_output_source=CASE_OUTPUT_PIN,
                                 private_authority_source=authority.source(), actual_ERP_cases=0,
                                 actual_Auth_HTTP_cases=0, actual_browser_cases=0, production_go=False, independent_acceptance=False)

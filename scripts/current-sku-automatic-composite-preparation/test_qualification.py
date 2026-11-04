@@ -42,6 +42,22 @@ class OwningNative25(unittest.TestCase):
         cls.binding = cls.entry.money_binding
         cls.modules = cls.entry.modules
 
+    def test_all_reachable_parent_bare_imports_are_scoped_and_foreign_case_helpers_refuse(self):
+        qualifier = HERE.parent / 'current-mandor-shop-native-qualification'
+        proof = self.modules.require_import_closure(qualifier)
+        self.assertEqual(set(proof['scoped_bare_modules']), set(self.modules.NAMES))
+        self.assertEqual(len(self.modules.NAMES), 15)
+        with tempfile.TemporaryDirectory() as directory, temporary_modules(self.modules.NAMES):
+            correct, wrong = Path(directory) / 'correct', Path(directory) / 'wrong'
+            correct.mkdir();wrong.mkdir()
+            before = list(sys.path)
+            for name in ('cases', 'oracle', 'native_fixture', 'access_runtime'):
+                foreign = ModuleType(name);foreign.__file__ = str(wrong / (name + '.py'));sys.modules[name] = foreign
+                with self.subTest(name=name), self.assertRaisesRegex(ValueError, 'INHERITED_MODULE_COLLISION:' + name):
+                    with self.modules.scope(correct):self.fail('Foreign parent helper entered')
+                self.assertIs(sys.modules.pop(name), foreign)
+                self.assertEqual(sys.path, before)
+
     def test_closed_and_every_partial_entry_refuses_before_any_receipt_read(self):
         gate = self.entry.admission
         for missing in (None, *gate.GATES):

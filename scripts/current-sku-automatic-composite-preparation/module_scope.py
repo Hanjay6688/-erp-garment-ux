@@ -4,10 +4,37 @@ from pathlib import Path
 from importlib.machinery import ModuleSpec
 from importlib.util import module_from_spec, spec_from_file_location
 from types import ModuleType
+import ast
 import sys
 
-NAMES = ('admission', 'assembly', 'component', 'package_engine', 'package_identity', 'advisor_review')
+NAMES = ('admission', 'assembly', 'component', 'package_engine', 'package_identity', 'advisor_review',
+         'cases', 'additional_cases', 'oracle', 'native_fixture', 'runtime_prerequisites',
+         'access_cases', 'access_runtime', 'http_cases', 'browser_preflight')
 _active = []
+
+
+def require_import_closure(qualifier):
+    """Cover every bare local import reachable from the actual parent entry."""
+    qualifier = Path(qualifier).resolve()
+    local = {path.stem for path in qualifier.glob('*.py')}
+    visited, dependencies, pending = set(), set(), ['qualification']
+    while pending:
+        name = pending.pop()
+        if name in visited:continue
+        visited.add(name)
+        path = qualifier / (name + '.py')
+        if not path.is_file() or path.is_symlink():
+            raise ValueError('SKU_AUTOMATIC_REGULAR_INHERITED_IMPORT_SOURCE_REQUIRED:' + name)
+        for node in ast.walk(ast.parse(path.read_bytes())):
+            found = []
+            if isinstance(node, ast.Import):found = [item.name for item in node.names if item.name in local]
+            if isinstance(node, ast.ImportFrom) and node.level == 0 and node.module in local:found = [node.module]
+            for item in found:
+                dependencies.add(item);pending.append(item)
+    if dependencies != set(NAMES):
+        raise ValueError('SKU_AUTOMATIC_COMPLETE_INHERITED_BARE_IMPORT_CLOSURE_REQUIRED')
+    return dict(reachable_local_modules=sorted(visited), scoped_bare_modules=sorted(dependencies),
+                all_actual_parent_local_imports_selected_and_restored=True, actual_ERP_cases=0)
 
 
 @contextmanager

@@ -50,6 +50,8 @@ def observe(expected_parent):
     entry.frozen(entry.FROZEN_PARENT, root['head'], root['tree'])
     entry.frozen(entry.FROZEN_SKU, reference['candidate_head'], reference['candidate_tree'])
     entry.frozen(entry.FROZEN_AFUI, AFUI_HEAD, AFUI_TREE)
+    import_closure = entry.modules.require_import_closure(
+        entry.FROZEN_PARENT / 'scripts/current-mandor-shop-native-qualification')
     fence = entry.load('automatic_graph_exact_source_DB_network_fence',
                        entry.FROZEN_AFUI / 'scripts/current-sku-managed-recovery-native27-qualification/source_context.py')
     with fence.fenced_source_read() as guard, entry.inherited_scope():
@@ -85,6 +87,7 @@ def observe(expected_parent):
                 proposed_CURRENT_MONEY_GRAPH_PIN=entry.admission.pin(entry.admission.canonical(complete_graph)),
                 complete_current_money_graph=complete_graph, complete_parent_source_admission=parent_source,
                 private_money_binding=binding_proof, database_network_guard=guard,
+                actual_parent_import_closure=import_closure,
                 all_five_financial_gates_still_closed=True, graph_placeholder_used=False,
                 upstream_terminal_run_and_canonical_Root_review_required=True,
                 financial_runtime_activated=False, actual_ERP_cases=0, actual_Auth_HTTP_cases=0,

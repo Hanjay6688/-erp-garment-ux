@@ -259,5 +259,23 @@ metadata and the additional whole-inverse economic checks. Normal Auth,
 PostgREST, lost-response reconciliation, used-inverse refusal, full census,
 console and screenshots remain intact. The mandatory owning `--check` now
 compiles/binds this actual fixture under its DB/network fence before any
-database starts. The real copy runner and final packet integration remain
-pending; Native25 has not adopted or earned these browser cases.
+database starts. Native25 has not adopted or earned these browser cases.
+
+The real copy runner is now prepared in `browser_access.py`. It adds the five
+current admission gates and explicit browser-plan adoption before reusing the
+accepted Mandor copy scope unchanged. Its upstream eligibility bytes are the
+genuine Afui Root from the accepted Mandor checkout; runtime and verification
+refer to the complete current automatic product and original whole state.
+The normal App host stays exact, per-case output is retained through the exact
+Afui adapter, and copy authority, originals and failures remain in the report.
+No schema/RPC/product grant overlay is introduced. Two closed-entry/plan
+controls pass. The current plan still excludes browser cases; final packet
+integration and actual adoption/execution remain pending.
+
+The actual inherited local import graph also exposed nine bare module names
+beyond the original six. All fifteen reachable names, including cases,
+oracle, Native fixture and access helpers, now participate in exact source
+selection, collision refusal and restoration. The runtime checks the complete
+import closure before loading its parent. The closed source-graph observer
+checks it too. Ten owning/import controls pass, including foreign case/helper
+cache refusal; no financial callback changed.
