@@ -69,8 +69,11 @@ def exact_inputs(parent_raw, money_raw, plan_raw):
     return admission.inputs(parent_raw, money_raw, plan_raw)
 
 
-def bind(parent_raw, money_raw, plan_raw):
-    receipt = exact_inputs(parent_raw, money_raw, plan_raw)
+def _private_bridge(parent_raw, money_raw, unchanged):
+    # The financial entry supplies its complete five-gate validation. The
+    # source-only observer instead supplies its exact, separately reviewed
+    # Root/source pins while its database/network fence is already active.
+    unchanged()
     original = load('automatic_exact_unchanged_money_bridge', PRIOR)
     original.source_manifest()
     assembly.require(all(getattr(original.admission, name) is None for name in original.admission.GATES),
@@ -92,8 +95,8 @@ def bind(parent_raw, money_raw, plan_raw):
         # Verify the old manifest as the closed preparation it actually is.
         # The separate actual binding never changes the historical manifest.
         retained = original.source_manifest()
-        assembly.require(exact_inputs(parent_raw, money_raw, plan_raw) == receipt
-                         and gates.admitted(parent_raw, money_raw, reference['native_case_ids']) == admitted,
+        unchanged()
+        assembly.require(gates.admitted(parent_raw, money_raw, reference['native_case_ids']) == admitted,
                          'SKU_AUTOMATIC_ACTUAL_PRIVATE_PARENT_BINDING_CHANGED')
         return admission.pin(admission.canonical(dict(retained_closed_preparation=retained,
                     private_actual_parent_bindings=bindings, actual_parent_admission=admitted)))
@@ -105,3 +108,13 @@ def bind(parent_raw, money_raw, plan_raw):
                  complete_original_function_code_preserved=True, retained_module_globals_unchanged=True,
                  actual_ERP_cases=0, production_go=False)
     return bridge, proof
+
+
+def bind(parent_raw, money_raw, plan_raw):
+    receipt = exact_inputs(parent_raw, money_raw, plan_raw)
+
+    def unchanged():
+        assembly.require(exact_inputs(parent_raw, money_raw, plan_raw) == receipt,
+                         'SKU_AUTOMATIC_ACTUAL_PRIVATE_INPUTS_CHANGED')
+
+    return _private_bridge(parent_raw, money_raw, unchanged)

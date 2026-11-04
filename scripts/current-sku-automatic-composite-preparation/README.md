@@ -192,3 +192,23 @@ fetcher derivation; no source was substituted. These are source/filesystem
 controls and give zero ERP, Auth, race or browser credit. The actual Mandor
 Root, exact current-money graph pin, full source-fence adoption and Native25
 execution are still required.
+
+`source_intake.py` prepares the missing graph observation after the integrator
+has verified a genuine Mandor Root against its terminal run and canonical
+Originals. It requires that exact reviewed Root pin and the immutable money
+source receipt. All five financial gates must remain closed. It checks the
+three exact frozen trees, then uses the original database/network fence and
+actual inherited source admission to build the complete money source graph.
+The full observation and its proposed graph pin are retained without setting
+any gate, using a placeholder, installing, or dispatching a workflow.
+
+The source observer and financial entry now share the same private bridge
+constructor and source-seal calculation. The financial entry still validates
+all five gates and its complete three inputs before that constructor loads
+anything. The observer supplies only its exact source-input revalidation
+inside the fence; the retained typed Mandor Root, immutable money source and
+complete current-parent checks remain in the shared constructor. A source
+observation does not independently verify upstream financial qualification.
+Four closed-intake controls and the nine existing entry/import/output controls
+pass. Actual observation, the resulting graph pin and its comparison during
+the full financial source check remain pending a genuine current Mandor Root.

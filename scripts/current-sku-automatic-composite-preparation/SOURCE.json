@@ -46,8 +46,12 @@
       "sha256": "f5474148bc4d3cb872585b48978e747081d9f4ab562a30f6e4e84089cc9d4e8a"
     },
     "README.md": {
-      "bytes": 12766,
-      "sha256": "a0572456481e9e726765705bff635f60d9e45af6ae441d65e5c9192cf75fc942"
+      "bytes": 14130,
+      "sha256": "24da61ce62bad89adba38b686bec396f2bed697d0c853c8a92d232cc0267b6ab"
+    },
+    "SOURCE_INTAKE_PREPARATION_CONTROLS.json": {
+      "bytes": 760,
+      "sha256": "5981a30216a505305d443e2a25debf2c02dae27417e34a1273d330f459572bb3"
     },
     "SOURCE_REFERENCE.json": {
       "bytes": 9808,
@@ -90,8 +94,8 @@
       "sha256": "4edb216895bd86fe64f1ef184f0e76b123bdd9e10878117e19bfbc612527eadd"
     },
     "money_binding.py": {
-      "bytes": 5867,
-      "sha256": "5a809d97ba34e9c831dfc5549be75016428e0a214cb88b6c60ee71759ac9e5c7"
+      "bytes": 6337,
+      "sha256": "b99e993277d67cc6115f901846f31772d5e92057dfa6a012cfa6e40f61f1e9d0"
     },
     "native_cases.py": {
       "bytes": 14262,
@@ -129,6 +133,10 @@
       "bytes": 34000,
       "sha256": "744ad23ae4c4c97253bb33e22904b567d400571e8107cf2ba8f157a5e1b0f800"
     },
+    "source_intake.py": {
+      "bytes": 6689,
+      "sha256": "2b21ea1a119179ebea555207da98fe44edaf50dcc6a5da186ca6c561cd684a88"
+    },
     "test_advisor_model.mjs": {
       "bytes": 3604,
       "sha256": "400c1517689db2f7a047aa6c0b4918125abe8f711f2b5d12f903dc022dfc3770"
@@ -165,6 +173,10 @@
       "bytes": 6149,
       "sha256": "14f29ede80ec3aab71abc0d74f08fcf6b7d44dc8b9c9d78be1d3312a5f42ac74"
     },
+    "test_source_intake.py": {
+      "bytes": 2732,
+      "sha256": "045a13190a3c5587c971ed8cd905f027f0cfe2af1d0e40cd5e9df6d9a93e7a84"
+    },
     "workflow.py": {
       "bytes": 8081,
       "sha256": "78e4c5f4bcd21ebfc8d5a722da6e25528162cd460c1beeecb41709722d3a3f36"
@@ -200,5 +212,9 @@
   "prepared_frozen_source_trees": 4,
   "prepared_workflow_steps": 79,
   "prepared_workflow_unchanged_steps": 67,
-  "active_workflow_source": null
+  "active_workflow_source": null,
+  "closed_source_intake_prepared": true,
+  "source_intake_control_methods": 4,
+  "actual_graph_observation_pending_genuine_parent": true,
+  "graph_placeholder_used": false
 }

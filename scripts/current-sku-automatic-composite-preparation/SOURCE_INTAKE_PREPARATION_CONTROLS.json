@@ -1,0 +1,18 @@
+{
+  "classification": "CLOSED_SOURCE_INTAKE_CONTROLS_NOT_ACTUAL_GRAPH_OR_ERP_ACCEPTANCE",
+  "source_intake_control_methods": 4,
+  "existing_owning_control_methods": 9,
+  "all_five_runtime_gates_remain_None": true,
+  "upstream_actual_Mandor_Root_and_canonical_run_review_still_required": true,
+  "actual_graph_observation_executed": false,
+  "actual_graph_pin_created": false,
+  "graph_placeholder_used": false,
+  "complete_observation_output_prepared": true,
+  "shared_private_bridge_preserves_retained_admission_and_source_seal": true,
+  "financial_runtime_requires_all_five_gates_and_three_inputs_first": true,
+  "actual_ERP_cases": 0,
+  "actual_Auth_HTTP_cases": 0,
+  "actual_browser_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}
