@@ -212,3 +212,25 @@ observation does not independently verify upstream financial qualification.
 Four closed-intake controls and the nine existing entry/import/output controls
 pass. Actual observation, the resulting graph pin and its comparison during
 the full financial source check remain pending a genuine current Mandor Root.
+
+Current browser evidence preparation now separates the original physical
+provenance from the approved economic average. The retained fixture opens
+3 pieces at10.01 and7 at20.02, reserves1, then converts4 into a target with
+4 pieces at30.03. The old browser expected60.06: that remains the exact Native
+physical value, while the current rounded moving-average transfer is68.07.
+The complete old evidence module is recovered by reversing its sole changed
+expression; physical allocations, lot HPP, full-census and console checks stay
+exact. New independent assertions require source/target pools, current version
+hashes, raw component values102.102/188.188, cent books102.10/188.19, the full
+inverse, and hidden values after loss of financial permission.
+
+The observer appends two fixed read-only pool queries to the complete original
+Native observation without changing or dropping any existing field. Six Node
+protocol controls and three observer controls pass; they run no browser, Auth
+or ERP operation. The source preflight binds the full Native fixture, browser
+fixture and real-App journey, the four actual public facades and declared
+permissions. The current product/fixture binding, real copy runner and final
+packet integration still need implementation before these two new journeys
+can run. The owning Native25 runtime has not silently adopted them. Its old
+FIFO COGS help sentence also needs a narrow update at current UI integration;
+the frozen B source is preserved here.

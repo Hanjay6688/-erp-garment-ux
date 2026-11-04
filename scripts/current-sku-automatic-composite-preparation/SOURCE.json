@@ -29,6 +29,10 @@
       "bytes": 845,
       "sha256": "2d4f1d5bbd9f1a0632f6fc5a8e2600d2a549c2f3766d95ad72aec074f8e3f1f8"
     },
+    "BROWSER_VALUE_PREPARATION_CONTROLS.json": {
+      "bytes": 654,
+      "sha256": "d70bfb681fc35cf669ec848823837db290127d8d02e162ae1aa3cb52a19dbe58"
+    },
     "EXECUTION_PREPARATION_CONTROLS.json": {
       "bytes": 4700,
       "sha256": "1c894a220dff6f4b69c1714f1f6901ef2e3188f40f01a9b1e4769b14adf22c54"
@@ -46,8 +50,8 @@
       "sha256": "f5474148bc4d3cb872585b48978e747081d9f4ab562a30f6e4e84089cc9d4e8a"
     },
     "README.md": {
-      "bytes": 14130,
-      "sha256": "24da61ce62bad89adba38b686bec396f2bed697d0c853c8a92d232cc0267b6ab"
+      "bytes": 15616,
+      "sha256": "5ffe7e01970ca5387cf5ab1aa1ee8c71d01383782badc96f334ec6453d243a4b"
     },
     "SOURCE_INTAKE_PREPARATION_CONTROLS.json": {
       "bytes": 760,
@@ -68,6 +72,18 @@
     "assembly.py": {
       "bytes": 6348,
       "sha256": "b20fe97e1ab0507ab04882c6bbb67173df1d787be3ded2e87285107f16b90171"
+    },
+    "browser_evidence.mjs": {
+      "bytes": 6775,
+      "sha256": "64970a70c90ae0436a1ffeb8967fb13d86c7b15cbc3d93cfd4001292c8a5f6ec"
+    },
+    "browser_observer.py": {
+      "bytes": 724,
+      "sha256": "d93073fba81fab7e7fc5e220f3754aa1ea9f0c3793e7ea4fcf04da314b3a3a73"
+    },
+    "browser_preflight.py": {
+      "bytes": 4845,
+      "sha256": "0a464ca24ac6eb88e7871329b2f7a4ff59ada9aca8342381097cceaf1f1a4858"
     },
     "check_source.py": {
       "bytes": 5195,
@@ -149,6 +165,14 @@
       "bytes": 6489,
       "sha256": "7a3ad363fab256adb673b80bef5ef7428dc2f506669cdd3a339d0c9721833805"
     },
+    "test_browser_evidence.mjs": {
+      "bytes": 5880,
+      "sha256": "3f019100e8903b40865f02bde075710ad287d544cc05ce12b5b7a542575dcf2f"
+    },
+    "test_browser_observer.py": {
+      "bytes": 2381,
+      "sha256": "ad78b722ccd904eab4aceb9535f6923503419d5e7ba8ec9c996136bc3ac7f3a8"
+    },
     "test_execution.py": {
       "bytes": 11258,
       "sha256": "9d69d1a738c6d86007bf62ad5e82e5af00b928eaa0ddea890c6880af6e7e2185"
@@ -216,5 +240,9 @@
   "closed_source_intake_prepared": true,
   "source_intake_control_methods": 4,
   "actual_graph_observation_pending_genuine_parent": true,
-  "graph_placeholder_used": false
+  "graph_placeholder_used": false,
+  "current_browser_value_oracles_prepared": true,
+  "browser_value_Node_controls": 6,
+  "browser_observer_controls": 3,
+  "actual_browser_runtime_binding_pending": true
 }
