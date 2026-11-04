@@ -25,53 +25,9 @@
   "production_go": false,
   "independent_acceptance": false,
   "files": {
-    "README.md": {
-      "bytes": 5446,
-      "sha256": "4b4801b079aee7d51a3d5411ce9a5a481c62fd3b31adfeeebbf1fcb15651d7cc"
-    },
-    "SOURCE_REFERENCE.json": {
-      "bytes": 9808,
-      "sha256": "0d44c4e21c26c286f7a2d43aaee150c3b027b2643a6a0633bf91d78a8507dedd"
-    },
-    "admission.py": {
-      "bytes": 2037,
-      "sha256": "8244ce4632ad852c5f8b5fd782715c2d0dc7afd4128f6f9bc286c273ec6583eb"
-    },
-    "assembly.py": {
-      "bytes": 5972,
-      "sha256": "13804377244842b090670138d5397a898573907e926fc6382eaa33c172c75b1e"
-    },
-    "check_source.py": {
-      "bytes": 3369,
-      "sha256": "e225d5d51acf15cd1bcbfbb7bf6e4ae9cf0263da110131a16ec17ebda3b868c7"
-    },
-    "derive.py": {
-      "bytes": 2856,
-      "sha256": "a2014f8d7abf5b1e4cd7847862af2a4207cf660ef993cef2f7baa942822c57cc"
-    },
-    "native_cases.py": {
-      "bytes": 14262,
-      "sha256": "8eef6154e97c1b88f6f919eb27bfb835860c204a37de476a86289129ac4c5e87"
-    },
-    "prepare_native_sql.py": {
-      "bytes": 4284,
-      "sha256": "5535ce276253d5ce6f10157cc825e75499ef2e2cf6b225dac3213317e6cb1966"
-    },
-    "test_bridge.py": {
-      "bytes": 6489,
-      "sha256": "7a3ad363fab256adb673b80bef5ef7428dc2f506669cdd3a339d0c9721833805"
-    },
-    "test_native_sql.mjs": {
-      "bytes": 2949,
-      "sha256": "a81b36fb904e651e53bb1db86218ecec71cef660d11ca8a7cb5b38d82acbc86a"
-    },
-    "report_io.py": {
-      "bytes": 5533,
-      "sha256": "04a7fab8b6e57641affe54f3dbe1caf1699d4bc070a0997d89495737077779b7"
-    },
-    "test_report_io.py": {
-      "bytes": 6149,
-      "sha256": "14f29ede80ec3aab71abc0d74f08fcf6b7d44dc8b9c9d78be1d3312a5f42ac74"
+    "ADVISOR_PREPARATION_CONTROLS.json": {
+      "bytes": 845,
+      "sha256": "2d4f1d5bbd9f1a0632f6fc5a8e2600d2a549c2f3766d95ad72aec074f8e3f1f8"
     },
     "PREPARED_NATIVE25_PLAN.json": {
       "bytes": 2505,
@@ -81,9 +37,41 @@
       "bytes": 2482,
       "sha256": "f5474148bc4d3cb872585b48978e747081d9f4ab562a30f6e4e84089cc9d4e8a"
     },
+    "README.md": {
+      "bytes": 6828,
+      "sha256": "c24d5cd7216623690b1ff4f70b94aee3a1819a926f4f795003846976945bff65"
+    },
+    "SOURCE_REFERENCE.json": {
+      "bytes": 9808,
+      "sha256": "0d44c4e21c26c286f7a2d43aaee150c3b027b2643a6a0633bf91d78a8507dedd"
+    },
+    "admission.py": {
+      "bytes": 2037,
+      "sha256": "8244ce4632ad852c5f8b5fd782715c2d0dc7afd4128f6f9bc286c273ec6583eb"
+    },
+    "advisor_review.py": {
+      "bytes": 9518,
+      "sha256": "8b57fb2b67ccd6681a98986670ee7d65afcdd34eef522f9672cfabfd98bfe834"
+    },
+    "assembly.py": {
+      "bytes": 5972,
+      "sha256": "13804377244842b090670138d5397a898573907e926fc6382eaa33c172c75b1e"
+    },
+    "check_source.py": {
+      "bytes": 3438,
+      "sha256": "9b1496426996b1fc7a541ec3141281669e05f0924499882e80be7ac81e28a30b"
+    },
     "component.py": {
       "bytes": 4532,
       "sha256": "234a55f99fb4036ed9571bcff10cb8a6c2e9c3dd6660dd66e96777d9a785590c"
+    },
+    "derive.py": {
+      "bytes": 2856,
+      "sha256": "a2014f8d7abf5b1e4cd7847862af2a4207cf660ef993cef2f7baa942822c57cc"
+    },
+    "native_cases.py": {
+      "bytes": 14262,
+      "sha256": "8eef6154e97c1b88f6f919eb27bfb835860c204a37de476a86289129ac4c5e87"
     },
     "native_invoice_cases.py": {
       "bytes": 10139,
@@ -101,9 +89,37 @@
       "bytes": 2193,
       "sha256": "3b51ab6bbd4d6aa4981adfe43c646c060b92ce04402859344e1359d5260cf05b"
     },
+    "prepare_native_sql.py": {
+      "bytes": 4284,
+      "sha256": "5535ce276253d5ce6f10157cc825e75499ef2e2cf6b225dac3213317e6cb1966"
+    },
+    "report_io.py": {
+      "bytes": 5533,
+      "sha256": "04a7fab8b6e57641affe54f3dbe1caf1699d4bc070a0997d89495737077779b7"
+    },
+    "test_advisor_model.mjs": {
+      "bytes": 3604,
+      "sha256": "400c1517689db2f7a047aa6c0b4918125abe8f711f2b5d12f903dc022dfc3770"
+    },
+    "test_advisor_review.py": {
+      "bytes": 4751,
+      "sha256": "cbfc2dcd79f7ad217a9b5701763ecb1f4f6054e8c6811a1f7453fbdb4bf1175e"
+    },
+    "test_bridge.py": {
+      "bytes": 6489,
+      "sha256": "7a3ad363fab256adb673b80bef5ef7428dc2f506669cdd3a339d0c9721833805"
+    },
     "test_native25.py": {
       "bytes": 7423,
       "sha256": "d5a1e164f9238ca36a648de1b49abf469b2653327ec9367e5051db3a2f434053"
+    },
+    "test_native_sql.mjs": {
+      "bytes": 2949,
+      "sha256": "a81b36fb904e651e53bb1db86218ecec71cef660d11ca8a7cb5b38d82acbc86a"
+    },
+    "test_report_io.py": {
+      "bytes": 6149,
+      "sha256": "14f29ede80ec3aab71abc0d74f08fcf6b7d44dc8b9c9d78be1d3312a5f42ac74"
     }
   },
   "prepared_upstream_native_callbacks": 6,
@@ -125,5 +141,6 @@
   "Native_lifecycle_case_plan_prepared_not_admitted": true,
   "prepared_combined_Native_callbacks": 25,
   "prepared_Native25_source_control_methods": 6,
-  "fresh_Auth_HTTP_races_browser_and_full_runtime_pending": true
+  "fresh_Auth_HTTP_races_browser_and_full_runtime_pending": true,
+  "private_authority_reviewer_prepared": true
 }

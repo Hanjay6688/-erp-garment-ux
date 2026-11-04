@@ -56,7 +56,8 @@ def check():
                 full_runtime_parent_admission_still_required=True, own_files=len(own_paths),
                 unchanged_money_product_files=44, exact_automatic_addition_files=20,
                 all_five_new_gates_unset=True, active_workflow_added=False,
-                Native_lifecycle_case_plan_and_owning_runtime_pending=True,
+                Native_lifecycle_case_plan_pending=False, owning_runtime_pending=True,
+                private_authority_reviewer_prepared=True,
                 actual_ERP_cases=0, production_go=False, independent_acceptance=False)
 
 

@@ -82,3 +82,23 @@ pass. This prepares Native25, rather than qualifying the complete child or
 providing an active owning runtime. All five new and ten old gates remain
 unset. Full actual Mandor Root intake and deliberate current source-fence
 adoption must precede any financial activation.
+
+The private authority reviewer is now prepared for all 23 additional SKU
+tables. Twelve moving-average tables retain their exact original deny
+policies. Only the nine money and two automatic tables are eligible for the
+named RLS-without-policy INFO. One read-only statement captures all 23 tables,
+full policy definitions, all raw nonowner schema/table/column ACLs and effective
+privileges for the five public-facing roles. It never adds a grant or policy.
+The complete parent authority proof and its unchanged remainder decision stay
+mandatory; warnings, unknown objects, duplicates and a false parent gate refuse.
+
+On empty PostgreSQL17 authority fixtures, the exact capture statement compiled
+and produced 18 original observations: one closed baseline and 17 unsafe
+changes. The reviewer accepted only the baseline, including refusals for a
+grant to a role outside the five probes, public/column grants, changed owners,
+RLS flags, changed deny/added allow policy and a missing table. Four review
+controls also cover preservation of the original findings and the closed entry.
+These are actual local catalogue/ACL observations on empty fixtures, rather
+than actual ERP privileges, financial transactions, Auth or runtime acceptance.
+The owning runtime must bind this reviewer after admitting the genuine frozen
+Mandor parent. No running qualifier is changed by this preparation.
