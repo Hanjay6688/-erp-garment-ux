@@ -3,8 +3,10 @@ from hashlib import sha256, file_digest
 from pathlib import Path, PurePosixPath
 from urllib.parse import urlsplit
 import gzip
+import base64
 import json
 import os
+import sys
 import stat
 import urllib.error
 import urllib.request
@@ -105,9 +107,7 @@ def split(path, destination, part_bytes, source_pin):
     return parts
 
 
-def main():
-    root = Path('afui-evidence-intake-20261105');root.mkdir()
-    out = root / 'diagnostics';out.mkdir()
+def original_context(root, out):
     run = metadata(f'/repos/{REPO}/actions/runs/{RUN}', out / 'SOURCE_RUN_API.json')
     require(run['id'] == RUN and run['head_sha'] == HEAD and run['run_attempt'] == 1
             and run['status'] == 'completed' and run['conclusion'] == 'failure', 'EXACT_COMPLETED_FAILED_ORIGINAL_RUN_REQUIRED')
@@ -116,6 +116,65 @@ def main():
             and meta['workflow_run']['id'] == RUN and meta['workflow_run']['head_sha'] == HEAD
             and meta['size_in_bytes'] == SIZE and meta['digest'] == 'sha256:' + DIGEST and meta['expired'] is False,
             'EXACT_CANONICAL_SOURCE_ARTIFACT_REQUIRED')
+
+
+def core():
+    root = Path('afui-evidence-intake-20261105');root.mkdir()
+    out = root / 'core';out.mkdir();original_context(root, out)
+    original = root / 'COMPLETE_SOURCE_JOB.log'
+    with api(f'/repos/{REPO}/actions/jobs/{JOB}/logs') as source, original.open('xb') as target:
+        actual = copy_stream(source, target)
+    save(out / 'SOURCE_JOB_LOG_PIN.json', actual)
+    selected, diagnostic, long_lines = [], [], 0
+    wanted = {'AFUI_RUNTIME_SUPERVISION.json', 'CP7_AFUI_GOOD_NONPAYABLE_FULL15.json'}
+    with original.open('rb') as stream:
+        while True:
+            line = stream.readline(512 * 1024 * 1024 + 1)
+            if not line:
+                break
+            if not line.endswith(b'\n') and len(line) > 512 * 1024 * 1024:
+                long_lines += 1
+                while line and not line.endswith(b'\n'):
+                    line = stream.readline(1024 * 1024)
+                continue
+            if len(line) < 16000 and any(k in line for k in (b'NONPAYABLE_', b'Traceback', b'BROWSER_GROUP',
+                    b'SESSION_GROUP', b'Error:', b'ValueError', b' File ', b'RAISED')):
+                diagnostic.append(line.decode('utf-8', errors='replace').rstrip('\n'))
+            if b'"ow04_original_report_bytes": true' not in line[:2048]:
+                continue
+            prefix = line.find(b'{');header = line[prefix:prefix + 1024]
+            if not any(('"name": "' + name + '"').encode() in header for name in wanted):
+                continue
+            value = json.loads(line[prefix:]);name = value['name']
+            require(name not in {v['original_name'] for v in selected}, 'DUPLICATE_LOG_RECEIPT_REFUSED')
+            packed = base64.b64decode(value['gzip_base64'], validate=True)
+            require(dict(bytes=len(packed), sha256=sha256(packed).hexdigest()) ==
+                    dict(bytes=value['gzip_bytes'], sha256=value['gzip_sha256']), 'EXACT_COMPLETE_LOG_RECEIPT_GZIP_REQUIRED')
+            target = out / (name + '.original.gz')
+            with target.open('xb') as output:
+                output.write(packed)
+            digest, count = sha256(), 0
+            with gzip.open(target, 'rb') as uncompressed:
+                while chunk := uncompressed.read(4 * 1024 * 1024):
+                    count += len(chunk);digest.update(chunk)
+            require(dict(bytes=count, sha256=digest.hexdigest()) == dict(bytes=value['raw_bytes'], sha256=value['raw_sha256']),
+                    'EXACT_COMPLETE_UNCOMPRESSED_LOG_ORIGINAL_REQUIRED')
+            selected.append(dict(original_name=name, original=dict(bytes=count, sha256=digest.hexdigest()),
+                retained_name=target.name, gzip=pin(target)))
+            del value, packed, line
+    save(out / 'DIAGNOSTIC_SELECTED_SHORT_LOG_LINES.json', dict(classification='DIAGNOSTIC_EXCERPT_NOT_COMPLETE_ORIGINAL',
+        lines=diagnostic[-500:], skipped_long_lines=long_lines, source_complete_log=actual, financial_acceptance_credit=0))
+    save(out / 'CORE_MANIFEST.json', dict(classification='EXACT_COMPLETE_ORIGINAL_REPORTS_FROM_COMPLETED_SOURCE_JOB_LOG',
+        source_run_id=RUN, source_job_id=JOB, source_head=HEAD, source_attempt=1, source_log=actual,
+        selected_complete_originals=selected, financial_acceptance_credit=0, ERP_commands_executed=0))
+    require({v['original_name'] for v in selected} == wanted, 'BOTH_COMPLETE_SOURCE_LOG_ORIGINAL_REPORTS_REQUIRED')
+    require(sum(p.stat().st_size for p in out.iterdir()) < 450 * 1024 * 1024, 'CONNECTOR_SIZED_CORE_REQUIRED')
+    print(json.dumps(dict(status='BOTH_COMPLETE_ORIGINAL_FAILURE_AND_SUPERVISION_LOG_RECEIPTS_VERIFIED', reports=selected)))
+
+
+def archive():
+    root = Path('afui-evidence-intake-20261105')
+    out = root / 'diagnostics';out.mkdir();original_context(root, out)
     original = root / 'AFUI_COMPLETE_ORIGINAL.zip'
     with api(f'/repos/{REPO}/actions/artifacts/{ARTIFACT}/zip') as source, original.open('xb') as target:
         actual = copy_stream(source, target, SIZE)
@@ -126,23 +185,24 @@ def main():
         require(len(archive.infolist()) == len(set(archive.namelist())), 'DUPLICATE_ORIGINAL_MEMBER_REFUSED')
         seen = set()
         for member in archive.infolist():
+            index.append(dict(name=member.filename, bytes=member.file_size, compressed_bytes=member.compress_size, crc32=member.CRC))
+        save(out / 'ZIP_INDEX.json', index)
+        for member in archive.infolist():
             name = PurePosixPath(member.filename)
             require(name.parts and not name.is_absolute() and '..' not in name.parts and '\\' not in member.filename
                     and not stat.S_ISLNK(member.external_attr >> 16), 'UNSAFE_ORIGINAL_MEMBER_REFUSED')
-            index.append(dict(name=member.filename, bytes=member.file_size, compressed_bytes=member.compress_size, crc32=member.CRC))
-            if member.is_dir() or not (name.name in SELECTED or name.name.startswith('AFUI_') and
+            if member.is_dir() or member.file_size > 8 * 1024 * 1024 or not (name.name in SELECTED or name.name.startswith('AFUI_') and
                     ('FIRST_FAILURE' in name.name or 'CLEANUP_FAILURE' in name.name)):
                 continue
-            require(name.name not in seen, 'AMBIGUOUS_DIAGNOSTIC_ORIGINAL_REFUSED');seen.add(name.name)
-            target = out / (name.name + '.original.gz')
+            seen.add(name.name)
+            target = out / (sha256(member.filename.encode()).hexdigest() + '__' + name.name + '.original.gz')
             with archive.open(member) as source, target.open('xb') as stream:
                 with gzip.GzipFile(filename='', fileobj=stream, mode='wb', compresslevel=6, mtime=0) as compressed:
                     raw = copy_stream(source, compressed, member.file_size)
             require(raw['bytes'] == member.file_size, 'COMPLETE_SELECTED_MEMBER_REQUIRED')
             selected.append(dict(original_name=member.filename, original=raw, retained_name=target.name, gzip=pin(target)))
-    require('CP7_AFUI_GOOD_NONPAYABLE_FULL15.json' in seen and 'AFUI_RUNTIME_SUPERVISION.json' in seen,
-            'COMPLETE_ORIGINAL_FAILURE_AND_SUPERVISION_REPORTS_REQUIRED')
-    save(out / 'ZIP_INDEX.json', index)
+    require(any(PurePosixPath(v['name']).name == 'CP7_AFUI_GOOD_NONPAYABLE_FULL15.json' for v in index)
+            and 'AFUI_RUNTIME_SUPERVISION.json' in seen, 'COMPLETE_SOURCE_ARCHIVE_REPORTS_REQUIRED')
     parts = split(original, root, PART_BYTES, actual)
     manifest = dict(classification='EXACT_COMPLETED_FAILED_AFUI_ORIGINAL_READ_ONLY_TRANSPORT_NO_ACCEPTANCE',
         source_repository=REPO, source_run_id=RUN, source_job_id=JOB, source_attempt=1, source_head=HEAD,
@@ -159,4 +219,5 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    require(sys.argv[1:] in (['core'], ['archive']), 'ONE_FIXED_READ_ONLY_EXPORT_PHASE_REQUIRED')
+    (core if sys.argv[1] == 'core' else archive)()
