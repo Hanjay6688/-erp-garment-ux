@@ -1,0 +1,340 @@
+{
+  "contract": "cp7.sku-automatic-pending.v5",
+  "classification": "OWNING_INSTALLER_AND_ISOLATED_MODELS_NOT_ERP_QUALIFIED",
+  "base_head": "b5a704a2a6c514c2e5710a21343062f17778be3e",
+  "base_tree": "814320f907f8f66afc388e1e67b9802bd4c55ec4",
+  "unchanged_parent_product_and_accounting_files": {
+    "scripts/cp7_sku_cost_components/CATALOG_ADDITIONS.json": {
+      "git_blob_sha1": "986a5fe4958b8a8dcd3b184ab0319f8a965746e0",
+      "sha256": "330dc07c6d48e9a1599b84cd9e169fb4a74eddb5b45772873f0e30f8f4c06b31",
+      "bytes": 692916
+    },
+    "scripts/cp7_sku_cost_components/README.md": {
+      "git_blob_sha1": "47dffb75de3b92355994c57bb2c19c517a20175d",
+      "sha256": "b77b1d039a1adc4b72a5c5845983181c98ba421c95d0c44b2300fd387b3385d9",
+      "bytes": 20386
+    },
+    "scripts/cp7_sku_cost_components/SOURCE.json": {
+      "git_blob_sha1": "8dae5549246dd2cf3c24b40ac74b17f4bedf8f95",
+      "sha256": "3abdd3fadbc0dcb873461dab4354baada7b4452edc8e73534ae4c538e3d72ae6",
+      "bytes": 11937
+    },
+    "scripts/cp7_sku_cost_components/base_cent_cases.mjs.inc": {
+      "git_blob_sha1": "1d30288b82104ed469b8db53fb75a620a3912666",
+      "sha256": "eeeeba3dbab43bc92c690c36ba6d01ac0d344fa8e2e7fde781b825af9baa5a18",
+      "bytes": 2463
+    },
+    "scripts/cp7_sku_cost_components/base_forward_cases.mjs.inc": {
+      "git_blob_sha1": "7a79e906277b4d70e4de21bf181393523c24460f",
+      "sha256": "72fcb6298dbc0861687c81175d6ffecf1e7e45612ad9a66260a40583683b3092",
+      "bytes": 4008
+    },
+    "scripts/cp7_sku_cost_components/base_money.sql": {
+      "git_blob_sha1": "b859f086ac3fc85de4fccf80bcf17f26f91f8d74",
+      "sha256": "cdd8dc4742388690f9d83566ac5015ddb3322cae00b1fd0d99474eb0033d262d",
+      "bytes": 16005
+    },
+    "scripts/cp7_sku_cost_components/base_money_cases.mjs.inc": {
+      "git_blob_sha1": "c298e69a1562189cb0861211474c781f24f085d4",
+      "sha256": "dc76a4265d4b3d5ff483c16c90c6d4f2a92a451eb864e0824609c0473cfb9cd9",
+      "bytes": 3937
+    },
+    "scripts/cp7_sku_cost_components/base_money_delta.py": {
+      "git_blob_sha1": "41ddf5a4e039ffcf092ad1a1ea992583673fd5c6",
+      "sha256": "b943979524c86bdbcf22daa703d2f9891be07bc292a020db822662cb878cc835",
+      "bytes": 12611
+    },
+    "scripts/cp7_sku_cost_components/base_money_fixture.mjs.inc": {
+      "git_blob_sha1": "8839436af58ae3dcb1eac1a790d76924a61ce7ed",
+      "sha256": "fe17a1d8a5e1b9123389b6aeab268427b4af883ff663994aa93692a7f2e31cc7",
+      "bytes": 2269
+    },
+    "scripts/cp7_sku_cost_components/base_money_followup_cases.mjs.inc": {
+      "git_blob_sha1": "cd3efe4a067d3b817a27fefd951b0169c83904b8",
+      "sha256": "506ac318ed72e265d5f00c93f38bee4f37624781a25873443a8044a56f537610",
+      "bytes": 11622
+    },
+    "scripts/cp7_sku_cost_components/catalog_additions.py": {
+      "git_blob_sha1": "2b6fe0eb813a8639d9876564af820c41db734d10",
+      "sha256": "4b272fe78d1cd8124c835e461ed5b830346ce36d3fbeaee5750f0ce93d65202c",
+      "bytes": 3715
+    },
+    "scripts/cp7_sku_cost_components/cent_inverse_counterexamples.mjs.inc": {
+      "git_blob_sha1": "729412c2bac8254503539ddfbd6581d612f21c75",
+      "sha256": "caa591d9ab7976890cea5387553ff75348d0e0f43955b9fb67d31d816aaefe1f",
+      "bytes": 3270
+    },
+    "scripts/cp7_sku_cost_components/cent_ownership.py": {
+      "git_blob_sha1": "3d64b41c4ee039e4941e20902b93641bf72604c5",
+      "sha256": "d6483135a059d2319d53adb3ab0b8dc7ed472e27c24cf3f4fa75efa345350a1e",
+      "bytes": 3899
+    },
+    "scripts/cp7_sku_cost_components/chain_cases.mjs.inc": {
+      "git_blob_sha1": "84384654e2df1148601951746e8a255f4bccbc21",
+      "sha256": "425be6aba1aeecb3a96b5354a35990ce073c28cd448acd778bca73dadda26668",
+      "bytes": 4450
+    },
+    "scripts/cp7_sku_cost_components/chain_repair_checks.mjs.inc": {
+      "git_blob_sha1": "ed75250c38fc27178d21d3825d918ac76b2ac98b",
+      "sha256": "9898434ca1c8e084dcaedd5543b7daa08e093610a545eef718343b3b1617c420",
+      "bytes": 2878
+    },
+    "scripts/cp7_sku_cost_components/composition.py": {
+      "git_blob_sha1": "e2842bb17bd372527bdba51132f75997842ae971",
+      "sha256": "7ddfc7a3b825d35146a93643b1427be04c29ed49fd5debcbada00a26718868f0",
+      "bytes": 6718
+    },
+    "scripts/cp7_sku_cost_components/cost_cases.mjs.inc": {
+      "git_blob_sha1": "aad2eec675418981129f873b936b0f2488978e51",
+      "sha256": "670a13471483e386f70a52b4083e725939d1f1531d17f3ad72a31e6a2555bbdd",
+      "bytes": 11386
+    },
+    "scripts/cp7_sku_cost_components/costs.sql": {
+      "git_blob_sha1": "e8cbb55432c6965dc82625d814e55872735dddad",
+      "sha256": "999ce0516366efb0a2cdc59e0c90b7edf99717dc387fa51f972934e287c1e6c1",
+      "bytes": 17529
+    },
+    "scripts/cp7_sku_cost_components/financial_delta.py": {
+      "git_blob_sha1": "0c026d58dad4812cfa35ecbb54a95cfb1225a220",
+      "sha256": "5a99c9c6b301124605d86e621af12277b137a2eb20ee719b07d862abd44924a7",
+      "bytes": 9539
+    },
+    "scripts/cp7_sku_cost_components/inverse_cases.mjs.inc": {
+      "git_blob_sha1": "4a8350e3d727ecc890f99e9a25a1fbc7bd50e529",
+      "sha256": "eed5e1ce9967b9ed12570d5363255f91e7aa2999935d5c92a2585a3cf6d8489c",
+      "bytes": 8133
+    },
+    "scripts/cp7_sku_cost_components/inverse_rebalance.sql": {
+      "git_blob_sha1": "64bf892db6a96ba3e0ecc963bb70603cfebadf76",
+      "sha256": "8d681ce43fca746e1fd89d9a7ebbd351ad7979789f9f0f0c39952177f9d4e188",
+      "bytes": 10437
+    },
+    "scripts/cp7_sku_cost_components/legacy.sql": {
+      "git_blob_sha1": "f1e051c3dbe3faf373964f13800a1eaec5b6ac0b",
+      "sha256": "f814b6b172c2ed1a5838bd9e4281c28cb8b68707a3865e106ad72bcc8526b07f",
+      "bytes": 3038
+    },
+    "scripts/cp7_sku_cost_components/legacy_cases.mjs.inc": {
+      "git_blob_sha1": "c28e5824e138c14c1e590f07cdd80d3d291d546e",
+      "sha256": "0b1119afaaf6bcda92acebaef89d8c2b65d218db75d0d5579546a8d34fb0fd86",
+      "bytes": 12122
+    },
+    "scripts/cp7_sku_cost_components/legacy_delta.py": {
+      "git_blob_sha1": "445b83b22bbbd6adb05397152598a8a1f5fe8fb4",
+      "sha256": "5d095b410101dd1eeca452a5e87da8fd8f5351f48f8c60046469f788630a96c7",
+      "bytes": 10528
+    },
+    "scripts/cp7_sku_cost_components/legacy_followup_cases.mjs.inc": {
+      "git_blob_sha1": "5d192ee27c0b4d18781ae35c18862a132f4cc4ef",
+      "sha256": "1af650f2136b558235742075addf9b86e9737d388d9601456673a91908497a1e",
+      "bytes": 4633
+    },
+    "scripts/cp7_sku_cost_components/legacy_model_setup.mjs.inc": {
+      "git_blob_sha1": "9ffce58773b3acc569a0b35b712c10ebdb10677a",
+      "sha256": "fbf23cf09bda180ddda9025e805e9e92cd6367c1bec86ad4cd7609a0f33575a1",
+      "bytes": 4377
+    },
+    "scripts/cp7_sku_cost_components/money.sql": {
+      "git_blob_sha1": "ac22f343cebd3fc9ae4482ecfb9bb6fb53584aad",
+      "sha256": "58ea892a29077535cbb417a3aac750a3b35996027d8d6b10851aa5030b92cc69",
+      "bytes": 14540
+    },
+    "scripts/cp7_sku_cost_components/money_cases.mjs.inc": {
+      "git_blob_sha1": "3fcc9508c9f898d5c17ee41f928f23c985c42e9c",
+      "sha256": "5898f8702cede651abceba264d7b623a330ad79764865a3cc0ef713879509b24",
+      "bytes": 3034
+    },
+    "scripts/cp7_sku_cost_components/money_credit_cases.mjs.inc": {
+      "git_blob_sha1": "649500f4badc72cae368a93d07d44daeae2d1422",
+      "sha256": "ecbf65dfe93dd97ce3547ffd3468bcd8999d99021e9c786071a091dc383c82df",
+      "bytes": 5719
+    },
+    "scripts/cp7_sku_cost_components/money_delta.py": {
+      "git_blob_sha1": "51cafe003fde9ce02e4eb523715642eda63564aa",
+      "sha256": "c97a14eae7f4028a79362a27de023a878e7e9930de250cff94df3fe9401a5d4f",
+      "bytes": 11201
+    },
+    "scripts/cp7_sku_cost_components/money_history_case.mjs.inc": {
+      "git_blob_sha1": "692333696b66b4d26b6338b18f73ed55686cc9c2",
+      "sha256": "150a8bbd914d3060e62220799f936b7d9364f9d439322059d8d0136fc0708043",
+      "bytes": 1945
+    },
+    "scripts/cp7_sku_cost_components/oracle.py": {
+      "git_blob_sha1": "894d093c04854abdcd86cdd017aab545b19db1e7",
+      "sha256": "6a0627fa980634bb2b4b812d6f53848aed5b85a206915b465b665b627268ebf7",
+      "bytes": 10024
+    },
+    "scripts/cp7_sku_cost_components/prepare_catalog.py": {
+      "git_blob_sha1": "7a333ba6db28b6754216cf8a8e9cd58e6412078b",
+      "sha256": "48ef52a251d9d1c8be2fb3bbaa62ac5535323d3614606f51ad1ea19c971620b4",
+      "bytes": 3042
+    },
+    "scripts/cp7_sku_cost_components/prepare_legacy_model.py": {
+      "git_blob_sha1": "a22bf535c20f0db533db463154c0e8640c4b1286",
+      "sha256": "9033aceab2525831dd234386f637898b270d965aeb701188a135fc3b164459f1",
+      "bytes": 7242
+    },
+    "scripts/cp7_sku_cost_components/prepare_model.py": {
+      "git_blob_sha1": "31ffe1d06e0203cea7992d9ae4b9c862e41ef4a0",
+      "sha256": "e2f2b43b7dce96a529e7b837c923580d3fcdf4fe3d205dab9b37281ca44207dd",
+      "bytes": 24528
+    },
+    "scripts/cp7_sku_cost_components/prepared_product.py": {
+      "git_blob_sha1": "7916a3203af6c5f233008e87b72ce223741a5c00",
+      "sha256": "786a8fede0530c1b8f1e3be6797d74ceef2c17dceda97e8a74f6381411ed2652",
+      "bytes": 3153
+    },
+    "scripts/cp7_sku_cost_components/private_inverse_delta.py": {
+      "git_blob_sha1": "3301383482483241d984fe8b8ecf89f51ea36f12",
+      "sha256": "2129a0f9246f696e91cec760cf79fdb69d6a63fd315fbee9534fce5ab269d803",
+      "bytes": 1231
+    },
+    "scripts/cp7_sku_cost_components/profile_catalog.mjs": {
+      "git_blob_sha1": "a2eaa70e32771df0c2f4a9a70f57ed67ef1406ba",
+      "sha256": "80d6fb996a5c2e4b7f9425410c18aa7186c99d4077c700abed4f6dab1481c03d",
+      "bytes": 7682
+    },
+    "scripts/cp7_sku_cost_components/source_delta.py": {
+      "git_blob_sha1": "9b6c8f129b342e1d72d587ccd8006876aff9f2f7",
+      "sha256": "0efbe785782e94d2cb77a5d7f230c7e08cd63054a91465622bd2d269690d4a2f",
+      "bytes": 2027
+    },
+    "scripts/cp7_sku_cost_components/source_rebalance.sql": {
+      "git_blob_sha1": "664f1c49673bf5a6eab9ebf2bc6550054cbfbdd2",
+      "sha256": "7a9ab4a887fe92b82eeb003989418b5ab4da57607fccefc365b2f2445bade765",
+      "bytes": 8954
+    },
+    "scripts/cp7_sku_cost_components/test_catalog_transition.py": {
+      "git_blob_sha1": "13173aa129b24d0eb0431f2546eaeb46400a4042",
+      "sha256": "099a035146a3b069a6ff38e7a81b7bc317a720953497cd60d1369c9d2e1cf667",
+      "bytes": 3409
+    },
+    "scripts/cp7_sku_cost_components/test_cent_ownership.py": {
+      "git_blob_sha1": "f22347c44ab8d6d013dc5df3190bea30efa2761a",
+      "sha256": "59a292925abd4a7a9575a563a5355a912119ee9a6a2c665ba01ed012ab3b0a40",
+      "bytes": 3678
+    },
+    "scripts/cp7_sku_cost_components/test_oracle.py": {
+      "git_blob_sha1": "6340d7c747fad89b906370147e8b6d130d2f385b",
+      "sha256": "c914ef44d60d49a8e9ebbd4f41ac8289c673bbddab333fcc0402f70ccebe69ef",
+      "bytes": 7355
+    },
+    "scripts/cp7_sku_cost_components/valuation_delta.py": {
+      "git_blob_sha1": "2e06b0c190c77e00285ebcc3f009a3e7f67d458f",
+      "sha256": "9c509c96b49d3f236fed740437e10bab480b9a86957222786ac952b600291a2d",
+      "bytes": 17231
+    },
+    "scripts/cp7_sku_pending_accounting/README.md": {
+      "git_blob_sha1": "65227c68f22c64505855ce4cb8bddcc934b4f3c4",
+      "sha256": "9abefa3160f9303affbc1d18b2bb36001e92f1c6ed4b9443256a22bee3518332",
+      "bytes": 1653
+    },
+    "scripts/cp7_sku_pending_accounting/SOURCE.json": {
+      "git_blob_sha1": "19975ecbc9b0dae707f72bc1bc39b1cc4abd5bdd",
+      "sha256": "7efca5c88ec0d7ad67148ab82dbb18427bc26dbf367b07e19b3e25b515343b79",
+      "bytes": 11513
+    },
+    "scripts/cp7_sku_pending_accounting/derivation.py": {
+      "git_blob_sha1": "41a7bf6bc4453bf001c789bf4dc53bf8cd266251",
+      "sha256": "5970718abdbe8713bf7ae0cdee6979155bb7e370e8393674426ed4585a010dd4",
+      "bytes": 5815
+    },
+    "scripts/cp7_sku_pending_accounting/prepare_model.py": {
+      "git_blob_sha1": "a1d20321ba1ab69e33dbd5bc8baf0fa373aef04f",
+      "sha256": "11fd005b70e76e3ab7549435f22687bda37d81d39b2a7396d071159b7da4fa0e",
+      "bytes": 2411
+    },
+    "scripts/cp7_sku_pending_accounting/test_readers.mjs": {
+      "git_blob_sha1": "7bbba4db881030a8bb1ad8061d40d240079d8c91",
+      "sha256": "0a565d382280c490ad76fd2cec089df7a0fc31b32cd6cc5554e57884eced80fc",
+      "bytes": 13363
+    }
+  },
+  "files": {
+    "CATALOG_ADDITIONS.json": {
+      "bytes": 128694,
+      "sha256": "07824d6732540348590440bca3c8f8aef9a2b58cdcb8af9dc43c964723b0303a"
+    },
+    "README.md": {
+      "bytes": 4251,
+      "sha256": "e18cd32de0adb0c3faf00cb17338b44777d00b60b5cd8f3c979c8238d0f65e15"
+    },
+    "catalog_additions.py": {
+      "bytes": 3792,
+      "sha256": "c3dea8598a4ec688585c76bbcbc52a7516ef862fc053df40dfc6c8cadd0b4298"
+    },
+    "composition.py": {
+      "bytes": 7275,
+      "sha256": "384bb580a937ce031973e257b7b992a58525a3d29e317e306d7428ab550d089d"
+    },
+    "context.sql": {
+      "bytes": 13857,
+      "sha256": "67141e2dcbf2c57082a2b6b415100a5583facdd81a43baab031bbe29a6355d5a"
+    },
+    "derivation.py": {
+      "bytes": 8686,
+      "sha256": "3f1653202283c62115d8c74bc64e741e2ac9334a362d87ed7df7abc96c9dc9ac"
+    },
+    "installation_product.py": {
+      "bytes": 2856,
+      "sha256": "19167299006aba9b1ebb6473b2640c27e334e06c80c14b38ddedb5fdbfbb373e"
+    },
+    "model_cases.mjs.inc": {
+      "bytes": 20356,
+      "sha256": "392003be9a143e4a299c335ba389376fc5f4b10c3da7dbb3b002d28de94df0a4"
+    },
+    "model_providers.sql": {
+      "bytes": 3332,
+      "sha256": "388663d5c6d4df52f9fa2cb00641e812b1c2084e30c96cf0587d96c337b9b4bc"
+    },
+    "prepare_catalog.py": {
+      "bytes": 2864,
+      "sha256": "8ce871682a6c15ac3c7abd6559aa980d1d9e5e174945d241d1fbd4f006772a21"
+    },
+    "prepare_model.py": {
+      "bytes": 8509,
+      "sha256": "ece59052dd629367e824ace8530308d8856661fc6a02cfb139dd0a9505d0aaca"
+    },
+    "prepared_product.py": {
+      "bytes": 2248,
+      "sha256": "fbde83c9ba4a7113153e80d66351a491be1a55f9d75cbd5cbe960deec841332f"
+    },
+    "profile_catalog.mjs": {
+      "bytes": 9099,
+      "sha256": "0b1002b3735d600eff9ef06cbc89a50dae564aa82700e6f3358d59dec6e9c7ea"
+    },
+    "test_installation.py": {
+      "bytes": 6887,
+      "sha256": "4f12fc4138be230eee1df796ce967e52fd4f36a466259f6902734b947e0343f3"
+    }
+  },
+  "private_context_tables": 2,
+  "derived_parent_definitions": 8,
+  "isolated_hook_model_controls": 18,
+  "admission": {
+    "actual_current_money_root": null,
+    "actual_upstream_rework_redye_completion": null,
+    "actual_Auth_and_races_and_browser": null,
+    "full_backup_restore": null,
+    "independent_review": null
+  },
+  "actual_ERP_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false,
+  "installer_preparation_parent_head": "6a7f0e606e59d2205206f85df3d5eac003b67004",
+  "incremental_existing_replacements": 9,
+  "new_private_helpers": 10,
+  "isolated_DDL_all22_exact_unused_inverse": true,
+  "isolated_DDL_installer": {
+    "name": "postgres",
+    "rolsuper": false
+  },
+  "isolated_catalogue_observer": "model_profile_admin",
+  "isolated_admission_controls": {
+    "unittest_methods": 4,
+    "metadata_counterexamples": 16,
+    "profile_authority_counterexamples": 7,
+    "used_rows_or_sequences_counterexamples": 2
+  },
+  "workflow_activated": false
+}
