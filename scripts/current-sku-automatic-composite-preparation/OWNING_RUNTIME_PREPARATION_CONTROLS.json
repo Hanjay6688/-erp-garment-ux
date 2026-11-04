@@ -23,5 +23,8 @@
   "actual_Auth_HTTP_cases": 0,
   "active_workflow_added": false,
   "production_go": false,
-  "independent_acceptance": false
+  "independent_acceptance": false,
+  "decorated_contextmanager_function_cell_bound_to_owning_globals": true,
+  "actual_scoped_print_adapter_output_directory_and_bytes_verified": true,
+  "first_scoped_binding_defect_found_before_financial_activation": true
 }

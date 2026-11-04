@@ -144,3 +144,13 @@ an aliased fixture dictionary; separate JSON documents are now modeled with
 independent containers, and the unchanged validator rejects the source
 mismatch. The first failure is retained. No ERP transaction was executed by
 these controls and no new financial workflow was activated.
+
+The subsequent Mandor scope control found that `contextmanager` wrappers keep
+their generator in a closure cell. Copying only ordinary function globals left
+the decorated case-output scope using its parent output directory. The private
+module binder now preserves the wrapper code and rebinds only that function
+cell to the generator with the owning globals. The expanded SKU control enters
+the actual scoped print adapter, verifies exact complete bytes in the owning
+directory, and checks cleanup. The Afui92a candidate running separately is
+unchanged; neither this stage nor Mandor had run financial cases with that
+prepared binding.

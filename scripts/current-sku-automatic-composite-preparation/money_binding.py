@@ -6,7 +6,7 @@ manifest provider independently verifies the original closed source plus the
 actual pinned Root/source bytes. No transaction, SQL or inverse is rewritten.
 """
 from pathlib import Path
-from types import FunctionType, ModuleType
+from types import CellType, FunctionType, ModuleType
 import importlib.util
 import json
 
@@ -28,17 +28,37 @@ admission = assembly.admission
 
 
 def private_module(original, replacements):
-    """Keep complete code objects, defaults, closures and source filenames."""
+    """Keep code/metadata; rebind source globals and decorated function cells."""
     private = ModuleType(original.__name__ + '_private_actual_parent')
     private.__dict__.update(original.__dict__)
+    def clone(value, namespace, closure):
+        copied = FunctionType(value.__code__, namespace, value.__name__, value.__defaults__, closure)
+        copied.__kwdefaults__ = value.__kwdefaults__
+        copied.__annotations__ = dict(value.__annotations__)
+        copied.__dict__.update(value.__dict__)
+        copied.__qualname__ = value.__qualname__
+        copied.__module__ = value.__module__
+        copied.__doc__ = value.__doc__
+        return copied
+
     for name, value in original.__dict__.items():
-        if name in replacements or not isinstance(value, FunctionType) or value.__globals__ is not original.__dict__:
+        if name in replacements or not isinstance(value, FunctionType):
             continue
-        cloned = FunctionType(value.__code__, private.__dict__, value.__name__, value.__defaults__, value.__closure__)
-        cloned.__kwdefaults__ = value.__kwdefaults__
-        cloned.__annotations__ = dict(value.__annotations__)
-        cloned.__dict__.update(value.__dict__)
-        private.__dict__[name] = cloned
+        if value.__globals__ is original.__dict__:
+            private.__dict__[name] = clone(value, private.__dict__, value.__closure__)
+            continue
+        wrapped = getattr(value, '__wrapped__', None)
+        if isinstance(wrapped, FunctionType) and wrapped.__globals__ is original.__dict__:
+            # contextmanager's wrapper lives in contextlib; its sole function
+            # cell must follow the rebound generator, rather than old globals.
+            rebound = clone(wrapped, private.__dict__, wrapped.__closure__)
+            cells = tuple(CellType(rebound) if cell.cell_contents is wrapped else cell
+                          for cell in value.__closure__ or ())
+            if not any(cell.cell_contents is wrapped for cell in value.__closure__ or ()):
+                raise ValueError('PRIVATE_MODULE_DECORATOR_FUNCTION_CELL_REQUIRED')
+            copied = clone(value, value.__globals__, cells)
+            copied.__wrapped__ = rebound
+            private.__dict__[name] = copied
     private.__dict__.update(replacements)
     return private
 

@@ -1,7 +1,7 @@
 """Owning-entry and real import/provenance controls; no ERP execution."""
 from contextlib import contextmanager, redirect_stdout
 from pathlib import Path
-from types import ModuleType
+from types import FunctionType, ModuleType
 from unittest.mock import patch
 import importlib
 import importlib.util
@@ -205,6 +205,21 @@ class OwningNative25(unittest.TestCase):
                 self.assertTrue(receipt['console_is_only_a_receipt'])
                 self.assertLess(len(text.getvalue().encode()), 2048)
                 self.assertTrue(output.OUT.is_relative_to(root / 'owner'))
+                native_path = frozen / 'scripts/cp6_auditor_runner.py'
+                native_raw = self.entry.assembly.git('show', self.entry.report_io.COMPLETE_ORIGINALS_HEAD + ':scripts/cp6_auditor_runner.py')
+                native_path.write_bytes(native_raw)
+                native = ModuleType('automatic_actual_case_output_scope_fixture')
+                native.__file__ = str(native_path)
+                original = FunctionType(self.entry.report_io.function_code(native_raw, str(native_path), '_strict_group_once'), native.__dict__)
+                native._strict_group_once = original
+                with output.scope(native, 'native'):
+                    self.assertIsNot(native._strict_group_once, original)
+                    with redirect_stdout(io.StringIO()):
+                        scoped = native.__dict__['_afui_retain_complete_case_stdout']('EXPLICIT_SCOPE_MODEL', 'CONTROL', row)
+                    self.assertEqual((output.OUT / scoped['complete_original_file']).read_bytes(),
+                                     (json.dumps(dict(group='EXPLICIT_SCOPE_MODEL', case='CONTROL', **row), default=str) + '\n').encode())
+                self.assertIs(native._strict_group_once, original)
+                self.assertNotIn('_afui_retain_complete_case_stdout', native.__dict__)
                 path.write_bytes(raw + b'\n')
                 with self.assertRaisesRegex(ValueError, 'EXACT_COMPLETE_CASE_OUTPUT_SOURCE'):
                     self.entry.complete_case_output()
