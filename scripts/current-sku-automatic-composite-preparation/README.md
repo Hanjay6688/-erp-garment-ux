@@ -154,3 +154,41 @@ the actual scoped print adapter, verifies exact complete bytes in the owning
 directory, and checks cleanup. The Afui92a candidate running separately is
 unchanged; neither this stage nor Mandor had run financial cases with that
 prepared binding.
+
+The complete owning execution routes are now prepared as `execution.py` and
+the separate, inactive Native25 workflow template. They preserve the six full
+retained candidate, materialization, canonical fetch, process supervision,
+artifact retention and bounded receipt implementations through counted,
+reversible routes. The genuine five owning gates and all three complete input
+files precede every financial helper. A private adapter preserves the retained
+three-input interface while also validating the new complete Native25 plan.
+The retained money gates and its preparation manifest stay unchanged.
+
+Materialization additionally selects the exact automatic source as a fourth
+frozen worktree. Prerequisites and all changed or new outputs are copied across
+all four trees with the original bounded hash and copy functions. Nested full
+per-case output files remain complete. Conflicting destinations and symlinks
+refuse without replacing the first output. Failed-admission retention and the
+original guarded disposable-database cleanup remain available. The exact
+360/330/20/10 process budgets and complete recovery assertions are preserved.
+
+The inactive workflow retains 79 steps, with 67 unchanged and twelve owning
+routes. It rechecks the immutable candidate source and natural full graph under
+the database network fence before starting the disposable database. The real
+job clock is recorded before setup. Its only runtime entry is this namespace's
+qualification, with bounded console hashes and the full artifact directory
+retained on failure. Source admission permits an active workflow only after
+explicit actual-gate adoption and an exact committed workflow pin; the
+preparation admits no active workflow.
+
+Eight local execution controls passed, including a real temporary Git worktree,
+four-tree streamed byte retention, a preserved conflict, symlink refusal,
+immutable bounded receipts, closed financial gates and accidental workflow
+activation refusal. The first control run exposed incomplete temporary test
+paths; those model fixtures were completed without changing the retained
+implementations or financial assertions. A missing local historical Git object
+was fetched by its real immutable identity before testing the full canonical
+fetcher derivation; no source was substituted. These are source/filesystem
+controls and give zero ERP, Auth, race or browser credit. The actual Mandor
+Root, exact current-money graph pin, full source-fence adoption and Native25
+execution are still required.

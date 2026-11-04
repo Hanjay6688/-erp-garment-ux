@@ -45,11 +45,24 @@ def check(*, runtime=False):
         materialized += 1
     changed = assembly.git('diff', '--name-only', base['head'], '--').decode().splitlines()
     namespace = str(HERE.relative_to(root)) + '/'
-    assembly.require(all(name.startswith(namespace) for name in changed), 'SKU_AUTOMATIC_PARENT_DIFF_OUTSIDE_NAMESPACE')
+    workflow_name = '.github/workflows/cp7-sku-current-parent-money-automatic-native25.yml'
+    assembly.require(all(name.startswith(namespace) or (runtime and name == workflow_name) for name in changed),
+                     'SKU_AUTOMATIC_PARENT_DIFF_OUTSIDE_NAMESPACE')
     manifest = json.loads((HERE / 'SOURCE.json').read_bytes())
     own_paths = {namespace + name for name in manifest['files']} | {namespace + 'SOURCE.json'}
+    active = root / workflow_name
+    active_paths = set()
+    if manifest['active_workflow_added']:
+        assembly.require(runtime and active.is_file() and not active.is_symlink()
+                         and assembly.admission.pin(active.read_bytes()) == manifest.get('active_workflow_source'),
+                         'SKU_AUTOMATIC_EXACT_ACTUAL_ACTIVE_WORKFLOW_SOURCE_REQUIRED')
+        active_paths.add(workflow_name)
+    else:
+        assembly.require(not active.exists() and not active.is_symlink()
+                         and manifest.get('active_workflow_source') is None,
+                         'SKU_AUTOMATIC_UNADMITTED_WORKFLOW_MUST_REMAIN_ABSENT')
     actual = {name.decode() for name in assembly.git('ls-files', '-z', '--cached', '--others', '--exclude-standard').split(b'\0') if name}
-    assembly.require(actual == parent | own_paths, 'SKU_AUTOMATIC_EXACT_ADDITIVE_NAMESPACE_REQUIRED')
+    assembly.require(actual == parent | own_paths | active_paths, 'SKU_AUTOMATIC_EXACT_ADDITIVE_NAMESPACE_REQUIRED')
     closed = all(getattr(assembly.admission, key) is None for key in assembly.admission.GATES)
     if runtime:
         assembly.admission.require_ready()
@@ -65,12 +78,17 @@ def check(*, runtime=False):
                 materialized_parent_files_exact=materialized, absent_sparse_parent_files=len(absent),
                 full_runtime_parent_admission_still_required=not runtime, own_files=len(own_paths),
                 unchanged_money_product_files=44, exact_automatic_addition_files=20,
-                all_five_new_gates_unset=closed, active_workflow_added=False,
+                all_five_new_gates_unset=closed, active_workflow_added=manifest['active_workflow_added'],
                 Native_lifecycle_case_plan_pending=False, owning_runtime_prepared=True,
+                execution_helpers_and_workflow_prepared=True,
                 actual_runtime_adoption_pending=closed,
                 private_authority_reviewer_prepared=True,
                 actual_ERP_cases=0, production_go=False, independent_acceptance=False)
 
 
 if __name__ == '__main__':
-    print(json.dumps(check(), sort_keys=True))
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--runtime', action='store_true')
+    args = parser.parse_args()
+    print(json.dumps(check(runtime=args.runtime), sort_keys=True))

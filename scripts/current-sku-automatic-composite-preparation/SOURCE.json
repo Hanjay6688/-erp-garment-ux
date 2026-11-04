@@ -29,6 +29,10 @@
       "bytes": 845,
       "sha256": "2d4f1d5bbd9f1a0632f6fc5a8e2600d2a549c2f3766d95ad72aec074f8e3f1f8"
     },
+    "EXECUTION_PREPARATION_CONTROLS.json": {
+      "bytes": 4700,
+      "sha256": "1c894a220dff6f4b69c1714f1f6901ef2e3188f40f01a9b1e4769b14adf22c54"
+    },
     "OWNING_RUNTIME_PREPARATION_CONTROLS.json": {
       "bytes": 1418,
       "sha256": "eade022ff7f08f3660be985823f3f8bf78c2f95947b7f09a5f430a09717d53d0"
@@ -42,8 +46,8 @@
       "sha256": "f5474148bc4d3cb872585b48978e747081d9f4ab562a30f6e4e84089cc9d4e8a"
     },
     "README.md": {
-      "bytes": 10253,
-      "sha256": "41cb291cf854697f0160ef30d668dc63f57ed1edbb160b58991e77e68cc6c7d0"
+      "bytes": 12766,
+      "sha256": "a0572456481e9e726765705bff635f60d9e45af6ae441d65e5c9192cf75fc942"
     },
     "SOURCE_REFERENCE.json": {
       "bytes": 9808,
@@ -62,8 +66,8 @@
       "sha256": "b20fe97e1ab0507ab04882c6bbb67173df1d787be3ded2e87285107f16b90171"
     },
     "check_source.py": {
-      "bytes": 4103,
-      "sha256": "2000e4791f16b971fe652ba33be20a7de73ed32a4ad1fab73e3edffb0905d259"
+      "bytes": 5195,
+      "sha256": "8752be174d6e8688844f636b55f64af0e69e7e6b5a3e56e78cb8a0c551e59699"
     },
     "component.py": {
       "bytes": 5324,
@@ -72,6 +76,10 @@
     "derive.py": {
       "bytes": 2856,
       "sha256": "a2014f8d7abf5b1e4cd7847862af2a4207cf660ef993cef2f7baa942822c57cc"
+    },
+    "execution.py": {
+      "bytes": 9962,
+      "sha256": "144e817f268996bf9180f38d68f096059be8ed9e6aae7df3f0c4c674016bd024"
     },
     "final_gate.py": {
       "bytes": 8506,
@@ -117,6 +125,10 @@
       "bytes": 6395,
       "sha256": "ba0b685df49cd10334210b88bb3bbafa345a07bd4490d6625d099605cdc035c0"
     },
+    "sku-current-parent-money-automatic-native25.workflow.yml.txt": {
+      "bytes": 34000,
+      "sha256": "744ad23ae4c4c97253bb33e22904b567d400571e8107cf2ba8f157a5e1b0f800"
+    },
     "test_advisor_model.mjs": {
       "bytes": 3604,
       "sha256": "400c1517689db2f7a047aa6c0b4918125abe8f711f2b5d12f903dc022dfc3770"
@@ -128,6 +140,10 @@
     "test_bridge.py": {
       "bytes": 6489,
       "sha256": "7a3ad363fab256adb673b80bef5ef7428dc2f506669cdd3a339d0c9721833805"
+    },
+    "test_execution.py": {
+      "bytes": 11258,
+      "sha256": "9d69d1a738c6d86007bf62ad5e82e5af00b928eaa0ddea890c6880af6e7e2185"
     },
     "test_final_gate.py": {
       "bytes": 8731,
@@ -148,6 +164,10 @@
     "test_report_io.py": {
       "bytes": 6149,
       "sha256": "14f29ede80ec3aab71abc0d74f08fcf6b7d44dc8b9c9d78be1d3312a5f42ac74"
+    },
+    "workflow.py": {
+      "bytes": 8081,
+      "sha256": "78e4c5f4bcd21ebfc8d5a722da6e25528162cd460c1beeecb41709722d3a3f36"
     }
   },
   "prepared_upstream_native_callbacks": 6,
@@ -174,5 +194,11 @@
   "owning_runtime_prepared": true,
   "actual_runtime_adoption_pending": true,
   "actual_parent_adopted": false,
-  "prepared_runtime_entry": "scripts/current-sku-automatic-composite-preparation/qualification.py"
+  "prepared_runtime_entry": "scripts/current-sku-automatic-composite-preparation/qualification.py",
+  "execution_helpers_and_workflow_prepared": true,
+  "execution_control_methods": 8,
+  "prepared_frozen_source_trees": 4,
+  "prepared_workflow_steps": 79,
+  "prepared_workflow_unchanged_steps": 67,
+  "active_workflow_source": null
 }

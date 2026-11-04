@@ -1,0 +1,132 @@
+{
+  "classification": "LOCAL_SOURCE_GIT_FILESYSTEM_CONTROLS_NOT_ERP_ACCEPTANCE",
+  "execution_control_methods": 8,
+  "financial_helpers_require_all_five_actual_gates": true,
+  "retained_helper_derivations": {
+    "candidate": {
+      "retained": {
+        "bytes": 5405,
+        "sha256": "ca6829e41a08c20ac8f53148a2e163050a4bfe7e1ca3277b73d9a892a83b63a6"
+      },
+      "derived": {
+        "bytes": 5377,
+        "sha256": "28ac334f9ab2e2572d1aea5bca98c0d92ed1a1c697cf60730ad20991bc304932"
+      },
+      "exact_reversible_routes": 1,
+      "complete_original_recovered": true,
+      "financial_and_recovery_assertions_unchanged": true,
+      "actual_ERP_cases": 0
+    },
+    "materialize": {
+      "retained": {
+        "bytes": 2132,
+        "sha256": "388e3fd0d6bac6953ac6f9c0e69f441b834533d7a520b690eebb03186aec9554"
+      },
+      "derived": {
+        "bytes": 2188,
+        "sha256": "8405f2d40a56b4dad17a970d7967f072580e78947b268d00ee879cee57e05bed"
+      },
+      "exact_reversible_routes": 6,
+      "complete_original_recovered": true,
+      "financial_and_recovery_assertions_unchanged": true,
+      "actual_ERP_cases": 0
+    },
+    "fetch": {
+      "retained": {
+        "bytes": 4596,
+        "sha256": "e5d4033abda157ec254cfb645cffa73d8206d5fce1591831ba16e47e2459ecf7"
+      },
+      "derived": {
+        "bytes": 4544,
+        "sha256": "1e212b537bc46c32a38033d7fbdcee6a09e53c773885b697f791079bec80457b"
+      },
+      "exact_reversible_routes": 2,
+      "complete_original_recovered": true,
+      "financial_and_recovery_assertions_unchanged": true,
+      "actual_ERP_cases": 0
+    },
+    "supervisor": {
+      "retained": {
+        "bytes": 2274,
+        "sha256": "232b020be549b58ece0521ebf6e785b62615126e6ef9b064260cd6c8d54847af"
+      },
+      "derived": {
+        "bytes": 2220,
+        "sha256": "9bc64a59fb35b1b6b1470166f58f5a01749669e5839df40cbf554ae6a63681ce"
+      },
+      "exact_reversible_routes": 7,
+      "complete_original_recovered": true,
+      "financial_and_recovery_assertions_unchanged": true,
+      "actual_ERP_cases": 0
+    },
+    "artifacts": {
+      "retained": {
+        "bytes": 4122,
+        "sha256": "4923072e22e0582da6457d8a9ed8391053bf6f57f4481e7136b7004c81f706d3"
+      },
+      "derived": {
+        "bytes": 4150,
+        "sha256": "299e8f464f1419f26d0723f2e824565e1b43fa935dd472c4872a77b3ffc2541a"
+      },
+      "exact_reversible_routes": 5,
+      "complete_original_recovered": true,
+      "financial_and_recovery_assertions_unchanged": true,
+      "actual_ERP_cases": 0
+    },
+    "receipts": {
+      "retained": {
+        "bytes": 2184,
+        "sha256": "e19c16b4c5786e2e798eb8fff5f07b0ab6642101ea3607f3c6de9f4c164ff2df"
+      },
+      "derived": {
+        "bytes": 2215,
+        "sha256": "83b66a75aab28bd32d8977d122b63b1c27e53d20e1e6d7bda585497b362f6ccb"
+      },
+      "exact_reversible_routes": 2,
+      "complete_original_recovered": true,
+      "financial_and_recovery_assertions_unchanged": true,
+      "actual_ERP_cases": 0
+    }
+  },
+  "first_fixture_failures_retained": true,
+  "canonical_fetch_full_nested_derivation": {
+    "original": {
+      "bytes": 4764,
+      "sha256": "28dc2c71b9bb88fa72b5049de75561edf2856a4c2b216dedc6c1da9683412153"
+    },
+    "derived_sha256": "92f6abe82e818ee9c30a76aecd928d1a0cf5e8530861b11a2b7d0a3926f377d8",
+    "exact_routes": 21,
+    "complete_original_recovered": true,
+    "terminal_run_job_attempt_head_archive_SHA_size_CRC_and_paths_unchanged": true,
+    "actual_GitHub_GETs": 0,
+    "actual_composite_cases": 0,
+    "production_go": false
+  },
+  "unchanged_supervisor_full_nested_derivation": {
+    "parent_derivation": {
+      "original_bytes": 8914,
+      "original_sha256": "af04570b8aecef5d7b0c9b1dfd5ab04942aec32fee8c2fdb908663108c97e149",
+      "derived_sha256": "868e1ae1746c788481c6c25d84caf6c392ac1574277f7cf9910d7aaab7475376",
+      "exact_reversible_routes": 4,
+      "original_bytes_recovered": true,
+      "prior_ten_process_controls_reused": true,
+      "original_360_330_20_10_minute_budgets_unchanged": true,
+      "actual_ERP_cases": 0,
+      "production_go": false,
+      "independent_acceptance": false
+    },
+    "original_sha256": "868e1ae1746c788481c6c25d84caf6c392ac1574277f7cf9910d7aaab7475376",
+    "derived_sha256": "bb4b4460e1e023a614cf5fce1e9226f34a67ce600236db29d20fcdec24f6366c",
+    "exact_routes": 3,
+    "complete_original_recovered": true,
+    "real_360_330_20_10_budgets_unchanged": true,
+    "actual_composite_cases": 0,
+    "production_go": false
+  },
+  "four_frozen_tree_complete_streamed_retention": true,
+  "actual_ERP_cases": 0,
+  "actual_Auth_HTTP_cases": 0,
+  "actual_browser_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}
