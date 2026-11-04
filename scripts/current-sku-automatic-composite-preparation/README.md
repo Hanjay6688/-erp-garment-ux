@@ -16,9 +16,10 @@ accepted Mandor parent; no separate money19 acceptance is demanded.
 All five new admission values remain unset. The old ten current-money gates
 are unchanged. The loader refuses before inspecting caller modules, receipts,
 files or ERP. Adoption still needs the actual current Mandor17 Root and all
-five gates, unchanged money source-only admission, a complete combined Native
+five gates, unchanged money source-only admission, the complete combined Native
 plan covering upstream rework/redye completion and a real owning runtime.
-That case plan and runtime are still pending; no workflow is activated here.
+The Native25 plan is now prepared; the owning runtime and its admission
+remain pending. No workflow is activated here.
 
 Four upstream Native callbacks are now prepared: rework and unknown-price
 redye with a real two-root moving average, exact parent replay and full parent
@@ -29,14 +30,13 @@ average comes from the two Native HPP roots and quantities, not the candidate
 quote. The failed completion checks all22/all table rows and retains real
 sequence advancement, whose restoration still belongs to the outer backup.
 
-Twenty source-declared SQL statements resolve against exact retained PG17
-column/signature types without execution. Four original mistaken column names
+Thirty-five source-declared callback and preflight SQL statements resolve
+against exact retained PG17 column/signature types without execution. Four original mistaken column names
 are rejected by those same types. Transaction controls are reported separately.
-Six helper signatures are also checked from their original declarations; full
+Ten helper signatures are checked from their original declarations; full
 natural module binding remains required in the actual owning runtime. These
-are preparation checks, not four executed ERP cases. Late-invoice behavior,
-current Auth/concurrency, full runtime/case-plan admission and recovery remain
-open.
+are preparation checks, rather than executed ERP cases. Current
+Auth/concurrency, full runtime/plan admission and recovery remain open.
 
 The source checker distinguishes the full immutable Git parent identity from
 the files actually materialized in a sparse checkout. It never labels absent
@@ -57,3 +57,28 @@ a failed encoder preserves the preceding complete report. Five local controls
 cover exact-source rejection, full compiler context, output identity, nested
 scope refusal and cleanup. No running Afui source or child runtime is changed;
 actual runtime adoption and full recovery remain pending.
+
+Two additional Native callbacks now prepare lawful supplier invoices and
+inverses after actual rework/redye completion. They compare present Native
+root totals with raw PO-scoped FG/COGS journal lines, verify the independent
+two-of-eight economic root custody, preserve exact parent replay and original
+conversion/admission history, and require a later recost to leave the reversed
+child voided. They never use the non-PO product reader as a PO oracle.
+
+The combined component retains all nineteen original money callbacks and
+assertions, then appends the six upstream callbacks. One read-only preflight
+collects all original prerequisites and the exact additional completion and
+supplier-invoice actors, functions, permissions and natural helper shapes.
+Permission names are bound to their retained Native SQL declarations. Both
+actor checks restore their original session scope even after refusal. Every
+case still uses the original strict group, exact public catalogue observation,
+complete current census and real monotonic sequence prefixes; the separate
+committed-use guard and whole outer recovery are unchanged.
+
+The complete package derivation adopts the prepared atomic report output and
+changes two labels. Native counts still come from completed callbacks; fresh
+Auth, race and browser counts remain zero. Six source/closed-entry controls
+pass. This prepares Native25, rather than qualifying the complete child or
+providing an active owning runtime. All five new and ten old gates remain
+unset. Full actual Mandor Root intake and deliberate current source-fence
+adoption must precede any financial activation.

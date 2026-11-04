@@ -16,7 +16,7 @@
     "production_go": false
   },
   "all_admission_values_unset": true,
-  "Native_lifecycle_case_plan_pending": true,
+  "Native_lifecycle_case_plan_pending": false,
   "owning_runtime_pending": true,
   "active_workflow_added": false,
   "actual_ERP_cases": 0,
@@ -26,8 +26,8 @@
   "independent_acceptance": false,
   "files": {
     "README.md": {
-      "bytes": 3781,
-      "sha256": "7e3a1d657d63ca39867578957437ab51c1ec0ae565aaa6e083bdc179491695b7"
+      "bytes": 5446,
+      "sha256": "4b4801b079aee7d51a3d5411ce9a5a481c62fd3b31adfeeebbf1fcb15651d7cc"
     },
     "SOURCE_REFERENCE.json": {
       "bytes": 9808,
@@ -54,16 +54,16 @@
       "sha256": "8eef6154e97c1b88f6f919eb27bfb835860c204a37de476a86289129ac4c5e87"
     },
     "prepare_native_sql.py": {
-      "bytes": 3883,
-      "sha256": "76f2e8d5b060edbd451928bc0baeae27fd6c912bba7751a98b491dbb95844108"
+      "bytes": 4284,
+      "sha256": "5535ce276253d5ce6f10157cc825e75499ef2e2cf6b225dac3213317e6cb1966"
     },
     "test_bridge.py": {
       "bytes": 6489,
       "sha256": "7a3ad363fab256adb673b80bef5ef7428dc2f506669cdd3a339d0c9721833805"
     },
     "test_native_sql.mjs": {
-      "bytes": 2921,
-      "sha256": "b9c076e6397361834748babd92496a23b76ce1f2d4ef0b17377bd901c00058c9"
+      "bytes": 2949,
+      "sha256": "a81b36fb904e651e53bb1db86218ecec71cef660d11ca8a7cb5b38d82acbc86a"
     },
     "report_io.py": {
       "bytes": 5533,
@@ -72,12 +72,44 @@
     "test_report_io.py": {
       "bytes": 6149,
       "sha256": "14f29ede80ec3aab71abc0d74f08fcf6b7d44dc8b9c9d78be1d3312a5f42ac74"
+    },
+    "PREPARED_NATIVE25_PLAN.json": {
+      "bytes": 2505,
+      "sha256": "5871f91fcc3ed783eaac4a33350488aecdff7ae360fafce461534646529a7b59"
+    },
+    "PREREQUISITE_SOURCE.json": {
+      "bytes": 2482,
+      "sha256": "f5474148bc4d3cb872585b48978e747081d9f4ab562a30f6e4e84089cc9d4e8a"
+    },
+    "component.py": {
+      "bytes": 4532,
+      "sha256": "234a55f99fb4036ed9571bcff10cb8a6c2e9c3dd6660dd66e96777d9a785590c"
+    },
+    "native_invoice_cases.py": {
+      "bytes": 10139,
+      "sha256": "bb4df7df9f42aa9155b1b12f801650561661a77127b91fb2d360b9df8be039eb"
+    },
+    "native_preflight.py": {
+      "bytes": 4638,
+      "sha256": "f543940f70ba4e9ab0232f78d6560f089fef18f9f0024bf4d25913977fb25e5c"
+    },
+    "native_suite.py": {
+      "bytes": 1817,
+      "sha256": "16022261c9accf67f2251217c15c004bbeb565a417ff8669c91c1bf1bc4f7c7d"
+    },
+    "package.py": {
+      "bytes": 2193,
+      "sha256": "3b51ab6bbd4d6aa4981adfe43c646c060b92ce04402859344e1359d5260cf05b"
+    },
+    "test_native25.py": {
+      "bytes": 7423,
+      "sha256": "d5a1e164f9238ca36a648de1b49abf469b2653327ec9367e5051db3a2f434053"
     }
   },
-  "prepared_upstream_native_callbacks": 4,
-  "callback_SQL_statements_type_checked": 20,
+  "prepared_upstream_native_callbacks": 6,
+  "callback_SQL_statements_type_checked": 35,
   "old_bad_column_counterexamples": 4,
-  "callback_helper_declaration_shapes": 6,
+  "callback_helper_declaration_shapes": 10,
   "natural_runtime_module_binding_still_required": true,
   "complete_report_output_preparation": {
     "exact_parent_engines": [
@@ -89,5 +121,9 @@
     "actual_runtime_adopted": false,
     "financial_and_recovery_statements_unchanged": true,
     "actual_ERP_cases": 0
-  }
+  },
+  "Native_lifecycle_case_plan_prepared_not_admitted": true,
+  "prepared_combined_Native_callbacks": 25,
+  "prepared_Native25_source_control_methods": 6,
+  "fresh_Auth_HTTP_races_browser_and_full_runtime_pending": true
 }

@@ -21,18 +21,18 @@ try{
  }
  const checked=[],transactionControls=[];
  for(const statement of input.statements){
-  stage='CALLBACK_LINE_'+statement.line;
+  stage=statement.source+':'+statement.line;
   if(/^(savepoint|rollback to savepoint|release savepoint)\b/i.test(statement.sql)){
    transactionControls.push(statement);continue;
   }
   let number=0;const sql=statement.sql.replaceAll('%s',()=>'$'+(++number));
   await db.exec('prepare callback_'+checked.length+' as '+sql);
-  checked.push({line:statement.line,parameters:number,sql:statement.sql});
+  checked.push({source:statement.source,line:statement.line,parameters:number,sql:statement.sql});
  }
  for(const name of Object.keys(input.tables))assert.equal((await db.query('select count(*)count from '+name)).rows[0].count,0);
  const report={status:'POSTGRES17_CALLBACK_SQL_TYPES_PASS_NO_BUSINESS_EXECUTION',engine:(await db.query('select version()version')).rows[0].version,
   source:input.source,tables:Object.keys(input.tables),checked,transactionControls,columnCounters,actual_ERP_cases:0,business_commands_executed:0,production_go:false};
- assert(checked.length>10);assert.equal(transactionControls.length,3);
+ assert(checked.length>30);assert.equal(transactionControls.length,6);
  await writeFile(process.env.CP7_AUTO_NATIVE_SQL_REPORT,JSON.stringify(report,null,2)+'\n');
  console.log(JSON.stringify({status:report.status,checked:checked.length,transaction_controls:transactionControls.length,old_column_counterexamples:columnCounters.length,business_commands_executed:0}));
 }catch(error){

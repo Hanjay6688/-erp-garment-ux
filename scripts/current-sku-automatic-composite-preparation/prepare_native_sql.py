@@ -12,28 +12,32 @@ import sys
 HERE = Path(__file__).resolve().parent
 
 
-def prepare(catalog_path, money_profile_path, auto_profile_path, destination):
-    paths = tuple(map(Path, (catalog_path, money_profile_path, auto_profile_path)))
-    native, money, automatic = [json.loads(path.read_bytes()) for path in paths]
-    columns = dict(native['columns']) | money['groups']['columns'] | automatic['groups']['columns']
-    source = (HERE / 'native_cases.py').read_bytes()
-    tree = ast.parse(source)
+def prepare(catalog_path, moving_profile_path, money_profile_path, auto_profile_path, destination):
+    paths = tuple(map(Path, (catalog_path, moving_profile_path, money_profile_path, auto_profile_path)))
+    native, *profiles = [json.loads(path.read_bytes()) for path in paths]
+    columns = dict(native['columns'])
+    for profile in profiles:
+        columns.update(profile['groups']['columns'])
+    names = ('native_cases.py', 'native_invoice_cases.py', 'native_preflight.py')
+    sources = {name: (HERE / name).read_bytes() for name in names}
     statements = []
-    for node in ast.walk(tree):
-        if not isinstance(node, ast.Call):
-            continue
-        offset = 1 if isinstance(node.func, ast.Name) and node.func.id == 'one' else (
-            0 if isinstance(node.func, ast.Attribute) and node.func.attr == 'execute' else None)
-        if offset is None or len(node.args) <= offset:
-            continue
-        try:
-            sql = ast.literal_eval(node.args[offset])
-        except (ValueError, TypeError):
-            continue
-        if not isinstance(sql, str):
-            continue
-        statements.append(dict(line=node.lineno, sql=sql))
-    # Retain every source-declared statement, including the three transaction
+    for name, raw in sources.items():
+        for node in ast.walk(ast.parse(raw)):
+            if not isinstance(node, ast.Call):
+                continue
+            called = (node.func.id if isinstance(node.func, ast.Name) else
+                      node.func.attr if isinstance(node.func, ast.Attribute) else None)
+            offset = 1 if called == 'one' else 0 if called == 'execute' else None
+            if offset is None or len(node.args) <= offset:
+                continue
+            try:
+                sql = ast.literal_eval(node.args[offset])
+            except (ValueError, TypeError):
+                continue
+            if not isinstance(sql, str):
+                continue
+            statements.append(dict(source=name, line=node.lineno, sql=sql))
+    # Retain every source-declared statement, including all transaction
     # controls. The PG17 check reports those separately rather than hiding them.
     tables = set()
     import re
@@ -51,10 +55,11 @@ def prepare(catalog_path, money_profile_path, auto_profile_path, destination):
     if missing:
         raise ValueError('AUTOMATIC_CALLBACK_EXACT_TABLE_COLUMNS_REQUIRED:' + ','.join(missing))
     functions = {sig: native['functions'][sig][0] for sig in (
-        'erp.get_hpp_completeness(uuid)', 'public.erp_save_product_conversion_action_v1(text,jsonb,uuid)')}
-    out = dict(classification='ISOLATED_CALLBACK_SQL_ANALYSIS_NOT_ERP', source=dict(bytes=len(source), sha256=sha256(source).hexdigest()),
+        'erp.get_hpp_completeness(uuid)', 'public.erp_save_product_conversion_action_v1(text,jsonb,uuid)',
+        'erp.current_app_role()', 'erp.has_permission(text)')}
+    out = dict(classification='ISOLATED_CALLBACK_SQL_ANALYSIS_NOT_ERP', source={name: dict(bytes=len(raw), sha256=sha256(raw).hexdigest()) for name, raw in sources.items()},
                input_sources={str(path): dict(bytes=path.stat().st_size, sha256=sha256(path.read_bytes()).hexdigest()) for path in paths},
-               tables=typed, functions=functions, statements=sorted(statements, key=lambda item: item['line']),
+               tables=typed, functions=functions, statements=sorted(statements, key=lambda item: (item['source'], item['line'])),
                old_column_counterexamples=[
                    'select unit_hpp from erp.product_conversion_allocations',
                    'select event_id from erp.be_conversion_cost_sources_v1',
