@@ -1,0 +1,685 @@
+{
+  "status": "PREPARED_COMPOSITE_CALLBACK_REVIEW_NOT_FINAL_INPUT_PROFILE",
+  "retained_actual25": {
+    "bytes": 14755737,
+    "sha256": "80856b7ec2cebf08318a21617091b73c6744161b72bb3be98bcb9ecd2b8109eb"
+  },
+  "prior_source_review": {
+    "bytes": 917371,
+    "sha256": "6c18953212bc277b0fa498a06cbcbd2710791e6db2eaa3037196bead6d46393e"
+  },
+  "installation_SQL": {
+    "scripts/cp7_mandor_shop/schema.sql": {
+      "bytes": 12510,
+      "sha256": "59c1b8e69555f6a8e0caf34e8d0ee18e27c1d4caaee8073c44225bbc4a687fd1"
+    },
+    "scripts/cp7_mandor_shop/events.sql": {
+      "bytes": 8216,
+      "sha256": "9e2633af5d9ecff6220c37cdf8bb22a27ce71cbc03862c8aa40a1fadfd82a1d3"
+    },
+    "scripts/cp7_mandor_shop/buyers.sql": {
+      "bytes": 10735,
+      "sha256": "5bfeb12b4103ca88f48b84a213098b33a90e7ead52398a5025213d9188e47617"
+    },
+    "scripts/cp7_mandor_shop/sale_identity.sql": {
+      "bytes": 5069,
+      "sha256": "98964804488c94f0ffee865068327a8b6fb37fc8b7c6e037e97af32525a672ea"
+    },
+    "scripts/cp7_mandor_shop/allocation.sql": {
+      "bytes": 17249,
+      "sha256": "250dadca8ff8d1873aa7489648aa723ecb4bedea943e56a08c59c2e944dd79d2"
+    },
+    "scripts/cp7_mandor_shop/offset_projection.sql": {
+      "bytes": 11629,
+      "sha256": "51c8954eb3d66a280699dc0848b7d4aab3326dcf388a4f04ce7be385c36f71a2"
+    },
+    "scripts/cp7_mandor_shop/payment_owner.sql": {
+      "bytes": 20924,
+      "sha256": "967f20999cf23bd6a76610300fb35f61fe01d733053db7fbefdf3da112902056"
+    },
+    "scripts/cp7_mandor_shop/payment_guards.sql": {
+      "bytes": 10946,
+      "sha256": "0405c0a9c807ef0be3881c2a32c69a152e2a0614bc8efb1f5572ac715683d771"
+    },
+    "scripts/cp7_mandor_shop/command_guards.sql": {
+      "bytes": 3177,
+      "sha256": "3205333351a219586ecc52ce2fcf3ed6408430d39a45f8a03592a92e14c2c7dc"
+    },
+    "DERIVED_MANDOR_FACADES": {
+      "bytes": 12279,
+      "sha256": "4fae993f72961292620f88073feafad66d59f895f93ea854e9ae7dd76eba8116"
+    },
+    "scripts/cp7_accessory_nonpayable/policy.sql": {
+      "bytes": 11807,
+      "sha256": "042c30ce6c8242b0626270d2a74f0433df4b5fc57cb8af0d4198a79a8f41cd20"
+    },
+    "scripts/cp7_accessory_nonpayable/basis.sql": {
+      "bytes": 12754,
+      "sha256": "cfeb2a231d481f38e0967beaa417bf0c8f64aea9f376940cbf093d3be88ed8aa"
+    },
+    "scripts/cp7_accessory_nonpayable/settings.sql": {
+      "bytes": 16348,
+      "sha256": "affee25285953f007d9bf0175ca33c891a54343310968c64be247ed61217f15e"
+    }
+  },
+  "declared_functions": 60,
+  "declared_tables": 18,
+  "declared_triggers": 35,
+  "declared_foreign_keys": 43,
+  "direct_Native_function_overlap_with_prior_review": [],
+  "additional_firing_triggers": [
+    {
+      "name": "mandor_shop_journal_owner",
+      "relation": "erp.journal_entries",
+      "function": "cp7_mandor_shop.guard_payment_journal",
+      "events": 28,
+      "timing": 2,
+      "deferrable": false,
+      "initially_deferred": false,
+      "source": "scripts/cp7_mandor_shop/payment_guards.sql"
+    },
+    {
+      "name": "mandor_shop_journal_line_owner",
+      "relation": "erp.journal_lines",
+      "function": "cp7_mandor_shop.guard_payment_journal_line",
+      "events": 28,
+      "timing": 2,
+      "deferrable": false,
+      "initially_deferred": false,
+      "source": "scripts/cp7_mandor_shop/payment_guards.sql"
+    },
+    {
+      "name": "mandor_shop_journal_exact_at_commit",
+      "relation": "erp.journal_entries",
+      "function": "cp7_mandor_shop.deferred_payment_journal",
+      "events": 20,
+      "timing": 0,
+      "deferrable": true,
+      "initially_deferred": true,
+      "source": "scripts/cp7_mandor_shop/payment_guards.sql"
+    },
+    {
+      "name": "mandor_shop_journal_lines_exact_at_commit",
+      "relation": "erp.journal_lines",
+      "function": "cp7_mandor_shop.deferred_payment_journal",
+      "events": 28,
+      "timing": 0,
+      "deferrable": true,
+      "initially_deferred": true,
+      "source": "scripts/cp7_mandor_shop/payment_guards.sql"
+    }
+  ],
+  "additional_parent_side_foreign_keys": [
+    {
+      "child": "cp7_mandor_shop.settlements",
+      "columns": [
+        "journal_id"
+      ],
+      "parent": "erp.journal_entries",
+      "referenced_columns": [
+        "id"
+      ],
+      "update_action": "a",
+      "delete_action": "a",
+      "deferrable": false,
+      "initially_deferred": false,
+      "source": "scripts/cp7_mandor_shop/schema.sql"
+    },
+    {
+      "child": "cp7_mandor_shop.settlement_reversals",
+      "columns": [
+        "reversal_journal_id"
+      ],
+      "parent": "erp.journal_entries",
+      "referenced_columns": [
+        "id"
+      ],
+      "update_action": "a",
+      "delete_action": "a",
+      "deferrable": false,
+      "initially_deferred": false,
+      "source": "scripts/cp7_mandor_shop/schema.sql"
+    },
+    {
+      "child": "cp7_accessory_nonpayable.good_bases_v1",
+      "columns": [
+        "snapshot_id"
+      ],
+      "parent": "erp.fg_accessory_cost_snapshots",
+      "referenced_columns": [
+        "id"
+      ],
+      "update_action": "a",
+      "delete_action": "a",
+      "deferrable": false,
+      "initially_deferred": false,
+      "source": "scripts/cp7_accessory_nonpayable/basis.sql"
+    },
+    {
+      "child": "cp7_accessory_nonpayable.good_bases_v1",
+      "columns": [
+        "lot_id"
+      ],
+      "parent": "erp.fg_lots",
+      "referenced_columns": [
+        "id"
+      ],
+      "update_action": "a",
+      "delete_action": "a",
+      "deferrable": false,
+      "initially_deferred": false,
+      "source": "scripts/cp7_accessory_nonpayable/basis.sql"
+    }
+  ],
+  "new_callback_sources": {
+    "cp7_mandor_shop.deferred_payment_journal()": {
+      "source": "scripts/cp7_mandor_shop/payment_guards.sql",
+      "definition": {
+        "bytes": 1039,
+        "sha256": "464e510e6ca8e9a169c675d49940d69913246e44eded1e847ed180c637628b5c"
+      },
+      "language": "plpgsql",
+      "types": [
+        "boolean",
+        "cp7_mandor_shop.settlements",
+        "erp.journal_entries",
+        "uuid"
+      ],
+      "operators": [
+        "="
+      ],
+      "calls": [
+        "cp7_mandor_shop.offset_proof",
+        "cp7_mandor_shop.protected_journal"
+      ],
+      "relations": [
+        "cp7_mandor_shop.settlement_reversals",
+        "cp7_mandor_shop.settlements",
+        "erp.journal_entries"
+      ],
+      "writes": [],
+      "digest_calls": [],
+      "dynamic": [],
+      "opaque": false
+    },
+    "cp7_mandor_shop.guard_payment_journal()": {
+      "source": "scripts/cp7_mandor_shop/payment_guards.sql",
+      "definition": {
+        "bytes": 3276,
+        "sha256": "f3db7554ef5eb1a954768ec7da0884579985193e272d0673c15f64949f252222"
+      },
+      "language": "plpgsql",
+      "types": [
+        "boolean",
+        "cp7_mandor_shop.command_context",
+        "cp7_mandor_shop.payment_work",
+        "cp7_mandor_shop.settlements",
+        "erp.journal_entries"
+      ],
+      "operators": [
+        "-",
+        "<>",
+        "="
+      ],
+      "calls": [
+        "cp7_mandor_shop.protected_journal",
+        "cp7_mandor_shop.require_context",
+        "pg_backend_pid",
+        "to_jsonb",
+        "txid_current_if_assigned"
+      ],
+      "relations": [
+        "cp7_mandor_shop.payment_work",
+        "cp7_mandor_shop.settlements",
+        "erp.journal_entries",
+        "erp.payroll_settlements"
+      ],
+      "writes": [],
+      "digest_calls": [],
+      "dynamic": [],
+      "opaque": false
+    },
+    "cp7_mandor_shop.guard_payment_journal_line()": {
+      "source": "scripts/cp7_mandor_shop/payment_guards.sql",
+      "definition": {
+        "bytes": 1852,
+        "sha256": "2e2c5ff6ae91a7064aa7f0c63066c040ffc22666e893d00b6175242ba5b3c776"
+      },
+      "language": "plpgsql",
+      "types": [
+        "boolean",
+        "cp7_mandor_shop.command_context",
+        "cp7_mandor_shop.payment_work",
+        "cp7_mandor_shop.settlements",
+        "erp.journal_entries"
+      ],
+      "operators": [
+        "<>",
+        "="
+      ],
+      "calls": [
+        "cp7_mandor_shop.protected_journal",
+        "cp7_mandor_shop.require_context",
+        "pg_backend_pid",
+        "txid_current_if_assigned"
+      ],
+      "relations": [
+        "cp7_mandor_shop.payment_work",
+        "cp7_mandor_shop.settlement_reversals",
+        "cp7_mandor_shop.settlements",
+        "erp.journal_entries"
+      ],
+      "writes": [],
+      "digest_calls": [],
+      "dynamic": [],
+      "opaque": false
+    },
+    "cp7_mandor_shop.offset_proof(uuid)": {
+      "source": "scripts/cp7_mandor_shop/offset_projection.sql",
+      "definition": {
+        "bytes": 6339,
+        "sha256": "69882e6b112093b2472f3c4ac063185d02b0fd2b98787bef79849bc30791af17"
+      },
+      "language": "plpgsql",
+      "types": [
+        "boolean",
+        "cp7_mandor_shop.offset_accounts",
+        "cp7_mandor_shop.settlement_reversals",
+        "cp7_mandor_shop.settlements",
+        "erp.journal_entries",
+        "erp.payroll_settlements",
+        "integer",
+        "numeric",
+        "uuid"
+      ],
+      "operators": [
+        "+",
+        "<>",
+        "="
+      ],
+      "calls": [
+        "bool_and",
+        "count",
+        "jsonb_build_object",
+        "sum"
+      ],
+      "relations": [
+        "cp7_mandor_shop.allocation_events",
+        "cp7_mandor_shop.allocation_states",
+        "cp7_mandor_shop.deduction_links",
+        "cp7_mandor_shop.offset_accounts",
+        "cp7_mandor_shop.sales",
+        "cp7_mandor_shop.settlement_lines",
+        "cp7_mandor_shop.settlement_reversals",
+        "cp7_mandor_shop.settlements",
+        "erp.journal_entries",
+        "erp.journal_lines",
+        "erp.payroll_deductions",
+        "erp.payroll_settlements",
+        "erp.sales_headers"
+      ],
+      "writes": [],
+      "digest_calls": [],
+      "dynamic": [],
+      "opaque": false
+    },
+    "cp7_mandor_shop.protected_journal(erp.journal_entries)": {
+      "source": "scripts/cp7_mandor_shop/payment_guards.sql",
+      "definition": {
+        "bytes": 681,
+        "sha256": "37a66db2ee30334e699503e9b7a286af2df604f0573f60a6d190651e180d067b"
+      },
+      "language": "sql",
+      "types": [],
+      "operators": [
+        "=",
+        "||"
+      ],
+      "calls": [],
+      "relations": [
+        "ancestry",
+        "erp.journal_entries"
+      ],
+      "writes": [],
+      "digest_calls": [],
+      "dynamic": [],
+      "opaque": false
+    },
+    "cp7_mandor_shop.require_context(text[])": {
+      "source": "scripts/cp7_mandor_shop/events.sql",
+      "definition": {
+        "bytes": 649,
+        "sha256": "4920caad65faeb746f7c9d3a9e737fddd18db65b05fe0c83d1adbb2bd552e65f"
+      },
+      "language": "plpgsql",
+      "types": [
+        "boolean",
+        "cp7_mandor_shop.command_context",
+        "text"
+      ],
+      "operators": [
+        "="
+      ],
+      "calls": [
+        "auth.uid",
+        "pg_backend_pid",
+        "txid_current_if_assigned"
+      ],
+      "relations": [
+        "cp7_mandor_shop.command_context"
+      ],
+      "writes": [],
+      "digest_calls": [],
+      "dynamic": [],
+      "opaque": false
+    }
+  },
+  "exact_prior_source_facts_reused": [
+    "auth.uid()"
+  ],
+  "new_physical_relation_candidates": [
+    "cp7_accessory_nonpayable.good_bases_v1",
+    "cp7_mandor_shop.allocation_events",
+    "cp7_mandor_shop.allocation_states",
+    "cp7_mandor_shop.command_context",
+    "cp7_mandor_shop.deduction_links",
+    "cp7_mandor_shop.offset_accounts",
+    "cp7_mandor_shop.payment_work",
+    "cp7_mandor_shop.sales",
+    "cp7_mandor_shop.settlement_lines",
+    "cp7_mandor_shop.settlement_reversals",
+    "cp7_mandor_shop.settlements",
+    "erp.payroll_deductions"
+  ],
+  "required_relation_lower_bound": [
+    "cp7_accessory_nonpayable.good_bases_v1",
+    "cp7_analysis_jobs.documents",
+    "cp7_attendance.command_context",
+    "cp7_attendance_choice.decisions_v1",
+    "cp7_attendance_choice.reversals_v1",
+    "cp7_attendance_choice.sources_v1",
+    "cp7_credit.cohorts",
+    "cp7_credit.component_journals",
+    "cp7_credit.component_parts",
+    "cp7_credit.consumer_completions_v1",
+    "cp7_credit.consumer_execution_context",
+    "cp7_credit.consumer_operations_v1",
+    "cp7_credit.consumer_posting_scope_v1",
+    "cp7_credit.consumer_requests_v1",
+    "cp7_credit.consumption_events",
+    "cp7_credit.execution_context",
+    "cp7_credit.financial_materialization_objects",
+    "cp7_credit.financial_materializations",
+    "cp7_credit.initial_refund_operations",
+    "cp7_credit.initial_return_materializations",
+    "cp7_credit.initial_return_work",
+    "cp7_credit.native_empty_operations",
+    "cp7_credit.payment_consumer_headers_v1",
+    "cp7_credit.payment_source_context_v1",
+    "cp7_credit.payment_source_legs_v1",
+    "cp7_credit.plan_dependencies",
+    "cp7_credit.plan_support_events",
+    "cp7_credit.posting_scope",
+    "cp7_credit.recognition_components",
+    "cp7_credit.recognition_plans",
+    "cp7_credit.return_command_scope",
+    "cp7_credit.return_families",
+    "cp7_credit.return_family_members",
+    "cp7_credit.return_native_scope",
+    "cp7_credit.source_mutation_scope",
+    "cp7_credit.source_operation_completions_v1",
+    "cp7_credit.source_operation_materializations_v1",
+    "cp7_credit.source_operation_part_seals_v1",
+    "cp7_credit.source_operation_plans_v1",
+    "cp7_credit.source_operation_work_v1",
+    "cp7_credit_correction_de.operations_v1",
+    "cp7_credit_correction_de.parts_v1",
+    "cp7_credit_correction_de.posting_v1",
+    "cp7_credit_correction_de.work_v1",
+    "cp7_credit_note_carry_de.assignments_v1",
+    "cp7_credit_note_carry_de.operations_v1",
+    "cp7_credit_note_carry_de.work_v1",
+    "cp7_cutover.control",
+    "cp7_cutting_correction.pickup_context",
+    "cp7_fg.correction_movements",
+    "cp7_global_nonpo_envelope.profiles",
+    "cp7_global_nonpo_envelope.scope_completions_v1",
+    "cp7_global_nonpo_envelope.work_scopes_v1",
+    "cp7_guard.compound_scope",
+    "cp7_guard.compound_touch",
+    "cp7_installment.accounts",
+    "cp7_installment.command_context",
+    "cp7_installment.payments",
+    "cp7_installment.requests",
+    "cp7_kasbon.advances",
+    "cp7_kasbon.command_context",
+    "cp7_laundry_unknown_wash.prices_v1",
+    "cp7_mandor_shop.allocation_events",
+    "cp7_mandor_shop.allocation_states",
+    "cp7_mandor_shop.command_context",
+    "cp7_mandor_shop.deduction_links",
+    "cp7_mandor_shop.offset_accounts",
+    "cp7_mandor_shop.payment_work",
+    "cp7_mandor_shop.sales",
+    "cp7_mandor_shop.settlement_lines",
+    "cp7_mandor_shop.settlement_reversals",
+    "cp7_mandor_shop.settlements",
+    "cp7_material.execution_context",
+    "cp7_misc.command_context",
+    "cp7_misc_correction.links",
+    "cp7_note.context",
+    "cp7_note.item_lineage",
+    "cp7_note.journal_restatements",
+    "cp7_note.payment_replays",
+    "cp7_note.requests",
+    "cp7_note.revisions",
+    "cp7_payment_correction.context",
+    "cp7_payment_correction.links",
+    "cp7_payment_correction.requests",
+    "cp7_payroll.execution_context",
+    "cp7_payroll.settlement_context",
+    "cp7_plan_native.apply_own_drafts",
+    "cp7_procurement.execution_context",
+    "cp7_receipt_fix.context",
+    "cp7_receipt_fix.invoice_restatements",
+    "cp7_receipt_fix.journal_restatements",
+    "cp7_sales.command_context",
+    "cp7_sales.requests",
+    "cp7_sales_return_correction.context",
+    "cp7_sales_return_correction.journal_restatements",
+    "cp7_sales_return_correction.links",
+    "cp7_sales_return_correction.requests",
+    "cp7_sku_conversion.automatic_admissions_v5",
+    "cp7_sku_conversion.automatic_context_v5",
+    "cp7_sku_conversion.base_money_events_v4",
+    "cp7_sku_conversion.component_events_v2",
+    "cp7_sku_conversion.cost_contributors_v3",
+    "cp7_sku_conversion.cost_events_v3",
+    "cp7_sku_conversion.cost_money_events_v3",
+    "cp7_sku_conversion.cost_source_rebalances_v3",
+    "cp7_sku_conversion.execution_v1",
+    "cp7_sku_conversion.group_inverse_rebalances_v3",
+    "cp7_sku_conversion.groups_v1",
+    "cp7_sku_conversion.legacy_groups_v4",
+    "cp7_sku_conversion.members_v1",
+    "cp7_sku_conversion.return_cost_components_v3",
+    "cp7_sku_conversion.sale_allocation_attributions_v2",
+    "cp7_sku_conversion.sale_allocation_components_v2",
+    "cp7_sku_conversion.sale_allocation_values_v2",
+    "cp7_sku_conversion.sale_cost_components_v3",
+    "cp7_sku_conversion.sales_return_attributions_v2",
+    "cp7_sku_conversion.sales_return_components_v2",
+    "cp7_sku_conversion.sales_return_values_v2",
+    "cp7_sku_conversion.valuation_attributions_v2",
+    "cp7_sku_conversion.valuation_contributors_v2",
+    "cp7_sku_conversion.valuation_events_v2",
+    "cp7_sku_conversion.valuation_postings_v2",
+    "cp7_sku_conversion.valuation_quotes_v2",
+    "cp7_supplier_payment_correction.context",
+    "cp7_supplier_payment_correction.links",
+    "cp7_supplier_payment_create.context",
+    "cp7_supplier_return.execution_context",
+    "cp7_supplier_transfer.context_v1",
+    "cp7_supplier_transfer.requests_v1",
+    "erp.accessory_bom_items",
+    "erp.accessory_bom_versions",
+    "erp.accessory_categories",
+    "erp.account_daily_balances",
+    "erp.accounting_account_mappings",
+    "erp.accounting_period_control",
+    "erp.app_permissions",
+    "erp.app_role_permissions",
+    "erp.app_roles",
+    "erp.app_users",
+    "erp.attendance_hpp_journal_line_links",
+    "erp.attendance_hpp_pool_sources",
+    "erp.attendance_hpp_pools",
+    "erp.audit_logs",
+    "erp.bb_customer_credit_events_v1",
+    "erp.bb_customer_credits_v1",
+    "erp.bb_opening_sale_return_receipts_v1",
+    "erp.bb_wip_split_value_events_v1",
+    "erp.bc_adjustment_purposes_v1",
+    "erp.bc_document_links_v1",
+    "erp.bc_documents_v1",
+    "erp.bc_execution_context_v1",
+    "erp.bc_lot_events_v1",
+    "erp.bc_note_roundings_v1",
+    "erp.bc_outstanding_returns_v1",
+    "erp.bc_return_lots_v1",
+    "erp.bd_execution_context_v1",
+    "erp.bd_laundry_invoice_lines_v1",
+    "erp.bd_laundry_invoices_v1",
+    "erp.bd_laundry_priced_lines_v1",
+    "erp.bd_laundry_receipt_allocations_v1",
+    "erp.bd_laundry_size_estimates_v1",
+    "erp.bd_pending_price_sales_v1",
+    "erp.be_conversion_cost_events_v1",
+    "erp.be_conversion_cost_sources_v1",
+    "erp.be_conversion_returns_v1",
+    "erp.be_conversion_sources_v1",
+    "erp.be_execution_context_v1",
+    "erp.be_nonpo_transfer_events_v1",
+    "erp.be_pocket_source_events_v1",
+    "erp.be_pocket_usage_v1",
+    "erp.be_redye_price_events_v1",
+    "erp.be_redye_services_v1",
+    "erp.be_rework_targets_v1",
+    "erp.bf_context_v1",
+    "erp.bf_sku_members_v1",
+    "erp.bf_sku_versions_v1",
+    "erp.bf_skus_v1",
+    "erp.bf_supplier_credit_moves_v1",
+    "erp.bf_wave_skus_v1",
+    "erp.bs_cases",
+    "erp.bs_resolution_execution_context",
+    "erp.cash_accounts",
+    "erp.chart_accounts",
+    "erp.contractor_accessory_reimbursement_entitlements",
+    "erp.contractor_material_issue_items",
+    "erp.contractor_material_issues",
+    "erp.contractors",
+    "erp.cost_adjustments",
+    "erp.cost_recalc_queue",
+    "erp.cp6_laundry_qc_execution_context",
+    "erp.customers",
+    "erp.cutting_batches",
+    "erp.cutting_bridge_execution_context",
+    "erp.cutting_group_rolls",
+    "erp.cutting_groups",
+    "erp.cutting_qty_correction_lines",
+    "erp.cutting_roll_yields",
+    "erp.fg_accessory_cost_revisions",
+    "erp.fg_accessory_cost_snapshots",
+    "erp.fg_adjustment_items",
+    "erp.fg_adjustments",
+    "erp.fg_inventory_balances",
+    "erp.fg_lots",
+    "erp.fg_stock_movements",
+    "erp.fg_unsourced_receipts_v1",
+    "erp.hpp_version_components",
+    "erp.hpp_versions",
+    "erp.initial_import_bs_value_events",
+    "erp.initial_import_origin_cost_events",
+    "erp.initial_import_prepayment_events",
+    "erp.initial_import_prepayment_payments",
+    "erp.initial_import_prepayments",
+    "erp.initial_import_wip_outputs",
+    "erp.invoice_recost_execution_context",
+    "erp.journal_entries",
+    "erp.journal_lines",
+    "erp.laundry_cost_accrual_events",
+    "erp.laundry_deliveries",
+    "erp.laundry_delivery_batch_size_lines",
+    "erp.laundry_delivery_lines",
+    "erp.laundry_failed_wash_attempts",
+    "erp.laundry_receipt_lines",
+    "erp.laundry_receipts",
+    "erp.laundry_vendors",
+    "erp.locations",
+    "erp.material_adjustment_items",
+    "erp.material_adjustment_revaluation_facts",
+    "erp.material_adjustments",
+    "erp.material_cost_revaluation_events",
+    "erp.material_purchase_cost_corrections",
+    "erp.material_purchase_headers",
+    "erp.material_stock_movements",
+    "erp.material_supplier_invoices",
+    "erp.material_supplier_returns",
+    "erp.materials",
+    "erp.migration_batches",
+    "erp.non_po_hpp_gl_sync_events_v2620f",
+    "erp.opening_balance_headers",
+    "erp.opening_hpp_corrections",
+    "erp.opening_lot_hpp_gl_state",
+    "erp.payroll_deductions",
+    "erp.payroll_settlements",
+    "erp.po_hpp_gl_events",
+    "erp.po_hpp_gl_lot_state_v1",
+    "erp.po_hpp_gl_material_state_v1",
+    "erp.po_hpp_gl_state",
+    "erp.po_wip_close_events",
+    "erp.po_work_component_snapshots",
+    "erp.pocket_fabric_execution_context",
+    "erp.pocket_fabric_usage",
+    "erp.pocket_period_destinations",
+    "erp.pocket_period_events",
+    "erp.pocket_period_sources",
+    "erp.pocket_periods",
+    "erp.product_conversion_allocations",
+    "erp.product_conversions",
+    "erp.product_identity_mutation_context_v1",
+    "erp.production_orders",
+    "erp.products",
+    "erp.qc_inspection_items",
+    "erp.qc_inspections",
+    "erp.rework_orders",
+    "erp.sale_stock_allocations",
+    "erp.sales_headers",
+    "erp.sales_items",
+    "erp.sales_payment_posting_facts",
+    "erp.sales_payment_reversal_facts",
+    "erp.sales_payments",
+    "erp.sales_return_items",
+    "erp.sales_returns",
+    "erp.sewing_terminal_events",
+    "erp.supplier_cent_posting_facts",
+    "erp.uom_definitions",
+    "erp.vendor_invoices",
+    "erp.work_completion_events",
+    "erp.work_completion_lines"
+  ],
+  "unresolved_dynamic": {},
+  "unresolved_opaque": {},
+  "unresolved_qualified_calls": [],
+  "unresolved_qualified_relations": [],
+  "new_write_targets_requiring_full_actual_callback_review": [],
+  "focused_callback_source_has_no_unresolved": true,
+  "metadata_dispatch_RLS_owner_ACL_and_actual_parent_still_require_final_review": true,
+  "complete_input_review": false,
+  "actual_final_parent_adopted": false,
+  "actual_SQL_executed": 0,
+  "actual_Native_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

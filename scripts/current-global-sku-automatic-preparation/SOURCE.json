@@ -1,0 +1,103 @@
+{
+  "contract": "cp7.global-automatic-closed-preparation.v1",
+  "classification": "SOURCE_AND_OBSERVATION_PREPARATION_NOT_ACTUAL_ERP",
+  "runtime_entry": null,
+  "derived_helpers": {
+    "authority": {
+      "bytes": 67198,
+      "sha256": "bbe1126792da78c709facf71d5ac6603f120e929e93f239813b0ec5432c4db3d"
+    },
+    "scope": {
+      "bytes": 18729,
+      "sha256": "402c1ea2ac81e3f42ea9dceb79ffbab2ecafc91599d349109dadcfeca8dc331d"
+    },
+    "capture": {
+      "bytes": 26367,
+      "sha256": "e0b10776f135706bde5864b4254683eb15f79291585c36d8d4dd11767d6fb6ba"
+    },
+    "inspect": {
+      "bytes": 9510,
+      "sha256": "8f9461ce31e9973969040ae16029241253eb2ce1e0fde9ebba160db32b6cd782"
+    }
+  },
+  "files": {
+    "scripts/current-global-sku-automatic-preparation/CALLBACK_SOURCE_REVIEW.json": {
+      "bytes": 22414,
+      "sha256": "9d1592616363baa854e10efb32666740812135138f62178e6a45d840a93fd28b"
+    },
+    "scripts/current-global-sku-automatic-preparation/INPUT_REVIEW_CONTROLS.json": {
+      "bytes": 12434,
+      "sha256": "94ed2ed3b94b2879b6866848f9f77d0aaafa569d00b3bc6d8a89527eff0b9843"
+    },
+    "scripts/current-global-sku-automatic-preparation/INSTALL_PLAN.json": {
+      "bytes": 16096,
+      "sha256": "fa3fa74e072405f6f716e277d5d8822255a2cfb989a934066c978d5bf3561152"
+    },
+    "scripts/current-global-sku-automatic-preparation/MODEL_CONTROLS.json": {
+      "bytes": 5378,
+      "sha256": "ae9628dd95e72191268b3ed3dfe8cd7193d883c589b99d48e771042180f69006"
+    },
+    "scripts/current-global-sku-automatic-preparation/README.md": {
+      "bytes": 3107,
+      "sha256": "49a9d421b4105534628074600fc5b8611e0d4bed6a35fa89d58ca1809991f43c"
+    },
+    "scripts/current-global-sku-automatic-preparation/SOURCE_CONTROLS.json": {
+      "bytes": 131863,
+      "sha256": "d82dbbb06940e33bcf15934a96a5645cc076e81635742034dafb4e193cf0f7a8"
+    },
+    "scripts/current-global-sku-automatic-preparation/SOURCE_REFERENCE.json": {
+      "bytes": 9949,
+      "sha256": "e2a35f05bc580887f1028d8cb19a41cb95049d1a2e3114e337155e6eb93f8d9f"
+    },
+    "scripts/current-global-sku-automatic-preparation/automatic_edges.sql": {
+      "bytes": 1029,
+      "sha256": "a28e4b79c6861071691cdcb8b5b0749a8a224a5efec56762a206f80e0b7cdc1f"
+    },
+    "scripts/current-global-sku-automatic-preparation/callback_preflight.py": {
+      "bytes": 3311,
+      "sha256": "bd6563807f6cbcdba07fec69da3404de2c82f15053e71869a60c0c1489b15d1f"
+    },
+    "scripts/current-global-sku-automatic-preparation/check_source.py": {
+      "bytes": 3669,
+      "sha256": "7b33c0ac0a9e4570c68b2928c7adb931322a20f917821c81dd3cd7ff99cf1bc2"
+    },
+    "scripts/current-global-sku-automatic-preparation/install_routes.py": {
+      "bytes": 4465,
+      "sha256": "78f362fad32cdc664de1d4c50c39a32b0fe5e5cb6d164cfa4a5213b15cdfce65"
+    },
+    "scripts/current-global-sku-automatic-preparation/preflight.py": {
+      "bytes": 6193,
+      "sha256": "e21723df34d44416073a7d52ebfb8b680cb7fb22142b913b6bb025abeaa96fa1"
+    },
+    "scripts/current-global-sku-automatic-preparation/prepare_dispatch.py": {
+      "bytes": 12211,
+      "sha256": "28416eb1cb6a6f945b3f901a5ee219e44229237f097e9f051ab0a298e025a1f4"
+    },
+    "scripts/current-global-sku-automatic-preparation/routes.py": {
+      "bytes": 6782,
+      "sha256": "bb758141a01e8722e9c69783d39f1ee09818c398101cd39fcb176c56d82d5d03"
+    },
+    "scripts/current-global-sku-automatic-preparation/test_install_routes.py": {
+      "bytes": 5082,
+      "sha256": "84ed45e2c56c26d7ece5424de6dcff0d2b36b0ea655230b0c52e2d95853d237d"
+    },
+    "scripts/current-global-sku-automatic-preparation/test_model.mjs": {
+      "bytes": 12327,
+      "sha256": "5839e7f13007709610f4ff94f85de73456c6e39021136ab8a1941d6468e8a459"
+    },
+    "scripts/current-global-sku-automatic-preparation/test_trigger_dispatch.py": {
+      "bytes": 4420,
+      "sha256": "f5f0554f8d5d8861e25507b98cdfc735a29a689810e69214dcdeb0a3a33a2ea3"
+    },
+    "scripts/current-global-sku-automatic-preparation/trigger_dispatch.py": {
+      "bytes": 4715,
+      "sha256": "2be5728076c37dda50bbc787bfa59fd634dcdff2e98bd70cd106d40315b1f22f"
+    }
+  },
+  "actual_ERP_cases": 0,
+  "actual_Auth_HTTP_cases": 0,
+  "complete_actual_input_review": false,
+  "active_workflow_added": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

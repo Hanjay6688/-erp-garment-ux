@@ -1,0 +1,175 @@
+{
+  "status": "MODELED_POSTGRES17_AUTOMATIC_GLOBAL_OBSERVATION_PASS_NOT_ERP",
+  "engine": "PostgreSQL 17.5 on aarch64-unknown-linux-gnu, compiled by emcc (Emscripten gcc/clang-like replacement + linker emulating GNU ld) 3.1.74 (1092ec30a3fb1d46b1782ff1b4db5094d3d06ae5), 32-bit",
+  "results": [
+    {
+      "label": "All derived observer statements compile against exact 82 table and 835 column types",
+      "result": "PASS"
+    },
+    {
+      "label": "Typed automatic source identities expand each disjoint relevant/outside component",
+      "result": "PASS"
+    },
+    {
+      "label": "Shared location, account, backend and transaction values do not merge components",
+      "result": "PASS"
+    },
+    {
+      "label": "Complete automatic_context_v5 rows retain every field and exact scope membership",
+      "result": "PASS"
+    },
+    {
+      "label": "Complete automatic_admissions_v5 rows retain every field and exact scope membership",
+      "result": "PASS"
+    },
+    {
+      "label": "Zero values and both immutable phases remain observable",
+      "result": "PASS"
+    },
+    {
+      "label": "Detect full original field automatic_context_v5.backend_pid",
+      "result": "PASS"
+    },
+    {
+      "label": "Detect full original field automatic_context_v5.transaction_id",
+      "result": "PASS"
+    },
+    {
+      "label": "Detect full original field automatic_context_v5.native_request_id",
+      "result": "PASS"
+    },
+    {
+      "label": "Detect full original field automatic_context_v5.rework_id",
+      "result": "PASS"
+    },
+    {
+      "label": "Detect full original field automatic_context_v5.conversion_id",
+      "result": "PASS"
+    },
+    {
+      "label": "Detect full original field automatic_context_v5.phase",
+      "result": "PASS"
+    },
+    {
+      "label": "Detect full original field automatic_context_v5.source_lot_id",
+      "result": "PASS"
+    },
+    {
+      "label": "Detect full original field automatic_context_v5.source_po_id",
+      "result": "PASS"
+    },
+    {
+      "label": "Detect full original field automatic_context_v5.source_product_id",
+      "result": "PASS"
+    },
+    {
+      "label": "Detect full original field automatic_context_v5.target_product_id",
+      "result": "PASS"
+    },
+    {
+      "label": "Detect full original field automatic_context_v5.location_id",
+      "result": "PASS"
+    },
+    {
+      "label": "Detect full original field automatic_context_v5.qty",
+      "result": "PASS"
+    },
+    {
+      "label": "Detect full original field automatic_context_v5.physical_at",
+      "result": "PASS"
+    },
+    {
+      "label": "Detect full original field automatic_context_v5.origin_kind",
+      "result": "PASS"
+    },
+    {
+      "label": "Detect full original field automatic_context_v5.rework_proof",
+      "result": "PASS"
+    },
+    {
+      "label": "Detect full original field automatic_context_v5.target_proof",
+      "result": "PASS"
+    },
+    {
+      "label": "Retain duplicate multiplicity in automatic_context_v5",
+      "result": "PASS"
+    },
+    {
+      "label": "Detect full original field automatic_admissions_v5.conversion_id",
+      "result": "PASS"
+    },
+    {
+      "label": "Detect full original field automatic_admissions_v5.phase",
+      "result": "PASS"
+    },
+    {
+      "label": "Detect full original field automatic_admissions_v5.rework_id",
+      "result": "PASS"
+    },
+    {
+      "label": "Detect full original field automatic_admissions_v5.context_proof",
+      "result": "PASS"
+    },
+    {
+      "label": "Detect full original field automatic_admissions_v5.conversion_proof",
+      "result": "PASS"
+    },
+    {
+      "label": "Detect full original field automatic_admissions_v5.recorded_at",
+      "result": "PASS"
+    },
+    {
+      "label": "Retain duplicate multiplicity in automatic_admissions_v5",
+      "result": "PASS"
+    },
+    {
+      "label": "anon cannot execute the prepared private observation helpers",
+      "result": "PASS"
+    },
+    {
+      "label": "authenticated cannot execute the prepared private observation helpers",
+      "result": "PASS"
+    },
+    {
+      "label": "service_role cannot execute the prepared private observation helpers",
+      "result": "PASS"
+    }
+  ],
+  "input": {
+    "bytes": 347702,
+    "sha256": "c460894760a965736c18a6fee3709d93a1449df534eab3bc163f5a747d8eecc0"
+  },
+  "derived_helpers": {
+    "authority": {
+      "bytes": 67198,
+      "sha256": "bbe1126792da78c709facf71d5ac6603f120e929e93f239813b0ec5432c4db3d"
+    },
+    "capture": {
+      "bytes": 26367,
+      "sha256": "e0b10776f135706bde5864b4254683eb15f79291585c36d8d4dd11767d6fb6ba"
+    },
+    "inspect": {
+      "bytes": 9510,
+      "sha256": "8f9461ce31e9973969040ae16029241253eb2ce1e0fde9ebba160db32b6cd782"
+    },
+    "scope": {
+      "bytes": 18729,
+      "sha256": "402c1ea2ac81e3f42ea9dceb79ffbab2ecafc91599d349109dadcfeca8dc331d"
+    }
+  },
+  "typed_tables": 82,
+  "typed_columns": 835,
+  "new_full_rowsets": 2,
+  "new_identity_edges": 8,
+  "modeled_callbacks": [
+    "cp7_credit.consumer_dependency_graph_v1",
+    "cp7_credit.source_hpp_lot_ids_v1",
+    "cp7_credit.initial_hpp_account_facts_v1",
+    "cp7_credit.pg_jsonb_sha256"
+  ],
+  "constraints_owners_RLS_Native_callbacks_and_business_transactions_are_not_tested": true,
+  "actual_ERP_cases": 0,
+  "actual_Auth_HTTP_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}
