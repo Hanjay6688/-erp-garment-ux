@@ -1,0 +1,164 @@
+{
+  "classification": "EXACT_PREPARED_AUTOMATIC_SOURCE_NOT_ERP_ACCEPTANCE",
+  "current_money_preparation": {
+    "head": "5f099fa6852c9088ab46daa0f1079a0f6a1f3185",
+    "tree": "3fd1bdb763a6d22a5aa455f5aea3a853b9782e4d"
+  },
+  "automatic_source": {
+    "public_head": "9b1b0fcc9fbf477634619f07d4628d5be3a1b634",
+    "tree": "14de92a9d9c321cad0a513de28c164b4ba12de77"
+  },
+  "unchanged_money_product": {
+    "public_head": "f1674ae84739f577571d68415beabfca3f3b832b",
+    "files": {
+      "scripts/cp7_sku_cost_components/CATALOG_ADDITIONS.json": "986a5fe4958b8a8dcd3b184ab0319f8a965746e0",
+      "scripts/cp7_sku_cost_components/README.md": "47dffb75de3b92355994c57bb2c19c517a20175d",
+      "scripts/cp7_sku_cost_components/SOURCE.json": "8dae5549246dd2cf3c24b40ac74b17f4bedf8f95",
+      "scripts/cp7_sku_cost_components/base_cent_cases.mjs.inc": "1d30288b82104ed469b8db53fb75a620a3912666",
+      "scripts/cp7_sku_cost_components/base_forward_cases.mjs.inc": "7a79e906277b4d70e4de21bf181393523c24460f",
+      "scripts/cp7_sku_cost_components/base_money.sql": "b859f086ac3fc85de4fccf80bcf17f26f91f8d74",
+      "scripts/cp7_sku_cost_components/base_money_cases.mjs.inc": "c298e69a1562189cb0861211474c781f24f085d4",
+      "scripts/cp7_sku_cost_components/base_money_delta.py": "41ddf5a4e039ffcf092ad1a1ea992583673fd5c6",
+      "scripts/cp7_sku_cost_components/base_money_fixture.mjs.inc": "8839436af58ae3dcb1eac1a790d76924a61ce7ed",
+      "scripts/cp7_sku_cost_components/base_money_followup_cases.mjs.inc": "cd3efe4a067d3b817a27fefd951b0169c83904b8",
+      "scripts/cp7_sku_cost_components/catalog_additions.py": "2b6fe0eb813a8639d9876564af820c41db734d10",
+      "scripts/cp7_sku_cost_components/cent_inverse_counterexamples.mjs.inc": "729412c2bac8254503539ddfbd6581d612f21c75",
+      "scripts/cp7_sku_cost_components/cent_ownership.py": "3d64b41c4ee039e4941e20902b93641bf72604c5",
+      "scripts/cp7_sku_cost_components/chain_cases.mjs.inc": "84384654e2df1148601951746e8a255f4bccbc21",
+      "scripts/cp7_sku_cost_components/chain_repair_checks.mjs.inc": "ed75250c38fc27178d21d3825d918ac76b2ac98b",
+      "scripts/cp7_sku_cost_components/composition.py": "e2842bb17bd372527bdba51132f75997842ae971",
+      "scripts/cp7_sku_cost_components/cost_cases.mjs.inc": "aad2eec675418981129f873b936b0f2488978e51",
+      "scripts/cp7_sku_cost_components/costs.sql": "e8cbb55432c6965dc82625d814e55872735dddad",
+      "scripts/cp7_sku_cost_components/financial_delta.py": "0c026d58dad4812cfa35ecbb54a95cfb1225a220",
+      "scripts/cp7_sku_cost_components/inverse_cases.mjs.inc": "4a8350e3d727ecc890f99e9a25a1fbc7bd50e529",
+      "scripts/cp7_sku_cost_components/inverse_rebalance.sql": "64bf892db6a96ba3e0ecc963bb70603cfebadf76",
+      "scripts/cp7_sku_cost_components/legacy.sql": "f1e051c3dbe3faf373964f13800a1eaec5b6ac0b",
+      "scripts/cp7_sku_cost_components/legacy_cases.mjs.inc": "c28e5824e138c14c1e590f07cdd80d3d291d546e",
+      "scripts/cp7_sku_cost_components/legacy_delta.py": "445b83b22bbbd6adb05397152598a8a1f5fe8fb4",
+      "scripts/cp7_sku_cost_components/legacy_followup_cases.mjs.inc": "5d192ee27c0b4d18781ae35c18862a132f4cc4ef",
+      "scripts/cp7_sku_cost_components/legacy_model_setup.mjs.inc": "9ffce58773b3acc569a0b35b712c10ebdb10677a",
+      "scripts/cp7_sku_cost_components/money.sql": "ac22f343cebd3fc9ae4482ecfb9bb6fb53584aad",
+      "scripts/cp7_sku_cost_components/money_cases.mjs.inc": "3fcc9508c9f898d5c17ee41f928f23c985c42e9c",
+      "scripts/cp7_sku_cost_components/money_credit_cases.mjs.inc": "649500f4badc72cae368a93d07d44daeae2d1422",
+      "scripts/cp7_sku_cost_components/money_delta.py": "51cafe003fde9ce02e4eb523715642eda63564aa",
+      "scripts/cp7_sku_cost_components/money_history_case.mjs.inc": "692333696b66b4d26b6338b18f73ed55686cc9c2",
+      "scripts/cp7_sku_cost_components/oracle.py": "894d093c04854abdcd86cdd017aab545b19db1e7",
+      "scripts/cp7_sku_cost_components/prepare_catalog.py": "7a333ba6db28b6754216cf8a8e9cd58e6412078b",
+      "scripts/cp7_sku_cost_components/prepare_legacy_model.py": "a22bf535c20f0db533db463154c0e8640c4b1286",
+      "scripts/cp7_sku_cost_components/prepare_model.py": "31ffe1d06e0203cea7992d9ae4b9c862e41ef4a0",
+      "scripts/cp7_sku_cost_components/prepared_product.py": "7916a3203af6c5f233008e87b72ce223741a5c00",
+      "scripts/cp7_sku_cost_components/private_inverse_delta.py": "3301383482483241d984fe8b8ecf89f51ea36f12",
+      "scripts/cp7_sku_cost_components/profile_catalog.mjs": "a2eaa70e32771df0c2f4a9a70f57ed67ef1406ba",
+      "scripts/cp7_sku_cost_components/source_delta.py": "9b6c8f129b342e1d72d587ccd8006876aff9f2f7",
+      "scripts/cp7_sku_cost_components/source_rebalance.sql": "664f1c49673bf5a6eab9ebf2bc6550054cbfbdd2",
+      "scripts/cp7_sku_cost_components/test_catalog_transition.py": "13173aa129b24d0eb0431f2546eaeb46400a4042",
+      "scripts/cp7_sku_cost_components/test_cent_ownership.py": "f22347c44ab8d6d013dc5df3190bea30efa2761a",
+      "scripts/cp7_sku_cost_components/test_oracle.py": "6340d7c747fad89b906370147e8b6d130d2f385b",
+      "scripts/cp7_sku_cost_components/valuation_delta.py": "2e06b0c190c77e00285ebcc3f009a3e7f67d458f"
+    }
+  },
+  "automatic_files": {
+    "scripts/cp7_sku_pending_accounting/README.md": {
+      "blob": "65227c68f22c64505855ce4cb8bddcc934b4f3c4",
+      "bytes": 1653,
+      "sha256": "9abefa3160f9303affbc1d18b2bb36001e92f1c6ed4b9443256a22bee3518332"
+    },
+    "scripts/cp7_sku_pending_accounting/SOURCE.json": {
+      "blob": "19975ecbc9b0dae707f72bc1bc39b1cc4abd5bdd",
+      "bytes": 11513,
+      "sha256": "7efca5c88ec0d7ad67148ab82dbb18427bc26dbf367b07e19b3e25b515343b79"
+    },
+    "scripts/cp7_sku_pending_accounting/derivation.py": {
+      "blob": "41a7bf6bc4453bf001c789bf4dc53bf8cd266251",
+      "bytes": 5815,
+      "sha256": "5970718abdbe8713bf7ae0cdee6979155bb7e370e8393674426ed4585a010dd4"
+    },
+    "scripts/cp7_sku_pending_accounting/prepare_model.py": {
+      "blob": "a1d20321ba1ab69e33dbd5bc8baf0fa373aef04f",
+      "bytes": 2411,
+      "sha256": "11fd005b70e76e3ab7549435f22687bda37d81d39b2a7396d071159b7da4fa0e"
+    },
+    "scripts/cp7_sku_pending_accounting/test_readers.mjs": {
+      "blob": "7bbba4db881030a8bb1ad8061d40d240079d8c91",
+      "bytes": 13363,
+      "sha256": "0a565d382280c490ad76fd2cec089df7a0fc31b32cd6cc5554e57884eced80fc"
+    },
+    "scripts/cp7_sku_automatic_pending/CATALOG_ADDITIONS.json": {
+      "blob": "83a3d5b8a3363e2c63df83d76b0485c85bf7d71a",
+      "bytes": 128694,
+      "sha256": "07824d6732540348590440bca3c8f8aef9a2b58cdcb8af9dc43c964723b0303a"
+    },
+    "scripts/cp7_sku_automatic_pending/README.md": {
+      "blob": "2a2fbad5b3e3a2cdba3203ada34b4d2bd4fcca55",
+      "bytes": 4251,
+      "sha256": "e18cd32de0adb0c3faf00cb17338b44777d00b60b5cd8f3c979c8238d0f65e15"
+    },
+    "scripts/cp7_sku_automatic_pending/SOURCE.json": {
+      "blob": "2f794cdeb788dfbc894b8de2f9565e7a7e75b198",
+      "bytes": 14985,
+      "sha256": "7ff25f1c26effa52fdd43469464459d6d818ed8ed5128b5f01bd4dd2e6eca528"
+    },
+    "scripts/cp7_sku_automatic_pending/catalog_additions.py": {
+      "blob": "bf2c76e10fe49942db90e04d43a9375dd645a8c5",
+      "bytes": 3792,
+      "sha256": "c3dea8598a4ec688585c76bbcbc52a7516ef862fc053df40dfc6c8cadd0b4298"
+    },
+    "scripts/cp7_sku_automatic_pending/composition.py": {
+      "blob": "51748a650ecef2c6e19e516f0866444083bb9550",
+      "bytes": 7275,
+      "sha256": "384bb580a937ce031973e257b7b992a58525a3d29e317e306d7428ab550d089d"
+    },
+    "scripts/cp7_sku_automatic_pending/context.sql": {
+      "blob": "811a9442d92e72177f5b0a2558c3e188f79e03ab",
+      "bytes": 13857,
+      "sha256": "67141e2dcbf2c57082a2b6b415100a5583facdd81a43baab031bbe29a6355d5a"
+    },
+    "scripts/cp7_sku_automatic_pending/derivation.py": {
+      "blob": "3119b94f4d431b1604f77db6917a04de5b590402",
+      "bytes": 8686,
+      "sha256": "3f1653202283c62115d8c74bc64e741e2ac9334a362d87ed7df7abc96c9dc9ac"
+    },
+    "scripts/cp7_sku_automatic_pending/installation_product.py": {
+      "blob": "df7991026052c9f8b584754af7c5d2c4ff8f41dc",
+      "bytes": 2856,
+      "sha256": "19167299006aba9b1ebb6473b2640c27e334e06c80c14b38ddedb5fdbfbb373e"
+    },
+    "scripts/cp7_sku_automatic_pending/model_cases.mjs.inc": {
+      "blob": "6059b006c806de2a79aabdbd824025c6fb055327",
+      "bytes": 20356,
+      "sha256": "392003be9a143e4a299c335ba389376fc5f4b10c3da7dbb3b002d28de94df0a4"
+    },
+    "scripts/cp7_sku_automatic_pending/model_providers.sql": {
+      "blob": "02947c244e28ec51542a377156851134ef497165",
+      "bytes": 3332,
+      "sha256": "388663d5c6d4df52f9fa2cb00641e812b1c2084e30c96cf0587d96c337b9b4bc"
+    },
+    "scripts/cp7_sku_automatic_pending/prepare_catalog.py": {
+      "blob": "73bda012edd71fc09f84816e0e60dc8342939744",
+      "bytes": 2864,
+      "sha256": "8ce871682a6c15ac3c7abd6559aa980d1d9e5e174945d241d1fbd4f006772a21"
+    },
+    "scripts/cp7_sku_automatic_pending/prepare_model.py": {
+      "blob": "4e2debf7484ceb03b15a5b1f46804d3670b2fd97",
+      "bytes": 8509,
+      "sha256": "ece59052dd629367e824ace8530308d8856661fc6a02cfb139dd0a9505d0aaca"
+    },
+    "scripts/cp7_sku_automatic_pending/prepared_product.py": {
+      "blob": "9ebf8ac6130171c2559220cf1c71cb810dc63b28",
+      "bytes": 2248,
+      "sha256": "fbde83c9ba4a7113153e80d66351a491be1a55f9d75cbd5cbe960deec841332f"
+    },
+    "scripts/cp7_sku_automatic_pending/profile_catalog.mjs": {
+      "blob": "5de10a109c66c80a9a0c604a54d052ee508ac482",
+      "bytes": 9099,
+      "sha256": "0b1002b3735d600eff9ef06cbc89a50dae564aa82700e6f3358d59dec6e9c7ea"
+    },
+    "scripts/cp7_sku_automatic_pending/test_installation.py": {
+      "blob": "38a7c8bb8a2adee77cd23c51806cbf5b0177c7ab",
+      "bytes": 6887,
+      "sha256": "4f12fc4138be230eee1df796ce967e52fd4f36a466259f6902734b947e0343f3"
+    }
+  },
+  "actual_ERP_cases": 0,
+  "production_go": false
+}

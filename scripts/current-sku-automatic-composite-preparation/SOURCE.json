@@ -1,0 +1,74 @@
+{
+  "contract": "cp7.current-automatic-product-bridge-preparation.v1",
+  "classification": "SOURCE_AND_INTERFACE_PREPARATION_NOT_ACTUAL_ERP",
+  "current_money_parent_unchanged": true,
+  "automatic_source_public_head": "9b1b0fcc9fbf477634619f07d4628d5be3a1b634",
+  "derivation": {
+    "original": {
+      "bytes": 7275,
+      "sha256": "384bb580a937ce031973e257b7b992a58525a3d29e317e306d7428ab550d089d"
+    },
+    "derived": "1eaa3979732317f25c48145ec480dbb5b2bfec0fb1e2f2a4cd25701f332d5a06",
+    "exact_routes": 5,
+    "original_recovered_exactly": true,
+    "original_SQL_and_inverse_bodies_unchanged": true,
+    "actual_ERP_cases": 0,
+    "production_go": false
+  },
+  "all_admission_values_unset": true,
+  "Native_lifecycle_case_plan_pending": true,
+  "owning_runtime_pending": true,
+  "active_workflow_added": false,
+  "actual_ERP_cases": 0,
+  "actual_Auth_HTTP_cases": 0,
+  "actual_browser_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false,
+  "files": {
+    "README.md": {
+      "bytes": 3114,
+      "sha256": "0a97d6b5a5eaed72a07176a70ed1433ee53972bb5d91ac6c5012c0b6dbf1cdaf"
+    },
+    "SOURCE_REFERENCE.json": {
+      "bytes": 9808,
+      "sha256": "0d44c4e21c26c286f7a2d43aaee150c3b027b2643a6a0633bf91d78a8507dedd"
+    },
+    "admission.py": {
+      "bytes": 2037,
+      "sha256": "8244ce4632ad852c5f8b5fd782715c2d0dc7afd4128f6f9bc286c273ec6583eb"
+    },
+    "assembly.py": {
+      "bytes": 5972,
+      "sha256": "13804377244842b090670138d5397a898573907e926fc6382eaa33c172c75b1e"
+    },
+    "check_source.py": {
+      "bytes": 3369,
+      "sha256": "e225d5d51acf15cd1bcbfbb7bf6e4ae9cf0263da110131a16ec17ebda3b868c7"
+    },
+    "derive.py": {
+      "bytes": 2856,
+      "sha256": "a2014f8d7abf5b1e4cd7847862af2a4207cf660ef993cef2f7baa942822c57cc"
+    },
+    "native_cases.py": {
+      "bytes": 14262,
+      "sha256": "8eef6154e97c1b88f6f919eb27bfb835860c204a37de476a86289129ac4c5e87"
+    },
+    "prepare_native_sql.py": {
+      "bytes": 3883,
+      "sha256": "76f2e8d5b060edbd451928bc0baeae27fd6c912bba7751a98b491dbb95844108"
+    },
+    "test_bridge.py": {
+      "bytes": 6489,
+      "sha256": "7a3ad363fab256adb673b80bef5ef7428dc2f506669cdd3a339d0c9721833805"
+    },
+    "test_native_sql.mjs": {
+      "bytes": 2921,
+      "sha256": "b9c076e6397361834748babd92496a23b76ce1f2d4ef0b17377bd901c00058c9"
+    }
+  },
+  "prepared_upstream_native_callbacks": 4,
+  "callback_SQL_statements_type_checked": 20,
+  "old_bad_column_counterexamples": 4,
+  "callback_helper_declaration_shapes": 6,
+  "natural_runtime_module_binding_still_required": true
+}
