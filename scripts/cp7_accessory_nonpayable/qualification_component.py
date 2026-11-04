@@ -192,7 +192,7 @@ def browser_environment(report):
             else:os.environ[name]=value
 
 def exercise(conn,cur,database,url,report,state):
-    from . import admission,assembly,native_cases,access_cases,browser_prepare,copy_context,qualification_gate,case_output,progress
+    from . import admission,assembly,native_cases,access_cases,browser_prepare,copy_context,qualification_gate,case_output,progress,report_io
     admission.parent_receipt()  # Before ERP graph, connection or fixture use.
     from cp7_p21_current_chain_rehearsal_probe import helper
     from cp7_catalog_state import exact_public_catalog
@@ -216,7 +216,7 @@ def exercise(conn,cur,database,url,report,state):
         return[(name,lambda name=name,operation=operation:one(name,operation))
             for name,operation in native_cases.cases(cursor,today,state)]
     try:
-        with exact_public_catalog(native,retain_raw=True)as public,case_output.scope(native,'native'),progress.phase('NATIVE_GROUP'):
+        with exact_public_catalog(native,retain_raw=True)as public,case_output.scope(native,'native'),report_io.scope(native.r1),progress.phase('NATIVE_GROUP'):
             actual=native.strict_group(NATIVE_LABEL,cases,verify)
     finally:retain(native,report)
     report.update(native=actual,public_catalog_observation=public)

@@ -93,9 +93,11 @@ def denied(reply,code,sqlstate=None):
     return reply
 
 def _capture_rows(cur,catalog,state):
+    from .report_io import share_strings
     groups=catalog._catalog_rows(cur)
     if len(groups)!=22 or groups!=state['after']:
         raise ValueError('NONPAYABLE_OBSERVATION_EXACT_INSTALLED_ALL22_REQUIRED')
+    groups=share_strings(groups,state['after'])
     data=catalog._data(cur)
     return dict(catalog=groups,data_and_all_sequences=data,
         date_versions=[r[0]for r in cur.execute('select to_jsonb(v)from cp7_accessory_nonpayable.category_versions_v1 v order by id').fetchall()],

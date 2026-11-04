@@ -387,3 +387,16 @@ qualifier modules exactly. The original seventeen prerequisite controls remain
 valid and run alongside these four before the next database provisioning.
 The source change does not establish why run8416 was cancelled or prove its
 unavailable restoration. Actual full15/all5 and restoration remain required.
+
+The current successor shares only equal immutable catalog strings across
+independent snapshots and streams both Native-group and final whole-packet
+JSON. All values, ordering, comparisons, case functions and SQL stay intact.
+Eight new pre-provision controls include exact encoder bytes, independent
+mutable snapshots, failed-write preservation and an 84 MB report under a
+128 MiB address-space limit. All 42 affected prerequisite controls pass.
+
+Run41721666877 lost runner communication after retaining nine PASS case
+Originals. Replaying all 422653815 bytes preserves every original SHA256;
+long-string storage falls from 215029472 to 7678719 bytes. This demonstrates
+the memory reduction, without establishing the runner's exact failure cause.
+HTTP2/session2/browser2 and complete outer restoration remain unqualified.

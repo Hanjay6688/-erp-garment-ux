@@ -82,6 +82,17 @@ def fixture_progress_preflight():
     return dict(status='BOUNDED_PHASE_RECEIPTS_PRESERVE_RESULTS_ERRORS_AND_CLEANUP',tests_run=4,
         new_timers_or_workers=0,actual_SQL_executed=0,actual_Native_cases=0)
 
+def fixture_report_io_preflight():
+    """Check bytes, snapshot isolation and bounded memory before any DB."""
+    import io,unittest
+    from cp7_accessory_nonpayable.test_report_io import ReportIOControls
+    output=io.StringIO();result=unittest.TextTestRunner(stream=output,verbosity=0).run(
+        unittest.defaultTestLoader.loadTestsFromTestCase(ReportIOControls))
+    if result.testsRun!=8 or not result.wasSuccessful()or result.skipped or result.expectedFailures:
+        raise ValueError('NONPAYABLE_REPORT_IO_PREFLIGHT_FAILED:'+output.getvalue())
+    return dict(status='EXACT_COMPLETE_JSON_INDEPENDENT_SNAPSHOTS_AND_MEMORY_LIMIT_PASS',
+        tests_run=8,actual_SQL_executed=0,actual_Native_cases=0)
+
 def runtime():
     from cp7_accessory_nonpayable import admission,source,package_engine
     admission.parent_receipt()  # Before any ERP import or runtime construction.
@@ -89,8 +100,11 @@ def runtime():
     with admission.parent_scope():
         original=ROOT/package_engine.ORIGINAL
         text,derivation=package_engine.derive(original.read_bytes())
+        from cp7_accessory_nonpayable import report_io
+        text,report_io_derivation=report_io.derive_engine(text)
         engine=ModuleType('afui_exact_original_whole_package_engine');engine.__file__=str(original)
         exec(compile(text,str(original),'exec'),engine.__dict__)
+        engine.__dict__[report_io.HELPER]=report_io.write_complete
         from cp7_accessory_nonpayable import assembly,native_fixture,advisor_review,case_output,qualification_component as component
         engine.product=assembly
         engine.runner=SimpleNamespace(CASE=component.CASE,exercise=component.exercise,scheduler_quiet=component.scheduler_quiet)
@@ -103,12 +117,15 @@ def runtime():
             return dict(status='ACTUAL_FREE3_PARENT_AND_COMPLETE_NONPAYABLE_SOURCE_GRAPH_ADMITTED',
                 parent_head=receipt['head'],parent_tree=receipt['tree'],parent_run=receipt['run_id'],
                 own_source=static,complete_sources=graph,whole_engine_derivation=derivation,
+                whole_report_IO_derivation=report_io_derivation,
+                actual_owning_report_IO_binding=engine.report_io_binding,
                 actual_Native_cases=0,actual_Auth_HTTP_cases=0,actual_browser_cases=0,
                 production_go=False,independent_acceptance=False)
         engine.admitted=admitted
         assembly.runtime()  # Include the complete real inherited import path.
         modules,engine.native_domain_binding=native_fixture.domain_modules()
         case_output.binding(modules.control.native,'native')
+        _,_,engine.report_io_binding=report_io.binding(modules.control.native.r1)
         copies=component.load('afui_preDB_original_copy_modes',ROOT/case_output.SOURCES['copies'][0])
         case_output.binding(copies,'copies')
         case_output.sources()
@@ -127,6 +144,7 @@ def main():
         browser_observer=fixture_browser_observer_preflight()
         case_output=fixture_case_output_preflight()
         progress=fixture_progress_preflight()
+        report_io=fixture_report_io_preflight()
         _,engine=package_engine.derive((ROOT/package_engine.ORIGINAL).read_bytes())
         _,copies=copy_context.derive((ROOT/copy_context.ORIGINAL).read_bytes())
         print(json.dumps(dict(status='NONPAYABLE_STATIC_WHOLE_QUALIFIER_PREPARED_NOT_EXECUTED',source=static,
@@ -135,6 +153,7 @@ def main():
             fixture_browser_observer_preflight=browser_observer,
             fixture_case_output_preflight=case_output,
             fixture_progress_preflight=progress,
+            fixture_report_io_preflight=report_io,
             actual_SQL_executed=0,actual_Native_cases=0,
             actual_Auth_HTTP_cases=0,actual_two_session_cases=0,actual_browser_cases=0,
             production_go=False,independent_acceptance=False),sort_keys=True));return

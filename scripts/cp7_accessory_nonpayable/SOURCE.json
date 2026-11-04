@@ -33,8 +33,8 @@
       "sha256": "c8005a03755cd4d70a101d6bf5a37d46cbaeab63eadd36c5724d461389374322"
     },
     "scripts/cp7_accessory_nonpayable/access_cases.py": {
-      "bytes": 21457,
-      "sha256": "dc8121de228353a386ecb2415d97d8b1e28e1bb076747553daf93544f003cd3e"
+      "bytes": 21546,
+      "sha256": "93488b261736619dd8fd07bb6432b4c086993597cb3de2c30c69570ee7dbcbab"
     },
     "scripts/cp7_accessory_nonpayable/admission.py": {
       "bytes": 4829,
@@ -113,8 +113,8 @@
       "sha256": "3dd30156e24e23cfee1834286dd4f20771b7ff3907f1431611d9f00c6bfcd340"
     },
     "scripts/cp7_accessory_nonpayable/native_cases.py": {
-      "bytes": 11495,
-      "sha256": "cb2c8025c9573f7f6fb2aac62706c7fea396e38de6a6699105a3dddde01039e6"
+      "bytes": 11579,
+      "sha256": "7a050b10d221d65ad42e1f5aa9495f526e8adcbe81b7df3ae9764d363a4d880f"
     },
     "scripts/cp7_accessory_nonpayable/native_derivation.py": {
       "bytes": 8382,
@@ -141,12 +141,12 @@
       "sha256": "042c30ce6c8242b0626270d2a74f0433df4b5fc57cb8af0d4198a79a8f41cd20"
     },
     "scripts/cp7_accessory_nonpayable/qualification.py": {
-      "bytes": 10499,
-      "sha256": "1c8383b521dc17fdaf0c91718e689e709ab82d1ef2e54773c0c7350153ed153d"
+      "bytes": 11718,
+      "sha256": "0569809aa1be4e5f311a05fb58d841d5d750ce7b6f7d9d76c790b74612baced5"
     },
     "scripts/cp7_accessory_nonpayable/qualification_component.py": {
-      "bytes": 15196,
-      "sha256": "c6c87cee1f6543eac07f6bc327f29dc9f3a9f6e358237d494b413f54926691a5"
+      "bytes": 15233,
+      "sha256": "acff78747d08c2edbd4050e945d0b1c9f309eb3fa8d94bcc6344b0ae510d94fa"
     },
     "scripts/cp7_accessory_nonpayable/qualification_gate.py": {
       "bytes": 4826,
@@ -299,6 +299,14 @@
     "scripts/cp7_accessory_nonpayable/durable_action.test.mjs": {
       "bytes": 8180,
       "sha256": "56bf73da3b9189ddf981ff6a8ea45344d38b1c6fbb5612e733856e3b66b1b831"
+    },
+    "scripts/cp7_accessory_nonpayable/test_report_io.py": {
+      "bytes": 9470,
+      "sha256": "db05c2b59aeae0757019706d8774e9ad357bedf20e7285c22094add16caa30bf"
+    },
+    "scripts/cp7_accessory_nonpayable/report_io.py": {
+      "bytes": 5996,
+      "sha256": "cb1b5ff9da13188b798413d85d7f26701c7a8399ad3fbc5524b9e450bbc35c66"
     }
   },
   "actual_Native_cases": 0,
@@ -682,5 +690,12 @@
     "real_preDB_Native_and_copy_bindings": true,
     "static_prerequisite_controls": 22,
     "actual_business_credit": 0
+  },
+  "bounded_report_memory_preparation": {
+    "control_file": "scripts/cp7_accessory_nonpayable/REPORT_MEMORY_CONTROLS.json",
+    "bytes": 4677,
+    "sha256": "47851b2d736ed4076b615eee00d19e839715e429a46ed6594d8d92b3d55fc42f",
+    "actual_case_credit": 0,
+    "runner_failure_cause_proven": false
   }
 }
