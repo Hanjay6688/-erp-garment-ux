@@ -33,7 +33,7 @@ class CurrentMandorPreparation(unittest.TestCase):
     def original(self, name):
         return subprocess.check_output(['git', '-C', str(ROOT), 'show', routes.BASE + ':' + routes.NS + name])
 
-    def test_all_three_callers_are_exact_bounded_source_routes(self):
+    def test_all_reviewed_callers_are_exact_bounded_source_routes(self):
         for name in routes.PINS:
             raw = self.original(name)
             after, proof = routes.derive(raw, name)

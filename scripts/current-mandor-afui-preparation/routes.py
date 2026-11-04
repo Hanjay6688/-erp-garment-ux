@@ -11,6 +11,7 @@ PINS = {
     'admission.py': (1447, '609db7cade09a03be8aa4777adac6e11fdf3fc5aec672e625ed96705381e3b6c'),
     'qualification.py': (7161, '3f4bf0cfccbf650240729e01909dcb39b3e88371e59ee14a3bffc5f05934de0b'),
     'component.py': (7956, '31b7626e2488fd4371daa2bf21254583b86299673b91130eb0736778126f5044'),
+    'access_runtime.py': (8404, '4718579f49a6ad7cc5b4ac0e229d474a61dfe8e13f0e544b6ecf3ac49699a487'),
 }
 
 
@@ -38,10 +39,35 @@ def replacements(name):
         return (
             ('    observed=native.strict_group(NATIVE_LABEL,factory,verify)\n',
              "    report_io=load('mandor_current_owning_group_report_writer',ROOT/'scripts/current-mandor-afui-preparation/report_io.py')\n"
-             '    with report_io.group_scope(native.r1):\n'
+             "    output=load('mandor_current_complete_case_output',ROOT/'scripts/current-mandor-afui-preparation/output_binding.py')\n"
+             "    with report_io.group_scope(native.r1),output.case_scope(native,'native'):\n"
              '        observed=native.strict_group(NATIVE_LABEL,factory,verify)\n'),
+            ("        raw=path.read_bytes()\n"
+             "        if target.exists():require(target.read_bytes()==raw,'MANDOR_NATIVE_FIRST_STRICT_ORIGINAL_CHANGED')\n"
+             "        else:\n"
+             "            with target.open('xb')as output:output.write(raw)\n"
+             "        originals.append(source_record(target))\n",
+             "        originals.append(output.copy_exact(path,target))\n"),
         )
-    raise ValueError('MANDOR_CURRENT_ONLY_THREE_REVIEWED_CALLER_SOURCES')
+    if name == 'access_runtime.py':
+        save = (
+            "    path=ROOT/'cp6-proof/t3'/name\n"
+            "    raw=(json.dumps(value,sort_keys=True,default=str)+'\\n').encode()\n"
+            "    require(not path.exists(),'MANDOR_FIRST_SESSION_ORIGINAL_OVERWRITE_REFUSED')\n"
+            "    path.parent.mkdir(parents=True,exist_ok=True)\n"
+            "    with path.open('xb')as stream:stream.write(raw)\n"
+            "    return dict(name=path.name,bytes=len(raw),sha256=sha256(raw).hexdigest())\n",
+            "    output=load('mandor_current_complete_access_output',ROOT/'scripts/current-mandor-afui-preparation/output_binding.py')\n"
+            "    return output.save_access(value,name)\n")
+        scoped = []
+        for key in ('access_copy_authority', 'http_copy_authority', 'browser_copy_authority'):
+            before = "    with copy_scope(modes,product,state)as copies:\n        report['" + key + "']=copies\n"
+            after = ("    output=load('mandor_current_complete_access_output',ROOT/'scripts/current-mandor-afui-preparation/output_binding.py')\n"
+                     "    with output.case_scope(modes,'copies',retention=access_cases),copy_scope(modes,product,state)as copies:\n"
+                     "        report['" + key + "']=copies\n")
+            scoped.append((before, after))
+        return (save, *scoped)
+    raise ValueError('MANDOR_CURRENT_ONLY_REVIEWED_CALLER_SOURCES')
 
 
 def derive(raw, name):

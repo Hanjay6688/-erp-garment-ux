@@ -100,7 +100,7 @@ def source(*, allow_sparse_observation=False):
             'MANDOR_CURRENT_PENDING_AFUI_PARENT_MUST_REMAIN_CLOSED')
     return dict(status='CURRENT_AFUI_MANDOR_SOURCE_PREPARATION_NOT_RUNTIME', base_head=routes.BASE,
                 pending_current_Afui_head=routes.AFUI, exact_current_Afui_paths=len(copied),
-                exact_reversible_callers=3, parent_blob_identities=len(expected),
+                exact_reversible_callers=len(routes.PINS), parent_blob_identities=len(expected),
                 materialized_parent_files_checked=checked, absent_sparse_parent_files=len(absent),
                 full_runtime_materialization_still_required=bool(absent), exact_additive_preparation_files=len(own),
                 retained_current_UI_and_build_inputs_unchanged=True,

@@ -6,7 +6,7 @@ current Afui Native9 bodies, durable original transport and bounded report
 writer are retained. No source in the running Afui branch is modified.
 
 Four exact pending-parent metadata routes select the new immutable head/tree;
-its run and job are unknown and remain unset, along with the actual Root and
+no accepted run and job are bound yet, so they remain unset with the actual Root and
 owning-entry gates. The prior e0cf run ended with an external runner shutdown
 after nine verified Native case Originals; its full15/outer restore remain
 unverified and cannot satisfy this successor. The separate Mandor installation admission also stays closed.
@@ -14,8 +14,9 @@ The historical source reports retain their original bytes and scope.
 
 Three reversible owning-entry routes apply atomic complete-packet output,
 bind its exact encoder, and select this complete successor source fence.
-One Native component route scopes the same exact writer around its original
-strict group. Assertions, case counts, Native actors, financial commands,
+Two Native component routes scope the same exact writer and complete case
+output around its original strict group, then copy the two group Originals
+with the exact Afui chunked copier. Assertions, case counts, Native actors, financial commands,
 trusted installer, explicit unused inverse, used refusal and complete outer
 backup/restore remain unchanged. The exact original complete engine source
 must match before its one report output expression can be replaced.
@@ -36,3 +37,21 @@ verified before Root adoption. That adoption must deliberately update both
 admission families, the current source manifest/fence, and the owning workflow.
 The older workflow/preflight data still describe their historical preparation;
 they cannot activate this successor. No Mandor financial workflow is added.
+
+The fourth reviewed caller, `access_runtime.py`, now saves its five fixed
+complete Originals with the exact sorted JSON encoder in bounded chunks.
+Exclusive publication still refuses even an identical existing Original.
+All three original session/HTTP/browser mode calls use the pinned complete
+case-output scope. Access snapshot retention changes only three serialization
+expressions inside the full original compiler context: every boundary check,
+allowed-table decision, column, JSON value, timestamp and sequence remains.
+The exact Afui gzip writer produces the same complete bytes as the old encoder.
+
+Four additional local output controls check legacy JSON/gzip byte equality,
+exclusive publication, original-copy conflict refusal, unaltered access
+refusals, full compiler context and cleanup after the original failure. The
+first scoped-output control caught a decorator function cell still pointing
+to the parent output globals. Private binding now preserves the wrapper code
+while rebinding that one function cell to the owning output namespace. The
+corrected controls cover both Native and copy modes; the first failure stays
+with the proof. No Mandor financial case was run during this preparation.
