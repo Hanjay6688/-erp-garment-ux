@@ -47,3 +47,13 @@ Local controls prove source derivation and closed-interface behavior only.
 They do not execute Native transactions, Auth, concurrency, browser or full
 backup restoration. The 18 earlier business-model controls and isolated DDL
 proof remain preparation evidence, rather than actual ERP acceptance.
+
+The successor complete-report adapter is prepared for the exact retained
+Mandor17 and money19 engine sources. It changes one final output expression
+per engine and the owning R1 save function only inside a reversible scope.
+The encoder function is AST-identical to the current Afui atomic streaming
+writer: complete bytes and financial/recovery statements are retained, and
+a failed encoder preserves the preceding complete report. Five local controls
+cover exact-source rejection, full compiler context, output identity, nested
+scope refusal and cleanup. No running Afui source or child runtime is changed;
+actual runtime adoption and full recovery remain pending.

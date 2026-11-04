@@ -26,8 +26,8 @@
   "independent_acceptance": false,
   "files": {
     "README.md": {
-      "bytes": 3114,
-      "sha256": "0a97d6b5a5eaed72a07176a70ed1433ee53972bb5d91ac6c5012c0b6dbf1cdaf"
+      "bytes": 3781,
+      "sha256": "7e3a1d657d63ca39867578957437ab51c1ec0ae565aaa6e083bdc179491695b7"
     },
     "SOURCE_REFERENCE.json": {
       "bytes": 9808,
@@ -64,11 +64,30 @@
     "test_native_sql.mjs": {
       "bytes": 2921,
       "sha256": "b9c076e6397361834748babd92496a23b76ce1f2d4ef0b17377bd901c00058c9"
+    },
+    "report_io.py": {
+      "bytes": 5533,
+      "sha256": "04a7fab8b6e57641affe54f3dbe1caf1699d4bc070a0997d89495737077779b7"
+    },
+    "test_report_io.py": {
+      "bytes": 6149,
+      "sha256": "14f29ede80ec3aab71abc0d74f08fcf6b7d44dc8b9c9d78be1d3312a5f42ac74"
     }
   },
   "prepared_upstream_native_callbacks": 4,
   "callback_SQL_statements_type_checked": 20,
   "old_bad_column_counterexamples": 4,
   "callback_helper_declaration_shapes": 6,
-  "natural_runtime_module_binding_still_required": true
+  "natural_runtime_module_binding_still_required": true,
+  "complete_report_output_preparation": {
+    "exact_parent_engines": [
+      "mandor17",
+      "money19"
+    ],
+    "local_control_methods": 5,
+    "exact_output_expression_routes_per_engine": 1,
+    "actual_runtime_adopted": false,
+    "financial_and_recovery_statements_unchanged": true,
+    "actual_ERP_cases": 0
+  }
 }
