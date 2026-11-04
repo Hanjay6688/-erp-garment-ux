@@ -174,7 +174,11 @@ def main():
             engine = runtime()
             with engine.inherited_admission.parent_scope():
                 proof = engine.admitted()
-        print(json.dumps(dict(source=proof, source_DB_guard=guard, actual_SQL_executed=0)))
+                browser_preflight = load('automatic_current_browser_before_any_database', HERE / 'browser_preflight.py').check(runtime=True)
+                browser_binding = load('automatic_actual_browser_fixture_before_any_database', HERE / 'browser_binding.py')
+                _, browser_fixture = browser_binding.fixture(engine.product)
+        print(json.dumps(dict(source=proof, source_DB_guard=guard, browser_source_preflight=browser_preflight,
+                              actual_browser_fixture_source_binding=browser_fixture, actual_SQL_executed=0)))
         return
     attempts = load('automatic_unchanged_real_WIB_day_window', FROZEN_AFUI / 'scripts/current-de-free-date-preparation/attempt_policy.py')
     attempts.require_window()

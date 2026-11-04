@@ -39,6 +39,13 @@ def check(*, runtime=False):
         text, proof = deriver.derive(name)
         assembly.require(assembly.admission.pin(text.encode()) == expected, 'CURRENT_SKU_EXACT_BROWSER_SOURCE_REQUIRED:' + name)
         sources[name] = dict(source=expected, complete_retained_derivation=proof)
+    actual_native = load('current_browser_actual_followup_fixture_deriver',
+                         ROOT / 'scripts/current-sku-combined-fixture-followup/derive.py')
+    actual_text, actual_proof = actual_native.derive('fixture')
+    assembly.require(assembly.admission.pin(actual_text.encode()) == PINS['fixture'],
+                     'CURRENT_SKU_ACTUAL_BROWSER_NATIVE_CONSTRUCTOR_SOURCE_REQUIRED')
+    sources['actual_browser_native_constructor'] = dict(source=PINS['fixture'],
+                                                       complete_retained_derivation=actual_proof)
     tree = reference['automatic_source']['tree']
     native = load('current_browser_original_public_facade_shapes', ROOT / 'scripts/cp7_sku_pair_conversion/native_delta.py')
     signatures = list(native.SIGNATURES[:4])

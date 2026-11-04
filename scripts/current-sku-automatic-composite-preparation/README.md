@@ -234,3 +234,30 @@ packet integration still need implementation before these two new journeys
 can run. The owning Native25 runtime has not silently adopted them. Its old
 FIFO COGS help sentence also needs a narrow update at current UI integration;
 the frozen B source is preserved here.
+
+The actual fixture and source entries are now prepared in `browser_binding.py`,
+`browser_fixture.py` and `browser_source.py`. They require the complete actual
+five-gate admission first, bind the exact automatic composite product and
+compile the whole retained Native browser fixture inside the original
+database/network fence. Every actual Native constructor function is checked
+against the complete compiled source; the two imported Native helpers must
+come from the real frozen sources and keep identical bytes. The import path
+and real operation arguments are restored. Only the unchanged fixture main
+may later connect to its fixed local disposable browser database.
+
+The complete census now uses the exact bounded Afui IO primitive with its
+original pretty/sorted encoder options. An output model first exposed a
+relative-path mismatch, then a compact-versus-pretty byte mismatch. Both first
+failures are retained. The corrected model produces exactly the old complete
+bytes while using the privately bound current product; no raw field is lost.
+Four binding/journey controls and the nine existing owning controls pass.
+
+`browser_prepare.py` recovers the entire22853-byte real-App journey source by
+reversing six explicit routes. `browser.mjs` uses the current full source
+admission, current fixture,68.07 display expectation, separate60.06 physical
+metadata and the additional whole-inverse economic checks. Normal Auth,
+PostgREST, lost-response reconciliation, used-inverse refusal, full census,
+console and screenshots remain intact. The mandatory owning `--check` now
+compiles/binds this actual fixture under its DB/network fence before any
+database starts. The real copy runner and final packet integration remain
+pending; Native25 has not adopted or earned these browser cases.
