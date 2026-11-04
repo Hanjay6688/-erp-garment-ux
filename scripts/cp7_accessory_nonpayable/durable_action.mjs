@@ -1,11 +1,14 @@
 // Transport only. Partial Originals never grant financial or restoration credit.
 import {spawn, execFileSync} from 'node:child_process';
-import {constants, createReadStream} from 'node:fs';
+import {constants, createReadStream, createWriteStream} from 'node:fs';
 import * as fs from 'node:fs/promises';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {createHash} from 'node:crypto';
 import {performance} from 'node:perf_hooks';
+import {pipeline} from 'node:stream/promises';
+import {Transform} from 'node:stream';
+import {createGzip} from 'node:zlib';
 
 export const UPLOADER = 'ea165f8d65b6e75b540449e92b4886f43607fa02';
 const HERE = path.dirname(fileURLToPath(import.meta.url));
@@ -17,6 +20,7 @@ const NAMED_ORIGINALS = new Set([
   'CP7_AFUI_GOOD_NONPAYABLE_FULL15_NATIVE9.json',
   'CP7_AFUI_GOOD_NONPAYABLE_FULL15_NATIVE9_BUSINESS_DAY_FIRST_ATTEMPT.json',
   'AFUI_BROWSER_NATIVE_PREREQUISITE.json', 'AFUI_BROWSER_SETTINGS_STATE.json',
+  'AFUI_BROWSER_SETTINGS_STATE_CACHE.json',
 ]);
 
 export function originalLabel(name) {
@@ -111,6 +115,43 @@ export async function snapshot(source, staging, identity) {
   return manifest;
 }
 
+export async function snapshotLargeState(source, staging, identity, {partBytes = 400 * 1024 * 1024, signal} = {}) {
+  const name = path.basename(source);
+  requireValue(name === 'AFUI_BROWSER_SETTINGS_STATE.json' && Number.isSafeInteger(partBytes) &&
+    partBytes > 0 && partBytes <= 400 * 1024 * 1024, 'AFUI_EXACT_LARGE_STATE_AND_BOUNDED_PART_BYTES');
+  await regular(source);const before = await digest(source);
+  await fs.mkdir(staging);await regular(staging, true);
+  const compressed = path.join(staging, name + '.gz'), streamed = createHash('sha256');let rawBytes = 0;
+  const census = new Transform({transform(chunk, encoding, done) {rawBytes += chunk.length;streamed.update(chunk);done(null, chunk);}});
+  await pipeline(createReadStream(source), census, createGzip({level: 6}), createWriteStream(compressed, {flags: 'wx'}), {signal});
+  const captured = {bytes: rawBytes, sha256: streamed.digest('hex')};
+  requireValue(JSON.stringify(captured) === JSON.stringify(before) &&
+    JSON.stringify(await digest(source)) === JSON.stringify(before), 'AFUI_LARGE_STATE_ALL_RAW_BYTES_CHANGED_DURING_COMPRESSION');
+  const packed = await digest(compressed), parts = [], snapshots = [];
+  for (let offset = 0, number = 1; offset < packed.bytes; offset += partBytes, number++) {
+    const directory = path.join(staging, String(number).padStart(4, '0'));await fs.mkdir(directory);
+    const filename = name + '.gz.part-' + String(number).padStart(4, '0');
+    const size = Math.min(partBytes, packed.bytes - offset), target = path.join(directory, filename);
+    await pipeline(createReadStream(compressed, {start: offset, end: offset + size - 1}), createWriteStream(target, {flags: 'wx'}), {signal});
+    const actual = await digest(target);requireValue(actual.bytes === size, 'AFUI_LARGE_STATE_EXACT_COMPLETE_PART_REQUIRED');
+    const part = {number, name: filename, offset, ...actual};parts.push(part);
+    snapshots.push({directory, label: originalLabel(name) + '-part-' + String(number).padStart(4, '0'), payload: filename, part});
+  }
+  const joined = createHash('sha256');let count = 0;
+  for (const item of snapshots) for await (const chunk of createReadStream(path.join(item.directory, item.payload))) {
+    count += chunk.length;joined.update(chunk);
+  }
+  requireValue(count === packed.bytes && joined.digest('hex') === packed.sha256, 'AFUI_LARGE_STATE_COMPLETE_COMPRESSED_REASSEMBLY_REQUIRED');
+  for (const item of snapshots) {
+    item.manifest = {classification: 'INCOMPLETE_RUN_ORIGINAL_GZIP_PART_ONLY_NOT_ACCEPTANCE', ...identity,
+      original_name: name, original: before, compressed_original: {name: name + '.gz', ...packed},
+      part: item.part, all_parts: parts, exact_compressed_reassembly_verified: true,
+      actual_case_credit: 0, full_restore_verified: false, production_go: false};
+    await fs.writeFile(path.join(item.directory, 'MANIFEST.json'), json(item.manifest), {flag: 'wx'});
+  }
+  return snapshots;
+}
+
 export async function ownRuntime({worker, caseDirectory, staging, identity, upload, signalSource = process, pollMs = 5000}) {
   const controller = new AbortController(), seen = new Set(), uploaded = [], errors = [];
   let finished = false, externalSignal = null;
@@ -132,12 +173,19 @@ export async function ownRuntime({worker, caseDirectory, staging, identity, uplo
       if (!label || seen.has(name) || externalSignal) continue;
       seen.add(name);
       try {
-        const directory = path.join(staging, label);
-        const manifest = await snapshot(path.join(caseDirectory, name), directory, identity);
-        const receipt = await upload(directory, label, controller.signal);
-        requireValue(JSON.stringify(await digest(path.join(directory, name))) === JSON.stringify(manifest.original),
-          'AFUI_DURABLE_STAGED_ORIGINAL_CHANGED_DURING_UPLOAD');
-        const value = {...manifest, ...receipt}; uploaded.push(value); emit(value);
+        const source = path.join(caseDirectory, name), directory = path.join(staging, label);
+        const large = name === 'AFUI_BROWSER_SETTINGS_STATE.json' && (await fs.stat(source)).size > 64 * 1024 * 1024;
+        const snapshots = large ? await snapshotLargeState(source, directory, identity, {signal: controller.signal})
+          : [{directory, label, payload: name, manifest: await snapshot(source, directory, identity)}];
+        for (const item of snapshots) {
+          const manifest = item.manifest, receipt = await upload(item.directory, item.label, controller.signal, large ? 0 : 6);
+          const expected = large ? {bytes: manifest.part.bytes, sha256: manifest.part.sha256} : manifest.original;
+          requireValue(JSON.stringify(await digest(path.join(item.directory, item.payload))) === JSON.stringify(expected),
+            'AFUI_DURABLE_STAGED_ORIGINAL_CHANGED_DURING_UPLOAD');
+          const value = {...manifest, ...receipt};uploaded.push(value);emit(value);
+        }
+        if (large) requireValue(JSON.stringify(await digest(source)) === JSON.stringify(snapshots[0].manifest.original),
+          'AFUI_LARGE_STATE_ORIGINAL_CHANGED_DURING_UPLOAD');
       } catch (e) { errors.push({original_name: name, error: e.message}); emit({status: 'UPLOAD_FAILED', original_name: name, error: e.message}); }
     }
   };
@@ -183,13 +231,14 @@ export async function context(environment) {
     {env: childEnvironment(environment), encoding: 'utf8'}));
   requireValue(Number.isFinite(remaining) && remaining > 0, 'AFUI_DURABLE_ORIGINAL_RECOVERY_BUDGET_REQUIRED');
   const deadline = performance.now() + remaining * 1000;
-  const upload = async (directory, label, signal) => {
+  const upload = async (directory, label, signal, compressionLevel = 6) => {
+    requireValue([0, 6].includes(compressionLevel), 'AFUI_EXACT_ORIGINAL_UPLOAD_COMPRESSION');
     const timeoutMs = Math.min(120000, deadline - performance.now());
     requireValue(timeoutMs > 0, 'AFUI_DURABLE_RETENTION_BUDGET_EXHAUSTED');
     const output = path.join(stage, label + '.outputs'); await fs.writeFile(output, '', {flag: 'wx'});
     await command(process.execPath, [entry], {cwd: workspace, timeoutMs, signal, env: {...environment,
       INPUT_NAME: 'afui-original-' + run + '-' + attempt + '-' + label, INPUT_PATH: directory,
-      'INPUT_IF-NO-FILES-FOUND': 'error', 'INPUT_RETENTION-DAYS': '30', 'INPUT_COMPRESSION-LEVEL': '6',
+      'INPUT_IF-NO-FILES-FOUND': 'error', 'INPUT_RETENTION-DAYS': '30', 'INPUT_COMPRESSION-LEVEL': String(compressionLevel),
       INPUT_OVERWRITE: 'false', 'INPUT_INCLUDE-HIDDEN-FILES': 'false', GITHUB_OUTPUT: output}});
     return outputs(await fs.readFile(output, 'utf8'));
   };

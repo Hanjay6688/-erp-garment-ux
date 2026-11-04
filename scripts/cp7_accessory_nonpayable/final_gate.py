@@ -1,5 +1,5 @@
 """Full actual Afui canonical packet gate. Pending parent never earns credit."""
-from hashlib import sha256
+from hashlib import sha256,file_digest
 from pathlib import Path,PurePosixPath
 import gzip,importlib.util,json,re,subprocess,sys
 
@@ -24,7 +24,7 @@ def supervisor(p,value,head,run_id):
         'NONPAYABLE_ACTUAL_COMPLETE_OWNED_PROCESS_AND_UNCHANGED_BUDGETS')
     return dict(status='ACTUAL_PROCESS_TREE_COMPLETELY_REAPED',actual_case_credit=0)
 
-def artifact(directory,reference):
+def asset_file(directory,reference):
     from cp7_accessory_nonpayable import admission
     name=reference.get('name')
     if(type(name)is not str or len(PurePosixPath(name).parts)!=1 or name in('.','..')or'\\'in name
@@ -33,15 +33,27 @@ def artifact(directory,reference):
     path=directory/name
     if path.is_symlink()or path.parent.resolve()!=directory.resolve():
         raise ValueError('NONPAYABLE_CANONICAL_ORIGINAL_SYMLINK_OR_ESCAPE')
-    packed=path.read_bytes()
+    return path
+
+def verify_reference(directory,reference):
+    from cp7_accessory_nonpayable import admission
+    path=asset_file(directory,reference)
+    with path.open('rb')as stream:
+        actual=dict(bytes=path.stat().st_size,sha256=file_digest(stream,'sha256').hexdigest())
     if 'gzip_sha256'in reference:
-        if(type(reference.get('gzip_bytes'))is not int or len(packed)!=reference['gzip_bytes']
-            or sha256(packed).hexdigest()!=reference['gzip_sha256']):
+        if actual!=admission.require_pin(dict(bytes=reference.get('gzip_bytes'),sha256=reference.get('gzip_sha256'))):
             raise ValueError('NONPAYABLE_COMPRESSED_RAW_CENSUS_CHANGED')
-        raw=gzip.decompress(packed)
-    else:raw=packed
-    if admission.pin(raw)!=admission.require_pin({k:reference.get(k)for k in('bytes','sha256')}):
-        raise ValueError('NONPAYABLE_COMPLETE_RAW_ORIGINAL_BYTES_CHANGED:'+name)
+        digest=sha256();count=0
+        with gzip.open(path,'rb')as stream:
+            while chunk:=stream.read(1024*1024):count+=len(chunk);digest.update(chunk)
+        actual=dict(bytes=count,sha256=digest.hexdigest())
+    if actual!=admission.require_pin({k:reference.get(k)for k in('bytes','sha256')}):
+        raise ValueError('NONPAYABLE_COMPLETE_RAW_ORIGINAL_BYTES_CHANGED:'+reference['name'])
+    return path
+
+def artifact(directory,reference):
+    path=verify_reference(directory,reference);packed=path.read_bytes()
+    raw=gzip.decompress(packed)if'gzip_sha256'in reference else packed
     return raw
 
 def compare_census(before,after,declared,installed_catalog):
@@ -101,12 +113,12 @@ def assets(directory,part,installed_catalog):
             if {'name','bytes','sha256'}<=set(value):
                 if value['name']in originals and originals[value['name']]!=value:
                     raise ValueError('NONPAYABLE_CONFLICTING_CANONICAL_ORIGINAL_REFERENCES')
-                if value['name']not in originals:artifact(directory,value);originals[value['name']]=value
+                if value['name']not in originals:verify_reference(directory,value);originals[value['name']]=value
             for child in value.values():visit(child)
         elif type(value)is list:
             for child in value:visit(child)
     # These are the current component originals, not parent archive aggregates.
-    for key in('strict_group_originals','browser_fixture_original','browser_settings_state_original','http','races','browser'):
+    for key in('strict_group_originals','browser_fixture_original','browser_settings_state_original','browser_settings_cache_original','http','races','browser'):
         visit(part[key])
     for row in part['browser']['cases'].values():
         for name in row['screenshots']:
@@ -122,7 +134,7 @@ def assets(directory,part,installed_catalog):
         independently_recomputed_raw_census_intervals=len(censuses),no_projected_or_dropped_census_bytes=True)
 
 def validate(p,main,raw,package,backup,owned,head,*,source_graph,directory):
-    from cp7_accessory_nonpayable import admission,assembly,native_cases,access_cases,browser_prepare,case_boundary,qualification_gate,native_fixture,advisor_review
+    from cp7_accessory_nonpayable import admission,assembly,native_cases,access_cases,browser_prepare,case_boundary,qualification_gate,native_fixture,advisor_review,lossless_state
     receipt=admission.parent_receipt()
     p.fields(main,dict(status='PASS',qualification_commit=head,required_case_ids=[CASE],required_case_ids_pass=True,
         actual_Native_cases=9,actual_browser_cases=2,actual_business_cases=15,actual_Auth_HTTP_cases=2,
@@ -176,7 +188,11 @@ def validate(p,main,raw,package,backup,owned,head,*,source_graph,directory):
             product_state_modified=False,Native_or_schema_or_RPC_permissions_changed=False,
             all22_groups_equal_original_install=True),'NONPAYABLE_RAW_COPY_AUTHORITY_WITHOUT_MASK_OR_NEW_GRANTS')
     prepared=admission.strict(artifact(directory,part['browser_fixture_original']))
-    state=admission.strict(artifact(directory,part['browser_settings_state_original']))
+    original=part['browser_settings_state_original'];cache=part['browser_settings_cache_original']
+    state=lossless_state.read(verify_reference(directory,cache),cache['sha256'],
+        verify_reference(directory,original),original['sha256'])
+    p.exact(lossless_state.canonical_pin(state),{k:original[k]for k in('bytes','sha256')},
+        'NONPAYABLE_ALL_DECODED_STATE_CANONICAL_BYTES_EQUAL_COMPLETE_ORIGINAL')
     if prepared['status']!='ACTUAL_NATIVE_NONPAYABLE_BROWSER_PREREQUISITE_PREPARED':
         raise ValueError('NONPAYABLE_ACTUAL_NATIVE_GOOD_BROWSER_PREREQUISITE_REQUIRED')
     native_fixture.require_economics(prepared['actual_good'],prepared['fixture'],nonpayable=True,hpp='20')

@@ -108,6 +108,17 @@ def fixture_complete_original_io_preflight():
         tests_run=9,memory_control_limit_MiB=160,actual_SQL_executed=0,actual_Native_cases=0,
         runner_shutdown_origin_proven=False)
 
+def fixture_lossless_state_preflight():
+    import io,unittest
+    from cp7_accessory_nonpayable.test_lossless_state import LosslessStateControls
+    output=io.StringIO()
+    result=unittest.TextTestRunner(stream=output,verbosity=0).run(
+        unittest.defaultTestLoader.loadTestsFromTestCase(LosslessStateControls))
+    if result.testsRun!=9 or not result.wasSuccessful()or result.skipped or result.expectedFailures:
+        raise ValueError('NONPAYABLE_COMPLETE_LOSSLESS_STATE_PREFLIGHT_FAILED:'+output.getvalue())
+    return dict(status='EVERY_CANONICAL_STATE_BYTE_AND_INDEPENDENT_CONTAINER_VERIFIED',tests_run=9,
+        dropped_keys_or_values=0,actual_SQL_executed=0,actual_browser_case_credit=0)
+
 def runtime():
     from cp7_accessory_nonpayable import admission,source,package_engine
     admission.parent_receipt()  # Before any ERP import or runtime construction.
@@ -161,6 +172,7 @@ def main():
         progress=fixture_progress_preflight()
         report_io=fixture_report_io_preflight()
         complete_original_io=fixture_complete_original_io_preflight()
+        lossless_state=fixture_lossless_state_preflight()
         _,engine=package_engine.derive((ROOT/package_engine.ORIGINAL).read_bytes())
         _,copies=copy_context.derive((ROOT/copy_context.ORIGINAL).read_bytes())
         print(json.dumps(dict(status='NONPAYABLE_STATIC_WHOLE_QUALIFIER_PREPARED_NOT_EXECUTED',source=static,
@@ -171,6 +183,7 @@ def main():
             fixture_progress_preflight=progress,
             fixture_report_io_preflight=report_io,
             fixture_complete_original_io_preflight=complete_original_io,
+            fixture_lossless_state_preflight=lossless_state,
             actual_SQL_executed=0,actual_Native_cases=0,
             actual_Auth_HTTP_cases=0,actual_two_session_cases=0,actual_browser_cases=0,
             production_go=False,independent_acceptance=False),sort_keys=True));return
