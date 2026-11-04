@@ -156,12 +156,18 @@ async function journey(ui,mobile,source){
       await ui.expect(panel(page).getByRole('alert')).toContainText('Koreksi atau balik hasil terkait melalui alur yang sah')
       await ui.expect(panel(page)).toHaveAttribute('aria-busy','false')
       proofs.push(dateChanges(before,state('AFTER_POSTED_USE_REFUSAL')));progress.posted_use=refused
+      // A definite rejection invalidates the workspace. Reload through the
+      // normal UI before attempting the independent future-date operation.
+      const reload=page.waitForResponse(r=>requestIs(READ,r))
+      await panel(page).getByRole('button',{name:'Baca ulang tanggal berlaku',exact:true}).click()
+      assert.equal((await reload).status(),200)
+      await ui.expect(panel(page)).toHaveAttribute('aria-busy','false')
       const other=await owner.context.newPage();other.setDefaultTimeout(20000);track(other)
       await other.goto(ui.origin);await open(ui,other)
       const beforeSave=state('BEFORE_LOST_REPLY')
       await fill(ui,page,source.prepared.explicit_review_day,'Reviewed future GOOD date through normal App')
       const lost=await loseReply(page,true);assert.equal(lost.actual.status,'SAVED')
-      await ui.expect(retry(other)).toBeVisible();await ui.expect(day(other)).toBeDisabled()
+      await ui.expect(retry(other)).toBeVisible();await ui.expect(day(other)).toHaveCount(0)
       const saved=state('AFTER_ACTUAL_SAVE_LOST_REPLY')
       proofs.push(dateChanges(beforeSave,saved,{requests:[lost.request.p_request],versions:[lost.actual.id]}))
       const replay=await responseTo(other,()=>retry(other).click())

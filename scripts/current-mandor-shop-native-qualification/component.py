@@ -68,7 +68,9 @@ def exercise(product,trusted_connection,conn,cur,database,url,report,state):
         runtime_prerequisites.save(ROOT/'cp6-proof/t3'/(NATIVE_LABEL+'_PREREQUISITES.json'),prerequisites)
         runtime_prerequisites.validate(prerequisites)
         return cases.cases(native_context,cursor,today)
-    observed=native.strict_group(NATIVE_LABEL,factory,verify)
+    report_io=load('mandor_current_owning_group_report_writer',ROOT/'scripts/current-mandor-afui-preparation/report_io.py')
+    with report_io.group_scope(native.r1):
+        observed=native.strict_group(NATIVE_LABEL,factory,verify)
     originals=[]
     for name in(NATIVE_LABEL+'.json',NATIVE_LABEL+'_BUSINESS_DAY_FIRST_ATTEMPT.json'):
         path=native.r1.OUT/name

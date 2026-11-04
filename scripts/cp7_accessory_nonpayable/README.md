@@ -1,3 +1,77 @@
+### 4 November: retain complete case Originals during the owning run
+
+Run41684390745/job126086157087 at a16e ended after the runner received an
+external shutdown signal. All nine Native PASS receipts appeared in its log,
+but the complete Original files, full fifteen-case packet and restoration
+could not be recovered. The internal work deadline was not reached. No claim
+is made about the shutdown's origin, and the partial log grants no acceptance.
+
+A local Node action now runs the unchanged Python supervisor and uploads each
+completed immutable AFUI_CASE_STDOUT Original while the worker continues. It
+uses the same pinned official actions/upload-artifact distribution as the final
+packet, in a separately checked checkout. Every copied byte and SHA is checked;
+partial files, symlinks and overwrites refuse. Each artifact records this exact
+head/run/attempt and explicitly gives zero financial/restoration credit. The
+existing final packet and full15/all-five gate remain mandatory.
+
+An actual transport preflight uploads a small source-only packet before the
+original database creation. Runtime refuses unless that same run's upload
+returned an artifact ID and digest. Artifact credentials stay out of the
+financial child. Failed uploads are recorded once while the original worker
+continues its cleanup; they refuse the action. Runner signals are forwarded to
+the retained supervisor. Upload subprocesses have bounded deadlines and are
+reaped; the original 360/330/20/10 process budgets and genuine WIB policy remain.
+The new 78-step workflow retains 66 original steps, nine declared owning routes
+and three added checkout/transport/final-gate steps. No financial case, SQL,
+permission, fixture, date, census, source, inverse or restore oracle is reduced.
+
+Eight local transport/process controls exercise exact large bytes, upload
+before worker exit, failed transport with worker cleanup, nonzero exit, signals
+through the actual retained Python supervisor, hung uploader reaping, unsafe
+paths, secret exclusion and malformed output. These controls execute no ERP
+transaction or GitHub upload. The real transport still has to pass before DB.
+
+### 3 November: preserve complete module compilation context
+
+Run41679871902/job126070382521 at17dd failed at the fenced pre-database
+admission, before database creation and all fifteen actual cases. The original
+log and artifact are retained; this is not another transaction hang. Python3.12
+compiles imported-module calls differently when only a function AST is supplied.
+The old comparison therefore rejected the exact naturally imported function.
+
+The observer now compiles each complete exact original/derived module without
+executing it and selects its one owning code object. Original-byte pins, code
+identity, function globals, filename, defaults and restoration remain checked.
+The seven output controls now create their fixture from whole-module bytecode;
+the additional regression compares both the original and derived source contexts.
+A first local fixture omission of optional defaults was retained and corrected.
+The fenced real pre-database admission also loads and binds both Native and copy
+runners before any database provisioning. Product SQL, financial cases, grants,
+three output routes, genuine WIB dates and all runtime budgets remain unchanged.
+
+### 3 November: terminal cancellation and bounded case output
+
+Run41612220870/job125836684170 at8416 ended11:40:24UTC with job failure,
+step71 cancelled and all artifact/cleanup steps skipped. No artifact exists;
+actual cases and restoration cannot be accepted. The first cancellation stays
+recorded. GitHub also reported repeated tsc and eslint-compact regex timeouts.
+The authenticated log connector twice closed its transport; the unauthenticated
+log endpoint returned403. The final cancellation cause remains unproven.
+
+Three exact per-case print sites now stream their complete original JSON bytes
+to exclusive AFUI_CASE_STDOUT files and print only a sub2KB hash/size receipt.
+Original strict Native/copy results, all group files, financial oracles,
+transactions, dates, Auth masks and cleanup stay unchanged. The exact original
+callable is checked before binding and restored after success or failure.
+The six new controls retain exact bytes including large integers, decimals,
+Unicode and duplicate rows; refuse overwrite/symlink/source/callable changes;
+preserve encoder failure; compare original and routed copy results/refusals.
+An initial source import typo was corrected before any control or ERP case ran.
+This closes the unbounded per-case console path, not the unproven cancellation.
+The prepared cold browser observer correction is retained. A fresh actual full15,
+all five package gates and complete restoration remain required. The genuine
+six-hour WIB window and360/330/20/10 budgets are unchanged.
+
 ### First actual Supabase PostgreSQL17 capability result
 
 The isolated actual17 run41437248634/job125250039172 preserved its first failure: its all22 reader inherited a public search_path and formatted the new public function key without `public.`. The capability now sets the same empty search_path and UTC as the actual owning runtime before taking either catalog snapshot. Exact settings SQL, all six bodies and catalog/role exposure oracles remain unchanged. Its synthetic database was removed and global roles restored. The completed actual17 Mandor capability and actual catalog privilege refusal remain valid and will not be rerun. This repair does not alter the financial workflow six-hour WIB window or grant any business acceptance.
@@ -301,3 +375,53 @@ manual event; only the affected control was repeated after correction. Existing
 financial, UI, Auth and Native model tests were not repeated. Actual accepted
 FREE3 rebase/binding, full ERP/Auth/browser execution and Root canonical intake
 are still mandatory. This component has zero actual fresh qualification credit.
+
+The prepared successor prints bounded ENTER/RETURNED/RAISED phase receipts for
+the whole package, Native group and each Native case, committed prerequisite,
+HTTP, two-session and browser groups. They show the last reached stage and
+monotonic duration, not business acceptance. No request payload, error message,
+new timer, background worker or financial clock change is introduced. A broken
+log stream cannot prevent the original operation or restoration. Four new
+controls pass; removing only diagnostic AST nodes recovers both original
+qualifier modules exactly. The original seventeen prerequisite controls remain
+valid and run alongside these four before the next database provisioning.
+The source change does not establish why run8416 was cancelled or prove its
+unavailable restoration. Actual full15/all5 and restoration remain required.
+
+The current successor shares only equal immutable catalog strings across
+independent snapshots and streams both Native-group and final whole-packet
+JSON. All values, ordering, comparisons, case functions and SQL stay intact.
+Eight new pre-provision controls include exact encoder bytes, independent
+mutable snapshots, failed-write preservation and an 84 MB report under a
+128 MiB address-space limit. All 42 affected prerequisite controls pass.
+
+Run41721666877 lost runner communication after retaining nine PASS case
+Originals. Replaying all 422653815 bytes preserves every original SHA256;
+long-string storage falls from 215029472 to 7678719 bytes. This demonstrates
+the memory reduction, without establishing the runner's exact failure cause.
+HTTP2/session2/browser2 and complete outer restoration remain unqualified.
+
+Current Native9 completed on run41809863387 and all nine per-case Originals
+were retained. The runner then received an external shutdown during committed
+Auth/browser fixture preparation, before the work deadline. Its origin remains
+unknown; full15/all-five/outer restoration are unverified. No memory cause is
+claimed from that interruption.
+
+Complete sorted state JSON, Native group copies and complete access/browser
+census gzip files now use bounded buffers with exact legacy bytes. Existing
+originals are compared in full and cannot be replaced; encoder failures retain
+the previous complete output. Full Native group and first-attempt reports,
+committed fixture/settings snapshots and complete compressed access/browser
+originals are linked to the existing incremental uploader only after atomic
+publication. Their real filenames, complete bytes and digest are retained;
+partial results still grant zero acceptance.
+
+Nine storage controls and nine transport/process controls pass. An84MB
+complete-state control exceeds the legacy writer's160MiB memory limit; the
+new writer and gzip keep exact bytes with peakRSS28984KiB. A real retained
+22-group Native catalogue also matches the existing JSON/gzip encoders. The
+new controls run before database provisioning. Financial callbacks, SQL,
+assertions, actors, restoration and the360/330/20/10 budgets are unchanged.
+The action still accepts first attempt only; a GitHub job re-run is not an
+activation path. A successor must use a new immutable candidate and a genuine
+six-hour WIB window. No financial job is started by these source changes.

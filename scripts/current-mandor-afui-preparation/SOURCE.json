@@ -1,0 +1,218 @@
+{
+  "classification": "CURRENT_AFUI_MANDOR_SOURCE_PREPARATION_NOT_RUNTIME",
+  "base": {
+    "head": "c296fd06167ddd177e1192c1008992e2a1e3d628",
+    "tree": "fdd36962a7de81482ccca02e6ff96597cfc20081"
+  },
+  "pending_current_Afui": {
+    "head": "92a376091a1d1ea9901648e614f3e5212677a81f",
+    "tree": "ef194e421402ae1e45625e2d57f58c848ef9e08f",
+    "run_id": null,
+    "job_id": null,
+    "actual_Root_pin": null
+  },
+  "exact_current_Afui_files": {
+    ".github/workflows/cp7-afui-good-nonpayable.yml": {
+      "mode": "100644",
+      "blob": "c172fe96a62214409fdde2520e670a0aad8b2027"
+    },
+    "scripts/cp7_accessory_nonpayable/CASE_OUTPUT_CONTROLS.json": {
+      "mode": "100644",
+      "blob": "c70a26734a3ff061cc2dcebecd5936b7c96ac71a"
+    },
+    "scripts/cp7_accessory_nonpayable/COMPLETE_ORIGINAL_IO_CONTROLS.json": {
+      "mode": "100644",
+      "blob": "3fcf7df7a1513475d1c93bc161f53c7ea572a35f"
+    },
+    "scripts/cp7_accessory_nonpayable/MODULE_CONTEXT_CONTROLS.json": {
+      "mode": "100644",
+      "blob": "d8f1075474fc2a77234d2cd6e13331158276982c"
+    },
+    "scripts/cp7_accessory_nonpayable/PROGRESS_CONTROLS.json": {
+      "mode": "100644",
+      "blob": "ef27a18a8fcdb56c2f54dee503cbf519d6da2cfd"
+    },
+    "scripts/cp7_accessory_nonpayable/README.md": {
+      "mode": "100644",
+      "blob": "98aa00bffb1b8c0dd214cf6929c047d3b120676a"
+    },
+    "scripts/cp7_accessory_nonpayable/REPORT_MEMORY_CONTROLS.json": {
+      "mode": "100644",
+      "blob": "6f6f0fed94bac1c34c60ddc5be4c3ab005d64000"
+    },
+    "scripts/cp7_accessory_nonpayable/SOURCE.json": {
+      "mode": "100644",
+      "blob": "a355af29f2699e80475cdd6da40a5ea3b11e0933"
+    },
+    "scripts/cp7_accessory_nonpayable/access_cases.py": {
+      "mode": "100644",
+      "blob": "762978d37f9e8c7a3812f06a8f45c3158fd77751"
+    },
+    "scripts/cp7_accessory_nonpayable/action.yml": {
+      "mode": "100644",
+      "blob": "54ee200357f05745160bbdab48d57a3607d5dfa1"
+    },
+    "scripts/cp7_accessory_nonpayable/afui15.workflow.yml.txt": {
+      "mode": "100644",
+      "blob": "c172fe96a62214409fdde2520e670a0aad8b2027"
+    },
+    "scripts/cp7_accessory_nonpayable/browser.mjs": {
+      "mode": "100644",
+      "blob": "9267d4706877ad9c5f68eaef774f081bd6c9df15"
+    },
+    "scripts/cp7_accessory_nonpayable/browser_fixture.py": {
+      "mode": "100644",
+      "blob": "b7052b45688f429db093949623a18e2f6590828d"
+    },
+    "scripts/cp7_accessory_nonpayable/browser_prepare.py": {
+      "mode": "100644",
+      "blob": "4802bd684ecb26c38d5d63344878dc28d21dcd6c"
+    },
+    "scripts/cp7_accessory_nonpayable/case_output.py": {
+      "mode": "100644",
+      "blob": "f946dbf8a83b71560175bc3e0c217f1137fffa69"
+    },
+    "scripts/cp7_accessory_nonpayable/complete_original_io.py": {
+      "mode": "100644",
+      "blob": "d91c3b9911b6caba97b6f63d06b16dc9d86f5ad2"
+    },
+    "scripts/cp7_accessory_nonpayable/composition.py": {
+      "mode": "100644",
+      "blob": "215af73595095592278bf8a89886bbd86928b5c0"
+    },
+    "scripts/cp7_accessory_nonpayable/durable_action.mjs": {
+      "mode": "100644",
+      "blob": "8bd29a10ce58f50b30d30c3c49416af2b4c133e5"
+    },
+    "scripts/cp7_accessory_nonpayable/durable_action.test.mjs": {
+      "mode": "100644",
+      "blob": "f79e0e9ee93c19cc3b9edbb5ba8a0a464fbbda51"
+    },
+    "scripts/cp7_accessory_nonpayable/native_cases.py": {
+      "mode": "100644",
+      "blob": "504c7ca49cc017ff66fb9164402427218cd8d16a"
+    },
+    "scripts/cp7_accessory_nonpayable/progress.py": {
+      "mode": "100644",
+      "blob": "82b4a8b65b1967957bdc443bc0dbf121b25c4fda"
+    },
+    "scripts/cp7_accessory_nonpayable/qualification.py": {
+      "mode": "100644",
+      "blob": "eb0ad005c94181868926cb7a6eea95516f3f5daf"
+    },
+    "scripts/cp7_accessory_nonpayable/qualification_component.py": {
+      "mode": "100644",
+      "blob": "e55a4069ddf92b3ccb154c80d29982eb1a52275a"
+    },
+    "scripts/cp7_accessory_nonpayable/report_io.py": {
+      "mode": "100644",
+      "blob": "e7d33374f312c80569ce02b2115fdc9458f0306f"
+    },
+    "scripts/cp7_accessory_nonpayable/test_browser_observer.py": {
+      "mode": "100644",
+      "blob": "e63aff6babc96f4809d9020a9710e83e5bf273b5"
+    },
+    "scripts/cp7_accessory_nonpayable/test_case_output.py": {
+      "mode": "100644",
+      "blob": "0b5dd823c483daf3b762889228b661d49926595f"
+    },
+    "scripts/cp7_accessory_nonpayable/test_committed_preparation.py": {
+      "mode": "100644",
+      "blob": "bd05dcb91c7c113f3574078ffc35c0ddc66fb329"
+    },
+    "scripts/cp7_accessory_nonpayable/test_complete_original_io.py": {
+      "mode": "100644",
+      "blob": "7ac28976bdd13afa37f673e8bcf86d442ad5056c"
+    },
+    "scripts/cp7_accessory_nonpayable/test_native_preparation.py": {
+      "mode": "100644",
+      "blob": "c6c6a3109ecb45553c18f6245d63225c10c99a83"
+    },
+    "scripts/cp7_accessory_nonpayable/test_progress.py": {
+      "mode": "100644",
+      "blob": "c743d24259aa845ad41db4a27e98586d4f4b5ce8"
+    },
+    "scripts/cp7_accessory_nonpayable/test_report_io.py": {
+      "mode": "100644",
+      "blob": "40e227015ddcfa803e84d7cd7b148bd91b10c7e7"
+    },
+    "scripts/cp7_accessory_nonpayable/test_workflow_preparation.py": {
+      "mode": "100644",
+      "blob": "162e2a07ead43e0265006dc0fa5a0cbc5dd55b6f"
+    },
+    "scripts/cp7_accessory_nonpayable/workflow.py": {
+      "mode": "100644",
+      "blob": "7ee0670b2ad9d1afa1e7af069c3619ff460dfe99"
+    }
+  },
+  "caller_derivations": {
+    "admission.py": {
+      "original_bytes": 1447,
+      "original_sha256": "609db7cade09a03be8aa4777adac6e11fdf3fc5aec672e625ed96705381e3b6c",
+      "derived_sha256": "ad64dc355db413fc1f30485213d9313e7098be2b0a224de45dce515ec12d2896",
+      "exact_routes": 4,
+      "whole_original_caller_recovered": true,
+      "actual_ERP_cases": 0,
+      "production_go": false
+    },
+    "qualification.py": {
+      "original_bytes": 7161,
+      "original_sha256": "3f4bf0cfccbf650240729e01909dcb39b3e88371e59ee14a3bffc5f05934de0b",
+      "derived_sha256": "700ee4b322076ff76c73ed30e144fc33edfef00c834ab4a5d2a569fd255f628f",
+      "exact_routes": 3,
+      "whole_original_caller_recovered": true,
+      "actual_ERP_cases": 0,
+      "production_go": false
+    },
+    "component.py": {
+      "original_bytes": 7956,
+      "original_sha256": "31b7626e2488fd4371daa2bf21254583b86299673b91130eb0736778126f5044",
+      "derived_sha256": "4b93b4311efdc31b208a586d5d4e6d11ce1dccebcc048f39153e0e96287ed409",
+      "exact_routes": 1,
+      "whole_original_caller_recovered": true,
+      "actual_ERP_cases": 0,
+      "production_go": false
+    }
+  },
+  "files": {
+    "scripts/current-mandor-afui-preparation/check_source.py": {
+      "bytes": 6214,
+      "sha256": "c4dca98905343730228267a9158184173ac7e1cbda1c297798a1a8b431675e2c"
+    },
+    "scripts/current-mandor-afui-preparation/README.md": {
+      "bytes": 2418,
+      "sha256": "5b4b14d87d9037ae4467327694391fce9d097332415f0d6cae2ed25ae97cb5f2"
+    },
+    "scripts/current-mandor-afui-preparation/test_preparation.py": {
+      "bytes": 4890,
+      "sha256": "db509d7b4951b25988fa1e1552c97b2bdea5e9ef07c2eb544607299e6f1c54cb"
+    },
+    "scripts/current-mandor-afui-preparation/routes.py": {
+      "bytes": 3882,
+      "sha256": "c063fb2aa6848630e8d778a5fd0c334bcb57c49e25933faeb8aa8a8a6c0daae9"
+    },
+    "scripts/current-mandor-afui-preparation/report_io.py": {
+      "bytes": 5533,
+      "sha256": "04a7fab8b6e57641affe54f3dbe1caf1699d4bc070a0997d89495737077779b7"
+    },
+    "scripts/current-mandor-shop-native-qualification/admission.py": {
+      "bytes": 1432,
+      "sha256": "ad64dc355db413fc1f30485213d9313e7098be2b0a224de45dce515ec12d2896"
+    },
+    "scripts/current-mandor-shop-native-qualification/qualification.py": {
+      "bytes": 7510,
+      "sha256": "700ee4b322076ff76c73ed30e144fc33edfef00c834ab4a5d2a569fd255f628f"
+    },
+    "scripts/current-mandor-shop-native-qualification/component.py": {
+      "bytes": 8127,
+      "sha256": "4b93b4311efdc31b208a586d5d4e6d11ce1dccebcc048f39153e0e96287ed409"
+    }
+  },
+  "financial_assertions_and_owning_recovery_unchanged": true,
+  "historical_control_reports_relabelled": false,
+  "active_workflow_added": false,
+  "actual_ERP_cases": 0,
+  "actual_Auth_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

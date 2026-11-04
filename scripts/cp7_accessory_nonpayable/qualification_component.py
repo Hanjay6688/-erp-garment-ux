@@ -20,23 +20,21 @@ def scheduler_quiet(url):
     return load('afui_original_scheduler_quiet',ROOT/'scripts/current-vendor-receivable-qualification/native_runner.py').scheduler_quiet(url)
 
 def save(name,value):
+    from . import complete_original_io
     path=ROOT/'cp6-proof/t3'/name;path.parent.mkdir(parents=True,exist_ok=True)
-    raw=(json.dumps(value,sort_keys=True,default=str)+'\n').encode()
-    if path.exists()and path.read_bytes()!=raw:raise ValueError('NONPAYABLE_FIRST_ORIGINAL_OVERWRITE_REFUSED:'+name)
-    if not path.exists():
-        with path.open('xb')as stream:stream.write(raw)
-    return dict(name=name,bytes=len(raw),sha256=sha256(raw).hexdigest())
+    receipt=complete_original_io.save_sorted(path,value,'NONPAYABLE_FIRST_ORIGINAL_OVERWRITE_REFUSED:'+name)
+    complete_original_io.publish(path)
+    return receipt
 
 def retain(native,report):
+    from . import complete_original_io
     records=[]
     for name in(NATIVE_LABEL+'.json',NATIVE_LABEL+'_BUSINESS_DAY_FIRST_ATTEMPT.json'):
         source=native.r1.OUT/name
         if not source.is_file():continue
-        raw=source.read_bytes();target=ROOT/'cp6-proof/t3'/name
-        if target.exists()and target.read_bytes()!=raw:raise ValueError('NONPAYABLE_FIRST_STRICT_NATIVE_ORIGINAL_CHANGED')
-        if not target.exists():
-            with target.open('xb')as stream:stream.write(raw)
-        records.append(dict(name=name,bytes=len(raw),sha256=sha256(raw).hexdigest()))
+        target=ROOT/'cp6-proof/t3'/name
+        records.append(complete_original_io.copy_exact(source,target,'NONPAYABLE_FIRST_STRICT_NATIVE_ORIGINAL_CHANGED'))
+        complete_original_io.publish(target)
     report['strict_group_originals']=records
 
 def local(conn,cur,url):
@@ -117,6 +115,27 @@ def full_case(cur,name,operation,state,control):
     result['actual_full22_case_boundary']=boundary
     return result
 
+def committed_identity(cur,bc):
+    """Recreate the ordinary foundation only in an empty disposable copy.
+
+    strict_group rolls its foundation back. A new committed connection must
+    supply that same original prerequisite; it cannot inherit those rows.
+    Existing users/roles are never promoted or repaired by this helper.
+    """
+    bc.api.admin(cur)
+    count=cur.execute('select count(*) from erp.app_users').fetchone()[0]
+    if type(count)is not int or count<0:raise ValueError('NONPAYABLE_EXACT_FIXTURE_USER_COUNT_REQUIRED')
+    if count==0:bc.api.seed(cur)
+    bc.api.admin(cur)
+    actors=cur.execute('select u.is_active,r.role_code,r.is_active from erp.app_users u '
+        'join erp.app_roles r on r.id=u.role_id where u.auth_user_id=%s',
+        (bc.api.base.OPERATOR_AUTH,)).fetchall()
+    if actors!=[(True,'OWNER',True)]:
+        raise ValueError('NONPAYABLE_COMMITTED_ORIGINAL_ACTIVE_OWNER_REQUIRED_WITHOUT_PROMOTION')
+    return dict(status='ORIGINAL_ORDINARY_OWNER_FOUNDATION_READY',initial_app_users=count,
+        unchanged_original_foundation_loaded=count==0,existing_actor_or_role_promoted=False,
+        product_permission_grants_added=False,actual_case_credit=0)
+
 def committed_prerequisite(url,state,report,control):
     from . import assembly,browser_prepare,native_fixture
     import psycopg
@@ -127,8 +146,10 @@ def committed_prerequisite(url,state,report,control):
         bc.api.admin(cur)
         had=cur.execute("select has_schema_privilege('authenticated','erp','USAGE')").fetchone()[0]
         if not had:cur.execute('grant usage on schema erp to authenticated')
+        identity=committed_identity(cur,bc)
         today=cur.execute("select(statement_timestamp()at time zone'Asia/Jakarta')::date").fetchone()[0]
         prepared=browser_prepare.prepare(cur,today,state)
+        prepared['committed_fixture_identity']=identity
         bc.api.admin(cur)
         if not had:cur.execute('revoke usage on schema erp from authenticated')
         # The committed source for Auth/browser copies has exact product ACLs.
@@ -169,7 +190,7 @@ def browser_environment(report):
             else:os.environ[name]=value
 
 def exercise(conn,cur,database,url,report,state):
-    from . import admission,assembly,native_cases,access_cases,browser_prepare,copy_context,qualification_gate
+    from . import admission,assembly,native_cases,access_cases,browser_prepare,copy_context,qualification_gate,case_output,progress,report_io
     admission.parent_receipt()  # Before ERP graph, connection or fixture use.
     from cp7_p21_current_chain_rehearsal_probe import helper
     from cp7_catalog_state import exact_public_catalog
@@ -177,7 +198,7 @@ def exercise(conn,cur,database,url,report,state):
     with control.product_catalog(cur):assembly.verify(cur,state)
     report.update(status='INCOMPLETE',actual_Native_cases=0,actual_Auth_HTTP_cases=0,actual_two_session_races=0,
         actual_browser_cases=0,retained_FREE3_fresh_case_credit=0,production_go=False,independent_acceptance=False,
-        global_writer_or_permission_or_lock_closure=False)
+        global_writer_or_permission_or_lock_closure=False,case_output_source=case_output.sources())
     conn.rollback();cur.close();conn.close()
     def verify(cursor):
         with control.product_catalog(cursor):return assembly.verify(cursor,state)
@@ -186,33 +207,37 @@ def exercise(conn,cur,database,url,report,state):
         def one(name,operation):
             if failed:return dict(status='INCOMPLETE',blocked_by_first_case=failed[0],
                 error='NONPAYABLE_REMAINING_CASES_NOT_RUN_AFTER_FIRST_FAILURE',actual_case_credit=0)
-            try:return full_case(cursor,name,operation,state,control)
+            try:
+                with progress.phase('NATIVE_CASE',name):return full_case(cursor,name,operation,state,control)
             except Exception:
                 failed.append(name);raise
         return[(name,lambda name=name,operation=operation:one(name,operation))
             for name,operation in native_cases.cases(cursor,today,state)]
     try:
-        with exact_public_catalog(native,retain_raw=True)as public:
+        with exact_public_catalog(native,retain_raw=True)as public,case_output.scope(native,'native'),report_io.scope(native.r1),progress.phase('NATIVE_GROUP'):
             actual=native.strict_group(NATIVE_LABEL,cases,verify)
     finally:retain(native,report)
     report.update(native=actual,public_catalog_observation=public)
     report['Native9_gate']=qualification_gate.native(actual,native_cases.IDS)
     report['actual_Native_cases']=9
-    committed_prerequisite(url,state,report,control)
+    with progress.phase('COMMITTED_PREREQUISITE'):committed_prerequisite(url,state,report,control)
     modes=load('afui_unchanged_original_real_Auth_and_browser_modes',ROOT/'scripts/current-s03-sku-s05-composite-qualification/modes.py')
     adapter=SimpleNamespace(http_cases=lambda http,today:access_cases.http_cases(http,today,state=state),
         races=lambda tools,today:access_cases.races(tools,today,state=state))
-    with copy_context.scope(modes,state)as copies:
+    with copy_context.scope(modes,state)as copies,case_output.scope(modes,'copies'):
         report['copy_authority']=copies
-        report['http']=modes.run_http(adapter,verify,'afui_dates_http2')
-        report['HTTP2_gate']=qualification_gate.copies(report['http'],access_cases.HTTP_IDS,mode='HTTP')
-        report['actual_Auth_HTTP_cases']=2
-        report['races']=modes.run_races(adapter,verify,'afui_dates_session2')
-        report['session2_gate']=qualification_gate.copies(report['races'],access_cases.RACE_IDS,mode='RACE')
-        report['actual_two_session_races']=2
-        with browser_environment(report):report['browser']=modes.run_browser(HERE/'browser.mjs',verify,'afui_dates_browser2')
-        report['browser2_gate']=qualification_gate.copies(report['browser'],browser_prepare.IDS,mode='BROWSER')
-        report['actual_browser_cases']=2
+        with progress.phase('HTTP_GROUP'):
+            report['http']=modes.run_http(adapter,verify,'afui_dates_http2')
+            report['HTTP2_gate']=qualification_gate.copies(report['http'],access_cases.HTTP_IDS,mode='HTTP')
+            report['actual_Auth_HTTP_cases']=2
+        with progress.phase('SESSION_GROUP'):
+            report['races']=modes.run_races(adapter,verify,'afui_dates_session2')
+            report['session2_gate']=qualification_gate.copies(report['races'],access_cases.RACE_IDS,mode='RACE')
+            report['actual_two_session_races']=2
+        with progress.phase('BROWSER_GROUP'):
+            with browser_environment(report):report['browser']=modes.run_browser(HERE/'browser.mjs',verify,'afui_dates_browser2')
+            report['browser2_gate']=qualification_gate.copies(report['browser'],browser_prepare.IDS,mode='BROWSER')
+            report['actual_browser_cases']=2
     if(len(report['copy_authority']['actual_copy_admissions'])!=4
         or any(row.get('all22_groups_equal_original_install')is not True
             or row.get('product_state_modified')is not False

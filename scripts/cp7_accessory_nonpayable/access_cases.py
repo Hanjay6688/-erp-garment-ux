@@ -93,9 +93,11 @@ def denied(reply,code,sqlstate=None):
     return reply
 
 def _capture_rows(cur,catalog,state):
+    from .report_io import share_strings
     groups=catalog._catalog_rows(cur)
     if len(groups)!=22 or groups!=state['after']:
         raise ValueError('NONPAYABLE_OBSERVATION_EXACT_INSTALLED_ALL22_REQUIRED')
+    groups=share_strings(groups,state['after'])
     data=catalog._data(cur)
     return dict(catalog=groups,data_and_all_sequences=data,
         date_versions=[r[0]for r in cur.execute('select to_jsonb(v)from cp7_accessory_nonpayable.category_versions_v1 v order by id').fetchall()],
@@ -110,6 +112,17 @@ def capture_observed(cur,modules,state):
     modules.bc.api.admin(cur);cur.execute("set local timezone='UTC'")
     with modules.control.product_catalog(cur):
         return _capture_rows(cur,modules.product.runtime()[-1],state)
+
+def capture_browser_observed(cur,modules,state):
+    """Read the exact Auth/browser catalog without a Native process overlay.
+
+    This observer runs in a fresh process. The legacy Native control.STATE is
+    populated only by the installer in its own process and cannot be reused
+    here. Auth/browser copies carry the exact product ACLs; the complete raw22
+    equality in _capture_rows must pass directly, including the schema ACL.
+    """
+    modules.bc.api.admin(cur);cur.execute("set local timezone='UTC'")
+    return _capture_rows(cur,modules.product.runtime()[-1],state)
 
 def capture(cur,modules,state):
     modules.bc.api.admin(cur);cur.execute("set local timezone='UTC'")
@@ -134,17 +147,18 @@ def require_append(before,after,section,key,added_keys):
         raise ValueError('NONPAYABLE_ACCESS_EXACT_APPEND_ONLY_HISTORY_REQUIRED:'+section)
 
 def retain(label,before,after,allowed=()):
+    from . import complete_original_io
     changed=require_changes(before,after,allowed)
     # Keep the complete, unprojected census once, rather than repeating it in
     # every log line. The owning canonical archive must include this original.
     root=Path(__file__).resolve().parents[2]/'cp6-proof/t3';root.mkdir(parents=True,exist_ok=True)
-    raw=(json.dumps(dict(before=before,after=after),sort_keys=True,default=str)+'\n').encode()
-    packed=gzip.compress(raw,mtime=0);name='AFUI_ACCESS_'+label+'_'+uuid.uuid4().hex+'_FULL_CENSUS.json.gz'
+    name='AFUI_ACCESS_'+label+'_'+uuid.uuid4().hex+'_FULL_CENSUS.json.gz'
     target=root/name
-    with target.open('xb')as stream:stream.write(packed)
+    original=complete_original_io.save_gzip_sorted(target,dict(before=before,after=after))
+    complete_original_io.publish(target)
     return dict(status='PASS',actual_all22_groups=22,dropped_catalog_or_data_or_sequence_keys=[],
         actual_changed_tables=changed,allowed_tables=sorted(allowed),
-        original=dict(name=name,bytes=len(raw),sha256=sha256(raw).hexdigest(),gzip_bytes=len(packed),gzip_sha256=sha256(packed).hexdigest()))
+        original=original)
 
 def http_capture(http,state):
     with http.connect(connect_timeout=5)as conn,conn.cursor()as cur:
