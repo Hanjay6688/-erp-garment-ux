@@ -31,7 +31,11 @@ def derive(raw):
          "prefix=load('sku_money_original_complete_sequence_prefix',_FROZEN_SKU/'scripts/current-sku-managed-recovery-native27-qualification/sequence_prefix.py')\n"
          '    business,preflight=_NATIVE_SUITE.bind(business,preflight,product,prefix)'),
         ("with exact_public_catalog(native,retain_raw=True)as public:",
-         "with _REPORT_IO.group_scope(native.r1),exact_public_catalog(native,retain_raw=True)as public:"),
+         "with _REPORT_IO.group_scope(native.r1),_CASE_OUTPUT.scope(native,'native'),exact_public_catalog(native,retain_raw=True)as public:"),
+        ("                raw=original.read_bytes();(destination/name).write_bytes(raw)\n"
+         "                retained.append(dict(name=name,bytes=len(raw),sha256=sha256(raw).hexdigest()))",
+         "                retained.append(_COMPLETE_ORIGINALS.copy_exact(original,destination/name,\n"
+         "                    'SKU_AUTOMATIC_COMPLETE_GROUP_ORIGINAL_CONFLICT'))"),
         ("LABEL='CP7_SKU_CURRENT_PARENT_MONEY_NATIVE19'", "LABEL='" + LABEL + "'"),
     )
     after = before
@@ -51,7 +55,7 @@ def derive(raw):
                        added_upstream_native_callbacks=6, actual_ERP_cases=0, production_go=False)
 
 
-def load_prepared(bridge, product, parent_raw, money_raw, plan_raw, scheduler_quiet):
+def load_prepared(bridge, product, parent_raw, money_raw, plan_raw, scheduler_quiet, *, case_output=None):
     bridge.admission.require_ready()  # Before caller, receipt, file, Git or ERP inspection.
     bridge.admission.inputs(parent_raw, money_raw, plan_raw)
     bridge.source_manifest()
@@ -71,7 +75,13 @@ def load_prepared(bridge, product, parent_raw, money_raw, plan_raw, scheduler_qu
     if tuple(json.loads(plan_raw)['case_ids']) != ids:
         raise ValueError('SKU_AUTOMATIC_EXACT_ORDERED_MONEY19_AND_UPSTREAM_SIX_PLAN_REQUIRED')
     module._REPORT_IO = load('automatic_owning_group_report_IO', HERE / 'report_io.py')
+    module._COMPLETE_ORIGINALS = module._REPORT_IO.complete_originals()
+    if case_output is None:
+        raise ValueError('SKU_AUTOMATIC_COMPLETE_CASE_OUTPUT_BINDING_REQUIRED')
+    module._CASE_OUTPUT = case_output
     exec(compile(source, module.__file__ + '::complete_native25', 'exec', dont_inherit=True), module.__dict__)
     if module.ROOT != ROOT or module.LABEL != LABEL:
         raise ValueError('SKU_AUTOMATIC_EXACT_OWNING_NATIVE_OUTPUT_NAMESPACE_REQUIRED')
-    return SimpleNamespace(CASE=CASE, LABEL=LABEL, exercise=module.exercise, scheduler_quiet=scheduler_quiet), proof
+    _, _, output = case_output.binding(module.helper.control.native, 'native')
+    return SimpleNamespace(CASE=CASE, LABEL=LABEL, exercise=module.exercise, scheduler_quiet=scheduler_quiet), dict(
+        proof, complete_original_case_output=output)

@@ -63,6 +63,11 @@ def source_manifest():
     require(value['contract'] == 'cp7.current-automatic-product-bridge-preparation.v1'
             and value['actual_ERP_cases'] == 0 and value['production_go'] is False,
             'SKU_AUTOMATIC_EXACT_PREPARATION_MANIFEST_REQUIRED')
+    closed = [getattr(admission, name) is None for name in admission.GATES]
+    require(all(closed) or not any(closed), 'SKU_AUTOMATIC_NO_PARTIAL_RUNTIME_ADMISSION')
+    require(value['all_admission_values_unset'] is all(closed)
+            and value.get('actual_parent_adopted', False) is (not any(closed)),
+            'SKU_AUTOMATIC_SOURCE_AND_ACTUAL_GATE_STATE_REQUIRED')
     for name, expected in value['files'].items():
         path = HERE / name
         require(path.is_file() and not path.is_symlink() and admission.pin(path.read_bytes()) == expected,

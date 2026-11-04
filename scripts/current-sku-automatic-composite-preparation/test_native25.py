@@ -39,7 +39,7 @@ class Native25Preparation(unittest.TestCase):
                                       self.reference['candidate_tree'] + ':' + self.component.ORIGINAL])
         before, _ = self.money.derive(raw)
         after, proof = self.component.derive(raw)
-        self.assertEqual(proof['exact_additional_routes'], 3)
+        self.assertEqual(proof['exact_additional_routes'], 4)
         self.assertTrue(proof['complete_money_component_recovered'])
         def functions(source):
             return {node.name: node for node in ast.parse(source).body if isinstance(node, ast.FunctionDef)}
@@ -50,7 +50,9 @@ class Native25Preparation(unittest.TestCase):
                 self.assertEqual(ast.dump(original[name]), ast.dump(derived[name]), name)
         self.assertEqual([ast.dump(node) for node in ast.walk(original['exercise']) if isinstance(node, ast.Assert)],
                          [ast.dump(node) for node in ast.walk(derived['exercise']) if isinstance(node, ast.Assert)])
-        self.assertIn('with _REPORT_IO.group_scope(native.r1),exact_public_catalog', after)
+        self.assertIn("with _REPORT_IO.group_scope(native.r1),_CASE_OUTPUT.scope(native,'native'),exact_public_catalog", after)
+        self.assertIn('_COMPLETE_ORIGINALS.copy_exact(original,destination/name,', after)
+        self.assertNotIn('raw=original.read_bytes();(destination/name).write_bytes(raw)', after)
         with self.assertRaisesRegex(ValueError, 'EXACT_NINETEEN_COMPONENT'):
             self.component.derive(raw + b'\n')
 

@@ -14,7 +14,9 @@ assembly = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(assembly)
 
 
-def check():
+def check(*, runtime=False):
+    if runtime:
+        assembly.admission.require_ready()
     own = assembly.source_manifest()
     ref = assembly.prepared_sources()[0]
     root = assembly.ROOT
@@ -48,15 +50,24 @@ def check():
     own_paths = {namespace + name for name in manifest['files']} | {namespace + 'SOURCE.json'}
     actual = {name.decode() for name in assembly.git('ls-files', '-z', '--cached', '--others', '--exclude-standard').split(b'\0') if name}
     assembly.require(actual == parent | own_paths, 'SKU_AUTOMATIC_EXACT_ADDITIVE_NAMESPACE_REQUIRED')
-    assembly.require(all(getattr(assembly.admission, key) is None for key in assembly.admission.GATES),
-                     'SKU_AUTOMATIC_PREPARATION_CANNOT_OPEN_RUNTIME')
-    return dict(status='CURRENT_MONEY_AUTOMATIC_PRODUCT_SOURCE_PREPARATION_NOT_ERP', source=own,
+    closed = all(getattr(assembly.admission, key) is None for key in assembly.admission.GATES)
+    if runtime:
+        assembly.admission.require_ready()
+        assembly.require(not absent, 'SKU_AUTOMATIC_RUNTIME_REQUIRES_FULL_PARENT_MATERIALIZATION')
+        assembly.require(assembly.admission.OWNING_RUNTIME_ENTRY ==
+                         'scripts/current-sku-automatic-composite-preparation/qualification.py',
+                         'SKU_AUTOMATIC_EXACT_ACTUAL_OWNING_ENTRY_REQUIRED')
+    else:
+        assembly.require(closed, 'SKU_AUTOMATIC_PREPARATION_CANNOT_OPEN_RUNTIME')
+    return dict(status=('CURRENT_MONEY_AUTOMATIC_PRODUCT_SOURCE_ADMITTED_NOT_ERP_ACCEPTANCE' if runtime
+                        else 'CURRENT_MONEY_AUTOMATIC_PRODUCT_SOURCE_PREPARATION_NOT_ERP'), source=own,
                 unchanged_parent_tree=base['tree'], parent_blob_identities=len(parent),
                 materialized_parent_files_exact=materialized, absent_sparse_parent_files=len(absent),
-                full_runtime_parent_admission_still_required=True, own_files=len(own_paths),
+                full_runtime_parent_admission_still_required=not runtime, own_files=len(own_paths),
                 unchanged_money_product_files=44, exact_automatic_addition_files=20,
-                all_five_new_gates_unset=True, active_workflow_added=False,
-                Native_lifecycle_case_plan_pending=False, owning_runtime_pending=True,
+                all_five_new_gates_unset=closed, active_workflow_added=False,
+                Native_lifecycle_case_plan_pending=False, owning_runtime_prepared=True,
+                actual_runtime_adoption_pending=closed,
                 private_authority_reviewer_prepared=True,
                 actual_ERP_cases=0, production_go=False, independent_acceptance=False)
 

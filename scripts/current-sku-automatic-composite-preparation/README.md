@@ -18,8 +18,8 @@ are unchanged. The loader refuses before inspecting caller modules, receipts,
 files or ERP. Adoption still needs the actual current Mandor17 Root and all
 five gates, unchanged money source-only admission, the complete combined Native
 plan covering upstream rework/redye completion and a real owning runtime.
-The Native25 plan is now prepared; the owning runtime and its admission
-remain pending. No workflow is activated here.
+The Native25 plan and its owning runtime are now prepared. Actual parent
+adoption and financial execution remain pending. No workflow is activated here.
 
 Four upstream Native callbacks are now prepared: rework and unknown-price
 redye with a real two-root moving average, exact parent replay and full parent
@@ -102,3 +102,45 @@ These are actual local catalogue/ACL observations on empty fixtures, rather
 than actual ERP privileges, financial transactions, Auth or runtime acceptance.
 The owning runtime must bind this reviewer after admitting the genuine frozen
 Mandor parent. No running qualifier is changed by this preparation.
+
+The unarmed `qualification.py` now constructs the whole Native25 stage on the
+genuine frozen Mandor parent. It selects the money and automatic products from
+their exact separate source checkouts, binds the private authority reviewer,
+and keeps all backup, unused inverse, committed-use refusal, all22/full-row/
+sequence restoration and all five package gates. The original money bridge
+and its ten unset gates remain byte-for-byte unchanged. A private function
+globals dictionary executes their complete original code with bindings from
+the separately pinned actual Root; its source provider verifies both the
+unchanged closed preparation and the actual binding, rather than relabeling
+the historical source manifest as adopted.
+
+Inherited plain module names are selected from the actual Mandor qualifier at
+search position zero; another checkout refuses. Nested scopes preserve the
+live parent modules until the outer scope ends and restore the caller after
+failure. Frozen namespace packages retain their real file-less identity and
+one exact source directory; no fictitious `__init__.py` is supplied. Foreign
+packages or submodules refuse before financial dispatch.
+
+The component also retains exact complete per-case JSON in the owning
+checkout through the unchanged pinned Afui output functions. Only bounded
+receipts go to the console. Its two complete group Originals are copied by the
+exact Afui92a chunked copier, avoiding another whole-file buffer. The final
+packet and strict group already use the exact streaming encoder. Financial
+callback objects, assertions, current source checks and recovery remain exact.
+
+The final gate derives only six case-count/scope expressions from the full
+retained money validator and validates the additional complete prerequisite
+Original. Native25 acceptance still demands every actual case, one owning
+attempt, all five package gates, full restoration and a completed/reaped worker.
+Auth, race and browser credit stays zero. A Native25 result cannot claim full
+combined ERP qualification. All five new Root/source/plan/entry gates remain
+unset; a genuine current Mandor Root, current money source-graph intake and
+complete source-fence adoption are still mandatory before the entry can run.
+
+Nine import/entry/output controls, six retained-case routing controls and five
+packet protocol controls pass. Packet fixtures are explicitly models, not
+actual qualification Originals. The first packet-model counterexample exposed
+an aliased fixture dictionary; separate JSON documents are now modeled with
+independent containers, and the unchanged validator rejects the source
+mismatch. The first failure is retained. No ERP transaction was executed by
+these controls and no new financial workflow was activated.

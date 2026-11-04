@@ -9,6 +9,7 @@ from hashlib import sha256
 from pathlib import Path
 from types import CodeType, FunctionType
 import ast
+import importlib.util
 import json
 import os
 import tempfile
@@ -24,6 +25,20 @@ GROUP_BEFORE = "(OUT/(name+'.json')).write_text(json.dumps(value,indent=2,defaul
 AFUI_PRIMITIVE_SOURCE_HEAD = 'e0cfa98382e977933d63e9f828de17a0faba9ef9'
 AFUI_PRIMITIVE_SOURCE_SHA256 = 'cb1b5ff9da13188b798413d85d7f26701c7a8399ad3fbc5524b9e450bbc35c66'
 AFUI_PRIMITIVE_AST_SHA256 = '1dd970c0e382fa6976c4bf0867c3d5b6558327f7bcec5cc403016879476aeb59'
+COMPLETE_ORIGINALS_PATH = Path(__file__).resolve().parents[2].parent / 'qualified-afui-parent/scripts/cp7_accessory_nonpayable/complete_original_io.py'
+COMPLETE_ORIGINALS_PIN = (5802, '32e1115a6ed459831799db193e9de09fe6d9fa008e2c55a9fe44a1dd991eeb55')
+COMPLETE_ORIGINALS_HEAD = '92a376091a1d1ea9901648e614f3e5212677a81f'
+
+
+def complete_originals():
+    path = COMPLETE_ORIGINALS_PATH
+    if (not path.is_file() or path.is_symlink()
+            or (path.stat().st_size, sha256(path.read_bytes()).hexdigest()) != COMPLETE_ORIGINALS_PIN):
+        raise ValueError('CURRENT_STAGE_EXACT_AFUI_COMPLETE_ORIGINAL_COPY_SOURCE_REQUIRED')
+    spec = importlib.util.spec_from_file_location('automatic_exact_current_Afui_complete_originals', path)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
 
 def write_complete(target,value):
     """Exactly json.dumps(indent=2,default=str)+'\\n', in bounded chunks.
