@@ -325,8 +325,8 @@
       "sha256": "90fe9e3fd288a23add04d7d41a1b7901ca9f45a0ae8b71a7a23058188358fee2"
     },
     "scripts/cp7_accessory_nonpayable/browser_prerequisites.mjs": {
-      "bytes": 4760,
-      "sha256": "8ca5c012132fddf069c3f433d90971716eaf3f75536c8258aa882d8c65980d97"
+      "bytes": 6038,
+      "sha256": "0484299806098b217b4fb159155a0992d5bef12a6b44e4ca3023b20529a76d73"
     }
   },
   "actual_Native_cases": 0,
