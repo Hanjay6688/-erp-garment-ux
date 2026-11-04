@@ -6,7 +6,7 @@ import path from 'node:path';
 import os from 'node:os';
 import {EventEmitter} from 'node:events';
 import {fileURLToPath} from 'node:url';
-import {childEnvironment, command, digest, ownRuntime, outputs, snapshot} from './durable_action.mjs';
+import {childEnvironment, command, digest, ownRuntime, originalLabel, outputs, snapshot} from './durable_action.mjs';
 
 const receipt = {artifact_id: '123', artifact_sha256: 'd'.repeat(64)};
 const identity = {qualification_commit: 'c'.repeat(40), github_run_id: '1234', github_run_attempt: '1'};
@@ -106,3 +106,30 @@ test('only complete unique official ID and digest outputs count as uploaded', ()
   for (const value of ['', 'artifact-id=123\n', 'artifact-id<<missing\n123',
     'artifact-id=1\nartifact-id=2\nartifact-digest=' + 'd'.repeat(64)]) assert.throws(() => outputs(value));
 });
+
+test('complete Native group, settings and compressed snapshots retain their exact real filenames', async () => fixture(async f => {
+  const names = ['CP7_AFUI_GOOD_NONPAYABLE_FULL15_NATIVE9.json',
+    'CP7_AFUI_GOOD_NONPAYABLE_FULL15_NATIVE9_BUSINESS_DAY_FIRST_ATTEMPT.json',
+    'AFUI_BROWSER_NATIVE_PREREQUISITE.json', 'AFUI_BROWSER_SETTINGS_STATE.json',
+    'AFUI_ACCESS_HTTP_SAME_REPLAY_' + 'f'.repeat(32) + '_FULL_CENSUS.json.gz',
+    'AFUI_DESKTOP_INITIAL_FULL_CURRENT_CENSUS.json.gz'];
+  const seen = [];
+  for (const name of names) await fs.writeFile(path.join(f.cases, name), Buffer.from([0, 255, 35, 10]));
+  await fs.writeFile(path.join(f.cases, 'AFUI_BROWSER_SETTINGS_STATE.json.partial'), 'incomplete');
+  await fs.writeFile(path.join(f.cases, 'unrelated.json'), 'ignored');
+  const result = await ownRuntime({worker: {program: process.execPath, args: ['-e', 'setTimeout(()=>{},50)'], env: process.env},
+    caseDirectory: f.cases, staging: f.staging, identity, pollMs: 5,
+    upload: async (directory, label) => {
+      const manifest = JSON.parse(await fs.readFile(path.join(directory, 'MANIFEST.json')));
+      assert(names.includes(manifest.original_name));
+      assert.equal(label, originalLabel(manifest.original_name));
+      assert.match(label, /^[a-f0-9]{64}$/);
+      assert.deepEqual(await fs.readFile(path.join(directory, manifest.original_name)), Buffer.from([0, 255, 35, 10]));
+      seen.push(manifest.original_name); return receipt;
+    }});
+  assert.deepEqual(seen.sort(), names.sort());
+  assert.equal(result.complete_originals_uploaded.length, names.length);
+  assert.equal(result.actual_case_credit, 0); assert.equal(result.full_restore_verified, false);
+  for (const name of ['../AFUI_BROWSER_SETTINGS_STATE.json', 'AFUI_BROWSER_SETTINGS_STATE.json.partial',
+    'AFUI_ACCESS_bad-label_' + 'a'.repeat(32) + '_FULL_CENSUS.json.gz', 'unrelated.json']) assert.equal(originalLabel(name), null);
+}));

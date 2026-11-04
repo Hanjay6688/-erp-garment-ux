@@ -13,6 +13,20 @@ const pause = ms => new Promise(resolve => setTimeout(resolve, ms));
 const requireValue = (value, code) => { if (!value) throw new Error(code); };
 const emit = value => process.stdout.write(JSON.stringify({afui_durable_original: true, ...value}) + '\n');
 const json = value => JSON.stringify(value, null, 2) + '\n';
+const NAMED_ORIGINALS = new Set([
+  'CP7_AFUI_GOOD_NONPAYABLE_FULL15_NATIVE9.json',
+  'CP7_AFUI_GOOD_NONPAYABLE_FULL15_NATIVE9_BUSINESS_DAY_FIRST_ATTEMPT.json',
+  'AFUI_BROWSER_NATIVE_PREREQUISITE.json', 'AFUI_BROWSER_SETTINGS_STATE.json',
+]);
+
+export function originalLabel(name) {
+  if (/^[a-f0-9]{64}\.jsonl$/.test(name)) return name.slice(0, -6);
+  if (NAMED_ORIGINALS.has(name) || /^AFUI_ACCESS_[A-Z0-9_]+_[a-f0-9]{32}_FULL_CENSUS\.json\.gz$/.test(name) ||
+      /^AFUI_(DESKTOP|MOBILE390)_[A-Z0-9_]+_FULL_CURRENT_CENSUS\.json\.gz$/.test(name)) {
+    return createHash('sha256').update('complete-original\0' + name).digest('hex');
+  }
+  return null;
+}
 
 export function childEnvironment(environment) {
   return Object.fromEntries(Object.entries(environment).filter(([key]) =>
@@ -83,7 +97,7 @@ export function command(program, args, options = {}) {
 
 export async function snapshot(source, staging, identity) {
   const name = path.basename(source);
-  requireValue(/^[a-f0-9]{64}\.jsonl$/.test(name), 'AFUI_DURABLE_FIXED_CASE_FILENAME');
+  requireValue(originalLabel(name), 'AFUI_DURABLE_FIXED_COMPLETE_ORIGINAL_FILENAME');
   await regular(source); const before = await digest(source);
   await fs.mkdir(staging); await regular(staging, true);
   const destination = path.join(staging, name);
@@ -114,12 +128,13 @@ export async function ownRuntime({worker, caseDirectory, staging, identity, uplo
     try { await regular(caseDirectory, true); entries = await fs.readdir(caseDirectory); }
     catch (e) { if (e.code === 'ENOENT') return; throw e; }
     for (const name of entries.sort()) {
-      if (!/^[a-f0-9]{64}\.jsonl$/.test(name) || seen.has(name) || externalSignal) continue;
+      const label = originalLabel(name);
+      if (!label || seen.has(name) || externalSignal) continue;
       seen.add(name);
       try {
-        const directory = path.join(staging, name.slice(0, -6));
+        const directory = path.join(staging, label);
         const manifest = await snapshot(path.join(caseDirectory, name), directory, identity);
-        const receipt = await upload(directory, name.slice(0, -6), controller.signal);
+        const receipt = await upload(directory, label, controller.signal);
         requireValue(JSON.stringify(await digest(path.join(directory, name))) === JSON.stringify(manifest.original),
           'AFUI_DURABLE_STAGED_ORIGINAL_CHANGED_DURING_UPLOAD');
         const value = {...manifest, ...receipt}; uploaded.push(value); emit(value);

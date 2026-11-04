@@ -147,17 +147,18 @@ def require_append(before,after,section,key,added_keys):
         raise ValueError('NONPAYABLE_ACCESS_EXACT_APPEND_ONLY_HISTORY_REQUIRED:'+section)
 
 def retain(label,before,after,allowed=()):
+    from . import complete_original_io
     changed=require_changes(before,after,allowed)
     # Keep the complete, unprojected census once, rather than repeating it in
     # every log line. The owning canonical archive must include this original.
     root=Path(__file__).resolve().parents[2]/'cp6-proof/t3';root.mkdir(parents=True,exist_ok=True)
-    raw=(json.dumps(dict(before=before,after=after),sort_keys=True,default=str)+'\n').encode()
-    packed=gzip.compress(raw,mtime=0);name='AFUI_ACCESS_'+label+'_'+uuid.uuid4().hex+'_FULL_CENSUS.json.gz'
+    name='AFUI_ACCESS_'+label+'_'+uuid.uuid4().hex+'_FULL_CENSUS.json.gz'
     target=root/name
-    with target.open('xb')as stream:stream.write(packed)
+    original=complete_original_io.save_gzip_sorted(target,dict(before=before,after=after))
+    complete_original_io.publish(target)
     return dict(status='PASS',actual_all22_groups=22,dropped_catalog_or_data_or_sequence_keys=[],
         actual_changed_tables=changed,allowed_tables=sorted(allowed),
-        original=dict(name=name,bytes=len(raw),sha256=sha256(raw).hexdigest(),gzip_bytes=len(packed),gzip_sha256=sha256(packed).hexdigest()))
+        original=original)
 
 def http_capture(http,state):
     with http.connect(connect_timeout=5)as conn,conn.cursor()as cur:

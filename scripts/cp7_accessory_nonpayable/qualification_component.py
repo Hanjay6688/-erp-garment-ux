@@ -20,23 +20,21 @@ def scheduler_quiet(url):
     return load('afui_original_scheduler_quiet',ROOT/'scripts/current-vendor-receivable-qualification/native_runner.py').scheduler_quiet(url)
 
 def save(name,value):
+    from . import complete_original_io
     path=ROOT/'cp6-proof/t3'/name;path.parent.mkdir(parents=True,exist_ok=True)
-    raw=(json.dumps(value,sort_keys=True,default=str)+'\n').encode()
-    if path.exists()and path.read_bytes()!=raw:raise ValueError('NONPAYABLE_FIRST_ORIGINAL_OVERWRITE_REFUSED:'+name)
-    if not path.exists():
-        with path.open('xb')as stream:stream.write(raw)
-    return dict(name=name,bytes=len(raw),sha256=sha256(raw).hexdigest())
+    receipt=complete_original_io.save_sorted(path,value,'NONPAYABLE_FIRST_ORIGINAL_OVERWRITE_REFUSED:'+name)
+    complete_original_io.publish(path)
+    return receipt
 
 def retain(native,report):
+    from . import complete_original_io
     records=[]
     for name in(NATIVE_LABEL+'.json',NATIVE_LABEL+'_BUSINESS_DAY_FIRST_ATTEMPT.json'):
         source=native.r1.OUT/name
         if not source.is_file():continue
-        raw=source.read_bytes();target=ROOT/'cp6-proof/t3'/name
-        if target.exists()and target.read_bytes()!=raw:raise ValueError('NONPAYABLE_FIRST_STRICT_NATIVE_ORIGINAL_CHANGED')
-        if not target.exists():
-            with target.open('xb')as stream:stream.write(raw)
-        records.append(dict(name=name,bytes=len(raw),sha256=sha256(raw).hexdigest()))
+        target=ROOT/'cp6-proof/t3'/name
+        records.append(complete_original_io.copy_exact(source,target,'NONPAYABLE_FIRST_STRICT_NATIVE_ORIGINAL_CHANGED'))
+        complete_original_io.publish(target)
     report['strict_group_originals']=records
 
 def local(conn,cur,url):

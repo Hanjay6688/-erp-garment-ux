@@ -33,8 +33,8 @@
       "sha256": "c8005a03755cd4d70a101d6bf5a37d46cbaeab63eadd36c5724d461389374322"
     },
     "scripts/cp7_accessory_nonpayable/access_cases.py": {
-      "bytes": 21546,
-      "sha256": "93488b261736619dd8fd07bb6432b4c086993597cb3de2c30c69570ee7dbcbab"
+      "bytes": 21416,
+      "sha256": "b5649cf69628655a77aeadd8804225d27d2822306f718a327b3f1639b668d05e"
     },
     "scripts/cp7_accessory_nonpayable/admission.py": {
       "bytes": 4829,
@@ -57,8 +57,8 @@
       "sha256": "da16c81a8f8637ea559fc50f64649ab50344e099b23215f995fe746202309c8f"
     },
     "scripts/cp7_accessory_nonpayable/browser_fixture.py": {
-      "bytes": 3427,
-      "sha256": "1d1034683b7f3fffa481b792efdb1fec6e130c54b9dd776d32a3c77994d004cf"
+      "bytes": 3162,
+      "sha256": "3be11db2edd1cb0b3384d3522023ae35a05f1130818fda8ca4ad3801c62e3ccd"
     },
     "scripts/cp7_accessory_nonpayable/browser_prepare.py": {
       "bytes": 2421,
@@ -141,12 +141,12 @@
       "sha256": "042c30ce6c8242b0626270d2a74f0433df4b5fc57cb8af0d4198a79a8f41cd20"
     },
     "scripts/cp7_accessory_nonpayable/qualification.py": {
-      "bytes": 11718,
-      "sha256": "0569809aa1be4e5f311a05fb58d841d5d750ce7b6f7d9d76c790b74612baced5"
+      "bytes": 12793,
+      "sha256": "f1a03faf7dca63c254df066254b03e2e68500e20d0778fe99d3d2d05fa358520"
     },
     "scripts/cp7_accessory_nonpayable/qualification_component.py": {
-      "bytes": 15233,
-      "sha256": "acff78747d08c2edbd4050e945d0b1c9f309eb3fa8d94bcc6344b0ae510d94fa"
+      "bytes": 14976,
+      "sha256": "8440a8734b2c77b6fa3aa513851a9eee3ccb30a43c9007e8da5a48f1aeb74331"
     },
     "scripts/cp7_accessory_nonpayable/qualification_gate.py": {
       "bytes": 4826,
@@ -293,12 +293,12 @@
       "sha256": "9cd9801bd98de3aa5f6119d1a5c6bcae3481bfa3f8ec6dc7526c9817f32d86ff"
     },
     "scripts/cp7_accessory_nonpayable/durable_action.mjs": {
-      "bytes": 13171,
-      "sha256": "062c583fe46e7775732b8c081c55f7a099efc945ef4628c0e07561f662244ca1"
+      "bytes": 13814,
+      "sha256": "4cdb05df0247e860edb76f2f62ce8e28b44e9f6d99e89d622a69b7a4a6b1a8ce"
     },
     "scripts/cp7_accessory_nonpayable/durable_action.test.mjs": {
-      "bytes": 8180,
-      "sha256": "56bf73da3b9189ddf981ff6a8ea45344d38b1c6fbb5612e733856e3b66b1b831"
+      "bytes": 10127,
+      "sha256": "b35efc7cba72f984497018afdda3dc7df2c8380a84ea3ddfb55cc45a2b1410b3"
     },
     "scripts/cp7_accessory_nonpayable/test_report_io.py": {
       "bytes": 9470,
@@ -307,6 +307,14 @@
     "scripts/cp7_accessory_nonpayable/report_io.py": {
       "bytes": 5996,
       "sha256": "cb1b5ff9da13188b798413d85d7f26701c7a8399ad3fbc5524b9e450bbc35c66"
+    },
+    "scripts/cp7_accessory_nonpayable/complete_original_io.py": {
+      "bytes": 5802,
+      "sha256": "32e1115a6ed459831799db193e9de09fe6d9fa008e2c55a9fe44a1dd991eeb55"
+    },
+    "scripts/cp7_accessory_nonpayable/test_complete_original_io.py": {
+      "bytes": 9711,
+      "sha256": "be4f85734bb30f1cc6142ea0ca63c7f9e84f101717580659a722610d123f4e83"
     }
   },
   "actual_Native_cases": 0,
@@ -697,5 +705,19 @@
     "sha256": "47851b2d736ed4076b615eee00d19e839715e429a46ed6594d8d92b3d55fc42f",
     "actual_case_credit": 0,
     "runner_failure_cause_proven": false
+  },
+  "complete_original_storage_preparation": {
+    "status": "BOUNDED_COMPLETE_ORIGINAL_STORAGE_AND_TRANSPORT_CONTROLS_PASS_NOT_ERP",
+    "baseline_termination": "EXTERNAL_RUNNER_SHUTDOWN_ORIGIN_UNKNOWN",
+    "storage_controls": 9,
+    "transport_controls": 9,
+    "native_case_Originals_observed_on_baseline": 9,
+    "full15_and_outer_restore_accepted": false,
+    "actual_new_ERP_cases": 0,
+    "control_receipt": {
+      "name": "COMPLETE_ORIGINAL_IO_CONTROLS.json",
+      "bytes": 3517,
+      "sha256": "e71f5b04379414798ad333fe577073e7235c2d47cc0ffb302d4d4a937e724ff9"
+    }
   }
 }

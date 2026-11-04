@@ -400,3 +400,28 @@ Originals. Replaying all 422653815 bytes preserves every original SHA256;
 long-string storage falls from 215029472 to 7678719 bytes. This demonstrates
 the memory reduction, without establishing the runner's exact failure cause.
 HTTP2/session2/browser2 and complete outer restoration remain unqualified.
+
+Current Native9 completed on run41809863387 and all nine per-case Originals
+were retained. The runner then received an external shutdown during committed
+Auth/browser fixture preparation, before the work deadline. Its origin remains
+unknown; full15/all-five/outer restoration are unverified. No memory cause is
+claimed from that interruption.
+
+Complete sorted state JSON, Native group copies and complete access/browser
+census gzip files now use bounded buffers with exact legacy bytes. Existing
+originals are compared in full and cannot be replaced; encoder failures retain
+the previous complete output. Full Native group and first-attempt reports,
+committed fixture/settings snapshots and complete compressed access/browser
+originals are linked to the existing incremental uploader only after atomic
+publication. Their real filenames, complete bytes and digest are retained;
+partial results still grant zero acceptance.
+
+Nine storage controls and nine transport/process controls pass. An84MB
+complete-state control exceeds the legacy writer's160MiB memory limit; the
+new writer and gzip keep exact bytes with peakRSS28984KiB. A real retained
+22-group Native catalogue also matches the existing JSON/gzip encoders. The
+new controls run before database provisioning. Financial callbacks, SQL,
+assertions, actors, restoration and the360/330/20/10 budgets are unchanged.
+The action still accepts first attempt only; a GitHub job re-run is not an
+activation path. A successor must use a new immutable candidate and a genuine
+six-hour WIB window. No financial job is started by these source changes.

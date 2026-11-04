@@ -93,6 +93,21 @@ def fixture_report_io_preflight():
     return dict(status='EXACT_COMPLETE_JSON_INDEPENDENT_SNAPSHOTS_AND_MEMORY_LIMIT_PASS',
         tests_run=8,actual_SQL_executed=0,actual_Native_cases=0)
 
+def fixture_complete_original_io_preflight():
+    """Check every remaining complete snapshot writer before provisioning."""
+    import io,unittest
+    from contextlib import redirect_stdout
+    from cp7_accessory_nonpayable.test_complete_original_io import CompleteOriginalStorage
+    output=io.StringIO()
+    with redirect_stdout(output):
+        result=unittest.TextTestRunner(stream=output,verbosity=0).run(
+            unittest.defaultTestLoader.loadTestsFromTestCase(CompleteOriginalStorage))
+    if result.testsRun!=9 or not result.wasSuccessful()or result.skipped or result.expectedFailures:
+        raise ValueError('NONPAYABLE_COMPLETE_ORIGINAL_STORAGE_PREFLIGHT_FAILED:'+output.getvalue())
+    return dict(status='EXACT_SORTED_JSON_GZIP_COPY_AND_IMMUTABLE_COMPLETE_ORIGINALS_PASS',
+        tests_run=9,memory_control_limit_MiB=160,actual_SQL_executed=0,actual_Native_cases=0,
+        runner_shutdown_origin_proven=False)
+
 def runtime():
     from cp7_accessory_nonpayable import admission,source,package_engine
     admission.parent_receipt()  # Before any ERP import or runtime construction.
@@ -145,6 +160,7 @@ def main():
         case_output=fixture_case_output_preflight()
         progress=fixture_progress_preflight()
         report_io=fixture_report_io_preflight()
+        complete_original_io=fixture_complete_original_io_preflight()
         _,engine=package_engine.derive((ROOT/package_engine.ORIGINAL).read_bytes())
         _,copies=copy_context.derive((ROOT/copy_context.ORIGINAL).read_bytes())
         print(json.dumps(dict(status='NONPAYABLE_STATIC_WHOLE_QUALIFIER_PREPARED_NOT_EXECUTED',source=static,
@@ -154,6 +170,7 @@ def main():
             fixture_case_output_preflight=case_output,
             fixture_progress_preflight=progress,
             fixture_report_io_preflight=report_io,
+            fixture_complete_original_io_preflight=complete_original_io,
             actual_SQL_executed=0,actual_Native_cases=0,
             actual_Auth_HTTP_cases=0,actual_two_session_cases=0,actual_browser_cases=0,
             production_go=False,independent_acceptance=False),sort_keys=True));return
