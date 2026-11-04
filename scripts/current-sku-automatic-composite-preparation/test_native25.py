@@ -39,7 +39,7 @@ class Native25Preparation(unittest.TestCase):
                                       self.reference['candidate_tree'] + ':' + self.component.ORIGINAL])
         before, _ = self.money.derive(raw)
         after, proof = self.component.derive(raw)
-        self.assertEqual(proof['exact_additional_routes'], 4)
+        self.assertEqual(proof['exact_additional_routes'], 5)
         self.assertTrue(proof['complete_money_component_recovered'])
         def functions(source):
             return {node.name: node for node in ast.parse(source).body if isinstance(node, ast.FunctionDef)}
@@ -52,6 +52,7 @@ class Native25Preparation(unittest.TestCase):
                          [ast.dump(node) for node in ast.walk(derived['exercise']) if isinstance(node, ast.Assert)])
         self.assertIn("with _REPORT_IO.group_scope(native.r1),_CASE_OUTPUT.scope(native,'native'),exact_public_catalog", after)
         self.assertIn('_COMPLETE_ORIGINALS.copy_exact(original,destination/name,', after)
+        self.assertIn("report['status']='INCOMPLETE'\n    _BROWSER_ACCESS.run(product,state,verify,report)", after)
         self.assertNotIn('raw=original.read_bytes();(destination/name).write_bytes(raw)', after)
         with self.assertRaisesRegex(ValueError, 'EXACT_NINETEEN_COMPONENT'):
             self.component.derive(raw + b'\n')
@@ -122,6 +123,8 @@ class Native25Preparation(unittest.TestCase):
         self.assertIn("report['actual_Native_cases']=cases[runner.CASE]['actual_Native_cases']", after)
         self.assertIn("report['actual_Auth_HTTP_cases']=0", after)
         self.assertIn("report['actual_two_session_races']=0", after)
+        self.assertIn("report['actual_browser_cases']=cases[runner.CASE]['actual_browser_cases']", after)
+        self.assertIn("report['real_Auth_browser_claim']=cases[runner.CASE]['real_Auth_browser_claim']", after)
 
 
 if __name__ == '__main__':

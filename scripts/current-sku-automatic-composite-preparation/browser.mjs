@@ -59,7 +59,8 @@ async function journey(ui,today,mobile){
  const writeListener=request=>{const name=request.url().split('/').at(-1),row={rpc:name,url:request.url()};if([RPC.pair,RPC.write].includes(name))calls.push({...row,args:request.postDataJSON()});if([RPC.master,RPC.read].includes(name))reads.push({...row,args:request.postDataJSON()})}
  page.on('request',writeListener)
  let snapshotNo=0,made,lostResponse,firstBody,replayBody
- const state=step=>fixture('observe',{fixture:f,label:`SKU29_${suffix}_${run}_${String(++snapshotNo).padStart(2,'0')}_${step}`})
+ const current_observations=[]
+ const state=step=>{const value=fixture('observe',{fixture:f,label:`SKU29_${suffix}_${run}_${String(++snapshotNo).padStart(2,'0')}_${step}`});current_observations.push({step,state:value});return value}
  const shot=async(label,panel)=>{
   await expect.poll(()=>page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true)
   assert.equal(page.viewportSize().width,mobile?390:1440)
@@ -226,7 +227,8 @@ async function journey(ui,today,mobile){
   assert.equal(calls.filter(call=>call.rpc===RPC.pair).length,3);assert.equal(calls.filter(call=>call.rpc===RPC.write&&call.args.p_action==='REVERSE').length,2)
   const consoleEvidence=requireConsoleEvidence(capture,expectedNetwork)
   return{status:'PASS',actual_Auth_form_normal_full_App:true,actual_public_PostgREST:true,role:mobile?'ADMIN':'OWNER',viewport:mobile?390:1440,
-   ...progress,actual_active_Native_draft_use:active,actual_UI_refusal_zero_all22_rows_sequences_effect:true,actual_UI_whole_group_inverse_from_other_member:true,
+   ...progress,current_fixture:f,current_observations,session_leaks:final.current_session_leaks,actual_preview:reviewed.preview,actual_post_result:made,
+   actual_refusal:{status:refused.status(),body:refusal},actual_inverse_result:reversed,actual_active_Native_draft_use:active,actual_UI_refusal_zero_all22_rows_sequences_effect:true,actual_UI_whole_group_inverse_from_other_member:true,
    final_source:final.source,final_target:final.target,Native_financial_accounts_restored:true,console_evidence:consoleEvidence,unexpected_console_errors:0,
    console_capture_scope:'FEATURE_JOURNEY_AFTER_REAL_LOGIN_HOST_SEPARATELY_CAPTURES_PAGE_ERRORS_FROM_CONTEXT_CREATION',
    visible_text_contrast:contrasts,no_horizontal_page_overflow_at_feature_checkpoints:true,screenshots:shots,source_pins:source,write_requests:calls,read_requests:reads,

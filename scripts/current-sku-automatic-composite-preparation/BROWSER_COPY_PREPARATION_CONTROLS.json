@@ -11,11 +11,12 @@
   "complete_per_case_and_group_Originals_retained": true,
   "failure_copy_authority_and_originals_attached_before_gates": true,
   "Native_or_schema_or_RPC_grant_overlays_added": false,
-  "current_plan_still_excludes_browser_cases": true,
-  "final_packet_integration_and_actual_browser_execution_pending": true,
+  "current_plan_still_excludes_browser_cases": false,
+  "final_packet_integration_and_actual_browser_execution_pending": false,
   "actual_ERP_cases": 0,
   "actual_Auth_HTTP_cases": 0,
   "actual_browser_cases": 0,
   "production_go": false,
-  "independent_acceptance": false
+  "independent_acceptance": false,
+  "actual_browser_execution_still_pending": true
 }

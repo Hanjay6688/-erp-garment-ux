@@ -596,8 +596,8 @@ jobs:
         \ \\\n  'postgresql://postgres:postgres@127.0.0.1:54322/cp6_rollback' \\\n\
         \  cp6_rollback supabase_db_cp5-local \"$RUNNER_TEMP/join-clone/CLONE_install\"\
         \n"
-    - name: Run complete current-parent money automatic Native25 once with owning
-        restoration
+    - name: Run current-parent money automatic Native25 and real browser2 once with
+        owning restoration
       working-directory: writer
       run: 'set -euo pipefail
 

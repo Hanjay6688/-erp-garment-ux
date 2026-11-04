@@ -1,4 +1,4 @@
-"""Prepared real browser copy runner; the Native25 entry has not adopted it."""
+"""Fresh browser2 copies inside the same owning Native25 recovery lifecycle."""
 from contextlib import contextmanager
 from pathlib import Path
 from types import SimpleNamespace
@@ -63,8 +63,7 @@ def run(product, state, verify, report):
     require((ROOT / host).read_bytes() == (entry.FROZEN_AFUI / host).read_bytes(),
             'CURRENT_SKU_BROWSER_NORMAL_FULL_APP_HOST_MUST_REMAIN_UNCHANGED')
     modes.AUDITOR = ROOT
-    typed = entry.load('current_browser_exact_complete_copy_validator',
-                       entry.FROZEN_AFUI / 'scripts/cp7_accessory_nonpayable/qualification_gate.py')
+    browser_gate = entry.load('current_browser_complete_current_original_gate', HERE / 'browser_gate.py')
     case_output = entry.complete_case_output()
     with copy_scope(modes, product, state) as copies, case_output.scope(modes, 'copies'):
         report['current_browser_copy_authority'] = copies
@@ -74,12 +73,17 @@ def run(product, state, verify, report):
     target = ROOT / 'cp6-proof/t3' / (LABEL + '.json');target.parent.mkdir(parents=True, exist_ok=True)
     retained = helper.save_sorted(target, actual, 'CURRENT_SKU_FIRST_COMPLETE_BROWSER_ORIGINAL_CONFLICT')
     report['current_browser_original'] = retained
-    gate = typed.copies(actual, IDS, mode='BROWSER')
+    gate = browser_gate.typed()[0](actual, IDS, mode='BROWSER')
+    report['current_browser_gate'] = gate
     require(len(copies['actual_copy_admissions']) == 1 and all(
         row.get('all22_groups_equal_original_install') is True
         and row.get('product_state_modified') is False
         and row.get('Native_or_schema_or_RPC_permissions_changed') is False
         for row in copies['actual_copy_admissions']), 'CURRENT_SKU_ONE_REAL_BROWSER_COPY_WITH_UNCHANGED_CURRENT_AUTHORITY')
-    report.update(current_browser_gate=gate,
-                  actual_browser_cases=2, real_Auth_browser_claim=True)
+    reader = entry.load('current_browser_exact_original_protocol_reader',
+                        ROOT / 'scripts/current-s03-sku-s05-composite-qualification/parents.py')
+    source = actual['cases'][IDS[0]]['source_pins']['entire_current_source_admission']['complete_current_source_admission']
+    report['current_browser_complete_evidence_gate'] = browser_gate.gate(
+        reader, target.parent, actual, report, os.environ['GITHUB_SHA'], source)
+    report.update(actual_browser_cases=2, real_Auth_browser_claim=True)
     return dict(original=actual, original_file=retained, gate=gate, copy_authority=copies)

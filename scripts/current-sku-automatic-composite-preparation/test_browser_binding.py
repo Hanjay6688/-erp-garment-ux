@@ -30,15 +30,17 @@ def function(source, name, namespace):
 
 
 class BrowserBindingControls(unittest.TestCase):
-    def test_complete_real_journeys_use_six_reversible_current_routes(self):
+    def test_complete_real_journeys_use_eight_reversible_current_routes(self):
         prepare = load('current_complete_journey_control', HERE / 'browser_prepare.py')
         text, proof = prepare.derive()
         self.assertEqual(text.encode(), (HERE / 'browser.mjs').read_bytes())
-        self.assertEqual(proof['exact_reversible_routes'], 6)
+        self.assertEqual(proof['exact_reversible_routes'], 8)
         self.assertTrue(proof['complete_original_recovered'])
         self.assertIn('entire_current_source_admission:actual', text)
         self.assertIn("'nilai sumber Rp 68,07'", text)
         self.assertIn('inverseOracle(final,f)', text)
+        self.assertIn('session_leaks:final.current_session_leaks', text)
+        self.assertIn('current_observations.push({step,state:value})', text)
         with self.assertRaisesRegex(ValueError, 'EXACT_COMPLETE_REAL_APP_JOURNEYS_REQUIRED'):
             prepare.derive(prepare.ORIGINAL.read_bytes() + b'\n')
 

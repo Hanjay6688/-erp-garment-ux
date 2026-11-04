@@ -1,281 +1,83 @@
-# Automatic SKU stage on the current Afui–Mandor–money candidate
+# Current Afui–Mandor–money–automatic qualification preparation
 
-This additive preparation preserves the complete current money preparation
-`5f099fa6852c9088ab46daa0f1079a0f6a1f3185`. It selects the exact automatic
-product from public `9b1b0fcc9fbf477634619f07d4628d5be3a1b634`, whose original
-44 money files remain unchanged and whose 20 additional files contain the
-private provisional-cost readers, Native automatic hooks and owning installer.
+This additive namespace preserves every original file from current money
+preparation `5f099fa6852c9088ab46daa0f1079a0f6a1f3185` and the exact automatic
+product `9b1b0fcc9fbf477634619f07d4628d5be3a1b634`: 44 money files and 20 automatic
+additions. Five reversible installer interface routes bind the complete current
+money parent, source graph, state and catalogue. SQL, physical FIFO, verification,
+explicit inverses, permissions and existing recovery bodies stay exact.
 
-Five reversible interface substitutions select the assembled current money
-parent, give this combined stage its own contract, retain its complete source
-graph, bind the whole current parent state and require its full catalogue
-before DDL. SQL, verification and explicit inverses retain their original
-bodies. The money layer is the unqualified child to be tested once on the
-accepted Mandor parent; no separate money19 acceptance is demanded.
+The owning stage now prepares Native25 plus two fresh real-Auth browser journeys
+in one complete installation, used-inverse guard, supervisor and outer recovery
+lifecycle. Native25 retains all nineteen money callbacks and adds six genuine
+rework/redye completion, zero-GOOD, atomic failed completion and late lawful
+invoice/inverse callbacks. The original Afui production/QC constructor creates
+physical prerequisites. No posted stock, HPP, conversion or rework result is seeded.
+Independent expectations use both Native HPP roots and their actual quantities.
 
-All five new admission values remain unset. The old ten current-money gates
-are unchanged. The loader refuses before inspecting caller modules, receipts,
-files or ERP. Adoption still needs the actual current Mandor17 Root and all
-five gates, unchanged money source-only admission, the complete combined Native
-plan covering upstream rework/redye completion and a real owning runtime.
-The Native25 plan and its owning runtime are now prepared. Actual parent
-adoption and financial execution remain pending. No workflow is activated here.
+All five current admission values remain unset, all ten old money gates stay
+unchanged, and no active workflow exists. Actual Mandor17 Root intake and the
+complete observed current money graph must be reviewed and pinned before runtime
+adoption. The immutable Native25 plan explicitly requires both current browser
+IDs and real Auth; a Native-only plan cannot silently create a browser copy.
+No preparation receipt or model can satisfy a parent Root or financial gate.
 
-Four upstream Native callbacks are now prepared: rework and unknown-price
-redye with a real two-root moving average, exact parent replay and full parent
-inverse; zero GOOD; and a genuine late inactive-target refusal. The fixture
-uses the admitted Afui physical production/QC constructor and actual current
-completion times. No posted stock, HPP or rework result is seeded. Expected
-average comes from the two Native HPP roots and quantities, not the candidate
-quote. The failed completion checks all22/all table rows and retains real
-sequence advancement, whose restoration still belongs to the outer backup.
+One read-only batch checks original prerequisites plus current completion and
+invoice actors, functions, permissions and natural helper signatures before the
+first case. Current sources, the actual complete browser fixture constructor and
+its full normal-App journeys are also bound before database setup under the
+original DB/network fence. Fifteen reachable parent bare module names have exact
+source selection, collision refusal, nested lifetime and restoration.
 
-Thirty-five source-declared callback and preflight SQL statements resolve
-against exact retained PG17 column/signature types without execution. Four original mistaken column names
-are rejected by those same types. Transaction controls are reported separately.
-Ten helper signatures are checked from their original declarations; full
-natural module binding remains required in the actual owning runtime. These
-are preparation checks, rather than executed ERP cases. Current
-Auth/concurrency, full runtime/plan admission and recovery remain open.
+The six owning execution helpers and inactive 79-step workflow retain 67 original
+steps and twelve explicit routes. Real 360/330/20/10-minute budgets, one owning
+attempt, unchanged complete rebuild/clone/recovery, worker reaping and complete
+Original upload remain mandatory. Four exact frozen worktrees supply Afui,
+Mandor, money and automatic sources. Their prerequisite and changed/new outputs
+are retained in full, including a failure before final admission.
 
-The source checker distinguishes the full immutable Git parent identity from
-the files actually materialized in a sparse checkout. It never labels absent
-files as checked on disk. Full frozen-parent runtime admission remains
-mandatory. Current UI, transaction and recovery source files are untouched.
+The accepted Mandor copy authority is reused unchanged. Its upstream eligibility
+is the genuine Afui Root, while its runtime and verifier operate on the complete
+current automatic product and whole original state. Each browser copy must equal
+the complete installed all22 catalogue. No product, schema or RPC grant overlay
+is permitted. The existing normal-App host source stays exact.
 
-Local controls prove source derivation and closed-interface behavior only.
-They do not execute Native transactions, Auth, concurrency, browser or full
-backup restoration. The 18 earlier business-model controls and isolated DDL
-proof remain preparation evidence, rather than actual ERP acceptance.
+Desktop1440 OWNER and mobile390 ADMIN journeys use real Auth and PostgREST:
+canonical SKU pairing in both directions; removal from the reverse side;
+selection and preview; real posting; same-UUID lost-reply reconciliation on
+desktop; double-click protection; active downstream refusal; and whole-group
+inverse from the other member. They retain complete observations, actual requests,
+console evidence, contrast measurements and eight screenshots per case.
+Native physical allocations remain60.06; independent current moving-average
+value is68.07. Raw pools102.102/188.188 and posted books102.10/188.19 are checked
+separately. The inverse restores170.17/120.12, including reserved stock in the pool.
 
-The successor complete-report adapter is prepared for the exact retained
-Mandor17 and money19 engine sources. It changes one final output expression
-per engine and the owning R1 save function only inside a reversible scope.
-The encoder function is AST-identical to the current Afui atomic streaming
-writer: complete bytes and financial/recovery statements are retained, and
-a failed encoder preserves the preceding complete report. Five local controls
-cover exact-source rejection, full compiler context, output identity, nested
-scope refusal and cleanup. No running Afui source or child runtime is changed;
-actual runtime adoption and full recovery remain pending.
+The current browser gate derives the whole retained typed copy validator using
+five reversible actual-field selections. Results are never projected or renamed
+to satisfy an obsolete row schema. Every actual observation includes independent
+live lock/session readback. The final gate verifies full Original bytes, every
+all22/raw-row/sequence observation asset and every PNG, then reruns physical,
+economic, refusal, replay, contrast and inverse oracles over the saved observations.
+Primary Auth counts, PostgREST cleanup, zero leftover copies and exact current
+source admission must match. HTTP-only and concurrent cases still receive zero
+credit. Native25+browser2 is business27, not full combined qualification.
 
-Two additional Native callbacks now prepare lawful supplier invoices and
-inverses after actual rework/redye completion. They compare present Native
-root totals with raw PO-scoped FG/COGS journal lines, verify the independent
-two-of-eight economic root custody, preserve exact parent replay and original
-conversion/admission history, and require a later recost to leave the reversed
-child voided. They never use the non-PO product reader as a PO oracle.
+The complete original package still owns unused removal, the committed used
+inverse refusal before DDL, full all22/table/ALL-sequence/role/public restoration,
+advisor review, all five package gates and a reaped empty worker process tree.
+Streaming IO preserves every complete report, pretty/sorted census byte contract
+and first conflicting output. Partial case success cannot qualify the packet.
 
-The combined component retains all nineteen original money callbacks and
-assertions, then appends the six upstream callbacks. One read-only preflight
-collects all original prerequisites and the exact additional completion and
-supplier-invoice actors, functions, permissions and natural helper shapes.
-Permission names are bound to their retained Native SQL declarations. Both
-actor checks restore their original session scope even after refusal. Every
-case still uses the original strict group, exact public catalogue observation,
-complete current census and real monotonic sequence prefixes; the separate
-committed-use guard and whole outer recovery are unchanged.
+The private authority reviewer checks all23 SKU tables without adding grants or
+policies: twelve exact moving-average deny policies and only eleven named
+RLS-without-policy INFO dispositions. The complete parent findings and its
+unchanged remainder decision remain required. Eighteen retained PG17 authority
+observations cover the closed baseline and unsafe ACL/owner/RLS/policy changes.
+Source-declared callback SQL types and ten Native helper signatures have separate
+retained preparation checks. These models do not earn actual ERP credit.
 
-The complete package derivation adopts the prepared atomic report output and
-changes two labels. Native counts still come from completed callbacks; fresh
-Auth, race and browser counts remain zero. Six source/closed-entry controls
-pass. This prepares Native25, rather than qualifying the complete child or
-providing an active owning runtime. All five new and ten old gates remain
-unset. Full actual Mandor Root intake and deliberate current source-fence
-adoption must precede any financial activation.
-
-The private authority reviewer is now prepared for all 23 additional SKU
-tables. Twelve moving-average tables retain their exact original deny
-policies. Only the nine money and two automatic tables are eligible for the
-named RLS-without-policy INFO. One read-only statement captures all 23 tables,
-full policy definitions, all raw nonowner schema/table/column ACLs and effective
-privileges for the five public-facing roles. It never adds a grant or policy.
-The complete parent authority proof and its unchanged remainder decision stay
-mandatory; warnings, unknown objects, duplicates and a false parent gate refuse.
-
-On empty PostgreSQL17 authority fixtures, the exact capture statement compiled
-and produced 18 original observations: one closed baseline and 17 unsafe
-changes. The reviewer accepted only the baseline, including refusals for a
-grant to a role outside the five probes, public/column grants, changed owners,
-RLS flags, changed deny/added allow policy and a missing table. Four review
-controls also cover preservation of the original findings and the closed entry.
-These are actual local catalogue/ACL observations on empty fixtures, rather
-than actual ERP privileges, financial transactions, Auth or runtime acceptance.
-The owning runtime must bind this reviewer after admitting the genuine frozen
-Mandor parent. No running qualifier is changed by this preparation.
-
-The unarmed `qualification.py` now constructs the whole Native25 stage on the
-genuine frozen Mandor parent. It selects the money and automatic products from
-their exact separate source checkouts, binds the private authority reviewer,
-and keeps all backup, unused inverse, committed-use refusal, all22/full-row/
-sequence restoration and all five package gates. The original money bridge
-and its ten unset gates remain byte-for-byte unchanged. A private function
-globals dictionary executes their complete original code with bindings from
-the separately pinned actual Root; its source provider verifies both the
-unchanged closed preparation and the actual binding, rather than relabeling
-the historical source manifest as adopted.
-
-Inherited plain module names are selected from the actual Mandor qualifier at
-search position zero; another checkout refuses. Nested scopes preserve the
-live parent modules until the outer scope ends and restore the caller after
-failure. Frozen namespace packages retain their real file-less identity and
-one exact source directory; no fictitious `__init__.py` is supplied. Foreign
-packages or submodules refuse before financial dispatch.
-
-The component also retains exact complete per-case JSON in the owning
-checkout through the unchanged pinned Afui output functions. Only bounded
-receipts go to the console. Its two complete group Originals are copied by the
-exact Afui92a chunked copier, avoiding another whole-file buffer. The final
-packet and strict group already use the exact streaming encoder. Financial
-callback objects, assertions, current source checks and recovery remain exact.
-
-The final gate derives only six case-count/scope expressions from the full
-retained money validator and validates the additional complete prerequisite
-Original. Native25 acceptance still demands every actual case, one owning
-attempt, all five package gates, full restoration and a completed/reaped worker.
-Auth, race and browser credit stays zero. A Native25 result cannot claim full
-combined ERP qualification. All five new Root/source/plan/entry gates remain
-unset; a genuine current Mandor Root, current money source-graph intake and
-complete source-fence adoption are still mandatory before the entry can run.
-
-Nine import/entry/output controls, six retained-case routing controls and five
-packet protocol controls pass. Packet fixtures are explicitly models, not
-actual qualification Originals. The first packet-model counterexample exposed
-an aliased fixture dictionary; separate JSON documents are now modeled with
-independent containers, and the unchanged validator rejects the source
-mismatch. The first failure is retained. No ERP transaction was executed by
-these controls and no new financial workflow was activated.
-
-The subsequent Mandor scope control found that `contextmanager` wrappers keep
-their generator in a closure cell. Copying only ordinary function globals left
-the decorated case-output scope using its parent output directory. The private
-module binder now preserves the wrapper code and rebinds only that function
-cell to the generator with the owning globals. The expanded SKU control enters
-the actual scoped print adapter, verifies exact complete bytes in the owning
-directory, and checks cleanup. The Afui92a candidate running separately is
-unchanged; neither this stage nor Mandor had run financial cases with that
-prepared binding.
-
-The complete owning execution routes are now prepared as `execution.py` and
-the separate, inactive Native25 workflow template. They preserve the six full
-retained candidate, materialization, canonical fetch, process supervision,
-artifact retention and bounded receipt implementations through counted,
-reversible routes. The genuine five owning gates and all three complete input
-files precede every financial helper. A private adapter preserves the retained
-three-input interface while also validating the new complete Native25 plan.
-The retained money gates and its preparation manifest stay unchanged.
-
-Materialization additionally selects the exact automatic source as a fourth
-frozen worktree. Prerequisites and all changed or new outputs are copied across
-all four trees with the original bounded hash and copy functions. Nested full
-per-case output files remain complete. Conflicting destinations and symlinks
-refuse without replacing the first output. Failed-admission retention and the
-original guarded disposable-database cleanup remain available. The exact
-360/330/20/10 process budgets and complete recovery assertions are preserved.
-
-The inactive workflow retains 79 steps, with 67 unchanged and twelve owning
-routes. It rechecks the immutable candidate source and natural full graph under
-the database network fence before starting the disposable database. The real
-job clock is recorded before setup. Its only runtime entry is this namespace's
-qualification, with bounded console hashes and the full artifact directory
-retained on failure. Source admission permits an active workflow only after
-explicit actual-gate adoption and an exact committed workflow pin; the
-preparation admits no active workflow.
-
-Eight local execution controls passed, including a real temporary Git worktree,
-four-tree streamed byte retention, a preserved conflict, symlink refusal,
-immutable bounded receipts, closed financial gates and accidental workflow
-activation refusal. The first control run exposed incomplete temporary test
-paths; those model fixtures were completed without changing the retained
-implementations or financial assertions. A missing local historical Git object
-was fetched by its real immutable identity before testing the full canonical
-fetcher derivation; no source was substituted. These are source/filesystem
-controls and give zero ERP, Auth, race or browser credit. The actual Mandor
-Root, exact current-money graph pin, full source-fence adoption and Native25
-execution are still required.
-
-`source_intake.py` prepares the missing graph observation after the integrator
-has verified a genuine Mandor Root against its terminal run and canonical
-Originals. It requires that exact reviewed Root pin and the immutable money
-source receipt. All five financial gates must remain closed. It checks the
-three exact frozen trees, then uses the original database/network fence and
-actual inherited source admission to build the complete money source graph.
-The full observation and its proposed graph pin are retained without setting
-any gate, using a placeholder, installing, or dispatching a workflow.
-
-The source observer and financial entry now share the same private bridge
-constructor and source-seal calculation. The financial entry still validates
-all five gates and its complete three inputs before that constructor loads
-anything. The observer supplies only its exact source-input revalidation
-inside the fence; the retained typed Mandor Root, immutable money source and
-complete current-parent checks remain in the shared constructor. A source
-observation does not independently verify upstream financial qualification.
-Four closed-intake controls and the nine existing entry/import/output controls
-pass. Actual observation, the resulting graph pin and its comparison during
-the full financial source check remain pending a genuine current Mandor Root.
-
-Current browser evidence preparation now separates the original physical
-provenance from the approved economic average. The retained fixture opens
-3 pieces at10.01 and7 at20.02, reserves1, then converts4 into a target with
-4 pieces at30.03. The old browser expected60.06: that remains the exact Native
-physical value, while the current rounded moving-average transfer is68.07.
-The complete old evidence module is recovered by reversing its sole changed
-expression; physical allocations, lot HPP, full-census and console checks stay
-exact. New independent assertions require source/target pools, current version
-hashes, raw component values102.102/188.188, cent books102.10/188.19, the full
-inverse, and hidden values after loss of financial permission.
-
-The observer appends two fixed read-only pool queries to the complete original
-Native observation without changing or dropping any existing field. Six Node
-protocol controls and three observer controls pass; they run no browser, Auth
-or ERP operation. The source preflight binds the full Native fixture, browser
-fixture and real-App journey, the four actual public facades and declared
-permissions. The current product/fixture binding, real copy runner and final
-packet integration still need implementation before these two new journeys
-can run. The owning Native25 runtime has not silently adopted them. Its old
-FIFO COGS help sentence also needs a narrow update at current UI integration;
-the frozen B source is preserved here.
-
-The actual fixture and source entries are now prepared in `browser_binding.py`,
-`browser_fixture.py` and `browser_source.py`. They require the complete actual
-five-gate admission first, bind the exact automatic composite product and
-compile the whole retained Native browser fixture inside the original
-database/network fence. Every actual Native constructor function is checked
-against the complete compiled source; the two imported Native helpers must
-come from the real frozen sources and keep identical bytes. The import path
-and real operation arguments are restored. Only the unchanged fixture main
-may later connect to its fixed local disposable browser database.
-
-The complete census now uses the exact bounded Afui IO primitive with its
-original pretty/sorted encoder options. An output model first exposed a
-relative-path mismatch, then a compact-versus-pretty byte mismatch. Both first
-failures are retained. The corrected model produces exactly the old complete
-bytes while using the privately bound current product; no raw field is lost.
-Four binding/journey controls and the nine existing owning controls pass.
-
-`browser_prepare.py` recovers the entire22853-byte real-App journey source by
-reversing six explicit routes. `browser.mjs` uses the current full source
-admission, current fixture,68.07 display expectation, separate60.06 physical
-metadata and the additional whole-inverse economic checks. Normal Auth,
-PostgREST, lost-response reconciliation, used-inverse refusal, full census,
-console and screenshots remain intact. The mandatory owning `--check` now
-compiles/binds this actual fixture under its DB/network fence before any
-database starts. Native25 has not adopted or earned these browser cases.
-
-The real copy runner is now prepared in `browser_access.py`. It adds the five
-current admission gates and explicit browser-plan adoption before reusing the
-accepted Mandor copy scope unchanged. Its upstream eligibility bytes are the
-genuine Afui Root from the accepted Mandor checkout; runtime and verification
-refer to the complete current automatic product and original whole state.
-The normal App host stays exact, per-case output is retained through the exact
-Afui adapter, and copy authority, originals and failures remain in the report.
-No schema/RPC/product grant overlay is introduced. Two closed-entry/plan
-controls pass. The current plan still excludes browser cases; final packet
-integration and actual adoption/execution remain pending.
-
-The actual inherited local import graph also exposed nine bare module names
-beyond the original six. All fifteen reachable names, including cases,
-oracle, Native fixture and access helpers, now participate in exact source
-selection, collision refusal and restoration. The runtime checks the complete
-import closure before loading its parent. The closed source-graph observer
-checks it too. Ten owning/import controls pass, including foreign case/helper
-cache refusal; no financial callback changed.
+Local validation currently covers60 Python source/protocol/authority methods and
+eight Node physical/economic/saved-journey controls. The first broad invocation's
+missing authority-input environment is retained; the complete invocation uses
+the exact earlier PG17 Original file. Financial execution, current HTTP/concurrency,
+actual full-catalogue global writer coverage and production acceptance remain open.

@@ -9,6 +9,8 @@ COMBINED_NATIVE_PLAN_PIN = None
 OWNING_RUNTIME_ENTRY = None
 GATES = ('MANDOR_ROOT_PIN', 'MONEY_SOURCE_PREFLIGHT_PIN', 'CURRENT_MONEY_GRAPH_PIN',
          'COMBINED_NATIVE_PLAN_PIN', 'OWNING_RUNTIME_ENTRY')
+BROWSER_IDS = ('SKU_CURRENT_MOVAVG_DESKTOP_REAL_AUTH_PAIR_VALUE_RECOVERY_INVERSE',
+               'SKU_CURRENT_MOVAVG_MOBILE390_REAL_AUTH_PAIR_VALUE_GUARDS_INVERSE')
 
 
 def pin(raw):
@@ -37,6 +39,9 @@ def inputs(parent_raw, money_raw, plan_raw):
             or plan.get('model_receipt_can_satisfy_plan') is not False
             or type(plan.get('case_ids')) is not list or len(plan['case_ids']) <= 19
             or len(set(plan['case_ids'])) != len(plan['case_ids'])
+            or plan.get('required_browser_case_ids') != list(BROWSER_IDS)
+            or plan.get('fresh_real_Auth_browser_required') is not True
+            or plan.get('business_cases_planned') != 27
             or type(plan.get('actual_ERP_cases')) is not int or plan['actual_ERP_cases'] != 0):
         raise ValueError('SKU_AUTOMATIC_FULL_NATIVE_CASE_PLAN_REQUIRED_BEFORE_INSTALL')
     return dict(parent_root=pin(parent_raw), money_source_preflight=pin(money_raw),

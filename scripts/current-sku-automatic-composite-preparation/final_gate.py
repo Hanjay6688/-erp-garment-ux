@@ -1,4 +1,4 @@
-"""Exact Native25 Originals and whole restoration; no Auth/full-ERP promotion."""
+"""Exact Native25, fresh browser2 Originals, and complete owning restoration."""
 from pathlib import Path
 from types import FunctionType, SimpleNamespace
 import importlib.util
@@ -27,12 +27,18 @@ prerequisites = load('automatic_final_complete_prerequisite_declarations', HERE 
 MAIN, NATIVE = runtime.LABEL + '.json', component.LABEL + '.json'
 PREFLIGHT = component.LABEL + '_PREFLIGHT.json'
 SUPERVISION = 'SKU_CURRENT_PARENT_MONEY_AUTOMATIC_RUNTIME_SUPERVISION.json'
+BROWSER = 'SKU_CURRENT_PARENT_MONEY_AUTOMATIC_BROWSER2.json'
+browser_gate = load('automatic_final_complete_browser2_gate', HERE / 'browser_gate.py')
 ROUTES = (
     ('actual_Native_cases=19', 'actual_Native_cases=25', 3),
-    ('actual_business_cases=19', 'actual_business_cases=25', 1),
+    ('actual_business_cases=19', 'actual_business_cases=27', 1),
+    ('actual_browser_cases=0', 'actual_browser_cases=2', 2),
+    ('real_Auth_browser_claim=False', 'real_Auth_browser_claim=True', 1),
+    ('actual_Auth_browser=False', 'actual_Auth_browser=True', 1),
+    ("qualification_scope='NATIVE_COMPONENT_ONLY'", "qualification_scope='NATIVE25_AND_CURRENT_BROWSER2'", 1),
     ("counts={'PASS':19}", "counts={'PASS':25}", 1),
     ("qualification_scope='CURRENT_PARENT_SKU_MONEY_NATIVE19_ONLY'",
-     "qualification_scope='CURRENT_PARENT_SKU_MONEY_AUTOMATIC_NATIVE25_ONLY'", 1),
+     "qualification_scope='CURRENT_PARENT_SKU_MONEY_AUTOMATIC_NATIVE25_BROWSER2_ONLY'", 1),
 )
 
 
@@ -75,7 +81,8 @@ def derive(raw):
     if recovered.encode() != raw:
         raise ValueError('AUTOMATIC_COMPLETE_RETAINED_GATE_NOT_RECOVERED')
     return text, dict(retained=RETAINED_PIN, metadata_expression_routes=sum(row[2] for row in ROUTES),
-                      retained_source_recovered_exactly=True, Auth_race_browser_counts_still_zero=True,
+                      retained_source_recovered_exactly=True, Auth_HTTP_and_race_counts_still_zero=True,
+                      two_fresh_current_browser_originals_required=True,
                       complete_all5_recovery_and_worker_lifecycle_assertions_preserved=True, actual_ERP_cases=0)
 
 
@@ -96,6 +103,10 @@ def validate(p, docs, head, ids):
     result = check(p, docs, head, ids)
     p.exact(docs[PREFLIGHT]['source'], docs[MAIN]['source_declaration']['complete_combined_sources'],
             'AUTOMATIC_PREFLIGHT_EXACT_CURRENT_COMBINED_SOURCE_GRAPH')
+    part = docs[MAIN]['committed'][component.CASE]
+    p.fields(part, dict(actual_browser_cases=2, actual_business_cases=27, real_Auth_browser_claim=True),
+             'AUTOMATIC_COMPONENT_ACTUAL_BROWSER2_AND_NATIVE25_COUNTS')
+    result['current_browser2'] = browser_gate.validate(p, docs[BROWSER], part, head, docs[MAIN]['source_declaration'])
     return result
 
 
@@ -109,7 +120,7 @@ def gate(directory, head):
     p.exact(ids, retained_ids + list(suite.native.IDS) + list(suite.invoices.IDS), 'AUTOMATIC_EXACT_ORDERED_TWENTY_FIVE_CURRENT_CASES')
     if len(ids) != 25 or len(set(ids)) != 25:
         raise ValueError('AUTOMATIC_COMPLETE_DISTINCT_NATIVE25_PLAN_REQUIRED')
-    names = (MAIN, NATIVE, PREFLIGHT, 'T3_PACKAGE_INSTALL.json', 'T3_BACKUP_RESTORE_DRILL.json', SUPERVISION)
+    names = (MAIN, NATIVE, PREFLIGHT, BROWSER, 'T3_PACKAGE_INSTALL.json', 'T3_BACKUP_RESTORE_DRILL.json', SUPERVISION)
     raw = {}
     for name in names:
         path = directory / name
@@ -123,6 +134,10 @@ def gate(directory, head):
     if len(originals) != 1:
         raise ValueError('AUTOMATIC_ONE_FIRST_NATIVE_ORIGINAL_REQUIRED')
     p.exact({key: originals[0][key] for key in ('bytes', 'sha256')}, admission.pin(raw[NATIVE]), 'AUTOMATIC_FIRST_NATIVE_ORIGINAL_EXACT_BYTES')
+    part = docs[MAIN]['committed'][component.CASE]
+    result['current_browser2'] = browser_gate.gate(p, directory, docs[BROWSER], part, head, docs[MAIN]['source_declaration'])
+    p.exact(part['current_browser_complete_evidence_gate'], result['current_browser2'],
+            'AUTOMATIC_BROWSER_RECHECK_EQUALS_COMPLETE_FIRST_RUNTIME_GATE')
     fence = runtime.load('automatic_final_original_import_DB_fence',
         runtime.FROZEN_AFUI / 'scripts/current-sku-managed-recovery-native27-qualification/source_context.py')
     with fence.fenced_source_read(), runtime.inherited_scope():
@@ -130,11 +145,11 @@ def gate(directory, head):
         with engine.inherited_admission.parent_scope():
             sources = engine.admitted()
     p.exact(docs[MAIN]['source_declaration'], sources, 'AUTOMATIC_COMPLETE_NATURAL_SOURCE_GRAPH_NOT_PROJECTED')
-    return dict(status='CURRENT_MANDOR_PARENT_MONEY_AUTOMATIC_NATIVE25_AND_ALL5_PASS', head=head, **result,
+    return dict(status='CURRENT_MANDOR_PARENT_MONEY_AUTOMATIC_NATIVE25_BROWSER2_AND_ALL5_PASS', head=head, **result,
                 accepted_sources=receipt, parent_root=admission.pin(parent_raw), money_source_preflight=admission.pin(money_raw),
                 automatic_source=reference['automatic_source'], complete_native_plan=admission.pin(plan_raw),
                 originals={name: admission.pin(value) for name, value in raw.items()},
-                concurrent_current_permission_Auth_browser_followups_pending=True, full_combined_final_qualification=False)
+                concurrent_and_current_permission_Auth_HTTP_followups_pending=True, full_combined_final_qualification=False)
 
 
 if __name__ == '__main__':

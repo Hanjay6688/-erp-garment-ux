@@ -21,7 +21,9 @@ class BrowserAccessControls(unittest.TestCase):
                 with access.copy_scope(object(), object(), object()):self.fail('Unadmitted copy entered')
 
     def test_native_only_plan_cannot_silently_activate_browser_copies(self):
-        native_only = access.entry.PLAN_FILE.read_bytes()
+        current = json.loads(access.entry.PLAN_FILE.read_bytes())
+        current.pop('required_browser_case_ids');current.pop('fresh_real_Auth_browser_required')
+        native_only = json.dumps(current).encode()
         originals = (b'EXPLICIT_PROTOCOL_BYTES_NOT_A_ROOT', b'NO_SOURCE_ACCEPTANCE', native_only, {})
         with patch.object(access.entry, 'actual_inputs', return_value=originals):
             with self.assertRaisesRegex(ValueError, 'EXPLICIT_COMPLETE_PLAN_ADOPTION_REQUIRED'):

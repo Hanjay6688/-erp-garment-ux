@@ -90,6 +90,7 @@ def derive(kind, raw=None):
             'SKU_CURRENT_PARENT_MONEY_AUTOMATIC_RUNTIME_SUPERVISION.json', runtime.LABEL + '.json',
             runtime.component.LABEL + '.json', runtime.component.LABEL + '_PREFLIGHT.json',
             runtime.component.LABEL + '_BUSINESS_DAY_FIRST_ATTEMPT.json',
+            'SKU_CURRENT_PARENT_MONEY_AUTOMATIC_BROWSER2.json',
             'SKU_CURRENT_PARENT_MONEY_AUTOMATIC_FINAL_GATE.json', 'SKU_CURRENT_MANDOR17_ORIGINAL_ADMISSION.json',
             'SKU_CURRENT_PARENT_MONEY_AUTOMATIC_PREREQUISITE_FILES.json',
             'SKU_CURRENT_PARENT_MONEY_AUTOMATIC_FROZEN_EXECUTION_RECEIPT.json',

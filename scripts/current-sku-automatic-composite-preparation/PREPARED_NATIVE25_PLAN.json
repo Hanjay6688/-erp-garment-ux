@@ -40,5 +40,11 @@
   "per_case_all22_rows_and_monotonic_sequence_prefix_required": true,
   "complete_outer_all_sequence_backup_restore_required": true,
   "production_go": false,
-  "independent_acceptance": false
+  "independent_acceptance": false,
+  "required_browser_case_ids": [
+    "SKU_CURRENT_MOVAVG_DESKTOP_REAL_AUTH_PAIR_VALUE_RECOVERY_INVERSE",
+    "SKU_CURRENT_MOVAVG_MOBILE390_REAL_AUTH_PAIR_VALUE_GUARDS_INVERSE"
+  ],
+  "fresh_real_Auth_browser_required": true,
+  "business_cases_planned": 27
 }

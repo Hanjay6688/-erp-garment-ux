@@ -9,7 +9,7 @@ HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
 ORIGINAL = 'scripts/current-sku-cost-money-qualification/runner.py'
 LABEL = 'CP7_SKU_CURRENT_PARENT_MONEY_AUTOMATIC_NATIVE25'
-CASE = 'CURRENT_MANDOR_PARENT_SKU_MONEY_AUTOMATIC_NATIVE25_AND_USED_INVERSE'
+CASE = 'CURRENT_MANDOR_PARENT_SKU_MONEY_AUTOMATIC_NATIVE25_BROWSER2_AND_USED_INVERSE'
 RETAINED = ROOT / 'scripts/current-sku-money-composite-preparation/component.py'
 RETAINED_PIN = {'bytes': 3335, 'sha256': '4b94140c5c766b25302713b67a5bcc821c9199016d7783c926517666336e19bc'}
 
@@ -37,6 +37,12 @@ def derive(raw):
          "                retained.append(_COMPLETE_ORIGINALS.copy_exact(original,destination/name,\n"
          "                    'SKU_AUTOMATIC_COMPLETE_GROUP_ORIGINAL_CONFLICT'))"),
         ("LABEL='CP7_SKU_CURRENT_PARENT_MONEY_NATIVE19'", "LABEL='" + LABEL + "'"),
+        ("physical_FIFO_preserved=True,economic_valuation='SKU_LOCATION_GRADE_MOVING_AVERAGE_WITH_SOURCE_CENTS')",
+         "physical_FIFO_preserved=True,economic_valuation='SKU_LOCATION_GRADE_MOVING_AVERAGE_WITH_SOURCE_CENTS')\n"
+         "    report['status']='INCOMPLETE'\n"
+         "    _BROWSER_ACCESS.run(product,state,verify,report)\n"
+         "    report.update(status='PASS',actual_Auth_browser=True,actual_business_cases=len(business.IDS)+2,\n"
+         "                  qualification_scope='NATIVE25_AND_CURRENT_BROWSER2')"),
     )
     after = before
     for old, new in routes:
@@ -79,6 +85,7 @@ def load_prepared(bridge, product, parent_raw, money_raw, plan_raw, scheduler_qu
     if case_output is None:
         raise ValueError('SKU_AUTOMATIC_COMPLETE_CASE_OUTPUT_BINDING_REQUIRED')
     module._CASE_OUTPUT = case_output
+    module._BROWSER_ACCESS = load('automatic_current_real_browser_copy', HERE / 'browser_access.py')
     exec(compile(source, module.__file__ + '::complete_native25', 'exec', dont_inherit=True), module.__dict__)
     if module.ROOT != ROOT or module.LABEL != LABEL:
         raise ValueError('SKU_AUTOMATIC_EXACT_OWNING_NATIVE_OUTPUT_NAMESPACE_REQUIRED')

@@ -2,6 +2,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import * as evidence from './browser_evidence.mjs';
+import {check as readbackGate} from './browser_readback_gate.mjs';
 
 const basis = 'SKU_LOCATION_GRADE_MOVING_AVERAGE_V2';
 const fixture = {source: 'SOURCE', target: 'TARGET', location: 'LOCATION', lots: ['LOT1', 'LOT2'],
@@ -94,4 +95,69 @@ test('whole group inverse restores original pools and exact economic product boo
   evidence.inverseOracle(state, fixture);
   state.current_economic_pools.SOURCE.value = '170.18';
   assert.throws(() => evidence.inverseOracle(state, fixture));
+});
+
+function readbackModel() {
+  const f = {...structuredClone(fixture), groups: [{id: 'SOURCE_GROUP'}, {id: 'TARGET_GROUP'}]};
+  const base = {ledgers: {complete_native_ledger: ['UNCHANGED']}, accounts: structuredClone(f.baseline_accounts),
+    current_session_leaks: {advisory_locks: 0, advisory_lock_keys: [], other_sessions: []},
+    census: {catalog_groups: 22, catalog_sha256: 'COMPLETE_EXPLICIT_CATALOG_MODEL',
+      data_and_sequences: {'cp7_sku_conversion.pairs_v1': [], 'cp7_sku_conversion.pair_events_v1': 0, 'erp.money': ['UNCHANGED']},
+      dropped_catalog_fields: [], dropped_data_or_sequence_keys: []}, pairs: [], pair_event_count: 0};
+  const paired = count => {
+    const value = structuredClone(base);value.pairs = [['SOURCE_GROUP', 'TARGET_GROUP']];value.pair_event_count = count;
+    value.census.data_and_sequences['cp7_sku_conversion.pairs_v1'] = structuredClone(value.pairs);
+    value.census.data_and_sequences['cp7_sku_conversion.pair_events_v1'] = count;return value;
+  };
+  const unpaired = structuredClone(base);unpaired.pair_event_count = 3;
+  unpaired.census.data_and_sequences['cp7_sku_conversion.pair_events_v1'] = 3;
+  const committed = {...structuredClone(unpaired), ...posted()};
+  const final = structuredClone(committed);
+  final.source = {physical: 10, reserved: 1, available: 9};final.target = {physical: 4, reserved: 0, available: 4};
+  final.members.forEach(member => {member.status = 'REVERSED';});
+  final.current_economic_pools.SOURCE = pool('10', '170.170000', '17.0170000000000000');
+  final.current_economic_pools.TARGET = pool('4', '120.120000', '30.0300000000000000', '2'.repeat(32));
+  final.Native_nonPO_books = {SOURCE: ['170.17', '170.17', '0', '0'], TARGET: ['120.12', '120.12', '0', '0']};
+  const actual = {planned_case_ids: [...evidence.IDS], cases: {}};
+  for (const [index, name] of evidence.IDS.entries()) {
+    const values = [['BEFORE_PAIR', base], ['PAIR_FIRST', paired(1)], ['PAIR_REVERSE_DUPLICATE', paired(2)],
+      ['PAIR_DELETE_REVERSE_SIDE', unpaired], ['BEFORE_PREVIEW', unpaired], ['AFTER_PREVIEW', unpaired],
+      ...(!index ? [['LOST_COMMITTED_REPLY', committed], ['RECONCILED_SAME_UUID', committed]] : []),
+      ['POSTED', committed], ['ACTIVE_DRAFT_BEFORE_REFUSAL', committed], ['ACTIVE_DRAFT_AFTER_REFUSAL', committed],
+      ['WHOLE_GROUP_REVERSED', final]];
+    const write = (rpc, p_action) => ({rpc, args: {p_action, p_request_id: 'SAME_ORIGINAL_INTENT'}});
+    actual.cases[name] = {current_fixture: f, actual_preview: preview(), actual_post_result: result,
+      current_observations: values.map(([step, state]) => ({step, state: structuredClone(state)})),
+      actual_refusal: {status: 400, body: {code: 'P0001', message: 'active downstream'}}, actual_inverse_result: result,
+      visible_text_contrast: ['PAIR_TWO_SIDES', 'FIFO_PREVIEW', 'ACTIVE_DRAFT_REFUSAL', 'WHOLE_GROUP_REVERSED']
+        .map(state => ({state, rows: [{label: 'Actual visible text protocol model', ratio: 7}]})),
+      write_requests: [write('erp_save_sku_action_v1', 'PAIR'), write('erp_save_sku_action_v1', 'PAIR'),
+        write('erp_save_sku_action_v1', 'PAIR'), write('erp_save_product_conversion_action_v1', 'POST'),
+        ...(!index ? [write('erp_save_product_conversion_action_v1', 'POST')] : []),
+        write('erp_save_product_conversion_action_v1', 'REVERSE'), write('erp_save_product_conversion_action_v1', 'REVERSE')]};
+  }
+  return actual;
+}
+
+test('complete saved journey protocol rechecks physical, accounting, replay, inverse and all observations', () => {
+  const result = readbackGate(readbackModel());
+  assert.equal(result.cases, 2);assert.equal(result.actual_Auth_HTTP_case_credit, 0);
+  assert.equal(result.actual_two_session_case_credit, 0);
+});
+
+test('final recorded oracle refuses missing steps, changed money, leaks, replay intent and illegible text', () => {
+  const changes = [
+    row => row.current_observations.pop(),
+    row => {row.actual_preview.cost.source_value = '60.06';},
+    row => {row.current_observations.find(item => item.step === 'POSTED').state.current_economic_pools.SOURCE.value = '102.10';},
+    row => {row.current_observations.find(item => item.step === 'AFTER_PREVIEW').state.census.data_and_sequences['erp.money'] = ['CHANGED'];},
+    row => {row.current_observations[0].state.current_session_leaks.other_sessions.push('LEAK');},
+    row => {row.write_requests[4].args.p_request_id = 'A_NEW_WRITE_NOT_REPLAY';},
+    row => {row.actual_refusal.body.code = '42501';},
+    row => {row.visible_text_contrast[0].rows[0].ratio = 4.49;},
+  ];
+  for (const change of changes) {
+    const value = readbackModel();change(value.cases[evidence.IDS[0]]);
+    assert.throws(() => readbackGate(value));
+  }
 });

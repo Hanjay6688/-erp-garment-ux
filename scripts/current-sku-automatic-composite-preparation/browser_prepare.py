@@ -49,6 +49,12 @@ def derive(raw=None):
         ("one_complete_group_two_Native_parts_value:'60.06'",
          "one_complete_group_two_Native_parts_physical_value:'60.06',moving_average_value:'68.07'"),
         ("const final=state('WHOLE_GROUP_REVERSED')", "const final=state('WHOLE_GROUP_REVERSED');inverseOracle(final,f)"),
+        (" const state=step=>fixture('observe',{fixture:f,label:`SKU29_${suffix}_${run}_${String(++snapshotNo).padStart(2,'0')}_${step}`})",
+         " const current_observations=[]\n"
+         " const state=step=>{const value=fixture('observe',{fixture:f,label:`SKU29_${suffix}_${run}_${String(++snapshotNo).padStart(2,'0')}_${step}`});current_observations.push({step,state:value});return value}"),
+        ("   ...progress,actual_active_Native_draft_use:active,",
+         "   ...progress,current_fixture:f,current_observations,session_leaks:final.current_session_leaks,actual_preview:reviewed.preview,actual_post_result:made,\n"
+         "   actual_refusal:{status:refused.status(),body:refusal},actual_inverse_result:reversed,actual_active_Native_draft_use:active,"),
     )
     text = original
     for before, after in routes:
@@ -63,7 +69,7 @@ def derive(raw=None):
                       exact_reversible_routes=len(routes), complete_original_recovered=True,
                       real_Auth_normal_App_PostgREST_reconcile_inverse_census_and_console_checks_preserved=True,
                       native_physical_60_06_and_economic_average_68_07_both_required=True,
-                      runtime_copy_and_final_packet_integration_still_pending=True,
+                      complete_observations_retained_for_independent_final_oracle_recheck=True,
                       actual_Auth_HTTP_cases=0, actual_browser_cases=0, actual_ERP_cases=0)
 
 

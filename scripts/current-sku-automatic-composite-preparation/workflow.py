@@ -70,7 +70,7 @@ def derive(raw=None):
                      **{'working-directory': 'writer'}, run='set -euo pipefail\npython -B ../auditor/' + NS + 'execution.py check-money-source\n'
                          'python -B ../auditor/' + NS + 'qualification.py --check\n'
                          'python -B ../auditor/scripts/current-de-free-date-preparation/attempt_policy.py --require-window\n')
-    steps[72] = dict(name='Run complete current-parent money automatic Native25 once with owning restoration',
+    steps[72] = dict(name='Run current-parent money automatic Native25 and real browser2 once with owning restoration',
                      **{'working-directory': 'writer'}, run='set -euo pipefail\npython -u -B ../auditor/' + NS + 'execution.py supervise\n'
                          'python -B ../auditor/' + NS + 'final_gate.py\n')
     steps[75] = dict(name='Retain every new or changed output in all four frozen trees even on failure',
