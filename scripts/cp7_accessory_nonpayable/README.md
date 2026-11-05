@@ -1,3 +1,22 @@
+### 5 November: retain the actual day-window refusal before a fresh attempt
+
+Run42014375739/job127201080543 on74e passed the genuine window check at
+17:53:37WIB, but reached the owning runtime at18:00:32WIB. The unchanged
+runtime guard refused SKU27_INSUFFICIENT_WIB_DAY_WINDOW_BEFORE_RUNTIME before
+the ERP engine or any Afui transaction. Its canonical Original13408787672
+was retained with all125 unique member CRCs; the worker process group/tree
+was reaped. It contains no main Afui packet or complete backup-install report.
+That refusal grants no fresh case, restoration or Root acceptance.
+
+This successor changes only this factual note; executable source pins stay exact.
+All financial code, actors, fixtures, permissions, genuine WIB clock,
+360/330/20/10 budgets, single attempt and complete Original contracts remain
+byte exact. Activation requires a genuinely open current day window, no
+active owning qualification and a new run with attempt1. A GitHub rerun at
+attempt2 cannot substitute for the original final gate's explicit attempt1.
+The next real window begins6November00:00WIB; check the actual clock again
+before activation and before runtime. No fixture date or clock is relabelled.
+
 ### 5 November: refuse missing phase names before database provisioning
 
 Run41968344868/job127050501104 ended with the exact first error
