@@ -1,0 +1,19 @@
+{
+  "classification": "READ_ONLY_TERMINAL_AFUI215_EXPORT_PREPARATION_NOT_FINANCIAL_OR_ROOT",
+  "source_run_id": 41935037565,
+  "source_job_id": 126941232433,
+  "source_head": "21542ca22ad08f366d8f3c69929ca47b2d79b5f5",
+  "source_artifact_name": "cp7-afui-good-nonpayable-full15-1",
+  "source_terminal_before_any_archive_required": true,
+  "full_artifact_pagination_and_job_identity_required": true,
+  "canonical_whole_zip_size_sha_and_every_CRC_required": true,
+  "bounded_parts": 16,
+  "part_maximum_bytes": 419430400,
+  "whole_canonical_archive_before_log_receipts": true,
+  "preparation_branch_triggers_job": false,
+  "source_financial_files_changed": 0,
+  "synthetic_byte_and_provenance_controls": 8,
+  "actual_readonly_export_runs": 0,
+  "actual_ERP_commands_executed": 0,
+  "financial_acceptance_credit": 0
+}

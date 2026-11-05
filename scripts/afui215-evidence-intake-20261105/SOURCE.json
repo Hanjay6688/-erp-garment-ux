@@ -1,0 +1,38 @@
+{
+  "classification": "READ_ONLY_TERMINAL_AFUI215_EXPORT_PREPARATION_NOT_FINANCIAL_OR_ROOT",
+  "parent_head": "21542ca22ad08f366d8f3c69929ca47b2d79b5f5",
+  "parent_tree": "cbf06669baba7d820b50b008cb52198fe4c8bc9b",
+  "retained_donor": {
+    "source_public_head": "53ff3ea354feaaed5a84be8516efae68f7b5e353",
+    "source_local_head": "95e1cd9f1b31f126d8c7cee22ab031636701e275",
+    "path": "scripts/afui-evidence-intake-20261105/retain.py",
+    "bytes": 12838,
+    "sha256": "b90dd46b777a9d9449ff7fe9b5e00e4521adefd23ced5550998a9e2b95e86cd4",
+    "actual_ERP_cases": 0
+  },
+  "files": {
+    ".github/workflows/afui215-evidence-intake-20261105.yml": {
+      "bytes": 7739,
+      "sha256": "4070fe1df2b7da652032a6393c2ad626ec6ff617530405790e839352fa28e14e"
+    },
+    "scripts/afui215-evidence-intake-20261105/CONTROLS.json": {
+      "bytes": 815,
+      "sha256": "efe5b7798f571c9973d14162bc7f6ebb167863c42386d59edb4abdfa3618fde1"
+    },
+    "scripts/afui215-evidence-intake-20261105/README.md": {
+      "bytes": 1112,
+      "sha256": "1ceb4f591168a1104efe60e2a4e8819d1af9a05ae77295261b10dce88969057f"
+    },
+    "scripts/afui215-evidence-intake-20261105/retain.py": {
+      "bytes": 15555,
+      "sha256": "e08d6178051682937431e9f36abd24c69daa1a3632c92ecdcb60d8463bd96195"
+    },
+    "scripts/afui215-evidence-intake-20261105/test_retention.py": {
+      "bytes": 7656,
+      "sha256": "d868519b052dd5b34a5e2eeadd951fbf270f4fdb29bcd707e56999e41fa3d28a"
+    }
+  },
+  "financial_source_unchanged": true,
+  "actual_ERP_commands_executed": 0,
+  "financial_acceptance_credit": 0
+}
