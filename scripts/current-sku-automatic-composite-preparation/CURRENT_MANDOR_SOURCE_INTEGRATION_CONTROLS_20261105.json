@@ -1,0 +1,37 @@
+{
+  "Afui_source_check_uses_its_exact_frozen_parent": true,
+  "actual_Afui15_Root_adopted": false,
+  "actual_ERP_cases": 0,
+  "actual_Mandor17_Root_adopted": false,
+  "all_15_SKU_actual_admission_values_unset": true,
+  "classification": "EXACT_CURRENT_AFUI_MANDOR_SKU_SOURCE_INTEGRATION_NOT_RUNTIME",
+  "current_Afui_delta_paths": 43,
+  "current_Afui_namespace_files_byte_exact": 124,
+  "current_Mandor_frozen_source_real_shell_control_pass": true,
+  "current_Mandor_preparation_namespace_files": 25,
+  "current_prepared_Mandor_head": "8588777f2a8bdae71ee442b0d0048e474037934a",
+  "current_prepared_Mandor_tree": "1a17917d0286981e09ea9211a303cf22ae87e2f7",
+  "exact_frozen_Afui_source_preflight_pass": true,
+  "exact_parent_delta_paths": 78,
+  "first_actual_old_parent_fence_refusal": "SKU_AUTOMATIC_UNDECLARED_CURRENT_PARENT_CHANGE:.github/workflows/cp7-afui-good-nonpayable.yml",
+  "first_prepared_Mandor_source_target": "1ce94bc7dcd5359099ab84981e4155715dd89dc8",
+  "first_refusal_stderr": {
+    "bytes": 888,
+    "sha256": "ae4afc90886282f23429b0b5069a9f637447b54c27fcae9d54d2b22d427909ed"
+  },
+  "frozen_Afui_preflight_context_refusal_reproduced": true,
+  "new_source_control_methods": 5,
+  "own_Python_source_controls_passed": 74,
+  "own_Python_source_controls_receipt": {
+    "bytes": 13425,
+    "sha256": "36573c5dfc3ce7d4e7a6f1e2043a941f0b9586c15dc1192c38c7671ac7bd5632"
+  },
+  "owning_workflow_rebinding_pending": true,
+  "previous_SKU_public_head": "926e85ca4467a517161dedcb8afc47478a4add45",
+  "production_go": false,
+  "reversible_current_Mandor_callers": 7,
+  "same_selected_B_UI_files": 3,
+  "source_guards_or_permissions_weakened": false,
+  "unchanged_Mandor21_and_transport14_controls_reused_for_exact_858_source": true,
+  "whole_combined_checkout_is_not_mislabelled_as_frozen_Afui_source": true
+}

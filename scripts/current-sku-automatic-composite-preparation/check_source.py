@@ -21,6 +21,10 @@ UI_AFTER = '15dc4bde83e1ac74871f8d4aaf005e9e36445aeb'
 UI_PATHS = frozenset(('src/ConnectedInitialImportPage.tsx', 'src/ConnectedPocketFabricPage.tsx', 'src/initial-import.css'))
 BUILD_INPUTS = frozenset(('index.html', 'package-lock.json', 'package.json', 'tsconfig.app.json',
                          'tsconfig.contracts.json', 'tsconfig.json', 'vite.config.ts'))
+MANDOR_HEAD = '8588777f2a8bdae71ee442b0d0048e474037934a'
+MANDOR_TREE = '1a17917d0286981e09ea9211a303cf22ae87e2f7'
+MANDOR_BASE = 'c296fd06167ddd177e1192c1008992e2a1e3d628'
+MANDOR_BASE_TREE = 'fdd36962a7de81482ccca02e6ff96597cfc20081'
 
 
 def entries(tree):
@@ -60,6 +64,36 @@ def selective_ui(value, base, approved):
     return result
 
 
+def pending_mandor(value, baseline):
+    """Copy the complete current prepared parent; grant no actual admission."""
+    require = assembly.require
+    require({key: value[key] for key in ('base_head', 'base_tree', 'head', 'tree')} ==
+            dict(base_head=MANDOR_BASE, base_tree=MANDOR_BASE_TREE, head=MANDOR_HEAD, tree=MANDOR_TREE)
+            and all(value[key] is None for key in ('actual_Root', 'actual_run', 'actual_job')),
+            'SKU_AUTOMATIC_ONLY_EXACT_UNQUALIFIED_CURRENT_MANDOR_SOURCE')
+    require(assembly.git('rev-parse', MANDOR_HEAD + '^{tree}').decode().strip() == MANDOR_TREE
+            and assembly.git('rev-parse', MANDOR_BASE + '^{tree}').decode().strip() == MANDOR_BASE_TREE,
+            'SKU_AUTOMATIC_CURRENT_MANDOR_IMMUTABLE_TREES_REQUIRED')
+    before, after = entries(MANDOR_BASE_TREE), entries(MANDOR_TREE)
+    paths = set(assembly.git('diff', '--name-only', MANDOR_BASE, MANDOR_HEAD, '--').decode().splitlines())
+    require(len(paths) == 78 and set(value['files']) == paths,
+            'SKU_AUTOMATIC_COMPLETE_SEVENTY_EIGHT_CURRENT_MANDOR_PATHS_REQUIRED')
+    result = {}
+    for name, row in value['files'].items():
+        require(row['before'] == before.get(name) == baseline.get(name)
+                and name in after and row['after'] == after[name],
+                'SKU_AUTOMATIC_CURRENT_MANDOR_EXACT_BEFORE_AND_AFTER:' + name)
+        path = ROOT / name
+        require(path.is_file() and not path.is_symlink(),
+                'SKU_AUTOMATIC_CURRENT_MANDOR_REGULAR_SOURCE_REQUIRED:' + name)
+        raw = path.read_bytes()
+        require(dict(bytes=len(raw), sha256=sha256(raw).hexdigest()) == row['pin']
+                and sha1(b'blob ' + str(len(raw)).encode() + b'\0' + raw).hexdigest() == row['after']['blob'],
+                'SKU_AUTOMATIC_CURRENT_MANDOR_EVERY_SOURCE_BYTE_REQUIRED:' + name)
+        result[name] = row['after']
+    return result
+
+
 def check(*, runtime=False):
     if runtime:
         assembly.admission.require_ready()
@@ -76,30 +110,30 @@ def check(*, runtime=False):
                      and assembly.git('rev-parse', UI_HEAD + ':src').decode().strip() == UI_AFTER,
                      'SKU_AUTOMATIC_COMPLETE_APPROVED_UI_TREE_IDENTITIES_REQUIRED')
     selected = selective_ui(manifest['selective_B_UI'], entries(base['tree']), entries(UI_TREE))
+    expected = entries(base['tree'])
+    current_mandor = pending_mandor(manifest['pending_current_Mandor_preparation'], expected)
+    assembly.require(all(current_mandor[name] == identity for name, identity in selected.items()),
+                     'SKU_AUTOMATIC_SELECTED_UI_MUST_MATCH_CURRENT_MANDOR')
+    expected.update(current_mandor)
     parent = set()
     materialized = 0
     absent = []
-    for item in assembly.git('ls-tree', '-rz', base['tree']).split(b'\0'):
-        if not item:
-            continue
-        metadata, name = item.split(b'\t', 1)
-        mode, kind, blob = metadata.decode().split()
-        name = name.decode()
+    for name, identity in expected.items():
         parent.add(name)
         path = root / name
-        assembly.require(kind == 'blob' and not path.is_symlink(), 'SKU_AUTOMATIC_REGULAR_PARENT_BLOB_REQUIRED:' + name)
+        assembly.require(not path.is_symlink(), 'SKU_AUTOMATIC_REGULAR_PARENT_BLOB_REQUIRED:' + name)
         if not path.is_file():
             absent.append(name)
             continue
         data = path.read_bytes()
-        expected_blob = selected[name]['blob'] if name in selected else blob
+        expected_blob = identity['blob']
         assembly.require(sha1(b'blob ' + str(len(data)).encode() + b'\0' + data).hexdigest() == expected_blob,
                          'SKU_AUTOMATIC_UNDECLARED_CURRENT_PARENT_CHANGE:' + name)
         materialized += 1
     changed = assembly.git('diff', '--name-only', base['head'], '--').decode().splitlines()
     namespace = str(HERE.relative_to(root)) + '/'
     workflow_name = '.github/workflows/cp7-sku-current-parent-money-automatic-native25.yml'
-    assembly.require(all(name.startswith(namespace) or name in UI_PATHS
+    assembly.require(all(name.startswith(namespace) or name in current_mandor
                          or (runtime and name == workflow_name) for name in changed),
                      'SKU_AUTOMATIC_PARENT_DIFF_OUTSIDE_NAMESPACE')
     own_paths = {namespace + name for name in manifest['files']} | {namespace + 'SOURCE.json'}
@@ -139,6 +173,8 @@ def check(*, runtime=False):
                 whole_parent_unchanged=False, exact_approved_B_UI_files=3,
                 complete_approved_UI_src_tree=UI_AFTER,
                 all_other_parent_sources_and_build_inputs_unchanged=True,
+                exact_current_Mandor_preparation_paths=len(current_mandor),
+                pending_current_Mandor_head=MANDOR_HEAD, actual_current_Mandor_Root_adopted=False,
                 actual_ERP_cases=0, production_go=False, independent_acceptance=False)
 
 

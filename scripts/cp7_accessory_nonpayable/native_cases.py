@@ -88,11 +88,13 @@ def ordinary_case(cur,today,state,*,initial_special=True,transition=None,history
         explicit_fresh_mandor_and_dated_policy=True,Native_fixture_constructor_code_unchanged=True)
 
 def boundary(cur,modules,state):
+    from .report_io import share_strings
     modules.bc.api.admin(cur)
     with modules.control.product_catalog(cur):
         modules.product.verify(cur,state)
         catalog=modules.product.runtime()[-1]
-        return dict(actual_all22=catalog._catalog_rows(cur),full_data_and_sequences=catalog._data(cur))
+        return dict(actual_all22=share_strings(catalog._catalog_rows(cur),state['after']),
+            full_data_and_sequences=catalog._data(cur))
 
 def missing_date_case(cur,today,state):
     fixture=fixture_module();modules=fixture.admitted_modules(cur,state)

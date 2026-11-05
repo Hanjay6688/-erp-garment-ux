@@ -1,3 +1,28 @@
+# One current prepared Afui, Mandor and SKU source, 5 November
+
+This candidate now contains the complete78-path change from the old Mandor
+base to the immutable current prepared Mandor858 source. That includes all43
+current Afui paths, the25-file current Mandor preparation, seven reversible
+Mandor callers and the same three approved B display files. The whole-file
+fence checks exact before/after blobs, every copied byte and the entire
+remaining parent tree. It refuses an omitted or extra parent path, another
+parent identity, a fabricated Root and any changed copied source byte.
+
+The original old-parent refusal was reproduced before adding this explicit
+source binding. No broad namespace exception is introduced. All five SKU
+and ten retained money admission values remain unset. The copied Mandor
+admissions remain exactly their closed prepared source. Source integration
+does not grant Afui15, Mandor17 or SKU27 acceptance. Actual parent Root and
+owning workflow rebinding remain mandatory before financial execution.
+
+The source-context review also reproduced the Afui checker refusing the
+combined checkout's different access catalogue. The exact frozen Afui source
+passed unchanged. The current Mandor workflow now runs that inherited check
+inside its already materialized frozen parent, with a real-shell directory
+control. All source and permission guards remain intact.
+
+---
+
 # Current Afui complete Original consumer, 5 November
 
 The current Afui helper has5951 bytes, while this SKU consumer still required

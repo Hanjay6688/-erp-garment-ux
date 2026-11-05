@@ -58,12 +58,8 @@ def copy_scope(modes,product,state):
 def save(value,name='MANDOR_SESSION4_ORIGINAL.json'):
     require(name in('MANDOR_SESSION4_ORIGINAL.json','MANDOR_HTTP2_ORIGINAL.json','MANDOR_BROWSER_FIXTURE.json',
         'MANDOR_BROWSER_STATE.json','MANDOR_BROWSER2_ORIGINAL.json'),'MANDOR_FIXED_ACCESS_ORIGINAL_NAME')
-    path=ROOT/'cp6-proof/t3'/name
-    raw=(json.dumps(value,sort_keys=True,default=str)+'\n').encode()
-    require(not path.exists(),'MANDOR_FIRST_SESSION_ORIGINAL_OVERWRITE_REFUSED')
-    path.parent.mkdir(parents=True,exist_ok=True)
-    with path.open('xb')as stream:stream.write(raw)
-    return dict(name=path.name,bytes=len(raw),sha256=sha256(raw).hexdigest())
+    output=load('mandor_current_complete_access_output',ROOT/'scripts/current-mandor-afui-preparation/output_binding.py')
+    return output.save_access(value,name)
 
 
 def run(product,state,fixture,verify,report):
@@ -73,7 +69,8 @@ def run(product,state,fixture,verify,report):
     gate=load('mandor_qualified_typed_copy_gate',FROZEN/'scripts/cp7_accessory_nonpayable/qualification_gate.py')
     adapter=SimpleNamespace(races=lambda tools,today:access_cases.races(tools,today,
         product=product,state=state,fixture=fixture))
-    with copy_scope(modes,product,state)as copies:
+    output=load('mandor_current_complete_access_output',ROOT/'scripts/current-mandor-afui-preparation/output_binding.py')
+    with output.case_scope(modes,'copies',retention=access_cases),copy_scope(modes,product,state)as copies:
         report['access_copy_authority']=copies
         actual=modes.run_races(adapter,verify,'mandor_current_session4')
         report['session4_original']=save(actual)
@@ -95,7 +92,8 @@ def run_http(product,state,fixture,verify,report):
     typed=load('mandor_qualified_HTTP_copy_gate',FROZEN/'scripts/cp7_accessory_nonpayable/qualification_gate.py')
     adapter=SimpleNamespace(http_cases=lambda http,today:http_cases.http_cases(http,today,
         product=product,state=state,fixture=fixture))
-    with copy_scope(modes,product,state)as copies:
+    output=load('mandor_current_complete_access_output',ROOT/'scripts/current-mandor-afui-preparation/output_binding.py')
+    with output.case_scope(modes,'copies',retention=access_cases),copy_scope(modes,product,state)as copies:
         report['http_copy_authority']=copies
         actual=modes.run_http(adapter,verify,'mandor_current_HTTP2')
         report['HTTP2_original']=save(actual,'MANDOR_HTTP2_ORIGINAL.json')
@@ -114,6 +112,7 @@ def browser_environment(report):
     changes=dict(MANDOR_BROWSER_CONFIRM='cp6_auditor_browser',
         MANDOR_BROWSER_FIXTURE_SHA256=report['browser_fixture_original']['sha256'],
         MANDOR_BROWSER_STATE_SHA256=report['browser_state_original']['sha256'],
+        MANDOR_BROWSER_STATE_CACHE_SHA256=report['browser_state_cache_original']['sha256'],
         AUDITOR_BROWSER_CASE_TIMEOUT_MS='600000')
     old={name:os.environ.get(name)for name in changes};os.environ.update(changes)
     try:yield
@@ -137,7 +136,9 @@ def run_browser(product,state,fixture,verify,report):
     require((ROOT/host).read_bytes()==(FROZEN/host).read_bytes(),'MANDOR_BROWSER_ORIGINAL_HOST_UNCHANGED')
     report['browser_fixture_original']=save(fixture,'MANDOR_BROWSER_FIXTURE.json')
     report['browser_state_original']=save(state,'MANDOR_BROWSER_STATE.json')
-    with copy_scope(modes,product,state)as copies:
+    output=load('mandor_current_complete_access_output',ROOT/'scripts/current-mandor-afui-preparation/output_binding.py')
+    report['browser_state_cache_original']=output.load_state_io().reference(report['browser_state_original'])
+    with output.case_scope(modes,'copies',retention=access_cases),copy_scope(modes,product,state)as copies:
         report['browser_copy_authority']=copies
         with browser_environment(report):actual=modes.run_browser(HERE/'browser.mjs',verify,'mandor_current_browser2')
         report['browser2_original']=save(actual,'MANDOR_BROWSER2_ORIGINAL.json')

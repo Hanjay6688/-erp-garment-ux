@@ -63,7 +63,11 @@ def runtime_inherited(raw,parent):
     product=assembly.Assembly(afui,physical,mandor,raw)
     original=FROZEN/package_engine.ORIGINAL
     text,engine_proof=package_engine.derive(original.read_bytes())
+    report_io=load('mandor_current_complete_report_writer',ROOT/'scripts/current-mandor-afui-preparation/report_io.py')
+    text,output_proof=report_io.derive_packet(text,'mandor17')
+    engine_proof=dict(retained_complete_engine=engine_proof,complete_report_output=output_proof)
     engine=ModuleType('writer_a_mandor_exact_whole_package_engine');engine.__file__=str(original)
+    engine.__dict__[report_io.HELPER]=report_io.write_complete
     exec(compile(text,str(original),'exec'),engine.__dict__)
 
     def trusted_connection():
@@ -92,7 +96,7 @@ def runtime_inherited(raw,parent):
     engine.trusted_installer_connection=trusted_connection
     def admitted():
         actual_parent()
-        fence=load('writer_a_current_unified_source_fence',ROOT/'scripts/current-unified-candidate/check_source.py').source()
+        fence=load('writer_a_current_unified_source_fence',ROOT/'scripts/current-mandor-afui-preparation/check_source.py').source()
         return dict(status='ACTUAL_AFUI15_PARENT_AND_UNIFIED_MANDOR_CALLER_SOURCE_ADMITTED',parent=parent,
             complete_sources=product.sources(),unified_source_fence=fence,whole_engine_derivation=engine_proof,
             owning_package_identity_source=package_identity.source(),

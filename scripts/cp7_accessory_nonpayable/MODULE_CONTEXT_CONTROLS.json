@@ -1,0 +1,114 @@
+{
+  "status": "MODULE_CONTEXT_FAILURE_REPRODUCED_AND_NATURAL_CALLABLES_REPAIRED_PREDB",
+  "failed_head": "17dd12939eec567741d25d7d582b38c2f2b6150e",
+  "run_id": 41679871902,
+  "job_id": 126070382521,
+  "first_error": "AFUI_CASE_OUTPUT_UNCHANGED_ORIGINAL_CALLABLE_REQUIRED",
+  "failed_step": 66,
+  "database_provisioning_and_all_actual_cases_skipped": true,
+  "cause": "Isolated-function compilation loses complete-module import context in Python3.12.",
+  "old_natural_binding_failures": {
+    "status": "FIRST_WHOLE_MODULE_VERSUS_ISOLATED_FUNCTION_FAILURE_REPRODUCED",
+    "proof": {
+      "native": {
+        "error": "AFUI_CASE_OUTPUT_UNCHANGED_ORIGINAL_CALLABLE_REQUIRED",
+        "same_code": false,
+        "same_globals": true,
+        "same_filename": true
+      },
+      "copies": {
+        "error": "AFUI_CASE_OUTPUT_UNCHANGED_ORIGINAL_CALLABLE_REQUIRED",
+        "same_code": false,
+        "same_globals": true,
+        "same_filename": true
+      }
+    },
+    "guard": {
+      "attempts": [],
+      "self_controls": [
+        {
+          "api": "psycopg.connect",
+          "result": "DENIED_BEFORE_LIBPQ"
+        },
+        {
+          "api": "psycopg.Connection.connect",
+          "result": "DENIED_BEFORE_LIBPQ"
+        },
+        {
+          "api": "psycopg.AsyncConnection.connect",
+          "result": "DENIED_BEFORE_LIBPQ"
+        }
+      ],
+      "network_nonGit_attempts": [],
+      "public_source_sha256": "1439d70810383db377c48e043df7fb6d487a1b2f1a995e8993a2c08590f9f797"
+    },
+    "actual_SQL": 0
+  },
+  "repaired_natural_bindings": {
+    "status": "EXACT_NATURAL_MODULE_CALLABLES_BOUND_WITH_COMPLETE_MODULE_CONTEXT",
+    "proofs": {
+      "native": {
+        "path": "scripts/cp6_auditor_runner.py",
+        "original_bytes": 14911,
+        "original_sha256": "2c74439f7e919e2adb2484bc774bef4881e71237124f2e6b6dabdab141348ea7",
+        "routed_print_sites": 2,
+        "complete_original_source_recovered": true,
+        "complete_module_compiler_context_preserved": true,
+        "case_results_group_persistence_oracles_and_cleanup_unchanged": true
+      },
+      "copies": {
+        "path": "scripts/current-s03-sku-s05-composite-qualification/modes.py",
+        "original_bytes": 23300,
+        "original_sha256": "5f4f45edcc99d24987908369fbec687f8373c6ffb37ce01d5e0fe63d79c6afb4",
+        "routed_print_sites": 1,
+        "complete_original_source_recovered": true,
+        "complete_module_compiler_context_preserved": true,
+        "case_results_group_persistence_oracles_and_cleanup_unchanged": true
+      }
+    },
+    "guard": {
+      "attempts": [],
+      "self_controls": [
+        {
+          "api": "psycopg.connect",
+          "result": "DENIED_BEFORE_LIBPQ"
+        },
+        {
+          "api": "psycopg.Connection.connect",
+          "result": "DENIED_BEFORE_LIBPQ"
+        },
+        {
+          "api": "psycopg.AsyncConnection.connect",
+          "result": "DENIED_BEFORE_LIBPQ"
+        }
+      ],
+      "network_nonGit_attempts": [],
+      "public_source_sha256": "1439d70810383db377c48e043df7fb6d487a1b2f1a995e8993a2c08590f9f797"
+    },
+    "full_parent_graph": false,
+    "actual_SQL": 0
+  },
+  "static_prerequisite_tests": 22,
+  "output_controls": 7,
+  "local_fixture_first_error": "strict_rows() missing required optional defaults exclude_users and today; fixture now retains defaults from the exact original AST.",
+  "full_local_parent_graph": "Not executed: frozen physical backend absent and local history is shallow. No source-fence override; exact complete graph remains mandatory at CI preDB step66.",
+  "product_SQL_or_permissions_changed": false,
+  "runtime_budgets_changed": false,
+  "actual_Native_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false,
+  "first_originals": {
+    "JOB_ORIGINAL.log": {
+      "bytes": 916535,
+      "sha256": "b83530453b3692a03a3cbf527dc588220f64fa12977775d6380f58f44f9bf2a9"
+    },
+    "AFUI_17DD_FIRST_PREFLIGHT_FAILURE_20261103.zip": {
+      "bytes": 58097,
+      "sha256": "88a57c118a459a6ccbc2128b144bd9777c3717fe7bff4124597bd336e5ac71f8"
+    },
+    "TERMINAL_ORIGINAL.json": {
+      "bytes": 29546,
+      "sha256": "28b939439fc7d5c808b784cc97e6b15ff1ef9af989ae87385b5265eac90ec95e"
+    }
+  }
+}
