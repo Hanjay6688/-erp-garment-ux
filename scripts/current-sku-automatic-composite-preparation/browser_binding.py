@@ -27,8 +27,6 @@ def load(name, path):
 entry = load('current_browser_actual_owning_entry', HERE / 'qualification.py')
 preflight = load('current_browser_complete_source_prerequisites', HERE / 'browser_preflight.py')
 observer = load('current_browser_complete_economic_observer', HERE / 'browser_observer.py')
-AFUI_HEAD = '74e7a6bc0754b7b3772f4b47095b518a41b972da'
-AFUI_TREE = '4de54b9a4a7745d447996f7b20886ef955ae45d8'
 
 
 def require(value, message):
@@ -42,7 +40,7 @@ def scope():
     require(os.environ.get('GITHUB_REF') == entry.BRANCH, 'CURRENT_SKU_BROWSER_SINGLE_OWNING_BRANCH_REQUIRED')
     head = subprocess.check_output(['git', '-C', str(ROOT), 'rev-parse', 'HEAD'], text=True).strip()
     require(head == os.environ.get('GITHUB_SHA'), 'CURRENT_SKU_BROWSER_EXACT_OWNING_HEAD_REQUIRED')
-    entry.frozen(entry.FROZEN_AFUI, AFUI_HEAD, AFUI_TREE)
+    entry.frozen_afui()
     fence = entry.load('current_browser_original_source_DB_network_fence',
                        entry.FROZEN_AFUI / 'scripts/current-sku-managed-recovery-native27-qualification/source_context.py')
     with entry.inherited_scope():

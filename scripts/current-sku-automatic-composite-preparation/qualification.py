@@ -70,6 +70,10 @@ def frozen(root, head, tree):
     require(not git('status', '--porcelain', '--untracked-files=no'), 'SKU_AUTOMATIC_FROZEN_SOURCE_CHANGED')
 
 
+def frozen_afui():
+    frozen(FROZEN_AFUI, report_io.COMPLETE_ORIGINALS_HEAD, report_io.COMPLETE_ORIGINALS_TREE)
+
+
 def complete_case_output():
     path = FROZEN_AFUI / CASE_OUTPUT_PATH
     require(path.is_file() and not path.is_symlink() and admission.pin(path.read_bytes()) == CASE_OUTPUT_PIN,
@@ -94,6 +98,7 @@ def inherited_scope():
 def runtime():
     parent_raw, money_raw, plan_raw, receipt = actual_inputs()
     assembly.source_manifest()
+    frozen_afui()
     # Binding validates the actual Root with the retained admission before
     # loading any inherited financial runtime. Original money gates stay None.
     bridge, binding_proof = money_binding.bind(parent_raw, money_raw, plan_raw)
@@ -169,6 +174,7 @@ def main():
     actual_inputs()
     require(os.environ.get('GITHUB_REF') == BRANCH, 'SKU_AUTOMATIC_SINGLE_OWNING_BRANCH_REQUIRED')
     require(os.environ.get('SKU_CURRENT_AUTOMATIC_CONFIRM') == 'cp6_rollback', 'SKU_AUTOMATIC_EXPLICIT_DISPOSABLE_CONFIRMATION')
+    frozen_afui()
     if args.check:
         fence = load('automatic_exact_source_import_DB_fence',
                      FROZEN_AFUI / 'scripts/current-sku-managed-recovery-native27-qualification/source_context.py')

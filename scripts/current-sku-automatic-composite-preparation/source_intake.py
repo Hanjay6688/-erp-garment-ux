@@ -17,8 +17,6 @@ spec = importlib.util.spec_from_file_location('automatic_source_intake_owning_en
 entry = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(entry)
 MONEY_PIN = dict(bytes=368964, sha256='55c13119aef4a9307b1638864b8eec3199e574a8876c26aa3254aa0920b1a8cb')
-AFUI_HEAD = '92a376091a1d1ea9901648e614f3e5212677a81f'
-AFUI_TREE = 'ef194e421402ae1e45625e2d57f58c848ef9e08f'
 
 
 def require(value, message):
@@ -49,7 +47,7 @@ def observe(expected_parent):
     reference = entry.money_binding.load('automatic_graph_exact_retained_money_bridge', entry.money_binding.PRIOR).prepared_sources()[0]
     entry.frozen(entry.FROZEN_PARENT, root['head'], root['tree'])
     entry.frozen(entry.FROZEN_SKU, reference['candidate_head'], reference['candidate_tree'])
-    entry.frozen(entry.FROZEN_AFUI, AFUI_HEAD, AFUI_TREE)
+    entry.frozen_afui()
     import_closure = entry.modules.require_import_closure(
         entry.FROZEN_PARENT / 'scripts/current-mandor-shop-native-qualification')
     fence = entry.load('automatic_graph_exact_source_DB_network_fence',
@@ -81,7 +79,7 @@ def observe(expected_parent):
     require(inputs(expected_parent) == (parent_raw, money_raw), 'AUTOMATIC_SOURCE_INTAKE_INPUTS_CHANGED_AFTER_FENCE')
     entry.frozen(entry.FROZEN_PARENT, root['head'], root['tree'])
     entry.frozen(entry.FROZEN_SKU, reference['candidate_head'], reference['candidate_tree'])
-    entry.frozen(entry.FROZEN_AFUI, AFUI_HEAD, AFUI_TREE)
+    entry.frozen_afui()
     return dict(classification='CURRENT_MANDOR_MONEY_GRAPH_SOURCE_OBSERVATION_NOT_FINANCIAL_ACCEPTANCE',
                 parent_root=expected_parent, immutable_money_source=MONEY_PIN,
                 proposed_CURRENT_MONEY_GRAPH_PIN=entry.admission.pin(entry.admission.canonical(complete_graph)),

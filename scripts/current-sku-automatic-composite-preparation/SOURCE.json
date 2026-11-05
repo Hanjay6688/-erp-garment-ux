@@ -98,8 +98,8 @@
       "sha256": "2b4cc3b07caffccf8bc7bc65ff476d1cdfd6c89c46ca3babdc667e900dd4e052"
     },
     "browser_binding.py": {
-      "bytes": 8622,
-      "sha256": "6a10fa8539863ec03de6f58fdc65a23d75da08b3e9e79f1317c8ff435ff3596f"
+      "bytes": 8478,
+      "sha256": "7ef35af6d6acadddb06d4494bad8c7152fc738ca5ba7d62cd977674f4ee8a7c3"
     },
     "browser_evidence.mjs": {
       "bytes": 6775,
@@ -147,7 +147,7 @@
     },
     "check_source.py": {
       "bytes": 10872,
-      "sha256": "70cd873f85a36af4071eb49b0a2f000b4f1d0a0555e9c9a4cc33bb7e82fa0744"
+      "sha256": "d68aa7acdccf8e12c28d194f09f5c78ef935bc4f697752ff9cfd210329fe346d"
     },
     "component.py": {
       "bytes": 5975,
@@ -162,8 +162,8 @@
       "sha256": "93e21e04240abb505778852c7de5cd2524717b07f1270e034b605fae94a2ab0b"
     },
     "final_gate.py": {
-      "bytes": 9756,
-      "sha256": "056d873e8c5c4d14d64b73887bbbc0e94a48182551b8d0bd24825dc4233d13f7"
+      "bytes": 9782,
+      "sha256": "456c7a6034023894a406eef61113203d9cf5f89d522dd1619bddadb916005c9d"
     },
     "module_scope.py": {
       "bytes": 4957,
@@ -198,12 +198,12 @@
       "sha256": "5535ce276253d5ce6f10157cc825e75499ef2e2cf6b225dac3213317e6cb1966"
     },
     "qualification.py": {
-      "bytes": 11888,
-      "sha256": "ec9d691aa8bb7f1a9c2df8bc73682639cf3b3ebdbad5e3b039831ff2e386e3e9"
+      "bytes": 12039,
+      "sha256": "a768c4a0e5dff249a533742ce60c3ca9525781648acd7c6999582cb0f6446cb8"
     },
     "report_io.py": {
-      "bytes": 6395,
-      "sha256": "a063b6121db14575f04a6be12076a1371011a9a21f1a0cd9d140962119cb6f11"
+      "bytes": 6464,
+      "sha256": "0e5215e297b3eac6502fdd02d8dff0dd420f4e71c513bdc751b46e270e2a3c21"
     },
     "sku-current-parent-money-automatic-native25-81.workflow.yml.txt": {
       "bytes": 34740,
@@ -214,8 +214,8 @@
       "sha256": "b00256f4ed5a8471c261f482f0339a9ed77e32ee11daac6d7f53878f340a6497"
     },
     "source_intake.py": {
-      "bytes": 6891,
-      "sha256": "4ce962fbb95f4e5dfa1eddadf7e1a7cc1f49ebc6fce7712fd6e57b3b31f4936c"
+      "bytes": 6713,
+      "sha256": "155e1e4333c3e6b3dfae11c8235e74b660513604619513edd24b2fefdd6a3410"
     },
     "test_advisor_model.mjs": {
       "bytes": 3604,
@@ -234,8 +234,8 @@
       "sha256": "02db4e74d6a3d37851b03583b23f7304ce2b892f51bfdde514d17ad9896d9580"
     },
     "test_browser_binding.py": {
-      "bytes": 7442,
-      "sha256": "2bb167f5b14d15b99d979a683f232c0357aa1517c421923af59201c4f08a50de"
+      "bytes": 7761,
+      "sha256": "8fdf3af4c740a71d3beb22ef21b31d7453d491c4c6ebee48f95d7a8fbddb8152"
     },
     "test_browser_evidence.mjs": {
       "bytes": 10658,
@@ -270,8 +270,8 @@
       "sha256": "7d5c3cb9708364ddc81d22c6f239745e5f1906e0efbae645cb302cca1673e2fc"
     },
     "test_report_io.py": {
-      "bytes": 8174,
-      "sha256": "806f13b2c6c119399cbb11a3af020a22fdbedd4a2dcff1450d154df1c038056a"
+      "bytes": 8096,
+      "sha256": "20b9d2ce6d81d710e1dde3a5c6b8fc75ca398f8fdda73652e4b1a79324522936"
     },
     "test_source_intake.py": {
       "bytes": 2732,
@@ -456,8 +456,8 @@
   "pending_current_Mandor_preparation": {
     "base_head": "c296fd06167ddd177e1192c1008992e2a1e3d628",
     "base_tree": "fdd36962a7de81482ccca02e6ff96597cfc20081",
-    "head": "8588777f2a8bdae71ee442b0d0048e474037934a",
-    "tree": "1a17917d0286981e09ea9211a303cf22ae87e2f7",
+    "head": "116667dc6e4b8c43f430b70010b32ccec8513889",
+    "tree": "e9176cc506c753f4b524693f20dcd83d3e8b7fe8",
     "actual_Root": null,
     "actual_run": null,
     "actual_job": null,
@@ -560,11 +560,11 @@
         },
         "after": {
           "mode": "100644",
-          "blob": "3772884f0311fd12233b74b8d32d60f3a5befa29"
+          "blob": "2bbb7b7deca20f0e3fb0d5a06761fe3cb61b5a70"
         },
         "pin": {
-          "bytes": 32104,
-          "sha256": "317c310c80b094e263e0009546a4b6294cadecb403c3f190b70a39121046c53f"
+          "bytes": 33306,
+          "sha256": "1a58ba660caec5de86a9a7fa15377732eb55e93ad86f9f51629b90d7929a1b16"
         }
       },
       "scripts/cp7_accessory_nonpayable/REPORT_MEMORY_CONTROLS.json": {
@@ -1045,11 +1045,11 @@
         "before": null,
         "after": {
           "mode": "100644",
-          "blob": "fa66049fd991002b67c8fea1699e33e2a203e049"
+          "blob": "08738094587961c6d17a84e75e3ea9fdbed0290f"
         },
         "pin": {
-          "bytes": 19233,
-          "sha256": "50138e0098b1b4b5d855d0169357d6da87206ea35dbfd4df2515db63bc1e1f56"
+          "bytes": 19235,
+          "sha256": "4c14dc3bf6b3f5ac82ce5c8d2f12df9f94121d0d704b5a02780f28e4dd997676"
         }
       },
       "scripts/current-mandor-afui-preparation/WORKFLOW_TRANSPORT_PREPARATION_CONTROLS.json": {
@@ -1078,11 +1078,11 @@
         "before": null,
         "after": {
           "mode": "100644",
-          "blob": "fdb4f00935027d83e15008827ac1b280bb14696d"
+          "blob": "0151f7984cccb7b14e6c62608fab9eb38c3bb524"
         },
         "pin": {
-          "bytes": 8675,
-          "sha256": "b8b405e4c7a636deb0ca8f0db973bc83c920715e52cd800a5ef94c90f4386b87"
+          "bytes": 12422,
+          "sha256": "9c0b7590e000b5306fb8eaabadb99a284bc427cb141703217a20388d6df98128"
         }
       },
       "scripts/current-mandor-afui-preparation/current-mandor82.workflow.yml.txt": {
@@ -1100,11 +1100,11 @@
         "before": null,
         "after": {
           "mode": "100644",
-          "blob": "fe85dfb96c5e648512ec41b5c3ad68d64c4fbb09"
+          "blob": "43b30c3879f2c0a7b41ec671b1053cc2213ac54e"
         },
         "pin": {
-          "bytes": 37997,
-          "sha256": "c328a2401abded36cd0d5ad58b865c51bbbe1262d0b5cfc02626cc4eba32e789"
+          "bytes": 38004,
+          "sha256": "b11ae0cbe4204ae0d3e8322bd07abb29482d51a2c6e5c8ef53c97d4d252bb8d4"
         }
       },
       "scripts/current-mandor-afui-preparation/durable_action.mjs": {
@@ -1166,11 +1166,11 @@
         "before": null,
         "after": {
           "mode": "100644",
-          "blob": "9044ad8bdf870af8f9721f3d824ff254006893b9"
+          "blob": "3c0776b3bea0dd395daf1fd4f94d0d442dc30f97"
         },
         "pin": {
           "bytes": 9158,
-          "sha256": "cad51784866b5e8c2a949f96a8933651b40d4a6e166b3d038d234ab82bf61a22"
+          "sha256": "52acc9fc895e14da7d7af90cd6504641041d19fda3f395954ba174d113ee66eb"
         }
       },
       "scripts/current-mandor-afui-preparation/state_io.py": {
@@ -1232,11 +1232,11 @@
         "before": null,
         "after": {
           "mode": "100644",
-          "blob": "4685e61723b378d3b6d436d946ad6914ca7d6cdf"
+          "blob": "eb61bfd96843518a32d5cb581dd80418a8f6b509"
         },
         "pin": {
-          "bytes": 6400,
-          "sha256": "796b505cdd65aefaee45b80ebde7bdd384cf176a3e57e5dcee05c7b4b558a4b1"
+          "bytes": 7653,
+          "sha256": "cb391fc3eb4cf18651d58d30b294b7dcc656840ecb5f12025da972660bd2c61b"
         }
       },
       "scripts/current-mandor-afui-preparation/transport.py": {
@@ -1254,11 +1254,11 @@
         "before": null,
         "after": {
           "mode": "100644",
-          "blob": "ea29f32162044de8fdfb1116258d8fa55d50789e"
+          "blob": "7f95f43d4060bfa1e19b294121271ac75e4cc5fa"
         },
         "pin": {
-          "bytes": 8602,
-          "sha256": "9c9ca76a9def0d927a91a09e5976c8a92e4a5b25f2c583d14e4b475803f50f38"
+          "bytes": 10271,
+          "sha256": "4d835625b0b3e47f4a58cab00982775eedf270c6c0207334f11e8233ee5a790b"
         }
       },
       "scripts/current-mandor-shop-native-qualification/access_runtime.py": {
@@ -1282,11 +1282,11 @@
         },
         "after": {
           "mode": "100644",
-          "blob": "4aba35cadba75c677cb0ca7c020874d039639d58"
+          "blob": "112e04b52b441e57b7f382a36dc717a21d2105e4"
         },
         "pin": {
           "bytes": 1432,
-          "sha256": "92ca2b62985e66d09ece19e6f1d005b31efb1f03d0aafd104cfeadd9907c855a"
+          "sha256": "582e10b0f0555c829ea360f6797cb46c1fb26b986113bdc5c63073a5ce6c3e85"
         }
       },
       "scripts/current-mandor-shop-native-qualification/browser_gate.py": {
@@ -1338,11 +1338,11 @@
         },
         "after": {
           "mode": "100644",
-          "blob": "e6b6c03e204333b922c258a09d6adf0abdf7987d"
+          "blob": "756bd8b9fb4dcde7ebf2b7dafb35bd78cb81420a"
         },
         "pin": {
           "bytes": 10957,
-          "sha256": "18f913feee4d97ec8be96ceb0a65318daffc5445552a068807500627b3f63a4d"
+          "sha256": "0f2779fb0b4c36cf0190b415a9a2beaa88a4271eb28d6473b8f36aff2e036a7e"
         }
       },
       "scripts/current-mandor-shop-native-qualification/qualification.py": {

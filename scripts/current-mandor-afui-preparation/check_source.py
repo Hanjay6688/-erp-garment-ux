@@ -21,6 +21,12 @@ UI_AFTER = '15dc4bde83e1ac74871f8d4aaf005e9e36445aeb'
 UI_PATHS = frozenset(('src/ConnectedInitialImportPage.tsx', 'src/ConnectedPocketFabricPage.tsx', 'src/initial-import.css'))
 BUILD_INPUTS = frozenset(('index.html', 'package-lock.json', 'package.json', 'tsconfig.app.json',
                          'tsconfig.contracts.json', 'tsconfig.json', 'vite.config.ts'))
+ACTIVE_WORKFLOW = '.github/workflows/cp7-mandor-shop-native17.yml'
+PARENT_ROOT = routes.NS + 'AFUI15_PARENT_ROOT_ACTUAL_INTAKE.json'
+COMPONENT_ADMISSION = 'scripts/cp7_mandor_shop/admission.py'
+COMPONENT_SOURCE = 'scripts/cp7_mandor_shop/SOURCE.json'
+PREPARED = 'CURRENT_AFUI_MANDOR_SOURCE_PREPARATION_NOT_RUNTIME'
+ADOPTED = 'CURRENT_AFUI_MANDOR_ACTUAL_PARENT_BOUND_SOURCE'
 
 
 def require(value, reason):
@@ -42,6 +48,51 @@ def entries(tree):
         require(kind == 'blob' and mode in ('100644', '100755'), 'MANDOR_CURRENT_REGULAR_GIT_BLOB_REQUIRED')
         result[name.decode()] = dict(mode=mode, blob=blob)
     return result
+
+
+def pin(raw):
+    return dict(bytes=len(raw), sha256=sha256(raw).hexdigest())
+
+
+def bind_empty_values(raw, values):
+    text = raw.decode()
+    for key, value in values.items():
+        old = f'{key}=None\n'
+        require(text.count(old) == 1, 'MANDOR_ACTUAL_PARENT_BINDING_EXACT_ANCHOR:' + key)
+        text = text.replace(old, f'{key}={value!r}\n', 1)
+    return text.encode()
+
+
+def actual_adoption(manifest):
+    adoption = manifest['actual_Afui_adoption']
+    require(set(adoption) == {PARENT_ROOT, ACTIVE_WORKFLOW}, 'MANDOR_ONLY_ROOT_AND_OWNING_WORKFLOW_ADDITIONS')
+    for name, expected in adoption.items():
+        path = ROOT / name
+        require(path.is_file() and not path.is_symlink() and pin(path.read_bytes()) == expected,
+                'MANDOR_EXACT_ACTUAL_ADOPTION_SOURCE:' + name)
+    path = HERE / 'workflow.py'
+    require(pin(path.read_bytes()) == manifest['files'][str(path.relative_to(ROOT))],
+            'MANDOR_EXACT_CURRENT_OWNING_WORKFLOW_CHECKER')
+    spec = importlib.util.spec_from_file_location('mandor_actual_source_workflow', path)
+    workflow = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(workflow)
+    checked = workflow.check(owning=True)
+    receipt = json.loads((ROOT / PARENT_ROOT).read_bytes())
+    require(receipt['head'] == checked['parent_head'] == routes.AFUI and receipt['tree'] == routes.AFUI_TREE
+            and receipt['run_id'] == checked['parent_run'] and receipt['job_id'] == checked['parent_job']
+            and all(type(receipt[key]) is int and receipt[key] > 0 for key in ('run_id', 'job_id', 'artifact_id')),
+            'MANDOR_ACTUAL_ROOT_MUST_MATCH_EXACT_FROZEN_SOURCE_AND_RUN')
+    bindings = dict(PARENT_RUN=receipt['run_id'], PARENT_JOB=receipt['job_id'],
+                    PARENT_ROOT_PIN=adoption[PARENT_ROOT], RUNTIME_ENTRY=routes.NS + 'qualification.py')
+    contract = {key: receipt[key] for key in ('status', 'actual_Native_cases', 'actual_Auth_HTTP_cases',
+                'actual_two_session_races', 'actual_browser_cases', 'actual_business_cases',
+                'complete15_qualified', 'prior_runs_aggregated')}
+    component = bind_empty_values(git('show', routes.BASE + ':' + COMPONENT_ADMISSION),
+        dict(PARENT_HEAD=routes.AFUI, PARENT_TREE=routes.AFUI_TREE, PARENT_ROOT_CONTRACT=contract, **bindings))
+    baseline = json.loads(git('show', routes.BASE + ':' + COMPONENT_SOURCE))
+    baseline['files'][COMPONENT_ADMISSION] = pin(component)
+    source = (json.dumps(baseline, indent=2) + '\n').encode()
+    return bindings, {COMPONENT_ADMISSION: component, COMPONENT_SOURCE: source}, set(adoption)
 
 
 def selective_ui(value, base, approved):
@@ -69,12 +120,17 @@ def selective_ui(value, base, approved):
 
 def source(*, allow_sparse_observation=False):
     manifest = json.loads((HERE / 'SOURCE.json').read_bytes())
-    require(manifest['classification'] == 'CURRENT_AFUI_MANDOR_SOURCE_PREPARATION_NOT_RUNTIME'
-            and manifest['actual_ERP_cases'] == 0 and manifest['production_go'] is False,
+    adopted = 'actual_Afui_adoption' in manifest
+    status = ADOPTED if adopted else PREPARED
+    require(manifest['classification'] == status
+            and type(manifest['actual_ERP_cases']) is int and manifest['actual_ERP_cases'] == 0
+            and manifest['production_go'] is False,
             'MANDOR_CURRENT_SOURCE_ONLY_MANIFEST_REQUIRED')
+    require(not adopted or not allow_sparse_observation, 'MANDOR_ACTUAL_PARENT_REQUIRES_FULL_SOURCE_CHECKOUT')
     require(git('rev-parse', routes.BASE + '^{tree}').decode().strip() == routes.BASE_TREE
             and git('rev-parse', routes.AFUI + '^{tree}').decode().strip() == routes.AFUI_TREE,
             'MANDOR_CURRENT_EXACT_COMPLETE_BASE_AND_AFUI_TREES_REQUIRED')
+    bindings, replacements, additions = actual_adoption(manifest) if adopted else ({}, {}, set())
     base, afui = entries(routes.BASE_TREE), entries(routes.AFUI_TREE)
     copied = set(git('diff', '--name-only', routes.PRIOR_AFUI, routes.AFUI, '--').decode().splitlines())
     require(copied == set(manifest['exact_current_Afui_files']) and len(copied) == 43,
@@ -86,6 +142,8 @@ def source(*, allow_sparse_observation=False):
     for name in routes.PINS:
         path = routes.NS + name
         derived, proof = routes.derive(git('show', routes.BASE + ':' + path), name)
+        if adopted and name == 'admission.py':
+            derived = bind_empty_values(derived, bindings)
         require((ROOT / path).read_bytes() == derived and manifest['caller_derivations'][name] == proof,
                 'MANDOR_CURRENT_EXACT_REVERSIBLE_CALLER_BYTES_REQUIRED:' + path)
     for name, expected in manifest['files'].items():
@@ -102,6 +160,9 @@ def source(*, allow_sparse_observation=False):
     require(all(name.startswith(namespace) for name in own), 'MANDOR_CURRENT_SINGLE_ADDITIVE_PREPARATION_NAMESPACE')
     expected = dict(base)
     expected.update({name: afui[name] for name in copied})
+    for name, raw in replacements.items():
+        require(expected[name]['mode'] == '100644', 'MANDOR_ACTUAL_ADOPTION_REGULAR_SOURCE_ONLY')
+        expected[name] = dict(mode='100644', blob=sha1(b'blob ' + str(len(raw)).encode() + b'\0' + raw).hexdigest())
     require(git('rev-parse', UI_HEAD + '^{tree}').decode().strip() == UI_TREE
             and git('rev-parse', routes.BASE + ':src').decode().strip() == UI_BEFORE
             and git('rev-parse', UI_HEAD + ':src').decode().strip() == UI_AFTER,
@@ -123,19 +184,21 @@ def source(*, allow_sparse_observation=False):
         checked += 1
     require(allow_sparse_observation or not absent, 'MANDOR_CURRENT_FULL_RUNTIME_SOURCE_MATERIALIZATION_REQUIRED')
     all_paths = {name.decode() for name in git('ls-files', '-z', '--cached', '--others', '--exclude-standard').split(b'\0') if name}
-    require(all_paths == set(expected) | own, 'MANDOR_CURRENT_EXACT_WHOLE_CANDIDATE_FILE_SET_REQUIRED')
-    # These are pending source targets, never fabricated acceptance. Opening
-    # the actual Root requires a deliberate successor manifest/admission.
-    tree = ast.parse((ROOT / routes.NS / 'admission.py').read_bytes())
-    values = {target.id: ast.literal_eval(node.value) for node in tree.body
-              if isinstance(node, ast.Assign) and isinstance(node.value, ast.Constant)
-              for target in node.targets if isinstance(target, ast.Name)}
-    require(values['PARENT_HEAD'] == routes.AFUI and values['PARENT_TREE'] == routes.AFUI_TREE
-            and values['PARENT_RUN'] is None and values['PARENT_JOB'] is None
-            and values['PARENT_ROOT_PIN'] is None and values['RUNTIME_ENTRY'] is None,
-            'MANDOR_CURRENT_PENDING_AFUI_PARENT_MUST_REMAIN_CLOSED')
-    return dict(status='CURRENT_AFUI_MANDOR_SOURCE_PREPARATION_NOT_RUNTIME', base_head=routes.BASE,
-                pending_current_Afui_head=routes.AFUI, exact_current_Afui_paths=len(copied),
+    require(not (additions & (set(expected) | own)) and all_paths == set(expected) | own | additions,
+            'MANDOR_CURRENT_EXACT_WHOLE_CANDIDATE_FILE_SET_REQUIRED')
+    if not adopted:
+        tree = ast.parse((ROOT / routes.NS / 'admission.py').read_bytes())
+        values = {target.id: ast.literal_eval(node.value) for node in tree.body
+                  if isinstance(node, ast.Assign) and isinstance(node.value, ast.Constant)
+                  for target in node.targets if isinstance(target, ast.Name)}
+        require(values['PARENT_HEAD'] == routes.AFUI and values['PARENT_TREE'] == routes.AFUI_TREE
+                and values['PARENT_RUN'] is None and values['PARENT_JOB'] is None
+                and values['PARENT_ROOT_PIN'] is None and values['RUNTIME_ENTRY'] is None,
+                'MANDOR_CURRENT_PENDING_AFUI_PARENT_MUST_REMAIN_CLOSED')
+    parent = (dict(accepted_current_Afui_head=routes.AFUI, accepted_current_Afui_run=bindings['PARENT_RUN'])
+              if adopted else dict(pending_current_Afui_head=routes.AFUI))
+    return dict(status=status, base_head=routes.BASE, **parent,
+                exact_current_Afui_paths=len(copied),
                 exact_reversible_callers=len(routes.PINS), parent_blob_identities=len(expected),
                 materialized_parent_files_checked=checked, absent_sparse_parent_files=len(absent),
                 full_runtime_materialization_still_required=bool(absent), exact_additive_preparation_files=len(own),
@@ -143,7 +206,7 @@ def source(*, allow_sparse_observation=False):
                 exact_approved_B_UI_files=3, complete_approved_UI_src_tree=UI_AFTER,
                 all_other_parent_sources_and_build_inputs_unchanged=True,
                 historical_preparation_reports_relabelled=False, financial_assertions_and_recovery_unchanged=True,
-                actual_parent_root_adopted=False, actual_ERP_cases=0, production_go=False, independent_acceptance=False)
+                actual_parent_root_adopted=adopted, actual_ERP_cases=0, production_go=False, independent_acceptance=False)
 
 
 if __name__ == '__main__':

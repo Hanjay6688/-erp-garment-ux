@@ -138,6 +138,7 @@ def gate(directory, head):
     result['current_browser2'] = browser_gate.gate(p, directory, docs[BROWSER], part, head, docs[MAIN]['source_declaration'])
     p.exact(part['current_browser_complete_evidence_gate'], result['current_browser2'],
             'AUTOMATIC_BROWSER_RECHECK_EQUALS_COMPLETE_FIRST_RUNTIME_GATE')
+    runtime.frozen_afui()
     fence = runtime.load('automatic_final_original_import_DB_fence',
         runtime.FROZEN_AFUI / 'scripts/current-sku-managed-recovery-native27-qualification/source_context.py')
     with fence.fenced_source_read(), runtime.inherited_scope():
