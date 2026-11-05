@@ -1,3 +1,28 @@
+# Three approved B display files, 5 November
+
+The selected UI commit already contained the three approved B display files,
+but its complete source fence still rejected them as undeclared parent changes.
+That exact refusal was reproduced before this repair. This candidate now admits
+only the immutable approved before/after blobs for those three paths. Every
+other parent file and all seven root build configuration files remain exact.
+The complete656-file src tree equals the B-tested tree15dc4bde83e1ac74871f8d4aaf005e9e36445aeb.
+
+Five positive and negative controls cover the genuine files, a fourth declared
+UI path, missing build input, altered before/after/build blobs, changed live UI
+bytes and a changed fourth parent file through the complete source fence.
+No TSX, CSS, SQL, financial case, actor, permission, UUID, recovery or dependency
+is changed in this successor. The44 money product and20 automatic source files
+remain unchanged. Existing exact-source financial and B visual results are
+reused with their original scope; these source checks grant no ERP acceptance.
+
+The five automatic and ten retained money admission gates remain unset, and
+the owning workflow remains absent. Fresh Mandor17 parent acceptance, its exact
+Root and complete source rebinding are still required before SKU25 plus two
+actual browser journeys. The two conditional HPP labels remain unchanged.
+Historical preparation reports below retain their original status.
+
+---
+
 # Browser package prerequisite preparation
 
 The inactive 81-step workflow retains all 79 preceding steps and adds two

@@ -1,7 +1,7 @@
 {
   "contract": "cp7.current-automatic-product-bridge-preparation.v1",
   "classification": "SOURCE_AND_INTERFACE_PREPARATION_NOT_ACTUAL_ERP",
-  "current_money_parent_unchanged": true,
+  "current_money_parent_unchanged": false,
   "automatic_source_public_head": "9b1b0fcc9fbf477634619f07d4628d5be3a1b634",
   "derivation": {
     "original": {
@@ -66,8 +66,8 @@
       "sha256": "f5474148bc4d3cb872585b48978e747081d9f4ab562a30f6e4e84089cc9d4e8a"
     },
     "README.md": {
-      "bytes": 6378,
-      "sha256": "e337b909ba150866ec4cbc43513b2f2088941459ccf7452448526776dfa61372"
+      "bytes": 7839,
+      "sha256": "f1eb11c2098c509a0d1d5620da1fe2896f2f10ec5c4ef6bdf1ced6f88897fcb9"
     },
     "SOURCE_INTAKE_PREPARATION_CONTROLS.json": {
       "bytes": 760,
@@ -146,8 +146,8 @@
       "sha256": "c64aff29d19c8bb33d44cce9082a29a775777eac9599fc98cf40d661fcc0eafd"
     },
     "check_source.py": {
-      "bytes": 5195,
-      "sha256": "8752be174d6e8688844f636b55f64af0e69e7e6b5a3e56e78cb8a0c551e59699"
+      "bytes": 8465,
+      "sha256": "c31cd44e1a1a822df954b9a82d59f21775a7361d0b752e5309523e515f7522cd"
     },
     "component.py": {
       "bytes": 5975,
@@ -280,6 +280,14 @@
     "workflow.py": {
       "bytes": 9278,
       "sha256": "b90f4c553b59ab86af845b643c06acb47f568ca8d5d0f7a7b78c2ef1bc332dcf"
+    },
+    "test_ui_admission.py": {
+      "bytes": 3141,
+      "sha256": "02aa262de0884a89e97c517103f8e7333ffacde1ce66f8edc575ed627bc60a4f"
+    },
+    "SELECTIVE_UI_SOURCE_ADMISSION_CONTROLS_20261105.json": {
+      "bytes": 1605,
+      "sha256": "618cc9ac899134c1d9790e2232346fb17e21f35559a9e152ac267ae49d140c69"
     }
   },
   "prepared_upstream_native_callbacks": 6,
@@ -339,5 +347,89 @@
   "browser_package_prerequisites_prepared": true,
   "browser_package_prerequisites_actual_runtime": false,
   "reviewable_workflow_steps": 81,
-  "previous_79_step_template_preserved": true
+  "previous_79_step_template_preserved": true,
+  "selective_B_UI": {
+    "head": "1c66a74295eae2f09b7535619325e4d023942e19",
+    "tree": "587760d45b5026f27d19cf57adce92330fff3df3",
+    "before_src_tree": "601afd5adbb167991b018eb24688d5ecb8fb3173",
+    "after_src_tree": "15dc4bde83e1ac74871f8d4aaf005e9e36445aeb",
+    "files": {
+      "src/ConnectedInitialImportPage.tsx": {
+        "before": {
+          "mode": "100644",
+          "blob": "cda89a115ba9bdb40b7a83b7fe03f94ce85aa3fe"
+        },
+        "after": {
+          "mode": "100644",
+          "blob": "21bda9a5c52a46f256b0dad872b8a0e87eaec7fc"
+        },
+        "pin": {
+          "bytes": 49886,
+          "sha256": "70affea52cf20ecfc6fa5bdc23e3ad7ea3fee460a5be8e9db7468c933c067f40"
+        }
+      },
+      "src/ConnectedPocketFabricPage.tsx": {
+        "before": {
+          "mode": "100644",
+          "blob": "a6d9355e10f82d1aa631634afe34c018614104eb"
+        },
+        "after": {
+          "mode": "100644",
+          "blob": "892327afbbaa199cc09f9e82202e68918c65a98b"
+        },
+        "pin": {
+          "bytes": 25037,
+          "sha256": "ab45b1358ed942838aa3451b7766e1e7febda88fcc0f5556e9afbac3a46f2547"
+        }
+      },
+      "src/initial-import.css": {
+        "before": {
+          "mode": "100644",
+          "blob": "f2351ff9a8d4c1ee00b1338b33d1a5e18f366db5"
+        },
+        "after": {
+          "mode": "100644",
+          "blob": "0dc9949c6bfd6eb96f3c358b2a88edc12eba606c"
+        },
+        "pin": {
+          "bytes": 4142,
+          "sha256": "10756c488710c2705e44000c16ed3f5b1afafca40437e3aa37c3690491a208e0"
+        }
+      }
+    },
+    "root_build_inputs": {
+      "index.html": {
+        "mode": "100644",
+        "blob": "4912086ce24a0fb4f7dfc2b03e3cefdcbee8f91c"
+      },
+      "package-lock.json": {
+        "mode": "100644",
+        "blob": "ca9159d26989e0263b6b757f5f824bd9333d8cf6"
+      },
+      "package.json": {
+        "mode": "100644",
+        "blob": "8707f6817acfc294caeab8aa54496df5b8dde04e"
+      },
+      "tsconfig.app.json": {
+        "mode": "100644",
+        "blob": "e9712ec6ad208afe25edf063984a6170459299dd"
+      },
+      "tsconfig.contracts.json": {
+        "mode": "100644",
+        "blob": "0b63a91ed3b967d75979f62cc41463956ce97f95"
+      },
+      "tsconfig.json": {
+        "mode": "100644",
+        "blob": "9bf63d3b4775e9c155571a03536236596b2c7990"
+      },
+      "vite.config.ts": {
+        "mode": "100644",
+        "blob": "4d782219003da02d024ed397e11abb686694c1cb"
+      }
+    },
+    "actual_Auth_SQL_backend_case_credit": 0,
+    "HPP_conditional_text_changes_applied": false
+  },
+  "current_money_product_source_unchanged": true,
+  "selective_UI_source_admission_prepared": true
 }

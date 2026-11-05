@@ -3,7 +3,7 @@
 Sparse source checks disclose absent parent files. Actual adoption still needs
 the retained full frozen parent admission and a complete owning runtime.
 """
-from hashlib import sha1
+from hashlib import sha1, sha256
 from pathlib import Path
 import importlib.util
 import json
@@ -12,6 +12,52 @@ HERE = Path(__file__).resolve().parent
 spec = importlib.util.spec_from_file_location('automatic_current_source_assembly', HERE / 'assembly.py')
 assembly = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(assembly)
+ROOT = assembly.ROOT
+
+UI_HEAD = '1c66a74295eae2f09b7535619325e4d023942e19'
+UI_TREE = '587760d45b5026f27d19cf57adce92330fff3df3'
+UI_BEFORE = '601afd5adbb167991b018eb24688d5ecb8fb3173'
+UI_AFTER = '15dc4bde83e1ac74871f8d4aaf005e9e36445aeb'
+UI_PATHS = frozenset(('src/ConnectedInitialImportPage.tsx', 'src/ConnectedPocketFabricPage.tsx', 'src/initial-import.css'))
+BUILD_INPUTS = frozenset(('index.html', 'package-lock.json', 'package.json', 'tsconfig.app.json',
+                         'tsconfig.contracts.json', 'tsconfig.json', 'vite.config.ts'))
+
+
+def entries(tree):
+    result = {}
+    for item in assembly.git('ls-tree', '-rz', tree).split(b'\0'):
+        if not item:
+            continue
+        metadata, name = item.split(b'\t', 1)
+        mode, kind, blob = metadata.decode().split()
+        assembly.require(kind == 'blob' and mode in ('100644', '100755'),
+                         'SKU_AUTOMATIC_REGULAR_GIT_BLOB_REQUIRED')
+        result[name.decode()] = dict(mode=mode, blob=blob)
+    return result
+
+
+def selective_ui(value, base, approved):
+    require = assembly.require
+    require(value['head'] == UI_HEAD and value['tree'] == UI_TREE
+            and value['before_src_tree'] == UI_BEFORE and value['after_src_tree'] == UI_AFTER,
+            'SKU_AUTOMATIC_ONLY_EXACT_SELECTIVE_B_UI_SOURCE')
+    require(set(value['files']) == UI_PATHS and set(value['root_build_inputs']) == BUILD_INPUTS,
+            'SKU_AUTOMATIC_ONLY_THREE_SELECTIVE_UI_PATHS_AND_COMPLETE_BUILD_INPUTS')
+    result = {}
+    for name, row in value['files'].items():
+        require(row['before'] == base[name] and row['after'] == approved[name]
+                and row['before']['mode'] == row['after']['mode'] == '100644',
+                'SKU_AUTOMATIC_EXACT_UI_BEFORE_AND_APPROVED_AFTER_BLOBS:' + name)
+        path = ROOT / name
+        require(path.is_file() and not path.is_symlink(), 'SKU_AUTOMATIC_REGULAR_APPROVED_UI_FILE:' + name)
+        raw = path.read_bytes()
+        require(dict(bytes=len(raw), sha256=sha256(raw).hexdigest()) == row['pin']
+                and sha1(b'blob ' + str(len(raw)).encode() + b'\0' + raw).hexdigest() == row['after']['blob'],
+                'SKU_AUTOMATIC_APPROVED_UI_EVERY_BYTE_REQUIRED:' + name)
+        result[name] = row['after']
+    for name, identity in value['root_build_inputs'].items():
+        require(identity == base[name] == approved[name], 'SKU_AUTOMATIC_UI_BUILD_INPUT_CHANGED:' + name)
+    return result
 
 
 def check(*, runtime=False):
@@ -24,6 +70,12 @@ def check(*, runtime=False):
     assembly.require(base == dict(head='5f099fa6852c9088ab46daa0f1079a0f6a1f3185',
                                   tree='3fd1bdb763a6d22a5aa455f5aea3a853b9782e4d'),
                      'SKU_AUTOMATIC_EXACT_CURRENT_MONEY_PREPARATION_BASE')
+    manifest = json.loads((HERE / 'SOURCE.json').read_bytes())
+    assembly.require(assembly.git('rev-parse', UI_HEAD + '^{tree}').decode().strip() == UI_TREE
+                     and assembly.git('rev-parse', base['head'] + ':src').decode().strip() == UI_BEFORE
+                     and assembly.git('rev-parse', UI_HEAD + ':src').decode().strip() == UI_AFTER,
+                     'SKU_AUTOMATIC_COMPLETE_APPROVED_UI_TREE_IDENTITIES_REQUIRED')
+    selected = selective_ui(manifest['selective_B_UI'], entries(base['tree']), entries(UI_TREE))
     parent = set()
     materialized = 0
     absent = []
@@ -40,15 +92,16 @@ def check(*, runtime=False):
             absent.append(name)
             continue
         data = path.read_bytes()
-        assembly.require(sha1(b'blob ' + str(len(data)).encode() + b'\0' + data).hexdigest() == blob,
+        expected_blob = selected[name]['blob'] if name in selected else blob
+        assembly.require(sha1(b'blob ' + str(len(data)).encode() + b'\0' + data).hexdigest() == expected_blob,
                          'SKU_AUTOMATIC_UNDECLARED_CURRENT_PARENT_CHANGE:' + name)
         materialized += 1
     changed = assembly.git('diff', '--name-only', base['head'], '--').decode().splitlines()
     namespace = str(HERE.relative_to(root)) + '/'
     workflow_name = '.github/workflows/cp7-sku-current-parent-money-automatic-native25.yml'
-    assembly.require(all(name.startswith(namespace) or (runtime and name == workflow_name) for name in changed),
+    assembly.require(all(name.startswith(namespace) or name in UI_PATHS
+                         or (runtime and name == workflow_name) for name in changed),
                      'SKU_AUTOMATIC_PARENT_DIFF_OUTSIDE_NAMESPACE')
-    manifest = json.loads((HERE / 'SOURCE.json').read_bytes())
     own_paths = {namespace + name for name in manifest['files']} | {namespace + 'SOURCE.json'}
     active = root / workflow_name
     active_paths = set()
@@ -74,7 +127,7 @@ def check(*, runtime=False):
         assembly.require(closed, 'SKU_AUTOMATIC_PREPARATION_CANNOT_OPEN_RUNTIME')
     return dict(status=('CURRENT_MONEY_AUTOMATIC_PRODUCT_SOURCE_ADMITTED_NOT_ERP_ACCEPTANCE' if runtime
                         else 'CURRENT_MONEY_AUTOMATIC_PRODUCT_SOURCE_PREPARATION_NOT_ERP'), source=own,
-                unchanged_parent_tree=base['tree'], parent_blob_identities=len(parent),
+                original_parent_tree=base['tree'], parent_blob_identities=len(parent),
                 materialized_parent_files_exact=materialized, absent_sparse_parent_files=len(absent),
                 full_runtime_parent_admission_still_required=not runtime, own_files=len(own_paths),
                 unchanged_money_product_files=44, exact_automatic_addition_files=20,
@@ -83,6 +136,9 @@ def check(*, runtime=False):
                 execution_helpers_and_workflow_prepared=True,
                 actual_runtime_adoption_pending=closed,
                 private_authority_reviewer_prepared=True,
+                whole_parent_unchanged=False, exact_approved_B_UI_files=3,
+                complete_approved_UI_src_tree=UI_AFTER,
+                all_other_parent_sources_and_build_inputs_unchanged=True,
                 actual_ERP_cases=0, production_go=False, independent_acceptance=False)
 
 
