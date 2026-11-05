@@ -16,7 +16,7 @@ from clock_window import require_window
 
 SOURCE = Path(os.environ['GITHUB_WORKSPACE']) / 'frozen-afui'
 OUT = Path(os.environ['GITHUB_WORKSPACE']) / 'auditor/cp6-proof/t3'
-HEAD = '8db63458282d7d4cec79ea89c81d2480b51435a5'
+HEAD = '59199ae349c8c5a36ffb5ffbdef109bc58802b49'
 DB = 'cp6_rollback'
 DUMP = '/tmp/cp7-afui-smoke-pre.dump'
 RUN = os.environ['GITHUB_RUN_ID']
