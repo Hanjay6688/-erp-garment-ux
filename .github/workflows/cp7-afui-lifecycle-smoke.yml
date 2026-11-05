@@ -1,0 +1,102 @@
+name: CP7 Afui short isolated lifecycle
+on:
+  push:
+    branches: [astra-a/afui-lifecycle-smoke-20261106]
+    paths:
+      - .github/workflows/cp7-afui-lifecycle-smoke.yml
+      - scripts/cp7_afui_lifecycle_smoke/**
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: cp7-afui-short-isolated-lifecycle
+  cancel-in-progress: false
+jobs:
+  smoke:
+    if: github.ref == 'refs/heads/astra-a/afui-lifecycle-smoke-20261106'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      AFUI_SMOKE_CONTAINER: cp7-afui-smoke-${{ github.run_id }}
+    steps:
+      - name: Record the original monotonic job start
+        run: python3 -c 'import os,time; open(os.environ["GITHUB_ENV"],"a").write(f"AFUI_JOB_START_MONOTONIC={time.monotonic()}\n")'
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          path: auditor
+          fetch-depth: 1
+          persist-credentials: false
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: 8db63458282d7d4cec79ea89c81d2480b51435a5
+          path: frozen-afui
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12'
+      - name: Check setup reserve and exact Afui source and phase contracts
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -B auditor/scripts/cp7_afui_lifecycle_smoke/clock_window.py frozen-afui
+          test "$(git -C frozen-afui rev-parse HEAD^{tree})" = ecb6956afed905c83f6859edb8e783b4e9c3e691
+          cmp auditor/scripts/cp7_accessory_nonpayable/durable_action.mjs frozen-afui/scripts/cp7_accessory_nonpayable/durable_action.mjs
+          python -m pip install --quiet 'psycopg[binary]==3.2.10' 'PyYAML==6.0.2'
+          (cd frozen-afui && python -B scripts/cp7_accessory_nonpayable/source.py --check-source)
+          (cd frozen-afui && python -B scripts/cp7_accessory_nonpayable/test_progress.py)
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          repository: actions/upload-artifact
+          ref: ea165f8d65b6e75b540449e92b4886f43607fa02
+          path: afui-artifact-uploader
+          fetch-depth: 1
+          persist-credentials: false
+      - name: Confirm the actual owning transport before the fixture starts
+        uses: ./auditor/scripts/cp7_accessory_nonpayable/
+        with:
+          mode: preflight
+      - name: Start an empty PostgreSQL 17.6 fixture on loopback only
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$AFUI_SMOKE_CONTAINER" = "cp7-afui-smoke-$GITHUB_RUN_ID"
+          password="$(openssl rand -hex 24)"
+          echo "::add-mask::$password"
+          docker run --detach --name "$AFUI_SMOKE_CONTAINER" --label "cp7-afui-smoke=$GITHUB_RUN_ID" \
+            --publish 127.0.0.1::5432 --tmpfs /var/lib/postgresql/data \
+            --env "POSTGRES_PASSWORD=$password" --env "POSTGRES_INITDB_ARGS=--auth-local=trust --auth-host=scram-sha-256" \
+            postgres:17.6-bookworm
+          port="$(docker port "$AFUI_SMOKE_CONTAINER" 5432/tcp | sed -n 's/^127\.0\.0\.1://p')"
+          test -n "$port"
+          for attempt in $(seq 1 60); do
+            if docker exec "$AFUI_SMOKE_CONTAINER" pg_isready -h 127.0.0.1 -U postgres >/dev/null; then break; fi
+            sleep 1
+          done
+          docker exec "$AFUI_SMOKE_CONTAINER" pg_isready -h 127.0.0.1 -U postgres
+          docker exec "$AFUI_SMOKE_CONTAINER" createuser -U postgres --superuser supabase_admin
+          docker exec "$AFUI_SMOKE_CONTAINER" createdb -U postgres -T template0 cp6_rollback
+          printf 'AFUI_SMOKE_PG_PORT=%s\nAFUI_SMOKE_PG_PASSWORD=%s\n' "$port" "$password" >> "$GITHUB_ENV"
+      - name: Check fixture mutation, exact Originals, cold read and real recovery
+        uses: ./auditor/scripts/cp7_afui_lifecycle_smoke/
+      - name: Remove only this job's fixture
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$AFUI_SMOKE_CONTAINER" = "cp7-afui-smoke-$GITHUB_RUN_ID"
+          if docker inspect "$AFUI_SMOKE_CONTAINER" >/dev/null 2>&1; then
+            test "$(docker inspect -f '{{ index .Config.Labels "cp7-afui-smoke" }}' "$AFUI_SMOKE_CONTAINER")" = "$GITHUB_RUN_ID"
+            docker rm --force "$AFUI_SMOKE_CONTAINER"
+          fi
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: afui-short-isolated-lifecycle-${{ github.run_attempt }}
+          path: |
+            auditor/cp6-proof/t3/AFUI_DURABLE_PREFLIGHT.json
+            auditor/cp6-proof/t3/AFUI_LIFECYCLE_SMOKE_RESULT.json
+            auditor/cp6-proof/t3/AFUI_LIFECYCLE_SMOKE_TRANSPORT.json
+          if-no-files-found: error
+          retention-days: 30

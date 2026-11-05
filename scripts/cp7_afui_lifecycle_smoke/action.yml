@@ -1,0 +1,5 @@
+name: Afui short disposable lifecycle
+description: Exercise the owning Afui transport with a separate PostgreSQL fixture.
+runs:
+  using: node24
+  main: runner.mjs
