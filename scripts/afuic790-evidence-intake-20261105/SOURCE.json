@@ -1,0 +1,44 @@
+{
+  "classification": "READ_ONLY_TERMINAL_AFUIC790_EXPORT_PREPARATION_NOT_FINANCIAL_OR_ROOT",
+  "parent_head": "c790a7e42cd3389c4bf1631cb9413ae2f1f9f9fc",
+  "parent_tree": "d0a642084cec4e5c070b1eb7b74be7a3dc6a36ec",
+  "retained_donor": {
+    "source_public_head": "53ff3ea354feaaed5a84be8516efae68f7b5e353",
+    "source_local_head": "95e1cd9f1b31f126d8c7cee22ab031636701e275",
+    "path": "scripts/afui-evidence-intake-20261105/retain.py",
+    "bytes": 12838,
+    "sha256": "b90dd46b777a9d9449ff7fe9b5e00e4521adefd23ced5550998a9e2b95e86cd4",
+    "actual_ERP_cases": 0
+  },
+  "files": {
+    ".github/workflows/afuic790-evidence-intake-20261105.yml": {
+      "bytes": 7780,
+      "sha256": "c8f3529f41632307630f9e45f0674c80c78aad2d305a8797edb7c3778706f1fb"
+    },
+    "scripts/afuic790-evidence-intake-20261105/CONTROLS.json": {
+      "bytes": 816,
+      "sha256": "a809f00680ddc706b8c4be56dcc9c621fc981923156de9a4e78a77589c05c94b"
+    },
+    "scripts/afuic790-evidence-intake-20261105/README.md": {
+      "bytes": 1114,
+      "sha256": "39dec1e521bbc8a73d4fa61a3e6ef4487312f82801c876a26e025be26a826a3c"
+    },
+    "scripts/afuic790-evidence-intake-20261105/retain.py": {
+      "bytes": 15556,
+      "sha256": "3bcf933790852e2d47b836f76539d45344a2f8c9a1d251629e1f1da9cdb32813"
+    },
+    "scripts/afuic790-evidence-intake-20261105/test_retention.py": {
+      "bytes": 7659,
+      "sha256": "35ddaf735c886bf9800de4022918b0cce121b3615ad3920415cfbb7ac7e5b03c"
+    }
+  },
+  "financial_source_unchanged": true,
+  "actual_ERP_commands_executed": 0,
+  "financial_acceptance_credit": 0,
+  "retained_current_collector": {
+    "public_head": "27e81e07c217a39b7830a4b9315631dd0a8abf30",
+    "tree": "6fc3f20932572af3019d939101d38e43e9ee7507",
+    "all_five_source_files_exactly_recovered_by_inverse_identity_projection": true,
+    "actual_export_runs": 0
+  }
+}
