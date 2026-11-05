@@ -38,8 +38,8 @@
       "sha256": "ae9628dd95e72191268b3ed3dfe8cd7193d883c589b99d48e771042180f69006"
     },
     "scripts/current-global-sku-automatic-preparation/README.md": {
-      "bytes": 3107,
-      "sha256": "49a9d421b4105534628074600fc5b8611e0d4bed6a35fa89d58ca1809991f43c"
+      "bytes": 4327,
+      "sha256": "6622a75feea61bddf17c53b6c9add4f8ec8b71a93b9fb965233dbc9a892077eb"
     },
     "scripts/current-global-sku-automatic-preparation/SOURCE_CONTROLS.json": {
       "bytes": 131863,
@@ -58,8 +58,8 @@
       "sha256": "bd6563807f6cbcdba07fec69da3404de2c82f15053e71869a60c0c1489b15d1f"
     },
     "scripts/current-global-sku-automatic-preparation/check_source.py": {
-      "bytes": 3669,
-      "sha256": "7b33c0ac0a9e4570c68b2928c7adb931322a20f917821c81dd3cd7ff99cf1bc2"
+      "bytes": 6868,
+      "sha256": "6c0d6684b92c4e02fe07b0e8e114d24b151f0356394cb3e823267edcd352a806"
     },
     "scripts/current-global-sku-automatic-preparation/install_routes.py": {
       "bytes": 4465,
@@ -92,6 +92,14 @@
     "scripts/current-global-sku-automatic-preparation/trigger_dispatch.py": {
       "bytes": 4715,
       "sha256": "2be5728076c37dda50bbc787bfa59fd634dcdff2e98bd70cd106d40315b1f22f"
+    },
+    "scripts/current-global-sku-automatic-preparation/test_ui_admission.py": {
+      "bytes": 3152,
+      "sha256": "a593419e4a7e42d7cc82fdb222f2f81324fcd9fac747be5c6eb0119ff8b9a986"
+    },
+    "scripts/current-global-sku-automatic-preparation/SELECTIVE_UI_SOURCE_ADMISSION_CONTROLS_20261105.json": {
+      "bytes": 1822,
+      "sha256": "d11d88d3ef3f0864f9e54d86ae9889f461b037979422ec35f4b7a61fcfbcf2b5"
     }
   },
   "actual_ERP_cases": 0,
@@ -99,5 +107,87 @@
   "complete_actual_input_review": false,
   "active_workflow_added": false,
   "production_go": false,
-  "independent_acceptance": false
+  "independent_acceptance": false,
+  "selective_B_UI": {
+    "head": "1c66a74295eae2f09b7535619325e4d023942e19",
+    "tree": "587760d45b5026f27d19cf57adce92330fff3df3",
+    "before_src_tree": "601afd5adbb167991b018eb24688d5ecb8fb3173",
+    "after_src_tree": "15dc4bde83e1ac74871f8d4aaf005e9e36445aeb",
+    "files": {
+      "src/ConnectedInitialImportPage.tsx": {
+        "before": {
+          "mode": "100644",
+          "blob": "cda89a115ba9bdb40b7a83b7fe03f94ce85aa3fe"
+        },
+        "after": {
+          "mode": "100644",
+          "blob": "21bda9a5c52a46f256b0dad872b8a0e87eaec7fc"
+        },
+        "pin": {
+          "bytes": 49886,
+          "sha256": "70affea52cf20ecfc6fa5bdc23e3ad7ea3fee460a5be8e9db7468c933c067f40"
+        }
+      },
+      "src/ConnectedPocketFabricPage.tsx": {
+        "before": {
+          "mode": "100644",
+          "blob": "a6d9355e10f82d1aa631634afe34c018614104eb"
+        },
+        "after": {
+          "mode": "100644",
+          "blob": "892327afbbaa199cc09f9e82202e68918c65a98b"
+        },
+        "pin": {
+          "bytes": 25037,
+          "sha256": "ab45b1358ed942838aa3451b7766e1e7febda88fcc0f5556e9afbac3a46f2547"
+        }
+      },
+      "src/initial-import.css": {
+        "before": {
+          "mode": "100644",
+          "blob": "f2351ff9a8d4c1ee00b1338b33d1a5e18f366db5"
+        },
+        "after": {
+          "mode": "100644",
+          "blob": "0dc9949c6bfd6eb96f3c358b2a88edc12eba606c"
+        },
+        "pin": {
+          "bytes": 4142,
+          "sha256": "10756c488710c2705e44000c16ed3f5b1afafca40437e3aa37c3690491a208e0"
+        }
+      }
+    },
+    "root_build_inputs": {
+      "index.html": {
+        "mode": "100644",
+        "blob": "4912086ce24a0fb4f7dfc2b03e3cefdcbee8f91c"
+      },
+      "package-lock.json": {
+        "mode": "100644",
+        "blob": "ca9159d26989e0263b6b757f5f824bd9333d8cf6"
+      },
+      "package.json": {
+        "mode": "100644",
+        "blob": "8707f6817acfc294caeab8aa54496df5b8dde04e"
+      },
+      "tsconfig.app.json": {
+        "mode": "100644",
+        "blob": "e9712ec6ad208afe25edf063984a6170459299dd"
+      },
+      "tsconfig.contracts.json": {
+        "mode": "100644",
+        "blob": "0b63a91ed3b967d75979f62cc41463956ce97f95"
+      },
+      "tsconfig.json": {
+        "mode": "100644",
+        "blob": "9bf63d3b4775e9c155571a03536236596b2c7990"
+      },
+      "vite.config.ts": {
+        "mode": "100644",
+        "blob": "4d782219003da02d024ed397e11abb686694c1cb"
+      }
+    },
+    "actual_Auth_SQL_backend_case_credit": 0,
+    "HPP_conditional_text_changes_applied": false
+  }
 }

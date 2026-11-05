@@ -1,3 +1,26 @@
+# Three approved B display files, 5 November
+
+This prepared successor copies exactly the three approved B display files.
+The original complete source fence refused that change before the repair;
+the new fence binds the immutable before/after blobs and every live UI byte.
+All other parent files and all seven root build configuration files remain
+exact. The complete656-file src tree equals the B-tested tree15dc4bde83e1ac74871f8d4aaf005e9e36445aeb.
+
+Five controls cover approved bytes, a fourth declared UI path, a missing build
+input, altered before/after/build identities, changed live UI bytes and a
+changed fourth parent file through the complete source fence. Existing B
+visual results are reused only for the identical source and build inputs;
+this does not constitute actual financial, Auth or SQL acceptance.
+
+All eight actual Global admission values remain unset. The SQL helpers,
+installer, Native callbacks, authority checks, source parser and276-relation
+lower bound remain unchanged. The genuine combined SKU parent, complete
+catalogue/writer review and actual D1/E and recovery still remain mandatory.
+The two conditional HPP labels remain unchanged. Historical reports retain
+their original scope.
+
+---
+
 # Pengamatan Global untuk SKU otomatis
 
 Tambahan ini mempertahankan seluruh kandidat Global15fbb65 dan mengikat

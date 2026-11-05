@@ -1,0 +1,48 @@
+{
+  "Global_SQL_and_installer_and_financial_source_changed": false,
+  "active_financial_workflow_added": false,
+  "actual_combined_SKU_Root_adopted": false,
+  "all_eight_Global_admission_values_unset": true,
+  "classification": "EXACT_SELECTIVE_UI_SOURCE_ADMISSION_NOT_RUNTIME_OR_FINANCIAL_ACCEPTANCE",
+  "complete_actual_catalogue_and_writer_review_pending": true,
+  "conditional_HPP_labels_changed": false,
+  "exact_selected_UI_paths": [
+    "src/ConnectedInitialImportPage.tsx",
+    "src/ConnectedPocketFabricPage.tsx",
+    "src/initial-import.css"
+  ],
+  "first_local_adapter_failure": {
+    "cause": "Adapted helper argument shadowed the Global source module; argument renamed parent.",
+    "controls_run": 5,
+    "error": "AttributeError: 'dict' object has no attribute 'require'",
+    "errors": 5,
+    "financial_cases": 0,
+    "stage": "SOURCE_ONLY_BEFORE_ANY_ERP",
+    "stderr": {
+      "bytes": 5896,
+      "sha256": "01bf62c2fd1377774cb5d57c4059295b0a103bea5207805daca4ee6838ebb975"
+    }
+  },
+  "new_ERP_cases": 0,
+  "new_UI_visual_runs": 0,
+  "new_source_control_methods": 5,
+  "original_first_refusal": "GLOBAL_AUTOMATIC_UNDECLARED_PARENT_CHANGE:src/ConnectedInitialImportPage.tsx",
+  "original_first_refusal_stderr": {
+    "bytes": 900,
+    "sha256": "6ee61da98e2922675846def410b3fd5342730e7ee17718e68d1cf87bdd87ba4d"
+  },
+  "original_parent_tree": "34df5f0a23f3fc5063f8f98260d0e937010fbcaf",
+  "parent_prepared_Global_head": "f901073f92ada475c5b2c16d2f92cbfa010edea1",
+  "production_go": false,
+  "relation_lower_bound_only": 276,
+  "unchanged_root_build_inputs": [
+    "index.html",
+    "package-lock.json",
+    "package.json",
+    "tsconfig.app.json",
+    "tsconfig.contracts.json",
+    "tsconfig.json",
+    "vite.config.ts"
+  ],
+  "whole_approved_src_tree": "15dc4bde83e1ac74871f8d4aaf005e9e36445aeb"
+}

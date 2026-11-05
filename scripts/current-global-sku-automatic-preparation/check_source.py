@@ -1,5 +1,5 @@
 """Exact additive Global preparation, with explicit sparse observation."""
-from hashlib import sha1
+from hashlib import sha1, sha256
 from pathlib import Path
 import argparse
 import importlib.util
@@ -11,6 +11,51 @@ install = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(install)
 ROOT, base = install.ROOT, install.base
 
+UI_HEAD = '1c66a74295eae2f09b7535619325e4d023942e19'
+UI_TREE = '587760d45b5026f27d19cf57adce92330fff3df3'
+UI_BEFORE = '601afd5adbb167991b018eb24688d5ecb8fb3173'
+UI_AFTER = '15dc4bde83e1ac74871f8d4aaf005e9e36445aeb'
+UI_PATHS = frozenset(('src/ConnectedInitialImportPage.tsx', 'src/ConnectedPocketFabricPage.tsx', 'src/initial-import.css'))
+BUILD_INPUTS = frozenset(('index.html', 'package-lock.json', 'package.json', 'tsconfig.app.json',
+                         'tsconfig.contracts.json', 'tsconfig.json', 'vite.config.ts'))
+
+
+def entries(tree):
+    result = {}
+    for item in base.git('ls-tree', '-rz', tree).split(b'\0'):
+        if not item:
+            continue
+        metadata, name = item.split(b'\t', 1)
+        mode, kind, blob = metadata.decode().split()
+        base.require(kind == 'blob' and mode in ('100644', '100755'),
+                         'GLOBAL_AUTOMATIC_REGULAR_GIT_BLOB_REQUIRED')
+        result[name.decode()] = dict(mode=mode, blob=blob)
+    return result
+
+
+def selective_ui(value, parent, approved):
+    require = base.require
+    require(value['head'] == UI_HEAD and value['tree'] == UI_TREE
+            and value['before_src_tree'] == UI_BEFORE and value['after_src_tree'] == UI_AFTER,
+            'GLOBAL_AUTOMATIC_ONLY_EXACT_SELECTIVE_B_UI_SOURCE')
+    require(set(value['files']) == UI_PATHS and set(value['root_build_inputs']) == BUILD_INPUTS,
+            'GLOBAL_AUTOMATIC_ONLY_THREE_SELECTIVE_UI_PATHS_AND_COMPLETE_BUILD_INPUTS')
+    result = {}
+    for name, row in value['files'].items():
+        require(row['before'] == parent[name] and row['after'] == approved[name]
+                and row['before']['mode'] == row['after']['mode'] == '100644',
+                'GLOBAL_AUTOMATIC_EXACT_UI_BEFORE_AND_APPROVED_AFTER_BLOBS:' + name)
+        path = ROOT / name
+        require(path.is_file() and not path.is_symlink(), 'GLOBAL_AUTOMATIC_REGULAR_APPROVED_UI_FILE:' + name)
+        raw = path.read_bytes()
+        require(dict(bytes=len(raw), sha256=sha256(raw).hexdigest()) == row['pin']
+                and sha1(b'blob ' + str(len(raw)).encode() + b'\0' + raw).hexdigest() == row['after']['blob'],
+                'GLOBAL_AUTOMATIC_APPROVED_UI_EVERY_BYTE_REQUIRED:' + name)
+        result[name] = row['after']
+    for name, identity in value['root_build_inputs'].items():
+        require(identity == parent[name] == approved[name], 'GLOBAL_AUTOMATIC_UI_BUILD_INPUT_CHANGED:' + name)
+    return result
+
 
 def check(*, observe_sparse=False):
     manifest = install.check_sources()
@@ -20,6 +65,11 @@ def check(*, observe_sparse=False):
                                 tree='34df5f0a23f3fc5063f8f98260d0e937010fbcaf'), 'GLOBAL_AUTOMATIC_EXACT_PREPARED_PARENT_REQUIRED')
     base.require(base.git('rev-parse', source['head'] + '^{tree}').decode().strip() == source['tree'],
                  'GLOBAL_AUTOMATIC_PARENT_TREE_CHANGED')
+    base.require(base.git('rev-parse', UI_HEAD + '^{tree}').decode().strip() == UI_TREE
+                 and base.git('rev-parse', source['head'] + ':src').decode().strip() == UI_BEFORE
+                 and base.git('rev-parse', UI_HEAD + ':src').decode().strip() == UI_AFTER,
+                 'GLOBAL_AUTOMATIC_COMPLETE_APPROVED_UI_TREE_IDENTITIES_REQUIRED')
+    selected = selective_ui(manifest['selective_B_UI'], entries(source['tree']), entries(UI_TREE))
     parent = set()
     absent = []
     checked = 0
@@ -36,7 +86,8 @@ def check(*, observe_sparse=False):
             absent.append(name)
             continue
         raw = path.read_bytes()
-        base.require(sha1(b'blob ' + str(len(raw)).encode() + b'\0' + raw).hexdigest() == blob,
+        expected_blob = selected[name]['blob'] if name in selected else blob
+        base.require(sha1(b'blob ' + str(len(raw)).encode() + b'\0' + raw).hexdigest() == expected_blob,
                      'GLOBAL_AUTOMATIC_UNDECLARED_PARENT_CHANGE:' + name)
         checked += 1
     base.require(observe_sparse or not absent, 'GLOBAL_AUTOMATIC_FULL_RUNTIME_PARENT_MATERIALIZATION_REQUIRED')
@@ -55,6 +106,9 @@ def check(*, observe_sparse=False):
                 existing_nineteen_authority_references_and_inspector_unchanged=True,
                 relation_lower_bound_only=len(install.callbacks.requirements()['required_relation_lower_bound']),
                 actual_complete_catalogue_and_all_writer_review_still_required=True,
+                whole_parent_unchanged=False, exact_approved_B_UI_files=3,
+                complete_approved_UI_src_tree=UI_AFTER,
+                all_other_parent_sources_and_build_inputs_unchanged=True,
                 actual_ERP_cases=0, runtime_admission=False, production_go=False, independent_acceptance=False)
 
 
