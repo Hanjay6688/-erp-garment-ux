@@ -260,8 +260,8 @@
       "sha256": "d85af2c741f707b378e09c6e07ab789cb76450d0e58f470913a81e936c5797b2"
     },
     "scripts/current-mandor-afui-preparation/check_source.py": {
-      "bytes": 8675,
-      "sha256": "b8b405e4c7a636deb0ca8f0db973bc83c920715e52cd800a5ef94c90f4386b87"
+      "bytes": 12422,
+      "sha256": "9c0b7590e000b5306fb8eaabadb99a284bc427cb141703217a20388d6df98128"
     },
     "scripts/current-mandor-afui-preparation/output_binding.py": {
       "bytes": 9010,
