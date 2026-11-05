@@ -54,7 +54,7 @@ def derive(raw=None):
     steps[63] = dict(name='Verify complete current Mandor source, transport and owning workflow before database',
         **{'working-directory': 'auditor'}, run='set -euo pipefail\npython -B ' + OWN + 'workflow.py --check\n'
             'python -B ' + OWN + 'transport.py --check\npython -B ' + OWN + 'check_source.py\n'
-            'python -B scripts/cp7_accessory_nonpayable/qualification.py --check-static\n'
+            '(cd ../qualified-afui-parent && python -B scripts/cp7_accessory_nonpayable/qualification.py --check-static)\n'
             'node --test ' + OWN + 'durable_action.test.mjs\n')
     steps[64] = dict(name='Admit genuine Afui15 and whole current Mandor graph under database network fence',
         **{'working-directory': 'writer'}, run='set -euo pipefail\npython -B ../auditor/' + NS + 'qualification.py --check\n'

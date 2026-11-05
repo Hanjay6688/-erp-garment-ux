@@ -5,6 +5,8 @@ from tempfile import TemporaryDirectory
 from unittest.mock import patch
 import importlib.util
 import json
+import os
+import subprocess
 import unittest
 
 HERE = Path(__file__).resolve().parent
@@ -17,6 +19,36 @@ def load(name):
 
 
 class CurrentWorkflow(unittest.TestCase):
+    def test_real_shell_runs_Afui_static_check_inside_frozen_parent_only(self):
+        import yaml
+        text, _ = load('workflow').derive()
+        steps = yaml.safe_load(text)['jobs']['p21']['steps']
+        step = next(row for row in steps if row.get('name') ==
+                    'Verify complete current Mandor source, transport and owning workflow before database')
+        with TemporaryDirectory() as directory:
+            root = Path(directory)
+            auditor, frozen, binaries = root / 'auditor', root / 'qualified-afui-parent', root / 'bin'
+            for path in (auditor, frozen, binaries):
+                path.mkdir()
+            log = root / 'command-context.tsv'
+            stub = '#!/bin/sh\nprintf \'%s\\t%s\\n\' "$PWD" "$*" >> "$CP7_PREFLIGHT_CWD_LOG"\n'
+            for command in ('python', 'node'):
+                executable = binaries / command
+                executable.write_text(stub)
+                executable.chmod(0o700)
+            env = dict(os.environ, PATH=str(binaries) + os.pathsep + os.environ['PATH'],
+                       CP7_PREFLIGHT_CWD_LOG=str(log))
+            result = subprocess.run(['bash', '-c', step['run']], cwd=auditor,
+                                    env=env, capture_output=True, text=True, timeout=10)
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            commands = [line.split('\t', 1) for line in log.read_text().splitlines()]
+            afui = [row for row in commands if 'qualification.py --check-static' in row[1]]
+            self.assertEqual(len(afui), 1)
+            self.assertEqual(afui[0][0], str(frozen))
+            self.assertEqual(len(commands), 5)
+            self.assertTrue(all(cwd == str(auditor) for cwd, args in commands
+                                if 'qualification.py --check-static' not in args))
+
     def test_current80_chain_has69_unchanged_steps_and84_complete_current_steps(self):
         workflow = load('workflow');text, proof = workflow.derive()
         self.assertEqual((proof['original_steps'], proof['unchanged_steps'], proof['owning_routes'], proof['total_steps']), (80, 69, 11, 84))

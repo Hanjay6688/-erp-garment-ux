@@ -1,3 +1,21 @@
+# Validate Afui in its exact frozen parent, 5 November
+
+The complete Afui source preflight correctly refused the combined candidate's
+different access catalogue. The same unchanged preflight passed inside the
+exact74e source. The inactive Mandor workflow had been invoking that checker
+from the combined checkout. It now runs the complete unchanged checker inside
+the already materialized qualified-afui-parent checkout; all four owning
+Mandor commands stay in the auditor checkout.
+
+A real-shell control reproduced the old wrong directory before the repair.
+It records all five generated command invocations in isolated directories and
+requires only the Afui invocation to use the frozen parent. No source checksum,
+permission, Native callback, financial oracle or recovery assertion changes.
+The original80 steps,69 unchanged steps,11 owning routes and84 total steps
+remain. Both actual admission families remain closed and the workflow inactive.
+
+---
+
 # Current74e parent and three selected B display fixes, 5 November
 
 This prepared candidate now contains all43 exact current Afui delta paths and

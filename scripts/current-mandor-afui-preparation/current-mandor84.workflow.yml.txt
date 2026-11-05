@@ -497,7 +497,8 @@ jobs:
 
         python -B scripts/current-mandor-afui-preparation/check_source.py
 
-        python -B scripts/cp7_accessory_nonpayable/qualification.py --check-static
+        (cd ../qualified-afui-parent && python -B scripts/cp7_accessory_nonpayable/qualification.py
+        --check-static)
 
         node --test scripts/current-mandor-afui-preparation/durable_action.test.mjs
 
