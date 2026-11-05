@@ -19,6 +19,11 @@ UI_PATHS = frozenset(('src/ConnectedInitialImportPage.tsx', 'src/ConnectedPocket
 BUILD_INPUTS = frozenset(('index.html', 'package-lock.json', 'package.json', 'tsconfig.app.json',
                          'tsconfig.contracts.json', 'tsconfig.json', 'vite.config.ts'))
 
+SKU_HEAD = '4497b2331ca1f058c97432424084eb1263c1236a'
+SKU_TREE = 'e4cc993361d3c51daaafe696a864b51bb04346ea'
+SKU_BASE = '5f099fa6852c9088ab46daa0f1079a0f6a1f3185'
+SKU_BASE_TREE = '3fd1bdb763a6d22a5aa455f5aea3a853b9782e4d'
+
 
 def entries(tree):
     result = {}
@@ -57,6 +62,36 @@ def selective_ui(value, parent, approved):
     return result
 
 
+def pending_sku(value, baseline):
+    """Copy the complete current prepared parent; grant no actual admission."""
+    require = base.require
+    require({key: value[key] for key in ('base_head', 'base_tree', 'head', 'tree')} ==
+            dict(base_head=SKU_BASE, base_tree=SKU_BASE_TREE, head=SKU_HEAD, tree=SKU_TREE)
+            and all(value[key] is None for key in ('actual_Root', 'actual_run', 'actual_job')),
+            'GLOBAL_AUTOMATIC_ONLY_EXACT_UNQUALIFIED_CURRENT_SKU_SOURCE')
+    require(base.git('rev-parse', SKU_HEAD + '^{tree}').decode().strip() == SKU_TREE
+            and base.git('rev-parse', SKU_BASE + '^{tree}').decode().strip() == SKU_BASE_TREE,
+            'GLOBAL_AUTOMATIC_CURRENT_SKU_IMMUTABLE_TREES_REQUIRED')
+    before, after = entries(SKU_BASE_TREE), entries(SKU_TREE)
+    paths = set(base.git('diff', '--name-only', SKU_BASE, SKU_HEAD, '--').decode().splitlines())
+    require(len(paths) == 148 and set(value['files']) == paths,
+            'GLOBAL_AUTOMATIC_COMPLETE_ONE_HUNDRED_FORTY_EIGHT_CURRENT_SKU_PATHS_REQUIRED')
+    result = {}
+    for name, row in value['files'].items():
+        require(row['before'] == before.get(name) == baseline.get(name)
+                and name in after and row['after'] == after[name],
+                'GLOBAL_AUTOMATIC_CURRENT_SKU_EXACT_BEFORE_AND_AFTER:' + name)
+        path = ROOT / name
+        require(path.is_file() and not path.is_symlink(),
+                'GLOBAL_AUTOMATIC_CURRENT_SKU_REGULAR_SOURCE_REQUIRED:' + name)
+        raw = path.read_bytes()
+        require(dict(bytes=len(raw), sha256=sha256(raw).hexdigest()) == row['pin']
+                and sha1(b'blob ' + str(len(raw)).encode() + b'\0' + raw).hexdigest() == row['after']['blob'],
+                'GLOBAL_AUTOMATIC_CURRENT_SKU_EVERY_SOURCE_BYTE_REQUIRED:' + name)
+        result[name] = row['after']
+    return result
+
+
 def check(*, observe_sparse=False):
     manifest = install.check_sources()
     reference = json.loads((HERE / 'SOURCE_REFERENCE.json').read_bytes())
@@ -70,23 +105,23 @@ def check(*, observe_sparse=False):
                  and base.git('rev-parse', UI_HEAD + ':src').decode().strip() == UI_AFTER,
                  'GLOBAL_AUTOMATIC_COMPLETE_APPROVED_UI_TREE_IDENTITIES_REQUIRED')
     selected = selective_ui(manifest['selective_B_UI'], entries(source['tree']), entries(UI_TREE))
+    expected = entries(source['tree'])
+    current_sku = pending_sku(manifest['pending_current_SKU_preparation'], expected)
+    base.require(all(current_sku[name] == identity for name, identity in selected.items()),
+                 'GLOBAL_AUTOMATIC_SELECTED_UI_MUST_MATCH_CURRENT_SKU')
+    expected.update(current_sku)
     parent = set()
     absent = []
     checked = 0
-    for item in base.git('ls-tree', '-rz', source['tree']).split(b'\0'):
-        if not item:
-            continue
-        meta, name = item.split(b'\t', 1)
-        mode, kind, blob = meta.decode().split()
-        name = name.decode()
+    for name, identity in expected.items():
         parent.add(name)
         path = ROOT / name
-        base.require(kind == 'blob' and not path.is_symlink(), 'GLOBAL_AUTOMATIC_REGULAR_PARENT_BLOB_REQUIRED:' + name)
+        base.require(not path.is_symlink(), 'GLOBAL_AUTOMATIC_REGULAR_PARENT_BLOB_REQUIRED:' + name)
         if not path.is_file():
             absent.append(name)
             continue
         raw = path.read_bytes()
-        expected_blob = selected[name]['blob'] if name in selected else blob
+        expected_blob = identity['blob']
         base.require(sha1(b'blob ' + str(len(raw)).encode() + b'\0' + raw).hexdigest() == expected_blob,
                      'GLOBAL_AUTOMATIC_UNDECLARED_PARENT_CHANGE:' + name)
         checked += 1
@@ -109,6 +144,8 @@ def check(*, observe_sparse=False):
                 whole_parent_unchanged=False, exact_approved_B_UI_files=3,
                 complete_approved_UI_src_tree=UI_AFTER,
                 all_other_parent_sources_and_build_inputs_unchanged=True,
+                exact_current_SKU_preparation_paths=len(current_sku),
+                pending_current_SKU_head=SKU_HEAD, actual_current_SKU_Root_adopted=False,
                 actual_ERP_cases=0, runtime_admission=False, production_go=False, independent_acceptance=False)
 
 

@@ -24,30 +24,29 @@ def main():
     try:
         sys.argv=sys.argv[:1]
         import psycopg
-        from cp7_accessory_nonpayable import access_cases,native_fixture
-        state_raw=(ROOT/'cp6-proof/t3/AFUI_BROWSER_SETTINGS_STATE.json').read_bytes()
-        fixtures_raw=(ROOT/'cp6-proof/t3/AFUI_BROWSER_NATIVE_PREREQUISITE.json').read_bytes()
-        if(sha256(state_raw).hexdigest()!=os.environ['AFUI_BROWSER_STATE_SHA256']
-            or sha256(fixtures_raw).hexdigest()!=os.environ['AFUI_BROWSER_FIXTURE_SHA256']):
-            raise ValueError('NONPAYABLE_BROWSER_EXACT_ORIGINAL_STATE_AND_NATIVE_FIXTURE_REQUIRED')
-        state=json.loads(state_raw);prepared=json.loads(fixtures_raw)
+        from cp7_accessory_nonpayable import access_cases,native_fixture,complete_original_io,lossless_state
+        refusal='NONPAYABLE_BROWSER_EXACT_ORIGINAL_STATE_AND_NATIVE_FIXTURE_REQUIRED'
+        state=lossless_state.read(ROOT/'cp6-proof/t3/AFUI_BROWSER_SETTINGS_STATE_CACHE.json',
+            os.environ['AFUI_BROWSER_STATE_CACHE_SHA256'],ROOT/'cp6-proof/t3/AFUI_BROWSER_SETTINGS_STATE.json',
+            os.environ['AFUI_BROWSER_STATE_SHA256'])
+        prepared=complete_original_io.read_verified_json(ROOT/'cp6-proof/t3/AFUI_BROWSER_NATIVE_PREREQUISITE.json',os.environ['AFUI_BROWSER_FIXTURE_SHA256'],refusal)
         if prepared['status']!='ACTUAL_NATIVE_NONPAYABLE_BROWSER_PREREQUISITE_PREPARED':
             raise ValueError('NONPAYABLE_BROWSER_ACTUAL_NATIVE_PREREQUISITE_REQUIRED')
         with psycopg.connect(url,connect_timeout=5)as conn,conn.cursor()as cur:
             cur.execute("set local statement_timeout='45s';set local lock_timeout='8s'")
-            modules=access_cases.browser_observation_context(cur,state);value=access_cases.capture_observed(cur,modules,state)
+            modules=access_cases.browser_observation_context(cur,state);value=access_cases.capture_browser_observed(cur,modules,state)
             actual=native_fixture.observe(cur,modules,prepared['fixture'])
             native_fixture.require_economics(actual,prepared['fixture'],nonpayable=True,hpp='20')
             value['active_good']=actual
-            raw=(json.dumps(value,sort_keys=True,default=str)+'\n').encode();packed=gzip.compress(raw,mtime=0)
             name=label+'_FULL_CURRENT_CENSUS.json.gz';target=ROOT/'cp6-proof/t3'/name
-            with target.open('xb')as stream:stream.write(packed)
+            original=complete_original_io.save_gzip_sorted(target,value)
+            complete_original_io.publish(target)
             catalog=modules.product.runtime()[-1]
             reply=dict(catalog_groups=22,catalog_sha256=catalog.digest(value['catalog']),
                 data_and_sequences=value['data_and_all_sequences'],date_versions=value['date_versions'],
                 date_requests=value['date_requests'],active_good=actual,
                 dropped_catalog_fields=[],dropped_data_or_sequence_keys=[],
-                original=dict(name=name,bytes=len(raw),sha256=sha256(raw).hexdigest(),gzip_bytes=len(packed),gzip_sha256=sha256(packed).hexdigest()))
+                original=original)
             conn.rollback();return reply
     finally:sys.argv=saved
 

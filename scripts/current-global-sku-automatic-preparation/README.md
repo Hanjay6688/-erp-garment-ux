@@ -1,3 +1,21 @@
+# One current prepared source through Global, 5 November
+
+This candidate now contains the complete148-path change from the retained
+money base to the exact current prepared SKU4497 source. That source includes
+the current Afui namespace, corrected frozen-parent Mandor preflight, all78
+current Mandor paths and the complete70-file prepared SKU namespace. The same
+approved B display source is retained. Exact before/after Git identities,
+every copied byte and the entire remaining parent tree are still checked.
+
+Five new controls refuse an incomplete or extra path, another parent identity,
+a fabricated Root, changed blob/pin and a changed live copied source byte.
+No Global SQL helper, callback, installer, authority or relation review changes.
+All eight Global admission values remain unset;276 relations is still only
+a lower bound. Actual complete catalogue/writer review, all financial gates
+and recovery await the genuine accepted combined SKU parent.
+
+---
+
 # Three approved B display files, 5 November
 
 This prepared successor copies exactly the three approved B display files.

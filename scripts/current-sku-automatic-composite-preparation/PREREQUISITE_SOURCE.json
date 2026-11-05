@@ -1,0 +1,68 @@
+{
+  "classification": "EXACT_NATIVE_PREREQUISITE_DECLARATIONS_NOT_RUNTIME_ACCEPTANCE",
+  "origin": "RETAINED_5AD_ACTUAL_NATIVE_ALL22_CATALOGUE",
+  "catalogue": {
+    "bytes": 14962854,
+    "sha256": "4932a37fc34d3c60125bd14b59b687956b90e9ef6ae1524b6ef3b50a407dd221"
+  },
+  "functions": {
+    "public.erp_save_bs_resolution_action_v1(text,jsonb,uuid,bigint)": {
+      "bytes": 392,
+      "sha256": "cd56ace52cf3ef8846946a3c5ee4369d081ab4e95412a7c2b71a92a8fae80d17"
+    },
+    "public.erp_save_laundry_qc_action_v1(text,jsonb,uuid,bigint)": {
+      "bytes": 386,
+      "sha256": "d6c4c5382a50adb419a538d4c6786b625f5f6ed640f7d80be6bcf124bdaedee7"
+    },
+    "public.erp_cp7_get_purchase_invoices_v1(uuid,integer,integer)": {
+      "bytes": 277,
+      "sha256": "3b2e00fb8a5208819fa7ea06bf63f398893c3245f17f70ca9148b3802f3cf9fa"
+    },
+    "public.erp_cp7_save_purchase_invoice_v1(text,jsonb,uuid,text)": {
+      "bytes": 293,
+      "sha256": "94d9669fa3d06183425a05314b1f8fb6e4caf27441ee70ae971cd34aa40ea312"
+    },
+    "erp.process_cost_recalc_queue(integer)": {
+      "bytes": 2073,
+      "sha256": "743bcf5406e34b487e558bd583d888ef07b1be49fac25f8b6bb03637208fe9be"
+    },
+    "erp.get_hpp_completeness(uuid)": {
+      "bytes": 5023,
+      "sha256": "9974cdecc501de078f725d7df920dbc3da0d3d466d05ac421aa9578a10219f06"
+    }
+  },
+  "permission_sources": {
+    "erp.save_bs_resolution_action_v1(text,jsonb,uuid,bigint)": {
+      "bytes": 12002,
+      "sha256": "6c2b5d5fa26f340df97db2a6e98f8a64b70a9978f4163d8592844fd8b9a9a057",
+      "literal_permission_keys": [
+        "production.bs_rework.create",
+        "production.bs_rework.post",
+        "production.bs_rework.reverse"
+      ]
+    },
+    "erp.save_laundry_qc_action_v1(text,jsonb,uuid,bigint)": {
+      "bytes": 68747,
+      "sha256": "91d736beed760b577819ccfc5435355a930c44e38c9ce147767ce7a9edca3077",
+      "literal_permission_keys": [
+        "production.final_sku.post",
+        "production.final_sku.reverse",
+        "production.laundry.create",
+        "production.laundry.post",
+        "production.laundry.reverse"
+      ]
+    },
+    "cp7_invoice.access_now()": {
+      "bytes": 921,
+      "sha256": "8ef6ce5dd94e20a03edf22c2443a0031134208712bfefc86185d17d9c819f980",
+      "literal_permission_keys": [
+        "finance.ap.view",
+        "warehouse.procurement.post",
+        "warehouse.procurement.reverse",
+        "warehouse.procurement.view"
+      ]
+    }
+  },
+  "actual_ERP_cases": 0,
+  "production_go": false
+}

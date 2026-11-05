@@ -1,0 +1,21 @@
+{
+  "classification": "LOCAL_POSTGRES_CATALOGUE_ACL_OBSERVATIONS_NOT_ACTUAL_ERP",
+  "tables": 23,
+  "original_deny_policy_tables": 12,
+  "named_INFO_eligible_tables": 11,
+  "original_observations": 18,
+  "baseline_authority_accepted": 1,
+  "unsafe_authority_originals_refused": 17,
+  "review_control_methods": 4,
+  "postgres_version": "PostgreSQL 17.5 on aarch64-unknown-linux-gnu, compiled by emcc (Emscripten gcc/clang-like replacement + linker emulating GNU ld) 3.1.74 (1092ec30a3fb1d46b1782ff1b4db5094d3d06ae5), 32-bit",
+  "originals": {
+    "bytes": 891179,
+    "sha256": "c8ffbb6202782e2719a009d592469820d783a361167df15bbf50736ef57cadd0"
+  },
+  "actual_ERP_cases": 0,
+  "actual_Auth_HTTP_cases": 0,
+  "owning_runtime_adoption_pending": true,
+  "product_grants_changed": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

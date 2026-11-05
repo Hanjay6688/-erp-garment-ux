@@ -69,7 +69,8 @@ def reservation(p,before,after,row):
 def gate(p,directory,part,frozen):
     actual=pinned(p,directory,part['browser2_original'],'MANDOR_BROWSER2_ORIGINAL.json')
     fixture=pinned(p,directory,part['browser_fixture_original'],'MANDOR_BROWSER_FIXTURE.json')
-    state=pinned(p,directory,part['browser_state_original'],'MANDOR_BROWSER_STATE.json')
+    state_io=access_runtime.load('mandor_final_complete_state_io',access_runtime.ROOT/'scripts/current-mandor-afui-preparation/state_io.py')
+    state=state_io.verified(p,directory,part['browser_state_original'],part['browser_state_cache_original'])
     spec=importlib.util.spec_from_file_location('mandor_final_actual_browser_copy_gate',frozen/'scripts/cp7_accessory_nonpayable/qualification_gate.py')
     typed=importlib.util.module_from_spec(spec);spec.loader.exec_module(typed)
     result=typed.copies(actual,browser_preflight.IDS,mode='BROWSER')

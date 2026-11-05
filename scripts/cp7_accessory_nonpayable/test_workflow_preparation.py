@@ -62,7 +62,21 @@ class WorkflowPreparationControls(unittest.TestCase):
         text,proof=workflow.derive();value=yaml.safe_load(text)
         prior,_=workflow.load('afui_control_original_FREE3_workflow',
             workflow.ROOT/'scripts/current-de-free-date-preparation/workflow.py').derive()
-        original=yaml.safe_load(prior);job=value['jobs']['p21'];steps=job['steps']
+        original=yaml.safe_load(prior);job=value['jobs']['p21'];all_steps=job['steps']
+        self.assertEqual(len(all_steps),80)
+        self.assertEqual(value['on']['push']['branches'],[workflow.BRANCH,workflow.PREPARATION_BRANCH])
+        self.assertEqual(job['if'],"github.ref == 'refs/heads/"+workflow.BRANCH+"'")
+        preparation=value['jobs']['browser_prerequisites_only']
+        self.assertEqual(preparation['if'],"github.ref == 'refs/heads/"+workflow.PREPARATION_BRANCH+"'")
+        self.assertEqual(preparation['timeout-minutes'],25)
+        self.assertEqual(preparation['steps'][3:5],all_steps[65:67])
+        self.assertIn('npm ci --include=dev',all_steps[65]['run'])
+        self.assertIn('auditor writer',all_steps[65]['run'])
+        self.assertIn('playwright install --with-deps chromium',all_steps[65]['run'])
+        self.assertIn('browser_prerequisites.mjs',all_steps[66]['run'])
+        retained78=[s for i,s in enumerate(all_steps)if i not in(65,66)]
+        self.assertEqual(len(retained78),78)
+        steps=[s for i,s in enumerate(retained78)if i not in workflow.ADDED]
         self.assertEqual([i for i in range(75)if steps[i]!=original['jobs']['p21']['steps'][i]],list(workflow.ROUTED))
         self.assertEqual(job['timeout-minutes'],360)
         self.assertIn('AFUI_JOB_START_MONOTONIC',steps[0]['run'])
@@ -75,7 +89,13 @@ class WorkflowPreparationControls(unittest.TestCase):
         from . import ui_derivation
         self.assertEqual(set(value['on']['push']['paths']),
             {workflow.WORKFLOW,workflow.NS+'**'}|ui_derivation.CHANGED|ui_derivation.ADDED)
-        self.assertIn('runtime_supervisor.py',steps[69]['run']);self.assertIn('final_gate.py',steps[69]['run'])
+        self.assertEqual(steps[69]['uses'],'./auditor/'+workflow.NS)
+        self.assertEqual(steps[69]['with'],{'mode':'runtime'})
+        self.assertEqual(retained78[65]['with']['ref'],workflow.UPLOADER)
+        self.assertFalse(retained78[65]['with']['persist-credentials'])
+        self.assertEqual(retained78[66]['with'],{'mode':'preflight'})
+        self.assertEqual(retained78[67],original['jobs']['p21']['steps'][65])
+        self.assertIn('final_gate.py',retained78[72]['run'])
         self.assertIn('--allow-database-stop',steps[73]['run'])
         self.assertEqual(proof['runtime_dispatches'],0)
 
@@ -83,7 +103,8 @@ class WorkflowPreparationControls(unittest.TestCase):
         with TemporaryDirectory(prefix='afui-workflow-activation-control-')as directory:
             active=Path(directory)/workflow.WORKFLOW;active.parent.mkdir(parents=True)
             active.write_text('not an admitted executable workflow\n')
-            with patch.object(workflow,'ROOT',Path(directory)):
+            with patch.object(workflow,'ROOT',Path(directory)), \
+                 patch.multiple(admission,PARENT_HEAD=None,PARENT_TREE=None,PARENT_RUN=None,PARENT_JOB=None,PARENT_RECEIPT=None):
                 # Derive reads its exact original via the real source location.
                 with patch.object(workflow,'derive',return_value=((workflow.HERE/workflow.TEMPLATE).read_text(),{})):
                     with self.assertRaisesRegex(ValueError,'ACTUAL_FREE3_ROOT_INTAKE_PENDING'):workflow.source_control()

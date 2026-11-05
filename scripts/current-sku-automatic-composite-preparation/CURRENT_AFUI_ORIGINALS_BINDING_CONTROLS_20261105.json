@@ -1,0 +1,40 @@
+{
+  "actual_ERP_cases": 0,
+  "actual_Mandor_Root_and_complete_source_rebinding_pending": true,
+  "actual_SQL_executed": 0,
+  "actual_complete_current_consumer_adoption": false,
+  "actual_error": "CURRENT_STAGE_EXACT_AFUI_COMPLETE_ORIGINAL_COPY_SOURCE_REQUIRED",
+  "affected_control_receipts": {
+    "BROWSER_BINDING_CONTROLS": {
+      "passed": 5,
+      "stderr_bytes": 1077,
+      "stderr_sha256": "53a20da3399f8b1781700287d69e47d1c5b7686a0eecb15362e0cd33170c29ed"
+    },
+    "REPORT_IO_CONTROLS": {
+      "passed": 6,
+      "stderr_bytes": 1078,
+      "stderr_sha256": "0c1b286fbc418cc8faebcdafc534ce0d35a94848965af2e0bffee87bb07e4efc"
+    }
+  },
+  "affected_local_source_control_methods": 11,
+  "affected_source_controls_passed": 11,
+  "all_complete_original_helper_function_ASTs_unchanged": 10,
+  "all_five_automatic_and_ten_money_gates_unset": true,
+  "canonical_output_and_receipt_semantics_unchanged": true,
+  "classification": "CURRENT_AFUI_ORIGINAL_CONSUMER_SOURCE_BINDING_NOT_ERP",
+  "current_74e_helper": {
+    "bytes": 5951,
+    "sha256": "f7c732004e1f5f0f2fe7ac7e08a6f049e6d41f0074fca7336c66736aaf522170"
+  },
+  "financial_commands_or_recovery_changed": false,
+  "neighbouring_worktree_dependency_removed_from_control": true,
+  "new_control_methods": 2,
+  "old_consumer_expected": {
+    "bytes": 5802,
+    "sha256": "32e1115a6ed459831799db193e9de09fe6d9fa008e2c55a9fe44a1dd991eeb55"
+  },
+  "old_encoder_primitive_and_case_output_pins_reused_exactly": true,
+  "pending_current_Afui_head": "74e7a6bc0754b7b3772f4b47095b518a41b972da",
+  "pending_current_Afui_tree": "4de54b9a4a7745d447996f7b20886ef955ae45d8",
+  "production_go": false
+}

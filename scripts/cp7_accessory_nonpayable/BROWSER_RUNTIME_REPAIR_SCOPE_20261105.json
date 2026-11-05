@@ -1,0 +1,43 @@
+{
+  "classification": "PRE_DATABASE_BROWSER_RUNTIME_REPAIR_PREPARATION_NO_NEW_ERP_ACCEPTANCE",
+  "original_run": {
+    "id": 41878688074,
+    "head": "92a376091a1d1ea9901648e614f3e5212677a81f",
+    "conclusion": "failure",
+    "verified_Native_case_Originals": 9,
+    "verified_HTTP_case_Originals": 2,
+    "verified_race_case_Originals": 2,
+    "actual_browser_cases": 0
+  },
+  "actual_failures": [
+    "PLAYWRIGHT_TEST_NOT_INSTALLED_IN_ACTUAL_AUDITOR_HOST_ROOT",
+    "EIGHT_GB_STATE_SINGLE_UPLOAD_EXCEEDED_FIXED_UPLOAD_DEADLINE"
+  ],
+  "fixes": [
+    "PINNED_NPM_CI_IN_BOTH_CHECKOUT_ROOTS_AND_ACTUAL_DESKTOP_MOBILE_LAUNCH_BEFORE_DATABASE",
+    "LOSSLESS_ORIGINAL_OBJECT_GRAPH_CACHE_WITH_COMPLETE_CANONICAL_JSON_BYTE_PROOF",
+    "BOUNDED_GZIP_PARTS_WITH_COMPLETE_ORIGINAL_AND_COMPRESSED_REASSEMBLY_HASHES"
+  ],
+  "local_preparation_controls": {
+    "python": 33,
+    "node_transport": 12
+  },
+  "actual_eight_GB_read_only_reconstruction_and_fresh_cache_measurement": "PENDING",
+  "prepared_branch_browser_job": "DATABASE_FREE_ONLY_OWNING_FINANCIAL_JOB_SKIPPED",
+  "original_financial_branch": "astra-a/afui-good-nonpayable-20261102",
+  "original_financial_branch_head_unchanged": true,
+  "Native_SQL_financial_case_definitions_and_role_contracts_changed": false,
+  "job_work_recovery_artifact_minutes": [
+    360,
+    330,
+    20,
+    10
+  ],
+  "actual_new_SQL_executed": 0,
+  "actual_new_Native_cases": 0,
+  "actual_new_browser_cases": 0,
+  "actual_Afui15_acceptance": false,
+  "actual_Mandor_admission": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

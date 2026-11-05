@@ -1,0 +1,30 @@
+{
+  "classification": "OWNING_RUNTIME_AND_PACKET_PROTOCOL_PREPARATION_NOT_ACTUAL_ERP",
+  "runtime_entry": "scripts/current-sku-automatic-composite-preparation/qualification.py",
+  "owning_entry_import_and_output_methods": 9,
+  "retained_native25_routing_methods": 6,
+  "packet_protocol_methods": 5,
+  "retained_money_bridge_and_original_ten_gates_unchanged": true,
+  "all_five_owning_gates_unset": true,
+  "one_owning_Native25_plan_prepared": true,
+  "current_Mandor_Root_and_money_source_graph_intake_pending": true,
+  "complete_Afui_case_output_source": {
+    "head": "92a376091a1d1ea9901648e614f3e5212677a81f",
+    "bytes": 6200,
+    "sha256": "53cad5f461603efbf84533d6c5804612901137d495af59a0de942f7df52baca5"
+  },
+  "complete_original_copy_source": {
+    "head": "92a376091a1d1ea9901648e614f3e5212677a81f",
+    "bytes": 5802,
+    "sha256": "32e1115a6ed459831799db193e9de09fe6d9fa008e2c55a9fe44a1dd991eeb55"
+  },
+  "first_packet_model_failure_retained": "GATE_FIRST.stderr: aliased source dictionary in model fixture, validator unchanged",
+  "actual_ERP_cases": 0,
+  "actual_Auth_HTTP_cases": 0,
+  "active_workflow_added": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "decorated_contextmanager_function_cell_bound_to_owning_globals": true,
+  "actual_scoped_print_adapter_output_directory_and_bytes_verified": true,
+  "first_scoped_binding_defect_found_before_financial_activation": true
+}

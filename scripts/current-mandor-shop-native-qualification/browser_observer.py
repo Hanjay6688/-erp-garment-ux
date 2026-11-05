@@ -21,8 +21,15 @@ def originals():
     for name,env in(('MANDOR_BROWSER_FIXTURE.json','MANDOR_BROWSER_FIXTURE_SHA256'),
             ('MANDOR_BROWSER_STATE.json','MANDOR_BROWSER_STATE_SHA256')):
         path=ROOT/'cp6-proof/t3'/name;require(not path.is_symlink(),'MANDOR_BROWSER_NO_INPUT_SYMLINK')
-        data=path.read_bytes();require(sha256(data).hexdigest()==os.environ[env],'MANDOR_BROWSER_EXACT_OWNING_ORIGINAL')
-        docs.append(json.loads(data))
+        if name=='MANDOR_BROWSER_STATE.json':
+            state_path=ROOT/'scripts/current-mandor-afui-preparation/state_io.py'
+            import importlib.util
+            spec=importlib.util.spec_from_file_location('mandor_complete_browser_state',state_path)
+            state_io=importlib.util.module_from_spec(spec);spec.loader.exec_module(state_io)
+            docs.append(state_io.read(path,os.environ[env],os.environ['MANDOR_BROWSER_STATE_CACHE_SHA256']))
+        else:
+            data=path.read_bytes();require(sha256(data).hexdigest()==os.environ[env],'MANDOR_BROWSER_EXACT_OWNING_ORIGINAL')
+            docs.append(json.loads(data))
     fixture,state=docs
     require(fixture['contract']=='cp7.mandor-shop-access-fixture.v1'
         and fixture['same_GOOD_source_reused_without_policy_mutation']is True,

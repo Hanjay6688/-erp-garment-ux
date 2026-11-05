@@ -1,0 +1,37 @@
+{
+  "Global_SQL_callbacks_installers_authority_unchanged": true,
+  "actual_ERP_cases": 0,
+  "actual_combined_SKU_Root_adopted": false,
+  "all_eight_Global_gates_unset": true,
+  "base_Global_public_head": "a040b67b8ce41da21e9acf7c7c288c8ad4198f58",
+  "classification": "EXACT_CURRENT_AFUI_MANDOR_SKU_GLOBAL_SOURCE_INTEGRATION_NOT_RUNTIME",
+  "complete_actual_catalogue_and_writer_review_pending": true,
+  "complete_current_SKU_delta_paths": 148,
+  "controls": {
+    "INSTALLER_AND_UI_CONTROLS": {
+      "bytes": 1934,
+      "passed": 10,
+      "sha256": "a00122aee03b05dbd86e4c894d36c1b5ab42aea8a853a858c926548491c8f508"
+    },
+    "PARENT_SOURCE_CONTROLS": {
+      "bytes": 939,
+      "passed": 5,
+      "sha256": "912c6aafacd2cbe9837d351fc578a0ee79f0bde778aa1986108fdbbcbbfb7ccf"
+    }
+  },
+  "current_Mandor_delta_paths": 78,
+  "current_SKU_preparation_namespace_files": 70,
+  "current_prepared_SKU_head": "4497b2331ca1f058c97432424084eb1263c1236a",
+  "current_prepared_SKU_tree": "e4cc993361d3c51daaafe696a864b51bb04346ea",
+  "first_old_parent_fence_error": "GLOBAL_AUTOMATIC_UNDECLARED_PARENT_CHANGE:.github/workflows/cp7-afui-good-nonpayable.yml",
+  "first_refusal_stderr": {
+    "bytes": 955,
+    "sha256": "0cffb17dda39b7b70ca19ceb8fb43fd3ae4b6b889cd68fe28697b1bbecd469ad"
+  },
+  "new_source_control_methods": 5,
+  "own_source_and_closed_installer_controls_passed": 15,
+  "production_go": false,
+  "relation_lower_bound_only": 276,
+  "unchanged_Graph_PG17_models_and_trigger_parser_controls_reused_for_exact_SQL": true,
+  "upstream_Mandor21_and_SKU74_source_controls_reused_for_exact_current_source": true
+}

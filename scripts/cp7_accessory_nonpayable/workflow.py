@@ -9,8 +9,11 @@ ROOT=HERE.parents[1]
 NS='scripts/cp7_accessory_nonpayable/'
 WORKFLOW='.github/workflows/cp7-afui-good-nonpayable.yml'
 BRANCH='astra-a/afui-good-nonpayable-20261102'
+PREPARATION_BRANCH='astra-a/afui-browser-runtime-prepared-20261105'
 TEMPLATE='afui15.workflow.yml.txt'
 ROUTED=(0,2,62,63,64,69,72,73,74)
+ADDED=(65,66,72)
+UPLOADER='ea165f8d65b6e75b540449e92b4886f43607fa02'
 
 def load(name,path):
     spec=importlib.util.spec_from_file_location(name,path)
@@ -25,7 +28,7 @@ def derive():
         raise ValueError('NONPAYABLE_EXACT_ORIGINAL_SUPERVISED_75_STEP_WORKFLOW_REQUIRED')
     value['name']='CP7 A Afui GOOD date nonpayable full15'
     from cp7_accessory_nonpayable import ui_derivation
-    value['on']['push']=dict(branches=[BRANCH],paths=[WORKFLOW,NS+'**',
+    value['on']['push']=dict(branches=[BRANCH,PREPARATION_BRANCH],paths=[WORKFLOW,NS+'**',
         *sorted(ui_derivation.CHANGED|ui_derivation.ADDED)])
     value['concurrency']['group']='cp7-afui-good-nonpayable15-single-owning-qualification'
     job=value['jobs']['p21'];job['name']='Afui Native9 Auth2 session2 browser2; complete restoration'
@@ -43,13 +46,13 @@ def derive():
         run='python -B '+NS+'fetch_parent.py\n')
     steps[63]=dict(name='Check complete Afui source and prepared owning workflow before database',
         **{'working-directory':'auditor'},
-        run='set -euo pipefail\npython -B '+NS+'workflow.py --check\npython -B '+NS+'qualification.py --check-static\n')
+        run='set -euo pipefail\npython -B '+NS+'workflow.py --check\n'
+            'python -B '+NS+'qualification.py --check-static\nnode --test '+NS+'durable_action.test.mjs\n')
     steps[64]=dict(name='Admit actual FREE3 and whole Afui graph under database network fence',
         **{'working-directory':'writer'},
         run='python -B ../auditor/'+NS+'qualification.py --check\npython -B ../auditor/scripts/current-de-free-date-preparation/attempt_policy.py --require-window\n')
-    steps[69]=dict(name='Run current Afui15 once with owning full restoration and packet gate',
-        **{'working-directory':'writer'},
-        run="python -u -B '../auditor/"+NS+"runtime_supervisor.py'\npython -B '../auditor/"+NS+"final_gate.py'\n")
+    steps[69]=dict(name='Run current Afui15 once and retain complete Originals during owning restoration',
+        uses='./auditor/'+NS,**{'with':{'mode':'runtime'}})
     for old,new in(('CP7_CURRENT_COMPLETE_DE_FREE_DATE_NATIVE3','CP7_AFUI_GOOD_NONPAYABLE_FULL15'),
         ('FREE_DATE_FINAL_GATE','AFUI_FINAL_GATE'),('DE30_PARENT_ORIGINAL_ADMISSION','FREE3_PARENT_ORIGINAL_ADMISSION'),
         ('FREE_DATE_RUNTIME_SUPERVISION','AFUI_RUNTIME_SUPERVISION')):
@@ -72,11 +75,55 @@ def derive():
     if(job['timeout-minutes']!=360 or steps[1]!=before[1]or value['permissions']!=original['permissions']
         or value['concurrency'].get('cancel-in-progress')is not False):
         raise ValueError('NONPAYABLE_ORIGINAL_BUDGET_CHECKOUT_AUTHORITY_AND_SINGLE_JOB_GUARDS_REQUIRED')
+    # Pin the same official uploader already used by the final packet. The
+    # preflight upload must succeed before the original database provisioning.
+    if steps[74]['uses']!='actions/upload-artifact@'+UPLOADER:
+        raise ValueError('NONPAYABLE_SAME_EXACT_OFFICIAL_UPLOADER_REQUIRED')
+    routed_parent_steps=deepcopy(steps)
+    steps[65:65]=[
+        dict(name='Checkout the exact official complete-original uploader',uses=steps[1]['uses'],
+            **{'with':{'repository':'actions/upload-artifact','ref':UPLOADER,
+                'path':'afui-artifact-uploader','persist-credentials':False,'fetch-depth':1}}),
+        dict(name='Confirm actual artifact transport before creating the database',
+            uses='./auditor/'+NS,**{'with':{'mode':'preflight'}})]
+    steps.insert(72,dict(name='Require complete Afui15 and full restoration in the final packet gate',
+        **{'working-directory':'writer'},run='python -B ../auditor/'+NS+'final_gate.py\n'))
+    if len(steps)!=78 or [step for i,step in enumerate(steps)if i not in ADDED]!=routed_parent_steps:
+        raise ValueError('NONPAYABLE_THREE_EXACT_RETENTION_STEPS_REQUIRED')
+    retained78=deepcopy(steps)
+    steps[65:65]=[
+        dict(name='Install pinned browser dependencies in both actual checkout roots',shell='bash',
+            run='set -euo pipefail\nfor checkout in auditor writer; do\n'
+                '  npm ci --include=dev --prefix "$checkout"\ndone\n'
+                '(cd auditor && npx --no-install playwright install --with-deps chromium)\n'
+                '(cd writer && npx --no-install playwright install chromium)\n'),
+        dict(name='Open actual desktop and mobile browsers and compile candidate before database',
+            run='node auditor/'+NS+'browser_prerequisites.mjs "$GITHUB_WORKSPACE"\n')]
+    if len(steps)!=80 or [step for i,step in enumerate(steps)if i not in(65,66)]!=retained78:
+        raise ValueError('NONPAYABLE_ONLY_TWO_PRE_DATABASE_BROWSER_PREREQUISITES_ALLOWED')
+    checkout='actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683'
+    value['jobs']['browser_prerequisites_only']=dict(
+        name='Actual browser prerequisites only; no database or ERP cases',
+        **{'if':"github.ref == 'refs/heads/"+PREPARATION_BRANCH+"'",'runs-on':'ubuntu-latest',
+            'timeout-minutes':25,'steps':[
+                dict(uses=checkout,**{'with':{'path':'auditor','fetch-depth':0,'persist-credentials':False}}),
+                dict(uses=checkout,**{'with':{'path':'writer','fetch-depth':0,'persist-credentials':False}}),
+                dict(uses='actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020',**{'with':{'node-version':'22'}}),
+                deepcopy(steps[65]),deepcopy(steps[66]),
+                dict(uses='actions/upload-artifact@'+UPLOADER,**{'if':'always()',
+                    'with':{'name':'afui-browser-prerequisites-only-${{ github.run_attempt }}',
+                        'path':'auditor/cp6-proof/t3/AFUI_BROWSER_PREREQUISITES.json',
+                        'retention-days':30,'if-no-files-found':'error'}})]})
     text=yaml.safe_dump(value,sort_keys=False,allow_unicode=True)
     if yaml.safe_load(text)!=value:raise ValueError('NONPAYABLE_EXACT_WORKFLOW_YAML_ROUNDTRIP_REQUIRED')
     return text,dict(status='AFUI15_WORKFLOW_DATA_ONLY_NOT_ACTIVATED',parent_derivation=prior,
         parent_template_sha256=sha256(raw.encode()).hexdigest(),unchanged_parent_steps=66,routed_parent_steps=9,
-        steps=75,job_minutes=360,monotonic_job_start_before_checkout=True,real_WIB_policy_unchanged=True,
+        steps=80,added_transport_steps=3,added_browser_prerequisite_steps=2,
+        preparation_branch_database_free_browser_job=True,owning_financial_branch_guard_unchanged=True,
+        all_current78_steps_retained=True,actual_browser_launch_before_database=True,
+        monotonic_job_start_before_checkout=True,job_minutes=360,
+        official_uploader=UPLOADER,complete_original_upload_before_database=True,
+        runtime_supervisor_and_full_final_gate_retained=True,real_WIB_policy_unchanged=True,
         runtime_dispatches=0,actual_ERP_cases=0,production_go=False,independent_acceptance=False)
 
 def admit_source(manifest):
