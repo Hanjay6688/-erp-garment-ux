@@ -77,9 +77,9 @@ def fixture_progress_preflight():
     from cp7_accessory_nonpayable.test_progress import ProgressControls
     output=io.StringIO();result=unittest.TextTestRunner(stream=output,verbosity=0).run(
         unittest.defaultTestLoader.loadTestsFromTestCase(ProgressControls))
-    if result.testsRun!=4 or not result.wasSuccessful()or result.skipped or result.expectedFailures:
+    if result.testsRun!=5 or not result.wasSuccessful()or result.skipped or result.expectedFailures:
         raise ValueError('NONPAYABLE_BOUNDED_PROGRESS_PREFLIGHT_FAILED:'+output.getvalue())
-    return dict(status='BOUNDED_PHASE_RECEIPTS_PRESERVE_RESULTS_ERRORS_AND_CLEANUP',tests_run=4,
+    return dict(status='BOUNDED_PHASE_RECEIPTS_PRESERVE_RESULTS_ERRORS_AND_CLEANUP',tests_run=5,
         new_timers_or_workers=0,actual_SQL_executed=0,actual_Native_cases=0)
 
 def fixture_report_io_preflight():

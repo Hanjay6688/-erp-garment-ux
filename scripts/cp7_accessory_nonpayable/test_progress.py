@@ -1,11 +1,33 @@
 """Diagnostic controls only; no ERP case, source fixture or clock is changed."""
 from contextlib import redirect_stdout
 from unittest.mock import patch
-import io,json,unittest
+import ast,io,json,unittest
+from pathlib import Path
 from cp7_accessory_nonpayable import progress
 
 
 class ProgressControls(unittest.TestCase):
+    def test_every_actual_qualifier_phase_enters_the_real_guard_before_database_setup(self):
+        here=Path(__file__).resolve().parent;declared=set()
+        for name in ('qualification.py','qualification_component.py'):
+            for node in ast.walk(ast.parse((here/name).read_bytes())):
+                if(isinstance(node,ast.Call)and isinstance(node.func,ast.Attribute)
+                    and isinstance(node.func.value,ast.Name)and node.func.value.id=='progress'
+                    and node.func.attr=='phase'):
+                    self.assertTrue(node.args and isinstance(node.args[0],ast.Constant))
+                    self.assertIs(type(node.args[0].value),str);declared.add(node.args[0].value)
+        self.assertIn('COMPLETE_STATE_PREREQUISITE',declared)
+        self.assertEqual(declared,progress.PHASES)
+        output=io.StringIO();entered=[]
+        with redirect_stdout(output):
+            for name in sorted(declared):
+                with progress.phase(name):entered.append(name)
+        self.assertEqual(entered,sorted(declared))
+        rows=[json.loads(line)for line in output.getvalue().splitlines()]
+        self.assertEqual([(row['phase'],row['afui_progress'])for row in rows],
+            [(name,event)for name in sorted(declared)for event in ('ENTER','RETURNED')])
+        self.assertTrue(all(row['diagnostic_only']is True for row in rows))
+
     def test_small_phase_receipts_do_not_relabel_business_acceptance(self):
         output=io.StringIO();ran=[]
         with redirect_stdout(output):

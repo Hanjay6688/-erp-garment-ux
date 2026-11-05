@@ -1,3 +1,33 @@
+# Current74e parent and three selected B display fixes, 5 November
+
+This prepared candidate now contains all43 exact current Afui delta paths and
+exactly the three previously reviewed B display files. Its complete656-file
+src tree equals the B-tested tree15dc4bde83e1ac74871f8d4aaf005e9e36445aeb;
+all seven root build configuration blobs match that same approved source.
+No whole B branch is merged. The two conditional HPP labels remain unchanged
+until actual GradeA variant/location moving-average backend acceptance.
+
+The complete source fence explicitly binds the immutable approved B head/tree,
+before/after src trees, all three before/after blobs and every file byte.
+Every other parent source remains under the original complete equality check.
+Four new negative/positive controls refuse an extra UI file, missing build
+input, changed before/after blob and changed live UI byte. Twenty preparation
+controls pass. Existing14 transport controls are reused because all five
+transport/cache source files remain byte exact. Both RPC lines and complete
+mutation handler blocks in the two TSX files remain exact. All99 financial
+source files remain byte exact; no SQL, permission, UUID, recovery or actor
+contract changes.
+
+Both actual admission families remain closed. The immutable pending parent is
+74e; its first run42014375739 stopped at the genuine six-hour WIB runtime-window
+check before executing any Afui transaction. Actual Afui15/all-five/outer
+recovery acceptance is still required before Native17. Full runtime source
+materialization and a deliberately bound owning84-step workflow remain required.
+These source and UI checks grant no financial or independent acceptance.
+Historical preparation records below preserve their original status.
+
+---
+
 # Current c790 preparation, 5 November
 
 Afui215 ended after its hosted runner lost communication. Its underlying cause
