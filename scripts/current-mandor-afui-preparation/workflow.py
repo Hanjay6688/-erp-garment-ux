@@ -52,7 +52,7 @@ def derive(raw=None):
         **{'working-directory': 'auditor'}, env={'GH_TOKEN': '${{ github.token }}'},
         run='python -B ' + NS + 'fetch_parent.py\n')
     steps[63] = dict(name='Verify complete current Mandor source, transport and owning workflow before database',
-        **{'working-directory': 'auditor'}, run='set -euo pipefail\npython -B ' + OWN + 'workflow.py --check\n'
+        **{'working-directory': 'auditor'}, run='set -euo pipefail\npython -B ' + OWN + 'workflow.py --check-owning\n'
             'python -B ' + OWN + 'transport.py --check\npython -B ' + OWN + 'check_source.py\n'
             '(cd ../qualified-afui-parent && python -B scripts/cp7_accessory_nonpayable/qualification.py --check-static)\n'
             'node --test ' + OWN + 'durable_action.test.mjs\n')
@@ -106,14 +106,44 @@ def derive(raw=None):
         workflow_dispatches=0, actual_ERP_cases=0, production_go=False, independent_acceptance=False)
 
 
-def check():
+def load_admission(name, path):
+    require(path.is_file() and not path.is_symlink(), 'MANDOR84_EXACT_ADMISSION_SOURCE_REQUIRED')
+    spec = importlib.util.spec_from_file_location(name, path)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def check(*, owning=False):
     text, proof = derive()
     require(TEMPLATE.is_file() and not TEMPLATE.is_symlink() and TEMPLATE.read_bytes() == text.encode(),
             'MANDOR84_EXACT_REVIEWABLE_COMPLETE_TEMPLATE')
-    require(not ACTIVE.exists() and not ACTIVE.is_symlink(), 'MANDOR84_ACTUAL_AFUI_ADOPTION_AND_SOURCE_FENCE_REBINDING_PENDING')
-    return proof
+    if not owning:
+        require(not ACTIVE.exists() and not ACTIVE.is_symlink(), 'MANDOR84_ACTUAL_AFUI_ADOPTION_AND_SOURCE_FENCE_REBINDING_PENDING')
+        return proof
+
+    require(ACTIVE.is_file() and not ACTIVE.is_symlink() and ACTIVE.read_bytes() == text.encode(),
+            'MANDOR84_EXACT_ACTIVE_OWNING_WORKFLOW_REQUIRED')
+    qualifier = ROOT / NS
+    root = qualifier / 'AFUI15_PARENT_ROOT_ACTUAL_INTAKE.json'
+    require(root.is_file() and not root.is_symlink(), 'MANDOR84_ACTUAL_AFUI_ROOT_REQUIRED')
+    raw = root.read_bytes()
+    caller = load_admission('mandor_owning_caller_admission', qualifier / 'admission.py')
+    component = load_admission('mandor_owning_component_admission', ROOT / 'scripts/cp7_mandor_shop/admission.py')
+    receipt = caller.parent(raw)
+    require(component.runtime_admission(raw) == receipt
+            and caller.RUNTIME_ENTRY == component.RUNTIME_ENTRY == NS + 'qualification.py',
+            'MANDOR84_EXACT_SHARED_PARENT_ROOT_AND_CALLER_REQUIRED')
+    return dict(status='CURRENT_MANDOR84_EXACT_OWNING_WORKFLOW_AND_PARENT_CHECKED',
+                owning_workflow_sha256=sha256(text.encode()).hexdigest(),
+                parent_head=receipt['head'], parent_run=receipt['run_id'], parent_job=receipt['job_id'],
+                actual_ERP_cases=0, production_go=False, independent_acceptance=False)
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser();parser.add_argument('--check', action='store_true', required=True);parser.parse_args()
-    print(json.dumps(check(), sort_keys=True))
+    parser = argparse.ArgumentParser()
+    mode = parser.add_mutually_exclusive_group(required=True)
+    mode.add_argument('--check', action='store_true')
+    mode.add_argument('--check-owning', action='store_true')
+    args = parser.parse_args()
+    print(json.dumps(check(owning=args.check_owning), sort_keys=True))

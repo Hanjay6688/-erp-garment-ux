@@ -491,7 +491,7 @@ jobs:
       working-directory: auditor
       run: 'set -euo pipefail
 
-        python -B scripts/current-mandor-afui-preparation/workflow.py --check
+        python -B scripts/current-mandor-afui-preparation/workflow.py --check-owning
 
         python -B scripts/current-mandor-afui-preparation/transport.py --check
 
