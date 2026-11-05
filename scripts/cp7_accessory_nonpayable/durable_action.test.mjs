@@ -6,10 +6,55 @@ import path from 'node:path';
 import os from 'node:os';
 import {EventEmitter} from 'node:events';
 import {fileURLToPath} from 'node:url';
-import {childEnvironment, command, digest, ownRuntime, originalLabel, outputs, snapshot} from './durable_action.mjs';
+import {gunzipSync} from 'node:zlib';
+import {randomBytes,createHash} from 'node:crypto';
+import {childEnvironment, command, digest, ownRuntime, originalLabel, outputs, snapshot, snapshotLargeState} from './durable_action.mjs';
 
 const receipt = {artifact_id: '123', artifact_sha256: 'd'.repeat(64)};
 const identity = {qualification_commit: 'c'.repeat(40), github_run_id: '1234', github_run_attempt: '1'};
+
+test('large full state parts reassemble both compressed and complete original bytes without new case credit', async () => fixture(async f => {
+  const name = 'AFUI_BROWSER_SETTINGS_STATE.json', source = path.join(f.cases, name);
+  const raw = Buffer.from(JSON.stringify({all_fields: randomBytes(18000).toString('hex'),rows:[1,2,3]}) + '\n');
+  await fs.writeFile(source, raw);
+  const parts = await snapshotLargeState(source, path.join(f.staging, 'large'), identity, {partBytes: 4096});
+  assert.ok(parts.length > 1);const buffers = [];
+  for (const [i,part] of parts.entries()) {
+    const manifest = JSON.parse(await fs.readFile(path.join(part.directory,'MANIFEST.json'),'utf8'));
+    const bytes = await fs.readFile(path.join(part.directory,part.payload));buffers.push(bytes);
+    assert.equal(manifest.part.number,i+1);assert.equal(manifest.part.offset,i*4096);assert.ok(bytes.length<=4096);
+    assert.equal(manifest.part.sha256,createHash('sha256').update(bytes).digest('hex'));
+    assert.deepEqual(manifest.original,await digest(source));assert.equal(manifest.actual_case_credit,0);
+    assert.equal(manifest.full_restore_verified,false);assert.equal(manifest.production_go,false);
+    assert.equal(manifest.classification,'INCOMPLETE_RUN_ORIGINAL_GZIP_PART_ONLY_NOT_ACCEPTANCE');
+  }
+  const compressed=Buffer.concat(buffers);assert.deepEqual(gunzipSync(compressed),raw);
+  assert.deepEqual(parts[0].manifest.compressed_original,{name:name+'.gz',bytes:compressed.length,
+    sha256:createHash('sha256').update(compressed).digest('hex')});
+  assert.deepEqual(await fs.readFile(source),raw);
+}));
+
+test('large state path and connector byte bounds refuse before staging', async () => fixture(async f => {
+  const other=path.join(f.cases,'other.json');await fs.writeFile(other,'{}');
+  await assert.rejects(snapshotLargeState(other,path.join(f.staging,'other'),identity),/EXACT_LARGE_STATE/);
+  const source=path.join(f.cases,'AFUI_BROWSER_SETTINGS_STATE.json');await fs.writeFile(source,'{}');
+  for(const partBytes of [0,400*1024*1024+1])
+    await assert.rejects(snapshotLargeState(source,path.join(f.staging,'invalid'),identity,{partBytes}),/BOUNDED_PART_BYTES/);
+  assert.deepEqual(await fs.readdir(f.staging),[]);
+}));
+
+test('large state uses already compressed uploads and a mutated uploaded part still fails closed', async () => fixture(async f => {
+  const source=path.join(f.cases,'AFUI_BROWSER_SETTINGS_STATE.json');const file=await fs.open(source,'wx');
+  await file.truncate(64*1024*1024+1);await file.close();let calls=0;
+  const result=await ownRuntime({worker:{program:process.execPath,args:['-e','setTimeout(()=>{},25)'],cwd:f.root,env:process.env},
+    caseDirectory:f.cases,staging:f.staging,identity,pollMs:5,signalSource:new EventEmitter(),
+    upload:async(directory,label,signal,level)=>{calls++;assert.equal(level,0);
+      const manifest=JSON.parse(await fs.readFile(path.join(directory,'MANIFEST.json'),'utf8'));
+      await fs.appendFile(path.join(directory,manifest.part.name),'changed after snapshot');return receipt;}});
+  assert.equal(calls,1);assert.equal(result.status,'INCOMPLETE');assert.equal(result.errors.length,1);
+  assert.match(result.errors[0].error,/STAGED_ORIGINAL_CHANGED_DURING_UPLOAD/);
+  assert.equal(result.actual_case_credit,0);
+}));
 async function fixture(fn) {
   const root = await fs.mkdtemp(path.join(os.tmpdir(), 'afui-durable-control-'));
   try {

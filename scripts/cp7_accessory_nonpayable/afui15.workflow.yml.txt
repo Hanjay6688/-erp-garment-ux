@@ -3,6 +3,7 @@ name: CP7 A Afui GOOD date nonpayable full15
   push:
     branches:
     - astra-a/afui-good-nonpayable-20261102
+    - astra-a/afui-browser-runtime-prepared-20261105
     paths:
     - .github/workflows/cp7-afui-good-nonpayable.yml
     - scripts/cp7_accessory_nonpayable/**
@@ -497,6 +498,17 @@ jobs:
         --require-window
 
         '
+    - name: Install pinned browser dependencies in both actual checkout roots
+      shell: bash
+      run: "set -euo pipefail\nfor checkout in auditor writer; do\n  npm ci --include=dev\
+        \ --prefix \"$checkout\"\ndone\n(cd auditor && npx --no-install playwright\
+        \ install --with-deps chromium)\n(cd writer && npx --no-install playwright\
+        \ install chromium)\n"
+    - name: Open actual desktop and mobile browsers and compile candidate before database
+      run: 'node auditor/scripts/cp7_accessory_nonpayable/browser_prerequisites.mjs
+        "$GITHUB_WORKSPACE"
+
+        '
     - name: Checkout the exact official complete-original uploader
       uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       with:
@@ -631,3 +643,40 @@ jobs:
         retention-days: 30
         if-no-files-found: error
     if: github.ref == 'refs/heads/astra-a/afui-good-nonpayable-20261102'
+  browser_prerequisites_only:
+    name: Actual browser prerequisites only; no database or ERP cases
+    if: github.ref == 'refs/heads/astra-a/afui-browser-runtime-prepared-20261105'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      with:
+        path: auditor
+        fetch-depth: 0
+        persist-credentials: false
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      with:
+        path: writer
+        fetch-depth: 0
+        persist-credentials: false
+    - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+      with:
+        node-version: '22'
+    - name: Install pinned browser dependencies in both actual checkout roots
+      shell: bash
+      run: "set -euo pipefail\nfor checkout in auditor writer; do\n  npm ci --include=dev\
+        \ --prefix \"$checkout\"\ndone\n(cd auditor && npx --no-install playwright\
+        \ install --with-deps chromium)\n(cd writer && npx --no-install playwright\
+        \ install chromium)\n"
+    - name: Open actual desktop and mobile browsers and compile candidate before database
+      run: 'node auditor/scripts/cp7_accessory_nonpayable/browser_prerequisites.mjs
+        "$GITHUB_WORKSPACE"
+
+        '
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      if: always()
+      with:
+        name: afui-browser-prerequisites-only-${{ github.run_attempt }}
+        path: auditor/cp6-proof/t3/AFUI_BROWSER_PREREQUISITES.json
+        retention-days: 30
+        if-no-files-found: error

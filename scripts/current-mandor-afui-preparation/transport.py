@@ -11,10 +11,10 @@ import json
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
 ORIGINAL = ROOT / 'scripts/cp7_accessory_nonpayable/durable_action.mjs'
-PIN = dict(bytes=13814, sha256='4cdb05df0247e860edb76f2f62ce8e28b44e9f6d99e89d622a69b7a4a6b1a8ce')
+PIN = dict(bytes=17776, sha256='0cf5f82d9f19d6c143be121f226bb9694e6f28ec304f34d370e132b682737598')
 NAMES = ('CP7_FG_MANDOR_NATIVE9_STRICT.json', 'CP7_FG_MANDOR_NATIVE9_STRICT_BUSINESS_DAY_FIRST_ATTEMPT.json',
          'CP7_FG_MANDOR_NATIVE9.json', 'MANDOR_SESSION4_ORIGINAL.json', 'MANDOR_HTTP2_ORIGINAL.json',
-         'MANDOR_BROWSER_FIXTURE.json', 'MANDOR_BROWSER_STATE.json', 'MANDOR_BROWSER2_ORIGINAL.json')
+         'MANDOR_BROWSER_FIXTURE.json', 'MANDOR_BROWSER_STATE.json', 'MANDOR_BROWSER_STATE_CACHE.json', 'MANDOR_BROWSER2_ORIGINAL.json')
 
 
 def require(value, message):
@@ -35,7 +35,7 @@ def derive(raw=None):
         ("await regular(caseDirectory, true); entries = await fs.readdir(caseDirectory)",
          "await regular(observedDirectory, true); entries = await fs.readdir(observedDirectory)"),
         ("if (e.code === 'ENOENT') return; throw e;", "if (e.code === 'ENOENT') continue; throw e;"),
-        ("snapshot(path.join(caseDirectory, name), directory, identity)", "snapshot(path.join(observedDirectory, name), directory, identity)"),
+        ("const source = path.join(caseDirectory, name), directory =", "const source = path.join(observedDirectory, name), directory ="),
         ("      const label = originalLabel(name);", "      if (observedDirectory !== caseDirectory && /^CP7_FG_MANDOR_NATIVE9_STRICT(?:_BUSINESS_DAY_FIRST_ATTEMPT)?\\.json$/.test(name)) continue;\n      const label = originalLabel(name);"),
         ("    }\n  };\n  const watcher =", "    }\n    }\n  };\n  const watcher ="),
         ("auditor/scripts/cp7_accessory_nonpayable", "auditor/scripts/current-mandor-afui-preparation"),
@@ -44,6 +44,12 @@ def derive(raw=None):
         ("caseDirectory: path.join(c.out, 'AFUI_CASE_STDOUT')", "caseDirectory: path.join(c.out, 'MANDOR_CASE_STDOUT')"),
         ("'afui-original-' + run", "'mandor-original-' + run"),
         ("'AFUI_DURABLE_RUNTIME.json'", "'MANDOR_DURABLE_RUNTIME.json'"),
+    )
+    routes += (
+        ("requireValue(name === 'AFUI_BROWSER_SETTINGS_STATE.json' && Number.isSafeInteger(partBytes)",
+         "requireValue(['AFUI_BROWSER_SETTINGS_STATE.json','MANDOR_BROWSER_STATE.json'].includes(name) && Number.isSafeInteger(partBytes)"),
+        ("const large = name === 'AFUI_BROWSER_SETTINGS_STATE.json' &&",
+         "const large = ['AFUI_BROWSER_SETTINGS_STATE.json','MANDOR_BROWSER_STATE.json'].includes(name) &&"),
     )
     for before, after in routes:
         require(text.count(before) == 1 and after not in text, 'MANDOR_TRANSPORT_ONE_REVIEWED_SOURCE_ROUTE:' + before)

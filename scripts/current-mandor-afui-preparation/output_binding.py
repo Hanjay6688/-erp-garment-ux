@@ -14,7 +14,7 @@ import os
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
 SOURCES = {
-    'complete_original_io.py': (5802, '32e1115a6ed459831799db193e9de09fe6d9fa008e2c55a9fe44a1dd991eeb55'),
+    'complete_original_io.py': (5848, '93e44e72ed2312fffab4d6905a0241ba75d1fba46d4d2fe5f9c9f40867c1420b'),
     'case_output.py': (6200, '53cad5f461603efbf84533d6c5804612901137d495af59a0de942f7df52baca5'),
 }
 RETENTION = 'scripts/current-mandor-shop-native-qualification/access_cases.py'
@@ -110,7 +110,16 @@ def save_access(value, name):
     require(not path.exists(), 'MANDOR_FIRST_SESSION_ORIGINAL_OVERWRITE_REFUSED')
     path.parent.mkdir(parents=True, exist_ok=True)
     complete = private_module(frozen_source('complete_original_io.py'), dict(finish=finish_exclusive))
-    return complete.save_sorted(path, value, 'MANDOR_FIRST_SESSION_ORIGINAL_OVERWRITE_REFUSED')
+    reference=complete.save_sorted(path, value, 'MANDOR_FIRST_SESSION_ORIGINAL_OVERWRITE_REFUSED')
+    if name=='MANDOR_BROWSER_STATE.json':
+        state_io=load_state_io()
+        state_io.save(value,reference,path.parent)
+    return reference
+
+
+def load_state_io():
+    spec=importlib.util.spec_from_file_location('mandor_current_complete_state_io',HERE/'state_io.py')
+    module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module);return module
 
 
 def function_code(source, path, name):

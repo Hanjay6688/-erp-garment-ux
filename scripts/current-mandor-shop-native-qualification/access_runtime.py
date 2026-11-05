@@ -112,6 +112,7 @@ def browser_environment(report):
     changes=dict(MANDOR_BROWSER_CONFIRM='cp6_auditor_browser',
         MANDOR_BROWSER_FIXTURE_SHA256=report['browser_fixture_original']['sha256'],
         MANDOR_BROWSER_STATE_SHA256=report['browser_state_original']['sha256'],
+        MANDOR_BROWSER_STATE_CACHE_SHA256=report['browser_state_cache_original']['sha256'],
         AUDITOR_BROWSER_CASE_TIMEOUT_MS='600000')
     old={name:os.environ.get(name)for name in changes};os.environ.update(changes)
     try:yield
@@ -136,6 +137,7 @@ def run_browser(product,state,fixture,verify,report):
     report['browser_fixture_original']=save(fixture,'MANDOR_BROWSER_FIXTURE.json')
     report['browser_state_original']=save(state,'MANDOR_BROWSER_STATE.json')
     output=load('mandor_current_complete_access_output',ROOT/'scripts/current-mandor-afui-preparation/output_binding.py')
+    report['browser_state_cache_original']=output.load_state_io().reference(report['browser_state_original'])
     with output.case_scope(modes,'copies',retention=access_cases),copy_scope(modes,product,state)as copies:
         report['browser_copy_authority']=copies
         with browser_environment(report):actual=modes.run_browser(HERE/'browser.mjs',verify,'mandor_current_browser2')

@@ -24,9 +24,11 @@ def main():
     try:
         sys.argv=sys.argv[:1]
         import psycopg
-        from cp7_accessory_nonpayable import access_cases,native_fixture,complete_original_io
+        from cp7_accessory_nonpayable import access_cases,native_fixture,complete_original_io,lossless_state
         refusal='NONPAYABLE_BROWSER_EXACT_ORIGINAL_STATE_AND_NATIVE_FIXTURE_REQUIRED'
-        state=complete_original_io.read_verified_json(ROOT/'cp6-proof/t3/AFUI_BROWSER_SETTINGS_STATE.json',os.environ['AFUI_BROWSER_STATE_SHA256'],refusal)
+        state=lossless_state.read(ROOT/'cp6-proof/t3/AFUI_BROWSER_SETTINGS_STATE_CACHE.json',
+            os.environ['AFUI_BROWSER_STATE_CACHE_SHA256'],ROOT/'cp6-proof/t3/AFUI_BROWSER_SETTINGS_STATE.json',
+            os.environ['AFUI_BROWSER_STATE_SHA256'])
         prepared=complete_original_io.read_verified_json(ROOT/'cp6-proof/t3/AFUI_BROWSER_NATIVE_PREREQUISITE.json',os.environ['AFUI_BROWSER_FIXTURE_SHA256'],refusal)
         if prepared['status']!='ACTUAL_NATIVE_NONPAYABLE_BROWSER_PREREQUISITE_PREPARED':
             raise ValueError('NONPAYABLE_BROWSER_ACTUAL_NATIVE_PREREQUISITE_REQUIRED')

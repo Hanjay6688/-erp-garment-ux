@@ -17,9 +17,9 @@ def load(name):
 
 
 class CurrentWorkflow(unittest.TestCase):
-    def test_current78_chain_has67_unchanged_steps_and82_complete_current_steps(self):
+    def test_current80_chain_has69_unchanged_steps_and84_complete_current_steps(self):
         workflow = load('workflow');text, proof = workflow.derive()
-        self.assertEqual((proof['original_steps'], proof['unchanged_steps'], proof['owning_routes'], proof['total_steps']), (78, 67, 11, 82))
+        self.assertEqual((proof['original_steps'], proof['unchanged_steps'], proof['owning_routes'], proof['total_steps']), (80, 69, 11, 84))
         self.assertEqual(text.encode(), workflow.TEMPLATE.read_bytes())
         self.assertEqual(workflow.check(), proof)
         self.assertIn('current-mandor-afui-preparation/', text)
@@ -34,7 +34,7 @@ class CurrentWorkflow(unittest.TestCase):
                 subject.derive(subject.ORIGINAL.read_bytes() + b'\n')
         text, proof = transport.derive()
         self.assertTrue(proof['entire_original_recovered'])
-        self.assertEqual(proof['reversible_routes'], 14)
+        self.assertEqual(proof['reversible_routes'], 16)
         self.assertEqual(text.encode(), (HERE / 'durable_action.mjs').read_bytes())
 
     def test_returned_native_group_publishes_complete_bytes_and_preserves_first_conflict(self):

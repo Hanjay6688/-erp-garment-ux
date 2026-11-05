@@ -3,8 +3,8 @@ from hashlib import sha256
 
 BASE = 'c296fd06167ddd177e1192c1008992e2a1e3d628'
 BASE_TREE = 'fdd36962a7de81482ccca02e6ff96597cfc20081'
-AFUI = '92a376091a1d1ea9901648e614f3e5212677a81f'
-AFUI_TREE = 'ef194e421402ae1e45625e2d57f58c848ef9e08f'
+AFUI = '21542ca22ad08f366d8f3c69929ca47b2d79b5f5'
+AFUI_TREE = 'cbf06669baba7d820b50b008cb52198fe4c8bc9b'
 PRIOR_AFUI = '76b3f1e1bcce49cc405e55f92a733dcd0f360cad'
 NS = 'scripts/current-mandor-shop-native-qualification/'
 PINS = {
@@ -12,6 +12,8 @@ PINS = {
     'qualification.py': (7161, '3f4bf0cfccbf650240729e01909dcb39b3e88371e59ee14a3bffc5f05934de0b'),
     'component.py': (7956, '31b7626e2488fd4371daa2bf21254583b86299673b91130eb0736778126f5044'),
     'access_runtime.py': (8404, '4718579f49a6ad7cc5b4ac0e229d474a61dfe8e13f0e544b6ecf3ac49699a487'),
+    'browser_observer.py': (3746, '0458e0314827d2ff2b7c1ac13157e7fc34730f7231289b515c29c280594250f4'),
+    'browser_gate.py': (10213, '8b213c1f7bc4232b9edc43471c16e4b0aeb5404c9784359024d9242074a019ad'),
 }
 
 
@@ -49,6 +51,24 @@ def replacements(name):
              "        originals.append(source_record(target))\n",
              "        originals.append(output.copy_exact(path,target))\n"),
         )
+    if name == 'browser_observer.py':
+        return ((
+            "        data=path.read_bytes();require(sha256(data).hexdigest()==os.environ[env],'MANDOR_BROWSER_EXACT_OWNING_ORIGINAL')\n"
+            "        docs.append(json.loads(data))\n",
+            "        if name=='MANDOR_BROWSER_STATE.json':\n"
+            "            state_path=ROOT/'scripts/current-mandor-afui-preparation/state_io.py'\n"
+            "            import importlib.util\n"
+            "            spec=importlib.util.spec_from_file_location('mandor_complete_browser_state',state_path)\n"
+            "            state_io=importlib.util.module_from_spec(spec);spec.loader.exec_module(state_io)\n"
+            "            docs.append(state_io.read(path,os.environ[env],os.environ['MANDOR_BROWSER_STATE_CACHE_SHA256']))\n"
+            "        else:\n"
+            "            data=path.read_bytes();require(sha256(data).hexdigest()==os.environ[env],'MANDOR_BROWSER_EXACT_OWNING_ORIGINAL')\n"
+            "            docs.append(json.loads(data))\n"),)
+    if name == 'browser_gate.py':
+        return ((
+            "    state=pinned(p,directory,part['browser_state_original'],'MANDOR_BROWSER_STATE.json')\n",
+            "    state_io=access_runtime.load('mandor_final_complete_state_io',access_runtime.ROOT/'scripts/current-mandor-afui-preparation/state_io.py')\n"
+            "    state=state_io.verified(p,directory,part['browser_state_original'],part['browser_state_cache_original'])\n"),)
     if name == 'access_runtime.py':
         save = (
             "    path=ROOT/'cp6-proof/t3'/name\n"
@@ -66,7 +86,17 @@ def replacements(name):
                      "    with output.case_scope(modes,'copies',retention=access_cases),copy_scope(modes,product,state)as copies:\n"
                      "        report['" + key + "']=copies\n")
             scoped.append((before, after))
-        return (save, *scoped)
+        state_routes = (
+            ("        MANDOR_BROWSER_STATE_SHA256=report['browser_state_original']['sha256'],\n",
+             "        MANDOR_BROWSER_STATE_SHA256=report['browser_state_original']['sha256'],\n"
+             "        MANDOR_BROWSER_STATE_CACHE_SHA256=report['browser_state_cache_original']['sha256'],\n"),
+            ("    report['browser_state_original']=save(state,'MANDOR_BROWSER_STATE.json')\n"
+             "    output=load('mandor_current_complete_access_output',ROOT/'scripts/current-mandor-afui-preparation/output_binding.py')\n",
+             "    report['browser_state_original']=save(state,'MANDOR_BROWSER_STATE.json')\n"
+             "    output=load('mandor_current_complete_access_output',ROOT/'scripts/current-mandor-afui-preparation/output_binding.py')\n"
+             "    report['browser_state_cache_original']=output.load_state_io().reference(report['browser_state_original'])\n"),
+        )
+        return (save, *scoped, *state_routes)
     raise ValueError('MANDOR_CURRENT_ONLY_REVIEWED_CALLER_SOURCES')
 
 

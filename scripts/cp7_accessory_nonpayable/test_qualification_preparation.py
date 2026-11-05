@@ -4,7 +4,7 @@ from copy import deepcopy
 from types import SimpleNamespace
 from unittest.mock import patch
 import unittest
-from . import assembly,case_boundary as boundary
+from . import assembly,case_boundary as boundary,admission
 
 def sample(*,gap=False):
     groups={k:{}for k in('aggregates','columns','constraints','database_authority','default_privileges','enums',
@@ -80,7 +80,8 @@ class QualificationPreparationControls(unittest.TestCase):
             with self.subTest(mode=mode),self.assertRaises(ValueError):boundary.validate(value,case_id=case,result=result)
 
     def test_assembly_closed_parent_precedes_any_runtime_or_cursor(self):
-        with patch.object(assembly,'runtime',side_effect=AssertionError('RUNTIME_BEFORE_PARENT')):
+        with patch.multiple(admission,PARENT_HEAD=None,PARENT_TREE=None,PARENT_RUN=None,PARENT_JOB=None,PARENT_RECEIPT=None), \
+             patch.object(assembly,'runtime',side_effect=AssertionError('RUNTIME_BEFORE_PARENT')):
             for operation,args in((assembly.install_delta,(object(),{})),(assembly.rollback_delta_preuse,(object(),{}))):
                 with self.subTest(operation=operation.__name__),self.assertRaisesRegex(ValueError,'ACTUAL_FREE3_ROOT_INTAKE_PENDING'):
                     operation(*args)

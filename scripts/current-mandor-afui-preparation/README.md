@@ -1,3 +1,28 @@
+Current 5 November preparation targets immutable Afui `21542ca` (tree `cbf0666`),
+with all 39 exact additive Afui source paths. The current full Afui run is still
+pending; both actual Mandor admission families remain closed. The active
+Native17 workflow remains absent.
+
+The new inactive template derives all 80 current parent steps, preserves 69
+unchanged steps, routes eleven owning operations, and adds the same four
+parent/output steps: 84 total. Both declared browser dependency checks and the
+parent's isolated browser-only job remain intact. Original 360/330/20/10
+budgets, the earliest genuine WIB clock, database cloning and recovery are unchanged.
+The prior 82-step template and its preparation reports remain historical bytes.
+
+The complete current Afui transport is recovered exactly from sixteen explicit
+reversible routes. Its compressed large-state parts also cover the fixed
+Mandor browser-state filename. The additional cache retains every original
+value and original object identity. Six complete caller sources are recovered
+by exact reversible I/O routes; every original assertion, transaction and
+financial case implementation remains in place. Cold browser observation and
+its final gate verify the complete original and cache pins; the final gate
+independently recomputes every canonical JSON byte. No Root is fabricated,
+no Native17 is dispatched, and the successor source fence must be deliberately
+rebound only after genuine Afui15 acceptance.
+
+--- Historical preparation below ---
+
 # Mandor source preparation for the current Afui parent
 
 This successor preserves the complete prepared Mandor/UI candidate `c296fd0`

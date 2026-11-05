@@ -137,7 +137,7 @@ def committed_identity(cur,bc):
         product_permission_grants_added=False,actual_case_credit=0)
 
 def committed_prerequisite(url,state,report,control):
-    from . import assembly,browser_prepare,native_fixture
+    from . import assembly,browser_prepare,native_fixture,lossless_state
     import psycopg
     with psycopg.connect(url,connect_timeout=5)as conn,conn.cursor()as cur:
         local(conn,cur,url)
@@ -159,6 +159,10 @@ def committed_prerequisite(url,state,report,control):
         assembly.verify(cur,state);cur.execute('set constraints all immediate');cur.execute('set constraints all deferred');conn.commit()
         report['browser_fixture_original']=save('AFUI_BROWSER_NATIVE_PREREQUISITE.json',prepared)
         report['browser_settings_state_original']=save('AFUI_BROWSER_SETTINGS_STATE.json',state)
+        cache=ROOT/'cp6-proof/t3/AFUI_BROWSER_SETTINGS_STATE_CACHE.json'
+        report['browser_settings_cache_original']=lossless_state.save(cache,state,report['browser_settings_state_original'])
+        from . import complete_original_io
+        complete_original_io.publish(cache)
         before=native_fixture.observe(cur,SimpleNamespace(bc=bc),prepared['fixture'])
         with control.product_catalog(cur):
             catalog=assembly.runtime()[-1]
@@ -180,6 +184,7 @@ def browser_environment(report):
     changes=dict(AFUI_BROWSER_CONFIRM='cp6_auditor_browser',
         AFUI_BROWSER_FIXTURE_SHA256=report['browser_fixture_original']['sha256'],
         AFUI_BROWSER_STATE_SHA256=report['browser_settings_state_original']['sha256'],
+        AFUI_BROWSER_STATE_CACHE_SHA256=report['browser_settings_cache_original']['sha256'],
         AUDITOR_BROWSER_CASE_TIMEOUT_MS='600000')
     original={name:os.environ.get(name)for name in changes}
     os.environ.update(changes)

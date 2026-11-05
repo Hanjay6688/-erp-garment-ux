@@ -123,7 +123,21 @@ class CompleteOriginalStorage(unittest.TestCase):
         for name, changed in allowed.items():
             old = subprocess.check_output(['git', '-C', str(ROOT), 'show',
                 'e0cfa98382e977933d63e9f828de17a0faba9ef9:scripts/cp7_accessory_nonpayable/' + name])
-            before, after = ast.parse(old), ast.parse((HERE / name).read_bytes())
+            raw=(HERE / name).read_text()
+            if name=='qualification_component.py':
+                routes={
+                    'from . import assembly,browser_prepare,native_fixture,lossless_state':
+                        'from . import assembly,browser_prepare,native_fixture',
+                    "        cache=ROOT/'cp6-proof/t3/AFUI_BROWSER_SETTINGS_STATE_CACHE.json'\n"
+                    "        report['browser_settings_cache_original']=lossless_state.save(cache,state,report['browser_settings_state_original'])\n"
+                    "        from . import complete_original_io\n"
+                    "        complete_original_io.publish(cache)\n":'',
+                    "        AFUI_BROWSER_STATE_CACHE_SHA256=report['browser_settings_cache_original']['sha256'],\n":'',
+                }
+                for route,original_route in routes.items():
+                    self.assertEqual(raw.count(route),1)
+                    raw=raw.replace(route,original_route,1)
+            before, after = ast.parse(old), ast.parse(raw)
             original = {n.name: n for n in before.body if isinstance(n, ast.FunctionDef)}
             current = {n.name: n for n in after.body if isinstance(n, ast.FunctionDef)}
             self.assertEqual(set(original), set(current))
