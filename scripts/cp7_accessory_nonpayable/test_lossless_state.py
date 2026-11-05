@@ -4,6 +4,7 @@ from decimal import Decimal
 from hashlib import sha256
 from pathlib import Path
 import io,json,tempfile,unittest,copy
+from unittest.mock import patch
 from . import complete_original_io,lossless_state as state
 
 
@@ -38,6 +39,45 @@ class LosslessStateControls(unittest.TestCase):
             original.write_text('{}\n')
             with self.assertRaisesRegex(ValueError,'COMPLETE_ORIGINAL_CHANGED'):
                 state.read(cache,receipt['sha256'],original,reference['sha256'])
+
+    def test_save_and_cold_read_do_not_allocate_an_encoded_document_and_clone(self):
+        with tempfile.TemporaryDirectory() as td:
+            original=Path(td)/'original.json';cache=Path(td)/'cache.json'
+            value=self.sample()
+            reference=complete_original_io.save_sorted(original,value,'CONFLICT')
+            expected=dict(state.encode(value),source_original=reference)
+            with patch.object(state,'encode',side_effect=AssertionError('full encoded document')), \
+                 patch.object(state,'decode',side_effect=AssertionError('whole-document decoder')):
+                receipt=state.save(cache,value,reference)
+                actual=state.read(cache,receipt['sha256'],original,reference['sha256'])
+            self.assertEqual(json.loads(cache.read_bytes()),expected)
+            self.assertEqual(state.canonical_pin(actual),complete_original_io.pin(original))
+            self.assertIs(actual['before'],actual['retained_parent'])
+            self.assertIsNot(actual['before'],actual['after'])
+
+    def test_stream_match_refuses_an_alias_change_with_identical_expanded_json(self):
+        value=self.sample();graph=state.GraphIndex(value)
+        reference=dict(name='original.json',**state.canonical_pin(value))
+        document=json.loads(''.join(state.cache_chunks(graph,reference)))
+        _,root_pairs=document['nodes'][document['root'][1]]
+        for row in root_pairs:
+            if document['strings'][row[0]]=='retained_parent':
+                row[1]=graph.reference(value['after'])
+        self.assertEqual(state.canonical_pin(state.decode(document)),state.canonical_pin(value))
+        altered=io.StringIO(json.dumps(document,separators=(',',':')))
+        with self.assertRaisesRegex(ValueError,'CACHE_CHANGED_CONTAINER_IDENTITY'):
+            state.read_stream_cache(altered,reference,graph)
+
+    def test_old_sorted_v2_cache_remains_readable(self):
+        with tempfile.TemporaryDirectory() as td:
+            original=Path(td)/'original.json';cache=Path(td)/'old-cache.json'
+            value=self.sample()
+            reference=complete_original_io.save_sorted(original,value,'CONFLICT')
+            old=dict(state.encode(value),source_original=reference)
+            receipt=complete_original_io.save_sorted(cache,old,'CONFLICT')
+            actual=state.read(cache,receipt['sha256'],original,reference['sha256'])
+            self.assertEqual(actual,state.decode(old))
+            self.assertIs(actual['before'],actual['retained_parent'])
 
     def test_incomplete_source_pin_cannot_publish_cache(self):
         with tempfile.TemporaryDirectory()as td:

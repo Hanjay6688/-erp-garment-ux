@@ -114,9 +114,9 @@ def fixture_lossless_state_preflight():
     output=io.StringIO()
     result=unittest.TextTestRunner(stream=output,verbosity=0).run(
         unittest.defaultTestLoader.loadTestsFromTestCase(LosslessStateControls))
-    if result.testsRun!=9 or not result.wasSuccessful()or result.skipped or result.expectedFailures:
+    if result.testsRun!=12 or not result.wasSuccessful()or result.skipped or result.expectedFailures:
         raise ValueError('NONPAYABLE_COMPLETE_LOSSLESS_STATE_PREFLIGHT_FAILED:'+output.getvalue())
-    return dict(status='EVERY_CANONICAL_STATE_BYTE_AND_INDEPENDENT_CONTAINER_VERIFIED',tests_run=9,
+    return dict(status='EVERY_CANONICAL_STATE_BYTE_AND_INDEPENDENT_CONTAINER_VERIFIED',tests_run=12,
         dropped_keys_or_values=0,actual_SQL_executed=0,actual_browser_case_credit=0)
 
 def fixture_complete_state_preflight():

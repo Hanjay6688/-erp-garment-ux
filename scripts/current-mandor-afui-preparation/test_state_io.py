@@ -27,7 +27,9 @@ class CurrentStateIO(unittest.TestCase):
         with TemporaryDirectory()as td:
             root,out,value,reference=self.fixture(td)
             with patch.object(state,'ROOT',root),patch.object(state,'codec',return_value=codec):
-                cache=state.save(value,reference);self.assertEqual(state.reference(reference),cache)
+                cache=state.save(value,reference)
+                with patch.object(state.json,'load',side_effect=AssertionError('whole streamed cache load')):
+                    self.assertEqual(state.reference(reference),cache)
                 actual=state.verified(SimpleNamespace(exact=self.exact),out,reference,cache)
                 self.assertEqual(actual,value);self.assertIsNot(actual['before'],actual['after'])
                 self.assertIs(actual['before'],actual['parent'])
