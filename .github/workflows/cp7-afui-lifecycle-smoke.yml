@@ -13,7 +13,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   smoke:
-    if: github.ref == 'refs/heads/astra-a/afui-lifecycle-smoke-20261106'
+    if: github.ref == 'refs/heads/astra-a/afui-lifecycle-smoke-20261106' && !startsWith(github.event.head_commit.message, 'Check exact SKU catalogue on disposable PostgreSQL')
     runs-on: ubuntu-24.04
     timeout-minutes: 12
     env:
@@ -101,5 +101,64 @@ jobs:
             auditor/cp6-proof/t3/AFUI_DURABLE_PREFLIGHT.json
             auditor/cp6-proof/t3/AFUI_LIFECYCLE_SMOKE_RESULT.json
             auditor/cp6-proof/t3/AFUI_LIFECYCLE_SMOKE_TRANSPORT.json
+          if-no-files-found: error
+          retention-days: 30
+  catalogue:
+    if: github.ref == 'refs/heads/astra-a/afui-lifecycle-smoke-20261106' && startsWith(github.event.head_commit.message, 'Check exact SKU catalogue on disposable PostgreSQL')
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      CP7_SKU_SMOKE_CONTAINER: cp7-sku-catalogue-${{ github.run_id }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          path: auditor
+          persist-credentials: false
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: 730d0c880b87e72a0b94f925bc99dfadb936b986
+          path: candidate
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12'
+      - name: Compare exact SKU capture to the Global SQL fingerprint on a read-only fixture
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$CP7_SKU_SMOKE_CONTAINER" = "cp7-sku-catalogue-$GITHUB_RUN_ID"
+          test "$(git -C candidate rev-parse HEAD^{tree})" = 79b439d91b169cc9140f9157606b86650a64eb34
+          python -m pip install --quiet 'psycopg[binary]==3.2.10'
+          password="$(openssl rand -hex 24)"
+          echo "::add-mask::$password"
+          docker run --detach --name "$CP7_SKU_SMOKE_CONTAINER" --label "cp7-sku-catalogue=$GITHUB_RUN_ID" \
+            --publish 127.0.0.1:54322:5432 --tmpfs /var/lib/postgresql/data \
+            --env "POSTGRES_PASSWORD=$password" --env "POSTGRES_INITDB_ARGS=--auth-local=trust --auth-host=scram-sha-256" \
+            postgres:17.6-bookworm
+          for attempt in $(seq 1 60); do
+            if docker exec "$CP7_SKU_SMOKE_CONTAINER" pg_isready -h 127.0.0.1 -U postgres >/dev/null; then break; fi
+            sleep 1
+          done
+          docker exec "$CP7_SKU_SMOKE_CONTAINER" pg_isready -h 127.0.0.1 -U postgres
+          docker exec "$CP7_SKU_SMOKE_CONTAINER" createdb -U postgres -T template0 cp6_rollback
+          CP7_SKU_SMOKE_PASSWORD="$password" python -B auditor/scripts/cp7_afui_lifecycle_smoke/check_sku_catalogue.py candidate
+      - name: Remove only this job's isolated catalogue fixture
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$CP7_SKU_SMOKE_CONTAINER" = "cp7-sku-catalogue-$GITHUB_RUN_ID"
+          if docker inspect "$CP7_SKU_SMOKE_CONTAINER" >/dev/null 2>&1; then
+            test "$(docker inspect -f '{{ index .Config.Labels "cp7-sku-catalogue" }}' "$CP7_SKU_SMOKE_CONTAINER")" = "$GITHUB_RUN_ID"
+            docker rm --force "$CP7_SKU_SMOKE_CONTAINER"
+          fi
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: success()
+        with:
+          name: sku-global-catalogue-isolated-proof-${{ github.run_attempt }}
+          path: |
+            candidate/cp6-proof/t3/SKU_GLOBAL_PARENT_ACTUAL_FULL25.json
+            candidate/cp6-proof/t3/SKU_GLOBAL_CATALOGUE_FIXTURE_RECEIPT.json
           if-no-files-found: error
           retention-days: 30
