@@ -1,0 +1,224 @@
+{
+  "contract": "cp7.B.UI.HPP.semantic-copy-proposal.v1",
+  "created_at_UTC": "2026-11-05T00:43:22.936681+00:00",
+  "B_parent": "081a99bbcbafc022fceec53d0afc565d05159564",
+  "B_parent_tree": "ba021747caec7bd284ef926521c4a3a14cb64a2b",
+  "A_prepared_head": "2f8ef617e1cfe0ade7722452d16d1234eaa5e18b",
+  "A_prepared_tree": "7b642d486b5bfab4c9fb157af49ddcbbc14b559b",
+  "authority": {
+    "read_at": "2026-11-05",
+    "context_version": 413,
+    "A_prepared_head": "2f8ef617e1cfe0ade7722452d16d1234eaa5e18b",
+    "A_prepared_tree": "7b642d486b5bfab4c9fb157af49ddcbbc14b559b",
+    "money_reference": {
+      "actual_ERP_cases": 0,
+      "candidate_head": "f1674ae84739f577571d68415beabfca3f3b832b",
+      "candidate_qualification_role": "UNQUALIFIED_CHILD_TO_BE_TESTED_IN_COMBINED_NATIVE19",
+      "candidate_tree": "ea43f84029993b385722fe8e202adefd2a745f7b",
+      "classification": "PREPARED_SOURCE_REFERENCE_NOT_ACTUAL_PARENT",
+      "files": {
+        "scripts/cp7_sku_cost_components/SOURCE.json": {
+          "bytes": 11937,
+          "sha256": "3abdd3fadbc0dcb873461dab4354baada7b4452edc8e73534ae4c538e3d72ae6"
+        },
+        "scripts/cp7_sku_cost_components/composition.py": {
+          "bytes": 6718,
+          "sha256": "7ddfc7a3b825d35146a93643b1427be04c29ed49fd5debcbada00a26718868f0"
+        },
+        "scripts/cp7_sku_moving_average/composition.py": {
+          "bytes": 14012,
+          "sha256": "da1f275fa0e91ecbbaa5bcedff65ba0391b162108cc9e91b98a5e2c9f746465f"
+        },
+        "scripts/current-sku-cost-money-qualification/CONFIG.json": {
+          "bytes": 14114,
+          "sha256": "f44fd2143b0b74435e6e16ad6677950bba4daab4ef03e1c60716299c116fd2fd"
+        },
+        "scripts/current-sku-cost-money-qualification/fetch_moving_parent.py": {
+          "bytes": 1638,
+          "sha256": "86d37cb94a989027c963c70a9ca02fa3cbbce51c27aff47b374f7641654fa6b6"
+        },
+        "scripts/current-sku-cost-money-qualification/native_preflight.py": {
+          "bytes": 8157,
+          "sha256": "eb15f3a0471370cc003ba5677233bdd0bf731e84ac59f4e11e5833a8929a0f77"
+        },
+        "scripts/current-sku-cost-money-qualification/runner.py": {
+          "bytes": 6118,
+          "sha256": "91c92eb8dd535e98f9b16a8c6dd57d7285abe56d277b77639511a71c79e86d3a"
+        },
+        "scripts/current-sku-moving-average-qualification/fetch_parent.py": {
+          "bytes": 1794,
+          "sha256": "408f92319a71c3add8be16d72fac7141cc328766f708c87c69df677c51e20a9f"
+        },
+        "scripts/current-sku-recovery-material-lock/runtime_source.py": {
+          "bytes": 5176,
+          "sha256": "1439d70810383db377c48e043df7fb6d487a1b2f1a995e8993a2c08590f9f797"
+        },
+        "scripts/current-vendor-receivable-qualification/probe.py": {
+          "bytes": 12667,
+          "sha256": "c420d894f8d5f16bddefeae73addb621507170f372a28e7d6e33d88c7eeb0be9"
+        }
+      },
+      "moving_deriver": {
+        "bytes": 2693,
+        "sha256": "86c42eb2caa7171cb94bdbd6c6e8e6680cab5faeaf27df99720c81426edf529f"
+      },
+      "native_case_ids": [
+        "SKU_MOVAVG_CANONICAL_FORWARD20_MANUAL_BACK35_TOTAL130",
+        "SKU_MOVAVG_EXACT_GROUP_REVERSE_COMPONENT_AND_VALUE_INVERSE",
+        "SKU_MOVAVG_ROOT_RECOST_FOLLOWS_REMAINING_LINEAGE_TOTAL150",
+        "SKU_MOVAVG_SALE_PARTIAL_RETURN_AND_EXACT_REVERSAL",
+        "SKU_MOVAVG_RESERVATION_INCLUDED_AND_LOCATION_ISOLATED",
+        "SKU_MOVAVG_FRACTIONAL_RETURNS_INTERLEAVE_RECOST_AND_EARLIER_INVERSE",
+        "SKU_MONEY_NATIVE_LEGACY_PHYSICAL_OPENING_LATE_INVOICE_CURRENT_INVERSE",
+        "SKU_MONEY_NATIVE_LEGACY_PHYSICAL_CONVERTED_LATE_INVOICE_CURRENT_INVERSE",
+        "SKU_MONEY_NATIVE_SOLD_LATE_INVOICE_PARTIAL_RETURN_AND_BOTH_INVERSES",
+        "SKU_MONEY_NATIVE_BASE_CENT_BEFORE_OPENING_LOT_TRANSFER",
+        "SKU_MONEY_NATIVE_BASE_CENT_BEFORE_CONVERTED_LOT_TRANSFER",
+        "SKU_MONEY_NATIVE_BASE_CENT_AFTER_CONVERTED_LOT_TRANSFER",
+        "SKU_MONEY_NATIVE_RECOVERY_UNDER_PHYSICAL_FIRST_CHILD_LIMIT",
+        "SKU_MONEY_NATIVE_RECOVERY_EQUAL_PHYSICAL_FIRST_CHILD_LIMIT",
+        "SKU_MONEY_NATIVE_RECOVERY_OVER_PHYSICAL_FIRST_CHILD_LIMIT_REFUSED",
+        "SKU_MONEY_NATIVE_LEGACY_OTHER_LOT_STALE_RETURNS_REPLAY_INVERSE",
+        "SKU_MONEY_NATIVE_TWO_CHILD_CURRENT_REVISION_POST_COST_AND_INVERSE",
+        "SKU_MONEY_NATIVE_SIGNED_RECOVERY_BEFORE_OPENING_LOT_THEN_NATIVE_ZERO",
+        "SKU_MONEY_NATIVE_SIGNED_RECOVERY_BEFORE_CONVERTED_LOT_THEN_NATIVE_ZERO"
+      ],
+      "production_go": false
+    },
+    "actual_ERP_cases": 0,
+    "moving_contract": "cp7.sku-moving-average.v2",
+    "economic_valuation": "SKU_LOCATION_GRADE_MOVING_AVERAGE",
+    "physical_FIFO_preserved": true,
+    "expected_files": {
+      "scripts/cp7_sku_moving_average/README.md": "5f1433aa5ae3f86aec9e5c2103e992f853530ac7dd33283fb0046b1e40e9983d",
+      "scripts/cp7_sku_moving_average/consumer_delta.py": "958dd155969a85c75ed78b5d9bb4853f7c262739b91fc8bcdcdb3fff1fa6fa8a",
+      "scripts/cp7_sku_moving_average/valuation.sql": "f2868e334b1f85f6a568c3f5da51cb7f979867eb154058a8652e865222d83649"
+    },
+    "condition": "Only Grade A. Proposed copy for future A adoption with exact qualified moving-average candidate; no active/frozen product or gates changed.",
+    "candidate_money_financially_qualified": false,
+    "candidate_qualification_role": "UNQUALIFIED_CHILD_TO_BE_TESTED_IN_COMBINED_NATIVE19"
+  },
+  "reference_file_pin": {
+    "bytes": 3585,
+    "sha256": "a4a6fb15e7477c2e97b66f8add9f8f49352dc2859e1847e641211e1199dbc8fd"
+  },
+  "official_source_pins": {
+    "scripts/cp7_sku_moving_average/README.md": {
+      "bytes": 14843,
+      "sha256": "5f1433aa5ae3f86aec9e5c2103e992f853530ac7dd33283fb0046b1e40e9983d"
+    },
+    "scripts/cp7_sku_moving_average/consumer_delta.py": {
+      "bytes": 23341,
+      "sha256": "958dd155969a85c75ed78b5d9bb4853f7c262739b91fc8bcdcdb3fff1fa6fa8a"
+    },
+    "scripts/cp7_sku_moving_average/valuation.sql": {
+      "bytes": 66797,
+      "sha256": "f2868e334b1f85f6a568c3f5da51cb7f979867eb154058a8652e865222d83649"
+    }
+  },
+  "copy_files": {
+    "src/HppPage.tsx": {
+      "before": {
+        "bytes": 32965,
+        "sha256": "111d25b86ee180ab4f6cf59e1a9439fb1e2d15d7438832c4b72d756129b1b583"
+      },
+      "after": {
+        "bytes": 32996,
+        "sha256": "76374da369ea1c494bf0cc26435b9b252fa3bfe5e6205d040169c3a79aea6343"
+      },
+      "old_text": "Angka ini weighted average untuk melihat nilai stok SKU. Saat penjualan, COGS tetap mengambil HPP lot sesuai FIFO.",
+      "proposed_text": "Ringkasan ini rata-rata nilai stok SKU. Biaya penjualan Grade A memakai rata-rata berjalan per varian dan lokasi; lot tetap menjadi jejak barang.",
+      "literal_replacements": 1
+    },
+    "src/ConnectedSkuHppPage.tsx": {
+      "before": {
+        "bytes": 7798,
+        "sha256": "3e55bee6dc8b2a5fce70eefeaccafe75926429ac19dd52350cd1a855af591bcb"
+      },
+      "after": {
+        "bytes": 7832,
+        "sha256": "5c1da5063f6d23121d64271c3e22b171cd1d7855a55379c50e6e8e2a99595525"
+      },
+      "old_text": "Nilai sisa stok seluruh ukuran ÷ jumlah PCS tersisa. Penjualan tetap memakai biaya lot asal.",
+      "proposed_text": "Nilai sisa stok seluruh ukuran ÷ jumlah PCS tersisa. Biaya penjualan Grade A memakai rata-rata berjalan per varian dan lokasi.",
+      "literal_replacements": 1
+    }
+  },
+  "retained_B_files": {
+    "src/ConnectedInitialImportPage.tsx": {
+      "before": {
+        "bytes": 49791,
+        "sha256": "f059f535b15b6ac956fb82de5050ad9ab30f1ac419c31e2ae5f6090fcbaba061"
+      },
+      "after": {
+        "bytes": 49886,
+        "sha256": "70affea52cf20ecfc6fa5bdc23e3ad7ea3fee460a5be8e9db7468c933c067f40"
+      }
+    },
+    "src/ConnectedPocketFabricPage.tsx": {
+      "before": {
+        "bytes": 24111,
+        "sha256": "565cabf63761bbe2a9d14a1b4c08da04e562f7a858ecf8a97a26685b9b0b1443"
+      },
+      "after": {
+        "bytes": 25037,
+        "sha256": "ab45b1358ed942838aa3451b7766e1e7febda88fcc0f5556e9afbac3a46f2547"
+      }
+    },
+    "src/initial-import.css": {
+      "before": {
+        "bytes": 3559,
+        "sha256": "3fb831a7bb5fd03eea8d310cf983ae5cc5b20722763b792270e473f6747e7e0a"
+      },
+      "after": {
+        "bytes": 4142,
+        "sha256": "10756c488710c2705e44000c16ed3f5b1afafca40437e3aa37c3690491a208e0"
+      }
+    }
+  },
+  "copy_patch_raw": {
+    "bytes": 3025,
+    "sha256": "91b2bec236d9679f76cade18bc509f7ee4b7c07e7e89a15432dd4e800878e2b2"
+  },
+  "retained_patch_raw": {
+    "bytes": 13014,
+    "sha256": "5646ca6ac38b1c42bafd4012947876cc4250f11a5570d23e1292a9514510e2d3"
+  },
+  "product_edits_in_this_commit": 0,
+  "only_added_namespace": "docs/cp7/d17-14/ui-b-hpp-copy-review-20261105",
+  "lookup_notes": [
+    "Current prepared root refers to the separate f167 monetary candidate. Its moving-average source files were read from that declared donor after current-root lookups returned404; this was source-location discovery, not product failure.",
+    "Direct contents fetch of original gzip patch was refused as nonUTF8. Refreshed patch will be generated from exact before/after file bytes and validated against historical before/after pins. No original evidence will be overwritten."
+  ],
+  "all_backend_gates_unchanged": true,
+  "actual_ERP_Auth_SQL_cases": 0,
+  "A_sole_integrator": true,
+  "production_go": false,
+  "independent_acceptance": false,
+  "files_excluding_self": {
+    "HANDOFF.md": {
+      "bytes": 3363,
+      "sha256": "e4669bc341e5900970bd2363003a03feef5a4df468fb5392df95e226e747f765"
+    },
+    "LOCAL_APPLICATION_CHECKS.json": {
+      "bytes": 1100,
+      "sha256": "e45b175d91de2afe319805e5224f1a515e8b0327a01fb8e7323428efad26e916"
+    },
+    "PROPOSED_A_HPP_COPY.patch.gz": {
+      "bytes": 1398,
+      "sha256": "73b527e95eecd19f6868fa5343f1463a10bdd843efb68b21e87a972b4ec6a2dd"
+    },
+    "REFRESHED_RETAINED_B_UI.patch.gz": {
+      "bytes": 4047,
+      "sha256": "913430f0c40fa90fe2a3151371092cb74223362cc2b3b007a4a951773f34261a"
+    },
+    "RETAINED_B_UI_COMPATIBILITY.json": {
+      "bytes": 1987,
+      "sha256": "e77f0878cb705e4bd51c7d87346bb073695ef18e919a685550b71909ca093d1e"
+    },
+    "check_source_compatibility.py": {
+      "bytes": 1158,
+      "sha256": "eabd87046fd6c33b8f384af360732479fae4929c2f85a83e98ebb1702d2244f9"
+    }
+  }
+}

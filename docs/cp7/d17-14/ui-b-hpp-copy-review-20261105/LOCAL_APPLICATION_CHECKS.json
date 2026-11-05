@@ -1,0 +1,20 @@
+{
+  "recorded_at_UTC": "2026-11-05T00:43:22.936681+00:00",
+  "input_head": "2f8ef617e1cfe0ade7722452d16d1234eaa5e18b",
+  "input_tree": "7b642d486b5bfab4c9fb157af49ddcbbc14b559b",
+  "environment": "Five exact source files fetched from canonical immutable GitHub paths into an isolated temporary Git index; no full A checkout",
+  "copy_patch_applies": "PASS",
+  "retained_patch_applies_after_copy": "PASS",
+  "five_result_blobs_match_declared_bytes": true,
+  "copy_reapply_refused": true,
+  "retained_reapply_refused": true,
+  "reverse_both_restores_all_five_exact_bytes": true,
+  "copy_changes_only_two_JSX_text_literals": true,
+  "formula_controller_RPC_parser_permissions_and_recovery_bytes_unchanged_by_copy": true,
+  "qualification": "PATCH_AND_SOURCE_COMPATIBILITY_ONLY",
+  "actual_ERP_Auth_SQL_cases": 0,
+  "new_unit_tests": 0,
+  "new_build_or_browser_runs": 0,
+  "existing_browser_claim": "Retained source-refusal proof covers only the unchanged B three-file after blobs. It does not cover the two new proposed copy strings or current A backend.",
+  "product_or_candidate_gate_opened": false
+}
