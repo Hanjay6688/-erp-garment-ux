@@ -5,8 +5,8 @@
     "tree": "fdd36962a7de81482ccca02e6ff96597cfc20081"
   },
   "pending_current_Afui": {
-    "head": "8db63458282d7d4cec79ea89c81d2480b51435a5",
-    "tree": "ecb6956afed905c83f6859edb8e783b4e9c3e691",
+    "head": "59199ae349c8c5a36ffb5ffbdef109bc58802b49",
+    "tree": "6416a0f7d76486821aa7293f49a5be02cf90e2ae",
     "run_id": null,
     "job_id": null,
     "actual_Root_pin": null
@@ -54,7 +54,7 @@
     },
     "scripts/cp7_accessory_nonpayable/SOURCE.json": {
       "mode": "100644",
-      "blob": "71e151f950bdb45b0059af2f34c95e82a20ab702"
+      "blob": "6864b877b489d02dce29dbefa8914ebd5b9e95b1"
     },
     "scripts/cp7_accessory_nonpayable/access_cases.py": {
       "mode": "100644",
@@ -110,7 +110,7 @@
     },
     "scripts/cp7_accessory_nonpayable/lossless_state.py": {
       "mode": "100644",
-      "blob": "c234b2ba0c033946613e711d8b765b0f5656a4bf"
+      "blob": "90c140c43a60afbf7b6af66290bcf9967f942e86"
     },
     "scripts/cp7_accessory_nonpayable/native_cases.py": {
       "mode": "100644",
@@ -122,7 +122,7 @@
     },
     "scripts/cp7_accessory_nonpayable/qualification.py": {
       "mode": "100644",
-      "blob": "071d27847af171a13573947e2aea6b90afda2bdc"
+      "blob": "46e1877cea154ef651a701ed7000506b756ee690"
     },
     "scripts/cp7_accessory_nonpayable/qualification_component.py": {
       "mode": "100644",
@@ -154,7 +154,7 @@
     },
     "scripts/cp7_accessory_nonpayable/test_lossless_state.py": {
       "mode": "100644",
-      "blob": "47fa02751b6669c856eb619d40ba6610dfc8bf06"
+      "blob": "3344692757da68d58f637c473ff357a9975ad73f"
     },
     "scripts/cp7_accessory_nonpayable/test_native_preparation.py": {
       "mode": "100644",
@@ -189,7 +189,7 @@
     "admission.py": {
       "original_bytes": 1447,
       "original_sha256": "609db7cade09a03be8aa4777adac6e11fdf3fc5aec672e625ed96705381e3b6c",
-      "derived_sha256": "582e10b0f0555c829ea360f6797cb46c1fb26b986113bdc5c63073a5ce6c3e85",
+      "derived_sha256": "057a5e7a26f4ac0f69d0d5ee5591fa2e89df7d0c068b77a0cf96e3d87d66a0e3",
       "exact_routes": 4,
       "whole_original_caller_recovered": true,
       "actual_ERP_cases": 0,
@@ -243,7 +243,7 @@
     "preflight.py": {
       "original_bytes": 10968,
       "original_sha256": "ea789817b7ec0c48ca3fb702c5f1a8045853438f87302ea38d81f89595a5069d",
-      "derived_sha256": "0f2779fb0b4c36cf0190b415a9a2beaa88a4271eb28d6473b8f36aff2e036a7e",
+      "derived_sha256": "d86d6ebc75428e65728ed2a8418dc8d99f4e8c778502b20d67e809d7bea1eacb",
       "exact_routes": 4,
       "whole_original_caller_recovered": true,
       "actual_ERP_cases": 0,
@@ -273,7 +273,7 @@
     },
     "scripts/current-mandor-afui-preparation/routes.py": {
       "bytes": 9158,
-      "sha256": "52acc9fc895e14da7d7af90cd6504641041d19fda3f395954ba174d113ee66eb"
+      "sha256": "13f2440c14ce4e36c9c63807139c32d07609925120e2ff3795c07a8355f234ce"
     },
     "scripts/current-mandor-afui-preparation/test_output_binding.py": {
       "bytes": 8270,
@@ -289,7 +289,7 @@
     },
     "scripts/current-mandor-shop-native-qualification/admission.py": {
       "bytes": 1432,
-      "sha256": "582e10b0f0555c829ea360f6797cb46c1fb26b986113bdc5c63073a5ce6c3e85"
+      "sha256": "057a5e7a26f4ac0f69d0d5ee5591fa2e89df7d0c068b77a0cf96e3d87d66a0e3"
     },
     "scripts/current-mandor-shop-native-qualification/component.py": {
       "bytes": 8078,
@@ -348,12 +348,12 @@
       "sha256": "4dd6bfea590ed506ce8a945111dffaa5632d540beec5bfc6cc221ff273d0b37a"
     },
     "scripts/current-mandor-afui-preparation/state_io.py": {
-      "bytes": 2392,
-      "sha256": "1e603e1c3a974d008bdb5a6bea4c1ffcb0aabf728c096a70b8ed7adc173ae594"
+      "bytes": 3078,
+      "sha256": "b5dafa7b92f3e2c4e03d537a65127dcb3d24b4be485afd956c5f26f68ab85ea7"
     },
     "scripts/current-mandor-afui-preparation/test_state_io.py": {
-      "bytes": 3527,
-      "sha256": "e15cbbec5a5104b86c24c8b9f05a15440103351b45ebd5c9e1500bfaaf8f93cf"
+      "bytes": 3657,
+      "sha256": "8c26fe66347240544079a4b3984ea0a22175cf62757efff6c5d93f2203942b20"
     },
     "scripts/current-mandor-afui-preparation/CURRENT_SOURCE_PREREQUISITE_CONTROLS_20261105.json": {
       "bytes": 49847,
@@ -361,7 +361,7 @@
     },
     "scripts/current-mandor-shop-native-qualification/preflight.py": {
       "bytes": 10957,
-      "sha256": "0f2779fb0b4c36cf0190b415a9a2beaa88a4271eb28d6473b8f36aff2e036a7e"
+      "sha256": "d86d6ebc75428e65728ed2a8418dc8d99f4e8c778502b20d67e809d7bea1eacb"
     },
     "scripts/current-mandor-afui-preparation/CURRENT_C790_SOURCE_PREREQUISITE_CONTROLS_20261105.json": {
       "bytes": 1617,
@@ -391,7 +391,7 @@
   },
   "actual_parent_adopted": false,
   "actual_successor_source_fence_rebinding_pending": true,
-  "active_Afui_candidate_run_reference_only": 41935037565,
+  "active_Afui_candidate_run_reference_only": null,
   "complete_current_source_prerequisites_prepared": true,
   "selective_B_UI": {
     "head": "1c66a74295eae2f09b7535619325e4d023942e19",

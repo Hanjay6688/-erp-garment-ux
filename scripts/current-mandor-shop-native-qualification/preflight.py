@@ -94,8 +94,8 @@ def check(raw,parser_path):
     require(len(ids)==9 and len(set(ids))==9,'MANDOR_PREFLIGHT_EXACT_NINE_NEW_CASES')
     admission={t.id:ast.literal_eval(n.value)for n in trees['admission.py'].body if isinstance(n,ast.Assign)and isinstance(n.value,ast.Constant)for t in n.targets if isinstance(t,ast.Name)}
     require(admission['PARENT_ROOT_PIN']is None and admission['RUNTIME_ENTRY']is None,'MANDOR_PREFLIGHT_MUST_KEEP_UNACCEPTED_PARENT_CLOSED')
-    require(admission['PARENT_HEAD']=='8db63458282d7d4cec79ea89c81d2480b51435a5'
-        and admission['PARENT_TREE']=='ecb6956afed905c83f6859edb8e783b4e9c3e691'
+    require(admission['PARENT_HEAD']=='59199ae349c8c5a36ffb5ffbdef109bc58802b49'
+        and admission['PARENT_TREE']=='6416a0f7d76486821aa7293f49a5be02cf90e2ae'
         and admission['PARENT_RUN'] is None and admission['PARENT_JOB'] is None,
         'MANDOR_PREFLIGHT_EXACT_CURRENT_UNACCEPTED_AFUI_SOURCE_PARENT')
     spec=importlib.util.spec_from_file_location('mandor_new_prerequisite_controls',HERE/'test_prerequisites.py')
