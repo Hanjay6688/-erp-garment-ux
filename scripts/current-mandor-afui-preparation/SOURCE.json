@@ -5,8 +5,8 @@
     "tree": "fdd36962a7de81482ccca02e6ff96597cfc20081"
   },
   "pending_current_Afui": {
-    "head": "74e7a6bc0754b7b3772f4b47095b518a41b972da",
-    "tree": "4de54b9a4a7745d447996f7b20886ef955ae45d8",
+    "head": "8db63458282d7d4cec79ea89c81d2480b51435a5",
+    "tree": "ecb6956afed905c83f6859edb8e783b4e9c3e691",
     "run_id": null,
     "job_id": null,
     "actual_Root_pin": null
@@ -46,7 +46,7 @@
     },
     "scripts/cp7_accessory_nonpayable/README.md": {
       "mode": "100644",
-      "blob": "3772884f0311fd12233b74b8d32d60f3a5befa29"
+      "blob": "2bbb7b7deca20f0e3fb0d5a06761fe3cb61b5a70"
     },
     "scripts/cp7_accessory_nonpayable/REPORT_MEMORY_CONTROLS.json": {
       "mode": "100644",
@@ -189,7 +189,7 @@
     "admission.py": {
       "original_bytes": 1447,
       "original_sha256": "609db7cade09a03be8aa4777adac6e11fdf3fc5aec672e625ed96705381e3b6c",
-      "derived_sha256": "92ca2b62985e66d09ece19e6f1d005b31efb1f03d0aafd104cfeadd9907c855a",
+      "derived_sha256": "582e10b0f0555c829ea360f6797cb46c1fb26b986113bdc5c63073a5ce6c3e85",
       "exact_routes": 4,
       "whole_original_caller_recovered": true,
       "actual_ERP_cases": 0,
@@ -243,7 +243,7 @@
     "preflight.py": {
       "original_bytes": 10968,
       "original_sha256": "ea789817b7ec0c48ca3fb702c5f1a8045853438f87302ea38d81f89595a5069d",
-      "derived_sha256": "18f913feee4d97ec8be96ceb0a65318daffc5445552a068807500627b3f63a4d",
+      "derived_sha256": "0f2779fb0b4c36cf0190b415a9a2beaa88a4271eb28d6473b8f36aff2e036a7e",
       "exact_routes": 4,
       "whole_original_caller_recovered": true,
       "actual_ERP_cases": 0,
@@ -273,7 +273,7 @@
     },
     "scripts/current-mandor-afui-preparation/routes.py": {
       "bytes": 9158,
-      "sha256": "cad51784866b5e8c2a949f96a8933651b40d4a6e166b3d038d234ab82bf61a22"
+      "sha256": "52acc9fc895e14da7d7af90cd6504641041d19fda3f395954ba174d113ee66eb"
     },
     "scripts/current-mandor-afui-preparation/test_output_binding.py": {
       "bytes": 8270,
@@ -289,7 +289,7 @@
     },
     "scripts/current-mandor-shop-native-qualification/admission.py": {
       "bytes": 1432,
-      "sha256": "92ca2b62985e66d09ece19e6f1d005b31efb1f03d0aafd104cfeadd9907c855a"
+      "sha256": "582e10b0f0555c829ea360f6797cb46c1fb26b986113bdc5c63073a5ce6c3e85"
     },
     "scripts/current-mandor-shop-native-qualification/component.py": {
       "bytes": 8078,
@@ -361,7 +361,7 @@
     },
     "scripts/current-mandor-shop-native-qualification/preflight.py": {
       "bytes": 10957,
-      "sha256": "18f913feee4d97ec8be96ceb0a65318daffc5445552a068807500627b3f63a4d"
+      "sha256": "0f2779fb0b4c36cf0190b415a9a2beaa88a4271eb28d6473b8f36aff2e036a7e"
     },
     "scripts/current-mandor-afui-preparation/CURRENT_C790_SOURCE_PREREQUISITE_CONTROLS_20261105.json": {
       "bytes": 1617,
