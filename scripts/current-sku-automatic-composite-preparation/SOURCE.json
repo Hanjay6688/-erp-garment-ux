@@ -146,8 +146,8 @@
       "sha256": "c64aff29d19c8bb33d44cce9082a29a775777eac9599fc98cf40d661fcc0eafd"
     },
     "check_source.py": {
-      "bytes": 10872,
-      "sha256": "d68aa7acdccf8e12c28d194f09f5c78ef935bc4f697752ff9cfd210329fe346d"
+      "bytes": 13351,
+      "sha256": "821c314695e600159fd28a8b022ce72ac4b17f299fbc8ce3ec3b7de21eb089c2"
     },
     "component.py": {
       "bytes": 5975,
@@ -197,9 +197,13 @@
       "bytes": 4284,
       "sha256": "5535ce276253d5ce6f10157cc825e75499ef2e2cf6b225dac3213317e6cb1966"
     },
+    "global_parent_catalogue.py": {
+      "bytes": 4180,
+      "sha256": "fdb68eb38465a8105042df2a562fa8ec458aa40cbedf83b6eb44796ca81d2c55"
+    },
     "qualification.py": {
-      "bytes": 12039,
-      "sha256": "a768c4a0e5dff249a533742ce60c3ca9525781648acd7c6999582cb0f6446cb8"
+      "bytes": 12272,
+      "sha256": "b54703e4044f784a1f369d1e5517b2793782dfa9eb26e54f5b210aaf699f7acc"
     },
     "report_io.py": {
       "bytes": 6464,

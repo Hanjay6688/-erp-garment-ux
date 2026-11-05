@@ -15,7 +15,7 @@ class CurrentPreparedParent(unittest.TestCase):
 
     def test_complete_current_prepared_parent_is_admitted_without_a_Root(self):
         result = fence.pending_sku(self.value, self.baseline)
-        self.assertEqual(len(result), 148)
+        self.assertEqual(len(result), 149)
         self.assertEqual(result, {name: row['after'] for name, row in self.value['files'].items()})
         self.assertIsNone(self.value['actual_Root'])
 
@@ -23,10 +23,10 @@ class CurrentPreparedParent(unittest.TestCase):
         for change in ('missing', 'extra'):
             value = copy.deepcopy(self.value)
             if change == 'missing':
-                value['files'].pop('scripts/cp7_accessory_nonpayable/progress.py')
+                value['files'].pop('scripts/current-sku-automatic-composite-preparation/global_parent_catalogue.py')
             else:
                 value['files']['scripts/unreviewed.py'] = {}
-            with self.assertRaisesRegex(ValueError, 'COMPLETE_ONE_HUNDRED_FORTY_EIGHT_CURRENT_SKU_PATHS'):
+            with self.assertRaisesRegex(ValueError, 'COMPLETE_ONE_HUNDRED_FORTY_NINE_CURRENT_SKU_PATHS'):
                 fence.pending_sku(value, self.baseline)
 
     def test_other_parent_identity_or_fabricated_Root_cannot_be_admitted(self):
