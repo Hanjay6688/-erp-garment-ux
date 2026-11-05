@@ -1,3 +1,22 @@
+### 5 November: refuse missing phase names before database provisioning
+
+Run41968344868/job127050501104 ended with the exact first error
+NONPAYABLE_FIXED_BOUNDED_PROGRESS_ID_REQUIRED. Its canonical final archive
+13391979777 was retained with whole SHA and all129 member CRCs. The packet
+reports full22/data/ALL-sequence baseline equality, raw-public equality, CP6
+restored, identical backup restoration and the worker process group/tree reaped.
+The incomplete run provides no fresh Afui15 or Root acceptance.
+
+The new complete-state prerequisite label had not been registered in the
+closed progress allowlist. This is the writer's missed source prerequisite.
+Its real local refusal and failing cross-module regression were preserved.
+The missing literal is now explicitly admitted. The pre-database control
+collects every phase call from both actual qualifier modules, requires the
+exact closed set, and enters/returns through the real guard for every phase.
+Financial commands, oracles, permissions, actors, dates, UUIDs, state/cache
+formats, browser dependencies and360/330/20/10 budgets remain unchanged.
+Actual fresh15, all five gates and complete recovery remain required.
+
 ### 4 November: retain complete case Originals during the owning run
 
 Run41684390745/job126086157087 at a16e ended after the runner received an

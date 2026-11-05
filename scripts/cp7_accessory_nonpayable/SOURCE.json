@@ -142,7 +142,7 @@
     },
     "scripts/cp7_accessory_nonpayable/qualification.py": {
       "bytes": 14509,
-      "sha256": "571cc8da81c1e2563128d5c3b891cdf4f1acc04d26b6888cff806d0f851a6a2a"
+      "sha256": "ee19853c09ea5078c5ab583b4339738a8caa137360db893e615c4786aec24115"
     },
     "scripts/cp7_accessory_nonpayable/qualification_component.py": {
       "bytes": 15300,
@@ -281,12 +281,12 @@
       "sha256": "7f9e3425cfaf849ca167d92d48b9811964c316fee6afb8c41404a81c8aa09d1e"
     },
     "scripts/cp7_accessory_nonpayable/progress.py": {
-      "bytes": 1466,
-      "sha256": "2ad65c77b9ddb3d5706aa073e11b45716821a4b1b8f79a5f0194bab774922914"
+      "bytes": 1496,
+      "sha256": "27f7ccf265474fba9fba80ffe07c0b0994dc5b28bf1c73e94a2a2e7827c0a8f7"
     },
     "scripts/cp7_accessory_nonpayable/test_progress.py": {
-      "bytes": 2752,
-      "sha256": "8c83889a8ebbaa69427b35d26a9b07cbcf4d499d753996686a2d2ab03316484c"
+      "bytes": 4157,
+      "sha256": "6054c09a0173ff0f04fec56ac325dfc728465902dc8c67e69be9be00b1a8018d"
     },
     "scripts/cp7_accessory_nonpayable/action.yml": {
       "bytes": 267,

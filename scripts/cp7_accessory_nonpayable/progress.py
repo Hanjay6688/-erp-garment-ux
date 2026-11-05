@@ -6,7 +6,7 @@ Monotonic durations do not participate in the genuine business-day policy.
 from contextlib import contextmanager
 import json,os,re,time
 
-PHASES=frozenset(('WHOLE_PACKAGE','NATIVE_GROUP','NATIVE_CASE','COMMITTED_PREREQUISITE',
+PHASES=frozenset(('WHOLE_PACKAGE','COMPLETE_STATE_PREREQUISITE','NATIVE_GROUP','NATIVE_CASE','COMMITTED_PREREQUISITE',
     'HTTP_GROUP','SESSION_GROUP','BROWSER_GROUP'))
 
 
