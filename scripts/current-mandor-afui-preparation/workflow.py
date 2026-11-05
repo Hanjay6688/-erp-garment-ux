@@ -16,7 +16,7 @@ ROOT = HERE.parents[1]
 NS = 'scripts/current-mandor-shop-native-qualification/'
 OWN = 'scripts/current-mandor-afui-preparation/'
 ORIGINAL = ROOT / 'scripts/cp7_accessory_nonpayable/afui15.workflow.yml.txt'
-PIN = dict(bytes=36800, sha256='d45d02395bccc2226c1eda637ab3e4a998deaddc52025390870335bddeb667f5')
+PIN = dict(bytes=36935, sha256='91483c4ee74f67e724fc6d18a88dee2fca05bb32086dff20660812bb3aa64af9')
 TEMPLATE = HERE / 'current-mandor84.workflow.yml.txt'
 ACTIVE = ROOT / '.github/workflows/cp7-mandor-shop-native17.yml'
 BRANCH = 'astra-a/mandor-shop-native9-on-unified-20261103'
