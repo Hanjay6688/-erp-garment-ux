@@ -137,7 +137,7 @@ def committed_identity(cur,bc):
         product_permission_grants_added=False,actual_case_credit=0)
 
 def committed_prerequisite(url,state,report,control):
-    from . import assembly,browser_prepare,native_fixture,lossless_state
+    from . import assembly,browser_prepare,native_fixture
     import psycopg
     with psycopg.connect(url,connect_timeout=5)as conn,conn.cursor()as cur:
         local(conn,cur,url)
@@ -158,11 +158,6 @@ def committed_prerequisite(url,state,report,control):
             raise ValueError('NONPAYABLE_COMMITTED_PREREQUISITE_MUST_KEEP_EXACT_PRODUCT_AUTHORITY')
         assembly.verify(cur,state);cur.execute('set constraints all immediate');cur.execute('set constraints all deferred');conn.commit()
         report['browser_fixture_original']=save('AFUI_BROWSER_NATIVE_PREREQUISITE.json',prepared)
-        report['browser_settings_state_original']=save('AFUI_BROWSER_SETTINGS_STATE.json',state)
-        cache=ROOT/'cp6-proof/t3/AFUI_BROWSER_SETTINGS_STATE_CACHE.json'
-        report['browser_settings_cache_original']=lossless_state.save(cache,state,report['browser_settings_state_original'])
-        from . import complete_original_io
-        complete_original_io.publish(cache)
         before=native_fixture.observe(cur,SimpleNamespace(bc=bc),prepared['fixture'])
         with control.product_catalog(cur):
             catalog=assembly.runtime()[-1]
@@ -195,7 +190,7 @@ def browser_environment(report):
             else:os.environ[name]=value
 
 def exercise(conn,cur,database,url,report,state):
-    from . import admission,assembly,native_cases,access_cases,browser_prepare,copy_context,qualification_gate,case_output,progress,report_io
+    from . import admission,assembly,native_cases,access_cases,browser_prepare,copy_context,qualification_gate,case_output,progress,report_io,state_prepare
     admission.parent_receipt()  # Before ERP graph, connection or fixture use.
     from cp7_p21_current_chain_rehearsal_probe import helper
     from cp7_catalog_state import exact_public_catalog
@@ -205,6 +200,9 @@ def exercise(conn,cur,database,url,report,state):
         actual_browser_cases=0,retained_FREE3_fresh_case_credit=0,production_go=False,independent_acceptance=False,
         global_writer_or_permission_or_lock_closure=False,case_output_source=case_output.sources())
     conn.rollback();cur.close();conn.close()
+    with progress.phase('COMPLETE_STATE_PREREQUISITE'):
+        prepared_state=state_prepare.prepare(state,ROOT/'cp6-proof/t3',save)
+    report.update({key:prepared_state[key]for key in('browser_settings_state_original','browser_settings_cache_original')})
     def verify(cursor):
         with control.product_catalog(cursor):return assembly.verify(cursor,state)
     def cases(cursor,today):
@@ -225,6 +223,7 @@ def exercise(conn,cur,database,url,report,state):
     report.update(native=actual,public_catalog_observation=public)
     report['Native9_gate']=qualification_gate.native(actual,native_cases.IDS)
     report['actual_Native_cases']=9
+    state_prepare.verify_unchanged(state,prepared_state)
     with progress.phase('COMMITTED_PREREQUISITE'):committed_prerequisite(url,state,report,control)
     modes=load('afui_unchanged_original_real_Auth_and_browser_modes',ROOT/'scripts/current-s03-sku-s05-composite-qualification/modes.py')
     adapter=SimpleNamespace(http_cases=lambda http,today:access_cases.http_cases(http,today,state=state),
