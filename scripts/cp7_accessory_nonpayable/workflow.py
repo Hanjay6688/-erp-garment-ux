@@ -11,7 +11,7 @@ WORKFLOW='.github/workflows/cp7-afui-good-nonpayable.yml'
 BRANCH='astra-a/afui-good-nonpayable-20261102'
 PREPARATION_BRANCH='astra-a/afui-browser-runtime-prepared-20261105'
 TEMPLATE='afui15.workflow.yml.txt'
-ROUTED=(0,2,62,63,64,69,72,73,74)
+ROUTED=(0,2,10,62,63,64,69,72,73,74)
 ADDED=(65,66,72)
 UPLOADER='ea165f8d65b6e75b540449e92b4886f43607fa02'
 
@@ -41,6 +41,13 @@ def derive():
     steps[0]['run']=steps[0]['run'].replace('FREE_DATE_JOB_START_MONOTONIC','AFUI_JOB_START_MONOTONIC',1)
     # The real six-hour WIB policy and every financial clock remain unchanged.
     steps[2]['name']='Require genuine six-hour WIB window before Afui setup'
+    setup=steps[10]
+    key_get='sudo curl --fail --silent --show-error '
+    if setup['name']!='Install pinned disposable runtime' or setup['run'].count(key_get)!=1:
+        raise ValueError('NONPAYABLE_EXACT_PGDG_KEY_DOWNLOAD_ROUTE_REQUIRED')
+    setup['run']=setup['run'].replace(key_get,'sudo curl --fail --no-progress-meter --show-error '
+        '--retry 2 --retry-all-errors '
+        '--retry-max-time 40 --connect-timeout 8 --max-time 15 --remove-on-error ',1)
     steps[62]=dict(name='Fetch actual accepted FREE3 canonical archive before database',
         **{'working-directory':'auditor'},env={'GH_TOKEN':'${{ github.token }}'},
         run='python -B '+NS+'fetch_parent.py\n')
@@ -71,7 +78,7 @@ def derive():
         steps[73]['run']=steps[73]['run'].replace(broken,'../auditor/'+NS+'runtime_supervisor.py',1)
     steps[74]['with']['name']='cp7-afui-good-nonpayable-full15-${{ github.run_attempt }}'
     if [i for i in range(75)if steps[i]!=before[i]]!=list(ROUTED):
-        raise ValueError('NONPAYABLE_ONLY_NINE_EXACT_WORKFLOW_STEP_ROUTES_ALLOWED')
+        raise ValueError('NONPAYABLE_ONLY_EXACT_WORKFLOW_STEP_ROUTES_ALLOWED')
     if(job['timeout-minutes']!=360 or steps[1]!=before[1]or value['permissions']!=original['permissions']
         or value['concurrency'].get('cancel-in-progress')is not False):
         raise ValueError('NONPAYABLE_ORIGINAL_BUDGET_CHECKOUT_AUTHORITY_AND_SINGLE_JOB_GUARDS_REQUIRED')
@@ -117,7 +124,8 @@ def derive():
     text=yaml.safe_dump(value,sort_keys=False,allow_unicode=True)
     if yaml.safe_load(text)!=value:raise ValueError('NONPAYABLE_EXACT_WORKFLOW_YAML_ROUNDTRIP_REQUIRED')
     return text,dict(status='AFUI15_WORKFLOW_DATA_ONLY_NOT_ACTIVATED',parent_derivation=prior,
-        parent_template_sha256=sha256(raw.encode()).hexdigest(),unchanged_parent_steps=66,routed_parent_steps=9,
+        parent_template_sha256=sha256(raw.encode()).hexdigest(),
+        unchanged_parent_steps=len(before)-len(ROUTED),routed_parent_steps=len(ROUTED),
         steps=80,added_transport_steps=3,added_browser_prerequisite_steps=2,
         preparation_branch_database_free_browser_job=True,owning_financial_branch_guard_unchanged=True,
         all_current78_steps_retained=True,actual_browser_launch_before_database=True,
