@@ -135,6 +135,8 @@ def runtime():
                 case_output = complete_case_output()
                 engine.runner, component_proof = component.load_prepared(assembly, product, parent_raw, money_raw, plan_raw,
                                                                          inherited.runner.scheduler_quiet, case_output=case_output)
+                global_catalogue = load('automatic_Global_parent_catalogue', HERE / 'global_parent_catalogue.py')
+                engine.runner.exercise = global_catalogue.bind(engine.runner.exercise, report_io.complete_originals())
                 engine.current_advisor = authority.bind(inherited.current_advisor, FROZEN_PARENT)
                 engine.trusted_installer_connection = inherited.trusted_installer_connection
                 engine.inherited_admission = inherited.inherited_admission
