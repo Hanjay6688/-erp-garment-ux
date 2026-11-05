@@ -13,12 +13,12 @@ import urllib.request
 import zipfile
 
 REPO = 'Hanjay6688/-erp-garment-ux'
-RUN = 41878688074
-JOB = 126745157733
-ARTIFACT = 13367154838
-HEAD = '92a376091a1d1ea9901648e614f3e5212677a81f'
-SIZE = 2276307014
-DIGEST = 'd04992f22e47eeaea136f68d94de3e0d121cb967b1a0b811fe86e14884f41e46'
+RUN = 42071741816
+JOB = 127401211557
+ARTIFACT = 13444938154
+HEAD = '8db63458282d7d4cec79ea89c81d2480b51435a5'
+SIZE = 1973376010
+DIGEST = '565da1b9129f196ed1b8e5ec42066a553063f65d027dc60837723641a26b8f75'
 PART_BYTES = 400 * 1024 * 1024
 SELECTED = frozenset(('CP7_AFUI_GOOD_NONPAYABLE_FULL15.json', 'AFUI_RUNTIME_SUPERVISION.json',
     'AFUI_DURABLE_RUNTIME.json', 'AFUI_DURABLE_PREFLIGHT.json', 'AFUI_FINAL_GATE.json',
@@ -111,6 +111,10 @@ def original_context(root, out):
     run = metadata(f'/repos/{REPO}/actions/runs/{RUN}', out / 'SOURCE_RUN_API.json')
     require(run['id'] == RUN and run['head_sha'] == HEAD and run['run_attempt'] == 1
             and run['status'] == 'completed' and run['conclusion'] == 'failure', 'EXACT_COMPLETED_FAILED_ORIGINAL_RUN_REQUIRED')
+    job = metadata(f'/repos/{REPO}/actions/jobs/{JOB}', out / 'SOURCE_JOB_API.json')
+    require(job['id'] == JOB and job['run_id'] == RUN and job['head_sha'] == HEAD and job['run_attempt'] == 1
+            and job['status'] == 'completed' and job['conclusion'] == 'failure',
+            'EXACT_COMPLETED_FAILED_ORIGINAL_JOB_REQUIRED')
     meta = metadata(f'/repos/{REPO}/actions/artifacts/{ARTIFACT}', out / 'SOURCE_ARTIFACT_API.json')
     require(meta['id'] == ARTIFACT and meta['name'] == 'cp7-afui-good-nonpayable-full15-1'
             and meta['workflow_run']['id'] == RUN and meta['workflow_run']['head_sha'] == HEAD
@@ -219,7 +223,7 @@ def archive():
     for part in parts:
         save(root / f"part-{part['number']:03d}" / 'INTAKE_MANIFEST.json', manifest)
     require(sum(p.stat().st_size for p in out.iterdir()) < 450 * 1024 * 1024, 'CONNECTOR_SIZED_DIAGNOSTICS_REQUIRED')
-    print(json.dumps(dict(status='COMPLETE_ORIGINAL_RETAINED_IN_SIX_EXACT_PARTS', source=actual,
+    print(json.dumps(dict(status='COMPLETE_ORIGINAL_RETAINED_IN_EXACT_PARTS', source=actual,
         parts=len(parts), selected_complete_originals=len(selected), ERP_commands_executed=0)))
 
 
