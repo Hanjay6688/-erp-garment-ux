@@ -108,9 +108,11 @@ jobs:
       run: "set -euo pipefail\npython -m pip install --quiet 'psycopg[binary]==3.2.10'\
         \ 'PyYAML==6.0.2' 'jsonschema==4.25.1'\nsudo apt-get update -qq\nsudo apt-get\
         \ install -y -qq ca-certificates curl gnupg\nsudo install -d /usr/share/postgresql-common/pgdg\n\
-        sudo curl --fail --silent --show-error \\\n  -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc\
-        \ \\\n  https://www.postgresql.org/media/keys/ACCC4CF8.asc\nkey_fingerprint=\"\
-        $(gpg --show-keys --with-colons \\\n  /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc\
+        sudo curl --fail --no-progress-meter --show-error --retry 2 --retry-all-errors\
+        \ --retry-max-time 40 --connect-timeout 8 --max-time 15 --remove-on-error\
+        \ \\\n  -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc \\\n \
+        \ https://www.postgresql.org/media/keys/ACCC4CF8.asc\nkey_fingerprint=\"$(gpg\
+        \ --show-keys --with-colons \\\n  /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc\
         \ \\\n  | awk -F: '$1 == \"fpr\" { print $10; exit }')\"\ntest \"$key_fingerprint\"\
         \ = 'B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8'\n. /etc/os-release\narchitecture=\"\
         $(dpkg --print-architecture)\"\nsudo tee /etc/apt/sources.list.d/pgdg.sources\

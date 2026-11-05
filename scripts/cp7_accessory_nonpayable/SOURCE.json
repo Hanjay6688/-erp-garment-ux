@@ -5,8 +5,8 @@
   "base_tree": "01c4807d932af1d534477c4c182715b1378bd39b",
   "files": {
     ".github/workflows/cp7-afui-good-nonpayable.yml": {
-      "bytes": 36800,
-      "sha256": "d45d02395bccc2226c1eda637ab3e4a998deaddc52025390870335bddeb667f5"
+      "bytes": 36935,
+      "sha256": "91483c4ee74f67e724fc6d18a88dee2fca05bb32086dff20660812bb3aa64af9"
     },
     "scripts/cp7_accessory_nonpayable/ACTUAL_FUNCTION_DEFAULT_ACL_REFERENCE.json": {
       "bytes": 1521,
@@ -41,8 +41,8 @@
       "sha256": "16a38f3479385ce358699ba08e15a3222fbf15d1010de872c250eb3dcc37d0b0"
     },
     "scripts/cp7_accessory_nonpayable/afui15.workflow.yml.txt": {
-      "bytes": 36800,
-      "sha256": "d45d02395bccc2226c1eda637ab3e4a998deaddc52025390870335bddeb667f5"
+      "bytes": 36935,
+      "sha256": "91483c4ee74f67e724fc6d18a88dee2fca05bb32086dff20660812bb3aa64af9"
     },
     "scripts/cp7_accessory_nonpayable/assembly.py": {
       "bytes": 1528,
@@ -249,8 +249,8 @@
       "sha256": "ed03929567bf5e35599b9fccf6f0e126f57bf756c7959fc3283de68a9223d54d"
     },
     "scripts/cp7_accessory_nonpayable/workflow.py": {
-      "bytes": 11385,
-      "sha256": "d863dcb5d5900e08cd47c559dacc04161b840272ed1d87e72098da24cedcc871"
+      "bytes": 11893,
+      "sha256": "f8f0d956beb47abbb7b1ca273878cab7778f3419174bf9be467350ade37f022d"
     },
     "scripts/cp7_accessory_nonpayable/fixture_time_preflight.py": {
       "bytes": 6607,

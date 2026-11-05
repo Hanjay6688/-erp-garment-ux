@@ -10,10 +10,12 @@ ROOT = HERE.parents[1]
 NS = 'scripts/current-sku-automatic-composite-preparation/'
 ORIGINAL = ROOT / 'scripts/current-sku-money-composite-preparation/sku-current-parent-money-native19.workflow.yml.txt'
 PIN = dict(bytes=33997, sha256='baa5fd02b024837856276f9e7136ca555c2bb6bb9255b0c5f0c2068322494e5d')
+AFUI_TEMPLATE = ROOT / 'scripts/cp7_accessory_nonpayable/afui15.workflow.yml.txt'
+PGDG_SETUP_PIN = dict(bytes=1240, sha256='6500c7bbd60b461bbefd1ccbe7b3eb0b292a6600466a19cb3cc14d45666ac5c3')
 TEMPLATE = HERE / 'sku-current-parent-money-automatic-native25-81.workflow.yml.txt'
 ACTIVE = ROOT / '.github/workflows/cp7-sku-current-parent-money-automatic-native25.yml'
 BRANCH = 'astra-a/sku-current-parent-money-automatic-native25-20261105'
-ROUTED = (0, 2, 3, 64, 65, 66, 67, 72, 75, 76, 77, 78)
+ROUTED = (0, 2, 3, 11, 64, 65, 66, 67, 72, 75, 76, 77, 78)
 
 
 def runtime():
@@ -57,6 +59,11 @@ def derive(raw=None):
     steps[2] = dict(name='Materialize exact Mandor, money, Afui and automatic trees without fetch or rewrite',
                     **{'working-directory': 'auditor'}, run='python -B ' + NS + 'execution.py materialize\n')
     steps[3]['name'] = 'Require genuine six-hour WIB window before Native25 setup'
+    pgdg_setup = yaml.safe_load(AFUI_TEMPLATE.read_bytes())['jobs']['p21']['steps'][10]
+    require(pgdg_setup['name'] == steps[11]['name'] == 'Install pinned disposable runtime'
+            and owner.admission.pin(pgdg_setup['run'].encode()) == PGDG_SETUP_PIN,
+            'AUTOMATIC_EXACT_Afui_PGDG_RETRY_SOURCE_REQUIRED')
+    steps[11]['run'] = pgdg_setup['run']
     steps[64] = dict(name='Fetch exact accepted Afui, Mandor17, Native27 and moving6 inputs before database',
                      **{'working-directory': 'auditor'}, env={'GH_TOKEN': '${{ github.token }}'},
                      run='set -euo pipefail\npython -B ../qualified-mandor-parent/scripts/current-mandor-shop-native-qualification/fetch_parent.py\n'
@@ -82,7 +89,7 @@ def derive(raw=None):
     steps[77]['run'] = steps[77]['run'].replace(old, NS + 'execution.py supervise', 1)
     steps[78]['with']['name'] = 'cp7-sku-current-parent-money-automatic-native25-${{ github.run_attempt }}'
     require([i for i in range(79) if steps[i] != before[i]] == list(ROUTED),
-            'AUTOMATIC_ONLY_TWELVE_OWNING_WORKFLOW_STEPS_CHANGE')
+            'AUTOMATIC_ONLY_EXACT_OWNING_WORKFLOW_STEPS_CHANGE')
     require(steps[1] == before[1] and steps[68:72] == before[68:72] and steps[73:75] == before[73:75],
             'AUTOMATIC_CHECKOUT_DATABASE_CLONE_RECOVERY_AND_ORIGINAL_RETENTION_UNCHANGED')
     require(job['timeout-minutes'] == 360 and value['permissions'] == original['permissions']
@@ -106,7 +113,8 @@ def derive(raw=None):
     text = yaml.safe_dump(value, sort_keys=False, allow_unicode=True)
     require(yaml.safe_load(text) == value, 'AUTOMATIC_EXACT_WORKFLOW_YAML_ROUNDTRIP_REQUIRED')
     return text, dict(status='NATIVE25_WORKFLOW_DATA_ONLY_NOT_ACTIVATED', retained_template=PIN,
-                      total_steps=81, retained_steps=79, unchanged_steps=67, owning_routes=12,
+                      total_steps=81, retained_steps=79, unchanged_steps=len(before) - len(ROUTED),
+                      owning_routes=len(ROUTED),
                       added_browser_prerequisite_steps=2, frozen_source_trees=4,
                       actual_both_checkout_browser_prerequisites_before_database=True,
                       database_rebuild_clone_recovery_and_full_artifact_upload_unchanged=True,
