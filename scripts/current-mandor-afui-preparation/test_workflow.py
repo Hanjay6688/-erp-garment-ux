@@ -48,6 +48,7 @@ class CurrentWorkflow(unittest.TestCase):
             self.assertEqual(len(commands), 5)
             self.assertTrue(all(cwd == str(auditor) for cwd, args in commands
                                 if 'qualification.py --check-static' not in args))
+            self.assertTrue(commands[0][1].endswith('workflow.py --check-owning'))
 
     def test_current80_chain_has69_unchanged_steps_and84_complete_current_steps(self):
         workflow = load('workflow');text, proof = workflow.derive()
@@ -68,6 +69,26 @@ class CurrentWorkflow(unittest.TestCase):
         self.assertTrue(proof['entire_original_recovered'])
         self.assertEqual(proof['reversible_routes'], 16)
         self.assertEqual(text.encode(), (HERE / 'durable_action.mjs').read_bytes())
+
+    def test_exact_owning_workflow_reaches_actual_root_guard_and_drift_refuses(self):
+        workflow = load('workflow')
+        relative = workflow.ACTIVE.relative_to(workflow.ROOT)
+        with TemporaryDirectory() as directory:
+            root = Path(directory)
+            active = root / relative
+            active.parent.mkdir(parents=True)
+            exact = workflow.TEMPLATE.read_bytes()
+            with patch.object(workflow, 'ROOT', root), patch.object(workflow, 'ACTIVE', active):
+                with self.assertRaisesRegex(ValueError, 'EXACT_ACTIVE_OWNING_WORKFLOW_REQUIRED'):
+                    workflow.check(owning=True)
+                active.write_bytes(exact)
+                with self.assertRaisesRegex(ValueError, 'ACTUAL_AFUI_ROOT_REQUIRED'):
+                    workflow.check(owning=True)
+                with self.assertRaisesRegex(ValueError, 'ACTUAL_AFUI_ADOPTION_AND_SOURCE_FENCE_REBINDING_PENDING'):
+                    workflow.check()
+                active.write_bytes(exact + b'\n')
+                with self.assertRaisesRegex(ValueError, 'EXACT_ACTIVE_OWNING_WORKFLOW_REQUIRED'):
+                    workflow.check(owning=True)
 
     def test_returned_native_group_publishes_complete_bytes_and_preserves_first_conflict(self):
         output = load('output_binding');complete = output.frozen_source('complete_original_io.py')

@@ -31,11 +31,16 @@ def function(source, name, namespace):
 
 
 class BrowserBindingControls(unittest.TestCase):
-    def test_browser_and_complete_output_consumer_bind_the_same_exact_current_Afui(self):
-        self.assertEqual(binding.AFUI_HEAD, binding.entry.report_io.COMPLETE_ORIGINALS_HEAD)
+    def test_browser_graph_and_complete_output_bind_the_same_exact_current_Afui(self):
+        graph = load('current_graph_intake_afui_source_control', HERE / 'source_intake.py')
+        source = binding.entry.report_io
         actual_tree = subprocess.check_output(['git', '-C', str(HERE.parents[1]), 'rev-parse',
-                                              binding.AFUI_HEAD + '^{tree}'], text=True).strip()
-        self.assertEqual(binding.AFUI_TREE, actual_tree)
+                                              source.COMPLETE_ORIGINALS_HEAD + '^{tree}'], text=True).strip()
+        self.assertEqual(source.COMPLETE_ORIGINALS_TREE, actual_tree)
+        for entry in (binding.entry, graph.entry):
+            with patch.object(entry, 'frozen') as frozen:
+                entry.frozen_afui()
+                frozen.assert_called_once_with(entry.FROZEN_AFUI, source.COMPLETE_ORIGINALS_HEAD, actual_tree)
 
     def test_complete_real_journeys_use_eight_reversible_current_routes(self):
         prepare = load('current_complete_journey_control', HERE / 'browser_prepare.py')

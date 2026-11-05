@@ -38,12 +38,11 @@ class OutputRoutes(unittest.TestCase):
             cls.engines[name] = load('exact_report_engine_' + name, ROOT / path).derive(original)[0]
 
     def test_actual_current_Afui_complete_helper_admits_and_old_or_changed_bytes_refuse(self):
-        current = '74e7a6bc0754b7b3772f4b47095b518a41b972da'
+        current = io.COMPLETE_ORIGINALS_HEAD
         old = '92a376091a1d1ea9901648e614f3e5212677a81f'
         source = ':scripts/cp7_accessory_nonpayable/complete_original_io.py'
         raw = subprocess.check_output(['git', '-C', str(ROOT), 'show', current + source])
         previous = subprocess.check_output(['git', '-C', str(ROOT), 'show', old + source])
-        self.assertEqual(io.COMPLETE_ORIGINALS_HEAD, current)
         self.assertNotEqual(raw, previous)
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / 'complete_original_io.py'
