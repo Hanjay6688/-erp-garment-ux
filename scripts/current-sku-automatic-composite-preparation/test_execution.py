@@ -175,10 +175,13 @@ class ExecutionControls(unittest.TestCase):
                 raise RuntimeError('explicit local model')
         self.assertIs(sys.argv, original);self.assertEqual(sys.argv, contents)
 
-    def test_reviewed_79_step_template_stays_inactive_and_accidental_activation_is_closed(self):
+    def test_reviewed_81_step_template_stays_inactive_and_accidental_activation_is_closed(self):
         text, proof = workflow.derive()
         self.assertEqual(text.encode(), workflow.TEMPLATE.read_bytes())
         self.assertEqual(proof['unchanged_steps'], 67)
+        self.assertEqual(proof['total_steps'], 81)
+        self.assertEqual(proof['retained_steps'], 79)
+        self.assertEqual(proof['added_browser_prerequisite_steps'], 2)
         self.assertEqual(proof['frozen_source_trees'], 4)
         self.assertFalse(workflow.ACTIVE.exists())
         self.assertEqual(workflow.check()['workflow_dispatches'], 0)

@@ -37,6 +37,10 @@
       "bytes": 1690,
       "sha256": "6e6a099d6e33d1fe17418c06ceae29433126dd9cd83ea93f794e13eec4074e7b"
     },
+    "BROWSER_PACKAGE_PREREQUISITE_PREPARATION_CONTROLS_20261105.json": {
+      "bytes": 1621,
+      "sha256": "7a5b06723540db4ecaa26f03d70a2bd5abdd2c7cb63ae67b1685f84d55101bd4"
+    },
     "BROWSER_RUNTIME_PREPARATION_CONTROLS.json": {
       "bytes": 1838,
       "sha256": "423b2199769658e5a44b5832ec9a256176f2ccce447405b894a72b1a24635484"
@@ -62,8 +66,8 @@
       "sha256": "f5474148bc4d3cb872585b48978e747081d9f4ab562a30f6e4e84089cc9d4e8a"
     },
     "README.md": {
-      "bytes": 5660,
-      "sha256": "2af129b1ee5b6dcd68b8a7bf984929650c1da87c7e195370a9f2c26a816d6b86"
+      "bytes": 6378,
+      "sha256": "e337b909ba150866ec4cbc43513b2f2088941459ccf7452448526776dfa61372"
     },
     "SOURCE_INTAKE_PREPARATION_CONTROLS.json": {
       "bytes": 760,
@@ -121,9 +125,21 @@
       "bytes": 5511,
       "sha256": "eb534db9f432eda3aed21233f3be8c4d090e0efb94b6e901c9a7a8e45ed76b13"
     },
+    "browser_prerequisites.mjs": {
+      "bytes": 6087,
+      "sha256": "a4d096dcf1cf14cced9f4d5e90c32ae80de443910e9faf3abfe9904e83a1875a"
+    },
+    "browser_prerequisites_215.mjs.txt": {
+      "bytes": 6038,
+      "sha256": "0484299806098b217b4fb159155a0992d5bef12a6b44e4ca3023b20529a76d73"
+    },
     "browser_readback_gate.mjs": {
       "bytes": 4068,
       "sha256": "f645f15e8caba22b3998ef6001bdc911e476becf9dee46d9d5bcbad9cd8bd4c3"
+    },
+    "browser_runtime.py": {
+      "bytes": 2656,
+      "sha256": "64b32afbfe557b1a3b5ab88d4c8f3dc3db022ef95d2b4b4585208b2548e4ab7a"
     },
     "browser_source.py": {
       "bytes": 885,
@@ -142,8 +158,8 @@
       "sha256": "a2014f8d7abf5b1e4cd7847862af2a4207cf660ef993cef2f7baa942822c57cc"
     },
     "execution.py": {
-      "bytes": 10026,
-      "sha256": "4de3fefb765dd56e870a72eb729b56b0f4af3f1f9ec2c269793c70831dc5e48c"
+      "bytes": 10103,
+      "sha256": "93e21e04240abb505778852c7de5cd2524717b07f1270e034b605fae94a2ab0b"
     },
     "final_gate.py": {
       "bytes": 9756,
@@ -189,6 +205,10 @@
       "bytes": 6395,
       "sha256": "ba0b685df49cd10334210b88bb3bbafa345a07bd4490d6625d099605cdc035c0"
     },
+    "sku-current-parent-money-automatic-native25-81.workflow.yml.txt": {
+      "bytes": 34740,
+      "sha256": "95d619a424b313d28af1c3bc630fde03608f7f66f5c81a0198d932dd2396647f"
+    },
     "sku-current-parent-money-automatic-native25.workflow.yml.txt": {
       "bytes": 34009,
       "sha256": "b00256f4ed5a8471c261f482f0339a9ed77e32ee11daac6d7f53878f340a6497"
@@ -225,9 +245,13 @@
       "bytes": 2717,
       "sha256": "7810d263ca29901324705d5bce65ea7c27fef318813b016bcd26f2fdb2d57d68"
     },
+    "test_browser_runtime.py": {
+      "bytes": 1337,
+      "sha256": "612c37b8b08fc38d5aef8c39d53efc66896364ed18797347750a0dc436acf429"
+    },
     "test_execution.py": {
-      "bytes": 11258,
-      "sha256": "9d69d1a738c6d86007bf62ad5e82e5af00b928eaa0ddea890c6880af6e7e2185"
+      "bytes": 11434,
+      "sha256": "515da7c88d20f9787d883d1a2fa3c7624d73d4488faa778ecfaa657ccab45f28"
     },
     "test_final_gate.py": {
       "bytes": 14460,
@@ -254,8 +278,8 @@
       "sha256": "045a13190a3c5587c971ed8cd905f027f0cfe2af1d0e40cd5e9df6d9a93e7a84"
     },
     "workflow.py": {
-      "bytes": 8090,
-      "sha256": "71a577cdbd21f9b4400c3c04b9f18fc3276e7f7cd67ebeeb82be43de7b8bafda"
+      "bytes": 9278,
+      "sha256": "b90f4c553b59ab86af845b643c06acb47f568ca8d5d0f7a7b78c2ef1bc332dcf"
     }
   },
   "prepared_upstream_native_callbacks": 6,
@@ -311,5 +335,9 @@
   "current_browser_owning_and_final_packet_prepared": true,
   "prepared_owning_Python_control_methods": 60,
   "actual_fresh_browser_execution_pending": true,
-  "all_prepared_business_cases": 27
+  "all_prepared_business_cases": 27,
+  "browser_package_prerequisites_prepared": true,
+  "browser_package_prerequisites_actual_runtime": false,
+  "reviewable_workflow_steps": 81,
+  "previous_79_step_template_preserved": true
 }

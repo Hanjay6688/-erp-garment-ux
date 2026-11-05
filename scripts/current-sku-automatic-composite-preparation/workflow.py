@@ -10,7 +10,7 @@ ROOT = HERE.parents[1]
 NS = 'scripts/current-sku-automatic-composite-preparation/'
 ORIGINAL = ROOT / 'scripts/current-sku-money-composite-preparation/sku-current-parent-money-native19.workflow.yml.txt'
 PIN = dict(bytes=33997, sha256='baa5fd02b024837856276f9e7136ca555c2bb6bb9255b0c5f0c2068322494e5d')
-TEMPLATE = HERE / 'sku-current-parent-money-automatic-native25.workflow.yml.txt'
+TEMPLATE = HERE / 'sku-current-parent-money-automatic-native25-81.workflow.yml.txt'
 ACTIVE = ROOT / '.github/workflows/cp7-sku-current-parent-money-automatic-native25.yml'
 BRANCH = 'astra-a/sku-current-parent-money-automatic-native25-20261105'
 ROUTED = (0, 2, 3, 64, 65, 66, 67, 72, 75, 76, 77, 78)
@@ -88,10 +88,27 @@ def derive(raw=None):
     require(job['timeout-minutes'] == 360 and value['permissions'] == original['permissions']
             and value['concurrency']['cancel-in-progress'] is False,
             'AUTOMATIC_ORIGINAL_BUDGET_AUTHORITY_AND_SINGLE_WRITER_REQUIRED')
+    retained_steps = deepcopy(steps)
+    prerequisites = [
+        dict(name='Install pinned browser dependencies in both actual checkout roots before database',
+             run='set -euo pipefail\nfor checkout in auditor writer; do\n'
+                 '  (cd "$GITHUB_WORKSPACE/$checkout" && npm ci --include=dev && npx --no-install playwright install --with-deps chromium)\n'
+                 'done\n'),
+        dict(name='Open actual desktop and mobile browsers and compile exact SKU candidate before database',
+             **{'working-directory': 'auditor'},
+             run='set -euo pipefail\npython -B ' + NS + 'browser_runtime.py --check\n'
+                 'node ' + NS + 'browser_prerequisites.mjs "$GITHUB_WORKSPACE"\n'),
+    ]
+    require(steps[68]['name'] == 'Start disposable database', 'AUTOMATIC_EXACT_DATABASE_SETUP_BOUNDARY')
+    steps[68:68] = prerequisites
+    require(len(steps) == 81 and steps[:68] + steps[70:] == retained_steps,
+            'AUTOMATIC_ALL_ORIGINAL_79_STEPS_MUST_REMAIN_EXACT')
     text = yaml.safe_dump(value, sort_keys=False, allow_unicode=True)
     require(yaml.safe_load(text) == value, 'AUTOMATIC_EXACT_WORKFLOW_YAML_ROUNDTRIP_REQUIRED')
     return text, dict(status='NATIVE25_WORKFLOW_DATA_ONLY_NOT_ACTIVATED', retained_template=PIN,
-                      total_steps=79, unchanged_steps=67, owning_routes=12, frozen_source_trees=4,
+                      total_steps=81, retained_steps=79, unchanged_steps=67, owning_routes=12,
+                      added_browser_prerequisite_steps=2, frozen_source_trees=4,
+                      actual_both_checkout_browser_prerequisites_before_database=True,
                       database_rebuild_clone_recovery_and_full_artifact_upload_unchanged=True,
                       real_360_330_20_10_budgets_unchanged=True, workflow_dispatches=0, actual_ERP_cases=0,
                       actual_Auth_HTTP_cases=0, actual_browser_cases=0, production_go=False)

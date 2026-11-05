@@ -1,3 +1,18 @@
+# Browser package prerequisite preparation
+
+The inactive 81-step workflow retains all 79 preceding steps and adds two
+checks before database setup. Both actual checkout roots install their pinned
+packages and Chromium, then launch desktop/mobile in separate processes. The
+actual SKU candidate compiles and its own browser module imports before any
+financial fixture is created. The complete proven Afui215 preflight body is
+retained with only two reversible module/receipt routes.
+
+All five current admissions and all ten historical gates remain closed. This
+preparation does not adopt an Afui or Mandor Root and has no active workflow.
+The preceding 79-step template and historical reports remain exact below.
+
+---
+
 # Current Afui–Mandor–money–automatic qualification preparation
 
 This additive namespace preserves every original file from current money
