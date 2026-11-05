@@ -40,12 +40,14 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          python -B auditor/scripts/cp7_afui_lifecycle_smoke/clock_window.py frozen-afui
+          mkdir -p auditor/cp6-proof/t3
+          python -B auditor/scripts/cp7_afui_lifecycle_smoke/clock_window.py frozen-afui \
+            | tee auditor/cp6-proof/t3/AFUI_LIFECYCLE_SMOKE_CLOCK.json
           test "$(git -C frozen-afui rev-parse HEAD^{tree})" = ecb6956afed905c83f6859edb8e783b4e9c3e691
           cmp auditor/scripts/cp7_accessory_nonpayable/durable_action.mjs frozen-afui/scripts/cp7_accessory_nonpayable/durable_action.mjs
           python -m pip install --quiet 'psycopg[binary]==3.2.10' 'PyYAML==6.0.2'
           (cd frozen-afui && python -B scripts/cp7_accessory_nonpayable/source.py --check-source)
-          (cd frozen-afui && python -B scripts/cp7_accessory_nonpayable/test_progress.py)
+          (cd frozen-afui && PYTHONPATH=scripts python -B -m unittest cp7_accessory_nonpayable.test_progress)
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           repository: actions/upload-artifact
@@ -95,6 +97,7 @@ jobs:
         with:
           name: afui-short-isolated-lifecycle-${{ github.run_attempt }}
           path: |
+            auditor/cp6-proof/t3/AFUI_LIFECYCLE_SMOKE_CLOCK.json
             auditor/cp6-proof/t3/AFUI_DURABLE_PREFLIGHT.json
             auditor/cp6-proof/t3/AFUI_LIFECYCLE_SMOKE_RESULT.json
             auditor/cp6-proof/t3/AFUI_LIFECYCLE_SMOKE_TRANSPORT.json
