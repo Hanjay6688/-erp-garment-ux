@@ -1,5 +1,6 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import {createHash} from 'node:crypto';
 import {context, ownRuntime} from '../cp7_accessory_nonpayable/durable_action.mjs';
 
 const env = {...process.env, INPUT_MODE: 'runtime'};
@@ -22,7 +23,16 @@ const result = await ownRuntime({
   staging, identity: c.identity, upload: c.upload, pollMs: 1000,
 });
 await fs.writeFile(path.join(c.out, 'AFUI_LIFECYCLE_SMOKE_TRANSPORT.json'), JSON.stringify(result, null, 2) + '\n', {flag: 'wx'});
+const first = createHash('sha256').update('CP7_AFUI_ISOLATED_LIFECYCLE\0FIRST_FIXTURE_FAILURE').digest('hex') + '.jsonl';
+const expected = [
+  'AFUI_COMPLETE_STATE_PREREQUISITE_START.json',
+  'AFUI_COMPLETE_STATE_PREREQUISITE_RESULT.json',
+  'AFUI_BROWSER_SETTINGS_STATE.json',
+  'AFUI_BROWSER_SETTINGS_STATE_CACHE.json',
+  first,
+];
+const seen = new Set(result.complete_originals_uploaded.map(item => item.original_name));
 if (result.status !== 'OWNING_PROCESS_COMPLETED_ORIGINAL_TRANSPORT_PASS_NOT_ERP' ||
-    result.complete_originals_uploaded.length !== 5) {
+    result.complete_originals_uploaded.length !== expected.length || !expected.every(name => seen.has(name))) {
   throw new Error('AFUI_SMOKE_EXPECTED_FIVE_EXACT_ORIGINALS_REQUIRED');
 }

@@ -21,7 +21,6 @@ DB = 'cp6_rollback'
 DUMP = '/tmp/cp7-afui-smoke-pre.dump'
 RUN = os.environ['GITHUB_RUN_ID']
 CONTAINER = 'cp7-afui-smoke-' + RUN
-FIRST = sha256(b'CP7_AFUI_ISOLATED_FIXTURE_FIRST_FAILURE').hexdigest() + '.jsonl'
 
 
 def require(condition, reason):
@@ -105,9 +104,10 @@ class IntentionalFixtureFailure(Exception):
 def main():
     dsn = fixture_connection()
     sys.path.insert(0, str(SOURCE / 'scripts'))
-    from cp7_accessory_nonpayable import complete_original_io as io, lossless_state, progress, state_prepare
+    from cp7_accessory_nonpayable import case_output, complete_original_io as io, lossless_state, progress, state_prepare
 
     io.OUT = OUT
+    case_output.OUT = OUT / 'AFUI_CASE_STDOUT'
     drill = extract('scripts/cp6_t3_backup_restore_drill.py',
         'dc64f7c2079cfff2aa585d8edbc6474a185913f042576fc3cc65dfc870dca94f',
         {'docker', 'url', 'data_hashes', 'CRON_ERROR'},
@@ -156,9 +156,9 @@ def main():
                         'AFUI_SMOKE_COMMITTED_CHANGE_REQUIRED')
                 raise IntentionalFixtureFailure('AFUI_SMOKE_EXPECTED_STOP_AFTER_COMMITTED_FIXTURE_CHANGE')
         except Exception as error:
-            report['first_failure'] = save(FIRST, dict(status='FIRST_FIXTURE_FAILURE_RETAINED',
-                expected=isinstance(error, IntentionalFixtureFailure), error_type=type(error).__name__,
-                error=str(error), actual_case_credit=0, production_go=False))
+            report['first_failure'] = case_output.retain('CP7_AFUI_ISOLATED_LIFECYCLE', 'FIRST_FIXTURE_FAILURE',
+                dict(status='FIRST_FIXTURE_FAILURE_RETAINED', expected=isinstance(error, IntentionalFixtureFailure),
+                     error_type=type(error).__name__, error=str(error), actual_case_credit=0, production_go=False))
             if not isinstance(error, IntentionalFixtureFailure):
                 raise
         finally:
