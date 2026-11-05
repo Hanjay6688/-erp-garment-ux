@@ -183,7 +183,7 @@ def core():
 
 def archive():
     root = Path('afui-evidence-intake-20261105')
-    out = root / 'diagnostics';out.mkdir();original_context(root, out)
+    out = root / 'diagnostics';out.mkdir(parents=True);original_context(root, out)
     original = root / 'AFUI_COMPLETE_ORIGINAL.zip'
     with api(f'/repos/{REPO}/actions/artifacts/{ARTIFACT}/zip') as source, original.open('xb') as target:
         actual = copy_stream(source, target, SIZE)
