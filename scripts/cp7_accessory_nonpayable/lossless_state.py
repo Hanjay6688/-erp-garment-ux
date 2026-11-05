@@ -5,12 +5,19 @@ preserves original container identity: independent snapshots stay independent,
 and intentional parent references remain shared. Complete canonical bytes must
 equal the original before publication. Cold readers verify both file pins.
 """
-from hashlib import sha256
+from hashlib import file_digest, sha256
+from io import TextIOWrapper
+from itertools import islice
 from pathlib import Path
 import json
 import math
+import os
+import tempfile
 
 FORMAT = 'AFUI_COMPLETE_JSON_OBJECT_GRAPH_WITH_IMMUTABLE_STRINGS_V2'
+CONTAINERS = (dict, list, tuple)
+SCALARS = (type(None), bool, int, float)
+STREAM_PREFIX = '{"strings":['
 
 
 def require(value, reason):
@@ -18,41 +25,65 @@ def require(value, reason):
         raise ValueError(reason)
 
 
-def encode(value):
-    strings, indices, active, nodes, identities = [], {}, set(), [], {}
+class GraphIndex:
+    """Hold references to the existing graph, rather than a second graph of edges."""
+    def __init__(self, root):
+        self.root = root
+        self.strings, self.indices = [], {}
+        self.nodes, self.identities = [], {}
+        active = set()
 
-    def string(text):
-        if text not in indices:
-            indices[text] = len(strings);strings.append(text)
-        return indices[text]
+        def string(text):
+            if text not in self.indices:
+                self.indices[text] = len(self.strings)
+                self.strings.append(text)
 
-    def visit(item):
+        def visit(item):
+            kind = type(item)
+            if kind in CONTAINERS:
+                identity = id(item)
+                require(identity not in active, 'AFUI_LOSSLESS_STATE_CIRCULAR_CONTAINER')
+                if identity in self.identities:
+                    return
+                active.add(identity)
+                try:
+                    if kind is dict:
+                        for key, child in item.items():
+                            require(type(key) is str, 'AFUI_LOSSLESS_STATE_EXACT_JSON_STRING_KEYS')
+                            string(key)
+                            visit(child)
+                    else:
+                        for child in item:
+                            visit(child)
+                    self.identities[identity] = len(self.nodes)
+                    self.nodes.append(item)
+                finally:
+                    active.remove(identity)
+            elif kind in SCALARS:
+                require(kind is not float or math.isfinite(item), 'AFUI_LOSSLESS_STATE_FINITE_JSON_NUMBER')
+            else:
+                string(item if kind is str else str(item))
+
+        visit(root)
+
+    def reference(self, item):
         kind = type(item)
-        if kind is str:
-            return [1, string(item)]
-        if kind in (dict, list, tuple):
-            require(id(item) not in active, 'AFUI_LOSSLESS_STATE_CIRCULAR_CONTAINER')
-            if id(item) in identities:
-                return [2, identities[id(item)]]
-            active.add(id(item))
-            try:
-                if kind is dict:
-                    require(all(type(k) is str for k in item), 'AFUI_LOSSLESS_STATE_EXACT_JSON_STRING_KEYS')
-                    node = [3, [[string(k), visit(v)] for k, v in item.items()]]
-                else:
-                    node = [2, [visit(v) for v in item]]
-                index = len(nodes);nodes.append(node);identities[id(item)] = index
-                return [2, index]
-            finally:
-                active.remove(id(item))
-        if kind in (type(None), bool, int, float):
-            require(kind is not float or math.isfinite(item), 'AFUI_LOSSLESS_STATE_FINITE_JSON_NUMBER')
+        if kind in CONTAINERS:
+            return [2, self.identities[id(item)]]
+        if kind in SCALARS:
             return [0, item]
-        # Exactly the existing canonical JSONEncoder(default=str) behavior.
-        return [1, string(str(item))]
+        return [1, self.indices[item if kind is str else str(item)]]
 
-    root = visit(value)
-    return dict(format=FORMAT, strings=strings, nodes=nodes, root=root)
+    def payload(self, node):
+        if type(node) is dict:
+            return 3, ([self.indices[key], self.reference(value)] for key, value in node.items())
+        return 2, (self.reference(value) for value in node)
+
+
+def encode(value):
+    graph = GraphIndex(value)
+    nodes = [[tag, list(payload)] for tag, payload in map(graph.payload, graph.nodes)]
+    return dict(format=FORMAT, strings=graph.strings, nodes=nodes, root=graph.reference(value))
 
 
 def decode(document):
@@ -153,23 +184,189 @@ def graph_pin(value):
                 unique_containers=len(identities), repeated_container_references=references)
 
 
+def cache_chunks(graph, reference):
+    """Write the V2 JSON fields with the string table before dependent nodes."""
+    encode_item = json.JSONEncoder(separators=(',', ':'), allow_nan=False).encode
+
+    def items(values, block):
+        values = iter(values)
+        first = True
+        while batch := list(islice(values, block)):
+            if not first:
+                yield ','
+            yield encode_item(batch)[1:-1]
+            first = False
+
+    yield STREAM_PREFIX
+    yield from items(graph.strings, 1)
+    yield '],"nodes":['
+    for index, node in enumerate(graph.nodes):
+        if index:
+            yield ','
+        tag, payload = graph.payload(node)
+        yield f'[{tag},['
+        yield from items(payload, 1024)
+        yield ']]'
+    yield '],"root":' + encode_item(graph.reference(graph.root))
+    yield ',"format":' + encode_item(FORMAT)
+    yield ',"source_original":' + encode_item(reference) + '}\n'
+
+
+def original_binding(actual, expected):
+    require(type(actual) is dict and all(type(actual.get(k)) is type(v) and actual[k] == v
+            for k, v in expected.items()), 'AFUI_LOSSLESS_STATE_EXACT_ORIGINAL_BINDING')
+
+
+def match_value(decoded, hot):
+    """Independently check decoded types, values, aliases and canonical scalars."""
+    kind = type(hot)
+    if kind in CONTAINERS:
+        require(decoded is hot, 'AFUI_LOSSLESS_STATE_CACHE_CHANGED_CONTAINER_IDENTITY')
+        return
+    if kind in SCALARS or kind is str:
+        same = type(decoded) is kind and (decoded.hex() == hot.hex() if kind is float else decoded == hot)
+    else:
+        same = type(decoded) is str and decoded == str(hot) and json.dumps(decoded) == json.dumps(hot, sort_keys=True, default=str)
+    require(same, 'AFUI_LOSSLESS_STATE_EVERY_CANONICAL_ORIGINAL_BYTE_REQUIRED')
+
+
+def read_stream_cache(stream, reference, expected=None):
+    reader = CompleteStream(stream)
+
+    def field(name):
+        require(reader.scalar() == name, 'AFUI_LOSSLESS_STATE_STREAM_FIELD:' + name)
+        reader.take(':')
+
+    reader.take('{')
+    field('strings')
+    strings = expected.strings if expected is not None else []
+    seen = set()
+    string_count = 0
+    for text in reader.array(reader.json_item):
+        require(type(text) is str, 'AFUI_LOSSLESS_STATE_UNIQUE_IMMUTABLE_STRINGS')
+        if expected is None:
+            require(text not in seen, 'AFUI_LOSSLESS_STATE_UNIQUE_IMMUTABLE_STRINGS')
+            seen.add(text)
+            strings.append(text)
+        else:
+            require(string_count < len(strings) and text == strings[string_count], 'AFUI_LOSSLESS_STATE_CACHE_CHANGED_STRING')
+        string_count += 1
+    require(string_count == len(strings), 'AFUI_LOSSLESS_STATE_CACHE_CHANGED_STRING_COUNT')
+    seen.clear()
+    reader.take(',')
+    field('nodes')
+    values = expected.nodes if expected is not None else []
+    index = 0
+
+    def string(number):
+        require(type(number) is int and 0 <= number < len(strings), 'AFUI_LOSSLESS_STATE_STRING_REFERENCE')
+        return strings[number]
+
+    def value(token):
+        require(type(token) is list and len(token) == 2 and type(token[0]) is int, 'AFUI_LOSSLESS_STATE_TYPED_COMPLETE_NODE')
+        tag, data = token
+        if tag == 0:
+            require(type(data) in SCALARS and (type(data) is not float or math.isfinite(data)), 'AFUI_LOSSLESS_STATE_JSON_SCALAR')
+            return data
+        if tag == 1:
+            return string(data)
+        require(tag == 2 and type(data) is int and 0 <= data < index, 'AFUI_LOSSLESS_STATE_PRIOR_CONTAINER_REFERENCE')
+        return values[data]
+
+    def pair(row):
+        require(type(row) is list and len(row) == 2, 'AFUI_LOSSLESS_STATE_COMPLETE_DICTIONARY_PAIR')
+        return string(row[0]), value(row[1])
+
+    def node():
+        nonlocal index
+        reader.take('[')
+        tag = reader.json_item()
+        require(type(tag) is int and tag in (2, 3), 'AFUI_LOSSLESS_STATE_KNOWN_NODE_TYPE')
+        reader.take(',')
+        payload = reader.array(reader.json_item)
+        if expected is not None:
+            require(index < len(values), 'AFUI_LOSSLESS_STATE_CACHE_CHANGED_NODE_COUNT')
+            hot = values[index]
+            require((tag == 3) is (type(hot) is dict), 'AFUI_LOSSLESS_STATE_CACHE_CHANGED_NODE_TYPE')
+            if tag == 3:
+                for row, (key, item) in zip(payload, hot.items(), strict=True):
+                    read_key, decoded = pair(row)
+                    require(read_key == key, 'AFUI_LOSSLESS_STATE_CACHE_CHANGED_KEY')
+                    match_value(decoded, item)
+            else:
+                for token, item in zip(payload, hot, strict=True):
+                    match_value(value(token), item)
+        elif tag == 3:
+            result = {}
+            for row in payload:
+                key, item = pair(row)
+                require(key not in result, 'AFUI_LOSSLESS_STATE_DUPLICATE_KEY')
+                result[key] = item
+            values.append(result)
+        else:
+            values.append([value(token) for token in payload])
+        reader.take(']')
+        index += 1
+
+    for _ in reader.array(node):
+        pass
+    require(index == len(values), 'AFUI_LOSSLESS_STATE_CACHE_CHANGED_NODE_COUNT')
+    reader.take(',')
+    field('root')
+    root = value(reader.json_item())
+    reader.take(',')
+    field('format')
+    require(reader.scalar() == FORMAT, 'AFUI_LOSSLESS_STATE_EXACT_ENCODING')
+    reader.take(',')
+    field('source_original')
+    original_binding(reader.value(), reference)
+    reader.take('}')
+    require(reader.peek() == '' and reader.ended, 'AFUI_COMPLETE_JSON_TRAILING_BYTES')
+    if expected is not None:
+        match_value(root, expected.root)
+    return root
+
+
 def save(target, value, original_reference):
     from . import complete_original_io
-    document = encode(value)
-    document['source_original'] = original_reference
-    require(canonical_pin(decode(document)) == {k: original_reference[k] for k in ('bytes', 'sha256')},
+    target = complete_original_io.regular(Path(target))
+    graph = GraphIndex(value)
+    with tempfile.NamedTemporaryFile(mode='wb', dir=target.parent,
+            prefix='.' + target.name + '.', suffix='.partial', delete=False) as stream:
+        partial = Path(stream.name)
+        for chunk in cache_chunks(graph, original_reference):
+            stream.write(chunk.encode('utf-8'))
+        stream.flush()
+        os.fsync(stream.fileno())
+    with partial.open('r', encoding='utf-8') as stream:
+        read_stream_cache(stream, original_reference, graph)
+    # The streamed read matched every decoded edge against the hot graph,
+    # including canonical scalar bytes. Re-hash that exact graph without a clone.
+    require(canonical_pin(value) == {k: original_reference[k] for k in ('bytes', 'sha256')},
             'AFUI_LOSSLESS_STATE_EVERY_CANONICAL_ORIGINAL_BYTE_REQUIRED')
-    return complete_original_io.save_sorted(Path(target), document, 'AFUI_LOSSLESS_STATE_FIRST_CACHE_CONFLICT')
+    pin = complete_original_io.pin(partial)
+    complete_original_io.finish(partial, target, 'AFUI_LOSSLESS_STATE_FIRST_CACHE_CONFLICT')
+    return dict(name=target.name, **pin)
 
 
 def read(target, expected, original, expected_original):
     from . import complete_original_io
-    require(complete_original_io.pin(Path(original))['sha256'] == expected_original,
+    original = Path(original)
+    original_pin = complete_original_io.pin(original)
+    require(original_pin['sha256'] == expected_original,
             'AFUI_LOSSLESS_STATE_COMPLETE_ORIGINAL_CHANGED')
-    document = complete_original_io.read_verified_json(Path(target), expected, 'AFUI_LOSSLESS_STATE_CACHE_CHANGED')
-    reference = document['source_original']
-    require(reference['name'] == Path(original).name and reference['sha256'] == expected_original
-            and reference['bytes'] == Path(original).stat().st_size, 'AFUI_LOSSLESS_STATE_EXACT_ORIGINAL_BINDING')
+    reference = dict(name=original.name, **original_pin)
+    target = complete_original_io.regular(Path(target))
+    with target.open('rb') as stream:
+        require(file_digest(stream, 'sha256').hexdigest() == expected, 'AFUI_LOSSLESS_STATE_CACHE_CHANGED')
+        stream.seek(0)
+        with TextIOWrapper(stream, encoding='utf-8') as text:
+            prefix = text.read(len(STREAM_PREFIX))
+            text.seek(0)
+            if prefix == STREAM_PREFIX:
+                return read_stream_cache(text, reference)
+            document = json.load(text)
+    original_binding(document['source_original'], reference)
     return decode(document)
 
 
@@ -200,7 +397,7 @@ class CompleteStream:
     def take(self, token):
         require(self.peek() == token, 'AFUI_COMPLETE_JSON_DELIMITER:' + token);self.position += 1
 
-    def scalar(self):
+    def json_item(self):
         self.peek()
         while True:
             try:
@@ -210,16 +407,27 @@ class CompleteStream:
                     self.more();continue
                 require(end == len(self.buffer) or self.buffer[end] in ' \t\r\n,:]}', 'AFUI_COMPLETE_JSON_SCALAR_DELIMITER')
                 self.position = end
-                require(type(value) in (str, type(None), bool, int, float)
-                        and (type(value) is not float or math.isfinite(value)), 'AFUI_COMPLETE_JSON_SCALAR')
-                if type(value) is str:
-                    value = self.strings.setdefault(value, value)
                 return value
             except json.JSONDecodeError:
                 if self.ended:
                     raise
                 require(len(self.buffer) - self.position < 128 * 1024 * 1024, 'AFUI_COMPLETE_JSON_SCALAR_MEMORY_BOUND')
                 self.more()
+
+    def scalar(self):
+        value = self.json_item()
+        require(type(value) is str or type(value) in SCALARS
+                and (type(value) is not float or math.isfinite(value)), 'AFUI_COMPLETE_JSON_SCALAR')
+        return self.strings.setdefault(value, value) if type(value) is str else value
+
+    def array(self, item):
+        self.take('[')
+        if self.peek() != ']':
+            yield item()
+            while self.peek() == ',':
+                self.take(',')
+                yield item()
+        self.take(']')
 
     def value(self):
         token = self.peek()

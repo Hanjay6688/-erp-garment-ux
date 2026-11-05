@@ -1,5 +1,6 @@
 """Lossless complete Mandor state I/O; no ERP import or database operation."""
 from hashlib import sha256,file_digest
+from os import SEEK_END
 from pathlib import Path
 import importlib,json,sys
 
@@ -35,8 +36,22 @@ def save(value,reference,directory=None):
 
 def reference(original):
     path=ROOT/'cp6-proof/t3'/CACHE
-    current=dict(name=CACHE,**pin(path));document=json.loads(path.read_text())
-    require(document['source_original']==original,'MANDOR_COMPLETE_CACHE_EXACT_ORIGINAL_REFERENCE')
+    current=dict(name=CACHE,**pin(path))
+    prefix=codec().STREAM_PREFIX.encode()
+    with path.open('rb') as stream:
+        if stream.read(len(prefix))==prefix:
+            marker=b',"source_original":'
+            size=len(marker)+len(json.dumps(original,separators=(',',':')).encode())+2
+            require(size<=current['bytes'],'MANDOR_COMPLETE_CACHE_EXACT_ORIGINAL_REFERENCE')
+            stream.seek(-size,SEEK_END)
+            suffix=stream.read(size)
+            require(suffix.startswith(marker) and suffix.endswith(b'}\n'),
+                    'MANDOR_COMPLETE_CACHE_EXACT_ORIGINAL_REFERENCE')
+            binding=json.loads(suffix[len(marker):-2])
+        else:
+            stream.seek(0)
+            binding=json.load(stream)['source_original']
+    require(binding==original,'MANDOR_COMPLETE_CACHE_EXACT_ORIGINAL_REFERENCE')
     return current
 
 
