@@ -1,3 +1,23 @@
+# Current Afui complete Original consumer, 5 November
+
+The current Afui helper has5951 bytes, while this SKU consumer still required
+the old5802-byte helper. Calling the actual old consumer with the actual74e
+helper reproduced its exact source refusal before any ERP work. The complete
+Original consumer and the browser frozen-source identity now bind74e and its
+exact helper bytes. The unchanged case-output and encoder-primitive pins retain
+their original identities; no output expression, financial command or recovery
+operation is rewritten.
+
+The cold browser control now reads the immutable pinned Git blob instead of
+depending on a neighbouring erp worktree. New controls execute the real current
+consumer, verify complete canonical output and its receipt, refuse the old or
+altered helper, and require browser/output consumers to bind the same tree.
+All five automatic and ten retained money admission values remain unset.
+Actual accepted Mandor Root/source/workflow rebinding remains pending; this
+helper repair does not claim that downstream runtime has been admitted.
+
+---
+
 # Three approved B display files, 5 November
 
 The selected UI commit already contained the three approved B display files,

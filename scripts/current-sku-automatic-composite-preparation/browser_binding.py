@@ -27,8 +27,8 @@ def load(name, path):
 entry = load('current_browser_actual_owning_entry', HERE / 'qualification.py')
 preflight = load('current_browser_complete_source_prerequisites', HERE / 'browser_preflight.py')
 observer = load('current_browser_complete_economic_observer', HERE / 'browser_observer.py')
-AFUI_HEAD = '92a376091a1d1ea9901648e614f3e5212677a81f'
-AFUI_TREE = 'ef194e421402ae1e45625e2d57f58c848ef9e08f'
+AFUI_HEAD = '74e7a6bc0754b7b3772f4b47095b518a41b972da'
+AFUI_TREE = '4de54b9a4a7745d447996f7b20886ef955ae45d8'
 
 
 def require(value, message):

@@ -66,8 +66,8 @@
       "sha256": "f5474148bc4d3cb872585b48978e747081d9f4ab562a30f6e4e84089cc9d4e8a"
     },
     "README.md": {
-      "bytes": 7839,
-      "sha256": "f1eb11c2098c509a0d1d5620da1fe2896f2f10ec5c4ef6bdf1ced6f88897fcb9"
+      "bytes": 8923,
+      "sha256": "13a9a6739351004131f4f773c02eca083539964242a8a62b483e5e5405799383"
     },
     "SOURCE_INTAKE_PREPARATION_CONTROLS.json": {
       "bytes": 760,
@@ -99,7 +99,7 @@
     },
     "browser_binding.py": {
       "bytes": 8622,
-      "sha256": "d16904b8523e04487a4753ae50e71e88f8336dead1a93d4b105d86c0ca286c93"
+      "sha256": "6a10fa8539863ec03de6f58fdc65a23d75da08b3e9e79f1317c8ff435ff3596f"
     },
     "browser_evidence.mjs": {
       "bytes": 6775,
@@ -203,7 +203,7 @@
     },
     "report_io.py": {
       "bytes": 6395,
-      "sha256": "ba0b685df49cd10334210b88bb3bbafa345a07bd4490d6625d099605cdc035c0"
+      "sha256": "a063b6121db14575f04a6be12076a1371011a9a21f1a0cd9d140962119cb6f11"
     },
     "sku-current-parent-money-automatic-native25-81.workflow.yml.txt": {
       "bytes": 34740,
@@ -234,8 +234,8 @@
       "sha256": "02db4e74d6a3d37851b03583b23f7304ce2b892f51bfdde514d17ad9896d9580"
     },
     "test_browser_binding.py": {
-      "bytes": 6758,
-      "sha256": "92d802387bc8c217078e2d3f4a34a0e707a39584f5c13e723306cf282b1322da"
+      "bytes": 7442,
+      "sha256": "2bb167f5b14d15b99d979a683f232c0357aa1517c421923af59201c4f08a50de"
     },
     "test_browser_evidence.mjs": {
       "bytes": 10658,
@@ -270,8 +270,8 @@
       "sha256": "7d5c3cb9708364ddc81d22c6f239745e5f1906e0efbae645cb302cca1673e2fc"
     },
     "test_report_io.py": {
-      "bytes": 6149,
-      "sha256": "14f29ede80ec3aab71abc0d74f08fcf6b7d44dc8b9c9d78be1d3312a5f42ac74"
+      "bytes": 8174,
+      "sha256": "806f13b2c6c119399cbb11a3af020a22fdbedd4a2dcff1450d154df1c038056a"
     },
     "test_source_intake.py": {
       "bytes": 2732,
@@ -288,6 +288,10 @@
     "SELECTIVE_UI_SOURCE_ADMISSION_CONTROLS_20261105.json": {
       "bytes": 1605,
       "sha256": "618cc9ac899134c1d9790e2232346fb17e21f35559a9e152ac267ae49d140c69"
+    },
+    "CURRENT_AFUI_ORIGINALS_BINDING_CONTROLS_20261105.json": {
+      "bytes": 1647,
+      "sha256": "50165c4b04a1d3e19286ca7cc44899f36403185818b681bf3a996e8e565a5c3c"
     }
   },
   "prepared_upstream_native_callbacks": 6,
@@ -431,5 +435,14 @@
     "HPP_conditional_text_changes_applied": false
   },
   "current_money_product_source_unchanged": true,
-  "selective_UI_source_admission_prepared": true
+  "selective_UI_source_admission_prepared": true,
+  "pending_current_Afui_original_consumer_source": {
+    "head": "74e7a6bc0754b7b3772f4b47095b518a41b972da",
+    "tree": "4de54b9a4a7745d447996f7b20886ef955ae45d8",
+    "complete_original_helper": {
+      "bytes": 5951,
+      "sha256": "f7c732004e1f5f0f2fe7ac7e08a6f049e6d41f0074fca7336c66736aaf522170"
+    },
+    "actual_Mandor_Root_adopted": false
+  }
 }

@@ -2,12 +2,15 @@
 import ast
 from datetime import datetime, timezone
 from decimal import Decimal
+from hashlib import sha256
 import importlib.util
 import json
 from pathlib import Path
+import subprocess
 import tempfile
 from types import FunctionType, ModuleType
 import unittest
+from unittest.mock import patch
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
@@ -33,6 +36,35 @@ class OutputRoutes(unittest.TestCase):
             ('money19', 'scripts/current-sku-money-composite-preparation/package.py'),
         ):
             cls.engines[name] = load('exact_report_engine_' + name, ROOT / path).derive(original)[0]
+
+    def test_actual_current_Afui_complete_helper_admits_and_old_or_changed_bytes_refuse(self):
+        current = '74e7a6bc0754b7b3772f4b47095b518a41b972da'
+        old = '92a376091a1d1ea9901648e614f3e5212677a81f'
+        source = ':scripts/cp7_accessory_nonpayable/complete_original_io.py'
+        raw = subprocess.check_output(['git', '-C', str(ROOT), 'show', current + source])
+        previous = subprocess.check_output(['git', '-C', str(ROOT), 'show', old + source])
+        self.assertEqual(io.COMPLETE_ORIGINALS_HEAD, current)
+        self.assertNotEqual(raw, previous)
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / 'complete_original_io.py'
+            with patch.object(io, 'COMPLETE_ORIGINALS_PATH', path):
+                path.write_bytes(raw)
+                actual = io.complete_originals()
+                self.assertTrue(callable(actual.save_sorted))
+                self.assertTrue(callable(actual.copy_exact))
+                self.assertTrue(callable(actual.save_gzip_sorted))
+                with tempfile.TemporaryDirectory() as output:
+                    target = Path(output) / 'whole-current-state.json'
+                    value = {'all_values': [None, Decimal('1.23'), 'café', 2**70]}
+                    receipt = actual.save_sorted(target, value, 'MODEL_ORIGINAL_CONFLICT')
+                    expected = (json.dumps(value, sort_keys=True, default=str) + '\n').encode()
+                    self.assertEqual(target.read_bytes(), expected)
+                    self.assertEqual(receipt, {'name': target.name, 'bytes': len(expected),
+                                              'sha256': sha256(expected).hexdigest()})
+                for invalid in (previous, raw + b'\n'):
+                    path.write_bytes(invalid)
+                    with self.assertRaisesRegex(ValueError, 'EXACT_AFUI_COMPLETE_ORIGINAL_COPY_SOURCE'):
+                        io.complete_originals()
 
     def test_each_complete_engine_has_exactly_one_reversible_output_route(self):
         for name, before in self.engines.items():

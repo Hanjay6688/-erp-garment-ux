@@ -8,6 +8,7 @@ from types import CodeType, FunctionType, ModuleType, SimpleNamespace
 from unittest.mock import patch
 import importlib.util
 import json
+import subprocess
 import unittest
 
 HERE = Path(__file__).resolve().parent
@@ -30,6 +31,12 @@ def function(source, name, namespace):
 
 
 class BrowserBindingControls(unittest.TestCase):
+    def test_browser_and_complete_output_consumer_bind_the_same_exact_current_Afui(self):
+        self.assertEqual(binding.AFUI_HEAD, binding.entry.report_io.COMPLETE_ORIGINALS_HEAD)
+        actual_tree = subprocess.check_output(['git', '-C', str(HERE.parents[1]), 'rev-parse',
+                                              binding.AFUI_HEAD + '^{tree}'], text=True).strip()
+        self.assertEqual(binding.AFUI_TREE, actual_tree)
+
     def test_complete_real_journeys_use_eight_reversible_current_routes(self):
         prepare = load('current_complete_journey_control', HERE / 'browser_prepare.py')
         text, proof = prepare.derive()
@@ -70,10 +77,13 @@ class BrowserBindingControls(unittest.TestCase):
     def test_private_current_census_preserves_complete_legacy_bytes_without_old_product(self):
         d = load('current_browser_full_census_source_control', HERE.parent / 'current-sku-managed-recovery-native27-qualification/derive.py')
         raw, _ = d.derive('browser_fixture');text, _ = binding.derive_fixture(raw.encode())
-        source_root = HERE.parents[2] / 'erp/scripts/cp7_accessory_nonpayable/complete_original_io.py'
-        raw_helper = source_root.read_bytes()
+        raw_helper = subprocess.check_output(['git', '-C', str(HERE.parents[1]), 'show',
+            binding.entry.report_io.COMPLETE_ORIGINALS_HEAD + ':scripts/cp7_accessory_nonpayable/complete_original_io.py'])
         self.assertEqual((len(raw_helper), sha256(raw_helper).hexdigest()), binding.entry.report_io.COMPLETE_ORIGINALS_PIN)
-        helper = load('current_browser_exact_streamed_complete_output_control', source_root)
+        with TemporaryDirectory() as source_directory:
+            source = Path(source_directory) / 'complete_original_io.py'
+            source.write_bytes(raw_helper)
+            helper = load('current_browser_exact_streamed_complete_output_control', source)
         catalog = {str(index): {'complete_model_field': ['unicode café', index]} for index in range(22)}
         data = {'erp.explicit_model': [{'unknown_nested_original_field': {'decimal': Decimal('.01')}}],
                 'sequence:erp.explicit_model_id_seq': ['7', True]}
