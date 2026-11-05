@@ -11,7 +11,7 @@ import json
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
 ORIGINAL = ROOT / 'scripts/cp7_accessory_nonpayable/durable_action.mjs'
-PIN = dict(bytes=17776, sha256='0cf5f82d9f19d6c143be121f226bb9694e6f28ec304f34d370e132b682737598')
+PIN = dict(bytes=17873, sha256='e0b7505d3c0db3b16b004abdf0ae66fa7d7973a94c09c5a2eea2e50091e00eb0')
 NAMES = ('CP7_FG_MANDOR_NATIVE9_STRICT.json', 'CP7_FG_MANDOR_NATIVE9_STRICT_BUSINESS_DAY_FIRST_ATTEMPT.json',
          'CP7_FG_MANDOR_NATIVE9.json', 'MANDOR_SESSION4_ORIGINAL.json', 'MANDOR_HTTP2_ORIGINAL.json',
          'MANDOR_BROWSER_FIXTURE.json', 'MANDOR_BROWSER_STATE.json', 'MANDOR_BROWSER_STATE_CACHE.json', 'MANDOR_BROWSER2_ORIGINAL.json')

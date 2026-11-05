@@ -119,6 +119,18 @@ def fixture_lossless_state_preflight():
     return dict(status='EVERY_CANONICAL_STATE_BYTE_AND_INDEPENDENT_CONTAINER_VERIFIED',tests_run=9,
         dropped_keys_or_values=0,actual_SQL_executed=0,actual_browser_case_credit=0)
 
+def fixture_complete_state_preflight():
+    import io,unittest
+    from cp7_accessory_nonpayable.test_state_prepare import StatePreparationControls
+    output=io.StringIO()
+    result=unittest.TextTestRunner(stream=output,verbosity=0).run(
+        unittest.defaultTestLoader.loadTestsFromTestCase(StatePreparationControls))
+    if result.testsRun!=12 or not result.wasSuccessful()or result.skipped or result.expectedFailures:
+        raise ValueError('NONPAYABLE_EARLY_COMPLETE_STATE_PREFLIGHT_FAILED:'+output.getvalue())
+    return dict(status='EARLY_COMPLETE_HOT_STATE_RESOURCE_AND_FIRST_ORIGINAL_GUARDS_PASS',tests_run=12,
+        actual_allocation_refusal_verified=True,actual_SQL_executed=0,actual_case_credit=0,
+        previous_runner_shutdown_origin_proven=False)
+
 def runtime():
     from cp7_accessory_nonpayable import admission,source,package_engine
     admission.parent_receipt()  # Before any ERP import or runtime construction.
@@ -173,6 +185,7 @@ def main():
         report_io=fixture_report_io_preflight()
         complete_original_io=fixture_complete_original_io_preflight()
         lossless_state=fixture_lossless_state_preflight()
+        complete_state=fixture_complete_state_preflight()
         _,engine=package_engine.derive((ROOT/package_engine.ORIGINAL).read_bytes())
         _,copies=copy_context.derive((ROOT/copy_context.ORIGINAL).read_bytes())
         print(json.dumps(dict(status='NONPAYABLE_STATIC_WHOLE_QUALIFIER_PREPARED_NOT_EXECUTED',source=static,
@@ -184,6 +197,7 @@ def main():
             fixture_report_io_preflight=report_io,
             fixture_complete_original_io_preflight=complete_original_io,
             fixture_lossless_state_preflight=lossless_state,
+            fixture_complete_state_preflight=complete_state,
             actual_SQL_executed=0,actual_Native_cases=0,
             actual_Auth_HTTP_cases=0,actual_two_session_cases=0,actual_browser_cases=0,
             production_go=False,independent_acceptance=False),sort_keys=True));return

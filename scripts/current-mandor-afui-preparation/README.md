@@ -1,3 +1,26 @@
+# Current c790 preparation, 5 November
+
+Afui215 ended after its hosted runner lost communication. Its underlying cause
+remains unknown; verified Native9 cannot replace full15/all-five acceptance or
+outer recovery. This successor now targets immutable Afuic790, with all42 exact
+parent delta paths, including the early complete-state prerequisite and its
+first immutable diagnostics. The exact current serializer and transport source
+pins were refreshed; all16 transport routes recover the whole new original.
+Seven caller routes remain reversible and both actual admission families stay
+closed. No Native17 workflow is activated.
+
+Sixteen own preparation controls and14 transport controls pass. The source fence
+checks6136 available parent files and explicitly reports8496 sparse omissions;
+full runtime materialization is still mandatory. Existing financial commands,
+SQL, case/oracle/fixture bodies, actors, dates, UUIDs and recovery stay byte exact.
+The84-step inactive template, both browser checkout installations and original
+360/330/20/10 budgets are retained. The three separately accepted B display fixes
+remain queued for deliberate integration with the actual Root/source rebinding.
+Two HPP labels still require actual GradeA moving-average backend acceptance.
+Historical215 and earlier preparation records below retain their original scope.
+
+---
+
 # Complete current caller prerequisites
 
 The standalone Native/HTTP/race/browser source preflight now binds the exact

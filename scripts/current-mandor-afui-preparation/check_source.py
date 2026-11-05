@@ -46,8 +46,8 @@ def source(*, allow_sparse_observation=False):
             'MANDOR_CURRENT_EXACT_COMPLETE_BASE_AND_AFUI_TREES_REQUIRED')
     base, afui = entries(routes.BASE_TREE), entries(routes.AFUI_TREE)
     copied = set(git('diff', '--name-only', routes.PRIOR_AFUI, routes.AFUI, '--').decode().splitlines())
-    require(copied == set(manifest['exact_current_Afui_files']) and len(copied) == 39,
-            'MANDOR_CURRENT_COMPLETE_THIRTY_NINE_AFUI_SOURCE_PATHS_REQUIRED')
+    require(copied == set(manifest['exact_current_Afui_files']) and len(copied) == 42,
+            'MANDOR_CURRENT_COMPLETE_FORTY_TWO_AFUI_SOURCE_PATHS_REQUIRED')
     for name in copied:
         require(name in afui and afui[name] == manifest['exact_current_Afui_files'][name],
                 'MANDOR_CURRENT_EXACT_QUALIFIED_AFUI_BLOB_REQUIRED:' + name)

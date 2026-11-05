@@ -13,6 +13,18 @@ import {childEnvironment, command, digest, ownRuntime, originalLabel, outputs, s
 const receipt = {artifact_id: '123', artifact_sha256: 'd'.repeat(64)};
 const identity = {qualification_commit: 'c'.repeat(40), github_run_id: '1234', github_run_attempt: '1'};
 
+test('early state start and terminal result retain exact diagnostic Originals without case credit', async () => fixture(async f => {
+  const names = ['AFUI_COMPLETE_STATE_PREREQUISITE_START.json','AFUI_COMPLETE_STATE_PREREQUISITE_RESULT.json'];
+  for(const name of names)await fs.writeFile(path.join(f.cases,name),JSON.stringify({status:name,actual_case_credit:0})+'\n');
+  for(const name of names)assert.ok(originalLabel(name));
+  for(const name of names){
+    const directory=path.join(f.staging,name);
+    const manifest=await snapshot(path.join(f.cases,name),directory,identity);
+    assert.equal(manifest.actual_case_credit,0);
+    assert.deepEqual(await fs.readFile(path.join(directory,manifest.original_name)),await fs.readFile(path.join(f.cases,name)));
+  }
+}));
+
 test('large full state parts reassemble both compressed and complete original bytes without new case credit', async () => fixture(async f => {
   const name = 'AFUI_BROWSER_SETTINGS_STATE.json', source = path.join(f.cases, name);
   const raw = Buffer.from(JSON.stringify({all_fields: randomBytes(18000).toString('hex'),rows:[1,2,3]}) + '\n');

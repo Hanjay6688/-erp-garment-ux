@@ -3,8 +3,8 @@ from hashlib import sha256
 
 BASE = 'c296fd06167ddd177e1192c1008992e2a1e3d628'
 BASE_TREE = 'fdd36962a7de81482ccca02e6ff96597cfc20081'
-AFUI = '21542ca22ad08f366d8f3c69929ca47b2d79b5f5'
-AFUI_TREE = 'cbf06669baba7d820b50b008cb52198fe4c8bc9b'
+AFUI = 'c790a7e42cd3389c4bf1631cb9413ae2f1f9f9fc'
+AFUI_TREE = 'd0a642084cec4e5c070b1eb7b74be7a3dc6a36ec'
 PRIOR_AFUI = '76b3f1e1bcce49cc405e55f92a733dcd0f360cad'
 NS = 'scripts/current-mandor-shop-native-qualification/'
 PINS = {

@@ -14,7 +14,7 @@ import os
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
 SOURCES = {
-    'complete_original_io.py': (5848, '93e44e72ed2312fffab4d6905a0241ba75d1fba46d4d2fe5f9c9f40867c1420b'),
+    'complete_original_io.py': (5951, 'f7c732004e1f5f0f2fe7ac7e08a6f049e6d41f0074fca7336c66736aaf522170'),
     'case_output.py': (6200, '53cad5f461603efbf84533d6c5804612901137d495af59a0de942f7df52baca5'),
 }
 RETENTION = 'scripts/current-mandor-shop-native-qualification/access_cases.py'

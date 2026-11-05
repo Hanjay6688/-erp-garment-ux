@@ -108,6 +108,51 @@ def canonical_pin(value):
     return dict(bytes=count, sha256=digest.hexdigest())
 
 
+def graph_pin(value):
+    """Fingerprint every value and container alias without expanding a DAG.
+
+    Ordinals describe traversal, never process addresses. Equal independent
+    snapshots remain distinct; dictionary insertion order is not significant.
+    This is an immutability guard, not a substitute for canonical byte proof.
+    """
+    digest, identities, active = sha256(), {}, set()
+    references = 0
+
+    def emit(tag, payload=''):
+        raw = payload.encode('utf-8')
+        digest.update(tag.encode('ascii') + str(len(raw)).encode('ascii') + b':' + raw)
+
+    def visit(item):
+        nonlocal references
+        kind = type(item)
+        if kind in (dict, list, tuple):
+            identity = id(item)
+            require(identity not in active, 'AFUI_LOSSLESS_STATE_CIRCULAR_CONTAINER')
+            if identity in identities:
+                references += 1
+                emit('R', str(identities[identity]));return
+            identities[identity] = len(identities)
+            active.add(identity)
+            try:
+                emit('D' if kind is dict else 'L' if kind is list else 'T', str(len(item)))
+                if kind is dict:
+                    require(all(type(k) is str for k in item), 'AFUI_LOSSLESS_STATE_EXACT_JSON_STRING_KEYS')
+                    for key in sorted(item):
+                        emit('K', key);visit(item[key])
+                else:
+                    for child in item:visit(child)
+                emit('E')
+            finally:
+                active.remove(identity)
+        else:
+            require(kind is not float or math.isfinite(item), 'AFUI_LOSSLESS_STATE_FINITE_JSON_NUMBER')
+            emit('S', json.dumps(item, sort_keys=True, default=str))
+
+    visit(value)
+    return dict(format='AFUI_COMPLETE_STATE_IDENTITY_GRAPH_SHA256_V1', sha256=digest.hexdigest(),
+                unique_containers=len(identities), repeated_container_references=references)
+
+
 def save(target, value, original_reference):
     from . import complete_original_io
     document = encode(value)

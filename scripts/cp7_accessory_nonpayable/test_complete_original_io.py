@@ -126,12 +126,14 @@ class CompleteOriginalStorage(unittest.TestCase):
             raw=(HERE / name).read_text()
             if name=='qualification_component.py':
                 routes={
-                    'from . import assembly,browser_prepare,native_fixture,lossless_state':
-                        'from . import assembly,browser_prepare,native_fixture',
-                    "        cache=ROOT/'cp6-proof/t3/AFUI_BROWSER_SETTINGS_STATE_CACHE.json'\n"
-                    "        report['browser_settings_cache_original']=lossless_state.save(cache,state,report['browser_settings_state_original'])\n"
-                    "        from . import complete_original_io\n"
-                    "        complete_original_io.publish(cache)\n":'',
+                    'case_output,progress,report_io,state_prepare': 'case_output,progress,report_io',
+                    "    with progress.phase('COMPLETE_STATE_PREREQUISITE'):\n"
+                    "        prepared_state=state_prepare.prepare(state,ROOT/'cp6-proof/t3',save)\n"
+                    "    report.update({key:prepared_state[key]for key in('browser_settings_state_original','browser_settings_cache_original')})\n":'',
+                    "    state_prepare.verify_unchanged(state,prepared_state)\n":'',
+                    "        report['browser_fixture_original']=save('AFUI_BROWSER_NATIVE_PREREQUISITE.json',prepared)\n":
+                    "        report['browser_fixture_original']=save('AFUI_BROWSER_NATIVE_PREREQUISITE.json',prepared)\n"
+                    "        report['browser_settings_state_original']=save('AFUI_BROWSER_SETTINGS_STATE.json',state)\n",
                     "        AFUI_BROWSER_STATE_CACHE_SHA256=report['browser_settings_cache_original']['sha256'],\n":'',
                 }
                 for route,original_route in routes.items():

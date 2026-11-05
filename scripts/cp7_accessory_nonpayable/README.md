@@ -425,3 +425,32 @@ assertions, actors, restoration and the360/330/20/10 budgets are unchanged.
 The action still accepts first attempt only; a GitHub job re-run is not an
 activation path. A successor must use a new immutable candidate and a genuine
 six-hour WIB window. No financial job is started by these source changes.
+### 5 November: terminal runner disconnection and early complete-state prerequisite
+
+Run41935037565/job126941232433 at215 ended in failure after the hosted
+runner lost communication. Its underlying cause remains unknown. Nine current
+individual Native Originals and the whole Native9 group are independently
+verified PASS. The complete7995578127-byte settings Original was retained and
+verified through all three compressed parts; no current cache Original or
+canonical final archive exists. HTTP/race/browser execution and full15/all5,
+outer sequences, roles, Auth and worker recovery remain unverified.
+
+The actual hot-state producer now runs after the source connection closes,
+before Native9. It retains every canonical byte and the unchanged v2 cache.
+A complete graph fingerprint guards values and independent/shared container
+identity before/after production and after Native9; any changed state refuses
+reuse. The ordinary committed GOOD fixture and used-inverse checks still run
+in their original phase. No financial operation or assertion moved.
+
+A temporary soft address-space limit respects existing limits and reserves
+available host/cgroup memory for recovery. It restores the exact soft/hard
+pair on success or failure. This bounds one producer's allocation risk; it
+does not establish the previous cause or guarantee runner availability.
+Two small immutable start/result Originals use the existing durable publisher
+and identify the actual last preparation stage without business credit.
+Twelve new controls include an actual refused child allocation and exact
+resource restoration. Existing byte/identity/storage controls and financial
+AST comparison pass. A local diagnostic transport test initially called the
+wrong existing API; the corrected targeted test passes. Product SQL, actors,
+grants, dates, UUIDs, complete source fences and360/330/20/10 budgets remain
+unchanged. Fresh full15, all five package gates and full recovery are required.
