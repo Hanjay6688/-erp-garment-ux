@@ -20,49 +20,35 @@ jobs:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           persist-credentials: false
-      - name: Download and split the exact completed attempt1 canonical ZIP
+      - name: Repackage only previously verified missing transport parts
         env:
           GH_TOKEN: ${{ github.token }}
-        run: python3 -B scripts/afui-evidence-intake-20261105/retain.py archive
+        run: python3 -B scripts/afui-evidence-intake-20261105/repair_parts.py
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
-          name: afui-42071741816-exact-diagnostics
-          path: afui-evidence-intake-20261105/diagnostics
+          name: afui-42071741816-exact-part-001-slice-1
+          path: afui-evidence-intake-20261105/repair/part-001-slice-1
           compression-level: 0
           retention-days: 30
           if-no-files-found: error
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
-          name: afui-42071741816-exact-part-001
-          path: afui-evidence-intake-20261105/part-001
+          name: afui-42071741816-exact-part-001-slice-2
+          path: afui-evidence-intake-20261105/repair/part-001-slice-2
           compression-level: 0
           retention-days: 30
           if-no-files-found: error
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
-          name: afui-42071741816-exact-part-002
-          path: afui-evidence-intake-20261105/part-002
+          name: afui-42071741816-exact-part-004-slice-1
+          path: afui-evidence-intake-20261105/repair/part-004-slice-1
           compression-level: 0
           retention-days: 30
           if-no-files-found: error
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
-          name: afui-42071741816-exact-part-003
-          path: afui-evidence-intake-20261105/part-003
-          compression-level: 0
-          retention-days: 30
-          if-no-files-found: error
-      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
-        with:
-          name: afui-42071741816-exact-part-004
-          path: afui-evidence-intake-20261105/part-004
-          compression-level: 0
-          retention-days: 30
-          if-no-files-found: error
-      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
-        with:
-          name: afui-42071741816-exact-part-005
-          path: afui-evidence-intake-20261105/part-005
+          name: afui-42071741816-exact-part-004-slice-2
+          path: afui-evidence-intake-20261105/repair/part-004-slice-2
           compression-level: 0
           retention-days: 30
           if-no-files-found: error
