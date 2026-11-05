@@ -223,6 +223,15 @@
       "whole_original_caller_recovered": true,
       "actual_ERP_cases": 0,
       "production_go": false
+    },
+    "preflight.py": {
+      "original_bytes": 10968,
+      "original_sha256": "ea789817b7ec0c48ca3fb702c5f1a8045853438f87302ea38d81f89595a5069d",
+      "derived_sha256": "315e8f8fccb2c16fad9d55ef50f4e12cf0d24f9edbb51c9c6c755a1bea0c3a81",
+      "exact_routes": 4,
+      "whole_original_caller_recovered": true,
+      "actual_ERP_cases": 0,
+      "production_go": false
     }
   },
   "files": {
@@ -231,8 +240,8 @@
       "sha256": "13c803c6d4bc67a696bb9a623b0be811cc5296e6c159b898212d4befff5ad574"
     },
     "scripts/current-mandor-afui-preparation/README.md": {
-      "bytes": 6776,
-      "sha256": "e8e976f605ed7fbe6508bea23b2924a6f1dd4a7ac6fd3bbf32c5eb946b9b1cea"
+      "bytes": 7420,
+      "sha256": "388f901011401521185e3e0fa40d224f74af7d5bff2cb69b1afacc6e6c5ec685"
     },
     "scripts/current-mandor-afui-preparation/check_source.py": {
       "bytes": 6228,
@@ -247,8 +256,8 @@
       "sha256": "04a7fab8b6e57641affe54f3dbe1caf1699d4bc070a0997d89495737077779b7"
     },
     "scripts/current-mandor-afui-preparation/routes.py": {
-      "bytes": 8568,
-      "sha256": "241cbaa4500eae7b8259a72fb1bbc5ea3585bb1a9ad2aeb0ee8ac1ded97374c0"
+      "bytes": 9158,
+      "sha256": "462efc4a9b2be7f33831c5632c243f08b3a102bedce5aee534ae9b71bc9376b4"
     },
     "scripts/current-mandor-afui-preparation/test_output_binding.py": {
       "bytes": 8270,
@@ -329,6 +338,14 @@
     "scripts/current-mandor-afui-preparation/test_state_io.py": {
       "bytes": 3527,
       "sha256": "e15cbbec5a5104b86c24c8b9f05a15440103351b45ebd5c9e1500bfaaf8f93cf"
+    },
+    "scripts/current-mandor-afui-preparation/CURRENT_SOURCE_PREREQUISITE_CONTROLS_20261105.json": {
+      "bytes": 49847,
+      "sha256": "faffe8545e3536ce7e86f30b50f8d09037864dd23a9246ca07e3331750a5588d"
+    },
+    "scripts/current-mandor-shop-native-qualification/preflight.py": {
+      "bytes": 10957,
+      "sha256": "315e8f8fccb2c16fad9d55ef50f4e12cf0d24f9edbb51c9c6c755a1bea0c3a81"
     }
   },
   "financial_assertions_and_owning_recovery_unchanged": true,
@@ -346,5 +363,6 @@
   },
   "actual_parent_adopted": false,
   "actual_successor_source_fence_rebinding_pending": true,
-  "active_Afui_candidate_run_reference_only": 41935037565
+  "active_Afui_candidate_run_reference_only": 41935037565,
+  "complete_current_source_prerequisites_prepared": true
 }

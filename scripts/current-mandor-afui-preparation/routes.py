@@ -14,10 +14,19 @@ PINS = {
     'access_runtime.py': (8404, '4718579f49a6ad7cc5b4ac0e229d474a61dfe8e13f0e544b6ecf3ac49699a487'),
     'browser_observer.py': (3746, '0458e0314827d2ff2b7c1ac13157e7fc34730f7231289b515c29c280594250f4'),
     'browser_gate.py': (10213, '8b213c1f7bc4232b9edc43471c16e4b0aeb5404c9784359024d9242074a019ad'),
+    'preflight.py': (10968, 'ea789817b7ec0c48ca3fb702c5f1a8045853438f87302ea38d81f89595a5069d'),
 }
 
 
 def replacements(name):
+    if name == 'preflight.py':
+        return (
+            ("admission['PARENT_HEAD']=='" + PRIOR_AFUI + "'", "admission['PARENT_HEAD']=='" + AFUI + "'"),
+            ("admission['PARENT_TREE']=='b3182ae21e3981e91d6d3730ec4ffb33dce1afb4'",
+             "admission['PARENT_TREE']=='" + AFUI_TREE + "'"),
+            ("admission['PARENT_RUN']==41596005356", "admission['PARENT_RUN'] is None"),
+            ("admission['PARENT_JOB']==125783405360", "admission['PARENT_JOB'] is None"),
+        )
     if name == 'admission.py':
         return (
             ("PARENT_HEAD='" + PRIOR_AFUI + "'", "PARENT_HEAD='" + AFUI + "'"),

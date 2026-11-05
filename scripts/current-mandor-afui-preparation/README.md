@@ -1,3 +1,16 @@
+# Complete current caller prerequisites
+
+The standalone Native/HTTP/race/browser source preflight now binds the exact
+current Afui215 target and requires both actual run/job pins to remain unset.
+Four reversible source-identity routes preserve the entire original checker,
+its cold-copy and advisor tests, method/RPC/SQL checks and all assertions.
+The current full batch passed against the exact retained 25-group Native
+catalogue; six actor/permission/date prerequisite controls also passed. These
+are source and protocol checks. Actual runtime observations and a genuine
+parent Root remain required before Mandor17 financial execution.
+
+---
+
 Current 5 November preparation targets immutable Afui `21542ca` (tree `cbf0666`),
 with all 39 exact additive Afui source paths. The current full Afui run is still
 pending; both actual Mandor admission families remain closed. The active
