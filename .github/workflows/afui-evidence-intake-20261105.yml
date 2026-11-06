@@ -1,4 +1,10 @@
-name: Read fixed completed Afui evidence without ERP execution
+name: Verify existing Afui prerequisite and access evidence without ERP
+'on':
+  push:
+    branches: [astra-a/afui-evidence-intake-20261105]
+    paths:
+      - scripts/afui-evidence-intake-20261105/**
+      - .github/workflows/afui-evidence-intake-20261105.yml
 permissions:
   contents: read
   actions: read
@@ -7,112 +13,18 @@ concurrency:
   cancel-in-progress: false
 jobs:
   retain:
+    name: Verify existing Afui prerequisite and access Originals
     if: github.ref == 'refs/heads/astra-a/afui-evidence-intake-20261105'
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 12
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
     steps:
-    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-      with:
-        persist-credentials: false
-    - name: Read and verify one canonical Afui Original
-      env:
-        GH_TOKEN: ${{ github.token }}
-      run: python3 -B scripts/afui-evidence-intake-20261105/retain.py archive
-    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
-      with:
-        name: afui-42145552785-exact-diagnostics
-        path: afui-evidence-intake-20261105/diagnostics
-        compression-level: 0
-        retention-days: 30
-        if-no-files-found: error
-    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
-      with:
-        name: afui-42145552785-exact-part-001
-        path: afui-evidence-intake-20261105/part-001
-        compression-level: 0
-        retention-days: 30
-        if-no-files-found: error
-    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
-      with:
-        name: afui-42145552785-exact-part-002
-        path: afui-evidence-intake-20261105/part-002
-        compression-level: 0
-        retention-days: 30
-        if-no-files-found: error
-    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
-      with:
-        name: afui-42145552785-exact-part-003
-        path: afui-evidence-intake-20261105/part-003
-        compression-level: 0
-        retention-days: 30
-        if-no-files-found: error
-    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
-      with:
-        name: afui-42145552785-exact-part-004
-        path: afui-evidence-intake-20261105/part-004
-        compression-level: 0
-        retention-days: 30
-        if-no-files-found: error
-    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
-      with:
-        name: afui-42145552785-exact-part-005
-        path: afui-evidence-intake-20261105/part-005
-        compression-level: 0
-        retention-days: 30
-        if-no-files-found: error
-    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
-      with:
-        name: afui-42145552785-exact-part-006
-        path: afui-evidence-intake-20261105/part-006
-        compression-level: 0
-        retention-days: 30
-        if-no-files-found: error
-    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
-      with:
-        name: afui-42145552785-exact-part-007
-        path: afui-evidence-intake-20261105/part-007
-        compression-level: 0
-        retention-days: 30
-        if-no-files-found: error
-    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
-      with:
-        name: afui-42145552785-exact-part-008
-        path: afui-evidence-intake-20261105/part-008
-        compression-level: 0
-        retention-days: 30
-        if-no-files-found: error
-    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
-      with:
-        name: afui-42145552785-exact-part-009
-        path: afui-evidence-intake-20261105/part-009
-        compression-level: 0
-        retention-days: 30
-        if-no-files-found: error
-    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
-      with:
-        name: afui-42145552785-exact-part-010
-        path: afui-evidence-intake-20261105/part-010
-        compression-level: 0
-        retention-days: 30
-        if-no-files-found: error
-    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
-      with:
-        name: afui-42145552785-exact-part-011
-        path: afui-evidence-intake-20261105/part-011
-        compression-level: 0
-        retention-days: 30
-        if-no-files-found: error
-    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
-      with:
-        name: afui-42145552785-exact-part-012
-        path: afui-evidence-intake-20261105/part-012
-        compression-level: 0
-        retention-days: 30
-        if-no-files-found: error
-'on':
-  push:
-    branches:
-    - astra-a/afui-evidence-intake-20261105
-    paths:
-    - scripts/afui-evidence-intake-20261105/**
-    - .github/workflows/afui-evidence-intake-20261105.yml
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+          sparse-checkout: scripts/afui-evidence-intake-20261105
+      - name: Check remote verifier setup and same-run small Originals
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: /usr/bin/python3 -B scripts/afui-evidence-intake-20261105/observe_access.py
