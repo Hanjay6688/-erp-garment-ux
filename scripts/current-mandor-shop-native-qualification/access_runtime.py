@@ -134,10 +134,12 @@ def run_browser(product,state,fixture,verify,report):
     modes.AUDITOR=ROOT
     host='scripts/current-s03-sku-s05-composite-qualification/host.mjs'
     require((ROOT/host).read_bytes()==(FROZEN/host).read_bytes(),'MANDOR_BROWSER_ORIGINAL_HOST_UNCHANGED')
-    report['browser_fixture_original']=save(fixture,'MANDOR_BROWSER_FIXTURE.json')
     report['browser_state_original']=save(state,'MANDOR_BROWSER_STATE.json')
     output=load('mandor_current_complete_access_output',ROOT/'scripts/current-mandor-afui-preparation/output_binding.py')
-    report['browser_state_cache_original']=output.load_state_io().reference(report['browser_state_original'])
+    state_io=output.load_state_io()
+    report['browser_state_cache_original']=state_io.reference(report['browser_state_original'])
+    catalogue=state_io.observer_catalogue(state,report['browser_state_original'],report['browser_state_cache_original'])
+    report['browser_fixture_original']=save(dict(fixture,observer_catalogue=catalogue),'MANDOR_BROWSER_FIXTURE.json')
     with output.case_scope(modes,'copies',retention=access_cases),copy_scope(modes,product,state)as copies:
         report['browser_copy_authority']=copies
         with browser_environment(report):actual=modes.run_browser(HERE/'browser.mjs',verify,'mandor_current_browser2')

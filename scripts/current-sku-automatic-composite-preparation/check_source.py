@@ -21,8 +21,8 @@ UI_AFTER = '15dc4bde83e1ac74871f8d4aaf005e9e36445aeb'
 UI_PATHS = frozenset(('src/ConnectedInitialImportPage.tsx', 'src/ConnectedPocketFabricPage.tsx', 'src/initial-import.css'))
 BUILD_INPUTS = frozenset(('index.html', 'package-lock.json', 'package.json', 'tsconfig.app.json',
                          'tsconfig.contracts.json', 'tsconfig.json', 'vite.config.ts'))
-MANDOR_HEAD = '99fb62a140e7a25b39b64cecd91f9d5776c47968'
-MANDOR_TREE = 'e6875f3f6e3871d2caf1c50bcc61a6507cb19e4f'
+MANDOR_HEAD = '0c8416fcfad9ca7aead8c4e848d98516261d1523'
+MANDOR_TREE = 'ac808cb39b6e9fcd1e952a904ef455fc624074c6'
 MANDOR_BASE = 'c296fd06167ddd177e1192c1008992e2a1e3d628'
 MANDOR_BASE_TREE = 'fdd36962a7de81482ccca02e6ff96597cfc20081'
 MANDOR_ADOPTION_PATHS = frozenset((
