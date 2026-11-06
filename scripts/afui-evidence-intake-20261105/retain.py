@@ -13,13 +13,13 @@ import urllib.request
 import zipfile
 
 REPO = 'Hanjay6688/-erp-garment-ux'
-RUN = 42071741816
-JOB = 127401211557
-ARTIFACT = 13444938154
-HEAD = '8db63458282d7d4cec79ea89c81d2480b51435a5'
-SIZE = 1973376010
-DIGEST = '565da1b9129f196ed1b8e5ec42066a553063f65d027dc60837723641a26b8f75'
-PART_BYTES = 400 * 1024 * 1024
+RUN = 42102095668
+JOB = 127507240597
+ARTIFACT = 13469201070
+HEAD = '2b8da485be0dd35e7be2c77e8278537d717e5733'
+SIZE = 2446668241
+DIGEST = '5fa842ace36c21d38c4f9471a3ed44d7ceebf8bb55dad45a3fad181cfa2b2159'
+PART_BYTES = 209715200
 SELECTED = frozenset(('CP7_AFUI_GOOD_NONPAYABLE_FULL15.json', 'AFUI_RUNTIME_SUPERVISION.json',
     'AFUI_DURABLE_RUNTIME.json', 'AFUI_DURABLE_PREFLIGHT.json', 'AFUI_FINAL_GATE.json',
     'AFUI_BROWSER_SETTINGS_STATE.json', 'AFUI_BROWSER_NATIVE_PREREQUISITE.json',
@@ -110,11 +110,11 @@ def split(path, destination, part_bytes, source_pin):
 def original_context(root, out):
     run = metadata(f'/repos/{REPO}/actions/runs/{RUN}', out / 'SOURCE_RUN_API.json')
     require(run['id'] == RUN and run['head_sha'] == HEAD and run['run_attempt'] == 1
-            and run['status'] == 'completed' and run['conclusion'] == 'failure', 'EXACT_COMPLETED_FAILED_ORIGINAL_RUN_REQUIRED')
+            and run['status'] == 'completed' and run['conclusion'] == 'failure', 'EXACT_COMPLETED_TERMINAL_ORIGINAL_RUN_REQUIRED')
     job = metadata(f'/repos/{REPO}/actions/jobs/{JOB}', out / 'SOURCE_JOB_API.json')
     require(job['id'] == JOB and job['run_id'] == RUN and job['head_sha'] == HEAD and job['run_attempt'] == 1
             and job['status'] == 'completed' and job['conclusion'] == 'failure',
-            'EXACT_COMPLETED_FAILED_ORIGINAL_JOB_REQUIRED')
+            'EXACT_COMPLETED_TERMINAL_ORIGINAL_JOB_REQUIRED')
     meta = metadata(f'/repos/{REPO}/actions/artifacts/{ARTIFACT}', out / 'SOURCE_ARTIFACT_API.json')
     require(meta['id'] == ARTIFACT and meta['name'] == 'cp7-afui-good-nonpayable-full15-1'
             and meta['workflow_run']['id'] == RUN and meta['workflow_run']['head_sha'] == HEAD
@@ -213,7 +213,7 @@ def archive():
     require(any(PurePosixPath(v['name']).name == 'CP7_AFUI_GOOD_NONPAYABLE_FULL15.json' for v in index)
             and 'AFUI_RUNTIME_SUPERVISION.json' in seen, 'COMPLETE_SOURCE_ARCHIVE_REPORTS_REQUIRED')
     parts = split(original, root, PART_BYTES, actual)
-    manifest = dict(classification='EXACT_COMPLETED_FAILED_AFUI_ORIGINAL_READ_ONLY_TRANSPORT_NO_ACCEPTANCE',
+    manifest = dict(classification='EXACT_COMPLETED_TERMINAL_AFUI_ORIGINAL_READ_ONLY_TRANSPORT_NO_ACCEPTANCE',
         source_repository=REPO, source_run_id=RUN, source_job_id=JOB, source_attempt=1, source_head=HEAD,
         source_artifact_id=ARTIFACT, complete_archive=actual, parts=parts, selected_complete_originals=selected,
         all_source_bytes_retained_once=True, exact_reassembly_hash_verified=True,
