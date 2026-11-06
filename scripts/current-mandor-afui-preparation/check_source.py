@@ -133,8 +133,8 @@ def source(*, allow_sparse_observation=False):
     bindings, replacements, additions = actual_adoption(manifest) if adopted else ({}, {}, set())
     base, afui = entries(routes.BASE_TREE), entries(routes.AFUI_TREE)
     copied = set(git('diff', '--name-only', routes.PRIOR_AFUI, routes.AFUI, '--').decode().splitlines())
-    require(copied == set(manifest['exact_current_Afui_files']) and len(copied) == 44,
-            'MANDOR_CURRENT_COMPLETE_FORTY_FOUR_AFUI_SOURCE_PATHS_REQUIRED')
+    require(copied == set(manifest['exact_current_Afui_files']) and len(copied) == 46,
+            'MANDOR_CURRENT_COMPLETE_Afui_SOURCE_PATHS_REQUIRED')
     for name in copied:
         require(name in afui and afui[name] == manifest['exact_current_Afui_files'][name],
                 'MANDOR_CURRENT_EXACT_QUALIFIED_AFUI_BLOB_REQUIRED:' + name)

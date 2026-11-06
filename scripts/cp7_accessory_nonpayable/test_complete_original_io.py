@@ -126,6 +126,7 @@ class CompleteOriginalStorage(unittest.TestCase):
             raw=(HERE / name).read_text()
             if name=='qualification_component.py':
                 routes={
+                    "            report['browser_original']=save('AFUI_BROWSER_GROUP_ORIGINAL.json',report['browser'])\n":'',
                     'case_output,progress,report_io,state_prepare': 'case_output,progress,report_io',
                     "    with progress.phase('COMPLETE_STATE_PREREQUISITE'):\n"
                     "        prepared_state=state_prepare.prepare(state,ROOT/'cp6-proof/t3',save)\n"

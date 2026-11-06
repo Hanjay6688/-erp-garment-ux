@@ -60,6 +60,18 @@ def fixture_browser_observer_preflight():
         inherited_process_STATE_required=False,Native_overlay_applied=False,
         actual_SQL_executed=0,actual_Native_cases=0,actual_browser_cases=0)
 
+def fixture_browser_group_preflight():
+    """Check where the browser runner records its actual session census."""
+    import io,unittest
+    from cp7_accessory_nonpayable.test_final_preparation import FinalPreparationControls
+    output=io.StringIO()
+    test=FinalPreparationControls('test_browser_sessions_are_checked_on_the_actual_copy_report')
+    result=unittest.TextTestRunner(stream=output,verbosity=0).run(unittest.TestSuite((test,)))
+    if result.testsRun!=1 or not result.wasSuccessful()or result.skipped or result.expectedFailures:
+        raise ValueError('NONPAYABLE_BROWSER_COPY_SESSION_PREFLIGHT_FAILED:'+output.getvalue())
+    return dict(status='BROWSER_COPY_SESSION_CENSUS_AND_PER_CASE_EVIDENCE_REQUIRED',
+        tests_run=1,actual_SQL_executed=0,actual_browser_cases=0)
+
 def fixture_case_output_preflight():
     """Verify exact complete files and bounded receipts before provisioning."""
     import io,unittest
@@ -180,6 +192,7 @@ def main():
         browser_dates=fixture_browser_date_preflight()
         committed_identity=fixture_committed_identity_preflight()
         browser_observer=fixture_browser_observer_preflight()
+        browser_group=fixture_browser_group_preflight()
         case_output=fixture_case_output_preflight()
         progress=fixture_progress_preflight()
         report_io=fixture_report_io_preflight()
@@ -192,6 +205,7 @@ def main():
             whole_engine=engine,copy_authority=copies,fixture_actor_preflight=actors,fixture_browser_date_preflight=browser_dates,
             fixture_committed_identity_preflight=committed_identity,
             fixture_browser_observer_preflight=browser_observer,
+            fixture_browser_group_preflight=browser_group,
             fixture_case_output_preflight=case_output,
             fixture_progress_preflight=progress,
             fixture_report_io_preflight=report_io,

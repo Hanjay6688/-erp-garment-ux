@@ -5,7 +5,7 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 from unittest.mock import patch
 import gzip,sys,unittest
-from . import final_gate as gate,fetch_parent
+from . import final_gate as gate,fetch_parent,qualification_gate
 
 class FinalPreparationControls(unittest.TestCase):
     def test_raw_census_requires_all_original_rows_and_rejects_money_change_or_masked_history(self):
@@ -32,6 +32,33 @@ class FinalPreparationControls(unittest.TestCase):
             elif mode=='other_request':bad['results'][1]['request_id']='other'
             else:bad['actual_versions'][0]['id']='other'
             with self.subTest(mode=mode),self.assertRaises(ValueError):gate.race_facts(bad,same=True)
+
+
+    def test_browser_sessions_are_checked_on_the_actual_copy_report(self):
+        ids=('desktop','mobile')
+        case=dict(status='PASS',normal_App_menu=True,real_Auth=True,
+            screenshots=['recorded.png'],visuals=[{'contrast':4.5}],complete_census_proofs=[{'status':'PASS'}],
+            all_stock_HPP_journals_entitlements_and_existing_history_unchanged=True)
+        report=dict(status='RUN_COMPLETE',planned_case_ids=list(ids),counts={'PASS':2},
+            cases={name:deepcopy(case) for name in ids},session_leaks=[],database_remaining=0,
+            real_auth=True,jwt_signed_by_runtime=False,test_only_usage_grant=False,
+            auth_counts=dict(before=[1,2,3,4],after=[1,2,3,4],restored=True),
+            cleanup=dict(cleanup_failures=[],rest_remaining=False),host_exit=0,host_status='RUN_COMPLETE',
+            console_errors=0,auth_cleanup_failures=[])
+        self.assertEqual(qualification_gate.copies(report,ids,mode='BROWSER')['actual_cases'],2)
+        for field,value in (('session_leaks',None),('session_leaks',[['1234','unclosed']]),
+                ('auth_counts',{}),('database_remaining',1),('console_errors',1)):
+            bad=deepcopy(report);bad[field]=value
+            with self.subTest(field=field,value=value),self.assertRaises(ValueError):
+                qualification_gate.copies(bad,ids,mode='BROWSER')
+        missing=deepcopy(report);del missing['session_leaks']
+        with self.assertRaisesRegex(ValueError,'EXACT_BROWSER_COPY_SESSION_CENSUS_REQUIRED'):
+            qualification_gate.copies(missing,ids,mode='BROWSER')
+        leaked=deepcopy(report);leaked['cases']['desktop']['session_leaks']=[['1234','unclosed']]
+        with self.assertRaisesRegex(ValueError,'ORIGINAL_SUCCESS_AND_EMPTY_SESSIONS'):
+            qualification_gate.copies(leaked,ids,mode='BROWSER')
+        with self.assertRaisesRegex(ValueError,'ORIGINAL_SUCCESS_AND_EMPTY_SESSIONS'):
+            qualification_gate.copies(report,ids,mode='HTTP')
 
     def test_full_gate_refuses_before_reading_any_artifact_when_parent_is_missing(self):
         with self.assertRaisesRegex(ValueError,'ACTUAL_FREE3_ROOT_INTAKE_PENDING'):
