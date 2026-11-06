@@ -1,8 +1,10 @@
-name: Check corrected Mandor SKU and Global source chain without ERP
+name: Measure Afui final packet reader with retained source bytes
 'on':
   push:
     branches: [astra-a/afui-evidence-intake-20261105]
-    paths: [.github/workflows/afui-evidence-intake-20261105.yml]
+    paths:
+      - .github/workflows/afui-evidence-intake-20261105.yml
+      - scripts/afui-evidence-intake-20261105/sample_final_reader.py
 permissions:
   contents: read
   actions: read
@@ -10,38 +12,31 @@ concurrency:
   group: afui-evidence-intake-20261105
   cancel-in-progress: false
 jobs:
-  preflight:
-    name: Verify all three prepared sources while owning gates remain closed
+  read:
+    name: Verify exact archive input and success-sized reader envelope
     if: github.ref == 'refs/heads/astra-a/afui-evidence-intake-20261105'
     runs-on: ubuntu-24.04
-    timeout-minutes: 12
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
-          ref: ef15f78e309a36063dc4b03f91f850ed8339a4ed
-          fetch-depth: 0
+          path: verifier
           persist-credentials: false
+          sparse-checkout: scripts/afui-evidence-intake-20261105
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          path: exact-candidate
+          ref: fd797083eab093d9dc97f2d52ca61dc37812b437
+          persist-credentials: false
+          sparse-checkout: scripts/cp7_accessory_nonpayable
       - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
         with:
           python-version: '3.12'
-      - name: Install pinned Python modules for source validation
-        run: python -m pip install --quiet 'psycopg[binary]==3.2.10' 'PyYAML==6.0.2' 'jsonschema==4.25.1' 'pglast==7.20'
-      - name: Check full Mandor SKU and Global trees without any database
+      - name: Run only the final packet reader resource check
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          test "$(git rev-parse HEAD)" = "ef15f78e309a36063dc4b03f91f850ed8339a4ed"
-          test "$(git rev-parse HEAD^{tree})" = "12e6045c5c9709bb0a134a4111b91ef4f0d0c5f2"
-          git worktree add --detach "$RUNNER_TEMP/mandor" "78c9af59857b16fbcfda1dbe32c5d392a5900dfb"
-          git worktree add --detach "$RUNNER_TEMP/sku" "d65d2c0150e94210b391d45a8003e5f54af7a87f"
-          (
-            cd "$RUNNER_TEMP/mandor"
-            test "$(git rev-parse HEAD^{tree})" = "6875907c1fc16c1e36b817506b2b3aa1ea0afed8"
-            python -B scripts/current-mandor-afui-preparation/workflow.py --check
-            python -B scripts/current-mandor-afui-preparation/check_source.py
-          )
-          (
-            cd "$RUNNER_TEMP/sku"
-            test "$(git rev-parse HEAD^{tree})" = "54f4ab87718812b1eaf177eb94eef743f01353b5"
-            python -B scripts/current-sku-automatic-composite-preparation/check_source.py
-          )
-          python -B scripts/current-global-sku-automatic-preparation/check_source.py
+          test "$(git -C exact-candidate rev-parse HEAD)" = "fd797083eab093d9dc97f2d52ca61dc37812b437"
+          test "$(git -C exact-candidate rev-parse HEAD^{tree})" = "02a8812e9eae2272a976d1dbd1e21aff8c022467"
+          python -B verifier/scripts/afui-evidence-intake-20261105/sample_final_reader.py exact-candidate
