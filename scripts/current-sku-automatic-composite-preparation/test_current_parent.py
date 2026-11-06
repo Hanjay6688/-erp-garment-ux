@@ -15,7 +15,7 @@ class CurrentPreparedParent(unittest.TestCase):
 
     def test_complete_current_prepared_parent_is_admitted_without_a_Root(self):
         result = fence.pending_mandor(self.value, self.baseline)
-        self.assertEqual(len(result), 78)
+        self.assertEqual(len(result), 79)
         self.assertEqual(result, {name: row['after'] for name, row in self.value['files'].items()})
         self.assertIsNone(self.value['actual_Root'])
 
@@ -26,7 +26,7 @@ class CurrentPreparedParent(unittest.TestCase):
                 value['files'].pop('scripts/cp7_accessory_nonpayable/progress.py')
             else:
                 value['files']['scripts/unreviewed.py'] = {}
-            with self.assertRaisesRegex(ValueError, 'COMPLETE_SEVENTY_EIGHT_CURRENT_MANDOR_PATHS'):
+            with self.assertRaisesRegex(ValueError, 'COMPLETE_SEVENTY_NINE_CURRENT_MANDOR_PATHS'):
                 fence.pending_mandor(value, self.baseline)
 
     def test_other_parent_identity_or_fabricated_Root_cannot_be_admitted(self):

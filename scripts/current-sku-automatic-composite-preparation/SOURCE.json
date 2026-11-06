@@ -146,8 +146,8 @@
       "sha256": "c64aff29d19c8bb33d44cce9082a29a775777eac9599fc98cf40d661fcc0eafd"
     },
     "check_source.py": {
-      "bytes": 13351,
-      "sha256": "8f47dd0b57e78bd6a8a93242519dabb471b7936b84eb6813b80d2486fde6326d"
+      "bytes": 13350,
+      "sha256": "ef3c4a7a014cd8473f5c2ecd1eefc2c69a8323e75fbdbba13fb1680b2150b464"
     },
     "component.py": {
       "bytes": 5975,
@@ -207,7 +207,7 @@
     },
     "report_io.py": {
       "bytes": 6464,
-      "sha256": "b994206573ca5b4c9e8a3b492424110232b0eff2c84e1cd38091244140f5d464"
+      "sha256": "319a2df501048bea06b921220948464fdb1c7bc32246844c231656452f7d7a4e"
     },
     "sku-current-parent-money-automatic-native25-81.workflow.yml.txt": {
       "bytes": 34875,
@@ -298,8 +298,8 @@
       "sha256": "50165c4b04a1d3e19286ca7cc44899f36403185818b681bf3a996e8e565a5c3c"
     },
     "test_current_parent.py": {
-      "bytes": 2881,
-      "sha256": "169d054a5460f093b3cfcf3e3cb7bbaa070ed43049a2f099a61427d039ad9b2c"
+      "bytes": 2880,
+      "sha256": "ad951508cf76aad5a3e7c2ab1feaf5ca4d1120da6bb2cc50a501d41f23d18b1b"
     },
     "CURRENT_MANDOR_SOURCE_INTEGRATION_CONTROLS_20261105.json": {
       "bytes": 1815,
@@ -449,8 +449,8 @@
   "current_money_product_source_unchanged": true,
   "selective_UI_source_admission_prepared": true,
   "pending_current_Afui_original_consumer_source": {
-    "head": "74e7a6bc0754b7b3772f4b47095b518a41b972da",
-    "tree": "4de54b9a4a7745d447996f7b20886ef955ae45d8",
+    "head": "f17ac6cc13cffe10a32deca1c04ff63d220285fe",
+    "tree": "82bbcc0e53c07ddb2b52d0ea26e2263ed11681c7",
     "complete_original_helper": {
       "bytes": 5951,
       "sha256": "f7c732004e1f5f0f2fe7ac7e08a6f049e6d41f0074fca7336c66736aaf522170"
@@ -460,8 +460,8 @@
   "pending_current_Mandor_preparation": {
     "base_head": "c296fd06167ddd177e1192c1008992e2a1e3d628",
     "base_tree": "fdd36962a7de81482ccca02e6ff96597cfc20081",
-    "head": "415e951c66a9406a7498182f48f827b7f00d475a",
-    "tree": "23564f59aa82d661f982f92b87ffd10173ee5f8d",
+    "head": "16cb3717d202af821572fa745b337788576b2672",
+    "tree": "24e2994f078b33ea09ca3bbdfde7f531d0866448",
     "actual_Root": null,
     "actual_run": null,
     "actual_job": null,
@@ -589,11 +589,11 @@
         },
         "after": {
           "mode": "100644",
-          "blob": "fc585a3f0b3a56ddbd1a6ddd874f9504bab9a4b8"
+          "blob": "2f9336bdc4a8f4e9c660fbe3f09a65b6ceb6d955"
         },
         "pin": {
-          "bytes": 33037,
-          "sha256": "db7b64846ccce8bffc6774d59eeac4fcf4b9e08428e22c057921067c1ca79657"
+          "bytes": 33211,
+          "sha256": "c531f134cef75843eec348b9940f26504d0870cd0ac8a2891a57b11891062736"
         }
       },
       "scripts/cp7_accessory_nonpayable/access_cases.py": {
@@ -642,11 +642,22 @@
         },
         "after": {
           "mode": "100644",
-          "blob": "9267d4706877ad9c5f68eaef774f081bd6c9df15"
+          "blob": "1b3e48d7c04e5b3d21161aec41c694adac9ed36f"
         },
         "pin": {
-          "bytes": 17927,
-          "sha256": "da16c81a8f8637ea559fc50f64649ab50344e099b23215f995fe746202309c8f"
+          "bytes": 17966,
+          "sha256": "17f98a97589c8e3fe287e0116771cc76b2b51801010c4f739cb74174a3ccbd86"
+        }
+      },
+      "scripts/cp7_accessory_nonpayable/browser_contrast.mjs": {
+        "before": null,
+        "after": {
+          "mode": "100644",
+          "blob": "b27ccdf13ee58bbde46036f4ceb1976884ee59c4"
+        },
+        "pin": {
+          "bytes": 4219,
+          "sha256": "461746c559b228a6d0576f5461ecc9f525624f7efe07f28f12f03e01a8a23753"
         }
       },
       "scripts/cp7_accessory_nonpayable/browser_fixture.py": {
@@ -656,11 +667,11 @@
         },
         "after": {
           "mode": "100644",
-          "blob": "accef5eaef7c2be8e40127d6f7af07ca8d093442"
+          "blob": "7744ffe35b9ed6d82e9e74b16e48d024c78b6df3"
         },
         "pin": {
-          "bytes": 3280,
-          "sha256": "e696a98fb4a7578aac96b70d8f22ad538a6fce591df877d75504496fb2709f95"
+          "bytes": 4225,
+          "sha256": "3e25717103ff5186ef63e219c0133da3dd109537178d0783389cf76daa814e39"
         }
       },
       "scripts/cp7_accessory_nonpayable/browser_prepare.py": {
@@ -681,11 +692,11 @@
         "before": null,
         "after": {
           "mode": "100644",
-          "blob": "2782b5229889b3dfc10bbaefefc96df42f9dcf2a"
+          "blob": "d42a52097ec71cfa350f915f3bab97cbc903ec83"
         },
         "pin": {
-          "bytes": 6038,
-          "sha256": "0484299806098b217b4fb159155a0992d5bef12a6b44e4ca3023b20529a76d73"
+          "bytes": 5997,
+          "sha256": "64b6ab12b4be066cfc5ce2734c9c6e77b11557d4d276a67789cc3bca65e956da"
         }
       },
       "scripts/cp7_accessory_nonpayable/case_output.py": {
@@ -753,11 +764,11 @@
         },
         "after": {
           "mode": "100644",
-          "blob": "737cb40eedae8853dcce51c3a353f50f0a278206"
+          "blob": "907ecc24df17800ea0e7224aa1c1288ec95fcced"
         },
         "pin": {
-          "bytes": 17282,
-          "sha256": "9399d1f8c4e943d4c98da6b4c7e4032dd4a9cb66772e7d328da939a667f82e42"
+          "bytes": 17465,
+          "sha256": "16f4153c1355f1f07f9b25b41a495a200d4e99ef87764abc976a6151cc79a30c"
         }
       },
       "scripts/cp7_accessory_nonpayable/lossless_state.py": {
@@ -803,11 +814,11 @@
         },
         "after": {
           "mode": "100644",
-          "blob": "46e1877cea154ef651a701ed7000506b756ee690"
+          "blob": "1eeaeb33dfc4d2b7bf8de4b088cce9d7f54fb70a"
         },
         "pin": {
           "bytes": 14511,
-          "sha256": "a68bf4a144eea705ff51ca0ba4e35bded31de4cebd32a55dafe98697eed83747"
+          "sha256": "cdd00e796d4f0e7f381cc115d8b0494bcdcfba526b9288ab3c352538e9a5f479"
         }
       },
       "scripts/cp7_accessory_nonpayable/qualification_component.py": {
@@ -817,11 +828,11 @@
         },
         "after": {
           "mode": "100644",
-          "blob": "66d72b85edd1c1604bbf4d3ff1536a9eb2c6e6ef"
+          "blob": "61bc3e18160c28f512374ce408698c009ac5ced6"
         },
         "pin": {
-          "bytes": 15300,
-          "sha256": "af2deda3a9b9d285dc86246a397eb1931a79c2378e72b8d7368ee4a7f753ef3c"
+          "bytes": 15481,
+          "sha256": "5b95af047f0ad8aabadc0ffde9c47d44e82c159a8466ba541f433336a07a5cb3"
         }
       },
       "scripts/cp7_accessory_nonpayable/report_io.py": {
@@ -850,11 +861,11 @@
         "before": null,
         "after": {
           "mode": "100644",
-          "blob": "e63aff6babc96f4809d9020a9710e83e5bf273b5"
+          "blob": "285a18d957f1953cc681c233f3457587f7cb35ae"
         },
         "pin": {
-          "bytes": 5029,
-          "sha256": "748760afc5677516e9870f2838f4942eef5971196acae6d77a7c556f22143b44"
+          "bytes": 7409,
+          "sha256": "431c6e95c2c8b8dace4daa3ea83b5a572184b2149a49c12a6c14b757792e931b"
         }
       },
       "scripts/cp7_accessory_nonpayable/test_case_output.py": {
@@ -883,11 +894,11 @@
         "before": null,
         "after": {
           "mode": "100644",
-          "blob": "1587f52fcc59f2f4e2458d599259d8dcd1b97178"
+          "blob": "9521a60bf4c1b08d4ba3d40478b56acad4a421a3"
         },
         "pin": {
-          "bytes": 11009,
-          "sha256": "7d3446198f03c3985026c72f26828213452d1915c7446a5cf4a467f6f4dcfed1"
+          "bytes": 11416,
+          "sha256": "0425c620e3f96f872ed336023901dab7e51669f089a2a3c6fde0d814fc6d7582"
         }
       },
       "scripts/cp7_accessory_nonpayable/test_lossless_state.py": {
@@ -1049,11 +1060,11 @@
         "before": null,
         "after": {
           "mode": "100644",
-          "blob": "c6317475e92ae10beac9ea13b2f495f82013a843"
+          "blob": "1e09b6cdcb034f4875482e4cb9045f4fce38f0e7"
         },
         "pin": {
-          "bytes": 19228,
-          "sha256": "dad0a57bff1f786f2b3b2497ff3f32ebac8246cf8ef5d5f8773527d5008e607d"
+          "bytes": 19379,
+          "sha256": "021d086751ad0b3b5539f94aada32c3d749fbc6699c0f1db520d2cd855c4eaa0"
         }
       },
       "scripts/current-mandor-afui-preparation/WORKFLOW_TRANSPORT_PREPARATION_CONTROLS.json": {
@@ -1082,11 +1093,11 @@
         "before": null,
         "after": {
           "mode": "100644",
-          "blob": "0151f7984cccb7b14e6c62608fab9eb38c3bb524"
+          "blob": "339ceb16777cf9fd10b3ce92c8a31aeece29cf7d"
         },
         "pin": {
-          "bytes": 12422,
-          "sha256": "9c0b7590e000b5306fb8eaabadb99a284bc427cb141703217a20388d6df98128"
+          "bytes": 12421,
+          "sha256": "a92a33d8229e1e8528eebf8e0fbff12c8fd6ea39b567379a42041f9baa4905fc"
         }
       },
       "scripts/current-mandor-afui-preparation/current-mandor82.workflow.yml.txt": {
@@ -1170,11 +1181,11 @@
         "before": null,
         "after": {
           "mode": "100644",
-          "blob": "3e43f4be7fa49bbe80e0d377cb7c722fea9790c9"
+          "blob": "faa0801e3f841ce128c371454f22438add1a701a"
         },
         "pin": {
           "bytes": 9158,
-          "sha256": "52fdab0bc5b925dfecf87f170327f45afa49883d400707f353c48e089b386e25"
+          "sha256": "5fe94a8c5882147353f6666b1f0830673a5253d4bcda96002439b90c656334b1"
         }
       },
       "scripts/current-mandor-afui-preparation/state_io.py": {
@@ -1286,11 +1297,11 @@
         },
         "after": {
           "mode": "100644",
-          "blob": "babe75b579a1110c111cdb0922f991650ed8ded8"
+          "blob": "20758c8ae5745421e18c8f1a62e801aba95c3ba4"
         },
         "pin": {
           "bytes": 1432,
-          "sha256": "a4b92363f02eb1010e57e8eabb4aa9e53690b80b677c58837acd0decec18861e"
+          "sha256": "35e9073388dc2a8500c2a6731afc1c5d943437777ef4f003fb70d9179645e823"
         }
       },
       "scripts/current-mandor-shop-native-qualification/browser_gate.py": {
@@ -1342,11 +1353,11 @@
         },
         "after": {
           "mode": "100644",
-          "blob": "42f07cc554ae65fe618d124e7e2dda081c93be81"
+          "blob": "850cd6878d6fb87ec23cb79ec15abfbed1113de9"
         },
         "pin": {
           "bytes": 10957,
-          "sha256": "a2d85093af8cb9c09ace31585e5c75d2a12be7fdcd2a7ad7d4efc75fd0061d56"
+          "sha256": "d6fec9d902c2e1913f22bce98347fa76e8bcd67660b87e5b4e74abeb554b6cf7"
         }
       },
       "scripts/current-mandor-shop-native-qualification/qualification.py": {
