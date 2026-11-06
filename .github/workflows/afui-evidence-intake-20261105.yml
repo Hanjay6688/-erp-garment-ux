@@ -1,10 +1,8 @@
-name: Measure Afui final packet reader with retained source bytes
+name: Check operator latency measurement without an ERP database
 'on':
   push:
     branches: [astra-a/afui-evidence-intake-20261105]
-    paths:
-      - .github/workflows/afui-evidence-intake-20261105.yml
-      - scripts/afui-evidence-intake-20261105/sample_final_reader.py
+    paths: [.github/workflows/afui-evidence-intake-20261105.yml]
 permissions:
   contents: read
   actions: read
@@ -12,31 +10,29 @@ concurrency:
   group: afui-evidence-intake-20261105
   cancel-in-progress: false
 jobs:
-  read:
-    name: Verify exact archive input and success-sized reader envelope
+  preflight:
+    name: Check the visible-result timing control in Chromium
     if: github.ref == 'refs/heads/astra-a/afui-evidence-intake-20261105'
     runs-on: ubuntu-24.04
-    timeout-minutes: 30
+    timeout-minutes: 12
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
-          path: verifier
+          ref: 0b81e4aa9cf498bbaef667ca346d5741a5917fa6
           persist-credentials: false
-          sparse-checkout: scripts/afui-evidence-intake-20261105
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
-          path: exact-candidate
-          ref: fd797083eab093d9dc97f2d52ca61dc37812b437
-          persist-credentials: false
-          sparse-checkout: scripts/cp7_accessory_nonpayable
-      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
-        with:
-          python-version: '3.12'
-      - name: Run only the final packet reader resource check
-        env:
-          GH_TOKEN: ${{ github.token }}
+          node-version: '22'
+      - name: Install the locked Chromium test dependencies
         run: |
           set -euo pipefail
-          test "$(git -C exact-candidate rev-parse HEAD)" = "fd797083eab093d9dc97f2d52ca61dc37812b437"
-          test "$(git -C exact-candidate rev-parse HEAD^{tree})" = "02a8812e9eae2272a976d1dbd1e21aff8c022467"
-          python -B verifier/scripts/afui-evidence-intake-20261105/sample_final_reader.py exact-candidate
+          npm ci --include=dev
+          npx --no-install playwright install --with-deps chromium
+      - name: Run the timing control against a deterministic browser page
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "0b81e4aa9cf498bbaef667ca346d5741a5917fa6"
+          test "$(git rev-parse HEAD^{tree})" = "26ed7caab1c70b32487cc93650b5a2134546e080"
+          node --check scripts/cp7_r3_chain_browser.mjs
+          node --check scripts/cp7_p11_sales_browser.mjs
+          node scripts/cp7_p19_browser_latency_test.mjs --browser
