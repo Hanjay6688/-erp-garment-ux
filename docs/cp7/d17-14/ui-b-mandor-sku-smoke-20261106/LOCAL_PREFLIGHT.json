@@ -1,0 +1,42 @@
+{
+  "local_source": {
+    "status": "EXACT_CURRENT_CANDIDATES_AND_IDENTICAL_BUILD_INPUTS",
+    "candidates": {
+      "mandor": [
+        "415e951c66a9406a7498182f48f827b7f00d475a",
+        "23564f59aa82d661f982f92b87ffd10173ee5f8d"
+      ],
+      "sku": [
+        "49a0f1c643595d81840c4d457f53f400242423cd",
+        "ee8fc43182b2b085c17ab701c4f20dec314205a6"
+      ]
+    },
+    "common_build_inputs": {
+      "src": "15dc4bde83e1ac74871f8d4aaf005e9e36445aeb",
+      "public": null,
+      "contracts": "577e074196ae7ac9c1a257def4f69ccedf007208",
+      "package.json": "8707f6817acfc294caeab8aa54496df5b8dde04e",
+      "package-lock.json": "ca9159d26989e0263b6b757f5f824bd9333d8cf6",
+      "index.html": "4912086ce24a0fb4f7dfc2b03e3cefdcbee8f91c",
+      "vite.config.ts": "4d782219003da02d024ed397e11abb686694c1cb",
+      "tsconfig.json": "9bf63d3b4775e9c155571a03536236596b2c7990",
+      "tsconfig.app.json": "e9712ec6ad208afe25edf063984a6170459299dd",
+      "tsconfig.contracts.json": "0b63a91ed3b967d75979f62cc41463956ce97f95",
+      "scripts/assert-cp6-disposable-env.mjs": "f51f6f8459ccf5b02ea619f3a2cf7794356bc1ad",
+      "scripts/build-preflight.mjs": "0cf26423147506a08ff68f00de3b422bfc1a0413",
+      "scripts/scan-client-artifacts.mjs": "4e9ab66106ddc79dd150c373d5eae5764f6bbada",
+      "scripts/cp7_accessory_nonpayable/LOCAL_SETTINGS_CONTROLS.json": "8711259fd44ee7305548fb061e4cc88ffc976433"
+    },
+    "browser_sources": {
+      "mandor": "scripts/current-mandor-shop-native-qualification/browser.mjs",
+      "sku": "scripts/current-sku-automatic-composite-preparation/browser.mjs"
+    },
+    "actual_financial_cases": 0,
+    "actual_Auth_cases": 0
+  },
+  "local_disposable_build": "PASS_AFTER_RESTORING_EXACT_ONE_JSON_FROM_SPARSE_CHECKOUT",
+  "local_browser_first": "Chromium 156 launch refused internal socket by local executor. Both original browser modules imported.",
+  "local_pinned_chromium_download": "Invalid/truncated ZIP; original retained.",
+  "workflow_scope": "One B fixture-only job with exact source and pinned packages, loopback Auth/RPC interception. Full Native/financial/browser qualification remains with A",
+  "actual_ERP_Auth_SQL_cases": 0
+}
