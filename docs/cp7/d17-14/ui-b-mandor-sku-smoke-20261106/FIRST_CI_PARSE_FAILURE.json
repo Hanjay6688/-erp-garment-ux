@@ -1,0 +1,14 @@
+{
+  "source": "a4be6a66b019cd11532a40cf8747cb26c0a367b3",
+  "run": 42144000436,
+  "attempt": 1,
+  "status": "completed",
+  "conclusion": "failure",
+  "jobs": 0,
+  "stage": "WORKFLOW_BEFORE_ANY_JOB",
+  "diagnosis": "The initial job-level env expression used runner.temp, which is not allowed in jobs.<job_id>.env. The official context table confirms github.workspace is supported there. GitHub reports a failed workflow with no jobs; check-run annotations were unavailable through the connector.",
+  "actual_browser_cases": 0,
+  "actual_SQL_cases": 0,
+  "first_source_retained": true,
+  "documentation": "https://docs.github.com/en/actions/reference/workflows-and-actions/contexts#context-availability"
+}

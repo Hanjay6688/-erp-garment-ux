@@ -19,7 +19,7 @@ jobs:
       run:
         shell: bash
     env:
-      PLAYWRIGHT_BROWSERS_PATH: ${{ runner.temp }}/writer-b-playwright
+      PLAYWRIGHT_BROWSERS_PATH: ${{ github.workspace }}/.writer-b-playwright
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
