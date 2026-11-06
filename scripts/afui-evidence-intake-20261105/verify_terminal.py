@@ -5,6 +5,7 @@ from tempfile import TemporaryDirectory
 from zipfile import ZipFile
 import json
 import os
+import re
 import stat
 
 from retain import api, copy_stream, metadata, require, save
@@ -77,6 +78,33 @@ def member_pins(bundle):
     return pins
 
 
+def bounded_diagnostic(value):
+    if value is None:
+        return None
+    if not isinstance(value, str):
+        value = json.dumps(value, ensure_ascii=True, sort_keys=True)
+    value = re.sub(r'\b[A-Za-z0-9_-]{20,}\.[A-Za-z0-9_-]{20,}\.[A-Za-z0-9_-]{20,}\b', '[redacted token]', value)
+    value = re.sub(r'[\w.+-]+@[\w.-]+\.[A-Za-z]{2,}', '[redacted email]', value)
+    value = re.sub(r'https?://[^\s"<>]+', '[redacted URL]', value)
+    value = re.sub(r'\b[0-9a-fA-F]{8}(?:-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}\b', '[fixture identifier]', value)
+    return value[:10000]
+
+
+def failure_diagnostics(bundle, main):
+    errors = []
+    for info in bundle.infolist():
+        if info.file_size > 256 * 1024 or not re.fullmatch(
+                r'AFUI_(DESKTOP|MOBILE390)_[A-F0-9]{32}_(FIRST|CLEANUP)_FAILURE\.json', info.filename):
+            continue
+        raw = bundle.read(info)
+        row = strict(raw)
+        errors.append(dict(name=info.filename, original=pin(raw),
+                           error=bounded_diagnostic(row.get('error', row.get('primary_error'))),
+                           completed_checkpoints=sorted(row['progress']) if isinstance(row.get('progress'), dict) else []))
+    return dict(status='AFUI_REDACTED_TERMINAL_DIAGNOSTIC_FROM_EXACT_ORIGINAL', source_run=RUN,
+                main_error=bounded_diagnostic((main or {}).get('error')), browser_errors=errors)
+
+
 def verify(source_zip, source_run, source_job, archive, artifact):
     outcome = source_run['conclusion']
     with ZipFile(source_zip) as bundle:
@@ -88,6 +116,7 @@ def verify(source_zip, source_run, source_job, archive, artifact):
 
         gate, package, backup, worker = map(report, (GATE, INSTALL, RESTORE, WORKER))
         main = report(MAIN)
+        diagnostics = failure_diagnostics(bundle, main) if outcome != 'success' else None
 
     if worker is not None:
         exact(worker, dict(qualification_commit=HEAD, github_run_id=str(RUN), github_run_attempt='1'),
@@ -115,6 +144,8 @@ def verify(source_zip, source_run, source_job, archive, artifact):
                    actual_case_credit=0, production_go=False, independent_acceptance=False,
                    ERP_commands_executed=0)
     if outcome != 'success':
+        receipt['failure_diagnostics'] = diagnostics
+        receipt['package_gate_values'] = package.get('gate') if package is not None else None
         return receipt
     require(not failed and restored and reaped and gate and package and main, 'AFUI_TERMINAL_SUCCESS_EVIDENCE_REQUIRED')
     exact(gate, dict(status='CURRENT_AFUI_GOOD_NONPAYABLE_NATIVE9_HTTP2_SESSION2_BROWSER2_AND_ALL5_PASS',

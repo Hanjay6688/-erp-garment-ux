@@ -1,4 +1,4 @@
-name: Verify existing Afui prerequisite and access evidence without ERP
+name: Verify exact terminal Afui and stage Mandor source without ERP
 'on':
   push:
     branches: [astra-a/afui-evidence-intake-20261105]
@@ -13,10 +13,10 @@ concurrency:
   cancel-in-progress: false
 jobs:
   retain:
-    name: Verify existing Afui prerequisite and access Originals
+    name: Verify Afui canonical archive and prepare Mandor only on full success
     if: github.ref == 'refs/heads/astra-a/afui-evidence-intake-20261105'
     runs-on: ubuntu-latest
-    timeout-minutes: 12
+    timeout-minutes: 35
     env:
       PYTHONDONTWRITEBYTECODE: '1'
     steps:
@@ -24,7 +24,28 @@ jobs:
         with:
           persist-credentials: false
           sparse-checkout: scripts/afui-evidence-intake-20261105
-      - name: Check remote verifier setup and same-run small Originals
+      - name: Verify exact same-run original, every member, and the terminal gate
+        id: verify
         env:
           GH_TOKEN: ${{ github.token }}
-        run: /usr/bin/python3 -B scripts/afui-evidence-intake-20261105/observe_access.py
+        run: python3 -B scripts/afui-evidence-intake-20261105/verify_terminal.py
+      - name: Retain only typed terminal and parent receipts
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: afui-42178605233-verified-terminal-receipts
+          path: afui-8e5-terminal-receipts/
+          retention-days: 30
+          if-no-files-found: error
+      - name: Materialize the exact prepared Mandor source for static checks
+        if: steps.verify.outputs.mandor == 'ready'
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+          ref: 7fd3154270320b5c57e65edcd8979d123fdc4347
+          fetch-depth: 0
+          path: prepared-mandor
+      - name: Check the exact six staged Mandor adoption files without ERP
+        if: steps.verify.outputs.mandor == 'ready'
+        run: |
+          /usr/bin/python3 -B scripts/afui-evidence-intake-20261105/stage_mandor.py \
+            prepared-mandor afui-8e5-terminal-receipts/AFUI15_PARENT_ROOT_ACTUAL_INTAKE.json
