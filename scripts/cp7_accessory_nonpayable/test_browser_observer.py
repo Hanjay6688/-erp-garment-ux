@@ -2,15 +2,54 @@
 from contextlib import contextmanager
 from copy import deepcopy
 from pathlib import Path
+from tempfile import TemporaryDirectory
 from types import SimpleNamespace
 from unittest.mock import Mock
 import ast,unittest
-from cp7_accessory_nonpayable import access_cases
+from cp7_accessory_nonpayable import access_cases, browser_fixture, complete_original_io
 
 ROOT=Path(__file__).resolve().parents[2]
 
 
 class BrowserObserverControls(unittest.TestCase):
+    def observer_inputs(self, directory):
+        _, _, state, _, _, _ = self.fixtures()
+        originals, environ = {}, {}
+        for key, name, variable in (
+                ('original', 'AFUI_BROWSER_SETTINGS_STATE.json', 'AFUI_BROWSER_STATE_SHA256'),
+                ('cache', 'AFUI_BROWSER_SETTINGS_STATE_CACHE.json', 'AFUI_BROWSER_STATE_CACHE_SHA256')):
+            path = directory / name
+            path.write_bytes(key.encode())
+            originals[key] = dict(name=name, **complete_original_io.pin(path))
+            environ[variable] = originals[key]['sha256']
+        return dict(observer_catalogue=dict(**state, **originals)), environ
+
+    def test_observer_uses_complete_catalogue_and_verifies_both_state_originals(self):
+        with TemporaryDirectory() as temporary:
+            directory = Path(temporary)
+            prepared, environ = self.observer_inputs(directory)
+            catalogue = prepared['observer_catalogue']['after']
+            self.assertEqual(browser_fixture.observer_state(prepared, directory, environ), dict(after=catalogue))
+            for key in ('original', 'cache'):
+                with self.subTest(key=key):
+                    path = directory / prepared['observer_catalogue'][key]['name']
+                    path.write_bytes(b'changed')
+                    with self.assertRaisesRegex(ValueError, 'EXACT_BOUND_STATE_ORIGINAL_REQUIRED:' + key):
+                        browser_fixture.observer_state(prepared, directory, environ)
+                    path.write_bytes(key.encode())
+
+    def test_observer_refuses_partial_catalogue_and_wrong_origin_binding(self):
+        with TemporaryDirectory() as temporary:
+            directory = Path(temporary)
+            prepared, environ = self.observer_inputs(directory)
+            partial = deepcopy(prepared)
+            del partial['observer_catalogue']['after']['database_authority']
+            with self.assertRaisesRegex(ValueError, 'COMPLETE_OBSERVER_CATALOGUE_REQUIRED'):
+                browser_fixture.observer_state(partial, directory, environ)
+            environ['AFUI_BROWSER_STATE_SHA256'] = 'wrong source'
+            with self.assertRaisesRegex(ValueError, 'EXACT_BOUND_STATE_ORIGINAL_REQUIRED:original'):
+                browser_fixture.observer_state(prepared, directory, environ)
+
     def fixtures(self):
         groups={name:{}for name in('schemas','relations','columns','constraints','indexes','triggers','functions',
             'aggregates','types','enums','sequences','policies','extensions','roles','memberships','event_triggers',

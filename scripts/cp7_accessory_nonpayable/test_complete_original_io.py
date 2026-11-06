@@ -135,6 +135,8 @@ class CompleteOriginalStorage(unittest.TestCase):
                     "        report['browser_fixture_original']=save('AFUI_BROWSER_NATIVE_PREREQUISITE.json',prepared)\n"
                     "        report['browser_settings_state_original']=save('AFUI_BROWSER_SETTINGS_STATE.json',state)\n",
                     "        AFUI_BROWSER_STATE_CACHE_SHA256=report['browser_settings_cache_original']['sha256'],\n":'',
+                    "        prepared['observer_catalogue'] = dict(after=state['after'],\n"
+                    "            original=report['browser_settings_state_original'], cache=report['browser_settings_cache_original'])\n":'',
                 }
                 for route,original_route in routes.items():
                     self.assertEqual(raw.count(route),1)
@@ -142,6 +144,9 @@ class CompleteOriginalStorage(unittest.TestCase):
             before, after = ast.parse(old), ast.parse(raw)
             original = {n.name: n for n in before.body if isinstance(n, ast.FunctionDef)}
             current = {n.name: n for n in after.body if isinstance(n, ast.FunctionDef)}
+            if name == 'browser_fixture.py':
+                self.assertEqual(set(current) - set(original), {'observer_state'})
+                current.pop('observer_state')
             self.assertEqual(set(original), set(current))
             self.assertEqual({key for key in original if ast.dump(original[key]) != ast.dump(current[key])}, changed)
             self.assertEqual([ast.dump(n) for n in ast.walk(before) if isinstance(n, ast.Assert)],

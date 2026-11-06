@@ -7,6 +7,7 @@ import {readFileSync, existsSync, mkdirSync, writeFileSync, realpathSync} from '
 import {resolve, dirname} from 'node:path';
 import {pathToFileURL, fileURLToPath} from 'node:url';
 import {createHash} from 'node:crypto';
+import {reviewContrastPreflight} from './browser_contrast.mjs';
 
 const single = process.argv[2] === '--single-checkout';
 const workspace = realpathSync(process.argv[single ? 3 : 2]);
@@ -39,11 +40,11 @@ async function checkCheckout(name) {
         const requests = [];
         await context.route('**/*', route => {requests.push(route.request().url());return route.abort('blockedbyclient');});
         const page = await context.newPage();
-        await page.setContent('<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><button>Browser prerequisite</button>');
+        const contrast = await reviewContrastPreflight(page);
         await page.getByRole('button',{name:'Browser prerequisite',exact:true}).click();
         const observed = await page.evaluate(() => ({width:innerWidth,timezone:Intl.DateTimeFormat().resolvedOptions().timeZone}));
         assert.deepEqual(observed,{width,timezone:timezoneId});assert.deepEqual(requests,[]);
-        observations.push({checkout:name,...observed,external_requests:0,status:'PASS'});
+        observations.push({checkout:name,...observed,contrast,external_requests:0,status:'PASS'});
       } finally {await context.close();}
     }
   } finally {await browser.close();}

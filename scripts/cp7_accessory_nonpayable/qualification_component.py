@@ -157,6 +157,8 @@ def committed_prerequisite(url,state,report,control):
         if assembly.runtime()[-1]._catalog_rows(cur)!=state['after']:
             raise ValueError('NONPAYABLE_COMMITTED_PREREQUISITE_MUST_KEEP_EXACT_PRODUCT_AUTHORITY')
         assembly.verify(cur,state);cur.execute('set constraints all immediate');cur.execute('set constraints all deferred');conn.commit()
+        prepared['observer_catalogue'] = dict(after=state['after'],
+            original=report['browser_settings_state_original'], cache=report['browser_settings_cache_original'])
         report['browser_fixture_original']=save('AFUI_BROWSER_NATIVE_PREREQUISITE.json',prepared)
         before=native_fixture.observe(cur,SimpleNamespace(bc=bc),prepared['fixture'])
         with control.product_catalog(cur):

@@ -53,12 +53,16 @@
       "sha256": "cfeb2a231d481f38e0967beaa417bf0c8f64aea9f376940cbf093d3be88ed8aa"
     },
     "scripts/cp7_accessory_nonpayable/browser.mjs": {
-      "bytes": 17927,
-      "sha256": "da16c81a8f8637ea559fc50f64649ab50344e099b23215f995fe746202309c8f"
+      "bytes": 17966,
+      "sha256": "17f98a97589c8e3fe287e0116771cc76b2b51801010c4f739cb74174a3ccbd86"
+    },
+    "scripts/cp7_accessory_nonpayable/browser_contrast.mjs": {
+      "bytes": 4219,
+      "sha256": "461746c559b228a6d0576f5461ecc9f525624f7efe07f28f12f03e01a8a23753"
     },
     "scripts/cp7_accessory_nonpayable/browser_fixture.py": {
-      "bytes": 3280,
-      "sha256": "e696a98fb4a7578aac96b70d8f22ad538a6fce591df877d75504496fb2709f95"
+      "bytes": 4225,
+      "sha256": "3e25717103ff5186ef63e219c0133da3dd109537178d0783389cf76daa814e39"
     },
     "scripts/cp7_accessory_nonpayable/browser_prepare.py": {
       "bytes": 2421,
@@ -81,8 +85,8 @@
       "sha256": "f98b163498d647f338260107909348b89b962c04b42e9881dc6400dac304a43b"
     },
     "scripts/cp7_accessory_nonpayable/final_gate.py": {
-      "bytes": 17282,
-      "sha256": "9399d1f8c4e943d4c98da6b4c7e4032dd4a9cb66772e7d328da939a667f82e42"
+      "bytes": 17465,
+      "sha256": "16f4153c1355f1f07f9b25b41a495a200d4e99ef87764abc976a6151cc79a30c"
     },
     "scripts/cp7_accessory_nonpayable/function_acl_capability.py": {
       "bytes": 8532,
@@ -142,11 +146,11 @@
     },
     "scripts/cp7_accessory_nonpayable/qualification.py": {
       "bytes": 14511,
-      "sha256": "a68bf4a144eea705ff51ca0ba4e35bded31de4cebd32a55dafe98697eed83747"
+      "sha256": "cdd00e796d4f0e7f381cc115d8b0494bcdcfba526b9288ab3c352538e9a5f479"
     },
     "scripts/cp7_accessory_nonpayable/qualification_component.py": {
-      "bytes": 15300,
-      "sha256": "af2deda3a9b9d285dc86246a397eb1931a79c2378e72b8d7368ee4a7f753ef3c"
+      "bytes": 15481,
+      "sha256": "5b95af047f0ad8aabadc0ffde9c47d44e82c159a8466ba541f433336a07a5cb3"
     },
     "scripts/cp7_accessory_nonpayable/qualification_gate.py": {
       "bytes": 4826,
@@ -269,8 +273,8 @@
       "sha256": "56fe6bbbc4888746af5f81ec38c155abbc42965bb0a4c01cb8a4237878c45489"
     },
     "scripts/cp7_accessory_nonpayable/test_browser_observer.py": {
-      "bytes": 5029,
-      "sha256": "748760afc5677516e9870f2838f4942eef5971196acae6d77a7c556f22143b44"
+      "bytes": 7409,
+      "sha256": "431c6e95c2c8b8dace4daa3ea83b5a572184b2149a49c12a6c14b757792e931b"
     },
     "scripts/cp7_accessory_nonpayable/case_output.py": {
       "bytes": 6200,
@@ -313,8 +317,8 @@
       "sha256": "f7c732004e1f5f0f2fe7ac7e08a6f049e6d41f0074fca7336c66736aaf522170"
     },
     "scripts/cp7_accessory_nonpayable/test_complete_original_io.py": {
-      "bytes": 11009,
-      "sha256": "7d3446198f03c3985026c72f26828213452d1915c7446a5cf4a467f6f4dcfed1"
+      "bytes": 11416,
+      "sha256": "0425c620e3f96f872ed336023901dab7e51669f089a2a3c6fde0d814fc6d7582"
     },
     "scripts/cp7_accessory_nonpayable/lossless_state.py": {
       "bytes": 19864,
@@ -325,8 +329,8 @@
       "sha256": "0a1b4e0d2dfeba4ea958fc585cc4249915bb1242698dd1a41bfaa3313e7cc169"
     },
     "scripts/cp7_accessory_nonpayable/browser_prerequisites.mjs": {
-      "bytes": 6038,
-      "sha256": "0484299806098b217b4fb159155a0992d5bef12a6b44e4ca3023b20529a76d73"
+      "bytes": 5997,
+      "sha256": "64b6ab12b4be066cfc5ce2734c9c6e77b11557d4d276a67789cc3bca65e956da"
     },
     "scripts/cp7_accessory_nonpayable/state_prepare.py": {
       "bytes": 6001,

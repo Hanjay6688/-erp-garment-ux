@@ -5,8 +5,9 @@ import {createHash} from 'node:crypto'
 import {readFileSync,writeFileSync,mkdirSync} from 'node:fs'
 import {dirname,resolve} from 'node:path'
 import {fileURLToPath} from 'node:url'
-import {observeConsole,requireConsoleEvidence,readable} from '../current-sku-pair-browser-qualification/evidence.mjs'
+import {observeConsole,requireConsoleEvidence} from '../current-sku-pair-browser-qualification/evidence.mjs'
 import {observeResponseWaits} from '../current-s03-sku-s05-composite-qualification/response_waits.mjs'
+import {readable} from './browser_contrast.mjs'
 
 export const IDS=[
   'NONPAYABLE_BROWSER_DESKTOP_POSTED_USE_REFUSAL_LOST_REPLY_TWO_TABS',
