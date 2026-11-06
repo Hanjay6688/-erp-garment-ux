@@ -317,8 +317,8 @@
       "sha256": "f7c732004e1f5f0f2fe7ac7e08a6f049e6d41f0074fca7336c66736aaf522170"
     },
     "scripts/cp7_accessory_nonpayable/test_complete_original_io.py": {
-      "bytes": 11416,
-      "sha256": "0425c620e3f96f872ed336023901dab7e51669f089a2a3c6fde0d814fc6d7582"
+      "bytes": 11542,
+      "sha256": "bf51f84e2de578b461b7d4b2da8cb401cc0b82ff5c87ac63d2d3e692887b0f4f"
     },
     "scripts/cp7_accessory_nonpayable/lossless_state.py": {
       "bytes": 19864,
