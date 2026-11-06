@@ -3,6 +3,8 @@ from hashlib import sha256
 from pathlib import Path
 from tempfile import TemporaryDirectory
 from unittest.mock import patch
+import base64
+import gzip
 import importlib.util
 import json
 import os
@@ -59,6 +61,29 @@ class CurrentWorkflow(unittest.TestCase):
         self.assertIn('MANDOR_NATIVE_JOB_START_MONOTONIC', text)
         self.assertNotIn('AFUI_JOB_START_MONOTONIC', text)
         self.assertFalse(workflow.ACTIVE.exists())
+
+    def test_real_log_step_keeps_small_original_and_leaves_large_original_for_archive(self):
+        import yaml
+        text, _ = load('workflow').derive()
+        steps = yaml.safe_load(text)['jobs']['p21']['steps']
+        step = next(row for row in steps if row.get('name') ==
+                    'Preserve exact original JSON report bytes in a bounded compressed log receipt')
+        with TemporaryDirectory() as directory:
+            proof = Path(directory) / 'cp6-proof/t3'
+            proof.mkdir(parents=True)
+            small, large = b'{"worker":"fixture"}\n', b' ' * (24 * 1024 + 1)
+            small_path, large_path = proof / 'MANDOR_RUNTIME_SUPERVISION.json', proof / 'CP7_FG_MANDOR_NATIVE9.json'
+            small_path.write_bytes(small)
+            large_path.write_bytes(large)
+            result = subprocess.run(['bash', '-c', step['run']], cwd=directory,
+                                    capture_output=True, text=True, check=True, timeout=10)
+            small_log, large_log = map(json.loads, result.stdout.splitlines())
+            self.assertIs(small_log['ow04_original_report_bytes'], True)
+            self.assertEqual(gzip.decompress(base64.b64decode(small_log['gzip_base64'])), small)
+            self.assertEqual(small_log['raw_sha256'], sha256(small).hexdigest())
+            self.assertEqual(large_log, dict(ow04_original_report_bytes=False, name=large_path.name,
+                raw_bytes=len(large), complete_original_in_canonical_artifact_required=True))
+            self.assertEqual(large_path.read_bytes(), large)
 
     def test_both_complete_original_sources_refuse_mutation_and_transport_is_exact(self):
         workflow, transport = load('workflow'), load('transport')

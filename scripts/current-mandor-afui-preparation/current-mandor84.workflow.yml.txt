@@ -649,8 +649,11 @@ jobs:
       working-directory: auditor
       run: "python - <<'PY'\nimport base64,gzip,hashlib,json\nfrom pathlib import\
         \ Path\nroot=Path('cp6-proof/t3')\nfor name in ('MANDOR_RUNTIME_SUPERVISION.json','CP7_FG_MANDOR_NATIVE9.json','MANDOR_NATIVE9_FINAL_GATE.json','CP7_FG_MANDOR_NATIVE9_STRICT.json','CP7_FG_MANDOR_NATIVE9_STRICT_BUSINESS_DAY_FIRST_ATTEMPT.json','AFUI15_PARENT_ORIGINAL_ADMISSION.json','CP7_S03_ATTENDANCE_CHOICE_NATIVE11_CASES.json','CP7_S03_ATTENDANCE_CHOICE_READER_NATIVE3_CASES.json','CP7_S05_ON_SKU_NATIVE10_CASES.json','CP7_SKU_GROUP_COST_NATIVE5_BUSINESS_DAY_FIRST_ATTEMPT.json','CP7_SKU_PAIR_CONVERSION_NATIVE.json','CP7_SKU_PAIR_CONVERSION_NATIVE7.json','CP7_SKU_PAIR_CONVERSION_NATIVE7_BUSINESS_DAY_FIRST_ATTEMPT.json','T3_PACKAGE_INSTALL.json','T3_BACKUP_RESTORE_DRILL.json','T3_PACKAGE_FILES_INSTALL.json','SKU_COST_ARTIFACT_COPY_RECEIPT.json'):\n\
-        \    path=root/name\n    if not path.is_file():\n        continue\n    raw=path.read_bytes();packed=gzip.compress(raw,mtime=0)\n\
-        \    print(json.dumps(dict(ow04_original_report_bytes=True,name=name,raw_bytes=len(raw),\n\
+        \    path=root/name\n    if not path.is_file():\n        continue\n    with\
+        \ path.open('rb') as stream:\n        raw=stream.read(24*1024+1)\n    if len(raw)>24*1024:\n\
+        \        print(json.dumps(dict(ow04_original_report_bytes=False,name=name,raw_bytes=path.stat().st_size,\n\
+        \            complete_original_in_canonical_artifact_required=True)),flush=True)\n\
+        \        continue\n    packed=gzip.compress(raw,mtime=0)\n    print(json.dumps(dict(ow04_original_report_bytes=True,name=name,raw_bytes=len(raw),\n\
         \        raw_sha256=hashlib.sha256(raw).hexdigest(),gzip_bytes=len(packed),\n\
         \        gzip_sha256=hashlib.sha256(packed).hexdigest(),\n        gzip_base64=base64.b64encode(packed).decode('ascii'))),flush=True)\n\
         PY\n"
