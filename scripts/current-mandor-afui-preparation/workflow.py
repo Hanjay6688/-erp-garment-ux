@@ -75,6 +75,16 @@ def derive(raw=None):
         first, second = repr(old + '.json'), repr(new + '.json')
         require(steps[77]['run'].count(first) == 1 and second not in steps[77]['run'], 'MANDOR84_ONE_EXACT_COMPLETE_RECEIPT_ROUTE')
         steps[77]['run'] = steps[77]['run'].replace(first, second, 1)
+    old = '    raw=path.read_bytes();packed=gzip.compress(raw,mtime=0)\n'
+    require(steps[77]['run'].count(old) == 1, 'MANDOR84_ONE_ORIGINAL_LOG_COMPRESSION_ROUTE')
+    steps[77]['run'] = steps[77]['run'].replace(old,
+        '    with path.open(\'rb\') as stream:\n'
+        '        raw=stream.read(24*1024+1)\n'
+        '    if len(raw)>24*1024:\n'
+        '        print(json.dumps(dict(ow04_original_report_bytes=False,name=name,raw_bytes=path.stat().st_size,\n'
+        '            complete_original_in_canonical_artifact_required=True)),flush=True)\n'
+        '        continue\n'
+        '    packed=gzip.compress(raw,mtime=0)\n', 1)
     old = 'scripts/cp7_accessory_nonpayable/runtime_supervisor.py'
     require(steps[78]['run'].count(old) == 1, 'MANDOR84_ONE_GUARDED_DATABASE_STOP')
     steps[78]['run'] = steps[78]['run'].replace(old, NS + 'runtime_supervisor.py', 1)
