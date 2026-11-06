@@ -53,8 +53,8 @@
       "sha256": "cfeb2a231d481f38e0967beaa417bf0c8f64aea9f376940cbf093d3be88ed8aa"
     },
     "scripts/cp7_accessory_nonpayable/browser.mjs": {
-      "bytes": 17966,
-      "sha256": "17f98a97589c8e3fe287e0116771cc76b2b51801010c4f739cb74174a3ccbd86"
+      "bytes": 17998,
+      "sha256": "e9fecb0c7d6cdf28e56f384519f83ec2ca7a2bdd524b81a344a83ea1a8c3db94"
     },
     "scripts/cp7_accessory_nonpayable/browser_contrast.mjs": {
       "bytes": 4219,
@@ -329,8 +329,8 @@
       "sha256": "0a1b4e0d2dfeba4ea958fc585cc4249915bb1242698dd1a41bfaa3313e7cc169"
     },
     "scripts/cp7_accessory_nonpayable/browser_prerequisites.mjs": {
-      "bytes": 5997,
-      "sha256": "64b6ab12b4be066cfc5ce2734c9c6e77b11557d4d276a67789cc3bca65e956da"
+      "bytes": 7791,
+      "sha256": "2828198b187f23bcf89e98ecc613f83f8e82269ecd8a2b7c17a08d319695e9a2"
     },
     "scripts/cp7_accessory_nonpayable/state_prepare.py": {
       "bytes": 6001,
