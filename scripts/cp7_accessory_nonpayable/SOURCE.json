@@ -145,16 +145,16 @@
       "sha256": "042c30ce6c8242b0626270d2a74f0433df4b5fc57cb8af0d4198a79a8f41cd20"
     },
     "scripts/cp7_accessory_nonpayable/qualification.py": {
-      "bytes": 14511,
-      "sha256": "cdd00e796d4f0e7f381cc115d8b0494bcdcfba526b9288ab3c352538e9a5f479"
+      "bytes": 15419,
+      "sha256": "781b24436be2fb5dee7eba4eafaae715becb8c320e5eb65727ed244c2a0ffc2a"
     },
     "scripts/cp7_accessory_nonpayable/qualification_component.py": {
-      "bytes": 15481,
-      "sha256": "5b95af047f0ad8aabadc0ffde9c47d44e82c159a8466ba541f433336a07a5cb3"
+      "bytes": 15579,
+      "sha256": "164eec5613eed54b5aac6edd9a225e53bb1d5ef550201a4687341eb8c777a848"
     },
     "scripts/cp7_accessory_nonpayable/qualification_gate.py": {
-      "bytes": 4826,
-      "sha256": "c0647aeb14b09cd179c7f977c2c60c70434dc3afcd91a66755229e5de353482c"
+      "bytes": 5194,
+      "sha256": "3f047a435ba4b264ae4e96dd201672c37fa81375f0f5606e53d438f7ad3b004c"
     },
     "scripts/cp7_accessory_nonpayable/ri_catalog.py": {
       "bytes": 2200,
@@ -197,8 +197,8 @@
       "sha256": "b1be6c8d955355b501912fb5e4d3ab1849dd25eb855982870dfe9f82ed846bf7"
     },
     "scripts/cp7_accessory_nonpayable/test_final_preparation.py": {
-      "bytes": 4963,
-      "sha256": "03d25bd5f45841fead1826403575f3b8db40edf9df67e1102af75a8f69535d68"
+      "bytes": 6960,
+      "sha256": "8e436502cc50cbcaf432c5f9979b565f935be0bd573ee93c1a3772bd0cf7f019"
     },
     "scripts/cp7_accessory_nonpayable/test_function_acl.mjs": {
       "bytes": 7049,
