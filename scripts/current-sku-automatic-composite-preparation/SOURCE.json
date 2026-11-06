@@ -146,8 +146,8 @@
       "sha256": "c64aff29d19c8bb33d44cce9082a29a775777eac9599fc98cf40d661fcc0eafd"
     },
     "check_source.py": {
-      "bytes": 13350,
-      "sha256": "764def7838faa0c99f226bb87d98ae798f0e8bbe44685ccb30e5510bb07534db"
+      "bytes": 13337,
+      "sha256": "1157a6c67e77153c5587ca52dff1d57d9a81e8f2d2792a053abfdd51a42002cd"
     },
     "component.py": {
       "bytes": 5975,
@@ -449,8 +449,8 @@
   "current_money_product_source_unchanged": true,
   "selective_UI_source_admission_prepared": true,
   "pending_current_Afui_original_consumer_source": {
-    "head": "8e5a0511c0f5a68ea5fcc1cf2649d36703d119ac",
-    "tree": "c72147b650123a1faa38a8ce99144e690cb395d3",
+    "head": "fd797083eab093d9dc97f2d52ca61dc37812b437",
+    "tree": "02a8812e9eae2272a976d1dbd1e21aff8c022467",
     "complete_original_helper": {
       "bytes": 5951,
       "sha256": "f7c732004e1f5f0f2fe7ac7e08a6f049e6d41f0074fca7336c66736aaf522170"
@@ -460,8 +460,8 @@
   "pending_current_Mandor_preparation": {
     "base_head": "c296fd06167ddd177e1192c1008992e2a1e3d628",
     "base_tree": "fdd36962a7de81482ccca02e6ff96597cfc20081",
-    "head": "7fd3154270320b5c57e65edcd8979d123fdc4347",
-    "tree": "d8b5001bc43752db6294ec12fcefcb34b4bfc91b",
+    "head": "78c9af59857b16fbcfda1dbe32c5d392a5900dfb",
+    "tree": "6875907c1fc16c1e36b817506b2b3aa1ea0afed8",
     "actual_Root": null,
     "actual_run": null,
     "actual_job": null,
@@ -589,11 +589,11 @@
         },
         "after": {
           "mode": "100644",
-          "blob": "f5b73cc63bc6e043068ec02e79bf48dfcd0fe62c"
+          "blob": "bc84b0043209e3e1100e5c69f5ab707cb39259c9"
         },
         "pin": {
           "bytes": 33211,
-          "sha256": "1cc59045f30488c30245a3757784165dc73743c6f42ddc6730775dd17922930f"
+          "sha256": "a97641b97935d1ac118e78afd8f0b55f20e915f735802caaf2f5b03c4a4164dd"
         }
       },
       "scripts/cp7_accessory_nonpayable/access_cases.py": {
@@ -814,11 +814,11 @@
         },
         "after": {
           "mode": "100644",
-          "blob": "1eeaeb33dfc4d2b7bf8de4b088cce9d7f54fb70a"
+          "blob": "eef82a25fc1ee6ef518dd63fd011a50397354c3e"
         },
         "pin": {
-          "bytes": 14511,
-          "sha256": "cdd00e796d4f0e7f381cc115d8b0494bcdcfba526b9288ab3c352538e9a5f479"
+          "bytes": 15419,
+          "sha256": "781b24436be2fb5dee7eba4eafaae715becb8c320e5eb65727ed244c2a0ffc2a"
         }
       },
       "scripts/cp7_accessory_nonpayable/qualification_component.py": {
@@ -828,11 +828,25 @@
         },
         "after": {
           "mode": "100644",
-          "blob": "61bc3e18160c28f512374ce408698c009ac5ced6"
+          "blob": "ce0a6f2bff19b88307d21e052e0483f88edbc106"
         },
         "pin": {
-          "bytes": 15481,
-          "sha256": "5b95af047f0ad8aabadc0ffde9c47d44e82c159a8466ba541f433336a07a5cb3"
+          "bytes": 15579,
+          "sha256": "164eec5613eed54b5aac6edd9a225e53bb1d5ef550201a4687341eb8c777a848"
+        }
+      },
+      "scripts/cp7_accessory_nonpayable/qualification_gate.py": {
+        "before": {
+          "mode": "100644",
+          "blob": "bb430426a86a818242225bf034e91fdf35c0d9de"
+        },
+        "after": {
+          "mode": "100644",
+          "blob": "1851e8613c2ddc9b6402fca8a1c08de83a0c891e"
+        },
+        "pin": {
+          "bytes": 5194,
+          "sha256": "3f047a435ba4b264ae4e96dd201672c37fa81375f0f5606e53d438f7ad3b004c"
         }
       },
       "scripts/cp7_accessory_nonpayable/report_io.py": {
@@ -894,11 +908,25 @@
         "before": null,
         "after": {
           "mode": "100644",
-          "blob": "9521a60bf4c1b08d4ba3d40478b56acad4a421a3"
+          "blob": "63a91e271fa7636a3b2aeccfc9a387f610db17fd"
         },
         "pin": {
-          "bytes": 11416,
-          "sha256": "0425c620e3f96f872ed336023901dab7e51669f089a2a3c6fde0d814fc6d7582"
+          "bytes": 11542,
+          "sha256": "bf51f84e2de578b461b7d4b2da8cb401cc0b82ff5c87ac63d2d3e692887b0f4f"
+        }
+      },
+      "scripts/cp7_accessory_nonpayable/test_final_preparation.py": {
+        "before": {
+          "mode": "100644",
+          "blob": "dbe5a592a50f2eee58878ce21111cf322e75b330"
+        },
+        "after": {
+          "mode": "100644",
+          "blob": "c5a1d33f16311314f30576fcd7282272a1de896b"
+        },
+        "pin": {
+          "bytes": 6960,
+          "sha256": "8e436502cc50cbcaf432c5f9979b565f935be0bd573ee93c1a3772bd0cf7f019"
         }
       },
       "scripts/cp7_accessory_nonpayable/test_lossless_state.py": {
@@ -1060,11 +1088,11 @@
         "before": null,
         "after": {
           "mode": "100644",
-          "blob": "287f35c85bb4149f31cb5a0d1ed11369c1d0874f"
+          "blob": "62422f303b6c1a47479c0fea5091549dc71a612b"
         },
         "pin": {
-          "bytes": 19380,
-          "sha256": "b606d5ecc48f4b3b66b0b3c42d211028473986ecf606a9410e1dae546fcc630d"
+          "bytes": 19688,
+          "sha256": "0a5ae6a1d1aac9c8d067d51e7307f886feecb544ac006833839a478da7773d0c"
         }
       },
       "scripts/current-mandor-afui-preparation/WORKFLOW_TRANSPORT_PREPARATION_CONTROLS.json": {
@@ -1093,11 +1121,11 @@
         "before": null,
         "after": {
           "mode": "100644",
-          "blob": "339ceb16777cf9fd10b3ce92c8a31aeece29cf7d"
+          "blob": "4d9d49cc96b7c37e7fd47212db8c27ec1d34c3d6"
         },
         "pin": {
-          "bytes": 12421,
-          "sha256": "a92a33d8229e1e8528eebf8e0fbff12c8fd6ea39b567379a42041f9baa4905fc"
+          "bytes": 12410,
+          "sha256": "706d8de749afe1f19bb0cb5aa17befb7e9a750dd7f578cf0bb387d7592a39189"
         }
       },
       "scripts/current-mandor-afui-preparation/current-mandor82.workflow.yml.txt": {
@@ -1181,11 +1209,11 @@
         "before": null,
         "after": {
           "mode": "100644",
-          "blob": "3d9295c474fef70fbb215d47385440056032712e"
+          "blob": "c11e088cf299ac050a91ea8d6c5ab4913f42b0fa"
         },
         "pin": {
           "bytes": 10201,
-          "sha256": "c2f6889ea8cceff27df767163d8ee0c15c107ad2d1fe427b25154806c9f2ecef"
+          "sha256": "cafbfd92af2b0a3080d92db182710ea4372d47a021a2feea0363d4b0fe68bdfb"
         }
       },
       "scripts/current-mandor-afui-preparation/state_io.py": {
@@ -1297,11 +1325,11 @@
         },
         "after": {
           "mode": "100644",
-          "blob": "b2cc3cddf970bbbbaab694521c5838030d17d420"
+          "blob": "d5018f523f41c457f62d58ec02bfc4df4f8df9f9"
         },
         "pin": {
           "bytes": 1432,
-          "sha256": "84cb1a18d71f0f11d8b97f0380ebffa82ac55505c140e25f9148f14316a009c9"
+          "sha256": "a3e82c484c8f54d6a1df2a31252c5ce112258bcc0f28a10cbfdf060ed9db0152"
         }
       },
       "scripts/current-mandor-shop-native-qualification/browser_gate.py": {
@@ -1353,11 +1381,11 @@
         },
         "after": {
           "mode": "100644",
-          "blob": "8b86f95e354caa41f7de8db10cb4bfdc3cf8bb98"
+          "blob": "e770127b99d119f306d24e118f01b4bb069134bd"
         },
         "pin": {
           "bytes": 10957,
-          "sha256": "26571d7950d28b5cb0e8057cd7e4d6b0b5ed1d999837ad78f3f7178d182aa0b3"
+          "sha256": "711199ccb2327fa72dcb6c5fe2debe63461a4e541e91c5d226b0974c95926b54"
         }
       },
       "scripts/current-mandor-shop-native-qualification/qualification.py": {
