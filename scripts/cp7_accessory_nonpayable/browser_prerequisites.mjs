@@ -8,10 +8,38 @@ import {resolve, dirname} from 'node:path';
 import {pathToFileURL, fileURLToPath} from 'node:url';
 import {createHash} from 'node:crypto';
 import {reviewContrastPreflight} from './browser_contrast.mjs';
+import {reason} from './browser.mjs';
 
 const single = process.argv[2] === '--single-checkout';
 const workspace = realpathSync(process.argv[single ? 3 : 2]);
 const digest = raw => ({bytes: raw.length, sha256: createHash('sha256').update(raw).digest('hex')});
+
+async function checkReasonAfterReopen(page) {
+  const label = 'Alasan pencatatan tanggal berlaku';
+  const retained = 'Review date touching an already posted GOOD';
+  const replacement = 'Reviewed future GOOD date through normal App';
+  const form = draft => `<!doctype html><meta charset="utf-8">
+    <section aria-label="Tanggal berlaku kategori gratis untuk GOOD">
+      <label>Berlaku untuk GOOD mulai tanggal (WIB)<input type="date"></label>
+      <label for="reason">${label}<textarea id="reason">${draft}</textarea></label>
+      <label>Alasan pengaturan lain<textarea>Harus tetap sama</textarea></label>
+    </section>`;
+  const legacy = page.getByLabel(label, {exact:true});
+  await page.setContent(form(''));
+  assert.equal(await legacy.count(), 1, 'AFUI_EXACT_REASON_LOCATOR_MUST_MATCH_EMPTY_FORM');
+  await reason(page).fill(retained);
+  assert.equal(await reason(page).inputValue(), retained);
+  // Reopening the form mounts a new textarea with the retained draft as text.
+  await page.setContent(form(retained));
+  await page.getByLabel('Berlaku untuk GOOD mulai tanggal (WIB)', {exact:true}).fill('2026-11-07');
+  assert.equal(await legacy.count(), 0, 'AFUI_EXACT_REASON_LOCATOR_FAILURE_MUST_REPRODUCE');
+  assert.equal(await reason(page).count(), 1, 'AFUI_REOPENED_REASON_LOCATOR_MUST_BE_UNIQUE');
+  assert.equal(await reason(page).inputValue(), retained);
+  await reason(page).fill(replacement);
+  assert.equal(await reason(page).inputValue(), replacement);
+  assert.equal(await page.getByLabel(/^Alasan pengaturan lain/).inputValue(), 'Harus tetap sama');
+  return {old_empty_match:true, old_retained_draft_refused:true, replacement_in_exact_field:true};
+}
 
 async function checkCheckout(name) {
   assert.ok(['auditor','writer'].includes(name));
@@ -40,11 +68,12 @@ async function checkCheckout(name) {
         const requests = [];
         await context.route('**/*', route => {requests.push(route.request().url());return route.abort('blockedbyclient');});
         const page = await context.newPage();
+        const reason_reopen = await checkReasonAfterReopen(page);
         const contrast = await reviewContrastPreflight(page);
         await page.getByRole('button',{name:'Browser prerequisite',exact:true}).click();
         const observed = await page.evaluate(() => ({width:innerWidth,timezone:Intl.DateTimeFormat().resolvedOptions().timeZone}));
         assert.deepEqual(observed,{width,timezone:timezoneId});assert.deepEqual(requests,[]);
-        observations.push({checkout:name,...observed,contrast,external_requests:0,status:'PASS'});
+        observations.push({checkout:name,...observed,contrast,reason_reopen,external_requests:0,status:'PASS'});
       } finally {await context.close();}
     }
   } finally {await browser.close();}

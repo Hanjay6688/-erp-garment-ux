@@ -5,8 +5,8 @@
     "tree": "fdd36962a7de81482ccca02e6ff96597cfc20081"
   },
   "pending_current_Afui": {
-    "head": "f17ac6cc13cffe10a32deca1c04ff63d220285fe",
-    "tree": "82bbcc0e53c07ddb2b52d0ea26e2263ed11681c7",
+    "head": "8e5a0511c0f5a68ea5fcc1cf2649d36703d119ac",
+    "tree": "c72147b650123a1faa38a8ce99144e690cb395d3",
     "run_id": null,
     "job_id": null,
     "actual_Root_pin": null
@@ -54,7 +54,7 @@
     },
     "scripts/cp7_accessory_nonpayable/SOURCE.json": {
       "mode": "100644",
-      "blob": "2f9336bdc4a8f4e9c660fbe3f09a65b6ceb6d955"
+      "blob": "f5b73cc63bc6e043068ec02e79bf48dfcd0fe62c"
     },
     "scripts/cp7_accessory_nonpayable/access_cases.py": {
       "mode": "100644",
@@ -70,7 +70,7 @@
     },
     "scripts/cp7_accessory_nonpayable/browser.mjs": {
       "mode": "100644",
-      "blob": "1b3e48d7c04e5b3d21161aec41c694adac9ed36f"
+      "blob": "7ee06a55c918445379ffcbffb7242fe058d7a3be"
     },
     "scripts/cp7_accessory_nonpayable/browser_contrast.mjs": {
       "mode": "100644",
@@ -86,7 +86,7 @@
     },
     "scripts/cp7_accessory_nonpayable/browser_prerequisites.mjs": {
       "mode": "100644",
-      "blob": "d42a52097ec71cfa350f915f3bab97cbc903ec83"
+      "blob": "aab0b9ce23677d25db10a1697053690734ce2d94"
     },
     "scripts/cp7_accessory_nonpayable/case_output.py": {
       "mode": "100644",
@@ -193,7 +193,7 @@
     "admission.py": {
       "original_bytes": 1447,
       "original_sha256": "609db7cade09a03be8aa4777adac6e11fdf3fc5aec672e625ed96705381e3b6c",
-      "derived_sha256": "35e9073388dc2a8500c2a6731afc1c5d943437777ef4f003fb70d9179645e823",
+      "derived_sha256": "84cb1a18d71f0f11d8b97f0380ebffa82ac55505c140e25f9148f14316a009c9",
       "exact_routes": 4,
       "whole_original_caller_recovered": true,
       "actual_ERP_cases": 0,
@@ -247,7 +247,7 @@
     "preflight.py": {
       "original_bytes": 10968,
       "original_sha256": "ea789817b7ec0c48ca3fb702c5f1a8045853438f87302ea38d81f89595a5069d",
-      "derived_sha256": "d6fec9d902c2e1913f22bce98347fa76e8bcd67660b87e5b4e74abeb554b6cf7",
+      "derived_sha256": "26571d7950d28b5cb0e8057cd7e4d6b0b5ed1d999837ad78f3f7178d182aa0b3",
       "exact_routes": 4,
       "whole_original_caller_recovered": true,
       "actual_ERP_cases": 0,
@@ -277,7 +277,7 @@
     },
     "scripts/current-mandor-afui-preparation/routes.py": {
       "bytes": 9158,
-      "sha256": "5fe94a8c5882147353f6666b1f0830673a5253d4bcda96002439b90c656334b1"
+      "sha256": "8d7a1ebc43b945a5fda07fb5039ecb7c891592c3ad60395aed8983c489dbb640"
     },
     "scripts/current-mandor-afui-preparation/test_output_binding.py": {
       "bytes": 8270,
@@ -293,7 +293,7 @@
     },
     "scripts/current-mandor-shop-native-qualification/admission.py": {
       "bytes": 1432,
-      "sha256": "35e9073388dc2a8500c2a6731afc1c5d943437777ef4f003fb70d9179645e823"
+      "sha256": "84cb1a18d71f0f11d8b97f0380ebffa82ac55505c140e25f9148f14316a009c9"
     },
     "scripts/current-mandor-shop-native-qualification/component.py": {
       "bytes": 8078,
@@ -365,7 +365,7 @@
     },
     "scripts/current-mandor-shop-native-qualification/preflight.py": {
       "bytes": 10957,
-      "sha256": "d6fec9d902c2e1913f22bce98347fa76e8bcd67660b87e5b4e74abeb554b6cf7"
+      "sha256": "26571d7950d28b5cb0e8057cd7e4d6b0b5ed1d999837ad78f3f7178d182aa0b3"
     },
     "scripts/current-mandor-afui-preparation/CURRENT_C790_SOURCE_PREREQUISITE_CONTROLS_20261105.json": {
       "bytes": 1617,
