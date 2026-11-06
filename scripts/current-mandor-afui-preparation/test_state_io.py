@@ -61,5 +61,33 @@ class CurrentStateIO(unittest.TestCase):
             root,out,value,reference=self.fixture(td);link=out/'linked.json';link.symlink_to(out/state.ORIGINAL)
             with self.assertRaisesRegex(ValueError,'REGULAR_ORIGINAL'):state.pin(link)
 
+    def test_cold_observer_uses_exact_catalogue_and_hashes_without_decoding_full_graph(self):
+        codec=state.codec()
+        with TemporaryDirectory()as td:
+            root,out,value,reference=self.fixture(td)
+            value['after']={f'group{i}':[['exact',i]]for i in range(22)}
+            (out/state.ORIGINAL).write_text(json.dumps(value,sort_keys=True,default=str)+'\n')
+            reference=dict(name=state.ORIGINAL,**state.pin(out/state.ORIGINAL))
+            with patch.object(state,'codec',return_value=codec):
+                cache=state.save(value,reference,directory=out)
+                final=state.verified(SimpleNamespace(exact=self.exact),out,reference,cache)
+            catalogue=state.observer_catalogue(value,reference,cache)
+            self.assertEqual(catalogue,state.observer_catalogue(final,reference,cache))
+            fixture=dict(observer_catalogue=catalogue)
+            with patch.object(state,'codec',side_effect=AssertionError('cold full graph decoder')):
+                expected=dict(contract=state.CONTRACT,after=final['after'])
+                self.assertEqual(state.observer_state(fixture,out,reference['sha256'],cache['sha256']),expected)
+                with self.assertRaisesRegex(ValueError,'EXACT_BOUND_STATE_ORIGINAL_REQUIRED:cache'):
+                    state.observer_state(fixture,out,reference['sha256'],'0'*64)
+                for key,file in (('original',reference),('cache',cache)):
+                    path=out/file['name'];raw=path.read_bytes()
+                    path.write_bytes(b'!'+raw[1:])
+                    with self.assertRaisesRegex(ValueError,'EXACT_BOUND_STATE_ORIGINAL_REQUIRED:'+key):
+                        state.observer_state(fixture,out,reference['sha256'],cache['sha256'])
+                    path.write_bytes(raw)
+                catalogue['after'].pop('group21')
+                with self.assertRaisesRegex(ValueError,'COMPLETE_OBSERVER_CATALOGUE_REQUIRED'):
+                    state.observer_state(fixture,out,reference['sha256'],cache['sha256'])
+
 
 if __name__=='__main__':unittest.main()

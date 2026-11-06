@@ -7,6 +7,7 @@ import importlib,json,sys
 ROOT=Path(__file__).resolve().parents[2]
 ORIGINAL='MANDOR_BROWSER_STATE.json'
 CACHE='MANDOR_BROWSER_STATE_CACHE.json'
+CONTRACT='cp7.mandor-shop-on-accepted-afui.v1'
 
 
 def require(value,reason):
@@ -58,6 +59,26 @@ def reference(original):
 def read(original,original_sha256,cache_sha256):
     original=Path(original);require(original.name==ORIGINAL,'MANDOR_COMPLETE_STATE_FIXED_INPUT')
     return codec().read(original.parent/CACHE,cache_sha256,original,original_sha256)
+
+
+def observer_catalogue(state, original, cache):
+    after=state['after']
+    require(state['contract']==CONTRACT and type(after)is dict and len(after)==22,
+            'MANDOR_BROWSER_COMPLETE_OBSERVER_CATALOGUE_REQUIRED')
+    return dict(contract=CONTRACT,after=after,original=original,cache=cache)
+
+
+def observer_state(fixture, directory, original_sha256, cache_sha256):
+    inputs=fixture.get('observer_catalogue')
+    require(type(inputs)is dict and set(inputs)=={'contract','after','original','cache'},
+            'MANDOR_BROWSER_COMPLETE_OBSERVER_CATALOGUE_REQUIRED')
+    catalogue=observer_catalogue(inputs,inputs['original'],inputs['cache'])
+    for key,name,digest in (('original',ORIGINAL,original_sha256),('cache',CACHE,cache_sha256)):
+        expected=catalogue[key]
+        require(type(expected)is dict and type(expected.get('bytes'))is int
+                and expected.get('sha256')==digest and expected==dict(name=name,**pin(directory/name)),
+                'MANDOR_BROWSER_EXACT_BOUND_STATE_ORIGINAL_REQUIRED:'+key)
+    return dict(contract=catalogue['contract'],after=catalogue['after'])
 
 
 def verified(p,directory,original,cache):
