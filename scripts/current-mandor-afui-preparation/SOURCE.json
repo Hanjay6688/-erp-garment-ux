@@ -5,8 +5,8 @@
     "tree": "fdd36962a7de81482ccca02e6ff96597cfc20081"
   },
   "pending_current_Afui": {
-    "head": "2b8da485be0dd35e7be2c77e8278537d717e5733",
-    "tree": "29bfe0e40e6f9bce46a259cbb4210149da6a16c6",
+    "head": "f17ac6cc13cffe10a32deca1c04ff63d220285fe",
+    "tree": "82bbcc0e53c07ddb2b52d0ea26e2263ed11681c7",
     "run_id": null,
     "job_id": null,
     "actual_Root_pin": null
@@ -54,7 +54,7 @@
     },
     "scripts/cp7_accessory_nonpayable/SOURCE.json": {
       "mode": "100644",
-      "blob": "fc585a3f0b3a56ddbd1a6ddd874f9504bab9a4b8"
+      "blob": "2f9336bdc4a8f4e9c660fbe3f09a65b6ceb6d955"
     },
     "scripts/cp7_accessory_nonpayable/access_cases.py": {
       "mode": "100644",
@@ -70,11 +70,15 @@
     },
     "scripts/cp7_accessory_nonpayable/browser.mjs": {
       "mode": "100644",
-      "blob": "9267d4706877ad9c5f68eaef774f081bd6c9df15"
+      "blob": "1b3e48d7c04e5b3d21161aec41c694adac9ed36f"
+    },
+    "scripts/cp7_accessory_nonpayable/browser_contrast.mjs": {
+      "mode": "100644",
+      "blob": "b27ccdf13ee58bbde46036f4ceb1976884ee59c4"
     },
     "scripts/cp7_accessory_nonpayable/browser_fixture.py": {
       "mode": "100644",
-      "blob": "accef5eaef7c2be8e40127d6f7af07ca8d093442"
+      "blob": "7744ffe35b9ed6d82e9e74b16e48d024c78b6df3"
     },
     "scripts/cp7_accessory_nonpayable/browser_prepare.py": {
       "mode": "100644",
@@ -82,7 +86,7 @@
     },
     "scripts/cp7_accessory_nonpayable/browser_prerequisites.mjs": {
       "mode": "100644",
-      "blob": "2782b5229889b3dfc10bbaefefc96df42f9dcf2a"
+      "blob": "d42a52097ec71cfa350f915f3bab97cbc903ec83"
     },
     "scripts/cp7_accessory_nonpayable/case_output.py": {
       "mode": "100644",
@@ -106,7 +110,7 @@
     },
     "scripts/cp7_accessory_nonpayable/final_gate.py": {
       "mode": "100644",
-      "blob": "737cb40eedae8853dcce51c3a353f50f0a278206"
+      "blob": "907ecc24df17800ea0e7224aa1c1288ec95fcced"
     },
     "scripts/cp7_accessory_nonpayable/lossless_state.py": {
       "mode": "100644",
@@ -122,11 +126,11 @@
     },
     "scripts/cp7_accessory_nonpayable/qualification.py": {
       "mode": "100644",
-      "blob": "46e1877cea154ef651a701ed7000506b756ee690"
+      "blob": "1eeaeb33dfc4d2b7bf8de4b088cce9d7f54fb70a"
     },
     "scripts/cp7_accessory_nonpayable/qualification_component.py": {
       "mode": "100644",
-      "blob": "66d72b85edd1c1604bbf4d3ff1536a9eb2c6e6ef"
+      "blob": "61bc3e18160c28f512374ce408698c009ac5ced6"
     },
     "scripts/cp7_accessory_nonpayable/report_io.py": {
       "mode": "100644",
@@ -138,7 +142,7 @@
     },
     "scripts/cp7_accessory_nonpayable/test_browser_observer.py": {
       "mode": "100644",
-      "blob": "e63aff6babc96f4809d9020a9710e83e5bf273b5"
+      "blob": "285a18d957f1953cc681c233f3457587f7cb35ae"
     },
     "scripts/cp7_accessory_nonpayable/test_case_output.py": {
       "mode": "100644",
@@ -150,7 +154,7 @@
     },
     "scripts/cp7_accessory_nonpayable/test_complete_original_io.py": {
       "mode": "100644",
-      "blob": "1587f52fcc59f2f4e2458d599259d8dcd1b97178"
+      "blob": "9521a60bf4c1b08d4ba3d40478b56acad4a421a3"
     },
     "scripts/cp7_accessory_nonpayable/test_lossless_state.py": {
       "mode": "100644",
@@ -189,7 +193,7 @@
     "admission.py": {
       "original_bytes": 1447,
       "original_sha256": "609db7cade09a03be8aa4777adac6e11fdf3fc5aec672e625ed96705381e3b6c",
-      "derived_sha256": "a4b92363f02eb1010e57e8eabb4aa9e53690b80b677c58837acd0decec18861e",
+      "derived_sha256": "35e9073388dc2a8500c2a6731afc1c5d943437777ef4f003fb70d9179645e823",
       "exact_routes": 4,
       "whole_original_caller_recovered": true,
       "actual_ERP_cases": 0,
@@ -243,7 +247,7 @@
     "preflight.py": {
       "original_bytes": 10968,
       "original_sha256": "ea789817b7ec0c48ca3fb702c5f1a8045853438f87302ea38d81f89595a5069d",
-      "derived_sha256": "a2d85093af8cb9c09ace31585e5c75d2a12be7fdcd2a7ad7d4efc75fd0061d56",
+      "derived_sha256": "d6fec9d902c2e1913f22bce98347fa76e8bcd67660b87e5b4e74abeb554b6cf7",
       "exact_routes": 4,
       "whole_original_caller_recovered": true,
       "actual_ERP_cases": 0,
@@ -260,8 +264,8 @@
       "sha256": "d85af2c741f707b378e09c6e07ab789cb76450d0e58f470913a81e936c5797b2"
     },
     "scripts/current-mandor-afui-preparation/check_source.py": {
-      "bytes": 12422,
-      "sha256": "9c0b7590e000b5306fb8eaabadb99a284bc427cb141703217a20388d6df98128"
+      "bytes": 12421,
+      "sha256": "a92a33d8229e1e8528eebf8e0fbff12c8fd6ea39b567379a42041f9baa4905fc"
     },
     "scripts/current-mandor-afui-preparation/output_binding.py": {
       "bytes": 9010,
@@ -273,7 +277,7 @@
     },
     "scripts/current-mandor-afui-preparation/routes.py": {
       "bytes": 9158,
-      "sha256": "52fdab0bc5b925dfecf87f170327f45afa49883d400707f353c48e089b386e25"
+      "sha256": "5fe94a8c5882147353f6666b1f0830673a5253d4bcda96002439b90c656334b1"
     },
     "scripts/current-mandor-afui-preparation/test_output_binding.py": {
       "bytes": 8270,
@@ -289,7 +293,7 @@
     },
     "scripts/current-mandor-shop-native-qualification/admission.py": {
       "bytes": 1432,
-      "sha256": "a4b92363f02eb1010e57e8eabb4aa9e53690b80b677c58837acd0decec18861e"
+      "sha256": "35e9073388dc2a8500c2a6731afc1c5d943437777ef4f003fb70d9179645e823"
     },
     "scripts/current-mandor-shop-native-qualification/component.py": {
       "bytes": 8078,
@@ -361,7 +365,7 @@
     },
     "scripts/current-mandor-shop-native-qualification/preflight.py": {
       "bytes": 10957,
-      "sha256": "a2d85093af8cb9c09ace31585e5c75d2a12be7fdcd2a7ad7d4efc75fd0061d56"
+      "sha256": "d6fec9d902c2e1913f22bce98347fa76e8bcd67660b87e5b4e74abeb554b6cf7"
     },
     "scripts/current-mandor-afui-preparation/CURRENT_C790_SOURCE_PREREQUISITE_CONTROLS_20261105.json": {
       "bytes": 1617,

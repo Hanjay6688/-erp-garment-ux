@@ -195,6 +195,8 @@ def validate(p,main,raw,package,backup,owned,head,*,source_graph,directory):
         'NONPAYABLE_ALL_DECODED_STATE_CANONICAL_BYTES_EQUAL_COMPLETE_ORIGINAL')
     if prepared['status']!='ACTUAL_NATIVE_NONPAYABLE_BROWSER_PREREQUISITE_PREPARED':
         raise ValueError('NONPAYABLE_ACTUAL_NATIVE_GOOD_BROWSER_PREREQUISITE_REQUIRED')
+    p.exact(prepared.get('observer_catalogue'), dict(after=state['after'], original=original, cache=cache),
+        'NONPAYABLE_BROWSER_OBSERVER_INPUT_EQUALS_COMPLETE_DECODED_STATE')
     native_fixture.require_economics(prepared['actual_good'],prepared['fixture'],nonpayable=True,hpp='20')
     used=part['separate_committed_Native_use']
     p.fields(used,dict(status='ACTUAL_POSITIVE_HPP_ZERO_REIMBURSEMENT_GOOD_COMMITTED',
