@@ -62,22 +62,30 @@ def replacements(name):
         )
     if name == 'browser_observer.py':
         return ((
+            '    docs=[]\n'
+            "    for name,env in(('MANDOR_BROWSER_FIXTURE.json','MANDOR_BROWSER_FIXTURE_SHA256'),\n"
+            "            ('MANDOR_BROWSER_STATE.json','MANDOR_BROWSER_STATE_SHA256')):\n"
+            "        path=ROOT/'cp6-proof/t3'/name;require(not path.is_symlink(),'MANDOR_BROWSER_NO_INPUT_SYMLINK')\n"
             "        data=path.read_bytes();require(sha256(data).hexdigest()==os.environ[env],'MANDOR_BROWSER_EXACT_OWNING_ORIGINAL')\n"
-            "        docs.append(json.loads(data))\n",
-            "        if name=='MANDOR_BROWSER_STATE.json':\n"
-            "            state_path=ROOT/'scripts/current-mandor-afui-preparation/state_io.py'\n"
-            "            import importlib.util\n"
-            "            spec=importlib.util.spec_from_file_location('mandor_complete_browser_state',state_path)\n"
-            "            state_io=importlib.util.module_from_spec(spec);spec.loader.exec_module(state_io)\n"
-            "            docs.append(state_io.read(path,os.environ[env],os.environ['MANDOR_BROWSER_STATE_CACHE_SHA256']))\n"
-            "        else:\n"
-            "            data=path.read_bytes();require(sha256(data).hexdigest()==os.environ[env],'MANDOR_BROWSER_EXACT_OWNING_ORIGINAL')\n"
-            "            docs.append(json.loads(data))\n"),)
+            '        docs.append(json.loads(data))\n'
+            '    fixture,state=docs\n',
+            '    import access_runtime\n'
+            "    directory=ROOT/'cp6-proof/t3'\n"
+            "    path=directory/'MANDOR_BROWSER_FIXTURE.json'\n"
+            "    require(not path.is_symlink(),'MANDOR_BROWSER_NO_INPUT_SYMLINK')\n"
+            '    data=path.read_bytes()\n'
+            "    require(sha256(data).hexdigest()==os.environ['MANDOR_BROWSER_FIXTURE_SHA256'],'MANDOR_BROWSER_EXACT_OWNING_ORIGINAL')\n"
+            '    fixture=json.loads(data)\n'
+            "    state_io=access_runtime.load('mandor_complete_browser_state',ROOT/'scripts/current-mandor-afui-preparation/state_io.py')\n"
+            "    state=state_io.observer_state(fixture,directory,os.environ['MANDOR_BROWSER_STATE_SHA256'],\n"
+            "        os.environ['MANDOR_BROWSER_STATE_CACHE_SHA256'])\n"),)
     if name == 'browser_gate.py':
         return ((
             "    state=pinned(p,directory,part['browser_state_original'],'MANDOR_BROWSER_STATE.json')\n",
             "    state_io=access_runtime.load('mandor_final_complete_state_io',access_runtime.ROOT/'scripts/current-mandor-afui-preparation/state_io.py')\n"
-            "    state=state_io.verified(p,directory,part['browser_state_original'],part['browser_state_cache_original'])\n"),)
+            "    state=state_io.verified(p,directory,part['browser_state_original'],part['browser_state_cache_original'])\n"
+            "    p.exact(fixture['observer_catalogue'],state_io.observer_catalogue(state,part['browser_state_original'],\n"
+            "        part['browser_state_cache_original']),'MANDOR_BROWSER_OBSERVER_CATALOGUE_MATCHES_FULL_DECODED_STATE')\n"),)
     if name == 'access_runtime.py':
         save = (
             "    path=ROOT/'cp6-proof/t3'/name\n"
@@ -99,11 +107,15 @@ def replacements(name):
             ("        MANDOR_BROWSER_STATE_SHA256=report['browser_state_original']['sha256'],\n",
              "        MANDOR_BROWSER_STATE_SHA256=report['browser_state_original']['sha256'],\n"
              "        MANDOR_BROWSER_STATE_CACHE_SHA256=report['browser_state_cache_original']['sha256'],\n"),
-            ("    report['browser_state_original']=save(state,'MANDOR_BROWSER_STATE.json')\n"
+            ("    report['browser_fixture_original']=save(fixture,'MANDOR_BROWSER_FIXTURE.json')\n"
+             "    report['browser_state_original']=save(state,'MANDOR_BROWSER_STATE.json')\n"
              "    output=load('mandor_current_complete_access_output',ROOT/'scripts/current-mandor-afui-preparation/output_binding.py')\n",
              "    report['browser_state_original']=save(state,'MANDOR_BROWSER_STATE.json')\n"
              "    output=load('mandor_current_complete_access_output',ROOT/'scripts/current-mandor-afui-preparation/output_binding.py')\n"
-             "    report['browser_state_cache_original']=output.load_state_io().reference(report['browser_state_original'])\n"),
+             '    state_io=output.load_state_io()\n'
+             "    report['browser_state_cache_original']=state_io.reference(report['browser_state_original'])\n"
+             "    catalogue=state_io.observer_catalogue(state,report['browser_state_original'],report['browser_state_cache_original'])\n"
+             "    report['browser_fixture_original']=save(dict(fixture,observer_catalogue=catalogue),'MANDOR_BROWSER_FIXTURE.json')\n"),
         )
         return (save, *scoped, *state_routes)
     raise ValueError('MANDOR_CURRENT_ONLY_REVIEWED_CALLER_SOURCES')
