@@ -12,16 +12,34 @@ export function budgetResult(kind,elapsed){
 }
 
 export async function beginClickMeasurement(button,options){
- assert.ok(['CAPTURE','STOCK_POPUP'].includes(options.mode))
- assert.ok(BUDGETS[options.kind])
+ assert.ok(['CAPTURE','STOCK_POPUP','OPERATOR_RESULT'].includes(options.mode))
+ if (options.mode === 'OPERATOR_RESULT') {
+  assert.ok(typeof options.scope === 'string' && options.scope.trim())
+  assert.ok(typeof options.result === 'string' && options.result.trim())
+  assert.ok(options.text === undefined || typeof options.text === 'string' && options.text.trim())
+ } else {
+  assert.ok(BUDGETS[options.kind])
+ }
  await button.evaluate((element,options)=>{
-  const root=element.closest('[aria-label="Analisis ERP bersama"]')
+  const operator = options.mode === 'OPERATOR_RESULT'
+  const root = element.closest(operator ? options.scope : '[aria-label="Analisis ERP bersama"]')
   if(!root||element.disabled)throw Error('P19_LATENCY_ENABLED_OWNING_CONTROL_REQUIRED')
   const records=window.__cp7WriterLatency??=Object.create(null)
   if(records[options.id])throw Error('P19_LATENCY_DUPLICATE_ID')
   const record={id:options.id,mode:options.mode,status:'NOT_CLICKED'};records[options.id]=record
   let observer,queued=false
+  let previousResult
+  const findOperatorResult = () => [...root.querySelectorAll(options.result)].find(node => {
+   const text = node.textContent.trim()
+   return text && (!options.text || text.includes(options.text)) &&
+    node.checkVisibility({visibilityProperty:true,opacityProperty:true}) &&
+    !node.closest('[aria-hidden="true"]')
+  })
   const ready=()=>{
+   if (operator) {
+    const current = findOperatorResult()
+    return current && current !== previousResult ? {operator_result_visible:true} : null
+   }
    const capture=[...root.querySelectorAll('.native-analysis-actions button')].find(b=>b.textContent==='Ambil analisis ERP terbaru')
    if(!capture||capture.disabled)return null
    if(options.mode==='CAPTURE'){
@@ -47,7 +65,8 @@ export async function beginClickMeasurement(button,options){
   element.addEventListener('click',event=>{
    record.status='RUNNING';record.trusted_click=event.isTrusted
    record.click_monotonic_ms=performance.now();record.time_origin_epoch_ms=performance.timeOrigin;record.clock='BROWSER_PERFORMANCE_MONOTONIC'
-   record.previous_run=root.querySelector('.native-analysis-run span')?.textContent??null
+   if (operator) previousResult = findOperatorResult()
+   else record.previous_run=root.querySelector('.native-analysis-run span')?.textContent??null
    observer=new MutationObserver(inspect);record.disconnect=()=>observer.disconnect()
    observer.observe(root,{subtree:true,childList:true,attributes:true,characterData:true});inspect()
   },{capture:true,once:true})
@@ -68,7 +87,13 @@ export async function readClickMeasurement(page,id,response,kind){
  assert.equal(await response.finished(),null)
  const body=await response.body(),request=response.request()
  const timing=request.timing();assert.ok(timing.responseEnd>=0)
- return{...sample,budget:budgetResult(kind,sample.elapsed_ms),
+ const operator = sample.mode === 'OPERATOR_RESULT'
+ if (operator) {
+  assert.equal(response.ok(),true,'CP7_OPERATOR_LATENCY_SUCCESSFUL_RESPONSE_REQUIRED')
+  assert.ok(sample.rendered.operator_result_visible)
+ }
+ const budget = operator ? {} : {budget:budgetResult(kind,sample.elapsed_ms)}
+ return{...sample,...budget,
   http:{rpc:new URL(response.url()).pathname.split('/rpc/')[1],status:response.status(),
    complete_body_utf8_bytes:body.length,timing},
   classification:'BOUNDED_CI_LOOPBACK_REAL_AUTH_CLICK_TO_RENDER',

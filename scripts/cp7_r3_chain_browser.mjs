@@ -15,6 +15,7 @@
 // Every amount asserted on screen is compared with an oracle read from the Native rows by the fixture (journal lines,
 // payroll, work completion lines, sales, payments, kasbon, misc transactions), never with an RPC answer.
 import assert from'node:assert/strict'
+import {beginClickMeasurement,readClickMeasurement} from './cp7_p19_browser_latency.mjs'
 import{mkdirSync}from'node:fs'
 const wibNow=minutes=>new Date(Date.now()+7*3600*1000-minutes*60*1000).toISOString().slice(0,16)
 // The screens' own number formats, applied to the oracle's numbers: formatReceiptDecimal (procurementContract.ts) and the
@@ -99,7 +100,17 @@ async function sewingChain(ui,today,h){
   const source=nota.locator('.cnota-source');await ui.expect(source).toHaveCount(1);await ui.expect(source).toContainText('Reguler');await ui.expect(source).toContainText('Jumlah kartu '+money(f.wage))
   await source.getByRole('button',{name:'Tambahkan ke nota',exact:true}).click();await ui.expect(nota.locator('.cnota-selected article')).toHaveCount(1)
   for(const label of['Tanggal nota WIB','Awal periode nota','Akhir periode nota'])await page.getByLabel(label,{exact:true}).fill(day)
-  await page.getByRole('button',{name:'Simpan draft nota',exact:true}).click();await ui.expect(nota.locator('.cnota-review')).toContainText('Draft')
+  const saveNote = page.getByRole('button',{name:'Simpan draft nota',exact:true})
+  const noteMeasurement = 'save-fg-note'
+  await beginClickMeasurement(saveNote,{id:noteMeasurement,mode:'OPERATOR_RESULT',
+    scope:'.cnota',result:'.cnota-review .cnota-reference'})
+  const [noteResponse] = await Promise.all([
+    page.waitForResponse(r=>r.url().endsWith('/rpc/erp_cp7_save_nota_v1') &&
+      r.request().method()==='POST' && r.request().postDataJSON()?.p_action==='SAVE'),
+    saveNote.click(),
+  ])
+  await ui.expect(nota.locator('.cnota-review')).toContainText('Draft')
+  seen.operator_note_save = await readClickMeasurement(page,noteMeasurement,noteResponse)
   await ui.expect(nota.locator('.cnota-total')).toHaveText(money(f.wage))
   await page.getByLabel('Nota sudah diperiksa',{exact:true}).check();await page.getByRole('button',{name:'Posting ke payroll',exact:true}).click()
   await ui.expect.poll(()=>state().note?.status,{timeout:20000}).toBe('POSTED')
@@ -158,7 +169,7 @@ async function sewingChain(ui,today,h){
   await panel.getByLabel('Alasan perubahan periode',{exact:true}).fill('R3-03 buka kembali sesudah rantai');await reviewed.check()
   await panel.getByRole('button',{name:'Buka kembali periode',exact:true}).click()
   await ui.expect.poll(()=>state().closed_through,{timeout:20000}).toBe(f.opened_closed)
-  return{status:'PASS',finding:'R3-03',auditor_oracle:'Fable oracle 3 (a)',owner_decision:'D16-1',chain_day:day,
+  return{status:'PASS',finding:'R3-03',auditor_oracle:'Fable oracle 3 (a)',owner_decision:'D16-1',chain_day:day,operator_note_save:seen.operator_note_save,
    screens:['WIP & Sewing','Susun Nota FG','Payroll & Kasbon (hitung, setujui, lunasi)','Kas & Bank','Laporan & Tutup Buku (laporan, tutup, buka)'],
    fixture_only:['posted cutting picked up by the Mandor, Work BOM and Mandor rate (no screen in this chain)','bank with owner capital for exactly the wage (D14-3)','harness state (chain month opened, seed open items cleared, restored)'],
    sewn:f.qty,wage:f.wage,per_pcs:f.per_pcs,payroll_paid_on:day,bank_after:'0',report_cash:s.report.cash,report_wip:s.report.wip,closed_through:day,reopened_to:f.opened_closed,
