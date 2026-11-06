@@ -19,7 +19,7 @@ const READ='erp_cp7_get_good_policy_dates_v1',WRITE='erp_cp7_save_good_policy_da
 const sha=raw=>createHash('sha256').update(raw).digest('hex')
 const requestIs=(name,r)=>r.url().endsWith('/rpc/'+name)&&r.request().method()==='POST'
 const panel=page=>page.getByRole('region',{name:'Tanggal berlaku kategori gratis untuk GOOD',exact:true})
-const reason=page=>panel(page).getByLabel('Alasan pencatatan tanggal berlaku',{exact:true})
+export const reason=page=>panel(page).getByLabel(/^Alasan pencatatan tanggal berlaku/).and(panel(page).locator('textarea'))
 const day=page=>panel(page).getByLabel('Berlaku untuk GOOD mulai tanggal (WIB)',{exact:true})
 const review=page=>panel(page).getByRole('checkbox',{name:/Saya memastikan versi kategori, tanggal berlaku/})
 const save=page=>panel(page).getByRole('button',{name:'Simpan tanggal berlaku yang ditinjau',exact:true})

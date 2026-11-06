@@ -19,8 +19,8 @@ UI_PATHS = frozenset(('src/ConnectedInitialImportPage.tsx', 'src/ConnectedPocket
 BUILD_INPUTS = frozenset(('index.html', 'package-lock.json', 'package.json', 'tsconfig.app.json',
                          'tsconfig.contracts.json', 'tsconfig.json', 'vite.config.ts'))
 
-SKU_HEAD = '09c6b20a81123971b099134e5e3452544cf7b64a'
-SKU_TREE = '45b993009049980c6b8e969d2160f2eb009580fb'
+SKU_HEAD = '384226cc43e5b7073cba16e19bc4cb8ee641e1ed'
+SKU_TREE = '67349438ab319759254b2334c4307abdd3418818'
 SKU_BASE = '5f099fa6852c9088ab46daa0f1079a0f6a1f3185'
 SKU_BASE_TREE = '3fd1bdb763a6d22a5aa455f5aea3a853b9782e4d'
 
