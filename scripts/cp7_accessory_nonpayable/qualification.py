@@ -54,9 +54,9 @@ def fixture_browser_observer_preflight():
     from cp7_accessory_nonpayable.test_browser_observer import BrowserObserverControls
     output=io.StringIO();result=unittest.TextTestRunner(stream=output,verbosity=0).run(
         unittest.defaultTestLoader.loadTestsFromTestCase(BrowserObserverControls))
-    if result.testsRun!=4 or not result.wasSuccessful()or result.skipped or result.expectedFailures:
+    if result.testsRun!=6 or not result.wasSuccessful()or result.skipped or result.expectedFailures:
         raise ValueError('NONPAYABLE_COLD_BROWSER_OBSERVER_PREFLIGHT_FAILED:'+output.getvalue())
-    return dict(status='COLD_BROWSER_ORIGINAL_FAILURE_REPRODUCED_EXACT_RAW22_READER_PASS',tests_run=4,
+    return dict(status='COLD_BROWSER_ORIGINAL_FAILURE_REPRODUCED_EXACT_RAW22_READER_PASS',tests_run=6,
         inherited_process_STATE_required=False,Native_overlay_applied=False,
         actual_SQL_executed=0,actual_Native_cases=0,actual_browser_cases=0)
 
