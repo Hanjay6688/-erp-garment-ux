@@ -242,6 +242,7 @@ def exercise(conn,cur,database,url,report,state):
             report['actual_two_session_races']=2
         with progress.phase('BROWSER_GROUP'):
             with browser_environment(report):report['browser']=modes.run_browser(HERE/'browser.mjs',verify,'afui_dates_browser2')
+            report['browser_original']=save('AFUI_BROWSER_GROUP_ORIGINAL.json',report['browser'])
             report['browser2_gate']=qualification_gate.copies(report['browser'],browser_prepare.IDS,mode='BROWSER')
             report['actual_browser_cases']=2
     if(len(report['copy_authority']['actual_copy_admissions'])!=4

@@ -21,8 +21,8 @@ UI_AFTER = '15dc4bde83e1ac74871f8d4aaf005e9e36445aeb'
 UI_PATHS = frozenset(('src/ConnectedInitialImportPage.tsx', 'src/ConnectedPocketFabricPage.tsx', 'src/initial-import.css'))
 BUILD_INPUTS = frozenset(('index.html', 'package-lock.json', 'package.json', 'tsconfig.app.json',
                          'tsconfig.contracts.json', 'tsconfig.json', 'vite.config.ts'))
-MANDOR_HEAD = '7fd3154270320b5c57e65edcd8979d123fdc4347'
-MANDOR_TREE = 'd8b5001bc43752db6294ec12fcefcb34b4bfc91b'
+MANDOR_HEAD = '78c9af59857b16fbcfda1dbe32c5d392a5900dfb'
+MANDOR_TREE = '6875907c1fc16c1e36b817506b2b3aa1ea0afed8'
 MANDOR_BASE = 'c296fd06167ddd177e1192c1008992e2a1e3d628'
 MANDOR_BASE_TREE = 'fdd36962a7de81482ccca02e6ff96597cfc20081'
 MANDOR_ADOPTION_PATHS = frozenset((
@@ -93,12 +93,12 @@ def mandor_source(value, baseline, *, actual=None):
     before, after = entries(MANDOR_BASE_TREE), entries(tree)
     paths = set(assembly.git('diff', '--name-only', MANDOR_BASE, head, '--').decode().splitlines())
     if actual is None:
-        require(len(paths) == 79 and set(value['files']) == paths,
-                'SKU_AUTOMATIC_COMPLETE_SEVENTY_NINE_CURRENT_MANDOR_PATHS_REQUIRED')
+        require(len(paths) == 81 and set(value['files']) == paths,
+                'SKU_AUTOMATIC_COMPLETE_CURRENT_MANDOR_PATHS_REQUIRED')
     else:
         prepared = set(assembly.git('diff', '--name-only', MANDOR_BASE, MANDOR_HEAD, '--').decode().splitlines())
         adoption = set(assembly.git('diff', '--name-only', MANDOR_HEAD, head, '--').decode().splitlines())
-        require(len(prepared) == 79 and adoption == MANDOR_ADOPTION_PATHS
+        require(len(prepared) == 81 and adoption == MANDOR_ADOPTION_PATHS
                 and paths == set(value['files']) == prepared | adoption,
                 'SKU_AUTOMATIC_ONLY_COMPLETE_REVIEWED_MANDOR_ADOPTION_PATHS')
     result = {}

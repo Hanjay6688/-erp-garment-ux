@@ -19,8 +19,8 @@ UI_PATHS = frozenset(('src/ConnectedInitialImportPage.tsx', 'src/ConnectedPocket
 BUILD_INPUTS = frozenset(('index.html', 'package-lock.json', 'package.json', 'tsconfig.app.json',
                          'tsconfig.contracts.json', 'tsconfig.json', 'vite.config.ts'))
 
-SKU_HEAD = 'd8e993314543de477e1c8b383847a65e4e7b641a'
-SKU_TREE = 'fd7cbe4a03a68a94a05039746d869902a80df33a'
+SKU_HEAD = 'd65d2c0150e94210b391d45a8003e5f54af7a87f'
+SKU_TREE = '54f4ab87718812b1eaf177eb94eef743f01353b5'
 SKU_BASE = '5f099fa6852c9088ab46daa0f1079a0f6a1f3185'
 SKU_BASE_TREE = '3fd1bdb763a6d22a5aa455f5aea3a853b9782e4d'
 
@@ -74,8 +74,8 @@ def pending_sku(value, baseline):
             'GLOBAL_AUTOMATIC_CURRENT_SKU_IMMUTABLE_TREES_REQUIRED')
     before, after = entries(SKU_BASE_TREE), entries(SKU_TREE)
     paths = set(base.git('diff', '--name-only', SKU_BASE, SKU_HEAD, '--').decode().splitlines())
-    require(len(paths) == 150 and set(value['files']) == paths,
-            'GLOBAL_AUTOMATIC_COMPLETE_ONE_HUNDRED_FIFTY_CURRENT_SKU_PATHS_REQUIRED')
+    require(len(paths) == 152 and set(value['files']) == paths,
+            'GLOBAL_AUTOMATIC_COMPLETE_CURRENT_SKU_PATHS_REQUIRED')
     result = {}
     for name, row in value['files'].items():
         require(row['before'] == before.get(name) == baseline.get(name)
