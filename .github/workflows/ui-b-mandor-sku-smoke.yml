@@ -38,6 +38,7 @@ jobs:
             tests/fixtures
             scripts/cp7_accessory_nonpayable
             scripts/current-sku-automatic-composite-preparation
+            scripts/current-sku-pair-browser-qualification
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           ref: 415e951c66a9406a7498182f48f827b7f00d475a
@@ -55,10 +56,8 @@ jobs:
           mkdir -p smoke-proof
           cp driver/scripts/ui-b-mandor-sku-smoke/smoke*.mjs smoke-work/
           python driver/scripts/ui-b-mandor-sku-smoke/check_sources.py | tee smoke-proof/SOURCE_CHECK.json
-      - name: Install both pinned packages in their own roots
-        run: |
-          npm --prefix smoke-work/sku ci --ignore-scripts --no-audit --no-fund
-          npm --prefix smoke-work/mandor ci --ignore-scripts --no-audit --no-fund
+      - name: Install pinned SKU packages
+        run: npm --prefix smoke-work/sku ci --ignore-scripts --no-audit --no-fund
       - name: Build the common disposable App on loopback
         working-directory: smoke-work/sku
         env:
@@ -70,7 +69,7 @@ jobs:
       - name: Install the Chromium revision pinned by Playwright
         working-directory: smoke-work/sku
         run: node_modules/.bin/playwright install --with-deps chromium 2>&1 | tee ../../smoke-proof/CHROMIUM_INSTALL.log
-      - name: Run both existing control paths against local fixtures
+      - name: Run existing SKU controls against local fixtures
         working-directory: smoke-work
         run: |
           (cd sku && exec node node_modules/vite/bin/vite.js preview --host 127.0.0.1 --port 4176 --strictPort --outDir cp6-ui-build) > ../smoke-proof/SERVER.log 2>&1 &
@@ -82,11 +81,7 @@ jobs:
             sleep 1
           done
           curl --silent --fail http://127.0.0.1:4176/ >/dev/null
-          mandor=0; sku=0
-          node smoke.mjs mandor ../smoke-proof/MANDOR.json > ../smoke-proof/MANDOR.log 2>&1 || mandor=$?
-          node smoke.mjs sku ../smoke-proof/SKU.json > ../smoke-proof/SKU.log 2>&1 || sku=$?
-          cat ../smoke-proof/MANDOR.log ../smoke-proof/SKU.log
-          test "$mandor" = 0 && test "$sku" = 0
+          node smoke.mjs sku ../smoke-proof/SKU.json 2>&1 | tee ../smoke-proof/SKU.log
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:

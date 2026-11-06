@@ -1,0 +1,225 @@
+{
+  "source": "cb0135f74ae79c6919cb4c393e117ba997913030",
+  "run": 42144159256,
+  "job": 127651487807,
+  "artifact": 13469321748,
+  "sha256": "624efe3095a9514527f2d31c26e572fdbfb46afdef406021f2f91536a7074fb8",
+  "original_archive": "B_MANDOR_SKU_SMOKE_FIRST_EXECUTION_20261106.zip",
+  "status": "MANDOR_2_FIXTURE_VIEWS_PASS_SKU_IMPORT_INCOMPLETE",
+  "mandor": {
+    "status": "PASS_LOCAL_REAL_CHROMIUM_DECLARED_FIXTURES",
+    "kind": "mandor",
+    "source_sha256": "37780a85ee09b8446bf486b9c2b7b2b437c37d48ac8824788482a58a76136baa",
+    "runner_case_ids": [
+      "MANDOR_BROWSER_DESKTOP_NORMAL_PAYROLL_LOST_REPLY_SAME_UUID_TWO_TABS_RELEASE",
+      "MANDOR_BROWSER_MOBILE390_NORMAL_PAYROLL_STALE_INPUT_FRESH_READ_RELEASE"
+    ],
+    "source_path": "scripts/current-mandor-shop-native-qualification/browser.mjs",
+    "playwright": "1.62.1",
+    "transport": "LOOPBACK_INTERCEPTED_AUTH_AND_RPC_FIXTURES",
+    "actual_SQL": 0,
+    "actual_Auth": 0,
+    "actual_financial_cases": 0,
+    "observations": [
+      {
+        "width": 1440,
+        "role": "OWNER",
+        "status": "PASS",
+        "phases": [
+          {
+            "name": "normal_app_login_form",
+            "seconds": 0.23450613599999998
+          },
+          {
+            "name": "existing_runner_payroll_search_and_invoice_card",
+            "seconds": 0.583675616
+          },
+          {
+            "name": "existing_runner_amount_review_gate_and_cancel",
+            "seconds": 0.12025380399999995
+          },
+          {
+            "name": "existing_runner_fresh_read_and_release_review_gate",
+            "seconds": 0.13104842600000005
+          }
+        ],
+        "external": [],
+        "errors": [],
+        "requests": [
+          {
+            "name": "erp_get_my_access_v1",
+            "section": null,
+            "action": null
+          },
+          {
+            "name": "erp_get_my_access_v1",
+            "section": null,
+            "action": null
+          },
+          {
+            "name": "erp_cp7_get_payroll_workspace_v1",
+            "section": "PAYROLLS",
+            "action": null
+          },
+          {
+            "name": "erp_cp7_get_payroll_workspace_v1",
+            "section": "PAYROLLS",
+            "action": null
+          },
+          {
+            "name": "erp_cp7_get_payroll_workspace_v1",
+            "section": "PAYROLLS",
+            "action": null
+          },
+          {
+            "name": "erp_cp7_get_payroll_workspace_v1",
+            "section": "WORK",
+            "action": null
+          },
+          {
+            "name": "erp_cp7_get_payroll_installments_v1",
+            "section": null,
+            "action": null
+          },
+          {
+            "name": "erp_cp7_get_mandor_shop_payroll_v1",
+            "section": null,
+            "action": null
+          },
+          {
+            "name": "erp_cp7_get_payroll_workspace_v1",
+            "section": "PAYROLLS",
+            "action": null
+          },
+          {
+            "name": "erp_cp7_get_payroll_workspace_v1",
+            "section": "WORK",
+            "action": null
+          },
+          {
+            "name": "erp_cp7_get_mandor_shop_payroll_v1",
+            "section": null,
+            "action": null
+          },
+          {
+            "name": "erp_cp7_get_payroll_installments_v1",
+            "section": null,
+            "action": null
+          },
+          {
+            "name": "erp_cp7_get_mandor_shop_payroll_v1",
+            "section": null,
+            "action": null
+          }
+        ],
+        "unknown": [],
+        "simulatedWrites": [],
+        "exact_runner_helper_sha256": "d3cd1cadeef6efdee4635415f73b2aa96d2c86a7b0576bebd85ab82c4825167b",
+        "active_phase": "existing_runner_fresh_read_and_release_review_gate",
+        "seconds": 1.1180628289999999
+      },
+      {
+        "width": 390,
+        "role": "OWNER",
+        "status": "PASS",
+        "phases": [
+          {
+            "name": "normal_app_login_form",
+            "seconds": 0.196684571
+          },
+          {
+            "name": "existing_runner_payroll_search_and_invoice_card",
+            "seconds": 0.88786339
+          },
+          {
+            "name": "existing_runner_amount_review_gate_and_cancel",
+            "seconds": 0.11169095800000013
+          },
+          {
+            "name": "existing_runner_fresh_read_and_release_review_gate",
+            "seconds": 0.13262373000000025
+          }
+        ],
+        "external": [],
+        "errors": [],
+        "requests": [
+          {
+            "name": "erp_get_my_access_v1",
+            "section": null,
+            "action": null
+          },
+          {
+            "name": "erp_get_my_access_v1",
+            "section": null,
+            "action": null
+          },
+          {
+            "name": "erp_cp7_get_payroll_workspace_v1",
+            "section": "PAYROLLS",
+            "action": null
+          },
+          {
+            "name": "erp_cp7_get_payroll_workspace_v1",
+            "section": "PAYROLLS",
+            "action": null
+          },
+          {
+            "name": "erp_cp7_get_payroll_workspace_v1",
+            "section": "PAYROLLS",
+            "action": null
+          },
+          {
+            "name": "erp_cp7_get_payroll_workspace_v1",
+            "section": "WORK",
+            "action": null
+          },
+          {
+            "name": "erp_cp7_get_payroll_installments_v1",
+            "section": null,
+            "action": null
+          },
+          {
+            "name": "erp_cp7_get_mandor_shop_payroll_v1",
+            "section": null,
+            "action": null
+          },
+          {
+            "name": "erp_cp7_get_payroll_workspace_v1",
+            "section": "PAYROLLS",
+            "action": null
+          },
+          {
+            "name": "erp_cp7_get_payroll_workspace_v1",
+            "section": "WORK",
+            "action": null
+          },
+          {
+            "name": "erp_cp7_get_mandor_shop_payroll_v1",
+            "section": null,
+            "action": null
+          },
+          {
+            "name": "erp_cp7_get_payroll_installments_v1",
+            "section": null,
+            "action": null
+          },
+          {
+            "name": "erp_cp7_get_mandor_shop_payroll_v1",
+            "section": null,
+            "action": null
+          }
+        ],
+        "unknown": [],
+        "simulatedWrites": [],
+        "exact_runner_helper_sha256": "d3cd1cadeef6efdee4635415f73b2aa96d2c86a7b0576bebd85ab82c4825167b",
+        "active_phase": "existing_runner_fresh_read_and_release_review_gate",
+        "seconds": 1.3623116990000002
+      }
+    ],
+    "chromium": "151.0.7922.34",
+    "seconds": 2.6945040039999997
+  },
+  "sku_first_issue": "B sparse checkout omitted scripts/current-sku-pair-browser-qualification/evidence.mjs, read and pinned during original browser module import. Upstream candidate contains the exact required file.",
+  "change": "Materialize the existing evidence dependency and rerun only SKU. Keep the exact Mandor original and its tested source.",
+  "actual_ERP_Auth_SQL_cases": 0
+}
