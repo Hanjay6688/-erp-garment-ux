@@ -1,0 +1,181 @@
+{
+  "status": "BROWSER_CONTROL_FIXTURE_SMOKE_PASS_4_VIEWS",
+  "candidates": {
+    "mandor": [
+      "415e951c66a9406a7498182f48f827b7f00d475a",
+      "23564f59aa82d661f982f92b87ffd10173ee5f8d"
+    ],
+    "sku": [
+      "49a0f1c643595d81840c4d457f53f400242423cd",
+      "ee8fc43182b2b085c17ab701c4f20dec314205a6"
+    ]
+  },
+  "proof": {
+    "mandor": {
+      "run": 42144159256,
+      "job": 127651487807,
+      "attempt": 1,
+      "artifact": 13469321748,
+      "workflow_conclusion": "failure",
+      "archive": "B_MANDOR_SKU_SMOKE_FIRST_EXECUTION_20261106.zip",
+      "archive_sha256": "624efe3095a9514527f2d31c26e572fdbfb46afdef406021f2f91536a7074fb8",
+      "archive_bytes": 10050,
+      "browser": {
+        "version": "151.0.7922.34",
+        "playwright": "1.62.1",
+        "seconds": 2.6945040039999997,
+        "source_sha256": "37780a85ee09b8446bf486b9c2b7b2b437c37d48ac8824788482a58a76136baa",
+        "source_path": "scripts/current-mandor-shop-native-qualification/browser.mjs"
+      },
+      "views": [
+        {
+          "width": 1440,
+          "role": "OWNER",
+          "status": "PASS",
+          "seconds": 1.1180628289999999,
+          "phases": [
+            {
+              "name": "normal_app_login_form",
+              "seconds": 0.23450613599999998
+            },
+            {
+              "name": "existing_runner_payroll_search_and_invoice_card",
+              "seconds": 0.583675616
+            },
+            {
+              "name": "existing_runner_amount_review_gate_and_cancel",
+              "seconds": 0.12025380399999995
+            },
+            {
+              "name": "existing_runner_fresh_read_and_release_review_gate",
+              "seconds": 0.13104842600000005
+            }
+          ],
+          "exact_runner_helper_sha256": "d3cd1cadeef6efdee4635415f73b2aa96d2c86a7b0576bebd85ab82c4825167b",
+          "requests": 13,
+          "external_requests": 0,
+          "console_errors": 0,
+          "simulated_writes": []
+        },
+        {
+          "width": 390,
+          "role": "OWNER",
+          "status": "PASS",
+          "seconds": 1.3623116990000002,
+          "phases": [
+            {
+              "name": "normal_app_login_form",
+              "seconds": 0.196684571
+            },
+            {
+              "name": "existing_runner_payroll_search_and_invoice_card",
+              "seconds": 0.88786339
+            },
+            {
+              "name": "existing_runner_amount_review_gate_and_cancel",
+              "seconds": 0.11169095800000013
+            },
+            {
+              "name": "existing_runner_fresh_read_and_release_review_gate",
+              "seconds": 0.13262373000000025
+            }
+          ],
+          "exact_runner_helper_sha256": "d3cd1cadeef6efdee4635415f73b2aa96d2c86a7b0576bebd85ab82c4825167b",
+          "requests": 13,
+          "external_requests": 0,
+          "console_errors": 0,
+          "simulated_writes": []
+        }
+      ],
+      "original_report_sha256": "ef1750aefd429698a98d4a4a8f6326e56384e52466e5e346dcd6952ad1e304d3"
+    },
+    "sku": {
+      "run": 42144442754,
+      "job": 127652402540,
+      "attempt": 1,
+      "artifact": 13468679165,
+      "workflow_conclusion": "success",
+      "archive": "B_SKU_SMOKE_FINAL_ORIGINAL_20261106.zip",
+      "archive_sha256": "272ff2dfd56c1c844700ae785bb8e5daa406fff24913c65fea9d09cdd38dbdf5",
+      "archive_bytes": 9551,
+      "browser": {
+        "version": "151.0.7922.34",
+        "playwright": "1.62.1",
+        "seconds": 4.625735598,
+        "source_sha256": "b7099915824c3beb944981d5d8227873a78412944fb75ad06bf03e014e9365cc",
+        "source_path": "scripts/current-sku-automatic-composite-preparation/browser.mjs"
+      },
+      "views": [
+        {
+          "width": 1440,
+          "role": "OWNER",
+          "status": "PASS",
+          "seconds": 1.9226261559999998,
+          "phases": [
+            {
+              "name": "normal_app_login_form",
+              "seconds": 0.27476238799999997
+            },
+            {
+              "name": "existing_runner_group_search_edit_and_pair_request",
+              "seconds": 1.174627184
+            },
+            {
+              "name": "existing_runner_source_and_target_controls",
+              "seconds": 0.34383334799999965
+            },
+            {
+              "name": "existing_runner_wib_quantity_and_preview_controls",
+              "seconds": 0.07688634899999988
+            }
+          ],
+          "exact_runner_helper_sha256": "18e629d3564c1c2487a44a2458a3cf5810db096840f2c13c2f9ba0d3ea11bca1",
+          "requests": 18,
+          "external_requests": 0,
+          "console_errors": 0,
+          "simulated_writes": [
+            "erp_save_sku_action_v1"
+          ]
+        },
+        {
+          "width": 390,
+          "role": "ADMIN",
+          "status": "PASS",
+          "seconds": 2.4037618820000004,
+          "phases": [
+            {
+              "name": "normal_app_login_form",
+              "seconds": 0.22855510199999982
+            },
+            {
+              "name": "existing_runner_group_search_edit_and_pair_request",
+              "seconds": 1.4689200370000004
+            },
+            {
+              "name": "existing_runner_source_and_target_controls",
+              "seconds": 0.5908775890000006
+            },
+            {
+              "name": "existing_runner_wib_quantity_and_preview_controls",
+              "seconds": 0.07759331999999995
+            }
+          ],
+          "exact_runner_helper_sha256": "18e629d3564c1c2487a44a2458a3cf5810db096840f2c13c2f9ba0d3ea11bca1",
+          "requests": 18,
+          "external_requests": 0,
+          "console_errors": 0,
+          "simulated_writes": [
+            "erp_save_sku_action_v1"
+          ]
+        }
+      ],
+      "original_report_sha256": "0d9453eecd1b87cd1acdb83debfc85d71e658933a4e673ffa1e4ab6df851a313"
+    }
+  },
+  "A_sole_integrator": true,
+  "real_backend_Auth_SQL_acceptance": false,
+  "actual_financial_cases": 0,
+  "production_go": false,
+  "product_code_paths_changed": 0,
+  "artifact_CRC_and_exact_browser_script_pins_verified": true
+}
