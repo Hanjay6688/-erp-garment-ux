@@ -8,6 +8,9 @@ AFUI_TREE = '02a8812e9eae2272a976d1dbd1e21aff8c022467'
 PRIOR_AFUI = '76b3f1e1bcce49cc405e55f92a733dcd0f360cad'
 NS = 'scripts/current-mandor-shop-native-qualification/'
 PINS = {
+    'native_fixture.py': (21060, '8036269e118b7a657205f9c167090d4aca47b1b9cb44b1828507d8a9d1699384'),
+    'runtime_prerequisites.py': (8078, '282b13f9d2b6bfe89b30a88adb117d8eceeea97d09a8f7ce8ba502ed15d33d58'),
+    'test_runtime_prerequisites.py': (10212, 'c55310b1bb7051403ecb9dbabdac41c083e7ee48f36b75d15c9b321f8c16236e'),
     'assembly.py': (5817, 'e734356cace6a72b7f3614cd56170d9b1b1ad5645293b933693ae8f5eccd041a'),
     'admission.py': (1447, '609db7cade09a03be8aa4777adac6e11fdf3fc5aec672e625ed96705381e3b6c'),
     'qualification.py': (7161, '3f4bf0cfccbf650240729e01909dcb39b3e88371e59ee14a3bffc5f05934de0b'),
@@ -20,6 +23,35 @@ PINS = {
 
 
 def replacements(name):
+    if name == 'native_fixture.py':
+        return (
+            ('from datetime import timedelta\n',
+             'from datetime import timedelta\nfrom zoneinfo import ZoneInfo\n'),
+            ('ROOT=HERE.parents[1]\n',
+             "ROOT=HERE.parents[1]\nWIB=ZoneInfo('Asia/Jakarta')\n"),
+            ('        sale_at,sale_day,after_good=cur.execute("select(statement_timestamp()at time zone\'Asia/Jakarta\'),"',
+             '        # Keep the database instant intact when the sales RPC parses the payload in UTC.\n        sale_at,sale_day,after_good=cur.execute("select statement_timestamp(),"'),
+            ('            sale_at=sale_at.isoformat())\n',
+             '            sale_at=sale_at.astimezone(WIB).isoformat())\n'),
+            ('        now=cur.execute("select(statement_timestamp()at time zone\'Asia/Jakarta\')").fetchone()[0]\n        return self.sale_intent(cur,f,\'RETURN\',dict(return_number=\'MANDOR-RET-\'+uuid.uuid4().hex[:12],\n            physical_at=now.isoformat(),notes=\'Return one actual sold piece after lawful offset reversal\',',
+             '        now=cur.execute("select statement_timestamp()").fetchone()[0]\n        return self.sale_intent(cur,f,\'RETURN\',dict(return_number=\'MANDOR-RET-\'+uuid.uuid4().hex[:12],\n            physical_at=now.astimezone(WIB).isoformat(),notes=\'Return one actual sold piece after lawful offset reversal\','),
+        )
+    if name == 'runtime_prerequisites.py':
+        return (
+            ("        actor['permissions']={key:cur.execute('select erp.has_permission(%s)',(key,)).fetchone()[0]for key in PERMISSIONS}\n",
+             "        access=cur.execute('select public.erp_get_my_access_v1()').fetchone()[0]\n        profile=access.get('profile') if type(access) is dict else None\n        permissions=access.get('permissions') if type(access) is dict else None\n        if (type(profile) is not dict or access.get('allowed') is not True\n            or profile.get('role_code')!='OWNER' or profile.get('is_active') is not True\n            or type(permissions) is not list or any(type(key) is not str for key in permissions)):\n            raise ValueError('MANDOR_PREREQUISITE_EXACT_ORDINARY_OWNER_ACCESS_SNAPSHOT_REQUIRED')\n        actor['permission_source']='public.erp_get_my_access_v1()'\n        actor['permissions']={key:key in permissions for key in PERMISSIONS}\n"),
+            ("    actor=value['owner_actor'];require(actor['identity']==['authenticated','authenticated','OWNER'],'ORDINARY_OWNER_REQUIRED')\n",
+             "    actor=value['owner_actor'];require(actor['identity']==['authenticated','authenticated','OWNER'],'ORDINARY_OWNER_REQUIRED')\n    require(actor.get('permission_source')=='public.erp_get_my_access_v1()','EXACT_OWNER_PUBLIC_ACCESS_SOURCE_REQUIRED')\n"),
+        )
+    if name == 'test_runtime_prerequisites.py':
+        return (
+            ("        elif 'erp.has_permission' in query:rows=[(self.permissions[args[0]],)]\n",
+             "        elif 'public.erp_get_my_access_v1' in query:\n            rows=[(dict(allowed=True,profile=dict(role_code='OWNER',is_active=True),\n                permissions=[key for key,allowed in self.permissions.items() if allowed]),)]\n"),
+            ("            self.assertEqual(model.calls.count('original_actor'),1)\n",
+             "            self.assertEqual(model.calls.count('original_actor'),1)\n            self.assertEqual(model.calls.count('select public.erp_get_my_access_v1()'),1)\n            self.assertFalse(any('erp.has_permission' in sql for sql in model.calls))\n"),
+            ("                lambda v:v['owner_actor']['permissions'].__setitem__(prerequisites.PERMISSIONS[0],1),\n",
+             "                lambda v:v['owner_actor']['permissions'].__setitem__(prerequisites.PERMISSIONS[0],1),\n                lambda v:v['owner_actor'].pop('permission_source'),\n"),
+        )
     if name == 'assembly.py':
         return (('        self.domain_modules=self.fixture.admitted_modules(cur,qualified_Afui)\n', "        from importlib.util import module_from_spec, spec_from_file_location\n        path=ROOT/'scripts/current-mandor-afui-preparation/report_io.py'\n        spec=spec_from_file_location('mandor_afui_fixture_admission',path)\n        report_io=module_from_spec(spec);spec.loader.exec_module(report_io)\n        self.domain_modules=report_io.admit_afui_fixture(cur,qualified_Afui,self.fixture)\n"),)
     if name == 'preflight.py':

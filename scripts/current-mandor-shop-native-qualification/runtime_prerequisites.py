@@ -53,7 +53,15 @@ def check(cur,today,native):
         actor['identity']=list(cur.execute('select current_user,session_user,erp.current_app_role()::text').fetchone())
         if actor['identity']!=['authenticated','authenticated','OWNER']:
             errors.append('ORDINARY_AUTHENTICATED_OWNER_REQUIRED')
-        actor['permissions']={key:cur.execute('select erp.has_permission(%s)',(key,)).fetchone()[0]for key in PERMISSIONS}
+        access=cur.execute('select public.erp_get_my_access_v1()').fetchone()[0]
+        profile=access.get('profile') if type(access) is dict else None
+        permissions=access.get('permissions') if type(access) is dict else None
+        if (type(profile) is not dict or access.get('allowed') is not True
+            or profile.get('role_code')!='OWNER' or profile.get('is_active') is not True
+            or type(permissions) is not list or any(type(key) is not str for key in permissions)):
+            raise ValueError('MANDOR_PREREQUISITE_EXACT_ORDINARY_OWNER_ACCESS_SNAPSHOT_REQUIRED')
+        actor['permission_source']='public.erp_get_my_access_v1()'
+        actor['permissions']={key:key in permissions for key in PERMISSIONS}
         errors.extend('OWNER_PERMISSION:'+key for key,value in actor['permissions'].items()if value is not True)
         actor['direct_call_capabilities']={sig:bool(available[sig])and cur.execute(
             "select has_schema_privilege(current_user,'public','USAGE')and has_function_privilege(current_user,%s,'EXECUTE')",
@@ -85,6 +93,7 @@ def validate(value):
     require(value['status']=='PASS'and value['errors']==[],'COMPLETE_PASS_REQUIRED')
     require(set(value['functions'])==set(FUNCTIONS)and all(v is True for v in value['functions'].values()),'ALL_DIRECT_FUNCTIONS_REQUIRED')
     actor=value['owner_actor'];require(actor['identity']==['authenticated','authenticated','OWNER'],'ORDINARY_OWNER_REQUIRED')
+    require(actor.get('permission_source')=='public.erp_get_my_access_v1()','EXACT_OWNER_PUBLIC_ACCESS_SOURCE_REQUIRED')
     for key,expected in (('permissions',PERMISSIONS),('direct_call_capabilities',FUNCTIONS)):
         require(set(actor[key])==set(expected)and all(v is True for v in actor[key].values()),'EXACT_OWNER_'+key.upper())
     require(set(value['account_mappings'])==set(MAPPINGS)and all(len(v)==1 and len(v[0])==2

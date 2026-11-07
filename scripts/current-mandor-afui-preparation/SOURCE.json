@@ -269,6 +269,33 @@
       "whole_original_caller_recovered": true,
       "actual_ERP_cases": 0,
       "production_go": false
+    },
+    "runtime_prerequisites.py": {
+      "original_bytes": 8078,
+      "original_sha256": "282b13f9d2b6bfe89b30a88adb117d8eceeea97d09a8f7ce8ba502ed15d33d58",
+      "derived_sha256": "d79faaa490adc95dc64ed5f64e7d5d4fdb2d55f9e1a873ed9ab3012fe9a77c45",
+      "exact_routes": 2,
+      "whole_original_caller_recovered": true,
+      "actual_ERP_cases": 0,
+      "production_go": false
+    },
+    "test_runtime_prerequisites.py": {
+      "original_bytes": 10212,
+      "original_sha256": "c55310b1bb7051403ecb9dbabdac41c083e7ee48f36b75d15c9b321f8c16236e",
+      "derived_sha256": "34e9d82766e4e418c55792cd286a884e741b985a199a21f5ef1c9841b93a3673",
+      "exact_routes": 3,
+      "whole_original_caller_recovered": true,
+      "actual_ERP_cases": 0,
+      "production_go": false
+    },
+    "native_fixture.py": {
+      "original_bytes": 21060,
+      "original_sha256": "8036269e118b7a657205f9c167090d4aca47b1b9cb44b1828507d8a9d1699384",
+      "derived_sha256": "187be9f06126dde4871be784a81d9451339fde1e8aed48e0f2959cc5e1da8acc",
+      "exact_routes": 5,
+      "whole_original_caller_recovered": true,
+      "actual_ERP_cases": 0,
+      "production_go": false
     }
   },
   "files": {
@@ -293,8 +320,8 @@
       "sha256": "300a4239a2e3fec6bbd6fa6fc8115a730034592aa362fee1993cff013e0c3c25"
     },
     "scripts/current-mandor-afui-preparation/routes.py": {
-      "bytes": 12487,
-      "sha256": "3db4609f76f1b1946b40ff624da64979472528832027e51a919cedc7139bd899"
+      "bytes": 16688,
+      "sha256": "727c3ca77897d42ee590c50919ddc40d263e9663046a5b9eac32e58abcb1aebb"
     },
     "scripts/current-mandor-afui-preparation/test_output_binding.py": {
       "bytes": 8270,
@@ -399,6 +426,18 @@
     "scripts/current-mandor-shop-native-qualification/assembly.py": {
       "bytes": 6130,
       "sha256": "83dde26124852056ae53974a5d8c649f307d58d1daacc5c349a804b63c4d690c"
+    },
+    "scripts/current-mandor-shop-native-qualification/runtime_prerequisites.py": {
+      "bytes": 8814,
+      "sha256": "d79faaa490adc95dc64ed5f64e7d5d4fdb2d55f9e1a873ed9ab3012fe9a77c45"
+    },
+    "scripts/current-mandor-shop-native-qualification/test_runtime_prerequisites.py": {
+      "bytes": 10608,
+      "sha256": "34e9d82766e4e418c55792cd286a884e741b985a199a21f5ef1c9841b93a3673"
+    },
+    "scripts/current-mandor-shop-native-qualification/native_fixture.py": {
+      "bytes": 21186,
+      "sha256": "187be9f06126dde4871be784a81d9451339fde1e8aed48e0f2959cc5e1da8acc"
     }
   },
   "financial_assertions_and_owning_recovery_unchanged": true,

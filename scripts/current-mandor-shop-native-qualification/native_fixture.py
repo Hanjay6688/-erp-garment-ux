@@ -6,6 +6,7 @@ Draft payroll headers use the existing unmodified fixture; posted invoice,
 stock, COGS, approval, payment and reversals use existing public commands.
 """
 from datetime import timedelta
+from zoneinfo import ZoneInfo
 from decimal import Decimal
 from pathlib import Path
 from hashlib import sha256
@@ -13,6 +14,7 @@ import gzip,json,uuid
 
 HERE=Path(__file__).resolve().parent
 ROOT=HERE.parents[1]
+WIB=ZoneInfo('Asia/Jakarta')
 
 
 def require(value,message):
@@ -125,13 +127,14 @@ class Native:
         require(self.finish.po_state(cur,f['po'])['status']=='FINISHED','MANDOR_NATIVE_REAL_FINISHED_PO_REQUIRED')
         require(self.finish.po_wip_balance(cur,f['po'])==0,'MANDOR_NATIVE_FINISHED_PO_ZERO_WIP_REQUIRED')
         require(self.modules.bd.lot_value(cur,f['lot'])>0,'MANDOR_NATIVE_POSITIVE_KNOWN_FINISHED_HPP_REQUIRED')
-        sale_at,sale_day,after_good=cur.execute("select(statement_timestamp()at time zone'Asia/Jakarta'),"
+        # Keep the database instant intact when the sales RPC parses the payload in UTC.
+        sale_at,sale_day,after_good=cur.execute("select statement_timestamp(),"
             "(statement_timestamp()at time zone'Asia/Jakarta')::date,statement_timestamp()>%s::timestamptz",
             (f['good_payload']['physical_at'],)).fetchone()
         require(sale_day==today and after_good is True,'MANDOR_NATIVE_SALE_MUST_FOLLOW_CURRENT_GOOD_AT_GENUINE_CLOCK')
         actor=self.master.role_actor(cur,'OWNER');tag='MANDOR-NATIVE-'+uuid.uuid4().hex[:12]
         sale=dict(f,actor=actor,tag=tag,location=self.modules.bd.chain.base.LOCATION,
-            sale_at=sale_at.isoformat())
+            sale_at=sale_at.astimezone(WIB).isoformat())
         require(f['good_day']==today and f['day']<today,'MANDOR_NATIVE_EARLIER_PHYSICAL_LINEAGE_CURRENT_GOOD_REQUIRED')
         return sale,dict(finished=result,physical_day=str(f['day']),good_day=str(f['good_day']),
             sale_at=sale['sale_at'],genuine_database_clock=True,actor=actor)
@@ -239,9 +242,9 @@ class Native:
             (json.dumps(dict(sale_id=f['sale'],kind='ALLOCATIONS')),),f['actor'])
         rows=workspace['page']['rows'];require(len(rows)==1,'MANDOR_NATIVE_SINGLE_REAL_SALE_ALLOCATION')
         self.admin(cur)
-        now=cur.execute("select(statement_timestamp()at time zone'Asia/Jakarta')").fetchone()[0]
+        now=cur.execute("select statement_timestamp()").fetchone()[0]
         return self.sale_intent(cur,f,'RETURN',dict(return_number='MANDOR-RET-'+uuid.uuid4().hex[:12],
-            physical_at=now.isoformat(),notes='Return one actual sold piece after lawful offset reversal',
+            physical_at=now.astimezone(WIB).isoformat(),notes='Return one actual sold piece after lawful offset reversal',
             items=[dict(allocation_id=rows[0]['allocation_id'],location_id=f['location'],qty_pcs='1',
                 quality_grade='GRADE_A',refund_amount='75000.00',notes='Original allocation and original selling price')]))
 
