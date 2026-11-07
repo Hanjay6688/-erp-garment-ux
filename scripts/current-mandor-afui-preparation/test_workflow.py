@@ -21,6 +21,29 @@ def load(name):
 
 
 class CurrentWorkflow(unittest.TestCase):
+    def test_runner_disposable_browser_output_needs_its_completed_build_receipt(self):
+        fence = load('check_source')
+        with TemporaryDirectory() as directory:
+            root = Path(directory)
+            receipt = fence.PROOF_ROOT + 'AFUI_BROWSER_PREREQUISITES.json'
+            builds = {'cp6-ui-build/index.html', 'cp6-ui-build/assets/AccessControlPage-Dqveljp6.js',
+                      'cp6-ui-build/assets/BsReworkPage-Drf0juZU.css'}
+            unknown = {'cp6-ui-build/assets/unversioned.js', 'cp6-ui-build/extra.ts', 'src/another-Dqveljp6.js'}
+            for name in builds | unknown | {fence.HISTORICAL_WORKFLOWS, receipt}:
+                target = root / name
+                target.parent.mkdir(parents=True, exist_ok=True)
+                target.write_text('{"files":[]}' if name == fence.HISTORICAL_WORKFLOWS else '{}')
+            with self.assertRaisesRegex(ValueError, 'EXACT_DISPOSABLE_BROWSER_BUILD_RECEIPT_REQUIRED'):
+                fence.runner_inputs(root, builds)
+            with self.assertRaisesRegex(ValueError, 'VERIFIED_DISPOSABLE_BROWSER_BUILD_REQUIRED'):
+                fence.runner_inputs(root, builds | {receipt})
+            (root / receipt).write_text(json.dumps(dict(status='EXACT_BOTH_CHECKOUT_PACKAGES_AND_REAL_DESKTOP_MOBILE_BROWSER_READY',
+                                                       phase='COMPLETE', candidate_disposable_build='PASS')))
+            self.assertEqual(fence.runner_inputs(root, builds | unknown | {receipt}), builds | {receipt})
+            (root / 'cp6-ui-build/index.html').chmod(0o755)
+            with self.assertRaisesRegex(ValueError, 'REGULAR_NONEXECUTABLE_RUNNER_INPUT'):
+                fence.runner_inputs(root, builds | {receipt})
+
     def test_runner_outputs_do_not_expand_the_source_file_set(self):
         fence = load('check_source')
         with TemporaryDirectory() as directory:

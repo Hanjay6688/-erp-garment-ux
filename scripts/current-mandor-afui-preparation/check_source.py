@@ -42,6 +42,9 @@ PROOF_OUTPUT = re.compile(
     r'|MANDOR_CASE_STDOUT/(?:[a-f0-9]{64}\.jsonl|(?:AFUI_|MANDOR_|CP7_FG_MANDOR_)[A-Za-z0-9_]+\.json(?:\.gz)?)'
     r'|MANDOR_NATIVE_ORIGINALS/MANDOR_[A-Z0-9_]+\.json\.gz)'
 )
+DISPOSABLE_BUILD_OUTPUT = re.compile(
+    r'cp6-ui-build/(?:index\.html|assets/[A-Za-z0-9_.-]+-[A-Za-z0-9_-]{8}\.(?:js|css))'
+)
 
 
 def require(value, reason):
@@ -133,13 +136,19 @@ def selective_ui(value, base, approved):
     return result
 
 
-def runner_inputs(root, names):
+def runner_inputs(root, names, *, browser_receipt='AFUI_BROWSER_PREREQUISITES.json'):
     """Separate untracked runner outputs from immutable source at every gate."""
     historical = json.loads((root / HISTORICAL_WORKFLOWS).read_bytes())['files']
     archived = {row['path']: row for row in historical}
     accepted = names & archived.keys()
     accepted |= {name for name in names if name.startswith(PROOF_ROOT)
                  and PROOF_OUTPUT.fullmatch(name.removeprefix(PROOF_ROOT))}
+    build = {name for name in names if DISPOSABLE_BUILD_OUTPUT.fullmatch(name)}
+    if build:
+        receipt = PROOF_ROOT + browser_receipt
+        require(receipt in names and 'cp6-ui-build/index.html' in build,
+                'MANDOR_EXACT_DISPOSABLE_BROWSER_BUILD_RECEIPT_REQUIRED')
+        accepted.update(build | {receipt})
     for name in sorted(accepted):
         path = root / name
         require(not any(part.is_symlink() for part in (path, *path.parents))
@@ -151,6 +160,11 @@ def runner_inputs(root, names):
             require(pin(raw) == {key: entry[key] for key in ('bytes', 'sha256')}
                     and raw == (root / entry['archive']).read_bytes(),
                     'MANDOR_EXACT_ARCHIVED_HISTORICAL_WORKFLOW_REQUIRED:' + name)
+    if build:
+        proof = json.loads((root / receipt).read_bytes())
+        require(proof.get('status') == 'EXACT_BOTH_CHECKOUT_PACKAGES_AND_REAL_DESKTOP_MOBILE_BROWSER_READY'
+                and proof.get('phase') == 'COMPLETE' and proof.get('candidate_disposable_build') == 'PASS',
+                'MANDOR_VERIFIED_DISPOSABLE_BROWSER_BUILD_REQUIRED')
     return accepted
 
 

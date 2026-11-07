@@ -272,8 +272,8 @@
       "sha256": "d85af2c741f707b378e09c6e07ab789cb76450d0e58f470913a81e936c5797b2"
     },
     "scripts/current-mandor-afui-preparation/check_source.py": {
-      "bytes": 14768,
-      "sha256": "9a05ffacf6f3d54036ebe78b0857013a2516e3cda3141022f42fa69a9f9a7bd1"
+      "bytes": 15638,
+      "sha256": "c15408d288751fc881df63aefa5d5eacf59782c63d69c60696aac95701e31299"
     },
     "scripts/current-mandor-afui-preparation/output_binding.py": {
       "bytes": 9010,
@@ -340,8 +340,8 @@
       "sha256": "63aaf740a9e44041aecc0a67c3ae5a481107333a8c2213849ef50f64eda81497"
     },
     "scripts/current-mandor-afui-preparation/test_workflow.py": {
-      "bytes": 11321,
-      "sha256": "412c65d6e7cbb305ed885b045a9484ea4ad3602503298bd20f553985d0ba2e10"
+      "bytes": 13049,
+      "sha256": "949382e630297dbd2f5f94dc23d42ead9f74d2da6b103d34c210b7e1dd5d4956"
     },
     "scripts/current-mandor-afui-preparation/receipts.py": {
       "bytes": 3161,
