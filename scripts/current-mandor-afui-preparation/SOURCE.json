@@ -291,8 +291,35 @@
     "native_fixture.py": {
       "original_bytes": 21060,
       "original_sha256": "8036269e118b7a657205f9c167090d4aca47b1b9cb44b1828507d8a9d1699384",
-      "derived_sha256": "187be9f06126dde4871be784a81d9451339fde1e8aed48e0f2959cc5e1da8acc",
-      "exact_routes": 5,
+      "derived_sha256": "6f0dbfa4dee72dca64cef2921aa175e93ca95e5fd9bca5e675aaa70261bb9adb",
+      "exact_routes": 7,
+      "whole_original_caller_recovered": true,
+      "actual_ERP_cases": 0,
+      "production_go": false
+    },
+    "cases.py": {
+      "original_bytes": 11526,
+      "original_sha256": "fefe8106c36976a4853703244f2cc3b48f9bf2b93b95a5b9bbe9a42a2773d8fd",
+      "derived_sha256": "8bfeb82e72d00c836b2e851f67aee80b4d7abfee348727027a7c25aa4e3c73f3",
+      "exact_routes": 2,
+      "whole_original_caller_recovered": true,
+      "actual_ERP_cases": 0,
+      "production_go": false
+    },
+    "oracle.py": {
+      "original_bytes": 5845,
+      "original_sha256": "046702c7847e85d74c0f928e4d3db5dd86867272317f5618fbe7f3d444851230",
+      "derived_sha256": "5e69eff9701deb72b8644d56454cff25127af96e54210df99ab67b17dbbb04b0",
+      "exact_routes": 1,
+      "whole_original_caller_recovered": true,
+      "actual_ERP_cases": 0,
+      "production_go": false
+    },
+    "advisor_review.py": {
+      "original_bytes": 8140,
+      "original_sha256": "4bfe15aedd3d61228f7f59b8b863b6109b8c8d6779797ccf0e9b9f4fe9da17e8",
+      "derived_sha256": "538c97c4d3e89fa9085386a115e7c3bbd3df818943130efebe7b855bf1b87c73",
+      "exact_routes": 1,
       "whole_original_caller_recovered": true,
       "actual_ERP_cases": 0,
       "production_go": false
@@ -308,8 +335,8 @@
       "sha256": "d85af2c741f707b378e09c6e07ab789cb76450d0e58f470913a81e936c5797b2"
     },
     "scripts/current-mandor-afui-preparation/check_source.py": {
-      "bytes": 15638,
-      "sha256": "c15408d288751fc881df63aefa5d5eacf59782c63d69c60696aac95701e31299"
+      "bytes": 17281,
+      "sha256": "73d41ec939113af1817311b63a832c0efca18e38407696dfe36a2be4193d1f6c"
     },
     "scripts/current-mandor-afui-preparation/output_binding.py": {
       "bytes": 9010,
@@ -320,8 +347,8 @@
       "sha256": "300a4239a2e3fec6bbd6fa6fc8115a730034592aa362fee1993cff013e0c3c25"
     },
     "scripts/current-mandor-afui-preparation/routes.py": {
-      "bytes": 16688,
-      "sha256": "727c3ca77897d42ee590c50919ddc40d263e9663046a5b9eac32e58abcb1aebb"
+      "bytes": 26622,
+      "sha256": "e29cfe00237ff80e1c1c7b8bfb589d8f9ecc91fbf3c81596747afb9e21acb009"
     },
     "scripts/current-mandor-afui-preparation/test_output_binding.py": {
       "bytes": 8270,
@@ -436,8 +463,20 @@
       "sha256": "34e9d82766e4e418c55792cd286a884e741b985a199a21f5ef1c9841b93a3673"
     },
     "scripts/current-mandor-shop-native-qualification/native_fixture.py": {
-      "bytes": 21186,
-      "sha256": "187be9f06126dde4871be784a81d9451339fde1e8aed48e0f2959cc5e1da8acc"
+      "bytes": 21197,
+      "sha256": "6f0dbfa4dee72dca64cef2921aa175e93ca95e5fd9bca5e675aaa70261bb9adb"
+    },
+    "scripts/current-mandor-shop-native-qualification/cases.py": {
+      "bytes": 11688,
+      "sha256": "8bfeb82e72d00c836b2e851f67aee80b4d7abfee348727027a7c25aa4e3c73f3"
+    },
+    "scripts/current-mandor-shop-native-qualification/oracle.py": {
+      "bytes": 7314,
+      "sha256": "5e69eff9701deb72b8644d56454cff25127af96e54210df99ab67b17dbbb04b0"
+    },
+    "scripts/current-mandor-shop-native-qualification/advisor_review.py": {
+      "bytes": 8140,
+      "sha256": "538c97c4d3e89fa9085386a115e7c3bbd3df818943130efebe7b855bf1b87c73"
     }
   },
   "financial_assertions_and_owning_recovery_unchanged": true,
@@ -556,5 +595,16 @@
     "UI_fixture_actual_Auth_SQL_backend_credit": 0,
     "actual_parent_Root_adopted": false,
     "Native17_dispatched": false
+  },
+  "owning_recovery_unchanged": true,
+  "corrected_unpaid_cancellation_assertion": true,
+  "exact_terminal_payment_guard_repair": {
+    "original_bytes": 10946,
+    "original_sha256": "0405c0a9c807ef0be3881c2a32c69a152e2a0614bc8efb1f5572ac715683d771",
+    "derived_sha256": "11f00f6918330d8c4288e0c6265173cb8caee28aa24e62350a01d86b8247723a",
+    "exact_routes": 2,
+    "whole_original_caller_recovered": true,
+    "actual_ERP_cases": 0,
+    "production_go": false
   }
 }

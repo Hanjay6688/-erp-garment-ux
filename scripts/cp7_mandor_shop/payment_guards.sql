@@ -49,11 +49,12 @@ begin
      and h.status='PAID'and h.payment_date=j_.economic_date)then
     raise exception 'CP7_MANDOR_SHOP_EXACT_OWNING_OFFSET_JOURNAL_INSERT_REQUIRED';end if;
   else
+   -- PostgreSQL computes period_shifted after BEFORE triggers from the protected dates.
    select *into s_ from cp7_mandor_shop.settlements where journal_id=j_.id and id=j_.source_id;
    if ctx_.action not in('REOPEN','REVERSE')or work_.native_before_status is distinct from'PAID'
     or s_.id is null or s_.payroll_id is distinct from work_.payroll_id
     or old_.status is distinct from'POSTED'or j_.status is distinct from'REVERSED'
-    or(to_jsonb(j_)-array['status','updated_at'])is distinct from(to_jsonb(old_)-array['status','updated_at'])then
+    or(to_jsonb(j_)-array['status','updated_at','period_shifted'])is distinct from(to_jsonb(old_)-array['status','updated_at','period_shifted'])then
     raise exception 'CP7_MANDOR_SHOP_EXACT_OWNING_OFFSET_REVERSAL_REQUIRED';end if;
   end if;
  else
@@ -65,7 +66,7 @@ begin
    or(j_.reversal_of_id is not null and j_.reversal_of_id is distinct from original_.id)then
    raise exception 'CP7_MANDOR_SHOP_EXACT_OWNING_OFFSET_INVERSE_REQUIRED';end if;
   if tg_op='UPDATE'and(old_.reversal_of_id is not null or j_.reversal_of_id is distinct from original_.id
-   or(to_jsonb(j_)-array['reversal_of_id','updated_at'])is distinct from(to_jsonb(old_)-array['reversal_of_id','updated_at']))then
+   or(to_jsonb(j_)-array['reversal_of_id','updated_at','period_shifted'])is distinct from(to_jsonb(old_)-array['reversal_of_id','updated_at','period_shifted']))then
    raise exception 'CP7_MANDOR_SHOP_PROTECTED_INVERSE_HISTORY_IMMUTABLE';end if;
  end if;
  return new;

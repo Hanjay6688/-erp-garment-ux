@@ -91,9 +91,12 @@ def release_cancel(n,cur,today):
     explicit=oracle.released(before,after,'100000.00')
     held2=n.allocation(cur,f,payroll,'200000.00');before_cancel=n.observe(cur,f,payroll)
     reply,call=n.payroll_command(cur,f,payroll,'CANCEL');after_cancel=n.observe(cur,f,payroll)
-    automatic=oracle.released(before_cancel,after_cancel,'200000.00')
-    oracle.require(after_cancel['payroll']['status']=='REVERSED','MANDOR_NATIVE_UNPAID_CANCELLATION_STATUS')
-    oracle.require(all(x['state']=='RELEASED'for x in after_cancel['allocation_states']),'MANDOR_NATIVE_CANCEL_MUST_RELEASE_ALL_ALLOCATIONS')
+    after_workspace=n.workspace(cur,f,payroll)
+    sale_id=f['sale']
+    before_card=next(x for x in held2['before_workspace']['cards'] if x['sale_id']==sale_id)
+    after_card=next(x for x in after_workspace['cards'] if x['sale_id']==sale_id)
+    automatic=oracle.cancelled_release(before_cancel,after_cancel,before_card,after_card,'200000.00')
+    oracle.require(after_workspace['can_change'] is False,'MANDOR_NATIVE_CANCELLED_PAYROLL_NOT_EDITABLE')
     return dict(status='PASS',physical=physical,sale=sale,reserve=held,release=released,explicit_release=explicit,
         second_reserve=held2,cancel=reply,automatic_release=automatic,cancel_replay=n.replay(cur,call,reply))
 
@@ -127,7 +130,7 @@ def refusals(n,cur,today):
 
 def ordinary_store(n,cur,today):
     f,physical=n.physical(cur,today);n.admin(cur)
-    f['customer']=str(n.modules.bd.chain.base.create_customer(cur,f['tag']))
+    f['customer']=str(n.modules.bd.chain.base.create_customer(cur,f['tag'].removeprefix('MANDOR-NATIVE-')))
     before=n.sales.accounts(cur);value=D(str(n.modules.bd.lot_value(cur,f['lot'])))
     payload=n.draft.payload(f,qty='4',price='75000',discount='0');key=uuid.uuid4()
     def create():return n.sales.command(cur,'CREATE',payload,None,key,f['actor'])

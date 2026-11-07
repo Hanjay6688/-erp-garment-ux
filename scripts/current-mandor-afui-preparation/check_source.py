@@ -113,6 +113,28 @@ def actual_adoption(manifest):
     return bindings, {COMPONENT_ADMISSION: component, COMPONENT_SOURCE: source}, set(adoption)
 
 
+def product_repair(replacements):
+    "Derive only the reviewed private journal guard and its two source pins."
+    guard = routes.PRODUCT_GUARD
+    plan_path = 'scripts/cp7_mandor_shop/INSTALL_PLAN.json'
+    original_guard = git('show', routes.BASE + ':' + guard)
+    fixed_guard, proof = routes.derive(original_guard, 'payment_guards.sql')
+    original_plan = git('show', routes.BASE + ':' + plan_path)
+    plan = json.loads(original_plan)
+    require(plan['source_fragments']['payment_guards.sql'] == pin(original_guard),
+            'MANDOR_EXACT_BASE_PAYMENT_GUARD_PLAN_REQUIRED')
+    plan['source_fragments']['payment_guards.sql'] = pin(fixed_guard)
+    fixed_plan = (json.dumps(plan, indent=2) + '\n').encode()
+    original_manifest = git('show', routes.BASE + ':' + COMPONENT_SOURCE)
+    manifest = json.loads(replacements.get(COMPONENT_SOURCE, original_manifest))
+    require(manifest['files'][guard] == pin(original_guard)
+            and manifest['files'][plan_path] == pin(original_plan),
+            'MANDOR_EXACT_BASE_PAYMENT_GUARD_MANIFEST_REQUIRED')
+    manifest['files'].update({guard: pin(fixed_guard), plan_path: pin(fixed_plan)})
+    fixed_manifest = (json.dumps(manifest, indent=2) + '\n').encode()
+    return {guard: fixed_guard, plan_path: fixed_plan, COMPONENT_SOURCE: fixed_manifest}, proof
+
+
 def selective_ui(value, base, approved):
     require(value['head'] == UI_HEAD and value['tree'] == UI_TREE
             and value['before_src_tree'] == UI_BEFORE and value['after_src_tree'] == UI_AFTER,
@@ -181,6 +203,10 @@ def source(*, allow_sparse_observation=False):
             and git('rev-parse', routes.AFUI + '^{tree}').decode().strip() == routes.AFUI_TREE,
             'MANDOR_CURRENT_EXACT_COMPLETE_BASE_AND_AFUI_TREES_REQUIRED')
     bindings, replacements, additions = actual_adoption(manifest) if adopted else ({}, {}, set())
+    product, guard_proof = product_repair(replacements)
+    require(manifest['exact_terminal_payment_guard_repair'] == guard_proof,
+            'MANDOR_EXACT_TERMINAL_PAYMENT_GUARD_REPAIR_REQUIRED')
+    replacements.update(product)
     base, afui = entries(routes.BASE_TREE), entries(routes.AFUI_TREE)
     copied = set(git('diff', '--name-only', routes.PRIOR_AFUI, routes.AFUI, '--').decode().splitlines())
     require(copied == set(manifest['exact_current_Afui_files']) and len(copied) == 46,
@@ -260,7 +286,8 @@ def source(*, allow_sparse_observation=False):
                 retained_current_UI_and_build_inputs_unchanged=False,
                 exact_approved_B_UI_files=3, complete_approved_UI_src_tree=UI_AFTER,
                 all_other_parent_sources_and_build_inputs_unchanged=True,
-                historical_preparation_reports_relabelled=False, financial_assertions_and_recovery_unchanged=True,
+                historical_preparation_reports_relabelled=False, owning_recovery_unchanged=True,
+                corrected_unpaid_cancellation_assertion=True, exact_terminal_payment_guard_repair=guard_proof,
                 actual_parent_root_adopted=adopted, actual_ERP_cases=0, production_go=False, independent_acceptance=False)
 
 

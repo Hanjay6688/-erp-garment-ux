@@ -178,16 +178,16 @@ class Native:
         # week. This changes no posted financial fact or authoritative source.
         require(cur.execute('select count(*)from erp.payroll_work_items where payroll_id=%s::uuid',(payroll,)).fetchone()==(0,),'MANDOR_NATIVE_EMPTY_DRAFT_WEEK_REQUIRED')
         row=cur.execute("update erp.payroll_settlements set period_start=%s,period_end=%s,"
-            "payment_date=case when %s then null else payment_date end,"
             "payment_cash_account_id=case when %s then null else payment_cash_account_id end "
-            "where id=%s::uuid and status='DRAFT' returning id::text",(start,end,back<0,back<0,payroll)).fetchone()
+            "where id=%s::uuid and status='DRAFT' returning id::text",(start,end,back<0,payroll)).fetchone()
         require(row==(payroll,),'MANDOR_NATIVE_ONLY_NEW_EMPTY_DRAFT_WEEK')
         self.modules.bc.boundary.historical.prior.set_open_period(cur,today)
         row=cur.execute('select contractor_id::text,period_start::text,period_end::text,status,payment_date,payment_cash_account_id from erp.payroll_settlements where id=%s::uuid',
             (payroll,)).fetchone()
         require(row[0]==f['contractor']and row[3]=='DRAFT','MANDOR_NATIVE_EXPLICIT_SAME_MANDOR_DRAFT_PAYROLL')
         require(row[1:3]==(str(start),str(end)),'MANDOR_NATIVE_EXPLICIT_SELECTED_WHOLE_WEEK')
-        if back<0:require(start>today and row[4:] == (None,None),'MANDOR_NATIVE_FUTURE_DRAFT_HAS_NO_PRETENDED_PAYMENT')
+        # Native requires a date on DRAFT. The inherited placeholder has no cash account.
+        if back<0:require(start>today and row[4:] == (today,None),'MANDOR_NATIVE_FUTURE_DRAFT_HAS_NO_PRETENDED_PAYMENT')
         require(row[1]!=f['sale_at'][:10],'MANDOR_NATIVE_MANUALLY_DISTINCT_PAYROLL_PERIOD')
         return payroll
 

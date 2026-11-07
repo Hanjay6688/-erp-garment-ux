@@ -56,6 +56,25 @@ def released(before,after,amount):
     return dict(status='PASS',released=str(amount),cash_delta='0',invoice_paid_delta='0')
 
 
+def cancelled_release(before,after,before_reservation,after_cancellation,amount):
+    amount=money(amount);unchanged_sale_assets(before,after)
+    require(deltas(before,after)=={},'MANDOR_ORACLE_RELEASE_OR_UNPAID_CANCEL_POSTED_MONEY')
+    require(before['invoice']==after['invoice'],'MANDOR_ORACLE_CANCEL_CHANGED_INVOICE')
+    require(after['payroll']['status']=='REVERSED','MANDOR_NATIVE_UNPAID_CANCELLATION_STATUS')
+    require(after['payroll']['net_payable']==before['payroll']['net_payable'],'MANDOR_ORACLE_CANCEL_REWROTE_HISTORICAL_NET')
+    old={row['allocation_id']:row for row in before['allocation_states']}
+    new={row['allocation_id']:row for row in after['allocation_states']}
+    require(set(old)==set(new)and all(row['state']=='RELEASED'for row in new.values()),
+        'MANDOR_NATIVE_CANCEL_MUST_RELEASE_ALL_ALLOCATIONS')
+    reserved=sum(money(str(row['amount'])) for row in old.values() if row['state']=='RESERVED')
+    require(reserved==amount,'MANDOR_ORACLE_CANCEL_WRONG_RESERVED_AMOUNT')
+    require(money(after_cancellation['available_to_reserve'])==money(before_reservation['available_to_reserve'])
+        and money(after_cancellation['allocated_amount'])==money(before_reservation['allocated_amount']),
+        'MANDOR_ORACLE_CANCEL_DID_NOT_RETURN_EXACT_INVOICE_CAPACITY')
+    return dict(status='PASS',released=str(amount),cash_delta='0',invoice_paid_delta='0',
+        historical_payroll_net_unchanged=True,invoice_capacity_restored=True)
+
+
 def reversal(before_approval,after_payment,after_reversal,amount):
     amount=money(amount);unchanged_sale_assets(after_payment,after_reversal)
     require(after_reversal['payroll']['status']=='REVERSED','MANDOR_ORACLE_NATIVE_PAID_REVERSAL_STATUS')
