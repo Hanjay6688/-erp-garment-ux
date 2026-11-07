@@ -56,6 +56,8 @@ def replacements(name):
         )
     if name == 'component.py':
         return (
+            ('    import cp7_cash_funding as funding\n    from assembly import FROZEN\n',
+             "    from assembly import FROZEN\n    # The strict group can cache a same-named helper from the SKU worktree.\n    funding = load('mandor_exact_afui_cash_funding', FROZEN/'scripts/cp7_cash_funding.py')\n"),
             ('    observed=native.strict_group(NATIVE_LABEL,factory,verify)\n',
              "    report_io=load('mandor_current_owning_group_report_writer',ROOT/'scripts/current-mandor-afui-preparation/report_io.py')\n"
              "    output=load('mandor_current_complete_case_output',ROOT/'scripts/current-mandor-afui-preparation/output_binding.py')\n"

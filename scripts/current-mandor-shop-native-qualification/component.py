@@ -42,8 +42,9 @@ def context(product,state,*,scope='NATIVE9'):
     import cp7_master_cases as master
     import cp7_sales_command_cases as sales
     import cp7_sales_draft_cases as draft
-    import cp7_cash_funding as funding
     from assembly import FROZEN
+    # The strict group can cache a same-named helper from the SKU worktree.
+    funding = load('mandor_exact_afui_cash_funding', FROZEN/'scripts/cp7_cash_funding.py')
     require(Path(funding.__file__).resolve()==FROZEN/'scripts/cp7_cash_funding.py',
         'MANDOR_NATIVE_EXACT_PARENT_CASH_FUNDING_MODULE')
     return Native(product.domain_modules,product.fixture,finish,master,sales,draft,

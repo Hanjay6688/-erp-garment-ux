@@ -219,8 +219,8 @@
     "component.py": {
       "original_bytes": 7956,
       "original_sha256": "31b7626e2488fd4371daa2bf21254583b86299673b91130eb0736778126f5044",
-      "derived_sha256": "f6905c90278b64c16d12cb88f1dd6d7a4cedf3f63fe844f2d1a919cf9f0d68fd",
-      "exact_routes": 2,
+      "derived_sha256": "bf9a376506a9397b285ef61c5f78d4c1be53166d1f7bf5bc0473681391bb66cf",
+      "exact_routes": 3,
       "whole_original_caller_recovered": true,
       "actual_ERP_cases": 0,
       "production_go": false
@@ -293,8 +293,8 @@
       "sha256": "300a4239a2e3fec6bbd6fa6fc8115a730034592aa362fee1993cff013e0c3c25"
     },
     "scripts/current-mandor-afui-preparation/routes.py": {
-      "bytes": 12177,
-      "sha256": "d229b118626779bb48990dd2c0ad56d42d0f5d68490b1b7503e5c99a5d39c057"
+      "bytes": 12487,
+      "sha256": "3db4609f76f1b1946b40ff624da64979472528832027e51a919cedc7139bd899"
     },
     "scripts/current-mandor-afui-preparation/test_output_binding.py": {
       "bytes": 8270,
@@ -313,8 +313,8 @@
       "sha256": "a3e82c484c8f54d6a1df2a31252c5ce112258bcc0f28a10cbfdf060ed9db0152"
     },
     "scripts/current-mandor-shop-native-qualification/component.py": {
-      "bytes": 8078,
-      "sha256": "f6905c90278b64c16d12cb88f1dd6d7a4cedf3f63fe844f2d1a919cf9f0d68fd"
+      "bytes": 8206,
+      "sha256": "bf9a376506a9397b285ef61c5f78d4c1be53166d1f7bf5bc0473681391bb66cf"
     },
     "scripts/current-mandor-shop-native-qualification/qualification.py": {
       "bytes": 7501,
