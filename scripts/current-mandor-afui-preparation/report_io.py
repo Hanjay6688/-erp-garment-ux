@@ -100,6 +100,37 @@ def derive_packet(source, kind):
                          encoder=primitive_contract(), actual_ERP_cases=0, production_go=False)
 
 
+PARENT_INSTALL_BEFORE = "'ACTUAL_QUALIFIED_AFUI15_PARENT_INSTALL',product.parent().install,cur"
+PARENT_INSTALL_AFTER = "'ACTUAL_QUALIFIED_AFUI15_PARENT_INSTALL',install_qualified_parent,cur"
+
+
+def derive_parent_install(source):
+    if source.count(PARENT_INSTALL_BEFORE) != 1 or PARENT_INSTALL_AFTER in source:
+        raise ValueError('MANDOR_ONE_EXACT_AFUI_INSTALL_AUTHORITY_ROUTE_REQUIRED')
+    changed = source.replace(PARENT_INSTALL_BEFORE, PARENT_INSTALL_AFTER, 1)
+    if changed.replace(PARENT_INSTALL_AFTER, PARENT_INSTALL_BEFORE, 1) != source:
+        raise ValueError('MANDOR_AFUI_INSTALL_AUTHORITY_NOT_REVERSIBLE')
+    return changed
+
+
+def install_qualified_parent(cur, install):
+    """Match Afui's original admin login within the disposable install transaction."""
+    identity = "select current_user,session_user,current_database(),(select rolsuper from pg_roles where rolname=session_user)"
+    maintenance = ('cp6_maintenance_admission', 'cp6_maintenance_admission', 'cp6_rollback', True)
+    admin = ('supabase_admin', 'supabase_admin', 'cp6_rollback', True)
+    if cur.connection.autocommit or cur.execute(identity).fetchone() != maintenance:
+        raise ValueError('MANDOR_AFUI_INSTALL_FIXED_MAINTENANCE_TRANSACTION_REQUIRED')
+    with cur.connection.transaction():
+        cur.execute('set local session authorization supabase_admin')
+        if cur.execute(identity).fetchone() != admin:
+            raise ValueError('MANDOR_AFUI_ORIGINAL_ADMINISTRATIVE_IDENTITY_REQUIRED')
+        state = install(cur)
+        cur.execute('set local session authorization default')
+        if cur.execute(identity).fetchone() != maintenance:
+            raise ValueError('MANDOR_AFUI_INSTALL_MAINTENANCE_IDENTITY_NOT_RESTORED')
+    return state
+
+
 def function_code(source, filename, name):
     compiled = compile(source, filename, 'exec', dont_inherit=True)
     selected = [code for code in compiled.co_consts if isinstance(code, CodeType) and code.co_name == name]

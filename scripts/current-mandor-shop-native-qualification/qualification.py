@@ -65,9 +65,12 @@ def runtime_inherited(raw,parent):
     text,engine_proof=package_engine.derive(original.read_bytes())
     report_io=load('mandor_current_complete_report_writer',ROOT/'scripts/current-mandor-afui-preparation/report_io.py')
     text,output_proof=report_io.derive_packet(text,'mandor17')
+    text=report_io.derive_parent_install(text)
+    output_proof['exact_parent_install_authority_route']=True
     engine_proof=dict(retained_complete_engine=engine_proof,complete_report_output=output_proof)
     engine=ModuleType('writer_a_mandor_exact_whole_package_engine');engine.__file__=str(original)
     engine.__dict__[report_io.HELPER]=report_io.write_complete
+    engine.install_qualified_parent=lambda cur:report_io.install_qualified_parent(cur,product.parent().install)
     exec(compile(text,str(original),'exec'),engine.__dict__)
 
     def trusted_connection():

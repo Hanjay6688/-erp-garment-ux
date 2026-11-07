@@ -115,6 +115,11 @@ class CurrentMandorPreparation(unittest.TestCase):
         original, _ = package.derive(raw)
         changed, proof = io.derive_packet(original, 'mandor17')
         self.assertEqual(changed.replace(io.HELPER + '(OUT,report)', io.PACKET_BEFORE, 1), original)
+        authorized = io.derive_parent_install(changed)
+        self.assertEqual(authorized.replace(io.PARENT_INSTALL_AFTER, io.PARENT_INSTALL_BEFORE, 1), changed)
+        self.assertEqual(authorized.count(io.PARENT_INSTALL_AFTER), 1)
+        with self.assertRaisesRegex(ValueError, 'MANDOR_ONE_EXACT_AFUI_INSTALL_AUTHORITY_ROUTE_REQUIRED'):
+            io.derive_parent_install(authorized)
         self.assertTrue(proof['financial_cases_and_full_recovery_unchanged'])
         self.assertEqual(proof['actual_ERP_cases'], 0)
         with self.assertRaisesRegex(ValueError, 'EXACT_COMPLETE_PREPARED_ENGINE'):

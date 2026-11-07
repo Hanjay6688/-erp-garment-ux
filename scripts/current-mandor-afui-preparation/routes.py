@@ -40,10 +40,13 @@ def replacements(name):
              '    text,engine_proof=package_engine.derive(original.read_bytes())\n'
              "    report_io=load('mandor_current_complete_report_writer',ROOT/'scripts/current-mandor-afui-preparation/report_io.py')\n"
              "    text,output_proof=report_io.derive_packet(text,'mandor17')\n"
+             '    text=report_io.derive_parent_install(text)\n'
+             "    output_proof['exact_parent_install_authority_route']=True\n"
              '    engine_proof=dict(retained_complete_engine=engine_proof,complete_report_output=output_proof)\n'),
             ("    engine=ModuleType('writer_a_mandor_exact_whole_package_engine');engine.__file__=str(original)\n",
              "    engine=ModuleType('writer_a_mandor_exact_whole_package_engine');engine.__file__=str(original)\n"
-             '    engine.__dict__[report_io.HELPER]=report_io.write_complete\n'),
+             '    engine.__dict__[report_io.HELPER]=report_io.write_complete\n'
+             '    engine.install_qualified_parent=lambda cur:report_io.install_qualified_parent(cur,product.parent().install)\n'),
             ("ROOT/'scripts/current-unified-candidate/check_source.py'", "ROOT/'scripts/current-mandor-afui-preparation/check_source.py'"),
             ("        original=engine.package._writer_runtime;original_output=engine.package.OUT\n        try:\n            engine.package._writer_runtime=lambda browser_mode=False:engine.run()\n            # Only the artifact destination moves to the owning candidate;\n            # the original package and complete backup drill remain exact.\n            engine.package.OUT=ROOT/'cp6-proof/t3'\n            import package_identity\n            with package_identity.scope(),attempts.single_attempt(business_day):engine.package.run('install')\n        finally:\n            engine.package._writer_runtime=original;engine.package.OUT=original_output\n",
              "        import package_identity\n        report_io=load('mandor_scoped_package_identity',ROOT/'scripts/current-mandor-afui-preparation/report_io.py')\n        run_package=report_io.private_package_run(engine.package,ROOT/'cp6-proof/t3',lambda browser_mode=False:engine.run())\n        with report_io.package_identity_scope(package_identity),attempts.single_attempt(business_day):run_package('install')\n"),
