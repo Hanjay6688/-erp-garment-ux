@@ -1,5 +1,5 @@
 {
-  "classification": "CURRENT_AFUI_MANDOR_SOURCE_PREPARATION_NOT_RUNTIME",
+  "classification": "CURRENT_AFUI_MANDOR_ACTUAL_PARENT_BOUND_SOURCE",
   "base": {
     "head": "c296fd06167ddd177e1192c1008992e2a1e3d628",
     "tree": "fdd36962a7de81482ccca02e6ff96597cfc20081"
@@ -300,8 +300,8 @@
       "sha256": "40c8856590f421a1faf89daa9a18a4783f2f0bc17b8dd97cbd38e91367975c71"
     },
     "scripts/current-mandor-shop-native-qualification/admission.py": {
-      "bytes": 1432,
-      "sha256": "a3e82c484c8f54d6a1df2a31252c5ce112258bcc0f28a10cbfdf060ed9db0152"
+      "bytes": 1599,
+      "sha256": "f9ec5c49b1d18d9d67e95b4d3ec514cc84d0d9986ef9fff87db6e8090a922802"
     },
     "scripts/current-mandor-shop-native-qualification/component.py": {
       "bytes": 8078,
@@ -390,7 +390,7 @@
   },
   "financial_assertions_and_owning_recovery_unchanged": true,
   "historical_control_reports_relabelled": false,
-  "active_workflow_added": false,
+  "active_workflow_added": true,
   "actual_ERP_cases": 0,
   "actual_Auth_cases": 0,
   "production_go": false,
@@ -401,8 +401,8 @@
     "Python": 12,
     "Node": 11
   },
-  "actual_parent_adopted": false,
-  "actual_successor_source_fence_rebinding_pending": true,
+  "actual_parent_adopted": true,
+  "actual_successor_source_fence_rebinding_pending": false,
   "active_Afui_candidate_run_reference_only": null,
   "complete_current_source_prerequisites_prepared": true,
   "selective_B_UI": {
@@ -504,5 +504,15 @@
     "UI_fixture_actual_Auth_SQL_backend_credit": 0,
     "actual_parent_Root_adopted": false,
     "Native17_dispatched": false
+  },
+  "actual_Afui_adoption": {
+    "scripts/current-mandor-shop-native-qualification/AFUI15_PARENT_ROOT_ACTUAL_INTAKE.json": {
+      "bytes": 1981,
+      "sha256": "18f068fa23983cb64980bcf3882bfbce7f794640e280d03e5c37a90eb04a999d"
+    },
+    ".github/workflows/cp7-mandor-shop-native17.yml": {
+      "bytes": 38453,
+      "sha256": "5f7fc30f2c1e3c6d17b91e62740fc25017c0abf932b1df93f8d2e9f8b7884126"
+    }
   }
 }

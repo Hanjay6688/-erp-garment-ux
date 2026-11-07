@@ -212,8 +212,8 @@
       "sha256": "24230738c7b6c7aae129b9a6312d7e4f0ce439f5680e5f47f69ccdaa20733a6e"
     },
     "scripts/cp7_mandor_shop/admission.py": {
-      "bytes": 1270,
-      "sha256": "30591a4aaa3e46828550d21c0cc8a35123cb69579678240326f28200d34e8686"
+      "bytes": 1781,
+      "sha256": "8918375bf720f0f7a0c3e15ad859053e2e503698e7156edd91b6355fed0ec871"
     },
     "scripts/cp7_mandor_shop/allocation.sql": {
       "bytes": 16985,

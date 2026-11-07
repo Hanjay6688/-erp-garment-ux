@@ -2,13 +2,13 @@
 from hashlib import sha256
 import json
 
-PARENT_HEAD=None
-PARENT_TREE=None
-PARENT_RUN=None
-PARENT_JOB=None
-PARENT_ROOT_PIN=None
-PARENT_ROOT_CONTRACT=None
-RUNTIME_ENTRY=None
+PARENT_HEAD='fd797083eab093d9dc97f2d52ca61dc37812b437'
+PARENT_TREE='02a8812e9eae2272a976d1dbd1e21aff8c022467'
+PARENT_RUN=42258224710
+PARENT_JOB=128031001027
+PARENT_ROOT_PIN={'bytes': 1981, 'sha256': '18f068fa23983cb64980bcf3882bfbce7f794640e280d03e5c37a90eb04a999d'}
+PARENT_ROOT_CONTRACT={'status': 'ROOT_VERIFIED_CURRENT_AFUI_GOOD_NONPAYABLE_FULL15_ALL5', 'actual_Native_cases': 9, 'actual_Auth_HTTP_cases': 2, 'actual_two_session_races': 2, 'actual_browser_cases': 2, 'actual_business_cases': 15, 'complete15_qualified': True, 'prior_runs_aggregated': False}
+RUNTIME_ENTRY='scripts/current-mandor-shop-native-qualification/qualification.py'
 
 
 def accepted_parent(raw):

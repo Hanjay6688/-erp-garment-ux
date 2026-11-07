@@ -4,10 +4,10 @@ import json
 
 PARENT_HEAD='fd797083eab093d9dc97f2d52ca61dc37812b437'
 PARENT_TREE='02a8812e9eae2272a976d1dbd1e21aff8c022467'
-PARENT_RUN=None
-PARENT_JOB=None
-PARENT_ROOT_PIN=None
-RUNTIME_ENTRY=None
+PARENT_RUN=42258224710
+PARENT_JOB=128031001027
+PARENT_ROOT_PIN={'bytes': 1981, 'sha256': '18f068fa23983cb64980bcf3882bfbce7f794640e280d03e5c37a90eb04a999d'}
+RUNTIME_ENTRY='scripts/current-mandor-shop-native-qualification/qualification.py'
 EXPECTED=dict(status='ROOT_VERIFIED_CURRENT_AFUI_GOOD_NONPAYABLE_FULL15_ALL5',
     head=PARENT_HEAD,tree=PARENT_TREE,run_id=PARENT_RUN,job_id=PARENT_JOB,
     actual_Native_cases=9,actual_Auth_HTTP_cases=2,actual_two_session_races=2,actual_browser_cases=2,
