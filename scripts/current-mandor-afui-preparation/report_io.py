@@ -9,7 +9,6 @@ from hashlib import sha256
 from pathlib import Path
 from types import CodeType, FunctionType
 import ast
-import inspect
 import json
 import os
 import sys
@@ -132,29 +131,17 @@ def install_qualified_parent(cur, install):
     return state
 
 
-FIXTURE_VERIFY = 'with helper.control.product_catalog(cur):product.verify(cur,state)'
-FIXTURE_SCOPED_VERIFY = ('with helper.control.product_catalog(cur):'
-                         'verify_as_original_admin(cur, lambda cursor: product.verify(cursor,state))')
-
-
 def admit_afui_fixture(cur, state, fixture):
-    """Bind the actual just-installed catalogue for the frozen Afui fixture only."""
+    """Verify the original Afui fixture with its exact catalogue and admin login."""
     from cp7_p21_current_chain_rehearsal_probe import helper
 
-    original = fixture.admitted_modules
-    source = inspect.getsource(original)
-    if source.count(FIXTURE_VERIFY) != 1 or FIXTURE_SCOPED_VERIFY in source:
-        raise ValueError('MANDOR_ONE_EXACT_FROZEN_AFUI_FIXTURE_VERIFIER_REQUIRED')
-    changed = source.replace(FIXTURE_VERIFY, FIXTURE_SCOPED_VERIFY, 1)
-    if changed.replace(FIXTURE_SCOPED_VERIFY, FIXTURE_VERIFY, 1) != source:
-        raise ValueError('MANDOR_FROZEN_AFUI_FIXTURE_VERIFIER_NOT_REVERSIBLE')
-    namespace = dict(original.__globals__, verify_as_original_admin=install_qualified_parent)
-    exec(compile(changed, original.__code__.co_filename, 'exec'), namespace)
     control = helper.control
     previous = control.STATE
     control.STATE = dict(installed_catalog=state['after'])
     try:
-        return namespace['admitted_modules'](cur, state)
+        # The frozen catalogue guard sets session authorization to supabase_admin.
+        # Enter the maintenance-checked scope before calling the guard.
+        return install_qualified_parent(cur, lambda cursor: fixture.admitted_modules(cursor, state))
     finally:
         control.STATE = previous
 
