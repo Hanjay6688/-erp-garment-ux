@@ -4,13 +4,14 @@ No transaction, verification, actor or recovery operation is changed. The
 encoder primitive is copied exactly from the current Afui source; retaining
 its output bytes does not itself qualify an ERP package.
 """
-from contextlib import contextmanager
+from contextlib import ExitStack, contextmanager
 from hashlib import sha256
 from pathlib import Path
 from types import CodeType, FunctionType
 import ast
 import json
 import os
+import sys
 import tempfile
 
 ORIGINAL_R1 = (29829, '451d3d5cbf34fed8f6ba0bf6445cee08e5198d6979f1fd1fbc68f9e299d3724b')
@@ -38,6 +39,24 @@ def write_complete(target,value):
         for part in json.JSONEncoder(indent=2,default=str).iterencode(value):stream.write(part)
         stream.write('\n');stream.flush();os.fsync(stream.fileno())
     os.replace(partial,target)
+
+
+@contextmanager
+def package_identity_scope(identity):
+    """Record Mandor provenance before the frozen Afui harness is re-entered."""
+    with ExitStack() as stack:
+        stack.enter_context(identity.scope())
+        recorder = sys.modules['cp6_run_identity']
+        original_announce = recorder.announce
+
+        def announce(*args, **kwargs):
+            # The unchanged package imports once and announces before any work.
+            # Return the frozen module to the import cache before the call.
+            stack.close()
+            return original_announce(*args, **kwargs)
+
+        recorder.announce = announce
+        yield
 
 
 def primitive_contract():

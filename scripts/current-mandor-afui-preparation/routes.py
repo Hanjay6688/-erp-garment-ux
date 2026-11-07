@@ -45,6 +45,9 @@ def replacements(name):
              "    engine=ModuleType('writer_a_mandor_exact_whole_package_engine');engine.__file__=str(original)\n"
              '    engine.__dict__[report_io.HELPER]=report_io.write_complete\n'),
             ("ROOT/'scripts/current-unified-candidate/check_source.py'", "ROOT/'scripts/current-mandor-afui-preparation/check_source.py'"),
+            ('            with package_identity.scope(),attempts.single_attempt(business_day):engine.package.run(\'install\')\n',
+             "            report_io=load('mandor_scoped_package_identity',ROOT/'scripts/current-mandor-afui-preparation/report_io.py')\n"
+             "            with report_io.package_identity_scope(package_identity),attempts.single_attempt(business_day):engine.package.run('install')\n"),
         )
     if name == 'component.py':
         return (

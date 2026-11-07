@@ -210,8 +210,8 @@
     "qualification.py": {
       "original_bytes": 7161,
       "original_sha256": "3f4bf0cfccbf650240729e01909dcb39b3e88371e59ee14a3bffc5f05934de0b",
-      "derived_sha256": "700ee4b322076ff76c73ed30e144fc33edfef00c834ab4a5d2a569fd255f628f",
-      "exact_routes": 3,
+      "derived_sha256": "fa3abaea7e3ff41270c2ba8a67a3759e3e6b251ea1bf1cadafaf1177bc2b397f",
+      "exact_routes": 4,
       "whole_original_caller_recovered": true,
       "actual_ERP_cases": 0,
       "production_go": false
@@ -280,20 +280,20 @@
       "sha256": "fe05d57990da9c16ad01b71d736010dc11391d502a515d4252282b674d3d0eb1"
     },
     "scripts/current-mandor-afui-preparation/report_io.py": {
-      "bytes": 5533,
-      "sha256": "04a7fab8b6e57641affe54f3dbe1caf1699d4bc070a0997d89495737077779b7"
+      "bytes": 6194,
+      "sha256": "4d72d23176d7be263050b571d5d7cf93dba1567d121a7181f7fc3c577a296029"
     },
     "scripts/current-mandor-afui-preparation/routes.py": {
-      "bytes": 10201,
-      "sha256": "cafbfd92af2b0a3080d92db182710ea4372d47a021a2feea0363d4b0fe68bdfb"
+      "bytes": 10624,
+      "sha256": "6db8a2e3e505b5120a6ccad494aa3ddced2e2b46f406ba5520fc9855e6810698"
     },
     "scripts/current-mandor-afui-preparation/test_output_binding.py": {
       "bytes": 8270,
       "sha256": "19b82b41d747863b3e8407d3d29385326d3de8211aa4b0918c5a61cff41f525f"
     },
     "scripts/current-mandor-afui-preparation/test_preparation.py": {
-      "bytes": 4893,
-      "sha256": "49f5018df4092b9bc22c56fe5f9796094ed82107d741aa1f99a071e5bed35872"
+      "bytes": 7636,
+      "sha256": "11337001756a1a578e4fc65a51377396a44b3cf4b81fa108fcee3db5b31427f9"
     },
     "scripts/current-mandor-shop-native-qualification/access_runtime.py": {
       "bytes": 9121,
@@ -308,8 +308,8 @@
       "sha256": "f6905c90278b64c16d12cb88f1dd6d7a4cedf3f63fe844f2d1a919cf9f0d68fd"
     },
     "scripts/current-mandor-shop-native-qualification/qualification.py": {
-      "bytes": 7510,
-      "sha256": "700ee4b322076ff76c73ed30e144fc33edfef00c834ab4a5d2a569fd255f628f"
+      "bytes": 7657,
+      "sha256": "fa3abaea7e3ff41270c2ba8a67a3759e3e6b251ea1bf1cadafaf1177bc2b397f"
     },
     "scripts/current-mandor-afui-preparation/workflow.py": {
       "bytes": 10916,

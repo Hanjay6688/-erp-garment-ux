@@ -1,5 +1,7 @@
 """Current parent/caller source controls, without running a business case."""
 import ast
+from contextlib import redirect_stdout
+from io import StringIO
 import importlib.util
 import json
 from pathlib import Path
@@ -8,6 +10,7 @@ import sys
 import tempfile
 from types import FunctionType, ModuleType
 import unittest
+from unittest.mock import patch
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
@@ -47,6 +50,46 @@ class CurrentMandorPreparation(unittest.TestCase):
                              [ast.dump(n) for n in ast.walk(ast.parse(after)) if isinstance(n, ast.Assert)])
             with self.assertRaisesRegex(ValueError, 'EXACT_PREPARED_CALLER_SOURCE'):
                 routes.derive(raw + b'\n', name)
+
+    def test_package_announcement_preserves_frozen_harness_origin(self):
+        identity = load('mandor_identity_regression', ROOT / routes.NS / 'package_identity.py')
+        frozen_root = identity.FROZEN
+        frozen = load('mandor_frozen_recorder_regression', frozen_root / identity.PATH)
+        guard = load('mandor_actual_frozen_guard_regression', frozen_root / 'scripts/current-final-s03-sku-s05-preparation/parent_import.py')
+        # Exercise the actual failing origin guard and both real identity
+        # recorders without importing unrelated DB-dependent harness modules.
+        names = ('cp6_t3_package_run', 'cp6_aw_probe', 'cp6_ax_probe',
+                 'cp6_g01_fingerprint', 'cp6_t3_backup_restore_drill',
+                 'cp6_t3_release_package', 'cp6_t3_browser', 'cp6_t3_aligned_install')
+        modules = {name: ModuleType(name) for name in names}
+        for name, module in modules.items():
+            module.__file__ = str(frozen_root / 'scripts' / (name + '.py'))
+        modules['cp6_t3_package_run'].AUDITOR = frozen_root
+        modules['cp6_t3_package_run'].OUT = frozen_root / 'cp6-proof/t3'
+        modules['cp6_run_identity'] = frozen
+        package = ast.parse((frozen_root / 'scripts/cp6_t3_package_run.py').read_bytes())
+        run = next(node for node in package.body if isinstance(node, ast.FunctionDef) and node.name == 'run')
+        start = next(i for i, node in enumerate(run.body) if isinstance(node, ast.Import))
+        announcement = compile(ast.Module(body=run.body[start:start+2], type_ignores=[]), '<exact-package-announcement>', 'exec')
+        path = sys.path[:]
+        try:
+            with patch.dict(sys.modules, modules), redirect_stdout(StringIO()):
+                with identity.scope():
+                    exec(announcement, dict(report={}, mode='install'))
+                    with self.assertRaisesRegex(ValueError, 'JOIN_OWNING_CP6_HARNESS_ORIGIN_CHANGED:cp6_run_identity:'):
+                        guard.owning_harness()
+                report = {}
+                with io.package_identity_scope(identity):
+                    exec(announcement, dict(report=report, mode='install'))
+                    self.assertIs(sys.modules['cp6_run_identity'], frozen)
+                    self.assertEqual(guard.owning_harness()['cp6_run_identity'], str(frozen_root / identity.PATH))
+                self.assertEqual(report['run_identity'], self.owning_identity(identity))
+        finally:
+            sys.path[:] = path
+
+    def owning_identity(self, identity):
+        with identity.scope():
+            return sys.modules['cp6_run_identity'].identity('T3_PREP', mode='install')
 
     def test_pending_current_parent_refuses_before_raw_or_ERP_import(self):
         qualifier = ROOT / routes.NS

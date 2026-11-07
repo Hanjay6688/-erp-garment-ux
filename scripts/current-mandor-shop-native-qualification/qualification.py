@@ -130,7 +130,8 @@ def main():
             # the original package and complete backup drill remain exact.
             engine.package.OUT=ROOT/'cp6-proof/t3'
             import package_identity
-            with package_identity.scope(),attempts.single_attempt(business_day):engine.package.run('install')
+            report_io=load('mandor_scoped_package_identity',ROOT/'scripts/current-mandor-afui-preparation/report_io.py')
+            with report_io.package_identity_scope(package_identity),attempts.single_attempt(business_day):engine.package.run('install')
         finally:
             engine.package._writer_runtime=original;engine.package.OUT=original_output
 
