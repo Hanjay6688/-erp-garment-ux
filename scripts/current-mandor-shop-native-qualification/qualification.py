@@ -123,17 +123,10 @@ def main():
     with engine.inherited_admission.parent_scope():
         engine.admitted()
         import cp6_auditor_business_day as business_day
-        original=engine.package._writer_runtime;original_output=engine.package.OUT
-        try:
-            engine.package._writer_runtime=lambda browser_mode=False:engine.run()
-            # Only the artifact destination moves to the owning candidate;
-            # the original package and complete backup drill remain exact.
-            engine.package.OUT=ROOT/'cp6-proof/t3'
-            import package_identity
-            report_io=load('mandor_scoped_package_identity',ROOT/'scripts/current-mandor-afui-preparation/report_io.py')
-            with report_io.package_identity_scope(package_identity),attempts.single_attempt(business_day):engine.package.run('install')
-        finally:
-            engine.package._writer_runtime=original;engine.package.OUT=original_output
+        import package_identity
+        report_io=load('mandor_scoped_package_identity',ROOT/'scripts/current-mandor-afui-preparation/report_io.py')
+        run_package=report_io.private_package_run(engine.package,ROOT/'cp6-proof/t3',lambda browser_mode=False:engine.run())
+        with report_io.package_identity_scope(package_identity),attempts.single_attempt(business_day):run_package('install')
 
 
 if __name__=='__main__':main()

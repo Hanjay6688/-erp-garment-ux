@@ -59,6 +59,19 @@ def package_identity_scope(identity):
         yield
 
 
+def private_package_run(package, output, writer):
+    """Bind the outer evidence directory and writer without changing frozen imports."""
+    namespace = dict(package.__dict__, OUT=output, _writer_runtime=writer)
+    for name in ('writer_runtime', 'run'):
+        original = getattr(package, name)
+        if original.__globals__ is not package.__dict__:
+            raise ValueError('MANDOR_EXACT_FROZEN_PACKAGE_FUNCTION_REQUIRED:' + name)
+        clone = FunctionType(original.__code__, namespace, name, original.__defaults__, original.__closure__)
+        clone.__kwdefaults__ = original.__kwdefaults__
+        namespace[name] = clone
+    return namespace['run']
+
+
 def primitive_contract():
     tree = ast.parse(Path(__file__).read_bytes())
     selected = [node for node in tree.body if isinstance(node, ast.FunctionDef) and node.name == 'write_complete']

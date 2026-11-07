@@ -45,9 +45,8 @@ def replacements(name):
              "    engine=ModuleType('writer_a_mandor_exact_whole_package_engine');engine.__file__=str(original)\n"
              '    engine.__dict__[report_io.HELPER]=report_io.write_complete\n'),
             ("ROOT/'scripts/current-unified-candidate/check_source.py'", "ROOT/'scripts/current-mandor-afui-preparation/check_source.py'"),
-            ('            with package_identity.scope(),attempts.single_attempt(business_day):engine.package.run(\'install\')\n',
-             "            report_io=load('mandor_scoped_package_identity',ROOT/'scripts/current-mandor-afui-preparation/report_io.py')\n"
-             "            with report_io.package_identity_scope(package_identity),attempts.single_attempt(business_day):engine.package.run('install')\n"),
+            ("        original=engine.package._writer_runtime;original_output=engine.package.OUT\n        try:\n            engine.package._writer_runtime=lambda browser_mode=False:engine.run()\n            # Only the artifact destination moves to the owning candidate;\n            # the original package and complete backup drill remain exact.\n            engine.package.OUT=ROOT/'cp6-proof/t3'\n            import package_identity\n            with package_identity.scope(),attempts.single_attempt(business_day):engine.package.run('install')\n        finally:\n            engine.package._writer_runtime=original;engine.package.OUT=original_output\n",
+             "        import package_identity\n        report_io=load('mandor_scoped_package_identity',ROOT/'scripts/current-mandor-afui-preparation/report_io.py')\n        run_package=report_io.private_package_run(engine.package,ROOT/'cp6-proof/t3',lambda browser_mode=False:engine.run())\n        with report_io.package_identity_scope(package_identity),attempts.single_attempt(business_day):run_package('install')\n"),
         )
     if name == 'component.py':
         return (
