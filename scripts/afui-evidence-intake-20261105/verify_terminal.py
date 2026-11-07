@@ -11,10 +11,10 @@ import stat
 from retain import api, copy_stream, metadata, require, save
 
 REPOSITORY = 'Hanjay6688/-erp-garment-ux'
-RUN = 42178605233
-JOB = 127762728439
-HEAD = '8e5a0511c0f5a68ea5fcc1cf2649d36703d119ac'
-TREE = 'c72147b650123a1faa38a8ce99144e690cb395d3'
+RUN = 42258224710
+JOB = 128031001027
+HEAD = 'fd797083eab093d9dc97f2d52ca61dc37812b437'
+TREE = '02a8812e9eae2272a976d1dbd1e21aff8c022467'
 BRANCH = 'astra-a/afui-good-nonpayable-20261102'
 OWNER = 'Afui Native9 Auth2 session2 browser2; complete restoration'
 CANONICAL = 'cp7-afui-good-nonpayable-full15-1'
@@ -181,14 +181,14 @@ def save_root(out, receipt):
 
 
 def main():
-    binding = strict(Path(__file__).with_name('terminal_8e5_binding.json').read_bytes())
+    binding = strict(Path(__file__).with_name('terminal_fd79_binding.json').read_bytes())
     outcome, artifact = binding['conclusion'], binding['artifact_id']
     require(outcome in ('success', 'failure', 'cancelled', 'timed_out') and type(artifact) is int and artifact > 0,
             'AFUI_REAL_TERMINAL_BINDING_REQUIRED')
     expected_archive = binding['archive']
     require(type(expected_archive['bytes']) is int and expected_archive['bytes'] > 0,
             'AFUI_EXACT_ARCHIVE_SIZE_REQUIRED')
-    out = Path('afui-8e5-terminal-receipts')
+    out = Path('afui-fd79-terminal-receipts')
     out.mkdir()
     route = f'/repos/{REPOSITORY}/actions/'
     with TemporaryDirectory(prefix='afui-terminal-') as directory:

@@ -1,8 +1,10 @@
-name: Check operator latency measurement without an ERP database
+name: Verify exact terminal Afui source archive without ERP
 'on':
   push:
     branches: [astra-a/afui-evidence-intake-20261105]
-    paths: [.github/workflows/afui-evidence-intake-20261105.yml]
+    paths:
+      - scripts/afui-evidence-intake-20261105/**
+      - .github/workflows/afui-evidence-intake-20261105.yml
 permissions:
   contents: read
   actions: read
@@ -10,29 +12,27 @@ concurrency:
   group: afui-evidence-intake-20261105
   cancel-in-progress: false
 jobs:
-  preflight:
-    name: Check the visible-result timing control in Chromium
+  retain:
+    name: Verify Afui canonical archive and retain exact terminal receipts
     if: github.ref == 'refs/heads/astra-a/afui-evidence-intake-20261105'
-    runs-on: ubuntu-24.04
-    timeout-minutes: 12
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
-          ref: 0b81e4aa9cf498bbaef667ca346d5741a5917fa6
           persist-credentials: false
-      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+          sparse-checkout: scripts/afui-evidence-intake-20261105
+      - name: Verify exact same-run original, every member, and the terminal gate
+        id: verify
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 -B scripts/afui-evidence-intake-20261105/verify_terminal.py
+      - name: Retain only typed terminal and parent receipts
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
-          node-version: '22'
-      - name: Install the locked Chromium test dependencies
-        run: |
-          set -euo pipefail
-          npm ci --include=dev
-          npx --no-install playwright install --with-deps chromium
-      - name: Run the timing control against a deterministic browser page
-        run: |
-          set -euo pipefail
-          test "$(git rev-parse HEAD)" = "0b81e4aa9cf498bbaef667ca346d5741a5917fa6"
-          test "$(git rev-parse HEAD^{tree})" = "26ed7caab1c70b32487cc93650b5a2134546e080"
-          node --check scripts/cp7_r3_chain_browser.mjs
-          node --check scripts/cp7_p11_sales_browser.mjs
-          node scripts/cp7_p19_browser_latency_test.mjs --browser
+          name: afui-42258224710-verified-terminal-receipts
+          path: afui-fd79-terminal-receipts/
+          retention-days: 30
+          if-no-files-found: error
