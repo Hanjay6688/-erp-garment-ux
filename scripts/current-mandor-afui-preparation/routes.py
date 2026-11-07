@@ -8,6 +8,7 @@ AFUI_TREE = '02a8812e9eae2272a976d1dbd1e21aff8c022467'
 PRIOR_AFUI = '76b3f1e1bcce49cc405e55f92a733dcd0f360cad'
 NS = 'scripts/current-mandor-shop-native-qualification/'
 PINS = {
+    'assembly.py': (5817, 'e734356cace6a72b7f3614cd56170d9b1b1ad5645293b933693ae8f5eccd041a'),
     'admission.py': (1447, '609db7cade09a03be8aa4777adac6e11fdf3fc5aec672e625ed96705381e3b6c'),
     'qualification.py': (7161, '3f4bf0cfccbf650240729e01909dcb39b3e88371e59ee14a3bffc5f05934de0b'),
     'component.py': (7956, '31b7626e2488fd4371daa2bf21254583b86299673b91130eb0736778126f5044'),
@@ -19,6 +20,8 @@ PINS = {
 
 
 def replacements(name):
+    if name == 'assembly.py':
+        return (('        self.domain_modules=self.fixture.admitted_modules(cur,qualified_Afui)\n', "        from importlib.util import module_from_spec, spec_from_file_location\n        path=ROOT/'scripts/current-mandor-afui-preparation/report_io.py'\n        spec=spec_from_file_location('mandor_afui_fixture_admission',path)\n        report_io=module_from_spec(spec);spec.loader.exec_module(report_io)\n        self.domain_modules=report_io.admit_afui_fixture(cur,qualified_Afui,self.fixture)\n"),)
     if name == 'preflight.py':
         return (
             ("admission['PARENT_HEAD']=='" + PRIOR_AFUI + "'", "admission['PARENT_HEAD']=='" + AFUI + "'"),

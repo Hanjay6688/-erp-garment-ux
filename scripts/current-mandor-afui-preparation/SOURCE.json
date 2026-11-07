@@ -260,6 +260,15 @@
       "whole_original_caller_recovered": true,
       "actual_ERP_cases": 0,
       "production_go": false
+    },
+    "assembly.py": {
+      "original_bytes": 5817,
+      "original_sha256": "e734356cace6a72b7f3614cd56170d9b1b1ad5645293b933693ae8f5eccd041a",
+      "derived_sha256": "83dde26124852056ae53974a5d8c649f307d58d1daacc5c349a804b63c4d690c",
+      "exact_routes": 1,
+      "whole_original_caller_recovered": true,
+      "actual_ERP_cases": 0,
+      "production_go": false
     }
   },
   "files": {
@@ -280,12 +289,12 @@
       "sha256": "fe05d57990da9c16ad01b71d736010dc11391d502a515d4252282b674d3d0eb1"
     },
     "scripts/current-mandor-afui-preparation/report_io.py": {
-      "bytes": 8616,
-      "sha256": "16e7f8e26a81dae01dcc7b8b3719aad2c46374dfd9b73ddbb144775e3a92a0a8"
+      "bytes": 9952,
+      "sha256": "9ea4d20bae889ce125e0442542e6635bb051735dadb90310d00ca7dc2691978c"
     },
     "scripts/current-mandor-afui-preparation/routes.py": {
-      "bytes": 11550,
-      "sha256": "4a020a5a7cc379720a5c9f8cd38c20a3079f41cf8899ef870a9dfe46b62d2e28"
+      "bytes": 12177,
+      "sha256": "d229b118626779bb48990dd2c0ad56d42d0f5d68490b1b7503e5c99a5d39c057"
     },
     "scripts/current-mandor-afui-preparation/test_output_binding.py": {
       "bytes": 8270,
@@ -386,6 +395,10 @@
     "scripts/current-mandor-afui-preparation/FROZEN_AFUI_PREFLIGHT_CONTROLS_20261105.json": {
       "bytes": 1810,
       "sha256": "ae2328933041e757ed019f6fe369f1479409ecd0c22168a3c1d1b820c85fa7e6"
+    },
+    "scripts/current-mandor-shop-native-qualification/assembly.py": {
+      "bytes": 6130,
+      "sha256": "83dde26124852056ae53974a5d8c649f307d58d1daacc5c349a804b63c4d690c"
     }
   },
   "financial_assertions_and_owning_recovery_unchanged": true,
