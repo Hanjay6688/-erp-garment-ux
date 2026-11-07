@@ -21,6 +21,46 @@ def load(name):
 
 
 class CurrentWorkflow(unittest.TestCase):
+    def test_runner_outputs_do_not_expand_the_source_file_set(self):
+        fence = load('check_source')
+        with TemporaryDirectory() as directory:
+            root = Path(directory)
+
+            def write(name, raw=b'{}\n'):
+                path = root / name
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_bytes(raw)
+                return path
+
+            archived = '.github/workflows/old.yml'
+            stored = 'scripts/current-workflow-history-isolation/frozen-workflows/old.txt'
+            original = b'name: historical\n'
+            write(fence.HISTORICAL_WORKFLOWS, json.dumps({'files': [
+                dict(path=archived, archive=stored, **fence.pin(original)),
+            ]}).encode())
+            write(stored, original)
+            exact = write(archived, original)
+            receipt = fence.PROOF_ROOT + 'ARTIFACT_FETCH/' + 'a' * 32 + '-1.json'
+            terminal = fence.PROOF_ROOT + 'MANDOR_CASE_STDOUT/' + 'b' * 64 + '.jsonl'
+            generated = {receipt, terminal, fence.PROOF_ROOT + 'AFUI15_PARENT_ORIGINAL_ADMISSION.json'}
+            for name in generated:
+                write(name)
+            unknown = {fence.PROOF_ROOT + 'MANDOR_OVERRIDE.py', '.github/workflows/new.yml', 'src/unexpected.json'}
+            for name in unknown:
+                write(name)
+
+            self.assertEqual(fence.runner_inputs(root, generated | unknown | {archived}), generated | {archived})
+            exact.write_bytes(original + b'\n')
+            with self.assertRaisesRegex(ValueError, 'EXACT_ARCHIVED_HISTORICAL_WORKFLOW'):
+                fence.runner_inputs(root, {archived})
+            (root / receipt).chmod(0o755)
+            with self.assertRaisesRegex(ValueError, 'REGULAR_NONEXECUTABLE_RUNNER_INPUT'):
+                fence.runner_inputs(root, {receipt})
+            (root / terminal).unlink()
+            (root / terminal).symlink_to(root / stored)
+            with self.assertRaisesRegex(ValueError, 'REGULAR_NONEXECUTABLE_RUNNER_INPUT'):
+                fence.runner_inputs(root, {terminal})
+
     def test_real_shell_runs_Afui_static_check_inside_frozen_parent_only(self):
         import yaml
         text, _ = load('workflow').derive()

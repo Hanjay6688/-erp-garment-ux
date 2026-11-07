@@ -6,6 +6,8 @@ import ast
 import importlib.util
 import json
 import os
+import re
+import stat
 import subprocess
 
 HERE = Path(__file__).resolve().parent
@@ -27,6 +29,19 @@ COMPONENT_ADMISSION = 'scripts/cp7_mandor_shop/admission.py'
 COMPONENT_SOURCE = 'scripts/cp7_mandor_shop/SOURCE.json'
 PREPARED = 'CURRENT_AFUI_MANDOR_SOURCE_PREPARATION_NOT_RUNTIME'
 ADOPTED = 'CURRENT_AFUI_MANDOR_ACTUAL_PARENT_BOUND_SOURCE'
+HISTORICAL_WORKFLOWS = 'scripts/current-workflow-history-isolation/ARCHIVE.json'
+PROOF_ROOT = 'cp6-proof/t3/'
+PROOF_OUTPUT = re.compile(
+    r'(?:(?:AFUI(?:15)?_|MANDOR_|CP7_FG_MANDOR_|T3_)[A-Za-z0-9_]+\.(?:json(?:\.gz)?|png)'
+    r'|(?:ALIGNED_CHAIN|FROZEN_SOURCE_WORKTREES|JOIN_CLONE_OUTPUTS_RECEIPT|JOIN_QUALIFIED_BACKEND_CHECKOUT'
+    r'|SKU27_ORIGINALS_COPY_RECEIPT|SKU_COST_ARTIFACT_COPY_RECEIPT)\.json'
+    r'|CLONE_install(?:\.(?:connection-fence|database-identity))?\.txt'
+    r'|CLONE_install\.(?:source-erp|clone-erp)\.sql'
+    r'|ARTIFACT_FETCH/[a-f0-9]{32}-[1-3]\.(?:json|(?:stdout|stderr)\.txt)'
+    r'|disposable-startup-attempts/(?:STARTUP_ATTEMPTS\.json|attempt-[1-4]-(?:start|stop)\.log)'
+    r'|MANDOR_CASE_STDOUT/(?:[a-f0-9]{64}\.jsonl|(?:AFUI_|MANDOR_|CP7_FG_MANDOR_)[A-Za-z0-9_]+\.json(?:\.gz)?)'
+    r'|MANDOR_NATIVE_ORIGINALS/MANDOR_[A-Z0-9_]+\.json\.gz)'
+)
 
 
 def require(value, reason):
@@ -118,6 +133,27 @@ def selective_ui(value, base, approved):
     return result
 
 
+def runner_inputs(root, names):
+    """Separate untracked runner outputs from immutable source at every gate."""
+    historical = json.loads((root / HISTORICAL_WORKFLOWS).read_bytes())['files']
+    archived = {row['path']: row for row in historical}
+    accepted = names & archived.keys()
+    accepted |= {name for name in names if name.startswith(PROOF_ROOT)
+                 and PROOF_OUTPUT.fullmatch(name.removeprefix(PROOF_ROOT))}
+    for name in sorted(accepted):
+        path = root / name
+        require(not any(part.is_symlink() for part in (path, *path.parents))
+                and stat.S_ISREG(path.lstat().st_mode) and not (path.stat().st_mode & 0o111),
+                'MANDOR_REGULAR_NONEXECUTABLE_RUNNER_INPUT_REQUIRED:' + name)
+        if name in archived:
+            entry = archived[name]
+            raw = path.read_bytes()
+            require(pin(raw) == {key: entry[key] for key in ('bytes', 'sha256')}
+                    and raw == (root / entry['archive']).read_bytes(),
+                    'MANDOR_EXACT_ARCHIVED_HISTORICAL_WORKFLOW_REQUIRED:' + name)
+    return accepted
+
+
 def source(*, allow_sparse_observation=False):
     manifest = json.loads((HERE / 'SOURCE.json').read_bytes())
     adopted = 'actual_Afui_adoption' in manifest
@@ -183,9 +219,14 @@ def source(*, allow_sparse_observation=False):
                 'MANDOR_CURRENT_UNDECLARED_PARENT_CHANGE:' + name)
         checked += 1
     require(allow_sparse_observation or not absent, 'MANDOR_CURRENT_FULL_RUNTIME_SOURCE_MATERIALIZATION_REQUIRED')
-    all_paths = {name.decode() for name in git('ls-files', '-z', '--cached', '--others', '--exclude-standard').split(b'\0') if name}
-    require(not (additions & (set(expected) | own)) and all_paths == set(expected) | own | additions,
-            'MANDOR_CURRENT_EXACT_WHOLE_CANDIDATE_FILE_SET_REQUIRED')
+    tracked = {name.decode() for name in git('ls-files', '-z', '--cached').split(b'\0') if name}
+    untracked = {name.decode() for name in git('ls-files', '-z', '--others', '--exclude-standard').split(b'\0') if name}
+    all_paths = tracked | (untracked - runner_inputs(ROOT, untracked) if adopted else untracked)
+    exact_paths = set(expected) | own | additions
+    require(not (additions & (set(expected) | own)) and all_paths == exact_paths,
+            'MANDOR_CURRENT_EXACT_WHOLE_CANDIDATE_FILE_SET_REQUIRED'
+            + ':extra=' + repr(sorted(all_paths - exact_paths)[:12])
+            + ':missing=' + repr(sorted(exact_paths - all_paths)[:12]))
     if not adopted:
         tree = ast.parse((ROOT / routes.NS / 'admission.py').read_bytes())
         values = {target.id: ast.literal_eval(node.value) for node in tree.body
