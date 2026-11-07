@@ -17,7 +17,9 @@ IDS=(
 
 def correction_return(n,cur,today):
     from cases import approved,pay
-    f,physical=n.physical(cur,today);sale=n.create_invoice(cur,f);payroll=n.payroll(cur,f,today)
+    f,physical=n.physical(cur,today);sale=n.create_invoice(cur,f)
+    # This sale and return share the current open WIB posting day.
+    payroll=n.payroll(cur,f,today,keep_posting_day_open=True)
     held=n.allocation(cur,f,payroll,'300000.00');approval=approved(n,cur,f,payroll,today)
     payment=pay(n,cur,f,payroll,today,'300000.00')
     original_sale=f['sale'];n.admin(cur)

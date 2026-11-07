@@ -8,6 +8,7 @@ AFUI_TREE = '02a8812e9eae2272a976d1dbd1e21aff8c022467'
 PRIOR_AFUI = '76b3f1e1bcce49cc405e55f92a733dcd0f360cad'
 NS = 'scripts/current-mandor-shop-native-qualification/'
 PINS = {
+    'additional_cases.py': (11438, '2fef6edab13d9b7fcf716fb85a5e8da08dc1d144713109950fc29cb8b9cedfa9'),
     'advisor_review.py': (8140, '4bfe15aedd3d61228f7f59b8b863b6109b8c8d6779797ccf0e9b9f4fe9da17e8'),
     'cases.py': (11526, 'fefe8106c36976a4853703244f2cc3b48f9bf2b93b95a5b9bbe9a42a2773d8fd'),
     'oracle.py': (5845, '046702c7847e85d74c0f928e4d3db5dd86867272317f5618fbe7f3d444851230'),
@@ -67,7 +68,12 @@ def replacements(name):
              '            sale_at=sale_at.astimezone(WIB).isoformat())\n'),
             ('        now=cur.execute("select(statement_timestamp()at time zone\'Asia/Jakarta\')").fetchone()[0]\n        return self.sale_intent(cur,f,\'RETURN\',dict(return_number=\'MANDOR-RET-\'+uuid.uuid4().hex[:12],\n            physical_at=now.isoformat(),notes=\'Return one actual sold piece after lawful offset reversal\',',
              '        now=cur.execute("select statement_timestamp()").fetchone()[0]\n        return self.sale_intent(cur,f,\'RETURN\',dict(return_number=\'MANDOR-RET-\'+uuid.uuid4().hex[:12],\n            physical_at=now.astimezone(WIB).isoformat(),notes=\'Return one actual sold piece after lawful offset reversal\','),
-        ) + TERMINAL_REPAIR[name]
+        ) + TERMINAL_REPAIR[name] + (
+            ("    def payroll(self,cur,f,today,*,gross='2000000.00',back=7):\n        self.admin(cur)\n", "    def payroll(self,cur,f,today,*,gross='2000000.00',back=7,keep_posting_day_open=False):\n        self.admin(cur)\n        if keep_posting_day_open:\n            require(cur.execute('select erp.resolve_accounting_transaction_date(%s::date)',(today,)).fetchone()==(today,),\n                'MANDOR_NATIVE_RETURN_POSTING_DAY_MUST_REMAIN_OPEN')\n"),
+            ('        self.modules.bc.boundary.historical.prior.set_open_period(cur,today)\n', '        if not keep_posting_day_open:\n            self.modules.bc.boundary.historical.prior.set_open_period(cur,today)\n'),
+        )
+    if name == 'additional_cases.py':
+        return (('def correction_return(n,cur,today):\n    from cases import approved,pay\n    f,physical=n.physical(cur,today);sale=n.create_invoice(cur,f);payroll=n.payroll(cur,f,today)\n', 'def correction_return(n,cur,today):\n    from cases import approved,pay\n    f,physical=n.physical(cur,today);sale=n.create_invoice(cur,f)\n    # This sale and return share the current open WIB posting day.\n    payroll=n.payroll(cur,f,today,keep_posting_day_open=True)\n'),)
     if name == 'runtime_prerequisites.py':
         return (
             ("        actor['permissions']={key:cur.execute('select erp.has_permission(%s)',(key,)).fetchone()[0]for key in PERMISSIONS}\n",

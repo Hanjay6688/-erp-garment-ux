@@ -167,8 +167,11 @@ class Native:
         require(Decimal(state['paid'])==0 and Decimal(state['outstanding'])==Decimal(amount),'MANDOR_NATIVE_SAME_UNPAID_INVOICE_REQUIRED')
         return dict(payload=payload,created=made,create_replay=replay,posted=posted,post_replay=post_replay,invoice=state)
 
-    def payroll(self,cur,f,today,*,gross='2000000.00',back=7):
+    def payroll(self,cur,f,today,*,gross='2000000.00',back=7,keep_posting_day_open=False):
         self.admin(cur)
+        if keep_posting_day_open:
+            require(cur.execute('select erp.resolve_accounting_transaction_date(%s::date)',(today,)).fetchone()==(today,),
+                'MANDOR_NATIVE_RETURN_POSTING_DAY_MUST_REMAIN_OPEN')
         # Reuse the unchanged existing fixture to create a DRAFT header only.
         # This is an explicit Native manual adjustment, not seeded wages or
         # an invented posted payable; Native APPROVE owns expense recognition.
@@ -181,7 +184,8 @@ class Native:
             "payment_cash_account_id=case when %s then null else payment_cash_account_id end "
             "where id=%s::uuid and status='DRAFT' returning id::text",(start,end,back<0,payroll)).fetchone()
         require(row==(payroll,),'MANDOR_NATIVE_ONLY_NEW_EMPTY_DRAFT_WEEK')
-        self.modules.bc.boundary.historical.prior.set_open_period(cur,today)
+        if not keep_posting_day_open:
+            self.modules.bc.boundary.historical.prior.set_open_period(cur,today)
         row=cur.execute('select contractor_id::text,period_start::text,period_end::text,status,payment_date,payment_cash_account_id from erp.payroll_settlements where id=%s::uuid',
             (payroll,)).fetchone()
         require(row[0]==f['contractor']and row[3]=='DRAFT','MANDOR_NATIVE_EXPLICIT_SAME_MANDOR_DRAFT_PAYROLL')
