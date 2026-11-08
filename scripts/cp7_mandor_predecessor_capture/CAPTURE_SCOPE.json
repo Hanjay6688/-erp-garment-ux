@@ -1,0 +1,53 @@
+{
+  "classification": "POST_MANDOR_DISPOSABLE_CAPTURE_ONLY_NOT_RUNTIME_ACCEPTANCE",
+  "candidate_head": "e9339f05f61b54570025012e8a5e647db0d39152",
+  "source_failure_run_id": 42423169932,
+  "job_id": 128555786418,
+  "required_routines": [
+    "cp7_credit._consumer_root_source_profile_v1(uuid,uuid,uuid,jsonb)",
+    "cp7_credit.assert_current_source_plan_profile(uuid,uuid,uuid,jsonb)",
+    "cp7_credit.assert_current_materialized_profile(uuid,uuid,uuid)",
+    "cp7_credit.current_materialized_objects(uuid,uuid,uuid)",
+    "cp7_credit.current_effective_paid(uuid)",
+    "cp7_credit.assert_initial_return_closed_v1(uuid)",
+    "cp7_credit.enforce_initial_return_closure_v1()",
+    "erp._cp7_current_credit_adjustment(uuid)",
+    "public.erp_cp7_correct_note_v1(jsonb,uuid,text)",
+    "public.erp_cp7_get_note_correction_v2(uuid)"
+  ],
+  "required_relations": [
+    "cp7_credit.return_families",
+    "cp7_credit.return_family_members",
+    "cp7_credit.cohorts",
+    "cp7_credit.recognition_plans",
+    "cp7_credit.initial_return_materializations",
+    "cp7_credit.initial_return_completions",
+    "cp7_credit.consumption_events",
+    "cp7_credit.financial_materializations",
+    "cp7_credit.financial_materialization_objects",
+    "erp.sales_headers",
+    "cp7_note.revisions",
+    "erp.journal_entries"
+  ],
+  "required_capture_fields": [
+    "function_definition",
+    "oid",
+    "owner",
+    "language",
+    "kind",
+    "security_definer",
+    "leakproof",
+    "strict",
+    "returns_set",
+    "volatility",
+    "parallel",
+    "cost",
+    "rows",
+    "config",
+    "identity_arguments",
+    "result",
+    "acl_is_null",
+    "raw_acl",
+    "effective_acl"
+  ]
+}
