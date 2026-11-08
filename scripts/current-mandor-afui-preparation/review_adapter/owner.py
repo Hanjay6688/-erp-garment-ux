@@ -12,7 +12,7 @@ from .verify_catalogue_transition import ROUTINES
 ASSET_PINS = {
     "FOCUSED_INSTALLER.sql": "d85ed5728c2a5b5269d12988994a4c5388dc7d60d9e41fd6bc52cd980528ece4",
     "FOCUSED_INSTALLER_RECEIPT.json": "35f2f5fdd76b1de47be912eab08156af796f7616f76b086f81fb66fcd1764ebd",
-    "FORMAL_ALL22_WIB_GUARD_FIXTURE.json": "b83ac92f227353da145cf97c0f21d95c22f90cf308aba831e95560261895da6d",
+    "FORMAL_ALL22_WIB_GUARD_FIXTURE.json": "2d392768907d3ab4bb232df14500ec43160347a46395ab1b2cd209530cb12349",
     "UNUSED_INVERSE.sql": "04f4b1527fc9f79907460399135fa78d27c442c42fa3f68a29e6b806bba3e681",
 }
 USED = "MANDOR_AFTER_USE_REQUIRES_FULL_BACKUP_RESTORE"
@@ -52,6 +52,15 @@ def installer_body(raw):
     return "\n".join(lines[2:-1]) + "\n"
 
 
+def execute_as_trusted_installer(cur, mandor, statement):
+    # The owning workflow already uses a disposable maintenance session.
+    # Use its verified identity for DDL spanning multiple schema owners.
+    mandor.trusted_installer(cur)
+    installer = cur.execute("select session_user").fetchone()[0]
+    with mandor.as_role(cur, installer, {installer}):
+        cur.execute(statement, prepare=False)
+
+
 def normalize_used(error):
     if isinstance(error, ValueError):
         text = str(error)
@@ -83,8 +92,7 @@ class Adapter:
             mandor.trusted_installer(cur)
             mandor.verify(cur, original)
             raw_before = mandor.native_identity(cur, ROUTINES)
-            with mandor.as_role(cur, "postgres", {"postgres"}):
-                cur.execute(self._installer, prepare=False)
+            execute_as_trusted_installer(cur, mandor, self._installer)
             adapted = binding.bind(mandor, cur, original, raw_before, self._footprint, self._receipt)
         return adapted, raw_before
 
@@ -97,8 +105,7 @@ class Adapter:
                 mandor.trusted_installer(cur)
                 self.verify(cur, mandor, original, adapted, raw_before)
                 cur.execute(original_unused_guard(original["plan"]["tables"]), prepare=False)
-                with mandor.as_role(cur, "postgres", {"postgres"}):
-                    cur.execute(self._inverse, prepare=False)
+                execute_as_trusted_installer(cur, mandor, self._inverse)
                 require(mandor.native_identity(cur, ROUTINES) == raw_before,
                         "MANDOR_ADAPTER_INVERSE_RAW_AUTHORITY_CHANGED")
                 # The original inverse re-verifies its complete exact catalogue

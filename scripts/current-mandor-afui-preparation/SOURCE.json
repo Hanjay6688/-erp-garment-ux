@@ -501,7 +501,7 @@
     },
     "scripts/current-mandor-afui-preparation/review_adapter/FORMAL_ALL22_WIB_GUARD_FIXTURE.json": {
       "bytes": 7132,
-      "sha256": "b83ac92f227353da145cf97c0f21d95c22f90cf308aba831e95560261895da6d"
+      "sha256": "2d392768907d3ab4bb232df14500ec43160347a46395ab1b2cd209530cb12349"
     },
     "scripts/current-mandor-afui-preparation/review_adapter/UNUSED_INVERSE.sql": {
       "bytes": 24817,
@@ -528,8 +528,8 @@
       "sha256": "ecde9553e03b7546adbdef30e9171c9322e746549065699002b37e656916ee7e"
     },
     "scripts/current-mandor-afui-preparation/review_adapter/owner.py": {
-      "bytes": 5297,
-      "sha256": "c9e410ce057ea1e441d587a44d7c498608e431c6a11a6b11391bc639d4bcb77d"
+      "bytes": 5592,
+      "sha256": "087a8efbd3152e65c16375d337c9b6f1d309053b61f6b74938d27debafd0d9ce"
     },
     "scripts/current-mandor-afui-preparation/review_adapter/verify_catalogue_transition.py": {
       "bytes": 2202,
