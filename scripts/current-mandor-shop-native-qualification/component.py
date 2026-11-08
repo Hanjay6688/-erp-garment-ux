@@ -48,7 +48,7 @@ def context(product,state,*,scope='NATIVE9'):
     require(Path(funding.__file__).resolve()==FROZEN/'scripts/cp7_cash_funding.py',
         'MANDOR_NATIVE_EXACT_PARENT_CASH_FUNDING_MODULE')
     return Native(product.domain_modules,product.fixture,finish,master,sales,draft,
-        product.mandor,state['Mandor'],funding=funding,scope=scope)
+        product,state,funding=funding,scope=scope)
 
 
 def exercise(product,trusted_connection,conn,cur,database,url,report,state):

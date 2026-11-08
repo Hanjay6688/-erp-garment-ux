@@ -6,7 +6,9 @@ opens no connection, changes no component gate, and runs no case on import.
 """
 from pathlib import Path
 from hashlib import sha256
-import json,subprocess
+import json,subprocess,sys
+from importlib import import_module
+from importlib.util import module_from_spec, spec_from_file_location
 import admission
 
 HERE=Path(__file__).resolve().parent
@@ -26,6 +28,23 @@ def pin(raw):return dict(bytes=len(raw),sha256=sha256(raw).hexdigest())
 def canonical(value):return json.dumps(value,sort_keys=True,separators=(',',':'),allow_nan=False).encode()
 
 
+
+def load_review_adapter():
+    directory = ROOT / 'scripts/current-mandor-afui-preparation/review_adapter'
+    path = directory / '__init__.py'
+    name = 'mandor_exact_review_adapter'
+    package = sys.modules.get(name)
+    if package is None:
+        spec = spec_from_file_location(name, path, submodule_search_locations=[str(directory)])
+        package = module_from_spec(spec)
+        sys.modules[name] = package
+        spec.loader.exec_module(package)
+    require(Path(package.__file__).resolve() == path.resolve(), 'MANDOR_ADAPTER_PACKAGE_PATH_CHANGED')
+    owner = import_module(name + '.owner')
+    require(Path(owner.__file__).resolve() == (directory / 'owner.py').resolve(), 'MANDOR_ADAPTER_OWNER_PATH_CHANGED')
+    return owner.Adapter('b0dd950d7383089486358b7d29e2b38f29770b1bf4c37017d11c5511149a84d1')
+
+
 class Assembly:
     USED_ERROR=USED_ERROR
     def __init__(self,parent_module,parent_fixture,mandor_module,parent_raw):
@@ -41,6 +60,7 @@ class Assembly:
         require(subprocess.run(['git','-C',str(FROZEN),'diff','--quiet','HEAD','--']).returncode==0,'MANDOR_ASSEMBLY_FROZEN_PARENT_WORKTREE_CHANGED')
         self._parent=parent_module;self.fixture=parent_fixture;self.mandor=mandor_module
         self.domain_modules=None
+        self._adapter=load_review_adapter()
         self.sources()
 
     def parent(self):return self._parent
@@ -55,6 +75,7 @@ class Assembly:
         require(own['actual_final_parent_admission']==admission.PARENT_HEAD,'MANDOR_ASSEMBLY_COMPONENT_ACTUAL_PARENT_NOT_BOUND')
         self.mandor.admission.runtime_admission(self.parent_raw)
         return dict(contract=CONTRACT,parent_root=pin(self.parent_raw),qualified_Afui_sources=pin(canonical(graph)),Mandor_sources=own,
+            Mandor_review_adapter=self._adapter.sources(),
             actual_Native_cases=0,actual_Auth_HTTP_cases=0,actual_browser_cases=0,production_go=False,independent_acceptance=False)
 
     def install_delta(self,cur,qualified_Afui):
@@ -69,23 +90,25 @@ class Assembly:
         self.domain_modules=report_io.admit_afui_fixture(cur,qualified_Afui,self.fixture)
         child=self.mandor.install(cur,self.parent_raw)
         require(child['before']==qualified_Afui['after'],'MANDOR_ASSEMBLY_COMPLETE_PARENT_CATALOGUE_LINEAGE')
-        state=dict(contract=CONTRACT,sources=source,parent=qualified_Afui,Mandor=child,
-            before=child['before'],after=child['after'])
+        adapted, raw = self._adapter.install(cur, self.mandor, child)
+        state=dict(contract=CONTRACT,sources=source,parent=qualified_Afui,Mandor=adapted,
+            Original_Mandor=child,review_adapter_raw=raw,before=child['before'],after=adapted['after'])
         self.verify(cur,state);return state
 
     def install(self,cur):return self.install_delta(cur,self._parent.install(cur))
 
     def verify(self,cur,state):
         require(state.get('contract')==CONTRACT and state['sources']==self.sources(),'MANDOR_ASSEMBLY_SOURCE_OR_CONTRACT_CHANGED')
-        require(state['before']==state['parent']['after']==state['Mandor']['before']and state['after']==state['Mandor']['after'],
+        original=state['Original_Mandor']
+        require(state['before']==state['parent']['after']==original['before']and state['after']==state['Mandor']['after'],
             'MANDOR_ASSEMBLY_PARENT_OR_CHILD_CATALOGUE_BINDING_CHANGED')
-        verified=self.mandor.verify(cur,state['Mandor'])
+        verified=self._adapter.verify(cur,self.mandor,original,state['Mandor'],state['review_adapter_raw'])
         return dict(contract=CONTRACT,Mandor=verified,entire_qualified_parent_preserved_by_exact_Mandor_transition=True,
             actual_Auth_HTTP_or_browser_qualification=False,production_go=False,independent_acceptance=False)
 
     def rollback_delta_preuse(self,cur,state):
         self.verify(cur,state)
-        try:value=self.mandor.rollback_preuse(cur,state['Mandor'])
+        try:value=self._adapter.rollback(cur,self.mandor,state['Original_Mandor'],state['Mandor'],state['review_adapter_raw'])
         except ValueError as error:
             if str(error).startswith(USED_ERROR+':'):raise ValueError(USED_ERROR)from error
             raise

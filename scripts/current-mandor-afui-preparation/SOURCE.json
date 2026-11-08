@@ -344,8 +344,8 @@
       "sha256": "d85af2c741f707b378e09c6e07ab789cb76450d0e58f470913a81e936c5797b2"
     },
     "scripts/current-mandor-afui-preparation/check_source.py": {
-      "bytes": 17281,
-      "sha256": "73d41ec939113af1817311b63a832c0efca18e38407696dfe36a2be4193d1f6c"
+      "bytes": 20005,
+      "sha256": "703e5043f6bf9dda601a4ff1c0082efc989c218dbf83911759b89b7906b2a30b"
     },
     "scripts/current-mandor-afui-preparation/output_binding.py": {
       "bytes": 9010,
@@ -376,8 +376,8 @@
       "sha256": "f9ec5c49b1d18d9d67e95b4d3ec514cc84d0d9986ef9fff87db6e8090a922802"
     },
     "scripts/current-mandor-shop-native-qualification/component.py": {
-      "bytes": 8206,
-      "sha256": "bf9a376506a9397b285ef61c5f78d4c1be53166d1f7bf5bc0473681391bb66cf"
+      "bytes": 8189,
+      "sha256": "e8a898227a579d8c7ed4844424df587ef90e37bb9cda7a42c769e39577283829"
     },
     "scripts/current-mandor-shop-native-qualification/qualification.py": {
       "bytes": 7501,
@@ -460,8 +460,8 @@
       "sha256": "ae2328933041e757ed019f6fe369f1479409ecd0c22168a3c1d1b820c85fa7e6"
     },
     "scripts/current-mandor-shop-native-qualification/assembly.py": {
-      "bytes": 6130,
-      "sha256": "83dde26124852056ae53974a5d8c649f307d58d1daacc5c349a804b63c4d690c"
+      "bytes": 7427,
+      "sha256": "57b814105f3dba27b4f3cdb34078335f61d053d3d3a774e25d520280d4236481"
     },
     "scripts/current-mandor-shop-native-qualification/runtime_prerequisites.py": {
       "bytes": 8814,
@@ -490,6 +490,50 @@
     "scripts/current-mandor-shop-native-qualification/additional_cases.py": {
       "bytes": 11536,
       "sha256": "52c7a936f25b4dff5164a3b81853d3b99fa3fb14cb9a767358996ecf7045adc7"
+    },
+    "scripts/current-mandor-afui-preparation/review_adapter/FOCUSED_INSTALLER.sql": {
+      "bytes": 69556,
+      "sha256": "d85ed5728c2a5b5269d12988994a4c5388dc7d60d9e41fd6bc52cd980528ece4"
+    },
+    "scripts/current-mandor-afui-preparation/review_adapter/FOCUSED_INSTALLER_RECEIPT.json": {
+      "bytes": 1939,
+      "sha256": "35f2f5fdd76b1de47be912eab08156af796f7616f76b086f81fb66fcd1764ebd"
+    },
+    "scripts/current-mandor-afui-preparation/review_adapter/FORMAL_ALL22_WIB_GUARD_FIXTURE.json": {
+      "bytes": 7132,
+      "sha256": "b83ac92f227353da145cf97c0f21d95c22f90cf308aba831e95560261895da6d"
+    },
+    "scripts/current-mandor-afui-preparation/review_adapter/UNUSED_INVERSE.sql": {
+      "bytes": 24817,
+      "sha256": "04f4b1527fc9f79907460399135fa78d27c442c42fa3f68a29e6b806bba3e681"
+    },
+    "scripts/current-mandor-afui-preparation/review_adapter/VERIFIED_FOCUS_TERMINAL.json": {
+      "bytes": 330,
+      "sha256": "b0dd950d7383089486358b7d29e2b38f29770b1bf4c37017d11c5511149a84d1"
+    },
+    "scripts/current-mandor-afui-preparation/review_adapter/__init__.py": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "scripts/current-mandor-afui-preparation/review_adapter/bind_mandor_adapter.py": {
+      "bytes": 1692,
+      "sha256": "850fbfeb763884ab26f6552377d8c386139044cf6ceb36943ee5d99d01a7f06c"
+    },
+    "scripts/current-mandor-afui-preparation/review_adapter/derive_owning_adapter_routes.py": {
+      "bytes": 4298,
+      "sha256": "8d0f5165facf821f44afd04ad7599f2c82f473f7d248db85df78630fc68b70ad"
+    },
+    "scripts/current-mandor-afui-preparation/review_adapter/guard_original_unused.py": {
+      "bytes": 854,
+      "sha256": "ecde9553e03b7546adbdef30e9171c9322e746549065699002b37e656916ee7e"
+    },
+    "scripts/current-mandor-afui-preparation/review_adapter/owner.py": {
+      "bytes": 5297,
+      "sha256": "c9e410ce057ea1e441d587a44d7c498608e431c6a11a6b11391bc639d4bcb77d"
+    },
+    "scripts/current-mandor-afui-preparation/review_adapter/verify_catalogue_transition.py": {
+      "bytes": 2202,
+      "sha256": "f6803c4fdceee2baee680388aea25fa0758d893c3c945189e999199779fe371a"
     }
   },
   "financial_assertions_and_owning_recovery_unchanged": true,
@@ -629,5 +673,8 @@
       "bytes": 38453,
       "sha256": "5f7fc30f2c1e3c6d17b91e62740fc25017c0abf932b1df93f8d2e9f8b7884126"
     }
+  },
+  "actual_Mandor_review_adapter": {
+    "terminal_sha256": "b0dd950d7383089486358b7d29e2b38f29770b1bf4c37017d11c5511149a84d1"
   }
 }
