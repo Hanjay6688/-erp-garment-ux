@@ -653,7 +653,8 @@ begin
   v_effect := cp7_note_zero_effect.assert_price_effect_v1(
     prep.before_snapshot, after_snapshot, prep.previous_sale_id,
     replacement.id, (prep.price_intent->>'after_net')::numeric);
-  v_current_profile := cp7_credit.current_materialized_objects(
+  -- The paid and deferred closure readers verify the complete inspected profile.
+  v_current_profile := cp7_credit.inspect_current_materialized_profile(
     replacement.id, prep.root_sale_id, replacement.id);
   current_return_facts := cp7_note_zero_effect.ordinary_reversed_history_v1(
     prep.root_sale_id, replacement.id, v_current_profile);

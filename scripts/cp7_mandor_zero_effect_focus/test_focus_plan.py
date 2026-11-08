@@ -82,6 +82,10 @@ def focus_repo():
         (tools / focus_identity.WORKFLOW_PATH).write_text("PO refresh predecessor\n")
         git(tools, "add", ".")
         git(tools, "commit", "-qm", "focus review context repair")
+        prior_hpp_focus_head = git(tools, "rev-parse", "HEAD")
+        (tools / focus_identity.WORKFLOW_PATH).write_text("inspected profile predecessor\n")
+        git(tools, "add", ".")
+        git(tools, "commit", "-qm", "focus HPP metadata repair")
         previous_focus_head = git(tools, "rev-parse", "HEAD")
         for name in focus_identity.CORRECTED_FILES:
             (tools / name).write_text("corrected fixture\n")
@@ -93,6 +97,7 @@ def focus_repo():
                    GITHUB_SHA=git(tools, "rev-parse", "HEAD"), GITHUB_WORKSPACE=temporary)
         with patch.multiple(focus_identity, PRODUCT_HEAD=product_head, PRODUCT_TREE=product_tree,
                             PREVIOUS_FOCUS_HEAD=previous_focus_head,
+                            PRIOR_HPP_FOCUS_HEAD=prior_hpp_focus_head,
                             PRIOR_RECOVERY_FOCUS_HEAD=prior_recovery_focus_head,
                             PRIOR_CONTEXT_FOCUS_HEAD=prior_context_focus_head,
                             INITIAL_FOCUS_HEAD=initial_focus_head), working_directory(root / "writer"):
@@ -134,7 +139,7 @@ def test_workflow_is_one_case_no_browser_no_qualification():
     steps = job["steps"]
     tools = next(step["with"] for step in steps if step.get("with", {}).get("path") == "focus-tools")
     product = next(step["with"] for step in steps if step.get("with", {}).get("path") == "auditor")
-    assert tools["fetch-depth"] == 6 and "ref" not in tools
+    assert tools["fetch-depth"] == 7 and "ref" not in tools
     assert product["ref"] == focus_identity.PRODUCT_HEAD and product["fetch-depth"] == 0
     names = [step.get("name", "") for step in steps]
     assert sum("one exact correction case" in name.lower() for name in names) == 1
