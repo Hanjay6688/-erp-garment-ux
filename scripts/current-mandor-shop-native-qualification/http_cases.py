@@ -132,7 +132,7 @@ def cached_revocation(http,today,product,state,fixture):
             finally:
                 if not future.done():holder.rollback()
         elapsed=monotonic()-start
-        denied(pending,'could not obtain lock on relation "app_users"','55P03')
+        denied(pending,'could not obtain lock on relation "erp.app_users"','55P03')
         require(elapsed<3,'MANDOR_HTTP_PENDING_REVOCATION_MUST_REFUSE_PROMPTLY')
         holder.commit()
     revoked=observe(ctx,http)

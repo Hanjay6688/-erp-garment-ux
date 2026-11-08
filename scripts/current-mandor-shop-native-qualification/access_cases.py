@@ -271,7 +271,7 @@ def cached_access_revocation(ctx,tools,*,sale):
             finally:
                 if not pending.done():holder.rollback()
         require(busy['backend_pid']!=holder_pid,'MANDOR_ACCESS_TWO_DISTINCT_REVOCATION_BACKENDS')
-        refused(busy,'55P03','could not obtain lock on relation "app_users"')
+        refused(busy,'55P03','could not obtain lock on relation "erp.app_users"')
         require(busy['elapsed']<3,'MANDOR_ACCESS_PERMISSION_NOWAIT_MUST_NOT_TIMEOUT')
         holder.commit()
     revoked=ctx.observe(tools)

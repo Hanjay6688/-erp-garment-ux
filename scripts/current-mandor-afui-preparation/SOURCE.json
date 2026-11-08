@@ -318,8 +318,8 @@
     "advisor_review.py": {
       "original_bytes": 8140,
       "original_sha256": "4bfe15aedd3d61228f7f59b8b863b6109b8c8d6779797ccf0e9b9f4fe9da17e8",
-      "derived_sha256": "538c97c4d3e89fa9085386a115e7c3bbd3df818943130efebe7b855bf1b87c73",
-      "exact_routes": 1,
+      "derived_sha256": "d955e956cd65431ce8910e0d09e5ebdc1bd6b5a85a9f4b263ae5ebb2545be40c",
+      "exact_routes": 7,
       "whole_original_caller_recovered": true,
       "actual_ERP_cases": 0,
       "production_go": false
@@ -328,6 +328,24 @@
       "original_bytes": 11438,
       "original_sha256": "2fef6edab13d9b7fcf716fb85a5e8da08dc1d144713109950fc29cb8b9cedfa9",
       "derived_sha256": "52c7a936f25b4dff5164a3b81853d3b99fa3fb14cb9a767358996ecf7045adc7",
+      "exact_routes": 1,
+      "whole_original_caller_recovered": true,
+      "actual_ERP_cases": 0,
+      "production_go": false
+    },
+    "access_cases.py": {
+      "original_bytes": 18914,
+      "original_sha256": "66ada107055893b894a51789a539e0c9b30b52d9c6f363e9ec2a85539ed839b1",
+      "derived_sha256": "2ed03c1bafdad73486bee6abb7136fadfc6350a5c0d8f8d6ddba9954cb7a683e",
+      "exact_routes": 1,
+      "whole_original_caller_recovered": true,
+      "actual_ERP_cases": 0,
+      "production_go": false
+    },
+    "http_cases.py": {
+      "original_bytes": 9464,
+      "original_sha256": "59665e1e8ab2e784313034b0b61584ecdf9c379e486aa436091f5aa5a7f82720",
+      "derived_sha256": "d100ef51cfa32da5605e6172480e6dd86703e065c871a3afc970adf279affabc",
       "exact_routes": 1,
       "whole_original_caller_recovered": true,
       "actual_ERP_cases": 0,
@@ -356,8 +374,8 @@
       "sha256": "300a4239a2e3fec6bbd6fa6fc8115a730034592aa362fee1993cff013e0c3c25"
     },
     "scripts/current-mandor-afui-preparation/routes.py": {
-      "bytes": 27925,
-      "sha256": "7413f8b5c418c151d9e607843988fb6127491c6f2ad23c6d4b1e127ef0402da9"
+      "bytes": 42280,
+      "sha256": "4198b523083f58b2f53826b8ce6ef02a68451c38158be9e298d887d652a9714c"
     },
     "scripts/current-mandor-afui-preparation/test_output_binding.py": {
       "bytes": 8270,
@@ -484,8 +502,8 @@
       "sha256": "5e69eff9701deb72b8644d56454cff25127af96e54210df99ab67b17dbbb04b0"
     },
     "scripts/current-mandor-shop-native-qualification/advisor_review.py": {
-      "bytes": 8140,
-      "sha256": "538c97c4d3e89fa9085386a115e7c3bbd3df818943130efebe7b855bf1b87c73"
+      "bytes": 8942,
+      "sha256": "d955e956cd65431ce8910e0d09e5ebdc1bd6b5a85a9f4b263ae5ebb2545be40c"
     },
     "scripts/current-mandor-shop-native-qualification/additional_cases.py": {
       "bytes": 11536,
@@ -534,6 +552,14 @@
     "scripts/current-mandor-afui-preparation/review_adapter/verify_catalogue_transition.py": {
       "bytes": 2202,
       "sha256": "f6803c4fdceee2baee680388aea25fa0758d893c3c945189e999199779fe371a"
+    },
+    "scripts/current-mandor-shop-native-qualification/access_cases.py": {
+      "bytes": 18918,
+      "sha256": "2ed03c1bafdad73486bee6abb7136fadfc6350a5c0d8f8d6ddba9954cb7a683e"
+    },
+    "scripts/current-mandor-shop-native-qualification/http_cases.py": {
+      "bytes": 9468,
+      "sha256": "d100ef51cfa32da5605e6172480e6dd86703e065c871a3afc970adf279affabc"
     }
   },
   "financial_assertions_and_owning_recovery_unchanged": true,
