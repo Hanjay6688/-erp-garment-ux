@@ -50,7 +50,7 @@ def derive(raw: bytes, approved_branch: str = APPROVED_BRANCH) -> bytes:
         "        path: auditor\n", f"        ref: {PRODUCT_HEAD}\n        path: auditor\n", 1)
     tools_checkout = AUDITOR_CHECKOUT.replace(
         "        path: auditor\n", "        path: focus-tools\n", 1).replace(
-            "fetch-depth: 0", "fetch-depth: 3", 1)
+            "fetch-depth: 0", "fetch-depth: 4", 1)
     body = body.replace(AUDITOR_CHECKOUT, tools_checkout + product_checkout, 1)
     window = """    - name: Require bounded four-hour WIB focus window plus setup reserve
       working-directory: auditor
@@ -102,7 +102,7 @@ concurrency:
   group: cp7-mandor-zero-effect-focus-single
   cancel-in-progress: false
 """
-    suffix = f"""    - name: Run one exact correction case and prove transaction rollback
+    suffix = f"""    - name: Run one exact correction case and prove database recovery
       working-directory: writer
       env:
         CP7_FOCUS_APPROVED_REF: refs/heads/{approved_branch}

@@ -13,7 +13,7 @@ import yaml
 
 import focus_identity
 from build_focus_workflow import derive
-from focus_transaction import prepare_native_case, rollback_boundary
+from focus_transaction import case_recovery, installed_source_catalogue, prepare_native_case, rollback_boundary
 
 
 ROOT = Path(__file__).resolve().parent
@@ -70,6 +70,10 @@ def focus_repo():
             path.write_text("fixture\n")
         git(tools, "add", ".")
         git(tools, "commit", "-qm", "focus")
+        initial_focus_head = git(tools, "rev-parse", "HEAD")
+        (tools / focus_identity.WORKFLOW_PATH).write_text("previous focus\n")
+        git(tools, "add", ".")
+        git(tools, "commit", "-qm", "previous focus source-context correction")
         previous_focus_head = git(tools, "rev-parse", "HEAD")
         for name in focus_identity.CORRECTED_FILES:
             (tools / name).write_text("corrected fixture\n")
@@ -80,7 +84,8 @@ def focus_repo():
                    GITHUB_RUN_ID="12345", GITHUB_RUN_ATTEMPT="1", MANDOR_NATIVE_CONFIRM="cp6_rollback",
                    GITHUB_SHA=git(tools, "rev-parse", "HEAD"), GITHUB_WORKSPACE=temporary)
         with patch.multiple(focus_identity, PRODUCT_HEAD=product_head, PRODUCT_TREE=product_tree,
-                            PREVIOUS_FOCUS_HEAD=previous_focus_head), working_directory(root / "writer"):
+                            PREVIOUS_FOCUS_HEAD=previous_focus_head,
+                            INITIAL_FOCUS_HEAD=initial_focus_head), working_directory(root / "writer"):
             yield root, env
 
 
@@ -119,7 +124,7 @@ def test_workflow_is_one_case_no_browser_no_qualification():
     steps = job["steps"]
     tools = next(step["with"] for step in steps if step.get("with", {}).get("path") == "focus-tools")
     product = next(step["with"] for step in steps if step.get("with", {}).get("path") == "auditor")
-    assert tools["fetch-depth"] == 3 and "ref" not in tools
+    assert tools["fetch-depth"] == 4 and "ref" not in tools
     assert product["ref"] == focus_identity.PRODUCT_HEAD and product["fetch-depth"] == 0
     names = [step.get("name", "") for step in steps]
     assert sum("one exact correction case" in name.lower() for name in names) == 1
@@ -138,10 +143,10 @@ def test_workflow_is_one_case_no_browser_no_qualification():
 def test_runtime_uses_original_case_and_rolls_back():
     text = source("focus_transaction.py")
     for needle in (
-        "run_case(native, cur, today, additional_cases.correction_return, args.output.parent)",
+        "case = additional_cases.correction_return(native, cur, today)",
         "retain_originals(case, source_root.parents[1], args.output.parent)",
-        "before = rollback_boundary(cur, engine.product)",
-        "restored = rollback_boundary(cur, engine.product)",
+        "with installed_source_catalogue(engine, native, state):",
+        "with (case_recovery(engine, args.output.parent) as recovery,",
         "engine.product.install_delta(cur, parent)",
         "conn.rollback()",
         "full_recovery_verified=True",
@@ -164,15 +169,68 @@ def test_native_setup_and_preinstall_boundary():
     strict.boundary.historical.prior.set_open_period.assert_called_once_with(cur, date(2026, 8, 31))
     native.admin.assert_called_once_with(cur)
 
-    product = Mock()
-    catalogue = Mock()
-    product.runtime.return_value = (catalogue,)
-    assert rollback_boundary(cur, product) == {
-        "catalogue": product.mandor.capture.return_value,
+    engine = Mock()
+    catalogue = engine.predecessor.catalog
+    cur.execute.return_value.fetchone.return_value = (None,)
+    assert rollback_boundary(cur, engine) == {
+        "catalogue": catalogue._portable.return_value,
         "data_and_sequences": catalogue._data.return_value,
+        "private_schema_absent": True,
+        "roles": engine.database._roles.return_value,
     }
-    product.mandor.capture.assert_called_once_with(cur)
+    catalogue._catalog_rows.assert_called_once_with(cur)
+    catalogue._portable.assert_called_once_with(catalogue._catalog_rows.return_value)
     catalogue._data.assert_called_once_with(cur)
+
+
+def test_source_observer_binds_exact_installed_catalogue_and_restores_state():
+    engine, native = Mock(), Mock()
+    control = engine.control
+    control.STATE = None
+    native.modules.control = control
+    installed = {"schemas": {"erp": {"acl": "pinned"}}}
+    try:
+        with installed_source_catalogue(engine, native, {"after": installed}):
+            assert control.STATE["installed_catalog"] is installed
+            raise RuntimeError("fixture failed")
+    except RuntimeError:
+        assert control.STATE is None
+    native.modules.control = Mock()
+    expect_error("EXACT_SOURCE_OBSERVER_REQUIRED",
+                 lambda: installed_source_catalogue(engine, native, {"after": installed}).__enter__())
+
+
+def test_recovery_restores_sequence_drift_and_preserves_original_failure():
+    import json
+
+    engine = Mock()
+    engine.database.SOURCE = engine.drill.SOURCE = "cp6_rollback"
+    engine.database._restore.return_value = {"only_pg_cron_errors": True}
+    baseline = dict(catalogue={"exact": True}, data_and_sequences={"sequence:erp.audit": ["1", False]},
+                    private_schema_absent=True, roles={"exact": True})
+    drift = dict(baseline, data_and_sequences={"sequence:erp.audit": ["1", True]})
+    env = dict(GITHUB_SHA="a" * 40, GITHUB_RUN_ID="12345", GITHUB_RUN_ATTEMPT="1",
+               MANDOR_NATIVE_CONFIRM="cp6_rollback")
+    for restore_matches in (True, False):
+        final = baseline if restore_matches else drift
+        with (TemporaryDirectory() as temporary, patch.dict(os.environ, env),
+              patch("focus_transaction.read_boundary", side_effect=[baseline, drift, final])):
+            root = Path(temporary)
+            def fail():
+                with case_recovery(engine, root):
+                    raise ValueError("exact case error")
+            expect_error("exact case error", fail)
+            failure = json.loads((root / "MANDOR_ZERO_EFFECT_FIRST_FAILURE.json").read_text())
+            result = json.loads((root / "MANDOR_ZERO_EFFECT_ROLLBACK.json").read_text())
+            assert failure["error"] == "exact case error"
+            assert result["rollback_changed_sequences"] == ["sequence:erp.audit"]
+            assert result["rollback_changed_rows"] == [] and result["full_restore_used"]
+            assert result["data_and_sequences_equal"] == restore_matches
+            assert (result["before_sha256"] == result["restored_sha256"]) == restore_matches
+    engine.dump.dump.assert_called_with("cp6_rollback", "/tmp/cp7_mandor_focus_pre_12345.dump")
+    engine.database._restore.assert_called_with("/tmp/cp7_mandor_focus_pre_12345.dump", "cp6_rollback",
+                                                engine.database._database_profile.return_value)
+    engine.drill.docker.assert_called_with("rm", "-f", "/tmp/cp7_mandor_focus_pre_12345.dump", check=False)
 
 
 def test_all_python_sources_compile():

@@ -56,7 +56,7 @@ jobs:
     - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       with:
         path: focus-tools
-        fetch-depth: 3
+        fetch-depth: 4
         persist-credentials: 'false'
     - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       with:
@@ -597,7 +597,7 @@ jobs:
         \ \\\n  'postgresql://postgres:postgres@127.0.0.1:54322/cp6_rollback' \\\n\
         \  cp6_rollback supabase_db_cp5-local \"$RUNNER_TEMP/join-clone/CLONE_install\"\
         \n"
-    - name: Run one exact correction case and prove transaction rollback
+    - name: Run one exact correction case and prove database recovery
       working-directory: writer
       env:
         CP7_FOCUS_APPROVED_REF: refs/heads/astra-a/mandor-zero-effect-focus-20261108

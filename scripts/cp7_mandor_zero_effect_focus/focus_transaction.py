@@ -8,12 +8,14 @@ private objects. No qualification, browser or production credit is emitted.
 """
 
 import argparse
+from contextlib import contextmanager
 from datetime import date
 import gzip
 from hashlib import sha256
 import json
 import os
 from pathlib import Path
+import re
 import sys
 import traceback
 from types import MethodType
@@ -149,25 +151,72 @@ def prepare_native_case(cur, native, strict_runner):
     return today, foundation
 
 
-def rollback_boundary(cur, product):
+@contextmanager
+def installed_source_catalogue(engine, native, state):
+    control = engine.control
+    require(native.modules.control is control, "CP7_FOCUS_EXACT_SOURCE_OBSERVER_REQUIRED")
+    previous = control.STATE
+    control.STATE = dict(installed_catalog=state["after"])
+    try:
+        yield
+    finally:
+        control.STATE = previous
+
+
+def rollback_boundary(cur, engine):
+    catalogue = engine.predecessor.catalog
     return {
-        "catalogue": product.mandor.capture(cur),
-        "data_and_sequences": product.runtime()[-1]._data(cur),
+        "catalogue": catalogue._portable(catalogue._catalog_rows(cur)),
+        "data_and_sequences": catalogue._data(cur),
+        "private_schema_absent": cur.execute("select to_regnamespace('cp7_note_zero_effect')").fetchone() == (None,),
+        "roles": engine.database._roles(cur),
     }
 
 
-def run_case(native, cur, today, case_runner, proof_root):
+def read_boundary(engine):
+    with engine.trusted_installer_connection() as check, check.cursor() as cur:
+        boundary = rollback_boundary(cur, engine)
+        check.rollback()
+    return boundary
+
+
+@contextmanager
+def record_first_failure(proof_root):
     try:
-        return case_runner(native, cur, today)
+        yield
     except Exception as error:
-        (proof_root / "MANDOR_ZERO_EFFECT_FIRST_FAILURE.json").write_bytes(canonical({
-            "status": "INCOMPLETE", "case_id": CASE_ID,
-            "workflow_head": os.environ["GITHUB_SHA"], "github_run_id": os.environ["GITHUB_RUN_ID"],
-            "github_run_attempt": os.environ["GITHUB_RUN_ATTEMPT"], "error_type": type(error).__name__,
-            "sqlstate": getattr(error, "sqlstate", None), "error": str(error),
-            "traceback": traceback.format_exc(), "qualification_credit": 0,
-        }))
-        return None
+        path = proof_root / "MANDOR_ZERO_EFFECT_FIRST_FAILURE.json"
+        if not path.exists():
+            path.write_bytes(canonical({
+                "status": "INCOMPLETE", "case_id": CASE_ID,
+                "workflow_head": os.environ["GITHUB_SHA"], "github_run_id": os.environ["GITHUB_RUN_ID"],
+                "github_run_attempt": os.environ["GITHUB_RUN_ATTEMPT"], "error_type": type(error).__name__,
+                "sqlstate": getattr(error, "sqlstate", None), "error": str(error),
+                "traceback": traceback.format_exc(), "qualification_credit": 0,
+            }))
+        raise
+
+
+@contextmanager
+def case_recovery(engine, proof_root):
+    database = engine.database.SOURCE
+    run_id = os.environ["GITHUB_RUN_ID"]
+    require(database == engine.drill.SOURCE == os.environ["MANDOR_NATIVE_CONFIRM"] == "cp6_rollback"
+            and re.fullmatch(r"[1-9][0-9]*", run_id), "CP7_FOCUS_EXACT_DISPOSABLE_BACKUP_REQUIRED")
+    before = read_boundary(engine)
+    require(before["private_schema_absent"], "CP7_FOCUS_PREEXISTING_PRIVATE_SCHEMA")
+    profile = engine.database._database_profile(database)
+    dump_path = f"/tmp/cp7_mandor_focus_pre_{run_id}.dump"
+    recovery = {}
+    try:
+        engine.dump.dump(database, dump_path)
+        try:
+            with record_first_failure(proof_root):
+                yield recovery
+        finally:
+            recovery.update(save_recovery(engine, before, proof_root, dump_path, profile))
+    finally:
+        engine.drill.docker("rm", "-f", dump_path, check=False)
 
 
 def main():
@@ -184,15 +233,15 @@ def main():
 
     args.output.parent.mkdir(parents=True, exist_ok=True)
     engine = qualification.runtime()
-    with engine.inherited_admission.parent_scope():
+    with record_first_failure(args.output.parent), engine.inherited_admission.parent_scope():
         engine.admitted()
         package_sha = install_t3_package(engine, args.output.parent / "T3_PACKAGE_FILES_INSTALL.json")
         sql, installer_receipt = installer_body()
-        with engine.trusted_installer_connection() as conn, conn.cursor() as cur:
+        with (case_recovery(engine, args.output.parent) as recovery,
+              engine.trusted_installer_connection() as conn, conn.cursor() as cur):
             engine.current_native.acquire_boundary(cur)
             require(cur.execute("select has_schema_privilege('authenticated','erp','USAGE')").fetchone() == (True,),
                     "CP7_FOCUS_EXPECTED_HOSTED_PROFILE_ON_DISPOSABLE_REQUIRED")
-            before = rollback_boundary(cur, engine.product)
             parent = engine.install_qualified_parent(cur)
             state = engine.product.install_delta(cur, parent)
             engine.product.verify(cur, state)
@@ -207,11 +256,8 @@ def main():
             native.boundary = MethodType(focused_boundary, native)
             today, foundation = prepare_native_case(cur, native, cp6_auditor_runner)
             findings_before = native.modules.bc.findings(cur)
-            case = run_case(native, cur, today, additional_cases.correction_return, args.output.parent)
-            if case is None:
-                conn.rollback()
-                save_recovery(engine, before, args.output.parent)
-                raise ValueError("CP7_FOCUS_ORIGINAL_CASE_FAILED_SEE_FIRST_FAILURE")
+            with installed_source_catalogue(engine, native, state):
+                case = additional_cases.correction_return(native, cur, today)
             cur.execute("set constraints all immediate")
             findings_after = native.modules.bc.findings(cur)
             require(not native.modules.bc.new_findings(findings_before, findings_after),
@@ -255,8 +301,8 @@ def main():
             }
             conn.rollback()
 
-        recovery = save_recovery(engine, before, args.output.parent)
-        require(all(recovery[key] for key in ("catalogue_equal", "data_and_sequences_equal", "private_schema_absent")),
+        require(all(recovery[key] for key in ("catalogue_equal", "data_and_sequences_equal",
+                                              "private_schema_absent", "roles_equal")),
                 "CP7_FOCUS_ROLLBACK_BOUNDARY_NOT_IDENTICAL")
         focused.update(status="PASS", full_recovery_verified=True,
                        rollback=recovery, acceptance_credit=0)
@@ -266,18 +312,36 @@ def main():
     return 0
 
 
-def save_recovery(engine, before, proof_root):
-    with engine.trusted_installer_connection() as check, check.cursor() as cur:
-        restored = rollback_boundary(cur, engine.product)
-        private_schema_absent = cur.execute("select to_regnamespace('cp7_note_zero_effect')").fetchone() == (None,)
-        check.rollback()
-    recovery = {
-        "catalogue_equal": restored["catalogue"] == before["catalogue"],
-        "data_and_sequences_equal": restored["data_and_sequences"] == before["data_and_sequences"],
-        "private_schema_absent": private_schema_absent,
-        "before_sha256": digest(before), "restored_sha256": digest(restored),
-    }
-    (proof_root / "MANDOR_ZERO_EFFECT_ROLLBACK.json").write_bytes(canonical(recovery))
+def save_recovery(engine, before, proof_root, dump_path, profile):
+    recovery = dict(catalogue_equal=False, data_and_sequences_equal=False,
+                    private_schema_absent=False, roles_equal=False,
+                    before_sha256=digest(before), full_restore_used=False)
+    try:
+        rolled_back = read_boundary(engine)
+        old_data, current_data = before["data_and_sequences"], rolled_back["data_and_sequences"]
+        changed = sorted(key for key in old_data.keys() | current_data.keys()
+                         if old_data.get(key) != current_data.get(key))
+        recovery.update(rollback_catalogue_equal=rolled_back["catalogue"] == before["catalogue"],
+                        rollback_changed_rows=[key for key in changed if not key.startswith("sequence:")],
+                        rollback_changed_sequences=[key for key in changed if key.startswith("sequence:")],
+                        rollback_roles_equal=rolled_back["roles"] == before["roles"],
+                        rollback_private_schema_absent=rolled_back["private_schema_absent"])
+        restored = rolled_back
+        if rolled_back != before:
+            recovery["full_restore_used"] = True
+            summary = engine.database._restore(dump_path, engine.database.SOURCE, profile)
+            recovery["restore_summary"] = summary
+            require(summary["only_pg_cron_errors"], "CP7_FOCUS_EXACT_DATABASE_RESTORE_REQUIRED")
+            restored = read_boundary(engine)
+        recovery.update(catalogue_equal=restored["catalogue"] == before["catalogue"],
+                        data_and_sequences_equal=restored["data_and_sequences"] == before["data_and_sequences"],
+                        private_schema_absent=restored["private_schema_absent"],
+                        roles_equal=restored["roles"] == before["roles"], restored_sha256=digest(restored))
+    except Exception as error:
+        recovery.update(recovery_error_type=type(error).__name__, recovery_error=str(error))
+        raise
+    finally:
+        (proof_root / "MANDOR_ZERO_EFFECT_ROLLBACK.json").write_bytes(canonical(recovery))
     return recovery
 
 
