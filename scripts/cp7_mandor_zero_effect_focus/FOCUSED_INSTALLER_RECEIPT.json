@@ -4,7 +4,7 @@
   "input_sha256": {
     "01_ordinary_reversed_history.sql": "8dc0dd1348b7a7ce7b83c0a47a9004f020a01d9a718a1ff51511847f8c88cd1f",
     "02_price_intent.sql": "6afcdfc54a5e995bd0fa06a3adc10a60f634608f9b8c982e6b1ab0adfe1be29c",
-    "03_owned_receipt.sql": "95a9900127728a4062acc8342b120154e15b90a43a4dce5a3fc1d4e894c7ba2b",
+    "03_owned_receipt.sql": "9fe79346ba8459cae71f6f5952df24f9671f4fd73e8d4029f6c2365d734e66e2",
     "DERIVED_ORDINARY_ROUTE_DEFINITIONS.json": "d3eca9125f9b38672e737761d1c86a14fd4e9e15aaddef5919e0d422742ca8c4",
     "DERIVED_OWNING_HOOKS.json": "03b0c0b1ceadc7781cbc74d1a822b80e7b289521a871890c5caa528c95861984"
   },
@@ -14,8 +14,8 @@
     "cp7_note.command(jsonb,uuid,text)": "0712b785c0d44b46878e2cca642be71f",
     "cp7_note_zero_effect.assert_price_effect_v1(jsonb,jsonb,uuid,uuid,numeric)": "b1558243f7adf032badb427b0e8f05de"
   },
-  "installer_bytes": 68461,
-  "installer_sha256": "33cd10071cef9979db6b40a477fcb15382a15ae401fda7404361e894135e2fc2",
+  "installer_bytes": 68569,
+  "installer_sha256": "bedfc3666b915a7ea07421337b3849dd8853d324560592ca47abec33ae6249f6",
   "postgres_version_num": 170006,
   "predecessor_excerpt_sha256": "7ba448539d4f626c66e9ce379b72ed5767c25e8a894663e298077f0d6755b1cc",
   "predecessor_pg_get_functiondef_md5": {

@@ -468,7 +468,8 @@ create function cp7_note_zero_effect.prepare_v1(
 )
 returns jsonb
 language plpgsql volatile security definer
-set search_path = '' set timezone = 'UTC'
+-- Native review tokens and access must be recomputed in the calling note context.
+set search_path = ''
 as $function$
 declare
   leaf uuid := (p_payload->>'sale_id')::uuid;
@@ -571,7 +572,8 @@ revoke all on function cp7_note_zero_effect.prepare_v1(jsonb,uuid,text,uuid,json
 create function cp7_note_zero_effect.finish_v1(p_proof jsonb, p_result jsonb)
 returns void
 language plpgsql volatile security definer
-set search_path = '' set timezone = 'UTC'
+-- Compare access in the same calling context used by preparation.
+set search_path = ''
 as $function$
 declare
   prep cp7_note_zero_effect.preparations;
