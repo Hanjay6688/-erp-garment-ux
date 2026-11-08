@@ -1,0 +1,29 @@
+{
+  "classification": "PINNED_DISPOSABLE_FIXTURE_ONLY_NOT_QUALIFICATION",
+  "contract_version": "cp7.mandor-focused-installer-receipt.v1",
+  "input_sha256": {
+    "01_ordinary_reversed_history.sql": "8dc0dd1348b7a7ce7b83c0a47a9004f020a01d9a718a1ff51511847f8c88cd1f",
+    "02_price_intent.sql": "6afcdfc54a5e995bd0fa06a3adc10a60f634608f9b8c982e6b1ab0adfe1be29c",
+    "03_owned_receipt.sql": "95a9900127728a4062acc8342b120154e15b90a43a4dce5a3fc1d4e894c7ba2b",
+    "DERIVED_ORDINARY_ROUTE_DEFINITIONS.json": "d3eca9125f9b38672e737761d1c86a14fd4e9e15aaddef5919e0d422742ca8c4",
+    "DERIVED_OWNING_HOOKS.json": "03b0c0b1ceadc7781cbc74d1a822b80e7b289521a871890c5caa528c95861984"
+  },
+  "installed_pg_get_functiondef_md5": {
+    "cp7_credit.assert_current_source_plan_profile(uuid,uuid,uuid,jsonb)": "8011f1995b6249d5d72fa98910c2bda3",
+    "cp7_credit.assert_initial_return_closed_v1(uuid)": "bf3e85df164913ba6a10e3d90a0c9b0c",
+    "cp7_note.command(jsonb,uuid,text)": "0712b785c0d44b46878e2cca642be71f",
+    "cp7_note_zero_effect.assert_price_effect_v1(jsonb,jsonb,uuid,uuid,numeric)": "b1558243f7adf032badb427b0e8f05de"
+  },
+  "installer_bytes": 68461,
+  "installer_sha256": "33cd10071cef9979db6b40a477fcb15382a15ae401fda7404361e894135e2fc2",
+  "postgres_version_num": 170006,
+  "predecessor_excerpt_sha256": "7ba448539d4f626c66e9ce379b72ed5767c25e8a894663e298077f0d6755b1cc",
+  "predecessor_pg_get_functiondef_md5": {
+    "cp7_credit.assert_current_source_plan_profile(uuid,uuid,uuid,jsonb)": "23f7a593ad9484a463ffdc3c2aee2e0f",
+    "cp7_credit.assert_initial_return_closed_v1(uuid)": "d5f83430dc3ff04fa4a969730940fcff",
+    "cp7_credit_note_carry_de.assert_effect_v1(jsonb,jsonb,uuid,uuid,numeric)": "b228fb25e6208d5856c9f361bac72be2",
+    "cp7_note.command(jsonb,uuid,text)": "96bf6ad085630b7d689666e564900e87"
+  },
+  "product_head": "e9339f05f61b54570025012e8a5e647db0d39152",
+  "product_tree": "d297449b8441a12c406b4f2024a33d004d7b69aa"
+}

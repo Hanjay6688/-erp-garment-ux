@@ -1,0 +1,10 @@
+{
+  "classification": "FOCUSED_DISPOSABLE_DIAGNOSTIC_NOT_QUALIFICATION",
+  "product_head": "e9339f05f61b54570025012e8a5e647db0d39152",
+  "product_tree": "d297449b8441a12c406b4f2024a33d004d7b69aa",
+  "case_id": "FG_MANDOR_ACTIVE_OFFSET_RETURN_CORRECTION_REFUSE_THEN_LAWFUL_REVERSE_AND_REAL_RETURN_CORRECTION",
+  "expected_delta": {"AR_CUSTOMER": "4.00", "SALES_REVENUE": "-4.00"},
+  "required_recovery": "EXACT_PRE_TRANSACTION_CATALOG_AFTER_ROLLBACK",
+  "qualification_credit": 0,
+  "production_go": false
+}
