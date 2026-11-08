@@ -6,16 +6,16 @@
     "02_price_intent.sql": "6afcdfc54a5e995bd0fa06a3adc10a60f634608f9b8c982e6b1ab0adfe1be29c",
     "03_owned_receipt.sql": "9fe79346ba8459cae71f6f5952df24f9671f4fd73e8d4029f6c2365d734e66e2",
     "DERIVED_ORDINARY_ROUTE_DEFINITIONS.json": "d3eca9125f9b38672e737761d1c86a14fd4e9e15aaddef5919e0d422742ca8c4",
-    "DERIVED_OWNING_HOOKS.json": "03b0c0b1ceadc7781cbc74d1a822b80e7b289521a871890c5caa528c95861984"
+    "DERIVED_OWNING_HOOKS.json": "68aea10d53783a588ab93768190ac303e6b004768bf4bfbcbf28fa011093102e"
   },
   "installed_pg_get_functiondef_md5": {
     "cp7_credit.assert_current_source_plan_profile(uuid,uuid,uuid,jsonb)": "8011f1995b6249d5d72fa98910c2bda3",
     "cp7_credit.assert_initial_return_closed_v1(uuid)": "bf3e85df164913ba6a10e3d90a0c9b0c",
     "cp7_note.command(jsonb,uuid,text)": "0712b785c0d44b46878e2cca642be71f",
-    "cp7_note_zero_effect.assert_price_effect_v1(jsonb,jsonb,uuid,uuid,numeric)": "b1558243f7adf032badb427b0e8f05de"
+    "cp7_note_zero_effect.assert_price_effect_v1(jsonb,jsonb,uuid,uuid,numeric)": "0692f43fc8d09d0d0c3ba3238b0fb521"
   },
-  "installer_bytes": 68569,
-  "installer_sha256": "bedfc3666b915a7ea07421337b3849dd8853d324560592ca47abec33ae6249f6",
+  "installer_bytes": 69466,
+  "installer_sha256": "840c9e527b166fe7677c98f5c2faa6f52bcdad2c0696c7ad116e7b0702b74fbe",
   "postgres_version_num": 170006,
   "predecessor_excerpt_sha256": "7ba448539d4f626c66e9ce379b72ed5767c25e8a894663e298077f0d6755b1cc",
   "predecessor_pg_get_functiondef_md5": {

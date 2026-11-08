@@ -8,7 +8,8 @@ import subprocess
 
 PRODUCT_HEAD = "e9339f05f61b54570025012e8a5e647db0d39152"
 PRODUCT_TREE = "d297449b8441a12c406b4f2024a33d004d7b69aa"
-PREVIOUS_FOCUS_HEAD = "62ef0ce8cf25c227514ffc4e88fcd9b31101591c"
+PREVIOUS_FOCUS_HEAD = "599f7d9b7ce773ca8a8fcc83c25b495f0d8bb040"
+PRIOR_RECOVERY_FOCUS_HEAD = "62ef0ce8cf25c227514ffc4e88fcd9b31101591c"
 PRIOR_CONTEXT_FOCUS_HEAD = "18422e0515776a8f6cee74bc9071e46657a8290b"
 INITIAL_FOCUS_HEAD = "e83257392f3b29d9e4787ecd117f2078060d07a5"
 PACKAGE_FINGERPRINT = "25719efa7216af816f0552a6da3d9bf9e687a75ba6f39985072481fd22804ccc"
@@ -42,7 +43,7 @@ def admit(environment=os.environ):
     if environment.get("MANDOR_NATIVE_CONFIRM") != "cp6_rollback":
         raise ValueError("CP7_FOCUS_EXPLICIT_DISPOSABLE_DATABASE_REQUIRED")
     workflow_head = environment.get("GITHUB_SHA", "")
-    chain = (workflow_head, PREVIOUS_FOCUS_HEAD, PRIOR_CONTEXT_FOCUS_HEAD, INITIAL_FOCUS_HEAD, PRODUCT_HEAD)
+    chain = (workflow_head, PREVIOUS_FOCUS_HEAD, PRIOR_RECOVERY_FOCUS_HEAD, PRIOR_CONTEXT_FOCUS_HEAD, INITIAL_FOCUS_HEAD, PRODUCT_HEAD)
     if not re.fullmatch(r"[a-f0-9]{40}", workflow_head) or workflow_head in chain[1:]:
         raise ValueError("CP7_FOCUS_DISTINCT_WORKFLOW_COMMIT_REQUIRED")
     workspace = Path(environment["GITHUB_WORKSPACE"]).resolve(strict=True)

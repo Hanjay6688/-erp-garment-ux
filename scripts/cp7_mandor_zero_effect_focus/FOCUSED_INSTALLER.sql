@@ -318,7 +318,23 @@ begin
     and customer_id=(new_ar->>'customer_id')::uuid and vendor_id is null and contractor_id is null and product_id is null and po_id is null)
   or(select count(*)from erp.journal_lines where journal_entry_id=new_j.id and account_id=revenue)<>1 then raise exception 'CP7_CREDIT_NOTE_CARRY_PRICE_HPP_VECTOR_CHANGED';end if;
  foreach k in array array['fg_lots','hpp_versions','opening_hpp_states','opening_hpp_corrections','po_hpp_states','nonpo_hpp_events','po_hpp_events','hpp_balances','hpp_accounts','period_snapshot']loop
-  if p_before->k is distinct from p_after->k then raise exception 'CP7_CREDIT_NOTE_CARRY_UNQUALIFIED_NATIVE_DELTA:%',k;end if;
+  if p_before->k is not distinct from p_after->k then continue;end if;
+  if k='po_hpp_states' and jsonb_typeof(p_before->k)='array' and jsonb_typeof(p_after->k)='array' then
+   -- Native reverse/repost refreshes only this state's maintenance timestamp.
+   -- Keep PO identity, row order, every quantity and amount, and other HPP evidence exact.
+   if not exists (
+       select 1 from jsonb_array_elements((p_before->k)||(p_after->k)) r
+       where jsonb_typeof(r) is distinct from 'object'
+          or jsonb_typeof(r->'updated_at') is distinct from 'string'
+          or not pg_input_is_valid(r->>'updated_at','timestamp with time zone')
+      )
+      and (select jsonb_agg(r-'updated_at' order by n) from jsonb_array_elements(p_before->k) with ordinality x(r,n))
+       is not distinct from
+          (select jsonb_agg(r-'updated_at' order by n) from jsonb_array_elements(p_after->k) with ordinality x(r,n)) then
+    continue;
+   end if;
+  end if;
+  raise exception 'CP7_CREDIT_NOTE_CARRY_UNQUALIFIED_NATIVE_DELTA:%',k;
  end loop;
  if exists(select 1 from erp.sales_payments where sale_id in(p_original,p_replacement))or exists(select 1 from erp.sales_returns where sale_id=p_replacement or(sale_id=p_original and status is distinct from 'REVERSED'))then
   raise exception 'CP7_CREDIT_NOTE_CARRY_CHILD_REPLAY_ADAPTER_REQUIRED';end if;
@@ -1071,7 +1087,7 @@ begin
   raise exception 'CP7_FOCUSED_INSTALLED_DEFINITION_CHANGED:cp7_credit.assert_initial_return_closed_v1(uuid):%',actual;
  end if;
  select md5(pg_get_functiondef('cp7_note_zero_effect.assert_price_effect_v1(jsonb,jsonb,uuid,uuid,numeric)'::regprocedure)) into actual;
- if actual is distinct from 'b1558243f7adf032badb427b0e8f05de' then
+ if actual is distinct from '0692f43fc8d09d0d0c3ba3238b0fb521' then
   raise exception 'CP7_FOCUSED_INSTALLED_DEFINITION_CHANGED:cp7_note_zero_effect.assert_price_effect_v1(jsonb,jsonb,uuid,uuid,numeric):%',actual;
  end if;
  if has_function_privilege('anon','cp7_note_zero_effect.prepare_v1(jsonb,uuid,text,uuid,jsonb)','EXECUTE')
