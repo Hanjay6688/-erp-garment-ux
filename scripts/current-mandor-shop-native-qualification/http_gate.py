@@ -52,7 +52,7 @@ def gate(p,directory,part,frozen):
             require(len(selected)==1 and selected[0]['state']=='RELEASED','MANDOR_HTTP_LINKED_RELEASE_STATE')
         else:
             access_gate.revocation(p,*pairs[1])
-            http_cases.denied(row['pending_revocation'],'could not obtain lock on relation "app_users"','55P03')
+            http_cases.denied(row['pending_revocation'],http_cases.REVOCATION_LOCK_MESSAGE,'55P03')
             require(0<=row['pending_elapsed']<3,'MANDOR_HTTP_PROMPT_PENDING_ACCESS_REFUSAL')
             for key in('committed_revocation','revoked_read_refusal'):
                 http_cases.denied(row[key],'CP7_MANDOR_SHOP_ACCESS_DENIED','42501')

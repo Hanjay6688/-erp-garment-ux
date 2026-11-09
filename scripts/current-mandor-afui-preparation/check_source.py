@@ -276,6 +276,11 @@ def source(*, allow_sparse_observation=False):
         raw = path.read_bytes()
         require(dict(bytes=len(raw), sha256=sha256(raw).hexdigest()) == expected,
                 'MANDOR_CURRENT_DECLARED_SOURCE_CHANGED:' + name)
+    if adopted:
+        spec = importlib.util.spec_from_file_location('mandor_exact_output_preflight', HERE / 'output_binding.py')
+        output = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(output)
+        output.derive_retention((ROOT / output.RETENTION).read_bytes())
     namespace = str(HERE.relative_to(ROOT)) + '/'
     declared = set(manifest['files']) | {namespace + 'SOURCE.json'}
     own = declared - caller_paths

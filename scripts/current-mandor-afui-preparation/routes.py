@@ -10,6 +10,7 @@ NS = 'scripts/current-mandor-shop-native-qualification/'
 PINS = {
     'access_cases.py': (18914, '66ada107055893b894a51789a539e0c9b30b52d9c6f363e9ec2a85539ed839b1'),
     'http_cases.py': (9464, '59665e1e8ab2e784313034b0b61584ecdf9c379e486aa436091f5aa5a7f82720'),
+    'http_gate.py': (4712, '7a9a67f025e958d58cedbf8e588ce64d2955539a3fdb997bc72b4b60f3fc44b7'),
     'additional_cases.py': (11438, '2fef6edab13d9b7fcf716fb85a5e8da08dc1d144713109950fc29cb8b9cedfa9'),
     'advisor_review.py': (8140, '4bfe15aedd3d61228f7f59b8b863b6109b8c8d6779797ccf0e9b9f4fe9da17e8'),
     'cases.py': (11526, 'fefe8106c36976a4853703244f2cc3b48f9bf2b93b95a5b9bbe9a42a2773d8fd'),
@@ -32,6 +33,10 @@ PRODUCT_GUARD = 'scripts/cp7_mandor_shop/payment_guards.sql'
 PRODUCT_PIN = (10946, '0405c0a9c807ef0be3881c2a32c69a152e2a0614bc8efb1f5572ac715683d771')
 
 TERMINAL_REPAIR = {
+    'http_gate.py': (
+        ('            http_cases.denied(row[\'pending_revocation\'],\'could not obtain lock on relation "app_users"\',\'55P03\')\n',
+         "            http_cases.denied(row['pending_revocation'],http_cases.REVOCATION_LOCK_MESSAGE,'55P03')\n"),
+    ),
     'advisor_review.py': (("PLAN_PIN=dict(bytes=13274,sha256='341f2cbd4a0e361bee275f9e66a15c5362a8cee9d3ba91e619b95f376aa7098a')\n", "PLAN_PIN=dict(bytes=13274,sha256='677cd27d61a44b875b9d0745fbba7eeb1c23588093fad299e7639c07c5dc2316')\n"),),
     'native_fixture.py': (
         ('        require(cur.execute(\'select count(*)from erp.payroll_work_items where payroll_id=%s::uuid\',(payroll,)).fetchone()==(0,),\'MANDOR_NATIVE_EMPTY_DRAFT_WEEK_REQUIRED\')\n        row=cur.execute("update erp.payroll_settlements set period_start=%s,period_end=%s,"\n            "payment_date=case when %s then null else payment_date end,"\n            "payment_cash_account_id=case when %s then null else payment_cash_account_id end "\n            "where id=%s::uuid and status=\'DRAFT\' returning id::text",(start,end,back<0,back<0,payroll)).fetchone()\n        require(row==(payroll,),\'MANDOR_NATIVE_ONLY_NEW_EMPTY_DRAFT_WEEK\')\n        self.modules.bc.boundary.historical.prior.set_open_period(cur,today)\n',
@@ -211,8 +216,10 @@ ACCESS_AND_ADVISOR_REPAIR = {
          '            finally:\n                if not pending.done():holder.rollback()\n        require(busy[\'backend_pid\']!=holder_pid,\'MANDOR_ACCESS_TWO_DISTINCT_REVOCATION_BACKENDS\')\n        refused(busy,\'55P03\',\'could not obtain lock on relation "erp.app_users"\')\n        require(busy[\'elapsed\']<3,\'MANDOR_ACCESS_PERMISSION_NOWAIT_MUST_NOT_TIMEOUT\')\n        holder.commit()\n    revoked=ctx.observe(tools)\n'),
     ),
     'http_cases.py': (
+        ('WRITE=access_cases.WRITE\n',
+         'WRITE=access_cases.WRITE\nREVOCATION_LOCK_MESSAGE=\'could not obtain lock on relation "erp.app_users"\'\n'),
         ('            finally:\n                if not future.done():holder.rollback()\n        elapsed=monotonic()-start\n        denied(pending,\'could not obtain lock on relation "app_users"\',\'55P03\')\n        require(elapsed<3,\'MANDOR_HTTP_PENDING_REVOCATION_MUST_REFUSE_PROMPTLY\')\n        holder.commit()\n    revoked=observe(ctx,http)\n',
-         '            finally:\n                if not future.done():holder.rollback()\n        elapsed=monotonic()-start\n        denied(pending,\'could not obtain lock on relation "erp.app_users"\',\'55P03\')\n        require(elapsed<3,\'MANDOR_HTTP_PENDING_REVOCATION_MUST_REFUSE_PROMPTLY\')\n        holder.commit()\n    revoked=observe(ctx,http)\n'),
+         '            finally:\n                if not future.done():holder.rollback()\n        elapsed=monotonic()-start\n        denied(pending,REVOCATION_LOCK_MESSAGE,\'55P03\')\n        require(elapsed<3,\'MANDOR_HTTP_PENDING_REVOCATION_MUST_REFUSE_PROMPTLY\')\n        holder.commit()\n    revoked=observe(ctx,http)\n'),
     ),
     'advisor_review.py': (
         ('"""Compose the exact Afui reviewer with fifteen private Mandor INFOs.\n\nOnly the named RLS-without-policy INFO is eligible. Live metadata must first\nprove the complete private table ACLs, column ACLs and exact schema leases.\n',

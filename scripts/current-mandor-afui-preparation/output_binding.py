@@ -9,6 +9,7 @@ from pathlib import Path
 from types import CellType, FunctionType, ModuleType
 import ast
 import importlib.util
+import json
 import os
 
 HERE = Path(__file__).resolve().parent
@@ -18,7 +19,6 @@ SOURCES = {
     'case_output.py': (6200, '53cad5f461603efbf84533d6c5804612901137d495af59a0de942f7df52baca5'),
 }
 RETENTION = 'scripts/current-mandor-shop-native-qualification/access_cases.py'
-RETENTION_PIN = (18914, '66ada107055893b894a51789a539e0c9b30b52d9c6f363e9ec2a85539ed839b1')
 GZIP_HELPER = '_current_mandor_complete_gzip_original'
 FIXED = ('MANDOR_SESSION4_ORIGINAL.json', 'MANDOR_HTTP2_ORIGINAL.json', 'MANDOR_BROWSER_FIXTURE.json',
          'MANDOR_BROWSER_STATE.json', 'MANDOR_BROWSER2_ORIGINAL.json')
@@ -130,7 +130,9 @@ def function_code(source, path, name):
 
 
 def derive_retention(raw):
-    require((len(raw), sha256(raw).hexdigest()) == RETENTION_PIN, 'MANDOR_OUTPUT_EXACT_ACCESS_RETENTION_SOURCE_REQUIRED')
+    expected = json.loads((HERE / 'SOURCE.json').read_bytes())['files'][RETENTION]
+    require(dict(bytes=len(raw), sha256=sha256(raw).hexdigest()) == expected,
+            'MANDOR_OUTPUT_EXACT_ACCESS_RETENTION_SOURCE_REQUIRED')
     text = raw.decode()
     for before, after in RETENTION_ROUTES:
         require(text.count(before) == 1 and after not in text, 'MANDOR_OUTPUT_ONE_EXACT_RETENTION_ROUTE_REQUIRED')
