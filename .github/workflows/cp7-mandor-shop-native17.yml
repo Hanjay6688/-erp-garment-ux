@@ -510,8 +510,8 @@ jobs:
       working-directory: writer
       run: 'set -euo pipefail
 
-        python -B ../auditor/scripts/current-mandor-shop-native-qualification/qualification.py
-        --check
+        python -B ../auditor/scripts/current-mandor-shop-native-qualification/final_gate.py
+        --check-source-isolation
 
         node ../auditor/scripts/current-mandor-shop-native-qualification/browser.mjs
         --check-observer-runtime

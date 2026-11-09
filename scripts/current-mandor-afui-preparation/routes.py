@@ -26,6 +26,7 @@ PINS = {
     'browser.mjs': (14577, '37780a85ee09b8446bf486b9c2b7b2b437c37d48ac8824788482a58a76136baa'),
     'browser_observer.py': (3746, '0458e0314827d2ff2b7c1ac13157e7fc34730f7231289b515c29c280594250f4'),
     'browser_gate.py': (10213, '8b213c1f7bc4232b9edc43471c16e4b0aeb5404c9784359024d9242074a019ad'),
+    'final_gate.py': (10604, '593c3073fe8e2539a037c7762839b14bb63b7d1903bdf10926c5fda87ec80edf'),
     'preflight.py': (10968, 'ea789817b7ec0c48ca3fb702c5f1a8045853438f87302ea38d81f89595a5069d'),
 }
 
@@ -82,6 +83,13 @@ BROWSER_CALLER_REPAIR = {
 
 
 def replacements(name):
+    if name == 'final_gate.py':
+        return (
+            ("def pin(raw):return dict(bytes=len(raw),sha256=sha256(raw).hexdigest())\n\n\n", "def pin(raw):return dict(bytes=len(raw),sha256=sha256(raw).hexdigest())\n\n\ndef source_graph(p):\n    # The browser reader loads the current checkout's Afui codec. Replay the\n    # fenced source admission in a clean interpreter for the frozen Afui graph.\n    raw=subprocess.check_output([sys.executable,'-B',str(HERE/'qualification.py'),'--check'])\n    result=p.strict(raw)\n    p.fields(result,dict(actual_SQL_executed=0),'MANDOR_GATE_SOURCE_CHECK_NO_SQL')\n    p.fields(result['source_DB_guard'],dict(attempts=[],network_nonGit_attempts=[]),\n        'MANDOR_GATE_SOURCE_CHECK_FENCED')\n    return result['source']\n\n\ndef packet_reader():\n    return load('mandor_exact_retained_typed_packet_reader',\n        ROOT/'scripts/current-s03-sku-s05-composite-qualification/parents.py')\n\n\ndef check_source_isolation():\n    # Reproduce the terminal reader's current-codec import before source admission.\n    state_io=load('mandor_final_source_preflight_state',\n        ROOT/'scripts/current-mandor-afui-preparation/state_io.py')\n    state_io.codec()\n    source=source_graph(packet_reader())\n    return dict(status='MANDOR_FINAL_GATE_SOURCE_ISOLATION_VERIFIED',\n        source=source,actual_SQL_executed=0)\n\n\n"),
+            ("    p=load('mandor_exact_retained_typed_packet_reader',ROOT/'scripts/current-s03-sku-s05-composite-qualification/parents.py')\n", "    p=packet_reader()\n"),
+            ("    fence=load('mandor_final_packet_import_DB_fence',qualification.FROZEN/'scripts/current-sku-managed-recovery-native27-qualification/source_context.py')\n    with fence.fenced_source_read():\n        engine=qualification.runtime()\n        with engine.inherited_admission.parent_scope():sources=engine.admitted()\n    p.exact(main['source_declaration'],sources,'MANDOR_GATE_COMPLETE_CURRENT_NATURAL_SOURCE_GRAPH')\n", "    p.exact(main['source_declaration'],source_graph(p),'MANDOR_GATE_COMPLETE_CURRENT_NATURAL_SOURCE_GRAPH')\n"),
+            ("if __name__=='__main__':\n", "if __name__=='__main__':\n    if sys.argv[1:]==['--check-source-isolation']:\n        print(json.dumps(check_source_isolation()))\n        sys.exit(0)\n    if sys.argv[1:]:\n        raise ValueError('MANDOR_GATE_UNKNOWN_COMMAND')\n"),
+        )
     if name in BROWSER_CALLER_REPAIR and name != 'browser_observer.py':
         return BROWSER_CALLER_REPAIR[name]
     if name == 'native_fixture.py':
