@@ -23,6 +23,7 @@ PINS = {
     'qualification.py': (7161, '3f4bf0cfccbf650240729e01909dcb39b3e88371e59ee14a3bffc5f05934de0b'),
     'component.py': (7956, '31b7626e2488fd4371daa2bf21254583b86299673b91130eb0736778126f5044'),
     'access_runtime.py': (8404, '4718579f49a6ad7cc5b4ac0e229d474a61dfe8e13f0e544b6ecf3ac49699a487'),
+    'browser.mjs': (14577, '37780a85ee09b8446bf486b9c2b7b2b437c37d48ac8824788482a58a76136baa'),
     'browser_observer.py': (3746, '0458e0314827d2ff2b7c1ac13157e7fc34730f7231289b515c29c280594250f4'),
     'browser_gate.py': (10213, '8b213c1f7bc4232b9edc43471c16e4b0aeb5404c9784359024d9242074a019ad'),
     'preflight.py': (10968, 'ea789817b7ec0c48ca3fb702c5f1a8045853438f87302ea38d81f89595a5069d'),
@@ -62,7 +63,27 @@ TERMINAL_REPAIR = {
     ),
 }
 
+BROWSER_CALLER_REPAIR = {
+    'browser.mjs': (
+        ("const observed=(label,actor)=>JSON.parse(execFileSync('python',['-B',resolve(HERE,'browser_observer.py'),'observe'],\n {cwd:ROOT,input:JSON.stringify({label,actor}),encoding:'utf8',maxBuffer:32*1024*1024,timeout:90000}).trim())\n",
+         "function observer(command, input, timeout = 150000) {\n return JSON.parse(execFileSync('python', ['-B', resolve(HERE, 'browser_observer.py'), command], {\n  cwd: resolve(ROOT, '../writer'), input, encoding: 'utf8', maxBuffer: 32 * 1024 * 1024, timeout,\n }).trim())\n}\nconst observed=(label,actor)=>observer('observe', JSON.stringify({label, actor}))\n\nif (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {\n assert.deepEqual(process.argv.slice(2), ['--check-observer-runtime'])\n const proof = observer('--check-runtime')\n assert.equal(proof.status, 'MANDOR_BROWSER_COLD_OBSERVER_SOURCE_ADMITTED')\n assert.equal(proof.actual_SQL_executed, 0)\n console.log(JSON.stringify(proof))\n}\n"),
+        (" const source=JSON.parse(execFileSync('python',['-B',resolve(HERE,'browser_observer.py'),'--admit'],\n  {cwd:ROOT,encoding:'utf8',maxBuffer:2*1024*1024,timeout:60000}).trim())\n",
+         " const source=observer('--admit', undefined, 60000)\n"),
+    ),
+    'browser_observer.py': (
+        ('import gzip,json,os,re,sys\n',
+         'import gzip,json,os,re,subprocess,sys\n'),
+        ("def main():\n    require(sys.argv[1:]in(['--admit'],['observe']),'MANDOR_BROWSER_READ_ONLY_OBSERVER_COMMAND')\n    fixture,state,parent=originals()\n",
+         "def observer_runtime():\n    import qualification,access_cases\n    writer=ROOT.parent/'writer'\n    require(writer.is_dir() and not writer.is_symlink() and Path.cwd()==writer,\n            'MANDOR_BROWSER_EXACT_OWNING_WRITER_CWD_REQUIRED')\n    declared=json.loads((ROOT/'scripts/current-finance-combined-composition/FROZEN_SOURCE_ROOTS.json').read_bytes())\n    head=subprocess.check_output(['git','-C',str(writer),'rev-parse','HEAD'],text=True).strip()\n    require(head==declared['writer'],'MANDOR_BROWSER_EXACT_OWNING_WRITER_HEAD_REQUIRED')\n    product=qualification.runtime().product\n    product.domain_modules,proof=product.fixture.domain_modules()\n    return product,access_cases,proof\n\n\ndef main():\n    require(sys.argv[1:]in(['--check-runtime'],['--admit'],['observe']),'MANDOR_BROWSER_READ_ONLY_OBSERVER_COMMAND')\n    if sys.argv[1]=='--check-runtime':\n        import qualification,psycopg\n        fence=qualification.load('mandor_cold_browser_DB_network_fence',\n            qualification.FROZEN/'scripts/current-sku-managed-recovery-native27-qualification/source_context.py')\n        with fence.fenced_source_read() as guard:\n            _,_,proof=observer_runtime()\n        require(not guard['attempts'] and not guard['network_nonGit_attempts'],\n                'MANDOR_BROWSER_COLD_SOURCE_DB_AND_NETWORK_FENCE')\n        return dict(status='MANDOR_BROWSER_COLD_OBSERVER_SOURCE_ADMITTED',domain=proof,source_DB_guard=guard,\n                    actual_SQL_executed=0,actual_browser_cases=0)\n    fixture,state,parent=originals()\n"),
+        ('    import qualification,access_cases\n    product=qualification.runtime().product\n    product.domain_modules=product.fixture.domain_modules()[0]\n',
+         '    product,access_cases,_=observer_runtime()\n'),
+    ),
+}
+
+
 def replacements(name):
+    if name in BROWSER_CALLER_REPAIR and name != 'browser_observer.py':
+        return BROWSER_CALLER_REPAIR[name]
     if name == 'native_fixture.py':
         return (
             ('from datetime import timedelta\n',
@@ -204,7 +225,9 @@ def replacements(name):
              "    catalogue=state_io.observer_catalogue(state,report['browser_state_original'],report['browser_state_cache_original'])\n"
              "    report['browser_fixture_original']=save(dict(fixture,observer_catalogue=catalogue),'MANDOR_BROWSER_FIXTURE.json')\n"),
         )
-        return (save, *scoped, *state_routes)
+        return (save, *scoped, *state_routes,
+                ("        AUDITOR_BROWSER_CASE_TIMEOUT_MS='600000')",
+                 "        AUDITOR_BROWSER_CASE_TIMEOUT_MS='900000')"),)
     if name in TERMINAL_REPAIR:
         return TERMINAL_REPAIR[name]
     raise ValueError('MANDOR_CURRENT_ONLY_REVIEWED_CALLER_SOURCES')
@@ -245,6 +268,8 @@ def derive(raw, name):
     source = raw.decode()
     routes = replacements(name) if name not in ('access_cases.py','http_cases.py') else ()
     routes = (*routes, *ACCESS_AND_ADVISOR_REPAIR.get(name, ()))
+    if name == 'browser_observer.py':
+        routes = (*routes, *BROWSER_CALLER_REPAIR[name])
     for before, after in routes:
         if source.count(before) != 1 or after in source:
             raise ValueError('MANDOR_CURRENT_ONE_EXACT_CALLER_ROUTE_REQUIRED:' + name)
@@ -256,7 +281,7 @@ def derive(raw, name):
         restored = restored.replace(after, before, 1)
     if restored.encode() != raw:
         raise ValueError('MANDOR_CURRENT_COMPLETE_PREPARED_CALLER_NOT_RECOVERED:' + name)
-    if name != 'payment_guards.sql':
+    if name.endswith('.py'):
         compile(source, 'current-mandor-afui-caller::' + name, 'exec', dont_inherit=True)
     return source.encode(), dict(original_bytes=len(raw), original_sha256=expected[1],
                                  derived_sha256=sha256(source.encode()).hexdigest(), exact_routes=len(routes),

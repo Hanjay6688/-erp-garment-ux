@@ -58,6 +58,7 @@ def derive(raw=None):
             'node --test ' + OWN + 'durable_action.test.mjs\n')
     steps[64] = dict(name='Admit genuine Afui15 and whole current Mandor graph under database network fence',
         **{'working-directory': 'writer'}, run='set -euo pipefail\npython -B ../auditor/' + NS + 'qualification.py --check\n'
+            'node ../auditor/' + NS + 'browser.mjs --check-observer-runtime\n'
             'python -B ../auditor/scripts/current-de-free-date-preparation/attempt_policy.py --require-window\n')
     for index, mode in ((68, 'preflight'), (73, 'runtime')):
         steps[index] = dict(name=('Confirm actual Mandor Original upload before database' if mode == 'preflight' else

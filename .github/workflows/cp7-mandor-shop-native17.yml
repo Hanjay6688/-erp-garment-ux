@@ -513,6 +513,9 @@ jobs:
         python -B ../auditor/scripts/current-mandor-shop-native-qualification/qualification.py
         --check
 
+        node ../auditor/scripts/current-mandor-shop-native-qualification/browser.mjs
+        --check-observer-runtime
+
         python -B ../auditor/scripts/current-de-free-date-preparation/attempt_policy.py
         --require-window
 

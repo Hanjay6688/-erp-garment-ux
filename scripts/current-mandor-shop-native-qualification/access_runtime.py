@@ -113,7 +113,7 @@ def browser_environment(report):
         MANDOR_BROWSER_FIXTURE_SHA256=report['browser_fixture_original']['sha256'],
         MANDOR_BROWSER_STATE_SHA256=report['browser_state_original']['sha256'],
         MANDOR_BROWSER_STATE_CACHE_SHA256=report['browser_state_cache_original']['sha256'],
-        AUDITOR_BROWSER_CASE_TIMEOUT_MS='600000')
+        AUDITOR_BROWSER_CASE_TIMEOUT_MS='900000')
     old={name:os.environ.get(name)for name in changes};os.environ.update(changes)
     try:yield
     finally:
