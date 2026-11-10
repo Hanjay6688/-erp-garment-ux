@@ -73,8 +73,14 @@ function measure(page, expectedWidth, state, settled = false) {
         scrollWidth: element.scrollWidth, overflowX: style.overflowX,
         whiteSpace: style.whiteSpace, minWidth: style.minWidth }]
     }).sort((a, b) => b.right - a.right).slice(0, 12)
+    const payroll = document.querySelector('.cproc.cpay')
+    const payrollChildren = [...payroll.children].map(element => ({
+      name: [...element.classList].join(' '), width: element.getBoundingClientRect().width,
+      scrollWidth: element.scrollWidth, clientWidth: element.clientWidth,
+    }))
     return { expectedWidth, state, settled, innerWidth, clientWidth: root.clientWidth, scrollWidth: root.scrollWidth,
-      visualWidth: visualViewport.width, visualScale: visualViewport.scale, outside }
+      visualWidth: visualViewport.width, visualScale: visualViewport.scale, outside,
+      payrollGrid: getComputedStyle(payroll).gridTemplateColumns, payrollChildren }
   }, { expectedWidth, state, settled })
 }
 
@@ -139,13 +145,38 @@ try {
     result.observations.push(await measure(page, width, 'DIALOG_AFTER_RESIZE'))
     result.observations.push(await measure(page, width, 'DIALOG_AFTER_RESIZE', true))
   }
+  const tooWide = row => row.innerWidth !== row.expectedWidth || row.scrollWidth > row.expectedWidth
+  assert.ok(result.observations.some(row => row.expectedWidth === 320 && tooWide(row)), 'MANDOR_EXPECTED_BASELINE_320_COUNTEREXAMPLE')
+  const wrap = '.cpay .cpay-detail > p { overflow-wrap: anywhere; }'
+  const grid = '.cproc.cpay { grid-template-columns: minmax(0, 1fr); }'
+  const alternatives = { WRAP_PAYROLL_DETAIL: wrap, SHRINK_PAYROLL_GRID: grid, BOTH: wrap + '\n' + grid }
+  result.variants = []
+  for (const [name, css] of Object.entries(alternatives)) {
+    const scopedCss = '@media (max-width: 640px) { ' + css + ' }'
+    await dialog.getByRole('button', { name: 'Tutup kartu tagihan', exact: true }).click()
+    const style = await page.addStyleTag({ content: scopedCss })
+    const rows = []
+    await page.setViewportSize({ width: 320, height: 844 })
+    rows.push(await measure(page, 320, 'PAYROLL_BEFORE_DIALOG', true))
+    await page.setViewportSize({ width: 390, height: 844 })
+    await launch.click()
+    await expect(dialog.getByRole('article', { name: 'Nota ' + fixture.sale_number, exact: true })).toBeVisible()
+    for (const width of [390, 320, 768, 390]) {
+      await page.setViewportSize({ width, height: 844 })
+      rows.push(await measure(page, width, 'DIALOG_AFTER_RESIZE'))
+      rows.push(await measure(page, width, 'DIALOG_AFTER_RESIZE', true))
+    }
+    const failed = rows.filter(tooWide)
+    result.variants.push({ name, css: scopedCss, status: failed.length ? 'FAIL' : 'PASS', observations: rows })
+    await style.evaluate(element => element.remove())
+  }
   result.fixture_reads = await page.evaluate(() => globalThis.__mandorMobileLayoutRequests)
   assert.ok(result.fixture_reads.includes('erp_cp7_get_mandor_shop_payroll_v1'))
   assert.ok(result.fixture_reads.every(name => /^erp_cp7_get_/.test(name)))
   assert.deepEqual(result.external_requests, [])
   assert.deepEqual(result.page_errors, [])
   result.failed_observations = result.observations.filter(row => row.innerWidth !== row.expectedWidth || row.scrollWidth > row.expectedWidth)
-  result.status = result.failed_observations.length ? 'LAYOUT_FAILURE_REPRODUCED' : 'LAYOUT_FAILURE_NOT_REPRODUCED'
+  result.status = result.variants.some(row => row.status === 'PASS') ? 'LAYOUT_REPAIR_PROVED' : 'LAYOUT_REPAIR_NOT_PROVED'
 } catch (error) {
   result.error = error.stack || String(error)
   process.exitCode = 1
