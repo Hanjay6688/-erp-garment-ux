@@ -24,6 +24,32 @@ def load(name,path):
 def pin(raw):return dict(bytes=len(raw),sha256=sha256(raw).hexdigest())
 
 
+def source_graph(p):
+    # The browser reader loads the current checkout's Afui codec. Replay the
+    # fenced source admission in a clean interpreter for the frozen Afui graph.
+    raw=subprocess.check_output([sys.executable,'-B',str(HERE/'qualification.py'),'--check'])
+    result=p.strict(raw)
+    p.fields(result,dict(actual_SQL_executed=0),'MANDOR_GATE_SOURCE_CHECK_NO_SQL')
+    p.fields(result['source_DB_guard'],dict(attempts=[],network_nonGit_attempts=[]),
+        'MANDOR_GATE_SOURCE_CHECK_FENCED')
+    return result['source']
+
+
+def packet_reader():
+    return load('mandor_exact_retained_typed_packet_reader',
+        ROOT/'scripts/current-s03-sku-s05-composite-qualification/parents.py')
+
+
+def check_source_isolation():
+    # Reproduce the terminal reader's current-codec import before source admission.
+    state_io=load('mandor_final_source_preflight_state',
+        ROOT/'scripts/current-mandor-afui-preparation/state_io.py')
+    state_io.codec()
+    source=source_graph(packet_reader())
+    return dict(status='MANDOR_FINAL_GATE_SOURCE_ISOLATION_VERIFIED',
+        source=source,actual_SQL_executed=0)
+
+
 def original(p,directory,reference):
     name=reference.get('path');parts=PurePosixPath(name).parts if type(name)is str else ()
     if(len(parts)!=2 or parts[0]!='MANDOR_NATIVE_ORIGINALS' or '\\'in name
@@ -65,7 +91,7 @@ def observations(p,directory,value):
 def gate(directory,head):
     import qualification
     raw_parent,parent=qualification.actual_parent()  # Before artifact/ERP imports.
-    p=load('mandor_exact_retained_typed_packet_reader',ROOT/'scripts/current-s03-sku-s05-composite-qualification/parents.py')
+    p=packet_reader()
     import cases
     docs={name:p.strict((directory/name).read_bytes())for name in(MAIN,RAW,'T3_PACKAGE_INSTALL.json',
         'T3_BACKUP_RESTORE_DRILL.json','MANDOR_RUNTIME_SUPERVISION.json')}
@@ -138,11 +164,7 @@ def gate(directory,head):
     if not backup['checks']or any(type(v)is not bool or not v for v in backup['checks'].values()):
         raise ValueError('MANDOR_GATE_EVERY_TYPED_BACKUP_CHECK_REQUIRED')
     p.exact(backup['data']['differ'],{},'MANDOR_GATE_BACKUP_NO_ROW_DIFFERENCE')
-    fence=load('mandor_final_packet_import_DB_fence',qualification.FROZEN/'scripts/current-sku-managed-recovery-native27-qualification/source_context.py')
-    with fence.fenced_source_read():
-        engine=qualification.runtime()
-        with engine.inherited_admission.parent_scope():sources=engine.admitted()
-    p.exact(main['source_declaration'],sources,'MANDOR_GATE_COMPLETE_CURRENT_NATURAL_SOURCE_GRAPH')
+    p.exact(main['source_declaration'],source_graph(p),'MANDOR_GATE_COMPLETE_CURRENT_NATURAL_SOURCE_GRAPH')
     return dict(status='CURRENT_MANDOR_NATIVE9_SESSION4_HTTP2_BROWSER2_AND_ALL5_PASS',head=head,
         actual_Native_cases=9,actual_business_cases=17,actual_Auth_HTTP_cases=2,actual_two_session_races=4,actual_browser_cases=2,
         session_gate=sessions,HTTP_gate=http,browser_gate=browser,
@@ -153,6 +175,11 @@ def gate(directory,head):
 
 
 if __name__=='__main__':
+    if sys.argv[1:]==['--check-source-isolation']:
+        print(json.dumps(check_source_isolation()))
+        sys.exit(0)
+    if sys.argv[1:]:
+        raise ValueError('MANDOR_GATE_UNKNOWN_COMMAND')
     head=subprocess.check_output(['git','-C',str(ROOT),'rev-parse','HEAD'],text=True).strip()
     value=gate(ROOT/'cp6-proof/t3',head)
     (ROOT/'cp6-proof/t3/MANDOR_NATIVE9_FINAL_GATE.json').write_text(json.dumps(value,indent=2)+'\n')

@@ -44,6 +44,8 @@ def observe(expected_parent, *, cumulative=False):
     parent_raw, money_raw = inputs(expected_parent)
     entry.assembly.source_manifest()  # Still a closed preparation, never adopted.
     root = entry.money_binding.cumulative_parent.verify(parent_raw) if cumulative else json.loads(parent_raw)
+    physical_source = (entry.load('automatic_exact_cumulative_physical_source', HERE / 'check_source.py')
+                      .check(cumulative=True) if cumulative else None)
     reference = entry.money_binding.load('automatic_graph_exact_retained_money_bridge', entry.money_binding.PRIOR).prepared_sources()[0]
     entry.frozen(entry.FROZEN_PARENT, root['head'], root['tree'])
     entry.frozen(entry.FROZEN_SKU, reference['candidate_head'], reference['candidate_tree'])
@@ -87,6 +89,7 @@ def observe(expected_parent, *, cumulative=False):
                 complete_current_money_graph=complete_graph, complete_parent_source_admission=parent_source,
                 private_money_binding=binding_proof, database_network_guard=guard,
                 actual_parent_import_closure=import_closure,
+                cumulative_physical_source=physical_source,
                 all_five_financial_gates_still_closed=True, graph_placeholder_used=False,
                 upstream_terminal_run_and_canonical_Root_review_required=True,
                 financial_runtime_activated=False, actual_ERP_cases=0, actual_Auth_HTTP_cases=0,

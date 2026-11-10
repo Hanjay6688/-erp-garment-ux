@@ -12,6 +12,7 @@ import access_cases
 
 READ=access_cases.READ
 WRITE=access_cases.WRITE
+REVOCATION_LOCK_MESSAGE='could not obtain lock on relation "erp.app_users"'
 HTTP_IDS=(
  'MANDOR_REAL_AUTH_HTTP_OWNER_RESERVE_REPLAY_RELEASE_AND_CURRENT_ROLE_STALE_REFUSALS',
  'MANDOR_REAL_AUTH_HTTP_CACHED_ALLOCATION_REFUSES_PENDING_AND_COMMITTED_ACCESS_REVOCATION',
@@ -132,7 +133,7 @@ def cached_revocation(http,today,product,state,fixture):
             finally:
                 if not future.done():holder.rollback()
         elapsed=monotonic()-start
-        denied(pending,'could not obtain lock on relation "app_users"','55P03')
+        denied(pending,REVOCATION_LOCK_MESSAGE,'55P03')
         require(elapsed<3,'MANDOR_HTTP_PENDING_REVOCATION_MUST_REFUSE_PROMPTLY')
         holder.commit()
     revoked=observe(ctx,http)

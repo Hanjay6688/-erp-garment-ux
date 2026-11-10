@@ -9,6 +9,7 @@ import importlib.util
 import json
 import re
 import stat
+from types import SimpleNamespace
 
 HERE = Path(__file__).resolve().parent
 spec = importlib.util.spec_from_file_location('automatic_current_source_assembly', HERE / 'assembly.py')
@@ -165,7 +166,8 @@ def actual_mandor():
     return root, receipt['parent_root']
 
 
-def check(*, runtime=False):
+def check(*, runtime=False, cumulative=False):
+    assembly.require(not (runtime and cumulative), 'SKU_CUMULATIVE_SOURCE_CANNOT_OPEN_RUNTIME')
     if runtime:
         assembly.admission.require_ready()
     own = assembly.source_manifest()
@@ -182,7 +184,18 @@ def check(*, runtime=False):
                      'SKU_AUTOMATIC_COMPLETE_APPROVED_UI_TREE_IDENTITIES_REQUIRED')
     selected = selective_ui(manifest['selective_B_UI'], entries(base['tree']), entries(UI_TREE))
     expected = entries(base['tree'])
-    if runtime:
+    evidence_paths = set()
+    if cumulative:
+        spec = importlib.util.spec_from_file_location('automatic_cumulative_source_closure', HERE / 'cumulative_source.py')
+        cumulative_source = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(cumulative_source)
+        context = SimpleNamespace(assembly=assembly, ROOT=ROOT, entries=entries,
+                                  MANDOR_BASE=MANDOR_BASE, MANDOR_BASE_TREE=MANDOR_BASE_TREE,
+                                  MANDOR_HEAD=MANDOR_HEAD, MANDOR_TREE=MANDOR_TREE,
+                                  BUILD_INPUTS=BUILD_INPUTS)
+        current_mandor, evidence_paths, cumulative_proof = cumulative_source.check(context, expected)
+        parent = dict(cumulative_Mandor_source_preparation=cumulative_proof)
+    elif runtime:
         actual = actual_mandor()
         current_mandor = mandor_source(manifest['actual_current_Mandor_source'], expected, actual=actual)
         parent = dict(accepted_current_Mandor_head=actual[0]['head'], accepted_current_Mandor_run=actual[0]['run_id'],
@@ -211,7 +224,7 @@ def check(*, runtime=False):
     changed = assembly.git('diff', '--name-only', base['head'], '--').decode().splitlines()
     namespace = str(HERE.relative_to(root)) + '/'
     workflow_name = '.github/workflows/cp7-sku-current-parent-money-automatic-native25.yml'
-    assembly.require(all(name.startswith(namespace) or name in current_mandor
+    assembly.require(all(name.startswith(namespace) or name in current_mandor or name in evidence_paths
                          or (runtime and name == workflow_name) for name in changed),
                      'SKU_AUTOMATIC_PARENT_DIFF_OUTSIDE_NAMESPACE')
     own_paths = {namespace + name for name in manifest['files']} | {namespace + 'SOURCE.json'}
@@ -229,7 +242,9 @@ def check(*, runtime=False):
     tracked = {name.decode() for name in assembly.git('ls-files', '-z', '--cached').split(b'\0') if name}
     untracked = {name.decode() for name in assembly.git('ls-files', '-z', '--others', '--exclude-standard').split(b'\0') if name}
     actual = tracked | (untracked - runner_inputs(root, untracked) if runtime else untracked)
-    assembly.require(actual == parent_paths | own_paths | active_paths, 'SKU_AUTOMATIC_EXACT_ADDITIVE_NAMESPACE_REQUIRED')
+    assembly.require(actual == parent_paths | own_paths | active_paths | evidence_paths, 'SKU_AUTOMATIC_EXACT_ADDITIVE_NAMESPACE_REQUIRED')
+    if cumulative:
+        assembly.require(not absent, 'SKU_CUMULATIVE_SOURCE_REQUIRES_FULL_PARENT_MATERIALIZATION')
     closed = all(getattr(assembly.admission, key) is None for key in assembly.admission.GATES)
     if runtime:
         assembly.admission.require_ready()
@@ -261,5 +276,6 @@ if __name__ == '__main__':
     import argparse
     parser = argparse.ArgumentParser()
     parser.add_argument('--runtime', action='store_true')
+    parser.add_argument('--cumulative-source', action='store_true')
     args = parser.parse_args()
-    print(json.dumps(check(runtime=args.runtime), sort_keys=True))
+    print(json.dumps(check(runtime=args.runtime, cumulative=args.cumulative_source), sort_keys=True))

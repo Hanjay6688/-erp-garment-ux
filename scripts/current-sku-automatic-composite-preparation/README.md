@@ -166,3 +166,24 @@ eight Node physical/economic/saved-journey controls. The first broad invocation'
 missing authority-input environment is retained; the complete invocation uses
 the exact earlier PG17 Original file. Financial execution, current HTTP/concurrency,
 actual full-catalogue global writer coverage and production acceptance remain open.
+
+
+## Cumulative physical source checkpoint — 10 November 2026
+
+`check_source.py --cumulative-source` checks the whole physical checkout against
+the exact reviewed Mandor backend a0e7d561 and the paired browser product CSS
+at e63c7589. It accounts for all 33 backend changes after f6a85381 (111 paths
+relative to the original Mandor base), the one product CSS change in the
+paired browser candidate, unchanged build inputs, all base source files, and
+the nine byte-pinned published replay documents. Source-only mode refuses
+runtime admission and requires every parent file to be physically present.
+
+`source_intake.py --cumulative` now executes this whole physical check before
+reading the inherited money graph. Legacy single-run checks are retained;
+the cumulative mode never invents one combined run/job identity. The old
+Mandor preparation map remains historical, not a candidate to execute.
+
+Validation: the complete physical check covered 14,730 exact parent files
+with zero absent files. Sixteen focused Python tests and the original twelve
+input-tamper controls passed. Full inherited money-graph observation and
+runtime adoption remain pending; no SKU or Global execution is claimed.

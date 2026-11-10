@@ -8,6 +8,9 @@ AFUI_TREE = '02a8812e9eae2272a976d1dbd1e21aff8c022467'
 PRIOR_AFUI = '76b3f1e1bcce49cc405e55f92a733dcd0f360cad'
 NS = 'scripts/current-mandor-shop-native-qualification/'
 PINS = {
+    'access_cases.py': (18914, '66ada107055893b894a51789a539e0c9b30b52d9c6f363e9ec2a85539ed839b1'),
+    'http_cases.py': (9464, '59665e1e8ab2e784313034b0b61584ecdf9c379e486aa436091f5aa5a7f82720'),
+    'http_gate.py': (4712, '7a9a67f025e958d58cedbf8e588ce64d2955539a3fdb997bc72b4b60f3fc44b7'),
     'additional_cases.py': (11438, '2fef6edab13d9b7fcf716fb85a5e8da08dc1d144713109950fc29cb8b9cedfa9'),
     'advisor_review.py': (8140, '4bfe15aedd3d61228f7f59b8b863b6109b8c8d6779797ccf0e9b9f4fe9da17e8'),
     'cases.py': (11526, 'fefe8106c36976a4853703244f2cc3b48f9bf2b93b95a5b9bbe9a42a2773d8fd'),
@@ -20,8 +23,10 @@ PINS = {
     'qualification.py': (7161, '3f4bf0cfccbf650240729e01909dcb39b3e88371e59ee14a3bffc5f05934de0b'),
     'component.py': (7956, '31b7626e2488fd4371daa2bf21254583b86299673b91130eb0736778126f5044'),
     'access_runtime.py': (8404, '4718579f49a6ad7cc5b4ac0e229d474a61dfe8e13f0e544b6ecf3ac49699a487'),
+    'browser.mjs': (14577, '37780a85ee09b8446bf486b9c2b7b2b437c37d48ac8824788482a58a76136baa'),
     'browser_observer.py': (3746, '0458e0314827d2ff2b7c1ac13157e7fc34730f7231289b515c29c280594250f4'),
     'browser_gate.py': (10213, '8b213c1f7bc4232b9edc43471c16e4b0aeb5404c9784359024d9242074a019ad'),
+    'final_gate.py': (10604, '593c3073fe8e2539a037c7762839b14bb63b7d1903bdf10926c5fda87ec80edf'),
     'preflight.py': (10968, 'ea789817b7ec0c48ca3fb702c5f1a8045853438f87302ea38d81f89595a5069d'),
 }
 
@@ -30,6 +35,10 @@ PRODUCT_GUARD = 'scripts/cp7_mandor_shop/payment_guards.sql'
 PRODUCT_PIN = (10946, '0405c0a9c807ef0be3881c2a32c69a152e2a0614bc8efb1f5572ac715683d771')
 
 TERMINAL_REPAIR = {
+    'http_gate.py': (
+        ('            http_cases.denied(row[\'pending_revocation\'],\'could not obtain lock on relation "app_users"\',\'55P03\')\n',
+         "            http_cases.denied(row['pending_revocation'],http_cases.REVOCATION_LOCK_MESSAGE,'55P03')\n"),
+    ),
     'advisor_review.py': (("PLAN_PIN=dict(bytes=13274,sha256='341f2cbd4a0e361bee275f9e66a15c5362a8cee9d3ba91e619b95f376aa7098a')\n", "PLAN_PIN=dict(bytes=13274,sha256='677cd27d61a44b875b9d0745fbba7eeb1c23588093fad299e7639c07c5dc2316')\n"),),
     'native_fixture.py': (
         ('        require(cur.execute(\'select count(*)from erp.payroll_work_items where payroll_id=%s::uuid\',(payroll,)).fetchone()==(0,),\'MANDOR_NATIVE_EMPTY_DRAFT_WEEK_REQUIRED\')\n        row=cur.execute("update erp.payroll_settlements set period_start=%s,period_end=%s,"\n            "payment_date=case when %s then null else payment_date end,"\n            "payment_cash_account_id=case when %s then null else payment_cash_account_id end "\n            "where id=%s::uuid and status=\'DRAFT\' returning id::text",(start,end,back<0,back<0,payroll)).fetchone()\n        require(row==(payroll,),\'MANDOR_NATIVE_ONLY_NEW_EMPTY_DRAFT_WEEK\')\n        self.modules.bc.boundary.historical.prior.set_open_period(cur,today)\n',
@@ -55,7 +64,34 @@ TERMINAL_REPAIR = {
     ),
 }
 
+BROWSER_CALLER_REPAIR = {
+    'browser.mjs': (
+        ("const observed=(label,actor)=>JSON.parse(execFileSync('python',['-B',resolve(HERE,'browser_observer.py'),'observe'],\n {cwd:ROOT,input:JSON.stringify({label,actor}),encoding:'utf8',maxBuffer:32*1024*1024,timeout:90000}).trim())\n",
+         "function observer(command, input, timeout = 150000) {\n return JSON.parse(execFileSync('python', ['-B', resolve(HERE, 'browser_observer.py'), command], {\n  cwd: resolve(ROOT, '../writer'), input, encoding: 'utf8', maxBuffer: 32 * 1024 * 1024, timeout,\n }).trim())\n}\nconst observed=(label,actor)=>observer('observe', JSON.stringify({label, actor}))\n\nif (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {\n assert.deepEqual(process.argv.slice(2), ['--check-observer-runtime'])\n const proof = observer('--check-runtime')\n assert.equal(proof.status, 'MANDOR_BROWSER_COLD_OBSERVER_SOURCE_ADMITTED')\n assert.equal(proof.actual_SQL_executed, 0)\n console.log(JSON.stringify(proof))\n}\n"),
+        (" const source=JSON.parse(execFileSync('python',['-B',resolve(HERE,'browser_observer.py'),'--admit'],\n  {cwd:ROOT,encoding:'utf8',maxBuffer:2*1024*1024,timeout:60000}).trim())\n",
+         " const source=observer('--admit', undefined, 60000)\n"),
+    ),
+    'browser_observer.py': (
+        ('import gzip,json,os,re,sys\n',
+         'import gzip,json,os,re,subprocess,sys\n'),
+        ("def main():\n    require(sys.argv[1:]in(['--admit'],['observe']),'MANDOR_BROWSER_READ_ONLY_OBSERVER_COMMAND')\n    fixture,state,parent=originals()\n",
+         "def observer_runtime():\n    import qualification,access_cases\n    writer=ROOT.parent/'writer'\n    require(writer.is_dir() and not writer.is_symlink() and Path.cwd()==writer,\n            'MANDOR_BROWSER_EXACT_OWNING_WRITER_CWD_REQUIRED')\n    declared=json.loads((ROOT/'scripts/current-finance-combined-composition/FROZEN_SOURCE_ROOTS.json').read_bytes())\n    head=subprocess.check_output(['git','-C',str(writer),'rev-parse','HEAD'],text=True).strip()\n    require(head==declared['writer'],'MANDOR_BROWSER_EXACT_OWNING_WRITER_HEAD_REQUIRED')\n    product=qualification.runtime().product\n    product.domain_modules,proof=product.fixture.domain_modules()\n    return product,access_cases,proof\n\n\ndef main():\n    require(sys.argv[1:]in(['--check-runtime'],['--admit'],['observe']),'MANDOR_BROWSER_READ_ONLY_OBSERVER_COMMAND')\n    if sys.argv[1]=='--check-runtime':\n        import qualification,psycopg\n        fence=qualification.load('mandor_cold_browser_DB_network_fence',\n            qualification.FROZEN/'scripts/current-sku-managed-recovery-native27-qualification/source_context.py')\n        with fence.fenced_source_read() as guard:\n            _,_,proof=observer_runtime()\n        require(not guard['attempts'] and not guard['network_nonGit_attempts'],\n                'MANDOR_BROWSER_COLD_SOURCE_DB_AND_NETWORK_FENCE')\n        return dict(status='MANDOR_BROWSER_COLD_OBSERVER_SOURCE_ADMITTED',domain=proof,source_DB_guard=guard,\n                    actual_SQL_executed=0,actual_browser_cases=0)\n    fixture,state,parent=originals()\n"),
+        ('    import qualification,access_cases\n    product=qualification.runtime().product\n    product.domain_modules=product.fixture.domain_modules()[0]\n',
+         '    product,access_cases,_=observer_runtime()\n'),
+    ),
+}
+
+
 def replacements(name):
+    if name == 'final_gate.py':
+        return (
+            ("def pin(raw):return dict(bytes=len(raw),sha256=sha256(raw).hexdigest())\n\n\n", "def pin(raw):return dict(bytes=len(raw),sha256=sha256(raw).hexdigest())\n\n\ndef source_graph(p):\n    # The browser reader loads the current checkout's Afui codec. Replay the\n    # fenced source admission in a clean interpreter for the frozen Afui graph.\n    raw=subprocess.check_output([sys.executable,'-B',str(HERE/'qualification.py'),'--check'])\n    result=p.strict(raw)\n    p.fields(result,dict(actual_SQL_executed=0),'MANDOR_GATE_SOURCE_CHECK_NO_SQL')\n    p.fields(result['source_DB_guard'],dict(attempts=[],network_nonGit_attempts=[]),\n        'MANDOR_GATE_SOURCE_CHECK_FENCED')\n    return result['source']\n\n\ndef packet_reader():\n    return load('mandor_exact_retained_typed_packet_reader',\n        ROOT/'scripts/current-s03-sku-s05-composite-qualification/parents.py')\n\n\ndef check_source_isolation():\n    # Reproduce the terminal reader's current-codec import before source admission.\n    state_io=load('mandor_final_source_preflight_state',\n        ROOT/'scripts/current-mandor-afui-preparation/state_io.py')\n    state_io.codec()\n    source=source_graph(packet_reader())\n    return dict(status='MANDOR_FINAL_GATE_SOURCE_ISOLATION_VERIFIED',\n        source=source,actual_SQL_executed=0)\n\n\n"),
+            ("    p=load('mandor_exact_retained_typed_packet_reader',ROOT/'scripts/current-s03-sku-s05-composite-qualification/parents.py')\n", "    p=packet_reader()\n"),
+            ("    fence=load('mandor_final_packet_import_DB_fence',qualification.FROZEN/'scripts/current-sku-managed-recovery-native27-qualification/source_context.py')\n    with fence.fenced_source_read():\n        engine=qualification.runtime()\n        with engine.inherited_admission.parent_scope():sources=engine.admitted()\n    p.exact(main['source_declaration'],sources,'MANDOR_GATE_COMPLETE_CURRENT_NATURAL_SOURCE_GRAPH')\n", "    p.exact(main['source_declaration'],source_graph(p),'MANDOR_GATE_COMPLETE_CURRENT_NATURAL_SOURCE_GRAPH')\n"),
+            ("if __name__=='__main__':\n", "if __name__=='__main__':\n    if sys.argv[1:]==['--check-source-isolation']:\n        print(json.dumps(check_source_isolation()))\n        sys.exit(0)\n    if sys.argv[1:]:\n        raise ValueError('MANDOR_GATE_UNKNOWN_COMMAND')\n"),
+        )
+    if name in BROWSER_CALLER_REPAIR and name != 'browser_observer.py':
+        return BROWSER_CALLER_REPAIR[name]
     if name == 'native_fixture.py':
         return (
             ('from datetime import timedelta\n',
@@ -197,10 +233,40 @@ def replacements(name):
              "    catalogue=state_io.observer_catalogue(state,report['browser_state_original'],report['browser_state_cache_original'])\n"
              "    report['browser_fixture_original']=save(dict(fixture,observer_catalogue=catalogue),'MANDOR_BROWSER_FIXTURE.json')\n"),
         )
-        return (save, *scoped, *state_routes)
+        return (save, *scoped, *state_routes,
+                ("        AUDITOR_BROWSER_CASE_TIMEOUT_MS='600000')",
+                 "        AUDITOR_BROWSER_CASE_TIMEOUT_MS='900000')"),)
     if name in TERMINAL_REPAIR:
         return TERMINAL_REPAIR[name]
     raise ValueError('MANDOR_CURRENT_ONLY_REVIEWED_CALLER_SOURCES')
+
+
+ACCESS_AND_ADVISOR_REPAIR = {
+    'access_cases.py': (
+        ('            finally:\n                if not pending.done():holder.rollback()\n        require(busy[\'backend_pid\']!=holder_pid,\'MANDOR_ACCESS_TWO_DISTINCT_REVOCATION_BACKENDS\')\n        refused(busy,\'55P03\',\'could not obtain lock on relation "app_users"\')\n        require(busy[\'elapsed\']<3,\'MANDOR_ACCESS_PERMISSION_NOWAIT_MUST_NOT_TIMEOUT\')\n        holder.commit()\n    revoked=ctx.observe(tools)\n',
+         '            finally:\n                if not pending.done():holder.rollback()\n        require(busy[\'backend_pid\']!=holder_pid,\'MANDOR_ACCESS_TWO_DISTINCT_REVOCATION_BACKENDS\')\n        refused(busy,\'55P03\',\'could not obtain lock on relation "erp.app_users"\')\n        require(busy[\'elapsed\']<3,\'MANDOR_ACCESS_PERMISSION_NOWAIT_MUST_NOT_TIMEOUT\')\n        holder.commit()\n    revoked=ctx.observe(tools)\n'),
+    ),
+    'http_cases.py': (
+        ('WRITE=access_cases.WRITE\n',
+         'WRITE=access_cases.WRITE\nREVOCATION_LOCK_MESSAGE=\'could not obtain lock on relation "erp.app_users"\'\n'),
+        ('            finally:\n                if not future.done():holder.rollback()\n        elapsed=monotonic()-start\n        denied(pending,\'could not obtain lock on relation "app_users"\',\'55P03\')\n        require(elapsed<3,\'MANDOR_HTTP_PENDING_REVOCATION_MUST_REFUSE_PROMPTLY\')\n        holder.commit()\n    revoked=observe(ctx,http)\n',
+         '            finally:\n                if not future.done():holder.rollback()\n        elapsed=monotonic()-start\n        denied(pending,REVOCATION_LOCK_MESSAGE,\'55P03\')\n        require(elapsed<3,\'MANDOR_HTTP_PENDING_REVOCATION_MUST_REFUSE_PROMPTLY\')\n        holder.commit()\n    revoked=observe(ctx,http)\n'),
+    ),
+    'advisor_review.py': (
+        ('"""Compose the exact Afui reviewer with fifteen private Mandor INFOs.\n\nOnly the named RLS-without-policy INFO is eligible. Live metadata must first\nprove the complete private table ACLs, column ACLs and exact schema leases.\n',
+         '"""Compose the exact Afui reviewer with the exact private Mandor and review adapter INFOs.\n\nOnly the named RLS-without-policy INFO is eligible. Live metadata must first\nprove the complete private table ACLs, column ACLs and exact schema leases.\n'),
+        ("    'deduction_links','draft_buyers','offset_accounts','payment_work','payroll_identities','requests',\n    'sales','settlement_lines','settlement_reversals','settlements')\nSCHEMA_ROLES=('cp7_installment_write','cp7_mandor_shop_api','cp7_payroll_write','cp7_sales_read','cp7_sales_write')\nROLES=('anon','authenticated','service_role','cp7_alert','cp7_finance_read')+SCHEMA_ROLES\nPRIVILEGES=('SELECT','INSERT','UPDATE','DELETE','TRUNCATE','REFERENCES','TRIGGER')\n\n",
+         "    'deduction_links','draft_buyers','offset_accounts','payment_work','payroll_identities','requests',\n    'sales','settlement_lines','settlement_reversals','settlements')\nSCHEMA_ROLES=('cp7_installment_write','cp7_mandor_shop_api','cp7_payroll_write','cp7_sales_read','cp7_sales_write')\nADAPTER_SCHEMA='cp7_note_zero_effect'\nADAPTER_TABLES=('preparations','receipts')\nPRIVATE_GROUPS=(\n    ('Mandor',SCHEMA,TABLES,SCHEMA_ROLES),\n    ('ReviewAdapter',ADAPTER_SCHEMA,ADAPTER_TABLES,()),\n)\nROLES=('anon','authenticated','service_role','cp7_alert','cp7_finance_read')+SCHEMA_ROLES\nPRIVILEGES=('SELECT','INSERT','UPDATE','DELETE','TRUNCATE','REFERENCES','TRIGGER')\n\n"),
+        ("    require(pin((ROOT/PARENT_PATH).read_bytes())==PARENT_PIN,'MANDOR_ADVISOR_UNCHANGED_AFUI_REFERENCE')\n    return dict(status='MANDOR_ADVISOR_EXACT_SOURCE_PREPARATION_NOT_RUNTIME',\n        Afui_reviewer=PARENT_PIN,installation_plan=PLAN_PIN,private_tables=15,\n        inherited_Afui_private_tables=3,product_grants_changed=False,\n        actual_SQL_executed=0,actual_ERP_cases=0,production_go=False)\n\n\n",
+         "    require(pin((ROOT/PARENT_PATH).read_bytes())==PARENT_PIN,'MANDOR_ADVISOR_UNCHANGED_AFUI_REFERENCE')\n    return dict(status='MANDOR_ADVISOR_EXACT_SOURCE_PREPARATION_NOT_RUNTIME',\n        Afui_reviewer=PARENT_PIN,installation_plan=PLAN_PIN,private_tables=15,\n        inherited_Afui_private_tables=3,review_adapter_private_tables=2,product_grants_changed=False,\n        actual_SQL_executed=0,actual_ERP_cases=0,production_go=False)\n\n\n"),
+        ('\n\ndef require_closed(proof):\n    require(type(proof)is dict and set(proof)=={\'Afui\',\'Mandor\'},\'MANDOR_ADVISOR_COMPLETE_PARENT_AND_CHILD_PROOF\')\n    parent().require_closed(proof[\'Afui\'])\n    require(type(proof[\'Mandor\'])is dict and set(proof[\'Mandor\'])==set(TABLES),\n        \'MANDOR_ADVISOR_EXACT_FIFTEEN_LIVE_AUTHORITIES\')\n    schema_acl=[[role,\'USAGE\',False]for role in SCHEMA_ROLES]\n    for name,row in proof[\'Mandor\'].items():\n        expected=dict(object=[SCHEMA,name],owner=\'postgres\',rls=True,force_rls=False,policies=[],\n            schema_owner=\'postgres\',nonowner_schema_acl=schema_acl,\n            nonowner_table_acl=[],nonowner_column_acl=[],\n            schema_usage={role:role in SCHEMA_ROLES for role in ROLES},\n            table_privileges={role:{priv:False for priv in PRIVILEGES}for role in ROLES})\n        require(json.dumps(row,sort_keys=True,allow_nan=False)==json.dumps(expected,sort_keys=True,allow_nan=False),\n            \'MANDOR_ADVISOR_PRIVATE_LIVE_AUTHORITY_CHANGED:\'+name)\n    return proof\n\n\ndef capture(cur):\n    source();result=dict(Afui=parent().capture(cur),Mandor={})\n    schema_owner=cur.execute(\'select pg_get_userbyid(nspowner)from pg_namespace where nspname=%s\',(SCHEMA,)).fetchone()[0]\n    schema_acl=cur.execute("select case a.grantee when 0 then \'PUBLIC\'else pg_get_userbyid(a.grantee)end,"\n        "a.privilege_type,a.is_grantable from pg_namespace n,lateral aclexplode(coalesce(n.nspacl,acldefault(\'n\',n.nspowner)))a "\n        "where n.nspname=%s and a.grantee<>n.nspowner order by 1,2,3",(SCHEMA,)).fetchall()\n    for name in TABLES:\n        qualified=SCHEMA+\'.\'+name\n        owner,rls,force=cur.execute(\'select pg_get_userbyid(relowner),relrowsecurity,relforcerowsecurity \'\n            \'from pg_class where oid=%s::regclass\',(qualified,)).fetchone()\n        policies=cur.execute(\'select polname from pg_policy where polrelid=%s::regclass order by polname\',(qualified,)).fetchall()\n',
+         '\n\ndef require_closed(proof):\n    require(type(proof)is dict and set(proof)=={\'Afui\',\'Mandor\',\'ReviewAdapter\'},\n        \'MANDOR_ADVISOR_COMPLETE_PARENT_AND_CHILD_PROOF\')\n    parent().require_closed(proof[\'Afui\'])\n    for group,schema,tables,roles in PRIVATE_GROUPS:\n        require(type(proof[group])is dict and set(proof[group])==set(tables),\n            \'MANDOR_ADVISOR_EXACT_LIVE_AUTHORITIES:\'+group)\n        schema_acl=[[role,\'USAGE\',False]for role in roles]\n        for name,row in proof[group].items():\n            expected=dict(object=[schema,name],owner=\'postgres\',rls=True,force_rls=(group==\'ReviewAdapter\'),policies=[],\n                schema_owner=\'postgres\',nonowner_schema_acl=schema_acl,\n                nonowner_table_acl=[],nonowner_column_acl=[],\n                schema_usage={role:role in roles for role in ROLES},\n                table_privileges={role:{priv:False for priv in PRIVILEGES}for role in ROLES})\n            require(json.dumps(row,sort_keys=True,allow_nan=False)==json.dumps(expected,sort_keys=True,allow_nan=False),\n                \'MANDOR_ADVISOR_PRIVATE_LIVE_AUTHORITY_CHANGED:\'+schema+\'.\'+name)\n    return proof\n\n\ndef capture_private(cur,schema,tables):\n    result={}\n    schema_owner=cur.execute(\'select pg_get_userbyid(nspowner)from pg_namespace where nspname=%s\',(schema,)).fetchone()[0]\n    schema_acl=cur.execute("select case a.grantee when 0 then \'PUBLIC\'else pg_get_userbyid(a.grantee)end,"\n        "a.privilege_type,a.is_grantable from pg_namespace n,lateral aclexplode(coalesce(n.nspacl,acldefault(\'n\',n.nspowner)))a "\n        "where n.nspname=%s and a.grantee<>n.nspowner order by 1,2,3",(schema,)).fetchall()\n    for name in tables:\n        qualified=schema+\'.\'+name\n        owner,rls,force=cur.execute(\'select pg_get_userbyid(relowner),relrowsecurity,relforcerowsecurity \'\n            \'from pg_class where oid=%s::regclass\',(qualified,)).fetchone()\n        policies=cur.execute(\'select polname from pg_policy where polrelid=%s::regclass order by polname\',(qualified,)).fetchall()\n'),
+        ('            "a.privilege_type,a.is_grantable from pg_class c join pg_attribute t on t.attrelid=c.oid "\n            "cross join lateral aclexplode(t.attacl)a where c.oid=%s::regclass and a.grantee<>c.relowner order by 1,2,3,4",\n            (qualified,)).fetchall()\n        result[\'Mandor\'][name]=dict(object=[SCHEMA,name],owner=owner,rls=rls,force_rls=force,policies=policies,\n            schema_owner=schema_owner,nonowner_schema_acl=schema_acl,nonowner_table_acl=table_acl,nonowner_column_acl=column_acl,\n            schema_usage={role:cur.execute("select has_schema_privilege(%s,%s,\'USAGE\')",(role,SCHEMA)).fetchone()[0]for role in ROLES},\n            table_privileges={role:{priv:cur.execute(\'select has_table_privilege(%s,%s,%s)\',(role,qualified,priv)).fetchone()[0]\n                for priv in PRIVILEGES}for role in ROLES})\n    return require_closed(result)\n\n\ndef review(delta,manifest,proof,predecessor_review):\n    require_closed(proof)\n    original=parent().review(delta,manifest,proof[\'Afui\'],predecessor_review)\n    reviewed=[];unexplained=[]\n    for finding in original[\'unexplained\']:\n        meta=finding.get(\'metadata\')or{}\n        exact=(finding.get(\'name\')==\'rls_enabled_no_policy\'and finding.get(\'level\')==\'INFO\'\n            and meta.get(\'type\')==\'table\'and meta.get(\'schema\')==SCHEMA and meta.get(\'name\')in TABLES)\n        (reviewed if exact else unexplained).append(finding)\n    names=[row[\'metadata\'][\'name\']for row in reviewed]\n    # The first disposition and complete delta stay intact. Ask the unchanged\n    # parent to decide the remainder separately, after only these live-proven\n    # child INFOs have been classified. A false parent gate cannot be promoted.\n',
+         '            "a.privilege_type,a.is_grantable from pg_class c join pg_attribute t on t.attrelid=c.oid "\n            "cross join lateral aclexplode(t.attacl)a where c.oid=%s::regclass and a.grantee<>c.relowner order by 1,2,3,4",\n            (qualified,)).fetchall()\n        result[name]=dict(object=[schema,name],owner=owner,rls=rls,force_rls=force,policies=policies,\n            schema_owner=schema_owner,nonowner_schema_acl=schema_acl,nonowner_table_acl=table_acl,nonowner_column_acl=column_acl,\n            schema_usage={role:cur.execute("select has_schema_privilege(%s,%s,\'USAGE\')",(role,schema)).fetchone()[0]for role in ROLES},\n            table_privileges={role:{priv:cur.execute(\'select has_table_privilege(%s,%s,%s)\',(role,qualified,priv)).fetchone()[0]\n                for priv in PRIVILEGES}for role in ROLES})\n    return result\n\n\ndef capture(cur):\n    source()\n    result=dict(Afui=parent().capture(cur))\n    for group,schema,tables,_ in PRIVATE_GROUPS:\n        result[group]=capture_private(cur,schema,tables)\n    return require_closed(result)\n\n\ndef review(delta,manifest,proof,predecessor_review):\n    require_closed(proof)\n    original=parent().review(delta,manifest,proof[\'Afui\'],predecessor_review)\n    eligible={(schema,name)for _,schema,tables,_ in PRIVATE_GROUPS for name in tables}\n    reviewed=[];unexplained=[]\n    for finding in original[\'unexplained\']:\n        meta=finding.get(\'metadata\')or{}\n        exact=(finding.get(\'name\')==\'rls_enabled_no_policy\'and finding.get(\'level\')==\'INFO\'\n            and meta.get(\'type\')==\'table\'and (meta.get(\'schema\'),meta.get(\'name\'))in eligible)\n        (reviewed if exact else unexplained).append(finding)\n    names=[(row[\'metadata\'][\'schema\'],row[\'metadata\'][\'name\'])for row in reviewed]\n    # The first disposition and complete delta stay intact. Ask the unchanged\n    # parent to decide the remainder separately, after only these live-proven\n    # child INFOs have been classified. A false parent gate cannot be promoted.\n'),
+        ("    identities=[(row.get('name'),row.get('level'),(row.get('metadata')or{}).get('type'),\n        (row.get('metadata')or{}).get('schema'),(row.get('metadata')or{}).get('name'))for row in delta.get('added',[])]\n    passed=(delta.get('status')in('NO_NEW_FINDINGS','REVIEW_REQUIRED')and not unexplained\n        and len(names)==len(set(names))and set(names).issubset(TABLES)\n        and len(identities)==len(set(identities))and parent_remainder['gate']is True)\n    return dict(status='VERIFIED_AFUI_AND_MANDOR_PRIVATE_DEFAULT_DENY_INFO'if passed else'UNEXPLAINED_FINDINGS',\n        predecessor_disposition=original,reviewed_Mandor_private_info=reviewed,current_private_authority=proof,\n        unchanged_parent_remainder_disposition=parent_remainder,complete_original_delta=delta,\n        unexplained=unexplained,gate=bool(passed))\n",
+         "    identities=[(row.get('name'),row.get('level'),(row.get('metadata')or{}).get('type'),\n        (row.get('metadata')or{}).get('schema'),(row.get('metadata')or{}).get('name'))for row in delta.get('added',[])]\n    passed=(delta.get('status')in('NO_NEW_FINDINGS','REVIEW_REQUIRED')and not unexplained\n        and len(names)==len(set(names))\n        and len(identities)==len(set(identities))and parent_remainder['gate']is True)\n    return dict(status='VERIFIED_AFUI_AND_MANDOR_PRIVATE_DEFAULT_DENY_INFO'if passed else'UNEXPLAINED_FINDINGS',\n        predecessor_disposition=original,\n        reviewed_Mandor_private_info=[row for row in reviewed if row['metadata']['schema']==SCHEMA],\n        reviewed_adapter_private_info=[row for row in reviewed if row['metadata']['schema']==ADAPTER_SCHEMA],\n        current_private_authority=proof,\n        unchanged_parent_remainder_disposition=parent_remainder,complete_original_delta=delta,\n        unexplained=unexplained,gate=bool(passed))\n"),
+    ),
+}
 
 
 def derive(raw, name):
@@ -208,7 +274,10 @@ def derive(raw, name):
     if (len(raw), sha256(raw).hexdigest()) != expected:
         raise ValueError('MANDOR_CURRENT_EXACT_PREPARED_CALLER_SOURCE_REQUIRED:' + name)
     source = raw.decode()
-    routes = replacements(name)
+    routes = replacements(name) if name not in ('access_cases.py','http_cases.py') else ()
+    routes = (*routes, *ACCESS_AND_ADVISOR_REPAIR.get(name, ()))
+    if name == 'browser_observer.py':
+        routes = (*routes, *BROWSER_CALLER_REPAIR[name])
     for before, after in routes:
         if source.count(before) != 1 or after in source:
             raise ValueError('MANDOR_CURRENT_ONE_EXACT_CALLER_ROUTE_REQUIRED:' + name)
@@ -220,7 +289,7 @@ def derive(raw, name):
         restored = restored.replace(after, before, 1)
     if restored.encode() != raw:
         raise ValueError('MANDOR_CURRENT_COMPLETE_PREPARED_CALLER_NOT_RECOVERED:' + name)
-    if name != 'payment_guards.sql':
+    if name.endswith('.py'):
         compile(source, 'current-mandor-afui-caller::' + name, 'exec', dont_inherit=True)
     return source.encode(), dict(original_bytes=len(raw), original_sha256=expected[1],
                                  derived_sha256=sha256(source.encode()).hexdigest(), exact_routes=len(routes),

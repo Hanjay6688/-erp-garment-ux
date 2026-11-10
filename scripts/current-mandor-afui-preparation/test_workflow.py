@@ -116,14 +116,27 @@ class CurrentWorkflow(unittest.TestCase):
             self.assertTrue(commands[0][1].endswith('workflow.py --check-owning'))
 
     def test_current80_chain_has69_unchanged_steps_and84_complete_current_steps(self):
+        import yaml
+
         workflow = load('workflow');text, proof = workflow.derive()
         self.assertEqual((proof['original_steps'], proof['unchanged_steps'], proof['owning_routes'], proof['total_steps']), (80, 69, 11, 84))
         self.assertEqual(text.encode(), workflow.TEMPLATE.read_bytes())
-        self.assertEqual(workflow.check(), proof)
+        if workflow.ACTIVE.exists():
+            self.assertEqual(workflow.check(owning=True)['owning_workflow_sha256'],
+                             sha256(text.encode()).hexdigest())
+        else:
+            self.assertEqual(workflow.check(), proof)
+        steps = yaml.safe_load(text)['jobs']['p21']['steps']
+        preflight = next(step for step in steps if step.get('name', '').startswith(
+            'Admit genuine Afui15 and whole current Mandor graph'))
+        self.assertEqual(preflight['working-directory'], 'writer')
+        self.assertEqual(preflight['run'].splitlines()[1],
+                         'python -B ../auditor/' + workflow.NS + 'final_gate.py --check-source-isolation')
+        self.assertLess(steps.index(preflight), next(
+            i for i, step in enumerate(steps) if step.get('name') == 'Provision isolated rollback authority'))
         self.assertIn('current-mandor-afui-preparation/', text)
         self.assertIn('MANDOR_NATIVE_JOB_START_MONOTONIC', text)
         self.assertNotIn('AFUI_JOB_START_MONOTONIC', text)
-        self.assertFalse(workflow.ACTIVE.exists())
 
     def test_real_log_step_keeps_small_original_and_leaves_large_original_for_archive(self):
         import yaml

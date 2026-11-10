@@ -9,6 +9,7 @@ import os
 import re
 import stat
 import subprocess
+import sys
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
@@ -190,6 +191,44 @@ def runner_inputs(root, names, *, browser_receipt='AFUI_BROWSER_PREREQUISITES.js
     return accepted
 
 
+
+REVIEW_ADAPTER_FILES = set(('__init__.py', 'owner.py', 'bind_mandor_adapter.py', 'guard_original_unused.py', 'verify_catalogue_transition.py', 'derive_owning_adapter_routes.py', 'VERIFIED_FOCUS_TERMINAL.json', 'FOCUSED_INSTALLER.sql', 'FOCUSED_INSTALLER_RECEIPT.json', 'FORMAL_ALL22_WIB_GUARD_FIXTURE.json', 'UNUSED_INVERSE.sql'))
+
+
+def review_adapter_callers(manifest, adopted, canonical):
+    directory = HERE / 'review_adapter'
+    prefix = str(directory.relative_to(ROOT)) + '/'
+    files = manifest['files']
+    selected = {name.removeprefix(prefix) for name in files if name.startswith(prefix)}
+    review = manifest.get('actual_Mandor_review_adapter')
+    if review is None:
+        require(not selected and not directory.exists(), 'MANDOR_UNBOUND_REVIEW_ADAPTER_PRESENT')
+        return
+    require(adopted and set(review) == {'terminal_sha256'} and not directory.is_symlink()
+            and selected == REVIEW_ADAPTER_FILES, 'MANDOR_EXACT_REVIEW_ADAPTER_MANIFEST_REQUIRED')
+    for name in sorted(REVIEW_ADAPTER_FILES):
+        path = directory / name
+        require(path.is_file() and not path.is_symlink() and pin(path.read_bytes()) == files[prefix + name],
+                'MANDOR_REVIEW_ADAPTER_SOURCE_CHANGED:' + name)
+    terminal = (directory / 'VERIFIED_FOCUS_TERMINAL.json').read_bytes()
+    require(sha256(terminal).hexdigest() == review['terminal_sha256'], 'MANDOR_REVIEW_ADAPTER_TERMINAL_PIN_CHANGED')
+    name = 'mandor_exact_review_adapter'
+    path = directory / '__init__.py'
+    package = sys.modules.get(name)
+    if package is None:
+        spec = importlib.util.spec_from_file_location(name, path, submodule_search_locations=[str(directory)])
+        package = importlib.util.module_from_spec(spec)
+        sys.modules[name] = package
+        spec.loader.exec_module(package)
+    require(Path(package.__file__).resolve() == path.resolve(), 'MANDOR_REVIEW_ADAPTER_PACKAGE_PATH_CHANGED')
+    derivation = importlib.import_module(name + '.derive_owning_adapter_routes')
+    require(Path(derivation.__file__).resolve() == (directory / 'derive_owning_adapter_routes.py').resolve(),
+            'MANDOR_REVIEW_ADAPTER_DERIVATION_PATH_CHANGED')
+    revised = derivation.derive(canonical['assembly.py'], canonical['component.py'], terminal, review['terminal_sha256'])
+    require(set(revised) == {'assembly.py', 'component.py'}, 'MANDOR_EXACT_REVIEW_ADAPTER_CALLERS_REQUIRED')
+    canonical.update(revised)
+
+
 def source(*, allow_sparse_observation=False):
     manifest = json.loads((HERE / 'SOURCE.json').read_bytes())
     adopted = 'actual_Afui_adoption' in manifest
@@ -215,12 +254,19 @@ def source(*, allow_sparse_observation=False):
         require(name in afui and afui[name] == manifest['exact_current_Afui_files'][name],
                 'MANDOR_CURRENT_EXACT_QUALIFIED_AFUI_BLOB_REQUIRED:' + name)
     caller_paths = {routes.NS + name for name in routes.PINS}
+    canonical = {}
     for name in routes.PINS:
         path = routes.NS + name
         derived, proof = routes.derive(git('show', routes.BASE + ':' + path), name)
         if adopted and name == 'admission.py':
             derived = bind_empty_values(derived, bindings)
-        require((ROOT / path).read_bytes() == derived and manifest['caller_derivations'][name] == proof,
+        require(manifest['caller_derivations'][name] == proof,
+                'MANDOR_CURRENT_EXACT_REVERSIBLE_CALLER_PROOF_REQUIRED:' + path)
+        canonical[name] = derived
+    review_adapter_callers(manifest, adopted, canonical)
+    for name, derived in canonical.items():
+        path = routes.NS + name
+        require((ROOT / path).read_bytes() == derived,
                 'MANDOR_CURRENT_EXACT_REVERSIBLE_CALLER_BYTES_REQUIRED:' + path)
     for name, expected in manifest['files'].items():
         path = ROOT / name
@@ -230,6 +276,11 @@ def source(*, allow_sparse_observation=False):
         raw = path.read_bytes()
         require(dict(bytes=len(raw), sha256=sha256(raw).hexdigest()) == expected,
                 'MANDOR_CURRENT_DECLARED_SOURCE_CHANGED:' + name)
+    if adopted:
+        spec = importlib.util.spec_from_file_location('mandor_exact_output_preflight', HERE / 'output_binding.py')
+        output = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(output)
+        output.derive_retention((ROOT / output.RETENTION).read_bytes())
     namespace = str(HERE.relative_to(ROOT)) + '/'
     declared = set(manifest['files']) | {namespace + 'SOURCE.json'}
     own = declared - caller_paths

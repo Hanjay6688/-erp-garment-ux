@@ -57,7 +57,8 @@ def derive(raw=None):
             '(cd ../qualified-afui-parent && python -B scripts/cp7_accessory_nonpayable/qualification.py --check-static)\n'
             'node --test ' + OWN + 'durable_action.test.mjs\n')
     steps[64] = dict(name='Admit genuine Afui15 and whole current Mandor graph under database network fence',
-        **{'working-directory': 'writer'}, run='set -euo pipefail\npython -B ../auditor/' + NS + 'qualification.py --check\n'
+        **{'working-directory': 'writer'}, run='set -euo pipefail\npython -B ../auditor/' + NS + 'final_gate.py --check-source-isolation\n'
+            'node ../auditor/' + NS + 'browser.mjs --check-observer-runtime\n'
             'python -B ../auditor/scripts/current-de-free-date-preparation/attempt_policy.py --require-window\n')
     for index, mode in ((68, 'preflight'), (73, 'runtime')):
         steps[index] = dict(name=('Confirm actual Mandor Original upload before database' if mode == 'preflight' else

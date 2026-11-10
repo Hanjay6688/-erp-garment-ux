@@ -22,8 +22,20 @@ const reviewed=page=>dialog(page).getByRole('checkbox',{name:'Saya sudah memerik
 const reserve=page=>dialog(page).getByRole('button',{name:'Pasang tagihan ke payroll',exact:true})
 const reconcile=page=>panel(page).getByRole('button',{name:'Periksa status pemasangan tagihan',exact:true})
 const requestIs=(name,r)=>r.url().endsWith('/rpc/'+name)&&r.request().method()==='POST'
-const observed=(label,actor)=>JSON.parse(execFileSync('python',['-B',resolve(HERE,'browser_observer.py'),'observe'],
- {cwd:ROOT,input:JSON.stringify({label,actor}),encoding:'utf8',maxBuffer:32*1024*1024,timeout:90000}).trim())
+function observer(command, input, timeout = 150000) {
+ return JSON.parse(execFileSync('python', ['-B', resolve(HERE, 'browser_observer.py'), command], {
+  cwd: resolve(ROOT, '../writer'), input, encoding: 'utf8', maxBuffer: 32 * 1024 * 1024, timeout,
+ }).trim())
+}
+const observed=(label,actor)=>observer('observe', JSON.stringify({label, actor}))
+
+if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+ assert.deepEqual(process.argv.slice(2), ['--check-observer-runtime'])
+ const proof = observer('--check-runtime')
+ assert.equal(proof.status, 'MANDOR_BROWSER_COLD_OBSERVER_SOURCE_ADMITTED')
+ assert.equal(proof.actual_SQL_executed, 0)
+ console.log(JSON.stringify(proof))
+}
 const ALLOWED=['cp7_mandor_shop.payroll_identities','cp7_mandor_shop.allocations','cp7_mandor_shop.allocation_events',
  'cp7_mandor_shop.allocation_states','cp7_mandor_shop.deduction_links','cp7_mandor_shop.requests',
  'erp.payroll_deductions','erp.payroll_settlements','erp.audit_logs','sequence:erp.audit_logs_id_seq']
@@ -206,8 +218,7 @@ async function journey(ui,mobile,source){
 }
 
 export async function cases(ui,today){
- const source=JSON.parse(execFileSync('python',['-B',resolve(HERE,'browser_observer.py'),'--admit'],
-  {cwd:ROOT,encoding:'utf8',maxBuffer:2*1024*1024,timeout:60000}).trim())
+ const source=observer('--admit', undefined, 60000)
  assert.equal(source.status,'ACTUAL_AFUI_PARENT_AND_MANDOR_COMMITTED_BROWSER_SOURCE_ADMITTED')
  assert.equal(source.physical_GOOD_day,today)
  mkdirSync(resolve(ROOT,'cp6-proof/t3'),{recursive:true})

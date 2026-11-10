@@ -2,7 +2,7 @@
 from hashlib import sha256
 from pathlib import Path
 from urllib.parse import urlparse
-import gzip,json,os,re,sys
+import gzip,json,os,re,subprocess,sys
 import admission
 
 HERE=Path(__file__).resolve().parent
@@ -34,8 +34,31 @@ def originals():
     return fixture,state,parent
 
 
+def observer_runtime():
+    import qualification,access_cases
+    writer=ROOT.parent/'writer'
+    require(writer.is_dir() and not writer.is_symlink() and Path.cwd()==writer,
+            'MANDOR_BROWSER_EXACT_OWNING_WRITER_CWD_REQUIRED')
+    declared=json.loads((ROOT/'scripts/current-finance-combined-composition/FROZEN_SOURCE_ROOTS.json').read_bytes())
+    head=subprocess.check_output(['git','-C',str(writer),'rev-parse','HEAD'],text=True).strip()
+    require(head==declared['writer'],'MANDOR_BROWSER_EXACT_OWNING_WRITER_HEAD_REQUIRED')
+    product=qualification.runtime().product
+    product.domain_modules,proof=product.fixture.domain_modules()
+    return product,access_cases,proof
+
+
 def main():
-    require(sys.argv[1:]in(['--admit'],['observe']),'MANDOR_BROWSER_READ_ONLY_OBSERVER_COMMAND')
+    require(sys.argv[1:]in(['--check-runtime'],['--admit'],['observe']),'MANDOR_BROWSER_READ_ONLY_OBSERVER_COMMAND')
+    if sys.argv[1]=='--check-runtime':
+        import qualification,psycopg
+        fence=qualification.load('mandor_cold_browser_DB_network_fence',
+            qualification.FROZEN/'scripts/current-sku-managed-recovery-native27-qualification/source_context.py')
+        with fence.fenced_source_read() as guard:
+            _,_,proof=observer_runtime()
+        require(not guard['attempts'] and not guard['network_nonGit_attempts'],
+                'MANDOR_BROWSER_COLD_SOURCE_DB_AND_NETWORK_FENCE')
+        return dict(status='MANDOR_BROWSER_COLD_OBSERVER_SOURCE_ADMITTED',domain=proof,source_DB_guard=guard,
+                    actual_SQL_executed=0,actual_browser_cases=0)
     fixture,state,parent=originals()
     if sys.argv[1]=='--admit':
         return dict(status='ACTUAL_AFUI_PARENT_AND_MANDOR_COMMITTED_BROWSER_SOURCE_ADMITTED',
@@ -49,9 +72,7 @@ def main():
     url=os.environ['AUDITOR_BROWSER_DB_URL'];parsed=urlparse(url)
     require(parsed.hostname in('localhost','127.0.0.1')and parsed.port==54322
         and parsed.path=='/cp6_auditor_browser','MANDOR_BROWSER_ONLY_FIXED_LOCAL_COPY')
-    import qualification,access_cases
-    product=qualification.runtime().product
-    product.domain_modules=product.fixture.domain_modules()[0]
+    product,access_cases,_=observer_runtime()
     context=access_cases.Context(product,state,dict(fixture,actor=actor),'BROWSER')
     import psycopg
     with psycopg.connect(url,connect_timeout=5)as conn,conn.cursor()as cur:
