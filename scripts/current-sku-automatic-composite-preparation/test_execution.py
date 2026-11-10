@@ -54,6 +54,67 @@ class ExecutionControls(unittest.TestCase):
         self.assertIn('SKU_CURRENT_AUTOMATIC_JOB_START_MONOTONIC', text)
         self.assertNotIn('money_current_parent_runtime.py', text)
 
+    def test_money_observer_uses_its_original_reference_before_loading_candidate(self):
+        module, proof = execution.helper('candidate')
+        reference = json.loads((execution.PRIOR / 'SOURCE_REFERENCE.json').read_bytes())
+        candidate = Path('/explicit-local-model-no-ERP')
+        calls = []
+
+        def git(root, *args):
+            self.assertEqual(root, candidate)
+            return {'rev-parse': reference['candidate_tree'] if args[-1] == 'HEAD^{tree}'
+                    else reference['candidate_head'], 'status': ''}[args[0]]
+
+        def stop_before_import(name, path):
+            calls.append(path)
+            raise RuntimeError('MODEL_STOP_BEFORE_ANY_CANDIDATE_IMPORT')
+
+        with patch.object(module, 'git', git), patch.object(module, 'load', stop_before_import):
+            with self.assertRaisesRegex(RuntimeError, 'MODEL_STOP_BEFORE_ANY_CANDIDATE_IMPORT'):
+                module.observe(candidate)
+        self.assertEqual(calls, [candidate / 'scripts/current-sku-cost-money-qualification/check.py'])
+        self.assertEqual(module.HERE, execution.PRIOR)
+        self.assertTrue(proof['complete_original_recovered'])
+        # A wrong actual candidate tree must still fail before importing code.
+        with patch.object(module, 'git', return_value='wrong-tree'), patch.object(module, 'load') as load:
+            with self.assertRaisesRegex(ValueError, 'EXACT_CLEAN_CANDIDATE_SOURCE_TREE_REQUIRED'):
+                module.observe(candidate)
+            load.assert_not_called()
+
+    def test_history_restoration_requires_real_gates_before_any_source_read(self):
+        with patch.object(execution.runtime, 'frozen') as frozen, patch.object(execution, 'load') as load:
+            with self.assertRaisesRegex(ValueError, 'CURRENT_PARENT_AND_FULL_NATIVE_LIFECYCLE_PENDING'):
+                execution.prepare_history()
+            frozen.assert_not_called()
+            load.assert_not_called()
+
+    def test_all_four_history_sources_are_inspected_before_first_write(self):
+        with TemporaryDirectory() as directory:
+            roots = [Path(directory) / name for name in ('mandor', 'money', 'afui', 'automatic')]
+            for root in roots:
+                here = root / 'scripts/current-workflow-history-isolation'
+                here.mkdir(parents=True)
+                for name in ('materialize.py', 'ARCHIVE.json'):
+                    (here / name).write_bytes((execution.ROOT / 'scripts/current-workflow-history-isolation' / name).read_bytes())
+            bad = roots[-1] / 'scripts/current-workflow-history-isolation/ARCHIVE.json'
+            original = bad.read_bytes()
+            binding = SimpleNamespace(PARENT_HEAD='parent', PARENT_TREE='parent-tree',
+                                      SKU_HEAD='money', SKU_TREE='money-tree')
+            with patch.object(execution, 'admitted_context', return_value=(None, binding, ('auto', 'auto-tree'))), \
+                    patch.multiple(execution.runtime, FROZEN_PARENT=roots[0], FROZEN_SKU=roots[1], FROZEN_AFUI=roots[2]), \
+                    patch.object(execution.runtime.assembly, 'FROZEN_AUTO', roots[3]), \
+                    patch.object(execution.runtime, 'frozen'), patch.object(execution, 'load') as load:
+                bad.write_bytes(original + b'\n')
+                with self.assertRaisesRegex(ValueError, 'EXACT_HISTORICAL_PROOF_MATERIALIZER_REQUIRED:automatic'):
+                    execution.prepare_history()
+                load.assert_not_called()
+                bad.unlink()
+                target = Path(directory) / 'outside.json';target.write_bytes(original)
+                bad.symlink_to(target)
+                with self.assertRaisesRegex(ValueError, 'EXACT_HISTORICAL_PROOF_MATERIALIZER_REQUIRED:automatic'):
+                    execution.prepare_history()
+                load.assert_not_called()
+
     def test_fourth_real_worktree_refuses_dirty_wrong_identity_and_symlink(self):
         module, _ = execution.helper('materialize')
         with TemporaryDirectory() as directory:

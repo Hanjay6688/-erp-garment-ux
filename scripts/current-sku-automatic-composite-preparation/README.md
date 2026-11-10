@@ -207,3 +207,30 @@ observation still requires the remaining original finance evidence inputs; the
 first remaining missing variable is D17_18_ACCEPTED_CONSISTENCY_DIRECTORY. This
 is a closed source checkpoint, not a successful source graph or runtime result.
 All five financial gates remain unset. No SKU run or independent acceptance.
+
+
+## 10 November workflow-entry review: WR-SKU-SOURCE-REFERENCE-ROOT
+
+The real `execution.py check-money-source` entry initially read the automatic
+namespace's SOURCE_REFERENCE instead of the immutable money19 declaration.
+Its first KeyError is retained. The exact candidate observer now explicitly
+uses the money preparation directory; original source checks, the DB/network
+fence, and byte-for-byte comparison with the retained source report remain.
+
+The same command exposed a separate missing historical-workflow proof input
+in the frozen money checkout. Materialization now verifies all four frozen
+heads/trees and the exact 24-file archive helper before restoring these
+untracked proof inputs in each checkout. No tracked workflow, trigger,
+financial source, fixture, assertion or production permission is changed.
+Wrong helper/archive bytes or symlinks fail before the first materialization.
+
+Origin review for all six derived helpers: candidate uses the original money
+reference; fetch uses the owning actual parent and its explicit cumulative
+route; materialize uses the owning repository and four exact frozen trees;
+supervision uses the owning qualification and cleanup entry; artifact and
+receipt helpers use owning cp6-proof/t3. Do not infer readiness from testing
+only the dispatcher import: run each applicable pre-DB entry with its real
+prerequisite directories and retain the first error. The two original SKU27
+and moving6 archives were downloaded and verified in full (SHA256, size, CRC,
+all six/five required Original files); these historical prerequisites do not
+count as current Native25/browser2 acceptance.

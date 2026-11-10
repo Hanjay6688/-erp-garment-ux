@@ -55,6 +55,11 @@ def derive(kind, raw=None):
         routes.append(('from money_execution_bindings import admission', 'admission = _ADMISSION'))
     if kind != 'receipts':
         routes.append(('import money_current_parent_runtime as runtime', 'runtime = _RUNTIME'))
+    if kind == 'candidate':
+        # This observer owns the frozen money19 reference, not the automatic25
+        # reference in the new dispatch namespace. Preserve every source and
+        # retained-report assertion; route only its exact reference directory.
+        routes.append(('HERE=Path(__file__).resolve().parent', 'HERE=_MONEY_REFERENCE_ROOT'))
     if kind == 'materialize':
         routes.extend([
             ("folder in('qualified-mandor-parent','qualified-sku-money')",
@@ -144,9 +149,47 @@ def helper(kind, *, admitted=False):
     text, proof = derive(kind)
     module = ModuleType('automatic_complete_execution_' + kind)
     module.__file__ = str(HERE / ('derived_' + kind + '.py'))
-    module.__dict__.update(_RUNTIME=facade, _ADMISSION=admission, _AUTOMATIC=automatic)
+    module.__dict__.update(_RUNTIME=facade, _ADMISSION=admission, _AUTOMATIC=automatic,
+                           _MONEY_REFERENCE_ROOT=PRIOR)
     exec(compile(text, module.__file__, 'exec', dont_inherit=True), module.__dict__)
     return module, proof
+
+
+def prepare_history():
+    """Restore only the retained, untracked proof inputs in all four trees."""
+    _, admission, automatic = admitted_context()  # Real gates precede all reads.
+    targets = (
+        (runtime.FROZEN_PARENT, admission.PARENT_HEAD, admission.PARENT_TREE),
+        (runtime.FROZEN_SKU, admission.SKU_HEAD, admission.SKU_TREE),
+        (runtime.FROZEN_AFUI, runtime.report_io.COMPLETE_ORIGINALS_HEAD,
+         runtime.report_io.COMPLETE_ORIGINALS_TREE),
+        (runtime.assembly.FROZEN_AUTO, *automatic),
+    )
+    pins = {
+        'materialize.py': dict(bytes=2153, sha256='53fbfe1cc59c77f49f67fcf4a6ebaa39395c2ae833942270a408a9a82bd99519'),
+        'ARCHIVE.json': dict(bytes=10852, sha256='0abb7b292818d66e104d0174d790612049afe9efad099943744eb38b4daa7a8b'),
+    }
+    sources = []
+    # Inspect every tree before writing the first proof input.
+    for root, head, tree in targets:
+        runtime.frozen(root, head, tree)
+        here = root / 'scripts/current-workflow-history-isolation'
+        for name, expected in pins.items():
+            path = here / name
+            require(path.is_file() and not any(p.is_symlink() for p in (path, *path.parents))
+                    and runtime.admission.pin(path.read_bytes()) == expected,
+                    'AUTOMATIC_EXACT_HISTORICAL_PROOF_MATERIALIZER_REQUIRED:' + root.name + ':' + name)
+        sources.append((root, head, tree, here))
+    result = []
+    for root, head, tree, here in sources:
+        proof = load('automatic_exact_history_' + root.name.replace('-', '_'), here / 'materialize.py').materialize()
+        require(proof == dict(status='EXACT_HISTORICAL_PROOF_INPUTS_ONLY', files=24,
+                             all_bytes_equal_frozen_original=True, Git_workflow_entries_restored=0,
+                             active_workflow_behavior_added=False),
+                'AUTOMATIC_EXACT_24_HISTORICAL_PROOF_INPUTS_REQUIRED')
+        runtime.frozen(root, head, tree)
+        result.append(dict(folder=root.name, **proof))
+    return result
 
 
 @contextmanager
@@ -188,6 +231,9 @@ def main():
         value, observation, raw = module.check_frozen()
         result = dict(status=value['status'], actual_ERP_cases=0, complete_candidate_rechecked=True,
                       source_report=runtime.admission.pin(raw), observation=observation)
+    elif args.command == 'materialize':
+        result = module.materialize()
+        result['historical_proof_inputs'] = prepare_history()
     elif args.command == 'receipts':
         result = module.receipts(ROOT / 'cp6-proof/t3')
     else:
