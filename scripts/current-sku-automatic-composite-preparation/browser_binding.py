@@ -112,6 +112,29 @@ def fixture_sources():
     return root, deriver, raw, native_text
 
 
+def native_helper_origin(helper, name):
+    require(name in ('be', 'bf'), 'CURRENT_SKU_EXACT_NATIVE_HELPER_NAME_REQUIRED')
+    path = Path(helper.__file__).resolve()
+    legacy = ROOT.parent / 'qualified-sku090b'
+    allowed = [root / 'scripts' / ('cp6_' + name + '_probe.py') for root in
+               (entry.FROZEN_AFUI, entry.FROZEN_PARENT, entry.FROZEN_SKU, legacy)]
+    require(path in allowed and not any(part.is_symlink() for part in (path, *path.parents)),
+            'CURRENT_SKU_REAL_FROZEN_NATIVE_HELPER_REQUIRED:' + name + ':' + str(path))
+    legacy_proof = None
+    if path == legacy / 'scripts' / path.name:
+        # Full product import legitimately loads these shared helpers from the
+        # already-qualified SKU090b ancestor. Recheck that exact ancestor with
+        # its retained physical guard, rather than replacing a live module.
+        original = entry.load('current_browser_exact_qualified_SKU_ancestor',
+                              entry.FROZEN_AFUI / 'scripts/current-final-s03-sku-s05-preparation/frozen_parent.py')
+        legacy_proof = original.admitted()
+        require(Path(legacy_proof['path']) == legacy, 'CURRENT_SKU_EXACT_HELPER_ANCESTOR_REQUIRED')
+    require(path.read_bytes() == (entry.FROZEN_SKU / 'scripts' / path.name).read_bytes(),
+            'CURRENT_SKU_NATIVE_HELPER_SOURCE_CHANGED:' + name)
+    return dict(path=str(path), identical_current_money_helper=True,
+                actual_qualified_ancestor=legacy_proof)
+
+
 def fixture(product):
     entry.actual_inputs()
     require(Path(product.__file__).resolve() == entry.assembly.FROZEN_AUTO / 'scripts/cp7_sku_automatic_pending/composition.py',
@@ -134,15 +157,7 @@ def fixture(product):
         actual = getattr(module.f, name, None)
         require(callable(actual) and actual.__code__ == expected and actual.__globals__ is module.f.__dict__,
                 'CURRENT_SKU_ACTUAL_UNCHANGED_NATIVE_FIXTURE_FUNCTION_REQUIRED:' + name)
-    for name in ('be', 'bf'):
-        helper = getattr(module.f, name)
-        path = Path(helper.__file__).resolve()
-        allowed = [root / 'scripts' / ('cp6_' + name + '_probe.py') for root in
-                   (entry.FROZEN_AFUI, entry.FROZEN_PARENT, entry.FROZEN_SKU)]
-        require(path in allowed and not any(part.is_symlink() for part in (path, *path.parents)),
-                'CURRENT_SKU_REAL_FROZEN_NATIVE_HELPER_REQUIRED:' + name)
-        require(path.read_bytes() == (entry.FROZEN_SKU / 'scripts' / path.name).read_bytes(),
-                'CURRENT_SKU_NATIVE_HELPER_SOURCE_CHANGED:' + name)
+    helpers = {name: native_helper_origin(getattr(module.f, name), name) for name in ('be', 'bf')}
     # The fixture process runs from writer, but the browser gate and upload own auditor's proof directory.
     current = entry.money_binding.private_module(module, dict(product=product, _BROWSER_PROOF_ROOT=ROOT))
     original = current.observe
@@ -154,6 +169,7 @@ def fixture(product):
                          money_location_aware_constructor_unchanged=True,
                          actual_Native_function_code_identities_checked=len(functions),
                          actual_current_product_bound=True, original_Native_helper_sources_checked=2,
+                         actual_Native_helper_origins=helpers,
                          import_path_and_operation_arguments_preserved=True,
                          sorted_pretty_complete_original_bytes_preserved=True)
 

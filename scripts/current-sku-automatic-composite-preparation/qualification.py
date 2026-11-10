@@ -43,6 +43,7 @@ report_io = load('automatic_owning_atomic_report_output', HERE / 'report_io.py')
 modules = load('automatic_owning_inherited_module_selection', HERE / 'module_scope.py')
 authority = load('automatic_owning_private_authority', HERE / 'advisor_review.py')
 money_binding = load('automatic_owning_private_money_binding', HERE / 'money_binding.py')
+catalogue_decode = load('automatic_owning_readonly_catalogue_decoding', HERE / 'catalogue_decode.py')
 
 
 def require(value, message):
@@ -91,7 +92,8 @@ def inherited_scope():
     contents = list(original)
     sys.argv = original[:1]
     try:
-        with modules.harness_scope(FROZEN_AFUI), \
+        with catalogue_decode.scope(ROOT.parent / 'qualified-sku090b'), \
+                modules.harness_scope(FROZEN_AFUI), \
                 modules.scope(FROZEN_PARENT / 'scripts/current-mandor-shop-native-qualification'):
             yield
     finally:

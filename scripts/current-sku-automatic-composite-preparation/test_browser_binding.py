@@ -31,6 +31,29 @@ def function(source, name, namespace):
 
 
 class BrowserBindingControls(unittest.TestCase):
+    def test_actual_shared_helpers_keep_exact_qualified_ancestor_and_money_bytes(self):
+        legacy = binding.ROOT.parent / 'qualified-sku090b'
+        with patch.dict('os.environ', JOIN_QUALIFIED_SKU_ROOT=str(legacy)):
+            for name in ('be', 'bf'):
+                module = SimpleNamespace(__file__=str(legacy / 'scripts' / ('cp6_' + name + '_probe.py')))
+                proof = binding.native_helper_origin(module, name)
+                self.assertTrue(proof['identical_current_money_helper'])
+                self.assertEqual(proof['actual_qualified_ancestor']['head'], '090b85d3fcb738d3e694d4329d306f199a686eb8')
+
+    def test_foreign_helper_is_refused_even_if_its_filename_matches(self):
+        with TemporaryDirectory() as directory:
+            module = SimpleNamespace(__file__=str(Path(directory) / 'cp6_be_probe.py'))
+            with self.assertRaisesRegex(ValueError, 'REAL_FROZEN_NATIVE_HELPER'):
+                binding.native_helper_origin(module, 'be')
+
+    def test_shared_helper_source_change_is_refused(self):
+        path = binding.entry.FROZEN_AFUI / 'scripts/cp6_be_probe.py'
+        original = Path.read_bytes
+        def changed(p): return b'changed shared helper' if p == path else original(p)
+        with patch.object(Path, 'read_bytes', changed):
+            with self.assertRaisesRegex(ValueError, 'NATIVE_HELPER_SOURCE_CHANGED'):
+                binding.native_helper_origin(SimpleNamespace(__file__=str(path)), 'be')
+
     def test_actual_browser_donor_keeps_pinned_constructor_separate_from_money_constructor(self):
         root, deriver, browser_text, native_text = binding.fixture_sources()
         self.assertEqual(root, binding.entry.FROZEN_PARENT)
@@ -63,7 +86,7 @@ class BrowserBindingControls(unittest.TestCase):
         prepare = load('current_complete_journey_control', HERE / 'browser_prepare.py')
         text, proof = prepare.derive()
         self.assertEqual(text.encode(), (HERE / 'browser.mjs').read_bytes())
-        self.assertEqual(proof['exact_reversible_routes'], 10)
+        self.assertEqual(proof['exact_reversible_routes'], 11)
         self.assertEqual(text.count('cwd:WRITER'), 2)
         self.assertIn("const WRITER=resolve(ROOT,'../writer')", text)
         self.assertIn("['--check-browser-source']", text)

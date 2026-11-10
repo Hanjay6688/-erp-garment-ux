@@ -10,9 +10,10 @@ import {IDS,equalCensus,pairOnly,previewOracle,postedOracle,observeConsole,requi
 export {IDS}
 const ROOT=resolve(dirname(fileURLToPath(import.meta.url)),'../..')
 const WRITER=resolve(ROOT,'../writer')
+const SOURCE_ADMISSION_TIMEOUT_MS=180000,NATIVE_OPERATION_TIMEOUT_MS=120000,FIXTURE_CLEANUP_TIMEOUT_MS=5000
 const RPC={master:'erp_get_sku_workspace_v1',pair:'erp_save_sku_action_v1',read:'erp_get_product_conversion_workspace_v1',write:'erp_save_product_conversion_action_v1'}
 const fixture=(operation,payload)=>JSON.parse(execFileSync('python',[resolve(ROOT,'scripts/current-sku-automatic-composite-preparation/browser_fixture.py'),operation],
- {cwd:WRITER,input:JSON.stringify(payload),encoding:'utf8',maxBuffer:32*1024*1024,timeout:120000}).trim())
+ {cwd:WRITER,input:JSON.stringify(payload),encoding:'utf8',maxBuffer:32*1024*1024,timeout:SOURCE_ADMISSION_TIMEOUT_MS+NATIVE_OPERATION_TIMEOUT_MS+FIXTURE_CLEANUP_TIMEOUT_MS}).trim())
 const args=response=>response.request().postDataJSON()
 const rpc=name=>response=>response.url().endsWith('/rpc/'+name)
 function pinnedSource(path){
@@ -22,7 +23,7 @@ function pinnedSource(path){
 }
 function admitted(){
  const raw=execFileSync('python',[resolve(ROOT,'scripts/current-sku-automatic-composite-preparation/browser_source.py')],
-  {cwd:WRITER,encoding:'utf8',maxBuffer:128*1024*1024,timeout:180000})
+  {cwd:WRITER,encoding:'utf8',maxBuffer:128*1024*1024,timeout:SOURCE_ADMISSION_TIMEOUT_MS})
  const actual=JSON.parse(raw)
  assert.equal(actual.status,'COMPLETE_CURRENT_PRODUCT_SOURCE_ADMITTED_NOT_BROWSER_OR_FINANCIAL_ACCEPTANCE')
  assert.equal(actual.qualification_commit,process.env.GITHUB_SHA)
