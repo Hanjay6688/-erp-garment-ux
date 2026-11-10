@@ -31,6 +31,23 @@ def function(source, name, namespace):
 
 
 class BrowserBindingControls(unittest.TestCase):
+    def test_actual_browser_donor_keeps_pinned_constructor_separate_from_money_constructor(self):
+        root, deriver, browser_text, native_text = binding.fixture_sources()
+        self.assertEqual(root, binding.entry.FROZEN_PARENT)
+        self.assertEqual(binding.entry.admission.pin(native_text.encode()), binding.preflight.PINS['fixture'])
+        self.assertEqual(binding.entry.admission.pin(browser_text.encode()), binding.preflight.PINS['browser_fixture'])
+        relative, expected = deriver.SOURCES['fixture']
+        actual = (root / relative).read_bytes()
+        money = (binding.entry.FROZEN_SKU / relative).read_bytes()
+        self.assertEqual(sha256(actual).hexdigest(), expected)
+        self.assertNotEqual(actual, money)
+        self.assertIn(b'def opening(cur,product,qty,unit,day,location=None):', money)
+
+    def test_wrong_money_donor_is_refused_instead_of_repinning_the_browser_fixture(self):
+        with patch.object(binding.entry, 'FROZEN_PARENT', binding.entry.FROZEN_SKU):
+            with self.assertRaisesRegex(ValueError, 'SKU23_FROZEN_SOURCE_CHANGED'):
+                binding.fixture_sources()
+
     def test_browser_graph_and_complete_output_bind_the_same_exact_current_Afui(self):
         graph = load('current_graph_intake_afui_source_control', HERE / 'source_intake.py')
         source = binding.entry.report_io

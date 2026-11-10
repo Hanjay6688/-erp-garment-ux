@@ -96,16 +96,30 @@ def pretty_originals(original):
     return entry.money_binding.private_module(original, dict(encoded=encoded))
 
 
+def fixture_sources():
+    # The browser contract pins the unchanged one-location Native constructor.
+    # The money checkout has a different, location-aware constructor for its
+    # own cases. Keep that source intact and use the exact browser donor tree.
+    root = entry.FROZEN_PARENT
+    deriver = load('current_browser_exact_frozen_fixture_deriver',
+                   root / 'scripts/current-sku-managed-recovery-native27-qualification/derive.py')
+    raw, _ = deriver.derive('browser_fixture')
+    native_text, _ = deriver.derive('fixture')
+    require(entry.admission.pin(raw.encode()) == preflight.PINS['browser_fixture'],
+            'CURRENT_SKU_EXACT_COMPLETE_BROWSER_FIXTURE_REQUIRED')
+    require(entry.admission.pin(native_text.encode()) == preflight.PINS['fixture'],
+            'CURRENT_SKU_EXACT_REAL_NATIVE_FIXTURE_REQUIRED')
+    return root, deriver, raw, native_text
+
+
 def fixture(product):
     entry.actual_inputs()
     require(Path(product.__file__).resolve() == entry.assembly.FROZEN_AUTO / 'scripts/cp7_sku_automatic_pending/composition.py',
             'CURRENT_SKU_BROWSER_ACTUAL_COMPLETE_AUTOMATIC_PRODUCT_REQUIRED')
-    deriver = load('current_browser_exact_frozen_fixture_deriver',
-                   entry.FROZEN_SKU / 'scripts/current-sku-managed-recovery-native27-qualification/derive.py')
-    raw, _ = deriver.derive('browser_fixture')
+    root, deriver, raw, native_text = fixture_sources()
     text, proof = derive_fixture(raw.encode())
     module = ModuleType('current_SKU_complete_Native_browser_fixture')
-    module.__file__ = str(entry.FROZEN_SKU / 'scripts/current-sku-managed-recovery-native27-qualification/browser_fixture.py')
+    module.__file__ = str(root / 'scripts/current-sku-managed-recovery-native27-qualification/browser_fixture.py')
     module._COMPLETE_IO = pretty_originals(entry.report_io.complete_originals())
     previous_path = list(sys.path)
     try:
@@ -113,9 +127,7 @@ def fixture(product):
             exec(compile(text, module.__file__ + '::complete-current-census', 'exec', dont_inherit=True), module.__dict__)
     finally:
         sys.path[:] = previous_path
-    native_text, _ = deriver.derive('fixture')
-    require(entry.admission.pin(native_text.encode()) == preflight.PINS['fixture'], 'CURRENT_SKU_EXACT_REAL_NATIVE_FIXTURE_REQUIRED')
-    filename = str(entry.FROZEN_SKU / deriver.SOURCES['fixture'][0])
+    filename = str(root / deriver.SOURCES['fixture'][0])
     functions = {code.co_name: code for code in compile(native_text, filename, 'exec', dont_inherit=True).co_consts
                  if isinstance(code, CodeType)}
     for name, expected in functions.items():
@@ -138,6 +150,8 @@ def fixture(product):
     require(current.main.__globals__ is current.__dict__ and current.census.__globals__ is current.__dict__,
             'CURRENT_SKU_BROWSER_MAIN_AND_FULL_CENSUS_CURRENT_PRODUCT_BINDING_REQUIRED')
     return current, dict(proof, actual_native_constructor=preflight.PINS['fixture'],
+                         exact_browser_constructor_checkout='qualified-mandor-parent',
+                         money_location_aware_constructor_unchanged=True,
                          actual_Native_function_code_identities_checked=len(functions),
                          actual_current_product_bound=True, original_Native_helper_sources_checked=2,
                          import_path_and_operation_arguments_preserved=True,

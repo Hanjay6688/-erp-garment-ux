@@ -5,7 +5,7 @@ for a genuine parent Root, financial execution or complete outer restoration.
 """
 from contextlib import contextmanager
 from pathlib import Path
-from types import ModuleType
+from types import ModuleType, SimpleNamespace
 import argparse
 import importlib.util
 import json
@@ -188,10 +188,15 @@ def main():
             engine = runtime()
             with engine.inherited_admission.parent_scope():
                 proof = engine.admitted()
+                parent = engine.product.parent().parent().parent()
+                callback_sources = load('automatic_all_callback_sources_before_database', HERE / 'callback_source.py').check(
+                    SimpleNamespace(actual_inputs=actual_inputs, FROZEN_SKU=FROZEN_SKU, HERE=HERE,
+                                    PLAN_FILE=PLAN_FILE, load=load, require=require, admission=admission), parent.fixture)
                 browser_preflight = load('automatic_current_browser_before_any_database', HERE / 'browser_preflight.py').check(runtime=True)
                 browser_binding = load('automatic_actual_browser_fixture_before_any_database', HERE / 'browser_binding.py')
                 _, browser_fixture = browser_binding.fixture(engine.product)
-        print(json.dumps(dict(source=proof, source_DB_guard=guard, browser_source_preflight=browser_preflight,
+        print(json.dumps(dict(source=proof, source_DB_guard=guard, native_callback_sources=callback_sources,
+                              browser_source_preflight=browser_preflight,
                               actual_browser_fixture_source_binding=browser_fixture, actual_SQL_executed=0)))
         return
     attempts = load('automatic_unchanged_real_WIB_day_window', FROZEN_AFUI / 'scripts/current-de-free-date-preparation/attempt_policy.py')
