@@ -681,41 +681,69 @@ jobs:
         path: auditor/cp6-proof/t3
         retention-days: 30
         if-no-files-found: error
-    if: github.ref == 'refs/heads/astra-a/mandor-shop-native9-on-unified-20261103'
+    # This commit is a diagnostic-only invocation.
+    if: ${{ false }}
   browser_prerequisites_only:
-    name: Actual browser prerequisites only; no database or ERP cases
-    if: github.ref == 'refs/heads/astra-a/afui-browser-runtime-prepared-20261105'
-    runs-on: ubuntu-latest
-    timeout-minutes: 25
+    name: Mandor mobile layout only; no database or ERP cases
+    if: >-
+      github.event_name == 'push' && github.ref == 'refs/heads/astra-a/mandor-shop-native9-on-unified-20261103' && startsWith(github.event.head_commit.message, 'test(mandor): isolate mobile layout 42660429648')
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
     steps:
     - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       with:
-        path: auditor
         fetch-depth: 0
         persist-credentials: false
-    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-      with:
-        path: writer
-        fetch-depth: 0
-        persist-credentials: false
+    - name: Confirm the exact source and diagnostic-only commit
+      shell: bash
+      run: |
+        set -euo pipefail
+        test "$GITHUB_REPOSITORY" = Hanjay6688/-erp-garment-ux
+        test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+        test "$(git rev-parse HEAD^)" = a0e7d5616a0ac470876409d31c41388159f17692
+        git diff --exit-code HEAD^ HEAD -- src index.html tests/fixtures package.json package-lock.json
     - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
       with:
-        node-version: '22'
-    - name: Install pinned browser dependencies in both actual checkout roots
+        node-version: 22.23.4
+    - name: Read and verify the same-run Mandor fixture
       shell: bash
-      run: "set -euo pipefail\nfor checkout in auditor writer; do\n  npm ci --include=dev\
-        \ --prefix \"$checkout\"\ndone\n(cd auditor && npx --no-install playwright\
-        \ install --with-deps chromium)\n(cd writer && npx --no-install playwright\
-        \ install chromium)\n"
-    - name: Open actual desktop and mobile browsers and compile candidate before database
-      run: 'node auditor/scripts/cp7_accessory_nonpayable/browser_prerequisites.mjs
-        "$GITHUB_WORKSPACE"
-
-        '
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: |
+        set -euo pipefail
+        gh api 'repos/Hanjay6688/-erp-garment-ux/actions/artifacts/13714617515/zip' > "$RUNNER_TEMP/mandor-fixture.zip"
+        python - <<'PY'
+        from hashlib import sha256
+        from pathlib import Path
+        from zipfile import ZipFile
+        import os
+        root = Path(os.environ['RUNNER_TEMP'])
+        archive = root / 'mandor-fixture.zip'
+        data = archive.read_bytes()
+        assert len(data) == 1923120
+        assert sha256(data).hexdigest() == 'd163987a84391f1ec70a78a4eef4d8df6fc7f9b208f28ac0287a2f887abeea0f'
+        with ZipFile(archive) as z:
+            assert z.testzip() is None
+            fixture = z.read('MANDOR_BROWSER_FIXTURE.json')
+        assert sha256(fixture).hexdigest() == '361e15e1d849999337aaa78c884203efbae95f619d57391ea089874450c3208a'
+        (root / 'MANDOR_BROWSER_FIXTURE.json').write_bytes(fixture)
+        PY
+    - name: Install the pinned Chromium and UI packages
+      shell: bash
+      run: |
+        set -euo pipefail
+        npm ci --include=dev
+        npx --no-install playwright install --with-deps chromium
+    - name: Measure the real App before and after opening the Mandor cards
+      shell: bash
+      run: |
+        set -euo pipefail
+        node scripts/current-mandor-shop-native-qualification/mobile_layout_diagnostic.mjs \
+          "$RUNNER_TEMP/MANDOR_BROWSER_FIXTURE.json" "$RUNNER_TEMP/MANDOR_MOBILE_LAYOUT.json"
     - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
       if: always()
       with:
-        name: afui-browser-prerequisites-only-${{ github.run_attempt }}
-        path: auditor/cp6-proof/t3/AFUI_BROWSER_PREREQUISITES.json
+        name: mandor-mobile-layout-${{ github.run_attempt }}
+        path: ${{ runner.temp }}/MANDOR_MOBILE_LAYOUT.json
         retention-days: 30
         if-no-files-found: error
