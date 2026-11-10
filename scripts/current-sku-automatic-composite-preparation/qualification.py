@@ -57,7 +57,10 @@ def actual_inputs():
         require(path.is_file() and not any(part.is_symlink() for part in (path, *path.parents)),
                 'SKU_AUTOMATIC_EXACT_REGULAR_INPUT_ORIGINAL_REQUIRED')
     raw = PARENT_FILE.read_bytes(), MONEY_FILE.read_bytes(), PLAN_FILE.read_bytes()
-    return (*raw, admission.inputs(*raw))
+    receipt = admission.inputs(*raw)
+    if json.loads(raw[0]).get('status') == money_binding.cumulative_parent.STATUS:
+        load('automatic_cumulative_actual_input', HERE / 'cumulative_runtime.py').validate_actual(admission, *raw)
+    return (*raw, receipt)
 
 
 def frozen(root, head, tree):

@@ -33,14 +33,25 @@ def load_parent():
     return module
 
 
-def check(fence, baseline):
+def check(fence, baseline, *, runtime=False):
     assembly = fence.assembly
     require = assembly.require
     parent = load_parent()
-    require(all(getattr(assembly.admission, name) is None for name in assembly.admission.GATES),
-            'SKU_CUMULATIVE_SOURCE_ALL_FINANCIAL_GATES_MUST_BE_CLOSED')
+    decision = None
+    if runtime:
+        assembly.admission.require_ready()
+    else:
+        require(all(getattr(assembly.admission, name) is None for name in assembly.admission.GATES),
+                'SKU_CUMULATIVE_SOURCE_ALL_FINANCIAL_GATES_MUST_BE_CLOSED')
     root_raw = (HERE / 'MANDOR17_PARENT_ROOT_ACTUAL_INTAKE.json').read_bytes()
     root = parent.verify(root_raw)
+    if runtime:
+        spec = importlib.util.spec_from_file_location('sku_cumulative_source_actual_decision', HERE / 'cumulative_runtime.py')
+        adopter = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(adopter)
+        decision = adopter.validate_actual(assembly.admission, root_raw,
+            (fence.ROOT / 'scripts/current-sku-money-composite-preparation/SKU_MONEY_PREPARED_SOURCE_INTAKE.json').read_bytes(),
+            (HERE / 'PREPARED_NATIVE25_PLAN.json').read_bytes())
     value = json.loads((HERE / 'CUMULATIVE_SOURCE_MAP.json').read_bytes())
     require(value['classification'] == 'EXACT_CUMULATIVE_SOURCE_PREPARATION_NOT_QUALIFICATION'
             and value['backend'] == BACKEND and value['browser'] == BROWSER
@@ -104,6 +115,7 @@ def check(fence, baseline):
                  current_backend_paths=len(all_backend), paired_browser_product_paths=1,
                  original_failed_run=root['cumulative_evidence']['original_run'],
                  successful_paired_browser_run=root['cumulative_evidence']['paired_browser_run'],
-                 parent_root=parent.pin(root_raw), runtime_admission=False,
+                 parent_root=parent.pin(root_raw), runtime_admission=runtime,
+                 owning_qualification_decision=decision,
                  independent_acceptance=False, actual_ERP_cases=0)
     return adopted_files, set(evidence), proof

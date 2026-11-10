@@ -10,6 +10,7 @@ from types import ModuleType, SimpleNamespace
 import argparse
 import importlib.util
 import json
+import subprocess
 import sys
 
 HERE = Path(__file__).resolve().parent
@@ -172,7 +173,16 @@ def main():
         with arguments(['--allow-database-stop'] if args.allow_database_stop else []):
             return module.main()
     if args.command == 'fetch':
-        module.main()
+        parent_raw, *_ = runtime.actual_inputs()
+        if json.loads(parent_raw).get('status') == runtime.money_binding.cumulative_parent.STATUS:
+            load('automatic_cumulative_canonical_fetch', HERE / 'cumulative_fetch.py').main(runtime)
+            runtime.frozen(runtime.FROZEN_SKU, module.admission.SKU_HEAD, module.admission.SKU_TREE)
+            for entry in ('scripts/current-sku-moving-average-qualification/fetch_parent.py',
+                          'scripts/current-sku-cost-money-qualification/fetch_moving_parent.py'):
+                subprocess.run([sys.executable, '-B', str(runtime.FROZEN_SKU / entry)],
+                               cwd=runtime.FROZEN_SKU, check=True)
+        else:
+            module.main()
         return 0
     if args.command == 'check-money-source':
         value, observation, raw = module.check_frozen()

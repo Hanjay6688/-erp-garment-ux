@@ -99,6 +99,14 @@
       "bytes": 654,
       "sha256": "d70bfb681fc35cf669ec848823837db290127d8d02e162ae1aa3cb52a19dbe58"
     },
+    "CUMULATIVE_ORIGINAL_ARCHIVES.json": {
+      "bytes": 101222,
+      "sha256": "a9206170a51d38d766b22dd09037d4d2c6919304c5d51f76ac6a84bf2624fe0c"
+    },
+    "CUMULATIVE_RUNTIME_BINDING.json": {
+      "bytes": 16346,
+      "sha256": "26a885207634cd91aa57e6746e92852d1ffa8092cf4df3b6da389c2f929927c0"
+    },
     "CUMULATIVE_SOURCE_MAP.json": {
       "bytes": 49306,
       "sha256": "580a3998933c1b196671fbd5bbc637891fc5a2ab0ff8f0a1270f7a2de3b41688"
@@ -110,6 +118,10 @@
     "CURRENT_MANDOR_SOURCE_INTEGRATION_CONTROLS_20261105.json": {
       "bytes": 1815,
       "sha256": "9db55e62544f450b3518b10a2c73c3d5d4b346c20eef8a38591ab95f214751e1"
+    },
+    "CURRENT_MONEY_SOURCE_OBSERVATION.json": {
+      "bytes": 29362,
+      "sha256": "c8f937eb0c5e50295ce342179182ecbaf85295039cc9d798f8b8837e2b30731c"
     },
     "EXECUTION_PREPARATION_CONTROLS.json": {
       "bytes": 4700,
@@ -216,28 +228,36 @@
       "sha256": "c64aff29d19c8bb33d44cce9082a29a775777eac9599fc98cf40d661fcc0eafd"
     },
     "check_source.py": {
-      "bytes": 16173,
-      "sha256": "c1ade47f3d4bd980f51cfb9c83b902c23b210d0aec5dd9912bde8e3d5104959b"
+      "bytes": 16379,
+      "sha256": "db58e117f2c639d46a90b9c8ac854b5a9949957099251d8cc45a712c56004b4a"
     },
     "component.py": {
       "bytes": 5975,
       "sha256": "6d9b3509c3f72ba3972befc4eb848935ee3a1bc65b8b434029194fc90d384b87"
     },
+    "cumulative_fetch.py": {
+      "bytes": 5970,
+      "sha256": "eca67d651a71023844f00fbb0843027c4bbc5822ad97751f7120bddbb628a87b"
+    },
     "cumulative_parent.py": {
       "bytes": 2127,
       "sha256": "97c648cd9013758f70f241f7ffd88236666562649f5ddd0ba781c5f843e2aeb6"
     },
+    "cumulative_runtime.py": {
+      "bytes": 6429,
+      "sha256": "522fe6a9dcbfc7eb7725ea11cef0ccf72239dec1c3dd9d7a32ab9c9bb7b1cb4b"
+    },
     "cumulative_source.py": {
-      "bytes": 6087,
-      "sha256": "e5e5ab5886fcbd598f2560244573016692415764023e25913d7c3606660f15b7"
+      "bytes": 6768,
+      "sha256": "f1b9b3a8450d92b870cba479c7a27fec20b3e0b109e25a1975303eb039487ac9"
     },
     "derive.py": {
       "bytes": 2856,
       "sha256": "a2014f8d7abf5b1e4cd7847862af2a4207cf660ef993cef2f7baa942822c57cc"
     },
     "execution.py": {
-      "bytes": 10103,
-      "sha256": "93e21e04240abb505778852c7de5cd2524717b07f1270e034b605fae94a2ab0b"
+      "bytes": 10836,
+      "sha256": "28be5586c4ecda38bc9d033cec9d7f30c573196478d56dcbd8d2127c278af6e6"
     },
     "final_gate.py": {
       "bytes": 9911,
@@ -252,8 +272,8 @@
       "sha256": "c9d3f2b813346e270b089779d0dce0200c0e3953d3eef13b1fe6b476390d2bfa"
     },
     "money_binding.py": {
-      "bytes": 8089,
-      "sha256": "a3665b62ea7002edebaffb9061c4c8f40b61ddd9adaba4c8da40e060841aa015"
+      "bytes": 9020,
+      "sha256": "9b9b20132064657ed5cf61a2055d6887c7afdfb09c78f7ed1d911bb55fe2afac"
     },
     "native_cases.py": {
       "bytes": 14262,
@@ -280,8 +300,8 @@
       "sha256": "5535ce276253d5ce6f10157cc825e75499ef2e2cf6b225dac3213317e6cb1966"
     },
     "qualification.py": {
-      "bytes": 12277,
-      "sha256": "118f06f17cb5d9b5bf2a0b38255bdb751d74aaf224a4e99099152e15bd9ac757"
+      "bytes": 12497,
+      "sha256": "dfe1bad2b11e7e624fe0081663707eb2e6a79dd464d70d6e57e935df55bd40b5"
     },
     "report_io.py": {
       "bytes": 6464,
@@ -331,6 +351,10 @@
       "bytes": 1337,
       "sha256": "612c37b8b08fc38d5aef8c39d53efc66896364ed18797347750a0dc436acf429"
     },
+    "test_cumulative_runtime.py": {
+      "bytes": 5556,
+      "sha256": "c009bd4d8066ca0b20dd20da7132c1707e3ea97c4ccb12f19d1df9eb6c87b377"
+    },
     "test_cumulative_source.py": {
       "bytes": 4958,
       "sha256": "69bbabc1deae6b4b28baa8236532ebd090eefa7a019fb3d4ba87eea9bd927269"
@@ -346,6 +370,10 @@
     "test_final_gate.py": {
       "bytes": 14773,
       "sha256": "c3bea6ebc12026111e0cf739ffba0fd882dedcada5a287b9d8d992b1719f58be"
+    },
+    "test_harness_scope.py": {
+      "bytes": 4653,
+      "sha256": "41f73a354e164d5d85e8ff8a4a6c5f345a8ca766baf50df964a07d487d4a82f5"
     },
     "test_native25.py": {
       "bytes": 7980,
@@ -374,10 +402,6 @@
     "workflow.py": {
       "bytes": 9982,
       "sha256": "152b624fd207052a080f44340a9ec352f2aad4781703ae2bcc3e95c036b3d138"
-    },
-    "test_harness_scope.py": {
-      "bytes": 4653,
-      "sha256": "41f73a354e164d5d85e8ff8a4a6c5f345a8ca766baf50df964a07d487d4a82f5"
     }
   },
   "fresh_Auth_HTTP_races_browser_and_full_runtime_pending": true,

@@ -185,7 +185,8 @@ def check(*, runtime=False, cumulative=False):
     selected = selective_ui(manifest['selective_B_UI'], entries(base['tree']), entries(UI_TREE))
     expected = entries(base['tree'])
     evidence_paths = set()
-    if cumulative:
+    cumulative_runtime = runtime and manifest.get('cumulative_parent_adopted') is True
+    if cumulative or cumulative_runtime:
         spec = importlib.util.spec_from_file_location('automatic_cumulative_source_closure', HERE / 'cumulative_source.py')
         cumulative_source = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(cumulative_source)
@@ -193,8 +194,9 @@ def check(*, runtime=False, cumulative=False):
                                   MANDOR_BASE=MANDOR_BASE, MANDOR_BASE_TREE=MANDOR_BASE_TREE,
                                   MANDOR_HEAD=MANDOR_HEAD, MANDOR_TREE=MANDOR_TREE,
                                   BUILD_INPUTS=BUILD_INPUTS)
-        current_mandor, evidence_paths, cumulative_proof = cumulative_source.check(context, expected)
-        parent = dict(cumulative_Mandor_source_preparation=cumulative_proof)
+        current_mandor, evidence_paths, cumulative_proof = cumulative_source.check(context, expected,
+                                                                                 runtime=cumulative_runtime)
+        parent = dict(cumulative_Mandor_source=cumulative_proof)
     elif runtime:
         actual = actual_mandor()
         current_mandor = mandor_source(manifest['actual_current_Mandor_source'], expected, actual=actual)

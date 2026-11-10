@@ -141,9 +141,24 @@ def _private_bridge(parent_raw, money_raw, unchanged, *, cumulative_source_only=
 
 def bind(parent_raw, money_raw, plan_raw):
     receipt = exact_inputs(parent_raw, money_raw, plan_raw)
+    cumulative = json.loads(parent_raw).get('status') == cumulative_parent.STATUS
+    reviewed = None
+    if cumulative:
+        adopter = load('automatic_cumulative_actual_adoption', HERE / 'cumulative_runtime.py')
+        reviewed = adopter.validate_actual(admission, parent_raw, money_raw, plan_raw)
 
     def unchanged():
         assembly.require(exact_inputs(parent_raw, money_raw, plan_raw) == receipt,
                          'SKU_AUTOMATIC_ACTUAL_PRIVATE_INPUTS_CHANGED')
+        if cumulative:
+            assembly.require(adopter.validate_actual(admission, parent_raw, money_raw, plan_raw) == reviewed,
+                             'SKU_CUMULATIVE_QUALIFICATION_DECISION_CHANGED')
 
-    return _private_bridge(parent_raw, money_raw, unchanged)
+    # The private money source graph preserves the historical source-only
+    # parent contract. Only the separately replayed owning decision permits
+    # this financial entry; the historical Root alone still cannot do so.
+    bridge, proof = _private_bridge(parent_raw, money_raw, unchanged,
+                                    cumulative_source_only=cumulative)
+    if cumulative:
+        proof['owning_cumulative_qualification_decision'] = reviewed
+    return bridge, proof
