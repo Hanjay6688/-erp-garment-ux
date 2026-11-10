@@ -1,18 +1,21 @@
 {
   "Native_lifecycle_case_plan_pending": false,
   "Native_lifecycle_case_plan_prepared_not_admitted": true,
-  "active_workflow_added": false,
-  "active_workflow_source": null,
+  "active_workflow_added": true,
+  "active_workflow_source": {
+    "bytes": 34995,
+    "sha256": "5016e69666b3a0eb75f123ca693107156fcf977f6b4654e45cd585dfcf97a9a9"
+  },
   "actual_Auth_HTTP_cases": 0,
   "actual_ERP_cases": 0,
   "actual_browser_cases": 0,
   "actual_browser_runtime_binding_pending": false,
   "actual_fresh_browser_execution_pending": true,
   "actual_graph_observation_pending_genuine_parent": true,
-  "actual_parent_adopted": false,
+  "actual_parent_adopted": true,
   "actual_runtime_adoption_pending": true,
   "actual_shared_helper_ancestor_controls": 3,
-  "all_admission_values_unset": true,
+  "all_admission_values_unset": false,
   "all_prepared_business_cases": 27,
   "automatic_source_public_head": "9b1b0fcc9fbf477634619f07d4628d5be3a1b634",
   "browser_binding_journey_control_methods": 4,
@@ -163,8 +166,8 @@
       "sha256": "0d44c4e21c26c286f7a2d43aaee150c3b027b2643a6a0633bf91d78a8507dedd"
     },
     "admission.py": {
-      "bytes": 2405,
-      "sha256": "9d954893c85c918609c77b9233a577c4eabbedbdb8384bea902a95a628d833d6"
+      "bytes": 2831,
+      "sha256": "03ab05fdf14648e906af41bf51a309542aa21ef6bec86dc4c0003d6e07a0d88d"
     },
     "advisor_review.py": {
       "bytes": 10076,
@@ -1687,5 +1690,6 @@
   },
   "selective_UI_source_admission_prepared": true,
   "separate_browser_source_and_Native_deadlines_prepared": true,
-  "source_intake_control_methods": 4
+  "source_intake_control_methods": 4,
+  "cumulative_parent_adopted": true
 }
