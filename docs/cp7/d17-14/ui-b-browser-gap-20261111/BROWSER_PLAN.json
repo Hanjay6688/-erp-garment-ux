@@ -1,0 +1,276 @@
+{
+  "schema": "cp7.writer_b.browser_gap_preparation.v1",
+  "date_wib": "2026-11-11",
+  "status": "PREPARED_OFFLINE",
+  "candidates": {
+    "sku82": {
+      "head": "82b03bbac619cd37912af58942dbf326b833f57e",
+      "tree": "f20f430dd46914d5500a72013e2cde4902cb44ca"
+    },
+    "global_closed": {
+      "head": "c9248b8770ec8cfe0f7e2f2fd8da26c141ea67c5",
+      "tree": "9b440dd1785344fdafa5d2d702a6dd8f1ee08622"
+    },
+    "closure_proposal_local_only": {
+      "head": "68773c175dedc6161a869b457aa3d9f16e6b20ba",
+      "tree": "ffe4b6c266505c6ac3d471812f17a9b575e3a499"
+    }
+  },
+  "sku_global_same_git_paths": [
+    "src",
+    "index.html",
+    "package-lock.json",
+    "package.json",
+    "tsconfig.app.json",
+    "tsconfig.contracts.json",
+    "tsconfig.json",
+    "vite.config.ts"
+  ],
+  "historical_r10_originals": [
+    {
+      "scope": "sales-invoice-dependencies",
+      "source": "7022148fdd84b92de967fa182b5e69609e7570c5",
+      "run": 37160029368,
+      "job": 111311381886,
+      "artifact": 11287502220,
+      "originals_pin": {
+        "bytes": 40059,
+        "sha256": "57b071ce844d4e12d631eba58fd90c6bd8293f77e277e434989f64fdccc0979b"
+      },
+      "browser_case_ids": [
+        "P11_READ_BROWSER_DESKTOP",
+        "P11_READ_BROWSER_MOBILE_OPERATIONS",
+        "P11_COMMAND_BROWSER_DESKTOP",
+        "P11_COMMAND_BROWSER_MOBILE_RECOVERY",
+        "P11_DRAFT_BROWSER_DESKTOP",
+        "P11_DRAFT_BROWSER_MOBILE_RECOVERY",
+        "P11_PAYMENT_BROWSER_DESKTOP",
+        "P11_PAYMENT_BROWSER_MOBILE_RECOVERY",
+        "P11_RETURN_BROWSER_R10_DESKTOP_A",
+        "P11_RETURN_BROWSER_R10_MOBILE_B_RECOVERY"
+      ]
+    },
+    {
+      "scope": "sales-chain",
+      "source": "fd702d7235d270add2da38143a22d5ed45c47685",
+      "run": 37258653978,
+      "job": 111600964129,
+      "artifact": 11324101920,
+      "originals_pin": {
+        "bytes": 33790,
+        "sha256": "8c787dcc492aa7c53a55b2650ba741b4f26ddf8b23710322d13c1533401e231a"
+      },
+      "browser_case_ids": [
+        "CP7_SALES_CHAIN_BROWSER_DESKTOP",
+        "CP7_SALES_CHAIN_BROWSER_MOBILE"
+      ]
+    },
+    {
+      "scope": "customer-return-correction",
+      "source": "fd702d7235d270add2da38143a22d5ed45c47685",
+      "run": 37258654088,
+      "job": 111600964612,
+      "artifact": 11324545818,
+      "originals_pin": {
+        "bytes": 337273,
+        "sha256": "701ed259160acc50fad3572512473df00f6213e83e511002be523fee8eadcc26"
+      },
+      "browser_case_ids": [
+        "CP7_RETURN_CORRECTION_BROWSER_DESKTOP",
+        "CP7_RETURN_CORRECTION_BROWSER_MOBILE"
+      ]
+    }
+  ],
+  "sku_first_failure": {
+    "run": 42860774082,
+    "job": 129985976421,
+    "attempt": 1,
+    "stage": 67,
+    "conclusion": "failure",
+    "error": "SKU_AUTOMATIC_EXACT_ADDITIVE_NAMESPACE_REQUIRED",
+    "artifact_id": 13785432077,
+    "original_zip": {
+      "bytes": 72973,
+      "sha256": "933564713f8602f3385317c12072ee2a51370d440cb78beae9de313b996cd958"
+    },
+    "crc_members": 118,
+    "tracked_paths": 14828,
+    "declared_paths": 14828,
+    "tracked_extra": [],
+    "tracked_missing": [],
+    "unexpected_after_original_filters": [
+      "cp6-proof/t3/FREE3_PARENT_ORIGINAL_ADMISSION.json",
+      "cp6-proof/t3/SKU_CURRENT_MANDOR17_ORIGINAL_ADMISSION.json"
+    ],
+    "replay_without_two_exact_paths": [],
+    "unexpected_neighbor_paths_refused": true,
+    "first_replay_assertion_expected_only_FREE3_observed_both": true,
+    "browser_step": "skipped",
+    "database_start": "skipped"
+  },
+  "selected_journeys": [
+    {
+      "scope": "SKU Browser2",
+      "script": "scripts/current-sku-automatic-composite-preparation/browser_evidence.mjs",
+      "export": "IDS",
+      "git_blob": "1cc92f2362f18d9b6fdd7bb7db84cc1455b6e2d9",
+      "script_pin": {
+        "bytes": 7960,
+        "sha256": "f25dd6954b44cb479e9145b522d14632e8420a96761807fb1619361ee909d0d8"
+      },
+      "case_ids": [
+        "SKU_CURRENT_MOVAVG_DESKTOP_REAL_AUTH_PAIR_VALUE_RECOVERY_INVERSE",
+        "SKU_CURRENT_MOVAVG_MOBILE390_REAL_AUTH_PAIR_VALUE_GUARDS_INVERSE"
+      ],
+      "gate": "OWNING_SKU_SUCCESSOR_ONLY",
+      "entrypoint": "scripts/current-sku-automatic-composite-preparation/browser.mjs",
+      "export_declared_in": "browser.mjs re-exports IDS and exports cases",
+      "desktop": "OWNER at 1440",
+      "mobile": "ADMIN at 390",
+      "entrypoint_git_blob": "64b17005536c939d158441f98cf90025dc64d6ec"
+    },
+    {
+      "scope": "OW08 QC/FG",
+      "script": "scripts/current-ow08-source-browser/fg.mjs",
+      "export": "cases",
+      "git_blob": "cad8d29ca12a354d48ab637504700c8422f55075",
+      "script_pin": {
+        "bytes": 8908,
+        "sha256": "9f654796073e2eb8c692c11fc28ed7d97c67d678c8c4dcc1e6180693c9f14d2a"
+      },
+      "case_ids": [
+        "OW08_FG_INVERSE_QC_BLOCKERS_DESKTOP",
+        "OW08_FG_INVERSE_QC_BLOCKERS_MOBILE"
+      ],
+      "gate": "AFTER_ACCEPTED_CURRENT_CATALOGUE_AND_MOVING_AVERAGE_FIXTURE",
+      "desktop": "OWNER at 1440",
+      "mobile": "OWNER plus ADMIN denial at 390",
+      "host": "scripts/current-vendor-money-browser/runner.py::exercise_browser",
+      "exact_case_set": true
+    },
+    {
+      "scope": "OW08 Kasbon",
+      "script": "scripts/current-ow08-source-browser/cases.mjs",
+      "export": "cases",
+      "git_blob": "a8ee5bab250a83b865a0d410e549b6d7d6e52a74",
+      "script_pin": {
+        "bytes": 5477,
+        "sha256": "7fc01bd287bdf30f4278aab1ae35c280f5322f01e690517a6e329964505595d3"
+      },
+      "case_ids": [
+        "OW08_KASBON_JOURNAL_SOURCE_DESKTOP",
+        "OW08_KASBON_JOURNAL_SOURCE_MOBILE"
+      ],
+      "gate": "CURRENT_LAYOUT_AND_AUTH_DELTA_ONLY_IF_CATALOGUE_MATCHES",
+      "select_from_mixed_export": true
+    },
+    {
+      "scope": "OW08 Unknown wash",
+      "script": "scripts/current-ow08-source-browser/wash.mjs",
+      "export": "cases",
+      "git_blob": "edee2a65eec12e53d5c060dbf79cc8e2c7113600",
+      "script_pin": {
+        "bytes": 8388,
+        "sha256": "b0e4a0ae393d24a874bcf1340aa8324dc8a07d27264b648e3bd7552e59cdb91c"
+      },
+      "case_ids": [
+        "OW08_UNKNOWN_WASH_SCREEN_PRICE_DESKTOP",
+        "OW08_UNKNOWN_WASH_SCREEN_PRICE_MOBILE"
+      ],
+      "gate": "CURRENT_LAYOUT_AND_AUTH_DELTA_ONLY_IF_CATALOGUE_MATCHES"
+    },
+    {
+      "scope": "OW08 Vendor",
+      "script": "scripts/current-vendor-money-browser/cases.mjs",
+      "export": "cases",
+      "git_blob": "8f64070d075018636a0c5b73ddd3f6201f597ac9",
+      "script_pin": {
+        "bytes": 13575,
+        "sha256": "5379984172b8856423a56448a155b90fa05020fdfd6810d455edd6d9136fff2f"
+      },
+      "case_ids": [
+        "VENDOR_MONEY_BROWSER_DESKTOP_REFUND_INVERSE_HISTORY",
+        "VENDOR_MONEY_BROWSER_MOBILE_REFUND_ACCESS_HIDDEN"
+      ],
+      "gate": "FULL_TRANSACTION_CHAIN_ONLY_IF_WRITER_GRANT_OR_REPORT_COMPOSITION_CHANGED"
+    },
+    {
+      "scope": "R10 current core",
+      "script": "scripts/cp7_p11_returns_browser.mjs",
+      "export": "cases",
+      "git_blob": "ef9fcc4cb842173183e8dc4b23e8993bb0dcfd57",
+      "script_pin": {
+        "bytes": 20189,
+        "sha256": "420be14e4ab202b53f1ca2123caa04b5af9dec01a17ac157feb40d4d0e8b79e3"
+      },
+      "case_ids": [
+        "P11_RETURN_BROWSER_R10_DESKTOP_A",
+        "P11_RETURN_BROWSER_R10_MOBILE_B_RECOVERY"
+      ],
+      "gate": "AFTER_ACCEPTED_CURRENT_CATALOGUE_AND_ONLY_FOR_UNPROVED_CURRENT_ASSERTIONS",
+      "desktop": "OWNER Grade A at 1440",
+      "mobile": "OWNER Grade B at 390"
+    },
+    {
+      "scope": "R10 refund and revoke",
+      "script": "scripts/ow04-consumer-ui-qualification/browser_cases.mjs",
+      "export": "cases",
+      "git_blob": "cf81cb474b2fc5f6a385b0ad20fce2fe7a05ecf6",
+      "script_pin": {
+        "bytes": 13894,
+        "sha256": "417d200003d15d1c650d71efee503751f0f9c398c6989abc39a3cb09fabdc156"
+      },
+      "case_ids": [
+        "OW04_CONSUMER_BROWSER_REFUND_MOBILE",
+        "OW04_CONSUMER_BROWSER_REVOKED_PENDING_REPLAY"
+      ],
+      "gate": "ONLY_IF_NO_EQUIVALENT_FINAL_REFUND_OR_REVOKE_EVIDENCE",
+      "select_from_mixed_export": true
+    },
+    {
+      "scope": "OW06 supplier pagination",
+      "script": "scripts/ow06-browser-qualification/browser.mjs",
+      "export": "cases",
+      "git_blob": "9f9936d5b5b0b1a8cee2e772a9286e7e343be5b7",
+      "script_pin": {
+        "bytes": 9718,
+        "sha256": "46fc483caf8d8a124a17d61f75fbaa2f8da9f05d93becc30d14d00f179b5c3f2"
+      },
+      "case_ids": [
+        "OW06_DESKTOP_TRANSFER_TWO_RECEIPTS_LOST_REPLY_CORRECT_REVERSE",
+        "OW06_MOBILE390_TRANSFER_TWO_RECEIPTS_CORRECT_REVERSE"
+      ],
+      "gate": "IF_CLOSURE_DELTA_ADOPTED_AND_NOT_COVERED",
+      "fixture_delta": "Two pages, nonterminal page must return rows"
+    },
+    {
+      "scope": "OW09 Cash",
+      "script": "scripts/ow09-chain-browser-qualification/browser.mjs",
+      "export": "cases",
+      "ids_catalogue": "scripts/ow09-chain-browser-qualification/EXPECTED.json",
+      "git_blob": "0523dcd6782a7cc792ec74278114de852e68f1fe",
+      "script_pin": {
+        "bytes": 918,
+        "sha256": "c75c7f1e4d12b7060d223679d9b691f64f1b4975a2167788c08030c9af33bbf9"
+      },
+      "case_ids": [
+        "F03_CASH_BROWSER_DESKTOP",
+        "F03_CASH_BROWSER_MOBILE_CURRENT_AUTH"
+      ],
+      "gate": "IF_CLOSURE_DELTA_ADOPTED_AND_NOT_COVERED",
+      "select_from_mixed_export": true
+    }
+  ],
+  "preparation_checks": {
+    "syntax_checked_mjs": 10,
+    "r10_original_browser_cases_verified": 14,
+    "sku_global_tree_and_seven_build_paths_checked": true
+  },
+  "actual_runs_started": 0,
+  "actual_browser_cases": 0,
+  "actual_erp_cases": 0,
+  "formal_cp7": "5/16",
+  "R10_G04": "OPEN",
+  "production_go": false,
+  "independent_acceptance": false
+}
