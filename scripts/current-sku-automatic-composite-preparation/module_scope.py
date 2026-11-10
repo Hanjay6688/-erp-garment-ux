@@ -1,6 +1,7 @@
 """Select exact inherited qualifier modules and restore process imports."""
 from contextlib import contextmanager
 from pathlib import Path
+from importlib.abc import MetaPathFinder
 from importlib.machinery import ModuleSpec
 from importlib.util import module_from_spec, spec_from_file_location
 from types import ModuleType
@@ -11,6 +12,61 @@ NAMES = ('admission', 'assembly', 'component', 'package_engine', 'package_identi
          'cases', 'additional_cases', 'oracle', 'native_fixture', 'runtime_prerequisites',
          'access_cases', 'access_runtime', 'http_cases', 'browser_preflight')
 _active = []
+HARNESS_NAMES = ('cp6_t3_package_run', 'cp6_run_identity', 'cp6_aw_probe', 'cp6_ax_probe',
+                 'cp6_g01_fingerprint', 'cp6_t3_backup_restore_drill', 'cp6_t3_release_package',
+                 'cp6_t3_browser', 'cp6_t3_aligned_install')
+
+
+@contextmanager
+def harness_scope(root):
+    """Keep the retained harness on its real source while preserving writer cwd.
+
+    These nine names are exactly the frozen parent's owning_harness contract.
+    Its nested imports prepend cwd/scripts, so sys.path priority alone cannot
+    select them. Return ordinary file specs for those names only; do not
+    replace modules, rewrite qualified source, or change runtime identities.
+    """
+    root = Path(root)
+    if not root.is_dir() or any(p.is_symlink() for p in (root, *root.parents)):
+        raise ValueError('SKU_AUTOMATIC_EXACT_HARNESS_ROOT_REQUIRED')
+    root = root.resolve()
+    contract = root / 'scripts/current-final-s03-sku-s05-preparation/parent_import.py'
+    if not contract.is_file() or contract.is_symlink():
+        raise ValueError('SKU_AUTOMATIC_EXACT_HARNESS_CONTRACT_REQUIRED')
+    tree = ast.parse(contract.read_bytes())
+    functions = [n for n in tree.body if isinstance(n, ast.FunctionDef) and n.name == 'owning_harness']
+    names = [n.value for f in functions for n in f.body if isinstance(n, ast.Assign)
+             and any(isinstance(t, ast.Name) and t.id == 'names' for t in n.targets)]
+    if len(functions) != 1 or len(names) != 1 or ast.literal_eval(names[0]) != HARNESS_NAMES:
+        raise ValueError('SKU_AUTOMATIC_COMPLETE_HARNESS_IMPORT_CONTRACT_REQUIRED')
+    paths = {name: root / 'scripts' / (name + '.py') for name in HARNESS_NAMES}
+    for name, path in paths.items():
+        if not path.is_file() or any(p.is_symlink() for p in (path, *path.parents)):
+            raise ValueError('SKU_AUTOMATIC_REGULAR_HARNESS_SOURCE_REQUIRED:' + name)
+
+    def check_loaded():
+        for name, path in paths.items():
+            existing = sys.modules.get(name)
+            if existing is not None and (not getattr(existing, '__file__', None)
+                                         or Path(existing.__file__).resolve() != path):
+                raise ValueError('SKU_AUTOMATIC_FROZEN_HARNESS_COLLISION:' + name)
+
+    check_loaded()
+
+    class ExactHarness(MetaPathFinder):
+        def find_spec(self, fullname, path=None, target=None):
+            if fullname in paths:
+                return spec_from_file_location(fullname, paths[fullname])
+            return None
+
+    finder = ExactHarness()
+    sys.meta_path.insert(0, finder)
+    try:
+        yield
+        check_loaded()
+    finally:
+        # Remove only our own resolver, including nested contexts and failures.
+        sys.meta_path.remove(finder)
 
 
 def require_import_closure(qualifier):

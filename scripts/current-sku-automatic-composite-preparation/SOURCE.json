@@ -132,8 +132,8 @@
       "sha256": "f5474148bc4d3cb872585b48978e747081d9f4ab562a30f6e4e84089cc9d4e8a"
     },
     "README.md": {
-      "bytes": 11510,
-      "sha256": "11f95a3194107003688a65efbcf1c2ffb4596435cbca03c552ac32784991c108"
+      "bytes": 12789,
+      "sha256": "77954ae9d650fc3a0549d0b72e72db7df73a6edc63afd251a9616bf6e959a6c6"
     },
     "SELECTIVE_UI_SOURCE_ADMISSION_CONTROLS_20261105.json": {
       "bytes": 1605,
@@ -248,8 +248,8 @@
       "sha256": "fdb68eb38465a8105042df2a562fa8ec458aa40cbedf83b6eb44796ca81d2c55"
     },
     "module_scope.py": {
-      "bytes": 4957,
-      "sha256": "5127582f45cea53689f76777cdcb6b7ffdf31efed85d63e92ad26406f939935b"
+      "bytes": 7746,
+      "sha256": "c9d3f2b813346e270b089779d0dce0200c0e3953d3eef13b1fe6b476390d2bfa"
     },
     "money_binding.py": {
       "bytes": 8089,
@@ -280,8 +280,8 @@
       "sha256": "5535ce276253d5ce6f10157cc825e75499ef2e2cf6b225dac3213317e6cb1966"
     },
     "qualification.py": {
-      "bytes": 12223,
-      "sha256": "23eb8205121bccb98a201064662b1da4e4c7eab1abb00068315886b3a6a76fab"
+      "bytes": 12277,
+      "sha256": "118f06f17cb5d9b5bf2a0b38255bdb751d74aaf224a4e99099152e15bd9ac757"
     },
     "report_io.py": {
       "bytes": 6464,
@@ -374,6 +374,10 @@
     "workflow.py": {
       "bytes": 9982,
       "sha256": "152b624fd207052a080f44340a9ec352f2aad4781703ae2bcc3e95c036b3d138"
+    },
+    "test_harness_scope.py": {
+      "bytes": 4653,
+      "sha256": "41f73a354e164d5d85e8ff8a4a6c5f345a8ca766baf50df964a07d487d4a82f5"
     }
   },
   "fresh_Auth_HTTP_races_browser_and_full_runtime_pending": true,

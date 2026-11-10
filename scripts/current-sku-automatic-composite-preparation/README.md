@@ -187,3 +187,23 @@ Validation: the complete physical check covered 14,730 exact parent files
 with zero absent files. Sixteen focused Python tests and the original twelve
 input-tamper controls passed. Full inherited money-graph observation and
 runtime adoption remain pending; no SKU or Global execution is claimed.
+
+
+2026-11-10 cold inherited harness import repair
+------------------------------------------------
+The first complete source observer rejected cp6_aw_probe from the owning SKU
+checkout because cp6_t3_package_run prepends cwd/scripts during import. The
+parent contract requires nine harness modules from the exact accepted Afui
+checkout. A scoped resolver now selects ordinary file specs for precisely those
+nine names, including nested imports. It verifies the original contract tuple,
+refuses existing foreign modules and symlinks, restores its resolver on failure,
+and leaves writer cwd, qualified files and the original origin guard unchanged.
+
+27 focused Python controls pass. A fresh observer launched from the real frozen
+writer cwd now passes the original harness-origin guard and reaches unchanged
+financial prerequisite verification. The retained AF archive (12769642828) and
+both original JSON pins were downloaded and verified directly. Complete graph
+observation still requires the remaining original finance evidence inputs; the
+first remaining missing variable is D17_18_ACCEPTED_CONSISTENCY_DIRECTORY. This
+is a closed source checkpoint, not a successful source graph or runtime result.
+All five financial gates remain unset. No SKU run or independent acceptance.

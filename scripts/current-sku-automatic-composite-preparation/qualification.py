@@ -88,7 +88,8 @@ def inherited_scope():
     contents = list(original)
     sys.argv = original[:1]
     try:
-        with modules.scope(FROZEN_PARENT / 'scripts/current-mandor-shop-native-qualification'):
+        with modules.harness_scope(FROZEN_AFUI), \
+                modules.scope(FROZEN_PARENT / 'scripts/current-mandor-shop-native-qualification'):
             yield
     finally:
         original[:] = contents
