@@ -1,0 +1,9 @@
+name: Afui complete-original retention
+description: Keep completed original case files durable during the unchanged owning runtime.
+inputs:
+  mode:
+    description: Fixed preflight or runtime entry.
+    required: true
+runs:
+  using: node24
+  main: durable_action.mjs

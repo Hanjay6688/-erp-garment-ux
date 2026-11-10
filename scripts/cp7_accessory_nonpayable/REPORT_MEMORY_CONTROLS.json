@@ -1,0 +1,117 @@
+{
+  "status": "AFUI_BOUNDED_REPORT_MEMORY_SOURCE_CONTROLS_PASS_NOT_ERP_ACCEPTANCE",
+  "baseline_head": "5ad0594b7e64db1c85baf352b2316c09dfb934cb",
+  "full_run": 41721666877,
+  "job": 126215732615,
+  "failure_annotation": "The hosted runner lost communication with the server.",
+  "actual_runner_memory_exhaustion_cause_proven": false,
+  "financial_case_functions_and_all_SQL_unchanged": {
+    "native_cases.py": {
+      "only_changed_functions": [
+        "boundary"
+      ],
+      "all_other_function_ASTs_exact": true
+    },
+    "access_cases.py": {
+      "only_changed_functions": [
+        "_capture_rows"
+      ],
+      "all_other_function_ASTs_exact": true
+    },
+    "qualification_component.py": {
+      "only_changed_functions": [
+        "exercise"
+      ],
+      "all_other_function_ASTs_exact": true
+    },
+    "qualification.py": {
+      "only_changed_functions": [
+        "fixture_report_io_preflight",
+        "main",
+        "runtime"
+      ],
+      "all_other_function_ASTs_exact": true
+    }
+  },
+  "control_tests": 42,
+  "failures": 0,
+  "test_seconds": null,
+  "controlled_memory_limit_MiB": 128,
+  "original_control_exceeds_limit": true,
+  "streamed_control_exact_bytes": true,
+  "real_Original_replay": {
+    "status": "COMPLETE_NINE_ORIGINALS_EXACT_WITH_INDEPENDENT_CONTAINERS_AND_SHARED_STRINGS",
+    "cases": [
+      {
+        "case": "NONPAYABLE_NATIVE_NORMAL_PICKUP_SPECIAL_GOOD_PHYSICAL_DATE",
+        "original_bytes": 30192595,
+        "exact_original_sha256": "da211d17af5c327a3747c42e5eae666e4541ed8d9aca1d9615584e0c960d2bce"
+      },
+      {
+        "case": "NONPAYABLE_NATIVE_SPECIAL_PICKUP_NORMAL_GOOD_PHYSICAL_DATE",
+        "original_bytes": 30194706,
+        "exact_original_sha256": "28044536df322b3a915469b1c94c0ee0afd3e00449836493fff6da2c7775c017"
+      },
+      {
+        "case": "NONPAYABLE_NATIVE_POSITIVE_HPP_ZERO_REIMBURSEMENT_FROZEN_HISTORY_AND_REPLAY",
+        "original_bytes": 30203258,
+        "exact_original_sha256": "a3397a5362cb4e974cf38123a16592d577c5bebb8454ea7060fb6ae0bd0d59c5"
+      },
+      {
+        "case": "NONPAYABLE_NATIVE_EXPLICIT_NORMAL_POLICY_REIMBURSEMENT_REGRESSION",
+        "original_bytes": 30192547,
+        "exact_original_sha256": "f0caae80440e017f5beddeaba35a5a667d45d656990f10cf6a0be1199fb5e3c4"
+      },
+      {
+        "case": "NONPAYABLE_NATIVE_MISSING_CATEGORY_EFFECTIVE_DATE_ATOMIC_GOOD_REFUSAL",
+        "original_bytes": 60241220,
+        "exact_original_sha256": "5af8d8a8dbe79a2898ac898da22a09f42a9a9debc6b2539408049760b6c79ba3"
+      },
+      {
+        "case": "NONPAYABLE_NATIVE_QC_INVERSE_AFTER_RECOST_AND_NEXT_LAWFUL_COST_REVISION",
+        "original_bytes": 45329429,
+        "exact_original_sha256": "5b4ced440b00775b4612e4144517df8752fb43bbef21691b4b47bb99c02b5377"
+      },
+      {
+        "case": "NONPAYABLE_NATIVE_NO_INITIAL_JOURNAL_CUMULATIVE_CENTS_AND_LAWFUL_INVOICE_INVERSES",
+        "original_bytes": 30301217,
+        "exact_original_sha256": "e65d283fb86d7bb6fe826e75707168399abd88d8dc978b8e09b115fa5f7f81db"
+      },
+      {
+        "case": "NONPAYABLE_NATIVE_REWORK_NO_INITIAL_JOURNAL_INVERSE_AND_ACTIVE_LOT_RECOST",
+        "original_bytes": 45416522,
+        "exact_original_sha256": "2e63e25fb8fae362208a54a336262f0d1ee58a7db41eb9a512e5ab3dc7591a4b"
+      },
+      {
+        "case": "NONPAYABLE_NATIVE_FINISHED_PO_FG_SALES_COGS_LATE_COST_AND_LAWFUL_INVERSES",
+        "original_bytes": 120582321,
+        "exact_original_sha256": "24563645dccf039b81cc2f27379dc3179f60942ded609b33c20574aa69bc875f"
+      }
+    ],
+    "total_original_bytes": 422653815,
+    "long_string_storage_before": 215029472,
+    "long_string_storage_after": 7678719,
+    "complete_streamed_group": {
+      "bytes": 733081642,
+      "sha256": "33ddaa7e6f2d588d176bac857233132763f2daab7676a13e240ccc2033f32afc"
+    },
+    "elapsed_seconds": 31.180778437999834,
+    "peak_RSS_KiB": 863120,
+    "actual_ERP_reexecuted_cases": 0,
+    "actual_accepted_cases": 0,
+    "full_outer_restore_verified": false,
+    "actual_runner_memory_exhaustion_cause_proven": false
+  },
+  "first_failure": "New helper syntax error before tests; corrected without changing tests. First combined controls had 2 missing sparse-source inputs; all script/src/test/workflow paths restored then all41 PASS.",
+  "actual_new_ERP_cases": 0,
+  "accepted_full_Afui15": false,
+  "full_outer_restore_verified": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "additional_owning_copy_binding": {
+    "actual_pre_DB_domain_owner_binding_required": true,
+    "same_exact_source_allowed_in_writer_checkout": true,
+    "complete_compiler_context_of_actual_path_preserved": true,
+    "new_control_passed": true
+  }
+}

@@ -15,7 +15,7 @@ FROZEN=ROOT.parent/'qualified-afui-parent'
 PARENT_PATH='scripts/cp7_accessory_nonpayable/advisor_review.py'
 PARENT_PIN=dict(bytes=4173,sha256='bd1090e42a4a2519a10c5f2872599703606f9b922026d347b6f873ca368df0df')
 PLAN_PATH='scripts/cp7_mandor_shop/INSTALL_PLAN.json'
-PLAN_PIN=dict(bytes=13274,sha256='341f2cbd4a0e361bee275f9e66a15c5362a8cee9d3ba91e619b95f376aa7098a')
+PLAN_PIN=dict(bytes=13274,sha256='677cd27d61a44b875b9d0745fbba7eeb1c23588093fad299e7639c07c5dc2316')
 SCHEMA='cp7_mandor_shop'
 TABLES=('allocation_events','allocation_states','allocations','command_context','contractor_accounts',
     'deduction_links','draft_buyers','offset_accounts','payment_work','payroll_identities','requests',

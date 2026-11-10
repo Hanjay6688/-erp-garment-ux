@@ -17,6 +17,36 @@ def constructor():
     return module
 
 class NativePreparationControls(unittest.TestCase):
+    def test_browser_save_dates_follow_posted_good_without_relabeling_physical_day(self):
+        from cp7_accessory_nonpayable import browser_prepare
+        # These are fixture-contract doubles, never actual ERP/financial proof.
+        # Exercise the real preparation function across calendar boundaries;
+        # the unchanged SQL guard forbids a new policy at/before posted GOOD.
+        calendars=(
+            ('2026-11-03','2026-11-04'),
+            ('2026-01-31','2026-02-01'),
+            ('2026-12-31','2027-01-01'),
+            ('2028-02-28','2028-02-29'),
+        )
+        class NoSQL:
+            def execute(self,*args,**kwargs):
+                raise AssertionError('BROWSER_DATE_PREFLIGHT_MUST_NOT_EXECUTE_SQL')
+        modules=SimpleNamespace(bc=SimpleNamespace(findings=lambda cur:{},new_findings=lambda before,after:{}))
+        for physical_day,desktop_day in calendars:
+            today=date.fromisoformat(physical_day);prepared={'good_day':today}
+            with self.subTest(physical_day=physical_day),\
+                    patch.object(fixture,'admitted_modules',return_value=modules),\
+                    patch.object(fixture,'prepare',return_value=prepared),\
+                    patch.object(fixture,'post_good'),\
+                    patch.object(fixture,'observe',return_value={}),\
+                    patch.object(fixture,'require_economics'):
+                value=browser_prepare.prepare(NoSQL(),today,{})
+            self.assertEqual(value['physical_GOOD_day'],physical_day)
+            self.assertEqual(prepared['good_day'],today)
+            self.assertEqual(value['explicit_review_day'],desktop_day,
+                'The desktop success path must not reuse the posted-GOOD refusal date')
+            self.assertGreater(date.fromisoformat(value['explicit_review_day']),today)
+
     def test_financial_failure_retains_actual_detector_delta_and_completed_economics(self):
         cursor=object();before={'existing:OLD':2};after={'existing:OLD':2,'current:NEW':1}
         admin=[]

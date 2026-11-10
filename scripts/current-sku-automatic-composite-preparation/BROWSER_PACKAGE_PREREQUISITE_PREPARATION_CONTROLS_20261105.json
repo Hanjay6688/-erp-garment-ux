@@ -1,0 +1,46 @@
+{
+  "browser": {
+    "classification": "SKU_BROWSER_PACKAGE_PREFLIGHT_PREPARED_NOT_ACTUAL_BROWSER_CASE",
+    "exact_donor_head": "21542ca22ad08f366d8f3c69929ca47b2d79b5f5",
+    "retained": {
+      "bytes": 6038,
+      "sha256": "0484299806098b217b4fb159155a0992d5bef12a6b44e4ca3023b20529a76d73"
+    },
+    "derived": {
+      "bytes": 6087,
+      "sha256": "a4d096dcf1cf14cced9f4d5e90c32ae80de443910e9faf3abfe9904e83a1875a"
+    },
+    "reversible_routes": 2,
+    "complete_original_recovered": true,
+    "independent_actual_checkout_processes": true,
+    "real_desktop_and_mobile_launch_in_each_checkout": true,
+    "candidate_build_and_exact_own_browser_module_import": true,
+    "actual_SQL_executed": 0,
+    "actual_Auth_requests": 0,
+    "actual_browser_case_credit": 0,
+    "production_go": false
+  },
+  "workflow": {
+    "status": "NATIVE25_WORKFLOW_DATA_ONLY_NOT_ACTIVATED",
+    "retained_template": {
+      "bytes": 33997,
+      "sha256": "baa5fd02b024837856276f9e7136ca555c2bb6bb9255b0c5f0c2068322494e5d"
+    },
+    "total_steps": 81,
+    "retained_steps": 79,
+    "unchanged_steps": 67,
+    "owning_routes": 12,
+    "added_browser_prerequisite_steps": 2,
+    "frozen_source_trees": 4,
+    "actual_both_checkout_browser_prerequisites_before_database": true,
+    "database_rebuild_clone_recovery_and_full_artifact_upload_unchanged": true,
+    "real_360_330_20_10_budgets_unchanged": true,
+    "workflow_dispatches": 0,
+    "actual_ERP_cases": 0,
+    "actual_Auth_HTTP_cases": 0,
+    "actual_browser_cases": 0,
+    "production_go": false
+  },
+  "actual_runtime_adoption": false,
+  "actual_browser_case_credit": 0
+}

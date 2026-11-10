@@ -1,5 +1,6 @@
 """Native browser prerequisite; no caller connection or commit is owned here."""
 from pathlib import Path
+from datetime import timedelta
 import json,sys
 
 IDS=(
@@ -23,7 +24,7 @@ def prepare(cur,today,state):
     after=modules.bc.findings(cur)
     if modules.bc.new_findings(before,after):raise ValueError('NONPAYABLE_BROWSER_PREREQUISITE_FINANCIAL_INTEGRITY_REQUIRED')
     return dict(status='ACTUAL_NATIVE_NONPAYABLE_BROWSER_PREREQUISITE_PREPARED',fixture=f,
-        actual_good=actual,physical_GOOD_day=str(f['good_day']),explicit_review_day=str(today),
+        actual_good=actual,physical_GOOD_day=str(f['good_day']),explicit_review_day=str(today+timedelta(days=1)),
         expected_positive_HPP='20',expected_reimbursement='0',expected_new_entitlements=0,
         findings_before=before,findings_after=after,Native_case_credit=0,screen_creation_claim=False)
 

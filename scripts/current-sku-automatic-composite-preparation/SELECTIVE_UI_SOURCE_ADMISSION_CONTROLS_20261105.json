@@ -1,0 +1,41 @@
+{
+  "absent_sparse_parent_files": 8496,
+  "active_financial_workflow_added": false,
+  "actual_Mandor17_Root_adopted": false,
+  "all_five_automatic_and_all_ten_money_gates_unset": true,
+  "all_other_current_parent_source_files_unchanged": true,
+  "classification": "EXACT_SELECTIVE_UI_SOURCE_ADMISSION_NOT_RUNTIME_OR_FINANCIAL_ACCEPTANCE",
+  "conditional_HPP_labels_changed": false,
+  "exact_selected_UI_paths": [
+    "src/ConnectedInitialImportPage.tsx",
+    "src/ConnectedPocketFabricPage.tsx",
+    "src/initial-import.css"
+  ],
+  "full_runtime_materialization_still_required": true,
+  "materialized_parent_files_checked": 6169,
+  "new_ERP_cases": 0,
+  "new_UI_visual_runs": 0,
+  "new_source_control_methods": 5,
+  "new_source_controls_pass": 5,
+  "original_financial_commands_and_assertions_changed": false,
+  "original_first_refusal": "SKU_AUTOMATIC_UNDECLARED_CURRENT_PARENT_CHANGE:src/ConnectedInitialImportPage.tsx",
+  "original_first_refusal_stderr": {
+    "bytes": 833,
+    "sha256": "9e38459ba92173cbae1932db9deac43d27930640761b2e369e850c1f78d860b7"
+  },
+  "original_parent_tree": "3fd1bdb763a6d22a5aa455f5aea3a853b9782e4d",
+  "parent_selected_UI_head": "1c66a74295eae2f09b7535619325e4d023942e19",
+  "production_go": false,
+  "unchanged_frozen_automatic_addition_files": 20,
+  "unchanged_frozen_money_product_files": 44,
+  "unchanged_root_build_inputs": [
+    "index.html",
+    "package-lock.json",
+    "package.json",
+    "tsconfig.app.json",
+    "tsconfig.contracts.json",
+    "tsconfig.json",
+    "vite.config.ts"
+  ],
+  "whole_approved_src_tree": "15dc4bde83e1ac74871f8d4aaf005e9e36445aeb"
+}

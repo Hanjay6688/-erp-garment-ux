@@ -1,0 +1,39 @@
+{
+  "classification": "CURRENT_BROWSER_BINDING_AND_COMPLETE_JOURNEY_PREPARATION_NOT_ACTUAL_BROWSER",
+  "binding_and_journey_control_methods": 4,
+  "existing_owning_controls_pass": 9,
+  "complete_journey_source_derivation": {
+    "retained": {
+      "bytes": 22853,
+      "sha256": "7a1cb2ea0d5b4bed519f45d07ed95b381fae3e01cfa31c6835c30317765c9537"
+    },
+    "derived": {
+      "bytes": 22320,
+      "sha256": "032dcce2ee53ff656314d7e2c732e417a409af01472d7463a8cf580a3a1ca71b"
+    },
+    "exact_reversible_routes": 6,
+    "complete_original_recovered": true,
+    "real_Auth_normal_App_PostgREST_reconcile_inverse_census_and_console_checks_preserved": true,
+    "native_physical_60_06_and_economic_average_68_07_both_required": true,
+    "runtime_copy_and_final_packet_integration_still_pending": true,
+    "actual_Auth_HTTP_cases": 0,
+    "actual_browser_cases": 0,
+    "actual_ERP_cases": 0
+  },
+  "actual_Native_constructor_whole_source_matches_actual_browser_caller": true,
+  "fixture_construction_full_source_admission_and_binding_inside_original_DB_network_fence": true,
+  "actual_automatic_composite_product_path_required": true,
+  "all_original_Native_fixture_function_code_identities_checked_before_use": true,
+  "original_be_bf_helpers_require_real_frozen_source_paths_and_identical_bytes": true,
+  "full_sorted_pretty_census_bytes_match_legacy": true,
+  "relative_path_and_pretty_encoder_first_failures_retained": true,
+  "mandatory_owning_source_check_compiles_actual_browser_fixture_before_database": true,
+  "financial_and_Auth_browser_main_not_activated": true,
+  "real_copy_runtime_and_final_packet_integration_pending": true,
+  "Native25_still_excludes_browser_cases": true,
+  "actual_ERP_cases": 0,
+  "actual_Auth_HTTP_cases": 0,
+  "actual_browser_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

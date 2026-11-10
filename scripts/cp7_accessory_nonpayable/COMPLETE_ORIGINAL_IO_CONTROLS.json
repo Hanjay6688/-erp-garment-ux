@@ -1,0 +1,90 @@
+{
+  "status": "BOUNDED_COMPLETE_ORIGINAL_STORAGE_AND_TRANSPORT_CONTROLS_PASS_NOT_ERP",
+  "baseline_head": "e0cfa98382e977933d63e9f828de17a0faba9ef9",
+  "baseline_run": 41809863387,
+  "baseline_job": 126506120413,
+  "baseline_termination": "EXTERNAL_RUNNER_SHUTDOWN",
+  "runner_shutdown_origin": "UNKNOWN",
+  "runner_shutdown_is_proven_memory_failure": false,
+  "baseline_Native_case_Originals_verified_PASS": 9,
+  "baseline_group_PASS_is_log_observation_only": true,
+  "baseline_full_Afui15_and_outer_restore_verified": false,
+  "storage_source_controls": 9,
+  "transport_source_process_controls": 9,
+  "memory_control": {
+    "limit_MiB": 160,
+    "legacy_whole_buffer_exceeds_limit": true,
+    "new_complete_bytes": 84000337,
+    "new_peak_RSS_KiB": 28984,
+    "raw_sha256": "9a85e3d3814cd65781a1414b06ea5c034a2f5e75d4d53ab03fe065c103541cac"
+  },
+  "actual_retained_catalogue_replay": {
+    "status": "ACTUAL_RETAINED_NATIVE_CATALOGUE_STORAGE_REPLAY_PASS_NOT_ERP",
+    "source_run": 41809863387,
+    "source_artifact": 13314478637,
+    "source_archive_sha256": "40c58341eeaccb3cf90f9ee1a6e36a60a65e20de3b523fc53d3e038697112df1",
+    "source_original": {
+      "bytes": 30203264,
+      "sha256": "55d311d54347d7b1aaa5287bd62b505d7584da138ad3aa4712e2f798c2071d1d"
+    },
+    "full_catalogue_groups": 22,
+    "plain": {
+      "name": "ACTUAL_CATALOGUE_REPLAY.json",
+      "bytes": 15037943,
+      "sha256": "6cac3165791a03bcde908db6660809b6ed49b52c9b3a9a4ee3104efc118ae239"
+    },
+    "gzip": {
+      "name": "ACTUAL_CATALOGUE_REPLAY.json.gz",
+      "bytes": 15037943,
+      "sha256": "6cac3165791a03bcde908db6660809b6ed49b52c9b3a9a4ee3104efc118ae239",
+      "gzip_bytes": 1885372,
+      "gzip_sha256": "ab02951c1607bf2b91c5d8b5139ff0b1d601b7d697b5eb3135a7050ccf63fbac"
+    },
+    "actual_new_ERP_cases": 0,
+    "full_restore_verified": false,
+    "runner_shutdown_cause_proven": false
+  },
+  "financial_case_functions_all_assertions_and_SQL_unchanged": true,
+  "gzip_bytes_equal_existing_mtime_zero_compressor": true,
+  "named_complete_Native_group_and_Auth_browser_outputs_durable": true,
+  "existing_partial_and_conflicting_originals_never_overwritten": true,
+  "same_first_attempt_identity_and_360_330_20_10_budgets": true,
+  "source_files": {
+    "complete_original_io.py": {
+      "bytes": 5802,
+      "sha256": "32e1115a6ed459831799db193e9de09fe6d9fa008e2c55a9fe44a1dd991eeb55"
+    },
+    "test_complete_original_io.py": {
+      "bytes": 9711,
+      "sha256": "be4f85734bb30f1cc6142ea0ca63c7f9e84f101717580659a722610d123f4e83"
+    },
+    "qualification_component.py": {
+      "bytes": 14976,
+      "sha256": "8440a8734b2c77b6fa3aa513851a9eee3ccb30a43c9007e8da5a48f1aeb74331"
+    },
+    "qualification.py": {
+      "bytes": 12793,
+      "sha256": "f1a03faf7dca63c254df066254b03e2e68500e20d0778fe99d3d2d05fa358520"
+    },
+    "access_cases.py": {
+      "bytes": 21416,
+      "sha256": "b5649cf69628655a77aeadd8804225d27d2822306f718a327b3f1639b668d05e"
+    },
+    "browser_fixture.py": {
+      "bytes": 3162,
+      "sha256": "3be11db2edd1cb0b3384d3522023ae35a05f1130818fda8ca4ad3801c62e3ccd"
+    },
+    "durable_action.mjs": {
+      "bytes": 13814,
+      "sha256": "4cdb05df0247e860edb76f2f62ce8e28b44e9f6d99e89d622a69b7a4a6b1a8ce"
+    },
+    "durable_action.test.mjs": {
+      "bytes": 10127,
+      "sha256": "b35efc7cba72f984497018afdda3dc7df2c8380a84ea3ddfb55cc45a2b1410b3"
+    }
+  },
+  "actual_new_ERP_cases": 0,
+  "actual_new_Auth_HTTP_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

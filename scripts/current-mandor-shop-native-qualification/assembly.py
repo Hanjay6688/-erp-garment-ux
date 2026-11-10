@@ -62,7 +62,11 @@ class Assembly:
         require(self.mandor.capture(cur)==qualified_Afui['after'],'MANDOR_ASSEMBLY_EXACT_INSTALLED_AFUI_PARENT_REQUIRED')
         # Verify the original parent catalogue and inspect its natural fixtures
         # BEFORE adding new Mandor objects. Their original verifier is strict.
-        self.domain_modules=self.fixture.admitted_modules(cur,qualified_Afui)
+        from importlib.util import module_from_spec, spec_from_file_location
+        path=ROOT/'scripts/current-mandor-afui-preparation/report_io.py'
+        spec=spec_from_file_location('mandor_afui_fixture_admission',path)
+        report_io=module_from_spec(spec);spec.loader.exec_module(report_io)
+        self.domain_modules=report_io.admit_afui_fixture(cur,qualified_Afui,self.fixture)
         child=self.mandor.install(cur,self.parent_raw)
         require(child['before']==qualified_Afui['after'],'MANDOR_ASSEMBLY_COMPLETE_PARENT_CATALOGUE_LINEAGE')
         state=dict(contract=CONTRACT,sources=source,parent=qualified_Afui,Mandor=child,

@@ -1,0 +1,45 @@
+{
+  "Afui_command_CWD": "qualified-afui-parent",
+  "actual_ERP_cases": 0,
+  "actual_exact_74e_source_preflight_pass": true,
+  "actual_wrong_checkout_source_error": "ValueError: NONPAYABLE_SETTINGS_UI_SOURCE_CHANGED:scripts/check-access-catalog.mjs",
+  "both_actual_admission_families_closed": true,
+  "classification": "FROZEN_AFUI_PREFLIGHT_CONTEXT_REPAIR_NOT_FINANCIAL_ACCEPTANCE",
+  "controls_receipt": {
+    "bytes": 3868,
+    "sha256": "d15dba6e20ade045a6e69077e2e4832b4ec677baba30f023bb409fbd498e725e"
+  },
+  "exact_74e_source_preflight": {
+    "accepted_parent_bound": true,
+    "actual_Auth_HTTP_cases": 0,
+    "actual_Native_cases": 0,
+    "actual_SQL_executed": 0,
+    "actual_browser_cases": 0,
+    "base_head": "91a7b46ed13c4ad6094114871a4a39fa6765d140",
+    "base_tree": "01c4807d932af1d534477c4c182715b1378bd39b",
+    "exact_counted_Native_derivations": 4,
+    "exact_counted_existing_UI_paths": 4,
+    "exact_settings_function_bodies": 6,
+    "independent_acceptance": false,
+    "new_UI_paths": 5,
+    "own_paths": 130,
+    "own_source_pins": 83,
+    "prepared_public_facade_functions": 2,
+    "production_go": false,
+    "status": "NONPAYABLE_SOURCE_BOUND_TO_ACTUAL_FREE3_PARENT",
+    "unchanged_parent_paths": 14306
+  },
+  "financial_or_recovery_assertions_changed": false,
+  "first_real_shell_control_failure": {
+    "bytes": 1047,
+    "sha256": "9f6c80a5ecc41c444925f0b2ffebe7779be41256d21c6c4174e8597d98a6aacc"
+  },
+  "generated_command_invocations": 5,
+  "original_80_steps_69_unchanged_11_owning_routes_84_total_preserved": true,
+  "other_four_commands_CWD": "auditor",
+  "own_preparation_controls_passed": 21,
+  "parent_public_head": "1ce94bc7dcd5359099ab84981e4155715dd89dc8",
+  "production_go": false,
+  "source_checks_or_permissions_weakened": false,
+  "workflow_activated": false
+}

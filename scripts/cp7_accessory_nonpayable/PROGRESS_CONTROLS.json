@@ -1,0 +1,45 @@
+{
+  "status": "AFUI_BOUNDED_DIAGNOSTICS_NEW_CONTROLS_PASS_NOT_RUNTIME",
+  "baseline_head": "af4d72f209efe134447539b8c1789da2ecc762eb",
+  "tests_run": 4,
+  "first_execution_passed": true,
+  "actual_observed_test_report": {
+    "status": "BOUNDED_PHASE_RECEIPTS_PRESERVE_RESULTS_ERRORS_AND_CLEANUP",
+    "tests_run": 4,
+    "new_timers_or_workers": 0,
+    "actual_SQL_executed": 0,
+    "actual_Native_cases": 0
+  },
+  "unchanged_original_behavior_AST": {
+    "scripts/cp7_accessory_nonpayable/qualification.py": {
+      "original": {
+        "bytes": 9434,
+        "sha256": "7b836d55007b8658128e77dcc2e7d40412f692c21180dcc91e271ab8902d7c1a"
+      },
+      "changed": {
+        "bytes": 10352,
+        "sha256": "e993619472fc65ca10883932e16597d26dd4dac9ba17d58be66b6aa9ce9b73c7"
+      },
+      "AST_without_only_diagnostic_nodes_equals_original": true
+    },
+    "scripts/cp7_accessory_nonpayable/qualification_component.py": {
+      "original": {
+        "bytes": 14882,
+        "sha256": "d395c4409485a6a4b092c0b74692af1769bafa0b6048289c8728525d89f36405"
+      },
+      "changed": {
+        "bytes": 15196,
+        "sha256": "c6c87cee1f6543eac07f6bc327f29dc9f3a9f6e358237d494b413f54926691a5"
+      },
+      "AST_without_only_diagnostic_nodes_equals_original": true
+    }
+  },
+  "native_case_ids_fit_exact_bound": true,
+  "diagnostic_phase_sites": 7,
+  "initial_source_audit_note": "Both original-behavior AST comparisons passed; literal_eval correctly refused combined imported IDS. Resolved its three declared literal tuples without importing ERP; no runtime or product correction.",
+  "prior_seventeen_prerequisite_controls_reused": true,
+  "actual_SQL_executed": 0,
+  "actual_Native_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

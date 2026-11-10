@@ -42,8 +42,9 @@ def context(product,state,*,scope='NATIVE9'):
     import cp7_master_cases as master
     import cp7_sales_command_cases as sales
     import cp7_sales_draft_cases as draft
-    import cp7_cash_funding as funding
     from assembly import FROZEN
+    # The strict group can cache a same-named helper from the SKU worktree.
+    funding = load('mandor_exact_afui_cash_funding', FROZEN/'scripts/cp7_cash_funding.py')
     require(Path(funding.__file__).resolve()==FROZEN/'scripts/cp7_cash_funding.py',
         'MANDOR_NATIVE_EXACT_PARENT_CASH_FUNDING_MODULE')
     return Native(product.domain_modules,product.fixture,finish,master,sales,draft,
@@ -68,17 +69,16 @@ def exercise(product,trusted_connection,conn,cur,database,url,report,state):
         runtime_prerequisites.save(ROOT/'cp6-proof/t3'/(NATIVE_LABEL+'_PREREQUISITES.json'),prerequisites)
         runtime_prerequisites.validate(prerequisites)
         return cases.cases(native_context,cursor,today)
-    observed=native.strict_group(NATIVE_LABEL,factory,verify)
+    report_io=load('mandor_current_owning_group_report_writer',ROOT/'scripts/current-mandor-afui-preparation/report_io.py')
+    output=load('mandor_current_complete_case_output',ROOT/'scripts/current-mandor-afui-preparation/output_binding.py')
+    with report_io.group_scope(native.r1),output.case_scope(native,'native'):
+        observed=native.strict_group(NATIVE_LABEL,factory,verify)
     originals=[]
     for name in(NATIVE_LABEL+'.json',NATIVE_LABEL+'_BUSINESS_DAY_FIRST_ATTEMPT.json'):
         path=native.r1.OUT/name
         if not path.exists():continue
         target=ROOT/'cp6-proof/t3'/name;target.parent.mkdir(parents=True,exist_ok=True)
-        raw=path.read_bytes()
-        if target.exists():require(target.read_bytes()==raw,'MANDOR_NATIVE_FIRST_STRICT_ORIGINAL_CHANGED')
-        else:
-            with target.open('xb')as output:output.write(raw)
-        originals.append(source_record(target))
+        originals.append(output.copy_exact(path,target))
     report['strict_group_originals']=originals
     require(observed['status']=='PASS'and observed['planned_case_ids']==list(cases.IDS),
         'MANDOR_NATIVE_EXACT_NINE_ACTUAL_CASES_REQUIRED')

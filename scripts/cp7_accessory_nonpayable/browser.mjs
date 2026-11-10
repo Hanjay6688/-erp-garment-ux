@@ -5,8 +5,9 @@ import {createHash} from 'node:crypto'
 import {readFileSync,writeFileSync,mkdirSync} from 'node:fs'
 import {dirname,resolve} from 'node:path'
 import {fileURLToPath} from 'node:url'
-import {observeConsole,requireConsoleEvidence,readable} from '../current-sku-pair-browser-qualification/evidence.mjs'
+import {observeConsole,requireConsoleEvidence} from '../current-sku-pair-browser-qualification/evidence.mjs'
 import {observeResponseWaits} from '../current-s03-sku-s05-composite-qualification/response_waits.mjs'
+import {readable} from './browser_contrast.mjs'
 
 export const IDS=[
   'NONPAYABLE_BROWSER_DESKTOP_POSTED_USE_REFUSAL_LOST_REPLY_TWO_TABS',
@@ -18,7 +19,7 @@ const READ='erp_cp7_get_good_policy_dates_v1',WRITE='erp_cp7_save_good_policy_da
 const sha=raw=>createHash('sha256').update(raw).digest('hex')
 const requestIs=(name,r)=>r.url().endsWith('/rpc/'+name)&&r.request().method()==='POST'
 const panel=page=>page.getByRole('region',{name:'Tanggal berlaku kategori gratis untuk GOOD',exact:true})
-const reason=page=>panel(page).getByLabel('Alasan pencatatan tanggal berlaku',{exact:true})
+export const reason=page=>panel(page).getByLabel(/^Alasan pencatatan tanggal berlaku/).and(panel(page).locator('textarea'))
 const day=page=>panel(page).getByLabel('Berlaku untuk GOOD mulai tanggal (WIB)',{exact:true})
 const review=page=>panel(page).getByRole('checkbox',{name:/Saya memastikan versi kategori, tanggal berlaku/})
 const save=page=>panel(page).getByRole('button',{name:'Simpan tanggal berlaku yang ditinjau',exact:true})
@@ -156,12 +157,18 @@ async function journey(ui,mobile,source){
       await ui.expect(panel(page).getByRole('alert')).toContainText('Koreksi atau balik hasil terkait melalui alur yang sah')
       await ui.expect(panel(page)).toHaveAttribute('aria-busy','false')
       proofs.push(dateChanges(before,state('AFTER_POSTED_USE_REFUSAL')));progress.posted_use=refused
+      // A definite rejection invalidates the workspace. Reload through the
+      // normal UI before attempting the independent future-date operation.
+      const reload=page.waitForResponse(r=>requestIs(READ,r))
+      await panel(page).getByRole('button',{name:'Baca ulang tanggal berlaku',exact:true}).click()
+      assert.equal((await reload).status(),200)
+      await ui.expect(panel(page)).toHaveAttribute('aria-busy','false')
       const other=await owner.context.newPage();other.setDefaultTimeout(20000);track(other)
       await other.goto(ui.origin);await open(ui,other)
       const beforeSave=state('BEFORE_LOST_REPLY')
       await fill(ui,page,source.prepared.explicit_review_day,'Reviewed future GOOD date through normal App')
       const lost=await loseReply(page,true);assert.equal(lost.actual.status,'SAVED')
-      await ui.expect(retry(other)).toBeVisible();await ui.expect(day(other)).toBeDisabled()
+      await ui.expect(retry(other)).toBeVisible();await ui.expect(day(other)).toHaveCount(0)
       const saved=state('AFTER_ACTUAL_SAVE_LOST_REPLY')
       proofs.push(dateChanges(beforeSave,saved,{requests:[lost.request.p_request],versions:[lost.actual.id]}))
       const replay=await responseTo(other,()=>retry(other).click())

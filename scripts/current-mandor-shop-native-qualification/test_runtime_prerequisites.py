@@ -61,7 +61,9 @@ class Protocol:
         elif 'from erp.uom_definitions' in query:rows=self.pcs
         elif 'from erp.accounting_period_control' in query:rows=self.period
         elif 'session_user' in query:rows=[tuple(self.identity)]
-        elif 'erp.has_permission' in query:rows=[(self.permissions[args[0]],)]
+        elif 'public.erp_get_my_access_v1' in query:
+            rows=[(dict(allowed=True,profile=dict(role_code='OWNER',is_active=True),
+                permissions=[key for key,allowed in self.permissions.items() if allowed]),)]
         elif 'has_function_privilege' in query:rows=[(self.capabilities[args[0]],)]
         else:raise AssertionError('Unexpected protocol SQL: '+query)
         return SimpleNamespace(fetchone=lambda:rows[0]if rows else None,fetchall=lambda:rows)
@@ -87,6 +89,8 @@ class RuntimePrerequisiteControls(unittest.TestCase):
             pairs,assets=final_gate.observations(reader(),path.parent,packet)
             self.assertEqual(pairs,1);self.assertEqual(len(assets),2)
             self.assertEqual(model.calls.count('original_actor'),1)
+            self.assertEqual(model.calls.count('select public.erp_get_my_access_v1()'),1)
+            self.assertFalse(any('erp.has_permission' in sql for sql in model.calls))
             self.assertEqual(model.boundaries,2)
             self.assertEqual(packet['actual_Native_cases'],0)
             with self.assertRaises(FileExistsError):prerequisites.save(path,{'replacement':True})
@@ -148,6 +152,7 @@ class RuntimePrerequisiteControls(unittest.TestCase):
             value=json.loads(json.dumps(Protocol(Path(name)).check(),default=str))
             changes=(lambda v:v['functions'].pop(prerequisites.FUNCTIONS[0]),
                 lambda v:v['owner_actor']['permissions'].__setitem__(prerequisites.PERMISSIONS[0],1),
+                lambda v:v['owner_actor'].pop('permission_source'),
                 lambda v:v['owner_actor']['direct_call_capabilities'].__setitem__(prerequisites.FUNCTIONS[0],False),
                 lambda v:v['owner_actor'].__setitem__('identity',['authenticated','postgres','OWNER']),
                 lambda v:v['account_mappings'].__setitem__(prerequisites.MAPPINGS[0],[[1,True]]),

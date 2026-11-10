@@ -1,0 +1,22 @@
+{
+  "status": "PASS_CLOSED_SKU_CUMULATIVE_REVIEW_PREPARATION",
+  "review_cases": 17,
+  "negative_controls": [
+    "changed_archive",
+    "duplicate_case",
+    "backend_promoted_to_success",
+    "restore_mismatch",
+    "app_backend_swapped",
+    "false_same_run_flag"
+  ],
+  "closed_sku": {
+    "head": "1b9d6d18ce206b2a117e0010409540e695ae1c95",
+    "tree": "ebefa23ce99443f74b32e52e8fabebbc23f32d4d",
+    "manifest_pins": 70,
+    "recovered_namespace_files": 71
+  },
+  "financial_runtime_gates_closed": true,
+  "workflow_runs_started": 0,
+  "database_operations": 0,
+  "independent_acceptance": false
+}

@@ -1,0 +1,623 @@
+{
+  "classification": "CURRENT_AFUI_MANDOR_SOURCE_PREPARATION_NOT_RUNTIME",
+  "base": {
+    "head": "c296fd06167ddd177e1192c1008992e2a1e3d628",
+    "tree": "fdd36962a7de81482ccca02e6ff96597cfc20081"
+  },
+  "pending_current_Afui": {
+    "head": "fd797083eab093d9dc97f2d52ca61dc37812b437",
+    "tree": "02a8812e9eae2272a976d1dbd1e21aff8c022467",
+    "run_id": null,
+    "job_id": null,
+    "actual_Root_pin": null
+  },
+  "exact_current_Afui_files": {
+    ".github/workflows/cp7-afui-good-nonpayable.yml": {
+      "mode": "100644",
+      "blob": "2ed083df250fcd0d38a541905cb2bc14cd22c0de"
+    },
+    "scripts/cp7_accessory_nonpayable/BROWSER_RUNTIME_REPAIR_SCOPE_20261105.json": {
+      "mode": "100644",
+      "blob": "b675f21b5f8e222923e2585b96a1cfbc1dfd03d8"
+    },
+    "scripts/cp7_accessory_nonpayable/CASE_OUTPUT_CONTROLS.json": {
+      "mode": "100644",
+      "blob": "c70a26734a3ff061cc2dcebecd5936b7c96ac71a"
+    },
+    "scripts/cp7_accessory_nonpayable/COMPLETE_ORIGINAL_IO_CONTROLS.json": {
+      "mode": "100644",
+      "blob": "3fcf7df7a1513475d1c93bc161f53c7ea572a35f"
+    },
+    "scripts/cp7_accessory_nonpayable/EARLY_STATE_PREPARATION_CONTROLS.json": {
+      "mode": "100644",
+      "blob": "ff6b5dca86398f52b1bd85193e4113b75ac78b73"
+    },
+    "scripts/cp7_accessory_nonpayable/MODULE_CONTEXT_CONTROLS.json": {
+      "mode": "100644",
+      "blob": "d8f1075474fc2a77234d2cd6e13331158276982c"
+    },
+    "scripts/cp7_accessory_nonpayable/PHASE_GUARD_WIRING_CONTROLS_20261105.json": {
+      "mode": "100644",
+      "blob": "ba7fa2d97ba0ebf9822f1d2afba7a27b31cf1964"
+    },
+    "scripts/cp7_accessory_nonpayable/PROGRESS_CONTROLS.json": {
+      "mode": "100644",
+      "blob": "ef27a18a8fcdb56c2f54dee503cbf519d6da2cfd"
+    },
+    "scripts/cp7_accessory_nonpayable/README.md": {
+      "mode": "100644",
+      "blob": "2bbb7b7deca20f0e3fb0d5a06761fe3cb61b5a70"
+    },
+    "scripts/cp7_accessory_nonpayable/REPORT_MEMORY_CONTROLS.json": {
+      "mode": "100644",
+      "blob": "6f6f0fed94bac1c34c60ddc5be4c3ab005d64000"
+    },
+    "scripts/cp7_accessory_nonpayable/SOURCE.json": {
+      "mode": "100644",
+      "blob": "bc84b0043209e3e1100e5c69f5ab707cb39259c9"
+    },
+    "scripts/cp7_accessory_nonpayable/access_cases.py": {
+      "mode": "100644",
+      "blob": "762978d37f9e8c7a3812f06a8f45c3158fd77751"
+    },
+    "scripts/cp7_accessory_nonpayable/action.yml": {
+      "mode": "100644",
+      "blob": "54ee200357f05745160bbdab48d57a3607d5dfa1"
+    },
+    "scripts/cp7_accessory_nonpayable/afui15.workflow.yml.txt": {
+      "mode": "100644",
+      "blob": "2ed083df250fcd0d38a541905cb2bc14cd22c0de"
+    },
+    "scripts/cp7_accessory_nonpayable/browser.mjs": {
+      "mode": "100644",
+      "blob": "7ee06a55c918445379ffcbffb7242fe058d7a3be"
+    },
+    "scripts/cp7_accessory_nonpayable/browser_contrast.mjs": {
+      "mode": "100644",
+      "blob": "b27ccdf13ee58bbde46036f4ceb1976884ee59c4"
+    },
+    "scripts/cp7_accessory_nonpayable/browser_fixture.py": {
+      "mode": "100644",
+      "blob": "7744ffe35b9ed6d82e9e74b16e48d024c78b6df3"
+    },
+    "scripts/cp7_accessory_nonpayable/browser_prepare.py": {
+      "mode": "100644",
+      "blob": "4802bd684ecb26c38d5d63344878dc28d21dcd6c"
+    },
+    "scripts/cp7_accessory_nonpayable/browser_prerequisites.mjs": {
+      "mode": "100644",
+      "blob": "aab0b9ce23677d25db10a1697053690734ce2d94"
+    },
+    "scripts/cp7_accessory_nonpayable/case_output.py": {
+      "mode": "100644",
+      "blob": "f946dbf8a83b71560175bc3e0c217f1137fffa69"
+    },
+    "scripts/cp7_accessory_nonpayable/complete_original_io.py": {
+      "mode": "100644",
+      "blob": "bc35f56a32c8ba08ceedf0acbc597f83798e3a28"
+    },
+    "scripts/cp7_accessory_nonpayable/composition.py": {
+      "mode": "100644",
+      "blob": "215af73595095592278bf8a89886bbd86928b5c0"
+    },
+    "scripts/cp7_accessory_nonpayable/durable_action.mjs": {
+      "mode": "100644",
+      "blob": "07d1822c72e779661060ee1e0b667add5e104eb9"
+    },
+    "scripts/cp7_accessory_nonpayable/durable_action.test.mjs": {
+      "mode": "100644",
+      "blob": "acb674a383a6b04b287e0fbfe0d20c8fde9f3d97"
+    },
+    "scripts/cp7_accessory_nonpayable/final_gate.py": {
+      "mode": "100644",
+      "blob": "907ecc24df17800ea0e7224aa1c1288ec95fcced"
+    },
+    "scripts/cp7_accessory_nonpayable/lossless_state.py": {
+      "mode": "100644",
+      "blob": "90c140c43a60afbf7b6af66290bcf9967f942e86"
+    },
+    "scripts/cp7_accessory_nonpayable/native_cases.py": {
+      "mode": "100644",
+      "blob": "504c7ca49cc017ff66fb9164402427218cd8d16a"
+    },
+    "scripts/cp7_accessory_nonpayable/progress.py": {
+      "mode": "100644",
+      "blob": "4095876c924e7713f292a7230da965bcbda76fa6"
+    },
+    "scripts/cp7_accessory_nonpayable/qualification.py": {
+      "mode": "100644",
+      "blob": "eef82a25fc1ee6ef518dd63fd011a50397354c3e"
+    },
+    "scripts/cp7_accessory_nonpayable/qualification_component.py": {
+      "mode": "100644",
+      "blob": "ce0a6f2bff19b88307d21e052e0483f88edbc106"
+    },
+    "scripts/cp7_accessory_nonpayable/qualification_gate.py": {
+      "mode": "100644",
+      "blob": "1851e8613c2ddc9b6402fca8a1c08de83a0c891e"
+    },
+    "scripts/cp7_accessory_nonpayable/report_io.py": {
+      "mode": "100644",
+      "blob": "e7d33374f312c80569ce02b2115fdc9458f0306f"
+    },
+    "scripts/cp7_accessory_nonpayable/state_prepare.py": {
+      "mode": "100644",
+      "blob": "a2af79a118420ab0b9f8ce08fdd8c2ea7b49d4eb"
+    },
+    "scripts/cp7_accessory_nonpayable/test_browser_observer.py": {
+      "mode": "100644",
+      "blob": "285a18d957f1953cc681c233f3457587f7cb35ae"
+    },
+    "scripts/cp7_accessory_nonpayable/test_case_output.py": {
+      "mode": "100644",
+      "blob": "0b5dd823c483daf3b762889228b661d49926595f"
+    },
+    "scripts/cp7_accessory_nonpayable/test_committed_preparation.py": {
+      "mode": "100644",
+      "blob": "bd05dcb91c7c113f3574078ffc35c0ddc66fb329"
+    },
+    "scripts/cp7_accessory_nonpayable/test_complete_original_io.py": {
+      "mode": "100644",
+      "blob": "63a91e271fa7636a3b2aeccfc9a387f610db17fd"
+    },
+    "scripts/cp7_accessory_nonpayable/test_final_preparation.py": {
+      "mode": "100644",
+      "blob": "c5a1d33f16311314f30576fcd7282272a1de896b"
+    },
+    "scripts/cp7_accessory_nonpayable/test_lossless_state.py": {
+      "mode": "100644",
+      "blob": "3344692757da68d58f637c473ff357a9975ad73f"
+    },
+    "scripts/cp7_accessory_nonpayable/test_native_preparation.py": {
+      "mode": "100644",
+      "blob": "c6c6a3109ecb45553c18f6245d63225c10c99a83"
+    },
+    "scripts/cp7_accessory_nonpayable/test_progress.py": {
+      "mode": "100644",
+      "blob": "bb2b7523f0007d33baa254bcf578f07e79aa13ad"
+    },
+    "scripts/cp7_accessory_nonpayable/test_qualification_preparation.py": {
+      "mode": "100644",
+      "blob": "3b092a9e6542e36983d766a784ac2e8c5272a897"
+    },
+    "scripts/cp7_accessory_nonpayable/test_report_io.py": {
+      "mode": "100644",
+      "blob": "40e227015ddcfa803e84d7cd7b148bd91b10c7e7"
+    },
+    "scripts/cp7_accessory_nonpayable/test_state_prepare.py": {
+      "mode": "100644",
+      "blob": "c18b27931af874219b15355fb82877a8327c210b"
+    },
+    "scripts/cp7_accessory_nonpayable/test_workflow_preparation.py": {
+      "mode": "100644",
+      "blob": "5a7a657d3b730c43119cd005e8e9063df71e6c5e"
+    },
+    "scripts/cp7_accessory_nonpayable/workflow.py": {
+      "mode": "100644",
+      "blob": "14d96e0b9323bf5c4e3afca34631311104a5b938"
+    }
+  },
+  "caller_derivations": {
+    "admission.py": {
+      "original_bytes": 1447,
+      "original_sha256": "609db7cade09a03be8aa4777adac6e11fdf3fc5aec672e625ed96705381e3b6c",
+      "derived_sha256": "a3e82c484c8f54d6a1df2a31252c5ce112258bcc0f28a10cbfdf060ed9db0152",
+      "exact_routes": 4,
+      "whole_original_caller_recovered": true,
+      "actual_ERP_cases": 0,
+      "production_go": false
+    },
+    "qualification.py": {
+      "original_bytes": 7161,
+      "original_sha256": "3f4bf0cfccbf650240729e01909dcb39b3e88371e59ee14a3bffc5f05934de0b",
+      "derived_sha256": "5718e7a717fcec3534f107cd0e537de60b9d6e9808b2475fe3ee3feebb0e4b95",
+      "exact_routes": 4,
+      "whole_original_caller_recovered": true,
+      "actual_ERP_cases": 0,
+      "production_go": false
+    },
+    "component.py": {
+      "original_bytes": 7956,
+      "original_sha256": "31b7626e2488fd4371daa2bf21254583b86299673b91130eb0736778126f5044",
+      "derived_sha256": "bf9a376506a9397b285ef61c5f78d4c1be53166d1f7bf5bc0473681391bb66cf",
+      "exact_routes": 3,
+      "whole_original_caller_recovered": true,
+      "actual_ERP_cases": 0,
+      "production_go": false
+    },
+    "access_runtime.py": {
+      "original_bytes": 8404,
+      "original_sha256": "4718579f49a6ad7cc5b4ac0e229d474a61dfe8e13f0e544b6ecf3ac49699a487",
+      "derived_sha256": "40c8856590f421a1faf89daa9a18a4783f2f0bc17b8dd97cbd38e91367975c71",
+      "exact_routes": 6,
+      "whole_original_caller_recovered": true,
+      "actual_ERP_cases": 0,
+      "production_go": false
+    },
+    "browser_observer.py": {
+      "original_bytes": 3746,
+      "original_sha256": "0458e0314827d2ff2b7c1ac13157e7fc34730f7231289b515c29c280594250f4",
+      "derived_sha256": "3ce6869c79b3502cc98268590d51b2b58c08330d3a0029c0d07565d6ce9c0a8a",
+      "exact_routes": 1,
+      "whole_original_caller_recovered": true,
+      "actual_ERP_cases": 0,
+      "production_go": false
+    },
+    "browser_gate.py": {
+      "original_bytes": 10213,
+      "original_sha256": "8b213c1f7bc4232b9edc43471c16e4b0aeb5404c9784359024d9242074a019ad",
+      "derived_sha256": "fee8f435fda83ff7f6bdca2dc8e8e60f60c9de5e2d0f9a6b7326b578b2b7957a",
+      "exact_routes": 1,
+      "whole_original_caller_recovered": true,
+      "actual_ERP_cases": 0,
+      "production_go": false
+    },
+    "preflight.py": {
+      "original_bytes": 10968,
+      "original_sha256": "ea789817b7ec0c48ca3fb702c5f1a8045853438f87302ea38d81f89595a5069d",
+      "derived_sha256": "711199ccb2327fa72dcb6c5fe2debe63461a4e541e91c5d226b0974c95926b54",
+      "exact_routes": 4,
+      "whole_original_caller_recovered": true,
+      "actual_ERP_cases": 0,
+      "production_go": false
+    },
+    "assembly.py": {
+      "original_bytes": 5817,
+      "original_sha256": "e734356cace6a72b7f3614cd56170d9b1b1ad5645293b933693ae8f5eccd041a",
+      "derived_sha256": "83dde26124852056ae53974a5d8c649f307d58d1daacc5c349a804b63c4d690c",
+      "exact_routes": 1,
+      "whole_original_caller_recovered": true,
+      "actual_ERP_cases": 0,
+      "production_go": false
+    },
+    "runtime_prerequisites.py": {
+      "original_bytes": 8078,
+      "original_sha256": "282b13f9d2b6bfe89b30a88adb117d8eceeea97d09a8f7ce8ba502ed15d33d58",
+      "derived_sha256": "d79faaa490adc95dc64ed5f64e7d5d4fdb2d55f9e1a873ed9ab3012fe9a77c45",
+      "exact_routes": 2,
+      "whole_original_caller_recovered": true,
+      "actual_ERP_cases": 0,
+      "production_go": false
+    },
+    "test_runtime_prerequisites.py": {
+      "original_bytes": 10212,
+      "original_sha256": "c55310b1bb7051403ecb9dbabdac41c083e7ee48f36b75d15c9b321f8c16236e",
+      "derived_sha256": "34e9d82766e4e418c55792cd286a884e741b985a199a21f5ef1c9841b93a3673",
+      "exact_routes": 3,
+      "whole_original_caller_recovered": true,
+      "actual_ERP_cases": 0,
+      "production_go": false
+    },
+    "native_fixture.py": {
+      "original_bytes": 21060,
+      "original_sha256": "8036269e118b7a657205f9c167090d4aca47b1b9cb44b1828507d8a9d1699384",
+      "derived_sha256": "a1a7e2304d6c65119feb259c8fdd16bdc942aaacd241ef44e03b7dc90ee50368",
+      "exact_routes": 9,
+      "whole_original_caller_recovered": true,
+      "actual_ERP_cases": 0,
+      "production_go": false
+    },
+    "cases.py": {
+      "original_bytes": 11526,
+      "original_sha256": "fefe8106c36976a4853703244f2cc3b48f9bf2b93b95a5b9bbe9a42a2773d8fd",
+      "derived_sha256": "8bfeb82e72d00c836b2e851f67aee80b4d7abfee348727027a7c25aa4e3c73f3",
+      "exact_routes": 2,
+      "whole_original_caller_recovered": true,
+      "actual_ERP_cases": 0,
+      "production_go": false
+    },
+    "oracle.py": {
+      "original_bytes": 5845,
+      "original_sha256": "046702c7847e85d74c0f928e4d3db5dd86867272317f5618fbe7f3d444851230",
+      "derived_sha256": "5e69eff9701deb72b8644d56454cff25127af96e54210df99ab67b17dbbb04b0",
+      "exact_routes": 1,
+      "whole_original_caller_recovered": true,
+      "actual_ERP_cases": 0,
+      "production_go": false
+    },
+    "advisor_review.py": {
+      "original_bytes": 8140,
+      "original_sha256": "4bfe15aedd3d61228f7f59b8b863b6109b8c8d6779797ccf0e9b9f4fe9da17e8",
+      "derived_sha256": "538c97c4d3e89fa9085386a115e7c3bbd3df818943130efebe7b855bf1b87c73",
+      "exact_routes": 1,
+      "whole_original_caller_recovered": true,
+      "actual_ERP_cases": 0,
+      "production_go": false
+    },
+    "additional_cases.py": {
+      "original_bytes": 11438,
+      "original_sha256": "2fef6edab13d9b7fcf716fb85a5e8da08dc1d144713109950fc29cb8b9cedfa9",
+      "derived_sha256": "52c7a936f25b4dff5164a3b81853d3b99fa3fb14cb9a767358996ecf7045adc7",
+      "exact_routes": 1,
+      "whole_original_caller_recovered": true,
+      "actual_ERP_cases": 0,
+      "production_go": false
+    }
+  },
+  "files": {
+    "scripts/current-mandor-afui-preparation/COMPLETE_OUTPUT_CONTROLS.json": {
+      "bytes": 974,
+      "sha256": "13c803c6d4bc67a696bb9a623b0be811cc5296e6c159b898212d4befff5ad574"
+    },
+    "scripts/current-mandor-afui-preparation/README.md": {
+      "bytes": 11495,
+      "sha256": "d85af2c741f707b378e09c6e07ab789cb76450d0e58f470913a81e936c5797b2"
+    },
+    "scripts/current-mandor-afui-preparation/check_source.py": {
+      "bytes": 17281,
+      "sha256": "73d41ec939113af1817311b63a832c0efca18e38407696dfe36a2be4193d1f6c"
+    },
+    "scripts/current-mandor-afui-preparation/output_binding.py": {
+      "bytes": 9010,
+      "sha256": "fe05d57990da9c16ad01b71d736010dc11391d502a515d4252282b674d3d0eb1"
+    },
+    "scripts/current-mandor-afui-preparation/report_io.py": {
+      "bytes": 9238,
+      "sha256": "300a4239a2e3fec6bbd6fa6fc8115a730034592aa362fee1993cff013e0c3c25"
+    },
+    "scripts/current-mandor-afui-preparation/routes.py": {
+      "bytes": 27925,
+      "sha256": "7413f8b5c418c151d9e607843988fb6127491c6f2ad23c6d4b1e127ef0402da9"
+    },
+    "scripts/current-mandor-afui-preparation/test_output_binding.py": {
+      "bytes": 8270,
+      "sha256": "19b82b41d747863b3e8407d3d29385326d3de8211aa4b0918c5a61cff41f525f"
+    },
+    "scripts/current-mandor-afui-preparation/test_preparation.py": {
+      "bytes": 8026,
+      "sha256": "81633dc93a7ca6edb1e1001d299ac6e10dde02d56b31581faf4d155affcfbe56"
+    },
+    "scripts/current-mandor-shop-native-qualification/access_runtime.py": {
+      "bytes": 9121,
+      "sha256": "40c8856590f421a1faf89daa9a18a4783f2f0bc17b8dd97cbd38e91367975c71"
+    },
+    "scripts/current-mandor-shop-native-qualification/admission.py": {
+      "bytes": 1432,
+      "sha256": "a3e82c484c8f54d6a1df2a31252c5ce112258bcc0f28a10cbfdf060ed9db0152"
+    },
+    "scripts/current-mandor-shop-native-qualification/component.py": {
+      "bytes": 8206,
+      "sha256": "bf9a376506a9397b285ef61c5f78d4c1be53166d1f7bf5bc0473681391bb66cf"
+    },
+    "scripts/current-mandor-shop-native-qualification/qualification.py": {
+      "bytes": 7501,
+      "sha256": "5718e7a717fcec3534f107cd0e537de60b9d6e9808b2475fe3ee3feebb0e4b95"
+    },
+    "scripts/current-mandor-afui-preparation/workflow.py": {
+      "bytes": 10916,
+      "sha256": "18b98f20991e72b9bd2522a02126f57c4070e71f50931941903156cdae5d347f"
+    },
+    "scripts/current-mandor-afui-preparation/current-mandor82.workflow.yml.txt": {
+      "bytes": 35773,
+      "sha256": "614ab9b700f91946390ebe22cd95f7fca43823d7662dcfe98d295221b9d9f6e0"
+    },
+    "scripts/current-mandor-afui-preparation/durable_action.mjs": {
+      "bytes": 18647,
+      "sha256": "af87bde2020062956426fa253b09e2de66da9c0513ab934688756df57d172b17"
+    },
+    "scripts/current-mandor-afui-preparation/WORKFLOW_TRANSPORT_PREPARATION_CONTROLS.json": {
+      "bytes": 1081,
+      "sha256": "3e03c14da78b07d948ae83bf54704ea6792ae9bfd180c4a37c0e66e85d5e2262"
+    },
+    "scripts/current-mandor-afui-preparation/transport.py": {
+      "bytes": 4959,
+      "sha256": "4f059e6a48a3544036adb58b37a4085ce2f3d11e00b2ec470c57fa1ecfacf751"
+    },
+    "scripts/current-mandor-afui-preparation/action.yml": {
+      "bytes": 267,
+      "sha256": "9cd9801bd98de3aa5f6119d1a5c6bcae3481bfa3f8ec6dc7526c9817f32d86ff"
+    },
+    "scripts/current-mandor-afui-preparation/durable_action.test.mjs": {
+      "bytes": 15733,
+      "sha256": "63aaf740a9e44041aecc0a67c3ae5a481107333a8c2213849ef50f64eda81497"
+    },
+    "scripts/current-mandor-afui-preparation/test_workflow.py": {
+      "bytes": 13049,
+      "sha256": "949382e630297dbd2f5f94dc23d42ead9f74d2da6b103d34c210b7e1dd5d4956"
+    },
+    "scripts/current-mandor-afui-preparation/receipts.py": {
+      "bytes": 3161,
+      "sha256": "0e51ac9c5e2de0e9ec2c6bf62866ef255bee5cce9a5d7416862fbf50fe352fd2"
+    },
+    "scripts/current-mandor-afui-preparation/current-mandor84.workflow.yml.txt": {
+      "bytes": 38453,
+      "sha256": "5f7fc30f2c1e3c6d17b91e62740fc25017c0abf932b1df93f8d2e9f8b7884126"
+    },
+    "scripts/current-mandor-shop-native-qualification/browser_observer.py": {
+      "bytes": 3923,
+      "sha256": "3ce6869c79b3502cc98268590d51b2b58c08330d3a0029c0d07565d6ce9c0a8a"
+    },
+    "scripts/current-mandor-shop-native-qualification/browser_gate.py": {
+      "bytes": 10592,
+      "sha256": "fee8f435fda83ff7f6bdca2dc8e8e60f60c9de5e2d0f9a6b7326b578b2b7957a"
+    },
+    "scripts/current-mandor-afui-preparation/state_io.py": {
+      "bytes": 4235,
+      "sha256": "b9950febe36897c94ed80d1e75b7d8bb93ed706acae21c402aaf376f1df08b32"
+    },
+    "scripts/current-mandor-afui-preparation/test_state_io.py": {
+      "bytes": 5692,
+      "sha256": "09445f7cf8a016eb4075707ccd61a6647e4cecae5e7b4419aee375e6caccd76c"
+    },
+    "scripts/current-mandor-afui-preparation/CURRENT_SOURCE_PREREQUISITE_CONTROLS_20261105.json": {
+      "bytes": 49847,
+      "sha256": "faffe8545e3536ce7e86f30b50f8d09037864dd23a9246ca07e3331750a5588d"
+    },
+    "scripts/current-mandor-shop-native-qualification/preflight.py": {
+      "bytes": 10957,
+      "sha256": "711199ccb2327fa72dcb6c5fe2debe63461a4e541e91c5d226b0974c95926b54"
+    },
+    "scripts/current-mandor-afui-preparation/CURRENT_C790_SOURCE_PREREQUISITE_CONTROLS_20261105.json": {
+      "bytes": 1617,
+      "sha256": "1d835c73489f50ff326618c1da09fc108a6f14344a19a912398c040f9a558231"
+    },
+    "scripts/current-mandor-afui-preparation/test_ui_admission.py": {
+      "bytes": 2412,
+      "sha256": "34b2fc70913940250cdb5e2674e1146346ad09f6e18a4c630013d318031bcb98"
+    },
+    "scripts/current-mandor-afui-preparation/FROZEN_AFUI_PREFLIGHT_CONTROLS_20261105.json": {
+      "bytes": 1810,
+      "sha256": "ae2328933041e757ed019f6fe369f1479409ecd0c22168a3c1d1b820c85fa7e6"
+    },
+    "scripts/current-mandor-shop-native-qualification/assembly.py": {
+      "bytes": 6130,
+      "sha256": "83dde26124852056ae53974a5d8c649f307d58d1daacc5c349a804b63c4d690c"
+    },
+    "scripts/current-mandor-shop-native-qualification/runtime_prerequisites.py": {
+      "bytes": 8814,
+      "sha256": "d79faaa490adc95dc64ed5f64e7d5d4fdb2d55f9e1a873ed9ab3012fe9a77c45"
+    },
+    "scripts/current-mandor-shop-native-qualification/test_runtime_prerequisites.py": {
+      "bytes": 10608,
+      "sha256": "34e9d82766e4e418c55792cd286a884e741b985a199a21f5ef1c9841b93a3673"
+    },
+    "scripts/current-mandor-shop-native-qualification/native_fixture.py": {
+      "bytes": 21493,
+      "sha256": "a1a7e2304d6c65119feb259c8fdd16bdc942aaacd241ef44e03b7dc90ee50368"
+    },
+    "scripts/current-mandor-shop-native-qualification/cases.py": {
+      "bytes": 11688,
+      "sha256": "8bfeb82e72d00c836b2e851f67aee80b4d7abfee348727027a7c25aa4e3c73f3"
+    },
+    "scripts/current-mandor-shop-native-qualification/oracle.py": {
+      "bytes": 7314,
+      "sha256": "5e69eff9701deb72b8644d56454cff25127af96e54210df99ab67b17dbbb04b0"
+    },
+    "scripts/current-mandor-shop-native-qualification/advisor_review.py": {
+      "bytes": 8140,
+      "sha256": "538c97c4d3e89fa9085386a115e7c3bbd3df818943130efebe7b855bf1b87c73"
+    },
+    "scripts/current-mandor-shop-native-qualification/additional_cases.py": {
+      "bytes": 11536,
+      "sha256": "52c7a936f25b4dff5164a3b81853d3b99fa3fb14cb9a767358996ecf7045adc7"
+    }
+  },
+  "financial_assertions_and_owning_recovery_unchanged": true,
+  "historical_control_reports_relabelled": false,
+  "active_workflow_added": false,
+  "actual_ERP_cases": 0,
+  "actual_Auth_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false,
+  "current_Mandor82_workflow_prepared": true,
+  "current_complete_Original_transport_prepared": true,
+  "current_Mandor82_workflow_and_transport_control_methods": {
+    "Python": 12,
+    "Node": 11
+  },
+  "actual_parent_adopted": false,
+  "actual_successor_source_fence_rebinding_pending": true,
+  "active_Afui_candidate_run_reference_only": null,
+  "complete_current_source_prerequisites_prepared": true,
+  "selective_B_UI": {
+    "head": "1c66a74295eae2f09b7535619325e4d023942e19",
+    "tree": "587760d45b5026f27d19cf57adce92330fff3df3",
+    "before_src_tree": "601afd5adbb167991b018eb24688d5ecb8fb3173",
+    "after_src_tree": "15dc4bde83e1ac74871f8d4aaf005e9e36445aeb",
+    "files": {
+      "src/ConnectedInitialImportPage.tsx": {
+        "before": {
+          "mode": "100644",
+          "blob": "cda89a115ba9bdb40b7a83b7fe03f94ce85aa3fe"
+        },
+        "after": {
+          "mode": "100644",
+          "blob": "21bda9a5c52a46f256b0dad872b8a0e87eaec7fc"
+        },
+        "pin": {
+          "bytes": 49886,
+          "sha256": "70affea52cf20ecfc6fa5bdc23e3ad7ea3fee460a5be8e9db7468c933c067f40"
+        }
+      },
+      "src/ConnectedPocketFabricPage.tsx": {
+        "before": {
+          "mode": "100644",
+          "blob": "a6d9355e10f82d1aa631634afe34c018614104eb"
+        },
+        "after": {
+          "mode": "100644",
+          "blob": "892327afbbaa199cc09f9e82202e68918c65a98b"
+        },
+        "pin": {
+          "bytes": 25037,
+          "sha256": "ab45b1358ed942838aa3451b7766e1e7febda88fcc0f5556e9afbac3a46f2547"
+        }
+      },
+      "src/initial-import.css": {
+        "before": {
+          "mode": "100644",
+          "blob": "f2351ff9a8d4c1ee00b1338b33d1a5e18f366db5"
+        },
+        "after": {
+          "mode": "100644",
+          "blob": "0dc9949c6bfd6eb96f3c358b2a88edc12eba606c"
+        },
+        "pin": {
+          "bytes": 4142,
+          "sha256": "10756c488710c2705e44000c16ed3f5b1afafca40437e3aa37c3690491a208e0"
+        }
+      }
+    },
+    "root_build_inputs": {
+      "index.html": {
+        "mode": "100644",
+        "blob": "4912086ce24a0fb4f7dfc2b03e3cefdcbee8f91c"
+      },
+      "package-lock.json": {
+        "mode": "100644",
+        "blob": "ca9159d26989e0263b6b757f5f824bd9333d8cf6"
+      },
+      "package.json": {
+        "mode": "100644",
+        "blob": "8707f6817acfc294caeab8aa54496df5b8dde04e"
+      },
+      "tsconfig.app.json": {
+        "mode": "100644",
+        "blob": "e9712ec6ad208afe25edf063984a6170459299dd"
+      },
+      "tsconfig.contracts.json": {
+        "mode": "100644",
+        "blob": "0b63a91ed3b967d75979f62cc41463956ce97f95"
+      },
+      "tsconfig.json": {
+        "mode": "100644",
+        "blob": "9bf63d3b4775e9c155571a03536236596b2c7990"
+      },
+      "vite.config.ts": {
+        "mode": "100644",
+        "blob": "4d782219003da02d024ed397e11abb686694c1cb"
+      }
+    },
+    "actual_Auth_SQL_backend_case_credit": 0,
+    "HPP_conditional_text_changes_applied": false
+  },
+  "current_source_and_UI_controls": {
+    "own_preparation_tests_passed": 20,
+    "reused_unchanged_transport_tests_passed": 14,
+    "transport_source_files_byte_exact": [
+      "transport.py",
+      "durable_action.mjs",
+      "durable_action.test.mjs",
+      "output_binding.py",
+      "state_io.py"
+    ],
+    "financial_source_files_byte_exact": 99,
+    "both_RPC_and_complete_mutation_handler_blocks_unchanged": true,
+    "complete_approved_SRC_files": 656,
+    "root_build_inputs_exact": 7,
+    "UI_fixture_actual_Auth_SQL_backend_credit": 0,
+    "actual_parent_Root_adopted": false,
+    "Native17_dispatched": false
+  },
+  "owning_recovery_unchanged": true,
+  "corrected_unpaid_cancellation_assertion": true,
+  "exact_terminal_payment_guard_repair": {
+    "original_bytes": 10946,
+    "original_sha256": "0405c0a9c807ef0be3881c2a32c69a152e2a0614bc8efb1f5572ac715683d771",
+    "derived_sha256": "11f00f6918330d8c4288e0c6265173cb8caee28aa24e62350a01d86b8247723a",
+    "exact_routes": 2,
+    "whole_original_caller_recovered": true,
+    "actual_ERP_cases": 0,
+    "production_go": false
+  }
+}

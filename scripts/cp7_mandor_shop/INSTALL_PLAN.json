@@ -333,8 +333,8 @@
       "sha256": "967f20999cf23bd6a76610300fb35f61fe01d733053db7fbefdf3da112902056"
     },
     "payment_guards.sql": {
-      "bytes": 10946,
-      "sha256": "0405c0a9c807ef0be3881c2a32c69a152e2a0614bc8efb1f5572ac715683d771"
+      "bytes": 11103,
+      "sha256": "11f00f6918330d8c4288e0c6265173cb8caee28aa24e62350a01d86b8247723a"
     },
     "composed_facades_with_native_dispatch.sql": {
       "bytes": 12279,

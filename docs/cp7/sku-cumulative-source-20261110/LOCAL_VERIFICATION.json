@@ -1,0 +1,13 @@
+{
+  "classification": "PREPARATION_ONLY_NO_RUNTIME_ADMISSION",
+  "restored_closed_head": "1b9d6d18ce206b2a117e0010409540e695ae1c95",
+  "restored_closed_tree": "ebefa23ce99443f74b32e52e8fabebbc23f32d4d",
+  "published_parent": "5f099fa6852c9088ab46daa0f1079a0f6a1f3185",
+  "existing_unit_tests_passed": 7,
+  "real_input_tamper_controls_passed": 12,
+  "source_pins_matched": 71,
+  "matching_automatic_workflows": [],
+  "actual_SKU_cases": 0,
+  "independent_acceptance": false,
+  "production_go": false
+}

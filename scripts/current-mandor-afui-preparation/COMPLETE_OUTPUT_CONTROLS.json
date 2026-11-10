@@ -1,0 +1,27 @@
+{
+  "classification": "LOCAL_SOURCE_COMPILER_AND_OUTPUT_CONTROL_NOT_ACTUAL_ERP",
+  "exact_current_Afui_source_head": "92a376091a1d1ea9901648e614f3e5212677a81f",
+  "reviewed_callers": 4,
+  "caller_route_counts": {
+    "admission.py": 4,
+    "qualification.py": 3,
+    "component.py": 2,
+    "access_runtime.py": 4
+  },
+  "source_and_closed_entry_methods": 4,
+  "complete_output_methods": 4,
+  "Native_copy_print_sites": 2,
+  "copies_print_sites": 1,
+  "complete_fixed_access_outputs": 5,
+  "access_retention_serialization_routes": 3,
+  "all_original_boundary_require_calls_unchanged": true,
+  "original_JSON_and_gzip_bytes_exact": true,
+  "decorated_contextmanager_function_cells_rebound_to_owning_globals": true,
+  "first_output_scope_failure_retained": "OUTPUT_FIRST.stderr",
+  "all_admission_gates_remain_closed": true,
+  "actual_ERP_cases": 0,
+  "actual_Auth_HTTP_cases": 0,
+  "active_workflow_added": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

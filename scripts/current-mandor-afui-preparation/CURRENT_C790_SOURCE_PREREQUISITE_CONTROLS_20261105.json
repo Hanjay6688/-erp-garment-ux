@@ -1,0 +1,42 @@
+{
+  "status": "PENDING_C790_PARENT_SOURCE_OUTPUT_AND_CLOSED_ENTRY_PREPARATION_PASS_NOT_ERP",
+  "pending_parent": {
+    "head": "c790a7e42cd3389c4bf1631cb9413ae2f1f9f9fc",
+    "tree": "d0a642084cec4e5c070b1eb7b74be7a3dc6a36ec",
+    "run_id": null,
+    "job_id": null,
+    "actual_Root_pin": null
+  },
+  "exact_Afui_paths": 42,
+  "exact_reversible_callers": 7,
+  "reversible_transport_routes": 16,
+  "own_preparation_controls_passed": 16,
+  "transport_controls_passed": 14,
+  "both_admission_families_closed": true,
+  "unchanged_financial_sources_checked": 99,
+  "source_observation": {
+    "absent_sparse_parent_files": 8496,
+    "actual_ERP_cases": 0,
+    "actual_parent_root_adopted": false,
+    "base_head": "c296fd06167ddd177e1192c1008992e2a1e3d628",
+    "exact_additive_preparation_files": 22,
+    "exact_current_Afui_paths": 42,
+    "exact_reversible_callers": 7,
+    "financial_assertions_and_recovery_unchanged": true,
+    "full_runtime_materialization_still_required": true,
+    "historical_preparation_reports_relabelled": false,
+    "independent_acceptance": false,
+    "materialized_parent_files_checked": 6136,
+    "parent_blob_identities": 14639,
+    "pending_current_Afui_head": "c790a7e42cd3389c4bf1631cb9413ae2f1f9f9fc",
+    "production_go": false,
+    "retained_current_UI_and_build_inputs_unchanged": true,
+    "status": "CURRENT_AFUI_MANDOR_SOURCE_PREPARATION_NOT_RUNTIME"
+  },
+  "full_runtime_source_materialization_required": true,
+  "actual_SQL_executed": 0,
+  "actual_Native17_activated": false,
+  "financial_acceptance_credit": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

@@ -1,6 +1,6 @@
 """Typed actual business-group checks; no source preparation earns case credit."""
 
-def rows(report,field,ids,*,status):
+def rows(report,field,ids,*,status,copy_session_census=False):
     values=report.get(field,{})
     counts=report.get('counts')
     if(type(values)is not dict or type(counts)is not dict or set(counts)!={'PASS'}
@@ -11,8 +11,10 @@ def rows(report,field,ids,*,status):
         or report.get('business_day_retried')or report.get('business_day_first_attempt')):
         raise ValueError('NONPAYABLE_EXACT_COMPLETE_FRESH_BUSINESS_GROUP_REQUIRED:'+field)
     for name,row in values.items():
+        # Browser cases share one copy. Its actual session census is checked by copies().
+        session_leaks=row.get('session_leaks', [] if copy_session_census else None)
         if(row.get('status')!='PASS'or row.get('business_day_rollover')or row.get('harness_check_failed')
-            or row.get('session_leaks')not in([],dict(advisory_locks=0,advisory_lock_keys=[],other_sessions=[]))):
+            or session_leaks not in([],dict(advisory_locks=0,advisory_lock_keys=[],other_sessions=[]))):
             raise ValueError('NONPAYABLE_CASE_REQUIRES_ORIGINAL_SUCCESS_AND_EMPTY_SESSIONS:'+name)
     return values
 
@@ -32,7 +34,9 @@ def native(report,ids):
 
 def copies(report,ids,*,mode):
     field='races'if mode=='RACE'else'cases'
-    values=rows(report,field,ids,status='RUN_COMPLETE')
+    if mode=='BROWSER' and report.get('session_leaks')!=[]:
+        raise ValueError('NONPAYABLE_EXACT_BROWSER_COPY_SESSION_CENSUS_REQUIRED')
+    values=rows(report,field,ids,status='RUN_COMPLETE',copy_session_census=mode=='BROWSER')
     if(type(report.get('database_remaining'))is not int or report['database_remaining']!=0
         or report.get('cleanup_failures')or report.get('session_leaks')):
         raise ValueError('NONPAYABLE_COMPLETE_COPY_AND_SESSION_CLEANUP_REQUIRED:'+mode)

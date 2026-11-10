@@ -345,6 +345,7 @@ function ImportWorkspace() {
     <header className="panel initial-import-heading"><div><div className="eyebrow">PENGATURAN ERP</div><h1>Impor data awal</h1><p>Unggah tabel dari Excel, periksa isinya, lalu sahkan setelah semuanya cocok.</p></div><button type="button" disabled={mutation.busy || reading || Boolean(editor)} onClick={() => void load()}><RefreshCw size={16}/> Muat ulang</button></header>
     <CutoverPanel/>
     <ProductionRecoveryNotice recovery={mutation} onReconcile={() => reconcile(handlers)} className="initial-import-message"/>
+    {loading && <p role="status" className="initial-import-help">Menyiapkan data impor…</p>}
     {error && <p role="alert" className="initial-import-message">{error}</p>}
     <div className="panel initial-import-toolbar">
       {(workspace?.recent.length ?? 0) > BATCH_SEARCH_FROM && <label>Cari batch<input type="search" aria-label="Cari batch impor" value={batchQuery} disabled={locked || Boolean(editor)} onChange={(event) => setBatchQuery(event.target.value)} placeholder="Kode atau status batch"/></label>}

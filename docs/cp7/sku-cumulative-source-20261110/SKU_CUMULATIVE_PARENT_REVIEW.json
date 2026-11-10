@@ -1,0 +1,465 @@
+{
+  "archive_verification": {
+    "archive_sha256": "3c00c475eb04516d83037426f806154bbbf863904813077017c31abd0d20320a",
+    "artifact_id": 13741144096,
+    "attempt": 1,
+    "exact_case_gate": {
+      "bytes": 8714,
+      "crc32": "a40171de",
+      "name": "auditor/cp6-proof/t3/MANDOR_BROWSER_PAIR_FOCUSED_GATE.json",
+      "sha256": "1bc480e129b6ceefccc04ac1ce281619714622681ca4b23485abd9df3df38f1e"
+    },
+    "job": 129676405024,
+    "receipt_sha256": "9997980438a375c95187b76088172602a3e0d6a4b533b587600203d5f697d30e",
+    "run": 42770344036
+  },
+  "backend_source": {
+    "head": "a0e7d5616a0ac470876409d31c41388159f17692",
+    "tree": "9e4cea296f2370d7ead31a6ac2b05c132fb09521"
+  },
+  "cases": [
+    {
+      "applicability": "The backend uses no CSS. The strict group restored its boundary and reported no new financial findings. The diff from its tested head to the final candidate changes no Native input or product SQL.",
+      "archive_sha256": "cb585783e4bf45b7d592d4a824c80b66fd36fb0973311058d9d3c59e02ac68d8",
+      "artifact_id": 13708219308,
+      "attempt": 1,
+      "case_id": "FG_MANDOR_FUTURE_WEEK_DRAFT_RESERVE_RELEASE_THEN_ELIGIBLE_WEEK_300000_OFFSET_2000000_GROSS_1700000_NET_REPLAY",
+      "group": "Native9",
+      "job": 129310209330,
+      "observed": "PASS",
+      "original": {
+        "bytes": 581642,
+        "sha256": "6b48b97906a7b486735e78cf72dadc89e11d9abaf4e871269a7c40f6c0b0597d"
+      },
+      "run": 42660429648,
+      "tested_head": "a0e7d5616a0ac470876409d31c41388159f17692"
+    },
+    {
+      "applicability": "The backend uses no CSS. The strict group restored its boundary and reported no new financial findings. The diff from its tested head to the final candidate changes no Native input or product SQL.",
+      "archive_sha256": "cb585783e4bf45b7d592d4a824c80b66fd36fb0973311058d9d3c59e02ac68d8",
+      "artifact_id": 13708219308,
+      "attempt": 1,
+      "case_id": "FG_MANDOR_PARTIAL100000_REMAINDER200000_ON_SECOND_MANUALLY_SELECTED_WEEK",
+      "group": "Native9",
+      "job": 129310209330,
+      "observed": "PASS",
+      "original": {
+        "bytes": 581642,
+        "sha256": "6b48b97906a7b486735e78cf72dadc89e11d9abaf4e871269a7c40f6c0b0597d"
+      },
+      "run": 42660429648,
+      "tested_head": "a0e7d5616a0ac470876409d31c41388159f17692"
+    },
+    {
+      "applicability": "The backend uses no CSS. The strict group restored its boundary and reported no new financial findings. The diff from its tested head to the final candidate changes no Native input or product SQL.",
+      "archive_sha256": "cb585783e4bf45b7d592d4a824c80b66fd36fb0973311058d9d3c59e02ac68d8",
+      "artifact_id": 13708219308,
+      "attempt": 1,
+      "case_id": "FG_MANDOR_EXPLICIT_RELEASE_AND_UNPAID_CANCELLATION_RELEASE_ALLOCATION_WITHOUT_AR_PAYMENT",
+      "group": "Native9",
+      "job": 129310209330,
+      "observed": "PASS",
+      "original": {
+        "bytes": 581642,
+        "sha256": "6b48b97906a7b486735e78cf72dadc89e11d9abaf4e871269a7c40f6c0b0597d"
+      },
+      "run": 42660429648,
+      "tested_head": "a0e7d5616a0ac470876409d31c41388159f17692"
+    },
+    {
+      "applicability": "The backend uses no CSS. The strict group restored its boundary and reported no new financial findings. The diff from its tested head to the final candidate changes no Native input or product SQL.",
+      "archive_sha256": "cb585783e4bf45b7d592d4a824c80b66fd36fb0973311058d9d3c59e02ac68d8",
+      "artifact_id": 13708219308,
+      "attempt": 1,
+      "case_id": "FG_MANDOR_NATIVE_PAID_REVERSAL_REOPENS_SAME_INVOICE_AND_RESTORES_PREAPPROVAL_BOOKS",
+      "group": "Native9",
+      "job": 129310209330,
+      "observed": "PASS",
+      "original": {
+        "bytes": 581642,
+        "sha256": "6b48b97906a7b486735e78cf72dadc89e11d9abaf4e871269a7c40f6c0b0597d"
+      },
+      "run": 42660429648,
+      "tested_head": "a0e7d5616a0ac470876409d31c41388159f17692"
+    },
+    {
+      "applicability": "The backend uses no CSS. The strict group restored its boundary and reported no new financial findings. The diff from its tested head to the final candidate changes no Native input or product SQL.",
+      "archive_sha256": "cb585783e4bf45b7d592d4a824c80b66fd36fb0973311058d9d3c59e02ac68d8",
+      "artifact_id": 13708219308,
+      "attempt": 1,
+      "case_id": "FG_MANDOR_CURRENT_CAPACITY_WRONG_MANDOR_AND_STALE_REVIEW_REFUSE_WITHOUT_EFFECT",
+      "group": "Native9",
+      "job": 129310209330,
+      "observed": "PASS",
+      "original": {
+        "bytes": 581642,
+        "sha256": "6b48b97906a7b486735e78cf72dadc89e11d9abaf4e871269a7c40f6c0b0597d"
+      },
+      "run": 42660429648,
+      "tested_head": "a0e7d5616a0ac470876409d31c41388159f17692"
+    },
+    {
+      "applicability": "The backend uses no CSS. The strict group restored its boundary and reported no new financial findings. The diff from its tested head to the final candidate changes no Native input or product SQL.",
+      "archive_sha256": "cb585783e4bf45b7d592d4a824c80b66fd36fb0973311058d9d3c59e02ac68d8",
+      "artifact_id": 13708219308,
+      "attempt": 1,
+      "case_id": "FG_MANDOR_ORDINARY_STORE_NATIVE_CREATE_POST_COGS_AND_STOCK_REGRESSION",
+      "group": "Native9",
+      "job": 129310209330,
+      "observed": "PASS",
+      "original": {
+        "bytes": 581642,
+        "sha256": "6b48b97906a7b486735e78cf72dadc89e11d9abaf4e871269a7c40f6c0b0597d"
+      },
+      "run": 42660429648,
+      "tested_head": "a0e7d5616a0ac470876409d31c41388159f17692"
+    },
+    {
+      "applicability": "The backend uses no CSS. The strict group restored its boundary and reported no new financial findings. The diff from its tested head to the final candidate changes no Native input or product SQL.",
+      "archive_sha256": "cb585783e4bf45b7d592d4a824c80b66fd36fb0973311058d9d3c59e02ac68d8",
+      "artifact_id": 13708219308,
+      "attempt": 1,
+      "case_id": "FG_MANDOR_ACTIVE_OFFSET_RETURN_CORRECTION_REFUSE_THEN_LAWFUL_REVERSE_AND_REAL_RETURN_CORRECTION",
+      "group": "Native9",
+      "job": 129310209330,
+      "observed": "PASS",
+      "original": {
+        "bytes": 581642,
+        "sha256": "6b48b97906a7b486735e78cf72dadc89e11d9abaf4e871269a7c40f6c0b0597d"
+      },
+      "run": 42660429648,
+      "tested_head": "a0e7d5616a0ac470876409d31c41388159f17692"
+    },
+    {
+      "applicability": "The backend uses no CSS. The strict group restored its boundary and reported no new financial findings. The diff from its tested head to the final candidate changes no Native input or product SQL.",
+      "archive_sha256": "cb585783e4bf45b7d592d4a824c80b66fd36fb0973311058d9d3c59e02ac68d8",
+      "artifact_id": 13708219308,
+      "attempt": 1,
+      "case_id": "FG_MANDOR_INSTALLMENT_PARTIAL_FINAL_REOPEN_REPAY_AND_WHOLE_REVERSAL",
+      "group": "Native9",
+      "job": 129310209330,
+      "observed": "PASS",
+      "original": {
+        "bytes": 581642,
+        "sha256": "6b48b97906a7b486735e78cf72dadc89e11d9abaf4e871269a7c40f6c0b0597d"
+      },
+      "run": 42660429648,
+      "tested_head": "a0e7d5616a0ac470876409d31c41388159f17692"
+    },
+    {
+      "applicability": "The backend uses no CSS. The strict group restored its boundary and reported no new financial findings. The diff from its tested head to the final candidate changes no Native input or product SQL.",
+      "archive_sha256": "cb585783e4bf45b7d592d4a824c80b66fd36fb0973311058d9d3c59e02ac68d8",
+      "artifact_id": 13708219308,
+      "attempt": 1,
+      "case_id": "FG_MANDOR_CURRENT_PERMISSION_REPLAY_REFUSAL_AND_ZERO_NET_NO_CASH",
+      "group": "Native9",
+      "job": 129310209330,
+      "observed": "PASS",
+      "original": {
+        "bytes": 581642,
+        "sha256": "6b48b97906a7b486735e78cf72dadc89e11d9abaf4e871269a7c40f6c0b0597d"
+      },
+      "run": 42660429648,
+      "tested_head": "a0e7d5616a0ac470876409d31c41388159f17692"
+    },
+    {
+      "applicability": "The backend uses no CSS. Four isolated race copies restored and did not change the owning installation. The diff changes no session, authority or transaction source used by the race cases.",
+      "archive_sha256": "5d1fb16ffff75e8b76e108662f9fb04da432f8da49cd18c721ebaa63c7afe69b",
+      "artifact_id": 13713240322,
+      "attempt": 1,
+      "case_id": "MANDOR_TWO_BACKEND_CACHED_ALLOCATION_REFUSES_PENDING_AND_COMMITTED_ACCESS_REVOCATION",
+      "group": "Session4",
+      "job": 129310209330,
+      "observed": "PASS",
+      "original": {
+        "bytes": 13236,
+        "sha256": "125f62301968fd22bfd88a784e43fc274b60df80a2dee6e8452e83393fcc8fed"
+      },
+      "run": 42660429648,
+      "tested_head": "a0e7d5616a0ac470876409d31c41388159f17692"
+    },
+    {
+      "applicability": "The backend uses no CSS. Four isolated race copies restored and did not change the owning installation. The diff changes no session, authority or transaction source used by the race cases.",
+      "archive_sha256": "5d1fb16ffff75e8b76e108662f9fb04da432f8da49cd18c721ebaa63c7afe69b",
+      "artifact_id": 13713240322,
+      "attempt": 1,
+      "case_id": "MANDOR_TWO_BACKEND_CACHED_SALE_REFUSES_PENDING_AND_COMMITTED_ACCESS_REVOCATION",
+      "group": "Session4",
+      "job": 129310209330,
+      "observed": "PASS",
+      "original": {
+        "bytes": 13236,
+        "sha256": "125f62301968fd22bfd88a784e43fc274b60df80a2dee6e8452e83393fcc8fed"
+      },
+      "run": 42660429648,
+      "tested_head": "a0e7d5616a0ac470876409d31c41388159f17692"
+    },
+    {
+      "applicability": "The backend uses no CSS. Four isolated race copies restored and did not change the owning installation. The diff changes no session, authority or transaction source used by the race cases.",
+      "archive_sha256": "5d1fb16ffff75e8b76e108662f9fb04da432f8da49cd18c721ebaa63c7afe69b",
+      "artifact_id": 13713240322,
+      "attempt": 1,
+      "case_id": "MANDOR_TWO_BACKEND_COMPETING_UUID_BUSY_THEN_STALE_WITHOUT_SECOND_DEDUCTION",
+      "group": "Session4",
+      "job": 129310209330,
+      "observed": "PASS",
+      "original": {
+        "bytes": 13236,
+        "sha256": "125f62301968fd22bfd88a784e43fc274b60df80a2dee6e8452e83393fcc8fed"
+      },
+      "run": 42660429648,
+      "tested_head": "a0e7d5616a0ac470876409d31c41388159f17692"
+    },
+    {
+      "applicability": "The backend uses no CSS. Four isolated race copies restored and did not change the owning installation. The diff changes no session, authority or transaction source used by the race cases.",
+      "archive_sha256": "5d1fb16ffff75e8b76e108662f9fb04da432f8da49cd18c721ebaa63c7afe69b",
+      "artifact_id": 13713240322,
+      "attempt": 1,
+      "case_id": "MANDOR_TWO_BACKEND_SAME_UUID_BUSY_THEN_ONE_EXACT_ALLOCATION_REPLAY",
+      "group": "Session4",
+      "job": 129310209330,
+      "observed": "PASS",
+      "original": {
+        "bytes": 13236,
+        "sha256": "125f62301968fd22bfd88a784e43fc274b60df80a2dee6e8452e83393fcc8fed"
+      },
+      "run": 42660429648,
+      "tested_head": "a0e7d5616a0ac470876409d31c41388159f17692"
+    },
+    {
+      "applicability": "The backend uses no CSS. The disposable HTTP copy was removed and Auth counts restored. The diff changes no HTTP handler, Auth permission or transaction source used by these cases.",
+      "archive_sha256": "e823bf85778047151f4bd03d735202ade579afd6416e972206906075ce795c9f",
+      "artifact_id": 13712124308,
+      "attempt": 1,
+      "case_id": "MANDOR_REAL_AUTH_HTTP_CACHED_ALLOCATION_REFUSES_PENDING_AND_COMMITTED_ACCESS_REVOCATION",
+      "group": "HTTP2",
+      "job": 129310209330,
+      "observed": "PASS",
+      "original": {
+        "bytes": 10262,
+        "sha256": "c880e8b2f18c637f9118d09a7e2ee204af791615088f748d794d56a28054dfc8"
+      },
+      "run": 42660429648,
+      "tested_head": "a0e7d5616a0ac470876409d31c41388159f17692"
+    },
+    {
+      "applicability": "The backend uses no CSS. The disposable HTTP copy was removed and Auth counts restored. The diff changes no HTTP handler, Auth permission or transaction source used by these cases.",
+      "archive_sha256": "e823bf85778047151f4bd03d735202ade579afd6416e972206906075ce795c9f",
+      "artifact_id": 13712124308,
+      "attempt": 1,
+      "case_id": "MANDOR_REAL_AUTH_HTTP_OWNER_RESERVE_REPLAY_RELEASE_AND_CURRENT_ROLE_STALE_REFUSALS",
+      "group": "HTTP2",
+      "job": 129310209330,
+      "observed": "PASS",
+      "original": {
+        "bytes": 10262,
+        "sha256": "c880e8b2f18c637f9118d09a7e2ee204af791615088f748d794d56a28054dfc8"
+      },
+      "run": 42660429648,
+      "tested_head": "a0e7d5616a0ac470876409d31c41388159f17692"
+    },
+    {
+      "applicability": "Original paired callbacks and complete shared state on the final candidate.",
+      "archive_sha256": "4467cfc32bc159c4fef09fd54b2eb88392e04ddef7d739b3885c5c040c5fe0be",
+      "artifact_id": 13741014130,
+      "attempt": 1,
+      "case_id": "MANDOR_BROWSER_DESKTOP_NORMAL_PAYROLL_LOST_REPLY_SAME_UUID_TWO_TABS_RELEASE",
+      "group": "BrowserPair",
+      "job": 129620303386,
+      "observed": "PASS",
+      "original": {
+        "bytes": 71491,
+        "crc32": "c202bc26",
+        "name": "auditor/cp6-proof/t3/MANDOR_BROWSER2_ORIGINAL.json",
+        "sha256": "5f9b4dbe88f00cb151519ea65db55ed7924a26fd5783203f925898fe16c4fe79"
+      },
+      "run": 42752853455,
+      "tested_head": "e63c758990f54dbec4e635ecf3d53c6e80b03041"
+    },
+    {
+      "applicability": "Original paired callbacks and complete shared state on the final candidate.",
+      "archive_sha256": "4467cfc32bc159c4fef09fd54b2eb88392e04ddef7d739b3885c5c040c5fe0be",
+      "artifact_id": 13741014130,
+      "attempt": 1,
+      "case_id": "MANDOR_BROWSER_MOBILE390_NORMAL_PAYROLL_STALE_INPUT_FRESH_READ_RELEASE",
+      "group": "BrowserPair",
+      "job": 129620303386,
+      "observed": "PASS",
+      "original": {
+        "bytes": 71491,
+        "crc32": "c202bc26",
+        "name": "auditor/cp6-proof/t3/MANDOR_BROWSER2_ORIGINAL.json",
+        "sha256": "5f9b4dbe88f00cb151519ea65db55ed7924a26fd5783203f925898fe16c4fe79"
+      },
+      "run": 42752853455,
+      "tested_head": "e63c758990f54dbec4e635ecf3d53c6e80b03041"
+    }
+  ],
+  "closed_sku_preimage": {
+    "head": "1b9d6d18ce206b2a117e0010409540e695ae1c95",
+    "tree": "ebefa23ce99443f74b32e52e8fabebbc23f32d4d"
+  },
+  "independent_acceptance": false,
+  "inputs": {
+    "closed_money_source": {
+      "bytes": 9134,
+      "sha256": "2af3b8fa17255aa679553c9682f2d3091d2cd1fe502c32462417f02e42557c49"
+    },
+    "combined": {
+      "bytes": 66702,
+      "sha256": "7d1b37cc03ccdcd62b30756b0f80df18d92de922a6e1195198adda2a33fadf5c"
+    }
+  },
+  "mandor_source_graph": {
+    "Mandor_review_adapter": {
+      "asset_sha256": {
+        "FOCUSED_INSTALLER.sql": "d85ed5728c2a5b5269d12988994a4c5388dc7d60d9e41fd6bc52cd980528ece4",
+        "FOCUSED_INSTALLER_RECEIPT.json": "35f2f5fdd76b1de47be912eab08156af796f7616f76b086f81fb66fcd1764ebd",
+        "FORMAL_ALL22_WIB_GUARD_FIXTURE.json": "2d392768907d3ab4bb232df14500ec43160347a46395ab1b2cd209530cb12349",
+        "UNUSED_INVERSE.sql": "04f4b1527fc9f79907460399135fa78d27c442c42fa3f68a29e6b806bba3e681"
+      },
+      "focus_artifact": 13619251724,
+      "focus_job": 128729109169,
+      "focus_run": 42479817344,
+      "terminal_sha256": "b0dd950d7383089486358b7d29e2b38f29770b1bf4c37017d11c5511149a84d1"
+    },
+    "Mandor_sources": {
+      "actual_final_parent_admission": "fd797083eab093d9dc97f2d52ca61dc37812b437",
+      "contract": "cp7.mandor-shop-guarded-installation.v1",
+      "independent_acceptance": false,
+      "manifest": {
+        "bytes": 18857,
+        "sha256": "4d11d55e06373db14ecab8ce4dd77b35c739d50ea23dadecbfd753a12351e0de"
+      },
+      "plan": {
+        "bytes": 13274,
+        "sha256": "677cd27d61a44b875b9d0745fbba7eeb1c23588093fad299e7639c07c5dc2316"
+      },
+      "production_go": false,
+      "runtime_entry": "scripts/current-mandor-shop-native-qualification/qualification.py"
+    },
+    "actual_Auth_HTTP_cases": 0,
+    "actual_Native_cases": 0,
+    "actual_browser_cases": 0,
+    "contract": "cp7.mandor-shop-on-accepted-afui.v1",
+    "independent_acceptance": false,
+    "parent_root": {
+      "bytes": 1981,
+      "sha256": "18f068fa23983cb64980bcf3882bfbce7f794640e280d03e5c37a90eb04a999d"
+    },
+    "production_go": false,
+    "qualified_Afui_sources": {
+      "bytes": 756824,
+      "sha256": "97e9619d995d61601b0b9819c02104c0090805d14ddf08d86c221f7896b68b44"
+    }
+  },
+  "mandor_source_graph_pin": {
+    "bytes": 1478,
+    "sha256": "0e21bacea3e9cf08c4ef1f0fea7819ba4bc1b4ebf5463f99c9d2a44c84cf3cd9"
+  },
+  "mode": "CUMULATIVE_15_PLUS_2",
+  "original_run": {
+    "attempt": 1,
+    "conclusion": "failure",
+    "first_error": "mobile viewport 321 against 320 before a transaction",
+    "head": "a0e7d5616a0ac470876409d31c41388159f17692",
+    "job": 129310209330,
+    "large_failed_archive_waived": true,
+    "original_recovery_verified": true,
+    "run": 42660429648
+  },
+  "paired_browser_run": {
+    "archive": {
+      "bytes": 1105922207,
+      "sha256": "4467cfc32bc159c4fef09fd54b2eb88392e04ddef7d739b3885c5c040c5fe0be"
+    },
+    "archive_crc_verified": true,
+    "artifact_id": 13741014130,
+    "attempt": 1,
+    "backup": {
+      "bytes": 1470,
+      "crc32": "79e03a3a",
+      "name": "auditor/cp6-proof/t3/T3_BACKUP_RESTORE_DRILL.json",
+      "sha256": "a2144ec7089dd8909ab40196ad7f5aef35a43a6520afc02673f94eec78001489"
+    },
+    "browser_original": {
+      "bytes": 71491,
+      "crc32": "c202bc26",
+      "name": "auditor/cp6-proof/t3/MANDOR_BROWSER2_ORIGINAL.json",
+      "sha256": "5f9b4dbe88f00cb151519ea65db55ed7924a26fd5783203f925898fe16c4fe79"
+    },
+    "conclusion": "success",
+    "five_gates": {
+      "backup_restore_drill": true,
+      "installed": true,
+      "primary_unchanged": true,
+      "security_advisors": true,
+      "writer_runtime": true
+    },
+    "gate_original": {
+      "bytes": 8714,
+      "crc32": "a40171de",
+      "name": "auditor/cp6-proof/t3/MANDOR_BROWSER_PAIR_FOCUSED_GATE.json",
+      "sha256": "1bc480e129b6ceefccc04ac1ce281619714622681ca4b23485abd9df3df38f1e"
+    },
+    "handoff": {
+      "desktop_after": {
+        "bytes": 15362834,
+        "gzip_bytes": 1923290,
+        "gzip_sha256": "ede1b57862d448b9b435e9ddfbc63d301d1ca2ad14322d0ab26a71333f65a43e",
+        "name": "MANDOR_DESKTOP_9A2D20C33FF84375B7BC412BD085ED5B_05_AFTER_EXPLICIT_RELEASE_FULL_CENSUS.json.gz",
+        "sha256": "411b2b22d0ffe9e8f7f03e0652a5d0ea3011a1798d07c09bede5ac308ff8f13b"
+      },
+      "desktop_case_id": "MANDOR_BROWSER_DESKTOP_NORMAL_PAYROLL_LOST_REPLY_SAME_UUID_TWO_TABS_RELEASE",
+      "mobile_before": {
+        "bytes": 15360888,
+        "gzip_bytes": 1922689,
+        "gzip_sha256": "b30ac97e8bc9927df696065741a78481465b872257ba745ac2040fd1d96bf464",
+        "name": "MANDOR_MOBILE390_9A2D20C33FF84375B7BC412BD085ED5B_01_BEFORE_SELECTION_FULL_CENSUS.json.gz",
+        "sha256": "5bd15b82340a154aa8f1d20436228a06b2c4f882099e9ece80edb4bd0ed53413"
+      },
+      "mobile_case_id": "MANDOR_BROWSER_MOBILE390_NORMAL_PAYROLL_STALE_INPUT_FRESH_READ_RELEASE",
+      "released_allocation_id": "e5cd5109-edaf-49b3-8c33-edec396c88fe",
+      "unchanged_tables": [
+        "cp7_mandor_shop.allocations",
+        "cp7_mandor_shop.allocation_events",
+        "cp7_mandor_shop.requests",
+        "cp7_mandor_shop.deduction_links",
+        "erp.payroll_deductions",
+        "erp.payroll_settlements"
+      ]
+    },
+    "head": "e63c758990f54dbec4e635ecf3d53c6e80b03041",
+    "job": 129620303386,
+    "package": {
+      "bytes": 360471,
+      "crc32": "8c22b41a",
+      "name": "auditor/cp6-proof/t3/T3_PACKAGE_INSTALL.json",
+      "sha256": "07e5f84cee10b674ae8e860e7bf4c02c21d93a13300e21df8473e7a04040678e"
+    },
+    "restore": {
+      "advisor_gate": true,
+      "baseline_advisors_equal": true,
+      "baseline_full22_all_rows_all_sequences_equal": true,
+      "cp6_restored": true,
+      "restore_raw_public_equal": true,
+      "used_guard_refused_before_DDL": true
+    },
+    "run": 42752853455,
+    "tree": "c7634a3a39254c08894ea1ba5ea0f1b8fc2c7b7a",
+    "worker": {
+      "bytes": 665,
+      "crc32": "1f5bba6b",
+      "name": "auditor/cp6-proof/t3/MANDOR_BROWSER_PAIR_FOCUSED_WORKER.json",
+      "sha256": "60059f2464bb06f2dfcfc19305adf005e35210344ae847ac00b9375df517f3bb"
+    }
+  },
+  "prior_runs_aggregated": true,
+  "production_go": false,
+  "runtime_admission": false,
+  "status": "SKU_CUMULATIVE_PARENT_REVIEW_INPUT_VERIFIED",
+  "tested_browser_app": {
+    "head": "e63c758990f54dbec4e635ecf3d53c6e80b03041",
+    "tree": "c7634a3a39254c08894ea1ba5ea0f1b8fc2c7b7a"
+  }
+}

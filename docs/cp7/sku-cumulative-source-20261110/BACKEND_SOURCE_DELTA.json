@@ -1,0 +1,139 @@
+{
+  "base": "f6a853813e6db252b44fa8044310b9f499210420",
+  "head": "a0e7d5616a0ac470876409d31c41388159f17692",
+  "status": "ahead",
+  "files": [
+    {
+      "path": ".github/workflows/cp7-mandor-shop-native17.yml",
+      "status": "added"
+    },
+    {
+      "path": "scripts/cp7_mandor_shop/SOURCE.json",
+      "status": "modified"
+    },
+    {
+      "path": "scripts/cp7_mandor_shop/admission.py",
+      "status": "modified"
+    },
+    {
+      "path": "scripts/current-mandor-afui-preparation/SOURCE.json",
+      "status": "modified"
+    },
+    {
+      "path": "scripts/current-mandor-afui-preparation/check_source.py",
+      "status": "modified"
+    },
+    {
+      "path": "scripts/current-mandor-afui-preparation/current-mandor84.workflow.yml.txt",
+      "status": "modified"
+    },
+    {
+      "path": "scripts/current-mandor-afui-preparation/output_binding.py",
+      "status": "modified"
+    },
+    {
+      "path": "scripts/current-mandor-afui-preparation/review_adapter/FOCUSED_INSTALLER.sql",
+      "status": "added"
+    },
+    {
+      "path": "scripts/current-mandor-afui-preparation/review_adapter/FOCUSED_INSTALLER_RECEIPT.json",
+      "status": "added"
+    },
+    {
+      "path": "scripts/current-mandor-afui-preparation/review_adapter/FORMAL_ALL22_WIB_GUARD_FIXTURE.json",
+      "status": "added"
+    },
+    {
+      "path": "scripts/current-mandor-afui-preparation/review_adapter/UNUSED_INVERSE.sql",
+      "status": "added"
+    },
+    {
+      "path": "scripts/current-mandor-afui-preparation/review_adapter/VERIFIED_FOCUS_TERMINAL.json",
+      "status": "added"
+    },
+    {
+      "path": "scripts/current-mandor-afui-preparation/review_adapter/__init__.py",
+      "status": "added"
+    },
+    {
+      "path": "scripts/current-mandor-afui-preparation/review_adapter/bind_mandor_adapter.py",
+      "status": "added"
+    },
+    {
+      "path": "scripts/current-mandor-afui-preparation/review_adapter/derive_owning_adapter_routes.py",
+      "status": "added"
+    },
+    {
+      "path": "scripts/current-mandor-afui-preparation/review_adapter/guard_original_unused.py",
+      "status": "added"
+    },
+    {
+      "path": "scripts/current-mandor-afui-preparation/review_adapter/owner.py",
+      "status": "added"
+    },
+    {
+      "path": "scripts/current-mandor-afui-preparation/review_adapter/verify_catalogue_transition.py",
+      "status": "added"
+    },
+    {
+      "path": "scripts/current-mandor-afui-preparation/routes.py",
+      "status": "modified"
+    },
+    {
+      "path": "scripts/current-mandor-afui-preparation/test_workflow.py",
+      "status": "modified"
+    },
+    {
+      "path": "scripts/current-mandor-afui-preparation/workflow.py",
+      "status": "modified"
+    },
+    {
+      "path": "scripts/current-mandor-shop-native-qualification/AFUI15_PARENT_ROOT_ACTUAL_INTAKE.json",
+      "status": "added"
+    },
+    {
+      "path": "scripts/current-mandor-shop-native-qualification/access_cases.py",
+      "status": "modified"
+    },
+    {
+      "path": "scripts/current-mandor-shop-native-qualification/access_runtime.py",
+      "status": "modified"
+    },
+    {
+      "path": "scripts/current-mandor-shop-native-qualification/admission.py",
+      "status": "modified"
+    },
+    {
+      "path": "scripts/current-mandor-shop-native-qualification/advisor_review.py",
+      "status": "modified"
+    },
+    {
+      "path": "scripts/current-mandor-shop-native-qualification/assembly.py",
+      "status": "modified"
+    },
+    {
+      "path": "scripts/current-mandor-shop-native-qualification/browser.mjs",
+      "status": "modified"
+    },
+    {
+      "path": "scripts/current-mandor-shop-native-qualification/browser_observer.py",
+      "status": "modified"
+    },
+    {
+      "path": "scripts/current-mandor-shop-native-qualification/component.py",
+      "status": "modified"
+    },
+    {
+      "path": "scripts/current-mandor-shop-native-qualification/final_gate.py",
+      "status": "modified"
+    },
+    {
+      "path": "scripts/current-mandor-shop-native-qualification/http_cases.py",
+      "status": "modified"
+    },
+    {
+      "path": "scripts/current-mandor-shop-native-qualification/http_gate.py",
+      "status": "modified"
+    }
+  ]
+}

@@ -66,7 +66,7 @@ def source_manifest():
     required = {str(path.relative_to(ROOT)) for path in HERE.rglob('*')
         if path.is_file() and (path.suffix in ('.py', '.sql', '.mjs')
             or path.name in ('NATIVE_ORIGIN.json', 'UI_ORIGIN.json', 'UI_SOURCE.json', 'afui15.workflow.yml.txt',
-                'RUNTIME_DOMAIN_PREFLIGHT_ORIGIN.json','ACTUAL_FUNCTION_DEFAULT_ACL_REFERENCE.json'))}
+                'RUNTIME_DOMAIN_PREFLIGHT_ORIGIN.json','ACTUAL_FUNCTION_DEFAULT_ACL_REFERENCE.json','action.yml'))}
     active_workflow = workflow.admit_source(value)
     if active_workflow is not None:
         required.add(workflow.WORKFLOW)
