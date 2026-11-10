@@ -1,4 +1,4 @@
-name: Verify exact terminal Afui source archive without ERP
+name: Verify exact terminal Mandor browser pair archive without ERP
 'on':
   push:
     branches: [astra-a/afui-evidence-intake-20261105]
@@ -13,7 +13,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   retain:
-    name: Verify Afui canonical archive and retain exact terminal receipts
+    name: Verify Mandor browser pair canonical archive and retain exact terminal receipts
     if: github.ref == 'refs/heads/astra-a/afui-evidence-intake-20261105'
     runs-on: ubuntu-latest
     timeout-minutes: 35
@@ -28,11 +28,11 @@ jobs:
         id: verify
         env:
           GH_TOKEN: ${{ github.token }}
-        run: python3 -B scripts/afui-evidence-intake-20261105/verify_terminal.py
+        run: python3 -B scripts/afui-evidence-intake-20261105/verify_mandor_browser_pair.py
       - name: Retain only typed terminal and parent receipts
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
-          name: afui-42258224710-verified-terminal-receipts
-          path: afui-fd79-terminal-receipts/
+          name: mandor-browser-pair-42752853455-verified-terminal-receipts
+          path: mandor-browser-pair-terminal-receipts/
           retention-days: 30
           if-no-files-found: error
