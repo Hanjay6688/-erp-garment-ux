@@ -539,7 +539,7 @@ jobs:
         if-no-files-found: error
     if: ${{ false }}
   browser_prerequisites_only:
-    name: Mandor mobile transaction only with actual Auth and full cleanup
+    name: Mandor desktop then mobile with actual Auth and full cleanup
     runs-on: ubuntu-24.04
     timeout-minutes: 200
     env:
@@ -918,14 +918,14 @@ jobs:
       run: 'python -B scripts/current-mandor-shop-native-qualification/parent_artifacts.py --prepare
 
         '
-    - name: Check exact candidate and single mobile selection before any database
+    - name: Check exact candidate and the original paired browser source before any database
       working-directory: writer
       shell: bash
       run: 'set -euo pipefail
 
         python -B ../test-driver/scripts/current-mandor-shop-native-qualification/mobile_transaction_focus.py --check
 
-        node --check ../test-driver/scripts/current-mandor-shop-native-qualification/mobile_transaction_case.mjs
+        node --check ../auditor/scripts/current-mandor-shop-native-qualification/browser.mjs
 
         '
     - name: Verify complete current Mandor source, transport and owning workflow before database
@@ -1023,10 +1023,10 @@ jobs:
     - name: Clone the aligned AB state for install
       working-directory: writer
       run: "set -euo pipefail\nmkdir -p '../auditor/cp6-proof/t3'\nbash scripts/clone-cp6-disposable-database.sh \\\n  'postgresql://postgres:postgres@127.0.0.1:54322/postgres' \\\n  'postgresql://postgres:postgres@127.0.0.1:54322/template1' \\\n  'postgresql://postgres:postgres@127.0.0.1:54322/cp6_rollback' \\\n  cp6_rollback supabase_db_cp5-local \"$RUNNER_TEMP/join-clone/CLONE_install\"\n"
-    - name: Run only the actual mobile transaction and restore the owning disposable copy
+    - name: Run desktop then mobile on one disposable browser copy and restore
       working-directory: writer
       run: python -u -B ../test-driver/scripts/current-mandor-shop-native-qualification/mobile_transaction_focus.py --run
-    - name: Verify the original mobile assertions, complete census, and cleanup
+    - name: Verify both original browser cases, the shared state, and full cleanup
       working-directory: writer
       run: python -B ../test-driver/scripts/current-mandor-shop-native-qualification/mobile_transaction_focus.py --verify
     - name: Reap and stop the isolated test stack
@@ -1037,14 +1037,22 @@ jobs:
     - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
       if: always()
       with:
-        name: mandor-mobile-transaction-${{ github.run_attempt }}
+        name: mandor-browser-pair-${{ github.run_attempt }}
         retention-days: 30
         if-no-files-found: warn
-        path: 'auditor/cp6-proof/t3/MANDOR_MOBILE_FOCUSED_*.json
+        path: 'auditor/cp6-proof/t3/MANDOR_BROWSER_PAIR_FOCUSED_*.json
 
           auditor/cp6-proof/t3/MANDOR_BROWSER2_ORIGINAL.json
 
+          auditor/cp6-proof/t3/MANDOR_BROWSER_FIXTURE.json
+
+          auditor/cp6-proof/t3/MANDOR_BROWSER_STATE*.json
+
+          auditor/cp6-proof/t3/MANDOR_DESKTOP_*.json.gz
+
           auditor/cp6-proof/t3/MANDOR_MOBILE390_*.json.gz
+
+          test-driver/cp6-proof/t3/MANDOR_DESKTOP_*.png
 
           test-driver/cp6-proof/t3/MANDOR_MOBILE390_*.png
 
@@ -1053,4 +1061,4 @@ jobs:
           auditor/cp6-proof/t3/T3_BACKUP_RESTORE_DRILL.json
 
           '
-    if: 'github.event_name == ''push'' && github.ref == ''refs/heads/astra-a/mandor-shop-native9-on-unified-20261103'' && startsWith(github.event.head_commit.message, ''test(mandor): replay only the mobile transaction'')'
+    if: 'github.event_name == ''push'' && github.ref == ''refs/heads/astra-a/mandor-shop-native9-on-unified-20261103'' && startsWith(github.event.head_commit.message, ''test(mandor): replay desktop then mobile'')'

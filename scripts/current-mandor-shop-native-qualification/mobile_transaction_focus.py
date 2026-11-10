@@ -1,6 +1,7 @@
-"""One real Auth/browser case on the original disposable stack. No formal Mandor17 credit."""
+"""The original desktop and mobile cases on one disposable Auth/browser copy."""
 import ast
 from datetime import datetime, timedelta
+import gzip
 from hashlib import sha256
 import importlib.util
 import inspect
@@ -16,9 +17,9 @@ DRIVER = Path(__file__).resolve().parents[2]
 AUDITOR = DRIVER.parent / 'auditor'
 WRITER = DRIVER.parent / 'writer'
 NS = Path('scripts/current-mandor-shop-native-qualification')
-FOCUS = 'MANDOR_MOBILE_FOCUSED'
+FOCUS = 'MANDOR_BROWSER_PAIR_FOCUSED'
 LEGACY = 'a0e7d5616a0ac470876409d31c41388159f17692'
-PATCH = '6df3f46b5a833097bea3f903af7b0d0a616f5da0'
+PATCH = 'a691e7d9a18e2cfb1f847a5306054ecd5750e602'
 BRANCH = 'refs/heads/astra-a/mandor-shop-native9-on-unified-20261103'
 CSS = 'src/payroll-connected.css'
 CSS_SHA = '33c4385241120033c683d6230922fd104d460514001435ff66aec065fdac2fc2'
@@ -76,12 +77,8 @@ def exercise_source(source):
 
 def browser_source(source):
     source = replace_once(source, 'modes.AUDITOR=ROOT', 'modes.AUDITOR=DRIVER')
-    source = replace_once(source, "modes.run_browser(HERE/'browser.mjs',verify,'mandor_current_browser2')",
-                          "modes.run_browser(DRIVER/NS/'mobile_transaction_case.mjs',verify,'mandor_mobile_focused')")
-    source = replace_once(source, "typed.copies(actual,browser_preflight.IDS,mode='BROWSER')",
-                          "typed.copies(actual,browser_preflight.IDS[1:],mode='BROWSER')")
     return replace_once(source, 'actual_browser_cases=2,actual_business_cases=17',
-                        'actual_browser_cases=1,actual_business_cases=1')
+                        'actual_browser_cases=2,actual_business_cases=2')
 
 
 def inner_source(source):
@@ -89,22 +86,13 @@ def inner_source(source):
         ('actual_two_session_races\']=4', 'actual_two_session_races\']=0'),
         ('actual_Native_cases\']=9', 'actual_Native_cases\']=0'),
         ('actual_Auth_HTTP_cases\']=2', 'actual_Auth_HTTP_cases\']=0'),
-        ('actual_browser_cases\']=2', 'actual_browser_cases\']=1'),
-        ('actual_business_cases\']=17', 'actual_business_cases\']=1'),
+        ('actual_business_cases\']=17', 'actual_business_cases\']=2'),
         ('real_Auth_HTTP_qualified\']=True', 'real_Auth_HTTP_qualified\']=False'),
         ('actual_Mandor_browser_acceptance_pending\']=False', 'actual_Mandor_browser_acceptance_pending\']=True'),
     ):
         source = replace_once(source, old, new)
     return replace_once(source, "report=dict(label=LABEL,status='INCOMPLETE',",
                         "report=dict(label=LABEL,status='INCOMPLETE',diagnostic_only=True,formal_case_credit=0,")
-
-
-def gate_source(source):
-    source = replace_once(source, "typed.copies(actual,browser_preflight.IDS,mode='BROWSER')",
-                          "typed.copies(actual,browser_preflight.IDS[1:],mode='BROWSER')")
-    source = replace_once(source, 'enumerate(browser_preflight.IDS)', 'enumerate(browser_preflight.IDS[1:],start=1)')
-    return replace_once(source, "status='ACTUAL_MANDOR_BROWSER2_AND_COMPLETE_AUTH_COPY_RESTORATION',actual_browser_cases=2",
-                        "status='ACTUAL_MANDOR_MOBILE_AND_COMPLETE_AUTH_COPY_RESTORATION',actual_browser_cases=1")
 
 
 def build_function(source, name, scope):
@@ -138,6 +126,8 @@ def preflight():
     require(git(DRIVER, 'diff', '--quiet', 'HEAD', '--') == '', 'FOCUSED_UI_WORKTREE_CHANGED')
     host = Path('scripts/current-s03-sku-s05-composite-qualification/host.mjs')
     require((DRIVER / host).read_bytes() == (AUDITOR / host).read_bytes(), 'FOCUSED_UNCHANGED_BROWSER_HOST_REQUIRED')
+    require((DRIVER / NS / 'browser.mjs').read_bytes() == (AUDITOR / NS / 'browser.mjs').read_bytes(),
+            'FOCUSED_UNCHANGED_BROWSER_CALLBACKS_REQUIRED')
     now = datetime.now(ZoneInfo('Asia/Jakarta'))
     midnight = (now + timedelta(days=1)).replace(hour=0, minute=0, second=0, microsecond=0)
     require((midnight - now).total_seconds() > BUDGET + 15 * 60, 'FOCUSED_WIB_WINDOW_WITH_SETUP_RESERVE')
@@ -149,7 +139,6 @@ def source_controls():
     inputs = (
         ('component.py', 'exercise', exercise_source),
         ('access_runtime.py', 'run_browser', browser_source),
-        ('browser_gate.py', 'gate', gate_source),
     )
     for path, name, derive in inputs:
         raw = (AUDITOR / NS / path).read_text()
@@ -177,7 +166,7 @@ def focused_work():
         source = io.derive_parent_install(source)
         worker_scope = engine.__dict__
         build_function(inner_source(function(source, 'run_inner')), 'run_inner', worker_scope)
-        browser_scope = dict(access_runtime.__dict__, DRIVER=DRIVER, NS=NS)
+        browser_scope = dict(access_runtime.__dict__, DRIVER=DRIVER)
         focused_browser = build_function(browser_source(inspect.getsource(access_runtime.run_browser)), 'run_browser', browser_scope)
         exercise_scope = dict(component.__dict__, focused_browser=focused_browser)
         exercise = build_function(exercise_source(inspect.getsource(component.exercise)), 'exercise', exercise_scope)
@@ -192,34 +181,78 @@ def focused_work():
             run_package('install')
 
 
+def verify_browser_handoff(p, directory, actual, verified, ids):
+    desktop_id, mobile_id = ids
+    desktop, mobile = actual['cases'][desktop_id], actual['cases'][mobile_id]
+    p.exact(desktop['source'], mobile['source'], 'BROWSER_PAIR_SAME_PAYROLL_AND_SALE')
+    p.exact(desktop['business_day'], mobile['business_day'], 'BROWSER_PAIR_SAME_BUSINESS_DAY')
+    desktop_after = desktop['complete_census_proofs'][-1]['original_after']
+    mobile_before = mobile['complete_census_proofs'][0]['original_before']
+    snapshots = []
+    for reference in (desktop_after, mobile_before):
+        name = reference['name']
+        p.exact(reference, verified['original_observations'][name], 'BROWSER_PAIR_VERIFIED_HANDOFF_CENSUS')
+        raw = gzip.decompress((directory / name).read_bytes())
+        snapshots.append(p.pinned(raw, {key: reference[key] for key in ('bytes', 'sha256')},
+                                  'BROWSER_PAIR_EXACT_HANDOFF_CENSUS'))
+    left, right = snapshots
+    for key in ('invoice', 'allocation_states', 'deductions', 'payroll'):
+        p.exact(left[key], right[key], 'BROWSER_PAIR_SAME_BUSINESS_STATE:' + key)
+    tables = ('cp7_mandor_shop.allocations', 'cp7_mandor_shop.allocation_events',
+              'cp7_mandor_shop.requests', 'cp7_mandor_shop.deduction_links',
+              'erp.payroll_deductions', 'erp.payroll_settlements')
+    # Each case has its own real Auth user. The full-table census binds
+    # requests across actors while the case-level request view is actor-specific.
+    for table in tables:
+        p.exact(left['full_data_and_sequences'][table], right['full_data_and_sequences'][table],
+                'BROWSER_PAIR_SAME_HANDOFF_TABLE:' + table)
+    allocation = desktop['actual_first_reply']['allocation_id']
+    released = [row for row in right['allocation_states'] if row['allocation_id'] == allocation]
+    require(len(released) == 1 and released[0]['state'] == 'RELEASED',
+            'BROWSER_PAIR_DESKTOP_RELEASE_PRESENT_AT_MOBILE_ENTRY')
+    return dict(desktop_case_id=desktop_id, mobile_case_id=mobile_id,
+                desktop_after=desktop_after, mobile_before=mobile_before,
+                released_allocation_id=allocation, unchanged_tables=list(tables))
+
+
 def terminal_gate():
     identity = preflight()
     sys.path.insert(0, str(AUDITOR / NS))
-    import browser_gate, final_gate, qualification
+    import browser_gate, browser_preflight, final_gate, qualification
     qualification.actual_parent()
     p = final_gate.packet_reader()
     main = p.strict((OUTPUT / (FOCUS + '_OWNING.json')).read_bytes())
     p.fields(main, dict(status='PASS', diagnostic_only=True, formal_case_credit=0,
-        actual_business_cases=1, actual_browser_cases=1, actual_Native_cases=0, actual_Auth_HTTP_cases=0,
+        actual_business_cases=2, actual_browser_cases=2, actual_Native_cases=0, actual_Auth_HTTP_cases=0,
         actual_two_session_races=0, cp6_restored=True, restore_raw_public_equal=True,
         baseline_full22_all_rows_all_sequences_equal=True, baseline_advisors_equal=True, advisor_gate=True,
-        used_guard_refused_before_DDL=True), 'FOCUSED_EXACT_MOBILE_CASE_AND_RESTORE')
+        used_guard_refused_before_DDL=True), 'FOCUSED_EXACT_BROWSER_PAIR_AND_RESTORE')
     package = p.strict((OUTPUT / 'T3_PACKAGE_INSTALL.json').read_bytes())
     p.exact(package['gate'], p.GATES, 'FOCUSED_ALL_FIVE_ACTUAL_PACKAGE_GATES')
+    p.fields(package['run_identity'], dict(tool_head=LEGACY, github_sha=identity['head'],
+        run_id=identity['run_id'], run_attempt='1', job=os.environ['GITHUB_JOB']), 'FOCUSED_PACKAGE_RUN_IDENTITY')
+    backup = p.strict((OUTPUT / 'T3_BACKUP_RESTORE_DRILL.json').read_bytes())
+    p.fields(backup, dict(status='RESTORED_IDENTICAL'), 'FOCUSED_COMPLETE_BACKUP_DRILL')
+    require(backup['checks'] and all(check is True for check in backup['checks'].values()),
+            'FOCUSED_EVERY_TYPED_BACKUP_CHECK_REQUIRED')
+    p.exact(backup['data']['differ'], {}, 'FOCUSED_BACKUP_NO_ROW_DIFFERENCE')
     owned = p.strict((OUTPUT / (FOCUS + '_WORKER.json')).read_bytes())
     p.fields(owned, dict(status='WORKER_COMPLETED_AND_REAPED', worker_exit=0, process_group_empty=True,
                         process_tree_empty=True, head=identity['head'], run_id=identity['run_id']), 'FOCUSED_WORKER_REAPED')
     p.exact(set(main['committed']), {final_gate.CASE}, 'FOCUSED_ONE_COMPONENT')
     part = main['committed'][final_gate.CASE]
-    for path in (DRIVER / 'cp6-proof/t3').glob('MANDOR_MOBILE390_*.png'):
-        require(path.is_file() and not path.is_symlink(), 'FOCUSED_SCREENSHOT_FILE_REQUIRED')
-        with (OUTPUT / path.name).open('xb') as target:
-            target.write(path.read_bytes())
-    verify_browser = build_function(gate_source(inspect.getsource(browser_gate.gate)), 'gate', dict(browser_gate.__dict__))
-    browser = verify_browser(p, OUTPUT, part, qualification.FROZEN)
-    write('GATE', {**identity, **browser, 'status': 'MOBILE_TRANSACTION_PASS', 'full_restoration': True,
+    for prefix in ('DESKTOP', 'MOBILE390'):
+        for path in (DRIVER / 'cp6-proof/t3').glob(f'MANDOR_{prefix}_*.png'):
+            require(path.is_file() and not path.is_symlink(), 'FOCUSED_SCREENSHOT_FILE_REQUIRED')
+            with (OUTPUT / path.name).open('xb') as target:
+                target.write(path.read_bytes())
+    browser = browser_gate.gate(p, OUTPUT, part, qualification.FROZEN)
+    actual = p.strict((OUTPUT / 'MANDOR_BROWSER2_ORIGINAL.json').read_bytes())
+    handoff = verify_browser_handoff(p, OUTPUT, actual, browser, browser_preflight.IDS)
+    write('GATE', {**identity, **browser, 'status': 'BROWSER_PAIR_PASS', 'full_restoration': True,
+                   'browser_handoff': handoff,
                    'five_package_gates': True, 'production_go': False, 'independent_acceptance': False})
-    print(json.dumps(dict(status='MOBILE_TRANSACTION_PASS', formal_case_credit=0, full_restoration=True)), flush=True)
+    print(json.dumps(dict(status='BROWSER_PAIR_PASS', formal_case_credit=0, full_restoration=True)), flush=True)
 
 
 def main():
