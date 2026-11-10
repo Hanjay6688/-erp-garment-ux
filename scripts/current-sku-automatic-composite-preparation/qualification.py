@@ -136,6 +136,8 @@ def runtime():
                 engine = ModuleType('current_parent_money_automatic_native25_whole_package')
                 engine.__file__ = str(original)
                 engine.__dict__[report_io.HELPER] = report_io.write_complete
+                engine.__dict__.update(package_source.bind_install_authority(
+                    product, inherited.install_qualified_parent, package_source.installer_authority(FROZEN_PARENT)))
                 exec(compile(text, engine.__file__ + '::current-automatic-native25', 'exec', dont_inherit=True), engine.__dict__)
                 engine.product = product
                 case_output = complete_case_output()

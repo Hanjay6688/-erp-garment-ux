@@ -1,7 +1,7 @@
 """Owning-entry and real import/provenance controls; no ERP execution."""
 from contextlib import contextmanager, redirect_stdout
 from pathlib import Path
-from types import FunctionType, ModuleType
+from types import FunctionType, ModuleType, SimpleNamespace
 from unittest.mock import patch
 import importlib
 import importlib.util
@@ -239,6 +239,60 @@ class OwningNative25(unittest.TestCase):
                 path.write_bytes(raw + b'\n')
                 with self.assertRaisesRegex(ValueError, 'EXACT_COMPLETE_CASE_OUTPUT_SOURCE'):
                     self.entry.complete_case_output()
+
+
+class InstallAuthorityControls(unittest.TestCase):
+    def test_parent_and_top_level_operations_use_their_qualified_identities(self):
+        package = load('package')
+        cursor = SimpleNamespace(identity='maintenance')
+        events = []
+
+        def operation(name, expected, result):
+            def call(cur, *args):
+                self.assertIs(cur, cursor)
+                self.assertEqual(cur.identity, expected)
+                events.append((name, args))
+                return result
+            return call
+
+        def as_admin(cur, callback):
+            self.assertEqual(cur.identity, 'maintenance')
+            cur.identity = 'admin'
+            try:
+                return callback(cur)
+            finally:
+                cur.identity = 'maintenance'
+
+        mandor = SimpleNamespace(install_delta=operation('Mandor', 'maintenance', 'mandor'))
+        moving = SimpleNamespace(parent=lambda: mandor, install_delta=operation('Moving', 'admin', 'moving'))
+        money = SimpleNamespace(parent=lambda: moving, install_delta=operation('Money', 'admin', 'money'))
+        product = SimpleNamespace(parent=lambda: money,
+                                  install_delta=operation('Automatic', 'admin', 'automatic'),
+                                  rollback_delta_preuse=operation('Inverse', 'admin', 'inverse'),
+                                  verify=operation('Verify', 'admin', 'verified'))
+        bindings = package.bind_install_authority(product, operation('Afui', 'maintenance', 'afui'), as_admin)
+        prior = bindings['_sku_install_parent'](cursor)
+        state = bindings['_sku_install_delta'](cursor, prior)
+        self.assertEqual(bindings['_sku_rollback_delta_preuse'](cursor, state), 'inverse')
+        state = bindings['_sku_install_delta'](cursor, prior)
+        self.assertEqual(bindings['_sku_verify_installed'](cursor, state), 'verified')
+        self.assertEqual(cursor.identity, 'maintenance')
+        self.assertEqual(events, [('Afui', ()), ('Mandor', ('afui',)), ('Moving', ('mandor',)),
+                                  ('Money', ('moving',)), ('Automatic', ('money',)),
+                                  ('Inverse', ('automatic',)), ('Automatic', ('money',)),
+                                  ('Verify', ('automatic',))])
+
+    def test_changed_mandor_authority_source_is_rejected_before_import(self):
+        package = load('package')
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            path = root / package.MANDOR_AUTHORITY
+            path.parent.mkdir(parents=True)
+            path.write_text("raise AssertionError('must never load')\n")
+            with patch.object(package, 'load') as imported:
+                with self.assertRaisesRegex(ValueError, 'EXACT_MANDOR_INSTALL_AUTHORITY_BYTES_REQUIRED'):
+                    package.installer_authority(root)
+                imported.assert_not_called()
 
 
 if __name__ == '__main__':

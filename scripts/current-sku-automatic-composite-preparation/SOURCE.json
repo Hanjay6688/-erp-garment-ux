@@ -310,16 +310,16 @@
       "sha256": "16022261c9accf67f2251217c15c004bbeb565a417ff8669c91c1bf1bc4f7c7d"
     },
     "package.py": {
-      "bytes": 2776,
-      "sha256": "f23c3eb5f0912f48b4e6893fa5f9e523b7d1d6a8ca2a05e53f293c1abbaefff1"
+      "bytes": 5180,
+      "sha256": "3ce662a23545936685d6cdbae22eea5c46d42542ed325d0e365dd0b73a5acc19"
     },
     "prepare_native_sql.py": {
       "bytes": 4284,
       "sha256": "5535ce276253d5ce6f10157cc825e75499ef2e2cf6b225dac3213317e6cb1966"
     },
     "qualification.py": {
-      "bytes": 13180,
-      "sha256": "da8667a1041089e085bcf1ade9359cb64b39efb78100d25904f4748d4770ce54"
+      "bytes": 13375,
+      "sha256": "5ae299948b71ef2c96273c155fdf5607d2afa1ec8007c7acefa342bc651199df"
     },
     "report_io.py": {
       "bytes": 6464,
@@ -410,8 +410,8 @@
       "sha256": "a81b36fb904e651e53bb1db86218ecec71cef660d11ca8a7cb5b38d82acbc86a"
     },
     "test_qualification.py": {
-      "bytes": 14825,
-      "sha256": "7d5c3cb9708364ddc81d22c6f239745e5f1906e0efbae645cb302cca1673e2fc"
+      "bytes": 17760,
+      "sha256": "1eb11d102284af1810431c964893132c5774ed7516a553a0d158fb222d5aeff8"
     },
     "test_report_io.py": {
       "bytes": 8096,
