@@ -156,13 +156,30 @@ class ExecutionControls(unittest.TestCase):
             module.runtime = SimpleNamespace(actual_inputs=lambda: ('explicit local model only',))
             original = (b'complete original bytes, including non-JSON output\x00' * 70000)
             (own / 'source.bin').write_bytes(original)
+            owning_receipts = {
+                'FREE3_PARENT_ORIGINAL_ADMISSION.json': b'{"receipt":"free3"}',
+                'SKU_CURRENT_MANDOR17_ORIGINAL_ADMISSION.json': b'{"receipt":"mandor"}',
+            }
+            for name, raw in owning_receipts.items():
+                (own / name).write_bytes(raw)
+            nested = own / 'other';nested.mkdir()
+            near_name = nested / 'FREE3_PARENT_ORIGINAL_ADMISSION.json'
+            near_name.write_bytes(b'{"receipt":"unrelated"}')
             for folder in module.FOLDERS:
                 (root / folder).mkdir()
             report = module.prepare()
             self.assertEqual(report['frozen_trees'], 4)
+            manifest = json.loads(module.MANIFEST.read_bytes())
+            self.assertEqual(manifest['owning_only_files'], {
+                name: dict(bytes=len(raw), sha256=sha256(raw).hexdigest())
+                for name, raw in owning_receipts.items()
+            })
+            self.assertEqual({name: (own / name).read_bytes() for name in owning_receipts}, owning_receipts)
             for index, folder in enumerate(module.FOLDERS):
                 parent = root / folder / 'cp6-proof/t3'
                 self.assertEqual(sha256((parent / 'source.bin').read_bytes()).digest(), sha256(original).digest())
+                self.assertTrue(all(not (parent / name).exists() for name in owning_receipts))
+                self.assertEqual((parent / near_name.relative_to(own)).read_bytes(), near_name.read_bytes())
                 nested = parent / 'COMPLETE_CASE_STDOUT';nested.mkdir()
                 (nested / 'first.jsonl').write_bytes(original + str(index).encode())
             target = module.RETAINED / module.FOLDERS[-1] / 'COMPLETE_CASE_STDOUT/first.jsonl'

@@ -68,20 +68,32 @@ class CurrentPreparedParent(unittest.TestCase):
             inherited.mkdir()
             for name in ('check_source.py', 'routes.py'):
                 (inherited / name).write_bytes((fence.ROOT / 'scripts/current-mandor-afui-preparation' / name).read_bytes())
-            accepted = 'cp6-proof/t3/SKU_CURRENT_PARENT_MONEY_AUTOMATIC_MODEL.json'
-            blocked = 'cp6-proof/t3/SKU_CURRENT_PARENT_MONEY_AUTOMATIC_MODEL.py'
-            report = root / accepted
-            report.parent.mkdir(parents=True)
-            report.write_text('{}')
-            (root / blocked).write_text('raise AssertionError')
-            self.assertEqual(fence.runner_inputs(root, {accepted, blocked}), {accepted})
-            report.chmod(0o755)
-            with self.assertRaisesRegex(ValueError, 'NONEXECUTABLE_RUNNER_OUTPUT_REQUIRED'):
-                fence.runner_inputs(root, {accepted})
-            report.unlink()
-            report.symlink_to(root / blocked)
-            with self.assertRaisesRegex(ValueError, 'NONEXECUTABLE_RUNNER_OUTPUT_REQUIRED'):
-                fence.runner_inputs(root, {accepted})
+            accepted = {
+                'cp6-proof/t3/SKU_CURRENT_PARENT_MONEY_AUTOMATIC_MODEL.json',
+                'cp6-proof/t3/FREE3_PARENT_ORIGINAL_ADMISSION.json',
+                'cp6-proof/t3/SKU_CURRENT_MANDOR17_ORIGINAL_ADMISSION.json',
+            }
+            blocked = {
+                'cp6-proof/t3/SKU_CURRENT_PARENT_MONEY_AUTOMATIC_MODEL.py',
+                'cp6-proof/t3/FREE3_OTHER_ORIGINAL_ADMISSION.json',
+                'cp6-proof/t3/SKU_CURRENT_MANDOR18_ORIGINAL_ADMISSION.json',
+                'cp6-proof/t3/nested/FREE3_PARENT_ORIGINAL_ADMISSION.json',
+            }
+            for name in accepted | blocked:
+                report = root / name
+                report.parent.mkdir(parents=True, exist_ok=True)
+                report.write_text('{}')
+            self.assertEqual(fence.runner_inputs(root, accepted | blocked), accepted)
+            for name in sorted(accepted):
+                report = root / name
+                report.chmod(0o755)
+                with self.assertRaisesRegex(ValueError, 'NONEXECUTABLE_RUNNER_OUTPUT_REQUIRED'):
+                    fence.runner_inputs(root, {name})
+                report.unlink()
+                report.symlink_to(root / sorted(blocked)[0])
+                with self.assertRaisesRegex(ValueError, 'NONEXECUTABLE_RUNNER_OUTPUT_REQUIRED'):
+                    fence.runner_inputs(root, {name})
+                report.unlink()
 
 
 if __name__ == '__main__':

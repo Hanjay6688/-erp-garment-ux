@@ -40,6 +40,10 @@ MANDOR_ADOPTION_PATHS = frozenset((
 # The same exact inherited runner input verifier used by Mandor also checks
 # retained original workflows, startup logs, artifact receipts and build proof.
 SKU_PROOF_ROOT = 'cp6-proof/t3/'
+SKU_PARENT_PROOF_FILES = frozenset((
+    SKU_PROOF_ROOT + 'FREE3_PARENT_ORIGINAL_ADMISSION.json',
+    SKU_PROOF_ROOT + 'SKU_CURRENT_MANDOR17_ORIGINAL_ADMISSION.json',
+))
 SKU_RUNNER_OUTPUT = re.compile(
     r'(?:SKU(?:25|29|_AUTOMATIC|_CURRENT_PARENT_MONEY_AUTOMATIC)_[A-Za-z0-9_]+'
     r'\.(?:json(?:\.gz)?|png)|SKU_AUTOMATIC_CASE_STDOUT/[a-f0-9]{64}\.jsonl)'
@@ -54,8 +58,8 @@ def runner_inputs(root, names):
     spec.loader.exec_module(inherited)
     accepted = inherited.runner_inputs(root, names, browser_receipt=SKU_BROWSER_PREREQUISITES)
     for name in sorted(names - accepted):
-        if not (name.startswith(SKU_PROOF_ROOT)
-                and SKU_RUNNER_OUTPUT.fullmatch(name.removeprefix(SKU_PROOF_ROOT))):
+        if name not in SKU_PARENT_PROOF_FILES and not (
+                name.startswith(SKU_PROOF_ROOT) and SKU_RUNNER_OUTPUT.fullmatch(name.removeprefix(SKU_PROOF_ROOT))):
             continue
         path = root / name
         mode = path.lstat().st_mode
@@ -244,7 +248,10 @@ def check(*, runtime=False, cumulative=False):
     tracked = {name.decode() for name in assembly.git('ls-files', '-z', '--cached').split(b'\0') if name}
     untracked = {name.decode() for name in assembly.git('ls-files', '-z', '--others', '--exclude-standard').split(b'\0') if name}
     actual = tracked | (untracked - runner_inputs(root, untracked) if runtime else untracked)
-    assembly.require(actual == parent_paths | own_paths | active_paths | evidence_paths, 'SKU_AUTOMATIC_EXACT_ADDITIVE_NAMESPACE_REQUIRED')
+    declared = parent_paths | own_paths | active_paths | evidence_paths
+    if actual != declared:
+        differences = dict(missing=sorted(declared - actual)[:20], unexpected=sorted(actual - declared)[:20])
+        raise ValueError('SKU_AUTOMATIC_EXACT_ADDITIVE_NAMESPACE_REQUIRED:' + json.dumps(differences))
     if cumulative:
         assembly.require(not absent, 'SKU_CUMULATIVE_SOURCE_REQUIRES_FULL_PARENT_MATERIALIZATION')
     closed = all(getattr(assembly.admission, key) is None for key in assembly.admission.GATES)

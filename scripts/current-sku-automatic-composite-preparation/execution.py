@@ -89,6 +89,12 @@ def derive(kind, raw=None):
             ('SKU_CURRENT_PARENT_MONEY_FROZEN_EXECUTION_RECEIPT.json', 'SKU_CURRENT_PARENT_MONEY_AUTOMATIC_FROZEN_EXECUTION_RECEIPT.json'),
             ("FOLDERS=('qualified-mandor-parent','qualified-afui-parent','qualified-sku-money')",
              "FOLDERS=('qualified-mandor-parent','qualified-afui-parent','qualified-sku-money','qualified-sku-automatic')"),
+            ('    sources=h.inventory(OWN);states={}',
+             '    inventory=h.inventory(OWN)\n'
+             '    owning_only={name:inventory[name] for name in sorted(_OWNING_ONLY & inventory.keys())}\n'
+             '    sources={name:pin for name,pin in inventory.items() if name not in owning_only};states={}'),
+            ('source_files=sources,frozen=states',
+             'source_files=sources,owning_only_files=owning_only,frozen=states'),
         ])
     elif kind == 'receipts':
         before = text[text.index('NAMES='):text.index('\n\n\ndef receipts')]
@@ -151,6 +157,10 @@ def helper(kind, *, admitted=False):
     module.__file__ = str(HERE / ('derived_' + kind + '.py'))
     module.__dict__.update(_RUNTIME=facade, _ADMISSION=admission, _AUTOMATIC=automatic,
                            _MONEY_REFERENCE_ROOT=PRIOR)
+    if kind == 'artifacts':
+        source = load('automatic_execution_proof_namespace', HERE / 'check_source.py')
+        module._OWNING_ONLY = frozenset(name.removeprefix(source.SKU_PROOF_ROOT)
+                                        for name in source.SKU_PARENT_PROOF_FILES)
     exec(compile(text, module.__file__, 'exec', dont_inherit=True), module.__dict__)
     return module, proof
 
