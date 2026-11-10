@@ -686,7 +686,7 @@ jobs:
   browser_prerequisites_only:
     name: Mandor mobile layout only; no database or ERP cases
     if: >-
-      github.event_name == 'push' && github.ref == 'refs/heads/astra-a/mandor-shop-native9-on-unified-20261103' && startsWith(github.event.head_commit.message, 'test(mandor): verify narrow Payroll layout')
+      github.event_name == 'push' && github.ref == 'refs/heads/astra-a/mandor-shop-native9-on-unified-20261103' && startsWith(github.event.head_commit.message, 'fix(payroll): keep Mandor mobile within the viewport')
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     steps:
@@ -700,8 +700,8 @@ jobs:
         set -euo pipefail
         test "$GITHUB_REPOSITORY" = Hanjay6688/-erp-garment-ux
         test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
-        test "$(git rev-parse HEAD^)" = 41d3a656bad1d48c08f954ef0ce9d2931a28edcc
-        git diff --exit-code HEAD^ HEAD -- src index.html tests/fixtures package.json package-lock.json
+        test "$(git rev-parse HEAD^)" = 91f0ee628a25e693cb3a4b81f0474c1d4acc2242
+        test "$(git diff --name-only a0e7d5616a0ac470876409d31c41388159f17692 HEAD -- src index.html tests/fixtures package.json package-lock.json)" = src/payroll-connected.css
     - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
       with:
         node-version: 22.23.4
