@@ -1,0 +1,319 @@
+{
+  "after_runtime_steps": [
+    {
+      "completed_at": "2026-11-11T14:10:43Z",
+      "conclusion": "cancelled",
+      "name": "Run current-parent money automatic Native25 and real browser2 once with owning restoration",
+      "number": 78,
+      "started_at": "2026-11-11T13:38:07Z",
+      "status": "completed"
+    },
+    {
+      "completed_at": "2026-11-11T14:10:43Z",
+      "conclusion": "skipped",
+      "name": "Retain exact clone comparison outputs after source and runtime checks",
+      "number": 79,
+      "started_at": "2026-11-11T14:10:43Z",
+      "status": "completed"
+    },
+    {
+      "completed_at": "2026-11-11T14:10:43Z",
+      "conclusion": "skipped",
+      "name": "Retain exact writer-CWD SKU cost full census even on failure",
+      "number": 80,
+      "started_at": "2026-11-11T14:10:43Z",
+      "status": "completed"
+    },
+    {
+      "completed_at": "2026-11-11T14:10:43Z",
+      "conclusion": "skipped",
+      "name": "Retain every new or changed output in all four frozen trees even on failure",
+      "number": 81,
+      "started_at": "2026-11-11T14:10:43Z",
+      "status": "completed"
+    },
+    {
+      "completed_at": "2026-11-11T14:10:43Z",
+      "conclusion": "skipped",
+      "name": "Retain bounded hashes while complete Original files stay in the artifact",
+      "number": 82,
+      "started_at": "2026-11-11T14:10:43Z",
+      "status": "completed"
+    },
+    {
+      "completed_at": "2026-11-11T14:10:43Z",
+      "conclusion": "skipped",
+      "name": "Remove disposable database",
+      "number": 83,
+      "started_at": "2026-11-11T14:10:43Z",
+      "status": "completed"
+    },
+    {
+      "completed_at": "2026-11-11T14:10:43Z",
+      "conclusion": "skipped",
+      "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+      "number": 84,
+      "started_at": "2026-11-11T14:10:43Z",
+      "status": "completed"
+    },
+    {
+      "completed_at": "2026-11-11T14:10:43Z",
+      "conclusion": "skipped",
+      "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+      "number": 166,
+      "started_at": "2026-11-11T14:10:43Z",
+      "status": "completed"
+    },
+    {
+      "completed_at": "2026-11-11T14:10:43Z",
+      "conclusion": "skipped",
+      "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+      "number": 167,
+      "started_at": "2026-11-11T14:10:43Z",
+      "status": "completed"
+    },
+    {
+      "completed_at": "2026-11-11T14:10:43Z",
+      "conclusion": "skipped",
+      "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+      "number": 168,
+      "started_at": "2026-11-11T14:10:43Z",
+      "status": "completed"
+    },
+    {
+      "completed_at": "2026-11-11T14:10:44Z",
+      "conclusion": "success",
+      "name": "Complete job",
+      "number": 169,
+      "started_at": "2026-11-11T14:10:43Z",
+      "status": "completed"
+    }
+  ],
+  "artifacts": [
+    {
+      "bytes": 22427,
+      "digest": "sha256:c645e7852091ed49e3d9545e4942efc9340b0c67895e5673a999171d2c6360b2",
+      "id": 13859503913,
+      "name": "cp7-sku-admission-checkpoint-43028745523-1"
+    }
+  ],
+  "browser_cases_observed": 0,
+  "canonical_uploaded": false,
+  "first_error": "2026-11-11T14:10:41.6865520Z ##[error]The runner has received a shutdown signal. This can happen when the runner service is stopped, or a manually started runner is canceled.",
+  "job": {
+    "completed_at": "2026-11-11T14:10:46Z",
+    "conclusion": "failure",
+    "id": 130550002269,
+    "started_at": "2026-11-11T13:23:53Z",
+    "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/43028745523/job/130550002269"
+  },
+  "native_cases_observed": 0,
+  "original_first_failure_step": {
+    "completed_at": "2026-11-11T14:10:43Z",
+    "conclusion": "cancelled",
+    "name": "Run current-parent money automatic Native25 and real browser2 once with owning restoration",
+    "number": 78,
+    "started_at": "2026-11-11T13:38:07Z",
+    "status": "completed"
+  },
+  "outer_restoration_verified": false,
+  "phase_originals": [
+    {
+      "event": "QUALIFICATION_PHASE",
+      "phase": "SOURCE_ADMISSION",
+      "started_at_utc": "2026-11-11T13:40:56.879865+00:00",
+      "state": "RUNNING"
+    },
+    {
+      "elapsed_ms": 78681.82,
+      "event": "QUALIFICATION_PHASE",
+      "finished_at_utc": "2026-11-11T13:42:15.561739+00:00",
+      "phase": "SOURCE_ADMISSION",
+      "started_at_utc": "2026-11-11T13:40:56.879865+00:00",
+      "state": "COMPLETED"
+    },
+    {
+      "event": "QUALIFICATION_PHASE",
+      "phase": "BASELINE_ADVISORS",
+      "started_at_utc": "2026-11-11T13:42:16.638748+00:00",
+      "state": "RUNNING"
+    },
+    {
+      "elapsed_ms": 1584.57,
+      "event": "QUALIFICATION_PHASE",
+      "finished_at_utc": "2026-11-11T13:42:18.223425+00:00",
+      "phase": "BASELINE_ADVISORS",
+      "started_at_utc": "2026-11-11T13:42:16.638748+00:00",
+      "state": "COMPLETED"
+    },
+    {
+      "event": "QUALIFICATION_PHASE",
+      "phase": "BASELINE_DUMP",
+      "started_at_utc": "2026-11-11T13:42:21.305212+00:00",
+      "state": "RUNNING"
+    },
+    {
+      "elapsed_ms": 1022.645,
+      "event": "QUALIFICATION_PHASE",
+      "finished_at_utc": "2026-11-11T13:42:22.327927+00:00",
+      "phase": "BASELINE_DUMP",
+      "started_at_utc": "2026-11-11T13:42:21.305212+00:00",
+      "state": "COMPLETED"
+    },
+    {
+      "event": "QUALIFICATION_PHASE",
+      "phase": "ACTUAL_CURRENT_MANDOR_MOVING_AND_MONEY_PARENT_INSTALL",
+      "started_at_utc": "2026-11-11T13:42:22.343132+00:00",
+      "state": "RUNNING"
+    },
+    {
+      "actual_case_credit": 0,
+      "attempt": "1",
+      "event": "SKU_PARENT_INSTALL_PHASE",
+      "head": "980c22890cda4ced9aaecfc37390da77d5718e00",
+      "phase": "AFUI_PARENT_INSTALL",
+      "restoration_verified": false,
+      "run": "43028745523",
+      "state": "STARTED"
+    },
+    {
+      "actual_case_credit": 0,
+      "attempt": "1",
+      "event": "SKU_PARENT_INSTALL_PHASE",
+      "head": "980c22890cda4ced9aaecfc37390da77d5718e00",
+      "phase": "MANDOR_PARENT_DELTA",
+      "restoration_verified": false,
+      "run": "43028745523",
+      "state": "STARTED"
+    },
+    {
+      "actual_case_credit": 0,
+      "attempt": "1",
+      "event": "SKU_PARENT_INSTALL_PHASE",
+      "head": "980c22890cda4ced9aaecfc37390da77d5718e00",
+      "phase": "SKU_MOVING_PARENT_DELTA",
+      "restoration_verified": false,
+      "run": "43028745523",
+      "state": "STARTED"
+    },
+    {
+      "actual_case_credit": 0,
+      "attempt": "1",
+      "event": "SKU_PARENT_INSTALL_PHASE",
+      "head": "980c22890cda4ced9aaecfc37390da77d5718e00",
+      "phase": "SKU_MOVING_RUNTIME_SOURCE",
+      "restoration_verified": false,
+      "run": "43028745523",
+      "state": "STARTED"
+    },
+    {
+      "actual_case_credit": 0,
+      "attempt": "1",
+      "event": "SKU_PARENT_INSTALL_PHASE",
+      "head": "980c22890cda4ced9aaecfc37390da77d5718e00",
+      "phase": "SKU_MOVING_LOCKS",
+      "restoration_verified": false,
+      "run": "43028745523",
+      "state": "STARTED"
+    },
+    {
+      "actual_case_credit": 0,
+      "attempt": "1",
+      "event": "SKU_PARENT_INSTALL_PHASE",
+      "head": "980c22890cda4ced9aaecfc37390da77d5718e00",
+      "phase": "SKU_MOVING_VERIFY_MANDOR",
+      "restoration_verified": false,
+      "run": "43028745523",
+      "state": "STARTED"
+    },
+    {
+      "actual_case_credit": 0,
+      "attempt": "1",
+      "event": "SKU_PARENT_INSTALL_PHASE",
+      "head": "980c22890cda4ced9aaecfc37390da77d5718e00",
+      "phase": "SKU_MOVING_CAPTURE_BEFORE",
+      "restoration_verified": false,
+      "run": "43028745523",
+      "state": "STARTED"
+    },
+    {
+      "actual_case_credit": 0,
+      "attempt": "1",
+      "event": "SKU_PARENT_INSTALL_PHASE",
+      "head": "980c22890cda4ced9aaecfc37390da77d5718e00",
+      "phase": "SKU_MOVING_PREPARE_DEFINITIONS",
+      "restoration_verified": false,
+      "run": "43028745523",
+      "state": "STARTED"
+    },
+    {
+      "actual_case_credit": 0,
+      "attempt": "1",
+      "event": "SKU_PARENT_INSTALL_PHASE",
+      "head": "980c22890cda4ced9aaecfc37390da77d5718e00",
+      "phase": "SKU_MOVING_DDL_AND_GRANTS",
+      "restoration_verified": false,
+      "run": "43028745523",
+      "state": "STARTED"
+    },
+    {
+      "actual_case_credit": 0,
+      "attempt": "1",
+      "event": "SKU_PARENT_INSTALL_PHASE",
+      "head": "980c22890cda4ced9aaecfc37390da77d5718e00",
+      "phase": "SKU_MOVING_CAPTURE_AND_BIND_STATE",
+      "restoration_verified": false,
+      "run": "43028745523",
+      "state": "STARTED"
+    }
+  ],
+  "run": {
+    "attempt": 1,
+    "conclusion": "failure",
+    "head": "980c22890cda4ced9aaecfc37390da77d5718e00",
+    "id": 43028745523,
+    "updated_at": "2026-11-11T14:10:47Z",
+    "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/43028745523"
+  },
+  "supervision": {
+    "actual_case_credit": 0,
+    "artifact_reserve_seconds": 600,
+    "deadline_reached": false,
+    "elapsed_seconds": 1954.784,
+    "external_signal": "SIGTERM",
+    "github_run_attempt": "1",
+    "github_run_id": "43028745523",
+    "job_budget_seconds": 21600,
+    "orphaned_child": false,
+    "process_group_empty": true,
+    "process_tree_empty": true,
+    "production_go": false,
+    "qualification_commit": "980c22890cda4ced9aaecfc37390da77d5718e00",
+    "recovery_reserve_seconds": 1200,
+    "signals": [
+      {
+        "elapsed_seconds": 1953.17,
+        "reason": "EXTERNAL_CANCELLATION",
+        "signal": "SIGINT"
+      }
+    ],
+    "status": "INCOMPLETE",
+    "wib_window": {
+      "artifact_reserve_seconds": 600,
+      "automatic_group_retry": false,
+      "business_day": "2026-11-11",
+      "effective_worker_seconds": 10275.528735447999,
+      "mode": "SHORT_WIB_WINDOW",
+      "product_clock_changed": false,
+      "recovery_reserve_seconds": 1200,
+      "seconds_to_midnight": 12111.528737,
+      "setup_reserve_seconds": 1800,
+      "termination_buffer_seconds": 35,
+      "work_cutoff_monotonic": 11184.780206194999,
+      "work_seconds_remaining": 10276.528735447999
+    },
+    "work_budget_seconds": 19800,
+    "worker_exit": -9,
+    "worker_pid": 22469
+  }
+}
