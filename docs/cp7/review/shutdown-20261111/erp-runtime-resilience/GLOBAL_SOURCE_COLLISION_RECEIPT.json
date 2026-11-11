@@ -1,0 +1,21 @@
+{
+  "closed_global": "c9248b8770ec8cfe0f7e2f2fd8da26c141ea67c5",
+  "closed_global_tree": "9b440dd1785344fdafa5d2d702a6dd8f1ee08622",
+  "sku_candidate": "87c60856783395e0aa25af97b7f839538b4e2c0d",
+  "sku_tree": "522f3da33a5654e9b8c9dcab0a4887464e5bc033",
+  "prepared_paths": 209,
+  "current_paths": 216,
+  "post_prepared_changed_paths": 23,
+  "new_paths": [
+    ".github/workflows/cp7-sku-current-parent-money-automatic-native25.yml",
+    "scripts/current-sku-automatic-composite-preparation/checkpoint.py",
+    "scripts/current-sku-automatic-composite-preparation/moving_diagnostics.py",
+    "scripts/current-sku-automatic-composite-preparation/runtime_receipt.py",
+    "scripts/current-sku-automatic-composite-preparation/sku-current-parent-money-automatic-native25-83.workflow.yml.txt",
+    "scripts/current-sku-automatic-composite-preparation/test_checkpoint.py",
+    "scripts/current-sku-automatic-composite-preparation/test_runtime_receipt.py"
+  ],
+  "collision_count": 0,
+  "actual_catalogue_admitted": false,
+  "actual_case_credit": 0
+}

@@ -1,0 +1,90 @@
+{
+  ".github/workflows/cp7-sku-current-parent-money-automatic-native25.yml": {
+    "before": {
+      "bytes": 35683,
+      "sha256": "6224946f5b183f673e7a3160ddb632a18e7be083af0e6bf2b103d6c3d2ebe84c",
+      "blob": "086d4b42341f3afc7de3416d720e96a731f7fb5a"
+    },
+    "after": {
+      "bytes": 35841,
+      "sha256": "bef6bfd6b65912c3c974ad13d324002b4acbc3b642aefad26f308e4aa890939a",
+      "blob": "3743afafcfcee2829761b2fb11676dd3b516ecac"
+    }
+  },
+  "scripts/current-sku-automatic-composite-preparation/SOURCE.json": {
+    "before": {
+      "bytes": 58386,
+      "sha256": "34330c35b742d2cd3e96727eb52d7164a153d60bdef4eb63b3415d9072dec196",
+      "blob": "d71f8dae1cb350ad3d09c1b31c310a8395a173cb"
+    },
+    "after": {
+      "bytes": 58669,
+      "sha256": "703391432be4065904e130f75cadd2faa23155d00a764a786c1294caf7e6a7ec",
+      "blob": "aea47831746bfc19c1425e54e4ae4f293fe55a49"
+    }
+  },
+  "scripts/current-sku-automatic-composite-preparation/checkpoint.py": {
+    "before": {
+      "bytes": 6466,
+      "sha256": "53149020d4b28367703af4d21ad6443aa224b0151c97df27a4e84b54aaaa53c1",
+      "blob": "8005cad75a82b3977802f0baeb46eb8867c2cc2a"
+    },
+    "after": {
+      "bytes": 6548,
+      "sha256": "6b2cdee333e6239233ce8a3b265d8ea502c17267794a04b4b149dfa299cd329e",
+      "blob": "de7434e8f865a454fef87355aef3c0c7d71b7aea"
+    }
+  },
+  "scripts/current-sku-automatic-composite-preparation/execution.py": {
+    "before": {
+      "bytes": 14154,
+      "sha256": "2092e0e8e3f6c2dd1c49b81b2d58d311cfd60c35eff838e5f6d00b31cf7aaf32",
+      "blob": "856d465f05ff59aa427b293ebfacd1a3f28d60c7"
+    },
+    "after": {
+      "bytes": 14854,
+      "sha256": "a405a3acff12fb85813f5950c497adc6b6c31c3f441b48036a5fc36d4039fd46",
+      "blob": "3040add442812fcf50189d1eb9fbfba6f2f64e3b"
+    }
+  },
+  "scripts/current-sku-automatic-composite-preparation/runtime_receipt.py": {
+    "before": null,
+    "after": {
+      "bytes": 5116,
+      "sha256": "bfa59da47be189491edc3d599ca075a4ac10af40c44fc0d17c5a4ef01d72bfb0",
+      "blob": "5fc2134bb2f9aa6c6587fc8beab1c423eae6c2c6"
+    }
+  },
+  "scripts/current-sku-automatic-composite-preparation/sku-current-parent-money-automatic-native25-83.workflow.yml.txt": {
+    "before": {
+      "bytes": 35683,
+      "sha256": "6224946f5b183f673e7a3160ddb632a18e7be083af0e6bf2b103d6c3d2ebe84c",
+      "blob": "086d4b42341f3afc7de3416d720e96a731f7fb5a"
+    },
+    "after": {
+      "bytes": 35841,
+      "sha256": "bef6bfd6b65912c3c974ad13d324002b4acbc3b642aefad26f308e4aa890939a",
+      "blob": "3743afafcfcee2829761b2fb11676dd3b516ecac"
+    }
+  },
+  "scripts/current-sku-automatic-composite-preparation/test_runtime_receipt.py": {
+    "before": null,
+    "after": {
+      "bytes": 9337,
+      "sha256": "810f8ab32bf05131b1d28220c9c9ec7f58e122b1529f5cc0303ed636cdb28f49",
+      "blob": "2fdee8f6843105cae07f172da53cc1c2639586b1"
+    }
+  },
+  "scripts/current-sku-automatic-composite-preparation/workflow.py": {
+    "before": {
+      "bytes": 11392,
+      "sha256": "c8b33243a9a3ad5e0e91226a3fc3fab96f7e03b6150b0ba3b276500b43d1b5f8",
+      "blob": "f902fcbd2ece43f78572078db881e54bc34c9e7f"
+    },
+    "after": {
+      "bytes": 11524,
+      "sha256": "4e47db918ad4d055112f4d6c96375fdba19b39b7b5d74f589a6bc0bfa050a0f4",
+      "blob": "4fb274e2a031c48642a01022501f02d1b3177ecc"
+    }
+  }
+}

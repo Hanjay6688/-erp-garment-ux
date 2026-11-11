@@ -1,0 +1,343 @@
+{
+  "sku_head": "32590613a08e176536d9a19b3843f6a72f4479b4",
+  "sku_workflow_tree": "3317ba38be4b0021aa558baf49a7a84ad2ec7a82",
+  "main_head": "a58385e4182d653d0349208c89cff59284a7beac",
+  "inventory_sha256": "80592f599d86150c0cee57e5ded6878ab126a6502db86c4fb60da40f6403bb41",
+  "inventory_bytes": 189712,
+  "counts": {
+    "sku": {
+      "workflow_definitions": 352,
+      "literal_database_start_jobs": 331,
+      "jobs_with_pre_database_checkpoint": 1,
+      "jobs_with_guarded_stop": 8,
+      "jobs_with_static_cancel": 5
+    },
+    "main": {
+      "workflow_definitions": 6,
+      "literal_database_start_jobs": 5,
+      "jobs_with_pre_database_checkpoint": 0,
+      "jobs_with_guarded_stop": 0,
+      "jobs_with_static_cancel": 3
+    }
+  },
+  "guarded_sku_tree_jobs": [
+    {
+      "workflow": "cp7-afui-good-nonpayable.yml",
+      "blob": "2ed083df250fcd0d38a541905cb2bc14cd22c0de",
+      "job": "p21",
+      "database_start_steps": [
+        70
+      ],
+      "pre_database_checkpoint_uploads": [],
+      "later_upload_steps": [
+        80
+      ],
+      "unconditional_later_upload_steps": [
+        80
+      ],
+      "guarded_database_stop_steps": [
+        79
+      ],
+      "static_cancel_in_progress": false,
+      "post_start_continue_on_error": false,
+      "pre_start_stop_receipt": false
+    },
+    {
+      "workflow": "cp7-current-complete-de-free-date-native3.yml",
+      "blob": "0f274ffb2af8562f252f7e17f8e28409ff379a6a",
+      "job": "p21",
+      "database_start_steps": [
+        66
+      ],
+      "pre_database_checkpoint_uploads": [],
+      "later_upload_steps": [
+        75
+      ],
+      "unconditional_later_upload_steps": [
+        75
+      ],
+      "guarded_database_stop_steps": [
+        74
+      ],
+      "static_cancel_in_progress": false,
+      "post_start_continue_on_error": false,
+      "pre_start_stop_receipt": false
+    },
+    {
+      "workflow": "cp7-current-complete-de-native30.yml",
+      "blob": "b3f61a2327f7e87306229e55ff0802a3020bd869",
+      "job": "p21",
+      "database_start_steps": [
+        66
+      ],
+      "pre_database_checkpoint_uploads": [],
+      "later_upload_steps": [
+        75
+      ],
+      "unconditional_later_upload_steps": [
+        75
+      ],
+      "guarded_database_stop_steps": [
+        74
+      ],
+      "static_cancel_in_progress": false,
+      "post_start_continue_on_error": false,
+      "pre_start_stop_receipt": false
+    },
+    {
+      "workflow": "cp7-final-s03-sku-s05.yml",
+      "blob": "a9e294b60c22d9831fdba989a4539ea41a5e21ac",
+      "job": "p21",
+      "database_start_steps": [
+        65
+      ],
+      "pre_database_checkpoint_uploads": [],
+      "later_upload_steps": [
+        74
+      ],
+      "unconditional_later_upload_steps": [
+        74
+      ],
+      "guarded_database_stop_steps": [
+        73
+      ],
+      "static_cancel_in_progress": false,
+      "post_start_continue_on_error": false,
+      "pre_start_stop_receipt": false
+    },
+    {
+      "workflow": "cp7-mandor-shop-native17.yml",
+      "blob": "b650e148defbefcf0885b8e936e68aad6c98febd",
+      "job": "p21",
+      "database_start_steps": [
+        72
+      ],
+      "pre_database_checkpoint_uploads": [],
+      "later_upload_steps": [
+        84
+      ],
+      "unconditional_later_upload_steps": [
+        84
+      ],
+      "guarded_database_stop_steps": [
+        83
+      ],
+      "static_cancel_in_progress": false,
+      "post_start_continue_on_error": false,
+      "pre_start_stop_receipt": false
+    },
+    {
+      "workflow": "cp7-s03-sku-s05-composite.yml",
+      "blob": "cf2c7b3f96acff46d3ded49bcf71ee923d2214c7",
+      "job": "p21",
+      "database_start_steps": [
+        65
+      ],
+      "pre_database_checkpoint_uploads": [],
+      "later_upload_steps": [
+        70,
+        75,
+        77
+      ],
+      "unconditional_later_upload_steps": [
+        75,
+        77
+      ],
+      "guarded_database_stop_steps": [
+        76
+      ],
+      "static_cancel_in_progress": false,
+      "post_start_continue_on_error": false,
+      "pre_start_stop_receipt": false
+    },
+    {
+      "workflow": "cp7-s05-css-followup.yml",
+      "blob": "17c2dc64cc1c6c62e78ab96941dbeeb611e4e5fb",
+      "job": "p21",
+      "database_start_steps": [
+        65
+      ],
+      "pre_database_checkpoint_uploads": [],
+      "later_upload_steps": [
+        70,
+        75,
+        77
+      ],
+      "unconditional_later_upload_steps": [
+        75,
+        77
+      ],
+      "guarded_database_stop_steps": [
+        76
+      ],
+      "static_cancel_in_progress": false,
+      "post_start_continue_on_error": false,
+      "pre_start_stop_receipt": false
+    },
+    {
+      "workflow": "cp7-sku-current-parent-money-automatic-native25.yml",
+      "blob": "086d4b42341f3afc7de3416d720e96a731f7fb5a",
+      "job": "p21",
+      "database_start_steps": [
+        73
+      ],
+      "pre_database_checkpoint_uploads": [
+        72
+      ],
+      "later_upload_steps": [
+        83
+      ],
+      "unconditional_later_upload_steps": [
+        83
+      ],
+      "guarded_database_stop_steps": [
+        82
+      ],
+      "static_cancel_in_progress": false,
+      "post_start_continue_on_error": false,
+      "pre_start_stop_receipt": false
+    }
+  ],
+  "main_jobs": [
+    {
+      "workflow": "cp3-r4-full-schema-validation.yml",
+      "blob": "11461029808260a755d323d3702ba47cc4039bc9",
+      "job": "validate-full-schema",
+      "database_start_steps": [
+        9
+      ],
+      "pre_database_checkpoint_uploads": [],
+      "later_upload_steps": [
+        28
+      ],
+      "unconditional_later_upload_steps": [
+        28
+      ],
+      "guarded_database_stop_steps": [],
+      "static_cancel_in_progress": false,
+      "post_start_continue_on_error": false,
+      "pre_start_stop_receipt": false
+    },
+    {
+      "workflow": "cp4-full-schema-validation.yml",
+      "blob": "9c49caf294b9f609036ab62d1ee35afa3fcf62ab",
+      "job": "validate-full-schema",
+      "database_start_steps": [
+        10
+      ],
+      "pre_database_checkpoint_uploads": [],
+      "later_upload_steps": [
+        22
+      ],
+      "unconditional_later_upload_steps": [
+        22
+      ],
+      "guarded_database_stop_steps": [],
+      "static_cancel_in_progress": false,
+      "post_start_continue_on_error": false,
+      "pre_start_stop_receipt": false
+    },
+    {
+      "workflow": "cp45-full-schema-validation.yml",
+      "blob": "b04faed860bee6d906c796aa641496e70dfa96ca",
+      "job": "validate-full-schema",
+      "database_start_steps": [
+        10
+      ],
+      "pre_database_checkpoint_uploads": [],
+      "later_upload_steps": [
+        32
+      ],
+      "unconditional_later_upload_steps": [
+        32
+      ],
+      "guarded_database_stop_steps": [],
+      "static_cancel_in_progress": true,
+      "post_start_continue_on_error": false,
+      "pre_start_stop_receipt": false
+    },
+    {
+      "workflow": "cp5-full-schema-validation.yml",
+      "blob": "34d0f5520334597c0911b19393555534ad39466c",
+      "job": "validate-full-schema",
+      "database_start_steps": [
+        8
+      ],
+      "pre_database_checkpoint_uploads": [],
+      "later_upload_steps": [
+        42
+      ],
+      "unconditional_later_upload_steps": [
+        42
+      ],
+      "guarded_database_stop_steps": [],
+      "static_cancel_in_progress": true,
+      "post_start_continue_on_error": false,
+      "pre_start_stop_receipt": false
+    },
+    {
+      "workflow": "cutting-bridge-full-schema-validation.yml",
+      "blob": "787db803b23aea00fb811197507a04a37796dbeb",
+      "job": "validate-full-schema",
+      "database_start_steps": [
+        8
+      ],
+      "pre_database_checkpoint_uploads": [],
+      "later_upload_steps": [
+        19
+      ],
+      "unconditional_later_upload_steps": [
+        19
+      ],
+      "guarded_database_stop_steps": [],
+      "static_cancel_in_progress": true,
+      "post_start_continue_on_error": false,
+      "pre_start_stop_receipt": false
+    }
+  ],
+  "live_mandor_head": "e63c758990f54dbec4e635ecf3d53c6e80b03041",
+  "live_mandor_jobs": [
+    {
+      "workflow": "cp7-mandor-shop-native17.yml",
+      "blob": "2b347aabb66828129a3a0a89da56c53562575972",
+      "job": "p21",
+      "database_start_steps": [
+        72
+      ],
+      "pre_database_checkpoint_uploads": [],
+      "later_upload_steps": [
+        84
+      ],
+      "unconditional_later_upload_steps": [
+        84
+      ],
+      "guarded_database_stop_steps": [
+        83
+      ],
+      "static_cancel_in_progress": false,
+      "post_start_continue_on_error": false,
+      "pre_start_stop_receipt": false
+    },
+    {
+      "workflow": "cp7-mandor-shop-native17.yml",
+      "blob": "2b347aabb66828129a3a0a89da56c53562575972",
+      "job": "browser_prerequisites_only",
+      "database_start_steps": [
+        73
+      ],
+      "pre_database_checkpoint_uploads": [],
+      "later_upload_steps": [
+        80
+      ],
+      "unconditional_later_upload_steps": [
+        80
+      ],
+      "guarded_database_stop_steps": [],
+      "static_cancel_in_progress": false,
+      "post_start_continue_on_error": false,
+      "pre_start_stop_receipt": false
+    }
+  ],
+  "actual_ERP_cases": 0,
+  "actual_prod_database_commands": 0
+}

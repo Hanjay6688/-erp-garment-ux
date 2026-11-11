@@ -1,0 +1,494 @@
+--- a/.github/workflows/cp7-sku-current-parent-money-automatic-native25.yml
++++ b/.github/workflows/cp7-sku-current-parent-money-automatic-native25.yml
+@@ -543,7 +543,12 @@
+         '
+     - name: Write diagnostic source checkpoint before Native25
+       working-directory: auditor
+-      run: 'python -B scripts/current-sku-automatic-composite-preparation/checkpoint.py
++      run: 'set -euo pipefail
++
++        python -B -m unittest discover -s scripts/current-sku-automatic-composite-preparation/
++        -p test_runtime_receipt.py
++
++        python -B scripts/current-sku-automatic-composite-preparation/checkpoint.py
+         --source . --output "$RUNNER_TEMP/cp7-source-checkpoint/CP7_DIAGNOSTIC_CHECKPOINT.json"
+ 
+         '
+--- a/scripts/current-sku-automatic-composite-preparation/SOURCE.json
++++ b/scripts/current-sku-automatic-composite-preparation/SOURCE.json
+@@ -3,8 +3,8 @@
+   "Native_lifecycle_case_plan_prepared_not_admitted": true,
+   "active_workflow_added": true,
+   "active_workflow_source": {
+-    "bytes": 35683,
+-    "sha256": "6224946f5b183f673e7a3160ddb632a18e7be083af0e6bf2b103d6c3d2ebe84c"
++    "bytes": 35841,
++    "sha256": "bef6bfd6b65912c3c974ad13d324002b4acbc3b642aefad26f308e4aa890939a"
+   },
+   "actual_Auth_HTTP_cases": 0,
+   "actual_ERP_cases": 0,
+@@ -261,8 +261,8 @@
+       "sha256": "ba8ed36a20010b2e55d3b12f678f7753c25e28f06782435b5cfa4bbb899f5c32"
+     },
+     "checkpoint.py": {
+-      "bytes": 6466,
+-      "sha256": "53149020d4b28367703af4d21ad6443aa224b0151c97df27a4e84b54aaaa53c1"
++      "bytes": 6548,
++      "sha256": "6b2cdee333e6239233ce8a3b265d8ea502c17267794a04b4b149dfa299cd329e"
+     },
+     "component.py": {
+       "bytes": 5975,
+@@ -289,8 +289,8 @@
+       "sha256": "a2014f8d7abf5b1e4cd7847862af2a4207cf660ef993cef2f7baa942822c57cc"
+     },
+     "execution.py": {
+-      "bytes": 14154,
+-      "sha256": "2092e0e8e3f6c2dd1c49b81b2d58d311cfd60c35eff838e5f6d00b31cf7aaf32"
++      "bytes": 14854,
++      "sha256": "a405a3acff12fb85813f5950c497adc6b6c31c3f441b48036a5fc36d4039fd46"
+     },
+     "final_gate.py": {
+       "bytes": 9911,
+@@ -345,8 +345,8 @@
+       "sha256": "5016e69666b3a0eb75f123ca693107156fcf977f6b4654e45cd585dfcf97a9a9"
+     },
+     "sku-current-parent-money-automatic-native25-83.workflow.yml.txt": {
+-      "bytes": 35683,
+-      "sha256": "6224946f5b183f673e7a3160ddb632a18e7be083af0e6bf2b103d6c3d2ebe84c"
++      "bytes": 35841,
++      "sha256": "bef6bfd6b65912c3c974ad13d324002b4acbc3b642aefad26f308e4aa890939a"
+     },
+     "sku-current-parent-money-automatic-native25.workflow.yml.txt": {
+       "bytes": 34009,
+@@ -449,12 +449,20 @@
+       "sha256": "02aa262de0884a89e97c517103f8e7333ffacde1ce66f8edc575ed627bc60a4f"
+     },
+     "workflow.py": {
+-      "bytes": 11392,
+-      "sha256": "c8b33243a9a3ad5e0e91226a3fc3fab96f7e03b6150b0ba3b276500b43d1b5f8"
++      "bytes": 11524,
++      "sha256": "4e47db918ad4d055112f4d6c96375fdba19b39b7b5d74f589a6bc0bfa050a0f4"
+     },
+     "moving_diagnostics.py": {
+       "bytes": 3205,
+       "sha256": "2ba7d677437dd4d7d8622582e53c1f17e7a3aa9aa047eb9a871ccaf79f6cf9b3"
++    },
++    "runtime_receipt.py": {
++      "bytes": 5116,
++      "sha256": "bfa59da47be189491edc3d599ca075a4ac10af40c44fc0d17c5a4ef01d72bfb0"
++    },
++    "test_runtime_receipt.py": {
++      "bytes": 9337,
++      "sha256": "810f8ab32bf05131b1d28220c9c9ec7f58e122b1529f5cc0303ed636cdb28f49"
+     }
+   },
+   "fresh_Auth_HTTP_races_browser_and_full_runtime_pending": true,
+--- a/scripts/current-sku-automatic-composite-preparation/checkpoint.py
++++ b/scripts/current-sku-automatic-composite-preparation/checkpoint.py
+@@ -156,6 +156,8 @@
+     args = parser.parse_args()
+     result = source_checkpoint(args.source, os.environ)
+     pin = immutable_json(args.output, result)
++    from runtime_receipt import from_environment
++    from_environment().prepare()
+     print(json.dumps(dict(status='DIAGNOSTIC_CHECKPOINT_WRITTEN', receipt=pin,
+                           actual_case_credit=0, restoration_verified=False)), flush=True)
+ 
+--- a/scripts/current-sku-automatic-composite-preparation/execution.py
++++ b/scripts/current-sku-automatic-composite-preparation/execution.py
+@@ -16,6 +16,7 @@
+ HERE = Path(__file__).resolve().parent
+ ROOT = HERE.parents[1]
+ PRIOR = ROOT / 'scripts/current-sku-money-composite-preparation'
++SUPERVISION_REPORT = 'SKU_CURRENT_PARENT_MONEY_AUTOMATIC_RUNTIME_SUPERVISION.json'
+ PINS = {
+     'candidate': (5405, 'ca6829e41a08c20ac8f53148a2e163050a4bfe7e1ca3277b73d9a892a83b63a6'),
+     'materialize': (2132, '388e3fd0d6bac6953ac6f9c0e69f441b834533d7a520b690eebb03186aec9554'),
+@@ -213,18 +214,39 @@
+         sys.argv = original
+ 
+ 
++def supervise(allow_database_stop):
++    receipts = load('automatic_execution_runtime_receipt', HERE / 'runtime_receipt.py').from_environment()
++    if allow_database_stop:
++        receipts.authorize_stop()
++        return 0
++    module, _ = helper('supervisor', admitted=True)
++    receipts.claim_worker()
++    with arguments([]):
++        code = module.main()
++    try:
++        receipts.finish(ROOT / 'cp6-proof/t3' / SUPERVISION_REPORT)
++    except (OSError, ValueError) as error:
++        if code == 0:
++            raise
++        # Keep the original nonzero status and refuse cleanup without proof.
++        try:
++            print('CP7_RUNTIME_TERMINAL_RECEIPT_UNAVAILABLE:' + type(error).__name__, file=sys.stderr, flush=True)
++        except OSError:
++            pass
++    return code
++
++
+ def main():
+     parser = argparse.ArgumentParser()
+     parser.add_argument('command', choices=('materialize', 'fetch', 'check-money-source', 'prepare', 'retain', 'receipts', 'supervise'))
+     parser.add_argument('--allow-database-stop', action='store_true')
+     args = parser.parse_args()
+     require(not args.allow_database_stop or args.command == 'supervise', 'AUTOMATIC_FIXED_CLEANUP_COMMAND_REQUIRED')
+-    financial = args.command in ('materialize', 'fetch', 'check-money-source', 'prepare') or (args.command == 'supervise' and not args.allow_database_stop)
+-    kind = {'check-money-source': 'candidate', 'prepare': 'artifacts', 'retain': 'artifacts', 'supervise': 'supervisor'}.get(args.command, args.command)
++    if args.command == 'supervise':
++        return supervise(args.allow_database_stop)
++    financial = args.command in ('materialize', 'fetch', 'check-money-source', 'prepare')
++    kind = {'check-money-source': 'candidate', 'prepare': 'artifacts', 'retain': 'artifacts'}.get(args.command, args.command)
+     module, _ = helper(kind, admitted=financial)
+-    if args.command == 'supervise':
+-        with arguments(['--allow-database-stop'] if args.allow_database_stop else []):
+-            return module.main()
+     if args.command == 'fetch':
+         parent_raw, *_ = runtime.actual_inputs()
+         if json.loads(parent_raw).get('status') == runtime.money_binding.cumulative_parent.STATUS:
+--- /dev/null
++++ b/scripts/current-sku-automatic-composite-preparation/runtime_receipt.py
+@@ -0,0 +1,117 @@
++"""Authorize disposable database cleanup from the current worker's local receipt."""
++from pathlib import Path
++import json
++import os
++import re
++import tempfile
++
++
++REPOSITORY = 'Hanjay6688/-erp-garment-ux'
++RECEIPT_LIMIT = 64 * 1024
++
++
++def require(condition, reason):
++    if not condition:
++        raise ValueError(reason)
++
++
++def regular(path):
++    require(not any(part.is_symlink() for part in (path, *path.parents)), 'CP7_RUNTIME_RECEIPT_SYMLINK')
++    return path
++
++
++def read_json(path):
++    with regular(path).open('rb') as source:
++        raw = source.read(RECEIPT_LIMIT + 1)
++    require(len(raw) <= RECEIPT_LIMIT, 'CP7_RUNTIME_RECEIPT_TOO_LARGE')
++    value = json.loads(raw)
++    require(type(value) is dict, 'CP7_RUNTIME_RECEIPT_OBJECT_REQUIRED')
++    return value
++
++
++class RuntimeReceipt:
++    def __init__(self, directory, identity):
++        self.directory = directory
++        self.identity = identity
++
++    def write_once(self, filename, phase, **fields):
++        target = regular(self.directory / filename)
++        body = dict(identity=self.identity, phase=phase, actual_case_credit=0,
++                    restoration_verified=False, **fields)
++        fd, temporary = tempfile.mkstemp(prefix='.runtime-', dir=self.directory)
++        try:
++            with os.fdopen(fd, 'wb') as receipt:
++                receipt.write((json.dumps(body, sort_keys=True) + '\n').encode())
++                receipt.flush()
++                os.fsync(receipt.fileno())
++            os.link(temporary, target)
++            directory_fd = os.open(self.directory, os.O_RDONLY | os.O_DIRECTORY)
++            try:
++                os.fsync(directory_fd)
++            finally:
++                os.close(directory_fd)
++        finally:
++            os.unlink(temporary)
++
++    def read(self, filename):
++        try:
++            value = read_json(self.directory / filename)
++        except FileNotFoundError as error:
++            raise ValueError('CP7_RUNTIME_RECEIPT_MISSING:' + filename) from error
++        require(value.get('identity') == self.identity, 'CP7_RUNTIME_RECEIPT_WRONG_RUN_OR_ATTEMPT')
++        return value
++
++    def prepare(self):
++        regular(self.directory).mkdir(mode=0o700, parents=True, exist_ok=True)
++        self.write_once('prepared.json', 'PREPARED_BEFORE_DATABASE')
++
++    def require_prepared(self):
++        require(self.read('prepared.json').get('phase') == 'PREPARED_BEFORE_DATABASE',
++                'CP7_RUNTIME_PREPARED_RECEIPT_REQUIRED')
++
++    def claim_worker(self):
++        self.require_prepared()
++        # Cleanup and the worker compete for the same immutable decision.
++        self.write_once('decision.json', 'WORKER_CLAIMED')
++
++    def finish(self, report_path):
++        self.require_prepared()
++        require(self.read('decision.json').get('phase') == 'WORKER_CLAIMED',
++                'CP7_RUNTIME_WORKER_CLAIM_REQUIRED')
++        report = read_json(report_path)
++        keys = ('github_run_id', 'github_run_attempt', 'qualification_commit')
++        require([report.get(key) for key in keys] == [self.identity[key] for key in ('run', 'attempt', 'head')],
++                'CP7_RUNTIME_SUPERVISION_WRONG_RUN_OR_ATTEMPT')
++        require(report.get('status') in ('WORKER_COMPLETED_AND_REAPED', 'INCOMPLETE'),
++                'CP7_RUNTIME_SUPERVISION_TERMINAL_REQUIRED')
++        reaped = (report.get('process_tree_empty') is True and report.get('process_group_empty') is True
++                  and type(report.get('worker_exit')) is int)
++        self.write_once('terminal.json', 'WORKER_TERMINAL', processes_reaped=reaped)
++
++    def authorize_stop(self):
++        self.require_prepared()
++        try:
++            self.write_once('decision.json', 'STOP_BEFORE_WORKER')
++        except FileExistsError:
++            decision = self.read('decision.json').get('phase')
++            if decision == 'STOP_BEFORE_WORKER':
++                return
++            require(decision == 'WORKER_CLAIMED', 'CP7_RUNTIME_STOP_DECISION_INVALID')
++            terminal = self.read('terminal.json')
++            require(terminal.get('phase') == 'WORKER_TERMINAL' and terminal.get('processes_reaped') is True,
++                    'CP7_RUNTIME_STOP_REQUIRES_REAPED_WORKER')
++
++
++def from_environment(env=None):
++    env = os.environ if env is None else env
++    identity = dict(repo=env.get('GITHUB_REPOSITORY', ''), run=env.get('GITHUB_RUN_ID', ''),
++                    attempt=env.get('GITHUB_RUN_ATTEMPT', ''), job=env.get('GITHUB_JOB', ''),
++                    head=env.get('GITHUB_SHA', ''))
++    require(env.get('GITHUB_ACTIONS') == 'true' and identity['repo'] == REPOSITORY
++            and re.fullmatch('[1-9][0-9]*', identity['run']) and re.fullmatch('[1-9][0-9]*', identity['attempt'])
++            and re.fullmatch('[a-zA-Z_][a-zA-Z0-9_-]*', identity['job'])
++            and re.fullmatch('[0-9a-f]{40}', identity['head']), 'CP7_RUNTIME_ACTUAL_JOB_IDENTITY_REQUIRED')
++    temporary = Path(env.get('RUNNER_TEMP', ''))
++    require(temporary.is_absolute() and regular(temporary).is_dir(), 'CP7_RUNTIME_RUNNER_TEMP_REQUIRED')
++    name = '{run}-{attempt}-{job}'.format_map(identity)
++    return RuntimeReceipt(temporary / 'cp7-runtime-receipts' / name, identity)
+--- a/scripts/current-sku-automatic-composite-preparation/sku-current-parent-money-automatic-native25-83.workflow.yml.txt
++++ b/scripts/current-sku-automatic-composite-preparation/sku-current-parent-money-automatic-native25-83.workflow.yml.txt
+@@ -543,7 +543,12 @@
+         '
+     - name: Write diagnostic source checkpoint before Native25
+       working-directory: auditor
+-      run: 'python -B scripts/current-sku-automatic-composite-preparation/checkpoint.py
++      run: 'set -euo pipefail
++
++        python -B -m unittest discover -s scripts/current-sku-automatic-composite-preparation/
++        -p test_runtime_receipt.py
++
++        python -B scripts/current-sku-automatic-composite-preparation/checkpoint.py
+         --source . --output "$RUNNER_TEMP/cp7-source-checkpoint/CP7_DIAGNOSTIC_CHECKPOINT.json"
+ 
+         '
+--- /dev/null
++++ b/scripts/current-sku-automatic-composite-preparation/test_runtime_receipt.py
+@@ -0,0 +1,191 @@
++"""Disposable runner controls. No ERP cases or database commands are used."""
++from concurrent.futures import ThreadPoolExecutor
++from contextlib import redirect_stderr
++from io import StringIO
++from pathlib import Path
++from tempfile import TemporaryDirectory
++from threading import Barrier
++from types import SimpleNamespace
++from unittest.mock import patch
++import importlib.util
++import json
++import os
++import signal
++import subprocess
++import sys
++import unittest
++
++import checkpoint
++import runtime_receipt
++
++
++class RuntimeReceiptControls(unittest.TestCase):
++    def setUp(self):
++        self.temp = TemporaryDirectory()
++        self.addCleanup(self.temp.cleanup)
++        self.root = Path(self.temp.name)
++        self.env = dict(GITHUB_ACTIONS='true', GITHUB_REPOSITORY=runtime_receipt.REPOSITORY,
++                        GITHUB_RUN_ID='425', GITHUB_RUN_ATTEMPT='1', GITHUB_JOB='p21',
++                        GITHUB_SHA='a'*40, RUNNER_TEMP=str(self.root))
++        self.receipts = runtime_receipt.from_environment(self.env)
++        self.report = self.root / 'worker.json'
++
++    def report_with(self, **changes):
++        report = dict(status='INCOMPLETE', github_run_id='425', github_run_attempt='1',
++                      qualification_commit='a'*40, process_tree_empty=True, process_group_empty=True,
++                      worker_exit=-9, supervisor_error='DO_NOT_COPY_THIS')
++        report.update(changes)
++        self.report.write_text(json.dumps(report))
++        return self.report
++
++    def test_missing_prepare_refuses_cleanup(self):
++        self.report_with()
++        with self.assertRaisesRegex(ValueError, 'MISSING:prepared.json'):
++            self.receipts.authorize_stop()
++        self.assertFalse(self.receipts.directory.exists())
++
++    def test_stopping_before_launch_prevents_a_future_worker(self):
++        self.receipts.prepare()
++        self.receipts.authorize_stop()
++        self.receipts.authorize_stop()
++        with self.assertRaises(FileExistsError):
++            self.receipts.claim_worker()
++        self.assertEqual(self.receipts.read('decision.json')['phase'], 'STOP_BEFORE_WORKER')
++
++    def test_worker_claim_requires_terminal_proof_and_is_single_use(self):
++        self.receipts.prepare()
++        self.receipts.claim_worker()
++        with self.assertRaises(FileExistsError):
++            self.receipts.claim_worker()
++        with self.assertRaisesRegex(ValueError, 'MISSING:terminal.json'):
++            self.receipts.authorize_stop()
++
++    def test_wrong_run_attempt_and_head_reports_are_refused(self):
++        self.receipts.prepare()
++        self.receipts.claim_worker()
++        for key, value in [('github_run_id', '424'), ('github_run_attempt', '2'), ('qualification_commit', 'b'*40)]:
++            with self.subTest(key=key), self.assertRaisesRegex(ValueError, 'SUPERVISION_WRONG_RUN_OR_ATTEMPT'):
++                self.receipts.finish(self.report_with(**{key: value}))
++        with self.assertRaisesRegex(ValueError, 'MISSING:terminal.json'):
++            self.receipts.authorize_stop()
++
++    def test_reaped_failed_worker_can_cleanup_without_recovery_credit(self):
++        self.receipts.prepare()
++        self.receipts.claim_worker()
++        self.receipts.finish(self.report_with())
++        self.receipts.authorize_stop()
++        terminal = self.receipts.read('terminal.json')
++        self.assertTrue(terminal['processes_reaped'])
++        self.assertFalse(terminal['restoration_verified'])
++        self.assertEqual(terminal['actual_case_credit'], 0)
++        self.assertNotIn('DO_NOT_COPY_THIS', (self.receipts.directory / 'terminal.json').read_text())
++        with self.assertRaises(FileExistsError):
++            self.receipts.finish(self.report_with(worker_exit=0))
++
++    def test_nonempty_worker_group_refuses_cleanup(self):
++        self.receipts.prepare()
++        self.receipts.claim_worker()
++        self.receipts.finish(self.report_with(process_group_empty=False))
++        with self.assertRaisesRegex(ValueError, 'STOP_REQUIRES_REAPED_WORKER'):
++            self.receipts.authorize_stop()
++
++    def test_symlink_and_malformed_receipts_are_refused(self):
++        self.receipts.prepare()
++        path = self.receipts.directory / 'decision.json'
++        path.symlink_to(self.report_with())
++        with self.assertRaisesRegex(ValueError, 'RECEIPT_SYMLINK'):
++            self.receipts.authorize_stop()
++        path.unlink()
++        path.write_text('{"identity":')
++        with self.assertRaises(json.JSONDecodeError):
++            self.receipts.authorize_stop()
++
++    def test_receipts_do_not_cross_job_attempt_or_source(self):
++        self.receipts.prepare()
++        for key, value, reason in [('GITHUB_RUN_ATTEMPT', '2', 'MISSING:prepared.json'),
++                                   ('GITHUB_JOB', 'different', 'MISSING:prepared.json'),
++                                   ('GITHUB_SHA', 'b'*40, 'WRONG_RUN_OR_ATTEMPT')]:
++            other = runtime_receipt.from_environment(dict(self.env, **{key: value}))
++            with self.subTest(key=key), self.assertRaisesRegex(ValueError, reason):
++                other.authorize_stop()
++
++    def test_simultaneous_worker_and_cleanup_have_one_winner(self):
++        self.receipts.prepare()
++        start = Barrier(2)
++
++        def attempt(callback):
++            start.wait(timeout=3)
++            try:
++                callback()
++            except (ValueError, FileExistsError):
++                return False
++            return True
++
++        with ThreadPoolExecutor(max_workers=2) as pool:
++            worker = pool.submit(attempt, self.receipts.claim_worker)
++            cleanup = pool.submit(attempt, self.receipts.authorize_stop)
++            self.assertNotEqual(worker.result(timeout=5), cleanup.result(timeout=5))
++
++    def test_sigkill_after_launch_refuses_cleanup_without_terminal(self):
++        self.receipts.prepare()
++        child = subprocess.run([sys.executable, '-B', '-c',
++            'import runtime_receipt, os, signal; runtime_receipt.from_environment().claim_worker();'
++            'os.kill(os.getpid(), signal.SIGKILL)'], cwd=Path(runtime_receipt.__file__).parent,
++            env=dict(os.environ, **self.env), capture_output=True, timeout=8)
++        self.assertEqual(child.returncode, -signal.SIGKILL)
++        self.assertEqual(self.receipts.read('decision.json')['phase'], 'WORKER_CLAIMED')
++        with self.assertRaisesRegex(ValueError, 'MISSING:terminal.json'):
++            self.receipts.authorize_stop()
++
++    def test_real_checkpoint_command_prepares_same_job_receipt(self):
++        checkout = self.root / 'checkout'
++        checkout.mkdir()
++
++        def git(*args):
++            return subprocess.check_output(['git', '-C', str(checkout), *args], stderr=subprocess.PIPE).decode().strip()
++
++        git('init', '--quiet')
++        git('config', 'user.name', 'Receipt control')
++        git('config', 'user.email', 'test@example.invalid')
++        (checkout / 'source').write_text('fixture source\n')
++        git('add', 'source')
++        git('commit', '-qm', 'source fixture')
++        proof = checkout / 'cp6-proof/t3'
++        proof.mkdir(parents=True)
++        for name in checkpoint.RECEIPTS:
++            (proof / name).write_text('{"fixture":true}\n')
++        env = dict(self.env, GITHUB_SHA=git('rev-parse', 'HEAD'))
++        subprocess.run([sys.executable, '-B', str(Path(checkpoint.__file__)), '--source', str(checkout),
++                        '--output', str(self.root / 'checkpoint.json')], check=True, capture_output=True,
++                       env=dict(os.environ, **env), timeout=8)
++        self.assertEqual(runtime_receipt.from_environment(env).read('prepared.json')['phase'], 'PREPARED_BEFORE_DATABASE')
++        self.assertFalse(json.loads((self.root / 'checkpoint.json').read_text())['restoration_verified'])
++
++    def test_owning_execution_keeps_original_failure_and_checks_cleanup(self):
++        path = Path(checkpoint.__file__).with_name('execution.py')
++        spec = importlib.util.spec_from_file_location('receipt_control_owning_execution', path)
++        execution = importlib.util.module_from_spec(spec)
++        spec.loader.exec_module(execution)
++        self.receipts.prepare()
++        with patch.dict(os.environ, self.env), patch.object(execution, 'ROOT', self.root), \
++                patch.object(execution, 'helper', return_value=(SimpleNamespace(main=lambda: 124), {})), \
++                redirect_stderr(StringIO()) as output:
++            self.assertEqual(execution.supervise(False), 124)
++            self.assertIn('TERMINAL_RECEIPT_UNAVAILABLE', output.getvalue())
++            with self.assertRaisesRegex(ValueError, 'MISSING:terminal.json'):
++                execution.supervise(True)
++
++    def test_diagnostics_output_failure_keeps_nonzero_result(self):
++        path = Path(checkpoint.__file__).with_name('execution.py')
++        spec = importlib.util.spec_from_file_location('receipt_control_broken_output_execution', path)
++        execution = importlib.util.module_from_spec(spec)
++        spec.loader.exec_module(execution)
++        self.receipts.prepare()
++        with patch.dict(os.environ, self.env), patch.object(execution, 'ROOT', self.root), \
++                patch.object(execution, 'helper', return_value=(SimpleNamespace(main=lambda: 124), {})), \
++                patch('builtins.print', side_effect=BrokenPipeError):
++            self.assertEqual(execution.supervise(False), 124)
++
++
++if __name__ == '__main__':
++    unittest.main(verbosity=2)
+--- a/scripts/current-sku-automatic-composite-preparation/workflow.py
++++ b/scripts/current-sku-automatic-composite-preparation/workflow.py
+@@ -118,7 +118,9 @@
+     checkpoint_steps = [
+         dict(name='Write diagnostic source checkpoint before Native25',
+              **{'working-directory': 'auditor'},
+-             run='python -B ' + NS + 'checkpoint.py --source . '
++             run='set -euo pipefail\n'
++                 'python -B -m unittest discover -s ' + NS + ' -p test_runtime_receipt.py\n'
++                 'python -B ' + NS + 'checkpoint.py --source . '
+                  '--output "$RUNNER_TEMP/cp7-source-checkpoint/CP7_DIAGNOSTIC_CHECKPOINT.json"\n'),
+         {'name': 'Persist diagnostic checkpoint before long runtime',
+          'uses': 'actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02',

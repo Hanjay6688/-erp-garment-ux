@@ -1,0 +1,66 @@
+{
+  "legacy": [
+    {
+      "path": "scripts/current-complete-de-integration-preparation/runtime_supervisor.py",
+      "blob": "51a48196eaf0ad27b82fcb2d89315bd8f75980fe",
+      "stale_other_run_accepted": true,
+      "missing_report_accepted": true
+    },
+    {
+      "path": "scripts/current-de-free-date-preparation/runtime_supervisor.py",
+      "blob": "54236d3420e38d5beb44e4c2108d62dfad73adcf",
+      "stale_other_run_accepted": true,
+      "missing_report_accepted": true
+    },
+    {
+      "path": "scripts/current-final-s03-sku-s05-preparation/runtime_supervisor.py",
+      "blob": "843787b93b3055934158b12a45d3288c97522df9",
+      "stale_other_run_accepted": true,
+      "missing_report_accepted": true
+    },
+    {
+      "path": "scripts/current-s03-sku-s05-composite-qualification/runtime_supervisor.py",
+      "blob": "e2d8a926427556128e1c95a35c400ba50336179c",
+      "stale_other_run_accepted": true,
+      "missing_report_accepted": true
+    },
+    {
+      "path": "scripts/current-s05-css-followup-qualification/runtime_supervisor.py",
+      "blob": "c4e2f4025730c58b8cd10fcc32dfb2c59e56c004",
+      "stale_other_run_accepted": true,
+      "missing_report_accepted": true
+    }
+  ],
+  "real_process_controls": [
+    {
+      "status": "WORKER_COMPLETED_AND_REAPED",
+      "external_signal": null,
+      "worker_exit": 0,
+      "process_tree_empty": true,
+      "cleanup_authorized": true,
+      "restoration_verified": false
+    },
+    {
+      "status": "INCOMPLETE",
+      "external_signal": "SIGTERM",
+      "worker_exit": -2,
+      "process_tree_empty": true,
+      "cleanup_authorized": true,
+      "restoration_verified": false
+    }
+  ],
+  "workflow": {
+    "changed_workflow_steps": [
+      71
+    ],
+    "original_steps": 83,
+    "workflow_triggers_equal": true,
+    "database_start": 73,
+    "worker_cleanup": 82,
+    "canonical_upload": 83,
+    "new_jobs": 0
+  },
+  "actual_database_commands": 0,
+  "actual_ERP_case_credit": 0,
+  "restoration_verified": false
+}
