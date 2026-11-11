@@ -253,24 +253,28 @@ class ExecutionControls(unittest.TestCase):
                 raise RuntimeError('explicit local model')
         self.assertIs(sys.argv, original);self.assertEqual(sys.argv, contents)
 
-    def test_reviewed_81_step_template_stays_inactive_and_accidental_activation_is_closed(self):
+    def test_checkpoint_steps_preserve_exact_prior_workflow(self):
+        import yaml
         text, proof = workflow.derive()
         self.assertEqual(text.encode(), workflow.TEMPLATE.read_bytes())
         self.assertEqual(proof['unchanged_steps'], 66)
         self.assertEqual(proof['owning_routes'], 13)
-        self.assertEqual(proof['total_steps'], 81)
+        self.assertEqual(proof['total_steps'], 83)
         self.assertEqual(proof['retained_steps'], 79)
         self.assertEqual(proof['added_browser_prerequisite_steps'], 2)
         self.assertEqual(proof['frozen_source_trees'], 4)
-        self.assertFalse(workflow.ACTIVE.exists())
+        self.assertEqual(proof['added_diagnostic_checkpoint_steps'], 2)
+        candidate = yaml.safe_load(text)
+        steps = candidate['jobs']['p21']['steps']
+        first, upload = steps[70:72]
+        self.assertIn('checkpoint.py --source .', first['run'])
+        self.assertEqual(first['working-directory'], 'auditor')
+        self.assertIn('cp7-sku-admission-checkpoint-', upload['with']['name'])
+        self.assertNotEqual(upload['with']['name'], steps[-1]['with']['name'])
+        self.assertEqual(steps[72]['name'], 'Start disposable database')
+        del steps[70:72]
+        self.assertEqual(candidate, yaml.safe_load(workflow.BASELINE_TEMPLATE.read_bytes()))
         self.assertEqual(workflow.check()['workflow_dispatches'], 0)
-        with TemporaryDirectory() as directory:
-            model_root = Path(directory)
-            active = model_root / workflow.ACTIVE.relative_to(workflow.ROOT)
-            active.parent.mkdir(parents=True);active.write_text(text)
-            with patch.object(workflow, 'ROOT', model_root), patch.object(workflow, 'ACTIVE', active):
-                with self.assertRaisesRegex(ValueError, 'CURRENT_PARENT_AND_FULL_NATIVE_LIFECYCLE_PENDING'):
-                    workflow.check()
 
 
 if __name__ == '__main__':

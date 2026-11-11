@@ -541,6 +541,20 @@ jobs:
         "$GITHUB_WORKSPACE"
 
         '
+    - name: Write diagnostic source checkpoint before Native25
+      working-directory: auditor
+      run: 'python -B scripts/current-sku-automatic-composite-preparation/checkpoint.py
+        --source . --output "$RUNNER_TEMP/cp7-source-checkpoint/CP7_DIAGNOSTIC_CHECKPOINT.json"
+
+        '
+    - name: Persist diagnostic checkpoint before long runtime
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      with:
+        name: cp7-sku-admission-checkpoint-${{ github.run_id }}-${{ github.run_attempt
+          }}
+        path: ${{ runner.temp }}/cp7-source-checkpoint/CP7_DIAGNOSTIC_CHECKPOINT.json
+        retention-days: 30
+        if-no-files-found: error
     - name: Start disposable database
       working-directory: base
       shell: bash

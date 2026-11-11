@@ -1,4 +1,5 @@
 """Complete owning engine with exact IO and actual Native25/browser2 counts."""
+from contextlib import nullcontext
 from pathlib import Path
 import importlib.util
 from hashlib import sha256
@@ -132,19 +133,23 @@ def installer_authority(frozen_parent):
     return load('automatic_exact_mandor_install_authority', path).install_qualified_parent
 
 
-def bind_install_authority(product, install_afui, as_admin):
+def bind_install_authority(product, install_afui, as_admin, observe=nullcontext):
     money = product.parent()
     moving = money.parent()
     mandor = moving.parent()
 
     def install_parent(cur):
         # Mandor's fixture admission needs maintenance identity at entry.
-        afui_state = install_afui(cur)
-        mandor_state = mandor.install_delta(cur, afui_state)
+        with observe('AFUI_PARENT_INSTALL'):
+            afui_state = install_afui(cur)
+        with observe('MANDOR_PARENT_DELTA'):
+            mandor_state = mandor.install_delta(cur, afui_state)
 
         def install_sku_parents(admin):
-            moving_state = moving.install_delta(admin, mandor_state)
-            return money.install_delta(admin, moving_state)
+            with observe('SKU_MOVING_PARENT_DELTA'):
+                moving_state = moving.install_delta(admin, mandor_state)
+            with observe('SKU_MONEY_PARENT_DELTA'):
+                return money.install_delta(admin, moving_state)
 
         return as_admin(cur, install_sku_parents)
 

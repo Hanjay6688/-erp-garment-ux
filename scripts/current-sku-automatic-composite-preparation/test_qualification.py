@@ -246,6 +246,12 @@ class InstallAuthorityControls(unittest.TestCase):
         package = load('package')
         cursor = SimpleNamespace(identity='maintenance')
         events = []
+        phases = []
+
+        @contextmanager
+        def observe(name):
+            phases.append((name, cursor.identity))
+            yield
 
         def operation(name, expected, result):
             def call(cur, *args):
@@ -270,13 +276,18 @@ class InstallAuthorityControls(unittest.TestCase):
                                   install_delta=operation('Automatic', 'admin', 'automatic'),
                                   rollback_delta_preuse=operation('Inverse', 'admin', 'inverse'),
                                   verify=operation('Verify', 'admin', 'verified'))
-        bindings = package.bind_install_authority(product, operation('Afui', 'maintenance', 'afui'), as_admin)
+        bindings = package.bind_install_authority(product, operation('Afui', 'maintenance', 'afui'),
+                                                  as_admin, observe=observe)
         prior = bindings['_sku_install_parent'](cursor)
         state = bindings['_sku_install_delta'](cursor, prior)
         self.assertEqual(bindings['_sku_rollback_delta_preuse'](cursor, state), 'inverse')
         state = bindings['_sku_install_delta'](cursor, prior)
         self.assertEqual(bindings['_sku_verify_installed'](cursor, state), 'verified')
         self.assertEqual(cursor.identity, 'maintenance')
+        self.assertEqual(phases, [('AFUI_PARENT_INSTALL', 'maintenance'),
+                                  ('MANDOR_PARENT_DELTA', 'maintenance'),
+                                  ('SKU_MOVING_PARENT_DELTA', 'admin'),
+                                  ('SKU_MONEY_PARENT_DELTA', 'admin')])
         self.assertEqual(events, [('Afui', ()), ('Mandor', ('afui',)), ('Moving', ('mandor',)),
                                   ('Money', ('moving',)), ('Automatic', ('money',)),
                                   ('Inverse', ('automatic',)), ('Automatic', ('money',)),

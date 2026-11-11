@@ -39,6 +39,7 @@ assembly = load('automatic_owning_source_assembly', HERE / 'assembly.py')
 admission = assembly.admission
 component = load('automatic_owning_native25_component', HERE / 'component.py')
 package_source = load('automatic_owning_complete_package', HERE / 'package.py')
+checkpoint = load('automatic_owning_diagnostic_checkpoint', HERE / 'checkpoint.py')
 report_io = load('automatic_owning_atomic_report_output', HERE / 'report_io.py')
 modules = load('automatic_owning_inherited_module_selection', HERE / 'module_scope.py')
 authority = load('automatic_owning_private_authority', HERE / 'advisor_review.py')
@@ -138,7 +139,8 @@ def runtime():
                 engine.__file__ = str(original)
                 engine.__dict__[report_io.HELPER] = report_io.write_complete
                 engine.__dict__.update(package_source.bind_install_authority(
-                    product, inherited.install_qualified_parent, package_source.installer_authority(FROZEN_PARENT)))
+                    product, inherited.install_qualified_parent, package_source.installer_authority(FROZEN_PARENT),
+                    observe=checkpoint.observe_parent_phase))
                 exec(compile(text, engine.__file__ + '::current-automatic-native25', 'exec', dont_inherit=True), engine.__dict__)
                 engine.product = product
                 case_output = complete_case_output()

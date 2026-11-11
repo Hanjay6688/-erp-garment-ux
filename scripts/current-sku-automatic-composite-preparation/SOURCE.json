@@ -3,8 +3,8 @@
   "Native_lifecycle_case_plan_prepared_not_admitted": true,
   "active_workflow_added": true,
   "active_workflow_source": {
-    "bytes": 34995,
-    "sha256": "5016e69666b3a0eb75f123ca693107156fcf977f6b4654e45cd585dfcf97a9a9"
+    "bytes": 35683,
+    "sha256": "6224946f5b183f673e7a3160ddb632a18e7be083af0e6bf2b103d6c3d2ebe84c"
   },
   "actual_Auth_HTTP_cases": 0,
   "actual_ERP_cases": 0,
@@ -260,6 +260,10 @@
       "bytes": 16761,
       "sha256": "ba8ed36a20010b2e55d3b12f678f7753c25e28f06782435b5cfa4bbb899f5c32"
     },
+    "checkpoint.py": {
+      "bytes": 6163,
+      "sha256": "eaa6d0be747c09d0b3587b0879324818a958e42664b4296a9f3631960957895c"
+    },
     "component.py": {
       "bytes": 5975,
       "sha256": "6d9b3509c3f72ba3972befc4eb848935ee3a1bc65b8b434029194fc90d384b87"
@@ -321,16 +325,16 @@
       "sha256": "16022261c9accf67f2251217c15c004bbeb565a417ff8669c91c1bf1bc4f7c7d"
     },
     "package.py": {
-      "bytes": 10587,
-      "sha256": "2ddec2f38d54aac7919b349c20e1656a1bf252e71f411bbd3bc7ed8d213c8fba"
+      "bytes": 10854,
+      "sha256": "0f6aadf3a3f56a33db4999730fc545f6b786d1d84c5aacd7bf72a18eda892c95"
     },
     "prepare_native_sql.py": {
       "bytes": 4284,
       "sha256": "5535ce276253d5ce6f10157cc825e75499ef2e2cf6b225dac3213317e6cb1966"
     },
     "qualification.py": {
-      "bytes": 13482,
-      "sha256": "ca3bd2b86356a9af2c4885795ddfa02cb17e7054d9484bec2b5d4752fc786adc"
+      "bytes": 13627,
+      "sha256": "45cf9612ee9ca0c41dde185c58c88942a550e59b1ab741c48d16308216c1fb16"
     },
     "report_io.py": {
       "bytes": 6464,
@@ -339,6 +343,10 @@
     "sku-current-parent-money-automatic-native25-81.workflow.yml.txt": {
       "bytes": 34995,
       "sha256": "5016e69666b3a0eb75f123ca693107156fcf977f6b4654e45cd585dfcf97a9a9"
+    },
+    "sku-current-parent-money-automatic-native25-83.workflow.yml.txt": {
+      "bytes": 35683,
+      "sha256": "6224946f5b183f673e7a3160ddb632a18e7be083af0e6bf2b103d6c3d2ebe84c"
     },
     "sku-current-parent-money-automatic-native25.workflow.yml.txt": {
       "bytes": 34009,
@@ -388,6 +396,10 @@
       "bytes": 11150,
       "sha256": "9156f5896531c437a1fc054c1a45ad566bcfd29b7017991b2fd49cf33e472c03"
     },
+    "test_checkpoint.py": {
+      "bytes": 6193,
+      "sha256": "a961a7f7ccd0a75a0c0b4545827a413ef7dd889612b88dd95dd4d970b3e5a52e"
+    },
     "test_cumulative_runtime.py": {
       "bytes": 5556,
       "sha256": "c009bd4d8066ca0b20dd20da7132c1707e3ea97c4ccb12f19d1df9eb6c87b377"
@@ -401,8 +413,8 @@
       "sha256": "f6094ccb178b704346c95195928ca1019406d5466599230669e972d287958555"
     },
     "test_execution.py": {
-      "bytes": 16418,
-      "sha256": "f6222463a564cb4000871ab9c1bd54047906088bccf746f94005376933ed562f"
+      "bytes": 16549,
+      "sha256": "259fb66d236ba71afcbd4bf7e6dd63daaf882386a2f4d5a29d0db77e25001d55"
     },
     "test_final_gate.py": {
       "bytes": 14773,
@@ -421,8 +433,8 @@
       "sha256": "a81b36fb904e651e53bb1db86218ecec71cef660d11ca8a7cb5b38d82acbc86a"
     },
     "test_qualification.py": {
-      "bytes": 23949,
-      "sha256": "f1e8d67e32b6699f6c7f192ca4cd096a8285a7949842f4c3440aa31072b60c1a"
+      "bytes": 24449,
+      "sha256": "ed6dbfa2cf8327ef44b273abda436b3172b77cb52ec8bc94cf2081f94e80074c"
     },
     "test_report_io.py": {
       "bytes": 8096,
@@ -437,8 +449,8 @@
       "sha256": "02aa262de0884a89e97c517103f8e7333ffacde1ce66f8edc575ed627bc60a4f"
     },
     "workflow.py": {
-      "bytes": 9982,
-      "sha256": "152b624fd207052a080f44340a9ec352f2aad4781703ae2bcc3e95c036b3d138"
+      "bytes": 11392,
+      "sha256": "c8b33243a9a3ad5e0e91226a3fc3fab96f7e03b6150b0ba3b276500b43d1b5f8"
     }
   },
   "fresh_Auth_HTTP_races_browser_and_full_runtime_pending": true,
@@ -1615,7 +1627,7 @@
   "private_authority_reviewer_prepared": true,
   "production_go": false,
   "real_browser_copy_runtime_prepared": true,
-  "reviewable_workflow_steps": 81,
+  "reviewable_workflow_steps": 83,
   "scoped_inherited_bare_modules": 15,
   "selective_B_UI": {
     "HPP_conditional_text_changes_applied": false,

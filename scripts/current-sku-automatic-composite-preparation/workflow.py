@@ -12,7 +12,8 @@ ORIGINAL = ROOT / 'scripts/current-sku-money-composite-preparation/sku-current-p
 PIN = dict(bytes=33997, sha256='baa5fd02b024837856276f9e7136ca555c2bb6bb9255b0c5f0c2068322494e5d')
 AFUI_TEMPLATE = ROOT / 'scripts/cp7_accessory_nonpayable/afui15.workflow.yml.txt'
 PGDG_SETUP_PIN = dict(bytes=1240, sha256='6500c7bbd60b461bbefd1ccbe7b3eb0b292a6600466a19cb3cc14d45666ac5c3')
-TEMPLATE = HERE / 'sku-current-parent-money-automatic-native25-81.workflow.yml.txt'
+BASELINE_TEMPLATE = HERE / 'sku-current-parent-money-automatic-native25-81.workflow.yml.txt'
+TEMPLATE = HERE / 'sku-current-parent-money-automatic-native25-83.workflow.yml.txt'
 ACTIVE = ROOT / '.github/workflows/cp7-sku-current-parent-money-automatic-native25.yml'
 BRANCH = 'astra-a/sku-current-parent-money-automatic-native25-20261105'
 ROUTED = (0, 2, 3, 11, 64, 65, 66, 67, 72, 75, 76, 77, 78)
@@ -111,12 +112,28 @@ def derive(raw=None):
     steps[68:68] = prerequisites
     require(len(steps) == 81 and steps[:68] + steps[70:] == retained_steps,
             'AUTOMATIC_ALL_ORIGINAL_79_STEPS_MUST_REMAIN_EXACT')
+    baseline = yaml.safe_dump(value, sort_keys=False, allow_unicode=True).encode()
+    require(not BASELINE_TEMPLATE.is_symlink() and BASELINE_TEMPLATE.read_bytes() == baseline,
+            'AUTOMATIC_EXACT_PRIOR_81_STEP_WORKFLOW_REQUIRED')
+    checkpoint_steps = [
+        dict(name='Write diagnostic source checkpoint before Native25',
+             **{'working-directory': 'auditor'},
+             run='python -B ' + NS + 'checkpoint.py --source . '
+                 '--output "$RUNNER_TEMP/cp7-source-checkpoint/CP7_DIAGNOSTIC_CHECKPOINT.json"\n'),
+        {'name': 'Persist diagnostic checkpoint before long runtime',
+         'uses': 'actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02',
+         'with': {'name': 'cp7-sku-admission-checkpoint-${{ github.run_id }}-${{ github.run_attempt }}',
+                  'path': '${{ runner.temp }}/cp7-source-checkpoint/CP7_DIAGNOSTIC_CHECKPOINT.json',
+                  'retention-days': 30, 'if-no-files-found': 'error'}},
+    ]
+    steps[70:70] = checkpoint_steps
     text = yaml.safe_dump(value, sort_keys=False, allow_unicode=True)
     require(yaml.safe_load(text) == value, 'AUTOMATIC_EXACT_WORKFLOW_YAML_ROUNDTRIP_REQUIRED')
     return text, dict(status='NATIVE25_WORKFLOW_DATA_ONLY_NOT_ACTIVATED', retained_template=PIN,
-                      total_steps=81, retained_steps=79, unchanged_steps=len(before) - len(ROUTED),
+                      total_steps=83, retained_steps=79, unchanged_steps=len(before) - len(ROUTED),
                       owning_routes=len(ROUTED),
-                      added_browser_prerequisite_steps=2, frozen_source_trees=4,
+                      added_browser_prerequisite_steps=2, added_diagnostic_checkpoint_steps=2,
+                      frozen_source_trees=4,
                       actual_both_checkout_browser_prerequisites_before_database=True,
                       database_rebuild_clone_recovery_and_full_artifact_upload_unchanged=True,
                       real_360_330_20_10_budgets_unchanged=True, workflow_dispatches=0, actual_ERP_cases=0,
@@ -128,6 +145,9 @@ def check():
     require(TEMPLATE.is_file() and not TEMPLATE.is_symlink() and TEMPLATE.read_bytes() == text.encode(),
             'AUTOMATIC_EXACT_REVIEWABLE_WORKFLOW_TEMPLATE_REQUIRED')
     manifest = json.loads((HERE / 'SOURCE.json').read_bytes())
+    require(manifest['reviewable_workflow_steps'] == proof['total_steps']
+            and manifest['files'][TEMPLATE.name] == runtime().admission.pin(text.encode()),
+            'AUTOMATIC_WORKFLOW_TEMPLATE_MANIFEST_PIN_REQUIRED')
     if ACTIVE.exists() or ACTIVE.is_symlink():
         owner = runtime()
         owner.actual_inputs()
