@@ -1,0 +1,259 @@
+--- a/scripts/current-sku-automatic-composite-preparation/assembly.py
++++ b/scripts/current-sku-automatic-composite-preparation/assembly.py
+@@ -5,10 +5,12 @@
+ This preparation neither opens those gates nor provides an active workflow.
+ """
+ from hashlib import sha256
++from io import BytesIO
+ from pathlib import Path
+ from types import ModuleType
+ import importlib.util
+ import json
++import os
+ import subprocess
+ 
+ HERE = Path(__file__).resolve().parent
+@@ -32,8 +34,41 @@
+         raise ValueError(message)
+ 
+ 
+-def git(*args):
+-    return subprocess.check_output(['git', '-C', str(ROOT), *args])
++def git(*args, input=None):
++    return subprocess.check_output(['git', '-C', str(ROOT), *args], input=input,
++                                   env=dict(os.environ, GIT_NO_LAZY_FETCH='1'))
++
++
++def pinned_sources(tree, inherited, additions):
++    """Read the immutable tree and requested blobs without per-file Git calls."""
++    names = sorted(inherited.keys() | additions.keys())
++    listing = git('ls-tree', '--full-tree', '-z', tree, '--', *names)
++    require(listing.endswith(b'\0'), 'SKU_AUTOMATIC_EXACT_SOURCE_TREE_LIST_REQUIRED')
++    blobs = {}
++    for row in listing.split(b'\0')[:-1]:
++        header, path = row.split(b'\t', 1)
++        _, kind, oid = header.split()
++        name = path.decode()
++        require(kind == b'blob' and name not in blobs, 'SKU_AUTOMATIC_EXACT_SOURCE_BLOB_REQUIRED:' + name)
++        blobs[name] = oid.decode()
++    require(blobs.keys() == set(names), 'SKU_AUTOMATIC_EXACT_SOURCE_PATHS_REQUIRED')
++    for name, expected in inherited.items():
++        require(blobs[name] == expected, 'SKU_AUTOMATIC_ORIGINAL_MONEY_PRODUCT_CHANGED:' + name)
++    for name, expected in additions.items():
++        require(blobs[name] == expected['blob'], 'SKU_AUTOMATIC_EXACT_REVIEWED_ADDITION_REQUIRED:' + name)
++
++    requested = ''.join(blobs[name] + '\n' for name in additions).encode()
++    stream = BytesIO(git('cat-file', '--batch', input=requested))
++    result = {}
++    for name, expected in additions.items():
++        header = f"{blobs[name]} blob {expected['bytes']}\n".encode()
++        require(stream.readline() == header, 'SKU_AUTOMATIC_EXACT_BATCH_BLOB_HEADER_REQUIRED:' + name)
++        raw = stream.read(expected['bytes'])
++        require(stream.read(1) == b'\n' and admission.pin(raw) == {k: expected[k] for k in ('bytes', 'sha256')},
++                'SKU_AUTOMATIC_EXACT_REVIEWED_ADDITION_REQUIRED:' + name)
++        result[name] = raw
++    require(not stream.read(1), 'SKU_AUTOMATIC_EXACT_BATCH_END_REQUIRED')
++    return result
+ 
+ 
+ def prepared_sources():
+@@ -44,15 +79,8 @@
+     tree = ref['automatic_source']['tree']
+     require(len(ref['automatic_files']) == 20 and len(ref['unchanged_money_product']['files']) == 44,
+             'SKU_AUTOMATIC_COMPLETE_SOURCE_FILE_SETS_REQUIRED')
+-    for name, blob in ref['unchanged_money_product']['files'].items():
+-        require(git('rev-parse', tree + ':' + name).decode().strip() == blob,
+-                'SKU_AUTOMATIC_ORIGINAL_MONEY_PRODUCT_CHANGED:' + name)
+-    for name, expected in ref['automatic_files'].items():
+-        raw = git('show', tree + ':' + name)
+-        require(admission.pin(raw) == {k: expected[k] for k in ('bytes', 'sha256')}
+-                and git('rev-parse', tree + ':' + name).decode().strip() == expected['blob'],
+-                'SKU_AUTOMATIC_EXACT_REVIEWED_ADDITION_REQUIRED:' + name)
+-    raw = git('show', tree + ':scripts/cp7_sku_automatic_pending/composition.py')
++    sources = pinned_sources(tree, ref['unchanged_money_product']['files'], ref['automatic_files'])
++    raw = sources['scripts/cp7_sku_automatic_pending/composition.py']
+     text, proof = derivation.derive(raw)
+     return ref, text, proof
+ 
+--- a/scripts/current-sku-automatic-composite-preparation/checkpoint.py
++++ b/scripts/current-sku-automatic-composite-preparation/checkpoint.py
+@@ -3,6 +3,7 @@
+ from datetime import datetime, timezone
+ from hashlib import sha256
+ from pathlib import Path
++from time import monotonic_ns, process_time_ns
+ import argparse
+ import json
+ import os
+@@ -122,10 +123,16 @@
+         yield
+         return
+ 
++    started = monotonic_ns()
++    cpu_started = process_time_ns()
++
+     def emit(state):
+         event = dict(event='SKU_PARENT_INSTALL_PHASE', phase=name, state=state,
+                      run=ident['GITHUB_RUN_ID'], attempt=ident['GITHUB_RUN_ATTEMPT'],
+                      head=ident['GITHUB_SHA'], actual_case_credit=0, restoration_verified=False)
++        if state != 'STARTED':
++            event['elapsed_ms'] = (monotonic_ns() - started) // 1_000_000
++            event['process_cpu_ms'] = (process_time_ns() - cpu_started) // 1_000_000
+         try:
+             print(json.dumps(event, sort_keys=True), flush=True)
+         except OSError:
+--- a/scripts/current-sku-automatic-composite-preparation/qualification.py
++++ b/scripts/current-sku-automatic-composite-preparation/qualification.py
+@@ -40,6 +40,7 @@
+ component = load('automatic_owning_native25_component', HERE / 'component.py')
+ package_source = load('automatic_owning_complete_package', HERE / 'package.py')
+ checkpoint = load('automatic_owning_diagnostic_checkpoint', HERE / 'checkpoint.py')
++moving_diagnostics = load('automatic_owning_moving_diagnostics', HERE / 'moving_diagnostics.py')
+ report_io = load('automatic_owning_atomic_report_output', HERE / 'report_io.py')
+ modules = load('automatic_owning_inherited_module_selection', HERE / 'module_scope.py')
+ authority = load('automatic_owning_private_authority', HERE / 'advisor_review.py')
+@@ -135,6 +136,8 @@
+                 original = FROZEN_PARENT / package_source.load('automatic_exact_retained_money_package', package_source.RETAINED).ORIGINAL
+                 text, package_proof = package_source.derive(original.read_bytes())
+                 package_proof['complete_parent_state_binding'] = package_source.bind_parent_state(product)
++                package_proof['moving_diagnostics'] = moving_diagnostics.bind(
++                    product.parent().parent(), checkpoint.observe_parent_phase)
+                 engine = ModuleType('current_parent_money_automatic_native25_whole_package')
+                 engine.__file__ = str(original)
+                 engine.__dict__[report_io.HELPER] = report_io.write_complete
+--- a/scripts/current-sku-automatic-composite-preparation/test_qualification.py
++++ b/scripts/current-sku-automatic-composite-preparation/test_qualification.py
+@@ -71,7 +71,9 @@
+                 self.entry.actual_inputs()
+ 
+     def test_money_binding_closed_gate_never_inspects_receipts_or_loads_retained_modules(self):
+-        with patch.object(self.binding, 'load', side_effect=AssertionError('retained module inspected')):
++        admission = self.binding.admission
++        with patch.multiple(admission, **dict.fromkeys(admission.GATES)), \
++                patch.object(self.binding, 'load', side_effect=AssertionError('retained module inspected')):
+             with self.assertRaisesRegex(ValueError, 'FULL_NATIVE_LIFECYCLE_PENDING'):
+                 self.binding.bind(object(), object(), object())
+ 
+--- a/scripts/current-sku-automatic-composite-preparation/SOURCE.json
++++ b/scripts/current-sku-automatic-composite-preparation/SOURCE.json
+@@ -185,8 +185,8 @@
+       "sha256": "8d1ae7590e9fba0ab18771255d7a5fbee912cd94cf484c558c9a004a236a9085"
+     },
+     "assembly.py": {
+-      "bytes": 6348,
+-      "sha256": "b20fe97e1ab0507ab04882c6bbb67173df1d787be3ded2e87285107f16b90171"
++      "bytes": 7757,
++      "sha256": "fe63cdd7e1555ae89318b2badd1ac4ba074631be8a9370eff47bdb8cd64d324c"
+     },
+     "browser.mjs": {
+       "bytes": 23288,
+@@ -261,8 +261,8 @@
+       "sha256": "ba8ed36a20010b2e55d3b12f678f7753c25e28f06782435b5cfa4bbb899f5c32"
+     },
+     "checkpoint.py": {
+-      "bytes": 6163,
+-      "sha256": "eaa6d0be747c09d0b3587b0879324818a958e42664b4296a9f3631960957895c"
++      "bytes": 6466,
++      "sha256": "53149020d4b28367703af4d21ad6443aa224b0151c97df27a4e84b54aaaa53c1"
+     },
+     "component.py": {
+       "bytes": 5975,
+@@ -333,8 +333,8 @@
+       "sha256": "5535ce276253d5ce6f10157cc825e75499ef2e2cf6b225dac3213317e6cb1966"
+     },
+     "qualification.py": {
+-      "bytes": 13627,
+-      "sha256": "45cf9612ee9ca0c41dde185c58c88942a550e59b1ab741c48d16308216c1fb16"
++      "bytes": 13883,
++      "sha256": "483ae2b6e19167679b41d24fd867a506c09d922b29a616239b9c7b08531f5c6a"
+     },
+     "report_io.py": {
+       "bytes": 6464,
+@@ -433,8 +433,8 @@
+       "sha256": "a81b36fb904e651e53bb1db86218ecec71cef660d11ca8a7cb5b38d82acbc86a"
+     },
+     "test_qualification.py": {
+-      "bytes": 24449,
+-      "sha256": "ed6dbfa2cf8327ef44b273abda436b3172b77cb52ec8bc94cf2081f94e80074c"
++      "bytes": 24571,
++      "sha256": "acc491e96c665b39eaa3aeb2a2b214a0597a6d9556d72958254f5e36fb484880"
+     },
+     "test_report_io.py": {
+       "bytes": 8096,
+@@ -451,6 +451,10 @@
+     "workflow.py": {
+       "bytes": 11392,
+       "sha256": "c8b33243a9a3ad5e0e91226a3fc3fab96f7e03b6150b0ba3b276500b43d1b5f8"
++    },
++    "moving_diagnostics.py": {
++      "bytes": 3205,
++      "sha256": "2ba7d677437dd4d7d8622582e53c1f17e7a3aa9aa047eb9a871ccaf79f6cf9b3"
+     }
+   },
+   "fresh_Auth_HTTP_races_browser_and_full_runtime_pending": true,
+--- /dev/null
++++ b/scripts/current-sku-automatic-composite-preparation/moving_diagnostics.py
+@@ -0,0 +1,63 @@
++"""Measure the existing private moving installer without changing its operations."""
++from hashlib import sha256
++from pathlib import Path
++from types import CodeType, ModuleType
++import ast
++import importlib.util
++
++HERE = Path(__file__).resolve().parent
++ROOT = HERE.parents[1]
++DERIVER = ROOT / 'scripts/current-sku-composite-preparation/sku_current_parent_derive.py'
++DERIVER_SHA256 = '86c42eb2caa7171cb94bdbd6c6e8e6680cab5faeaf27df99720c81426edf529f'
++DERIVED_SHA256 = 'c72fe581f195ded0e7b1317df70683b439d7d88e357cea838acbc40d937aa97c'
++OBSERVER = '_cp7_observe_moving_install'
++GROUPS = (
++    ('LOCKS', 0, 1),
++    ('VERIFY_MANDOR', 1, 2),
++    ('CAPTURE_BEFORE', 2, 5),
++    ('PREPARE_DEFINITIONS', 5, 11),
++    ('DDL_AND_GRANTS', 11, 12),
++    ('CAPTURE_AND_BIND_STATE', 12, 13),
++    ('VERIFY_MOVING', 13, 15),
++)
++
++
++def timed(label, statements):
++    call = ast.Call(func=ast.Name(id=OBSERVER, ctx=ast.Load()),
++                    args=[ast.Constant(value='SKU_MOVING_' + label)], keywords=[])
++    return ast.With(items=[ast.withitem(context_expr=call)], body=statements)
++
++
++def bind(moving, observe):
++    expected = ROOT.parent / 'qualified-sku-money/scripts/cp7_sku_moving_average/composition.py'
++    if (type(moving) is not ModuleType or moving.__name__ != 'current_mandor_moving_for_money'
++            or Path(moving.__file__) != expected or OBSERVER in moving.__dict__):
++        raise ValueError('SKU_MOVING_DIAGNOSTIC_EXACT_PRIVATE_MODULE_REQUIRED')
++    if sha256(DERIVER.read_bytes()).hexdigest() != DERIVER_SHA256:
++        raise ValueError('SKU_MOVING_DIAGNOSTIC_EXACT_PARENT_DERIVER_REQUIRED')
++    spec = importlib.util.spec_from_file_location('sku_moving_exact_parent_deriver', DERIVER)
++    deriver = importlib.util.module_from_spec(spec)
++    spec.loader.exec_module(deriver)
++    source, _ = deriver.derive(expected.read_bytes())
++    if sha256(source.encode()).hexdigest() != DERIVED_SHA256:
++        raise ValueError('SKU_MOVING_DIAGNOSTIC_EXACT_DERIVED_SOURCE_REQUIRED')
++    original = moving.install_delta
++    filename = original.__code__.co_filename
++    code, = [item for item in compile(source, filename, 'exec', dont_inherit=True).co_consts
++             if isinstance(item, CodeType) and item.co_name == 'install_delta']
++    if original.__globals__ is not moving.__dict__ or original.__code__ != code:
++        raise ValueError('SKU_MOVING_DIAGNOSTIC_EXACT_ACTIVE_INSTALLER_REQUIRED')
++
++    installer, = [item for item in ast.parse(source).body
++                  if isinstance(item, ast.FunctionDef) and item.name == 'install_delta']
++    runtime, atomic = installer.body
++    statements = atomic.body
++    installer.body[0] = timed('RUNTIME_SOURCE', [runtime])
++    atomic.body = [timed(name, statements[start:end]) for name, start, end in GROUPS] + statements[15:]
++    namespace = {}
++    tree = ast.fix_missing_locations(ast.Module(body=[installer], type_ignores=[]))
++    exec(compile(tree, filename, 'exec', dont_inherit=True), moving.__dict__, namespace)
++    moving.__dict__[OBSERVER] = observe
++    moving.install_delta = namespace['install_delta']
++    return dict(derived_source_sha256=DERIVED_SHA256, measured_subphases=1 + len(GROUPS),
++                actual_case_credit=0, restoration_verified=False)

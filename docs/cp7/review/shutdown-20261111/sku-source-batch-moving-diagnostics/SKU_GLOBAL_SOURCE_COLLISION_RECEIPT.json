@@ -1,0 +1,22 @@
+{
+  "closed_global_head": "c9248b8770ec8cfe0f7e2f2fd8da26c141ea67c5",
+  "closed_global_tree": "9b440dd1785344fdafa5d2d702a6dd8f1ee08622",
+  "sku_candidate": "6a087cec56aed0e0e4bec4ea8ba2132d573e8f7e",
+  "sku_tree": "6c6332527098c4cfff58fb65f4dc679c3082400d",
+  "current_source_paths": 214,
+  "prepared_source_paths": 209,
+  "extra_paths": [
+    ".github/workflows/cp7-sku-current-parent-money-automatic-native25.yml",
+    "scripts/current-sku-automatic-composite-preparation/checkpoint.py",
+    "scripts/current-sku-automatic-composite-preparation/moving_diagnostics.py",
+    "scripts/current-sku-automatic-composite-preparation/sku-current-parent-money-automatic-native25-83.workflow.yml.txt",
+    "scripts/current-sku-automatic-composite-preparation/test_checkpoint.py"
+  ],
+  "after_prepared_paths": 21,
+  "source_file_collision_count": 0,
+  "closed_manifest_sha256": "794db88d865e844ec81043cf753aa116c2a1da7d86f03403c88e8db0ae623cf8",
+  "actual_full25_catalogue_available": false,
+  "actual_ERP_cases": 0,
+  "complete_actual_input_review": false,
+  "runtime_admission": false
+}

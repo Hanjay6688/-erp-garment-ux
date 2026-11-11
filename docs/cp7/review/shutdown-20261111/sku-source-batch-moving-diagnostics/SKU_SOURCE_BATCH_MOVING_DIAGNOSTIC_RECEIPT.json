@@ -1,0 +1,29 @@
+{
+  "source_batch": {
+    "exact_blob_bodies": 20,
+    "inherited_git_identities": 44,
+    "baseline_processes": 85,
+    "revised_processes": 2,
+    "baseline_median_ms": 142.3,
+    "revised_median_ms": 7.03,
+    "real_candidate_bytes": true,
+    "equivalent_derived_output": true,
+    "refused_mutations": 5,
+    "full_frozen_checkout_replayed": false
+  },
+  "moving_observer": {
+    "derived_source_sha256": "c72fe581f195ded0e7b1317df70683b439d7d88e357cea838acbc40d937aa97c",
+    "measured_subphases": 8,
+    "actual_case_credit": 0,
+    "restoration_verified": false,
+    "exact_install_trace_equal": true,
+    "original_failure_identity_preserved": true,
+    "failed_subphase_recorded": true,
+    "original_composition_sha256": "da1f275fa0e91ecbbaa5bcedff65ba0391b162108cc9e91b98a5e2c9f746465f",
+    "original_deriver_sha256": "86c42eb2caa7171cb94bdbd6c6e8e6680cab5faeaf27df99720c81426edf529f",
+    "exact_preceding_derivation": true
+  },
+  "actual_ERP_case_credit": 0,
+  "restoration_verified": false,
+  "workflow_changed": false
+}

@@ -1,0 +1,70 @@
+{
+  "scripts/current-sku-automatic-composite-preparation/assembly.py": {
+    "old": {
+      "blob": "be9659e526d696315b943001cd0ce9e38a6bb8cf",
+      "bytes": 6348,
+      "sha256": "b20fe97e1ab0507ab04882c6bbb67173df1d787be3ded2e87285107f16b90171"
+    },
+    "new": {
+      "blob": "4231ec28621c6fa2d35d4dc2694546cb4ab802e6",
+      "bytes": 7757,
+      "sha256": "fe63cdd7e1555ae89318b2badd1ac4ba074631be8a9370eff47bdb8cd64d324c"
+    }
+  },
+  "scripts/current-sku-automatic-composite-preparation/checkpoint.py": {
+    "old": {
+      "blob": "1c0ed5f6e022aded2e4396a6f132ed4f3b567347",
+      "bytes": 6163,
+      "sha256": "eaa6d0be747c09d0b3587b0879324818a958e42664b4296a9f3631960957895c"
+    },
+    "new": {
+      "blob": "8005cad75a82b3977802f0baeb46eb8867c2cc2a",
+      "bytes": 6466,
+      "sha256": "53149020d4b28367703af4d21ad6443aa224b0151c97df27a4e84b54aaaa53c1"
+    }
+  },
+  "scripts/current-sku-automatic-composite-preparation/qualification.py": {
+    "old": {
+      "blob": "c5f9b91650cb94f82cb3269805fd5d701ab3ece1",
+      "bytes": 13627,
+      "sha256": "45cf9612ee9ca0c41dde185c58c88942a550e59b1ab741c48d16308216c1fb16"
+    },
+    "new": {
+      "blob": "727fd34573d92836e42d3d30f54fd7cd5934e93c",
+      "bytes": 13883,
+      "sha256": "483ae2b6e19167679b41d24fd867a506c09d922b29a616239b9c7b08531f5c6a"
+    }
+  },
+  "scripts/current-sku-automatic-composite-preparation/test_qualification.py": {
+    "old": {
+      "blob": "7039a5f249d9d5e2f288a74aeac8301bf82ad4a4",
+      "bytes": 24449,
+      "sha256": "ed6dbfa2cf8327ef44b273abda436b3172b77cb52ec8bc94cf2081f94e80074c"
+    },
+    "new": {
+      "blob": "c0c6d2adffb26f1116c80cfc8501f9236708fd6a",
+      "bytes": 24571,
+      "sha256": "acc491e96c665b39eaa3aeb2a2b214a0597a6d9556d72958254f5e36fb484880"
+    }
+  },
+  "scripts/current-sku-automatic-composite-preparation/SOURCE.json": {
+    "old": {
+      "blob": "b6cb600bbaec5f901407f3d1354bc741cdd65928",
+      "bytes": 58244,
+      "sha256": "7adcebd35998d1fd6acb140bed31714c32edf2f25c6deeb9c72e0c514a345432"
+    },
+    "new": {
+      "blob": "d71f8dae1cb350ad3d09c1b31c310a8395a173cb",
+      "bytes": 58386,
+      "sha256": "34330c35b742d2cd3e96727eb52d7164a153d60bdef4eb63b3415d9072dec196"
+    }
+  },
+  "scripts/current-sku-automatic-composite-preparation/moving_diagnostics.py": {
+    "old": null,
+    "new": {
+      "blob": "af130290f21ea127cfba41548b8b3dd43357eba5",
+      "bytes": 3205,
+      "sha256": "2ba7d677437dd4d7d8622582e53c1f17e7a3aa9aa047eb9a871ccaf79f6cf9b3"
+    }
+  }
+}
