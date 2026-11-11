@@ -1,0 +1,450 @@
+{
+  "status": "OW08_ORIGINAL19_VERIFIED_AND_CANDIDATE_SOURCE_IMPACT_MAPPED",
+  "checked_at": "2026-11-11T18:46:14.497Z",
+  "exact_sources": {
+    "backend": {
+      "head": "41caaaed02c0d89b122ecf1ff221f6647141c335",
+      "tree": "b8831a52531598c514f8199016dea6194d783833",
+      "src": "f592d3254734c5f35020d9d1bc7f86298cfd0d22",
+      "supabase": "5d040436db384b4e574785376367b360a084acb7",
+      "package_lock": "ca9159d26989e0263b6b757f5f824bd9333d8cf6",
+      "product": {
+        "App.tsx": "2a1c52542d956fbe16fc2b0cc1f1032abee17c1a",
+        "main.tsx": "1d05512856d22518532c9fc66bdd6478495219cb",
+        "theme.css": null,
+        "ConnectedJournalPage.tsx": "98a0e6182b9065cb2e275a1044c35e464ed46f96",
+        "TransactionSourceNavigation.tsx": "f42418874a54d53cfcbd299bcdfb033243923f9f",
+        "transactionSource.ts": "7b1556d2ead2f1b200965439595cfc3a1dccda64",
+        "ConnectedPayrollPage.tsx": "78ba612d5d8bcccb28f0dbd8eb16d24b515e6102",
+        "PayrollKasbonPanel.tsx": "9dd072429451a9e01d34ad83e7a48c2f3c57875e",
+        "payrollKasbonContract.ts": "8aa1e2f820a19ee2fbb01f92b113c2dec6f943f2",
+        "ConnectedFgStockPage.tsx": "a9f11881a193c48ef43fd31b3d30f51ffd93fc62",
+        "fgContract.ts": "9170e48b921e4f5b672472c3faabb8dccf053923",
+        "ConnectedQcFinalPage.tsx": "a0208b2811f0591d8cb34deb6d8e1d9a9d16ad75",
+        "ConnectedLaundryPage.tsx": "c2822b989a576fb0a85a728e7e108c3f07c63e8b",
+        "ConnectedInitialImportPage.tsx": "cda89a115ba9bdb40b7a83b7fe03f94ce85aa3fe",
+        "LaundryBdPanel.tsx": "45cbc40057b0e47ce983416b4db54b14d15f3e8f",
+        "laundryBd.ts": "2c351886c62ba34d97c55f0d96facceceb395213",
+        "productionRecovery.ts": "f207951bac3d3b961336b86c47720d2375117ab7",
+        "LaundryVendorReceivable.dom.test.tsx": "2f1799f69986c2973cbf5e350a09b6fcf706ea2f",
+        "laundryBd.test.ts": "3a90a68fe783e691c51c944423c7a0d7451f8ec3",
+        "initial-import.css": "587e680e9148b4893c15a1a12f2526b1b4ca675e",
+        "connected-laundry-qc.css": "6c14e1772b6c3e52215c02edcf098a6dd09747ca",
+        "layout-resilience.css": "cd7e61c07310a1971ac827cfc04698dd2565816b"
+      },
+      "scripts": {
+        "cp7_vendor_receivable": "dfbf12f4b033d3c462798b603ec258bef5c525f1",
+        "cp7_laundry_unknown_wash": "fc004b977cb702ac9a9d67c8eeb6fdc3f018eb4e",
+        "ow08b_fgqc_native_original.py": "f7e0ede4bdbf6023da28b8e3291c5b5201b8a6d8",
+        "ow08b_kasbon_native_original.py": "a8070d4f2ad048a0d5189958d3ad067f1478021c",
+        "ow08b_wash_native_original.py": "4fb4bdcb7d247b7c4ed07824b22d74ebe06af3d7",
+        "current-ow08-source-browser": null,
+        "current-vendor-money-browser": null,
+        "current-vendor-receivable-qualification": "0a02d25b6e2a5e29b618d1ea01253eacd70f5663"
+      }
+    },
+    "money2": {
+      "head": "2d4ed56eb20187c00e63cd0a0774385d320f53be",
+      "tree": "173e0429c0220805cbee980579137c988c5d030d",
+      "src": "b87b3030567e643104b876111813dedd13785c55",
+      "supabase": "5d040436db384b4e574785376367b360a084acb7",
+      "package_lock": "ca9159d26989e0263b6b757f5f824bd9333d8cf6",
+      "product": {
+        "App.tsx": "2a1c52542d956fbe16fc2b0cc1f1032abee17c1a",
+        "main.tsx": "1d05512856d22518532c9fc66bdd6478495219cb",
+        "theme.css": null,
+        "ConnectedJournalPage.tsx": "98a0e6182b9065cb2e275a1044c35e464ed46f96",
+        "TransactionSourceNavigation.tsx": "f42418874a54d53cfcbd299bcdfb033243923f9f",
+        "transactionSource.ts": "7b1556d2ead2f1b200965439595cfc3a1dccda64",
+        "ConnectedPayrollPage.tsx": "78ba612d5d8bcccb28f0dbd8eb16d24b515e6102",
+        "PayrollKasbonPanel.tsx": "9dd072429451a9e01d34ad83e7a48c2f3c57875e",
+        "payrollKasbonContract.ts": "8aa1e2f820a19ee2fbb01f92b113c2dec6f943f2",
+        "ConnectedFgStockPage.tsx": "a9f11881a193c48ef43fd31b3d30f51ffd93fc62",
+        "fgContract.ts": "9170e48b921e4f5b672472c3faabb8dccf053923",
+        "ConnectedQcFinalPage.tsx": "a0208b2811f0591d8cb34deb6d8e1d9a9d16ad75",
+        "ConnectedLaundryPage.tsx": "c2822b989a576fb0a85a728e7e108c3f07c63e8b",
+        "ConnectedInitialImportPage.tsx": "cda89a115ba9bdb40b7a83b7fe03f94ce85aa3fe",
+        "LaundryBdPanel.tsx": "ff839b8604aae69d0aaffc2c294f922897da6c00",
+        "laundryBd.ts": "2c351886c62ba34d97c55f0d96facceceb395213",
+        "productionRecovery.ts": "f207951bac3d3b961336b86c47720d2375117ab7",
+        "LaundryVendorReceivable.dom.test.tsx": "2f1799f69986c2973cbf5e350a09b6fcf706ea2f",
+        "laundryBd.test.ts": "3a90a68fe783e691c51c944423c7a0d7451f8ec3",
+        "initial-import.css": "11153d8940abef762749df0b96074c6e0355fe6f",
+        "connected-laundry-qc.css": "6c14e1772b6c3e52215c02edcf098a6dd09747ca",
+        "layout-resilience.css": "cd7e61c07310a1971ac827cfc04698dd2565816b"
+      },
+      "scripts": {
+        "cp7_vendor_receivable": "c2fb0689abeda716d81c8f720bf3e4f5215d3f38",
+        "cp7_laundry_unknown_wash": "fc004b977cb702ac9a9d67c8eeb6fdc3f018eb4e",
+        "ow08b_fgqc_native_original.py": "f7e0ede4bdbf6023da28b8e3291c5b5201b8a6d8",
+        "ow08b_kasbon_native_original.py": "a8070d4f2ad048a0d5189958d3ad067f1478021c",
+        "ow08b_wash_native_original.py": "4fb4bdcb7d247b7c4ed07824b22d74ebe06af3d7",
+        "current-ow08-source-browser": null,
+        "current-vendor-money-browser": "f54eb2c0dac47aa047d0a903ce8aabeabf6dc9e1",
+        "current-vendor-receivable-qualification": "c7fb51d40162ad0219bf3eac2a0b386b0beb30f2"
+      }
+    },
+    "source6": {
+      "head": "42760534906c330353f9bb0f53d27db65b134626",
+      "tree": "e64aed9273ab41231e4411dcfffbb9e2cc60a873",
+      "src": "390165bb8b9174806acfd27a724e8e762d46ae8d",
+      "supabase": "5d040436db384b4e574785376367b360a084acb7",
+      "package_lock": "ca9159d26989e0263b6b757f5f824bd9333d8cf6",
+      "product": {
+        "App.tsx": "2a1c52542d956fbe16fc2b0cc1f1032abee17c1a",
+        "main.tsx": "1d05512856d22518532c9fc66bdd6478495219cb",
+        "theme.css": null,
+        "ConnectedJournalPage.tsx": "98a0e6182b9065cb2e275a1044c35e464ed46f96",
+        "TransactionSourceNavigation.tsx": "f42418874a54d53cfcbd299bcdfb033243923f9f",
+        "transactionSource.ts": "7b1556d2ead2f1b200965439595cfc3a1dccda64",
+        "ConnectedPayrollPage.tsx": "78ba612d5d8bcccb28f0dbd8eb16d24b515e6102",
+        "PayrollKasbonPanel.tsx": "9dd072429451a9e01d34ad83e7a48c2f3c57875e",
+        "payrollKasbonContract.ts": "8aa1e2f820a19ee2fbb01f92b113c2dec6f943f2",
+        "ConnectedFgStockPage.tsx": "a9f11881a193c48ef43fd31b3d30f51ffd93fc62",
+        "fgContract.ts": "9170e48b921e4f5b672472c3faabb8dccf053923",
+        "ConnectedQcFinalPage.tsx": "a0208b2811f0591d8cb34deb6d8e1d9a9d16ad75",
+        "ConnectedLaundryPage.tsx": "c2822b989a576fb0a85a728e7e108c3f07c63e8b",
+        "ConnectedInitialImportPage.tsx": "cda89a115ba9bdb40b7a83b7fe03f94ce85aa3fe",
+        "LaundryBdPanel.tsx": "ff839b8604aae69d0aaffc2c294f922897da6c00",
+        "laundryBd.ts": "2c351886c62ba34d97c55f0d96facceceb395213",
+        "productionRecovery.ts": "f207951bac3d3b961336b86c47720d2375117ab7",
+        "LaundryVendorReceivable.dom.test.tsx": "2f1799f69986c2973cbf5e350a09b6fcf706ea2f",
+        "laundryBd.test.ts": "3a90a68fe783e691c51c944423c7a0d7451f8ec3",
+        "initial-import.css": "af14b5ae3ef78c0040f2a71f2d1883de6a81f664",
+        "connected-laundry-qc.css": "44afff814d5337148da9b285c490c01562ce9b03",
+        "layout-resilience.css": "cd7e61c07310a1971ac827cfc04698dd2565816b"
+      },
+      "scripts": {
+        "cp7_vendor_receivable": "c2fb0689abeda716d81c8f720bf3e4f5215d3f38",
+        "cp7_laundry_unknown_wash": "fc004b977cb702ac9a9d67c8eeb6fdc3f018eb4e",
+        "ow08b_fgqc_native_original.py": "f7e0ede4bdbf6023da28b8e3291c5b5201b8a6d8",
+        "ow08b_kasbon_native_original.py": "a8070d4f2ad048a0d5189958d3ad067f1478021c",
+        "ow08b_wash_native_original.py": "4fb4bdcb7d247b7c4ed07824b22d74ebe06af3d7",
+        "current-ow08-source-browser": "469b5cc744481efccca92f141e703e658354b41d",
+        "current-vendor-money-browser": "5384409524c4ce21603dc2c828b9d57dfed88d69",
+        "current-vendor-receivable-qualification": "c7fb51d40162ad0219bf3eac2a0b386b0beb30f2"
+      }
+    },
+    "sku": {
+      "head": "d08032a28b9f00d0ee70a6f98c6b7d0f5b770c4a",
+      "tree": "a80a212694fc6b67d23e2dcdd9e648b4eea78541",
+      "src": "f817f1f3ae0e53c679fdcf1a404fa0602d6bafbd",
+      "supabase": "5d040436db384b4e574785376367b360a084acb7",
+      "package_lock": "ca9159d26989e0263b6b757f5f824bd9333d8cf6",
+      "product": {
+        "App.tsx": "9975f3a3c60605e0be83611bd5aefae66feb7fec",
+        "main.tsx": "3da1e6669220e4542cd29464a30ffba4600b3dac",
+        "theme.css": "28be042ab358a74fcef51dcc83097b7c9b5c491c",
+        "ConnectedJournalPage.tsx": "98a0e6182b9065cb2e275a1044c35e464ed46f96",
+        "TransactionSourceNavigation.tsx": "f42418874a54d53cfcbd299bcdfb033243923f9f",
+        "transactionSource.ts": "7b1556d2ead2f1b200965439595cfc3a1dccda64",
+        "ConnectedPayrollPage.tsx": "598b3aba6e2db7b1f40cf5db3018995086d98329",
+        "PayrollKasbonPanel.tsx": "9dd072429451a9e01d34ad83e7a48c2f3c57875e",
+        "payrollKasbonContract.ts": "8aa1e2f820a19ee2fbb01f92b113c2dec6f943f2",
+        "ConnectedFgStockPage.tsx": "0239ab0ef63a68ce51aacdbaaa757ad1fc084a11",
+        "fgContract.ts": "44499361a106bd6d6800f3c5cc6f968ec60bb653",
+        "ConnectedQcFinalPage.tsx": "a0208b2811f0591d8cb34deb6d8e1d9a9d16ad75",
+        "ConnectedLaundryPage.tsx": "c2822b989a576fb0a85a728e7e108c3f07c63e8b",
+        "ConnectedInitialImportPage.tsx": "21bda9a5c52a46f256b0dad872b8a0e87eaec7fc",
+        "LaundryBdPanel.tsx": "ff839b8604aae69d0aaffc2c294f922897da6c00",
+        "laundryBd.ts": "2c351886c62ba34d97c55f0d96facceceb395213",
+        "productionRecovery.ts": "df4602586038139e212107d7f5dc831d55e6ffd4",
+        "LaundryVendorReceivable.dom.test.tsx": "2f1799f69986c2973cbf5e350a09b6fcf706ea2f",
+        "laundryBd.test.ts": "3a90a68fe783e691c51c944423c7a0d7451f8ec3",
+        "initial-import.css": "0dc9949c6bfd6eb96f3c358b2a88edc12eba606c",
+        "connected-laundry-qc.css": "c46e2cc1d5c009087a825fa1abcff09928021c5e",
+        "layout-resilience.css": "0309942c983213a00adc6c9febd9177243ea6178"
+      },
+      "scripts": {
+        "cp7_vendor_receivable": "c2fb0689abeda716d81c8f720bf3e4f5215d3f38",
+        "cp7_laundry_unknown_wash": "fc004b977cb702ac9a9d67c8eeb6fdc3f018eb4e",
+        "ow08b_fgqc_native_original.py": "f7e0ede4bdbf6023da28b8e3291c5b5201b8a6d8",
+        "ow08b_kasbon_native_original.py": "a8070d4f2ad048a0d5189958d3ad067f1478021c",
+        "ow08b_wash_native_original.py": "4fb4bdcb7d247b7c4ed07824b22d74ebe06af3d7",
+        "current-ow08-source-browser": "469b5cc744481efccca92f141e703e658354b41d",
+        "current-vendor-money-browser": "5384409524c4ce21603dc2c828b9d57dfed88d69",
+        "current-vendor-receivable-qualification": "c7fb51d40162ad0219bf3eac2a0b386b0beb30f2"
+      }
+    }
+  },
+  "historical": {
+    "backend": {
+      "original": {
+        "id": 12854543326,
+        "name": "cp7-vendor-receivable-combined11-1",
+        "bytes": 2031933,
+        "sha256": "9432cdd8bcea2df52ad8fb631122ce963b91bee32dea849a4337e4ec2c020eb0",
+        "expired": false,
+        "head": "41caaaed02c0d89b122ecf1ff221f6647141c335",
+        "run": 40769840440,
+        "expires_at": "2026-11-27T22:03:19Z"
+      },
+      "job": 123103756460,
+      "attempt": 1,
+      "product_ref": "f30ffc8d7386d6b202c91e9f1b55e672af58c720",
+      "crc_members": 116,
+      "reported": {
+        "CP7_VENDOR_RECEIVABLE_COMBINED11.json": {
+          "bytes": 3485711,
+          "sha256": "04e00f42862ddfec8346d41d4d6a2d6a285f041127cccf09d973ca929b307ea0"
+        },
+        "T3_PACKAGE_INSTALL.json": {
+          "bytes": 360420,
+          "sha256": "48fc54072b4f3122d89f6a45faa93f0e8ebd05ecfde0b9370def8202755e0f43"
+        },
+        "T3_BACKUP_RESTORE_DRILL.json": {
+          "bytes": 1470,
+          "sha256": "c81b67bf21c5b6d5a32107d6fdfb861024b98c276b825f9f2b626d36f07307dd"
+        }
+      },
+      "case_ids": [
+        "OW08B_VENDOR_PAID_CORRECTION_AR_HPP_EXACT",
+        "OW08B_VENDOR_UNPAID_ORIGIN_AUTO_APPLICATION",
+        "OW08B_VENDOR_NEXT_INVOICE_AND_CASH_REFUND",
+        "OW08B_VENDOR_REFUND_REPLAY_INVERSE_HISTORY",
+        "OW08B_VENDOR_AMOUNT_DATE_ACCOUNT_REFUSALS",
+        "OW08B_VENDOR_OPENING_APPLICATION_AND_INVERSE",
+        "OW08B_VENDOR_UNLINKED_JOURNAL_DETECTED",
+        "VENDOR_AR_REFUND_COMMIT_APPLY_CAPACITY_REFUSED",
+        "VENDOR_AR_APPLY_COMMIT_REFUND_CAPACITY_REFUSED",
+        "VENDOR_AR_SAME_UUID_REFUND_ONCE_AFTER_LOCK",
+        "VENDOR_AR_REAL_AUTH_REFUND_REPLAY_CURRENT_REVOKE"
+      ],
+      "five_gates": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "restored": true,
+      "real_auth": true,
+      "harness_minted_jwt": false,
+      "source_declaration": {
+        "scripts/cp7_vendor_receivable/receivable.sql": "3b24728512e8be6af697f3234e591f7fe6b46331c68e3497ab71aedbcc9aa2ba",
+        "scripts/cp7_vendor_receivable/native_delta.py": "bd0f41be50fea0ab64b19c15d8a09fc7940782507c35482911dd86c36403a52b",
+        "scripts/cp7_vendor_receivable/composition.py": "b0bc106121932deb18a342299ec7ffb1a314abaca9d77879df29784261821df2"
+      }
+    },
+    "money2": {
+      "original": {
+        "id": 12863121496,
+        "name": "cp7-a-vendor-money-browser2-1",
+        "bytes": 4258622,
+        "sha256": "81f17358ca56f92c8bec4610e2b6d3978667624970e892d2c2c0c5728196f58d",
+        "expired": false,
+        "head": "2d4ed56eb20187c00e63cd0a0774385d320f53be",
+        "run": 40789668297,
+        "expires_at": "2026-11-28T00:27:12Z"
+      },
+      "job": 123171442637,
+      "attempt": 1,
+      "product_ref": "9fde249ed0aef0000c3d17fde6a2a3f02a4dab86",
+      "crc_members": 121,
+      "reported": {
+        "CP7_VENDOR_MONEY_BROWSER2.json": {
+          "bytes": 2621520,
+          "sha256": "7439d670aab99bdf2fa59f82f1b91cb16bca4fbbb10ccba3baa94af805f5d47c"
+        },
+        "T3_PACKAGE_INSTALL.json": {
+          "bytes": 360404,
+          "sha256": "b7614b84e89537a6913b64a141e51f5396e61e3123197ce0212698baa822a30a"
+        },
+        "T3_BACKUP_RESTORE_DRILL.json": {
+          "bytes": 1470,
+          "sha256": "c80fd4cb4f2d40e73ff847555fc916b60ee920a8f20d4839501b1c9ae7b4e99a"
+        }
+      },
+      "case_ids": [
+        "VENDOR_MONEY_BROWSER_DESKTOP_REFUND_INVERSE_HISTORY",
+        "VENDOR_MONEY_BROWSER_MOBILE_REFUND_ACCESS_HIDDEN"
+      ],
+      "five_gates": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "restored": true,
+      "real_auth": true,
+      "harness_minted_jwt": false,
+      "source_declaration": {
+        "scripts/cp7_vendor_receivable/receivable.sql": "3b24728512e8be6af697f3234e591f7fe6b46331c68e3497ab71aedbcc9aa2ba",
+        "scripts/cp7_vendor_receivable/native_delta.py": "bd0f41be50fea0ab64b19c15d8a09fc7940782507c35482911dd86c36403a52b",
+        "scripts/cp7_vendor_receivable/composition.py": "b0bc106121932deb18a342299ec7ffb1a314abaca9d77879df29784261821df2"
+      }
+    },
+    "source6": {
+      "original": {
+        "id": 12882516057,
+        "name": "cp7-a-ow08-source-browser6-1",
+        "bytes": 10190192,
+        "sha256": "98c3d9e52feb71c6f994d136018005ab7652c88e89392df1b838880d6e451f5b",
+        "expired": false,
+        "head": "42760534906c330353f9bb0f53d27db65b134626",
+        "run": 40835051931,
+        "expires_at": "2026-11-28T08:06:02Z"
+      },
+      "job": 123317772819,
+      "attempt": 1,
+      "product_ref": "64353f4f04313d22bdba6a6d8cfd3f5d61ca4d3a",
+      "crc_members": 142,
+      "reported": {
+        "CP7_OW08_SOURCE_BROWSER6.json": {
+          "bytes": 1348380,
+          "sha256": "55a00c6b458649079a24109f3164536acc45820eb912fe92b77f24e6d2c8934e"
+        },
+        "T3_PACKAGE_INSTALL.json": {
+          "bytes": 360403,
+          "sha256": "f9efe77d49100123eecd6106aab8736e58f29b2a83c21e9fc3409ce900ff4dd3"
+        },
+        "T3_BACKUP_RESTORE_DRILL.json": {
+          "bytes": 1470,
+          "sha256": "7b009f549d48bdf40b8f095e9110b78cfc6dfa9362abc344800fd46422b123fb"
+        }
+      },
+      "case_ids": [
+        "OW08_KASBON_JOURNAL_SOURCE_DESKTOP",
+        "OW08_KASBON_JOURNAL_SOURCE_MOBILE",
+        "OW08_UNKNOWN_WASH_SCREEN_PRICE_DESKTOP",
+        "OW08_UNKNOWN_WASH_SCREEN_PRICE_MOBILE",
+        "OW08_FG_INVERSE_QC_BLOCKERS_DESKTOP",
+        "OW08_FG_INVERSE_QC_BLOCKERS_MOBILE"
+      ],
+      "five_gates": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "restored": true,
+      "real_auth": true,
+      "harness_minted_jwt": false,
+      "source_declaration": {
+        "scripts/cp7_vendor_receivable/receivable.sql": "3b24728512e8be6af697f3234e591f7fe6b46331c68e3497ab71aedbcc9aa2ba",
+        "scripts/cp7_vendor_receivable/native_delta.py": "bd0f41be50fea0ab64b19c15d8a09fc7940782507c35482911dd86c36403a52b",
+        "scripts/cp7_vendor_receivable/composition.py": "b0bc106121932deb18a342299ec7ffb1a314abaca9d77879df29784261821df2"
+      }
+    }
+  },
+  "historical_cases": 19,
+  "combined_current_runtime_cases": 0,
+  "current_browser_cases": 0,
+  "formal_cp7": "5/16",
+  "closed_global_source": {
+    "head": "c9248b8770ec8cfe0f7e2f2fd8da26c141ea67c5",
+    "tree": "9b440dd1785344fdafa5d2d702a6dd8f1ee08622",
+    "same_src_tree_as_current_sku": true,
+    "same_ow08_product_subtrees": true
+  },
+  "source_review": {
+    "client_file_delta": {
+      "source6": 129,
+      "money2": 129
+    },
+    "native_runtime_pins_from_all_three_originals_exact": true,
+    "backend11_component_dir_changes": [
+      "cases.py fixture",
+      "test_fixture_labels.py"
+    ],
+    "three_original_disabled_selector_rules_present": true
+  },
+  "targeted_local": {
+    "laundry_recovery": {
+      "status": "LOCAL_RECOVERY_ENVELOPE_COMPATIBILITY",
+      "sources": [
+        "f207951bac3d3b961336b86c47720d2375117ab7",
+        "df4602586038139e212107d7f5dc831d55e6ffd4"
+      ],
+      "cases": [
+        {
+          "action": "RECEIVE_VENDOR_REFUND",
+          "accepts_original_key_and_bytes": true,
+          "preserves_uuid_payload_and_fingerprint": true,
+          "refuses_conflicting_or_corrupt_envelope": true
+        },
+        {
+          "action": "REVERSE_VENDOR_REFUND",
+          "accepts_original_key_and_bytes": true,
+          "preserves_uuid_payload_and_fingerprint": true,
+          "refuses_conflicting_or_corrupt_envelope": true
+        },
+        {
+          "action": "APPLY_CLAIM_CREDIT",
+          "accepts_original_key_and_bytes": true,
+          "preserves_uuid_payload_and_fingerprint": true,
+          "refuses_conflicting_or_corrupt_envelope": true
+        },
+        {
+          "action": "SET_FAILED_WASH_PRICE",
+          "accepts_original_key_and_bytes": true,
+          "preserves_uuid_payload_and_fingerprint": true,
+          "refuses_conflicting_or_corrupt_envelope": true
+        },
+        {
+          "action": "REVERSE_VENDOR_SETTLEMENT",
+          "accepts_original_key_and_bytes": true,
+          "preserves_uuid_payload_and_fingerprint": true,
+          "refuses_conflicting_or_corrupt_envelope": true
+        }
+      ],
+      "actual_Auth": false,
+      "database": false,
+      "actual_journey_credit": 0
+    },
+    "fg_source": {
+      "status": "LOCAL_EXACT_FG_SOURCE_RESPONSE_REPLAY",
+      "cases": [
+        {
+          "name": "OW08_FG_INVERSE_QC_BLOCKERS_DESKTOP",
+          "original_source_response_pass": true,
+          "wrong_actor_business_dml_and_wrong_route_refused": true
+        },
+        {
+          "name": "OW08_FG_INVERSE_QC_BLOCKERS_MOBILE",
+          "original_source_response_pass": true,
+          "wrong_actor_business_dml_and_wrong_route_refused": true
+        }
+      ],
+      "client_blob": "7b1556d2ead2f1b200965439595cfc3a1dccda64",
+      "actual_Auth": false,
+      "database": false,
+      "actual_journey_credit": 0
+    },
+    "paint": {
+      "status": "BLOCKED_LOCAL_CHROMIUM_BEFORE_ANY_CASE",
+      "first_error": "chrome/browser/process_singleton_posix.cc:297 socket() failed: Operation not permitted (1)"
+    }
+  },
+  "remaining": [
+    {
+      "scope": "Native7, races3, AuthHTTP1 vendor",
+      "retained": "Exact owning run, product and recovery",
+      "next": "Reconcile exact provider definitions, ACL, date, request/lock, Native journal and prerequisite catalogue with actual combined runtime. Re-run only case groups where equivalence fails."
+    },
+    {
+      "scope": "Kasbon source desktop/mobile",
+      "retained": "Journal component, source parser and original real Auth responses",
+      "next": "Check current App navigation, Payroll with new Mandor panel and changed cascade."
+    },
+    {
+      "scope": "Unknown wash desktop/mobile",
+      "retained": "Exact own provider and disabled button rule; original actual pricing, physical stock and local blocker",
+      "next": "Check current cascade and current prerequisite/cost authority. Preserve unknown-is-not-zero oracle."
+    },
+    {
+      "scope": "FG inverse/QC desktop/mobile",
+      "retained": "Original Auth and response decoder; two raw payload replays",
+      "next": "Check actual new pool valuation in FG page, same inverse and 403/zero-DML with changed UI and current combined runtime."
+    },
+    {
+      "scope": "Vendor money desktop/mobile",
+      "retained": "Exact panel, API parser and five local stored-envelope controls",
+      "next": "Check changed cascade and real Auth/replay/access on actual combined source where inputs differ."
+    }
+  ],
+  "production_go": false,
+  "independent_acceptance": false
+}
