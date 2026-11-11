@@ -1,0 +1,54 @@
+{
+  "status": "READ_ONLY_RECEIPT_READER_STAGED_SOURCE_ONLY",
+  "candidate": "a1652a808f5f9e7a5bcc3fe0ea0feb081075adc3",
+  "tree": "a19981a709340c21495ea5546372d5bf989e190c",
+  "run": 43105533441,
+  "job": 130807755829,
+  "attempt": 1,
+  "files": {
+    ".github/workflows/afui-evidence-intake-20261105.yml": {
+      "bytes": 1923,
+      "sha256": "96d0bb722dc8be2a48d9c7373e05a9400295f6d2701b1bfbb00d6a6d893d89db"
+    },
+    "scripts/afui-evidence-intake-20261105/sku-intake/afui/verify_native_original.py": {
+      "bytes": 10866,
+      "sha256": "7585a96d2bc72104113881992df6ef8dd308796c3d6663c20403b19fc56d0977"
+    },
+    "scripts/afui-evidence-intake-20261105/sku-intake/afui/verify_terminal_original.py": {
+      "bytes": 7718,
+      "sha256": "fa8491b9122ebf4145ecbfff1240ba560c3a26821ec0fca20469347701bc64c1"
+    },
+    "scripts/afui-evidence-intake-20261105/sku-intake/global/reviewed-sku-shutdown-successor/REVIEWED_980C_SUCCESSORS.json": {
+      "bytes": 15231,
+      "sha256": "cb9832709a3c34def38a0a9a8185b5b6df68783e1414e8a331b4559ff06fece4"
+    },
+    "scripts/afui-evidence-intake-20261105/sku-intake/global/reviewed-sku-shutdown-successor/bind_reviewed_sku.py": {
+      "bytes": 2750,
+      "sha256": "b82566ac0810dc1b80bb8a0bab57170a9db6d87f414bcf2e5104f472685d0ccc"
+    },
+    "scripts/afui-evidence-intake-20261105/sku-intake/global/reviewed-sku-shutdown-successor/reviewed_sku_source.py": {
+      "bytes": 18741,
+      "sha256": "ef275fc511b6f52faf60ef7026d40e74aa7cccfd869854d1abab02937c7b3dd7"
+    },
+    "scripts/afui-evidence-intake-20261105/sku-intake/global/reviewed-sku-shutdown-successor/run_sku.py": {
+      "bytes": 2017,
+      "sha256": "e1dcc7c33155b900157dfa16b78b97dda38987686da2fcc4e38da2e152e1ec26"
+    },
+    "scripts/afui-evidence-intake-20261105/sku-intake/global/reviewed-sku-shutdown-successor/verify_sku_read_only.py": {
+      "bytes": 5793,
+      "sha256": "698729e02a92d31daf60ca3b77329f00f36bf2ab4b097abbd5fd66625cd3566e"
+    },
+    "scripts/afui-evidence-intake-20261105/sku-intake/global/reviewed-sku-shutdown-successor/verify_terminal_sku.py": {
+      "bytes": 11263,
+      "sha256": "6d0039ec7883458c1aca42025afe04c6d1334f8fe16d8924fbbd8a67059e5d7a"
+    },
+    "scripts/afui-evidence-intake-20261105/sku-intake/read-only/retain.py": {
+      "bytes": 3226,
+      "sha256": "c9b8332f83c3ed5672f7cd3dc79f85f73e1bdd705ddbbe7b1670838d3b99eca5"
+    }
+  },
+  "qualifying_archive_present": false,
+  "Global_runtime_authorized": false,
+  "production_go": false,
+  "read_permissions_only": true
+}

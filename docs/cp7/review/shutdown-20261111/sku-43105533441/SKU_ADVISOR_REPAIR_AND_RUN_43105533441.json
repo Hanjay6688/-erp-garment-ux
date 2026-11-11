@@ -1,0 +1,136 @@
+{
+  "CP7_formal": "5/16",
+  "actual_current_SKU_qualification_credited": false,
+  "candidate": {
+    "artifact_job_log_checkpoint": true,
+    "branch": "astra-a/sku-current-parent-money-automatic-native25-20261105",
+    "exact_frozen_trees": 4,
+    "focused_control_tests_passed": 81,
+    "force": false,
+    "guard_expected_sha": "d08032a28b9f00d0ee70a6f98c6b7d0f5b770c4a",
+    "head": "a1652a808f5f9e7a5bcc3fe0ea0feb081075adc3",
+    "parent_files_exact": 14730,
+    "tree": "a19981a709340c21495ea5546372d5bf989e190c"
+  },
+  "digest_benchmark": {
+    "comparison_scope": "HISTORICAL_SKU_REPORT_REPLAY_12_LAYERS",
+    "earlier": {
+      "cpu_seconds": 34.142,
+      "digest": "d4d85c23caa97c6e47b336308272e43c3a36a20f076a3ce829f31347ede6a913",
+      "layers": 12,
+      "package_sha256": "a18a3816524577a84318012ed525a21dae3881d950a1de37254e2034626156a8",
+      "peak_KiB": 113272,
+      "report_bytes": 30376182,
+      "report_sha256": "5e22077e71e34add6fd0627c89e9d21a2235f463818e45b233c7619bcfb0d48f",
+      "seconds": 34.217,
+      "variant": "d080"
+    },
+    "revised": {
+      "cpu_seconds": 20.307,
+      "digest": "d4d85c23caa97c6e47b336308272e43c3a36a20f076a3ce829f31347ede6a913",
+      "layers": 12,
+      "package_sha256": "4e21d65e1bed0a802c47567f8d285cc0f3081dcb82d7b6d2f5a9ada3e4f5810d",
+      "peak_KiB": 113268,
+      "report_bytes": 30376182,
+      "report_sha256": "5e22077e71e34add6fd0627c89e9d21a2235f463818e45b233c7619bcfb0d48f",
+      "seconds": 20.378,
+      "variant": "candidate"
+    }
+  },
+  "evidence": {
+    "advisor_exact_binding.json": {
+      "bytes": 270,
+      "sha256": "030ae374247c4719ea17ac9cd0c6040cc03b17f89a82669a6928005d2be9c286"
+    },
+    "advisor_pg17_originals.json": {
+      "bytes": 1309406,
+      "sha256": "4f29d9e32a6176795582bc979432c71cf92347abeec9dcc7092a5f4d182c5ec5"
+    },
+    "advisor_receipt.json": {
+      "bytes": 608,
+      "sha256": "b3f490b8d1956e8ac88cee11ec5ed67f76f49e67750224a9e2e7465a55694d81"
+    },
+    "digest_candidate.json": {
+      "bytes": 376,
+      "sha256": "fed24834409c958d21857b6a031b37192720ae3b956efdd7b6f75079cdee2a35"
+    },
+    "digest_d080.json": {
+      "bytes": 371,
+      "sha256": "e8262f845400def9e84c801ea91e246fb007e592c3d80fbe2251ad21332d01e9"
+    },
+    "focused_tests.log": {
+      "bytes": 13951,
+      "sha256": "fb7d94ec6efa7b279856a289798c2c5b221e4c146567fca9141aeb8b399f869f"
+    },
+    "owning_source_check.json": {
+      "bytes": 5231,
+      "sha256": "54d8e570b5eac118c04bec4b8679c881a02b79e8434f4f031523e067f96ebcff"
+    },
+    "workflow_check.json": {
+      "bytes": 969,
+      "sha256": "0d5b5d6194734a6f47ade2f83057ef94bd9baef9a9b4091f1ecb09684a9f993e"
+    }
+  },
+  "first_failure": {
+    "archive_upload": "CREATE_ARTIFACT_404",
+    "attempt": 1,
+    "backup_drill_tables": 407,
+    "baseline_restore": true,
+    "event": "SKU_ADVISOR_EXACT_PRIVATE_LIVE_AUTHORITY_REQUIRED",
+    "first_failure_archive_library_file_id": "libfile_fde3_f-7dc70f41e9548191bf566e954ac6491a_3b0e0eac7dc08191b44c16f18a1e98fe",
+    "first_failure_archive_sha256": "bc05e0fd3ff8ff95f17338956969058bbb0bc38c5ea486f80783aa45184f0f96",
+    "head": "d08032a28b9f00d0ee70a6f98c6b7d0f5b770c4a",
+    "job": 130679406466,
+    "package_checks_passed": 4,
+    "run": 43065549640
+  },
+  "independent_acceptance": false,
+  "observed_run": {
+    "active_at_first_check": true,
+    "attempt": 1,
+    "job": 130807755829,
+    "only_active_at_first_check": true,
+    "run": 43105533441,
+    "started_utc": "2026-11-11T21:43:20Z"
+  },
+  "observer": {
+    "base_head": "d08032a28b9f00d0ee70a6f98c6b7d0f5b770c4a",
+    "current_reviewer": "PASS",
+    "deny_policies": 12,
+    "eligible_infos": 11,
+    "engine": "PostgreSQL 17.6 on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 7.5.0-3ubuntu1~18.04) 7.5.0, 64-bit",
+    "exact_granted_function": "cp7_sku_conversion.position_value_v2(uuid,uuid,text,numeric)",
+    "hosted_database_touched": false,
+    "observations": {
+      "bytes": 1309406,
+      "sha256": "4f29d9e32a6176795582bc979432c71cf92347abeec9dcc7092a5f4d182c5ec5"
+    },
+    "old_failure": "SKU_ADVISOR_EXACT_PRIVATE_LIVE_AUTHORITY_REQUIRED",
+    "rejected_mutations": 21,
+    "rollback": "PASS",
+    "tables": 23
+  },
+  "original_predb_checkpoint": {
+    "artifact_id": 13876617472,
+    "bytes": 22406,
+    "crc": "PASS",
+    "sha256": "4944845e32f21bcc7bb8a3db2de6bba57c16cc08b1213388a0846c0e45a0fc8c"
+  },
+  "production_go": false,
+  "relevant_B_intake": {
+    "adoption_scope": "FOCUSED_MOVING_AVERAGE_SNAPSHOT_AND_REPORT",
+    "head": "52b6cf93dd85bc76a713e29beb5ae6d91247f9c7",
+    "official_QC_valuation_and_INCLUDED": "BLOCKED",
+    "verified_candidate": "d08032a28b9f00d0ee70a6f98c6b7d0f5b770c4a"
+  },
+  "status": "FOCUSED_REPAIR_VERIFIED_AND_ONE_REVISED_QUALIFICATION_RUNNING",
+  "retained_focused_originals": {
+    "library_file_id": "libfile_fde3_f-9328fd25bd50819190dcb2613e2a5336_3b0e0eac7dc08191b44c16f18a1e98fe",
+    "version": 0,
+    "file_name": "SKU_43065549640_FOCUSED_REPAIR_20261112.zip",
+    "bytes": 28403,
+    "sha256": "e10b85ed9e2beaa7a0f184fed0cc8ac74a042ec2cf959bf2887d44e2c3c731a7",
+    "crc_members": 9
+  },
+  "latest_estafet_version": 658
+}
