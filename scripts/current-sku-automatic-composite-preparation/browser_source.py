@@ -7,12 +7,14 @@ import json
 HERE = Path(__file__).resolve().parent
 spec = importlib.util.spec_from_file_location('current_browser_whole_source_binding', HERE / 'browser_binding.py')
 binding = importlib.util.module_from_spec(spec);spec.loader.exec_module(binding)
+deadline = binding.load('current_browser_cold_source_deadline', HERE / 'browser_deadline.py')
 
 
 def check():
     binding.entry.actual_inputs()
-    with binding.scope() as (engine, source, fixture):
-        pass  # Binding is complete under the fence; never invoke fixture.main.
+    with deadline.phase('SOURCE'):
+        with binding.scope() as (engine, source, fixture):
+            pass  # Binding is complete under the fence; never invoke fixture.main.
     raw = binding.entry.admission.canonical(source)
     return dict(source, complete_source_sha256=sha256(raw).hexdigest(),
                 database_calls=0,

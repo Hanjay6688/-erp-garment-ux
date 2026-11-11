@@ -9,10 +9,12 @@ ROOT = HERE.parents[1]
 spec = importlib.util.spec_from_file_location('current_browser_journey_source_contract', HERE / 'browser_preflight.py')
 preflight = importlib.util.module_from_spec(spec);spec.loader.exec_module(preflight)
 ORIGINAL = ROOT / 'scripts/current-sku-managed-recovery-native27-qualification/browser.mjs'
+deadline_spec = importlib.util.spec_from_file_location('current_browser_deadline_policy', HERE / 'browser_deadline.py')
+deadline = importlib.util.module_from_spec(deadline_spec); deadline_spec.loader.exec_module(deadline)
 
 ADMITTED = """function admitted(){
  const raw=execFileSync('python',[resolve(ROOT,'scripts/current-sku-automatic-composite-preparation/browser_source.py')],
-  {cwd:WRITER,encoding:'utf8',maxBuffer:128*1024*1024,timeout:SOURCE_ADMISSION_TIMEOUT_MS})
+  {cwd:WRITER,encoding:'utf8',maxBuffer:128*1024*1024,timeout:SOURCE_ADMISSION_TIMEOUT_MS+FIXTURE_CLEANUP_TIMEOUT_MS})
  const actual=JSON.parse(raw)
  assert.equal(actual.status,'COMPLETE_CURRENT_PRODUCT_SOURCE_ADMITTED_NOT_BROWSER_OR_FINANCIAL_ACCEPTANCE')
  assert.equal(actual.qualification_commit,process.env.GITHUB_SHA)
@@ -49,7 +51,7 @@ def derive(raw=None):
     routes = (
         ("const ROOT=resolve(dirname(fileURLToPath(import.meta.url)),'../..')",
          "const ROOT=resolve(dirname(fileURLToPath(import.meta.url)),'../..')\nconst WRITER=resolve(ROOT,'../writer')\n"
-         "const SOURCE_ADMISSION_TIMEOUT_MS=180000,NATIVE_OPERATION_TIMEOUT_MS=120000,FIXTURE_CLEANUP_TIMEOUT_MS=5000"),
+         f"const SOURCE_ADMISSION_TIMEOUT_MS={deadline.SOURCE_SECONDS*1000},NATIVE_OPERATION_TIMEOUT_MS={deadline.OPERATION_SECONDS*1000},FIXTURE_CLEANUP_TIMEOUT_MS={deadline.CLEANUP_SECONDS*1000}"),
         ("{IDS,equalCensus,pairOnly,previewOracle,postedOracle,observeConsole,requireConsoleEvidence,readable} from '../current-sku-pair-browser-qualification/evidence.mjs'",
          "{IDS,equalCensus,pairOnly,previewOracle,postedOracle,observeConsole,requireConsoleEvidence,readable,inverseOracle} from './browser_evidence.mjs'"),
         ("'../auditor/scripts/current-sku-managed-recovery-native27-qualification/browser_fixture.py'",
@@ -82,8 +84,8 @@ def derive(raw=None):
                       real_Auth_normal_App_PostgREST_reconcile_inverse_census_and_console_checks_preserved=True,
                       native_physical_60_06_and_economic_average_68_07_both_required=True,
                       complete_observations_retained_for_independent_final_oracle_recheck=True,
-                      cold_source_budget_seconds=180, unchanged_Native_operation_budget_seconds=120,
-                      fixture_cleanup_allowance_seconds=5,
+                      cold_source_budget_seconds=deadline.SOURCE_SECONDS, unchanged_Native_operation_budget_seconds=deadline.OPERATION_SECONDS,
+                      fixture_cleanup_allowance_seconds=deadline.CLEANUP_SECONDS,
                       actual_Auth_HTTP_cases=0, actual_browser_cases=0, actual_ERP_cases=0)
 
 

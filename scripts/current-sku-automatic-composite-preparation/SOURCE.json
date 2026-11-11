@@ -18,6 +18,16 @@
   "all_admission_values_unset": false,
   "all_prepared_business_cases": 27,
   "automatic_source_public_head": "9b1b0fcc9fbf477634619f07d4628d5be3a1b634",
+  "bounded_cold_source_deadline_repair": {
+    "Native_operation_seconds_unchanged": 120,
+    "actual_ERP_case_credit": 0,
+    "cleanup_seconds": 5,
+    "first_failure_run": 42932723978,
+    "observed_exact_e8_CI_complete_source_seconds": 199,
+    "observed_exact_e8_local_cold_source_seconds": 226.135,
+    "source_assertions_unchanged": true,
+    "source_seconds": 360
+  },
   "browser_binding_journey_control_methods": 4,
   "browser_copy_controls": 2,
   "browser_observer_controls": 3,
@@ -179,8 +189,8 @@
       "sha256": "b20fe97e1ab0507ab04882c6bbb67173df1d787be3ded2e87285107f16b90171"
     },
     "browser.mjs": {
-      "bytes": 23261,
-      "sha256": "7703dbcafa9641862770c5b54be6fe75a286f5ea05ff672f22ef4b6b11a39a07"
+      "bytes": 23288,
+      "sha256": "b5ecf79cffde7e17dfe2cba945fdf9b379dba54080fa29ce5fe6cf284c5a00b1"
     },
     "browser_access.py": {
       "bytes": 5355,
@@ -191,8 +201,8 @@
       "sha256": "559bd52931c12f8a70e5e268ccbb4c979d3907cf570d1cbdccaf56aa33fa7003"
     },
     "browser_deadline.py": {
-      "bytes": 933,
-      "sha256": "6e3aa155a5fedd982a92c70819b6774a168d3a1ca2c82e0bf62d851ddb93047c"
+      "bytes": 1090,
+      "sha256": "49b5fa9493a2559bac578053406d4788190cd0c9112075fb95e4158140126817"
     },
     "browser_evidence.mjs": {
       "bytes": 7960,
@@ -215,8 +225,8 @@
       "sha256": "91a615aa31440b0aaaad9df813501d8a05bab08e67c1da2ab24117205b4ad5a1"
     },
     "browser_prepare.py": {
-      "bytes": 6665,
-      "sha256": "9363206bbfff5fbfd2f0cafba61e65649b5653098401537a44234064545dfffa"
+      "bytes": 7059,
+      "sha256": "cecc0ffbd016652b45dab7804ea946814ec37648bd4f0c3e1d1753d207f96f16"
     },
     "browser_prerequisites.mjs": {
       "bytes": 6087,
@@ -235,8 +245,8 @@
       "sha256": "64b32afbfe557b1a3b5ab88d4c8f3dc3db022ef95d2b4b4585208b2548e4ab7a"
     },
     "browser_source.py": {
-      "bytes": 885,
-      "sha256": "c64aff29d19c8bb33d44cce9082a29a775777eac9599fc98cf40d661fcc0eafd"
+      "bytes": 1022,
+      "sha256": "8b1cbdeff4ca6ad7b0fd25b5ceebc44b3c0ed7c7f82b8f80e8c810e9c6dfc13e"
     },
     "callback_source.py": {
       "bytes": 2477,
@@ -359,8 +369,8 @@
       "sha256": "e07f6b653fd6ecd7fbc0236e2837911476581de1e03f8a59b5a7de15e4ded8a1"
     },
     "test_browser_deadline.py": {
-      "bytes": 2489,
-      "sha256": "db0e1782698eb458f735ba6ec64682bda1c4fa0841f1194bc1133c987d809b9d"
+      "bytes": 4992,
+      "sha256": "01a152f31cdf9f5f2fcf6b94b4faadf61fbd46c1b2e9138fc4ad8048f2cace89"
     },
     "test_browser_evidence.mjs": {
       "bytes": 10658,

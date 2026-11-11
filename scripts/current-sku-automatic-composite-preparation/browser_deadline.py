@@ -2,7 +2,9 @@
 from contextlib import contextmanager
 import signal
 
-SOURCE_SECONDS = 180
+# CI complete source validation took 199 seconds on the exact e8 candidate.
+# Keep a bounded 360-second cold-source allowance; transaction time is separate.
+SOURCE_SECONDS = 360
 OPERATION_SECONDS = 120
 CLEANUP_SECONDS = 5
 
