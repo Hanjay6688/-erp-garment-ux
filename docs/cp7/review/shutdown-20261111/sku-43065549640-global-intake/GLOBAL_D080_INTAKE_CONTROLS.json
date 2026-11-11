@@ -1,0 +1,13 @@
+{
+  "active_SKU_actual_job": 130679406466,
+  "actual_ERP_cases": 0,
+  "changed_fence_controls_passed": 2,
+  "current_sku_head": "d08032a28b9f00d0ee70a6f98c6b7d0f5b770c4a",
+  "exact_closed_fence_derivation_passed": true,
+  "global_runtime_admission": false,
+  "kind": "D080_GLOBAL_OFFLINE_CONTROL_REPLAY",
+  "live_in_progress_rejected": true,
+  "mandor_receipt_scope_refusals_passed": 7,
+  "old_candidate_rejected": true,
+  "terminal_identity_unit_tests_passed": 4
+}

@@ -1,0 +1,100 @@
+{
+  "actual_SKU_case_credit": 0,
+  "attempt": 1,
+  "files": {
+    "global/reviewed-sku-shutdown-successor/REVIEWED_980C_SUCCESSORS.json": {
+      "after": {
+        "bytes": 12168,
+        "sha256": "bc190076c832e2fc329463348cc49f108f3434f7c8cf2fee93b506d9010a1ea6"
+      },
+      "before": {
+        "bytes": 10492,
+        "sha256": "f93b35d6300f1909f9237b4724ed5aab9e8fee508b9a54a4e41071124f41cbce"
+      }
+    },
+    "global/reviewed-sku-shutdown-successor/compare_sku_catalogue.py": {
+      "after": {
+        "bytes": 5242,
+        "sha256": "2387a1b6146f48374f373cc1a69c04ef7f93012a45ecfac155d786d75a87ad04"
+      },
+      "before": {
+        "bytes": 5245,
+        "sha256": "2cbd36d5673cf71b00ddfaeb2eea124c8724365d583fef7c28131a0dff1c5099"
+      }
+    },
+    "global/reviewed-sku-shutdown-successor/reviewed_sku_source.py": {
+      "after": {
+        "bytes": 18741,
+        "sha256": "d6077028a550fe640cce37cb51953adbc4bc761ed76fd289223f4a7ffecdbe5b"
+      },
+      "before": {
+        "bytes": 18741,
+        "sha256": "44d9796ca01693799186a868e66428eb92c70f17f3ae5b3831cdb0be5e1b09b6"
+      }
+    },
+    "global/reviewed-sku-shutdown-successor/run_sku.py": {
+      "after": {
+        "bytes": 2017,
+        "sha256": "a9b8450489f6acf944901a9e98a4b5b92aca3a562c219ac1f960c19359f17926"
+      },
+      "before": {
+        "bytes": 2017,
+        "sha256": "211788ee5237fca0185a9dc8f5afcb7ad340787da6ca39ee5ac4d4edb42cd81b"
+      }
+    },
+    "sku-reader.workflow.yml.txt": {
+      "after": {
+        "bytes": 1923,
+        "sha256": "8c325bff18058e0b9a861ddc41b0f07694859c9ce58472f85a6092ee7d6ec520"
+      },
+      "before": {
+        "bytes": 1923,
+        "sha256": "8b06bed9fe6b14044f2f89b85a27e3a0b707cfe1114873ff6439bf499eb3c676"
+      }
+    }
+  },
+  "global_runtime_admission": false,
+  "head": "d08032a28b9f00d0ee70a6f98c6b7d0f5b770c4a",
+  "job": 130679406466,
+  "kind": "GLOBAL_REVIEW_FOR_CURRENT_SKU_PENDING_TERMINAL",
+  "last_delta": {
+    ".github/workflows/cp7-sku-current-parent-money-automatic-native25.yml": {
+      "bytes": 38909,
+      "sha": "5d1b7823227ab6561f4db6f4325941e239af9e98",
+      "sha256": "e43bad24a608095e8be8fbb1c2c0161727ded40ef8ebd4a4d3c50b6644c84b4b",
+      "status": "modified"
+    },
+    "scripts/current-sku-automatic-composite-preparation/SOURCE.json": {
+      "bytes": 59292,
+      "sha": "6157710d43d2377e89c5ec0174fa51b36d5d21eb",
+      "sha256": "f1d3a782c652a6195a77eb7774269c2b3e2811bcca6964b0c6e980b98e9e5959",
+      "status": "modified"
+    },
+    "scripts/current-sku-automatic-composite-preparation/sku-current-parent-money-automatic-native25-83.workflow.yml.txt": {
+      "bytes": 38909,
+      "sha": "5d1b7823227ab6561f4db6f4325941e239af9e98",
+      "sha256": "e43bad24a608095e8be8fbb1c2c0161727ded40ef8ebd4a4d3c50b6644c84b4b",
+      "status": "modified"
+    },
+    "scripts/current-sku-automatic-composite-preparation/test_browser_runtime.py": {
+      "bytes": 2561,
+      "sha": "c118d230d7e3008a9ae91a28fb59bf6ad1699970",
+      "sha256": "433d6469293dc6b592bc9a59edc9f9f2551b45fb18f9f382c02c2e7c365e2fc7",
+      "status": "modified"
+    },
+    "scripts/current-sku-automatic-composite-preparation/workflow.py": {
+      "bytes": 15626,
+      "sha": "376831ef915603f606f6722a53a33bbc20b4bfdb",
+      "sha256": "c69ebcc6d280843449046cdb9f9e65657f76f0980acb09276a08840172023f3c",
+      "status": "modified"
+    }
+  },
+  "patch": {
+    "bytes": 4754,
+    "sha256": "105b9841f96d1fc53b7be857de552db622983b3053a8ddfcca71116636797006"
+  },
+  "run": 43065549640,
+  "scope_paths": 219,
+  "sku_parent_transition_files": 28,
+  "tree": "a80a212694fc6b67d23e2dcdd9e648b4eea78541"
+}

@@ -1,0 +1,73 @@
+{
+  "cache": {
+    "bytes": 341039,
+    "sha256": "d5cc550150de36a82abcea050f7a3a2fcc8ba47343d83b2fe738ff4a644be649"
+  },
+  "callbacks": {
+    "bytes": 22414,
+    "sha256": "fb798b7793604cf4b79162b7ef18bf80e6e9e1a5f69b90091e5c5359bd0bba7a"
+  },
+  "current_sku_acceptance": false,
+  "functions": 2995,
+  "global_runtime_admission": false,
+  "historical_direct_writers": 348,
+  "historical_missing_watched_relations": [
+    "cp7_accessory_nonpayable.good_bases_v1",
+    "cp7_mandor_shop.allocation_events",
+    "cp7_mandor_shop.allocation_states",
+    "cp7_mandor_shop.command_context",
+    "cp7_mandor_shop.deduction_links",
+    "cp7_mandor_shop.offset_accounts",
+    "cp7_mandor_shop.payment_work",
+    "cp7_mandor_shop.sales",
+    "cp7_mandor_shop.settlement_lines",
+    "cp7_mandor_shop.settlement_reversals",
+    "cp7_mandor_shop.settlements",
+    "cp7_sku_conversion.automatic_admissions_v5",
+    "cp7_sku_conversion.automatic_context_v5",
+    "cp7_sku_conversion.base_money_events_v4",
+    "cp7_sku_conversion.component_events_v2",
+    "cp7_sku_conversion.cost_contributors_v3",
+    "cp7_sku_conversion.cost_events_v3",
+    "cp7_sku_conversion.cost_money_events_v3",
+    "cp7_sku_conversion.cost_source_rebalances_v3",
+    "cp7_sku_conversion.group_inverse_rebalances_v3",
+    "cp7_sku_conversion.legacy_groups_v4",
+    "cp7_sku_conversion.return_cost_components_v3",
+    "cp7_sku_conversion.sale_allocation_attributions_v2",
+    "cp7_sku_conversion.sale_allocation_components_v2",
+    "cp7_sku_conversion.sale_allocation_values_v2",
+    "cp7_sku_conversion.sale_cost_components_v3",
+    "cp7_sku_conversion.sales_return_attributions_v2",
+    "cp7_sku_conversion.sales_return_components_v2",
+    "cp7_sku_conversion.sales_return_values_v2",
+    "cp7_sku_conversion.valuation_attributions_v2",
+    "cp7_sku_conversion.valuation_contributors_v2",
+    "cp7_sku_conversion.valuation_events_v2",
+    "cp7_sku_conversion.valuation_postings_v2",
+    "cp7_sku_conversion.valuation_quotes_v2"
+  ],
+  "historical_opaque_or_dynamic_or_parse_obligations": 90,
+  "historical_transitive_candidates": 541,
+  "kind": "HISTORICAL_FULL25_PINNED_CALLBACK_WRITER_REPLAY",
+  "parser_controls": {
+    "Native_cases": 0,
+    "SQL_executed": 0,
+    "assignment_function_call_preserved": true,
+    "dynamic_SQL_explicitly_unresolved": true,
+    "literal_and_comment_decoys_excluded": true,
+    "modifying_CTE_detected": true
+  },
+  "parser_pg": [
+    17,
+    7
+  ],
+  "parser_version": "v7.20",
+  "preinstallation_watched_relations": 273,
+  "reparsed": 26,
+  "reused": 2969,
+  "source": {
+    "bytes": 14755737,
+    "sha256": "80856b7ec2cebf08318a21617091b73c6744161b72bb3be98bcb9ecd2b8109eb"
+  }
+}

@@ -1,0 +1,155 @@
+{
+  "actual_SKU_case_credit": 0,
+  "closed_head": "c9248b8770ec8cfe0f7e2f2fd8da26c141ea67c5",
+  "closed_prepared_paths": 209,
+  "closed_tree": "9b440dd1785344fdafa5d2d702a6dd8f1ee08622",
+  "collisions": 0,
+  "current_sku_head": "d08032a28b9f00d0ee70a6f98c6b7d0f5b770c4a",
+  "current_sku_tree": "a80a212694fc6b67d23e2dcdd9e648b4eea78541",
+  "files": {
+    ".github/workflows/cp7-sku-current-parent-money-automatic-native25.yml": {
+      "change": "added",
+      "closed_preimage": null,
+      "current_sku_blob": "5d1b7823227ab6561f4db6f4325941e239af9e98"
+    },
+    "scripts/current-sku-automatic-composite-preparation/SOURCE.json": {
+      "change": "modified",
+      "closed_preimage": "57180791629a8c03687fcdb06b432ac8322a13cc",
+      "current_sku_blob": "6157710d43d2377e89c5ec0174fa51b36d5d21eb"
+    },
+    "scripts/current-sku-automatic-composite-preparation/admission.py": {
+      "change": "modified",
+      "closed_preimage": "39f1084dc07deecf3cbe683eadfb568ca3a5542d",
+      "current_sku_blob": "99e4165e9287b7fa33bcbcadea5789c56cde8e54"
+    },
+    "scripts/current-sku-automatic-composite-preparation/assembly.py": {
+      "change": "modified",
+      "closed_preimage": "be9659e526d696315b943001cd0ce9e38a6bb8cf",
+      "current_sku_blob": "61d6ee4966c806b15194c12907c8f3a278150ad4"
+    },
+    "scripts/current-sku-automatic-composite-preparation/browser.mjs": {
+      "change": "modified",
+      "closed_preimage": "64b17005536c939d158441f98cf90025dc64d6ec",
+      "current_sku_blob": "8cc62dd29adbd64c8ee2959dd756b00397ad2dfc"
+    },
+    "scripts/current-sku-automatic-composite-preparation/browser_deadline.py": {
+      "change": "modified",
+      "closed_preimage": "134a35b066da8ee6fb8f1e91f9c96d2cdb74241d",
+      "current_sku_blob": "d8176ce720d6c021502af4d20d130569341f5702"
+    },
+    "scripts/current-sku-automatic-composite-preparation/browser_prepare.py": {
+      "change": "modified",
+      "closed_preimage": "849862cf5f08e5dc3e5f09d902bf3a3894d099f3",
+      "current_sku_blob": "9046589fe5b7206dd7aab114394f8da259a9a0d2"
+    },
+    "scripts/current-sku-automatic-composite-preparation/browser_source.py": {
+      "change": "modified",
+      "closed_preimage": "4e8090ae13cc88f70e2cab93dd927e40abfa60de",
+      "current_sku_blob": "79860b1edc765b4b234af38951082c4213a8e291"
+    },
+    "scripts/current-sku-automatic-composite-preparation/check_source.py": {
+      "change": "modified",
+      "closed_preimage": "898fa938c948ca1ef40eace18f816b6aa510b631",
+      "current_sku_blob": "31957c63ceecc4d61fa0674bdfdd09b23cc769fc"
+    },
+    "scripts/current-sku-automatic-composite-preparation/checkpoint.py": {
+      "change": "added",
+      "closed_preimage": null,
+      "current_sku_blob": "de7434e8f865a454fef87355aef3c0c7d71b7aea"
+    },
+    "scripts/current-sku-automatic-composite-preparation/execution.py": {
+      "change": "modified",
+      "closed_preimage": "750578dde2651e60c0e1b075204f2fbc2fba7ecd",
+      "current_sku_blob": "a8e938c010251706e63967d8f06eb00e80cf11e2"
+    },
+    "scripts/current-sku-automatic-composite-preparation/module_scope.py": {
+      "change": "modified",
+      "closed_preimage": "84f5ac906837e1d7636ee865a7e64d46b887bbc0",
+      "current_sku_blob": "583768c6b3471fc3a45a9c018d7dcae36e76c660"
+    },
+    "scripts/current-sku-automatic-composite-preparation/moving_diagnostics.py": {
+      "change": "added",
+      "closed_preimage": null,
+      "current_sku_blob": "af130290f21ea127cfba41548b8b3dd43357eba5"
+    },
+    "scripts/current-sku-automatic-composite-preparation/non_po_rounding.py": {
+      "change": "added",
+      "closed_preimage": null,
+      "current_sku_blob": "2a98184e5a766754640f72aad683cd27c47c2132"
+    },
+    "scripts/current-sku-automatic-composite-preparation/package.py": {
+      "change": "modified",
+      "closed_preimage": "1a9909c5bacdb11bac854669f44b78636182473d",
+      "current_sku_blob": "234c55205c366e48d06f591edd96e39cdcc6d9b8"
+    },
+    "scripts/current-sku-automatic-composite-preparation/qualification.py": {
+      "change": "modified",
+      "closed_preimage": "ac51965cd4909e0fdf6c2d8ba4a63c1598165403",
+      "current_sku_blob": "ebe456036bb8fa7bc6dbff83bcce0c2ea42fc2be"
+    },
+    "scripts/current-sku-automatic-composite-preparation/run_window.py": {
+      "change": "added",
+      "closed_preimage": null,
+      "current_sku_blob": "7b9bd897be52c2ef673b56cd2bf814255107ffd7"
+    },
+    "scripts/current-sku-automatic-composite-preparation/runtime_receipt.py": {
+      "change": "added",
+      "closed_preimage": null,
+      "current_sku_blob": "5fc2134bb2f9aa6c6587fc8beab1c423eae6c2c6"
+    },
+    "scripts/current-sku-automatic-composite-preparation/sku-current-parent-money-automatic-native25-83.workflow.yml.txt": {
+      "change": "added",
+      "closed_preimage": null,
+      "current_sku_blob": "5d1b7823227ab6561f4db6f4325941e239af9e98"
+    },
+    "scripts/current-sku-automatic-composite-preparation/test_browser_deadline.py": {
+      "change": "modified",
+      "closed_preimage": "f9784bbefee3d655acce6af0f5418837ba90e887",
+      "current_sku_blob": "96e38ca9a2ff3fbf83323346b878e9df976c295e"
+    },
+    "scripts/current-sku-automatic-composite-preparation/test_browser_runtime.py": {
+      "change": "modified",
+      "closed_preimage": "980bd11b65c12558899f18877efbc8715b5479f1",
+      "current_sku_blob": "c118d230d7e3008a9ae91a28fb59bf6ad1699970"
+    },
+    "scripts/current-sku-automatic-composite-preparation/test_checkpoint.py": {
+      "change": "added",
+      "closed_preimage": null,
+      "current_sku_blob": "29696eb1cc89f73925dcb0f0d05e0602c0592ac2"
+    },
+    "scripts/current-sku-automatic-composite-preparation/test_current_parent.py": {
+      "change": "modified",
+      "closed_preimage": "b9172d3722bd6e0a6f3214ae3e6be0415bef82c1",
+      "current_sku_blob": "c9ed329b2001e4e9f10867855ae946e06f27c0aa"
+    },
+    "scripts/current-sku-automatic-composite-preparation/test_execution.py": {
+      "change": "modified",
+      "closed_preimage": "cde0f0061f1893c3ff6287e5a67d2656180b6fd1",
+      "current_sku_blob": "f00a1d8c30caa2fdefb2dcf73b95f611667a71ab"
+    },
+    "scripts/current-sku-automatic-composite-preparation/test_qualification.py": {
+      "change": "modified",
+      "closed_preimage": "d64a7a0895e5b8be13e1f8107e4287de47c52a7d",
+      "current_sku_blob": "ec237d7d434267825974a1c8c8bafd23eb6a3485"
+    },
+    "scripts/current-sku-automatic-composite-preparation/test_run_window.py": {
+      "change": "added",
+      "closed_preimage": null,
+      "current_sku_blob": "6ad64886996c0164b178e1cdf00ddc2ee244494a"
+    },
+    "scripts/current-sku-automatic-composite-preparation/test_runtime_receipt.py": {
+      "change": "added",
+      "closed_preimage": null,
+      "current_sku_blob": "97b286aa6acd3a3b4b67dac3bb1e3a064f9433a5"
+    },
+    "scripts/current-sku-automatic-composite-preparation/workflow.py": {
+      "change": "modified",
+      "closed_preimage": "345bbc2b389739a4d114709356f7bd7084e9004a",
+      "current_sku_blob": "376831ef915603f606f6722a53a33bbc20b4bfdb"
+    }
+  },
+  "global_runtime_admission": false,
+  "kind": "CLOSED_GLOBAL_D080_SOURCE_COLLISION_REPLAY",
+  "reviewed_delta_paths": 28,
+  "scope_paths": 219
+}

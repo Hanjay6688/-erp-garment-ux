@@ -1,0 +1,151 @@
+{
+  "accepted_historical_sources_retained": true,
+  "compared_exact_workflows": [
+    {
+      "blob": "2ed083df250fcd0d38a541905cb2bc14cd22c0de",
+      "conclusion": "success",
+      "direct_official_archive_config": false,
+      "head": "fd797083eab093d9dc97f2d52ca61dc37812b437",
+      "id": 42258224710,
+      "jobs": [
+        {
+          "apt_steps": [
+            {
+              "apt_updates": 2,
+              "name": "Install pinned disposable runtime",
+              "official_direct_ubuntu_source_prepared_at_or_before_step": false,
+              "playwright_OS_dependency_commands": 0,
+              "playwright_OS_dependency_inside_checkout_loop": false,
+              "step": 11
+            },
+            {
+              "apt_updates": 0,
+              "name": "Install pinned browser dependencies in both actual checkout roots",
+              "official_direct_ubuntu_source_prepared_at_or_before_step": false,
+              "playwright_OS_dependency_commands": 1,
+              "playwright_OS_dependency_inside_checkout_loop": false,
+              "step": 66
+            }
+          ],
+          "image": "ubuntu-24.04",
+          "job": "p21"
+        },
+        {
+          "apt_steps": [
+            {
+              "apt_updates": 0,
+              "name": "Install pinned browser dependencies in both actual checkout roots",
+              "official_direct_ubuntu_source_prepared_at_or_before_step": false,
+              "playwright_OS_dependency_commands": 1,
+              "playwright_OS_dependency_inside_checkout_loop": false,
+              "step": 4
+            }
+          ],
+          "image": "ubuntu-latest",
+          "job": "browser_prerequisites_only"
+        }
+      ],
+      "path": ".github/workflows/cp7-afui-good-nonpayable.yml",
+      "status": "completed"
+    },
+    {
+      "blob": "2b347aabb66828129a3a0a89da56c53562575972",
+      "conclusion": "success",
+      "direct_official_archive_config": false,
+      "head": "e63c758990f54dbec4e635ecf3d53c6e80b03041",
+      "id": 42752853455,
+      "jobs": [
+        {
+          "apt_steps": [
+            {
+              "apt_updates": 2,
+              "name": "Install pinned disposable runtime",
+              "official_direct_ubuntu_source_prepared_at_or_before_step": false,
+              "playwright_OS_dependency_commands": 0,
+              "playwright_OS_dependency_inside_checkout_loop": false,
+              "step": 12
+            },
+            {
+              "apt_updates": 0,
+              "name": "Install pinned browser dependencies in both actual checkout roots",
+              "official_direct_ubuntu_source_prepared_at_or_before_step": false,
+              "playwright_OS_dependency_commands": 1,
+              "playwright_OS_dependency_inside_checkout_loop": false,
+              "step": 68
+            }
+          ],
+          "image": "ubuntu-24.04",
+          "job": "p21"
+        },
+        {
+          "apt_steps": [
+            {
+              "apt_updates": 2,
+              "name": "Install pinned disposable runtime",
+              "official_direct_ubuntu_source_prepared_at_or_before_step": false,
+              "playwright_OS_dependency_commands": 0,
+              "playwright_OS_dependency_inside_checkout_loop": false,
+              "step": 13
+            },
+            {
+              "apt_updates": 0,
+              "name": "Install pinned browser dependencies in both actual checkout roots",
+              "official_direct_ubuntu_source_prepared_at_or_before_step": false,
+              "playwright_OS_dependency_commands": 1,
+              "playwright_OS_dependency_inside_checkout_loop": false,
+              "step": 70
+            }
+          ],
+          "image": "ubuntu-24.04",
+          "job": "browser_prerequisites_only"
+        }
+      ],
+      "path": ".github/workflows/cp7-mandor-shop-native17.yml",
+      "status": "completed"
+    },
+    {
+      "blob": "5d1b7823227ab6561f4db6f4325941e239af9e98",
+      "conclusion": null,
+      "direct_official_archive_config": true,
+      "head": "d08032a28b9f00d0ee70a6f98c6b7d0f5b770c4a",
+      "id": 43065549640,
+      "jobs": [
+        {
+          "apt_steps": [
+            {
+              "apt_updates": 2,
+              "name": "Install pinned disposable runtime",
+              "official_direct_ubuntu_source_prepared_at_or_before_step": true,
+              "playwright_OS_dependency_commands": 0,
+              "playwright_OS_dependency_inside_checkout_loop": false,
+              "step": 12
+            },
+            {
+              "apt_updates": 0,
+              "name": "Install pinned browser dependencies in both actual checkout roots before database",
+              "official_direct_ubuntu_source_prepared_at_or_before_step": true,
+              "playwright_OS_dependency_commands": 1,
+              "playwright_OS_dependency_inside_checkout_loop": false,
+              "step": 69
+            }
+          ],
+          "image": "ubuntu-24.04",
+          "job": "p21"
+        }
+      ],
+      "path": ".github/workflows/cp7-sku-current-parent-money-automatic-native25.yml",
+      "status": "in_progress"
+    }
+  ],
+  "first_failure_job": 130582657713,
+  "first_failure_run": 43038214763,
+  "global_active_workflow_present": false,
+  "global_closed_source": "c9248b8770ec8cfe0f7e2f2fd8da26c141ea67c5",
+  "global_runtime_admission": false,
+  "kind": "CP7_APT_BROWSER_DEPENDENCY_SCOPE_REVIEW",
+  "new_browser_prerequisite_step_success": true,
+  "new_browser_step_seconds": 34,
+  "new_job": 130679406466,
+  "new_run": 43065549640,
+  "real_two_checkout_browser_smoke_success": true
+}
