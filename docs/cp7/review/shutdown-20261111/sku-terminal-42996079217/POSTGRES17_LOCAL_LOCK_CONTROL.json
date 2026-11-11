@@ -1,0 +1,21 @@
+{
+  "postgres": "17.6",
+  "same_backend_reentry_passed": true,
+  "role_restored": true,
+  "advisory_wait": {
+    "state": "active",
+    "wait_type": "Lock",
+    "wait_event": "advisory",
+    "blocker_count": 1
+  },
+  "relation_wait": {
+    "state": "active",
+    "wait_type": "Lock",
+    "wait_event": "relation",
+    "blocker_count": 1
+  },
+  "lock_released_after_rollback": true,
+  "observed_query_text": false,
+  "external_runner_cause_verified": false,
+  "actual_SKU_case_credit": 0
+}

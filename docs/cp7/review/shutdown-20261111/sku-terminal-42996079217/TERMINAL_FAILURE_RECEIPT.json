@@ -1,0 +1,71 @@
+{
+  "run": 42996079217,
+  "job": 130440406014,
+  "attempt": 1,
+  "head": "32590613a08e176536d9a19b3843f6a72f4479b4",
+  "tree": "262811e77e1a305a9d54baa9374e27df06793d10",
+  "run_conclusion": "failure",
+  "job_conclusion": "failure",
+  "started_at": "2026-11-11T09:32:52Z",
+  "completed_at": "2026-11-11T10:36:00Z",
+  "runner": "GitHub Actions 1000021017",
+  "runner_label": [
+    "ubuntu-24.04"
+  ],
+  "first_failed_step": {
+    "name": "Run current-parent money automatic Native25 and real browser2 once with owning restoration",
+    "status": "completed",
+    "conclusion": "cancelled",
+    "number": 78,
+    "started_at": "2026-11-11T09:51:14Z",
+    "completed_at": "2026-11-11T10:35:56Z"
+  },
+  "first_failure_log": {
+    "line": 9723,
+    "s": "2026-11-11T10:35:53.8646328Z ##[error]The runner has received a shutdown signal. This can happen when the runner service is stopped, or a manually started runner is canceled."
+  },
+  "log": {
+    "bytes": 1242516,
+    "sha256": "8256470c756a2bd5238866838890af4e648f8a6f45c8bb3088e84aa49f183eb3",
+    "lines": 9728,
+    "retained_excerpt": true
+  },
+  "supervisor": {
+    "status": "INCOMPLETE",
+    "deadline_reached": false,
+    "external_signal": "SIGTERM",
+    "orphaned_child": false,
+    "signals": [
+      {
+        "signal": "SIGINT",
+        "reason": "EXTERNAL_CANCELLATION",
+        "elapsed_seconds": 2678.71
+      }
+    ],
+    "worker_exit": -9,
+    "process_group_empty": true,
+    "process_tree_empty": true,
+    "actual_case_credit": 0,
+    "production_go": false,
+    "worker_pid": 25429,
+    "elapsed_seconds": 2680.727,
+    "job_budget_seconds": 21600,
+    "work_budget_seconds": 19800,
+    "recovery_reserve_seconds": 1200,
+    "artifact_reserve_seconds": 600,
+    "qualification_commit": "32590613a08e176536d9a19b3843f6a72f4479b4",
+    "github_run_id": "42996079217",
+    "github_run_attempt": "1"
+  },
+  "artifacts": [
+    {
+      "id": 13845740094,
+      "name": "cp7-sku-admission-checkpoint-42996079217-1",
+      "size_in_bytes": 22422,
+      "digest": "sha256:61b0b1d87b42e91e174f404daaccf764c91b4de2daf04d0014f876b048b1faaf"
+    }
+  ],
+  "canonical_available": false,
+  "restoration_verified": false,
+  "case_credit": 0
+}

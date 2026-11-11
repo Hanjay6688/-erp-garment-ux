@@ -1,0 +1,15 @@
+{
+  "source_file_sha256": "0f6aadf3a3f56a33db4999730fc545f6b786d1d84c5aacd7bf72a18eda892c95",
+  "archive_member": "auditor/cp6-proof/t3/MANDOR_MOBILE390_596BE0F1EF0940269CAF45FA05AD89B3_01_BEFORE_SELECTION_FULL_CENSUS.json.gz",
+  "original_json_bytes": 15360523,
+  "original_json_sha256": "997cc6bdcf5df2a0017c2fd61817a2baf6802f8edfa88b50de409530d7f7c4f9",
+  "typed_json_bytes": 19838411,
+  "same_digest": "6168a2ddbc46de91c1ac41bf03e655d5a9fef96243242dfd7388457964ebf36a",
+  "typed_conversion_seconds": 0.853,
+  "streamed_encoding_seconds": 1.201,
+  "batch_encoding_seconds": 0.207,
+  "exact_state_digest_seconds": 2.134,
+  "process_max_rss_kib": 241836,
+  "actual_SKU_case_credit": 0,
+  "source": "historical complete Mandor census, not the killed SKU process state"
+}

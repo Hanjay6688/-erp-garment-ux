@@ -1,0 +1,30 @@
+{
+  "first": {
+    "run": 42941789501,
+    "job": 130265082676,
+    "runner_id": 1000021016,
+    "job_seconds": 3444,
+    "external_signal": "SIGTERM",
+    "deadline_reached": false,
+    "work_seconds": 2466.796,
+    "last_known_phase": "ACTUAL_CURRENT_MANDOR_MOVING_AND_MONEY_PARENT_INSTALL"
+  },
+  "second": {
+    "run": 42996079217,
+    "job": 130440406014,
+    "runner_id": 1000021017,
+    "job_seconds": 3788.0,
+    "external_signal": "SIGTERM",
+    "deadline_reached": false,
+    "work_seconds": 2680.727,
+    "last_known_phase": "SKU_MOVING_PARENT_DELTA"
+  },
+  "observations": {
+    "afui_install_seconds": 1519.447,
+    "mandor_delta_seconds": 72.635,
+    "moving_elapsed_before_shutdown_seconds": 759.034
+  },
+  "finding": "External runner shutdown recurred on two distinct runners. GitHub did not identify its upstream trigger. The durations differ. No completed SKU case or app assertion failure was observed.",
+  "restoration_verified": false,
+  "actual_SKU_case_credit": 0
+}
