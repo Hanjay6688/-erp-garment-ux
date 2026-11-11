@@ -3,6 +3,7 @@ from contextlib import contextmanager
 from datetime import datetime, timezone
 from hashlib import sha256
 from pathlib import Path
+from time import monotonic_ns, process_time_ns
 import argparse
 import json
 import os
@@ -122,10 +123,16 @@ def observe_parent_phase(name):
         yield
         return
 
+    started = monotonic_ns()
+    cpu_started = process_time_ns()
+
     def emit(state):
         event = dict(event='SKU_PARENT_INSTALL_PHASE', phase=name, state=state,
                      run=ident['GITHUB_RUN_ID'], attempt=ident['GITHUB_RUN_ATTEMPT'],
                      head=ident['GITHUB_SHA'], actual_case_credit=0, restoration_verified=False)
+        if state != 'STARTED':
+            event['elapsed_ms'] = (monotonic_ns() - started) // 1_000_000
+            event['process_cpu_ms'] = (process_time_ns() - cpu_started) // 1_000_000
         try:
             print(json.dumps(event, sort_keys=True), flush=True)
         except OSError:

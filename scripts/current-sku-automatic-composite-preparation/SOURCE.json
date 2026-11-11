@@ -185,8 +185,8 @@
       "sha256": "8d1ae7590e9fba0ab18771255d7a5fbee912cd94cf484c558c9a004a236a9085"
     },
     "assembly.py": {
-      "bytes": 6348,
-      "sha256": "b20fe97e1ab0507ab04882c6bbb67173df1d787be3ded2e87285107f16b90171"
+      "bytes": 7757,
+      "sha256": "fe63cdd7e1555ae89318b2badd1ac4ba074631be8a9370eff47bdb8cd64d324c"
     },
     "browser.mjs": {
       "bytes": 23288,
@@ -261,8 +261,8 @@
       "sha256": "ba8ed36a20010b2e55d3b12f678f7753c25e28f06782435b5cfa4bbb899f5c32"
     },
     "checkpoint.py": {
-      "bytes": 6163,
-      "sha256": "eaa6d0be747c09d0b3587b0879324818a958e42664b4296a9f3631960957895c"
+      "bytes": 6466,
+      "sha256": "53149020d4b28367703af4d21ad6443aa224b0151c97df27a4e84b54aaaa53c1"
     },
     "component.py": {
       "bytes": 5975,
@@ -333,8 +333,8 @@
       "sha256": "5535ce276253d5ce6f10157cc825e75499ef2e2cf6b225dac3213317e6cb1966"
     },
     "qualification.py": {
-      "bytes": 13627,
-      "sha256": "45cf9612ee9ca0c41dde185c58c88942a550e59b1ab741c48d16308216c1fb16"
+      "bytes": 13883,
+      "sha256": "483ae2b6e19167679b41d24fd867a506c09d922b29a616239b9c7b08531f5c6a"
     },
     "report_io.py": {
       "bytes": 6464,
@@ -433,8 +433,8 @@
       "sha256": "a81b36fb904e651e53bb1db86218ecec71cef660d11ca8a7cb5b38d82acbc86a"
     },
     "test_qualification.py": {
-      "bytes": 24449,
-      "sha256": "ed6dbfa2cf8327ef44b273abda436b3172b77cb52ec8bc94cf2081f94e80074c"
+      "bytes": 24571,
+      "sha256": "acc491e96c665b39eaa3aeb2a2b214a0597a6d9556d72958254f5e36fb484880"
     },
     "test_report_io.py": {
       "bytes": 8096,
@@ -451,6 +451,10 @@
     "workflow.py": {
       "bytes": 11392,
       "sha256": "c8b33243a9a3ad5e0e91226a3fc3fab96f7e03b6150b0ba3b276500b43d1b5f8"
+    },
+    "moving_diagnostics.py": {
+      "bytes": 3205,
+      "sha256": "2ba7d677437dd4d7d8622582e53c1f17e7a3aa9aa047eb9a871ccaf79f6cf9b3"
     }
   },
   "fresh_Auth_HTTP_races_browser_and_full_runtime_pending": true,

@@ -71,7 +71,9 @@ class OwningNative25(unittest.TestCase):
                 self.entry.actual_inputs()
 
     def test_money_binding_closed_gate_never_inspects_receipts_or_loads_retained_modules(self):
-        with patch.object(self.binding, 'load', side_effect=AssertionError('retained module inspected')):
+        admission = self.binding.admission
+        with patch.multiple(admission, **dict.fromkeys(admission.GATES)), \
+                patch.object(self.binding, 'load', side_effect=AssertionError('retained module inspected')):
             with self.assertRaisesRegex(ValueError, 'FULL_NATIVE_LIFECYCLE_PENDING'):
                 self.binding.bind(object(), object(), object())
 

@@ -5,10 +5,12 @@ new Native case plan must be bound before this loader inspects any caller.
 This preparation neither opens those gates nor provides an active workflow.
 """
 from hashlib import sha256
+from io import BytesIO
 from pathlib import Path
 from types import ModuleType
 import importlib.util
 import json
+import os
 import subprocess
 
 HERE = Path(__file__).resolve().parent
@@ -32,8 +34,41 @@ def require(value, message):
         raise ValueError(message)
 
 
-def git(*args):
-    return subprocess.check_output(['git', '-C', str(ROOT), *args])
+def git(*args, input=None):
+    return subprocess.check_output(['git', '-C', str(ROOT), *args], input=input,
+                                   env=dict(os.environ, GIT_NO_LAZY_FETCH='1'))
+
+
+def pinned_sources(tree, inherited, additions):
+    """Read the immutable tree and requested blobs without per-file Git calls."""
+    names = sorted(inherited.keys() | additions.keys())
+    listing = git('ls-tree', '--full-tree', '-z', tree, '--', *names)
+    require(listing.endswith(b'\0'), 'SKU_AUTOMATIC_EXACT_SOURCE_TREE_LIST_REQUIRED')
+    blobs = {}
+    for row in listing.split(b'\0')[:-1]:
+        header, path = row.split(b'\t', 1)
+        _, kind, oid = header.split()
+        name = path.decode()
+        require(kind == b'blob' and name not in blobs, 'SKU_AUTOMATIC_EXACT_SOURCE_BLOB_REQUIRED:' + name)
+        blobs[name] = oid.decode()
+    require(blobs.keys() == set(names), 'SKU_AUTOMATIC_EXACT_SOURCE_PATHS_REQUIRED')
+    for name, expected in inherited.items():
+        require(blobs[name] == expected, 'SKU_AUTOMATIC_ORIGINAL_MONEY_PRODUCT_CHANGED:' + name)
+    for name, expected in additions.items():
+        require(blobs[name] == expected['blob'], 'SKU_AUTOMATIC_EXACT_REVIEWED_ADDITION_REQUIRED:' + name)
+
+    requested = ''.join(blobs[name] + '\n' for name in additions).encode()
+    stream = BytesIO(git('cat-file', '--batch', input=requested))
+    result = {}
+    for name, expected in additions.items():
+        header = f"{blobs[name]} blob {expected['bytes']}\n".encode()
+        require(stream.readline() == header, 'SKU_AUTOMATIC_EXACT_BATCH_BLOB_HEADER_REQUIRED:' + name)
+        raw = stream.read(expected['bytes'])
+        require(stream.read(1) == b'\n' and admission.pin(raw) == {k: expected[k] for k in ('bytes', 'sha256')},
+                'SKU_AUTOMATIC_EXACT_REVIEWED_ADDITION_REQUIRED:' + name)
+        result[name] = raw
+    require(not stream.read(1), 'SKU_AUTOMATIC_EXACT_BATCH_END_REQUIRED')
+    return result
 
 
 def prepared_sources():
@@ -44,15 +79,8 @@ def prepared_sources():
     tree = ref['automatic_source']['tree']
     require(len(ref['automatic_files']) == 20 and len(ref['unchanged_money_product']['files']) == 44,
             'SKU_AUTOMATIC_COMPLETE_SOURCE_FILE_SETS_REQUIRED')
-    for name, blob in ref['unchanged_money_product']['files'].items():
-        require(git('rev-parse', tree + ':' + name).decode().strip() == blob,
-                'SKU_AUTOMATIC_ORIGINAL_MONEY_PRODUCT_CHANGED:' + name)
-    for name, expected in ref['automatic_files'].items():
-        raw = git('show', tree + ':' + name)
-        require(admission.pin(raw) == {k: expected[k] for k in ('bytes', 'sha256')}
-                and git('rev-parse', tree + ':' + name).decode().strip() == expected['blob'],
-                'SKU_AUTOMATIC_EXACT_REVIEWED_ADDITION_REQUIRED:' + name)
-    raw = git('show', tree + ':scripts/cp7_sku_automatic_pending/composition.py')
+    sources = pinned_sources(tree, ref['unchanged_money_product']['files'], ref['automatic_files'])
+    raw = sources['scripts/cp7_sku_automatic_pending/composition.py']
     text, proof = derivation.derive(raw)
     return ref, text, proof
 

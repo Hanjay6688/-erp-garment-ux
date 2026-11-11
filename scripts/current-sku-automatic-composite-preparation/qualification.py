@@ -40,6 +40,7 @@ admission = assembly.admission
 component = load('automatic_owning_native25_component', HERE / 'component.py')
 package_source = load('automatic_owning_complete_package', HERE / 'package.py')
 checkpoint = load('automatic_owning_diagnostic_checkpoint', HERE / 'checkpoint.py')
+moving_diagnostics = load('automatic_owning_moving_diagnostics', HERE / 'moving_diagnostics.py')
 report_io = load('automatic_owning_atomic_report_output', HERE / 'report_io.py')
 modules = load('automatic_owning_inherited_module_selection', HERE / 'module_scope.py')
 authority = load('automatic_owning_private_authority', HERE / 'advisor_review.py')
@@ -135,6 +136,8 @@ def runtime():
                 original = FROZEN_PARENT / package_source.load('automatic_exact_retained_money_package', package_source.RETAINED).ORIGINAL
                 text, package_proof = package_source.derive(original.read_bytes())
                 package_proof['complete_parent_state_binding'] = package_source.bind_parent_state(product)
+                package_proof['moving_diagnostics'] = moving_diagnostics.bind(
+                    product.parent().parent(), checkpoint.observe_parent_phase)
                 engine = ModuleType('current_parent_money_automatic_native25_whole_package')
                 engine.__file__ = str(original)
                 engine.__dict__[report_io.HELPER] = report_io.write_complete
