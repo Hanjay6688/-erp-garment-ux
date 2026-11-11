@@ -135,7 +135,8 @@ def runtime():
                                                  parent_raw, money_raw, plan_raw)
                 original = FROZEN_PARENT / package_source.load('automatic_exact_retained_money_package', package_source.RETAINED).ORIGINAL
                 text, package_proof = package_source.derive(original.read_bytes())
-                package_proof['complete_parent_state_binding'] = package_source.bind_parent_state(product)
+                package_proof['complete_parent_state_binding'] = package_source.bind_parent_state(
+                    product, checkpoint.observe_parent_phase)
                 package_proof['moving_diagnostics'] = moving_diagnostics.bind(
                     product.parent().parent(), checkpoint.observe_parent_phase)
                 engine = ModuleType('current_parent_money_automatic_native25_whole_package')

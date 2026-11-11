@@ -72,12 +72,63 @@ def state_value(value):
 def state_digest(value):
     digest = sha256()
     encoder = json.JSONEncoder(ensure_ascii=False, separators=(',', ':'), allow_nan=False)
-    for chunk in encoder.iterencode(['cp7.complete-postgres-parent-state.v1', state_value(value)]):
-        digest.update(chunk.encode())
+    pending = bytearray()
+
+    def emit(raw):
+        pending.extend(raw)
+        if len(pending) >= 64 * 1024:
+            digest.update(pending)
+            pending.clear()
+
+    def encoded(item):
+        return encoder.encode(state_value(item)).encode()
+
+    containers = (dict, MappingProxyType, list, tuple, set, frozenset)
+
+    def write(item):
+        kind = type(item)
+        if kind in (dict, MappingProxyType):
+            emit(b'["' + kind.__name__.encode() + b'",[')
+            keys = [(encoded(key), key) for key in item]
+            keys.sort(key=lambda row: row[0])
+            for index, (raw_key, key) in enumerate(keys):
+                if index:
+                    emit(b',')
+                emit(b'[')
+                emit(raw_key)
+                emit(b',')
+                write(item[key])
+                emit(b']')
+            emit(b']]')
+        elif kind in (list, tuple):
+            # Catalogue rows are short scalar lists. Encode those in one
+            # pass while keeping the enclosing catalogue streaming.
+            if len(item) <= 64 and all(type(member) not in containers for member in item):
+                emit(encoded(item))
+                return
+            emit(b'["' + kind.__name__.encode() + b'",[')
+            for index, member in enumerate(item):
+                if index:
+                    emit(b',')
+                write(member)
+            emit(b']]')
+        elif kind in (set, frozenset):
+            emit(b'["' + kind.__name__.encode() + b'",[')
+            emit(b','.join(sorted(encoded(member) for member in item)))
+            emit(b']]')
+        else:
+            emit(encoded(item))
+
+    # Stream the same canonical typed bytes without materializing a second
+    # tree for the entire chain of predecessor catalogues.
+    emit(b'["cp7.complete-postgres-parent-state.v1",')
+    write(value)
+    emit(b']')
+    digest.update(pending)
     return digest.hexdigest()
 
 
-def bind_parent_state(product):
+def bind_parent_state(product, observe=nullcontext):
     """Bind only derived SKU modules; leave the frozen catalogue unchanged."""
     money = product.parent()
     moving = money.parent()
@@ -105,7 +156,8 @@ def bind_parent_state(product):
             def binding(catalog, prior, proof):
                 # The unchanged original selects every payload member. Only
                 # its digest receives typed values; live state stays intact.
-                return original(SimpleNamespace(digest=state_digest), prior, proof)
+                with observe('SKU_COMPLETE_PARENT_STATE_DIGEST'):
+                    return original(SimpleNamespace(digest=state_digest), prior, proof)
             return binding
         pending.append((module, bind(original)))
     # Validate all three before changing any private module.

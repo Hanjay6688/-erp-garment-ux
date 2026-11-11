@@ -390,6 +390,27 @@ class CompleteStateBindingControls(unittest.TestCase):
         with self.assertRaisesRegex(TypeError, 'UNSUPPORTED_VALUE'):
             package.state_digest({object(): 'unsupported key must never be stringified'})
 
+    def test_streaming_digest_matches_original_typed_encoding(self):
+        from datetime import datetime, timedelta, timezone
+        from decimal import Decimal
+        from hashlib import sha256
+        from types import MappingProxyType
+        from uuid import UUID
+        package = load('package')
+        row = MappingProxyType({
+            UUID(int=9): (datetime(2026, 11, 11, tzinfo=timezone(timedelta(hours=7))),
+                          Decimal('73.0100'), frozenset({'é', '😀', b'\x00\xff'})),
+            ('member', 4): [True, None, -0.0, bytearray(b'\x00\xff')],
+            4: [i for i in range(80)],
+            '4': 'é😀' * 20000,
+        })
+        payload = {'before': row, 'after': row, 'full_parent': ({'catalogue': row},)}
+        encoder = json.JSONEncoder(ensure_ascii=False, separators=(',', ':'), allow_nan=False)
+        prior = sha256()
+        for chunk in encoder.iterencode(['cp7.complete-postgres-parent-state.v1', package.state_value(payload)]):
+            prior.update(chunk.encode())
+        self.assertEqual(package.state_digest(payload), prior.hexdigest())
+
     def test_changed_or_frozen_module_refuses_before_any_private_binding_changes(self):
         package = load('package')
         for violation in ('payload', 'origin', 'closure'):
