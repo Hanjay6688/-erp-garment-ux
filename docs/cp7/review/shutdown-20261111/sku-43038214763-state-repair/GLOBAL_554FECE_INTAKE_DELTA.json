@@ -1,0 +1,69 @@
+{
+  "active_workflow_added": false,
+  "actual_cases": 0,
+  "archive_reader": "astra-a/afui-evidence-intake-20261105",
+  "closed_scope_paths": 219,
+  "files": {
+    "global/reviewed-sku-shutdown-successor/REVIEWED_980C_SUCCESSORS.json": {
+      "after": {
+        "bytes": 10492,
+        "sha256": "f93b35d6300f1909f9237b4724ed5aab9e8fee508b9a54a4e41071124f41cbce"
+      },
+      "before": {
+        "bytes": 9153,
+        "sha256": "5b64bcf06ebe9def4703d911edc78e5ccc11353922f7903c71e67c8e9ed9cce5"
+      }
+    },
+    "global/reviewed-sku-shutdown-successor/compare_sku_catalogue.py": {
+      "after": {
+        "bytes": 5245,
+        "sha256": "2cbd36d5673cf71b00ddfaeb2eea124c8724365d583fef7c28131a0dff1c5099"
+      },
+      "before": {
+        "bytes": 5245,
+        "sha256": "b4c2515c057d3daf6ad28c45d7aeae0d861546e0c2e578069123f52e08ad1f20"
+      }
+    },
+    "global/reviewed-sku-shutdown-successor/reviewed_sku_source.py": {
+      "after": {
+        "bytes": 18741,
+        "sha256": "44d9796ca01693799186a868e66428eb92c70f17f3ae5b3831cdb0be5e1b09b6"
+      },
+      "before": {
+        "bytes": 18740,
+        "sha256": "e353235e5141671f1b1f770cb9b9dcf812a89c3c92e663b1185c2f18d4f4bf00"
+      }
+    },
+    "global/reviewed-sku-shutdown-successor/run_sku.py": {
+      "after": {
+        "bytes": 2017,
+        "sha256": "211788ee5237fca0185a9dc8f5afcb7ad340787da6ca39ee5ac4d4edb42cd81b"
+      },
+      "before": {
+        "bytes": 2017,
+        "sha256": "ed21972f77a547b934794e02029cd4cb1034eae40f60f82496782993c57ad527"
+      }
+    },
+    "sku-reader.workflow.yml.txt": {
+      "after": {
+        "bytes": 1923,
+        "sha256": "8b06bed9fe6b14044f2f89b85a27e3a0b707cfe1114873ff6439bf499eb3c676"
+      },
+      "before": {
+        "bytes": 1923,
+        "sha256": "b1b3be3484d514080194fdeae118ac7ed25e1cba999c06b9f35422d9cf71e551"
+      }
+    }
+  },
+  "patch": {
+    "bytes": 4269,
+    "sha256": "18c1e5e0cf1012b56729864b609dc6a63dbe0d5c698d65aa141738bf4db96ece"
+  },
+  "previous_intake_commit": "c39376def9398a21339c26760a29ad1e6605fcbb",
+  "review_paths": 27,
+  "sku_attempt": 1,
+  "sku_head": "554fecef4ee18c424fc5adb2d0996cc811e1b1ac",
+  "sku_job": 130582657713,
+  "sku_run": 43038214763,
+  "sku_tree": "c7c8631f470fe148f437f2604dd0a3a7c817eae2"
+}

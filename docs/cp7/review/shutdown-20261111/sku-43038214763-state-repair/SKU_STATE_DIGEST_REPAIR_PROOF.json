@@ -1,0 +1,55 @@
+{
+  "actual_SQL_executed": 0,
+  "actual_business_cases": 0,
+  "attempt": 1,
+  "candidate": {
+    "sha": "554fecef4ee18c424fc5adb2d0996cc811e1b1ac",
+    "tree": "c7c8631f470fe148f437f2604dd0a3a7c817eae2"
+  },
+  "cases": {
+    "after": {
+      "actual_SQL": 0,
+      "actual_business_cases": 0,
+      "catalogue_SHA256": "5e22077e71e34add6fd0627c89e9d21a2235f463818e45b233c7619bcfb0d48f",
+      "depth": 12,
+      "digest": "db76a68056ce7f37c8e85de1ca41c5a9f2ca41550f3fe3619268719ceeb91859",
+      "max_RSS_kib": 112572,
+      "mode": "after",
+      "seconds": 18.217329897001036
+    },
+    "before": {
+      "actual_SQL": 0,
+      "actual_business_cases": 0,
+      "catalogue_SHA256": "5e22077e71e34add6fd0627c89e9d21a2235f463818e45b233c7619bcfb0d48f",
+      "depth": 12,
+      "digest": "db76a68056ce7f37c8e85de1ca41c5a9f2ca41550f3fe3619268719ceeb91859",
+      "max_RSS_kib": 1793844,
+      "mode": "before",
+      "seconds": 88.00259381200158
+    },
+    "scaled": {
+      "actual_SQL": 0,
+      "actual_business_cases": 0,
+      "catalogue_SHA256": "5e22077e71e34add6fd0627c89e9d21a2235f463818e45b233c7619bcfb0d48f",
+      "depth": 36,
+      "digest": "62a424fac863e94344df8977f30b444498a57d2c88255550768c2ea2bd438c9d",
+      "max_RSS_kib": 112572,
+      "mode": "after",
+      "seconds": 65.0202973609994
+    }
+  },
+  "matching_v1_digest": "db76a68056ce7f37c8e85de1ca41c5a9f2ca41550f3fe3619268719ceeb91859",
+  "model_scope": "Previously verified Native27 catalogue and captured rows in modeled predecessor nesting",
+  "observed_previous_stop": "SKU_MOVING_CAPTURE_AND_BIND_STATE",
+  "original_catalogue": {
+    "bytes": 30376182,
+    "sha256": "5e22077e71e34add6fd0627c89e9d21a2235f463818e45b233c7619bcfb0d48f"
+  },
+  "peak_RSS_reduction_pct": 93.72453791968532,
+  "previous_job": 130550002269,
+  "previous_run": 43028745523,
+  "provider_shutdown_cause": "UNKNOWN",
+  "speedup": 4.830707590495394,
+  "status": "SKU_COMPLETE_STATE_DIGEST_OFFLINE_RESOURCE_COMPARISON",
+  "typed_and_receipt_tests": 21
+}

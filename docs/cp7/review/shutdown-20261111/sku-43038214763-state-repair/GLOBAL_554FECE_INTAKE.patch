@@ -1,0 +1,94 @@
+--- a/sku-reader.workflow.yml.txt
++++ b/sku-reader.workflow.yml.txt
+@@ -30,7 +30,7 @@
+       with:
+         persist-credentials: false
+         fetch-depth: 0
+-        ref: 980c22890cda4ced9aaecfc37390da77d5718e00
++        ref: 554fecef4ee18c424fc5adb2d0996cc811e1b1ac
+         path: sku
+     - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+       with:
+@@ -46,7 +46,7 @@
+     - name: Retain SKU terminal receipts and actual full25 catalogue if qualified
+       uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+       with:
+-        name: sku-43028745523-verified-terminal-receipts
++        name: sku-43038214763-verified-terminal-receipts
+         path: sku-terminal-receipts/
+         retention-days: 30
+         if-no-files-found: error
+--- a/global/reviewed-sku-shutdown-successor/REVIEWED_980C_SUCCESSORS.json
++++ b/global/reviewed-sku-shutdown-successor/REVIEWED_980C_SUCCESSORS.json
+@@ -200,5 +200,36 @@
+     },
+     "head": "980c22890cda4ced9aaecfc37390da77d5718e00",
+     "tree": "e49d13044d4304525c8a73da3fee3dfbc81cff51"
++  },
++  {
++    "base": "980c22890cda4ced9aaecfc37390da77d5718e00",
++    "files": {
++      "scripts/current-sku-automatic-composite-preparation/SOURCE.json": {
++        "bytes": 59292,
++        "sha": "65d5fdc50ce1335f4e9cb6494c4b124d10789fcd",
++        "sha256": "dc30b3e943c3b9feeb01e2572590c3efdf0838717b7157b121201b04c25b1282",
++        "status": "modified"
++      },
++      "scripts/current-sku-automatic-composite-preparation/package.py": {
++        "bytes": 12707,
++        "sha": "234c55205c366e48d06f591edd96e39cdcc6d9b8",
++        "sha256": "a18a3816524577a84318012ed525a21dae3881d950a1de37254e2034626156a8",
++        "status": "modified"
++      },
++      "scripts/current-sku-automatic-composite-preparation/qualification.py": {
++        "bytes": 14222,
++        "sha": "ebe456036bb8fa7bc6dbff83bcce0c2ea42fc2be",
++        "sha256": "7954f0c17a22e82957ebca5efadc024eea5df8065f07bccb7e1ee5c5b4e354a1",
++        "status": "modified"
++      },
++      "scripts/current-sku-automatic-composite-preparation/test_qualification.py": {
++        "bytes": 25677,
++        "sha": "ec237d7d434267825974a1c8c8bafd23eb6a3485",
++        "sha256": "66bf80a933a2e8f4b8214b589131bd2d3db395a5531a5c631b4412c0519dd95c",
++        "status": "modified"
++      }
++    },
++    "head": "554fecef4ee18c424fc5adb2d0996cc811e1b1ac",
++    "tree": "c7c8631f470fe148f437f2604dd0a3a7c817eae2"
+   }
+ ]
+--- a/global/reviewed-sku-shutdown-successor/reviewed_sku_source.py
++++ b/global/reviewed-sku-shutdown-successor/reviewed_sku_source.py
+@@ -105,7 +105,7 @@
+ 
+ 
+ _successor_raw = Path(__file__).with_name('REVIEWED_980C_SUCCESSORS.json').read_bytes()
+-require(pin(_successor_raw) == dict(bytes=9153, sha256='5b64bcf06ebe9def4703d911edc78e5ccc11353922f7903c71e67c8e9ed9cce5'),
++require(pin(_successor_raw) == dict(bytes=10492, sha256='f93b35d6300f1909f9237b4724ed5aab9e8fee508b9a54a4e41071124f41cbce'),
+         'SKU_REVIEWED_SUCCESSOR_SOURCE_PIN_CHANGED')
+ SUCCESSORS = strict(_successor_raw)
+ LINEAGE = ((PREPARED, PREPARED_TREE), (RECEIPT_FAILURE, RECEIPT_FAILURE_TREE),
+--- a/global/reviewed-sku-shutdown-successor/run_sku.py
++++ b/global/reviewed-sku-shutdown-successor/run_sku.py
+@@ -8,8 +8,8 @@
+ from reviewed_sku_source import CANDIDATE, CANDIDATE_TREE
+ from verify_sku_read_only import REPOSITORY, bind as bind_archive, stream
+ 
+-RUN = 43028745523
+-JOB = 130550002269
++RUN = 43038214763
++JOB = 130582657713
+ 
+ 
+ def metadata(endpoint):
+--- a/global/reviewed-sku-shutdown-successor/compare_sku_catalogue.py
++++ b/global/reviewed-sku-shutdown-successor/compare_sku_catalogue.py
+@@ -48,7 +48,7 @@
+ 
+ def review(receipt_raw, root_raw, catalogue_raw, historic_raw, cache_raw):
+     receipt, root = strict(receipt_raw), strict(root_raw)
+-    fields(root, dict(head='980c22890cda4ced9aaecfc37390da77d5718e00', tree='e49d13044d4304525c8a73da3fee3dfbc81cff51',
++    fields(root, dict(head='554fecef4ee18c424fc5adb2d0996cc811e1b1ac', tree='c7c8631f470fe148f437f2604dd0a3a7c817eae2',
+                       mandor_evidence_mode='CUMULATIVE_15_PLUS_2'),
+            'GLOBAL_CURRENT_SKU_CUMULATIVE_PARENT_REQUIRED')
+     fields(receipt, dict(status='SKU_TERMINAL_ORIGINAL_BYTES_VERIFIED', conclusion='success', attempt=1,
