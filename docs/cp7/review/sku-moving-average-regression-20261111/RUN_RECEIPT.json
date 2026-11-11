@@ -1,0 +1,256 @@
+{
+  "status": "FOCUSED_POSTGRESQL_RESULTS_RETAINED",
+  "original_source": {
+    "automatic": "9b1b0fcc9fbf477634619f07d4628d5be3a1b634",
+    "automatic_ddl": {
+      "bytes": 18268,
+      "sha256": "80e1ec6ec0b7f0b19111d229c64413f70be7bd4fed157b3c5cbef67d96bcdd56"
+    },
+    "automatic_definitions": 9,
+    "automatic_files_checked": 20,
+    "automatic_tree": "14de92a9d9c321cad0a513de28c164b4ba12de77",
+    "candidate": "32590613a08e176536d9a19b3843f6a72f4479b4",
+    "candidate_tree": "262811e77e1a305a9d54baa9374e27df06793d10",
+    "money": "f1674ae84739f577571d68415beabfca3f3b832b",
+    "money_ddl": {
+      "bytes": 86354,
+      "sha256": "4aa24fef8e1c71a14911b460ebce9cc344ff1887c747e72ce00a489bfb40bae2"
+    },
+    "money_definitions": 30,
+    "money_files_checked": 44,
+    "money_tree": "ea43f84029993b385722fe8e202adefd2a745f7b",
+    "native27": {
+      "bytes": 30376182,
+      "sha256": "5e22077e71e34add6fd0627c89e9d21a2235f463818e45b233c7619bcfb0d48f"
+    },
+    "native_book": {
+      "erp.account_id(text)": {
+        "bytes": 451,
+        "sha256": "f062aed68e292c44220f8fe4de5b90ed49e9881cb94bb784920be771c4bc650d"
+      },
+      "erp.compute_non_po_product_hpp_book_v2620f(uuid)": {
+        "bytes": 1273,
+        "sha256": "1647164dc565d08a010b182c3c08b1d729b00d588fc7a6e43774f8672c9c6ea5"
+      }
+    }
+  },
+  "historical_archives": {
+    "native27": {
+      "head": "090b85d3fcb738d3e694d4329d306f199a686eb8",
+      "tree": "e04831b441bed987cd72ff738cf2a06a7c0ef0ae",
+      "run_id": 41167734749,
+      "job_id": 124438845597,
+      "artifact_id": 13031164777,
+      "archive": {
+        "bytes": 94781660,
+        "sha256": "9ad923d20d0972b2a01df3ce3307bf03db537406ac89f99f700cf6d235bfc341",
+        "members": 170
+      },
+      "originals": {
+        "CP7_SKU_MANAGED_RECOVERY_NATIVE27.json": {
+          "bytes": 30376182,
+          "sha256": "5e22077e71e34add6fd0627c89e9d21a2235f463818e45b233c7619bcfb0d48f"
+        },
+        "CP7_SKU_PAIR_CONVERSION_NATIVE7.json": {
+          "bytes": 21044,
+          "sha256": "19416848a4247973e9302d669945baccd7a536210eadcffdef57d8206b7eda3e"
+        },
+        "CP7_SKU_GROUP_COST_NATIVE5.json": {
+          "bytes": 39067,
+          "sha256": "49be026d74c011aed4195117fa6f8f85ee12cf1e7dfa8272430479e1e40dc839"
+        },
+        "T3_PACKAGE_INSTALL.json": {
+          "bytes": 360417,
+          "sha256": "9afc5d5798b9ccc85c5c61c922e3cbfea75829aa2d790a8e4468149440cfd5e2"
+        },
+        "T3_PACKAGE_FILES_INSTALL.json": {
+          "bytes": 1806,
+          "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+        },
+        "T3_BACKUP_RESTORE_DRILL.json": {
+          "bytes": 1470,
+          "sha256": "bb7bd9fedafa7d1a72b7a7aed6431d82ca9d4de7bd2849df33c06d245b1f61c9"
+        }
+      }
+    },
+    "moving6": {
+      "archive": {
+        "bytes": 1962102,
+        "members": 125,
+        "sha256": "92d51cbbbd14beb667be36cb9748fd7f6b8505c15c4cf0eabe2e51392586272e"
+      },
+      "artifact_id": 13245548832,
+      "head": "a8da698c034f3ac6a6ae62b57eecd91fc54c813b",
+      "job_id": 126003816789,
+      "originals": {
+        "CP7_SKU_MOVING_AVERAGE_NATIVE6.json": {
+          "bytes": 18493,
+          "sha256": "79e91ab0fefaf95f3f5195e20a37560684097b70172657382b0788c44638f73d"
+        },
+        "CP7_SKU_MOVING_AVERAGE_QUALIFICATION.json": {
+          "bytes": 2701632,
+          "sha256": "6cc54bef730b9bcc0ccaf33d34f5bbd6add380160c1fefc21faee253c8dcc045"
+        },
+        "T3_BACKUP_RESTORE_DRILL.json": {
+          "bytes": 1470,
+          "sha256": "fc530274239c62a48154124062b5c80a0c845eea477b1ea9afd9c86e02eb15af"
+        },
+        "T3_PACKAGE_FILES_INSTALL.json": {
+          "bytes": 1806,
+          "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+        },
+        "T3_PACKAGE_INSTALL.json": {
+          "bytes": 360409,
+          "sha256": "303e7dbfdc5098a04f59450d80771bfcad953ddddd51630a7d2364775e47c581"
+        }
+      },
+      "run_id": 41660989394,
+      "tree": "6ea23d78ecd7d4074f85efec150140668354a0ac"
+    }
+  },
+  "historical_moving6_case_ids": [
+    "SKU_MOVAVG_CANONICAL_FORWARD20_MANUAL_BACK35_TOTAL130",
+    "SKU_MOVAVG_EXACT_GROUP_REVERSE_COMPONENT_AND_VALUE_INVERSE",
+    "SKU_MOVAVG_ROOT_RECOST_FOLLOWS_REMAINING_LINEAGE_TOTAL150",
+    "SKU_MOVAVG_SALE_PARTIAL_RETURN_AND_EXACT_REVERSAL",
+    "SKU_MOVAVG_RESERVATION_INCLUDED_AND_LOCATION_ISOLATED",
+    "SKU_MOVAVG_FRACTIONAL_RETURNS_INTERLEAVE_RECOST_AND_EARLIER_INVERSE"
+  ],
+  "historical_moving6_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "current_native": "BLOCKED_UNTIL_EQUIVALENT_ACTUAL_COMBINED_TEST_DATABASE",
+  "actual_ERP_cases": 0,
+  "new_github_actions_runs": 0,
+  "preparation_first_failure": "First preparation failure (offline, before any test fixture was installed)\n\nModuleNotFoundError: No module named 'financial_delta'\n  f1674ae: scripts/cp7_sku_cost_components/money_delta.py, line 125\n  Call from the isolated preparation script into the retained product deriver.\n\nThe official runner exposes the package directory to its legacy imports. The\nisolated preparation script now adds that same directory to its module path.\nNo product definition or business assertion was changed by this correction.\n",
+  "first_connection_failure": "node:internal/modules/run_main:107\n    triggerUncaughtException(\n    ^\n\nError: connect ECONNREFUSED 127.0.0.1:55427\n    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:2083:16) {\n  errno: -111,\n  code: 'ECONNREFUSED',\n  syscall: 'connect',\n  address: '127.0.0.1',\n  port: 55427\n}\n\nNode.js v24.22.1\n",
+  "first_runtime_failures": [
+    {
+      "attempt": 1,
+      "classification": "FIXTURE_SETUP",
+      "original_pin": {
+        "bytes": 1290,
+        "sha256": "6d77ea8fd623df5c334c73916d998a049d4febd0cadd641ce7f1e2c19541d930"
+      },
+      "original": {
+        "stage": "SETUP_OR_CLEANUP",
+        "message": "Installing the selected definition overlays must preserve rows\n+ actual - expected\n\n  {\n+   'cp7_sku_conversion.automatic_admissions_v5': [],\n+   'cp7_sku_conversion.automatic_context_v5': [],\n    'cp7_sku_conversion.base_money_events_v4': [],\n    'cp7_sku_conversion.component_events_v2': [\n      {\n        economic_date: '2026-01-01',\n        group_id: '73000000-0000-4000-8000-000000000011',\n",
+        "sqlstate": "ERR_ASSERTION",
+        "where": null,
+        "detail": null,
+        "stack": "AssertionError [ERR_ASSERTION]: Installing the selected definition overlays must preserve rows\n+ actual - expected\n\n  {\n+   'cp7_sku_conversion.automatic_admissions_v5': [],\n+   'cp7_sku_conversion.automatic_context_v5': [],\n    'cp7_sku_conversion.base_money_events_v4': [],\n    'cp7_sku_conversion.component_events_v2': [\n      {\n        economic_date: '2026-01-01',\n        group_id: '73000000-0000-4000-8000-000000000011',\n\n    at runFocusedCases (file:///workspace/scratch/b6947bc7a657/b-cp7-moving-average-lab/handoff/focused_probe.mjs:113:10)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async file:///workspace/scratch/b6947bc7a657/b-cp7-moving-average-lab/focused-r1/focused.mjs:524:2"
+      }
+    },
+    {
+      "attempt": 2,
+      "classification": "FIXTURE_SETUP",
+      "original_pin": {
+        "bytes": 1293,
+        "sha256": "aee52b318c4aafe12945a3d5372ebedd22155d8cd7e935d71239387972109c5d"
+      },
+      "original": {
+        "stage": "B_LATE_COST_AFTER_PARTIAL_SALE",
+        "message": "function erp.account_id(unknown) does not exist",
+        "sqlstate": "42883",
+        "where": "SQL function \"compute_non_po_product_hpp_book_v2620f\" during startup\nSQL statement \"select *          from erp.compute_non_po_product_hpp_book_v2620f(p_product_id)\"\nPL/pgSQL function assert_non_po_product_hpp_target_book_v2620f(uuid) line 20 at SQL statement\nSQL statement \"SELECT erp.assert_non_po_product_hpp_target_book_v2620f(product)\"\nPL/pgSQL function cp7_sku_conversion.capture_cost_source_v3(uuid) line 9 at PERFORM\nPL/pgSQL function erp.be_reconcile_cost_document_v1(uuid,date) line 13 at assignment",
+        "detail": null,
+        "stack": "error: function erp.account_id(unknown) does not exist\n    at /workspace/scratch/b6947bc7a657/b-cp7-moving-average-lab/node_modules/pg/lib/client.js:545:17\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async run (file:///workspace/scratch/b6947bc7a657/b-cp7-moving-average-lab/handoff/focused_probe.mjs:216:7)\n    at async runFocusedCases (file:///workspace/scratch/b6947bc7a657/b-cp7-moving-average-lab/handoff/focused_probe.mjs:238:3)\n    at async file:///workspace/scratch/b6947bc7a657/b-cp7-moving-average-lab/focused-r2/focused.mjs:524:2"
+      }
+    },
+    {
+      "attempt": 3,
+      "classification": "FIXTURE_SETUP",
+      "original_pin": {
+        "bytes": 1185,
+        "sha256": "b1e4558096887eb28a3f2237e929bc8cd3b0a28f2600dba2b0827ccad307f29c"
+      },
+      "original": {
+        "stage": "B_LATE_COST_AFTER_PARTIAL_SALE",
+        "message": "relation \"erp.bs_cases\" does not exist",
+        "sqlstate": "42P01",
+        "where": "SQL function \"automatic_valid_v5\" during startup\nSQL function \"automatic_scope_v5\" statement 1\nPL/pgSQL function cp7_sku_conversion.pool_quote_v2(uuid,uuid,text) line 5 at assignment",
+        "detail": null,
+        "stack": "error: relation \"erp.bs_cases\" does not exist\n    at /workspace/scratch/b6947bc7a657/b-cp7-moving-average-lab/node_modules/pg/lib/client.js:545:17\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async scalar (file:///workspace/scratch/b6947bc7a657/b-cp7-moving-average-lab/focused-r3/focused.mjs:20:55)\n    at async observe (file:///workspace/scratch/b6947bc7a657/b-cp7-moving-average-lab/handoff/focused_probe.mjs:162:18)\n    at async run (file:///workspace/scratch/b6947bc7a657/b-cp7-moving-average-lab/handoff/focused_probe.mjs:217:7)\n    at async runFocusedCases (file:///workspace/scratch/b6947bc7a657/b-cp7-moving-average-lab/handoff/focused_probe.mjs:238:3)\n    at async file:///workspace/scratch/b6947bc7a657/b-cp7-moving-average-lab/focused-r3/focused.mjs:524:2"
+      }
+    },
+    {
+      "attempt": 4,
+      "classification": "FIRST_BUSINESS_FAILURE",
+      "original_pin": {
+        "bytes": 1451,
+        "sha256": "f580332c99d8c44c777e2737b1bd181fc3a69ca34adec04110e85f90d86e5a7a"
+      },
+      "original": {
+        "stage": "B_RETURN_AFTER_LATE_COST_ODD_CENT",
+        "message": "return_one\n+ actual - expected\n\n  {\n+   book_cogs: 3651,\n-   book_cogs: 3650,\n    book_fg: 3651,\n    book_hpp: 7301,\n+   book_other: -1,\n-   book_other: 0,\n    cached_pcs: 1,\n+   cogs: 3651,\n-   cogs: 3650,\n    fg: 3651,\n    hpp: 7301,\n    ledger_pcs: 1,\n+   other: -1\n-   other: 0\n  }\n",
+        "sqlstate": "ERR_ASSERTION",
+        "where": null,
+        "detail": null,
+        "stack": "AssertionError [ERR_ASSERTION]: return_one\n+ actual - expected\n\n  {\n+   book_cogs: 3651,\n-   book_cogs: 3650,\n    book_fg: 3651,\n    book_hpp: 7301,\n+   book_other: -1,\n-   book_other: 0,\n    cached_pcs: 1,\n+   cogs: 3651,\n-   cogs: 3650,\n    fg: 3651,\n    hpp: 7301,\n    ledger_pcs: 1,\n+   other: -1\n-   other: 0\n  }\n\n    at observe (file:///workspace/scratch/b6947bc7a657/b-cp7-moving-average-lab/handoff/focused_probe.mjs:165:12)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async file:///workspace/scratch/b6947bc7a657/b-cp7-moving-average-lab/handoff/focused_probe.mjs:254:5\n    at async run (file:///workspace/scratch/b6947bc7a657/b-cp7-moving-average-lab/handoff/focused_probe.mjs:225:7)\n    at async runFocusedCases (file:///workspace/scratch/b6947bc7a657/b-cp7-moving-average-lab/handoff/focused_probe.mjs:247:3)\n    at async file:///workspace/scratch/b6947bc7a657/b-cp7-moving-average-lab/focused-r4/focused.mjs:524:2"
+      }
+    }
+  ],
+  "input_pins": {
+    "candidate": {
+      "bytes": 770126,
+      "sha256": "c223048920a6bc225fd1275d96c201c64a0239e56a32a511be580937f392b6ec"
+    },
+    "proposal": {
+      "bytes": 770870,
+      "sha256": "714ac5fe4697798f7f2484f9cf8660256691d21fce8c30963d66b037352afe11"
+    }
+  },
+  "proof_files": {
+    "CANDIDATE_RESULT.json": {
+      "bytes": 28666,
+      "sha256": "a5928e1e555e18160cedf542bd32962905950bb5dd11abc32e01c96751cfcbc5"
+    },
+    "FIRST_BUSINESS_RESULT.json": {
+      "bytes": 25356,
+      "sha256": "11610f53b1e0a62f99203a05a77a58737f47618c45172fff74e7414fbdf73579"
+    },
+    "HANDOFF.md": {
+      "bytes": 8529,
+      "sha256": "7330733bb81570531597dec44b5d7a0685596843bca20a82c093c3ef2ee97624"
+    },
+    "PROPOSAL_RESULT.json": {
+      "bytes": 31337,
+      "sha256": "e05ce1566e5871baddbe4b6e8cf8363946e9bd44bfe93dcac0c70f4a8dffef03"
+    },
+    "cumulative_cent_proposal.py": {
+      "bytes": 2181,
+      "sha256": "ca1d011e3455fd4513849da7a6ddd2f99eb32a4f066dc9a87cf3d28227f8ad33"
+    },
+    "focused_probe.mjs": {
+      "bytes": 15059,
+      "sha256": "09ae4e37dec6eae10023895a53b5ac0442f19f942bcf2ca7650ab0d82b57d1df"
+    },
+    "prepare_probe.py": {
+      "bytes": 6861,
+      "sha256": "249784deb909cbca7c58f321dc57cb3fcb6030b48a27368d5adb0edac2474ef7"
+    },
+    "run-local.sh": {
+      "bytes": 838,
+      "sha256": "e1f1346dd1efdc669bf1cbb21a958fabb893ee1ec938f031750901591dbf4079"
+    }
+  },
+  "runtime": {
+    "postgresql": "17.6",
+    "postgresql_npm_tarball": {
+      "bytes": 23475396,
+      "sha256": "8d14394e1092b8bc659943966a5d1cd19b1bcc34ab02e135ed7c51fe60ba9d12"
+    },
+    "pg_client": "8.16.3",
+    "database": "disposable loopback",
+    "both_servers_stopped": true,
+    "case_rollback_all_fixture_tables": 75,
+    "outer_rollback_exact_catalogue_subset": true
+  },
+  "formal_CP7": "5/16",
+  "production_go": false,
+  "independent_acceptance": false
+}

@@ -1,0 +1,819 @@
+{
+  "scope": "POSTGRESQL_17_6_EXACT_MONEY_SQL_WITH_TYPED_FIXTURE",
+  "cases": [
+    {
+      "id": "B_LATE_COST_AFTER_PARTIAL_SALE",
+      "status": "PASS",
+      "observations": [
+        {
+          "phase": "initial_usage",
+          "expected": {
+            "pcs": 2,
+            "hpp": 7200,
+            "fg": 7200,
+            "cogs": 0,
+            "other": 0
+          },
+          "actual": {
+            "cached_pcs": 2,
+            "ledger_pcs": 2,
+            "hpp": 7200,
+            "fg": 7200,
+            "cogs": 0,
+            "other": 0,
+            "book_hpp": 7200,
+            "book_fg": 7200,
+            "book_cogs": 0,
+            "book_other": 0
+          },
+          "pool": {
+            "qty": "2.000000",
+            "basis": "SKU_LOCATION_GRADE_MOVING_AVERAGE_V2",
+            "state": "KNOWN",
+            "value": "72.000000",
+            "average": "36.0000000000000000",
+            "revision": "ff676a85483490bda86ce898775d7186",
+            "adjustment": "2.000000",
+            "base_value": "70.000000",
+            "reserved_included": true
+          },
+          "expected_journal_net_cents": {
+            "FG_INVENTORY": 200,
+            "MATERIAL_COST_OFFSET": -200
+          },
+          "journal": {
+            "rows": [
+              {
+                "id": "11446130-7cab-4eff-87c8-24ba6cd6b4b5",
+                "source_type": "BE_CONVERSION_SOURCED_COST",
+                "source_id": "2bcf4fc2-2fe3-486e-951f-400d94d55f6c",
+                "economic_date": "2026-01-03",
+                "account": "FG_INVENTORY",
+                "debit": 200,
+                "credit": 0,
+                "product_id": "73000000-0000-4000-8000-000000000002"
+              },
+              {
+                "id": "11446130-7cab-4eff-87c8-24ba6cd6b4b5",
+                "source_type": "BE_CONVERSION_SOURCED_COST",
+                "source_id": "2bcf4fc2-2fe3-486e-951f-400d94d55f6c",
+                "economic_date": "2026-01-03",
+                "account": "MATERIAL_COST_OFFSET",
+                "debit": 0,
+                "credit": 200,
+                "product_id": null
+              }
+            ],
+            "net": {
+              "FG_INVENTORY": 200,
+              "MATERIAL_COST_OFFSET": -200
+            },
+            "totals": {
+              "11446130-7cab-4eff-87c8-24ba6cd6b4b5": 0
+            }
+          }
+        },
+        {
+          "phase": "sale",
+          "expected": {
+            "pcs": 1,
+            "hpp": 7200,
+            "fg": 3600,
+            "cogs": 3600,
+            "other": 0
+          },
+          "actual": {
+            "cached_pcs": 1,
+            "ledger_pcs": 1,
+            "hpp": 7200,
+            "fg": 3600,
+            "cogs": 3600,
+            "other": 0,
+            "book_hpp": 7200,
+            "book_fg": 3600,
+            "book_cogs": 3600,
+            "book_other": 0
+          },
+          "pool": {
+            "qty": "1.000000",
+            "basis": "SKU_LOCATION_GRADE_MOVING_AVERAGE_V2",
+            "state": "KNOWN",
+            "value": "36.000000",
+            "average": "36.0000000000000000",
+            "revision": "255d6e0c59e79e81451903d86891483c",
+            "adjustment": "1.000000",
+            "base_value": "35.000000",
+            "reserved_included": true
+          },
+          "expected_journal_net_cents": {
+            "AR_CUSTOMER": 18500000,
+            "SALES_REVENUE": -18500000,
+            "FG_INVENTORY": -3600,
+            "COGS": 3600
+          },
+          "journal": {
+            "rows": [
+              {
+                "id": "c789a331-d921-4ebe-9a87-e1cf6109c6e2",
+                "source_type": "SALE",
+                "source_id": "73000000-0000-4000-8000-000000000019",
+                "economic_date": "2026-01-02",
+                "account": "AR_CUSTOMER",
+                "debit": 18500000,
+                "credit": 0,
+                "product_id": null
+              },
+              {
+                "id": "c789a331-d921-4ebe-9a87-e1cf6109c6e2",
+                "source_type": "SALE",
+                "source_id": "73000000-0000-4000-8000-000000000019",
+                "economic_date": "2026-01-02",
+                "account": "COGS",
+                "debit": 3600,
+                "credit": 0,
+                "product_id": "73000000-0000-4000-8000-000000000002"
+              },
+              {
+                "id": "c789a331-d921-4ebe-9a87-e1cf6109c6e2",
+                "source_type": "SALE",
+                "source_id": "73000000-0000-4000-8000-000000000019",
+                "economic_date": "2026-01-02",
+                "account": "FG_INVENTORY",
+                "debit": 0,
+                "credit": 3600,
+                "product_id": "73000000-0000-4000-8000-000000000002"
+              },
+              {
+                "id": "c789a331-d921-4ebe-9a87-e1cf6109c6e2",
+                "source_type": "SALE",
+                "source_id": "73000000-0000-4000-8000-000000000019",
+                "economic_date": "2026-01-02",
+                "account": "SALES_REVENUE",
+                "debit": 0,
+                "credit": 18500000,
+                "product_id": null
+              }
+            ],
+            "net": {
+              "AR_CUSTOMER": 18500000,
+              "COGS": 3600,
+              "FG_INVENTORY": -3600,
+              "SALES_REVENUE": -18500000
+            },
+            "totals": {
+              "c789a331-d921-4ebe-9a87-e1cf6109c6e2": 0
+            }
+          }
+        },
+        {
+          "phase": "late_cost",
+          "expected": {
+            "pcs": 1,
+            "hpp": 7302,
+            "fg": 3651,
+            "cogs": 3651,
+            "other": 0
+          },
+          "actual": {
+            "cached_pcs": 1,
+            "ledger_pcs": 1,
+            "hpp": 7302,
+            "fg": 3651,
+            "cogs": 3651,
+            "other": 0,
+            "book_hpp": 7302,
+            "book_fg": 3651,
+            "book_cogs": 3651,
+            "book_other": 0
+          },
+          "pool": {
+            "qty": "1.000000",
+            "basis": "SKU_LOCATION_GRADE_MOVING_AVERAGE_V2",
+            "state": "KNOWN",
+            "value": "36.510000",
+            "average": "36.5100000000000000",
+            "revision": "210798fefdace49eb0c44eb324cf76fb",
+            "adjustment": "1.510000",
+            "base_value": "35.000000",
+            "reserved_included": true
+          },
+          "expected_journal_net_cents": {
+            "FG_INVENTORY": 51,
+            "COGS": 51,
+            "MATERIAL_COST_OFFSET": -102
+          },
+          "journal": {
+            "rows": [
+              {
+                "id": "30a3a9e4-d13d-4283-8b3a-1fe5d70eb48a",
+                "source_type": "BE_CONVERSION_SOURCED_COST",
+                "source_id": "098408d2-0518-4b3a-aebe-5d198bb6620e",
+                "economic_date": "2026-01-03",
+                "account": "FG_INVENTORY",
+                "debit": 102,
+                "credit": 0,
+                "product_id": "73000000-0000-4000-8000-000000000002"
+              },
+              {
+                "id": "30a3a9e4-d13d-4283-8b3a-1fe5d70eb48a",
+                "source_type": "BE_CONVERSION_SOURCED_COST",
+                "source_id": "098408d2-0518-4b3a-aebe-5d198bb6620e",
+                "economic_date": "2026-01-03",
+                "account": "MATERIAL_COST_OFFSET",
+                "debit": 0,
+                "credit": 102,
+                "product_id": null
+              },
+              {
+                "id": "99ad1504-34e1-4521-ae73-b0e0778cb9c6",
+                "source_type": "NON_PO_HPP_GL_SYNC_V2620F",
+                "source_id": "1d59272d-2734-48be-a9b8-d56ca5bd4e36",
+                "economic_date": "2026-01-03",
+                "account": "COGS",
+                "debit": 51,
+                "credit": 0,
+                "product_id": "73000000-0000-4000-8000-000000000002"
+              },
+              {
+                "id": "99ad1504-34e1-4521-ae73-b0e0778cb9c6",
+                "source_type": "NON_PO_HPP_GL_SYNC_V2620F",
+                "source_id": "1d59272d-2734-48be-a9b8-d56ca5bd4e36",
+                "economic_date": "2026-01-03",
+                "account": "FG_INVENTORY",
+                "debit": 0,
+                "credit": 51,
+                "product_id": "73000000-0000-4000-8000-000000000002"
+              }
+            ],
+            "net": {
+              "FG_INVENTORY": 51,
+              "MATERIAL_COST_OFFSET": -102,
+              "COGS": 51
+            },
+            "totals": {
+              "30a3a9e4-d13d-4283-8b3a-1fe5d70eb48a": 0,
+              "99ad1504-34e1-4521-ae73-b0e0778cb9c6": 0
+            }
+          }
+        },
+        {
+          "phase": "return_one",
+          "expected": {
+            "pcs": 2,
+            "hpp": 7302,
+            "fg": 7302,
+            "cogs": 0,
+            "other": 0
+          },
+          "actual": {
+            "cached_pcs": 2,
+            "ledger_pcs": 2,
+            "hpp": 7302,
+            "fg": 7302,
+            "cogs": 0,
+            "other": 0,
+            "book_hpp": 7302,
+            "book_fg": 7302,
+            "book_cogs": 0,
+            "book_other": 0
+          },
+          "pool": {
+            "qty": "2.000000",
+            "basis": "SKU_LOCATION_GRADE_MOVING_AVERAGE_V2",
+            "state": "KNOWN",
+            "value": "73.020000",
+            "average": "36.5100000000000000",
+            "revision": "1fcf6ba045fd3dd2839403a1087fad02",
+            "adjustment": "3.020000",
+            "base_value": "70.000000",
+            "reserved_included": true
+          },
+          "expected_journal_net_cents": {
+            "FG_INVENTORY": 3651,
+            "COGS": -3651,
+            "SALES_REVENUE": 18500000,
+            "AR_CUSTOMER": -18500000
+          },
+          "journal": {
+            "rows": [
+              {
+                "id": "70e7a3c8-b63f-49d2-a261-41f576075561",
+                "source_type": "SALES_RETURN",
+                "source_id": "73000000-0000-4000-8000-000000088001",
+                "economic_date": "2026-01-03",
+                "account": "AR_CUSTOMER",
+                "debit": 0,
+                "credit": 18500000,
+                "product_id": null
+              },
+              {
+                "id": "70e7a3c8-b63f-49d2-a261-41f576075561",
+                "source_type": "SALES_RETURN",
+                "source_id": "73000000-0000-4000-8000-000000088001",
+                "economic_date": "2026-01-03",
+                "account": "COGS",
+                "debit": 0,
+                "credit": 3651,
+                "product_id": "73000000-0000-4000-8000-000000000002"
+              },
+              {
+                "id": "70e7a3c8-b63f-49d2-a261-41f576075561",
+                "source_type": "SALES_RETURN",
+                "source_id": "73000000-0000-4000-8000-000000088001",
+                "economic_date": "2026-01-03",
+                "account": "FG_INVENTORY",
+                "debit": 3651,
+                "credit": 0,
+                "product_id": "73000000-0000-4000-8000-000000000002"
+              },
+              {
+                "id": "70e7a3c8-b63f-49d2-a261-41f576075561",
+                "source_type": "SALES_RETURN",
+                "source_id": "73000000-0000-4000-8000-000000088001",
+                "economic_date": "2026-01-03",
+                "account": "SALES_REVENUE",
+                "debit": 18500000,
+                "credit": 0,
+                "product_id": null
+              }
+            ],
+            "net": {
+              "AR_CUSTOMER": -18500000,
+              "COGS": -3651,
+              "FG_INVENTORY": 3651,
+              "SALES_REVENUE": 18500000
+            },
+            "totals": {
+              "70e7a3c8-b63f-49d2-a261-41f576075561": 0
+            }
+          }
+        }
+      ],
+      "same_source_amount_replayed": {
+        "amount": "3.02",
+        "before": "f83bdbf13f6d7ac0b8372dbad5214df36419f0c45a12d19cc2b6639cf4f53dbd",
+        "after": "f83bdbf13f6d7ac0b8372dbad5214df36419f0c45a12d19cc2b6639cf4f53dbd",
+        "identical": true
+      },
+      "sale_snapshot_immutable": true,
+      "rollback": {
+        "before": "c683ec2b035077b7c0bba7eb066907007408bf87ad38a77950c711a6bd7e067c",
+        "after": "c683ec2b035077b7c0bba7eb066907007408bf87ad38a77950c711a6bd7e067c",
+        "identical": true
+      }
+    },
+    {
+      "id": "B_RETURN_AFTER_LATE_COST_ODD_CENT",
+      "status": "FAIL",
+      "observations": [
+        {
+          "phase": "initial_usage",
+          "expected": {
+            "pcs": 2,
+            "hpp": 7200,
+            "fg": 7200,
+            "cogs": 0,
+            "other": 0
+          },
+          "actual": {
+            "cached_pcs": 2,
+            "ledger_pcs": 2,
+            "hpp": 7200,
+            "fg": 7200,
+            "cogs": 0,
+            "other": 0,
+            "book_hpp": 7200,
+            "book_fg": 7200,
+            "book_cogs": 0,
+            "book_other": 0
+          },
+          "pool": {
+            "qty": "2.000000",
+            "basis": "SKU_LOCATION_GRADE_MOVING_AVERAGE_V2",
+            "state": "KNOWN",
+            "value": "72.000000",
+            "average": "36.0000000000000000",
+            "revision": "d91be92a9a4e7404b82ee6649bb44e65",
+            "adjustment": "2.000000",
+            "base_value": "70.000000",
+            "reserved_included": true
+          },
+          "expected_journal_net_cents": {
+            "FG_INVENTORY": 200,
+            "MATERIAL_COST_OFFSET": -200
+          },
+          "journal": {
+            "rows": [
+              {
+                "id": "47aafe27-e5e9-4ae2-9253-81b52a09062d",
+                "source_type": "BE_CONVERSION_SOURCED_COST",
+                "source_id": "03e09296-6e9e-424f-a2ba-0e0b3ab6bf03",
+                "economic_date": "2026-01-03",
+                "account": "FG_INVENTORY",
+                "debit": 200,
+                "credit": 0,
+                "product_id": "73000000-0000-4000-8000-000000000002"
+              },
+              {
+                "id": "47aafe27-e5e9-4ae2-9253-81b52a09062d",
+                "source_type": "BE_CONVERSION_SOURCED_COST",
+                "source_id": "03e09296-6e9e-424f-a2ba-0e0b3ab6bf03",
+                "economic_date": "2026-01-03",
+                "account": "MATERIAL_COST_OFFSET",
+                "debit": 0,
+                "credit": 200,
+                "product_id": null
+              }
+            ],
+            "net": {
+              "FG_INVENTORY": 200,
+              "MATERIAL_COST_OFFSET": -200
+            },
+            "totals": {
+              "47aafe27-e5e9-4ae2-9253-81b52a09062d": 0
+            }
+          }
+        },
+        {
+          "phase": "sale",
+          "expected": {
+            "pcs": 0,
+            "hpp": 7200,
+            "fg": 0,
+            "cogs": 7200,
+            "other": 0
+          },
+          "actual": {
+            "cached_pcs": 0,
+            "ledger_pcs": 0,
+            "hpp": 7200,
+            "fg": 0,
+            "cogs": 7200,
+            "other": 0,
+            "book_hpp": 7200,
+            "book_fg": 0,
+            "book_cogs": 7200,
+            "book_other": 0
+          },
+          "pool": {
+            "qty": "0.000000",
+            "basis": "SKU_LOCATION_GRADE_MOVING_AVERAGE_V2",
+            "state": "EMPTY",
+            "value": "0.000000",
+            "average": null,
+            "revision": "58f4349cbd69815be050d64e7fc2bf4e",
+            "adjustment": "0.000000",
+            "base_value": "0.000000",
+            "reserved_included": true
+          },
+          "expected_journal_net_cents": {
+            "AR_CUSTOMER": 37000000,
+            "SALES_REVENUE": -37000000,
+            "FG_INVENTORY": -7200,
+            "COGS": 7200
+          },
+          "journal": {
+            "rows": [
+              {
+                "id": "abb85a2b-9e1f-4559-a2cc-7ef3032310de",
+                "source_type": "SALE",
+                "source_id": "73000000-0000-4000-8000-000000000019",
+                "economic_date": "2026-01-02",
+                "account": "AR_CUSTOMER",
+                "debit": 37000000,
+                "credit": 0,
+                "product_id": null
+              },
+              {
+                "id": "abb85a2b-9e1f-4559-a2cc-7ef3032310de",
+                "source_type": "SALE",
+                "source_id": "73000000-0000-4000-8000-000000000019",
+                "economic_date": "2026-01-02",
+                "account": "COGS",
+                "debit": 7200,
+                "credit": 0,
+                "product_id": "73000000-0000-4000-8000-000000000002"
+              },
+              {
+                "id": "abb85a2b-9e1f-4559-a2cc-7ef3032310de",
+                "source_type": "SALE",
+                "source_id": "73000000-0000-4000-8000-000000000019",
+                "economic_date": "2026-01-02",
+                "account": "FG_INVENTORY",
+                "debit": 0,
+                "credit": 7200,
+                "product_id": "73000000-0000-4000-8000-000000000002"
+              },
+              {
+                "id": "abb85a2b-9e1f-4559-a2cc-7ef3032310de",
+                "source_type": "SALE",
+                "source_id": "73000000-0000-4000-8000-000000000019",
+                "economic_date": "2026-01-02",
+                "account": "SALES_REVENUE",
+                "debit": 0,
+                "credit": 37000000,
+                "product_id": null
+              }
+            ],
+            "net": {
+              "AR_CUSTOMER": 37000000,
+              "COGS": 7200,
+              "FG_INVENTORY": -7200,
+              "SALES_REVENUE": -37000000
+            },
+            "totals": {
+              "abb85a2b-9e1f-4559-a2cc-7ef3032310de": 0
+            }
+          }
+        },
+        {
+          "phase": "late_cost",
+          "expected": {
+            "pcs": 0,
+            "hpp": 7301,
+            "fg": 0,
+            "cogs": 7301,
+            "other": 0
+          },
+          "actual": {
+            "cached_pcs": 0,
+            "ledger_pcs": 0,
+            "hpp": 7301,
+            "fg": 0,
+            "cogs": 7301,
+            "other": 0,
+            "book_hpp": 7301,
+            "book_fg": 0,
+            "book_cogs": 7301,
+            "book_other": 0
+          },
+          "pool": {
+            "qty": "0.000000",
+            "basis": "SKU_LOCATION_GRADE_MOVING_AVERAGE_V2",
+            "state": "EMPTY",
+            "value": "0.000000",
+            "average": null,
+            "revision": "58f4349cbd69815be050d64e7fc2bf4e",
+            "adjustment": "0.000000",
+            "base_value": "0.000000",
+            "reserved_included": true
+          },
+          "expected_journal_net_cents": {
+            "COGS": 101,
+            "MATERIAL_COST_OFFSET": -101
+          },
+          "journal": {
+            "rows": [
+              {
+                "id": "d652a26b-76dc-4f47-a124-a071a91a8ee8",
+                "source_type": "BE_CONVERSION_SOURCED_COST",
+                "source_id": "c318833d-260b-4c7e-9bb7-0b04f3b1427e",
+                "economic_date": "2026-01-03",
+                "account": "FG_INVENTORY",
+                "debit": 101,
+                "credit": 0,
+                "product_id": "73000000-0000-4000-8000-000000000002"
+              },
+              {
+                "id": "d652a26b-76dc-4f47-a124-a071a91a8ee8",
+                "source_type": "BE_CONVERSION_SOURCED_COST",
+                "source_id": "c318833d-260b-4c7e-9bb7-0b04f3b1427e",
+                "economic_date": "2026-01-03",
+                "account": "MATERIAL_COST_OFFSET",
+                "debit": 0,
+                "credit": 101,
+                "product_id": null
+              },
+              {
+                "id": "ef08fcab-5348-427c-9870-d6ca0a46b54c",
+                "source_type": "NON_PO_HPP_GL_SYNC_V2620F",
+                "source_id": "95b8b29a-440b-47b3-9702-4cebbd5d0772",
+                "economic_date": "2026-01-03",
+                "account": "COGS",
+                "debit": 101,
+                "credit": 0,
+                "product_id": "73000000-0000-4000-8000-000000000002"
+              },
+              {
+                "id": "ef08fcab-5348-427c-9870-d6ca0a46b54c",
+                "source_type": "NON_PO_HPP_GL_SYNC_V2620F",
+                "source_id": "95b8b29a-440b-47b3-9702-4cebbd5d0772",
+                "economic_date": "2026-01-03",
+                "account": "FG_INVENTORY",
+                "debit": 0,
+                "credit": 101,
+                "product_id": "73000000-0000-4000-8000-000000000002"
+              }
+            ],
+            "net": {
+              "MATERIAL_COST_OFFSET": -101,
+              "COGS": 101
+            },
+            "totals": {
+              "d652a26b-76dc-4f47-a124-a071a91a8ee8": 0,
+              "ef08fcab-5348-427c-9870-d6ca0a46b54c": 0
+            }
+          }
+        },
+        {
+          "phase": "return_one",
+          "expected": {
+            "pcs": 1,
+            "hpp": 7301,
+            "fg": 3651,
+            "cogs": 3650,
+            "other": 0
+          },
+          "actual": {
+            "cached_pcs": 1,
+            "ledger_pcs": 1,
+            "hpp": 7301,
+            "fg": 3651,
+            "cogs": 3651,
+            "other": -1,
+            "book_hpp": 7301,
+            "book_fg": 3651,
+            "book_cogs": 3651,
+            "book_other": -1
+          },
+          "pool": {
+            "qty": "1.000000",
+            "basis": "SKU_LOCATION_GRADE_MOVING_AVERAGE_V2",
+            "state": "KNOWN",
+            "value": "36.505000",
+            "average": "36.5050000000000000",
+            "revision": "483d06564424bd3387daf4d47351d387",
+            "adjustment": "1.505000",
+            "base_value": "35.000000",
+            "reserved_included": true
+          },
+          "expected_journal_net_cents": {
+            "FG_INVENTORY": 3651,
+            "COGS": -3651,
+            "SALES_REVENUE": 18500000,
+            "AR_CUSTOMER": -18500000
+          },
+          "journal": {
+            "rows": [
+              {
+                "id": "8d4a456c-fbe6-4210-beb4-4047b321ffb2",
+                "source_type": "SALES_RETURN",
+                "source_id": "73000000-0000-4000-8000-000000088001",
+                "economic_date": "2026-01-03",
+                "account": "AR_CUSTOMER",
+                "debit": 0,
+                "credit": 18500000,
+                "product_id": null
+              },
+              {
+                "id": "8d4a456c-fbe6-4210-beb4-4047b321ffb2",
+                "source_type": "SALES_RETURN",
+                "source_id": "73000000-0000-4000-8000-000000088001",
+                "economic_date": "2026-01-03",
+                "account": "COGS",
+                "debit": 0,
+                "credit": 3650,
+                "product_id": "73000000-0000-4000-8000-000000000002"
+              },
+              {
+                "id": "8d4a456c-fbe6-4210-beb4-4047b321ffb2",
+                "source_type": "SALES_RETURN",
+                "source_id": "73000000-0000-4000-8000-000000088001",
+                "economic_date": "2026-01-03",
+                "account": "FG_INVENTORY",
+                "debit": 3651,
+                "credit": 0,
+                "product_id": "73000000-0000-4000-8000-000000000002"
+              },
+              {
+                "id": "8d4a456c-fbe6-4210-beb4-4047b321ffb2",
+                "source_type": "SALES_RETURN",
+                "source_id": "73000000-0000-4000-8000-000000088001",
+                "economic_date": "2026-01-03",
+                "account": "OTHER_INCOME",
+                "debit": 0,
+                "credit": 1,
+                "product_id": "73000000-0000-4000-8000-000000000002"
+              },
+              {
+                "id": "8d4a456c-fbe6-4210-beb4-4047b321ffb2",
+                "source_type": "SALES_RETURN",
+                "source_id": "73000000-0000-4000-8000-000000088001",
+                "economic_date": "2026-01-03",
+                "account": "SALES_REVENUE",
+                "debit": 18500000,
+                "credit": 0,
+                "product_id": null
+              }
+            ],
+            "net": {
+              "AR_CUSTOMER": -18500000,
+              "COGS": -3650,
+              "FG_INVENTORY": 3651,
+              "OTHER_INCOME": -1,
+              "SALES_REVENUE": 18500000
+            },
+            "totals": {
+              "8d4a456c-fbe6-4210-beb4-4047b321ffb2": 0
+            }
+          }
+        }
+      ],
+      "same_source_amount_replayed": {
+        "amount": "3.01",
+        "before": "22b85fddfb91865f65346efea36992ee6063dd58c1b5a0d8c8c7a09195f0ab67",
+        "after": "22b85fddfb91865f65346efea36992ee6063dd58c1b5a0d8c8c7a09195f0ab67",
+        "identical": true
+      },
+      "additional_cost_projection": {
+        "sold": "3.0100000000000000000000000000",
+        "returned": "1.5050000000000000000000000000"
+      },
+      "rollback": {
+        "before": "c683ec2b035077b7c0bba7eb066907007408bf87ad38a77950c711a6bd7e067c",
+        "after": "c683ec2b035077b7c0bba7eb066907007408bf87ad38a77950c711a6bd7e067c",
+        "identical": true
+      }
+    }
+  ],
+  "actual_full_ERP_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false,
+  "engine": "PostgreSQL 17.6 on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 7.5.0-3ubuntu1~18.04) 7.5.0, 64-bit",
+  "source": {
+    "automatic": "9b1b0fcc9fbf477634619f07d4628d5be3a1b634",
+    "automatic_ddl": {
+      "bytes": 18268,
+      "sha256": "80e1ec6ec0b7f0b19111d229c64413f70be7bd4fed157b3c5cbef67d96bcdd56"
+    },
+    "automatic_definitions": 9,
+    "automatic_files_checked": 20,
+    "automatic_tree": "14de92a9d9c321cad0a513de28c164b4ba12de77",
+    "candidate": "32590613a08e176536d9a19b3843f6a72f4479b4",
+    "candidate_tree": "262811e77e1a305a9d54baa9374e27df06793d10",
+    "money": "f1674ae84739f577571d68415beabfca3f3b832b",
+    "money_ddl": {
+      "bytes": 86354,
+      "sha256": "4aa24fef8e1c71a14911b460ebce9cc344ff1887c747e72ce00a489bfb40bae2"
+    },
+    "money_definitions": 30,
+    "money_files_checked": 44,
+    "money_tree": "ea43f84029993b385722fe8e202adefd2a745f7b",
+    "native27": {
+      "bytes": 30376182,
+      "sha256": "5e22077e71e34add6fd0627c89e9d21a2235f463818e45b233c7619bcfb0d48f"
+    },
+    "native_book": {
+      "erp.account_id(text)": {
+        "bytes": 451,
+        "sha256": "f062aed68e292c44220f8fe4de5b90ed49e9881cb94bb784920be771c4bc650d"
+      },
+      "erp.compute_non_po_product_hpp_book_v2620f(uuid)": {
+        "bytes": 1273,
+        "sha256": "1647164dc565d08a010b182c3c08b1d729b00d588fc7a6e43774f8672c9c6ea5"
+      }
+    }
+  },
+  "variant": "UNCHANGED_CANDIDATE_DEFINITIONS",
+  "model_providers": [
+    "historical openings and conversion",
+    "source amount from material valuation",
+    "authority and credit lifecycle",
+    "journal storage",
+    "known laundry state"
+  ],
+  "failures": [
+    {
+      "stage": "B_RETURN_AFTER_LATE_COST_ODD_CENT",
+      "message": "return_one\n+ actual - expected\n\n  {\n+   book_cogs: 3651,\n-   book_cogs: 3650,\n    book_fg: 3651,\n    book_hpp: 7301,\n+   book_other: -1,\n-   book_other: 0,\n    cached_pcs: 1,\n+   cogs: 3651,\n-   cogs: 3650,\n    fg: 3651,\n    hpp: 7301,\n    ledger_pcs: 1,\n+   other: -1\n-   other: 0\n  }\n",
+      "sqlstate": "ERR_ASSERTION",
+      "where": null,
+      "detail": null,
+      "stack": "AssertionError [ERR_ASSERTION]: return_one\n+ actual - expected\n\n  {\n+   book_cogs: 3651,\n-   book_cogs: 3650,\n    book_fg: 3651,\n    book_hpp: 7301,\n+   book_other: -1,\n-   book_other: 0,\n    cached_pcs: 1,\n+   cogs: 3651,\n-   cogs: 3650,\n    fg: 3651,\n    hpp: 7301,\n    ledger_pcs: 1,\n+   other: -1\n-   other: 0\n  }\n\n    at observe (file:///workspace/scratch/b6947bc7a657/b-cp7-moving-average-lab/handoff/focused_probe.mjs:167:12)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async file:///workspace/scratch/b6947bc7a657/b-cp7-moving-average-lab/handoff/focused_probe.mjs:269:5\n    at async run (file:///workspace/scratch/b6947bc7a657/b-cp7-moving-average-lab/handoff/focused_probe.mjs:227:7)\n    at async runFocusedCases (file:///workspace/scratch/b6947bc7a657/b-cp7-moving-average-lab/handoff/focused_probe.mjs:256:3)\n    at async file:///workspace/scratch/b6947bc7a657/b-cp7-moving-average-lab/focused-r6/focused.mjs:524:2"
+    }
+  ],
+  "cost_document_id": "73000000-0000-4000-8000-000000099001",
+  "model_tables_checked": 75,
+  "recovery": {
+    "method": "ROLLBACK_OUTER_TRANSACTION",
+    "before": {
+      "roles": [
+        "movavg_lab"
+      ],
+      "relations": [],
+      "namespaces": [
+        "public"
+      ]
+    },
+    "after": {
+      "roles": [
+        "movavg_lab"
+      ],
+      "relations": [],
+      "namespaces": [
+        "public"
+      ]
+    },
+    "exact": true
+  }
+}
