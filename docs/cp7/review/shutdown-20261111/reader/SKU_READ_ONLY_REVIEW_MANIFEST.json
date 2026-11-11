@@ -1,0 +1,60 @@
+{
+  "active_run_and_wrong_job_refused": true,
+  "actual_case_credit": 0,
+  "artifact_digest": null,
+  "artifact_id": null,
+  "canonical_name": "cp7-sku-current-parent-money-automatic-native25-1",
+  "dependency_archive_sha256": "e9c464e78a1302102d9683ffb595afcc13267adec75c813ef92bfc99adc288a6",
+  "dependency_patch": "GLOBAL_SKU_CHECKPOINT_INTAKE.patch",
+  "diagnostic_only_and_duplicate_canonical_refused": true,
+  "expected_reader_head": "cb87d3da9a4faf40de35aeb88c0ef9f07b2c5c3c",
+  "files": {
+    "afui/verify_native_original.py": {
+      "bytes": 10866,
+      "sha256": "7585a96d2bc72104113881992df6ef8dd308796c3d6663c20403b19fc56d0977"
+    },
+    "afui/verify_terminal_original.py": {
+      "bytes": 7718,
+      "sha256": "fa8491b9122ebf4145ecbfff1240ba560c3a26821ec0fca20469347701bc64c1"
+    },
+    "global/reviewed-sku-shutdown-successor/bind_reviewed_sku.py": {
+      "bytes": 2750,
+      "sha256": "b82566ac0810dc1b80bb8a0bab57170a9db6d87f414bcf2e5104f472685d0ccc"
+    },
+    "global/reviewed-sku-shutdown-successor/reviewed_sku_source.py": {
+      "bytes": 17459,
+      "sha256": "c4197baed18785d85737f293b5d0c92a329adadba0dcd7a0bdddeae9c72fbfd5"
+    },
+    "global/reviewed-sku-shutdown-successor/run_sku.py": {
+      "bytes": 2017,
+      "sha256": "eb5c2614cc13edd2da36c5817ab80fc5d1579fe99b5e0a96192294890936a83d"
+    },
+    "global/reviewed-sku-shutdown-successor/verify_sku_read_only.py": {
+      "bytes": 5793,
+      "sha256": "698729e02a92d31daf60ca3b77329f00f36bf2ab4b097abbd5fd66625cd3566e"
+    },
+    "global/reviewed-sku-shutdown-successor/verify_terminal_sku.py": {
+      "bytes": 11263,
+      "sha256": "6d0039ec7883458c1aca42025afe04c6d1334f8fe16d8924fbbd8a67059e5d7a"
+    },
+    "read-only/retain.py": {
+      "bytes": 3226,
+      "sha256": "c9b8332f83c3ed5672f7cd3dc79f85f73e1bdd705ddbbe7b1670838d3b99eca5"
+    }
+  },
+  "reader_branch": "astra-a/afui-evidence-intake-20261105",
+  "repository": "Hanjay6688/-erp-garment-ux",
+  "runtime_admitted": false,
+  "sku_attempt": 1,
+  "sku_head": "32590613a08e176536d9a19b3843f6a72f4479b4",
+  "sku_job": 130440406014,
+  "sku_run": 42996079217,
+  "sku_tree": "262811e77e1a305a9d54baa9374e27df06793d10",
+  "stage_under": "scripts/afui-evidence-intake-20261105/sku-intake/",
+  "status": "LOCAL_REVIEW_READY_PENDING_TERMINAL_CANONICAL",
+  "workflow": {
+    "bytes": 1923,
+    "sha256": "ae03852119e4a7dfa10de2adfe1f873b241c11ad443b9c38d5e21a49d7819a41"
+  },
+  "workflow_activated": false
+}
