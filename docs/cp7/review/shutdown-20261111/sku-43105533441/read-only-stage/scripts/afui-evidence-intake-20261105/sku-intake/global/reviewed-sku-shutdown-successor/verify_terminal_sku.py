@@ -18,6 +18,8 @@ BRANCH = 'astra-a/sku-current-parent-money-automatic-native25-20261105'
 AREA = 'scripts/current-sku-automatic-composite-preparation/'
 PARENT = AREA + 'MANDOR17_PARENT_ROOT_ACTUAL_INTAKE.json'
 WORKFLOW = '.github/workflows/cp7-sku-current-parent-money-automatic-native25.yml'
+CANONICAL = 'cp7-sku-current-parent-money-automatic-native25-1'
+OUTCOMES = {'success', 'failure', 'cancelled', 'timed_out'}
 CASE = 'CURRENT_MANDOR_PARENT_SKU_MONEY_AUTOMATIC_NATIVE25_BROWSER2_AND_USED_INVERSE'
 MAIN = 'CP7_SKU_CURRENT_PARENT_MONEY_AUTOMATIC_QUALIFICATION.json'
 NATIVE = 'CP7_SKU_CURRENT_PARENT_MONEY_AUTOMATIC_NATIVE25.json'
@@ -41,6 +43,16 @@ CATALOGUE_GROUPS = frozenset(('aggregates', 'casts', 'columns', 'constraints', '
 
 def pin(raw):
     return dict(bytes=len(raw), sha256=sha256(raw).hexdigest())
+
+
+def terminal_archive_name(run):
+    require(run.get('status') == 'completed' and run.get('conclusion') in OUTCOMES
+            and type(run.get('id')) is int and run['id'] > 0
+            and type(run.get('run_attempt')) is int and run['run_attempt'] == 1,
+            'SKU_ACTUAL_TERMINAL_ARCHIVE_IDENTITY_REQUIRED')
+    if run['conclusion'] == 'success':
+        return CANONICAL
+    return f"cp7-sku-failure-{run['id']}-{run['run_attempt']}"
 
 
 def catalogue(raw, observation, head, run):
@@ -69,7 +81,7 @@ def verify(archive, artifact, run, job, repo, reviewed_mandor_root, reviewed):
                      run_attempt=1, status='completed'), 'SKU_TERMINAL_RUN')
     fields(job, dict(id=reviewed['job_id'], head_sha=head, run_id=run_id, run_attempt=1, status='completed', conclusion=run['conclusion'],
                      name='Actual Mandor parent, full money and automatic Native25; complete restoration'), 'SKU_OWNING_JOB')
-    fields(artifact, dict(name='cp7-sku-current-parent-money-automatic-native25-1', expired=False), 'SKU_CANONICAL_ARTIFACT')
+    fields(artifact, dict(name=terminal_archive_name(run), expired=False), 'SKU_EXACT_TERMINAL_ARTIFACT')
     fields(artifact['workflow_run'], dict(id=run_id, head_sha=head, head_branch=BRANCH), 'SKU_SAME_RUN_ARTIFACT')
     archive_pin = files(archive, artifact)
     accepted = run['conclusion'] == 'success'

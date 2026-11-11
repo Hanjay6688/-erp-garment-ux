@@ -21,8 +21,8 @@
     "sha256": "96d0bb722dc8be2a48d9c7373e05a9400295f6d2701b1bfbb00d6a6d893d89db"
   },
   "reader_manifest": {
-    "bytes": 2536,
-    "sha256": "0f4337933f68723a84189a4ea551b7bdc908f7d3472e2069e021a774b87feb5e"
+    "bytes": 2734,
+    "sha256": "8350d3629fdd5eec90d18be7bac404a3ecf3e63344b2fab60d6ee858f347ec51"
   },
   "actual_exact_SKU_source_lineage": {
     "commits": 14,
@@ -40,5 +40,13 @@
       "actual_new_SKU_cases": 0,
       "production_go": false
     }
+  },
+  "archive_name_controls": {
+    "tests_passed": 3,
+    "exact_workflow_names": true,
+    "cross_run_and_wrong_attempt_refused": true,
+    "diagnostic_first_error_and_CRC_verified_in_fixture": true,
+    "diagnostic_can_qualify": false,
+    "synthetic_fixture_actual_case_credit": 0
   }
 }

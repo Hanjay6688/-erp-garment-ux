@@ -35,12 +35,12 @@
       "sha256": "e1dcc7c33155b900157dfa16b78b97dda38987686da2fcc4e38da2e152e1ec26"
     },
     "scripts/afui-evidence-intake-20261105/sku-intake/global/reviewed-sku-shutdown-successor/verify_sku_read_only.py": {
-      "bytes": 5793,
-      "sha256": "698729e02a92d31daf60ca3b77329f00f36bf2ab4b097abbd5fd66625cd3566e"
+      "bytes": 5750,
+      "sha256": "4edd63a28f795e018e1003751ae6b049cf6654eec63336c6e0bb910d2838ed9f"
     },
     "scripts/afui-evidence-intake-20261105/sku-intake/global/reviewed-sku-shutdown-successor/verify_terminal_sku.py": {
-      "bytes": 11263,
-      "sha256": "6d0039ec7883458c1aca42025afe04c6d1334f8fe16d8924fbbd8a67059e5d7a"
+      "bytes": 11814,
+      "sha256": "b7016fc03b76652622ee1d554f1bf28d661f6c740972278f819d1efe4aac6b22"
     },
     "scripts/afui-evidence-intake-20261105/sku-intake/read-only/retain.py": {
       "bytes": 3226,
@@ -50,5 +50,10 @@
   "qualifying_archive_present": false,
   "Global_runtime_authorized": false,
   "production_go": false,
-  "read_permissions_only": true
+  "read_permissions_only": true,
+  "verified_terminal_archive_names": {
+    "success": "cp7-sku-current-parent-money-automatic-native25-1",
+    "diagnostic": "cp7-sku-failure-43105533441-1"
+  },
+  "failure_archive_case_credit": 0
 }
