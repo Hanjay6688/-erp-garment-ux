@@ -35,6 +35,7 @@ def load(name, path):
 
 
 runtime = load('automatic_execution_exact_owning_runtime', HERE / 'qualification.py')
+window = load('automatic_execution_real_WIB_window', HERE / 'run_window.py')
 
 
 def require(value, message):
@@ -82,6 +83,9 @@ def derive(kind, raw=None):
              '    # The retained Mandor worker already names the owning qualification.py.'),
             ('exact_routes=4', 'exact_routes=3'),
             ("str(HERE/'money_current_parent_supervisor.py')", "str(HERE/'execution.py')"),
+            ('exec(compile(text,module.__file__,\'exec\'),module.__dict__);return module.main()',
+             "exec(compile(text,module.__file__,'exec'),module.__dict__)\n"
+             '    _BIND_SUPERVISION(module)\n    return module.main()'),
         ])
     elif kind == 'artifacts':
         routes.extend([
@@ -220,7 +224,7 @@ def supervise(allow_database_stop):
         receipts.authorize_stop()
         return 0
     module, _ = helper('supervisor', admitted=True)
-    receipts.claim_worker()
+    module._BIND_SUPERVISION = lambda supervisor: window.bind_supervisor(supervisor, receipts.claim_worker)
     with arguments([]):
         code = module.main()
     try:

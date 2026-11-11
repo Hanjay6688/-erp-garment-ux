@@ -167,8 +167,17 @@ class RuntimeReceiptControls(unittest.TestCase):
         execution = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(execution)
         self.receipts.prepare()
+        supervisor = SimpleNamespace(supervise=lambda *args, **kwargs: {})
+
+        def main():
+            supervisor._BIND_SUPERVISION(supervisor)
+            supervisor.supervise(['model-worker'], work_seconds=3600, recovery_seconds=1200)
+            return 124
+
+        supervisor.main = main
         with patch.dict(os.environ, self.env), patch.object(execution, 'ROOT', self.root), \
-                patch.object(execution, 'helper', return_value=(SimpleNamespace(main=lambda: 124), {})), \
+                patch.object(execution, 'helper', return_value=(supervisor, {})), \
+                patch.object(execution.window, 'budget', return_value={'mode': 'STANDARD'}), \
                 redirect_stderr(StringIO()) as output:
             self.assertEqual(execution.supervise(False), 124)
             self.assertIn('TERMINAL_RECEIPT_UNAVAILABLE', output.getvalue())

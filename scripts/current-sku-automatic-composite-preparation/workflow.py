@@ -17,6 +17,9 @@ TEMPLATE = HERE / 'sku-current-parent-money-automatic-native25-83.workflow.yml.t
 ACTIVE = ROOT / '.github/workflows/cp7-sku-current-parent-money-automatic-native25.yml'
 BRANCH = 'astra-a/sku-current-parent-money-automatic-native25-20261105'
 ROUTED = (0, 2, 3, 11, 64, 65, 66, 67, 72, 75, 76, 77, 78)
+SETUP_STEPS = ('Start disposable database', 'Rebuild to v2.6.20, align with hosted, continue the frozen path to AB',
+               'Provision isolated rollback authority', 'Clone the aligned AB state for install')
+SETUP_DELIMITER = 'CP7_WIB_DISPOSABLE_SETUP'
 
 
 def runtime():
@@ -29,6 +32,16 @@ def runtime():
 def require(value, message):
     if not value:
         raise ValueError(message)
+
+
+def setup_with_window(command):
+    require(SETUP_DELIMITER not in command, 'AUTOMATIC_SETUP_SCRIPT_DELIMITER_REQUIRED')
+    return ('set -euo pipefail\n'
+            'limit="$(python -B "$GITHUB_WORKSPACE/auditor/' + NS + 'run_window.py" --setup-limit)"\n'
+            'bounded=()\n'
+            'if [ -n "$limit" ]; then bounded=(timeout --kill-after=10s "$limit"); fi\n'
+            '"${bounded[@]}" bash -e -u -o pipefail -c "$(cat <<\'' + SETUP_DELIMITER + '\'\n'
+            + command.rstrip('\n') + '\n' + SETUP_DELIMITER + '\n)"\n')
 
 
 def derive(raw=None):
@@ -129,16 +142,27 @@ def derive(raw=None):
                   'retention-days': 30, 'if-no-files-found': 'error'}},
     ]
     steps[70:70] = checkpoint_steps
+    old_window = 'scripts/current-de-free-date-preparation/attempt_policy.py --require-window'
+    require(steps[3]['run'].count(old_window) == steps[67]['run'].count(old_window) == 1,
+            'AUTOMATIC_EXACT_RETAINED_WINDOW_CHECKS_REQUIRED')
+    steps[3]['name'] = 'Record the real WIB work deadline and restoration reserves'
+    steps[3]['run'] = steps[3]['run'].replace(old_window, NS + 'run_window.py --record', 1)
+    steps[67]['run'] = steps[67]['run'].replace(old_window, NS + 'run_window.py --require', 1)
+    require(tuple(step['name'] for step in steps[72:76]) == SETUP_STEPS,
+            'AUTOMATIC_EXACT_DISPOSABLE_DATABASE_SETUP_STEPS_REQUIRED')
+    for step in steps[72:76]:
+        step['run'] = setup_with_window(step['run'])
     text = yaml.safe_dump(value, sort_keys=False, allow_unicode=True)
     require(yaml.safe_load(text) == value, 'AUTOMATIC_EXACT_WORKFLOW_YAML_ROUNDTRIP_REQUIRED')
     return text, dict(status='NATIVE25_WORKFLOW_DATA_ONLY_NOT_ACTIVATED', retained_template=PIN,
-                      total_steps=83, retained_steps=79, unchanged_steps=len(before) - len(ROUTED),
-                      owning_routes=len(ROUTED),
+                      total_steps=83, retained_steps=79, unchanged_steps=len(before) - len(ROUTED) - len(SETUP_STEPS),
+                      owning_routes=len(ROUTED) + len(SETUP_STEPS),
                       added_browser_prerequisite_steps=2, added_diagnostic_checkpoint_steps=2,
                       frozen_source_trees=4,
                       actual_both_checkout_browser_prerequisites_before_database=True,
                       database_rebuild_clone_recovery_and_full_artifact_upload_unchanged=True,
-                      real_360_330_20_10_budgets_unchanged=True, workflow_dispatches=0, actual_ERP_cases=0,
+                      one_off_real_WIB_window_caps_setup_and_worker=True,
+                      normal_360_330_20_10_budgets_unchanged=True, workflow_dispatches=0, actual_ERP_cases=0,
                       actual_Auth_HTTP_cases=0, actual_browser_cases=0, production_go=False)
 
 

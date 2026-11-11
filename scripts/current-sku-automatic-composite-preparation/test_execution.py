@@ -257,8 +257,8 @@ class ExecutionControls(unittest.TestCase):
         import yaml
         text, proof = workflow.derive()
         self.assertEqual(text.encode(), workflow.TEMPLATE.read_bytes())
-        self.assertEqual(proof['unchanged_steps'], 66)
-        self.assertEqual(proof['owning_routes'], 13)
+        self.assertEqual(proof['unchanged_steps'], 62)
+        self.assertEqual(proof['owning_routes'], 17)
         self.assertEqual(proof['total_steps'], 83)
         self.assertEqual(proof['retained_steps'], 79)
         self.assertEqual(proof['added_browser_prerequisite_steps'], 2)
@@ -273,7 +273,18 @@ class ExecutionControls(unittest.TestCase):
         self.assertNotEqual(upload['with']['name'], steps[-1]['with']['name'])
         self.assertEqual(steps[72]['name'], 'Start disposable database')
         del steps[70:72]
-        self.assertEqual(candidate, yaml.safe_load(workflow.BASELINE_TEMPLATE.read_bytes()))
+        baseline = yaml.safe_load(workflow.BASELINE_TEMPLATE.read_bytes())
+        original = baseline['jobs']['p21']['steps']
+        self.assertEqual([index for index, step in enumerate(steps) if step != original[index]],
+                         [3, 67, 70, 71, 72, 73])
+        self.assertIn('run_window.py --record', steps[3]['run'])
+        self.assertIn('run_window.py --require', steps[67]['run'])
+        steps[3], steps[67] = original[3], original[67]
+        for index in range(70, 74):
+            script = steps[index]['run'].split("<<'" + workflow.SETUP_DELIMITER + "'\n", 1)[1]
+            self.assertEqual(script, original[index]['run'].rstrip('\n') + '\n' + workflow.SETUP_DELIMITER + '\n)"\n')
+            steps[index]['run'] = original[index]['run']
+        self.assertEqual(candidate, baseline)
         self.assertEqual(workflow.check()['workflow_dispatches'], 0)
 
 

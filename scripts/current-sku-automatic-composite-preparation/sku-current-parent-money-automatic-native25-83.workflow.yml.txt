@@ -66,9 +66,10 @@ jobs:
         materialize
 
         '
-    - name: Require genuine six-hour WIB window before Native25 setup
+    - name: Record the real WIB work deadline and restoration reserves
       working-directory: auditor
-      run: 'python -B scripts/current-de-free-date-preparation/attempt_policy.py --require-window
+      run: 'python -B scripts/current-sku-automatic-composite-preparation/run_window.py
+        --record
 
         '
     - name: Select exact qualified prerequisite heads
@@ -520,8 +521,8 @@ jobs:
         node ../auditor/scripts/current-sku-automatic-composite-preparation/browser.mjs
         --check-browser-source
 
-        python -B ../auditor/scripts/current-de-free-date-preparation/attempt_policy.py
-        --require-window
+        python -B ../auditor/scripts/current-sku-automatic-composite-preparation/run_window.py
+        --require
 
         '
     - name: Install pinned browser dependencies in both actual checkout roots before
@@ -567,6 +568,17 @@ jobs:
         GHCR_TOKEN: ${{ github.token }}
       run: 'set -euo pipefail
 
+        limit="$(python -B "$GITHUB_WORKSPACE/auditor/scripts/current-sku-automatic-composite-preparation/run_window.py"
+        --setup-limit)"
+
+        bounded=()
+
+        if [ -n "$limit" ]; then bounded=(timeout --kill-after=10s "$limit"); fi
+
+        "${bounded[@]}" bash -e -u -o pipefail -c "$(cat <<''CP7_WIB_DISPOSABLE_SETUP''
+
+        set -euo pipefail
+
         test "$(git rev-parse HEAD)" = 1bdca3766f7c9800d68295ff5122798060b8a05d
 
         test "$(git rev-parse HEAD^{tree})" = 334629c626257b8b713826f491cdf62385d5299b
@@ -600,6 +612,10 @@ jobs:
 
         python ../auditor/scripts/current-finance-combined-composition/disposable_start.py
 
+        CP7_WIB_DISPOSABLE_SETUP
+
+        )"
+
         '
     - name: Rebuild to v2.6.20, align with hosted, continue the frozen path to AB
       working-directory: base
@@ -607,8 +623,11 @@ jobs:
         GITHUB_SHA: 1bdca3766f7c9800d68295ff5122798060b8a05d
         GH_TOKEN: ${{ github.token }}
       shell: bash
-      run: "set -euo pipefail\nexport CP6_AC_WRITER_ARTIFACT=\"$RUNNER_TEMP/ac-native200.zip\"\
-        \ngh api repos/Hanjay6688/-erp-garment-ux/actions/artifacts/10392910720/zip\
+      run: "set -euo pipefail\nlimit=\"$(python -B \"$GITHUB_WORKSPACE/auditor/scripts/current-sku-automatic-composite-preparation/run_window.py\"\
+        \ --setup-limit)\"\nbounded=()\nif [ -n \"$limit\" ]; then bounded=(timeout\
+        \ --kill-after=10s \"$limit\"); fi\n\"${bounded[@]}\" bash -e -u -o pipefail\
+        \ -c \"$(cat <<'CP7_WIB_DISPOSABLE_SETUP'\nset -euo pipefail\nexport CP6_AC_WRITER_ARTIFACT=\"\
+        $RUNNER_TEMP/ac-native200.zip\"\ngh api repos/Hanjay6688/-erp-garment-ux/actions/artifacts/10392910720/zip\
         \ \\\n  > \"$CP6_AC_WRITER_ARTIFACT\" || { rm -f \"$CP6_AC_WRITER_ARTIFACT\"\
         ; echo 'AC writer artifact 10392910720 unavailable (kept 30 days, expired\
         \ 15 Oct 2026, owner D14-17); cp6_pre_u_inventory captures the pre-U table\
@@ -617,26 +636,33 @@ jobs:
         \ --stop-after-ab || status=$?\npython - <<'PY'\nimport json\nd=json.load(open('../auditor/cp6-proof/t3/ALIGNED_CHAIN.json'))\n\
         print(json.dumps({k:d.get(k) for k in ('status','refused_step','alignment')},default=str)[:6000])\n\
         print(json.dumps([(s['name'],s['exit_code'],s['after_alignment']) for s in\
-        \ d['steps']])[:6000])\nPY\nexit \"$status\"\n"
+        \ d['steps']])[:6000])\nPY\nexit \"$status\"\nCP7_WIB_DISPOSABLE_SETUP\n)\"\
+        \n"
     - name: Provision isolated rollback authority
       working-directory: writer
       shell: bash
-      run: "set -euo pipefail\nmaintenance_password=\"$(openssl rand -hex 32)\"\n\
-        maintenance_pgurl=\"postgresql://cp6_maintenance_admission:${maintenance_password}@127.0.0.1:54322/template1\"\
+      run: "set -euo pipefail\nlimit=\"$(python -B \"$GITHUB_WORKSPACE/auditor/scripts/current-sku-automatic-composite-preparation/run_window.py\"\
+        \ --setup-limit)\"\nbounded=()\nif [ -n \"$limit\" ]; then bounded=(timeout\
+        \ --kill-after=10s \"$limit\"); fi\n\"${bounded[@]}\" bash -e -u -o pipefail\
+        \ -c \"$(cat <<'CP7_WIB_DISPOSABLE_SETUP'\nset -euo pipefail\nmaintenance_password=\"\
+        $(openssl rand -hex 32)\"\nmaintenance_pgurl=\"postgresql://cp6_maintenance_admission:${maintenance_password}@127.0.0.1:54322/template1\"\
         \necho \"::add-mask::$maintenance_password\"\necho \"::add-mask::$maintenance_pgurl\"\
         \ndocker exec -i \"$CP6_DATABASE_CONTAINER\" \\\n  psql -U supabase_admin\
         \ -d template1 -X -v ON_ERROR_STOP=1 \\\n    -v cp6_password=\"$maintenance_password\"\
         \ <<'SQL'\ncreate role cp6_maintenance_admission\n  login superuser noinherit\
         \ nocreatedb nocreaterole noreplication\n  connection limit 4 password :'cp6_password';\n\
         SQL\nprintf 'CP6_ADMISSION_CONTROL_PGURL=%s\\n' \"$maintenance_pgurl\" >>\
-        \ \"$GITHUB_ENV\"\n"
+        \ \"$GITHUB_ENV\"\nCP7_WIB_DISPOSABLE_SETUP\n)\"\n"
     - name: Clone the aligned AB state for install
       working-directory: writer
-      run: "set -euo pipefail\nmkdir -p '../auditor/cp6-proof/t3'\nbash scripts/clone-cp6-disposable-database.sh\
-        \ \\\n  'postgresql://postgres:postgres@127.0.0.1:54322/postgres' \\\n  'postgresql://postgres:postgres@127.0.0.1:54322/template1'\
-        \ \\\n  'postgresql://postgres:postgres@127.0.0.1:54322/cp6_rollback' \\\n\
-        \  cp6_rollback supabase_db_cp5-local \"$RUNNER_TEMP/join-clone/CLONE_install\"\
-        \n"
+      run: "set -euo pipefail\nlimit=\"$(python -B \"$GITHUB_WORKSPACE/auditor/scripts/current-sku-automatic-composite-preparation/run_window.py\"\
+        \ --setup-limit)\"\nbounded=()\nif [ -n \"$limit\" ]; then bounded=(timeout\
+        \ --kill-after=10s \"$limit\"); fi\n\"${bounded[@]}\" bash -e -u -o pipefail\
+        \ -c \"$(cat <<'CP7_WIB_DISPOSABLE_SETUP'\nset -euo pipefail\nmkdir -p '../auditor/cp6-proof/t3'\n\
+        bash scripts/clone-cp6-disposable-database.sh \\\n  'postgresql://postgres:postgres@127.0.0.1:54322/postgres'\
+        \ \\\n  'postgresql://postgres:postgres@127.0.0.1:54322/template1' \\\n  'postgresql://postgres:postgres@127.0.0.1:54322/cp6_rollback'\
+        \ \\\n  cp6_rollback supabase_db_cp5-local \"$RUNNER_TEMP/join-clone/CLONE_install\"\
+        \nCP7_WIB_DISPOSABLE_SETUP\n)\"\n"
     - name: Run current-parent money automatic Native25 and real browser2 once with
         owning restoration
       working-directory: writer

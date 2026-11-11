@@ -213,7 +213,7 @@ def main():
                               non_po_rounding_source=rounding_source, actual_SQL_executed=0)))
         return
     attempts = load('automatic_unchanged_real_WIB_day_window', FROZEN_AFUI / 'scripts/current-de-free-date-preparation/attempt_policy.py')
-    attempts.require_window()
+    load('automatic_owning_real_WIB_window', HERE / 'run_window.py').budget(policy=attempts)
     with inherited_scope():
         engine = runtime()
         with engine.inherited_admission.parent_scope():
