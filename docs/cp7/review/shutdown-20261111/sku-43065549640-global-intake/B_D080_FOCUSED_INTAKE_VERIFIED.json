@@ -1,0 +1,265 @@
+{
+  "status": "VERIFIED_B_FOCUSED_EVIDENCE_FOR_D080_SCOPE",
+  "candidate": {
+    "head": "d08032a28b9f00d0ee70a6f98c6b7d0f5b770c4a",
+    "tree": "a80a212694fc6b67d23e2dcdd9e648b4eea78541",
+    "run_id": 43065549640,
+    "job_id": 130679406466,
+    "attempt": 1
+  },
+  "review_commit": {
+    "sha": "52b6cf93dd85bc76a713e29beb5ae6d91247f9c7",
+    "tree": "465d7baa1d2d95be3fc8a1f7f51f51c184d340dd",
+    "parents": [
+      "ad6085433f4c394236a3284670fd704a4524191c"
+    ]
+  },
+  "review_only_files": 15,
+  "triggered_actions": 0,
+  "verified_payload": {
+    "HANDOFF.md": {
+      "bytes": 9592,
+      "sha256": "b1e280df24c45cb8fb17b64e7269c464602a0dc63cc29edb5c209e52b79153f8"
+    },
+    "MA_FIRST_SETUP_FAILURE.txt": {
+      "bytes": 153,
+      "sha256": "b55b23b97a9fd7c71664c56d7892470a7b9f0c43fa6d5e07791fc543807b62cf"
+    },
+    "MOVING_AVERAGE_RESULT.json": {
+      "bytes": 24549,
+      "sha256": "b232e3131e8974d7bebf4e7a978a5cb0afef83f513c4973e19c4d5569463e3ee"
+    },
+    "ROUNDING_SOURCE_PREFLIGHT.json": {
+      "bytes": 1317,
+      "sha256": "c005af9b7aa09cde8e2daea7ccf69e53d41ff41834472bc9e3de93e09feebb7e"
+    },
+    "SNAPSHOT_REPORT_FIRST_SETUP_FAILURE.json": {
+      "bytes": 14774,
+      "sha256": "6be07d93441b729b9ee04cab28678beab4671a70880fe611a7d63fe0ec67a65e"
+    },
+    "SNAPSHOT_REPORT_RESULT.json": {
+      "bytes": 45306,
+      "sha256": "97d4beec6c639346a0979c5d6f54a2f8e129d5bd0285ffec3eb67846efec2185"
+    },
+    "P19_PRIOR_CASES.log": {
+      "bytes": 2938,
+      "sha256": "79dbfc13dd6452ad71562902a364fd2cb360aeccbeba979f0641b522d44c5950"
+    },
+    "UI_FIRST_SETUP_FAILURE.log": {
+      "bytes": 2951,
+      "sha256": "53cdb86631659af96091a2b63250180c3c9eadf06558eaf89822e58c1894c422"
+    },
+    "UI_SECOND_SETUP_FAILURE.log": {
+      "bytes": 3121,
+      "sha256": "2f45726272d25b3bb3e933fde7ecc7241d891bd41acc9f9e9b3d49937e2e7a85"
+    },
+    "UI_TARGETED_RESULT.log": {
+      "bytes": 244,
+      "sha256": "8e3f283928d9b14a0b679807c8c2e7e2db0251714ad15bce1fef0dda736b184b"
+    },
+    "moving_staged_case.mjs.inc": {
+      "bytes": 2072,
+      "sha256": "dbb448d30d80c33b6c82f5f855b1e55f9a2214965beeb2a9de430c2a1d8a2533"
+    },
+    "prepare_staged_moving.py": {
+      "bytes": 2275,
+      "sha256": "0a894587bd92752536ec2f97b2d5a7e040eb476584dadbf19aeb6480c461a911"
+    },
+    "run_snapshot_lab.sh": {
+      "bytes": 739,
+      "sha256": "0034f8b8386edf134d18d369844e98b5e29338128db3493b49616898e2e51cec"
+    },
+    "snapshot_report_probe.py": {
+      "bytes": 28416,
+      "sha256": "69c7bbb46f96d899c0c76dcc23114a21a015460a91d05b66fcd445f044eaa223"
+    },
+    "SOURCE_AND_RUN_RECEIPT.json": {
+      "bytes": 11599,
+      "sha256": "fcaa28ba0d0d59a4969bcabb20eff65af9a274291a55efc7455281d3a83f9b11"
+    }
+  },
+  "exact_candidate_source_pins": {
+    "scripts/cp7-src/planning/analysis-stage-snapshot.sql": "da240a2e014ccb6a9e4b2ff7507ba866062a99ae",
+    "scripts/cp7-src/planning/report-staged.sql": "762e58869f2c618d4bc68d7cda4f6f352227b927",
+    "scripts/cp7-src/wip/bootstrap.sql": "919b1cb81f147af54d58c8ebe5bb847627e8b12e",
+    "scripts/cp7-src/wip/bs.sql": "cc6d9883da2a1990d92efcdb665b1c926f0a22c8",
+    "scripts/cp7-src/wip/graph.sql": "f55c3442e633db990a5bf8b901f183bfddba36ec",
+    "scripts/cp7-src/wip/normalize.sql": "47fb3264cd845dad0fcf27ef10848f24143d14ab",
+    "scripts/cp7-src/wip/other-normalize.sql": "1ce729e7d8ef81eb641ddfbaeda644706021a07f",
+    "scripts/cp7-src/wip/other-source.sql": "c3d8c1afe17ed372acc22a7850068a7cf27aa42e",
+    "scripts/cp7-src/wip/production.sql": "040fcec362e5f6f43ecb723b2525157fff4886be",
+    "scripts/cp7-src/wip/rewash.sql": "1f2261cde9a5f98efa6e2b7071245dbb045c79b6",
+    "scripts/cp7-src/wip/source.sql": "906b3a27109add6830fd88cc3ca452654313e1f4",
+    "scripts/current-sku-automatic-composite-preparation/PREPARED_NATIVE25_PLAN.json": "6ed6781ebd96bd3847491d7cd824192b12779c0e",
+    "scripts/current-sku-automatic-composite-preparation/module_scope.py": "583768c6b3471fc3a45a9c018d7dcae36e76c660",
+    "scripts/current-sku-automatic-composite-preparation/non_po_rounding.py": "2a98184e5a766754640f72aad683cd27c47c2132",
+    "src/NativeStagedReportsPanel.tsx": "b3fa0857764ff9037c970e40d55e5053c10479bb",
+    "src/nativeStagedReports.ts": "30d53779ed2a5a0bc9f5dcb9765b271a6ef32688",
+    "src/NativeStagedReportsPanel.dom.test.tsx": "ee179ae619f1b8620726bc05dd1fedf879eaa87b",
+    "src/nativeStagedReports.test.ts": "bdb25e8e5f8bf178527e12be88e71018381c0dec",
+    "tests/fixtures/nativeStagedReports.ts": "79010916178cdba119a771525e81f64f6ba92eb0",
+    "scripts/build-preflight.mjs": "0cf26423147506a08ff68f00de3b422bfc1a0413",
+    "package-lock.json": "ca9159d26989e0263b6b757f5f824bd9333d8cf6"
+  },
+  "closed_global_source_pins_pending_sku_adoption": [
+    "scripts/current-sku-automatic-composite-preparation/module_scope.py",
+    "scripts/current-sku-automatic-composite-preparation/non_po_rounding.py"
+  ],
+  "native27_donor_metadata": {
+    "id": 13031164777,
+    "bytes": 94781660,
+    "digest": "sha256:9ad923d20d0972b2a01df3ce3307bf03db537406ac89f99f700cf6d235bfc341",
+    "head": "090b85d3fcb738d3e694d4329d306f199a686eb8",
+    "expired": false
+  },
+  "historical_P19_actual_job": {
+    "id": 113577594659,
+    "run_id": 37855200317,
+    "run_attempt": 1,
+    "head_sha": "05b2368fcf4793b90a405245deaec40d1ba3526b",
+    "conclusion": "success"
+  },
+  "moving_average": {
+    "status": "PASS_TYPED_PG17_6_FIXTURE",
+    "observations": [
+      {
+        "phase": "initial_usage",
+        "pcs": 2,
+        "fg_cents": 7200,
+        "cogs_cents": 0,
+        "other_income_cents": 0,
+        "zero_net_accounts_with_rows": []
+      },
+      {
+        "phase": "sale",
+        "pcs": 0,
+        "fg_cents": 0,
+        "cogs_cents": 7200,
+        "other_income_cents": 0,
+        "zero_net_accounts_with_rows": []
+      },
+      {
+        "phase": "late_cost_1",
+        "pcs": 0,
+        "fg_cents": 0,
+        "cogs_cents": 7301,
+        "other_income_cents": 0,
+        "zero_net_accounts_with_rows": [
+          "FG_INVENTORY"
+        ]
+      },
+      {
+        "phase": "return_1",
+        "pcs": 1,
+        "fg_cents": 3651,
+        "cogs_cents": 3650,
+        "other_income_cents": 0,
+        "zero_net_accounts_with_rows": []
+      },
+      {
+        "phase": "late_cost_2",
+        "pcs": 1,
+        "fg_cents": 3702,
+        "cogs_cents": 3701,
+        "other_income_cents": 0,
+        "zero_net_accounts_with_rows": []
+      },
+      {
+        "phase": "return_2",
+        "pcs": 2,
+        "fg_cents": 7403,
+        "cogs_cents": 0,
+        "other_income_cents": 0,
+        "zero_net_accounts_with_rows": []
+      },
+      {
+        "phase": "reverse_second_source_delta",
+        "pcs": 2,
+        "fg_cents": 7301,
+        "cogs_cents": 0,
+        "other_income_cents": 0,
+        "zero_net_accounts_with_rows": []
+      }
+    ],
+    "journal_rows_reconciled_by_account_and_document": true,
+    "same_source_value_replay_identical": true,
+    "model_tables_restored": 75,
+    "combined_supplier_invoice_and_uuid_replay_credit": 0
+  },
+  "snapshot_and_report": {
+    "status": "PASS_PHYSICAL_AND_DEFERRED_REPORT_FIXTURE",
+    "expected_and_observed_pcs": {
+      "input": 8,
+      "posted_fg": 3,
+      "wip_before": 8,
+      "wip_after": 5,
+      "fg_before": 0,
+      "fg_after": 3,
+      "outside_filter_pcs": 11
+    },
+    "history_period": {
+      "from_date": "2026-11-11",
+      "group_mode": "AS_SOLD",
+      "through_date": "2026-11-11"
+    },
+    "report_stock_date_wib": "2026-11-12",
+    "archived_snapshot_and_report_preserved": true,
+    "wrong_identity_refused_before_job": true,
+    "recovery": {
+      "before": {
+        "db": [
+          "postgres",
+          "template0",
+          "template1"
+        ],
+        "roles": [
+          "cp7_b_lab"
+        ]
+      },
+      "after": {
+        "db": [
+          "postgres",
+          "template0",
+          "template1"
+        ],
+        "roles": [
+          "cp7_b_lab"
+        ]
+      },
+      "exact": true,
+      "disposable_db_dropped": true
+    }
+  },
+  "report_ui": {
+    "local_tests_passed": 7,
+    "local_tests_outside_filter": 10,
+    "actual_browser_cases": 0
+  },
+  "official_valuation": {
+    "status": "BLOCKED",
+    "expected_WIP_before_cents": 28800,
+    "expected_WIP_after_cents": 18000,
+    "expected_FG_after_cents": 10800,
+    "expected_sales_COGS_cents": 0,
+    "required": [
+      "actual combined disposable copy",
+      "posted and traced cost",
+      "erp.rebuild_po_hpp",
+      "erp.sync_po_hpp_to_gl",
+      "configured WIP and FG journal accounts",
+      "owner finance.reports.view",
+      "paired INCLUDED publications at the same business/date cutoff"
+    ]
+  },
+  "preserved_fixture_failures": {
+    "moving_donor": "Missing cp7_ow04_restore_bundle.py before DB",
+    "snapshot": [
+      "permission denied for schema cp7_analysis_stage",
+      "{'failure_unit': 2, 'failure_sqlstate': '42501', 'failure_code': 'CP7_REPORT_V2_STAGE_ERROR', 'failure_message': 'permission denied for table material_stock_movements'}"
+    ]
+  },
+  "actual_new_combined_SKU_or_Global_cases": 0,
+  "formal_cp7": "5/16",
+  "independent_acceptance": false,
+  "production_go": false
+}

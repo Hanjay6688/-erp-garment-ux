@@ -1,0 +1,23 @@
+{
+  "status": "EXACT_COMPLETE_GIT_TREE_COLLISION_AND_REQUIRED_BYTES_VERIFIED",
+  "closed_head": "c9248b8770ec8cfe0f7e2f2fd8da26c141ea67c5",
+  "closed_tree": "9b440dd1785344fdafa5d2d702a6dd8f1ee08622",
+  "base_tree": "3fd1bdb763a6d22a5aa455f5aea3a853b9782e4d",
+  "sku_tree": "a80a212694fc6b67d23e2dcdd9e648b4eea78541",
+  "complete_tree_paths": {
+    "base": 14665,
+    "sku": 14837,
+    "global": 14890
+  },
+  "original_prepared_scope": 209,
+  "current_adoption_scope": 219,
+  "collisions": [],
+  "physical_review_paths": 232,
+  "physical_review_blobs_missing": 0,
+  "out_of_scope_blobs_unmaterialized": 14588,
+  "source_only": true,
+  "actual_ERP_case_credit": 0,
+  "verified_clean_sparse_source_guard": true,
+  "manifest_sha256": "794db88d865e844ec81043cf753aa116c2a1da7d86f03403c88e8db0ae623cf8",
+  "closed_source_worktree": "/workspace/scratch/0187efe875f2/cp7-nov12.s3oaeL/global-prep/c924-closed-worktree"
+}
