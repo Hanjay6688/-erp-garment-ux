@@ -1,0 +1,147 @@
+{
+  "status": "SYSTEM_COLUMN_ACL_OMISSION_REPRODUCED",
+  "postgres": "17.6",
+  "exact_input_sources": {
+    "scripts/cp7_global_nonpo_envelope/catalogue_profile.py": {
+      "bytes": 4607,
+      "sha256": "e34234eab2e4c36f8c63742a504569f954957241c0cbc679e9b420d12218b19e"
+    },
+    "scripts/cp7_ow04_restore_bundle.py": {
+      "bytes": 19828,
+      "sha256": "a1605193347cf5b3321a7bdbf8ff6c634df4f4c0a5113eb295e8c3ce44428e00"
+    },
+    "scripts/cp7-src/planning/analysis-stage-snapshot.sql": {
+      "bytes": 16768,
+      "sha256": "083925b7d5a7dd2d62c24e0a218690a3eae054a7a59333e1974d93016958cbfb"
+    }
+  },
+  "groups": 25,
+  "all25_digest_without_system_grants": "eab0c376037e788770a8105bd79abfe988851cf9cb08524ff44ceca9729b2df7",
+  "all25_digest_with_system_grants": "eab0c376037e788770a8105bd79abfe988851cf9cb08524ff44ceca9729b2df7",
+  "exact_all25_equal": true,
+  "supplemental_acl_before": [],
+  "supplemental_acl_with_grants": [
+    {
+      "schema": "erp",
+      "relation": "audit_logs",
+      "column": "xmin",
+      "attribute_number": -2,
+      "grantor": "postgres",
+      "grantee": "cp7_capture",
+      "privilege": "SELECT",
+      "grantable": false
+    },
+    {
+      "schema": "erp",
+      "relation": "bb_purchase_commitments_v1",
+      "column": "xmin",
+      "attribute_number": -2,
+      "grantor": "postgres",
+      "grantee": "cp7_capture",
+      "privilege": "SELECT",
+      "grantable": false
+    },
+    {
+      "schema": "erp",
+      "relation": "locations",
+      "column": "xmin",
+      "attribute_number": -2,
+      "grantor": "postgres",
+      "grantee": "cp7_capture",
+      "privilege": "SELECT",
+      "grantable": false
+    },
+    {
+      "schema": "erp",
+      "relation": "material_stock_movements",
+      "column": "xmin",
+      "attribute_number": -2,
+      "grantor": "postgres",
+      "grantee": "cp7_capture",
+      "privilege": "SELECT",
+      "grantable": false
+    }
+  ],
+  "read_before": {
+    "material_stock_movements": {
+      "select": "DENIED",
+      "sqlstate": "42501"
+    },
+    "bb_purchase_commitments_v1": {
+      "select": "DENIED",
+      "sqlstate": "42501"
+    },
+    "locations": {
+      "select": "DENIED",
+      "sqlstate": "42501"
+    },
+    "audit_logs": {
+      "select": "DENIED",
+      "sqlstate": "42501"
+    }
+  },
+  "read_after_grant": {
+    "material_stock_movements": {
+      "select": "PASS",
+      "sqlstate": null
+    },
+    "bb_purchase_commitments_v1": {
+      "select": "PASS",
+      "sqlstate": null
+    },
+    "locations": {
+      "select": "PASS",
+      "sqlstate": null
+    },
+    "audit_logs": {
+      "select": "PASS",
+      "sqlstate": null
+    }
+  },
+  "read_after_revoke": {
+    "material_stock_movements": {
+      "select": "DENIED",
+      "sqlstate": "42501"
+    },
+    "bb_purchase_commitments_v1": {
+      "select": "DENIED",
+      "sqlstate": "42501"
+    },
+    "locations": {
+      "select": "DENIED",
+      "sqlstate": "42501"
+    },
+    "audit_logs": {
+      "select": "DENIED",
+      "sqlstate": "42501"
+    }
+  },
+  "observer_refuses_missing_grants_and_drift": true,
+  "fixture_role_and_schema_restored": true,
+  "actual_combined_ERP_cases": 0,
+  "active_candidate_changed": false,
+  "production_go": false,
+  "owner_candidate": "d08032a28b9f00d0ee70a6f98c6b7d0f5b770c4a",
+  "review_base": "c9248b8770ec8cfe0f7e2f2fd8da26c141ea67c5",
+  "fixture_server_stopped": true,
+  "fixture_shutdown_log": "2026-11-12 02:14:35.574 WIB [13] LOG:  database system is shut down",
+  "stale_source_refused_before_connection": true,
+  "replay_sources": {
+    "system_column_acl.py": {
+      "bytes": 2534,
+      "sha256": "93ca650c178b6196901be7b1c5ef5ea8afaee25ed6723ed7dea0c0eb111f23ee"
+    },
+    "replay_system_acl.py": {
+      "bytes": 7860,
+      "sha256": "9ae2b8a59562ebab6aa19720e0148e6b5266b7dd130bcb77b033ad449f06e8d2"
+    }
+  },
+  "replay_command": "python3 replay_system_acl.py --port <local_disposable_pg17_port> --source-root <exact_d080_checkout>",
+  "use_in_existing_authority_checks": [
+    "record actual explicit system-column ACL before Global installation",
+    "require current snapshot xmin grants",
+    "compare exact ACL after installation and after disposable restoration"
+  ],
+  "runtime_qualification_cases": 0,
+  "postgres_reference": "https://www.postgresql.org/docs/17/catalog-pg-attribute.html"
+}
