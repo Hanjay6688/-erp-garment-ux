@@ -2,12 +2,117 @@
 from pathlib import Path
 import importlib.util
 from hashlib import sha256
+from datetime import date, datetime, time, timedelta
+from decimal import Decimal
+from types import CodeType, MappingProxyType, ModuleType, SimpleNamespace
+from uuid import UUID
+import json
+import math
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
 RETAINED = ROOT / 'scripts/current-sku-money-composite-preparation/package.py'
 MANDOR_AUTHORITY = 'scripts/current-mandor-afui-preparation/report_io.py'
 MANDOR_AUTHORITY_PIN = (9238, '300a4239a2e3fec6bbd6fa6fc8115a730034592aa362fee1993cff013e0c3c25')
+
+# These are the three exact current-parent binding payloads. No financial
+# state, catalogue field, parent proof or source declaration is projected out.
+STATE_BINDINGS = (
+    ('current_mandor_moving_for_money', 'cp7_sku_moving_average',
+     'complete_current_parent', 'cp7.current-mandor-complete-state-binding.v1'),
+    ('current_mandor_moving_money', 'cp7_sku_cost_components',
+     'complete_current_moving_parent', 'cp7.current-mandor-moving-money-complete-state-binding.v1'),
+    ('automatic_on_current_mandor_money', 'cp7_sku_automatic_pending',
+     'complete_current_money_parent', 'cp7.current-automatic-complete-parent-state.v1'),
+)
+
+
+def state_value(value):
+    """Lossless typed tree for a complete in-memory PostgreSQL parent state."""
+    kind = type(value)
+    if value is None:
+        return ['null']
+    if kind is bool:
+        return ['bool', value]
+    if kind is int:
+        return ['int', str(value)]
+    if kind is str:
+        return ['str', value]
+    if kind is float and math.isfinite(value):
+        return ['float', value.hex()]
+    if kind is Decimal and value.is_finite():
+        parts = value.as_tuple()
+        return ['decimal', parts.sign, list(parts.digits), parts.exponent]
+    if kind is datetime:
+        return ['datetime', value.isoformat(timespec='microseconds'), value.fold]
+    if kind is date:
+        return ['date', value.isoformat()]
+    if kind is time:
+        return ['time', value.isoformat(timespec='microseconds'), value.fold]
+    if kind is timedelta:
+        return ['timedelta', value.days, value.seconds, value.microseconds]
+    if kind is UUID:
+        return ['uuid', value.hex]
+    if kind in (bytes, bytearray):
+        return [kind.__name__, value.hex()]
+    if kind in (dict, MappingProxyType):
+        entries = [[state_value(key), state_value(item)] for key, item in value.items()]
+        entries.sort(key=lambda entry: json.dumps(entry[0], ensure_ascii=False, separators=(',', ':')))
+        return [kind.__name__, entries]
+    if kind in (list, tuple):
+        return [kind.__name__, [state_value(item) for item in value]]
+    if kind in (set, frozenset):
+        items = [state_value(item) for item in value]
+        items.sort(key=lambda item: json.dumps(item, ensure_ascii=False, separators=(',', ':')))
+        return [kind.__name__, items]
+    raise TypeError('SKU_STATE_UNSUPPORTED_VALUE:' + kind.__name__)
+
+
+def state_digest(value):
+    digest = sha256()
+    encoder = json.JSONEncoder(ensure_ascii=False, separators=(',', ':'), allow_nan=False)
+    for chunk in encoder.iterencode(['cp7.complete-postgres-parent-state.v1', state_value(value)]):
+        digest.update(chunk.encode())
+    return digest.hexdigest()
+
+
+def bind_parent_state(product):
+    """Bind only derived SKU modules; leave the frozen catalogue unchanged."""
+    money = product.parent()
+    moving = money.parent()
+    pending = []
+    semantic_code = ('co_code', 'co_consts', 'co_names', 'co_varnames', 'co_freevars',
+                     'co_cellvars', 'co_argcount', 'co_posonlyargcount',
+                     'co_kwonlyargcount', 'co_nlocals', 'co_stacksize', 'co_flags')
+    for module, (name, folder, payload, contract) in zip((moving, money, product), STATE_BINDINGS):
+        expected_path = ROOT.parent / ('qualified-sku-automatic' if module is product else 'qualified-sku-money')
+        expected_path = expected_path / 'scripts' / folder / 'composition.py'
+        if type(module) is not ModuleType or module.__name__ != name or Path(module.__file__) != expected_path:
+            raise ValueError('SKU_STATE_EXACT_DERIVED_MODULE_REQUIRED:' + name)
+        source = ('def binding(catalog, prior, proof):\n'
+                  '    return catalog.digest(dict(' + payload + '=prior, verified_parent_proof=proof,\n'
+                  '                               contract=' + repr(contract) + '))\n')
+        code = next(code for code in compile(source, str(expected_path), 'exec', dont_inherit=True).co_consts
+                    if isinstance(code, CodeType))
+        original = module.binding
+        if (original.__globals__ is not module.__dict__ or original.__closure__ is not None
+                or original.__defaults__ is not None or original.__kwdefaults__ is not None
+                or any(getattr(original.__code__, field) != getattr(code, field) for field in semantic_code)):
+            raise ValueError('SKU_STATE_UNCHANGED_COMPLETE_BINDING_REQUIRED:' + name)
+
+        def bind(original):
+            def binding(catalog, prior, proof):
+                # The unchanged original selects every payload member. Only
+                # its digest receives typed values; live state stays intact.
+                return original(SimpleNamespace(digest=state_digest), prior, proof)
+            return binding
+        pending.append((module, bind(original)))
+    # Validate all three before changing any private module.
+    for module, binding in pending:
+        module.binding = binding
+    return dict(contract='cp7.complete-postgres-parent-state.v1', complete_binding_payloads=3,
+                frozen_catalogue_and_financial_SQL_unchanged=True,
+                typed_values_preserved=True, actual_ERP_cases=0, production_go=False)
 
 
 def load(name, path):

@@ -42,6 +42,7 @@
     "local_control_methods": 5
   },
   "contract": "cp7.current-automatic-product-bridge-preparation.v1",
+  "cumulative_parent_adopted": true,
   "cumulative_source_preparation": {
     "backend": {
       "head": "a0e7d5616a0ac470876409d31c41388159f17692",
@@ -310,16 +311,16 @@
       "sha256": "16022261c9accf67f2251217c15c004bbeb565a417ff8669c91c1bf1bc4f7c7d"
     },
     "package.py": {
-      "bytes": 5180,
-      "sha256": "3ce662a23545936685d6cdbae22eea5c46d42542ed325d0e365dd0b73a5acc19"
+      "bytes": 10587,
+      "sha256": "2ddec2f38d54aac7919b349c20e1656a1bf252e71f411bbd3bc7ed8d213c8fba"
     },
     "prepare_native_sql.py": {
       "bytes": 4284,
       "sha256": "5535ce276253d5ce6f10157cc825e75499ef2e2cf6b225dac3213317e6cb1966"
     },
     "qualification.py": {
-      "bytes": 13375,
-      "sha256": "5ae299948b71ef2c96273c155fdf5607d2afa1ec8007c7acefa342bc651199df"
+      "bytes": 13482,
+      "sha256": "ca3bd2b86356a9af2c4885795ddfa02cb17e7054d9484bec2b5d4752fc786adc"
     },
     "report_io.py": {
       "bytes": 6464,
@@ -410,8 +411,8 @@
       "sha256": "a81b36fb904e651e53bb1db86218ecec71cef660d11ca8a7cb5b38d82acbc86a"
     },
     "test_qualification.py": {
-      "bytes": 17760,
-      "sha256": "1eb11d102284af1810431c964893132c5774ed7516a553a0d158fb222d5aeff8"
+      "bytes": 23949,
+      "sha256": "f1e8d67e32b6699f6c7f192ca4cd096a8285a7949842f4c3440aa31072b60c1a"
     },
     "test_report_io.py": {
       "bytes": 8096,
@@ -1690,6 +1691,5 @@
   },
   "selective_UI_source_admission_prepared": true,
   "separate_browser_source_and_Native_deadlines_prepared": true,
-  "source_intake_control_methods": 4,
-  "cumulative_parent_adopted": true
+  "source_intake_control_methods": 4
 }

@@ -295,5 +295,104 @@ class InstallAuthorityControls(unittest.TestCase):
                 imported.assert_not_called()
 
 
+class CompleteStateBindingControls(unittest.TestCase):
+    @staticmethod
+    def products(package):
+        # Exact three retained derived functions, including their full payloads.
+        bodies = (
+            "return catalog.digest(dict(complete_current_parent=prior,verified_parent_proof=proof,contract='cp7.current-mandor-complete-state-binding.v1'))",
+            "return catalog.digest(dict(complete_current_moving_parent=prior,verified_parent_proof=proof,contract='cp7.current-mandor-moving-money-complete-state-binding.v1'))",
+            "return catalog.digest(dict(complete_current_money_parent=prior,verified_parent_proof=proof,contract='cp7.current-automatic-complete-parent-state.v1'))",
+        )
+        modules = []
+        for (name, folder, _, _), body in zip(package.STATE_BINDINGS, bodies):
+            module = ModuleType(name)
+            frozen = 'qualified-sku-automatic' if folder == 'cp7_sku_automatic_pending' else 'qualified-sku-money'
+            module.__file__ = str(package.ROOT.parent / frozen / 'scripts' / folder / 'composition.py')
+            exec(compile('def binding(catalog, prior, proof):\n    ' + body + '\n', module.__file__, 'exec'), module.__dict__)
+            modules.append(module)
+        modules[2].parent = lambda: modules[1]
+        modules[1].parent = lambda: modules[0]
+        return modules
+
+    def test_all_three_complete_bindings_accept_typed_state_and_detect_changes(self):
+        from copy import deepcopy
+        from datetime import datetime, timezone
+        from decimal import Decimal
+        from uuid import UUID
+        package = load('package')
+        modules = self.products(package)
+        original = tuple(module.binding for module in modules)
+        catalog = SimpleNamespace(digest=lambda value: json.dumps(value, sort_keys=True))
+        untouched = catalog.digest
+        prior = dict(sources={'SQL': 'exact body'}, before={'owner': 'postgres'},
+                     after={'grant': ['SELECT'], 'sequence': [11, True]},
+                     parent={'at': datetime(2026, 11, 11, 1, 2, 3, 456789, timezone.utc),
+                             'amount': Decimal('9007199254740993.00100'),
+                             'id': UUID('06f4266d-305a-45ce-bd0a-0d53ac2a9917'), 'raw': b'\x00\xff'})
+        proof = {'all22': True}
+        snapshot = deepcopy(prior)
+        for binding in original:
+            with self.assertRaisesRegex(TypeError, 'datetime'):
+                binding(catalog, {'at': prior['parent']['at']}, proof)
+            with self.assertRaisesRegex(TypeError, 'not JSON serializable'):
+                binding(catalog, prior, proof)
+        receipt = package.bind_parent_state(modules[2])
+        self.assertEqual(receipt['complete_binding_payloads'], 3)
+        self.assertIs(catalog.digest, untouched)
+        for module in modules:
+            digest = module.binding(catalog, prior, proof)
+            self.assertEqual(digest, module.binding(catalog, deepcopy(prior), dict(proof)))
+            changes = (
+                ('sources', 'SQL', 'changed body'), ('before', 'owner', 'authenticated'),
+                ('after', 'grant', []), ('after', 'sequence', [12, True]),
+                ('parent', 'amount', Decimal('9007199254740993.00101')),
+                ('parent', 'at', prior['parent']['at'].replace(microsecond=456788)),
+                ('parent', 'id', UUID(int=0)), ('parent', 'raw', b'\x00\xfe'),
+            )
+            for section, key, value in changes:
+                changed = deepcopy(prior); changed[section][key] = value
+                self.assertNotEqual(digest, module.binding(catalog, changed, proof))
+            self.assertNotEqual(digest, module.binding(catalog, prior, {'all22': False}))
+        self.assertEqual(prior, snapshot)
+        self.assertIs(catalog.digest, untouched)
+
+    def test_type_tags_prevent_string_and_numeric_collisions(self):
+        from datetime import date, datetime, time, timedelta, timezone
+        from decimal import Decimal
+        from uuid import UUID
+        package = load('package')
+        values = [None, False, 0, 0.0, -0.0, Decimal('0'), Decimal('0.00'), '0',
+                  date(2026, 11, 11), '2026-11-11', datetime(2026, 11, 11, tzinfo=timezone.utc),
+                  time(1, 2, 3), timedelta(seconds=1), b'abc', bytearray(b'abc'),
+                  UUID(int=0), str(UUID(int=0)), [], (), set(), frozenset(), {}]
+        hashes = [package.state_digest(value) for value in values]
+        self.assertEqual(len(set(hashes)), len(values))
+        self.assertEqual(package.state_digest({'a': 1, 'b': 2}), package.state_digest({'b': 2, 'a': 1}))
+        for bad in (object(), float('nan'), float('inf'), Decimal('NaN'), Decimal('Infinity')):
+            with self.subTest(value=type(bad).__name__), self.assertRaisesRegex(TypeError, 'UNSUPPORTED_VALUE'):
+                package.state_digest({'nested': [bad]})
+        self.assertNotEqual(package.state_digest({1: 'value'}), package.state_digest({'1': 'value'}))
+        self.assertEqual(package.state_digest({1: 'a', '1': 'b'}), package.state_digest({'1': 'b', 1: 'a'}))
+        with self.assertRaisesRegex(TypeError, 'UNSUPPORTED_VALUE'):
+            package.state_digest({object(): 'unsupported key must never be stringified'})
+
+    def test_changed_or_frozen_module_refuses_before_any_private_binding_changes(self):
+        package = load('package')
+        for violation in ('payload', 'origin', 'closure'):
+            modules = self.products(package)
+            originals = [module.binding for module in modules]
+            if violation == 'payload':
+                exec('def binding(catalog, prior, proof):\n    return catalog.digest(prior)\n', modules[2].__dict__)
+            elif violation == 'origin':
+                modules[2].__file__ = '/different-frozen-root/composition.py'
+            else:
+                modules[2].binding = lambda catalog, prior, proof: 'forged'
+            with self.assertRaisesRegex(ValueError, 'EXACT_DERIVED_MODULE|UNCHANGED_COMPLETE_BINDING'):
+                package.bind_parent_state(modules[2])
+            self.assertIs(modules[0].binding, originals[0])
+            self.assertIs(modules[1].binding, originals[1])
+
+
 if __name__ == '__main__':
     unittest.main()
