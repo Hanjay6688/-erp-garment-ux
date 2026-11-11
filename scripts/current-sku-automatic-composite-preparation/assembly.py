@@ -27,6 +27,8 @@ def load(name, path):
 
 admission = load('current_automatic_closed_admission', HERE / 'admission.py')
 derivation = load('current_automatic_exact_interface_derivation', HERE / 'derive.py')
+non_po_rounding = load('current_automatic_non_po_rounding', HERE / 'non_po_rounding.py')
+module_scope = load('current_automatic_preparation_module_scope', HERE / 'module_scope.py')
 
 
 def require(value, message):
@@ -114,6 +116,8 @@ def load_prepared(bridge, parent, money_module, automatic_module, parent_raw, mo
     # The retained bridge admits the actual complete Mandor17 parent and the
     # unqualified money candidate. It does not require a duplicate money19 run.
     money = bridge.load_prepared(parent, money_module, parent_raw, money_raw)
+    require(money is not money_module, 'SKU_AUTOMATIC_PRIVATE_MONEY_INSTANCE_REQUIRED')
+    frozen_money_sources = money.sources
     expected = FROZEN_AUTO / 'scripts/cp7_sku_automatic_pending'
     require(Path(automatic_module.__file__).resolve() == expected / 'composition.py',
             'SKU_AUTOMATIC_EXACT_FROZEN_INSTALLER_MODULE_REQUIRED')
@@ -134,7 +138,7 @@ def load_prepared(bridge, parent, money_module, automatic_module, parent_raw, mo
         require(admission.inputs(parent_raw, money_raw, plan_raw) == receipt and source_manifest() == own,
                 'SKU_AUTOMATIC_PARENT_SOURCE_OR_PLAN_CHANGED')
         frozen()
-        require(admission.pin(admission.canonical(money.sources())) == admission.CURRENT_MONEY_GRAPH_PIN,
+        require(admission.pin(admission.canonical(frozen_money_sources())) == admission.CURRENT_MONEY_GRAPH_PIN,
                 'SKU_AUTOMATIC_COMPLETE_CURRENT_MONEY_GRAPH_CHANGED')
         return dict(receipt=receipt, preparation_source=own, derivation=proof,
                     complete_current_parent_state_bound=True, actual_ERP_cases=0, production_go=False)
@@ -145,4 +149,11 @@ def load_prepared(bridge, parent, money_module, automatic_module, parent_raw, mo
     product.__package__ = automatic_module.__package__
     product.__dict__.update(_CURRENT_MONEY_PARENT=money, _BRIDGE_SOURCES=bridge_sources)
     exec(compile(text, product.__file__ + '::current_money_parent', 'exec'), product.__dict__)
+    financial_delta = money.prepared_product.financial_delta
+    require(Path(financial_delta.__file__).resolve()
+            == Path(money_module.__file__).resolve().with_name('financial_delta.py'),
+            'SKU_AUTOMATIC_EXACT_FROZEN_FINANCIAL_DELTA_REQUIRED')
+    for owner in (money, product):
+        owner.prepared = module_scope.bind_money_preparation(owner.prepared, financial_delta)
+    non_po_rounding.bind(money)
     return product

@@ -205,9 +205,12 @@ def main():
                 browser_preflight = load('automatic_current_browser_before_any_database', HERE / 'browser_preflight.py').check(runtime=True)
                 browser_binding = load('automatic_actual_browser_fixture_before_any_database', HERE / 'browser_binding.py')
                 _, browser_fixture = browser_binding.fixture(engine.product)
+                rounding_source = assembly.non_po_rounding.preflight(
+                    engine.product, Path(os.environ['CP7_SKU_PARENT_ORIGINALS']))
         print(json.dumps(dict(source=proof, source_DB_guard=guard, native_callback_sources=callback_sources,
                               browser_source_preflight=browser_preflight,
-                              actual_browser_fixture_source_binding=browser_fixture, actual_SQL_executed=0)))
+                              actual_browser_fixture_source_binding=browser_fixture,
+                              non_po_rounding_source=rounding_source, actual_SQL_executed=0)))
         return
     attempts = load('automatic_unchanged_real_WIB_day_window', FROZEN_AFUI / 'scripts/current-de-free-date-preparation/attempt_policy.py')
     attempts.require_window()

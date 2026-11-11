@@ -4,6 +4,7 @@ from pathlib import Path
 from importlib.abc import MetaPathFinder
 from importlib.machinery import ModuleSpec
 from importlib.util import module_from_spec, spec_from_file_location
+from threading import RLock
 from types import ModuleType
 import ast
 import sys
@@ -15,6 +16,24 @@ _active = []
 HARNESS_NAMES = ('cp6_t3_package_run', 'cp6_run_identity', 'cp6_aw_probe', 'cp6_ax_probe',
                  'cp6_g01_fingerprint', 'cp6_t3_backup_restore_drill', 'cp6_t3_release_package',
                  'cp6_t3_browser', 'cp6_t3_aligned_install')
+_financial_import_lock = RLock()
+
+
+def bind_money_preparation(prepare, financial_delta):
+    """Resolve the retained bare import to the same frozen money module."""
+    def prepare_with_financial_source(before, prior):
+        name = 'financial_delta'
+        with _financial_import_lock:
+            if name in sys.modules:
+                if sys.modules[name] is not financial_delta:
+                    raise ValueError('SKU_AUTOMATIC_FROZEN_FINANCIAL_DELTA_COLLISION')
+                return prepare(before, prior)
+            sys.modules[name] = financial_delta
+            try:
+                return prepare(before, prior)
+            finally:
+                del sys.modules[name]
+    return prepare_with_financial_source
 
 
 @contextmanager
