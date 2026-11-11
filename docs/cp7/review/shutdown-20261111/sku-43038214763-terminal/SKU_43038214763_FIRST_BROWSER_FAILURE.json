@@ -1,0 +1,362 @@
+{
+  "kind": "SKU_PRE_DATABASE_BROWSER_DEPENDENCY_FAILURE",
+  "repository": "Hanjay6688/-erp-garment-ux",
+  "run": {
+    "id": 43038214763,
+    "attempt": 1,
+    "head": "554fecef4ee18c424fc5adb2d0996cc811e1b1ac",
+    "tree": "c7c8631f470fe148f437f2604dd0a3a7c817eae2",
+    "status": "completed",
+    "conclusion": "failure",
+    "ended_at": "2026-11-11T14:53:49Z"
+  },
+  "job": {
+    "id": 130582657713,
+    "runner_id": 1000021019,
+    "image": "ubuntu-24.04/20261101.360.1",
+    "status": "completed",
+    "conclusion": "failure",
+    "ended_at": "2026-11-11T14:53:48Z",
+    "steps": [
+      {
+        "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 12,
+        "started_at": "2026-11-11T14:26:19Z",
+        "completed_at": "2026-11-11T14:26:20Z"
+      },
+      {
+        "name": "Verify complete actual owning source and reviewable workflow before database",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 67,
+        "started_at": "2026-11-11T14:37:16Z",
+        "completed_at": "2026-11-11T14:37:23Z"
+      },
+      {
+        "name": "Admit full money and natural Native25 graph under database network fence",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 69,
+        "started_at": "2026-11-11T14:37:24Z",
+        "completed_at": "2026-11-11T14:43:32Z"
+      },
+      {
+        "name": "Install pinned browser dependencies in both actual checkout roots before database",
+        "status": "completed",
+        "conclusion": "failure",
+        "number": 70,
+        "started_at": "2026-11-11T14:43:32Z",
+        "completed_at": "2026-11-11T14:53:44Z"
+      },
+      {
+        "name": "Open actual desktop and mobile browsers and compile exact SKU candidate before database",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 71,
+        "started_at": "2026-11-11T14:53:44Z",
+        "completed_at": "2026-11-11T14:53:44Z"
+      },
+      {
+        "name": "Write diagnostic source checkpoint before Native25",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 72,
+        "started_at": "2026-11-11T14:53:44Z",
+        "completed_at": "2026-11-11T14:53:44Z"
+      },
+      {
+        "name": "Persist diagnostic checkpoint before long runtime",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 73,
+        "started_at": "2026-11-11T14:53:44Z",
+        "completed_at": "2026-11-11T14:53:44Z"
+      },
+      {
+        "name": "Start disposable database",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 74,
+        "started_at": "2026-11-11T14:53:44Z",
+        "completed_at": "2026-11-11T14:53:44Z"
+      },
+      {
+        "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 75,
+        "started_at": "2026-11-11T14:53:44Z",
+        "completed_at": "2026-11-11T14:53:44Z"
+      },
+      {
+        "name": "Provision isolated rollback authority",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 76,
+        "started_at": "2026-11-11T14:53:44Z",
+        "completed_at": "2026-11-11T14:53:44Z"
+      },
+      {
+        "name": "Clone the aligned AB state for install",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 77,
+        "started_at": "2026-11-11T14:53:44Z",
+        "completed_at": "2026-11-11T14:53:44Z"
+      },
+      {
+        "name": "Run current-parent money automatic Native25 and real browser2 once with owning restoration",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 78,
+        "started_at": "2026-11-11T14:53:44Z",
+        "completed_at": "2026-11-11T14:53:44Z"
+      },
+      {
+        "name": "Remove disposable database",
+        "status": "completed",
+        "conclusion": "failure",
+        "number": 83,
+        "started_at": "2026-11-11T14:53:45Z",
+        "completed_at": "2026-11-11T14:53:45Z"
+      },
+      {
+        "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 84,
+        "started_at": "2026-11-11T14:53:45Z",
+        "completed_at": "2026-11-11T14:53:46Z"
+      }
+    ]
+  },
+  "original_log": {
+    "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/43038214763/job/130582657713",
+    "first_apt_DNS_warning_line": 1962,
+    "first_fatal_dependency_error_line": 8074,
+    "browser_command_exit_line": 8086,
+    "secondary_cleanup_refusal_line": 8907,
+    "excerpts": [
+      {
+        "line": 1962,
+        "text": "2026-11-11T14:29:47.8244454Z W: Failed to fetch mirror+file:/etc/apt/apt-mirrors.txt/dists/noble/InRelease  Temporary failure resolving 'azure.archive.ubuntu.com'"
+      },
+      {
+        "line": 1963,
+        "text": "2026-11-11T14:29:47.8246463Z W: Failed to fetch mirror+file:/etc/apt/apt-mirrors.txt/dists/noble-updates/InRelease  Temporary failure resolving 'azure.archive.ubuntu.com'"
+      },
+      {
+        "line": 1964,
+        "text": "2026-11-11T14:29:47.8248159Z W: Failed to fetch mirror+file:/etc/apt/apt-mirrors.txt/dists/noble-backports/InRelease  Temporary failure resolving 'azure.archive.ubuntu.com'"
+      },
+      {
+        "line": 1965,
+        "text": "2026-11-11T14:29:47.8249189Z W: Failed to fetch mirror+file:/etc/apt/apt-mirrors.txt/dists/noble-security/InRelease  Temporary failure resolving 'azure.archive.ubuntu.com'"
+      },
+      {
+        "line": 1966,
+        "text": "2026-11-11T14:29:47.8250443Z W: Some index files failed to download. They have been ignored, or old ones used instead."
+      },
+      {
+        "line": 1970,
+        "text": "2026-11-11T14:33:08.8116114Z W: Failed to fetch mirror+file:/etc/apt/apt-mirrors.txt/dists/noble/InRelease  Temporary failure resolving 'azure.archive.ubuntu.com'"
+      },
+      {
+        "line": 1971,
+        "text": "2026-11-11T14:33:08.8120178Z W: Failed to fetch mirror+file:/etc/apt/apt-mirrors.txt/dists/noble-updates/InRelease  Temporary failure resolving 'azure.archive.ubuntu.com'"
+      },
+      {
+        "line": 1972,
+        "text": "2026-11-11T14:33:08.8122137Z W: Failed to fetch mirror+file:/etc/apt/apt-mirrors.txt/dists/noble-backports/InRelease  Temporary failure resolving 'azure.archive.ubuntu.com'"
+      },
+      {
+        "line": 1973,
+        "text": "2026-11-11T14:33:08.8123468Z W: Failed to fetch mirror+file:/etc/apt/apt-mirrors.txt/dists/noble-security/InRelease  Temporary failure resolving 'azure.archive.ubuntu.com'"
+      },
+      {
+        "line": 7919,
+        "text": "2026-11-11T14:43:42.0197827Z added 142 packages, and audited 143 packages in 9s"
+      },
+      {
+        "line": 7935,
+        "text": "2026-11-11T14:43:43.0261336Z Get:1 file:/etc/apt/apt-mirrors.txt Mirrorlist [144 B]"
+      },
+      {
+        "line": 7948,
+        "text": "2026-11-11T14:46:02.6346741Z   Temporary failure resolving 'azure.archive.ubuntu.com'"
+      },
+      {
+        "line": 7952,
+        "text": "2026-11-11T14:46:22.6584543Z   Temporary failure resolving 'azure.archive.ubuntu.com'"
+      },
+      {
+        "line": 7954,
+        "text": "2026-11-11T14:46:42.6788977Z   Temporary failure resolving 'azure.archive.ubuntu.com'"
+      },
+      {
+        "line": 7957,
+        "text": "2026-11-11T14:47:02.7045053Z   Temporary failure resolving 'azure.archive.ubuntu.com'"
+      },
+      {
+        "line": 7959,
+        "text": "2026-11-11T14:47:04.0482786Z W: Failed to fetch mirror+file:/etc/apt/apt-mirrors.txt/dists/noble/InRelease  Temporary failure resolving 'azure.archive.ubuntu.com'"
+      },
+      {
+        "line": 7960,
+        "text": "2026-11-11T14:47:04.0484707Z W: Failed to fetch mirror+file:/etc/apt/apt-mirrors.txt/dists/noble-updates/InRelease  Temporary failure resolving 'azure.archive.ubuntu.com'"
+      },
+      {
+        "line": 7961,
+        "text": "2026-11-11T14:47:04.0486433Z W: Failed to fetch mirror+file:/etc/apt/apt-mirrors.txt/dists/noble-backports/InRelease  Temporary failure resolving 'azure.archive.ubuntu.com'"
+      },
+      {
+        "line": 7962,
+        "text": "2026-11-11T14:47:04.0489106Z W: Failed to fetch mirror+file:/etc/apt/apt-mirrors.txt/dists/noble-security/InRelease  Temporary failure resolving 'azure.archive.ubuntu.com'"
+      },
+      {
+        "line": 8025,
+        "text": "2026-11-11T14:47:04.5564438Z 0 upgraded, 9 newly installed, 0 to remove and 3 not upgraded."
+      },
+      {
+        "line": 8026,
+        "text": "2026-11-11T14:47:04.5565180Z Need to get 21.1 MB of archives."
+      },
+      {
+        "line": 8028,
+        "text": "2026-11-11T14:47:04.5566618Z Get:1 file:/etc/apt/apt-mirrors.txt Mirrorlist [144 B]"
+      },
+      {
+        "line": 8043,
+        "text": "2026-11-11T14:51:04.3550023Z   Temporary failure resolving 'azure.archive.ubuntu.com'"
+      },
+      {
+        "line": 8048,
+        "text": "2026-11-11T14:51:24.3904419Z   Temporary failure resolving 'azure.archive.ubuntu.com'"
+      },
+      {
+        "line": 8052,
+        "text": "2026-11-11T14:51:44.4066495Z   Temporary failure resolving 'azure.archive.ubuntu.com'"
+      },
+      {
+        "line": 8054,
+        "text": "2026-11-11T14:52:03.4512091Z   Temporary failure resolving 'azure.archive.ubuntu.com'"
+      },
+      {
+        "line": 8059,
+        "text": "2026-11-11T14:52:24.3860839Z   Temporary failure resolving 'azure.archive.ubuntu.com'"
+      },
+      {
+        "line": 8063,
+        "text": "2026-11-11T14:52:44.4513353Z   Temporary failure resolving 'azure.archive.ubuntu.com'"
+      },
+      {
+        "line": 8067,
+        "text": "2026-11-11T14:53:04.4801503Z   Temporary failure resolving 'azure.archive.ubuntu.com'"
+      },
+      {
+        "line": 8071,
+        "text": "2026-11-11T14:53:24.5016928Z   Temporary failure resolving 'azure.archive.ubuntu.com'"
+      },
+      {
+        "line": 8073,
+        "text": "2026-11-11T14:53:44.5231770Z   Temporary failure resolving 'azure.archive.ubuntu.com'"
+      },
+      {
+        "line": 8074,
+        "text": "2026-11-11T14:53:44.5284491Z E: Failed to fetch https://security.ubuntu.com/ubuntu/pool/universe/f/fonts-ipafont/fonts-ipafont-gothic_00303-21ubuntu1_all.deb  Temporary failure resolving 'azure.archive.ubuntu.com'"
+      },
+      {
+        "line": 8075,
+        "text": "2026-11-11T14:53:44.5287100Z E: Failed to fetch https://security.ubuntu.com/ubuntu/pool/main/f/fonts-freefont/fonts-freefont-ttf_20211204%2bsvn4273-2_all.deb  Temporary failure resolving 'azure.archive.ubuntu.com'"
+      },
+      {
+        "line": 8076,
+        "text": "2026-11-11T14:53:44.5289363Z E: Failed to fetch https://security.ubuntu.com/ubuntu/pool/universe/f/fonts-tlwg/fonts-tlwg-loma-otf_0.7.3-1_all.deb  Temporary failure resolving 'azure.archive.ubuntu.com'"
+      },
+      {
+        "line": 8077,
+        "text": "2026-11-11T14:53:44.5291696Z E: Failed to fetch https://security.ubuntu.com/ubuntu/pool/universe/u/unifont/fonts-unifont_15.1.01-1build1_all.deb  Temporary failure resolving 'azure.archive.ubuntu.com'"
+      },
+      {
+        "line": 8078,
+        "text": "2026-11-11T14:53:44.5293885Z E: Failed to fetch https://security.ubuntu.com/ubuntu/pool/universe/f/fonts-wqy-zenhei/fonts-wqy-zenhei_0.9.45-8_all.deb  Temporary failure resolving 'azure.archive.ubuntu.com'"
+      },
+      {
+        "line": 8079,
+        "text": "2026-11-11T14:53:44.5295257Z E: Failed to fetch https://security.ubuntu.com/ubuntu/pool/main/x/xfonts-encodings/xfonts-encodings_1.0.5-0ubuntu2_all.deb  Temporary failure resolving 'azure.archive.ubuntu.com'"
+      },
+      {
+        "line": 8080,
+        "text": "2026-11-11T14:53:44.5296493Z E: Failed to fetch https://security.ubuntu.com/ubuntu/pool/main/x/xfonts-utils/xfonts-utils_7.7%2b6build3_amd64.deb  Temporary failure resolving 'azure.archive.ubuntu.com'"
+      },
+      {
+        "line": 8081,
+        "text": "2026-11-11T14:53:44.5298166Z E: Failed to fetch https://security.ubuntu.com/ubuntu/pool/universe/x/xfonts-cyrillic/xfonts-cyrillic_1.0.5%2bnmu1_all.deb  Temporary failure resolving 'azure.archive.ubuntu.com'"
+      },
+      {
+        "line": 8082,
+        "text": "2026-11-11T14:53:44.5300858Z E: Failed to fetch https://security.ubuntu.com/ubuntu/pool/main/x/xfonts-scalable/xfonts-scalable_1.0.3-1.3_all.deb  Temporary failure resolving 'azure.archive.ubuntu.com'"
+      },
+      {
+        "line": 8084,
+        "text": "2026-11-11T14:53:44.5310919Z Failed to install browsers"
+      },
+      {
+        "line": 8085,
+        "text": "2026-11-11T14:53:44.5311549Z Error: Installation process exited with code: 100"
+      },
+      {
+        "line": 8086,
+        "text": "2026-11-11T14:53:44.5506841Z ##[error]Process completed with exit code 1."
+      },
+      {
+        "line": 8887,
+        "text": "2026-11-11T14:53:45.1858756Z FileNotFoundError: [Errno 2] No such file or directory: '/home/runner/work/_temp/cp7-runtime-receipts/43038214763-1-p21/prepared.json'"
+      },
+      {
+        "line": 8907,
+        "text": "2026-11-11T14:53:45.1874313Z ValueError: CP7_RUNTIME_RECEIPT_MISSING:prepared.json"
+      },
+      {
+        "line": 8908,
+        "text": "2026-11-11T14:53:45.1972492Z ##[error]Process completed with exit code 1."
+      }
+    ]
+  },
+  "artifacts": [
+    {
+      "id": 13866336256,
+      "name": "cp7-sku-current-parent-money-automatic-native25-1",
+      "size_in_bytes": 84414,
+      "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/13866336256",
+      "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/13866336256/zip",
+      "expired": false,
+      "created_at": "2026-11-11T14:53:46Z",
+      "expires_at": "2026-12-11T14:53:45Z",
+      "updated_at": "2026-11-11T14:53:46Z",
+      "digest": "sha256:94688510c37915aca091560a598e7469318d5b2e3a97f181688d9ae4fbfcd1fc",
+      "workflow_run": {
+        "id": 43038214763,
+        "repository_id": 1348063690,
+        "head_repository_id": 1348063690,
+        "head_branch": "astra-a/sku-current-parent-money-automatic-native25-20261105",
+        "head_sha": "554fecef4ee18c424fc5adb2d0996cc811e1b1ac"
+      }
+    }
+  ],
+  "qualification": {
+    "source_admission_pass": true,
+    "Chromium_dependency_apt_exit": 100,
+    "database_created": false,
+    "worker_started": false,
+    "actual_native_cases": 0,
+    "actual_browser_cases": 0,
+    "restoration_required": false,
+    "restoration_credit": false,
+    "artifact_is_failure_output": true,
+    "independent_acceptance": false,
+    "production_go": false
+  }
+}
