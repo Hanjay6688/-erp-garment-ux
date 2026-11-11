@@ -1,0 +1,63 @@
+{
+  "actual_SQL_executed": 0,
+  "actual_catalogue_admitted": false,
+  "functions": {
+    "cp7_credit.initial_hpp_targets_v1(uuid,uuid,jsonb,boolean)": {
+      "after": {
+        "bytes": 17891,
+        "sha256": "4b23090b8322fb7555200ad789c55757f4a29ef392c32f6dbd1c2270293a79a0"
+      },
+      "all_other_attributes_equal": true,
+      "before": {
+        "bytes": 17811,
+        "sha256": "3f60a963c752a7f3ecb53f5c35e9c1df95506ca78983ffc4fc55aeafe85a6918"
+      }
+    },
+    "erp.compute_non_po_product_hpp_targets_v2620f(uuid)": {
+      "after": {
+        "bytes": 4360,
+        "sha256": "798c4a2959da01720c2283a29947e1f2339386d04770a5732c94bdc254b296a6"
+      },
+      "all_other_attributes_equal": true,
+      "before": {
+        "bytes": 4333,
+        "sha256": "1476efc2176ad189f15218d6217179304d1b1af3ff10cb0a6d68874205e4fc8a"
+      }
+    }
+  },
+  "observed_authority_function": "erp.compute_non_po_product_hpp_targets_v2620f(uuid)",
+  "offline_controls": {
+    "original_full19_metadata_unchanged": true,
+    "rejects_both_stale_definitions": true,
+    "rejects_unreviewed_ACL_change": true
+  },
+  "other_graph_helpers": {
+    "capture": {
+      "bytes": 26367,
+      "sha256": "e0b10776f135706bde5864b4254683eb15f79291585c36d8d4dd11767d6fb6ba"
+    },
+    "inspect": {
+      "bytes": 9510,
+      "sha256": "8f9461ce31e9973969040ae16029241253eb2ce1e0fde9ebba160db32b6cd782"
+    },
+    "scope": {
+      "bytes": 18729,
+      "sha256": "402c1ea2ac81e3f42ea9dceb79ffbab2ecafc91599d349109dadcfeca8dc331d"
+    }
+  },
+  "proposed_authority": {
+    "bytes": 67230,
+    "sha256": "18ad704924e94a6c8de0ef463404a94bdf504c8a5f13858b5515f5825b3bec62"
+  },
+  "retained_authority": {
+    "bytes": 67198,
+    "sha256": "bbe1126792da78c709facf71d5ac6603f120e929e93f239813b0ec5432c4db3d"
+  },
+  "runtime_admission": false,
+  "sku_commit": "980c22890cda4ced9aaecfc37390da77d5718e00",
+  "sku_source": {
+    "bytes": 4768,
+    "sha256": "ac1424fcc242dfcd05e823111316724d7b671ad313e3603f7196f32cb24846d6"
+  },
+  "status": "CLOSED_GLOBAL_SKU_HPP_AUTHORITY_SOURCE_REVIEW"
+}

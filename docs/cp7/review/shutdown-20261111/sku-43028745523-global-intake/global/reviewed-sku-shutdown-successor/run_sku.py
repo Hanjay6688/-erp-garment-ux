@@ -1,0 +1,44 @@
+"""Read the pinned completed SKU job and retain its verified originals."""
+import json
+from pathlib import Path
+import subprocess
+import sys
+
+from bind_reviewed_sku import bind, validate_metadata
+from reviewed_sku_source import CANDIDATE, CANDIDATE_TREE
+from verify_sku_read_only import REPOSITORY, bind as bind_archive, stream
+
+RUN = 43028745523
+JOB = 130550002269
+
+
+def metadata(endpoint):
+    raw = subprocess.check_output(['gh', 'api', 'repos/' + REPOSITORY + '/' + endpoint], timeout=60)
+    if len(raw) > 4 * 1024 * 1024:
+        raise ValueError('BOUNDED_SKU_METADATA_REQUIRED')
+    return raw
+
+
+def main(repo, output):
+    run = metadata(f'actions/runs/{RUN}')
+    job = metadata(f'actions/jobs/{JOB}')
+    commit = metadata(f'git/commits/{CANDIDATE}')
+    run_data, job_data, commit_data = map(json.loads, (run, job, commit))
+    validate_metadata(run_data, job_data, commit_data)
+    if (run_data['id'], job_data['id'], commit_data['tree']['sha']) != (RUN, JOB, CANDIDATE_TREE):
+        raise ValueError('EXACT_SKU_RUN_JOB_AND_TREE_REQUIRED')
+    reviewed, proof = bind(repo, run, job, commit)
+    artifacts = json.loads(metadata(f'actions/runs/{RUN}/artifacts?per_page=100'))
+    archive = bind_archive(run_data, job_data, artifacts, reviewed)
+    parent = repo / 'scripts/current-sku-automatic-composite-preparation/MANDOR17_PARENT_ROOT_ACTUAL_INTAKE.json'
+    receipt = stream(archive, reviewed, repo, parent.read_bytes(), output)
+    (output / 'REVIEWED_SKU_SOURCE.json').write_text(json.dumps(reviewed, indent=2) + '\n')
+    (output / 'SKU_SOURCE_BINDING_RECEIPT.json').write_text(json.dumps(proof, indent=2) + '\n')
+    print(json.dumps({key: receipt[key] for key in ('conclusion', 'actual_case_credit',
+                                                   'actual_outer_restore', 'all_member_crc_verified')}))
+
+
+if __name__ == '__main__':
+    if len(sys.argv) != 3:
+        raise ValueError('SKU_READER_CHECKOUT_AND_OUTPUT_REQUIRED')
+    main(Path(sys.argv[1]).resolve(), Path(sys.argv[2]).absolute())

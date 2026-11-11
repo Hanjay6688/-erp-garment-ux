@@ -1,0 +1,318 @@
+{
+  "Global_runtime_admitted": false,
+  "actual_SKU_case_credit": 0,
+  "actual_terminal_catalogue_admitted": false,
+  "closed_global": {
+    "head": "c9248b8770ec8cfe0f7e2f2fd8da26c141ea67c5",
+    "tree": "9b440dd1785344fdafa5d2d702a6dd8f1ee08622"
+  },
+  "collisions": [],
+  "current_source_paths": 219,
+  "exact_B_prepared_scripts": 9,
+  "pending_source_paths": 209,
+  "post_preparation_paths": 27,
+  "reviewed_source": {
+    ".github/workflows/cp7-sku-current-parent-money-automatic-native25.yml": {
+      "after": {
+        "blob": "5c83310cb0791e14f24e82bba9b4ecc117b24d92",
+        "mode": "100644"
+      },
+      "before": null,
+      "bytes": 37435,
+      "sha256": "7bf4026f888f0d830673097787943dc81834138e5cb7a7559ec04758aaa03081"
+    },
+    "scripts/current-sku-automatic-composite-preparation/SOURCE.json": {
+      "after": {
+        "blob": "74cb7697ab17cea2195ab2c31a85365ea2331f29",
+        "mode": "100644"
+      },
+      "before": {
+        "blob": "57180791629a8c03687fcdb06b432ac8322a13cc",
+        "mode": "100644"
+      },
+      "bytes": 59292,
+      "sha256": "a7ae409c9ec89fa23cea74f9d0071dc1f3ff937ee3b3213f524e09d8fed7dd64"
+    },
+    "scripts/current-sku-automatic-composite-preparation/admission.py": {
+      "after": {
+        "blob": "99e4165e9287b7fa33bcbcadea5789c56cde8e54",
+        "mode": "100644"
+      },
+      "before": {
+        "blob": "39f1084dc07deecf3cbe683eadfb568ca3a5542d",
+        "mode": "100644"
+      },
+      "bytes": 2831,
+      "sha256": "03ab05fdf14648e906af41bf51a309542aa21ef6bec86dc4c0003d6e07a0d88d"
+    },
+    "scripts/current-sku-automatic-composite-preparation/assembly.py": {
+      "after": {
+        "blob": "61d6ee4966c806b15194c12907c8f3a278150ad4",
+        "mode": "100644"
+      },
+      "before": {
+        "blob": "be9659e526d696315b943001cd0ce9e38a6bb8cf",
+        "mode": "100644"
+      },
+      "bytes": 8502,
+      "sha256": "51c63983f895a516f1830038424be7cb8ee482b75ae5e0cae5919d77f19949c3"
+    },
+    "scripts/current-sku-automatic-composite-preparation/browser.mjs": {
+      "after": {
+        "blob": "8cc62dd29adbd64c8ee2959dd756b00397ad2dfc",
+        "mode": "100644"
+      },
+      "before": {
+        "blob": "64b17005536c939d158441f98cf90025dc64d6ec",
+        "mode": "100644"
+      },
+      "bytes": 23288,
+      "sha256": "b5ecf79cffde7e17dfe2cba945fdf9b379dba54080fa29ce5fe6cf284c5a00b1"
+    },
+    "scripts/current-sku-automatic-composite-preparation/browser_deadline.py": {
+      "after": {
+        "blob": "d8176ce720d6c021502af4d20d130569341f5702",
+        "mode": "100644"
+      },
+      "before": {
+        "blob": "134a35b066da8ee6fb8f1e91f9c96d2cdb74241d",
+        "mode": "100644"
+      },
+      "bytes": 1090,
+      "sha256": "49b5fa9493a2559bac578053406d4788190cd0c9112075fb95e4158140126817"
+    },
+    "scripts/current-sku-automatic-composite-preparation/browser_prepare.py": {
+      "after": {
+        "blob": "9046589fe5b7206dd7aab114394f8da259a9a0d2",
+        "mode": "100644"
+      },
+      "before": {
+        "blob": "849862cf5f08e5dc3e5f09d902bf3a3894d099f3",
+        "mode": "100644"
+      },
+      "bytes": 7059,
+      "sha256": "cecc0ffbd016652b45dab7804ea946814ec37648bd4f0c3e1d1753d207f96f16"
+    },
+    "scripts/current-sku-automatic-composite-preparation/browser_source.py": {
+      "after": {
+        "blob": "79860b1edc765b4b234af38951082c4213a8e291",
+        "mode": "100644"
+      },
+      "before": {
+        "blob": "4e8090ae13cc88f70e2cab93dd927e40abfa60de",
+        "mode": "100644"
+      },
+      "bytes": 1022,
+      "sha256": "8b1cbdeff4ca6ad7b0fd25b5ceebc44b3c0ed7c7f82b8f80e8c810e9c6dfc13e"
+    },
+    "scripts/current-sku-automatic-composite-preparation/check_source.py": {
+      "after": {
+        "blob": "31957c63ceecc4d61fa0674bdfdd09b23cc769fc",
+        "mode": "100644"
+      },
+      "before": {
+        "blob": "898fa938c948ca1ef40eace18f816b6aa510b631",
+        "mode": "100644"
+      },
+      "bytes": 16761,
+      "sha256": "ba8ed36a20010b2e55d3b12f678f7753c25e28f06782435b5cfa4bbb899f5c32"
+    },
+    "scripts/current-sku-automatic-composite-preparation/checkpoint.py": {
+      "after": {
+        "blob": "de7434e8f865a454fef87355aef3c0c7d71b7aea",
+        "mode": "100644"
+      },
+      "before": null,
+      "bytes": 6548,
+      "sha256": "6b2cdee333e6239233ce8a3b265d8ea502c17267794a04b4b149dfa299cd329e"
+    },
+    "scripts/current-sku-automatic-composite-preparation/execution.py": {
+      "after": {
+        "blob": "a8e938c010251706e63967d8f06eb00e80cf11e2",
+        "mode": "100644"
+      },
+      "before": {
+        "blob": "750578dde2651e60c0e1b075204f2fbc2fba7ecd",
+        "mode": "100644"
+      },
+      "bytes": 15258,
+      "sha256": "71c4854af8ef15313d01da8f431540fa4fbfc0961f40441dd27636b97112fb21"
+    },
+    "scripts/current-sku-automatic-composite-preparation/module_scope.py": {
+      "after": {
+        "blob": "583768c6b3471fc3a45a9c018d7dcae36e76c660",
+        "mode": "100644"
+      },
+      "before": {
+        "blob": "84f5ac906837e1d7636ee865a7e64d46b887bbc0",
+        "mode": "100644"
+      },
+      "bytes": 8504,
+      "sha256": "64d5c922edd3179d9a1b6673b57c46a970ba915caf4324fa0cdd3f880a5e9456"
+    },
+    "scripts/current-sku-automatic-composite-preparation/moving_diagnostics.py": {
+      "after": {
+        "blob": "af130290f21ea127cfba41548b8b3dd43357eba5",
+        "mode": "100644"
+      },
+      "before": null,
+      "bytes": 3205,
+      "sha256": "2ba7d677437dd4d7d8622582e53c1f17e7a3aa9aa047eb9a871ccaf79f6cf9b3"
+    },
+    "scripts/current-sku-automatic-composite-preparation/non_po_rounding.py": {
+      "after": {
+        "blob": "2a98184e5a766754640f72aad683cd27c47c2132",
+        "mode": "100644"
+      },
+      "before": null,
+      "bytes": 4768,
+      "sha256": "ac1424fcc242dfcd05e823111316724d7b671ad313e3603f7196f32cb24846d6"
+    },
+    "scripts/current-sku-automatic-composite-preparation/package.py": {
+      "after": {
+        "blob": "4eedb9712126992c2e38c4a2215137f3d43fd1c0",
+        "mode": "100644"
+      },
+      "before": {
+        "blob": "1a9909c5bacdb11bac854669f44b78636182473d",
+        "mode": "100644"
+      },
+      "bytes": 10854,
+      "sha256": "0f6aadf3a3f56a33db4999730fc545f6b786d1d84c5aacd7bf72a18eda892c95"
+    },
+    "scripts/current-sku-automatic-composite-preparation/qualification.py": {
+      "after": {
+        "blob": "650651d8f644f77ebcff901ed057ae42ee247ae7",
+        "mode": "100644"
+      },
+      "before": {
+        "blob": "ac51965cd4909e0fdf6c2d8ba4a63c1598165403",
+        "mode": "100644"
+      },
+      "bytes": 14168,
+      "sha256": "f36a749052752662d1d71b89a25795a44ca33cf6341d27bca4cd3343951939c4"
+    },
+    "scripts/current-sku-automatic-composite-preparation/run_window.py": {
+      "after": {
+        "blob": "7b9bd897be52c2ef673b56cd2bf814255107ffd7",
+        "mode": "100644"
+      },
+      "before": null,
+      "bytes": 5113,
+      "sha256": "13e20e2dac80e3090ae0d767fbbcddc532fb685bbfea7a5aaba0dac881e2c577"
+    },
+    "scripts/current-sku-automatic-composite-preparation/runtime_receipt.py": {
+      "after": {
+        "blob": "5fc2134bb2f9aa6c6587fc8beab1c423eae6c2c6",
+        "mode": "100644"
+      },
+      "before": null,
+      "bytes": 5116,
+      "sha256": "bfa59da47be189491edc3d599ca075a4ac10af40c44fc0d17c5a4ef01d72bfb0"
+    },
+    "scripts/current-sku-automatic-composite-preparation/sku-current-parent-money-automatic-native25-83.workflow.yml.txt": {
+      "after": {
+        "blob": "5c83310cb0791e14f24e82bba9b4ecc117b24d92",
+        "mode": "100644"
+      },
+      "before": null,
+      "bytes": 37435,
+      "sha256": "7bf4026f888f0d830673097787943dc81834138e5cb7a7559ec04758aaa03081"
+    },
+    "scripts/current-sku-automatic-composite-preparation/test_browser_deadline.py": {
+      "after": {
+        "blob": "96e38ca9a2ff3fbf83323346b878e9df976c295e",
+        "mode": "100644"
+      },
+      "before": {
+        "blob": "f9784bbefee3d655acce6af0f5418837ba90e887",
+        "mode": "100644"
+      },
+      "bytes": 4992,
+      "sha256": "01a152f31cdf9f5f2fcf6b94b4faadf61fbd46c1b2e9138fc4ad8048f2cace89"
+    },
+    "scripts/current-sku-automatic-composite-preparation/test_checkpoint.py": {
+      "after": {
+        "blob": "29696eb1cc89f73925dcb0f0d05e0602c0592ac2",
+        "mode": "100644"
+      },
+      "before": null,
+      "bytes": 6193,
+      "sha256": "a961a7f7ccd0a75a0c0b4545827a413ef7dd889612b88dd95dd4d970b3e5a52e"
+    },
+    "scripts/current-sku-automatic-composite-preparation/test_current_parent.py": {
+      "after": {
+        "blob": "c9ed329b2001e4e9f10867855ae946e06f27c0aa",
+        "mode": "100644"
+      },
+      "before": {
+        "blob": "b9172d3722bd6e0a6f3214ae3e6be0415bef82c1",
+        "mode": "100644"
+      },
+      "bytes": 4929,
+      "sha256": "f6094ccb178b704346c95195928ca1019406d5466599230669e972d287958555"
+    },
+    "scripts/current-sku-automatic-composite-preparation/test_execution.py": {
+      "after": {
+        "blob": "f00a1d8c30caa2fdefb2dcf73b95f611667a71ab",
+        "mode": "100644"
+      },
+      "before": {
+        "blob": "cde0f0061f1893c3ff6287e5a67d2656180b6fd1",
+        "mode": "100644"
+      },
+      "bytes": 17271,
+      "sha256": "efbf34a39e50764f13e1df7b00afe008f1b6bd02953948003b93d93af2e624b6"
+    },
+    "scripts/current-sku-automatic-composite-preparation/test_qualification.py": {
+      "after": {
+        "blob": "c0c6d2adffb26f1116c80cfc8501f9236708fd6a",
+        "mode": "100644"
+      },
+      "before": {
+        "blob": "d64a7a0895e5b8be13e1f8107e4287de47c52a7d",
+        "mode": "100644"
+      },
+      "bytes": 24571,
+      "sha256": "acc491e96c665b39eaa3aeb2a2b214a0597a6d9556d72958254f5e36fb484880"
+    },
+    "scripts/current-sku-automatic-composite-preparation/test_run_window.py": {
+      "after": {
+        "blob": "6ad64886996c0164b178e1cdf00ddc2ee244494a",
+        "mode": "100644"
+      },
+      "before": null,
+      "bytes": 4503,
+      "sha256": "bfce28dc724c6d7c960ffc7edd6b9285f7cf868e0133a799a4cc30e3b8ae5994"
+    },
+    "scripts/current-sku-automatic-composite-preparation/test_runtime_receipt.py": {
+      "after": {
+        "blob": "97b286aa6acd3a3b4b67dac3bb1e3a064f9433a5",
+        "mode": "100644"
+      },
+      "before": null,
+      "bytes": 9706,
+      "sha256": "ad77273d3e9cf0c8a97ff4adaa23de793a2dee3893b0b414df2d34f7a4271654"
+    },
+    "scripts/current-sku-automatic-composite-preparation/workflow.py": {
+      "after": {
+        "blob": "abd1f3ae4383e241d8d6b0fefca8636105d71fd3",
+        "mode": "100644"
+      },
+      "before": {
+        "blob": "345bbc2b389739a4d114709356f7bd7084e9004a",
+        "mode": "100644"
+      },
+      "bytes": 13188,
+      "sha256": "da25d63a923ed32b19dfbe3b09bef533d997e3c42c788618cf407cce2433a320"
+    }
+  },
+  "sku": {
+    "head": "980c22890cda4ced9aaecfc37390da77d5718e00",
+    "parents": [
+      "6b3d69a707c040a8770b7548fb4e041f1dc0b394"
+    ],
+    "tree": "e49d13044d4304525c8a73da3fee3dfbc81cff51"
+  },
+  "status": "GLOBAL_CLOSED_SOURCE_COMPATIBILITY_CURRENT_SKU"
+}
