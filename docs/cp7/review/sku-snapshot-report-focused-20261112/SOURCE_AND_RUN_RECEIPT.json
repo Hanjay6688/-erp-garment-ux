@@ -1,0 +1,333 @@
+{
+  "date_wib": "2026-11-12",
+  "owner": "B",
+  "integrator": "A",
+  "candidate": {
+    "head": "d08032a28b9f00d0ee70a6f98c6b7d0f5b770c4a",
+    "tree": "a80a212694fc6b67d23e2dcdd9e648b4eea78541",
+    "run_id": 43065549640,
+    "job_id": 130679406466,
+    "attempt": 1
+  },
+  "B_branch": {
+    "name": "astra-b/sku-snapshot-report-focused-20261112",
+    "parent": "ad6085433f4c394236a3284670fd704a4524191c",
+    "base_tree": "d363ca24f2a30ce1d0ed98428d1c02f64777c783"
+  },
+  "source_git_blobs": {
+    "scripts/cp7-src/planning/analysis-stage-snapshot.sql": "da240a2e014ccb6a9e4b2ff7507ba866062a99ae",
+    "scripts/cp7-src/planning/report-staged.sql": "762e58869f2c618d4bc68d7cda4f6f352227b927",
+    "scripts/cp7-src/wip/bootstrap.sql": "919b1cb81f147af54d58c8ebe5bb847627e8b12e",
+    "scripts/cp7-src/wip/bs.sql": "cc6d9883da2a1990d92efcdb665b1c926f0a22c8",
+    "scripts/cp7-src/wip/graph.sql": "f55c3442e633db990a5bf8b901f183bfddba36ec",
+    "scripts/cp7-src/wip/normalize.sql": "47fb3264cd845dad0fcf27ef10848f24143d14ab",
+    "scripts/cp7-src/wip/other-normalize.sql": "1ce729e7d8ef81eb641ddfbaeda644706021a07f",
+    "scripts/cp7-src/wip/other-source.sql": "c3d8c1afe17ed372acc22a7850068a7cf27aa42e",
+    "scripts/cp7-src/wip/production.sql": "040fcec362e5f6f43ecb723b2525157fff4886be",
+    "scripts/cp7-src/wip/rewash.sql": "1f2261cde9a5f98efa6e2b7071245dbb045c79b6",
+    "scripts/cp7-src/wip/source.sql": "906b3a27109add6830fd88cc3ca452654313e1f4",
+    "scripts/current-sku-automatic-composite-preparation/PREPARED_NATIVE25_PLAN.json": "6ed6781ebd96bd3847491d7cd824192b12779c0e",
+    "scripts/current-sku-automatic-composite-preparation/module_scope.py": "583768c6b3471fc3a45a9c018d7dcae36e76c660",
+    "scripts/current-sku-automatic-composite-preparation/non_po_rounding.py": "2a98184e5a766754640f72aad683cd27c47c2132"
+  },
+  "prior_evidence": {
+    "rounding_retest": {
+      "head": "c360ef3bc4f02c147bb3905047166711df23f0d9",
+      "cases": [
+        "B_LATE_COST_AFTER_PARTIAL_SALE",
+        "B_RETURN_AFTER_LATE_COST_ODD_CENT"
+      ],
+      "status": "PASS"
+    },
+    "older_even_cost_interleave": {
+      "head": "f1674ae84739f577571d68415beabfca3f3b832b",
+      "source": "scripts/cp7_sku_cost_components/cost_cases.mjs.inc"
+    },
+    "A_plan_cases_inspected": [
+      "SKU_MOVAVG_FRACTIONAL_RETURNS_INTERLEAVE_RECOST_AND_EARLIER_INVERSE",
+      "SKU_MONEY_NATIVE_SOLD_LATE_INVOICE_PARTIAL_RETURN_AND_BOTH_INVERSES"
+    ],
+    "old_WIP_case": {
+      "source": "scripts/cp7_wip_production_cases.py",
+      "case": "opening_lifecycle"
+    },
+    "report_v2": {
+      "head": "05b2368fcf4793b90a405245deaec40d1ba3526b",
+      "tree": "0363701940f5c40c499e9eeb9469570b26b258c3",
+      "run_id": 37855200317,
+      "job_id": 113577594659,
+      "job_status": "success",
+      "desktop": "PASS",
+      "mobile": "PASS",
+      "selected_original_lines": "P19_PRIOR_CASES.log",
+      "changed_paths_in_report_scope_since_old_job": [
+        "scripts/cp7-src/planning/report-staged.sql",
+        "src/NativeStagedReportsPanel.tsx",
+        "src/nativeStagedReports.ts"
+      ],
+      "first_mobile_test_race_retained": {
+        "head": "e39268e408b577816fdf909f1efb72306e50d145",
+        "run_id": 37857587058,
+        "job_id": 113585384307,
+        "source": "docs/cp7/evidence/report-v2-20261008/02_p19_report_v2_20_mobile_reply_race.log"
+      }
+    },
+    "combined_progress_browser": {
+      "browser_head": "f5e4a0eb98f52c7615c3f4fb2459128bc76ed007",
+      "backend_head": "3194b9c56be7af86ee45ccb1c6605204a712f91b",
+      "run_id": 40697846383,
+      "job_id": 122849290624,
+      "same_report_reader_panel_and_WIP_git_paths_as_active": [
+        "scripts/cp7-src/planning/report-staged.sql",
+        "scripts/cp7-src/planning/analysis-stage-snapshot.sql",
+        "src/NativeStagedReportsPanel.tsx",
+        "src/nativeStagedReports.ts",
+        "scripts/cp7-src/wip"
+      ],
+      "scope": "READY desktop, BLOCKED and revoked access mobile"
+    }
+  },
+  "native27_original": {
+    "run_id": 41167734749,
+    "artifact_id": 13031164777,
+    "zip": {
+      "bytes": 94781660,
+      "sha256": "9ad923d20d0972b2a01df3ce3307bf03db537406ac89f99f700cf6d235bfc341"
+    },
+    "selected_member": "CP7_SKU_MANAGED_RECOVERY_NATIVE27.json",
+    "member": {
+      "bytes": 30376182,
+      "sha256": "5e22077e71e34add6fd0627c89e9d21a2235f463818e45b233c7619bcfb0d48f"
+    },
+    "verified_crc_members": 170
+  },
+  "environment": {
+    "db_engine": "PostgreSQL 17.6",
+    "package": "@embedded-postgres/linux-x64@17.6.0-beta.15",
+    "package_sha256": "8d14394e1092b8bc659943966a5d1cd19b1bcc34ab02e135ed7c51fe60ba9d12",
+    "node_pg": "8.16.3",
+    "psycopg_binary": "3.2.10",
+    "database_location": "127.0.0.1 disposable only"
+  },
+  "moving_average": {
+    "status": "PASS",
+    "checks": 7,
+    "state_after_rollback": {
+      "method": "ROLLBACK_OUTER_TRANSACTION",
+      "before": {
+        "roles": [
+          "movavg_lab"
+        ],
+        "relations": [],
+        "namespaces": [
+          "public"
+        ]
+      },
+      "after": {
+        "roles": [
+          "movavg_lab"
+        ],
+        "relations": [],
+        "namespaces": [
+          "public"
+        ]
+      },
+      "exact": true
+    },
+    "model_tables_checked": 75,
+    "server_shutdown": "2026-11-12 01:26:29.151 WIB [30] LOG:  database system is shut down",
+    "first_setup_failure": "MA_FIRST_SETUP_FAILURE.txt"
+  },
+  "snapshot_report": {
+    "qc_physical": "PASS",
+    "report_stock_archive": "PASS",
+    "official_finance_Hpp": "BLOCKED",
+    "recovery": {
+      "before": {
+        "db": [
+          "postgres",
+          "template0",
+          "template1"
+        ],
+        "roles": [
+          "cp7_b_lab"
+        ]
+      },
+      "after": {
+        "db": [
+          "postgres",
+          "template0",
+          "template1"
+        ],
+        "roles": [
+          "cp7_b_lab"
+        ]
+      },
+      "exact": true,
+      "disposable_db_dropped": true
+    },
+    "server_shutdown": "2026-11-12 01:39:34.047 WIB [26] LOG:  database system is shut down",
+    "first_attempts": [
+      {
+        "phase": "snapshot-r1",
+        "first_failure": {
+          "type": "AssertionError",
+          "message": "permission denied for schema cp7_analysis_stage",
+          "sqlstate": null
+        },
+        "correction": "Restore cp7_capture schema ownership and retained grants in the typed fixture.",
+        "result_pin": {
+          "bytes": 14774,
+          "sha256": "6be07d93441b729b9ee04cab28678beab4671a70880fe611a7d63fe0ec67a65e"
+        },
+        "recovery": {
+          "before": {
+            "db": [
+              "postgres",
+              "template0",
+              "template1"
+            ],
+            "roles": [
+              "cp7_b_lab"
+            ]
+          },
+          "after": {
+            "db": [
+              "postgres",
+              "template0",
+              "template1"
+            ],
+            "roles": [
+              "cp7_b_lab"
+            ]
+          },
+          "exact": true,
+          "disposable_db_dropped": true
+        },
+        "shutdown": "2026-11-12 01:32:25.811 WIB [28] LOG:  database system is shut down"
+      },
+      {
+        "phase": "snapshot-r2",
+        "first_failure": {
+          "type": "AssertionError",
+          "message": "{'failure_unit': 2, 'failure_sqlstate': '42501', 'failure_code': 'CP7_REPORT_V2_STAGE_ERROR', 'failure_message': 'permission denied for table material_stock_movements'}",
+          "sqlstate": null
+        },
+        "correction": "Restore the four real source grants including xmin, omitted by positive column ordinals.",
+        "result_pin": {
+          "bytes": 14956,
+          "sha256": "f86780a9284a5fa01b16cdd9991fb4d0209131f7d036dcd02b3f6e30c01c8a30"
+        },
+        "recovery": {
+          "before": {
+            "db": [
+              "postgres",
+              "template0",
+              "template1"
+            ],
+            "roles": [
+              "cp7_b_lab"
+            ]
+          },
+          "after": {
+            "db": [
+              "postgres",
+              "template0",
+              "template1"
+            ],
+            "roles": [
+              "cp7_b_lab"
+            ]
+          },
+          "exact": true,
+          "disposable_db_dropped": true
+        },
+        "shutdown": "2026-11-12 01:36:34.039 WIB [26] LOG:  database system is shut down"
+      }
+    ]
+  },
+  "current_ui": {
+    "status": "PASS",
+    "passed": 7,
+    "skipped": 10,
+    "browser": "historical only",
+    "runtime": "Vitest 4.1.11 / Node 24.22.1 / local DOM",
+    "sources": {
+      "src/NativeStagedReportsPanel.tsx": "b3fa0857764ff9037c970e40d55e5053c10479bb",
+      "src/nativeStagedReports.ts": "30d53779ed2a5a0bc9f5dcb9765b271a6ef32688",
+      "src/NativeStagedReportsPanel.dom.test.tsx": "ee179ae619f1b8620726bc05dd1fedf879eaa87b",
+      "src/nativeStagedReports.test.ts": "bdb25e8e5f8bf178527e12be88e71018381c0dec",
+      "tests/fixtures/nativeStagedReports.ts": "79010916178cdba119a771525e81f64f6ba92eb0",
+      "scripts/build-preflight.mjs": "0cf26423147506a08ff68f00de3b422bfc1a0413",
+      "package-lock.json": "ca9159d26989e0263b6b757f5f824bd9333d8cf6"
+    },
+    "filter": "retires|actor.s staged reports|one section only|verifies the sealed report",
+    "first_setup_failures": [
+      "UI_FIRST_SETUP_FAILURE.log",
+      "UI_SECOND_SETUP_FAILURE.log"
+    ]
+  },
+  "payload": {
+    "HANDOFF.md": {
+      "bytes": 9592,
+      "sha256": "b1e280df24c45cb8fb17b64e7269c464602a0dc63cc29edb5c209e52b79153f8"
+    },
+    "MA_FIRST_SETUP_FAILURE.txt": {
+      "bytes": 153,
+      "sha256": "b55b23b97a9fd7c71664c56d7892470a7b9f0c43fa6d5e07791fc543807b62cf"
+    },
+    "MOVING_AVERAGE_RESULT.json": {
+      "bytes": 24549,
+      "sha256": "b232e3131e8974d7bebf4e7a978a5cb0afef83f513c4973e19c4d5569463e3ee"
+    },
+    "ROUNDING_SOURCE_PREFLIGHT.json": {
+      "bytes": 1317,
+      "sha256": "c005af9b7aa09cde8e2daea7ccf69e53d41ff41834472bc9e3de93e09feebb7e"
+    },
+    "SNAPSHOT_REPORT_FIRST_SETUP_FAILURE.json": {
+      "bytes": 14774,
+      "sha256": "6be07d93441b729b9ee04cab28678beab4671a70880fe611a7d63fe0ec67a65e"
+    },
+    "SNAPSHOT_REPORT_RESULT.json": {
+      "bytes": 45306,
+      "sha256": "97d4beec6c639346a0979c5d6f54a2f8e129d5bd0285ffec3eb67846efec2185"
+    },
+    "P19_PRIOR_CASES.log": {
+      "bytes": 2938,
+      "sha256": "79dbfc13dd6452ad71562902a364fd2cb360aeccbeba979f0641b522d44c5950"
+    },
+    "UI_FIRST_SETUP_FAILURE.log": {
+      "bytes": 2951,
+      "sha256": "53cdb86631659af96091a2b63250180c3c9eadf06558eaf89822e58c1894c422"
+    },
+    "UI_SECOND_SETUP_FAILURE.log": {
+      "bytes": 3121,
+      "sha256": "2f45726272d25b3bb3e933fde7ecc7241d891bd41acc9f9e9b3d49937e2e7a85"
+    },
+    "UI_TARGETED_RESULT.log": {
+      "bytes": 244,
+      "sha256": "8e3f283928d9b14a0b679807c8c2e7e2db0251714ad15bce1fef0dda736b184b"
+    },
+    "moving_staged_case.mjs.inc": {
+      "bytes": 2072,
+      "sha256": "dbb448d30d80c33b6c82f5f855b1e55f9a2214965beeb2a9de430c2a1d8a2533"
+    },
+    "prepare_staged_moving.py": {
+      "bytes": 2275,
+      "sha256": "0a894587bd92752536ec2f97b2d5a7e040eb476584dadbf19aeb6480c461a911"
+    },
+    "run_snapshot_lab.sh": {
+      "bytes": 739,
+      "sha256": "0034f8b8386edf134d18d369844e98b5e29338128db3493b49616898e2e51cec"
+    },
+    "snapshot_report_probe.py": {
+      "bytes": 28416,
+      "sha256": "69c7bbb46f96d899c0c76dcc23114a21a015460a91d05b66fcd445f044eaa223"
+    }
+  },
+  "actual_combined_SKU_Global_runs_by_B": 0,
+  "product_files_changed_by_B": 0,
+  "formal_accepted": "5/16",
+  "production_go": false,
+  "independent_acceptance": false
+}

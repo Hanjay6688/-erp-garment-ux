@@ -1,0 +1,33 @@
+{
+  "actual_SQL_executed": 0,
+  "automatic_replacements": 9,
+  "changed_bodies": [
+    "cp7_credit.initial_hpp_targets_v1(uuid,uuid,jsonb,boolean)",
+    "erp.compute_non_po_product_hpp_targets_v2620f(uuid)"
+  ],
+  "foreign_financial_import_refused": true,
+  "frozen_financial_import_scoped": true,
+  "money_replacements": 30,
+  "no_authority_delta": true,
+  "old_profile_refuses_changed_body": true,
+  "original_sha256": "5e22077e71e34add6fd0627c89e9d21a2235f463818e45b233c7619bcfb0d48f",
+  "owning_projection_file": {
+    "bytes": 4768,
+    "sha256": "ac1424fcc242dfcd05e823111316724d7b671ad313e3603f7196f32cb24846d6"
+  },
+  "projected_catalogue_groups": 22,
+  "source": {
+    "contract": "cp7.sku-non-po-cumulative-cent-rounding.v1",
+    "replacements": {
+      "cp7_credit.initial_hpp_targets_v1(uuid,uuid,jsonb,boolean)": {
+        "after_sha256": "4b23090b8322fb7555200ad789c55757f4a29ef392c32f6dbd1c2270293a79a0",
+        "before_sha256": "3f60a963c752a7f3ecb53f5c35e9c1df95506ca78983ffc4fc55aeafe85a6918"
+      },
+      "erp.compute_non_po_product_hpp_targets_v2620f(uuid)": {
+        "after_sha256": "798c4a2959da01720c2283a29947e1f2339386d04770a5732c94bdc254b296a6",
+        "before_sha256": "1476efc2176ad189f15218d6217179304d1b1af3ff10cb0a6d68874205e4fc8a"
+      }
+    }
+  },
+  "stale_SQL_refused": true
+}

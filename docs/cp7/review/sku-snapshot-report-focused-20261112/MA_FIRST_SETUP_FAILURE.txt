@@ -1,0 +1,1 @@
+FileNotFoundError: automatic donor lacked scripts/cp7_ow04_restore_bundle.py in initial sparse extraction; extracted unchanged from 9b1b0fcc. Before DB.

@@ -1,0 +1,1027 @@
+{
+  "scope": "DISPOSABLE_NATIVE_QC_PHYSICAL_AND_CP7_REPORT_FIXTURE",
+  "candidate": "d08032a28b9f00d0ee70a6f98c6b7d0f5b770c4a",
+  "snapshot_stock_status": "PASS",
+  "report_stock_archive_status": "PASS",
+  "authoritative_hpp_value_status": "BLOCKED",
+  "actual_combined_erp_cases": 0,
+  "source": {
+    "current_candidate": "d08032a28b9f00d0ee70a6f98c6b7d0f5b770c4a",
+    "cp7_files": {
+      "scripts/cp7-src/wip/bootstrap.sql": {
+        "bytes": 1994,
+        "sha256": "f13d218d6ef6c38bea1968081368cdf253538c79d36b67a51e61d126927c2769"
+      },
+      "scripts/cp7-src/wip/source.sql": {
+        "bytes": 10606,
+        "sha256": "bea6ae5422d9921f1db2b5b98f809cba8e99138f45f690a5c82bd4981899c4fd"
+      },
+      "scripts/cp7-src/wip/graph.sql": {
+        "bytes": 9328,
+        "sha256": "df19d15f7dc2035e8e8b5482f7a24676acc911a70f535bc9ff6edea8a34b4b09"
+      },
+      "scripts/cp7-src/wip/rewash.sql": {
+        "bytes": 2750,
+        "sha256": "0868d8cbdc46fd6a0da67cf06c05b0ccd08e3854f10b588d92bdb7ae36bae8bc"
+      },
+      "scripts/cp7-src/wip/bs.sql": {
+        "bytes": 10450,
+        "sha256": "e225b5ac5d7f176a9fd7e9e52354a2b6cafd707a6c62972126ef5993d8ec75e2"
+      },
+      "scripts/cp7-src/wip/normalize.sql": {
+        "bytes": 25493,
+        "sha256": "d7b7596efb6216ced071380d1301e7e76dccf7c4bb2cc73a0490a423f43ef7b6"
+      },
+      "scripts/cp7-src/wip/other-source.sql": {
+        "bytes": 6620,
+        "sha256": "444758c2f3bbe0ba833ab4e3213159217dac806eaf0f54ee76f28454c53850d3"
+      },
+      "scripts/cp7-src/wip/other-normalize.sql": {
+        "bytes": 6823,
+        "sha256": "eb9f687c558b4379d612c97a67f248aae5367397a4874abc4a8939be39e5b3b2"
+      },
+      "scripts/cp7-src/wip/production.sql": {
+        "bytes": 8341,
+        "sha256": "07ac3c9f66b7a3436e9269f9f8a3a7d6cfa57ec18a0c5a83ec1897ae39c09075"
+      },
+      "scripts/cp7-src/planning/report-staged.sql": {
+        "bytes": 52732,
+        "sha256": "846469775ffc5f3454e3d77236f4c419d0175d8a21aa7114f691f63d3cadf74a"
+      }
+    },
+    "freshness_grants_source": {
+      "scripts/cp7-src/planning/analysis-stage-snapshot.sql": {
+        "bytes": 16768,
+        "sha256": "083925b7d5a7dd2d62c24e0a218690a3eae054a7a59333e1974d93016958cbfb"
+      }
+    },
+    "native27_bodies": {
+      "erp._request_hash(jsonb)": {
+        "bytes": 316,
+        "sha256": "226f6ff0cb590d3eb8d31e895af28728c4fe1a30225fd51bab0c7099cd312d57"
+      },
+      "erp._idempotency_actor_key()": {
+        "bytes": 303,
+        "sha256": "63f9ecea25c22be59917d9153d6686e1cdf6da5a1cf3ede839287aa08c582a92"
+      },
+      "erp._idempotency_begin(text,uuid,text)": {
+        "bytes": 1205,
+        "sha256": "3f7aeb311ca5d7ecf790ded90101fb520945e674b2d78dbe6164cd296b50e9bb"
+      },
+      "erp._idempotency_complete(text,uuid,jsonb)": {
+        "bytes": 714,
+        "sha256": "85e6228fd91c844b6f81eafe975353f7ffd8185032eb59bdabdab4156c1827a4"
+      },
+      "erp.pocket_period_lock_v1()": {
+        "bytes": 364,
+        "sha256": "ae67869a99bf3f575890bf0d35aaf273131ba0df7da661818a9b968b67605716"
+      },
+      "erp.assert_product_identity_time(uuid,timestamp with time zone,text)": {
+        "bytes": 1324,
+        "sha256": "4e289eed53f2618b84c08b53a6e27453c3545ef2fe199a12e4ef699d8ce347f1"
+      },
+      "erp.assert_fg_chronological_nonnegative(uuid,uuid,uuid,text)": {
+        "bytes": 1438,
+        "sha256": "4d803339010f6cb28f323126e57c6d7205635718e72bab3044321b989339ac5a"
+      },
+      "erp.post_fg_movement(uuid,uuid,uuid,text,text,integer,numeric,uuid,text,uuid,timestamp with time zone,text,boolean)": {
+        "bytes": 3540,
+        "sha256": "45bd832ce8fe92c3bacdd3a15b0adc97375abae795d3a05bdf20a10feed51480"
+      },
+      "erp.post_qc(uuid)": {
+        "bytes": 3042,
+        "sha256": "637c1c90b22a0bd4812d01e55f64b9611b2cae1ea9979389f3997c131370cd4b"
+      },
+      "erp.post_fg_partial_completion_v2_legacy_v2610(jsonb,uuid,bigint)": {
+        "bytes": 7650,
+        "sha256": "1f7e1ef3b98d9c67930d24bc0b4872b1252b5d6d67c669b8d88e4de05810a19b"
+      },
+      "erp.post_fg_partial_completion_v2(jsonb,uuid,bigint)": {
+        "bytes": 1461,
+        "sha256": "b7611c8ed0fa33580b7977845dc2ca49c00aec8de60e2549751af50f731d5e3e"
+      },
+      "erp.post_final_sku_allocation_v1(jsonb,uuid,bigint)": {
+        "bytes": 1928,
+        "sha256": "a26a5099a01f0b300d5f89a2647828003c9204f5089f7b2bd578e6a9f98e4378"
+      },
+      "cp7_private.immutable_run()": {
+        "bytes": 215,
+        "sha256": "2798888fe3ad48a38397163ad23fcb6627bbb82c2564485c30cc2278528bed1a"
+      },
+      "cp7_analysis_native.report_fact(jsonb)": {
+        "bytes": 441,
+        "sha256": "67ebefd4fbda1921fc1f5eeede5853143c4ab04721103868a47aed7530e315b9"
+      },
+      "cp7_analysis_stage.retention_days()": {
+        "bytes": 185,
+        "sha256": "fb8f314f5fd442b885ec87531a9fe095f5ad894bc2dce9a333a5b4692b2776dc"
+      },
+      "cp7_analysis_stage.retention(text,timestamp with time zone)": {
+        "bytes": 611,
+        "sha256": "c4dd0e891a211d5747acec1b75f3402c9999fc92d372f32306562d515fad60b9"
+      },
+      "cp7_analysis_stage.require_kept(uuid)": {
+        "bytes": 506,
+        "sha256": "05473c65a9de2e2c802b16790298b3ddcbafd1a50c4b65a4cb0bd4e068024a79"
+      },
+      "cp7_analysis_stage.change_sources()": {
+        "bytes": 3260,
+        "sha256": "988ee577dc57f74532220cfd9ab21ce177287a5bdc2db0b618634030621df3c5"
+      },
+      "cp7_analysis_stage.changes_since(timestamp with time zone,pg_snapshot,timestamp with time zone,pg_snapshot)": {
+        "bytes": 3379,
+        "sha256": "c0baf9639762e5a313b5497abe897133b630e4ccf84f1273d216ddec15a8ecc6"
+      },
+      "cp7_analysis_stage.freshness(uuid)": {
+        "bytes": 2644,
+        "sha256": "c56c7aeb6b308cb924388cbc4c271653a6915cddba11be8b0abe30833d4d7ed1"
+      }
+    },
+    "native27_views": {
+      "erp.v_cutting_roll_totals": {
+        "bytes": 317,
+        "sha256": "e58090c1ce5af95e7e5efad20c1051e595d904422721ab3fd6319d78ab4fa45f"
+      },
+      "erp.v_cutting_group_original_totals": {
+        "bytes": 259,
+        "sha256": "7a5d449a484cdc4947a454927d957f947eeaaca90d52d49e81c740fe715e60c8"
+      },
+      "erp.v_cutting_group_quantity_detail": {
+        "bytes": 687,
+        "sha256": "06f7cffd221401609487e96f58772ef00313a4c496dfef3c59f62d92025dd30b"
+      },
+      "erp.v_cutting_group_totals": {
+        "bytes": 112,
+        "sha256": "11f305dad156a58c41df81c3dd7e28bda61f91ae1df9cc66427d79603dc5894d"
+      },
+      "erp.v_fg_partial_completion_progress": {
+        "bytes": 7754,
+        "sha256": "e77eb976d88f37f561c8fe056e80c7912424152b416343213d79620661d8f2f2"
+      }
+    },
+    "typed_fixture_relations": [
+      "cp7_analysis_native.report_requests",
+      "cp7_analysis_stage.capture_marks",
+      "cp7_analysis_stage.headers",
+      "cp7_analysis_stage.jobs",
+      "cp7_analysis_stage.page_sets",
+      "cp7_analysis_stage.pages",
+      "cp7_analysis_stage.plan_targets",
+      "cp7_analysis_stage.source_checks",
+      "cp7_fabric_native.recipes",
+      "cp7_identity.production_policy",
+      "cp7_profile.profiles",
+      "cp7_schedule_native.plans",
+      "cp7_supply_native.exhaustion_proofs",
+      "erp.accessory_bom_versions",
+      "erp.audit_logs",
+      "erp.bb_purchase_commitments_v1",
+      "erp.bb_wip_bs_splits_v1",
+      "erp.bb_wip_pickups_v1",
+      "erp.bd_opening_laundry_claim_events_v1",
+      "erp.bd_opening_laundry_claims_v1",
+      "erp.bf_sku_versions_v1",
+      "erp.bs_case_hold_events",
+      "erp.bs_cases",
+      "erp.bs_resolutions",
+      "erp.cutting_distribution_allocations",
+      "erp.cutting_distribution_batches",
+      "erp.cutting_group_rolls",
+      "erp.cutting_group_size_slots",
+      "erp.cutting_groups",
+      "erp.cutting_pickups",
+      "erp.cutting_qty_correction_lines",
+      "erp.cutting_roll_yields",
+      "erp.fg_inventory_balances",
+      "erp.fg_lots",
+      "erp.fg_stock_movements",
+      "erp.fg_unsourced_receipts_v1",
+      "erp.hpp_versions",
+      "erp.idempotency_requests",
+      "erp.initial_import_production_sources",
+      "erp.initial_import_wip_output_reversals",
+      "erp.initial_import_wip_outputs",
+      "erp.laundry_claims",
+      "erp.laundry_deliveries",
+      "erp.laundry_delivery_batch_size_lines",
+      "erp.laundry_delivery_lines",
+      "erp.laundry_failed_wash_attempts",
+      "erp.laundry_failed_wash_batch_size_lines",
+      "erp.laundry_receipt_batch_size_lines",
+      "erp.laundry_receipt_lines",
+      "erp.laundry_receipts",
+      "erp.laundry_redispatch_participant_events",
+      "erp.locations",
+      "erp.material_stock_movements",
+      "erp.materials",
+      "erp.migration_batches",
+      "erp.opening_balance_headers",
+      "erp.opening_balance_items",
+      "erp.production_orders",
+      "erp.production_patterns",
+      "erp.products",
+      "erp.qc_inspection_items",
+      "erp.qc_inspections",
+      "erp.rework_orders",
+      "erp.sales_headers",
+      "erp.sales_returns",
+      "erp.sewing_terminal_events",
+      "erp.wip_control_flags"
+    ],
+    "finance_dependencies_fixture_only": [
+      "erp.ensure_fg_accessory_cost_snapshot(uuid)",
+      "erp.post_accessory_reimbursement_accrual(uuid)",
+      "erp.sync_laundry_accrual(uuid,date)",
+      "erp.rebuild_po_hpp(uuid,text)",
+      "erp.propagate_conversion_hpp_for_po(uuid)",
+      "erp.sync_po_hpp_to_gl(uuid,date)"
+    ]
+  },
+  "expected": {
+    "input": 8,
+    "posted_fg": 3,
+    "wip_before": 8,
+    "wip_after": 5,
+    "fg_before": 0,
+    "fg_after": 3,
+    "outside_filter_pcs": 11
+  },
+  "fixture": {
+    "product": "72000000-0000-4000-8000-000000000002",
+    "root": "72000000-0000-4000-8000-000000000003",
+    "size": "72000000-0000-4000-8000-000000000004",
+    "model": "72000000-0000-4000-8000-000000000005",
+    "po": "72000000-0000-4000-8000-000000000006",
+    "group": "72000000-0000-4000-8000-000000000007",
+    "fg_location": "72000000-0000-4000-8000-000000000008",
+    "roll": "72000000-0000-4000-8000-000000000009",
+    "slot": "72000000-0000-4000-8000-000000000010",
+    "report_date": "2026-11-12",
+    "outside_product": "72000000-0000-4000-8000-000000000011",
+    "outside_root": "72000000-0000-4000-8000-000000000012",
+    "period": {
+      "from_date": "2026-11-11",
+      "through_date": "2026-11-11",
+      "group_mode": "AS_SOLD"
+    }
+  },
+  "wip_before": {
+    "scope": {
+      "unsourced_bs": [],
+      "opening_items": [],
+      "cutting_groups": [
+        "72000000-0000-4000-8000-000000000007"
+      ]
+    },
+    "result": {
+      "graph": {
+        "nodes": [
+          {
+            "key": "CUT:72000000-0000-4000-8000-000000000007:72000000-0000-4000-8000-000000000004:PRE",
+            "refs": [
+              {
+                "id": "72000000-0000-4000-8000-000000000007",
+                "kind": "erp.cutting_groups",
+                "revision": "1"
+              }
+            ],
+            "stage": "SEWING_UNRESOLVED",
+            "pool_key": "CUT:72000000-0000-4000-8000-000000000007:72000000-0000-4000-8000-000000000004"
+          }
+        ],
+        "pools": [
+          {
+            "key": "CUT:72000000-0000-4000-8000-000000000007:72000000-0000-4000-8000-000000000004",
+            "refs": [
+              {
+                "id": "72000000-0000-4000-8000-000000000007",
+                "kind": "erp.cutting_groups",
+                "revision": "1"
+              }
+            ],
+            "origin": "CUTTING",
+            "size_id": "72000000-0000-4000-8000-000000000004",
+            "input_pcs": "8",
+            "ownership": "COMPANY"
+          }
+        ],
+        "events": [
+          {
+            "key": "cutting:T:0",
+            "refs": [
+              {
+                "id": "72000000-0000-4000-8000-000000000007",
+                "kind": "erp.cutting_groups",
+                "revision": "1"
+              }
+            ],
+            "ordinal": "1",
+            "qty_pcs": "8",
+            "to_node": "CUT:72000000-0000-4000-8000-000000000007:72000000-0000-4000-8000-000000000004:PRE",
+            "pool_key": "CUT:72000000-0000-4000-8000-000000000007:72000000-0000-4000-8000-000000000004",
+            "from_node": null,
+            "reverses_key": null
+          }
+        ],
+        "complete": true,
+        "snapshot_id": "2026-11-11T18:39:33.532138+00:00",
+        "contract_version": "cp7.wip-graph.v1"
+      },
+      "scope": "SELECTED_ORIGINS_ONLY",
+      "status": "COMPLETE",
+      "timing": {
+        "eta": null,
+        "reason": "NO_CALENDAR_OR_REMAINING_WORK_SELECTED",
+        "on_time": null,
+        "quality": "UNKNOWN"
+      },
+      "totals": [
+        {
+          "refs": [
+            {
+              "id": "72000000-0000-4000-8000-000000000007",
+              "kind": "erp.cutting_groups",
+              "revision": "1"
+            }
+          ],
+          "bs_pcs": "0",
+          "fg_pcs": "0",
+          "size_id": "72000000-0000-4000-8000-000000000004",
+          "wip_pcs": "8",
+          "pool_key": "CUT:72000000-0000-4000-8000-000000000007:72000000-0000-4000-8000-000000000004",
+          "input_pcs": "8",
+          "ownership": "COMPANY",
+          "exited_pcs": "0",
+          "withheld_pcs": "0"
+        }
+      ],
+      "fg_basis": "PRODUCTION_DISPOSITION_NOT_CURRENT_ON_HAND",
+      "attention": [],
+      "positions": [
+        {
+          "key": "CUT:72000000-0000-4000-8000-000000000007:72000000-0000-4000-8000-000000000004:PRE",
+          "refs": [
+            {
+              "id": "72000000-0000-4000-8000-000000000007",
+              "kind": "erp.cutting_groups",
+              "revision": "1"
+            }
+          ],
+          "stage": "SEWING_UNRESOLVED",
+          "size_id": "72000000-0000-4000-8000-000000000004",
+          "pool_key": "CUT:72000000-0000-4000-8000-000000000007:72000000-0000-4000-8000-000000000004",
+          "ownership": "COMPANY",
+          "remaining_pcs": "8",
+          "quantity_quality": "KNOWN",
+          "eligible_company_wip": true
+        }
+      ],
+      "snapshot_id": "2026-11-11T18:39:33.532138+00:00",
+      "source_basis": "ONE_CAPTURE_EXPLICIT_PRODUCTION_ORIGINS",
+      "production_go": false,
+      "sewing_detail": "SUBSTAGE_NOT_ALLOCATABLE_FROM_GROUP_EVENTS",
+      "contract_version": "cp7.wip-position.v1",
+      "rewash_review_required": false,
+      "allocation_review_required": false
+    },
+    "run_id": "7e398afc-5722-4aec-aab9-dfa6c5a4c68c",
+    "request_id": "060f2797-3f41-419e-83f5-517239860e58",
+    "captured_at": "2026-11-11T18:39:33.532138+00:00",
+    "source_state": "UNCHANGED",
+    "production_go": false,
+    "knowledge_mode": "CURRENT_AT_CAPTURE",
+    "capture_complete": true,
+    "contract_version": "cp7.production-wip-run.v1"
+  },
+  "progress_book_before": {
+    "input": 8,
+    "qc_good": 0,
+    "remaining": 8,
+    "completions": 0
+  },
+  "fg_ledger_before_pcs": 0,
+  "report_before": {
+    "doc": {
+      "id": "0a392e0c-c437-4f95-b3f3-889ba94211d6",
+      "kind": "PERIOD",
+      "title": "Penyelesaian QC fixture B",
+      "reason": "Uji stok dan arsip pada periode yang sama",
+      "run_id": "d4b62d42-ba90-426d-958b-688c894722ed",
+      "finance": "DEFERRED",
+      "summary": "Penyelesaian QC fixture B\n\nREVIEW PERIODE\n\nPeriode riwayat: 2026-11-11 sampai 2026-11-11; pengelompokan AS_SOLD.\n\nData analisis per 2026-11-12 01:39:33 WIB (analisis bertahap d4b62d42-ba90-426d-958b-688c894722ed, 1 target). Isi analisis adalah keadaan pada waktu itu, bukan angka saat ini.\n\nKESEGARAN DATA SAAT LAPORAN DIBUAT\n\nDihitung 2026-11-12 01:39:33 WIB: Belum ada perubahan tercatat sejak data analisis diambil; belum dicek penuh.\n\nANGKA AKTUAL MENURUT SUMBER ERP (TANGGAL LAPORAN 2026-11-12)\n\nStok barang jadi aktual dibaca dari catatan stok ERP per 2026-11-12 01:39:33 WIB dan dicantumkan per target pada bagian rincian, di samping angka saat analisis.\n\nKeuangan dan HPP tidak dimasukkan ke laporan ini. Tidak ada angka pengganti.\n\nRINGKASAN SELURUH TARGET (SAAT ANALISIS)\n\nTINDAKAN UMUM DAN ALASAN\n\nTidak ada tindakan umum.\n\nSTOK PROSES, BAHAN DAN KAPASITAS (SAAT ANALISIS)\n\nTidak ada stok proses tercatat pada analisis.\n\nANGKA UMUM (SAAT ANALISIS)\n\nTidak ada angka umum.\n\nASUMSI DAN DATA YANG MASIH KURANG\n\nAsumsi per target ada pada bagian rinciannya.\n\nBAGIAN RINCIAN\n\nBagian 1: target 1\u20131; 1341 byte; sha256 0dd931296510685c3abf1feafd5b9d5035cccb6754255af8cf97221781121c60.\n\nIdentitas analisis e648d2ed14e86bf0b9ce87b3174b30f98c06acb26f5f112e54ff8fbc5216b087; template native-report-staged-1. Laporan ini tidak memposting transaksi atau menerapkan produksi.",
+      "revision": "1",
+      "sections": [
+        {
+          "index": 0,
+          "sha256": "0dd931296510685c3abf1feafd5b9d5035cccb6754255af8cf97221781121c60",
+          "target_hi": 1,
+          "target_lo": 1,
+          "utf8_bytes": 1341
+        }
+      ],
+      "freshness": {
+        "state": "NO_RECORDED_CHANGE",
+        "evaluated_at": "2026-11-11T18:39:33.683524+00:00",
+        "changes_total": "0"
+      },
+      "is_latest": true,
+      "series_id": "237c0708-1e80-4bd8-87a1-5ff3da2a2cce",
+      "data_as_of": "2026-11-11T18:39:33.657387+00:00",
+      "request_id": "5d75cab5-5218-4330-9ba7-c089a85e43b3",
+      "report_date": "2026-11-12",
+      "report_hash": "320f4eb8c363202685fe7688752613f4848980677391b08f813b3c164f869b96",
+      "access_epoch": "57a5d22e6071b210d6086bba780e9848b424892fa5dfcfc862a478f5e0347845",
+      "period_query": {
+        "from_date": "2026-11-11",
+        "group_mode": "AS_SOLD",
+        "through_date": "2026-11-11"
+      },
+      "published_at": "2026-11-11T18:39:33.70113+00:00",
+      "identity_hash": "e648d2ed14e86bf0b9ce87b3174b30f98c06acb26f5f112e54ff8fbc5216b087",
+      "production_go": false,
+      "targets_total": 1,
+      "actor_scope_id": "72000000-0000-4000-8000-000000000001",
+      "summary_sha256": "e9c5f2038e8fc819435b74450661825d4397d6ed9bb00d755f5efff679b11147",
+      "actuals_read_at": "2026-11-11T18:39:33.668644+00:00",
+      "contract_version": "cp7.report-publication.v2",
+      "template_version": "native-report-staged-1",
+      "financial_source_hash": null
+    },
+    "section": {
+      "body": "BAGIAN 1 dari 1 \u00b7 Target 1\u20131 dari 1 \u00b7 Data analisis per 2026-11-12 01:39:33 WIB.\n\nAngka analisis di bagian ini adalah keadaan per 2026-11-12 01:39:33 WIB, bukan angka saat ini. Stok barang jadi aktual dibaca dari catatan stok ERP per 2026-11-12 01:39:33 WIB.\n\nKONDISI PRODUK DAN SIZE\n\nCP7-B-QC-8 \u00b7 Fixture QC 8 pcs \u00b7 size 72000000-0000-4000-8000-000000000004 \u00b7 Aktif: stok fisik saat analisis 0 PCS; stok fisik aktual per 2026-11-12 01:39:33 WIB 0 PCS; stok tersedia setelah reservasi aktual 0 PCS; target Belum diketahui ; gap dasar Belum diketahui ; gap bersyarat Belum diketahui ; produksi baru layak Belum diketahui ; belum tertutup Belum diketahui .\nIdentitas produk, size dan membership: {\"key\": \"72000000-0000-4000-8000-000000000003:72000000-0000-4000-8000-000000000004\", \"size_id\": \"72000000-0000-4000-8000-000000000004\", \"membership\": [\"72000000-0000-4000-8000-000000000002\"]}; referensi gap []; alokasi bersyarat [].\n\nTINDAKAN DAN ALASAN\n\nTidak ada tindakan per target pada bagian ini.\n\nKEBUTUHAN BAHAN\n\nTidak ada kebutuhan bahan per target pada bagian ini.\n\nANGKA PER TARGET\n\nTidak ada angka per target pada bagian ini.\n\nASUMSI PER TARGET\n\nTidak ada asumsi per target pada bagian ini.\n\nIssue bukan bukti pemasangan. Barang proses tetap terpisah dari stok jadi. Kelayakan yang belum terbukti tidak mengizinkan produksi baru.",
+      "index": 0,
+      "sha256": "0dd931296510685c3abf1feafd5b9d5035cccb6754255af8cf97221781121c60",
+      "target_hi": 1,
+      "target_lo": 1,
+      "utf8_bytes": 1341,
+      "report_hash": "320f4eb8c363202685fe7688752613f4848980677391b08f813b3c164f869b96",
+      "section_count": 1,
+      "publication_id": "0a392e0c-c437-4f95-b3f3-889ba94211d6",
+      "contract_version": "cp7.report-section.v2"
+    },
+    "stored": {
+      "id": "0a392e0c-c437-4f95-b3f3-889ba94211d6",
+      "kind": "PERIOD",
+      "actor": "72000000-0000-4000-8000-000000000001",
+      "title": "Penyelesaian QC fixture B",
+      "job_id": "fb7ca09c-f0cf-45ed-9ed8-1893820896d2",
+      "reason": "Uji stok dan arsip pada periode yang sama",
+      "run_id": "d4b62d42-ba90-426d-958b-688c894722ed",
+      "finance": "DEFERRED",
+      "summary": "Penyelesaian QC fixture B\n\nREVIEW PERIODE\n\nPeriode riwayat: 2026-11-11 sampai 2026-11-11; pengelompokan AS_SOLD.\n\nData analisis per 2026-11-12 01:39:33 WIB (analisis bertahap d4b62d42-ba90-426d-958b-688c894722ed, 1 target). Isi analisis adalah keadaan pada waktu itu, bukan angka saat ini.\n\nKESEGARAN DATA SAAT LAPORAN DIBUAT\n\nDihitung 2026-11-12 01:39:33 WIB: Belum ada perubahan tercatat sejak data analisis diambil; belum dicek penuh.\n\nANGKA AKTUAL MENURUT SUMBER ERP (TANGGAL LAPORAN 2026-11-12)\n\nStok barang jadi aktual dibaca dari catatan stok ERP per 2026-11-12 01:39:33 WIB dan dicantumkan per target pada bagian rincian, di samping angka saat analisis.\n\nKeuangan dan HPP tidak dimasukkan ke laporan ini. Tidak ada angka pengganti.\n\nRINGKASAN SELURUH TARGET (SAAT ANALISIS)\n\nTINDAKAN UMUM DAN ALASAN\n\nTidak ada tindakan umum.\n\nSTOK PROSES, BAHAN DAN KAPASITAS (SAAT ANALISIS)\n\nTidak ada stok proses tercatat pada analisis.\n\nANGKA UMUM (SAAT ANALISIS)\n\nTidak ada angka umum.\n\nASUMSI DAN DATA YANG MASIH KURANG\n\nAsumsi per target ada pada bagian rinciannya.\n\nBAGIAN RINCIAN\n\nBagian 1: target 1\u20131; 1341 byte; sha256 0dd931296510685c3abf1feafd5b9d5035cccb6754255af8cf97221781121c60.\n\nIdentitas analisis e648d2ed14e86bf0b9ce87b3174b30f98c06acb26f5f112e54ff8fbc5216b087; template native-report-staged-1. Laporan ini tidak memposting transaksi atau menerapkan produksi.",
+      "revision": 1,
+      "series_id": "237c0708-1e80-4bd8-87a1-5ff3da2a2cce",
+      "data_as_of": "2026-11-11T18:39:33.657387+00:00",
+      "request_id": "5d75cab5-5218-4330-9ba7-c089a85e43b3",
+      "report_date": "2026-11-12",
+      "report_hash": "320f4eb8c363202685fe7688752613f4848980677391b08f813b3c164f869b96",
+      "period_query": {
+        "from_date": "2026-11-11",
+        "group_mode": "AS_SOLD",
+        "through_date": "2026-11-11"
+      },
+      "published_at": "2026-11-11T18:39:33.70113+00:00",
+      "changes_total": 0,
+      "identity_hash": "e648d2ed14e86bf0b9ce87b3174b30f98c06acb26f5f112e54ff8fbc5216b087",
+      "section_count": 1,
+      "targets_total": 1,
+      "summary_sha256": "e9c5f2038e8fc819435b74450661825d4397d6ed9bb00d755f5efff679b11147",
+      "actuals_read_at": "2026-11-11T18:39:33.668644+00:00",
+      "freshness_state": "NO_RECORDED_CHANGE",
+      "template_version": "native-report-staged-1",
+      "summary_utf8_bytes": 1372,
+      "financial_source_hash": null,
+      "freshness_evaluated_at": "2026-11-11T18:39:33.683524+00:00",
+      "finance_close_preflight": false
+    },
+    "actual": {
+      "stock": {
+        "72000000-0000-4000-8000-000000000003": {
+          "physical_fg_pcs": "0",
+          "available_fg_pcs": "0"
+        }
+      },
+      "finance": null,
+      "read_at": "2026-11-11T18:39:33.668644+00:00",
+      "report_date": "2026-11-12"
+    }
+  },
+  "report_book_before": {
+    "target_pcs": 0,
+    "outside_filter_pcs": 11,
+    "read_at": "2026-11-11T18:39:33.668644+00:00"
+  },
+  "qc_post": {
+    "po_id": "72000000-0000-4000-8000-000000000006",
+    "bs_qty_pcs": 0,
+    "row_version": 1,
+    "good_qty_pcs": 3,
+    "posted_qty_pcs": 3,
+    "completion_mode": "PARTIAL_SELECTION",
+    "document_status": "POSTED",
+    "completion_count": 1,
+    "cutting_group_id": "72000000-0000-4000-8000-000000000007",
+    "qc_inspection_id": "bbbd9f91-9d55-4125-8a5d-05f278c3fd91",
+    "completion_status": "PARTIAL_SELECTION",
+    "inspection_number": "FGP-261112-9F143EC81561439CA329B19393BE15D4",
+    "fg_stock_in_qty_pcs": 3,
+    "fg_stock_event_count": 1,
+    "ready_for_qc_qty_pcs": 0,
+    "remaining_qc_qty_pcs": 5,
+    "cumulative_qc_qty_pcs": 3,
+    "laundry_outstanding_qty_pcs": 0
+  },
+  "wip_after": {
+    "scope": {
+      "unsourced_bs": [],
+      "opening_items": [],
+      "cutting_groups": [
+        "72000000-0000-4000-8000-000000000007"
+      ]
+    },
+    "result": {
+      "graph": {
+        "nodes": [
+          {
+            "key": "CUT:72000000-0000-4000-8000-000000000007:72000000-0000-4000-8000-000000000004:PRE",
+            "refs": [
+              {
+                "id": "72000000-0000-4000-8000-000000000007",
+                "kind": "erp.cutting_groups",
+                "revision": "1"
+              }
+            ],
+            "stage": "SEWING_UNRESOLVED",
+            "pool_key": "CUT:72000000-0000-4000-8000-000000000007:72000000-0000-4000-8000-000000000004"
+          },
+          {
+            "key": "FGQC:5a759066-3917-4e59-a405-cb94b7e9a62f",
+            "refs": [
+              {
+                "id": "5a759066-3917-4e59-a405-cb94b7e9a62f",
+                "kind": "erp.qc_inspection_items",
+                "revision": "1"
+              }
+            ],
+            "stage": "FG",
+            "pool_key": "CUT:72000000-0000-4000-8000-000000000007:72000000-0000-4000-8000-000000000004"
+          }
+        ],
+        "pools": [
+          {
+            "key": "CUT:72000000-0000-4000-8000-000000000007:72000000-0000-4000-8000-000000000004",
+            "refs": [
+              {
+                "id": "72000000-0000-4000-8000-000000000007",
+                "kind": "erp.cutting_groups",
+                "revision": "1"
+              }
+            ],
+            "origin": "CUTTING",
+            "size_id": "72000000-0000-4000-8000-000000000004",
+            "input_pcs": "8",
+            "ownership": "COMPANY"
+          }
+        ],
+        "events": [
+          {
+            "key": "cutting:T:0",
+            "refs": [
+              {
+                "id": "72000000-0000-4000-8000-000000000007",
+                "kind": "erp.cutting_groups",
+                "revision": "1"
+              }
+            ],
+            "ordinal": "1",
+            "qty_pcs": "8",
+            "to_node": "CUT:72000000-0000-4000-8000-000000000007:72000000-0000-4000-8000-000000000004:PRE",
+            "pool_key": "CUT:72000000-0000-4000-8000-000000000007:72000000-0000-4000-8000-000000000004",
+            "from_node": null,
+            "reverses_key": null
+          },
+          {
+            "key": "cutting:T:1",
+            "refs": [
+              {
+                "id": "5a759066-3917-4e59-a405-cb94b7e9a62f",
+                "kind": "erp.qc_inspection_items",
+                "revision": "1"
+              }
+            ],
+            "ordinal": "2",
+            "qty_pcs": "3",
+            "to_node": "FGQC:5a759066-3917-4e59-a405-cb94b7e9a62f",
+            "pool_key": "CUT:72000000-0000-4000-8000-000000000007:72000000-0000-4000-8000-000000000004",
+            "from_node": "CUT:72000000-0000-4000-8000-000000000007:72000000-0000-4000-8000-000000000004:PRE",
+            "reverses_key": null
+          }
+        ],
+        "complete": true,
+        "snapshot_id": "2026-11-11T18:39:33.741462+00:00",
+        "contract_version": "cp7.wip-graph.v1"
+      },
+      "scope": "SELECTED_ORIGINS_ONLY",
+      "status": "COMPLETE",
+      "timing": {
+        "eta": null,
+        "reason": "NO_CALENDAR_OR_REMAINING_WORK_SELECTED",
+        "on_time": null,
+        "quality": "UNKNOWN"
+      },
+      "totals": [
+        {
+          "refs": [
+            {
+              "id": "72000000-0000-4000-8000-000000000007",
+              "kind": "erp.cutting_groups",
+              "revision": "1"
+            }
+          ],
+          "bs_pcs": "0",
+          "fg_pcs": "3",
+          "size_id": "72000000-0000-4000-8000-000000000004",
+          "wip_pcs": "5",
+          "pool_key": "CUT:72000000-0000-4000-8000-000000000007:72000000-0000-4000-8000-000000000004",
+          "input_pcs": "8",
+          "ownership": "COMPANY",
+          "exited_pcs": "0",
+          "withheld_pcs": "0"
+        }
+      ],
+      "fg_basis": "PRODUCTION_DISPOSITION_NOT_CURRENT_ON_HAND",
+      "attention": [],
+      "positions": [
+        {
+          "key": "CUT:72000000-0000-4000-8000-000000000007:72000000-0000-4000-8000-000000000004:PRE",
+          "refs": [
+            {
+              "id": "72000000-0000-4000-8000-000000000007",
+              "kind": "erp.cutting_groups",
+              "revision": "1"
+            }
+          ],
+          "stage": "SEWING_UNRESOLVED",
+          "size_id": "72000000-0000-4000-8000-000000000004",
+          "pool_key": "CUT:72000000-0000-4000-8000-000000000007:72000000-0000-4000-8000-000000000004",
+          "ownership": "COMPANY",
+          "remaining_pcs": "5",
+          "quantity_quality": "KNOWN",
+          "eligible_company_wip": true
+        },
+        {
+          "key": "FGQC:5a759066-3917-4e59-a405-cb94b7e9a62f",
+          "refs": [
+            {
+              "id": "5a759066-3917-4e59-a405-cb94b7e9a62f",
+              "kind": "erp.qc_inspection_items",
+              "revision": "1"
+            }
+          ],
+          "stage": "FG",
+          "size_id": "72000000-0000-4000-8000-000000000004",
+          "pool_key": "CUT:72000000-0000-4000-8000-000000000007:72000000-0000-4000-8000-000000000004",
+          "ownership": "COMPANY",
+          "remaining_pcs": "3",
+          "quantity_quality": "KNOWN",
+          "eligible_company_wip": false
+        }
+      ],
+      "snapshot_id": "2026-11-11T18:39:33.741462+00:00",
+      "source_basis": "ONE_CAPTURE_EXPLICIT_PRODUCTION_ORIGINS",
+      "production_go": false,
+      "sewing_detail": "SUBSTAGE_NOT_ALLOCATABLE_FROM_GROUP_EVENTS",
+      "contract_version": "cp7.wip-position.v1",
+      "rewash_review_required": false,
+      "allocation_review_required": false
+    },
+    "run_id": "4189d85b-2e1f-4d62-a880-ae02422813dd",
+    "request_id": "2964f476-65e9-4d80-86c6-353c18792047",
+    "captured_at": "2026-11-11T18:39:33.741462+00:00",
+    "source_state": "UNCHANGED",
+    "production_go": false,
+    "knowledge_mode": "CURRENT_AT_CAPTURE",
+    "capture_complete": true,
+    "contract_version": "cp7.production-wip-run.v1"
+  },
+  "wip_reopened": {
+    "scope": {
+      "unsourced_bs": [],
+      "opening_items": [],
+      "cutting_groups": [
+        "72000000-0000-4000-8000-000000000007"
+      ]
+    },
+    "result": {
+      "graph": {
+        "nodes": [
+          {
+            "key": "CUT:72000000-0000-4000-8000-000000000007:72000000-0000-4000-8000-000000000004:PRE",
+            "refs": [
+              {
+                "id": "72000000-0000-4000-8000-000000000007",
+                "kind": "erp.cutting_groups",
+                "revision": "1"
+              }
+            ],
+            "stage": "SEWING_UNRESOLVED",
+            "pool_key": "CUT:72000000-0000-4000-8000-000000000007:72000000-0000-4000-8000-000000000004"
+          }
+        ],
+        "pools": [
+          {
+            "key": "CUT:72000000-0000-4000-8000-000000000007:72000000-0000-4000-8000-000000000004",
+            "refs": [
+              {
+                "id": "72000000-0000-4000-8000-000000000007",
+                "kind": "erp.cutting_groups",
+                "revision": "1"
+              }
+            ],
+            "origin": "CUTTING",
+            "size_id": "72000000-0000-4000-8000-000000000004",
+            "input_pcs": "8",
+            "ownership": "COMPANY"
+          }
+        ],
+        "events": [
+          {
+            "key": "cutting:T:0",
+            "refs": [
+              {
+                "id": "72000000-0000-4000-8000-000000000007",
+                "kind": "erp.cutting_groups",
+                "revision": "1"
+              }
+            ],
+            "ordinal": "1",
+            "qty_pcs": "8",
+            "to_node": "CUT:72000000-0000-4000-8000-000000000007:72000000-0000-4000-8000-000000000004:PRE",
+            "pool_key": "CUT:72000000-0000-4000-8000-000000000007:72000000-0000-4000-8000-000000000004",
+            "from_node": null,
+            "reverses_key": null
+          }
+        ],
+        "complete": true,
+        "snapshot_id": "2026-11-11T18:39:33.532138+00:00",
+        "contract_version": "cp7.wip-graph.v1"
+      },
+      "scope": "SELECTED_ORIGINS_ONLY",
+      "status": "COMPLETE",
+      "timing": {
+        "eta": null,
+        "reason": "NO_CALENDAR_OR_REMAINING_WORK_SELECTED",
+        "on_time": null,
+        "quality": "UNKNOWN"
+      },
+      "totals": [
+        {
+          "refs": [
+            {
+              "id": "72000000-0000-4000-8000-000000000007",
+              "kind": "erp.cutting_groups",
+              "revision": "1"
+            }
+          ],
+          "bs_pcs": "0",
+          "fg_pcs": "0",
+          "size_id": "72000000-0000-4000-8000-000000000004",
+          "wip_pcs": "8",
+          "pool_key": "CUT:72000000-0000-4000-8000-000000000007:72000000-0000-4000-8000-000000000004",
+          "input_pcs": "8",
+          "ownership": "COMPANY",
+          "exited_pcs": "0",
+          "withheld_pcs": "0"
+        }
+      ],
+      "fg_basis": "PRODUCTION_DISPOSITION_NOT_CURRENT_ON_HAND",
+      "attention": [],
+      "positions": [
+        {
+          "key": "CUT:72000000-0000-4000-8000-000000000007:72000000-0000-4000-8000-000000000004:PRE",
+          "refs": [
+            {
+              "id": "72000000-0000-4000-8000-000000000007",
+              "kind": "erp.cutting_groups",
+              "revision": "1"
+            }
+          ],
+          "stage": "SEWING_UNRESOLVED",
+          "size_id": "72000000-0000-4000-8000-000000000004",
+          "pool_key": "CUT:72000000-0000-4000-8000-000000000007:72000000-0000-4000-8000-000000000004",
+          "ownership": "COMPANY",
+          "remaining_pcs": "8",
+          "quantity_quality": "KNOWN",
+          "eligible_company_wip": true
+        }
+      ],
+      "snapshot_id": "2026-11-11T18:39:33.532138+00:00",
+      "source_basis": "ONE_CAPTURE_EXPLICIT_PRODUCTION_ORIGINS",
+      "production_go": false,
+      "sewing_detail": "SUBSTAGE_NOT_ALLOCATABLE_FROM_GROUP_EVENTS",
+      "contract_version": "cp7.wip-position.v1",
+      "rewash_review_required": false,
+      "allocation_review_required": false
+    },
+    "run_id": "7e398afc-5722-4aec-aab9-dfa6c5a4c68c",
+    "request_id": "060f2797-3f41-419e-83f5-517239860e58",
+    "captured_at": "2026-11-11T18:39:33.532138+00:00",
+    "source_state": "ARCHIVED_STALE",
+    "production_go": false,
+    "knowledge_mode": "CURRENT_AT_CAPTURE",
+    "capture_complete": true,
+    "contract_version": "cp7.production-wip-run.v1"
+  },
+  "progress_book_after": {
+    "input": 8,
+    "qc_good": 3,
+    "remaining": 5,
+    "completions": 1
+  },
+  "fg_ledger": [
+    {
+      "po": "72000000-0000-4000-8000-000000000006",
+      "qc": "bbbd9f91-9d55-4125-8a5d-05f278c3fd91",
+      "lot": "47dc9c05-9d48-41a6-a985-904f2ecbe18d",
+      "qty": 3,
+      "sku": "72000000-0000-4000-8000-000000000002",
+      "root": "72000000-0000-4000-8000-000000000003",
+      "size": "72000000-0000-4000-8000-000000000004",
+      "unit": "PCS",
+      "grade": "GRADE_A",
+      "source": "5a759066-3917-4e59-a405-cb94b7e9a62f",
+      "fg_cache": 3,
+      "location": "72000000-0000-4000-8000-000000000008",
+      "movement": "QC_GOOD",
+      "lot_cache": 3,
+      "ledger_time": "2026-11-11T18:39:33.728455+00:00",
+      "authoritative_hpp_available": false
+    }
+  ],
+  "finance_hook_calls": [
+    [
+      "erp.ensure_fg_accessory_cost_snapshot(uuid)"
+    ],
+    [
+      "erp.post_accessory_reimbursement_accrual(uuid)"
+    ],
+    [
+      "erp.propagate_conversion_hpp_for_po(uuid)"
+    ],
+    [
+      "erp.rebuild_po_hpp(uuid,text)"
+    ],
+    [
+      "erp.sync_laundry_accrual(uuid,date)"
+    ],
+    [
+      "erp.sync_po_hpp_to_gl(uuid,date)"
+    ]
+  ],
+  "report_after": {
+    "doc": {
+      "id": "740a7173-fee3-4a6b-825e-d3776f30cac4",
+      "kind": "PERIOD",
+      "title": "Penyelesaian QC fixture B",
+      "reason": "Uji stok dan arsip pada periode yang sama",
+      "run_id": "d4b62d42-ba90-426d-958b-688c894722ed",
+      "finance": "DEFERRED",
+      "summary": "Penyelesaian QC fixture B\n\nREVIEW PERIODE\n\nPeriode riwayat: 2026-11-11 sampai 2026-11-11; pengelompokan AS_SOLD.\n\nData analisis per 2026-11-12 01:39:33 WIB (analisis bertahap d4b62d42-ba90-426d-958b-688c894722ed, 1 target). Isi analisis adalah keadaan pada waktu itu, bukan angka saat ini.\n\nKESEGARAN DATA SAAT LAPORAN DIBUAT\n\nDihitung 2026-11-12 01:39:33 WIB: Ada 4 perubahan tercatat sejak data analisis diambil; isi analisis tetap keadaan per 2026-11-12 01:39:33 WIB.\n\nStok barang jadi: 1 perubahan, terakhir 2026-11-12 01:39:33 WIB.\n\nProduksi (potong, jahit, QC, laundry, BS): 2 perubahan, terakhir 2026-11-12 01:39:33 WIB.\n\nPO produksi: 1 perubahan, terakhir 2026-11-12 01:39:33 WIB.\n\nANGKA AKTUAL MENURUT SUMBER ERP (TANGGAL LAPORAN 2026-11-12)\n\nStok barang jadi aktual dibaca dari catatan stok ERP per 2026-11-12 01:39:33 WIB dan dicantumkan per target pada bagian rincian, di samping angka saat analisis.\n\nKeuangan dan HPP tidak dimasukkan ke laporan ini. Tidak ada angka pengganti.\n\nRINGKASAN SELURUH TARGET (SAAT ANALISIS)\n\nTINDAKAN UMUM DAN ALASAN\n\nTidak ada tindakan umum.\n\nSTOK PROSES, BAHAN DAN KAPASITAS (SAAT ANALISIS)\n\nTidak ada stok proses tercatat pada analisis.\n\nANGKA UMUM (SAAT ANALISIS)\n\nTidak ada angka umum.\n\nASUMSI DAN DATA YANG MASIH KURANG\n\nAsumsi per target ada pada bagian rinciannya.\n\nBAGIAN RINCIAN\n\nBagian 1: target 1\u20131; 1341 byte; sha256 84f8809ce50e7c5a80979617d14c4f1f794fcda4b6f4d1bf4d805a215b81a03c.\n\nIdentitas analisis e648d2ed14e86bf0b9ce87b3174b30f98c06acb26f5f112e54ff8fbc5216b087; template native-report-staged-1. Laporan ini tidak memposting transaksi atau menerapkan produksi.",
+      "revision": "2",
+      "sections": [
+        {
+          "index": 0,
+          "sha256": "84f8809ce50e7c5a80979617d14c4f1f794fcda4b6f4d1bf4d805a215b81a03c",
+          "target_hi": 1,
+          "target_lo": 1,
+          "utf8_bytes": 1341
+        }
+      ],
+      "freshness": {
+        "state": "CHANGES_RECORDED",
+        "evaluated_at": "2026-11-11T18:39:33.833233+00:00",
+        "changes_total": "4"
+      },
+      "is_latest": true,
+      "series_id": "237c0708-1e80-4bd8-87a1-5ff3da2a2cce",
+      "data_as_of": "2026-11-11T18:39:33.657387+00:00",
+      "request_id": "91a5b420-ab64-40ca-8868-11918a9dc01a",
+      "report_date": "2026-11-12",
+      "report_hash": "47b6f08ab5016c85051c9a8756ba53e83a16f6b6e525bc32fbbaf110e8e02470",
+      "access_epoch": "57a5d22e6071b210d6086bba780e9848b424892fa5dfcfc862a478f5e0347845",
+      "period_query": {
+        "from_date": "2026-11-11",
+        "group_mode": "AS_SOLD",
+        "through_date": "2026-11-11"
+      },
+      "published_at": "2026-11-11T18:39:33.842235+00:00",
+      "identity_hash": "e648d2ed14e86bf0b9ce87b3174b30f98c06acb26f5f112e54ff8fbc5216b087",
+      "production_go": false,
+      "targets_total": 1,
+      "actor_scope_id": "72000000-0000-4000-8000-000000000001",
+      "summary_sha256": "a63f0bfeb4b189f124b539bfebb6d6f3d85d4db11d5e3b80fb8dfe9f24798787",
+      "actuals_read_at": "2026-11-11T18:39:33.825341+00:00",
+      "contract_version": "cp7.report-publication.v2",
+      "template_version": "native-report-staged-1",
+      "financial_source_hash": null
+    },
+    "section": {
+      "body": "BAGIAN 1 dari 1 \u00b7 Target 1\u20131 dari 1 \u00b7 Data analisis per 2026-11-12 01:39:33 WIB.\n\nAngka analisis di bagian ini adalah keadaan per 2026-11-12 01:39:33 WIB, bukan angka saat ini. Stok barang jadi aktual dibaca dari catatan stok ERP per 2026-11-12 01:39:33 WIB.\n\nKONDISI PRODUK DAN SIZE\n\nCP7-B-QC-8 \u00b7 Fixture QC 8 pcs \u00b7 size 72000000-0000-4000-8000-000000000004 \u00b7 Aktif: stok fisik saat analisis 0 PCS; stok fisik aktual per 2026-11-12 01:39:33 WIB 3 PCS; stok tersedia setelah reservasi aktual 3 PCS; target Belum diketahui ; gap dasar Belum diketahui ; gap bersyarat Belum diketahui ; produksi baru layak Belum diketahui ; belum tertutup Belum diketahui .\nIdentitas produk, size dan membership: {\"key\": \"72000000-0000-4000-8000-000000000003:72000000-0000-4000-8000-000000000004\", \"size_id\": \"72000000-0000-4000-8000-000000000004\", \"membership\": [\"72000000-0000-4000-8000-000000000002\"]}; referensi gap []; alokasi bersyarat [].\n\nTINDAKAN DAN ALASAN\n\nTidak ada tindakan per target pada bagian ini.\n\nKEBUTUHAN BAHAN\n\nTidak ada kebutuhan bahan per target pada bagian ini.\n\nANGKA PER TARGET\n\nTidak ada angka per target pada bagian ini.\n\nASUMSI PER TARGET\n\nTidak ada asumsi per target pada bagian ini.\n\nIssue bukan bukti pemasangan. Barang proses tetap terpisah dari stok jadi. Kelayakan yang belum terbukti tidak mengizinkan produksi baru.",
+      "index": 0,
+      "sha256": "84f8809ce50e7c5a80979617d14c4f1f794fcda4b6f4d1bf4d805a215b81a03c",
+      "target_hi": 1,
+      "target_lo": 1,
+      "utf8_bytes": 1341,
+      "report_hash": "47b6f08ab5016c85051c9a8756ba53e83a16f6b6e525bc32fbbaf110e8e02470",
+      "section_count": 1,
+      "publication_id": "740a7173-fee3-4a6b-825e-d3776f30cac4",
+      "contract_version": "cp7.report-section.v2"
+    },
+    "stored": {
+      "id": "740a7173-fee3-4a6b-825e-d3776f30cac4",
+      "kind": "PERIOD",
+      "actor": "72000000-0000-4000-8000-000000000001",
+      "title": "Penyelesaian QC fixture B",
+      "job_id": "5d7a2430-2bfc-4523-87d6-9e71d4a8c3a3",
+      "reason": "Uji stok dan arsip pada periode yang sama",
+      "run_id": "d4b62d42-ba90-426d-958b-688c894722ed",
+      "finance": "DEFERRED",
+      "summary": "Penyelesaian QC fixture B\n\nREVIEW PERIODE\n\nPeriode riwayat: 2026-11-11 sampai 2026-11-11; pengelompokan AS_SOLD.\n\nData analisis per 2026-11-12 01:39:33 WIB (analisis bertahap d4b62d42-ba90-426d-958b-688c894722ed, 1 target). Isi analisis adalah keadaan pada waktu itu, bukan angka saat ini.\n\nKESEGARAN DATA SAAT LAPORAN DIBUAT\n\nDihitung 2026-11-12 01:39:33 WIB: Ada 4 perubahan tercatat sejak data analisis diambil; isi analisis tetap keadaan per 2026-11-12 01:39:33 WIB.\n\nStok barang jadi: 1 perubahan, terakhir 2026-11-12 01:39:33 WIB.\n\nProduksi (potong, jahit, QC, laundry, BS): 2 perubahan, terakhir 2026-11-12 01:39:33 WIB.\n\nPO produksi: 1 perubahan, terakhir 2026-11-12 01:39:33 WIB.\n\nANGKA AKTUAL MENURUT SUMBER ERP (TANGGAL LAPORAN 2026-11-12)\n\nStok barang jadi aktual dibaca dari catatan stok ERP per 2026-11-12 01:39:33 WIB dan dicantumkan per target pada bagian rincian, di samping angka saat analisis.\n\nKeuangan dan HPP tidak dimasukkan ke laporan ini. Tidak ada angka pengganti.\n\nRINGKASAN SELURUH TARGET (SAAT ANALISIS)\n\nTINDAKAN UMUM DAN ALASAN\n\nTidak ada tindakan umum.\n\nSTOK PROSES, BAHAN DAN KAPASITAS (SAAT ANALISIS)\n\nTidak ada stok proses tercatat pada analisis.\n\nANGKA UMUM (SAAT ANALISIS)\n\nTidak ada angka umum.\n\nASUMSI DAN DATA YANG MASIH KURANG\n\nAsumsi per target ada pada bagian rinciannya.\n\nBAGIAN RINCIAN\n\nBagian 1: target 1\u20131; 1341 byte; sha256 84f8809ce50e7c5a80979617d14c4f1f794fcda4b6f4d1bf4d805a215b81a03c.\n\nIdentitas analisis e648d2ed14e86bf0b9ce87b3174b30f98c06acb26f5f112e54ff8fbc5216b087; template native-report-staged-1. Laporan ini tidak memposting transaksi atau menerapkan produksi.",
+      "revision": 2,
+      "series_id": "237c0708-1e80-4bd8-87a1-5ff3da2a2cce",
+      "data_as_of": "2026-11-11T18:39:33.657387+00:00",
+      "request_id": "91a5b420-ab64-40ca-8868-11918a9dc01a",
+      "report_date": "2026-11-12",
+      "report_hash": "47b6f08ab5016c85051c9a8756ba53e83a16f6b6e525bc32fbbaf110e8e02470",
+      "period_query": {
+        "from_date": "2026-11-11",
+        "group_mode": "AS_SOLD",
+        "through_date": "2026-11-11"
+      },
+      "published_at": "2026-11-11T18:39:33.842235+00:00",
+      "changes_total": 4,
+      "identity_hash": "e648d2ed14e86bf0b9ce87b3174b30f98c06acb26f5f112e54ff8fbc5216b087",
+      "section_count": 1,
+      "targets_total": 1,
+      "summary_sha256": "a63f0bfeb4b189f124b539bfebb6d6f3d85d4db11d5e3b80fb8dfe9f24798787",
+      "actuals_read_at": "2026-11-11T18:39:33.825341+00:00",
+      "freshness_state": "CHANGES_RECORDED",
+      "template_version": "native-report-staged-1",
+      "summary_utf8_bytes": 1623,
+      "financial_source_hash": null,
+      "freshness_evaluated_at": "2026-11-11T18:39:33.833233+00:00",
+      "finance_close_preflight": false
+    },
+    "actual": {
+      "stock": {
+        "72000000-0000-4000-8000-000000000003": {
+          "physical_fg_pcs": "3",
+          "available_fg_pcs": "3"
+        }
+      },
+      "finance": null,
+      "read_at": "2026-11-11T18:39:33.825341+00:00",
+      "report_date": "2026-11-12"
+    }
+  },
+  "report_book_after": {
+    "target_pcs": 3,
+    "outside_filter_pcs": 11,
+    "read_at": "2026-11-11T18:39:33.825341+00:00"
+  },
+  "archive_reopened": {
+    "same_publication_row": true,
+    "same_section": true,
+    "same_hash": "320f4eb8c363202685fe7688752613f4848980677391b08f813b3c164f869b96",
+    "is_latest": false
+  },
+  "identity_refusal": {
+    "sqlstate": "P0001",
+    "message": "CP7_REPORT_V2_IDENTITY_CHANGED",
+    "report_jobs_unchanged": true
+  },
+  "recovery": {
+    "before": {
+      "db": [
+        "postgres",
+        "template0",
+        "template1"
+      ],
+      "roles": [
+        "cp7_b_lab"
+      ]
+    },
+    "after": {
+      "db": [
+        "postgres",
+        "template0",
+        "template1"
+      ],
+      "roles": [
+        "cp7_b_lab"
+      ]
+    },
+    "exact": true,
+    "disposable_db_dropped": true
+  }
+}

@@ -1,0 +1,54 @@
+
+ RUN  v4.1.11 /workspace/scratch/b6947bc7a657/b-cp7-12/ui
+
+ ❯ src/NativeStagedReportsPanel.dom.test.tsx (0 test)
+ ❯ src/nativeStagedReports.test.ts (0 test)
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/NativeStagedReportsPanel.dom.test.tsx [ src/NativeStagedReportsPanel.dom.test.tsx ]
+Error: Failed to resolve import "../tests/fixtures/nativeStagedReports" from "src/NativeStagedReportsPanel.dom.test.tsx". Does the file exist?
+  Plugin: vite:import-analysis
+  File: /workspace/scratch/b6947bc7a657/b-cp7-12/ui/src/NativeStagedReportsPanel.dom.test.tsx:8:0
+  6  |  const __vi_import_1__ = await import("react-dom/client");
+  7  |  const __vi_import_2__ = await import("./NativeStagedReportsPanel");
+  8  |  const __vi_import_3__ = await import("../tests/fixtures/nativeStagedReports");
+     |                                       ^
+  9  |  const __vi_import_4__ = await import("react/jsx-dev-runtime");
+  10 |  // @vitest-environment jsdom
+ ❯ TransformPluginContext._formatLog node_modules/vite/dist/node/chunks/node.js:31147:39
+ ❯ TransformPluginContext.error node_modules/vite/dist/node/chunks/node.js:31144:14
+ ❯ normalizeUrl node_modules/vite/dist/node/chunks/node.js:28083:18
+ ❯ node_modules/vite/dist/node/chunks/node.js:28153:30
+ ❯ TransformPluginContext.transform node_modules/vite/dist/node/chunks/node.js:28119:4
+ ❯ EnvironmentPluginContainer.transform node_modules/vite/dist/node/chunks/node.js:30932:14
+ ❯ loadAndTransform node_modules/vite/dist/node/chunks/node.js:20671:26
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  src/nativeStagedReports.test.ts [ src/nativeStagedReports.test.ts ]
+Error: Failed to resolve import "../tests/fixtures/nativeStagedReports" from "src/nativeStagedReports.test.ts". Does the file exist?
+  Plugin: vite:import-analysis
+  File: /workspace/scratch/b6947bc7a657/b-cp7-12/ui/src/nativeStagedReports.test.ts:3:19
+  1  |  // @vitest-environment jsdom
+  2  |  import { it, expect, beforeEach, vi } from "vitest";
+  3  |  import * as f from "../tests/fixtures/nativeStagedReports";
+     |                      ^
+  4  |  import { parseStagedReportJob, parseStagedReport, parseStagedReportSection, parseStagedReportIndex, driveStagedReport...
+  5  |  beforeEach(() => localStorage.clear());
+ ❯ TransformPluginContext._formatLog node_modules/vite/dist/node/chunks/node.js:31147:39
+ ❯ TransformPluginContext.error node_modules/vite/dist/node/chunks/node.js:31144:14
+ ❯ normalizeUrl node_modules/vite/dist/node/chunks/node.js:28083:18
+ ❯ node_modules/vite/dist/node/chunks/node.js:28153:30
+ ❯ TransformPluginContext.transform node_modules/vite/dist/node/chunks/node.js:28119:4
+ ❯ EnvironmentPluginContainer.transform node_modules/vite/dist/node/chunks/node.js:30932:14
+ ❯ loadAndTransform node_modules/vite/dist/node/chunks/node.js:20671:26
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  2 failed (2)
+      Tests  no tests
+   Start at  01:44:23
+   Duration  1.42s (transform 0ms, setup 0ms, import 0ms, tests 0ms, environment 1.36s)
+
