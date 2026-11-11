@@ -1,0 +1,16 @@
+--- a/src/payroll-connected.css
++++ b/src/payroll-connected.css
+@@ -5,3 +5,13 @@
+ @media (max-width: 640px) {
+   .cpay .cpay-detail > p { overflow-wrap: anywhere; }
+ }
++
++.cpay .cpay-detail > h2,
++.cpay .cpay-action > p,
++.cpay .cpay-layout .cproc-receipt > span:first-child {
++  overflow-wrap: anywhere;
++}
++
++.cpay .cpay-layout .cproc-receipt > span:first-child {
++  min-width: 0;
++}

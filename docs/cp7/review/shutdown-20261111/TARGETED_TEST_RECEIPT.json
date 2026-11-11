@@ -1,0 +1,18 @@
+{
+  "status": "TARGETED_DIAGNOSTIC_CONTROLS_PASS",
+  "utc": "2026-11-11T08:59:52.969478+00:00",
+  "command": "python3 -m unittest -v test_checkpoint.py test_workflow.py",
+  "returncode": 0,
+  "control_count": 10,
+  "actual_ERP_cases": 0,
+  "actual_database_access": 0,
+  "production_go": false,
+  "independent_acceptance": false,
+  "output": "test_admission_receipts_recover_exact_bytes_and_refuse_secret (test_checkpoint.CheckpointTests.test_admission_receipts_recover_exact_bytes_and_refuse_secret) ... ok\ntest_dirty_or_wrong_checkout_refused (test_checkpoint.CheckpointTests.test_dirty_or_wrong_checkout_refused) ... ok\ntest_original_failure_preserved_without_message_leak (test_checkpoint.CheckpointTests.test_original_failure_preserved_without_message_leak) ... ok\ntest_output_symlink_and_existing_receipt_refused (test_checkpoint.CheckpointTests.test_output_symlink_and_existing_receipt_refused) ... ok\ntest_secret_environment_not_serialized (test_checkpoint.CheckpointTests.test_secret_environment_not_serialized) ... ok\ntest_sigkill_keeps_started_without_false_completion (test_checkpoint.CheckpointTests.test_sigkill_keeps_started_without_false_completion) ... ok\ntest_wrong_run_identity_refused_before_writes (test_checkpoint.CheckpointTests.test_wrong_run_identity_refused_before_writes) ... ok\ntest_all_old_steps_and_settings_remain_identical (test_workflow.WorkflowTests.test_all_old_steps_and_settings_remain_identical) ... ok\ntest_diagnostic_cannot_replace_canonical_archive (test_workflow.WorkflowTests.test_diagnostic_cannot_replace_canonical_archive) ... ok\ntest_stale_workflow_or_relaxed_recovery_refused (test_workflow.WorkflowTests.test_stale_workflow_or_relaxed_recovery_refused) ... ok\n\n----------------------------------------------------------------------\nRan 10 tests in 0.229s\n\nOK\n",
+  "source_sha256": {
+    "checkpoint.py": "6ee1a8c351da3c1505936b8d15aa4d32d6b1b213e9e2ab3389bac6f6027db8b4",
+    "derive_workflow.py": "f661efef99e4d24e2317343cfc2019d3c39630e2bf537736bcc17873f1a60951",
+    "test_checkpoint.py": "61b4b3b7bd68384f6002204f7dd9969ff0ff697eecf8776f00acf79aa43ad1bb",
+    "test_workflow.py": "201a96c0b364a0bfd86caea14aa517fa85453a64022e1993e87d190751e3c9a3"
+  }
+}
