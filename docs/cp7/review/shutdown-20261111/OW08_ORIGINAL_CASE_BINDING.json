@@ -1,0 +1,93 @@
+{
+  "receipts": {
+    "SOURCE6": {
+      "run": 40835051931,
+      "job": 123317772819,
+      "artifact": 12882516057,
+      "head": "42760534906c330353f9bb0f53d27db65b134626",
+      "archive": {
+        "bytes": 10190192,
+        "sha256": "98c3d9e52feb71c6f994d136018005ab7652c88e89392df1b838880d6e451f5b",
+        "crc_members": 142
+      },
+      "reports": {
+        "CP7_OW08_SOURCE_BROWSER6.json": {
+          "bytes": 1348380,
+          "sha256": "55a00c6b458649079a24109f3164536acc45820eb912fe92b77f24e6d2c8934e"
+        },
+        "T3_PACKAGE_INSTALL.json": {
+          "bytes": 360403,
+          "sha256": "f9efe77d49100123eecd6106aab8736e58f29b2a83c21e9fc3409ce900ff4dd3"
+        },
+        "T3_BACKUP_RESTORE_DRILL.json": {
+          "bytes": 1470,
+          "sha256": "7b009f549d48bdf40b8f095e9110b78cfc6dfa9362abc344800fd46422b123fb"
+        }
+      },
+      "real_browser_pass": 6,
+      "five_gates": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "full_restore": true,
+      "scope": "OW08_SOURCE_BROWSER6",
+      "retained_only": true,
+      "evidence_link": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/40835051931",
+      "actual_case_ids": [
+        "OW08_KASBON_JOURNAL_SOURCE_DESKTOP",
+        "OW08_KASBON_JOURNAL_SOURCE_MOBILE",
+        "OW08_UNKNOWN_WASH_SCREEN_PRICE_DESKTOP",
+        "OW08_UNKNOWN_WASH_SCREEN_PRICE_MOBILE",
+        "OW08_FG_INVERSE_QC_BLOCKERS_DESKTOP",
+        "OW08_FG_INVERSE_QC_BLOCKERS_MOBILE"
+      ]
+    },
+    "MONEY2": {
+      "run": 40789668297,
+      "job": 123171442637,
+      "artifact": 12863121496,
+      "head": "2d4ed56eb20187c00e63cd0a0774385d320f53be",
+      "archive": {
+        "bytes": 4258622,
+        "sha256": "81f17358ca56f92c8bec4610e2b6d3978667624970e892d2c2c0c5728196f58d",
+        "crc_members": 121
+      },
+      "reports": {
+        "CP7_VENDOR_MONEY_BROWSER2.json": {
+          "bytes": 2621520,
+          "sha256": "7439d670aab99bdf2fa59f82f1b91cb16bca4fbbb10ccba3baa94af805f5d47c"
+        },
+        "T3_PACKAGE_INSTALL.json": {
+          "bytes": 360404,
+          "sha256": "b7614b84e89537a6913b64a141e51f5396e61e3123197ce0212698baa822a30a"
+        },
+        "T3_BACKUP_RESTORE_DRILL.json": {
+          "bytes": 1470,
+          "sha256": "c80fd4cb4f2d40e73ff847555fc916b60ee920a8f20d4839501b1c9ae7b4e99a"
+        }
+      },
+      "real_browser_pass": 2,
+      "five_gates": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "full_restore": true,
+      "scope": "VENDOR_MONEY_BROWSER2",
+      "retained_only": true,
+      "evidence_link": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/40789668297",
+      "actual_case_ids": [
+        "VENDOR_MONEY_BROWSER_DESKTOP_REFUND_INVERSE_HISTORY",
+        "VENDOR_MONEY_BROWSER_MOBILE_REFUND_ACCESS_HIDDEN"
+      ]
+    }
+  },
+  "scope": "original OW08 SOURCE6 and MONEY2 only; current delta requires actual catalogue review",
+  "formal_CP7": "5/16",
+  "fresh_cases": 0
+}
