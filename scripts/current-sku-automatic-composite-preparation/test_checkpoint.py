@@ -120,6 +120,33 @@ class CheckpointTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'BOUNDED_ADMISSION'):
             c.admission_receipts(self.root)
 
+    def test_terminal_observation_pins_same_attempt_without_serializing_report_bodies(self):
+        worker = dict(qualification_commit='a'*40, github_run_id='1', github_run_attempt='1',
+                      worker_exit=1, process_group_empty=True, process_tree_empty=True,
+                      error='NEVER_EXPORT_THIS')
+        package = dict(run_identity=dict(tool_head='a'*40, github_sha='a'*40, run_id='1', run_attempt='1'),
+                       gate=dict.fromkeys(c.PACKAGE_CHECKS, True) | {'writer_runtime': False})
+        backup = dict(status='RESTORED_IDENTICAL', checks=dict.fromkeys(c.BACKUP_CHECKS, True),
+                      data=dict(tables=407, differ={}))
+        for name, report in zip(c.TERMINAL_REPORTS, (worker, package, backup)):
+            (self.root/name).write_text(json.dumps(report))
+        observed = c.terminal_observation(self.root, self.env)
+        self.assertEqual(observed['worker']['worker_exit'], 1)
+        self.assertTrue(observed['worker']['process_tree_empty'])
+        self.assertFalse(observed['package_checks']['writer_runtime'])
+        self.assertTrue(observed['backup']['zero_row_differences'])
+        self.assertFalse(observed['restoration_verified'])
+        self.assertFalse(observed['canonical_archive_verified'])
+        self.assertEqual(observed['actual_case_credit'], 0)
+        self.assertNotIn('NEVER_EXPORT_THIS', json.dumps(observed))
+        for name in c.TERMINAL_REPORTS:
+            raw = (self.root/name).read_bytes()
+            self.assertEqual(observed['originals'][name], dict(bytes=len(raw), sha256=c.sha256(raw).hexdigest()))
+        with self.assertRaisesRegex(ValueError, 'TERMINAL_WORKER_WRONG_RUN_OR_ATTEMPT'):
+            c.terminal_observation(self.root, dict(self.env, GITHUB_RUN_ATTEMPT='2'))
+        (self.root/c.SUPERVISION_REPORT).unlink()
+        self.assertNotIn('worker', c.terminal_observation(self.root, self.env))
+
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)

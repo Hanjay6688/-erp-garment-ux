@@ -44,7 +44,11 @@ class PrivateAuthority(unittest.TestCase):
 
     def test_real_PG17_catalogue_originals_accept_baseline_and_refuse_every_unsafe_change(self):
         self.assertTrue(self.originals['version'].startswith('PostgreSQL 17.'))
-        self.assertEqual(len(self.originals['snapshots']), 18)
+        self.assertEqual(len(self.originals['snapshots']), 22)
+        names = {row['name'] for row in self.originals['snapshots']}
+        self.assertEqual(len(names), 22)
+        self.assertTrue({'baseline', 'reader_missing_schema_usage', 'reader_grantable_schema_usage',
+                         'reader_system_column_grant', 'cp7_fg_read_select'} <= names)
         for snapshot in self.originals['snapshots']:
             proof = dict(parent=self.proof['parent'], SKU=snapshot['authority'])
             with self.subTest(snapshot=snapshot['name']):
@@ -52,6 +56,7 @@ class PrivateAuthority(unittest.TestCase):
                     with self.assertRaises(ValueError):
                         self.reviewer.require_closed(proof)
                 else:
+                    self.assertEqual(snapshot['name'], 'baseline')
                     self.assertEqual(self.reviewer.require_closed(proof), proof)
 
     def test_exact_eleven_INFOs_retain_original_delta_and_parent_remainder(self):
@@ -81,8 +86,9 @@ class PrivateAuthority(unittest.TestCase):
             self.reviewer.require_closed(bad)
 
     def test_no_accepted_parent_gate_inspects_any_caller_or_cursor(self):
-        with self.assertRaisesRegex(ValueError, 'CURRENT_PARENT_AND_FULL_NATIVE_LIFECYCLE_PENDING'):
-            subject.bind(Forbidden(), Forbidden())
+        with patch.object(subject.assembly.admission, 'MANDOR_ROOT_PIN', None):
+            with self.assertRaisesRegex(ValueError, 'CURRENT_PARENT_AND_FULL_NATIVE_LIFECYCLE_PENDING'):
+                subject.bind(Forbidden(), Forbidden())
         for table in self.expected['tables']:
             bad = deepcopy(self.proof)
             bad['SKU'].pop(table)

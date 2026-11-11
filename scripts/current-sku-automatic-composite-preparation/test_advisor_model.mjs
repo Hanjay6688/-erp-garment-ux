@@ -7,9 +7,11 @@ const db=new PGlite();
 const names=Object.keys(input.source.tables).sort();
 const q=s=>'"'+s.replaceAll('"','""')+'"';
 const relation=n=>n.split('.').map(q).join('.');
+const reader='cp7_fg_read';
 const commands=input.roles.map(name=>'create role '+q(name)+' nologin nosuperuser nobypassrls');
 commands.push('create role unexpected_grantee nologin nosuperuser nobypassrls',
-              'create schema cp7_sku_conversion authorization postgres');
+              'create schema cp7_sku_conversion authorization postgres',
+              'grant usage on schema cp7_sku_conversion to '+q(reader));
 for(const name of names){
   commands.push('create table '+relation(name)+'(id uuid,private_value text)',
                 'alter table '+relation(name)+' enable row level security',
@@ -27,6 +29,9 @@ const info=input.source.eligible[0],deny=names.find(n=>input.source.tables[n].po
 const mutations=[
  ['public_schema_usage','grant usage on schema cp7_sku_conversion to public'],
  ['unknown_role_schema_usage','grant usage on schema cp7_sku_conversion to unexpected_grantee'],
+ ['reader_missing_schema_usage','revoke usage on schema cp7_sku_conversion from '+q(reader)],
+ ['reader_grantable_schema_usage','grant usage on schema cp7_sku_conversion to '+q(reader)+' with grant option'],
+ ['reader_system_column_grant','grant select(xmin)on '+relation(info)+' to '+q(reader)],
  ['unknown_role_table_grant','grant select on '+relation(info)+' to unexpected_grantee'],
  ['public_column_grant','grant select(private_value)on '+relation(info)+' to public'],
  ['service_column_grant','grant select(private_value)on '+relation(info)+' to service_role'],

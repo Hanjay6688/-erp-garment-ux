@@ -10,6 +10,7 @@ from types import ModuleType, SimpleNamespace
 import argparse
 import importlib.util
 import json
+import os
 import subprocess
 import sys
 
@@ -271,7 +272,14 @@ def main():
         result = module.materialize()
         result['historical_proof_inputs'] = prepare_history()
     elif args.command == 'receipts':
-        result = module.receipts(ROOT / 'cp6-proof/t3')
+        directory = ROOT / 'cp6-proof/t3'
+        try:
+            from checkpoint import terminal_observation
+            observation = terminal_observation(directory, os.environ)
+            print(json.dumps(observation, sort_keys=True), flush=True)
+        except (OSError, ValueError, TypeError, AttributeError) as error:
+            print('SKU_TERMINAL_LOG_CHECKPOINT_UNAVAILABLE:' + type(error).__name__, file=sys.stderr, flush=True)
+        result = module.receipts(directory)
     else:
         result = getattr(module, {'materialize': 'materialize', 'prepare': 'prepare', 'retain': 'retain'}[args.command])()
     print(json.dumps(result, sort_keys=True), flush=True)

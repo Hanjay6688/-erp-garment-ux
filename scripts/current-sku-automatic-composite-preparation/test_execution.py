@@ -26,13 +26,13 @@ workflow = load('workflow')
 
 class ExecutionControls(unittest.TestCase):
     def test_closed_real_gates_precede_every_financial_helper_derivation(self):
-        for kind in execution.PINS:
-            with self.subTest(kind=kind), patch.object(execution, 'derive') as derive:
-                with self.assertRaisesRegex(ValueError, 'CURRENT_PARENT_AND_FULL_NATIVE_LIFECYCLE_PENDING'):
-                    execution.helper(kind, admitted=True)
-                derive.assert_not_called()
-        self.assertTrue(all(getattr(execution.runtime.admission, key) is None
-                            for key in execution.runtime.admission.GATES))
+        admission = execution.runtime.admission
+        with patch.multiple(admission, **dict.fromkeys(admission.GATES)):
+            for kind in execution.PINS:
+                with self.subTest(kind=kind), patch.object(execution, 'derive') as derive:
+                    with self.assertRaisesRegex(ValueError, 'CURRENT_PARENT_AND_FULL_NATIVE_LIFECYCLE_PENDING'):
+                        execution.helper(kind, admitted=True)
+                    derive.assert_not_called()
 
     def test_all_retained_helpers_recover_exact_bytes_and_refuse_mutation(self):
         for kind in execution.PINS:
@@ -82,7 +82,8 @@ class ExecutionControls(unittest.TestCase):
             load.assert_not_called()
 
     def test_history_restoration_requires_real_gates_before_any_source_read(self):
-        with patch.object(execution.runtime, 'frozen') as frozen, patch.object(execution, 'load') as load:
+        with patch.object(execution.runtime.admission, 'MANDOR_ROOT_PIN', None), \
+                patch.object(execution.runtime, 'frozen') as frozen, patch.object(execution, 'load') as load:
             with self.assertRaisesRegex(ValueError, 'CURRENT_PARENT_AND_FULL_NATIVE_LIFECYCLE_PENDING'):
                 execution.prepare_history()
             frozen.assert_not_called()
@@ -276,14 +277,32 @@ class ExecutionControls(unittest.TestCase):
         baseline = yaml.safe_load(workflow.BASELINE_TEMPLATE.read_bytes())
         original = baseline['jobs']['p21']['steps']
         self.assertEqual([index for index, step in enumerate(steps) if step != original[index]],
-                         [3, 67, 70, 71, 72, 73])
+                         [3, 11, 67, 68, 70, 71, 72, 73, 74, 79, 80])
         self.assertIn('run_window.py --record', steps[3]['run'])
         self.assertIn('run_window.py --require', steps[67]['run'])
         steps[3], steps[67] = original[3], original[67]
+        header = 'set -euo pipefail\n'
+        self.assertEqual(steps[11]['run'], header + workflow.DIRECT_UBUNTU_ARCHIVE
+                         + original[11]['run'].removeprefix(header))
+        steps[11]['run'] = original[11]['run']
+        for required in ('for checkout in auditor writer', 'npm ci --include=dev',
+                         'auditor" && npx --no-install playwright install --with-deps chromium',
+                         'writer" && npx --no-install playwright install chromium'):
+            self.assertIn(required, steps[68]['run'])
+        steps[68]['run'] = original[68]['run']
         for index in range(70, 74):
             script = steps[index]['run'].split("<<'" + workflow.SETUP_DELIMITER + "'\n", 1)[1]
             self.assertEqual(script, original[index]['run'].rstrip('\n') + '\n' + workflow.SETUP_DELIMITER + '\n)"\n')
             steps[index]['run'] = original[index]['run']
+        self.assertEqual(steps[70].pop('id'), 'cp7_disposable_start')
+        self.assertEqual(steps[74].pop('id'), 'cp7_sku_runtime')
+        self.assertEqual(steps[79].pop('id'), 'cp7_disposable_cleanup')
+        self.assertIn("steps.cp7_disposable_start.outcome", steps[79]['if'])
+        steps[79]['if'] = original[79]['if']
+        for required in ("steps.cp7_sku_runtime.outcome == 'success'",
+                         "steps.cp7_disposable_cleanup.outcome == 'success'", 'cp7-sku-failure-'):
+            self.assertIn(required, steps[80]['with']['name'])
+        steps[80]['with']['name'] = original[80]['with']['name']
         self.assertEqual(candidate, baseline)
         self.assertEqual(workflow.check()['workflow_dispatches'], 0)
 

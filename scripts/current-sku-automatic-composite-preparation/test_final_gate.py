@@ -5,6 +5,7 @@ from types import FunctionType
 import ast
 import importlib.util
 import unittest
+from unittest.mock import patch
 
 HERE = Path(__file__).resolve().parent
 spec = importlib.util.spec_from_file_location('automatic_gate_control_subject', HERE / 'final_gate.py')
@@ -200,8 +201,9 @@ class Native25GateProtocol(unittest.TestCase):
         class NoInspection:
             def __getattribute__(self, name):
                 raise AssertionError('Closed Root gate inspected an Original path')
-        with self.assertRaisesRegex(ValueError, 'FULL_NATIVE_LIFECYCLE_PENDING'):
-            subject.gate(NoInspection(), NoInspection())
+        with patch.object(subject.admission, 'MANDOR_ROOT_PIN', None):
+            with self.assertRaisesRegex(ValueError, 'FULL_NATIVE_LIFECYCLE_PENDING'):
+                subject.gate(NoInspection(), NoInspection())
 
 
 if __name__ == '__main__':

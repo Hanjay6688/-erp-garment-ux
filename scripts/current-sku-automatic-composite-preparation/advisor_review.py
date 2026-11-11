@@ -11,15 +11,18 @@ import json
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
-ROLES = ('anon', 'authenticated', 'service_role', 'cp7_alert', 'cp7_finance_read')
+READER_ROLE = 'cp7_fg_read'
+ROLES = ('anon', 'authenticated', 'service_role', 'cp7_alert', 'cp7_finance_read', READER_ROLE)
 PRIVILEGES = ('SELECT', 'INSERT', 'UPDATE', 'DELETE', 'TRUNCATE', 'REFERENCES', 'TRIGGER')
 SCHEMA = 'cp7_sku_conversion'
+READER_SOURCE = 'scripts/cp7_sku_moving_average/reader_access.py'
+READER_PIN = dict(bytes=972, sha256='b93e519817a6031761bc9c9b2544c278aed9ca9b130258860380853be83babe1')
 PARENT = 'scripts/current-mandor-shop-native-qualification/advisor_review.py'
 PARENT_ROOT = HERE / 'MANDOR17_PARENT_ROOT_ACTUAL_INTAKE.json'
 
 # One read-only statement captures all tables, all raw nonowner ACLs (including
-# roles outside the five public-facing probes), full policies and effective
-# public-facing privileges. The owning package separately retains all22 roles,
+# roles outside the effective probes), full policies and effective privileges.
+# The owning package separately retains all22 roles,
 # memberships, default privileges and the complete actual catalogue.
 CAPTURE_SQL = r"""
 with wanted as(select unnest(%s::text[])qualified), probes as(select unnest(%s::text[])role_name)
@@ -28,8 +31,9 @@ select w.qualified,jsonb_build_object(
  'rls',c.relrowsecurity,'force_rls',c.relforcerowsecurity,
  'schema_owner',pg_get_userbyid(n.nspowner),
  'nonowner_schema_acl',coalesce((select jsonb_agg(jsonb_build_array(
-  case a.grantee when 0 then 'PUBLIC'else pg_get_userbyid(a.grantee)end,a.privilege_type,a.is_grantable)
-  order by a.grantee,a.privilege_type,a.is_grantable)
+  case a.grantee when 0 then 'PUBLIC'else pg_get_userbyid(a.grantee)end,
+  pg_get_userbyid(a.grantor),a.privilege_type,a.is_grantable)
+  order by a.grantee,a.grantor,a.privilege_type,a.is_grantable)
   from aclexplode(coalesce(n.nspacl,acldefault('n',n.nspowner)))a where a.grantee<>n.nspowner),'[]'),
  'nonowner_table_acl',coalesce((select jsonb_agg(jsonb_build_array(
   case a.grantee when 0 then 'PUBLIC'else pg_get_userbyid(a.grantee)end,a.privilege_type,a.is_grantable)
@@ -67,10 +71,24 @@ assembly = load('automatic_authority_exact_source_assembly', HERE / 'assembly.py
 def source():
     reference = assembly.prepared_sources()[0]
     tree = reference['automatic_source']['tree']
+    money_head = reference['unchanged_money_product']['public_head']
+    raw_reader = assembly.git('show', money_head + ':' + READER_SOURCE)
+    assembly.require(assembly.admission.pin(raw_reader) == READER_PIN,
+                     'SKU_ADVISOR_EXACT_MOVING_READER_SOURCE_REQUIRED')
+    reader = {}
+    exec(compile(raw_reader, READER_SOURCE, 'exec', dont_inherit=True), reader)
+    schema_acl = [[READER_ROLE, 'postgres', 'USAGE', False]]
+    owner_acl = [['postgres', 'postgres', 'CREATE', False], ['postgres', 'postgres', 'USAGE', False]]
+    assembly.require(reader['ROLE'] == READER_ROLE and reader['SCHEMA'] == SCHEMA
+                     and reader['ORIGINAL_SCHEMA'] == ['postgres', owner_acl]
+                     and reader['EXPECTED_SCHEMA'] == ['postgres', schema_acl + owner_acl],
+                     'SKU_ADVISOR_EXACT_MOVING_READER_SCHEMA_AUTHORITY_REQUIRED')
     tables, eligible, profiles = {}, [], {}
-    for name, count in (('cp7_sku_moving_average', 12), ('cp7_sku_cost_components', 9), ('cp7_sku_automatic_pending', 2)):
+    for name, count, source_ref in (('cp7_sku_moving_average', 12, money_head),
+                                    ('cp7_sku_cost_components', 9, money_head),
+                                    ('cp7_sku_automatic_pending', 2, tree)):
         path = 'scripts/' + name + '/CATALOG_ADDITIONS.json'
-        raw = assembly.git('show', tree + ':' + path)
+        raw = assembly.git('show', source_ref + ':' + path)
         profile = json.loads(raw)
         profiles[name] = assembly.admission.pin(raw)
         additions = {key: row for key, row in profile['groups']['relations'].items() if row[1] in ('r', 'p')}
@@ -87,27 +105,38 @@ def source():
             if not policies:
                 eligible.append(qualified)
             tables[qualified] = dict(object=qualified.split('.'), owner='postgres', rls=True, force_rls=False,
-                                    schema_owner='postgres', nonowner_schema_acl=[], nonowner_table_acl=[], nonowner_column_acl=[],
-                                    policies=policies, schema_usage={role: False for role in ROLES},
+                                    schema_owner='postgres', nonowner_schema_acl=schema_acl,
+                                    nonowner_table_acl=[], nonowner_column_acl=[],
+                                    policies=policies, schema_usage={role: role == READER_ROLE for role in ROLES},
                                     table_privileges={role: {priv: False for priv in PRIVILEGES} for role in ROLES})
     assembly.require(len(tables) == 23 and len(eligible) == 11, 'SKU_ADVISOR_EXACT_TWENTY_THREE_TABLES_ELEVEN_INFOS')
     return dict(tables=tables, eligible=sorted(eligible), exact_profiles=profiles,
+                moving_reader_source=dict(head=money_head, **READER_PIN),
                 classification='SOURCE_AUTHORITY_EXPECTATIONS_NOT_LIVE_PROOF', actual_ERP_cases=0, production_go=False)
 
 
 def compose(parent, expected):
     """Private reviewer construction; the owning entry admits the frozen parent."""
+    authority_error = 'SKU_ADVISOR_EXACT_PRIVATE_LIVE_AUTHORITY_REQUIRED'
+    expected_tables = expected['tables']
+
     def require_closed(proof):
         assembly.require(type(proof) is dict and set(proof) == {'parent', 'SKU'}, 'SKU_ADVISOR_COMPLETE_PARENT_AND_CHILD_PROOF')
         parent.require_closed(proof['parent'])
-        assembly.require(json.dumps(proof['SKU'], sort_keys=True, allow_nan=False)
-                         == json.dumps(expected['tables'], sort_keys=True, allow_nan=False),
-                         'SKU_ADVISOR_EXACT_PRIVATE_LIVE_AUTHORITY_REQUIRED')
+        actual = proof['SKU']
+        assembly.require(type(actual) is dict and actual.keys() == expected_tables.keys(), authority_error + ':table_set')
+        for name, wanted in expected_tables.items():
+            row = actual[name]
+            assembly.require(type(row) is dict and row.keys() == wanted.keys(), authority_error + ':' + name + ':fields')
+            changed = [field for field, value in wanted.items()
+                       if json.dumps(row[field], sort_keys=True, allow_nan=False)
+                       != json.dumps(value, sort_keys=True, allow_nan=False)]
+            assembly.require(not changed, authority_error + ':' + name + ':' + ','.join(changed))
         return proof
 
     def capture(cur):
         inherited = parent.capture(cur)
-        rows = cur.execute(CAPTURE_SQL, (sorted(expected['tables']), list(ROLES))).fetchall()
+        rows = cur.execute(CAPTURE_SQL, (sorted(expected_tables), list(ROLES))).fetchall()
         assembly.require(len(rows) == 23 and len(dict(rows)) == 23, 'SKU_ADVISOR_COMPLETE_LIVE_AUTHORITY_ROWS_REQUIRED')
         return require_closed(dict(parent=inherited, SKU=dict(rows)))
 

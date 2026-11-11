@@ -8,6 +8,7 @@ from decimal import Decimal
 from types import CodeType, MappingProxyType, ModuleType, SimpleNamespace
 from uuid import UUID
 import json
+from json.encoder import encode_basestring
 import math
 
 HERE = Path(__file__).resolve().parent
@@ -73,6 +74,8 @@ def state_digest(value):
     digest = sha256()
     encoder = json.JSONEncoder(ensure_ascii=False, separators=(',', ':'), allow_nan=False)
     pending = bytearray()
+    strings = {}
+    string_bytes = 0
 
     def emit(raw):
         pending.extend(raw)
@@ -83,30 +86,48 @@ def state_digest(value):
     def encoded(item):
         return encoder.encode(state_value(item)).encode()
 
+    def scalar(item):
+        nonlocal string_bytes
+        kind = type(item)
+        if kind is str:
+            raw = strings.get(item)
+            if raw is None:
+                raw = b'["str",' + encode_basestring(item).encode() + b']'
+                # Catalogue copies repeat identifiers and function bodies.
+                # Cache only immutable text, with both count and byte limits.
+                if len(strings) < 8192 and string_bytes + len(raw) <= 24 * 1024 * 1024:
+                    strings[item] = raw
+                    string_bytes += len(raw)
+            return raw
+        if item is None:
+            return b'["null"]'
+        if kind is bool:
+            return b'["bool",true]' if item else b'["bool",false]'
+        if kind is int:
+            return b'["int","' + str(item).encode('ascii') + b'"]'
+        return encoded(item)
+
     containers = (dict, MappingProxyType, list, tuple, set, frozenset)
 
     def write(item):
         kind = type(item)
         if kind in (dict, MappingProxyType):
             emit(b'["' + kind.__name__.encode() + b'",[')
-            keys = [(encoded(key), key) for key in item]
+            keys = [(scalar(key), key) for key in item]
             keys.sort(key=lambda row: row[0])
             for index, (raw_key, key) in enumerate(keys):
-                if index:
-                    emit(b',')
-                emit(b'[')
-                emit(raw_key)
-                emit(b',')
+                emit((b',[' if index else b'[') + raw_key + b',')
                 write(item[key])
                 emit(b']')
             emit(b']]')
         elif kind in (list, tuple):
             # Catalogue rows are short scalar lists. Encode those in one
             # pass while keeping the enclosing catalogue streaming.
+            prefix = b'["' + kind.__name__.encode() + b'",['
             if len(item) <= 64 and all(type(member) not in containers for member in item):
-                emit(encoded(item))
+                emit(prefix + b','.join(map(scalar, item)) + b']]')
                 return
-            emit(b'["' + kind.__name__.encode() + b'",[')
+            emit(prefix)
             for index, member in enumerate(item):
                 if index:
                     emit(b',')
@@ -114,10 +135,10 @@ def state_digest(value):
             emit(b']]')
         elif kind in (set, frozenset):
             emit(b'["' + kind.__name__.encode() + b'",[')
-            emit(b','.join(sorted(encoded(member) for member in item)))
+            emit(b','.join(sorted(scalar(member) for member in item)))
             emit(b']]')
         else:
-            emit(encoded(item))
+            emit(scalar(item))
 
     # Stream the same canonical typed bytes without materializing a second
     # tree for the entire chain of predecessor catalogues.
