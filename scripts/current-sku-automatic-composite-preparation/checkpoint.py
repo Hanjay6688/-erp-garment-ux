@@ -156,6 +156,8 @@ def main():
     args = parser.parse_args()
     result = source_checkpoint(args.source, os.environ)
     pin = immutable_json(args.output, result)
+    from runtime_receipt import from_environment
+    from_environment().prepare()
     print(json.dumps(dict(status='DIAGNOSTIC_CHECKPOINT_WRITTEN', receipt=pin,
                           actual_case_credit=0, restoration_verified=False)), flush=True)
 

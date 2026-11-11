@@ -543,7 +543,12 @@ jobs:
         '
     - name: Write diagnostic source checkpoint before Native25
       working-directory: auditor
-      run: 'python -B scripts/current-sku-automatic-composite-preparation/checkpoint.py
+      run: 'set -euo pipefail
+
+        python -B -m unittest discover -s scripts/current-sku-automatic-composite-preparation/
+        -p test_runtime_receipt.py
+
+        python -B scripts/current-sku-automatic-composite-preparation/checkpoint.py
         --source . --output "$RUNNER_TEMP/cp7-source-checkpoint/CP7_DIAGNOSTIC_CHECKPOINT.json"
 
         '

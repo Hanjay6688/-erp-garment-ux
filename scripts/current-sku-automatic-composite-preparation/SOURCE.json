@@ -3,8 +3,8 @@
   "Native_lifecycle_case_plan_prepared_not_admitted": true,
   "active_workflow_added": true,
   "active_workflow_source": {
-    "bytes": 35683,
-    "sha256": "6224946f5b183f673e7a3160ddb632a18e7be083af0e6bf2b103d6c3d2ebe84c"
+    "bytes": 35841,
+    "sha256": "bef6bfd6b65912c3c974ad13d324002b4acbc3b642aefad26f308e4aa890939a"
   },
   "actual_Auth_HTTP_cases": 0,
   "actual_ERP_cases": 0,
@@ -261,8 +261,8 @@
       "sha256": "ba8ed36a20010b2e55d3b12f678f7753c25e28f06782435b5cfa4bbb899f5c32"
     },
     "checkpoint.py": {
-      "bytes": 6466,
-      "sha256": "53149020d4b28367703af4d21ad6443aa224b0151c97df27a4e84b54aaaa53c1"
+      "bytes": 6548,
+      "sha256": "6b2cdee333e6239233ce8a3b265d8ea502c17267794a04b4b149dfa299cd329e"
     },
     "component.py": {
       "bytes": 5975,
@@ -289,8 +289,8 @@
       "sha256": "a2014f8d7abf5b1e4cd7847862af2a4207cf660ef993cef2f7baa942822c57cc"
     },
     "execution.py": {
-      "bytes": 14154,
-      "sha256": "2092e0e8e3f6c2dd1c49b81b2d58d311cfd60c35eff838e5f6d00b31cf7aaf32"
+      "bytes": 14854,
+      "sha256": "a405a3acff12fb85813f5950c497adc6b6c31c3f441b48036a5fc36d4039fd46"
     },
     "final_gate.py": {
       "bytes": 9911,
@@ -345,8 +345,8 @@
       "sha256": "5016e69666b3a0eb75f123ca693107156fcf977f6b4654e45cd585dfcf97a9a9"
     },
     "sku-current-parent-money-automatic-native25-83.workflow.yml.txt": {
-      "bytes": 35683,
-      "sha256": "6224946f5b183f673e7a3160ddb632a18e7be083af0e6bf2b103d6c3d2ebe84c"
+      "bytes": 35841,
+      "sha256": "bef6bfd6b65912c3c974ad13d324002b4acbc3b642aefad26f308e4aa890939a"
     },
     "sku-current-parent-money-automatic-native25.workflow.yml.txt": {
       "bytes": 34009,
@@ -449,12 +449,20 @@
       "sha256": "02aa262de0884a89e97c517103f8e7333ffacde1ce66f8edc575ed627bc60a4f"
     },
     "workflow.py": {
-      "bytes": 11392,
-      "sha256": "c8b33243a9a3ad5e0e91226a3fc3fab96f7e03b6150b0ba3b276500b43d1b5f8"
+      "bytes": 11524,
+      "sha256": "4e47db918ad4d055112f4d6c96375fdba19b39b7b5d74f589a6bc0bfa050a0f4"
     },
     "moving_diagnostics.py": {
       "bytes": 3205,
       "sha256": "2ba7d677437dd4d7d8622582e53c1f17e7a3aa9aa047eb9a871ccaf79f6cf9b3"
+    },
+    "runtime_receipt.py": {
+      "bytes": 5116,
+      "sha256": "bfa59da47be189491edc3d599ca075a4ac10af40c44fc0d17c5a4ef01d72bfb0"
+    },
+    "test_runtime_receipt.py": {
+      "bytes": 9337,
+      "sha256": "810f8ab32bf05131b1d28220c9c9ec7f58e122b1529f5cc0303ed636cdb28f49"
     }
   },
   "fresh_Auth_HTTP_races_browser_and_full_runtime_pending": true,

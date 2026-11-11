@@ -118,7 +118,9 @@ def derive(raw=None):
     checkpoint_steps = [
         dict(name='Write diagnostic source checkpoint before Native25',
              **{'working-directory': 'auditor'},
-             run='python -B ' + NS + 'checkpoint.py --source . '
+             run='set -euo pipefail\n'
+                 'python -B -m unittest discover -s ' + NS + ' -p test_runtime_receipt.py\n'
+                 'python -B ' + NS + 'checkpoint.py --source . '
                  '--output "$RUNNER_TEMP/cp7-source-checkpoint/CP7_DIAGNOSTIC_CHECKPOINT.json"\n'),
         {'name': 'Persist diagnostic checkpoint before long runtime',
          'uses': 'actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02',

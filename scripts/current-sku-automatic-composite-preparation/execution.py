@@ -16,6 +16,7 @@ import sys
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
 PRIOR = ROOT / 'scripts/current-sku-money-composite-preparation'
+SUPERVISION_REPORT = 'SKU_CURRENT_PARENT_MONEY_AUTOMATIC_RUNTIME_SUPERVISION.json'
 PINS = {
     'candidate': (5405, 'ca6829e41a08c20ac8f53148a2e163050a4bfe7e1ca3277b73d9a892a83b63a6'),
     'materialize': (2132, '388e3fd0d6bac6953ac6f9c0e69f441b834533d7a520b690eebb03186aec9554'),
@@ -213,18 +214,39 @@ def arguments(values):
         sys.argv = original
 
 
+def supervise(allow_database_stop):
+    receipts = load('automatic_execution_runtime_receipt', HERE / 'runtime_receipt.py').from_environment()
+    if allow_database_stop:
+        receipts.authorize_stop()
+        return 0
+    module, _ = helper('supervisor', admitted=True)
+    receipts.claim_worker()
+    with arguments([]):
+        code = module.main()
+    try:
+        receipts.finish(ROOT / 'cp6-proof/t3' / SUPERVISION_REPORT)
+    except (OSError, ValueError) as error:
+        if code == 0:
+            raise
+        # Keep the original nonzero status and refuse cleanup without proof.
+        try:
+            print('CP7_RUNTIME_TERMINAL_RECEIPT_UNAVAILABLE:' + type(error).__name__, file=sys.stderr, flush=True)
+        except OSError:
+            pass
+    return code
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('command', choices=('materialize', 'fetch', 'check-money-source', 'prepare', 'retain', 'receipts', 'supervise'))
     parser.add_argument('--allow-database-stop', action='store_true')
     args = parser.parse_args()
     require(not args.allow_database_stop or args.command == 'supervise', 'AUTOMATIC_FIXED_CLEANUP_COMMAND_REQUIRED')
-    financial = args.command in ('materialize', 'fetch', 'check-money-source', 'prepare') or (args.command == 'supervise' and not args.allow_database_stop)
-    kind = {'check-money-source': 'candidate', 'prepare': 'artifacts', 'retain': 'artifacts', 'supervise': 'supervisor'}.get(args.command, args.command)
-    module, _ = helper(kind, admitted=financial)
     if args.command == 'supervise':
-        with arguments(['--allow-database-stop'] if args.allow_database_stop else []):
-            return module.main()
+        return supervise(args.allow_database_stop)
+    financial = args.command in ('materialize', 'fetch', 'check-money-source', 'prepare')
+    kind = {'check-money-source': 'candidate', 'prepare': 'artifacts', 'retain': 'artifacts'}.get(args.command, args.command)
+    module, _ = helper(kind, admitted=financial)
     if args.command == 'fetch':
         parent_raw, *_ = runtime.actual_inputs()
         if json.loads(parent_raw).get('status') == runtime.money_binding.cumulative_parent.STATUS:
