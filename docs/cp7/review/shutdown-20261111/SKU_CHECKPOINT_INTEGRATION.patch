@@ -1,0 +1,1294 @@
+--- a/.github/workflows/cp7-sku-current-parent-money-automatic-native25.yml
++++ b/.github/workflows/cp7-sku-current-parent-money-automatic-native25.yml
+@@ -541,6 +541,20 @@
+         "$GITHUB_WORKSPACE"
+ 
+         '
++    - name: Write diagnostic source checkpoint before Native25
++      working-directory: auditor
++      run: 'python -B scripts/current-sku-automatic-composite-preparation/checkpoint.py
++        --source . --output "$RUNNER_TEMP/cp7-source-checkpoint/CP7_DIAGNOSTIC_CHECKPOINT.json"
++
++        '
++    - name: Persist diagnostic checkpoint before long runtime
++      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
++      with:
++        name: cp7-sku-admission-checkpoint-${{ github.run_id }}-${{ github.run_attempt
++          }}
++        path: ${{ runner.temp }}/cp7-source-checkpoint/CP7_DIAGNOSTIC_CHECKPOINT.json
++        retention-days: 30
++        if-no-files-found: error
+     - name: Start disposable database
+       working-directory: base
+       shell: bash
+--- a/scripts/current-sku-automatic-composite-preparation/SOURCE.json
++++ b/scripts/current-sku-automatic-composite-preparation/SOURCE.json
+@@ -3,8 +3,8 @@
+   "Native_lifecycle_case_plan_prepared_not_admitted": true,
+   "active_workflow_added": true,
+   "active_workflow_source": {
+-    "bytes": 34995,
+-    "sha256": "5016e69666b3a0eb75f123ca693107156fcf977f6b4654e45cd585dfcf97a9a9"
++    "bytes": 35683,
++    "sha256": "6224946f5b183f673e7a3160ddb632a18e7be083af0e6bf2b103d6c3d2ebe84c"
+   },
+   "actual_Auth_HTTP_cases": 0,
+   "actual_ERP_cases": 0,
+@@ -260,6 +260,10 @@
+       "bytes": 16761,
+       "sha256": "ba8ed36a20010b2e55d3b12f678f7753c25e28f06782435b5cfa4bbb899f5c32"
+     },
++    "checkpoint.py": {
++      "bytes": 6163,
++      "sha256": "eaa6d0be747c09d0b3587b0879324818a958e42664b4296a9f3631960957895c"
++    },
+     "component.py": {
+       "bytes": 5975,
+       "sha256": "6d9b3509c3f72ba3972befc4eb848935ee3a1bc65b8b434029194fc90d384b87"
+@@ -321,16 +325,16 @@
+       "sha256": "16022261c9accf67f2251217c15c004bbeb565a417ff8669c91c1bf1bc4f7c7d"
+     },
+     "package.py": {
+-      "bytes": 10587,
+-      "sha256": "2ddec2f38d54aac7919b349c20e1656a1bf252e71f411bbd3bc7ed8d213c8fba"
++      "bytes": 10854,
++      "sha256": "0f6aadf3a3f56a33db4999730fc545f6b786d1d84c5aacd7bf72a18eda892c95"
+     },
+     "prepare_native_sql.py": {
+       "bytes": 4284,
+       "sha256": "5535ce276253d5ce6f10157cc825e75499ef2e2cf6b225dac3213317e6cb1966"
+     },
+     "qualification.py": {
+-      "bytes": 13482,
+-      "sha256": "ca3bd2b86356a9af2c4885795ddfa02cb17e7054d9484bec2b5d4752fc786adc"
++      "bytes": 13627,
++      "sha256": "45cf9612ee9ca0c41dde185c58c88942a550e59b1ab741c48d16308216c1fb16"
+     },
+     "report_io.py": {
+       "bytes": 6464,
+@@ -340,6 +344,10 @@
+       "bytes": 34995,
+       "sha256": "5016e69666b3a0eb75f123ca693107156fcf977f6b4654e45cd585dfcf97a9a9"
+     },
++    "sku-current-parent-money-automatic-native25-83.workflow.yml.txt": {
++      "bytes": 35683,
++      "sha256": "6224946f5b183f673e7a3160ddb632a18e7be083af0e6bf2b103d6c3d2ebe84c"
++    },
+     "sku-current-parent-money-automatic-native25.workflow.yml.txt": {
+       "bytes": 34009,
+       "sha256": "b00256f4ed5a8471c261f482f0339a9ed77e32ee11daac6d7f53878f340a6497"
+@@ -388,6 +396,10 @@
+       "bytes": 11150,
+       "sha256": "9156f5896531c437a1fc054c1a45ad566bcfd29b7017991b2fd49cf33e472c03"
+     },
++    "test_checkpoint.py": {
++      "bytes": 6193,
++      "sha256": "a961a7f7ccd0a75a0c0b4545827a413ef7dd889612b88dd95dd4d970b3e5a52e"
++    },
+     "test_cumulative_runtime.py": {
+       "bytes": 5556,
+       "sha256": "c009bd4d8066ca0b20dd20da7132c1707e3ea97c4ccb12f19d1df9eb6c87b377"
+@@ -401,8 +413,8 @@
+       "sha256": "f6094ccb178b704346c95195928ca1019406d5466599230669e972d287958555"
+     },
+     "test_execution.py": {
+-      "bytes": 16418,
+-      "sha256": "f6222463a564cb4000871ab9c1bd54047906088bccf746f94005376933ed562f"
++      "bytes": 16549,
++      "sha256": "259fb66d236ba71afcbd4bf7e6dd63daaf882386a2f4d5a29d0db77e25001d55"
+     },
+     "test_final_gate.py": {
+       "bytes": 14773,
+@@ -421,8 +433,8 @@
+       "sha256": "a81b36fb904e651e53bb1db86218ecec71cef660d11ca8a7cb5b38d82acbc86a"
+     },
+     "test_qualification.py": {
+-      "bytes": 23949,
+-      "sha256": "f1e8d67e32b6699f6c7f192ca4cd096a8285a7949842f4c3440aa31072b60c1a"
++      "bytes": 24449,
++      "sha256": "ed6dbfa2cf8327ef44b273abda436b3172b77cb52ec8bc94cf2081f94e80074c"
+     },
+     "test_report_io.py": {
+       "bytes": 8096,
+@@ -437,8 +449,8 @@
+       "sha256": "02aa262de0884a89e97c517103f8e7333ffacde1ce66f8edc575ed627bc60a4f"
+     },
+     "workflow.py": {
+-      "bytes": 9982,
+-      "sha256": "152b624fd207052a080f44340a9ec352f2aad4781703ae2bcc3e95c036b3d138"
++      "bytes": 11392,
++      "sha256": "c8b33243a9a3ad5e0e91226a3fc3fab96f7e03b6150b0ba3b276500b43d1b5f8"
+     }
+   },
+   "fresh_Auth_HTTP_races_browser_and_full_runtime_pending": true,
+@@ -1615,7 +1627,7 @@
+   "private_authority_reviewer_prepared": true,
+   "production_go": false,
+   "real_browser_copy_runtime_prepared": true,
+-  "reviewable_workflow_steps": 81,
++  "reviewable_workflow_steps": 83,
+   "scoped_inherited_bare_modules": 15,
+   "selective_B_UI": {
+     "HPP_conditional_text_changes_applied": false,
+--- /dev/null
++++ b/scripts/current-sku-automatic-composite-preparation/checkpoint.py
+@@ -0,0 +1,157 @@
++"""Diagnostic-only snapshots. Never grants case, recovery or acceptance credit."""
++from contextlib import contextmanager
++from datetime import datetime, timezone
++from hashlib import sha256
++from pathlib import Path
++import argparse
++import json
++import os
++import re
++import subprocess
++import tempfile
++
++RECEIPTS = (
++    'SKU_CURRENT_PARENT_MONEY_AUTOMATIC_PREREQUISITE_FILES.json',
++    'SKU_CURRENT_PARENT_MONEY_AUTOMATIC_BROWSER_PREREQUISITES.json',
++    'SKU_CURRENT_MANDOR17_ORIGINAL_ADMISSION.json',
++)
++SENSITIVE_KEYS = {'password', 'secret', 'apikey', 'api_key', 'access_token',
++                  'refresh_token', 'service_role_key', 'dsn', 'pgurl'}
++
++
++def safe_receipt(value):
++    if isinstance(value, dict):
++        require(not (set(key.lower() for key in value) & SENSITIVE_KEYS), 'SENSITIVE_RECEIPT_REFUSED')
++        for item in value.values():
++            safe_receipt(item)
++    elif isinstance(value, list):
++        for item in value:
++            safe_receipt(item)
++    elif isinstance(value, str):
++        require(not re.search(r'://[^/\s]+:[^@\s]+@', value), 'CREDENTIAL_URL_REFUSED')
++
++
++def admission_receipts(root):
++    result = {}
++    for name in RECEIPTS:
++        path = root / 'cp6-proof' / 't3' / name
++        require(not any(p.is_symlink() for p in (path, *path.parents)), 'RECEIPT_SYMLINK_REFUSED')
++        require(path.is_file() and path.stat().st_size <= 2 * 1024 * 1024, 'BOUNDED_ADMISSION_RECEIPT_REQUIRED:' + name)
++        raw = path.read_bytes()
++        value = json.loads(raw)
++        require(isinstance(value, dict), 'OBJECT_RECEIPT_REQUIRED')
++        safe_receipt(value)
++        result[name] = dict(bytes=len(raw), sha256=sha256(raw).hexdigest(),
++                            original_utf8=raw.decode('utf-8'))
++    return result
++
++
++def require(value, message):
++    if not value:
++        raise ValueError(message)
++
++
++def identity(env):
++    result = {key: env.get(key, '') for key in
++              ('GITHUB_REPOSITORY', 'GITHUB_SHA', 'GITHUB_RUN_ID', 'GITHUB_RUN_ATTEMPT')}
++    require(result['GITHUB_REPOSITORY'] == 'Hanjay6688/-erp-garment-ux', 'WRONG_REPOSITORY')
++    require(re.fullmatch(r'[0-9a-f]{40}', result['GITHUB_SHA']), 'FULL_CANDIDATE_SHA_REQUIRED')
++    for key in ('GITHUB_RUN_ID', 'GITHUB_RUN_ATTEMPT'):
++        require(re.fullmatch(r'[1-9][0-9]*', result[key]), 'POSITIVE_RUN_IDENTITY_REQUIRED')
++    return result
++
++
++def git(root, *args):
++    return subprocess.check_output(['git', '-C', str(root), *args],
++                                   env=dict(os.environ, GIT_NO_LAZY_FETCH='1'),
++                                   stderr=subprocess.PIPE, timeout=30).decode().strip()
++
++
++def source_checkpoint(root, env):
++    """Observe source identity only; prior admission still owns all assertions."""
++    root = Path(root).absolute()
++    require(not any(p.is_symlink() for p in (root, *root.parents)), 'SOURCE_SYMLINK_REFUSED')
++    ident = identity(env)
++    head = git(root, 'rev-parse', 'HEAD')
++    require(head == ident['GITHUB_SHA'], 'CANDIDATE_HEAD_MISMATCH')
++    require(not git(root, 'status', '--porcelain', '--untracked-files=no'), 'TRACKED_SOURCE_DIRTY')
++    return dict(schema='CP7_DIAGNOSTIC_CHECKPOINT_V1', identity=ident,
++                checkpoint='BEFORE_DISPOSABLE_DATABASE', source_head=head,
++                source_tree=git(root, 'rev-parse', 'HEAD^{tree}'),
++                admission_receipts=admission_receipts(root),
++                observed_at_utc=datetime.now(timezone.utc).isoformat(),
++                status='DIAGNOSTIC_ONLY', actual_case_credit=0,
++                restoration_verified=False, independent_acceptance=False,
++                production_go=False)
++
++
++def immutable_json(path, value):
++    """Fsync then atomically link without replacing any existing receipt."""
++    path = Path(path).absolute()
++    require(not any(p.is_symlink() for p in (path, *path.parents)), 'OUTPUT_SYMLINK_REFUSED')
++    path.parent.mkdir(parents=True, exist_ok=True)
++    data = (json.dumps(value, sort_keys=True, indent=2) + '\n').encode()
++    fd, temporary = tempfile.mkstemp(prefix='.checkpoint-', dir=path.parent)
++    try:
++        with os.fdopen(fd, 'wb') as target:
++            target.write(data)
++            target.flush()
++            os.fsync(target.fileno())
++        os.link(temporary, path)  # EEXIST preserves earlier receipts, including failed attempts.
++        parent = os.open(path.parent, os.O_RDONLY | os.O_DIRECTORY)
++        try:
++            os.fsync(parent)
++        finally:
++            os.close(parent)
++    finally:
++        os.unlink(temporary)
++    return dict(bytes=len(data), sha256=sha256(data).hexdigest())
++
++
++@contextmanager
++def observe_parent_phase(name):
++    """Record the real call in the job log without affecting its transaction."""
++    if os.environ.get('GITHUB_ACTIONS') != 'true':
++        yield
++        return
++    try:
++        ident = identity(os.environ)
++    except ValueError:
++        # The pre-database checkpoint validates identity. A diagnostic in the
++        # installer cannot replace a result or interrupt its recovery.
++        yield
++        return
++
++    def emit(state):
++        event = dict(event='SKU_PARENT_INSTALL_PHASE', phase=name, state=state,
++                     run=ident['GITHUB_RUN_ID'], attempt=ident['GITHUB_RUN_ATTEMPT'],
++                     head=ident['GITHUB_SHA'], actual_case_credit=0, restoration_verified=False)
++        try:
++            print(json.dumps(event, sort_keys=True), flush=True)
++        except OSError:
++            # A broken log stream cannot interrupt an installer or its recovery.
++            pass
++
++    emit('STARTED')
++    try:
++        yield
++    except BaseException:
++        emit('FAILED')
++        raise
++    else:
++        emit('COMPLETED')
++
++
++def main():
++    parser = argparse.ArgumentParser()
++    parser.add_argument('--source', type=Path, required=True)
++    parser.add_argument('--output', type=Path, required=True)
++    args = parser.parse_args()
++    result = source_checkpoint(args.source, os.environ)
++    pin = immutable_json(args.output, result)
++    print(json.dumps(dict(status='DIAGNOSTIC_CHECKPOINT_WRITTEN', receipt=pin,
++                          actual_case_credit=0, restoration_verified=False)), flush=True)
++
++
++if __name__ == '__main__':
++    main()
+--- a/scripts/current-sku-automatic-composite-preparation/package.py
++++ b/scripts/current-sku-automatic-composite-preparation/package.py
+@@ -1,4 +1,5 @@
+ """Complete owning engine with exact IO and actual Native25/browser2 counts."""
++from contextlib import nullcontext
+ from pathlib import Path
+ import importlib.util
+ from hashlib import sha256
+@@ -132,19 +133,23 @@
+     return load('automatic_exact_mandor_install_authority', path).install_qualified_parent
+ 
+ 
+-def bind_install_authority(product, install_afui, as_admin):
++def bind_install_authority(product, install_afui, as_admin, observe=nullcontext):
+     money = product.parent()
+     moving = money.parent()
+     mandor = moving.parent()
+ 
+     def install_parent(cur):
+         # Mandor's fixture admission needs maintenance identity at entry.
+-        afui_state = install_afui(cur)
+-        mandor_state = mandor.install_delta(cur, afui_state)
++        with observe('AFUI_PARENT_INSTALL'):
++            afui_state = install_afui(cur)
++        with observe('MANDOR_PARENT_DELTA'):
++            mandor_state = mandor.install_delta(cur, afui_state)
+ 
+         def install_sku_parents(admin):
+-            moving_state = moving.install_delta(admin, mandor_state)
+-            return money.install_delta(admin, moving_state)
++            with observe('SKU_MOVING_PARENT_DELTA'):
++                moving_state = moving.install_delta(admin, mandor_state)
++            with observe('SKU_MONEY_PARENT_DELTA'):
++                return money.install_delta(admin, moving_state)
+ 
+         return as_admin(cur, install_sku_parents)
+ 
+--- a/scripts/current-sku-automatic-composite-preparation/qualification.py
++++ b/scripts/current-sku-automatic-composite-preparation/qualification.py
+@@ -39,6 +39,7 @@
+ admission = assembly.admission
+ component = load('automatic_owning_native25_component', HERE / 'component.py')
+ package_source = load('automatic_owning_complete_package', HERE / 'package.py')
++checkpoint = load('automatic_owning_diagnostic_checkpoint', HERE / 'checkpoint.py')
+ report_io = load('automatic_owning_atomic_report_output', HERE / 'report_io.py')
+ modules = load('automatic_owning_inherited_module_selection', HERE / 'module_scope.py')
+ authority = load('automatic_owning_private_authority', HERE / 'advisor_review.py')
+@@ -138,7 +139,8 @@
+                 engine.__file__ = str(original)
+                 engine.__dict__[report_io.HELPER] = report_io.write_complete
+                 engine.__dict__.update(package_source.bind_install_authority(
+-                    product, inherited.install_qualified_parent, package_source.installer_authority(FROZEN_PARENT)))
++                    product, inherited.install_qualified_parent, package_source.installer_authority(FROZEN_PARENT),
++                    observe=checkpoint.observe_parent_phase))
+                 exec(compile(text, engine.__file__ + '::current-automatic-native25', 'exec', dont_inherit=True), engine.__dict__)
+                 engine.product = product
+                 case_output = complete_case_output()
+--- /dev/null
++++ b/scripts/current-sku-automatic-composite-preparation/sku-current-parent-money-automatic-native25-83.workflow.yml.txt
+@@ -0,0 +1,685 @@
++name: CP7 A current Mandor parent SKU money automatic Native25
++'on':
++  push:
++    branches:
++    - astra-a/sku-current-parent-money-automatic-native25-20261105
++    paths:
++    - .github/workflows/cp7-sku-current-parent-money-automatic-native25.yml
++    - scripts/current-sku-automatic-composite-preparation/**
++  workflow_dispatch: {}
++permissions:
++  contents: read
++  actions: read
++concurrency:
++  group: cp7-current-parent-money-automatic25-single-owning-qualification
++  cancel-in-progress: false
++jobs:
++  p21:
++    name: Actual Mandor parent, full money and automatic Native25; complete restoration
++    runs-on: ubuntu-24.04
++    timeout-minutes: 360
++    env:
++      PYTHONDONTWRITEBYTECODE: '1'
++      CURRENT_ANALOG_FROZEN_SOURCE_ROOT: ${{ github.workspace }}/frozen
++      CURRENT_FINANCE_FROZEN_SOURCE_ROOT: ${{ github.workspace }}/finance-frozen
++      PGURL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
++      CP6_AC_INDEPENDENT_CONFIRM: postgres
++      CP6_AF_INDEPENDENT_CONFIRM: postgres
++      CP6_AH_CONFIRM: postgres
++      CP6_AI_CONFIRM: postgres
++      CP6_AH_INDEPENDENT_CONFIRM: postgres
++      CP6_AI_INDEPENDENT_CONFIRM: postgres
++      CP6_AUDIT_HARNESS_HEAD: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
++      CP6_AF_HARNESS_HEAD: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
++      CP6_DATABASE_CONTAINER: supabase_db_cp5-local
++      CP6_MAINTENANCE_CONFIRM_DATABASE: cp6_rollback
++      CP6_AR_CONFIRM: cp6_rollback
++      CP6_AU_BROWSER_CONFIRM: cp6_rollback
++      CURRENT_MODEL_FROZEN_SOURCE_ROOT: ${{ github.workspace }}/model-frozen
++      CURRENT_TARGET_FROZEN_SOURCE_ROOT: ${{ github.workspace }}/target-frozen
++      CURRENT_HISTORY_FROZEN_SOURCE_ROOT: ${{ github.workspace }}/history-frozen
++      CURRENT_SCOPED_MODEL_FROZEN_SOURCE_ROOT: ${{ github.workspace }}/scoped-model-frozen
++      CURRENT_VERSIONED_TARGET_FROZEN_SOURCE_ROOT: ${{ github.workspace }}/versioned-target-frozen
++      B_PERFORMANCE_FROZEN_SOURCE_ROOT: ${{ github.workspace }}/B-performance-frozen
++      B_FROZEN_UNITS_SOURCE_ROOT: ${{ github.workspace }}/B-frozen-units-qualified
++      AUDITOR_UI_MODE: DISPOSABLE
++      D17_18_SELECTED_BACKEND_ROOT: ${{ github.workspace }}/qualified-sku090b
++      JOIN_CONFIRM: cp6_rollback
++      S05_SKU_CONFIRM: cp6_rollback
++      JOIN_QUALIFIED_SKU_ROOT: ${{ github.workspace }}/qualified-sku090b
++      PERMANENT_S05_CONFIRM: cp6_rollback
++      SKU_CURRENT_AUTOMATIC_CONFIRM: cp6_rollback
++    steps:
++    - name: Record actual Native25 job start before setup and admission
++      run: "python - <<'PY'\nimport os,time\nwith open(os.environ['GITHUB_ENV'],'a')\
++        \ as stream:\n    stream.write('SKU_CURRENT_AUTOMATIC_JOB_START_MONOTONIC='+str(time.monotonic())+'\\\
++        n')\nPY\n"
++    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
++      with:
++        path: auditor
++        fetch-depth: 0
++        persist-credentials: 'false'
++    - name: Materialize exact Mandor, money, Afui and automatic trees without fetch
++        or rewrite
++      working-directory: auditor
++      run: 'python -B scripts/current-sku-automatic-composite-preparation/execution.py
++        materialize
++
++        '
++    - name: Require genuine six-hour WIB window before Native25 setup
++      working-directory: auditor
++      run: 'python -B scripts/current-de-free-date-preparation/attempt_policy.py --require-window
++
++        '
++    - name: Select exact qualified prerequisite heads
++      id: qualified_heads
++      working-directory: auditor
++      run: "python - <<'PY'\nimport json,os\np=json.load(open('scripts/current-versioned-performance-native-qualification/SOURCE.json'))\n\
++        with open(os.environ['GITHUB_OUTPUT'],'a')as f:\n f.write('native='+p['frozen_declaration']['head']+'\\\
++        n')\n f.write('B='+p['B_frozen_head']+'\\n')\nPY\n"
++    - name: Materialize every exact frozen source from one full checkout
++      working-directory: auditor
++      env:
++        QUALIFIED_NATIVE_HEAD: ${{ steps.qualified_heads.outputs.native }}
++        QUALIFIED_B_HEAD: ${{ steps.qualified_heads.outputs.B }}
++      run: python scripts/current-finance-combined-composition/materialize_sources.py
++    - name: Materialize the exact physically qualified SKU backend before historical
++        admission
++      working-directory: auditor
++      run: python -B scripts/current-s03-sku-s05-composite-qualification/materialize_backend.py
++    - name: Materialize exact archived workflow proof inputs before source admission
++      working-directory: auditor
++      run: python scripts/current-workflow-history-isolation/materialize.py
++    - name: Materialize exact historical workflow proofs in the qualified backend
++        checkout
++      working-directory: qualified-sku090b
++      run: python scripts/current-workflow-history-isolation/materialize.py
++    - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
++      with:
++        python-version: '3.12'
++    - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
++      with:
++        node-version: 22.23.4
++    - name: Install pinned disposable runtime
++      shell: bash
++      run: "set -euo pipefail\npython -m pip install --quiet 'psycopg[binary]==3.2.10'\
++        \ 'PyYAML==6.0.2' 'jsonschema==4.25.1'\nsudo apt-get update -qq\nsudo apt-get\
++        \ install -y -qq ca-certificates curl gnupg\nsudo install -d /usr/share/postgresql-common/pgdg\n\
++        sudo curl --fail --no-progress-meter --show-error --retry 2 --retry-all-errors\
++        \ --retry-max-time 40 --connect-timeout 8 --max-time 15 --remove-on-error\
++        \ \\\n  -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc \\\n \
++        \ https://www.postgresql.org/media/keys/ACCC4CF8.asc\nkey_fingerprint=\"$(gpg\
++        \ --show-keys --with-colons \\\n  /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc\
++        \ \\\n  | awk -F: '$1 == \"fpr\" { print $10; exit }')\"\ntest \"$key_fingerprint\"\
++        \ = 'B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8'\n. /etc/os-release\narchitecture=\"\
++        $(dpkg --print-architecture)\"\nsudo tee /etc/apt/sources.list.d/pgdg.sources\
++        \ >/dev/null <<EOF\nTypes: deb\nURIs: https://apt.postgresql.org/pub/repos/apt\n\
++        Suites: ${VERSION_CODENAME}-pgdg\nArchitectures: ${architecture}\nComponents:\
++        \ main\nSigned-By: /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc\n\
++        EOF\nsudo apt-get update -qq\nsudo apt-get install -y -qq postgresql-client-17\n\
++        test -x /usr/lib/postgresql/17/bin/psql\necho '/usr/lib/postgresql/17/bin'\
++        \ >> \"$GITHUB_PATH\"\n"
++    - name: Preserve transient artifact download failures and retry only bounded GETs
++      working-directory: auditor
++      shell: bash
++      run: 'set -euo pipefail
++
++        python -m unittest discover -s scripts/current-finance-followups-qualification
++        -p ''test_artifact_gh.py''
++
++        artifact_gh_dir="$RUNNER_TEMP/d17-artifact-gh"
++
++        mkdir -p "$artifact_gh_dir" "$GITHUB_WORKSPACE/auditor/cp6-proof/t3/ARTIFACT_FETCH"
++
++        printf ''D17_REAL_GH=%s\n'' "$(command -v gh)" >> "$GITHUB_ENV"
++
++        printf ''D17_ARTIFACT_FETCH_RECEIPTS=%s\n'' "$GITHUB_WORKSPACE/auditor/cp6-proof/t3/ARTIFACT_FETCH"
++        >> "$GITHUB_ENV"
++
++        cp scripts/current-finance-followups-qualification/artifact_gh.py "$artifact_gh_dir/gh"
++
++        chmod 755 "$artifact_gh_dir/gh"
++
++        printf ''%s\n'' "$artifact_gh_dir" >> "$GITHUB_PATH"
++
++        '
++    - name: Require terminal exact Native21c Original and package before any database
++      working-directory: qualified-sku090b
++      env:
++        GH_TOKEN: ${{ github.token }}
++      run: python -B scripts/current-sku-combined-followup-qualification/fetch_prerequisite.py
++    - name: Fetch and verify immutable actual Native32 original before DB
++      env:
++        GH_TOKEN: ${{ github.token }}
++      shell: bash
++      run: "set -euo pipefail\n gh api repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12407224140/zip\
++        \ > \"$RUNNER_TEMP/accepted-native32.zip\"\n python - <<'PY'\nimport hashlib,os,zipfile\n\
++        from pathlib import Path\np=Path(os.environ['RUNNER_TEMP']);rawzip=(p/'accepted-native32.zip').read_bytes()\n\
++        assert len(rawzip)==2460112 and hashlib.sha256(rawzip).hexdigest()=='46db3ad31ef447a073a24630a7af5a87c667b545d797ef612b0a1b4598f2e100'\n\
++        with zipfile.ZipFile(p/'accepted-native32.zip')as z:\n names=[n for n in z.namelist()if\
++        \ Path(n).name=='CP7_OW04_CONSUMER_CLOSURE_NATIVE32.json'];assert len(names)==1;raw=z.read(names[0])\n\
++        assert len(raw)==8166263 and hashlib.sha256(raw).hexdigest()=='9a66b07743087e107e3d7d9298d9e517b786077f848cee79ffc326a8246c3a50'\n\
++        target=p/'ow04-native32-original.json';target.write_bytes(raw)\nwith open(os.environ['GITHUB_ENV'],'a')as\
++        \ f:f.write('OW04_NATIVE32_ORIGINAL_REPORT='+str(target)+'\\n')\nprint('ACTUAL_NATIVE32_ORIGINAL_BYTES_VERIFIED_NO_PRODUCT_EXECUTION')\n\
++        PY\n"
++    - name: Fetch and verify qualified actual Native28 original before DB
++      env:
++        GH_TOKEN: ${{ github.token }}
++      working-directory: qualified-sku090b
++      run: python scripts/ow05_native_original.py
++    - name: Fetch and verify qualified actual OW06 Native10 original before DB
++      env:
++        GH_TOKEN: ${{ github.token }}
++      working-directory: qualified-sku090b
++      run: python scripts/ow06_native_original.py
++    - name: Fetch and verify qualified actual OW08b kasbon Native4 original before
++        DB
++      env:
++        GH_TOKEN: ${{ github.token }}
++      working-directory: qualified-sku090b
++      run: python scripts/ow08b_kasbon_native_original.py
++    - name: Fetch and verify qualified actual OW08b fgqc Native9 original before DB
++      env:
++        GH_TOKEN: ${{ github.token }}
++      working-directory: qualified-sku090b
++      run: python scripts/ow08b_fgqc_native_original.py
++    - name: Fetch and verify qualified actual OW05b chain Native6 original before
++        DB
++      env:
++        GH_TOKEN: ${{ github.token }}
++      working-directory: qualified-sku090b
++      run: python scripts/cp7_ab_ow05b_original.py
++    - name: Fetch and verify qualified actual OW08a chain Native6 original before
++        DB
++      env:
++        GH_TOKEN: ${{ github.token }}
++      working-directory: qualified-sku090b
++      run: python scripts/ow08a_native_original.py
++    - name: Fetch and verify qualified actual OW12a chain Native7 original before
++        DB
++      env:
++        GH_TOKEN: ${{ github.token }}
++      working-directory: qualified-sku090b
++      run: python scripts/ow12a_native_original.py
++    - name: Fetch and verify qualified actual OW09 chain Native8 original before DB
++      env:
++        GH_TOKEN: ${{ github.token }}
++      working-directory: qualified-sku090b
++      run: python scripts/ow09_native_original.py
++    - name: Fetch and verify qualified actual OW07 chain Native7 original before DB
++      env:
++        GH_TOKEN: ${{ github.token }}
++      working-directory: qualified-sku090b
++      run: PYTHONDONTWRITEBYTECODE=1 python scripts/cp7_laundry_unknown_wash/ow07_original.py
++    - name: Fetch and verify qualified actual OW08b wash chain Native11 original before
++        DB
++      env:
++        GH_TOKEN: ${{ github.token }}
++      working-directory: qualified-sku090b
++      run: python scripts/ow08b_wash_native_original.py
++    - name: Fetch and verify qualified actual OW04b followups chain Native9+Race3
++        original before DB
++      env:
++        GH_TOKEN: ${{ github.token }}
++      working-directory: qualified-sku090b
++      run: python scripts/ow04b_followups_native_original.py
++    - name: Fetch and verify qualified actual OW04b slice A chain Native6+Race2 original
++        before DB
++      env:
++        GH_TOKEN: ${{ github.token }}
++      working-directory: qualified-sku090b
++      run: python scripts/ow04ba_native_original.py
++    - name: Fetch and verify qualified actual OW04b slice B chain Native6+Race1 original
++        before DB
++      env:
++        GH_TOKEN: ${{ github.token }}
++      working-directory: qualified-sku090b
++      run: python scripts/ow04bb_native_original.py
++    - name: Fetch and verify qualified actual OW04b slice C chain Native7+Race1 original
++        before DB
++      env:
++        GH_TOKEN: ${{ github.token }}
++      working-directory: qualified-sku090b
++      run: python scripts/ow04bc_native_original.py
++    - name: Verify actual draft return counterexample before DB
++      working-directory: qualified-sku090b
++      env:
++        GH_TOKEN: ${{ github.token }}
++      run: "set -euo pipefail\npython - <<'PYCODE'\nimport hashlib,io,json,os,subprocess,zipfile\n\
++        from pathlib import Path\nraw=subprocess.check_output(['gh','api','repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12554390190/zip'])\n\
++        assert len(raw)==1943043 and hashlib.sha256(raw).hexdigest()=='bfa2b2384ea5628c63822eb2d43b981c1b4a11d30802e5496ddbd5f504a59896'\n\
++        with zipfile.ZipFile(io.BytesIO(raw))as z:\n names=[n for n in z.namelist()if\
++        \ n=='CP7_CURRENT_CP6_CONTRACT_NATIVE6.json']\n assert len(names)==1\n original=z.read(names[0])\n\
++        assert len(original)==2741967 and hashlib.sha256(original).hexdigest()=='25be83a8e79dc1073da1daeb1c47c39d987838932c8405ff11ccd9b78336b55a'\n\
++        d=json.loads(original)\nassert d['status']=='INCOMPLETE' and d['baseline']['counts']=={'PASS':6}\
++        \ and d['native']['counts']=={'PASS':5,'INCOMPLETE':1}\nout=Path(os.environ['RUNNER_TEMP'])/'DRAFT_RETURN_COUNTEREXAMPLE_ORIGINAL.json';out.write_bytes(original)\n\
++        with open(os.environ['GITHUB_ENV'],'a')as f:f.write('DRAFT_RETURN_COUNTEREXAMPLE_ORIGINAL_REPORT='+str(out)+'\\\
++        n')\nprint('Actual immutable draft-return counterexample Original verified')\n\
++        PYCODE\n"
++    - name: Verify actual Native32 closure and used restore8 PASS Originals before
++        DB
++      working-directory: qualified-sku090b
++      env:
++        GH_TOKEN: ${{ github.token }}
++      run: "set -euo pipefail\npython - <<'PYCODE'\nimport hashlib,io,json,os,subprocess,zipfile\n\
++        from pathlib import Path\nproofs={'DRAFT_RETURN_CLOSURE_ORIGINAL_REPORT':\
++        \ {'artifact': 12555491670, 'zip_bytes': 3341211, 'zip_sha256': 'a19f9aa888529783737f4418df10330ba555f3447340a0e1684ac4c0aa9c928c',\
++        \ 'name': 'CP7_DRAFT_RETURN_CLOSURE_NATIVE32.json', 'bytes': 16090323, 'sha256':\
++        \ '7085322d357c37c776015a718a06b2859dd6f38ffdf75b6d28d9a88631f2e066'}, 'DRAFT_RETURN_RESTORED_ORIGINAL_REPORT':\
++        \ {'artifact': 12555745676, 'zip_bytes': 3722714, 'zip_sha256': 'aebab9db100cca395dd900160bd05ede3f05328c85346a99dbe2750fdfeffb0f',\
++        \ 'name': 'CP7_DRAFT_RETURN_RESTORED.json', 'bytes': 855544, 'sha256': '503536b4d282052aa6e99906db5bb95821e528746a29dadc3e938b8c5e785681'}}\n\
++        for variable,p in proofs.items():\n raw=subprocess.check_output(['gh','api',f\"\
++        repos/Hanjay6688/-erp-garment-ux/actions/artifacts/{p['artifact']}/zip\"])\n\
++        \ assert len(raw)==p['zip_bytes']and hashlib.sha256(raw).hexdigest()==p['zip_sha256']\n\
++        \ with zipfile.ZipFile(io.BytesIO(raw))as z:original=z.read(p['name'])\n assert\
++        \ len(original)==p['bytes']and hashlib.sha256(original).hexdigest()==p['sha256']\n\
++        \ d=json.loads(original);assert d['status']=='PASS'and d['cp6_restored']and\
++        \ d['baseline_advisors_equal']\n out=Path(os.environ['RUNNER_TEMP'])/p['name'];out.write_bytes(original)\n\
++        \ with open(os.environ['GITHUB_ENV'],'a')as f:f.write(variable+'='+str(out)+'\\\
++        n')\n print(variable+' actual raw PASS Original verified')\nPYCODE\n"
++    - name: Verify actual composed return8 and B choice6 PASS Original bytes before
++        DB
++      env:
++        GH_TOKEN: ${{ github.token }}
++      run: "python - <<'PYFETCH'\nimport os,subprocess,hashlib,zipfile,io,pathlib\n\
++        proofs=[('COMPOSED_RETURN_ORIGINAL_REPORT',12556450449,3814659,'bfb45063e0f008f1662158d30526d35337b155dc3259e909484f5e7f5ec8f06f','CP7_CURRENT_RETURN_INSTALLATION_RESTORE.json',1133688,'8cd8d526218c2e6336c4d3c60cc540767469a13617ed610d05536001a787c59f'),('ANALOG_CHOICE_ORIGINAL_REPORT',12557970850,203858,'fad982ba07a86f471bd6118b17c59f21d1555007d1a19d2a24f6d5d696e40696','CP7_OW11_ANALOG_CHOICE.json',1824516,'34b3d68b042069d4248719952e883a858ddcab342146cfd543298be8ccab7fbf')]\n\
++        for variable,artifact,size,digest,name,raw_size,raw_digest in proofs:\n data=subprocess.check_output(['gh','api',f'repos/Hanjay6688/-erp-garment-ux/actions/artifacts/{artifact}/zip'])\n\
++        \ assert len(data)==size and hashlib.sha256(data).hexdigest()==digest\n with\
++        \ zipfile.ZipFile(io.BytesIO(data))as z:\n  assert z.testzip()is None\n  paths=[n\
++        \ for n in z.namelist()if n.rsplit('/',1)[-1]==name];assert len(paths)==1\n\
++        \  raw=z.read(paths[0])\n assert len(raw)==raw_size and hashlib.sha256(raw).hexdigest()==raw_digest\n\
++        \ path=pathlib.Path(os.environ['RUNNER_TEMP'])/name;path.write_bytes(raw)\n\
++        \ with open(os.environ['GITHUB_ENV'],'a')as env:env.write(variable+'='+str(path)+'\\\
++        n')\n print(variable,artifact,raw_size,raw_digest,flush=True)\nPYFETCH\n"
++    - name: Admit first failed analog Original before DB
++      working-directory: qualified-sku090b
++      env:
++        GH_TOKEN: ${{ github.token }}
++      run: python scripts/current-analog-installation-utc-qualification/fetch_first.py
++    - name: Admit seven-step UTC INCOMPLETE Original before DB
++      working-directory: qualified-sku090b
++      env:
++        GH_TOKEN: ${{ github.token }}
++      run: python scripts/current-analog-native-fixture-qualification/fetch_utc.py
++    - name: Fetch exact composed used restore8 and all three browser2 PASS Originals
++        before DB
++      working-directory: qualified-sku090b
++      env:
++        GH_TOKEN: ${{ github.token }}
++      run: python scripts/current-analog-choice-browser-qualification/fetch_originals.py
++    - name: Fetch exact consumer6, provenance3, transport10 and first current failure
++        Originals
++      working-directory: qualified-sku090b
++      env:
++        GH_TOKEN: ${{ github.token }}
++      run: python scripts/current-analog-consumer-opening-qualification/fetch_originals.py
++    - name: Fetch exact current consumer Native restore8 PASS prerequisite
++      env:
++        GH_TOKEN: ${{ github.token }}
++      working-directory: qualified-sku090b
++      run: python scripts/current-bounded-finance-restored-native-qualification/fetch_originals.py
++    - name: Fetch exact finance Native5 and model policy-v2 Native6 PASS prerequisites
++      env:
++        GH_TOKEN: ${{ github.token }}
++      working-directory: qualified-sku090b
++      run: python scripts/current-finance-model-registry-qualification/fetch_originals.py
++    - name: Fetch exact full-model Native15 and current B target prerequisites
++      env:
++        GH_TOKEN: ${{ github.token }}
++      working-directory: qualified-sku090b
++      run: python scripts/current-model-target-native-qualification/fetch_originals.py
++    - name: Fetch exact Native20 and scoped-history component Originals including
++        first failure
++      env:
++        GH_TOKEN: ${{ github.token }}
++      working-directory: qualified-sku090b
++      run: python scripts/current-model-history-native-qualification/fetch_originals.py
++    - name: Fetch actual complete history and scoped model component Originals
++      env:
++        GH_TOKEN: ${{ github.token }}
++      working-directory: qualified-sku090b
++      run: python scripts/current-scoped-model-native-qualification/fetch_originals.py
++    - name: Fetch actual scoped-model and selected-return regressions, both restores
++        and seven B component Originals
++      env:
++        GH_TOKEN: ${{ github.token }}
++      working-directory: qualified-sku090b
++      run: python scripts/current-versioned-target-native-qualification/fetch_originals.py
++    - name: Fetch exact full Native36 restore8 and five B performance Originals
++      env:
++        GH_TOKEN: ${{ github.token }}
++      working-directory: qualified-sku090b
++      run: python scripts/current-versioned-performance-native-qualification/fetch_originals.py
++    - name: Fetch exact actual A Native36 and three B private component PASS Originals
++        before DB
++      working-directory: qualified-sku090b
++      env:
++        GH_TOKEN: ${{ github.token }}
++      run: python scripts/current-frozen-units-native-qualification/fetch_originals.py
++    - name: Fetch exact actual full A private frozen Native40 PASS Original before
++        DB
++      working-directory: qualified-sku090b
++      env:
++        GH_TOKEN: ${{ github.token }}
++      run: python scripts/current-frozen-finance-native-qualification/fetch_originals.py
++    - name: Fetch exact actual A Native45 and B facade8 raw PASS Originals before
++        DB
++      working-directory: qualified-sku090b
++      env:
++        GH_TOKEN: ${{ github.token }}
++      run: python scripts/current-frozen-public-native-qualification/fetch_originals.py
++    - name: Install pinned Supabase CLI
++      uses: supabase/setup-cli@ab058987d8d6c725971f6cf9d0b5c98467e30bd1
++      with:
++        version: 2.116.0
++    - name: Record proposed source and prepare isolated proof paths
++      id: source_scope
++      working-directory: writer
++      run: 'set -euo pipefail
++
++        PYTHONPATH=scripts python -c "import cp6_au_trial; cp6_au_trial.source()"
++
++        mkdir -p ../candidate/cp6-proof/writer-{ae,af,ah,ai,aj,ak,al,am,an}
++
++        '
++    - name: Admit exact Progress Native5 predecessor and focused choice sources before
++        DB
++      working-directory: qualified-sku090b
++      env:
++        GH_TOKEN: ${{ github.token }}
++      run: python scripts/current-choice-preparation-native-qualification/fetch_original.py
++    - name: Verify actual full choice Native6 Original before DB
++      working-directory: qualified-sku090b
++      env:
++        GH_TOKEN: ${{ github.token }}
++      run: python scripts/current-choice-preparation-transport-qualification/fetch_original.py
++    - name: Verify exact accepted UI, transport and prior cron Originals before database
++      working-directory: qualified-sku090b
++      env:
++        GH_TOKEN: ${{ github.token }}
++      run: python scripts/current-choice-finance-cron-qualification/fetch_originals.py
++    - name: Verify accepted actual finance source race and all package gates before
++        database
++      working-directory: qualified-sku090b
++      env:
++        GH_TOKEN: ${{ github.token }}
++      run: python scripts/current-finance-readonly-integration-qualification/fetch_race.py
++    - name: Fetch exact accepted Native13 cron and full package Original bytes
++      working-directory: qualified-sku090b
++      env:
++        GH_TOKEN: ${{ github.token }}
++      run: python scripts/current-finance-followups-qualification/fetch_parent.py
++    - name: Fetch exact retained first diagnostics Original bytes
++      working-directory: qualified-sku090b
++      env:
++        GH_TOKEN: ${{ github.token }}
++      run: python scripts/current-finance-consistent-capture-diagnostic/fetch_diagnostic.py
++    - name: Fetch exact retained84 and focused Native20 cron component bytes
++      working-directory: qualified-sku090b
++      env:
++        GH_TOKEN: ${{ github.token }}
++      run: python scripts/current-finance-combined-composition/fetch_consistency.py
++    - name: Fetch exact retained AF incomplete Original and package bytes
++      working-directory: qualified-sku090b
++      env:
++        GH_TOKEN: ${{ github.token }}
++      run: python scripts/current-finance-reader-stream-followup-qualification/fetch_retained.py
++    - name: Fetch exact retained D3 sixPASS factory cutoff and package bytes
++      working-directory: qualified-sku090b
++      env:
++        GH_TOKEN: ${{ github.token }}
++      run: python scripts/current-finance-factory-progress-followup-qualification/fetch_d3.py
++    - name: Fetch exact failed 4ac Original before DB
++      working-directory: qualified-sku090b
++      env:
++        GH_TOKEN: ${{ github.token }}
++      run: python scripts/current-factory-operational-profile-qualification/fetch_failure.py
++    - name: Fetch exact 5b32 measured profile and complete restoration evidence
++      working-directory: qualified-sku090b
++      env:
++        GH_TOKEN: ${{ github.token }}
++      run: python scripts/current-factory-initial-stage/fetch_profile.py
++    - name: Fetch exact 11c failure and six retained PASS groups before DB
++      working-directory: qualified-sku090b
++      env:
++        GH_TOKEN: ${{ github.token }}
++      run: python scripts/current-factory-live-heartbeat/fetch_retained.py
++    - name: Bind exact qualified backend3194 Original
++      env:
++        GH_TOKEN: ${{ github.token }}
++      working-directory: qualified-sku090b
++      run: "set -euo pipefail\npython - <<'INNER'\nfrom pathlib import Path\nfrom\
++        \ hashlib import sha256\nimport json,os,subprocess,zipfile,io\nroot=Path(os.environ['RUNNER_TEMP'])/'return-race-originals';root.mkdir()\n\
++        cfg=json.loads(Path('scripts/current-vendor-receivable-qualification/CONFIG.json').read_bytes())\n\
++        for kind in ('backend_original','first_failure_original'):\n p=cfg[kind];prefix='repos/Hanjay6688/-erp-garment-ux/actions/artifacts/'+str(p['artifact_id'])\n\
++        \ a=json.loads(subprocess.check_output(['gh','api',prefix]));assert a['workflow_run']['id']==p['run_id']and\
++        \ not a['expired']\n raw=subprocess.check_output(['gh','api',prefix+'/zip'])\n\
++        \ assert len(raw)==a['size_in_bytes']and 'sha256:'+sha256(raw).hexdigest()==a['digest']\n\
++        \ (root/(str(p['artifact_id'])+'.zip')).write_bytes(raw)\n with zipfile.ZipFile(io.BytesIO(raw))as\
++        \ z:\n  assert z.testzip()is None;data=z.read(p['name'])\n assert len(data)==p['bytes']and\
++        \ sha256(data).hexdigest()==p['sha256']\n (root/p['name']).write_bytes(data)\n\
++        with open(os.environ['GITHUB_ENV'],'a')as f:f.write('CP7_VENDOR_BACKEND_ORIGINALS='+str(root)+'\\\
++        n')\nINNER\n"
++    - name: Bind complete actual backend11 and all package gates before browser database
++      working-directory: qualified-sku090b
++      env:
++        GH_TOKEN: ${{ github.token }}
++      run: python scripts/current-vendor-money-browser/fetch_backend.py
++    - name: Bind exact accepted money browser and full package originals
++      env:
++        GH_TOKEN: ${{ github.token }}
++      run: python scripts/current-ow08-source-browser/fetch_money.py
++      working-directory: qualified-sku090b
++    - name: Fetch actual accepted FREE3 canonical archive before database
++      working-directory: auditor
++      env:
++        GH_TOKEN: ${{ github.token }}
++      run: 'python -B scripts/cp7_accessory_nonpayable/fetch_parent.py
++
++        '
++    - name: Fetch exact accepted Afui, Mandor17, Native27 and moving6 inputs before
++        database
++      working-directory: auditor
++      env:
++        GH_TOKEN: ${{ github.token }}
++      run: 'set -euo pipefail
++
++        python -B ../qualified-mandor-parent/scripts/current-mandor-shop-native-qualification/fetch_parent.py
++
++        python -B scripts/current-sku-automatic-composite-preparation/execution.py
++        fetch
++
++        '
++    - name: Verify complete actual owning source and reviewable workflow before database
++      working-directory: auditor
++      run: 'set -euo pipefail
++
++        python -B scripts/current-sku-automatic-composite-preparation/check_source.py
++        --runtime
++
++        python -B scripts/current-sku-automatic-composite-preparation/workflow.py
++        --check
++
++        '
++    - name: Copy exact prerequisites into all four frozen trees before runtime admission
++      working-directory: auditor
++      run: 'python -B scripts/current-sku-automatic-composite-preparation/execution.py
++        prepare
++
++        '
++    - name: Admit full money and natural Native25 graph under database network fence
++      working-directory: writer
++      run: 'set -euo pipefail
++
++        python -B ../auditor/scripts/current-sku-automatic-composite-preparation/execution.py
++        check-money-source
++
++        python -B ../auditor/scripts/current-sku-automatic-composite-preparation/qualification.py
++        --check
++
++        node ../auditor/scripts/current-sku-automatic-composite-preparation/browser.mjs
++        --check-browser-source
++
++        python -B ../auditor/scripts/current-de-free-date-preparation/attempt_policy.py
++        --require-window
++
++        '
++    - name: Install pinned browser dependencies in both actual checkout roots before
++        database
++      run: "set -euo pipefail\nfor checkout in auditor writer; do\n  (cd \"$GITHUB_WORKSPACE/$checkout\"\
++        \ && npm ci --include=dev && npx --no-install playwright install --with-deps\
++        \ chromium)\ndone\n"
++    - name: Open actual desktop and mobile browsers and compile exact SKU candidate
++        before database
++      working-directory: auditor
++      run: 'set -euo pipefail
++
++        python -B scripts/current-sku-automatic-composite-preparation/browser_runtime.py
++        --check
++
++        node scripts/current-sku-automatic-composite-preparation/browser_prerequisites.mjs
++        "$GITHUB_WORKSPACE"
++
++        '
++    - name: Write diagnostic source checkpoint before Native25
++      working-directory: auditor
++      run: 'python -B scripts/current-sku-automatic-composite-preparation/checkpoint.py
++        --source . --output "$RUNNER_TEMP/cp7-source-checkpoint/CP7_DIAGNOSTIC_CHECKPOINT.json"
++
++        '
++    - name: Persist diagnostic checkpoint before long runtime
++      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
++      with:
++        name: cp7-sku-admission-checkpoint-${{ github.run_id }}-${{ github.run_attempt
++          }}
++        path: ${{ runner.temp }}/cp7-source-checkpoint/CP7_DIAGNOSTIC_CHECKPOINT.json
++        retention-days: 30
++        if-no-files-found: error
++    - name: Start disposable database
++      working-directory: base
++      shell: bash
++      env:
++        GHCR_TOKEN: ${{ github.token }}
++      run: 'set -euo pipefail
++
++        test "$(git rev-parse HEAD)" = 1bdca3766f7c9800d68295ff5122798060b8a05d
++
++        test "$(git rev-parse HEAD^{tree})" = 334629c626257b8b713826f491cdf62385d5299b
++
++        test -z "$(git status --porcelain)"
++
++        supabase --help >/dev/null
++
++        supabase init --help >/dev/null
++
++        supabase start --help >/dev/null
++
++        # Authenticated pulls: anonymous ghcr.io/public.ecr.aws pulls were refused
++        (toomanyrequests,
++
++        # Data limit exceeded) before any test ran (OW12a run 39847548230).
++
++        printf ''%s'' "$GHCR_TOKEN" | docker login ghcr.io -u "$GITHUB_ACTOR" --password-stdin
++
++        mkdir cp5-local
++
++        supabase init --force --workdir cp5-local
++
++        mkdir -p cp5-local/supabase/.temp
++
++        echo ''17.6.1.165'' > cp5-local/supabase/.temp/postgres-version
++
++        sed -i ''0,/^enable_signup = true$/s//enable_signup = false/'' cp5-local/supabase/config.toml
++
++        # Retain every startup attempt; ECR is used once before returning to GHCR.
++
++        python ../auditor/scripts/current-finance-combined-composition/disposable_start.py
++
++        '
++    - name: Rebuild to v2.6.20, align with hosted, continue the frozen path to AB
++      working-directory: base
++      env:
++        GITHUB_SHA: 1bdca3766f7c9800d68295ff5122798060b8a05d
++        GH_TOKEN: ${{ github.token }}
++      shell: bash
++      run: "set -euo pipefail\nexport CP6_AC_WRITER_ARTIFACT=\"$RUNNER_TEMP/ac-native200.zip\"\
++        \ngh api repos/Hanjay6688/-erp-garment-ux/actions/artifacts/10392910720/zip\
++        \ \\\n  > \"$CP6_AC_WRITER_ARTIFACT\" || { rm -f \"$CP6_AC_WRITER_ARTIFACT\"\
++        ; echo 'AC writer artifact 10392910720 unavailable (kept 30 days, expired\
++        \ 15 Oct 2026, owner D14-17); cp6_pre_u_inventory captures the pre-U table\
++        \ set before U'; }\nmkdir -p ../auditor/cp6-proof/t3\nstatus=0\nPYTHONPATH=scripts\
++        \ python ../auditor/scripts/cp6_t3_aligned_chain.py ../auditor/cp6-proof/t3/ALIGNED_CHAIN.json\
++        \ --stop-after-ab || status=$?\npython - <<'PY'\nimport json\nd=json.load(open('../auditor/cp6-proof/t3/ALIGNED_CHAIN.json'))\n\
++        print(json.dumps({k:d.get(k) for k in ('status','refused_step','alignment')},default=str)[:6000])\n\
++        print(json.dumps([(s['name'],s['exit_code'],s['after_alignment']) for s in\
++        \ d['steps']])[:6000])\nPY\nexit \"$status\"\n"
++    - name: Provision isolated rollback authority
++      working-directory: writer
++      shell: bash
++      run: "set -euo pipefail\nmaintenance_password=\"$(openssl rand -hex 32)\"\n\
++        maintenance_pgurl=\"postgresql://cp6_maintenance_admission:${maintenance_password}@127.0.0.1:54322/template1\"\
++        \necho \"::add-mask::$maintenance_password\"\necho \"::add-mask::$maintenance_pgurl\"\
++        \ndocker exec -i \"$CP6_DATABASE_CONTAINER\" \\\n  psql -U supabase_admin\
++        \ -d template1 -X -v ON_ERROR_STOP=1 \\\n    -v cp6_password=\"$maintenance_password\"\
++        \ <<'SQL'\ncreate role cp6_maintenance_admission\n  login superuser noinherit\
++        \ nocreatedb nocreaterole noreplication\n  connection limit 4 password :'cp6_password';\n\
++        SQL\nprintf 'CP6_ADMISSION_CONTROL_PGURL=%s\\n' \"$maintenance_pgurl\" >>\
++        \ \"$GITHUB_ENV\"\n"
++    - name: Clone the aligned AB state for install
++      working-directory: writer
++      run: "set -euo pipefail\nmkdir -p '../auditor/cp6-proof/t3'\nbash scripts/clone-cp6-disposable-database.sh\
++        \ \\\n  'postgresql://postgres:postgres@127.0.0.1:54322/postgres' \\\n  'postgresql://postgres:postgres@127.0.0.1:54322/template1'\
++        \ \\\n  'postgresql://postgres:postgres@127.0.0.1:54322/cp6_rollback' \\\n\
++        \  cp6_rollback supabase_db_cp5-local \"$RUNNER_TEMP/join-clone/CLONE_install\"\
++        \n"
++    - name: Run current-parent money automatic Native25 and real browser2 once with
++        owning restoration
++      working-directory: writer
++      run: 'set -euo pipefail
++
++        python -u -B ../auditor/scripts/current-sku-automatic-composite-preparation/execution.py
++        supervise
++
++        python -B ../auditor/scripts/current-sku-automatic-composite-preparation/final_gate.py
++
++        '
++    - name: Retain exact clone comparison outputs after source and runtime checks
++      if: always()
++      working-directory: auditor
++      run: python -B scripts/current-s03-sku-s05-composite-qualification/retain_clone.py
++        --source "$RUNNER_TEMP/join-clone" --destination cp6-proof/t3
++    - name: Retain exact writer-CWD SKU cost full census even on failure
++      if: always()
++      run: python -B auditor/scripts/current-sku-managed-recovery-native27-qualification/retain_outputs.py
++        --workspace "$GITHUB_WORKSPACE"
++    - name: Retain every new or changed output in all four frozen trees even on failure
++      if: always()
++      working-directory: auditor
++      run: 'python -B scripts/current-sku-automatic-composite-preparation/execution.py
++        retain
++
++        '
++    - name: Retain bounded hashes while complete Original files stay in the artifact
++      if: always()
++      working-directory: auditor
++      run: 'python -B scripts/current-sku-automatic-composite-preparation/execution.py
++        receipts
++
++        '
++    - name: Remove disposable database
++      if: always()
++      working-directory: base
++      run: 'python -B ../auditor/scripts/current-sku-automatic-composite-preparation/execution.py
++        supervise --allow-database-stop
++
++        if command -v supabase >/dev/null 2>&1 && test -d cp5-local; then supabase
++        stop --workdir cp5-local --no-backup; fi'
++    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
++      if: always()
++      with:
++        name: cp7-sku-current-parent-money-automatic-native25-${{ github.run_attempt
++          }}
++        path: auditor/cp6-proof/t3
++        retention-days: 30
++        if-no-files-found: error
++    if: github.ref == 'refs/heads/astra-a/sku-current-parent-money-automatic-native25-20261105'
+--- /dev/null
++++ b/scripts/current-sku-automatic-composite-preparation/test_checkpoint.py
+@@ -0,0 +1,125 @@
++from contextlib import redirect_stdout
++from io import StringIO
++import json
++import os
++from pathlib import Path
++import signal
++import subprocess
++import sys
++import tempfile
++import unittest
++from unittest.mock import patch
++
++import checkpoint as c
++
++
++class CheckpointTests(unittest.TestCase):
++    def setUp(self):
++        self.tmp = tempfile.TemporaryDirectory()
++        self.root = Path(self.tmp.name)
++        self.env = dict(GITHUB_ACTIONS='true', GITHUB_REPOSITORY='Hanjay6688/-erp-garment-ux', GITHUB_SHA='a'*40,
++                        GITHUB_RUN_ID='1', GITHUB_RUN_ATTEMPT='1', GH_TOKEN='NEVER_EXPORT_THIS')
++
++    def tearDown(self):
++        self.tmp.cleanup()
++
++    def test_secret_environment_not_serialized(self):
++        out = StringIO()
++        with patch.dict(os.environ, self.env), redirect_stdout(out), c.observe_parent_phase('INSTALL'):
++            pass
++        self.assertNotIn('NEVER_EXPORT_THIS', out.getvalue())
++        self.assertNotIn('GH_TOKEN', out.getvalue())
++        rows = [json.loads(line) for line in out.getvalue().splitlines()]
++        self.assertEqual([row['state'] for row in rows], ['STARTED', 'COMPLETED'])
++        for d in rows:
++            self.assertEqual(d['actual_case_credit'], 0)
++            self.assertFalse(d['restoration_verified'])
++
++    def test_original_failure_preserved_without_message_leak(self):
++        error = ValueError('NEVER_EXPORT_THIS')
++        out = StringIO()
++        with patch.dict(os.environ, self.env), self.assertRaises(ValueError) as caught, redirect_stdout(out):
++            with c.observe_parent_phase('INSTALL'):
++                raise error
++        self.assertIs(caught.exception, error)
++        self.assertNotIn('NEVER_EXPORT_THIS', out.getvalue())
++        self.assertEqual([json.loads(line)['state'] for line in out.getvalue().splitlines()],
++                         ['STARTED', 'FAILED'])
++
++    def test_log_stream_failure_cannot_interrupt_operation(self):
++        with patch.dict(os.environ, self.env), patch('builtins.print', side_effect=BrokenPipeError):
++            with c.observe_parent_phase('INSTALL'):
++                result = 'underlying operation completed'
++        self.assertEqual(result, 'underlying operation completed')
++
++    def test_output_symlink_and_existing_receipt_refused(self):
++        real = self.root / 'real'; real.mkdir()
++        link = self.root / 'link'; link.symlink_to(real, target_is_directory=True)
++        with self.assertRaisesRegex(ValueError, 'SYMLINK'):
++            c.immutable_json(link / 'out.json', {})
++        path = real / 'out.json'; c.immutable_json(path, {'first':True})
++        with self.assertRaises(FileExistsError):
++            c.immutable_json(path, {'first':False})
++        self.assertTrue(json.loads(path.read_text())['first'])
++
++    def test_wrong_run_identity_refused_before_writes(self):
++        for key, value in [('GITHUB_SHA', 'short'), ('GITHUB_RUN_ID', '0'),
++                           ('GITHUB_RUN_ATTEMPT', '1\nsecret'), ('GITHUB_REPOSITORY', 'other/repo')]:
++            with self.subTest(key=key), self.assertRaises(ValueError):
++                c.identity(dict(self.env, **{key:value}))
++        self.assertEqual(list(self.root.iterdir()), [])
++
++    def test_sigkill_keeps_started_without_false_completion(self):
++        code = ('import checkpoint as c, os, signal\n'
++                'with c.observe_parent_phase("INSTALL"):\n'
++                ' os.kill(os.getpid(), signal.SIGKILL)\n')
++        env = dict(os.environ, **self.env)
++        run = subprocess.run([sys.executable, '-c', code], cwd=Path(c.__file__).parent,
++                             env=env, capture_output=True, timeout=10)
++        self.assertEqual(run.returncode, -signal.SIGKILL)
++        rows = [json.loads(line) for line in run.stdout.splitlines()]
++        self.assertEqual([row['state'] for row in rows], ['STARTED'])
++        self.assertEqual(rows[0]['actual_case_credit'], 0)
++        self.assertFalse(rows[0]['restoration_verified'])
++
++    def test_dirty_or_wrong_checkout_refused(self):
++        def git(*args):
++            return subprocess.check_output(['git', '-C', str(self.root), *args], stderr=subprocess.PIPE).decode().strip()
++        git('init'); git('config', 'user.name', 'Local checkpoint test')
++        git('config', 'user.email', 'test@example.invalid')
++        (self.root/'source.txt').write_text('source one\n')
++        git('add','source.txt');git('commit','-m','Local synthetic source')
++        env = dict(self.env, GITHUB_SHA=git('rev-parse', 'HEAD'))
++        proofs = self.root/'cp6-proof'/'t3'; proofs.mkdir(parents=True)
++        for name in c.RECEIPTS:
++            (proofs/name).write_text('{"fixture": "SYNTHETIC_CONTROL_ONLY"}\n')
++        snapshot = c.source_checkpoint(self.root, env)
++        self.assertEqual(snapshot['source_tree'], git('rev-parse', 'HEAD^{tree}'))
++        with self.assertRaisesRegex(ValueError, 'HEAD_MISMATCH'):
++            c.source_checkpoint(self.root, self.env)
++        (self.root/'source.txt').write_text('stale/edited source\n')
++        with self.assertRaisesRegex(ValueError, 'SOURCE_DIRTY'):
++            c.source_checkpoint(self.root, env)
++
++    def test_admission_receipts_recover_exact_bytes_and_refuse_secret(self):
++        proofs = self.root/'cp6-proof'/'t3'; proofs.mkdir(parents=True)
++        raw = b'{ "synthetic_control": true, "n": 3 }\n'
++        for name in c.RECEIPTS:
++            (proofs/name).write_bytes(raw)
++        observed = c.admission_receipts(self.root)
++        for receipt in observed.values():
++            self.assertEqual(receipt['original_utf8'].encode(), raw)
++            self.assertEqual(receipt['sha256'], c.sha256(raw).hexdigest())
++        (proofs/c.RECEIPTS[0]).write_text('{"password":"NEVER_EXPORT_THIS"}')
++        with self.assertRaisesRegex(ValueError, 'SENSITIVE'):
++            c.admission_receipts(self.root)
++        (proofs/c.RECEIPTS[0]).write_text('{"url":"postgresql://user:secret@host/db"}')
++        with self.assertRaisesRegex(ValueError, 'CREDENTIAL'):
++            c.admission_receipts(self.root)
++        (proofs/c.RECEIPTS[0]).unlink()
++        with self.assertRaisesRegex(ValueError, 'BOUNDED_ADMISSION'):
++            c.admission_receipts(self.root)
++
++
++if __name__ == '__main__':
++    unittest.main(verbosity=2)
+--- a/scripts/current-sku-automatic-composite-preparation/test_execution.py
++++ b/scripts/current-sku-automatic-composite-preparation/test_execution.py
+@@ -253,24 +253,28 @@
+                 raise RuntimeError('explicit local model')
+         self.assertIs(sys.argv, original);self.assertEqual(sys.argv, contents)
+ 
+-    def test_reviewed_81_step_template_stays_inactive_and_accidental_activation_is_closed(self):
++    def test_checkpoint_steps_preserve_exact_prior_workflow(self):
++        import yaml
+         text, proof = workflow.derive()
+         self.assertEqual(text.encode(), workflow.TEMPLATE.read_bytes())
+         self.assertEqual(proof['unchanged_steps'], 66)
+         self.assertEqual(proof['owning_routes'], 13)
+-        self.assertEqual(proof['total_steps'], 81)
++        self.assertEqual(proof['total_steps'], 83)
+         self.assertEqual(proof['retained_steps'], 79)
+         self.assertEqual(proof['added_browser_prerequisite_steps'], 2)
+         self.assertEqual(proof['frozen_source_trees'], 4)
+-        self.assertFalse(workflow.ACTIVE.exists())
++        self.assertEqual(proof['added_diagnostic_checkpoint_steps'], 2)
++        candidate = yaml.safe_load(text)
++        steps = candidate['jobs']['p21']['steps']
++        first, upload = steps[70:72]
++        self.assertIn('checkpoint.py --source .', first['run'])
++        self.assertEqual(first['working-directory'], 'auditor')
++        self.assertIn('cp7-sku-admission-checkpoint-', upload['with']['name'])
++        self.assertNotEqual(upload['with']['name'], steps[-1]['with']['name'])
++        self.assertEqual(steps[72]['name'], 'Start disposable database')
++        del steps[70:72]
++        self.assertEqual(candidate, yaml.safe_load(workflow.BASELINE_TEMPLATE.read_bytes()))
+         self.assertEqual(workflow.check()['workflow_dispatches'], 0)
+-        with TemporaryDirectory() as directory:
+-            model_root = Path(directory)
+-            active = model_root / workflow.ACTIVE.relative_to(workflow.ROOT)
+-            active.parent.mkdir(parents=True);active.write_text(text)
+-            with patch.object(workflow, 'ROOT', model_root), patch.object(workflow, 'ACTIVE', active):
+-                with self.assertRaisesRegex(ValueError, 'CURRENT_PARENT_AND_FULL_NATIVE_LIFECYCLE_PENDING'):
+-                    workflow.check()
+ 
+ 
+ if __name__ == '__main__':
+--- a/scripts/current-sku-automatic-composite-preparation/test_qualification.py
++++ b/scripts/current-sku-automatic-composite-preparation/test_qualification.py
+@@ -246,6 +246,12 @@
+         package = load('package')
+         cursor = SimpleNamespace(identity='maintenance')
+         events = []
++        phases = []
++
++        @contextmanager
++        def observe(name):
++            phases.append((name, cursor.identity))
++            yield
+ 
+         def operation(name, expected, result):
+             def call(cur, *args):
+@@ -270,13 +276,18 @@
+                                   install_delta=operation('Automatic', 'admin', 'automatic'),
+                                   rollback_delta_preuse=operation('Inverse', 'admin', 'inverse'),
+                                   verify=operation('Verify', 'admin', 'verified'))
+-        bindings = package.bind_install_authority(product, operation('Afui', 'maintenance', 'afui'), as_admin)
++        bindings = package.bind_install_authority(product, operation('Afui', 'maintenance', 'afui'),
++                                                  as_admin, observe=observe)
+         prior = bindings['_sku_install_parent'](cursor)
+         state = bindings['_sku_install_delta'](cursor, prior)
+         self.assertEqual(bindings['_sku_rollback_delta_preuse'](cursor, state), 'inverse')
+         state = bindings['_sku_install_delta'](cursor, prior)
+         self.assertEqual(bindings['_sku_verify_installed'](cursor, state), 'verified')
+         self.assertEqual(cursor.identity, 'maintenance')
++        self.assertEqual(phases, [('AFUI_PARENT_INSTALL', 'maintenance'),
++                                  ('MANDOR_PARENT_DELTA', 'maintenance'),
++                                  ('SKU_MOVING_PARENT_DELTA', 'admin'),
++                                  ('SKU_MONEY_PARENT_DELTA', 'admin')])
+         self.assertEqual(events, [('Afui', ()), ('Mandor', ('afui',)), ('Moving', ('mandor',)),
+                                   ('Money', ('moving',)), ('Automatic', ('money',)),
+                                   ('Inverse', ('automatic',)), ('Automatic', ('money',)),
+--- a/scripts/current-sku-automatic-composite-preparation/workflow.py
++++ b/scripts/current-sku-automatic-composite-preparation/workflow.py
+@@ -12,7 +12,8 @@
+ PIN = dict(bytes=33997, sha256='baa5fd02b024837856276f9e7136ca555c2bb6bb9255b0c5f0c2068322494e5d')
+ AFUI_TEMPLATE = ROOT / 'scripts/cp7_accessory_nonpayable/afui15.workflow.yml.txt'
+ PGDG_SETUP_PIN = dict(bytes=1240, sha256='6500c7bbd60b461bbefd1ccbe7b3eb0b292a6600466a19cb3cc14d45666ac5c3')
+-TEMPLATE = HERE / 'sku-current-parent-money-automatic-native25-81.workflow.yml.txt'
++BASELINE_TEMPLATE = HERE / 'sku-current-parent-money-automatic-native25-81.workflow.yml.txt'
++TEMPLATE = HERE / 'sku-current-parent-money-automatic-native25-83.workflow.yml.txt'
+ ACTIVE = ROOT / '.github/workflows/cp7-sku-current-parent-money-automatic-native25.yml'
+ BRANCH = 'astra-a/sku-current-parent-money-automatic-native25-20261105'
+ ROUTED = (0, 2, 3, 11, 64, 65, 66, 67, 72, 75, 76, 77, 78)
+@@ -111,12 +112,28 @@
+     steps[68:68] = prerequisites
+     require(len(steps) == 81 and steps[:68] + steps[70:] == retained_steps,
+             'AUTOMATIC_ALL_ORIGINAL_79_STEPS_MUST_REMAIN_EXACT')
++    baseline = yaml.safe_dump(value, sort_keys=False, allow_unicode=True).encode()
++    require(not BASELINE_TEMPLATE.is_symlink() and BASELINE_TEMPLATE.read_bytes() == baseline,
++            'AUTOMATIC_EXACT_PRIOR_81_STEP_WORKFLOW_REQUIRED')
++    checkpoint_steps = [
++        dict(name='Write diagnostic source checkpoint before Native25',
++             **{'working-directory': 'auditor'},
++             run='python -B ' + NS + 'checkpoint.py --source . '
++                 '--output "$RUNNER_TEMP/cp7-source-checkpoint/CP7_DIAGNOSTIC_CHECKPOINT.json"\n'),
++        {'name': 'Persist diagnostic checkpoint before long runtime',
++         'uses': 'actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02',
++         'with': {'name': 'cp7-sku-admission-checkpoint-${{ github.run_id }}-${{ github.run_attempt }}',
++                  'path': '${{ runner.temp }}/cp7-source-checkpoint/CP7_DIAGNOSTIC_CHECKPOINT.json',
++                  'retention-days': 30, 'if-no-files-found': 'error'}},
++    ]
++    steps[70:70] = checkpoint_steps
+     text = yaml.safe_dump(value, sort_keys=False, allow_unicode=True)
+     require(yaml.safe_load(text) == value, 'AUTOMATIC_EXACT_WORKFLOW_YAML_ROUNDTRIP_REQUIRED')
+     return text, dict(status='NATIVE25_WORKFLOW_DATA_ONLY_NOT_ACTIVATED', retained_template=PIN,
+-                      total_steps=81, retained_steps=79, unchanged_steps=len(before) - len(ROUTED),
++                      total_steps=83, retained_steps=79, unchanged_steps=len(before) - len(ROUTED),
+                       owning_routes=len(ROUTED),
+-                      added_browser_prerequisite_steps=2, frozen_source_trees=4,
++                      added_browser_prerequisite_steps=2, added_diagnostic_checkpoint_steps=2,
++                      frozen_source_trees=4,
+                       actual_both_checkout_browser_prerequisites_before_database=True,
+                       database_rebuild_clone_recovery_and_full_artifact_upload_unchanged=True,
+                       real_360_330_20_10_budgets_unchanged=True, workflow_dispatches=0, actual_ERP_cases=0,
+@@ -128,6 +145,9 @@
+     require(TEMPLATE.is_file() and not TEMPLATE.is_symlink() and TEMPLATE.read_bytes() == text.encode(),
+             'AUTOMATIC_EXACT_REVIEWABLE_WORKFLOW_TEMPLATE_REQUIRED')
+     manifest = json.loads((HERE / 'SOURCE.json').read_bytes())
++    require(manifest['reviewable_workflow_steps'] == proof['total_steps']
++            and manifest['files'][TEMPLATE.name] == runtime().admission.pin(text.encode()),
++            'AUTOMATIC_WORKFLOW_TEMPLATE_MANIFEST_PIN_REQUIRED')
+     if ACTIVE.exists() or ACTIVE.is_symlink():
+         owner = runtime()
+         owner.actual_inputs()

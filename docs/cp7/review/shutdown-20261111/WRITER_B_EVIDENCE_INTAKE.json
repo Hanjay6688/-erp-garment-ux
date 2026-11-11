@@ -1,0 +1,129 @@
+{
+  "B_plan": "ada10d7728d76bd897c294cd768c4983e46e09d6",
+  "actual_prior_all5": true,
+  "actual_prior_case_ids": [
+    "A_PROGRESS_FINANCE_BROWSER_DESKTOP_REAL_AUTH_LOST_REPLY_REPLAY_OFFICIAL24",
+    "A_PROGRESS_FINANCE_BROWSER_MOBILE_REAL_AUTH_BLOCKED_REPORT_ACCESS_REVOKED"
+  ],
+  "actual_prior_restore": true,
+  "all_reviewed_build_inputs_unchanged": true,
+  "archive_bytes": 4449681,
+  "archive_crc_members": 122,
+  "archive_sha256": "33b27ed1e46bb5a335fb119be03b40fcf1e9c2a14e97697f11c799f4072a40c5",
+  "artifact": 12824760687,
+  "attempt": 1,
+  "build_inputs": 79,
+  "formal_CP7": "5/16",
+  "fresh_case_credit": 0,
+  "independent_acceptance": false,
+  "job": 122849290624,
+  "prepared_scripts": [
+    {
+      "expected": "1cc92f2362f18d9b6fdd7bb7db84cc1455b6e2d9",
+      "ids": [
+        "SKU_CURRENT_MOVAVG_DESKTOP_REAL_AUTH_PAIR_VALUE_RECOVERY_INVERSE",
+        "SKU_CURRENT_MOVAVG_MOBILE390_REAL_AUTH_PAIR_VALUE_GUARDS_INVERSE"
+      ],
+      "match": true,
+      "observed": "1cc92f2362f18d9b6fdd7bb7db84cc1455b6e2d9",
+      "path": "scripts/current-sku-automatic-composite-preparation/browser_evidence.mjs",
+      "scope": "SKU Browser2"
+    },
+    {
+      "expected": "cad8d29ca12a354d48ab637504700c8422f55075",
+      "ids": [
+        "OW08_FG_INVERSE_QC_BLOCKERS_DESKTOP",
+        "OW08_FG_INVERSE_QC_BLOCKERS_MOBILE"
+      ],
+      "match": true,
+      "observed": "cad8d29ca12a354d48ab637504700c8422f55075",
+      "path": "scripts/current-ow08-source-browser/fg.mjs",
+      "scope": "OW08 QC/FG"
+    },
+    {
+      "expected": "a8ee5bab250a83b865a0d410e549b6d7d6e52a74",
+      "ids": [
+        "OW08_KASBON_JOURNAL_SOURCE_DESKTOP",
+        "OW08_KASBON_JOURNAL_SOURCE_MOBILE"
+      ],
+      "match": true,
+      "observed": "a8ee5bab250a83b865a0d410e549b6d7d6e52a74",
+      "path": "scripts/current-ow08-source-browser/cases.mjs",
+      "scope": "OW08 Kasbon"
+    },
+    {
+      "expected": "edee2a65eec12e53d5c060dbf79cc8e2c7113600",
+      "ids": [
+        "OW08_UNKNOWN_WASH_SCREEN_PRICE_DESKTOP",
+        "OW08_UNKNOWN_WASH_SCREEN_PRICE_MOBILE"
+      ],
+      "match": true,
+      "observed": "edee2a65eec12e53d5c060dbf79cc8e2c7113600",
+      "path": "scripts/current-ow08-source-browser/wash.mjs",
+      "scope": "OW08 Unknown wash"
+    },
+    {
+      "expected": "8f64070d075018636a0c5b73ddd3f6201f597ac9",
+      "ids": [
+        "VENDOR_MONEY_BROWSER_DESKTOP_REFUND_INVERSE_HISTORY",
+        "VENDOR_MONEY_BROWSER_MOBILE_REFUND_ACCESS_HIDDEN"
+      ],
+      "match": true,
+      "observed": "8f64070d075018636a0c5b73ddd3f6201f597ac9",
+      "path": "scripts/current-vendor-money-browser/cases.mjs",
+      "scope": "OW08 Vendor"
+    },
+    {
+      "expected": "ef9fcc4cb842173183e8dc4b23e8993bb0dcfd57",
+      "ids": [
+        "P11_RETURN_BROWSER_R10_DESKTOP_A",
+        "P11_RETURN_BROWSER_R10_MOBILE_B_RECOVERY"
+      ],
+      "match": true,
+      "observed": "ef9fcc4cb842173183e8dc4b23e8993bb0dcfd57",
+      "path": "scripts/cp7_p11_returns_browser.mjs",
+      "scope": "R10 current core"
+    },
+    {
+      "expected": "cf81cb474b2fc5f6a385b0ad20fce2fe7a05ecf6",
+      "ids": [
+        "OW04_CONSUMER_BROWSER_REFUND_MOBILE",
+        "OW04_CONSUMER_BROWSER_REVOKED_PENDING_REPLAY"
+      ],
+      "match": true,
+      "observed": "cf81cb474b2fc5f6a385b0ad20fce2fe7a05ecf6",
+      "path": "scripts/ow04-consumer-ui-qualification/browser_cases.mjs",
+      "scope": "R10 refund and revoke"
+    },
+    {
+      "expected": "9f9936d5b5b0b1a8cee2e772a9286e7e343be5b7",
+      "ids": [
+        "OW06_DESKTOP_TRANSFER_TWO_RECEIPTS_LOST_REPLY_CORRECT_REVERSE",
+        "OW06_MOBILE390_TRANSFER_TWO_RECEIPTS_CORRECT_REVERSE"
+      ],
+      "match": true,
+      "observed": "9f9936d5b5b0b1a8cee2e772a9286e7e343be5b7",
+      "path": "scripts/ow06-browser-qualification/browser.mjs",
+      "scope": "OW06 supplier pagination"
+    },
+    {
+      "expected": "0523dcd6782a7cc792ec74278114de852e68f1fe",
+      "ids": [
+        "F03_CASH_BROWSER_DESKTOP",
+        "F03_CASH_BROWSER_MOBILE_CURRENT_AUTH"
+      ],
+      "match": true,
+      "observed": "0523dcd6782a7cc792ec74278114de852e68f1fe",
+      "path": "scripts/ow09-chain-browser-qualification/browser.mjs",
+      "scope": "OW09 Cash"
+    }
+  ],
+  "production_go": false,
+  "report_bytes": 4650825,
+  "report_sha256": "24499308e50aa065606e7b84f5e250f1a7eb77cb3fbfe0049230a1c1621b0d70",
+  "run": 40697846383,
+  "scope": "Retain only the two verified browser cases on the original backend and their checked source mapping.",
+  "source_candidate": "32590613a08e176536d9a19b3843f6a72f4479b4",
+  "tested_backend": "3194b9c56be7af86ee45ccb1c6605204a712f91b",
+  "tested_head": "f5e4a0eb98f52c7615c3f4fb2459128bc76ed007"
+}

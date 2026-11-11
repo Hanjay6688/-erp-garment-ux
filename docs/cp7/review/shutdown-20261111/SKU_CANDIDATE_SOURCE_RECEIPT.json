@@ -1,0 +1,83 @@
+{
+  "actual_ERP_cases": 0,
+  "actual_SQL_executed": 0,
+  "actual_mandor_admission_replayed": true,
+  "baseline_workflow_steps": 81,
+  "candidate_workflow_steps": 83,
+  "changed_paths": {
+    ".github/workflows/cp7-sku-current-parent-money-automatic-native25.yml": {
+      "blob": "086d4b42341f3afc7de3416d720e96a731f7fb5a",
+      "bytes": 35683,
+      "sha256": "6224946f5b183f673e7a3160ddb632a18e7be083af0e6bf2b103d6c3d2ebe84c"
+    },
+    "scripts/current-sku-automatic-composite-preparation/SOURCE.json": {
+      "blob": "b6cb600bbaec5f901407f3d1354bc741cdd65928",
+      "bytes": 58244,
+      "sha256": "7adcebd35998d1fd6acb140bed31714c32edf2f25c6deeb9c72e0c514a345432"
+    },
+    "scripts/current-sku-automatic-composite-preparation/checkpoint.py": {
+      "blob": "1c0ed5f6e022aded2e4396a6f132ed4f3b567347",
+      "bytes": 6163,
+      "sha256": "eaa6d0be747c09d0b3587b0879324818a958e42664b4296a9f3631960957895c"
+    },
+    "scripts/current-sku-automatic-composite-preparation/package.py": {
+      "blob": "4eedb9712126992c2e38c4a2215137f3d43fd1c0",
+      "bytes": 10854,
+      "sha256": "0f6aadf3a3f56a33db4999730fc545f6b786d1d84c5aacd7bf72a18eda892c95"
+    },
+    "scripts/current-sku-automatic-composite-preparation/qualification.py": {
+      "blob": "c5f9b91650cb94f82cb3269805fd5d701ab3ece1",
+      "bytes": 13627,
+      "sha256": "45cf9612ee9ca0c41dde185c58c88942a550e59b1ab741c48d16308216c1fb16"
+    },
+    "scripts/current-sku-automatic-composite-preparation/sku-current-parent-money-automatic-native25-83.workflow.yml.txt": {
+      "blob": "086d4b42341f3afc7de3416d720e96a731f7fb5a",
+      "bytes": 35683,
+      "sha256": "6224946f5b183f673e7a3160ddb632a18e7be083af0e6bf2b103d6c3d2ebe84c"
+    },
+    "scripts/current-sku-automatic-composite-preparation/test_checkpoint.py": {
+      "blob": "29696eb1cc89f73925dcb0f0d05e0602c0592ac2",
+      "bytes": 6193,
+      "sha256": "a961a7f7ccd0a75a0c0b4545827a413ef7dd889612b88dd95dd4d970b3e5a52e"
+    },
+    "scripts/current-sku-automatic-composite-preparation/test_execution.py": {
+      "blob": "18de79b2908842dc957a788ffec58a1a7fe6998a",
+      "bytes": 16549,
+      "sha256": "259fb66d236ba71afcbd4bf7e6dd63daaf882386a2f4d5a29d0db77e25001d55"
+    },
+    "scripts/current-sku-automatic-composite-preparation/test_qualification.py": {
+      "blob": "7039a5f249d9d5e2f288a74aeac8301bf82ad4a4",
+      "bytes": 24449,
+      "sha256": "ed6dbfa2cf8327ef44b273abda436b3172b77cb52ec8bc94cf2081f94e80074c"
+    },
+    "scripts/current-sku-automatic-composite-preparation/workflow.py": {
+      "blob": "f902fcbd2ece43f78572078db881e54bc34c9e7f",
+      "bytes": 11392,
+      "sha256": "c8b33243a9a3ad5e0e91226a3fc3fab96f7e03b6150b0ba3b276500b43d1b5f8"
+    }
+  },
+  "checked_at_utc": "2026-11-11T09:31:25.145820+00:00",
+  "checkout_path_checks": "targeted namespace only; full owning source fence runs before database",
+  "global_intake": {
+    "changed_paths_no_collision": true,
+    "closed_head": "c9248b8770ec8cfe0f7e2f2fd8da26c141ea67c5",
+    "closed_scope": 209,
+    "closed_tree": "9b440dd1785344fdafa5d2d702a6dd8f1ee08622",
+    "exact_prior_bundle_recovered": true,
+    "successor_scope": 213
+  },
+  "head": "32590613a08e176536d9a19b3843f6a72f4479b4",
+  "independent_acceptance": false,
+  "parent": "6aebc5888d164203ba7934b322b3edaf67ee36bd",
+  "production_go": false,
+  "source_pin_files": 90,
+  "targeted_controls": {
+    "checkpoint": 8,
+    "global_terminal_identity": 4,
+    "installer_authority": 2,
+    "typed_parent_state": 3,
+    "workflow": 1
+  },
+  "tree": "262811e77e1a305a9d54baa9374e27df06793d10",
+  "verified_namespace_git_blobs": 91
+}
