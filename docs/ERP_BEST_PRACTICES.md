@@ -427,3 +427,30 @@ Fixb508bf77 hanyahelper pembanding. d85187dc/run40010384850 PASS8/8 dengan
 202000 dan kegagalan atomik. Kegagalan awal/Original/rawlog dipertahankan di
 receipt6370d29-schedule8-first-incomplete.json; kelulusan di d85187d-schedule8-pass.json.
 Pelajaran ini tidak memberikan fullOW13c/rantaiA/audit/production_go.
+
+
+## CP7 2026-11-11 — bukti worker satu run dan konservasi sen HPP
+
+- **Tulis dan unggah checkpoint sebelum database uji dibuat.** Simpan
+  identitas repo, commit, job, run dan attempt, plus prasyarat yang cocok.
+  Ikat izin cleanup ke receipt identitas yang sama. Worker dan cleanup
+  mengambil satu keputusan atomik sebelum worker mulai. Setelah worker
+  mulai, cek bukti proses selesai sebelum stop. Bila runner terputus,
+  pertahankan galat pertama, lalu verifikasi pemulihan dan arsip asli
+  sebelum memberi kredit. Terapkan pola ini saat delapan alur CP7 dalam
+  inventaris dipakai lagi. [Bukti guard](cp7/review/shutdown-20261111/erp-runtime-resilience/CP7_ERP_RUNTIME_RESILIENCE.md)
+- **Turunkan sumber dan jalur impor yang dipatok sebelum setup mahal.**
+  Jalankan pembentukan profil lengkap dengan kandidat, modul, dan
+  Original yang memang dipakai workflow. Tolak modul dengan nama sama
+  dari checkout lain. Untuk kelanjutan uji, pakai bukti skenario lama
+  jika perbandingan kandidat dan kondisi masuk membuktikan skenario
+  tetap berlaku. Jalankan skenario gagal, terdampak, dan belum jalan.
+  Pertahankan rangkaian yang berbagi state dan pemeriksaan pemulihan.
+- **Periksa konservasi sen pada pemindahan biaya.** Untuk distribusi
+  persediaan dan HPP penjualan non-PO, bulatkan jumlah kumulatif satu
+  kali dan alokasikan selisih sesuai urutan yang sudah disetujui.
+  Uji pecahan setengah sen, retur setelah biaya susulan, saldo akun
+  lain yang sah, replay, koreksi balik, dan jurnal per akun. Buku dan
+  pemeriksa independen membaca sumber masing-masing. Jurnal seimbang
+  masih bisa salah klasifikasi. Pertahankan kontrak PO dan jalur lama
+  sampai dampak dan hasil aktualnya terbukti. [Bukti HPP](cp7/review/shutdown-20261111/sku-non-po-rounding/SKU_NON_PO_ROUNDING_REVIEW.md)

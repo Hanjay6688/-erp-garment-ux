@@ -1,0 +1,264 @@
+diff --git a/scripts/current-sku-automatic-composite-preparation/SOURCE.json b/scripts/current-sku-automatic-composite-preparation/SOURCE.json
+index aea478317..e5ffe01d2 100644
+--- a/scripts/current-sku-automatic-composite-preparation/SOURCE.json
++++ b/scripts/current-sku-automatic-composite-preparation/SOURCE.json
+@@ -185,8 +185,8 @@
+       "sha256": "8d1ae7590e9fba0ab18771255d7a5fbee912cd94cf484c558c9a004a236a9085"
+     },
+     "assembly.py": {
+-      "bytes": 7757,
+-      "sha256": "fe63cdd7e1555ae89318b2badd1ac4ba074631be8a9370eff47bdb8cd64d324c"
++      "bytes": 8502,
++      "sha256": "51c63983f895a516f1830038424be7cb8ee482b75ae5e0cae5919d77f19949c3"
+     },
+     "browser.mjs": {
+       "bytes": 23288,
+@@ -301,8 +301,8 @@
+       "sha256": "fdb68eb38465a8105042df2a562fa8ec458aa40cbedf83b6eb44796ca81d2c55"
+     },
+     "module_scope.py": {
+-      "bytes": 7746,
+-      "sha256": "c9d3f2b813346e270b089779d0dce0200c0e3953d3eef13b1fe6b476390d2bfa"
++      "bytes": 8504,
++      "sha256": "64d5c922edd3179d9a1b6673b57c46a970ba915caf4324fa0cdd3f880a5e9456"
+     },
+     "money_binding.py": {
+       "bytes": 9020,
+@@ -333,8 +333,8 @@
+       "sha256": "5535ce276253d5ce6f10157cc825e75499ef2e2cf6b225dac3213317e6cb1966"
+     },
+     "qualification.py": {
+-      "bytes": 13883,
+-      "sha256": "483ae2b6e19167679b41d24fd867a506c09d922b29a616239b9c7b08531f5c6a"
++      "bytes": 14105,
++      "sha256": "8c0b0007dc397bdfebfcafa4b3296880729487f90a8cef61a2f26d8bd39ccc6c"
+     },
+     "report_io.py": {
+       "bytes": 6464,
+@@ -463,6 +463,10 @@
+     "test_runtime_receipt.py": {
+       "bytes": 9337,
+       "sha256": "810f8ab32bf05131b1d28220c9c9ec7f58e122b1529f5cc0303ed636cdb28f49"
++    },
++    "non_po_rounding.py": {
++      "bytes": 4768,
++      "sha256": "ac1424fcc242dfcd05e823111316724d7b671ad313e3603f7196f32cb24846d6"
+     }
+   },
+   "fresh_Auth_HTTP_races_browser_and_full_runtime_pending": true,
+@@ -1725,5 +1729,11 @@
+   },
+   "selective_UI_source_admission_prepared": true,
+   "separate_browser_source_and_Native_deadlines_prepared": true,
+-  "source_intake_control_methods": 4
++  "source_intake_control_methods": 4,
++  "non_po_rounding_projection": {
++    "actual_ERP_cases": 0,
++    "frozen_money_source_unchanged": true,
++    "native_and_independent_credit_functions": 2,
++    "owning_source_preflight_before_database": true
++  }
+ }
+diff --git a/scripts/current-sku-automatic-composite-preparation/assembly.py b/scripts/current-sku-automatic-composite-preparation/assembly.py
+index 4231ec286..61d6ee496 100644
+--- a/scripts/current-sku-automatic-composite-preparation/assembly.py
++++ b/scripts/current-sku-automatic-composite-preparation/assembly.py
+@@ -27,6 +27,8 @@ def load(name, path):
+ 
+ admission = load('current_automatic_closed_admission', HERE / 'admission.py')
+ derivation = load('current_automatic_exact_interface_derivation', HERE / 'derive.py')
++non_po_rounding = load('current_automatic_non_po_rounding', HERE / 'non_po_rounding.py')
++module_scope = load('current_automatic_preparation_module_scope', HERE / 'module_scope.py')
+ 
+ 
+ def require(value, message):
+@@ -114,6 +116,8 @@ def load_prepared(bridge, parent, money_module, automatic_module, parent_raw, mo
+     # The retained bridge admits the actual complete Mandor17 parent and the
+     # unqualified money candidate. It does not require a duplicate money19 run.
+     money = bridge.load_prepared(parent, money_module, parent_raw, money_raw)
++    require(money is not money_module, 'SKU_AUTOMATIC_PRIVATE_MONEY_INSTANCE_REQUIRED')
++    frozen_money_sources = money.sources
+     expected = FROZEN_AUTO / 'scripts/cp7_sku_automatic_pending'
+     require(Path(automatic_module.__file__).resolve() == expected / 'composition.py',
+             'SKU_AUTOMATIC_EXACT_FROZEN_INSTALLER_MODULE_REQUIRED')
+@@ -134,7 +138,7 @@ def load_prepared(bridge, parent, money_module, automatic_module, parent_raw, mo
+         require(admission.inputs(parent_raw, money_raw, plan_raw) == receipt and source_manifest() == own,
+                 'SKU_AUTOMATIC_PARENT_SOURCE_OR_PLAN_CHANGED')
+         frozen()
+-        require(admission.pin(admission.canonical(money.sources())) == admission.CURRENT_MONEY_GRAPH_PIN,
++        require(admission.pin(admission.canonical(frozen_money_sources())) == admission.CURRENT_MONEY_GRAPH_PIN,
+                 'SKU_AUTOMATIC_COMPLETE_CURRENT_MONEY_GRAPH_CHANGED')
+         return dict(receipt=receipt, preparation_source=own, derivation=proof,
+                     complete_current_parent_state_bound=True, actual_ERP_cases=0, production_go=False)
+@@ -145,4 +149,11 @@ def load_prepared(bridge, parent, money_module, automatic_module, parent_raw, mo
+     product.__package__ = automatic_module.__package__
+     product.__dict__.update(_CURRENT_MONEY_PARENT=money, _BRIDGE_SOURCES=bridge_sources)
+     exec(compile(text, product.__file__ + '::current_money_parent', 'exec'), product.__dict__)
++    financial_delta = money.prepared_product.financial_delta
++    require(Path(financial_delta.__file__).resolve()
++            == Path(money_module.__file__).resolve().with_name('financial_delta.py'),
++            'SKU_AUTOMATIC_EXACT_FROZEN_FINANCIAL_DELTA_REQUIRED')
++    for owner in (money, product):
++        owner.prepared = module_scope.bind_money_preparation(owner.prepared, financial_delta)
++    non_po_rounding.bind(money)
+     return product
+diff --git a/scripts/current-sku-automatic-composite-preparation/module_scope.py b/scripts/current-sku-automatic-composite-preparation/module_scope.py
+index 84f5ac906..583768c6b 100644
+--- a/scripts/current-sku-automatic-composite-preparation/module_scope.py
++++ b/scripts/current-sku-automatic-composite-preparation/module_scope.py
+@@ -4,6 +4,7 @@ from pathlib import Path
+ from importlib.abc import MetaPathFinder
+ from importlib.machinery import ModuleSpec
+ from importlib.util import module_from_spec, spec_from_file_location
++from threading import RLock
+ from types import ModuleType
+ import ast
+ import sys
+@@ -15,6 +16,24 @@ _active = []
+ HARNESS_NAMES = ('cp6_t3_package_run', 'cp6_run_identity', 'cp6_aw_probe', 'cp6_ax_probe',
+                  'cp6_g01_fingerprint', 'cp6_t3_backup_restore_drill', 'cp6_t3_release_package',
+                  'cp6_t3_browser', 'cp6_t3_aligned_install')
++_financial_import_lock = RLock()
++
++
++def bind_money_preparation(prepare, financial_delta):
++    """Resolve the retained bare import to the same frozen money module."""
++    def prepare_with_financial_source(before, prior):
++        name = 'financial_delta'
++        with _financial_import_lock:
++            if name in sys.modules:
++                if sys.modules[name] is not financial_delta:
++                    raise ValueError('SKU_AUTOMATIC_FROZEN_FINANCIAL_DELTA_COLLISION')
++                return prepare(before, prior)
++            sys.modules[name] = financial_delta
++            try:
++                return prepare(before, prior)
++            finally:
++                del sys.modules[name]
++    return prepare_with_financial_source
+ 
+ 
+ @contextmanager
+diff --git a/scripts/current-sku-automatic-composite-preparation/non_po_rounding.py b/scripts/current-sku-automatic-composite-preparation/non_po_rounding.py
+new file mode 100644
+index 000000000..2a98184e5
+--- /dev/null
++++ b/scripts/current-sku-automatic-composite-preparation/non_po_rounding.py
+@@ -0,0 +1,99 @@
++"""Conserve non-PO HPP cents in the owning SKU money composition."""
++from hashlib import sha256
++import json
++
++
++NATIVE = 'erp.compute_non_po_product_hpp_targets_v2620f(uuid)'
++CREDIT = 'cp7_credit.initial_hpp_targets_v1(uuid,uuid,jsonb,boolean)'
++NATIVE_COGS = (
++    "greatest(s.value+ls.value-r.value-lr.value"
++    "+cp7_sku_conversion.cost_scope_value_v3(p_product_id,null,'SOLD')"
++    "-cp7_sku_conversion.cost_scope_value_v3(p_product_id,null,'RETURNED'),0)"
++)
++ROUTES = {
++    NATIVE: (
++        f'round({NATIVE_COGS},2)::numeric cogs',
++        f'(round(o.value+{NATIVE_COGS},2)-round(o.value,2))::numeric cogs',
++        '1476efc2176ad189f15218d6217179304d1b1af3ff10cb0a6d68874205e4fc8a',
++        '798c4a2959da01720c2283a29947e1f2339386d04770a5732c94bdc254b296a6',
++    ),
++    CREDIT: (
++        'round(greatest(cogs,0),2)::numeric cogs from raw_values',
++        '(case when p_po is null then round(fg+greatest(cogs,0),2)-round(fg,2) '
++        'else round(greatest(cogs,0),2) end)::numeric cogs from raw_values',
++        '3f60a963c752a7f3ecb53f5c35e9c1df95506ca78983ffc4fc55aeafe85a6918',
++        '4b23090b8322fb7555200ad789c55757f4a29ef392c32f6dbd1c2270293a79a0',
++    ),
++}
++ORIGINAL = 'CP7_SKU_MANAGED_RECOVERY_NATIVE27.json'
++ORIGINAL_PIN = (30376182, '5e22077e71e34add6fd0627c89e9d21a2235f463818e45b233c7619bcfb0d48f')
++ORIGINAL_CASE = 'SKU_NATIVE7_COST5_RACES3_PERMISSION_WAITS7_RECOVERY_BUSY1_AUTH_BROWSER4'
++
++
++def source():
++    return dict(
++        contract='cp7.sku-non-po-cumulative-cent-rounding.v1',
++        replacements={sig: dict(before_sha256=route[2], after_sha256=route[3])
++                      for sig, route in ROUTES.items()},
++    )
++
++
++def correct(product, profile):
++    """Project two SQL bodies onto an already validated PG17 catalogue."""
++    definitions = dict(product['definitions'])
++    rows = dict(profile['replacement_functions'])
++    pins = dict(profile['derived_replacements'])
++    for sig, (before, after, old_sha, new_sha) in ROUTES.items():
++        definition = definitions[sig]
++        if (definition != rows[sig][0] or sha256(definition.encode()).hexdigest() != old_sha
++                or definition.count(before) != 1):
++            raise ValueError('SKU_NON_PO_ROUNDING_EXACT_PREIMAGE_REQUIRED:' + sig)
++        corrected = definition.replace(before, after, 1)
++        encoded = corrected.encode()
++        if sha256(encoded).hexdigest() != new_sha:
++            raise ValueError('SKU_NON_PO_ROUNDING_EXACT_POSTIMAGE_REQUIRED:' + sig)
++        definitions[sig] = corrected
++        rows[sig] = [corrected, *rows[sig][1:]]
++        pins[sig] = dict(bytes=len(encoded), sha256=new_sha)
++    return (dict(product, definitions=definitions),
++            dict(profile, replacement_functions=rows, derived_replacements=pins))
++
++
++def bind(money):
++    """Keep the original preparation checks in the private money instance."""
++    retained_prepare = money.prepared
++    retained_sources = money.sources
++
++    def prepared(before, prior):
++        product, profile, tables = retained_prepare(before, prior)
++        product, profile = correct(product, profile)
++        return product, profile, tables
++
++    def sources():
++        return dict(retained_sources(), non_po_rounding=source())
++
++    money.prepared = prepared
++    money.sources = sources
++
++
++def preflight(automatic, directory):
++    """Derive both layers from the pinned Native27 catalogue before DB setup."""
++    path = directory / ORIGINAL
++    if not path.is_file() or any(part.is_symlink() for part in (path, *path.parents)):
++        raise ValueError('SKU_NON_PO_ROUNDING_EXACT_REGULAR_NATIVE27_REQUIRED')
++    raw = path.read_bytes()
++    if (len(raw), sha256(raw).hexdigest()) != ORIGINAL_PIN:
++        raise ValueError('SKU_NON_PO_ROUNDING_NATIVE27_BYTES_CHANGED')
++    catalogue = json.loads(raw)['committed'][ORIGINAL_CASE]['Native_to_copy_handoff']['raw_current_catalog']
++    money = automatic.parent()
++    originals = {sig: catalogue['functions'][sig][0]
++                 for sig in money.prepared_product.parent_original_signatures()}
++    _, profile, _ = money.prepared(catalogue, dict(originals=originals))
++    functions = catalogue['functions'] | profile['groups']['functions'] | profile['replacement_functions']
++    delta, additions, _ = automatic.prepared(dict(catalogue, functions=functions),
++                                            dict(before=catalogue, predecessor=dict(originals=originals)))
++    if ROUTES.keys() & (delta['definitions'].keys() | additions['groups']['functions'].keys()):
++        raise ValueError('SKU_NON_PO_ROUNDING_AUTOMATIC_DELTA_OVERLAP')
++    return dict(source=source(), original_sha256=ORIGINAL_PIN[1],
++                money_replacements=len(profile['replacement_functions']),
++                automatic_replacements=len(delta['definitions']), actual_SQL_executed=0)
+diff --git a/scripts/current-sku-automatic-composite-preparation/qualification.py b/scripts/current-sku-automatic-composite-preparation/qualification.py
+index 727fd3457..df3ccab93 100644
+--- a/scripts/current-sku-automatic-composite-preparation/qualification.py
++++ b/scripts/current-sku-automatic-composite-preparation/qualification.py
+@@ -205,9 +205,12 @@ def main():
+                 browser_preflight = load('automatic_current_browser_before_any_database', HERE / 'browser_preflight.py').check(runtime=True)
+                 browser_binding = load('automatic_actual_browser_fixture_before_any_database', HERE / 'browser_binding.py')
+                 _, browser_fixture = browser_binding.fixture(engine.product)
++                rounding_source = assembly.non_po_rounding.preflight(
++                    engine.product, Path(os.environ['CP7_SKU_PARENT_ORIGINALS']))
+         print(json.dumps(dict(source=proof, source_DB_guard=guard, native_callback_sources=callback_sources,
+                               browser_source_preflight=browser_preflight,
+-                              actual_browser_fixture_source_binding=browser_fixture, actual_SQL_executed=0)))
++                              actual_browser_fixture_source_binding=browser_fixture,
++                              non_po_rounding_source=rounding_source, actual_SQL_executed=0)))
+         return
+     attempts = load('automatic_unchanged_real_WIB_day_window', FROZEN_AFUI / 'scripts/current-de-free-date-preparation/attempt_policy.py')
+     attempts.require_window()
