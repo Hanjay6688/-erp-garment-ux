@@ -1,0 +1,55 @@
+{
+  "status": "PARENT_SYSTEM_COLUMN_AUTHORITY_COUNTEREXAMPLE_REPRODUCED",
+  "postgres": "17.6",
+  "catalogue_groups": 25,
+  "baseline_catalogue_sha256": "63c564b1aef95a16ced76b62f5a186481ddad593ba91636b85837028ae20cc92",
+  "sources": {
+    "scripts/cp7_accessory_nonpayable/advisor_review.py": {
+      "bytes": 4173,
+      "sha256": "bd1090e42a4a2519a10c5f2872599703606f9b922026d347b6f873ca368df0df"
+    },
+    "scripts/cp7_accessory_nonpayable/settings.sql": {
+      "bytes": 16348,
+      "sha256": "affee25285953f007d9bf0175ca33c891a54343310968c64be247ed61217f15e"
+    },
+    "scripts/current-mandor-shop-native-qualification/advisor_review.py": {
+      "bytes": 8942,
+      "sha256": "d955e956cd65431ce8910e0d09e5ebdc1bd6b5a85a9f4b263ae5ebb2545be40c"
+    },
+    "scripts/cp7_global_nonpo_envelope/catalogue_profile.py": {
+      "bytes": 4607,
+      "sha256": "e34234eab2e4c36f8c63742a504569f954957241c0cbc679e9b420d12218b19e"
+    }
+  },
+  "exact_Afui_schema_usage_reused": true,
+  "Afui_extra_xmin_row": {
+    "schema": "cp7_accessory_nonpayable",
+    "relation": "category_versions_v1",
+    "column": "xmin",
+    "attribute_number": -2,
+    "grantor": "postgres",
+    "grantee": "cp7_good_policy_date",
+    "privilege": "SELECT",
+    "grantable": false
+  },
+  "Afui_original_advisor_missed_xmin": true,
+  "Afui_original_advisor_missed_ordinary_column": true,
+  "original_full25_detected_ordinary_column": true,
+  "original_full25_missed_xmin": true,
+  "Mandor_own_private_advisor_rejected_xmin": true,
+  "supplemental_observer_rejected_both_xmin_changes": true,
+  "fixture_rollback": true,
+  "production_go": false,
+  "actual_combined_ERP_cases": 0,
+  "replay_source": {
+    "bytes": 7576,
+    "sha256": "fb2b1efab8b480a90c33f752469848433f23f8381dd0634ba59a749beac457c8"
+  },
+  "Global_observer_positions": [
+    "baseline before changes",
+    "after installing exact SKU parent",
+    "after Global changes",
+    "after final recovery"
+  ],
+  "source_scope": "EXACT_SOURCE_CATALOGUE_FIXTURE_AND_SUPPLEMENTAL_ACL_CONTROL"
+}

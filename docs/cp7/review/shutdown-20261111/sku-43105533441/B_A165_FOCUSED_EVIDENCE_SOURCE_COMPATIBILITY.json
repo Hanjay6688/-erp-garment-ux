@@ -1,0 +1,37 @@
+{
+  "status": "B_FOCUSED_EVIDENCE_CURRENT_SOURCE_COMPATIBLE",
+  "candidate": "a1652a808f5f9e7a5bcc3fe0ea0feb081075adc3",
+  "verified_source_pins": 21,
+  "original_B_review": "52b6cf93dd85bc76a713e29beb5ae6d91247f9c7",
+  "original_candidate": "d08032a28b9f00d0ee70a6f98c6b7d0f5b770c4a",
+  "A_verified_receipt": {
+    "bytes": 9165,
+    "sha256": "70387ed0a1ad9163169ecdff2d6c802530668db37a0cbea185f0c9e9eda0e38d"
+  },
+  "affected_source_pins": [],
+  "retained_scopes": [
+    "moving average focused fixture",
+    "physical WIP/FG snapshot",
+    "report DEFERRED and archive",
+    "seven DOM/unit tests"
+  ],
+  "pending": {
+    "status": "BLOCKED",
+    "expected_WIP_before_cents": 28800,
+    "expected_WIP_after_cents": 18000,
+    "expected_FG_after_cents": 10800,
+    "expected_sales_COGS_cents": 0,
+    "required": [
+      "actual combined disposable copy",
+      "posted and traced cost",
+      "erp.rebuild_po_hpp",
+      "erp.sync_po_hpp_to_gl",
+      "configured WIP and FG journal accounts",
+      "owner finance.reports.view",
+      "paired INCLUDED publications at the same business/date cutoff"
+    ]
+  },
+  "actual_new_combined_ERP_cases": 0,
+  "formal_cp7": "5/16",
+  "production_go": false
+}

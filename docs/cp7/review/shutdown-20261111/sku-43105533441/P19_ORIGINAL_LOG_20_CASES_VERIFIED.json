@@ -1,0 +1,164 @@
+{
+  "status": "HISTORICAL_REPORT_JOB_20_CASES_RECHECKED_FROM_GITHUB_LOG",
+  "run": 37855200317,
+  "job": 113577594659,
+  "attempt": 1,
+  "head": "05b2368fcf4793b90a405245deaec40d1ba3526b",
+  "original_summary": {
+    "line": 2162,
+    "sha256": "948eeb9655b52a033e819af090183499c785356ebbe837626f733c87c66dc16e",
+    "source_sha256": "a3d059e0b686e5e6997a249d841160adcafea7986ba72cb6ef40855d14faac98",
+    "cases": 20,
+    "restore": true
+  },
+  "selected_case_original_pins": {
+    "P19R_ACTUAL_STOCK_AT_REPORT_TIME": {
+      "line": 1965,
+      "line_sha256": "5f56d6f4c26f7959a335981c58d647f712dc0ae14c8f48cbfdf2f17406c32162",
+      "status": "PASS"
+    },
+    "P19R_FINANCE_FROM_OWNER_REPORT": {
+      "line": 1987,
+      "line_sha256": "2ddc5488be40e95bfbf97c7e559c4fcce11712d68f99fdd5a9980d5e43bb7204",
+      "status": "PASS",
+      "finance_read_from_accepted_owner_report_at_report_date": true,
+      "same_fingerprint_as_public_report": true
+    },
+    "P19R_BROWSER_DESKTOP_REPORT": {
+      "line": 2149,
+      "line_sha256": "eae51bfe8db0b6902d260c9aa5045284cf7aae8cb82c5bac49f9820dc528b99e",
+      "status": "PASS",
+      "finance": "INCLUDED"
+    },
+    "P19R_BROWSER_MOBILE_REPORT": {
+      "line": 2160,
+      "line_sha256": "85c117ce2817590bd4c84344ae74d17a2a0ee66d71f424b25bf319b7fb7617a6",
+      "status": "PASS",
+      "finance": "DEFERRED"
+    }
+  },
+  "all_cases": [
+    {
+      "case": "P19R_PUBLISH_STEPS_SEAL",
+      "group": "CP7_P19_REPORT_V2",
+      "status": "PASS",
+      "line": 1954
+    },
+    {
+      "case": "P19R_ACTUAL_STOCK_AT_REPORT_TIME",
+      "group": "CP7_P19_REPORT_V2",
+      "status": "PASS",
+      "line": 1965
+    },
+    {
+      "case": "P19R_FRESHNESS_STATES_WORDED",
+      "group": "CP7_P19_REPORT_V2",
+      "status": "PASS",
+      "line": 1976
+    },
+    {
+      "case": "P19R_FINANCE_FROM_OWNER_REPORT",
+      "group": "CP7_P19_REPORT_V2",
+      "status": "PASS",
+      "line": 1987
+    },
+    {
+      "case": "P19R_FINANCE_ACCESS_CURRENT",
+      "group": "CP7_P19_REPORT_V2",
+      "status": "PASS",
+      "line": 1998
+    },
+    {
+      "case": "P19R_REVISION_SERIES",
+      "group": "CP7_P19_REPORT_V2",
+      "status": "PASS",
+      "line": 2009
+    },
+    {
+      "case": "P19R_REQUEST_ONE_UUID",
+      "group": "CP7_P19_REPORT_V2",
+      "status": "PASS",
+      "line": 2020
+    },
+    {
+      "case": "P19R_AUTHORITY",
+      "group": "CP7_P19_REPORT_V2",
+      "status": "PASS",
+      "line": 2031
+    },
+    {
+      "case": "P19R_FIELDS_AND_IDENTITY",
+      "group": "CP7_P19_REPORT_V2",
+      "status": "PASS",
+      "line": 2042
+    },
+    {
+      "case": "P19R_V1_APART",
+      "group": "CP7_P19_REPORT_V2",
+      "status": "PASS",
+      "line": 2053
+    },
+    {
+      "case": "P19R_RACE_TWO_STEPS_ONE_UNIT",
+      "group": "AUDITOR_RACES_CP7_P19_REPORT_V2",
+      "status": "PASS",
+      "line": 2066
+    },
+    {
+      "case": "P19R_RACE_TWO_REVISIONS_ONE_SEALS",
+      "group": "AUDITOR_RACES_CP7_P19_REPORT_V2",
+      "status": "PASS",
+      "line": 2077
+    },
+    {
+      "case": "P19R_RACE_STOCK_COMMITTED_DURING_JOB",
+      "group": "AUDITOR_RACES_CP7_P19_REPORT_V2",
+      "status": "PASS",
+      "line": 2088
+    },
+    {
+      "case": "P19R_RACE_ACCESS_CHANGED_MID_JOB",
+      "group": "AUDITOR_RACES_CP7_P19_REPORT_V2",
+      "status": "PASS",
+      "line": 2099
+    },
+    {
+      "case": "P19R_RACE_SAME_UUID_TWO_SESSIONS",
+      "group": "AUDITOR_RACES_CP7_P19_REPORT_V2",
+      "status": "PASS",
+      "line": 2110
+    },
+    {
+      "case": "P19R_RACE_LIMIT_RETRIES_THEN_CONTINUES",
+      "group": "AUDITOR_RACES_CP7_P19_REPORT_V2",
+      "status": "PASS",
+      "line": 2121
+    },
+    {
+      "case": "P19R_HTTP_FLOW",
+      "group": "AUDITOR_HTTP_CP7_P19_REPORT_V2",
+      "status": "PASS",
+      "line": 2134
+    },
+    {
+      "case": "P19R_HTTP_REVOKED",
+      "group": "AUDITOR_HTTP_CP7_P19_REPORT_V2",
+      "status": "PASS",
+      "line": 2135
+    },
+    {
+      "case": "P19R_BROWSER_DESKTOP_REPORT",
+      "group": "AUDITOR_BROWSER_CP7_P19_REPORT_V2_BROWSER",
+      "status": "PASS",
+      "line": 2149
+    },
+    {
+      "case": "P19R_BROWSER_MOBILE_REPORT",
+      "group": "AUDITOR_BROWSER_CP7_P19_REPORT_V2_BROWSER",
+      "status": "PASS",
+      "line": 2160
+    }
+  ],
+  "paired_QC_cost_book_and_same_cutoff_INCLUDED_pending": true,
+  "fresh_current_Sku_Global_or_CP7_case_credit": 0
+}
