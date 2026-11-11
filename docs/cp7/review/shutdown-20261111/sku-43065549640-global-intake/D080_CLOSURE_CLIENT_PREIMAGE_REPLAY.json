@@ -1,0 +1,71 @@
+{
+  "actual_ERP_cases": 0,
+  "applied_to_disposable_local_copy_only": true,
+  "auth_browser_requirements_retained": true,
+  "closed_global": "c9248b8770ec8cfe0f7e2f2fd8da26c141ea67c5",
+  "closed_global_preimages_identical": {
+    "src/ConnectedAccessoryIssuePage.dom.test.tsx": "e1cc0a6411428af3bafbe5d2d18b6682753fe875",
+    "src/ConnectedCashLedgerPage.dom.test.tsx": "cd3c2e065087500bf6f449631ba7ff376b0301c4",
+    "src/ConnectedCashLedgerPage.tsx": "3d4786d5c64db4f519f91b6f4740f4c48cc9ab71",
+    "src/SupplierTransferPanel.dom.test.tsx": "ed6a7154e5ae285becd61f4a0689ab1c8b3d8dbc",
+    "src/accessoryIssue.ts": "bc35c5fef2c48ed1a6659d8c1675f1ebb0b97a1f",
+    "src/financeAnalysisContract.ts": "60f17b2d830ed58bc5265083985e86647dff362e",
+    "src/supplierTransferContract.ts": "c9f6b15ebf14cc88fc829a1bbbcea3ced1a568cf"
+  },
+  "formal_source": {
+    "blob": "c3ad5c925cd0f1f5a6f0e29624be190bcc809be6",
+    "path": "docs/cp7/OPEN_WORK_D17_14_20261020.md",
+    "status": "5/16"
+  },
+  "formal_status": "5/16",
+  "global_runtime_admission": false,
+  "identical_postimages": {
+    "src/ConnectedAccessoryIssuePage.dom.test.tsx": {
+      "bytes": 29378,
+      "sha256": "d1263751cbeb7013595e340d40b45c8518bd90bc85ff0a0f65c234ce10ccb9b7"
+    },
+    "src/ConnectedCashLedgerPage.dom.test.tsx": {
+      "bytes": 17254,
+      "sha256": "68e975531c11a5339490f21c9fa63f880bd33b5b202c28c4ebeba92e2c970105"
+    },
+    "src/ConnectedCashLedgerPage.tsx": {
+      "bytes": 9286,
+      "sha256": "0a7e7e93f8d72bb429be119f126b732ba76058d02988b97d415d707b1624157a"
+    },
+    "src/SupplierTransferPanel.dom.test.tsx": {
+      "bytes": 17866,
+      "sha256": "04191211baf704b8fe92505e5556b2ea579841dd5c0c80a7d7d11c8257488965"
+    },
+    "src/accessoryIssue.ts": {
+      "bytes": 10611,
+      "sha256": "23d36793bbb36430bfafaca774aa42c0c9fdefe6e59503c94d1d7d46c5909d6f"
+    },
+    "src/financeAnalysisContract.ts": {
+      "bytes": 7284,
+      "sha256": "f72a4803cc135f17188de33865fe7a181f5dd37f6b21b5e01edf5e6d338bf6c5"
+    },
+    "src/supplierTransferContract.ts": {
+      "bytes": 13331,
+      "sha256": "3699e110e986a06d62aad797226f004c2a8ccd1928f20f257403733903d1580c"
+    }
+  },
+  "kind": "CP7_D080_RETAINED_CLIENT_PATCH_APPLIES_EXACTLY",
+  "patch": {
+    "bytes": 19360,
+    "sha256": "a053a58712071298e9c206936305f832b12d6f435cf6373b26e7304e91ab7e45"
+  },
+  "retained_client_test_runs_reexecuted": false,
+  "sku_head": "d08032a28b9f00d0ee70a6f98c6b7d0f5b770c4a",
+  "writer_B_original": {
+    "artifact": 12824760687,
+    "attempt": 1,
+    "browser_scope": "two real Auth cases on original backend 3194b9c5",
+    "bytes": 4449681,
+    "current_head_credit": false,
+    "head": "f5e4a0eb98f52c7615c3f4fb2459128bc76ed007",
+    "job": 122849290624,
+    "retained_original_crc_members": 122,
+    "run": 40697846383,
+    "sha256": "33b27ed1e46bb5a335fb119be03b40fcf1e9c2a14e97697f11c799f4072a40c5"
+  }
+}
