@@ -1,7 +1,13 @@
 """Browser package preconditions cannot create ERP or admission credit."""
 from pathlib import Path
 import importlib.util
+import os
+import shlex
+import subprocess
+import tempfile
 import unittest
+
+import workflow
 
 HERE = Path(__file__).resolve().parent
 spec = importlib.util.spec_from_file_location('sku_exact_browser_package_preflight', HERE / 'browser_runtime.py')
@@ -23,6 +29,23 @@ class BrowserRuntimeControls(unittest.TestCase):
     def test_donor_byte_drift_is_refused_before_any_runtime_action(self):
         with self.assertRaisesRegex(ValueError, 'EXACT_PROVEN_TWO_CHECKOUT_PREFLIGHT_SOURCE'):
             runtime.derive(runtime.DONOR.read_bytes() + b'\n')
+
+    def test_runner_archive_replaces_only_the_broken_mirror_and_preserves_signing(self):
+        source = ('Types: deb\nURIs: mirror+file:/etc/apt/apt-mirrors.txt\n'
+                  'Suites: noble noble-updates noble-backports noble-security\n'
+                  'Components: main universe\nSigned-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg\n')
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / 'ubuntu.sources'
+            path.write_text(source)
+            command = workflow.DIRECT_UBUNTU_ARCHIVE.replace(
+                '/etc/apt/sources.list.d/ubuntu.sources', shlex.quote(str(path)), 1)
+            # Exercise the exact shell route against a disposable sources file.
+            command = 'set -euo pipefail\nsudo() { shift; "$@"; }\n' + command
+            for _ in range(2):
+                subprocess.run(['bash', '-c', command], check=True,
+                               env=dict(os.environ, RUNNER_TEMP=directory))
+                self.assertEqual(path.read_text(), source.replace(
+                    'mirror+file:/etc/apt/apt-mirrors.txt', 'https://archive.ubuntu.com/ubuntu/'))
 
 
 if __name__ == '__main__':

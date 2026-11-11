@@ -103,9 +103,14 @@ jobs:
         node-version: 22.23.4
     - name: Install pinned disposable runtime
       shell: bash
-      run: "set -euo pipefail\npython -m pip install --quiet 'psycopg[binary]==3.2.10'\
-        \ 'PyYAML==6.0.2' 'jsonschema==4.25.1'\nsudo apt-get update -qq\nsudo apt-get\
-        \ install -y -qq ca-certificates curl gnupg\nsudo install -d /usr/share/postgresql-common/pgdg\n\
+      run: "set -euo pipefail\nubuntu_sources=/etc/apt/sources.list.d/ubuntu.sources\n\
+        if [ -r \"$ubuntu_sources\" ] && grep -qFx 'URIs: mirror+file:/etc/apt/apt-mirrors.txt'\
+        \ \"$ubuntu_sources\"; then\n  sed 's|^URIs: mirror+file:/etc/apt/apt-mirrors.txt$|URIs:\
+        \ https://archive.ubuntu.com/ubuntu/|'     \"$ubuntu_sources\" > \"$RUNNER_TEMP/cp7-ubuntu.sources\"\
+        \n  sudo -n install -m 0644 \"$RUNNER_TEMP/cp7-ubuntu.sources\" \"$ubuntu_sources\"\
+        \nfi\npython -m pip install --quiet 'psycopg[binary]==3.2.10' 'PyYAML==6.0.2'\
+        \ 'jsonschema==4.25.1'\nsudo apt-get update -qq\nsudo apt-get install -y -qq\
+        \ ca-certificates curl gnupg\nsudo install -d /usr/share/postgresql-common/pgdg\n\
         sudo curl --fail --no-progress-meter --show-error --retry 2 --retry-all-errors\
         \ --retry-max-time 40 --connect-timeout 8 --max-time 15 --remove-on-error\
         \ \\\n  -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc \\\n \
@@ -527,9 +532,14 @@ jobs:
         '
     - name: Install pinned browser dependencies in both actual checkout roots before
         database
-      run: "set -euo pipefail\nfor checkout in auditor writer; do\n  (cd \"$GITHUB_WORKSPACE/$checkout\"\
-        \ && npm ci --include=dev && npx --no-install playwright install --with-deps\
-        \ chromium)\ndone\n"
+      run: "set -euo pipefail\nlimit=\"$(python -B \"$GITHUB_WORKSPACE/auditor/scripts/current-sku-automatic-composite-preparation/run_window.py\"\
+        \ --setup-limit)\"\nbounded=()\nif [ -n \"$limit\" ]; then bounded=(timeout\
+        \ --kill-after=10s \"$limit\"); fi\n\"${bounded[@]}\" bash -e -u -o pipefail\
+        \ -c \"$(cat <<'CP7_WIB_DISPOSABLE_SETUP'\nfor checkout in auditor writer;\
+        \ do\n  (cd \"$GITHUB_WORKSPACE/$checkout\" && npm ci --include=dev)\ndone\n\
+        (cd \"$GITHUB_WORKSPACE/auditor\" && npx --no-install playwright install --with-deps\
+        \ chromium)\n(cd \"$GITHUB_WORKSPACE/writer\" && npx --no-install playwright\
+        \ install chromium)\nCP7_WIB_DISPOSABLE_SETUP\n)\"\n"
     - name: Open actual desktop and mobile browsers and compile exact SKU candidate
         before database
       working-directory: auditor
@@ -617,6 +627,7 @@ jobs:
         )"
 
         '
+      id: cp7_disposable_start
     - name: Rebuild to v2.6.20, align with hosted, continue the frozen path to AB
       working-directory: base
       env:
@@ -674,6 +685,7 @@ jobs:
         python -B ../auditor/scripts/current-sku-automatic-composite-preparation/final_gate.py
 
         '
+      id: cp7_sku_runtime
     - name: Retain exact clone comparison outputs after source and runtime checks
       if: always()
       working-directory: auditor
@@ -698,18 +710,22 @@ jobs:
 
         '
     - name: Remove disposable database
-      if: always()
+      if: ${{ always() && (steps.cp7_disposable_start.outcome == 'success' || steps.cp7_disposable_start.outcome
+        == 'failure' || steps.cp7_disposable_start.outcome == 'cancelled') }}
       working-directory: base
       run: 'python -B ../auditor/scripts/current-sku-automatic-composite-preparation/execution.py
         supervise --allow-database-stop
 
         if command -v supabase >/dev/null 2>&1 && test -d cp5-local; then supabase
         stop --workdir cp5-local --no-backup; fi'
+      id: cp7_disposable_cleanup
     - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
       if: always()
       with:
-        name: cp7-sku-current-parent-money-automatic-native25-${{ github.run_attempt
-          }}
+        name: ${{ job.status == 'success' && steps.cp7_sku_runtime.outcome == 'success'
+          && steps.cp7_disposable_cleanup.outcome == 'success' && format('cp7-sku-current-parent-money-automatic-native25-{0}',
+          github.run_attempt) || format('cp7-sku-failure-{0}-{1}', github.run_id,
+          github.run_attempt) }}
         path: auditor/cp6-proof/t3
         retention-days: 30
         if-no-files-found: error

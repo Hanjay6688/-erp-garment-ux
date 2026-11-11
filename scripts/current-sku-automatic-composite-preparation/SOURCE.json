@@ -3,8 +3,8 @@
   "Native_lifecycle_case_plan_prepared_not_admitted": true,
   "active_workflow_added": true,
   "active_workflow_source": {
-    "bytes": 37435,
-    "sha256": "7bf4026f888f0d830673097787943dc81834138e5cb7a7559ec04758aaa03081"
+    "bytes": 38909,
+    "sha256": "e43bad24a608095e8be8fbb1c2c0161727ded40ef8ebd4a4d3c50b6644c84b4b"
   },
   "actual_Auth_HTTP_cases": 0,
   "actual_ERP_cases": 0,
@@ -345,8 +345,8 @@
       "sha256": "5016e69666b3a0eb75f123ca693107156fcf977f6b4654e45cd585dfcf97a9a9"
     },
     "sku-current-parent-money-automatic-native25-83.workflow.yml.txt": {
-      "bytes": 37435,
-      "sha256": "7bf4026f888f0d830673097787943dc81834138e5cb7a7559ec04758aaa03081"
+      "bytes": 38909,
+      "sha256": "e43bad24a608095e8be8fbb1c2c0161727ded40ef8ebd4a4d3c50b6644c84b4b"
     },
     "sku-current-parent-money-automatic-native25.workflow.yml.txt": {
       "bytes": 34009,
@@ -389,8 +389,8 @@
       "sha256": "7810d263ca29901324705d5bce65ea7c27fef318813b016bcd26f2fdb2d57d68"
     },
     "test_browser_runtime.py": {
-      "bytes": 1337,
-      "sha256": "612c37b8b08fc38d5aef8c39d53efc66896364ed18797347750a0dc436acf429"
+      "bytes": 2561,
+      "sha256": "433d6469293dc6b592bc9a59edc9f9f2551b45fb18f9f382c02c2e7c365e2fc7"
     },
     "test_catalogue_decode.py": {
       "bytes": 11150,
@@ -449,8 +449,8 @@
       "sha256": "02aa262de0884a89e97c517103f8e7333ffacde1ce66f8edc575ed627bc60a4f"
     },
     "workflow.py": {
-      "bytes": 13188,
-      "sha256": "da25d63a923ed32b19dfbe3b09bef533d997e3c42c788618cf407cce2433a320"
+      "bytes": 15626,
+      "sha256": "c69ebcc6d280843449046cdb9f9e65657f76f0980acb09276a08840172023f3c"
     },
     "moving_diagnostics.py": {
       "bytes": 3205,

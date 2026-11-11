@@ -20,6 +20,13 @@ ROUTED = (0, 2, 3, 11, 64, 65, 66, 67, 72, 75, 76, 77, 78)
 SETUP_STEPS = ('Start disposable database', 'Rebuild to v2.6.20, align with hosted, continue the frozen path to AB',
                'Provision isolated rollback authority', 'Clone the aligned AB state for install')
 SETUP_DELIMITER = 'CP7_WIB_DISPOSABLE_SETUP'
+DIRECT_UBUNTU_ARCHIVE = '''ubuntu_sources=/etc/apt/sources.list.d/ubuntu.sources
+if [ -r "$ubuntu_sources" ] && grep -qFx 'URIs: mirror+file:/etc/apt/apt-mirrors.txt' "$ubuntu_sources"; then
+  sed 's|^URIs: mirror+file:/etc/apt/apt-mirrors.txt$|URIs: https://archive.ubuntu.com/ubuntu/|' \
+    "$ubuntu_sources" > "$RUNNER_TEMP/cp7-ubuntu.sources"
+  sudo -n install -m 0644 "$RUNNER_TEMP/cp7-ubuntu.sources" "$ubuntu_sources"
+fi
+'''
 
 
 def runtime():
@@ -152,6 +159,31 @@ def derive(raw=None):
             'AUTOMATIC_EXACT_DISPOSABLE_DATABASE_SETUP_STEPS_REQUIRED')
     for step in steps[72:76]:
         step['run'] = setup_with_window(step['run'])
+    # The hosted image already lists this official archive as a fallback.
+    # Address it directly while preserving the source suites and signing keys.
+    header = 'set -euo pipefail\n'
+    require(steps[11]['run'].startswith(header), 'AUTOMATIC_PINNED_RUNTIME_STRICT_SHELL_REQUIRED')
+    steps[11]['run'] = header + DIRECT_UBUNTU_ARCHIVE + steps[11]['run'].removeprefix(header)
+    steps[68]['run'] = setup_with_window('''for checkout in auditor writer; do
+  (cd "$GITHUB_WORKSPACE/$checkout" && npm ci --include=dev)
+done
+(cd "$GITHUB_WORKSPACE/auditor" && npx --no-install playwright install --with-deps chromium)
+(cd "$GITHUB_WORKSPACE/writer" && npx --no-install playwright install chromium)
+''')
+    require(steps[81]['name'] == 'Remove disposable database' and steps[81]['if'] == 'always()'
+            and steps[82]['with']['name'] == 'cp7-sku-current-parent-money-automatic-native25-${{ github.run_attempt }}',
+            'AUTOMATIC_EXACT_CLEANUP_AND_UPLOAD_BOUNDARIES_REQUIRED')
+    steps[72]['id'] = 'cp7_disposable_start'
+    steps[76]['id'] = 'cp7_sku_runtime'
+    steps[81]['id'] = 'cp7_disposable_cleanup'
+    steps[81]['if'] = ("${{ always() && (steps.cp7_disposable_start.outcome == 'success' || "
+                       "steps.cp7_disposable_start.outcome == 'failure' || "
+                       "steps.cp7_disposable_start.outcome == 'cancelled') }}")
+    steps[82]['with']['name'] = (
+        "${{ job.status == 'success' && steps.cp7_sku_runtime.outcome == 'success' && "
+        "steps.cp7_disposable_cleanup.outcome == 'success' && "
+        "format('cp7-sku-current-parent-money-automatic-native25-{0}', github.run_attempt) || "
+        "format('cp7-sku-failure-{0}-{1}', github.run_id, github.run_attempt) }}")
     text = yaml.safe_dump(value, sort_keys=False, allow_unicode=True)
     require(yaml.safe_load(text) == value, 'AUTOMATIC_EXACT_WORKFLOW_YAML_ROUNDTRIP_REQUIRED')
     return text, dict(status='NATIVE25_WORKFLOW_DATA_ONLY_NOT_ACTIVATED', retained_template=PIN,
@@ -160,7 +192,10 @@ def derive(raw=None):
                       added_browser_prerequisite_steps=2, added_diagnostic_checkpoint_steps=2,
                       frozen_source_trees=4,
                       actual_both_checkout_browser_prerequisites_before_database=True,
-                      database_rebuild_clone_recovery_and_full_artifact_upload_unchanged=True,
+                      database_rebuild_clone_recovery_and_artifact_members_unchanged=True,
+                      direct_signed_ubuntu_archive_and_two_locked_browser_installs=True,
+                      database_cleanup_requires_attempted_start_and_original_receipt=True,
+                      canonical_archive_name_requires_completed_worker_and_cleanup=True,
                       one_off_real_WIB_window_caps_setup_and_worker=True,
                       normal_360_330_20_10_budgets_unchanged=True, workflow_dispatches=0, actual_ERP_cases=0,
                       actual_Auth_HTTP_cases=0, actual_browser_cases=0, production_go=False)
