@@ -91,6 +91,7 @@
   "e4ea_focused_continuation": {
     "fresh_auth_browser_cases": 2,
     "fresh_native_cases": 13,
+    "intervening_cost_capture_install_failure_run": 43166466578,
     "intervening_install_failure_actual_erp_cases": 0,
     "intervening_install_failure_run": 43158542850,
     "original_artifact": 13914600256,
@@ -154,8 +155,8 @@
       "sha256": "c8f937eb0c5e50295ce342179182ecbaf85295039cc9d798f8b8837e2b30731c"
     },
     "E4EA_CONTINUATION_SCOPE.json": {
-      "bytes": 21621,
-      "sha256": "f99119c78a886f98045cc99599c8885c0b40d1414359ee493dfc219bcc306161"
+      "bytes": 22999,
+      "sha256": "91a74eeda82feace3cfdc27488841306edb05ff40311c38cda6201af7215a760"
     },
     "EXECUTION_PREPARATION_CONTROLS.json": {
       "bytes": 4700,
@@ -291,11 +292,11 @@
     },
     "continuation.py": {
       "bytes": 4392,
-      "sha256": "b41c85ad57423d894ae7fdf3bc86e9a11b9669a885dfddb3ccae1cf58792d131"
+      "sha256": "7e8291f6747c6f66d7ea0e839c85b3ffc8f44a2c702999564cde697491b6f2e2"
     },
     "cost_source_timezone.py": {
-      "bytes": 2753,
-      "sha256": "c747f1980099a1cf81e9ff5817dc54a56cc8be8b8d1978de4a8680e9dbe1b4bd"
+      "bytes": 3290,
+      "sha256": "71e7eadb126f7128c06961f31df8b548b2bdf249779f19e97959f8511e59cc90"
     },
     "cumulative_fetch.py": {
       "bytes": 5970,
@@ -490,8 +491,8 @@
       "sha256": "bfce28dc724c6d7c960ffc7edd6b9285f7cf868e0133a799a4cc30e3b8ae5994"
     },
     "test_runtime_receipt.py": {
-      "bytes": 11762,
-      "sha256": "c25c84b3718530736f0747979f9b775b62aa5a399d5406bac21c930892e1d236"
+      "bytes": 13232,
+      "sha256": "51bc1f06f592201bd99494ad1e739b145d0d417fddf211492e26e5ee6b7db0f9"
     },
     "test_source_intake.py": {
       "bytes": 2732,

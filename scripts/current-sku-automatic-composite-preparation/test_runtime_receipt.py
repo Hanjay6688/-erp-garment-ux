@@ -18,6 +18,7 @@ import unittest
 import checkpoint
 import context_timezone
 import continuation
+import cost_source_timezone
 import runtime_receipt
 
 
@@ -35,6 +36,29 @@ class CandidateSourceControls(unittest.TestCase):
         new = "set search_path='' set \"TimeZone\" to 'UTC' as $$"
         self.assertEqual(repaired.count(new), 2)
         self.assertEqual(repaired.replace(new, old), original)
+
+    def test_cost_capture_timezone_survives_the_money_replacement(self):
+        directory = Path(cost_source_timezone.__file__).resolve().parent
+        frozen_scripts = directory.parents[2] / 'qualified-sku-money/scripts'
+        with patch.object(sys, 'path', [str(frozen_scripts), *sys.path]):
+            from cp7_sku_cost_components import money_delta, valuation_delta
+
+        name = cost_source_timezone.SIGNATURE.removesuffix('(uuid)')
+        source = (money_delta.HERE / 'source_rebalance.sql').read_text()
+        valuation, _ = valuation_delta.derive()
+        replacements, _, _ = money_delta.definitions(valuation)
+        ddl = source + '\n' + replacements[name]
+        profile = json.loads((money_delta.HERE / 'CATALOG_ADDITIONS.json').read_bytes())
+        profile['derived_ddl'] = cost_source_timezone.pin(ddl)
+        revised, expected = cost_source_timezone.adapt(dict(ddl=ddl, source_files=profile['source_files']), profile)
+
+        before = cost_source_timezone.DDL_BEFORE
+        after = cost_source_timezone.DDL_AFTER
+        self.assertTrue(revised['ddl'].startswith(source + '\n'))
+        self.assertEqual(revised['ddl'], source + '\n' + replacements[name].replace(before, after, 1))
+        self.assertIn(cost_source_timezone.MONEY_STATE, revised['ddl'])
+        self.assertEqual(expected['groups']['functions'][cost_source_timezone.SIGNATURE][12],
+                         ['search_path=""', 'TimeZone=UTC'])
 
     def test_continuation_runs_all_thirteen_affected_cases_in_order(self):
         directory = Path(continuation.__file__).resolve().parent

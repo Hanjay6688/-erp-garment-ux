@@ -6,11 +6,13 @@ SIGNATURE = "cp7_sku_conversion.capture_cost_source_v3(uuid)"
 DONOR = {"bytes": 8954, "sha256": "7a9ab4a887fe92b82eeb003989418b5ab4da57607fccefc365b2f2445bade765"}
 OLD_DEFINITION = {"bytes": 1556, "sha256": "d34b88ae943c49c5061d1c2116e9fc337dfbada17a81fcc5f5933fbe8627a02c"}
 NEW_DEFINITION = {"bytes": 1581, "sha256": "44aba20d060d3a7eed11f7118c3cffa9289ec9306511e9ed3fb15ea8eaa28ae2"}
-DDL_BEFORE = (
+INITIAL_DDL = (
     "create function cp7_sku_conversion.capture_cost_source_v3(p_document uuid)returns jsonb\n"
     "language plpgsql volatile security definer set search_path=''as $$"
 )
+DDL_BEFORE = INITIAL_DDL.replace("create function", "create or replace function", 1)
 DDL_AFTER = DDL_BEFORE.replace("set search_path=''as", "set search_path='' set timezone='UTC' as")
+MONEY_STATE = "'cost_money_state',cp7_sku_conversion.cost_document_money_state_v3(p_document)"
 DEFINITION_BEFORE = " SET search_path TO ''\nAS $function$"
 DEFINITION_AFTER = " SET search_path TO ''\n SET \"TimeZone\" TO 'UTC'\nAS $function$"
 
@@ -45,6 +47,11 @@ def adapt(product, profile):
         raise ValueError("SKU_SOURCE_COST_TIMEZONE_EXACT_REPLAY_POSTIMAGE_REQUIRED")
     changed[12] = original[12] + ["TimeZone=UTC"]
     functions[SIGNATURE] = changed
+    initial, separator, final = ddl.partition(DDL_BEFORE)
+    if (not separator or initial.count(INITIAL_DDL) != 1 or INITIAL_DDL in final
+            or MONEY_STATE not in final.split("$$;", 1)[0]):
+        raise ValueError("SKU_SOURCE_COST_TIMEZONE_FINAL_MONEY_CAPTURE_REQUIRED")
+    # Money installs a replacement after the initial capture and its ACL.
     revised = replace_exact(ddl, DDL_BEFORE, DDL_AFTER)
     groups = dict(profile["groups"], functions=functions)
     return dict(product, ddl=revised), dict(profile, derived_ddl=pin(revised), groups=groups)

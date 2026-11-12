@@ -473,11 +473,50 @@
   },
   "non_po_source": {
     "path": "scripts/current-sku-automatic-composite-preparation/cost_source_timezone.py",
-    "bytes": 2753,
-    "sha256": "c747f1980099a1cf81e9ff5817dc54a56cc8be8b8d1978de4a8680e9dbe1b4bd"
+    "bytes": 3290,
+    "sha256": "71e7eadb126f7128c06961f31df8b548b2bdf249779f19e97959f8511e59cc90"
   },
   "exact_ddl_reproduction": {
     "bytes": 1751,
     "sha256": "de19521be9ff8edb37df97ee22897488e6080e0cb231c1369d82a2f9bc62c130"
+  },
+  "intervening_cost_capture_install_failure": {
+    "head": "af6e5710c0a3265daeb14c8ccd078ea82c99c482",
+    "tree": "41aa56dc3247e7a802e8b2f48d55e15ff933954b",
+    "run_id": 43166466578,
+    "job_id": 131009386319,
+    "attempt": 1,
+    "conclusion": "failure",
+    "artifact_id": 13922802413,
+    "archive": {
+      "bytes": 1731796,
+      "sha256": "933e95e1709b2e1ec4e5423d233035a8b0cf4b441a6c5d15d93a4e7c76df56ca",
+      "members": 137
+    },
+    "all_member_crc_verified": true,
+    "first_failed_step": {
+      "name": "Run current-parent money automatic Native25 and real browser2 once with owning restoration",
+      "status": "completed",
+      "conclusion": "failure",
+      "number": 78,
+      "started_at": "2026-11-12T06:26:25Z",
+      "completed_at": "2026-11-12T07:04:57Z"
+    },
+    "main_error_pin": {
+      "bytes": 98,
+      "sha256": "f15b1849eec043bc2af93fc29eb3bdab83bbad28b5a65bf991eeab7f581de02c"
+    },
+    "first_case_error": null,
+    "first_reported_error": [
+      "SKU_MONEY_EXACT_CATALOG_ADDITION_CHANGED:functions:cp7_sku_conversion.capture_cost_source_v3(uuid)"
+    ],
+    "cleanup": true,
+    "actual_outer_restore": true,
+    "actual_worker_reaped": true,
+    "actual_case_credit": 0
+  },
+  "exact_final_cost_capture_ddl_reproduction": {
+    "bytes": 1353,
+    "sha256": "0f28a8a592cbb9f34540a25d1162b5e53f74d1c7ff9d244be22105bf33cb1518"
   }
 }
