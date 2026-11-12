@@ -140,6 +140,8 @@ def derive(raw=None):
              **{'working-directory': 'auditor'},
              run='set -euo pipefail\n'
                  'python -B -m unittest discover -s ' + NS + ' -p test_runtime_receipt.py\n'
+                 'python -B -m unittest discover -s ' + NS + ' -p test_run_window.py\n'
+                 'python -B -m unittest discover -s ' + NS + ' -p test_setup_sequences.py\n'
                  'python -B ' + NS + 'checkpoint.py --source . '
                  '--output "$RUNNER_TEMP/cp7-source-checkpoint/CP7_DIAGNOSTIC_CHECKPOINT.json"\n'),
         {'name': 'Persist diagnostic checkpoint before long runtime',
@@ -196,7 +198,7 @@ done
                       direct_signed_ubuntu_archive_and_two_locked_browser_installs=True,
                       database_cleanup_requires_attempted_start_and_original_receipt=True,
                       canonical_archive_name_requires_completed_worker_and_cleanup=True,
-                      one_off_real_WIB_window_caps_setup_and_worker=True,
+                      real_WIB_window_caps_short_setup_and_worker=True,
                       normal_360_330_20_10_budgets_unchanged=True, workflow_dispatches=0, actual_ERP_cases=0,
                       actual_Auth_HTTP_cases=0, actual_browser_cases=0, production_go=False)
 

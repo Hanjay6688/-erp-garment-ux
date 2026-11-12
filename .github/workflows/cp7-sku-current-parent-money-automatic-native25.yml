@@ -559,6 +559,12 @@ jobs:
         python -B -m unittest discover -s scripts/current-sku-automatic-composite-preparation/
         -p test_runtime_receipt.py
 
+        python -B -m unittest discover -s scripts/current-sku-automatic-composite-preparation/
+        -p test_run_window.py
+
+        python -B -m unittest discover -s scripts/current-sku-automatic-composite-preparation/
+        -p test_setup_sequences.py
+
         python -B scripts/current-sku-automatic-composite-preparation/checkpoint.py
         --source . --output "$RUNNER_TEMP/cp7-source-checkpoint/CP7_DIAGNOSTIC_CHECKPOINT.json"
 

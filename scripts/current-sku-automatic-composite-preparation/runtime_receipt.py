@@ -87,6 +87,7 @@ class RuntimeReceipt:
         reaped = (report.get('process_tree_empty') is True and report.get('process_group_empty') is True
                   and type(report.get('worker_exit')) is int)
         self.write_once('terminal.json', 'WORKER_TERMINAL', processes_reaped=reaped)
+        return report
 
     def authorize_stop(self):
         self.require_prepared()

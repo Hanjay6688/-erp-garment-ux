@@ -1,4 +1,4 @@
-"""Budget the owner's November 11 SKU attempt on the real WIB clock."""
+"""Budget one owning SKU attempt on its real WIB business day."""
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from zoneinfo import ZoneInfo
@@ -12,7 +12,6 @@ import time
 
 ROOT = Path(__file__).resolve().parents[2]
 WIB = ZoneInfo('Asia/Jakarta')
-SHORT_DAY = '2026-11-11'
 DAY = 'SKU_CURRENT_AUTOMATIC_WIB_BUSINESS_DAY'
 CUTOFF = 'SKU_CURRENT_AUTOMATIC_WIB_WORK_CUTOFF'
 JOB_START = 'SKU_CURRENT_AUTOMATIC_JOB_START_MONOTONIC'
@@ -41,22 +40,35 @@ def budget(*, record=False, policy=None):
     if not record and os.environ.get(DAY) != day:
         raise ValueError('SKU27_ADMITTED_WIB_DAY_REQUIRED')
     policy = retained_policy() if policy is None else policy
-    cutoff = os.environ.get(CUTOFF)
-    if record and (DAY in os.environ or cutoff is not None):
+    recorded_cutoff = os.environ.get(CUTOFF)
+    if record and (DAY in os.environ or recorded_cutoff is not None):
         raise ValueError('SKU27_WIB_WINDOW_ALREADY_RECORDED')
-    if record and day == SHORT_DAY and remaining <= policy.JOB_BUDGET_SECONDS:
-        cutoff = now + remaining - RECOVERY_SECONDS - ARTIFACT_SECONDS - TERMINATION_SECONDS
-    if cutoff is None:
-        return dict(mode='STANDARD', **policy.require_window(local))
-    if day != SHORT_DAY:
-        raise ValueError('SKU27_SHORT_WINDOW_ONLY_ON_OWNER_APPROVED_WIB_DAY')
+    try:
+        start = float(os.environ.get(JOB_START, ''))
+    except ValueError:
+        raise ValueError('SKU27_REAL_JOB_START_REQUIRED') from None
+    if not (math.isfinite(now) and math.isfinite(start) and 0 < start <= now):
+        raise ValueError('SKU27_REAL_JOB_START_REQUIRED')
+    job_cutoff = start + policy.JOB_BUDGET_SECONDS - RECOVERY_SECONDS - ARTIFACT_SECONDS
+    wall_cutoff = now + remaining - RECOVERY_SECONDS - ARTIFACT_SECONDS - TERMINATION_SECONDS
 
-    start = float(os.environ[JOB_START])
-    cutoff = float(cutoff)
-    if not (math.isfinite(cutoff) and 0 < start <= now < cutoff):
+    if record and remaining > policy.JOB_BUDGET_SECONDS + TERMINATION_SECONDS:
+        return dict(mode='STANDARD', **policy.require_window(local))
+    if not record and recorded_cutoff is None:
+        # Setup consumes time from the originally admitted six-hour window.
+        if now >= job_cutoff or job_cutoff > wall_cutoff:
+            raise ValueError('SKU27_ADMITTED_STANDARD_WIB_WINDOW_EXHAUSTED')
+        return dict(mode='STANDARD', business_day=day, seconds_to_midnight=remaining,
+                    required_seconds=policy.JOB_BUDGET_SECONDS, automatic_group_retry=False,
+                    product_clock_changed=False)
+
+    try:
+        cutoff = wall_cutoff if record else float(recorded_cutoff)
+    except ValueError:
+        raise ValueError('SKU27_SHORT_WINDOW_WORK_DEADLINE_EXHAUSTED') from None
+    if not (math.isfinite(cutoff) and now < cutoff):
         raise ValueError('SKU27_SHORT_WINDOW_WORK_DEADLINE_EXHAUSTED')
-    cutoff = min(cutoff, start + policy.JOB_BUDGET_SECONDS - RECOVERY_SECONDS - ARTIFACT_SECONDS,
-                 now + remaining - RECOVERY_SECONDS - ARTIFACT_SECONDS - TERMINATION_SECONDS)
+    cutoff = min(cutoff, job_cutoff, wall_cutoff)
     work = cutoff - now
     if work <= (SETUP_RESERVE_SECONDS if record else 0):
         raise ValueError('SKU27_SHORT_WINDOW_INSUFFICIENT_WORK_AND_SETUP_TIME')
@@ -97,8 +109,6 @@ def main():
     mode.add_argument('--require', action='store_true')
     mode.add_argument('--setup-limit', action='store_true')
     args = parser.parse_args()
-    if args.setup_limit and CUTOFF not in os.environ:
-        return
     plan = budget(record=args.record)
     if args.record:
         with open(os.environ['GITHUB_ENV'], 'a', encoding='ascii') as stream:
@@ -106,6 +116,8 @@ def main():
             if plan['mode'] == 'SHORT_WIB_WINDOW':
                 stream.write(f"{CUTOFF}={plan['work_cutoff_monotonic']}\n")
     if args.setup_limit:
+        if plan['mode'] == 'STANDARD':
+            return
         seconds = math.floor(plan['work_seconds_remaining']) - SETUP_KILL_SECONDS - 2
         if seconds <= 0:
             raise ValueError('SKU27_SHORT_WINDOW_DATABASE_SETUP_DEADLINE_EXHAUSTED')

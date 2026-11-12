@@ -31,7 +31,10 @@ def derive(raw, *, focused=False):
          "prefix=load('sku_money_original_complete_sequence_prefix',_FROZEN_SKU/'scripts/current-sku-managed-recovery-native27-qualification/sequence_prefix.py')\n"
          '    business,preflight=_NATIVE_SUITE.bind(business,preflight,product,prefix)'),
         ("with exact_public_catalog(native,retain_raw=True)as public:",
-         "with _REPORT_IO.group_scope(native.r1),_CASE_OUTPUT.scope(native,'native'),exact_public_catalog(native,retain_raw=True)as public:"),
+         "with (_REPORT_IO.group_scope(native.r1),_CASE_OUTPUT.scope(native,'native'),\n"
+         "                _SETUP_SEQUENCES.scope(native,business,prefix,before,report,_SETUP_READER) as setup,\n"
+         "                exact_public_catalog(native,retain_raw=True)as public):"),
+        ("chain=prefix.sequences(before['data'])", "chain=setup['prefix']['after']"),
         ("                raw=original.read_bytes();(destination/name).write_bytes(raw)\n"
          "                retained.append(dict(name=name,bytes=len(raw),sha256=sha256(raw).hexdigest()))",
          "                retained.append(_COMPLETE_ORIGINALS.copy_exact(original,destination/name,\n"
@@ -95,10 +98,13 @@ def load_prepared(bridge, product, parent_raw, money_raw, plan_raw, scheduler_qu
     if case_output is None:
         raise ValueError('SKU_AUTOMATIC_COMPLETE_CASE_OUTPUT_BINDING_REQUIRED')
     module._CASE_OUTPUT = case_output
+    module._SETUP_SEQUENCES = load('automatic_native_setup_sequences', HERE / 'setup_sequences.py')
     module._BROWSER_ACCESS = load('automatic_current_real_browser_copy', HERE / 'browser_access.py')
     exec(compile(source, module.__file__ + '::complete_native25', 'exec', dont_inherit=True), module.__dict__)
     if module.ROOT != ROOT or module.LABEL != LABEL:
         raise ValueError('SKU_AUTOMATIC_EXACT_OWNING_NATIVE_OUTPUT_NAMESPACE_REQUIRED')
-    _, _, output = case_output.binding(module.helper.control.native, 'native')
+    native = module.helper.control.native
+    _, _, output = case_output.binding(native, 'native')
+    module._SETUP_READER, setup = module._SETUP_SEQUENCES.bind(native.api, case_output, module._REPORT_IO)
     return SimpleNamespace(CASE=CASE, LABEL=LABEL, exercise=module.exercise, scheduler_quiet=scheduler_quiet), dict(
-        proof, complete_original_case_output=output)
+        proof, complete_original_case_output=output, native_setup_sequence_sources=setup)

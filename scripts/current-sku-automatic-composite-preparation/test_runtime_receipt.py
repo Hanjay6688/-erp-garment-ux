@@ -240,7 +240,7 @@ class RuntimeReceiptControls(unittest.TestCase):
         self.assertEqual(runtime_receipt.from_environment(env).read('prepared.json')['phase'], 'PREPARED_BEFORE_DATABASE')
         self.assertFalse(json.loads((self.root / 'checkpoint.json').read_text())['restoration_verified'])
 
-    def test_owning_execution_keeps_original_failure_and_checks_cleanup(self):
+    def test_owning_execution_reports_failure_without_inventing_a_deadline(self):
         path = Path(checkpoint.__file__).with_name('execution.py')
         spec = importlib.util.spec_from_file_location('receipt_control_owning_execution', path)
         execution = importlib.util.module_from_spec(spec)
@@ -258,10 +258,62 @@ class RuntimeReceiptControls(unittest.TestCase):
                 patch.object(execution, 'helper', return_value=(supervisor, {})), \
                 patch.object(execution.window, 'budget', return_value={'mode': 'STANDARD'}), \
                 redirect_stderr(StringIO()) as output:
-            self.assertEqual(execution.supervise(False), 124)
+            self.assertEqual(execution.supervise(False), 1)
             self.assertIn('TERMINAL_RECEIPT_UNAVAILABLE', output.getvalue())
             with self.assertRaisesRegex(ValueError, 'MISSING:terminal.json'):
                 execution.supervise(True)
+
+    def test_owning_execution_exit_uses_verified_terminal_evidence(self):
+        path = Path(checkpoint.__file__).with_name('execution.py')
+        spec = importlib.util.spec_from_file_location('receipt_control_terminal_exit', path)
+        execution = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(execution)
+        observed_path = self.root / 'cp6-proof/t3' / execution.SUPERVISION_REPORT
+        observed_path.parent.mkdir(parents=True)
+        controls = (
+            ('success', 0, 0, dict(status='WORKER_COMPLETED_AND_REAPED', worker_exit=0)),
+            ('clean worker failure', 124, 1, {}),
+            ('other clean worker status', 124, 7, dict(worker_exit=7)),
+            ('worker 124 without supervisor deadline', 124, 1, dict(worker_exit=124)),
+            ('worker zero with incomplete report', 0, 1, dict(worker_exit=0)),
+            ('genuine deadline', 124, 124, dict(deadline_reached=True, worker_exit=-2,
+                 signals=[dict(signal='SIGINT', reason='RESTORATION_RESERVE_STARTED')])),
+            ('external signal', 124, 1, dict(external_signal='SIGTERM', worker_exit=-15)),
+            ('orphan stopped', 124, 1, dict(orphaned_child=True, worker_exit=0)),
+            ('orphan remains', 124, 1, dict(orphaned_child=True, process_tree_empty=False)),
+            ('ambiguous deadline', 124, 1, dict(deadline_reached=None, worker_exit=7)),
+            ('deadline without terminal worker status', 124, 1, dict(deadline_reached=True, worker_exit=None)),
+        )
+        for attempt, (name, retained_code, expected, changes) in enumerate(controls, 1):
+            with self.subTest(name=name):
+                env = dict(self.env, GITHUB_RUN_ATTEMPT=str(attempt))
+                receipt = runtime_receipt.from_environment(env)
+                receipt.prepare()
+                report = dict(github_run_id='425', github_run_attempt=str(attempt), qualification_commit='a'*40,
+                              status='INCOMPLETE', worker_exit=1, deadline_reached=False, external_signal=None,
+                              orphaned_child=False, signals=[], process_group_empty=True, process_tree_empty=True)
+                report.update(changes)
+                supervisor = SimpleNamespace(supervise=lambda *args, **kwargs: {})
+
+                def main():
+                    supervisor._BIND_SUPERVISION(supervisor)
+                    supervisor.supervise(['model-worker'], work_seconds=3600, recovery_seconds=1200)
+                    observed_path.write_text(json.dumps(report))
+                    return retained_code
+
+                supervisor.main = main
+                with patch.dict(os.environ, env), patch.object(execution, 'ROOT', self.root), \
+                        patch.object(execution, 'helper', return_value=(supervisor, {})), \
+                        patch.object(execution.window, 'budget', return_value={'mode': 'STANDARD'}):
+                    self.assertEqual(execution.supervise(False), expected)
+                    terminal = receipt.read('terminal.json')
+                    self.assertEqual(terminal['actual_case_credit'], 0)
+                    self.assertFalse(terminal['restoration_verified'])
+                    if report['process_tree_empty'] and type(report['worker_exit']) is int:
+                        self.assertEqual(execution.supervise(True), 0)
+                    else:
+                        with self.assertRaisesRegex(ValueError, 'STOP_REQUIRES_REAPED_WORKER'):
+                            execution.supervise(True)
 
     def test_diagnostics_output_failure_keeps_nonzero_result(self):
         path = Path(checkpoint.__file__).with_name('execution.py')
@@ -272,7 +324,7 @@ class RuntimeReceiptControls(unittest.TestCase):
         with patch.dict(os.environ, self.env), patch.object(execution, 'ROOT', self.root), \
                 patch.object(execution, 'helper', return_value=(SimpleNamespace(main=lambda: 124), {})), \
                 patch('builtins.print', side_effect=BrokenPipeError):
-            self.assertEqual(execution.supervise(False), 124)
+            self.assertEqual(execution.supervise(False), 1)
 
 
 if __name__ == '__main__':

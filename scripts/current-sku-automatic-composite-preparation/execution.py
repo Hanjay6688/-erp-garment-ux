@@ -229,16 +229,32 @@ def supervise(allow_database_stop):
     with arguments([]):
         code = module.main()
     try:
-        receipts.finish(ROOT / 'cp6-proof/t3' / SUPERVISION_REPORT)
+        report = receipts.finish(ROOT / 'cp6-proof/t3' / SUPERVISION_REPORT)
     except (OSError, ValueError) as error:
         if code == 0:
             raise
-        # Keep the original nonzero status and refuse cleanup without proof.
+        # Keep the failure and refuse cleanup without a terminal receipt.
         try:
             print('CP7_RUNTIME_TERMINAL_RECEIPT_UNAVAILABLE:' + type(error).__name__, file=sys.stderr, flush=True)
         except OSError:
             pass
-    return code
+        return 1
+    worker_exit = report.get('worker_exit')
+    deadline = report.get('deadline_reached')
+    if type(worker_exit) is not int or type(deadline) is not bool:
+        return 1
+    # The retained supervisor uses 124 for every incomplete result.
+    if report['status'] == 'INCOMPLETE' and deadline:
+        return 124
+    if (deadline or report.get('external_signal', False) is not None
+            or report.get('orphaned_child') is not False or report.get('signals') != []
+            or report.get('process_group_empty') is not True or report.get('process_tree_empty') is not True):
+        return 1
+    if code == 0 and report['status'] == 'WORKER_COMPLETED_AND_REAPED' and worker_exit == 0:
+        return 0
+    if report['status'] == 'INCOMPLETE' and 0 < worker_exit <= 255 and worker_exit != 124:
+        return worker_exit
+    return 1
 
 
 def main():
