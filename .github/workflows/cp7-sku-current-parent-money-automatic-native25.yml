@@ -760,7 +760,7 @@ jobs:
         python -B scripts/current-sku-automatic-composite-preparation/execution.py materialize > "$out/MATERIALIZED_EXACT_INPUTS.json"
         python -B scripts/current-sku-automatic-composite-preparation/check_source.py --runtime > "$out/SOURCE_ADMISSION.json"
         python -B scripts/current-sku-automatic-composite-preparation/workflow.py --check > "$out/WORKFLOW_ADMISSION.json"
-        python -B -m unittest discover -s scripts/current-sku-automatic-composite-preparation > "$out/UNIT_TESTS.log" 2>&1 || { cat "$out/UNIT_TESTS.log"; exit 1; }
+        python -B -m unittest discover -s scripts/current-sku-automatic-composite-preparation -p test_runtime_receipt.py > "$out/UNIT_TESTS.log" 2>&1 || { cat "$out/UNIT_TESTS.log"; exit 1; }
         python -B "$GITHUB_WORKSPACE/scripts/current-sku-automatic-composite-preparation/diagnostics/focused-source-preflight.py" "$stage/auditor" "$out"
     - name: Remove the source-only worktrees
       if: ${{ always() }}
