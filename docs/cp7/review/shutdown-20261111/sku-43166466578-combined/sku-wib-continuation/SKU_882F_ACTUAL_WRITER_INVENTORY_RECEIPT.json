@@ -1,0 +1,35 @@
+{
+  "actual_ERP_cases": 0,
+  "artifact": 13927899180,
+  "complete_input_review": false,
+  "dynamic_census_guard_has_no_DML": true,
+  "explicit_mandor_receipt_writers": {
+    "cp7_note_zero_effect.finish_v1(jsonb,jsonb)": [
+      "cp7_note_zero_effect.receipts"
+    ],
+    "cp7_note_zero_effect.prepare_v1(jsonb,uuid,text,uuid,jsonb)": [
+      "cp7_note_zero_effect.preparations"
+    ]
+  },
+  "functions": 3105,
+  "inventory": {
+    "bytes": 271865,
+    "sha256": "7b110fcb016711d20d05a5c4e3ca9f6e5cfbb8c0b0ef75ff95e02322c979dd82"
+  },
+  "original_catalogue": {
+    "bytes": 16048295,
+    "sha256": "7e1ba214f634afd822a7ef29e7a5731690aceb8d5afd7fb0f62f22fbd3ac0e55"
+  },
+  "parsed": 171,
+  "production_go": false,
+  "reused": 2934,
+  "run": 43174323175,
+  "runtime_admission": false,
+  "static_candidates": 592,
+  "status": "ACTUAL_SKU_DIAGNOSTIC_WRITER_INVENTORY_REBUILT",
+  "unresolved_dynamic_exact_source_matches": [
+    "erp._validate_migration_batch_base(uuid)",
+    "erp.manage_initial_prepayment_v1(jsonb)"
+  ],
+  "watched_relations": 280
+}
