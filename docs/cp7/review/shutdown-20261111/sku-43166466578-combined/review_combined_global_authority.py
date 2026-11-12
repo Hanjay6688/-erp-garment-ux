@@ -9,7 +9,9 @@ from compare_sku_catalogue import checked_catalogue
 from prepare_combined_sku_scope import FIXES
 from prepare_non_po_followup import NEW, OLD, SIGNATURE
 from review_native_authority import ROUTES, compare, load_source, references
-from verify_cost_capture_successor import CANDIDATE, SCOPE_PIN, source_review
+from verify_wib_successor import (
+    AFTER_SCOPE_PIN as SCOPE_PIN, CANDIDATE, WIB_FAILURE_ARCHIVE, source_review,
+)
 from verify_focused_sku import ORIGIN
 from verify_terminal_sku import CATALOGUE, catalogue, fields, pin, require, strict
 
@@ -62,6 +64,12 @@ def actual_inputs(path, scope):
                          retained_install_failures=[scope['intervening_install_failure'],
                                                     scope['intervening_cost_capture_install_failure']]),
            'GLOBAL_COMBINED_VERIFIED_SKU_ORIGINAL_REQUIRED')
+    fields(receipt['retained_wib_case_failure'],
+           dict(run_id=43174323175, job_id=131034780958, artifact_id=13927899180,
+                archive=WIB_FAILURE_ARCHIVE, conclusion='failure', actual_Native_pass=5,
+                actual_Native_incomplete=8, actual_browser_cases=0, actual_outer_restore=True,
+                actual_worker_reaped=True, all_member_crc_verified=True),
+           'GLOBAL_RETAIN_EXACT_PREVIOUS_WIB_FAILURE')
     fields(root, dict(status='ROOT_VERIFIED_CURRENT_SKU_CUMULATIVE_NATIVE25_BROWSER2_ALL5', **identity,
                       covered_Native_cases=25, actual_Native_cases=13, retained_Native_cases=12, actual_browser_cases=2,
                       actual_business_cases=15, prior_runs_aggregated=True, package_all_five=True,
@@ -80,6 +88,21 @@ def actual_inputs(path, scope):
                         attempt=1, original=observation['original'], readers=observation['exact_query_sources'],
                         fingerprint=observation['fingerprint'], actual_ERP_case_credit=0, complete_input_review=False,
                         production_go=False), root['head'], root['run_id'])
+    expected = scope['expected_fixed_catalogue_group_pins']
+    observed = {name: pin(json.dumps(rows, sort_keys=True, separators=(',', ':'), ensure_ascii=False).encode())
+                for name, rows in strict(raw).items()}
+    require(set(observed) == set(expected), 'GLOBAL_EXACT_SCOPE_GROUPS_REQUIRED')
+    difference = [name for name in observed if observed[name] != expected[name]]
+    if difference:
+        equivalence = root.get('catalogue_equivalence')
+        require(difference == ['functions'] and isinstance(equivalence, dict)
+                and equivalence == receipt.get('catalogue_equivalence'),
+                'GLOBAL_ONLY_REVIEWED_DATABASE_LOCAL_SEAL_MAY_DIFFER')
+        fields(equivalence, dict(status='ALL25_EQUAL_EXCEPT_OW04_DATABASE_LOCAL_SEAL',
+                                                  actual_catalogue=pin(raw),
+                                                  normalized_functions=expected['functions'],
+                                                  live_guard_verification_for_global_pending=True),
+               'GLOBAL_REQUIRE_REVIEWED_RUNTIME_SEAL_AND_LIVE_VERIFICATION')
     return raw
 
 

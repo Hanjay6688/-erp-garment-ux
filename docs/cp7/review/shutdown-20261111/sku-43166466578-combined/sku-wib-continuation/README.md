@@ -7,3 +7,7 @@ Runner 090b menjalankan `boundary.snapshot(cur)` sebelum `SAVEPOINT auditor_case
 Katalog diagnostik 882f hanya berbeda dari proyeksi pada literal SHA-256 yang dihitung dari OID instalasi di `cp7_credit.assert_source_native_trigger_census_v1()`. Pemeriksa penerus mempertahankan katalog mentah dan menguji kesetaraan 25 kelompok dengan satu penggantian literal untuk perbandingan. Definisi di luar literal, metadata 19 kolom dan ACL tetap diperiksa. Validasi guard langsung di clone uji Global masih diperlukan sebelum masukan Global diterima. Pemeriksa penerus disiapkan untuk Original terminal.
 
 Empat fase pemasangan dan pembalikan pada 882f tercatat 57,84 menit. Fase yang sama pada E4EA tercatat 113,68 menit. [Log E4EA](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/43132617378/job/130900171009)
+
+Pemeriksaan arsip yang berjalan tanpa database membuktikan 12 hasil E4EA yang dibawa, Mandor 15+2, dua kegagalan pemasangan, lima hasil Automatic 882f, delapan penolakan WIB dan perbedaan satu literal pada katalog diagnostik. Receipt 11.455 byte SHA-256 `0d5c2d341e911b47c782e0ec69baf33387da5d4f1f4bb2c2fa1bbea88f3b70c3`. [Run pemeriksa arsip](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/43190341729)
+
+Pemeriksa Global sekarang mengikat sumber dan identitas `ae0df1e`, menyimpan kegagalan WIB sebelumnya dan memeriksa pin katalog aktual. Jika hanya literal guard berbeda, arsip pembanding harus mengikat bukti kesetaraan yang sama dengan Root. Verifikasi guard pada clone Global tetap menjadi prasyarat untuk kualifikasi Global.
