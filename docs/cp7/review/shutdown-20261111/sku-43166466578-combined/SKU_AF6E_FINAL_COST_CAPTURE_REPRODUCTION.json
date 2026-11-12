@@ -1,0 +1,46 @@
+{
+  "status": "EXACT_COMPILED_COST_CAPTURE_FINAL_INSTALL_AND_CATALOGUE_PASS",
+  "PostgreSQL": "17.6",
+  "previous_first_error": "SKU_MONEY_EXACT_CATALOG_ADDITION_CHANGED:functions:cp7_sku_conversion.capture_cost_source_v3(uuid)",
+  "initial_create_unchanged": true,
+  "original_revoke_unchanged": true,
+  "final_replacement_preserves_money_state": true,
+  "expected_catalogue_columns": 19,
+  "final_definition": {
+    "bytes": 1581,
+    "sha256": "44aba20d060d3a7eed11f7118c3cffa9289ec9306511e9ed3fb15ea8eaa28ae2"
+  },
+  "proconfig": [
+    "search_path=\"\"",
+    "TimeZone=UTC"
+  ],
+  "ACL": [
+    [
+      "postgres",
+      "postgres",
+      "EXECUTE",
+      false
+    ]
+  ],
+  "matched_owning_catalogue_transition": true,
+  "original_sql": {
+    "bytes": 86354,
+    "sha256": "4aa24fef8e1c71a14911b460ebce9cc344ff1887c747e72ce00a489bfb40bae2"
+  },
+  "failed_sql": {
+    "bytes": 86374,
+    "sha256": "1d2894bd4e298e0af332119bface60b15b4b4412ab2c00675a9958fcdc64ee16"
+  },
+  "fixed_sql": {
+    "bytes": 86374,
+    "sha256": "7e26cc355f7120041a43156dde61690539e9cc3426811a992a0d03eda4a310c7"
+  },
+  "money_statements_parsed": 80,
+  "compile_original_parent": {
+    "bytes": 30376182,
+    "sha256": "5e22077e71e34add6fd0627c89e9d21a2235f463818e45b233c7619bcfb0d48f"
+  },
+  "restored": true,
+  "isolated_target_catalogue": true,
+  "actual_ERP_cases": 0
+}
