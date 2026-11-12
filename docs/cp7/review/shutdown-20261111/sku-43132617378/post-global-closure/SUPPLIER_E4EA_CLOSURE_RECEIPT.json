@@ -1,0 +1,172 @@
+{
+  "PostgreSQL": "17.6",
+  "actual_ERP_business_case_credit": 0,
+  "all_eight_original_definitions_restored": true,
+  "catalogue_sha256": "5ff582717522b766c12024c1bf3299066475f14a3c6021a3543f378f829e0c07",
+  "changed": {
+    "cp7_invoice.payment_detail(uuid,jsonb)": {
+      "new_config": [
+        "search_path=\"\"",
+        "TimeZone=UTC"
+      ],
+      "new_volatility": "s",
+      "oid_and_acl_preserved": true,
+      "original": {
+        "bytes": 3568,
+        "sha256": "0152295c74dac6f4688fabbcc9fb115e488956aac9e258826d731412566834b3"
+      },
+      "owner": "cp7_invoice_read",
+      "revised": {
+        "bytes": 3363,
+        "sha256": "185d0c9db07685c56c41ab32dab4aa9d8baeae6ada3f151f5283e2236e3971ba"
+      }
+    },
+    "cp7_invoice.payment_workspace(uuid,text,integer,uuid)": {
+      "new_config": [
+        "search_path=\"\""
+      ],
+      "new_volatility": "v",
+      "oid_and_acl_preserved": true,
+      "original": {
+        "bytes": 2369,
+        "sha256": "8b5206fd8f68d85936169541f068ffcebee7462763d7c91833a99b7cac040986"
+      },
+      "owner": "cp7_invoice_read",
+      "revised": {
+        "bytes": 2696,
+        "sha256": "3b8c6ba331413dbeea6a5800c97041ff7e43d6473becee77397354068ec6ba23"
+      }
+    },
+    "cp7_supplier_payment_correction.workspace(jsonb)": {
+      "new_config": [
+        "search_path=\"\"",
+        "TimeZone=UTC"
+      ],
+      "new_volatility": "v",
+      "oid_and_acl_preserved": true,
+      "original": {
+        "bytes": 4238,
+        "sha256": "eae25e82f76d907438d8b847d2599dea80ea9cdf2b8faef8270a8473b4336da8"
+      },
+      "owner": "postgres",
+      "revised": {
+        "bytes": 4320,
+        "sha256": "c055a51c6c28c2d75e9a486e0f93ec727012fe9d4be7abbd076d6930f10e043b"
+      }
+    },
+    "cp7_supplier_payment_create.workspace(jsonb)": {
+      "new_config": [
+        "search_path=\"\"",
+        "TimeZone=UTC"
+      ],
+      "new_volatility": "v",
+      "oid_and_acl_preserved": true,
+      "original": {
+        "bytes": 2488,
+        "sha256": "2f25cb212d8e6e0c016be427f70170893cc8c5e3cff9e048f9ed89e37e543805"
+      },
+      "owner": "postgres",
+      "revised": {
+        "bytes": 2570,
+        "sha256": "7ed51121074e91fffc5bd97ea2694390992541bde079920e726768047c6f3ce9"
+      }
+    },
+    "cp7_supplier_transfer.child_detail_v1(uuid,jsonb)": {
+      "new_config": [
+        "search_path=\"\"",
+        "TimeZone=UTC"
+      ],
+      "new_volatility": "s",
+      "oid_and_acl_preserved": true,
+      "original": {
+        "bytes": 2408,
+        "sha256": "9af02f8f8e9793eaec73a13781f9dd14e4dc4787ebc6168133e4ee3f6f2b5345"
+      },
+      "owner": "postgres",
+      "revised": {
+        "bytes": 2415,
+        "sha256": "86373e564e8771d45d8ab0a2f00057256cf157bf567b3dd3fc10824d9f6d9174"
+      }
+    },
+    "cp7_supplier_transfer.detail_v1(uuid)": {
+      "new_config": [
+        "search_path=\"\"",
+        "TimeZone=UTC"
+      ],
+      "new_volatility": "s",
+      "oid_and_acl_preserved": true,
+      "original": {
+        "bytes": 2004,
+        "sha256": "584cd566c7127e2d7a8238dc3a1afcac7b28f6c0b50c3ed76c70232f44f41ef0"
+      },
+      "owner": "postgres",
+      "revised": {
+        "bytes": 2011,
+        "sha256": "13f738895362473a26f736bda709f8aedb3a717957ae04967f5a955c01ce5c19"
+      }
+    },
+    "cp7_supplier_transfer.review_v1(uuid,uuid)": {
+      "new_config": [
+        "search_path=\"\"",
+        "TimeZone=UTC"
+      ],
+      "new_volatility": "s",
+      "oid_and_acl_preserved": true,
+      "original": {
+        "bytes": 1983,
+        "sha256": "c7bd52da9afddf20374b60b6526fa4249df40e7957a363ed6378d01399a01bd3"
+      },
+      "owner": "postgres",
+      "revised": {
+        "bytes": 1990,
+        "sha256": "e6d780a5eb351f8aedef098878d73cce7d8d72fe07233c01be24ab57b15f3ec2"
+      }
+    },
+    "cp7_supplier_transfer.workspace_v1(jsonb)": {
+      "new_config": [
+        "search_path=\"\"",
+        "TimeZone=UTC"
+      ],
+      "new_volatility": "v",
+      "oid_and_acl_preserved": true,
+      "original": {
+        "bytes": 5144,
+        "sha256": "a4e8fbe7e18b0d7d34f5c864097dfd7579c06b4c50491325d07479b68b0758d5"
+      },
+      "owner": "postgres",
+      "revised": {
+        "bytes": 5244,
+        "sha256": "3b400eb865aed0d5e2edf984640acde32d755a84ee431d2fdc00247ae7735c79"
+      }
+    }
+  },
+  "exact_function_preimages": 8,
+  "exact_public_wrapper_preimages": 4,
+  "formal_CP7": "5/16",
+  "independent_acceptance": false,
+  "integration_stage": "POST_GLOBAL_SOURCE_PREPARED",
+  "local_cluster_removed": true,
+  "product_candidate": {
+    "first_job_conclusion": "failure",
+    "head": "e4eaaecebad1f0ba11ab1542b5df89a6423a8a1e",
+    "job_id": 130900171009,
+    "run_id": 43132617378,
+    "scope": "preimage checks only"
+  },
+  "production_go": false,
+  "retained_grouped_replay": {
+    "PostgreSQL": "17.5",
+    "all_three_grouped_readers_exercised": true,
+    "bytes": 1349,
+    "file": "current-closure-review/checks/erp-cross-pattern-v486/supplier-successor/GROUPED_TRANSFER_REPLAY.json",
+    "modeled_nested_interleaving": true,
+    "sha256": "ccdfd79e605b8712cc9d6e215f182d80bacd8dad0a601daedc290f1aa58fe404"
+  },
+  "separate_session_probe": {
+    "reason": "PostgreSQL 17.6 could not create an AF_UNIX listener: Operation not permitted",
+    "separate_sessions_started": 0,
+    "status": "BLOCKED_IN_LOCAL_EXECUTOR"
+  },
+  "status": "ACTUAL_E4EA_SUPPLIER_PREIMAGES_AND_POSTIMAGES_VERIFIED"
+}
+

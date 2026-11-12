@@ -1,0 +1,24 @@
+{
+  "actual_case_credit": 0,
+  "archive": {
+    "bytes": 22437,
+    "crc_members": 1,
+    "sha256": "60dccfe327d13beebefcfb1ca8ba12b3ea40131a856aebe1a0153df175905536"
+  },
+  "artifact_id": 13917088746,
+  "checkpoint": "BEFORE_DISPOSABLE_DATABASE",
+  "head": "3f2a7748c7cfde2881b19dac853fef82e49b6885",
+  "identity": {
+    "GITHUB_REPOSITORY": "Hanjay6688/-erp-garment-ux",
+    "GITHUB_RUN_ATTEMPT": "1",
+    "GITHUB_RUN_ID": "43158542850",
+    "GITHUB_SHA": "3f2a7748c7cfde2881b19dac853fef82e49b6885"
+  },
+  "original": {
+    "bytes": 245633,
+    "sha256": "22beafaf5b45899baa7845c3bcd05f2ac2d6a24ee80e174f4f2aca43c2f392eb"
+  },
+  "restoration_verified": false,
+  "status": "ACTUAL_SKU_PRE_DATABASE_ORIGINAL_VERIFIED",
+  "tree": "c7c53dd3678459ad6bd18f63a9fa8d9521eca140"
+}

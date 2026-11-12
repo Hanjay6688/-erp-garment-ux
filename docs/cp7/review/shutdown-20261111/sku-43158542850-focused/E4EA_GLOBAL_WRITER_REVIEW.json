@@ -1,0 +1,38 @@
+{
+  "actual_ERP_cases": 0,
+  "actual_final_parent_review_still_required": true,
+  "catalogue": {
+    "bytes": 16048163,
+    "sha256": "5ff582717522b766c12024c1bf3299066475f14a3c6021a3543f378f829e0c07"
+  },
+  "dynamic_source_body_stable": true,
+  "expanded_dynamic_relations": [
+    "erp.migration_staging_rows",
+    "erp.opening_subledger_balances",
+    "erp.opening_subledger_settlements",
+    "erp.supplier_payments",
+    "erp.vendor_payments"
+  ],
+  "function_count": 3105,
+  "independent_acceptance": false,
+  "mandor_receipt_writers": {
+    "cp7_note_zero_effect.finish_v1(jsonb,jsonb)": [
+      "cp7_note_zero_effect.receipts"
+    ],
+    "cp7_note_zero_effect.prepare_v1(jsonb,uuid,text,uuid,jsonb)": [
+      "cp7_note_zero_effect.preparations"
+    ]
+  },
+  "newly_parsed_bodies": 171,
+  "no_direct_private_permission_regression": true,
+  "possible_dynamic_writers": [
+    "erp._validate_migration_batch_base(uuid)",
+    "erp.manage_initial_prepayment_v1(jsonb)"
+  ],
+  "production_go": false,
+  "reused_exact_body_facts": 2934,
+  "source_run": 43132617378,
+  "static_writer_candidates": 592,
+  "status": "E4EA_OBSERVED_GLOBAL_WRITER_AND_DYNAMIC_ROUTES_REVIEWED",
+  "watched_count": 280
+}
