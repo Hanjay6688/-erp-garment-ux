@@ -1,0 +1,83 @@
+{
+  "status": "EXACT_SUPPLIER_WORKSPACE_PAGE_BOUNDARIES_VERIFIED",
+  "cases": {
+    "original": {
+      "before": {
+        "total": "25",
+        "numbers": [],
+        "offset": 25,
+        "limit": 25,
+        "next_offset": null
+      },
+      "during": {
+        "total": "25",
+        "numbers": [
+          "T-26"
+        ],
+        "offset": 25,
+        "limit": 25,
+        "next_offset": null
+      },
+      "after": {
+        "total": "26",
+        "numbers": [
+          "T-26"
+        ],
+        "offset": 25,
+        "limit": 25,
+        "next_offset": null
+      },
+      "receipt_second_page": {
+        "total": "26",
+        "numbers": [
+          "AP-26"
+        ],
+        "offset": 25,
+        "limit": 25,
+        "next_offset": null
+      },
+      "abort_unchanged": true,
+      "no_cross_page_duplicate": true
+    },
+    "one_statement": {
+      "before": {
+        "total": "25",
+        "numbers": [],
+        "offset": 25,
+        "limit": 25,
+        "next_offset": null
+      },
+      "during": {
+        "total": "25",
+        "numbers": [],
+        "offset": 25,
+        "limit": 25,
+        "next_offset": null
+      },
+      "after": {
+        "total": "26",
+        "numbers": [
+          "T-26"
+        ],
+        "offset": 25,
+        "limit": 25,
+        "next_offset": null
+      },
+      "receipt_second_page": {
+        "total": "26",
+        "numbers": [
+          "AP-26"
+        ],
+        "offset": 25,
+        "limit": 25,
+        "next_offset": null
+      },
+      "abort_unchanged": true,
+      "no_cross_page_duplicate": true
+    }
+  },
+  "fixture_AP_and_authorization": true,
+  "original_definition_restored": true,
+  "actual_ERP_cases": 0,
+  "disposable_cluster_removed": true
+}
