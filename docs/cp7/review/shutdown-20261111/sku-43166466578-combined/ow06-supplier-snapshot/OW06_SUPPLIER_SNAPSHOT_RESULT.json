@@ -1,0 +1,211 @@
+{
+  "status": "OW06_SUPPLIER_WORKSPACE_REVIEW_AND_DETAIL_SNAPSHOT_FIXTURE_PASS",
+  "postgres": "17.6",
+  "same_original_archive": true,
+  "observed": {
+    "page_only": {
+      "before": {
+        "token": "aef660b778489b4a30d0eeb7b04abcb5",
+        "selected": "POSTED",
+        "page": [
+          "POSTED"
+        ],
+        "can_write": true
+      },
+      "during": {
+        "token": "aef660b778489b4a30d0eeb7b04abcb5",
+        "selected": "REVERSED",
+        "page": [
+          "REVERSED"
+        ],
+        "can_write": true
+      },
+      "next": {
+        "token": "543ab880349f2825e79eb9b3f15287f5",
+        "selected": "REVERSED",
+        "page": [
+          "REVERSED"
+        ],
+        "can_write": true
+      },
+      "rolled_back_writer_equals_before": true
+    },
+    "same_snapshot": {
+      "before": {
+        "token": "aef660b778489b4a30d0eeb7b04abcb5",
+        "selected": "POSTED",
+        "page": [
+          "POSTED"
+        ],
+        "can_write": true
+      },
+      "during": {
+        "token": "aef660b778489b4a30d0eeb7b04abcb5",
+        "selected": "POSTED",
+        "page": [
+          "POSTED"
+        ],
+        "can_write": true
+      },
+      "next": {
+        "token": "543ab880349f2825e79eb9b3f15287f5",
+        "selected": "REVERSED",
+        "page": [
+          "REVERSED"
+        ],
+        "can_write": true
+      },
+      "rolled_back_writer_equals_before": true
+    }
+  },
+  "pagination": {
+    "original": {
+      "before": {
+        "receipts": {
+          "total": "26",
+          "rows": [
+            "AP-26"
+          ],
+          "offset": 25,
+          "next_offset": null
+        },
+        "transfers": {
+          "total": "25",
+          "rows": [],
+          "offset": 25,
+          "next_offset": null
+        }
+      },
+      "during": {
+        "receipts": {
+          "total": "26",
+          "rows": [
+            "AP-26"
+          ],
+          "offset": 25,
+          "next_offset": null
+        },
+        "transfers": {
+          "total": "25",
+          "rows": [
+            "T-26"
+          ],
+          "offset": 25,
+          "next_offset": null
+        }
+      },
+      "next": {
+        "receipts": {
+          "total": "26",
+          "rows": [
+            "AP-26"
+          ],
+          "offset": 25,
+          "next_offset": null
+        },
+        "transfers": {
+          "total": "26",
+          "rows": [
+            "T-26"
+          ],
+          "offset": 25,
+          "next_offset": null
+        }
+      },
+      "rollback_matches": true,
+      "unique_26": true
+    },
+    "snapshot": {
+      "before": {
+        "receipts": {
+          "total": "26",
+          "rows": [
+            "AP-26"
+          ],
+          "offset": 25,
+          "next_offset": null
+        },
+        "transfers": {
+          "total": "25",
+          "rows": [],
+          "offset": 25,
+          "next_offset": null
+        }
+      },
+      "during": {
+        "receipts": {
+          "total": "26",
+          "rows": [
+            "AP-26"
+          ],
+          "offset": 25,
+          "next_offset": null
+        },
+        "transfers": {
+          "total": "25",
+          "rows": [],
+          "offset": 25,
+          "next_offset": null
+        }
+      },
+      "next": {
+        "receipts": {
+          "total": "26",
+          "rows": [
+            "AP-26"
+          ],
+          "offset": 25,
+          "next_offset": null
+        },
+        "transfers": {
+          "total": "26",
+          "rows": [
+            "T-26"
+          ],
+          "offset": 25,
+          "next_offset": null
+        }
+      },
+      "rollback_matches": true,
+      "unique_26": true
+    }
+  },
+  "concurrent_auth_change_refused": "42501",
+  "workspace_volatile": true,
+  "snapshot_helper_stable_and_private": true,
+  "original_definitions_restored": true,
+  "full_patch_executed": true,
+  "prior_full19_and_acl_match": true,
+  "exact_all22_and_data_rollback": true,
+  "original_definitions": {
+    "cp7_supplier_transfer.workspace_v1(jsonb)": {
+      "bytes": 5144,
+      "sha256": "a4e8fbe7e18b0d7d34f5c864097dfd7579c06b4c50491325d07479b68b0758d5"
+    },
+    "public.erp_cp7_get_supplier_transfer_v1(jsonb)": {
+      "bytes": 226,
+      "sha256": "78851ba44adfa1cb3e0e649847897c9559b9cddd99ff938d709c06adad255a2b"
+    },
+    "cp7_supplier_transfer.detail_v1(uuid)": {
+      "bytes": 2004,
+      "sha256": "584cd566c7127e2d7a8238dc3a1afcac7b28f6c0b50c3ed76c70232f44f41ef0"
+    },
+    "cp7_supplier_transfer.child_detail_v1(uuid,jsonb)": {
+      "bytes": 2408,
+      "sha256": "9af02f8f8e9793eaec73a13781f9dd14e4dc4787ebc6168133e4ee3f6f2b5345"
+    },
+    "cp7_supplier_transfer.review_v1(uuid,uuid)": {
+      "bytes": 1983,
+      "sha256": "c7bd52da9afddf20374b60b6526fa4249df40e7957a363ed6378d01399a01bd3"
+    }
+  },
+  "patch": {
+    "bytes": 12144,
+    "sha256": "03be86998f1bce9ff2557a71d6b29d37b9232f841e3b49a39200b98096a95235"
+  },
+  "fixtures_for_ap_authorization_and_guard": true,
+  "actual_ERP_cases": 0,
+  "independent_acceptance": false,
+  "runtime_admission": false,
+  "production_go": false
+}
